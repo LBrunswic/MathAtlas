@@ -1,0 +1,75 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c2-theoreme",
+  "files": ["scaffold/BenzecriScaffold/Chapter2/Theoreme.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzthm:c2s3t1_poche_balayable",
+      "tex_lines": [517, 622],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.theoreme_poche_balayable",
+        "Benzecri.TheoremeComposantePrinted",
+        "Benzecri.theoremeComposantePrinted",
+        "Benzecri.TheoremePrinted",
+        "Benzecri.theoremePrinted_iff",
+        "Benzecri.theoreme_deuxieme",
+        "Benzecri.theoreme_troisieme",
+        "Benzecri.exists_isProjSegment_of_coque",
+        "Benzecri.theoreme_quatrieme",
+        "Benzecri.neg_notMem_range_of_poche",
+        "Benzecri.simplyConnectedSpace_of_coqueStricte",
+        "Benzecri.exists_demiDroite",
+        "Benzecri.exists_demiDroite_of_ne_univ",
+        "Benzecri.eq_interior_corpsConvexe_iff_not_demiDroite",
+        "Benzecri.isCorpsConvexeS_closure_of_salient",
+        "Benzecri.demiDroite_of_not_salient",
+        "Benzecri.univ_not_demiDroite",
+        "Benzecri.demiDroite_hemisphere",
+        "Benzecri.theoreme_poche_balayable_model",
+        "Benzecri.theoreme_poche_balayable_demiDroite",
+        "Benzecri.exists_isCoqueStricteAff_demiDroite_ne_univ"
+      ],
+      "hypotheses": [
+        {"paper": "V une variété localement projective", "here": "weakened", "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)]; Hausdorff and second countable never used. The printed forms TheoremeComposantePrinted / TheoremePrinted carry T2, connected, second countable, V : Type"},
+        {"paper": "V connexe", "here": "weakened", "note": "[PreconnectedSpace V]; the pocket makes V nonempty"},
+        {"paper": "V balayable", "here": "carried", "note": "IsBalayable (GSR n) (S n) V (Ch. 1 Déf. 15, the group of all projective automorphisms)"},
+        {"paper": "(P, H̊, φ, z) une poche de V", "here": "carried", "note": "IsPocheProj P l φ z (Déf. 1′), H̊ given by its equation l ≠ 0"},
+        {"paper": "dimension n", "here": "carried", "note": "every n, n = 0 included; no NeZero"},
+        {"paper": "2°: P simplement connexe", "here": "carried", "note": "SimplyConnectedSpace P (Mathlib), P with the subspace topology; conclusion SimplyConnectedSpace V"},
+        {"paper": "3°: φ(P) convexe (i. e. une coque)", "here": "carried", "note": "IsCoqueProj P l φ z (Déf. 2); conclusion Sphere.IsConvexPart (range φ̃) (Déf. 8), proved even strict (Déf. 9)"},
+        {"paper": "4°: une coque stricte", "here": "carried", "note": "IsCoqueStricteProj P l φ z (Déf. 3); conclusion ∃ K, IsCorpsConvexeS n K ∧ range φ̃ = interior K, with K = closure (range φ̃)"},
+        {"paper": "1° (second sentence)", "here": "reading", "note": "component form carried (theoreme_premier, T-bz-c2-developpement); the printed full form is equivalent to ConnexePrinted, open (OQ-71). Both assemblies are given"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Exposition (proof level, statement unaffected), 4°, l.605–607. The proof uses « Si V n'est pas l'intérieur d'un corps convexe, on peut trouver dans V une demi-droite L, c'est-à-dire une portion de droite limitée à deux points diamétralement opposés de la frontière de V ». It is stated without proof, and it is false for V = S(n). S(n) is an open convex part (Déf. 8) and not the interior of a convex body, and its frontier is empty, so no such portion of line exists (univ_not_demiDroite). In S(0) it contains no half-line at all. The fact holds exactly for the open convex parts other than S(n): an open convex part other than S(n) is strict (Sphere.isStrictConvexPart_of_isOpen), and the fact is proved for those (exists_demiDroite_of_ne_univ, exists_demiDroite), together with its converse (eq_interior_corpsConvexe_iff_not_demiDroite). The paper does not say why φ̃(V) ≠ S(n). It holds for every pocket: two antipodal points of φ̃(V) would be moved by one γ ∈ GS(n, R) into φ(P) ⊆ H̊ (neg_notMem_range_of_poche), the 1°b argument again.",
+        "Exposition (proof level, statement unaffected), 4°, l.609–612. The paper takes an arbitrary demi-droite L and moves one of its points into P by an automorphism g. The demi-droite can be taken through any point of V, because p + ℝx ⊆ F(V) for every p ∈ F(V) (demiDroite_of_not_salient). The proof here takes it through a point of φ(P), so this step needs no g. Prop. 7's corollary is still used, through 3°. The paper also leaves implicit the step « il résulte de la condition b … que gL est une demi-droite incluse dans H̊ ». It applies condition b to every sub-segment (gM, X) of gL, and these are segments of V because φ̃(V) is convex (3°). The formalisation makes this explicit: it builds each sub-segment as a segment of V from 3°'s strict convexity and the chart φ̃ (isProjSegment_of_chart)."
+      ],
+      "questions": [
+        "[sic] l.618 (transcription comment l.620; the scan, p. 255, prints « z(M) »): « gL est une droite … de cote constante égale à z(M) » is read « z(gM) ». M ∈ L is the point moved into P by g. Taken here: the constant cote of the line is that of its base point in φ(P), which is < 1 by IsPocheProj.cote_lt_one. A reading, not ruled.",
+        "OQ-71 (open, not decided here): is the component form of 1°'s second sentence the statement of record, or must the printed full form P = φ̃⁻¹(D ∩ φ̃(V)) be proved? Both assemblies are provided and neither is chosen. theoremeComposantePrinted gives 1° in component form with 2°–4°, proved in every dimension. theoremePrinted_iff states TheoremePrinted n ↔ ConnexePrinted n, so the printed Theorem is exactly the open connectedness. 2°–4° do not depend on the answer.",
+        "« demi-droite » (l.606) is read as Remarque 1's half-line of S(n), s({a x + b p | b > 0}) with x, p independent (Sphere.halfLine x p), whose two ends ±s(x) lie on the frontier of V. This is the paper's own gloss, « portion de droite limitée à deux points diamétralement opposés de la frontière de V ». Content-neutral.",
+        "« V n'est pas l'intérieur d'un corps convexe » (l.605) and 4°'s conclusion are read for φ̃(V) ⊆ S(n), the paper's convention φ̃ = id (l.593–594), as ¬ ∃ K, IsCorpsConvexeS n K ∧ range φ̃ = interior K (Déf. 11). Content-neutral.",
+        "3° « φ̃(V) est un convexe » is read as Déf. 8 in the ∪ reading (DEC-120). φ̃(V) is proved strict (theoreme_troisieme), so the conclusion also holds in the Minkowski reading. Content-neutral.",
+        "2° « simplement connexe » is read as Mathlib's SimplyConnectedSpace: nonempty, path connected, trivial fundamental groupoid. For P it is taken with the subspace topology. Content-neutral: P is a connected open set of a manifold."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.add_mem_F_of_mem_closure_F",
+    "Benzecri.interior_closure_eq_of_convex_F",
+    "Benzecri.Sphere.isStrictConvexPart_of_isOpen",
+    "Benzecri.path_homotopic_refl_of_eq"
+  ],
+  "kb_proposals": [
+    "Convex geometry of open parts of S(n) (Chapter2/Theoreme.lean). Let C be an open strict convex part. If closure F(C) is salient, closure C is a convex body and C is its interior (isCorpsConvexeS_closure_of_salient). If ±x ∈ closure F(C), then p + ℝx ⊆ F(C) for EVERY p ∈ F(C) (demiDroite_of_not_salient), so a half-line can be placed through any chosen point. An open convex part other than S(n) is strict (Sphere.isStrictConvexPart_of_isOpen). interior (closure C) = C whenever C is open and F(C) is convex (interior_closure_eq_of_convex_F). Next user: T-bz-c2-theoreme-affine, 4° affine (« ne contient pas de droite »).",
+    "A loop moved by an automorphism g: use Mathlib's simply_connected_iff_loops_nullhomotopic and isSimplyConnected_iff_exists_homotopy_refl_forall_mem, then map the homotopy back with Path.Homotopic.map by g⁻¹. Close the base-point mismatch g⁻¹ • g • x = x with a subst lemma (path_homotopic_refl_of_eq), not with Path.cast.",
+    "The cote along a line of H̊ through m, with direction x ∈ ker l: take u := (Sphere.lbar l).smulRight ⟨x, hlx⟩ and v₀ := Sphere.nrep l m. Then Sphere.coe_smul_vadd gives ↑(t • u +ᵥ m) = s(v₀ + t x), and AffineMap.map_vadd gives z(t • u +ᵥ m) = t * z.linear u + z m. This is the template of Remarque 2's hsal (Poches.lean) and of 4° here.",
+    "Pitfall: after `apply MulAction.injective γ` the goal is a beta-redex `(fun x => γ • x) a = (fun x => γ • x) b`, and `rw [← hγ]` finds nothing. Run `show γ • a = γ • b` first."
+  ],
+  "notes": "The row is CLOSED UP TO OQ-71. 2°, 3° and 4° are proved with no sorry and no added hypothesis, in every dimension (n = 0 included), for V only preconnected (T2 and second countable unused). 1° is T-bz-c2-developpement's theoreme_premier in component form. The status is `partial` only because 1°'s printed full form waits on OQ-71. Either answer marks the row with no Lean change. If the component form is ruled the statement of record, mark on theoremeComposantePrinted (it holds for every n). If the full form is required, theoremePrinted_iff reduces the printed Theorem to ConnexePrinted, which is open, and the mark waits on a proof of ConnexePrinted alone. The row is unmarked per the dispatch (no ** in the docstring). OQ-45/OQ-61: 2°–4° call Prop. 7 and its corollary only (compact_dans_poche, deux_points_dans_poche; per T-bz-c2-compact AUDIT-1 these depend on neither OQ). They never call Prop. 4 or 6 directly, so the mark does not wait on OQ-45. Proofs follow the evidence's route with one simplification (findings 2): 4° places the demi-droite through a point of φ(P) instead of moving one in by g. Non-vacuity has two witnesses. First, the model ℝⁿ with the shell of cote 0 (P = V; theoreme_poche_balayable_model gives 1°–3°'s conclusions). Second, the half-line ]0, ∞[ with the strict shell P = ]0, 1[ ≠ V (theoreme_poche_balayable_demiDroite): every hypothesis of 2°–4° holds there, P is simply connected, and the conclusions hold, V simply connected, φ̃(V) convex and the interior of a convex body. demiDroite_hemisphere instantiates the demi-droite lemma's hypotheses (an open hemisphere of S(1)). Graduation: the module imports only Benzecri.Chapter2.Developpement. `lake env lean` gives no warning and no error. #print axioms of every principal declaration gives propext, Classical.choice, Quot.sound only. `lake build BenzecriScaffold.Chapter2.Theoreme` was run once and succeeded (3.6 s; nothing upstream rebuilt). After that build, four over-long lines were reflowed (docstrings and one line break in theoreme_poche_balayable's statement). The file was re-typechecked clean with `lake env lean` but not rebuilt, so the scaffold olean predates that whitespace change. exists_isCoqueStricteAff_demiDroite_ne_univ repeats the proof of Poches' exists_isCoqueStricteAff_demiDroite with P ≠ univ added, because the strict tree is frozen. At graduation, Poches' lemma could absorb it. The shared package's file (PremierAffine.lean) was not read or imported. Names were chosen to avoid it: affine twins should not reuse TheoremePrinted / TheoremeComposantePrinted. The new file is not added to scaffold/BenzecriScaffold.lean. Kernel-checked here and possibly worth an upstream move: Sphere.isStrictConvexPart_of_isOpen and interior_closure_eq_of_convex_F (Projective/Convex), path_homotopic_refl_of_eq (general)."
+}
