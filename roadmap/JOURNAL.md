@@ -341,3 +341,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓ (lean-causal overlay stale while /ett-programme integrates its wave 20; refreshed at the next clean tree)
 - wall time: 13:50–14:11 (Paris); agents: 1 (planner)
 - next: wave of T-ett-curation-e0-blockers (master, now) and, when /ett-programme frees lean-causal, T-ett-ealpha-gx-structure, T-ett-sfa-local-e0, T-ett-measures-e0
+
+## 2026-11-21 15:23 · wave of 3 · T-ett-curation-e0-blockers, T-ett-ealpha-gx-structure, T-ett-sfa-local-e0
+- T-ett-curation-e0-blockers (master): eight ETT blocked_on fields re-pointed from layers that exist (Galileo and Minkowski; « the model spaces of Section 3 »; « the model facts (SingularFlatAxioms) ») to what is missing (Lorentzian manifolds; prop:K_calcul's blocker; SingularFlatAxioms for every E≥0-manifold), each with OQ-34/35; pushed mid-wave
+- T-ett-ealpha-gx-structure: closed in full, no remainder: E_κ (κ > 0) as a singular (Isom, E^{1,2})-manifold (singularGX κ), Sing = the line for κ ≠ 2π and ∅ at 2π, hreg at every κ; the continuation lemma (EAlphaContinuation) gives κ = 2π with no case split; findings: l.1332 « for α ≠ 2π » (the paper reads E_{2π} as regular itself), the cone singularity at 2πn seen only by injectivity; the planner's [r] (b) was wrong (disc charts on a small circle suffice); audit minor
+- T-ett-sfa-local-e0: SingularFlatAxioms' chartwise fields at every E₀-manifold (rem:btz_pas_tarentin both halves, rem:sing_tarentin), a model-free ETT-layer transfer (SFATransfer); singularFlatAxioms_iff leaves the three BTZ fields of T-ett-singular-sfa; causallyPlain (evidence for OQ-16); finding (proof-level): « BTZ ∉ Z⁻ » is not a chart fact, it uses absolute minimality (OQ-18); audit minor (finding narrowed; second countability read under DEC-25 / RamcovGX.tex:474, no OQ)
+- gates: lean-causal ✓ (announced to /ett-programme), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal edges not refreshed: the tree carries /ett-programme's scaffold); hub: papers-check papers/egf, gate-tests (test_corrections, test_no_model_in_gates) red from the egf loop's uncommitted corrections.toml and lean-egf scaffold (its lease), nothing of this wave
+- commits: 605ddc1 245a447 5bcad0b bae0342 (+ this)
+- wall time: 14:17–15:23 (Paris); agents: 2 closers, 2 audits
+- new OQ: none (next free OQ-86); lean-causal kb 0133–0141
+- for the next planner: T-ett-bprime-ealpha can reuse exists_smul_devPt_of_ringBox, but its box form needs one map into E^{1,2} on all the boxes, which a chart into E_κ′ does not give directly (audit caution)
+- next: plan (rule 2: only T-ett-measures-e0 is ready)
