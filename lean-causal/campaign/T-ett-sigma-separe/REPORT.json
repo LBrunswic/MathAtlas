@@ -1,0 +1,128 @@
+{
+  "package": "T-ett-sigma-separe",
+  "target": "T-ett-sigma-separe",
+  "files": [
+    "scaffold/CausalScaffold/SingularCauchy.lean",
+    "scaffold/CausalScaffold/SingularRowsCauchy.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:Sigma_separe",
+      "tex_lines": [2062, 2069],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.SingularFlatAxioms.sigma_separe",
+        "Causal.Causality.SingularFlatAxioms.sigma_separe_of_isCausal",
+        "Causal.Causality.SingularFlatAxioms.isOpen_Jplus_diff",
+        "Causal.Causality.SingularFlatAxioms.isOpen_Jminus_diff",
+        "Causal.Causality.SingularFlatAxioms.exists_isOpen_of_mem_sing_zero",
+        "Causal.Causality.SingularFlatAxioms.not_lt_self",
+        "Causal.Causality.SingularFlatAxioms.exists_mem_sing_zero_Jplus_diff",
+        "Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable",
+        "Causal.Causality.IsAcausal.Jplus_inter_Jminus",
+        "Causal.Causality.CausalCurveIn.mem_image_of_between",
+        "Causal.Causality.IsCauchySurface.exists_isOpen_of_Iminus_nonempty",
+        "Causal.Causality.IsCauchySurface.isOpen_Jplus_diff_of_Iminus_nonempty",
+        "Causal.Causality.IsCauchySurface.sigma_separe_of_isOpen",
+        "Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones",
+        "Causal.timelikeLine_sigma_separe",
+        "Causal.timelikeLine_sigma_separe_of_nonemptyChronalCones",
+        "Causal.SingularRowsCauchy.sigma_separe",
+        "Causal.SingularRowsCauchy.sigma_separe_of_isCausal",
+        "Causal.SingularRowsCauchy.exists_btz_Jplus_diff",
+        "Causal.SingularRowsCauchy.rows_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsCauchy.nonvacuous_e0",
+        "Causal.SingularRowsCauchy.nonvacuous_e0_natural",
+        "Causal.SingularRowsCauchy.nonvacuous_epi"
+      ],
+      "hypotheses": [
+        {"paper": "M a singular flat spacetime (l.2063)", "here": "read", "note": "abstractly SingularFlatAxioms C sing (kb/0012), fields used: t2, secondCountable, causallyArcConnected, tarentin, mem_Zplus, mem_Zminus_iff, noIsolated, isClosed_sing, singularPastAt, past_local, line. At M: DEC-25 and OQ-18, [SingularGXStructure (Flat.isom 2) (Minkowski 2) M], C absolutely minimal with IsoChartsCoverDEC25 over massAModelCausality, through SFAManifolds.singularFlatAxioms; the natural causality in rows_of_isAtlasCausalityDEC25"},
+        {"paper": "« manifold »: Hausdorff, second countable", "here": "carried", "note": "[T2Space M] [SecondCountableTopology M] at M; fields t2, secondCountable abstractly. Step (1) alone needs only T1 and second countability, for any causality (IsCauchySurface.cover_of_t1_secondCountable)"},
+        {"paper": "connected (def:singular_spacetime, l.1502)", "here": "weakened", "note": "not used"},
+        {"paper": "M globally hyperbolic (l.2063)", "here": "weakened", "note": "carried by sigma_separe (both levels); sigma_separe_of_isCausal asks M causal only. Global hyperbolicity is not used beyond causality, not even for the closedness of J^±(x) of the planner's route"},
+        {"paper": "Σ a Cauchy surface (l.2063)", "here": "carried", "note": "IsCauchySurface (DEC-14), every Cauchy surface"},
+        {"paper": "ψ : Σ × ℝ → M, the homeomorphism of theo:geroch_sing (l.2064)", "here": "weakened", "note": "not used: only the « In particular » (l.2067-2068) is proved. The equalities J^±(Σ) = ψ(Σ × ℝ_±) stay Causality.sigma_separe under a named ψ (Causal/CauchyDiamond.lean) and are T-ett-geroch-split-flow's"}
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2067-2068: the « In particular » of lem:Sigma_separe needs neither ψ nor global hyperbolicity. Take any causal singular flat spacetime (abstractly SingularFlatAxioms, at M every causal, Hausdorff, second countable E_{>=0}-manifold) and any Cauchy surface Σ. Then J^±(Σ) are closed and J⁺(Σ) ∩ J⁻(Σ) = Σ. Both J⁺(Σ) ∖ Σ and J⁻(Σ) ∖ Σ are open, so each J^±(Σ) is a neighbourhood of its points outside Σ, the time-reversed half included, which the paper does not state. Also M = J⁺(Σ) ∪ J⁻(Σ) and Σ is closed (Causal.Causality.SingularFlatAxioms.sigma_separe_of_isCausal; at M, Causal.SingularRowsCauchy.sigma_separe_of_isCausal; the printed globally hyperbolic form is sigma_separe). The proof uses no flow. It runs on four facts: an inextensible causal curve through every point, Σ acausal, causal arc-connectedness, and Z⁻ = M ∖ sing₀. At BTZ points it also uses tarentin and the BTZ line. So the « In particular » does not depend on lem:vecteur or on theo:geroch_sing's splitting. Suggest: state it as a lemma of its own, before lem:image_diamant (l.2024). That proof uses M = J⁺(Σ) ∪ J⁻(Σ) (the recorded ordering finding), which this lemma provides (IsCauchySurface.cover_of_t1_secondCountable, needing only T1 and second countability).",
+        "ETT.tex:2071-2080 (the editorial proof), for a ψ-free rewrite: take a BTZ point p ∈ J⁺(Σ) ∖ Σ. There I⁻(p) = ∅, so no q ≪ p exists to give an open set I⁺(q) ⊆ J⁺(Σ). The neighbourhood comes instead from tarentin and from the BTZ half-line J⁻(p) = γ(]-∞, 0]): the line meets Σ at γ(s₀), s₀ < 0, and tarentin in M ∖ γ(]-∞, s₀]) gives a = γ(t), s₀ < t ≤ 0, with p ∈ Int J⁺(a) ⊆ J⁺(Σ) ∖ Σ. This case cannot be avoided. Every Cauchy surface of a causal singular flat spacetime with sing₀ ≠ ∅ has BTZ points in J⁺(Σ) ∖ Σ (SingularFlatAxioms.exists_mem_sing_zero_Jplus_diff; at E₀, SingularRowsCauchy.nonvacuous_e0, a BTZ point with I⁻(p) = ∅ and J⁺(S) ∈ 𝓝 p)."
+      ],
+      "questions": [
+        "No new reading. Readings carried, not chosen here: DEC-25 and OQ-18 (the E_{>=0}-manifold and its causality), OQ-34/OQ-35 (E₀, in the witnesses), OQ-82 (the group), DEC-14 (Cauchy surface). The « In particular » is read as four claims about Σ alone, proved for every Cauchy surface; the paper reaches them through ψ, and since the ψ-free statement implies the printed one, no reading is at stake. « Neighbourhood » is read as a member of 𝓝 y (not necessarily open). The stronger openness of J⁺(Σ) ∖ Σ is proved besides."
+      ]
+    },
+    {
+      "label": "cor:K_ordre_Sigma",
+      "tex_lines": [2082, 2087],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.SingularRowsCauchy.K_ordre_Sigma",
+        "Causal.SingularRowsCauchy.rows_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsCauchy.nonvacuous_e0"
+      ],
+      "hypotheses": [
+        {"paper": "M a globally hyperbolic singular flat spacetime (l.2083)", "here": "read", "note": "DEC-25, OQ-18: C absolutely minimal with IsoChartsCoverDEC25 over massAModelCausality, Hausdorff and second countable; global hyperbolicity carried; the natural causality in rows_of_isAtlasCausalityDEC25"},
+        {"paper": "connected", "here": "weakened", "note": "not used"},
+        {"paper": "Σ a Cauchy surface of M (l.2083)", "here": "carried", "note": "every Cauchy surface. The former named hypothesis hS (lem:Sigma_separe's neighbourhood fact) of SingularRowsK.K_ordre_Sigma is discharged by SingularRowsCauchy.sigma_separe; no ψ"},
+        {"paper": "x, y ∈ J⁺(Σ) ∖ Σ (l.2084)", "here": "carried", "note": "as in SingularRowsK.K_ordre_Sigma"}
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2090: the proof takes from lem:Sigma_separe only « J⁺(Σ) is a neighbourhood of x ». That holds with no ψ (finding on lem:Sigma_separe), so cor:K_ordre_Sigma does not depend on theo:geroch_sing's splitting or on lem:vecteur. It holds for every Cauchy surface Σ of every globally hyperbolic, Hausdorff, second countable E_{>=0}-manifold, and nothing is left as a Lean hypothesis (Causal.SingularRowsCauchy.K_ordre_Sigma; for the natural causality, rows_of_isAtlasCausalityDEC25). It is non-vacuous at E₀ with a Cauchy surface S whose J⁺(S) ∖ S contains a BTZ point (nonvacuous_e0). The earlier witness took S = J⁺(q) ∖ I⁺(q), which is not a Cauchy surface. Nothing in the statement needs to change. The recorded finding that Σ need not be a Cauchy surface stands."
+      ],
+      "questions": [
+        "No new reading. Readings carried: DEC-25 and OQ-18 (the manifold and its causality), OQ-34/OQ-35 (E₀, in the witness), OQ-82 (the group). K⁻(x) is C.Kminus ⊤ {x}, as in SingularRowsK."
+      ]
+    },
+    {
+      "label": "lem:Cauchy_plongement_toutes",
+      "tex_lines": [1865, 1872],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.SingularRowsCauchy.cauchy_plongement_toutes",
+        "Causal.SingularRowsCauchy.cauchy_plongement_toutes_manifolds",
+        "Causal.SingularRowsCauchy.rows_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsCauchy.nonvacuous_e0_plongement",
+        "Causal.SingularRowsCauchy.nonvacuous_e0_natural"
+      ],
+      "hypotheses": [
+        {"paper": "M a globally hyperbolic singular flat spacetime (l.1866)", "here": "read", "note": "DEC-25, OQ-18 as above, Hausdorff and second countable, global hyperbolicity carried (used for hex: SingularRowsGeroch.geroch_sing_i_imp_iii)"},
+        {"paper": "N a globally hyperbolic singular flat spacetime (l.1866)", "here": "weakened", "note": "cauchy_plongement_toutes_manifolds carries it as printed: N an E_{>=0}-manifold, Hausdorff, second countable, D absolutely minimal with isomorphic charts, globally hyperbolic. Its E_{>=0} hypotheses are unused (_hminN, _hCN); global hyperbolicity is used as causality only. cauchy_plongement_toutes asks only N Hausdorff and D causal"},
+        {"paper": "φ an injective E_{>=0}-morphism (l.1867)", "here": "carried", "note": "as ruled (DEC-17): IsEMorphism C D φ, Injective φ"},
+        {"paper": "(ii) ⇒ (i): a Cauchy surface of M exists", "here": "carried", "note": "hex of IsEMorphism.cauchy_plongement_toutes discharged by theo:geroch_sing (i)⇒(iii) at M (SingularRowsGeroch.geroch_sing_i_imp_iii); no Lean hypothesis left"}
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1874 « Only (i)⇒(ii) requires an argument »: (ii)⇒(i) needs a Cauchy surface of M to exist, which is theo:geroch_sing (i)⇒(iii) (l.1771-1777), M being globally hyperbolic. That direction is now proved at every globally hyperbolic, Hausdorff, second countable E_{>=0}-manifold (SingularRowsGeroch.geroch_sing_i_imp_iii), so the lemma has no Lean hypothesis left there (Causal.SingularRowsCauchy.cauchy_plongement_toutes, cauchy_plongement_toutes_manifolds). Suggest: « (ii)⇒(i) holds because M, being globally hyperbolic, has a Cauchy surface by Theorem theo:geroch_sing ». Of N only Hausdorff and causal are used (already recorded). Witness: the identity of E₀ (nonvacuous_e0_plongement), and the same for E₀'s natural causality (nonvacuous_e0_natural)."
+      ],
+      "questions": [
+        "No new reading. Readings carried: DEC-17 (an E_{>=0}-morphism is IsEMorphism, ruled), DEC-25 and OQ-18 (the manifolds and their causalities), DEC-14 (Cauchy surface), OQ-34/OQ-35 and OQ-82 (E₀ and the group, in the witnesses)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable",
+    "Causal.Causality.IsAcausal.Jplus_inter_Jminus",
+    "Causal.Causality.CausalCurveIn.mem_image_of_between",
+    "Causal.Causality.IsCauchySurface.exists_isOpen_of_Iminus_nonempty",
+    "Causal.Causality.IsCauchySurface.isOpen_Jplus_diff_of_Iminus_nonempty",
+    "Causal.Causality.IsCauchySurface.sigma_separe_of_isOpen",
+    "Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones",
+    "Causal.Causality.SingularFlatAxioms.not_lt_self",
+    "Causal.Causality.SingularFlatAxioms.exists_mem_sing_zero_Jplus_diff",
+    "Causal.SingularRowsCauchy.exists_btz_Jplus_diff"
+  ],
+  "kb_proposals": [
+    "A Cauchy surface separates with no splitting and no global hyperbolicity: Causal.Causality.SingularFlatAxioms.sigma_separe_of_isCausal (causal only) gives J^±(S) closed, J⁺ ∩ J⁻ = S, J^±(S) ∖ S open, M = J⁺(S) ∪ J⁻(S), S closed; model-free, IsCauchySurface.sigma_separe_of_isOpen (assembly) and sigma_separe_of_nonemptyChronalCones; at M, Causal.SingularRowsCauchy.sigma_separe(_of_isCausal). Use them for any named hS, hcover or IsClosed J^±(Σ) of a Cauchy surface (T-ett-sigma-separe).",
+    "A point of γ between two points of c, with c([0,1]) ⊆ γ(J), lies on c with no closed J^±(x): Causality.CausalCurveIn.mem_image_of_between (T2 and causal only: the compact pieces γ([τ₀, s₀]), γ([s₀, τ₁]) are closed and cover c([0,1])). Prefer it to GloballyHyperbolic.isClosed_Jplus_singleton when locating a point on a curve (T-ett-sigma-separe).",
+    "A BTZ point in J⁺(S) ∖ S for every Cauchy surface S of a causal SingularFlatAxioms spacetime with sing₀ ≠ ∅: SingularFlatAxioms.exists_mem_sing_zero_Jplus_diff (M-level SingularRowsCauchy.exists_btz_Jplus_diff). With the existential S of SingularRowsGeroch.nonvacuous_e0_geroch it witnesses any BTZ branch over a Cauchy surface at E₀ (T-ett-sigma-separe).",
+    "Chronology at every point of a causal SingularFlatAxioms spacetime: SingularFlatAxioms.not_lt_self (Jplus_not_mem_nhds with Jminus_ne_singleton); a Cauchy surface's open neighbourhoods I⁺(x) miss S only through it (T-ett-sigma-separe)."
+  ],
+  "notes": "Both files: no sorry, -DwarningAsError=true clean, axioms propext/Classical.choice/Quot.sound; lake build CausalScaffold.SingularCauchy CausalScaffold.SingularRowsCauchy built these two modules only (no upstream rebuild). Neither is imported by scaffold/CausalScaffold.lean (kb/0025): the master adds them or graduates directly. Graduation: SingularCauchy -> Causal/SingularCauchy.lean (Causal.SingularCauchy, imports no model: Causal.SingularGeroch, Causal.CurvesExtendSecondCountable, Causal.CauchyDual, Causal.ChronalNeighbourBridge; not Causal.Splitting, which pulls Causal.Flat.IsomCausal); SingularRowsCauchy -> Causal/Remarks/SingularRowsCauchy.lean, rewriting its import CausalScaffold.SingularCauchy -> Causal.SingularCauchy. Five textual mentions of the scaffold module names sit in docstrings (SingularCauchy.lean l.46, l.52, l.453: CausalScaffold.SingularRowsCauchy; SingularRowsCauchy.lean l.16, l.86: CausalScaffold.SingularCauchy) and should become the Causal.* names at graduation. No docstring contains the bold-backtick mark form; labels are written `label` only. The planner's [r] claim « Global hyperbolicity enters only through the closedness of J^±(x) in (3) » is confirmed and then removed: the closedness is not needed either (CausalCurveIn.mem_image_of_between), so the theorem holds at every causal E_{>=0}-manifold (SingularRowsCauchy.sigma_separe_of_isCausal), which T-ett-geroch-split-flow can use. Curation, the master's: cor:K_ordre_Sigma's blocked_on can lose its hS clause (SingularRowsCauchy.K_ordre_Sigma); lem:Sigma_separe's « In particular » holds with no ψ at these manifolds, the equalities wait on T-ett-geroch-split-flow; lem:Cauchy_plongement_toutes has no Lean hypothesis left at these manifolds. OQ-18, OQ-34, OQ-35, OQ-82 remain; nothing is marked. cauchy_plongement_toutes_manifolds carries N's E_{>=0} hypotheses unused (underscored), for the printed form; the principal form is cauchy_plongement_toutes. The witnesses' Cauchy surfaces are existential (from theo:geroch_sing (ii)⇒(iii) at E₀ and E_π); no explicit Cauchy surface of E₀ was needed. The existing lem:Sigma_separe finding on the ordering (stated after lem:image_diamant) can now cite IsCauchySurface.cover_of_t1_secondCountable, which needs neither causality nor ψ. lem:image_diamant and lem:passe_pgcd were not touched (MUST NOT)."
+}

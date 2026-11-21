@@ -200,3 +200,7 @@ rediscover. One fact per entry.
 | [0192](entries/0192-bubble-meets-k-iff-persists.md) | pattern | When a bubble meets K: iff it persists near p |
 | [0193](entries/0193-spokes-k-equals-i-without-pushup.md) | pattern | Spokes: a cheap local witness with K⁻(o) = I⁻(o) while push-up fails at o |
 | [0194](entries/0194-explicit-set-argument-in-obtain.md) | pitfall | In `obtain ⟨…⟩ := thm isOpen_Ioi …`, give a set argument only the goal fixes explicitly |
+| [0195](entries/0195-cauchy-surface-separates-causal-only.md) | pattern | A Cauchy surface separates with no splitting and no global hyperbolicity |
+| [0196](entries/0196-point-between-on-curve.md) | pattern | A point of γ between two points of c lies on c, with no closed J^±(x) |
+| [0197](entries/0197-btz-point-above-every-cauchy-surface.md) | pattern | A BTZ point in J⁺(S) ∖ S for every Cauchy surface S when sing₀ ≠ ∅ |
+| [0198](entries/0198-chronology-in-causal-sfa.md) | pattern | Chronology at every point of a causal SingularFlatAxioms spacetime |

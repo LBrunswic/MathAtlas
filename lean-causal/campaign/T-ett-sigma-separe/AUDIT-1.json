@@ -1,0 +1,47 @@
+{
+  "target": "T-ett-sigma-separe",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:Sigma_separe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Covers the « In particular » (ETT.tex:2067-2068) only, disclosed, row partial, unmarked. SingularFlatAxioms.sigma_separe (hG, hS : IsCauchySurface S) concludes IsClosed J⁺(S), IsClosed J⁻(S), J⁺(S) ∩ J⁻(S) = S and ∀ y ∈ J⁺(S) \\ S, J⁺(S) ∈ 𝓝 y: the three printed claims, with J^±(S) = C.Jplus/Jminus ⊤ S. Dropping ψ is a weakening: the paper takes it from theo:geroch_sing. The equalities J^±(Σ) = ψ(Σ × ℝ±) are not claimed (scope, T-ett-geroch-split-flow). Cauchy surface is IsCauchySurface (DEC-14: every inextensible causal curve meets S exactly once, on the image). The weaker-hypothesis claim is genuine. sigma_separe_of_isCausal asks hc : C.IsCausal and no compactness. SingularFlatAxioms has no global-hyperbolicity field (checked: BTZAxioms plus pushUp, absolutelyMinimal, causallyArcConnected, tarentin, mem_Zplus, mem_Zminus_iff, t2, secondCountable, metrizable, locallyCompact, noIsolated, isClosed_sing, interior_sing). I read CausalCurveIn.mem_image_of_between (SingularCauchy.lean:145) and its one use (:228); both are sound. γ([τ₀,s₀]) and γ([s₀,τ₁]) are compact images, hence closed in a T2 space. Their preimages cover [0,1]: a parameter outside [τ₀,τ₁] is folded onto c 0 or c 1 by causality. So a common u gives c u ≤ γ s₀ ≤ c u, and c u = γ s₀ by antisymmetry. In exists_isOpen_of_Iminus_nonempty, x = c s with s < 1 gives x ≪ p along the chronal curve. No closedness of J^±(x) is used. The M-level sigma_separe and sigma_separe_of_isCausal are SFAManifolds.singularFlatAxioms applied, under the carried readings DEC-25/OQ-18. Witnesses come out of the M-level theorems. nonvacuous_e0 takes S existentially from nonvacuous_e0_geroch and p ∈ sing₀(E₀) = axis from exists_btz_Jplus_diff, which is M-level. It records I⁻(p) = ∅ and J⁺(S) ∈ 𝓝 p. So the hypotheses of exists_isOpen_of_mem_sing_zero (p ∈ J⁺(S) \\ S, p ∈ sing 0, C causal, S Cauchy) hold jointly at E₀, and the BTZ branch is exercised, not vacuous. nonvacuous_epi covers the regular branch (sing₀ = ∅). The timelike-line witnesses cover the abstract and model-free forms. See minor findings 1-2 on the wording of the finding sent to the author."
+    },
+    {
+      "label": "cor:K_ordre_Sigma",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "SingularRowsCauchy.K_ordre_Sigma (hmin, hC, hG, hS : IsCauchySurface S) has both conclusions as printed (l.2083-2087). The first is ∀ x y ∈ J⁺(S) \\ S, K⁻(x) ∩ J⁺(S) ⊆ K⁻(y) ∩ J⁺(S) → x ≤ y, the second InjOn on J⁺(S) \\ S. K⁻(x) is read as C.Kminus ⊤ {x}, as in SingularRowsK. The former named hS of SingularRowsK.K_ordre_Sigma is discharged by (sigma_separe hmin hC hG hS).2.2.2, so no Lean hypothesis beyond the paper's is left. The row stays partial, unmarked, on the readings DEC-25, OQ-18, OQ-34, OQ-35 and OQ-82, all disclosed. Witnesses: nonvacuous_e0 at a genuine Cauchy surface of E₀, out of the M-level theorem, and rows_of_isAtlasCausalityDEC25 for the natural causality. The REPORT finding on l.2090 is correct: the proof takes from lem:Sigma_separe only that J⁺(Σ) is a neighbourhood of x, which holds with no ψ."
+    },
+    {
+      "label": "lem:Cauchy_plongement_toutes",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "SingularRowsCauchy.cauchy_plongement_toutes is the full equivalence (i) ⇔ (ii) of l.1865-1872. Its hypotheses: M a globally hyperbolic, T2, second countable E≥0-manifold; φ an injective IsEMorphism (DEC-17); N only T2 with D causal, a weakening of the paper's globally hyperbolic singular flat N. hex comes from SingularRowsGeroch.geroch_sing_i_imp_iii (statement checked: hmin, hC, hG ⊢ ∃ S, IsCauchySurface S), so no Lean hypothesis is left. cauchy_plongement_toutes_manifolds is the printed form, with N's E≥0 hypotheses carried, unused and underscored, all disclosed. Row partial, unmarked, on the readings. The witness nonvacuous_e0_plongement is the identity of E₀ via cauchy_plongement_toutes_manifolds, as the dispatch asked. Its conclusion is trivial for id; it serves to show the hypotheses are satisfiable. nonvacuous_e0_natural does the same through rows_of_isAtlasCausalityDEC25. The finding on l.1874 is correct: (ii)⇒(i) needs a Cauchy surface of M to exist, and that is theo:geroch_sing (i)⇒(iii)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "Checked on node1. taskset -c 0-11 lake build CausalScaffold.SingularCauchy CausalScaffold.SingularRowsCauchy: 'Build completed successfully'; --no-build had first confirmed all targets up to date, so nothing upstream was rebuilt. lake env lean -DwarningAsError=true passes on both files (exit 0, no output). sorry appears only in the docstring phrase '(no `sorry` in this file)', once per file. No axiom, admit, native_decide or opaque. #print axioms on all 27 declarations the REPORT names gives [propext, Classical.choice, Quot.sound] for each. The probe was campaign/T-ett-sigma-separe/AxiomProbe.lean, since deleted. Neither module is yet imported by scaffold/CausalScaffold.lean (kb/0025), as the REPORT says; that is the master's step. No declaration-name clash with the strict library: the nearest names, E0.not_lt_self, BTZAxioms.not_lt_self and IsCauchySplitting.isOpen_Jplus_diff, are in other namespaces."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-sigma-separe/REPORT.json: labels[lem:Sigma_separe].findings[0] (ETT.tex:2067-2068); same claim at SingularCauchy.lean:28-30, :411",
+      "what": "The finding tells the author that the « In particular » 'needs neither ψ nor global hyperbolicity' and holds at 'any causal singular flat spacetime' with a Cauchy surface. That is true of the proof and of the Lean statement. But in the paper's own terms theo:geroch_sing (iii)⇒(i) (l.1771-1777) makes every singular flat spacetime with a Cauchy surface globally hyperbolic. So the weakening does not enlarge the class of spacetimes the lemma covers. What it removes from the route is compact diamonds, (iii)⇒(i) (OQ-32, unproved in Lean) and ψ. As worded, the author may read it as a broader lemma.",
+      "fix": "Add one sentence to the finding: « By theo:geroch_sing (iii)⇒(i) such a spacetime is globally hyperbolic anyway. The point is that the proof uses neither compact diamonds nor (iii)⇒(i), so the facts can be used inside the proofs of theo:geroch_sing's splitting and of (iii)⇒(i). »"
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-sigma-separe/REPORT.json: labels[lem:Sigma_separe].findings[0], 'It runs on four facts: …'",
+      "what": "The list of what the ψ-free proof uses is incomplete. It omits Z⁺ = M (mem_Zplus). That fact gives step (4), the openness of J⁻(Σ) \\ Σ, on which the printed closedness of J⁺(Σ) rests. It also omits chronology at the points of Σ, ¬ x ≪ x (SingularFlatAxioms.not_lt_self, from J⁻(x) ≠ {x}), and the Hausdorff property used by CausalCurveIn.mem_image_of_between. The docstrings list them correctly (SingularCauchy.lean:41, :80-82, :76-79). Only the sentence sent to the author is short.",
+      "fix": "Make the list: an inextensible causal curve through every point, Σ acausal, causal arc-connectedness, Hausdorff, chronology at Σ, Z⁻ = M ∖ sing₀ and Z⁺ = M. At BTZ points add tarentin and the BTZ line."
+    }
+  ],
+  "scope": "git status --short shows the dispatched files scaffold/CausalScaffold/SingularCauchy.lean and SingularRowsCauchy.lean, the campaign directory with REPORT.json and this audit, and the excluded items: the other closer's BubbleK.lean and T-ett-bubble-kplus/, and the master's roadmap/roadmap.toml. git diff --stat touches roadmap/roadmap.toml only. No strict-library file, Causal.lean, README, scaffold root or submodule was edited.",
+  "docstring_contract": "Both files have a title; labels cited unmarked as `label` with ETT.tex lines; verbatim quotes (the enumerate of lem:Cauchy_plongement_toutes is inlined as (i)/(ii)); Hypothesis checklist; SCOPE (disclosed); Provenance line. No ``**`label`**`` form anywhere (grep of '**' finds only bold section words and a declaration docstring). The checklist and SCOPE statements were checked against the code and are true. SingularRowsCauchy uses the header '| paper | here |' and the status '⚠ read', as SingularRowsK and SingularRowsGeroch already do. The five docstring mentions of CausalScaffold.* module names must become Causal.* at graduation, as the REPORT notes."
+}
