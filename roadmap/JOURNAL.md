@@ -466,3 +466,19 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 21:0x–22:10 (Paris); agents: 1 (planner)
 - next: a wave of T-ett-singular-sfa, T-ett-singular-rows-local and T-ett-cupcap-btz-cex. After T-ett-singular-sfa graduates, its 14 rows must be re-pointed, or stale_blockers fails.
+
+## 2026-11-21 22:52 · wave of 3 · T-ett-singular-sfa, T-ett-singular-rows-local, T-ett-cupcap-btz-cex
+- T-ett-singular-sfa: SingularFlatAxioms at every Hausdorff, second countable E≥0-manifold, as the one-line assembly. SingularFlatSpacetime iff M is connected; existence and uniqueness of the natural causality. prop:mesure_admissible and rem:singular_flat_spacetime_therefore now hold with no hypothesis left. The 14 rows that named it in blocked_on are re-pointed. Audit minor.
+- T-ett-singular-rows-local: lem:J_int, lem:cup_cap_sing, the E≥0 sentences of rem:tarentin_exemples and rem:lorentz_tarentin, and rem:pas_plat (ii), at every E≥0-manifold.
+  - Finding: every E≥0-manifold is causally plain, so « it fails in the two families » (l.290, and the abstract and introduction) is refuted for the singular family. This is evidence for OQ-16.
+  - Audit: AUDIT-1 major, for four unintended docstring marks. One closer fix round removed them, with statements and proofs unchanged; AUDIT-2 minor.
+- T-ett-cupcap-btz-cex: CupCapBTZAsPrinted is refuted in Lean at E₀ ∖ {w}. DEC-19's by-hand finding is now formalized with no proviso left. The proof breaks where it needs J⁺(z) closed. Audit minor.
+- roadmap:
+  - T-ett-singular-rows and T-ett-singular-rows-geroch are moved to ready, by their blocks' own condition.
+  - T-ett-docstrings-sing0's evidence gains the three stale « by hand » docstrings.
+  - Evidence was appended, never replaced.
+- gates: lean-causal ✓, roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at 321436f, clean), hub: no new red
+- commits: 1d2e5a5 f823443 321436f b5ef07b (+ this)
+- wall time: 22:13–22:52 (Paris); agents: 3 closers, 4 audits (one re-audit), 1 fix round
+- new OQ: none (next free OQ-87); lean-causal kb 0180–0186
+- next: a wave of T-ett-singular-rows and T-ett-singular-rows-geroch; T-ett-docstrings-sing0 runs between waves
