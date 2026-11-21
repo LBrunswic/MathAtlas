@@ -1,0 +1,197 @@
+{
+  "package": "T-yamabe-negative",
+  "target": "T-yamabe-negative",
+  "files": [
+    "scaffold/YamabeScaffold/Negative.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "cor:negative",
+      "tex_lines": [
+        502,
+        505
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.cor_negative",
+        "Yamabe.MeasuredModel.neg_of_upper_bound",
+        "Yamabe.toy_cor_negative",
+        "Yamabe.toyNegInput",
+        "Yamabe.toyNegBody",
+        "Yamabe.toyNegCap",
+        "Yamabe.toyNegGlued",
+        "Yamabe.toy_infF_pos",
+        "Yamabe.toy_two_le_infF",
+        "Yamabe.toyCurved_no_gluingInput",
+        "Yamabe.toyClosed_counterexample",
+        "Yamabe.toyClosedInput",
+        "Yamabe.toyClosed_infF",
+        "Yamabe.toyClosed",
+        "Yamabe.toyCut",
+        "Yamabe.toyCut_infF"
+      ],
+      "hypotheses": [
+        {
+          "paper": "N ≥ 3 (l.605)",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "σ(Σ̄) ≤ 0 (thm:upper-bound, l.495)",
+          "here": "reading",
+          "note": "as in the strict upper_bound_of_gluings_of_pos: used only as Y_[ḡ_τ](Σ̄) ≤ 0 for each τ, carried as GluingInput.y_nonpos."
+        },
+        {
+          "paper": "g of constant scalar curvature (l.495)",
+          "here": "carried",
+          "note": "R_g x = c for every x (pointwise, as in T-yamabe-gluing-algebra)."
+        },
+        {
+          "paper": "minimal boundary (l.495)",
+          "here": "carried",
+          "note": "MinimalBoundary g."
+        },
+        {
+          "paper": "each (B_j, g|_{B_j}) conformally round (l.495)",
+          "here": "reading",
+          "note": "used only through lem:gluing (the family g̃_τ, carried) and fact (iv) (β_j = c_N in each GluingInput, carried)."
+        },
+        {
+          "paper": "lem:gluing and the inputs of lem:gluing-estimate, per τ (proof l.724–726)",
+          "here": "carried",
+          "note": "the hypotheses of the strict Yamabe.MeasuredModel.upper_bound_of_gluings_of_pos: gs, η → 0, δ → 0, UniformlyClose, |R_{g̃_τ} − R_g| ≤ δ_τ, finite volume, Σ and B_j nonempty, DensityMeasurable, minimal boundary, and S : ∀ τ, GluingInput M Y E (gs τ) (fun _ => c_N)."
+        },
+        {
+          "paper": "lem:positivity: inf F_g > 0 (l.717; proof l.719–721 via Rellich–Kondrachov, the compact trace and the Sobolev embedding, Hebey1996)",
+          "here": "carried",
+          "note": "hpos, as the dispatch requires. It is not a theorem of the model: toyClosed_counterexample (n = 0) and toyCut_infF (a model of a disconnected Σ with ∂Σ ≠ ∅) have inf F = 0. On the toy model it is proved (toy_infF_pos, inf F ≥ 2)."
+        },
+        {
+          "paper": "∂Σ ≠ ∅ and Σ connected (hypotheses of lem:positivity, l.717)",
+          "here": "reading",
+          "note": "not modelled; they enter only through hpos. ∂Σ ≠ ∅ (n ≥ 1) is stated neither at l.465 nor in thm:upper-bound: see the finding."
+        },
+        {
+          "paper": "Vol(Σ, g) > 0 (implicit in Vol^{−2/N}, l.728)",
+          "here": "carried",
+          "note": "derived, not assumed: Y = c·Vol^{2/N} < 0 forces Vol > 0 (neg_of_upper_bound)."
+        },
+        {
+          "paper": "Σ compact",
+          "here": "carried",
+          "note": "IsFiniteMeasure (vol_g)."
+        },
+        {
+          "paper": "u ∈ W^{1,2}(Σ) (l.498)",
+          "here": "reading",
+          "note": "every val u a.e.-strongly measurable (hD), the competitors Adm (OQ-44), as in the strict library."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Minor, a missing standing hypothesis (l.465, l.495, l.504, l.717). The setting of § 6 (l.465: « Σ is a compact connected N-manifold with boundary ∂Σ = ⊔_{j=1}^n B_j ») and thm:upper-bound (l.495) do not say n ≥ 1. For n = 0, a flat T³ satisfies every hypothesis of thm:upper-bound: σ(T³) = 0 ≤ 0, R ≡ 0 is constant, and an empty boundary is minimal and has no B_j to be round. thm:upper-bound itself holds (Y = 0 ≤ 0 = −inf F). cor:negative fails: F_g(1) = 0 because there is no boundary term, so inf F_g = 0, Y_[g](Σ) = 0, and R_g ≡ 0 is scalar flat. The proof (l.728) uses lem:positivity, whose statement (l.717) asks for « non-empty boundary ». Model counterexample: Yamabe.toyClosed_counterexample. On the closed two-point model (n = 0) with R ≡ 0 it proves a GluingInput with β = c_N and y = 0, minimal boundary, vol ≠ 0, measurable densities, and also inf F = 0, Y = 0 and R ≡ 0. The flat-T³ instance is argued, not formalized. Suggested fix: state n ≥ 1 at l.465 or in cor:negative. The « punctured torus » sentence (l.504) is not affected, because a punctured torus has n ≥ 1."
+      ],
+      "questions": [
+        "« In particular a Schwarzschild-like punctured torus is never scalar flat » (l.504). Reading taken, as the planner proposed: ¬ ∀ x, R_g x = 0 under thm:upper-bound's hypotheses as the model reads them (the last conjunct of cor_negative). The torus Σ̄ = T³, the radii r_j and the roundness of the B_j are not modelled. That such a metric satisfies thm:upper-bound's hypotheses is argued, not formalized: σ(T³) ≤ 0 because T³ carries no metric of positive scalar curvature (MR569070); round spheres are conformally round; N = 3. That argument is the content of « in particular ». Is this reading acceptable?",
+        "« Under the hypotheses of Theorem thm:upper-bound, inf F_g > 0 » (l.504). Reading taken: this assertion is lem:positivity (l.717). It holds for every metric on a compact connected Σ with ∂Σ ≠ ∅, independently of thm:upper-bound's other hypotheses. It is carried (hpos), so cor_negative's first conjunct is its hypothesis restated, and the row cannot be closed before lem:positivity is (T-yamabe-scope).",
+        "« R_g < 0 » (l.504). Reading taken: R_g ≡ c pointwise and c < 0 (hence R_g x < 0 for every x). The identity R_g = Y_[g](Σ) Vol(Σ, g)^{−2/N} of l.728 is a further conjunct. The hypotheses of thm:upper-bound are taken in the _of_pos reading of T-yamabe-gluing-algebra (no R_g ≤ 0, which l.724 takes from prop:nonpositive). The reading with R_g ≤ 0 carried (upper_bound_of_gluings) would also need lem:positivity for c < 0."
+      ]
+    },
+    {
+      "label": "prop:nonpositive",
+      "tex_lines": [
+        476,
+        479
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.prop_nonpositive_csc",
+        "Yamabe.MeasuredModel.nonpos_of_kobayashiB",
+        "Yamabe.MeasuredModel.KobayashiB",
+        "Yamabe.toy_prop_nonpositive",
+        "Yamabe.toy_kobayashiB",
+        "Yamabe.toyConst"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Σ̄ enlargeable; each [g|_{B_j}] of positive Yamabe constant (l.478)",
+          "here": "weakened",
+          "note": "used only through the first sentence's conclusion Y_[g](Σ) ≤ 0, which is carried: the second sentence holds for every g with Y ≤ 0."
+        },
+        {
+          "paper": "Y_[g](Σ) ≤ 0 (first sentence, l.478; proof l.641–645 via Akutagawa–Botvinnik Cor. 5.3 of MR1957657, thm:yamabe (b), Gromov–Lawson MR569070, MR4232210)",
+          "here": "carried",
+          "note": "hY : M.Y g ≤ 0. Not formalized: doubles, connected sums, enlargeability and the Yamabe theorem on the double have no counterpart in the model."
+        },
+        {
+          "paper": "g of constant scalar curvature (l.478)",
+          "here": "carried",
+          "note": "R_g x = c for every x."
+        },
+        {
+          "paper": "minimal boundary (l.478)",
+          "here": "carried",
+          "note": "MinimalBoundary g; it is also lem:kobayashi's standing assumption H_g ≡ 0 (l.615)."
+        },
+        {
+          "paper": "lem:kobayashi (b): min_Σ R_g > 0 ⇒ Y_[g](Σ) > 0 (l.623; proof l.632–637 via the Sobolev embedding, Hebey1996)",
+          "here": "carried",
+          "note": "as its conclusion for g, the Prop MeasuredModel.KobayashiB g := 0 < ⨅ x, R_g x → 0 < Y_[g](Σ). It is not a theorem of the model: the differential d is an arbitrary linear map, and nothing bounds ‖u‖_{p*} by ‖u‖_{W^{1,2}} (argued, not formalized). It holds on the toy model for every constant R (toy_kobayashiB)."
+        },
+        {
+          "paper": "lem:kobayashi (a): EH = Y for constant R_g ≤ 0 on a minimal boundary (l.622)",
+          "here": "carried",
+          "note": "proved: the strict Yamabe.MeasuredModel.lem_kobayashi_a."
+        },
+        {
+          "paper": "Σ compact; W^{1,2} functions measurable",
+          "here": "carried",
+          "note": "IsFiniteMeasure (vol_g); hD."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Which form of lem:kobayashi (b) is carried. Reading taken: only its conclusion for the metric g of the statement (KobayashiB g), with min_Σ R_g read ⨅ x, R_g x as in the strict CurvedMetric.kobM. Carrying it for every metric would be stronger than the proof needs.",
+        "« R_g ≤ 0 » (l.478). Reading taken: pointwise, ∀ x, R_g x ≤ 0. On an empty Σ this is vacuous and EH = Y = 0, so no nonemptiness is assumed. « Constant scalar curvature » is read pointwise, as in T-yamabe-gluing-algebra. The pointwise reading is needed: if R_g = c held only a.e., (b)'s premise ⨅ R_g > 0 could fail on a null set even for c > 0, and (b) would not exclude c > 0.",
+        "The proof's « Lemma kobayashi(b) excludes R_g > 0 » (l.645) is read as: R_g ≡ c > 0 gives min_Σ R_g = c > 0, so (b) gives Y > 0, contradicting the first sentence. This is fact (iii) (l.334), direction « Y ≤ 0 ⇒ R_g ≤ 0 », which the paper also attributes to lem:kobayashi."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.toy_gradSq",
+    "Yamabe.toy_count_univ",
+    "Yamabe.toy_dirichlet",
+    "Yamabe.toy_normSq_bvol",
+    "Yamabe.pStar_three",
+    "Yamabe.toy_normSq_vol_eq",
+    "Yamabe.toy_normSq_vol_le",
+    "Yamabe.cN_three_ge",
+    "Yamabe.cN_three_le",
+    "Yamabe.aN_three",
+    "Yamabe.toy_adm_one",
+    "Yamabe.toy_F_ge",
+    "Yamabe.toyConst_toFrameMetric",
+    "Yamabe.toyConst_minimal",
+    "Yamabe.toy_scalar_term",
+    "Yamabe.toy_bvol_univ",
+    "Yamabe.toy_action_body",
+    "Yamabe.toy_action_cap",
+    "Yamabe.toy_confAction_neg",
+    "Yamabe.toy_isFiniteMeasure_vol",
+    "Yamabe.toy_isFiniteMeasure_bvol",
+    "Yamabe.toy_vol_ne_zero",
+    "Yamabe.toyClosed_vol"
+  ],
+  "kb_proposals": [
+    "A GluingInput with β_j = c_N exists on the two-point toy model once R_g is negative enough. The body's H absorbs the conformal law and the cap's H the boundary Yamabe inequality (YamabeScaffold.Negative: toyNegInput, with R_g ≡ −8, u = 1, y = 0, H_h ≡ −4, H_{D_0} ≡ 4, EHB(D_0) = 16 ≥ c_3). toyCurved (R ≡ −1) admits none (toyCurved_no_gluingInput), so the input is a genuine restriction and a witness for an upper-bound assembly must pick its metric.",
+    "Exact norms on the two-point toy model (T-yamabe-negative): toy_dirichlet (2(a−b)²), toy_normSq_bvol (b² on the boundary point, for any q > 0), toy_normSq_vol_eq (((a²)³ + (b²)³)^{1/3}) and toy_normSq_vol_le (≤ a² + b²). With them, lem:positivity (toy_two_le_infF: inf F ≥ 2) and lem:kobayashi (b) (toy_kobayashiB) are provable on the toy model. c_3 ∈ [12, 16] is cN_three_ge, cN_three_le.",
+    "A MeasuredModel with n = 0 (μb := Fin.elim0, each per-boundary field fun j => j.elim0) is a cheap closed Σ. On it F(1) = 0, so inf F = 0 (toyClosed_infF), and the empty Filling gives a GluingInput for free (toyClosedInput). Use it to test whether a statement needs ∂Σ ≠ ∅.",
+    "At this pin, integral_fintype's only explicit argument is the integrability; after `rw [integral_fintype]`, close the side goal with `.of_finite`."
+  ],
+  "notes": "One new module, scaffold/YamabeScaffold/Negative.lean (module YamabeScaffold.Negative, namespace Yamabe). It imports only the strict Yamabe.Gluing, hence Mathlib. No existing file was edited, and the scaffold root and Yamabe.lean were not touched: the master should add the import at graduation (lean-causal kb 0025). The file has no sorry. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/YamabeScaffold/Negative.lean` exits 0 with no output. `taskset -c 0-11 lake build YamabeScaffold.Negative` rebuilt only this module ('Built YamabeScaffold.Negative', 8562 jobs, Build completed successfully). `#print axioms` of all 45 top-level declarations, run through a /tmp copy that was deleted afterwards, gives [propext, Classical.choice, Quot.sound] for each. No name clashes with the strict Yamabe.*: the file elaborates against all of it (Gluing → Kobayashi, Stability → Quotient). The general constants pStar_three, aN_three, cN_three_ge and cN_three_le sit in namespace Yamabe; graduation may move them next to cN_three in Quotient. Nothing is marked: both rows stay partial (bucket D) on T-yamabe-scope and OQ-44, as the dispatch requires. Anchoring candidates, if the readings are accepted: Yamabe.MeasuredModel.cor_negative (cor:negative, with lem:positivity carried) and Yamabe.MeasuredModel.prop_nonpositive_csc (prop:nonpositive, second sentence, with Y ≤ 0 and lem:kobayashi (b) carried). Non-vacuity: toy_cor_negative discharges every hypothesis of cor_negative, lem:positivity included, on the toy model with R ≡ −8 and the constant family. toy_prop_nonpositive does the same for prop_nonpositive_csc on toyCurved, where KobayashiB is vacuous because R < 0; toy_kobayashiB shows KobayashiB holds non-vacuously on the toy model for every c > 0. The finding (n = 0) is new. It concerns cor:negative's reliance on lem:positivity's « non-empty boundary » and does not touch thm:upper-bound. Ledger tooling, already reported by T-yamabe-gluing-algebra: cor:negative has proof: null because its proof is thm:upper-bound's (« We prove the theorem together with Corollary cor:negative », l.724)."
+}

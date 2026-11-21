@@ -55,9 +55,25 @@ paper_findings = ["Minor, a citation in the proof (l.724; prop:nonpositive l.477
 
 [[row]]
 label = "cor:negative"
+extra_lean_files = ["Yamabe/Negative.lean"]
+decls = ["Yamabe.MeasuredModel.cor_negative", "Yamabe.MeasuredModel.neg_of_upper_bound", "Yamabe.toy_cor_negative", "Yamabe.toyNegInput", "Yamabe.toyNegBody", "Yamabe.toyNegCap", "Yamabe.toyNegGlued", "Yamabe.toy_infF_pos", "Yamabe.toy_two_le_infF", "Yamabe.toyCurved_no_gluingInput", "Yamabe.toyClosed_counterexample", "Yamabe.toyClosedInput", "Yamabe.toyClosed_infF", "Yamabe.toyClosed", "Yamabe.toyCut", "Yamabe.toyCut_infF"]
+lean_proved_override = "partial"
+bucket = "D"
+blocked_on = "T-yamabe-scope (the cited analytic inputs: lem:positivity, thm:yamabe (b), lem:gluing, Escobar's fact (iv), the conformal law), OQ-44 (the frame model's readings), OQ-74 (n ≥ 1)"
+notes = "T-yamabe-negative (atlas-team, 2026-11-21), audit AUDIT-1 minor (two line citations and a docstring, fixed at graduation). Over the measured model: Yamabe.MeasuredModel.cor_negative, under exactly the hypotheses of upper_bound_of_gluings_of_pos with lem:positivity carried (hpos): inf F > 0, Y < 0, R_g = c < 0, R_g = Y·Vol^{−2/N} (l.728), and not scalar flat (Vol > 0 derived, so not vacuous). Not vacuous: toy_cor_negative discharges every hypothesis on the two-point toy model (R ≡ −8; lem:positivity proved there, toy_infF_pos). lem:positivity is not a theorem of the model (toyClosed_counterexample, n = 0; toyCut_infF, a disconnected Σ). Unmarked, partial."
+paper_findings = ["Minor, a missing standing hypothesis (l.465, l.495, l.504, l.717). The setting of § 6 (l.465: « Σ is a compact connected N-manifold with boundary ∂Σ = ⊔_{j=1}^n B_j ») and thm:upper-bound (l.495) do not say n ≥ 1. For n = 0, a flat T³ satisfies every hypothesis of thm:upper-bound: σ(T³) = 0 ≤ 0, R ≡ 0 is constant, and an empty boundary is minimal and has no B_j to be round. thm:upper-bound itself holds (Y = 0 ≤ 0 = −inf F). cor:negative fails: F_g(1) = 0 because there is no boundary term, so inf F_g = 0, Y_[g](Σ) = 0, and R_g ≡ 0 is scalar flat. The proof (l.728) uses lem:positivity, whose statement (l.717) asks for « non-empty boundary ». Model counterexample: Yamabe.toyClosed_counterexample. On the closed two-point model (n = 0) with R ≡ 0 it proves a GluingInput with β = c_N and y = 0, minimal boundary, vol ≠ 0, measurable densities, and also inf F = 0, Y = 0 and R ≡ 0. The flat-T³ instance is argued, not formalized. Suggested fix: state n ≥ 1 at l.465 or in cor:negative. The « punctured torus » sentence (l.504) is not affected, because a punctured torus has n ≥ 1."]
 nl_status_override = "proved"
 nl_reason = "proved together with thm:upper-bound in the proof titled « Proof of Theorem~\\ref{thm:upper-bound} » (l.723): « We prove the theorem together with Corollary~\\ref{cor:negative} » (l.724)"
 
 [[row]]
 label = "thm:lower-bound"
 notes = "Not proved in this paper: « the proof … is given in the companion paper \\cite{BrunswicPerforated} » (l.538), listed as in preparation. T-texgraph-proof-titles (2026-11-21) took away the l.640 proof it had been given, which proves prop:nonpositive. Whether the row is cited (terminal) or kept open is T-yamabe-lower-bound (needs-ruling)."
+
+[[row]]
+label = "prop:nonpositive"
+extra_lean_files = ["Yamabe/Negative.lean"]
+decls = ["Yamabe.MeasuredModel.prop_nonpositive_csc", "Yamabe.MeasuredModel.nonpos_of_kobayashiB", "Yamabe.MeasuredModel.KobayashiB", "Yamabe.toy_prop_nonpositive", "Yamabe.toy_kobayashiB", "Yamabe.toyConst"]
+lean_proved_override = "partial"
+bucket = "D"
+blocked_on = "T-yamabe-scope (the first sentence: MR1957657 Cor. 5.3, thm:yamabe (b), MR569070; lem:kobayashi (b), Hebey1996), OQ-44, OQ-74"
+notes = "T-yamabe-negative (atlas-team, 2026-11-21), audit AUDIT-1 minor. The second sentence only, over the measured model: Yamabe.MeasuredModel.prop_nonpositive_csc, (∀ x, R_g x ≤ 0) ∧ EH = Y for constant scalar curvature and minimal boundary, from Y ≤ 0 (the first sentence, carried, not formalized: doubles, connected sums and enlargeability have no counterpart in the model) and KobayashiB g (the conclusion of lem:kobayashi (b) for g, a Prop taken as an argument, not an axiom); « (b) excludes R_g > 0 » is nonpos_of_kobayashiB, EH = Y the strict lem_kobayashi_a. Not vacuous: toy_prop_nonpositive (KobayashiB vacuous there, R < 0; toy_kobayashiB shows it holds on the toy model for every c > 0). Unmarked, partial."

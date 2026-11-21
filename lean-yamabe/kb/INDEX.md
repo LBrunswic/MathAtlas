@@ -14,3 +14,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0006](entries/0006-integral-sq-and-junk.md) | pattern | ∫ f² as a squared L² norm; absorbing a junk Bochner integral |
 | [0007](entries/0007-filling-and-conformal.md) | pattern | Conformal metrics and the filling of Σ by the D_j on the frame model |
 | [0008](entries/0008-neg-literal-and-empty-iinf.md) | pitfall | A literal −1 into an implicit real; Real.iInf over an empty type is 0 |
+| [0009](entries/0009-toy-gluing-input.md) | pattern | A GluingInput with β = c_N on the two-point toy model, once R_g is negative enough |
+| [0010](entries/0010-toy-exact-norms.md) | pattern | Exact norms on the two-point toy model, enough for lem:positivity and lem:kobayashi (b) |
+| [0011](entries/0011-closed-model-n-zero.md) | pattern | A MeasuredModel with n = 0 is a cheap closed Σ: test whether a statement needs ∂Σ ≠ ∅ |
+| [0012](entries/0012-integral-fintype.md) | pitfall | Pitfall: integral_fintype's only explicit argument at this pin is the integrability |
