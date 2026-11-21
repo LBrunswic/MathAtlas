@@ -1,0 +1,71 @@
+{
+  "target": "T-abs-pushup-not-open",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-pushup-not-open/line",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Causal.jumpLine (PushUpNotOpen.lean:88) is a genuine Causal.Causality ℝ (Causal/Causality.lean:55,77). le U x y := (x = y ∧ x ∈ U) ∨ (x = 0 ∧ y = 1 ∧ 0 ∈ U ∧ 1 ∈ U). This is exactly the target's 'diagonal plus 0 ≤ 1 in every open U containing 0 and 1'. 0 ≤_U 1 needs only 0, 1 ∈ U, not [0,1] ⊆ U, as the target says. lt := False. Every field was checked. le_mem_left/right: the pair disjunct gives 0, 1 ∈ U. le_refl: the diagonal disjunct. le_trans: 0 ≤ 1 ≤ z forces z = 1, and the pair disjunct would need 1 = 0. le_mono: V ≤ U carries 0, 1 ∈ V and x ∈ V to U. lt_mem_*, lt_trans, lt_mono, le_of_lt: vacuous. isOpen_lt_right/left: {y | False} = ∅. jumpLine_le is Iff.rfl. The _of_not lemmas are true: in an open set missing 0 or 1 the order is the diagonal, so J± of V ⊆ U is V. In the library's gluing-free reading (kb/0014) this is a causality, and the SCOPE says so; the reading question is fair (see the separation row)."
+    },
+    {
+      "label": "T-abs-pushup-not-open/push-up",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "jumpLine_pushUp is Causality.PushUp (defi:pushup, Properties.lean:69). It goes through pushUp_iff (Properties.lean:274), and every premise has an lt, which is False. Vacuous, and disclosed as vacuous."
+    },
+    {
+      "label": "T-abs-pushup-not-open/locally-causally-open",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "jumpLine_locallyCausallyOpen is the two-sided ladder node Causality.LocallyCausallyOpen (LadderLocal.lean:152, = LocallyCausallyOpenFuture ∧ dual.LocallyCausallyOpenFuture), reached through locallyCausallyOpen_iff. The neighbourhoods are {1}ᶜ for x ≠ 1 and {0}ᶜ for x = 1. Each is open and misses 0 or 1, so CausallyOpenFutureOn holds for it and for the dual: every U ≤ W misses 0 or 1, and J⁺_U(V) = J⁻_U(V) = V is open. CausallyOpenFutureOn W is def:causally_open_spacetime_open for W seen as a spacetime (ex:open_subset). The neighbourhoods are open, so the hypothesis also holds if ETT.tex:698's 'neighbourhood' is read as not necessarily open."
+    },
+    {
+      "label": "T-abs-pushup-not-open/not-open",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "jumpLine_Jplus_Ioo: J⁺_⊤((−1,1)) = (−1,1]. This is correct, since the only off-diagonal pair is 0 ≤ 1 and 0 ∈ (−1,1). The set is not open at 1. jumpLine_not_causallyOpenFuture is the negation of CausallyOpenFuture (Properties.lean:121), which is def:causally_open_spacetime_open as printed, with U = ⊤ and V = (−1,1). The quote of ETT.tex:694 in the docstring is verbatim, without the opening 'Let M be a topological spacetime.'. jumpLine_not_causallyOpen is the DEC-8 two-sided CausallyOpen, through .future."
+    },
+    {
+      "label": "T-abs-pushup-not-open/not-absolutely-minimal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "jumpLine_not_absolutelyMinimal is the negation of Precausality.AbsolutelyMinimal (Generated.lean:247, def:topological_space_causality_absolutely), the ladder node's Lean name. It uses causal_ladder (the rule AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture, LadderLocal.lean:263, after LocallyCausallyOpen.future) and then not_causallyOpenFuture. The direct proof jumpLine_not_absolutelyMinimalOn_top is correct too. In the cover S = {{1}ᶜ, {0}ᶜ} with V = ⊤, each ⊤ ⊓ O misses 0 or 1, so every step of a TransGen chain is an equality, and 0 ≤_ℝ 1 is not such a chain. AbsolutelyMinimal ↔ AbsolutelyMinimalOn ⊤ is Precausality.absolutelyMinimal_iff (Generated.lean:275)."
+    },
+    {
+      "label": "T-abs-pushup-not-open/separation",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "jumpLine_separates_causallyOpenFuture conjoins exactly the twelve listed facts; #check reproduced its type. The docstring quotes prop:topological_spacetime_absolutely_minimal (ETT.tex:698) verbatim, without 'Let M be a topological spacetime.'; the REPORT's range 698-702 includes l.702, which is \\begin{proof}, while the prop ends at l.701. not_causallyOpenFuture_of_locallyCausallyOpenFuture_bare (¬∀ C : Causality ℝ, LocallyCausallyOpenFuture → CausallyOpenFuture) refutes exactly the proposition without absolute minimality, as printed (one-sided). not_causallyOpen_of_locallyCausallyOpen_bare refutes it in the DEC-8 two-sided reading. Both refutations hold over ℝ, which is a topological spacetime (T2, second countable). The hypothesis uses open neighbourhoods, so the refutation also covers the reading with non-open neighbourhoods. The _pushUp_ form adds push-up to the hypotheses. The Lean statements are about the library's Causality and are true. Whether they refute the paper depends on the reading of defi:causalite, and the module SCOPE discloses this. The reading question is fair. defi:causalite (ETT.tex:237-251) says 'sheaf with values in C' and states no gluing axiom; the 'Equivalently' form (a)-(c) is what the library carries. OQ-18 (DECISIONS.md:174, OPEN) itself identifies gluing with '≤ generated by covers, i.e. absolute minimality'. Under that reading every causality is absolutely minimal. Then prop 698 (in Lean: AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture) gives local ⇒ global causal openness, and no witness of this separation can exist. The structure is the same as OQ-39 (deuxPushup). The REPORT says correctly that push_up ⇏ causally_open_future holds in both readings: Causal.rationalLine_separates_absolutelyMinimal (NestedConverse.lean:394) is absolutely minimal, push-up, and not causally open in the future. No ETT label is marked, so the ETT ledger cannot misread this as certification of a paper statement."
+    },
+    {
+      "label": "T-abs-pushup-not-open/beyond",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Each claim was checked against its definition. IsCausal (Properties.lean:95): 1 ≤ 0 holds nowhere. Every diamond J(p,q) ⊆ {p,q}: if p ≤ x ≤ q is off the diagonal, then p = 0, x = 1 and x ≤ q forces q = 1. GloballyHyperbolic (:144): causal with finite, hence compact, diamonds. StronglyCausalOpen (:109): every subset is causally convex in ⊤, and interior U is open. HasTimeFunction (CurvesExtend.lean:516): T = id with 0 < 1. Not ChronalNeighbours: lt is False. Not Tarentin: an open diamond containing 0 would contain an infinite Ioo inside the finite set {p,q}. Not CausallyPlain: Int J⁺_⊤(ℝ) = ℝ while closure I⁺ = ∅. Not CausallyArcConnected: through CausallyArcConnected.absolutelyMinimal (ArcConnected.lean:216). These are beyond the target and disclosed as such. The ladder ids in the for_keeper entries all match the Lean names in programme/ladder.toml [[property]]: push_up, locally_causally_open, globally_hyperbolic, strongly_causal_open, time_function, causally_open_future, absolutely_minimal, chronal_neighbours, tarentin, causally_plain."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "Checks run on node1. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/PushUpNotOpen.lean` exits 0 with no output. grep finds no sorry, admit, axiom, native_decide, set_option or attribute in the file. The body was re-elaborated under `import Causal` (the whole strict root, 234 modules) with #print axioms on all 28 declarations of the file, warningAsError on; a probe under /tmp, since deleted. Every declaration depends on propext, Classical.choice and Quot.sound only. There is no full-name clash: the three bodies ChronalNeighbourBridge.lean, GateLineLocal.lean and PushUpNotOpen.lean were elaborated together over `import Causal`, warningAsError, exit 0, and #check found the declarations of both siblings. Layer-1 rule: the transitive closure of the file's imports (Causal.LadderLocal, Causal.CurvesExtend, Causal.Ladder.Rules) has 30 Causal modules, read off env.header.moduleNames. None is Causal.Minkowski, Causal.Static, Causal.Flat.*, Causal.Model.*, Causal.Port.*, Causal.SingularFlat, Causal.CBG.* or Causal.LemmaK. No statement mentions a metric; the proofs use ℝ's order topology (mem_nhds_iff_exists_Ioo_subset). All imports are strict modules and there is no CausalScaffold import, so graduation is a file move. Following kb/0025, the master adds the module to the scaffold root or to Causal.lean."
+  },
+  "scope": "`git status --short` shows this target's only paths, the scaffold file and the campaign directory, both untracked. The scaffold root scaffold/CausalScaffold.lean and the strict library are untouched. The other entries belong elsewhere: the M programme/ladder.toml, programme/roadmap.toml and roadmap/roadmap.toml (the master's status flips and the keeper's T-lad-classify-core edits), the sibling dispatches GateLineLocal and ChronalNeighbourBridge, and the lean-benzecri and lean-egf files. All were present before this audit and none can be attributed to this closer.",
+  "docstring_contract": "kb/0006 holds. The file has a title. The seven programme labels are marked within the first 4000 characters, the last mark at character 2126 of 18066; they carry no ETT.tex:LINE because these are programme labels, as in Causal/NestedConverse.lean. The quotes of ETT.tex:698, ETT.tex:694 and programme/roadmap.toml:587 are verbatim (the first two without the opening 'Let M be a topological spacetime.'). The hypothesis checklist is present. The SCOPE is present and true: it says the witness is not, and cannot be, absolutely minimal, that it is causal and GH as kb/0014 asks, and it states the reading and the both-readings fallback via the rational line. The Provenance line is present. The ETT.tex line numbers 237, 254, 694 and 698 cited in the file are correct. Namespace Causal, top-level names, no attributes.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/PushUpNotOpen.lean:350-351, :356-357",
+      "what": "The declaration docstrings of not_causallyOpenFuture_of_locallyCausallyOpenFuture_bare and not_causallyOpen_of_locallyCausallyOpen_bare say '`prop:topological_spacetime_absolutely_minimal` without absolute minimality ... is false', with no qualifier. That holds only in the library's gluing-free reading of defi:causalite. Under the gluing reading of OQ-18 every causality is absolutely minimal, so dropping the hypothesis changes nothing and the statement is true. The module SCOPE discloses this, so the Lean statements and the marks are fine. The sentence is likely to be quoted on its own, for example in the keeper's ladder.toml comment.",
+      "fix": "Append 'in the library's reading of `defi:causalite` (no gluing, kb/0014, OQ-18)' to both docstrings. It is optional, and the master can do it at graduation."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-pushup-not-open/REPORT.json: for_keeper.fails[0].note, for_keeper.open_settled, for_keeper.simulation",
+      "what": "The REPORT tells the keeper that the jump line 'settles the [[open]] push_up → causally_open_future and push_up → causally_open (programme/ladder.toml:1120-1128; remove both)'. That is right against HEAD. In the current working tree (uncommitted T-lad-classify-core edits) both [[open]] entries are already removed, settled by the rational line: ladder.toml:781-782 reads '… push_up → causally_open_future, → causally_open (removed)'. So open_settled is stale, and the simulated pair counts were computed over the HEAD ladder. The jump line's new content is unaffected: locally_causally_open(_future) ⇏ causally_open(_future) and ⇏ absolutely_minimal. The rational line is absolutely minimal, so it cannot give these.",
+      "fix": "The keeper skips the two removals. It records entries 1-2 (and 3/5 if wanted) for the local-openness pairs and re-runs `tools/ladder.py matrix` on the current ladder before quoting counts."
+    }
+  ]
+}

@@ -1,0 +1,371 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-pushup-not-open",
+ "files": [
+  "scaffold/CausalScaffold/PushUpNotOpen.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-pushup-not-open/line",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-not-open: on ℝ, the causality with ≪ empty and ≤_U the diagonal plus 0 ≤ 1 in every open U containing 0 and 1 has push-up and is two-sided locally causally open, while J⁺((−1, 1)) = (−1, 1] is not open: not causally open in the future, hence not causally open, and (by the ladder) not absolutely minimal",
+     "text_lines": "programme/roadmap.toml:586-598"
+    },
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "evidence: 'The closer checks the causality axioms for the stated ≤_U (le_mono: 0 ≤_V 1 needs 0, 1 ∈ V ⊆ U) and names the line. Layer 1: a new module importing LadderLocal (ETT layer).'",
+     "text_lines": "programme/roadmap.toml:596"
+    }
+   ],
+   "tex_lines": [
+    237
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.jumpLine",
+    "Causal.jumpLine_le",
+    "Causal.jumpLine_le_of_not",
+    "Causal.jumpLine_Jplus_of_not",
+    "Causal.jumpLine_Jminus_of_not"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a causality on ℝ (defi:causalite, ETT.tex:237): every field",
+     "here": "carried",
+     "note": "all fields of Causal.Causality discharged in the structure instance (PushUpNotOpen.lean:88): le_mem_left/right, le_refl, le_trans (0 ≤ 1 ≤ z forces z = 1, 1 ≠ 0), le_mono (0 ≤_V 1 needs 0, 1 ∈ V ⊆ U), lt_* and le_of_lt vacuous (≪ empty), ≪ open (empty sets)"
+    },
+    {
+     "paper": "≪ empty, ≤_U the diagonal plus 0 ≤_U 1 when 0, 1 ∈ U",
+     "here": "carried",
+     "note": "Causal.jumpLine_le is Iff.rfl"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Reading of defi:causalite (ETT.tex:237) for this witness: the jump line is a causality in the library's reading (the 'equivalently' form, no gluing axiom, kb/0014) and is not absolutely minimal, necessarily so (by prop:topological_spacetime_absolutely_minimal every witness of locally_causally_open ⇏ causally_open_future fails absolute minimality). Under a gluing reading of 'sheaf' (OQ-18, OPEN) every causality is absolutely minimal, the jump line is not one of ETT's spacetimes, and locally_causally_open ⇒ causally_open would hold. Reading taken: the library's, as for deuxPushup (OQ-39). The answer decides whether the [[fails]] entries below say anything about the paper; push_up ⇏ causally_open_future alone holds in both readings (the rational line is absolutely minimal)."
+   ]
+  },
+  {
+   "label": "T-abs-pushup-not-open/push-up",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-not-open: on ℝ, the causality with ≪ empty and ≤_U the diagonal plus 0 ≤ 1 in every open U containing 0 and 1 has push-up and is two-sided locally causally open, while J⁺((−1, 1)) = (−1, 1] is not open: not causally open in the future, hence not causally open, and (by the ladder) not absolutely minimal",
+     "text_lines": "programme/roadmap.toml:586-598"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.jumpLine_pushUp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "push-up (defi:pushup)",
+     "here": "carried",
+     "note": "vacuously, through Causality.pushUp_iff: ≪ is empty"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-pushup-not-open/locally-causally-open",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-not-open: on ℝ, the causality with ≪ empty and ≤_U the diagonal plus 0 ≤ 1 in every open U containing 0 and 1 has push-up and is two-sided locally causally open, while J⁺((−1, 1)) = (−1, 1] is not open: not causally open in the future, hence not causally open, and (by the ladder) not absolutely minimal",
+     "text_lines": "programme/roadmap.toml:586-598"
+    },
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "evidence (the keeper at T-lad-local-nodes): also prove the line two-sided locally causally open — any open around 0 or 1 that misses the other point has the diagonal order",
+     "text_lines": "programme/roadmap.toml:596"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.jumpLine_causallyOpenFutureOn_of_not",
+    "Causal.jumpLine_locallyCausallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "two-sided local causal openness",
+     "here": "carried",
+     "note": "the ladder node Causal.Causality.LocallyCausallyOpen (kb/0053), via locallyCausallyOpen_iff: {1}ᶜ around every point but 1, {0}ᶜ around 1; in an open set missing 0 or 1, J⁺_U(V) = J⁻_U(V) = V for V ⊆ U. The neighbourhoods are open, so ETT.tex:698's 'neighbourhood' is satisfied in either reading (open or not)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-pushup-not-open/not-open",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-not-open: on ℝ, the causality with ≪ empty and ≤_U the diagonal plus 0 ≤ 1 in every open U containing 0 and 1 has push-up and is two-sided locally causally open, while J⁺((−1, 1)) = (−1, 1] is not open: not causally open in the future, hence not causally open, and (by the ladder) not absolutely minimal",
+     "text_lines": "programme/roadmap.toml:586-598"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:causally_open_spacetime_open: for every open subset U of M and every open subset V ⊂ U the set J⁺_U(V) is open",
+     "text_lines": "ETT.tex:694-697"
+    }
+   ],
+   "tex_lines": [
+    694,
+    697
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.jumpLine_Jplus_Ioo",
+    "Causal.jumpLine_not_isOpen_Jplus_Ioo",
+    "Causal.jumpLine_not_causallyOpenFuture",
+    "Causal.jumpLine_not_causallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "J⁺((−1, 1)) = (−1, 1], not open",
+     "here": "carried",
+     "note": "J⁺ taken in U = ℝ (⊤): jumpLine_Jplus_Ioo is the equality, jumpLine_not_isOpen_Jplus_Ioo the non-openness; CausallyOpenFuture is the definition as printed, CausallyOpen the DEC-8 two-sided one"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-pushup-not-open/not-absolutely-minimal",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-not-open: on ℝ, the causality with ≪ empty and ≤_U the diagonal plus 0 ≤ 1 in every open U containing 0 and 1 has push-up and is two-sided locally causally open, while J⁺((−1, 1)) = (−1, 1] is not open: not causally open in the future, hence not causally open, and (by the ladder) not absolutely minimal",
+     "text_lines": "programme/roadmap.toml:586-598"
+    },
+    {
+     "paper": "dispatch (/ett-programme, 2026-11-21)",
+     "statement": "One conjoined separating theorem for the keeper. … what this target adds is the local causal openness: locally_causally_open ⇏ causally_open_future, showing absolute minimality cannot be dropped from prop:topological_spacetime_absolutely_minimal, ETT.tex:698; prove [not absolutely minimal] directly too if cheap",
+     "text_lines": "dispatch"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.jumpLine_not_absolutelyMinimal",
+    "Causal.jumpLine_not_absolutelyMinimalOn_top"
+   ],
+   "hypotheses": [
+    {
+     "paper": "not absolutely minimal, by the ladder",
+     "here": "carried",
+     "note": "jumpLine_not_absolutelyMinimal: causal_ladder derives CausallyOpenFuture from AbsolutelyMinimal and LocallyCausallyOpen (rule AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture after LocallyCausallyOpen.future)"
+    },
+    {
+     "paper": "directly, if cheap",
+     "here": "carried",
+     "note": "jumpLine_not_absolutelyMinimalOn_top: in the cover {{1}ᶜ, {0}ᶜ} every localised relation ≤_{⊤ ⊓ O} is an equality, so 0 ≤_ℝ 1 is no TransGen chain of them; AbsolutelyMinimal ↔ AbsolutelyMinimalOn ⊤ is Precausality.absolutelyMinimal_iff"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-pushup-not-open/separation",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-not-open: on ℝ, the causality with ≪ empty and ≤_U the diagonal plus 0 ≤ 1 in every open U containing 0 and 1 has push-up and is two-sided locally causally open, while J⁺((−1, 1)) = (−1, 1] is not open: not causally open in the future, hence not causally open, and (by the ladder) not absolutely minimal",
+     "text_lines": "programme/roadmap.toml:586-598"
+    },
+    {
+     "paper": "dispatch (/ett-programme, 2026-11-21)",
+     "statement": "One conjoined separating theorem for the keeper. … what this target adds is the local causal openness: locally_causally_open ⇏ causally_open_future, showing absolute minimality cannot be dropped from prop:topological_spacetime_absolutely_minimal, ETT.tex:698; prove [not absolutely minimal] directly too if cheap",
+     "text_lines": "dispatch"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "prop:topological_spacetime_absolutely_minimal: If M is absolutely minimal and if for every p ∈ M there exists a neighbourhood U of p whose causality is open, then the causality of M is open.",
+     "text_lines": "ETT.tex:698-702"
+    },
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "[[open]] push_up → causally_open_future and push_up → causally_open: 'Without, false, argued, not in Lean (T-abs-pushup-not-open)'",
+     "text_lines": "programme/ladder.toml:1120-1128"
+    }
+   ],
+   "tex_lines": [
+    698,
+    702
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.jumpLine_separates_causallyOpenFuture",
+    "Causal.not_causallyOpenFuture_of_pushUp_of_locallyCausallyOpen_bare",
+    "Causal.not_causallyOpenFuture_of_locallyCausallyOpenFuture_bare",
+    "Causal.not_causallyOpen_of_locallyCausallyOpen_bare"
+   ],
+   "hypotheses": [
+    {
+     "paper": "prop:topological_spacetime_absolutely_minimal: M absolutely minimal",
+     "here": "shown necessary (library's reading)",
+     "note": "dropping it, the proposition is false as printed (not_causallyOpenFuture_of_locallyCausallyOpenFuture_bare) and in the DEC-8 reading (not_causallyOpen_of_locallyCausallyOpen_bare), on ℝ, even with push-up added (not_causallyOpenFuture_of_pushUp_of_locallyCausallyOpen_bare). Not a defect of the paper: it carries the hypothesis"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Reading of defi:causalite (ETT.tex:237) for this witness: the jump line is a causality in the library's reading (the 'equivalently' form, no gluing axiom, kb/0014) and is not absolutely minimal, necessarily so (by prop:topological_spacetime_absolutely_minimal every witness of locally_causally_open ⇏ causally_open_future fails absolute minimality). Under a gluing reading of 'sheaf' (OQ-18, OPEN) every causality is absolutely minimal, the jump line is not one of ETT's spacetimes, and locally_causally_open ⇒ causally_open would hold. Reading taken: the library's, as for deuxPushup (OQ-39). The answer decides whether the [[fails]] entries below say anything about the paper; push_up ⇏ causally_open_future alone holds in both readings (the rational line is absolutely minimal)."
+   ]
+  },
+  {
+   "label": "T-abs-pushup-not-open/beyond",
+   "source": [
+    {
+     "paper": "lean-causal",
+     "statement": "beyond the target: further cheap properties of the jump line, so that one witness carries as many ladder nodes as it has (positive: is_causal, globally_hyperbolic, strongly_causal_open, time_function; negative: chronal_neighbours, tarentin, causally_plain, causally_arc_connected)",
+     "text_lines": "scaffold/CausalScaffold/PushUpNotOpen.lean:251-324"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.jumpLine_isCausal",
+    "Causal.jumpLine_diamond_subset",
+    "Causal.jumpLine_globallyHyperbolic",
+    "Causal.jumpLine_causallyConvexIn",
+    "Causal.jumpLine_stronglyCausalOpen",
+    "Causal.jumpLine_hasTimeFunction",
+    "Causal.jumpLine_not_chronalNeighbours",
+    "Causal.jumpLine_not_tarentin",
+    "Causal.jumpLine_not_causallyPlain",
+    "Causal.jumpLine_not_causallyArcConnected"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(none: beyond the target)",
+     "here": "—",
+     "note": "every diamond lies in its two vertices (jumpLine_diamond_subset), so diamonds are finite (compact: GH), every subset is causally convex (strongly causal, open form), and no diamond has interior (not tarentin, via Set.Ioo_infinite); T = id is a time function (0 < 1); Int J⁺(ℝ) = ℝ ⊄ closure I⁺(ℝ) = ∅ (not plain); not causally arc-connected through cor:causalement_connexe_minimal"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "for_keeper": {
+  "fails": [
+   {
+    "from": [
+     "push_up",
+     "locally_causally_open",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "time_function"
+    ],
+    "to": "causally_open_future",
+    "witness": "Causal.jumpLine_separates_causallyOpenFuture",
+    "status": "checked",
+    "priority": "target",
+    "note": "settles the [[open]] push_up → causally_open_future and push_up → causally_open (programme/ladder.toml:1120-1128; remove both), the second through causally_open ⇒ causally_open_future; adds locally_causally_open(_future) ⇏ causally_open(_future): absolute minimality cannot be dropped from prop:topological_spacetime_absolutely_minimal (ETT.tex:698). Space ℝ: ambient (T2, second countable), no `space` field. Holds in the library's reading of defi:causalite only (no gluing; the witness is necessarily not absolutely minimal), as deuxPushup's entries (OQ-39, OQ-18): say so in the comment above the entry. Bare forms: Causal.not_causallyOpenFuture_of_pushUp_of_locallyCausallyOpen_bare, Causal.not_causallyOpenFuture_of_locallyCausallyOpenFuture_bare, Causal.not_causallyOpen_of_locallyCausallyOpen_bare"
+   },
+   {
+    "from": [
+     "push_up",
+     "locally_causally_open",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "time_function"
+    ],
+    "to": "absolutely_minimal",
+    "witness": "Causal.jumpLine_separates_causallyOpenFuture",
+    "status": "checked",
+    "priority": "target",
+    "note": "the target's 'not absolutely minimal'; through causally_arc_connected ⇒ absolutely_minimal also refutes → causally_arc_connected. A [[fails]] … ⇏ absolutely_minimal is false under the gluing reading (every causality absolutely minimal), so this entry too holds in the library's reading only. Direct proof: Causal.jumpLine_not_absolutelyMinimalOn_top"
+   },
+   {
+    "from": [
+     "push_up",
+     "locally_causally_open",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "time_function"
+    ],
+    "to": "chronal_neighbours",
+    "witness": "Causal.jumpLine_separates_causallyOpenFuture",
+    "status": "checked",
+    "priority": "optional",
+    "note": "beyond the target. Adds 8 pairs (curves_extend, strongly_causal, strongly_causal_open, time_function ⇏ chronal_neighbours, causally_plain, with entry 5). The spacelike line would give them robustly (absolutely minimal, so in both readings) if a conjoined witness with ¬ ChronalNeighbours, ¬ CausallyPlain (Causal.spacelikeLine_not_causallyPlain exists) were stated; the keeper may prefer to wait for that"
+   },
+   {
+    "from": [
+     "push_up",
+     "locally_causally_open",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "time_function"
+    ],
+    "to": "tarentin",
+    "witness": "Causal.jumpLine_separates_causallyOpenFuture",
+    "status": "checked",
+    "priority": "dominated",
+    "note": "beyond the target, and dominated: Causal.spacelikeLine_separates_tarentin_full (Causal/NestedTransfer.lean:246: GH, strongly causal open, push-up, causally open, absolutely minimal, time function, not tarentin) gives every pair this entry gives, robustly; record that one instead, if not yet recorded"
+   },
+   {
+    "from": [
+     "push_up",
+     "locally_causally_open",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "time_function"
+    ],
+    "to": "causally_plain",
+    "witness": "Causal.jumpLine_separates_causallyOpenFuture",
+    "status": "checked",
+    "priority": "optional",
+    "note": "beyond the target; see the chronal_neighbours entry"
+   }
+  ],
+  "open_settled": [
+   {
+    "from": "push_up",
+    "to": "causally_open_future",
+    "lines": "programme/ladder.toml:1120-1123"
+   },
+   {
+    "from": "push_up",
+    "to": "causally_open",
+    "lines": "programme/ladder.toml:1125-1128"
+   }
+  ],
+  "simulation": "On /tmp copies of programme/ladder.toml (2026-11-21): with the five entries added and the two [[open]] entries removed, `tools/ladder.py check --file` reports no contradiction (its 5 violations are 'witness not found', the scaffold being outside the index until graduation) and `matrix` classifies 55 more ordered pairs (11 ⇏ causally_open_future, 11 ⇏ causally_open, 7 ⇏ absolutely_minimal, 7 ⇏ causally_arc_connected, 11 ⇏ tarentin, 4 ⇏ chronal_neighbours, 4 ⇏ causally_plain). Over a ladder that also carries the pending rational-line entries of T-abs-nested-converse and Causal.spacelikeLine_separates_tarentin_full: entries 1-2 add 28 pairs (causally_compact, curves_extend, globally_hyperbolic, locally_causally_open, locally_causally_open_future, strongly_causal, strongly_causal_open, time_function ⇏ causally_open(_future); locally_causally_open(_future), locally_push_up, push_up, strongly_causal(_open), time_function ⇏ absolutely_minimal; and ⇏ causally_arc_connected where unknown), entries 3 and 5 add 8, entry 4 adds none.",
+  "ladder_note": "the jump line also illustrates that the side condition chronal_neighbours of push_up ∧ chronal_neighbours ⇒ causally_open cannot be dropped (with push-up, no chronal neighbours, not causally open), where the lightlike line showed it is not necessary"
+ },
+ "extra_decls": [
+  "Causal.jumpLine_diamond_subset",
+  "Causal.jumpLine_causallyConvexIn",
+  "Causal.jumpLine_le_of_not",
+  "Causal.jumpLine_Jplus_of_not",
+  "Causal.jumpLine_Jminus_of_not",
+  "Causal.jumpLine_causallyOpenFutureOn_of_not"
+ ],
+ "kb_proposals": [
+  "The jump line (Causal.jumpLine, CausalScaffold.PushUpNotOpen): ≪ empty, ≤_U the diagonal plus 0 ≤_U 1 when 0, 1 ∈ U. Push-up, two-sided locally causally open, GH, strongly causal (open form), time function; not causally open in the future (J⁺((−1,1)) = (−1,1]), not absolutely minimal, not tarentin, not plain. The cheap witness of locally_causally_open ⇏ causally_open_future, necessarily non-absolutely-minimal (prop:topological_spacetime_absolutely_minimal), so it lives in the gluing-free reading only (kb/0014, OQ-18). A link added to the diagonal only in opens containing both ends is a causality (le_mono holds) and is never local."
+ ],
+ "notes": "Layer-1 rule: imports Causal.LadderLocal, Causal.CurvesExtend, Causal.Ladder.Rules (all ETT layer). Checked on a /tmp copy with a run_cmd over the environment's module names: no module under Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat, Causal.Model, Causal.Port, Causal.CBG, Causal.LemmaK or Causal.Splitting in the closure. No new mathlib module beyond what those import. No metric notion in any statement (ℝ's order and topology only; mem_nhds_iff_exists_Ioo_subset in two proofs). `lake env lean` and `-DwarningAsError=true` clean (graduation-ready); `lake build CausalScaffold.PushUpNotOpen` rebuilt only this module (1.0 s); #print axioms on jumpLine_separates_causallyOpenFuture, the three _bare theorems, jumpLine_not_absolutelyMinimalOn_top, jumpLine_Jplus_Ioo: propext, Classical.choice, Quot.sound. The scaffold root scaffold/CausalScaffold.lean does not import the module (kb/0025: invisible to the axiom sweep until the master adds it or graduates the file; not edited, outside the dispatch). Names: none of this file's names existed in lean-causal at dispatch time, nor in the two parallel closers' files (ChronalNeighbourBridge.lean, GateLineLocal.lean; checked by grep at the end). Label /beyond goes beyond the target and may be graduated or dropped independently; of its for_keeper entries, 4 (tarentin) is dominated by the existing Causal.spacelikeLine_separates_tarentin_full. No finding against the paper: ETT.tex:698 carries absolute minimality, and this target shows the hypothesis is needed in the library's reading; whether the witness counts at all is OQ-18 (question under labels /line and /separation)."
+}
