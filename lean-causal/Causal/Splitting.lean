@@ -1,4 +1,5 @@
 import Causal.CauchyDiamond
+import Causal.CauchyDual
 import Causal.Flat.IsomCausal
 import Mathlib.Dynamics.Flow
 import Mathlib.Geometry.Manifold.PartitionOfUnity
@@ -88,6 +89,9 @@ flow, causal over `ℝ`, are inextensible), `Flat.FlowField.chronalCurveOn_of_ch
   what the model supplies at BTZ points (on the lightlike line the sides are open).
 * `Causal.CompactCauchy` is not imported:
   `isLocallyCauchyTwoSided_of_threads` concludes the unfolded body of `IsLocallyCauchyTwoSided`.
+* Time reversal of Cauchy surfaces of an open set (`IsCauchySurfaceOn.of_dual`,
+  `dual_isCauchySurfaceOn`, model-free) lives in `Causal.CauchyDual`, imported: moved there
+  verbatim, same full names, by T-abs-hoist-time-function, so that the ETT layer can use it.
 * **Target 4's ODE input is proved here, not in mathlib**: `exists_complete_rescaling_continuous`
   (for a smooth field on a σ-compact Hausdorff manifold, a positive smooth `f` with `f • v`
   complete and its global integral curves continuous in `(t, x)`); mathlib at this pin has neither
@@ -485,24 +489,6 @@ theorem HasChronalThreadIn.dual {U : Opens M} {p : M} (h : C.HasChronalThreadIn 
   obtain ⟨I, c, t₀, hc, ht₀, hcp, h1, h2⟩ := h
   refine ⟨-I, fun t => c (-t), -t₀, hc.dual_reverse, by simpa using ht₀, by simpa using hcp,
     fun t ht htt => h2 (-t) ht (by linarith), fun t ht htt => h1 (-t) ht (by linarith)⟩
-
-omit [TopologicalSpace M] in
-private theorem image_neg_reverse (c : ℝ → M) (I : Set ℝ) : (fun t => c (-t)) '' (-I) = c '' I := by
-  ext y
-  constructor
-  · rintro ⟨t, ht, rfl⟩; exact ⟨-t, ht, rfl⟩
-  · rintro ⟨t, ht, rfl⟩; exact ⟨-t, by simpa using ht, by simp⟩
-
-theorem IsCauchySurfaceOn.of_dual {W : Opens M} (h : C.dual.IsCauchySurfaceOn W S) :
-    C.IsCauchySurfaceOn W S := by
-  intro I c hc
-  have := h _ _ hc.dual_reverse
-  rwa [image_neg_reverse] at this
-
-/-- Time reversal preserves Cauchy surfaces of an open set. -/
-theorem dual_isCauchySurfaceOn {W : Opens M} :
-    C.dual.IsCauchySurfaceOn W S ↔ C.IsCauchySurfaceOn W S :=
-  ⟨IsCauchySurfaceOn.of_dual, fun h => IsCauchySurfaceOn.of_dual (C := C.dual) h⟩
 
 /-- **Chronology from the hypotheses of `theo:geroch`**: in a causally arc-connected causal T1
 spacetime, a point with `J⁻(x) ≠ {x}` is not chronologically related to itself in any open set

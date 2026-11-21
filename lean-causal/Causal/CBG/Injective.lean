@@ -1,5 +1,6 @@
 import Causal.CurvesExtend
-import Causal.Splitting
+import Causal.CauchyDiamond
+import Causal.CauchyDual
 
 /-!
 # A morphism injective on a Cauchy surface is injective (CBG, design §3 step 2)
@@ -41,12 +42,13 @@ in full, with no `sorry` and no rigidity:
   (`exists_chart_of_isEMorphismOn`); time reversal of abstract morphisms (`isEMorphismOn_dual`);
   a lift of a causal curve is a causal curve (`causalCurveOn_of_lift`); `φ⁻¹(φ Σ) ∩ U ⊆ Σ`
   (`mem_of_map_mem_image`).
-* **Witnesses** (kb/0011): `minkowski_injective_hypotheses` (every hypothesis of the principal
-  theorem on `𝐌^{1,d}`, the identity, `{t = 0}`), `minkowski_sbierski_lemma_3_3`;
-  `timelikeLine_injective_of_globallyHyperbolic` (every hypothesis of the globally hyperbolic
-  form on the timelike line `𝐌^{1,0}`, with the Gaussian measure; on `𝐌^{1,d}` the admissible
-  measure `minkowski_mesure_dieckmann` is sorry-free since 2026-11-20 (`Causal.MinkowskiMeasure`),
-  but that witness is not added here).
+* **Witnesses** (kb/0011): `timelikeLine_injective_of_globallyHyperbolic` (every hypothesis of
+  the globally hyperbolic form on the timelike line `𝐌^{1,0}`, with the Gaussian measure; on
+  `𝐌^{1,d}` the admissible measure `minkowski_mesure_dieckmann` is sorry-free since 2026-11-20
+  (`Causal.MinkowskiMeasure`), but that witness is not added here). The Minkowski witnesses
+  `minkowski_injective_hypotheses` (every hypothesis of the principal theorem on `𝐌^{1,d}`, the
+  identity, `{t = 0}`) and `minkowski_sbierski_lemma_3_3` are in the model module
+  `Causal.Model.InjectiveMinkowski`, same full names.
 
 ## The proof: lifts of curves for geodesics
 
@@ -84,6 +86,12 @@ maximal lift, inextensible because it has no limit — completed here by `κ`.
 * Rigidity is not used and not needed: Sbierski uses uniqueness of geodesics only as uniqueness
   of lifts, which a Hausdorff source gives for any local homeomorphism.
 * No axiom; `#print axioms injOn_of_injOn_cauchy`: `propext`, `Classical.choice`, `Quot.sound`.
+* **ETT layer** (T-abs-hoist-time-function, 2026-11-21): this module imports no model. Its
+  Minkowski witnesses moved verbatim to `Causal.Model.InjectiveMinkowski`, and its import of
+  `Causal.Splitting` (which reaches `Causal.Flat.IsomCausal`) is replaced by `Causal.CauchyDual`
+  (`dual_isCauchySurfaceOn`, hoisted there) and `Causal.CauchyDiamond`
+  (`timelikeLine_isAcausal_zero`). The hypothesis `hTc`, `hT` of the principal theorem is the body
+  of the ladder node `Causality.HasTimeFunction` (`Causal.CurvesExtend`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -619,28 +627,7 @@ theorem injective_of_globallyHyperbolic [T2Space M] [FirstCountableTopology M] [
   obtain ⟨τ, hτ, hτs⟩ := Causality.geroch_i_imp_ii hμp hμm hTar hC hJm hJp hG
   exact injective_of_injOn_cauchy hφ hτ.1.continuous hτs hS hinj hac hD
 
-/-! ### Witnesses on Minkowski space -/
-
-/-- **The hypotheses of the principal theorem are jointly satisfiable on Minkowski space**
-`𝐌^{1,d}` (kb/0011): the identity, the time coordinate, the slice `{t = 0}`. -/
-theorem minkowski_injective_hypotheses (d : ℕ) :
-    IsEMorphism (minkowski d) (minkowski d) id ∧ Continuous (fun p : Minkowski d => p.1) ∧
-      (∀ x y : Minkowski d, (minkowski d).le ⊤ x y → x ≠ y → x.1 < y.1) ∧
-      (minkowski d).IsCauchySurface (minkowskiSlice d 0) ∧ InjOn id (minkowskiSlice d 0) ∧
-      (minkowski d).IsAcausal (id '' minkowskiSlice d 0) ∧ (minkowski d).IsCausal := by
-  refine ⟨IsEMorphism.id, continuous_fst, minkowski_time_strict.2,
-    minkowski_isCauchySurface_slice 0, injOn_id _, ?_, minkowski_isCausal⟩
-  rw [image_id]
-  exact minkowski_isAcausal_of_isCauchySurface (minkowski_isCauchySurface_slice 0)
-
-/-- **Sbierski's form is non-vacuous**: the identity of Minkowski space is a Cauchy embedding by
-`sbierski_lemma_3_3`, every hypothesis discharged. -/
-theorem minkowski_sbierski_lemma_3_3 (d : ℕ) :
-    IsCauchyEmbedding (minkowski d) (minkowski d) id := by
-  have hS := minkowski_isCauchySurface_slice (d := d) 0
-  exact sbierski_lemma_3_3 minkowski_globallyHyperbolic minkowski_globallyHyperbolic
-    IsEMorphism.id continuous_fst minkowski_time_strict.2 hS (by rw [image_id]; exact hS)
-    (injOn_id _) minkowski_causallyArcConnected (minkowski_curvesExtend d)
+/-! ### Witness on the timelike line -/
 
 /-- **The globally hyperbolic form is non-vacuous** (kb/0011): on the timelike line `𝐌^{1,0}`
 with the standard Gaussian measure (`timelikeLine_admissible_past_and_future`), every hypothesis

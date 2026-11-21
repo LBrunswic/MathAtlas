@@ -1,6 +1,7 @@
 import Causal.CompactCauchy
 import Causal.Splitting
 import Causal.CurvesExtend
+import Causal.Model.CurvesExtendModels
 import Causal.Model.Massive
 
 /-!

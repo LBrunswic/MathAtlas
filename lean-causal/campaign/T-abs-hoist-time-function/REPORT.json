@@ -1,0 +1,278 @@
+{
+ "target": "T-abs-hoist-time-function",
+ "package": "T-abs-hoist-time-function",
+ "files": [
+  "Causal/CauchyDual.lean",
+  "Causal/Model/CurvesExtendModels.lean",
+  "Causal/Model/InjectiveMinkowski.lean",
+  "Causal/CurvesExtend.lean",
+  "Causal/CBG/Pgcd.lean",
+  "Causal/CBG/Injective.lean",
+  "Causal/Splitting.lean",
+  "Causal/LemmaKBare.lean",
+  "Causal/Flat/Classification.lean",
+  "Causal/Model/EAlphaCauchy.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-hoist-time-function/curves-extend-models",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.staticCausality.fst_lt_of_le",
+    "Causal.staticCausality.curvesExtend",
+    "Causal.staticCausality.exists_inextensible_graph_of_causalCurveIn",
+    "Causal.staticCausality.isAcausal_of_isCauchySurface",
+    "Causal.minkowski_curvesExtend",
+    "Causal.minkowski_isAcausal_of_isCauchySurface"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The target's evidence counts the timelike-line witnesses (timelikeLine_curvesExtend_of_timeFunction, timelikeLine_curvesExtend_of_globallyHyperbolic) in CurvesExtend's model section. Reading taken: they are model-free (Causal.Lines, Causal.Geroch only), so they stay in Causal.CurvesExtend, under a new section header 'Witnesses on the timelike line'. Moving them is a two-theorem cut if you want them beside the static instances."
+   ],
+   "moved": "Causal.CurvesExtend HEAD :491-533 (the header '### Static spacetimes and Minkowski space', namespace staticCausality with its 4 theorems, minkowski_curvesExtend, minkowski_isAcausal_of_isCauchySurface) -> Causal.Model.CurvesExtendModels :59-101, byte-identical. The new module repeats CurvesExtend's prelude verbatim (namespace Causal; open Set TopologicalSpace Topology Filter Function MeasureTheory; universe u; variable {M : Type u} [TopologicalSpace M]). It imports Causal.CurvesExtend and Causal.Minkowski. Causal.CurvesExtend no longer imports Causal.Minkowski: that section was the only reason it did."
+  },
+  {
+   "label": "T-abs-hoist-time-function/has-time-function",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.HasTimeFunction"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Library, not paper: the docstring of Causality.HasTimeFunction in Causal/CBG/Pgcd.lean (HEAD :123-132) said it 'is weaker than the strict library's Causality.IsTimeFunction ... and than IsCauchyTimeFunction'. That is false. The notions are incomparable. An ETT time function (a strong morphism to timelikeLine) is only non-decreasing: the doubled line has one with no strictly increasing continuous function, since it is not causal (exists_isTimeFunction_not_isCausal, kb/0058). Conversely, HasTimeFunction asks neither openness nor ≤_U/≪_U preservation on every open. The moved docstring (Causal/CurvesExtend.lean:505-515) now says 'neither ... nor', and the def's code is unchanged."
+   ],
+   "questions": [
+    "Reading taken: the definition goes at the top level of namespace Causal in Causal.CurvesExtend (:516), after the section on Cauchy surfaces and under a new header '### The ladder node time_function', with its two code lines verbatim. Its own binders {M : Type*} [TopologicalSpace M] (C : Causality M) shadow the section variable M, which is therefore not included. Type, universe list [u_1], binder telescope and value hash are identical (dump). Pgcd also gains an explicit `import Causal.CurvesExtend`. That import is redundant, since Pgcd reaches it through Injective, but the dispatch asks that Pgcd import it."
+   ],
+   "moved": "Causal.CBG.Pgcd HEAD :133-134 (with its docstring :123-132) -> Causal.CurvesExtend :516-517 (docstring :505-515, rewritten: location, ladder node, the 'weaker' claim corrected). Every user resolves it unchanged: Causal.CBG.Pgcd, .Maximal, .NoCorresponding, Causal.Flat.CBG and Causal.Model.EAlphaCauchy all reach Causal.CurvesExtend (through Pgcd or directly)."
+  },
+  {
+   "label": "T-abs-hoist-time-function/injective-witnesses",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.CBG.minkowski_injective_hypotheses",
+    "Causal.CBG.minkowski_sbierski_lemma_3_3"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "moved": "Causal.CBG.Injective HEAD :622-643 (the header '### Witnesses on Minkowski space' and the two Minkowski witnesses) -> Causal.Model.InjectiveMinkowski :56-77, byte-identical. The prelude repeats Injective's own (open; universe u v; variable {M : Type u} {N : Type v} [TopologicalSpace M] [TopologicalSpace N]; namespace CBG). That module imports Causal.CBG.Injective, Causal.Splitting (minkowskiSlice, minkowski_isCauchySurface_slice) and Causal.Model.CurvesExtendModels. The model-free witness timelikeLine_injective_of_globallyHyperbolic stays in Injective (now :637), under a new header '### Witness on the timelike line'. Injective's `import Causal.Splitting` is replaced by `import Causal.CauchyDiamond` (timelikeLine_isAcausal_zero, which it had reached through Splitting) and `import Causal.CauchyDual` (dual_isCauchySurfaceOn). Injective now reaches no model: its compiled closure is 25 Causal modules, none of them Minkowski, Static, SingularFlat, Flat.*, Model.* or Port.*. The Sbierski binder's Causal.CBG.minkowski_sbierski_lemma_3_3, Causal.CBG.injOn_of_injOn_cauchy and Causal.CBG.sbierski_lemma_3_3 resolve (binder.py check)."
+  },
+  {
+   "label": "T-abs-hoist-time-function/dual-isCauchySurfaceOn",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.dual_isCauchySurfaceOn",
+    "Causal.Causality.IsCauchySurfaceOn.of_dual"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Reading taken: dual_isCauchySurfaceOn is hoisted into a new small ETT-layer module Causal.CauchyDual, which imports Causal.Cauchy only. It is not put in Causal.CurvesExtend, whose subject it is not. Its proof needs IsCauchySurfaceOn.of_dual and the private helper image_neg_reverse, so all three move together (Splitting HEAD :489-505 -> CauchyDual :59-75, byte-identical). Moving of_dual too goes slightly beyond 'only dual_isCauchySurfaceOn'. The alternative was to re-prove the lemma, which is not a verbatim hoist."
+   ],
+   "moved": "Causal.Splitting HEAD :489-505 -> Causal.CauchyDual :59-75, byte-identical. The new module uses `variable {C : Causality M} {S : Set M}` in place of Splitting's `variable (C : Causality M)` then `variable {C} {φ : Flow ℝ M} {S : Set M}`. φ is used by none of the three, so the binder telescopes are identical (dump). Splitting imports Causal.CauchyDual, so its two internal uses (:557, :605 now) and every external user resolve unchanged: LemmaKBare, LemmaKLocal, Flat.CBGCompact, Flat.Cla.RegularComplete, CBG.Injective, the scaffold's GerochCauchy, and lean-gx's AbsMax and Spear, which import LemmaKLocal. The private helper's internal name records its module, so it is the one constant whose name changed: _private.Causal.Splitting.0.Causal.Causality.image_neg_reverse -> _private.Causal.CauchyDual.0.Causal.Causality.image_neg_reverse (same type hash, universe list and telescope). Because of that, IsCauchySurfaceOn.of_dual's proof-term hash differs. A probe that substitutes the old private name back into the new term gives exactly the old hash (2666406596)."
+  },
+  {
+   "label": "T-abs-hoist-time-function/wrappers",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.HasTimeFunction.curvesExtend",
+    "Causal.Causality.HasTimeFunction.isCausal"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Reading taken: HasTimeFunction.isCausal is proved directly in Causal.CurvesExtend (:536, four lines, the argument of isCausal_of_timeFunction). The alternatives were importing Causal.CausalIsoInvariance into Causal.CurvesExtend, which would add CausalIsoInvariance and GXStructure to the closure of every downstream module (about 100), or a new module holding one wrapper. The dispatch allows 'proved directly where it fits the layering'. Its docstring names Causality.isCausal_of_exists_timeFunction as the same statement."
+   ],
+   "new": "Causal/CurvesExtend.lean:526 `theorem Causality.HasTimeFunction.curvesExtend {C : Causality M} (h : C.HasTimeFunction) : C.CurvesExtend` (obtain, then curvesExtend_of_timeFunction). :536 `theorem Causality.HasTimeFunction.isCausal {C : Causality M} (h : C.HasTimeFunction) : C.IsCausal` (obtain; x ≤ y ≤ x, x ≠ y gives T x < T y < T x). Both have docstrings, use the standard three axioms only and live in the ETT layer. A first version of curvesExtend written with a term-mode `let ⟨_, hTc, hT⟩ := h` created an auxiliary matcher `HasTimeFunction.curvesExtend.match_1_1`. It was rewritten in tactic mode, so these two are the only new public constants. Ladder probe, in /tmp only, with neither ladder.toml nor Rules.lean touched: the dry-run `emit-lean` output combined with Test emits time_function ⇒ curves_extend now that CurvesExtend is ETT-layer, and adds two Test examples `(_h0 : HasTimeFunction C) : CurvesExtend C / IsCausal C := by causal_ladder`. With the current witnesses (curvesExtend_of_timeFunction, isCausal_of_exists_timeFunction) both examples FAIL (aesop does not unfold HasTimeFunction). With the witnesses switched to these two wrappers the whole generated Rules+Test compiles, including the no-model guard and the 32 new `fail_if_success` checks."
+  }
+ ],
+ "extra_decls": [],
+ "new_modules": {
+  "Causal.CauchyDual": "79 lines, ETT layer; imports Causal.Cauchy only (compiled closure: 17 Causal modules, no model). Holds Causality.IsCauchySurfaceOn.of_dual, Causality.dual_isCauchySurfaceOn and the private image_neg_reverse, verbatim from Causal.Splitting. The docstring quotes def:cauchy_surface (ETT.tex:999-1000) and marks no label.",
+  "Causal.Model.CurvesExtendModels": "103 lines, model module; imports Causal.CurvesExtend and Causal.Minkowski. Holds the static/Minkowski section of Causal.CurvesExtend, verbatim (6 theorems). The docstring quotes GHFspace.tex:502-504 and marks no label.",
+  "Causal.Model.InjectiveMinkowski": "81 lines, model module; imports Causal.CBG.Injective, Causal.Splitting and Causal.Model.CurvesExtendModels. Holds the two Minkowski witnesses of Causal.CBG.Injective, verbatim. The docstring quotes Sbierski Lemma 3.3 and marks no label. Nothing imports it yet: see notes (1)."
+ },
+ "edited": {
+  "Causal/CurvesExtend.lean": "Drops `import Causal.Minkowski`. Deletes the static/Minkowski section (moved). Inserts the section 'The ladder node time_function': HasTimeFunction (moved) and the two wrappers (new). Adds a header '### Witnesses on the timelike line' above the two timelike witnesses, which stay. Docstring: ETT-layer sentence in the opening paragraph; 'What is proved' gains the ladder-node bullet, and its Instances and Consequences bullets say where the static/Minkowski results live; the Barbot 𝐌ⁿ = minkowski d sentence and the checklist's static row move to the model module; new SCOPE bullet 'ETT layer'.",
+  "Causal/CBG/Pgcd.lean": "+ `import Causal.CurvesExtend`. HasTimeFunction and its docstring are deleted (moved). The SCOPE bullet 'Causality.HasTimeFunction stays defined here' now says where it lives.",
+  "Causal/CBG/Injective.lean": "`import Causal.Splitting` is replaced by `import Causal.CauchyDiamond` and `import Causal.CauchyDual`. The Minkowski witnesses are deleted (moved), and a header '### Witness on the timelike line' is added. Docstring: the Witnesses bullet says where the Minkowski witnesses are; new SCOPE bullet 'ETT layer'.",
+  "Causal/Splitting.lean": "+ `import Causal.CauchyDual`. Lines HEAD :489-506 (image_neg_reverse, IsCauchySurfaceOn.of_dual, dual_isCauchySurfaceOn) are deleted (moved). One SCOPE bullet says where they live. Nothing else changes.",
+  "Causal/LemmaKBare.lean": "+ `import Causal.Model.CurvesExtendModels` (uses staticCausality.curvesExtend at :643, inside namespace staticCausality).",
+  "Causal/Flat/Classification.lean": "+ `import Causal.Model.CurvesExtendModels` (uses minkowski_curvesExtend at :395).",
+  "Causal/Model/EAlphaCauchy.lean": "+ `import Causal.Model.CurvesExtendModels` (uses staticCausality.fst_lt_of_le at :175, :213 and staticCausality.curvesExtend at :550, :846)."
+ },
+ "not_edited": "Three modules the target lists needed no change. Causal/LemmaKSCLocal.lean imports Causal.Minkowski directly and names none of the moved declarations (its minkowski_curvesExtend_of_lemmaKSCLocal is its own theorem, through LevinUtility). The Causal/Port/* modules E0Strong, E0SingularFlat and E0ModelRows compiled unchanged: E0Strong imports CurvesExtend but names no moved declaration, and its curvesExtend is its own. Every other importer of Causal.CurvesExtend, Causal.CBG.Injective or Causal.Splitting also compiled unchanged after losing Causal.Minkowski or Causal.Splitting from its closure: LimitCurves, LevinUtility, CBG.CausalConvex, the Flat.Cla.* modules, Flat.CBGCompact, CBG.Pgcd and the modules downstream of them. Lake rebuilt them, and every proof term is the same (dump). Causal.lean is not edited (the master adds the imports). No scaffold file was touched. The scaffold built unchanged, its 6 permitted sorries the same.",
+ "left_behind": [
+  "Nothing listed by the target was left behind.",
+  "Kept in ETT-layer modules on purpose, because they are model-free: the timelike-line witnesses timelikeLine_curvesExtend_of_timeFunction and timelikeLine_curvesExtend_of_globallyHyperbolic (CurvesExtend :548, :554), and timelikeLine_injective_of_globallyHyperbolic (Injective :637).",
+  "Kept in Causal.Splitting, model-reaching: minkowskiSlice and minkowski_isCauchySurface_slice (Minkowski facts, used by the new model module) and everything else of Splitting.",
+  "Causal.CBG.Pgcd still reaches a model, through Causal.CBG.Geometry -> Causal.SingularFlat (T-abs-hoist-cbg-geometry, the author's ruling). Only the definition HasTimeFunction had to leave it."
+ ],
+ "layer": {
+  "definition": "As in the two previous hoists: a strict module is ETT-layer when neither it nor any module of its transitive import closure is Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.* or Causal.Port.*. This is computed from the import lines of every file under Causal/, root Causal.lean excluded, and is the same rule as tools/ladder.py's MODEL_LAYER. The compiled closures of Causal.CurvesExtend (22 Causal modules), Causal.CBG.Injective (25), Causal.CBG.CausalConvex (29) and Causal.CauchyDual (17) were re-checked by a probe: none contains a model module.",
+  "before": {
+   "count": "51 of 225",
+   "note": "HEAD 7985e8b, clean tree for lean-causal. This is cbg-cores' 51 of 224 plus /atlas-team's Causal.Port.E0ModelRows (a model module; E0Strong and E0SingularFlat were already counted at 224).",
+   "modules": [
+    "Causal.ArcConnected",
+    "Causal.CBG.FamilyGluing",
+    "Causal.CBG.SubExtensionAbstract",
+    "Causal.Cauchy",
+    "Causal.CauchyDiamond",
+    "Causal.CauchyExtension",
+    "Causal.CausalIsoInvariance",
+    "Causal.Causality",
+    "Causal.Chains",
+    "Causal.CompactCauchy",
+    "Causal.CompactMinimal",
+    "Causal.CorrespondingPoints",
+    "Causal.CorrespondingSpacelike",
+    "Causal.CurveComponents",
+    "Causal.Curves",
+    "Causal.DependenceDomain",
+    "Causal.DeuxPushup",
+    "Causal.ErsUniqueness",
+    "Causal.GXSingular",
+    "Causal.GXStructure",
+    "Causal.Galileo",
+    "Causal.Generated",
+    "Causal.Geroch",
+    "Causal.GlobalHyperbolicity",
+    "Causal.GluingHausdorff",
+    "Causal.Inextensible",
+    "Causal.Ladder.Basic",
+    "Causal.Ladder.Rules",
+    "Causal.Ladder.Test",
+    "Causal.LadderLocal",
+    "Causal.Lines",
+    "Causal.LinesCurves",
+    "Causal.LinesReachable",
+    "Causal.Local",
+    "Causal.LocateExtension",
+    "Causal.Measure",
+    "Causal.MeasureLocal",
+    "Causal.MeasureRemarks",
+    "Causal.MeasureSum",
+    "Causal.Minimal",
+    "Causal.Morphism",
+    "Causal.NestedCausalities",
+    "Causal.Properties",
+    "Causal.PushUp",
+    "Causal.Pushout",
+    "Causal.PushoutCausal",
+    "Causal.Reachable",
+    "Causal.StrongCausality",
+    "Causal.SubExtension",
+    "Causal.Subdivision",
+    "Causal.TransparentLine"
+   ]
+  },
+  "after": {
+   "count": "55 of 228",
+   "modules": [
+    "Causal.ArcConnected",
+    "Causal.CBG.CausalConvex",
+    "Causal.CBG.FamilyGluing",
+    "Causal.CBG.Injective",
+    "Causal.CBG.SubExtensionAbstract",
+    "Causal.Cauchy",
+    "Causal.CauchyDiamond",
+    "Causal.CauchyDual",
+    "Causal.CauchyExtension",
+    "Causal.CausalIsoInvariance",
+    "Causal.Causality",
+    "Causal.Chains",
+    "Causal.CompactCauchy",
+    "Causal.CompactMinimal",
+    "Causal.CorrespondingPoints",
+    "Causal.CorrespondingSpacelike",
+    "Causal.CurveComponents",
+    "Causal.Curves",
+    "Causal.CurvesExtend",
+    "Causal.DependenceDomain",
+    "Causal.DeuxPushup",
+    "Causal.ErsUniqueness",
+    "Causal.GXSingular",
+    "Causal.GXStructure",
+    "Causal.Galileo",
+    "Causal.Generated",
+    "Causal.Geroch",
+    "Causal.GlobalHyperbolicity",
+    "Causal.GluingHausdorff",
+    "Causal.Inextensible",
+    "Causal.Ladder.Basic",
+    "Causal.Ladder.Rules",
+    "Causal.Ladder.Test",
+    "Causal.LadderLocal",
+    "Causal.Lines",
+    "Causal.LinesCurves",
+    "Causal.LinesReachable",
+    "Causal.Local",
+    "Causal.LocateExtension",
+    "Causal.Measure",
+    "Causal.MeasureLocal",
+    "Causal.MeasureRemarks",
+    "Causal.MeasureSum",
+    "Causal.Minimal",
+    "Causal.Morphism",
+    "Causal.NestedCausalities",
+    "Causal.Properties",
+    "Causal.PushUp",
+    "Causal.Pushout",
+    "Causal.PushoutCausal",
+    "Causal.Reachable",
+    "Causal.StrongCausality",
+    "Causal.SubExtension",
+    "Causal.Subdivision",
+    "Causal.TransparentLine"
+   ]
+  },
+  "added": [
+   "Causal.CBG.CausalConvex",
+   "Causal.CBG.Injective",
+   "Causal.CauchyDual",
+   "Causal.CurvesExtend"
+  ],
+  "lost": [],
+  "model_modules_added": [
+   "Causal.Model.CurvesExtendModels",
+   "Causal.Model.InjectiveMinkowski"
+  ]
+ },
+ "checks": {
+  "lake build": "`taskset -c 0-11 lake build Causal CausalScaffold Causal.CauchyDual Causal.Model.CurvesExtendModels Causal.Model.InjectiveMinkowski`: green, 3815 jobs, no warning in Causal. It was run four times while iterating; the last run, after the final docstring and header edits, rebuilt 60 modules. `lake build --no-build` of the same targets afterwards reports all up to date.",
+  "lake env lean -DwarningAsError=true": "clean on the three new modules and on Causal/CurvesExtend.lean and Causal/CBG/Injective.lean.",
+  "scripts/sorry_count.py": "strict 0 in 228 files; scaffold 6 in 6 files (unchanged).",
+  "scripts/AxiomSweep.lean": "strict: 13515 declarations in 228 modules; scaffold: 83 in 7; all within propext/Classical.choice/Quot.sound except the 17 scaffold declarations resting on a sorry (unchanged). The sweep cannot see Causal.Model.InjectiveMinkowski, which nothing imports yet (kb/0025). A probe ran collectAxioms on every constant of InjectiveMinkowski (2), CurvesExtendModels (6), CauchyDual (3), CurvesExtend (24) and CBG.Injective (22): standard three only.",
+  "declaration_diff": "Before any edit, `lake build --no-build Causal CausalScaffold` reported all 3812 jobs up to date and lean-causal was clean in git. Every constant of every Causal.* and CausalScaffold.* module was then dumped from that environment: name, module, kind, universe parameters, Expr.hash of the type, the binder telescope with macro scopes erased, Expr.hash of the value (defs, theorems and opaques), reducibility, protected, noncomputable. The dump file imports every module file explicitly, not only the roots. The same dump was taken after the final build, including the three new modules. Result: 13587 constants before, 13589 after. Disappeared: only _private.Causal.Splitting.0.Causal.Causality.image_neg_reverse. Added: Causal.Causality.HasTimeFunction.curvesExtend, Causal.Causality.HasTimeFunction.isCausal and _private.Causal.CauchyDual.0.Causal.Causality.image_neg_reverse (the renamed private helper, same type hash 3945522457, levels [u], telescope M{},c(),I()). Moved module: exactly 11, namely 6 CurvesExtend -> Model.CurvesExtendModels, 2 CBG.Injective -> Model.InjectiveMinkowski, 1 CBG.Pgcd -> CurvesExtend, 2 Splitting -> CauchyDual. Kind, universe parameters, type hash, binder telescope, reducibility, protection and computability differ for 0 of the 13587 surviving constants. The value hash differs for exactly one: IsCauchySurfaceOn.of_dual, whose term names the renamed private helper; substituting the old name back gives the old hash. Every other proof term is identical, including those of every rebuilt module whose import closure lost Causal.Minkowski or Causal.Splitting. The dump script and dumps are in /tmp/htf (ephemeral, outside the repository).",
+  "textual": "Each moved block was cut by line range from copies of the HEAD files and checked byte-identical in its new module: CurvesExtend HEAD :491-533 = CurvesExtendModels :59-101; Injective HEAD :622-643 = InjectiveMinkowski :56-77; Splitting HEAD :489-505 = CauchyDual :59-75. HasTimeFunction's two code lines are verbatim at CurvesExtend :516-517.",
+  "tools": "Run read-only; git status was identical before and after. tools/binder.py check: 2 binders, all links resolve. tools/ladder.py check: 23 properties, 21 implications, green. tools/ledger.py -c papers/<p>/ledger/ledger.toml check: ett 137/131, barbot 44/39, sbierski-mghd 19/0 and ers-predictability 32/0, all links resolve. No curation names a moved declaration. The ERS binder names Causal.minkowski_curvesExtend (:304, :320, :377) and the Sbierski binder names Causal.CBG.minkowski_sbierski_lemma_3_3 (:208); both resolve in their new modules.",
+  "lean_gx": "lean-gx pins Causal at ca2ad78f (lakefile.toml:27), so it is untouched now. After a bump it names none of the six moved model declarations or the two Injective witnesses. Its dual_isCauchySurfaceOn uses (GX/BTZ/AbsMax.lean:365, Spear.lean:1724) resolve through Causal.LemmaKLocal, which reaches CauchyDual. Its GX/BTZ/Causality.lean and LocalModel.lean import Causal.CurvesExtend, but also Causal.Minkowski/Static and Flat modules directly, so they lose nothing they use. GX/BTZ/CBG.lean:1790 has a docstring that cites HasTimeFunction as 'CBG/Pgcd'."
+ },
+ "kb_proposals": [
+  "The time-function layer is in the ETT layer (T-abs-hoist-time-function). Causality.HasTimeFunction (a continuous T strictly increasing along ≤_M, the ladder node time_function) lives in Causal.CurvesExtend, with HasTimeFunction.curvesExtend and HasTimeFunction.isCausal. Causal.CBG.Injective (Sbierski Lemma 3.3, injOn_of_injOn_cauchy) and Causal.CBG.CausalConvex are ETT-layer, and dual_isCauchySurfaceOn is in Causal.CauchyDual. The static/Minkowski instances are in the model modules Causal.Model.CurvesExtendModels (staticCausality.curvesExtend, minkowski_curvesExtend, ...) and Causal.Model.InjectiveMinkowski: a model user imports them by name.",
+  "HasTimeFunction and ETT's IsTimeFunction are incomparable, contrary to the old Pgcd docstring ('weaker'): IsTimeFunction is only non-decreasing (the doubled line, kb/0058), and HasTimeFunction asks no openness and no ≤_U preservation.",
+  "Hoisting a private declaration renames it: its internal name records the module (_private.<Module>.0.<name>). A dump shows it as removed plus added, and the value hash of every user changes. Check those by substituting the old name back into the term (kb/0063).",
+  "A term-mode `let ⟨…⟩ := h` in a theorem creates an auxiliary matcher constant (`<thm>.match_1_1`); `obtain` in tactic mode does not. Prefer tactic mode where the dispatch counts new declarations."
+ ],
+ "notes": "Strict-library refactor, exclusive. No statement changes; no public declaration disappears or is renamed; the only new public declarations are the two wrappers. For the master: (1) Add `import Causal.CauchyDual`, `import Causal.Model.CurvesExtendModels` and `import Causal.Model.InjectiveMinkowski` to Causal.lean (not done, as dispatched). InjectiveMinkowski is imported by nothing else, so the axiom sweep sees it only once the root imports it; it was checked by probe. (2) Ladder: when the keeper next runs `tools/ladder.py emit-lean`, it will emit the edge time_function ⇒ curves_extend (its witness module is now ETT-layer), add `import Causal.CurvesExtend` to Rules.lean and Test.lean, and add to Test two time_function examples (⇒ curves_extend, ⇒ is_causal) and 32 non-derivation checks (17 'X ⇏ time_function', 15 'time_function ⇏ Y'; Not derived 265 -> 297). With the current witnesses the two examples fail. Switch programme/ladder.toml's witnesses first: time_function ⇒ curves_extend (:464) to Causal.Causality.HasTimeFunction.curvesExtend, and time_function ⇒ is_causal (:486) to Causal.Causality.HasTimeFunction.isCausal. The dry run with that switch compiles (probe in /tmp; Rules.lean, Test.lean and ladder.toml untouched). (3) Docstrings now stale, outside my write set: Causal/LadderLocal.lean:101 and Causal/CausalIsoInvariance.lean:103 ('Not done: HasTimeFunction.isCausal ... defined in Causal.CBG.Pgcd'); Causal/CBG/Geometry.lean:73, :90-93, :308-311, :596 ('the body of Causality.HasTimeFunction, CBG/Pgcd') and :300, :313, :583 (CurvesExtend.lean:409, now :423), :585 (CurvesExtend.lean:447, now :461); Causal/CBG/Maximal.lean:1070; Causal/Ladder/Test.lean:33 (generated; regeneration fixes it); lean-gx GX/BTZ/CBG.lean:1790; programme/ladder.toml comments :455-460 and :467-482; programme/roadmap.toml evidence of this target and of the targets citing Pgcd:133 / CurvesExtend line numbers; lean-causal/README.md's module table (no rows for the three new modules; the CurvesExtend row still reads correctly); reports/atlas and reports/blueprint are generated and stale until regenerated. (4) Unblocked as the evidence says: Causal.CBG.CausalConvex is now ETT-layer (isCauchyInclusion_iSup, causallyConvexIn_of_isCauchySurfaceOn, gateLine and its witnesses, so T-lad-cbg-geometry-nodes' gateLine_hasTimeFunction may sit beside gateLine). So are Causal.CBG.Injective (injOn_of_injOn_cauchy, the ladder's consequence at time_function) and HasTimeFunction itself (T-abs-nested-transfer may state with it). Causal.CBG.Pgcd still reaches Causal.SingularFlat through Geometry (T-abs-hoist-cbg-geometry). (5) No git command was run. The working tree also shows programme/roadmap.toml, roadmap/roadmap.toml and other packages' files modified by others, not by this agent."
+}

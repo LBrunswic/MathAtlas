@@ -223,6 +223,9 @@ import Causal.Port.E0SingularFlat
 import Causal.Port.E0ModelRows
 import Causal.CorrespondingPoints
 import Causal.CorrespondingSpacelike
+import Causal.CauchyDual
+import Causal.Model.CurvesExtendModels
+import Causal.Model.InjectiveMinkowski
 
 /-!
 # Causal — topological spacetimes

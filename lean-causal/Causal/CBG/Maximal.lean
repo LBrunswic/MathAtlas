@@ -1067,7 +1067,7 @@ variable {𝔊 : Geometry.{u}} {M₀ : Type u} [TopologicalSpace M₀]
 
 /-- **The time-function field of interface round 2 (design §6), as a predicate on a geometry**:
 every admissible globally hyperbolic spacetime (T2, connected, second countable) carries a
-continuous function strictly increasing along `≤` (`Causality.HasTimeFunction`, `CBG/Pgcd`).
+continuous function strictly increasing along `≤` (`Causality.HasTimeFunction`, `Causal.CurvesExtend`).
 Every geometry satisfies it: the field `Geometry.timeFunction` is a proof,
 `𝔊.timeFunction : 𝔊.HasTimeFunctions` (definitional unfolding). Kept because `Flat/CBG` names
 it (`flatGeometryOf_hasTimeFunctions`, and the redundant hypothesis of `cbg_of_hasTimeFunctions`). Flat: `Flat/GerochFlat`; `E₀`:

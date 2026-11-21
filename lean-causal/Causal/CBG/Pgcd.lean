@@ -1,3 +1,4 @@
+import Causal.CurvesExtend
 import Causal.CBG.Geometry
 import Causal.CBG.CausalConvex
 import Causal.CBG.Injective
@@ -88,9 +89,10 @@ Def 2.4, Cor 3.2, Lemma 3.3, **Thm 3.4**.
   `mcghdMap_injOn` packages it for the MCGHD (what packages 6, 7, 10 consume). No
   hypothesis-taking variant is kept (none had a user outside this campaign's files). The union,
   its maximality, `mcghd_unique` and `mcghdDev` never used a time function.
-  `Causality.HasTimeFunction` stays defined here (Geometry cannot name it; the field spells its
-  body out). `curvesExtend` stays a separate field (`curvesExtend_of_timeFunction` would derive
-  it; not done here).
+  `Causality.HasTimeFunction` is defined in `Causal.CurvesExtend` (moved there from this module,
+  same full name, by T-abs-hoist-time-function; Geometry cannot name it, the field spells its
+  body out). `curvesExtend` stays a separate field (`curvesExtend_of_timeFunction`, or
+  `HasTimeFunction.curvesExtend`, would derive it; not done here).
 * `SubExtension.cauchy_pgcd` (causal `IsRigid`) is **untouched** and believed false (design §2,
   DEC-60), **not refuted here**: its rigidity is the wrong hypothesis (`timelikeLine_not_isRigid`,
   `not_exists_isUniversal_halfLineDev`, `causal_pgcd_not_unique` show what fails without it), and
@@ -120,18 +122,6 @@ namespace Causal
 open Set TopologicalSpace Topology Filter Function
 
 universe u
-
-/-- **A continuous time function strictly increasing along `≤`** (the hypothesis of
-`CBG.injOn_of_injOn_cauchy`, Sbierski Lemma 3.3 in the abstract setting): carried as a named
-hypothesis by `CBG/Injective`; over a `Geometry` it is produced by the field `timeFunction`
-(interface round 2, `Dev.causality_hasTimeFunction`), whose conclusion is this body verbatim. It
-is weaker
-than the strict library's `Causality.IsTimeFunction` (`Causal/Morphism.lean:832`, a strong morphism
-to `timelikeLine`) and than `IsCauchyTimeFunction` (`Causal/Cauchy.lean:83`), and must not be read
-as either: it is exactly the hypothesis form of `curvesExtend_of_timeFunction`
-(`Causal/CurvesExtend.lean:409`). -/
-def Causality.HasTimeFunction {M : Type*} [TopologicalSpace M] (C : Causality M) : Prop :=
-  ∃ T : M → ℝ, Continuous T ∧ ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y
 
 /-- The image of `⊤ : Opens ↥W` is `W`. -/
 theorem imageOpens_top {M : Type*} [TopologicalSpace M] (W : Opens M) :

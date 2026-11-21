@@ -100,9 +100,9 @@ group; 3.29's causality is `Causality.isCausal_of_timeFunction` for `x⁰` on `(
 * **Reuse.** Inextensibility is transported by `IsEMorphismOn.inextensible_iff_comp`
   (`Causal.CauchyExtension`) through `IsCausalIso.isEMorphism`. `IsEMorphism.isCauchySurface_image`
   is not used: it asks `N` causal and Hausdorff, which the transport does not need.
-* **Not done.** The named wrapper `Causality.HasTimeFunction.isCausal`: `HasTimeFunction` is defined
-  in `Causal.CBG.Pgcd`, which reaches a model; `isCausal_of_exists_timeFunction` takes its body
-  verbatim. `K^±` and `OneSidedBoundary` (pure topology) are not transported.
+* **Not done.** `K^±` and `OneSidedBoundary` (pure topology) are not transported. The named
+  wrapper `Causality.HasTimeFunction.isCausal` is in `Causal.CurvesExtend` (T-abs-hoist-time-function);
+  `isCausal_of_exists_timeFunction` here takes its body verbatim.
 * **`ChartIso`.** `IsCausalIso` is kept as the target's notion; it is `ChartIso` for a chart
   defined on all of `M` (`isCausalIso_iff_chartIso`), and `Causality.transport e` is
   `Causality.chartTransport` along `e⁻¹` (`chartTransport_toOpenPartialHomeomorph`). The transports

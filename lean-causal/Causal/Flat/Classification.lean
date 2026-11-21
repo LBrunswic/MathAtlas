@@ -3,6 +3,7 @@ import Causal.Flat.TitsNull
 import Causal.Flat.Loxodromic
 import Causal.CompactCauchy
 import Causal.CurvesExtend
+import Causal.Model.CurvesExtendModels
 import Causal.Flat.Cla.LTPConvex
 import Causal.Flat.Cla.FiniteCover
 import Causal.Flat.Cla.TameNested

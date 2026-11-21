@@ -70,7 +70,7 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 | `M₀` globally hyperbolic (`theo:CBG`, `ETT.tex:1885`; `theo:Cauchy_ext`, `these.tex:6288`) | ⚠ strengthened: `cbg` (stated and proved in `CBG/Maximal`) also assumes a Cauchy surface `S` (the library's `GloballyHyperbolic`, `Causal/Properties.lean:144`, is causal + compact diamonds and gives none; without one no `Dev` exists); recoverable at the singular flat instance via `theo:geroch_sing` (`ETT.tex:1771`, DEC-18), never for an abstract `Geometry` |
 | Sbierski Lemma 3.8 (extension at corresponding points, Def 3.5) | A3 `germExt_future`/`germExt_past`: `MapClusterPt q (𝓝[U] p) ψ` is Def 3.5 |
 | "maximal" | DEC-59: `Dev.IsUniversal` (Sbierski); `Dev.IsETTMaximal` the ETT form, equivalent given `cbg` (`CBG/Maximal`) |
-| Sbierski Lemma 3.3 (`ψ` injective; « time function » on each GHD) | ✓ round 2 (1): `Geometry.timeFunction` (A2), `LocalModel.timeFunction` (B3): every GH admissible spacetime has a continuous function strictly increasing along `≤` (the body of `Causality.HasTimeFunction`, `CBG/Pgcd`); discharges the `hT` of `Pgcd`, `NoCorresponding`, `Ppcm` and `Geometry.HasTimeFunctions` of `Maximal` |
+| Sbierski Lemma 3.3 (`ψ` injective; « time function » on each GHD) | ✓ round 2 (1): `Geometry.timeFunction` (A2), `LocalModel.timeFunction` (B3): every GH admissible spacetime has a continuous function strictly increasing along `≤` (the body of `Causality.HasTimeFunction`, `Causal.CurvesExtend`); discharges the `hT` of `Pgcd`, `NoCorresponding`, `Ppcm` and `Geometry.HasTimeFunctions` of `Maximal` |
 | `cor:model_corresponding` (`ETT.tex:2158`), type of corresponding points | ⚠ added, read on `Y` (round 4 (3), gx-agreed): `LocalModel.typeAgreement`, at non-BTZ `y₀`, for pieces containing a chronological diamond with tip `y₀` |
 | B4 slices (Sbierski (3.12), Lemma 3.11) | ⚠ replaced (round 4 (2), gx-agreed): cone-slice forms `coneSliceFuture` (off `sing₀`), `coneSlicePast` (everywhere); the level-set B4 is deleted |
 | model Hausdorff; singular loci closed | ✓ round 4 (1), (4): `[t2Y : T2Space Y]`, `isOpen_regY`; `dense_regY` (added by the round-4 author, accepted by gx 2026-11-02) |
@@ -88,7 +88,8 @@ Framework (DEC-60): Brunswic's thesis, **rigid morphisms of singular `(G,X)`-man
 * **Interface round 2 (design §6, gx 2026-11-01), applied.** (1) `Geometry.timeFunction` and its
   Level-B counterpart `LocalModel.timeFunction`: GH admissible (T2, connected, SC) ⇒ a continuous
   `T` strictly increasing along `≤`. Stated with the body of `Causality.HasTimeFunction` written
-  out, because that definition lives in `CBG/Pgcd`, downstream; the two are definitionally equal,
+  out, because that definition lived in `CBG/Pgcd`, downstream (it is in `Causal.CurvesExtend`, upstream,
+  since T-abs-hoist-time-function); the two are definitionally equal,
   so `𝔊.timeFunction s hGH` is a `(𝔊.causality s).HasTimeFunction` and
   `fun s hGH => 𝔊.timeFunction s hGH` a `𝔊.HasTimeFunctions` (`CBG/Maximal`) as they stand.
   (2) `LocalModel.localUnique_sing_adherent`, the past-side B2 step in gx's form. **Finding
@@ -297,7 +298,7 @@ structure Geometry extends PreGeometry.{u} where
     [SecondCountableTopology M] (s : Str M), (causality s).SingularFlatAxioms (sing s)
   /-- **A2**: `CurvesExtend`, on **globally hyperbolic** `M` only (gx review C3: the proof consumes
   it on developments, which are GH, and there `curvesExtend_of_timeFunction`,
-  `Causal/CurvesExtend.lean:409`, discharges it from a continuous time function strictly
+  `Causal/CurvesExtend.lean:423`, discharges it from a continuous time function strictly
   increasing along `≤`, e.g. the Geroch time of `SingularGeroch`, whose `K_monotone` input survives
   C1 by `SingularFlatAxioms.K_monotone`, DEC-64). §3.1 (re-routing around `exists_mem_image_inf`). -/
   curvesExtend : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
@@ -305,12 +306,12 @@ structure Geometry extends PreGeometry.{u} where
     (causality s).CurvesExtend
   /-- **A2, a time function on every globally hyperbolic admissible spacetime** (design §6,
   interface round 2 (1), ACCEPTED by gx 2026-11-01): a continuous `T : M → ℝ` strictly increasing
-  along `≤`. The conclusion is, verbatim, the body of `Causality.HasTimeFunction` (`CBG/Pgcd`,
+  along `≤`. The conclusion is, verbatim, the body of `Causality.HasTimeFunction` (`Causal.CurvesExtend`,
   defined there, downstream of this file; the two are definitionally equal, so
   `𝔊.timeFunction s hGH : (𝔊.causality s).HasTimeFunction` and
   `fun s hGH => 𝔊.timeFunction s hGH : 𝔊.HasTimeFunctions` (`CBG/Maximal`) typecheck as they are).
   It is weaker than `Causality.IsTimeFunction` (`Causal/Morphism.lean`) and is the hypothesis form
-  of `curvesExtend_of_timeFunction` (`Causal/CurvesExtend.lean:409`). §3.2 (Sbierski
+  of `curvesExtend_of_timeFunction` (`Causal/CurvesExtend.lean:423`). §3.2 (Sbierski
   Lemma 3.3, `IsCGHD.injOn`: MCGHD morphisms injective), hence §3.3, §3.5, §3.7. Discharge: flat,
   the Geroch time of admissible measures (`Flat/GerochFlat`); `E₀`, `SingularGeroch` (its
   `K_monotone` input: `SingularFlatAxioms.K_monotone`, DEC-64). Gives `LocalModel.timeFunction` at
@@ -580,9 +581,9 @@ structure LocalModel where
     [SecondCountableTopology M] [ChartedSpace Y M] [HasGroupoid M G],
     (chartedCausality causalityY M).SingularFlatAxioms (chartedSing singY M)
   /-- **B3**: `CurvesExtend` on **globally hyperbolic** `M` (gx review C3). For gx:
-  `curvesExtend_of_timeFunction` (`CurvesExtend.lean:409`) with the Geroch time of
+  `curvesExtend_of_timeFunction` (`CurvesExtend.lean:423`) with the Geroch time of
   `SingularGeroch` (its `K_monotone` input: `SingularFlatAxioms.K_monotone`, DEC-64), or
-  `GloballyHyperbolic.curvesExtend` (`CurvesExtend.lean:447`) from admissible measures. Flat
+  `GloballyHyperbolic.curvesExtend` (`CurvesExtend.lean:461`) from admissible measures. Flat
   instance, existing proofs: `curvesExtend_of_isCausalFlow` (`Flat/CauchyComplete.lean:2467`,
   from a causal flow, so for every GH flat `M` with one, DEC-49), and on opens
   `curvesExtendOn_of_timeFunction` (`CBG/CausalConvex.lean:273`). Gives A2. -/
@@ -593,7 +594,7 @@ structure LocalModel where
   /-- **B3, time functions** (design §6, interface round 2 (1), the counterpart of
   `Geometry.timeFunction`, which `Geometry.ofLocalModelOfGermSlice` fills from it): every globally hyperbolic
   admissible `M` carries a continuous `T : M → ℝ` strictly increasing along `≤` (the body of
-  `Causality.HasTimeFunction`, `CBG/Pgcd`, verbatim). Flat instance: the Geroch time of admissible
+  `Causality.HasTimeFunction`, `Causal.CurvesExtend`, verbatim). Flat instance: the Geroch time of admissible
   measures (`Flat/GerochFlat`; `Flat/CBG` already proves the statement for `flatCausality`); `E₀`:
   `SingularGeroch` (gx). Gives A2 (`timeFunction`). -/
   timeFunction : ∀ {M : Type u} [TopologicalSpace M] [T2Space M] [ConnectedSpace M]

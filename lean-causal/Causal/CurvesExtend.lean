@@ -1,5 +1,4 @@
 import Causal.CauchyExtension
-import Causal.Minkowski
 import Causal.Geroch
 
 /-!
@@ -10,7 +9,9 @@ No label is marked. This module discharges the model fact `Causality.CurvesExten
 inextensible causal curve over some interval), which the library carries as a named hypothesis
 (kb/0012) of `IsCauchySurface.isAcausal` (`Causal/CauchyExtension.lean:110`), of lemma K
 (`Causal.CompactCauchy`), of `CauchyDiamond` and of `SubExtension`. It is model-free (ETT
-generality, namespace `Causal.Causality`); Barbot's sentence it formalizes is the prose item
+generality, namespace `Causal.Causality`) and imports no model (ETT layer since
+T-abs-hoist-time-function: its static and Minkowski instances are in
+`Causal.Model.CurvesExtendModels`); Barbot's sentence it formalizes is the prose item
 [2.GH] of §2, `GHFspace.tex:498–507` (line numbers of `papers/barbot/legacy/orig/`, as
 `docs/BARBOT.md` prescribes; the labelled copy runs 2 lines later here), unmarked, because the
 paper's GH definition is not ETT's (`docs/BARBOT.md`, §2):
@@ -24,9 +25,6 @@ paper's GH definition is not ETT's (`docs/BARBOT.md`, §2):
 > In other words, every fiber of $t$ is a \emph{Cauchy hypersurface,\/} meaning precisely that
 > this is a hypersurface intersecting every unextendible nonspacelike curve in $M$.
 > (`GHFspace.tex:504–507`)
-
-Where Minkowski space appears, Barbot's `𝐌ⁿ` (total dimension `n`) is the library's
-`minkowski d` on `Minkowski d = ℝ × EuclideanSpace ℝ (Fin d)`, with **`n = d + 1`**.
 
 ## What is proved
 
@@ -44,12 +42,18 @@ Where Minkowski space appears, Barbot's `𝐌ⁿ` (total dimension `n`) is the l
   (i)⇒(ii) (`geroch_i_imp_ii`), whose time function is continuous and strictly increasing
   (DEC-15); witnessed jointly on the timelike line
   (`timelikeLine_curvesExtend_of_globallyHyperbolic`).
-* **Instances**: `staticCausality.curvesExtend` for `ℝ × X`, `X` **any** geodesic metric space
-  (complete, proper or neither: time is the time function), `minkowski_curvesExtend`, and the
-  timelike line again (`timelikeLine_curvesExtend_of_timeFunction`).
+* **The ladder node `time_function`** (`Causality.HasTimeFunction`: a continuous `T` strictly
+  increasing along `≤_M`, the hypothesis of the general theorem; moved here from
+  `Causal.CBG.Pgcd`, same full name) and its two edges: `HasTimeFunction.curvesExtend`
+  (`time_function ⇒ curves_extend`) and `HasTimeFunction.isCausal` (`time_function ⇒ is_causal`).
+* **Instances**: the timelike line again (`timelikeLine_curvesExtend_of_timeFunction`); on static
+  spacetimes `ℝ × X`, `X` **any** geodesic metric space, and on Minkowski space,
+  `staticCausality.curvesExtend` and `minkowski_curvesExtend` are in
+  `Causal.Model.CurvesExtendModels`.
 * **Consequences**: Cauchy surfaces are acausal without the named hypothesis —
-  `IsCauchySurface.isAcausal_of_timeFunction`, `IsCauchySurface.isAcausal_of_globallyHyperbolic`,
-  `staticCausality.isAcausal_of_isCauchySurface`, `minkowski_isAcausal_of_isCauchySurface`.
+  `IsCauchySurface.isAcausal_of_timeFunction`, `IsCauchySurface.isAcausal_of_globallyHyperbolic`
+  (and, in `Causal.Model.CurvesExtendModels`, `staticCausality.isAcausal_of_isCauchySurface`,
+  `minkowski_isAcausal_of_isCauchySurface`).
 
 ## The proof: Zorn on time graphs
 
@@ -80,7 +84,6 @@ whose inverse `T(K) → K` (`invFunOn T K`) is a causal curve: a curve with its 
 | "diffeomorphism onto the entire `t(M)`" (l.503–504) | ⚠ reading: `T ∘ γ = id` on `J` (a homeomorphism onto `J`, no smoothness in ETT); `J = ℝ` when `T` is a Cauchy time function |
 | global hyperbolicity (ETT's, `Causal/Properties.lean:144`) | ✓ carried in `GloballyHyperbolic.*` |
 | the hypotheses of `geroch_i_imp_ii` (`T2Space`, `FirstCountableTopology`, `BorelSpace`, admissible `μ±`, tarentin, causally arc-connected, `J^±(p) ≠ {p}`) | ⚠ strengthened (Geroch hypotheses added): Barbot's GH sentence (l.498–504) has none of them; they are what ETT needs to produce the time function from GH (`theo:geroch` (i)⇒(ii)). `curvesExtend_of_timeFunction` needs none of them |
-| static spacetime `ℝ × X` | ✓ `X` any geodesic metric space; completeness and properness not used |
 
 ## SCOPE (disclosed)
 
@@ -106,6 +109,15 @@ whose inverse `T(K) → K` (`invFunOn T K`) is a causal curve: a curve with its 
   given a time function; items (2)–(3) there are untouched.
 * `IsTimeGraph` is stated under `[Nonempty M]`, which `invFunOn` needs; the theorems build the
   instance from the curve.
+* **ETT layer** (T-abs-hoist-time-function, 2026-11-21). The section on static spacetimes and
+  Minkowski space (`staticCausality.fst_lt_of_le`, `.curvesExtend`,
+  `.exists_inextensible_graph_of_causalCurveIn`, `.isAcausal_of_isCauchySurface`,
+  `minkowski_curvesExtend`, `minkowski_isAcausal_of_isCauchySurface`) moved verbatim, same full
+  names, to the model module `Causal.Model.CurvesExtendModels`, the only reason this module
+  imported `Causal.Minkowski`; the timelike-line witnesses stay (they use `Causal.Lines` and
+  `Causal.Geroch` only). `Causality.HasTimeFunction` moved here verbatim from `Causal.CBG.Pgcd`
+  (which imports a model), beside the theorem whose hypothesis it is, so that layer-1 modules and
+  the `causal_ladder` rules can name it.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -488,49 +500,48 @@ theorem IsCauchySurface.isAcausal_of_globallyHyperbolic [T2Space M] [FirstCounta
 
 end Causality
 
-/-! ### Static spacetimes and Minkowski space -/
+/-! ### The ladder node `time_function` -/
 
-namespace staticCausality
+/-- **A continuous time function strictly increasing along `≤`** (the hypothesis of
+`exists_inextensible_of_timeFunction` and `curvesExtend_of_timeFunction` above, and of
+`CBG.injOn_of_injOn_cauchy`, Sbierski Lemma 3.3 in the abstract setting): the ladder node
+`time_function` (`programme/ladder.toml`). Over a CBG `Geometry` it is produced by the field
+`timeFunction` (interface round 2, `CBG.Dev.causality_hasTimeFunction`), whose conclusion is this
+body verbatim. It is neither the strict library's `Causality.IsTimeFunction`
+(`defi:fonction_temps`, `Causal/Morphism.lean:832`, a strong morphism to `timelikeLine`: open,
+non-decreasing, and it does not make `C` causal, `exists_isTimeFunction_not_isCausal`, kb/0058)
+nor `IsCauchyTimeFunction` (`Causal/Cauchy.lean:83`), and must not be read as either: it is exactly
+the hypothesis form of `curvesExtend_of_timeFunction`. Defined in `Causal.CBG.Pgcd` until
+T-abs-hoist-time-function; same full name. -/
+def Causality.HasTimeFunction {M : Type*} [TopologicalSpace M] (C : Causality M) : Prop :=
+  ∃ T : M → ℝ, Continuous T ∧ ∀ x y, C.le ⊤ x y → x ≠ y → T x < T y
 
-variable {X : Type*} [MetricSpace X] [GeodesicSpace X]
+namespace Causality
 
-/-- On a static spacetime the time coordinate is strictly increasing along `≤_M`. -/
-theorem fst_lt_of_le {p q : ℝ × X} (h : (staticCausality X).le ⊤ p q) (hne : p ≠ q) :
-    p.1 < q.1 := by
-  have h' := le_top_iff.1 h
-  refine lt_of_le_of_ne (by linarith [dist_nonneg (x := p.2) (y := q.2)]) fun e => hne ?_
-  exact staticLe.eq_of_fst_eq h e
+variable {C : Causality M}
 
-/-- **`CurvesExtend` on every static spacetime `ℝ × X`**, `X` any geodesic metric space —
-complete or not. -/
-theorem curvesExtend : (staticCausality X).CurvesExtend :=
-  Causality.curvesExtend_of_timeFunction continuous_fst fun _ _ h hne => fst_lt_of_le h hne
+/-- **Curves extend where there is a time function** — the ladder edge
+`time_function ⇒ curves_extend`: `curvesExtend_of_timeFunction` with its hypotheses packaged as
+`HasTimeFunction`. -/
+theorem HasTimeFunction.curvesExtend (h : C.HasTimeFunction) : C.CurvesExtend := by
+  obtain ⟨_, hTc, hT⟩ := h
+  exact curvesExtend_of_timeFunction hTc hT
 
-/-- On a static spacetime, every causal curve over an interval lies on an inextensible curve
-along which time is the parameter. -/
-theorem exists_inextensible_graph_of_causalCurveIn {I : Set ℝ} {c : ℝ → ℝ × X}
-    {W : Opens (ℝ × X)} (hc : (staticCausality X).CausalCurveIn W I c) :
-    ∃ (J : Set ℝ) (γ : ℝ → ℝ × X), (staticCausality X).Inextensible W J γ ∧ c '' I ⊆ γ '' J ∧
-      ∀ τ ∈ J, (γ τ).1 = τ :=
-  Causality.exists_inextensible_of_timeFunction continuous_fst
-    (fun _ _ h hne => fst_lt_of_le h hne) hc
+/-- **A time function strictly increasing along `≤` makes the causality causal** — the ladder edge
+`time_function ⇒ is_causal`: if `x ≤ y ≤ x` with `x ≠ y`, then `T x < T y < T x`. This is
+`Causality.isCausal_of_exists_timeFunction` (`Causal.CausalIsoInvariance`, which takes this
+body) read through `HasTimeFunction`, proved here directly so that this module need not import
+that one; continuity is not used. ETT's time function (`defi:fonction_temps`) does not suffice
+(`exists_isTimeFunction_not_isCausal`, the doubled line, kb/0058). -/
+theorem HasTimeFunction.isCausal (h : C.HasTimeFunction) : C.IsCausal := by
+  obtain ⟨T, -, hT⟩ := h
+  intro x y hxy hyx
+  by_contra hne
+  exact lt_asymm (hT x y hxy hne) (hT y x hyx (Ne.symm hne))
 
-/-- **A Cauchy surface of a static spacetime is acausal.** -/
-theorem isAcausal_of_isCauchySurface {S : Set (ℝ × X)}
-    (hS : (staticCausality X).IsCauchySurface S) : (staticCausality X).IsAcausal S :=
-  hS.isAcausal causallyArcConnected curvesExtend
+end Causality
 
-end staticCausality
-
-/-- **`CurvesExtend` on Minkowski space** `minkowski d = ℝ^{1,d}`, Barbot's `𝐌ⁿ` with
-`n = d + 1`. -/
-theorem minkowski_curvesExtend (d : ℕ) : (minkowski d).CurvesExtend :=
-  staticCausality.curvesExtend
-
-/-- **A Cauchy surface of Minkowski space is acausal.** -/
-theorem minkowski_isAcausal_of_isCauchySurface {d : ℕ} {S : Set (Minkowski d)}
-    (hS : (minkowski d).IsCauchySurface S) : (minkowski d).IsAcausal S :=
-  staticCausality.isAcausal_of_isCauchySurface hS
+/-! ### Witnesses on the timelike line -/
 
 /-- Sanity: the general theorem recovers the timelike line's `timelikeLine_curvesExtend`, with
 the time function `id`. -/

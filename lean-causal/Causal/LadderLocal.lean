@@ -98,8 +98,9 @@ the named property, which is that hypothesis (definitionally, or up to `choose` 
   the graph is an interval). It involves no causality: a property of an open set, not of `C`.
   Witnesses on `ℝ`: `(0, ∞)` has it at `0` (`oneSidedBoundary_Ioi_zero`), `ℝ ∖ {0}` has not
   (`not_oneSidedBoundary_compl_zero`).
-* **Not done: `HasTimeFunction.isCausal`.** `Causal.Causality.HasTimeFunction` is defined in
-  `Causal.CBG.Pgcd`, which reaches a model; it cannot be imported in layer 1.
+* **`HasTimeFunction.isCausal` is not here**: it is in `Causal.CurvesExtend` since
+  T-abs-hoist-time-function, which moved `Causal.Causality.HasTimeFunction` there out of the
+  model-importing `Causal.CBG.Pgcd`.
 * **Not restated: the witnesses of the model-importing modules** — Lemma K
   (`Causal.LemmaK`) and `Inextensible.not_forall_le_of_causallyCompact` (`Causal.ChainsCurves`),
   whose `hJm`, `hJp` are `NoCausalEndpoint`; `causallyOpen_of_pushUp` is re-proved instead (four

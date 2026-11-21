@@ -1,5 +1,6 @@
 import Causal.Model.Massive
 import Causal.CurvesExtend
+import Causal.Model.CurvesExtendModels
 import Causal.LadderLocal
 import Causal.CBG.Pgcd
 import Mathlib.Analysis.Normed.Lp.ProdLp
