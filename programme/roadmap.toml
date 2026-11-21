@@ -788,13 +788,14 @@ kind = "abstract"
 uses = ["globally_hyperbolic", "tarentin", "time_function", "curves_extend"]
 package = "lean-causal"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-abs-hoist-time-function"]
 evidence = "The keeper's proposal at T-lad-classify-core (journal entry 2026-11-21 05:00: 'a Levin wrapper concluding HasTimeFunction'); T-tool-ladder-py's report (journal entry 04:10: 'Levin's edge stays skipped, LevinUtility imports a model'). The ladder's edge globally_hyperbolic ∧ tarentin ⇒ time_function (programme/ladder.toml:567–572, standing T2, second_countable) has the witness Causal.Causality.exists_timeFunction_of_secondCountable (Causal/LevinUtility.lean:467), whose conclusion is HasTimeFunction's body (Causal/CurvesExtend.lean:516) with monotonicity added, and emit-lean skips it (Causal/Ladder/Rules.lean:68: 'Causal.LevinUtility → LemmaKSC → LemmaKReduction → LemmaKBare → Causal.Model.CurvesExtendModels'). The import chain, read by the planner with tools/ladder.py's index: LemmaKBare imports Causal.Model.CurvesExtendModels and Causal.Model.Massive for its static section (Causal/LemmaKBare.lean:579–672) and Causal.Splitting, which reaches Causal.Flat.IsomCausal, so stripping LemmaKBare alone leaves the chain model-layer. What Levin needs is model-free: the namespace Causal.Levin (LevinUtility.lean:75–455: an order Urysohn lemma for a closed preorder on a normal, weakly locally compact, σ-compact space, no causality), GloballyHyperbolic.isClosed_le (Causal.GlobalHyperbolicity, ETT layer), weaklyLocallyCompactSpace_of_globallyHyperbolic and locallyCompactSpace_of_globallyHyperbolic (Causal/LemmaKObstruction.lean:268, :277), sigmaCompactSpace_of_globallyHyperbolic (Causal/LemmaKSC.lean:130), curvesExtend_of_timeFunction and exists_inextensible_of_timeFunction (Causal.CurvesExtend, ETT layer). Causal.Causality.locallyCompactSpace_of_globallyHyperbolic is declared TWICE under one full name (LemmaKObstruction.lean:277, LemmaKSC.lean:122), so no module imports both; the hoist keeps one copy, in the new module, which both import. LevinUtility keeps the Lemma K corollaries (isCauchySurface_iff_local_of_secondCountable, isCauchySurface_iff_isOpen_strictJplus_of_secondCountable, :497–522) and imports the new module. The wrapper: Causal.Causality.GloballyHyperbolic.hasTimeFunction [T2Space M] [SecondCountableTopology M] (hG : C.GloballyHyperbolic) (hT : C.Tarentin) : C.HasTimeFunction. What the keeper gets (T-lad-record-minimal): the edge's witness switched to the wrapper, and with it emit-lean's next rule; T-lad-consequences gets Levin's time functions in the ETT layer. Discipline as T-abs-hoist-time-function (7eff58c): no statement changes, same full names; exclusive in lean-causal, since it edits LemmaKSC, LemmaKObstruction and LevinUtility, which Causal.LemmaK, LemmaKSCLocal and their users import. Layer 1."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-classify-core, T-tool-ladder-py), recorded by programme-planner"
+commit = "ad07121"
 
 [[target]]
 id = "T-abs-rational-line-extras"
