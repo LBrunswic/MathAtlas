@@ -723,13 +723,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["push_up", "chronal_neighbours", "causally_plain", "causally_arc_connected", "strongly_causal", "tarentin"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-abs-ladder-local-defs"]
 evidence = "/atlas-team's T-ett-e0-model-rows (journal entry 2026-11-21 01:30: 'E0ModelRows' model-free theorems (causallyPlain_of_locZ, SingularFlatAxioms.causallyPlain — evidence for OQ-16, rem:pas_plat —, BTZAxioms.K_neq_I) to hoist (its kb 0061, 0064)'); its audit AUDIT-1 minor flagged the layer placement (papers/ett/certificate/curation.toml:502, :1228: 'the model-free BTZAxioms.*, causallyPlain_of_locZ and SingularFlatAxioms.causallyPlain sit behind the E₀ import, to hoist into the ETT layer'); lean-causal/kb/entries/0064-causally-plain-of-locz.md, 0061-stranded-model-free-lemmas.md ('Hoist them on demand, not inside a port'). Declarations: Causal/Port/E0SingularFlat.lean:304–380 (namespace E0LM, section Local, any topological space X and causality D: LocZplus :309, LocZminus :313, LocTarentin :317, LocNoPast :321, LocPastIn :325, rel_of_causallyConvex :332, locZplus_of :352, locZminus_of :360, locTarentin_of :368; the E₀ instances after :384 stay); Causal/Port/E0ModelRows.lean:107–143 (Jplus_subset_closure_Iplus_of_locZplus :107, Jminus_diff_subset_closure_Iminus_of_locZminus :116, causallyPlain_of_locZ :127, SingularFlatAxioms.causallyPlain :139) and :81–104 (BTZAxioms.Jminus_diff_nonempty :81, Kminus_ne_Iminus :89, K_neq_I :100). The ladder form, the planner's argument for the closer to check: ChronalNeighbours (Causal/LadderLocal.lean:163) gives LocZplus C and LocZminus C ∅ directly — for y ∈ W and N ∈ 𝓝 y apply it in the open W ⊓ interior N and carry the chronology to W by the axiom lt_mono — and interior ∅ = ∅, so causallyPlain_of_locZ gives push_up ∧ chronal_neighbours ⇒ causally_plain, the first implication into causally_plain, beside push_up ∧ chronal_neighbours ⇒ causally_open (programme/ladder.toml:368–372); consistent with the lightlike line (push-up, no chronal neighbours, not plain) and deuxPushup (plain, not push-up). Layers: the E0LM block and the three Causality lemmas go to a new ETT-layer module (by name they need only Causal.PushUp, Causal.Properties, Causal.ArcConnected and Causal.LadderLocal); SingularFlatAxioms.causallyPlain and the BTZAxioms lemmas are stated over Causal.SingularFlat's bundles, which the layer-1 rule forbids (tools/ladder.py MODEL_LAYER), so they only leave the Port, for a module importing Causal.SingularFlat and the new module and no Causal.Port.* (whether that is layer 1 is T-abs-hoist-cbg-geometry's question (a)). Evidence for OQ-16 (registers/DECISIONS.md:172: are E≥0-manifolds causally plain, as prop:K_calcul's route through prop:tarentin_fort_K assumes?) and for rem:pas_plat (ETT.tex:289): every strongly causal SingularFlatAxioms spacetime is causally plain (SingularFlatAxioms.causallyPlain), and E₀ is (Causal.E0.causallyPlain, E0ModelRows.lean:189); recorded here, not a ruling. Discipline as T-abs-hoist-model-free (02b43b6): no statement changes, same full names (E0LM's namespace kept, as Flat.dependenceDomain kept Flat's; a rename is T-abs-dependence-domain-home's kind of question), the two Port modules import the new ones; the ett curation's extra_lean_files name Causal/Port/E0ModelRows.lean and Causal/Port/E0SingularFlat.lean (papers/ett/certificate/curation.toml:496, :867, :1223; papers/ett is /atlas-team's), which the master updates with the ledgers. Not exclusive: only Causal.lean and E0ModelRows import E0SingularFlat, only Causal.lean imports E0ModelRows (checked 2026-11-21); the closer leases both files. The keeper records the edge afterwards."
 added = "2026-11-21"
 proposed_by = "target-auditor (T-ett-e0-model-rows, /atlas-team; kb 0061, 0064), recorded by programme-planner"
+commit = "e278e3a"
 
 [[target]]
 id = "T-abs-dec8-minimal-witness"
@@ -770,13 +771,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["chronal_neighbours", "tarentin"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-abs-ladder-local-defs"]
 evidence = "The keeper's [[open]] entry chronal_neighbours → tarentin, 'True, argued' (T-lad-classify-core, 52b8b45: 'for N ∈ 𝓝 x put V = Int N; chronal neighbours give p ≪_V x ≪_V p' with p, p' ∈ V, and I⁺_V(p) ∩ I⁻_V(p') is an open neighbourhood of x inside J_M(p, p'). Wants Causal.Causality.ChronalNeighbours.tarentin'), on its list for the planner (journal entry 2026-11-21 05:00: 'ChronalNeighbours.tarentin (a new edge)'). Definitions: Causal.Causality.ChronalNeighbours (Causal/LadderLocal.lean:163, chronology in every open V), Tarentin (Causal/Properties.lean:116: ∀ x, ∀ U ∈ 𝓝 x, ∃ p ∈ U, ∃ q ∈ U, x ∈ openDiamond ⊤ p q); the openness of I±_V(p) is an axiom of a causality (isOpen_lt_right, isOpen_lt_left) and le_mono carries J_V into J_M. Consistent with the recorded counterexamples (simulated: no contradiction; the lightlike line has neither, timelikeLineTop and Galileo have both if T-abs-timelike-line-top and T-abs-galileo-ladder land); it settles chronal_neighbours → tarentin and, through Causal.tarentin_and_plain_needed (causally arc-connected, plain, not tarentin), causally_plain → chronal_neighbours a second way. Layer 1: a lemma in a new ETT-layer module importing Causal.LadderLocal (or in T-abs-pushup-of-minimal-local's module if one closer takes both: the master's call). The keeper's recording is T-lad-record-minimal."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-classify-core), recorded by programme-planner"
+commit = "ff0fd2f"
 
 [[target]]
 id = "T-abs-hoist-levin"
