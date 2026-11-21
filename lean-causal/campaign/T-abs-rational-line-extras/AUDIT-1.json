@@ -1,0 +1,75 @@
+{
+  "target": "T-abs-rational-line-extras",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-rational-line-extras/1-time-function",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The constants were read off the elaborated type (Expr.getUsedConstants). rationalLine_hasTimeFunction states Causal.Causality.HasTimeFunction rationalLine, which is the ladder's `lean` for time_function (programme/ladder.toml:255), and Iff.rfl with it. #print gives HasTimeFunction C := exists T, Continuous T and (forall x y, C.le top x y -> x != y -> T x < T y). The proof takes T = id; strictness comes from rationalLine_le_real (x <=_U y gives x <= y in R). rationalLine_curvesExtend states Causality.CurvesExtend (ladder.toml:261) and follows through HasTimeFunction.curvesExtend. The statement is closed, with no hypothesis. True: on the rational line, x <=_M y with x != y is the branch x < y."
+    },
+    {
+      "label": "T-abs-rational-line-extras/2-strongly-causal-open",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "rationalLine_stronglyCausalOpen states Causality.StronglyCausalOpen (ladder.toml:182). #print gives: forall p, forall U in nhds p, exists V : Opens, p in V and V subset U and C.CausallyConvexIn V top. CausallyConvexIn V U means V subset U and the full diamond diamond U p q lies in V for p, q in V, which is defi:convexite_causale (ETT.tex:657-660) read in M. The witness is the open interval (l, u), convex because rationalLine_diamond_subset_Icc gives J_U(a, b) inside [a, b] for every open U. StronglyCausal (ladder.toml:176) follows by StronglyCausalOpen.stronglyCausal. Both statements are closed."
+    },
+    {
+      "label": "T-abs-rational-line-extras/3-not-locally-causally-open-future",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "rationalLine_not_locallyCausallyOpenFuture is the negation of Causality.LocallyCausallyOpenFuture (ladder.toml:283). #print gives: forall x, exists W, x in W and CausallyOpenFutureOn W, i.e. J+_U(V) is open for all opens V <= U <= W. causal_ladder proves it from h, together with rationalLine_absolutelyMinimal as a `have`. The rule it uses is AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture (Causal/LadderLocal.lean:264, attribute in Causal/Ladder/Rules.lean:44). The contradiction is rationalLine_not_causallyOpenFuture (Causal/NestedConverse.lean:373). The two-sided form, rationalLine_not_locallyCausallyOpen, is the negation of Causality.LocallyCausallyOpen (ladder.toml:290). #print gives the future form for C and for C.dual. It is proved by causal_ladder through locally_causally_open => locally_causally_open_future. Both statements are closed."
+    },
+    {
+      "label": "T-abs-rational-line-extras/4-not-tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "rationalLine_not_tarentin is the negation of Causality.Tarentin (ladder.toml:240). #print gives: forall x, forall U in nhds x, exists p in U, exists q in U, x in openDiamond top p q. This is def:tarentin_spacetime (ETT.tex:677-680, quoted verbatim in the docstring). It is proved through rationalLine_openDiamond (U p q : any), which says that interior (diamond U p q) is empty, for every open U and not only top. The argument: an interval around x holds irrationals v < x < w. p <=_U v and p <=_U w force p = v = w (rationalLine_eq_of_le_irrational). The closer's finding on roadmap.toml:810 is true. I proved it in a probe, then deleted it: rationalLine.diamond top p p = {p} for irrational p, so the claim that every J_top(p, q) lies in Q fails (sqrt 2); every J_top(p, q) lies in Q union {p}. The conclusion is unaffected."
+    },
+    {
+      "label": "T-abs-rational-line-extras/5-not-causally-plain",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "rationalLine_not_causallyPlain is the negation of Causality.CausallyPlain (ladder.toml:234). #print gives: forall U (A : Set M), interior (Jplus U A) subset closure (Iplus U A), and the same with minus. The Lean quantifies over every A, while defi:causalement_plat (ETT.tex:283-287) asks A subset U. The negation is witnessed at U = top and A = univ, which is inside U, so the paper's form fails too: J+_M(R) = R and I+_M(R) is empty."
+    },
+    {
+      "label": "T-abs-rational-line-extras/6-no-chronal-neighbours",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "rationalLine_not_chronalNeighbours is the negation of Causality.ChronalNeighbours (ladder.toml:299). #print gives ChronalPastNeighbours C and ChronalPastNeighbours C.dual, where ChronalPastNeighbours: forall V, forall v in V, exists p in V, C.lt V p v. The rational line's lt is False, so the past side fails at V = top, v = 0. The alternatives the REPORT cites exist at the stated lines: ChronalNeighbours.tarentin (Causal/ChronalTarentin.lean:179) and PushUp.causallyPlain_of_chronalNeighbours (Causal/CausallyPlainLocZ.lean:202)."
+    },
+    {
+      "label": "T-abs-rational-line-extras/7-not-causally-compact",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "rationalLine_not_causallyCompact is the negation of Causality.CausallyCompact (ladder.toml:198). #print gives: forall p q, IsCompact (diamond top p q). This is def:causally_compact (ETT.tex:350-352, quoted verbatim). rationalLine_diamond_top (p q : Q) gives diamond top p q = range Rat.cast inter Icc p q. The mathematics checks: for rational p, p <=_top x iff x is rational and p <= x, and likewise at q. Then J(0, 1) is not closed, since an irrational in (0, 1) is in its closure. The SCOPE discloses that the formula is for rationals only; with an irrational endpoint the diamond is {p} (if p = q) or empty, which I checked. The target title's unqualified 'J(p, q) = Q inter [p, q]' is read correctly as the rational case. rationalLine_not_globallyHyperbolic follows by GloballyHyperbolic.causallyCompact."
+    },
+    {
+      "label": "T-abs-rational-line-extras/8-separation",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "I printed the elaborated type of rationalLine_separates. It has 18 conjuncts: AbsolutelyMinimal (the constant is Causal.Precausality.AbsolutelyMinimal, the ladder's lean for absolutely_minimal, ladder.toml:222), IsCausal, PushUp, LocallyPushUp, HasTimeFunction, CurvesExtend, StronglyCausalOpen, StronglyCausal, and the negations of CausallyArcConnected, CausallyOpenFuture, CausallyOpen, LocallyCausallyOpenFuture, LocallyCausallyOpen, Tarentin, CausallyPlain, ChronalNeighbours, CausallyCompact and GloballyHyperbolic. This is exactly the REPORT's list (labels[7].hypotheses[0]). It contains every conjunct of rationalLine_separates_absolutelyMinimal (NestedConverse.lean:394). Every for_keeper `from` id (the eight positives) and every `to` id (the six new entries and the three re-pointed ones) is a conjunct. rationalLine_absolutelyMinimalOn (W : Opens R) states Precausality.AbsolutelyMinimalOn rationalLine W for every W. #print gives: for every S covering W and every open V <= W, every le_V (resp. lt_V) is a TransGen of le (resp. lt) in V inf O, O in S. So its universal closure is 'absolutely minimal on every open set for every cover of it', as claimed. It has the same form as halfLightLine_absolutelyMinimalOn (Causal/Dec8MinimalWitness.lean:165), which kb/0074 and OQ-69 (registers/DECISIONS.md:225) call the gluing reading of defi:causalite 'as OQ-18 describes it'. OQ-18 (DECISIONS.md:174) itself says only 'absolute minimality'. The universal form implies that one at W = top (Precausality.absolutelyMinimal_iff), so the 'either reading' claim holds under both phrasings."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "Typecheck: cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/RationalLineExtras.lean gave exit 0 and no output. No lake build was run. grep finds 0 'sorry' and no admit, axiom, native_decide, unsafe, opaque or extern. Axioms: #print axioms was run on all 19 new declarations, through a probe under campaign/T-abs-rational-line-extras/, deleted. The probe was a copy of the file body plus the commands, run with lake env lean. Each declaration gave [propext, Classical.choice, Quot.sound], including the 11 the REPORT names. Ladder definitions: #print of HasTimeFunction, StronglyCausalOpen, LocallyCausallyOpenFuture, LocallyCausallyOpen, CausallyOpenFutureOn, Tarentin, CausallyPlain, ChronalNeighbours, ChronalPastNeighbours, CausallyCompact, GloballyHyperbolic, StronglyCausal, CurvesExtend, LocallyPushUp, CausallyArcConnected, AbsolutelyMinimal and AbsolutelyMinimalOn. Iff.rfl examples, the rationalLine.X form against the ladder's full name, all elaborated. getUsedConstants of each statement shows only the ladder's constants. Layer 1: the imports are exactly Causal.NestedConverse, Causal.LadderLocal, Causal.CurvesExtend and Causal.Ladder.Rules. The compiled closure (env.header.moduleNames, in a probe under the campaign directory, deleted) has 32 Causal modules, identical to the REPORT's list. A source walk with tools/ladder.py's lean_index gives the same 32. None is Minkowski, Static, Flat.*, Model.*, Port.*, SingularFlat, CBG.*, Splitting, LemmaK* or LevinUtility. ladder.model_path is None for each direct import. No metric notion appears in any statement: Icc, range Rat.cast, Irrational, Opens and the ladder predicates only. The Lebesgue number appears only inside the proof of rationalLine_absolutelyMinimalOn. The ladder facts are closed statements. The only hypotheses are on helper lemmas (rationalLine.le U x y; Irrational y). Names: none of the 19 new names occurs anywhere in lean-causal/Causal (FlatTimeCylinder.lean included), lean-causal/scaffold (QuasilinearOneSided.lean included), Causal.lean, lean/ or lean-gx/ (grep -w). The body also elaborates under `import Causal` (all 242 root imports) with -DwarningAsError=true. A sanity probe confirmed that a duplicate name is reported there. for_keeper, re-simulated on /tmp copies with tools/ladder.py functions; the ladder was not edited. The 3 [[fails]] at ladder.toml:848-864 are as cited, and the 16 [[open]] headers are at exactly the cited lines with the cited from/to. Six new entries use only the keys from, to, witness and status, with no space. On the copy (6 new entries, the 3 re-pointed, the 16 opens removed), check reports only the 9 'witness not found' errors for Causal.rationalLine_separates, and 0 violations with that name added. The matrix goes fails 147 -> 163, open 150 -> 134, implied 15, unknown 2, ill-typed 192. The 16 moved pairs are exactly the 16 open entries, all open -> fails. The locally_causally_open_future entry alone settles all 16; locally_causally_open alone settles 8, a subset; tarentin, causally_plain, chronal_neighbours and causally_compact each refute 0 new pairs and 0 new either-reading pairs. Either reading: 91 -> 119 with the re-pointing, 115 without, and no-gluing-only 55 -> 43. The +28 are the 16 settled pairs plus curves_extend/strongly_causal/strongly_causal_open/time_function -> causally_open, causally_open_future and causally_arc_connected. At 52b8b45 the entries settle 27 opens with the re-pointing and 24 without. Every number in the REPORT reproduces. Scope: git status shows the closer's two paths and, besides them, only other agents' or the master's work. That is FlatTimeCylinder.lean, QuasilinearOneSided.lean, kb/0078, the campaign dirs T-loc-*, the README.md row and kb/INDEX.md row for FlatTimeCylinder, programme/roadmap.toml (three status ready->active flips by the master), and roadmap/roadmap.toml (atlas-team benzecri/syracuse planning, modified during this audit). Nothing under lean-causal/Causal is modified, and the scaffold root is untouched. Docstring contract (kb/0006): the title, the eight target-local marks (all within the first 2400 characters, the convention of GateLineLocal, PushUpOfMinimalLocal and Dec8MinimalWitness), verbatim quotes (roadmap.toml:810, ETT.tex:677-680, 350-352), the checklist, SCOPE and Provenance are all present. Each SCOPE claim is true, and no ETT label is marked."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-rational-line-extras/REPORT.json: readme_row",
+      "what": "The proposed README row says 'not causally compact (`J(p, q) = ℚ ∩ [p, q]`)' without qualification. As stated this is false for irrational endpoints: with p irrational and q > p rational, J(p, q) is empty while ℚ ∩ [p, q] is not. This is the same kind of imprecision the closer reported in roadmap.toml:810. The Lean (rationalLine_diamond_top, p q : ℚ), the module docstring and the SCOPE all qualify it correctly.",
+      "fix": "Write '`J(p, q) = ℚ ∩ [p, q]` for rationals `p`, `q`' (or '`J(0, 1) = ℚ ∩ [0, 1]` is not closed') when the master adds the row."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-rational-line-extras/REPORT.json: for_keeper.either_reading",
+      "what": "The REPORT says the header's 91 is 'reproduced by excluding the 20 entries on the gated, jump and global lines, deuxPushup and Galileo'. There are 21 such [[fails]] entries: gateLine 7, jumpLine 7, deuxPushup 4, globalLine 2, galileo 1. 91 -> 119 and 55 -> 43 reproduce with all 21 excluded, so the numbers stand. The miscount comes from the ladder header (programme/ladder.toml:88: 'the 19 entries' for what are 20, before Galileo's).",
+      "fix": "Say 21 (20 plus Galileo's). The keeper can correct the header's '19 entries' to 20 when it rewrites the counts for this recording."
+    }
+  ]
+}

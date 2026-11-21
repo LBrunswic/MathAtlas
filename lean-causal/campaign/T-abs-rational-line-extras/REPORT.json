@@ -1,0 +1,638 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-rational-line-extras",
+ "files": [
+  "scaffold/CausalScaffold/RationalLineExtras.lean"
+ ],
+ "builds": true,
+ "builds_detail": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/RationalLineExtras.lean: no output (also with -DwarningAsError=true, as the strict library will compile it); lake build --no-build CausalScaffold.RationalLineExtras first: only this module out of date; lake build CausalScaffold.RationalLineExtras: built this module only ([3097/3097], 1.5 s), no Causal.* or mathlib module rebuilt",
+ "sorry_count": 0,
+ "axioms": {
+  "Causal.rationalLine_separates": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_hasTimeFunction": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_stronglyCausalOpen": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_not_locallyCausallyOpenFuture": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_not_tarentin": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_not_causallyPlain": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_not_chronalNeighbours": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_not_causallyCompact": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_diamond_top": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_openDiamond": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.rationalLine_absolutelyMinimalOn": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ]
+ },
+ "layer": {
+  "layer": 1,
+  "direct_imports": [
+   "Causal.NestedConverse",
+   "Causal.LadderLocal",
+   "Causal.CurvesExtend",
+   "Causal.Ladder.Rules"
+  ],
+  "import_closure_causal": [
+   "Causal.ArcConnected",
+   "Causal.Cauchy",
+   "Causal.CauchyExtension",
+   "Causal.Causality",
+   "Causal.CompactMinimal",
+   "Causal.CurveComponents",
+   "Causal.Curves",
+   "Causal.CurvesExtend",
+   "Causal.DependenceDomain",
+   "Causal.DeuxPushup",
+   "Causal.Generated",
+   "Causal.Geroch",
+   "Causal.GlobalHyperbolicity",
+   "Causal.Inextensible",
+   "Causal.Ladder.Basic",
+   "Causal.Ladder.Rules",
+   "Causal.LadderLocal",
+   "Causal.Lines",
+   "Causal.LinesCurves",
+   "Causal.LinesReachable",
+   "Causal.Local",
+   "Causal.Measure",
+   "Causal.MeasureRemarks",
+   "Causal.Minimal",
+   "Causal.Morphism",
+   "Causal.NestedCausalities",
+   "Causal.NestedConverse",
+   "Causal.Properties",
+   "Causal.PushUp",
+   "Causal.Reachable",
+   "Causal.StrongCausality",
+   "Causal.Subdivision"
+  ],
+  "import_closure_size": 32,
+  "checks": [
+   "compiled: a file in /tmp with the four imports, #eval of env.allImportedModuleNames filtered on the prefix Causal: the 32 modules above, exactly",
+   "source walk of the import headers from the module (script /tmp/rle/closure.py): the same 32",
+   "forbidden prefixes Causal.Minkowski, Causal.Static, Causal.Flat, Causal.Model, Causal.Port, Causal.SingularFlat, Causal.CBG, Causal.Splitting, Causal.LemmaK*, Causal.LevinUtility: none in the closure",
+   "tools/ladder.py model_path on each direct import: None (ETT layer)",
+   "not imported: scaffold/CausalScaffold/QuasilinearOneSided.lean, Causal/Model/FlatTimeCylinder.lean (neither touched, imported nor built)",
+   "no metric notion in any statement (ℝ, ℚ casts, Icc, Opens, the ladder predicates); a Lebesgue number appears inside the proof of rationalLine_absolutelyMinimalOn only, as in rationalLine_absolutelyMinimal",
+   "every statement uses the ladder's definitions: Iff.rfl checks in /tmp that rationalLine.HasTimeFunction, .StronglyCausalOpen, .LocallyCausallyOpenFuture, .Tarentin, .CausallyPlain, .ChronalNeighbours, .CausallyCompact are Causal.Causality.<the `lean` field> applied to Causal.rationalLine",
+   "every new name grep-unique in Causal/, scaffold/ and lean-gx/"
+  ]
+ },
+ "labels": [
+  {
+   "label": "T-abs-rational-line-extras/1-time-function",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_hasTimeFunction",
+    "Causal.rationalLine_curvesExtend",
+    "Causal.rationalLine_le_real"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a time function, the identity (evidence)",
+     "here": "carried",
+     "note": "stated with the ladder's time_function definition, Causal.Causality.HasTimeFunction (programme/ladder.toml:254-255): T = id, continuous, and x ≤_M y, x ≠ y gives x < y (rationalLine_le_real). CurvesExtend through HasTimeFunction.curvesExtend"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-rational-line-extras/2-strongly-causal-open",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:strongly_causal_spacetime, defi:convexite_causale",
+     "text_lines": "ETT.tex:657-666"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_stronglyCausalOpen",
+    "Causal.rationalLine_stronglyCausal",
+    "Causal.rationalLine_diamond_subset_Icc"
+   ],
+   "hypotheses": [
+    {
+     "paper": "open strong causality, intervals are causally convex (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.StronglyCausalOpen (programme/ladder.toml:181-182): every neighbourhood of p contains an open interval (l, u) ∋ p, causally convex in M since J_U(a, b) ⊆ [a, b] in every open U (rationalLine_diamond_subset_Icc). StronglyCausal by StronglyCausalOpen.stronglyCausal"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-rational-line-extras/3-not-locally-causally-open-future",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "prop:topological_spacetime_absolutely_minimal (the edge read backwards)",
+     "text_lines": "ETT.tex:698-701"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_not_locallyCausallyOpenFuture",
+    "Causal.rationalLine_not_locallyCausallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "via AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture (Causal/LadderLocal.lean:264) and the existing ¬ causally_open_future (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.LocallyCausallyOpenFuture (programme/ladder.toml:282-283). Proved by causal_ladder: with rationalLine_absolutelyMinimal and the hypothesis in context, the rule AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture (Causal/Ladder/Rules.lean) derives CausallyOpenFuture, refuted by rationalLine_not_causallyOpenFuture (Causal/NestedConverse.lean:373). The two-sided form likewise, through LocallyCausallyOpen.future"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-rational-line-extras/4-not-tarentin",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:tarentin_spacetime",
+     "text_lines": "ETT.tex:677-680"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_not_tarentin",
+    "Causal.rationalLine_openDiamond",
+    "Causal.rationalLine_eq_of_le_irrational"
+   ],
+   "hypotheses": [
+    {
+     "paper": "each J_⊤(p, q) ⊆ ℚ has empty interior (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.Tarentin (programme/ladder.toml:239-240). Proved for every open U, not only ⊤: rationalLine.openDiamond U p q = ∅ (an irrational point of J_U(p, q) equals p, rationalLine_eq_of_le_irrational, and every open interval holds two distinct irrationals). The evidence's 'J_⊤(p, q) ⊆ ℚ' is slightly off: J(p, p) = {p} with p irrational is not inside ℚ; what holds, and what the proof uses, is J_U(p, q) ⊆ ℚ ∪ {p}"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The target's evidence (programme/roadmap.toml:810) says 'each J_⊤(p, q) ⊆ ℚ'; it is J_⊤(p, q) ⊆ ℚ ∪ {p} (J(p, p) = {p} for p irrational). The conclusion (empty interior, hence not tarentin) is unaffected."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-rational-line-extras/5-not-causally-plain",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "defi:causalement_plat",
+     "text_lines": "ETT.tex:283-287"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_not_causallyPlain"
+   ],
+   "hypotheses": [
+    {
+     "paper": "≪ empty, J⁺ of a non-empty open set has interior (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.CausallyPlain (programme/ladder.toml:233-234): at U = ⊤, A = ℝ, Int J⁺_M(ℝ) = ℝ while closure I⁺_M(ℝ) = ∅"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-rational-line-extras/6-no-chronal-neighbours",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_not_chronalNeighbours"
+   ],
+   "hypotheses": [
+    {
+     "paper": "≪ empty (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.ChronalNeighbours (programme/ladder.toml:298-299): no p ≪_M 0. Proved directly; it also follows from ¬ Tarentin by Causal.Causality.ChronalNeighbours.tarentin (Causal/ChronalTarentin.lean:179), not imported. PushUp.causallyPlain_of_chronalNeighbours (Causal/CausallyPlainLocZ.lean:202) gives the same from push-up and ¬ CausallyPlain"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-rational-line-extras/7-not-causally-compact",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:causally_compact",
+     "text_lines": "ETT.tex:350-352"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_not_causallyCompact",
+    "Causal.rationalLine_diamond_top",
+    "Causal.rationalLine_not_globallyHyperbolic"
+   ],
+   "hypotheses": [
+    {
+     "paper": "J(p, q) = ℚ ∩ [p, q] is not closed (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.CausallyCompact (programme/ladder.toml:197-198). rationalLine_diamond_top: J_M(p, q) = ℚ ∩ [p, q] for all rationals p, q (no p ≤ q needed: both sides empty when q < p). J_M(0, 1) compact would be closed in ℝ, and an irrational of (0, 1) is in its closure (rationals are dense). For p or q irrational the diamond is {p} (p = q) or empty"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-rational-line-extras/8-separation",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-rational-line-extras, title and evidence",
+     "text_lines": "programme/roadmap.toml:799-812 (evidence :810)"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine_separates",
+    "Causal.rationalLine_absolutelyMinimalOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "one theorem conjoining these with rationalLine_separates_absolutelyMinimal (dispatch)",
+     "here": "carried",
+     "note": "rationalLine_separates: AbsolutelyMinimal ∧ IsCausal ∧ PushUp ∧ LocallyPushUp ∧ HasTimeFunction ∧ CurvesExtend ∧ StronglyCausalOpen ∧ StronglyCausal ∧ ¬ CausallyArcConnected ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpenFuture ∧ ¬ LocallyCausallyOpen ∧ ¬ Tarentin ∧ ¬ CausallyPlain ∧ ¬ ChronalNeighbours ∧ ¬ CausallyCompact ∧ ¬ GloballyHyperbolic, every conjunct a ladder property's `lean` definition. Style of halfLightLine_separates_causallyOpen (Causal/Dec8MinimalWitness.lean:369)"
+    },
+    {
+     "paper": "the reading: 'the rational line is absolutely minimal, so either reading of defi:causalite (OQ-18)'",
+     "here": "strengthened (beyond the target)",
+     "note": "rationalLine_absolutelyMinimalOn (W : Opens ℝ) : rationalLine.AbsolutelyMinimalOn W, the form kb/0074 gives the gluing reading (absolutely minimal on every open set for every cover of it), as halfLightLine_absolutelyMinimalOn. The proof is that of rationalLine_absolutelyMinimal (Causal/NestedConverse.lean:303, the case W = ⊤) with the cover asked of W only. Not a conjunct of rationalLine_separates, which keeps to ladder nodes"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "No argued fact of the target is false: each was checked against the compiled definitions (the `lean` field of each [[property]]) and proved."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.rationalLine_le_real",
+  "Causal.rationalLine_eq_of_le_irrational",
+  "Causal.rationalLine_diamond_subset_Icc",
+  "Causal.rationalLine_diamond_top",
+  "Causal.rationalLine_openDiamond",
+  "Causal.rationalLine_absolutelyMinimalOn",
+  "Causal.rationalLine_curvesExtend",
+  "Causal.rationalLine_stronglyCausal",
+  "Causal.rationalLine_locallyPushUp",
+  "Causal.rationalLine_not_locallyCausallyOpen",
+  "Causal.rationalLine_not_globallyHyperbolic"
+ ],
+ "readme_row": "| `Causal.RationalLineExtras` | — | ETT programme, layer 1 (T-abs-rational-line-extras): the rational line's other ladder facts: a time function (the identity), strongly causal in the open form (intervals are causally convex), absolutely minimal on every open set for every cover; not locally causally open in the future (`causal_ladder`: absolute minimality and ¬ causally open in the future), not tarentin (no diamond has interior), not causally plain, no chronal neighbours, not causally compact (`J(p, q) = ℚ ∩ [p, q]`); conjoined in `rationalLine_separates`, valid in either reading of `defi:causalite`; 2026-11-21 |",
+ "kb_proposals": [
+  "0079 (or the next free id), pattern — The rational line in the ladder: an irrational point is ≤-related to itself only (Causal.rationalLine_eq_of_le_irrational), so no diamond has interior (rationalLine_openDiamond: not tarentin) and J(0, 1) = ℚ ∩ [0, 1] is not closed (rationalLine_diamond_top: not causally compact); with ≪ empty, not plain and no chronal neighbours; a time function (id) and open strong causality (intervals). It is absolutely minimal on every open for every cover (rationalLine_absolutelyMinimalOn), so Causal.rationalLine_separates is the either-reading witness for X ⇏ locally_causally_open(_future) and, with time_function and strongly_causal_open in `from`, for X ⇏ causally_open(_future), causally_arc_connected (T-abs-rational-line-extras).",
+  "pattern — A ladder failure read backwards through a conjunctive edge is one causal_ladder call: `intro h; have := hOther; exact hNot (by causal_ladder)` (rationalLine_not_locallyCausallyOpenFuture: absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future). The other premise must be a hypothesis in context (a `have`), since causal_ladder uses no lemma that is not a rule (kb/0048) (T-abs-rational-line-extras)."
+ ],
+ "for_keeper": {
+  "reading": "Either reading of defi:causalite (OQ-18). The rational line is absolutely minimal (Causal.rationalLine_absolutelyMinimal, the ladder node) and absolutely minimal on every open set for every cover of it (Causal.rationalLine_absolutelyMinimalOn, the gluing reading's form, kb/0074). The comment line above each entry can say: 'Reading: either (absolutely minimal, on every open for every cover; OQ-18 does not touch it)'. Evidence, not a ruling.",
+  "fails": [
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up",
+     "locally_push_up",
+     "time_function",
+     "curves_extend",
+     "strongly_causal_open",
+     "strongly_causal"
+    ],
+    "to": "locally_causally_open_future",
+    "witness": "Causal.rationalLine_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up",
+     "locally_push_up",
+     "time_function",
+     "curves_extend",
+     "strongly_causal_open",
+     "strongly_causal"
+    ],
+    "to": "locally_causally_open",
+    "witness": "Causal.rationalLine_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up",
+     "locally_push_up",
+     "time_function",
+     "curves_extend",
+     "strongly_causal_open",
+     "strongly_causal"
+    ],
+    "to": "tarentin",
+    "witness": "Causal.rationalLine_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up",
+     "locally_push_up",
+     "time_function",
+     "curves_extend",
+     "strongly_causal_open",
+     "strongly_causal"
+    ],
+    "to": "causally_plain",
+    "witness": "Causal.rationalLine_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up",
+     "locally_push_up",
+     "time_function",
+     "curves_extend",
+     "strongly_causal_open",
+     "strongly_causal"
+    ],
+    "to": "chronal_neighbours",
+    "witness": "Causal.rationalLine_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up",
+     "locally_push_up",
+     "time_function",
+     "curves_extend",
+     "strongly_causal_open",
+     "strongly_causal"
+    ],
+    "to": "causally_compact",
+    "witness": "Causal.rationalLine_separates",
+    "status": "checked"
+   }
+  ],
+  "fails_replace": {
+   "entries": "the three [[fails]] on Causal.rationalLine_separates_absolutelyMinimal (programme/ladder.toml:848-864: to causally_arc_connected, causally_open_future, causally_open, from [absolutely_minimal, is_causal, push_up])",
+   "with": [
+    {
+     "from": [
+      "absolutely_minimal",
+      "is_causal",
+      "push_up",
+      "locally_push_up",
+      "time_function",
+      "curves_extend",
+      "strongly_causal_open",
+      "strongly_causal"
+     ],
+     "to": "causally_arc_connected",
+     "witness": "Causal.rationalLine_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "is_causal",
+      "push_up",
+      "locally_push_up",
+      "time_function",
+      "curves_extend",
+      "strongly_causal_open",
+      "strongly_causal"
+     ],
+     "to": "causally_open_future",
+     "witness": "Causal.rationalLine_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "is_causal",
+      "push_up",
+      "locally_push_up",
+      "time_function",
+      "curves_extend",
+      "strongly_causal_open",
+      "strongly_causal"
+     ],
+     "to": "causally_open",
+     "witness": "Causal.rationalLine_separates",
+     "status": "checked"
+    }
+   ],
+   "why": "the new witness states the old one's conjuncts and more; with the wider `from` these three refute, in either reading, curves_extend, strongly_causal, strongly_causal_open, time_function → causally_arc_connected (4 pairs today refuted by the gated and jump lines only, no-gluing). The [[open]] count does not change (those pairs were settled by T-lad-record-lines); only the either-reading count does. Optional: the keeper may keep the old witness"
+  },
+  "load_bearing": "Of the six new entries, to = locally_causally_open_future carries everything the matrix moves (lacking it, the line lacks locally_causally_open, causally_open_future, causally_open through the edges); to = locally_causally_open is implied by it. The entries to = tarentin, causally_plain, chronal_neighbours, causally_compact move no pair, in either reading (simulated: 0 newly refuted pairs each): every pair they refute is already refuted by an absolutely minimal witness (the spacelike line for tarentin and causally_plain, the lightlike line for chronal_neighbours and causally_plain, the half-plane for causally_compact). They record the rational line's facts; the keeper decides whether to keep them, as it kept causally_open beside causally_open_future (ladder.toml:835-847)",
+  "open_settled": {
+   "count_current": 16,
+   "entries": [
+    {
+     "from": "absolutely_minimal",
+     "to": "locally_causally_open",
+     "line": 1945
+    },
+    {
+     "from": "curves_extend",
+     "to": "locally_causally_open",
+     "line": 1975
+    },
+    {
+     "from": "is_causal",
+     "to": "locally_causally_open",
+     "line": 1985
+    },
+    {
+     "from": "locally_push_up",
+     "to": "locally_causally_open",
+     "line": 1995
+    },
+    {
+     "from": "push_up",
+     "to": "locally_causally_open",
+     "line": 2000
+    },
+    {
+     "from": "strongly_causal",
+     "to": "locally_causally_open",
+     "line": 2005
+    },
+    {
+     "from": "strongly_causal_open",
+     "to": "locally_causally_open",
+     "line": 2010
+    },
+    {
+     "from": "time_function",
+     "to": "locally_causally_open",
+     "line": 2020
+    },
+    {
+     "from": "absolutely_minimal",
+     "to": "locally_causally_open_future",
+     "line": 2027
+    },
+    {
+     "from": "curves_extend",
+     "to": "locally_causally_open_future",
+     "line": 2052
+    },
+    {
+     "from": "is_causal",
+     "to": "locally_causally_open_future",
+     "line": 2062
+    },
+    {
+     "from": "locally_push_up",
+     "to": "locally_causally_open_future",
+     "line": 2067
+    },
+    {
+     "from": "push_up",
+     "to": "locally_causally_open_future",
+     "line": 2072
+    },
+    {
+     "from": "strongly_causal",
+     "to": "locally_causally_open_future",
+     "line": 2077
+    },
+    {
+     "from": "strongly_causal_open",
+     "to": "locally_causally_open_future",
+     "line": 2082
+    },
+    {
+     "from": "time_function",
+     "to": "locally_causally_open_future",
+     "line": 2092
+    }
+   ],
+   "lines_are": "the [[open]] header line of each entry in programme/ladder.toml as of this run (note line = header + 3); tools/ladder.py check names each one 'already settled; remove it' once the entries are in",
+   "evidence_prediction": "27 [[open]] pairs alone, 16 beyond T-lad-record-lines: reproduced. Against programme/ladder.toml at 52b8b45 (before T-lad-record-lines, a45528d) the entries settle 27 with the three old entries replaced as above, 24 with the six new entries alone; against the current file 16 either way. The 11 beyond: curves_extend, strongly_causal, strongly_causal_open, time_function → causally_open and → causally_open_future (8), and strongly_causal, strongly_causal_open, time_function → causally_arc_connected (3), which T-lad-record-lines settled with the jump and gated lines (no-gluing only); the rational line gives them an either-reading witness"
+  },
+  "either_reading": "Causality-sort refuted pairs refuted by an absolutely minimal witness: 91 of 146 now (the header's count, reproduced by excluding the 20 entries on the gated, jump and global lines, deuxPushup and Galileo); after the proposal 119 of 162 (+28: the 16 settled [[open]] pairs and 12 moved from no-gluing-only, the 8 X → causally_open(_future) and the 4 X → causally_arc_connected above; 24 without the replacement). No-gluing-only refuted pairs: 55 → 43",
+  "matrix": "tools/ladder.py matrix on the proposed copy: fails 147 → 163, open 150 → 134, implied 15, unknown 2 (the geometry-sort pairs), ill-typed 192; classified 312 of 314 unchanged",
+  "open_notes_to_refresh": [
+   "programme/ladder.toml:835-847 (comment above the rational line's [[fails]]): 'no Lean name states it ... wants Causal.rationalLine_not_locallyCausallyOpenFuture': now stated (and conjoined in Causal.rationalLine_separates)",
+   "programme/ladder.toml:1700-1703 (the models list): the rational line's 'A a time function (id), open strong causality ..., not locally causally open in the future ..., no chronal neighbours, not tarentin, not causally compact' are now L",
+   "notes citing the rational line's non-plainness, chronal neighbours or tarentin as argued, in entries that stay open: causally_plain → causally_open (:1761), chronal_neighbours → causally_open (:1766), causally_plain → causally_open_future (:1778), chronal_neighbours → causally_open_future (:1783), tarentin → causally_open_future (:1788): now in Lean (rationalLine_not_causallyPlain, _not_chronalNeighbours, _not_tarentin); the pairs stay open (no Lean model has the premise and fails the conclusion)",
+   "notes 'the one model failing local causal openness, the rational line (argued: ...)' in entries that stay open: causally_compact → locally_causally_open (:1958), causally_plain → (:1968), chronal_neighbours → (:1973), globally_hyperbolic → (:1983), tarentin → (:2018), and the same five → locally_causally_open_future (:2040, :2045, :2050, :2060, :2090): its failure is now in Lean, as are its ¬ CausallyCompact, ¬ GloballyHyperbolic, ¬ CausallyPlain, ¬ ChronalNeighbours, ¬ Tarentin (each premise it lacks)",
+   "causally_arc_connected → locally_causally_open (:1953) and → locally_causally_open_future (:2035): unchanged, the rational line is not causally arc-connected"
+  ],
+  "simulated": "A copy of programme/ladder.toml in /tmp (/tmp/rle/ladder_proposed.toml: the 6 new entries, the 3 replaced, the 16 settled [[open]] entries removed): python3 tools/ladder.py check --file reports only the 9 'witness not found' violations for Causal.rationalLine_separates (not in lean-causal/Causal before graduation); ladder.check with that one name added to the index: 0 violations, no contradiction. python3 tools/ladder.py check on the real file: unchanged, 0 violations. The 16 settled [[open]] entries must be removed in the same edit (check fails on an [[open]] pair already refuted)."
+ },
+ "notes": "One new file, sorry-free, warningAsError-clean (lake env lean -DwarningAsError=true prints nothing), namespace Causal; to graduate as Causal/RationalLineExtras.lean (module Causal.RationalLineExtras) unchanged. It imports Causal.Ladder.Rules for causal_ladder (as Causal.PushUpNotOpen does): after graduation, if emit-lean ever adds a rule whose witness module imports Causal.RationalLineExtras, Rules would form a cycle; none does today (the module declares no ladder edge). The scaffold root is not edited (kb/0025: the axiom sweep does not see the module until it is graduated or imported). Every argued fact of the evidence is confirmed; nothing refuted; one imprecision of wording in the evidence (J ⊆ ℚ ∪ {p}, not ⊆ ℚ). Beyond the dispatch: rationalLine_absolutelyMinimalOn, to make 'either reading' rest on the gluing reading's form (kb/0074) and not only on AbsolutelyMinimal at M; it duplicates the proof of rationalLine_absolutelyMinimal (Causal/NestedConverse.lean:303) with W for ⊤, which a later hoist could make the corollary at ⊤ (not done: NestedConverse is not mine to edit). No paper label is marked or touched; ledger, curation, registers, roadmap, ladder untouched; the simulations ran on copies in /tmp."
+}

@@ -84,3 +84,5 @@ rediscover. One fact per entry.
 | [0076](entries/0076-chronal-diamond-tarentin.md) | pattern | Two-sided chronology near a point gives tarentin there: chronal_neighbours ⇒ tarentin |
 | [0077](entries/0077-plain-of-pushup-chronal.md) | pattern | push_up ∧ chronal_neighbours ⇒ causally_plain; the plainness criterion is in the ETT layer |
 | [0078](entries/0078-flat-time-cylinder.md) | pattern | The flat time cylinder: an absolutely minimal ETT spacetime with every local ladder property and ≪ total |
+| [0079](entries/0079-rational-line-extras.md) | pattern | The rational line in the ladder: an either-reading witness against local causal openness |
+| [0080](entries/0080-backward-ladder-call.md) | pattern | A ladder failure read backwards through a conjunctive edge is one causal_ladder call |
