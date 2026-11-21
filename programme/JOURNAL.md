@@ -170,3 +170,12 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, roadmaps ✓, test_programme + test_roadmap ✓, blueprint ✓, hub: all gates green
 - commits: eeec2ae b50f7be 9bda56f 4d90fb7 dd78b53
 - next: T-abs-hoist-levin (exclusive in lean-causal), then T-lad-record-minimal (keeper); after them, T-abs-maximal-zorn, T-abs-ers-unions, T-abs-ers-mughd
+
+## 2026-11-21 07:36 · wave of 1 · T-abs-hoist-levin
+- T-abs-hoist-levin (layer 1, hoist, exclusive in lean-causal): Levin's theorem in the ETT layer (Causal.LevinTimeFunction), 38 constants moved module only, no type or proof term changed; the duplicate locallyCompactSpace_of_globallyHyperbolic (two modules, one root: Lean merges equal-typed duplicates) is one copy; new wrapper GloballyHyperbolic.hasTimeFunction; audit minor (a test count misreported). The ladder edge globally_hyperbolic ∧ tarentin ⇒ time_function switched to the wrapper by the master in the same commit (otherwise test_programme's staleness check fails): causal_ladder 20 → 21 rules, Test 38 derived / 309 not derived; kb 0082, 0083 (pitfalls), kb/0065 updated
+- tools: /atlas-team's T-ledger-decl-fullname landed (7314b34): ledger check resolves curated decls by full name; this loop's four ledgers pass, after 4d90fb7's curation
+- ladder: 312/314 within a sort, 22 implications (one more checked edge emitted as a rule), 49 counterexamples, 42 consequences, 7 transfers
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 17; sbierski-mghd 19 rows bound, layer 1 in Lean 16
+- gates: lean-causal ✓, ladder ✓, binder ✓, roadmaps ✓, test_programme + test_roadmap ✓, blueprint ✓, hub: all gates green
+- commits: ad07121 4ccc6b5 c71956d
+- next: T-lad-record-minimal (keeper; its last dependency is done): the three new edges, the cylinder's, circle's and rational line's [[fails]], the 16 settled [[open]] entries; beside it lean-causal closers T-abs-maximal-zorn, T-abs-ers-unions, T-abs-ers-mughd
