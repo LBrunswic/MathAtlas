@@ -21,15 +21,20 @@ import tomllib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILE = os.path.join(ROOT, "roadmap", "roadmap.toml")
-# `--file programme/roadmap.toml` (anywhere on the command line) selects the ETT programme's roadmap.
+# `--file programme/roadmap.toml` (anywhere on the command line) selects the ETT programme's roadmap;
+# `--file papers/egf/programme/roadmap.toml` the EGF programme's (/egf-programme).
 LADDER = os.path.join(ROOT, "programme", "ladder.toml")
 STATUS = ["planned", "ready", "active", "needs-ruling", "blocked", "done", "dropped"]
 OWNER = ["closer", "planner", "builder", "master", "author",
-         "keeper", "tactician", "publisher"]          # the last three: /ett-programme (programme/README.md)
+         "keeper", "tactician", "publisher",          # /ett-programme (programme/README.md)
+         "corrector", "experimenter"]                 # /egf-programme (papers/egf/programme/README.md)
 KIND = ["close", "package", "research", "tooling", "author",
         # /ett-programme: layer 1 (causal-topological theorem), layer 3 (geometric lemma for one model),
         # the ladder, a paper's binder, Lean automation, a publication
-        "abstract", "localisation", "ladder", "binder", "tactic", "publish"]
+        "abstract", "localisation", "ladder", "binder", "tactic", "publish",
+        # /egf-programme: one batch of adopted corrections applied to the v2 working copy; one experiment
+        # of the reproduction repository (node1's GPU)
+        "correct", "repro"]
 # The wave: how many targets one /atlas-team iteration may run at once, and how many of them may
 # share one Lean package (node1: 32 threads, 94 GB; lake builds run under taskset -c 0-11, and each
 # closer/auditor elaborates one module at a time). The skill reads these; change them here only.
@@ -176,7 +181,8 @@ def stale_blockers(data, root=ROOT):
     import glob
     import json
     status = {}
-    for path in (os.path.join(root, "roadmap", "roadmap.toml"), os.path.join(root, "programme", "roadmap.toml")):
+    for path in (os.path.join(root, "roadmap", "roadmap.toml"), os.path.join(root, "programme", "roadmap.toml"),
+                 os.path.join(root, "papers", "egf", "programme", "roadmap.toml")):
         if os.path.exists(path):
             status.update({t.get("id"): t.get("status") for t in load(path).get("target", [])})
     status.update({t.get("id"): t.get("status") for t in data.get("target", [])})
@@ -210,7 +216,7 @@ def next_target(data, owner=None):
 
 def package_of(t):
     """The Lean package a target writes in; None for targets that write no Lean (builder, planner)."""
-    if t.get("owner") in ("builder", "planner", "author", "keeper", "publisher"):
+    if t.get("owner") in ("builder", "planner", "author", "keeper", "publisher", "corrector", "experimenter"):
         return None
     return t.get("package") or PACKAGE_OF.get(t.get("paper", ""))
 
@@ -239,7 +245,8 @@ def wave(data, owners=("closer", "master", "builder", "tactician", "keeper", "pu
         labs = {(t.get("paper"), l) for l in t.get("labels", [])}
         if labs & labels:
             continue
-        solo = ("builder", "keeper", "publisher", "tactician")   # each owns one area: one at a time
+        # each owns one area, one at a time: the corrector the v2 working copy, the experimenter node1's GPU
+        solo = ("builder", "keeper", "publisher", "tactician", "corrector", "experimenter")
         if t.get("owner") in solo and any(c.get("owner") == t.get("owner") for c in chosen + active):
             continue
         p = package_of(t)

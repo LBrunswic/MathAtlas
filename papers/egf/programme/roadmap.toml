@@ -1,0 +1,305 @@
+# The EGF programme's roadmap (/egf-programme; papers/egf/programme/README.md).
+#
+# Same schema as roadmap/roadmap.toml (its header), checked by
+#     python3 tools/roadmap.py --file papers/egf/programme/roadmap.toml check
+# Written by the egf-planner (proposals) and the /egf-programme loop (status changes); ruled by the
+# author (DEC-141 is the standing ruling that set this programme up).
+#
+# owner   closer        Lean in lean-egf (target-closer, then target-auditor)
+#         corrector     one batch of `adopted` corrections applied to the v2 working copy
+#                       (paper-corrector, then tex-lean-checker); one at a time
+#         experimenter  one experiment of the reproduction repository, on node1 only (egf-experimenter);
+#                       one at a time
+#         planner       egf-planner: this file and new `found` entries of corrections.toml
+#         master        the loop itself: adoption under DEC-141, curation, ledger, packaging
+# kind    close | package | research | tooling | author (as in the hub), plus
+#         correct  a batch of corrections.toml (its entries name it in `batch`)
+#         repro    one experiment of LBrunswic/egf-reproduction (private), run on node1's GPU
+# stream  lean | paper | repro | programme
+
+[gates]
+# Hub gates allowed to be red when this loop runs (each names why); `roadmap.py gates` reads it.
+known_red = []
+
+# ------------------------------------------------------------------------------------------------
+# programme
+
+[[target]]
+id = "T-egf-plan-wave-1"
+title = "First planning run: refine the seed targets into closer-sized statements, read the assumptions of the cited spectral-gap theorems, pin the paper's experimental configurations"
+stream = "programme"
+kind = "tooling"
+status = "ready"
+owner = "planner"
+priority = 0
+evidence = "Seeded at set-up (DEC-141). For each Lean target, name the exact statements to aim for (Lean signatures in prose), the GFNBounds declarations to port and the corrections.toml entries it proves; for T-egf-families, read off the hypotheses of Theorem 5 of bekka2015spectral (main.tex l.810-818) and Theorem 1 of bourgain2012spectral (l.830-833); for each repro target, the paper's configuration (maps, network sizes, datasets, losses, metrics, figures and tables it reproduces)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-adopt-dec141"
+title = "Apply DEC-141: adopt the proved corrections it settles, rule the OQ rows it answers, and mark the corrected forms in the egf ledger"
+stream = "programme"
+kind = "tooling"
+status = "ready"
+owner = "master"
+package = "none"
+priority = 1
+evidence = "DEC-141 settles OQ-49, OQ-50, OQ-55, OQ-60 and OQ-66 in favour of the corrected forms (and the standing ruling covers proved gaps). For each `proved` entry of corrections.toml whose basis is one of those, or none: add DEC-141 to `basis`, check `corrected`/`summary`/`added_hypotheses`, and `tools/corrections.py set C-n adopted`. Set the five OQ rows to RULED (DEC-141). Curate papers/egf/certificate/curation.toml: the corrected forms of record are marked (lean_proved_override and blocked_on of def:universal_family, cor:pinsker_negative_control, theo:backward_policy), as T-ett-ruled-rows did for DEC-7/DEC-8; rebuild the egf ledger. OQ-47 and OQ-48 stay open."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-hub-handover"
+title = "Hand EGF over from the hub roadmap: remove T-egf-universality and T-egf-families from roadmap/roadmap.toml (they live here now) and set OQ-50 RULED (DEC-141)"
+stream = "programme"
+kind = "tooling"
+status = "ready"
+owner = "master"
+package = "none"
+priority = 1
+evidence = "At set-up /atlas-team held `roadmap` for its whole wave, so the two hub blocks could not be moved in the set-up commit. Take `tools/lease.py take egf <pid> roadmap/roadmap.toml registers/DECISIONS.md` only when /atlas-team is between iterations; delete the two [[target]] blocks (git keeps them; their ids continue here), set OQ-50's row to RULED (DEC-141) (OQ-50 was kept OPEN only because the hub block T-egf-universality is blocked on it), run both roadmaps' check and tools/registers.py check, commit --only those two files."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+# ------------------------------------------------------------------------------------------------
+# lean
+
+[[target]]
+id = "T-egf-inflow-nonsingular"
+title = "F_in << lambda from the diffeomorphism decomposition: nonsingular moves give the inflow density, with no InflowAC or Jacobian hypothesis left for EGFs"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:backward_policy", "cor:pinsker_negative_control"]
+status = "ready"
+owner = "closer"
+priority = 2
+evidence = "The author (2026-11-21, DEC-141): 'The fin domination in the context of the paper is a straightforward consequence of the diffeomorphism decomposition of the policy.' State EGF.inflowAC_of_map_ac: an IsEGFPolicy with measurable Phi_i, (Phi_i)_# lambda << lambda for every i and F_out << lambda give InflowAC (F_out pi = sum_i (Phi_i)_#(alpha_i F_out)). Port, by copying with a provenance comment (kb 0001, OQ-1), GFNBounds.Core.EGF.IsEGFPolicy.bind_withDensity (lean/GFNBounds/Core/UniversalityBody.lean:207), GFNBounds.Core.Family.bind_withDensity_ac (FamilyUniversality.lean:373) and GFNBounds.Core.ILBoundFull.inflowAC_of_bind_ac (ILBoundFull.lean:581); no `≃ᵐ` needed. Instances: R^d with Haar measure and Phi_i with differentiable inverse (EGF.map_eq_withDensity_abs_det), the torus (AddCircle^d with Haar measure, affine moves), the sphere (isometries preserve Measure.toSphere). Then restate pinsker_negative_control_density / _real and backward_policy for EGFs in those settings with no InflowAC and no hJ hypothesis. Proves correction C-6 (and C-7's corrected setting)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-universality"
+title = "EGF's body universality theorem (theo:universality) from theo:universality_true, as epsilon-universality over probability measures, with outflows dense in the non-negative cone"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality", "def:universal_family"]
+status = "ready"
+owner = "closer"
+priority = 3
+evidence = "Moved from roadmap/roadmap.toml (hub, blocked on OQ-50; depended on T-egf-headline, done 742a9c5). DEC-141 rules OQ-49 (probability measures) and OQ-50 (epsilon-universality). Prove theo:universality from EGF.main_universality with 'dense in the non-negative cone of L2(S, lambda)' (correction C-20) and the epsilon-version of def:universal_family (C-18, C-19), so that l.774's 'implies' holds."
+added = "2026-11-20"
+proposed_by = "roadmap-planner (moved by the egf-programme set-up, DEC-141)"
+
+[[target]]
+id = "T-egf-families"
+title = "EGF S-egf-2: the toroidal and spherical universal families, from the two cited spectral-gap theorems stated as named Props"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality_tori", "theo:universality_sphere", "theo:spectral_gap_tori", "theo:spectral_gap_sphere"]
+status = "planned"
+owner = "closer"
+priority = 4
+depends = ["T-egf-universality", "T-egf-inflow-nonsingular"]
+evidence = "Moved from roadmap/roadmap.toml (hub, needs-ruling). DEC-141 rules it as DEC-69 first did for Troyanov: theo:spectral_gap_tori (l.810, Theorem 5 of bekka2015spectral) and theo:spectral_gap_sphere (l.830, Theorem 1 of bourgain2012spectral) are stated as faithful named Props (their hypotheses read off the cited theorems), and theo:universality_tori, theo:universality_sphere are proved from them, with the torus and sphere instances of T-egf-inflow-nonsingular. The 'mild technical assumptions' of l.291 and l.305 become the stated hypotheses (correction C-28)."
+added = "2026-11-20"
+proposed_by = "roadmap-planner (moved by the egf-programme set-up, DEC-141)"
+
+[[target]]
+id = "T-egf-loss"
+title = "The KL-weakFM loss and Algorithm 1 with the corrected delta f_init: the loss controls the sampling error"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["cor:pinsker_negative_control"]
+status = "ready"
+owner = "closer"
+priority = 5
+evidence = "OQ-66 ruled by DEC-141 (negative part). Define the loss of equ:weakFM (l.363-365) with delta f_init = max(0, -(f_init + f_in - f_out)) and show it bounds the sampling error through Corollary 3.10 (port GFNBounds.Core.wklfmLoss, lean/GFNBounds/Core/ILBound.lean:177, and GFNBounds.Core.SamplingGeneral.il_first_bullet_general as templates); settle the KL direction of l.418 against l.377 (correction C-5) and give the anchors of C-2 and C-3."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-def-egf"
+title = "Mark def:egf once OQ-48 says which topological ergodicity is meant (both readings are proved)"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["def:egf"]
+status = "blocked"
+oq = "OQ-48"
+owner = "closer"
+priority = 9
+evidence = "Both readings exist (EGF.IsTopologicallyErgodic, EGF.IsTopologicallyErgodicGroup, EGF.IsTopologicallyErgodic.group) with the separating example EGF.shiftZ_group_not_forward. OQ-48 is a genuine reading, left to the author by DEC-141."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+# ------------------------------------------------------------------------------------------------
+# paper: the v2 working copy (~/Dropbox/ErgodicGFN arXiv/source/main.tex), one batch per target
+
+[[target]]
+id = "T-egf-correct-sign"
+title = "Correct the sign of delta f_init: Corollary 3.10, Eq. (15), Algorithm 1, the normalization identity (C-1 to C-5)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 6
+depends = ["T-egf-adopt-dec141", "T-egf-loss"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-sign."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-correct-backward"
+title = "Correct the inflow and the backward policy: nonsingular moves, the Jacobian relative to lambda, a.e. weights (C-6 to C-10)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 6
+depends = ["T-egf-adopt-dec141", "T-egf-inflow-nonsingular"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-backward."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-correct-sampling"
+title = "Correct the sampling statements: TV with 1/2, termination, the randomized stopping rule, Corollary 3.9's proof (C-11 to C-17)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 6
+depends = ["T-egf-adopt-dec141"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-sampling. All its anchors exist already."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-correct-universality"
+title = "Correct universality: epsilon-universality over probability measures, the non-negative cone, the proof of Theorem B.1 (C-18 to C-25)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 7
+depends = ["T-egf-adopt-dec141", "T-egf-universality"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-universality (C-22 and C-25 wait on OQ-47)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-correct-defs"
+title = "Correct the definitions and the families: alpha measurable summing to 1, the assumptions of Theorems 3.5 and 3.6 (C-26 to C-28)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 8
+depends = ["T-egf-adopt-dec141", "T-egf-families"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-defs (C-26 waits on OQ-48)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-v2-package"
+title = "Package the corrected v2: a 'Changes from v1' appendix from corrections.py errata, the arXiv tarball and preview, for the author's review"
+stream = "paper"
+kind = "tooling"
+status = "planned"
+owner = "master"
+package = "none"
+priority = 10
+depends = ["T-egf-correct-sign", "T-egf-correct-backward", "T-egf-correct-sampling", "T-egf-correct-universality", "T-egf-correct-defs"]
+evidence = "Rebuild ~/Dropbox/ErgodicGFN arXiv/source.tar.gz (used files + main.bbl, pdflatex-only clean-room build) and preview.pdf; the author reviews `git diff camera-ready..HEAD` of the v2 repository before any upload. Never upload."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+# ------------------------------------------------------------------------------------------------
+# repro: LBrunswic/egf-reproduction (private), cloned at node1:~/egf-reproduction; node1's GPU only
+
+[[target]]
+id = "T-egf-repro-scaffold"
+title = "Create the private reproduction repository: PyTorch package, conda env, host guard, configs, CPU smoke test"
+stream = "repro"
+kind = "repro"
+status = "ready"
+owner = "experimenter"
+priority = 2
+evidence = "R-0. `gh repo create LBrunswic/egf-reproduction --private` on node1, cloned at ~/egf-reproduction (outside Dropbox). Conda env `egf` (~/miniconda3, Python 3.12, torch with cu128). scripts/guard.py refuses unless hostname == node1 (and CUDA for GPU runs). Port from ~/GFNCertified/exp (nonacyclic_gfn: torus lattice, bounds/losses.py's kl_weak_fm_loss with the correct sign, exp14/exp16) and read, never copy wholesale, the TF code of LBrunswic/ErgodicFlow (its hptune.ini holds a plaintext DB password: never copied)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-repro-torus-il"
+title = "Imitation learning on the continuous torus T^2: 4 affine maps, 3x32 MLPs, trainable translations, the density filter; checkerboard, spiral, star"
+stream = "repro"
+kind = "repro"
+status = "planned"
+owner = "experimenter"
+priority = 3
+depends = ["T-egf-repro-scaffold"]
+evidence = "R-1. The paper's 2D toy IL figures with the KL-weakFM loss (corrected sign)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-repro-rl"
+title = "Reinforcement learning on the checkerboard: 16 maps, stable vs divergence-based FM loss"
+stream = "repro"
+kind = "repro"
+status = "planned"
+owner = "experimenter"
+priority = 4
+depends = ["T-egf-repro-scaffold"]
+evidence = "R-2. The paper's RL figure (FM loss with a target reward)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-repro-sphere"
+title = "Earth-science datasets on the sphere: 6 rotations by pi/4, 256x5 MLPs; NLL on volcano, earthquake, flood"
+stream = "repro"
+kind = "repro"
+status = "planned"
+owner = "experimenter"
+priority = 4
+depends = ["T-egf-repro-scaffold"]
+evidence = "R-3. The NLL table and the volcano figure. Data: earth_data.zip (MIT) of github.com/noamroze/moser_flow, downloaded on node1, with its 0.7/0.3 split; baselines stay cited."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-repro-ablations"
+title = "Size ablations: networks 2x32 to 9x64 on star, 4 circles, 2 spirals"
+stream = "repro"
+kind = "repro"
+status = "planned"
+owner = "experimenter"
+priority = 6
+depends = ["T-egf-repro-torus-il"]
+evidence = "R-4. The appendix ablation figures."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"
+
+[[target]]
+id = "T-egf-repro-report"
+title = "Reproduction report: paper vs reproduced numbers and figures, and the printed-sign vs corrected-sign comparison"
+stream = "repro"
+kind = "repro"
+status = "planned"
+owner = "experimenter"
+priority = 8
+depends = ["T-egf-repro-torus-il", "T-egf-repro-rl", "T-egf-repro-sphere", "T-egf-repro-ablations"]
+evidence = "R-5. Documents the effect of the sign of delta f_init (correction C-2) on training, beside the reproduction table."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141)"

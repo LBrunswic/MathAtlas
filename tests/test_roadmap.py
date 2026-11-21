@@ -69,6 +69,18 @@ class RoadmapRules(unittest.TestCase):
         d["target"][0]["status"] = "active"                                              # T-a running
         self.assertEqual(rm.wave(d), ["T-c", "T-d", "T-f", "T-i"])
 
+    def test_egf_programme_kinds_and_solo_owners(self):
+        """/egf-programme: `correct` and `repro` targets are valid, write no Lean package, and their
+        owners run one at a time (one v2 working copy, one GPU), beside closers of lean-egf."""
+        corr = lambda tid, p: target(id=tid, owner="corrector", kind="correct", paper="egf", priority=p)
+        rep = lambda tid, p: target(id=tid, owner="experimenter", kind="repro", priority=p)
+        d = {"target": [corr("T-a", 1), corr("T-b", 2), rep("T-c", 3), rep("T-d", 4),
+                        target(id="T-e", owner="closer", kind="close", paper="egf",
+                               labels=["theo:universality"], priority=5)]}
+        self.assertEqual(self.errs(*d["target"]), [])
+        self.assertIsNone(rm.package_of(d["target"][0]))
+        self.assertEqual(rm.wave(d, owners=("closer", "corrector", "experimenter")), ["T-a", "T-c", "T-e"])
+
     def test_next_respects_priority_and_owner(self):
         d = {"target": [target(id="T-a", priority=2), target(id="T-b", priority=1, owner="closer", kind="research"),
                         target(id="T-c", priority=0, status="planned")]}

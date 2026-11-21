@@ -24,7 +24,9 @@ Arguments:
    running: stop. Otherwise write the pid of this Claude session's own process (not `$$`, which
    is a short-lived shell), the date and the session id to it. Remove it at the end, on every
    path out.
-4. **Leases** (`tools/lease.py`; the checkout is shared with `/ett-programme`). Take the base lease
+4. **Leases** (`tools/lease.py`; the checkout is shared with `/ett-programme` and `/egf-programme`).
+   EGF belongs to `/egf-programme` (DEC-141): never plan, dispatch or curate for `lean-egf` or
+   `papers/egf`; its targets live in `papers/egf/programme/roadmap.toml`. Take the base lease
    `python3 tools/lease.py take atlas <the session process pid> roadmap reports/atlas`. Then
    `python3 tools/lease.py tree atlas` must pass: every changed path is held by you (an interrupted
    wave's files, which you resume) or by another live loop. A change nobody holds means a human is

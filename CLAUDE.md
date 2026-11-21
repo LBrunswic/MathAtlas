@@ -115,6 +115,21 @@ checkout with `/atlas-team` through leases (`tools/lease.py`): each loop takes t
 commits with `git commit --only` its own paths, and rebuilds only the ledgers whose Lean root it
 committed into.
 
+## The EGF programme (`/egf-programme`)
+
+*Ergodic Generative Flows* is fully formalized **and corrected** by a loop of its own (DEC-141,
+2026-11-21), modelled on the ETT programme: `.claude/skills/egf-programme/SKILL.md`, lease name `egf`,
+charter `papers/egf/programme/README.md`, roadmap `papers/egf/programme/roadmap.toml`. Its agents are
+egf-planner, paper-corrector, tex-lean-checker, egf-experimenter (and target-closer/target-auditor
+for lean-egf). Its corrections register `papers/egf/programme/corrections.toml` (gate:
+`tools/corrections.py check`) records every place the paper is wrong or short: refutation, corrected
+form, Lean anchor, status `found → proved → adopted → applied → reviewed`. Under DEC-141's standing
+ruling the loop adopts the smallest correction proved sufficient; genuine readings stay OQ rows.
+Adopted corrections are applied to the arXiv v2 working copy `~/Dropbox/ErgodicGFN arXiv/source`
+(outside the hub, its own git repository, no remote; the author reviews the diff and uploads). The
+experiments are reproduced in the private `LBrunswic/egf-reproduction` (`node1:~/egf-reproduction`),
+GPU work on node1 only. `/atlas-team` leaves `lean-egf` and `papers/egf` to this loop.
+
 ## Governance (light, DEC-1)
 
 `registers/DECISIONS.md` is the authority for the author's rulings (append-only, `DEC-n`).

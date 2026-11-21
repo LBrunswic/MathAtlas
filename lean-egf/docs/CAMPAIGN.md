@@ -3,8 +3,11 @@
 The author's decisions DEC-9 (campaigns of parallel agents) and DEC-38 (each wave a workflow:
 authors on disjoint scaffold files, a read-only audit of every file, fixers, a re-audit), applied to
 EGF by DEC-133 (a package of its own, as DEC-112 for Benzécri). EGF is formalized by parallel
-agents, each owning disjoint new files of the scaffold; the master session (`/atlas-team`) alone
-graduates files, runs the gates, curates the ledger and commits. This file is the whole protocol.
+agents, each owning disjoint new files of the scaffold; the master session alone graduates files,
+runs the gates, curates the ledger and commits. Since DEC-141 (2026-11-21) the master is
+`/egf-programme` (its roadmap is `papers/egf/programme/roadmap.toml`, its charter
+`papers/egf/programme/README.md`); the first targets were run by `/atlas-team`. This file is the
+whole protocol.
 Your dispatch names your target, your labels and your files; everything else is here.
 
 ## Where things are
