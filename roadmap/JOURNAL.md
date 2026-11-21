@@ -217,3 +217,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 05:16–06:03 (Paris); agents: 3 closers, 3 audits (while /ett-programme ran a keeper and 2 lean-causal closers)
 - new OQ: 68 (a)–(d) (Syracuse § 3 readings)
 - next: plan (rule 2: no ready closer; only the master T-bz-c2-dedupe-majore is dispatchable)
+
+## 2026-11-21 06:18 · plan · —
+- why: rule 2 (no ready closer after wave 11)
+- result: 94 -> 96 targets (7 ready, 11 planned, 10 needs-ruling, 5 blocked); promoted T-bz-c2-cas-affin and T-bz-c2-developpement (T-bz-c2-compact done; neither depends on OQ-45 or OQ-61); added T-syr-steiner (theo:steiner_2) and T-syr-two-descents (theo:syracuse_cycle), the paper's steps with the cited inputs as hypotheses, false over ℤ as printed at the cycles (−5, −7) and (−17) [planner, to be confirmed in Lean]; T-gx-troyanov stays planned: from s = 5 an angle ≥ 4π defeats the polygon double and the fan (θ = (5π, 3π/4, π/10, π/10, π/10), checked numerically), a case split into θ_max ≥ 4π and < 4π
+- rulings that would unblock the most (planner): BBS-Q1 (71 rows), T-syr-cited (8), OQ-42 (8), T-yamabe-scope with OQ-44 (≈10), OQ-63 and OQ-43 (6 each), OQ-68 (6), OQ-45 (5)
+- gates: roadmap ✓, atlas ✓ (lean-causal overlay flagged stale by /ett-programme's scaffold builds; no lean-causal commit since 1f82940)
+- wall time: 06:05–06:18 (Paris); agents: 1 (planner, alone)
+- next: wave: T-bz-c2-cas-affin, T-bz-c2-developpement, T-syr-steiner, T-syr-two-descents (4 closers, 2 per package)
