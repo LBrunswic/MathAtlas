@@ -5,8 +5,28 @@
 # 2026-11-20 (T-bind-sbierski-mghd); rebound 2026-11-21 (planning run after the waves of 2026-11-20
 # 21:35, 22:45, 23:50) to the ladder nodes and the Lean that exist now, and again later that day after
 # T-abs-hoist-cbg-cores (e4df4d0) and T-abs-hoist-time-function (7eff58c), and once more after
-# T-abs-sbierski-prop-3-7 (48d1cf0: Prop 3.7 and Lemma 3.8's smooth-vacuum entry). It records how
-# Sbierski's argument factors, not what Lean has closed: the ledger's curation stays the loop's.
+# T-abs-sbierski-prop-3-7 (48d1cf0: Prop 3.7 and Lemma 3.8's smooth-vacuum entry), and for
+# curves_extend after T-abs-curves-extend-second-countable (7923138; T-bind-curves-extend, below). It
+# records how Sbierski's argument factors, not what Lean has closed: the ledger's curation stays the
+# loop's.
+#
+# curves_extend, a [[fact]] of the ladder since T-lad-record-curves-fact (71b5cc7): every causality on
+# a T1, second countable space has CurvesExtend (Causal.Causality.curvesExtend_of_t1_secondCountable)
+# and CurvesExtendOn W for every open W (curvesExtendOn_of_t1_secondCountable). Sbierski's GHDs are
+# second countable: he proves it of the maximal one (Maximal_GHD2.tex:763 for Thm 2.7's gluing,
+# :821 by Geroch's appendix for Thm 2.8's) and uses it of every GHD (:823, 'Since M is second
+# countable and time oriented'); the CBG's A2 field asks it as an instance argument
+# ([SecondCountableTopology M], Causal/CBG/Geometry.lean:304–306). So for smooth-vacuum the property
+# is the fact applied to the manifold's topology, which T-loc-smooth-causal-ladder's representation
+# carries; each smooth-vacuum entry proving curves_extend cites the fact's witness beside it. The
+# convention (shared with papers/ers-predictability): a property that is a [[fact]] on the model's
+# spaces stays in `localisation` while the row's ETT theorem still takes it as a hypothesis (`hext`,
+# `hDext`, or the A2 field), its entry citing the witness; the flat-gx entries keep their model
+# lemma Causal.CBG.flat_curvesExtend. It leaves a row when the row's `ett` names a form without the
+# hypothesis (T-abs-c-ext-connexe-second-countable; rebinding T-bind-curves-corollaries). The A2
+# field itself (and LocalModel's B3) was already derivable from the A2 time-function field
+# (Causal.Causality.HasTimeFunction.curvesExtend) and is now a theorem outright: T-loc-cbg-curves-default
+# gives both fields a default.
 #
 # How the paper factors. lean-causal's CBG (Causal.CBG.*, docs/CBG-DESIGN.md, DEC-29/DEC-60) follows
 # this paper's order over an abstract geometry `Causal.CBG.Geometry` whose interface fields ARE the
@@ -151,7 +171,7 @@ note = "Thm 2.7 (Maximal_GHD2.tex:411, proof 723–775). Gluing along the MCGHD 
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
-by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "T-loc-vacuum-geometry"]
+by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "T-loc-vacuum-geometry", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
@@ -167,7 +187,7 @@ note = "Thm 2.8 (Maximal_GHD2.tex:417, proof 780–840). Glue the small developm
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
-by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "T-loc-vacuum-geometry"]
+by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "T-loc-vacuum-geometry", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
@@ -192,11 +212,11 @@ by = ["Causal.CBG.flat_rigid"]
 label = "mghdcor:welldefined"
 ett = ["Causal.CBG.IsCGHD.eqOn", "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace"]
 localisation = ["rigid", "curves_extend"]
-note = "Cor 3.2 (Maximal_GHD2.tex:452). Agreement on Σ propagates to U₁ ∩ U₂ by rigidity on a CONNECTED open: U₁ ∩ U₂ is connected because both Cauchy-include Σ in one M (lem:C_ext_connexe re-routed, c_ext_connexe_of_connectedSpace, the ladder's consequence at curves_extend, asked of the target; ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function). That connectedness is exactly what fails on a fixed background (ERS19 §4.2, Thm 3.45; papers/ers-predictability)."
+note = "Cor 3.2 (Maximal_GHD2.tex:452). Agreement on Σ propagates to U₁ ∩ U₂ by rigidity on a CONNECTED open: U₁ ∩ U₂ is connected because both Cauchy-include Σ in one M (lem:C_ext_connexe re-routed, c_ext_connexe_of_connectedSpace, the ladder's consequence at curves_extend, asked of the target; ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function). That connectedness is exactly what fails on a fixed background (ERS19 §4.2, Thm 3.45; papers/ers-predictability). Its `hDext` (curves extend in N) is the fact on a second countable N, cited by the smooth-vacuum entry; the form without it is T-abs-c-ext-connexe-second-countable, and the paper's middle step ('φ(Σ) is a Cauchy surface of A ∩ B', the scaffold's exists_mem_image_inf) on a T2, second countable N is T-abs-c-ext-connexe-cauchy (rebound 2026-11-21)."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["rigid", "curves_extend"]
-by = ["T-loc-vacuum-rigid-germ", "T-loc-smooth-causal-ladder"]
+by = ["T-loc-vacuum-rigid-germ", "T-loc-smooth-causal-ladder", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["rigid", "curves_extend"]
@@ -206,11 +226,11 @@ by = ["Causal.CBG.flat_rigid", "Causal.CBG.flat_curvesExtend"]
 label = "mghdlem:IsoDiffeo"
 ett = ["Causal.CBG.injOn_of_injOn_cauchy", "Causal.CBG.sbierski_lemma_3_3", "Causal.CBG.injective_of_globallyHyperbolic", "Causal.Causality.HasTimeFunction.isCausal", "Causal.Causality.HasTimeFunction.curvesExtend"]
 localisation = ["causally_arc_connected", "time_function", "curves_extend"]
-note = "Lemma 3.3 (Maximal_GHD2.tex:463). Model-free: timelike geodesics replaced by lifts of causal curves along a local homeomorphism; a time function replaces GH of M (incomparable in the abstract setting). injOn_of_injOn_cauchy is the ladder's consequence at time_function, ETT-layer in Causal.CBG.Injective since T-abs-hoist-time-function (7eff58c; the Minkowski instance minkowski_sbierski_lemma_3_3 moved to Causal.Model.InjectiveMinkowski). The target's hypotheses of the principal and printed forms, N causal and N with CurvesExtend, follow from a time function of N by the ladder edges time_function ⇒ is_causal and time_function ⇒ curves_extend (HasTimeFunction.isCausal, .curvesExtend, Causal.CurvesExtend); that is also how the A2 field curvesExtend is discharged (Causal/CBG/Geometry.lean:299–301)."
+note = "Lemma 3.3 (Maximal_GHD2.tex:463). Model-free: timelike geodesics replaced by lifts of causal curves along a local homeomorphism; a time function replaces GH of M (incomparable in the abstract setting). injOn_of_injOn_cauchy is the ladder's consequence at time_function, ETT-layer in Causal.CBG.Injective since T-abs-hoist-time-function (7eff58c; the Minkowski instance minkowski_sbierski_lemma_3_3 moved to Causal.Model.InjectiveMinkowski). The target's hypotheses of the principal and printed forms, N causal and N with CurvesExtend, follow from a time function of N by the ladder edges time_function ⇒ is_causal and time_function ⇒ curves_extend (HasTimeFunction.isCausal, .curvesExtend, Causal.CurvesExtend); that is also how the A2 field curvesExtend is discharged (Causal/CBG/Geometry.lean:299–301). Without a time function, on a second countable N, CurvesExtend is the fact (curvesExtend_of_t1_secondCountable, cited by the smooth-vacuum entry; rebound 2026-11-21); the form of sbierski_lemma_3_3 and injective_of_mapsTo_cauchy without `hDext` is T-abs-c-ext-connexe-second-countable."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["causally_arc_connected", "time_function", "curves_extend"]
-by = ["T-loc-smooth-causal-ladder"]
+by = ["T-loc-smooth-causal-ladder", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["causally_arc_connected", "time_function", "curves_extend"]
@@ -226,11 +246,11 @@ ett = ["Causal.CBG.exists_mcghd", "Causal.CBG.mcghd_unique", "Causal.CBG.cauchy_
 localisation = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
 open_localisation = ["local_uniqueness"]
 open_reason = "Non-emptiness of the family of CGHDs is Thm 2.6 (local_uniqueness, T-lad-development-nodes), automatic for ETT's datum M₀."
-note = "Thm 3.4 (Maximal_GHD2.tex:485). The union of all CGHDs: a union of Cauchy inclusions is a Cauchy inclusion (no Zorn), well defined by A1 (Cor 3.2), injective by Lemma 3.3. The proof's 'the corresponding curve segment in U_α is inextendible in U_α' is inextensible_ordConnectedComponent_of_le, ETT-layer since T-abs-hoist-model-free (Causal.CurveComponents); isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn are ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function (7eff58c), which moved Causal.CurvesExtend's Minkowski section to Causal.Model.CurvesExtendModels. The rest of the row (exists_mcghd, mcghd_unique, cauchy_pgcd_geometry in Causal.CBG.Pgcd) is over a CBG geometry, behind Causal.SingularFlat (T-abs-hoist-cbg-geometry)."
+note = "Thm 3.4 (Maximal_GHD2.tex:485). The union of all CGHDs: a union of Cauchy inclusions is a Cauchy inclusion (no Zorn), well defined by A1 (Cor 3.2), injective by Lemma 3.3. The proof's 'the corresponding curve segment in U_α is inextendible in U_α' is inextensible_ordConnectedComponent_of_le, ETT-layer since T-abs-hoist-model-free (Causal.CurveComponents); isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn are ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function (7eff58c), which moved Causal.CurvesExtend's Minkowski section to Causal.Model.CurvesExtendModels. The rest of the row (exists_mcghd, mcghd_unique, cauchy_pgcd_geometry in Causal.CBG.Pgcd) is over a CBG geometry, behind Causal.SingularFlat (T-abs-hoist-cbg-geometry). The `hext : CurvesExtendOn B` of isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn is the fact on a second countable B (curvesExtendOn_of_t1_secondCountable, cited by the smooth-vacuum entry; rebound 2026-11-21); the forms without it are T-abs-c-ext-connexe-second-countable."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
-by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ"]
+by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "Causal.Causality.curvesExtend_of_t1_secondCountable", "Causal.Causality.curvesExtendOn_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
@@ -251,7 +271,7 @@ note = "Thm 3.6 (Maximal_GHD2.tex:537, proof 662–702). A strictly larger CGHD 
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
-by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice"]
+by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
@@ -293,7 +313,7 @@ note = "Lemma 3.9 (Maximal_GHD2.tex:615, proof 627–642). Null geodesic generat
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["push_up", "tarentin", "curves_extend"]
-by = ["T-loc-smooth-causal-ladder"]
+by = ["T-loc-smooth-causal-ladder", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["push_up", "tarentin", "curves_extend"]
@@ -321,7 +341,7 @@ note = "Thm 3.13 (Maximal_GHD2.tex:708): Thm 3.6 by tertium non datur on the MCG
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
-by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice"]
+by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
