@@ -225,3 +225,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓ (lean-causal overlay flagged stale by /ett-programme's scaffold builds; no lean-causal commit since 1f82940)
 - wall time: 06:05–06:18 (Paris); agents: 1 (planner, alone)
 - next: wave: T-bz-c2-cas-affin, T-bz-c2-developpement, T-syr-steiner, T-syr-two-descents (4 closers, 2 per package)
+
+## 2026-11-21 07:22 · wave of 4 · T-bz-c2-cas-affin, T-bz-c2-developpement, T-syr-steiner, T-syr-two-descents
+- T-bz-c2-cas-affin: closed 2/2 labels: the Remark before Prop. 7′ and Prop. 7′ as printed, every dimension, both marked; « connexe » settled by Ch. 1 Déf. 12 (no OQ); audit minor
+- T-bz-c2-developpement: partial: the Theorem's 1° in component form, every dimension; the printed full form ⇔ D ∩ φ̃(V) connected, open for a non-constant cote (OQ-71); unmarked (assembled by T-bz-c2-theoreme); audit minor
+- T-syr-steiner: partial: false over ℤ per period ((−5, −7)); exact reduction ⇔ theo:steiner; kernel check for periods ≤ 100; the planner's (a)–(c) confirmed; audit minor
+- T-syr-two-descents: partial: false over ℤ (−17); key identity and bound in every configuration, the draft's unfinished case k₂ = k₁ + 1 included; the positive statement from two explicit cited hypotheses; audit minor
+- gates: lean-benzecri ✓, lean-syracuse ✓, roadmap ✓, atlas ✓ (lean-causal overlay left at its committed edges: /ett-programme's wave 13 was mid-integration), hub: all gates green
+- commits: 01e70c4 dc5b6dc 86eb4ac 64f197e 884dbd2 2eda361 (+ this)
+- wall time: 06:21–07:22 (Paris); agents: 4 closers, 4 audits (with /ett-programme's 2 lean-causal closers, cap 6)
+- new OQ: 71 (Benzécri 1°c, full or component form), 72 (Syracuse § 3 readings of theo:steiner_2 and theo:syracuse_cycle)
+- next: plan (rule 2: no ready closer; only the master T-bz-c2-dedupe-majore). The planner also adds a master target for tools/ledger.py decl_line (it matches the last name component only; agreed with /ett-programme)
