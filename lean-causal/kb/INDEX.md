@@ -77,3 +77,4 @@ rediscover. One fact per entry.
 | [0069](entries/0069-rational-line.md) | pattern | The rational line: absolutely minimal, push-up, only constant causal curves |
 | [0070](entries/0070-spacelike-line-not-tarentin.md) | pattern | The spacelike line is GH and not tarentin; transfers that read only ≤ need ≤ at M only |
 | [0071](entries/0071-sbierski-prop-3-7-a3-free.md) | pattern | Sbierski Prop 3.7 (i) ⇒ (ii) without A3; (iii) fails at BTZ points |
+| [0072](entries/0072-chronology-three-strengths.md) | pattern | Chronology at points comes in three strictly different strengths |

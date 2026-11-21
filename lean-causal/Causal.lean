@@ -232,6 +232,7 @@ import Causal.Model.InjectiveMinkowski
 import Causal.NestedConverse
 import Causal.NestedTransfer
 import Causal.SbierskiProp37
+import Causal.ChronalNeighbourBridge
 
 /-!
 # Causal — topological spacetimes

@@ -1,0 +1,52 @@
+{
+  "target": "T-abs-chronal-neighbour-bridge",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-chronal-neighbour-bridge/0-everywhere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ChronalNeighbours.hasChronalNeighbourEverywhere : C.ChronalNeighbours -> C.HasChronalNeighbourEverywhere, and the latter is definitionally ∀ p, C.HasChronalNeighbour p (LocateExtension.lean:138). No added hypothesis. The extras are true: ChronalNeighbours.nonemptyChronalCones, and ChronalPastNeighbours.Iminus_nonempty_of_mem (a past inside every open V ∋ p). NonemptyChronalCones (∀ x, (C.Iplus ⊤ {x}).Nonempty ∧ (C.Iminus ⊤ {x}).Nonempty) is alpha-equivalent (bound name p vs x) to the inline hI of Causality.Zplus_Zminus_eq_univ (Remarks/BTZPoints.lean:207), K_lorentzien (Remarks/Tarentin.lean:360) and K_eq_I_of_pushUp (Remarks/Tarentin.lean:368)."
+    },
+    {
+      "label": "T-abs-chronal-neighbour-bridge/1-minimal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "AbsolutelyMinimal.chronalNeighbours_iff [T1Space M] (h : C.AbsolutelyMinimal) : C.ChronalNeighbours ↔ ∀ x, (C.Iplus ⊤ {x}).Nonempty ∧ (C.Iminus ⊤ {x}).Nonempty is exactly the target's sentence, reading I^±(x) in M, which is the library's convention (LadderLocal's chronalPastNeighbours_iff, Zplus_Zminus_eq_univ). The CausallyArcConnected form needs no separation axiom and is true. Both sharpness models are genuine Causality instances and every claimed property holds. globalLine: ≤_U is (x = y ∈ U) ∨ (U = ⊤ ∧ x < y), and ≪_U is (U = ⊤ ∧ x < y), so ≪_U = ∅ for U ≠ ℝ. lt_mono and le_mono hold because V ≤ U and V = ⊤ give U = ⊤ (top_le_iff). I^±_U(x) is Ioi/Iio or ∅, both open. Its push-up, causality (≤_ℝ is the order of ℝ), two-sided causal openness (J^±_U(V) = V for U ≠ ℝ, V ∪ I^±(V) for U = ℝ), non-empty cones, failure of ChronalPastNeighbours at 0 in (-1, ∞), and non-absolute-minimality (through the T1 iff) are all proved. sierpinskiCausality on Prop: ≤_U is (x = y ∈ U) ∨ U = ⊤, and ≪_U is U = ⊤. All fields hold. It is absolutely minimal under the library's definition (Precausality.absolutelyMinimal_iff: the cover member containing False is ⊤ by nhds_false, so each relation is one step in V ⊓ ⊤ = V); the docstring's 'every causality of the Sierpiński space' is argued and true. It has non-empty cones (x ≪_⊤ x), no chronology in {True}, and ¬ T1Space Prop is derived. The SCOPE says it is not one of ETT's spacetimes. The bare forms quantify over X : Type and are correctly refuted."
+    },
+    {
+      "label": "T-abs-chronal-neighbour-bridge/2-leaving",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "exists_leaving_of_chronalNeighbours, futureBoundary_union_pastBoundary_nonempty_of_chronalNeighbours, frontier_subset_closure_boundary_of_chronalNeighbours and exists_leaving_of_isOpenEmbedding_of_chronalNeighbours keep every hypothesis of Causality.exists_leaving (LocateExtension.lean:397), futureBoundary_union_pastBoundary_nonempty, frontier_subset_closure_boundary and exists_leaving_of_isOpenEmbedding (:418): PreconnectedSpace where the original has it, CausallyArcConnected, IsOpen, Nonempty, ≠ univ, and the open embedding with Nonempty N and range ≠ univ. Only the boundary hypothesis is replaced, by hN : C.ChronalNeighbours, and each conclusion is verbatim. The local form (LocallyCausallyArcConnected, which is weaker than CausallyArcConnected, together with ChronalPastNeighbours) is correctly disclosed as an extra."
+    },
+    {
+      "label": "T-abs-chronal-neighbour-bridge/3-converse",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "not_chronalNeighbours_of_hasChronalNeighbourEverywhere_bare : ¬ ∀ X [TopologicalSpace X] [T1Space X] D, D.CausallyArcConnected → D.HasChronalNeighbourEverywhere → D.ChronalNeighbours refutes the converse, and a stronger converse than the target's. The witness is the strict Causal.closedHalfLine (LocateExtension.lean:758; ≤_U / ≪_U are x ≤ / < y with [x, y] ⊆ U on Ici 0). It is causally arc-connected (strict lemma) and hence absolutely minimal, T1 (indeed T2 and second countable, both instances synthesised), and preconnected. Every point has a future (closedHalfLine_hasChronalNeighbour), while I⁻(0) = ∅ (closedHalfLine_Iminus_zero). closedHalfLine_separates_chronalNeighbours states all of this."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "On node1, `cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ChronalNeighbourBridge.lean` exits 0 with no output. The only `sorry` in the file is the docstring word at line 80. A /tmp copy of the file with `#print axioms` appended for all 53 declarations (the closer's count) gives [propext, Classical.choice, Quot.sound] or a subset for every one, with no sorryAx; the probes were deleted. The lakefile's strict lib sets only warningAsError, so the file is graduation-clean. Layer 1: the transitive Causal import closure is the 28 modules the REPORT lists (ArcConnected … Subdivision), with no Minkowski, Static, SingularFlat, Flat, Model, Port or CBG module, and the file uses no metric notion. Clash check: the module body elaborates with no error after `import Causal` (the strict root imports all 234 strict modules). It also elaborates with no error concatenated with the siblings PushUpNotOpen.lean and GateLineLocal.lean (union of imports). Short-name coincidences (IsCausalIso.chronalNeighbours_iff, AbsolutelyMinimal.chronalPastNeighbours_iff, CausallyArcConnected.hasChronalNeighbour_iff) are in other namespaces. kb/0006: title, the four marks within the first 4000 characters (by 2286 bytes), two verbatim quotes (roadmap.toml:572 title; LadderLocal.lean:93-94), hypothesis checklist, SCOPE and provenance are present and true. Namespace Causal / Causal.Causality."
+  },
+  "scope": "The closer's paths (lean-causal/scaffold/CausalScaffold/ChronalNeighbourBridge.lean, lean-causal/campaign/T-abs-chronal-neighbour-bridge/REPORT.json) are untracked and new. Every other change in `git status` belongs to a concurrent agent under a live lease, or appeared after the REPORT (04:08:24). This covers programme/ladder.toml (04:13, programme lease), the roadmaps, reports/atlas/** and reports/blueprint (04:13-04:15, during this audit), and the sibling scaffold files. No edit is attributable to this closer.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-chronal-neighbour-bridge/REPORT.json: kb_proposals[1] and for_keeper.fails[3].note",
+      "what": "'Mathlib synthesises CompactSpace and SecondCountableTopology on Prop, not T0Space' holds only under this module's imports (Causal.LocateExtension, Causal.LadderLocal). With `import Causal` or `import Mathlib`, `#synth T0Space Prop` succeeds (Topology.IsScott.instT0Space); the Sierpiński space is T0. ConnectedSpace Prop is indeed not synthesised. Because the ladder space list says only what the counterexample satisfies, omitting T0 is conservative and changes no classification. The kb sentence would record a false fact.",
+      "fix": "In the kb entry, say 'under the imports of CausalScaffold.ChronalNeighbourBridge'. Alternatively state that T0Space Prop is found with import Causal / Mathlib, and optionally add \"T0\" to the Sierpiński entry's space."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-chronal-neighbour-bridge/REPORT.json: for_keeper.simulation; labels[1].findings[2]",
+      "what": "The simulation says the entries turn 11 pairs 'from unknown to fails'. That was true of the ladder.toml the closer copied, but programme/ladder.toml was rewritten in the working tree at 04:13, after the REPORT, under the programme lease. All 11 pairs are now [[open]] entries: causally_open, causally_open_future, locally_causally_open, locally_causally_open_future ⇏ absolutely_minimal and ⇏ causally_arc_connected; push_up, locally_push_up ⇏ absolutely_minimal; causally_plain ⇏ chronal_neighbours. Re-simulated on a /tmp copy of the current file with the REPORT's 2 properties, 4 implies and 6 fails, the semantic pass (ladder._contradictions) reports no counterexample contradiction, plus 'open … is already settled; remove it' for exactly these 11. The causally_plain → chronal_neighbours open note asks for a witness named Causal.isolatedLine_not_chronalNeighbours; this file supplies Causal.isolatedLine_separates_chronalNeighbours, whose last conjunct is that fact. The cited ladder.toml:236-240 is correct against HEAD but has drifted in the working tree.",
+      "fix": "When the keeper records the fails, it deletes those 11 [[open]] entries and cites isolatedLine_separates_chronalNeighbours for causally_plain ⇏ chronal_neighbours. Nothing to change in the Lean."
+    }
+  ]
+}
