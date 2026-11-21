@@ -97,3 +97,5 @@ rediscover. One fact per entry.
 | [0089](entries/0089-ers-4-77-greatest-not-developments.md) | pitfall | ers_theorem_4_77_greatest is not the set of developments |
 | [0090](entries/0090-halflit-dual.md) | pattern | The time-reversed half-lit line: an either-reading witness against causal openness in the future |
 | [0091](entries/0091-time-reversed-witness.md) | pattern | A time-reversed witness: dual_* transport in haves, then causal_ladder on C.dual |
+| [0092](entries/0092-one-way-membrane.md) | pattern | The one-way membrane: a planar ETT-layer causality without a model import |
+| [0093](entries/0093-jplus-only-misses-jminus-step.md) | pitfall | J⁺-only causal openness does not carry the J⁻ step of prop:tarentin_topological_spacetime_causality's proof |

@@ -1,0 +1,93 @@
+{
+  "target": "T-abs-one-way-membrane",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-one-way-membrane/1-causality",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "#print Causal.oneWayMembrane gives le U := TransGen (membraneStep U), lt := False. membraneStep U a b is a <= b in the product order of R x R, segment R a b inside U, and (a in R -> b in R), with R = membraneRight = {p | p.2 < p.1}. In null coordinates (u, v) = (t + x1, t - x1), the closed future cone of 1+1 Minkowski space is the product order (Delta t >= |Delta x1| iff Delta u, Delta v >= 0), and v < u iff x1 > 0. So R = {x1 > 0} and L = {x1 <= 0} with the membrane in L, as the target says. Along a segment x1 is affine, so the per-step condition is exactly 'never passes from R into L'. Every field of the library structure Causal.Causality (Causal/Causality.lean:77) is discharged: le_mem by head'/tail', le_refl by the trivial segment, le_trans by TransGen.trans, le_mono by enlarging U, and the lt fields by False. Nothing is degenerate: le top is in closed form x <= y and (x in R -> y in R) (oneWayMembrane_le_top_iff). The polygonal reading is disclosed in the SCOPE and in the REPORT's questions. I re-derived the equivalence with continuous causal curves. Take an inscribed polygon on a fine partition: a thickening of the compact image lies in U and uniform continuity does the rest. The vertices are product-monotone, and the membrane condition passes to the vertices because the set of times spent in R is an up-set. The converse holds by affinity. So the two readings give the same le_U. The OQ-69 answer does not depend on this: it is existential, and the witness is the polygonal causality. See finding 3 on wording."
+    },
+    {
+      "label": "T-abs-one-way-membrane/2-arc-connected",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "oneWayMembrane_causallyArcConnected states Causal.Causality.CausallyArcConnected, which is the ladder's lean (ladder.toml:252). The constants were read off the elaborated type. The curves are the membrane's own: CausalCurveOn is CurveOn C.le, and #print CurveOn has fields mem and rel. A step is realised by its affine curve: a ball in N, a preimage interval, convexity, and pos_affine_of_pos for the side. A chain is realised by CurveOn.exists_concat. The lt half holds because lt is False and no ChronalCurveOn exists, through the library's causallyArcConnectedOn_iff. oneWayMembrane_causallyArcConnectedOn W follows by mono."
+    },
+    {
+      "label": "T-abs-one-way-membrane/3-absolutely-minimal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "oneWayMembrane_absolutelyMinimal uses Causal.Precausality.AbsolutelyMinimal (ladder.toml:246) and comes from CausallyArcConnected.absolutelyMinimal (ArcConnected.lean:216). oneWayMembrane_absolutelyMinimalOn (W) uses Precausality.AbsolutelyMinimalOn. Its definition (Generated.lean:239): for every cover S of W and every open V <= W, every le_V and lt_V is a TransGen of relations in V inf O, O in S. So its universal closure is the either-reading form of kb/0074, OQ-18 and OQ-69. It implies the library node through Precausality.absolutelyMinimal_iff. The dual forms hold in the same way."
+    },
+    {
+      "label": "T-abs-one-way-membrane/4-tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "oneWayMembrane_tarentin uses Causal.Causality.Tarentin (ladder.toml:264). #print: forall x, forall U in nhds x, exists p in U, exists q in U, x in openDiamond top p q. That is def:tarentin_spacetime (ETT.tex:677-680), quoted verbatim in the docstring. I checked the three cases by hand. On the membrane, p = x - (r/2, r/4) lies strictly in {u < v} and q = x + (r/2, r/4) lies in R, so the whole open box between them lies in J_M(p, q); J_M(p, q) is in fact the full order interval. In R, and in {u < v}, the box is cut to that side. Nit: the docstring's '(the planner's m -/+ (delta, 2 delta) in (x1, t))' is loose. The Lean's (2e, e) in null coordinates is (e/2, 3e/2) in (x1, t). The REPORT's 'same shape' is the accurate wording."
+    },
+    {
+      "label": "T-abs-one-way-membrane/5-causally-open-future",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "oneWayMembrane_causallyOpenFuture uses Causal.Causality.CausallyOpenFuture (ladder.toml:240). #print: forall U V : Opens, V <= U -> IsOpen (Jplus U V). That is def:causally_open_spacetime_open as printed (ETT.tex:694-697), for every open U, not only U = top. The proof shifts the chain along -(eta, eta), which keeps x1 and so the side: each step goes through membraneStep.shift_sub, by a thickening of the compact segment inside U. Then one last step from y - (m, m) reaches a ball about y, on y's side when y is in R. The statement is not vacuous: J+_U(V) is a genuine cone set. LocallyCausallyOpenFuture (ladder.toml lean) follows by CausallyOpenFuture.locallyCausallyOpenFuture."
+    },
+    {
+      "label": "T-abs-one-way-membrane/6-not-causally-open-past",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The box (-1, 1) x (1, 3) in null coordinates is centred at (t, x1) = (1, -1) and lies inside {u < v}, so strictly left of the membrane. I re-derived oneWayMembrane_Jminus_box: a point of R never precedes a point of L, so J-_M(V) = {u <= v, u < 1, v < 3}. It contains (0, 0) and no (d, 0) with d > 0, so it is not open (oneWayMembrane_not_isOpen_Jminus_box). oneWayMembrane_not_causallyOpenPast states the negation of CausallyOpenFuture for oneWayMembrane.dual, which is definitionally 'forall U V, V <= U -> IsOpen (Jminus U V)'. oneWayMembrane_not_causallyOpen states the negation of Causal.Causality.CausallyOpen (ladder.toml:234, two-sided by DEC-8) through its second conjunct. A box rather than the sketch's small ball: one open V suffices."
+    },
+    {
+      "label": "T-abs-one-way-membrane/7-local",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "oneWayMembrane_not_locallyCausallyOpen is the negation of Causal.Causality.LocallyCausallyOpen (ladder.toml:314). #print: LocallyCausallyOpenFuture C and LocallyCausallyOpenFuture C.dual. It is proved directly at (0, 0) through oneWayMembrane_not_causallyOpenPastOn: if m is in W and m.1 = m.2, then W is not causally open in the past. The witnesses are a box of L above m, inside W, and the point m + (rho/2, 0) of R, which cannot precede it. The sharp form, oneWayMembrane_causallyOpenPastOn_iff, says dual.CausallyOpenFutureOn W iff forall z in W, z.1 != z.2: an open set is causally open in the past iff it misses the membrane {x1 = 0}. The converse half is oneWayMembrane_Jminus_mem_nhds, for every U and V <= U <= W. Off the membrane each side is open, and the push along +(eta, eta) keeps the side. True as stated."
+    },
+    {
+      "label": "T-abs-one-way-membrane/8-time-reversal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The dual is causally arc-connected, absolutely minimal (and On, for every W) and tarentin, through the library's dual_causallyArcConnectedOn and dual_tarentin, whose types I printed. It is not LocallyCausallyOpenFuture: proved directly at (0, 0), not through causal_ladder. Its time function is -(u + v), continuous and strictly increasing along dual.le top. Every other conjunct of oneWayMembrane_dual_separates goes through a library dual_* iff."
+    },
+    {
+      "label": "T-abs-one-way-membrane/9-ladder",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Each conclusion uses the ladder's constant: PushUp, LocallyPushUp, IsCausal, StronglyCausalOpen, StronglyCausal, HasTimeFunction, CurvesExtend, CausallyCompact, GloballyHyperbolic, CausallyPlain, ChronalNeighbours. Push-up is vacuous because lt is empty, which the REPORT discloses. Causal: le lies in the product order. StronglyCausalOpen: a sup-norm ball contains the order interval of any two of its points, and every diamond lies in Icc. Time function u + v. CurvesExtend through HasTimeFunction.curvesExtend. Not causally compact: (0, -1) and (2, 1) lie in R, so J_M between them is Icc cut to R, whose closure holds (0, 0); I re-derived this. Not GH, since GH implies causally compact. Not plain, since Int J+(M) = M while I+(M) is empty. No chronal neighbours, since lt is empty. Alexandrov topology = topology through StronglyCausal.alexandrovTopology_eq (type: Tarentin -> StronglyCausal -> alexandrovTopology = inst), so no causal openness is used, as the docstring says."
+    },
+    {
+      "label": "T-abs-one-way-membrane/10-separation",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "From the elaborated types (getUsedConstants): oneWayMembrane_separates has exactly the 18 conjuncts the REPORT lists, each the ladder's lean. oneWayMembrane_dual_separates has the 18 listed for the dual, with the two future-openness conjuncts negated. exists_tarentin_absolutelyMinimal_causallyOpenFuture_not_past states: exists C : Causality (R x R), (forall W, C.AbsolutelyMinimalOn W), C.CausallyArcConnected, C.Tarentin, C.CausallyOpenFuture and not C.dual.CausallyOpenFuture. That is OQ-69's question (registers/DECISIONS.md:225) answered yes, in either reading. The space is R x R, which is T2 and second countable by mathlib instances, so it is one of ETT's topological spacetimes. The three _bare forms negate universal implications over Causality (R x R): AbsolutelyMinimal (or AbsolutelyMinimalOn for every W) with Tarentin and CausallyOpenFuture does not give CausallyOpen; CausallyArcConnected with Tarentin does not give LocallyCausallyOpenFuture. One instance refutes the general claim. On ETT.tex, I read the proof of prop:tarentin_topological_spacetime_causality (:713-751). (i) is strong causality and (ii) is 'the Alexandrov topology is the topology'. The membrane meets the printed hypotheses (tarentin, and J+ open as printed at :694-697), and both (i) and (ii) hold in Lean (oneWayMembrane_stronglyCausalOpen, oneWayMembrane_alexandrovTopology_eq). So it is no counterexample, and the closer says so everywhere. Line 746 equates J+(int J+(a_i)) cap J-(int J-(b_i)) with int J+(a_i) cap int J-(b_i), justified at :741 by openness. Its J- factor fails at b = (1, 3) (oneWayMembrane_not_Jminus_interior_Jminus_subset): (0, 0) precedes the interior point (0, 1) and is not interior. I re-derived this. The chain's conclusion J(a, b) inside int J(a_i, b_i) fails for the single open diamond W = int J((-1, 0), (3, 4)), with a = (0, 1) and b = (2, 3), whose diamond holds the membrane point (1, 1) (oneWayMembrane_not_causallyConvexIn_openDiamond). That W is a legitimate choice at :739-740, and since :744-745 and :747 are valid, the intersection form of :746 also fails there. Both claims are accurate. Neither says the proposition is false. 'Whether (ii) => (i) holds with J+-only openness is not settled' is correct. stronglyCausalOpen_of_alexandrovTopology_eq (CausallyOpen -> alexandrovTopology = inst -> StronglyCausalOpen) is what DEC-8 closes the proposition with. A remark for the master: OQ-69's parenthetical ('That decides whether DEC-8's +/- is needed') holds only for a 'no'. A 'yes' leaves that question open, as the REPORT states, and OQ-9 is RULED by DEC-8."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "Typecheck: cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/OneWayMembrane.lean gave exit 0 and no output. The strict lib's only leanOption is warningAsError (lakefile.toml), so this is the graduated build's setting. No lake build was run. grep finds 0 'sorry' and no admit, axiom, native_decide, unsafe, opaque, extern, implemented_by, set_option, instance or attribute. Axioms: a probe under the campaign directory (a copy of the file with #print axioms appended, run with lake env lean, then deleted) covered all 57 declarations, 3 defs and 54 theorems. Each depends on exactly [propext, Classical.choice, Quot.sound], including the 19 the REPORT names (see finding 1 on the count). Ladder definitions: #print of HasTimeFunction, CurvesExtend, CausalCurveOn, CurveOn, ChronalCurveOn, Causality.dual, LocallyPushUp and ChronalPastNeighbours, with the sources of the rest read in Properties.lean, LadderLocal.lean, ArcConnected.lean and Generated.lean. getUsedConstants of the separates, existence and _bare statements gives only the ladder's lean constants (Causal.Precausality.AbsolutelyMinimal(On) and Causal.Causality.*). Layer 1: the imports are exactly Causal.LadderLocal and Causal.CurvesExtend. The compiled closure (env.allImportedModuleNames, Causal prefix) has 28 modules, identical to the REPORT's list, and a source walk with tools/ladder.py's _lean_index gives the same 28. None of them is Minkowski, Static, Flat.*, Model.*, Port.*, SingularFlat, CBG*, Splitting, LemmaK* or LevinUtility. ladder.model_path is None for both imports and for Causal.OneWayMembrane added to the index with them. No metric notion appears in a statement: scanning every statement type finds Metric.ball only in an auxiliary match_ and |eta| (real abs) in membraneStep.shift; the topology of R x R comes in only through its instances. Names: no textual occurrence of any of the 57 names in 558 .lean files of lean-causal/Causal (HalfLitDual.lean included), lean-causal/scaffold (MaximalZorn.lean read, not touched, imported or built), Causal.lean, lean-gx or lean/. The body also elaborates under `import Causal` (248 root imports, -DwarningAsError=true, exit 0). for_keeper: re-simulated on a /tmp copy of programme/ladder.toml with the committed tools/ladder.py (599b0b0, unmodified), then deleted. The 6 [[open]] headers are at :1940, :2072, :2089, :2190, :2197 and :2222 with the cited from/to. The 14 entries use only the keys from, to, witness and status; none has space. With the 4 entries added and the 6 opens removed, check reports only the 4 'witness not found' errors, and 0 with the two names added. If the opens are kept, it names all 6 'already settled; remove it'. Matrix: fails 245 -> 251, open 51 -> 45, implied 16, unknown 2, ill-typed 192, classified 312 of 314. Causality-sort refuted 244 -> 250; by a counterexample with absolutely_minimal in its closure (either reading) 212 -> 218; no-gluing-only 32 -> 32. The 14 entries give the same numbers. Alone, the dual's to = locally_causally_open_future moves all 6 and the membrane's to = locally_causally_open moves 2, as the REPORT says. The overlap with T-abs-halflit-dual-separates' two entries is exactly causally_arc_connected -> causally_open_future and -> locally_causally_open_future; together they move 8. Scope: git status shows the closer's two paths and, besides them, only others' work: the master's roadmap status flips and its graduation of HalfLitDual (Causal.lean, README.md, kb), MaximalZorn.lean and its campaign directory, the benzecri files and roadmap/roadmap.toml. The scaffold root is untouched. Docstring contract (kb/0006): title, ten target-local marks (all before character 2600; tools/ledger.py's mark regex needs 'prefix:', so none reads as an ETT label), verbatim quotes (DECISIONS.md:225, roadmap.toml:916, ETT.tex:694-697, 677-680), checklist (the sibling modules' '| target claim | here |' form), SCOPE and Provenance. Every SCOPE claim is true. prop:tarentin_topological_spacetime_causality is not marked. Scratch: my probes and /tmp/owm_audit are deleted, and so is the closer's /tmp/owm, as dispatched."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-one-way-membrane/REPORT.json: axioms_detail",
+      "what": "The REPORT says '#print axioms on every one of the 55 declarations of the module'. The module has 57 (3 defs and 54 theorems). The closer's probe (/tmp/owm/ax.lean, 09:26) covered 55 and left out oneWayMembrane_not_Jminus_interior_Jminus_subset and oneWayMembrane_not_causallyConvexIn_openDiamond, which the REPORT's axioms map nevertheless lists as standard. My probe on all 57 confirms [propext, Classical.choice, Quot.sound] for each, so nothing is wrong except the count and the evidence for those two.",
+      "fix": "Say 57, as re-checked here."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-one-way-membrane/REPORT.json: for_keeper.fails_optional.why",
+      "what": "The REPORT says each of the 10 optional entries 'moves no pair' because 'the half-plane, spacelike, lightlike, rational and half-lit lines refute them already'. That holds for 8 of them. The dual's to = causally_open and to = locally_causally_open, added alone, settle tarentin -> causally_open (and -> locally_causally_open), which no existing line refutes. They are redundant only given the four load-bearing entries, because the membrane's own to = causally_open and locally_causally_open cover them: its 'from' list contains the dual's. The counts are unaffected.",
+      "fix": "Reword: 8 are refuted already by existing lines; the dual's to = causally_open and to = locally_causally_open are implied by the membrane's entries of the same 'to'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-one-way-membrane/REPORT.json: labels[0].hypotheses[0].here",
+      "what": "Label 1-causality is marked (marked: true, ** in the docstring), but its hypothesis row says 'carried, in a reading'. kb/0006 leaves a label proved 'in a reading' unmarked. The reading is of the planner's informal 'causal curve of the Minkowski cone', not of a paper statement. It is disclosed in the SCOPE and in the REPORT's questions. The equivalence of polygonal chains with causal curves is elementary and I re-derived it, so the mark is substantively warranted and OQ-69's answer does not depend on it. Only the wording conflicts with the house rule.",
+      "fix": "Write 'carried (polygonal chains of future causal segments; equal to the curve reading, argued in SCOPE)', or keep it and let the master record the convention."
+    }
+  ]
+}

@@ -1,0 +1,864 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-one-way-membrane",
+ "files": [
+  "scaffold/CausalScaffold/OneWayMembrane.lean"
+ ],
+ "builds": true,
+ "builds_detail": "taskset -c 0-11 lake env lean scaffold/CausalScaffold/OneWayMembrane.lean: no output (also with -DwarningAsError=true, as the strict library will compile it); lake build --no-build CausalScaffold.OneWayMembrane first: only this module out of date ([3090/3090]); lake build CausalScaffold.OneWayMembrane: built this module only ([3090/3090], 2.5 s), no Causal.* or mathlib module rebuilt. HalfLitDual.lean and MaximalZorn.lean neither touched, imported nor built",
+ "sorry_count": 0,
+ "axioms": {
+  "Causal.oneWayMembrane_separates": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_dual_separates": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.exists_tarentin_absolutelyMinimal_causallyOpenFuture_not_past": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.not_causallyOpen_of_tarentin_of_causallyOpenFuture_bare": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.not_causallyOpen_of_tarentin_of_causallyOpenFuture_of_absolutelyMinimalOn_bare": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.not_locallyCausallyOpenFuture_of_tarentin_of_causallyArcConnected_bare": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_causallyArcConnected": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_absolutelyMinimalOn": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_tarentin": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_causallyOpenFuture": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_Jminus_box": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_not_causallyOpenPast": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_causallyOpenPastOn_iff": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_not_locallyCausallyOpen": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_dual_not_locallyCausallyOpenFuture": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_not_causallyCompact": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_alexandrovTopology_eq": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_not_Jminus_interior_Jminus_subset": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Causal.oneWayMembrane_not_causallyConvexIn_openDiamond": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ]
+ },
+ "axioms_detail": "#print axioms on every one of the 55 declarations of the module (a /tmp copy with the #print lines appended, lake env lean): each depends on exactly [propext, Classical.choice, Quot.sound]; no sorryAx",
+ "layer": {
+  "layer": 1,
+  "direct_imports": [
+   "Causal.LadderLocal",
+   "Causal.CurvesExtend"
+  ],
+  "import_closure_causal": [
+   "Causal.ArcConnected",
+   "Causal.Cauchy",
+   "Causal.CauchyExtension",
+   "Causal.Causality",
+   "Causal.CompactMinimal",
+   "Causal.CurveComponents",
+   "Causal.Curves",
+   "Causal.CurvesExtend",
+   "Causal.DependenceDomain",
+   "Causal.Generated",
+   "Causal.Geroch",
+   "Causal.GlobalHyperbolicity",
+   "Causal.Inextensible",
+   "Causal.LadderLocal",
+   "Causal.Lines",
+   "Causal.LinesCurves",
+   "Causal.LinesReachable",
+   "Causal.Local",
+   "Causal.Measure",
+   "Causal.MeasureRemarks",
+   "Causal.Minimal",
+   "Causal.Morphism",
+   "Causal.NestedCausalities",
+   "Causal.Properties",
+   "Causal.PushUp",
+   "Causal.Reachable",
+   "Causal.StrongCausality",
+   "Causal.Subdivision"
+  ],
+  "import_closure_size": 28,
+  "checks": [
+   "compiled: a file in /tmp with the two imports, #eval of env.allImportedModuleNames filtered on the prefix Causal: the 28 modules above, exactly",
+   "source walk of the import headers (tools/ladder.py _lean_index imports): the same 28",
+   "forbidden prefixes Causal.Minkowski, Causal.Static, Causal.Flat, Causal.Model, Causal.Port, Causal.SingularFlat, Causal.CBG, Causal.Splitting, Causal.LemmaK*, Causal.LevinUtility: none in the closure",
+   "tools/ladder.py model_path: None for Causal.LadderLocal, Causal.CurvesExtend, and for the module itself with its two imports added to the index (ETT layer)",
+   "the 1+1 Minkowski cone built by hand: the product order of ℝ × ℝ in null coordinates, and segments (mathlib's segment ℝ); no model import",
+   "no metric notion in any statement (coordinate inequalities, |η| for the shift, segments, the product order, Opens, the ladder predicates); Metric.ball, dist and a thickening of a compact segment appear inside proofs only",
+   "every statement uses the ladder's definitions: Iff.rfl checks in /tmp that C.AbsolutelyMinimal, .CausallyArcConnected, .Tarentin, .CausallyOpenFuture, .LocallyCausallyOpenFuture, .PushUp, .LocallyPushUp, .IsCausal, .StronglyCausalOpen, .StronglyCausal, .HasTimeFunction, .CurvesExtend, .CausallyOpen, .LocallyCausallyOpen, .CausallyCompact, .GloballyHyperbolic, .CausallyPlain, .ChronalNeighbours are the `lean` field of each [[property]] applied to C",
+   "every new name grep-unique in lean-causal/Causal, lean-causal/scaffold and lean-gx"
+  ]
+ },
+ "oq69": {
+  "question": "Can an absolutely minimal tarentin causality be causally open in the future and not in the past? (registers/DECISIONS.md:225)",
+  "answer_in_lean": "Yes, in either reading of defi:causalite. Causal.exists_tarentin_absolutelyMinimal_causallyOpenFuture_not_past : ∃ C : Causality (ℝ × ℝ), (∀ W, C.AbsolutelyMinimalOn W) ∧ C.CausallyArcConnected ∧ C.Tarentin ∧ C.CausallyOpenFuture ∧ ¬ C.dual.CausallyOpenFuture, witnessed by the one-way membrane; also causal, strongly causal (open form), with a time function, push-up; not causally compact. Bare forms: not_causallyOpen_of_tarentin_of_causallyOpenFuture_bare (absolute minimality, tarentin and future openness do not give causal openness, DEC-8's reading), its gluing form, and not_locallyCausallyOpenFuture_of_tarentin_of_causallyArcConnected_bare (the time reversal).",
+  "what_it_shows_for_prop_tarentin": "Evidence, not a ruling. (1) The membrane satisfies the hypotheses of prop:tarentin_topological_spacetime_causality as printed (tarentin, causally open in the J⁺-only sense) and both (i) and (ii): it is not a counterexample to the proposition. (2) It satisfies the printed hypotheses and not DEC-8's (¬ CausallyOpen), so among absolutely minimal tarentin causalities the printed J⁺-only hypothesis is strictly weaker than DEC-8's. (3) Under the printed hypothesis the proof's J⁻ step fails for it: J⁻(˚J⁻(b)) ⊄ ˚J⁻(b) (oneWayMembrane_not_Jminus_interior_Jminus_subset, ETT.tex:746) and an open diamond is not causally convex (oneWayMembrane_not_causallyConvexIn_openDiamond, the chain's conclusion, ETT.tex:744-748). Whether (ii) ⇒ (i) holds with J⁺-only openness is not settled here; whether DEC-8's ± is then needed for the proposition as printed is the author's question (OQ-69, OQ-9)."
+ },
+ "labels": [
+  {
+   "label": "T-abs-one-way-membrane/1-causality",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.membraneRight",
+    "Causal.membraneStep",
+    "Causal.oneWayMembrane",
+    "Causal.oneWayMembrane_le",
+    "Causal.oneWayMembrane_le_prod",
+    "Causal.oneWayMembrane_mem_right",
+    "Causal.oneWayMembrane_le_top_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ≤_U y iff some causal curve of the Minkowski cone inside U runs from x to y and, once in R = {x¹ > 0}, stays in R; ≪ empty; le_trans by concatenation, le_mono by inclusion (evidence)",
+     "here": "carried, in a reading",
+     "note": "Null coordinates (u, v) = (t + x¹, t − x¹) on ℝ × ℝ: the Minkowski cone is the product order, R = membraneRight = {v < u}. ≤_U is TransGen (membraneStep U), a chain of future causal segments (a ≤ b, segment ℝ a b ⊆ U) with a ∈ R → b ∈ R at each step (the sign of x¹ is affine along a segment, so it changes at most once and 'once in R stays in R' is the per-step condition). Every field of Causality discharged (scaffold/CausalScaffold/OneWayMembrane.lean:127). ≤_M in closed form: x ≤ y ∧ (x ∈ R → y ∈ R) (oneWayMembrane_le_top_iff, :171)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The target says 'a causal curve of the Minkowski cone inside U'; the Lean takes polygonal curves (finite chains of future causal segments), since the Minkowski model (Causal.Minkowski, Causal.Static) is not importable in layer 1. The reading taken: polygonal. The two give the same ≤_U (inscribed polygons in U approximate a Lipschitz causal curve; the membrane condition passes to the vertices), argued in SCOPE, not formalised. It does not affect the answer to OQ-69: any one causality with the properties answers the existence question, and the witness is the polygonal one."
+   ]
+  },
+  {
+   "label": "T-abs-one-way-membrane/2-arc-connected",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.pos_affine_of_pos",
+    "Causal.membraneStep.causalCurveOn",
+    "Causal.oneWayMembrane_causallyArcConnected",
+    "Causal.oneWayMembrane_causallyArcConnectedOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "causally arc-connected by definition (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.CausallyArcConnected (programme/ladder.toml:252) with the membrane's OWN causal curves (CausalCurveOn of oneWayMembrane): a step is realised by its affine parametrisation (membraneStep.causalCurveOn, :197: near each parameter a sub-segment stays in a ball inside the given open N, convex, and a sub-segment of a step is a step, by pos_affine_of_pos for the membrane condition), a chain by CurveOn.exists_concat; the ≪ half is vacuous (≪ empty)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/3-absolutely-minimal",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.oneWayMembrane_absolutelyMinimal",
+    "Causal.oneWayMembrane_absolutelyMinimalOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "absolutely minimal through cor:causalement_connexe_minimal, on every open set (the gluing reading, OQ-18) (evidence)",
+     "here": "carried",
+     "note": "Causal.Precausality.AbsolutelyMinimal (ladder.toml:246) by CausallyArcConnected.absolutelyMinimal; on every open W for every cover of it by CausallyArcConnectedOn.absolutelyMinimalOn (:247)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/4-tarentin",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:tarentin_spacetime",
+     "text_lines": "ETT.tex:677-680"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.isOpen_membraneRight",
+    "Causal.oneWayMembrane_mem_diamond",
+    "Causal.oneWayMembrane_tarentin"
+   ],
+   "hypotheses": [
+    {
+     "paper": "at a membrane point m, p = m − (δ, 2δ) ∈ L and q = m + (δ, 2δ) ∈ R have J_M(p, q) the full Minkowski diamond, with m inside; off the membrane, small diamonds on one side (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.Tarentin (ladder.toml:264). oneWayMembrane_tarentin (:269): on the membrane p, q = m ∓ (r/2, r/4) in null coordinates (the evidence's m ∓ (δ, 2δ) in (x¹, t) is m ∓ (3δ, δ): same shape), the open box between them inside J_M(p, q); at a point of R (resp. of {u < v}) p, q = x ∓ (r/2, r/2) on its side and the box cut to that side"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/5-causally-open-future",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:causally_open_spacetime_open",
+     "text_lines": "ETT.tex:694-697"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.sub_diag_mem_membraneRight_iff",
+    "Causal.add_diag_mem_membraneRight_iff",
+    "Causal.membraneStep.shift",
+    "Causal.membraneStep.shift_sub",
+    "Causal.oneWayMembrane_causallyOpenFuture",
+    "Causal.oneWayMembrane_locallyCausallyOpenFuture"
+   ],
+   "hypotheses": [
+    {
+     "paper": "J⁺_U(V) is open: a point of L has its full Minkowski future, a point of R its future inside R, and a point on the null boundary of v's cone is in the open chronological cone of v − (0, ε) ∈ V, which keeps v's side (evidence)",
+     "here": "carried",
+     "note": "Causal.Causality.CausallyOpenFuture (ladder.toml:240), every open U and open V ≤ U. Proof (:376): a point y of J⁺_U(V) pushed along the diagonal −(η, η) (∂_t, which keeps x¹ and so the side) stays in J⁺_U(V), by induction along the chain from V with each segment shifted inside U (membraneStep.shift: a thickening of the compact segment, IsCompact.exists_thickening_subset_open); from a = y − (η, η) one step reaches every w of a small ball about y, on y's side when y ∈ R. The evidence's 'full Minkowski future of a point of L' holds at U = ⊤ only (oneWayMembrane_le_top_iff); in a general U the shift argument replaces it"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/6-not-causally-open-past",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.oneWayMembrane_Jminus_box",
+    "Causal.oneWayMembrane_not_isOpen_Jminus_box",
+    "Causal.oneWayMembrane_not_causallyOpenPast",
+    "Causal.oneWayMembrane_not_causallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "for V a small ball about (−ε, 0) inside L, (0, −2ε) ∈ J⁻(V) while no point (δ, −2ε) of R is: J⁻(V) is not open (evidence)",
+     "here": "carried",
+     "note": "V = (−1, 1) × (1, 3) in null coordinates (the box about (t, x¹) = (1, −1), inside {u < v}); J⁻_M(V) = {u ≤ v, u < 1, v < 3} exactly (oneWayMembrane_Jminus_box, :429), which holds the membrane point (0, 0) and no point (δ, 0) of R. A box, not a ball: no metric notion in the statement. ¬ oneWayMembrane.dual.CausallyOpenFuture, ¬ CausallyOpen (ladder.toml:234, :240)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/7-local",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.oneWayMembrane_not_causallyOpenPastOn",
+    "Causal.oneWayMembrane_Jminus_mem_nhds",
+    "Causal.oneWayMembrane_causallyOpenPastOn_iff",
+    "Causal.oneWayMembrane_not_locallyCausallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "hence neither causally open nor locally so (AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen) (evidence)",
+     "here": "carried, sharpened",
+     "note": "¬ LocallyCausallyOpen (ladder.toml:314) proved directly: no open set meeting the membrane is causally open in the past (:471). Beyond the target, sharp: an open W is causally open in the past iff it misses the membrane {u = v} (oneWayMembrane_causallyOpenPastOn_iff, :555; the converse half by oneWayMembrane_Jminus_mem_nhds, :508: J⁻_U(V) is a neighbourhood of each of its points off the membrane, for every U)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/8-time-reversal",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.oneWayMembrane_dual_causallyArcConnected",
+    "Causal.oneWayMembrane_dual_absolutelyMinimal",
+    "Causal.oneWayMembrane_dual_absolutelyMinimalOn",
+    "Causal.oneWayMembrane_dual_tarentin",
+    "Causal.oneWayMembrane_dual_not_locallyCausallyOpenFuture",
+    "Causal.oneWayMembrane_dual_hasTimeFunction"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the time reversal is not causally open in the future, nor locally (dual_absolutelyMinimal, dual_tarentin, dual_causallyArcConnectedOn) (evidence; 'optionally' in the dispatch)",
+     "here": "carried",
+     "note": "Through the dual_* transport lemmas; ¬ dual.LocallyCausallyOpenFuture directly at (0, 0) (oneWayMembrane_not_causallyOpenPastOn), not through absolute minimality; time function −(u + v)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/9-ladder",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.oneWayMembrane_pushUp",
+    "Causal.oneWayMembrane_isCausal",
+    "Causal.oneWayMembrane_diamond_subset_Icc",
+    "Causal.oneWayMembrane_stronglyCausalOpen",
+    "Causal.oneWayMembrane_hasTimeFunction",
+    "Causal.oneWayMembrane_not_chronalNeighbours",
+    "Causal.oneWayMembrane_not_causallyPlain",
+    "Causal.oneWayMembrane_diamond_of_mem_right",
+    "Causal.oneWayMembrane_not_causallyCompact",
+    "Causal.oneWayMembrane_not_globallyHyperbolic",
+    "Causal.oneWayMembrane_alexandrovTopology_eq"
+   ],
+   "hypotheses": [
+    {
+     "paper": "not globally hyperbolic: a diamond between two points of R that crosses into L loses that part and is not closed (evidence)",
+     "here": "carried",
+     "note": "J_M(p, q) = Icc p q ∩ R for p, q ∈ R (:628); J_M((0, −1), (2, 1)) misses the membrane point (0, 0) of its closure: ¬ CausallyCompact, ¬ GloballyHyperbolic. Beyond the evidence: push-up (vacuous), causal, strongly causal with open causally convex neighbourhoods (a ball contains the order intervals of its points), a time function u + v, curves extend; not plain, no chronal neighbours (≪ empty); Alexandrov topology = topology (StronglyCausal.alexandrovTopology_eq)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-one-way-membrane/10-separation",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-one-way-membrane, title and evidence",
+     "text_lines": "programme/roadmap.toml:905-918 (title :907, evidence :916)"
+    },
+    {
+     "paper": "registers/DECISIONS.md",
+     "statement": "OQ-69",
+     "text_lines": "registers/DECISIONS.md:225"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.oneWayMembrane_separates",
+    "Causal.oneWayMembrane_dual_separates",
+    "Causal.exists_tarentin_absolutelyMinimal_causallyOpenFuture_not_past",
+    "Causal.not_causallyOpen_of_tarentin_of_causallyOpenFuture_bare",
+    "Causal.not_causallyOpen_of_tarentin_of_causallyOpenFuture_of_absolutelyMinimalOn_bare",
+    "Causal.not_locallyCausallyOpenFuture_of_tarentin_of_causallyArcConnected_bare"
+   ],
+   "hypotheses": [
+    {
+     "paper": "one conjoined *_separates* theorem for the keeper's [[fails]] entries (dispatch)",
+     "here": "carried (two: the membrane and its time reversal)",
+     "note": "oneWayMembrane_separates (:773): AbsolutelyMinimal ∧ CausallyArcConnected ∧ Tarentin ∧ CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ PushUp ∧ LocallyPushUp ∧ IsCausal ∧ StronglyCausalOpen ∧ StronglyCausal ∧ HasTimeFunction ∧ CurvesExtend ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpen ∧ ¬ CausallyCompact ∧ ¬ GloballyHyperbolic ∧ ¬ CausallyPlain ∧ ¬ ChronalNeighbours; oneWayMembrane_dual_separates (:798) the same for oneWayMembrane.dual without the two future-openness conjuncts and with ¬ CausallyOpenFuture ∧ ¬ LocallyCausallyOpenFuture. Every conjunct is the `lean` field of its [[property]] (Iff.rfl checks in /tmp)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "No argued fact of the target's evidence (programme/roadmap.toml:916) is false: each was checked against the compiled definitions and proved. OQ-69's question (registers/DECISIONS.md:225) has the answer yes in Lean, in either reading of defi:causalite: Causal.exists_tarentin_absolutelyMinimal_causallyOpenFuture_not_past.",
+    "About the paper's proof of prop:tarentin_topological_spacetime_causality (ETT.tex:713-750), (ii) ⇒ (i): the chain at ETT.tex:744-747 uses J⁻(˚J⁻(b_i)) = ˚J⁻(b_i) (line 746) under 'the causality of M is open' (line 741). With the printed J⁺-only definition (ETT.tex:694-697) that step fails for an absolutely minimal, tarentin, strongly causal causality causally open in the future: Causal.oneWayMembrane_not_Jminus_interior_Jminus_subset (b = (1, 3)); and the chain's conclusion J(a, b) ⊂ ˚J(a_i, b_i) fails too: Causal.oneWayMembrane_not_causallyConvexIn_openDiamond (˚J((−1, 0), (3, 4)) is not causally convex). The proposition itself is NOT refuted by the membrane, which satisfies (i) and (ii) (oneWayMembrane_stronglyCausalOpen, oneWayMembrane_alexandrovTopology_eq). Under DEC-8's two-sided reading the library proves (ii) ⇒ (i) (Causal.Causality.stronglyCausalOpen_of_alexandrovTopology_eq)."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.pos_affine_of_pos",
+  "Causal.isOpen_membraneRight",
+  "Causal.sub_diag_mem_membraneRight_iff",
+  "Causal.add_diag_mem_membraneRight_iff",
+  "Causal.membraneStep.mem_left",
+  "Causal.membraneStep.mem_right",
+  "Causal.membraneStep.shift",
+  "Causal.membraneStep.shift_sub",
+  "Causal.oneWayMembrane_mem_diamond",
+  "Causal.oneWayMembrane_Jminus_mem_nhds",
+  "Causal.oneWayMembrane_causallyOpenPastOn_iff",
+  "Causal.oneWayMembrane_alexandrovTopology_eq",
+  "Causal.oneWayMembrane_not_Jminus_interior_Jminus_subset",
+  "Causal.oneWayMembrane_not_causallyConvexIn_openDiamond"
+ ],
+ "readme_row": "| `Causal.OneWayMembrane` | — | ETT programme, layer 1 (T-abs-one-way-membrane; OQ-69): the one-way membrane on ℝ^{1+1} (null coordinates, the Minkowski cone as the product order; ≪ empty; `x ≤_U y` by chains of future causal segments in `U` never passing from `{x¹ > 0}` into `{x¹ ≤ 0}`) is causally arc-connected, absolutely minimal on every open set, tarentin, causally open in the future and not in the past (an open set is causally open in the past iff it misses the membrane), causal, strongly causal, with a time function, not causally compact; its time reversal is arc-connected, tarentin and not locally causally open in the future (`oneWayMembrane_separates`, `oneWayMembrane_dual_separates`): OQ-69's question answered yes, in either reading of `defi:causalite`; the step `J⁻(˚J⁻(b)) = ˚J⁻(b)` of the proof of `prop:tarentin_topological_spacetime_causality` fails for it, the proposition does not; 2026-11-21 |",
+ "kb_proposals": [
+  "pattern — The one-way membrane: a planar ETT-layer causality without a model import. Null coordinates make the 1+1 Minkowski cone the product order of ℝ × ℝ; ≤_U := TransGen (membraneStep U), a chain of future causal segments in U with a per-step side condition, so reflexivity, transitivity and monotonicity are free. Causal arc-connectedness: the affine curve of a step (convex_ball keeps sub-segments in N) and CurveOn.exists_concat; causal openness in the future: push the chain along −(η, η) (membraneStep.shift, IsCompact.exists_thickening_subset_open on each segment; induction on TransGen, head_induction_on for J⁻), then one last step from y − (η, η). Causal.oneWayMembrane is absolutely minimal on every open set, tarentin, causally open in the future and not in the past: the first absolutely minimal tarentin model failing causal openness, OQ-69 yes in either reading (T-abs-one-way-membrane).",
+  "pitfall — J⁺-only causal openness (def:causally_open_spacetime_open as printed) does not carry the J⁻ step of the proof of prop:tarentin_topological_spacetime_causality: for the one-way membrane J⁻(˚J⁻(b)) ⊄ ˚J⁻(b) and open diamonds need not be causally convex (Causal.oneWayMembrane_not_Jminus_interior_Jminus_subset, oneWayMembrane_not_causallyConvexIn_openDiamond), though it is tarentin, strongly causal and its Alexandrov topology is the topology: CausallyOpen.Jminus_interior_Jminus_subset and causallyConvexIn_openDiamond need DEC-8's J± (T-abs-one-way-membrane)."
+ ],
+ "for_keeper": {
+  "reading": "Either reading of defi:causalite (OQ-18). The membrane and its time reversal are causally arc-connected, hence absolutely minimal (the ladder node), and absolutely minimal on every open set for every cover of it (Causal.oneWayMembrane_absolutelyMinimalOn, Causal.oneWayMembrane_dual_absolutelyMinimalOn, the gluing reading's form, kb/0074). Comment line above each entry: 'Reading: either (absolutely minimal on every open set for every cover, Causal.oneWayMembrane_absolutelyMinimalOn; OQ-18 does not touch it)'. Evidence, not a ruling.",
+  "fails": [
+   {
+    "from": [
+     "absolutely_minimal",
+     "causally_arc_connected",
+     "tarentin",
+     "causally_open_future",
+     "locally_causally_open_future",
+     "push_up",
+     "locally_push_up",
+     "is_causal",
+     "strongly_causal_open",
+     "strongly_causal",
+     "time_function",
+     "curves_extend"
+    ],
+    "to": "causally_open",
+    "witness": "Causal.oneWayMembrane_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "causally_arc_connected",
+     "tarentin",
+     "causally_open_future",
+     "locally_causally_open_future",
+     "push_up",
+     "locally_push_up",
+     "is_causal",
+     "strongly_causal_open",
+     "strongly_causal",
+     "time_function",
+     "curves_extend"
+    ],
+    "to": "locally_causally_open",
+    "witness": "Causal.oneWayMembrane_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "causally_arc_connected",
+     "tarentin",
+     "push_up",
+     "locally_push_up",
+     "is_causal",
+     "strongly_causal_open",
+     "strongly_causal",
+     "time_function",
+     "curves_extend"
+    ],
+    "to": "causally_open_future",
+    "witness": "Causal.oneWayMembrane_dual_separates",
+    "status": "checked"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "causally_arc_connected",
+     "tarentin",
+     "push_up",
+     "locally_push_up",
+     "is_causal",
+     "strongly_causal_open",
+     "strongly_causal",
+     "time_function",
+     "curves_extend"
+    ],
+    "to": "locally_causally_open_future",
+    "witness": "Causal.oneWayMembrane_dual_separates",
+    "status": "checked"
+   }
+  ],
+  "fails_optional": {
+   "entries": [
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "causally_open_future",
+      "locally_causally_open_future",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "causally_compact",
+     "witness": "Causal.oneWayMembrane_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "causally_open_future",
+      "locally_causally_open_future",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "globally_hyperbolic",
+     "witness": "Causal.oneWayMembrane_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "causally_open_future",
+      "locally_causally_open_future",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "causally_plain",
+     "witness": "Causal.oneWayMembrane_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "causally_open_future",
+      "locally_causally_open_future",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "chronal_neighbours",
+     "witness": "Causal.oneWayMembrane_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "causally_open",
+     "witness": "Causal.oneWayMembrane_dual_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "locally_causally_open",
+     "witness": "Causal.oneWayMembrane_dual_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "causally_compact",
+     "witness": "Causal.oneWayMembrane_dual_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "globally_hyperbolic",
+     "witness": "Causal.oneWayMembrane_dual_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "causally_plain",
+     "witness": "Causal.oneWayMembrane_dual_separates",
+     "status": "checked"
+    },
+    {
+     "from": [
+      "absolutely_minimal",
+      "causally_arc_connected",
+      "tarentin",
+      "push_up",
+      "locally_push_up",
+      "is_causal",
+      "strongly_causal_open",
+      "strongly_causal",
+      "time_function",
+      "curves_extend"
+     ],
+     "to": "chronal_neighbours",
+     "witness": "Causal.oneWayMembrane_dual_separates",
+     "status": "checked"
+    }
+   ],
+   "why": "each states a conjunct of the witness and moves no pair, in either reading (simulated: 0 newly refuted pairs each): the half-plane, spacelike, lightlike, rational and half-lit lines refute them already. Recorded only if the keeper keeps conjunct records, as it kept causally_open beside causally_open_future"
+  },
+  "load_bearing": "Of the four, the dual's to = locally_causally_open_future carries all 6 settled pairs alone (lacking it, the time-reversed membrane lacks causally_open_future, causally_open, locally_causally_open through the edges); the membrane's to = locally_causally_open settles 2 of the 6 alone (tarentin → causally_open, locally_causally_open), without the dual. to = causally_open (membrane) and to = causally_open_future (dual) are implied by them and kept because the witnesses state them",
+  "open_settled": {
+   "count": 6,
+   "evidence_prediction": "6 [[open]] pairs settled, all in either reading: reproduced exactly",
+   "entries": [
+    {
+     "from": "causally_arc_connected",
+     "to": "causally_open_future",
+     "line": 1940
+    },
+    {
+     "from": "tarentin",
+     "to": "causally_open",
+     "line": 2072
+    },
+    {
+     "from": "tarentin",
+     "to": "causally_open_future",
+     "line": 2089
+    },
+    {
+     "from": "tarentin",
+     "to": "locally_causally_open",
+     "line": 2190
+    },
+    {
+     "from": "causally_arc_connected",
+     "to": "locally_causally_open_future",
+     "line": 2197
+    },
+    {
+     "from": "tarentin",
+     "to": "locally_causally_open_future",
+     "line": 2222
+    }
+   ],
+   "lines_are": "the [[open]] header line of each entry in programme/ladder.toml as of this run (from = header + 1, to = header + 2, note = header + 3); tools/ladder.py check names each one 'already settled; remove it' once the entries are in, so the six must be removed in the same edit",
+   "shared": "causally_arc_connected → causally_open_future and → locally_causally_open_future are also settled by T-abs-halflit-dual-separates (active in the same wave, scaffold/CausalScaffold/HalfLitDual.lean): whichever lands second finds them settled; the four tarentin pairs are this target's alone. The half-lit dual keeps causally_compact, globally_hyperbolic → locally_causally_open_future for itself (the membrane is not causally compact)"
+  },
+  "either_reading": "Causality-sort refuted pairs: 244 → 250; refuted by a witness with absolutely_minimal in its closure: 212 → 218 (+6, the settled pairs); no-gluing-only: 32 → 32 (no pair moves between the readings)",
+  "matrix": "tools/ladder.py matrix on the proposed data: fails 245 → 251, open 51 → 45, implied 16, unknown 2, ill-typed 192",
+  "moot": "T-abs-gateline-witnesses' pair tarentin → causally_open (no-gluing reading, the gated line) is settled in either reading by the membrane: moot, as the evidence predicted",
+  "open_notes_to_refresh": [
+   "programme/ladder.toml:2067 (chronal_neighbours → causally_open, stays open): 'being tarentin (chronal_neighbours ⇒ tarentin), it would refute tarentin → causally_open as well': that pair is now refuted by the membrane; a counterexample still needs chronal neighbours and no push-up (T-abs-one-way-membrane-chronal)",
+   "programme/ladder.toml:2084 (chronal_neighbours → causally_open_future, stays open): 'would refute tarentin → causally_open_future as well': that pair is now refuted (the time-reversed membrane)",
+   "programme/ladder.toml:2185, :2212 (chronal_neighbours → locally_causally_open, locally_causally_open_future, stay open): the membrane and its reversal fail them but have no chronal neighbours",
+   "programme/ladder.toml:2062, :2079, :2180, :2207 (causally_plain → causally_open, causally_open_future, locally_causally_open, locally_causally_open_future, stay open): the membrane and its reversal are not causally plain (Causal.oneWayMembrane_not_causallyPlain, Causal.Causality.dual_causallyPlain), so they do not settle these",
+   "programme/ladder.toml:1979-2028 (the models list above the [[open]] entries): add the one-way membrane and its time reversal (L: every conjunct of Causal.oneWayMembrane_separates, Causal.oneWayMembrane_dual_separates)",
+   "header lines are the [[open]] header of each entry as of this run"
+  ],
+  "simulated": "A copy of programme/ladder.toml in /tmp (/tmp/owm/sim/ladder_proposed.toml: the 14 entries, the 4 above and the 10 optional, placed before the open-pairs section, the 6 settled [[open]] entries removed): ladder.check reports only the 14 'witness not found' violations for Causal.oneWayMembrane_separates and Causal.oneWayMembrane_dual_separates (not in lean-causal/Causal before graduation); with the two names added to the index: 0 violations, no contradiction, 312 of 314 classified. The 4 load-bearing entries alone settle the same 6 pairs. python3 tools/ladder.py check on the real file unchanged"
+ },
+ "notes": "One new file, sorry-free, warningAsError-clean, namespace Causal; to graduate as Causal/OneWayMembrane.lean (module Causal.OneWayMembrane) unchanged: it imports only Causal.LadderLocal and Causal.CurvesExtend (ETT layer), not Causal.Ladder.Rules (causal_ladder is not used: the time-reversed failure of local future openness is proved directly at (0, 0)). The scaffold root is not edited (kb/0025: the axiom sweep does not see the module until graduated). Every argued fact of the evidence is confirmed; nothing refuted. Beyond the target: the sharp local form (an open set is causally open in the past iff it misses the membrane), the closed form of ≤_M, and two statements about the proof of prop:tarentin_topological_spacetime_causality (its J⁻ step and the causal convexity of open diamonds fail under the printed J⁺-only hypothesis, the proposition does not) — a finding for the ETT ledger's notes on that label, the master's call; the label is not marked and not touched. For T-abs-one-way-membrane-chronal (planned behind this target, 'dropped if that one is refuted'): not refuted, so it can proceed; it reuses membraneStep and oneWayMembrane's ≤ verbatim (same ≤, new ≪), and membraneStep.shift / oneWayMembrane_Jminus_mem_nhds are the openness tools it will need. Whether DEC-8's ± is needed for prop:tarentin_topological_spacetime_causality as printed is the author's question (OQ-69, OQ-9): the report states what the Lean shows, not an answer. No ledger, curation, register, roadmap or ladder file touched; the simulations ran on copies in /tmp."
+}

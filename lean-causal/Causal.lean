@@ -247,6 +247,7 @@ import Causal.LevinTimeFunction
 import Causal.ErsUnions
 import Causal.ErsMughd
 import Causal.HalfLitDual
+import Causal.OneWayMembrane
 
 /-!
 # Causal — topological spacetimes
