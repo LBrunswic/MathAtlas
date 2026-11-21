@@ -437,3 +437,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 20:28–21:15 (Paris); agents: 2 closers, 2 audits
 - new OQ: none (next free OQ-87); lean-causal kb 0167–0174
 - next: wave of T-ett-sfa-line-e0 and T-ett-sfa-massive-line (then T-ett-singular-sfa)
+
+## 2026-11-21 21:50 · wave of 2 · T-ett-sfa-line-e0, T-ett-sfa-massive-line
+- T-ett-sfa-line-e0: BTZAxioms.line at every Hausdorff E≥0-manifold (SFALine.line: the charts into E₀ make sing₀(M) a translation line, one exists_eqOn_rotE0_tauShift per transition, then LineDevelopment.exists_line; no absolute minimality, no second countability); BTZAxioms there (btzAxioms); SingularFlatAxioms at every T2, second countable E₀-manifold with no field left (singularFlatAxioms_e0); at causal M, J⁻(p) is the half-line (Jminus_eq_image). Findings: the l.1530 finding refined (prop:isom supplies the translations); l.294 (introduction) states the half-line at every E≥0-manifold, true only when M is causal (sentence-level). Audit minor
+- T-ett-sfa-massive-line: massive_line at every Hausdorff E≥0-manifold (SFAMassiveLine.massive_line, one prop_isom_local per transition, exists_chronal_line); l.1341 read in M (sing_locallyChronal, component_timelike); SingularFlatAxioms at every E_{>0}-manifold outright; E_π the library's first SingularFlatAxioms witness with a non-empty massive line. Findings appended to existing entries (l.1530 for every α, with the implicit orientation; l.1341). Audit minor
+- the four line fields are all proved: SingularFlatAxioms at every Hausdorff, second countable E≥0-manifold with an absolutely minimal causality is one application of SFABTZ.singularFlatAxioms_iff_lines (an audit probe checked it), which is T-ett-singular-sfa (all its dependencies done; for the planner to promote), then T-ett-singular-rows
+- roadmap slip, repaired before dispatch: moving the two targets to ready with --evidence (previous iteration) had replaced the planner's scope; restored from adf50ad (memory noted)
+- gates: lean-causal ✓, roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at a303a95, clean), hub: no new red
+- commits: 7072b90 a303a95 b03a55e (+ this)
+- wall time: 20:4x–21:50 (Paris); agents: 2 closers, 2 audits
+- new OQ: none (next free OQ-87); lean-causal kb 0175–0179
+- next: plan (rule 2): promote T-ett-singular-sfa (and with it the MeasuresManifolds e0 conditionals made unconditional, sfa-line-e0 AUDIT-1 suggestion_review), then T-ett-singular-rows; master T-ett-docstrings-sing0 is ready (exclusive)
