@@ -263,3 +263,8 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal strict ✓ (scaffold step: /atlas-team's in-flight file), ladder ✓, tests ✓, selftest ✓, blueprint ✓, hub: all gates green
 - commits: 7852b54 7923138 71b5cc7 47ead98 f59dee6
 - next: T-bind-curves-extend (binders: curves_extend is now discharged at layer 1 on every ETT spacetime), T-abs-galileo-ladder, T-abs-plain-not-locally-pushup; a planner pass for the dischargeable hypotheses (ERS 4.72, c_ext_connexe) and the CBG fields
+
+## 2026-11-21 16:44 · wave of 2 interrupted · T-abs-ers-4-72-second-countable, T-abs-c-ext-connexe-second-countable — the loop stops
+- both closers stopped on an API error, the account's weekly limit (resets 2026-11-27 09:00 UTC); no REPORT.json was written. Their partial files are parked OUTSIDE the repository, so that no unheld file sits in the shared checkout: /home/maxbrain/ett-programme-wip/2026-11-21/ErsSecondCountable.lean (built alone, 3121 jobs, per the closer's last message) and CExtConnexeSecondCountable.lean (statements typecheck, proofs unfinished). Both targets are back to `ready`. To resume: copy the files back to lean-causal/scaffold/CausalScaffold/, re-take their leases, and continue the closers (their transcripts are saved) or dispatch fresh ones
+- state at the stop: 106 targets; ladder 314/314 within a sort, 34 implied, 273 fails, 7 open; binders ers-predictability layer 1 in Lean 22, sbierski-mghd 16; open questions for the author OQ-69/80, 70, 73, 77, 78, 81, 86
+- next when the limit resets: wave 22 again (the two targets above), then T-abs-ers-4-64-second-countable, T-abs-c-ext-connexe-cauchy, T-abs-galileo-ladder, T-abs-plain-not-locally-pushup; T-loc-cbg-curves-default waits on telling gx
