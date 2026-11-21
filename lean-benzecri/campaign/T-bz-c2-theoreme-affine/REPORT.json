@@ -1,0 +1,67 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c2-theoreme-affine",
+  "files": ["scaffold/BenzecriScaffold/Chapter2/TheoremeAffine.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzthm:c2s3t2_poche_balayable_affine",
+      "tex_lines": [627, 646],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.theoreme_poche_balayable_affine",
+        "Benzecri.TheoremeComposanteAffinePrinted",
+        "Benzecri.theoremeComposanteAffinePrinted",
+        "Benzecri.TheoremeAffinePrinted",
+        "Benzecri.theoremeAffinePrinted_iff",
+        "Benzecri.TheoremeAffineLiteralPrinted",
+        "Benzecri.TheoremeAffinePrinted.literal",
+        "Benzecri.theoreme_deuxieme_affine",
+        "Benzecri.theoreme_troisieme_affine",
+        "Benzecri.exists_isAffSegment_of_coque_affine",
+        "Benzecri.theoreme_quatrieme_affine",
+        "Benzecri.containsAffLine_range_iff_affine",
+        "Benzecri.isCoqueAff_iff_convex_range_affine",
+        "Benzecri.isCoqueStricteAff_iff_range_affine",
+        "Benzecri.simplyConnectedSpace_of_coque_affine",
+        "Benzecri.isPreconnected_inter_range_of_coque_affine",
+        "Benzecri.poche_eq_preimage_of_coque_affine",
+        "Benzecri.theoreme_poche_balayable_affine_demiEspace",
+        "Benzecri.theoreme_poche_balayable_affine_demiDroite"
+      ],
+      "hypotheses": [
+        {"paper": "V une variété localement affine", "here": "weakened", "note": "[ChartedSpace (Fin n → ℝ) V] [HasGroupoid V (affGroupoid n)]; Hausdorff and second countable never used. The printed forms TheoremeComposanteAffinePrinted / TheoremeAffinePrinted / TheoremeAffineLiteralPrinted carry T2, connected, second countable, V : Type"},
+        {"paper": "V connexe", "here": "weakened", "note": "[PreconnectedSpace V]; the pocket makes V nonempty"},
+        {"paper": "V balayable", "here": "carried", "note": "IsBalayable (GAR n) (Fin n → ℝ) V (Ch. 1 Déf. 15, the group of all affine automorphisms)"},
+        {"paper": "(P, φ, z) une poche de V", "here": "carried", "note": "IsPocheAff P φ z (Déf. 1)"},
+        {"paper": "dimension n", "here": "carried", "note": "every n, n = 0 included; no NeZero"},
+        {"paper": "2°: P simplement connexe", "here": "carried", "note": "SimplyConnectedSpace P (Mathlib), P with the subspace topology; conclusion SimplyConnectedSpace V"},
+        {"paper": "3°: (P, φ, z) est une coque", "here": "carried", "note": "IsCoqueAff P φ z (Déf. 2); conclusion Convex ℝ (range φ̃) (Mathlib; = IsAffConvex by isAffConvex_iff_convex). Its converse is proved too (isCoqueAff_iff_convex_range_affine)"},
+        {"paper": "4°: (P, φ, z) est une coque stricte", "here": "carried", "note": "IsCoqueStricteAff P φ z (Déf. 3); conclusion ¬ ContainsAffLine (Fin n → ℝ) (range φ̃). Weakened in containsAffLine_range_iff_affine: any pocket whose φ(P) contains no line (the convexity of φ(P) is not used)"},
+        {"paper": "1° (second sentence)", "here": "reading", "note": "component form carried (theoreme_premier_affine, T-bz-c2-premier-affine); the printed full form is equivalent to ConnexeAffinePrinted (OQ-75, open), and is proved here for every shell. Both assemblies are given"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Bearing on OQ-75 (1°, second sentence, l.632–633): the printed full form P = φ̃⁻¹({z < 1} ∩ φ̃(V)) holds for every shell. 3° makes φ̃(V) convex, and then {z < 1} ∩ φ̃(V) is convex, hence preconnected (isPreconnected_inter_range_of_coque_affine, poche_eq_preimage_of_coque_affine; the assembly theoreme_poche_balayable_affine records it). With T-bz-c2-premier-affine's results (z ≡ 0, φ̃(V) star-shaped about a point of cote < 1, n ≤ 1), OQ-75 is now open only for a pocket that is not a shell, with a non-constant cote, in dimension n ≥ 2. No counterexample was sought beyond that.",
+        "Not in the paper, a strengthening; the statement is unaffected. 3° and 4° (l.637, l.639–640) are characterisations, for every pocket of a connected sweepable V. The paper's 4° argument (l.609–619 « comme le précédent ») never uses that φ(P) is convex. So φ̃(V) contains a line iff φ(P) does (containsAffLine_range_iff_affine). The pocket is a shell iff φ̃(V) is convex (isCoqueAff_iff_convex_range_affine). The converse direction goes through 1°'s full form for a convex φ̃(V): φ(P) = {z < 1} ∩ φ̃(V). The pocket is a strict shell iff φ̃(V) is convex and contains no line (isCoqueStricteAff_iff_range_affine).",
+        "Exposition (proof level, statement unaffected). In 4°, « remplacer S(n) ou H̊ par ℝⁿ » (l.644–645) removes the two steps of the projective 4° that carry the projective row's exposition findings. The first is the demi-droite lemma (l.605–607), false for S(n) and applied without saying why φ̃(V) ≠ S(n). The affine hypothesis to refute is already a line L ⊆ φ̃(V), so the lemma is not needed. The second is « gL est une demi-droite incluse dans H̊ » (l.609–612): condition b of Déf. 1 has no hemisphere clause, so this step is empty. Neither projective finding transfers to the affine row. Two steps stay implicit, as in the projective proof. First, gL is a line of φ̃(V) because φ̃ ∘ g = A ∘ φ̃ with A ∈ GA(n, ℝ), the rigidity of 1°b (IsDeveloping.existsUnique_smul_eq). The convention φ̃ = id (l.593–594) hides this. Second, condition b is applied to each sub-segment (gM, X) of gL (l.615–616). These are segments of V because they lie on gL ⊆ φ̃(V); here they are built with the chart φ̃ (isAffSegment_of_chart)."
+      ],
+      "questions": [
+        "OQ-75 (open, not decided here): is the component form of 1°'s second sentence the statement of record, or must the printed full form P = φ̃⁻¹({z < 1} ∩ φ̃(V)) be proved? Both assemblies are provided and neither is chosen. theoremeComposanteAffinePrinted states 1° in component form with 2°–4° and is proved in every dimension. theoremeAffinePrinted_iff proves TheoremeAffinePrinted n ↔ ConnexeAffinePrinted n. 2°–4° do not depend on the answer, and the full form is proved for every shell.",
+        "[sic] l.618, inherited through « comme le précédent » (transcription comment l.620): « de cote constante égale à z(M) » is read « z(gM) ». Here gM is the point of P that g moves M to, and its cote is < 1 by IsPocheAff.cote_lt_one. A reading, not ruled.",
+        "« induisant φ sur P » is printed in the projective 1° (l.522–523) but not in the affine 1° (l.631–632; the scan, p. 256, agrees). It is read as present, as in Benzecri.Chapter2.PremierAffine, whose SCOPE settles it by l.184–185 and l.644–645: every assembly carries EqOn φ̃ φ P. The literal reading, some compatible chart φ̃ with no EqOn, follows from it (TheoremeAffinePrinted.literal). Content-neutral in that direction.",
+        "3° « φ̃(V) est un convexe » is read as Mathlib's Convex ℝ (range φ̃) in ℝⁿ, which is the library's IsAffConvex (isAffConvex_iff_convex). 4° « ne contient pas de droite » is read as ¬ ContainsAffLine (Fin n → ℝ) (range φ̃): no set {p + t w | t ∈ ℝ} with w ≠ 0. This is the notion Déf. 3 uses for a strict shell. Content-neutral.",
+        "2° « simplement connexe » is read as Mathlib's SimplyConnectedSpace: nonempty, path connected, trivial fundamental groupoid. For P it is taken with the subspace topology. Content-neutral: P is a connected open set of a manifold."
+      ]
+    }
+  ],
+  "extra_decls": [],
+  "kb_proposals": [
+    "demiDroiteOuverte is definitionally demiEspaceOuvert 0. `isBalayable_demiEspaceOuvert 0` typechecks as `IsBalayable (GAR 1) (Fin 1 → ℝ) demiDroiteOuverte` (TheoremeAffine.lean, theoreme_poche_balayable_affine_demiDroite), so the half-line's GA(1) sweepability needs no new lemma. The PreconnectedSpace instance does not transfer by unification; build it with Subtype.preconnectedSpace, as Theoreme.lean does. Relevant to T-bz-c2-dedupe-demidroite.",
+    "Affine Theorem toolkit (Chapter2/TheoremeAffine.lean). For every pocket of a connected sweepable V: containsAffLine_range_iff_affine (φ̃(V) has a line iff φ(P) has one), isCoqueAff_iff_convex_range_affine (shell iff φ̃(V) convex), isCoqueStricteAff_iff_range_affine. For a shell: 1°'s full form, poche_eq_preimage_of_coque_affine. Every affine shell has a simply connected pocket (simplyConnectedSpace_of_coque_affine, via φ.toHomeomorphSourceTarget and Convex.contractibleSpace). So 2° applies to every shell, not only to strict ones as in the projective file.",
+    "Pattern: the image of a line L = q₀ + ℝw of φ̃(V) under the rigidity element A, where hA : ∀ y, p (g • y) = A • p y and p M = q₀, is the line φ̃(gM) + ℝ (A.linear w). Prove it with `rw [hA N, hN, hA M, hM, affineEquiv_smul_def, affineEquiv_smul_def, A.map_vadd, map_smul, vadd_eq_add]`. To show a sub-segment [q, t•u + q] lies on that line, use segment_eq_image' and convert. Then `show` the beta-reduced goal before `rw [add_sub_cancel_right, smul_smul, add_comm]`: the lambda blocks smul_smul otherwise."
+  ],
+  "notes": "CLOSED UP TO OQ-75. 2°, 3° and 4° are proved with no sorry and no added hypothesis, in every dimension (n = 0 included), with V only preconnected (T2 and second countable unused). 1° is T-bz-c2-premier-affine's theoreme_premier_affine, in component form. The status is `partial` only because 1°'s printed full form waits on OQ-75. Either answer marks the row with no Lean change. If the component form is ruled the statement of record, mark on theoremeComposanteAffinePrinted, which holds for every n. If the full form is required, theoremeAffinePrinted_iff reduces the printed Theorem to ConnexeAffinePrinted, and the mark waits on a proof of that alone. The full form is already proved for every shell. The docstring carries no ** mark, per the dispatch. ROUTE: « comme le précédent » is re-run directly over GA(n, ℝ). It is NOT derived from the projective Theorem through GXAut.affToProj. Prop. 7′ (compact_dans_poche_affine, deux_points_dans_poche_affine) replaces Prop. 7. Rigidity (IsDeveloping.existsUnique_smul_eq) gives φ̃ ∘ g = A ∘ φ̃. 1°b's injectivity (injective_of_isDeveloping_of_poche_affine, with PremierGX.exists_chart_of_injective) gives the chart φ̃ used for the segments of 3° and 4°. 2° reuses path_homotopic_refl_of_eq from Theoreme.lean. 4° follows the paper's argument with g, not the projective file's shortcut of a line through φ(P). It needs no twin of neg_notMem_range_of_poche or of the demi-droite lemma, and it uses neither 3° nor the convexity of φ(P). OQ-45/OQ-61: 2°–4° reach Prop. 7 only through compact_dans_poche_affine / deux_points_dans_poche_affine, which go through compact_dans_poche. Per T-bz-c2-theoreme's notes, that depends on neither OQ. The demiEspace witness has the non-constant cote x₀, so it survives OQ-61 (a). NON-VACUITY has two witnesses. First, theoreme_poche_balayable_affine_demiEspace (every n): the half-space of ℝⁿ⁺¹ with the shell {0 < x₀ < 1} ≠ V, every hypothesis of 1°–3° met, P simply connected; the conclusions hold, including 1°'s full form, V simply connected and φ̃(V) convex. Second, theoreme_poche_balayable_affine_demiDroite (n = 1): ]0, ∞[ with the strict shell ]0, 1[ ≠ V of exists_isCoqueStricteAff_demiDroite_ne_univ. Every hypothesis of 1°–4° holds there, and the conclusions too: φ̃(V) is convex and contains no line. No third copy of the ]0, 1[ construction was added: sweepability is isBalayable_demiEspaceOuvert 0, by defeq. BUILD: `lake env lean` gives no error and no warning. #print axioms of all 16 theorems gives propext, Classical.choice, Quot.sound only (run on a copy in /tmp, nothing written in the package). `lake build BenzecriScaffold.Chapter2.TheoremeAffine` ran once at the very end and succeeded: 2564 jobs, only this module built, nothing upstream rebuilt. The file was not edited after the build. GRADUATION: the module imports Benzecri.Chapter2.PremierAffine and Benzecri.Chapter2.Theoreme only. It is not added to scaffold/BenzecriScaffold.lean or Benzecri.lean. No new name occurs in the strict tree. The other closers' files were not read. Over-long lines: the title line and four docstring table rows only, as in the projective file. At graduation, re-point the row's blocked_on to OQ-75 alone (the evidence's instruction). ARGUED, NOT FORMALISED, for OQ-71 (the projective twin, not this row): the projective full form should also hold for every projective shell. theoreme_troisieme makes φ̃(V) a strict convex part C. Then C ∩ H̊ is convex for the affine structure of H̊: two of its points are not antipodal, and their segment stays in C and in H̊. D = {z < 1} is a half-space of H̊, so D ∩ C is convex and nonempty, hence connected. If so, OQ-71 also bears only on pockets that are not shells."
+}
