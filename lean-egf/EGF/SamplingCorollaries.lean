@@ -10,9 +10,9 @@ import Mathlib.Analysis.SpecialFunctions.Log.NegMulLog
 
 **`cor:sampling_error_control`** — `main.tex:329`
 
-`cor:pinsker_negative_control` — `main.tex:374` (not marked: false as printed, the `δf_init` of
-`main.tex:362` being `≤ 0`; proved with the negative part of `def:virtual_flows`, see SCOPE; the
-mark is the author's)
+**`cor:pinsker_negative_control`** — `main.tex:374`, in its corrected form of record (DEC-141,
+correction C-1): false as printed, the `δf_init` of `main.tex:362` being `≤ 0`; marked with the
+negative part of `def:virtual_flows`, see SCOPE
 
 Anchors: `EGF.sampling_error_control`; `EGF.pinsker_negative_control_density` (negative-part
 reading). Both apply `EGF.main_quantitative_sampling` at `F_term := κ̂`. Pinsker is copied from
@@ -73,7 +73,7 @@ With `E := F_init + F_in − F_out`:
 | `δ := (F_init + F_in − F_out)⁻(𝒮)` (`main.tex:333`) | ✓ `inferenceDefect … Set.univ` (`inferenceDefect_eq_negPart`), which is `δF_init(𝒮)` at `F_term = κ̂` |
 | `TV` | ✓ `tvDist = ½‖·‖` (OQ-60 (a)) |
 | `KL` | ✓ Mathlib's `InformationTheory.klDiv`, in `[0, ∞]`, `√(½ KL)` as `(KL/2)^{1/2}`; in `ℝ` when `KL < ∞` |
-| `δ := ∫ δf_init dλ`, `δf_init = min(0, f_init + f_in − f_out)` (`main.tex:362`, `:379`) | ✗ false as printed (`printed_false_of_mem_Ioo`); ? read as `max(0, −(f_init + f_in − f_out))`, the negative part of `main.tex:316`, `:333` |
+| `δ := ∫ δf_init dλ`, `δf_init = min(0, f_init + f_in − f_out)` (`main.tex:362`, `:379`) | ✗ false as printed (`printed_false_of_mem_Ioo`); corrected (DEC-141, C-1) to `max(0, −(f_init + f_in − f_out))`, the negative part of `main.tex:316`, `:333` |
 | the densities `f = dF/dλ` (`main.tex:196`) | ✓ presupposed, as the paper does: `F_init ≪ λ`, `F_out ≪ λ`, `InflowAC λ F` (`F_in ≪ λ`, a named hypothesis); for an EGF `InflowAC` is proved |
 | `(𝒮, λ)` Polish, `λ` finite (`main.tex:155`, `:358`) | ⚠ weakened: any measurable space, `λ` σ-finite, in the density form only |
 
@@ -85,15 +85,16 @@ and the triangle inequality adds `TV(κ̂/κ̂(𝒮) ‖ κ/κ(𝒮))`. No `λ` 
 rests on OQ-60's two confirmations (the `½` of `TV`, the randomized stopping time), as that of
 `theo:negative_control` does. `κ ≠ 0` is not assumed.
 
-**`cor:pinsker_negative_control` is not marked.** As printed, `δf_init = min(0, ·) ≤ 0`
+**The mark of `cor:pinsker_negative_control` is its corrected form.** As printed, `δf_init = min(0, ·) ≤ 0`
 (`main.tex:362`), so `δ = −E⁻(𝒮) ≤ 0` (`integral_deltaFinitDensityPrinted`), and the bound fails
 whenever `0 < E⁻(𝒮) < 1` at `κ = κ̂/κ̂(𝒮)`, where its right side is `−E⁻(𝒮)/(1 − E⁻(𝒮)) < 0`
 (`printed_false_of_mem_Ioo`; a two-point instance, `Swap.printed_pinsker_negative_control_false`).
 With `δ` the negative-part mass, as `def:virtual_flows` (`main.tex:316`) and
 `cor:sampling_error_control` (`main.tex:333`) define it, the corollary is proved: in measures
 (`pinsker_negative_control`) and in the paper's densities (`pinsker_negative_control_density`,
-`δf_init := max(0, −(f_init + f_in − f_out))`, `∫ δf_init dλ = E⁻(𝒮)`). Which `δ` is of record is
-the author's call.
+`δf_init := max(0, −(f_init + f_in − f_out))`, `∫ δf_init dλ = E⁻(𝒮)`). DEC-141 rules OQ-66: the
+negative part is of record (corrections C-1, C-4), and the printed form stays above as
+`PinskerNegativeControlPrinted` beside its refutation.
 
 **Densities.** `f = dF/dλ` is Mathlib's `rnDeriv`, as `main.tex:196` defines it; the density form
 presupposes `F_init, F_out, F_in ≪ λ`, as the paper does by writing their densities. `F_in ≪ λ` is the

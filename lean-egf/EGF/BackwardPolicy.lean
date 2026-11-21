@@ -8,12 +8,13 @@ import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
 /-!
 # The explicit backward policy of an Ergodic Generative Flow
 
-`theo:backward_policy` — `main.tex:733` (statement `main.tex:733–739`, its setting
-`main.tex:731–732`, proof `main.tex:740–766`; body version `main.tex:225–234`). Not marked: as
-printed the statement is false in the appendix's setting (`main.tex:731–732`; findings below, whose
-formal counterexamples are translations, not ergodic: the findings survive ergodicity by examples
-checked by hand, see SCOPE); its corrected forms are proved
-here, sorry-free, and which one becomes the formalization of record is the author's call.
+**`theo:backward_policy`** — `main.tex:733` (statement `main.tex:733–739`, its setting
+`main.tex:731–732`, proof `main.tex:740–766`; body version `main.tex:225–234`), in its corrected
+form of record (DEC-141, which rules OQ-55; corrections C-7, C-8, C-9): `backward_policy_rnDeriv`,
+the moves nonsingular for `λ` (`Φᵢ₊λ ≪ λ`) and `|J_s Φᵢ⁻¹|` the Jacobian of `Φᵢ⁻¹` relative to `λ`.
+As printed the statement is false in the appendix's setting (`main.tex:731–732`; findings below,
+whose formal counterexamples are translations, not ergodic: the findings survive ergodicity by
+examples checked by hand, see SCOPE).
 
 > As stated in section \ref{sec:fundamentals_EGF}, on a Differential manifold $\Statespace$ endowed
 > with a background measure $\lambda$ absolutely continuous with respect to Lebesgue measure, we
@@ -55,14 +56,15 @@ here, sorry-free, and which one becomes the formalization of record is the autho
 | `𝒮` a differential manifold | ⚠ weakened: any measurable space |
 | `λ ≪` Lebesgue | ⚠ strengthened: `Φᵢ₊λ = Jᵢ λ`, i.e. `Φᵢ₊λ ≪ λ`, needed (`printed_inflow_not_ac`); implied by `λ` equivalent to Lebesgue (`map_ac_of_equiv_addHaar`) |
 | `Φᵢ` diffeomorphisms | ⚠ weakened: measurable bijections `𝒮 ≃ᵐ 𝒮` (on `ℝᵈ`: with differentiable inverse) |
-| `|J_s Φᵢ⁻¹|` | ? `Jᵢ` with `Φᵢ₊λ = Jᵢ λ` (the `λ`-Jacobian); `coordJac` on `ℝᵈ` with Haar `λ` |
+| `|J_s Φᵢ⁻¹|` | corrected (DEC-141, C-8): `Jᵢ` with `Φᵢ₊λ = Jᵢ λ` (the `λ`-Jacobian); `coordJac` on `ℝᵈ` with Haar `λ` |
 | `π*(s) = ∑ αⁱ(s) δ_{Φᵢ(s)}` | ✓ `IsEGFPolicy` (`EGF.Defs`: `α` measurable, `∑ αⁱ = 1`); no ergodicity |
 | `F_out = f_out λ` | ✓ `f_out` measurable, `ℝ≥0∞`-valued, `F_out` finite (a `GenerativeFlow`) |
 | `B*` "given by" the formula | ✓ backward policy, Markov and unique `F_in`-a.e. (`β` is `0` where `f_in ∈ {0, ∞}`, `F_in`-null) |
 
 ## SCOPE (disclosed)
 
-**Not marked.** (1) With `λ ≪` Lebesgue only, `F_in` need not be `≪ λ`, so `f_in` does not exist
+**Marked in its corrected form** (DEC-141): `backward_policy_rnDeriv`; the printed forms stay as
+the two refutations below. (1) With `λ ≪` Lebesgue only, `F_in` need not be `≪ λ`, so `f_in` does not exist
 (`printed_inflow_not_ac`, the line `f_in` of `main.tex:737`, any `J`; the formal counterexample is a
 translation, not ergodic; an ergodic one, checked by hand and not formalized: `Φ = (x + 1, x − √2)`,
 `α = (½, ½)`, `λ = 𝟙_[0,1)·Leb`, `f_out = 1`, with dense forward orbits and `F_in` singular to `λ`);
