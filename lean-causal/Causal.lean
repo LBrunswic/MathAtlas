@@ -281,6 +281,7 @@ import Causal.Port.SFAMassiveLine
 import Causal.Port.SFAManifolds
 import Causal.Remarks.SingularRowsLocal
 import Causal.Port.CupCapBTZCounterexample
+import Causal.Remarks.SingularRowsK
 
 /-!
 # Causal — topological spacetimes

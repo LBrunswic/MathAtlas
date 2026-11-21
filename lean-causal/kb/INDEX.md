@@ -192,3 +192,5 @@ rediscover. One fact per entry.
 | [0184](entries/0184-e0-natural-over-family.md) | pattern | E₀ with its natural causality over the whole family |
 | [0185](entries/0185-open-subset-e0-manifold.md) | pattern | An open subset of a singular (G,X)-manifold is one, and of an E₀-manifold an E₀-manifold |
 | [0186](entries/0186-e0-causal-curves-axis.md) | pattern | A causal curve of E₀ into a BTZ point stays on the axis and cannot jump over an axis point |
+| [0187](entries/0187-k-rows-every-manifold.md) | pattern | The Section 3.3 K rows at every E≥0-manifold: Causal.SingularRowsK |
+| [0188](entries/0188-cone-shell-not-cauchy.md) | pattern | A non-vacuous S for cor:K_ordre_Sigma without a Cauchy surface: the cone shell |

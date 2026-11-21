@@ -1,0 +1,166 @@
+{
+  "target": "T-ett-singular-rows",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:past_BTZ",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, row stays partial (readings OQ-18, OQ-34/35, OQ-82). past_BTZ_b is (SFAManifolds.singularFlatAxioms hmin hC).past_BTZ_b, which is the row's strict decl, with only [T2Space M] [SecondCountableTopology M] hmin hC: no hidden hypothesis. past_BTZ_b_local takes hC only. past_BTZ takes [T2Space M] and hC. Both are as general as claimed, read off the signatures that typecheck. (a): range gamma = connectedComponentIn (sing M alpha) p, C.Inextensible top univ gamma, which includes CausalCurveIn (Inextensible.lean:184), chronal over every segment for alpha > 0. (b): every causal curve of every open W over every interval, with an initial-segment conjunct beyond the paper. The readings 'closed in c(I)' (closedness in M fails for curves over open intervals, so the relative reading is the only true one) and IsPreconnected (Delta may be empty) are disclosed. Witnesses are derived from this file's theorems: nonvacuous_e0_past from past_BTZ_b_local, with Delta and c0 both non-empty; nonvacuous_e0 and nonvacuous_epi from past_BTZ."
+    },
+    {
+      "label": "cor:K_injectif",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "K_injectif = (SFAManifolds.singularFlatAxioms hmin hC).K_injectif hSC, the row's strict decl, with T2, SC, hmin, hC and strong causality carried. Both maps are injective, as printed. Witnesses nonvacuous_e0 and nonvacuous_epi come from this K_injectif; nonvacuous_e0_natural comes from rows_of_isAtlasCausalityDEC25. The REPORT says this instantiates a BTZ branch that SingularFlat.lean:120-127 lists as never instantiated. That overstates it: E0.K_injectif (Causal/Port/E0SingularFlat.lean:633, from E0.singularFlatAxioms with sing0 = axis) already instantiated it at E0. What is new is the instance through the E>=0-manifold assembly. See finding 1."
+    },
+    {
+      "label": "prop:K_densite_sing",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "K_densite_sing and K_densite_sing_of_stronglyCausal are the row's strict decls applied to SFAManifolds.singularFlatAxioms, with no hidden hypothesis. K_densite_sing_local asks only hmin and hC: no T2, no SC, no strong causality. It is as general as claimed and still keeps absolute minimality, which the REPORT states correctly. Lean >= paper on both signs."
+    },
+    {
+      "label": "cor:K_ordre",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "K_ordre = (SFAManifolds.singularFlatAxioms hmin hC).K_ordre hG, the row's strict decl: both equivalences and both injectivities, i.e. 'isomorphism / anti-isomorphism onto its image'. K_ordre_of_t2 asks [T2Space M], hmin, hC and hG: no SC and no strong causality, as claimed."
+    },
+    {
+      "label": "lem:cup_cap_BTZ",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "DEC-19 form. cup_cap_BTZ = (SFAManifolds.singularFlatAxioms hmin hC).cup_cap_BTZ hG ..., the strict SingularFlatAxioms.cup_cap_BTZ on which the certificate cupCapBTZAsPrinted_of_globallyHyperbolic rests. hp : forall n, not (p <= p_n) is the paper's p notin J^-(p_n). cup_cap_BTZ_of_isClosed asks hmin, hC and closed futures, with no T2 and no SC, as claimed. Checked claim: nonvacuous_e0_cup_cap is the first instance with a BTZ point of SingularFlatAxioms.cup_cap_BTZ, and nonvacuous_e0_certificate is the first non-vacuous instance of the certificate itself. Before this target there were only timelikeLine_cupCapBTZAsPrinted (vacuous, sing 0 empty) and lightlikeLine_cup_cap_BTZ (cup_cap_BTZ_of_isClosed under BTZAxioms only). grep finds no other use. The data are genuine: p = (0,0) is on the axis; p_n = (-1/(n+1), 0) tends to p; not (p <= p_n); the set contains (-1,0). nonvacuous_e0_certificate takes its antecedents from SFAManifolds.nonvacuous_e0 and its conclusion from the strict certificate. The REPORT discloses this; the docstring does not (finding 3)."
+    },
+    {
+      "label": "rem:K_plongement_hypotheses",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Proved at E>=0-manifolds: (a) from global hyperbolicity (hypothesis_a, T2 and hC only); (b) at every point (hypothesis_b, and via K_densite_sing_local without T2 or SC); at x in Z^-, K^-(x) = I^-(x), (b) is equivalent to J^- in cl I^-, and that density holds (hypothesis_b_tarentin, with M causally plain globally by SFALocal.causallyPlain); at a BTZ point, I^- is empty and not dense in J^-(x), which contains x, while K^- is (hypothesis_b_btz); the order embedding (K_order_embedding = the row's K_order_embedding_of_globallyHyperbolic with hKp and hKm discharged). Not proved at E>=0-manifolds, and disclosed in SCOPE: 'Neither hypothesis can be dispensed with' (certified for general M by LinesReachable.hypothesis_a_needed and hypothesis_b_needed). The strengthening of 'around which M is causally plain' to global plainness is disclosed: SCOPE l.137, REPORT finding 2, and proposed blocked_on (6). For general M it is unchanged (the row's existing note). At E>=0-manifolds the proviso is met because M is globally plain, a special case. The row stays partial."
+    },
+    {
+      "label": "cor:K_ordre_Sigma",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "K_ordre_Sigma = Causality.K_ordre_Sigma (the row's strict decl), with tarentin from the charts and hK discharged from K_densite_sing. hS (lem:Sigma_separe's neighbourhood fact) stays named for an arbitrary S, which is weaker than Cauchy. K_ordre_Sigma_of_splitting asks for a Cauchy S and names a splitting psi with IsCauchySplitting (fields zero and mono only, CauchyDiamond.lean:72); hS comes out of Causality.sigma_separe. The row is partial because psi (theo:geroch_sing at M) is a named hypothesis, and this is disclosed. K_ordre_Sigma_of_splitting is not instantiated (disclosed). nonvacuous_e0_Sigma comes from btz_cone_shell and K_ordre_Sigma, with J^+(S) minus S = I^+(q) non-empty."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "On node1, taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SingularRowsK.lean: exit 0, no output (3.1 s). The file has no sorry, native_decide, axiom, admit or set_option; its one 'sorry' is prose at l.65. Ledger mark regex (tools/ledger.py docstring_label_re, ett's label_prefixes): 0 matches in the first 4000 characters and 0 in the whole file. Probe /tmp/srk_audit_probe/Probe.lean, deleted afterwards: 'import Causal' plus the file's imports and the whole file, followed by #print axioms on all 31 theorems. It compiles with -DwarningAsError=true, so there is no name clash under import Causal: the namespace Causal.SingularRowsK appears nowhere else in Causal/ or scaffold/. All 31 theorems depend on [propext, Classical.choice, Quot.sound] only. No lake build run."
+  },
+  "scope": "git status --short: M roadmap/roadmap.toml (the master's ready -> active for this target and T-ett-singular-rows-geroch, not the closer's), ?? lean-causal/campaign/T-ett-singular-rows/ (REPORT.json only before this audit), ?? scaffold/CausalScaffold/SingularRowsK.lean (dispatched), ?? scaffold/CausalScaffold/SingularRowsGeroch.lean (the other closer's, not touched, does not reference SingularRowsK). Nothing outside scope.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[cor:K_injectif].findings, notes 'STALE STRICT DOCSTRING'; SingularRowsK.lean:98-108",
+      "what": "The REPORT says the module's E0 witnesses instantiate, for the first time, the BTZ branches of K_injectif, K_densite_sing and K_monotone that SingularFlat.lean:120-127 lists as never instantiated. They were already instantiated at E0 by Causal/Port/E0SingularFlat.lean:633-655 (E0.K_injectif, E0.K_densite_sing, E0.K_ordre, E0.past_BTZ_b, from E0.singularFlatAxioms with sing0 = axis). That docstring was already stale before this target. What is genuinely first here: these rows through the E>=0-manifold assembly; SingularFlatAxioms.cup_cap_BTZ at a BTZ point (nonvacuous_e0_cup_cap); the certificate cupCapBTZAsPrinted_of_globallyHyperbolic at a BTZ point (nonvacuous_e0_certificate).",
+      "fix": "Use the curation notes below, which say this. For T-ett-docstrings-sing0, cite E0SingularFlat.lean:633-655 for the K rows and SingularRowsK.nonvacuous_e0_cup_cap / nonvacuous_e0_certificate for cup_cap_BTZ. SingularGeroch.lean:119 ('the last vacuously') is stale in the same way."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[prop:K_densite_sing].findings; SingularRowsK.lean:170",
+      "what": "Line citations. Strong causality, used for chart neighbourhoods causally convex in M, appears at l.1659-1660, 1665-1666, 1677-1678 and 1683-1684, not at 'l.1665-1666, l.1676-1677' (l.1676 is \\begin{itemize}). The past_BTZ_b_of docstring cites (b)'s proof as ETT.tex:1532-1555; it is l.1534-1554 (l.1532-1533 belong to (a)).",
+      "fix": "In the curation text use l.1659-1660, 1665-1666, 1677-1678, 1683-1684. At graduation, in SingularRowsK.lean:170, write `ETT.tex:1534–1554`."
+    },
+    {
+      "severity": "minor",
+      "where": "SingularRowsK.lean:98",
+      "what": "'Witnesses (kb/0011), each conclusion out of this file's theorems' is false for nonvacuous_e0_certificate. Its SingularFlatSpacetime and StronglyCausal conjuncts come from SFAManifolds.nonvacuous_e0, and its CupCapBTZAsPrinted conjunct and formula from the strict cupCapBTZAsPrinted_of_globallyHyperbolic. This is by design and disclosed in REPORT.notes, but not in the docstring.",
+      "fix": "At graduation: '…, each conclusion out of this file's theorems except `nonvacuous_e0_certificate`, which applies the strict certificate to `nonvacuous_e0_cup_cap`'s data: …'."
+    },
+    {
+      "severity": "minor",
+      "where": "SingularRowsK.lean:118; REPORT.json labels[rem:K_plongement_hypotheses].hypotheses[2], labels[cor:K_ordre_Sigma].hypotheses[3]",
+      "what": "Two tags are misused. kb/0006 reserves '⚠ strengthened' for an added hypothesis, which is a finding, but l.118 uses it for a stronger conclusion (a closed embedding when C is causal). In the REPORT, 'around which M is causally plain' and cor:K_ordre_Sigma's hK are tagged 'carried' although Lean discharges them, i.e. assumes less.",
+      "fix": "At graduation, l.118: '✓ … ; the conclusion is stronger: a closed embedding when `C` is causal'. The REPORT tags are not curated and need no edit."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json findings of cor:K_injectif, lem:past_BTZ, rem:K_plongement_hypotheses [2],[3], cor:K_ordre_Sigma [1]",
+      "what": "Several REPORT 'findings' are not about the paper. They say a row holds as printed, that the proof uses fewer hypotheses with no change suggested, or what the Lean gap is. All are true. The paper-level ones are: prop:K_densite_sing (strong causality can be dropped; a refinement of the existing DEC-64 finding, at M), cor:K_ordre l.1700-1701 (new for the row, a consequence of the former), lem:cup_cap_BTZ (an update of the existing finding's last sentence), rem:K_plongement_hypotheses (existing finding 4 is obsolete), cor:K_ordre_Sigma (a refinement of the existing finding).",
+      "fix": "Route as in the curation section: notes for the rest; paper_findings edits by replacement or appending to the existing entry, never as duplicates."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[cor:K_ordre_Sigma].findings[0]",
+      "what": "'ψ, i.e. theo:geroch_sing at M, which the paper itself assumes at l.2063-2064' is inaccurate. The paper does not assume ψ: lem:Sigma_separe (l.2064) takes it from theo:geroch_sing, whose statement gives only a homeomorphism M ≅ Σ×ℝ (l.1779). The causal flow lines used at l.2069 come from that theorem's proof. theo:geroch_sing's row is itself blocked (OQ-32, OQ-33).",
+      "fix": "Do not carry this sentence into paper_findings. Use the cor:K_ordre_Sigma blocked_on text below."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[rem:K_plongement_hypotheses].questions[0]",
+      "what": "The question is settled by the text. The remark's '(b)' and 'dense' refer to prop:K_plongement_ordre (b), which l.926 defines as 'J^±(x) ⊂ cl K^±(x), i.e. K^±(x) is dense in J^±(x)'. So 'only K^-(x) can be dense' (l.958) means dense in J^-(x), the closer's reading. The other reading holds too (hypothesis_b_btz). This is not a genuine open question.",
+      "fix": "Open no OQ-87. Record the reading in the row's notes, citing l.926."
+    },
+    {
+      "severity": "minor",
+      "where": "graduation mechanics",
+      "what": "Six rows' blocked_on name T-ett-singular-rows (lem:past_BTZ ends '(b) at M is T-ett-singular-rows'; cor:K_injectif, prop:K_densite_sing, cor:K_ordre, lem:cup_cap_BTZ, rem:K_plongement_hypotheses), and that target will be done. cor:K_ordre_Sigma's blocked_on is obsolete for hK.",
+      "fix": "Replace each blocked_on with the texts below. In every row add 'Causal/Remarks/SingularRowsK.lean' to extra_lean_files (kb/0015 item 6). git mv to Causal/Remarks/SingularRowsK.lean, add 'import Causal.Remarks.SingularRowsK' to Causal.lean (kb/0025), and delete .lake/build/lib/lean/CausalScaffold/SingularRowsK.* (kb/0015 item 2). No import change is needed; nothing in scaffold/ imports the module."
+    }
+  ],
+  "curation": {
+    "lem:past_BTZ": {
+      "extra_lean_files": "append Causal/Remarks/SingularRowsK.lean",
+      "decls": "append Causal.SingularRowsK.past_BTZ, Causal.SingularRowsK.past_BTZ_b, Causal.SingularRowsK.past_BTZ_b_local, Causal.SingularRowsK.past_BTZ_b_of, Causal.SingularRowsK.rows_of_isAtlasCausalityDEC25, Causal.SingularRowsK.nonvacuous_e0, Causal.SingularRowsK.nonvacuous_e0_past, Causal.SingularRowsK.nonvacuous_epi",
+      "notes_append": "T-ett-singular-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/SingularRowsK.lean. (b) holds at every E≥0-manifold for every causality with an isomorphic chart at each point, with no absolute minimality, no Hausdorff axiom and no second countability (SingularRowsK.past_BTZ_b_local). It goes through the model-free past_BTZ_b_of: the paper's argument (l.1534–1554) uses only that sing₀(M) is closed and that J⁻_U(p) ⊆ sing₀ in a chart at a BTZ point. Through SingularFlatAxioms, (b) holds at every Hausdorff, second countable E≥0-manifold with C absolutely minimal (past_BTZ_b). (a) and (b) together hold at every Hausdorff E≥0-manifold (past_BTZ); for the natural causality see rows_of_isAtlasCausalityDEC25. Readings of (b): every causal curve of every open W over every interval; « connected » IsPreconnected; « closed » closed in c(I); « in the past » ≤_W. Witnesses, out of the module's theorems: at E₀, a causal curve from (0,0) to (1,1) with both parts non-empty (nonvacuous_e0_past) and the BTZ line through every axis point (nonvacuous_e0); at E_π, the massive line (nonvacuous_epi). Unmarked: readings OQ-18, OQ-34, OQ-35, OQ-82.",
+      "paper_findings": "no change",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); OQ-18 (« singular spacetime »'s causality: any causality with an isomorphic chart at each point, absolutely minimal for the SingularFlatAxioms form); OQ-82 (the group). No Lean hypothesis is left. (a) holds at every Hausdorff E≥0-manifold (SFALine.line, SFAMassiveLine.massive_line). (b) holds at every E≥0-manifold (SingularRowsK.past_BTZ_b_local; through SingularFlatAxioms, SingularRowsK.past_BTZ_b). Both at once: SingularRowsK.past_BTZ."
+    },
+    "cor:K_injectif": {
+      "extra_lean_files": "append Causal/Remarks/SingularRowsK.lean",
+      "decls": "append Causal.SingularRowsK.K_injectif, Causal.SingularRowsK.rows_of_isAtlasCausalityDEC25, Causal.SingularRowsK.nonvacuous_e0, Causal.SingularRowsK.nonvacuous_e0_natural, Causal.SingularRowsK.nonvacuous_epi",
+      "notes_append": "T-ett-singular-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/SingularRowsK.lean. In the readings, the row holds as printed at every strongly causal, Hausdorff, second countable E≥0-manifold whose C is absolutely minimal with an isomorphic chart at each point (SingularRowsK.K_injectif: SingularFlatAxioms.K_injectif applied to SFAManifolds.singularFlatAxioms). For the natural causality: rows_of_isAtlasCausalityDEC25. Witnesses: E₀ with its BTZ line (nonvacuous_e0, nonvacuous_e0_natural) and E_π (nonvacuous_epi). The BTZ branch was first instantiated at the model by E0.K_injectif (Causal/Port/E0SingularFlat.lean:633); here it goes through the E≥0-manifold assembly.",
+      "paper_findings": "none (nothing in the paper needs to change)",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); OQ-18 (the causality of an E≥0-manifold: absolutely minimal with an isomorphic chart at each point); OQ-82 (the group). No Lean hypothesis is left (SingularRowsK.K_injectif)."
+    },
+    "prop:K_densite_sing": {
+      "extra_lean_files": "append Causal/Remarks/SingularRowsK.lean",
+      "decls": "append Causal.SingularRowsK.K_densite_sing, Causal.SingularRowsK.K_densite_sing_of_stronglyCausal, Causal.SingularRowsK.K_densite_sing_local, Causal.SingularRowsK.rows_of_isAtlasCausalityDEC25, Causal.SingularRowsK.nonvacuous_e0, Causal.SingularRowsK.nonvacuous_epi",
+      "notes_append": "T-ett-singular-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/SingularRowsK.lean. J^±(x) ⊆ cl K^±(x) holds at every Hausdorff, second countable E≥0-manifold with C absolutely minimal with an isomorphic chart at each point (SingularRowsK.K_densite_sing; with strong causality carried and unused, K_densite_sing_of_stronglyCausal). It also holds with neither Hausdorff nor second countability (K_densite_sing_local, from SFALocal.pushUp, SFALocal.mem_Zplus, SFALocal.mem_Zminus_of_notMem, SFABTZ.singularPastAt and SFABTZ.Iplus_of_lt). Witnesses: every point of E₀, the axis included (nonvacuous_e0), and of E_π (nonvacuous_epi).",
+      "paper_findings": "APPEND to the second (DEC-64) entry, not a new entry: \" At M (T-ett-singular-rows): DEC-64's global field is a theorem at every E≥0-manifold (Causal.SFABTZ.Iplus_of_lt). So « strongly causal » can be dropped from the statement of l.1634 itself (Causal.SingularRowsK.K_densite_sing_local, which needs no Hausdorff axiom or second countability either). The paper's proof uses strong causality for chart neighbourhoods causally convex in M (l.1659–1660, l.1665–1666, l.1677–1678, l.1683–1684); the formalization reads one chart at a time and needs none.\"",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form). No Lean hypothesis is left (SingularRowsK.K_densite_sing; without Hausdorff or second countability, SingularRowsK.K_densite_sing_local). DEC-64's field Iplus_of_lt is a theorem at M (SFABTZ.Iplus_of_lt)."
+    },
+    "cor:K_ordre": {
+      "extra_lean_files": "append Causal/Remarks/SingularRowsK.lean",
+      "decls": "append Causal.SingularRowsK.K_ordre, Causal.SingularRowsK.K_ordre_of_t2, Causal.SingularRowsK.rows_of_isAtlasCausalityDEC25, Causal.SingularRowsK.nonvacuous_e0, Causal.SingularRowsK.nonvacuous_e0_natural, Causal.SingularRowsK.nonvacuous_epi",
+      "notes_append": "T-ett-singular-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/SingularRowsK.lean. Holds as printed, in the readings, at every globally hyperbolic, Hausdorff, second countable E≥0-manifold (SingularRowsK.K_ordre). It holds without second countability (K_ordre_of_t2: prop:K_plongement_ordre with (a) from prop:GH_Jferme, (b) from K_densite_sing_local, monotonicity from SFABTZ.K_monotone). Witnesses: E₀ with its BTZ line (nonvacuous_e0, nonvacuous_e0_natural) and E_π (nonvacuous_epi), both globally hyperbolic.",
+      "paper_findings": "NEW (the row has none): \"ETT.tex:1700–1701, « and M is strongly causal by Proposition prop:GH_fortement_causal »: the appeal is superfluous. Strong causality serves only to meet prop:K_densite_sing's hypothesis, which can be dropped (finding on prop:K_densite_sing). The proof needs (a) from prop:GH_Jferme, (b) from prop:K_densite_sing, prop:K_monotone, and M causal (Causal.SingularRowsK.K_ordre_of_t2).\"",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form). No Lean hypothesis is left (SingularRowsK.K_ordre; without second countability, SingularRowsK.K_ordre_of_t2)."
+    },
+    "lem:cup_cap_BTZ": {
+      "extra_lean_files": "append Causal/Remarks/SingularRowsK.lean",
+      "decls": "append Causal.SingularRowsK.cup_cap_BTZ, Causal.SingularRowsK.cup_cap_BTZ_of_isClosed, Causal.SingularRowsK.rows_of_isAtlasCausalityDEC25, Causal.SingularRowsK.nonvacuous_e0_cup_cap, Causal.SingularRowsK.nonvacuous_e0_certificate, Causal.SingularRowsK.nonvacuous_e0_natural",
+      "notes_append": "T-ett-singular-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/SingularRowsK.lean. DEC-19's form holds at every globally hyperbolic, Hausdorff, second countable E≥0-manifold (SingularRowsK.cup_cap_BTZ = SingularFlatAxioms.cup_cap_BTZ applied to SFAManifolds.singularFlatAxioms). It also holds at every E≥0-manifold whose J⁺(z) are all closed, with no Hausdorff axiom or second countability (cup_cap_BTZ_of_isClosed). First instances with a BTZ point: of SingularFlatAxioms.cup_cap_BTZ at E₀, p = (0,0), p_n = (−1/(n+1), 0), the set non-empty (nonvacuous_e0_cup_cap); of the certificate cupCapBTZAsPrinted_of_globallyHyperbolic at E₀, its antecedents holding (nonvacuous_e0_certificate).",
+      "paper_findings": "REPLACE, in the single existing entry, its last sentence (« The certificate's hypotheses hold at a BTZ point, E_0 itself (E0.globallyHyperbolic, E0.singularFlatSpacetime, sing_0 ≠ ∅), but no declaration instantiates it there yet: the timelike line's instance timelikeLine_cupCapBTZAsPrinted is vacuous (sing 0 = ∅). ») with: \"The certificate is instantiated at a BTZ point of E_0, its antecedents holding (Causal.SingularRowsK.nonvacuous_e0_certificate): at p = (0,0), with p_n = (−1/(n+1), 0) → p along the axis from below, p ∉ J^-(p_n) and ⋃_N ⋂_{n≥N} J^-(p_n) = J^-(p) ∖ {p} ≠ ∅ (nonvacuous_e0_cup_cap). So the printed form holds at E_0, which is globally hyperbolic, and fails at E_0 ∖ {w}.\" No new entry.",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the causality and the group of def:singular_spacetime). DEC-19's form holds at every globally hyperbolic E≥0-manifold with no Lean hypothesis left (SingularRowsK.cup_cap_BTZ), witnessed at a BTZ point of E₀ (SingularRowsK.nonvacuous_e0_cup_cap). The printed form is refuted (CupCapBTZCounterexample.not_cupCapBTZAsPrinted)."
+    },
+    "rem:K_plongement_hypotheses": {
+      "extra_lean_files": "append Causal/Remarks/SingularRowsK.lean",
+      "decls": "append Causal.SingularRowsK.K_plongement_hypotheses, Causal.SingularRowsK.hypothesis_a, Causal.SingularRowsK.hypothesis_b, Causal.SingularRowsK.hypothesis_b_tarentin, Causal.SingularRowsK.hypothesis_b_btz, Causal.SingularRowsK.K_order_embedding, Causal.SingularRowsK.nonvacuous_e0, Causal.SingularRowsK.nonvacuous_e0_plongement",
+      "notes_append": "T-ett-singular-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/SingularRowsK.lean. At every E≥0-manifold, in the readings: (a) holds under global hyperbolicity (hypothesis_a, Hausdorff only); (b) holds at every point (hypothesis_b; with no Hausdorff axiom or second countability, through K_densite_sing_local); M is causally plain globally (SFALocal.causallyPlain), so l.954's proviso is met. At x ∈ Z⁻: K⁻(x) = I⁻(x), (b) ⇔ J⁻(x) ⊆ cl I⁻(x), and that density holds (hypothesis_b_tarentin). At a BTZ point: I⁻(x) = ∅ is not dense in J⁻(x) ∋ x, while K⁻(x) is dense (hypothesis_b_btz), which is l.957–959. The order embedding holds at every globally hyperbolic one (K_order_embedding), and all of this is assembled in K_plongement_hypotheses. Witness: E₀, with (1,1) ∈ Z⁻ and BTZ axis points (nonvacuous_e0_plongement, nonvacuous_e0). Reading of l.958 « only K⁻(x) can be dense »: dense in J⁻(x), as l.926 defines (b) (« i.e. K^±(x) is dense in J^±(x) »); settled by the text, no OQ. For a general M, l.954 stays certified with global plainness, as above.",
+      "paper_findings": "DELETE the fourth entry (« ETT.tex:957-958: prop:K_densite_sing belongs to the singular model spaces, absent from the library; not stated. »): it is obsolete and was a status note, not a finding about the paper. Its replacement is the note above. Entries 1–3 are unchanged; add none.",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form). For a general M, l.954's « around which M is causally plain » is certified with global plainness (Causality.Jminus_subset_closure_Kminus_iff); a local form of prop:tarentin_fort_K is not proved. At E≥0-manifolds plainness holds globally, and hypothesis (b), the sentence of l.957–959 and the order embedding hold with no Lean hypothesis left (SingularRowsK.K_plongement_hypotheses)."
+    },
+    "cor:K_ordre_Sigma": {
+      "extra_lean_files": "append Causal/Remarks/SingularRowsK.lean",
+      "decls": "append Causal.SingularRowsK.K_ordre_Sigma, Causal.SingularRowsK.K_ordre_Sigma_of_splitting, Causal.SingularRowsK.btz_cone_shell, Causal.SingularRowsK.cone_shell, Causal.SingularRowsK.rows_of_isAtlasCausalityDEC25, Causal.SingularRowsK.nonvacuous_e0_Sigma",
+      "notes_append": "T-ett-singular-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/SingularRowsK.lean. hK (prop:K_densite_sing) is discharged at every globally hyperbolic, Hausdorff, second countable E≥0-manifold, for every S satisfying the neighbourhood fact hS, which stays named (SingularRowsK.K_ordre_Sigma). For a Cauchy surface Σ with a named Cauchy splitting ψ (IsCauchySplitting), hS is lem:Sigma_separe (K_ordre_Sigma_of_splitting, through Causality.sigma_separe; Σ is acausal by IsCauchySurface.isAcausal_of_t1_secondCountable). K_ordre_Sigma_of_splitting is not instantiated: the library has no splitting of E₀. Witness: E₀ with S = J⁺(q) ∖ I⁺(q), q = (0,0), which is not a Cauchy surface (nonvacuous_e0_Sigma).",
+      "paper_findings": "REPLACE the single existing entry with the merged one: \"The proof (l.2090–2097) uses of prop:K_densite_sing only x ∈ closure K^-(x), and of lem:Sigma_separe only that J^+(Σ) is a neighbourhood of x; the hypothesis on y is needed only for injectivity. So Σ need not be a Cauchy surface: any S with J^+(S) a neighbourhood of each point of J^+(S) ∖ S will do (Causal.Causality.K_ordre_Sigma; at E≥0-manifolds, Causal.SingularRowsK.K_ordre_Sigma). Example: S = J^+(q) ∖ I^+(q) for any q with q ≪ q false, e.g. a BTZ point, where J^+(S) ∖ S = I^+(q) is open and non-empty (Causal.SingularRowsK.cone_shell, btz_cone_shell; at E₀, nonvacuous_e0_Sigma).\"",
+      "blocked_on": "lem:Sigma_separe's neighbourhood fact for a Cauchy surface Σ, which rests on the homeomorphism ψ of theo:geroch_sing (named in SingularRowsK.K_ordre_Sigma_of_splitting; theo:geroch_sing's row is blocked on OQ-32, OQ-33). hK is discharged at every E≥0-manifold (SingularRowsK.K_ordre_Sigma). OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form)."
+    }
+  },
+  "findings_verdicts": {
+    "K_densite_sing l.1634-1637, strong causality droppable": "True (K_densite_sing_local: hmin and hC only). A refinement, at M, of the row's two existing findings, which say it under the SingularFlatAxioms field. Append to the DEC-64 entry; do not add a new one. Correct the line citations.",
+    "past_BTZ l.1520-1525, (b) with no minimality, T2 or SC": "True (past_BTZ_b_local, hC only; past_BTZ_b_of gives the two facts). New, since the row's findings concern (a) at l.1529-1530, but it suggests no change to the paper. Put it in notes, not paper_findings.",
+    "K_ordre l.1700-1701, prop:GH_fortement_causal superfluous": "True, as a consequence of the K_densite_sing finding (K_ordre_of_t2 needs no strong causality). New for cor:K_ordre, which has no paper_findings. Add one short entry pointing to the prop:K_densite_sing finding.",
+    "cup_cap_BTZ holds at E0, fails at E0 minus {w}": "True: nonvacuous_e0_certificate proves E0.causality.CupCapBTZAsPrinted (SFALocal.sing E0) with its antecedents, and CupCapBTZCounterexample.not_cupCapBTZAsPrinted refutes it at E0 minus {w}. An update of the existing entry's last sentence; replace that sentence, add no new entry.",
+    "rem:K_plongement_hypotheses l.957-959; obsolete finding": "True: hypothesis_b and hypothesis_b_btz. The row's fourth entry is obsolete; delete it and put the result in notes. REPORT findings 2 (l.953-956 at E>=0: global plainness) and 3 (order embedding) are true but are notes.",
+    "K_ordre_Sigma l.2090-2097, Sigma need not be Cauchy; btz_cone_shell": "True (Causality.K_ordre_Sigma takes any S with hS; cone_shell needs only not (q << q)). A refinement of the existing entry, which already says only the neighbourhood property of J^+(Sigma) is used. Replace it with the merged text. The BTZ point in the example is incidental.",
+    "question l.958-959 (OQ-87)": "Settled by the text: l.926 defines (b) as 'K^±(x) is dense in J^±(x)'. No OQ."
+  }
+}
