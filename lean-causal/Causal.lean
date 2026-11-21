@@ -234,6 +234,7 @@ import Causal.NestedTransfer
 import Causal.SbierskiProp37
 import Causal.ChronalNeighbourBridge
 import Causal.PushUpNotOpen
+import Causal.GateLineLocal
 
 /-!
 # Causal — topological spacetimes

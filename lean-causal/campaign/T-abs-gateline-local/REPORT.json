@@ -1,0 +1,284 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-gateline-local",
+ "files": [
+  "scaffold/CausalScaffold/GateLineLocal.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-gateline-local/1-locally-push-up",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-gateline-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:632-644"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "lem:pushup_local",
+     "text_lines": "ETT.tex:557-560"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.gateLine_locallyPushUp",
+    "Causal.gateLine_pushUpOn",
+    "Causal.gateLineLine"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the line and {⋆} are opens with push-up (target's argument)",
+     "here": "carried",
+     "note": "proved more generally: PushUpOn W for every open W missing ⋆ or the gate inl 5 (the only failure of push-up is x ≪_U y ≤_U ⋆, and y ≤_U ⋆ needs ⋆ and inl 5 in U); neighbourhoods: the line (range inl) for inl a, gateStar for ⋆"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-gateline-local/2-not-push-up",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-gateline-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:632-644"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.gateLine_not_pushUp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "0 ≪ 1 ≤ ⋆ and nothing ≪ ⋆",
+     "here": "carried",
+     "note": "at U = ⊤, through PushUp.lt_of_lt_of_le: inl 0 ≪_M inl 1 ≤_M ⋆ would give inl 0 ≪_M ⋆, which is False by the definition of ≪"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-gateline-local/3-causally-open-future",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-gateline-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:632-644"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:causally_open_spacetime_open (J^+ only as printed; two-sided by DEC-8, registers/DECISIONS.md:19)",
+     "text_lines": "ETT.tex:694-697"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.gateLine_causallyOpenFuture",
+    "Causal.gateLine_isOpen_Jplus",
+    "Causal.gateLine_preimage_inl_Jplus",
+    "Causal.gateLineTrace"
+   ],
+   "hypotheses": [
+    {
+     "paper": "J⁺_U(V) of an open V is its line part, open as on the timelike line, plus possibly the isolated ⋆",
+     "here": "carried",
+     "note": "inl⁻¹ J⁺_U(A) = timelikeLine.Jplus (inl⁻¹ U) (inl⁻¹ A) for every set A (⋆ is below no point of the line); openness from timelikeLine_causallyOpen_of_chronalNeighbours (Causal/LadderLocal.lean:476) and isOpen_sum_iff, the inr part being open in the discrete Unit"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-gateline-local/4-not-causally-open",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-gateline-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:632-644"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:causally_open_spacetime_open (J^+ only as printed; two-sided by DEC-8, registers/DECISIONS.md:19)",
+     "text_lines": "ETT.tex:694-697"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.gateLine_not_causallyOpen",
+    "Causal.gateLine_not_causallyOpenPast",
+    "Causal.gateLine_not_isOpen_Jminus_star",
+    "Causal.gateLine_Jminus_star"
+   ],
+   "hypotheses": [
+    {
+     "paper": "J⁻({⋆}) = (−∞, 10] ∪ {⋆} is not open, {⋆} being open",
+     "here": "carried",
+     "note": "gateLine_Jminus_star: J⁻_⊤({⋆}) = inl '' Iic 10 ∪ {⋆}; with V = gateStar = {⋆} (open) and U = ⊤, its inl-preimage Iic 10 would be clopen in the connected ℝ (isClopen_iff), which it is not. Stated both as ¬ CausallyOpen (DEC-8) and as ¬ gateLine.dual.CausallyOpenFuture (the past half alone)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-gateline-local/5-locally-causally-open",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-gateline-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:632-644"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.gateLine_locallyCausallyOpen",
+    "Causal.gateLine_isOpen_Jminus",
+    "Causal.gateLine_preimage_inl_Jminus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "two-sided local causal openness: in an open set of the line, or in {⋆}, the relations are the timelike line's or trivial",
+     "here": "carried",
+     "note": "LocallyCausallyOpen (Causal/LadderLocal.lean, two-sided, DEC-8) through locallyCausallyOpen_iff with one neighbourhood for both sides: the line for inl a, gateStar for ⋆. The past side is proved on every open missing ⋆ or the gate (gateLine_isOpen_Jminus), the future side on every open (gateLine_isOpen_Jplus)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-gateline-local/6-separations",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-gateline-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:632-644"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:causally_open_spacetime_open (J^+ only as printed; two-sided by DEC-8, registers/DECISIONS.md:19)",
+     "text_lines": "ETT.tex:694-697"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "lem:pushup_local",
+     "text_lines": "ETT.tex:557-560"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "prop:topological_spacetime_absolutely_minimal",
+     "text_lines": "ETT.tex:698-701"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.gateLine_separates_causallyOpen",
+    "Causal.gateLine_separates_pushUp",
+    "Causal.gateLine_stronglyCausalOpen",
+    "Causal.gateLine_stronglyCausal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "causally_open_future, locally_causally_open, globally_hyperbolic, is_causal, curves_extend, locally_push_up of the gated line, with ¬ causally_open / ¬ push_up",
+     "here": "carried",
+     "note": "GH from gateLine_globallyHyperbolicOn (Or.inl rfl) and globallyHyperbolicOn_top; is_causal gateLine_isCausal; curves_extend gateLine_curvesExtend; ¬ AbsolutelyMinimal from gateLine_not_absolutelyMinimalOn and Precausality.absolutelyMinimal_iff; ¬ CausallyArcConnected from gateLine_cauchyInclusion_not_causallyConvex (fifth conjunct), all Causal/CBG/CausalConvex.lean"
+    },
+    {
+     "paper": "(not asked) strong causality",
+     "here": "strengthened",
+     "note": "beyond the target: StronglyCausalOpen and StronglyCausal (DEC-7) proved and conjoined into both separations (a segment of the line, or {⋆}, is causally convex in M); this adds conjuncts, it adds no hypothesis"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "def:causally_open_spacetime_open (ETT.tex:694-697) as printed, with J⁺_U(V) open only, is STRICTLY WEAKER than the two-sided reading DEC-8 made the definition of record (registers/DECISIONS.md:19): the gated line (ℝ ⊕ Unit, Hausdorff, second countable; causal, globally hyperbolic, strongly causal, curves extending, locally push-up, two-sided locally causally open) satisfies the printed definition and not the ruled one, because J⁻_M({⋆}) = (−∞, 10] ∪ {⋆} is not open while {⋆} is (Causal.gateLine_separates_causallyOpen). DEC-8's '±' is therefore a change of the notion, not a restatement: a statement of the paper that cites causal openness and uses only J⁺ holds under the printed form; one that uses J⁻ (as prop:tarentin_topological_spacetime_causality (ii)⇒(i) does, ETT.tex:741-748) needs the ruled form. When the definition gains its ± (DEC-8's note), the change is substantive.",
+    "The counterexample is not absolutely minimal (non-local), so it says nothing about absolutely minimal spacetimes; it shows that the absolute minimality of prop:topological_spacetime_absolutely_minimal (ETT.tex:698-701, DEC-8 reading) cannot be dropped: locally two-sided causally open does not give causally open.",
+    "Likewise the causal arc-connectedness of lem:pushup_local (ETT.tex:557-560) cannot be dropped: the gated line has a cover by opens with push-up (the line and {⋆}) and no push-up (Causal.gateLine_separates_pushUp). The paper assumes the hypothesis, so this is a sharpness remark, not a defect."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.gateLineTrace",
+  "Causal.gateLineLine",
+  "Causal.gateLine_pushUpOn",
+  "Causal.gateLine_preimage_inl_Jplus",
+  "Causal.gateLine_preimage_inl_Jminus",
+  "Causal.gateLine_isOpen_Jplus",
+  "Causal.gateLine_isOpen_Jminus",
+  "Causal.gateLine_stronglyCausalOpen",
+  "Causal.gateLine_stronglyCausal"
+ ],
+ "for_keeper": {
+  "fails": [
+   {
+    "from": [
+     "causally_open_future",
+     "locally_causally_open",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "curves_extend",
+     "locally_push_up"
+    ],
+    "to": "causally_open",
+    "witness": "Causal.gateLine_separates_causallyOpen",
+    "note": "the printed J⁺-only causal openness is strictly weaker than DEC-8's (causally_open_future ⇏ causally_open). The witness also conjoins is_causal and strongly_causal. Sharpness of the [[implies]] absolutely_minimal ∧ locally_causally_open ⇒ causally_open (witness Causal.Causality.AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen, whose comment says 'No separation'): absolute minimality cannot be dropped"
+   },
+   {
+    "from": [
+     "causally_open_future",
+     "locally_causally_open",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "curves_extend",
+     "locally_push_up"
+    ],
+    "to": "absolutely_minimal",
+    "witness": "Causal.gateLine_separates_causallyOpen",
+    "note": "new for strongly_causal(_open), causally_open_future, locally_causally_open(_future), locally_push_up; the globally_hyperbolic, is_causal and curves_extend pairs are already fails (the three gated-line [[fails]] entries, witnesses Causal.gateLine_cauchyInclusion_not_causallyConvex and Causal.gateLine_not_absolutelyMinimalOn). Through the closure (causally_arc_connected ⇒ absolutely_minimal) also ⇏ causally_arc_connected"
+   },
+   {
+    "from": [
+     "locally_push_up",
+     "globally_hyperbolic",
+     "strongly_causal_open",
+     "curves_extend",
+     "causally_open_future",
+     "locally_causally_open"
+    ],
+    "to": "push_up",
+    "witness": "Causal.gateLine_separates_pushUp",
+    "note": "locally_push_up ⇏ push_up: sharpness of the [[implies]] causally_arc_connected ∧ locally_push_up ⇒ push_up (witness Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp, lem:pushup_local, whose comment says 'No separation'); the witness also conjoins is_causal, strongly_causal and ¬ causally_arc_connected. is_causal ⇏ push_up was already fails (Causal.deux_pushup)"
+   }
+  ],
+  "open_notes": [
+   {
+    "entry": "[[open]] causally_arc_connected → push_up (programme/ladder.toml, the entry whose note ends 'argued, not in Lean, but it is not causally arc-connected'; line numbers moved during this run, the file being edited concurrently)",
+    "note": "its note says the gated line's local push-up and failure of push-up are 'argued, not in Lean': both are now in Lean (Causal.gateLine_locallyPushUp, Causal.gateLine_not_pushUp, conjoined in Causal.gateLine_separates_pushUp). The [[open]] stays open: the gated line is not causally arc-connected"
+   }
+  ],
+  "simulated": "with the three entries appended to a copy of programme/ladder.toml (/tmp only), tools/ladder.py check reports no contradiction (its only violations: the three witnesses are not yet in lean-causal/Causal, i.e. before graduation), and matrix moves 31 ordered pairs from unknown to fails (simulated on the ladder of this run's start); in all: causally_compact → causally_open, push_up; curves_extend → causally_open, push_up; globally_hyperbolic → causally_open, push_up; is_causal → causally_open; and each of causally_open_future, locally_causally_open, locally_causally_open_future, locally_push_up, strongly_causal, strongly_causal_open → absolutely_minimal, causally_arc_connected, causally_open, push_up (2+2+2+1+6×4 = 31)"
+ },
+ "kb_proposals": [
+  "The gated line (Causal.gateLine) is the library's witness that DEC-8's two-sided causal openness is strictly stronger than the printed J⁺-only form: causally open in the future, locally causally open on both sides, not causally open, J⁻_M(⋆) = (−∞, 10] ∪ {⋆} (Causal.gateLine_separates_causallyOpen); its line part of J^±_U(A) is the timelike line's whenever U misses ⋆ or the gate (gateLine_preimage_inl_Jplus/Jminus), so openness questions on it reduce to the timelike line through isOpen_sum_iff."
+ ],
+ "notes": "Layer 1: imports Causal.CBG.CausalConvex and Causal.LadderLocal only; their closure (35 Causal modules) contains no Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.*, Causal.Port.* and no CBG module other than CausalConvex (checked by walking the import lines). No metric notion. No sorry; lake env lean prints no warning, so the file is warningAsError-clean for graduation into Causal/ (module Causal.GateLineLocal). #print axioms of the two separations and of gateLine_Jminus_star: propext, Classical.choice, Quot.sound. lake build CausalScaffold.GateLineLocal rebuilt only this module. The file is not imported by the scaffold root (kb/0025; I may not edit it). Strong causality (gateLine_stronglyCausalOpen, gateLine_stronglyCausal) is beyond the target and conjoined into both separations; it does not overlap T-abs-gateline-witnesses (time function, tarentin), which this file does not state. Names checked unique against Causal/ and scaffold/ (the other closers' ChronalNeighbourBridge.lean and PushUpNotOpen.lean untouched)."
+}
