@@ -159,3 +159,6 @@ rediscover. One fact per entry.
 | [0151](entries/0151-static-null-frontiers-admissible.md) | pattern | Null frontiers and admissible measures on any static ℝ × X |
 | [0152](entries/0152-measures-at-ealpha.md) | pattern | Measures at E_κ: the Borel σ-algebra of Cone κ is declared once, in Causal.MeasuresEAlpha |
 | [0153](entries/0153-polar-atom-at-apex.md) | pitfall | Pushing a measure by Cone.polar puts an atom at the apex |
+| [0156](entries/0156-bprime-at-ealpha.md) | pattern | (b′) at E_κ, κ > 0: Causal.BPrimeEAlpha.chartIso_of_isAEChart |
+| [0157](entries/0157-slit-box-timelike-axis.md) | pattern | The slit box at a timelike axis: work in parameter space, recover the angle mod κ′ |
+| [0158](entries/0158-static-shift-chartiso.md) | pattern | A time translation times a space isometry is a ChartIso of static spacetimes |

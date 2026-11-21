@@ -1,0 +1,164 @@
+{
+  "package": "T-ett-bprime-ealpha",
+  "target": "T-ett-bprime-ealpha",
+  "files": [
+    "scaffold/CausalScaffold/BPrimeEAlpha.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "defi:causal_Ealpha",
+      "tex_lines": [
+        1335,
+        1342
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.BPrimeEAlpha.prop_isom_local",
+        "Causal.BPrimeEAlpha.eq_of_isAEChart",
+        "Causal.BPrimeEAlpha.exists_eqOn_rotShift",
+        "Causal.BPrimeEAlpha.rotShift",
+        "Causal.BPrimeEAlpha.chartIso_rotShift",
+        "Causal.BPrimeEAlpha.isAEChart_rotShift",
+        "Causal.BPrimeEAlpha.chartIso_of_isAEChart",
+        "Causal.BPrimeEAlpha.chartIso_of_isAEChart_self",
+        "Causal.BPrimeEAlpha.hiso_family",
+        "Causal.BPrimeEAlpha.existsUnique_causality_ealpha",
+        "Causal.BPrimeEAlpha.conjE",
+        "Causal.BPrimeEAlpha.chartIso_conjE",
+        "Causal.BPrimeEAlpha.not_isAEChart_conjE",
+        "Causal.BPrimeEAlpha.nonvacuous"
+      ],
+      "hypotheses": [
+        {
+          "paper": "BTZ_1 prop:isom (BTZ_1.tex:378): alpha, beta in R_+, alpha != 2 pi",
+          "here": "carried (alpha != 2 pi); alpha, beta > 0 only",
+          "note": "E_0 is Causal.Port.BPrimeE0 (alpha = beta = 0); the mixed pairs E_0 <-> E_kappa are not here (T-ett-e-models-bprime). At kappa = 2 pi there is no singular point (Sing(E_2pi) = empty); chartIso_of_isAEChart covers it through EAlphaGX.chartIso_of_isAEChart_two_pi"
+        },
+        {
+          "paper": "BTZ_1 prop:isom: U open connected containing a singular point, phi : U -> E_beta a local homeomorphism",
+          "here": "strengthened",
+          "note": "psi is an open partial homeomorphism (injective on its source), as IsAEChart asks; the conclusion is the local form, on a ball about each singular point of the source (prop_isom_local). The global form on a connected U (lem:liouville, BTZ_1.tex:360) and the case of a non-injective local homeomorphism are not proved. (b') needs only the local form"
+        },
+        {
+          "paper": "BTZ_1 prop:isom: phi an almost everywhere E-morphism",
+          "here": "carried",
+          "note": "DEC-25's reading: IsAEChart for EAlphaGX.singularGX, a.e. (G,X) both ways (gx's notion by isAEChart_iff_isAEMorphism)"
+        },
+        {
+          "paper": "BTZ_1 prop:isom: conclusion 'phi is the restriction of an element of Isom(E_alpha)'",
+          "here": "carried, local form",
+          "note": "on a ball: psi (t, polar(r, theta)) = (t + s, polar(r, theta + c)) for every polar representation with r >= 0 (every point has one, exists_polar); same model: psi = rotShift s c (exists_eqOn_rotShift). Conversely every rotShift s c is an IsAEChart (isAEChart_rotShift)"
+        },
+        {
+          "paper": "Isom(E^{1,2}) (ETT.tex:1331; BTZ_1.tex:459 'elliptic isometry of axis Delta')",
+          "here": "read",
+          "note": "OQ-82: Flat.isom 2 = SO_0(1,2) x| R^3. Used once, through the determinant, in isom_of_timeAxis (orthochronicity gives the time direction, the determinant excludes the reflections in timelike planes through the axis). Under O^+(1,2) x| R^3 the reflection conjE would be an a.e. isomorphism; it is a ChartIso (chartIso_conjE); the theorem for that group is not stated"
+        },
+        {
+          "paper": "'isomorphisms of the model spaces' in step (B) of prop:GX_sing_espace_temps_topo (ETT.tex:631-632)",
+          "here": "read",
+          "note": "OQ-64: (b') as in Causal.GXSingularDEC25, every IsAEChart between open subsets of the models is a ChartIso (chartIso_of_isAEChart; hiso_family)"
+        },
+        {
+          "paper": "'On any E_{>=0}-manifold M there is then a unique causal structure inducing that of E_alpha in every chart' (ETT.tex:1339-1340)",
+          "here": "strengthened",
+          "note": "existsUnique_causality_ealpha: for E_{>0}-manifolds only (every singular point in an IsAEChart into some E_kappa, kappa > 0; no BTZ point), DEC-25's reading of the charts (maximal a.e. atlas plus every IsAEChart into a model), uniqueness among absolutely minimal causalities (OQ-18). No model hypothesis is left"
+        },
+        {
+          "paper": "alpha > 0, alpha > 2 pi included",
+          "here": "carried",
+          "note": "[Fact (0 < kappa)]; no case split on kappa in 2 pi Z anywhere"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex:378-383 (prop:isom of brunswic2021cauchy, the author's source for the models), case alpha, beta > 0: confirmed in local form, with every step of the proof l.444-465 checked in Lean. Causal.BPrimeEAlpha.prop_isom_local: for kappa != 2 pi and an a.e. isomorphism chart psi : E_kappa -> E_kappa' whose source meets the singular line, kappa' = kappa and near the line psi (t, polar(r, theta)) = (t + s, polar(r, theta + c)). The steps: l.457 'g Delta = Delta' (smul_timeAxis, by limits along r -> 0); l.459 'g is an elliptic isometry of axis Delta with translation part in the direction of Delta' (isom_of_timeAxis); l.461 the 2k pi ambiguity of the developing map (the second connectedness step of exists_slitBox); l.462 'alpha must be an integral multiple of beta' (continuity across the slit) and 'alpha = beta' (local injectivity), both in eq_of_isAEChart.",
+        "BTZ_1.tex:459, one addition, the same as at alpha = 0 (T-ett-bprime-e0): 'Since the direction of Delta is timelike, g is an elliptic isometry of axis Delta' holds in SO_0(1,2) x| R^3, and needs the determinant. In O^+(1,2) x| R^3 the reflections in the timelike planes through Delta also preserve Delta and are not elliptic. At E_kappa the reflection theta -> -theta (Causal.BPrimeEAlpha.conjE) is a chart isomorphism (chartIso_conjE), and under SO_0(1,2) x| R^3 it is not an a.e. isomorphism chart (not_isAEChart_conjE). So OQ-82's answer changes the class of a.e. isomorphisms of E_kappa, as at E_0; as far as the reflections go it does not change (b').",
+        "ETT.tex:1339-1340, the (G,X) sentence of defi:causal_Ealpha: for E_{>0}-manifolds (no BTZ point) it holds in DEC-25's reading, with uniqueness among absolutely minimal causalities: Causal.BPrimeEAlpha.existsUnique_causality_ealpha, which is existsUnique_causality_singularGX_dec25 at the family {kappa // 0 < kappa} with every model hypothesis discharged. Its hypothesis (b') at the models is not an extra assumption: it is BTZ_1's prop:isom (hiso_family; chartIso_of_isAEChart). ETT.tex:1322-1323 promises 'the precise reference for each' model fact. The paper may want to cite brunswic2021cauchy prop:isom for (b') at the models E_alpha, alpha > 0, at l.1339-1341, at step (B) of prop:GX_sing_espace_temps_topo (l.631-632), or in the proof of cor:massA_causalite (l.1399-1406), as already found at E_0.",
+        "Roadmap, not the paper. The planner's [r] (block evidence, route (A)(iii)): 'Then psi(t, polar(r, theta)) = (t + s, polar(r, theta + phi)) on the slit box', with phi the rotation angle of g = (time translation) o rotIsom phi. This is incomplete. g fixes phi only modulo 2 pi, but the point polar(r, theta + phi) of E_kappa' depends on theta + phi modulo kappa'. The offset is c = phi + 2 pi m_0 (mod kappa'), for an integer m_0 read off the angle in E_kappa''s sector charts, which is continuous (chartAngle, continuousOn_chartAngle). One c on the whole slit box needs a second preconnectedness argument (exists_slitBox, through exists_forall_of_isPreconnected). This is BTZ_1's 'theta + 2k pi' (l.461). With c in place of phi, the rest of the planner's route is correct as written: continuity across the slit and injectivity at the angles -kappa'/2 and kappa'/2.",
+        "Roadmap, not the paper. The planner's [r] (A)(ii): 'HolRel reads psi into the disc charts of E_kappa' up to rotIsom (n kappa')'. This holds only for disc charts normalized by a real representative phi' of their centre direction, i.e. rotIsom phi' * chart k' with phi' = k'.theta in R/kappa'Z (chart_dev). Two unnormalized disc charts differ by an arbitrary rotation on their overlap (exists_rotation), not by a power of rotIsom kappa'. The normalization is part of HolRel, and HolRel.unique gets the n kappa' from polar_inj.",
+        "Roadmap, not the paper. The planner's [r] (i), 'for kappa = 2 pi n, n >= 2 ... the slit-box scheme loses nothing', is confirmed. No step splits on kappa in 2 pi Z. At kappa' in 2 pi Z the holonomy rotIsom kappa' is the identity, and HolRel.unique gives uniqueness outright. kappa = 2 pi itself is the only special case, because there the line is regular (Sing(E_2pi) = empty)."
+      ],
+      "questions": [
+        "OQ-82: which group is Isom(E^{1,2}) (ETT.tex:1331)? Reading taken: Flat.isom 2 = SO_0(1,2) x| R^3, the reading of record. It is used once, through the determinant (isom_of_timeAxis). Under O^+(1,2) x| R^3 the reflections theta -> c - theta of E_kappa would be a.e. isomorphisms and the statements would have to be restated for that group; the reflection is a ChartIso anyway (chartIso_conjE). Not ruled.",
+        "OQ-64: what is an 'isomorphism of the model spaces' (ETT.tex:631-632)? Reading taken: an a.e. isomorphism chart between open subsets of the models (IsAEChart for EAlphaGX.singularGX), and 'isomorphism of topological spacetimes' as ChartIso, as in Causal.GXSingularDEC25 and Causal.Port.BPrimeE0. Not ruled.",
+        "OQ-18: 'unique causal structure' (ETT.tex:1339). Reading taken in existsUnique_causality_ealpha: unique among absolutely minimal causalities for which some chart is an isomorphism at each point, as in existsUnique_causality_singularGX_dec25. Not ruled.",
+        "No new reading is introduced, and no new OQ row is proposed."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.BPrimeEAlpha.eq_of_eventuallyEq_of_continuousAt",
+    "Causal.BPrimeEAlpha.exists_forall_of_isPreconnected",
+    "Causal.BPrimeEAlpha.ConeRot.rotPt",
+    "Causal.BPrimeEAlpha.ConeRot.dist_rotPt",
+    "Causal.BPrimeEAlpha.ConeRot.rot",
+    "Causal.BPrimeEAlpha.ConeRot.rot_mk",
+    "Causal.BPrimeEAlpha.ConeRot.dist_rot",
+    "Causal.BPrimeEAlpha.ConeRot.rot_rot",
+    "Causal.BPrimeEAlpha.ConeRot.rot_zero",
+    "Causal.BPrimeEAlpha.ConeRot.rot_polar",
+    "Causal.BPrimeEAlpha.ConeRot.rotIso",
+    "Causal.BPrimeEAlpha.ConeRot.rotIso_apply",
+    "Causal.BPrimeEAlpha.ConeRot.conjPt",
+    "Causal.BPrimeEAlpha.ConeRot.dist_conjPt",
+    "Causal.BPrimeEAlpha.ConeRot.conj",
+    "Causal.BPrimeEAlpha.ConeRot.conj_polar",
+    "Causal.BPrimeEAlpha.ConeRot.dist_conj",
+    "Causal.BPrimeEAlpha.ConeRot.conj_conj",
+    "Causal.BPrimeEAlpha.ConeRot.conjIso",
+    "Causal.BPrimeEAlpha.staticLe_map_shift",
+    "Causal.BPrimeEAlpha.staticLt_map_shift",
+    "Causal.BPrimeEAlpha.shiftIso",
+    "Causal.BPrimeEAlpha.shiftIso_apply",
+    "Causal.BPrimeEAlpha.shiftIso_symm_apply",
+    "Causal.BPrimeEAlpha.chartIso_shiftIso",
+    "Causal.BPrimeEAlpha.pt",
+    "Causal.BPrimeEAlpha.continuous_pt",
+    "Causal.BPrimeEAlpha.pt_zero",
+    "Causal.BPrimeEAlpha.exists_polar",
+    "Causal.BPrimeEAlpha.pt_mem_ball",
+    "Causal.BPrimeEAlpha.continuous_devPt",
+    "Causal.BPrimeEAlpha.rotIsom_smul_devPt",
+    "Causal.BPrimeEAlpha.norm_devPt_snd",
+    "Causal.BPrimeEAlpha.devPt_zero",
+    "Causal.BPrimeEAlpha.devPt_eq_devPt",
+    "Causal.BPrimeEAlpha.rotIsom_eq_of_smul_eq",
+    "Causal.BPrimeEAlpha.chartAngle",
+    "Causal.BPrimeEAlpha.chart_dev",
+    "Causal.BPrimeEAlpha.continuousOn_chartAngle",
+    "Causal.BPrimeEAlpha.rad_pos_of_mem_chart_source",
+    "Causal.BPrimeEAlpha.chart_snd_ne_zero",
+    "Causal.BPrimeEAlpha.rotIsom_smul_chart_eqOn",
+    "Causal.BPrimeEAlpha.chart_ringIndex_pt",
+    "Causal.BPrimeEAlpha.eventually_chart_ringIndex_pt",
+    "Causal.BPrimeEAlpha.HolRel",
+    "Causal.BPrimeEAlpha.eventually_holRel",
+    "Causal.BPrimeEAlpha.HolRel.mul_left",
+    "Causal.BPrimeEAlpha.HolRel.unique",
+    "Causal.BPrimeEAlpha.HolRel.eventually_dev",
+    "Causal.BPrimeEAlpha.exists_holRel",
+    "Causal.BPrimeEAlpha.isom_of_timeAxis",
+    "Causal.BPrimeEAlpha.smul_devPt_of_isom",
+    "Causal.BPrimeEAlpha.smul_timeAxis",
+    "Causal.BPrimeEAlpha.mem_singLine_of_isAEChart",
+    "Causal.BPrimeEAlpha.slitBox",
+    "Causal.BPrimeEAlpha.exists_slitBox",
+    "Causal.BPrimeEAlpha.rotShift_apply",
+    "Causal.BPrimeEAlpha.rotIndex",
+    "Causal.BPrimeEAlpha.rot_fromPlane",
+    "Causal.BPrimeEAlpha.chart_rotShift",
+    "Causal.BPrimeEAlpha.isRegularOn_rotShift"
+  ],
+  "kb_proposals": [
+    "(b') at E_kappa, kappa > 0, is Causal.BPrimeEAlpha.chartIso_of_isAEChart: every IsAEChart E_kappa -> E_kappa' (EAlphaGX.singularGX) is a ChartIso of massive kappa into massive kappa', its source meeting the line or not. Family form hiso_family (the hiso of existsUnique_causality_singularGX_dec25 over {kappa // 0 < kappa}); E_{>0}-manifolds existsUnique_causality_ealpha. The local form of BTZ_1's prop:isom is prop_isom_local (kappa' = kappa: eq_of_isAEChart), same model exists_eqOn_rotShift, converse isAEChart_rotShift (T-ett-bprime-ealpha).",
+    "The slit box at a timelike axis in parameter space: work with b = (t, r, theta) in R^3 and pt b = (t, polar(r, theta)) rather than an angle function on E_kappa. A sector chart normalized by a real representative phi of its centre, rotIsom phi * chart k with phi = k.theta, is the development (t, r e^{i theta}) (Causal.BPrimeEAlpha.chart_dev); near b the chart centred at pt b normalized by theta_b matches the parameters (eventually_chart_ringIndex_pt). Then HolRel and exists_holRel as in BPrimeE0 (T-ett-bprime-ealpha).",
+    "A development into E^{1,2} fixes the angle of a point of E_kappa' only modulo 2 pi, while the point needs it modulo kappa'. Recover it from the angle read in the target sector charts (Causal.BPrimeEAlpha.chartAngle, continuous on the chart source), and conclude with exists_forall_of_isPreconnected: a choice that is locally determined and pointwise unique is global on a preconnected set (T-ett-bprime-ealpha).",
+    "The stabiliser of the time axis in Flat.isom 2 is Causal.BPrimeEAlpha.isom_of_timeAxis: g (t, x) = (t + s, planeRot phi x). The determinant goes through LinearMap.det_prodMap. The spatial part goes to C through Complex.orthonormalBasisOneI.repr, where linear_isometry_complex, det_rotation and Complex.det_conjAe exclude the reflection (T-ett-bprime-ealpha).",
+    "A translation of time times any isometry of space is a ChartIso of static spacetimes: Causal.BPrimeEAlpha.chartIso_shiftIso, through staticLe_map_shift / staticLt_map_shift. The rotations and the reflection of the cone C_kappa are ConeRot.rotIso and ConeRot.conjIso, by SeparationQuotient.lift on polar coordinates. Hoist candidates (T-ett-bprime-ealpha)."
+  ],
+  "notes": "One new file, scaffold/CausalScaffold/BPrimeEAlpha.lean (1450 lines, 75 declarations, 0 sorry). `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/BPrimeEAlpha.lean` prints nothing, so the file is strict-ready (about 42 s; isRegularOn_rotShift and the HolRel section take most of it). `lake build CausalScaffold.BPrimeEAlpha` built this module only (8622 jobs), and the only new olean is CausalScaffold/BPrimeEAlpha.olean. The file is not added to the scaffold root or to Causal.lean (kb 0025: the master does it). Imports: Causal.Model.EAlphaGX and Causal.Model.EAlphaContinuation only, so nothing under Causal/Port, Causal/CBG or Causal/Model/EAlphaCauchy. No existing file was edited, and the other targets' files (MassAModelsInstance, MeasuresEAlpha) were not read. #print axioms gives [propext, Classical.choice, Quot.sound] for prop_isom_local, eq_of_isAEChart, exists_eqOn_rotShift, chartIso_of_isAEChart, chartIso_of_isAEChart_self, hiso_family, existsUnique_causality_ealpha, isAEChart_rotShift, nonvacuous, isom_of_timeAxis, exists_slitBox and chartIso_shiftIso; it was checked in a /tmp copy, since deleted. Route: (A) of the block, BPrimeE0's slit-box scheme, with the source development taken in parameter space. EAlphaContinuation.exists_smul_devPt_of_ringBox is not used, as the audit caution foresaw. From EAlphaContinuation the file uses devPt, ringIndex, polar_inj, rad_polar, polar_eq_fromPlane, planeRot_apply', rotIsom_smul_repr, rotIsom_add, rotIsom_zero and rotIsom_eq_of_exp_eq. Not done: prop:isom's global form on a connected U (lem:liouville), with a non-injective local homeomorphism; E_0 <-> E_kappa (T-ett-e-models-bprime); the theorem under the O^+ group. Non-vacuity: nonvacuous at kappa = pi. Every rotShift s c is an IsAEChart whose source meets the line, and a ChartIso; E_pi has Sing nonempty and satisfies the hypothesis of existsUnique_causality_ealpha (its singular points lie in the IsAEChart refl into the model E_pi). Graduation remarks: eq_of_eventuallyEq_of_continuousAt duplicates Causal.BPrimeE0.eq_of_eventuallyEq_of_continuousAt, in another namespace; a module opening both namespaces would be ambiguous. The generic helpers (exists_forall_of_isPreconnected, staticLe_map_shift, staticLt_map_shift, shiftIso, chartIso_shiftIso, ConeRot.*) may be hoisted. existsUnique_causality_ealpha goes beyond the models, as BPrimeE0's existsUnique_causality_e0 did: it is the E_{>0} half of the label's (G,X) sentence, stated over generic singular (G,X)-manifolds, not over MassAModel. Row partial, no mark: the label is about every E_{>=0}-manifold (kb 0006) and waits on OQ-34/OQ-35, OQ-82, OQ-64 and OQ-18."
+}
