@@ -237,6 +237,7 @@ import Causal.PushUpNotOpen
 import Causal.GateLineLocal
 import Causal.Dec8MinimalWitness
 import Causal.PushUpOfMinimalLocal
+import Causal.ChronalTarentin
 
 /-!
 # Causal — topological spacetimes

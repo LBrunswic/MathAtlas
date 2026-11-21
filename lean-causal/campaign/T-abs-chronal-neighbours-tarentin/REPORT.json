@@ -1,0 +1,236 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-chronal-neighbours-tarentin",
+ "files": [
+  "scaffold/CausalScaffold/ChronalTarentin.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-chronal-neighbours-tarentin/1-edge",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-chronal-neighbours-tarentin, title and evidence",
+     "text_lines": "programme/roadmap.toml:766-779"
+    },
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "[[open]] chronal_neighbours -> tarentin, 'True, argued'",
+     "text_lines": "programme/ladder.toml:2366-2370"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:tarentin_spacetime (quoted, not marked)",
+     "text_lines": "ETT.tex:677-679"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.ChronalNeighbours.tarentin",
+    "Causal.Causality.ChronalNeighbours.exists_lt_lt",
+    "Causal.Causality.not_chronalNeighbours_of_not_tarentin"
+   ],
+   "hypotheses": [
+    {
+     "paper": "chronal neighbours (target)",
+     "here": "carried",
+     "note": "C.ChronalNeighbours exactly (Causal/LadderLocal.lean:163: ChronalPastNeighbours of C and of C.dual, chronology taken in each open V); the conclusion is C.Tarentin exactly (Causal/Properties.lean:116)"
+    },
+    {
+     "paper": "separation, countability (ETT's ambient T2, second countable, ETT.tex:255)",
+     "here": "weakened",
+     "note": "none used: #check gives {M} [TopologicalSpace M] {C : Causality M}, C.ChronalNeighbours → C.Tarentin, no other premise"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The keeper's argument is correct as stated, checked against the library's openDiamond (Causal/Properties.lean:77, :80: openDiamond ⊤ p q = interior (J⁻_M(q) ∩ J⁺_M(p))). For N ∈ 𝓝 x and V = interior N, chronal neighbours give p, p' ∈ V ⊆ N with p ≪_V x ≪_V p'. The set I⁺_V(p) ∩ I⁻_V(p') is open in M, because the axioms isOpen_lt_right and isOpen_lt_left (Causal/Causality.lean:81, :83) are stated in M. It contains x, and it lies in J_M(p, p') by le_of_lt and le_mono (V ≤ ⊤). Causality.ChronalNeighbours.exists_lt_lt states exactly that; ChronalNeighbours.tarentin follows in three lines.",
+    "The edge is strict: the lightlike line is tarentin with empty chronology (label 2, lightlikeLine_separates_Z), and the ladder already records that pair (programme/ladder.toml:919-922)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-chronal-neighbours-tarentin/2-strongly-tarentin",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "the dispatch: 'Prove the theorem with the weakest hypotheses that work'",
+     "text_lines": "programme/roadmap.toml:766-779"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "def:strongly_tarentin_point (quoted, not marked)",
+     "text_lines": "ETT.tex:774-778"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "rem:lorentz_tarentin and rem:tarentin_exemples (quoted, not marked)",
+     "text_lines": "ETT.tex:783-784, 688-689"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.tarentin_of_Zplus_Zminus",
+    "Causal.Causality.exists_lt_lt_of_mem_Zplus_of_mem_Zminus",
+    "Causal.Causality.Iplus_inter_Iminus_subset_openDiamond",
+    "Causal.Causality.mem_openDiamond_of_lt_of_lt",
+    "Causal.globalLine_separates_Z",
+    "Causal.globalLine_Zplus",
+    "Causal.globalLine_Zminus",
+    "Causal.globalLine_tarentin",
+    "Causal.lightlikeLine_separates_Z",
+    "Causal.lightlikeLine_Zplus",
+    "Causal.lightlikeLine_Zminus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "chronal neighbours (target)",
+     "here": "weakened",
+     "note": "to C.Zplus = univ ∧ C.Zminus = univ (def:strongly_tarentin_point, Causal/Properties.lean:137, :140). This is chronology in M at every point, inside each neighbourhood. Chronology in V enters the keeper's argument only to put p, p' in N, and lt_mono carries I⁺_V(p) ∩ I⁻_V(p') into I⁺_M(p) ∩ I⁻_M(p'). The weakening is strict: globalLine (≪ only in ℝ itself, Causal/ChronalNeighbourBridge.lean:346) has Z⁺ = Z⁻ = ℝ and no chronal neighbours. Under absolute minimality on a T1 space the two hypotheses coincide (Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff_Z, ChronalNeighbourBridge.lean:196), so the strictness holds only in the reading without gluing (globalLine is not absolutely minimal; kb/0014, OQ-18)"
+    },
+    {
+     "paper": "is either hypothesis necessary for tarentin?",
+     "here": "carried",
+     "note": "no: the lightlike line (GH, push-up, causally open, causally arc-connected, hence absolutely minimal) is tarentin while Z⁺ = Z⁻ = ∅ and it has no chronal neighbours. This holds in either reading"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "For the author (no label marked, none touched): the step 'every point strongly tarentin in the future and in the past ⇒ tarentin' (Causal.Causality.tarentin_of_Zplus_Zminus, no separation axiom) is the abstract link between rem:lorentz_tarentin (ETT.tex:783-784) and the first claim of rem:tarentin_exemples (ETT.tex:689, 'Lorentzian manifolds are tarentin'). The paper gives the second remark without proof. The library has no Lorentzian manifold, so neither remark is formalised here.",
+    "The converse of that step fails in the paper's own models, by the paper's own statements (ETT.tex, not formalised here). A BTZ point is strongly tarentin in the future and not in the past (defi:causal_E0, ETT.tex:1349-1350), yet every E_{≥0}-manifold is tarentin (rem:sing_tarentin, ETT.tex:1364-1365). In Lean the lightlike line shows the same thing with no chronology at all."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-chronal-neighbours-tarentin/3-separations",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "the evidence: 'through Causal.tarentin_and_plain_needed (causally arc-connected, plain, not tarentin), causally_plain -> chronal_neighbours a second way'",
+     "text_lines": "programme/roadmap.toml:777"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.isolatedLine_separates_chronalNeighbours_tarentin",
+    "Causal.globalLine_separates_tarentin"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the isolated line: causally arc-connected, causally plain, not tarentin (Causal.tarentin_and_plain_needed, Causal/LocateExtension.lean:687)",
+     "here": "carried",
+     "note": "conjoined with ¬ ChronalNeighbours through not_chronalNeighbours_of_not_tarentin. Causally arc-connected, hence absolutely minimal, so it holds in either reading of defi:causalite"
+    },
+    {
+     "paper": "globalLine: tarentin (new, label 2), push-up, causally open, causal, no chronal neighbours, not absolutely minimal (Causal.globalLine_separates)",
+     "here": "carried",
+     "note": "beyond the dispatch's optional corollary, and free once globalLine_tarentin exists. Not absolutely minimal, so it holds in the reading without gluing only (kb/0014, kb/0073, OQ-18, OQ-67 (b))"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Causal.globalLine_separates_tarentin is, in Lean, a tarentin causality that is not absolutely minimal. Through causally_arc_connected ⇒ absolutely_minimal it is also not causally arc-connected. It settles the [[open]] pairs tarentin → absolutely_minimal and tarentin → causally_arc_connected (programme/ladder.toml:1733-1735, 1745-1747), in the reading without gluing only. Those notes argued the same with the gated line or timelikeLineTop, both also no-gluing witnesses. An absolutely minimal witness would still be needed for the gluing reading."
+   ],
+   "questions": []
+  }
+ ],
+ "axioms": {
+  "Causal.Causality.ChronalNeighbours.tarentin": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.Causality.ChronalNeighbours.exists_lt_lt": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.Causality.tarentin_of_Zplus_Zminus": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.Causality.exists_lt_lt_of_mem_Zplus_of_mem_Zminus": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.Causality.Iplus_inter_Iminus_subset_openDiamond": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.Causality.not_chronalNeighbours_of_not_tarentin": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.globalLine_separates_Z": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.globalLine_separates_tarentin": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.lightlikeLine_separates_Z": ["propext", "Classical.choice", "Quot.sound"],
+  "Causal.isolatedLine_separates_chronalNeighbours_tarentin": ["propext", "Classical.choice", "Quot.sound"]
+ },
+ "layer": {
+  "layer": 1,
+  "imports": ["Causal.ChronalNeighbourBridge"],
+  "import_closure": [
+   "Causal.Causality", "Causal.Properties", "Causal.Subdivision", "Causal.Curves", "Causal.Generated",
+   "Causal.Reachable", "Causal.ArcConnected", "Causal.Minimal", "Causal.StrongCausality",
+   "Causal.GlobalHyperbolicity", "Causal.Lines", "Causal.LinesCurves", "Causal.LocateExtension",
+   "Causal.PushUp", "Causal.LinesReachable", "Causal.Local", "Causal.Morphism", "Causal.Inextensible",
+   "Causal.Cauchy", "Causal.Measure", "Causal.MeasureRemarks", "Causal.Geroch", "Causal.CauchyExtension",
+   "Causal.CompactMinimal", "Causal.CurveComponents", "Causal.DependenceDomain",
+   "Causal.NestedCausalities", "Causal.LadderLocal", "Causal.ChronalNeighbourBridge"
+  ],
+  "closure_check": "Two checks. (1) The compiled closure: env.header.moduleNames of a file importing the built CausalScaffold.ChronalTarentin, filtered to Causal/CausalScaffold. (2) A transitive walk of the source import lines. Both give the same 29 Causal modules, plus the module itself. None matches Causal.Minkowski, Causal.Static, Causal.Flat.*, Causal.Model.*, Causal.Port.*, Causal.SingularFlat, Causal.CBG.*, Causal.Splitting, Causal.LemmaK* or Causal.LevinUtility. No statement mentions a metric, a curve length or a geodesic. The ℝ witnesses take neighbourhoods with mem_nhds_iff_exists_Ioo_subset, so there is no metric in any proof either."
+ },
+ "checks": [
+  "taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ChronalTarentin.lean: no output (no error, no warning), so the file is clean for graduation into the strict library as Causal.ChronalTarentin (nothing in it names CausalScaffold)",
+  "lake build --no-build Causal.ChronalNeighbourBridge first: 'All targets up-to-date (3090 jobs)'. Then taskset -c 0-11 lake build CausalScaffold.ChronalTarentin: 'Built CausalScaffold.ChronalTarentin', job 3091/3091, the one new job. Nothing in Causal.* or mathlib was rebuilt. The other closer's files (Causal/Port/E0SingularFlat.lean, E0ModelRows.lean, CausallyPlainLocZ.lean, SingularFlatPlain.lean) were not imported, built or touched",
+  "#print axioms on the ten principal declarations (in a /tmp copy): propext, Classical.choice, Quot.sound only",
+  "every declared name grepped: unique across lean-causal/Causal (including the other closer's new files), lean-causal/scaffold and lean-gx/GX",
+  "causal_ladder (a /tmp file importing Causal.Ladder.Rules): it fails on C.ChronalNeighbours ⊢ C.Tarentin, as the dispatch said it would (it does not know the edge). The control C.ChronalNeighbours, C.PushUp ⊢ C.CausallyOpenFuture succeeds. No other ladder step occurs in the file",
+  "no edit outside the two dispatched paths; scratch files only under /tmp (cnt_scripts, cnt_test)"
+ ],
+ "extra_decls": [
+  "Causal.Causality.Iplus_inter_Iminus_subset_openDiamond",
+  "Causal.Causality.mem_openDiamond_of_lt_of_lt",
+  "Causal.Causality.exists_lt_lt_of_mem_Zplus_of_mem_Zminus",
+  "Causal.globalLine_Zplus",
+  "Causal.globalLine_Zminus",
+  "Causal.globalLine_tarentin",
+  "Causal.lightlikeLine_Zplus",
+  "Causal.lightlikeLine_Zminus"
+ ],
+ "readme_row": "| `Causal.ChronalTarentin` | — | ETT programme, layer 1 (T-abs-chronal-neighbours-tarentin): chronal neighbours give tarentin with no separation axiom (`ChronalNeighbours.tarentin`); so does `Z⁺ = Z⁻ = M` (`tarentin_of_Zplus_Zminus`, via `Iplus_inter_Iminus_subset_openDiamond`), strictly weaker (`globalLine_separates_Z`); neither is necessary (`lightlikeLine_separates_Z`); the globally chronological line is tarentin and not absolutely minimal (`globalLine_separates_tarentin`); 2026-11-21 |",
+ "kb_proposals": [
+  "0076 (pattern) Two-sided chronology near a point gives tarentin there: the chronological diamond I⁺_U(p) ∩ I⁻_U(q) lies in the open diamond Int J_U(p, q) (Causal.Causality.Iplus_inter_Iminus_subset_openDiamond, from the openness axioms and le_of_lt). Hence Z⁺ = Z⁻ = M ⇒ tarentin and chronal_neighbours ⇒ tarentin, with no separation axiom (tarentin_of_Zplus_Zminus, ChronalNeighbours.tarentin). The chain chronal neighbours ⇒ Z⁺ = Z⁻ = M ⇒ tarentin is strict at both arrows: globalLine at the first (equality under absolute minimality on T1), the lightlike line at the second. To prove a model tarentin when it has chronology, show Z⁺ = Z⁻ = M instead of computing diamonds: globalLine_tarentin takes four lines (T-abs-chronal-neighbours-tarentin)."
+ ],
+ "for_keeper": {
+  "implies": [
+   {
+    "from": "chronal_neighbours",
+    "to": "tarentin",
+    "witness": "Causal.Causality.ChronalNeighbours.tarentin",
+    "standing": [],
+    "note": "#check: ∀ {M : Type u_1} [TopologicalSpace M] {C : Causal.Causality M}, C.ChronalNeighbours → C.Tarentin. No standing, no under. After graduation the witness module is Causal.ChronalTarentin, which imports Causal.ChronalNeighbourBridge only (ETT layer, 29 Causal modules, no model). Both ends are causality-sort, so emit-lean can make it a CausalLadder safe forward rule. The weaker-hypothesis form Causal.Causality.tarentin_of_Zplus_Zminus (Z⁺ = Z⁻ = M ⇒ tarentin) has no ladder node for its premise (Z± are sets, not properties; cf. OQ-51 on NonemptyChronalCones). It can be recorded as a [[consequence]] at nothing, or left out"
+   }
+  ],
+  "open_settled": [
+   {
+    "entry": "[[open]] chronal_neighbours → tarentin (programme/ladder.toml:2366-2370)",
+    "note": "settled true, by the argument its note gives (Causal.Causality.ChronalNeighbours.exists_lt_lt is that argument, verbatim). Remove the entry"
+   },
+   {
+    "entry": "[[open]] tarentin → absolutely_minimal and tarentin → causally_arc_connected (programme/ladder.toml:1733-1735, 1745-1747; line numbers as of this run)",
+    "note": "settled false in Lean by Causal.globalLine_separates_tarentin, in the reading without gluing only. This is the same reading as the notes' gated line and timelikeLineTop candidates, which are still unproved in Lean (gateLine_tarentin, timelikeLineTop_tarentin)"
+   }
+  ],
+  "fails": [
+   {
+    "from": ["tarentin", "push_up", "causally_open", "is_causal"],
+    "to": "absolutely_minimal",
+    "witness": "Causal.globalLine_separates_tarentin",
+    "note": "ℝ, an ETT spacetime (T2, second countable). Reading: no gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)). It also conjoins ¬ ChronalNeighbours, already recorded for push_up, causally_open, is_causal ⇏ chronal_neighbours (Causal.globalLine_separates, programme/ladder.toml:1094-1111); with tarentin added that pair is no new classification (tarentin → chronal_neighbours already fails)"
+   },
+   {
+    "from": ["causally_arc_connected", "causally_plain"],
+    "to": "chronal_neighbours",
+    "witness": "Causal.isolatedLine_separates_chronalNeighbours_tarentin",
+    "note": "the evidence's 'second way', through ¬ tarentin. It holds in either reading (causally arc-connected). Already settled by Causal.isolatedLine_separates_chronalNeighbours (programme/ladder.toml:1088-1092); the keeper may note it beside that entry. No matrix change"
+   },
+   {
+    "from": ["globally_hyperbolic", "push_up", "causally_open", "tarentin", "causally_arc_connected"],
+    "to": "chronal_neighbours",
+    "witness": "Causal.lightlikeLine_separates_Z",
+    "note": "a witness switch the keeper may want. The recorded entry (programme/ladder.toml:919-922) has witness Causal.lightlikeLine_separates_chronalNeighbours, which conjoins PushUp, CausallyOpen, GloballyHyperbolic, NoCausalEndpoint and ¬ ChronalNeighbours but neither Tarentin nor CausallyArcConnected. Its comment takes tarentin from Causal.lightlikeLine_tarentin (Causal/Remarks/Tarentin.lean, which imports a model). lightlikeLine_separates_Z conjoins every `from` id and ¬ ChronalNeighbours, in the ETT layer. Either reading. No matrix change"
+   }
+  ],
+  "simulated": "All runs on /tmp copies of programme/ladder.toml. (1) With the [[implies]] appended and the [[open]] chronal_neighbours → tarentin removed, python3 tools/ladder.py matrix --file changes exactly one pair: chronal_neighbours → tarentin goes from open to implied. That matches the planner's '+1'. (2) With the two [[fails]] entries above added as well (globalLine, isolated line), two more pairs change: tarentin → absolutely_minimal and tarentin → causally_arc_connected go from open to fails. Matrix rows with status open: 150 → 149 → 147. check --file finds no contradiction. Its only violations are the three new witnesses not yet in lean-causal/Causal (before graduation)."
+ },
+ "notes": "The edge is proved, not refuted; nothing in the file rests on a sorry or on an added hypothesis. Marks: no ETT label is marked (the dispatch). The three programme sub-labels are bold-marked as in the precedent modules (Causal.PushUpOfMinimalLocal, Causal.ChronalNeighbourBridge). They are certified in full, and the ETT ledger does not know them. If the master prefers no bold at all, un-bold them; no proof changes. Labels 2 and 3 go beyond the dispatch's statement: label 2 is the weakest-hypothesis form it asked for, label 3 the optional corollary plus the free globalLine conjunction. The master may graduate label 1 alone, though labels 2-3 rest on nothing more than ETT-layer lemmas. The module docstring is 5.9k characters; there are no ETT labels for the ledger to miss beyond 4000. The file is not imported by the scaffold root (kb/0025; I may not edit it). For the master, about the roadmap evidence (programme/roadmap.toml:777, not the paper): the clause 'the lightlike line has neither' is inaccurate. The lightlike line is tarentin in Lean (Causal.lightlikeLine_tarentin, Causal/Remarks/Tarentin.lean:416; timelikeLine_tarentin by definitional equality) and lacks chronal neighbours. It is the witness that the edge is strict, consistent with the edge. It is also recorded so in programme/ladder.toml:908-922. For the keeper: the chronal_neighbours [[property]] comment (programme/ladder.toml:~293-296) could now add 'hence tarentin (Causal.Causality.ChronalNeighbours.tarentin)'. Evidence only, no ruling: the globalLine separations hold only in the reading of defi:causalite without gluing (OQ-18). Every other result here holds in either reading."
+}
