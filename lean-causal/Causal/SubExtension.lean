@@ -16,8 +16,9 @@ rest on tagged `sorry`s and live in the scaffold remainder `CausalScaffold.SubEx
 variables, so every declaration keeps its name and type). No statement changed. The four
 declarations left in the scaffold remainder, which imports this module, are
 `IsCauchyEmbedding.exists_mem_image_inf` (`sorry`, `lem:C_ext_connexe`) and its dependants
-`IsCauchyEmbedding.isCauchySurfaceOn_inf` and `IsCauchyEmbedding.c_ext_connexe`, and
-`cauchy_pgcd` (`sorry`, `prop:Cauchy_pgcd`).
+`IsCauchyEmbedding.isCauchySurfaceOn_inf` and `IsCauchyEmbedding.c_ext_connexe`; the abstract
+`cauchy_pgcd` (`sorry`, `prop:Cauchy_pgcd`) stood there until it was retired as refuted (2026-11-21,
+`Causal.CauchyPgcdAbstract`, `not_cauchyPgcdAbstract`).
 
 > A common sub-extension of $M_1$ and $M_2$ is a singular flat spacetime $M$ equipped with Cauchy
 > embeddings $M_0\rightarrow M$, $M\rightarrow M_1$ and $M\rightarrow M_2$ making the diagram
@@ -56,8 +57,8 @@ declarations left in the scaffold remainder, which imports this module, are
   the scaffold remainder.
 * `prop:Cauchy_pgcd`: here, the set `ℰ` (`IsPgcdCandidate`), the gluing step
   (`IsPgcdCandidate.eqOn`, `pgcdMap_eqOn`), `pgcdOpens`, `pgcdMap` and the witnesses; the
-  proposition `cauchy_pgcd` itself is a tagged `sorry` in the scaffold remainder, whose SCOPE
-  names its obstructions.
+  abstract proposition (`Causal.CauchyPgcdAbstract`) is refuted (`not_cauchyPgcdAbstract`); the
+  paper's statement is proved over the CBG geometry (`Causal.CBG.ett_cauchy_pgcd`).
 * **Rigidity.** `IsRigid` fails on the timelike line (`timelikeLine_not_isRigid`), a fact about the
   abstraction, not about the paper. It holds jointly with the Cauchy embedding and `ℰ`-membership
   hypotheses on the point space (`pointSpace_cauchy_pgcd_hypotheses`).
@@ -465,7 +466,7 @@ theorem pointSpace_isCauchyEmbedding_id : IsCauchyEmbedding pointSpace pointSpac
 theorem pointSpace_rangeOpens_id : pointSpace_isCauchyEmbedding_id.rangeOpens = ⊤ :=
   SetLike.coe_injective (by rw [IsCauchyEmbedding.coe_rangeOpens, range_id, Opens.coe_top])
 
-/-- **`IsRigid` is jointly satisfiable with the hypotheses of `cauchy_pgcd` and with membership in
+/-- **`IsRigid` is jointly satisfiable with the hypotheses of `CauchyPgcdAbstract` and with membership in
 `ℰ`** (kb/0011): on the point space, along the identities, `M₀ = M₁ = M₂ = Unit` is connected and
 Hausdorff, `id` is a Cauchy embedding, rigidity holds, and `(⊤, id) ∈ ℰ`. The witness is
 degenerate (a point), and rigidity holds there only because the target is a subsingleton; it

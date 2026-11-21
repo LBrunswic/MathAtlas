@@ -69,8 +69,8 @@ abstract `Geometry` (DEC-60) whose singular `E₀` instance is not in this packa
   `φ(M) ⊆ A ∩ B` connected and the paper's last sentence (`c_ext_connexe_of_connectedSpace`,
   `CBG/CausalConvex`), so neither the splitting of `M` (`theo:geroch_sing`) nor a connected
   Cauchy surface is needed.
-* The abstract scaffold forms (`IsCauchyEmbedding.exists_mem_image_inf`, `cauchy_pgcd` with the
-  causal `IsRigid`, `CausalScaffold.SubExtension`) are not used and not touched. The second is
+* The abstract scaffold forms (`IsCauchyEmbedding.exists_mem_image_inf`, and `cauchy_pgcd` with the
+  causal `IsRigid`, retired 2026-11-21) are not used. The second was
   refuted, by non-local witnesses on `ℝ`, in `Causal.CBG.SubExtensionAbstract`
   (`not_cauchyPgcdAbstract` with the library's directional `Equivalent`;
   `cauchyPgcdAbstract_counterexample_symm` under every reading of "equivalent" that asks for a

@@ -1,10 +1,11 @@
 import Causal.SubExtension
 
 /-!
-# Common sub-extensions: the two sorried statements (scaffold remainder)
+# Common sub-extensions: the sorried statement of `lem:C_ext_connexe` (scaffold remainder)
 
-`lem:C_ext_connexe` — `ETT.tex:1932`. `prop:Cauchy_pgcd` — `ETT.tex:1945`. Neither is marked: each
-rests on a tagged `sorry`.
+`lem:C_ext_connexe` — `ETT.tex:1932`, not marked: it rests on a tagged `sorry`. `prop:Cauchy_pgcd`
+— `ETT.tex:1945`: its abstract form, which stood here with a `sorry`, is refuted and was retired on
+2026-11-21 (T-ett-pgcd-retire; `Causal.CauchyPgcdAbstract`, `not_cauchyPgcdAbstract`).
 
 **Split (DEC-73, 2026-11-02).** This file was `CausalScaffold.SubExtension` in full; its sorry-free
 part (`IsRigid`, `CommonSubExtension`, `CommonOverExtension`, `IsPgcdCandidate`, `pgcdOpens`,
@@ -12,8 +13,8 @@ part (`IsRigid`, `CommonSubExtension`, `CommonOverExtension`, `IsPgcdCandidate`,
 …, and the labels `def:common_sub_extension`, `def:common_over_extension`) moved verbatim to the
 strict module `Causal.SubExtension`, which this file imports. What stays here, verbatim, with the
 same namespace, sections and variables: `IsCauchyEmbedding.exists_mem_image_inf` (`sorry`) and
-its dependants `IsCauchyEmbedding.isCauchySurfaceOn_inf`, `IsCauchyEmbedding.c_ext_connexe`; and
-`cauchy_pgcd` (`sorry`). No statement changed.
+its dependants `IsCauchyEmbedding.isCauchySurfaceOn_inf`, `IsCauchyEmbedding.c_ext_connexe`; and,
+until 2026-11-21, `cauchy_pgcd` (`sorry`, since retired as refuted). No statement changed.
 
 > If $A$ and $B$ are open subsets of $N$ containing $\phi(M)$ and such that the inclusions
 > $\phi(M)\rightarrow A$ and $\phi(M)\rightarrow B$ are Cauchy embeddings, then $A\cap B$ is
@@ -44,7 +45,7 @@ its dependants `IsCauchyEmbedding.isCauchySurfaceOn_inf`, `IsCauchyEmbedding.c_e
   `sorry` `exists_mem_image_inf`. That `sorry`'d statement is posed in the abstract setting
   without the end-point and extension facts its obstruction names; its truth there is
   unestablished and it **may be false**, so `c_ext_connexe` is no better than it.
-* `prop:Cauchy_pgcd` is stated and rests on a `sorry`; proved, in `Causal.SubExtension`: the set
+* `prop:Cauchy_pgcd` (abstract form retired as refuted, see the end of this file); proved, in `Causal.SubExtension`: the set
   `ℰ` (`IsPgcdCandidate`), the gluing step (`IsPgcdCandidate.eqOn`, `pgcdMap_eqOn`). Of the
   obstructions its `sorry` names, two are gaps in the paper's argument (φ injective, the Cauchy
   inclusion into the union) and two are obstructions of the abstraction only (no gluing axiom,
@@ -111,17 +112,13 @@ theorem IsCauchyEmbedding.c_ext_connexe [T2Space N] [ConnectedSpace M]
   hφ.c_ext_connexe_of_isCauchySurfaceOn hA hB ψ (hφ.isCauchySurfaceOn_inf hA hB hS hDac hDext)
     hthrough
 
-/-! ### `prop:Cauchy_pgcd` -/
+/-! ### `prop:Cauchy_pgcd`: retired (T-ett-pgcd-retire, 2026-11-21)
 
-/-- `prop:Cauchy_pgcd`, abstractly, with rigidity (`rem:CBG_analytique`) as a named
-hypothesis: two Cauchy extensions of `M₀` have a maximal common sub-extension, unique up to
-equivalence. `M₀` is connected, as every spacetime of the section is (`ETT.tex:1849`,
-`def:singular_spacetime` at `ETT.tex:1502`): part of the setting, not a strengthening. -/
-theorem cauchy_pgcd [ConnectedSpace M₀] [T2Space M₁] [T2Space M₂] (h₁ : IsCauchyEmbedding C₀ C₁ i₁)
-    (h₂ : IsCauchyEmbedding C₀ C₂ i₂) (hrig : IsRigid C₁ C₂) :
-    (∃ X : CommonSubExtension C₀ C₁ C₂ i₁ i₂, X.IsMaximal) ∧
-      ∀ X Y : CommonSubExtension C₀ C₁ C₂ i₁ i₂, X.IsMaximal → Y.IsMaximal → X.Equivalent Y := by
-  sorry -- SORRY(prop:Cauchy_pgcd): the step "(∧, φ) ∈ ℰ, hence ∧ is a common sub-extension" is not argued in the paper on two points: (1) condition (b) of ℰ does not ask φ_M injective and nothing shows φ injective, so ∧ → M₂ is not shown to be a Cauchy embedding (WP-4; a gap in the argument, not a refutation: injectivity is plausibly recoverable); (2) the inclusion of i₁(M₀) into the union ∧ = ⋃ M is not shown to be a Cauchy embedding: neither the global hyperbolicity of ∧ nor that i₁(Σ₀) meets every inextensible curve of ∧ follows from the same facts for each M. Two further obstructions belong to the abstraction, not to the paper's proof: (3) the library's causality has no gluing axiom (kb/0014), so the strong-morphism condition of φ on ∧ does not follow from its restrictions to the M; (4) maximality and uniqueness need (b(N), c ∘ b⁻¹) ∈ ℰ for a common sub-extension (N, a, b, c), i.e. b(N) with the causality restricted from M₁ globally hyperbolic, which a local isomorphism of non-local causalities does not transport without absolute minimality. The gluing step also uses lem:C_ext_connexe, itself resting on the sorry exists_mem_image_inf
+The abstract `cauchy_pgcd` that stood here (`sorry`) is refuted as stated: its statement is the
+strict `Causal.CauchyPgcdAbstract` (`Causal.CBG.SubExtensionAbstract`), and `not_cauchyPgcdAbstract`
+and `cauchyPgcdAbstract_counterexample_symm` refute it with non-local witnesses on `ℝ` (kb/0022).
+A `sorry` on a refuted statement is a hazard for any importer, so it is retired. The paper's
+`prop:Cauchy_pgcd` is proved over the CBG geometry (`Causal.CBG.ett_cauchy_pgcd`, DEC-60). -/
 
 end SubExtension
 
