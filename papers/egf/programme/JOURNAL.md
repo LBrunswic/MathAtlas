@@ -40,3 +40,17 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - for the planner: the experimenter's unpinned list (F_init, b and R weights, LR, lengths, batches, the RL map count, the filter split, the torus seam of raw-coordinate inputs); a possible finding: Algorithm 1's backward stop (l.400) uses δf_init/f_in where (f_init + δf_init)/f_in is expected; the squared weak-FM form (l.407) is sign-blind
 - asks: none new (OQ-47, OQ-48 open; they now hold C-21, C-22, C-23, C-25 and C-26, and with them T-egf-correct-universality and T-egf-correct-defs)
 - next: wave of 4 at the shared cap — T-egf-universality-ergodic, T-egf-loss (closers in lean-egf), T-egf-repro-torus-il (experimenter, the first GPU run), T-egf-correct-backward (corrector, the first v2 batch); T-egf-mixing-criteria and the hub handover when slots and /atlas-team's lease free
+
+## 2026-11-21 · wave of 3 · T-egf-universality-ergodic, T-egf-loss, T-egf-repro-torus-il (active)
+- T-egf-loss (close): Eq. (15) with the negative part controls the sampling error for b ≥ 1 + ‖dλ/dν_train‖_∞ (b > 0 is not enough); the KL decomposition of l.418 holds in the direction KL(κ ‖ κ̂/κ̂(𝒮)) and is false as printed even with both sides finite; Corollary 3.10 holds for that divergence; Algorithm 1's factors lie in (0, 1] with the corrected sign; graduated as EGF/Loss.lean; audit minor (fixed at graduation); C-2, C-3, C-5 adopted (C-5 now kind false), C-35 proved and held (OQ-84)
+- T-egf-universality-ergodic (close): Theorem B.1 under ergodicity alone, for a finite invariant λ̂ ~ λ, with necessity needing no invariant measure (EGF.universal_iff_ergodic); universal non-mixing witnesses (circle translation, swap; their non-mixing is T-egf-mixing-criteria's); graduated as EGF/UniversalityErgodic.lean; audit minor (fixed at graduation); C-29 proved, held (OQ-85: a strengthening of a true theorem, not covered by the standing ruling)
+- T-egf-repro-torus-il (repro): the first GPU run, still running (budget ≈ 4 GPU-hours); stays active into the next iteration
+- the l.400 finding of T-egf-loss is a reading by its audit (what the backward buffer holds): OQ-83, not a correction
+- the stale olean of EGF.UniversalFamily (the master's docstring edits of the last iteration, made after that iteration's lean-egf gate, comment-only) was rebuilt by this iteration's gate: green
+- corrections: 7 found, 7 proved, 23 adopted, 0 applied, 0 reviewed
+- ledger: 11/16 rows closed (bucket A); cor:pinsker_negative_control and theo:universality_true gain the new declarations and findings
+- v2: 4e74ce4 camera-ready (untouched); repro: 06796fe (torus IL in progress)
+- gates: lean-egf ✓ (988 declarations, 11 modules), corrections ✓, roadmaps ✓, registers ✓, test_corrections + test_roadmap ✓, hub: all gates green
+- commits: bb7232d a664a93 9442319 1125a79 ca6f3cf afab43f (+ this) (hub)
+- asks: OQ-83 (Algorithm 1's backward buffer, l.400), OQ-84 (which weak-FM term is of record, C-35), OQ-85 (adopt the strengthenings C-23, C-29 of Theorem B.1 in v2?); OQ-47, OQ-48 still open
+- next: resume T-egf-repro-torus-il; top up with T-egf-families, T-egf-families-sphere, T-egf-mixing-criteria (closers) and T-egf-correct-sign (corrector, the first v2 batch) at the shared cap; T-egf-hub-handover when /atlas-team frees `roadmap`
