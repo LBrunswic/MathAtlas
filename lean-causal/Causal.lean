@@ -261,6 +261,8 @@ import Causal.Model.EAlphaSectors
 import Causal.Port.E0GXStructure
 import Causal.Port.ModelRowsE0
 import Causal.Port.BPrimeE0
+import Causal.Model.EAlphaContinuation
+import Causal.Model.EAlphaGX
 
 /-!
 # Causal — topological spacetimes
