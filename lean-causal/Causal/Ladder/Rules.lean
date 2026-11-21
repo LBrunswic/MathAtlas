@@ -2,6 +2,7 @@
 import Causal.Ladder.Basic
 import Causal.ArcConnected
 import Causal.GlobalHyperbolicity
+import Causal.LadderLocal
 import Causal.Properties
 
 /-!
@@ -22,15 +23,27 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.St
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausalOpen.stronglyCausal
 -- causally_arc_connected ⇒ absolutely_minimal
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyArcConnected.absolutelyMinimal
+-- causally_arc_connected ∧ locally_push_up ⇒ push_up
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp
+-- push_up ∧ chronal_neighbours ⇒ causally_open
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours
+-- absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture
+-- absolutely_minimal ∧ locally_causally_open ⇒ causally_open
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen
 -- causally_open ⇒ causally_open_future
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyOpen.future
+-- push_up ⇒ locally_push_up
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.PushUp.locallyPushUp
+-- causally_open_future ⇒ locally_causally_open_future
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyOpenFuture.locallyCausallyOpenFuture
+-- causally_open ⇒ locally_causally_open
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyOpen.locallyCausallyOpen
+-- locally_causally_open ⇒ locally_causally_open_future
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.LocallyCausallyOpen.future
 
 -- skipped Causal.Causality.StronglyCausal.isCausal (strongly_causal ⇒ is_causal): under: M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff
 -- skipped Causal.Causality.GloballyHyperbolic.stronglyCausal (globally_hyperbolic ∧ tarentin ⇒ strongly_causal): under: M Hausdorff ([T2Space M])
--- skipped Causal.Causality.CausallyArcConnected.pushUp (causally_arc_connected ⇒ push_up): under: M is covered by open sets O i each having push-up as a spacetime (∀ i, C.PushUpOn (O i)): push-up holds locally
--- skipped Causal.Causality.causallyOpen_of_pushUp (push_up ⇒ causally_open): under: for every open V and v ∈ V there are p, p' ∈ V with p ≪_V v and v ≪_V p' (chronology taken in V)
--- skipped Causal.Causality.AbsolutelyMinimal.causallyOpenFuture (absolutely_minimal ⇒ causally_open_future): under: every point has an open neighbourhood W with C.CausallyOpenFutureOn W: causal openness in the future holds locally
--- skipped Causal.Causality.AbsolutelyMinimal.causallyOpen (absolutely_minimal ⇒ causally_open): under: every point has an open neighbourhood W with C.CausallyOpenFutureOn W, and one with C.dual.CausallyOpenFutureOn W: two-sided causal openness holds locally
 -- skipped Causal.Causality.curvesExtend_of_timeFunction (time_function ⇒ curves_extend): layer: Causal.Causality.curvesExtend_of_timeFunction lives in Causal.CurvesExtend, which imports a model (Causal.CurvesExtend → Causal.Minkowski)
 -- skipped Causal.Causality.exists_timeFunction_of_secondCountable (globally_hyperbolic ∧ tarentin ⇒ time_function): under: M Hausdorff and second countable ([T2Space M] [SecondCountableTopology M]); ETT's spacetimes are both (ETT.tex:255)
 -- skipped Causal.Causality.LeNested.curveNestedOn (le_nested ⇒ curve_nested): sort: joins a property not of the sort causality

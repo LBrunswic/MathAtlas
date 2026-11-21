@@ -19,13 +19,20 @@
 # lists its declarations; each was resolved by the Lean elaborator (`#check`) on 2026-11-20.
 #
 # `under` is NOT read by the closure (`check`, `matrix`): it chains an edge with `under` as if it were
-# unconditional; emit-lean reads `under` only to skip such an edge (no rule). Two kinds of side
-# condition occur below. (1) Separation (T1, Hausdorff): ETT's topological spacetimes are second
-# countable Hausdorff (def:category_topological_spacetimes, ETT.tex:255), so these are standing
-# assumptions of the paper; a non-Hausdorff counterexample (branching spaces) must not be read against
-# such an edge. (2) Localisation hypotheses (local push-up, local causal openness, chronal neighbours
-# in every open set): these are substantive, and the closure through them overstates what is proved
-# until they are ladder nodes with Lean definitions (see the comments at those edges).
+# unconditional; emit-lean reads `under` only to skip such an edge (no rule). Since T-lad-local-nodes
+# (2026-11-21) the `under` of an [[implies]] holds only separation and countability axioms, which the
+# Lean takes as instances ([T1Space M], [T2Space M], [SecondCountableTopology M]). ETT's topological
+# spacetimes are second countable Hausdorff (def:category_topological_spacetimes, ETT.tex:255), so
+# these are standing assumptions of the paper and the closure through them is exact on ETT's
+# spacetimes; a non-Hausdorff counterexample (branching spaces) must not be read against such an edge.
+# The localisation hypotheses that sat in `under` until then (local push-up, local causal openness in
+# the future and two-sided, chronal neighbours in every open set) are ladder nodes since that target,
+# defined in Causal/LadderLocal.lean, and stand in `from`: no edge is chained beyond what its witness
+# proves. Pairs classified only through an edge with `under`: before T-lad-local-nodes 9 of 29
+# (7 through a localisation `under`: causally_arc_connected ⇒ push_up, causally_open,
+# causally_open_future; absolutely_minimal ⇒ causally_open, causally_open_future; push_up ⇒
+# causally_open, causally_open_future; 2 through T1: strongly_causal, strongly_causal_open ⇒
+# is_causal); after it 2 of 44, the two through T1 (the seven are [[open]] entries since).
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`, and what is said here of two sorts holds of any two. A property of sort
@@ -85,7 +92,9 @@
 #   the latter appears below in words only, as the conclusion of a consequence at `curve_nested`.
 #
 # The names added on 2026-11-20 by T-lad-cbg-geometry-nodes and by T-lad-nested-nodes were resolved by
-# `#check` against the library as built that day (lake env lean, no build).
+# `#check` against the library as built that day (lake env lean, no build); so were those added on
+# 2026-11-21 by T-lad-local-nodes (the four localisation nodes, their eight edges, the lightlike
+# line's counterexamples), with their signatures: none takes a separation instance.
 
 [[property]]
 id = "is_causal"
@@ -167,6 +176,44 @@ what = "there is a continuous T : M → ℝ with T x < T y whenever x ≤_M y an
 id = "curves_extend"
 lean = "Causal.Causality.CurvesExtend"
 what = "every causal curve of M over a segment [a, b] lies on an inextensible causal curve of M (over some interval)"
+
+# ---- localisation properties (T-lad-local-nodes, 2026-11-21): the side conditions of four edges,
+# defined in Causal/LadderLocal.lean (T-abs-ladder-local-defs, ETT layer, no model imported). No ETT
+# label: ETT states them inline, as hypotheses of lem:pushup_local (ETT.tex:557) and of
+# prop:topological_spacetime_absolutely_minimal (ETT.tex:698); chronal_neighbours has no paper
+# sentence (hZm, hZp of Lemma K's causallyOpen_of_pushUp, DEC-93). "Local" is "every point has an
+# open neighbourhood with the property"; for push-up and future causal openness, which pass to
+# smaller opens, it is the arbitrarily-small form (Causal.Causality.locallyPushUp_iff_nhds,
+# locallyCausallyOpenFuture_iff_nhds). Each global property implies its local form (edges below).
+# The one-sided ChronalPastNeighbours is not a node (OQ-52 (a), the past base of the one-sided notions).
+
+# The cover (O i) of lem:pushup_local is this, up to `choose` (Causal.Causality.locallyPushUp_of_cover).
+[[property]]
+id = "locally_push_up"
+lean = "Causal.Causality.LocallyPushUp"
+what = "every point has an open neighbourhood W having push-up as a spacetime (PushUpOn W: in every open U ⊆ W, x ≤_U y ≪_U z or x ≪_U y ≤_U z implies x ≪_U z)"
+
+# The hypothesis of prop:topological_spacetime_absolutely_minimal as printed (J⁺ alone).
+[[property]]
+id = "locally_causally_open_future"
+lean = "Causal.Causality.LocallyCausallyOpenFuture"
+what = "every point has an open neighbourhood W causally open in the future as a spacetime (CausallyOpenFutureOn W: J⁺_U(V) open for all opens V ⊆ U ⊆ W)"
+
+# The same in the DEC-8 reading (J±). The Lean is the conjunction of the future form for C and for
+# C.dual; one neighbourhood for both sides is equivalent (Causal.Causality.locallyCausallyOpen_iff).
+[[property]]
+id = "locally_causally_open"
+lean = "Causal.Causality.LocallyCausallyOpen"
+what = "local causal openness in the future and in the past: every point has an open neighbourhood W with J⁺_U(V) and J⁻_U(V) open for all opens V ⊆ U ⊆ W"
+
+# Two-sided (ChronalPastNeighbours of C and of C.dual). Chronology is taken in V, not in M; it makes
+# every point strongly tarentin (Causal.Causality.ChronalNeighbours.mem_Zplus, ChronalPastNeighbours.
+# mem_Zminus), and under absolute minimality on a T1 space it is I^±(x) ≠ ∅ for every x
+# (Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff, past side).
+[[property]]
+id = "chronal_neighbours"
+lean = "Causal.Causality.ChronalNeighbours"
+what = "in every open V, every v ∈ V has p, p' ∈ V with p ≪_V v ≪_V p' (chronology taken in V)"
 
 # ------------------------------------------------------------------ properties of a geometry
 # Sort `geometry` (header): Sbierski 1309.7591's A1, A3, A4 in lean-causal's CBG interface, the fields
@@ -278,42 +325,47 @@ to = "absolutely_minimal"
 witness = "Causal.Causality.CausallyArcConnected.absolutelyMinimal"
 status = "checked"
 
-# lem:pushup_local: push-up is local on a causally arc-connected spacetime. The side condition is a
-# localisation property (local push-up) with no Lean definition of its own yet; until it is a node,
-# the closure reads this edge as causally_arc_connected ⇒ push_up outright, which the witness does
-# not prove.
+# lem:pushup_local (ETT.tex:557): push-up is local on a causally arc-connected spacetime. Replaced
+# 2026-11-21 (T-lad-local-nodes): the edge was causally_arc_connected ⇒ push_up, witness
+# Causal.Causality.CausallyArcConnected.pushUp, with the cover by PushUpOn opens in `under`; the side
+# condition is now the node locally_push_up, and the witness the Causal.LadderLocal restatement (the
+# original with the cover chosen from LocallyPushUp). No separation.
 [[implies]]
-from = ["causally_arc_connected"]
+from = ["causally_arc_connected", "locally_push_up"]
 to = "push_up"
-witness = "Causal.Causality.CausallyArcConnected.pushUp"
-under = "M is covered by open sets O i each having push-up as a spacetime (∀ i, C.PushUpOn (O i)): push-up holds locally"
+witness = "Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp"
 status = "checked"
 
-# Lemma K's route to causal openness (Causal.LemmaK, DEC-93; no ETT label). The side condition is a
-# localisation property with no Lean definition of its own yet (chronal neighbours in every open
-# set, chronology of that open set).
+# Lemma K's route to causal openness (DEC-93; no ETT label). Replaced 2026-11-21 (T-lad-local-nodes):
+# the edge was push_up ⇒ causally_open, witness Causal.Causality.causallyOpen_of_pushUp (Causal.LemmaK,
+# which imports a model), with chronal neighbours in `under`; the side condition is now the node
+# chronal_neighbours, and the witness its ETT-layer re-proof in Causal.LadderLocal (the same proof,
+# hZm, hZp being ChronalNeighbours definitionally). No separation. The premise is sufficient, not
+# necessary: the lightlike line is causally open without chronal neighbours (counterexamples below).
 [[implies]]
-from = ["push_up"]
+from = ["push_up", "chronal_neighbours"]
 to = "causally_open"
-witness = "Causal.Causality.causallyOpen_of_pushUp"
-under = "for every open V and v ∈ V there are p, p' ∈ V with p ≪_V v and v ≪_V p' (chronology taken in V)"
+witness = "Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours"
 status = "checked"
 
-# prop:topological_spacetime_absolutely_minimal, as printed (J⁺ only). The side condition is local
-# causal openness, with no Lean definition of its own yet.
+# prop:topological_spacetime_absolutely_minimal (ETT.tex:698), as printed (J⁺ only). Replaced
+# 2026-11-21 (T-lad-local-nodes): the edge was absolutely_minimal ⇒ causally_open_future, witness
+# Causal.Causality.AbsolutelyMinimal.causallyOpenFuture, with local causal openness in `under`; the
+# witness is now its Causal.LadderLocal restatement (definitionally the same hypothesis). No separation.
 [[implies]]
-from = ["absolutely_minimal"]
+from = ["absolutely_minimal", "locally_causally_open_future"]
 to = "causally_open_future"
-witness = "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture"
-under = "every point has an open neighbourhood W with C.CausallyOpenFutureOn W: causal openness in the future holds locally"
+witness = "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture"
 status = "checked"
 
-# prop:topological_spacetime_absolutely_minimal in the DEC-8 reading (J±).
+# prop:topological_spacetime_absolutely_minimal in the DEC-8 reading (J±). Replaced 2026-11-21
+# (T-lad-local-nodes): the edge was absolutely_minimal ⇒ causally_open, witness
+# Causal.Causality.AbsolutelyMinimal.causallyOpen (hloc, hloc' in `under`); the witness is now its
+# Causal.LadderLocal restatement (hloc, hloc' are the two halves of LocallyCausallyOpen). No separation.
 [[implies]]
-from = ["absolutely_minimal"]
+from = ["absolutely_minimal", "locally_causally_open"]
 to = "causally_open"
-witness = "Causal.Causality.AbsolutelyMinimal.causallyOpen"
-under = "every point has an open neighbourhood W with C.CausallyOpenFutureOn W, and one with C.dual.CausallyOpenFutureOn W: two-sided causal openness holds locally"
+witness = "Causal.Causality.AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen"
 status = "checked"
 
 # DEC-8: the two-sided definition implies the printed one. No side condition.
@@ -321,6 +373,37 @@ status = "checked"
 from = ["causally_open"]
 to = "causally_open_future"
 witness = "Causal.Causality.CausallyOpen.future"
+status = "checked"
+
+# ---- global ⇒ local (T-lad-local-nodes): the whole space is an open neighbourhood of every point
+# (W = ⊤, PushUpOn ⊤ ↔ PushUp, CausallyOpenFutureOn ⊤ ↔ CausallyOpenFuture). No side condition.
+# With them, absolutely_minimal ∧ locally_causally_open ⇒ causally_open is an equivalence between
+# locally_causally_open and causally_open on absolutely minimal spacetimes (likewise for the future
+# forms), and causally_arc_connected ∧ locally_push_up ⇒ push_up one between locally_push_up and
+# push_up on causally arc-connected ones.
+[[implies]]
+from = ["push_up"]
+to = "locally_push_up"
+witness = "Causal.Causality.PushUp.locallyPushUp"
+status = "checked"
+
+[[implies]]
+from = ["causally_open_future"]
+to = "locally_causally_open_future"
+witness = "Causal.Causality.CausallyOpenFuture.locallyCausallyOpenFuture"
+status = "checked"
+
+[[implies]]
+from = ["causally_open"]
+to = "locally_causally_open"
+witness = "Causal.Causality.CausallyOpen.locallyCausallyOpen"
+status = "checked"
+
+# The local form of DEC-8's two-sided ⇒ printed (LocallyCausallyOpen is a conjunction, `.1`).
+[[implies]]
+from = ["locally_causally_open"]
+to = "locally_causally_open_future"
+witness = "Causal.Causality.LocallyCausallyOpen.future"
 status = "checked"
 
 # The statement is model-free (Zorn on time graphs), but the witness lives in Causal/CurvesExtend.lean,
@@ -384,6 +467,47 @@ status = "checked"
 from = "globally_hyperbolic"
 to = "absolutely_minimal"
 witness = "Causal.gateLine_not_absolutelyMinimalOn"
+status = "checked"
+
+# The lightlike line (Causal.lightlikeLine, ex:causalities_lines item 2: (ℝ, ≤, ∅), Hausdorff and
+# second countable): its chronology is empty, so it has no chronal neighbours; its causal relation is
+# the timelike line's, so it has push-up, two-sided causal openness, global hyperbolicity and no
+# causal endpoint. The witness conjoins all five (T-lad-local-nodes). Through the closure these also
+# refute locally_push_up, locally_causally_open and locally_causally_open_future ⇒ chronal_neighbours.
+# The side condition of push_up ∧ chronal_neighbours ⇒ causally_open is thus sufficient, not necessary.
+[[fails]]
+from = "push_up"
+to = "chronal_neighbours"
+witness = "Causal.lightlikeLine_separates_chronalNeighbours"
+status = "checked"
+
+[[fails]]
+from = "causally_open"
+to = "chronal_neighbours"
+witness = "Causal.lightlikeLine_separates_chronalNeighbours"
+status = "checked"
+
+[[fails]]
+from = "globally_hyperbolic"
+to = "chronal_neighbours"
+witness = "Causal.lightlikeLine_separates_chronalNeighbours"
+status = "checked"
+
+# The lightlike line again, two more of its properties: causally arc-connected
+# (Causal.lightlikeLine_causallyArcConnected, Causal/LocateExtension.lean; through the closure also
+# absolutely minimal, which Causal.lightlikeLine_absolutelyMinimal states, Causal/DeuxPushup.lean) and
+# tarentin (Causal.lightlikeLine_tarentin, Causal/Remarks/Tarentin.lean). As for the gated line above,
+# the witness is the other half, no chronal neighbours; no one Lean statement conjoins the two halves.
+[[fails]]
+from = "causally_arc_connected"
+to = "chronal_neighbours"
+witness = "Causal.lightlikeLine_not_chronalNeighbours"
+status = "checked"
+
+[[fails]]
+from = "tarentin"
+to = "chronal_neighbours"
+witness = "Causal.lightlikeLine_not_chronalNeighbours"
 status = "checked"
 
 # ------------------------------------------------------------------ consequences
@@ -674,6 +798,44 @@ under = "curve nesting on W = U₂; is_causal and curves_extend of C' (ladder no
 status = "checked"
 
 # ------------------------------------------------------------------ open pairs
+
+# The seven pairs the closure chained through a localisation `under` until T-lad-local-nodes
+# (header): each is proved with its local premise (the edges above), and open without it.
+
+[[open]]
+from = "push_up"
+to = "causally_open_future"
+note = "With chronal_neighbours it holds (Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours). Without, false, argued, not in Lean (T-abs-pushup-not-open): on ℝ, ≪ empty and ≤_U the diagonal plus 0 ≤ 1 when 0, 1 ∈ U has push-up vacuously while J⁺((−1, 1)) = (−1, 1] is not open"
+
+[[open]]
+from = "push_up"
+to = "causally_open"
+note = "With chronal_neighbours it holds (the edge above). Without, false, argued: the line of push_up → causally_open_future (T-abs-pushup-not-open), as causally_open ⇒ causally_open_future"
+
+[[open]]
+from = "causally_arc_connected"
+to = "push_up"
+note = "With locally_push_up it holds (lem:pushup_local, the edge above). Without, no Lean model is causally arc-connected and fails push-up; the gated line has local push-up ({⋆} and the line are opens with push-up) and fails push-up (0 ≪ 1 ≤ ⋆, nothing ≪ ⋆), argued, not in Lean, but it is not causally arc-connected"
+
+[[open]]
+from = "absolutely_minimal"
+to = "causally_open_future"
+note = "With locally_causally_open_future it holds (prop:topological_spacetime_absolutely_minimal, the edge above). Without, no Lean model is absolutely minimal and not causally open in the future"
+
+[[open]]
+from = "absolutely_minimal"
+to = "causally_open"
+note = "With locally_causally_open it holds (the edge above, DEC-8 reading). Without, no Lean model is absolutely minimal and not causally open"
+
+[[open]]
+from = "causally_arc_connected"
+to = "causally_open_future"
+note = "Through absolutely_minimal it holds with locally_causally_open_future (the edges above). Without, no Lean model is causally arc-connected and not causally open in the future"
+
+[[open]]
+from = "causally_arc_connected"
+to = "causally_open"
+note = "Through absolutely_minimal it holds with locally_causally_open (the edges above). Without, no Lean model is causally arc-connected and not causally open"
 
 [[open]]
 from = "time_function"

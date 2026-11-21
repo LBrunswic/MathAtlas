@@ -3,6 +3,7 @@ import Causal.Ladder.Rules
 import Causal.ArcConnected
 import Causal.CauchyExtension
 import Causal.Generated
+import Causal.LadderLocal
 import Causal.Properties
 
 /-!
@@ -11,9 +12,9 @@ import Causal.Properties
 For `C` a causality on a topological space, `causal_ladder` derives every implication of
 the transitive closure of the rules of `Causal.Ladder.Rules` (the emitted edges of
 `programme/ladder.toml`), from each property and from the premises of each conjunctive rule
-(5 examples, `Derived`). It fails on every other ordered pair of the properties of the
+(23 examples, `Derived`). It fails on every other ordered pair of the properties of the
 sort `causality` written here, and on each conjunctive rule with one premise dropped
-(132 examples, `Not derived`). A pair the ladder's matrix calls `implied` that is not
+(235 examples, `Not derived`). A pair the ladder's matrix calls `implied` that is not
 derived goes through an edge that was not emitted (a side condition `under`, or a witness
 outside the ETT layer). The first command fails if a model module is imported, directly or
 transitively: the ladder's Lean stays in the ETT layer, so that layer-1 modules may use it.
@@ -41,14 +42,50 @@ variable {M : Type u} [TopologicalSpace M] (C : Causal.Causality M)
 
 -- strongly_causal_open ⇒ strongly_causal
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : Causal.Causality.StronglyCausal C := by causal_ladder
+-- push_up ⇒ locally_push_up
+example (_h0 : Causal.Causality.PushUp C) : Causal.Causality.LocallyPushUp C := by causal_ladder
 -- causally_open ⇒ causally_open_future
 example (_h0 : Causal.Causality.CausallyOpen C) : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+-- causally_open ⇒ locally_causally_open
+example (_h0 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+-- causally_open ⇒ locally_causally_open_future
+example (_h0 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+-- causally_open_future ⇒ locally_causally_open_future
+example (_h0 : Causal.Causality.CausallyOpenFuture C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
 -- causally_arc_connected ⇒ absolutely_minimal
 example (_h0 : Causal.Causality.CausallyArcConnected C) : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
+-- locally_causally_open ⇒ locally_causally_open_future
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
 -- strongly_causal ∧ tarentin ∧ causally_open ⇒ causally_open_future
 example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+-- strongly_causal ∧ tarentin ∧ causally_open ⇒ locally_causally_open
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+-- strongly_causal ∧ tarentin ∧ causally_open ⇒ locally_causally_open_future
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
 -- strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open
 example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.StronglyCausalOpen C := by causal_ladder
+-- causally_arc_connected ∧ locally_push_up ⇒ absolutely_minimal
+example (_h0 : Causal.Causality.CausallyArcConnected C) (_h1 : Causal.Causality.LocallyPushUp C) : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
+-- causally_arc_connected ∧ locally_push_up ⇒ push_up
+example (_h0 : Causal.Causality.CausallyArcConnected C) (_h1 : Causal.Causality.LocallyPushUp C) : Causal.Causality.PushUp C := by causal_ladder
+-- push_up ∧ chronal_neighbours ⇒ causally_open
+example (_h0 : Causal.Causality.PushUp C) (_h1 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.CausallyOpen C := by causal_ladder
+-- push_up ∧ chronal_neighbours ⇒ causally_open_future
+example (_h0 : Causal.Causality.PushUp C) (_h1 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+-- push_up ∧ chronal_neighbours ⇒ locally_causally_open
+example (_h0 : Causal.Causality.PushUp C) (_h1 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+-- push_up ∧ chronal_neighbours ⇒ locally_causally_open_future
+example (_h0 : Causal.Causality.PushUp C) (_h1 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+-- push_up ∧ chronal_neighbours ⇒ locally_push_up
+example (_h0 : Causal.Causality.PushUp C) (_h1 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.LocallyPushUp C := by causal_ladder
+-- absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) (_h1 : Causal.Causality.LocallyCausallyOpenFuture C) : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+-- absolutely_minimal ∧ locally_causally_open ⇒ causally_open
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) (_h1 : Causal.Causality.LocallyCausallyOpen C) : Causal.Causality.CausallyOpen C := by causal_ladder
+-- absolutely_minimal ∧ locally_causally_open ⇒ causally_open_future
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) (_h1 : Causal.Causality.LocallyCausallyOpen C) : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+-- absolutely_minimal ∧ locally_causally_open ⇒ locally_causally_open_future
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) (_h1 : Causal.Causality.LocallyCausallyOpen C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
 
 /-! ## Not derived -/
 
@@ -96,6 +133,22 @@ example (_h0 : Causal.Causality.IsCausal C) : True := by
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
+-- is_causal ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.IsCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- is_causal ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.IsCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- is_causal ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.IsCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- is_causal ⇏ chronal_neighbours (matrix: unknown)
+example (_h0 : Causal.Causality.IsCausal C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
 -- strongly_causal ⇏ is_causal (matrix: the matrix chains it through an edge not emitted)
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
@@ -140,6 +193,22 @@ example (_h0 : Causal.Causality.StronglyCausal C) : True := by
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
+-- strongly_causal ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- strongly_causal ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- strongly_causal ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- strongly_causal ⇏ chronal_neighbours (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
 -- strongly_causal_open ⇏ is_causal (matrix: the matrix chains it through an edge not emitted)
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
@@ -179,6 +248,22 @@ example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
 -- strongly_causal_open ⇏ curves_extend (matrix: unknown)
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- strongly_causal_open ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- strongly_causal_open ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- strongly_causal_open ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- strongly_causal_open ⇏ chronal_neighbours (matrix: unknown)
+example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
   trivial
 -- globally_hyperbolic ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
@@ -224,6 +309,22 @@ example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
+-- globally_hyperbolic ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- globally_hyperbolic ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- globally_hyperbolic ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- globally_hyperbolic ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
 -- push_up ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
@@ -240,11 +341,11 @@ example (_h0 : Causal.Causality.PushUp C) : True := by
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
   trivial
--- push_up ⇏ causally_open (matrix: the matrix chains it through an edge not emitted)
+-- push_up ⇏ causally_open (matrix: an open pair)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpen C := by causal_ladder
   trivial
--- push_up ⇏ causally_open_future (matrix: the matrix chains it through an edge not emitted)
+-- push_up ⇏ causally_open_future (matrix: an open pair)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
   trivial
@@ -267,6 +368,18 @@ example (_h0 : Causal.Causality.PushUp C) : True := by
 -- push_up ⇏ curves_extend (matrix: unknown)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- push_up ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.PushUp C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- push_up ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.PushUp C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- push_up ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.PushUp C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
   trivial
 -- causally_open ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
@@ -307,6 +420,14 @@ example (_h0 : Causal.Causality.CausallyOpen C) : True := by
 -- causally_open ⇏ curves_extend (matrix: unknown)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- causally_open ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- causally_open ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.CausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
   trivial
 -- causally_open_future ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
@@ -352,6 +473,18 @@ example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
+-- causally_open_future ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- causally_open_future ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- causally_open_future ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
 -- absolutely_minimal ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
@@ -372,11 +505,11 @@ example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True :=
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
   trivial
--- absolutely_minimal ⇏ causally_open (matrix: the matrix chains it through an edge not emitted)
+-- absolutely_minimal ⇏ causally_open (matrix: an open pair)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.CausallyOpen C := by causal_ladder
   trivial
--- absolutely_minimal ⇏ causally_open_future (matrix: the matrix chains it through an edge not emitted)
+-- absolutely_minimal ⇏ causally_open_future (matrix: an open pair)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
   trivial
@@ -396,6 +529,22 @@ example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True :=
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
+-- absolutely_minimal ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- absolutely_minimal ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- absolutely_minimal ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- absolutely_minimal ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
 -- causally_arc_connected ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
@@ -412,15 +561,15 @@ example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
   trivial
--- causally_arc_connected ⇏ push_up (matrix: the matrix chains it through an edge not emitted)
+-- causally_arc_connected ⇏ push_up (matrix: an open pair)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
   trivial
--- causally_arc_connected ⇏ causally_open (matrix: the matrix chains it through an edge not emitted)
+-- causally_arc_connected ⇏ causally_open (matrix: an open pair)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpen C := by causal_ladder
   trivial
--- causally_arc_connected ⇏ causally_open_future (matrix: the matrix chains it through an edge not emitted)
+-- causally_arc_connected ⇏ causally_open_future (matrix: an open pair)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
   trivial
@@ -435,6 +584,22 @@ example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
 -- causally_arc_connected ⇏ curves_extend (matrix: unknown)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- causally_arc_connected ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- causally_arc_connected ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- causally_arc_connected ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- causally_arc_connected ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
   trivial
 -- causally_plain ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
@@ -480,6 +645,22 @@ example (_h0 : Causal.Causality.CausallyPlain C) : True := by
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
+-- causally_plain ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyPlain C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- causally_plain ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyPlain C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- causally_plain ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyPlain C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- causally_plain ⇏ chronal_neighbours (matrix: unknown)
+example (_h0 : Causal.Causality.CausallyPlain C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
 -- tarentin ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
@@ -524,6 +705,22 @@ example (_h0 : Causal.Causality.Tarentin C) : True := by
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
+-- tarentin ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- tarentin ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- tarentin ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- tarentin ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
 -- curves_extend ⇏ is_causal (matrix: unknown)
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
@@ -567,6 +764,258 @@ example (_h0 : Causal.Causality.CurvesExtend C) : True := by
 -- curves_extend ⇏ tarentin (matrix: unknown)
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C := by causal_ladder
+  trivial
+-- curves_extend ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.CurvesExtend C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- curves_extend ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.CurvesExtend C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- curves_extend ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.CurvesExtend C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- curves_extend ⇏ chronal_neighbours (matrix: unknown)
+example (_h0 : Causal.Causality.CurvesExtend C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ is_causal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ strongly_causal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausal C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ strongly_causal_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ globally_hyperbolic (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ push_up (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpen C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ absolutely_minimal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
+  trivial
+-- locally_push_up ⇏ causally_arc_connected (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.CausallyArcConnected C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ causally_plain (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.CausallyPlain C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ tarentin (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.Tarentin C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ curves_extend (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- locally_push_up ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ is_causal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ strongly_causal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausal C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ strongly_causal_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ globally_hyperbolic (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ push_up (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpen C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ absolutely_minimal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ causally_arc_connected (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.CausallyArcConnected C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ causally_plain (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.CausallyPlain C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ tarentin (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.Tarentin C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ curves_extend (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+  trivial
+-- locally_causally_open_future ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ is_causal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ strongly_causal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausal C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ strongly_causal_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ globally_hyperbolic (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ push_up (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpen C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ absolutely_minimal (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ causally_arc_connected (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.CausallyArcConnected C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ causally_plain (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.CausallyPlain C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ tarentin (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.Tarentin C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ curves_extend (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- locally_causally_open ⇏ chronal_neighbours (matrix: refuted by a counterexample)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ is_causal (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ strongly_causal (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausal C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ strongly_causal_open (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ globally_hyperbolic (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ push_up (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpen C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ absolutely_minimal (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ causally_arc_connected (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.CausallyArcConnected C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ causally_plain (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.CausallyPlain C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ tarentin (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.Tarentin C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ curves_extend (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ locally_push_up (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ locally_causally_open_future (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- chronal_neighbours ⇏ locally_causally_open (matrix: unknown)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
   trivial
 -- tarentin ∧ causally_open ⇏ strongly_causal_open (strongly_causal dropped from Causal.Causality.StronglyCausal.stronglyCausalOpen)
 example (_h0 : Causal.Causality.Tarentin C) (_h1 : Causal.Causality.CausallyOpen C) : True := by
