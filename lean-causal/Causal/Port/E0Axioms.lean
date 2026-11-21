@@ -45,8 +45,8 @@ The section `defi:causal_E0` at the end is **new**.
   `not_lt_of_mem_axis`); `I^-_U(p) = ∅` for every open `U`; `J^-(p) = {r = 0, τ ≤ τ(p)}`;
   `p ∈ Z^+ ∖ Z^-`; `E₀` is not past distinguishing (`not_pastDistinguishing`), and neither is any
   causality with `SingularFlatAxioms` and `sing₀ ≠ ∅`
-  (`Causality.SingularFlatAxioms.not_pastDistinguishing`; no inhabitant with a BTZ point in
-  `lean-causal` yet, SCOPE (c)). **The last sentence is false**:
+  (`Causality.SingularFlatAxioms.not_pastDistinguishing`; inhabited at `E₀` since
+  T-ett-port-e0-sfa, `Causal.E0.singularFlatAxioms`, SCOPE (c)). **The last sentence is false**:
   `I^+(p) ≠ J^+(p) ∖ sing₀` at every BTZ point (`Iplus_ne_Jplus_diff`, gx's;
   `not_btzIplusAsPrinted`); its strongest true form is
   `I^+(p) = Int(J^+(p)) ∖ sing₀` (`Iplus_axis_eq_interior_diff`), with
@@ -81,12 +81,11 @@ The section `defi:causal_E0` at the end is **new**.
 * **(c) Not here.** Push-up in every open set and `SingularFlatAxioms` for `E₀` (gx's l.1814–3347
   and `GX.E0LM.e0_pushUp`) are target `T-ett-port-e0-sfa`; `def:singular_spacetime` is not
   touched. The two general definitions introduced (`Causality.PastDistinguishing`,
-  `Causality.BTZIplusAsPrinted`) are stated for any causality. **The abstract
-  `Causality.SingularFlatAxioms.not_pastDistinguishing` has no inhabitant in `lean-causal` yet**:
-  `SingularFlatAxioms` with `sing 0 ≠ ∅` has no witness in the library (`Causal.SingularFlat`,
-  SCOPE); the `E₀` instance comes with `T-ett-port-e0-sfa` (gx has it, through
-  `GX.E0.singularFlatAxioms_of_pushUp` and `GX.E0LM.e0_pushUp`). Until then the evidence for the
-  sentence of l.1349–1350 is the model case `E0.not_pastDistinguishing`.
+  `Causality.BTZIplusAsPrinted`) are stated for any causality. The abstract
+  `Causality.SingularFlatAxioms.not_pastDistinguishing` is inhabited at `E₀` since
+  T-ett-port-e0-sfa (2026-11-21): `Causal.Port.E0SingularFlat` proves `Causal.E0.singularFlatAxioms`
+  with `sing 0 = axis ≠ ∅` (ported from `GX.E0.singularFlatAxioms_of_pushUp` and
+  `GX.E0LM.e0_pushUp`), and applies the theorem at `E₀`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Ported from
 `lean-gx/GX/BTZ/Causality.lean` at `c48aa45` (target `T-ett-port-e0`, DEC-134).

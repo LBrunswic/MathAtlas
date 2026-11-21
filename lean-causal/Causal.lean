@@ -218,6 +218,8 @@ import Causal.DependenceDomain
 import Causal.ErsUniqueness
 import Causal.CausalIsoInvariance
 import Causal.Model.EAlphaCauchy
+import Causal.Port.E0Strong
+import Causal.Port.E0SingularFlat
 
 /-!
 # Causal — topological spacetimes

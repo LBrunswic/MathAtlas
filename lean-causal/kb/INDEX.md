@@ -64,3 +64,6 @@ rediscover. One fact per entry.
 | [0056](entries/0056-withlp-cosmic-string.md) | pattern | Hörmann's 3+1 conical spacetime as a static causality on an L² product |
 | [0057](entries/0057-causal-iso-is-chartiso.md) | pitfall | A causal isomorphism is a global ChartIso; transport lemmas and opensCongr |
 | [0058](entries/0058-time-function-not-causal.md) | pitfall | An ETT time function does not make a causality causal; strict increase does |
+| [0059](entries/0059-e0-singular-flat-witness.md) | pattern | E₀ is a SingularFlatAxioms witness with a BTZ point |
+| [0060](entries/0060-generated-port.md) | pattern | Generate a gx → Causal port by line ranges, and check it as verbatim blocks |
+| [0061](entries/0061-stranded-model-free-lemmas.md) | convention | Model-free lemmas stranded under Causal.E0 / Causal.E0LM: hoist on demand |
