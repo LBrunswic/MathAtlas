@@ -182,3 +182,6 @@ rediscover. One fact per entry.
 | [0174](entries/0174-t1-first-countable-from-charts.md) | pattern | Every E≥0-manifold is T1 and first countable from its charts |
 | [0175](entries/0175-btz-line-every-manifold.md) | pattern | The BTZ line at every Hausdorff E≥0-manifold: Causal.SFALine.line |
 | [0176](entries/0176-tau-translation-transitions.md) | pattern | Two X_A-charts into E₀ at a BTZ point differ along the axis by a τ-translation |
+| [0177](entries/0177-massive-line-atlas.md) | pattern | The translation atlas of sing_κ(M), κ > 0, and massive_line at every Hausdorff E≥0-manifold |
+| [0178](entries/0178-isclosed-sing-name-resolution.md) | pitfall | Inside Causal.X with open SFALocal, isClosed_sing resolves to the root Causal.isClosed_sing |
+| [0179](entries/0179-epi-sfa-witness.md) | pattern | E_π: a SingularFlatAxioms witness with a non-empty massive line |

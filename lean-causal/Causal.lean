@@ -277,6 +277,7 @@ import Causal.Remarks.MeasuresManifolds
 import Causal.LineDevelopment
 import Causal.Port.SFABTZ
 import Causal.Port.SFALine
+import Causal.Port.SFAMassiveLine
 
 /-!
 # Causal — topological spacetimes
