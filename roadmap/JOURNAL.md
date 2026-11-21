@@ -511,3 +511,20 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 23:41–00:10 (Paris); agents: 1 (planner)
 - next: a wave of T-ett-sigma-separe and T-ett-bubble-kplus (both lean-causal). T-ett-docstrings-sing0 (exclusive) runs between waves.
+
+## 2026-11-22 00:47 · wave of 2 · T-ett-sigma-separe, T-ett-bubble-kplus
+- T-ett-sigma-separe: lem:Sigma_separe's « In particular » holds with no ψ for every Cauchy surface. Over SingularFlatAxioms it needs causality only (sigma_separe_of_isCausal; global hyperbolicity is not used) and it holds at every causal, T2, second countable E≥0-manifold. Two rows now carry no Lean hypothesis at globally hyperbolic E≥0-manifolds:
+  - cor:K_ordre_Sigma, for every Cauchy surface (hS discharged);
+  - lem:Cauchy_plongement_toutes, in both directions.
+  The E₀ witness exercises the BTZ case. Unmarked (OQ-18, OQ-34, OQ-35, OQ-82). Audit minor: the l.2067–2068 finding is worded as a gain in route, not in class.
+- T-ett-bubble-kplus: rem:K_neq_I's bubble sentence (l.872–875) is refuted as printed under prop:tarentin_fort_K's hypotheses without causal plainness. The witness is Minkowski space with one spoke; the K⁺ form follows by time reversal. True form from lem:K_facile: a bubble meets K iff it persists. Findings on l.872–875, with a suggested wording, and on l.140–141. Unmarked. Audit minor: the general ℝ × E witness is second countable only for E separable, and the docstring was fixed at graduation.
+- roadmap:
+  - T-ett-geroch-split-flow is promoted to ready, by its block's condition (no global hyperbolicity needed).
+  - T-ett-docstrings-sing0's evidence gains LinesReachable.lean:31.
+  - Evidence was appended, never replaced.
+- README: 12 module-table rows, for the three new modules and the nine atlas modules of waves 24–29.
+- gates: lean-causal ✓ (strict 0 sorry in 288 files; scaffold 6 in 7), roadmap ✓, registers ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at c7fa3bc, clean), hub: no new red
+- commits: 13e7bf0 713637d c7fa3bc c841f8b (+ this)
+- wall time: 00:11–00:47 (Paris); agents: 2 closers, 2 audits
+- new OQ: OQ-87 (the bubble sentence: general implication or a claim about the cited C⁰ examples; l.140–141 pointwise or global). It bears on the wording of findings only. lean-causal kb 0192–0198.
+- next: T-ett-geroch-split-flow is the only ready closer. That is fewer than two, so rule 2 calls for a plan; the last planner run was one iteration ago. T-ett-docstrings-sing0 (master) can run between waves.
