@@ -34,3 +34,9 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0026](entries/0026-negative-exponent-displays.md) | pattern | A printed display whose integer exponents can be negative: state it in ℚ with zpow |
 | [0027](entries/0027-icc-cardrange-pitfalls.md) | pitfall | Pitfalls: noncomputable Finset.Icc on ℤ, rw with card_range, and an n that omega does not infer |
 | [0028](entries/0028-p-le-two-n.md) | pattern | p_n ≤ 2n on every cycle of ℤ, and representatives in ⟦1, n⟧ |
+| [0029](entries/0029-run-difference-bound.md) | pattern | The difference at the end of an ascending run is 3^q times a nonpositive sum, bounded sharply |
+| [0030](entries/0030-cited-constant-prop.md) | pattern | A cited inequality with a free constant: a Prop with the constant as a parameter |
+| [0031](entries/0031-exp-beats-rpow.md) | pattern | Exponential beats polynomial with a real exponent C |
+| [0032](entries/0032-d9-bounds-import.md) | pitfall | Pitfall: the d9 bounds on e and log 2 need an import Syracuse does not have |
+| [0033](entries/0033-circuit-to-steps.md) | pattern | From IsCircuit ε x to the step lemmas on a periodic sequence |
+| [0034](entries/0034-exists-bound-tautology.md) | pitfall | Pitfall: an existential bound in front of an implication is a tautology |

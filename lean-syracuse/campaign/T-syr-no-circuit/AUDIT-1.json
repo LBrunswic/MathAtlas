@@ -1,0 +1,63 @@
+{
+  "target": "T-syr-no-circuit",
+  "package": "T-syr-no-circuit",
+  "auditor_round": 1,
+  "round": 1,
+  "file": "scaffold/SyracuseScaffold/NoCircuit.lean",
+  "verdict": "major",
+  "labels": [
+    {
+      "label": "theo:exists_no_circuit_other",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, which is correct: the ledger regex (tools/ledger.py:247, ``**`label`**``) finds nothing in the first 4000 characters. The quote heading `> **theo:exists_no_circuit_other.**` has no backticks and follows the strict tree's house style (Syracuse/Base.lean:10). The row is partial. NoCircuitStatement K (l.734) states l.219 faithfully under the printed def:circuit (strict IsCircuit, p ≥ εn − 1), with 1/10^14 ≤ ε, x ∈ K and K a parameter (kb 0018). It is a Prop, it is not proved, and nothing claims it is. NoCircuitMatveev C (l.482) is theo:matveev (l.156–159) exactly, with d a parameter: 0 < P, 0 < n, 3^n < 2^P ⇒ 2^P/(eP)^C ≤ 2^P − 3^n, and (eP)^C = e^C P^C. NoCircuitMatveevAbs C (l.487) is the display of l.240 quantified over all P, n > 0. It is stronger than theo:matveev, and the checklist discloses that. Both are defs, not axioms. Both are monotone in C and false at C = 0. Both are true for a large enough effective C: Baker–Wüstholz/Matveev for 2^P ≈ 3^n, and trivial when 3^n ≥ 2·2^P. So neither is vacuous. Neither trivialises a theorem either: the finiteness still needs the run bound and the exponential-against-polynomial step. The step lemmas are Lean ≥ paper for every cycle with least period n ≥ 2 and any run q. The added n ≥ 2 is disclosed, and noCircuit_step_period_one_false shows it is needed at (−1). The one defect is noCircuit_of_cited (finding 1), a tautology presented as content."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "command": "cd lean-syracuse && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/SyracuseScaffold/NoCircuit.lean (exit 0, no output). lake build was not run, as the dispatch required.",
+    "grep": "0 sorry, 0 native_decide, 0 axiom, 0 set_option, 0 admit/opaque/extern/implemented_by",
+    "print_axioms": "A /tmp copy with `import Syracuse` prepended elaborated with no error and no name clash. #print axioms on all 51 declarations of the REPORT: 50 give [propext, Classical.choice, Quot.sound]; noCircuitKnown (a Set literal) gives none. Mathlib.Analysis.Complex.ExponentialBounds is the pinned Mathlib's. The copy is deleted.",
+    "names": "All 51 declarations exist and carry the noCircuit/NoCircuit prefix. None clashes with Syracuse/*.lean, or with CitedSteps.lean, which was only grepped for names and not judged."
+  },
+  "nonvacuity": "Instantiated in the auditor's probe at real cycles. noCircuit_step, noCircuit_step_alt and noCircuit_upper at −17 (n = 7, i = 6, q = 3, with strict seq17_periodic, twoDesc_neg_seventeen_minimal and cycle_neg_seventeen). noCircuit_upper at (−5, −7) (n = 2, i = 1, q = 1). noCircuit_l244_of_lower at −17 with C = 1, where its lower-bound hypothesis 2^11/(11e) ≈ 68.5 ≤ 139 holds. noCircuit_l235_of_eta at −17 with η = 1. All elaborate with standard axioms. The x > 0 forms (noCircuit_l244_pos, noCircuit_period_bounded_pos, noCircuit_l244_of_eta) have no known instance with n ≥ 2, as the REPORT discloses. They are not known to be vacuous.",
+  "arithmetic": "Recomputed exactly (Python, integer and Fraction arithmetic). Orbit of −17: −17, −25, −37, −55, −41, −61, −91, so a = (1,1,1,2,1,1,4), p_7 = 11 and 2^11 − 3^7 = −139, matching seq17. The run a_7 = a_8 = a_9 = 1 (i = 6, q = 3), with a_6 = 4. A_9 − A_10 = −7506 = 2·3^3·(−139), and 27·(−139) divides it. A'_9 − A'_10 = −2502 = −2·3^2·139, so 9 divides it and 27 does not, and 3·(−2502) = −7506. noCircuitSum of the window (2,1,1,4) has terms (−54, 0, 0, −224), total −278, and 27·(−278) = −7506. The l.232 display gives −110 with literal indices (k = 1..3: −18, −36, −56) and −18 with the indices restored. Bound at −17: 3^4·2^7·139 = 1441152 ≤ 2·3^7·(2^11 − 2^7) = 8398080. At (−5, −7): a = (1, 2), A_2 − A_3 = −6, and 3·4·6 = 72 = 2·9·(8 − 4), so the bound is attained. log₃(3/2) = 0.36907. η-threshold log₃(1 + 1/(2 ln 3)) = 0.34142 (0.6525 with log₁₀, 0.2496 with log₂). ½·e·2^4.5·30^5 = 7.4732·10^8; times ln 3 it is 8.210·10^8 > 7·10^8, and times log₁₀ 3 it is 3.5656·10^8 ∈ (3.5, 3.6)·10^8. −17: the longest cyclic run of 1s is 3, so it is an ε-circuit iff ε ≤ 4/7 (printed p ≥ εn − 1), and ε ≤ 3/7 in the proof's p ≥ εn. noCircuitKnown = {1, −1, −5, −7, −17, −25, −37, −55, −41, −61, −91} is exactly the points of the four known cycles.",
+  "findings_checked": "Every paper finding of the REPORT is true, apart from one clause (finding 2) and one unstated log base (finding 3). Statement level: l.219, where under « the known ones » = (1, 4, 2) (the abstract, l.42: « the only known positive cycle … the only cycles are the known one ») the statement over ℤ is false at (−1). This holds for every K ∌ −1, by strict isCircuit_neg_one. Also at the statement level, under the printed p ≥ εn − 1 the statement asserts that every cycle of period ≤ 10^14 is known (by p = 0). This is a remark on its strength, correctly not called an error. It also holds under the proof's p ≥ εn for every cycle except (1), since every other cycle of ℤ has an ascending index. Proof level, each correctly classed: n ≥ 2 at l.222/227; 3^{q−1} for A' (OQ-43); l.232–234 false as printed; l.235 trivial when signed, l.229 needs the absolute value, and l.235 then needs the l.253 partial-sum bound; l.236 fails for small η; l.243 is false with ln, so its log is log₂; l.241's constant; l.251–252's first line is identically 0 (the same exponent twice); the proof stops at l.244 and does not reach the statement.",
+  "scope": "git status --short lean-syracuse papers/syracuse shows only ?? campaign/T-syr-no-circuit/ (REPORT.json alone before this audit), ?? scaffold/SyracuseScaffold/NoCircuit.lean (the dispatched file), and the other target's ?? CitedSteps.lean and ?? campaign/T-syr-cited-steps/. No tracked file under lean-syracuse or papers/syracuse is modified. SyracuseScaffold.lean is untouched, so the new file is not added to the root, as dispatched.",
+  "docstring_contract": "Title, label and line (`theo:exists_no_circuit_other` — `syracuse.tex:219`, unmarked), the paper's sentences quoted as printed (l.219–244), ## Hypothesis checklist (char 2119), ## SCOPE (disclosed) (char 3880) and the Provenance line are all present. SCOPE is true except at the points of findings 1–5.",
+  "findings": [
+    {
+      "severity": "major",
+      "where": "scaffold/SyracuseScaffold/NoCircuit.lean:766-773 (noCircuit_of_cited); SCOPE l.61-63; REPORT findings[0] and hypotheses",
+      "what": "noCircuit_of_cited is a tautology. Its statement is `∃ B : ℕ, (∀ x, IsCircuit ε x → minimalPeriod T x ≤ B → x ∈ K) → ∀ x, IsCircuit ε x → x ∈ K`, with K quantified before B. Classically it holds for every ε and every K, with no Matveev hypothesis, no C and no threshold. If the conclusion holds, take any B. If x₀ is a counterexample, take B = minimalPeriod T x₀: the check hypothesis fails at x₀, so the implication is vacuous. The auditor proved exactly this statement without hC, hM or hε (audit_of_cited_tautology, standard axioms). Its hypotheses are decorative, and its docstring (« Matveev's theorem (l.240) and a check of the finitely many periods ≤ B give it ») and the SCOPE and REPORT sentence citing it claim content that the declaration does not carry. The mathematics is not wrong: noCircuit_period_bounded (B before x) genuinely gives a uniform bound on the least period for ε > log₃(3/2), so the sentence sent to the author is true. The declaration named as its evidence is vacuous and undisclosed. This is what the dispatch asked about (check 3): its existential B lets the « check » hypothesis be chosen so as to make the conclusion free.",
+      "fix": "Restate with the bound inside, e.g. `∃ B : ℕ, (∀ x, IsCircuit ε x → Function.minimalPeriod T x ≤ B) ∧ ((∀ x, IsCircuit ε x → Function.minimalPeriod T x ≤ B → x ∈ K) → ∀ x, IsCircuit ε x → x ∈ K)`, or fix B before K: `∃ B, ∀ K : Set ℤ, (…) → …`. Either is a two-line change on top of noCircuit_period_bounded. Or delete noCircuit_of_cited and cite noCircuit_period_bounded in SCOPE and in the REPORT."
+    },
+    {
+      "severity": "minor",
+      "where": "NoCircuit.lean:75-76 (SCOPE Finding 3, « and its last term is the largest »); REPORT findings[4] (« it misses the last term m = n − p, which is the largest »)",
+      "what": "The clause « which is the largest » is false in general, on a real cycle. At −17 with the maximal run i = 3, q = 2 (a_4 = a_5 = 1, a_3 = 2), the terms are (−1134, 0, 0, 0, −256): the missing last term is the smallest nonzero one. For a non-maximal run (a_i = 1, e.g. i = 0, q = 2) the last term is 0. It is the largest only at the instance used (i = 6, q = 3: −224 against −54). The rest of the finding (the display is false; −278 against −110 and −18) is correct.",
+      "fix": "Drop « which is the largest », or say « at −17 (i = 6, q = 3) the missing term is −224 of −278 »."
+    },
+    {
+      "severity": "minor",
+      "where": "NoCircuit.lean:82-85 (SCOPE Finding 4), :1014-1017 (noCircuit_l236_false docstring); REPORT findings[6]",
+      "what": "The threshold η < 0.341, and with it « for ε < 0.34 the chain cannot run », assume the log of l.236 is natural. The draft's log is not consistent: the REPORT's own l.241 finding says the printed constant matches log₁₀, and its l.243 finding says that log is log₂. With log₁₀ the threshold is 0.652, and with log₂ it is 0.250. The qualitative finding (l.236 fails for every small enough η) holds in every base, and the Lean statement is explicit (Real.log), so it is correct as stated. Only the prose number is base-dependent.",
+      "fix": "Write « η < 0.341 with the natural log (0.652 with log₁₀, 0.250 with log₂) » and qualify « ε < 0.34 » in the same way."
+    },
+    {
+      "severity": "minor",
+      "where": "NoCircuit.lean:784-786 (noCircuit_nonvacuous_seq17 docstring), :803 (noCircuit_nonvacuous_seq12)",
+      "what": "« every hypothesis of noCircuit_step and noCircuit_upper holds », but the conjunctions omit the periodicity hypothesis (Function.Periodic seq17 7, or seq12 2), and neither lemma applies the theorems. The strict seq17_periodic and seq12_periodic exist, and the auditor's probe instantiated noCircuit_step, noCircuit_step_alt and noCircuit_upper at −17, and noCircuit_upper at (−5, −7), without trouble. So non-vacuity holds, but the docstring overstates what the lemma itself contains.",
+      "fix": "Add the conjunct seq17_periodic (seq12_periodic), or add two one-line instance lemmas `noCircuit_step (x := -17) … seq17_periodic …`."
+    },
+    {
+      "severity": "minor",
+      "where": "NoCircuit.lean:50 (checklist « the reading of the four cycles of ℤ is noCircuitKnown »), :95 (« The four cycles of ℤ are noCircuitKnown »); REPORT hypotheses and questions",
+      "what": "« the four cycles of ℤ » reads as if they were all the cycles of ℤ, which is what the statement asserts and is open. noCircuitKnown's own docstring (l.730) says « the four known cycles ».",
+      "fix": "« the four known cycles of ℤ »."
+    }
+  ],
+  "summary": "I typechecked the file with lake env lean -DwarningAsError=true (clean) and counted no sorry, native_decide, axiom or set_option. #print axioms on all 51 declarations, from a /tmp copy re-elaborated after `import Syracuse`, gave only the standard three. I checked the statement against l.219 and def:circuit, and the two Matveev Props against theo:matveev and l.240. Every number of the REPORT was recomputed exactly, and the findings were checked and classed. Non-vacuity was probed at −17 and (−5, −7), and scope was checked. One major finding: noCircuit_of_cited is a tautology, provable with none of its hypotheses, and the REPORT and SCOPE cite it as content. Four minor wording findings. The label is correctly unmarked and partial, and NoCircuitStatement K is faithful and unproved."
+}
