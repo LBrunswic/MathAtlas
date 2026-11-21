@@ -1,0 +1,94 @@
+{
+  "target": "T-ett-line-development",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:past_BTZ",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, row partial: correct. The file is the model-free tool for (a), not its certificate. (1) IsTranslationAtlas is a sound abstraction and is satisfiable. tau i is a homeomorphism of S ∩ V i onto the open J i with inverse sigma i, the V i cover S, and the transitions are locally tau j = tau i + k on S. The auditor checked the 'one application' claim in a /tmp probe, compiled and then deleted, with standard axioms. At E0, BPrimeE0.exists_eqOn_rotE0_tauShift applied to e.symm.trans e' at e x ∈ axis gives, for tau = (e ·).1, (e' y).1 = (e y).1 + t for every y near x. rotE0 keeps the first coordinate of every point and tauShift adds t, so here y ∈ S is not even used. At E_kappa, kappa ≠ 2π, BPrimeEAlpha.prop_isom_local applied the same way gives (e' y).1 = (e y).1 + s wherever e y is on singLine (write apex = polar (0, 0)). The glue is pulling the open set back through e and e.left_inv. The other clauses (J i = {r | (r, line) ∈ e.target}, sigma i = e.symm (·, line), mapsTo through IsAEChart.mem_reg_iff and mem_singAt_of_mem_source) and h_sigma (E0.causalCurveIn_axisLine, singLine_chronalCurveOn) are routine work for the consumers. Two cautions: the atlas is extra structure beyond « 1-submanifold » (the long line has none), and here it is supplied by the charts. (2) exists_development needs [T2Space M], IsClosed S, the atlas and p ∈ S. Both hypotheses are needed: arc uniqueness fails on the line with two origins, and a non-closed S lets gamma converge to a boundary point. Every clause of IsLineDevelopment is proved: zero, continuous, range_eq (connectedComponentIn S p), local_param (sigma i ∘ a continuous StrictMono psi), local_onto, and not_tendsto_atTop / atBot for every x ∈ M. (3) isClosedEmbedding: S closed plus injective gives a closed embedding (inducing via local_onto). curveOn_of_local: CurveOn is local in t, for any relation family and with no IsRelFamily. The inextensibility criteria: CausalCurveIn W univ c with no limit in W at +∞ (-∞) gives future (past) inextensibility under DEC-11/DEC-13, with no separation axiom (Splitting's inextensible_of_flow has [T2Space M]; this one does not). injective_of_isCausal: antisymmetry of le ⊤, with c causal over every segment and locally injective. (4) exists_line and exists_chronal_line have exactly the shapes of BTZAxioms.line (SingularFlat.lean:168) and SingularFlatAxioms.massive_line (:203). Probe: ⟨h1, h2, h3, h4, fun _ hp => exists_line hS hA hσ hp⟩ : C.BTZAxioms S₀ typechecks, and fun α hα _ hp => exists_chronal_line (hS α hα) (hA α hα) (hσ α hα) hp has the type of h.massive_line. (5) The witnesses are genuine. The timelike line instantiates exists_line and exists_chronal_line, so their hypotheses are satisfiable. The circle R/PZ has an atlas and a development (the quotient map, periodic, not injective), and no γ : R → R/PZ is a closed embedding, so step (7) needs its injectivity. allRelated supplies every field of Precausality and Causality: le, lt, the four mem fields, le_refl, le_trans, lt_trans, le_mono, lt_mono, le_of_lt, isOpen_lt_right/left ({y | x ∈ U ∧ y ∈ U} is U or ∅). It is not causal (P/2 ≠ 0 are related both ways in ⊤, so hnc in circle_line). With it, all the hypotheses of exists_line hold on the circle (allRelated_chronalCurveOn for sigma = coe), so the condition on C.IsCausal in the field cannot be dropped. Its docstring's « not local » is informal: no such predicate is proved."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "On node1: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/LineDevelopment.lean` exits 0 with no output. The file has no sorry, native_decide, axiom, admit or set_option. #print axioms, from a /tmp copy since deleted, on 27 declarations (exists_development, IsLineDevelopment.isClosedEmbedding, exists_line, exists_chronal_line, inextensible_of_not_tendsto, the two one-sided forms, curveOn_of_local, causalCurveIn_univ_of_local, chronalCurveOn_of_local, injective_of_isCausal, IsLineDevelopment.causalCurveOn / chronalCurveOn / locallyInjective, timelikeLine_line / _chronal_line / _id_line, circle_isTranslationAtlas, circle_isLineDevelopment, not_isClosedEmbedding_circle, circle_periodic_not_injective, circle_line, allRelated, allRelated_chronalCurveOn, exists_strictMono_range_eq, image_dev_eq, dev_escape): each depends on [propext, Classical.choice, Quot.sound] only. The transitive Causal.* import closure of Causal.Inextensible has 15 modules (ArcConnected, Causality, Curves, Generated, GlobalHyperbolicity, Inextensible, Lines, LinesCurves, Local, Minimal, Morphism, Properties, Reachable, StrongCausality, Subdivision). None is in tools/ladder.py MODEL_LAYER (Minkowski, Static, SingularFlat, Flat, Model, Port) and none is Causal.CBG, so the module is ETT-layer. Name clashes: the file's body under `import Causal` (plus its two Mathlib imports) typechecks with warningAsError. No Causal.LineDevelopment name exists elsewhere. The CausalScaffold olean (19:56:47) is newer than the source (19:55:39). Scope: `git status --short` shows the two scaffold files and the two campaign directories. SFABTZ.lean and campaign/T-ett-sfa-btz-e0 belong to the sibling target, and the roadmap.toml diff is the master's status edits (two targets to active, T-ett-readme-modules done). Nothing in Causal/ was touched. lake build was not run by the auditor."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/LineDevelopment.lean:24; REPORT.json findings 1-3, hypotheses rows 2, 3 and 5, tex_lines",
+      "what": "Paper line numbers are off by two. In papers/ett/legacy/labeled/ETT.tex (unchanged since dd67f92), the proof of (a) is l.1529–1533 (\\begin{proof} at 1527, \\item at 1529). « parametrisable by R » and « since M is a differential manifold » are at l.1530, not 1527–1528 / 1528. « locally chronal / locally causal » is at l.1531–1532, not 1529–1530. « inextensible, being a closed submanifold without boundary » is at l.1533, not 1531. The REPORT's tex_lines [1515, 1531] stops before the end of (a). The dispatch and the planner's evidence carry the same offset.",
+      "fix": "At graduation, docstring l.24: (`ETT.tex:1527–1531`) -> (`ETT.tex:1529–1533`). In the curation text, use l.1529–1530, l.1530 and l.1533."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/LineDevelopment.lean:62",
+      "what": "The first checklist row is tagged « ⚠ read ». kb/0006 knows only ✓ carried / ⚠ weakened / ⚠ strengthened. A translation atlas is more structure than « a connected 1-dimensional submanifold »: it exists for every second-countable Hausdorff 1-manifold, but not for the long line. So, as a hypothesis of the tool, it is a strengthening that the model charts supply.",
+      "fix": "Write « ⚠ strengthened (a reading): S closed with a translation atlas; the charts of E₀ and E_κ supply it (exists_eqOn_rotE0_tauShift, prop_isom_local), built by the consumers »."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json findings[3]",
+      "what": "Finding 4 is about the roadmap (the planner's [r] route), not about the paper. It is true. Step (4)'s « images of the local parametrisations are open in S » must be carried by the structure. A Y-shaped S (three rays from O) has injective local parametrisations A→O→B and A→O→C with translation transitions, but their images are not open in S at O and the maximal arc misses an arm. The C.IsCausal → IsClosedEmbedding bridge (injective_of_isCausal) is missing from the route. Step (9) needs no separation. It must not go to the author as a paper finding.",
+      "fix": "Keep it out of paper_findings. Put it in the row's notes as « Roadmap (not the paper): … », as done for T-ett-e0-gx-structure."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json findings[1]",
+      "what": "Finding 2 is true, but its wording could read as a gap. The classification of connected 1-manifolds needs Hausdorff and second countability, and M has both as a manifold (prop:GX_sing_dec, rem:singular_flat_spacetime_therefore; SingularFlatAxioms.secondCountable). So the step is correct and uncited, not wrong. The long line only shows that the countability is used.",
+      "fix": "In paper_findings, say that the hypotheses are available and that the step is an uncited standard fact (wording below)."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/LineDevelopment.lean:72-73, 1094-1095",
+      "what": "Cosmetic. In SCOPE, « A compact component is the image of a periodic γ » is a general claim. It is true by arc uniqueness (dev s = dev s' forces translation invariance of the domain, hence periodicity), but only the circle is formalized. allRelated's docstring says « not local », and no such notion is defined or proved.",
+      "fix": "Optional: add « (by hand; the circle is the witness) » and drop « not local, »."
+    }
+  ],
+  "paper_findings_review": [
+    {
+      "finding": 1,
+      "true": true,
+      "level": "proof",
+      "lines": "ETT.tex:1529–1530 (REPORT says 1527–1528)",
+      "notes": "Read as a homeomorphism, « parametrisable by R » fails for a compact component, and no closed embedding R → circle exists (not_isClosedEmbedding_circle). Such a component exists only in a non-causal M: in a causal M the locally injective causal development is injective (injective_of_isCausal). One exists there: def:singular_spacetime (l.1500–1505) asks no causality, and E₀ or E_κ modulo a translation along the line is a connected E≥0-manifold whose singular component is a circle (by hand, not formalized). Under DEC-6 the statement of (a) survives with a periodic γ, so the finding is about the proof, not the statement."
+    },
+    {
+      "finding": 2,
+      "true": true,
+      "level": "proof (editorial: uncited standard fact)",
+      "lines": "ETT.tex:1530 (REPORT says 1528)",
+      "notes": "The step is the classification of 1-manifolds, and M being a manifold gives its hypotheses. The Lean route avoids the classification and second countability."
+    },
+    {
+      "finding": 3,
+      "true": true,
+      "level": "proof (confirmation, no error)",
+      "lines": "ETT.tex:1533 (REPORT says 1531)",
+      "notes": "Correct. Closedness and the two-sided chart give no limit at ±∞ (dev_escape), and inextensible_of_not_tendsto concludes. Better recorded in notes than in paper_findings, which lists sentences to change."
+    },
+    {
+      "finding": 4,
+      "true": true,
+      "level": "roadmap",
+      "lines": "roadmap/roadmap.toml, evidence of T-ett-line-development",
+      "notes": "Both precisions are correct: the Y-shaped S, and the injective_of_isCausal bridge. Not a paper finding."
+    }
+  ],
+  "question_review": "No OQ row is needed (OQ-87 stays free). DEC-6 (a causal curve need not be injective) and DEC-11/DEC-13 (inextensible = no strict extension) settle the compact case. The periodic γ is an inextensible causal curve onto the circle, and no alternative reading changes the Lean statement. BTZAxioms.line already takes and discloses the reading: Causal/SingularFlat.lean SCOPE l.75–80, « the closed embedding, is asked only when M is causal … a non-causal singular flat spacetime may have a compact singular component (E_α or E_0 modulo a translation along its singular line: the component is a circle) ». No existing OQ covers it, and none needs to: OQ-25 is cor:model_corresponding, and OQ-34/OQ-35 are the readings of E₀ and remain the row's blockers. The case belongs in paper_findings (finding 1), where the author will see it, not in a question.",
+  "graduation_fixes": [
+    "git mv lean-causal/scaffold/CausalScaffold/LineDevelopment.lean lean-causal/Causal/LineDevelopment.lean, and add `import Causal.LineDevelopment` to lean-causal/Causal.lean so that the strict build and scripts/AxiomSweep.lean see it.",
+    "Docstring l.24: `ETT.tex:1527–1531` -> `ETT.tex:1529–1533`.",
+    "Docstring l.62: « ⚠ read: » -> « ⚠ strengthened (a reading): S closed with a translation atlas; the charts of E₀ and E_κ supply it (exists_eqOn_rotE0_tauShift, prop_isom_local), built by the consumers ».",
+    "Optional, cosmetic: SCOPE l.72–73, add « (by hand; the circle is the witness) »; l.1094, drop « not local, ».",
+    "Curation, row lem:past_BTZ (papers/ett/certificate/curation.toml): extra_lean_files = [\"Causal/SingularFlat.lean\", \"Causal/LineDevelopment.lean\"]. Keep lean_proved_override = \"partial\".",
+    "Curation decls: append \"Causal.LineDevelopment.exists_line\", \"Causal.LineDevelopment.exists_chronal_line\", \"Causal.LineDevelopment.exists_development\", \"Causal.LineDevelopment.IsTranslationAtlas\", \"Causal.LineDevelopment.IsLineDevelopment.isClosedEmbedding\", \"Causal.LineDevelopment.inextensible_of_not_tendsto\", \"Causal.LineDevelopment.injective_of_isCausal\", \"Causal.LineDevelopment.timelikeLine_line\", \"Causal.LineDevelopment.circle_line\" to the existing ten.",
+    "Curation notes, appended to the existing text: « T-ett-line-development (atlas-team, 2026-11-21), audit AUDIT-1 minor (paper line numbers corrected, a checklist row relabelled, the roadmap finding moved here; fixed at graduation): the model-free tool for (a), ETT layer (Causal/LineDevelopment.lean, no model in its import closure). From a translation atlas of a closed S ⊆ M, M Hausdorff (IsTranslationAtlas: charts τ i : S ∩ V i ≅ J i ⊆ ℝ open, transitions locally τ j = τ i + k), exists_development gives through every p ∈ S a continuous γ : ℝ → M with γ 0 = p and range γ = connectedComponentIn S p. γ is locally an increasing reparametrisation of the inverse charts, locally onto S, and has no limit at ±∞. No classification of 1-manifolds and no second countability is used. exists_line and exists_chronal_line give exactly the shapes of BTZAxioms.line and SingularFlatAxioms.massive_line from causal (chronal) inverse charts. They go through injective_of_isCausal (in a causal M a locally injective causal curve over ℝ is injective), IsLineDevelopment.isClosedEmbedding and inextensible_of_not_tendsto (no limit at ±∞ ⇒ inextensible, no separation axiom). At E₀ the atlas's transitions are one application of BPrimeE0.exists_eqOn_rotE0_tauShift (k = t), and at E_κ, κ ≠ 2π, of BPrimeEAlpha.prop_isom_local (k = s); the auditor checked both in a probe. Building the atlas at every E≥0-manifold is T-ett-sfa-line-e0 and T-ett-sfa-massive-line. Witnesses: the timelike line (timelikeLine_line, timelikeLine_chronal_line, timelikeLine_id_line) and the circle ℝ/Pℤ (circle_isLineDevelopment, periodic and not injective; not_isClosedEmbedding_circle; circle_line, with the non-causal allRelated). ETT.tex:1533 (« inextensible, being a closed submanifold without boundary ») is correct as written: closedness and the two-sided chart give no limit at the ends (dev_escape). Roadmap (not the paper): the planner's route for this target is correct, with two precisions. Its step (4) needs the local parametrisations to be onto neighbourhoods in S: a Y-shaped S has injective local parametrisations with translation transitions whose images are not open in S. The field's C.IsCausal → IsClosedEmbedding needs the bridge injective_of_isCausal, which the route does not give. »",
+    "Curation paper_findings (new key for this row): [« ETT.tex:1529–1530, « By Property prop:GX_sing_dec it is a connected 1-dimensional submanifold; since M is a differential manifold, it is parametrisable by ℝ »: this misses a compact component, a circle, which is not parametrisable by ℝ as a line (no closed embedding ℝ → ℝ/Pℤ exists, Causal.LineDevelopment.not_isClosedEmbedding_circle). Such a component occurs only when M is not causal, since in a causal M a locally injective causal curve over ℝ is injective (injective_of_isCausal). def:singular_spacetime allows it, e.g. E₀ or E_κ modulo a translation along the singular line (by hand, not formalized). The statement of (a) survives under DEC-6, since a causal curve need not be injective: the component is then the image of a periodic, inextensible causal curve, as on the circle (circle_isLineDevelopment, circle_line). Suggested wording: « it is the image of a continuous, locally injective map ℝ → M, periodic when Δ is compact and an embedding when M is causal ». », « ETT.tex:1530, « since M is a differential manifold, it is parametrisable by ℝ »: the step is the classification of connected 1-manifolds (ℝ or the circle), which is not cited. It needs Hausdorff and second countability, which M has as a manifold; the long line shows the countability is used. The formalization does without both: the charts of E₀ and E_κ make the transitions along the line translations, and the development of the line (Causal.LineDevelopment.exists_development) needs only M Hausdorff and Δ closed. A citation of the classification, or of the development argument, would close the step. »]",
+    "Optional findings_triage entry: label = \"lem:past_BTZ\", kind = \"sentence\", one_line = \"« parametrisable by ℝ » misses a compact singular component, possible in a non-causal singular spacetime; the lemma survives through DEC-6 with a periodic parametrisation\".",
+    "Curation blocked_on (it must name no done target, and does not name T-ett-line-development): « lem:past_BTZ (a) at every E≥0-manifold: the fields line and massive_line, from the charts' translation atlas through Causal.LineDevelopment.exists_line / exists_chronal_line (T-ett-sfa-line-e0, T-ett-sfa-massive-line); then SingularFlatAxioms for every E≥0-manifold (T-ett-singular-sfa, then T-ett-singular-rows; the E₀ instance exists, E0.singularFlatAxioms); OQ-34, OQ-35 (the reading of E₀) ». All four targets named are `planned` in roadmap.toml; OQ-34 and OQ-35 are OPEN. T-ett-sfa-line-e0 and T-ett-sfa-massive-line already list T-ett-line-development in `depends`."
+  ]
+}

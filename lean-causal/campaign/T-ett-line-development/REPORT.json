@@ -1,0 +1,137 @@
+{
+  "package": "T-ett-line-development",
+  "target": "T-ett-line-development",
+  "files": [
+    "scaffold/CausalScaffold/LineDevelopment.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:past_BTZ",
+      "tex_lines": [
+        1515,
+        1531
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.LineDevelopment.IsTranslationAtlas",
+        "Causal.LineDevelopment.IsLineDevelopment",
+        "Causal.LineDevelopment.exists_development",
+        "Causal.LineDevelopment.IsLineDevelopment.isClosedEmbedding",
+        "Causal.LineDevelopment.exists_line",
+        "Causal.LineDevelopment.exists_chronal_line",
+        "Causal.LineDevelopment.inextensible_of_not_tendsto",
+        "Causal.LineDevelopment.futureInextensible_of_not_tendsto_atTop",
+        "Causal.LineDevelopment.pastInextensible_of_not_tendsto_atBot",
+        "Causal.LineDevelopment.curveOn_of_local",
+        "Causal.LineDevelopment.causalCurveIn_univ_of_local",
+        "Causal.LineDevelopment.chronalCurveOn_of_local",
+        "Causal.LineDevelopment.injective_of_isCausal",
+        "Causal.LineDevelopment.IsLineDevelopment.causalCurveOn",
+        "Causal.LineDevelopment.IsLineDevelopment.chronalCurveOn",
+        "Causal.LineDevelopment.timelikeLine_line",
+        "Causal.LineDevelopment.timelikeLine_chronal_line",
+        "Causal.LineDevelopment.timelikeLine_id_line",
+        "Causal.LineDevelopment.circle_isTranslationAtlas",
+        "Causal.LineDevelopment.circle_isLineDevelopment",
+        "Causal.LineDevelopment.not_isClosedEmbedding_circle",
+        "Causal.LineDevelopment.circle_periodic_not_injective",
+        "Causal.LineDevelopment.circle_line",
+        "Causal.LineDevelopment.allRelated"
+      ],
+      "hypotheses": [
+        {
+          "paper": "each connected component of sing_alpha(M), « a connected 1-dimensional submanifold » by prop:GX_sing_dec (l.1435, used at l.1528)",
+          "here": "read",
+          "note": "S closed in M with a translation atlas (IsTranslationAtlas S V tau sigma J): charts tau i : S ∩ V i -> J i (J i open) with inverses sigma i, covering S, transitions locally tau j = tau i + k on S. This is what the time coordinate of the line gives in the charts of E_0 (BPrimeE0.exists_eqOn_rotE0_tauShift: rotE0 phi ∘ tauShift t, rotE0 fixes the axis) and of E_kappa, kappa != 2 pi (BPrimeEAlpha.prop_isom_local: (x.1 + s, rotation)); building it at every E>=0-manifold is the consumers' (T-ett-sfa-line-e0, T-ett-sfa-massive-line)"
+        },
+        {
+          "paper": "« since M is a differential manifold » (l.1528)",
+          "here": "weakened",
+          "note": "[T2Space M] only: no smooth structure, no second countability, no local compactness. Hausdorff is used once, for the uniqueness of line arcs (IsLineArc.eqOn); the inextensibility criterion uses no separation at all"
+        },
+        {
+          "paper": "sing_alpha(M) closed (prop:GX_sing_dec; « a closed submanifold » l.1531)",
+          "here": "carried",
+          "note": "IsClosed S: used for the absence of limits at the ends (a limit lies in S and the line continues through its chart) and for the closed range"
+        },
+        {
+          "paper": "« parametrisable by R » (l.1528)",
+          "here": "carried",
+          "note": "exists_development: a continuous gamma : R -> M, gamma 0 = p, range = connectedComponentIn S p, locally sigma i ∘ (continuous strictly increasing), locally onto a neighbourhood in S, no limit at ±∞. It is a closed embedding when injective (IsLineDevelopment.isClosedEmbedding), in particular when C is causal and the sigma i are causal curves (injective_of_isCausal, exists_line). Read under DEC-6: not necessarily injective (the circle)"
+        },
+        {
+          "paper": "« locally chronal » (alpha > 0) / « locally causal » (alpha = 0) by defi:causal_Ealpha, defi:causal_E0 (l.1529-1530)",
+          "here": "carried",
+          "note": "as: each sigma i is a chronal (causal) curve of M over every segment of J i; then gamma is one over every segment (curveOn_of_local, IsLineDevelopment.causalCurveOn / chronalCurveOn). « Consequently » holds with no hypothesis: being a curve is local in the parameter"
+        },
+        {
+          "paper": "« inextensible, being a closed submanifold without boundary » (l.1531)",
+          "here": "carried",
+          "note": "derived: no limit at ±∞, then inextensible_of_not_tendsto (a causal curve of W over R with no limit in W at +∞ / -∞ is future- / past-inextensible in W; DEC-11, DEC-13), with no separation axiom"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1527-1528, « By Property prop:GX_sing_dec it is a connected 1-dimensional submanifold; since M is a differential manifold, it is parametrisable by R »: as printed it fails for a compact component, which is a circle. No closed embedding R -> circle exists (Causal.LineDevelopment.not_isClosedEmbedding_circle, for R/PZ). The circle with its translation atlas has the periodic, non-injective development (circle_isLineDevelopment, circle_periodic_not_injective). Such a component is possible in a non-causal singular spacetime, e.g. E_0 modulo a translation along its axis (by hand, not formalized here; already in Causal.SingularFlat's SCOPE). Under DEC-6 (a causal curve need not be injective) the conclusion of (a) still holds there: with a non-causal causality the periodic gamma is an inextensible causal and chronal curve onto the circle (circle_line, with allRelated). So the statement survives and the proof's « parametrisable by R » must read « the image of a continuous, possibly periodic, map R -> M ». BTZAxioms.line already asks the closed embedding only when M is causal. That is exactly what is provable: a causal, locally injective curve over R in a causal M is injective (injective_of_isCausal), and an injective development is a closed embedding (IsLineDevelopment.isClosedEmbedding).",
+        "ETT.tex:1528, « since M is a differential manifold, it is parametrisable by R »: the parametrisation does not come from the smooth structure. It rests on the classification of connected 1-manifolds, which the paper does not cite and which needs Hausdorff and second countability (the long line is a connected Hausdorff 1-manifold that is not the image of R). Formalized here without it, by the development of the line, from the translation transitions of the charts of E_0 and E_kappa on their singular line, M Hausdorff and the component closed (exists_development). No second countability is used: every component of a set with a translation atlas is the continuous image of R, hence sigma-compact. A sentence citing the development argument (or the classification of 1-manifolds together with second countability) would close the step.",
+        "ETT.tex:1531, « Delta is inextensible, being a closed submanifold without boundary »: correct, and what it uses is now explicit. The development has no limit at ±∞, because a limit would lie in Delta (closed) and the line would continue through the two-sided chart at that point (no boundary): dev_escape. A causal curve over R with no limit at ±∞ is inextensible, with no separation axiom (inextensible_of_not_tendsto, the argument of Causality.inextensible_of_flow with the flow removed).",
+        "Roadmap (the planner's [r] route in the evidence of T-ett-line-development, not the paper), checked. Steps (1)-(9) are correct as stated and are formalized in that order. Two precisions. (a) Step (4), « the images of the local parametrisations are open in S », needs the local parametrisations to be onto neighbourhoods in S, i.e. homeomorphisms of S ∩ V onto open subsets of R. Injective local parametrisations whose images merely lie in S do not give it (a Y-shaped S has them). That is why IsTranslationAtlas carries the inverse charts tau i and their continuity on S ∩ V i. (b) The route reaches IsClosedEmbedding under injectivity (step (7)), but the field asks it under C.IsCausal. The missing bridge, not in the route, is injective_of_isCausal: in a causal M a causal curve over R that is locally injective (as a development is, IsLineDevelopment.locallyInjective) is injective, since gamma s = gamma s' with s < s' would make gamma constant on [s, s'] by antisymmetry. The claim that (9) needs no uniqueness of limits is confirmed: futureInextensible_of_not_tendsto_atTop and pastInextensible_of_not_tendsto_atBot assume no separation axiom."
+      ],
+      "questions": [
+        "lem:past_BTZ (a) for a compact connected component of sing_alpha(M), possible only when M is not causal (E_0 or E_kappa modulo a translation along the line): is such a component meant to be « an inextensible causal curve » parametrised periodically? The paper says « parametrisable by R » (l.1528) and does not consider the case. Reading taken: yes, under DEC-6 (a causal curve need not be injective), by a periodic gamma : R -> M with no limit at ±∞, which is inextensible (circle_line). The closed embedding is asked only when M is causal, as in BTZAxioms.line (Causal/SingularFlat.lean:168-169, SCOPE l.75-80). This is the reading the field already takes and discloses, so no new ruling may be needed; it is listed so that the author sees that the compact case is covered only through DEC-6."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.LineDevelopment.IsLineArc",
+    "Causal.LineDevelopment.IsLineArc.mono",
+    "Causal.LineDevelopment.IsLineArc.union",
+    "Causal.LineDevelopment.IsLineArc.congr",
+    "Causal.LineDevelopment.IsLineArc.comp_add",
+    "Causal.LineDevelopment.IsLineArc.eventually_eq_σ",
+    "Causal.LineDevelopment.IsLineArc.continuousAt",
+    "Causal.LineDevelopment.IsLineArc.eventuallyEq",
+    "Causal.LineDevelopment.IsLineArc.eqOn",
+    "Causal.LineDevelopment.isLineArc_σ",
+    "Causal.LineDevelopment.exists_nhds_param",
+    "Causal.LineDevelopment.exists_Ioo_subset",
+    "Causal.LineDevelopment.arcs",
+    "Causal.LineDevelopment.domain",
+    "Causal.LineDevelopment.dev",
+    "Causal.LineDevelopment.mem_domain_iff",
+    "Causal.LineDevelopment.isOpen_domain",
+    "Causal.LineDevelopment.isPreconnected_domain",
+    "Causal.LineDevelopment.isPreconnected_inter",
+    "Causal.LineDevelopment.dev_eq",
+    "Causal.LineDevelopment.exists_arc",
+    "Causal.LineDevelopment.zero_mem_domain",
+    "Causal.LineDevelopment.dev_zero",
+    "Causal.LineDevelopment.isLineArc_dev",
+    "Causal.LineDevelopment.dev_continue",
+    "Causal.LineDevelopment.dev_local_onto",
+    "Causal.LineDevelopment.mem_image_dev_of_mem_closure",
+    "Causal.LineDevelopment.dev_escape",
+    "Causal.LineDevelopment.image_dev_eq",
+    "Causal.LineDevelopment.exists_strictMono_range_eq",
+    "Causal.LineDevelopment.IsLineDevelopment.mem",
+    "Causal.LineDevelopment.IsLineDevelopment.locallyInjective",
+    "Causal.LineDevelopment.IsLineDevelopment.isClosed_range",
+    "Causal.LineDevelopment.timeline_isTranslationAtlas",
+    "Causal.LineDevelopment.timelikeLine_chronalCurveOn_id",
+    "Causal.LineDevelopment.circle_mem_Ioo",
+    "Causal.LineDevelopment.circle_half_ne_zero",
+    "Causal.LineDevelopment.circle_not_tendsto",
+    "Causal.LineDevelopment.allRelated_chronalCurveOn"
+  ],
+  "kb_proposals": [
+    "Translation lines without a classification of 1-manifolds: Causal.LineDevelopment.exists_development. From IsTranslationAtlas S V tau sigma J (charts tau i : S ∩ V i -> J i, J i open, inverses sigma i, cover, transitions locally tau j = tau i + k on S), [T2Space M] and IsClosed S, it gives through every p ∈ S an IsLineDevelopment gamma : gamma 0 = p, continuous, range = connectedComponentIn S p, locally sigma i ∘ strictly increasing (local_param), locally onto S (local_onto), no limit at ±∞. IsLineDevelopment.isClosedEmbedding holds under injectivity. exists_line and exists_chronal_line produce the exact shapes of BTZAxioms.line and SingularFlatAxioms.massive_line from causal (chronal) inverse charts. For E_0, trans is one application of BPrimeE0.exists_eqOn_rotE0_tauShift to e.symm.trans e' at e x (k = t); for E_kappa, kappa != 2 pi, of BPrimeEAlpha.prop_isom_local (k = s) (T-ett-line-development).",
+    "Inextensibility from the ends, ETT layer, no separation axiom: LineDevelopment.futureInextensible_of_not_tendsto_atTop, pastInextensible_of_not_tendsto_atBot, inextensible_of_not_tendsto (a causal curve of W over univ with no limit in W at +∞ / -∞). Locality of curves in the parameter: LineDevelopment.curveOn_of_local (any relation family), causalCurveIn_univ_of_local, chronalCurveOn_of_local. In a causal spacetime a locally injective causal curve over R is injective: LineDevelopment.injective_of_isCausal.",
+    "Every non-empty open preconnected I ⊆ R containing 0 is the range of a continuous strictly increasing phi : R -> R with phi 0 = 0: LineDevelopment.exists_strictMono_range_eq. It has four cases on BddBelow / BddAbove: a + (b - a) * Real.sigmoid, a + exp, b - exp (-t), id. Real.range_sigmoid, Real.sigmoid_strictMono and continuous_sigmoid (root namespace) are at this pin.",
+    "A cheap non-causal witness on any space: LineDevelopment.allRelated X, in which every two points of an open set are related, both ≤ and ≪. Every continuous map is a chronal curve of it (allRelated_chronalCurveOn). With the circle R/PZ (circle_isTranslationAtlas, circle_isLineDevelopment) it witnesses a periodic inextensible causal line (circle_line).",
+    "Pitfall, AddCircle at this pin: the period is an explicit argument of AddCircle.coe_zero P, coe_eq_zero_iff P, coe_add_period P t, coe_period (not of coe_add / coe_sub in rw). CompactSpace (AddCircle P) needs import Mathlib.Topology.Instances.AddCircle.Real, not .Defs. A def or a proof gluing two maps with `if t ∈ D` needs `classical` (or open Classical, kb/0145)."
+  ],
+  "notes": "Sorry-free, 1155 lines; `lake build CausalScaffold.LineDevelopment` succeeded (only this module built, nothing upstream rebuilt); namespace Causal.LineDevelopment, imports Causal.Inextensible, Mathlib.Analysis.SpecialFunctions.Sigmoid, Mathlib.Topology.Instances.AddCircle.Real; ETT layer (the Causal.* import closure, 15 modules, contains no MODEL_LAYER module nor Causal.CBG). No label is marked; lem:past_BTZ is cited unmarked (kb/0006), and the row stays partial: this is the model-free tool, and the fields at every manifold are T-ett-sfa-line-e0 (alpha = 0), T-ett-sfa-massive-line (alpha > 0), T-ett-singular-sfa. #print axioms (checked in a /tmp copy, deleted): exists_development, IsLineDevelopment.isClosedEmbedding, exists_line, exists_chronal_line, inextensible_of_not_tendsto, injective_of_isCausal, timelikeLine_line, timelikeLine_id_line, circle_line, circle_isLineDevelopment, circle_isTranslationAtlas, not_isClosedEmbedding_circle depend only on propext, Classical.choice, Quot.sound. Witnesses: the timelike line (S = R, one chart, gamma = id: timelikeLine_line, timelikeLine_chronal_line through exists_line / exists_chronal_line, timelikeLine_id_line with IsClosedEmbedding id), and the circle R/PZ (gamma = the quotient map, periodic and not injective; no closed embedding R -> R/PZ exists; with allRelated, not causal, gamma satisfies the conclusion of exists_line and is chronal, circle_line). The Causal.* namespace names introduced are new (grep: none in Causal/ or scaffold/). Untouched: Causal/InextensiblePiece.lean, Causal/Static.lean, Causal/Model/EAlphaCauchy.lean, scaffold/CausalScaffold/SFABTZ.lean (not read). Graduation: git mv to Causal/LineDevelopment.lean; the strict build has warningAsError, and the file already typechecks with -DwarningAsError=true."
+}
