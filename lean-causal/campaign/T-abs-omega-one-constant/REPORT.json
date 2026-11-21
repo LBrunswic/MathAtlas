@@ -1,0 +1,140 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-omega-one-constant",
+ "files": [
+  "scaffold/CausalScaffold/OmegaOneConstant.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "build": "pgrep -af 'lake build' empty before each build. taskset -c 0-11 lake build CausalScaffold.OmegaOneConstant: 'Built CausalScaffold.OmegaOneConstant' (1137 jobs, all Mathlib but this module); no Causal/ olean newer than a stamp taken before the build (find -newer). taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/OmegaOneConstant.lean prints nothing: strict-clean (no sorry, no warning, no linter hit). 435 lines, 23 declarations.",
+ "imports": [
+  "Mathlib.SetTheory.Cardinal.Cofinality.Club",
+  "Mathlib.SetTheory.Cardinal.Regular",
+  "Mathlib.SetTheory.Ordinal.Topology",
+  "Mathlib.Topology.Bases",
+  "Mathlib.Topology.Order.LeftRightNhds",
+  "Mathlib.Topology.Instances.Discrete",
+  "Mathlib.Order.Filter.EventuallyConst"
+ ],
+ "layer": 1,
+ "closure": {
+  "count": 0,
+  "modules": [],
+  "forbidden": [],
+  "how": "Mathlib imports only, no Causal import. Checked two ways. (1) tools/ladder.py: _lean_index on a scratch root holding only this file as Causal/OmegaOneConstant.lean gives imports [] and model_path(Causal.OmegaOneConstant) = None. All 23 declarations parse to their full names (DECL_FQ; no universe-annotated name, kb/0095), and none clashes with lean_index() of Causal/. (2) The compiled environment: a /tmp file importing CausalScaffold.OmegaOneConstant, env.header.moduleNames filtered on the prefixes Causal and CausalScaffold, gives [CausalScaffold.OmegaOneConstant] only (2723 modules in all, the rest Mathlib/Lean). So there is nothing under Causal.Minkowski, Static, Flat, Model, Port, SingularFlat, CBG, Splitting, LemmaK* or LevinUtility. Mathlib.Topology.Instances.Discrete is imported for nat_separates only (SecondCountableTopology ℕ)."
+ },
+ "axioms": {
+  "Causal.limitContinuous_of_continuous": "propext, Classical.choice, Quot.sound",
+  "Causal.continuous_iff_limitContinuous": "propext, Classical.choice, Quot.sound",
+  "Causal.LimitContinuous.exists_forall_ge_eq_of_separating": "propext, Classical.choice, Quot.sound",
+  "Causal.LimitContinuous.exists_forall_ge_eq": "propext, Classical.choice, Quot.sound",
+  "Causal.LimitContinuous.exists_forall_ge_eq_of_injective": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_forall_ge_eq_of_continuous": "propext, Classical.choice, Quot.sound",
+  "Causal.eventuallyConst_atTop_of_continuous": "propext, Classical.choice, Quot.sound",
+  "Causal.LimitContinuous.exists_forall_ge_eq_of_cof_ne_aleph0": "propext, Classical.choice, Quot.sound",
+  "Causal.aleph0_lt_cof_Iio_omega_one": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_isSuccLimit_ge_lt_omega_one": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_forall_ge_eq_of_continuous_omega_one": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_lt_omega_one_forall_eq": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_lt_omega_one_forall_eq_of_tendsto": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_lt_omega_one_forall_eq_of_continuousOn": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_lt_omega_one_forall_eq_family": "propext, Classical.choice, Quot.sound",
+  "Causal.nat_separates": "propext, Classical.choice, Quot.sound",
+  "Causal.t0Space_prop": "propext, Classical.choice, Quot.sound",
+  "Causal.isOpen_setOf_not_isSuccLimit": "propext, Classical.choice, Quot.sound",
+  "Causal.sierpinski_separates": "propext, Classical.choice, Quot.sound",
+  "Causal.countable_Iio_of_lt_omega_one": "propext, Classical.choice, Quot.sound",
+  "Causal.firstCountableTopology_Iio_omega_one": "propext, Classical.choice, Quot.sound",
+  "Causal.omega_one_id_separates": "propext, Classical.choice, Quot.sound"
+ },
+ "statement": {
+  "source": "programme/roadmap.toml, target T-abs-omega-one-constant (title and evidence). There is no paper and no ledger row; the consumer is T-abs-curves-extend-second-countable, step (2b).",
+  "printed": "A continuous map from ω₁ into a T1, second countable space is eventually constant: for g : ω₁ → Y continuous for the order topology (equivalently, g λ is the limit of g β, β → λ, at every limit λ < ω₁), some γ < ω₁ has g α = g γ for every α ≥ γ. Optionally, the same for any well-order of uncountable cofinality.",
+  "status": "proved as written, in the optional general form, and with each hypothesis shown needed; nothing marked (no label)",
+  "decls": [
+   "Causal.exists_forall_ge_eq_of_continuous_omega_one",
+   "Causal.exists_lt_omega_one_forall_eq",
+   "Causal.exists_lt_omega_one_forall_eq_family",
+   "Causal.LimitContinuous.exists_forall_ge_eq",
+   "Causal.LimitContinuous.exists_forall_ge_eq_of_separating",
+   "Causal.continuous_iff_limitContinuous"
+  ],
+  "hypotheses": [
+   {
+    "paper": "ω₁ with the order topology",
+    "here": "carried, and weakened",
+    "note": "Mathlib's ω₁ is the scoped notation Ordinal.omega 1 (open Ordinal; (ℵ₁).ord = ω₁ by Cardinal.ord_aleph). The ordinals below it, Iio (ω₁ : Ordinal.{u}), get OrderTopology from the subspace topology of Ordinal automatically (orderTopology_of_ordConnected), and ℵ₀ < Order.cof (Iio ω₁) holds (aleph0_lt_cof_Iio_omega_one: Ordinal.cof_Iio, Ordinal.lift_cof, Cardinal.cof_omega_one). (ω₁).ToType has no topology instance, so it was not used. The forms on g : Ordinal.{u} → Y read below ω₁ need no subtype. Weakened: any well order α with ℵ₀ < Order.cof α, or Order.cof α ≠ ℵ₀ if α is non-empty (…_of_cof_ne_aleph0). Cofinality ℵ₀ is refuted (nat_separates)."
+   },
+   {
+    "paper": "g continuous for the order topology",
+    "here": "carried, and weakened",
+    "note": "Continuous g (exists_forall_ge_eq_of_continuous_omega_one; ContinuousOn g (Iio ω₁) on Ordinal). Weakened: LimitContinuous g, at every successor limit a, ∀ U ∈ 𝓝 (g a), ∃ b < a, ∀ c ∈ (b, a), g c ∈ U. This needs no topology on the index and is the target's own 'equivalently': it is equivalent to continuity on a well order with its order topology (continuous_iff_limitContinuous), and implied by continuity on any linear order (limitContinuous_of_continuous)."
+   },
+   {
+    "paper": "Y T1",
+    "here": "carried; needed",
+    "note": "T0 is not enough (sierpinski_separates). Sierpiński space (Prop, {True} open) is T0 and second countable, and a ↦ ¬ IsSuccLimit a is a continuous map from Iio ω₁ that is not eventually constant (above every γ lie γ + 1 and the limit γ + ω)."
+   },
+   {
+    "paper": "Y second countable",
+    "here": "carried; weakened in one direction, needed in the other",
+    "note": "The proof uses only a countable family of open sets separating points in the T1 sense: x ≠ y gives some B i with x ∈ B i and y ∉ B i (LimitContinuous.exists_forall_ge_eq_of_separating). That is exactly a coarser T1, second countable topology, e.g. a continuous injection into a T1, second countable space (…_of_injective; the Sorgenfrey line qualifies). First countability does not replace it, even with T2: Iio ω₁ itself is T2 and first countable (firstCountableTopology_Iio_omega_one), and its identity is not eventually constant (omega_one_id_separates). 'A countable base at a point' fails the same way. Compactness does not replace it either (ω₁ ⊆ ω₁ + 1); that is said in SCOPE, not formalized."
+   },
+   {
+    "paper": "some γ < ω₁ with g α = g γ for every α ≥ γ",
+    "here": "carried",
+    "note": "∃ γ, ∀ a, γ ≤ a → g a = g γ with γ : Iio ω₁, or ∃ γ < ω₁, ∀ a, γ ≤ a → a < ω₁ → g a = g γ on Ordinal, or Filter.EventuallyConst g atTop (eventuallyConst_atTop_of_continuous)."
+   }
+  ],
+  "proof": "The target's sketch, verbatim in structure, in LimitContinuous.exists_forall_ge_eq_of_separating. Fix a countable separating family B. For each i, either g⁻¹(B i) contains a tail [γᵢ, →), or F i = {a | g a ∉ B i} is a club. It is cofinal, and closed under sups (DirSupClosed, Mathlib's form of closedness in Club.lean), because a supremum not attained is a successor limit (IsLUB.isSuccLimit_of_notMem) where LimitContinuous applies. The countably many γᵢ are strictly bounded by some γ₀, since a countable set is not cofinal when ℵ₀ < cof (Order.cof_le). ⋂ F i is a club by IsClub.iInter (cof ≠ ℵ₀, ι countable), so it has a point δ ≥ γ₀. For a ≥ γ₀, if g a ≠ g δ some B i contains g δ and misses g a. If i has a tail, then g a ∈ B i; otherwise δ ∈ F i, so g δ ∉ B i. Both are contradictions. So g a = g δ = g γ₀.",
+  "findings": [
+   "The target's statement (programme/roadmap.toml, T-abs-omega-one-constant title) is true as written. Its sketch (evidence) is the proof formalized, with no gap. Two strengthenings fall out of it. (i) Only a countable family of open sets separating points in the T1 sense is used, i.e. a coarser T1, second countable topology, not second countability itself. (ii) Any non-empty well order of cofinality ≠ ℵ₀ will do in place of ω₁.",
+   "Each hypothesis is sharp in the direction the dispatch asked. T1 cannot be weakened to T0 (Sierpiński space). Second countability cannot be weakened to first countability, even with T2 (the identity of ω₁). Cofinality ℵ₀ fails (ℕ)."
+  ],
+  "questions": [
+   "Reading of 'ω₁ with the order topology': taken as Iio (ω₁ : Ordinal.{u}) with the subspace topology of Ordinal, which Mathlib makes an OrderTopology. For maps on Ordinal, the reading is 'read below ω₁'. The general theorem covers every other model of ω₁ (e.g. (ω₁).ToType, with any order topology put on it). Universe-polymorphic in u; no reading is needed beyond this."
+  ]
+ },
+ "labels": [],
+ "extra_decls": [
+  "Causal.LimitContinuous",
+  "Causal.limitContinuous_of_continuous",
+  "Causal.continuous_iff_limitContinuous",
+  "Causal.LimitContinuous.exists_forall_ge_eq_of_separating",
+  "Causal.LimitContinuous.exists_forall_ge_eq",
+  "Causal.LimitContinuous.exists_forall_ge_eq_of_injective",
+  "Causal.exists_forall_ge_eq_of_continuous",
+  "Causal.eventuallyConst_atTop_of_continuous",
+  "Causal.LimitContinuous.exists_forall_ge_eq_of_cof_ne_aleph0",
+  "Causal.aleph0_lt_cof_Iio_omega_one",
+  "Causal.exists_isSuccLimit_ge_lt_omega_one",
+  "Causal.exists_forall_ge_eq_of_continuous_omega_one",
+  "Causal.exists_lt_omega_one_forall_eq",
+  "Causal.exists_lt_omega_one_forall_eq_of_tendsto",
+  "Causal.exists_lt_omega_one_forall_eq_of_continuousOn",
+  "Causal.exists_lt_omega_one_forall_eq_family",
+  "Causal.nat_separates",
+  "Causal.t0Space_prop",
+  "Causal.isOpen_setOf_not_isSuccLimit",
+  "Causal.sierpinski_separates",
+  "Causal.countable_Iio_of_lt_omega_one",
+  "Causal.firstCountableTopology_Iio_omega_one",
+  "Causal.omega_one_id_separates"
+ ],
+ "witness": "Positive: the theorem itself on Iio ω₁. Negative, one per hypothesis. nat_separates (cofinality ℵ₀): ℕ, no limits, so every map is LimitContinuous; its identity into the discrete T2, second countable ℕ is not eventually constant. sierpinski_separates (T1 → T0): Sierpiński space, T0 (t0Space_prop, not a Mathlib instance at this pin) and second countable, with g a = ¬ IsSuccLimit a continuous (isOpen_setOf_not_isSuccLimit). omega_one_id_separates (second countable → first countable, even T2): the identity of Iio ω₁ (T2 by instance; first countable by firstCountableTopology_Iio_omega_one, since every a < ω₁ has countably many predecessors, countable_Iio_of_lt_omega_one).",
+ "readme_row": "| `Causal.OmegaOneConstant` | — | ETT programme, layer 1, pure topology (T-abs-omega-one-constant; no paper label; Mathlib imports only). A map from a well order of uncountable cofinality into a T1, second countable space is eventually constant if it is continuous at limits (`LimitContinuous`, which is continuity for the order topology, `continuous_iff_limitContinuous`): `LimitContinuous.exists_forall_ge_eq`. The core asks only a countable T1-separating family of opens (`…_of_separating`, `…_of_injective`), and `cof ≠ ℵ₀` suffices. At ω₁: `exists_forall_ge_eq_of_continuous_omega_one`, `exists_lt_omega_one_forall_eq` (also `_of_tendsto`, `_of_continuousOn`, and `_family`, one bound for countably many maps), `exists_isSuccLimit_ge_lt_omega_one`. Each hypothesis is needed: cofinality ℵ₀ (`nat_separates`), T0 for T1 (`sierpinski_separates`), first countable and T2 for second countable (`omega_one_id_separates`). 2026-11-21 |",
+ "kb_proposals": [
+  "kb entry (pattern) 'Eventual constancy on ω₁ and on well orders of uncountable cofinality'. Causal.LimitContinuous g is continuity at limits, with no topology on the index, and equals continuity on a well order (continuous_iff_limitContinuous). Causal.LimitContinuous.exists_forall_ge_eq: on a well order with ℵ₀ < Order.cof α, such a map into a T1, second countable space is eventually constant. For g : Ordinal → M read below ω₁, use Causal.exists_lt_omega_one_forall_eq (the limit condition inline) or Causal.exists_lt_omega_one_forall_eq_family (countably many maps, one bound). Causal.exists_isSuccLimit_ge_lt_omega_one gives a limit in every tail. (T-abs-omega-one-constant)",
+  "kb entry (pattern) 'ω₁ and clubs at this pin'. ω₁ is the scoped notation Ordinal.omega 1 (open Ordinal). Iio (ω₁ : Ordinal.{u}) carries OrderTopology automatically (the subspace of Ordinal, orderTopology_of_ordConnected); (ω₁).ToType has no topology. Cofinality: Order.cof α for a type, Ordinal.cof for an ordinal; Ordinal.cof_Iio, Ordinal.lift_cof, Cardinal.cof_omega_one (= ℵ₁). IsClub (Mathlib/SetTheory/Cardinal/Cofinality/Club.lean) states closedness as DirSupClosed: from a closed set use IsLUB.mem_of_isClosed, from a limit condition use IsLUB.isSuccLimit_of_notMem. Countable sups below ω₁: Ordinal.iSup_lt_omega_one; ω₁ additively principal: Ordinal.isPrincipal_add_omega 1; countable predecessors: Causal.countable_Iio_of_lt_omega_one. (T-abs-omega-one-constant)",
+  "kb/0004 rows (pitfall, deprecations at fabf563a hit here): Ordinal.isOpen_singleton_iff becomes SuccOrder.isOpen_singleton_iff, and Ordinal.add_one_eq_succ becomes Order.succ_eq_add_one, with the sides reversed (succ x = x + 1). Sierpiński space is Prop (sierpinskiSpace, continuous_Prop, nhds_true, nhds_false); T0Space Prop is not an instance, use Causal.t0Space_prop. SecondCountableTopology ℕ needs Mathlib.Topology.Instances.Discrete. (T-abs-omega-one-constant)"
+ ],
+ "binder_rows": [],
+ "for_keeper": {
+  "consequences": [],
+  "fails": [],
+  "open_notes": [
+   "No ladder pair is settled by this module: pure topology, uses = []. It serves the 16 [[open]] pairs X → curves_extend only through T-abs-curves-extend-second-countable, as the roadmap says."
+  ]
+ },
+ "notes": "1. GRADUATION. The file is strict-clean (lake env lean -DwarningAsError=true prints nothing), has no sorry, and lives in namespace Causal. Graduation is a file move to Causal/OmegaOneConstant.lean, with no content change, since the file never names its own module. It is not imported by the scaffold root CausalScaffold.lean (kb/0025; I may not edit it), so the axiom sweep does not see it until graduation. #print axioms of all 22 theorems is above: propext, Classical.choice, Quot.sound. 2. LAYER 1. Mathlib imports only, and the compiled closure contains no Causal module (closure.how). 3. NAMES. All 23 were grepped against lean-causal/Causal (via lean_index), lean-causal/scaffold, lean-gx, lean-benzecri and Mathlib's sources: no clash, and no Mathlib root name is shadowed (kb/0016). The two other closers' files (NotchedPlane, RationalJumpPlane) were not opened, imported or built; they did not exist on disk when I listed the scaffold. 4. FOR T-abs-curves-extend-second-countable, THE STATEMENT TO CONSUME. Causal.exists_lt_omega_one_forall_eq_family, with ι the rationals of (0, 1) (any Countable type) and g q α := the point of M assigned to α for the rational q (junk for α ≥ ω₁: only α < ω₁ is read). Its hypothesis is the limit condition inline: ∀ q, ∀ a < ω₁, IsSuccLimit a → ∀ U ∈ 𝓝 (g q a), ∃ b < a, ∀ c, b < c → c < a → g q c ∈ U. Its conclusion gives one γ < ω₁ with g q α = g q γ for all q and all α ∈ [γ, ω₁). It is universe-polymorphic (ω₁ : Ordinal.{u}). Then exists_isSuccLimit_ge_lt_omega_one gives a limit λ ≥ γ below ω₁, and 'all q share one value' is g q γ = g q λ = c(s_λ). For a single map use Causal.exists_lt_omega_one_forall_eq. The step needs [T1Space M] [SecondCountableTopology M] only. 5. OBSTACLES I SEE IN STEP (2b), as evidence for the closer. None blocks it. (a) At a limit λ, s_λ must be the supremum of the earlier points carried into I_{i_{λ+1}}, as the evidence says. It is not the right end of the image of I_{i_λ}, which can be larger, because i_λ is only an upper bound of the earlier indices. So take the contradiction at a successor: for α + 2 ≥ γ, c_{i_{α+2}} is constant (value p) on a dense subset of (s_{α+1}, s_{α+2}), with s_{α+1} the right end of the image of I_{i_{α+1}} and s_{α+2} that of I_{i_{α+2}}, in the coordinates of I_{i_{α+3}}. By continuity and T1 (closed {p}) it is constant on the whole open interval. Pulled back, that interval is the final segment of I_{i_{α+2}} beyond s_{α+1}, non-degenerate by the right excess, which tail-freeness forbids. Tail-freeness speaks of END pieces only, so the contradiction must land on a final segment, and this is the one. (b) The limit condition at λ needs three things: every s_β and s_β^q (β < λ) carried into the one parameter interval I_{i_{λ+1}}, increasing in β; their supremum s_λ lying in I_{i_{λ+1}}, which the right excess of i_{λ+1} over i_λ gives (s_λ is at most the right end of the image of I_{i_λ}, which lies inside I_{i_{λ+1}}); and c_{i_{λ+1}} continuous at s_λ from the left. With s_β < s_β^q < s_{β+1} ≤ s_λ this is a squeeze, giving exactly the ∃ b < λ form above. (c) The negation of 'some i* is onto all later members' gives right excesses cofinally or left excesses cofinally. If neither held, the larger of the two witnesses would admit no excess beyond it, and the image would be onto, because an excess over i passes down to every i' ≤ i through the coherent composition. The left case is the right case with parameters reversed. (d) In Lean, the ω₁-recursion is cheapest on Ordinal, for instance with Ordinal.limitRecOn or WellFoundedLT.fix. Feed it two choice functions: next (an index with a right excess over a given index) and bound (an upper bound of a countable set of indices, by totality plus 'no countable cofinal set'). Ordinal.iSup_lt_omega_one bounds countable sets of countable ordinals. (e) To apply the theorem once to a map into M^ℚ instead (T1 and second countable as a countable product), state continuity rather than the limit condition (exists_forall_ge_eq_of_continuous_omega_one with continuous_pi). The family form avoids product topologies, and I recommend it. 6. Nothing marked. The docstring holds no label, so the ledger's 4000-character window is not used."
+}

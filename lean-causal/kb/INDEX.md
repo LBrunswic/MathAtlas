@@ -129,3 +129,6 @@ rediscover. One fact per entry.
 | [0121](entries/0121-det-of-explicit-linear-map.md) | pattern | The determinant of an explicit linear map of ℝ × ℝ × ℝ |
 | [0122](entries/0122-reflection-witness-oq82.md) | pattern | The reflection θ ↦ −θ of E₀: a chart isomorphism that SO₀ excludes |
 | [0123](entries/0123-ioo-mem-nhds-is-a-membership.md) | pitfall | `Ioo_mem_nhdsGT` is a set membership: state the `∀ᶠ` first |
+| [0124](entries/0124-eventual-constancy-omega-one.md) | pattern | Eventual constancy on ω₁ and on well orders of uncountable cofinality |
+| [0125](entries/0125-omega-one-and-clubs.md) | pattern | ω₁ and clubs at this Mathlib pin |
+| [0126](entries/0126-ordinal-deprecations-sierpinski.md) | pitfall | Ordinal deprecations, Sierpiński space and T0Space Prop at this pin |
