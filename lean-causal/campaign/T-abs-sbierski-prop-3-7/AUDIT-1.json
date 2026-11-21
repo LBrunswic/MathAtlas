@@ -1,0 +1,83 @@
+{
+ "target": "T-abs-sbierski-prop-3-7",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "mghdprop:EquivCha",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Read against Maximal_GHD2.tex:544-554 (statement) and 563-581 (proof), the LaTeX itself. (i) Corresponds U psi p q is Def 3.5's condition psi^-1(V' cap psi(U)) cap V != empty, with the boundary memberships dropped. Under T2, mem_frontier_of_corresponds recovers q in the frontier of V, so Lean >= paper. (ii) and (iii): TimelikeCurveIn U gamma a 0 with a < 0 means a future or past chronal curve of U over every closed segment of (a,0). Tendsto over nhdsWithin 0 (Iio 0) is lim_{s->0-}. A smooth timelike curve of U is chronal relative to U, so Lean (ii) quantifies over at least the paper's curves. The reading is disclosed (questions[1]) and is the library convention (Causal/LocateExtension.lean:60). sbierski_prop_3_7_i_imp_ii (elaborated type checked) assumes IsCorrPair, KSide for C, C.dual, D and D.dual with arbitrary S and Sing, D strongly causal and V causally convex. It does not assume p in the frontier of U, q in the frontier of V, convexity of U or a side of a Cauchy surface. Every one of these hypotheses follows from the paper's CGHD setting (U and psi(U) are causally convex GHDs, <= is closed, push-up, strong causality, Sing empty), and the CBG setting supplies them (CGHDData.isCorrPair, kSide_future/_past, causallyConvexIn'). KSide is not a hidden form of (ii). It is a statement about a single spacetime: push-up, causal, closed J+-, K- = I- and Z- at regular points, K- at singular points, density, separation by J+(S), compact J+(S) cap J-(x). It never mentions psi, the other spacetime or curves, and with S empty its S-fields are vacuous. No A3: the import closure has no Causal.CBG.* module, so neither Geometry nor germExt is reachable. Satisfiability is witnessed with a genuine curve on the timelike line (timelikeLine_sbierski_prop_3_7). The equivalence sbierski_prop_3_7 (TFAE, (i)/(ii)/(iii) as above) and sbierski_prop_3_7_unique add C.CausallyArcConnected and p regular. Both are disclosed as strengthened. The label is unmarked and the REPORT status is partial, which is correct. The docstring cites the label without the ** mark (the ledger regex finds no mark), and the ledger row is still 'none'."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SbierskiProp37.lean: exit 0, no output. lake build CausalScaffold.SbierskiProp37: success. grep sorry: 1 hit, the docstring line 14 'No `sorry`.' only. #print axioms on all 34 declarations of the module (probe under /tmp, deleted): each [propext, Classical.choice, Quot.sound]."
+ },
+ "layer1": {
+  "ok": true,
+  "notes": "The transitive Causal import closure is 25 modules (ArcConnected ... Subdivision), matching the REPORT. None is in tools/ladder.py MODEL_LAYER (Minkowski, Static, SingularFlat, Flat, Model, Port) and none is Causal.CBG.*. The only hits for metric, Lorentz, Geometry or germExt in the closure are in docstrings. No statement mentions a metric, a length or a geodesic. Hypotheses: IsCorrPair and KSide (the target's named setting, kb/0012), strong causality and push-up (in uses), causal convexity of V (a property of the setting). The ladder form uses push-up, GH and tarentin (in uses) plus D.CausallyArcConnected, a ladder node outside uses, which the REPORT discloses."
+ },
+ "counterexample": {
+  "genuine": true,
+  "notes": "lightlikeLine_sbierski_prop_3_7_iii_fails is the lightlike line (<< = False), with KSide lightlikeLine {0} univ (every point BTZ), IsCorrPair id on iioOne, strongly causal, causally arc-connected, iioOne causally convex, 1 in the frontier of iioOne and in J+{0}, and Corresponds 1 1. It shows that (iii) fails. Every hypothesis of sbierski_prop_3_7_future holds except hreg, so it is what the REPORT says. It witnesses the regularity hypothesis only: the lightlike line is causally arc-connected. Calling (ii) => (iii) dependent on arc-connectedness in ETT is still fair. The auditor's probe (/tmp, deleted, axioms standard) takes globalLine on R: le as the timelike line, lt U x y := x < y and U = top. It satisfies IsCorrPair id, KSide {0} with Sing empty (p = 1 regular), StronglyCausal, convexity, frontier and J+ membership, and Corresponds 1 1. No TimelikeCurveIn exists in iioOne, and the probe derives not CausallyArcConnected from sbierski_prop_3_7_future itself. So both added hypotheses are needed."
+ },
+ "paper_findings": [
+  {
+   "where": "Maximal_GHD2.tex:573/580",
+   "true": true,
+   "notes": "Line 573 and its footnote choose q' in V' cap I^-(p') (resp. W' cap I^-(p')). Line 580 sets q := psi^-1(q'), and the first claim (l.566) only identifies I^-(p') cap psi(U). As written nothing puts q' in psi(U): if V' is large, q' can sit in I^-(p') below psi(U), for example when psi(U) is thin to the past of the Cauchy surface. The repair is one line (shrink V' into I^+(Sigma'), or require q' >> psi(gamma(s0)), then use causal convexity of psi(U) with p' in its closure), so this is an omitted step, not a wrong result. The Lean does exactly this fix: q' in W cap I^-(q) cap I^+(psi(gamma s0)) (SbierskiProp37.lean:257-259), q' in V by Causality.mem_of_le_of_lt_of_mem_closure (:262-263), V causally convex."
+  },
+  {
+   "where": "Maximal_GHD2.tex:564",
+   "true": true,
+   "notes": "'ii) => iii) trivial' needs some timelike curve of U ending at p. In the smooth setting one exists (a past timelike curve from p meets the Cauchy surface inside U, and causal convexity keeps it in U), so 'trivial' is defensible and the REPORT rightly asks only that it be said. The BTZ failure is about ETT's singular extension, and the REPORT says so explicitly."
+  },
+  {
+   "where": "Maximal_GHD2.tex:564-571 (third REPORT finding)",
+   "true": true,
+   "notes": "A remark on proof economy (the WLOG, the t'_i sequence and the interpolant s are not needed), not an error claim. It holds because the kernel-checked proof does not use them."
+  }
+ ],
+ "mark_question": "Leaving the label unmarked with status partial is correct. Would a mark be legitimate if the author rules arc-connectedness carried (questions[0])? Only partly. p regular costs nothing in the paper (SingM = SingM' = empty), and the chronal-curve reading (questions[1]) is library convention. But the row 'U a CGHD, psi an isometric embedding -> replaced by IsCorrPair + four KSide + convexity' would still stand. Smooth spacetimes are not in Lean, and kb/0012 says rows that carry model facts as named hypotheses are partial and never marked. So a mark needs the arc-connectedness ruling and also the author's acceptance of that abstraction of the smooth setting, or its layer-3 discharge (smooth-vacuum, T-pkg-smooth-lorentz). It is the author's decision.",
+ "scope": {
+  "ok": true,
+  "notes": "Of this target's paths, git status --short shows only ?? lean-causal/scaffold/CausalScaffold/SbierskiProp37.lean and ?? lean-causal/campaign/T-abs-sbierski-prop-3-7/. The other entries belong to the master or other lanes and contain nothing of this module: programme/roadmap.toml (status flips), roadmap/roadmap.toml, tests/test_programme.py, tools/binder.py, tools/ladder.py, tools/fixtures/ladder/, and the sibling Nested* files and campaigns."
+ },
+ "graduation": {
+  "ok": true,
+  "notes": "Together with import Causal, import CausalScaffold and the siblings CausalScaffold.NestedConverse and NestedTransfer, the module elaborates with exit 0: no name clash. None of its new names occurs elsewhere in Causal/ or scaffold/. There is no Causal/SbierskiProp37.lean yet. Namespaces are Causal.Causality and Causal.CBG, as in Causal.CorrespondingPoints. It is warning-free under -DwarningAsError=true (kb/0015 item 1). The scaffold root does not import it yet (kb/0025, see findings)."
+ },
+ "docstring": {
+  "ok": true,
+  "notes": "kb/0006: title; label cited unmarked with Maximal_GHD2.tex:544 at character 262; '>' quotes of l.546-553 and l.569-580, verbatim against the LaTeX; Hypothesis checklist with carried/weakened/strengthened/replaced rows; SCOPE (disclosed); Provenance line. SCOPE claims checked: (ii)=>(iii) needs a curve; the q' in psi(U) repair is at :256-263; the first claim is used only at the curve's points and q'; Z- at q comes from KSide or from arc-connectedness of N."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/SbierskiProp37.lean:77-84, :646-669; REPORT.json labels[0].reason/findings[1]",
+   "what": "The strengthened row of (ii) => (iii) names two added hypotheses, C.CausallyArcConnected and p regular, but its only witness, lightlikeLine_sbierski_prop_3_7_iii_fails, is causally arc-connected, so it shows only that regularity is needed. The dispatch summary pairs this counterexample with arc-connectedness. The claim is true (the auditor's globalLine probe: lt U x y := x < y and U = top fails only arc-connectedness, at a regular p), but the file does not witness it.",
+   "fix": "Optional: add a second witness for the arc-connectedness half (globalLine as above), or say in SCOPE and the REPORT that the lightlike witness covers p regular only."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/SbierskiProp37.lean:71 vs :72",
+   "what": "The checklist files D.CausallyArcConnected in the ladder form under 'carried' (row q' in V' cap I^-(p')), but files C.CausallyArcConnected in the equivalence under 'strengthened'. Both are outside the target's uses and both stand for the same paper fact (<< realised by timelike curves, l.558).",
+   "fix": "File the ladder form's arc-connectedness of N as strengthened (outside uses) too, or let the ruling on questions[0] settle both rows at once."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-sbierski-prop-3-7/REPORT.json questions[0], notes (2)",
+   "what": "'If the author rules it carried, sbierski_prop_3_7 ... certifies the label in full, and the mark is a one-word docstring change' overstates. The 'replaced' row (IsCorrPair + KSide x4 + convexity standing for the smooth CGHD setting) would remain, and kb/0012 keeps rows that carry model facts as named hypotheses partial and unmarked.",
+   "fix": "Reword the question to the author: a mark needs the arc-connectedness ruling and acceptance of the KSide/IsCorrPair abstraction of the smooth setting (or its layer-3 discharge), on the chronal-curve reading of questions[1]."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold.lean",
+   "what": "The scaffold root does not import CausalScaffold.SbierskiProp37, so scripts/AxiomSweep.lean cannot see it (kb/0025). The closer disclosed this; editing the root is the master's job.",
+   "fix": "Master: add the import, or graduate the file to Causal/ and add it to Causal.lean (kb/0015)."
+  }
+ ]
+}

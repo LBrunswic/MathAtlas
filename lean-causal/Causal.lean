@@ -231,6 +231,7 @@ import Causal.Model.CurvesExtendModels
 import Causal.Model.InjectiveMinkowski
 import Causal.NestedConverse
 import Causal.NestedTransfer
+import Causal.SbierskiProp37
 
 /-!
 # Causal — topological spacetimes

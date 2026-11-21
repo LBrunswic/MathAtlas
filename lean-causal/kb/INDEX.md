@@ -76,3 +76,4 @@ rediscover. One fact per entry.
 | [0068](entries/0068-port-type-check-and-omit.md) | pattern | Checking a gx → Causal port by elaborated types; omit changes types |
 | [0069](entries/0069-rational-line.md) | pattern | The rational line: absolutely minimal, push-up, only constant causal curves |
 | [0070](entries/0070-spacelike-line-not-tarentin.md) | pattern | The spacelike line is GH and not tarentin; transfers that read only ≤ need ≤ at M only |
+| [0071](entries/0071-sbierski-prop-3-7-a3-free.md) | pattern | Sbierski Prop 3.7 (i) ⇒ (ii) without A3; (iii) fails at BTZ points |

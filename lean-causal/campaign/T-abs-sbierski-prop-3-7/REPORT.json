@@ -1,0 +1,152 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-sbierski-prop-3-7",
+ "files": [
+  "scaffold/CausalScaffold/SbierskiProp37.lean"
+ ],
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake build CausalScaffold.SbierskiProp37: success, only this module rebuilt (1.4 s); `lake env lean` prints no error and no warning",
+ "sorry_count": 0,
+ "axioms": "all 34 declarations of the module: [propext, Classical.choice, Quot.sound] (swept from the built olean)",
+ "layer": "imports Causal.CorrespondingPoints and Causal.LocateExtension only; transitive closure 25 Causal modules, none of Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.*, Causal.Port.*, Causal.CBG.*. No metric notion. No A3: no declaration of Causal.CBG.Geometry or germExt_* is used.",
+ "target_result": {
+  "status": "closed",
+  "what": "Sbierski Prop 3.7 (i) => (ii) is proved in full, model-free, A3-free: Causal.CBG.sbierski_prop_3_7_i_imp_ii (IsCorrPair, KSide of both time directions on both spacetimes with arbitrary sets, D strongly causal, V causally convex; every timelike curve of U over (a,0), future or past, ending at p; no side of a Cauchy surface, no p in the frontier of U, no q in the frontier of V, no convexity of U). Ladder-only form without KSide: Causal.CBG.sbierski_prop_3_7_i_imp_ii_ladder (push-up, GH, tarentin on both sides, N causally arc-connected, Hausdorff). Hypotheses used from the target's uses: strongly_causal (or globally_hyperbolic + tarentin), push_up; closed J+- and Z- at q come from KSide (the target's setting) or, in the ladder form, from GH + tarentin and from causal arc-connectedness of N."
+ },
+ "labels": [
+  {
+   "label": "mghdprop:EquivCha",
+   "tex_lines": [
+    544,
+    554
+   ],
+   "proof_lines": [
+    563,
+    581
+   ],
+   "status": "partial",
+   "marked": false,
+   "reason": "The label is the whole proposition: (i) <=> (ii) <=> (iii) and 'at most one corresponding boundary point'. (i) => (ii), the target, is proved in full with no hypothesis beyond the target's uses and the KSide setting. (iii) => (i) is the library's Causal.CBG.corresponds_of_tendsto. (ii) => (iii), which the paper calls trivial (Maximal_GHD2.tex:564), needs a timelike curve of U ending at p: here C.CausallyArcConnected (outside the target's uses) and p regular (p not in Sing; Sing is empty in the paper's smooth setting). The uniqueness clause is proved through it (sbierski_prop_3_7_unique) or, without arc-connectedness, by the library's IsCorrPair.eq_of_corresponds under q, q' in the frontier of V and in J+(psi S). Hence partial and not marked; see questions[0] for the ruling that would make it closed.",
+   "decls": [
+    "Causal.CBG.sbierski_prop_3_7_i_imp_ii",
+    "Causal.CBG.sbierski_prop_3_7_i_imp_ii_of_globallyHyperbolic",
+    "Causal.CBG.sbierski_prop_3_7_i_imp_ii_ladder",
+    "Causal.CBG.IsCorrPair.tendsto_comp_of_kSide",
+    "Causal.CBG.IsCorrPair.tendsto_comp_of_kSide_past",
+    "Causal.CBG.IsCorrPair.tendsto_comp_of_chain",
+    "Causal.CBG.IsCorrPair.tendsto_comp_of_chronalCurveOn",
+    "Causal.CBG.IsCorrPair.tendsto_comp_of_chronalCurveOn_past",
+    "Causal.CBG.IsCorrPair.tendsto_comp_of_chronalCurveOn_kSide",
+    "Causal.CBG.IsCorrPair.tendsto_comp_of_chronalCurveOn_ladder",
+    "Causal.CBG.IsCorrPair.lt_of_tendsto_of_chain",
+    "Causal.CBG.sbierski_prop_3_7",
+    "Causal.CBG.sbierski_prop_3_7_future",
+    "Causal.CBG.sbierski_prop_3_7_past",
+    "Causal.CBG.sbierski_prop_3_7_unique",
+    "Causal.CBG.eq_of_corresponds_of_timelikeCurveIn",
+    "Causal.CBG.KSide.exists_timelikeCurveIn_tendsto",
+    "Causal.Causality.TimelikeCurveIn",
+    "Causal.CBG.timelikeLine_sbierski_prop_3_7",
+    "Causal.CBG.timelikeLine_sbierski_prop_3_7_ladder",
+    "Causal.CBG.lightlikeLine_sbierski_prop_3_7_iii_fails"
+   ],
+   "hypotheses": [
+    {
+     "paper": "U a CGHD of M and M', psi an isometric embedding (:546)",
+     "here": "replaced",
+     "note": "named hypotheses: IsCorrPair C D U V psi g (psi : U -> V with continuous inverse, carrying <= and << of M onto those of N), KSide (kb/0012), V causally convex (U too in the WLOG forms and the equivalence); supplied in the CBG setting by CGHDData.isCorrPair, kSide_future/kSide_past, causallyConvexIn/causallyConvexIn'"
+    },
+    {
+     "paper": "p in the frontier of U, p' in the frontier of psi(U) (:549)",
+     "here": "weakened",
+     "note": "not used by (i) => (ii); p in the frontier of U is carried in the equivalence"
+    },
+    {
+     "paper": "WLOG p, p' to the future of the Cauchy surfaces (:564, with its footnote)",
+     "here": "weakened",
+     "note": "not needed: sbierski_prop_3_7_i_imp_ii treats both time orientations with no side condition; the WLOG forms tendsto_comp_of_kSide(_past) ask p in J+(S) (resp. J-(S)) only"
+    },
+    {
+     "paper": "timelike curve gamma : (-eps, 0) -> U (:550)",
+     "here": "carried",
+     "note": "Causality.TimelikeCurveIn C U gamma a 0, a < 0: a future or past chronal curve of U over every segment of (a, 0); the core asks only a chronological chain"
+    },
+    {
+     "paper": "<= closed on globally hyperbolic manifolds (O'Neill 14.22, :569)",
+     "here": "carried",
+     "note": "KSide.isClosed_Jplus/_Jminus, or GH + tarentin (GloballyHyperbolic.isClosed_Jplus_singleton) in the ladder form; only J+- of points of U and V are used"
+    },
+    {
+     "paper": "psi(q) << psi(s) <= p' gives psi(q) << p' (O'Neill 10.46, :571)",
+     "here": "carried",
+     "note": "push-up on both spacetimes"
+    },
+    {
+     "paper": "a sequence t'_i >> p' tending to p' (:568-569)",
+     "here": "weakened",
+     "note": "not used: closedness of J+(psi x) directly (IsCorrPair.le_of_corresponds)"
+    },
+    {
+     "paper": "an s in U with q << s << p (:571)",
+     "here": "weakened",
+     "note": "on M's side the curve's own later points are the interpolants; no Z- at p"
+    },
+    {
+     "paper": "M' strongly causal (:573)",
+     "here": "carried",
+     "note": "D.StronglyCausal; from GH + tarentin + Hausdorff in _of_globallyHyperbolic and _ladder"
+    },
+    {
+     "paper": "a q' in V' cap I-(p') (:573 footnote), and 'the other inclusion follows by symmetry' (:571)",
+     "here": "carried",
+     "note": "q in Z-(N): KSide.mem_Zminus at a regular point (q is regular because psi(gamma s) << q and KSide.Iminus_sing), or causal arc-connectedness of N (CausallyArcConnected.mem_Zminus_iff) in the ladder form"
+    },
+    {
+     "paper": "(ii) => (iii) 'trivial' (:564)",
+     "here": "strengthened",
+     "note": "a timelike curve of U ending at p: C.CausallyArcConnected and p not in Sing (KSide.exists_timelikeCurveIn_tendsto); at a BTZ point no such curve exists"
+    },
+    {
+     "paper": "manifolds Hausdorff (uniqueness, :553)",
+     "here": "carried",
+     "note": "[T2Space N] in sbierski_prop_3_7_unique and eq_of_corresponds_of_timelikeCurveIn"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Maximal_GHD2.tex:573 and :580: 'q := psi^{-1}(q')' needs q' in psi(U), which the choice 'q' in V' cap I^-(p')' (footnote at :573) does not give; the first claim (:566) only identifies I^-(p') cap psi(U). Repair used here: take q' in I^+(psi(gamma(s_0))) as well, so that causal convexity of psi(U) (with p' in its closure) puts q' in psi(U) (Causality.mem_of_le_of_lt_of_mem_closure); in the paper's setting one may instead shrink V' into J^+ of the Cauchy surface.",
+    "Maximal_GHD2.tex:564: '(ii) => (iii) [is] trivial' presupposes a timelike curve of U ending at p. In the smooth setting this holds (a point of I^-(p) in U, joined to p by a timelike curve); it should be said. In ETT it needs causal arc-connectedness and a regular p, and at a BTZ point (i) => (iii) is false: lightlikeLine_sbierski_prop_3_7_iii_fails (the lightlike line, every point singular, p = q = 1 corresponding, no chronal curve at all). This is about ETT's singular extension, not about Sbierski's smooth statement, but it matters for the binder's flat-gx row: there the equivalence holds at regular points only.",
+    "Maximal_GHD2.tex:564 (WLOG and its footnote) and :566-571 (the identity psi(I^-(p) cap U) = I^-(p') cap psi(U), the sequence t'_i >> p', the interpolant s): none is needed for (i) => (ii). The proof needs psi(gamma(s)) << p' at the curve's points and one point q' of psi(U) cap I^-(p') near p' with psi^{-1}(q') << p; both time orientations are handled at once, with no side of the Cauchy surface (sbierski_prop_3_7_i_imp_ii), and the curve may be any chronological chain (tendsto_comp_of_chain)."
+   ],
+   "questions": [
+    "Is causal arc-connectedness of M part of Prop 3.7's setting? The paper defines p << q by future directed timelike curves (Maximal_GHD2.tex:558), whose ETT form is def:causal_arc_connectedness (T-abs-locate-extension carried it the same way, as 'timelike curves realise <<'); but it is not in this target's uses. Reading taken: an added hypothesis (strengthened), so the label is partial and unmarked. If the author rules it carried, sbierski_prop_3_7 (with sbierski_prop_3_7_i_imp_ii and sbierski_prop_3_7_unique, at regular points, Sing empty in the paper) certifies the label in full, and the mark is a one-word docstring change.",
+    "Reading of 'timelike curve gamma : (-eps, 0) -> U' (:550): a future or a past chronal curve of the open set U over every closed segment of (-eps, 0) (Causality.TimelikeCurveIn), both orientations as 'timelike' covers both (the convention of Causal.LocateExtension).",
+    "Reading of the point q' in V' cap I^-(p') (:573 footnote): it is the strongly tarentin property of p' in the past (Z-, def:strongly_tarentin_point), supplied by KSide.mem_Zminus or by causal arc-connectedness of N. Whether (i) => (ii) holds with the ladder node tarentin (def:tarentin_spacetime) in place of Z- at p' is not settled here (open)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.TimelikeCurveIn",
+  "Causal.Causality.dual_timelikeCurveIn",
+  "Causal.Causality.TimelikeCurveIn.mem",
+  "Causal.Causality.lt_of_tendsto_of_chain",
+  "Causal.Causality.mem_of_le_of_lt_of_mem_closure",
+  "Causal.Causality.false_of_tendsto_past",
+  "Causal.Causality.exists_chronalCurve_tendsto",
+  "Causal.CBG.IsCorrPair.mem_closure_target_of_corresponds",
+  "Causal.CBG.KSide.exists_timelikeCurveIn_tendsto",
+  "Causal.CBG.timelikeLine_chronalCurveOn_add",
+  "Causal.CBG.timelikeLine_Iplus_singleton",
+  "Causal.CBG.timelikeLine_kSide_past",
+  "Causal.CBG.timelikeLine_timelikeCurveIn",
+  "Causal.CBG.tendsto_one_add_nhdsLT",
+  "Causal.CBG.lightlikeLine_not_timelikeCurveIn"
+ ],
+ "kb_proposals": [
+  "Sbierski Prop 3.7 (i) => (ii) is ETT-layer and A3-free (CausalScaffold.SbierskiProp37): Causal.CBG.sbierski_prop_3_7_i_imp_ii (KSide form, both time orientations, no side of a Cauchy surface) and _ladder (push-up, GH, tarentin, N causally arc-connected); the core IsCorrPair.tendsto_comp_of_chain works for chronological chains. A smooth-vacuum discharge of A3 following Sbierski may use them (T-abs-sbierski-prop-3-7).",
+  "Z- at a point from causal arc-connectedness: CausallyArcConnected.mem_Zminus_iff (Causal.LocateExtension) turns I-(q) nonempty into q in Z-; it replaces KSide.mem_Zminus when only strongly tarentin points are needed (T-abs-sbierski-prop-3-7).",
+  "A point of I-(q) above a point of a causally convex V, with q in closure V, lies in V with no countability (Causality.mem_of_le_of_lt_of_mem_closure); the library's Kminus_inter_Jplus_subset_of_causallyConvexIn asks first countability (T-abs-sbierski-prop-3-7).",
+  "No timelike curve ends at a BTZ point (I- empty), so Sbierski Prop 3.7 (i) <=> (iii) fails at BTZ points in ETT: lightlikeLine_sbierski_prop_3_7_iii_fails; the equivalence holds at regular points under causal arc-connectedness (sbierski_prop_3_7) (T-abs-sbierski-prop-3-7)."
+ ],
+ "notes": "One new file, scaffold/CausalScaffold/SbierskiProp37.lean (module CausalScaffold.SbierskiProp37, namespace Causal), sorry-free and warning-free; no existing file edited. (1) The scaffold root scaffold/CausalScaffold.lean does not import it (not mine to edit): per kb/0025 add `import CausalScaffold.SbierskiProp37`, or graduate it to Causal/ (no sorry, no reading inside the proofs; the only reading is the label's mark). (2) The module docstring marks nothing; it cites `mghdprop:EquivCha` at character 262. If questions[0] is ruled 'carried', change it to **`mghdprop:EquivCha`** and move the arc-connectedness row of the checklist to carried. (3) Outdated after graduation: Causal.CorrespondingPoints SCOPE ('Prop 3.7 (ii) is not here ... not formalized') and Causal.CBG.Corresponding:92-96, and the binder note of mghdprop:EquivCha ('(i) => (ii) is in Lean only through A3'); the binder's ett list can cite Causal.CBG.sbierski_prop_3_7_i_imp_ii (and _ladder, sbierski_prop_3_7, sbierski_prop_3_7_unique). (4) In the CBG setting every hypothesis of sbierski_prop_3_7 is available (CGHDData.isCorrPair, kSide_future/kSide_past, causallyConvexIn/causallyConvexIn', SingularFlatAxioms.causallyArcConnected, GloballyHyperbolic.stronglyCausal), except regularity of p, which fails at BTZ points. (5) The other two closers' files (NestedConverse, NestedTransfer) were not touched; no name of this module occurs elsewhere in Causal/ or scaffold/."
+}
