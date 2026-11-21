@@ -138,6 +138,9 @@ import Causal.Flat.GerochFlat
 import Causal.Flat.CBGCompact
 import Causal.SubExtension
 import Causal.GXSingular
+import Causal.Port.Portly
+import Causal.Port.SingularAtlas
+import Causal.GXSingularDEC25
 import Causal.SingularGeroch
 import Causal.CBG.CausalConvex
 import Causal.CBG.Geometry

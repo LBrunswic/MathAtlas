@@ -1,0 +1,185 @@
+{
+  "package": "T-ett-gxsingular-dec25",
+  "target": "T-ett-gxsingular-dec25",
+  "files": [
+    "scaffold/CausalScaffold/Port/Portly.lean",
+    "scaffold/CausalScaffold/Port/SingularAtlas.lean",
+    "scaffold/CausalScaffold/GXSingularDEC25.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "prop:GX_sing_espace_temps_topo",
+      "tex_lines": [
+        616,
+        633
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.existsUnique_causality_singularGX_dec25",
+        "Causal.existsUnique_causality_singularGX_dec25_of_isAEMorphism",
+        "Causal.forall_exists_causality_singularGX_iff",
+        "Causal.IsAEChart",
+        "Causal.isAEChart_iff_isAEMorphism",
+        "Causal.chartIso_model_of_subset_reg",
+        "Causal.chartIso_of_isAEChart_of_subset_reg",
+        "Causal.ChartIso.agreeOn_of_mem_aeAtlas",
+        "Causal.ChartIso.agreeOn_of_isAEChart",
+        "Causal.ChartIso.agreeOn_of_isAEChart_of_isAEChart",
+        "Causal.eq_of_agreeOn_locally",
+        "Causal.singularGX_dec25_line"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(G,X,X_A) an analytic singular structure (l.616)",
+          "here": "weakened",
+          "note": "LocallyConnectedSpace X (T2Space X, IsRigidAction G X only for the gx bridge and the gx-style corollary); the analyticity of the family of models (gx's IsAnalyticModelFamily) is not used"
+        },
+        {
+          "paper": "(M,A) a (G,X,X_A)-manifold (l.617)",
+          "here": "carried",
+          "note": "DEC-25: [SingularGXStructure G X M], the ported maximal a.e. (G,X)-atlas; the X_A-part weakened: only the singular points of M need an X_A-chart (hcov), where gx's X_A-atlas covers M and its charts have connected image and a centre sent into S_alpha; gx-style form existsUnique_causality_singularGX_dec25_of_isAEMorphism takes gx's (U, V, phi : U =~ V, IsAEMorphism phi) at each singular point"
+        },
+        {
+          "paper": "the charts (U,Y,V,phi) of A (l.622)",
+          "here": "read",
+          "note": "every chart of the maximal a.e. atlas (into X) and every IsAEChart into a model space (an a.e. isomorphism of an open subset of M onto an open subset of a model, = gx's notion by isAEChart_iff_isAEMorphism); question 2"
+        },
+        {
+          "paper": "(a) X causally arc-connected, G acts by morphisms (l.619)",
+          "here": "carried",
+          "note": "ha, hG (strong morphisms, DEC-12)"
+        },
+        {
+          "paper": "(a) X Baire (l.619)",
+          "here": "weakened",
+          "note": "not used (OQ-10)"
+        },
+        {
+          "paper": "(b) X_alpha causally arc-connected (l.620)",
+          "here": "carried",
+          "note": "hb"
+        },
+        {
+          "paper": "(b) the causality of X_alpha extends the natural causality of reg(X_alpha) (l.620)",
+          "here": "carried",
+          "note": "hreg: every chart of the maximal a.e. atlas of X_alpha is an isomorphism onto X; implied by (b) (the natural causality of reg(X_alpha) makes every chart of its maximal atlas an isomorphism, and these are the charts of the maximal a.e. atlas, IsMaximalAEAtlas.mem_of_compatible), equivalent to it given hb and OQ-18's uniqueness; the reading of the graduated Causal.GXSingular, now over gx's atlases"
+        },
+        {
+          "paper": "(none)",
+          "here": "strengthened",
+          "note": "(b'), hiso: every a.e. isomorphism between open subsets of the model spaces (IsAEChart G X psi, psi : X_a -> X_b, DEC-62's local form) is an isomorphism of topological spacetimes (ChartIso (DY a) (DY b) psi). It is exactly what the conclusion needs: forall_exists_causality_singularGX_iff (under (a), (b), existence for every such M iff (b')); at regular sources it holds anyway (chartIso_model_of_subset_reg)"
+        },
+        {
+          "paper": "unique topological spacetime structure (l.622)",
+          "here": "strengthened",
+          "note": "unique among absolutely minimal causalities (OQ-18, open); one isomorphic chart at each point suffices for uniqueness"
+        },
+        {
+          "paper": "topological spacetimes second countable, Hausdorff",
+          "here": "weakened",
+          "note": "not used"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:631-632: hypothesis (B) is justified by 'transition maps are restrictions of elements of G and of isomorphisms of the model spaces', which treats the isomorphisms of the model spaces as isomorphisms of topological spacetimes; neither (a) nor (b) (l.619-620) says so, (b) fixing the causality of X_alpha on reg(X_alpha) only. Under DEC-25 the transition between two X_A-charts at a singular point is an a.e. isomorphism between open subsets of models (IsAEChart.trans, IsAEChart.symm). Lean: under (a) and (b), the proposition's existence half holds for every singular (G,X)-manifold whose singular points lie in X_A-charts iff every such isomorphism is an isomorphism of topological spacetimes (forall_exists_causality_singularGX_iff; take M = X_alpha with its identity chart). Suggested addition to (b): 'and every isomorphism between open subsets of the model spaces is an isomorphism of topological spacetimes'. No Lean counterexample to the printed form: lean-causal has no singular (G,X)-structure with a singular point (gx's BTZ models are not ported). Informally (not formalized): one singular model carrying two causal arc-connected causalities which agree on its regular part and differ at a singular point gives two models satisfying (b) with the identity an a.e. isomorphism between them and no causality making both identity charts isomorphisms; an analytic family (gx's def:family_singular_manifolds_endowed) forbids that between distinct models at points of S_alpha, but constrains neither the automorphisms of one model nor the points of sing(X_alpha) outside S_alpha.",
+        "ETT.tex:628-632 (carried over from Causal.GXSingular, now over gx's atlases): the second half of (b) is what (B) needs across a chart into X and an X_A-chart (ChartIso.agreeOn_of_isAEChart: at a regular point the X_A-chart reads, in charts of the maximal atlases, as an element of G), and the proof cites (b) for (A) only.",
+        "Uniqueness: as for prop:GX_espace_temps_topo, false in the library's gluing-free reading of defi:causalite, proved among absolutely minimal causalities (OQ-18).",
+        "(C) Baire is not needed (OQ-10); the analyticity of (G,X) is used only as local connectedness of X (and T2 + rigidity for the bridge to gx's subtype notion); the analyticity of the family of models is not used.",
+        "Non-vacuity: singularGX_dec25_line instantiates every hypothesis (a), (b), (b'), the covering of the singular locus, on M = R with one model R (translations, timelike line) and proves the causality produced is the timelike line; its singular locus is empty, so (b') is exercised only at regular points."
+      ],
+      "questions": [
+        "Is (b') -- every isomorphism between open subsets of the model spaces is an isomorphism of topological spacetimes -- part of what 'analytic singular structure (G,X,X_A)' or 'model space' means (the thesis), or should (b) state it? Reading taken: an added hypothesis, in DEC-62's local form; the row stays partial. Lean shows it is necessary and sufficient given (a), (b).",
+        "Which charts are 'the charts (U,Y,V,phi) of A' of a (G,X,X_A)-manifold? Reading taken: the maximal atlas, as DEC-16 for (G,X)-manifolds: every chart of the maximal a.e. atlas and every a.e. isomorphism of an open subset of M onto an open subset of a model; gx's X_A-charts (connected image, centred at a point sent into S_alpha) are among them, so the conclusion covers them, and the hypothesis asks charts only at singular points. Over a given X_A-atlas only, the conclusion is weaker.",
+        "Uniqueness rests on OQ-18 (open): proved among absolutely minimal causalities."
+      ]
+    },
+    {
+      "label": "rem:hypotheses_proposition_prop_gx",
+      "tex_lines": [
+        635,
+        637
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.strongMorphism_of_isAEMorphism_of_isLocalHomeomorph",
+        "Causal.isAEChart_of_isAEMorphism_of_isLocalHomeomorph",
+        "Causal.ChartIso.rel_iff_of_trans",
+        "Causal.ChartIso.local_rel_of_trans",
+        "Causal.strongMorphism_of_isAEMorphism",
+        "Causal.strongMorphism_of_isRegularOn_univ",
+        "Causal.weakMorphism_local_of_isRegularOn",
+        "Causal.weakMorphism_iff_of_isAEMorphism"
+      ],
+      "hypotheses": [
+        {
+          "paper": "under the hypotheses of prop:GX_sing_espace_temps_topo (l.635)",
+          "here": "carried",
+          "note": "as the proposition's conclusion for M and N: causalities C, C' making every chart of the maximal a.e. atlases and every X_A-chart an isomorphism, C absolutely minimal, the singular points of N in X_A-charts (existsUnique_causality_singularGX_dec25 produces them under (a), (b), (b')); (b') itself is not used again"
+        },
+        {
+          "paper": "branched (G,X)-morphism (l.636)",
+          "here": "read",
+          "note": "DEC-25: an a.e. (G,X)-morphism, gx's IsAEMorphism (ported)"
+        },
+        {
+          "paper": "every branched (G,X)-morphism (l.636)",
+          "here": "strengthened",
+          "note": "f a local homeomorphism (unbranched), singular points allowed: strongMorphism_of_isAEMorphism_of_isLocalHomeomorph; without singular points (Sing M = empty, f(M) in Reg N) with (a) alone: strongMorphism_of_isAEMorphism; at branch points open"
+        },
+        {
+          "paper": "morphism of topological spacetimes (l.636)",
+          "here": "read",
+          "note": "strong morphism (DEC-10/DEC-12) where proved; the reduction weakMorphism_iff_of_isAEMorphism is for weak morphisms (no openness is known at branch points)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:635-637: the remark gives no proof. Under DEC-25 it holds for every a.e. (G,X)-morphism which is a local homeomorphism, singular points included: near x, f is an a.e. isomorphism chart e, and e followed by a chart of N at f(x) (of the maximal atlas if f(x) is regular, an X_A-chart if not) is a chart of M at x, so the proposition's causalities make f a local isomorphism (strongMorphism_of_isAEMorphism_of_isLocalHomeomorph). At a branch point f is not a local homeomorphism, does not read in charts as an isomorphism of model spaces, and nothing in (a), (b) or (b') constrains it; weakMorphism_iff_of_isAEMorphism reduces the remark exactly to the points outside Reg(f) = Reg(M) cap f^-1(Reg(N)) (lem:regf1). The printed remark, branch points included, is neither proved nor refuted; it would follow from a condition on the models like (b') for branched maps (every a.e. morphism between open subsets of model spaces is a morphism of topological spacetimes), which the paper does not state."
+      ],
+      "questions": [
+        "Is the morphism of topological spacetimes of the remark strong or weak (OQ-19's last question, which DEC-25 does not answer explicitly)? Reading taken: strong where proved (unbranched maps), weak in the reduction to the points outside Reg(f).",
+        "Is a hypothesis on the branched morphisms between model spaces (the analogue of (b') for non-invertible maps) intended for the branch points? Reading taken: none; the row is partial, proved for unbranched maps."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.exists_opens_of_eventually",
+    "Causal.eq_of_agreeOn_locally",
+    "Causal.IsAEChart.symm",
+    "Causal.IsAEChart.trans",
+    "Causal.IsAEChart.mem_reg_iff",
+    "Causal.isAEChart_refl",
+    "Causal.isRegularOn_trans",
+    "Causal.isRegularOn_of_isAEMorphism",
+    "Causal.isAEChart_of_isAEMorphism",
+    "Causal.isAEMorphism_of_isAEChart",
+    "Causal.exists_openPartialHomeomorph_of_homeomorph",
+    "Causal.IsPortly.preimage_val_of_isOpen",
+    "Causal.isAELocalHomeomorph_opensSingular_val",
+    "Causal.aePullback_opensSingular_val_spec",
+    "Causal.opensSingularGXStructure",
+    "Causal.aeAtlas_opensSingular",
+    "Causal.isAEMorphism_opensSingular_val",
+    "Causal.reg_opensSingular",
+    "Causal.sing_opensSingular",
+    "Causal.lineSingularGX",
+    "Causal.aeAtlas_line",
+    "Causal.reg_line",
+    "Causal.sing_line",
+    "the ports: all 281 constants of gx's GX.Topology.Portly and GX.Singular.Atlas, each GX.x as Causal.x (IsPortly, IsSkeletal, path_covering, IsAEAtlas, maximalAEAtlas, IsMaximalAEAtlas, SingularGXStructure, aeAtlas, Reg, Sing, IsRegularOn, IsAEMorphismOf, IsAEMorphism, regLocus, aePullback, SingGXCat, ...)"
+  ],
+  "kb_proposals": [
+    "gx's a.e. (G,X)-atlases are in lean-causal (T-ett-gxsingular-dec25): CausalScaffold.Port.Portly and .Port.SingularAtlas, verbatim (GX.x as Causal.x); a singular (G,X)-manifold is [SingularGXStructure G X M] (maximal a.e. atlas, DEC-25), Reg/Sing/aeAtlas/IsRegularOn/IsAEMorphism/regLocus as in gx. An X_A-chart without subtypes is Causal.IsAEChart G X e (CausalScaffold.GXSingularDEC25), equivalent to gx's a.e. isomorphism of open subsets (isAEChart_iff_isAEMorphism); open subsets carry gx's induced structure (instance opensSingularGXStructure, restated from gx's SingularII/Tame).",
+    "Checking a gx -> Causal port by elaborated types without building lean-gx: run the toolchain's lean on a probe with LEAN_PATH = lean-gx/.lake/packages/*/.lake/build/lib/lean : lean-gx/.lake/build/lib/lean (read-only, no lake in lean-gx); in both environments rename GX.x -> Causal.x in .const AND .proj nodes (projections carry the structure name) and compare Expr.hash of every constant's type and value, kind, universe parameters, reducibility, instance status (T-ett-gxsingular-dec25: 281 + 8 constants identical).",
+    "In a port, `omit [inst] in` changes the elaborated type when gx kept the unused instance argument (gx files with `set_option linter.unusedSectionVars false`): use `set_option linter.unusedSectionVars false in` instead, or the type hashes differ.",
+    "Causal.IsComplete (the port of gx's a.e.-atlas notion, CausalScaffold.Port.SingularAtlas) shadows mathlib's root IsComplete inside namespace Causal for every importer (kb/0016): write _root_.IsComplete for uniform completeness there.",
+    "A local `have key : ∀ {Z : Type*} ...` cannot be used at two universes (the level is a metavariable, not generalised): state such a step as a top-level lemma.",
+    "prop:GX_sing_espace_temps_topo under DEC-25 needs (b'): the isomorphisms between open subsets of the model spaces are isomorphisms of topological spacetimes; it is necessary and sufficient given (a), (b) (Causal.forall_exists_causality_singularGX_iff)."
+  ],
+  "notes": "Build: lake build --no-build Causal.Port.GXBasic Causal.GXSingular: all targets up to date (1604 jobs); no lake build running in lean-causal (pgrep); then (after a last docstring edit of the Atlas port, a second time for SingularAtlas and GXSingularDEC25 only) taskset -c 0-11 lake build CausalScaffold.Port.Portly CausalScaffold.Port.SingularAtlas CausalScaffold.GXSingularDEC25: green (8577 jobs, Portly imports Mathlib whole as gx's does), only these three modules built (no other olean newer). 0 sorry. All three files pass lake env lean -DwarningAsError=true. Axioms (a /tmp probe, deleted): a sweep of all 336 constants of the three modules (281 ported + 55 new) finds nothing outside propext, Classical.choice, Quot.sound; #print axioms of existsUnique_causality_singularGX_dec25, its gx-style form, forall_exists_causality_singularGX_iff, isAEChart_iff_isAEMorphism, strongMorphism_of_isAEMorphism_of_isLocalHomeomorph, weakMorphism_iff_of_isAEMorphism, singularGX_dec25_line, maximal_atlas, aepullback, path_covering: the same three. Scratch oleans for typechecking the chain before the build (kb/0034) in /tmp/gxolean, deleted.\n\nFAITHFULNESS (hub commit a6be352; lean-gx/GX/Topology/Portly.lean last changed in 4a577c5, GX/Singular/Atlas.lean in a1d7eb8). (1) Verbatim blocks (kb/0060, campaign/T-ett-gxsingular-dec25/check_port.py): Portly l.72-646 (575 lines) is one contiguous block of Port/Portly.lean (from line 97), changed only in its 2 lines namespace GX / end GX; Atlas l.150-1812 (1663 lines) is one contiguous block of Port/SingularAtlas.lean (from line 180), changed only in namespace/end and the 29 explicit references GX.completion, GX.maximalAEAtlas, GX.subset_maximalAEAtlas (26 lines). Outside these blocks: the imports (GX.Topology.Portly -> CausalScaffold.Port.Portly, GX.Structure.Basic -> the strict Causal.Port.GXBasic, WP-32a; Portly keeps import Mathlib) and the module docstrings (gx's, with a port paragraph, names renamed, label marks unbolded so no ledger reads a gx label in the first 4000 characters; checked: none there). (2) Elaborated types: in gx's environment (lean-gx oleans, read-only LEAN_PATH, no lake run in lean-gx) and in the port's, every constant of the two modules was dumped with GX.x renamed Causal.x in .const and .proj nodes: 281 constants each side (191 thm, 75 def, 5 induct, 5 ctor, 5 rec), name, kind, universe parameters, Expr.hash of type and of value, reducibility and instance status IDENTICAL. Since gx's own GX.gxGroupoid, GX.IsGXAtlas, GX.support... map to the strict Causal.* of Causal.Port.GXBasic, this certifies the statements relative to that port (WP-32a, audited). (3) Restated gx fragments in GXSingularDEC25 (not part of the two ports): IsPortly.preimage_val_of_isOpen (lean-gx/GX/Branched/Basic.lean l.728-739) and the section Opens of lean-gx/GX/SingularII/Tame.lean l.145-147, 149-182 (opensSingularGXStructure and six lemmas), verbatim blocks, one added line `set_option linter.unusedSectionVars false in` (gx sets it file-wide); 8 constants, types and values identical to gx's after the rename.\n\nFor the master: (1) none of the three modules is imported by scaffold/CausalScaffold.lean (kb/0025; I may not edit it). (2) Graduation: SingularAtlas imports CausalScaffold.Port.Portly and GXSingularDEC25 imports CausalScaffold.Port.SingularAtlas: rewrite both imports. (3) The strict Causal.GXSingular is unchanged; its docstring says its reconciliation with DEC-25 is a follow-up: it is CausalScaffold.GXSingularDEC25. The curation rows of both labels block on the ruled OQ-19; after this target they would block on the new question (b') (prop) and on branch points / strong-or-weak (rem), and on OQ-18 (uniqueness). (4) Names: Causal.IsComplete shadows mathlib's root IsComplete inside namespace Causal for importers (kb/0016); no strict file uses IsComplete today. The 8 restated gx fragments carry gx's names (Causal.opensSingularGXStructure, Causal.reg_opensSingular, Causal.IsPortly.preimage_val_of_isOpen, ...): a later verbatim port of gx's SingularII/Tame or Branched/Basic must drop them. (5) Witness: singularGX_dec25_line has an empty singular locus; a witness with a singular point needs a singular (G,X)-structure on a model with Sing nonempty in lean-causal (gx's BTZ ones are not ported). (6) gx itself does not open Causal, so GX.x and Causal.x coexist; if gx ever imports these modules and opens Causal, the names become ambiguous (as for the E0 ports)."
+}

@@ -72,3 +72,5 @@ rediscover. One fact per entry.
 | [0064](entries/0064-causally-plain-of-locz.md) | pattern | Causal plainness from push-up and local Z±: causallyPlain_of_locZ; E₀ is causally plain |
 | [0065](entries/0065-time-function-layer.md) | pattern | The time-function layer is in the ETT layer; HasTimeFunction and IsTimeFunction are incomparable |
 | [0066](entries/0066-private-names-and-matchers-in-hoists.md) | pitfall | Hoisting renames private declarations; term-mode matches add auxiliary constants |
+| [0067](entries/0067-gx-ae-atlases-ported.md) | pattern | gx's a.e. (G,X)-atlases are in lean-causal; Causal.IsComplete shadows mathlib's |
+| [0068](entries/0068-port-type-check-and-omit.md) | pattern | Checking a gx → Causal port by elaborated types; omit changes types |
