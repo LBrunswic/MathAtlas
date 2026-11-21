@@ -448,3 +448,21 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 20:4x–21:50 (Paris); agents: 2 closers, 2 audits
 - new OQ: none (next free OQ-87); lean-causal kb 0175–0179
 - next: plan (rule 2): promote T-ett-singular-sfa (and with it the MeasuresManifolds e0 conditionals made unconditional, sfa-line-e0 AUDIT-1 suggestion_review), then T-ett-singular-rows; master T-ett-docstrings-sing0 is ready (exclusive)
+
+## 2026-11-21 22:10 · plan · —
+- why: rule 2 (no ready closer after wave 26)
+- result: 130 -> 133 targets; every edited evidence keeps its old text as a prefix.
+- Promoted T-ett-singular-sfa, re-scoped to:
+  - the one-line assembly;
+  - SingularFlatSpacetime and the natural-causality form;
+  - the MeasuresManifolds conditionals made unconditional;
+  - for after its audit, where each of the 14 rows naming it must be re-pointed.
+- Re-scoped T-ett-singular-rows (planned) to the Section 3.3 K rows: lem:past_BTZ (b), cor:K_injectif, prop:K_densite_sing, cor:K_ordre, lem:cup_cap_BTZ in DEC-19's form, rem:K_plongement_hypotheses, cor:K_ordre_Sigma.
+- Added T-ett-singular-rows-local (ready): lem:J_int, lem:cup_cap_sing, and the E≥0 sentences of rem:tarentin_exemples, rem:lorentz_tarentin and rem:pas_plat (ii). Their hypotheses are all available now.
+- Added T-ett-cupcap-btz-cex (ready): DEC-19's by-hand counterexample to CupCapBTZAsPrinted at E₀ ∖ {w}; one step is [r].
+- Added T-ett-singular-rows-geroch (planned): rem:mesure_unilaterale, rem:mesure_unilaterale_ptr, theo:geroch_sing (i)⇒(ii)/(iii).
+- Widened T-ett-docstrings-sing0. Nothing promotable in the CBG pair.
+- outside lean-causal: nothing is closable without a ruling. The rulings that would unblock the most are BBS-Q1 (63 rows), OQ-63 (11), OQ-42 and OQ-44 (7 each), and OQ-45, OQ-43 and OQ-68 (6 each). Inside ETT the marks wait on OQ-34 (26), OQ-35 (24), OQ-18 (15), OQ-82 (14) and OQ-64 (6).
+- gates: roadmap ✓, atlas ✓
+- wall time: 21:0x–22:10 (Paris); agents: 1 (planner)
+- next: a wave of T-ett-singular-sfa, T-ett-singular-rows-local and T-ett-cupcap-btz-cex. After T-ett-singular-sfa graduates, its 14 rows must be re-pointed, or stale_blockers fails.
