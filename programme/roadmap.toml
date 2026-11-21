@@ -803,13 +803,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["absolutely_minimal", "is_causal", "push_up", "time_function", "strongly_causal_open", "locally_causally_open_future", "causally_open_future", "tarentin", "causally_plain", "chronal_neighbours", "causally_compact"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-abs-nested-converse"]
 evidence = "The keeper's list (journal entry 2026-11-21 05:00: 'rational-line extras (27)'); its [[open]] notes ask Causal.rationalLine_hasTimeFunction, rationalLine_stronglyCausalOpen, rationalLine_not_locallyCausallyOpenFuture (programme/ladder.toml, e.g. strongly_causal → causally_arc_connected, time_function → causally_open). Causal.rationalLine (Causal/NestedConverse.lean:250: x ≤_U y iff x = y ∈ U, or x < y both rational with [x, y] ⊆ U; ≪ empty): absolutely minimal, causal, push-up, not causally arc-connected, not causally open in the future (:303, :357, :366, :353, :373; conjoined :394); kb/0069. Argued, for the closer: the identity is continuous and strictly increasing along ≤; an interval V ⊆ U is causally convex (J_⊤(p, q) ⊆ [p, q]); ¬ LocallyCausallyOpenFuture from AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture (Causal/LadderLocal.lean:264), the backward reading the ladder header describes (programme/ladder.toml:75–78) and T-tool-ladder-py-2 would give the tool: all 16 pairs this target adds beyond T-lad-record-lines go through it (simulated), so the Lean and the tool agree; ¬ Tarentin (each J_⊤(p, q) ⊆ ℚ has empty interior); ¬ CausallyPlain and ¬ ChronalNeighbours (≪ empty, J⁺ of a non-empty open set has interior); ¬ CausallyCompact (ℚ ∩ [p, q] is not closed). Simulated with tools/ladder.py's refuted(): 27 [[open]] pairs alone, 16 beyond T-lad-record-lines, no contradiction. The rational line is absolutely minimal in Lean: these separations hold in either reading of defi:causalite (OQ-18). Layer 1: a new ETT-layer module importing Causal.NestedConverse, Causal.LadderLocal, Causal.CurvesExtend. The keeper's recording is T-lad-record-minimal."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-classify-core), recorded by programme-planner"
+commit = "b50f7be"
 
 [[target]]
 id = "T-abs-timelike-line-top"
@@ -993,12 +994,13 @@ model = "quasilinear"
 provides = []
 uses = ["curve_nested", "globally_hyperbolic"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 evidence = "ERS 1802.03020 Lemma 4.86 (ghd_02_19.tex:1143, proof 1159–1169; text eperon2018predictability.txt:2119). The proof is causal once (4.87) is read as a nesting: a C_δ-past-inextensible curve from a point above the graph would miss S. C_g stays abstract, the slope-δ cone is a Minkowski/static model already in lean-causal (Causal.Minkowski, Causal.Static), so this needs no ruling. Binder papers/ers-predictability rows 4.82, 4.86; reading of ∂S as closure(S) ∖ S as in OQ-41 (e). Since T-abs-ladder-local-defs (3e48e55) the conclusion has its Lean form: Causal.Causality.OneSidedBoundary (Causal/LadderLocal.lean:189), consumed by ers_theorem_4_82_of_oneSidedBoundary (:397); witnesses oneSidedBoundary_Ioi_zero (:495). `provides` gains one_sided_boundary if OQ-52 (b) makes it a node (T-lad-one-sided-node); the statement does not wait on it."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder ers-predictability)"
+commit = "9bda56f"
 
 [[target]]
 id = "T-loc-born-infeld-causal"
@@ -1041,12 +1043,13 @@ kind = "localisation"
 model = "flat-gx"
 provides = ["curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 evidence = "The keeper's proposal (T-lad-cbg-geometry-nodes, journal entry 2026-11-20 21:35: 'the flat time cylinder for curves_extend ⇏ is_causal'); programme/ladder.toml:694 ([[open]] curves_extend → time_function: 'the flat cylinder ℤe₀\\𝐌ⁿ is not causal (Causal.Flat.FlatQuotient.not_isCausal_timeGroup) and every flat spacetime has CurvesExtend (Causal.CBG.flat_curvesExtend, Hausdorff and second countable), but its second countability and the combination are not in Lean'). Pieces: Causal.Flat.FlatQuotient.timeGroup, not_isCausal_timeGroup (Causal/Flat/Quotient.lean:684, :741), Causal.CBG.flat_curvesExtend (Causal/Flat/CBG.lean), Causal.Flat.flat_secondCountableTopology (Causal/Flat/SecondCountable.lean:379). One theorem conjoining the four, for the keeper's [[fails]] entry; with T-lad-time-function-causal's edge it also settles the [[open]] pair curves_extend → time_function. Widened 2026-11-21 (the keeper's 'widen T-loc-flat-time-cylinder (44)', journal entry 05:00): the cylinder is a flat spacetime, so Causal.CBG.flat_singularFlatAxioms (Causal/Flat/CBG.lean:367; [T2Space M] [ConnectedSpace M] [SecondCountableTopology M], empty singular set) gives absolute minimality, causal arc-connectedness, push-up, tarentin and Z± at every point (fields of Causal.Causality.SingularFlatAxioms, Causal/SingularFlat.lean:173–186; T2 by Causal.Flat.FlatQuotient.t2Space, Causal/Flat/Quotient.lean:233; second countability as above); chronal neighbours from Z± by AbsolutelyMinimal.chronalNeighbours_iff_Z (Causal/ChronalNeighbourBridge.lean:196, T1); causal openness by PushUp.causallyOpen_of_chronalNeighbours (Causal/LadderLocal.lean:350); not causally compact, argued: a lift of any q lies in the future cone of a lift of p, so J(p, q) is the whole cylinder, not compact when d ≥ 1. Causal plainness is not asked: push_up ∧ chronal_neighbours ⇒ causally_plain is T-abs-hoist-plain-locz's edge, and SingularFlatAxioms.causallyPlain asks strong causality, which the cylinder lacks. Simulated with tools/ladder.py's refuted(): 44 [[open]] pairs beyond T-lad-record-lines (the keeper's 44), 50 with the plainness edge; ¬ is_causal carries 48 of the 50; no contradiction. The cylinder is absolutely minimal in Lean (every flat spacetime is: Causal.Flat.flatCausality_absolutelyMinimal, Causal/Flat/IsomCausal.lean:456), so its separations hold in either reading of defi:causalite (OQ-18): the largest batch of this plan that survives a gluing reading; priority 5 → 4. Layer 3 (flat-gx): a module under Causal/Flat or Causal/Model. The keeper's recording is T-lad-record-minimal."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-cbg-geometry-nodes), recorded by programme-planner"
+commit = "eeec2ae"
 
 [[target]]
 id = "T-loc-ealpha-tidy"
