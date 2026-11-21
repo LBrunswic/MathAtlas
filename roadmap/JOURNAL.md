@@ -426,3 +426,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 20:08–20:25 (Paris); agents: 1 (planner)
 - next: a wave of T-ett-line-development and T-ett-sfa-btz-e0 (lean-causal), plus master T-ett-readme-modules
+
+## 2026-11-21 21:15 · wave of 3 · T-ett-line-development, T-ett-sfa-btz-e0, T-ett-readme-modules
+- T-ett-line-development: the model-free translation-line development (ETT layer, Causal/LineDevelopment.lean). From a translation atlas of a closed S in a Hausdorff M, every p lies on a line γ onto its component, inextensible from « no limit at ±∞ », a closed embedding when injective; exists_line and exists_chronal_line give the field shapes exactly. No classification of 1-manifolds is used. Witnesses: the timelike line, and the circle with the non-causal allRelated. Findings (proof-level): l.1529–1530 « parametrisable by ℝ » misses a compact component (non-causal M; DEC-6 keeps the lemma); l.1530's classification of 1-manifolds is uncited. Audit minor
+- T-ett-sfa-btz-e0: singularPastAt and DEC-64's Iplus_of_lt at every BTZ point of every E≥0-manifold; BTZAxioms from line alone; SingularFlatAxioms ⇔ line ∧ massive_line. Beyond the target, prop:K_calcul and prop:K_monotone hold at every (causal) E≥0-manifold, so their « SingularFlatAxioms » blocker is gone (OQ-16 and the readings remain). Finding (proof-level): l.1344–1356's facts pass to M only through corollaries stated after the definition. Audit minor
+- T-ett-readme-modules (master): 32 rows added to lean-causal/README.md's module table, read off the docstrings (3699857). Tell /ett-programme when it resumes (2026-11-27)
+- roadmap: T-ett-sfa-line-e0 and T-ett-sfa-massive-line moved to ready by their blocks' own condition (T-ett-line-development done)
+- gates: lean-causal ✓, roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at 299cce7, clean), hub: no new red
+- commits: 3699857 00fdfd2 299cce7 492ad46 (+ this)
+- wall time: 20:28–21:15 (Paris); agents: 2 closers, 2 audits
+- new OQ: none (next free OQ-87); lean-causal kb 0167–0174
+- next: wave of T-ett-sfa-line-e0 and T-ett-sfa-massive-line (then T-ett-singular-sfa)
