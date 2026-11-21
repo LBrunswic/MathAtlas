@@ -1,0 +1,70 @@
+{
+  "target": "T-ett-sfa-local-e0",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "rem:btz_pas_tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ETT.tex:1358-1362 against Causal.SFALocalE0.mem_Zplus (forall p, p in C.Zplus) and mem_Zminus_iff (p in C.Zminus <-> p notin sing M 0). Z+/Z- are def:strongly_tarentin_point verbatim (Causal/Properties.lean:137-140). 'The BTZ points' = sing M 0 = Sing(M), chart-independent (mem_axis_iff: every IsAEChart into E0 sends exactly the singular points of its source to the axis; sing_eq_btzPoints). Hypotheses are exactly those of BPrimeE0.existsUnique_causality_e0 and nothing stronger: [SingularGXStructure (Flat.isom 2) (Minkowski 2) M], E0Covered M (the hcov of l.757, same form), IsE0Natural C (the first three conjuncts of its conclusion). The C is unique and always exists (existsUnique_isE0Natural). mem_Zminus_of_notMem uses hC only. Narrowed to E0-manifolds and read under OQ-18 (absolute minimality), OQ-34/35 and OQ-82. All of this is disclosed and the row stays partial and unmarked, which is correct. SingularFlatAxioms reduction: the three right-hand fields of singularFlatAxioms_iff are exactly BTZAxioms.singularPastAt, Iplus_of_lt and line (Causal/SingularFlat.lean:150-206). The forward direction is the bare projection, so they are definitionally the fields. The backward direction builds every other field, Iminus_eq_empty and past_local included. Finding 1 (the 'immediate ... read in a chart' gap) is proof-level, not statement-level: the statement holds at E0-manifolds with the natural causality. The witness is weaker than the sentence it is set against (minor finding 1)."
+    },
+    {
+      "label": "rem:sing_tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ETT.tex:1364-1366 against Causal.SFALocalE0.tarentin (C.Tarentin, def:tarentin_spacetime verbatim: forall x, forall U in nhds x, exists p q in U, x in interior (J_M(p,q))). Same hypotheses as above. The proof uses only the chart halves of IsE0Natural. The model-free forms tarentin_of_dec25 and IsoChartsCover.tarentin need no minimality, so OQ-18 does not bear on this row. 'Topological spacetime' (ETT.tex:254: Hausdorff, second countable) is carried as [T2Space M] [SecondCountableTopology M] where used (metrizableSpace, singularFlatAxioms_iff). This is settled by DEC-25, which rules OQ-19 (what a (G,X,X_A)-manifold is) 'by gx's definitions'. gx def:singular_manifold_locally_connected (papers/gx/legacy/labeled/RamcovGX.tex:474) reads 'a locally connected Hausdorff second countable topological space M endowed with an a.e. (G,X)-structure maximal'. So the question needs no OQ row (minor finding 2). Narrowed to E0-manifolds (the E_kappa charts are T-ett-sfa-local), OQ-34/35 and OQ-82. Partial and unmarked, which is correct."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard"
+  },
+  "build_detail": "Both files check with `taskset -c 0-11 lake env lean -DwarningAsError=true` and exit 0. SFALocalE0 ran against the closer's CausalScaffold.SFATransfer .olean, built 13:38:45, after the source (13:35:26). No lake build was run. The files contain no sorry, native_decide, axiom, admit, set_option or unsafe; the word sorry appears only in the docstring headings. #print axioms ran on all 66 declarations the REPORT names (decls plus extra_decls) from /tmp copies of both sources with the probes appended, so it checks the current source, not the .olean. Every one gives [propext, Classical.choice, Quot.sound]. The probes are deleted. Layering: the transitive closure of SFATransfer's imports (Causal.GXStructure, Causal.CausallyPlainLocZ) is 29 Causal.* modules plus Mathlib. None is under Causal.Port, Causal.Model or Causal.Flat, and none is an E0 or Minkowski module. Causal.Remarks.MassADEC25 imports Causal.Port.E0Axioms and E0SingularFlat, as SCOPE says. isoChartsCover_of_dec25 is a genuine forgetful bridge: it drops `e in aeAtlas` and `IsAEChart`, and the shapes otherwise coincide. No other iso-chart cover is defined in the ETT layer. Causal.Remarks.MassiveManifold imports Causal.Model.Massive, so it is not ETT-layer either. Scope: the closer's paths are the two untracked scaffold files and campaign/T-ett-sfa-local-e0/ (REPORT.json only). The three modified roadmap.toml files carry the master's status edits. The other untracked files are the dispatch's other agents. No strict file and no scaffold root was touched. Witness check (finding 1): e0_topTotal_separates proves what the REPORT says. topTotal is E0.causality on every proper open set (topTotal_le_iff and topTotal_lt_iff). It has an IsoChartsCover by refl restricted to {y}^c. Its Z+ is all of E0, it is tarentin, every point is in its Z-, and it is not absolutely minimal. An auditor probe, compiled and then deleted, adds three facts. (i) not ChartIso (topTotal E0.causality) E0.causality (refl E0). (ii) not IsE0Natural (topTotal E0.causality), through isAEChart_refl. (iii) For any C with ChartIso C E0.causality (refl E0), C.Iminus top {p} is empty at every axis point, with no minimality.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-sfa-local-e0/REPORT.json (rem:btz_pas_tarentin, findings[0]); scaffold/CausalScaffold/SFATransfer.lean:69-71; scaffold/CausalScaffold/SFALocalE0.lean:80-85",
+      "what": "Finding 1 is true in substance but overstated, and its Lean witness meets a weaker hypothesis than the paper's. e0_topTotal_separates satisfies IsoChartsCover, i.e. one isomorphic chart at each point. It is not a causality 'inducing that of E_alpha in every chart' (defi:causal_Ealpha, l.1339-1340): the a.e. chart refl of E0 is not a ChartIso for it, so it is not IsE0Natural (auditor probe). On E0 itself the BTZ half IS a chart fact: any causality for which refl is an isomorphism has an empty chronological past I-(p) at every axis point, with no minimality (auditor probe). This agrees with OQ-18 ('uniqueness holds ... outright, when a chart of the maximal atlas covers M'). Two sentences are therefore false as universal claims: 'A chart isomorphism fixes the relations of the open subsets of its source, never the relation <<_M of M' (also in SFATransfer SCOPE l.70 and SFALocalE0 SCOPE l.81), and 'I-_M(p) = empty needs <<_M to be generated by the charts'. They fail whenever some chart's source is M. Two forms of the claim do hold. (a) A cover by isomorphic charts does not determine I-_M(p); the witness shows this. (b) 'Every chart an isomorphism' does not suffice on an E0-manifold that no single chart covers. That is OQ-18's R disjoint-union-R pattern: on E0 disjoint-union E0, make the relations total on every open set contained in no chart source. (b) is not in Lean. Two smaller points. The witness is not causal (every pair is related both ways at top), and kb/0014 asks that this be disclosed. The 'uniqueness of l.1339-1340' is first stated in general at prop:GX_sing_espace_temps_topo (l.616), before the remark; only its verification for the E_kappa models (cor:model_minimal, cor:massA_causalite, l.1387-1396) comes after. The proof-level diagnosis and the suggested wording ('read in a chart, the causality of M being the natural one of Corollary cor:massA_causalite') are sound.",
+      "fix": "Before the finding goes to the author: state the witness's hypothesis as 'an isomorphic chart at every point' (IsoChartsCover), not 'read in a chart' tout court. Replace 'never <<_M' with 'never <<_V for an open V not inside its source' in the REPORT, SFATransfer.lean:70 and SFALocalE0.lean:81. Say that on E0 itself, and on any E0-manifold one chart covers, the BTZ half follows from that chart alone, and cite OQ-18 for the every-chart form. Disclose that topTotal is not causal (kb/0014). Optionally formalise the E0 disjoint-union E0 witness."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SFALocalE0.lean:55, 64-70; REPORT.json (rem:sing_tarentin, questions[0] and findings[0])",
+      "what": "The second-countability question is settled by precedent and is not open. DEC-25 rules OQ-19 ('what is a (G,X,X_A)-manifold') 'by gx's definitions'. gx def:singular_manifold_locally_connected (papers/gx/legacy/labeled/RamcovGX.tex:474) makes a singular (G,X)-manifold 'a locally connected Hausdorff second countable topological space'. So T2 and second countability are part of 'E>=0-manifold' by ruling, not only by analogy with DEC-90, which is Barbot's bprop:danom. The REPORT's 'No ruling covers second countability for E_{>=0}-manifolds' and the finding's 'The paper states them nowhere for E_{>=0}-manifolds' are true of ETT.tex alone and misleading for the library. Carrying them as [T2Space M] [SecondCountableTopology M] is exactly that definition, and matches SingularAtlas SCOPE (c) and SingGXCat.",
+      "fix": "No OQ-86 for second countability. Cite DEC-25 and RamcovGX.tex:474 (beside DEC-90) in the checklist row at SFALocalE0.lean:55 and the SCOPE bullet at l.64-70. Rephrase the REPORT finding as 'ETT.tex does not restate them; they come with gx's definition (DEC-25)'. Do not add a second-countability item to rem:sing_tarentin's blocked_on."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json (rem:btz_pas_tarentin, questions[0]); SFALocalE0.lean:72-77",
+      "what": "The sing_alpha(M) question is not genuinely open at E0-manifolds. With E0 the only singular model, sing_alpha = empty for alpha != 0 is forced. sing_0(M) = Sing(M) is proved chart-independent (mem_axis_iff, sing_eq_btzPoints). The strict library already reads E0 the same way (E0.singE0, Causal/Port/E0SingularFlat.lean:244; sing_e0). The general E>=0 reading, including the 'alpha = 2 pi if p is regular' convention, is already OQ-25's subject.",
+      "fix": "No new OQ row. Record the reading as the E0.singE0 precedent. When T-ett-sfa-local reaches mixed models, note under OQ-25."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json notes (proposed blocked_on); SFALocalE0.lean:53",
+      "what": "rem:btz_pas_tarentin's BTZ half (the => of mem_Zminus_iff, through Iminus_eq_empty) uses absolute minimality (IsE0Natural.2.2), i.e. OQ-18's reading of 'the unique causal structure' (l.1339-1340). Without it the remark fails on E0-manifolds that no chart covers (finding 1). The REPORT discloses this in its hypotheses ('natural = OQ-18's reading'). Its proposed blocked_on omits OQ-18, and the docstring checklist marks 'its causality' as a plain check (carried) rather than a reading.",
+      "fix": "At graduation write rem:btz_pas_tarentin's blocked_on as: the E_kappa charts (T-ett-sfa-local), OQ-18, OQ-34/OQ-35, OQ-82. Write rem:sing_tarentin's as: the E_kappa charts, OQ-34/OQ-35, OQ-82 (OQ-18 does not bear; no second-countability item). Change SFALocalE0.lean:53 to '⚠ read: the natural (absolutely minimal) one, OQ-18'."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SFALocalE0.lean:43-44, 445-449",
+      "what": "e0_singularFlatAxioms is `rw [sing_e0]; exact E0.singularFlatAxioms`. It transports the existing strict theorem and does not invoke or exercise singularFlatAxioms_iff, so 'instantiates singularFlatAxioms_iff there' (l.44) is loose. With nonvacuous (E0Covered E0, IsE0Natural E0.causality, sing_0 = axis non-empty) and the T2 and second-countable instances of E0 = R x C, it does show the iff's hypotheses and both its sides hold at a point with a BTZ point. That is all the REPORT claims, so it is a real satisfiability witness, not an independent check.",
+      "fix": "Reword l.44 as 'with nonvacuous, the hypotheses and both sides of singularFlatAxioms_iff hold at E0'. Optionally add `(singularFlatAxioms_iff nonvacuous.1 nonvacuous.2.1).1 e0_singularFlatAxioms`."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SFALocalE0.lean:87-90; REPORT.json notes",
+      "what": "causallyPlain is what it says: C.CausallyPlain is defi:causalement_plat verbatim (Causal/Properties.lean:55), for every E0-manifold with its natural causality. It is proved by causallyPlain_of_locZ from pushUp (which uses minimality), locZplus, locZminus and interior_sing. It bears on OQ-16 as evidence: prop:tarentin_fort_K's hypothesis holds at E0-manifolds. It extends the rem:pas_plat (ii) finding (kb/0029, E0.causallyPlain) from E0 to every E0-manifold. 'Answers OQ-16 ... in the affirmative' overstates this: OQ-16 asks the author's intent, and a theorem does not rule it.",
+      "fix": "Reword to 'shows E0-manifolds are causally plain, so OQ-16's hypothesis holds there; OQ-16 stays open for the author'. Add it as evidence to the OQ-16 row, not as a ruling."
+    }
+  ],
+  "graduation": [
+    "SFATransfer -> Causal/ (ETT layer; its import closure is clean). SFALocalE0 -> Causal/Port/. Change SFALocalE0's `import CausalScaffold.SFATransfer` to the graduated name, and graduate both together, or add both to the scaffold root (kb/0025).",
+    "Both rows stay partial and unmarked. Rewrite the stale blocked_on as in minor finding 4.",
+    "Apply the wording fixes of minor findings 1, 2, 5 and 6 in the docstrings before the move. Forward finding 1 to the author only in its corrected form.",
+    "Open no OQ-86: the second-countability question is settled by DEC-25 (with RamcovGX.tex:474), and the sing_alpha question by the E0.singE0 precedent and OQ-25.",
+    "SFATransfer.chartIso_restrOpen_refl generalises Causal.chartIso_refl_restrOpen (Causal/GXSingular.lean:368, for R only). It is not a duplicate, but the curator may note it."
+  ]
+}

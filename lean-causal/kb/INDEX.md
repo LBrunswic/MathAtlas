@@ -138,6 +138,10 @@ rediscover. One fact per entry.
 | [0130](entries/0130-pushup-from-open-chronology.md) | pattern | Push-up on a polygonal causality from the openness of I±_U alone |
 | [0131](entries/0131-plainness-via-dual-locz.md) | pattern | Causal plainness when the future chronology fails on a thin set: causallyPlain_of_locZ on C.dual |
 | [0132](entries/0132-plain-not-open.md) | pattern | Causal plainness gives no causal openness, in either reading: the notched plane |
+| [0133](entries/0133-chart-transfer-isochartscover.md) | pattern | Model facts pass through isomorphic charts: Causal.SFATransfer over IsoChartsCover |
+| [0134](entries/0134-e0-manifolds-api.md) | pattern | E₀-manifolds with their natural causality: Causal.SFALocalE0 |
+| [0135](entries/0135-chart-facts-vs-minimality.md) | pitfall | I⁻(p) = ∅ at a BTZ point is not a chart fact: it uses absolute minimality |
+| [0136](entries/0136-sing-closed-skeletal-already-strict.md) | pitfall | isClosed_sing and interior_sing are already strict for every singular (G,X)-manifold |
 | [0137](entries/0137-ealpha-singular-gx.md) | pattern | E_κ as a singular (G,X)-manifold: Causal.EAlphaGX.singularGX κ |
 | [0138](entries/0138-continuation-ring-boxes.md) | pattern | Continuing a chart of E_κ around the line: disc charts on a small circle, no wide sector |
 | [0139](entries/0139-kappa-two-pi-both-sides.md) | pattern | κ = 2π from both sides, with no case split on κ ∈ 2πℤ |
