@@ -234,3 +234,11 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, roadmaps ✓, tests ✓, selftest ✓, blueprint ✓; hub: papers-check green, gate-tests red once through test_no_model_in_gates while the egf loop rebuilt its leased lean-egf and papers/egf (green when rerun alone), not this loop's
 - commits: bce2a8d ebcb66e cf4703e 28b4b95 e26b042 a400fd3
 - next: T-lad-record-separators (keeper): the membrane, the chronal membrane, the fork and the loop fan
+
+## 2026-11-21 11:57 · wave of 1 · T-lad-record-separators
+- T-lad-record-separators (ladder, with the chronal membrane added to its scope by the master): 6 [[fails]] (one-way membrane and reversal, chronal membrane and reversal, the fork, the loop fan), all either reading; 19 [[open]] pairs settled (3 only through the tool's backward reading); entries the tool infers, or that move no pair, left out and named; Levin's edge, prop:GH_fortement_causal and prop:GH_Jferme noted sharp in tarentin; Test.lean re-emitted and built in a pgrep-clear window, Rules unchanged
+- ladder: 25 implications, 74 counterexamples, 1 fact; 314/314 within a sort: 268 fails, 28 open (24 causality-sort, 4 geometry), 18 implied; refuted causality-sort pairs either reading 239, no-gluing only 28
+- the 28 open pairs, by what they want: 16 X → curves_extend (T-abs-curves-extend-second-countable, a [[fact]] if proved); 4 causally_plain → (local) causal openness (no target: a plain, absolutely minimal, non-open model, necessarily push-up without chronal neighbours); causally_plain → locally_push_up (no-gluing only possible); chronal_neighbours → absolutely_minimal, causally_arc_connected (Galileo, T-lad-record-no-gluing, now only these 2); strongly_causal → strongly_causal_open (no model); 4 geometry pairs (the BTZ residuals)
+- gates: ladder ✓, tests ✓, Causal.Ladder.Test built ✓, blueprint ✓; hub: papers-check red on papers/egf (the egf loop's in-flight ledger), not this loop's
+- commits: a4e55ff ec86412 597acf7
+- next: a planning run on the keeper's three proposals (T-abs-plain-not-open, T-abs-chronal-not-arc-connected, T-abs-sc-not-sco) and the shrunk no-gluing targets
