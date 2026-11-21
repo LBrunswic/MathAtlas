@@ -74,3 +74,4 @@ rediscover. One fact per entry.
 | [0066](entries/0066-private-names-and-matchers-in-hoists.md) | pitfall | Hoisting renames private declarations; term-mode matches add auxiliary constants |
 | [0067](entries/0067-gx-ae-atlases-ported.md) | pattern | gx's a.e. (G,X)-atlases are in lean-causal; Causal.IsComplete shadows mathlib's |
 | [0068](entries/0068-port-type-check-and-omit.md) | pattern | Checking a gx → Causal port by elaborated types; omit changes types |
+| [0069](entries/0069-rational-line.md) | pattern | The rational line: absolutely minimal, push-up, only constant causal curves |

@@ -229,6 +229,7 @@ import Causal.CorrespondingSpacelike
 import Causal.CauchyDual
 import Causal.Model.CurvesExtendModels
 import Causal.Model.InjectiveMinkowski
+import Causal.NestedConverse
 
 /-!
 # Causal — topological spacetimes

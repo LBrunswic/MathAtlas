@@ -1,0 +1,244 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-nested-converse",
+ "files": [
+  "scaffold/CausalScaffold/NestedConverse.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-nested-converse/1-converse",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-nested-converse: CurveNestedOn C C' ⊤ gives LeNested C C' when C is causally arc-connected (CurveNestedOn.leNested_of_causallyArcConnected); if the last step needs C' arc-connected too, add it and report",
+     "text_lines": "programme/roadmap.toml:537-547"
+    },
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "[[open]] curve_nested → le_nested: 'True when C is causally arc-connected (x ≤_U y of C lies on a C-causal curve of U, which is C'-causal by curve nesting on U, so x ≤_U y for C'), not in Lean either'",
+     "text_lines": "programme/ladder.toml:1206-1209"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected",
+    "Causal.Causality.CurveNestedOn.le_of_causallyArcConnectedOn",
+    "Causal.Causality.leNested_iff_curveNestedOn_top",
+    "Causal.Causality.curveNestedOn_iff_of_causallyArcConnectedOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "C causally arc-connected",
+     "here": "carried",
+     "note": "the ladder node Causal.Causality.CausallyArcConnected; only its ≤ half is used (a C-causal curve of U over [0,1] through each x ≤_U y). The open form asks C.CausallyArcConnectedOn W and curve nesting on W only."
+    },
+    {
+     "paper": "C' causally arc-connected (the target's fallback for the last step)",
+     "here": "not needed",
+     "note": "a C'-causal curve of U from x to y gives x ≤_U y for C' in every causality (Causality.CausalCurveOn.le_of_le, Causal/Curves.lean:253); and it would not help in place of the hypothesis on C: the spacelike line is causally arc-connected (label 2-bare)"
+    },
+    {
+     "paper": "curve nesting at M",
+     "here": "carried",
+     "note": "CurveNestedOn C C' ⊤, restricted to U by CurveNestedOn.mono"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-nested-converse/2-bare",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "not_leNested_of_curveNested_bare: the pointed line Causal.pointedLine (Causal/LinesReachable.lean) curve-nested in the spacelike line Causal.spacelikeLine, 0 ≤ 1 in the first only; prove that a causal curve of the pointed line is constant",
+     "text_lines": "programme/roadmap.toml:538,547"
+    },
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "[[open]] curve_nested → le_nested: 'False in general, argued, not in Lean: the pointed line … and the spacelike line … have only constant causal curves, so the first is curve-nested in the second, while 0 ≤ 1 holds in the first only'",
+     "text_lines": "programme/ladder.toml:1206-1209"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.not_leNested_of_curveNested_bare",
+    "Causal.pointedLine_causalCurveOn_eq",
+    "Causal.pointedLine_curveNestedOn",
+    "Causal.pointedLine_le",
+    "Causal.pointedLine_le_zero_one",
+    "Causal.pointedLine_not_leNested_spacelikeLine",
+    "Causal.pointedLine_not_causallyArcConnected",
+    "Causal.pointedLine_isCausal",
+    "Causal.pointedLine_pushUp",
+    "Causal.spacelikeLine_causallyArcConnected",
+    "Causal.not_leNested_of_curveNested_wider_bare",
+    "Causal.pointedLine_separates_curveNested",
+    "Causal.Causality.causalCurveOn_of_forall_eq"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-nested-converse/3-trans",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Remark 4.74 (ersrem:us_remark_better_bounds): better bounds on the light cones of g(u, du) improve the uniqueness results — a narrower wider causality C_g ≤ C_b ≤ C_m",
+     "text_lines": "ghd_02_19.tex:993"
+    },
+    {
+     "paper": "papers/ers-predictability/certificate/binder.toml",
+     "statement": "row ersrem:us_remark_better_bounds: 'The curve-nesting form of the transitivity is T-abs-nested-converse's CurveNestedOn.trans'",
+     "text_lines": "binder.toml:329-332"
+    }
+   ],
+   "tex_lines": [
+    993
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.CurveNestedOn.trans",
+    "Causal.Causality.CurveNestedOn.refl",
+    "Causal.Causality.LeNested.trans_curveNestedOn",
+    "Causal.Causality.CurveNestedOn.trans_leNested",
+    "Causal.Causality.CurveNestedOn.dual",
+    "Causal.Causality.dual_curveNestedOn_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "C_g ≤ C_b ≤ C_m (cone bounds)",
+     "here": "carried",
+     "note": "curve nesting on one open W at each step; the mixed forms take one step as LeNested"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-abs-nested-converse/4-absolutely-minimal",
+   "source": [
+    {
+     "paper": "lean-causal",
+     "statement": "beyond the target: sharpness of 1-converse on the side of C. causally_arc_connected ⇒ absolutely_minimal (cor:causalement_connexe_minimal) is a ladder edge, so the natural weakening is absolute minimality; it does not suffice",
+     "text_lines": "lean-causal/Causal/ArcConnected.lean:216"
+    },
+    {
+     "paper": "programme/ladder.toml",
+     "statement": "[[open]] absolutely_minimal → causally_open_future and → causally_open: 'Without, no Lean model is absolutely minimal and not causally open in the future'",
+     "text_lines": "programme/ladder.toml:1135-1143"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.rationalLine",
+    "Causal.rationalLine_le",
+    "Causal.rationalLine_causalCurveOn_eq",
+    "Causal.rationalLine_curveNestedOn",
+    "Causal.rationalLine_absolutelyMinimal",
+    "Causal.rationalLine_not_leNested_spacelikeLine",
+    "Causal.rationalLine_not_causallyArcConnected",
+    "Causal.rationalLine_isCausal",
+    "Causal.rationalLine_pushUp",
+    "Causal.rationalLine_not_causallyOpenFuture",
+    "Causal.rationalLine_not_causallyOpen",
+    "Causal.rationalLine_separates_absolutelyMinimal",
+    "Causal.not_leNested_of_curveNested_absolutelyMinimal_bare",
+    "Causal.rationalLine_separates_curveNested"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "for_keeper": {
+  "fails": [
+   {
+    "from": "curve_nested",
+    "to": "le_nested",
+    "witness": "Causal.pointedLine_separates_curveNested",
+    "note": "pair sort, settles the [[open]] at programme/ladder.toml:1206. The witness: (∀ W, CurveNestedOn pointedLine spacelikeLine W) ∧ ¬ LeNested pointedLine spacelikeLine ∧ ¬ pointedLine.CausallyArcConnected ∧ pointedLine.IsCausal ∧ pointedLine.PushUp ∧ spacelikeLine.CausallyArcConnected. The ¬∀ form is Causal.not_leNested_of_curveNested_bare."
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up"
+    ],
+    "to": "causally_arc_connected",
+    "witness": "Causal.rationalLine_separates_absolutelyMinimal",
+    "note": "causality sort; the pair absolutely_minimal → causally_arc_connected is `unknown` in today's matrix"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up"
+    ],
+    "to": "causally_open_future",
+    "witness": "Causal.rationalLine_separates_absolutelyMinimal",
+    "note": "settles the [[open]] absolutely_minimal → causally_open_future (ladder.toml:1135-1138) and push_up → causally_open_future; by the edge absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future the rational line is not locally causally open in the future either (closure, not stated)"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "is_causal",
+     "push_up"
+    ],
+    "to": "causally_open",
+    "witness": "Causal.rationalLine_separates_absolutelyMinimal",
+    "note": "settles the [[open]] absolutely_minimal → causally_open (ladder.toml:1140-1143) and push_up → causally_open"
+   }
+  ],
+  "consequences": [
+   {
+    "at": "curve_nested",
+    "statement": "curve nesting at M gives ≤-nesting when the narrower C is causally arc-connected (the converse of le_nested ⇒ curve_nested); on an open W, curve nesting on W is ≤-nesting on the opens of W",
+    "witness": "Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected",
+    "under": "causally_arc_connected of C (ladder node); nothing of C'. Open form: Causal.Causality.curveNestedOn_iff_of_causallyArcConnectedOn (C causally arc-connected on W); iff form at M: Causal.Causality.leNested_iff_curveNestedOn_top. Sharp on both sides (comment above the entry): not on C' (Causal.not_leNested_of_curveNested_wider_bare, the spacelike line is causally arc-connected), not weakened to absolutely_minimal of C (Causal.not_leNested_of_curveNested_absolutelyMinimal_bare, the rational line)"
+   },
+   {
+    "at": "curve_nested",
+    "statement": "curve nesting on W is transitive (ERS Remark 4.74: C_g ≤ C_b ≤ C_m)",
+    "witness": "Causal.Causality.CurveNestedOn.trans",
+    "under": "",
+    "note": "also .refl, and the mixed forms Causal.Causality.LeNested.trans_curveNestedOn, Causal.Causality.CurveNestedOn.trans_leNested"
+   },
+   {
+    "at": "curve_nested",
+    "statement": "curve nesting is invariant under time reversal: C.dual is curve-nested in C'.dual on W iff C is curve-nested in C' on W",
+    "witness": "Causal.Causality.dual_curveNestedOn_iff",
+    "under": ""
+   }
+  ],
+  "simulation": "On a /tmp copy of programme/ladder.toml with the four [[fails]] above added and the three [[open]] entries they settle removed, `tools/ladder.py check --file` reports no contradiction (only 'witness not found', the scaffold being outside the index until graduation) and `matrix` classifies 12 more ordered pairs: curve_nested ⇏ le_nested; absolutely_minimal, is_causal, push_up, locally_push_up ⇏ causally_arc_connected (the last three where unknown), causally_open_future, causally_open."
+ },
+ "extra_decls": [
+  "Causal.Causality.causalCurveOn_of_forall_eq",
+  "Causal.spacelikeLine_causallyArcConnected",
+  "Causal.pointedLine_isCausal",
+  "Causal.pointedLine_pushUp",
+  "Causal.rationalLine",
+  "Causal.rationalLine_absolutelyMinimal",
+  "Causal.rationalLine_not_causallyOpenFuture"
+ ],
+ "kb_proposals": [
+  "A cheap absolutely minimal causality with only constant causal curves: Causal.rationalLine (CausalScaffold.NestedConverse), x ≤_U y iff x = y ∈ U or x < y both rational with [x, y] ⊆ U, ≪ empty. Absolute minimality by equal rational steps below a Lebesgue number (lebesgue_number_lemma_of_metric); constant curves because a non-constant one takes an irrational value (exists_irrational_btwn + intermediate_value_Icc). It is causal, has push-up, and is neither causally arc-connected nor causally open in the future: the first Lean model that is absolutely minimal and not causally open.",
+  "Curve nesting and ≤-nesting agree when the narrower causality is causally arc-connected (Causality.leNested_iff_curveNestedOn_top, open form curveNestedOn_iff_of_causallyArcConnectedOn); a line whose causal curves are constant (pointedLine, rationalLine) is curve-nested in every causality of ℝ (pointedLine_curveNestedOn, rationalLine_curveNestedOn), the generic step being Causality.causalCurveOn_of_forall_eq. The spacelike line is causally arc-connected (spacelikeLine_causallyArcConnected)."
+ ],
+ "notes": "Layer-1 rule: imports Causal.NestedCausalities and Causal.LinesReachable (their Causal closure, computed: ArcConnected, Cauchy, CauchyExtension, Causality, CompactMinimal, CurveComponents, Curves, CurvesExtend, DependenceDomain, Generated, Geroch, GlobalHyperbolicity, Inextensible, Lines, LinesCurves, LinesReachable, Local, Measure, MeasureRemarks, Minimal, Morphism, NestedCausalities, Properties, PushUp, Reachable, StrongCausality, Subdivision: no Minkowski/Static/SingularFlat/Flat/Model/Port/CBG module) and one mathlib module not previously in the closure, Mathlib.NumberTheory.Real.Irrational (for exists_irrational_btwn; its olean is in the mathlib cache). No metric notion in any statement; the metric of ℝ is used inside the proof of rationalLine_absolutelyMinimal only (Lebesgue number), as Causal.LadderLocal and Causal.NestedCausalities already do on ℝ. `lake build CausalScaffold.NestedConverse` rebuilt only this module; the file also typechecks with -DwarningAsError=true (graduation-ready); #print axioms on the principal theorems: propext, Classical.choice, Quot.sound. Labels 1 to 3 are the target; label 4 (the rational line) goes beyond it, as sharpness of 1 and as a witness for two [[open]] ladder entries; the master session may graduate or drop it independently. Names possibly shared with the parallel closers: none of this file's names existed in lean-causal at dispatch time (checked by grep); spacelikeLine_causallyArcConnected is the only spacelike-line lemma added, T-abs-nested-transfer may wish to reuse it. The witness for T-abs-pushup-not-open's push_up ⇏ causally_open_future is independent: the rational line also has push-up and is not causally open in the future, so that target's added value is the local causal openness of its line (locally_causally_open ⇏ causally_open_future)."
+}
