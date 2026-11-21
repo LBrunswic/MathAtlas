@@ -370,3 +370,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 16:02–17:50 (Paris, including the interruption); agents: 1 (planner)
 - next: wave of T-ett-massa-models-instance, T-ett-bprime-ealpha, T-ett-measures-ealpha (lean-causal is free), if the API limit lets agents run
+
+## 2026-11-21 18:49 · wave of 3 · T-ett-massa-models-instance, T-ett-bprime-ealpha, T-ett-measures-ealpha
+- T-ett-massa-models-instance: the E≥0 models as one family (global instance massAModelSingularGX, rfl to E0GX.singularGX / EAlphaGX.singularGXFamily; the audit found it safe), hreg at every model, (b′) at regular sources and between E₀ and every E_κ (notMem_axis_of_isAEChart, by causality, no holonomy: beyond its scope), the reduction hiso_massAModel_of_sing, E₀-manifolds over the whole family with no hypothesis left; audit minor (« what existence owes is prop:isom » reworded: implied by, not equivalent to)
+- T-ett-bprime-ealpha: BTZ_1's prop:isom for α, β > 0 in local form (prop_isom_local: κ′ = κ, a rotation after a time translation near the line), (b′) at every E_κ (chartIso_of_isAEChart, hiso_family), E_{>0}-manifolds (existsUnique_causality_ealpha), the OQ-82 reflection at κ > 0; audit minor; the audit's probe shows hiso_family feeds hiso_massAModel_of_sing, so existence at every E≥0-manifold is now a ten-line assembly (T-ett-e-models-bprime)
+- T-ett-measures-ealpha: one finite measure admissible both ways at every E_κ (λ₃ as printed, MeasuresEAlpha.modelMeasures, paper_measures_local), and the static ℝ × X layer (null frontiers for dt ⊗ ν, the class result, restriction through property 3's local form); audit minor
+- planner [r] corrections (roadmap, not the paper): the polar-pushed Gaussian charges the apex (it is admissible nonetheless); bprime-ealpha's rotation offset is fixed mod κ′ only by a second connectedness step; massa's « uniqueness at E_π », « E₀'s cross-type case » and « trans_chart_mem_aeAtlas » ([r] superseded or wrong tool: isAEChart_refl); T-ett-e-models-bprime's holonomy route for E₀ ↔ E_κ is superseded
+- gates: lean-causal ✓, roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at fd909b6, clean; edges refreshed), hub: no new red
+- commits: 263df71 3888285 fd909b6 674276f (+ this)
+- wall time: 17:53–18:49 (Paris); agents: 3 closers, 3 audits (/ett-programme stopped on the weekly API limit, so lean-causal was ours)
+- new OQ: none (next free OQ-87); lean-causal kb 0151–0158
+- for the next planner: T-ett-e-models-bprime is now an assembly only (hiso_massAModel_of_sing fed with hiso_family, then massA_singular_models), then T-ett-singular-instance; optional tidy: stale strict docstrings MassADEC25.lean l.79–83, 98–99, 484–485 and EAlphaGX.lean l.94–96 (« no family / no witness yet »), beside T-ett-docstrings-sing0; hoist candidates isAEChart_restrOpen, the duplicated eq_of_eventuallyEq_of_continuousAt, chartIso_shiftIso and ConeRot
+- next: plan (rule 2: only master T-ett-docstrings-sing0 is ready)
