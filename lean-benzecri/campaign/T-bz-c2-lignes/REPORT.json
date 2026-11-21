@@ -1,0 +1,215 @@
+{
+  "package": "T-bz-c2-lignes",
+  "target": "T-bz-c2-lignes",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Lignes.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c2s2d5_nombre_recouvrement",
+      "tex_lines": [
+        381,
+        385
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.nombreRecouvrement",
+        "Benzecri.IsRecouvrementMajore",
+        "Benzecri.nombreRecouvrement_isLeast",
+        "Benzecri.exists_isRecouvrementMajore",
+        "Benzecri.exists_isRecouvrementMajore_nombreRecouvrement",
+        "Benzecri.nombreRecouvrement_le",
+        "Benzecri.exists_isRecouvrementMajore_dim_zero_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective",
+          "here": "weakened",
+          "note": "[ChartedSpace (S n) V] for the definition, [HasGroupoid V (projGroupoid n)] where Prop. 3 is used; Hausdorff, connected, second countable never used"
+        },
+        {
+          "paper": "E une partie compacte; k un nombre réel strictement positif",
+          "here": "carried",
+          "note": "IsCompact E and 0 < k in nombreRecouvrement_isLeast (the definition itself is stated for every E and k)"
+        },
+        {
+          "paper": "un recouvrement de E, formé de n ouverts majorés par k",
+          "here": "carried",
+          "note": "reading (question): O : Fin m → Set V, each O i open and IsMajorePart n k (O i) (Déf. 4), E ⊆ ⋃ i, O i"
+        },
+        {
+          "paper": "le plus petit entier n",
+          "here": "carried",
+          "note": "sInf in ℕ; IsLeast for n ≥ 1, E compact, k > 0 (nombreRecouvrement_isLeast)"
+        },
+        {
+          "paper": "the dimension n",
+          "here": "added",
+          "note": "[NeZero n] in nombreRecouvrement_isLeast: for n = 0 a part has a covering by majorised open sets iff it is empty (exists_isRecouvrementMajore_dim_zero_iff), so n(E, k) is undefined for E ≠ ∅ and the Lean value 0 is the convention sInf ∅ = 0 (OQ-45)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Déf. 5 (l.381–385) presupposes that a compact E has a finite covering by open sets majorised by k. For n ≥ 1 this is Prop. 3 plus compactness (exists_isRecouvrementMajore); the paper leaves it implicit. For n = 0 no nonempty part has one, because no part containing a point is majorised (not_isMajorePart_dim_zero), so n(E, k) does not exist for E ≠ ∅. This is OQ-45, not a new question."
+      ],
+      "questions": [
+        "OQ-45, dimension 0. Reading taken: n ≥ 1, as [NeZero n] on nombreRecouvrement_isLeast. Left unmarked. Under OQ-45 (a) the mark can go on Benzecri.nombreRecouvrement with nombreRecouvrement_isLeast as its certificate, with no Lean change.",
+        "« un recouvrement de E, formé de n ouverts majorés par k ». Reading taken: a family of n open sets of V indexed by Fin n, each majorised by k in V (Déf. 4), repetitions allowed. A family with repetitions can be thinned to distinct sets, so the least n is the same under the « n distinct open sets » reading."
+      ]
+    },
+    {
+      "label": "bzprop:c2s2p4_ligne_brisee",
+      "tex_lines": [
+        387,
+        391
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.ligne_brisee",
+        "Benzecri.ligne_brisee_of_recouvrement",
+        "Benzecri.ligne_brisee_of_finset",
+        "Benzecri.IsLigneBrisee",
+        "Benzecri.isLigneBrisee_iff",
+        "Benzecri.IsMajorePart.isPreconnected",
+        "Benzecri.LigneBriseePrinted",
+        "Benzecri.ligneBriseePrinted_iff",
+        "Benzecri.not_isLigneBrisee_dim_zero"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective",
+          "here": "weakened",
+          "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)] in ligne_brisee; ligne_brisee_of_finset and ligne_brisee_of_recouvrement need only the charted space"
+        },
+        {
+          "paper": "E une partie compacte",
+          "here": "carried",
+          "note": "IsCompact E in ligne_brisee, used only to have n(E, k); the covering forms need no compactness"
+        },
+        {
+          "paper": "E connexe",
+          "here": "weakened",
+          "note": "IsPreconnected E (nonemptiness follows from M ∈ E)"
+        },
+        {
+          "paper": "k (strictly positive, Déf. 5)",
+          "here": "carried",
+          "note": "0 < k"
+        },
+        {
+          "paper": "une ligne brisée formée d'au plus n(E, k) segments majorés par k dans V",
+          "here": "carried",
+          "note": "∃ p L, p ≤ nombreRecouvrement n k E ∧ IsLigneBrisee n k p M N L (p ≥ 1 segments; isLigneBrisee_iff gives the vertex form). The covering forms also put the line inside the covering"
+        },
+        {
+          "paper": "the dimension n",
+          "here": "added",
+          "note": "[NeZero n] in ligne_brisee: for n = 0 no broken line of majorised segments exists (not_isLigneBrisee_dim_zero), so the printed form fails on the one-point open set of S(0) (ligneBriseePrinted_iff : LigneBriseePrinted n ↔ 0 < n), OQ-45"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Proof of Prop. 4 (l.393–409), statement unaffected: the induction is « sur n(E, k) », but the induction hypothesis is applied to O_Q (l.400–402), a connected open set, not compact, for which Déf. 5 defines no n(O_Q, k). The induction has to be run on the number of open majorised sets covering a connected part, which needs no compactness. That is how it is formalized (ligne_brisee_of_finset), and Prop. 4 follows (ligne_brisee).",
+        "Proof of Prop. 4, l.403–404: « un tel ouvert est inclus dans O_Q, ou a avec O_Q une intersection vide » uses that each O_i is connected. This holds because a majorised part is connected (any two of its points lie on a segment inside it, Déf. 4; IsMajorePart.isPreconnected), but the text does not say so. It is also what makes O_Q a union of members of the covering, hence open, which the separation argument « E étant connexe … O_Q ∩ O_j n'est pas vide » needs.",
+        "Proof of Prop. 4, l.399: the letter k names both the bound and an index (« N ∈ O_k »). This is notation only.",
+        "Dimension 0 (OQ-45): Prop. 4 fails as printed for n = 0, on any nonempty E, because no broken line of majorised segments exists (ligneBriseePrinted_iff, witness the one-point open set {x} of S(0), Hausdorff, connected, second countable). It holds for every n ≥ 1."
+      ],
+      "questions": [
+        "OQ-45, dimension 0. Reading taken: n ≥ 1, as [NeZero n] on ligne_brisee. Left unmarked. Under OQ-45 (a) the mark goes on Benzecri.ligne_brisee as is.",
+        "« ligne brisée formée de p segments ». Reading taken: p ≥ 1 segments of V (Déf. 14), consecutive ones sharing an endpoint, each majorised by k in V (Déf. 2). The support L is their union. Segments may overlap or backtrack, and none is required to lie in E. A « broken line of 0 segments » is not a broken line; Prop. 6 at p = 0 would be false (z(φ(A)) < z(φ(A))).",
+        "« connexe » read as preconnected plus M ∈ E (weaker than IsConnected)."
+      ]
+    },
+    {
+      "label": "bzprop:c2s2p6_ligne_brisee_poche",
+      "tex_lines": [
+        437,
+        443
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.IsPocheProj.ligne_brisee_poche",
+        "Benzecri.IsPocheProj.ligne_brisee_poche_of_ne_zero",
+        "Benzecri.IsPocheProj.ligne_brisee_poche_of_pos",
+        "Benzecri.IsPocheProj.ligne_brisee_poche_aux",
+        "Benzecri.IsPocheProj.cote_pos_of_ne_zero",
+        "Benzecri.LigneBriseePochePrinted",
+        "Benzecri.ligneBriseePochePrinted_iff",
+        "Benzecri.exists_isPocheProj_cote_zero",
+        "Benzecri.IsPocheProj.septieme_majore"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective, possédant une poche (P, H̊, φ, z)",
+          "here": "weakened",
+          "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)], IsPocheProj P l φ z (Déf. 1′, strict)"
+        },
+        {
+          "paper": "L une ligne brisée joignant A à B, formée de p segments tous majorés dans V par k = log K",
+          "here": "carried",
+          "note": "IsLigneBrisee n (Real.log K) p A B L"
+        },
+        {
+          "paper": "k = log K",
+          "here": "weakened",
+          "note": "any real K: the hypotheses force K > 1, or K < −1 with p even, where Real.log K = log(−K) and K^p = (−K)^p; for K < 0 and p odd, 1/K^p < 0 ≤ z(φ(A)) and the hypothesis is void"
+        },
+        {
+          "paper": "A ∈ P; z(φ(A)) < 1/K^p",
+          "here": "carried",
+          "note": "hA : A ∈ P, z ⟨φ A, _⟩ < 1 / K ^ p"
+        },
+        {
+          "paper": "conclusion: B ∈ P, L ⊆ P, z(φ(B)) < K^p z(φ(A))",
+          "here": "added",
+          "note": "FALSE as printed (finding). Proved with no added hypothesis: L ⊆ P, B ∈ P, z(φ(B)) ≤ K^p z(φ(A)), and < when z(φ(A)) > 0 (IsPocheProj.ligne_brisee_poche). The printed < is proved under the added hypothesis z ≢ 0 (IsPocheProj.ligne_brisee_poche_of_ne_zero)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 6 (l.437–443) is false as printed, and so is property 7° (l.253–256), which is its case p = 1. Déf. 1′ (l.119–145) admits a pocket whose cote is identically 0: condition a (inf 0, bounded by 1) holds, and the strict library already records that constant cotes are allowed (Poches, isPocheAff_model). For such a pocket z(φ(A)) = 0, and the conclusion z(φ(B)) < K^p z(φ(A)) reads 0 < 0. Formal counterexample for every n ≥ 1: ℝⁿ with its canonical projective structure, the pocket (ℝⁿ, H₀, j, 0) (the Remarque's image of (ℝⁿ, id, 0); exists_isPocheProj_cote_zero), A = B = 0, the one-segment line {0} majorised by log 2 (n ≥ 1), K = 2. Result: LigneBriseePochePrinted n ↔ n = 0 and SeptiemeProprietePrinted n ↔ n = 0 (for n = 0 both hold vacuously: no broken line, no finite pseudo-length). ℝⁿ is Hausdorff, connected and second countable, and any segment, not only the point segment, gives the same failure.",
+        "The failure is exactly the cote 0. If z is not identically 0, then z > 0 on φ(P) (IsPocheProj.cote_pos_of_ne_zero: φ(P) is open, z ≥ 0 on it, and an affine function with an interior minimum 0 vanishes identically), and Prop. 6 and 7° hold as printed (ligne_brisee_poche_of_ne_zero, septieme_propriete_of_ne_zero). For every pocket the non-strict forms hold, with L ⊆ P (resp. (M, N) ⊆ P) (ligne_brisee_poche, septieme_propriete). So downstream uses that only need B ∈ P (Prop. 7, l.476–478) are unaffected.",
+        "Proof of 7° (l.334–357), beyond the counterexample: « les quatre points a, b, f, f′ ont une cote z positive » (l.342) is asserted without argument and fails for z ≡ 0. In the case z(b) > z(a), what the computation needs is z(f) ≥ 0. That follows from condition b of the pocket applied to every sub-segment (M, X), X ∈ (M, F), where z < z(a) < 1, together with φ̃ = φ on (M, F) ⊆ P (same germ at M, (M, F) connected). The text leaves this implicit. The case z(b) ≤ z(a) (l.346–347) concludes B ∈ P only; z(b) < K z(a) needs z(a) > 0, which is where the counterexample sits. The conclusion is about z(φ(N)), while the computation gives z(φ̃(N)) = z(b), where φ̃ is « l'extension à un voisinage de (F, F′) de la carte φ de P » (l.338), that is a chart with the germ of φ at M. The two agree because (M, N) ⊆ P, again implicit. The formalization does all three steps (IsPocheProj.septieme_majore).",
+        "Proof of Prop. 6 (l.445–449): « pour p = 1, c'est la septième propriété » applies 7°, which assumes l_V(M, N) < log K, to a segment majorised by log K. This is fine: the measure witnessing Déf. 2 is < log K, so l_V < log K (exists_isMajoreSeg_of_pseudoLength_lt goes the other way, and septieme_majore takes the majorised form directly). « le passage de p à p+1 est immédiat » is formalized as written (z(φ(A)) < 1/K^{p+1} ≤ 1/K, then z(φ(X)) ≤ K z(φ(A)) < 1/K^p)."
+      ],
+      "questions": [
+        "Which correction of 7° and Prop. 6 is meant? (a) The cote of a pocket is not identically 0. Add it to Déf. 1/1′ (condition a then says inf z = 0 is not attained on φ(P)), and 7° and Prop. 6 hold as printed: septieme_propriete_of_ne_zero, ligne_brisee_poche_of_ne_zero, with hypothesis ∃ y, z y ≠ 0. (b) The conclusions read « ≤ », and then they hold for every pocket: septieme_propriete, ligne_brisee_poche (with < when z(φ(M)) > 0). The two corrected theorems are both proved. Neither is marked, and the author chooses.",
+        "« ainsi que L » read as L ⊆ P, L the union of the segments of the broken line."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.IsPocheProj.septieme_propriete",
+    "Benzecri.IsPocheProj.septieme_propriete_of_pos",
+    "Benzecri.IsPocheProj.septieme_propriete_of_ne_zero",
+    "Benzecri.IsPocheProj.septieme_majore",
+    "Benzecri.SeptiemeProprietePrinted",
+    "Benzecri.septiemeProprietePrinted_iff",
+    "Benzecri.IsPocheProj.mapsTo_hemi",
+    "Benzecri.IsPocheProj.cote_nonneg",
+    "Benzecri.exists_isMajoreSeg_of_pseudoLength_lt",
+    "Benzecri.IsMajoreSeg.pos",
+    "Benzecri.IsLigneBrisee.one_le",
+    "Benzecri.IsLigneBrisee.left_mem",
+    "Benzecri.IsLigneBrisee.right_mem",
+    "Benzecri.IsLigneBrisee.append",
+    "Benzecri.IsLigneBrisee.mono",
+    "Benzecri.IsLigneBrisee.pos",
+    "Benzecri.Sphere.exists_linear_cote",
+    "Benzecri.Sphere.cote_eq_div",
+    "Benzecri.Sphere.cote_mem_uIcc",
+    "Benzecri.septieme_alg"
+  ],
+  "kb_proposals": [
+    "An affine function on an open hemisphere H̊ of equation l is a linear form read on the normalised representative: z(s(v)) = Λ(v) / l(v) (Sphere.exists_linear_cote, Sphere.cote_eq_div). Along a segment of H̊ it lies between its endpoint values (Sphere.cote_mem_uIcc). Cote computations of pockets become real algebra on Λ, l and two representatives.",
+    "Condition b of a pocket gives more than N ∈ P: applied to every sub-segment (M, X), with isProjSegment_of_chart for the sub-segment, it puts the part of a segment from M where z < 1 inside P, and there φ̃ = φ by eqOn_of_germ_eq. This is the pattern of IsPocheProj.septieme_majore.",
+    "Broken lines are the inductive IsLigneBrisee (one segment, or a segment followed by a line), with isLigneBrisee_iff giving the vertex form. Induct on the predicate (Prop. 6), or prepend with .cons and .append (Prop. 4).",
+    "add_comm with no arguments may rewrite the n + 1 inside Fin (n + 1) → ℝ and give « motive is not type correct ». Write add_comm β α."
+  ],
+  "notes": "Sorry-free, standard axioms only (#print axioms of all 44 declarations: propext, Classical.choice, Quot.sound). `taskset -c 0-11 lake build BenzecriScaffold.Chapter2.Lignes` was green and rebuilt nothing upstream (no olean under Benzecri/ newer than the source). A /tmp probe importing Benzecri, BenzecriScaffold.Chapter2.Lignes and BenzecriScaffold.Chapter2.PseudoBoules together compiles, so there are no name clashes; the probe was deleted. The file compiles under -DwarningAsError=true with no warning, so it can graduate as is. It imports only Benzecri.Chapter2.Hilbert (strict). No label is marked, as the dispatch asked. Déf. 5 and Prop. 4 wait on OQ-45, and under (a) their anchors are nombreRecouvrement/nombreRecouvrement_isLeast and ligne_brisee as they stand. Prop. 6 is false as printed (finding, new question above): its anchor depends on the author's choice between the non-constant-cote correction (ligne_brisee_poche_of_ne_zero) and the ≤ correction (ligne_brisee_poche). Property 7° is a lemma here, unmarked, for T-bz-c2-proprietes (OQ-38). It carries the same finding: SeptiemeProprietePrinted n ↔ n = 0. The corrected forms are septieme_propriete (≤, plus (M, N) ⊆ P) and septieme_propriete_of_ne_zero (printed, z ≢ 0). T-bz-c2-proprietes must assemble 7° in one of these forms, not as printed. For T-bz-c2-compact (Prop. 7, l.476–478), ligne_brisee and ligne_brisee_poche give everything Prop. 7 uses (B ∈ P) for every pocket, so it is not blocked by the finding. Transcription: l.253–256, 334–357 and 381–449 were read against the scan (journal pp. 249–252, PDF pp. 22–25) and agree, including the flagged « O_a » (l.408) and « af × ff′ » (l.341). No mistranscription is suspected. Overlap with the sibling closer T-bz-c2-pseudo-boules (scaffold/BenzecriScaffold/Chapter2/PseudoBoules.lean, read, not touched): its isMajoreSeg_iff_pseudoLength_lt and this file's exists_isMajoreSeg_of_pseudoLength_lt are the same fact in two shapes, a dedupe candidate at graduation. There are no name clashes (grep of both files and the strict library). This file defines no pseudo-ball. The scaffold root BenzecriScaffold.lean was not edited, so the master adds the import (lean-causal kb/0025)."
+}
