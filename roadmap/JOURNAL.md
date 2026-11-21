@@ -144,3 +144,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 23:42–00:25 (Paris); agents in parallel: 5 closers (+1 /ett-programme closer, shared cap 6), 5 audits; each target integrated as soon as its audit returned (its package had no other closer)
 - coordination: OQ ids raced twice with /ett-programme (OQ-55, OQ-56 taken mid-wave, its next free announced each time)
 - next: wave: T-bz-c2-dedupe (master, exclusive), T-yamabe-kobayashi, T-ett-port-e0-sfa (lean-causal: share per-package 3 with /ett-programme), T-gx-troyanov-polygon, T-syr-completion, T-gx-troyanov-source (master)
+
+## 2026-11-21 01:15 · wave of 6 · T-bz-c2-dedupe, T-yamabe-kobayashi, T-gx-troyanov-polygon, T-syr-completion, T-gx-troyanov-source, T-ett-port-e0-sfa (topped up)
+- T-bz-c2-dedupe (master): Mesure imports Poches and keeps its five twins as one-line derivations; no statement changed, the five rows stay closed
+- T-yamabe-kobayashi: lem:kobayashi (a), its in-particular and the constant-curvature equality over the measured model with curvature (Yamabe.CurvedMetric); partial (T-yamabe-scope, OQ-44); eq:hoelder's \label numbers the false boundary line; audit minor
+- T-gx-troyanov-polygon: Troyanov for every s with all angles < 2π (doubling a convex spherical s-gon; the subcritical form too); TroyanovTheorem reduced to s ≥ 4 with some angle > 2π; at s = 4 the printed condition is sufficient, not necessary; audit clean
+- T-syr-completion: A₂ ≅ ℤ₂ for integral A with 2 ≠ 0 (UniformSpace.Completion); f_A extends; T_A extends only off −1/3 (false as printed); l.52 false for ℤ/2ℤ; integrality needed (ZMod 4); audit minor (the refutation now negates exactly the printed claim)
+- T-ett-port-e0-sfa (topped up when /ett-programme freed lean-causal): E₀ satisfies SingularFlatAxioms with sing₀ = axis, the first witness with sing₀ ≠ ∅; verbatim port of gx (144 constants' elaborated types checked); def:singular_spacetime stays partial (OQ-34/35); audit minor
+- T-gx-troyanov-source (master): not done, back to ready: ams.org answers 403 to automated fetches; needs the author's PDF of MR1005085 in papers/gx/sources/MR1005085/
+- gates: lean-benzecri ✓, lean-yamabe ✓, lean-gx ✓, lean-syracuse ✓, lean-causal ✓ (223 strict modules), roadmap ✓, atlas ✓ (overlay current for all ten papers), hub make -k check all green
+- commits: b587783 b4605cc d36aa9a d676822 bed88aa 76fc80e f06d72d 26bdd27 596352f e4bffd7 4d73d4f
+- wall time: 00:27–01:15 (Paris); agents: 4 closers, 4 audits, 1 fetch attempt; 2 master targets
+- coordination: lean-causal leased from /ett-programme for the exclusive E₀ port, its four ledgers rebuilt here; binder.toml leases narrowed for its planner
+- next: the only ready closers are lean-causal's (T-ett-e0-model-rows, T-ett-gxsingular-dec25); planned targets need promotion — plan, or a lean-causal wave shared with /ett-programme
