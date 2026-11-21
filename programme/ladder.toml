@@ -32,7 +32,9 @@
 # (7 through a localisation `under`: causally_arc_connected ⇒ push_up, causally_open,
 # causally_open_future; absolutely_minimal ⇒ causally_open, causally_open_future; push_up ⇒
 # causally_open, causally_open_future; 2 through T1: strongly_causal, strongly_causal_open ⇒
-# is_causal); after it 2 of 44, the two through T1 (the seven are [[open]] entries since).
+# is_causal); after it 2 of 44, the two through T1 (the seven are [[open]] entries since); after
+# T-lad-gh-causal (2026-11-21) the same 2, of 82 (is_causal ⇏ causally_compact is recorded directly,
+# not through strongly_causal ⇒ is_causal).
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`, and what is said here of two sorts holds of any two. A property of sort
@@ -94,7 +96,11 @@
 # The names added on 2026-11-20 by T-lad-cbg-geometry-nodes and by T-lad-nested-nodes were resolved by
 # `#check` against the library as built that day (lake env lean, no build); so were those added on
 # 2026-11-21 by T-lad-local-nodes (the four localisation nodes, their eight edges, the lightlike
-# line's counterexamples), with their signatures: none takes a separation instance.
+# line's counterexamples), with their signatures: none takes a separation instance; and so were those
+# added on 2026-11-21 by T-lad-gh-causal (the node causally_compact, its three edges, time_function ⇒
+# is_causal, the half-plane's counterexamples, the consequences at is_causal and causally_compact),
+# with their signatures: no edge witness takes a separation instance; the consequences' instances
+# are in their `under`.
 
 [[property]]
 id = "is_causal"
@@ -118,7 +124,17 @@ what = "every neighbourhood of every point contains an OPEN neighbourhood causal
 id = "globally_hyperbolic"
 lean = "Causal.Causality.GloballyHyperbolic"
 label = "def:globally_hyperbolic"
-what = "causal, and every full diamond J_M(p,q) is compact"
+what = "causal, and every full diamond J_M(p,q) is compact (is_causal ∧ causally_compact: Causal.Causality.globallyHyperbolic_iff, Iff.rfl)"
+
+# T-lad-gh-causal (2026-11-21). The second conjunct of def:globally_hyperbolic, which the Lean
+# writes out rather than naming (Properties.lean:144); the three edges below make
+# globally_hyperbolic ⇔ is_causal ∧ causally_compact. Reads ≤_M only, like is_causal: invariant
+# under time reversal and under any homeomorphism carrying ≤_M onto ≤_N (consequences below).
+[[property]]
+id = "causally_compact"
+lean = "Causal.Causality.CausallyCompact"
+label = "def:causally_compact"
+what = "every full diamond J_M(p,q) = J⁻(q) ∩ J⁺(p) is compact (no causality asked: a closed causal loop is allowed)"
 
 [[property]]
 id = "push_up"
@@ -165,7 +181,11 @@ what = "every neighbourhood of every x contains p, q with x ∈ Int J_M(p,q)"
 # Defined in Causal/CBG/Pgcd.lean (the hypothesis form of curvesExtend_of_timeFunction and of
 # Sbierski Lemma 3.3), so downstream of CBG modules that import models (T-abs-hoist-cbg-cores).
 # No ETT label: ETT's time function (defi:fonction_temps) is Causal.Causality.IsTimeFunction, a
-# morphism to the timelike line, open under DEC-10 — stronger, and not this node.
+# morphism to the timelike line, open under DEC-10, and not this node. Not stronger: it is
+# non-decreasing along ≤, not strictly increasing, and does not make the causality causal (the
+# doubled line has one and is not causal, Causal.exists_isTimeFunction_not_isCausal), while this node
+# does (time_function ⇒ is_causal, below); so IsTimeFunction does not give HasTimeFunction
+# (T-lad-time-function-causal, 2026-11-21).
 [[property]]
 id = "time_function"
 lean = "Causal.Causality.HasTimeFunction"
@@ -375,6 +395,32 @@ to = "causally_open_future"
 witness = "Causal.Causality.CausallyOpen.future"
 status = "checked"
 
+# ---- def:globally_hyperbolic is is_causal ∧ causally_compact (T-lad-gh-causal, 2026-11-21). The
+# three witnesses are Causal.LadderLocal's (ETT layer), the projections of the conjunction and its
+# constructor (Causal.Causality.globallyHyperbolic_iff is Iff.rfl). No side condition, no separation.
+# Until then the ladder reached is_causal from globally_hyperbolic only with tarentin, through
+# strongly_causal (whose edge to is_causal asks T1): the pair (globally_hyperbolic, is_causal) was
+# unknown. As CausalLadder rules the three form a cycle of the shape already present
+# (strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open ⇒ strongly_causal): forward
+# rules stop because aesop adds no hypothesis whose type is already in the context.
+[[implies]]
+from = ["globally_hyperbolic"]
+to = "is_causal"
+witness = "Causal.Causality.GloballyHyperbolic.isCausal"
+status = "checked"
+
+[[implies]]
+from = ["globally_hyperbolic"]
+to = "causally_compact"
+witness = "Causal.Causality.GloballyHyperbolic.causallyCompact"
+status = "checked"
+
+[[implies]]
+from = ["is_causal", "causally_compact"]
+to = "globally_hyperbolic"
+witness = "Causal.Causality.IsCausal.globallyHyperbolic"
+status = "checked"
+
 # ---- global ⇒ local (T-lad-local-nodes): the whole space is an open neighbourhood of every point
 # (W = ⊤, PushUpOn ⊤ ↔ PushUp, CausallyOpenFutureOn ⊤ ↔ CausallyOpenFuture). No side condition.
 # With them, absolutely_minimal ∧ locally_causally_open ⇒ causally_open is an equivalence between
@@ -416,6 +462,28 @@ status = "checked"
 from = ["time_function"]
 to = "curves_extend"
 witness = "Causal.Causality.curvesExtend_of_timeFunction"
+status = "checked"
+
+# T-lad-time-function-causal (2026-11-21), replacing the [[open]] entry for this pair. The witness
+# (Causal/CausalIsoInvariance.lean, ETT layer) takes HasTimeFunction's body verbatim,
+# ∃ T : M → ℝ, Continuous T ∧ ∀ x y, x ≤_M y → x ≠ y → T x < T y, and nothing else: no separation,
+# no countability (`#check`ed 2026-11-21; it also accepts h : C.HasTimeFunction, by unfolding).
+# x ≤ y ≤ x with x ≠ y would give T x < T y < T x. Continuity and ℝ are not used
+# (Causal.Causality.isCausal_of_timeFunction, any preorder). ETT's time function
+# (defi:fonction_temps, Causal.Causality.IsTimeFunction) does not give this: the doubled line has
+# one and is not causal (Causal.exists_isTimeFunction_not_isCausal).
+# emit-lean: the witness's module is ETT-layer, so emitted() makes this edge a CausalLadder rule
+# (Rules.lean then imports Causal.CausalIsoInvariance). The rule is inert (both cases checked by a
+# probe, 2026-11-21): its premise is the unfolded existential, which a hypothesis `C.HasTimeFunction`
+# does not match, and which aesop's builtin norm rule destructProducts splits before a forward rule
+# sees it; and
+# untested, time_function having no Lean form for Causal.Ladder.Test (HasTimeFunction lives in the
+# model-reaching Causal.CBG.Pgcd). It becomes live with T-abs-hoist-time-function (the wrapper
+# Causality.HasTimeFunction.isCausal in the ETT layer), to which the witness should then switch.
+[[implies]]
+from = ["time_function"]
+to = "is_causal"
+witness = "Causal.Causality.isCausal_of_exists_timeFunction"
 status = "checked"
 
 # Levin's theorem (Causal/LevinUtility.lean), no measure. The witness's conclusion is HasTimeFunction's
@@ -510,6 +578,90 @@ to = "chronal_neighbours"
 witness = "Causal.lightlikeLine_not_chronalNeighbours"
 status = "checked"
 
+# The half-plane ℝ × ]0, ∞[ (Causal.staticCausality (Ioi 0), Causal/ChainsCurves.lean: the static
+# spacetime over the half-line, an open subset of 1+1 Minkowski with its causality of curves;
+# Hausdorff and second countable). One witness conjoins Tarentin, IsCausal, CausallyArcConnected,
+# StronglyCausal, AbsolutelyMinimal and ¬ CausallyCompact (T-lad-gh-causal). Through the closure each
+# entry also refutes `from` ⇒ globally_hyperbolic (which implies causally_compact), and the
+# causally_arc_connected entry absolutely_minimal ⇒ causally_compact, globally_hyperbolic. The
+# is_causal entry is implied by the strongly_causal one through strongly_causal ⇒ is_causal; it is
+# recorded so that the pair does not rest on that edge's T1 `under`. A second, non-local witness of
+# is_causal ⇏ causally_compact: the fan (ℕ discrete, 0 below and 1 above every event; Causal.fan_isCausal,
+# Causal.fan_not_causallyCompact, conjoined in Causal.not_causallyComplete_imp_causallyCompact).
+[[fails]]
+from = "strongly_causal"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+[[fails]]
+from = "tarentin"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+[[fails]]
+from = "causally_arc_connected"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+[[fails]]
+from = "is_causal"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+# The half-plane again, five more of its properties, each the generic static lemma at X = ]0, ∞[
+# (`#check`ed at Causal.staticCausality (Ioi 0), 2026-11-21): Causal.staticCausality.pushUp
+# (Causal/Static.lean), .chronalNeighbours, .causallyOpen, .stronglyCausalOpen, .hasTimeFunction
+# (Causal/Model/EAlphaCauchy.lean), the last also giving curves_extend (Causal.staticCausality.curvesExtend).
+# As for the gated line, the witness is the other half, ¬ CausallyCompact (the last conjunct of
+# Causal.halfPlane_hypotheses); no one Lean statement conjoins the two halves. Through the closure:
+# locally_push_up; causally_open_future and the two local forms; strongly_causal; curves_extend
+# (through time_function ⇒ curves_extend) ⇏ causally_compact, and each ⇏ globally_hyperbolic.
+[[fails]]
+from = "push_up"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+[[fails]]
+from = "causally_open"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+[[fails]]
+from = "chronal_neighbours"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+[[fails]]
+from = "strongly_causal_open"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+[[fails]]
+from = "time_function"
+to = "causally_compact"
+witness = "Causal.halfPlane_hypotheses"
+status = "checked"
+
+# T-lad-gh-causal: the lightlike line is not causally plain (Causal/Lines.lean: Int J⁺({0}) = ]0, ∞[
+# while I⁺({0}) = ∅). The other half is Causal.lightlikeLine_globallyHyperbolic (Causal.LadderLocal);
+# through the closure also is_causal, causally_compact ⇏ causally_plain. The spacelike line is a
+# second witness (Causal.spacelikeLine_globallyHyperbolic, Causal.spacelikeLine_not_causallyPlain).
+# Not recorded here: the lightlike line's push-up, causal openness, causal arc-connectedness and
+# tarentin (the entries above) refute those ⇒ causally_plain as well (report of T-lad-gh-causal).
+[[fails]]
+from = "globally_hyperbolic"
+to = "causally_plain"
+witness = "Causal.lightlikeLine_not_causallyPlain"
+status = "checked"
+
 # ------------------------------------------------------------------ consequences
 
 # prop:GH_Jferme, first step. Fixed 2026-11-20 (T-lad-seed-check): the seed's statement claimed
@@ -543,6 +695,69 @@ at = "globally_hyperbolic"
 statement = "Lemma K: a compact connected locally Cauchy set is a Cauchy surface"
 witness = "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen"
 under = "tarentin, causally_arc_connected, causally_open (ladder nodes); M Hausdorff, second countable, connected; J⁺(p) ≠ {p} and J⁻(p) ≠ {p} for every p"
+status = "checked"
+
+# ---- consequences at is_causal and causally_compact (T-lad-gh-causal, 2026-11-21). Both read ≤_M
+# only: they pass to C.dual and along a homeomorphism carrying ≤_M onto ≤_N (Causal.LeTopIso, which a
+# causal isomorphism is: Causal.IsCausalIso.leTopIso). The LeTopIso transport holds also of
+# globally_hyperbolic, strongly_causal, strongly_causal_open and tarentin (Causal.LeTopIso.*_iff,
+# Causal/CausalIsoInvariance.lean), and IsCausalIso transports every causality-sort node: a fact
+# about the ladder, not listed node by node.
+[[consequence]]
+at = "is_causal"
+statement = "causality is invariant under time reversal: C.dual is causal iff C is"
+witness = "Causal.Causality.dual_isCausal"
+status = "checked"
+
+[[consequence]]
+at = "is_causal"
+statement = "causality is transported by a homeomorphism e : M ≃ₜ N carrying ≤_M onto ≤_N (x ≤_M y ⇔ e x ≤_N e y), in particular by a causal isomorphism"
+witness = "Causal.LeTopIso.isCausal_iff"
+under = "the homeomorphism e with Causal.LeTopIso C D e"
+status = "checked"
+
+[[consequence]]
+at = "causally_compact"
+statement = "causal compactness is invariant under time reversal: C.dual is causally compact iff C is"
+witness = "Causal.Causality.dual_causallyCompact"
+status = "checked"
+
+[[consequence]]
+at = "causally_compact"
+statement = "causal compactness is transported by a homeomorphism e : M ≃ₜ N carrying ≤_M onto ≤_N, in particular by a causal isomorphism"
+witness = "Causal.LeTopIso.causallyCompact_iff"
+under = "the homeomorphism e with Causal.LeTopIso C D e"
+status = "checked"
+
+# Causal/ChainsOrder.lean: the supremum is found in the compact J(a₀, u) by a directed intersection.
+[[consequence]]
+at = "causally_compact"
+statement = "every non-empty chain of (M, ≤_M) bounded above has a least upper bound in M (HasChainSups)"
+witness = "Causal.Causality.hasChainSups_of_causallyCompact"
+under = "J⁺(x) and J⁻(x) closed for every x; M Hausdorff"
+status = "checked"
+
+# rem:causal_completeness_slightly_weaker, first half, in DEC-21's reading of def:causally_complete
+# (maximal chains of the preorder ≤_M). With is_causal the premises are globally_hyperbolic ∧
+# tarentin, which close J±(x) (prop:GH_Jferme) for the entry above. Not the reading of Causal/Chains.lean
+# (chains as embeddings, CausallyComplete), for which the non-local bowtie refutes it
+# (Causal.not_causallyCompact_imp_causallyComplete). Strictness: Causal.not_causallyCompleteOrder_imp_causallyCompact.
+[[consequence]]
+at = "causally_compact"
+statement = "rem:causal_completeness_slightly_weaker (i), DEC-21: every maximal chain of (M, ≤_M) is Dedekind-complete (CausallyCompleteOrder)"
+witness = "Causal.Causality.causallyCompleteOrder_of_causallyCompact"
+under = "is_causal, tarentin (ladder nodes); M Hausdorff"
+status = "checked"
+
+# The same remark in DEC-20's curve reading (b). Causal compactness cannot be dropped: the half-plane
+# satisfies every other hypothesis (Causal.halfPlane_hypotheses, the [[fails]] entries above, with
+# J±(p) ≠ {p} from Causal.staticCausality) and is not complete for curves
+# (Causal.halfPlane_not_causallyCompleteCurves). Strictness: Causal.not_causallyCompleteCurves_imp_causallyCompact.
+[[consequence]]
+at = "causally_compact"
+statement = "rem:causal_completeness_slightly_weaker (i), curve reading: the image of every inextensible causal curve of M is Dedekind-complete for bounds in M (CausallyCompleteCurves)"
+witness = "Causal.Causality.causallyCompleteCurves_of_causallyCompact"
+under = "is_causal, tarentin, causally_arc_connected (ladder nodes); M Hausdorff; J⁺(p) ≠ {p} and J⁻(p) ≠ {p} for every p"
 status = "checked"
 
 # prop:FZenon_injectif, future (the past form is Causal.Causality.Iminus_injOn_Zminus).
@@ -838,11 +1053,6 @@ to = "causally_open"
 note = "Through absolutely_minimal it holds with locally_causally_open (the edges above). Without, no Lean model is causally arc-connected and not causally open"
 
 [[open]]
-from = "time_function"
-to = "is_causal"
-note = "True in one line (x ≤ y ≤ x, x ≠ y give T x < T y < T x), not named in Lean: wants Causality.HasTimeFunction.isCausal"
-
-[[open]]
 from = "globally_hyperbolic"
 to = "time_function"
 note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it, and no Lean model is globally hyperbolic, not tarentin and without a time function"
@@ -855,7 +1065,23 @@ note = "Proved with tarentin through time_function (Causal.Causality.curvesExten
 [[open]]
 from = "curves_extend"
 to = "time_function"
-note = "Wants a model with curves extending and a closed causal loop (then no time function): the flat cylinder ℤe₀\\𝐌ⁿ is not causal (Causal.Flat.FlatQuotient.not_isCausal_timeGroup) and every flat spacetime has CurvesExtend (Causal.CBG.flat_curvesExtend, Hausdorff and second countable), but its second countability and the combination are not in Lean, nor time_function ⇒ is_causal"
+note = "Wants a model with curves extending and a closed causal loop, i.e. a [[fails]] curves_extend ⇏ is_causal, which settles this pair through the edge time_function ⇒ is_causal (in Lean since T-lad-time-function-causal): the flat cylinder ℤe₀\\𝐌ⁿ is not causal (Causal.Flat.FlatQuotient.not_isCausal_timeGroup) and every flat spacetime has CurvesExtend (Causal.CBG.flat_curvesExtend, Hausdorff and second countable), but its second countability and the combination are not in Lean (T-loc-flat-time-cylinder)"
+
+# T-lad-gh-causal: causal compactness without causality. False, argued: the doubled line
+# (Causal.doubledLine, ℝ × Bool, Hausdorff and second countable, Causal/CausalIsoInvariance.lean) has
+# x ≤_M y iff x.1 ≤ y.1, so J_M(p, q) = [p.1, q.1] × Bool is compact, and it is not causal
+# (Causal.doubledLine_not_isCausal); its causal compactness is not stated. With it as a [[fails]]
+# causally_compact ⇏ is_causal, the closure also refutes causally_compact ⇒ globally_hyperbolic,
+# strongly_causal, strongly_causal_open, time_function.
+[[open]]
+from = "causally_compact"
+to = "is_causal"
+note = "False, argued: the doubled line (Causal.doubledLine, not causal: Causal.doubledLine_not_isCausal) has ≤_M = {x.1 ≤ y.1}, so every J_M(p, q) = [p.1, q.1] × Bool is compact; wants Causal.doubledLine_causallyCompact"
+
+[[open]]
+from = "causally_compact"
+to = "globally_hyperbolic"
+note = "False, argued, by the doubled line of causally_compact → is_causal (not causal, hence not globally hyperbolic, with compact diamonds); settled with that pair"
 
 [[open]]
 from = "germ_extension"
