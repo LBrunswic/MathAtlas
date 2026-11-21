@@ -373,13 +373,14 @@ kind = "abstract"
 uses = ["time_function", "curves_extend", "is_causal"]
 package = "lean-causal"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 3
 depends = ["T-abs-hoist-model-free"]
 evidence = "Causal/CurvesExtend.lean imports Causal.Minkowski for its last section only (:491–549: staticCausality.curvesExtend, minkowski_curvesExtend, minkowski_isAcausal_of_isCauchySurface, timelikeLine witnesses); :112–489 is model-free (time graphs, exists_inextensible_of_timeFunction :397, curvesExtend_of_timeFunction :411, GloballyHyperbolic.curvesExtend :449, IsCauchySurface.isAcausal_of_timeFunction :475). Causal.Causality.HasTimeFunction is defined in Causal/CBG/Pgcd.lean:133, which reaches a model: hence 'Not done: HasTimeFunction.isCausal' in the SCOPE of Causal/LadderLocal.lean and of Causal/CausalIsoInvariance.lean (isCausal_of_exists_timeFunction :893 takes its body), and emit-lean skips time_function ⇒ curves_extend for the layer rule (programme/ladder.toml:325–336, 'a wrapper Causality.HasTimeFunction.curvesExtend is proposed'). Causal/CBG/Injective.lean imports Causal.Splitting (→ Causal.Flat.IsomCausal) for minkowskiSlice, minkowski_isCauchySurface_slice (its Minkowski witnesses :626–650) and dual_isCauchySurfaceOn (Causal/Splitting.lean:503, model-free); injOn_of_injOn_cauchy (:558) is the ladder's consequence at time_function. The keeper's proposals: journal entries 2026-11-20 21:35 ('HasTimeFunction.isCausal/.curvesExtend once HasTimeFunction is hoisted') and 23:50 (the edge time_function ⇒ is_causal). Users of the moved model names to re-point: Causal/LemmaKSCLocal.lean, LemmaKBare.lean, Flat/Classification.lean, Model/EAlphaCauchy.lean, CBG/Injective.lean. Afterwards Causal.CBG.CausalConvex imports only ETT-layer modules (SubExtension, CurvesExtend, CompactCauchy, CurveComponents), so isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn (binder row Thm 3.4) become usable in layer 1 too. Same refactor discipline as T-abs-hoist-model-free (02b43b6): no statement changes, every old full name keeps resolving (the Sbierski binder cites Causal.CBG.injOn_of_injOn_cauchy, Causal.CBG.sbierski_lemma_3_3, Causal.CBG.minkowski_sbierski_lemma_3_3; the ladder cites curvesExtend_of_timeFunction, exists_inextensible_of_timeFunction)."
 added = "2026-11-21"
 proposed_by = "programme-planner (keeper proposals, journal 2026-11-20 21:35 and 23:50; binder sbierski-mghd)"
+commit = "7eff58c"
 
 [[target]]
 id = "T-abs-hoist-cbg-gluing"
