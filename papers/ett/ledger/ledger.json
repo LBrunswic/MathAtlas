@@ -176,7 +176,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-causal",
-    "git_commit": "947f841"
+    "git_commit": "438946d"
   },
   "statements": [
     {
@@ -247,23 +247,31 @@
       "statement_sha256_current": "72da836fc162d4c0eedb24919fb2851cb7d2e3769bdb98f4311bac43dd635b91",
       "lean_files": [
         "Causal/Flat/Achronal.lean",
-        "Causal/Remarks/BTZPoints.lean"
+        "Causal/Remarks/BTZPoints.lean",
+        "Causal/Port/E0ModelRows.lean",
+        "Causal/Port/E0Causality.lean"
       ],
       "decls": [
         "Causal.relation_not_assumed_reflexive",
         "Causal.Causality.BTZAxioms.not_lt_self",
-        "Causal.Flat.minkowski_not_lt_self"
+        "Causal.Flat.minkowski_not_lt_self",
+        "Causal.E0.relation_not_assumed_reflexive",
+        "Causal.E0.not_lt_self",
+        "Causal.E0.axis_nonempty",
+        "Causal.E0.Iminus_axis"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Minkowski space → carried (minkowski n, every n (existing Causal.Flat.minkowski_not_lt_self, reused)); a BTZ point (defi:causal_E0) → strengthened (a point of S₀ under BTZAxioms C S₀; I^-(p) = ∅ is the field Iminus_eq_empty, standing for defi:causal_E0 at E₀ (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))).",
-      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Minkowski space → carried (minkowski n, every n (existing Causal.Flat.minkowski_not_lt_self, reused)); a BTZ point (defi:causal_E0) → strengthened (a point of S₀ under BTZAxioms C S₀; I^-(p) = ∅ is the field Iminus_eq_empty, standing for defi:causal_E0 at E₀ (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))).",
-      "blocked_on": "T-ett-port-e0: the E₀ model ported into lean-causal (DEC-134)",
+      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Minkowski space → carried (minkowski n, every n (existing Causal.Flat.minkowski_not_lt_self, reused)); a BTZ point (defi:causal_E0) → strengthened (a point of S₀ under BTZAxioms C S₀; I^-(p) = ∅ is the field Iminus_eq_empty, standing for defi:causal_E0 at E₀ (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))). T-ett-e0-model-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor (layer placement: the model-free BTZAxioms.*, causallyPlain_of_locZ and SingularFlatAxioms.causallyPlain sit behind the E₀ import, to hoist into the ETT layer (kb 0047, 0061; /ett-programme's hoists); finding 1 linked to rem:pas_plat): the BTZ sentence proved at the ported E₀ in Causal/Port/E0ModelRows.lean, sorry-free, unmarked: the mark waits on OQ-34 (the reading of E₀); T-ett-port-e0 is done.",
+      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Minkowski space → carried (minkowski n, every n (existing Causal.Flat.minkowski_not_lt_self, reused)); a BTZ point (defi:causal_E0) → strengthened (a point of S₀ under BTZAxioms C S₀; I^-(p) = ∅ is the field Iminus_eq_empty, standing for defi:causal_E0 at E₀ (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))). T-ett-e0-model-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor (layer placement: the model-free BTZAxioms.*, causallyPlain_of_locZ and SingularFlatAxioms.causallyPlain sit behind the E₀ import, to hoist into the ETT layer (kb 0047, 0061; /ett-programme's hoists); finding 1 linked to rem:pas_plat): the BTZ sentence proved at the ported E₀ in Causal/Port/E0ModelRows.lean, sorry-free, unmarked: the mark waits on OQ-34 (the reading of E₀); T-ett-port-e0 is done.",
+      "blocked_on": "OQ-34 (the reading of E₀): every assertion is proved at the ported E₀ with no added hypothesis",
       "lean_proved_override": "partial",
       "extra_lean_files": [
         "Causal/Flat/Achronal.lean",
-        "Causal/Remarks/BTZPoints.lean"
+        "Causal/Remarks/BTZPoints.lean",
+        "Causal/Port/E0ModelRows.lean",
+        "Causal/Port/E0Causality.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -3073,7 +3081,8 @@
       "lean_files": [
         "Causal/TransparentLine.lean",
         "Causal/Galileo.lean",
-        "Causal/LinesReachable.lean"
+        "Causal/LinesReachable.lean",
+        "Causal/Port/E0ModelRows.lean"
       ],
       "decls": [
         "Causal.halfChronoLine",
@@ -3087,23 +3096,37 @@
         "Causal.causallyPlain_cannot_be_dropped_plus",
         "Causal.pointedLine",
         "Causal.pointedLine_Kplus_zero",
-        "Causal.bubble_need_not_meet_Kplus"
+        "Causal.bubble_need_not_meet_Kplus",
+        "Causal.E0.K_neq_I",
+        "Causal.E0.K_neq_I_btz",
+        "Causal.E0.Kminus_axis",
+        "Causal.E0.Kminus_axis_eq",
+        "Causal.E0.Kminus_axis_nonempty",
+        "Causal.E0.Kminus_ne_Iminus_axis",
+        "Causal.E0.Zminus_cannot_be_dropped",
+        "Causal.E0.causallyPlain",
+        "Causal.Causality.BTZAxioms.K_neq_I",
+        "Causal.Causality.BTZAxioms.Kminus_ne_Iminus",
+        "Causal.Causality.BTZAxioms.Jminus_diff_nonempty"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "No `sorry`. Certified: causal plainness cannot be dropped from prop:tarentin_fort_K (halfChronoLine). The bubble mechanism fails in general but is open under prop:tarentin_fort_K's hypotheses; the BTZ sentence needs E_0. WP-2, audited.",
-      "notes": "No `sorry`. Certified: causal plainness cannot be dropped from prop:tarentin_fort_K (halfChronoLine). The bubble mechanism fails in general but is open under prop:tarentin_fort_K's hypotheses; the BTZ sentence needs E_0. WP-2, audited.",
-      "blocked_on": "the BTZ model E_0",
+      "scope_notes": "No `sorry`. Certified: causal plainness cannot be dropped from prop:tarentin_fort_K (halfChronoLine). The bubble mechanism fails in general but is open under prop:tarentin_fort_K's hypotheses; the BTZ sentence is proved at E₀ (below). WP-2, audited. T-ett-e0-model-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor (layer placement: the model-free BTZAxioms.*, causallyPlain_of_locZ and SingularFlatAxioms.causallyPlain sit behind the E₀ import, to hoist into the ETT layer (kb 0047, 0061; /ett-programme's hoists); finding 1 linked to rem:pas_plat): the BTZ sentence proved at the ported E₀ in Causal/Port/E0ModelRows.lean, sorry-free, unmarked: the mark waits on OQ-34 (the reading of E₀); T-ett-port-e0 is done. New: E₀ is causally plain (Causal.E0.causallyPlain), and every strongly causal SingularFlatAxioms spacetime is (Causality.SingularFlatAxioms.causallyPlain) — evidence for OQ-16, not a ruling.",
+      "notes": "No `sorry`. Certified: causal plainness cannot be dropped from prop:tarentin_fort_K (halfChronoLine). The bubble mechanism fails in general but is open under prop:tarentin_fort_K's hypotheses; the BTZ sentence is proved at E₀ (below). WP-2, audited. T-ett-e0-model-rows (atlas-team, 2026-11-21), audit AUDIT-1 minor (layer placement: the model-free BTZAxioms.*, causallyPlain_of_locZ and SingularFlatAxioms.causallyPlain sit behind the E₀ import, to hoist into the ETT layer (kb 0047, 0061; /ett-programme's hoists); finding 1 linked to rem:pas_plat): the BTZ sentence proved at the ported E₀ in Causal/Port/E0ModelRows.lean, sorry-free, unmarked: the mark waits on OQ-34 (the reading of E₀); T-ett-port-e0 is done. New: E₀ is causally plain (Causal.E0.causallyPlain), and every strongly causal SingularFlatAxioms spacetime is (Causality.SingularFlatAxioms.causallyPlain) — evidence for OQ-16, not a ruling.",
+      "blocked_on": "OQ-34 (the reading of E₀) for the BTZ sentence; the bubble sentence stays open",
       "lean_proved_override": "partial",
       "paper_findings": [
         "ETT.tex:872-875: the conclusion (causal plainness cannot be dropped from prop:tarentin_fort_K) is certified by halfChronoLine (timelike causal relation, chronology only after −1): tarentin, absolutely minimal, causal, 0 ∈ Z^-, not causally plain, ]−∞,−1[ a bubble of J^-(0), −2 ∈ K^-(0) ∖ I^-(0).",
-        "ETT.tex:875-877: the BTZ sentence rests on prop:K_calcul and the model space E_0, absent from the library; not stated."
+        "ETT.tex:875-877: the BTZ sentence rests on prop:K_calcul and the model space E_0, absent from the library; not stated.",
+        "ETT.tex:872-877: the BTZ point does not show a second time that causal plainness cannot be dropped from prop:tarentin_fort_K. At E₀ the hypothesis that fails is 'p strongly tarentin in the past' (p ∉ Z⁻, rem:btz_pas_tarentin, l.1358-1361). E₀ is causally plain, absolutely minimal, tarentin, causal, Hausdorff and second countable, and K⁻(p) ≠ I⁻(p) at every BTZ point (Causal.E0.Zminus_cannot_be_dropped, Causal.E0.causallyPlain). So the BTZ point witnesses that the Z⁻ hypothesis of prop:tarentin_fort_K cannot be dropped. 'In degenerate form' is compatible with this. Placed right after 'Causal plainness cannot be dropped', though, the sentence reads as another instance of that. Suggested wording: '... at a BTZ point, which is not strongly tarentin in the past (Remark rem:btz_pas_tarentin), where I⁻(p) = ∅ while ...'. This rests on OQ-34. (AUDIT-1: this is the claim rem:pas_plat (ii), ETT.tex:294–295, calls « degenerate »; it is the same error as the recorded rem:pas_plat finding and kb 0029, not a second one.)",
+        "ETT.tex:876-877 with l.1561: K⁻(p) = J⁻(p) ∖ {p} is prop:K_calcul (c), which assumes M causal; the remark does not say so. At E₀ (causal) nothing is omitted. If 'a BTZ point' is read in an arbitrary E≥0-manifold, as rem:pas_plat (l.294) and rem:btz_pas_tarentin (l.1358-1361) use the phrase, the hypothesis is missing from the equality. The paper states it itself at l.769: 'for a BTZ point p of a causal E≥0-manifold, p ∉ K⁻(p) = J⁻(p) ∖ {p}'. It is not needed for the separation: K⁻(p) ≠ I⁻(p) holds under BTZAxioms with no causality (Causal.Causality.BTZAxioms.Kminus_ne_Iminus). NOT FORMALIZED, a sketch only: in the non-causal quotient E₀/⟨τ ↦ τ+1⟩, J⁻(p) is the whole BTZ circle and lies in J⁻(u) for every u, so p ∈ K⁻(p) and the equality fails while I⁻(p) = ∅ still holds. Suggested wording: '... at a BTZ point of a causal E≥0-manifold' or '... of E₀'."
       ],
       "extra_lean_files": [
         "Causal/TransparentLine.lean",
         "Causal/Galileo.lean",
-        "Causal/LinesReachable.lean"
+        "Causal/LinesReachable.lean",
+        "Causal/Port/E0ModelRows.lean"
       ],
       "size": "M",
       "in_lean_scope": true,
