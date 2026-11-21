@@ -284,3 +284,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 09:11–09:52 (Paris); agents: 3 closers, 3 audits (with /ett-programme's 3, cap 6)
 - new OQ: 79 (what OQ-71 and OQ-75 now leave open)
 - next: T-bz-c2-dedupe-demidroite (master, exclusive; three callers noted), then plan (rule 2); planner notes: split T-ett-singular-instance (atlas-owned, agreed with /ett-programme); T-bz-result-b (the affine half) is now unblocked
+
+## 2026-11-21 10:18 · plan + T-bz-c2-dedupe-demidroite
+- plan (rule 2): 106 -> 114 targets (8 ready); promoted T-bz-result-b (the affine half of sentence 1 and the mark; waits on OQ-45 (a), and on OQ-75/79 only if the affine half uses 1°'s second sentence: to check on the proof terms); split T-ett-singular-instance (atlas-owned, agreed with /ett-programme): hreg is a missing construction, not a ruling, and (b′) can be proved at the models → T-ett-massa-dec25, T-ett-ealpha-sectors, T-ett-e0-gx-structure (ready), T-ett-ealpha-gx-structure, T-ett-e-models-bprime, T-ett-singular-sfa (planned); added T-ett-model-rows-e0 (five bucket-D ETT rows whose model exists since 0fe9136) and T-ett-curation-model-blockers (master: six blocked_on texts naming as missing a layer that exists)
+- T-bz-c2-dedupe-demidroite (master, run beside the planner, Lean only): one construction of the strict shell ]0, 1[ ⊂ ]0, ∞[ (Poches.exists_isCoqueStricteAff_demiDroite_and_ne_univ), both lemmas now its halves, statements and callers unchanged
+- gates: lean-benzecri ✓, roadmap ✓, atlas ✓, hub: all gates green
+- commits: 7ea17c9 3102db7 (+ this)
+- wall time: 09:55–10:18 (Paris); agents: 1 (planner)
+- next: wave in lean-causal (T-ett-massa-dec25, T-ett-ealpha-sectors, T-ett-e0-gx-structure; coordinate the package with /ett-programme: its T-loc-ealpha-tidy lease on EAlphaCauchy.lean, Static.lean), T-bz-result-b in lean-benzecri, master T-ett-curation-model-blockers (papers/ett lease)
