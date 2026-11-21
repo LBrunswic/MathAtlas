@@ -557,12 +557,22 @@ function showPaperInfo(p){
     <p>${esc(pp.summary)}</p>
     ${pp.headline?.length?`<div><h3>Headline Lean</h3><div class="mono">${pp.headline.map(esc).join("<br>")}</div></div>`:""}
     ${pp.open?`<div><h3>What remains</h3><p>${esc(pp.open)}</p></div>`:""}
+    ${correctionsHTML(pp)}
     ${leanSummaryHTML(p)}
     ${pp.dd?`<div><h3>Double DAG</h3><div class="stat"><div><b>${pp.dd.edges_both}</b><span>both</span></div><div><b>${pp.dd.edges_lean_only}</b><span>Lean only</span></div><div><b>${pp.dd.edges_tex_only}</b><span>draft only</span></div></div><p class="prov">As committed in <span class="mono">${esc(pp.ddpath)}</span>: ${pp.dd.labels_with_lean} of ${pp.dd.labels} rows with Lean, ${pp.dd.principals} principals; the draft's rows are not in this atlas, so the edges are not drawn here.</p></div>`:""}
     ${targetsForPaper(p).length?`<div><h3>On the roadmap (${targetsForPaper(p).length})</h3><div style="display:flex;flex-direction:column;gap:8px">${targetsForPaper(p).map(t=>tgtHTML(t,true)).join("")}</div></div>`:""}
     ${d&&state.level==="hub"?`<p><button class="chip" id="openp" style="cursor:pointer;color:var(--accent)">Open this paper</button></p>`:""}`;
   wireTargets(); wireLean();
   const b=$("#openp"); if(b) b.onclick=()=>go({level:"paper",p},p,"down");
+}
+function correctionsHTML(pp){
+  const C=pp.corrections; if(!C) return "";
+  const n=s=>C.by[s]||0;
+  const tiles=[[n("applied")+n("reviewed"),"applied to v2"],[n("adopted"),"adopted, to apply"],[n("proved")+n("found"),"not yet adopted"]];
+  return `<div><h3>Corrections of the paper</h3>
+    <div class="stat">${tiles.map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}</div>
+    <p style="margin-top:8px">${C.total} places where formalizing found the paper wrong or short: ${n("found")} found, ${n("proved")} proved in Lean and waiting for adoption${n("reviewed")?`, ${n("reviewed")} reviewed by the author`:""}. Each moves found → proved → adopted → applied → reviewed; applied ones are commits of the arXiv v2 working copy${C.v2?` (head <span class="mono">${esc(C.v2)}</span>${C.v2_commits!=null?`, ${C.v2_commits} commit${C.v2_commits===1?"":"s"} since the camera-ready`:""})`:""}.</p>
+    <p class="prov">${esc(C.prov)}</p></div>`;
 }
 function leanProv(p){
   const L=LE[p];
@@ -661,7 +671,7 @@ function typeset(p){
 function tgtHTML(t,withGo){
   const first=(t.labels||[])[0];
   const go=withGo&&t.paper&&DATA[t.paper]?`<button class="go" data-tp="${esc(t.paper)}" data-tl="${esc(first||"")}">${first?"Show "+esc(first)+" →":"Open "+esc(HUB.papers[t.paper]?.short||t.paper)+" →"}</button>`:"";
-  return `<div class="tgt"><div class="meta"><span class="chip s-${t.status}">${ST_LABEL[t.status]||t.status}</span><span class="mono">${esc(t.id)}</span><span>p${t.priority}</span><span>${esc(t.owner)}</span></div>
+  return `<div class="tgt"><div class="meta"><span class="chip s-${t.status}">${ST_LABEL[t.status]||t.status}</span><span class="mono">${esc(t.id)}</span><span>p${t.priority}</span><span>${esc(t.owner)}</span>${t.loop&&t.loop!=="atlas-team"?`<span class="mono">/${esc(t.loop)}</span>`:""}</div>
     <b>${esc(t.title)}</b>${t.question?`<div class="q"><strong>Question:</strong> ${esc(t.question)}</div>`:""}
     ${t.labels?.length?`<div class="meta">${t.labels.length} row${t.labels.length>1?"s":""}${t.depends?.length?" · after "+t.depends.map(esc).join(", "):""}</div>`:t.depends?.length?`<div class="meta">after ${t.depends.map(esc).join(", ")}</div>`:""}${go}</div>`;
 }
@@ -670,7 +680,7 @@ function showRoadmap(){
   const order=["active","ready","needs-ruling","blocked","planned","done","dropped"];
   const groups=order.map(st=>[st,ROAD.targets.filter(t=>t.status===st).sort((a,b)=>a.priority-b.priority)]).filter(g=>g[1].length);
   P.innerHTML=`<div><h3>Roadmap</h3><h2>What the team works on next</h2></div>
-   <p>Targets come from <span class="mono">roadmap/roadmap.toml</span>. The loop takes the first ready target, works it, has it audited, and commits. A target that needs your ruling waits until a DEC row decides it.</p>
+   <p>Targets come from ${(ROAD.files||["roadmap/roadmap.toml"]).map(f=>`<span class="mono">${esc(f)}</span>`).join(" and ")}; a target of a loop with a roadmap of its own names that loop. The loop takes the first ready target, works it, has it audited, and commits. A target that needs your ruling waits until a DEC row decides it.</p>
    <div class="stat">${["ready","needs-ruling","done"].map(k=>`<div><b>${ROAD.targets.filter(t=>t.status===k).length}</b><span>${ST_LABEL[k]}</span></div>`).join("")}</div>
    ${groups.map(([st,ts])=>`<div><h3>${ST_LABEL[st]} (${ts.length})</h3><div style="display:flex;flex-direction:column;gap:8px">${ts.map(t=>tgtHTML(t,true)).join("")}</div></div>`).join("")}
    ${ROAD.known_red.length?`<div><h3>Hub gates already red</h3><ul>${ROAD.known_red.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}`;

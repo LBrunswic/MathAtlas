@@ -1,4 +1,5 @@
-# The dependency atlas: regenerate from the ledgers, hub.toml and roadmap/roadmap.toml
+# The dependency atlas: regenerate from the ledgers, hub.toml, roadmap/roadmap.toml and the EGF programme's
+# roadmap and corrections register (papers/egf/programme)
 # (run `make ledgers` at the hub root first). `make LOGS=<dir>` refreshes the declaration counts
 # from `make -C <pkg> check` logs named check-<pkg>.log, one per package of hub.toml's lib table;
 # a package with no cached count yet is drawn as "not swept", never given a number.
@@ -16,7 +17,8 @@ SHELL := /bin/bash
 .SHELLFLAGS := -o pipefail -c
 LOGS ?=
 
-atlas.html: extract.py build.py lean_edges.py template.html hub.toml ../../roadmap/roadmap.toml $(wildcard lean/edges-*.json)
+atlas.html: extract.py build.py lean_edges.py template.html hub.toml ../../roadmap/roadmap.toml \
+            ../../papers/egf/programme/roadmap.toml ../../papers/egf/programme/corrections.toml $(wildcard lean/edges-*.json)
 	python3 extract.py data.json 2>/dev/null
 	python3 build.py $(if $(LOGS),--logs $(LOGS))
 	{ echo '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>'; cat atlas.body.html; echo '</body></html>'; } > atlas.html

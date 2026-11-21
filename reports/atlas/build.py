@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Assemble the atlas page: data.json (extract.py) + hub.toml + roadmap/roadmap.toml + live numbers.
+"""Assemble the atlas page: data.json (extract.py) + hub.toml + roadmap/roadmap.toml (and the roadmaps of
+the loops in PROGRAMME_ROADMAPS) + live numbers.
 
 Numbers are never typed: the library cards read each package's sorry_count.py and the axiom-sweep
 cache sweep.json (refreshed from `make -C <pkg> check` logs by `python3 build.py --logs DIR`, one
@@ -27,6 +28,38 @@ import lean_edges as le  # noqa: E402
 hub = tomllib.load(open(os.path.join(HERE, "hub.toml"), "rb"))
 road = tomllib.load(open(os.path.join(ROOT, "roadmap", "roadmap.toml"), "rb"))
 logs = sys.argv[sys.argv.index("--logs") + 1] if "--logs" in sys.argv else None
+
+# Loops whose targets live in a roadmap of their own (DEC-141: EGF belongs to /egf-programme). Their
+# targets join the overlay tagged with the loop; one with the id of a hub target replaces it (a
+# target moved from the hub roadmap keeps its id and its history continues in the loop's file).
+PROGRAMME_ROADMAPS = [("egf-programme", os.path.join("papers", "egf", "programme", "roadmap.toml"))]
+
+
+def overlay_targets():
+    targets = {t["id"]: dict(t, loop="atlas-team") for t in road.get("target", [])}
+    for loop, rel in PROGRAMME_ROADMAPS:
+        path = os.path.join(ROOT, rel)
+        if os.path.exists(path):
+            for t in tomllib.load(open(path, "rb")).get("target", []):
+                targets[t["id"]] = dict(t, loop=loop)
+    return list(targets.values())   # the hub's order, a replaced target in its place, the loops' after
+
+
+def egf_corrections():
+    """The EGF corrections register (papers/egf/programme/corrections.toml), counted by status at
+    build, and the head of the v2 working copy it applies to; None when the register is absent."""
+    import corrections as cr
+    if not os.path.exists(cr.FILE):
+        return None
+    entries = cr.load(cr.FILE).get("correction", [])
+    by = {s: sum(1 for c in entries if c.get("status") == s) for s in cr.STATUS}
+    head = subprocess.run(["git", "-C", cr.V2, "log", "-1", "--format=%h"], capture_output=True, text=True)
+    n = subprocess.run(["git", "-C", cr.V2, "rev-list", "--count", "camera-ready..HEAD"], capture_output=True, text=True)
+    return {"by": by, "total": len(entries), "statuses": cr.STATUS,
+            "v2": head.stdout.strip() if head.returncode == 0 else None,
+            "v2_commits": int(n.stdout) if n.returncode == 0 and n.stdout.strip().isdigit() else None,
+            "prov": "papers/egf/programme/corrections.toml (tools/corrections.py), counted at build; v2: "
+                    "~/Dropbox/ErgodicGFN arXiv/source, commits since the tag camera-ready."}
 
 
 def strict_lib(pkg):
@@ -111,6 +144,9 @@ for lid, l in hub["lib"].items():
 papers = dict(hub["paper"])
 papers["gfnbounds"] = dict(papers["gfnbounds"], closed=g["closed"], target=g["statements"] - g["open"],
                            badge="%d rows · %d terminal" % (g["statements"], g["open"]))
+corr = egf_corrections()
+if corr and "egf" in papers:
+    papers["egf"] = dict(papers["egf"], corrections=corr)
 D = json.loads(open(os.path.join(HERE, "data.json"), encoding="utf-8").read())
 for slug in D:
     if slug not in papers:   # a ledger hub.toml does not curate yet: a placeholder card, said as such
@@ -148,7 +184,8 @@ for slug in D:
 
 HUB = {"clusters": hub["cluster"], "papers": papers, "libs": libs, "edges": hub["edge"],
        "provenance": hub["provenance"]}
-ROAD = {"targets": road.get("target", []), "known_red": road.get("gates", {}).get("known_red", [])}
+ROAD = {"targets": overlay_targets(), "known_red": road.get("gates", {}).get("known_red", []),
+        "files": ["roadmap/roadmap.toml"] + [rel for _loop, rel in PROGRAMME_ROADMAPS]}
 
 t = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
 Dtext = open(os.path.join(HERE, "data.json"), encoding="utf-8").read()
