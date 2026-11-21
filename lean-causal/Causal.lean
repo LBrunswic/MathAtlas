@@ -278,6 +278,7 @@ import Causal.LineDevelopment
 import Causal.Port.SFABTZ
 import Causal.Port.SFALine
 import Causal.Port.SFAMassiveLine
+import Causal.Port.CupCapBTZCounterexample
 
 /-!
 # Causal — topological spacetimes
