@@ -158,3 +158,15 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - times: journal headers are UTC
 - commits: ff0fd2f e278e3a 45809f9 b2e1e10
 - next: wave: T-loc-quasilinear-one-sided, T-loc-flat-time-cylinder (lean-causal ×2, beside /atlas-team's 4); then T-abs-maximal-zorn, T-abs-rational-line-extras, T-abs-hoist-levin (exclusive), and T-lad-record-minimal
+
+## 2026-11-21 06:50 · wave of 3 · T-loc-flat-time-cylinder, T-loc-quasilinear-one-sided, T-abs-rational-line-extras
+- T-loc-flat-time-cylinder (layer 3, flat-gx): ℤe₀\𝐌ⁿ with every local ladder property and causal plainness, ≪ total, not causally compact for d ≥ 1 and compact for d = 0 (the timelike circle); absolutely minimal on every open set, so either reading; audit minor (the proposed [[fails]] entries' space = [] would misfire: record them with no space key); kb/0078. Flat model modules reach GXBasic/UniversalCover/Developing through Causal.Flat.Developing: the "no Port" rule for a model module reads as direct imports
+- T-loc-quasilinear-one-sided (layer 3, quasilinear): ERS Lemma 4.86 with GH, S open/connected and S ⊆ U₁ unused, (4.83) as a 1/δ-Lipschitz graph, OneSidedBoundary, Thm 4.82 plugged with no restatement; labels unmarked on readings (OQ-73); audit minor, two docstring readings corrected by the master before graduation; binder 4.82/4.86: the lemma cited in open_reason, not under entries proving other nodes; kb/0081
+- T-abs-rational-line-extras (layer 1): time function, open strong causality, ¬ locally causally open (one causal_ladder call), ¬ tarentin, ¬ plain, no chronal neighbours, ¬ causally compact; absolutely minimal on every open set; audit minor (README row's diamond formula restricted to rationals); kb/0079, kb/0080. The target's evidence "J_⊤(p, q) ⊆ ℚ" is ⊆ ℚ ∪ {p}
+- curation: ett lem:corresponding_K lists Causal/CBG/NoCorresponding.lean, the one false short-name resolution in this loop's ledgers found by /atlas-team's planner, ahead of its tools/ledger.py fix (T-ledger-decl-fullname)
+- for the author: OQ-73 (Lemma 4.86's readings (a) (4.87) as a curve-nested slope cone, (b) (4.83) on a cylinder chart; the typo at ghd_02_19.tex:1168)
+- ladder: unchanged, 312/314 within a sort, 22 implications, 49 counterexamples, 42 consequences, 7 transfers; waiting for T-lad-record-minimal (now only on T-abs-hoist-levin): 3 edges, the cylinder's, the circle's and the rational line's [[fails]]
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 17; sbierski-mghd 19 rows bound, layer 1 in Lean 16
+- gates: lean-causal ✓, ladder ✓, binder ✓, roadmaps ✓, test_programme + test_roadmap ✓, blueprint ✓, hub: all gates green
+- commits: eeec2ae b50f7be 9bda56f 4d90fb7 dd78b53
+- next: T-abs-hoist-levin (exclusive in lean-causal), then T-lad-record-minimal (keeper); after them, T-abs-maximal-zorn, T-abs-ers-unions, T-abs-ers-mughd
