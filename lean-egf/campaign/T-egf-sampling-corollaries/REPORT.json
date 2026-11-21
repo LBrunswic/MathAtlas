@@ -1,0 +1,221 @@
+{
+  "package": "T-egf-sampling-corollaries",
+  "target": "T-egf-sampling-corollaries",
+  "files": [
+    "scaffold/EGFScaffold/SamplingCorollaries.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "cor:sampling_error_control",
+      "tex_lines": [
+        329,
+        334
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "EGF.sampling_error_control",
+        "EGF.kappaHat",
+        "EGF.inferenceDefect",
+        "EGF.kappaHat_eq_posPart",
+        "EGF.inferenceDefect_eq_negPart",
+        "EGF.terminalError_kappaHat",
+        "EGF.virtualTerm_kappaHat",
+        "EGF.initialError_kappaHat",
+        "EGF.tvDist_triangle",
+        "EGF.main_quantitative_sampling",
+        "EGF.tvDist",
+        "EGF.normalize",
+        "EGF.GenerativeFlow.pathLaw",
+        "EGF.sampledState",
+        "EGF.stopTime"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a generative flow (pi*, f*_out) (main.tex:329, :161)",
+          "here": "carried",
+          "note": "EGF.GenerativeFlow: pi a Markov kernel, F_out a finite measure"
+        },
+        {
+          "paper": "F_init(S) = 1",
+          "here": "carried",
+          "note": "[IsProbabilityMeasure Finit]"
+        },
+        {
+          "paper": "trained on the target kappa",
+          "here": "weakened",
+          "note": "kappa any finite measure, kappa = 0 not excluded (kappa/kappa(S) is then 0 and the bound still holds); the training is not read by the inequality, which holds for every generative flow"
+        },
+        {
+          "paper": "using F_term = kappa-hat := (F_init + F_in* - F_out*)^+ during inference",
+          "here": "carried",
+          "note": "EGF.kappaHat = (F_init + inflow) - F_out, the positive part of the Jordan decomposition (kappaHat_eq_posPart); the sampler is EGF.GenerativeFlow.pathLaw F F_init kappa-hat of EGF.Sampling. At F_term = kappa-hat the terminal error vanishes, so F-hat_term = kappa-hat (virtualTerm_kappaHat): the inference sampler is the sampler of theo:negative_control"
+        },
+        {
+          "paper": "delta := (F_init + F_in* - F_out*)^-(S) (main.tex:333)",
+          "here": "carried",
+          "note": "EGF.inferenceDefect ... Set.univ = (F_out - (F_init + F_in))(S), the Jordan negative part (inferenceDefect_eq_negPart); it is delta F_init(S) at F_term = kappa-hat (initialError_kappaHat)"
+        },
+        {
+          "paper": "TV the total variation; s_tau the sample",
+          "here": "carried",
+          "note": "EGF.tvDist = (1/2)||.|| and the randomized stopping time, as for theo:negative_control (OQ-60 (a), (b))"
+        },
+        {
+          "paper": "conclusion TV(s_tau || kappa/kappa(S)) <= delta/(1 + delta) + TV(kappa-hat/kappa-hat(S) || kappa/kappa(S))",
+          "here": "carried",
+          "note": "clause 5 of EGF.sampling_error_control; and more: tau < inf a.s., the law of s_tau is a probability, kappa-hat(S) = 1 + delta, TV(s_tau || kappa-hat/kappa-hat(S)) <= delta/(1 + delta)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "No proof is printed (the ledger row has proof null). The corollary is one application of theo:negative_control: at F_term = kappa-hat = E^+ (E := F_init + F_in - F_out) the terminal error is (E - E^+)^+ = 0, so F-hat_term = kappa-hat, the initial error is E^-, F-hat_term(S) = F_init(S) + delta = 1 + delta, and the bound delta F_init(S)/F-hat_term(S) of main.tex:325 is delta/(1 + delta). The triangle inequality for TV (EGF.tvDist_triangle, from the strict tvMass_triangle) adds the second term.",
+        "The statement holds for every generative flow and every finite kappa: 'trained on the target kappa' (main.tex:329) is context and plays no role in the inequality."
+      ],
+      "questions": [
+        "Inherited from theo:negative_control (OQ-60, confirmation): TV read with the 1/2 of main.tex:338, and the sampler of main.tex:163-165 read with a randomized stopping time. The mark rests on OQ-60 (a) and (b), as the mark of theo:negative_control does."
+      ]
+    },
+    {
+      "label": "cor:pinsker_negative_control",
+      "tex_lines": [
+        374,
+        380
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "EGF.pinsker_negative_control_density",
+        "EGF.pinsker_negative_control",
+        "EGF.pinsker_negative_control_real",
+        "EGF.pinsker_negative_control_isEGF",
+        "EGF.pinsker",
+        "EGF.Pinsker.pinsker",
+        "EGF.tvDist_withDensity",
+        "EGF.klD_rnDeriv_eq_toReal_klDiv",
+        "EGF.dens",
+        "EGF.defectDensity",
+        "EGF.deltaFinitDensity",
+        "EGF.deltaFinitDensityPrinted",
+        "EGF.ftermHatDensity",
+        "EGF.InflowAC",
+        "EGF.integral_deltaFinitDensity",
+        "EGF.integral_deltaFinitDensityPrinted",
+        "EGF.kappaHat_eq_withDensity",
+        "EGF.inferenceDefect_eq_withDensity",
+        "EGF.inflowAC_of_isEGFPolicy",
+        "EGF.PinskerNegativeControlPrinted",
+        "EGF.printed_false_of_mem_Ioo",
+        "EGF.Swap.printed_pinsker_negative_control_false",
+        "EGF.sampling_error_control",
+        "EGF.kappaHat",
+        "EGF.inferenceDefect"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(pi*, f*_out) a generative flow",
+          "here": "carried",
+          "note": "EGF.GenerativeFlow"
+        },
+        {
+          "paper": "target probability distribution kappa, F_init(S) = 1",
+          "here": "carried",
+          "note": "[IsProbabilityMeasure kappa], [IsProbabilityMeasure Finit]"
+        },
+        {
+          "paper": "F_term = kappa-hat := (F_init + F_in* - F_out*)^+ during inference",
+          "here": "carried",
+          "note": "EGF.kappaHat and the sampler EGF.GenerativeFlow.pathLaw F F_init kappa-hat; kappa-hat = f-hat_term lambda with f-hat_term = max(0, f_init + f_in - f_out) of main.tex:362 (kappaHat_eq_withDensity)"
+        },
+        {
+          "paper": "delta := int delta f_init d lambda, delta f_init = min(0, f_init + f_in* - f_out*) (main.tex:362, :379)",
+          "here": "reading",
+          "note": "false as printed (findings 1-2). Read as delta f_init := max(0, -(f_init + f_in - f_out)) (EGF.deltaFinitDensity), the negative part of def:virtual_flows (main.tex:316) and of main.tex:333; then int delta f_init d lambda = (F_init + F_in - F_out)^-(S) (integral_deltaFinitDensity). The measure form EGF.pinsker_negative_control takes delta = (F_init + F_in - F_out)^-(S) directly, with no lambda"
+        },
+        {
+          "paper": "the densities f_init = dF_init/d lambda, f_in* = dF_in*/d lambda, f*_out (main.tex:196, :157)",
+          "here": "carried",
+          "note": "presupposed, as the paper does by writing them (main.tex:157: d mu/d nu is defined for mu << nu): Finit << lambda, F_out << lambda, and the named hypothesis EGF.InflowAC lambda F (F_in << lambda), in the density forms only. Densities are Mathlib's rnDeriv (EGF.dens). For an EGF with F_out = f_out lambda (main.tex:732) and Phi_i push lambda = J_i lambda, InflowAC is proved (EGF.inflowAC_of_isEGFPolicy, by EGF.inflow_eq_withDensity), and EGF.pinsker_negative_control_isEGF has no named hypothesis"
+        },
+        {
+          "paper": "KL, and sqrt(1/2 KL)",
+          "here": "carried",
+          "note": "Mathlib's InformationTheory.klDiv (normalize kappa-hat) kappa, in [0, inf]; sqrt(1/2 KL) is (KL/2)^(1/2) in [0, inf], so the bound is vacuous when KL = inf. The real form EGF.pinsker_negative_control_real, the printed shape in R, assumes KL < inf"
+        },
+        {
+          "paper": "TV, s_tau",
+          "here": "carried",
+          "note": "EGF.tvDist and EGF.GenerativeFlow.pathLaw (OQ-60 (a), (b))"
+        },
+        {
+          "paper": "(S, lambda) a Polish space with a background measure lambda, finite (main.tex:155, :358)",
+          "here": "weakened",
+          "note": "any measurable space; lambda sigma-finite; lambda appears only in the density forms"
+        },
+        {
+          "paper": "Pinsker's inequality (main.tex:370, used, not stated)",
+          "here": "carried",
+          "note": "proved: EGF.Pinsker.pinsker on densities, copied from GFNBounds.Core.ILBoundFull.pinsker (lean/GFNBounds/Core/ILBoundFull.lean:292, Pollard's proof) with its helpers; EGF.pinsker for probability measures with Mathlib's klDiv: TV(mu || nu) <= (KL(mu || nu)/2)^(1/2)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "False as printed. main.tex:362 defines delta f_init = min(0, f_init + f_in* - f_out*), which is <= 0 (EGF.deltaFinitDensityPrinted_nonpos), so delta = int delta f_init d lambda = -(F_init + F_in - F_out)^-(S) <= 0 (main.tex:379; EGF.integral_deltaFinitDensityPrinted). At the target probability kappa := kappa-hat/kappa-hat(S) the divergence is 0 and the printed right side is -e/(1 - e) < 0 <= TV, for every flow with 0 < e := (F_init + F_in - F_out)^-(S) < 1 whose densities exist (EGF.printed_false_of_mem_Ioo).",
+        "A two-point instance (EGF.Swap.printed_pinsker_negative_control_false): S = Bool, lambda the counting measure, the swap policy b -> not b, F_out = (1/2) delta_false, F_init = delta_true, kappa = kappa-hat/kappa-hat(S) = delta_true. Every presupposition holds (F_init, F_out, F_in << lambda). The printed delta is -1/2, the negative-part delta is 1/2, KL = 0, and the printed bound is -1.",
+        "With delta the negative-part mass, as def:virtual_flows (main.tex:316, (.)^-) and cor:sampling_error_control (main.tex:333, (.)^-(S)) define it, the corollary holds: in measures (EGF.pinsker_negative_control), in the paper's densities with delta f_init := max(0, -(f_init + f_in - f_out)) = -min(0, .) (EGF.pinsker_negative_control_density), in R when KL < inf (EGF.pinsker_negative_control_real), and for an EGF with no named hypothesis (EGF.pinsker_negative_control_isEGF). The proof (none is printed) is cor:sampling_error_control with Pinsker on its second term, kappa being a probability.",
+        "The same sign reaches the loss, outside this target's labels: equ:weakFM (main.tex:363-365) penalizes b E_{nu_train} delta f_init, and Algorithm 1 (main.tex:395, and p_t at main.tex:400 through delta f_init/f_in*) uses delta f_init. With delta f_init <= 0 that penalty rewards the negative part instead of controlling it, against main.tex:368 ('controls only the negative part of the FM defect'). GFNBounds reads delta f_init as e^- = max(-e, 0) (GFNBounds.Core.wklfmLoss, lean/GFNBounds/Core/ILBound.lean), the reading taken here. The dispatch cites the definition at l.363; in papers/egf/legacy/labeled/main.tex it is l.362.",
+        "Pinsker's inequality is cited by name only (main.tex:370) and is absent from Mathlib at fabf563a, which has klDiv. It is proved here: GFNBounds' density statement copied (EGF.Pinsker.pinsker), identified with tvDist (EGF.tvDist_withDensity, equality, via Mathlib's Measure.withDensity_sub) and with klDiv (EGF.klD_rnDeriv_eq_toReal_klDiv), and restated for probability measures (EGF.pinsker).",
+        "F_in* << lambda is presupposed by f_in* := dF_in*/d lambda (main.tex:196). For a general flow it is the named hypothesis EGF.InflowAC. For an EGF it is a theorem under Phi_i push lambda = J_i lambda (OQ-55's form (c), which contains (a) and (b)), so the EGF instance holds whatever OQ-55 rules; only the printed 'lambda << Lebesgue' fails (EGF.printed_inflow_not_ac, OQ-55's own finding)."
+      ],
+      "questions": [
+        "Which delta is of record for cor:pinsker_negative_control (main.tex:379 with main.tex:362)? The printed delta f_init = min(0, .) makes the corollary false (findings 1-2). Reading taken: delta f_init := max(0, -(f_init + f_in* - f_out*)), so delta = (F_init + F_in* - F_out*)^-(S), as at main.tex:333 and in def:virtual_flows. The row is left unmarked: the mark is the author's.",
+        "KL (main.tex:377) is not defined in the paper. Reading taken: Mathlib's klDiv between measures, in [0, inf] (+inf off absolute continuity), with sqrt(1/2 KL) := (KL/2)^(1/2) in [0, inf], so the bound is vacuous when KL = inf. A real form under KL < inf is also proved.",
+        "Inherited (OQ-60, confirmation): TV with the 1/2 of main.tex:338 and the randomized stopping time, as for theo:negative_control."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "EGF.tvDist_triangle",
+    "EGF.tvDist_withDensity",
+    "EGF.pinsker",
+    "EGF.klD_rnDeriv_eq_toReal_klDiv",
+    "EGF.Pinsker.padeAux_mono",
+    "EGF.Pinsker.padeAux_sign",
+    "EGF.Pinsker.pollardAux",
+    "EGF.Pinsker.pollardAux_hasDerivAt",
+    "EGF.Pinsker.continuous_pollardAux",
+    "EGF.Pinsker.pollard_ineq",
+    "EGF.Pinsker.pollard_two",
+    "EGF.Pinsker.sub_le_mul_log_div",
+    "EGF.Pinsker.pinsker_pointwise",
+    "EGF.Pinsker.klD",
+    "EGF.Pinsker.tvD",
+    "EGF.Pinsker.klD_nonneg",
+    "EGF.Pinsker.pinsker",
+    "EGF.isFiniteMeasure_kappaHat",
+    "EGF.isFiniteMeasure_inferenceDefect",
+    "EGF.kappaHat_ne_zero",
+    "EGF.isProbabilityMeasure_normalize_kappaHat",
+    "EGF.ofReal_max_zero_toReal_sub",
+    "EGF.rpow_half_div_two",
+    "EGF.measurable_defectDensity",
+    "EGF.measurable_deltaFinitDensity",
+    "EGF.add_inflow_eq_withDensity",
+    "EGF.deltaFinitDensityPrinted_eq_neg",
+    "EGF.deltaFinitDensityPrinted_nonpos",
+    "EGF.Swap.flow",
+    "EGF.Swap.inflow_false",
+    "EGF.Swap.inferenceDefect_univ",
+    "EGF.Swap.ac_count"
+  ],
+  "kb_proposals": [
+    "Pinsker at this pin: Mathlib has klDiv (InformationTheory.KullbackLeibler) but no Pinsker. EGF.pinsker gives TV(mu || nu) <= (klDiv mu nu / 2)^(1/2) in [0, inf] for probability measures; EGF.Pinsker.pinsker is GFNBounds' density form. The bridges are EGF.tvDist_withDensity (an equality, through Measure.withDensity_sub in Mathlib.MeasureTheory.Measure.SubFinite) and EGF.klD_rnDeriv_eq_toReal_klDiv (toReal_klDiv_of_measure_eq with integral_rnDeriv_mul_log, no integrability needed).",
+    "Inference at kappa-hat: at F_term := (F_init + F_in) - F_out the terminal error vanishes and virtualTerm = kappa-hat (EGF.virtualTerm_kappaHat), so main_quantitative_sampling at F_term := kappa-hat is about the inference sampler pathLaw F F_init kappa-hat itself; rewrite its clauses with virtualTerm_kappaHat and initialError_kappaHat.",
+    "Pitfall: a rewrite lemma whose function argument is inferred from a `hf.add hg` or `measurable_const.max _` measurability proof gets a beta-unreduced pattern (fun a => f a + g a), which does not match `f + g` in the goal. Pass the function explicitly (`(f := ...)`) or state `have hm : Measurable (f + g)` first.",
+    "Pitfall: the ledger reads the SCOPE block from the first 8000 characters, and the regex needs the Provenance line (or -/) inside them (tools/ledger.py, SCOPE_BLOCK on text[:8000]); a long module docstring fails silently. Keep title + labels + quotes + tables + SCOPE + Provenance under 8000 characters.",
+    "Pitfall: `IsFiniteMeasure (c • mu)` is an instance for c : NNReal but not for c : ENNReal; build finite example measures with NNReal scalars ((2⁻¹ : ℝ≥0) • dirac false)."
+  ],
+  "notes": "One file, scaffold/EGFScaffold/SamplingCorollaries.lean (927 lines), sorry-free. The only named hypothesis is EGF.InflowAC (F_in << lambda, the paper's presupposition at main.tex:196), in the density forms of cor:pinsker_negative_control only; it is discharged for an EGF (EGF.pinsker_negative_control_isEGF). It imports EGF.Sampling, EGF.BackwardPolicy (for EGF.inflow_eq_withDensity) and four Mathlib modules (InformationTheory.KullbackLeibler.Basic, Analysis.SpecialFunctions.Pow.NNReal, Analysis.Calculus.Deriv.MeanValue, Analysis.SpecialFunctions.Log.NegMulLog), with no `import Mathlib`, so it can graduate as EGF/SamplingCorollaries.lean by a file move. `lake env lean` prints no warning (warningAsError-ready). `lake build EGFScaffold.SamplingCorollaries` ran once at the end (3094 jobs) and rebuilt only this module. #print axioms through a /tmp copy (deleted) gives propext, Classical.choice and Quot.sound for EGF.sampling_error_control, EGF.pinsker, EGF.Pinsker.pinsker, EGF.tvDist_withDensity, EGF.tvDist_triangle, EGF.pinsker_negative_control, EGF.pinsker_negative_control_density, EGF.pinsker_negative_control_real, EGF.pinsker_negative_control_isEGF, EGF.printed_false_of_mem_Ioo, EGF.Swap.printed_pinsker_negative_control_false, EGF.integral_deltaFinitDensity and EGF.kappaHat_eq_withDensity. No name clash with EGF.Defs, Universality, BackwardPolicy, Sampling or Basic (the file compiles importing them; EGF.Basic declares only packageName). The scaffold root scaffold/EGFScaffold.lean was not edited (outside the dispatch): add `import EGFScaffold.SamplingCorollaries` there, or to EGF.lean at graduation, so the axiom sweep sees the module. The module docstring marks only cor:sampling_error_control (within the first 4000 characters); its SCOPE block and Provenance line fall within the first 8000, where tools/ledger.py reads them. Anchors: EGF.sampling_error_control for cor:sampling_error_control. For cor:pinsker_negative_control, if the author rules the negative-part reading, EGF.pinsker_negative_control_density is the anchor in the paper's density form, and EGF.pinsker_negative_control the measure form, which needs no lambda. GFNBounds was read at lean/ commit 2e9865c. The Pinsker lemmas are a copy, cited by name and file:line in each docstring; nothing imports GFNBounds and there is no [[require]] (OQ-1), so the gfnbounds -> egf edge of the atlas stays a citation edge. KL is stated as Mathlib's klDiv, not GFNBounds' klD; klD is kept only inside the Pinsker port, and EGF.klD_rnDeriv_eq_toReal_klDiv relates the two."
+}

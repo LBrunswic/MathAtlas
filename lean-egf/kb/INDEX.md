@@ -20,3 +20,5 @@ docstring contract is its `0006`; weakest hypotheses `0007`; no quiet weakening 
 | [0011](entries/0011-ionescu-tulcea-chain.md) | pattern | A homogeneous chain by Ionescu-Tulcea, and a sampler with a randomized stopping time |
 | [0012](entries/0012-tv-without-signed-measure.md) | pattern | Total variation without SignedMeasure: tvDist := tvMass/2 |
 | [0013](entries/0013-pin-pitfalls-kernel.md) | pitfall | At this pin: Kernel.piecewise needs DecidablePred; mul_le_mul_left multiplies on the right |
+| [0014](entries/0014-pinsker-and-kappa-hat.md) | pattern | Pinsker with Mathlib's klDiv: EGF.pinsker; inference at κ̂ |
+| [0015](entries/0015-scope-in-8000-and-pitfalls.md) | pitfall | The ledger reads SCOPE from the first 8000 characters; two measure pitfalls |
