@@ -164,14 +164,15 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["def:singular_spacetime"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 exclusive = true
 depends = ["T-ett-port-e0"]
-evidence = "DEC-134. lean-gx/GX/BTZ/Causality.lean l.1814–3347, without the Y = 𝕄 ⊕ E₀ sections: strong causality, closed J^±, diamonds a basis, chart isomorphisms of the isometries, and GX.E0.singularFlatAxioms_of_pushUp ('every field but pushUp'). lean-gx/GX/BTZ/LocalModel.lean l.536–684: GX.E0LM.e0_pushUp. The ledger's def:singular_spacetime notes say 'witnessed on the timelike line; no witness with sing_0 ≠ ∅'. A port, so exclusive in lean-causal. Promoted 2026-11-20 by the planner: T-ett-port-e0 is done (0fe9136), and its port (l.116–1646) is strict as Causal.Port.E0Model, E0Causality and E0Axioms, so this port continues it from l.1814 on. OQ-34 and OQ-35 (readings of defi:causal_E0) bear on that row's mark, not on this port; DEC-134 orders the port of the facts gx proves for its E₀. Priority lowered from 4 to 7 because /ett-programme has closers in lean-causal (programme/roadmap.toml: T-abs-gluing-hausdorff, T-abs-nested-causalities active). No programme target touches E₀: its only model target, T-loc-ealpha-cauchy, is about E_α × ℝ with α > 0."
+evidence = "Causal/Port/E0{Strong,SingularFlat}.lean: E₀ satisfies SingularFlatAxioms with sing₀ = axis, the first witness with sing₀ ≠ ∅; verbatim port of gx (144 constants checked); def:singular_spacetime stays partial (OQ-34/35); audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "596352f"
 
 [[target]]
 id = "T-ett-e0-model-rows"
@@ -423,13 +424,14 @@ stream = "gx"
 kind = "close"
 paper = "gx"
 labels = ["cex:start_singular_manifold_homeomorphic"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-gx-troyanov-triangle"]
-evidence = "Route note (2) of T-gx-troyanov, its all-below-2π part, split off 2026-11-20 by the planner. T-gx-troyanov-triangle (6195fbb) did s = 3 by doubling the spherical triangle with angles θ_i/2 (GX.exists_sphTriangle, GX/Spherical/TroyanovTriangle.lean:558, from the polar Gram matrix; the double GX.SphTriangle.TriDouble, l.1137; the cone charts through GX.polarFold). Its REPORT kb_proposals: 'A doubled convex body is 𝕊² … a spherical polygon is convex in the stereographic chart at a vertex when its angles are < π'. Its AUDIT-1: the triangle realises exactly the subcritical hypothesis at s = 3 (χ' < 2θ_k with Σα > π). TroyanovAngleCondition.subcritical (scaffold Spherical/TroyanovAngles.lean:159) derives 0 < χ' < 4π and χ' < 2θ_j from the printed condition, where χ' = Σ(θ_i − 2π) + 4π. [r] (planner, unchecked; the closer checks) With α_i = θ_i/2 ∈ ]0, π[, a convex spherical polygon with angles α_i exists iff its polar polygon exists, the one with sides π − α_i. That holds iff Σ(π − α_i) < 2π (that is, χ' > 0) and π − α_k < Σ_{j≠k}(π − α_j) for each k (that is, χ' < 2θ_k). So it is again the subcritical form, implied by the printed condition. The polar polygon can be built inscribed in a circle, by continuity in the radius. Its double has cone angles 2α_i = θ_i < 2π, so these are genuine cone points. Expected statement: TroyanovTheorem restricted to s ≥ 4 angles all < 2π. The row stays partial. The triangle took one dispatch (2,477 lines). If the s-gon needs two (the polygon, then the double), the closer says so in its REPORT. It does not depend on T-gx-troyanov-two-pi, but it shares that target's label, so the wave runs them one after the other."
+evidence = "GX/Spherical/TroyanovPolygon.lean: Troyanov for every s with all angles < 2π (and the subcritical form); TroyanovTheorem reduced to s ≥ 4 with some angle > 2π; audit clean"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "bed88aa"
 
 [[target]]
 id = "T-gx-troyanov-source"
@@ -441,7 +443,7 @@ package = "none"
 status = "ready"
 owner = "master"
 priority = 8
-evidence = "Owed by T-gx-troyanov-triangle (journal 2026-11-20 23:10: 'owed to T-gx-troyanov: l.1930's bound against MR1005085'). Its AUDIT-1 (minor finding 1): the library's recollection GX.TroyanovAngleCondition.subcritical (scaffold Spherical/TroyanovAngles.lean:159–167, 'NOT checked against the source, which is not in papers/gx/sources') reads Troyanov's hypothesis as 0 < χ' < min(4π, 2θ_i). The printed l.1930 bounds χ' by θ_i, so it 'supports, but does not establish, a context finding for the author: l.1930 bounds χ' by θ_i where Troyanov has 2θ_i … it must first be checked against MR1005085 … Until then it is a recollection, not a finding.' Bib: papers/gx/legacy/labeled/note.bib:450 (DOI 10.2307/2001742). papers/gx/sources/README.md lists the archived sources (PDF plus a note), and MR1005085 is not among them. Output: the PDF and a NOTE.md quoting the existence theorem's hypotheses verbatim, with page numbers. Then either a confirmed context finding, which the master records as an OQ row for the author, or the recollection corrected in a later scaffold edit. It writes no Lean (package none). T-gx-troyanov needs the quoted theorem for its scoping."
+evidence = "2026-11-21 (atlas-team wave 7): not fetchable here: ams.org answers 403 to automated fetches (curl and the web-fetch agent, the PDF and the article page alike). Needs the author to drop the PDF (DOI 10.1090/S0002-9947-1991-1005085-9, institutional access) into papers/gx/sources/MR1005085/; the NOTE.md with verbatim hypotheses and the l.1930 check then follow as planned."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -573,12 +575,13 @@ kind = "tooling"
 paper = "benzecri"
 package = "lean-benzecri"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "master"
 priority = 5
-evidence = "lean-benzecri/kb/0006 ('Duplicate to remove … a later target should keep one statement and derive the other'), T-bz-c2-mesure REPORT kb_proposals[2] ('T-bz-c2-poches proved the same lemmas through IsGXSegment, so dedupe at graduation'), journal 2026-11-20 21:25 ('owed … keep one copy in a later target'). The pairs, read off the strict files on 2026-11-20 (the two files import neither other: Mesure imports CrossRatio and Structure.Classes, Poches imports Structure.Classes and Developing). Sphere.GSE.smul_neg (Poches.lean:327) and Sphere.gse_smul_neg (Mesure.lean:160). Sphere.GSE.image_smul_closedSeg (Poches:351) and Sphere.gse_image_closedSeg (Mesure:153). Sphere.isPreconnected_closedSeg (Poches:366) and Sphere.isPreconnected_closedSeg_of_ne_neg (Mesure:165). IsProjSegment.isPreconnected (Poches:481) and IsProjSegment.isPreconnected_seg (Mesure:193). IsProjSegment.image_eq (Poches:497) and IsProjSegment.image_eq_closedSeg (Mesure:244), the same two conjuncts in the other order. Mesure's exists_smul_eq_on_of_isPreconnected (l.232) has no twin and stays. Scope: Mesure imports Poches, and each Mesure twin becomes a one-line derivation from Poches's statement under its current name, so that T-bz-c2-hilbert and later Chapter 2 files keep compiling. No statement changes, and no ledger row's decls name any of the ten (checked against papers/benzecri/ledger/ledger.json). Exclusive because it edits two strict files that every later Chapter 2 closer imports (the schema's 'strict-library refactor'). Priority 5, after T-bz-c2-hilbert in this file, so it takes lean-benzecri in the wave after Hilbert and before T-bz-c2-lignes."
+evidence = "Mesure imports Poches; its five twins are one-line derivations, no statement changed, the five rows stay closed"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "b587783"
 
 [[target]]
 id = "T-bz-c2-lignes"
@@ -957,13 +960,14 @@ stream = "other"
 kind = "close"
 paper = "syracuse"
 labels = ["prop:ring_both_continuous_extends"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-syr-base"]
-evidence = "Split off T-syr-rep 2026-11-20 by the planner. syracuse.tex l.52 (unlabelled): 'one can show that for any ℤ/2ℤ-ring A, A_2 is naturally isomorphic to the ring of 2-adic integers ℤ_2'. l.57–60, prop:ring_both_continuous_extends: 'both f_A and T_A are continuous and extends continuously to A_2. Furthermore, their extension is f_{A_2} and T_{A_2} respectively', with the proof 'left to the reader' (l.57). T-syr-base (895d501) REPORT notes: 'ZMod 2 is a counterexample to A_2 ≅ ℤ_2 (l.52) under the printed definition' (OQ-42 (b), open: 2 ≠ 0 is added where it is used). T_A is undefined at −1/3 when 3 is a unit, as in ℤ_2 (Syracuse.T_undefined_padicInt, lean-syracuse/Syracuse/Base.lean:185; OQ-42 (d), open). The tools are strict: IsZ2Ring with the instance ℤ_[2] (Valuation.lean:78, 321), nu2 and v2 (REPORT kb_proposals[0]), and f and T (Base.lean). [r] (planner, unchecked) For 2 ≠ 0, multiplication by 2^k gives A/2A ≅ 2^kA/2^{k+1}A, so |A/2^nA| = 2^n. 1 has additive order 2^n there (2^{n−1} ∈ 2^nA would put 1 in 2A), so ℤ/2^n ≅ A/2^nA and A_2 = lim A/2^nA ≅ ℤ_2. Krull's intersection theorem (A a noetherian domain) makes A → A_2 injective. Mathlib has PadicInt and AdicCompletion. Likely finding [r]: T_{A_2} is undefined at −1/3 ∈ 2ℤ_2 + 1, and the odd part of 3x + 1 has no limit as x → −1/3. So T_ℤ, though continuous on 2ℤ + 1, does not extend continuously to all of ℤ_2, and 'extends continuously to A_2' presumably holds only off −1/3: a finding under OQ-42 (d). It runs beside T-syr-rep, which works in ℤ_[2] and builds no map A → ℤ_2; that map is this target's."
+evidence = "Syracuse/Completion.lean: A₂ ≅ ℤ₂ for integral A with 2 ≠ 0; f_A extends; T_A extends off −1/3 only (false as printed); l.52 false for ℤ/2ℤ; audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "f06d72d"
 
 [[target]]
 id = "T-yamabe-scope"
@@ -1002,13 +1006,14 @@ stream = "other"
 kind = "close"
 paper = "yamabe"
 labels = ["lem:kobayashi"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-yamabe-quotient"]
-evidence = "Yamabegap.tex l.613–638, lem:kobayashi and its proof. Part (a) is eq:conformal-energy-bdry (l.326) with H_g ≡ 0, plus the interior Hölder line (l.607) and m ≤ 0. Then 'Taking the infimum gives Y_[g](Σ) ≥ m Vol(Σ)^{2/N}', and 'If R_g ≡ m ≤ 0 is constant, then EH(Σ, g) = m Vol(Σ)^{2/N}, so that EH ≤ Y ≤ EH'. Part (b) uses 'the Sobolev embedding W^{1,2}(Σ) ↪ L^{p*}(Σ) on compact manifolds with boundary [Hebey1996]', one of the cited theorems T-yamabe-scope asks about, so (b) is out of this target. T-yamabe-quotient (e4e12c0) built the abstract measured model of (Σ, ⊔B_j), now strict: lean-yamabe/Yamabe/Quotient.lean (MeasuredModel l.472, FrameMetric l.495, F l.522, the toy witness toyModel l.975). Its REPORT kb_proposals: 'later §6 statements can reuse both'. It also proved the interior Hölder line (Yamabe.hoelder_interior, l.275). Its AUDIT-1: 'The first [citation at l.720] … and l.627 (lem:kobayashi) use the interior line, which is correct', unlike eq:hoelder's boundary line (OQ-44). Scope: add the scalar curvature to the model as a bounded measurable function. The conformal energy of u is the right side of eq:conformal-energy-bdry (H ≡ 0) over ‖u‖²_{L^{p*}}. Its identification with EH(Σ, u^{4/(N−2)} g) is the cited conformal law (MR1152225, MR1173925, l.326), so it belongs to the anchoring that T-yamabe-scope rules. The model's readings are OQ-44's. So the row stays partial, as lem:stability's did, and nothing is marked. Prove (a), its 'in particular' and the constant-curvature sentence over the model, with the toy model as a non-vacuity witness. Later users: the proof of prop:nonpositive (l.640), lem:gluing-estimate (eq:glue-lower, l.660) and the proof of thm:upper-bound (l.723)."
+evidence = "Yamabe/Kobayashi.lean: lem:kobayashi (a), its in-particular and the constant-curvature equality over the measured model with curvature; partial (T-yamabe-scope, OQ-44); audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "d36aa9a"
 
 [[target]]
 id = "T-hub-freeze"
