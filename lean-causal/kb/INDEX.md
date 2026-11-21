@@ -79,3 +79,4 @@ rediscover. One fact per entry.
 | [0071](entries/0071-sbierski-prop-3-7-a3-free.md) | pattern | Sbierski Prop 3.7 (i) ⇒ (ii) without A3; (iii) fails at BTZ points |
 | [0072](entries/0072-chronology-three-strengths.md) | pattern | Chronology at points comes in three strictly different strengths |
 | [0073](entries/0073-jump-and-gated-lines.md) | pattern | Two cheap non-local separations: the jump line and the gated line |
+| [0074](entries/0074-half-lit-line.md) | pattern | The half-lit line: an absolutely minimal witness for the DEC-8 gap, valid in either reading |

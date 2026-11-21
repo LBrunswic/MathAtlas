@@ -235,6 +235,7 @@ import Causal.SbierskiProp37
 import Causal.ChronalNeighbourBridge
 import Causal.PushUpNotOpen
 import Causal.GateLineLocal
+import Causal.Dec8MinimalWitness
 
 /-!
 # Causal — topological spacetimes
