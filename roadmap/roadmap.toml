@@ -117,13 +117,14 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["cor:massA_causalite", "cor:massA_cac", "cor:pushup_sing"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-ett-gxsingular-dec25"]
-evidence = "Added 2026-11-21 (planning run after the wave of 10:05) by the planner, split from T-ett-singular-instance: the part that needs neither hreg nor (b′). The three rows are proved in Causal/Remarks/MassiveManifold.lean over the abstracted atlas of Causal.GXSingular. Their ledger notes read « OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled ». Of the three, only the existence half of cor:massA_causalite uses hreg: massA_causalite passes it to existsUnique_causality_singularGX. massA_cac and pushup_sing take an IsAtlasCausality C and the models' causal arc-connectedness and push-up, nothing else. Over DEC-25 atlases (existsUnique_causality_singularGX_dec25, Causal/GXSingularDEC25.lean, done in 933a95d), take I to be the charts of the maximal a.e. atlas and J the IsAEChart charts into the models. The same proofs then give three things. Every absolutely minimal causality making every such chart an isomorphism is causally arc-connected (cor:massA_cac). It has push-up (cor:pushup_sing). And two such causalities are equal, by eq_of_agreeOn_locally (the uniqueness half of cor:massA_causalite), with no hreg and no (b′). The models stay abstract singular (G,X)-manifolds with their causalities. (a), and the models' causal arc-connectedness and push-up, are hypotheses: lean-causal has no SingularGXStructure on E_κ or E₀ yet (T-ett-ealpha-gx-structure, T-ett-e0-gx-structure). Also state the existence half, with hreg and (b′) as named hypotheses, as a corollary of existsUnique_causality_singularGX_dec25, so that T-ett-singular-instance only has to instantiate. Non-vacuity: singularGX_dec25_line (Sing = ∅), as in GXSingularDEC25. Write a new module beside Causal/Remarks/MassiveManifold.lean; no strict file is edited. The rows stay partial, since the models are abstract. Their marks wait on T-ett-singular-instance, and, for « natural », on the reading recorded in MassiveManifold's SCOPE (uniqueness among absolutely minimal causalities, OQ-18)."
+evidence = "Causal/Remarks/MassADEC25.lean: cac, push-up, uniqueness over DEC-25 atlases with neither hreg nor (b′); existence ⇔ (b′) given hreg; E≥0 models' facts discharged. AUDIT-1 minor."
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "cf6dca6"
 
 [[target]]
 id = "T-ett-ealpha-sectors"
@@ -132,12 +133,13 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["defi:causal_Ealpha"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
-evidence = "Added 2026-11-21 (planning run after the wave of 10:05) by the planner, split from T-ett-singular-instance (reason (1) there). Causal/Remarks/MassiveManifold.lean assumes hreg, « the regular charts of E_α are isomorphisms ». massA_positive takes it as a hypothesis, and the file's header says « the library builds no regular chart of E_α ». massA_positive_minkowski is witnessed in the regular case only, because « A witness with a chart into some E_κ needs regular charts reg(E_κ) → E^{1,2} which are isomorphisms, and the library does not build them ». What there is. Causal/Model/Cone.lean builds C_α from its distance formula, the law of cosines √(r₁² + r₂² − 2r₁r₂ cos(min(δ, π))), and coneTwoPiIsoEuclidean (C_{2π} ≃ᵢ ℝ², by (r, θ) ↦ r e^{iθ}). Causal/Model/Massive.lean has massive α := staticCausality (Cone α), staticCausality.strongMorphism_of_isometryEquiv (strong morphisms transport along an isometry of space) and massiveTwoPi_iso. Causal/Minkowski.lean has minkowski n := staticCausality (EuclideanSpace ℝ (Fin n)). The E₀ template is Causal.E0.chartIso_sectorChart (Causal/Port/E0Strong.lean). [r] (planner, unchecked) Take a sector of directions of opening less than π and less than α, away from the apex. There (r, θ) ↦ r e^{iθ} preserves the cone distance, since min(δ, π) = δ. So the time coordinate times that map is a distance-preserving homeomorphism from an open subset of space onto an open subset of ℝ². The static causalities, defined in each open set by Lipschitz curves inside it, then correspond, which makes a ChartIso (massiveOf κ) (minkowski 2). On each component of an overlap, two such charts differ by a rotation of ℝ², an element of Flat.isom 2. What to deliver: such a family covering E_κ ∖ singLine κ, each chart a ChartIso, with the transitions in gxGroupoid (Flat.isom 2) (Minkowski 2). That discharges hreg in massA_positive's form for this family. Non-vacuity: massA_positive at M = E_κ itself, with its sector charts as eX and the identity as eY. That is the first witness with a chart into an E_κ. Labelled defi:causal_Ealpha. The sentence just before it (ETT.tex:1331–1332) makes reg(E_α) an (Isom(E), E)-manifold, and the row's own « unique causal structure inducing that of E_α in every chart » presupposes these charts. The row stays partial: that sentence is closed by T-ett-singular-instance. Write a new module, for instance Causal/Model/MassiveCharts.lean, scaffold first. Do not edit Causal/Model/EAlphaCauchy.lean or Causal/Static.lean, which the programme's T-loc-ealpha-tidy (ready) reorganises."
+evidence = "Causal/Model/EAlphaSectors.lean: regular charts of E_κ (κ > 0) as ChartIso, an atlas with rotations, hreg_sectorChart, massA_positive_massive. AUDIT-1 minor."
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "03d7f18"
 
 [[target]]
 id = "T-ett-e0-gx-structure"
@@ -146,13 +148,14 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["def:singular_spacetime"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-ett-port-e0-sfa", "T-ett-gxsingular-dec25"]
-evidence = "Added 2026-11-21 (planning run after the wave of 10:05) by the planner, split from T-ett-singular-instance. DEC-25 reads an E≥0-manifold's models as singular (G,X)-manifolds, and existsUnique_causality_singularGX_dec25 (Causal/GXSingularDEC25.lean) asks hreg of each model: ∀ r ∈ aeAtlas G X (Xα a), ChartIso (DY a) DX r. lean-causal has no SingularGXStructure with a singular point. GXSingularDEC25's SCOPE says so (« gx's on its BTZ models are not ported »), and its only instance is lineSingularGX, with Sing = ∅. gx has one, btzE0Structure (lean-gx/GX/BTZ/Model.lean), but on its own carrier GX.BTZModel (2π) = Orbits (GammaA α) (DInfty × ℝ), not on Causal.E0 = ℝ × ℂ. And lean-causal never imports GX (DEC-33). What lean-causal has. Causal.E0.sectorChart y, for y off the axis, is a chart isomorphism onto an open set of E^{1,2}: chartIso_sectorChart and isEMorphismOn_chartMap (Causal/Port/E0Strong.lean). interior_axis gives interior sing₀ = ∅ (E0SingularFlat.lean). Causal/Port/SingularAtlas.lean has IsAEAtlas (a (G,X)-atlas with portly support), IsThinner, maximalAEAtlas, IsMaximalAEAtlas and the class SingularGXStructure. GXSingularDEC25 has ChartIso.agreeOn_of_mem_aeAtlas and eq_of_agreeOn_locally. What to deliver. (1) The sector charts form an a.e. (Flat.isom 2, Minkowski 2)-atlas. [r] (planner, unchecked) On each component of an overlap, two sector charts differ by the identity or by a power of the parabolic holonomy of a loop about the axis: gx's btzHol (lean-gx/GX/BTZ/Model.lean, « The holonomy ρ(γ) = btzHol: parabolic, fixing Δ pointwise »). The support E₀ ∖ sing₀ is portly: open, dense, and locally connected in, since removing the line ℝ × {0} from a connected open subset of ℝ × ℂ leaves it connected. (2) A SingularGXStructure on Causal.E0 with Reg = E₀ ∖ sing₀ and Sing = sing₀ ≠ ∅. (3) A model-free lemma, in an ETT-layer or Port module so that T-ett-ealpha-gx-structure reuses it rather than copying it. Statement: if every chart of an a.e. atlas A of Y is a ChartIso DY DX, G acts by strong morphisms and DY is absolutely minimal, then every chart of maximalAEAtlas A is a ChartIso. [r] Proof idea: local agreement through IsThinner, then eq_of_agreeOn_locally. (4) Hence hreg at E₀ in DEC-25's form, from E₀'s absolutelyMinimalOn (Causal/Port/E0Axioms.lean). Non-vacuity: this is the first singular (G,X)-structure in lean-causal with a singular point. Labelled def:singular_spacetime, whose row is partial because the library abstracts the definition and has no (G,X)-atlas (its notes). The row stays partial: its mark waits on OQ-34 and OQ-35 (the reading of E₀), and on T-ett-singular-sfa. New modules only; no strict file is edited."
+evidence = "Causal/Port/E0GXStructure.lean: E0GX.singularGX (Reg = E₀ ∖ axis, Sing = axis), hreg at κ = 0, the corrected model-free lemma (_of_agreeOn; the roadmap's form refuted). AUDIT-1 minor."
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "fa2d000"
 
 [[target]]
 id = "T-ett-ealpha-gx-structure"

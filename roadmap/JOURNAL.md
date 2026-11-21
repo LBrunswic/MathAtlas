@@ -300,3 +300,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: a8e2f66 60ddfc9 3a8b8c0 (+ this)
 - wall time: 10:21–10:46 (Paris); agents: 1 closer, 1 audit (lean-causal held by /ett-programme's wave 16)
 - next: wave in lean-causal when /ett-programme frees it (T-ett-massa-dec25, T-ett-ealpha-sectors, T-ett-e0-gx-structure; then T-ett-model-rows-e0); outside lean-causal nothing is ready
+
+## 2026-11-21 11:47 · wave of 3 · T-ett-massa-dec25, T-ett-ealpha-sectors, T-ett-e0-gx-structure
+- T-ett-massa-dec25: cor:massA_cac, cor:pushup_sing and the uniqueness of the natural causality over DEC-25 atlases with neither hreg nor (b′) (checked on the proof terms); existence ⇔ (b′) given hreg; the E≥0 models' cac and push-up discharged (E₀ included); audit minor
+- T-ett-ealpha-sectors: the regular charts of E_κ (κ > 0) as chart isomorphisms (discs in flat sectors, rotations as transitions), hreg discharged, the first massA_positive witness charted into an E_κ; the planner's [r] sector bound refuted (fromPlane_wide_not_isometric); a shadowing name renamed at graduation; audit minor
+- T-ett-e0-gx-structure: E₀ as a singular (Isom, E^{1,2})-manifold (E0GX.singularGX, Reg = E₀ ∖ axis by the parabolic holonomy), hreg at κ = 0, the model-free lemma corrected (the roadmap's wording refuted on ℂ); audit minor
+- gates: lean-causal ✓ (announced to /ett-programme, which held its ladder build), roadmap ✓ (both), ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at fa2d000, clean); hub: papers-check papers/egf and gate-tests red from the egf loop's uncommitted lean-egf and curation edits (its lease), nothing of this wave
+- commits: cf6dca6 03d7f18 fa2d000 f5f613a (+ this)
+- wall time: 10:4x–11:47 (Paris); agents: 3 closers, 3 audits
+- new OQ: 82 (Isom(𝔼^{1,2}): SO₀ or O↑)
+- next: plan (rule 2); planner notes: T-ett-ealpha-gx-structure is unblocked (hoist the model-free lemma first; use the _of_agreeOn form at α = 2π), T-ett-model-rows-e0 ready, T-ett-e-models-bprime to scope
