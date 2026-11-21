@@ -230,6 +230,7 @@ import Causal.CauchyDual
 import Causal.Model.CurvesExtendModels
 import Causal.Model.InjectiveMinkowski
 import Causal.NestedConverse
+import Causal.NestedTransfer
 
 /-!
 # Causal — topological spacetimes

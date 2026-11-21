@@ -1,0 +1,334 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-nested-transfer",
+ "files": [
+  "scaffold/CausalScaffold/NestedTransfer.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-nested-transfer/1-strongly-causal",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-nested-transfer, title and evidence",
+     "text_lines": "programme/roadmap.toml:552-563"
+    },
+    {
+     "paper": "programme/JOURNAL.md",
+     "statement": "keeper's proposal at T-lad-nested-nodes: 'T-abs-nested-transfer (SC, SCO, HasTimeFunction pass to the narrower causality; tarentin does not)'",
+     "text_lines": "programme/JOURNAL.md:45"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.LeNested.stronglyCausal",
+    "Causal.Causality.stronglyCausal_of_le_top",
+    "Causal.Causality.CausallyConvexIn.of_le"
+   ],
+   "hypotheses": [
+    {
+     "paper": "LeNested C C' (≤_U of C inside ≤_U of C', every open U)",
+     "here": "weakened",
+     "note": "the principal form asks ≤ nested at M only (∀ x y, C.le ⊤ x y → C'.le ⊤ x y), as isCausal_of_le_top does; the LeNested.* form is its corollary, the one the ladder cites"
+    },
+    {
+     "paper": "C' strongly causal",
+     "here": "carried",
+     "note": "StronglyCausal (DEC-7: the convex neighbourhood not necessarily open)"
+    },
+    {
+     "paper": "(the argument: a causally convex set for C' is causally convex for C)",
+     "here": "carried",
+     "note": "CausallyConvexIn.of_le, in any open U, with ≤_U nested at that U only"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "ladder_form": {
+    "transfer": {
+     "pair": "le_nested",
+     "property": "strongly_causal",
+     "direction": "to_narrower",
+     "narrower": [],
+     "wider": [],
+     "witness": "Causal.Causality.LeNested.stronglyCausal",
+     "status": "checked"
+    }
+   }
+  },
+  {
+   "label": "T-abs-nested-transfer/2-strongly-causal-open",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-nested-transfer, title and evidence",
+     "text_lines": "programme/roadmap.toml:552-563"
+    },
+    {
+     "paper": "programme/JOURNAL.md",
+     "statement": "keeper's proposal at T-lad-nested-nodes: 'T-abs-nested-transfer (SC, SCO, HasTimeFunction pass to the narrower causality; tarentin does not)'",
+     "text_lines": "programme/JOURNAL.md:45"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.LeNested.stronglyCausalOpen",
+    "Causal.Causality.stronglyCausalOpen_of_le_top"
+   ],
+   "hypotheses": [
+    {
+     "paper": "LeNested C C' (≤_U of C inside ≤_U of C', every open U)",
+     "here": "weakened",
+     "note": "the principal form asks ≤ nested at M only (∀ x y, C.le ⊤ x y → C'.le ⊤ x y), as isCausal_of_le_top does; the LeNested.* form is its corollary, the one the ladder cites"
+    },
+    {
+     "paper": "C' strongly causal, open form",
+     "here": "carried",
+     "note": "StronglyCausalOpen"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "ladder_form": {
+    "transfer": {
+     "pair": "le_nested",
+     "property": "strongly_causal_open",
+     "direction": "to_narrower",
+     "narrower": [],
+     "wider": [],
+     "witness": "Causal.Causality.LeNested.stronglyCausalOpen",
+     "status": "checked"
+    }
+   }
+  },
+  {
+   "label": "T-abs-nested-transfer/3-time-function",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-nested-transfer, title and evidence",
+     "text_lines": "programme/roadmap.toml:552-563"
+    },
+    {
+     "paper": "programme/JOURNAL.md",
+     "statement": "keeper's proposal at T-lad-nested-nodes: 'T-abs-nested-transfer (SC, SCO, HasTimeFunction pass to the narrower causality; tarentin does not)'",
+     "text_lines": "programme/JOURNAL.md:45"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.LeNested.hasTimeFunction",
+    "Causal.Causality.hasTimeFunction_of_le_top"
+   ],
+   "hypotheses": [
+    {
+     "paper": "LeNested C C' (≤_U of C inside ≤_U of C', every open U)",
+     "here": "weakened",
+     "note": "the principal form asks ≤ nested at M only (∀ x y, C.le ⊤ x y → C'.le ⊤ x y), as isCausal_of_le_top does; the LeNested.* form is its corollary, the one the ladder cites"
+    },
+    {
+     "paper": "C'.HasTimeFunction",
+     "here": "carried",
+     "note": "the time function of C is the same T: continuous, strictly increasing along the smaller ≤_M"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'A time function' is read as the target writes it, Causality.HasTimeFunction (the ladder node time_function: continuous, strictly increasing along ≤_M). ETT's own IsTimeFunction (defi:fonction_temps, a strong morphism to the timelike line, Causal/Morphism.lean:832) also maps ≪ to <, so its transfer would read ≪ and need LtNested as well; it is not treated, and nothing here depends on it."
+   ],
+   "ladder_form": {
+    "transfer": {
+     "pair": "le_nested",
+     "property": "time_function",
+     "direction": "to_narrower",
+     "narrower": [],
+     "wider": [],
+     "witness": "Causal.Causality.LeNested.hasTimeFunction",
+     "status": "checked"
+    }
+   }
+  },
+  {
+   "label": "T-abs-nested-transfer/4-tarentin",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-nested-transfer, title and evidence",
+     "text_lines": "programme/roadmap.toml:552-563"
+    },
+    {
+     "paper": "programme/JOURNAL.md",
+     "statement": "keeper's proposal at T-lad-nested-nodes: 'T-abs-nested-transfer (SC, SCO, HasTimeFunction pass to the narrower causality; tarentin does not)'",
+     "text_lines": "programme/JOURNAL.md:45"
+    },
+    {
+     "paper": "programme/JOURNAL.md",
+     "statement": "keeper's proposal at T-lad-gh-causal: 'spacelikeLine_not_tarentin (first GH non-tarentin model)'",
+     "text_lines": "programme/JOURNAL.md:86"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.spacelikeLine_leNested_timelikeLine",
+    "Causal.spacelikeLine_not_tarentin",
+    "Causal.spacelikeLine_separates_tarentin",
+    "Causal.not_tarentin_of_leNested_bare",
+    "Causal.leNested_tarentin_counterexample",
+    "Causal.spacelikeLine_diamond_subset",
+    "Causal.spacelikeLine_openDiamond"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the spacelike line ≤-nested in the timelike line",
+     "here": "carried",
+     "note": "spacelikeLine_leNested_timelikeLine: x = y ∈ U gives x ≤ y and [x, x] ⊆ U"
+    },
+    {
+     "paper": "push-up, causal openness, global hyperbolicity of the spacelike line",
+     "here": "carried",
+     "note": "the library's spacelikeLine_pushUp (Causal/LinesReachable.lean:464), spacelikeLine_causallyOpen, spacelikeLine_globallyHyperbolic (Causal/LadderLocal.lean:564, :552), reused"
+    },
+    {
+     "paper": "Int J(p, q) ⊆ Int {p} = ∅",
+     "here": "carried",
+     "note": "spacelikeLine_diamond_subset, spacelikeLine_openDiamond (mathlib interior_singleton: ℝ has no isolated point), for every open U"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The target's 'the first globally hyperbolic model that is not tarentin' is confirmed against the ladder: globally_hyperbolic → tarentin is 'unknown' in tools/ladder.py matrix today, and no [[fails]] entry has to = tarentin."
+   ],
+   "questions": [],
+   "ladder_form": {
+    "transfer": {
+     "pair": "le_nested",
+     "property": "tarentin",
+     "direction": "to_narrower",
+     "narrower": [
+      "globally_hyperbolic",
+      "strongly_causal_open",
+      "push_up",
+      "causally_open",
+      "absolutely_minimal",
+      "time_function"
+     ],
+     "wider": [
+      "globally_hyperbolic",
+      "strongly_causal_open",
+      "push_up",
+      "causally_open",
+      "causally_plain",
+      "chronal_neighbours",
+      "causally_arc_connected",
+      "time_function"
+     ],
+     "counterexample": "Causal.leNested_tarentin_counterexample",
+     "status": "checked",
+     "note": "space absent (ℝ, Hausdorff, second countable: the ambient). Source = the wider timelikeLine (tarentin and the wider list), target = the narrower spacelikeLine (the narrower list, not tarentin)"
+    },
+    "fails": [
+     {
+      "from": "globally_hyperbolic",
+      "to": "tarentin",
+      "witness": "Causal.spacelikeLine_separates_tarentin",
+      "status": "checked"
+     },
+     {
+      "from": "push_up",
+      "to": "tarentin",
+      "witness": "Causal.spacelikeLine_separates_tarentin",
+      "status": "checked"
+     },
+     {
+      "from": "causally_open",
+      "to": "tarentin",
+      "witness": "Causal.spacelikeLine_separates_tarentin",
+      "status": "checked"
+     },
+     {
+      "from": "strongly_causal_open",
+      "to": "tarentin",
+      "witness": "Causal.spacelikeLine_separates_tarentin_full",
+      "status": "checked"
+     },
+     {
+      "from": "absolutely_minimal",
+      "to": "tarentin",
+      "witness": "Causal.spacelikeLine_separates_tarentin_full",
+      "status": "checked"
+     },
+     {
+      "from": "time_function",
+      "to": "tarentin",
+      "witness": "Causal.spacelikeLine_separates_tarentin_full",
+      "status": "checked"
+     }
+    ],
+    "fails_alternative": "one entry: from = [globally_hyperbolic, strongly_causal_open, push_up, causally_open, absolutely_minimal, time_function], to = tarentin, witness = Causal.spacelikeLine_separates_tarentin_full",
+    "fails_split_after_both_graduate": {
+     "from": "causally_arc_connected",
+     "to": "tarentin",
+     "witness": "Causal.spacelikeLine_not_tarentin",
+     "note": "other half: Causal.spacelikeLine_causallyArcConnected, T-abs-nested-converse's (scaffold/CausalScaffold/NestedConverse.lean), not imported here"
+    }
+   }
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.LeNested.isCausal",
+  "Causal.Causality.Tarentin.wider_of_le_top",
+  "Causal.Causality.LeNested.tarentin_wider",
+  "Causal.spacelikeLine_causallyConvexIn",
+  "Causal.spacelikeLine_stronglyCausalOpen",
+  "Causal.spacelikeLine_stronglyCausal",
+  "Causal.spacelikeLine_hasTimeFunction",
+  "Causal.spacelikeLine_absolutelyMinimal",
+  "Causal.timelikeLine_stronglyCausalOpen",
+  "Causal.timelikeLine_hasTimeFunction",
+  "Causal.spacelikeLine_separates_tarentin_full"
+ ],
+ "extra_ladder_forms": [
+  {
+   "transfer": {
+    "pair": "le_nested",
+    "property": "tarentin",
+    "direction": "to_wider",
+    "narrower": [],
+    "wider": [],
+    "witness": "Causal.Causality.LeNested.tarentin_wider",
+    "status": "checked",
+    "note": "an open diamond of C lies in the open diamond of C' (interior_mono); does not conflict with the to_narrower counterexample (different direction)"
+   }
+  },
+  {
+   "transfer": {
+    "pair": "le_nested",
+    "property": "is_causal",
+    "direction": "to_narrower",
+    "narrower": [],
+    "wider": [],
+    "witness": "Causal.Causality.LeNested.isCausal",
+    "status": "checked",
+    "note": "isCausal_of_le_top (Causal.NestedCausalities) read through LeNested, uniform with the three transfers"
+   }
+  }
+ ],
+ "kb_proposals": [
+  "The spacelike line is a cheap model that is not tarentin but is globally hyperbolic, strongly causal (both forms), causally open, absolutely minimal, with push-up and a time function: its open diamonds are empty (spacelikeLine_openDiamond, from mathlib's interior_singleton). leNested_tarentin_counterexample puts it together with its ≤-nesting in the timelike line (CausalScaffold.NestedTransfer, T-abs-nested-transfer).",
+  "A transfer along a nesting that reads only ≤ (causally convex sets, diamonds, strict increase along ≤_M): state the principal form with ≤ nested at M (∀ x y, C.le ⊤ x y → C'.le ⊤ x y) and give the LeNested.* corollary, the form the ladder's [[transfer]] table cites. A property that reads the interior of diamonds (tarentin) passes to the wider causality, not to the narrower one."
+ ],
+ "notes": "One file, sorry-free, no warning (also clean under -DwarningAsError=true, so ready for the strict library). lake build CausalScaffold.NestedTransfer built this module only (3090 jobs, nothing upstream rebuilt). #print axioms on LeNested.stronglyCausal, .stronglyCausalOpen, .hasTimeFunction, .isCausal, .tarentin_wider, spacelikeLine_separates_tarentin, not_tarentin_of_leNested_bare, spacelikeLine_separates_tarentin_full, leNested_tarentin_counterexample: propext, Classical.choice, Quot.sound. Layer-1 rule: imports Causal.NestedCausalities, Causal.LadderLocal, Causal.CurvesExtend; the transitive Causal closure (28 modules, computed with tools/ladder.py lean_index/is_model) has no model module (no Minkowski, Static, SingularFlat, Flat.*, Model.*, Port.*) and no Causal.CBG module. No metric notion. Name collisions checked against lean-causal/Causal and the sibling scaffold files: none. The spacelike line's causal arc-connectedness is deliberately not stated here, because T-abs-nested-converse declares Causal.spacelikeLine_causallyArcConnected in NestedConverse.lean. The module is not imported by scaffold/CausalScaffold.lean (kb/0025); adding it there is the master's job. Ladder simulation on a temporary copy (/tmp, not the repo): adding the 'fails_alternative' entry and the five [[transfer]] entries above gives tools/ladder.py check no violation except the expected unresolved names (the witnesses are in the scaffold until graduation); ladder._contradictions returns none; 14 more pairs become 'fails' (absolutely_minimal, causally_compact, causally_open, causally_open_future, curves_extend, globally_hyperbolic, is_causal, the three local forms, push_up, strongly_causal, strongly_causal_open, time_function ⇏ tarentin): 98 to 112 of 314 classified within one sort. After graduation the keeper may refresh two comments: programme/ladder.toml:1018 ('No other transfer along a nesting is in the library') and the [[open]] globally_hyperbolic → time_function note at :1158 ('no Lean model is globally hyperbolic, not tarentin and without a time function'), which stays true (the spacelike line has a time function, spacelikeLine_hasTimeFunction) but now has a globally hyperbolic non-tarentin model to mention."
+}

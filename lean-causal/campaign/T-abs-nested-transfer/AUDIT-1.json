@@ -1,0 +1,53 @@
+{
+  "target": "T-abs-nested-transfer",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-nested-transfer/1-strongly-causal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "LeNested.stronglyCausal : LeNested C C' -> C'.StronglyCausal -> C.StronglyCausal, which is the target's sentence exactly, with no instance on M beyond its topology. Asking for the nesting at M only is enough: StronglyCausal (Properties.lean:105) reads only CausallyConvexIn V ⊤, and CausallyConvexIn reads only C.diamond ⊤, which is built from C.le ⊤. diamond_subset_of_le (NestedCausalities.lean:165) gives C.diamond ⊤ p q ⊆ C'.diamond ⊤ p q, so stronglyCausal_of_le_top assumes less than the target, and the LeNested form is its instance at U = ⊤. CausallyConvexIn.of_le, at any open U with ≤_U nested at that U, is correct. The REPORT lists the nesting hypothesis as 'weakened', meaning Lean assumes less; that is correctly not treated as partial."
+    },
+    {
+      "label": "T-abs-nested-transfer/2-strongly-causal-open",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "LeNested.stronglyCausalOpen is the target's open form exactly. StronglyCausalOpen (Properties.lean:109) has the same convexity clause at ⊤, so the same argument applies. stronglyCausalOpen_of_le_top asks ≤ at M only."
+    },
+    {
+      "label": "T-abs-nested-transfer/3-time-function",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "LeNested.hasTimeFunction : LeNested C C' -> C'.HasTimeFunction -> C.HasTimeFunction. HasTimeFunction (CurvesExtend.lean:516) is a continuous T with C.le ⊤ x y -> x ≠ y -> T x < T y, which reads only C.le ⊤, so the same T works for the narrower C. This is the predicate the target names. The REPORT question about ETT's IsTimeFunction (Morphism.lean:832, which carries ≪) is accurate and disclosed in SCOPE; kb/0065 does record that the two notions are incomparable."
+    },
+    {
+      "label": "T-abs-nested-transfer/4-tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The counterexample is genuine. The library's Tarentin (Properties.lean:116) is: for all x and U ∈ 𝓝 x there are p, q ∈ U with x ∈ interior (C.diamond ⊤ p q). spacelikeLine.le U x y := x = y ∧ x ∈ U (Lines.lean:113), so every diamond lies in {p}, and interior_singleton on ℝ makes every open diamond empty. spacelikeLine_not_tarentin instantiates x = 0, U = univ. spacelikeLine_leNested_timelikeLine is correct: x = x ∈ U gives x ≤ x and Icc x x = {x} ⊆ U. timelikeLine_tarentin is the library's (Lines.lean:177). The spacelike line is a Causality (a library def). spacelikeLine_separates_tarentin has the target's conjunction PushUp ∧ CausallyOpen ∧ GloballyHyperbolic ∧ ¬Tarentin, in the title's order. not_tarentin_of_leNested_bare is the negated universal over Causality ℝ. leNested_tarentin_counterexample checks the property lists the REPORT's ladder_form gives for both lines. LeNested.tarentin_wider / Tarentin.wider_of_le_top is true as stated: interior_mono applied to diamond_subset_of_le at ⊤ takes an open diamond of C into the one of C' with the same vertices. The spacelike line's other properties (SC, SCO, absolutely minimal, time function id) are kernel-checked, and their docstrings describe them correctly."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "Ran `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/NestedTransfer.lean` from lean-causal/: exit 0, no output. `grep sorry` finds nothing. Ran #print axioms on a /tmp copy for all 25 declarations, including every one the REPORT names (decls and extra_decls): each gives [propext, Classical.choice, Quot.sound], and CausallyConvexIn.of_le gives only [propext, Quot.sound]. Layer-1 rule: the transitive Causal closure has 28 Causal.* modules (ArcConnected, Cauchy, CauchyExtension, Causality, CompactMinimal, CurveComponents, Curves, CurvesExtend, DependenceDomain, Generated, Geroch, GlobalHyperbolicity, Inextensible, LadderLocal, Lines, LinesCurves, LinesReachable, Local, Measure, MeasureRemarks, Minimal, Morphism, NestedCausalities, Properties, PushUp, Reachable, StrongCausality, Subdivision). None of them is Minkowski, Static, SingularFlat, Flat.*, Model.*, Port.* or CBG. Name clashes: a probe importing Causal (all 231 modules) and CausalScaffold.NestedConverse together with CausalScaffold.NestedTransfer elaborates. A second probe, Causal + NestedConverse with NestedTransfer's body inlined under -DwarningAsError=true, is clean. A third adds the now-present draft SbierskiProp37.lean's body, which has no olean; it raises no redeclaration error, only that draft's own sorry warnings. A grep of all 25 short names over Causal/ and scaffold/ finds no other declaration. All probes were deleted afterwards."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/NestedTransfer.lean:189",
+      "what": "The docstring of spacelikeLine_separates_tarentin calls the spacelike line 'the first globally hyperbolic model of the library that is not tarentin'. The library already has two models that are globally hyperbolic and not tarentin by direct computation of their diamonds. Causal.isolatedLine (LocateExtension.lean:512, with ¬Tarentin proved in tarentin_and_plain_needed, :687) is one. Causal.sourceLine (Remarks/Tarentin.lean:170, with ¬Tarentin at :197) is the other. Both are causal, and each diamond J(p, q) is a closed interval, a point or empty, hence compact. Neither is proved GH in Lean. The REPORT's finding is stated against the ladder only (globally_hyperbolic → tarentin unknown, no [[fails]] to tarentin), and that much is true. The phrase comes from the target's title.",
+      "fix": "Write 'the first model of the library proved globally hyperbolic and not tarentin', or name isolatedLine and sourceLine as models whose GH is unproved. Optional: the keeper may record them as alternative witnesses once proved GH."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/NestedTransfer.lean:10",
+      "what": "The pointer `Causal/NestedCausalities.lean:124` for LeNested is off. The def is at :121, and :124 is LtNested's docstring.",
+      "fix": "Change the pointer to :121, or drop the line number."
+    }
+  ],
+  "scope": "The closer's writes are the two dispatched paths: scaffold/CausalScaffold/NestedTransfer.lean (mtime 03:12) and campaign/T-abs-nested-transfer/ (REPORT.json, 03:14), plus its own permitted `lake build CausalScaffold.NestedTransfer` olean. The other working-tree entries belong to other lanes. programme/roadmap.toml has the master's status flips. tools/ladder.py, tools/binder.py, tests/test_programme.py and tools/fixtures/ladder/ are T-tool-ladder-py (owner master, active), still being modified after the REPORT was written. NestedConverse.lean, SbierskiProp37.lean and campaign/T-abs-nested-converse/ belong to the sibling closers. programme/ladder.toml and Causal/ are untouched, and the REPORT says the ladder simulation ran on a /tmp copy.",
+  "docstring_contract": "kb/0006 is met. Title. The four marks fall within the first 4000 characters (offsets 463–864), in the programme-target convention with no ETT.tex line, as in Causal.NestedCausalities. The quotes of roadmap.toml:553 and :562 are verbatim, with marked elisions. The hypothesis checklist uses ⚠ weakened correctly, since Lean assumes less. SCOPE is present, and each of its claims was checked true. The Provenance line is present. The namespace is Causal (Causal.Causality for the transfers). The module is not in scaffold/CausalScaffold.lean, as kb/0025 requires, and the REPORT notes that adding it is the master's job."
+}

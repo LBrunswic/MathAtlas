@@ -75,3 +75,4 @@ rediscover. One fact per entry.
 | [0067](entries/0067-gx-ae-atlases-ported.md) | pattern | gx's a.e. (G,X)-atlases are in lean-causal; Causal.IsComplete shadows mathlib's |
 | [0068](entries/0068-port-type-check-and-omit.md) | pattern | Checking a gx → Causal port by elaborated types; omit changes types |
 | [0069](entries/0069-rational-line.md) | pattern | The rational line: absolutely minimal, push-up, only constant causal curves |
+| [0070](entries/0070-spacelike-line-not-tarentin.md) | pattern | The spacelike line is GH and not tarentin; transfers that read only ≤ need ≤ at M only |
