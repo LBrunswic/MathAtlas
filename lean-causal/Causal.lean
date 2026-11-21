@@ -141,6 +141,7 @@ import Causal.GXSingular
 import Causal.Port.Portly
 import Causal.Port.SingularAtlas
 import Causal.GXSingularDEC25
+import Causal.MaximalAEAtlasIso
 import Causal.SingularGeroch
 import Causal.CBG.CausalConvex
 import Causal.CBG.Geometry
