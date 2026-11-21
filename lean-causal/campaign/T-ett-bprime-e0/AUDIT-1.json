@@ -1,0 +1,52 @@
+{
+  "target": "T-ett-bprime-e0",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "cor:massA_causalite",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, status partial, as dispatched. ledger.py's mark regex finds no bold backticked label in the first 4000 characters; the only near-miss is '**`prop:isom` at', which does not match. (b') at E0: chartIso_of_isAEChart says that every IsAEChart psi : E0 -> E0 for E0GX.singularGX, whether or not its source meets the axis, is a ChartIso E0.causality E0.causality psi. That is exactly the hiso of existsUnique_causality_singularGX_dec25 at a = b = E0, in OQ-64's reading (every a.e. isomorphism between open subsets of the models is an isomorphism of topological spacetimes). hiso_massAModel_none has exactly the shape of the hiso of massA_singular_dec25_models at o = o' = none. A probe outside the file's local-instance scope (E0GX.singularGX is an abbrev with only local instance status) typechecked `fun psi hpsi => hiso_massAModel_none h0 psi hpsi` against `forall psi : OpenPartialHomeomorph (MassAModel none) (MassAModel none), IsAEChart (Flat.isom 2) (Minkowski 2) psi -> ChartIso (massAModelCausality none) (massAModelCausality none) psi`, with IsAEChart elaborated over the family's `inst none`. h0 can be satisfied by any family: given structures on the Massive kappa, the family defined by cases on o meets it by rfl. No such family exists in lean-causal yet, and the REPORT says so. existsUnique_causality_e0 is existsUnique_causality_singularGX_dec25 at A = Unit, X_alpha = E0, DY = E0.causality, with (a), (b), hreg (E0GX.chartIso_of_mem_aeAtlas) and (b') (chartIso_of_isAEChart) discharged; only hcov, the definition of an E0-manifold, remains. It is not vacuous: nonvacuous shows that E0 itself, with Sing nonempty, satisfies hcov through refl, and that E0.causality has the conclusion's properties. exists_eqOn_rotE0_tauShift is correct as stated and holds for every IsAEChart near every axis point of its source. Its conclusion, rotE0 phi o tauShift t on an open neighbourhood, is BTZ_1's Isom(E_0) (BTZ_1.tex:373). Its hypotheses are narrower than prop:isom's (injective, inverse also an a.e. morphism, local), and the REPORT discloses this. Route: (1) HolRel and exists_isom_dev. The class of the reading isometry modulo hol(2pi) is locally constant (HolRel.unique) and propagates over the preconnected slit box (IsPreconnected.induction2'). (2) smul_null_line. Along rho -> 0+, b = r -> 0 and c^2 - ab = r^2 - 2tau r -> 0 because psi maps axis to axis, so g sends lift(tau,0,.) = (2tau,0,0) into R(1,0,0). (3) isom_of_null_line and linear_of_null_fixed. Since Flat.lorentz is defined with det = 1 and is future-preserving (Causal/Flat/Form.lean:132), mu > 0 and gamma = 1, so g = T_s B_mu H_u. (4) eq_of_dev gives BTZ_1's h_l with l = mu. (r/mu - mu r)/2 = -(mu^2-1)/(2mu) r, which matches BTZ_1.tex:369. (5) mu_eq_one. mu < 1 is excluded by continuity at (p.1, -rho), since e^{i mu(pi+u)} = e^{i mu(-pi+u)} forces mu to be an integer. mu > 1 is excluded by injectivity at theta = +-pi/mu. Then density (ball_subset_closure_slitBox). Excluding the reflection through SO0's determinant matches OQ-82's reading of record (SO0(1,2) x| R^3 = Flat.isom 2). The other two readings, OQ-18 and OQ-34/35, are taken as of record and disclosed."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/BPrimeE0.lean: exit 0, no output, 5.0 s wall / 14.0 s user (parallel elaboration), max RSS 7.0 GB. 1040 lines: about 90 of docstring, about 600 of the rigidity core (l.105-702), and the rest consequences, non-vacuity and the reflection. No sorry, admit, native_decide, axiom, opaque or implemented_by; the one hit for 'sorry' is the docstring's '(no `sorry` in this file)'. #print axioms, run from a /tmp copy that has since been deleted, gives [propext, Classical.choice, Quot.sound] for chartIso_of_isAEChart, exists_eqOn_rotE0_tauShift, isAEChart_rotE0_tauShift, existsUnique_causality_e0, hiso_massAModel_none, chartIso_conjE0, not_isAEChart_conjE0, nonvacuous, mu_eq_one and isom_of_null_line. lake build was not run, as dispatched. Names: every declaration is under Causal.BPrimeE0, which no other file in Causal/ or scaffold/ uses. The sibling ModelRowsE0.lean is under Causal.ModelRowsE0, so there is no clash; it was grepped, not judged. The opened E0, E0GX create no short-name collision (no strict lift_eq, nullQ, mu_eq_one, chartIso_of_isAEChart). Scope: git status --short shows, besides the two dispatched paths, only the master's status edits to roadmap/roadmap.toml and papers/egf/programme/roadmap.toml, the sibling ModelRowsE0 target, and other loops' lean-egf files. Nothing under Causal/ was touched."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-bprime-e0/REPORT.json findings[2]; scaffold/CausalScaffold/BPrimeE0.lean:33, :57, :447, :902",
+      "what": "BTZ_1 line numbers are wrong in a finding that goes to the author. The quote « Since the direction of Delta is timelike, g is an elliptic isometry of axis Delta » is at BTZ_1.tex:459, not l.455; l.453-457 is the paragraph that proves gDelta = Delta. h_l is at l.368-370, not l.372-375; l.372-375 define Isom(E_alpha). « injective iff l = 1 » is at l.370, not l.374-375. The paper's group Isom(E_{0 infinity}) generated by rotation-translations and the h_l, l in R_+^*, is at l.442; l.440 is Delta = R(1,1,0). In the docstring, Isom(E^{1,2}_0) is at l.373, not l.377 (lines 33 and 902), and h_l is at l.369, not l.372 (lines 57 and 447). Also ETT's « we give the precise reference for each » is at ETT.tex:1325, not 1322-1323 (REPORT findings[0], which follows the dispatch).",
+      "fix": "At graduation, correct the citations to BTZ_1.tex:459, 368-370, 370, 442, 373, 369 and ETT.tex:1325."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-bprime-e0/REPORT.json findings[2] (BTZ_1.tex:447, 459)",
+      "what": "The finding is fair: at alpha = 0, Delta is null (l.440), so l.459's 'timelike ... elliptic' does not carry over verbatim, and the stabiliser of the null line (isom_of_null_line) is not written down. But the paper itself prepares the alpha = 0 replacement. At l.442 it defines Isom(E_{0 infinity}) as generated by rotation-translations and the h_l, l in R_+^*, which is exactly the lift of that stabiliser under SO0. At l.368-370 it notes that h_l descends for l in N^* and is injective only for l = 1. So the gap is the unstated identification « Stab(Delta) = D_0-image of Isom(E_{0 infinity}) », not a missing idea. The reflection remark applies equally at alpha > 0 under O^+ (reflections in timelike planes through Delta), so it belongs to OQ-82, not to alpha = 0.",
+      "fix": "Reword to: « mutatis mutandis leaves one identification unstated: the isometries preserving the null line Delta are the D_0-image of Isom(E_{0 infinity}) (l.442), whose h_l the paper excludes through l.370. » Cite l.442 and l.370 as the paper's own ingredients, and move the reflection sentence under the OQ-82 finding."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-bprime-e0/REPORT.json findings[0]",
+      "what": "« It is prop:isom of brunswic2021cauchy at alpha = beta = 0 » overstates. (b') at E0 follows from the local form of prop:isom together with two further facts: rotations and translations are causal isomorphisms (chartIso_rotE0_tauShift), and isomorphism is a local property for absolutely minimal causalities (imp_of_agree_locally). The regular case is a separate argument (agreeOn_of_isAEChart).",
+      "fix": "Write « It follows from prop:isom ... (local form), since rotations and translations of E_0 are causal isomorphisms »."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/BPrimeE0.lean:70-72; REPORT.json hypotheses[0], hypotheses[4]",
+      "what": "The checklist vocabulary does not follow kb/0006, where '⚠ weakened' means the Lean assumes less. Three entries go the other way. 'Every E_{>=0}-manifold' restricted to E0-models is a special case (the Lean assumes more). prop:isom's 'a.e. morphism + local homeomorphism' read as IsAEChart (injective, inverse also an a.e. morphism) is an added hypothesis. The docstring row « prop:isom: alpha = beta | ✓ » ticks as carried a conclusion of prop:isom that is assumed here (alpha = beta = 0). Everything is disclosed and the row is partial, so this is wording only.",
+      "fix": "Mark these rows '⚠ special case' or '⚠ strengthened (disclosed)' instead of 'weakened' / '✓'."
+    }
+  ],
+  "checked_findings": {
+    "1_cite_prop_isom": "Sound as a suggestion; see the wording finding above.",
+    "2_existence_not_refuted_at_E0": "Correct. existsUnique_causality_e0 discharges every model hypothesis at A = {0}, and OQ-64 gets no counterexample from E0.",
+    "3_mutatis_mutandis": "Fair but should be softened: see the finding above. Its mathematics (null-line stabiliser = T_s B_mu H_u under SO0; mu < 1 excluded by continuity, mu > 1 by injectivity; mu = l of h_l) is correct and kernel-checked.",
+    "4_O_plus_reflection": "Correct as hedged. chartIso_conjE0 and not_isAEChart_conjE0 are proved. That conjE0 would be an a.e. isomorphism under O^+ is argued, not proved: in sector charts it reads as c -> -c, which has det -1 and is future-preserving. The REPORT says the O^+ statement is not proved.",
+    "5_planner_r": "Correct. B_mu H_s B_mu^{-1} = H_{mu s}, and translations along (1,0,0) commute with H_s. So g hol(2pi) g^{-1} = hol(2pi mu), and the deck relation gives k = mu, a positive integer. Positivity alone does not give k = 1; injectivity, or the deck relation of psi^{-1}, is needed."
+  }
+}

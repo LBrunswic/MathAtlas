@@ -121,3 +121,8 @@ rediscover. One fact per entry.
 | [0113](entries/0113-arc-causality.md) | pattern | A causality carried by a family of arcs (arcCausality) |
 | [0114](entries/0114-comb-coordinates.md) | pattern | Choose a planar comb's coordinates for the proof |
 | [0115](entries/0115-gh-without-tarentin.md) | pitfall | Global hyperbolicity without tarentin: neither a time function nor strong causality |
+| [0119](entries/0119-bprime-at-e0.md) | pattern | (b′) at E₀: every a.e. isomorphism chart E₀ ⇀ E₀ is a chart isomorphism |
+| [0120](entries/0120-rigidity-without-covering.md) | pattern | Rigidity at a singular point without covering spaces: one slit box, the limit at the axis, continuity across the slit |
+| [0121](entries/0121-det-of-explicit-linear-map.md) | pattern | The determinant of an explicit linear map of ℝ × ℝ × ℝ |
+| [0122](entries/0122-reflection-witness-oq82.md) | pattern | The reflection θ ↦ −θ of E₀: a chart isomorphism that SO₀ excludes |
+| [0123](entries/0123-ioo-mem-nhds-is-a-membership.md) | pitfall | `Ioo_mem_nhdsGT` is a set membership: state the `∀ᶠ` first |
