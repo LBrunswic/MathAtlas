@@ -398,3 +398,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 18:52–19:10 (Paris); agents: 1 (planner)
 - next: wave of T-ett-e-models-bprime, T-ett-sfa-local, T-ett-measures-manifolds (lean-causal; sfa-local writes under Causal/Port)
+
+## 2026-11-21 20:05 · wave of 3 · T-ett-e-models-bprime, T-ett-sfa-local, T-ett-measures-manifolds (and T-ett-singular-instance)
+- T-ett-e-models-bprime: (b′) between every two E≥0 models (hiso_massAModel) and the three corollaries cor:massA_causalite, cor:massA_cac, cor:pushup_sing at every E≥0-manifold with no model hypothesis left (massA_singular_all); the (G,X) sentence of defi:causal_Ealpha at every E≥0-manifold (causal_Ealpha_manifolds); witnesses E₀, E_π; T-ett-singular-instance, folded into it by the 19:10 plan, closes on the same commit; the rows now wait on readings only (OQ-18, OQ-82, OQ-34/35, OQ-64 as a reading); audit minor
+- T-ett-sfa-local: SingularFlatAxioms' chartwise fields at every E≥0-manifold, mixed ones included (rem:btz_pas_tarentin, rem:sing_tarentin; sing_α read through the X_A-charts, type invariance = brunswic2021cauchy Cor. 1.5); singularFlatAxioms_iff leaves the four line fields; the closer's cross-type finding was overstated (the paper's every-chart reading gives it from two charts) and is curated as a citation remark (Cor. 1.5, never cited) at defi:causal_Ealpha; sing_{2π}(M) = ∅ settled (DEC-25, DEC-74; the l.2185 convention is OQ-25's); audit minor
+- T-ett-measures-manifolds: ModelMeasures at every strongly causal E≥0-manifold; the chart transfer split into the ETT-layer Causal/MeasureTransfer.lean at graduation; finding (proof-level): l.1734–1743's restriction_convexe applied in the model needs φ(U_p) causally convex there (cutDiamond_separates; the audit corrected its « relatively compact » and gave a relatively compact example by hand), merged with T-ett-measures-e0's property-3 finding into one suggested wording; audit minor
+- gates: lean-causal ✓, roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at 3afcf7f, clean), hub: no new red
+- commits: c0c402c 29883c4 3afcf7f 9a23398 (+ this)
+- wall time: 19:13–20:05 (Paris); agents: 3 closers, 3 audits
+- new OQ: none (next free OQ-87); lean-causal kb 0159–0166
+- not done (noted): lean-causal/README.md's module table lists none of the atlas modules of waves 17–23 (it is /ett-programme's convention); a tidy pass could add them
+- next: T-ett-sfa-btz-e0 is the only ready closer (with master T-ett-docstrings-sing0): plan (rule 2) or a wave of one
