@@ -189,7 +189,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 | 0 | **Definition** — 5<br>`bzdef:c1s1d5_hemisphere` — [`benzecri1960_ch1.tex:202`](benzecri1960_ch1.tex#L202) | def | strict (Subvariety.lean) | **yes** | A |
 | 0 | **Definition** — 6<br>`bzdef:c1s1d6_structure_affine_hemisphere` — [`benzecri1960_ch1.tex:222`](benzecri1960_ch1.tex#L222) | def | strict (Hemisphere.lean) | **yes** | A |
 | 0 | **Definition** — 7<br>`bzdef:c1s1d7_segment` — [`benzecri1960_ch1.tex:234`](benzecri1960_ch1.tex#L234) | def | strict (Convex.lean) | **yes** | A |
-| 0 | **Definition** — 8<br>`bzdef:c1s1d8_partie_convexe` — [`benzecri1960_ch1.tex:246`](benzecri1960_ch1.tex#L246) | def | strict (Convex.lean) | **yes** | A |
+| 0 | **Definition** — 8<br>`bzdef:c1s1d8_partie_convexe` — [`benzecri1960_ch1.tex:246`](benzecri1960_ch1.tex#L246) | def | strict (Convex.lean, Subvariety.lean) | **yes** | A |
 | 0 | **Definition** — 9<br>`bzdef:c1s1d9_convexe_strict` — [`benzecri1960_ch1.tex:255`](benzecri1960_ch1.tex#L255) | def | strict (Convex.lean) | **yes** | A |
 | 0 | **Definition** — 10<br>`bzdef:c1s1d10_quotient` — [`benzecri1960_ch1.tex:260`](benzecri1960_ch1.tex#L260) | def | strict (Subvariety.lean) | **yes** | A |
 | 0 | **Definition** — 12<br>`bzdef:c1s1d12_variete_localement_projective` — [`benzecri1960_ch1.tex:304`](benzecri1960_ch1.tex#L304) | def | strict (Jets.lean, Basic.lean) | **yes** | A |

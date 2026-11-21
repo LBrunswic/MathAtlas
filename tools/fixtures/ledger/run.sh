@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Four breakages, each must make `ledger.py check` fail (exit non-zero only if all do):
+# Five breakages, each must make `ledger.py check` fail (exit non-zero only if all do):
 #  1. removing one \label leaves an unlabeled statement;
 #  2. a curated decl carrying prose ("(related, …) Causal.foo") is not a Lean name
 #     (T-ett-curation-decls: such a decl was found by its last component and passed);
@@ -7,6 +7,9 @@
 #     would silently drop every proof and edge of the paper).
 #  4. a proof title that \ref's no statement (T-texgraph-proof-titles: such a proof falls back to the
 #     most recent statement without a proof, silently the wrong row).
+#  5. a curated decl moved into another namespace, with the same last component (T-ledger-decl-
+#     fullname: decl_line matched the last component only, so BTZAxioms.K_neq_I passed against
+#     E0.K_neq_I).
 set -u
 T=$(mktemp -d); cp -r "$LEANARTICLES_HUB/papers/syracuse" "$T/paper"; chmod -R u+w "$T/paper"
 python3 - "$T/paper/legacy/labeled/syracuse.tex" <<'PY'
@@ -62,5 +65,25 @@ PY
 python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" build >/dev/null || { rm -rf "$T"; exit 0; }
 python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" check; s4=$?
 rm -rf "$T"
-[ "$s1" -ne 0 ] && [ "$s2" -ne 0 ] && [ "$s3" -ne 0 ] && [ "$s4" -ne 0 ] && exit 1
+T=$(mktemp -d); cp -r "$LEANARTICLES_HUB/papers/syracuse" "$T/paper"; chmod -R u+w "$T/paper"
+python3 - "$T/paper/ledger/ledger.toml" "$LEANARTICLES_HUB/lean-syracuse" <<'PY'
+import re, sys
+p, root = sys.argv[1], sys.argv[2]; s = open(p, encoding="utf-8").read()
+t = re.sub(r'(\[lean\][^\[]*?\nroot = )"[^"]*"', lambda m: m.group(1) + '"' + root + '"', s, count=1, flags=re.S)
+assert t != s, "no [lean] root to repoint"; open(p, "w", encoding="utf-8").write(t)
+PY
+# Build first, so that only the full-name rule (not drift) can make check fail.
+python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" build >/dev/null || { rm -rf "$T"; exit 0; }
+python3 - "$T/paper/ledger/ledger.json" <<'PY'
+import json, sys
+p = sys.argv[1]; L = json.load(open(p, encoding="utf-8"))
+s = next(s for s in L["statements"] if any(d.count(".") >= 1 for d in s.get("decls", [])))
+i = next(i for i, d in enumerate(s["decls"]) if d.count(".") >= 1)
+head, last = s["decls"][i].rsplit(".", 1)
+s["decls"][i] = head + ".MovedByFixture." + last
+json.dump(L, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+PY
+python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" check; s5=$?
+rm -rf "$T"
+[ "$s1" -ne 0 ] && [ "$s2" -ne 0 ] && [ "$s3" -ne 0 ] && [ "$s4" -ne 0 ] && [ "$s5" -ne 0 ] && exit 1
 exit 0

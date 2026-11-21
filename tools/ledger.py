@@ -360,17 +360,138 @@ def read_paper_map():
     return {s["label"]: s for s in m.get("statements", [])}
 
 
+def strip_lean_comments(text):
+    """`text` with comments (nested `/- … -/`, `--`) and string literals blanked to spaces,
+    newlines kept, so that line numbers survive and a quoted `end` or `namespace` is not read."""
+    out, i, n = list(text), 0, len(text)
+    while i < n:
+        if text.startswith("/-", i):
+            depth, j = 1, i + 2
+            while j < n and depth:
+                if text.startswith("/-", j):
+                    depth, j = depth + 1, j + 2
+                elif text.startswith("-/", j):
+                    depth, j = depth - 1, j + 2
+                else:
+                    j += 1
+            for k in range(i, j):
+                if out[k] != "\n":
+                    out[k] = " "
+            i = j
+        elif text.startswith("--", i):
+            j = text.find("\n", i)
+            j = n if j < 0 else j
+            for k in range(i, j):
+                out[k] = " "
+            i = j
+        elif text[i] == '"' and not (i > 0 and text[i - 1] == "'" and text[i + 1:i + 2] == "'"):
+            j = i + 1
+            while j < n and text[j] != '"':
+                j += 2 if text[j] == "\\" else 1
+            for k in range(i, min(j + 1, n)):
+                if out[k] != "\n":
+                    out[k] = " "
+            i = j + 1
+        else:
+            i += 1
+    return "".join(out)
+
+
+# A name: dotted components, each a run of anything but whitespace and Lean's delimiters, so
+# that `ι₁`, `h'` and `f!` are names; a universe binder `.{u}` ends it.
+_NAME = r"[^\s:()\[\]{}⦃⦄.,|@]+(?:\.[^\s:()\[\]{}⦃⦄.,|@]+)*"
+_MODS = r"(?:(?:private|protected|noncomputable|scoped|partial|unsafe|nonrec)\s+)*"
+_DECL_FULL = re.compile(r"^(\s*)(?:@\[[^\]]*\]\s*)*" + _MODS +
+                        r"(theorem|lemma|def|abbrev|instance|opaque|axiom|irreducible_def|"
+                        r"structure|class\s+inductive|class|inductive)\s+(" + _NAME + r")")
+_SCOPE = re.compile(r"^\s*(?:(namespace)\s+(" + _NAME + r")|(?:noncomputable\s+)?(section)\b\s*(" +
+                    _NAME + r")?|(mutual)\b|(end)\b\s*(" + _NAME + r")?)\s*$")
+_FIELD = re.compile(r"^(\s+)(?:\|\s*)?(" + _NAME + r")\s*(?:::|:=|:|\(|\{|\[|⦃|$)")
+_DECL_CACHE = {}
+
+
+def declared_names(text):
+    """{full name: line} of the declarations in a Lean source. The full name follows Lean:
+    `namespace A.B` opens A then B, `end A.B` closes both, `section`/`mutual` open a scope that
+    adds nothing to names, `_root_.` resets, and `Name.{u}` drops its universe binder. A structure
+    or class also declares its fields and `mk` (or the `c ::` it names); an inductive declares its
+    constructors. A decl is found by its full name only: two declarations sharing a last
+    component, or `X.f` against `X.f.g`, are different (T-ledger-decl-fullname)."""
+    hit = _DECL_CACHE.get(id(text))
+    if hit is not None and hit[0] is text:
+        return hit[1]
+    scopes, names = [], {}
+    lines = strip_lean_comments(text).split("\n")
+
+    def full(name):
+        if name.startswith("_root_."):
+            return name[len("_root_."):]
+        ns = [c for kind, c in scopes if kind == "ns"]
+        return ".".join(ns + [name])
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        m = _SCOPE.match(line)
+        if m:
+            if m.group(1):
+                scopes.extend(("ns", c) for c in m.group(2).split("."))
+            elif m.group(3):
+                scopes.extend(("sec", c) for c in (m.group(4).split(".") if m.group(4) else [""]))
+            elif m.group(5):
+                scopes.append(("mutual", ""))
+            elif m.group(6):
+                k = len(m.group(7).split(".")) if m.group(7) else 1
+                del scopes[max(0, len(scopes) - k):]
+            i += 1
+            continue
+        m = _DECL_FULL.match(line)
+        if not m:
+            i += 1
+            continue
+        indent, kind, name = len(m.group(1)), m.group(2), m.group(3)
+        fname = full(name)
+        names.setdefault(fname, i + 1)
+        if kind in ("structure", "class"):
+            # Fields are the body's `name :`/`name (…)`/`name :=` lines; `c ::` renames `mk`.
+            ctor, j = "mk", i + 1
+            while j < len(lines):
+                body = lines[j]
+                if body.strip() and len(body) - len(body.lstrip()) <= indent:
+                    break
+                f = _FIELD.match(body)
+                if f and f.group(2) not in ("where", "extends", "deriving"):
+                    if body[f.end(2):].lstrip().startswith("::"):
+                        ctor = f.group(2)
+                    else:
+                        names.setdefault(fname + "." + f.group(2), j + 1)
+                j += 1
+            names.setdefault(fname + "." + ctor, i + 1)
+        elif "inductive" in kind:
+            # Constructors are the `| c` lines, at any indentation.
+            j = i + 1
+            while j < len(lines):
+                body = lines[j]
+                if body.strip() and not body.lstrip().startswith("|") \
+                        and len(body) - len(body.lstrip()) <= indent:
+                    break
+                f = _FIELD.match(body if body.startswith((" ", "\t")) else " " + body)
+                if f and body.lstrip().startswith("|"):
+                    names.setdefault(fname + "." + f.group(2), j + 1)
+                j += 1
+        i += 1
+    _DECL_CACHE[id(text)] = (text, names)
+    return names
+
+
 def decl_line(src, files, decl):
-    short = decl.split(".")[-1]
-    pat = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+|scoped\s+)*"
-                     r"(?:theorem|lemma|def|structure|class|inductive|abbrev|instance)\s+"
-                     r"(?:[A-Za-z_][\w.']*\.)?%s(?![\w'])" % re.escape(short), re.M)
+    """The first listed file that declares `decl` under exactly that full name, and its line."""
     for f in files:
         if f not in src:
             continue
-        m = pat.search(src[f])
-        if m:
-            return f, src[f].count("\n", 0, m.start()) + 1
+        ln = declared_names(src[f]).get(decl)
+        if ln:
+            return f, ln
     return None, None
 
 
