@@ -164,3 +164,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 01:25–01:50 (Paris); agents: 1 (planner, alone)
 - next: wave outside lean-causal: T-egf-sampling, T-bz-c2-lignes, T-gx-troyanov-four, T-bz-c2-pseudo-boules, T-syr-cycle-gcd, T-yamabe-gluing-algebra; master: T-gx-troyanov-source, T-gx-troyanov-reroute, T-atlas-sweep-refresh
+
+## 2026-11-21 03:40 · wave of 6 · T-egf-sampling, T-bz-c2-lignes, T-bz-c2-pseudo-boules, T-gx-troyanov-four, T-gx-troyanov-source, T-ett-e0-model-rows (topped up)
+- T-egf-sampling: def:virtual_flows, theo:sampling_theorem, theo:negative_control (+ appendix) closed and marked; the sampler constructed (Ionescu-Tulcea), sharp bound; confirmations OQ-60; audit minor
+- T-bz-c2-lignes: Déf. 5, Prop. 4 for n ≥ 1 (OQ-45); Prop. 6 and 7° false as printed for a pocket with cote z ≡ 0 (checked on the scan), ≤ and z ≢ 0 forms proved (OQ-61); audit minor
+- T-bz-c2-pseudo-boules: Déf. 6 closed; Prop. 5 for r > 0 (OQ-62: does « positif » mean > 0?); audit major on text (the r ≤ 0 « finding » withdrawn, round 1), AUDIT-2 minor
+- T-gx-troyanov-four: Troyanov for every s = 4 datum (a spherical dart); TroyanovTheorem ⇔ its case s ≥ 5 with an angle > 2π; generic StarPolygon double; audit minor
+- T-gx-troyanov-source (master): Theorem C (p. 795) transcribed from the author-hosted copy (PDF not committed); the library's subcritical form exact; l.1930's condition stronger (OQ-59)
+- T-ett-e0-model-rows (topped up into lean-causal): both BTZ sentences at E₀ (marks wait on OQ-34); E₀ is causally plain, and every strongly causal SingularFlatAxioms spacetime (evidence for OQ-16); model-free theorems flagged for a hoist by /ett-programme; audit minor
+- gates: lean-egf ✓, lean-benzecri ✓, lean-gx ✓, lean-causal ✓, roadmap ✓, atlas ✓, hub: papers_check all green; gate-tests red is /ett-programme's in-flight ladder (its lease)
+- commits: 8eb3c59 438946d b57e0e6 a66988d 62cf1b9 c54508f 316d051 ebde3f7 942f470 b94633f (+ this)
+- wall time: 01:55–03:40 (Paris); agents: 5 closers, 7 audits (1 re-audit), 1 fix round, 1 fetch attempt; shared cap briefly at 7 (/ett-programme's two non-Lean agents)
+- new OQ: 59 (Troyanov's condition of record), 60 (EGF sampling confirmations), 61 (Benzécri cote z ≡ 0), 62 (« positif »)
+- next: lean-causal goes back to /ett-programme's T-abs-hoist-time-function, then T-ett-gxsingular-dec25 (exclusive); outside lean-causal: T-syr-cycle-gcd, T-yamabe-gluing-algebra, T-gx-troyanov-reroute (master), T-atlas-sweep-refresh (master)
