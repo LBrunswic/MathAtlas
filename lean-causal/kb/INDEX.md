@@ -185,5 +185,8 @@ rediscover. One fact per entry.
 | [0177](entries/0177-massive-line-atlas.md) | pattern | The translation atlas of sing_κ(M), κ > 0, and massive_line at every Hausdorff E≥0-manifold |
 | [0178](entries/0178-isclosed-sing-name-resolution.md) | pitfall | Inside Causal.X with open SFALocal, isClosed_sing resolves to the root Causal.isClosed_sing |
 | [0179](entries/0179-epi-sfa-witness.md) | pattern | E_π: a SingularFlatAxioms witness with a non-empty massive line |
+| [0182](entries/0182-rows-at-m-pattern.md) | pattern | The singular-flat rows at M without SingularFlatAxioms: Causal.SingularRowsLocal |
+| [0183](entries/0183-universe-metavariables-strict-forall.md) | pitfall | A strict theorem quantifying ∀ {M : Type u}, used as a term, needs its universe explicit |
+| [0184](entries/0184-e0-natural-over-family.md) | pattern | E₀ with its natural causality over the whole family |
 | [0185](entries/0185-open-subset-e0-manifold.md) | pattern | An open subset of a singular (G,X)-manifold is one, and of an E₀-manifold an E₀-manifold |
 | [0186](entries/0186-e0-causal-curves-axis.md) | pattern | A causal curve of E₀ into a BTZ point stays on the axis and cannot jump over an axis point |

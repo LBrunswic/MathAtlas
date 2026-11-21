@@ -1,0 +1,97 @@
+{
+  "target": "T-ett-singular-rows-local",
+  "auditor_round": 2,
+  "verdict": "minor",
+  "verdict_reason": "AUDIT-1's one major finding, the four unintended marks, is resolved. tools/ledger.py's docstring_label_re finds no label in the file, in the first 4000 characters or in the whole text. The fix round changed only the module docstring: the 25 theorems have the same names, universe parameters, types and proof terms as the version AUDIT-1 audited. The build and axioms are clean. AUDIT-1's minor findings stand, one of them half-addressed (finding 4 below), so the verdict is minor and not clean.",
+  "labels": [
+    {
+      "label": "lem:J_int",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Faithfulness as in AUDIT-1: J_int, J_int_sing, interior_Jplus_diff_sing and interior_Jminus_eq are unchanged (identical type and value hashes). l.45 now reads « * `lem:J_int` (unmarked): `J_int`, both signs as printed; … ; from `Causality.J_int` … ». The regex does not match, and the bullet agrees with the header's « Cited, **unmarked** » (l.9) and with REPORT marked: false. The parenthesis that closed after `I⁻(p)`, before « , from », is gone and the clause now ends with « ; from »; the sentence remains true."
+    },
+    {
+      "label": "lem:cup_cap_sing",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Faithfulness as in AUDIT-1: cup_cap_sing, Iminus_eq_interior_iUnion_iInter and Iplus_eq_interior_iUnion_iInter are unchanged. l.48 now reads « * `lem:cup_cap_sing` (unmarked): `cup_cap_sing`, `M` Hausdorff and globally hyperbolic, from … ». It is no longer a mark, and the content is the same as before with the parentheses removed."
+    },
+    {
+      "label": "rem:tarentin_exemples",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Faithfulness as in AUDIT-1: tarentin and tarentin_exemples_local are unchanged. l.51 now reads « * `rem:tarentin_exemples` (unmarked), its `E_{≥0}` sentence: … ». It is no longer a mark."
+    },
+    {
+      "label": "rem:lorentz_tarentin",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Faithfulness as in AUDIT-1: compl_Zminus_eq, Zminus_eq, Zplus_eq and lorentz_tarentin_local are unchanged. l.53 now reads « * `rem:lorentz_tarentin` (unmarked), its `E_{≥0}` sentence: … ». It is no longer a mark."
+    },
+    {
+      "label": "rem:pas_plat",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Faithfulness as in AUDIT-1, including the disclosed narrowing of the half-line to causal M (btz_past). btz_past, btz_past_bounds, Iminus_eq_empty, Jminus_subset_sing, interior_Jminus_eq_empty, btz_causallyPlain_past, causallyPlain and pas_plat_ii are unchanged. l.55 used to read « **`rem:pas_plat` (ii)** », which never matched the regex; it now reads « * `rem:pas_plat` (ii) (unmarked): ». l.88 now reads « * `rem:pas_plat` (ii) **needs `M` causal** for the half-line », so the bold covers the claim rather than the label. Both are cosmetic and consistent."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "From lean-causal: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SingularRowsLocal.lean` printed nothing and exited 0 (3.1 s). With ledger.py's strip_lean_comments the code has no `sorry`; the one textual « sorry » is the docstring prose « (no `sorry` in this file) » at l.41. The file has no private, axiom, native_decide, set_option, admit, opaque or extern. It does have two `attribute [local instance]` lines (l.356, l.415), which were already present and are unchanged. I ran #print axioms in a /tmp copy of the file (`lake env lean`, not lake build) on the three anchors J_int, cup_cap_sing and pas_plat_ii. Each gives [propext, Classical.choice, Quot.sound]. All 25 proof terms are byte-identical to the round-1 terms (below), so AUDIT-1's axiom result for the other 22 carries over. The /tmp directory (/tmp/srl-audit2) is deleted. I did not run lake build."
+  },
+  "mark_check": {
+    "pattern": "ledger.py docstring_label_re: \\*\\*`((?:theo|lem|prop|cor|def|defi|rem|propri|ex|cex|cexemple):[A-Za-z_0-9.\\-]+)`\\*\\*, prefixes from papers/ett/ledger/ledger.toml",
+    "head_4000": [],
+    "whole_file": [],
+    "any_alphabetic_prefix_head_4000": [],
+    "any_alphabetic_prefix_whole_file": [],
+    "loosest_form_any_colon_inside_bold_backticks": [],
+    "notes": "The declaration docstrings, all past character 7500, still open with bold such as « **`lem:J_int` at every `E_{≥0}`-manifold** (unmarked) ». They do not match, because the closing ** does not follow the label's closing backtick, and they lie outside the 4000-character head that lean_index reads. The fix round did not change them. The SCOPE block (ledger.py SCOPE_BLOCK on text[:8000]) and the hypothesis checklist are both still found, and the module docstring ends at character 6771."
+  },
+  "diff_check": {
+    "method": "git diff --no-index is unavailable, and the file is untracked, so I compared against the round-1 build artifact. .lake/build/lib/lean/CausalScaffold/SingularRowsLocal.olean is dated 21:26:14, from the closer's single lake build at the end of round 1. AUDIT-1 is dated 21:40:02 and the fixed source 21:41:18. To confirm that this olean is the version AUDIT-1 audited, I rebuilt its head from its module docstring. The regex finds lem:J_int, lem:cup_cap_sing, rem:tarentin_exemples and rem:lorentz_tarentin at offsets 2559, 2799, 3075 and 3236. That is AUDIT-1's 2560, 2800, 3076 and 3237 with a uniform shift of 1 from docstring whitespace normalisation. I then ran two probes. One imported the old olean (`import CausalScaffold.SingularRowsLocal`) and the other elaborated a /tmp copy of the current source. Each listed every constant whose name contains SingularRowsLocal, with its kind, universe parameters, hash of the type and hash of the value. It also listed every declaration docstring and the module docstrings.",
+    "declarations": "Identical. The diff of the two dumps is empty. There are 25 constants in both, all theorems, and no auxiliary constants: Iminus_eq_empty, Iminus_eq_interior_iUnion_iInter, Iplus_eq_interior_iUnion_iInter, J_int, J_int_sing, Jminus_subset_sing, Zminus_eq, Zplus_eq, btz_causallyPlain_past, btz_past, btz_past_bounds, causallyPlain, compl_Zminus_eq, cup_cap_sing, interior_Jminus_eq, interior_Jminus_eq_empty, interior_Jplus_diff_sing, lorentz_tarentin_local, nonvacuous_e0, nonvacuous_e0_natural, nonvacuous_epi, pas_plat_ii, rows_of_isAtlasCausalityDEC25, tarentin and tarentin_exemples_local. Every type hash and every proof-term hash agrees, so statements and proofs are untouched. This is AUDIT-1's list of 25.",
+    "docstrings": "The 25 declaration docstrings are identical. The module docstring differs in exactly six places, the ones the closer reports. Doc l.45-46 (lem:J_int): the mark is dropped, « (unmarked): » is added, and the parenthesis that closed after `I⁻(p)` is removed (« …`Int J⁻(p) = I⁻(p)`), from » becomes « …`Int J⁻(p) = I⁻(p)`; from »). l.48 (lem:cup_cap_sing): the mark is dropped and « (`cup_cap_sing`, `M` Hausdorff and globally hyperbolic), from » loses its parentheses. l.51 and l.53: the marks are dropped and « (unmarked) » is added. l.55: « **`rem:pas_plat` (ii)**: » becomes « `rem:pas_plat` (ii) (unmarked): ». l.88: « **`rem:pas_plat` (ii) needs `M` causal** » becomes « `rem:pas_plat` (ii) **needs `M` causal** ». Nothing else changed: the header, the quoted paper sentences, the checklist and SCOPE are byte-identical."
+  },
+  "scope": "git status --short is the same as at AUDIT-1: M roadmap/roadmap.toml (the master's three ready→active flips, l.297, l.598, l.614), untracked campaign/T-ett-cupcap-btz-cex/, campaign/T-ett-singular-rows-local/, campaign/T-ett-singular-sfa/ and the three scaffold files of this wave. Outside .lake and .git, four files are newer than AUDIT-1. Two belong to this fix round: SingularRowsLocal.lean (21:41:18) and this target's REPORT.json (21:41:33). The other two are the sibling's: campaign/T-ett-singular-sfa/AUDIT-1.json (21:41:06) and scaffold/CausalScaffold/SFAManifolds.lean (21:41:46). The SFAManifolds.lean edit is that target's own fix round: its new l.113-114 carry the docstring text its AUDIT-1 asked for (« Causal.staticCausality.preconnectedSpace_of_geodesic (Causal/LemmaKBare.lean) »). CupCapBTZCounterexample.lean was last modified at 21:32, before the fix round. This fix round touched only its own file and its own campaign directory.",
+  "report_changes": "REPORT.json notes now count « all 25 theorems of the file », which settles AUDIT-1 finding 6's first half. The proposed blocked_on for rem:tarentin_exemples in notes now reads « Lorentzian manifolds are not in the library; the E≥0 sentence rests on the readings OQ-34/OQ-35 and OQ-82 (…) », without OQ-18. All five labels still have status partial and marked false, which now agrees with the file.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json, rem:tarentin_exemples findings[0]",
+      "what": "AUDIT-1's finding 4 (« Both name OQ-18 for the E≥0 sentence ») is half-addressed. OQ-18 is gone from the proposed blocked_on in notes, but findings[0] still reads « proved at every E_{≥0}-manifold in the readings DEC-25, OQ-18, OQ-34/OQ-35 and OQ-82, for every causality with an isomorphic chart at each point ». tarentin uses no absolute minimality, so OQ-18 does not bear, as the same finding says two sentences later.",
+      "fix": "As in AUDIT-1: do not carry this entry into paper_findings. Use AUDIT-1's curation for rem:tarentin_exemples (notes_append; paper_findings « none new »), which already leaves OQ-18 out. No closer round is needed."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json, rem:pas_plat findings[2] (l.290)",
+      "what": "As in AUDIT-1, finding 2, unchanged by the fix round. The finding is true in the readings and refines the curated rem:pas_plat finding 1. The REPORT still misquotes the row (« The curated row says (ii) is « supported for (i) only » »), and it still suggests the wrong wording « at singularities only its relational form is at stake ».",
+      "fix": "As in AUDIT-1: replace the last sentence of the curated rem:pas_plat finding 1 with AUDIT-1's curation.rem:pas_plat.paper_findings_replace. Do not add a third paper_finding."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json, rem:pas_plat findings[0] (l.294), its hypothesis note and the proposed rem:pas_plat blocked_on in notes",
+      "what": "As in AUDIT-1, findings 3 and 6 (second half), unchanged. « The sentence is false as printed at non-causal M » and « the half-line is false as printed at non-causal M » say too much. At a non-causal M the half-line fails only at a BTZ point whose component of sing₀(M) is compact; this is by hand, not formalized.",
+      "fix": "As in AUDIT-1: in the curated defi:causal_E0 finding, replace « and fails otherwise. » with AUDIT-1's text. Record the l.294 refinement as a note on rem:pas_plat, not as a paper_finding, and write « can fail at a non-causal M »."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json: the findings of lem:J_int, lem:cup_cap_sing and rem:lorentz_tarentin",
+      "what": "As in AUDIT-1, finding 5, unchanged. These are status notes that duplicate curated text, now as theorems at M. All three statements are true.",
+      "fix": "As in AUDIT-1: keep each row's paper_findings and put the content in notes (AUDIT-1's curation texts)."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/SingularRowsLocal.lean:68-79, :92",
+      "what": "As in AUDIT-1, finding 7, unchanged. The checklist has no row for the Lorentzian manifolds, the Misner sentence or (i)'s C⁰ bubbles, which SCOPE « Why unmarked » (l.83) discloses. l.92 is still an unwrapped prose line of 156 characters.",
+      "fix": "As in AUDIT-1, optional at graduation."
+    }
+  ],
+  "curation": {
+    "carried_forward": "AUDIT-1's curation block applies unchanged: decls_append, blocked_on and notes_append for the five rows, rem:pas_plat's paper_findings_replace, and the optional defi:causal_E0 replacement. Only the two items below change.",
+    "common_note_prefix": "Replace AUDIT-1's prefix « … audit AUDIT-1 major (four unintended docstring marks, fixed at graduation), … » with « T-ett-singular-rows-local (atlas-team, 2026-11-21), audits AUDIT-1 major (four unintended docstring marks), AUDIT-2 minor (marks removed in a closer fix round, statements unchanged), Causal/Remarks/SingularRowsLocal.lean: ». The marks were removed before graduation and need no rewording there.",
+    "extra_lean_files": "Still required, as in AUDIT-1's fix to finding 1. The module now has no mark that lean_index can read, so the ledger will not attach Causal/Remarks/SingularRowsLocal.lean to any row by itself. Add it to extra_lean_files on all five rows (lem:J_int, lem:cup_cap_sing, rem:tarentin_exemples, rem:lorentz_tarentin, rem:pas_plat), and keep lean_proved_override = 'partial' on each."
+  }
+}
