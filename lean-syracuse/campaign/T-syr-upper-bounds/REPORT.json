@@ -1,0 +1,310 @@
+{
+ "package": "T-syr-upper-bounds",
+ "target": "T-syr-upper-bounds",
+ "files": [
+  "scaffold/SyracuseScaffold/UpperBounds.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "def:syracuse_cycle_period_denote",
+   "tex_lines": [
+    271,
+    274
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.ascIdx",
+    "Syracuse.descIdx",
+    "Syracuse.ascIdx_union_descIdx",
+    "Syracuse.disjoint_ascIdx_descIdx",
+    "Syracuse.one_le_of_cycle",
+    "Syracuse.a_zero_eq_one_iff_lt_T",
+    "Syracuse.cyclePt",
+    "Syracuse.ascIdxLit",
+    "Syracuse.descIdxLit",
+    "Syracuse.literal_neg_one",
+    "Syracuse.literal_one"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Γ = (x_i : i ∈ Z) a Syracuse cycle of period n > 0",
+     "here": "carried",
+     "note": "x : ℤ, 0 < n, T^[n] x = x where a cycle enters (one_le_of_cycle); cyclePt n x i = T^[i mod n](x) gives the points x_i, i ∈ ℤ. ascIdx and descIdx are defined for any α : ℤ → ℕ (weakened)."
+    },
+    {
+     "paper": "a_i := T^i(x_0), i ∈ Z (l.271)",
+     "here": "carried",
+     "note": "A reading of a misprint: a_i = a_i(x_0) = ν₂(3T^i(x_0)+1) (def:ring_define_2), extended n-periodically to ℤ (any periodic α with α k = a_k(x) on ℕ; aPer exists). The literal reading is ascIdxLit / descIdxLit (finding)."
+    },
+    {
+     "paper": "the index of a_i (OQ-63 (b))",
+     "here": "carried",
+     "note": "The sets are those of the sequence; the convention shifts them by one, which no statement here depends on."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:271 — 'a_i := T^i(x_0)' is a misprint for a_i = a_i(x_0) = ν₂(3T^i(x_0)+1). Read literally, 𝒜_Γ = {i | x_i = 1} and 𝒟_Γ = {i | x_i > 1}. On the cycle (−1) both are empty, though a_i(−1) = 1 for every i (Syracuse.literal_neg_one). On the cycle (1) every index is literally 'ascending', though a_i(1) = 2, so every index is descending (Syracuse.literal_one). Read as a_i(x_0), the two sets partition ℤ on every cycle of ℤ (ascIdx_union_descIdx, disjoint_ascIdx_descIdx, one_le_of_cycle). The names fit this reading: for odd y > 0, a_0(y) = 1 iff y < T(y) (a_zero_eq_one_iff_lt_T)."
+   ],
+   "questions": [
+    "Is a_i meant to be a_i(x_0) = ν₂(3T^i(x_0)+1) (def:ring_define_2), extended to i ∈ ℤ along the cycle? Reading taken: yes. The literal T^i(x_0) is degenerate. The index convention (a_0 = ν₂(3x_0+1), l.62, against a_1 = ν₂(3x_0+1), l.71) is OQ-63 (b); nothing here depends on it."
+   ]
+  },
+  {
+   "label": "lem:syracuse_cycle_n__n_",
+   "tex_lines": [
+    275,
+    281
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.Delta",
+    "Syracuse.DeltaAlt",
+    "Syracuse.deltaPrinted",
+    "Syracuse.deltaPrintedAsc",
+    "Syracuse.deltaPrintedAscLit",
+    "Syracuse.deltaTrue",
+    "Syracuse.AunAlt_eq_sum_rev",
+    "Syracuse.DeltaAlt_eq",
+    "Syracuse.Delta_eq_three_mul",
+    "Syracuse.Delta_eq",
+    "Syracuse.deltaPrinted_eq",
+    "Syracuse.three_mul_deltaPrinted",
+    "Syracuse.deltaPrinted_period_one",
+    "Syracuse.deltaPrinted_ne_of_minimal",
+    "Syracuse.DeltaAlt_eq_asc",
+    "Syracuse.Delta_eq_asc",
+    "Syracuse.deltaPrintedAsc_eq",
+    "Syracuse.seq12",
+    "Syracuse.seq12_periodic",
+    "Syracuse.seq12_eq_a",
+    "Syracuse.syracuse_cycle_n_printed_false",
+    "Syracuse.syracuse_cycle_n_asc_printed_false"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(Γ, a) a Syracuse cycle",
+     "here": "weakened",
+     "note": "The true display DeltaAlt_eq holds for every a : ℤ → ℕ and n, with no periodicity. Delta_eq (printed A_u^n) needs n-periodic a. The 'in particular' forms need a ≥ 1. The refutations quantify over every cycle of ℤ and every n-periodic extension α of a(x), as printed."
+    },
+    {
+     "paper": "i ∈ Z",
+     "here": "carried",
+     "note": "i : ℤ."
+    },
+    {
+     "paper": "A_i = A_i^n(a) (OQ-43)",
+     "here": "carried",
+     "note": "Both readings: Delta (printed Aun) and DeltaAlt (AunAlt, product to n − 2 − k)."
+    },
+    {
+     "paper": "'k ∈ 𝒟' (l.280)",
+     "here": "carried",
+     "note": "Read as i + k ∈ 𝒟 (deltaPrintedAsc; the terms with a_{i+k} = 1 vanish). The literal k ∈ 𝒟 (a_k > 1) is deltaPrintedAscLit. Both are refuted at the same point."
+    },
+    {
+     "paper": "a_i = 1 (l.279)",
+     "here": "carried",
+     "note": "α i = 1 in DeltaAlt_eq_asc, Delta_eq_asc, deltaPrintedAsc_eq and in the refutation."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:277 — false as printed, for both readings of OQ-43. The exponent a_i + ⋯ + a_{i+k−1} has one term too many. For every a : ℤ → ℕ, A'_{i+1} − A'_i = Σ_{k=1}^{n−1} 3^{n−1−k} 2^{a_{i+1}+⋯+a_{i+k−1}} (2^{a_{i+k}} − 2^{a_i}) (Syracuse.DeltaAlt_eq), no periodicity needed. For n-periodic a the printed A_u^n gives Δ_i = 3Δ'_i, i.e. the same sum with 3^{n−k} (Delta_eq_three_mul, Delta_eq). The printed right-hand side equals 2^{a_i}·Δ'_i (deltaPrinted_eq), and 3 times it equals 2^{a_i}·Δ_i (three_mul_deltaPrinted). So it is off by the factor 2^{a_i} for the OQ-43 reading and by 2^{a_i}/3 for the printed A_u^n, and it equals either difference only where Δ'_i = 0. It fails at every i ∈ ℤ for every periodic a ∈ (ℕ*)^ℤ of minimal period n ≥ 2 (deltaPrinted_ne_of_minimal). It holds on fixed points, where both sides are 0 (deltaPrinted_period_one). Witness: the cycle (−5, −7), a = (1, 2), i = 0, where Δ_0 = 6, Δ'_0 = 2 and the printed side is 4 (syracuse_cycle_n_printed_false). This confirms the planner's [r] numerics.",
+    "syracuse.tex:280 — the case a_i = 1 inherits the error. The true form is Δ'_i = Σ_{k ∈ ⟦1, n−1⟧, i+k ∈ 𝒟} 3^{n−1−k} 2^{a_{i+1}+⋯+a_{i+k−1}} (2^{a_{i+k}} − 2) (Syracuse.DeltaAlt_eq_asc), and the same with 3^{n−k} for Δ_i (Delta_eq_asc). The printed side equals 2Δ'_i (deltaPrintedAsc_eq). It is refuted at the cycle (−5, −7), i = 0 (a_0 = 1), for both readings of OQ-43 and both readings of 'k ∈ 𝒟' (syracuse_cycle_n_asc_printed_false).",
+    "syracuse.tex:275–281 — the lemma has no proof in the draft (ledger nl_status 'open'); the proofs here are new."
+   ],
+   "questions": [
+    "OQ-43: which A_u^n is meant? Both are proved, and the display is false for both. The intended exponent is presumably a_{i+1} + ⋯ + a_{i+k−1}, with the factor 3^{n−1−k} for the OQ-43 reading and 3^{n−k} for the printed A_u^n.",
+    "'k ∈ 𝒟' in l.280: read as i + k ∈ 𝒟, the only reading under which the restriction drops exactly the vanishing terms. The literal a_k > 1 is refuted too."
+   ]
+  },
+  {
+   "label": "lem:syracuse_cycle",
+   "tex_lines": [
+    283,
+    287
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.S23",
+    "Syracuse.SEquiv",
+    "Syracuse.sEquiv_equivalence",
+    "Syracuse.Aun_eq_two_pow_mul",
+    "Syracuse.Aun_eq_three_mul_add",
+    "Syracuse.two_pow_mul_AunAlt_succ",
+    "Syracuse.three_mul_DeltaAlt_of_eq",
+    "Syracuse.three_mul_Delta_of_eq",
+    "Syracuse.syracuse_cycle_alt",
+    "Syracuse.syracuse_cycle",
+    "Syracuse.dvd_iff_dvd_AunAlt_of_cycle",
+    "Syracuse.gcd_AunAlt_of_cycle",
+    "Syracuse.gcd_AunAlt_of_pos",
+    "Syracuse.gcd_AunAlt_printed_false",
+    "Syracuse.two_dvd_Aun",
+    "Syracuse.gcd_Aun_ne_of_cycle",
+    "Syracuse.not_dvd_iff_dvd_Aun_of_cycle"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(Γ, a) a Syracuse cycle",
+     "here": "weakened",
+     "note": "The implication (syracuse_cycle, syracuse_cycle_alt) holds for every n-periodic a : ℤ → ℕ, with no cycle and no a ≥ 1. The GCD claim needs the cycle: x : ℤ, 0 < n, T^[n] x = x, α n-periodic with α k = a_k(x)."
+    },
+    {
+     "paper": "S = {2^a 3^b : a, b ∈ Z} (l.270)",
+     "here": "carried",
+     "note": "S23 ⊆ ℚ, with integer exponents (zpow)."
+    },
+    {
+     "paper": "∼_S (l.286; not defined in the paper)",
+     "here": "carried",
+     "note": "A reading: x ∼_S y iff x = s·y for some s ∈ S, in ℚ (SEquiv). It is an equivalence relation (sEquiv_equivalence). The proof gives the explicit s = 2/3."
+    },
+    {
+     "paper": "m = GCD(A_i : i ∈ Z) = 2^{p_n} − 3^n (l.284)",
+     "here": "carried",
+     "note": "Stated and refuted as printed, with the normalized GCD of ℤ over one period (gcd_AunAlt_printed_false; gcd_Aun_ne_of_cycle). The up-to-sign form over all i ∈ ℤ is proved for AunAlt as a universal property (dvd_iff_dvd_AunAlt_of_cycle) and refuted for Aun (not_dvd_iff_dvd_Aun_of_cycle)."
+    },
+    {
+     "paper": "a_i = a_{i+1} = 1",
+     "here": "weakened",
+     "note": "three_mul_DeltaAlt_of_eq and three_mul_Delta_of_eq take a_i = a_{i+1} = b for any b, giving 3Δ_i = 2^b Δ_{i+1}."
+    },
+    {
+     "paper": "A_i = A_i^n(a) (OQ-43)",
+     "here": "carried",
+     "note": "Both readings: Aun (syracuse_cycle) and AunAlt (syracuse_cycle_alt)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:286 — the implication holds, for both readings of OQ-43, on every n-periodic sequence: no cycle is needed. For periodic a, 2^{a_u} A'_{u+1} = 3A'_u + 2^P − 3^n, where P = Σ_{t<n} a_t (Syracuse.two_pow_mul_AunAlt_succ; on a cycle this is 2^{p_n} − 3^n times 2^{a_u} x_{u+1} = 3x_u + 1). Hence a_i = a_{i+1} = b gives 3Δ'_i = 2^b Δ'_{i+1} and 3Δ_i = 2^b Δ_{i+1} (three_mul_DeltaAlt_of_eq, three_mul_Delta_of_eq). With b = 1, Δ_i = (2/3)Δ_{i+1} and 2/3 = 2^1 3^{−1} ∈ S (syracuse_cycle_alt, syracuse_cycle). This confirms the planner's [r] '3Δ_i = 2Δ_{i+1}', for both readings.",
+    "syracuse.tex:284 — 'm = GCD(A_i : i ∈ Z) = 2^{p_n} − 3^n' is false as printed. For the OQ-43 reading it holds up to sign on every cycle of Z: d divides every A'_u (u ∈ ℤ) iff d divides 2^{p_n(x)} − 3^n (Syracuse.dvd_iff_dvd_AunAlt_of_cycle). Normalized, the GCD over one period is |2^{p_n(x)} − 3^n| (gcd_AunAlt_of_cycle). That is the printed value for x > 0 (gcd_AunAlt_of_pos) and is refuted at the cycle (−1), where 2 − 3 = −1 (gcd_AunAlt_printed_false), as for prop:have_gcd_n__l_k (OQ-63 (a)). For the printed A_u^n every A_i = 2^{a_i} A'_{i+1} is even (Aun_eq_two_pow_mul, two_dvd_Aun), while 2^{p_n} − 3^n is odd. So the claim fails on every cycle of Z, signed, normalized and up to sign (gcd_Aun_ne_of_cycle, not_dvd_iff_dvd_Aun_of_cycle). This is OQ-43's observation, proved.",
+    "syracuse.tex:286 — '∼_S' is not defined in the paper; it is also used at l.301 and l.318–321.",
+    "syracuse.tex:283–287 — the lemma has no proof in the draft; the proof here is new."
+   ],
+   "questions": [
+    "What is ∼_S? Reading taken: x ∼_S y iff x ∈ S·y, i.e. x = 2^a 3^b y for some a, b ∈ ℤ (in ℚ). It is an equivalence relation, and the lemma's instance has the explicit factor 2/3.",
+    "Is 'let m = GCD(A_i : i ∈ ℤ) = 2^{p_n} − 3^n' an assertion of the lemma or a notation recalled from prop:have_gcd_n__l_k? Reading taken: an assertion, which is false as printed (sign; and for the printed A_u^n, parity), so the row is partial and unmarked. If it is notation only and ∼_S is read as above, the implication is proved sorry-free, as printed, for both readings of OQ-43 (syracuse_cycle, syracuse_cycle_alt), and a ruling could mark it.",
+    "OQ-43: the GCD claim, like prop:have_gcd_n__l_k, sides with the OQ-43 reading, under which it holds up to sign."
+   ]
+  },
+  {
+   "label": "cor:intertwined_i_",
+   "tex_lines": [
+    289,
+    292
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.AunAlt_odd",
+    "Syracuse.not_three_dvd_AunAlt",
+    "Syracuse.delta_odd_not_three_dvd",
+    "Syracuse.DeltaAlt_periodic",
+    "Syracuse.Delta_periodic",
+    "Syracuse.forall_of_range",
+    "Syracuse.dvd_AunAlt_of_dvd_delta",
+    "Syracuse.dvd_delta_of_intertwined",
+    "Syracuse.intertwined_alt",
+    "Syracuse.intertwined_alt_cycle",
+    "Syracuse.odd_dvd_Aun_of_intertwined",
+    "Syracuse.not_four_dvd_of_intertwined",
+    "Syracuse.intertwined_aun",
+    "Syracuse.corGcdAlt",
+    "Syracuse.corGcd",
+    "Syracuse.corGcdAlt_of_cycle",
+    "Syracuse.corGcdAlt_of_pos",
+    "Syracuse.corGcdAlt_of_neg",
+    "Syracuse.corGcd_eq_gcd_Aun",
+    "Syracuse.ascIdx_descIdx_seq12",
+    "Syracuse.intertwined_printed_false",
+    "Syracuse.seq17",
+    "Syracuse.seq17_periodic",
+    "Syracuse.cycle_neg_seventeen",
+    "Syracuse.four_cycles",
+    "Syracuse.four_cycles_two_m_false"
+   ],
+   "hypotheses": [
+    {
+     "paper": "𝒜 and 𝒟 are intertwined (l.290; not defined)",
+     "here": "weakened",
+     "note": "Dropped: the true forms need no such hypothesis. The printed form is refuted for every reading I of 'intertwined' (a parameter) under which the alternating 𝒜 = 2ℤ, 𝒟 = 2ℤ + 1 of the cycle (−5, −7) are intertwined (intertwined_printed_false)."
+    },
+    {
+     "paper": "the cycle Γ (implicit, from lem:syracuse_cycle)",
+     "here": "weakened",
+     "note": "intertwined_alt, intertwined_aun and corGcd_eq_gcd_Aun hold for every n-periodic a : ℤ → ℕ with a ≥ 1 and n ≥ 1, with no cycle. intertwined_alt_cycle, corGcdAlt_of_cycle (and _of_pos, _of_neg) need the cycle: x : ℤ, 0 < n, T^[n] x = x."
+    },
+    {
+     "paper": "m (from lem:syracuse_cycle: GCD(A_i) = 2^{p_n} − 3^n)",
+     "here": "carried",
+     "note": "Both readings of m: m = 2^{p_n} − 3^n (refuted as printed; up to sign it is the OQ-43 result on cycles) and m = GCD(A_i : i ∈ ℤ) (proved for both readings of OQ-43)."
+    },
+    {
+     "paper": "A_0 (the base point)",
+     "here": "weakened",
+     "note": "Every base point A_c, c ∈ ℤ, is allowed in intertwined_alt, intertwined_alt_cycle and intertwined_aun. This covers both index conventions of OQ-63 (b), which move the base point to A_{−1}. The normalized corGcd and corGcdAlt use A_0."
+    },
+    {
+     "paper": "⋀_{i ∈ 𝒟} Δ_{i−1}, 𝒟 ⊆ ℤ infinite",
+     "here": "carried",
+     "note": "As a universal property over every i ∈ ℤ with a_i > 1 (∀ d, d ∣ m ↔ …), and as the normalized Finset.gcd over 𝒟 ∩ ⟦0, n−1⟧ (corGcdAlt, corGcd). They agree by periodicity (forall_of_range)."
+    },
+    {
+     "paper": "A_i = A_i^n(a) (OQ-43)",
+     "here": "carried",
+     "note": "Both readings: Aun (intertwined_aun, corGcd) and AunAlt (intertwined_alt, corGcdAlt)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:290 — 'intertwined' is not defined and is not needed. For every n-periodic a ∈ (ℕ*)^ℤ, n ≥ 1, and every base point c ∈ ℤ, d divides A_c and every Δ_{i−1} with i ∈ 𝒟 iff d divides every A_u, for both readings of OQ-43 (Syracuse.intertwined_alt, intertwined_aun). So A_c ∧ ⋀_{i∈𝒟} Δ_{i−1} = GCD(A_i : i ∈ ℤ) always (corGcd_eq_gcd_Aun for the printed A_u^n). The case 𝒟 = nℤ used in the proof of theo:steiner_2 (l.298) is included. The proof (none is printed) uses X_u = A'_u and δ = 2^P − 3^n, with 2^{a_u} X_{u+1} = 3X_u + δ. An ascending step has the fixed point −δ, so d ∣ X_c together with the first i ∈ 𝒟 after c forces d ∣ δ (dvd_delta_of_intertwined). For the printed A_u^n, the odd part goes through A_u = 2^{a_u} A'_{u+1} (odd_dvd_Aun_of_intertwined), and the 2-part through ν₂(A_u) = a_u (not_four_dvd_of_intertwined).",
+    "syracuse.tex:291 — false as printed with m = 2^{p_n} − 3^n, for both readings of OQ-43. For the OQ-43 reading, on every cycle of Z the corollary's GCD is |2^{p_n(x)} − 3^n| (Syracuse.corGcdAlt_of_cycle; universal property intertwined_alt_cycle). That is m for x > 0 (corGcdAlt_of_pos) and −m for x < 0 (corGcdAlt_of_neg). For the printed A_u^n it is GCD(A_i), which is even, while m is odd (corGcd_eq_gcd_Aun, gcd_Aun_ne_of_cycle). Witness: the cycle (−5, −7), where 𝒜 = 2ℤ and 𝒟 = 2ℤ + 1 alternate (ascIdx_descIdx_seq12), m = −1, and the GCD is 1 for the OQ-43 reading and 2 for the printed one. The refutation holds for every reading of 'intertwined' that admits this pattern (intertwined_printed_false).",
+    "Roadmap [r] note (not the paper): on the cycles of 1, −1, −5 and −17 the a-sequences are (2), (1), (1, 2) and (1, 1, 1, 2, 1, 1, 4), checked against a(x) (cycle_neg_seventeen for −17). There 2^{p_n} − 3^n = 1, −1, −1, −139. The corollary's GCD is 1, 1, 1, 139 for the OQ-43 reading and 4, 2, 2, 278 for the printed A_u^n, and the printed GCD(A_i) is 4, 2, 2, 278 (Syracuse.four_cycles). So 'GCD = gcd(A_i), = m for AunAlt' is confirmed. '2m for Aun' fails at the cycle (1), where a ≡ 2, every A_i = 4 and m = 1 (four_cycles_two_m_false).",
+    "syracuse.tex:289–292 — the corollary has no proof in the draft; the proofs here are new."
+   ],
+   "questions": [
+    "What does 'intertwined' mean? No reading is needed: the conclusion, read with m = GCD(A_i), holds for every periodic sequence, so the hypothesis is superfluous under every reading. The printed form with m = 2^{p_n} − 3^n is refuted for every reading that counts the alternating pattern of (−5, −7) as intertwined. Is the hypothesis meant to exclude 𝒟 = ∅ (the cycle (−1)) or 𝒜 = ∅ (the cycle (1))? The result holds there too.",
+    "Is m in the corollary 2^{p_n} − 3^n or GCD(A_i : i ∈ ℤ)? Reading taken: both are proved. With m = GCD(A_i) it holds for both readings of OQ-43. With m = 2^{p_n} − 3^n it holds only up to sign, and only for the OQ-43 reading (OQ-63 (a), OQ-43).",
+    "⋀ is read as the normalized GCD of ℤ (≥ 0), as in prop:have_gcd_n__l_k (l.164 and l.189 use the GCD as a size). The up-to-sign reading is the universal property, proved for both readings."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Syracuse.periodic_emod",
+  "Syracuse.forall_of_step",
+  "Syracuse.forall_of_range",
+  "Syracuse.AunAlt_periodic",
+  "Syracuse.Aun_periodic",
+  "Syracuse.AunAlt_eq_sum_rev",
+  "Syracuse.Aun_eq_two_pow_mul",
+  "Syracuse.Aun_eq_three_mul_add",
+  "Syracuse.two_pow_mul_AunAlt_succ",
+  "Syracuse.AunAlt_odd",
+  "Syracuse.not_three_dvd_AunAlt",
+  "Syracuse.delta_odd_not_three_dvd",
+  "Syracuse.DeltaAlt_periodic",
+  "Syracuse.Delta_periodic",
+  "Syracuse.dvd_AunAlt_of_dvd_delta",
+  "Syracuse.two_dvd_Aun",
+  "Syracuse.one_le_of_cycle",
+  "Syracuse.seq12",
+  "Syracuse.seq17",
+  "Syracuse.cycle_neg_seventeen"
+ ],
+ "kb_proposals": [
+  "§ 3 algebra rests on two identities: A_u^n = 2^{a_u} A'^n_{u+1} for every a (Syracuse.Aun_eq_two_pow_mul), and 2^{a_u} A'_{u+1} = 3A'_u + 2^P − 3^n for n-periodic a (two_pow_mul_AunAlt_succ). Together with Δ = 3Δ' (Delta_eq_three_mul), every statement about one reading of OQ-43 transfers to the other (SyracuseScaffold.UpperBounds).",
+  "An explicit cycle: get each step from T_unique with an explicit odd t and exponent k (its .1 is k = v2(3x+1)). Chain the orbit with Function.iterate_succ_apply'. Reduce a k x to a (k % n) x via periodic_a_iff_periodic_T and Function.Periodic.map_mod_nat, then use interval_cases. On an explicit periodic seq : ℤ → ℕ, Aun, AunAlt, Delta, Finset.gcd and GCDMonoid.gcd on ℤ all close by decide (cycle_neg_seventeen, four_cycles).",
+  "Periodic functions on ℤ: periodic_emod gives g i = g (i % n). forall_of_range turns a hypothesis over 𝒟 ∩ ⟦0, n−1⟧ into one over all of 𝒟 ⊆ ℤ. forall_of_step is induction both ways from a base point (Int.inductionOn').",
+  "An undefined hypothesis in a printed statement (here 'intertwined') can be refuted reading-free: take the reading I as a parameter, with a hypothesis that the witness satisfies it (intertwined_printed_false). The true form drops the hypothesis.",
+  "Pitfalls: `rec` is a keyword (name a hypothesis hrec); push_neg is deprecated in favour of `push Not`; Function.Periodic.sub_int_mul_eq and int_mul produce ((q : ℤ) : ℤ) casts, so clear them with simp only [Int.cast_id] before rw."
+ ],
+ "notes": "One file, scaffold/SyracuseScaffold/UpperBounds.lean (module SyracuseScaffold.UpperBounds). It imports only Syracuse.CycleGcd (and Mathlib through it). 80 declarations, 0 sorry. `lake env lean -DwarningAsError=true` exits 0 with no output. `taskset -c 0-11 lake build SyracuseScaffold.UpperBounds` built only this module (2186 jobs, the strict oleans unchanged: Base/Valuation 2026-11-20 19:53, Rep/IntegerBounds 23:01, Completion 2026-11-21 00:01, CycleGcd 02:21). #print axioms of all 80 declarations, from a /tmp copy since deleted: 74 depend on [propext, Classical.choice, Quot.sound]; ascIdx_union_descIdx on [propext, Quot.sound]; seq17_periodic on [propext]; ascIdx, descIdx, seq12 and seq17 on none. No sorryAx, no native_decide. A /tmp non-vacuity probe (deleted) instantiated corGcdAlt_of_cycle at the cycle (−5, −7), corGcd_eq_gcd_Aun and deltaPrinted_ne_of_minimal at seq12 (minimal period 2), and syracuse_cycle_alt at seq17. No label is marked; all four rows are partial. The marks wait on OQ-43, OQ-63 (a) and on rulings about '∼_S', the 'let m' clause and 'intertwined'. The scaffold root SyracuseScaffold.lean does not import the new module. Some names are generic within namespace Syracuse (Delta, DeltaAlt, S23, SEquiv, periodic_emod, forall_of_step, forall_of_range): check them for clashes at graduation. Some helpers appear both under a label and in extra_decls; take the anchors from the label lists (DeltaAlt_eq, Delta_eq, syracuse_cycle(_alt), dvd_iff_dvd_AunAlt_of_cycle, intertwined_alt, intertwined_aun, corGcdAlt_of_cycle, corGcd_eq_gcd_Aun, and the *_printed_false refutations)."
+}

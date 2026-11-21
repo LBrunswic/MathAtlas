@@ -20,3 +20,8 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0012](entries/0012-no-limit-at-minus-third.md) | pattern | T has no limit at −1/3: two integer sequences |
 | [0013](entries/0013-section2-sums-and-windows.md) | pattern | § 2 sums are A_u^n sums; windows of a periodic sequence; ν₂, ν₃ by divisibility |
 | [0014](entries/0014-two-index-conventions.md) | convention | § 2 has two index conventions for a_i: state both where a display depends on it |
+| [0015](entries/0015-two-readings-transfer.md) | pattern | § 3 algebra: two identities carry every statement between the two readings of OQ-43 |
+| [0016](entries/0016-explicit-cycles-by-decide.md) | pattern | An explicit cycle in Lean: T_unique per step, then decide on the periodic sequence |
+| [0017](entries/0017-periodic-on-z.md) | pattern | Periodic functions on ℤ: reduce mod n, extend from one period, induct both ways |
+| [0018](entries/0018-undefined-hypothesis-reading-free.md) | pattern | Refute a statement with an undefined hypothesis without choosing its reading |
+| [0019](entries/0019-rec-pushneg-int-casts.md) | pitfall | `rec` is a keyword; `push_neg` is deprecated; `Periodic.int_mul` leaves ((q : ℤ) : ℤ) casts |
