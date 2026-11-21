@@ -134,3 +134,7 @@ rediscover. One fact per entry.
 | [0126](entries/0126-ordinal-deprecations-sierpinski.md) | pitfall | Ordinal deprecations, Sierpiński space and T0Space Prop at this pin |
 | [0127](entries/0127-absolute-minimality-by-rational-subdivision.md) | pattern | Absolute minimality without arc-connectedness, by rational subdivision |
 | [0128](entries/0128-causal-openness-by-time-translation.md) | pattern | Causal openness of a polygonal causality without push-up, by time translation |
+| [0129](entries/0129-notched-plane-closed-subspace.md) | pattern | A causality on a closed subspace of ℝ²: the notched plane |
+| [0130](entries/0130-pushup-from-open-chronology.md) | pattern | Push-up on a polygonal causality from the openness of I±_U alone |
+| [0131](entries/0131-plainness-via-dual-locz.md) | pattern | Causal plainness when the future chronology fails on a thin set: causallyPlain_of_locZ on C.dual |
+| [0132](entries/0132-plain-not-open.md) | pattern | Causal plainness gives no causal openness, in either reading: the notched plane |

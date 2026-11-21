@@ -255,6 +255,7 @@ import Causal.OneWayMembraneChronal
 import Causal.GHWithoutTarentin
 import Causal.OmegaOneConstant
 import Causal.RationalJumpPlane
+import Causal.NotchedPlane
 import Causal.Remarks.MassADEC25
 import Causal.Model.EAlphaSectors
 import Causal.Port.E0GXStructure
