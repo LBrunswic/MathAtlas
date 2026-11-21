@@ -240,6 +240,7 @@ import Causal.PushUpOfMinimalLocal
 import Causal.ChronalTarentin
 import Causal.CausallyPlainLocZ
 import Causal.SingularFlatPlain
+import Causal.Model.FlatTimeCylinder
 
 /-!
 # Causal — topological spacetimes
