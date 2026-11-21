@@ -29,3 +29,6 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0019](entries/0019-insertnth-removenth.md) | pitfall | Adding or removing a marked point: Fin.insertNth / Fin.removeNth, and one rfl per index |
 | [0020](entries/0020-sph-polygon.md) | pattern | Convex spherical s-gons: GX.SphPolygon, built from the polar polygon inscribed in a circle |
 | [0021](entries/0021-triangle-tools-are-generic.md) | pattern | TroyanovTriangle's generic lemmas sit in namespace GX.SphTriangle: reuse them for s-gons |
+| [0022](entries/0022-star-polygon-double.md) | pattern | The double of a polygon, convex or not: GX.StarPolygon; reflex vertices via GX.StarFrames |
+| [0023](entries/0023-union-of-convex-disc.md) | pattern | A union of two convex bodies with a common interior point is a closed disc |
+| [0024](entries/0024-fin-cases-literal-pitfall.md) | pitfall | `fin_cases i` yields ⟨k, _⟩ indices that literal-index lemmas do not match |

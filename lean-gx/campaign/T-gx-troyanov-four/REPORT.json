@@ -1,0 +1,117 @@
+{
+  "package": "T-gx-troyanov-four",
+  "target": "T-gx-troyanov-four",
+  "files": [
+    "scaffold/GXScaffold/Spherical/TroyanovFour.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "cex:start_singular_manifold_homeomorphic",
+      "tex_lines": [
+        1930,
+        1930
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.troyanovTheorem_four_of_exists_gt_two_pi",
+        "GX.troyanovTheorem_four",
+        "GX.troyanovTheorem_of_five_le_of_exists_gt_two_pi",
+        "GX.TroyanovAngleCondition.four_of_gt_two_pi",
+        "GX.troyanovAngleCondition_four_gt_two_pi",
+        "GX.exists_isConeSphere_dart",
+        "GX.exists_dartParams",
+        "GX.DartParams",
+        "GX.DartParams.polygon",
+        "GX.DartParams.exists_isConeSphere",
+        "GX.StarFrames",
+        "GX.StarPolygon",
+        "GX.StarPolygon.Double",
+        "GX.StarPolygon.singularGXStructure",
+        "GX.StarPolygon.isConePoint_vertex",
+        "GX.StarPolygon.isConeSphere",
+        "GX.StarPolygon.exists_isConeSphere",
+        "GX.exists_homeomorph_union_convex"
+      ],
+      "hypotheses": [
+        {
+          "paper": "s >= 3 conical singularities of angles theta_i (l.1930)",
+          "here": "restricted",
+          "note": "s = 4, the target's scope. At s = 4 every angle datum is covered (GX.troyanovTheorem_four, with GX.troyanovTheorem_of_le_two_pi of TroyanovPolygon when no angle is above 2pi); s >= 5 with some angle above 2pi is not proved here (T-gx-troyanov). GX.troyanovTheorem_of_five_le_of_exists_gt_two_pi reduces the body of GX.TroyanovTheorem to exactly that case. GX.IsConeSphere M theta p, the library's reading (OQ-37 (b))."
+        },
+        {
+          "paper": "Troyanov's condition 0 < sum(theta_i - 2pi) + 4pi <= min(4pi, theta_i) (l.1930)",
+          "here": "carried",
+          "note": "GX.TroyanovAngleCondition, verbatim (DEC-69's). No hypothesis is added: the angles other than the big one are automatically below 2pi at s = 4 (GX.TroyanovAngleCondition.four_of_gt_two_pi), so troyanovTheorem_four_of_exists_gt_two_pi does not even assume theta_i != 2pi. The construction itself (GX.exists_isConeSphere_dart) needs only weaker inequalities, listed in SCOPE (c)."
+        },
+        {
+          "paper": "Troyanov's theorem MR1005085 (cited)",
+          "here": "proved at s = 4, not assumed",
+          "note": "DEC-136: the surface is the double of a spherical dart T \\ T' with angles theta_i/2 (reflex vertex at the angle above 2pi). The dart comes from the intermediate value theorem on a segment of base angles of T'. The double comes from a new generic double of a polygon, convex or not (GX.StarPolygon). No named hypothesis."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not a defect (l.1930): at s = 4 the printed condition is sufficient also when an angle exceeds 2pi. Such an angle is unique and below 4pi, and the three others are below 2pi (GX.TroyanovAngleCondition.four_of_gt_two_pi, 0 sorry; the planner's [r] checked). A cone sphere with these angles exists (GX.troyanovTheorem_four_of_exists_gt_two_pi). With TroyanovPolygon, Troyanov's theorem in the shape of GX.TroyanovTheorem therefore holds for every angle datum at s = 4 (GX.troyanovTheorem_four), as at s = 3 (GX.troyanovTheorem_three). The paper claims only sufficiency ('as long as'); nothing to change.",
+        "The planner's [r] dart construction is checked, with one correction. The dart exists for the whole condition at s = 4, so the 3 misses of 3000 in the planner's numerics are resolution artefacts. Any of the three other angles may sit opposite the reflex vertex. The parametrization is not the planner's (Delta_2, Delta_4) but the base angles (u, w) of T' on a common base of length L. Along the segment from (eps/2, eps/2) to (eps + delta, delta), eps = alpha_0 - pi, T' degenerates at one end to a point (cos L = 1) and at the other to a lune (cos L = -1), while T stays a triangle. So the two laws of cosines meet (GX.exists_dartParams), and a single intermediate value argument suffices.",
+        "Sufficiency only, and more general than needed: GX.exists_isConeSphere_dart needs only alpha_0 in ]pi, 2pi[, the other alpha_i > 0, alpha_2 < pi, alpha_0 + alpha_1 < 2pi, alpha_0 + alpha_3 < 2pi, chi' > 0, chi' < 2 theta_2, chi' < 2 theta_3 and alpha_2 + alpha_3 < alpha_0 + alpha_1 (theta_i = 2 alpha_i, chi' = sum(theta_i - 2pi) + 4pi). The printed condition, with the angle above 2pi put at index 0, implies all of them. Which of them are necessary for a dart is not studied.",
+        "The case is not vacuous and meets the cex's genericity. The pairwise distinct angles (5pi/2, pi/2, 3pi/5, 7pi/10) satisfy l.1930's condition (chi' = 3pi/10 <= pi/2), and a cone sphere with them exists (GX.troyanovAngleCondition_four_gt_two_pi, 0 sorry)."
+      ],
+      "questions": [
+        "No new reading. 'Conical singularity of angle theta' is read as the library reads it (GX.IsConePoint, an X_theta-chart of def:atlas; ConeSurface SCOPE (a), OQ-37 (b)), as in T-gx-troyanov-triangle, -two-pi and -polygon. The cited theorem is read in the shape of GX.TroyanovTheorem, restated inline. Nothing is decided here."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.sin_neg_of_pi_lt_of_lt_two_pi",
+    "GX.sector_of_eq_exp",
+    "GX.foldAngle_of_re_nonneg",
+    "GX.foldAngle_of_re_nonpos",
+    "GX.re_pos_of_foldAngle_eq_zero",
+    "GX.re_neg_of_foldAngle_eq",
+    "GX.foldAngle_mem_Ioo",
+    "GX.polarFold_eq_iff_of_lt_two_pi",
+    "GX.polarFold_norm_mul_exp",
+    "GX.polarFold_mem_reflex",
+    "GX.polarFold_mem_reflex_strict",
+    "GX.polarFold_reflex_of_re_nonneg",
+    "GX.polarFold_reflex_of_re_nonpos",
+    "GX.re_pos_of_polarFold_reflex",
+    "GX.re_neg_of_polarFold_reflex",
+    "GX.exists_polarFold_eq_reflex",
+    "GX.exists_polarFold_eq_reflex_neg",
+    "GX.polarFold_im_of_re_nonneg",
+    "GX.polarFold_sector_of_re_nonpos",
+    "GX.cross_dot_self_smul_eq",
+    "GX.eq_zero_of_dot_cross",
+    "GX.StarFrames.dot_eq_of_dot_a_b",
+    "GX.StarFrames.isBounded_xv",
+    "GX.StarFrames.starConvex_xv",
+    "GX.StarFrames.exists_xv_eq",
+    "GX.StarFrames.exists_xv_eq_reflex",
+    "GX.StarFrames.xv_side_a_reflex",
+    "GX.StarFrames.xv_side_b_reflex",
+    "GX.gauge_union_eq_min",
+    "GX.continuous_gaugeRescale_of_continuous",
+    "GX.exists_homeomorph_union_convex",
+    "GX.notMem_interior_of_subset_gfun",
+    "GX.notMem_interior_notch",
+    "GX.cos_lt_cos_of_abs_lt",
+    "GX.dartNuL",
+    "GX.dartNuR",
+    "GX.dartN",
+    "GX.dartU",
+    "GX.dartW",
+    "GX.dartFu",
+    "GX.dartFt"
+  ],
+  "kb_proposals": [
+    "The double of a polygon, convex or not, is GX.StarPolygon (TroyanovFour), over GX.StarFrames. It takes the polygon P ⊆ 𝕊², a disc model eK in the stereographic chart at one vertex, interior and genuine sides (inner, onSide k), and per-vertex chart domains F i, Fc i on 𝕊². Eleven sector conditions (Fc_mem, exists_up/down, side_eq, not_inner_of_real, inner_of_im, F_vertex, isBounded_Fc, starConvex_F, vertex_inj, cover) give GX.StarPolygon.isConeSphere. That is TroyanovPolygon's double verbatim, so a new polygon costs only its sign facts.",
+    "Reflex vertices: GX.StarFrames allows alpha_i in ]0, 2pi[ minus {pi}, since the frame needs only sin alpha != 0. The fold onto a reflex sector is covered by exists_polarFold_eq_reflex, polarFold_mem_reflex and polarFold_eq_iff_of_lt_two_pi. The ray at angle pi lies inside a reflex sector, so a side of a reflex vertex must be stated as 'n_a = 0 and n_b <= 0' (DartParams.onSide), not as a great circle.",
+    "A union of two closed bounded convex sets with a common interior point is a closed disc: GX.exists_homeomorph_union_convex. The gauge of the union is the min of the gauges (gauge_union_eq_min), and mathlib's gaugeRescale is continuous with no convexity once the gauges are (continuous_gaugeRescale_of_continuous). The same proof gives n pieces.",
+    "Pitfall: fin_cases i produces indices ⟨k, ⋯⟩. Lemmas stated at literal indices are then not matched by rw or linarith (timeouts at whnf). In tactic mode use `match i with | 0 => … | 3 => …`, which keeps the literals, or `show` the literal form first. Field notation P.f also fails when f's statement does not mention P (it is not auto-bound): such defs belong to the parent structure (StarFrames.θc)."
+  ],
+  "notes": "0 sorry. The /tmp probes reported standard axioms only (#print axioms: propext, Classical.choice, Quot.sound for every principal); the probes were deleted. lake env lean -DwarningAsError=true passes, and no line exceeds 100 characters. lake build GXScaffold.Spherical.TroyanovFour passes and built only this module (8585 jobs, 1 built). The module imports only GX.Spherical.TroyanovPolygon (strict), so it can graduate unchanged as GX/Spherical/TroyanovFour.lean (3322 lines). No declaration name clashes with GX/ or scaffold/ (script check), and a probe imported it together with GXScaffold.Spherical.TroyanovAngles. The same probe confirmed that GX.troyanovTheorem_of_five_le_of_exists_gt_two_pi h typechecks as GX.TroyanovTheorem. The scaffold root GXScaffold.lean does not import the module (the dispatch forbade editing it): add the import at graduation, or the axiom sweep does not see it (lean-causal kb 0025). Suggestion for the master, not done because the file is outside the dispatch: the sorry of GX.troyanovTheorem in TroyanovAngles can become troyanovTheorem_of_five_le_of_exists_gt_two_pi applied to a tagged sorry that carries only s >= 5, every theta_i != 2pi, some theta_i > 2pi. WHICH MACHINERY GENERALISES TO s >= 5. (1) GX.StarFrames and the reflex polar fold are generic: any number of vertices, any number of reflex vertices, every angle in ]0, 2pi[ minus {pi}. (2) GX.StarPolygon and GX.StarPolygon.isConeSphere are generic for EMBEDDED polygons P ⊆ 𝕊², convex or not. A new polygon needs a disc model eK (exists_homeomorph_union_convex covers a union of two convex pieces with a common interior point, and its proof extends to n pieces), its genuine sides, and the sign facts of its sides at the vertices. The comparison with the developing maps (eventually_chart_eq, hform_*, loc_*, isGXAtlas_atlas, isAEMorphism_Phi, coneXAChart) is untouched. (3) Route (i) of T-gx-troyanov, the fan of triangles, is supported only where the polygon is embedded. An immersed s-gon does not fit, because StarPolygon reads P, the fold and the chart domains as subsets of 𝕊². Its fold would have to be rebuilt over an abstract parameter disc with a developing immersion; the local comparison lemmas would survive. (4) Route (ii), slit gluing, is not supported: the library has no gluing of cone spheres, and nothing here builds one. (5) The existence step (the IVT on a segment, GX.exists_dartParams) is specific to the dart: a polygon with several reflex vertices needs its own existence argument in more parameters, and whether an embedded polygon with angles theta_i/2 exists for the whole condition at s >= 5 is not studied. Development note: the file was developed in parts compiled to /tmp oleans (lean-causal kb 0034); nothing was written in .lake except the final lake build."
+}
