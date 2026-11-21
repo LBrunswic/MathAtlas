@@ -102,7 +102,18 @@
 # causally_open, causally_open_future; locally_causally_open_future → causally_open_future;
 # locally_push_up → push_up, T1; causally_plain → push_up, T1); the other 12 would want an absolutely
 # minimal witness (8 → causally_arc_connected; causally_compact, globally_hyperbolic →
-# causally_open_future; is_causal → strongly_causal, strongly_causal_open).
+# causally_open_future; is_causal → strongly_causal, strongly_causal_open). After
+# T-lad-record-dual-vee (2026-11-21) still 312 of 314: 265 implied or refuted (263 of the 306
+# causality-sort pairs: 15 implied, 248 refuted) and 47 [[open]] entries (43 causality-sort, 4
+# geometry-sort). The 4 pairs it moved (causally_arc_connected → causally_open_future;
+# causally_arc_connected, causally_compact, globally_hyperbolic → locally_causally_open_future) are
+# refuted in either reading by the half-lit line's time reversal, which also gives causally_compact,
+# globally_hyperbolic → causally_open_future an absolutely minimal witness: of the 248, 218 are refuted
+# by an absolutely minimal counterexample and 30 by the 20 non-minimal entries only (28 by the 19, 2 by
+# Galileo's), of which 10 would want an absolutely minimal witness (8 → causally_arc_connected;
+# is_causal → strongly_causal, strongly_causal_open). The vee (space = ["T0"]) refutes 2 pairs off the
+# ambient (absolutely_minimal, locally_push_up → push_up), both refuted on it already: no pair is
+# `fails-off`.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -187,7 +198,12 @@
 # Causal.Model.FlatTimeCylinder, Causal.LevinTimeFunction, strict since 175fb94 to b50f7be, ad07121)
 # were read by `#check` the same way, with every Lean name the comments cite; the edge witnesses'
 # instance binders are their standings (T1 for the first, none for the other two), and the
-# cylinders' witnesses conjoin T2Space and SecondCountableTopology of their spaces.
+# cylinders' witnesses conjoin T2Space and SecondCountableTopology of their spaces. Those of
+# T-lad-record-dual-vee (2026-11-21: Causal.halfLightLine_dual_separates_causallyOpenFuture and
+# Causal.veeCausality_separates_pushUp, from Causal.HalfLitDual and Causal.PushUpOfMinimalLocal, strict
+# since 570511d and 4e06808, and every Lean name their comments and the refreshed notes cite) were
+# read by `#check` the same way; neither takes an instance argument (closed statements; the vee's
+# conjoins T0Space Vee and ¬ T1Space Vee, whence its `space`).
 
 [[property]]
 id = "is_causal"
@@ -456,12 +472,10 @@ status = "checked"
 # paper's, and asks no T1. Sharp in all three hypotheses: absolute minimality (the gated line, locally
 # push-up without push-up: Causal.gateLine_separates_pushUp), local push-up (the half-chronological
 # line, causally arc-connected without it: Causal.halfChronoLine_separates_pushUp; both [[fails]]
-# below), and T1: the vee (Causal.veeCausality_separates_pushUp: three points, T0Space and ¬ T1Space,
-# absolutely minimal, locally push-up, not push-up; bare form
-# Causal.not_pushUp_of_absolutelyMinimal_of_locallyPushUp_T0). The vee is not one of ETT's spacetimes
-# and is not a [[fails]] entry: tools/ladder.py's refuted() reads every counterexample into the
-# matrix whatever its `space`, so on the ladder before T-lad-record-minimal it alone marked
-# absolutely_minimal → push_up refuted, by a T0 space (simulated 2026-11-21); it stays in words here.
+# below), and T1: the vee, the [[fails]] entry with space = ["T0"] in the section "off the ambient"
+# below (Causal.veeCausality_separates_pushUp; T-lad-record-dual-vee, 2026-11-21). Off ETT's
+# spacetimes, it moves no pair of the matrix (T-tool-ladder-space); `check` reads it against this
+# edge on its own space, where the edge, asking T1, does not chain.
 [[implies]]
 from = ["absolutely_minimal", "locally_push_up"]
 to = "push_up"
@@ -851,10 +865,10 @@ status = "checked"
 # Causal.lightlikeLine_causallyOpen (Causal/LadderLocal.lean), Causal.lightlikeLine_causallyArcConnected
 # (Causal/LocateExtension.lean), Causal.lightlikeLine_tarentin (Causal/Remarks/Tarentin.lean, a module
 # that imports Causal.SingularFlat; no emit-lean reads a [[fails]]); no one Lean statement conjoins
-# them (a conjoined lightlike-line witness is T-abs-doubled-line-compact's second item). Through the
-# closure: locally_push_up (from push_up); causally_open_future, locally_causally_open,
-# locally_causally_open_future (from causally_open); absolutely_minimal (from causally_arc_connected)
-# ⇏ causally_plain.
+# them (a conjoined lightlike-line witness was the second item of T-abs-doubled-line-compact, dropped
+# on 2026-11-21). Through the closure: locally_push_up (from push_up); causally_open_future,
+# locally_causally_open, locally_causally_open_future (from causally_open); absolutely_minimal (from
+# causally_arc_connected) ⇏ causally_plain.
 [[fails]]
 from = "push_up"
 to = "causally_plain"
@@ -1316,9 +1330,10 @@ status = "checked"
 # reading. The entries to tarentin, chronal_neighbours, causally_plain move no pair (the spacelike and
 # lightlike lines refute them already) and are kept because the witness states them. Limits (OQ-69):
 # ≪ is empty and the line is not tarentin, so tarentin → causally_open_future, causally_open stay
-# open in either reading. Its time reversal (Causal.halfLightLine_dual_separates:
-# halfLightLine.dual.AbsolutelyMinimal ∧ ¬ halfLightLine.dual.CausallyOpenFuture) is not recorded: as
-# stated it refutes absolutely_minimal → causally_open_future only, which the rational line refutes.
+# open in either reading. Its time reversal halfLightLine.dual is recorded after these five entries
+# (T-lad-record-dual-vee), with the conjoined witness
+# Causal.halfLightLine_dual_separates_causallyOpenFuture; the older Causal.halfLightLine_dual_separates
+# (AbsolutelyMinimal ∧ ¬ CausallyOpenFuture only) refutes nothing more than the rational line.
 # Reading: either (causally arc-connected, absolutely minimal on every open set for every cover,
 # Causal.halfLightLine_absolutelyMinimalOn; OQ-18 does not touch it).
 [[fails]]
@@ -1353,6 +1368,49 @@ status = "checked"
 from = ["absolutely_minimal", "causally_arc_connected", "causally_open_future", "locally_causally_open_future", "push_up", "locally_push_up", "is_causal", "globally_hyperbolic", "causally_compact", "strongly_causal_open", "strongly_causal", "time_function", "curves_extend"]
 to = "causally_plain"
 witness = "Causal.halfLightLine_separates_causallyOpen"
+status = "checked"
+
+# The time-reversed half-lit line (halfLightLine.dual, Causal/HalfLitDual.lean,
+# T-abs-halflit-dual-separates, strict since 570511d; ETT layer: on ℝ, ≪ empty, x ≤_U y iff
+# x = y ∈ U, or 0 ≤ y ≤ x and [y, x] ⊆ U: the half-lit line with its time orientation reversed).
+# Recorded by T-lad-record-dual-vee (2026-11-21) beside the half-lit line. Read by `#check` (lake env
+# lean on a file outside the tree, 2026-11-21): Causal.halfLightLine_dual_separates_causallyOpenFuture :
+# AbsolutelyMinimal ∧ CausallyArcConnected ∧ PushUp ∧ LocallyPushUp ∧ IsCausal ∧ GloballyHyperbolic ∧
+# CausallyCompact ∧ StronglyCausalOpen ∧ StronglyCausal ∧ HasTimeFunction ∧ CurvesExtend ∧
+# ¬ CausallyOpenFuture ∧ ¬ LocallyCausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpen ∧
+# ¬ Tarentin ∧ ¬ ChronalNeighbours ∧ ¬ CausallyPlain, all of halfLightLine.dual (no instance argument;
+# the time function is −id, Causal.halfLightLine_dual_hasTimeFunction through
+# Causal.Causality.dual_hasTimeFunction; at 0 no open set is causally open in the future,
+# Causal.halfLightLine_dual_not_locallyCausallyOpenFuture). One `from` for two entries, the half-lit
+# line's with causally_open_future and locally_causally_open_future moved to the negations. The entry
+# to locally_causally_open_future carries everything the matrix moves (lacking it, the line lacks
+# causally_open_future, causally_open and locally_causally_open, each of which implies it); the entry
+# to causally_open_future is the witness's headline. They settle 4 [[open]] pairs:
+# causally_arc_connected → causally_open_future, locally_causally_open_future; causally_compact,
+# globally_hyperbolic → locally_causally_open_future; and give causally_compact, globally_hyperbolic →
+# causally_open_future, refuted before by the jump line only (no-gluing), a witness in either reading.
+# What it carries: causal openness in the future, global or local, follows from none of causal
+# arc-connectedness, global hyperbolicity, push-up, strong causality in both forms and a time function
+# (bare form Causal.not_locallyCausallyOpenFuture_of_causallyArcConnected_bare: ¬ ∀ C : Causality ℝ,
+# CausallyArcConnected → GloballyHyperbolic → PushUp → LocallyCausallyOpenFuture); the half-lit line
+# gives the same for causal openness in the past. The witness also states ¬ causally_open, ¬ locally_causally_open, ¬ tarentin,
+# ¬ chronal_neighbours, ¬ causally_plain; as entries they would move no pair (simulated 2026-11-21:
+# the half-lit line's entries above and the spacelike and lightlike lines refute all they would), so
+# they are not entered. The [[open]] pairs from causally_plain, chronal_neighbours, tarentin to causal
+# openness in the future stay open: the line lacks each premise.
+# Reading: either (absolutely minimal on every open set for every cover,
+# Causal.halfLightLine_dual_absolutelyMinimalOn; causally arc-connected; OQ-18 does not touch it).
+[[fails]]
+from = ["absolutely_minimal", "causally_arc_connected", "push_up", "locally_push_up", "is_causal", "globally_hyperbolic", "causally_compact", "strongly_causal_open", "strongly_causal", "time_function", "curves_extend"]
+to = "causally_open_future"
+witness = "Causal.halfLightLine_dual_separates_causallyOpenFuture"
+status = "checked"
+
+# Reading: either (absolutely minimal on every open set for every cover, Causal.halfLightLine_dual_absolutelyMinimalOn).
+[[fails]]
+from = ["absolutely_minimal", "causally_arc_connected", "push_up", "locally_push_up", "is_causal", "globally_hyperbolic", "causally_compact", "strongly_causal_open", "strongly_causal", "time_function", "curves_extend"]
+to = "locally_causally_open_future"
+witness = "Causal.halfLightLine_dual_separates_causallyOpenFuture"
 status = "checked"
 
 # The half-chronological line (Causal.halfChronoLine, Causal/LinesReachable.lean: on ℝ, x ≤_U y iff
@@ -1444,6 +1502,42 @@ status = "checked"
 from = ["causally_compact", "curves_extend", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "chronal_neighbours", "causally_open", "causally_plain"]
 to = "is_causal"
 witness = "Causal.Flat.timeCylinder_zero_separates"
+status = "checked"
+
+# ---- off the ambient (T-lad-record-dual-vee, 2026-11-21): counterexamples whose space is not one of
+# ETT's spacetimes, each with a `space` key listing what its Lean witness states of the space. Since
+# T-tool-ladder-space (599b0b0) refuted() and `matrix` count a [[fails]] only when its space, closed
+# under the vocabulary, contains the ambient's words (T2, second_countable): a pair such an entry alone
+# refutes is `fails-off`, not counted as classified, and an [[open]] entry for it stays legal. `check`
+# still reads the entry on its own space: it may not have its `to` by the edges valid there.
+#
+# The vee (Causal.Vee, Causal.veeCausality, Causal/PushUpOfMinimalLocal.lean,
+# T-abs-pushup-of-minimal-local, strict since 4e06808; ETT layer, no model): three points left, mid,
+# right, a set open iff it contains mid as soon as it contains left or right (T0, not T1: {mid} is not
+# closed); x ≤_U y iff x, y ∈ U and x ≤ y in left < mid < right; x ≪_U y iff left ∈ U, x ≠ right and
+# y = mid. Read by `#check` (2026-11-21): Causal.veeCausality_separates_pushUp : T0Space Vee ∧
+# ¬ T1Space Vee ∧ veeCausality.AbsolutelyMinimal ∧ veeCausality.LocallyPushUp ∧ ¬ veeCausality.PushUp
+# (a closed statement; bare form Causal.not_pushUp_of_absolutelyMinimal_of_locallyPushUp_T0 : ¬ ∀ (X :
+# Type) [TopologicalSpace X] [T0Space X] (C : Causality X), C.AbsolutelyMinimal → C.LocallyPushUp →
+# C.PushUp). So `space = ["T0"]`, what the witness states: the vee is finite, hence second countable,
+# which its witness does not state and no edge's standing would use (Levin's asks T2 besides). What
+# it carries: the T1 of absolutely_minimal ∧ locally_push_up ⇒ push_up (its `standing`, the instance
+# binder of Causal.Causality.AbsolutelyMinimal.pushUp_of_locallyPushUp) cannot be weakened to T0; a
+# sharpness of the standing only, since ETT's spacetimes are Hausdorff. On its space only the edges
+# without standing chain: its `from` reaches nothing more, and it lacks push_up and nothing else (no
+# single premise reaches push_up there). So it refutes absolutely_minimal → push_up and
+# locally_push_up → push_up off the ambient; both are refuted on the ambient already, the first in
+# either reading (the half-chronological line), the second in the no-gluing reading only (the gated
+# line, not absolutely minimal; in a gluing reading it holds on ETT's spacetimes, header), so `matrix`
+# shows no `fails-off` pair from it (computed 2026-11-21). `check` reads it against that edge: the
+# edge asks T1, not valid on {T0}, so no contradiction.
+# Reading: moot: the vee is off ETT's spacetimes in either reading of defi:causalite (the witness gives
+# absolute minimality on M; on every open set, the gluing reading's form, is not stated).
+[[fails]]
+from = ["absolutely_minimal", "locally_push_up"]
+to = "push_up"
+witness = "Causal.veeCausality_separates_pushUp"
+space = ["T0"]
 status = "checked"
 
 # ---- pair sort (C, C' fixed, header): T-abs-nested-converse (2026-11-21).
@@ -1934,18 +2028,14 @@ status = "checked"
 # absolutely_minimal ⇏ causally_open_future, causally_open. Of the three through
 # causally_arc_connected, T-lad-record-minimal (2026-11-21) removed two, in either reading:
 # causally_arc_connected ⇏ push_up (the half-chronological line) and ⇏ causally_open (the half-lit
-# line). causally_arc_connected → causally_open_future stays: no Lean model is causally arc-connected
-# and not causally open in the future (the half-lit line's time reversal would be, below).
-
-[[open]]
-from = "causally_arc_connected"
-to = "causally_open_future"
-note = "Through absolutely_minimal it holds with locally_causally_open_future (the edges above). Without, no Lean model is causally arc-connected and not causally open in the future: the rational and jump lines, not causally open in the future, are not causally arc-connected (Causal.rationalLine_separates, Causal.jumpLine_separates_causallyOpenFuture); the half-lit line is causally arc-connected and fails causal openness in the past only (Causal.halfLightLine_separates_causallyOpen). False, argued, in either reading: the time reversal of the half-lit line, halfLightLine.dual, is absolutely minimal and not causally open in the future (Causal.halfLightLine_dual_separates) nor locally (0 has no neighbourhood causally open in the past for the half-lit line, Causal.halfLightLine_not_causallyOpenPastOn_of_zero_mem), and causally arc-connected (Causal.Causality.dual_causallyArcConnectedOn at ⊤); wants these conjoined, e.g. Causal.halfLightLine_dual_separates_causallyOpenFuture"
+# line). The third, causally_arc_connected → causally_open_future, T-lad-record-dual-vee (2026-11-21)
+# removed, in either reading: the half-lit line's time reversal
+# (Causal.halfLightLine_dual_separates_causallyOpenFuture). All seven are settled.
 
 [[open]]
 from = "globally_hyperbolic"
 to = "time_function"
-note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it; the globally hyperbolic Lean models without tarentin, the spacelike, jump and half-lit lines (Causal.spacelikeLine_separates_tarentin_full, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_separates_causallyOpen), have a time function"
+note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it; the globally hyperbolic Lean models without tarentin, the spacelike, jump and half-lit lines and the half-lit line's time reversal (Causal.spacelikeLine_separates_tarentin_full, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture), have a time function"
 
 [[open]]
 from = "globally_hyperbolic"
@@ -1995,10 +2085,12 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 #     arc-connected, globally hyperbolic, push-up, strongly causal in both forms, a time function,
 #     causally open in the future (locally too) and not in the past, nor locally at 0; not tarentin, no
 #     chronal neighbours, not plain (Causal.halfLightLine_separates_causallyOpen; [[fails]] entries
-#     since T-lad-record-minimal); its time reversal halfLightLine.dual: L absolutely minimal, not
-#     causally open in the future (Causal.halfLightLine_dual_separates), and through the dual_*
-#     transport lemmas causally arc-connected, globally hyperbolic, push-up, strongly causal, not locally
-#     causally open in the future, none conjoined (a [[fails]] entry wants them in one statement);
+#     since T-lad-record-minimal); its time reversal halfLightLine.dual: L absolutely minimal on every
+#     open set, causally arc-connected, globally hyperbolic, push-up, strongly causal in both forms, a
+#     time function (−id), not causally open in the future, nor locally (at 0), hence not two-sided;
+#     not tarentin, no chronal neighbours, not plain, all conjoined in
+#     Causal.halfLightLine_dual_separates_causallyOpenFuture ([[fails]] entries since
+#     T-lad-record-dual-vee; Causal.halfLightLine_dual_absolutelyMinimalOn);
 #   - the half-chronological line Causal.halfChronoLine: L causally arc-connected, globally hyperbolic,
 #     causally open, tarentin, strongly causal, a time function, without local push-up
 #     (Causal.halfChronoLine_separates_pushUp; [[fails]] entries since T-lad-record-minimal), not
@@ -2015,8 +2107,9 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 #     open, causal, tarentin, no chronal neighbours, not absolutely minimal
 #     (Causal.globalLine_separates_tarentin; [[fails]] entries since T-lad-record-minimal);
 #   - the doubled line Causal.doubledLine: L not causal; A causally compact, push-up, tarentin, causally
-#     open (T-abs-doubled-line-compact), not absolutely minimal; every pair its notes asked is settled
-#     since T-lad-record-minimal by the flat time cylinder and the timelike circle, in either reading;
+#     open, not absolutely minimal (no target: T-abs-doubled-line-compact, which asked them, was dropped
+#     on 2026-11-21, settling no pair in either reading); every pair its notes asked is settled since
+#     T-lad-record-minimal by the flat time cylinder and the timelike circle, in either reading;
 #   - Galileo's spacetime Causal.galileo n, n ≥ 1: L causal, not strongly causal; A a time function
 #     (fst), push-up, tarentin, causally open, chronal neighbours, causally plain; not absolutely
 #     minimal (on a U-shaped open, x ≪_U y across the bend is generated by no chain of small steps,
@@ -2034,15 +2127,17 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 # implied (chronal_neighbours → tarentin), 2 refuted in the no-gluing reading only (tarentin →
 # absolutely_minimal, causally_arc_connected, by the global line) and 96 refuted in either reading by
 # the half-lit line (14), the half-chronological line (19), the rational line (8 beyond the half-lit
-# line), the flat time cylinder (50) and the timelike circle (5); it refreshed the notes below. The
-# 47 causality-sort entries that stay: 16 → curves_extend (no Lean model lacks it); 4 that the half-lit
-# line's time reversal settles once its properties are conjoined (causally_arc_connected →
-# causally_open_future; causally_arc_connected, causally_compact, globally_hyperbolic →
-# locally_causally_open_future); 12 from causally_plain, chronal_neighbours, tarentin to causal
-# openness, global or local, in the future or two-sided (no Lean model failing it is known to have
-# any of the three; the gated line is tarentin by argument, T-abs-gateline-witnesses, no-gluing); 6
-# from chronal neighbours (or plainness) to absolute minimality, causal arc-connectedness, plainness,
-# push-up (timelikeLineTop and Galileo, no-gluing, argued); 9 on strong causality and time functions.
+# line), the flat time cylinder (50) and the timelike circle (5); it refreshed the notes below.
+# T-lad-record-dual-vee (2026-11-21) removed 4 more, in either reading, by the half-lit line's time
+# reversal, its properties now conjoined (causally_arc_connected → causally_open_future;
+# causally_arc_connected, causally_compact, globally_hyperbolic → locally_causally_open_future), and
+# refreshed the notes citing it; the vee, off the ambient, settles none. The 43 causality-sort
+# entries that stay: 16 → curves_extend (no Lean model lacks it); 12 from causally_plain,
+# chronal_neighbours, tarentin to causal openness, global or local, in the future or two-sided (no
+# Lean model failing it is known to have any of the three; the gated line is tarentin by argument,
+# T-abs-gateline-witnesses, no-gluing); 6 from chronal neighbours (or plainness) to absolute
+# minimality, causal arc-connectedness, plainness, push-up (timelikeLineTop and Galileo, no-gluing,
+# argued); 9 on strong causality and time functions.
 
 # → absolutely_minimal
 [[open]]
@@ -2062,34 +2157,34 @@ note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality withou
 [[open]]
 from = "causally_plain"
 to = "causally_open"
-note = "Open: of the models failing causal openness, the jump, rational and half-lit lines are not causally plain, in Lean (Causal.jumpLine_separates_causallyOpenFuture, Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen), and the gated line is not, argued (nothing is ≪ ⋆, while ⋆ ∈ Int J⁻({⋆}); Causal.gateLine_not_causallyPlain is an optional conjunct of T-abs-gateline-witnesses). All four lack chronal neighbours; by push_up ∧ chronal_neighbours ⇒ causally_open a counterexample with chronal neighbours lacks push-up"
+note = "Open: of the models failing causal openness, the jump, rational and half-lit lines and the half-lit line's time reversal are not causally plain, in Lean (Causal.jumpLine_separates_causallyOpenFuture, Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture), and the gated line is not, argued (nothing is ≪ ⋆, while ⋆ ∈ Int J⁻({⋆}); Causal.gateLine_not_causallyPlain is an optional conjunct of T-abs-gateline-witnesses). All five lack chronal neighbours; by push_up ∧ chronal_neighbours ⇒ causally_open a counterexample with chronal neighbours lacks push-up"
 
 [[open]]
 from = "chronal_neighbours"
 to = "causally_open"
-note = "Open: of the models failing causal openness, the jump, rational and half-lit lines have no chronal neighbours, in Lean (Causal.jumpLine_separates_causallyOpenFuture, Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen; ≪ empty), and the gated line has none, argued (nothing is ≪ ⋆). By push_up ∧ chronal_neighbours ⇒ causally_open a counterexample lacks push-up; being tarentin (chronal_neighbours ⇒ tarentin), it would refute tarentin → causally_open as well"
+note = "Open: of the models failing causal openness, the jump, rational and half-lit lines and the half-lit line's time reversal have no chronal neighbours, in Lean (Causal.jumpLine_separates_causallyOpenFuture, Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture; ≪ empty), and the gated line has none, argued (nothing is ≪ ⋆). By push_up ∧ chronal_neighbours ⇒ causally_open a counterexample lacks push-up; being tarentin (chronal_neighbours ⇒ tarentin), it would refute tarentin → causally_open as well"
 
 [[open]]
 from = "tarentin"
 to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine is tarentin and is not causally open; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), its ¬ CausallyOpen being in Lean (Causal.gateLine_separates_causallyOpen); a separation in the no-gluing reading only (the gated line is not absolutely minimal; kb/0073, OQ-18). In either reading open: the absolutely minimal models failing causal openness, the rational and half-lit lines, are not tarentin (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen); a yes to OQ-69 (an absolutely minimal tarentin causality causally open in the future and not in the past) refutes it in either reading"
+note = "False, argued: the gated line Causal.gateLine is tarentin and is not causally open; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), its ¬ CausallyOpen being in Lean (Causal.gateLine_separates_causallyOpen); a separation in the no-gluing reading only (the gated line is not absolutely minimal; kb/0073, OQ-18). In either reading open: the absolutely minimal models failing causal openness, the rational and half-lit lines and the half-lit line's time reversal, are not tarentin (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture); a yes to OQ-69 (an absolutely minimal tarentin causality causally open in the future and not in the past) refutes it in either reading"
 
 
 # → causally_open_future
 [[open]]
 from = "causally_plain"
 to = "causally_open_future"
-note = "Open: the models failing causal openness in the future, the rational and jump lines, are not causally plain, in Lean (Causal.rationalLine_separates, Causal.jumpLine_separates_causallyOpenFuture); the gated and half-lit lines fail causal openness in the past only (Causal.gateLine_separates_causallyOpen, Causal.halfLightLine_separates_causallyOpen), and the half-lit line's time reversal, not causally open in the future (Causal.halfLightLine_dual_separates), is not plain either (Causal.Causality.dual_causallyPlain)"
+note = "Open: the models failing causal openness in the future, the rational and jump lines and the half-lit line's time reversal, are not causally plain, in Lean (Causal.rationalLine_separates, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_dual_separates_causallyOpenFuture); the gated and half-lit lines fail causal openness in the past only (Causal.gateLine_separates_causallyOpen, Causal.halfLightLine_separates_causallyOpen)"
 
 [[open]]
 from = "chronal_neighbours"
 to = "causally_open_future"
-note = "Open: the models failing causal openness in the future, the rational and jump lines, have no chronal neighbours, in Lean (Causal.rationalLine_separates, Causal.jumpLine_separates_causallyOpenFuture; ≪ empty); the gated and half-lit lines fail causal openness in the past only, and the half-lit line's time reversal has no chronology. A counterexample is tarentin (chronal_neighbours ⇒ tarentin) and would refute tarentin → causally_open_future as well"
+note = "Open: the models failing causal openness in the future, the rational and jump lines and the half-lit line's time reversal, have no chronal neighbours, in Lean (Causal.rationalLine_separates, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_dual_separates_causallyOpenFuture; ≪ empty); the gated and half-lit lines fail causal openness in the past only. A counterexample is tarentin (chronal_neighbours ⇒ tarentin) and would refute tarentin → causally_open_future as well"
 
 [[open]]
 from = "tarentin"
 to = "causally_open_future"
-note = "Open: the models failing causal openness in the future, the rational and jump lines, are not tarentin, in Lean (Causal.rationalLine_separates, Causal.jumpLine_separates_causallyOpenFuture); the gated and half-lit lines fail causal openness in the past only, and the half-lit line's time reversal is not tarentin (Causal.Causality.dual_tarentin). The time reversal of a yes to OQ-69 (an absolutely minimal tarentin causality causally open in the future and not in the past) refutes it in either reading"
+note = "Open: the models failing causal openness in the future, the rational and jump lines and the half-lit line's time reversal, are not tarentin, in Lean (Causal.rationalLine_separates, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_dual_separates_causallyOpenFuture); the gated and half-lit lines fail causal openness in the past only. The time reversal of a yes to OQ-69 (an absolutely minimal tarentin causality causally open in the future and not in the past) refutes it in either reading"
 
 
 # → causally_plain
@@ -2180,49 +2275,34 @@ note = "Open: no Lean model lacks curves_extend (every Lean model with a time fu
 [[open]]
 from = "causally_plain"
 to = "locally_causally_open"
-note = "Open: the models failing local causal openness, the rational and half-lit lines (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen), are not causally plain; the gated and jump lines are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
+note = "Open: the models failing local causal openness, the rational and half-lit lines and the half-lit line's time reversal (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture), are not causally plain; the gated and jump lines are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "chronal_neighbours"
 to = "locally_causally_open"
-note = "Open: the models failing local causal openness, the rational and half-lit lines (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen), have no chronal neighbours; the gated and jump lines are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
+note = "Open: the models failing local causal openness, the rational and half-lit lines and the half-lit line's time reversal (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture), have no chronal neighbours; the gated and jump lines are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "tarentin"
 to = "locally_causally_open"
-note = "Open: the models failing local causal openness, the rational and half-lit lines (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen), are not tarentin; the gated and jump lines are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
+note = "Open: the models failing local causal openness, the rational and half-lit lines and the half-lit line's time reversal (Causal.rationalLine_separates, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture), are not tarentin; the gated and jump lines are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 
 # → locally_causally_open_future
 [[open]]
-from = "causally_arc_connected"
-to = "locally_causally_open_future"
-note = "Through absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future a counterexample also refutes causally_arc_connected → causally_open_future (above). Open: the one model failing local causal openness in the future, the rational line (Causal.rationalLine_separates), is not causally arc-connected; the half-lit line fails it in the past only. False, argued, in either reading: the time reversal of the half-lit line, halfLightLine.dual, is absolutely minimal and not causally open in the future (Causal.halfLightLine_dual_separates) nor locally (0 has no neighbourhood causally open in the past for the half-lit line, Causal.halfLightLine_not_causallyOpenPastOn_of_zero_mem), and causally arc-connected (Causal.Causality.dual_causallyArcConnectedOn at ⊤); wants these conjoined, e.g. Causal.halfLightLine_dual_separates_causallyOpenFuture"
-
-[[open]]
-from = "causally_compact"
-to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness in the future, the rational line (Causal.rationalLine_separates), is not causally compact; the half-lit line fails it in the past only. False, argued, in either reading: the time reversal of the half-lit line, halfLightLine.dual, is absolutely minimal and not causally open in the future (Causal.halfLightLine_dual_separates) nor locally (0 has no neighbourhood causally open in the past for the half-lit line, Causal.halfLightLine_not_causallyOpenPastOn_of_zero_mem), and causally compact (Causal.Causality.dual_causallyCompact); wants these conjoined, e.g. Causal.halfLightLine_dual_separates_causallyOpenFuture"
-
-[[open]]
 from = "causally_plain"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness in the future, the rational line (Causal.rationalLine_separates), is not causally plain; the half-lit line fails it in the past only, and its time reversal is not plain either (Causal.Causality.dual_causallyPlain)"
+note = "Open: the models failing local causal openness in the future, the rational line and the half-lit line's time reversal (Causal.rationalLine_separates, Causal.halfLightLine_dual_separates_causallyOpenFuture), are not causally plain; the half-lit line fails it in the past only"
 
 [[open]]
 from = "chronal_neighbours"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness in the future, the rational line (Causal.rationalLine_separates), has no chronal neighbours; the half-lit line fails it in the past only, and its time reversal has no chronology"
-
-[[open]]
-from = "globally_hyperbolic"
-to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness in the future, the rational line (Causal.rationalLine_separates), is not globally hyperbolic; the half-lit line fails it in the past only. False, argued, in either reading: the time reversal of the half-lit line, halfLightLine.dual, is absolutely minimal and not causally open in the future (Causal.halfLightLine_dual_separates) nor locally (0 has no neighbourhood causally open in the past for the half-lit line, Causal.halfLightLine_not_causallyOpenPastOn_of_zero_mem), and globally hyperbolic (Causal.Causality.dual_globallyHyperbolic); wants these conjoined, e.g. Causal.halfLightLine_dual_separates_causallyOpenFuture"
+note = "Open: the models failing local causal openness in the future, the rational line and the half-lit line's time reversal (Causal.rationalLine_separates, Causal.halfLightLine_dual_separates_causallyOpenFuture), have no chronal neighbours; the half-lit line fails it in the past only"
 
 [[open]]
 from = "tarentin"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness in the future, the rational line (Causal.rationalLine_separates), is not tarentin; the half-lit line fails it in the past only, and its time reversal is not tarentin either (Causal.Causality.dual_tarentin)"
+note = "Open: the models failing local causal openness in the future, the rational line and the half-lit line's time reversal (Causal.rationalLine_separates, Causal.halfLightLine_dual_separates_causallyOpenFuture), are not tarentin; the half-lit line fails it in the past only"
 
 
 # → locally_push_up
@@ -2248,7 +2328,7 @@ note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality withou
 [[open]]
 from = "globally_hyperbolic"
 to = "strongly_causal"
-note = "Open: with tarentin it holds (prop:GH_fortement_causal, T2); the globally hyperbolic Lean models without tarentin, the spacelike, jump and half-lit lines (Causal.spacelikeLine_separates_tarentin_full, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_separates_causallyOpen), are strongly causal in both forms"
+note = "Open: with tarentin it holds (prop:GH_fortement_causal, T2); the globally hyperbolic Lean models without tarentin, the spacelike, jump and half-lit lines and the half-lit line's time reversal (Causal.spacelikeLine_separates_tarentin_full, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture), are strongly causal in both forms"
 
 [[open]]
 from = "time_function"
@@ -2260,7 +2340,7 @@ note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 has a time 
 [[open]]
 from = "globally_hyperbolic"
 to = "strongly_causal_open"
-note = "Open: with tarentin it holds (prop:GH_fortement_causal, T2); the globally hyperbolic Lean models without tarentin, the spacelike, jump and half-lit lines (Causal.spacelikeLine_separates_tarentin_full, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_separates_causallyOpen), are strongly causal in both forms"
+note = "Open: with tarentin it holds (prop:GH_fortement_causal, T2); the globally hyperbolic Lean models without tarentin, the spacelike, jump and half-lit lines and the half-lit line's time reversal (Causal.spacelikeLine_separates_tarentin_full, Causal.jumpLine_separates_causallyOpenFuture, Causal.halfLightLine_separates_causallyOpen, Causal.halfLightLine_dual_separates_causallyOpenFuture), are strongly causal in both forms"
 
 [[open]]
 from = "strongly_causal"
