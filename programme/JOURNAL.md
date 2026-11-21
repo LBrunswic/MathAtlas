@@ -216,3 +216,10 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - for the planner: the one-way membrane settles 4 more pairs (tarentin → causally_open, causally_open_future and their local forms) independently of T-abs-gh-without-tarentin
 - commits: 39c3e41 39be167 2b1b77d c2327ec
 - next: lean-causal is /atlas-team's (three ETT closers); this loop's next work outside it: T-tool-ladder-py-2 (master) if ready, else a quiet hold until lean-causal frees
+
+## 2026-11-21 10:37 · wave of 1 · T-pub-progress
+- T-pub-progress (publisher): reports/programme/2026-11-21/report.pdf, 8 pages, every number generated (164 macros, 14 tables) from a git archive of the pinned commit 963b755 by reports/programme/numbers.py, so the shared checkout's working tree never enters it; the ladder's history from each commit's own tool, not from the journal (whose ladder lines do not parse reliably); open questions by their first clause; make check: identical numbers and PDF across two builds, no undefined reference, no legacy prose
+- not delivered to the author through the session (no project thread to place a file): it is committed at reports/programme/2026-11-21/report.pdf
+- gates: the report's make check ✓, roadmaps ✓, blueprint ✓
+- commits: df6ba3a (+ roadmap)
+- next: lean-causal is /atlas-team's; T-tool-ladder-py-2 (master, settles no pair today) or a hold until lean-causal frees for T-abs-gh-without-tarentin and T-lad-record-separators
