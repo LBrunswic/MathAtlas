@@ -320,18 +320,18 @@ by = ["T-loc-quasilinear-nesting"]
 
 [[bind]]
 label = "erscor:CorUniqueSub"
-ett = ["Causal.Causality.ers_corollary_4_73", "Causal.Causality.ers_lemma_4_72", "Causal.Causality.ers_theorem_4_64"]
-localisation = ["is_causal", "curves_extend", "curve_nested", "globally_hyperbolic", "tarentin"]
+ett = ["Causal.Causality.ers_corollary_4_73", "Causal.Causality.ers_lemma_4_72", "Causal.Causality.ers_theorem_4_64", "Causal.IsMDevelopment.isUniqueDevelopment"]
+localisation = ["is_causal", "curves_extend", "curve_nested", "globally_hyperbolic", "tarentin", "causally_arc_connected"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
 open_reason = "As 4.64."
-note = "Cor 4.73 (ghd_02_19.tex:988): 4.72 + 4.64, every m-GHD is a UGHD (ers_corollary_4_73). is_causal, curves_extend are Minkowski's; curve_nested is subluminality; globally_hyperbolic, tarentin are g(u₁)'s on U₁."
+note = "Cor 4.73 (ghd_02_19.tex:988): 4.72 + 4.64, every m-GHD is a UGHD (ers_corollary_4_73; for the developments of Causal.ErsMughd, IsMDevelopment.isUniqueDevelopment, ERS's use at :1053). is_causal, curves_extend are Minkowski's; curve_nested is subluminality; causally_arc_connected is ≤ of g(u) realised by causal curves, which with curve_nested and C_m's acausality of S gives 4.73's IsAcausalOn U₁ S; globally_hyperbolic, tarentin are g(u₁)'s on U₁."
 [[bind.geometric]]
 model = "minkowski"
 proves = ["is_causal", "curves_extend"]
 by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["curve_nested", "globally_hyperbolic", "tarentin"]
+proves = ["curve_nested", "globally_hyperbolic", "tarentin", "causally_arc_connected"]
 by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
@@ -371,37 +371,49 @@ by = ["T-loc-quasilinear-nesting"]
 
 [[bind]]
 label = "ersrem:RemMGHD"
-ett = ["Causal.Causality.ers_theorem_4_77_greatest"]
-localisation = []
-note = "Remark 4.78 (ghd_02_19.tex:1047): the union construction works whenever global uniqueness holds — ers_theorem_4_77_greatest takes the agreement on pairwise intersections as hypothesis."
+ett = ["Causal.Causality.ers_theorem_4_77_greatest", "Causal.ers_remark_4_78", "Causal.exists_eqOn_of_pairwise", "Causal.Causality.isCauchySurfaceOn_iSup_of_isAcausalOn"]
+localisation = ["curve_nested", "causally_arc_connected", "is_causal"]
+note = "Remark 4.78 (ghd_02_19.tex:1047): the union construction under global uniqueness. One-causality form ers_theorem_4_77_greatest (hpair, hcaus); subluminal form ers_remark_4_78 (T-abs-ers-mughd), its global uniqueness one function agreeing with every member, orientations by m."
+[[bind.geometric]]
+model = "minkowski"
+proves = ["is_causal"]
+by = ["Causal.minkowski_isCausal"]
+[[bind.geometric]]
+model = "quasilinear"
+proves = ["curve_nested", "causally_arc_connected"]
+by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder"]
 
 [[bind]]
 label = "ersthm:ThmMUGHD"
-ett = ["T-abs-ers-mughd", "Causal.Causality.ers_corollary_4_73", "Causal.Causality.ers_theorem_4_77_greatest"]
-localisation = ["curve_nested", "curves_extend"]
-open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "Through Cor 4.73's 4.64 (T-lad-development-nodes; OQ-57 (b), T-lad-ers-restart-nodes)."
-note = "Thm 4.79 (ghd_02_19.tex:1055). The union of all UGHDs is the MUGHD (a union under global uniqueness, ers_theorem_4_77_greatest); non-empty because D_m(S) ∩ U₁ is an m-GHD (O'Neill 14.38, 14.43; a Minkowski model fact), hence a UGHD by 4.73. The m-MGHD is contained in it, in general strictly. T-abs-ers-mughd assembles it."
+ett = ["Causal.ers_theorem_4_79", "Causal.ers_theorem_4_79_of_exists", "Causal.IsMDevelopment.isUniqueDevelopment", "Causal.IsDevelopment.exists_isMDevelopment_le", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73"]
+localisation = ["curve_nested", "causally_arc_connected", "is_causal", "curves_extend", "globally_hyperbolic", "tarentin"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "inextensible_nested"]
+open_reason = "Through Cor 4.73's 4.64 (T-lad-development-nodes; OQ-57 (b), T-lad-ers-restart-nodes). inextensible_nested: D_m(S) ∩ U₁ an m-GHD needs S g(u₁)-Cauchy there, InextensibleNestedOn, not a consequence of curve nesting (OQ-41 (b), kb/0045). The Minkowski fact hDm (O'Neill 14.38, 14.43: int D_m(S, U₁) m-GH with Cauchy surface S) is named and has no Lean supplier."
+note = "Thm 4.79 (ghd_02_19.tex:1055), Causal.ErsMughd (T-abs-ers-mughd), unmarked. The MUGHD is the union of all UGHDs, glued by ers_remark_4_78 under subluminality (S acausal in the union for g(v)); non-empty by IsDevelopment.exists_isMDevelopment_le (D_m(S) ∩ U₁) and IsMDevelopment.isUniqueDevelopment (4.73). ers_theorem_4_77_greatest is not used: it is about one causality and all S-Cauchy opens, with no solution. ERS's appeal to Remark 4.67 for pairs of UGHDs (:1063) is valid (their overlap is connected, by Lemma 4.72's argument) but not checked in the paper; the Lean route bypasses it."
 [[bind.geometric]]
 model = "minkowski"
-proves = ["curves_extend"]
-by = ["Causal.minkowski_curvesExtend"]
+proves = ["is_causal", "curves_extend"]
+by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["curve_nested"]
-by = ["T-loc-quasilinear-nesting"]
+proves = ["curve_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
+by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "ersthm:consider_subluminal_quasilinear_wave"
-ett = ["T-abs-ers-mughd", "Causal.Causality.ers_theorem_4_77_greatest", "Causal.Causality.ers_corollary_4_73"]
-localisation = ["curve_nested"]
-open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "Through Cor 4.73's 4.64."
-note = "Thm 4.80 (ghd_02_19.tex:1066): the unique m-MGHD, by Remark 4.78's union over the m-GHDs with 4.73 as global uniqueness (T-abs-ers-mughd)."
+ett = ["Causal.ers_theorem_4_80", "Causal.ers_theorem_4_80_of_exists", "Causal.IsMaximalMDevelopment.unique", "Causal.IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment", "Causal.Causality.isCauchySurfaceOn_sSup_of_isCausal", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73"]
+localisation = ["curve_nested", "causally_arc_connected", "is_causal", "curves_extend", "globally_hyperbolic", "tarentin"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "inextensible_nested"]
+open_reason = "As Thm 4.79."
+note = "Thm 4.80 (ghd_02_19.tex:1066), Causal.ErsMughd (T-abs-ers-mughd), unmarked: the unique m-MGHD, the union of the m-GHDs (m-Cauchy by isCauchySurfaceOn_sSup_of_isCausal, implicit in the paper at :1072), contained in the MUGHD (IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment). The two example claims of :1075 are not formalised."
+[[bind.geometric]]
+model = "minkowski"
+proves = ["is_causal", "curves_extend"]
+by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["curve_nested"]
-by = ["T-loc-quasilinear-nesting"]
+proves = ["curve_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
+by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "ersthm:ThmNotBlocking"

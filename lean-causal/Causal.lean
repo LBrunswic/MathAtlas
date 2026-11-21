@@ -245,6 +245,7 @@ import Causal.Model.QuasilinearOneSided
 import Causal.RationalLineExtras
 import Causal.LevinTimeFunction
 import Causal.ErsUnions
+import Causal.ErsMughd
 
 /-!
 # Causal — topological spacetimes

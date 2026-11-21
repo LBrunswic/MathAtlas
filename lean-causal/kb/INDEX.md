@@ -92,3 +92,6 @@ rediscover. One fact per entry.
 | [0084](entries/0084-unions-of-local-developments.md) | pattern | Unions of local developments of pieces of S |
 | [0085](entries/0085-theorem-4-64-in-a-region.md) | pattern | Theorem 4.64 in a region |
 | [0086](entries/0086-ers-4-77-without-s-in-ui.md) | pitfall | ers_theorem_4_77 does not need S ⊆ Uᵢ |
+| [0087](entries/0087-pde-developments-abstractly.md) | pattern | Developments of one PDE on a fixed background, abstractly |
+| [0088](entries/0088-union-with-s-acausal.md) | pattern | A union of Cauchy open sets with S acausal in the union |
+| [0089](entries/0089-ers-4-77-greatest-not-developments.md) | pitfall | ers_theorem_4_77_greatest is not the set of developments |

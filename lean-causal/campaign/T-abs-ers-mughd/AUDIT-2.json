@@ -1,0 +1,45 @@
+{
+  "target": "T-abs-ers-mughd",
+  "auditor_round": 2,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "ersrem:RemMGHD",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unchanged Lean (see build.details), so AUDIT-1's reading stands. ers_remark_4_78 is the disclosed subluminal special case of an equation-free remark: partial and unmarked, which is right. The REPORT finding on the implicit agreement of time orientations is unchanged and still true. The binder proposal now carries geometric entries. With the row applied to a /tmp copy of binder.toml and the new names counted as graduated, tools/binder.py's check gives 0 violations. Causal.minkowski_isCausal resolves, declared in Causal.Minkowski."
+    },
+    {
+      "label": "ersthm:ThmMUGHD",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unchanged Lean; partial and unmarked, which is right. AUDIT-1's major finding is resolved truthfully. The sentence 'two UGHDs need not have a connected overlap' is gone from SCOPE, from REPORT findings[0] and from notes item 4, and no residual 'need not' or 'disconnected' claim remains. The new argument (SCOPE l.88-94 and the parenthesis in REPORT findings[0]) is correct as written. Its three steps check out, in ERS's setting: subluminal, S connected and m-acausal, orientations by m. ERS's normal stipulation gives the m orientation on each connected development. (i) x ∈ J⁺(S, U₂) gives x ∈ J⁺(S, U₁). Otherwise s₁ ≤_m x ≤_m s₂, m-acausality gives s₁ = s₂, and Minkowski causality gives x ∈ S. (ii) A past-inextendible g(u₂)-causal curve from x meets S, because S is g(u₂)-acausal, being m-acausal. (iii) If it left U₁ at t* before its first meeting with S, then its piece on [0, t*) would be a g(u₁)-causal curve of U₁, since g(u₁) = g(u₂) on the open overlap, and past-inextendible in U₁, by Hausdorff, since γ(t*) ∉ U₁. It would start at a point of J⁺(S, U₁) and so meet S earlier: a contradiction. The J⁻ case is the time reverse; the text leaves it implicit. So the paper's gap at :1063 is only that the connectedness is not stated, which is what the REPORT now says. The corrected reason for not using ers_theorem_4_77_greatest is right: one causality over all S-Cauchy opens, no solution, and ers_theorem_4_77 would need hpair and hcaus. One wording slip remains in that bullet (finding 1). The OQ-41 (d) finding is restated correctly: (d) stays open for the superluminal 4.77, and in 4.79/4.80 the derivation uses harc on the glued union. named_paper_results now lists hex (Thm 4.75), hlocal (Prop 4.63) and hG (the GHD definition). That is the AUDIT-1 classification. Checklist l.67 now reads '⚠ weakened' and l.75 '⚠ read'. The citations are now :973 (subluminal) and :974 (m-GHD); the only ':972' left is in the fix_round_1 changelog."
+    },
+    {
+      "label": "ersthm:consider_subluminal_quasilinear_wave",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unchanged Lean; partial and unmarked, which is right. Both example claims of :1075 are now disclosed as not formalised, in SCOPE l.102-103 and in REPORT findings[1]. The 4.80 binder proposal has no toml. Built from its text (the 4.79 localisation, open_localisation and geometric entries) on a /tmp copy, it passes the check as if graduated."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "Byte-identity: I kept no copy of round 0, so I compared by re-reading. Everything from `namespace Causal` (now l.111) to the end is 511 lines, as before (round 0: l.104-614). Every declaration, signature and proof matches my round-1 read line for line, and so do the four imports. Only the module docstring differs, and the file grew from 39792 to 40546 bytes. Typecheck: cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsMughd.lean gives exit 0 and no output. sorry/admit/axiom/native_decide: 0. No **`label`** mark, and the labels are within the first 4000 characters. A probe of `import Causal` plus the file body plus 19 #print axioms ran under the campaign directory and is deleted. It exits 0 under -DwarningAsError=true, so there is still no name clash with the full library, and every declaration is within {propext, Classical.choice, Quot.sound}. Binder: tools/binder.py has no file argument (`check [SLUG...]` reads papers/<slug>/certificate/binder.toml under the repository root). So I copied binder.toml to /tmp and replaced the RemMGHD and CorUniqueSub rows with the REPORT's toml. I built the 4.79 and 4.80 rows from the proposal text and called binder.check in memory with the live ladder ids (all six localisation ids are also in HEAD's ladder.toml) and programme targets. Before graduation the only violations are the 12 new Lean names (15 messages). With them counted as graduated: 0 violations. Causal.minkowski_isCausal and Causal.minkowski_curvesExtend resolve. The /tmp copy is deleted, and binder.toml was not touched. Scope (git status): this closer's paths are scaffold/CausalScaffold/ErsMughd.lean and campaign/T-abs-ers-mughd/REPORT.json. AUDIT-1.json is unchanged. The other changes belong to other agents: programme/ladder.toml (keeper), programme/roadmap.toml (three status flips), roadmap/roadmap.toml (T-bz flips), ErsUnions files and campaign/T-abs-ers-unions (other closer), and lean-benzecri untracked dirs (benzecri loop). Among oleans newer than Causal.olean there are only scaffold ones."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/ErsMughd.lean:86-87 (SCOPE, 'The union')",
+      "what": "The text says '`isCauchySurfaceOn_iSup_of_isAcausalOn` needs neither', meaning neither hpair nor hcaus. The lemma's hanti, ∀ ⦃x y⦄, C.le (⨆ i, U i) x y → C.le (⨆ i, U i) y x → x = y, is ers_theorem_4_77's hcaus verbatim. So the lemma needs no hpair, but it does take hcaus. What needs neither is ers_remark_4_78 (and so 4.79/4.80), where hanti is derived by antisymm_of_curveNestedOn. The sentence's own colon clause ('≤ antisymmetric there') contradicts 'neither'. REPORT notes item 4 has the same wording but qualifies it with 'given subluminality'. The kb proposal ('needs no pairwise hypothesis') is accurate.",
+      "fix": "'isCauchySurfaceOn_iSup_of_isAcausalOn needs no hpair; its other hypothesis, ≤ antisymmetric in the union, is hcaus in form. Here that hypothesis and S acausal in the union are derived from subluminality and Cm, so ers_remark_4_78 asks neither.'"
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json binder_rows[3].toml (erscor:CorUniqueSub)",
+      "what": "The replacement toml drops two keys of the current row (binder.toml:322-327): open_reason ('As 4.64.') and note (Cor 4.73 = 4.72 + 4.64, where each localisation comes from). tools/binder.py checks neither key, so the in-memory check passes. But its docstring asks that open_localisation come 'with a reason', and if the row were applied verbatim both texts would be lost. The RemMGHD toml keeps a note.",
+      "fix": "Keep open_reason = \"As 4.64.\" and the existing note. Append to the note that IsMDevelopment.isUniqueDevelopment derives 4.73's hacausal from curve_nested, causally_arc_connected and C_m's acausality of S."
+    }
+  ]
+}
