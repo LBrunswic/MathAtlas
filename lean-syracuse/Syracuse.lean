@@ -7,3 +7,4 @@ import Syracuse.Completion
 import Syracuse.CycleGcd
 import Syracuse.UpperBounds
 import Syracuse.Steiner
+import Syracuse.TwoDescents

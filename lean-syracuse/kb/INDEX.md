@@ -29,3 +29,8 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0021](entries/0021-bounded-decide-check.md) | pattern | A bounded Diophantine check in the kernel: decide, with three scoped set_options |
 | [0022](entries/0022-sum-congr-metavariable.md) | pitfall | Pitfall: Finset.sum_congr with no target leaves a metavariable that rw closes by rfl |
 | [0023](entries/0023-logb-powers.md) | pattern | Powers of 2 against powers of 3 with logb: reduce to the exponents, then to integer powers |
+| [0024](entries/0024-two-descents-key-identity.md) | pattern | Two descending indices per period: one step recursion around the period, with no ascending index needed |
+| [0025](entries/0025-sequiv-padic-refutation.md) | pattern | Refute a ∼_S claim with a p-adic valuation at a prime other than 2 and 3 |
+| [0026](entries/0026-negative-exponent-displays.md) | pattern | A printed display whose integer exponents can be negative: state it in ℚ with zpow |
+| [0027](entries/0027-icc-cardrange-pitfalls.md) | pitfall | Pitfalls: noncomputable Finset.Icc on ℤ, rw with card_range, and an n that omega does not infer |
+| [0028](entries/0028-p-le-two-n.md) | pattern | p_n ≤ 2n on every cycle of ℤ, and representatives in ⟦1, n⟧ |
