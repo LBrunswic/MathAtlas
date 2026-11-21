@@ -218,11 +218,12 @@ finding = "The bound needs TV(mu||nu) = 1/2 ||mu - nu|| = sup_A |mu(A) - nu(A)|:
 refutation = ["EGF.TwoPoint.negative_control_sharp"]
 anchor = ["EGF.main_quantitative_sampling"]
 basis = ["OQ-60", "DEC-141"]
-status = "adopted"
-corrected = '''with $\TV(\mu\|\nu) := \frac12\|\mu-\nu\| = \sup_A |\mu(A)-\nu(A)|$ the total variation distance (the bound is attained).'''
+status = "applied"
+corrected = '''with $\TV(\mu\|\nu) := \frac12\|\mu-\nu\| = \sup_{A}|\mu(A)-\nu(A)|$ the total variation distance between probability measures, where $\|\mu-\nu\|:=(\mu-\nu)^+(\Statespace)+(\mu-\nu)^-(\Statespace)$ and $A$ ranges over the measurable subsets of $\Statespace$ (the bound is attained on a two-point example).'''
 summary = "Total variation is defined with the factor 1/2 (sup_A |mu(A) - nu(A)|), without which Theorem 3.8 fails; the bound is sharp."
 added_hypotheses = []
 batch = "T-egf-correct-sampling"
+v2_commit = "256b365"
 
 [[correction]]
 id = "C-12"
@@ -233,26 +234,28 @@ kind = "gap"
 finding = "The flow is not flow matching from F_init to F_term-hat, so the sampler's termination is not given by the sampling theorem; the proof takes tau < infinity a.s. for granted. It holds: F_init <= F_init-hat and the flow matches from F_init-hat, so E(tau) <= (F_term-hat(S) + F_out(S))/F_init(S)."
 anchor = ["EGF.main_quantitative_sampling"]
 basis = ["OQ-60", "DEC-141"]
-status = "adopted"
-corrected = '''Add: the sampler terminates almost surely, with $\mathbb E\tau \le (\Ftermhat(\Statespace)+\Foutstar(\Statespace))/\Finit(\Statespace)$, since $\Finit\le\Finithat$ and the flow is flow matching from $\Finithat$.'''
+status = "applied"
+corrected = '''Add: ``The sampler of $\mathbb F$ from $\Finit$ thus terminates almost surely, with $\mathbb E\tau \le (\Ftermhat(\Statespace)+\Foutstar(\Statespace))/\Finit(\Statespace)$, since $\Finit\le\Finithat$ and $\mathbb F'$ is flow matching from $\Finithat$ (Theorem \ref{theo:sampling_theorem}); in particular $s_\tau$ is well defined.'''''
 summary = "The proof of the quantitative sampling theorem now shows the sampler terminates almost surely (with a bound on E tau) instead of assuming it."
 added_hypotheses = []
 batch = "T-egf-correct-sampling"
+v2_commit = "256b365"
 
 [[correction]]
 id = "C-13"
 label = "theo:sampling_theorem"
 where = "the sampler (Section 2) and Theorem 2.1"
-printed = ["main.tex:163-165", "main.tex:178-183"]
+printed = ["main.tex:163-165", "main.tex:178-185"]
 kind = "missing-hypothesis"
 finding = "The stopping decision must be a randomized stopping time (it reads only the past and an independent coin, the chain moving on by pi regardless); a decision allowed to look at s_{t+1} keeps the printed hazard but breaks s_tau ~ F_term (2/3 instead of 1/2 on a two-point example). Also 's_tau ~ F_term' presupposes tau < infinity a.s., proved as a clause of the theorem from E(tau) < infinity."
 anchor = ["EGF.sampling_theorem"]
 basis = ["OQ-60", "DEC-141"]
-status = "adopted"
-corrected = '''The stopping decision at time $t$ depends only on $\underline s_1,\dots,\underline s_t$ and an independent coin (a randomized stopping time); the theorem's conclusion includes $\tau<\infty$ almost surely.'''
+status = "applied"
+corrected = '''The sampling time is $\tau\in\mathbb N_{\geq 1}\cup\{\infty\}$: at each $t$ with $\tau\geq t$ the sampler stops with probability $\frac{d\Fterm}{d(\Fterm+\Foutstar)}(\underline s_t)$, by a coin independent of the chain and of the earlier coins, the chain moving on by $\ForwardPolicyStar$ regardless (a randomized stopping time); the conclusion of Theorem \ref{theo:sampling_theorem} includes $\tau<\infty$ almost surely.'''
 summary = "The sampler's stopping rule is stated as a randomized stopping time, and Theorem 2.1 includes almost-sure termination."
 added_hypotheses = ["the stopping rule is a randomized stopping time"]
 batch = "T-egf-correct-sampling"
+v2_commit = "256b365"
 
 [[correction]]
 id = "C-14"
@@ -263,11 +266,12 @@ kind = "gap"
 finding = "dF_term/d(F_term + F_out*) is defined only (F_term + F_out*)-a.e.; that the version does not matter is not stated, but holds: under flow matching the unstopped mass is dominated by (F_term + F_out)/F_init(S), so every version gives the same sampler law."
 anchor = ["EGF.GenerativeFlow.occupation_ac_of_isFlowMatching", "EGF.GenerativeFlow.pathLaw_hazard_rnDeriv"]
 basis = ["DEC-141"]
-status = "adopted"
-corrected = '''Extend the footnote: ``Clearly $\Fterm \ll \Fterm+\Foutstar$ so the Radon-Nikodym derivative is well-defined, up to a $(\Fterm+\Foutstar)$-null set; under the flow-matching constraint the chain's unstopped mass is dominated by $(\Fterm+\Foutstar)/\Finit(\Statespace)$, so the law of the sampler does not depend on the version chosen.'''''
-summary = "The sampler's law does not depend on the version of the Radon-Nikodym derivative used as stopping probability (stated and justified)."
+status = "applied"
+corrected = '''The footnote: ``Clearly $\Fterm \ll \Fterm+\Foutstar$ so the Radon-Nikodym derivative is well-defined, up to a $(\Fterm+\Foutstar)$-null set; under the flow-matching constraint \eqref{equ:FM_const} the chain's unstopped mass $\sum_{t\geq 1}\mathbb P(\tau\geq t,\underline s_t\in\cdot)$ is dominated by $(\Fterm+\Foutstar)/\Finit(\Statespace)$, so it charges no $(\Fterm+\Foutstar)$-null set, and the sampler obeys the hazard above for every version.'''''
+summary = "The sampler obeys its hazard for every version of the Radon-Nikodym derivative used as stopping probability (stated and justified)."
 added_hypotheses = []
 batch = "T-egf-correct-sampling"
+v2_commit = "256b365"
 
 [[correction]]
 id = "C-15"
@@ -278,11 +282,12 @@ kind = "gap"
 finding = "l.863 divides by delta F_init(S), undefined when delta F_init = 0 (where the bound is 0 by the sampling theorem). The formal mixture estimate does not divide, so the case needs no separate argument."
 anchor = ["EGF.normalize_add_sub_normalize_le"]
 basis = ["DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''Add before the mixture identity: ``If $\delta\Finit(\Statespace)=0$, then $\Finithat=\Finit$, $\mathbb F$ is flow matching from $\Finit$ to $\Ftermhat$ and the bound, $0$, is Theorem \ref{theo:sampling_theorem}; assume $\delta\Finit(\Statespace)>0$.'''''
 summary = "The mixture step of the proof of Theorem C.1 no longer divides by delta F_init(S), which may vanish."
 added_hypotheses = []
 batch = "T-egf-correct-sampling"
+v2_commit = "256b365"
 
 [[correction]]
 id = "C-16"
@@ -293,24 +298,26 @@ kind = "gap"
 finding = "No proof is printed. It is one application of Theorem 3.8 at F_term = kappa-hat (terminal error 0, initial error delta, F-hat_term(S) = 1 + delta) plus the triangle inequality for TV. 'Trained on the target kappa' is context: the inequality holds for every flow and every finite kappa."
 anchor = ["EGF.sampling_error_control", "EGF.tvDist_triangle"]
 basis = ["DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''Add a proof: ``At $\Fterm=\widehat\target$ the terminal error vanishes, so $\Ftermhat=\widehat\target$, $\delta\Finit=(\Finit+\Finstar-\Foutstar)^-$ and $\Ftermhat(\Statespace)=1+\delta$; Theorem \ref{theo:negative_control} gives $\TV(s_\tau\|\widehat\target/\widehat\target(\Statespace))\leq\delta/(1+\delta)$, and the triangle inequality for $\TV$ concludes. The bound holds for every generative flow and every finite $\target\neq0$.'''''
 summary = "Corollary 3.9 gets its (two-line) proof, and holds for every flow and every finite target."
 added_hypotheses = []
 batch = "T-egf-correct-sampling"
+v2_commit = "256b365"
 
 [[correction]]
 id = "C-17"
 where = "Section 2, the sampling chain; Definition 3.7"
-printed = ["main.tex:163", "main.tex:316"]
+printed = ["main.tex:163", "main.tex:316", "main.tex:323"]
 kind = "typo"
 finding = "l.163 indexes the chain (s_t)_{g >= 1} for (s_t)_{t >= 1}; l.316 names the flow (pi*, f_out*) with a density while the errors use the measure F_out*. Nothing to prove in Lean: EGF.GenerativeFlow takes the outflow as a measure (EGF/Defs.lean:123) and EGF.sampling_theorem indexes the chain by t; editorial."
 basis = ["DEC-141"]
-status = "adopted"
-corrected = '''l.163: $(\underline s_t)_{t\geq 1}$; l.316 and l.322: the generative flow $(\ForwardPolicyStar,\Foutstar)$.'''
+status = "applied"
+corrected = '''l.163: $(\underline s_t)_{t\geq 1}$; l.316 and l.323: the generative flow $(\ForwardPolicyStar,\Foutstar)$.'''
 summary = "Typos: the chain's index (t, not g); the flow written with the outflow measure F_out*."
 added_hypotheses = []
 batch = "T-egf-correct-sampling"
+v2_commit = "256b365"
 
 # --------------------------------------------------------------------------------------------
 # Universality (OQ-49, OQ-50; OQ-47 stays the author's)                                 batch C-universality

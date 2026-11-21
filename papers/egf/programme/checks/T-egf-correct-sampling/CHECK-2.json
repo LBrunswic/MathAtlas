@@ -1,0 +1,105 @@
+{
+  "target": "T-egf-correct-sampling",
+  "round": 2,
+  "verdict": "minor",
+  "scope": "Re-check after the fix round. The diff is git -C ~/Dropbox/ErgodicGFN arXiv/source diff e90ff4b: an uncommitted working tree, main.tex only, 6 hunks, 23+/7-, 88 lines. The entries are C-11..C-17 of papers/egf/programme/corrections.toml (batch T-egf-correct-sampling, all adopted, basis DEC-141, plus OQ-60 for C-11/C-12/C-13). C-13's and C-14's corrected texts were amended since CHECK-1, and so were C-13's printed range and C-17's corrected ('l.323'). tools/corrections.py check passes (37 entries, all rules hold). The anchors were re-read in lean-egf/EGF/Sampling.lean, which is unchanged since a66988d (no working-tree change under lean-egf/EGF): sampling_theorem (l.1636), main_quantitative_sampling (l.1678), pathLaw (l.825) with pathKernel (l.785) and decide (l.768), pathLaw_spec (l.1489), pathLaw_hazard (l.1269), pathLaw_hazard_rnDeriv (l.1446), occupation_ac_of_isFlowMatching (l.1458), occupation_ac_of_matched (l.1467), stop_ae_eq (l.371), occupation_le (l.273), normalize_add_step (l.586), and stopTime : N-infinity = stopIndex + 1 (l.1072). Line numbers are v2 (working copy) unless marked v1, and v1 is papers/egf/legacy/orig/main.tex.",
+  "entries": [
+    {
+      "id": "C-11",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1. The two hunks are byte-identical to CHECK-1's, one line higher because of the l.165 merge: Theorem 3.8 at l.336 and Theorem C.1 at l.879. CHECK-1's reading stands. TV := 1/2 ||mu - nu|| = sup_A |mu(A) - nu(A)| is EGF.tvDist = tvMass/2, with tvDist_eq_iSup under equal masses ('between probability measures'). The bound is main_quantitative_sampling clause 5. 'Attained on a two-point example' is TwoPoint.negative_control_sharp clause 1. The refutation, the unhalved norm (clause 2: 1 > 1/2), is answered by the 1/2. added_hypotheses = [] and none was added."
+    },
+    {
+      "id": "C-12",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1 (l.888). With tau now in N_{>=1} u {inf} (l.165), 'the sampler of F from F_init thus terminates almost surely' is no longer vacuous. It is main_quantitative_sampling clause 1 (pathLaw F_init F-hat {stopTime = top} = 0). E tau <= (F-hat_term(S) + F_out*(S))/F_init(S) is clause 2, and 's_tau is well defined' is clause 3. The hypotheses are C.1's (F_init != 0, finite measures, no flow matching). added_hypotheses = [] and none was added."
+    },
+    {
+      "id": "C-13",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "CHECK-1 point 1 is resolved. The sentence 'The stopping decision at time t depends only on s_1, ..., s_t and an independent coin' is gone. l.165 now reads: 'Define the sampling time tau in N_{>=1} u {inf} as the random variable given by P(tau >= 1) = 1 and P(tau = t | tau >= t) = dF_term/d(F_term + F_out*)(s_t), that is, at each t with tau >= t the sampler stops with this probability, by a coin independent of the chain and of the earlier coins, the chain moving on by pi* regardless (a randomized stopping time).'\n\nCompared with Lean's sampler: Y_0 ~ normalize F_init (x) decide, and pathKernel draws y ~ pi(x) from (x, b) in both branches (raiseKernel o pi and decide o pi). A raised flag stays raised; a lowered flag is raised with probability stop(y) by decide. In words: s_1 ~ F_init (pathLaw_spec clause 1); s_{t+1} ~ pi*(s_t) whatever the flag ('the chain moving on by pi* regardless'); and on tau >= t (the flag still lowered before t), the decision at t is a Bernoulli(stop(s_t)) drawn fresh, given the whole past and s_t, with the future chain drawn from s_t afterwards ('a coin independent of the chain and of the earlier coins', in the standard reading U_t iid uniform and independent of the chain, stop iff U_t < h(s_t)). The 'that is' makes this constructive description the definition, so the hazard no longer names a class. Given h, the description fixes the joint law of (chain, tau), with P(tau > t | chain) = prod_{k<=t}(1 - h(s_k)), and for h = stop that law is pathLaw. This is CHECK-1's fix (b) almost verbatim. Theorems 2.1, 3.8 and C.1 and Corollary 3.9 use this one sampler, so they are now about pathLaw.\n\nThe look-ahead instance (a decision reading s_{t+1}: 2/3 instead of 1/2) is excluded, since the decision at t uses only s_t and a fresh coin.\n\nCHECK-1 point 3 is resolved. 'tau in N_{>=1} u {inf}' is stopTime : N-infinity = stopIndex + 1, which is top when no flag is raised. P(tau >= 1) = 1 is pathLaw_spec clause 3. 'tau < inf almost surely' (l.188) is sampling_theorem clause 3 and is now a real conclusion. The other uses of tau are consistent with the wider type. E(tau) (l.190) is in [0, inf] (lintegral of stopTime). s_tau (l.168, Theorems 3.8 and C.1) is defined almost surely by those clauses; Lean's sampledState is arbitrary on the null set {tau = inf}. The sums sum_{t=1}^tau (l.413, l.427, l.465, l.466) and the compositions (s_t)_{t=1}^tau and Phi_{k_{tau-1}} o ... o Phi_{k_1} (l.680-681) are read on sampled trajectories, which are almost surely finite under the hypotheses in force. No use needs tau to be finite everywhere.\n\nTheorem 2.1's hypotheses are unchanged and match sampling_theorem: finite F_init and F_term, hterm, and IsFlowMatching. The conclusions match one for one.\n\nThe applied text matches the amended corrected. The applied text changes the printed type to N_{>=1} u {inf} and adds the corrected's description to the printed hazard as a gloss, 'that is, ... with this probability', where 'this probability' is the hazard's dF_term/d(F_term + F_out*)(s_t). l.188 adds 'tau < inf almost surely'. The printed P(tau >= 1) = 1 and the hazard are kept, not added. added_hypotheses ('the stopping rule is a randomized stopping time') is the parenthetical at l.165, and no other hypothesis was added. The printed range is now ['main.tex:163-165', 'main.tex:178-185'] and contains both edited v1 lines (164 and 185), so CHECK-1 finding 6 is resolved for C-13. Kind missing-hypothesis, so there is no refutation declaration."
+    },
+    {
+      "id": "C-14",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "CHECK-1 point 2 is resolved. The footnote now ends: '... is dominated by (F_term + F_out*)/F_init(S), so it charges no (F_term + F_out*)-null set, and the sampler obeys the hazard above for every version.' That is the wording CHECK-1 proposed. 'The law of the sampler does not depend on the version chosen' is gone, from the text and from the marker.\n\nClause by clause, with G = F_term + F_out*:\n(a) F_term << G is fterm_ac_stopBase.\n(b) 'Up to a G-null set': rnDeriv is an a.e. class, and the sampler's stop equals it G-a.e. (stop_ae_eq).\n(c) The unstopped mass sum_{t>=1} P(tau >= t, s_t in .) is GenerativeFlow.occupation F_term (normalize F_init) (pathLaw_hazard clause 2, the hocc step of pathLaw_spec).\n(d) 'Dominated by G/F_init(S)': occupation_le with normalize_add_step gives occupation <= F_init(S)^{-1} G. occupation_ac_of_isFlowMatching gives << G, which is 'charges no G-null set'.\n(e) 'The sampler obeys the hazard above for every version': under that domination, pathLaw_hazard_rnDeriv gives P(tau = t, s_t in A) = int_A dF_term/dG d occ_{t-1}, with Mathlib's rnDeriv. Any other version h equals rnDeriv G-a.e., and occ_{t-1} << G, so the integral does not change. That is one setLIntegral_congr_fun_ae step, the same step the proof of pathLaw_hazard_rnDeriv makes from stop.\n\nThe claim is now about one sampler (pathLaw) and every version, not about samplers built from different versions. It is the anchor read on the a.e. class that l.157 says the Radon-Nikodym derivative is. The quantified clause is not a declaration of its own (minor finding 5).\n\nThe footnote does not mention the sampler of Theorem 3.8 (from F_init to F-hat_term, without flow matching). Its domination is proved by occupation_ac_of_matched. Leaving it out is not an overclaim.\n\nadded_hypotheses = [] and none was added. 'Under the flow-matching constraint (2)' scopes the remark; it is occupation_ac_of_isFlowMatching's hFM. The applied text is the amended corrected plus '\\eqref{equ:FM_const}' and the unstopped-mass formula (minor finding 4). Kind gap, so there is no refutation."
+    },
+    {
+      "id": "C-15",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1 (l.890, the delta F_init(S) = 0 case before the mixture identity). CHECK-1's reading stands: it is a proof route made unnecessary by EGF.normalize_add_sub_normalize_le, and it is covered by isFlowMatching_virtual and Theorem 2.1. added_hypotheses = [] and none was added."
+    },
+    {
+      "id": "C-16",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1 (proof at l.345-347, marker l.348). CHECK-1's step-by-step reading against SamplingCorollaries.lean stands: terminalError_kappaHat, virtualTerm_kappaHat, initialError_kappaHat, sampling_error_control clauses 3-5 and tvDist_triangle. The sampler is the one l.165 now defines, i.e. pathLaw, which is the sampler sampling_error_control uses. added_hypotheses = [] and none was added."
+    },
+    {
+      "id": "C-17",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Typo entry, so no anchor. The edits are unchanged: l.163 (s_t)_{t>=1}; l.323 (Definition 3.7) and l.331 (Theorem 3.8) (pi*, F_out*). Its corrected now names 'l.316 and l.323', which fixes the 'l.322' of CHECK-1 finding 6, but printed is still ['main.tex:163', 'main.tex:316'] (minor finding 3). The leftovers of CHECK-1 findings 4 and 5 are still in the text: (pi*, f_out*) at l.328 and l.875 (minor finding 1), and '$\\Finit$and' at l.163 (minor finding 2)."
+    }
+  ],
+  "markers": "The batch has 11 markers: l.164 EGF-C17, l.166 EGF-C14, l.167 EGF-C13, l.192 EGF-C13, l.324 EGF-C17, l.332 EGF-C17, l.337 EGF-C11, l.348 EGF-C16, l.880 EGF-C11, l.889 EGF-C12, l.891 EGF-C15. The C-13 description is now inside the l.165 sentence that carries the C-14 footnote. That passage therefore holds two entries' edits and has two markers, l.166 for C-14 and l.167 for C-13. Both are comment-only lines with no blank line next to them, so the paragraph is unbroken (pdftotext runs the l.165 and l.168 sentences together). The marker texts match the amended entries. C-14's no longer says that the sampler's law does not depend on the version. C-13's names N_{>=1} u {inf}, the fresh coin and 'the chain moving on by pi* regardless'. Every edited passage has its marker, one per entry.",
+  "scope_check": "The diff against e90ff4b differs from CHECK-1's (/tmp/egf-master/sampling-batch.diff, 89 lines) in two ways only. First, the first hunk (v1 l.163-164 -> v2 l.163-167) now has tau's type N_{>=1} u {inf}, the footnote's new last clause, and the C-13 sentence merged into l.165 with its marker rewritten (+5 instead of +6 lines). Second, the hunk offsets after it are one line lower. The other five hunks are byte-identical. Every edit lies inside its entry's printed range or at a site its corrected names. math_command.tex and note.bib are untouched. Changed symbols: (1) tau now takes values in N_{>=1} u {inf}, and every use is consistent with that (see C-13's notes). (2) TV is as in CHECK-1, and l.341, l.346, l.355 and l.392 are consistent with it. (3) (pi*, F_out*) is still written (pi*, f_out*) at l.328 and l.875 (minor finding 1). That is the same v1 slip left at two sites outside the lines C-17 names. \\foutstar did not change meaning, and it is used consistently in the density settings at l.198, 203, 213, 240, 258, 284 and 391.",
+  "build": {
+    "ok": true,
+    "undefined": 0,
+    "notes": "latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex was run in a /tmp copy of the working copy, with aux, bbl and log removed so bibtex ran, and in a /tmp copy of e90ff4b (git archive). Both exit 0 with 20 pages and no undefined reference or citation. The warnings are the same in both up to line offsets: the multiply-defined fig:toyimg labels (x5), the Overfull 9.31795pt in the alignment at v2 l.416-419 (base l.405-408), the Underfull hbox at v2 l.328-329 (base l.323-324), and the Underfull hboxes at 281-286 and 303-306 that appear in both. v2 has fewer Underfull vboxes than base. pdftotext shows 'tau in N>=1 u {inf}', the 'that is, at each t with tau >= t the sampler stops with this probability, by a coin independent of the chain ...' gloss, and the footnote ending 'so it charges no (Fterm + F_out*)-null set, and the sampler obeys the hazard above for every version.' Both copies were deleted, and the working copy is untouched (git status: M main.tex only)."
+  },
+  "resolution_of_check_1": {
+    "major_1_C-13_class": "resolved: the sampler is now the instance wording (fresh coin, chain moves on by pi* regardless), which is pathLaw",
+    "major_2_C-14_version": "resolved: the footnote now claims that the one sampler obeys the hazard for every version (pathLaw_hazard_rnDeriv + occupation_ac_of_isFlowMatching + an a.e. congruence), not that samplers built from different versions have one law",
+    "major_3_tau_type": "resolved: tau in N_{>=1} u {inf} (stopTime : N-infinity), so 'tau < inf almost surely' (l.188) and C-12's 'terminates almost surely' (l.888) are real conclusions",
+    "minor_4_f_out_leftovers": "open (finding 1)",
+    "minor_5_Finit_and": "open (finding 2)",
+    "minor_6_printed_ranges": "C-13 resolved; C-17 corrected fixed ('l.323'), printed still open (finding 3)",
+    "minor_7_corrected_sync": "C-13 and C-14 corrected amended; residual elaboration open (finding 4)"
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "main.tex:328, main.tex:875",
+      "what": "Carried from CHECK-1 finding 4. '(\\ForwardPolicyStar,\\foutstar)' remains in the remark between Definition 3.7 and Theorem 3.8 (l.328, v1 l.320) and in Theorem C.1 (l.875, v1 l.846). Theorem C.1, the appendix twin of Theorem 3.8, therefore still differs from it in notation. Writing f_out* presupposes F_out* << lambda, a hypothesis that main_quantitative_sampling does not need. These lines are outside those C-17 names, so the corrector was right to leave them. This is minor rather than a changed symbol left inconsistent, because \\foutstar has not changed meaning.",
+      "fix": "Planner: extend C-17 to main.tex:320 and main.tex:846 ('(\\ForwardPolicyStar,\\Foutstar)'), then apply it with EGF-C17 markers."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:163",
+      "what": "Carried from CHECK-1 finding 5. '$\\Finit$and' is still missing its space and renders as 'F_initand'. The line is one C-17 edits, but the typo is not in C-17's corrected.",
+      "fix": "Planner: add 'l.163: $\\Finit$ and' to C-17's corrected, then apply it."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/egf/programme/corrections.toml (C-17)",
+      "what": "Carried in part from CHECK-1 finding 6. C-13's printed now contains v1 l.185, and C-17's corrected now says 'l.323'. But C-17's printed is still ['main.tex:163', 'main.tex:316'] and omits v1 l.323 (Theorem 3.8's statement), which was edited.",
+      "fix": "C-17: printed ['main.tex:163', 'main.tex:316', 'main.tex:323'] (plus 'main.tex:320' and 'main.tex:846' if finding 1 is taken)."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/egf/programme/corrections.toml (C-11, C-12, C-14)",
+      "what": "Carried in part from CHECK-1 finding 7. The applied text still elaborates the register's corrected, faithfully. C-14's footnote adds '\\eqref{equ:FM_const}' and the formula sum_{t>=1} P(tau >= t, s_t in .) for the unstopped mass. C-11 adds 'between probability measures', the Jordan-part definition of ||mu - nu||, 'measurable subsets' and 'on a two-point example'. C-12 adds '(Theorem 2.1); in particular s_tau is well defined'. C-13's applied text adds the amended corrected to the printed sentence as a gloss ('that is, ... with this probability'), which matches it in substance.",
+      "fix": "Sync the corrected fields of C-11, C-12 and C-14 with the v2 text when the entries move to applied."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:165 (footnote 2)",
+      "what": "The footnote's last clause, 'the sampler obeys the hazard above for every version', is faithful, but it is not a single declaration. It is pathLaw_hazard_rnDeriv (with hdom from occupation_ac_of_isFlowMatching) plus one setLIntegral_congr_fun_ae step that carries the integrand to any h with h = rnDeriv (F_term + F_out)-a.e. CHECK-1 called stating it as a lemma the ideal form. This is not an overclaim.",
+      "fix": "Optional, in lean-egf: 'pathLaw_hazard_of_ae_eq (hdom) (hh : h =ᵐ[Fterm + F.outflow] Fterm.rnDeriv (Fterm + F.outflow)) : pathLaw {stopTime = n+1, (ω n).1 ∈ A} = ∫⁻ x in A, h x ∂(occ n)'. Add it to C-14's anchor."
+    }
+  ]
+}
