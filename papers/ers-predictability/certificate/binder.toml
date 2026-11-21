@@ -4,7 +4,8 @@
 # (layer 3). Format: tools/binder.py's docstring. Written by the programme-planner, 2026-11-20
 # (T-bind-ers-predictability); rebound 2026-11-21 (planning run after the waves of 2026-11-20 21:35,
 # 22:45, 23:50) to Causal.ErsUniqueness, Causal.CausalIsoInvariance, Causal.LadderLocal and the
-# ladder's pair-sort nodes. It records how the argument factors, not what Lean has closed.
+# ladder's pair-sort nodes; notes refreshed later that day after T-abs-hoist-time-function (7eff58c).
+# It records how the argument factors, not what Lean has closed.
 #
 # How the paper factors (SYNTHESIS Q3; KB note eperon2018predictability). A GHD u : U → ℝ of a
 # quasilinear equation on the FIXED background ℝ^{d+1} carries two causalities: C_g of g(u, du) and
@@ -36,7 +37,8 @@
 # it is in Lean (T-pkg-smooth-lorentz asks how smooth Lorentzian metrics enter). The Born–Infeld
 # scalar of §3 is a quasilinear model whose solutions are causally flat: (U, g) is the transport of
 # 1+1 Minkowski (V, m̂) by the hodograph map Ψ (Lemmas 3.27, 3.31), i.e. IsCausalIso C_m̂ C_g Ψ
-# (Causal.CausalIsoInvariance). `minkowski` is the background m, in Lean (Causal.minkowski_*).
+# (Causal.CausalIsoInvariance). `minkowski` is the background m, in Lean (Causal.minkowski_*;
+# Causal.minkowski_curvesExtend in Causal.Model.CurvesExtendModels since T-abs-hoist-time-function).
 #
 # Findings of this binder (reported to the master):
 # * Thm 4.64 with Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73 are in Lean as skeletons (Causal.ErsUniqueness,
@@ -141,7 +143,7 @@ by = ["T-loc-born-infeld-causal"]
 label = "erslem:lemma_orientation"
 ett = ["Causal.Causality.isCausal_of_timeFunction", "Causal.IsCausalIso.isCausal_of_timeFunction", "Causal.Causality.isCausal_of_exists_timeFunction"]
 localisation = ["is_causal"]
-note = "Lemma 3.29 (ghd_02_19.tex:349). Time orientation of ∂_ρ, ∂_σ and 'stable causality' through the time functions x⁰ (subluminal) and ±(ρ + σ) (superluminal). ETT, reading of OQ-57 (d): a function strictly increasing along ≤ makes the causality causal (isCausal_of_timeFunction for x⁰ on (U, g); IsCausalIso.isCausal_of_timeFunction for ρ + σ on (V, m̂)); an ETT time function (defi:fonction_temps, non-decreasing) does not suffice (Causal.exists_isTimeFunction_not_isCausal, the doubled line). isCausal_of_exists_timeFunction takes the body of the ladder node time_function verbatim; whether the row names time_function is OQ-57 (d), not taken here."
+note = "Lemma 3.29 (ghd_02_19.tex:349). Time orientation of ∂_ρ, ∂_σ and 'stable causality' through the time functions x⁰ (subluminal) and ±(ρ + σ) (superluminal). ETT, reading of OQ-57 (d): a function strictly increasing along ≤ makes the causality causal (isCausal_of_timeFunction for x⁰ on (U, g); IsCausalIso.isCausal_of_timeFunction for ρ + σ on (V, m̂)); an ETT time function (defi:fonction_temps, non-decreasing) does not suffice (Causal.exists_isTimeFunction_not_isCausal, the doubled line). isCausal_of_exists_timeFunction takes the body of the ladder node time_function verbatim, and the ladder's edge time_function ⇒ is_causal now has the wrapper Causal.Causality.HasTimeFunction.isCausal (Causal.CurvesExtend, ETT layer, since T-abs-hoist-time-function); whether the row names time_function (and that wrapper) is OQ-57 (d), not taken here."
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["is_causal"]
@@ -214,7 +216,7 @@ ett = ["T-abs-ers-unions", "Causal.isCauchyInclusion_iSup"]
 localisation = []
 open_localisation = ["local_uniqueness"]
 open_reason = "Local uniqueness is the PDE input (Sogge, energy estimates), not a ladder node (T-lad-development-nodes)."
-note = "Prop 4.63 (ghd_02_19.tex:836). The PDE gives agreement on small DS_p; the ETT part is that V = ⋃ DS_p has S as Cauchy surface (a union of local Cauchy developments of the pieces S_p, T-abs-ers-unions; GH of the union is Geroch (iii) ⇒ (i), unproved, OQ-57 (c)). Thm 4.64 uses 4.63 twice: Step 1 (`hlocal`, some common development exists) and Step 5 (inside the restart SliceRestart)."
+note = "Prop 4.63 (ghd_02_19.tex:836). The PDE gives agreement on small DS_p; the ETT part is that V = ⋃ DS_p has S as Cauchy surface (a union of local Cauchy developments of the pieces S_p, T-abs-ers-unions, through Causal.isCauchyInclusion_iSup, ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function; GH of the union is Geroch (iii) ⇒ (i), unproved, OQ-57 (c)). Thm 4.64 uses 4.63 twice: Step 1 (`hlocal`, some common development exists) and Step 5 (inside the restart SliceRestart)."
 [[bind.geometric]]
 model = "quasilinear"
 proves = []
