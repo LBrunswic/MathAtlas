@@ -4,8 +4,10 @@
 # (layer 3). Format: tools/binder.py's docstring. Written by the programme-planner, 2026-11-20
 # (T-bind-ers-predictability); rebound 2026-11-21 (planning run after the waves of 2026-11-20 21:35,
 # 22:45, 23:50) to Causal.ErsUniqueness, Causal.CausalIsoInvariance, Causal.LadderLocal and the
-# ladder's pair-sort nodes; notes refreshed later that day after T-abs-hoist-time-function (7eff58c).
-# It records how the argument factors, not what Lean has closed.
+# ladder's pair-sort nodes; notes refreshed later that day after T-abs-hoist-time-function (7eff58c),
+# and again after T-abs-nested-converse (8044439) and T-abs-nested-transfer (f868749): Remark 4.74 bound
+# to CurveNestedOn.trans, notes of 3.29 and 4.72. It records how the argument factors, not what Lean
+# has closed.
 #
 # How the paper factors (SYNTHESIS Q3; KB note eperon2018predictability). A GHD u : U → ℝ of a
 # quasilinear equation on the FIXED background ℝ^{d+1} carries two causalities: C_g of g(u, du) and
@@ -51,6 +53,13 @@
 #   in Causal.LadderLocal) + GH + tarentin + causal arc-connectedness
 #   (GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint). Rows 4.70, 4.71, 4.77 depend on
 #   that ruling (T-lad-nested-inextensible, blocked on OQ-41).
+# * The two nestings meet in Lean since T-abs-nested-converse and T-abs-nested-transfer: curve nesting is
+#   ≤-nesting when the narrower causality is causally arc-connected (CurveNestedOn.leNested_of_causallyArcConnected;
+#   not without, the pointed line), curve nesting is transitive (CurveNestedOn.trans: Remark 4.74), and a
+#   ≤-nesting carries is_causal, strong causality (both forms) and a time function to the narrower
+#   causality, tarentin to the wider only (the spacelike line, the first GH model that is not tarentin).
+#   So where C_g is causally arc-connected, the ladder's [[transfer]] entries along le_nested apply to
+#   subluminality, which the quasilinear layer-3 targets can use.
 # * (4.83)'s topological content is Causal.Causality.OneSidedBoundary (Causal.LadderLocal), consumed by
 #   ers_theorem_4_82_of_oneSidedBoundary; its node waits on OQ-52 (b) (it involves no causality:
 #   T-lad-one-sided-node).
@@ -143,7 +152,7 @@ by = ["T-loc-born-infeld-causal"]
 label = "erslem:lemma_orientation"
 ett = ["Causal.Causality.isCausal_of_timeFunction", "Causal.IsCausalIso.isCausal_of_timeFunction", "Causal.Causality.isCausal_of_exists_timeFunction"]
 localisation = ["is_causal"]
-note = "Lemma 3.29 (ghd_02_19.tex:349). Time orientation of ∂_ρ, ∂_σ and 'stable causality' through the time functions x⁰ (subluminal) and ±(ρ + σ) (superluminal). ETT, reading of OQ-57 (d): a function strictly increasing along ≤ makes the causality causal (isCausal_of_timeFunction for x⁰ on (U, g); IsCausalIso.isCausal_of_timeFunction for ρ + σ on (V, m̂)); an ETT time function (defi:fonction_temps, non-decreasing) does not suffice (Causal.exists_isTimeFunction_not_isCausal, the doubled line). isCausal_of_exists_timeFunction takes the body of the ladder node time_function verbatim, and the ladder's edge time_function ⇒ is_causal now has the wrapper Causal.Causality.HasTimeFunction.isCausal (Causal.CurvesExtend, ETT layer, since T-abs-hoist-time-function); whether the row names time_function (and that wrapper) is OQ-57 (d), not taken here."
+note = "Lemma 3.29 (ghd_02_19.tex:349). Time orientation of ∂_ρ, ∂_σ and 'stable causality' through the time functions x⁰ (subluminal) and ±(ρ + σ) (superluminal). ETT, reading of OQ-57 (d): a function strictly increasing along ≤ makes the causality causal (isCausal_of_timeFunction for x⁰ on (U, g); IsCausalIso.isCausal_of_timeFunction for ρ + σ on (V, m̂)); an ETT time function (defi:fonction_temps, non-decreasing) does not suffice (Causal.exists_isTimeFunction_not_isCausal, the doubled line). isCausal_of_exists_timeFunction takes the body of the ladder node time_function verbatim, and the ladder's edge time_function ⇒ is_causal now has the wrapper Causal.Causality.HasTimeFunction.isCausal (Causal.CurvesExtend, ETT layer, since T-abs-hoist-time-function); whether the row names time_function (and that wrapper) is OQ-57 (d), not taken here. The subluminal half has a nesting form since T-abs-nested-transfer (f868749): Causal.Causality.LeNested.hasTimeFunction carries a time function of the wider causality (x⁰ for C_m) to the narrower C_g, which ERS state through the cone inclusion; it bears on the same OQ-57 (d) and is recorded here, not bound (rebound 2026-11-21)."
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["is_causal"]
@@ -299,7 +308,7 @@ by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-qua
 label = "erslem:two_ghds_subluminal_quasilinear"
 ett = ["Causal.Causality.ers_lemma_4_72", "Causal.Causality.ers_lemma_4_72_isConnected"]
 localisation = ["is_causal", "curves_extend", "curve_nested"]
-note = "Lemma 4.72 (ghd_02_19.tex:976), the ladder's consequence at curve_nested. A g(u₂)-causal curve is m-causal (subluminality: CurveNestedOn C₂ C_m on U₂), so it cannot leave the m-GH U₁ before meeting S. is_causal and curves_extend are Minkowski's (C_m, the wider causality). OQ-41 (c): S is taken m-acausal where ERS print m-achronal."
+note = "Lemma 4.72 (ghd_02_19.tex:976), the ladder's consequence at curve_nested. A g(u₂)-causal curve is m-causal (subluminality: CurveNestedOn C₂ C_m on U₂), so it cannot leave the m-GH U₁ before meeting S. is_causal and curves_extend are Minkowski's (C_m, the wider causality). OQ-41 (c): S is taken m-acausal where ERS print m-achronal. Since T-abs-nested-converse (8044439) the curve nesting is a ≤-nesting when the narrower causality is causally arc-connected (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected, leNested_iff_curveNestedOn_top), and then Causal.NestedTransfer (T-abs-nested-transfer, f868749) carries is_causal, strong causality (both forms) and a time function of C_m to C₂ (LeNested.isCausal, .stronglyCausal, .stronglyCausalOpen, .hasTimeFunction) but not tarentin (Causal.spacelikeLine_separates_tarentin); 4.72 itself consumes the curve nesting directly and needs none of these (rebound 2026-11-21, notes only)."
 [[bind.geometric]]
 model = "minkowski"
 proves = ["is_causal", "curves_extend"]
@@ -327,9 +336,9 @@ by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-qua
 
 [[bind]]
 label = "ersrem:us_remark_better_bounds"
-ett = ["Causal.Causality.ers_lemma_4_72", "Causal.Causality.LeNested.trans"]
+ett = ["Causal.Causality.ers_lemma_4_72", "Causal.Causality.CurveNestedOn.trans", "Causal.Causality.LeNested.trans_curveNestedOn", "Causal.Causality.LeNested.trans"]
 localisation = ["curve_nested"]
-note = "Remark 4.74 (ghd_02_19.tex:993). A better a-priori cone bound is a narrower wider causality C_g ≤ C_b ≤ C_m: 4.72 applied with C_b in place of C_m gives more UGHDs; ≤-nesting is transitive (LeNested.trans, the ladder's consequence at le_nested). The curve-nesting form of the transitivity is T-abs-nested-converse's CurveNestedOn.trans."
+note = "Remark 4.74 (ghd_02_19.tex:993). A better a-priori cone bound is a narrower wider causality C_g ≤ C_b ≤ C_m: 4.72 applied with C_b in place of C_m gives more UGHDs. Subluminality being a curve nesting, the transitivity the remark uses is Causal.Causality.CurveNestedOn.trans (Causal.NestedConverse, T-abs-nested-converse, 8044439; rebound 2026-11-21): C_g curve-nested in C_b and C_b in C_m give C_g in C_m, so the bound C_b keeps 4.72's conclusion for m; the mixed forms LeNested.trans_curveNestedOn, CurveNestedOn.trans_leNested, and ≤-nesting's LeNested.trans (the ladder's consequence at le_nested) serve when the bound C_b ⊆ C_m is a ≤-nesting of constant-coefficient cones."
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["curve_nested"]

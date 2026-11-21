@@ -4,8 +4,9 @@
 # per model class (layer 3). Format: tools/binder.py's docstring. Written by the programme-planner,
 # 2026-11-20 (T-bind-sbierski-mghd); rebound 2026-11-21 (planning run after the waves of 2026-11-20
 # 21:35, 22:45, 23:50) to the ladder nodes and the Lean that exist now, and again later that day after
-# T-abs-hoist-cbg-cores (e4df4d0) and T-abs-hoist-time-function (7eff58c). It records how Sbierski's
-# argument factors, not what Lean has closed: the ledger's curation stays the loop's.
+# T-abs-hoist-cbg-cores (e4df4d0) and T-abs-hoist-time-function (7eff58c), and once more after
+# T-abs-sbierski-prop-3-7 (48d1cf0: Prop 3.7 and Lemma 3.8's smooth-vacuum entry). It records how
+# Sbierski's argument factors, not what Lean has closed: the ledger's curation stays the loop's.
 #
 # How the paper factors. lean-causal's CBG (Causal.CBG.*, docs/CBG-DESIGN.md, DEC-29/DEC-60) follows
 # this paper's order over an abstract geometry `Causal.CBG.Geometry` whose interface fields ARE the
@@ -41,7 +42,8 @@
 #   (Lemma 3.9's core, Causal.CompactMinimal) and inextensible_ordConnectedComponent_of_le (Thm 3.4's
 #   "segment in U_α", Causal.CurveComponents; T-abs-hoist-model-free, 02b43b6); the IsCorrPair/KSide
 #   core of Prop 3.7 and Def 3.5's C, Lemma 3.9's core and Lemma 3.11 (Causal.CorrespondingPoints,
-#   Causal.CorrespondingSpacelike; T-abs-hoist-cbg-cores, e4df4d0); Lemma 3.3 (Causal.CBG.Injective),
+#   Causal.CorrespondingSpacelike; T-abs-hoist-cbg-cores, e4df4d0); Prop 3.7 itself, (i) ⇒ (ii) without
+#   A3 and the equivalence (Causal.SbierskiProp37; T-abs-sbierski-prop-3-7, 48d1cf0); Lemma 3.3 (Causal.CBG.Injective),
 #   Thm 3.4's isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn and Cor 3.2's
 #   c_ext_connexe_of_connectedSpace (Causal.CBG.CausalConvex), Causality.HasTimeFunction with the ladder
 #   edges HasTimeFunction.curvesExtend, .isCausal (Causal.CurvesExtend; T-abs-hoist-time-function,
@@ -59,10 +61,16 @@
 #   (Causal.Gluing.shearGluing_not_unique); openness of C in ∂U (Lemma 3.8) is derived from A3
 #   (Causal.CBG.CGHDData.isOpen_correspondingSet), though false for a bare gluing
 #   (Causal.Gluing.shearGluing_not_isOpen_in_frontier).
-# * Prop 3.7 (i) ⇒ (ii) by timelike curves and strong causality (Sbierski's route) is not in Lean: Lean
-#   derives it from A3 (CGHDData.tendsto_comp), while Sbierski proves A3 (Lemma 3.8) from Prop 3.7 (ii).
-#   A smooth-vacuum discharge of A3 by Sbierski's proof would be circular: T-abs-sbierski-prop-3-7,
-#   ready since T-abs-hoist-cbg-cores put IsCorrPair and KSide in the ETT layer.
+# * Prop 3.7 (i) ⇒ (ii) by timelike curves and strong causality (Sbierski's route) is in Lean since
+#   T-abs-sbierski-prop-3-7 (48d1cf0), model-free and WITHOUT A3: Causal.CBG.sbierski_prop_3_7_i_imp_ii
+#   (Causal.SbierskiProp37, ETT layer; kb/0071), with a ladder-only form (push-up, GH, tarentin, N
+#   causally arc-connected). Until then Lean derived it from A3 (CGHDData.tendsto_comp) while Sbierski
+#   proves A3 (Lemma 3.8) from (ii), so a smooth-vacuum A3 by Sbierski's proof would have been
+#   circular; it is not any more, and Lemma 3.8's smooth-vacuum entry cites the A3-free theorem. The
+#   equivalence (i) ⇔ (ii) ⇔ (iii) and the uniqueness (sbierski_prop_3_7, _unique) ask M causally
+#   arc-connected and p regular (not a BTZ point): (ii) ⇒ (iii) fails at a BTZ point
+#   (lightlikeLine_sbierski_prop_3_7_iii_fails). OQ-65 asks whether these belong to the setting; the
+#   label stays unmarked.
 # * Lemma 3.9 (CGHDData.exists_spacelike_corresponding, Causal/CBG/NoCorresponding.lean:228) uses no A3:
 #   CGHDData is only the GH setting of A3's hypotheses; the proof consumes A2 (closed J⁻ and the K⁻
 #   calculus through kSide_future, which uses curves_extend; SingularFlatAxioms.K_monotone) and
@@ -251,27 +259,27 @@ by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_germExtFuture", "Ca
 
 [[bind]]
 label = "mghdprop:EquivCha"
-ett = ["Causal.CBG.IsCorrPair.corresponding_K", "Causal.CBG.IsCorrPair.eq_of_corresponds", "Causal.CBG.corresponds_of_tendsto", "Causal.CBG.CGHDData.tendsto_comp", "T-abs-sbierski-prop-3-7"]
-localisation = ["push_up", "tarentin"]
-note = "Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581). (i) ⇔ the K⁻ bijection (corresponding_K, model-free, the KSide facts: push-up, closed J±, K⁻ calculus, compact J⁺(S) ∩ J⁻(x)); (iii) ⇒ (i) corresponds_of_tendsto; 'at most one corresponding point' eq_of_corresponds — CAUSAL, not topological (Causal.Gluing.shearGluing_not_unique refutes it for bare gluings, OQ-40). Strong causality, which Sbierski uses, follows from GH + tarentin (Causal.Causality.GloballyHyperbolic.stronglyCausal). (i) ⇒ (ii) is in Lean only through A3 (tendsto_comp, Causal.CBG.Corresponding); Sbierski's own route (timelike curves, open I, closed ≤) is T-abs-sbierski-prop-3-7, ready: corresponding_K, eq_of_corresponds, corresponds_of_tendsto and the IsCorrPair/KSide setting are ETT-layer in Causal.CorrespondingPoints since T-abs-hoist-cbg-cores (e4df4d0)."
+ett = ["Causal.CBG.sbierski_prop_3_7_i_imp_ii", "Causal.CBG.sbierski_prop_3_7_i_imp_ii_ladder", "Causal.CBG.sbierski_prop_3_7", "Causal.CBG.sbierski_prop_3_7_unique", "Causal.CBG.IsCorrPair.corresponding_K", "Causal.CBG.IsCorrPair.eq_of_corresponds", "Causal.CBG.corresponds_of_tendsto"]
+localisation = ["push_up", "tarentin", "causally_arc_connected"]
+note = "Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581), rebound 2026-11-21 after T-abs-sbierski-prop-3-7 (48d1cf0). (i) ⇒ (ii) is Causal.CBG.sbierski_prop_3_7_i_imp_ii (Causal.SbierskiProp37, ETT layer): Sbierski's route — the curve's points ≪ the corresponding point by push-up and closed J⁺, strong causality of the target, a causally convex V — for every timelike curve of U ending at p, future or past, from the KSide calculus, with NO A3 (kb/0071); its ladder-only form sbierski_prop_3_7_i_imp_ii_ladder asks push-up, GH and tarentin of both spacetimes and causal arc-connectedness of the target (Hausdorff). Strong causality, which Sbierski uses, follows from GH + tarentin (Causal.Causality.GloballyHyperbolic.stronglyCausal); GH and the KSide facts come from the CGHD setting (CGHDData.isCorrPair, kSide_future, kSide_past), not from a localisation. The equivalence (sbierski_prop_3_7, future and past sides) and 'at most one corresponding point' (sbierski_prop_3_7_unique) add (ii) ⇒ (iii), which needs a timelike curve of U ending at p: M causally arc-connected and p regular; it fails at a BTZ point (Causal.CBG.lightlikeLine_sbierski_prop_3_7_iii_fails), so the label stays unmarked (OQ-65 (a): is arc-connectedness, and regularity, part of the setting? (b): is IsCorrPair + KSide + convexity the paper's CGHD setting abstracted?). (i) ⇔ the K⁻ bijection is corresponding_K; (iii) ⇒ (i) corresponds_of_tendsto; uniqueness also eq_of_corresponds — CAUSAL, not topological (Causal.Gluing.shearGluing_not_unique refutes it for bare gluings, OQ-40). The A3 route of before, Causal.CBG.CGHDData.tendsto_comp (Causal.CBG.Corresponding, over the CBG geometry), is no longer this row's ETT theorem. causally_arc_connected enters with the ladder form and the equivalence; the smooth model has it, and Sing = ∅ there, so every point is regular."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["push_up", "tarentin"]
+proves = ["push_up", "tarentin", "causally_arc_connected"]
 by = ["T-loc-smooth-causal-ladder"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["push_up", "tarentin"]
+proves = ["push_up", "tarentin", "causally_arc_connected"]
 by = ["Causal.CBG.flat_singularFlatAxioms"]
 
 [[bind]]
 label = "mghdlem:ExtendIso"
 ett = ["Causal.CBG.CGHDData.isOpen_correspondingSet", "Causal.CBG.CGHDData.exists_isMor_eqOn_correspondingExt", "Causal.CBG.CGHDData.ext_continue"]
 localisation = ["germ_extension"]
-note = "Lemma 3.8 (Maximal_GHD2.tex:585, proof 590–611). The extension IS A3, the ladder node germ_extension (Causal.CBG.LocalModel.GermExtFuture/Past), an axiom of the geometry; 'C open in ∂U' is derived from it (isOpen_correspondingSet, the ladder's consequence at germ_extension) and false as topology (Causal.Gluing.shearGluing_not_isOpen_in_frontier, OQ-40). Sbierski's proof (exponential maps in convex neighbourhoods, after Prop 3.7 (ii)) is the smooth-vacuum proof of A3; flat-gx's is one group element on a connected chart. The set C and the extension ψ̂ are the model-free definitions Causal.CBG.correspondingSet and correspondingExt, still in Causal.CBG.Corresponding and NoCorresponding (T-abs-hoist-cbg-gluing moves them into the ETT layer)."
+note = "Lemma 3.8 (Maximal_GHD2.tex:585, proof 590–611). The extension IS A3, the ladder node germ_extension (Causal.CBG.LocalModel.GermExtFuture/Past), an axiom of the geometry; 'C open in ∂U' is derived from it (isOpen_correspondingSet, the ladder's consequence at germ_extension) and false as topology (Causal.Gluing.shearGluing_not_isOpen_in_frontier, OQ-40). Sbierski's proof (exponential maps in convex neighbourhoods, after Prop 3.7 (ii)) is the smooth-vacuum proof of A3; flat-gx's is one group element on a connected chart. Prop 3.7 (ii) is in Lean without A3 since T-abs-sbierski-prop-3-7 (48d1cf0), Causal.CBG.sbierski_prop_3_7_i_imp_ii, so the smooth-vacuum discharge along Sbierski's route is not circular (rebound 2026-11-21; it was, while Lean had (ii) only through A3). The set C and the extension ψ̂ are the model-free definitions Causal.CBG.correspondingSet and correspondingExt, still in Causal.CBG.Corresponding and NoCorresponding (T-abs-hoist-cbg-gluing moves them into the ETT layer)."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["germ_extension"]
-by = ["T-loc-vacuum-rigid-germ", "T-abs-sbierski-prop-3-7"]
+by = ["T-loc-vacuum-rigid-germ", "Causal.CBG.sbierski_prop_3_7_i_imp_ii"]
 [[bind.geometric]]
 model = "flat-gx"
 proves = ["germ_extension"]
