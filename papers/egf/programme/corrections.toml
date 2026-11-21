@@ -300,9 +300,10 @@ where = "Definition 3.2 and the sentence before Theorem B.1"
 printed = ["main.tex:249-252", "main.tex:774"]
 kind = "gap"
 finding = "Definition 3.2 asks a flow that is exactly flow matching, while Theorem B.1 gives only delta F_init(S) + delta F_term(S) < eps; so 'The following theorem implies Theorem 3.4' (l.774) does not hold with the definition as printed. What is proved is epsilon-universality."
-anchor = ["EGF.main_universality", "EGF.IsUniversalFamily"]
-basis = ["OQ-50"]
-status = "proved"
+anchor = ["EGF.IsUniversalFamilyEps", "EGF.universality", "EGF.main_universality"]
+refutation = ["EGF.exact_universality_fails"]
+basis = ["OQ-50", "DEC-141"]
+status = "adopted"
 corrected = '''A family is universal if for any two probability distributions $\mu,\nu\ll\lambda$ with bounded density and every $\varepsilon>0$ there is a flow in the family from $\Finit=\nu$ to $\Fterm=\mu$ with $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)<\varepsilon$.'''
 summary = "Universality (Definition 3.2) is epsilon-universality, which is what Theorem B.1 proves; the exact form does not follow."
 added_hypotheses = []
@@ -316,7 +317,7 @@ printed = "main.tex:250-251"
 kind = "missing-hypothesis"
 finding = "Read with unnormalized distributions (the paper's other use of the word, l.163, l.180), the definition is never satisfied on a finite non-zero lambda: flow matching forces F_init(S) = F_term(S). Probability measures, as Theorem B.1 says (l.775)."
 refutation = ["EGF.not_isUniversalFamilyUnnormalized"]
-anchor = ["EGF.IsUniversalFamily"]
+anchor = ["EGF.IsUniversalFamily", "EGF.IsUniversalFamilyEps"]
 basis = ["OQ-49", "DEC-141"]
 status = "adopted"
 corrected = '''for any two probability distributions $\mu,\nu\ll \lambda$ with bounded density'''
@@ -331,9 +332,11 @@ where = "Theorem 3.4"
 printed = "main.tex:277"
 kind = "gap"
 finding = "'the set of f_out* is dense in L2(S, lambda)' (l.277) cannot hold: outflows are non-negative, and the a.e.-non-negative functions form a closed cone which is not dense in L2(lambda) for lambda != 0 (the constant -1 is at distance lambda(S)^{1/2} from it), so the printed hypothesis is never satisfied and Theorem 3.4 as printed is vacuous; presumably dense in the non-negative cone. Theorem 3.4 itself is not yet derived from Theorem B.1 in Lean. Route to proved (T-egf-universality): EGF.universality (Theorem 3.4 with epsilon-universality, C-18, and outflows dense in the non-negative cone) and EGF.not_dense_L2_of_nonneg (the printed hypothesis is unsatisfiable). By C-29 'summably L2-mixing' can moreover be weakened to 'ergodic for a finite invariant measure equivalent to lambda'."
-basis = ["OQ-50"]
-status = "found"
-corrected = '''provided that it contains some summably $L^2$-mixing $\ForwardPolicyStar$ and that the set of $\foutstar$ is dense in the non-negative cone of $L^2(\Statespace,\lambda)$.'''
+anchor = ["EGF.universality", "EGF.not_dense_L2_of_nonneg"]
+refutation = ["EGF.not_dense_L2_of_nonneg", "EGF.Coin.allOutflows_reading_fails"]
+basis = ["OQ-50", "DEC-141"]
+status = "adopted"
+corrected = '''provided that it contains some summably $L^2$-mixing $\ForwardPolicyStar$ and that the set of $\foutstar$ such that $(\ForwardPolicyStar,\foutstar)$ is in the family is dense in the non-negative cone of $L^2(\Statespace,\lambda)$.'''
 summary = "Theorem 3.4 asks the outflows dense in the non-negative cone of L2 (non-negative functions are not dense in L2)."
 added_hypotheses = []
 batch = "T-egf-correct-universality"

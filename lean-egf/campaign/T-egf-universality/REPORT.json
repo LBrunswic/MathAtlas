@@ -1,0 +1,190 @@
+{
+  "package": "T-egf-universality",
+  "target": "T-egf-universality",
+  "files": [
+    "scaffold/EGFScaffold/UniversalFamily.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:universal_family",
+      "tex_lines": [249, 252],
+      "status": "partial",
+      "marked": false,
+      "proposed_anchor": "EGF.IsUniversalFamilyEps",
+      "decls": [
+        "EGF.IsUniversalFamilyEps",
+        "EGF.IsUniversalFamily.isUniversalFamilyEps",
+        "EGF.GenerativeFlow.IsFlowMatching.errors_eq_zero",
+        "EGF.exact_universality_fails",
+        "EGF.UniversalityExactCone",
+        "EGF.not_universalityExactCone",
+        "EGF.Coin.lam",
+        "EGF.Coin.pol",
+        "EGF.Coin.D",
+        "EGF.Coin.flow",
+        "EGF.Coin.family",
+        "EGF.Coin.mem_family",
+        "EGF.Coin.isDenseNonnegConeL2_D",
+        "EGF.Coin.nuIrr",
+        "EGF.Coin.not_isUniversalFamily",
+        "EGF.Coin.isUniversalFamilyEps_family",
+        "EGF.Coin.isEGFPolicy_pol",
+        "EGF.Coin.isTopologicallyErgodic_moves",
+        "EGF.Coin.isEGF_flow",
+        "EGF.Coin.isEGF_of_mem_family"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a family of generative flows on a state space (S, lambda)",
+          "here": "carried",
+          "note": "𝓕 : Set (GenerativeFlow S), lam any measure (no finiteness needed by the definition)"
+        },
+        {
+          "paper": "any two distributions mu, nu << lambda (main.tex:250-251)",
+          "here": "carried",
+          "note": "probability measures (C-19, adopted; DEC-141 rules OQ-49), as in the exact EGF.IsUniversalFamily"
+        },
+        {
+          "paper": "with bounded density",
+          "here": "carried",
+          "note": "∃ C : ℝ≥0, dμ/dλ ≤ C λ-a.e., verbatim from EGF.IsUniversalFamily"
+        },
+        {
+          "paper": "a flow in the family that is flow matching for F_init = nu and F_term = mu",
+          "here": "weakened",
+          "note": "the corrected form of record (C-18, DEC-141 rules OQ-50): for every ε > 0 a flow with δF_init(S) + δF_term(S) < ε. The exact form implies it (IsUniversalFamily.isUniversalFamilyEps), and is strictly stronger (exact_universality_fails)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "main.tex:774 ('The following theorem implies Theorem 3.4') fails for the exact Definition 3.2 (main.tex:249-252), even with the corrected hypotheses of Theorem 3.4 and for a family of EGFs: EGF.exact_universality_fails. On Bool with the uniform lambda, the resampling kernel pi(s) = lambda is summably L2-mixing (EGF.isSummablyL2Mixing_const) and is the EGF policy 1/2 delta_s + 1/2 delta_{not s} with the topologically ergodic moves id, not (EGF.Coin.isEGF_flow). The family {(pi, f lambda) : f >= 0 with rational values} has outflows dense in the non-negative cone of L2(lambda) and is epsilon-universal (EGF.Coin.isUniversalFamilyEps_family), but no member is flow matching from nu (nu{true} = sqrt(2)/2) to lambda: exact flow matching forces f(true) - f(false) = 2 sqrt(2) - 2, irrational (EGF.Coin.not_isUniversalFamily). This proves C-18's 'the exact form does not follow'.",
+        "The ε-form is what Theorem B.1 (main.tex:775) gives: IsUniversalFamilyEps is stated with the same probability measures and bounded densities as the exact definition; the bounded densities are not used by any proof here (EGF.IsUniversalPolicy needs none)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "theo:universality",
+      "tex_lines": [277, 278],
+      "status": "partial",
+      "marked": false,
+      "proposed_anchor": "EGF.universality",
+      "decls": [
+        "EGF.universality",
+        "EGF.universality_of_isDenseL2",
+        "EGF.IsUniversalPolicy",
+        "EGF.isUniversalPolicy_of_isSummablyL2Mixing",
+        "EGF.isUniversalPolicy_const",
+        "EGF.isUniversalFamilyEps_of_policy",
+        "EGF.isUniversalFamilyEps_of_policy_of_isDenseNonnegConeL2",
+        "EGF.IsL1DenseBoundedNonneg",
+        "EGF.IsDenseNonnegConeL2",
+        "EGF.IsDenseL2",
+        "EGF.IsDenseL2.isDenseNonnegConeL2",
+        "EGF.IsDenseNonnegConeL2.isL1DenseBoundedNonneg",
+        "EGF.fixedPolicyFamily",
+        "EGF.isUniversalFamilyEps_fixedPolicyFamily",
+        "EGF.le_eLpNorm_sub_neg_one",
+        "EGF.not_dense_L2_of_nonneg",
+        "EGF.UniversalityPrinted",
+        "EGF.universalityPrinted",
+        "EGF.tvMass_le_errors_of_inflow_eq",
+        "EGF.Coin.flowId",
+        "EGF.Coin.flowLam",
+        "EGF.Coin.familyAll",
+        "EGF.Coin.isEGF_of_mem_familyAll",
+        "EGF.Coin.inflow_eq_outflow_of_mem_familyAll",
+        "EGF.Coin.atTrue",
+        "EGF.Coin.atFalse",
+        "EGF.Coin.one_le_tvMass",
+        "EGF.Coin.allOutflows_reading_fails"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a parameterized family of EGF",
+          "here": "weakened",
+          "note": "any 𝓕 : Set (GenerativeFlow S) (Lean ≥ paper); the EGF structure plays no role in the proof"
+        },
+        {
+          "paper": "it contains some summably L2-mixing pi*",
+          "here": "carried",
+          "note": "hmix : IsSummablyL2Mixing π lam (def:summably_mixing, EGF/Defs.lean), with (π, f⁺ λ) ∈ 𝓕 for f ∈ D; π is Markov because it is the policy of a member (not a separate hypothesis)"
+        },
+        {
+          "paper": "'the set of f_out*' (main.tex:277)",
+          "here": "carried",
+          "note": "a reading (question below): a set D of functions with ∀ f ∈ D, ∃ F ∈ 𝓕, F.policy = π ∧ F.outflow = lam.withDensity (ofReal ∘ f), i.e. the outflows paired with the mixing π* (product parameterizations included)"
+        },
+        {
+          "paper": "the set of f_out* is dense in L2(S, lambda)",
+          "here": "weakened",
+          "note": "dense in the non-negative cone of L2(λ) (C-20, DEC-141's reading): IsDenseNonnegConeL2, implied by IsDenseL2 (IsDenseL2.isDenseNonnegConeL2; universality_of_isDenseL2). As printed, with f_out* >= 0, the hypothesis is never satisfied on a finite lambda != 0 (not_dense_L2_of_nonneg). Approximants are asked a.e.-strongly measurable, as elements of L2 are"
+        },
+        {
+          "paper": "f_out* is the density of a (non-negative) outflow",
+          "here": "weakened",
+          "note": "D may contain signed functions; the outflow is f⁺ λ = (ofReal ∘ f) λ"
+        },
+        {
+          "paper": "lambda finite; S Polish (main.tex:155, :161)",
+          "here": "weakened",
+          "note": "[IsFiniteMeasure lam] carried in EGF.universality (needed for L2 ⇒ L1 and by EGF.main_universality); no Polish structure; the family lemma EGF.isUniversalFamilyEps_of_policy needs no finiteness of lambda"
+        },
+        {
+          "paper": "conclusion: the family is universal (Definition 3.2, exact flow matching)",
+          "here": "weakened",
+          "note": "conclusion IsUniversalFamilyEps (C-18, the corrected form of record under DEC-141). The exact conclusion is false under these hypotheses (EGF.exact_universality_fails, EGF.not_universalityExactCone): this is why the row is partial, a corrected form"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "main.tex:277: 'the set of f_out* is dense in L2(S, lambda)' is never satisfied: outflow densities are non-negative, and on a finite lambda != 0 the constant -1 is at L2 distance at least lambda(S)^{1/2} from every a.e.-non-negative function (EGF.le_eLpNorm_sub_neg_one, EGF.not_dense_L2_of_nonneg; no measurability needed). Theorem 3.4 as printed is therefore vacuous: its Prop EGF.UniversalityPrinted is proved, and only vacuously (EGF.universalityPrinted). With 'dense in the non-negative cone' (C-20) and ε-universality (C-18), it holds for any family of generative flows (EGF.universality).",
+        "main.tex:774: no proof of Theorem 3.4 is printed beyond 'The following theorem implies Theorem 3.4'. The derivation from Theorem B.1 needs two facts the paper does not state: the defect δF_init(S) + δF_term(S) is 2-Lipschitz in the outflow for the total variation (EGF.tvMass_bind_le, EGF.tvMass_triangle), and the bounded outflows of EGF.main_universality (the printed Theorem B.1 gives outflows in L2(lambda)) are L1-limits of the family's outflows, which L2 density in the non-negative cone gives on a finite lambda. Formalized as EGF.isUniversalFamilyEps_of_policy and EGF.IsDenseNonnegConeL2.isL1DenseBoundedNonneg. Even so, 'implies' holds only for the ε-form of Definition 3.2 (EGF.exact_universality_fails).",
+        "main.tex:277: 'the set of f_out*' must be read as the outflows paired with the mixing pi*. Read as all outflows of the family, whatever their policy, the statement is false even in its corrected form and for a family of EGFs (EGF.Coin.allOutflows_reading_fails): on Bool, {(pi, lambda)} ∪ {(id, f lambda) : f in D} contains the summably mixing pi, its outflows are dense in the non-negative cone of L2, and it is not ε-universal, since every member has F_out pi = F_out, so its defect from delta_true to delta_false is at least TV(delta_true, delta_false) >= 1 (EGF.tvMass_le_errors_of_inflow_eq). The identity policy is an EGF (moves id, not; alpha = (1, 0)): def:egf (main.tex:216-222) constrains the moves, not alpha.",
+        "Theorem 3.4 is stated for EGFs, but nothing in it or in Theorem B.1 uses the EGF structure: EGF.universality holds for any family of generative flows."
+      ],
+      "questions": [
+        "'the set of f_out*' (main.tex:277): reading taken, the outflows f with (pi*, f lambda) in the family, i.e. paired with the summably mixing pi* (this includes product parameterizations, where every f_out is paired with every alpha). The other reading, all outflows of the family whatever their policy, makes even the corrected theorem false (EGF.Coin.allOutflows_reading_fails). Confirm the paired reading?",
+        "'dense in L2(S, lambda)' (main.tex:277) read, per DEC-141, as dense in the non-negative cone. If f_out* is a signed scalar head (main.tex:288: 'a scalar head f_out*') and the outflow its positive part, the printed hypothesis is satisfiable and EGF.universality_of_isDenseL2 covers it. Which is meant is the author's call; both readings are covered by EGF.universality."
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C-20",
+      "anchor": ["EGF.universality", "EGF.not_dense_L2_of_nonneg"],
+      "refutation": ["EGF.not_dense_L2_of_nonneg", "EGF.universalityPrinted"],
+      "notes": "Proved. EGF.universality is Theorem 3.4 with 'dense in the non-negative cone of L2(lambda)' (EGF.IsDenseNonnegConeL2) and ε-universality (C-18), for any family of generative flows containing (π, f⁺λ), f ∈ D, π summably L2-mixing, on a finite lambda; no added hypothesis beyond the paper's standing finiteness of lambda. EGF.not_dense_L2_of_nonneg: the printed hypothesis is unsatisfiable on a finite lambda != 0; the printed theorem is kept as the Prop EGF.UniversalityPrinted (exact conclusion, dense in L2, f >= 0 a.e.), proved true only vacuously (EGF.universalityPrinted). The 'corrected' text of the register matches the Lean (cone; summably L2-mixing pi*). C-29's weakening of the mixing hypothesis plugs in through EGF.IsUniversalPolicy and EGF.isUniversalFamilyEps_of_policy_of_isDenseNonnegConeL2 (T-egf-universality-ergodic)."
+    },
+    {
+      "id": "C-18",
+      "anchor": ["EGF.IsUniversalFamilyEps", "EGF.universality", "EGF.main_universality"],
+      "refutation": ["EGF.exact_universality_fails", "EGF.not_universalityExactCone"],
+      "notes": "The ε-definition the entry waited for now exists: EGF.IsUniversalFamilyEps (probability measures, bounded densities, δF_init(S) + δF_term(S) < ε), with EGF.IsUniversalFamily.isUniversalFamilyEps (exact ⇒ ε). The gap 'the exact form does not follow' (main.tex:774) is now proved: EGF.exact_universality_fails exhibits, on Bool, a family of EGFs satisfying the corrected hypotheses of Theorem 3.4 that is ε-universal and not universal in the exact sense; EGF.not_universalityExactCone refutes the Prop 'cone hypothesis ⇒ exact universality'. Suggest replacing the anchor EGF.IsUniversalFamily by EGF.IsUniversalFamilyEps."
+    },
+    {
+      "id": "C-19",
+      "anchor": ["EGF.IsUniversalFamilyEps"],
+      "notes": "Already adopted. The ε-definition keeps the probability measures of C-19 (the unnormalized reading stays refuted by EGF.not_isUniversalFamilyUnnormalized); EGF.IsUniversalFamilyEps can join EGF.IsUniversalFamily as its anchor."
+    }
+  ],
+  "extra_decls": [
+    "EGF.IsUniversalPolicy",
+    "EGF.isUniversalPolicy_of_isSummablyL2Mixing",
+    "EGF.isUniversalPolicy_const",
+    "EGF.isUniversalFamilyEps_of_policy",
+    "EGF.isUniversalFamilyEps_of_policy_of_isDenseNonnegConeL2",
+    "EGF.IsDenseNonnegConeL2.isL1DenseBoundedNonneg",
+    "EGF.GenerativeFlow.IsFlowMatching.errors_eq_zero",
+    "EGF.tvMass_le_errors_of_inflow_eq",
+    "EGF.fixedPolicyFamily",
+    "EGF.isUniversalFamilyEps_fixedPolicyFamily"
+  ],
+  "kb_proposals": [
+    "Universality plug-in: prove EGF.IsUniversalPolicy lam π (the conclusion of EGF.main_universality for one policy, no mixing inside), then EGF.isUniversalFamilyEps_of_policy_of_isDenseNonnegConeL2 (finite λ, D dense in the non-negative cone of L²) or EGF.isUniversalFamilyEps_of_policy (L¹ density on bounded g ≥ 0, any λ) gives EGF.IsUniversalFamilyEps; a family is described by hD : ∀ f ∈ D, ∃ F ∈ 𝓕, F.policy = π ∧ F.outflow = lam.withDensity (ofReal ∘ f).",
+    "Cheap finite counterexamples on Bool: EGF.Coin.lam = (2⁻¹ : ℝ≥0∞) • (dirac true + dirac false), with lam_singleton, lam_withDensity_singleton and lam_withDensity_univ (lintegral_fintype, Fintype.sum_bool); the resampling kernel Kernel.const Bool lam is the EGF policy of the moves id, not with α = 1/2 (EGF.Coin.isEGFPolicy_pol), and Kernel.id is an EGF policy with α = (1, 0). To refute an identity between finite ENNReal expressions, congrArg ENNReal.toReal, then simp only with toReal_add/toReal_mul/toReal_ofReal and the ne_top side goals (ENNReal.mul_eq_top, ENNReal.inv_eq_top, ...), then linarith.",
+    "Pitfall: withDensity_congr_ae (h.mono fun s hs => by rw [hs]) fails, the goal being a beta-redex (fun s => …) s = (fun s => …) s: use simp only [hs]. The anonymous constructor ⟨π, _, inferInstance, inferInstance⟩ for a GenerativeFlow with an inferred outflow loses the IsFiniteMeasure instance (the measure is unfolded): give the outflow explicitly in a let."
+  ],
+  "notes": "No sorry; #print axioms of EGF.universality, EGF.isUniversalFamilyEps_of_policy, EGF.not_dense_L2_of_nonneg, EGF.universalityPrinted, EGF.exact_universality_fails, EGF.not_universalityExactCone, EGF.Coin.isEGF_flow, EGF.IsUniversalFamily.isUniversalFamilyEps, EGF.isUniversalPolicy_of_isSummablyL2Mixing, EGF.isUniversalFamilyEps_fixedPolicyFamily: [propext, Classical.choice, Quot.sound]. Built once: lake build EGFScaffold.UniversalFamily (only this module was compiled; EGF.Universality was up to date). The file carries no ** mark (both labels are corrected forms; DEC-141, marked by the master at graduation); proposed anchors: def:universal_family -> EGF.IsUniversalFamilyEps; theo:universality -> EGF.universality (with EGF.not_dense_L2_of_nonneg as the refutation of the printed hypothesis and EGF.universalityPrinted beside it). Imports: EGF.Universality and Mathlib.NumberTheory.Real.Irrational (irrational_sqrt_two), Mathlib only. Not imported by scaffold/EGFScaffold.lean (not mine to edit): the axiom sweep cannot see this module until the master imports it there or graduates it (lean-causal kb/0025). The namespace EGF.Coin is new and local to this file. The curation's blocked_on of def:universal_family names this target and can be lifted. In the docstring, SCOPE starts at character 3896 and the Provenance line at 4984 (kb/0015: within 8000); both labels within the first 500 characters. fixedPolicyFamily is adapted, not copied, from GFNBounds.Core.Family.fixedPolicyFamily (lean/GFNBounds/Core/FamilyUniversality.lean:515), because GFNBounds families are sets of (kernel, density) pairs and EGF's are bundled GenerativeFlow; the provenance is in its docstring."
+}

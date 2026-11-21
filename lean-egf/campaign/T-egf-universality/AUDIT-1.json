@@ -1,0 +1,60 @@
+{
+  "target": "T-egf-universality",
+  "auditor_round": 1,
+  "file": "scaffold/EGFScaffold/UniversalFamily.lean",
+  "verdict": "minor",
+  "summary": "Read the file (688 lines), REPORT.json, main.tex:249-252, :277-278, :155-163, :216-222, :316, :774-800, corrections C-18/C-19/C-20/C-29, the roadmap block, ledger and curation rows, and the strict definitions it builds on (EGF/Defs.lean: GenerativeFlow, inflow, initialError/terminalError, IsUniversalFamily, IsEGFPolicy, IsEGF, IsTopologicallyErgodic, IsSummablyL2Mixing; EGF/Universality.lean: tvMass, errors_eq_tvMass, the TV lemmas, main_universality, isSummablyL2Mixing_const). Rechecked with `taskset -c 0-11 lake env lean` (no error, no warning; a sanity copy with an injected false lemma failed as expected, so the file is really elaborated). 0 sorry. #print axioms on all 50 declarations the REPORT names (labels' decls, extra_decls, correction anchors and refutations, plus EGF.not_isUniversalFamilyUnnormalized): every one [propext, Classical.choice, Quot.sound]; every named declaration exists. Probes written under campaign/T-egf-universality/ and deleted. No `**` mark on a label (the ledger regex needs `prefix:name`; the bold `universality`, `not_dense_L2_of_nonneg`, `exact_universality_fails` in the table are declaration names and do not match). Labels at characters 156 and 434, SCOPE at 3896, Provenance at 4984 (kb 0006, kb 0015). Only GFNBounds content: fixedPolicyFamily, adapted with a provenance line (FamilyUniversality.lean:515 checked); imports are EGF.Universality and Mathlib only. IsUniversalFamilyEps is not a copy of GFNBounds' WeaklyUniversal (that one is an infimum of residuals), so it needs no provenance. Scope: git status shows only this closer's two untracked paths in lean-egf plus the in-flight work of other loops listed in the dispatch; the diff of papers/egf/programme/roadmap.toml is the master's ready->active status flips; lean-egf/build.log (ignored) dates from 10:23, before this file (11:24).",
+  "labels": [
+    {
+      "label": "def:universal_family",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "EGF.IsUniversalFamilyEps (line 84) is C-18's corrected text word for word: probability measures μ, ν ≪ λ (C-19, OQ-49); bounded densities ∃ C : ℝ≥0, dμ/dλ ≤ C λ-a.e., as in the strict EGF.IsUniversalFamily; ∀ ε > 0 ∃ F ∈ 𝓕 with initialError F.policy F.outflow ν μ univ + terminalError … < ε. The argument order of initialError is (π, Fout, Finit, Fterm), so F_init = ν and F_term = μ, which is main.tex:251 and the exact form's F.IsFlowMatching ν μ. δF_init = (F_term + F_out) − (F_init + F_in) and δF_term = the reverse are the negative and positive parts of main.tex:316. ε ranges over ℝ≥0∞ with 0 < ε, which is equivalent to real ε > 0. The definition is not trivial: Coin.familyAll is not ε-universal, while fixedPolicyFamily and Coin.family are. IsUniversalFamily.isUniversalFamilyEps (exact ⇒ ε) is correct, and exact_universality_fails shows the converse fails. Unmarked, status partial (a corrected form), as the dispatch asked."
+    },
+    {
+      "label": "theo:universality",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "EGF.universality (line 287) is Lean ≥ the corrected statement (C-20 cone with C-18's ε conclusion) under the paired reading. Hypotheses: [IsFiniteMeasure lam], the paper's standing finite background measure (main.tex:155, :161); any Set (GenerativeFlow S), with no EGF structure; hmix : IsSummablyL2Mixing π lam (the strict marked definition); hD : ∀ f ∈ D, ∃ F ∈ 𝓕, F.policy = π ∧ F.outflow = (ofReal ∘ f) λ, which is the paired reading stated as such. D may contain signed functions and need not lie in the cone. hdense : IsDenseNonnegConeL2 asks every g ≥ 0 in L²(λ) to be an L²-limit of a.e.-strongly measurable elements of D, i.e. the cone ⊆ closure D. The measurability of the approximants is disclosed; f_out* are densities, so it holds. Since D is existential, the hypothesis is equivalent to 'the set of f with (π, f⁺λ) ∈ 𝓕 is dense in the cone'. Markov-ness of π comes from a member (D is non-empty by density at g = 0), so there is no hidden hypothesis. The conclusion IsUniversalFamilyEps is the ε form ruled by DEC-141 (OQ-50); this is disclosed and the row is partial. The reading is raised as a question, and the closer proved the alternative 'all outflows' reading false (checked below). UniversalityPrinted (line 365) is a faithful Prop of the printed theorem in the paired reading (f ≥ 0 a.e., dense in L², exact conclusion). It is proved only vacuously: λ = 0 admits no probability μ ≪ λ, and λ ≠ 0 contradicts not_dense_L2_of_nonneg. universality_of_isDenseL2 covers the signed-scalar-head reading. Unmarked, status partial."
+    }
+  ],
+  "checked_findings": [
+    "not_dense_L2_of_nonneg (line 354): true. For f ≥ 0 a.e., |f − (−1)| = f + 1 ≥ 1, so ‖f + 1‖₂ ≥ ‖1‖₂ = λ(S)^{1/2} > 0 on a finite λ ≠ 0, and −1 ∈ L² because λ is finite. With f_out* = dF*_out/dλ ≥ 0 (F*_out is a non-negative measure, main.tex:161), the printed hypothesis of main.tex:277 is never satisfied, so the printed theorem is vacuous. The REPORT discloses the signed-head alternative as a question.",
+    "exact_universality_fails (line 670): true; it is a counterexample satisfying its own hypotheses. λ is the uniform probability on Bool and π = Kernel.const λ, summably L²-mixing with λ̂ = λ (γ_n = 0 for n ≥ 1). π is the EGF policy ½δ_s + ½δ_{¬s} of the moves (id, not), which are topologically ergodic on the discrete Bool by forward words, the strict reading, stronger than the group reading. D is the set of f ≥ 0 with rational values. It is dense in the cone: rational values within r above g give an L² error ≤ r. The family is ε-universal by EGF.universality. Hand check of exact matching from ν (ν{true} = √2/2, density ≤ 2) to μ = λ: F_in = F_out(S)·λ, so at {true}, √2/2 + (f(t) + f(f))/4 = 1/2 + f(t)/2, i.e. f(t) − f(f) = 2√2 − 2, which is irrational. The finding goes to the author, so I checked that it survives λ = the counting (volume) measure of the 0-manifold Bool; see finding 3.",
+    "Coin.allOutflows_reading_fails (line 647): true. Kernel.id with α = (1, 0) satisfies EGF.IsEGFPolicy (weights in [0,1], summing to 1, π(s) = 1·δ_s + 0·δ_{¬s}), and def:egf (main.tex:216-222) asks of α only that it be a policy S → [0,1]^p. The moves are the same (id, not) for every member, so familyAll is an EGF family with fixed moves, parameterized by α ∈ {(½,½), (1,0)} and the outflow. Every member has F_out π = F_out: the const kernel on a probability λ gives λ(S)·λ = λ, and the identity gives F. So the defect equals tvMass(F_init, F_term) = 2 for δ_true → δ_false, which is not < 1. It contains the summably mixing π, and its full set of outflow densities is dense in the cone. The 'all outflows' reading of main.tex:277 is therefore false even corrected, and the paired reading is necessary.",
+    "IsUniversalPolicy (line 113) is verbatim the conclusion of EGF.main_universality (Universality.lean:950): any probabilities F_init, F_term ≪ λ (no bounded density asked: a stronger property, matching C-29's corrected B.1); f_out ≥ 0 everywhere, bounded, MemLp 2. isUniversalFamilyEps_of_policy (line 182) has exactly the hypotheses its docstring names (hπ, the paired hD, L¹ density on bounded measurable g ≥ 0), no finiteness of λ, and nothing hidden; Markov-ness and finiteness of the truncated outflow are derived. _of_isDenseNonnegConeL2 adds only [IsFiniteMeasure lam], which its docstring states. The later targets (T-egf-universality-ergodic, families) can plug in as the kb proposal says."
+  ],
+  "build": {
+    "ok": true,
+    "command": "taskset -c 0-11 lake env lean scaffold/EGFScaffold/UniversalFamily.lean (from lean-egf/)",
+    "sorry": 0,
+    "axioms": "standard",
+    "axioms_checked": 50
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/EGFScaffold/UniversalFamily.lean:646 (docstring of Coin.allOutflows_reading_fails)",
+      "what": "The docstring says the defect from δ_true to δ_false 'is at least `2`'. The proof shows only ≥ 1 (Coin.one_le_tvMass with ε = 1), and the REPORT says ≥ 1. The value 2 is true (the defect equals tvMass(δ_true, δ_false) = 2) but is not what the Lean proves.",
+      "fix": "Write 'at least 1 (in fact 2)', or prove 2 ≤ tvMass atTrue atFalse."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json corrections[C-20].notes; papers/egf/programme/corrections.toml C-20 'corrected'",
+      "what": "The REPORT says 'The corrected text of the register matches the Lean'. The register's corrected text ('the set of f_out* is dense in the non-negative cone') does not settle the pairing with π*, and the closer's own Coin.allOutflows_reading_fails proves the unpaired reading false. Adopted as written, C-20 would put an ambiguous sentence into the arXiv v2, and one of its two readings is refuted.",
+      "fix": "At adoption (pending the author's answer to the REPORT's question), write 'the set of f_out* such that (π*, f_out*) is in the family is dense in the non-negative cone of L²(S, λ)', and record Coin.allOutflows_reading_fails beside C-20 as the refutation of the other reading."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/EGFScaffold/UniversalFamily.lean:396 (Coin.lam); REPORT findings on exact_universality_fails and allOutflows_reading_fails",
+      "what": "Both counterexamples are stated 'for a family of EGFs' with λ the uniform probability on Bool. def:egf (main.tex:216) takes λ to be the volume measure, which on the 0-manifold Bool is the counting measure, i.e. 2λ. The strict EGF.IsEGF does not tie λ to a volume, so the Lean claims are correct as stated. The author-facing claims also hold for the paper's λ, but the Lean witness does not show it. Checked by hand: (π, fλ) = (π, (f/2)·count) and ℚ/2 = ℚ, so the family is the same set of flows. Kernel.const of the uniform probability is summably L²-mixing for λ = count with λ̂ = uniform (γ_0 = ½, γ_n = 0). Rational density in the cone holds for count. Exact and ε universality are invariant under scaling λ.",
+      "fix": "Add one sentence to the two findings and to SCOPE: 'the same family is a counterexample with λ the counting (volume) measure of the 0-manifold Bool'. Optionally add a Measure.count witness."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[theo:universality].findings[1]",
+      "what": "'the bounded outflows of Theorem B.1 are L1-limits of the family's outflows': the printed Theorem B.1 (main.tex:775) gives f_out* ∈ L²(λ), not bounded. Boundedness is EGF.main_universality's strengthening. With the printed B.1, cone density in L² approximates f_out* directly (hence in L¹ on a finite λ), so boundedness is needed only for the L¹ form isUniversalFamilyEps_of_policy. The wording would attribute to the paper something it does not print.",
+      "fix": "Write 'the outflows given by Theorem B.1 (in L²(λ) as printed; bounded in EGF.main_universality) are L¹-limits of the family's outflows, which L² density in the non-negative cone gives on a finite λ'."
+    }
+  ]
+}

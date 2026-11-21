@@ -14,8 +14,8 @@ import Mathlib.Topology.Homeomorph.Defs
 `def:egf` — `main.tex:216` (not marked: the "group" of the sentence and the words of its "that is"
 clause differ, a question for the author; see SCOPE)
 
-`def:universal_family` — `main.tex:249` (not marked: "distributions" read as probability measures;
-see SCOPE)
+`def:universal_family` — `main.tex:249` (the printed exact form, unmarked here; the label is marked
+in its corrected ε-form of record in `EGF/UniversalFamily.lean`, DEC-141; see SCOPE)
 
 The generative-flow vocabulary of the preliminaries (`main.tex:158`, `:161`, `:183`, `:196`, `:316`)
 is defined here too, since every later EGF module reads it.
@@ -101,7 +101,7 @@ generalization from a Riemannian manifold to a topological measurable space and 
 diffeomorphisms to homeomorphisms is Lean ≥ paper (every diffeomorphism is a homeomorphism,
 `Diffeomorph.toHomeomorph`, and the Borel σ-algebra makes it measurable).
 
-**`def:universal_family` is not marked.** "Distributions" is read as *probability* measures. As
+**The exact form of `def:universal_family` is not marked here.** "Distributions" is read as *probability* measures. As
 unnormalized measures the definition is never satisfied on a finite non-zero `λ`
 (`not_isUniversalFamilyUnnormalized`), so that reading is excluded; equal-mass finite measures
 would be a third reading, different for a family not closed under scaling the outflow.
