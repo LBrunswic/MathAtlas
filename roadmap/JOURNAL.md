@@ -265,3 +265,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 1ac093f (+ this)
 - wall time: 08:50–08:51 (Paris); agents: none (master)
 - next: plan (rule 2: no ready closer)
+
+## 2026-11-21 09:09 · plan · —
+- why: rule 2 (the wave was empty after T-ledger-stale-blockers)
+- result: 102 -> 106 targets (6 ready, 9 planned, 11 needs-ruling, 5 blocked): promoted T-bz-c2-theoreme-affine (the affine 2°–4°; at graduation its row's blocked_on goes to OQ-75 alone); added T-bz-result-b-proj (result B without the affine half of sentence 1, Applications/TheoremB.lean, unmarked), T-bz-c2-premier-full-proj (the projective full form of 1°c for n ≤ 1, star-shaped φ̃(V) ∩ H̊ and shells: narrows OQ-71), T-bz-c2-dedupe-demidroite (master, exclusive: one copy of the demi-droite witness), T-bz-chapter3 (needs-ruling: transcribe Benzécri Ch. 3 next?); T-bz-result-b re-scoped (the affine half and the mark; may need only OQ-45 (a), to be checked); T-ett-singular-instance stays planned (hreg assumed; the existence half needs OQ-64's (b′); a split to coordinate with /ett-programme)
+- outside lean-benzecri nothing is closable without a ruling (Syracuse § 1–3 on OQ-42/43/54/63/68/72/76 and T-syr-cited; EGF on OQ-48/49/50/55/66 and T-egf-families; Yamabe on T-yamabe-scope, OQ-44; gx's C rows on DEC-27; bbs on BBS-Q1)
+- rulings that would unblock the most (planner): BBS-Q1 (63 rows), OQ-42 (7), OQ-45 (a) (4, no Lean change), T-yamabe-scope with OQ-44 (7), OQ-63 (11 named, 2 alone), OQ-71 (component form marks bzthm:c2s3t1 with no Lean change), OQ-75, OQ-76, OQ-64; new question: T-bz-chapter3
+- gates: roadmap ✓, atlas ✓
+- wall time: 08:53–09:09 (Paris); agents: 1 (planner, alone)
+- next: wave of 3 in lean-benzecri: T-bz-c2-theoreme-affine, T-bz-result-b-proj, T-bz-c2-premier-full-proj
