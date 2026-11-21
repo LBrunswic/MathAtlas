@@ -1,0 +1,143 @@
+{
+  "package": "T-bz-c2-pseudo-boules",
+  "target": "T-bz-c2-pseudo-boules",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/PseudoBoules.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c2s2d6_pseudo_boule",
+      "tex_lines": [
+        411,
+        415
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.pseudoBoule",
+        "Benzecri.mem_pseudoBoule",
+        "Benzecri.mem_pseudoBoule_iff",
+        "Benzecri.mem_pseudoBoule_comm",
+        "Benzecri.pseudoBoule_eq_empty_of_nonpos",
+        "Benzecri.pseudoBoule_dim_zero"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective, M ∈ V",
+          "here": "carried",
+          "note": "[ChartedSpace (S n) V] for the definition; [HasGroupoid V (projGroupoid n)] in the theorems that use it"
+        },
+        {
+          "paper": "r un nombre réel positif",
+          "here": "weakened",
+          "note": "r : ℝ arbitrary, an extension of Déf. 6, whose radii are r > 0 in the paper's usage (r ≥ 0 under Bourbaki's convention; question under Prop. 5). For r ≤ 0 the Lean pseudo-ball is empty (pseudoBoule_eq_empty_of_nonpos). On Déf. 6's radii, under either reading, the definition is the paper's."
+        },
+        {
+          "paper": "il existe au moins un segment fermé d'extrémités M, N, majoré par r",
+          "here": "carried",
+          "note": "∃ Sg, IsMajoreSeg n r Sg M N: a closed segment of V (Déf. 14) from M to N, majorised by r in V (Déf. 2, Mesure). The order of the endpoints is immaterial (mem_pseudoBoule_comm, via IsMajoreSeg.symm). Equivalently ∃ Sg segment with pseudoLength n Sg M N < r (mem_pseudoBoule_iff)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Unlabelled sentence after Déf. 6 (l.417–418), « La pseudo-boule … est un ouvert connexe (cf. 3°, 5°) ». The statement holds in every dimension and for every r (pseudoBoule_ouvert_connexe), with « connexe » read as in the question below. The justification « cf. 5° » leaves one step implicit. 5° bounds the pseudo-length of segments near (M, N), but it does not produce a segment from M to each point N′ near N, and openness needs one. The formalized proof gets it from the chart of a segment majorising (M, N), with the estimate behind 5° (eventually_exists_projMeasure_lt, in isOpen_pseudoBoule). Connectedness follows 3° as printed: each pseudo-ball is the union of majorised segments from its centre, by sub-segments and pseudoLength_mono.",
+        "Unlabelled sentence after Déf. 6 (l.420–423, [sic] « lcs »), « il résulte du 6° que les pseudo-boules … forment une base de voisinages ». 6° by itself does not give this. Continuity, and vanishing exactly on the diagonal, do not make small balls small: a continuous function vanishing only at M may tend to 0 far from M. The formalized proof (hasBasis_pseudoBoule) adds two facts. The pseudo-balls are connected (the preceding sentence), and V is locally compact. Then l_V(M, ·) ≥ r > 0 on the frontier of a compact neighbourhood C, and the connected ball B(M, r) contains M and misses that frontier, so it lies in C. The statement is unaffected for n ≥ 1.",
+        "The neighbourhood-basis sentence (l.420–423) fails in dimension 0. {x} is a convex body of S(0), and its pseudo-balls are empty (pseudoBoule_dim_zero), so they are not neighbourhoods. BaseVoisinagesPrinted n holds iff 0 < n (baseVoisinagesPrinted_iff). This is OQ-45: under (b), a point given measure 0, the balls of radius r > 0 would be {x} and the sentence would hold. OQ-56 does not bear on it."
+      ],
+      "questions": [
+        "« un ouvert connexe » (l.417). Reading taken: Bourbaki's definition, not the union of two disjoint non-empty open sets. Under it the empty set is connected; Lean IsPreconnected. The sentence then holds in every dimension and for every r (pseudoBoule_ouvert_connexe). Under the reading « non-empty and connected » (Lean IsConnected), it holds for every Déf. 6 radius r > 0 when n ≥ 1 (isConnected_pseudoBoule_iff). It fails only at n = 0 (OQ-45), and at r = 0 if « positif » includes 0. Both forms are proved, so the Lean is at least the paper under either reading, and the reading matters only in dimension 0.",
+        "« de rayon quelconque » (l.422). Reading taken: all radii r > 0. In the paper's usage these are exactly Déf. 6's radii. If « positif » included 0, the reading would drop only r = 0, whose ball ∅ is no neighbourhood, so the sentence could not hold otherwise. The Lean form is (𝓝 M).HasBasis (fun r => 0 < r) (pseudoBoule n M).",
+        "« Si V est l'intérieur d'un corps convexe » (l.420). Reading taken: V = corpsInterior K for a convex body K of S(n) (IsCorpsConvexeS n K), with its induced structure, as in Prop. 2 (Benzecri.Chapter2.Hilbert)."
+      ]
+    },
+    {
+      "label": "bzprop:c2s2p5_ouvert_plein",
+      "tex_lines": [
+        425,
+        429
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.ouvert_plein",
+        "Benzecri.eq_univ_of_forall_pseudoBoule_subset",
+        "Benzecri.OuvertPleinPrinted",
+        "Benzecri.ouvertPleinPrinted_iff",
+        "Benzecri.ouvert_plein_counterexample",
+        "Benzecri.isClosed_of_forall_pseudoBoule_subset",
+        "Benzecri.isOpen_of_forall_pseudoBoule_subset",
+        "Benzecri.subsingleton_dim_zero"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective connexe",
+          "here": "weakened",
+          "note": "[TopologicalSpace V] [ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)] [PreconnectedSpace V], V in any universe. U non-empty makes V non-empty. Hausdorff and second countability are never used"
+        },
+        {
+          "paper": "U un ouvert non vide de V",
+          "here": "carried",
+          "note": "hU : IsOpen U, hne : U.Nonempty in ouvert_plein. eq_univ_of_forall_pseudoBoule_subset drops IsOpen U (weakened), since openness follows"
+        },
+        {
+          "paper": "r un nombre réel (the radius of « la pseudo-boule de centre M et de rayon r »)",
+          "here": "carried",
+          "note": "0 < r: r is a Déf. 6 radius, « un nombre réel positif », read > 0 as in the paper's usage (question). If « positif » includes 0, the case r = 0 fails (ouvert_plein_counterexample). Negative radii are outside Déf. 6 under either reading."
+        },
+        {
+          "paper": "quel que soit M ∈ U, la pseudo-boule de centre M et de rayon r est incluse dans U",
+          "here": "carried",
+          "note": "∀ M ∈ U, pseudoBoule n M r ⊆ U"
+        },
+        {
+          "paper": "Alors U = V",
+          "here": "carried",
+          "note": "U = univ"
+        },
+        {
+          "paper": "the dimension n",
+          "here": "carried",
+          "note": "every n: for n = 0 a manifold charted on S(0) is discrete (discreteTopology_dim_zero), so a connected V is at most a point (subsingleton_dim_zero)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Once r > 0, the hypothesis « U ouvert » of Prop. 5 (l.426) is redundant. U contains the pseudo-ball of each of its points, and for n ≥ 1 a pseudo-ball of radius r > 0 is open and contains its centre (isOpen_of_forall_pseudoBoule_subset). In dimension 0 a connected V is a point (subsingleton_dim_zero). eq_univ_of_forall_pseudoBoule_subset proves Prop. 5 without this hypothesis."
+      ],
+      "questions": [
+        "Does « positif » mean > 0 in Déf. 6 (« r un nombre réel positif », l.412), and so for Prop. 5's radius (l.426, « r un nombre réel », the radius of « la pseudo-boule de centre M et de rayon r »)? Reading taken: > 0, the paper's usage. Under it Benzecri.ouvert_plein is Prop. 5 as printed, in every dimension, and its printed broken-line proof (Prop. 4, k > 0) agrees. The row is left partial and unmarked pending the ruling. If the ruling is > 0, the mark goes on Benzecri.ouvert_plein with no Lean change. If « positif » includes 0 (Bourbaki), the case r = 0 fails in every dimension n ≥ 1. The witness is S(n) ∖ {x} in the connected S(n): every pseudo-ball of radius 0 is empty (ouvert_plein_counterexample). OuvertPleinPrinted n, which extends pseudoBoule to every real radius, holds iff n = 0 (ouvertPleinPrinted_iff). That is the paper only through r = 0, and only under ≥ 0. Evidence that the paper's usage reads « positif » as > 0. Ch. 1 Déf. 3 (ch1 l.168–169) calls « le groupe multiplicatif ℝ⁺ » the group of « homothéties positives », and ch1 l.527 calls it « le groupe ℝ⁺ des réels positifs »; both must be ]0, ∞[. The open hemisphere has F(H) = l⁻¹(ℝ⁺) (ch1 l.205), read 0 < l v by Sphere.openHemisphere. Ch. 2 l.82 writes « positif ou nul ». At ch2 l.669, « Soit k un nombre réel positif » with ma/ab < k forces k > 0. « strictement positif » also occurs (ch2 l.366, 383, 470), so the usage is not uniform, but no occurrence of « positif » includes 0."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.ne_neg_of_mem_closedSeg",
+    "Benzecri.IsProjSegment.exists_subset_left",
+    "Benzecri.IsProjSegment.symm",
+    "Benzecri.IsMajoreSeg.symm",
+    "Benzecri.isMajoreSeg_iff_pseudoLength_lt",
+    "Benzecri.pseudoBoule_mono",
+    "Benzecri.IsMajoreSeg.subset_pseudoBoule",
+    "Benzecri.self_mem_pseudoBoule_of_nonempty",
+    "Benzecri.self_mem_pseudoBoule",
+    "Benzecri.nonempty_pseudoBoule_iff",
+    "Benzecri.isOpen_pseudoBoule",
+    "Benzecri.isPreconnected_pseudoBoule",
+    "Benzecri.pseudoBoule_ouvert_connexe",
+    "Benzecri.isConnected_pseudoBoule_iff",
+    "Benzecri.mem_pseudoBoule_corpsInterior_iff",
+    "Benzecri.hasBasis_pseudoBoule",
+    "Benzecri.BaseVoisinagesPrinted",
+    "Benzecri.baseVoisinagesPrinted_iff",
+    "Benzecri.discreteTopology_dim_zero",
+    "Benzecri.connectedSpace_S"
+  ],
+  "kb_proposals": [
+    "Pseudo-balls (Déf. 6) are Benzecri.pseudoBoule (BenzecriScaffold.Chapter2.PseudoBoules). They are open (isOpen_pseudoBoule) and preconnected (isPreconnected_pseudoBoule) in every dimension and for every r. IsMajoreSeg n k Sg M N ↔ pseudoLength n Sg M N < k (isMajoreSeg_iff_pseudoLength_lt). Sub-segments: IsProjSegment.exists_subset_left. Reversal: IsProjSegment.symm, IsMajoreSeg.symm. In the interior of a convex body the pseudo-ball is the hilbertLength ball (mem_pseudoBoule_corpsInterior_iff).",
+    "A manifold charted on S(0) is discrete (discreteTopology_dim_zero), so a connected one has at most one point (subsingleton_dim_zero). Use these for the dimension-0 case of any statement about a connected V.",
+    "S(n) is connected for n ≥ 1 (connectedSpace_S, via S.homeomorphEuclideanSphere and Mathlib's isConnected_sphere), and second countable via (S.homeomorphEuclideanSphere n).secondCountableTopology. That makes S(n) ∖ {x} a cheap witness against a 'connected V' statement that is printed as true.",
+    "Do not elaborate (continuous_hilbertLength hK).comp h against the expected type Continuous fun P => hilbertLength K M P: the isDefEq check times out. Compose in a have, then simp only [Function.comp_def] at it."
+  ],
+  "notes": "Sorry-free: lake env lean -DwarningAsError=true on the file exits 0 with no output. lake build BenzecriScaffold.Chapter2.PseudoBoules is green and rebuilt nothing upstream; the only new olean under .lake/build is the module's own. #print axioms, run from a /tmp probe (since deleted), gives [propext, Classical.choice, Quot.sound] for all 34 declarations of the file. Two mutants were run, the counterexample with r = 1 and an endpoint swap; both fail to compile, so the proofs really are elaborated. The file imports Benzecri.Chapter2.Hilbert (strict), Mathlib.Analysis.Normed.Module.Connected and Mathlib.Topology.Separation.Connected. The scaffold root BenzecriScaffold.lean is not edited, so the master adds the import (lean-causal kb/0025). The transcription of l.411–435 was checked against the page image (PDF p. 25). It matches: « r un nombre réel positif » in Déf. 6, « r un nombre réel » in Prop. 5, and « lcs » as printed. Marks: Déf. 6 is marked on Benzecri.pseudoBoule as a definition, in every dimension, like Déf. 2–4 in Mesure. In dimension 0 every pseudo-ball is empty because Déf. 2 majorises no segment there. Under OQ-45 (b) the definition would change together with Déf. 2, with no edit here. If the master prefers to hold Déf. 6 with OQ-45, only the ** in the module docstring needs removing. Prop. 5 is unmarked, pending the author's reading of « positif » (Déf. 6's radius; question under the Prop. 5 row). Under the paper's usage, > 0, Benzecri.ouvert_plein is Prop. 5 as printed and the mark goes there with no Lean change. OQ-45 is not an obstacle: in dimension 0, Prop. 5 with r > 0 holds (subsingleton_dim_zero), which confirms the planner's evidence. Prop. 5 follows the planner's clopen route through Prop. 3 (voisinage_majore), which was checked. No broken line is defined. The two unlabelled sentences after Déf. 6 are lemmas with no label of their own: pseudoBoule_ouvert_connexe (every dimension) and hasBasis_pseudoBoule (n ≥ 1). They are listed in extra_decls, and their findings and questions sit under the Déf. 6 row. § 3 Prop. 2 (T-bz-c2-hemisphere) can use them. Coexistence with T-bz-c2-lignes: its Lignes.lean (seen read-only at the end of this run) declares no name of this file. It does state exists_isMajoreSeg_of_pseudoLength_lt (still a sorry there), which is the ← direction of isMajoreSeg_iff_pseudoLength_lt here: a candidate for dedupe at graduation. Generic lemmas proved here that could move upstream at graduation: Sphere.ne_neg_of_mem_closedSeg, IsProjSegment.exists_subset_left, IsProjSegment.symm, IsMajoreSeg.symm, isMajoreSeg_iff_pseudoLength_lt, discreteTopology_dim_zero, connectedSpace_S. Fix round 1 (AUDIT-1): the earlier finding « Prop. 5 is false as printed for r ≤ 0 » is withdrawn and restated as a question on « positif », and docstrings and REPORT were reworded, with no Lean statement changed. The « connexe » question's motivation and the OQ-56 citation in the basis-sentence checklist row were corrected. For curation (AUDIT-1 finding 4), OQ-45's text could name Déf. 6 beside Déf. 2–4, and the basis sentence after Déf. 6, which fails at n = 0 and would hold under (b)."
+}

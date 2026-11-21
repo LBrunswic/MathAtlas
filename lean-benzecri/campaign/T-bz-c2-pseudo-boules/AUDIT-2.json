@@ -1,0 +1,71 @@
+{
+  "target": "T-bz-c2-pseudo-boules",
+  "auditor_round": 2,
+  "verdict": "minor",
+  "readings_ruling": "AUDIT-1's major finding is resolved. The claim « Prop. 5 is false as printed for r ≤ 0 » is withdrawn everywhere. It has become a question to the author: does « positif » mean > 0 in Déf. 6 and so in Prop. 5? The question carries evidence, and every line of that evidence checks against the transcription. No remaining text asserts the r ≤ 0 falsity as a fact. Each conditional sentence makes the counterexample depend on « positif » including 0. No Lean statement changed. The old and new files elaborate to identical declaration types and definition bodies. The only bold label mark is Déf. 6's. Build, sorry count, axioms and scope are clean. Two leftover wordings are minor (finding 1): the identifier OuvertPleinPrinted and the bold headline of ouvert_plein_counterexample's docstring. Both carry the withdrawn reading when read on their own, but each sits beside a qualifying sentence in the same docstring.",
+  "round1_points": [
+    {
+      "audit1_finding": 1,
+      "severity_then": "major",
+      "addressed": true,
+      "notes": "Module docstring l.23–30: Prop. 5 is « not marked, pending the reading of « positif » (question) ». Under > 0, ouvert_plein is Prop. 5 as printed. « Only if « positif » includes 0 does the case r = 0 fail. » Checklist l.78 (Déf. 6 r) now reads « r > 0 in the paper's usage, r ≥ 0 under Bourbaki's; question », which is AUDIT-1's proposed wording. Checklist l.87 (Prop. 5 r) reads « ✓ carried: 0 < r, r being a Déf. 6 radius and « positif » read > 0 (question); if « positif » includes 0, the case r = 0 fails ». SCOPE l.92–106 is headed « The radius of Prop. 5 (question, not a finding) ». It is fully conditional, and it says that negative radii are outside Déf. 6 under any reading. The docstrings of ouvert_plein (l.500–504), ouvert_plein_counterexample (l.536–539), OuvertPleinPrinted (l.550–553) and ouvertPleinPrinted_iff (l.559–562) are reworded. Each states that the r = 0 failure is a counterexample to the paper only if « positif » includes 0. In the REPORT, labels[1].findings no longer contains the falsity finding; it keeps only the true redundancy-of-« ouvert » observation. labels[1].hypotheses[2], labels[1].questions[0], labels[0].hypotheses[1] and labels[0].questions[0] are conditional, and notes records the withdrawal. Prop. 5 is still status partial, marked false. A regex sweep of the file and the REPORT for false / as printed / r ≤ 0 / counterexample / refut / fails turns up no unconditional assertion of the falsity. The two leftover wordings are finding 1."
+    },
+    {
+      "audit1_finding": 2,
+      "severity_then": "minor",
+      "addressed": true,
+      "notes": "Checklist l.84 now cites « (baseVoisinagesPrinted_iff; OQ-45) ». OQ-56 occurs nowhere in the file. REPORT labels[0].findings[2] still says, correctly, « OQ-56 does not bear on it »."
+    },
+    {
+      "audit1_finding": 3,
+      "severity_then": "minor",
+      "addressed": true,
+      "notes": "REPORT labels[0].questions[0] and checklist l.81 now say the following. Under the non-empty reading, the sentence holds for every Déf. 6 radius r > 0 when n ≥ 1 (isConnected_pseudoBoule_iff). It fails only at n = 0 (OQ-45), and at r = 0 if « positif » includes 0. Under Bourbaki's reading it holds in every dimension, both forms are proved, and the Lean is at least the paper. This is AUDIT-1's proposed fix. SCOPE l.115–116 agrees."
+    },
+    {
+      "audit1_finding": 4,
+      "severity_then": "minor",
+      "addressed": true,
+      "notes": "This finding was addressed to the master at curation time, not to the closer. REPORT notes record it: OQ-45's text could name Déf. 6 beside Déf. 2–4, together with the basis sentence that fails at n = 0. It is still open for the master."
+    }
+  ],
+  "evidence_check": "Every line cited for « positif » = > 0 was checked against papers/benzecri/legacy/labeled/. ch1 l.168–169: « Le groupe multiplicatif $\\R^+$ (resp. … » / « … comme groupe des homothéties positives ». ch1 l.205: « \\[ F(H)=l^{-1}(\\R^+). \\] » in Déf. 5, of an open hemisphere. ch1 l.527: « Le groupe $\\R^+$ des réels positifs opère sur un cône affin $V$ ». ch2 l.82: « invariant projectif, positif ou nul, appelé pseudo-longueur ». ch2 l.669: « Soit $k$ un nombre réel positif. » Then l.672–675 says that (A, B) ⊂ (M, B) implies ma/ab < k. M = A is allowed and gives 0 < k, so the claim that this forces k > 0 is right. « strictement positif » occurs at ch2 l.366 (Prop. 3), l.382–383 (Déf. 5, the line break falls after « réel ») and l.470 (« un nombre strictement positif »), all correct. Sphere.openHemisphere is defined at Benzecri/Projective/Subvariety.lean:218 as ofCone {v | 0 < l v}, in Benzecri.Sphere. The docstring's attribution « Sphere.openHemisphere, Benzecri.Projective.Subvariety » is therefore correct. The claim « no occurrence of « positif » includes 0 » was checked by listing every positi* occurrence that is not « proposition ». ch1: l.169, 206, 294, 299, 527, 537, 543, 751. ch2: l.82, 343, 366, 383, 412, 470, 669, 689, 758. None reads as ≥ 0. ch2 l.343 is the z coordinate in the open hemisphere, l.751 is reals whose product is 1, and l.412 is Déf. 6 itself. The claim holds. Two further lines would strengthen the question, optionally. ch1 l.534 says « $\\R^+$ est homéomorphe au segment ouvert », which is explicit that ℝ⁺ = ]0, ∞[. ch2 l.758 says « Il existe un nombre $r$ positif, tel que tout point $M$ de $V$ possède un voisinage $O_M$ pseudo-boule de centre $M$ et de rayon $r$ ». There a pseudo-ball radius called « positif » must be > 0, since a radius-0 ball is ∅ and is no neighbourhood. Prop. 4 (l.387–391) uses Déf. 5's n(E, k), and Déf. 5 takes k « strictement positif ». So the SCOPE line « its printed broken-line proof (Prop. 4, k > 0) agrees » is correct.",
+  "labels": [
+    {
+      "label": "bzdef:c2s2d6_pseudo_boule",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unchanged since AUDIT-1, and the type and value of Benzecri.pseudoBoule are identical (see build.details). It is the only bold mark, **`bzdef:c2s2d6_pseudo_boule`**, at character 633 of the file, inside the first 4000 characters. The ledger's pattern **`<prefix>:<name>`** finds no other match anywhere in the file. The checklist row for r now discloses the extension to every real radius as ⚠ weakened, with the two readings of « positif » named. AUDIT-1 kept the mark under either reading, and that ruling still applies. REPORT: status closed, marked true."
+    },
+    {
+      "label": "bzprop:c2s2p5_ouvert_plein",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Correctly unmarked; status partial, pending the author's ruling on « positif ». The bzprop label occurs at character 1511 without ** (l.23). The declaration docstring of ouvert_plein bolds « Prop. 5 », not the label, so no mark is claimed. The statement of ouvert_plein is unchanged: IsOpen U, U.Nonempty, 0 < r, ∀ M ∈ U, pseudoBoule n M r ⊆ U ⊢ U = univ, under [PreconnectedSpace V] with the charted structure and the groupoid. Under the > 0 reading it is Prop. 5 as printed in every dimension (AUDIT-1), and the REPORT routes the mark there with no Lean change. ouvert_plein_counterexample and ouvertPleinPrinted_iff are now described accurately, as counterexamples to the paper only if « positif » includes 0. ouvertPleinPrinted_iff is described as refuting the extension to every real radius. The one wording issue is finding 1."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "Run on node1 (hostname checked) from lean-benzecri/. No lake build was run, as the dispatch asked. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter2/PseudoBoules.lean` exits 0 with empty output (1.5 s wall). A mutant copy in /tmp, with the counterexample's radius 0 changed to 1, fails at 545:8 (rewrite failed, exit 1), so the file really is elaborated. `sorry` occurs only as the prose « sorry-free » at l.108, and 0 times in code once comments are stripped. There is no admit, axiom, native_decide, implemented_by, unsafe or set_option. Statement comparison: the AUDIT-1-time source was rebuilt from the AUDIT-1 auditor's recorded full Read of the file (00:53:32Z, 564 lines). A textual diff against the current file gives 11 hunks, all inside the module docstring (l.24–30, 78, 81, 84, 87, 92–105, 116) or a declaration docstring (l.500–501, 536–539, 550–553, 559–562). The two edit scripts of the fix round (01:02:01Z and 01:02:18Z) replace docstring text only. Both versions were then elaborated in /tmp, each with an appended meta probe. For every non-internal constant of the file, the probe dumps the pretty-printed type, the Expr hash of the type, and the hash of the definition value (pseudoBoule, BaseVoisinagesPrinted, OuvertPleinPrinted). It also runs #print axioms on the 34 REPORT names. The two outputs are byte-identical. The file's 34 declarations are exactly REPORT decls ∪ extra_decls, with nothing missing and nothing extra. All 34 depend on exactly [propext, Classical.choice, Quot.sound]. The /tmp probe directory was deleted afterwards."
+  },
+  "scope": {
+    "git_status": [
+      "?? lean-benzecri/campaign/T-bz-c2-lignes/",
+      "?? lean-benzecri/campaign/T-bz-c2-pseudo-boules/",
+      "?? lean-benzecri/scaffold/BenzecriScaffold/Chapter2/"
+    ],
+    "note": "`git status --short lean-benzecri papers/benzecri` shows only these paths. campaign/T-bz-c2-lignes/ (REPORT.json) and Chapter2/Lignes.lean belong to the concurrent closer T-bz-c2-lignes and are outside this audit. This target's files are Chapter2/PseudoBoules.lean and campaign/T-bz-c2-pseudo-boules/, which holds REPORT.json, AUDIT-1.json and now AUDIT-2.json. Nothing under papers/benzecri, the strict library or BenzecriScaffold.lean is modified."
+  },
+  "docstring_contract": "Checked against lean-causal kb/entries/0006. The title is at l.6. The single mark is in the first 4000 characters (character 633). The > quotes (l.32–51) are unchanged and verbatim (AUDIT-1). ## Hypothesis checklist rows each carry ✓ carried / ⚠ weakened / ⚠ strengthened. The Prop. 5 r row is ✓ carried under the stated reading with « (question) ». That is acceptable because the label is unmarked, as 0006 asks for « a reading the paper does not settle ». ## SCOPE (disclosed) and the Provenance line are present. Every SCOPE and checklist statement checked is true. The cited transcription lines and Sphere.openHemisphere's module are correct.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "PseudoBoules.lean:536 (headline of ouvert_plein_counterexample's docstring); PseudoBoules.lean:554 and :563 (identifiers OuvertPleinPrinted, ouvertPleinPrinted_iff); REPORT.json labels[1].decls[2–3]",
+      "what": "Two leftover wordings still carry the withdrawn reading when read on their own. (a) The bold headline « **The case `r = 0` of Prop. 5 fails** » presents r = 0 as a case of Prop. 5. The next sentence says that this is a counterexample to the paper only if « positif » includes 0, so the docstring as a whole is accurate, but a hover or a headline excerpt is not. (b) The identifier OuvertPleinPrinted, and the theorem name ouvertPleinPrinted_iff : OuvertPleinPrinted n ↔ n = 0, both say « Printed ». The docstring now defines the predicate as Prop. 5 with pseudoBoule extended to every real radius, which is the printed Prop. 5 only under ≥ 0 and only through r = 0. A reader of the ledger's decl list for the Prop. 5 row sees « ouvertPleinPrinted_iff ↔ n = 0 » and may read the withdrawn claim into it. Nothing asserts the falsity as a fact, and no statement is wrong.",
+      "fix": "Text only for (a): change the headline to, for instance, « **If radius 0 were a Déf. 6 radius, Prop. 5 would fail** (n ≥ 1) ». For (b), at graduation or at the author's ruling, either rename the predicate (e.g. OuvertPleinAllRadii / ouvertPleinAllRadii_iff; a name change, not a type change), or keep the names and let the docstrings carry the qualification. If the ruling is > 0, both declarations can also move from the Prop. 5 row's decls to extra_decls."
+    }
+  ],
+  "notes": "Not findings. (1) REPORT kb_proposals[2] (« a cheap witness against a 'connected V' statement that is printed as true ») is a generic technique note that does not name Prop. 5. It needs no change, though its motivation came from the withdrawn claim. (2) The question to the author could add ch1 l.534 (« $\\R^+$ est homéomorphe au segment ouvert ») and ch2 l.758 (a « nombre $r$ positif » that is the radius of a pseudo-ball neighbourhood, so necessarily > 0). These are the most direct evidence in the transcription. (3) AUDIT-1 finding 4 (OQ-45's text to name Déf. 6 and the basis sentence) is still for the master at curation."
+}
