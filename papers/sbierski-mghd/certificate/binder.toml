@@ -2,8 +2,9 @@
 # the Einstein equations — a dezornification", arXiv 1309.7591): every row split into its ETT theorem
 # (layer 1), its localisation properties (layer 2, programme/ladder.toml ids) and its geometric lemma
 # per model class (layer 3). Format: tools/binder.py's docstring. Written by the programme-planner,
-# 2026-11-20 (T-bind-sbierski-mghd). It records how Sbierski's argument factors, not what Lean has
-# closed: the ledger's curation stays the loop's.
+# 2026-11-20 (T-bind-sbierski-mghd); rebound 2026-11-21 (planning run after the waves of 2026-11-20
+# 21:35, 22:45, 23:50) to the ladder nodes and the Lean that exist now. It records how Sbierski's
+# argument factors, not what Lean has closed: the ledger's curation stays the loop's.
 #
 # How the paper factors. lean-causal's CBG (Causal.CBG.*, docs/CBG-DESIGN.md, DEC-29/DEC-60) follows
 # this paper's order over an abstract geometry `Causal.CBG.Geometry` whose interface fields ARE the
@@ -19,29 +20,47 @@
 # plus, for Sbierski's "initial data" (a Riemannian (M̄, ḡ, k̄), not a spacetime M₀),
 #      `local_uniqueness` any two developments of the same data have a common Cauchy sub-development
 #                       (Thm 2.6, second half).
-# Of these only the A2 causal facts are ladder nodes today; the others are in `open_localisation`
-# (proposed to the keeper: T-lad-cbg-geometry-nodes, T-lad-development-nodes).
+# Since T-lad-cbg-geometry-nodes (9f5cfce) `rigid`, `germ_extension`, `cauchy_slice` (sort `geometry`),
+# `curves_extend` and `time_function` are ladder nodes and sit in `localisation`; only
+# `local_uniqueness` is still in `open_localisation` (T-lad-development-nodes, behind
+# T-abs-cbg-initial-data, which defines it).
 #
 # Models. `smooth-vacuum` is Sbierski's own class (smooth vacuum Einstein): nothing of it is in Lean
 # (no Lorentzian manifolds; T-pkg-smooth-lorentz asks the author how they enter). `flat-gx` (the
 # (Isom, Minkowski)-manifolds of DEC-29) is the hub's model and is in Lean: Causal.CBG.flatGeometry,
-# Causal.CBG.flat_cbg. E_0 (BTZ lines) is owed by gx through Geometry.ofLocalModelOfBTZ and is not
-# bound here (it carries no ladder id yet).
+# Causal.CBG.flat_cbg; its A3 and A4 as instances of the ladder definitions are
+# Causal.CBG.flat_germExtFuture / flat_germExtPast (LocalModel.GermExtFuture/Past) and
+# flat_slice_future / flat_slice_past. E_0 (BTZ lines) is owed by gx through
+# Geometry.ofLocalModelOfBTZ and is not bound here; E_α entries (Causal.Model.EAlphaCauchy) wait on
+# OQ-58 (T-bind-ealpha-entries).
 #
 # Findings of this binder (reported to the master):
-# * Every theorem row of §3 has its layer-1 theorem in Lean, sorry-free. The layer-1 theorems that are
-#   model-free (IsCorrPair/KSide, Lemma 3.9 and 3.11 cores, TwoPiece, ManyPiece) live in modules that
-#   import Causal.CurvesExtend → Causal.Minkowski, which the layer-1 rule forbids (kb/0047 for four of
-#   them): T-abs-hoist-model-free, T-abs-hoist-cbg-cores.
-# * OQ-40's three non-topological facts are not independent localisation properties in the CBG
-#   setting: uniqueness of the corresponding point (Prop 3.7) is proved from causal properties
-#   (Causal.CBG.IsCorrPair.eq_of_corresponds: push-up, closed J±, the K⁻ calculus, compact
-#   J⁺(S) ∩ J⁻(x), causal convexity of U and ψ(U)); openness of C in ∂U (Lemma 3.8) is derived from
-#   A3 (Causal.CBG.CGHDData.isOpen_correspondingSet); compactness of corresponding points then follows
-#   from A3's continuous extension. They are localisation properties only of the bare gluing.
+# * Every theorem row of §3 has its layer-1 theorem in Lean, sorry-free. Of the model-free lemmas
+#   kb/0047 found stranded, Causal.Causality.exists_minimal_of_isCompact (Lemma 3.9's core) is now in
+#   the ETT-layer Causal.CompactMinimal and inextensible_ordConnectedComponent_of_le (Thm 3.4's
+#   "segment in U_α") in Causal.CurveComponents (T-abs-hoist-model-free, 02b43b6). The others still
+#   live in modules that import a model: the IsCorrPair/KSide core and Lemmas 3.9, 3.11's cores
+#   (T-abs-hoist-cbg-cores), TwoPiece/ManyPiece (T-abs-hoist-cbg-gluing), injOn_of_injOn_cauchy and
+#   Causal.CurvesExtend (T-abs-hoist-time-function); the CBG interface itself (Geometry, Dev, cbg)
+#   imports Causal.SingularFlat through A2, a layer-1 question for the author (T-abs-hoist-cbg-geometry).
+# * Def 3.5, Thm 2.7's Hausdorff criterion and the bare gluing are Causal.GluingHausdorff (pure
+#   topology, T-abs-gluing-hausdorff): Sbierski's Def 3.5 notion is Causal.Gluing.IsCorrespondingBoundaryPair,
+#   the gluing is Hausdorff iff no pair corresponds (t2Space_iff_forall_not_isCorrespondingBoundaryPair,
+#   family form FamilyGlueData.t2Space_iff_forall_not_isCorrespondingBoundaryPair). OQ-40's
+#   non-topological facts are not independent localisation properties in the CBG setting: uniqueness
+#   of the corresponding point (Prop 3.7) is proved from causal properties
+#   (Causal.CBG.IsCorrPair.eq_of_corresponds), though false for a bare gluing
+#   (Causal.Gluing.shearGluing_not_unique); openness of C in ∂U (Lemma 3.8) is derived from A3
+#   (Causal.CBG.CGHDData.isOpen_correspondingSet), though false for a bare gluing
+#   (Causal.Gluing.shearGluing_not_isOpen_in_frontier).
 # * Prop 3.7 (i) ⇒ (ii) by timelike curves and strong causality (Sbierski's route) is not in Lean: Lean
 #   derives it from A3 (CGHDData.tendsto_comp), while Sbierski proves A3 (Lemma 3.8) from Prop 3.7 (ii).
-#   A smooth-vacuum discharge of A3 by Sbierski's proof would be circular: T-abs-sbierski-prop-3-7.
+#   A smooth-vacuum discharge of A3 by Sbierski's proof would be circular: T-abs-sbierski-prop-3-7,
+#   now behind T-abs-hoist-cbg-cores (the layer-1 rule).
+# * Lemma 3.9 (CGHDData.exists_spacelike_corresponding, Causal/CBG/NoCorresponding.lean:404) uses no A3:
+#   CGHDData is only the GH setting of A3's hypotheses; the proof consumes A2 (closed J⁻ and the K⁻
+#   calculus through kSide_future, which uses curves_extend; SingularFlatAxioms.K_monotone) and
+#   exists_minimal_of_isCompact. The 2026-11-20 binder had germ_extension open on this row; dropped.
 # * Lean's CBG takes a GH spacetime M₀ as initial datum; Sbierski's datum is (M̄, ḡ, k̄), and his Thm 2.8
 #   needs Thm 2.6's local uniqueness to compare GHDs that share no M₀: T-abs-cbg-initial-data.
 # * Routes replaced in Lean (each recorded in the module's checklist): Lemma 3.3 by lifting causal
@@ -52,38 +71,8 @@
 # ------------------------------------------------------------------ proposed localisation ids
 # Not yet ladder nodes; each row lists the ones it needs in `open_localisation`.
 [[proposed]]
-id = "rigid"
-lean = "Causal.CBG.IsRigidFor"
-target = "T-lad-cbg-geometry-nodes"
-what = "A1: morphisms of the geometry defined on a connected open set and agreeing on a non-empty open subset agree (Sbierski Lemma 3.1, Cor 3.2; ETT rem:CBG_analytique)"
-
-[[proposed]]
-id = "germ_extension"
-lean = "Causal.CBG.LocalModel.GermExtFuture"
-target = "T-lad-cbg-geometry-nodes"
-what = "A3: a morphism of a common Cauchy sub-development extends, as a morphism, to a neighbourhood of a corresponding boundary point, both time directions (Sbierski Lemma 3.8; ETT cor:ext_continue); past form Causal.CBG.LocalModel.GermExtPast"
-
-[[proposed]]
-id = "cauchy_slice"
-lean = "Causal.CBG.LocalModel.SliceFuture"
-target = "T-lad-cbg-geometry-nodes"
-what = "A4: through a boundary point with J⁻(p) ∩ ∂U ∩ J⁺(Σ) = {p}, a local Cauchy slice of a neighbourhood inside closure U (Sbierski Thm 3.6's τ_q level set, Lemma 3.11); past form Causal.CBG.LocalModel.SlicePast"
-
-[[proposed]]
-id = "curves_extend"
-lean = "Causal.Causality.CurvesExtend"
-target = "T-lad-cbg-geometry-nodes"
-what = "every causal curve over a segment lies on an inextensible one (kb/0012; a consequence of a time function, Causal.Causality.curvesExtend_of_timeFunction)"
-
-[[proposed]]
-id = "time_function"
-lean = "Causal.Causality.HasTimeFunction"
-target = "T-lad-cbg-geometry-nodes"
-what = "a continuous function strictly increasing along ≤ (Geroch; consumed by Lemma 3.3)"
-
-[[proposed]]
 id = "local_uniqueness"
-lean = "none yet (T-abs-cbg-initial-data defines it)"
+lean = "none yet for data (T-abs-cbg-initial-data defines it); on a fixed background the existential `∃ V, C.IsCommonDevelopment S U₁ U₂ agree V` (Causal.Causality.IsCommonDevelopment, the `hlocal` of Causal.Causality.ers_theorem_4_64)"
 target = "T-lad-development-nodes"
 what = "two developments of the same initial data have a common Cauchy sub-development (Sbierski Thm 2.6, second half; ERS Prop 4.63)"
 
@@ -131,7 +120,7 @@ label = "mghdthm:LocalTheory"
 ett = ["T-abs-cbg-initial-data", "Causal.CBG.Dev.self"]
 localisation = []
 open_localisation = ["local_uniqueness"]
-open_reason = "local_uniqueness is not a ladder node and has no Lean definition (T-abs-cbg-initial-data defines it, T-lad-development-nodes adds it). Smooth-vacuum: Choquet-Bruhat 1952, cited PDE. Flat-gx: the datum is the GH spacetime M₀ itself (Dev.self), local existence and uniqueness are built in."
+open_reason = "local_uniqueness is not a ladder node and has no Lean definition for data (T-abs-cbg-initial-data defines it, T-lad-development-nodes adds it). Smooth-vacuum: Choquet-Bruhat 1952, cited PDE. Flat-gx: the datum is the GH spacetime M₀ itself (Dev.self), local existence and uniqueness are built in."
 note = "Thm 2.6 (Maximal_GHD2.tex:403), cited. It is pure layer 3 for Einstein (local well-posedness); its ETT role is the hypothesis that makes 'developments of the same data' a directed family (T-abs-cbg-initial-data)."
 [[bind.geometric]]
 model = "smooth-vacuum"
@@ -141,82 +130,76 @@ by = ["T-loc-vacuum-slice"]
 [[bind]]
 label = "mghdthm:CommonExtension"
 ett = ["Causal.CBG.exists_common_extension", "Causal.CBG.exists_ppcm", "Causal.CBG.t2Space_gluing_mcghd", "Causal.Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair", "Causal.Causality.TwoPiece.globallyHyperbolic", "T-abs-cbg-initial-data"]
-localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-open_localisation = ["rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function", "local_uniqueness"]
-open_reason = "Not ladder nodes yet (T-lad-cbg-geometry-nodes; local_uniqueness: T-lad-development-nodes). Flat-gx proves A1, A3, A4 and the A2 time function in Lean (flat_rigid, flat_germ_future, flat_slice_future, flat_hasTimeFunction); smooth-vacuum owes them (T-loc-vacuum-rigid-germ, T-loc-vacuum-slice, T-loc-smooth-causal-ladder)."
-note = "Thm 2.7 (Maximal_GHD2.tex:411, proof 723–775). Gluing along the MCGHD (Thm 3.4) is Hausdorff because it has no corresponding boundary points (Thm 3.13 + the topological criterion of T-abs-gluing-hausdorff); its GH is proved by chains (TwoPiece), not Sbierski's timelike curves. For two GHDs of the same DATA, take the datum M₀ := their CGHD (Thm 2.6): T-abs-cbg-initial-data."
+localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
+open_localisation = ["local_uniqueness"]
+open_reason = "local_uniqueness: T-lad-development-nodes, behind T-abs-cbg-initial-data. Every other localisation property is a ladder node (rigid, germ_extension, cauchy_slice of sort geometry since T-lad-cbg-geometry-nodes); flat-gx proves them in Lean, smooth-vacuum owes them."
+note = "Thm 2.7 (Maximal_GHD2.tex:411, proof 723–775). Gluing along the MCGHD (Thm 3.4) is Hausdorff because it has no corresponding boundary points (Thm 3.13 + the topological criterion of Causal.GluingHausdorff, T-abs-gluing-hausdorff); its GH is proved by chains (TwoPiece), not Sbierski's timelike curves. For two GHDs of the same DATA, take the datum M₀ := their CGHD (Thm 2.6): T-abs-cbg-initial-data."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
 by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "T-loc-vacuum-geometry"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG.flat_germ_future", "Causal.CBG.flat_slice_future", "Causal.CBG.flat_hasTimeFunction", "Causal.CBG.flat_cbg"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG.flat_germExtFuture", "Causal.CBG.flat_germExtPast", "Causal.CBG.flat_slice_future", "Causal.CBG.flat_slice_past", "Causal.CBG.flat_curvesExtend", "Causal.CBG.flat_hasTimeFunction", "Causal.CBG.flat_cbg"]
 
 [[bind]]
 label = "mghdthm:MGHD"
 ett = ["Causal.CBG.cbg", "Causal.CBG.maxDev_isUniversal", "Causal.CBG.Dev.IsUniversal.existsUnique_iso", "Causal.CBG.mcghd_cocycle", "Causal.CBG.maxSpace_t2", "Causal.Causality.ManyPiece.globallyHyperbolic", "Causal.CBG.FamilyGlueData.t2Space_iff_forall_not_isCorrespondingBoundaryPair", "Causal.CBG.Dev.isUniversal_of_small", "T-abs-cbg-initial-data"]
-localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-open_localisation = ["rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function", "local_uniqueness"]
+localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
+open_localisation = ["local_uniqueness"]
 open_reason = "As Thm 2.7. Also used and not a ladder property: second countability of a GH spacetime with a second-countable Cauchy surface (Geroch 1968, Sbierski item 5; the Geometry field secondCountable_of_cauchy), owed by smooth-vacuum in T-loc-vacuum-geometry."
-note = "Thm 2.8 (Maximal_GHD2.tex:417, proof 780–840). Glue the small developments along their pairwise MCGHDs (FamilyGlueData), cocycle, T2 from the pairs, GH by chains BEFORE second countability (design §6), universality, uniqueness up to unique isomorphism. Sbierski's size bound (GHDs inside M̄ × ℝ, via a timelike flow) is replaced by SmallDev. Universality over all developments of the DATA, not of one M₀, is T-abs-cbg-initial-data."
+note = "Thm 2.8 (Maximal_GHD2.tex:417, proof 780–840). Glue the small developments along their pairwise MCGHDs (FamilyGlueData; Hausdorff by the family criterion of Causal.GluingHausdorff), cocycle, T2 from the pairs, GH by chains BEFORE second countability (design §6), universality, uniqueness up to unique isomorphism. Sbierski's size bound (GHDs inside M̄ × ℝ, via a timelike flow) is replaced by SmallDev. Universality over all developments of the DATA, not of one M₀, is T-abs-cbg-initial-data."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
 by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "T-loc-vacuum-geometry"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flatGeometry", "Causal.CBG.flat_cbg", "Causal.CBG.flat_cbg_ett"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flatGeometry", "Causal.CBG.flat_rigid", "Causal.CBG.flat_germExtFuture", "Causal.CBG.flat_germExtPast", "Causal.CBG.flat_slice_future", "Causal.CBG.flat_slice_past", "Causal.CBG.flat_curvesExtend", "Causal.CBG.flat_hasTimeFunction", "Causal.CBG.flat_cbg", "Causal.CBG.flat_cbg_ett"]
 
 # ------------------------------------------------------------------ §3.1 the MCGHD
 [[bind]]
 label = "mghdlem:IsoConnected"
 ett = ["Causal.CBG.IsRigidFor", "Causal.CBG.IsCGHD.eqOn"]
-localisation = []
-open_localisation = ["rigid"]
-open_reason = "Lemma 3.1 IS the rigidity axiom A1 for smooth metrics (geodesics in normal neighbourhoods); not a ladder node yet (T-lad-cbg-geometry-nodes)."
-note = "Lemma 3.1 (Maximal_GHD2.tex:437). Layer 3 for smooth-vacuum; its ETT role is A1, consumed by the gluing step IsCGHD.eqOn. Rigidity is essential: without it maximal common sub-extensions are not unique (Causal.CBG.causal_pgcd_not_unique, the kink on the timelike line) and causal local isomorphisms are not rigid (Causal.CBG.not_isRigidFor_causalPreGeometry)."
+localisation = ["rigid"]
+note = "Lemma 3.1 (Maximal_GHD2.tex:437). Layer 3 for smooth-vacuum (geodesics in normal neighbourhoods); its ETT role is A1, the ladder node `rigid` (Causal.CBG.IsRigidFor), consumed by the gluing step IsCGHD.eqOn (the ladder's consequence at rigid). Rigidity is essential: without it maximal common sub-extensions are not unique (Causal.CBG.causal_pgcd_not_unique, the kink on the timelike line) and causal local isomorphisms are not rigid (Causal.CBG.not_isRigidFor_causalPreGeometry)."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = []
+proves = ["rigid"]
 by = ["T-loc-vacuum-rigid-germ"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = []
+proves = ["rigid"]
 by = ["Causal.CBG.flat_rigid"]
 
 [[bind]]
 label = "mghdcor:welldefined"
 ett = ["Causal.CBG.IsCGHD.eqOn", "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace"]
-localisation = []
-open_localisation = ["rigid", "curves_extend"]
-open_reason = "A1 and CurvesExtend, not ladder nodes yet (T-lad-cbg-geometry-nodes)."
-note = "Cor 3.2 (Maximal_GHD2.tex:452). Agreement on Σ propagates to U₁ ∩ U₂ by rigidity on a CONNECTED open: U₁ ∩ U₂ is connected because both Cauchy-include Σ in one M (lem:C_ext_connexe re-routed, c_ext_connexe_of_connectedSpace). That connectedness is exactly what fails on a fixed background (ERS19 §4.2, Thm 3.45; papers/ers-predictability)."
+localisation = ["rigid", "curves_extend"]
+note = "Cor 3.2 (Maximal_GHD2.tex:452). Agreement on Σ propagates to U₁ ∩ U₂ by rigidity on a CONNECTED open: U₁ ∩ U₂ is connected because both Cauchy-include Σ in one M (lem:C_ext_connexe re-routed, c_ext_connexe_of_connectedSpace, the ladder's consequence at curves_extend, asked of the target). That connectedness is exactly what fails on a fixed background (ERS19 §4.2, Thm 3.45; papers/ers-predictability)."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = []
+proves = ["rigid", "curves_extend"]
 by = ["T-loc-vacuum-rigid-germ", "T-loc-smooth-causal-ladder"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = []
+proves = ["rigid", "curves_extend"]
 by = ["Causal.CBG.flat_rigid", "Causal.CBG.flat_curvesExtend"]
 
 [[bind]]
 label = "mghdlem:IsoDiffeo"
 ett = ["Causal.CBG.injOn_of_injOn_cauchy", "Causal.CBG.sbierski_lemma_3_3", "Causal.CBG.injective_of_globallyHyperbolic"]
-localisation = ["causally_arc_connected"]
-open_localisation = ["time_function", "curves_extend"]
-open_reason = "Not ladder nodes yet (T-lad-cbg-geometry-nodes)."
-note = "Lemma 3.3 (Maximal_GHD2.tex:463). Model-free: timelike geodesics replaced by lifts of causal curves along a local homeomorphism; a time function replaces GH of M (incomparable in the abstract setting)."
+localisation = ["causally_arc_connected", "time_function", "curves_extend"]
+note = "Lemma 3.3 (Maximal_GHD2.tex:463). Model-free: timelike geodesics replaced by lifts of causal curves along a local homeomorphism; a time function replaces GH of M (incomparable in the abstract setting). injOn_of_injOn_cauchy is the ladder's consequence at time_function; its module imports Causal.CurvesExtend and Causal.Splitting, hence a model (T-abs-hoist-time-function)."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["causally_arc_connected"]
+proves = ["causally_arc_connected", "time_function", "curves_extend"]
 by = ["T-loc-smooth-causal-ladder"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["causally_arc_connected"]
+proves = ["causally_arc_connected", "time_function", "curves_extend"]
 by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_hasTimeFunction", "Causal.CBG.flat_curvesExtend"]
 [[bind.geometric]]
 model = "minkowski"
@@ -225,48 +208,46 @@ by = ["Causal.CBG.minkowski_sbierski_lemma_3_3"]
 
 [[bind]]
 label = "mghdthm:ExMCGHD"
-ett = ["Causal.CBG.exists_mcghd", "Causal.CBG.mcghd_unique", "Causal.CBG.cauchy_pgcd_geometry", "Causal.isCauchyInclusion_iSup", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn"]
-localisation = ["causally_arc_connected", "absolutely_minimal"]
-open_localisation = ["rigid", "curves_extend", "time_function", "local_uniqueness"]
-open_reason = "A1, CurvesExtend, the time function: T-lad-cbg-geometry-nodes; non-emptiness of the family of CGHDs is Thm 2.6 (local_uniqueness, T-lad-development-nodes) — automatic for ETT's datum M₀."
-note = "Thm 3.4 (Maximal_GHD2.tex:485). The union of all CGHDs: a union of Cauchy inclusions is a Cauchy inclusion (no Zorn), well defined by A1 (Cor 3.2), injective by Lemma 3.3."
+ett = ["Causal.CBG.exists_mcghd", "Causal.CBG.mcghd_unique", "Causal.CBG.cauchy_pgcd_geometry", "Causal.isCauchyInclusion_iSup", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn", "Causal.Causality.inextensible_ordConnectedComponent_of_le"]
+localisation = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
+open_localisation = ["local_uniqueness"]
+open_reason = "Non-emptiness of the family of CGHDs is Thm 2.6 (local_uniqueness, T-lad-development-nodes), automatic for ETT's datum M₀."
+note = "Thm 3.4 (Maximal_GHD2.tex:485). The union of all CGHDs: a union of Cauchy inclusions is a Cauchy inclusion (no Zorn), well defined by A1 (Cor 3.2), injective by Lemma 3.3. The proof's 'the corresponding curve segment in U_α is inextendible in U_α' is inextensible_ordConnectedComponent_of_le, ETT-layer since T-abs-hoist-model-free (Causal.CurveComponents); isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn are model-free but in Causal.CBG.CausalConvex, whose Causal.CurvesExtend import reaches Causal.Minkowski (T-abs-hoist-time-function)."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["causally_arc_connected", "absolutely_minimal"]
+proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
 by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["causally_arc_connected", "absolutely_minimal"]
-by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid"]
+proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG.flat_curvesExtend", "Causal.CBG.flat_hasTimeFunction"]
 
 # ------------------------------------------------------------------ §3.2 no corresponding boundary points
 [[bind]]
 label = "mghddef:DefBound"
-ett = ["Causal.Gluing.IsCorrespondingBoundaryPair", "Causal.CBG.IsCorrPair.corresponds_iff_mem_gluingC", "Causal.Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair"]
+ett = ["Causal.Gluing.IsCorrespondingBoundaryPair", "Causal.Gluing.forall_nhds_iff_mem_closure_graph", "Causal.Gluing.isCorrespondingBoundaryPair_iff", "Causal.Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair", "Causal.CBG.IsCorrPair.corresponds_iff_mem_gluingC"]
 localisation = []
-note = "Def 3.5 (Maximal_GHD2.tex:527). Pure topology (T-abs-gluing-hausdorff, uses = []): (p, p') is in the closure of the graph of ψ; the gluing is Hausdorff iff there is no such pair."
+note = "Def 3.5 (Maximal_GHD2.tex:527). Pure topology (Causal.GluingHausdorff, T-abs-gluing-hausdorff, uses = []): Sbierski's notion verbatim is IsCorrespondingBoundaryPair; (p, p') is in the closure of the graph of ψ (forall_nhds_iff_mem_closure_graph); with X, Y Hausdorff, [p] and [p'] are distinct and not separated in the gluing (isCorrespondingBoundaryPair_iff); the gluing is Hausdorff iff there is no such pair. In the CGHD setting it is ETT's C (corresponds_iff_mem_gluingC). The set of corresponding pairs is closed with no hypothesis (Causal.Gluing.isClosed_correspondingPairs); Chruściel's 'H closed' is false as topology (OQ-40)."
 
 [[bind]]
 label = "mghdthm:NotMCGHD"
 ett = ["Causal.CBG.IsCGHD.exists_lt", "Causal.CBG.CGHDData.exists_extension"]
-localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-open_localisation = ["germ_extension", "cauchy_slice", "time_function", "curves_extend"]
-open_reason = "A3 and A4 are the localisation of this theorem (T-lad-cbg-geometry-nodes). Flat-gx: flat_germ_future, flat_slice_future (cone slices, minkowski_coneSlice); smooth-vacuum: Sbierski's exp-map extension and the τ_q hyperboloid level set restarted by Thm 2.6 (T-loc-vacuum-rigid-germ, T-loc-vacuum-slice)."
-note = "Thm 3.6 (Maximal_GHD2.tex:537, proof 662–702). A strictly larger CGHD from Lemma 3.9's spacelike point, A3 and A4; Sbierski's convex neighbourhood with V ∩ ∂U ⊆ C is not needed (one germ on O ∋ p). The τ_q construction (time separation, Gauss lemma) is the smooth-vacuum proof of A4, not part of the ETT argument."
+localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
+note = "Thm 3.6 (Maximal_GHD2.tex:537, proof 662–702). A strictly larger CGHD from Lemma 3.9's spacelike point, A3 (germ_extension) and A4 (cauchy_slice) — the ladder's consequence at cauchy_slice (CGHDData.exists_extension); Sbierski's convex neighbourhood with V ∩ ∂U ⊆ C is not needed (one germ on O ∋ p). The τ_q construction (time separation, Gauss lemma) is the smooth-vacuum proof of A4, not part of the ETT argument; flat-gx uses cone slices (Causal.CBG.minkowski_coneSlice)."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
 by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_germ_future", "Causal.CBG.flat_slice_future", "Causal.CBG.minkowski_coneSlice"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_germExtFuture", "Causal.CBG.flat_germExtPast", "Causal.CBG.flat_germ_future", "Causal.CBG.flat_slice_future", "Causal.CBG.flat_slice_past", "Causal.CBG.minkowski_coneSlice", "Causal.CBG.flat_hasTimeFunction", "Causal.CBG.flat_curvesExtend"]
 
 [[bind]]
 label = "mghdprop:EquivCha"
 ett = ["Causal.CBG.IsCorrPair.corresponding_K", "Causal.CBG.IsCorrPair.eq_of_corresponds", "Causal.CBG.corresponds_of_tendsto", "Causal.CBG.CGHDData.tendsto_comp", "T-abs-sbierski-prop-3-7"]
 localisation = ["push_up", "tarentin"]
-note = "Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581). (i) ⇔ the K⁻ bijection (corresponding_K, model-free, the KSide facts: push-up, closed J±, K⁻ calculus, compact J⁺(S) ∩ J⁻(x)); (iii) ⇒ (i) corresponds_of_tendsto; 'at most one corresponding point' eq_of_corresponds — CAUSAL, not topological (shearGluing_not_unique refutes it for bare gluings, OQ-40). Strong causality, which Sbierski uses, follows from GH + tarentin (Causal.Causality.GloballyHyperbolic.stronglyCausal). (i) ⇒ (ii) is in Lean only through A3 (tendsto_comp); Sbierski's own route (timelike curves, open I, closed ≤) is T-abs-sbierski-prop-3-7."
+note = "Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581). (i) ⇔ the K⁻ bijection (corresponding_K, model-free, the KSide facts: push-up, closed J±, K⁻ calculus, compact J⁺(S) ∩ J⁻(x)); (iii) ⇒ (i) corresponds_of_tendsto; 'at most one corresponding point' eq_of_corresponds — CAUSAL, not topological (Causal.Gluing.shearGluing_not_unique refutes it for bare gluings, OQ-40). Strong causality, which Sbierski uses, follows from GH + tarentin (Causal.Causality.GloballyHyperbolic.stronglyCausal). (i) ⇒ (ii) is in Lean only through A3 (tendsto_comp); Sbierski's own route (timelike curves, open I, closed ≤) is T-abs-sbierski-prop-3-7, which needs the IsCorrPair core in an ETT-layer module first (T-abs-hoist-cbg-cores)."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["push_up", "tarentin"]
@@ -279,40 +260,36 @@ by = ["Causal.CBG.flat_singularFlatAxioms"]
 [[bind]]
 label = "mghdlem:ExtendIso"
 ett = ["Causal.CBG.CGHDData.isOpen_correspondingSet", "Causal.CBG.CGHDData.exists_isMor_eqOn_correspondingExt", "Causal.CBG.CGHDData.ext_continue"]
-localisation = []
-open_localisation = ["germ_extension"]
-open_reason = "Lemma 3.8's extension IS A3, an axiom of the geometry (T-lad-cbg-geometry-nodes). 'C open in ∂U' is derived from it; as topology it is false (Causal.Gluing.shearGluing_not_isOpen_in_frontier, OQ-40)."
-note = "Lemma 3.8 (Maximal_GHD2.tex:585, proof 590–611). Sbierski's proof (exponential maps in convex neighbourhoods, after Prop 3.7 (ii)) is the smooth-vacuum proof of A3; flat-gx's is one group element on a connected chart."
+localisation = ["germ_extension"]
+note = "Lemma 3.8 (Maximal_GHD2.tex:585, proof 590–611). The extension IS A3, the ladder node germ_extension (Causal.CBG.LocalModel.GermExtFuture/Past), an axiom of the geometry; 'C open in ∂U' is derived from it (isOpen_correspondingSet, the ladder's consequence at germ_extension) and false as topology (Causal.Gluing.shearGluing_not_isOpen_in_frontier, OQ-40). Sbierski's proof (exponential maps in convex neighbourhoods, after Prop 3.7 (ii)) is the smooth-vacuum proof of A3; flat-gx's is one group element on a connected chart."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = []
+proves = ["germ_extension"]
 by = ["T-loc-vacuum-rigid-germ", "T-abs-sbierski-prop-3-7"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = []
-by = ["Causal.CBG.flat_germ_future"]
+proves = ["germ_extension"]
+by = ["Causal.CBG.flat_germExtFuture", "Causal.CBG.flat_germExtPast", "Causal.CBG.flat_germ_future", "Causal.CBG.flat_germ_past"]
 
 [[bind]]
 label = "mghdlem:SpacelikePoint"
-ett = ["Causal.CBG.CGHDData.exists_spacelike_corresponding", "Causal.CBG.IsCorrPair.exists_corresponds_of_le", "Causal.Causality.exists_minimal_of_isCompact", "Causal.Causality.spacelike_iff"]
-localisation = ["push_up", "tarentin"]
-open_localisation = ["germ_extension"]
-open_reason = "Used through CGHDData (A3's setting), T-lad-cbg-geometry-nodes; the argument itself needs no openness of C."
-note = "Lemma 3.9 (Maximal_GHD2.tex:615, proof 627–642). Null geodesic generators replaced by a ≤-minimal point of the compact ∂U ∩ J⁺(Σ) ∩ J⁻(p₀) (Zorn) and the K⁻ cluster argument: no geodesic, no time function. (3.10) ⇔ ETT's J(Σ, p) ∖ {p} ⊆ U (spacelike_iff)."
+ett = ["Causal.CBG.CGHDData.exists_spacelike_corresponding", "Causal.CBG.IsCorrPair.exists_corresponds_of_le", "Causal.Causality.exists_minimal_of_isCompact", "Causal.Causality.exists_minimal_of_isCompact_on", "Causal.Causality.spacelike_iff"]
+localisation = ["push_up", "tarentin", "curves_extend"]
+note = "Lemma 3.9 (Maximal_GHD2.tex:615, proof 627–642). Null geodesic generators replaced by a ≤-minimal point of the compact ∂U ∩ J⁺(Σ) ∩ J⁻(p₀) (Zorn; exists_minimal_of_isCompact, ETT-layer in Causal.CompactMinimal since T-abs-hoist-model-free, with its open-set form exists_minimal_of_isCompact_on, which ERS's Step 2 uses) and the K⁻ cluster argument: no geodesic, no time function, no A3 (CGHDData is A3's GH setting only; rebound 2026-11-21, the A3 entry dropped). The K⁻ calculus comes from A2 (kSide_future: push-up, closed J±, S acausal by curves_extend and causal arc-connectedness). (3.10) ⇔ ETT's J(Σ, p) ∖ {p} ⊆ U (spacelike_iff); the fixed-background form is ERS's (4.65), Causal.Causality.exists_spacelike_boundary_point."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["push_up", "tarentin"]
+proves = ["push_up", "tarentin", "curves_extend"]
 by = ["T-loc-smooth-causal-ladder"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["push_up", "tarentin"]
-by = ["Causal.CBG.flat_singularFlatAxioms"]
+proves = ["push_up", "tarentin", "curves_extend"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_curvesExtend"]
 
 [[bind]]
 label = "mghdlem:FuturePoint"
 ett = ["Causal.Causality.exists_lt_Jminus_compl_subset", "Causal.CBG.exists_lt_Jminus_compl_subset_of_cauchy"]
 localisation = ["tarentin", "push_up"]
-note = "Lemma 3.11 (Maximal_GHD2.tex:644, proof 652–658). Model-free: p ∈ Z⁺, closed J±, J⁻(p) ⊆ closure K⁻(p), compact J⁺(S) ∩ J⁻(x), U causally convex — all from A2 at Level A. 'The relation ≤ is closed' replaced by a directed family above p; the past side needs p off the BTZ locus (R4, E_0)."
+note = "Lemma 3.11 (Maximal_GHD2.tex:644, proof 652–658). Model-free: p ∈ Z⁺, closed J±, J⁻(p) ⊆ closure K⁻(p), compact J⁺(S) ∩ J⁻(x), U causally convex — all from A2 at Level A. 'The relation ≤ is closed' replaced by a directed family above p; the past side needs p off the BTZ locus (R4, E_0). It is also ERS Thm 4.64's Step 3, inside the restart SliceRestart of Causal.ErsUniqueness (papers/ers-predictability). exists_lt_Jminus_compl_subset sits in Causal.CBG.NoCorresponding (T-abs-hoist-cbg-cores)."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["tarentin", "push_up"]
@@ -324,16 +301,14 @@ by = ["Causal.CBG.flat_singularFlatAxioms"]
 
 [[bind]]
 label = "mghdthm:TNDVersion"
-ett = ["Causal.CBG.correspondingSet_mcghd_eq_empty", "Causal.CBG.t2Space_gluing_mcghd"]
-localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-open_localisation = ["rigid", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
-open_reason = "As Thm 3.6, plus A1 for the MCGHD (T-lad-cbg-geometry-nodes)."
-note = "Thm 3.13 (Maximal_GHD2.tex:708): Thm 3.6 by tertium non datur on the MCGHD of Thm 3.4; with the topological criterion it is the Hausdorffness of the gluing."
+ett = ["Causal.CBG.correspondingSet_mcghd_eq_empty", "Causal.CBG.t2Space_gluing_mcghd", "Causal.Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair"]
+localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
+note = "Thm 3.13 (Maximal_GHD2.tex:708): Thm 3.6 by tertium non datur on the MCGHD of Thm 3.4 (A1 for the MCGHD, A3 and A4 for the step); with the topological criterion of Causal.GluingHausdorff it is the Hausdorffness of the gluing."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
 by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
-by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG.flat_germ_future", "Causal.CBG.flat_slice_future"]
+proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "time_function", "curves_extend"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG.flat_germExtFuture", "Causal.CBG.flat_germExtPast", "Causal.CBG.flat_slice_future", "Causal.CBG.flat_slice_past", "Causal.CBG.flat_hasTimeFunction", "Causal.CBG.flat_curvesExtend"]
