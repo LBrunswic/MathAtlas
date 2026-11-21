@@ -98,3 +98,11 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓ (228 strict files, 0 sorry), ladder ✓, binder ✓, roadmaps ✓, tests ✓, blueprint ✓, hub make -k check ALL GREEN; /tmp/check-lean-causal.log left for /atlas-team's sweep refresh
 - commits: 7eff58c 645b01e 37df062 68957f2
 - next: lean-causal to /atlas-team's exclusive T-ett-gxsingular-dec25; then a wave of up to 3 lean-causal closers from the ready p4 targets (nested-converse, nested-transfer, chronal-neighbour-bridge, pushup-not-open, quasilinear-one-sided); a planner pass is due soon (proposals since 00:20: doubled-line compactness, gated-line local facts and the DEC-8 finding, spacelike-line non-tarentin, E0ModelRows hoist candidates, SingularFlatAxioms.causallyPlain for OQ-16)
+
+## 2026-11-21 02:40 · plan · programme-planner (backlog since 00:20; lean-causal held by /atlas-team)
+- roadmap 64 → 68 targets: T-lad-plain-separations (keeper, ready), T-abs-gateline-local (ready; the possible DEC-8 finding: an OQ row is the master's to write only if the closer confirms it), T-abs-doubled-line-compact (ready), T-abs-hoist-plain-locz (ready; SingularFlatAxioms.causallyPlain is evidence for OQ-16 and rem:pas_plat, recorded in evidence only)
+- now ready: T-abs-sbierski-prop-3-7, T-abs-gateline-witnesses, T-abs-hoist-cbg-gluing (exclusive; + correspondingSet, correspondingExt), T-tool-ladder-py (master; + emitted() skipping formless properties); T-abs-hoist-cbg-geometry stays needs-ruling with a refined question (Causal.CBG.cbg reaches only Causal.SingularFlat, through Geometry)
+- binders rebound to the new layering (notes and headers); counts unchanged (ers 28 rows, layer 1 in Lean 17; sbierski 19, layer 1 in Lean 15)
+- planner's findings: pushUp_of_causallyPlain_of_absolutelyMinimal (DeuxPushup, ETT-layer, T1) is an implication the ladder lacks (in T-lad-plain-separations); push_up ∧ chronal_neighbours ⇒ causally_plain argued, to be checked by T-abs-hoist-plain-locz; ett curation's extra_lean_files (:496, :867, :1223) will need the hoisted files
+- commits: 98dafcf
+- next: T-lad-plain-separations (keeper) now; T-tool-ladder-py (master) after it (both touch the ladder's checks); the three lean-causal closers (T-abs-sbierski-prop-3-7, T-abs-nested-converse, T-abs-nested-transfer) when /atlas-team frees lean-causal
