@@ -166,3 +166,6 @@ rediscover. One fact per entry.
 | [0158](entries/0158-static-shift-chartiso.md) | pattern | A time translation times a space isometry is a ChartIso of static spacetimes |
 | [0159](entries/0159-e-models-bprime-assembly.md) | pattern | (b′) over the whole E≥0 family, and the three corollaries at every E≥0-manifold: Causal.EModelsBPrime |
 | [0160](entries/0160-subfamily-natural-causality.md) | pattern | A sub-family's natural causality is the family's: use the uniqueness clause of massA_singular_all |
+| [0161](entries/0161-sfa-local-every-manifold.md) | pattern | SingularFlatAxioms' chartwise fields at every E≥0-manifold: Causal.SFALocal |
+| [0162](entries/0162-btz-point-charts-into-e0.md) | pattern | At a BTZ point every isomorphic chart is into E₀ |
+| [0163](entries/0163-family-facts-by-match.md) | pitfall | Family-indexed model facts: pattern-match on o, and read Sing through a membership lemma |

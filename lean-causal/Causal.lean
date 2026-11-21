@@ -271,6 +271,7 @@ import Causal.Model.MeasuresEAlpha
 import Causal.Model.BPrimeEAlpha
 import Causal.Remarks.MassAModelsInstance
 import Causal.Remarks.EModelsBPrime
+import Causal.Port.SFALocal
 
 /-!
 # Causal — topological spacetimes
