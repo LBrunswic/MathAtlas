@@ -6,3 +6,4 @@ import Syracuse.IntegerBounds
 import Syracuse.Completion
 import Syracuse.CycleGcd
 import Syracuse.UpperBounds
+import Syracuse.Steiner

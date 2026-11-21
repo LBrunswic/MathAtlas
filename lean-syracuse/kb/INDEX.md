@@ -25,3 +25,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0017](entries/0017-periodic-on-z.md) | pattern | Periodic functions on ℤ: reduce mod n, extend from one period, induct both ways |
 | [0018](entries/0018-undefined-hypothesis-reading-free.md) | pattern | Refute a statement with an undefined hypothesis without choosing its reading |
 | [0019](entries/0019-rec-pushneg-int-casts.md) | pitfall | `rec` is a keyword; `push_neg` is deprecated; `Periodic.int_mul` leaves ((q : ℤ) : ℤ) casts |
+| [0020](entries/0020-one-descent-reduction.md) | pattern | One descending index per period: move to the point after it, then an exact reduction and its converse |
+| [0021](entries/0021-bounded-decide-check.md) | pattern | A bounded Diophantine check in the kernel: decide, with three scoped set_options |
+| [0022](entries/0022-sum-congr-metavariable.md) | pitfall | Pitfall: Finset.sum_congr with no target leaves a metavariable that rw closes by rfl |
+| [0023](entries/0023-logb-powers.md) | pattern | Powers of 2 against powers of 3 with logb: reduce to the exponents, then to integer powers |
