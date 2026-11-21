@@ -1,0 +1,87 @@
+{
+  "package": "T-bz-c2-hemisphere",
+  "target": "T-bz-c2-hemisphere",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Hemisphere.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzprop:c2s3p2_hemisphere_corps_convexe",
+      "tex_lines": [718, 800],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.hemisphere_corps_convexe",
+        "Benzecri.HemisphereCorpsConvexePrinted",
+        "Benzecri.hemisphereCorpsConvexePrinted",
+        "Benzecri.enveloppeConvexe",
+        "Benzecri.enveloppeConvexe_isLeast",
+        "Benzecri.enveloppeConvexe_subset_hemisphere",
+        "Benzecri.isCorpsConvexeS_closure_enveloppeConvexe",
+        "Benzecri.smul_enveloppeConvexe_subset",
+        "Benzecri.IsFeuille",
+        "Benzecri.HasFeuille",
+        "Benzecri.exists_hasFeuille",
+        "Benzecri.exists_hasFeuille_of_isCompact",
+        "Benzecri.HasFeuille.smul",
+        "Benzecri.exists_hasFeuille_uniform",
+        "Benzecri.range_eq_interior",
+        "Benzecri.isCoveringMapOn_interior",
+        "Benzecri.injective_of_isCoveringMapOn"
+      ],
+      "hypotheses": [
+        {"paper": "V une variété localement projective", "here": "carried", "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)] [T2Space V]: « variété » read Hausdorff (question below; the proof's 2° and 5° and the statement itself need it). Second countability is never used. The printed form HemisphereCorpsConvexePrinted n carries it (V : Type, T2, connected, second countable) and holds for every n"},
+        {"paper": "connexe", "here": "carried", "note": "[ConnectedSpace V] (Mathlib's: nonempty). A « variété » is nonempty (DEC-128). For V = ∅ the conclusion fails, since the interior of a convex body is nonempty"},
+        {"paper": "balayable", "here": "carried", "note": "IsBalayable (GSR n) (S n) V (Déf. 15, the whole group of projective automorphisms, strict Structure/Classes.lean)"},
+        {"paper": "munie d'une projection p sur S(n) compatible avec la structure projective [V est un ouvert étalé sur S(n)]", "here": "carried", "note": "IsDeveloping (GSR n) p, as in Prop. 1 (Chapter2/Projection.lean); « sur » not read as « onto »"},
+        {"paper": "un hémisphère ouvert H̊ de S(n)", "here": "carried", "note": "Sphere.IsOpenHemisphere H (Déf. 5 as printed). Its degenerate l = 0 gives H = ∅, which the next hypothesis excludes since V ≠ ∅"},
+        {"paper": "closure of p(V) ⊂ H̊", "here": "carried", "note": "closure (range p) ⊆ H"},
+        {"paper": "conclusion: p est une carte de V sur l'intérieur d'un corps convexe de S(n)", "here": "strengthened", "note": "∃ K, IsCorpsConvexeS n K ∧ interior K = enveloppeConvexe (range p) ∧ ∃ φ : OpenPartialHomeomorph V (S n), IsCompatibleChart (GSR n) φ (Déf. 13) ∧ φ.source = univ ∧ φ.target = interior K ∧ ⇑φ = p. The extra conjunct says that int K is the proof's W, the convex hull of p(V). enveloppeConvexe is the least convex part containing p(V) (enveloppeConvexe_isLeast) and lies in H̊ (enveloppeConvexe_subset_hemisphere). The printed form omits this conjunct"},
+        {"paper": "the dimension n", "here": "carried", "note": "every n, n = 0 included (no NeZero n). For n = 0 a connected V is a point (subsingleton_dim_zero), and {p(M)} is a convex body of S(0) equal to its interior"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Proof of Prop. 2, 3° (l.759–762), statement unaffected. « cela résulte de 2°, de la continuité de la pseudo-longueur sur W, et de la compacité de E » does not give r(E) as printed. For points M' near M, the pseudo-balls of one fixed radius centred at p(M') must lie inside the pseudo-ball of 2° at p(M). A triangle inequality for l_W would give this, but it is not among properties 1°–7° (l.229–259). Continuity of l_W on W × W controls l_W(p(M'), ·) near p(M), but not uniformly towards the frontier of W. The formalization supplies the missing step (exists_pos_eventually_pseudoBoule_subset). By continuity, l_W ≥ s > 0 on D × frontier C for compact neighbourhoods D ⊆ int C of p(M), and a pseudo-ball of radius s centred in D is connected, so it cannot cross frontier C. This is the argument of hasBasis_pseudoBoule, made uniform. It is the same kind of gap the PseudoBoules SCOPE records for the sentence after Déf. 6 (« il résulte du 6° »).",
+        "Proof of Prop. 2, 2° (l.751–756) and 5° (l.786–789), statement unaffected. The uniqueness of the lift of (m, n) in O_M (2°) and « deux sections d'un ouvert étalé au-dessus d'une même partie connexe de la base sont identiques ou d'intersection vide » (5°) hold only for a Hausdorff V. On the line with two origins over ℝ, two sections over ℝ agree everywhere but at one point. The formalization proves the section lemma for a Hausdorff space (mem_of_injOn_of_isPreconnected) and carries T2 as part of « variété » (question).",
+        "The misprints flagged [sic] in the transcription are formalized as read, not reported as findings: « cf. § 2, déf. 5 » (l.750) is read déf. 6, the pseudo-ball, and « d'après 4° » (l.796) is read 3°, the uniform radius.",
+        "Dimension 0 and OQ-45: Prop. 2 holds as printed in every dimension (hemisphereCorpsConvexePrinted n for every n), so OQ-45 does not reach this row. The proof's 2° uses the neighbourhood basis of pseudo-balls (hasBasis_pseudoBoule, n ≥ 1) only for n ≥ 1. For n = 0, V is a point.",
+        "OQ-62 does not matter for this row. Prop. 5 is applied in 4° with the radius r of 3°, which is > 0 by construction: a radius-0 pseudo-ball is empty and could not be the neighbourhood of 2°. Benzecri.ouvert_plein is proved for every r > 0, so either answer to OQ-62 leaves this row unchanged."
+      ],
+      "questions": [
+        "« variété » read Hausdorff (the standing reading of the Benzécri files). The statement is false without it. The counterexample is argued, not formalized. Let W be an open segment of S(1) whose closure lies in an open hemisphere, h a hyperbolic projective transformation preserving W, D = {h^k(m₀) : k ∈ ℤ}. Double every point of D: two copies of W glued along W ∖ D. This V is connected, T1, non-Hausdorff and locally projective, and its developing map is p : V → W. It is swept by h acting on both copies, with the compact generating domain made of one copy of [m₀, h(m₀)] and the other copy of m₀. The closure of p(V) lies in the hemisphere, and p is not injective. Reading taken: [T2Space V] is carried as part of « variété »; it is not an added hypothesis.",
+        "« connexe » read as Mathlib's ConnectedSpace, nonempty, because a « variété » is nonempty (DEC-128). In Bourbaki's sense the empty V would be connected, and the conclusion fails for it."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.mem_of_injOn_of_isPreconnected",
+    "Benzecri.simplyConnectedSpace_corpsInterior",
+    "Benzecri.subset_enveloppeConvexe",
+    "Benzecri.smul_mem_convexHull_F",
+    "Benzecri.isOpen_enveloppeConvexe",
+    "Benzecri.smul_mem_interior_of_smul_eq",
+    "Benzecri.inv_smul_interior_of_smul_eq",
+    "Benzecri.homeomorphInterior",
+    "Benzecri.isGXMorphism_homeomorphInterior",
+    "Benzecri.autInterior",
+    "Benzecri.coe_autInterior_smul",
+    "Benzecri.image_pseudoBoule_autInterior",
+    "Benzecri.exists_pos_eventually_pseudoBoule_subset",
+    "Benzecri.isOpen_image_pseudoBoule",
+    "Benzecri.isPreconnected_image_pseudoBoule",
+    "Benzecri.IsFeuille.shrink",
+    "Benzecri.HasFeuille.mono",
+    "Benzecri.exists_chart_of_injective"
+  ],
+  "kb_proposals": [
+    "Covering maps from local data (Chapter2/Hemisphere.lean). To prove IsCoveringMapOn p s, choose one sheet per point of the fibre and feed them to Mathlib's IsOpen.trivializationDiscrete with ι = p ⁻¹' {x}. That needs [Nonempty ι], [Nonempty (X → E)] and DiscreteTopology ι, the last from (IsDiscrete.of_openPartialHomeomorph p subset_rfl …).1. Then IsEvenlyCovered.of_trivialization. Lift with IsCoveringMapOn.existsUnique_continuousMap_lifts: no codomain restriction of p is needed.",
+    "The section lemma mem_of_injOn_of_isPreconnected: X Hausdorff, p an open map, O and O' open with p injective on each, B preconnected under both, the sections meeting over B. Then every point of O over B lies in O'. It gives disjointness of sheets and their coincidence along a segment. Without T2 it fails (line with two origins).",
+    "The interior of a convex body of S(n) is simply connected (simplyConnectedSpace_corpsInterior): it is homeomorphic, through nrm ℓ, to the convex set F(int K) ∩ {ℓ = 1}. Then Convex.contractibleSpace, Homeomorph.contractibleSpace, and the instance SimplyConnectedSpace.ofContractible. It also gives PreconnectedSpace (corpsInterior K) for ouvert_plein.",
+    "A projective transformation γ with γ • interior K = interior K is an automorphism of corpsInterior K: autInterior, built by GXAut.ofBijective. The morphism condition closes by simp [TopologicalSpace.Opens.chartAt_eq]. It maps pseudo-balls onto pseudo-balls (image_pseudoBoule_autInterior). To pull back through a⁻¹, use a • (a⁻¹ • N) = N, not an explicit inverse.",
+    "Membership in a pointwise smul set (y ∈ γ • S) is not destructured by rintro: use obtain … := Set.mem_smul_set.1 h. For closure/interior of a translate, the rewrite order is ← interior_smul, then ← closure_smul.",
+    "Uniformly small pseudo-balls near a point of a convex body: exists_pos_eventually_pseudoBoule_subset. It is the uniform version of hasBasis_pseudoBoule and stands in for the triangle inequality the paper never states."
+  ],
+  "notes": "Sorry-free, standard axioms only. #print axioms of hemisphere_corps_convexe, hemisphereCorpsConvexePrinted, enveloppeConvexe_isLeast, enveloppeConvexe_subset_hemisphere, exists_chart_of_injective, the section lemma, simplyConnectedSpace_corpsInterior, isCorpsConvexeS_closure_enveloppeConvexe, isCoveringMapOn_interior, injective_of_isCoveringMapOn, range_eq_interior, exists_hasFeuille_uniform, exists_pos_eventually_pseudoBoule_subset and image_pseudoBoule_autInterior gives propext, Classical.choice, Quot.sound. The probes were /tmp files and have been deleted. The file compiles under -DwarningAsError=true with no warning, so it can graduate as is. `taskset -c 0-11 lake build BenzecriScaffold.Chapter2.Hemisphere` is green, run after checking that no lake/lean process was running; it rebuilt only this module. scripts/sorry_count.py gives scaffold 0. The file imports only Benzecri.Chapter2.PseudoBoules (strict) and Mathlib (Topology.Covering.Basic, Topology.Homotopy.Lifting, Analysis.Convex.Contractible, AlgebraicTopology.FundamentalGroupoid.SimplyConnected). The scaffold root BenzecriScaffold.lean was not edited; the master adds the import. Prop2Literal.lean, the other closer's file, was not touched. The planner's [r] was checked. (a) W, the convex hull, is the interior of the convex body K = closure W, it is γ-invariant, and the argument does not depend on γH̊: the hull is intrinsic, the rays of convexHull F(p(V)). Confirmed. (b) Two sections of an étalé space over a connected set agree or are disjoint. Confirmed for Hausdorff V only, and false without T2. (c) A covering of the simply connected W by the connected V is a homeomorphism. Confirmed, through Mathlib's lifting theorem plus a clopen argument, which uses T2. γ comes from IsDeveloping.existsUnique_smul_eq, with no pocket, as the planner said. The mark is placed because the statement holds as printed in every dimension, n = 0 included, with no added hypothesis (T2 being « variété »), no sorry, and OQ-45 and OQ-62 both irrelevant to it. Anchor: Benzecri.hemisphere_corps_convexe. Transcription l.718–800 was read against the scan (journal pp. 257–258, PDF pp. 30–31) and agrees. The extra conjunct interior K = enveloppeConvexe (range p) feeds result B (T-bz-result-b), the second sentence."
+}
