@@ -116,3 +116,5 @@ rediscover. One fact per entry.
 | [0108](entries/0108-maximal-atlas-chartiso-pitfall.md) | pitfall | Chart isomorphisms do not pass to the maximal a.e. atlas for free |
 | [0109](entries/0109-locally-connected-product.md) | pitfall | Pitfall: LocallyConnectedSpace (X × Y) at this pin |
 | [0110](entries/0110-seg-causality.md) | pattern | A cheap causality with empty chronology for (G,X)-counterexamples |
+| [0111](entries/0111-chronology-on-polygonal-causality.md) | pattern | A chronology on a polygonal causality: a side condition closed in the start, open in the end |
+| [0112](entries/0112-chronal-neighbours-without-pushup.md) | pattern | Chronal neighbours without push-up, in either reading: the chronal one-way membrane |
