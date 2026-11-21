@@ -1,6 +1,7 @@
 import Causal.CBG.Pgcd
 import Causal.CBG.Corresponding
 import Causal.CompactMinimal
+import Causal.CorrespondingSpacelike
 
 /-!
 # No corresponding boundary points between a development and the MCGHD (Sbierski §3.2)
@@ -47,6 +48,8 @@ and the Hausdorff step of the proof of Thm 2.7 (p. 20).
 * **Model-free** (any causality, open sets, kb/0001): `Causality.exists_minimal_of_isCompact` (a
   compact set has a `≤`-minimal point when `M` is causal with closed `J⁻(x)`: Zorn, in place of
   the design's Geroch time; in `Causal.CompactMinimal` since T-abs-hoist-model-free, imported),
+  and, **in `Causal.CorrespondingSpacelike`** (ETT layer, imported; moved there verbatim, same full
+  names, with the witnesses, by T-abs-hoist-cbg-cores, 2026-11-21):
   `Causality.mem_closure_of_mem_Jminus` (a point of `J⁻(p) ∩ J⁺(S)`, `p ∈ closure U`, is in
   `closure U`: `K⁻` density + `lem:passe_pgcd`),
   `Causality.spacelike_iff` (**(3.10) ⟺ ETT's `J(Σ, p) ∖ {p} ⊆ U`**),
@@ -125,7 +128,8 @@ and the Hausdorff step of the proof of Thm 2.7 (p. 20).
   Sbierski) is not proved; nothing here uses it.
 * The gluing statements are topological (`T2Space` of `Gluing`); its structure (`glue`), causality
   (`Gluing.causality`) and global hyperbolicity are package 7 (`Ppcm`).
-* The witnesses cover the model-free Lemma 3.11 (`timelikeLine_spacelike_hypotheses`) and the
+* The witnesses (in `Causal.CorrespondingSpacelike`, section `Witness`, moved with the core)
+  cover the model-free Lemma 3.11 (`timelikeLine_spacelike_hypotheses`) and the
   core of Lemma 3.9 (`timelikeLine_corrPair_hypotheses`) on the timelike line (`U = ]-∞,1[`,
   `S = {0}`, `p = p₀ = 1`, `ψ = id`), regular case only. The second is **degenerate**
   (`q = p₀`, since `∂U = {1}` on the line): it shows joint satisfiability of the hypotheses but
@@ -141,187 +145,7 @@ open Set Topology Filter Function TopologicalSpace
 
 universe u v
 
-/-! ### Model-free lemmas -/
-
-namespace Causality
-
-variable {M : Type u} [TopologicalSpace M] {C : Causality M}
-
-/-- **A point of `J⁻(p) ∩ J⁺(S)` is in `closure U`** for `p ∈ closure U`, `U` causally convex,
-`S ⊆ U`: otherwise the open `(closure U)ᶜ ∩ J⁺(S)` around it (`lem:Sigma_separe`'s clause) meets
-`K⁻(p)` (`prop:K_densite_sing`), and `K⁻(p) ∩ J⁺(S) ⊆ U` (`lem:passe_pgcd`). Sbierski's "this
-contradicts the global hyperbolicity of `U`" (proofs of Lemmas 3.9, 3.11). -/
-theorem mem_closure_of_mem_Jminus [FirstCountableTopology M] {U : Opens M}
-    (hcvU : C.CausallyConvexIn (U : Set M) ⊤) {S : Set M} (hSU : S ⊆ U) {p : M}
-    (hdense : C.Jminus ⊤ {p} ⊆ closure (C.Kminus ⊤ {p}))
-    (hsep : ∀ y ∈ C.Jplus ⊤ S \ S, C.Jplus ⊤ S ∈ 𝓝 y) (hp : p ∈ closure (U : Set M)) {x : M}
-    (hx : x ∈ C.Jminus ⊤ {p}) (hxS : x ∈ C.Jplus ⊤ S) : x ∈ closure (U : Set M) := by
-  by_contra hxc
-  have hxnS : x ∉ S := fun hm => hxc (subset_closure (hSU hm))
-  have hN : (closure (U : Set M))ᶜ ∩ C.Jplus ⊤ S ∈ 𝓝 x :=
-    inter_mem (isClosed_closure.isOpen_compl.mem_nhds hxc) (hsep x ⟨hxS, hxnS⟩)
-  obtain ⟨r, ⟨hrc, hrS⟩, hrK⟩ := mem_closure_iff_nhds.1 (hdense hx) _ hN
-  exact hrc (subset_closure (Kminus_inter_Jplus_subset_of_causallyConvexIn hcvU hSU hp ⟨hrK, hrS⟩))
-
-/-- **Sbierski (3.10) ⟺ ETT's form** (`prop:Cauchy_point_min`, `ETT.tex:2272`): for `p ∈ ∂U`,
-`J⁻(p) ∩ ∂U ∩ J⁺(S) ⊆ {p}` iff `J⁺(S) ∩ J⁻(p) ∖ {p} ⊆ U`. -/
-theorem spacelike_iff [FirstCountableTopology M] {U : Opens M}
-    (hcvU : C.CausallyConvexIn (U : Set M) ⊤) {S : Set M} (hSU : S ⊆ U) {p : M}
-    (hdense : C.Jminus ⊤ {p} ⊆ closure (C.Kminus ⊤ {p}))
-    (hsep : ∀ y ∈ C.Jplus ⊤ S \ S, C.Jplus ⊤ S ∈ 𝓝 y) (hp : p ∈ frontier (U : Set M)) :
-    C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S ⊆ {p} ↔
-      (C.Jplus ⊤ S ∩ C.Jminus ⊤ {p}) \ {p} ⊆ U := by
-  constructor
-  · rintro h x ⟨⟨hxS, hxp⟩, hxne⟩
-    by_contra hxU
-    have hcl := mem_closure_of_mem_Jminus hcvU hSU hdense hsep (frontier_subset_closure hp) hxp hxS
-    exact hxne (h ⟨⟨hxp, hcl, by rwa [U.isOpen.interior_eq]⟩, hxS⟩)
-  · rintro h x ⟨⟨hxp, hxf⟩, hxS⟩
-    by_contra hxne
-    have hxU := h ⟨⟨hxS, hxp⟩, hxne⟩
-    rw [U.isOpen.frontier_eq] at hxf
-    exact hxf.2 hxU
-
-/-- **Sbierski Lemma 3.11**, model-free: if `p ∈ ∂U` satisfies (3.10) (`⊆` suffices), then every
-neighbourhood `W` of `p` contains `J⁻(q) ∩ Uᶜ ∩ J⁺(S)` for some `q ≫ p`. Proof: otherwise the
-sets `J⁻(q) ∩ Uᶜ ∩ (interior W)ᶜ ∩ (J⁺(S) ∩ J⁻(q₁))`, `p ≪ q ≤ q₁`, are closed, non-empty,
-directed (`p ∈ Z⁺`) in a compact set, so they share a point `r`; `r ≤ p` (`p` is a limit of such
-`q`, `J⁺(r)` closed), `r ∉ U`, `r ≠ p`; by (3.10) `r ∉ ∂U`, against `mem_closure_of_mem_Jminus`. -/
-theorem exists_lt_Jminus_compl_subset [T2Space M] [FirstCountableTopology M] {U : Opens M}
-    (hcvU : C.CausallyConvexIn (U : Set M) ⊤) {S : Set M} (hSU : S ⊆ U) {p : M}
-    (hZ : p ∈ C.Zplus) (hclp : ∀ x, IsClosed (C.Jplus ⊤ {x}))
-    (hclm : ∀ x, IsClosed (C.Jminus ⊤ {x}))
-    (hdense : C.Jminus ⊤ {p} ⊆ closure (C.Kminus ⊤ {p}))
-    (hsep : ∀ y ∈ C.Jplus ⊤ S \ S, C.Jplus ⊤ S ∈ 𝓝 y)
-    (hcpt : ∀ x, IsCompact (C.Jplus ⊤ S ∩ C.Jminus ⊤ {x})) (hp : p ∈ frontier (U : Set M))
-    (h310 : C.Jminus ⊤ {p} ∩ frontier (U : Set M) ∩ C.Jplus ⊤ S ⊆ {p}) {W : Set M}
-    (hW : W ∈ 𝓝 p) :
-    ∃ q, C.lt ⊤ p q ∧ C.Jminus ⊤ {q} ∩ (U : Set M)ᶜ ∩ C.Jplus ⊤ S ⊆ W := by
-  by_contra hne
-  simp only [not_exists, not_and] at hne
-  obtain ⟨q₁, hq₁, -⟩ := hZ univ univ_mem
-  have hpq₁ : C.lt ⊤ p q₁ := by simpa using hq₁
-  let ι := {q : M // C.lt ⊤ p q ∧ C.le ⊤ q q₁}
-  haveI : Nonempty ι := ⟨⟨q₁, hpq₁, C.le_refl (U := ⊤) (x := q₁) trivial⟩⟩
-  let t : ι → Set M := fun i => C.Jminus ⊤ {i.1} ∩ (U : Set M)ᶜ ∩ (interior W)ᶜ ∩
-    (C.Jplus ⊤ S ∩ C.Jminus ⊤ {q₁})
-  have hpW : p ∈ interior W := mem_interior_iff_mem_nhds.2 hW
-  have htn : ∀ i, (t i).Nonempty := by
-    intro i
-    obtain ⟨r, ⟨⟨hrq, hrU⟩, hrS⟩, hrW⟩ := not_subset.1 (hne i.1 i.2.1)
-    have hrq' : C.le ⊤ r i.1 := by simpa using hrq
-    exact ⟨r, ⟨⟨hrq, hrU⟩, fun h => hrW (interior_subset h)⟩, hrS,
-      by simpa using C.le_trans hrq' i.2.2⟩
-  have htc : ∀ i, IsCompact (t i) := fun i =>
-    (hcpt q₁).inter_left (((hclm _).inter U.isOpen.isClosed_compl).inter
-      isOpen_interior.isClosed_compl)
-  have htcl : ∀ i, IsClosed (t i) := fun i => (htc i).isClosed
-  have htd : Directed (· ⊇ ·) t := by
-    intro i j
-    have hN : C.Iminus ⊤ {i.1} ∩ C.Iminus ⊤ {j.1} ∈ 𝓝 p :=
-      inter_mem (isOpen_Iminus.mem_nhds (by simpa using i.2.1))
-        (isOpen_Iminus.mem_nhds (by simpa using j.2.1))
-    obtain ⟨k, hk, hki, hkj⟩ := hZ _ hN
-    have hpk : C.lt ⊤ p k := by simpa using hk
-    have hki' : C.lt ⊤ k i.1 := by simpa using hki
-    have hkj' : C.lt ⊤ k j.1 := by simpa using hkj
-    refine ⟨⟨k, hpk, C.le_trans (C.le_of_lt hki') i.2.2⟩, ?_, ?_⟩
-    · rintro r ⟨⟨⟨hrk, hrU⟩, hrW⟩, hrS⟩
-      have hrk' : C.le ⊤ r k := by simpa using hrk
-      exact ⟨⟨⟨by simpa using C.le_trans hrk' (C.le_of_lt hki'), hrU⟩, hrW⟩, hrS⟩
-    · rintro r ⟨⟨⟨hrk, hrU⟩, hrW⟩, hrS⟩
-      have hrk' : C.le ⊤ r k := by simpa using hrk
-      exact ⟨⟨⟨by simpa using C.le_trans hrk' (C.le_of_lt hkj'), hrU⟩, hrW⟩, hrS⟩
-  obtain ⟨r, hr⟩ := IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed t htd htn
-    htc htcl
-  rw [mem_iInter] at hr
-  obtain ⟨⟨⟨-, hrU⟩, hrW⟩, hrS, -⟩ := hr ⟨q₁, hpq₁, C.le_refl (U := ⊤) (x := q₁) trivial⟩
-  have hrp : r ∈ C.Jminus ⊤ {p} := by
-    have hcl : p ∈ closure (C.Jplus ⊤ {r}) := by
-      rw [mem_closure_iff_nhds]
-      intro N hN
-      obtain ⟨k, hk, hkN, hkq₁⟩ := hZ _ (inter_mem hN (isOpen_Iminus.mem_nhds
-        (show p ∈ C.Iminus ⊤ {q₁} by simpa using hpq₁)))
-      have hpk : C.lt ⊤ p k := by simpa using hk
-      have hkq : C.lt ⊤ k q₁ := by simpa using hkq₁
-      exact ⟨k, hkN, by simpa using (hr ⟨k, hpk, C.le_of_lt hkq⟩).1.1.1⟩
-    rw [(hclp r).closure_eq] at hcl
-    simpa using hcl
-  have hrne : r ≠ p := fun e => hrW (e ▸ hpW)
-  have hrcl := mem_closure_of_mem_Jminus hcvU hSU hdense hsep (frontier_subset_closure hp) hrp hrS
-  exact hrne (h310 ⟨⟨hrp, hrcl, by rwa [U.isOpen.interior_eq]⟩, hrS⟩)
-
-end Causality
-
 namespace CBG
-
-/-! ### Model-free: the core of Lemma 3.9, and `C` closed -/
-
-section Core
-
-variable {M : Type u} {N : Type v} [TopologicalSpace M] [TopologicalSpace N]
-  {C : Causality M} {D : Causality N} {U : Opens M} {V : Opens N} {ψ : M → N} {g : N → M}
-
-/-- **The core of Sbierski Lemma 3.9**: a boundary point `q ∈ ∂U` with `K⁻(q) ⊆ K⁻(p₀)` (e.g.
-`q ≤ p₀`, `prop:K_monotone`), `p₀` corresponding to `p₀'`, has a corresponding point `q'`, in
-`J⁺(ψ S) ∩ J⁻(p₀')`: a cluster point of `ψ` along `K⁻(q) ∩ J⁺(S) ⊆ U` (`lem:passe_pgcd`), whose
-`ψ`-image lies below `p₀'` (package 5's cluster step `le_of_corresponds`) in the compact
-`J⁺(ψ S) ∩ J⁻(p₀')`. Replaces Sbierski's walk along a null geodesic of `∂U`. -/
-theorem IsCorrPair.exists_corresponds_of_le [FirstCountableTopology M]
-    (h : IsCorrPair C D U V ψ g) (hcvM : C.CausallyConvexIn (U : Set M) ⊤) {S : Set M}
-    (hSU : S ⊆ U) {q p₀ : M} {p₀' : N} (hq : q ∈ frontier (U : Set M))
-    (hsep : C.Jplus ⊤ S ∈ 𝓝 q) (hdense : q ∈ closure (C.Kminus ⊤ {q}))
-    (hmono : C.Kminus ⊤ {q} ⊆ C.Kminus ⊤ {p₀}) (hcl : ∀ y, IsClosed (D.Jplus ⊤ {y}))
-    (hcpt : IsCompact (D.Jplus ⊤ (ψ '' S) ∩ D.Jminus ⊤ {p₀'}))
-    (hc : Corresponds (U : Set M) ψ p₀ p₀') :
-    ∃ q', q' ∈ D.Jplus ⊤ (ψ '' S) ∩ D.Jminus ⊤ {p₀'} ∧ Corresponds (U : Set M) ψ q q' := by
-  have hpass := Causality.Kminus_inter_Jplus_subset_of_causallyConvexIn hcvM hSU
-    (frontier_subset_closure hq)
-  have hqA : q ∈ closure (C.Kminus ⊤ {q} ∩ C.Jplus ⊤ S) := by
-    rw [mem_closure_iff_nhds] at hdense ⊢
-    intro O hO
-    obtain ⟨z, ⟨hzO, hzS⟩, hzK⟩ := hdense (O ∩ C.Jplus ⊤ S) (inter_mem hO hsep)
-    exact ⟨z, hzO, hzK, hzS⟩
-  haveI : NeBot (𝓝[C.Kminus ⊤ {q} ∩ C.Jplus ⊤ S] q) := mem_closure_iff_nhdsWithin_neBot.1 hqA
-  have hle : map ψ (𝓝[C.Kminus ⊤ {q} ∩ C.Jplus ⊤ S] q) ≤
-      𝓟 (D.Jplus ⊤ (ψ '' S) ∩ D.Jminus ⊤ {p₀'}) := by
-    rw [le_principal_iff, mem_map]
-    refine mem_of_superset self_mem_nhdsWithin fun x hx => ?_
-    have hxU : x ∈ U := hpass hx
-    obtain ⟨hxK, σ, hσ, hσx⟩ := hx
-    refine ⟨⟨ψ σ, mem_image_of_mem ψ hσ, (h.le_iff σ (hSU hσ) x hxU).1 hσx⟩, ?_⟩
-    rw [Precausality.mem_Jminus_singleton]
-    exact h.le_of_corresponds (hcl _) hxU
-      (Causality.Jplus_mem_nhds_of_mem_Kminus (hmono hxK)) hc
-  obtain ⟨q', hq'K, hcl'⟩ := hcpt hle
-  exact ⟨q', hq'K,
-    corresponds_iff_mapClusterPt.2 (MapClusterPt.mono hcl' (nhdsWithin_mono q hpass))⟩
-
-/-- **The set of corresponding pairs is closed** (`prop:C_connexe`, second half, `ETT.tex:2241–2242`; there in
-`∂j₁(N) × ∂j₂(N)`): the corresponding pairs form the closure of the graph of `ψ` on `U`. -/
-theorem isClosed_setOf_corresponds (U : Set M) (ψ : M → N) :
-    IsClosed {pq : M × N | Corresponds U ψ pq.1 pq.2} := by
-  have he : {pq : M × N | Corresponds U ψ pq.1 pq.2} = closure ((fun x => (x, ψ x)) '' U) := by
-    ext ⟨p, q⟩
-    rw [mem_setOf_eq, mem_closure_iff_nhds]
-    constructor
-    · intro hc o ho
-      obtain ⟨O, hO, O', hO', hsub⟩ := mem_nhds_prod_iff.1 ho
-      obtain ⟨x, hxU, hxO, hψ⟩ := hc O hO O' hO'
-      exact ⟨(x, ψ x), hsub ⟨hxO, hψ⟩, x, hxU, rfl⟩
-    · intro hc O hO O' hO'
-      obtain ⟨_, ⟨hxO, hψ⟩, x, hxU, rfl⟩ := hc _ (prod_mem_nhds hO hO')
-      exact ⟨x, hxU, hxO, hψ⟩
-  rw [he]; exact isClosed_closure
-
-/-- **`prop:C_connexe`, second half, in ETT's ambient** (`ETT.tex:2241–2242`: "`C` is closed in
-`∂j₁(N) × ∂j₂(N)`"): the corresponding pairs lying in `∂U × ∂V` form a closed set (for `V = ψ(U)`
-every corresponding pair over `∂U` lies there, package 5's `IsCorrPair.mem_frontier_of_corresponds`). -/
-theorem isClosed_setOf_corresponds_frontier (U : Set M) (V : Set N) (ψ : M → N) :
-    IsClosed ({pq : M × N | Corresponds U ψ pq.1 pq.2} ∩ (frontier U ×ˢ frontier V)) :=
-  (isClosed_setOf_corresponds U ψ).inter (isClosed_frontier.prod isClosed_frontier)
-
-end Core
 
 /-! ### Level A: Lemmas 3.8 (second half), 3.9, 3.11, Thm 3.6, the gluing -/
 
@@ -753,58 +577,6 @@ theorem t2Space_gluing_mcghd [ConnectedSpace M₀] :
     correspondingSet_mcghd_eq_empty
 
 end Dev
-
-/-! ### Witness: the model-free Lemma 3.11 on the timelike line -/
-
-section Witness
-
-/-- **The hypotheses of `Causality.exists_lt_Jminus_compl_subset` are jointly satisfiable**
-(kb/0011): the timelike line, `U = ]-∞, 1[`, `S = {0}`, `p = 1` (regular case; (3.10) holds since
-`∂U = {1}`). -/
-theorem timelikeLine_spacelike_hypotheses :
-    timelikeLine.CausallyConvexIn (iioOne : Set ℝ) ⊤ ∧ ({0} : Set ℝ) ⊆ iioOne ∧
-      (1 : ℝ) ∈ timelikeLine.Zplus ∧ (∀ x, IsClosed (timelikeLine.Jplus ⊤ {x})) ∧
-      (∀ x, IsClosed (timelikeLine.Jminus ⊤ {x})) ∧
-      timelikeLine.Jminus ⊤ {(1 : ℝ)} ⊆ closure (timelikeLine.Kminus ⊤ {(1 : ℝ)}) ∧
-      (∀ y ∈ timelikeLine.Jplus ⊤ {0} \ {0}, timelikeLine.Jplus ⊤ {(0 : ℝ)} ∈ 𝓝 y) ∧
-      (∀ x, IsCompact (timelikeLine.Jplus ⊤ {0} ∩ timelikeLine.Jminus ⊤ {x})) ∧
-      (1 : ℝ) ∈ frontier (iioOne : Set ℝ) ∧
-      timelikeLine.Jminus ⊤ {(1 : ℝ)} ∩ frontier (iioOne : Set ℝ) ∩
-        timelikeLine.Jplus ⊤ {0} ⊆ {1} := by
-  have hfr : frontier (iioOne : Set ℝ) = {1} := by
-    show frontier (Iio (1 : ℝ)) = {1}; exact frontier_Iio
-  have hK := timelikeLine_kSide
-  refine ⟨timelikeLine_causallyConvexIn_iioOne, ?_, timelikeLine_mem_Zplus 1, hK.isClosed_Jplus,
-    hK.isClosed_Jminus, hK.dense 1, hK.separates, hK.isCompact, by rw [hfr]; rfl, ?_⟩
-  · rintro _ rfl; show (0 : ℝ) < 1; norm_num
-  · rw [hfr]; exact fun x hx => hx.1.2
-
-/-- **The hypotheses of `IsCorrPair.exists_corresponds_of_le` are jointly satisfiable, with a
-genuine corresponding pair** (kb/0011): the timelike line, `U = V = ]-∞, 1[`, `ψ = g = id`,
-`S = {0}`, `q = p₀ = p₀' = 1`. **Degenerate witness**: `q = p₀` (on the line `∂U = {1}`, so no
-boundary point `q ≠ p₀` exists), hence `K⁻(q) ⊆ K⁻(p₀)` is `subset_rfl` and the lemma's
-conclusion is its hypothesis `Corresponds … 1 1`; it witnesses consistency only, not the cluster
-argument at a point strictly below `p₀`. -/
-theorem timelikeLine_corrPair_hypotheses :
-    IsCorrPair timelikeLine timelikeLine iioOne iioOne id id ∧
-      timelikeLine.CausallyConvexIn (iioOne : Set ℝ) ⊤ ∧ ({0} : Set ℝ) ⊆ iioOne ∧
-      (1 : ℝ) ∈ frontier (iioOne : Set ℝ) ∧ timelikeLine.Jplus ⊤ {(0 : ℝ)} ∈ 𝓝 (1 : ℝ) ∧
-      (1 : ℝ) ∈ closure (timelikeLine.Kminus ⊤ {(1 : ℝ)}) ∧
-      (∀ y, IsClosed (timelikeLine.Jplus ⊤ {y})) ∧
-      IsCompact (timelikeLine.Jplus ⊤ (id '' {(0 : ℝ)}) ∩ timelikeLine.Jminus ⊤ {(1 : ℝ)}) ∧
-      Corresponds (iioOne : Set ℝ) id (1 : ℝ) 1 := by
-  have hfr : frontier (iioOne : Set ℝ) = {1} := by
-    show frontier (Iio (1 : ℝ)) = {1}; exact frontier_Iio
-  have hK := timelikeLine_kSide
-  refine ⟨timelikeLine_isCorrPair_id, timelikeLine_causallyConvexIn_iioOne, ?_, by rw [hfr]; rfl,
-    hK.separates 1 ⟨?_, ?_⟩, hK.dense 1 ?_, hK.isClosed_Jplus, by rw [image_id]; exact hK.isCompact 1,
-    timelikeLine_corresponds_one⟩
-  · rintro _ rfl; show (0 : ℝ) < 1; norm_num
-  · rw [timelikeLine_Jplus_top_singleton]; norm_num
-  · norm_num
-  · rw [timelikeLine_Jminus_top_singleton]; exact mem_Iic.2 (le_refl (1 : ℝ))
-
-end Witness
 
 end CBG
 

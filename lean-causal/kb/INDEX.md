@@ -67,3 +67,5 @@ rediscover. One fact per entry.
 | [0059](entries/0059-e0-singular-flat-witness.md) | pattern | E₀ is a SingularFlatAxioms witness with a BTZ point |
 | [0060](entries/0060-generated-port.md) | pattern | Generate a gx → Causal port by line ranges, and check it as verbatim blocks |
 | [0061](entries/0061-stranded-model-free-lemmas.md) | convention | Model-free lemmas stranded under Causal.E0 / Causal.E0LM: hoist on demand |
+| [0062](entries/0062-corresponding-toolkit.md) | pattern | The model-free corresponding-point toolkit is in the ETT layer |
+| [0063](entries/0063-verbatim-hoist-check.md) | pattern | Checking a verbatim hoist: dump the environment before and after |

@@ -220,6 +220,8 @@ import Causal.CausalIsoInvariance
 import Causal.Model.EAlphaCauchy
 import Causal.Port.E0Strong
 import Causal.Port.E0SingularFlat
+import Causal.CorrespondingPoints
+import Causal.CorrespondingSpacelike
 
 /-!
 # Causal — topological spacetimes

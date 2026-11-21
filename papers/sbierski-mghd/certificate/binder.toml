@@ -38,9 +38,10 @@
 # * Every theorem row of §3 has its layer-1 theorem in Lean, sorry-free. Of the model-free lemmas
 #   kb/0047 found stranded, Causal.Causality.exists_minimal_of_isCompact (Lemma 3.9's core) is now in
 #   the ETT-layer Causal.CompactMinimal and inextensible_ordConnectedComponent_of_le (Thm 3.4's
-#   "segment in U_α") in Causal.CurveComponents (T-abs-hoist-model-free, 02b43b6). The others still
-#   live in modules that import a model: the IsCorrPair/KSide core and Lemmas 3.9, 3.11's cores
-#   (T-abs-hoist-cbg-cores), TwoPiece/ManyPiece (T-abs-hoist-cbg-gluing), injOn_of_injOn_cauchy and
+#   "segment in U_α") in Causal.CurveComponents (T-abs-hoist-model-free, 02b43b6); the IsCorrPair/KSide core and
+#   Lemmas 3.9, 3.11's cores in Causal.CorrespondingPoints, Causal.CorrespondingSpacelike
+#   (T-abs-hoist-cbg-cores). The others still
+#   live in modules that import a model: TwoPiece/ManyPiece (T-abs-hoist-cbg-gluing), injOn_of_injOn_cauchy and
 #   Causal.CurvesExtend (T-abs-hoist-time-function); the CBG interface itself (Geometry, Dev, cbg)
 #   imports Causal.SingularFlat through A2, a layer-1 question for the author (T-abs-hoist-cbg-geometry).
 # * Def 3.5, Thm 2.7's Hausdorff criterion and the bare gluing are Causal.GluingHausdorff (pure
@@ -57,7 +58,7 @@
 #   derives it from A3 (CGHDData.tendsto_comp), while Sbierski proves A3 (Lemma 3.8) from Prop 3.7 (ii).
 #   A smooth-vacuum discharge of A3 by Sbierski's proof would be circular: T-abs-sbierski-prop-3-7,
 #   now behind T-abs-hoist-cbg-cores (the layer-1 rule).
-# * Lemma 3.9 (CGHDData.exists_spacelike_corresponding, Causal/CBG/NoCorresponding.lean:404) uses no A3:
+# * Lemma 3.9 (CGHDData.exists_spacelike_corresponding, Causal/CBG/NoCorresponding.lean:228) uses no A3:
 #   CGHDData is only the GH setting of A3's hypotheses; the proof consumes A2 (closed J⁻ and the K⁻
 #   calculus through kSide_future, which uses curves_extend; SingularFlatAxioms.K_monotone) and
 #   exists_minimal_of_isCompact. The 2026-11-20 binder had germ_extension open on this row; dropped.
@@ -289,7 +290,7 @@ by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_curvesExtend"]
 label = "mghdlem:FuturePoint"
 ett = ["Causal.Causality.exists_lt_Jminus_compl_subset", "Causal.CBG.exists_lt_Jminus_compl_subset_of_cauchy"]
 localisation = ["tarentin", "push_up"]
-note = "Lemma 3.11 (Maximal_GHD2.tex:644, proof 652–658). Model-free: p ∈ Z⁺, closed J±, J⁻(p) ⊆ closure K⁻(p), compact J⁺(S) ∩ J⁻(x), U causally convex — all from A2 at Level A. 'The relation ≤ is closed' replaced by a directed family above p; the past side needs p off the BTZ locus (R4, E_0). It is also ERS Thm 4.64's Step 3, inside the restart SliceRestart of Causal.ErsUniqueness (papers/ers-predictability). exists_lt_Jminus_compl_subset sits in Causal.CBG.NoCorresponding (T-abs-hoist-cbg-cores)."
+note = "Lemma 3.11 (Maximal_GHD2.tex:644, proof 652–658). Model-free: p ∈ Z⁺, closed J±, J⁻(p) ⊆ closure K⁻(p), compact J⁺(S) ∩ J⁻(x), U causally convex — all from A2 at Level A. 'The relation ≤ is closed' replaced by a directed family above p; the past side needs p off the BTZ locus (R4, E_0). It is also ERS Thm 4.64's Step 3, inside the restart SliceRestart of Causal.ErsUniqueness (papers/ers-predictability). exists_lt_Jminus_compl_subset is in the ETT-layer Causal.CorrespondingSpacelike since T-abs-hoist-cbg-cores."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["tarentin", "push_up"]
