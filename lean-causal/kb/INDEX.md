@@ -147,3 +147,7 @@ rediscover. One fact per entry.
 | [0139](entries/0139-kappa-two-pi-both-sides.md) | pattern | κ = 2π from both sides, with no case split on κ ∈ 2πℤ |
 | [0140](entries/0140-faithful-action-group-equality.md) | pattern | A faithful action turns « acts as » into a group equality |
 | [0141](entries/0141-portly-reg-without-homeomorphism.md) | pattern | reg(E_κ) is portly without a homeomorphism C_κ ≅ ℂ |
+| [0142](entries/0142-curves-extend-theorem-second-countable.md) | pattern | CurvesExtend is a theorem on T1, second countable spaces |
+| [0143](entries/0143-direct-limits-trimming-curves.md) | pattern | Direct limits and trimming of curves over intervals |
+| [0144](entries/0144-transfinite-recursion-in-proof.md) | pattern | Transfinite recursion inside a proof, and dependent maps φ i j (h : r i j) |
+| [0145](entries/0145-def-needs-open-classical.md) | pitfall | A def needs open Classical for dif_pos |

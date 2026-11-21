@@ -78,7 +78,8 @@ def IsAcausal (S : Set M) : Prop := ∀ x ∈ S, ∀ y ∈ S, C.le ⊤ x y → x
 
 /-- **A model fact, carried as a named hypothesis** (kb/0012): every future causal curve over a
 segment lies on an inextensible causal curve. In a Lorentzian manifold this is the existence of
-inextensible extensions (Zorn); the library does not prove it for topological spacetimes. -/
+inextensible extensions (Zorn). On every T1, second countable topological space it is a theorem,
+for any causality (`Causality.curvesExtend_of_t1_secondCountable`, `Causal.CurvesExtendSecondCountable`). -/
 def CurvesExtend : Prop :=
   ∀ (c : ℝ → M) (a b : ℝ), a ≤ b → C.CausalCurveOn ⊤ c a b →
     ∃ (I : Set ℝ) (c' : ℝ → M), C.Inextensible ⊤ I c' ∧ c '' Icc a b ⊆ c' '' I

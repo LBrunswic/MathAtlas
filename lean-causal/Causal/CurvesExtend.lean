@@ -87,16 +87,18 @@ whose inverse `T(K) → K` (`invFunOn T K`) is a causal curve: a curve with its 
 
 ## SCOPE (disclosed)
 
-* **The fully general statement is not proved, and is not stated.** Without a time function the
-  Zorn step has no coherent parametrisation, and the transfinite chain of extensions need not
-  stop. *Conjectured counterexample (not formalized):* the long ray `L` with its order causality
+* **The general statement, on second countable spaces, is proved elsewhere.** On every T1, second
+  countable space `CurvesExtendOn W` holds for every open `W` and every causality
+  (`Causality.curvesExtendOn_of_t1_secondCountable`, `Causal.CurvesExtendSecondCountable`: Zorn
+  on towers of tail-free curves, the uncountable-cofinality step through `Causal.OmegaOneConstant`).
+  Without second countability it can fail. *Conjectured counterexample (not formalized):* the long ray `L` with its order causality
   (`≤_U`: `x ≤ y`, `[x, y] ⊆ U`, as on the timelike line) — locally the timelike line, so a local
   causality. A curve over a real interval has a σ-compact image, bounded in `L` because `ω₁` has
   uncountable cofinality, so it is extensible (append above its supremum, adjoining the supremum
   first if it is not attained): `L` has **no** inextensible curve, and `CurvesExtend` fails at a
-  constant curve. `L` is not second countable; whether `CurvesExtend` holds in every strongly
-  causal spacetime is open here; in every second countable tarentin globally hyperbolic Hausdorff
-  spacetime it holds (`curvesExtend_of_secondCountable`, Levin's theorem, `Causal.LevinUtility`).
+  constant curve. `L` is not second countable. Before the general theorem, the library had it in
+  every second countable tarentin globally hyperbolic Hausdorff spacetime
+  (`curvesExtend_of_secondCountable`, Levin's theorem, `Causal.LevinTimeFunction`).
   Nothing is lost for Barbot's or gx's spacetimes: they are globally hyperbolic and
   `geroch_i_imp_ii` gives the time function.
 * **Lemma K with `hext` discharged is not stated here**: `Causal.CompactCauchy` has no
