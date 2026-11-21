@@ -1,0 +1,269 @@
+{
+ "package": "T-syr-cycle-gcd",
+ "target": "T-syr-cycle-gcd",
+ "files": [
+  "scaffold/SyracuseScaffold/CycleGcd.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "prop:have_gcd_n__l_k",
+   "tex_lines": [
+    171,
+    188
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.gcdSum",
+    "Syracuse.gcdSum_eq_AunAlt",
+    "Syracuse.gcdSum_cycle",
+    "Syracuse.gcd_bezout",
+    "Syracuse.gcdSum_ne_display",
+    "Syracuse.two_pow_p_sub_three_pow_mul_pos",
+    "Syracuse.gcd_eq_abs_of_cycle",
+    "Syracuse.have_gcd",
+    "Syracuse.have_gcd_of_pos",
+    "Syracuse.have_gcd_of_neg",
+    "Syracuse.have_gcd_associated",
+    "Syracuse.gcdSum_cycle_shift",
+    "Syracuse.gcd_bezout_shift",
+    "Syracuse.have_gcd_shift",
+    "Syracuse.have_gcd_printed_false",
+    "Syracuse.have_gcd_printed_false_shift",
+    "Syracuse.gcd_display_printed_false",
+    "Syracuse.aPer",
+    "Syracuse.aPer_periodic",
+    "Syracuse.aPer_natCast"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ∈ Z",
+     "here": "carried",
+     "note": "x : ℤ in every GCD statement. Weakened to any commutative ring for the display and the Bézout step (gcdSum_cycle, gcd_bezout, gcdSum_cycle_shift, gcd_bezout_shift), which need no Z/2Z-ring structure."
+    },
+    {
+     "paper": "n ∈ N*",
+     "here": "carried",
+     "note": "0 < n in the GCD statements; the display and Bézout lemmas hold for every n."
+    },
+    {
+     "paper": "T^n(x) = x",
+     "here": "carried",
+     "note": "T^[n] x = x, with the total T of Syracuse.Base, which over Z is the paper's map (not_isUnit_three_int); a point of a cycle of Z is odd and its orbit avoids −1/3 (cycle_avoids_neg_third)."
+    },
+    {
+     "paper": "a_i(x) for i < 0 (the inner sum runs from l − k ≥ −(n−1), l.173)",
+     "here": "carried",
+     "note": "A reading: any n-periodic α : ℤ → ℕ with α k = a_k(x) for k ∈ ℕ (it is unique). One exists: aPer n x, i ↦ a_{i mod n}(x) (aPer_periodic, aPer_natCast)."
+    },
+    {
+     "paper": "the index of a_i: def:ring_define_2 (l.62) has a_0(x) = ν₂(3x+1), the proof of lem:base (l.71, l.75) writes a_1(x) = p_1(x) for it",
+     "here": "carried",
+     "note": "Both conventions: α_k = a_k(x) (have_gcd, gcdSum_cycle, gcd_bezout, gcd_display_printed_false) and β_{k+1} = a_k(x) (have_gcd_shift, gcdSum_cycle_shift, gcd_bezout_shift, have_gcd_printed_false_shift)."
+    },
+    {
+     "paper": "GCD (l.173)",
+     "here": "carried",
+     "note": "The normalized GCD of ℤ (Finset.gcd over l ∈ range n, ≥ 0). The reading 'a GCD', defined up to sign, is have_gcd_associated."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:171–174 — false for every cycle of x < 0. On every cycle of Z the GCD of the n sums is |2^{p_n(x)} − 3^n| (Syracuse.have_gcd), and 2^{p_n(x)} − 3^n has the sign of x, since (2^{p_n(x)} − 3^n)·x = Σ_{k<n} 2^{p_k(x)} 3^{n−1−k} > 0 by lem:base (Syracuse.two_pow_p_sub_three_pow_mul_pos). So the printed equality holds iff x > 0 (have_gcd_of_pos), and for x < 0 the GCD is 3^n − 2^{p_n(x)} (have_gcd_of_neg). The printed statement is refuted at the cycle (−1), n = 1, where 2^1 − 3 = −1 < 0 ≤ GCD (have_gcd_printed_false). The same cycle refutes it in the index convention of l.71 (have_gcd_printed_false_shift). Read up to sign ('a GCD') it holds on every cycle (have_gcd_associated). This confirms the planner's [r] numerics (GCD 1, 1, 1, 139 on the cycles of 1, −1, −5, −17, against 2^{p_n} − 3^n = 1, −1, −1, −139).",
+    "syracuse.tex:62 against 71, 75, 178 — two index conventions for a_i. def:ring_define_2 (l.62) sets a_0(x) = ν₂(3x+1), while the proof of lem:base writes a_1(x) = p_1(x) for it (l.71, l.75). In the convention of l.62 the display of l.178 is off by one: the l-th sum is (2^{p_n(x)} − 3^n)·T^{l+1}(x) for every l ∈ N, in every commutative ring (Syracuse.gcdSum_cycle), and as printed (with T^l(x)) it fails at l = 0 on every cycle that is not a fixed point (gcdSum_ne_display), e.g. the cycle (−5, −7), where the 0-th sum is 7 = (−1)(−7), not (−1)(−5) = 5 (gcd_display_printed_false). In the convention of l.71 (β_{k+1} = a_k(x)) the display holds as printed (gcdSum_cycle_shift). The Bézout step of l.186 holds as printed in both conventions, with a_1(x) read in the same convention (gcd_bezout: a_1(x) = ν₂(3T(x)+1); gcd_bezout_shift: β_1 = a_0(x) = ν₂(3x+1)). The statement is the same in both: the n sums are the same set up to a cyclic shift (have_gcd, have_gcd_shift).",
+    "syracuse.tex:173 — the l-th sum is the OQ-43 sum A'^n_{l+1} = Σ_{k<n} 3^k Π_{i=0}^{n−2−k} 2^{a_{l+1+i}} (Syracuse.gcdSum_eq_AunAlt): the exponent p_n(x) − Σ_{i=l−k}^{l} a_i(x) is the sum of a over the other n − 1 − k terms of the period, never negative. With the printed A_u^n of def:define_n__n_ the sums would be (2^{p_n} − 3^n)(3T^u(x)+1) (Syracuse.Aun_cast_of_cycle), whose GCD is at least 2|2^{p_n} − 3^n|: this proposition's sums side with the OQ-43 reading."
+   ],
+   "questions": [
+    "Is the GCD meant normalized (≥ 0), or 'a GCD', defined up to sign, or is the proposition meant for x > 0 only? Reading taken: the normalized GCD of Z, under which the printed equality is false for x < 0. The strongest true form |2^{p_n(x)} − 3^n| = GCD (Syracuse.have_gcd), the printed form for x > 0 (have_gcd_of_pos) and the up-to-sign form (have_gcd_associated) are proved, unmarked.",
+    "Which index convention for a_i does § 2 use: that of def:ring_define_2 (a_0(x) = ν₂(3x+1), l.62) or that of the proofs (a_1(x) = ν₂(3x+1), l.71, l.75)? Both are proved. The GCD is the same in both, the Bézout step of l.186 holds in both, and the display of l.178 holds only in the second. This is the same question T-syr-base met at l.71.",
+    "a_i(x) at negative i (the sum from l − k): reading taken, the periodic extension of the cycle, i.e. a_i(x) = ν₂(3T^i(x)+1) with T^{-1} the inverse of T on the cycle; any n-periodic α : ℤ → ℕ extending (a_k(x))_{k∈N} is allowed, and it is unique."
+   ]
+  },
+  {
+   "label": "lem:periodic_exists_i_a_i_",
+   "tex_lines": [
+    207,
+    212
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.Aun_eq_sum",
+    "Syracuse.AunAlt_eq_sum",
+    "Syracuse.Aun_eq_three_mul_AunAlt",
+    "Syracuse.Aun_sub_eq_three_mul",
+    "Syracuse.two_pow_dvd_sum_sub",
+    "Syracuse.two_pow_dvd_Aun_sub",
+    "Syracuse.two_pow_dvd_AunAlt_sub",
+    "Syracuse.three_pow_dvd_sum_sub",
+    "Syracuse.three_pow_dvd_Aun_sub",
+    "Syracuse.three_pow_dvd_AunAlt_sub",
+    "Syracuse.Aun_cast_eq_RHS",
+    "Syracuse.agree_of_Aun_eq",
+    "Syracuse.periodic_sub_of_agree",
+    "Syracuse.Aun_sub_ne_zero_of_minimal",
+    "Syracuse.AunAlt_sub_ne_zero_of_minimal",
+    "Syracuse.periodic_exists_nu3",
+    "Syracuse.sum_Icc_one_int",
+    "Syracuse.sum_Icc_zero_int",
+    "Syracuse.periodic_exists_nu2_shift",
+    "Syracuse.periodic_exists_nu2_shift_alt",
+    "Syracuse.periodic_exists_corrected",
+    "Syracuse.periodic_exists_corrected_alt",
+    "Syracuse.periodic_exists_printed_false",
+    "Syracuse.periodic_exists_printed_false_alt",
+    "Syracuse.seq122",
+    "Syracuse.seq122_periodic",
+    "Syracuse.seq122_minimal",
+    "Syracuse.seq122_pos",
+    "Syracuse.seq122_agree",
+    "Syracuse.Aun_seq122",
+    "Syracuse.AunAlt_seq122",
+    "Syracuse.periodic_exists_nu2_printed_false",
+    "Syracuse.periodic_exists_nu2_printed_false_alt",
+    "Syracuse.periodic_exists_nu2_shifted_bound_false",
+    "Syracuse.periodic_exists_nu2_shifted_bound_false_alt",
+    "Syracuse.periodic_exists_nu3_printed_false_alt"
+   ],
+   "hypotheses": [
+    {
+     "paper": "n, p ∈ N*, p < n",
+     "here": "carried",
+     "note": "Carried in the printed forms and in periodic_exists_nu3 and periodic_exists_corrected(_alt), where they are unused (named _hn, _hp, _hpn). Weakened (dropped) in the general lemmas two_pow_dvd_Aun_sub, three_pow_dvd_Aun_sub, Aun_sub_ne_zero_of_minimal and their _alt versions."
+    },
+    {
+     "paper": "a ∈ (N*)^Z",
+     "here": "carried",
+     "note": "∀ k, 1 ≤ a k, used only for A_i − A_j ≠ 0 (strict monotonicity of the partial sums, for lem:ring_maps_rhs_n_). The 2-adic and 3-adic bounds hold for every a : ℤ → ℕ."
+    },
+    {
+     "paper": "a n-periodic",
+     "here": "carried",
+     "note": "Function.Periodic a n. Weakened (dropped) in the 2-adic bounds, which need no periodicity."
+    },
+    {
+     "paper": "i, j ∈ ⟦0, n−1⟧, i ≠ j",
+     "here": "carried",
+     "note": "Used only for A_i − A_j ≠ 0."
+    },
+    {
+     "paper": "a_{i+k} = a_{j+k} for k ∈ ⟦1, p⟧",
+     "here": "carried",
+     "note": "Carried in periodic_exists_nu3 (the ν₃ conjunct, true as printed; ⟦1, p−1⟧ suffices) and periodic_exists_nu2_shift(_alt). The corrected form periodic_exists_corrected(_alt) reads it on ⟦0, p−1⟧ (finding)."
+    },
+    {
+     "paper": "(none) the minimal period of a is n",
+     "here": "strengthened",
+     "note": "Added for A_i − A_j ≠ 0 (Aun_sub_ne_zero_of_minimal, AunAlt_sub_ne_zero_of_minimal, periodic_exists_corrected(_alt)): without it the conclusion is false (finding)."
+    },
+    {
+     "paper": "A_i = A_i^n(a) (def:define_n__n_)",
+     "here": "carried",
+     "note": "Both readings of OQ-43: Syracuse.Aun (printed) and Syracuse.AunAlt (product to n − 2 − k)."
+    },
+    {
+     "paper": "ν₂, ν₃",
+     "here": "carried",
+     "note": "ν₂ is Syracuse.nu2 = emultiplicity 2 (⊤ at 0, the paper's max of l.52); ν₃ is emultiplicity 3 on ℤ. A bound ν ≥ b is the divisibility p^b ∣ A_i − A_j (pow_dvd_iff_le_emultiplicity)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:211 — 'A_i − A_j ≠ 0' is false without the minimal period: for a ≡ 1, n = 2, p = 1, i = 0, j = 1 every hypothesis holds and A_0 = A_1, so the printed lemma is refuted, for both readings of OQ-43 (Syracuse.periodic_exists_printed_false, periodic_exists_printed_false_alt). With n the minimal period of a it holds for both readings (Aun_sub_ne_zero_of_minimal, AunAlt_sub_ne_zero_of_minimal), with no use of the agreement or of p. The proof: A_u^n = RHS_n(Σ_{t≤k} a_{u+t})_k (Aun_cast_eq_RHS), lem:ring_maps_rhs_n_ (Syracuse.rhs_injOn_strictMono) gives a_{i+t} = a_{j+t} for t < n (agree_of_Aun_eq), hence j − i is a period (periodic_sub_of_agree). The use of the lemma in the proof of theo:exists_no_circuit_other (l.222, l.227) assumes the minimal period, as OQ-53 does for cor:ring_periodic_minimal_period.",
+    "syracuse.tex:209 — the ν₂ conjunct is false, even for a of minimal period n: a = (1, 2, 2), n = 3, p = 1, i = 0, j = 1 satisfies every hypothesis, and ν₂(A_0 − A_1) = ν₂(74 − 116) = ν₂(−42) = 1 < 2 = a_1 (Syracuse.periodic_exists_nu2_printed_false); for the OQ-43 reading ν₂(A'_0 − A'_1) = ν₂(23 − 37) = 1 (periodic_exists_nu2_printed_false_alt). Since i = 0 the bound read as Σ_{k=1}^p a_{i+k} fails too (periodic_exists_nu2_shifted_bound_false, _alt). The bound is off by an index: an agreement a_{u+t} = a_{v+t} for t < q gives 2^{Σ_{t<q} a_{u+t} + min(a_{u+q}, a_{v+q})} ∣ A_u − A_v, for both readings and without periodicity (two_pow_dvd_Aun_sub, two_pow_dvd_AunAlt_sub). Under the printed agreement (k ∈ ⟦1, p⟧) this gives ν₂(A_{i+1} − A_{j+1}) ≥ Σ_{k=1}^p a_{i+k} (periodic_exists_nu2_shift, _alt). Under the agreement on ⟦0, p−1⟧ it gives ν₂(A_i − A_j) ≥ Σ_{k=0}^{p−1} a_{i+k} (periodic_exists_corrected, _alt). Both confirm the planner's [r] numerics.",
+    "syracuse.tex:209 — the ν₃ conjunct holds as printed for the printed A_u^n of def:define_n__n_ (Syracuse.periodic_exists_nu3): 3^p ∣ A_{p+i} − A_{p+j} needs only a_{i+k} = a_{j+k} for k ∈ ⟦1, p−1⟧ (three_pow_dvd_Aun_sub). It fails for the OQ-43 reading: with a = (1, 2, 2), p = 1, i = 0, j = 1 (minimal period 3), A'_1 − A'_2 = 37 − 29 = 8 is prime to 3 (periodic_exists_nu3_printed_false_alt). The reason: for n-periodic a, A_u − A_v = 3(A'_u − A'_v) (Syracuse.Aun_sub_eq_three_mul, from A_u^n = 3A'^n_u + 2^{Σ_{t<n} a_{u+t}} − 3^n, Aun_eq_three_mul_AunAlt). So ν₃ drops by one in the OQ-43 reading, which needs the agreement on ⟦0, p−1⟧ (three_pow_dvd_AunAlt_sub; periodic_exists_corrected_alt). This bears on OQ-43: this conjunct favours the printed A_u^n, while prop:have_gcd_n__l_k and l.283–284 favour the OQ-43 reading.",
+    "syracuse.tex:207–212 — the lemma has no proof in the draft (ledger nl_status 'open'); the proofs here are new."
+   ],
+   "questions": [
+    "OQ-43: which A_u^n is meant? Both are proved. As printed the lemma fails for both. The corrected form (agreement on ⟦0, p−1⟧, minimal period n) holds for both. The printed ν₃ conjunct holds only for the printed A_u^n.",
+    "What is the intended agreement and ν₂ bound? Two true forms are proved, unmarked. (a) Agreement on ⟦0, p−1⟧ with ν₂(A_i − A_j) ≥ Σ_{k=0}^{p−1} a_{i+k} (the planner's reading, periodic_exists_corrected). (b) The printed agreement on ⟦1, p⟧ with ν₂(A_{i+1} − A_{j+1}) ≥ Σ_{k=1}^p a_{i+k} (periodic_exists_nu2_shift). The printed Σ_{k=1}^p a_k (no i) is read as a misprint for Σ a_{i+k}; both fail as printed.",
+    "Is 'n the minimal period of a' intended (as in l.222 and OQ-53)? Reading taken: yes, for the conclusion A_i − A_j ≠ 0; it is added, a strengthening, and the row is partial."
+   ]
+  },
+  {
+   "label": "def:circuit",
+   "tex_lines": [
+    213,
+    217
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.IsCircuit",
+    "Syracuse.IsCircuitLiteral",
+    "Syracuse.isCircuitLiteral_of_le_one",
+    "Syracuse.T_three_int",
+    "Syracuse.T_five_int",
+    "Syracuse.not_isCircuit_three",
+    "Syracuse.IsCircuit.mono",
+    "Syracuse.isCircuit_iff_minimalPeriod",
+    "Syracuse.isCircuit_neg_one",
+    "Syracuse.isCircuit_one_iff",
+    "Syracuse.isCircuit_neg_five",
+    "Syracuse.isCircuit_one_of_run"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x ∈ Z",
+     "here": "carried",
+     "note": "x : ℤ."
+    },
+    {
+     "paper": "ε > 0",
+     "here": "weakened",
+     "note": "IsCircuit is defined for every real ε; ε ≥ 0 is used only to take n minimal (isCircuit_iff_minimalPeriod)."
+    },
+    {
+     "paper": "'(x)_{n∈N}' (l.213)",
+     "here": "carried",
+     "note": "A reading: the orbit (T^n(x))_{n∈N}. The literal constant sequence is IsCircuitLiteral, and it is degenerate (finding)."
+    },
+    {
+     "paper": "the sequence is n-periodic for some n ∈ N*",
+     "here": "carried",
+     "note": "∃ n, 0 < n ∧ Function.IsPeriodicPt T n x (T^n(x) = x, equivalent to the n-periodicity of the orbit)."
+    },
+    {
+     "paper": "a term y of the sequence with a_i(y) = 1 for i ∈ ⟦1, p⟧, for some p ≥ εn − 1",
+     "here": "carried",
+     "note": "y ∈ Set.range (T^[·] x), p : ℕ with ε·n − 1 ≤ p, as printed; a_i is Syracuse.a (def:ring_define_2's indexing)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:213 — '(x)_{n∈N}' is literally the constant sequence x, x, …, which is n-periodic for every n. Read so, every integer is an ε-circuit for every ε ≤ 1, with n = 1 and p = 0 (Syracuse.isCircuitLiteral_of_le_one); 3 is one, though its orbit 3, 5, 1, 1, … is not periodic (not_isCircuit_three). The orbit (T^n(x))_n is meant, as at l.98–99 and l.107; IsCircuit reads it so.",
+    "syracuse.tex:216 against 222 — the definition asks p ≥ εn − 1, the proof of theo:exists_no_circuit_other takes p ≥ εn. With the printed −1 every cycle is an ε-circuit as soon as εn ≤ 1 (p = 0): the fixed point (1), where a_i = 2, is an ε-circuit iff ε ≤ 1 (Syracuse.isCircuit_one_iff); the fixed point (−1) is an ε-circuit for every ε (isCircuit_neg_one); (−5, −7) is a 1-circuit (isCircuit_neg_five). For ε ≥ 0 the existential n may be taken to be the minimal period (isCircuit_iff_minimalPeriod).",
+    "syracuse.tex:218 — 'Steinitz' is presumably Steiner (theo:steiner, l.150). The remark is commentary. The shape it describes, a point y of the cycle with a_1(y) = ⋯ = a_{n−1}(y) = 1, is a 1-circuit (Syracuse.isCircuit_one_of_run)."
+   ],
+   "questions": [
+    "Is '(x)_{n∈N}' the orbit (T^n(x))_{n∈N}? Reading taken: yes, the only reading under which the notion is not degenerate. It is a reading of a misprint, so the row is left unmarked.",
+    "p ≥ εn − 1 (the definition, l.216) or p ≥ εn (the proof, l.222)? Reading taken: the definition as printed."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Syracuse.sum_Ico_int_eq_sum_range",
+  "Syracuse.sum_range_add_int",
+  "Syracuse.sum_range_periodic",
+  "Syracuse.aPer",
+  "Syracuse.aPer_periodic",
+  "Syracuse.aPer_natCast",
+  "Syracuse.Aun_eq_three_mul_AunAlt",
+  "Syracuse.Aun_sub_eq_three_mul",
+  "Syracuse.Aun_cast_eq_RHS",
+  "Syracuse.agree_of_Aun_eq",
+  "Syracuse.periodic_sub_of_agree",
+  "Syracuse.gcd_eq_abs_of_cycle",
+  "Syracuse.T_three_int",
+  "Syracuse.T_five_int"
+ ],
+ "kb_proposals": [
+  "The sums of § 2 are A_u^n sums: gcdSum n (p_n x) α l = AunAlt n (l+1) α (Syracuse.gcdSum_eq_AunAlt), so Syracuse.Aun_cast_of_cycle evaluates them on a cycle. A_u^n = 3A'^n_u + 2^{Σ_{t<n} a_{u+t}} − 3^n (Aun_eq_three_mul_AunAlt) converts between the two readings of OQ-43, and for periodic a it gives A_u − A_v = 3(A'_u − A'_v) (T-syr-cycle-gcd).",
+  "Windows of a periodic α : ℤ → ℕ. Every n-window has the same sum (Syracuse.sum_range_periodic). Split a window with sum_range_add_int, and turn a Finset.Icc/Ico sum over ℤ into a range sum with sum_Ico_int_eq_sum_range. Reduce an index mod n with Function.Periodic.int_mul plus Int.emod_add_mul_ediv, then simp only [Int.cast_id] (T-syr-cycle-gcd).",
+  "Aun and AunAlt are computable and ℕ-valued, so small values close by `decide` (Aun 3 0 seq122 = 74). Write ν₂ ≥ b as (b : ℕ∞) ≤ nu2 x and ν₃ as emultiplicity 3, switch to divisibility with ← pow_dvd_iff_le_emultiplicity, and `norm_num` refutes 4 ∣ −42. A Finset.Icc over ℤ makes a def noncomputable (Int's ConditionallyCompleteLinearOrder) (T-syr-cycle-gcd).",
+  "§ 2 has two index conventions: def:ring_define_2 has a_0 = ν₂(3x+1), the proofs (l.71, l.75, l.178) a_1 = ν₂(3x+1). Where a display depends on the convention, state both: α_k = a_k(x) and β_{k+1} = a_k(x) (T-syr-cycle-gcd)."
+ ],
+ "notes": "CycleGcd.lean is sorry-free and warning-free: `lake env lean -DwarningAsError=true scaffold/SyracuseScaffold/CycleGcd.lean` passes. `lake build SyracuseScaffold.CycleGcd` built only that module (2185 jobs, the last one ours, 1.5 s), and the strict oleans were untouched (Base/Valuation 2026-11-20 19:53, Rep/IntegerBounds 23:01, Completion 2026-11-21 00:01). The module imports only Syracuse.Rep and Syracuse.IntegerBounds. #print axioms ran against the built olean through a /tmp probe (since deleted) and covered all 71 declarations: 69 depend on [propext, Classical.choice, Quot.sound], seq122_agree on [propext, Quot.sound], and seq122 on none. No declaration name clashes with the strict library (all of Syracuse/, Completion included, was grepped). Nothing is marked: the module docstring names the three labels unbolded, and the ledger's docstring_label_re finds no mark in the first 4000 characters. periodic_exists_nu3 and periodic_exists_corrected(_alt) carry the paper's unused hypotheses under underscore names, so that they mirror the printed statement. The three [r] claims of the planner were each checked in Lean. (i) The GCD identity holds only up to sign on negative cycles: have_gcd, have_gcd_printed_false. (ii) The ν₂ claim is off by an index: periodic_exists_nu2_printed_false, with the shifted forms proved. (iii) A_i ≠ A_j needs the minimal period: periodic_exists_printed_false, with the minimal-period form proved. Two results are new: the ν₃ conjunct holds as printed for Aun but not for AunAlt, and the display of l.178 is correct in the l.71 convention. Since lem:periodic_exists_i_a_i_ is false as printed for both readings of OQ-43, its mark waits on that question and on the minimal-period question (cf. OQ-53), not on OQ-43 alone. The scaffold root scaffold/SyracuseScaffold.lean (outside this dispatch, so not edited) does not import SyracuseScaffold.CycleGcd. Until the loop adds the import or graduates the file, the module is invisible to an axiom sweep that goes through the root (lean-causal kb/0025)."
+}

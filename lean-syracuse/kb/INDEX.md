@@ -18,3 +18,5 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0010](entries/0010-to-z2.md) | pattern | The map A → ℤ₂ of a ℤ/2ℤ-ring with 2 ≠ 0: Syracuse.toZ2 |
 | [0011](entries/0011-two-adic-topology.md) | pattern | The 2-adic topology and the completion as ℤ₂ |
 | [0012](entries/0012-no-limit-at-minus-third.md) | pattern | T has no limit at −1/3: two integer sequences |
+| [0013](entries/0013-section2-sums-and-windows.md) | pattern | § 2 sums are A_u^n sums; windows of a periodic sequence; ν₂, ν₃ by divisibility |
+| [0014](entries/0014-two-index-conventions.md) | convention | § 2 has two index conventions for a_i: state both where a display depends on it |
