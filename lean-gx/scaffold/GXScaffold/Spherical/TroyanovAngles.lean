@@ -1,4 +1,5 @@
 import GX.Spherical.ConeSurface
+import GX.Spherical.TroyanovFour
 
 /-!
 # Troyanov's theorem with the Thurston suspension, at `(SO(4), 𝕊³)`, tied to the cone angles
@@ -317,13 +318,18 @@ end Statements
 
 section Obligations
 
-/-- **Troyanov's theorem**, to be proved (DEC-136, target `T-gx-troyanov`). -/
-theorem troyanovTheorem : TroyanovTheorem := by
-  sorry -- SORRY(cex:start_singular_manifold_homeomorphic): Troyanov's existence theorem for
-  -- spherical cone metrics on `S²` with prescribed angles (MR1005085, cited at l.1930), DEC-136;
-  -- target `T-gx-troyanov`. The library has the cone `C_θ` and cone spheres
-  -- (`GX.Spherical.ConeSurface`), not yet a construction of one with `s ≥ 3` cone points
-  -- (e.g. by gluing spherical triangles, or the variational method).
+/-- **Troyanov's theorem**, to be proved (DEC-136, target `T-gx-troyanov`). Routed through
+`GX.troyanovTheorem_of_five_le_of_exists_gt_two_pi` (strict `GX.Spherical.TroyanovFour`;
+T-gx-troyanov-reroute, 2026-11-21): the strict library proves every case with `s ≤ 4` or all angles
+`≤ 2π` (triangle, two-pi, polygon, dart), so the `sorry` carries only `s ≥ 5`, no angle `2π`, some
+angle above `2π`. -/
+theorem troyanovTheorem : TroyanovTheorem :=
+  troyanovTheorem_of_five_le_of_exists_gt_two_pi fun {_} _ _ _ _ _ => by
+    sorry -- SORRY(cex:start_singular_manifold_homeomorphic): Troyanov's existence theorem for
+    -- `s ≥ 5` angles, none equal to `2π` and some above `2π` (MR1005085, Theorem C, cited at
+    -- l.1930; OQ-59 for its condition of record), DEC-136; target `T-gx-troyanov`. Every other
+    -- case is proved in the strict library (`GX.Spherical.Troyanov{Triangle,TwoPi,Polygon,Four}`);
+    -- `GX.StarPolygon.isConeSphere` doubles any embedded polygon with reflex vertices.
 
 /-- **The Thurston suspension facts**, to be proved (target `T-gx-troyanov-suspension`). -/
 theorem thurstonSuspensionFacts : ThurstonSuspensionFacts := by
