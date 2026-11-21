@@ -9,3 +9,4 @@ import Syracuse.UpperBounds
 import Syracuse.Steiner
 import Syracuse.TwoDescents
 import Syracuse.NoCircuit
+import Syracuse.CitedSteps

@@ -40,3 +40,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0032](entries/0032-d9-bounds-import.md) | pitfall | Pitfall: the d9 bounds on e and log 2 need an import Syracuse does not have |
 | [0033](entries/0033-circuit-to-steps.md) | pattern | From IsCircuit ε x to the step lemmas on a periodic sequence |
 | [0034](entries/0034-exists-bound-tautology.md) | pitfall | Pitfall: an existential bound in front of an implication is a tautology |
+| [0035](entries/0035-kernel-power-compare.md) | pattern | A power comparison 3^q < 2^p with q ≈ 8·10⁴ by decide in the kernel |
+| [0036](entries/0036-candidate-finset.md) | pattern | Finitely many cycles: a computable candidate Finset, one decide per membership |
+| [0037](entries/0037-baker-to-bound.md) | pattern | From a Baker-type lower bound to a bound on P |
+| [0038](entries/0038-aper-explicit.md) | pattern | Equate aPer n x with an explicit periodic sequence, then decide |
