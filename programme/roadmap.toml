@@ -134,13 +134,14 @@ id = "T-lad-local-nodes"
 title = "Ladder nodes for the local side conditions of four checked edges: locally_push_up (Causal.Causality.LocallyPushUp), locally_causally_open_future (LocallyCausallyOpenFuture), locally_causally_open (LocallyCausallyOpen), chronal_neighbours (ChronalNeighbours, two-sided); the edges CausallyArcConnected.pushUp, AbsolutelyMinimal.causallyOpenFuture/causallyOpen and causallyOpen_of_pushUp replaced by their Causal.LadderLocal restatements, the side condition in `from`"
 stream = "ladder"
 kind = "ladder"
-status = "ready"
+status = "done"
 owner = "keeper"
 priority = 2
 depends = ["T-abs-ladder-local-defs"]
 evidence = "The keeper's proposal from T-lad-seed-check (programme/JOURNAL.md, entry 2026-11-20 19:45): these side conditions sit in `under` of programme/ladder.toml:289, :299, :308, :316, which the closure chains as unconditional (ladder.toml header). The definitions exist since T-abs-ladder-local-defs (3e48e55; journal entry 2026-11-20 21:35): Causal/LadderLocal.lean:139 (LocallyPushUp), :145 (LocallyCausallyOpenFuture), :151 (LocallyCausallyOpen), :162 (ChronalNeighbours); global ⇒ local edges PushUp.locallyPushUp :224, CausallyOpenFuture.locallyCausallyOpenFuture :256, CausallyOpen.locallyCausallyOpen :288, LocallyCausallyOpen.future :271; restated witnesses CausallyArcConnected.pushUp_of_locallyPushUp :230, AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture :263, AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen :295, PushUp.causallyOpen_of_chronalNeighbours :349 (ETT-layer, where Causal.Causality.causallyOpen_of_pushUp lives in the model-importing Causal.LemmaK); separation lightlikeLine_separates_chronalNeighbours :586 (push-up, causally open, GH, no chronal neighbours). Afterwards push_up ⇏ causally_open (T-abs-pushup-not-open) can be a [[fails]] entry without contradicting the closure. OQ-52 (a) (the past base of the ONE-sided notions ChronalPastNeighbours, NoPastEndpoint) names this target in its blocks column; only the two-sided ChronalNeighbours becomes a node here, whose name a renaming of the one-sided notions does not change, so the keeper adds no one-sided node until OQ-52 rules (planner's reading, for the master to confirm)."
 added = "2026-11-20"
 proposed_by = "ladder-keeper (T-lad-seed-check), recorded by programme-planner"
+commit = "947f841"
 
 [[target]]
 id = "T-lad-gh-causal"
@@ -353,13 +354,14 @@ kind = "abstract"
 uses = ["push_up", "tarentin", "globally_hyperbolic", "causally_arc_connected"]
 package = "lean-causal"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 3
 depends = ["T-abs-hoist-model-free"]
 evidence = "Binder papers/sbierski-mghd (rows Prop 3.7, Lemmas 3.9, 3.11, Def 3.5): model-free by their docstrings ('Model-free core', Causal/CBG/Corresponding.lean:37), but Causal.CBG.Corresponding imports Causal.CBG.Geometry (→ Causal.SingularFlat) and Causal.CBG.CausalConvex (→ Causal.CurvesExtend → Causal.Minkowski), and Causal.CBG.NoCorresponding imports Causal.CBG.Pgcd: no layer-1 module may use them (.claude/skills/ett-programme/SKILL.md §3). Ranges read 2026-11-21: Causal/CBG/Corresponding.lean:132–255 (namespace Causality: Jplus_mem_nhds_of_mem_Kminus … Jminus_mem_nhds_of_isCauchySurface), :259–656 (section Core), the witnesses timelikeLine_/lightlikeLine_corresponding_hypotheses (:994–); Causal/CBG/NoCorresponding.lean:146–254 (mem_closure_of_mem_Jminus, spacelike_iff, exists_lt_Jminus_compl_subset), :260–324 (section Core), witnesses :759–807. Checked by name 2026-11-21: these sections use no declaration of Geometry, CausalConvex, CurvesExtend, Minkowski, Static or SingularFlat (CausalConvex's le_of_causallyConvexIn_of_le appears in a docstring only), so this hoist does not wait on T-abs-hoist-time-function. Same refactor discipline as T-abs-hoist-model-free (02b43b6): no statement changes, every old full name keeps resolving (both binders, the ett and Sbierski ledgers cite them), the master rebuilds the ledgers whose Lean root moved. Unblocks T-abs-sbierski-prop-3-7 (journal entry 2026-11-20 23:50: swapped out of the wave for want of it) and T-abs-hoist-cbg-gluing. Refined 2026-11-21: TwoPiece and ManyPiece moved to T-abs-hoist-cbg-gluing, injOn_of_injOn_cauchy to T-abs-hoist-time-function, the CBG interface to T-abs-hoist-cbg-geometry."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
+commit = "e4df4d0"
 
 [[target]]
 id = "T-abs-hoist-time-function"
