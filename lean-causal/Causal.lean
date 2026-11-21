@@ -283,6 +283,7 @@ import Causal.Remarks.SingularRowsLocal
 import Causal.Port.CupCapBTZCounterexample
 import Causal.Remarks.SingularRowsK
 import Causal.Remarks.SingularRowsGeroch
+import Causal.BubbleK
 
 /-!
 # Causal — topological spacetimes

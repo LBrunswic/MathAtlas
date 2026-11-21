@@ -197,3 +197,6 @@ rediscover. One fact per entry.
 | [0189](entries/0189-measure-geroch-rows-at-m.md) | pattern | The measure and Geroch rows at M: Causal.SingularRowsGeroch |
 | [0190](entries/0190-admissible-measure-forces-causal.md) | pattern | A causality carrying an admissible measure is causal |
 | [0191](entries/0191-borel-inside-proof.md) | pattern | A statement with no measure need not carry [MeasurableSpace M] to call a lemma that does |
+| [0192](entries/0192-bubble-meets-k-iff-persists.md) | pattern | When a bubble meets K: iff it persists near p |
+| [0193](entries/0193-spokes-k-equals-i-without-pushup.md) | pattern | Spokes: a cheap local witness with K⁻(o) = I⁻(o) while push-up fails at o |
+| [0194](entries/0194-explicit-set-argument-in-obtain.md) | pitfall | In `obtain ⟨…⟩ := thm isOpen_Ioi …`, give a set argument only the goal fixes explicitly |
