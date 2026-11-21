@@ -242,3 +242,13 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: ladder ✓, tests ✓, Causal.Ladder.Test built ✓, blueprint ✓; hub: papers-check red on papers/egf (the egf loop's in-flight ledger), not this loop's
 - commits: a4e55ff ec86412 597acf7
 - next: a planning run on the keeper's three proposals (T-abs-plain-not-open, T-abs-chronal-not-arc-connected, T-abs-sc-not-sco) and the shrunk no-gluing targets
+
+## 2026-11-21 13:16 · plan + wave of 3 · planning run, T-abs-omega-one-constant, T-abs-chronal-not-arc-connected, T-abs-plain-not-open
+- planning run (programme-planner, alone): 90 → 97 targets (4fa42e2); every open ladder pair has a target except strongly_causal → strongly_causal_open and the 4 geometry pairs; two targets dropped (they settled nothing any more)
+- T-abs-omega-one-constant (layer 1, pure topology): continuous maps from ω₁ (and any well order of uncountable cofinality) into a T1 second countable space are eventually constant, each hypothesis sharp; audit minor (T0Space Prop IS a Mathlib instance under LowerUpperTopology; the curves target's step (2b) needs two right-excess steps per stage so the excess is never a single point); kb 0124–0126
+- T-abs-chronal-not-arc-connected (layer 1): the rational-jump plane, absolutely minimal (rational subdivision) with chronal neighbours and not causally arc-connected; audit clean; kb 0127–0128
+- T-abs-plain-not-open (layer 1): the notched plane, causally plain, push-up, GH, absolutely minimal, not causally open even locally; audit minor; kb 0129–0132
+- ladder: unchanged this wave (74 counterexamples; 268 fails, 28 open); the keeper's next record (T-lad-record-plain-chronal) settles 5 pairs, leaving 23
+- gates: lean-causal ✓, ladder ✓, binder ✓, tests ✓, blueprint ✓; hub: papers-check red on papers/egf and gate-tests through it, the egf loop's in-flight ledger, not this loop's
+- commits: 4fa42e2 6e2337f c4616a5 0311ea4 94d85eb 7174f61
+- next: T-lad-record-plain-chronal (keeper); T-abs-curves-extend-second-countable becomes ready-able (its ω₁ lemma done)
