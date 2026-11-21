@@ -499,3 +499,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 22:55–23:38 (Paris); agents: 2 closers, 2 audits
 - new OQ: none (next free OQ-87); lean-causal kb 0187–0191
 - next: plan (rule 2). The only ready non-planner target is T-ett-docstrings-sing0 (master, exclusive in lean-causal), which runs between waves. The singular-flat track is complete; the remaining ETT marks wait on OQ-18, OQ-34/35, OQ-64, OQ-82, OQ-16 and OQ-32/33.
+
+## 2026-11-22 00:10 · plan (rule 2: no ready closer target after wave 29)
+- result: 133 -> 136 targets.
+  - Added T-ett-sigma-separe (ready, p6): lem:Sigma_separe without ψ at every globally hyperbolic, T2, second countable E≥0-manifold; this discharges cor:K_ordre_Sigma's hS and gives both directions of lem:Cauchy_plongement_toutes.
+  - Added T-ett-bubble-kplus (ready, p7): rem:K_neq_I's bubble sentence, recorded « open » at Causal/LinesReachable.lean:31, is refuted under prop:tarentin_fort_K's hypotheses by Minkowski space with one spoke. It is to be stated as an AsPrinted-style Prop and refuted, with no mark.
+  - Added T-ett-geroch-split-flow (planned, p7, depends on T-ett-sigma-separe): theo:geroch_sing's « Moreover » from any causal flow, with E₀'s τ-translation as a witness.
+- rejected: every other open row waits on a ruling, on /ett-programme (CBG pair, Lorentzian rows, lem:C_ext_connexe) or on mathematics DEC-136 leaves open (T-gx-troyanov for s ≥ 5). lem:image_diamant and lem:passe_pgcd need the limit-curve step of CausalScaffold.GerochCauchy.
+- research: none. Step 1 gave two ready closers, so T-3p1-funnel-lemma and T-bbs-archive are still ready.
+- for the author: programme/roadmap.toml has ready closer targets while /ett-programme is paused until 2026-11-27, e.g. T-abs-ers-4-72-second-countable, T-abs-c-ext-connexe-*, T-abs-galileo-ladder and T-loc-ealpha-tidy. /atlas-team does not run them unless you say so.
+- gates: roadmap ✓, atlas ✓
+- wall time: 23:41–00:10 (Paris); agents: 1 (planner)
+- next: a wave of T-ett-sigma-separe and T-ett-bubble-kplus (both lean-causal). T-ett-docstrings-sing0 (exclusive) runs between waves.
