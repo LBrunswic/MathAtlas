@@ -1,0 +1,127 @@
+{
+  "target": "T-ett-massa-models-instance",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "cor:massA_causalite",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: right. The labels are cited in single backticks and no **`label`** appears anywhere in the file. The ledger regex needs **`prefix:name`**; the bold declaration docstring at l.524 does not match it and lies past 4000 characters. Statements checked against the strict theorems. (1) hreg_massAModel has exactly the hreg type of massA_singular_dec25_models, forall_exists_massA_dec25_models_iff and existsUnique_causality_singularGX_dec25 (Xα = MassAModel, DY = massAModelCausality, DX = minkowski 2). A probe elaborated massA_singular_dec25_models hreg_massAModel hiso hcov with the family instance found by instance search. (2) chartIso_models_of_subset_reg is chartIso_model_of_subset_reg at the family, with no extra hypothesis. (3) forall_exists_massA_models_iff is forall_exists_massA_dec25_models_iff with hreg discharged: same two sides, N : Type as in the strict theorem. forall_exists_massA_models_iff_sing has the reduced right side (o, o' ≠ none, source meets Sing). Its forward direction is weakening, its backward direction is hiso_massAModel_of_sing. (4) hiso_massAModel_of_sing does what it claims. o = none gives hiso_row_none, o' = none gives hiso_column_none, a source meeting Sing gives the hypothesis h, and otherwise the source is regular (chartIso_models_of_subset_reg). So (b') over the family reduces to E_κ ⇀ E_κ', κ, κ' > 0, at sources meeting the line. (5) massA_singular_models is massA_singular_dec25_models with hreg discharged. It keeps the full (b') hiso and hcov, both disclosed. (6) notMem_axis_of_isAEChart has no hypothesis beyond the chart and a point of its source, and its argument is sound. If φ q is on the axis, then q is singular (mem_reg_iff, regPart ⊆ Reg), so q is on the line. Restricted to regPart, φ is a ChartIso massiveOf κ → E0.causality (chartIso_of_isAEChart_of_subset_reg with hreg_family κ and E0GX.chartIso_of_mem_aeAtlas). The radial curve τ ↦ (τ, polar((t-τ)/2, 0)) is 1/2-Lipschitz, so g(ε/2) ≤ g(s) inside the regular part of the source. Then φ(g s) ∈ J⁺(φ(g(ε/2))), and E0.isClosed_Jplus with φ(g s) → φ q gives φ(g(ε/2)) ≤ φ q. E0.le_axis_iff' (J⁻ of an axis point lies on the axis) puts φ(g(ε/2)) on the axis, against its regularity. The reverse direction (source_subset_reg_of_isAEChart_e0_massive) applies the lemma to ψ.symm at ψ p, with left_inv. Both directions are right and cover E_{2π} as well. (7) The witnesses smuggle no hypothesis. massA_dec25_models_e0, isAtlasCausalityDEC25_e0, e0_witness, e0_unique_witness, epi_witness, isAtlasCausalityDEC25_model_iff, isAtlasCausalityDEC25_twoPi, isAtlasCausalityDEC25_minkowski_models and massA_dec25_models_minkowski take no hypothesis. The singular structure at E₀ is E0GX.singularGX and at E_π it is EAlphaGX.singularGX π; both are definitionally the family's values. massA_dec25_e0_manifolds takes only hcov (the definition of an E₀-manifold under DEC-25). Its proof of the cross-type clause is right: a singular x in a chart f into E₀ makes f.symm ≫ e an a.e. chart E₀ ⇀ E_κ, whose source is regular. massA_dec25_models_model concludes only massAModel_facts o. It is a non-vacuity witness for massA_dec25_models_of_isoChartsCover, and its content is isoChartsCoverDEC25_model. Nothing narrower than the paper is offered as an anchor. Every restriction (E₀-manifolds, conditional on (b'), local form at E_π) is disclosed and the row stays partial."
+    },
+    {
+      "label": "cor:massA_cac",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: right. The anchors are restrictions, all disclosed. cac holds at every model (massA_dec25_models_model), at E₀ and E_π with their identity X_A-charts (e0_witness, epi_witness), at E^{1,2} over the whole family, and at every E₀-manifold over the whole family with no hypothesis left (massA_dec25_e0_manifolds). For a general E≥0-manifold, cac of every natural causality is already in Causal.Remarks.MassADEC25. Existence waits only on (b') between massive models at the line."
+    },
+    {
+      "label": "cor:pushup_sing",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "As for cor:massA_cac: unmarked and partial, which is right. Push-up holds in the same witnesses and at E₀-manifolds over the whole family (massA_dec25_e0_manifolds). Nothing is narrower than claimed."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/MassAModelsInstance.lean`: exit 0, no output (3.2 s). grep finds sorry only in the docstring line « no `sorry` in this file », and no native_decide, axiom, admit, unsafe, extern or set_option. `lake build` was not rerun (shared package, per dispatch); the module's olean (17:14) is newer than the source (17:12). A /tmp copy with `import Causal` prepended to the file, since deleted, printed axioms for all 34 declarations, the 32 of the REPORT and both extra_decls included: each is [propext, Classical.choice, Quot.sound]. Under `import Causal` the file elaborates with no name clash. twoPi and isAEChart_restrOpen are namespaced in Causal.MassAModelsInstance, and nothing of the same name exists in Causal. Every name in REPORT decls and extra_decls is a textual declaration of the file, and every declaration of the file is listed."
+  },
+  "instance": {
+    "verdict": "safe as a global instance; keep it global",
+    "details": "Probed in the /tmp copy, under `import Causal` plus the file. (a) At a variable o, instance search returns massAModelSingularGX o (rfl). (b) `MassAModel none = E0` and `MassAModel (some κ) = Massive κ.1` hold by `with_reducible rfl`: MassAModel is an abbrev, reducible, and the query is whnfR-reduced before the discrimination-tree lookup. So with no local instance, `#synth SingularGXStructure (Flat.isom 2) (Minkowski 2) (MassAModel none)` fails, and so does the same query at E0. The closer's SCOPE and kb_proposal are correct: the family fires only at a variable index. (c) `massAModelSingularGX none = E0GX.singularGX` holds by `with_reducible_and_instances rfl`. So does `massAModelSingularGX (some κ) = EAlphaGX.singularGXFamily κ`, and so does `= @EAlphaGX.singularGX κ.1 ⟨κ.2⟩` (Fact is a Prop). The TopologicalSpace arguments (instTopologicalSpaceMassAModel) agree at the same transparency. (d) With `attribute [local instance] E0GX.singularGX`, trace.Meta.synthInstance at E0 lists the candidates #[E0GX.singularGX] only. With `EAlphaGX.singularGX` plus `fact_pi_pos`, the candidates at `Massive π` are #[EAlphaGX.singularGX] only. The global family is not even a candidate at a fixed model, so it cannot be ambiguous there. With those local instances, `MassAModel none` resolves to E0GX.singularGX, equal to the family's value at instances transparency, and a variable o still resolves to the family. (e) The strict library has one other global SingularGXStructure instance, opensSingularGXStructure, keyed on ↥U. It does not overlap. lineSingularGX, minkowskiSingularGX, twoLinesSingularGX, E0GX.singularGX, EAlphaGX.singularGX and singularGXFamily are all local-instance abbrevs, and SingularGXStructure.ofHasGroupoid is a reducible def, not an instance. (f) Strict statements elaborate unchanged under the probe: E0GX.sing_nonempty, E0GX.reg_eq, E0GX.sing_eq (at MassAModel none), SFALocalE0.existsUnique_isE0Natural, BPrimeE0.chartIso_of_isAEChart, and BPrimeE0.hiso_massAModel_none rfl with no (inst := …), which is now filled by instance search. (g) No strict module imports the new file. After graduation only the root Causal.lean, hence scripts/AxiomSweep.lean, and future importers see the instance. In a module that carries its own `[∀ o, SingularGXStructure _ _ (MassAModel o)]` variable, as MassADEC25's sections do, the local instance takes priority, which is shadowing and not ambiguity. The instance is named, so curation can list it (kb/0015 item 5). It should stay a global instance: it is what fills the instance arguments of the four MassADEC25 theorems for the planned downstream targets. Demoting it to a def with `attribute [local instance]` would gain nothing."
+  },
+  "findings_review": [
+    {
+      "finding": "(b') E₀ ↔ E_κ holds, by defi:causal_E0 (l.1345–1347).",
+      "true": true,
+      "kind": "paper, proof-level",
+      "notes": "Proved (notMem_axis_of_isAEChart, chartIso_models_none_some / _some_none, hiso_row_none, hiso_column_none) in the readings OQ-34/35, OQ-64, OQ-82. The citation of prop:isom (BTZ_1.tex:378–383) is right. α = 0 or β = 0 with α ≠ β forces a contradiction for a connected U containing a singular point; for E_{2π} → E₀, apply it to the inverse with α = 0. ETT's proof cites neither."
+    },
+    {
+      "finding": "All three corollaries hold for E₀-manifolds over every model; the natural causality is the same for A = {0} and A = [0,∞) (l.1501–1504).",
+      "true": true,
+      "kind": "paper, statement-level (a confirmation, not an error)",
+      "notes": "massA_dec25_e0_manifolds states existence, uniqueness, cac and push-up over the whole family. No Lean declaration states the equality of the two causalities. It follows in a few lines from the statements, and a probe checked this: any C₀ with the A = {0} properties of existsUnique_causality_e0 satisfies IsoChartsCoverDEC25 over the family, so the uniqueness clause of massA_dec25_e0_manifolds gives C₀ = C, which is natural over the family. The finding should say « derivable from the uniqueness clause » or cite a corollary, if one is added."
+    },
+    {
+      "finding": "What existence still owes is exactly prop:isom at α, β > 0.",
+      "true": "partly",
+      "kind": "paper, proof-level",
+      "notes": "The Lean iff (forall_exists_massA_models_iff_sing) is with (b') between massive models at sources meeting the line, not with prop:isom. prop:isom at α, β > 0 (α ≠ 2π), together with the elements of Isom(E_α) being causal isomorphisms, implies that case. The converse does not hold. The REPORT's « This is prop:isom » is an overstatement and should be reworded (see the findings below)."
+    },
+    {
+      "finding": "Planner [r], E_π uniqueness (block item 3).",
+      "true": true,
+      "kind": "roadmap",
+      "notes": "massA_causalite_unique_dec25 needs IsAtlasCausalityDEC25 of the reference causality. Over MassAModel at M = E_π, its second clause is (b') from E_π, through the line (isAtlasCausalityDEC25_model_iff). Only the local form applies at E_π."
+    },
+    {
+      "finding": "Planner [r], E₀'s cross-type case (« waits on T-ett-e-models-bprime »; « E₀-manifolds alone need none of this »).",
+      "true": true,
+      "kind": "roadmap",
+      "notes": "Both corrections are right in substance, but the REPORT words both too strongly. The first [r] was a scheduling statement, superseded because this target proved the cross-type case, so « superseded at M = E₀ » is accurate and « wrong » is not. The second [r] was qualified « at A = {0} », and so correct as written. The closer's point is a complement: over the family, E₀-manifolds needed (b') E₀ → E_κ."
+    },
+    {
+      "finding": "Planner [r], « IsAEChart.trans_chart_mem_aeAtlas :532 is the tool ».",
+      "true": true,
+      "kind": "roadmap",
+      "notes": "MassADEC25.lean:532 is IsAEChart.trans_chart_mem_aeAtlas, and it puts e ≫ φ in the maximal a.e. atlas. The identity X_A-chart is isAEChart_refl (GXSingularDEC25.lean:196). The block's other line references were spot-checked and are right (E0GXStructure :354, :514; EAlphaGX :243, :446, :454, :503; MassADEC25 :327, :336, :358, :372, :396, :418, :486; GXSingularDEC25 :196, :512, :635; BPrimeE0 :757, :785)."
+    },
+    {
+      "finding": "Planner [r] in T-ett-e-models-bprime (holonomy route for E₀ ↔ E_κ).",
+      "true": true,
+      "kind": "roadmap",
+      "notes": "The conclusion is right, and it is proved here without holonomy. T-ett-e-models-bprime now owes only E_κ ⇀ E_κ' at the line (hiso_massAModel_of_sing)."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-massa-models-instance/REPORT.json: cor:massA_causalite findings[2]",
+      "what": "« This is prop:isom of brunswic2021cauchy at alpha, beta > 0 » overstates the relation. The Lean iff is with (b') between massive models at sources meeting the line. prop:isom at α, β > 0 (α ≠ 2π), with the rotation-translations being causal isomorphisms, implies that case, but is not equivalent to it.",
+      "fix": "At curation write: « ETT.tex:1399-1406, what the existence half still owes at a general E≥0-manifold, hreg discharged: every E≥0-manifold carries a natural causality iff every a.e. isomorphism chart E_κ ⇀ E_κ′ (κ, κ′ > 0) whose source meets the singular line is an isomorphism of topological spacetimes (forall_exists_massA_models_iff_sing). That case follows from prop:isom of brunswic2021cauchy (BTZ_1.tex:378-383) at α, β > 0, α ≠ 2π, the elements of Isom(E_α) being causal isomorphisms; the proof does not cite it. »"
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-massa-models-instance/REPORT.json: cor:massA_causalite findings[3..7]",
+      "what": "Five findings are about the roadmap's [r] notes, not the paper, yet they sit in the label's findings array, which curation copies into paper_findings. Two of them are worded too strongly. « wrong at M = E_0 » refers to a superseded scheduling note. « true only for the one-model family » refers to an [r] that was qualified « at A = {0} ».",
+      "fix": "Do not copy these five into paper_findings. Put them in the journal and the roadmap. Re-scope T-ett-e-models-bprime to E_κ ⇀ E_κ′ at sources meeting the line (hiso_massAModel_of_sing), and mark its holonomy [r] for E₀ ↔ E_κ as superseded by notMem_axis_of_isAEChart. Word the first correction as « superseded at M = E₀ » and the second as « correct at A = {0}; over the family E_{≥0}, (b′) E₀ → E_κ was also needed, done here »."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-massa-models-instance/REPORT.json: cor:massA_causalite findings[1]",
+      "what": "« the causality generated by the X_A-atlas is the same for A = {0} and A = [0, oo) » is true, but no declaration states it. It follows from the uniqueness clause of massA_dec25_e0_manifolds applied to existsUnique_causality_e0's causality (checked by probe).",
+      "fix": "In the paper finding, add « (from the uniqueness clause of massA_dec25_e0_manifolds) ». Optionally, a later target can add the corollary to the strict file."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/ett/certificate/curation.toml rows cor:massA_causalite, cor:massA_cac, cor:pushup_sing (notes, blocked_on)",
+      "what": "Stale ledger text. (i) In all three notes: « the four model-level theorems have no witness yet (no instance of the models' singular structures) ». (ii) In cor:massA_causalite notes: « (hiso_massAModel_none, for any family of model structures equal to E0GX.singularGX at E₀; no such family exists yet) ». (iii) The blocked_on of all three still names T-ett-singular-instance for « the models' singular structures packaged ».",
+      "fix": "(i) Replace with « the four model-level theorems are instantiated in Causal/Remarks/MassAModelsInstance.lean (T-ett-massa-models-instance): the family instance massAModelSingularGX, hreg_massAModel, witnesses with a singular point at E₀ (massA_dec25_models_e0, natural over the whole family) and E_π (epi_witness, local form) ». (ii) Replace « no such family exists yet » with « the family is MassAModelsInstance.massAModelSingularGX, equal to E0GX.singularGX at E₀ by rfl (massAModelSingularGX_none) ». (iii) blocked_on of cor:massA_causalite: « T-ett-e-models-bprime, T-ett-bprime-ealpha ((b′) between massive models E_κ ⇀ E_κ′ at sources meeting the line, the only case of (b′) left: forall_exists_massA_models_iff_sing), OQ-18 (« natural »), OQ-64 (whether (b′) is part of « model space »), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀) ». blocked_on of cor:massA_cac and cor:pushup_sing: « T-ett-e-models-bprime, T-ett-bprime-ealpha (existence of the natural causality at a general E≥0-manifold: (b′) between massive models at the line), OQ-18 (« natural »), OQ-64, OQ-82 »."
+    },
+    {
+      "severity": "minor",
+      "where": "Causal/Remarks/MassADEC25.lean:79-83, :98-99, :484-485; Causal/Model/EAlphaGX.lean:94-96 (strict docstrings)",
+      "what": "These docstrings are now stale. MassADEC25 says « E_κ's is not yet in lean-causal », « the four theorems over MassAModel have no witness yet, lean-causal having no instance of ∀ o, SingularGXStructure … », « no singular structure with a singular point in lean-causal » and « the library has no singular structure on those ». EAlphaGX says « the family MassAModel … is not packaged with these structures ». These files are not this target's, and the closer correctly left them alone.",
+      "fix": "Optional, at graduation or in a later curation pass: point each sentence to Causal.Remarks.MassAModelsInstance. This is prose only, and no gate depends on it."
+    }
+  ],
+  "scope": {
+    "ok": true,
+    "details": "git status --short shows: M roadmap/roadmap.toml (the master's three status flips ready → active, present before this audit), the untracked campaign directories of this target and of T-ett-measures-ealpha, and the scaffold files BPrimeEAlpha.lean, MassAModelsInstance.lean and MeasuresEAlpha.lean. The first and the last two belong to other agents. No tracked file is modified by the closer. scaffold/CausalScaffold.lean is untouched (the master adds the import). The block's « Not here » (E₀ ↔ E_κ, IsAtlasCausalityDEC25 at E₀ over all of MassAModel) was exceeded inside the allowed file. The excess is disclosed in REPORT notes (« SCOPE BEYOND THE BLOCK ») and collides with no active target: T-ett-e-models-bprime is planned, and the active T-ett-bprime-ealpha is about E_κ through the line."
+  },
+  "docstring_contract": {
+    "ok": true,
+    "details": "kb/0006 is followed: title, the three labels cited unmarked with ETT.tex lines inside the first 4000 characters, verbatim quotes of l.1396, l.1408, l.1419 and defi:causal_E0 (l.1345–1347; display math inlined, citation elided with [...]), a hypothesis checklist, SCOPE, and the provenance line. The checklist uses « ⚠ reading » and « ✓ discharged » beside the house vocabulary, as graduated MassADEC25 does. The checklist and SCOPE are true: the models' cac, push-up and hreg are discharged; the only strengthening is (b′) between massive models at the line, for existence at a general manifold; Baire is not used. The SCOPE statement that the instance fires for a variable o only was confirmed by probe. « (b′) wherever no line of an E_κ is involved » (l.14) is accurate: the E_{2π} line is regular, and E_κ ⇀ E₀ charts have regular sources."
+  },
+  "graduation_fixes": [
+    "Move scaffold/CausalScaffold/MassAModelsInstance.lean to Causal/Remarks/MassAModelsInstance.lean. No import rewrite is needed, since its four imports are strict. Add `import Causal.Remarks.MassAModelsInstance` to Causal.lean, delete .lake/build/lib/lean/CausalScaffold/MassAModelsInstance.*, and run `lake env lean -DwarningAsError=true` once more at the new path.",
+    "Keep massAModelSingularGX a global instance (see instance.details).",
+    "cor:massA_causalite: add \"Causal/Remarks/MassAModelsInstance.lean\" to extra_lean_files, append the REPORT's 28 decls (and optionally the extra_decls isAEChart_restrOpen and twoPi), keep lean_proved_override = \"partial\", apply the stale-text replacements (i) and (ii) and the new blocked_on, and append the following to notes: « T-ett-massa-models-instance (atlas-team, 2026-11-21), audit AUDIT-1 minor (finding wording, roadmap findings moved to the journal; fixed at graduation), Causal/Remarks/MassAModelsInstance.lean: the models' singular structures as one family, the global instance massAModelSingularGX (E0GX.singularGX at E₀ and EAlphaGX.singularGXFamily κ at E_κ, both by rfl; it fires at a variable index only, and a fixed model takes the local instances). hreg at every model (hreg_massAModel). (b′) is proved at regular sources between any two models (chartIso_models_of_subset_reg), from or into E_{2π}, at E₀ → E₀, and at E₀ ↔ E_κ for every source. For the last: no a.e. isomorphism chart E_κ ⇀ E₀ reaches the axis (notMem_axis_of_isAEChart), by causality: J⁻ of a BTZ point lies on the axis, J⁺ is closed in E₀, and every point of E_κ is a limit of regular points of one causal future. What is left is E_κ ⇀ E_κ′ at sources meeting the line (hiso_massAModel_of_sing). Existence at every E≥0-manifold ⇔ that case (forall_exists_massA_models_iff_sing; with hreg discharged, forall_exists_massA_models_iff); conditional assembly in massA_singular_models. E₀-manifolds over the whole family: the natural causality exists, is unique, cac and push-up, with no hypothesis left (massA_dec25_e0_manifolds; it is the causality of existsUnique_causality_e0). Witnesses with a singular point: E₀, natural over the whole family (massA_dec25_models_e0, isAtlasCausalityDEC25_e0); E_π, local form (epi_witness). E^{1,2} is natural over the whole family (massA_dec25_models_minkowski). Hypotheses: E≥0-manifold → read (DEC-25, the models' structures concrete, E₀ as in OQ-34/OQ-35); Isom(E^{1,2}) → read (OQ-82); « natural » → read (OQ-18); models cac, push-up, hreg → carried (discharged); (none) → strengthened, for existence at a general manifold only: (b′) between massive models at the line (OQ-64); Baire → weakened (not used, OQ-10). Unmarked: OQ-18, OQ-82, OQ-34/OQ-35, and (b′) between massive models at the line. » Add to paper_findings the REPORT's findings[0], [1] (with the qualifier « from the uniqueness clause of massA_dec25_e0_manifolds ») and the reworded [2]. Do not add findings[3..7].",
+    "cor:massA_cac and cor:pushup_sing: add \"Causal/Remarks/MassAModelsInstance.lean\" to extra_lean_files, append the REPORT's eight decls per row, apply replacement (i) and the new blocked_on, and append to notes: « T-ett-massa-models-instance (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/MassAModelsInstance.lean: the four model-level theorems are instantiated over the family instance massAModelSingularGX. Witnesses with a singular point: every model with its identity X_A-chart (isoChartsCoverDEC25_model, massA_dec25_models_model), E₀ (e0_witness; natural over the whole family: massA_dec25_models_e0), E_π (epi_witness, local form), and E^{1,2} over the whole family (massA_dec25_models_minkowski). At E₀-manifolds, every model admitted as a chart target, the corollary holds with no hypothesis left (massA_dec25_e0_manifolds). At a general E≥0-manifold it holds for every natural causality, and existence waits only on (b′) between massive models at the line. » Add the REPORT's single finding of each row to paper_findings.",
+    "Roadmap and journal: re-scope T-ett-e-models-bprime to E_κ ⇀ E_κ′ at sources meeting the line (hiso_massAModel_of_sing is the exact remainder), and mark its holonomy [r] for E₀ ↔ E_κ as superseded by notMem_axis_of_isAEChart. Record the [r] corrections of the block (isAEChart_refl; E_π uniqueness waits on T-ett-bprime-ealpha) in the journal, not in paper_findings.",
+    "Optional: hoist isAEChart_restrOpen, which is model-free (any G, X, M, N), to Causal/GXSingularDEC25.lean in a later pass (kb 0047/0061)."
+  ]
+}
