@@ -1,0 +1,71 @@
+{
+  "target": "T-ett-model-rows-e0",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "cor:model_minimal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "model_minimal (ModelRowsE0.lean:117) proves, for every alpha > 0, (massive alpha).CausallyArcConnected and AbsolutelyMinimal (strict, reused), and at kappa = 0 E0.causality.CausallyArcConnected, AbsolutelyMinimal and AbsolutelyMinimalOn W for every open W. That is the printed statement (l.1386) for every kappa >= 0 (alpha = 2*pi is E^{1,2}), plus the proof's premise. It adds no hypothesis. The only gap is the OQ-34/OQ-35 reading of E_0. It is disclosed in SCOPE (a), and the row is partial and unmarked."
+    },
+    {
+      "label": "rem:pushup",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "pushup (l.136) proves PushUp (defi:pushup: every open U and every x, future and past, both inclusions of l.1377) and PushUpOn W for every open W, for E_alpha and E_0. That covers 'equivalently ... and symmetrically in the past' and 'in every open subset' (l.1376-1379). The first sentence (l.1375-1376) is refuted at E_0 by pushup_concat_counterexample (l.172). I checked the counterexample. c1 = axisLine (0,0) on [-1,0] is a DEC-6 future causal curve (E0.axis_causalCurveOn). c2 is a ChronalCurveOn top on [0,1] from (0,0), and one exists by causal arc-connectedness and Z+ = E_0. c1 0 = c2 0. The glued map 'if t <= 0 then c1 t else c2 t' is exactly CurveOn.concat (Curves.lean:154) of the two curves for C.le, with c2 weakened to causal, so it is a DEC-6 causal curve. It is not chronal: lt_of_lt at -1 < 0 would give (-1,0) << (0,0), and I^-_W of an axis point is empty (E0.not_lt_of_mem_axis). The pieces come in the printed order, causal and then chronological. The refutation does not depend on OQ-34: it uses only what defi:causal_E0 itself prints (the singular line is locally causal and not locally chronal, and I^-(p) is empty, l.1345-1347). Classification: this is a statement-level wording error, not a misprint and not an open reading. The printed sentence is unambiguous and false, already for kappa > 0 (curation findings_triage, kind 'sentence', WP-9). The intended content is the push-up of the 'Equivalently' clause, which is proved. Marking a reworded form later would need a DEC row (kb 0022), on top of OQ-34/35. The row is partial and unmarked."
+    },
+    {
+      "label": "lem:IJ_calc",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IJ_calc (l.209) states, for every p, interior (J+_top {p}) ∩ Zminus = I+_top {p} and interior (J-_top {p}) ∩ Zplus = I-_top {p}, for Massive alpha (alpha > 0) and for E0. That is l.1443 as printed. I^±, J^± and Z^∓ are read globally (U = top, with Zplus and Zminus as in Properties.lean:137-140, def:strongly_tarentin_point), and BTZ points are included. e0_IJ_calc_reg adds the form after substituting Z+ = E_0 and Z- = E_0 \\ axis (the proof's first paragraph). The row is partial only for the E_0 reading."
+    },
+    {
+      "label": "lem:densite_modele",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "densite_modele (l.328), for kappa > 0: (a) and (b) at every p, and both in every V. (c) is stated only for kappa = 0, so it is correctly absent here. For kappa = 0 (e0_densite): (a) at every p, BTZ points included; (b) for p not on the axis (p in reg(E_0)); (c) for p on the axis (sing(E_0) = E0.axis = singE0 0). The same three hold in every V : Opens E0 with CausallyConvexIn V top, which is defi:convexite_causale with U = M and the diamond J-_top(q) ∩ J+_top(p). In V, J and I are J±_V {p} and I±_V {p}, and the closure is closure(.) ∩ V. That equals the subspace closure in V of a subset of V, and it is the only reading under which the V clause can hold, since the closure in E_kappa leaves V. The reading is disclosed in SCOPE (b). I checked that the V clauses are not vacuous. e0_exists_causallyConvexIn_axis gives an open V that is causally convex in top, contains the BTZ point (0,0) and a regular point, and lies inside ball((0,0),1), so V is not univ: (5,0) is outside. Every one of (a), (b), (c) therefore has an instance in a proper V. The V comes from e0_stronglyCausalOpen and its convexity is kernel-checked. No hypothesis is added. The row is partial for the E_0 reading and the V-closure reading."
+    },
+    {
+      "label": "rem:galileo_spacetime_not_strongly",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Only the last sentence (l.672-673) is delivered. models_stronglyCausal (l.447) proves StronglyCausal and StronglyCausalOpen (the two readings, OQ-8 and DEC-7) for every E_alpha, alpha > 0, and for E0. e0_stronglyCausalOpen is new and duplicates nothing in the strict library: grep finds no E0 StronglyCausalOpen in Causal/. The reading of 'the flat model spacetimes of Section subsec:sing_spacetime_defi' as the model spaces E_kappa, rather than the E_{>=0}-manifolds of the same section (the label sits after \\section{Singular flat spacetimes}, l.1319-1320), is the sensible one. It is disclosed in SCOPE (c) and in a question, and the row is partial. The Galileo sentences stay strict and are untouched."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ModelRowsE0.lean exits 0 with no output. The file has no sorry, admit, native_decide or axiom. #print axioms ran from a /tmp copy (since deleted) on all 28 declarations of Causal.ModelRowsE0, including every anchor (model_minimal, pushup, pushup_concat_counterexample, e0_concat_not_chronal, IJ_calc, e0_IJ_calc_reg, densite_modele, e0_densite, e0_Jminus_axis_ne_closure_interior, e0_Jminus_axis_ne_closure_Iminus, e0_Jplus_eq_closure_interior, e0_Jminus_eq_closure_interior, e0_exists_causallyConvexIn_axis, e0_stronglyCausalOpen, models_stronglyCausal). Each one gives exactly [propext, Classical.choice, Quot.sound]. Marks: tools/ledger.py's docstring_label_re (\\*\\*`label`\\*\\*) finds nothing in the first 4000 characters or anywhere else in the file. The only bold spans before character 4000 are '**unmarked**' and two sentences about the paper. Names: everything is in Causal.ModelRowsE0, and 'ModelRowsE0' appears nowhere else in lean-causal. The sibling scaffold/CausalScaffold/BPrimeE0.lean (not judged) uses Causal.BPrimeE0, and the strict Causal.Port.E0ModelRows uses Causal.E0, so nothing clashes. kb_proposals 3 and 4 hold: I probed both (push_neg is deprecated and fails under warningAsError, and 'A ∩ B \\ C' does not parse)."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-ett-model-rows-e0/REPORT.json (notes); lean-causal/.lake/build/lib/lean/CausalScaffold/ModelRowsE0.olean (11:55:30)",
+      "what": "The dispatch the closer received said 'do not run lake build; typecheck with lake env lean' (shared package, T-ett-bprime-e0 running). The closer ran 'lake build CausalScaffold.ModelRowsE0' anyway, and disclosed it in the notes. The damage is nil. The only olean written in the window is ModelRowsE0's own: Causal/Ladder/Test.olean at 11:53:47 is /ett-programme's, built with its commit at 11:54:02. No upstream module was rebuilt, and BPrimeE0 was not touched.",
+      "fix": "No change to the file. Record the deviation in the journal."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json lem:densite_modele finding 2; ETT.tex:1482, 1488-1491",
+      "what": "The finding itself is true and proof-level. lem:IJ_calc needs no condition on p. As printed, the J- case admits BTZ points (p in Z+ = E_0), where J-(p) ≠ closure I-(p) = ∅, while statement (b) excludes them. But replacing Z^∓ by Z^± is not a misprint correction, and the master's wave note calls it 'Z^∓→Z^± misprint'. The printed Z^∓ fits the rest of the paragraph: l.1488 'covers (a) for κ>0 and for p ∈ reg(E_0)' is exactly what Z^∓ gives for the + case (Z- = reg), and l.1488-1491 exist only because Z^∓ leaves out (a) at BTZ points. Moving to Z^± is a rewrite of the (editorial, '-- verify') proof: change l.1482, change l.1488, delete l.1488-1491, and restrict the cited fact of l.1481. It is a suggestion for the author, not a typo.",
+      "fix": "At curation, file findings 2, 3 and 4 of lem:densite_modele as one proof-level repair of l.1480-1491, not as a misprint. No DEC row is needed, because the statement is unchanged and nothing is marked on the corrected proof."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json lem:densite_modele finding 4 ('at κ = 0 the citation is not needed either')",
+      "what": "The claim is overstated. The cited fact ('J^±(p) is the closure of its interior') is indeed not needed. But the replacement uses the closedness of J^±(p) (E0.isClosed_Jplus, E0.isClosed_Jminus, ported model facts). The paper states closedness nowhere, and it would come from the same explicit description of the cones in [brunswic2021cauchy, §1.2]. Sent as written, the finding tells the author he can drop a reference that he would still need for closedness.",
+      "fix": "Reword at graduation to: 'the closure-of-interior fact is not needed at κ = 0: push-up, Z+ = E_0, Z- = reg(E_0) and the closedness of J^±(p) suffice (for (b), with the axis step via E0.lt_axis_iff)'. Keep it an observation, not an error."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json lem:densite_modele finding 1; ModelRowsE0.lean:363-377",
+      "what": "The finding is true and proof-level. The Lean witness is proved in the OQ-34 reading, but the finding does not depend on it: the paper's own defi:causal_E0 (l.1347) gives J-(p) = {r = 0, τ ≤ τ(p)} at a BTZ point. That half-line has empty interior in the 3-manifold, so the closure of its interior is empty, while p ∈ J-(p). The l.1481 'for every p' contradicts the paper's own l.1347 whatever OQ-34 rules. The REPORT does not say so.",
+      "fix": "At graduation, add to the curated finding: 'already contradicted by defi:causal_E0, l.1347'. The finding then stands independently of OQ-34."
+    }
+  ],
+  "scope": "git status --short shows ModelRowsE0.lean (the dispatched file), the campaign directory (REPORT.json only, before this audit) and the sibling BPrimeE0.lean (T-ett-bprime-e0, not judged). It also shows roadmap/roadmap.toml and papers/egf/programme/roadmap.toml: their diffs are the loops' status edits (ready→active, the T-ett-maxatlas-hoist done stamp), not the closer's. It also shows lean-egf/scaffold/EGFScaffold/{Loss,UniversalityErgodic}.lean, which appeared during this audit and belong to concurrent egf closers. No strict file, scaffold root, ledger, register, programme/ or Causal/Ladder/* file was touched.",
+  "docstring_contract": "Title present. The five labels are cited unmarked with their ETT.tex lines. The quotes are verbatim; densite_modele's enumerate is inlined, which is acceptable. The hypothesis checklist is true: the OQ-34/35 reading, the V-closure reading and the 'flat model spacetimes' reading are flagged with ⚠. SCOPE (a)-(d) is present and true. Under the printed metric -dτ²+dr²+r²dθ² the axis is indeed timelike. The provenance line is present."
+}

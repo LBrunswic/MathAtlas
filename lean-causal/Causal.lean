@@ -256,6 +256,7 @@ import Causal.GHWithoutTarentin
 import Causal.Remarks.MassADEC25
 import Causal.Model.EAlphaSectors
 import Causal.Port.E0GXStructure
+import Causal.Port.ModelRowsE0
 import Causal.Port.BPrimeE0
 
 /-!

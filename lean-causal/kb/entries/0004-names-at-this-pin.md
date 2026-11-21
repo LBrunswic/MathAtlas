@@ -15,6 +15,7 @@ Always: the strict library compiles with `warningAsError`.
 | `Set.union_diff_cancel` | `Set.union_sdiff_cancel` |
 | `measure_diff_null` | `measure_sdiff_null` |
 | `div_lt_iff` / `lt_div_iff` | `div_lt_iff₀` / `lt_div_iff₀` |
+| `push_neg` (a deprecation warning, so a strict build failure) | `push Not` |
 
 `nhdsWithin_inter_of_mem : s ∈ 𝓝[t] a → 𝓝[s ∩ t] a = 𝓝[t] a`; the primed version keeps `s`.
 A definition whose type is a class (`TopologicalSpace M`) must be `@[reducible]`.

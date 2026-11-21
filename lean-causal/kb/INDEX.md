@@ -121,6 +121,9 @@ rediscover. One fact per entry.
 | [0113](entries/0113-arc-causality.md) | pattern | A causality carried by a family of arcs (arcCausality) |
 | [0114](entries/0114-comb-coordinates.md) | pattern | Choose a planar comb's coordinates for the proof |
 | [0115](entries/0115-gh-without-tarentin.md) | pitfall | Global hyperbolicity without tarentin: neither a time function nor strong causality |
+| [0116](entries/0116-densite-at-e0-without-charts.md) | pattern | lem:densite_modele at E₀ needs no chart: push-up, Z⁺ = E₀ and the closed cones |
+| [0117](entries/0117-e0-strongly-causal-open.md) | pitfall | E₀ is StronglyCausalOpen, but not through StronglyCausal.stronglyCausalOpen |
+| [0118](entries/0118-sdiff-beside-inter-does-not-parse.md) | pitfall | `A ∩ B \ C` does not parse: write `(A ∩ B) \ C` |
 | [0119](entries/0119-bprime-at-e0.md) | pattern | (b′) at E₀: every a.e. isomorphism chart E₀ ⇀ E₀ is a chart isomorphism |
 | [0120](entries/0120-rigidity-without-covering.md) | pattern | Rigidity at a singular point without covering spaces: one slit box, the limit at the axis, continuity across the slit |
 | [0121](entries/0121-det-of-explicit-linear-map.md) | pattern | The determinant of an explicit linear map of ℝ × ℝ × ℝ |
