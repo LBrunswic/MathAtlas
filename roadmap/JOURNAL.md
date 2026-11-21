@@ -177,3 +177,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 01:55–02:45 (Paris); agents: 5 closers, 7 audits (1 re-audit), 1 fix round, 1 fetch attempt; shared cap briefly at 7 (/ett-programme's two non-Lean agents)
 - new OQ: 59 (Troyanov's condition of record), 60 (EGF sampling confirmations), 61 (Benzécri cote z ≡ 0), 62 (« positif »)
 - next: lean-causal goes back to /ett-programme's T-abs-hoist-time-function, then T-ett-gxsingular-dec25 (exclusive); outside lean-causal: T-syr-cycle-gcd, T-yamabe-gluing-algebra, T-gx-troyanov-reroute (master), T-atlas-sweep-refresh (master)
+
+## 2026-11-21 04:05 · wave of 5 · T-syr-cycle-gcd, T-yamabe-gluing-algebra, T-gx-troyanov-reroute, T-atlas-sweep-refresh, T-ett-gxsingular-dec25 (topped up)
+- T-syr-cycle-gcd: § 2's three rows proved in true forms, printed forms refuted in Lean (the GCD only up to sign; ν₂ conjunct false even with the minimal period; the literal « (x)_{n∈ℕ} » degenerate); the ν₃ conjunct favours the printed A_u^n against OQ-43's alternative; OQ-63; audit clean
+- T-yamabe-gluing-algebra: lem:gluing-estimate's chain and thm:upper-bound's τ → 0 limit as lemmas over the model, the cited inputs carried; finding l.724 (R_g ≤ 0 does not follow from prop:nonpositive; closed via lem:positivity); audit minor; tool gap: texgraph does not link « Proof of Theorem~\ref{…} »
+- T-gx-troyanov-reroute (master): the scaffold's GX.troyanovTheorem carries a sorry only for s ≥ 5 with an angle above 2π
+- T-ett-gxsingular-dec25 (topped up into lean-causal, exclusive): gx's a.e. atlases ported verbatim (281 constants checked twice); prop:GX_sing_espace_temps_topo under DEC-25 needs the added (b′), shown necessary; rem:hypotheses_proposition_prop_gx reduced to non-regular points; OQ-64; audit minor
+- T-atlas-sweep-refresh (master): sweep counts from fresh check logs of all six packages; overlay current for all ten papers
+- gates: lean-syracuse ✓, lean-yamabe ✓, lean-gx ✓, lean-causal ✓ (232 strict modules), lean-benzecri ✓, lean-egf ✓, roadmap ✓, atlas ✓, hub make -k check all green
+- commits: e113f97 244f341 13ff8f0 3cd2d78 1c83dfc 7aa1e47 933a95d 8b08793 d1cfe91 00d3204
+- wall time: 02:48–04:05 (Paris); agents: 3 closers, 3 audits
+- new OQ: 63 (Syracuse § 2 readings), 64 (DEC-25's (b′))
+- next: plan (rule 2: no ready closer outside lean-causal, where /ett-programme runs 3 closers); candidates: T-bz-c2-compact (its dependency done), the texgraph « Theorem~\ref » proof-title gap, T-egf-sampling-corollaries (Pinsker), Troyanov s ≥ 5
