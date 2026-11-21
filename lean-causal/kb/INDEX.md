@@ -95,3 +95,5 @@ rediscover. One fact per entry.
 | [0087](entries/0087-pde-developments-abstractly.md) | pattern | Developments of one PDE on a fixed background, abstractly |
 | [0088](entries/0088-union-with-s-acausal.md) | pattern | A union of Cauchy open sets with S acausal in the union |
 | [0089](entries/0089-ers-4-77-greatest-not-developments.md) | pitfall | ers_theorem_4_77_greatest is not the set of developments |
+| [0090](entries/0090-halflit-dual.md) | pattern | The time-reversed half-lit line: an either-reading witness against causal openness in the future |
+| [0091](entries/0091-time-reversed-witness.md) | pattern | A time-reversed witness: dual_* transport in haves, then causal_ladder on C.dual |
