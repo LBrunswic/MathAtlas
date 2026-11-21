@@ -221,38 +221,38 @@ note = "Remark 3.56 (ghd_02_19.tex:731). Zorn gives an MGHD containing each of t
 # ------------------------------------------------------------------ §4.2 uniqueness for general quasilinear equations
 [[bind]]
 label = "ersprop:PropLocUniqueness"
-ett = ["T-abs-ers-unions", "Causal.isCauchyInclusion_iSup"]
-localisation = []
-open_localisation = ["local_uniqueness"]
-open_reason = "Local uniqueness is the PDE input (Sogge, energy estimates), not a ladder node (T-lad-development-nodes)."
-note = "Prop 4.63 (ghd_02_19.tex:836). The PDE gives agreement on small DS_p; the ETT part is that V = ⋃ DS_p has S as Cauchy surface (a union of local Cauchy developments of the pieces S_p, T-abs-ers-unions, through Causal.isCauchyInclusion_iSup, ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function; GH of the union is Geroch (iii) ⇒ (i), unproved, OQ-57 (c)). Thm 4.64 uses 4.63 twice: Step 1 (`hlocal`, some common development exists) and Step 5 (inside the restart SliceRestart)."
+ett = ["Causal.Causality.ers_prop_4_63", "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn", "Causal.Causality.ers_prop_4_63_of_hasTimeFunction", "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn", "Causal.Causality.isDevelopmentIn_localDevelopmentUnion", "Causal.Causality.isCauchySurfaceOn_sSup_of_isAcausalOn", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn", "Causal.Causality.GloballyHyperbolicOn.of_causallyConvexIn", "Causal.Causality.IsCauchySurfaceOn.eq_of_le"]
+localisation = ["globally_hyperbolic", "causally_arc_connected", "curves_extend"]
+open_localisation = ["local_uniqueness", "curves_extend"]
+open_reason = "Local uniqueness is the PDE input (Sogge, energy estimates), named Causal.Causality.LocalUniqueness: a predicate on (C, S, a region, the solutions), not a ladder node (T-lad-development-nodes). curves_extend is read on U₁ (CurvesExtendOn U₁, a model fact, kb/0012) and has no T-loc owner for g(u₁); at M it is replaced by time_function (ers_prop_4_63_of_hasTimeFunction)."
+note = "Prop 4.63 (ghd_02_19.tex:836). The PDE gives agreement on small DS_p (LocalUniqueness). The ETT part is the union V = localDevelopmentUnion, which contains ⋃ DS_p. It is a common development: ers_prop_4_63, under the OQ-41 reading S acausal in U₁ with only ≤_{U₁} antisymmetric, through isDevelopmentIn_localDevelopmentUnion and isCauchySurfaceOn_sSup_of_isAcausalOn. It is globally hyperbolic and causally convex in U₁ (ers_prop_4_63_globallyHyperbolicOn) when S is a Cauchy surface of the GH U₁ and U₁ is causally arc-connected with curves extending (CausallyArcConnectedOn U₁, CurvesExtendOn U₁). There acausality comes from IsCauchySurfaceOn.eq_of_le, and GH from IsCommonDevelopment.globallyHyperbolicOn (causallyConvexIn_of_isCauchySurfaceOn, GloballyHyperbolicOn.of_causallyConvexIn); no Geroch (iii) ⇒ (i) is used. ERS get GH from the Cauchy property (Geroch). Causal.isCauchyInclusion_iSup is not used: each DS_p has its own S_p, so there is no common Cauchy-included A. globallyHyperbolicOn_sSup_of_pieces and Causal.Causality.isCauchySurfaceOn_iSup form a parallel union route that the anchors do not use. Thm 4.64 uses 4.63 twice: in Step 1 (`hlocal`, ers_theorem_4_64_of_localUniqueness) and in Step 5 (inside the restart SliceRestart)."
 [[bind.geometric]]
 model = "quasilinear"
-proves = []
-by = ["T-loc-quasilinear-slice"]
+proves = ["globally_hyperbolic", "causally_arc_connected"]
+by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice"]
 
 [[bind]]
 label = "ersthm:ThmUnique"
-ett = ["Causal.Causality.ers_theorem_4_64", "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment", "Causal.Causality.isCommonDevelopment_maxCommonDevelopment", "Causal.Causality.exists_isSpacelikeBoundaryPoint", "Causal.Causality.exists_spacelike_boundary_point"]
-localisation = ["globally_hyperbolic", "tarentin"]
-open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "`hlocal` (Prop 4.63, local_uniqueness: T-lad-development-nodes), `hstep` (Steps 3–5 + Prop 4.63, SliceRestart) and `hstay` (Step 2's U₂ half, FrontierStaysIn) are named hypotheses, not ladder nodes: OQ-57 (b), T-lad-ers-restart-nodes. No A3 is needed on a fixed background."
-note = "Thm 4.64 (ghd_02_19.tex:858, proof 865–912), Causal.ErsUniqueness (T-abs-ers-thm-4-64, 56ccff0), unmarked. Step 1 the maximal common development V₀ as a union (isCommonDevelopment_maxCommonDevelopment; S Cauchy, GH not concluded); Step 2 a frontier point with (4.65) in U₁ (exists_isSpacelikeBoundaryPoint through exists_spacelike_boundary_point: null geodesics replaced by a minimal point of a compact set, exists_minimal_of_isCompact_on), in U₂ by FrontierStaysIn; Steps 3–5 + Prop 4.63 the restart (SliceRestart; Step 3 is Sbierski's Lemma 3.11). GH and tarentin are of g(u₁) on U₁ (GloballyHyperbolicOn, TarentinOn); the Cauchy facts of S in U₁ (SplitBy, CompactSlabs, IsAcausalOn) are the quasilinear model's. One causality (OQ-57 (a)); U₁ ∩ U₂ preconnected."
+ett = ["Causal.Causality.ers_theorem_4_64", "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment", "Causal.Causality.isCommonDevelopment_maxCommonDevelopment", "Causal.Causality.exists_isSpacelikeBoundaryPoint", "Causal.Causality.exists_spacelike_boundary_point", "Causal.Causality.ers_theorem_4_64_of_localUniqueness", "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn"]
+localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected", "curves_extend"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "curves_extend"]
+open_reason = "`hlocal` (Prop 4.63, local_uniqueness: T-lad-development-nodes; supplied by LocalUniqueness through ers_theorem_4_64_of_localUniqueness), `hstep` (Steps 3–5 + Prop 4.63, SliceRestart) and `hstay` (Step 2's U₂ half, FrontierStaysIn) are named hypotheses, not ladder nodes: OQ-57 (b), T-lad-ers-restart-nodes. No A3 is needed on a fixed background. causally_arc_connected and curves_extend (read on U₁) enter only IsCommonDevelopment.globallyHyperbolicOn (V₀ GH), with S a Cauchy surface of U₁; curves_extend has no T-loc owner."
+note = "Thm 4.64 (ghd_02_19.tex:858, proof 865–912), Causal.ErsUniqueness (T-abs-ers-thm-4-64, 56ccff0), unmarked. Step 1 the maximal common development V₀ as a union (isCommonDevelopment_maxCommonDevelopment; S Cauchy, GH not concluded); Step 2 a frontier point with (4.65) in U₁ (exists_isSpacelikeBoundaryPoint through exists_spacelike_boundary_point: null geodesics replaced by a minimal point of a compact set, exists_minimal_of_isCompact_on), in U₂ by FrontierStaysIn; Steps 3–5 + Prop 4.63 the restart (SliceRestart; Step 3 is Sbierski's Lemma 3.11). GH and tarentin are of g(u₁) on U₁ (GloballyHyperbolicOn, TarentinOn); the Cauchy facts of S in U₁ (SplitBy, CompactSlabs, IsAcausalOn) are the quasilinear model's. One causality (OQ-57 (a)); U₁ ∩ U₂ preconnected. Since T-abs-ers-unions: hlocal from local uniqueness (ers_theorem_4_64_of_localUniqueness, through Prop 4.63), and V₀ GH (IsCommonDevelopment.globallyHyperbolicOn) when moreover S is a Cauchy surface of U₁ (IsCauchySurfaceOn U₁ S, not a hypothesis of ers_theorem_4_64, which reads U₁'s Cauchy property as IsAcausalOn, SplitBy and CompactSlabs) and U₁ is causally arc-connected with curves extending."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["globally_hyperbolic", "tarentin"]
+proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "ersrem:RemTime"
-ett = ["Causal.Causality.ers_remark_4_67", "Causal.Causality.ers_remark_4_67_future", "Causal.Causality.ers_remark_4_67_past"]
-localisation = ["globally_hyperbolic", "tarentin"]
-open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "As Thm 4.64."
-note = "Remark 4.67 (ghd_02_19.tex:914). Under 4.64, U₁ ∩ U₂ is the greatest common development (ers_remark_4_67; 'maximal common GHD' read with S Cauchy, OQ-57 (c)), and a point to the future (past) of S in U₁ is to its future (past) in U₂ (ers_remark_4_67_future/_past), with the time orientations of g(u₁), g(u₂) agreeing on U₁ ∩ U₂ (FollowsSolution) and an inextensible curve of U₁ through every point (InextensibleThrough), both layer 3. It is the `hpair` of Causal.Causality.ers_theorem_4_77."
+ett = ["Causal.Causality.ers_remark_4_67", "Causal.Causality.ers_remark_4_67_future", "Causal.Causality.ers_remark_4_67_past", "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn"]
+localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected", "curves_extend"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "curves_extend"]
+open_reason = "As Thm 4.64. causally_arc_connected and curves_extend (read on U₁) enter only ers_remark_4_67_globallyHyperbolicOn, with S a Cauchy surface of U₁; curves_extend has no T-loc owner."
+note = "Remark 4.67 (ghd_02_19.tex:914). Under 4.64, U₁ ∩ U₂ is the greatest common development (ers_remark_4_67; 'maximal common GHD' read with S Cauchy, OQ-57 (c)), and a point to the future (past) of S in U₁ is to its future (past) in U₂ (ers_remark_4_67_future/_past), with the time orientations of g(u₁), g(u₂) agreeing on U₁ ∩ U₂ (FollowsSolution) and an inextensible curve of U₁ through every point (InextensibleThrough), both layer 3. It is the `hpair` of Causal.Causality.ers_theorem_4_77. Since T-abs-ers-unions: 'maximal common GHD' as printed, U₁ ∩ U₂ also GH and causally convex in U₁ (ers_remark_4_67_globallyHyperbolicOn), adding S Cauchy in U₁, CausallyArcConnectedOn U₁ and CurvesExtendOn U₁ (evidence for OQ-57 (c))."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["globally_hyperbolic", "tarentin"]
+proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
@@ -347,15 +347,15 @@ by = ["T-loc-quasilinear-nesting"]
 # ------------------------------------------------------------------ §4.5–4.8 existence, MGHD, MUGHD, one-sided boundaries
 [[bind]]
 label = "ersthm:ThmEx"
-ett = ["T-abs-ers-unions", "Causal.Causality.ers_theorem_4_64"]
-localisation = []
-open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "Local existence on {t = 0} patches (Sogge) and 4.64 on the components, with its named hypotheses (T-lad-development-nodes; OQ-57 (b), T-lad-ers-restart-nodes)."
-note = "Thm 4.75 (ghd_02_19.tex:1001). Patching: each component A of DS_p ∩ DS_q meets S_p ∩ S_q along integral curves of the normal N, the two local developments agree on A by 4.64 and a boundary argument, and the union has S as Cauchy surface (T-abs-ers-unions)."
+ett = ["Causal.Causality.ers_theorem_4_75", "Causal.Causality.ers_theorem_4_75_eqOn", "Causal.Causality.ers_theorem_4_64_in", "Causal.Causality.maxDevelopmentIn_eq", "Causal.Causality.isCauchySurfaceOn_iSup_of_inf", "Causal.Causality.isCauchySurfaceOn_of_componentOpens"]
+localisation = ["globally_hyperbolic", "tarentin", "is_causal"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "is_causal"]
+open_reason = "Named: local existence on {t = 0} patches (Sogge; IsLocalDevelopment), and Theorem 4.64's inputs located in each component A of DS_p ∩ DS_q (RestartsIn). These are: A meets S (N's integral curves); local uniqueness on S ∩ A; FrontierStaysIn in A (T-loc-quasilinear-frontier); SliceRestart in A (T-loc-quasilinear-slice). Both T-loc targets are scoped today to U₁ ∩ U₂, so the component-located forms are a scope question for both (T-lad-development-nodes; OQ-57 (b), T-lad-ers-restart-nodes). is_causal: the union U = ⋃ DS_p is causal (≤_U of the patched causality antisymmetric). That is a part of the printed conclusion (U a GHD, :1021), assumed as in row 4.77. For a general quasilinear equation no T-loc target supplies it: T-loc-quasilinear-nesting's is_causal needs (4.62)."
+note = "Thm 4.75 (ghd_02_19.tex:1001). The claim u_p = u_q on DS_p ∩ DS_q (ers_theorem_4_75_eqOn) is proved by running Thm 4.64's argument in each component A, with W = DS_p (ers_theorem_4_64_in, maxDevelopmentIn_eq). This replaces ERS's 4.64 on D_pS_A, D_qS_A and the boundary argument. The union has S as Cauchy surface by Thm 4.77's argument without S ⊆ Uᵢ (isCauchySurfaceOn_iSup_of_inf). That argument uses S Cauchy in each DS_p ∩ DS_q, obtained from the components (isCauchySurfaceOn_of_componentOpens), and the union causal. GH of U is not concluded (OQ-57 (c)). Each DS_p is GH and tarentin for g(u_p), inside IsLocalDevelopment."
 [[bind.geometric]]
 model = "quasilinear"
-proves = []
-by = ["T-loc-quasilinear-slice"]
+proves = ["globally_hyperbolic", "tarentin"]
+by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "ersthm:ThmUMGHD"

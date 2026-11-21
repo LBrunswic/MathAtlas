@@ -89,3 +89,6 @@ rediscover. One fact per entry.
 | [0081](entries/0081-lines-in-abstract-causality.md) | pattern | Straight lines in an abstract causality, and the slope-δ cone on ℝ × E |
 | [0082](entries/0082-duplicate-theorem-across-modules.md) | pitfall | A theorem declared in two modules with the same type builds silently |
 | [0083](entries/0083-narrowed-imports-change-proof-terms.md) | pitfall | Narrowing a moved declaration's imports can change its proof term |
+| [0084](entries/0084-unions-of-local-developments.md) | pattern | Unions of local developments of pieces of S |
+| [0085](entries/0085-theorem-4-64-in-a-region.md) | pattern | Theorem 4.64 in a region |
+| [0086](entries/0086-ers-4-77-without-s-in-ui.md) | pitfall | ers_theorem_4_77 does not need S ⊆ Uᵢ |
