@@ -333,13 +333,14 @@ title = "tools/ladder.py, second pass: counterexample() reads conjunctive edges 
 stream = "tactics"
 kind = "tooling"
 package = "none"
-status = "planned"
+status = "done"
 owner = "master"
 priority = 4
 depends = ["T-tool-ladder-py", "T-lad-record-lines", "T-tool-ladder-space"]
 evidence = "The keeper's tool proposals at T-lad-classify-core (journal entry 2026-11-21 05:00: 'backward reading of conjunctive edges in counterexample(), conditional transfers, premise-free Level-B facts'). (1) The ladder header states the gap (programme/ladder.toml:72–78: 'a counterexample is never read backwards through one (the rational line, absolutely minimal and not causally open in the future, is not locally causally open in the future by absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future, which the matrix does not see …)'); tools/ladder.py counterexample() (:234–249) puts in `lacks` only the ids whose closure reaches `to`. The planner's simulation of the fixpoint (an edge valid on the space whose conclusion is lacked and all of whose premises but one are had: that one, and every id implying it, is lacked): on the ladder of 6c0d59e it settles 8 [[open]] entries (absolutely_minimal, is_causal, push_up, locally_push_up → locally_causally_open, locally_causally_open_future: the rational line), and after T-lad-record-lines 51 instead of 43. The contradiction check must read the same way (a counterexample read to lack an id it has is a contradiction). Since those entries become 'already settled', the tool lands with their removal in one commit, after T-lad-record-lines (which edits the same [[open]] block; hence `depends`). T-abs-rational-line-extras states the rational line's case in Lean; tool and Lean agree. (2) Header :62–65: 'On a [[transfer]] `under` is read as on an [[implies]]: the contradiction check does not see it, so a transfer proved only under a condition in words that a recorded counterexample lacks stays a [[consequence]] (globally_hyperbolic along le_nested, with closed diamonds)', i.e. Causal.Causality.globallyHyperbolic_iff_of_nested (Causal/NestedCausalities.lean:203): a [[transfer]] with `under` is shown as conditional and excluded from _contradictions (tools/ladder.py:453–487). (3) Header :94–105: germ_extension ⇒ rigid and cauchy_slice ⇒ rigid hold at Level B with the premise unused (Causal.CBG.eqOn_of_liftPropOn: every local model is rigid), and 'a premise-free fact is not an edge, so these two pairs stay unknown': the last 2 of the 314 pairs within a sort. A table for a property holding outright (sort, level, witness) classifies them implied without an edge whose premise is idle; emit-lean ignores it (geometry sort). (4) Not in this target: the blueprint. The publisher is adapting reports/blueprint/build.py to T-tool-ladder-py's fields now (journal entry 05:00: 'blueprint NOT rebuilt this wave'; T-tool-ladder-py's report: a list `from` in [[fails]], a non-ambient `space`, implied-standing, [[transfer]]); what this target adds (backward-refuted pairs, conditional transfers, premise-free facts) the blueprint reads next, a publisher follow-up the master dispatches with it. A gate must be able to fail (CLAUDE.md): a fixture under tools/fixtures/ for each new rule, tests in tests/test_programme.py, the ladder fixture registered in selftest as for T-tool-ladder-py. Refined 2026-11-21 (planning run after wave 15): (1) the backward reading settles 0 [[open]] entries on the ladder of 5f558c5 (the planner's simulation of the fixpoint): the closers now state the backward-read conjuncts in Lean (rationalLine_separates' ¬ LocallyCausallyOpenFuture, halfLightLine_separates_causallyOpen's ¬ LocallyCausallyOpen), so its value is the leaner entries it allows and the contradiction check; (3) a premise-free fact of the causality sort would carry curves_extend on every T1, second countable space if T-abs-curves-extend-second-countable proves it (the 16 [[open]] pairs X → curves_extend). Depends on T-tool-ladder-space, which edits the same functions (counterexample(), refuted(), matrix) and lands first."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-classify-core), recorded by programme-planner"
+commit = "bce2a8d"
 
 [[target]]
 id = "T-tac-ladder-dual"
@@ -928,13 +929,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["chronal_neighbours", "absolutely_minimal", "causally_arc_connected", "tarentin", "causally_open_future", "causally_open", "locally_causally_open", "locally_causally_open_future", "push_up", "locally_push_up", "causally_plain"]
 package = "lean-causal"
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-abs-one-way-membrane"]
 evidence = "The planner's extension of T-abs-one-way-membrane (2026-11-21) to the 7 [[open]] chronal_neighbours pairs that no Lean model settles in either reading (programme/ladder.toml [[open]] notes: 'a counterexample lacks push-up'). The chronology must keep I±_U(x) open at the membrane: with the full one-way Minkowski chronology, I⁻(p) of a point p ∈ {x¹ ≤ 0} contains membrane points whose right neighbours are not ≪ p, so it is not open; with the rule of the title, I⁺(m) = I⁺_Mink(m) ∩ right and I⁻(m) = I⁻_Mink(m) ∩ left at a membrane point m, I⁻(p) = I⁻_Mink(p) ∩ left for p left, I⁺(r) = I⁺_Mink(r) ∩ right for r right, and the full open cones otherwise: open, non-empty in every open set (chronal neighbours), transitive, inside ≤. Push-up fails at the membrane (its second half, x ≤ y ≪ z ⇒ x ≪ z, Causal/ArcConnected.lean:139–142): r on the membrane, r ≤ v ≪ w with v, w left near r, and r ≪ w is excluded; consistent with the ladder, since push_up ∧ chronal_neighbours ⇒ causally_open (Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours, Causal/LadderLocal.lean:350) and the space is not causally open; on a T1 space with absolute minimality, ¬ push-up gives ¬ causally plain (absolutely_minimal ∧ causally_plain ⇒ push_up). The delicate step: causal arc-connectedness of ≪ (every ≪_U realised by a chronal curve in U, Causal/ArcConnected.lean:127–131), which absolute minimality through cor:causalement_connexe_minimal needs. Simulated with tools/ladder.py's matrix on the ladder of 5f558c5 (both orientations): 13 [[open]] pairs, 7 beyond T-abs-one-way-membrane — chronal_neighbours → causally_open, causally_open_future, locally_causally_open, locally_causally_open_future, push_up, locally_push_up, causally_plain — all in either reading, no contradiction; it makes T-abs-timelike-line-top's pairs beyond Galileo's moot. Planned behind T-abs-one-way-membrane (same ≤, same construction); dropped if that one is refuted. Its recording is a keeper target the planner adds when it closes."
 added = "2026-11-21"
 proposed_by = "programme-planner (the keeper's list at T-lad-record-minimal, journal entry 2026-11-21 08:37)"
+commit = "cf4703e"
 
 [[target]]
 id = "T-abs-gh-without-tarentin"
@@ -943,13 +945,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["globally_hyperbolic", "causally_compact", "is_causal", "strongly_causal", "strongly_causal_open", "time_function", "absolutely_minimal", "causally_arc_connected", "tarentin"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-abs-ladder-local-defs", "T-abs-hoist-time-function"]
 evidence = "The keeper's list (journal entry 2026-11-21 08:37, item (d): 'is_causal, strongly_causal, strongly_causal_open → time_function, which need non-stably-causal spacetimes'); the [[open]] notes of globally_hyperbolic → time_function ('Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ from it') and globally_hyperbolic → strongly_causal, strongly_causal_open ('with tarentin it holds (prop:GH_fortement_causal, T2)'), and Galileo's no-gluing pairs time_function → strongly_causal(_open). No Hawking–Ellis-type Lorentzian example is needed: an ETT causality may live on countably many segments. Argued, for the closer (the planner's sketch). (1) The fork: M ⊆ ℝ² the union of [a, w], [w, x_n], [b, y_n] (n ≥ 1), a = (0, 0), w = (1/2, 1), x_n = (1, 1/n), b = (1, 0), y_n = (0, −1/n), oriented a → w → x_n and b → y_n, pairwise disjoint but at w; x ≤_U y iff x = y ∈ U or y follows x along one oriented path whose piece between them lies in U; ≪ empty. Hausdorff and second countable (a subspace of ℝ²); causally arc-connected, hence absolutely minimal (Causal/ArcConnected.lean:216); causal (no cycle); each J_M(p, q) a compact sub-path (causally compact, so GH by Causal.Causality.globallyHyperbolic_iff, Causal/LadderLocal.lean:438); strongly causal with open neighbourhoods (a small ball meets each segment in a sub-segment, and no oriented path leaves a small ball about a, b or w and comes back); no time function: T(a) < T(w) < T(x_n) → T(b) and T(b) < T(y_n) → T(a) give T(a) < T(w) ≤ T(b) ≤ T(a). (2) The loop fan: M = {a} ∪ ⋃ γ_n, a = (0, 0), γ_n the polygon (1/n, 0) → (1/n, 1 + 1/n) → (−1/n, 1 + 1/n) → (−1/n, 0), so oriented, pairwise disjoint; ≤ along each γ_n as in (1), ≪ empty; causally arc-connected, causal, causally compact; T(γ_n(s)) = s/n (s ∈ [0, 1] the normalised parameter) and T(a) = 0 is continuous and strictly increasing along ≤ (Causal.Causality.HasTimeFunction, Causal/CurvesExtend.lean:516); not strongly causal at a: every small neighbourhood holds p_n, q_n for n large, and J_M(p_n, q_n) = γ_n reaches height 1. Simulated with tools/ladder.py's matrix on the ladder of 5f558c5: (1) settles globally_hyperbolic, is_causal, strongly_causal, strongly_causal_open → time_function, (2) time_function, globally_hyperbolic → strongly_causal, strongly_causal_open: 8 [[open]] pairs, all in either reading, no contradiction; Levin's edge (globally_hyperbolic ∧ tarentin ⇒ time_function) and prop:GH_fortement_causal (⇒ strongly_causal) are then sharp in tarentin, a finding for the ETT ledger's notes (the master's call). Galileo's two strong-causality pairs become moot. Layer 1: a new ETT-layer module (subspaces of ℝ², no model import); the two spaces share one construction (a causality carried by a family of oriented arcs), so one closer; if it is two closers' worth the closer reports the split. The keeper's recording is T-lad-record-separators."
 added = "2026-11-21"
 proposed_by = "programme-planner (the keeper's list at T-lad-record-minimal, item (d), journal entry 2026-11-21 08:37)"
+commit = "28b4b95"
 
 [[target]]
 id = "T-abs-curves-extend-second-countable"
@@ -972,13 +975,14 @@ stream = "abstract"
 kind = "abstract"
 uses = []
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-loc-quasilinear-one-sided"]
 evidence = "Journal entry 2026-11-21 08:37 ('Causality.inextensible_connectedComponentIn is a hoist candidate') and kb/0081 (lean-causal/kb/entries/0081-lines-in-abstract-causality.md: 'It sits in the model module Causal.Model.QuasilinearOneSided but needs only Causal.Inextensible, Causal.Cauchy, Causal.LadderLocal: a hoist candidate (kb/0047)'). Section 2 is Causal/Model/QuasilinearOneSided.lean:184–340 (namespace Causality; the four theorems at :195, :268, :283, :331), consumed by its section 3 (:358) and so by ERS Lemma 4.86; the module imports Causal.Static (a model module), Causal.CausalIsoInvariance, Causal.LadderLocal, Causal.CauchyDual, Causal.Flat.LipschitzGraph (:1–5). In the ETT layer it serves any layer-1 argument that knows a line only as C-causal inside W (kb/0081: no CurvesExtend, no antisymmetry, nothing of C outside W). No ladder pair: pure topology of curves (uses = []). Same discipline as T-abs-hoist-model-free (02b43b6) and T-abs-hoist-levin (ad07121): no statement or proof term changes, every full name keeps resolving (T-loc-quasilinear-one-sided's REPORT and kb/0081 cite them), QuasilinearOneSided imports the new module; the master rebuilds the ledgers whose Lean root moved (no ledger curates these names today). Not exclusive: four constants out of one model module. Sibling: Causal.Causality.inextensible_Iio_of_tendsto_not_mem (Causal/Model/EAlphaCauchy.lean:104), which T-loc-ealpha-tidy hoists; the two touch different files and may share a wave."
 added = "2026-11-21"
 proposed_by = "programme-planner (journal entry 2026-11-21 08:37; kb/0081)"
+commit = "ebcb66e"
 
 # ------------------------------------------------------------------ layer 3: geometric localisation lemmas
 [[target]]
