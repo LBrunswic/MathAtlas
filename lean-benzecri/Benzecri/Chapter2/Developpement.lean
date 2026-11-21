@@ -103,7 +103,8 @@ $\varphi$ du demi-espace ouvert de $\mathring{H}$ (resp. $\R^n$) d'équation $z<
   to $\tilde\varphi(N)$, which presumes $D\cap\tilde\varphi(V)$ connected; the paper does not prove
   it, and the forward reference (l.184–186) claims only « une composante connexe ». Proved: the
   component form, and the full form iff `D ∩ φ̃(V)` is preconnected; the full form for `z ≡ 0`.
-  Neither proved nor refuted otherwise (REPORT, findings).
+  Later proved for every shell and for every pocket when `n ≤ 1`, open only for
+  `ConnexeOuvertPrinted` (`Benzecri.Chapter2.PremierFull`, T-bz-c2-premier-full-proj).
 * The inclusion `P ⊆ φ̃⁻¹(D)`, which the paper does not argue, needs `z < 1` on `φ(P)` where
   condition *a* gives `z ≤ 1` (`IsPocheProj.cote_lt_one`).
 * 1°a goes through Mathlib's lifting criterion (`IsLocalHomeomorph.existsUnique_continuousMap_lifts`):

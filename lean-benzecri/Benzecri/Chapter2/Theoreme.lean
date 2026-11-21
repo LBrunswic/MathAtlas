@@ -101,8 +101,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 ## SCOPE (disclosed)
 
 * **1°'s second sentence** is carried in component form (`theoreme_premier`); the printed full
-  form is equivalent to `ConnexePrinted`, neither proved nor refuted (OQ-71,
-  T-bz-c2-developpement). 2°–4° do not use it: after 1°c the paper sets `φ̃ = id` (l.593–594) and
+  form is equivalent to `ConnexePrinted` (OQ-71, T-bz-c2-developpement); it is proved for every
+  shell, for every pocket when `n ≤ 1`, and open only for `ConnexeOuvertPrinted`
+  (`Benzecri.Chapter2.PremierFull`, T-bz-c2-premier-full-proj). 2°–4° do not use it: after 1°c the paper sets `φ̃ = id` (l.593–594) and
   argues by Prop. 7 and condition *b* only.
 * **4°, the base point of the demi-droite.** The paper takes any demi-droite `L` of `V` and moves a
   point of it into `P` by an automorphism `g` (l.609). The lemma gives a demi-droite through EVERY
