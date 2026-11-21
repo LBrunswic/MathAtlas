@@ -310,3 +310,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 10:4x–11:47 (Paris); agents: 3 closers, 3 audits
 - new OQ: 82 (Isom(𝔼^{1,2}): SO₀ or O↑)
 - next: plan (rule 2); planner notes: T-ett-ealpha-gx-structure is unblocked (hoist the model-free lemma first; use the _of_agreeOn form at α = 2π), T-ett-model-rows-e0 ready, T-ett-e-models-bprime to scope
+
+## 2026-11-21 12:10 · plan · —
+- why: rule 2 (one ready closer after wave 16)
+- DEC-141 (2026-11-21): EGF is handed to /egf-programme; this loop leaves T-egf-families, T-egf-universality and OQ-50 to its handover target (it removes the two blocks itself, between our iterations)
+- result: 114 -> 119 targets (5 ready); added T-ett-maxatlas-hoist (master: the model-free lemma and its counterexample into an ETT-layer module), T-ett-bprime-e0 ((b′) at E₀ singular sources, gx's e0_localUnique_sing route), T-ett-bprime-ealpha, T-ett-massa-models-instance (the missing MassAModel witness), T-ett-sfa-local (split from T-ett-singular-sfa); re-scoped T-ett-ealpha-gx-structure (κ = 2π via _of_agreeOn; κ = 2πn, n ≥ 2), T-ett-e-models-bprime, T-ett-singular-instance, T-ett-singular-sfa
+- outside lean-causal nothing is closable without a ruling
+- rulings that would unblock the most (planner): OQ-82 (5 ETT rows), BBS-Q1 (63), OQ-18 (6), OQ-34/35, OQ-64, T-yamabe-scope with OQ-44, OQ-63 / OQ-42, OQ-45 (a)
+- gates: roadmap ✓, atlas ✓
+- wall time: 11:49–12:10 (Paris); agents: 1 (planner)
+- next: wave in lean-causal when /ett-programme frees it (T-ett-maxatlas-hoist, T-ett-bprime-e0, T-ett-model-rows-e0)
