@@ -194,3 +194,6 @@ rediscover. One fact per entry.
 | [0186](entries/0186-e0-causal-curves-axis.md) | pattern | A causal curve of E₀ into a BTZ point stays on the axis and cannot jump over an axis point |
 | [0187](entries/0187-k-rows-every-manifold.md) | pattern | The Section 3.3 K rows at every E≥0-manifold: Causal.SingularRowsK |
 | [0188](entries/0188-cone-shell-not-cauchy.md) | pattern | A non-vacuous S for cor:K_ordre_Sigma without a Cauchy surface: the cone shell |
+| [0189](entries/0189-measure-geroch-rows-at-m.md) | pattern | The measure and Geroch rows at M: Causal.SingularRowsGeroch |
+| [0190](entries/0190-admissible-measure-forces-causal.md) | pattern | A causality carrying an admissible measure is causal |
+| [0191](entries/0191-borel-inside-proof.md) | pattern | A statement with no measure need not carry [MeasurableSpace M] to call a lemma that does |

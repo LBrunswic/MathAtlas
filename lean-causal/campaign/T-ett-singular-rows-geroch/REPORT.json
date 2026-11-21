@@ -1,0 +1,224 @@
+{
+  "package": "T-ett-singular-rows-geroch",
+  "target": "T-ett-singular-rows-geroch",
+  "files": [
+    "scaffold/CausalScaffold/SingularRowsGeroch.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "rem:mesure_unilaterale",
+      "tex_lines": [
+        1713,
+        1724
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.SingularRowsGeroch.mesure_unilaterale",
+        "Causal.SingularRowsGeroch.mesure_unilaterale_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsGeroch.mesure_unilaterale_sharp",
+        "Causal.SingularRowsGeroch.not_admissible_both_of_le",
+        "Causal.SingularRowsGeroch.Jminus_diff_eq_segment",
+        "Causal.SingularRowsGeroch.segment_subset",
+        "Causal.SingularRowsGeroch.exists_le_ne_of_mem_sing",
+        "Causal.SingularRowsGeroch.isCausal_of_admissiblePast",
+        "Causal.SingularRowsGeroch.nonvacuous_e0_unilaterale",
+        "Causal.SingularRowsGeroch.nonvacuous_e0_natural",
+        "Causal.SingularRowsGeroch.epi_admissible_both"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a causal E_{>=0}-manifold (l.1716-1717)",
+          "here": "read",
+          "note": "DEC-25 and OQ-18: [SingularGXStructure (Flat.isom 2) (Minkowski 2) M], C absolutely minimal with IsoChartsCoverDEC25 over massAModelCausality (mesure_unilaterale, not_admissible_both_of_le); the natural causality (mesure_unilaterale_of_isAtlasCausalityDEC25, SFALocal.MassACovered + IsAtlasCausalityDEC25)"
+        },
+        {
+          "paper": "M causal (l.1716)",
+          "here": "weakened",
+          "note": "not assumed by mesure_unilaterale or not_admissible_both_of_le: a causality carrying a measure admissible in the past is causal (isCausal_of_admissiblePast), so the conclusion is trivial otherwise; the segment computation (Jminus_diff_eq_segment, segment_subset) assumes it, as the paper's does"
+        },
+        {
+          "paper": "manifold: Hausdorff, second countable (ETT.tex:255)",
+          "here": "weakened",
+          "note": "[T2Space M] carried (the BTZ line, SFALine.line); second countability not used. mesure_unilaterale_sharp carries both (prop:mesure_admissible)"
+        },
+        {
+          "paper": "p < q two BTZ points of one singular line Delta (l.1717)",
+          "here": "weakened",
+          "note": "q BTZ, p <= q, p != q (p is then BTZ and on q's line: SFABTZ.mem_sing_zero_of_le, SFABTZ.Jminus_subset_component); in mesure_unilaterale only sing_0(M) nonempty, the pair being produced on the line (exists_le_ne_of_mem_sing)"
+        },
+        {
+          "paper": "« No measure on M » (l.1722)",
+          "here": "carried",
+          "note": "[MeasurableSpace M], any sigma-algebra; property 1. (regular Borel) is the field AdmissiblePast.regular; no BorelSpace assumed"
+        },
+        {
+          "paper": "« I^+(p) = K^+(p) by Proposition prop:K_calcul » (l.1719-1720)",
+          "here": "carried",
+          "note": "Kplus_eq_Iplus, from SFABTZ.K_calcul (a), (b): K^+ = I^+ at every point of every E_{>=0}-manifold"
+        },
+        {
+          "paper": "E_0, Isom(E^{1,2})",
+          "here": "read",
+          "note": "Causal.E0 (OQ-34, OQ-35); Flat.isom 2 (OQ-82)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1713-1724, in the readings DEC-25, OQ-18, OQ-34/OQ-35 and OQ-82: the remark holds at every Hausdorff E_{>=0}-manifold with a BTZ point, for every absolutely minimal causality with an isomorphic chart at each point, the natural one included (Causal.SingularRowsGeroch.mesure_unilaterale, mesure_unilaterale_of_isAtlasCausalityDEC25), with no hypothesis left, mixed manifolds included. The paper's computation is the proof: J^-(q) \\ J^-(p) is the segment ]p,q] of the BTZ line through q (Jminus_diff_eq_segment, from SFALine.Jminus_eq_image), every point of it is BTZ with empty chronological past, and it lies in J^+(p) \\ K^+(p) since K^+(p) = I^+(p) (segment_subset); property 3. in the past and property 4. in the future then conflict (not_admissible_both_of_le). It does not go through SingularFlatAxioms and needs no second countability.",
+        "ETT.tex:1716, « Let M be a causal E_{>=0}-manifold »: the conclusion does not need « causal ». Any causality carrying a measure admissible in the past (or in the future) is causal: for p <= q <= p with p != q, property 3. asks mu(J^-(q) \\ J^-(p)) > 0, and that set is empty (Causal.SingularRowsGeroch.isCausal_of_admissiblePast, isCausal_of_admissibleFuture; model-free). So the remark holds at every Hausdorff E_{>=0}-manifold with a BTZ point, causal or not. The paper's computation does use causality (the segment), so the author may keep the word. The same fact says that defi:mesure_dieckmann (l.1034-1043) forces causality on any topological spacetime that carries an admissible measure. It is consistent with the existing finding behind DEC-18 (E_alpha modulo a translation carries no measure admissible in the past).",
+        "Sharpness, both ways. At a strongly causal, Hausdorff, second countable E_{>=0}-manifold with a BTZ point, each one-sided notion is inhabited and no measure has both (mesure_unilaterale_sharp, with SFAManifolds.mesure_admissible). The BTZ point cannot be dropped: E_pi has no BTZ point and carries one measure admissible in the past and in the future at once (epi_admissible_both, MeasuresEAlpha.exists_admissible_past_future).",
+        "Witnesses, each conclusion out of this file's M-level theorems (not E0.mesure_unilaterale): E_0 (nonvacuous_e0_unilaterale: hmin, IsoChartsCoverDEC25, strong causality, sing_0 nonempty, the two one-sided measures, none both; nonvacuous_e0_natural: the natural-causality form)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "rem:mesure_unilaterale_ptr",
+      "tex_lines": [
+        1045,
+        1052
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.SingularRowsGeroch.not_admissible_both_of_chain",
+        "Causal.SingularRowsGeroch.Kplus_eq_Iplus",
+        "Causal.SingularRowsGeroch.Iminus_eq_empty_iff",
+        "Causal.SingularRowsGeroch.mem_sing_zero_of_Iminus_eq_empty",
+        "Causal.SingularRowsGeroch.chain_subset_sing",
+        "Causal.SingularRowsGeroch.pushUp_obstruction_hypotheses",
+        "Causal.SingularRowsGeroch.exists_pushUp_obstruction",
+        "Causal.SingularRowsGeroch.nonvacuous_e0_chain"
+      ],
+      "hypotheses": [
+        {
+          "paper": "« a spacetime » (l.1046)",
+          "here": "strengthened",
+          "note": "an E_{>=0}-manifold (DEC-25, OQ-18): C absolutely minimal with IsoChartsCoverDEC25. In the generality printed the remark is false (the existing finding: the lightlike line, Causal.MeasureRemarks.lightlikeLine_admissible_past_and_future); not restated here"
+        },
+        {
+          "paper": "« the analogue of a BTZ line --- a causal chain along which chronological pasts are empty » (l.1046-1047)",
+          "here": "carried",
+          "note": "as in the strict obstruction (WP-3's reading): p <= q, p != q, J^-(q) \\ J^-(p) ⊆ J^+(p), I^-(r) = ∅ for r in J^-(q) \\ J^-(p). At an E_{>=0}-manifold such a chain lies in sing_0(M) (chain_subset_sing; I^-(r) = ∅ iff r is BTZ, Iminus_eq_empty_iff)"
+        },
+        {
+          "paper": "K^+(p) ⊆ I^+(p) (not printed; the strict obstruction's added hypothesis, used by rem:mesure_unilaterale's computation)",
+          "here": "carried",
+          "note": "discharged at every E_{>=0}-manifold: Kplus_eq_Iplus (SFABTZ.K_calcul (a), (b))"
+        },
+        {
+          "paper": "Hausdorff, second countable, causal",
+          "here": "weakened",
+          "note": "none is assumed by not_admissible_both_of_chain; the witnesses (pushUp_obstruction_hypotheses, exists_pushUp_obstruction) assume T2 and causality to produce the chain on the BTZ line"
+        },
+        {
+          "paper": "E_0, Isom(E^{1,2})",
+          "here": "read",
+          "note": "OQ-34, OQ-35; OQ-82"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1046-1048, at E_{>=0}-manifolds: the remark holds, in the readings DEC-25, OQ-18, OQ-34/OQ-35 and OQ-82, with no Hausdorff, countability or causality hypothesis. Every causal chain along which chronological pasts are empty forbids a measure admissible in the past and in the future at once (Causal.SingularRowsGeroch.not_admissible_both_of_chain). The hypothesis K^+(p) ⊆ I^+(p), which the existing finding says the remark omits, is automatic there: K^+(p) = I^+(p) at every point (Kplus_eq_Iplus, SFABTZ.K_calcul (a), (b)). At an E_{>=0}-manifold a point has empty chronological past iff it is a BTZ point (Iminus_eq_empty_iff), so « the analogue of a BTZ line » is a BTZ segment (chain_subset_sing): the remark there says exactly what rem:mesure_unilaterale computes. The existing finding (false in the generality printed: the lightlike line) and its suggested wording stand.",
+        "Witness of the strict _of_pushUp form, which the library had none of (Causal/MeasureRemarks.lean:52 and the docstring at :309; the row's second paper_finding « The _of_pushUp form has NO Lean witness »). At E_0 a pair p <= q, p != q on the axis satisfies every hypothesis of Causality.not_admissiblePast_and_admissibleFuture_of_pushUp: push-up, p ∈ Z^+, the chain, the empty pasts. Both conclusions follow, the strict one and not_admissible_both_of_chain (nonvacuous_e0_chain, out of exists_pushUp_obstruction). This confirms the finding's own analysis: a second direction, dimension >= 2, is what it needs. The two texts that say « no witness » are now stale."
+      ],
+      "questions": []
+    },
+    {
+      "label": "theo:geroch_sing",
+      "tex_lines": [
+        1771,
+        1779
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.SingularRowsGeroch.geroch_sing_i_imp_ii",
+        "Causal.SingularRowsGeroch.geroch_sing_i_imp_iii",
+        "Causal.SingularRowsGeroch.geroch_sing_ii_imp_iii",
+        "Causal.SingularRowsGeroch.geroch_sing_split",
+        "Causal.SingularRowsGeroch.stronglyCausal_of_globallyHyperbolic",
+        "Causal.SingularRowsGeroch.geroch_sing_i_imp_ii_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsGeroch.geroch_sing_i_imp_iii_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsGeroch.geroch_sing",
+        "Causal.SingularRowsGeroch.geroch_sing_iii_imp_i",
+        "Causal.SingularRowsGeroch.geroch_sing_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsGeroch.nonvacuous_e0_geroch",
+        "Causal.SingularRowsGeroch.nonvacuous_e0_natural",
+        "Causal.SingularRowsGeroch.nonvacuous_epi_geroch"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a singular flat spacetime (def:singular_spacetime: a connected E_{>=0}-manifold with the causality generated by its X_A-atlas; Hausdorff, second countable)",
+          "here": "read",
+          "note": "DEC-25, OQ-18: [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] [T2Space M] [SecondCountableTopology M], C absolutely minimal with IsoChartsCoverDEC25 (natural forms: _of_isAtlasCausalityDEC25). Stated at M itself, not under SingularFlatAxioms (which SFAManifolds.singularFlatAxioms supplies inside the proofs)"
+        },
+        {
+          "paper": "connected (def:singular_spacetime)",
+          "here": "carried",
+          "note": "[ConnectedSpace M] in geroch_sing, geroch_sing_iii_imp_i, geroch_sing_split; weakened (not assumed) in geroch_sing_i_imp_ii, _i_imp_iii, _ii_imp_iii"
+        },
+        {
+          "paper": "strongly causal (DEC-18)",
+          "here": "carried",
+          "note": "DEC-7's StronglyCausal, in geroch_sing, geroch_sing_iii_imp_i, geroch_sing_ii_imp_iii; weakened in (i)=>(ii), (i)=>(iii) (global hyperbolicity gives it: stronglyCausal_of_globallyHyperbolic, prop:GH_fortement_causal with SFALocal.tarentin); causal only in geroch_sing_split"
+        },
+        {
+          "paper": "the measures of theo:geroch (via prop:mesure_admissible, l.1781)",
+          "here": "carried",
+          "note": "discharged: ModelMeasures by MeasuresManifolds.massA_modelMeasures, SingularFlatAxioms by SFAManifolds.singularFlatAxioms. No MeasurableSpace in the statements (the Borel sigma-algebra is installed inside the proofs)"
+        },
+        {
+          "paper": "(ii) a Cauchy time function",
+          "here": "read",
+          "note": "DEC-15: strictly increasing along <="
+        },
+        {
+          "paper": "(iii) a Cauchy hypersurface",
+          "here": "read",
+          "note": "IsCauchySurface (DEC-14)"
+        },
+        {
+          "paper": "(iii)=>(i) (l.1781: « a direct consequence of Theorem theo:geroch »)",
+          "here": "stated",
+          "note": "geroch_sing_iii_imp_i rests on a tagged sorry; geroch_sing and geroch_sing_of_isAtlasCausalityDEC25 rest on it"
+        },
+        {
+          "paper": "« Moreover ... homeomorphic to Sigma x R » (l.1778; proof l.1787-1796)",
+          "here": "strengthened",
+          "note": "the flow of lem:vecteur is the named hypothesis VecteurFlow C (kb/0022); no differentiable structure in the library; no VecteurFlow witness at E_0"
+        },
+        {
+          "paper": "E_0, Isom(E^{1,2})",
+          "here": "read",
+          "note": "OQ-34, OQ-35; OQ-82"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Causal.SingularRowsGeroch.geroch_sing_iii_imp_i",
+          "obstruction": "(iii)=>(i) at a strongly causal, connected, Hausdorff, second countable E_{>=0}-manifold. The paper's route is theo:geroch's cited (iii)=>(i) (O'Neill, Prop. 8 and Thm 35), which is false for topological spacetimes as formalized (OQ-32, chronological Minkowski space). At an E_{>=0}-manifold the step needs O'Neill's quasi-limits of causal curves together with the local closedness of the models' relations (lem:densite_modele, OQ-33), and the compactness of J^-(q) ∩ J^+(S) for a Cauchy surface S (the one sorry of CausalScaffold.GerochCauchy). The library has neither."
+        }
+      ],
+      "findings": [
+        "ETT.tex:1771-1785, the proved directions, in the readings DEC-25, OQ-18, OQ-34/OQ-35, OQ-82 and DEC-15. (i)=>(ii) and (i)=>(iii) hold at every Hausdorff, second countable E_{>=0}-manifold, for every absolutely minimal causality with an isomorphic chart at each point, the natural one included (Causal.SingularRowsGeroch.geroch_sing_i_imp_ii, geroch_sing_i_imp_iii, and their _of_isAtlasCausalityDEC25 forms). They need neither connectedness nor strong causality, and no hypothesis is left: SingularFlatAxioms, ModelMeasures and strong causality are proved. (ii)=>(iii) holds at every strongly causal one (geroch_sing_ii_imp_iii). The proof's « direct consequence of Theorem theo:geroch and of Proposition prop:mesure_admissible » (l.1781-1785) is sound for these three directions. Witnesses, each out of the M-level theorems: E_0 (nonvacuous_e0_geroch, nonvacuous_e0_natural) and E_pi, a massive line (nonvacuous_epi_geroch).",
+        "ETT.tex:1771-1779, the equivalence, stated at genuine E_{>=0}-manifolds, connected and strongly causal (DEC-18): Causal.SingularRowsGeroch.geroch_sing and geroch_sing_of_isAtlasCausalityDEC25. They rest only on geroch_sing_iii_imp_i, this file's one sorry. OQ-33's counterexample to the abstract form (CausalScaffold.SingularGeroch.geroch_sing_of_stronglyCausal) does not reach this statement. Chronological Minkowski space has an isomorphic chart at no point, for any singular structure. Argued by hand: a chart isomorphism carries ≤ and ≪ of an open set onto a model's, every open set of a model contains a pair x ≤ y, x ≠ y, not x ≪ y, and the reflexive chronological causality excludes such pairs. It is not formalized, because chronoMinkowski lives in the scaffold module CausalScaffold.GerochCauchy, which has a sorry. So the paper's theorem, read at E_{>=0}-manifolds, is not refuted. OQ-33's question (should SingularFlatAxioms carry the local closedness) then bears on a proof route through the abstraction, not on the statement. What remains is OQ-32's repair of (iii)=>(i), with the local closedness that genuine E_{>=0}-manifolds have.",
+        "ETT.tex:1778, « Moreover »: at every connected, causal, Hausdorff, second countable E_{>=0}-manifold the splitting holds given the flow of lem:vecteur (geroch_sing_split, through Causality.SingularFlatAxioms.geroch_sing_split). The structure is not used by that proof, and VecteurFlow stays a named hypothesis. lem:vecteur's X is parallel to the BTZ lines at BTZ points (l.1756), so its orbit through a BTZ point is null. The library's chronal-flow route to the splitting (Causal.Splitting, HasChronalCausalFlow.nonempty_isCauchySplitting) therefore does not apply at a BTZ line. Only its causal-flow form, which asks J^±(S) closed, could (IsCausalFlow.exists_isCauchySplitting). Not pursued."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.SingularRowsGeroch.isCausal_of_admissiblePast",
+    "Causal.SingularRowsGeroch.isCausal_of_admissibleFuture"
+  ],
+  "kb_proposals": [
+    "The measure and Geroch rows at M with no abstraction: Causal.SingularRowsGeroch. At every E≥0-manifold (C absolutely minimal, IsoChartsCoverDEC25): K⁺(p) = I⁺(p) everywhere (Kplus_eq_Iplus, from SFABTZ.K_calcul (a), (b)); I⁻(r) = ∅ iff r ∈ sing₀(M) (Iminus_eq_empty_iff). rem:mesure_unilaterale needs only [T2Space M] (mesure_unilaterale). theo:geroch_sing (i)⇒(ii), (i)⇒(iii) need T2 and second countability only (geroch_sing_i_imp_ii, _iii), and (ii)⇒(iii) strong causality (T-ett-singular-rows-geroch).",
+    "A causality carrying a measure admissible in the past (or the future) is causal: Causal.SingularRowsGeroch.isCausal_of_admissiblePast / isCausal_of_admissibleFuture (property 3. with p ≤ q ≤ p asks μ ∅ > 0). Use it to drop IsCausal from obstruction statements. Model-free, a candidate to hoist into Causal.Measure (T-ett-singular-rows-geroch).",
+    "A statement that mentions no measure need not carry [MeasurableSpace M] [BorelSpace M] to call a lemma that does: install the Borel σ-algebra inside the proof with letI : MeasurableSpace M := borel M; haveI : BorelSpace M := ⟨rfl⟩ (SingularRowsGeroch.geroch_sing_i_imp_ii) (T-ett-singular-rows-geroch).",
+    "Pitfall at this pin: Set.diff_eq_empty is deprecated; use Set.sdiff_eq_empty, a build failure under warningAsError (kb/0004) (T-ett-singular-rows-geroch)."
+  ],
+  "notes": "BUILD: `lake build CausalScaffold.SingularRowsGeroch`, run once at the end after `pgrep -x lake` showed no lake process: only this module was built (job 8675/8675, 2.9 s), nothing upstream; the one warning is the tagged sorry. `lake env lean -DwarningAsError=true scaffold/CausalScaffold/SingularRowsGeroch.lean` reports exactly one error, « declaration uses sorry » at geroch_sing_iii_imp_i. AXIOMS (#print axioms in a /tmp copy, deleted afterwards), for all 32 theorems: 29 depend only on propext, Classical.choice and Quot.sound. geroch_sing_iii_imp_i, geroch_sing and geroch_sing_of_isAtlasCausalityDEC25 add sorryAx. No native_decide, no set_option, no axiom. GRADUATION (the master decides). Everything before the last section, `section GerochEquivalence`, is sorry-free and can graduate to Causal/Remarks/SingularRowsGeroch.lean (29 theorems). The last section holds the paper's equivalence at genuine E≥0-manifolds: geroch_sing_iii_imp_i, the sorry, then geroch_sing and geroch_sing_of_isAtlasCausalityDEC25. It must stay in the scaffold, as DEC-78 did for CausalScaffold.SingularGeroch: a remainder file importing the graduated module, with the same namespace and variables. Its docstring and SCOPE would need the matching split; « Every declaration before the last section is sorry-free » says where to cut. If the master prefers no remainder, drop that section. The proved directions do not depend on it. The module is not in the scaffold root (kb/0025): the axiom sweep sees it only once the master imports it. IMPORTS: the strict Causal.Port.SFAManifolds, Causal.Remarks.BTZPoints, Causal.MeasureRemarks, Causal.SingularGeroch, Causal.Geroch, Causal.Port.MeasuresE0, Causal.Model.MeasuresEAlpha. All are built, most already in SFAManifolds' closure, and nothing was rebuilt. EDITS: no strict file, scaffold root, Causal.lean, ledger, curation, register or roadmap was edited. SingularRowsK.lean was neither opened nor touched. Every new name is in the fresh namespace Causal.SingularRowsGeroch. MARKS: none. The three labels are cited unmarked, as « `label` (unmarked) », within the first 4000 characters (positions 361, 404, 451). The ledger's regex \\*\\*`((?:theo|lem|prop|cor|def|defi|rem|propri|ex|cex|cexemple):[A-Za-z_0-9.\\-]+)`\\*\\* finds no match in the whole file. No bold span opens on a label either. NON-VACUITY: E₀ (E0GX.singularGX, E0.causality: sing₀ = axis ≠ ∅, causal, strongly causal, globally hyperbolic, connected). Out of the M-level theorems: nonvacuous_e0_unilaterale (one-sided measures, none both), nonvacuous_e0_chain (every hypothesis of the strict _of_pushUp obstruction and of not_admissible_both_of_chain, with both conclusions), nonvacuous_e0_geroch (every hypothesis of geroch_sing, with (ii) and (iii) out of the proved directions) and nonvacuous_e0_natural (the natural causality: MassACovered, IsAtlasCausalityDEC25, the measure obstruction, (ii), (iii)). E_π (massive line, sing₀ = ∅, globally hyperbolic, connected): nonvacuous_epi_geroch, and epi_admissible_both (a measure admissible both ways, so the BTZ point is needed). VecteurFlow has no witness at E₀ (SCOPE); the timelike line's in Causal.SingularGeroch stands. NEW blocked_on TEXTS (no done target named): (1) rem:mesure_unilaterale: « OQ-34, OQ-35 (the reading of E₀); OQ-18 (« its causality »: the natural one, SingularRowsGeroch.mesure_unilaterale_of_isAtlasCausalityDEC25; SingularRowsGeroch.mesure_unilaterale holds for every absolutely minimal causality with an isomorphic chart at each point); OQ-82 (the group) ». (2) rem:mesure_unilaterale_ptr: « false in the generality printed (the lightlike line): the remark's wording is the author's (paper_findings, suggested wording); at E≥0-manifolds proved (SingularRowsGeroch.not_admissible_both_of_chain) in the readings OQ-34, OQ-35 (E₀), OQ-18 (« natural »), OQ-82 (the group) ». (3) theo:geroch_sing: « OQ-32 (the repair of theo:geroch's (iii)⇒(i), on which SingularRowsGeroch.geroch_sing_iii_imp_i, the one sorry of the equivalence at genuine E≥0-manifolds, waits); OQ-33 (local closedness), which now concerns only a proof route through SingularFlatAxioms, since the M-level statement is not refuted; the flow of lem:vecteur (VecteurFlow: no differentiable structure in the library); OQ-18, OQ-34, OQ-35, OQ-82 (readings) ». FOR THE LEDGER (the master decides): the decls listed per label. theo:geroch_sing: the reading taken here is that SingularRowsGeroch.geroch_sing (stated, resting on geroch_sing_iii_imp_i) is the row's statement of the equivalence, since OQ-33's witness does not reach it. The refuted CausalScaffold.SingularGeroch.geroch_sing_of_stronglyCausal stays « not an anchor ». The row's lean_stated stays scaffold while the remainder exists. STALE TEXTS seen (not edited; T-ett-docstrings-*): Causal/MeasureRemarks.lean:52 and the docstring at :305-313 (« the _of_pushUp form has no witness here »), and the ptr row's second paper_finding « The _of_pushUp form has NO Lean witness ». They are now witnessed at E₀ (nonvacuous_e0_chain). Causal/Remarks/BTZPoints.lean:86-91 (« these two theorems are not instantiated with a BTZ point ») has been stale since E0.mesure_unilaterale. PLANNER'S [r] NOTES CHECKED: every cited location is correct: BTZPoints.lean:279 and :296; MeasuresE0.lean:632; MeasureRemarks.lean:123 and :142, docstring at :309; SFABTZ.lean:656; SingularGeroch.lean:253 and :263; MeasuresManifolds.lean:173; GlobalHyperbolicity.lean:217; E0.globallyHyperbolic. One claim is understated. The evidence says the measure rows hold « at every causal, T2, second countable E≥0-manifold » through T-ett-singular-sfa's assembly. They hold at every T2 one, causal or not, and do not need the assembly: they go through SFALine.Jminus_eq_image, SFABTZ and SFALocal directly. The Geroch directions do use SFAManifolds.singularFlatAxioms."
+}

@@ -4,6 +4,7 @@ import CausalScaffold.SubExtension
 import CausalScaffold.CompactCauchy
 import CausalScaffold.LemmaKSCOpen
 import CausalScaffold.GerochCauchy
+import CausalScaffold.SingularRowsGerochEquiv
 
 /-!
 # CausalScaffold
