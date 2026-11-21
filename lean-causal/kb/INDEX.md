@@ -118,3 +118,6 @@ rediscover. One fact per entry.
 | [0110](entries/0110-seg-causality.md) | pattern | A cheap causality with empty chronology for (G,X)-counterexamples |
 | [0111](entries/0111-chronology-on-polygonal-causality.md) | pattern | A chronology on a polygonal causality: a side condition closed in the start, open in the end |
 | [0112](entries/0112-chronal-neighbours-without-pushup.md) | pattern | Chronal neighbours without push-up, in either reading: the chronal one-way membrane |
+| [0113](entries/0113-arc-causality.md) | pattern | A causality carried by a family of arcs (arcCausality) |
+| [0114](entries/0114-comb-coordinates.md) | pattern | Choose a planar comb's coordinates for the proof |
+| [0115](entries/0115-gh-without-tarentin.md) | pitfall | Global hyperbolicity without tarentin: neither a time function nor strong causality |
