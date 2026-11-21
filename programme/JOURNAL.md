@@ -206,3 +206,13 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, roadmaps ✓, test_programme + test_roadmap ✓, blueprint ✓, hub: all gates green
 - commits: 96e3a41 027db7a 599b0b0 570511d 57f8b4f 0dae971 1ebcbc4 1a0e3df
 - next: T-lad-record-dual-vee (keeper); lean-causal back to /atlas-team's three ETT closers
+
+## 2026-11-21 10:15 · wave of 2 · T-lad-record-dual-vee, T-cur-sbierski-layer1
+- T-lad-record-dual-vee (ladder): the time-reversed half-lit line's two [[fails]] (either reading), 4 open pairs settled; the vee recorded with space = ["T0"] (no space, or T1, contradicts the T1 edge: T0 is the boundary), 0 pairs fails-off since both pairs it refutes are refuted on the ambient; the T1 of absolutely_minimal ∧ locally_push_up ⇒ push_up is now an entry, not a comment; Test.lean re-emitted (4 comments) and built in a window with no lake build running (the agreed pgrep check; /atlas-team's three ETT closers were working), Rules.lean unchanged
+- T-cur-sbierski-layer1 (master): the Sbierski ledger reads 19 of 19 rows Lean-stated, partial, unmarked (3 B: OQ-40, OQ-65; 16 D)
+- ladder: 25 implications, 68 counterexamples, 42 consequences; 249 fails, 47 open, 16 implied, 0 fails-off
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22; sbierski-mghd 19 rows bound, layer 1 in Lean 16
+- gates: ladder ✓, binder ✓, roadmaps ✓, test_programme ✓, Causal.Ladder.Test built ✓, blueprint ✓; lean-causal package gate not run (/atlas-team's closers have unfinished scaffold files in it; this wave changed only generated comments there); hub: papers-check red on papers/egf (ledger.json differs from a rebuild) and gate-tests red through test_no_model_in_gates, both from the egf loop's leased in-flight work, not this loop's
+- for the planner: the one-way membrane settles 4 more pairs (tarentin → causally_open, causally_open_future and their local forms) independently of T-abs-gh-without-tarentin
+- commits: 39c3e41 39be167 2b1b77d c2327ec
+- next: lean-causal is /atlas-team's (three ETT closers); this loop's next work outside it: T-tool-ladder-py-2 (master) if ready, else a quiet hold until lean-causal frees
