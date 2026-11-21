@@ -68,3 +68,13 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, roadmap ✓ (64 targets), ladder ✓, tests ✓, blueprint ✓, hub make -k check ALL GREEN
 - commits: 957faa9 8ef112a
 - next: wave: T-lad-local-nodes (keeper), T-abs-hoist-cbg-cores (closer, exclusive in lean-causal, while /atlas-team plans)
+
+## 2026-11-21 00:50 · wave of 2 · T-abs-hoist-cbg-cores, T-lad-local-nodes
+- T-abs-hoist-cbg-cores (abstract, exclusive in lean-causal, during /atlas-team's planner run): Causal.CorrespondingPoints, Causal.CorrespondingSpacelike hold the model-free cores of Causal.CBG.Corresponding/NoCorresponding under their old names; audit clean (85 constants changed module only, against a rebuild of HEAD); ETT-layer modules 49 → 51 of 224; ett curation's extra_lean_files and the Sbierski binder's references updated; kb/0043 corrected, kb 0062, 0063. Left: correspondingSet, correspondingExt (model-free, unlisted)
+- T-lad-local-nodes (ladder): locally_push_up, locally_causally_open(_future), chronal_neighbours as nodes; the four conditional edges restated with the side condition in `from`; lightlike-line counterexamples; seven [[open]] entries for the pairs the old closure overstated; causal_ladder 4 → 12 rules, Test 23 derived / 235 not derived
+- keeper's finding for the planner (argued, not in Lean): the gated line looks causally open in the future but not in the past, which would make the printed J⁺-only causal openness strictly weaker than DEC-8's two-sided reading; proposals T-abs-gateline-local, a widened T-abs-pushup-not-open, deux_pushup's [[fails]] (61/462 with all three, simulated, no contradiction)
+- ladder: 22 properties, 17 checked implications, 8 counterexamples, 33 consequences; 44 of 462 pairs (44 of 280 within a sort); only 2 pairs through a conditional (T1) edge
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 17, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 15, layer 3 in Lean 0
+- gates: lean-causal ✓ (224 strict files, 0 sorry), ladder ✓, binder ✓, roadmaps ✓, tests ✓, hub make -k check ALL GREEN; blueprint: two builds identical, 0 page errors, but its smoke check "click an implication" FAILS (committed in 9c4ebef before it was caught): the new conjunctive edges are drawn through ∧ junctions; a publisher fix follows
+- commits: e4df4d0 947f841 d6832d4 9c4ebef
+- next: the blueprint smoke fix (publisher); then wave: T-lad-gh-causal (keeper), T-abs-hoist-time-function (closer, exclusive in lean-causal) — lean-causal goes back to /atlas-team first (its two closers have waited)
