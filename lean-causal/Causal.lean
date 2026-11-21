@@ -238,6 +238,8 @@ import Causal.GateLineLocal
 import Causal.Dec8MinimalWitness
 import Causal.PushUpOfMinimalLocal
 import Causal.ChronalTarentin
+import Causal.CausallyPlainLocZ
+import Causal.SingularFlatPlain
 
 /-!
 # Causal — topological spacetimes

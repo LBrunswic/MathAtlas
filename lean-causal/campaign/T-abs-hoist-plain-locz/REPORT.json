@@ -1,0 +1,253 @@
+{
+ "target": "T-abs-hoist-plain-locz",
+ "package": "T-abs-hoist-plain-locz",
+ "files": [
+  "Causal/CausallyPlainLocZ.lean",
+  "Causal/SingularFlatPlain.lean",
+  "Causal/Port/E0SingularFlat.lean",
+  "Causal/Port/E0ModelRows.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-hoist-plain-locz/hoist-locz",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.E0LM.LocZplus",
+    "Causal.E0LM.LocZminus",
+    "Causal.E0LM.LocTarentin",
+    "Causal.E0LM.LocNoPast",
+    "Causal.E0LM.LocPastIn",
+    "Causal.E0LM.rel_of_causallyConvex",
+    "Causal.E0LM.locZplus_of",
+    "Causal.E0LM.locZminus_of",
+    "Causal.E0LM.locTarentin_of",
+    "Causal.Causality.Jplus_subset_closure_Iplus_of_locZplus",
+    "Causal.Causality.Jminus_diff_subset_closure_Iminus_of_locZminus",
+    "Causal.Causality.causallyPlain_of_locZ"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "moved": "Causal.Port.E0SingularFlat HEAD bd1fafb :302-380 (the header '### §2 Local forms ...', section Local: the five Loc* defs, rel_of_causallyConvex, locZplus_of, locZminus_of, locTarentin_of) -> Causal.CausallyPlainLocZ :69-147, byte-identical, inside the source's own prelude (namespace Causal; open Set Filter Topology Function TopologicalSpace; open scoped Real; namespace E0LM). Causal.Port.E0ModelRows HEAD :106-136 (Jplus_subset_closure_Iplus_of_locZplus, Jminus_diff_subset_closure_Iminus_of_locZminus, causallyPlain_of_locZ) -> Causal.CausallyPlainLocZ :163-193, byte-identical, inside the source's prelude (a second namespace Causal; open Set TopologicalSpace Topology Filter; namespace Causality; variable {M : Type*} [TopologicalSpace M] {C : Causality M}, i.e. E0ModelRows' variable line without S₀ and p, which none of the three uses; the dump confirms identical binder telescopes). Namespace E0LM kept, so every full name is unchanged."
+  },
+  {
+   "label": "T-abs-hoist-plain-locz/ladder-edge",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours"
+   ],
+   "hypotheses": [
+    {
+     "paper": "push-up (defi:pushup)",
+     "here": "carried",
+     "note": "C.PushUp; necessary: timelikeLineTop has chronal neighbours, is not push-up and not plain (probe, see for_keeper)"
+    },
+    {
+     "paper": "chronal neighbours in every open set",
+     "here": "carried",
+     "note": "C.ChronalNeighbours (Causal.LadderLocal:163, kb/0053); necessary: the lightlike line has push-up and is not plain (Causal.deux_pushup)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "new": "Causal/CausallyPlainLocZ.lean:202 `theorem PushUp.causallyPlain_of_chronalNeighbours (hP : C.PushUp) (hN : C.ChronalNeighbours) : C.CausallyPlain`, in namespace Causal.Causality, variables {M : Type*} [TopologicalSpace M] {C : Causality M}. The planner's argument is correct and is the proof (8 lines, tactic mode, no auxiliary constants): causallyPlain_of_locZ with S := ∅; LocZplus C from hN.2 (C.dual.ChronalPastNeighbours) applied in the open W ⊓ ⟨interior N, isOpen_interior⟩, y being in it by mem_interior_iff_mem_nhds; LocZminus C ∅ from hN.1 likewise; the chronology is carried from W ⊓ interior N to W by C.lt_mono inf_le_left; the point lies in N by interior_subset; interior ∅ = ∅ is interior_empty. No hypothesis was needed beyond the two. Axioms: propext, Classical.choice, Quot.sound."
+  },
+  {
+   "label": "T-abs-hoist-plain-locz/singular-flat-plain",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.BTZAxioms.Jminus_diff_nonempty",
+    "Causal.Causality.BTZAxioms.Kminus_ne_Iminus",
+    "Causal.Causality.BTZAxioms.K_neq_I",
+    "Causal.Causality.SingularFlatAxioms.causallyPlain"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Reading taken: Causal.SingularFlatPlain imports Causal.SingularFlat and Causal.CausallyPlainLocZ only. Its compiled closure has no Causal.Port.*, no Minkowski, Static, Flat.* or Model.* module; Causal.SingularFlat is its only model-layer module. Whether a module over SingularFlat's bundles alone counts as layer 1 is T-abs-hoist-cbg-geometry's question (a). The docstring says it is not layer 1 and leaves that question open."
+   ],
+   "moved": "Causal.Port.E0ModelRows HEAD :80-104 (BTZAxioms.Jminus_diff_nonempty, Kminus_ne_Iminus, K_neq_I) -> Causal.SingularFlatPlain :61-85, and HEAD :138-143 (SingularFlatAxioms.causallyPlain) -> :89-94, byte-identical, inside E0ModelRows' own prelude verbatim (namespace Causal; open Set TopologicalSpace Topology Filter; the header '### A BTZ point, abstractly'; namespace Causality; variable {M : Type*} [TopologicalSpace M] {C : Causality M} {S₀ : Set M} {p : M}). Every name resolves as before: Kminus_eq_Jminus_diff (Causal.PushUp), SingularPastAt.Jminus_diff_subset_Kminus (Causal.SingularFlat), causallyPlain_of_locZ and E0LM.locZplus_of / locZminus_of (Causal.CausallyPlainLocZ)."
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours"
+ ],
+ "new_modules": {
+  "Causal.CausallyPlainLocZ": {
+   "lines": 215,
+   "layer": "ETT layer (layer 1)",
+   "imports": [
+    "Causal.ArcConnected",
+    "Causal.LadderLocal"
+   ],
+   "import_closure": [
+    "Causal.ArcConnected",
+    "Causal.Cauchy",
+    "Causal.CauchyExtension",
+    "Causal.Causality",
+    "Causal.CausallyPlainLocZ",
+    "Causal.CompactMinimal",
+    "Causal.CurveComponents",
+    "Causal.Curves",
+    "Causal.DependenceDomain",
+    "Causal.Generated",
+    "Causal.Geroch",
+    "Causal.GlobalHyperbolicity",
+    "Causal.Inextensible",
+    "Causal.LadderLocal",
+    "Causal.Lines",
+    "Causal.LinesCurves",
+    "Causal.LinesReachable",
+    "Causal.Local",
+    "Causal.Measure",
+    "Causal.MeasureRemarks",
+    "Causal.Minimal",
+    "Causal.Morphism",
+    "Causal.NestedCausalities",
+    "Causal.Properties",
+    "Causal.PushUp",
+    "Causal.Reachable",
+    "Causal.StrongCausality",
+    "Causal.Subdivision"
+   ],
+   "import_closure_size": "28 Causal modules including itself, from a compiled probe (header.moduleNames of an environment importing the module). Zero model modules under either matching rule: Lean Name prefix, or the string rule of tools/ladder.py is_model (m == x or m startswith x + '.'), with x in Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat, Causal.Model, Causal.Port.",
+   "content": "12 hoisted constants, verbatim, and the new ladder theorem; 13 constants in all, every one using only propext, Classical.choice and Quot.sound. Hypotheses are ladder properties (PushUp, ChronalNeighbours, CausallyArcConnected, StronglyCausal, Tarentin) or explicit localisation hypotheses (LocZplus, LocZminus S with interior S = ∅). No statement mentions a metric, a curve length or a geodesic. The docstring quotes defi:causalement_plat (ETT.tex:283-287), marks no label, and gives the edge's hypothesis checklist with both sharpness witnesses."
+  },
+  "Causal.SingularFlatPlain": {
+   "lines": 98,
+   "layer": "model layer: not layer 1, by its import of Causal.SingularFlat (tools/ladder.py MODEL_LAYER); said so in the docstring",
+   "imports": [
+    "Causal.SingularFlat",
+    "Causal.CausallyPlainLocZ"
+   ],
+   "import_closure": [
+    "Causal.ArcConnected",
+    "Causal.Cauchy",
+    "Causal.CauchyExtension",
+    "Causal.Causality",
+    "Causal.CausallyPlainLocZ",
+    "Causal.CompactMinimal",
+    "Causal.CurveComponents",
+    "Causal.Curves",
+    "Causal.DependenceDomain",
+    "Causal.Generated",
+    "Causal.Geroch",
+    "Causal.GlobalHyperbolicity",
+    "Causal.Inextensible",
+    "Causal.LadderLocal",
+    "Causal.Lines",
+    "Causal.LinesCurves",
+    "Causal.LinesReachable",
+    "Causal.Local",
+    "Causal.Measure",
+    "Causal.MeasureRemarks",
+    "Causal.Minimal",
+    "Causal.Morphism",
+    "Causal.NestedCausalities",
+    "Causal.Properties",
+    "Causal.PushUp",
+    "Causal.Reachable",
+    "Causal.SingularFlat",
+    "Causal.SingularFlatPlain",
+    "Causal.StrongCausality",
+    "Causal.Subdivision"
+   ],
+   "import_closure_size": "30 Causal modules including itself; the only model-layer member is Causal.SingularFlat; no Causal.Port.*",
+   "content": "4 moved constants, verbatim; axioms propext, Classical.choice, Quot.sound. The docstring quotes rem:K_neq_I's BTZ sentence (ETT.tex:875-877), marks no label, and cites OQ-16 / rem:pas_plat (ii) (l.294) as evidence, not a ruling."
+  }
+ },
+ "edited": {
+  "Causal/Port/E0SingularFlat.lean": "+ `import Causal.CausallyPlainLocZ` (line 3). HEAD :302-381 deleted (the §2 header, section Local, the blank after it), replaced by a 3-line section comment naming the nine hoisted constants and their module. Docstring: the 'Ported verbatim' paragraph says §2 (gx l.171-249) was hoisted into Causal.CausallyPlainLocZ; SCOPE (c) lists only the model-free lemmas still here (pushUpOn_of_chartIso, lt_of_lt_of_le_link, lt_of_le_link_of_lt, prop_zero_of_down, prop_one_of_up, exists_eta_of_mem_open) and says where the nine went. §2b (the E₀ instances e0_locZplus ... e0_locPastIn), §2c and the Witness section are unchanged and resolve LocZplus etc. through the import. 752 -> 679 lines.",
+  "Causal/Port/E0ModelRows.lean": "+ `import Causal.CausallyPlainLocZ`, `import Causal.SingularFlatPlain` (lines 2-3). HEAD :74-146 deleted (the section '### A BTZ point, abstractly', namespace Causality with its seven theorems), replaced by a 5-line comment naming the seven and their new modules. Docstring: the 'Abstractly' and 'New: E₀ is causally plain' bullets say where the abstract lemmas now live. The E₀ section is unchanged and resolves Causality.causallyPlain_of_locZ, btzAxioms.Kminus_ne_Iminus and btzAxioms.K_neq_I through the imports. 261 -> 199 lines."
+ },
+ "not_edited": "Causal.lean (root) is not edited; the master adds the imports. No scaffold file was touched or built; another closer's scaffold/CausalScaffold/ChronalTarentin.lean was left alone. Only Causal.lean and Causal.Port.E0ModelRows import Causal.Port.E0SingularFlat, and only Causal.lean imports Causal.Port.E0ModelRows (re-checked), so no other module was rebuilt. After the final build exactly four oleans are newer than the 'before' dump: CausallyPlainLocZ, SingularFlatPlain, Port.E0SingularFlat and Port.E0ModelRows.",
+ "left_behind": [
+  "Nothing the target lists was left behind.",
+  "Kept in Causal.Port.E0SingularFlat on purpose, as the dispatch says: the E₀ instances E0LM.e0_locZplus, e0_locZminus, e0_locTarentin, e0_locNoPast, e0_locPastIn (§2b).",
+  "Still in Causal.Port.E0SingularFlat and model-free (kb/0061, not in this target): E0LM.pushUpOn_of_chartIso (a corollary of the strict Causal.ChartIso.pushUpOn), lt_of_lt_of_le_link, lt_of_le_link_of_lt, prop_zero_of_down, prop_one_of_up, exists_eta_of_mem_open. The same holds for SliceAt with pullback and pushforward, which kb/0061 names in another Port module."
+ ],
+ "layer": {
+  "definition": "As in the earlier hoists: a strict module is ETT-layer when neither it nor any module in its transitive import closure is Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.* or Causal.Port.*. Counted from the import lines of every file under Causal/, root excluded, with the HEAD text of the two Port files for 'before'. The new module's compiled closure was checked separately by a probe.",
+  "before": "63 of 239",
+  "after": "64 of 241",
+  "added": [
+   "Causal.CausallyPlainLocZ"
+  ],
+  "lost": [],
+  "model_modules_added": [
+   "Causal.SingularFlatPlain"
+  ]
+ },
+ "checks": {
+  "lake build": "`taskset -c 0-11 lake build Causal.CausallyPlainLocZ Causal.SingularFlatPlain Causal.Port.E0SingularFlat Causal.Port.E0ModelRows`: green, 3373 jobs. Only these four modules were built, and no other Causal.* or mathlib module was rebuilt. A final `lake build --no-build` of the same four reports everything up to date. The build was run three times; the last two runs were after docstring-only edits.",
+  "lake env lean -DwarningAsError=true": "clean (no output) on all four files.",
+  "scripts/sorry_count.py": "strict: 0 in 241 files. scaffold: 5 in 7 files. The scaffold count includes another closer's new ChronalTarentin.lean; I did not touch the scaffold.",
+  "axioms": "`#print axioms Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours`: [propext, Classical.choice, Quot.sound]. collectAxioms over every constant of Causal.CausallyPlainLocZ (13) and Causal.SingularFlatPlain (4) gives the same three. The repository's AxiomSweep sees the two modules once the root imports them. Until then they are reached only through Causal.Port.E0ModelRows, which the root already imports.",
+  "declaration_diff": "Before any edit, `lake build --no-build Causal.Port.E0ModelRows` reported 3368 jobs up to date, and lean-causal was clean in git at HEAD bd1fafb. 'Before' dump: every constant of every Causal.* module in the closure of Causal.Port.E0ModelRows, 5260 constants, with name, module, kind, universe parameters, Expr.hash of the type, binder telescope with macro scopes erased, Expr.hash of the value, reducibility, protected, noncomputable and isInternal (the dump body of T-abs-hoist-time-function). The new module brings Causal.LadderLocal and its closure into E0ModelRows' closure, so the 'before' side was completed with a dump of the unchanged upstream modules (LadderLocal, ArcConnected, SingularFlat: 1469 constants). Their oleans were not rebuilt, and they agree with 'before' on all 1322 shared constants: 5407 constants in 74 modules. 'After' dump (final build): 5408 constants in 76 modules; the new modules are Causal.CausallyPlainLocZ and Causal.SingularFlatPlain. Removed: none. Added: exactly one, Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours (thm, [u_1], telescope M{},inst[],C{},hP(),hN()). Changed in module only: exactly 16, the 16 moved constants (12 to Causal.CausallyPlainLocZ, 4 to Causal.SingularFlatPlain). Changed in kind, universe parameters, type hash, binder telescope, value hash, reducibility, protection or computability: 0 of the 5407 surviving constants. That includes every remaining constant of the two Port modules, among them E0.causallyPlain, E0.K_neq_I_btz, E0.Kminus_ne_Iminus_axis and the e0_loc* instances, whose proof terms name the moved constants. The moved declarations generated no private or auxiliary constants (none existed before; kb/0066 does not apply).",
+  "textual": "Every moved block was cut by line range from `git show HEAD:` copies and found byte-identical, exactly once, in its new module: E0SingularFlat HEAD :302-380 = CausallyPlainLocZ :69-147; E0ModelRows HEAD :106-136 = CausallyPlainLocZ :163-193; HEAD :80-104 = SingularFlatPlain :61-85; HEAD :138-143 = SingularFlatPlain :89-94. None of the four blocks remains in either Port file. Each declaration exists exactly once (dump).",
+  "causal_ladder": "Probe in /tmp, importing Causal.Ladder.Rules and Causal.CausallyPlainLocZ; nothing in the repository was touched. (1) `causal_ladder` does not derive CausallyPlain from PushUp and ChronalNeighbours today (`fail_if_success` passes), while it does derive the sibling CausallyOpen. (2) With the new theorem added as `attribute [aesop safe forward (rule_sets := [CausalLadder])]`, the way emit-lean writes a rule, it derives CausallyPlain from PushUp ∧ ChronalNeighbours, and also from CausallyArcConnected ∧ LocallyPushUp ∧ ChronalNeighbours (through lem:pushup_local's edge). It still derives nothing from PushUp alone or from ChronalNeighbours alone. causal_ladder is not used inside the module: no rule applies to the proof, and importing Causal.Ladder.Rules would widen the closure (DeuxPushup, CurvesExtend).",
+  "tools": "Run read-only; `git status --short` was identical before and after. tools/ladder.py check: green (23 properties, 22 implications, 49 counterexamples). Simulated in /tmp with the new [[implies]] appended (`--file`): green, 23 implications, no contradiction, witness resolves. The single-property `matrix` is unchanged, since the edge is conjunctive. tools/binder.py check: 2 binders, all links resolve. tools/ledger.py check: barbot, sbierski-mghd and ers-predictability are green. ett FAILS with two lines: 'rem:K_neq_I: declaration Causal.Causality.BTZAxioms.Kminus_ne_Iminus not found in its listed files' and the same for BTZAxioms.Jminus_diff_nonempty. Cause: that row's extra_lean_files (papers/ett/certificate/curation.toml:496) names Causal/Port/E0ModelRows.lean and not the new module. The master's curation fix is below.",
+  "lean_gx": "lean-gx is untouched: it pins Causal at a commit, and its own GX.E0LM copies (GX/BTZ/LocalModel.lean, Manifolds.lean, Spear.lean) are in namespace GX. It imports no Causal.Port.* module and names none of the moved Causal.* constants."
+ },
+ "master_changes": {
+  "root_imports": "Causal.lean: add `import Causal.CausallyPlainLocZ` and `import Causal.SingularFlatPlain`, e.g. after `import Causal.PushUpOfMinimalLocal` (line 239). Both are reached today through Causal.Port.E0ModelRows. With the explicit imports, the root and the axiom sweep list them as modules of their own.",
+  "readme_rows": [
+   "| `Causal.CausallyPlainLocZ` | — | ETT programme, layer 1 (T-abs-hoist-plain-locz; no paper label): the causal-plainness criterion hoisted out of the E₀ ports, same full names: `E0LM.LocZplus`, `LocZminus`, `LocTarentin`, `LocNoPast`, `LocPastIn`, `rel_of_causallyConvex`, `locZplus_of`, `locZminus_of`, `locTarentin_of`, `Causality.causallyPlain_of_locZ` (push-up, local `Z⁺`, local `Z⁻` off a set with empty interior); new edge `PushUp.causallyPlain_of_chronalNeighbours` (`push_up ∧ chronal_neighbours ⇒ causally_plain`); 2026-11-21 |",
+   "| `Causal.SingularFlatPlain` | — | beside `Causal.SingularFlat` (model layer, no `Causal.Port.*`; T-abs-hoist-plain-locz): `SingularFlatAxioms.causallyPlain` (a strongly causal singular flat spacetime is causally plain), `BTZAxioms.Jminus_diff_nonempty`, `Kminus_ne_Iminus`, `K_neq_I`, moved out of `Causal.Port.E0ModelRows`, same names; 2026-11-21 |"
+  ],
+  "curation_extra_lean_files": [
+   "papers/ett/certificate/curation.toml:496 (rem:K_neq_I): REQUIRED. Add \"Causal/SingularFlatPlain.lean\" to extra_lean_files, keeping Causal/Port/E0ModelRows.lean for the E0.* decls. Without it `ledger.py check` fails on BTZAxioms.Kminus_ne_Iminus and BTZAxioms.Jminus_diff_nonempty. BTZAxioms.K_neq_I does not fail, but only by accident: tools/ledger.py decl_line (:363-374) matches on the last name component, so `Causal.Causality.BTZAxioms.K_neq_I` resolves to `theorem K_neq_I` (Causal.E0.K_neq_I) in E0ModelRows. The generated ledger would anchor it at the wrong declaration. Also add \"Causal/CausallyPlainLocZ.lean\" if the row is to list causallyPlain_of_locZ.",
+   "papers/ett/certificate/curation.toml:867 (def:singular_spacetime): no change needed. Its decls (SingularFlatSpacetime, SingularFlatAxioms, E0.singularFlatAxioms, ...) did not move, and Causal/Port/E0SingularFlat.lean still holds the E0.* ones.",
+   "papers/ett/certificate/curation.toml:1223 (rem:relation_not_assumed_reflexive): no change needed. None of its decls moved (BTZAxioms.not_lt_self is in Causal/Remarks/BTZPoints.lean).",
+   "papers/ett/certificate/curation.toml:502 and :1228 (notes): stale sentence 'the model-free BTZAxioms.*, causallyPlain_of_locZ and SingularFlatAxioms.causallyPlain sit behind the E₀ import, to hoist into the ETT layer'. They are now in Causal.CausallyPlainLocZ (ETT layer: causallyPlain_of_locZ) and Causal.SingularFlatPlain (model layer, no Port: SingularFlatAxioms.causallyPlain, BTZAxioms.*)."
+  ],
+  "kb": [
+   "Correct kb/0061: LocZplus…LocPastIn, rel_of_causallyConvex and locZplus_of/locZminus_of/locTarentin_of are no longer stranded. They are in the ETT-layer Causal.CausallyPlainLocZ (namespace Causal.E0LM kept, T-abs-hoist-plain-locz). Still stranded: SliceAt with pullback/pushforward, the push-up link steps lt_of_lt_of_le_link/lt_of_le_link_of_lt, prop_zero_of_down/prop_one_of_up, exists_eta_of_mem_open, pushUpOn_of_chartIso.",
+   "Correct kb/0064: Causality.causallyPlain_of_locZ is in Causal.CausallyPlainLocZ (ETT layer), not Causal.Port.E0ModelRows. SingularFlatAxioms.causallyPlain and BTZAxioms.Jminus_diff_nonempty / Kminus_ne_Iminus / K_neq_I are in Causal.SingularFlatPlain, beside Causal.SingularFlat and importing no Port. E0.causallyPlain stays in the Port.",
+   "New entry, pattern: push_up ∧ chronal_neighbours ⇒ causally_plain (Causality.PushUp.causallyPlain_of_chronalNeighbours, Causal.CausallyPlainLocZ). With pushUp_of_causallyPlain_of_absolutelyMinimal (T1), push-up and causal plainness coincide for absolutely minimal causalities with chronal neighbours on T1 spaces. The edge makes the classical models plain in one line: static spacetimes over any geodesic metric space, Minkowski space and E_α, from their PushUp and ChronalNeighbours lemmas (no plainness of them was in the strict library).",
+   "New entry, pitfall: tools/ledger.py's check resolves a curated decl by its last name component in the listed files, so `Causal.Causality.BTZAxioms.K_neq_I` passes against `Causal.E0.K_neq_I`. After a hoist, run `ledger.py check` and also confirm that each curated decl's anchor line is the intended declaration."
+  ]
+ },
+ "for_keeper": {
+  "edge": "push_up ∧ chronal_neighbours ⇒ causally_plain",
+  "witness": "Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours",
+  "witness_module": "Causal.CausallyPlainLocZ (ETT layer; compiled closure has no model module)",
+  "hypotheses": [
+   "(hP : C.PushUp)",
+   "(hN : C.ChronalNeighbours)"
+  ],
+  "signature": "theorem Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours {M : Type u_1} [TopologicalSpace M] {C : Causal.Causality M} (hP : C.PushUp) (hN : C.ChronalNeighbours) : C.CausallyPlain",
+  "standing": "none: no separation, countability or connectedness axiom, no T1",
+  "under": "none: both premises are named ladder properties of sort causality",
+  "proposed_entry": "[[implies]]\nfrom = [\"push_up\", \"chronal_neighbours\"]\nto = \"causally_plain\"\nwitness = \"Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours\"\nstatus = \"checked\"",
+  "emit_lean": "The edge qualifies as a causal_ladder rule: empty under, both ends of sort causality, witness in an ETT-layer module. emit-lean will add `import Causal.CausallyPlainLocZ` to Causal/Ladder/Rules.lean. Probe: as a forward rule it derives plainness from push_up ∧ chronal_neighbours and from causally_arc_connected ∧ locally_push_up ∧ chronal_neighbours, and nothing from either premise alone. Simulated `ladder.py check --file`: green, no contradiction.",
+  "sharpness": [
+   "chronal_neighbours cannot be dropped: the lightlike line has push-up and is not causally plain (Causal.deux_pushup, first component; Causal.lightlikeLine_not_causallyPlain); it has no chronal neighbours (≪ = ∅). This is the ladder's [[fails]] push_up → causally_plain.",
+   "push_up cannot be dropped: Causal.timelikeLineTop (Causal.Morphism; ≤_ℝ total, ≪ the timelike line's) has chronal neighbours (timelikeLine_chronalNeighbours, by defeq), fails push-up (1 ≪_ℝ 2 ≤_ℝ 0, not 1 ≪_ℝ 0) and is not causally plain (Int J⁺_ℝ({0}) = ℝ ⊄ closure I⁺_ℝ({0}) = [0, ∞)). All three were checked by a /tmp probe and are not in the library; they are T-abs-timelike-line-top's to land, which also settles the [[open]] chronal_neighbours → causally_plain (programme/ladder.toml:1792-1795). A separation in the no-gluing reading only: timelikeLineTop is not absolutely minimal (timelikeLineTop_not_absolutelyMinimal; OQ-18, kb/0014)."
+  ],
+  "consistent_with": "Every recorded counterexample into causally_plain lacks chronal neighbours or push-up: the lightlike line (push-up, ≪ = ∅), the spacelike line (≪ = ∅), the jump line (no chronal neighbours, per its notes), timelikeLineTop (not push-up), the gated line and the rational line (≪ fails at ⋆ / ≪ = ∅, argued). deuxPushup (plain, not push-up) is consistent trivially. The simulated ladder with the edge reports no contradiction.",
+  "consequences": [
+   "With absolutely_minimal ∧ causally_plain ⇒ push_up (T1, Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal): on T1 spaces, for absolutely minimal causalities with chronal neighbours, push_up ⟺ causally_plain.",
+   "Model rows the edge gives in one line, checked by a /tmp probe importing Causal.Model.EAlphaCauchy and Causal.CausallyPlainLocZ, none in the library: (staticCausality X).CausallyPlain for every MetricSpace X with GeodesicSpace X (staticCausality.pushUp, staticCausality.chronalNeighbours), (minkowski n).CausallyPlain (minkowski_pushUp, staticCausality.chronalNeighbours), (massive α).CausallyPlain under [Fact (0 < α)] (massive_pushUp, massive_chronalNeighbours); also cosmicString α by cosmicString_pushUp, cosmicString_chronalNeighbours (not probed). They would sit in a model module; the strict library had no plainness of Minkowski space or of a static spacetime.",
+   "For the [[open]] causally_plain → is_causal (programme/ladder.toml:1903-1906): the flat time cylinder's wanted plainness reduces, through this edge, to its push-up and chronal neighbours. SingularFlatAxioms.causallyPlain needs strong causality, but this edge does not."
+  ]
+ },
+ "kb_proposals": [
+  "kb/0061 correction: the Loc* local forms, rel_of_causallyConvex and locZplus_of/locZminus_of/locTarentin_of are in the ETT-layer Causal.CausallyPlainLocZ (namespace Causal.E0LM kept); the rest of 0061's list is still stranded.",
+  "kb/0064 correction: causallyPlain_of_locZ is in Causal.CausallyPlainLocZ (ETT layer); SingularFlatAxioms.causallyPlain and BTZAxioms.Jminus_diff_nonempty/Kminus_ne_Iminus/K_neq_I are in Causal.SingularFlatPlain (beside Causal.SingularFlat, no Port).",
+  "New (pattern): push_up ∧ chronal_neighbours ⇒ causally_plain is PushUp.causallyPlain_of_chronalNeighbours. With pushUp_of_causallyPlain_of_absolutelyMinimal, push-up and plainness coincide for absolutely minimal T1 causalities with chronal neighbours. Static spacetimes, Minkowski space and E_α are plain in one line.",
+  "New (pitfall): ledger.py check resolves curated decls by their last name component, so a hoisted BTZAxioms.K_neq_I passes against E0.K_neq_I in the old file. Check the anchor line, not only the pass."
+ ],
+ "notes": "Strict-library refactor. No statement changed, no declaration disappeared or was renamed, and exactly one public declaration is new (the ladder theorem). Each moved declaration exists exactly once, under its old full name and with its old type and proof term (dump). For the master: (1) Root imports, README rows, curation :496 (required, the ett ledger check fails until it is done) and the kb corrections are listed in master_changes. (2) The keeper's entry is in for_keeper; nothing in programme/ was touched. (3) For the author, evidence and not a ruling. OQ-16 (registers/DECISIONS.md:172) asks whether E≥0-manifolds are causally plain, as prop:K_calcul's route through prop:tarentin_fort_K assumes. Two facts bear on it. Every strongly causal SingularFlatAxioms spacetime is causally plain (SingularFlatAxioms.causallyPlain, now in Causal.SingularFlatPlain), and E₀ is (E0.causallyPlain). The new edge does not reach singular flat spacetimes with a BTZ point, which has no chronal past neighbour (I⁻(p) = ∅). There the S = sing₀ form of causallyPlain_of_locZ applies, and it needs strong causality to localise Z±. rem:pas_plat (ETT.tex:289-298), sentence 1 ('This is the push-up property') and item (ii) (l.294, plainness failing at a BTZ point): kb/0029 and SingularFlatAxioms.causallyPlain already contradict (ii) for strongly causal singular flat spacetimes. The new edge plus pushUp_of_causallyPlain_of_absolutelyMinimal shows that plainness and push-up coincide for absolutely minimal T1 causalities with chronal neighbours, the regime of Lorentzian manifolds, though not at BTZ points. In general they are independent (Causal.deux_pushup, as ETT.tex:303-305 itself says). (4) Not done, outside the dispatch: separate lemmas ChronalNeighbours.locZplus / .locZminus (the two steps are inside the proof; exposing them would add declarations); the timelikeLineTop sharpness witnesses (T-abs-timelike-line-top); the model plainness corollaries (a model module). (5) No git command that writes was run. The scratch files (/tmp/hpl: HEAD copies, dumps, probes, ladder simulation) were deleted after this report was written. The working tree also has changes by others: programme/roadmap.toml, roadmap/roadmap.toml, lean-causal/scaffold/CausalScaffold/ChronalTarentin.lean, and lean-benzecri / lean-syracuse files."
+}

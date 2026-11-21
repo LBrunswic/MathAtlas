@@ -1,5 +1,6 @@
 import Causal.Port.E0Strong
 import Causal.SingularGeroch
+import Causal.CausallyPlainLocZ
 
 /-!
 # `E₀`: push-up everywhere, `SingularFlatAxioms`: a singular flat spacetime with `sing₀ ≠ ∅`
@@ -22,7 +23,9 @@ Target `T-ett-port-e0-sfa` (DEC-134), the second of two modules (the first is
   `Causal.E0LM.x`. Changes: the imports (strict `Causal.*` and the first module; never `GX.*`,
   DEC-33), the `namespace Causal` wrappers with each source's own `open` lines (and gx
   Causality's `variable` line), the header of §2b shortened to the part ported, and `end LocalModelFacts` added after
-  l.271. The section `Witness` at the end is **new**.
+  l.271. The section `Witness` at the end is **new**. §2 (l.171–249) was hoisted, same names and
+  text, into the ETT-layer module `Causal.CausallyPlainLocZ` (T-abs-hoist-plain-locz), which this
+  module imports.
 
 ## What is proved (no `sorry` in this file)
 
@@ -68,10 +71,10 @@ Target `T-ett-port-e0-sfa` (DEC-134), the second of two modules (the first is
   corollary of the strict `Causal.ChartIso.pushUpOn` (`Causal.Remarks.MassiveManifold`), kept
   for the verbatim port.
 * **(c) Model-free lemmas in a model module** (kb/0047), under gx's namespace `Causal.E0LM`:
-  `LocZplus`, `LocZminus`, `LocTarentin`, `LocNoPast`, `LocPastIn`, `rel_of_causallyConvex`,
-  `locZplus_of`, `locZminus_of`, `locTarentin_of`, `pushUpOn_of_chartIso`,
-  `lt_of_lt_of_le_link`, `lt_of_le_link_of_lt`, `prop_zero_of_down`, `prop_one_of_up`,
-  `exists_eta_of_mem_open`.
+  `pushUpOn_of_chartIso`, `lt_of_lt_of_le_link`, `lt_of_le_link_of_lt`, `prop_zero_of_down`,
+  `prop_one_of_up`, `exists_eta_of_mem_open`. The local forms `LocZplus`, `LocZminus`,
+  `LocTarentin`, `LocNoPast`, `LocPastIn`, with `rel_of_causallyConvex`, `locZplus_of`,
+  `locZminus_of`, `locTarentin_of`, are in `Causal.CausallyPlainLocZ` (T-abs-hoist-plain-locz).
 * **(d) Not ported from `LocalModel`**: the `𝕄`, sum, transport and `Y` facts (l.273–420), the
   push-up of the sum and of `Y` (l.661–686), and §2d on: CBG interface material for gx's `Y`.
 
@@ -299,85 +302,9 @@ open scoped Real
 
 namespace E0LM
 
-/-! ### §2 Local forms of the model's causal facts, in every open set -/
-
-section Local
-
-variable {X : Type*} [TopologicalSpace X]
-
-/-- `Z⁺` in every open set: at every `y ∈ W`, `I⁺_W(y)` meets every neighbourhood of `y`. -/
-def LocZplus (D : Causal.Causality X) : Prop :=
-  ∀ (W : Opens X) (y : X), y ∈ W → ∀ N ∈ 𝓝 y, ∃ z ∈ N, D.lt W y z
-
-/-- `Z⁻` off `S` in every open set. -/
-def LocZminus (D : Causal.Causality X) (S : Set X) : Prop :=
-  ∀ (W : Opens X) (y : X), y ∈ W → y ∉ S → ∀ N ∈ 𝓝 y, ∃ z ∈ N, D.lt W z y
-
-/-- Tarentin in every open set: small open diamonds of `W` around every point. -/
-def LocTarentin (D : Causal.Causality X) : Prop :=
-  ∀ (W : Opens X) (y : X), y ∈ W → ∀ N ∈ 𝓝 y, ∃ p ∈ N, ∃ q ∈ N, y ∈ D.openDiamond W p q
-
-/-- No chronological past at the points of `S`, in every open set. -/
-def LocNoPast (D : Causal.Causality X) (S : Set X) : Prop :=
-  ∀ (W : Opens X) (y : X), y ∈ S → ∀ z, ¬ D.lt W z y
-
-/-- The causal past of a point of `S` stays in `S`, in every open set. -/
-def LocPastIn (D : Causal.Causality X) (S : Set X) : Prop :=
-  ∀ (W : Opens X) (y : X), y ∈ S → ∀ z, D.le W z y → z ∈ S
-
-variable {D : Causal.Causality X}
-
-/-- In a causally arc-connected spacetime, the relations of `⊤` between two points of a causally
-convex set `V ⊆ W` are relations of `W` (the realising curve stays in the diamond, so in `V`). -/
-theorem rel_of_causallyConvex (hD : D.CausallyArcConnected) {V : Set X}
-    (hV : D.CausallyConvexIn V ⊤) {W : Opens X} (hVW : V ⊆ W) {y z : X} (hy : y ∈ V)
-    (hz : z ∈ V) : (D.le ⊤ y z → D.le W y z) ∧ (D.lt ⊤ y z → D.lt W y z) := by
-  refine ⟨fun h => ?_, fun h => ?_⟩
-  · obtain ⟨c, hc, h0, h1⟩ := (hD ⊤ le_rfl y z).1.1 h
-    subst h0; subst h1
-    have hmem : ∀ t ∈ Icc (0 : ℝ) 1, c t ∈ W := fun t ht =>
-      hVW (hV.2 _ hy _ hz (Causal.Causality.mem_diamond.2
-        ⟨hc.le_of_le le_rfl ht.1 ht.2, hc.le_of_le ht.1 ht.2 le_rfl⟩))
-    have hcW : D.CausalCurveOn W c 0 1 := Causal.CurveOn.restrict hc le_rfl le_rfl le_top hmem
-    exact hcW.le_of_le le_rfl zero_le_one le_rfl
-  · obtain ⟨c, hc, h0, h1⟩ := (hD ⊤ le_rfl y z).2.1 h
-    subst h0; subst h1
-    have hc' := hc.causalCurveOn
-    have hmem : ∀ t ∈ Icc (0 : ℝ) 1, c t ∈ W := fun t ht =>
-      hVW (hV.2 _ hy _ hz (Causal.Causality.mem_diamond.2
-        ⟨hc'.le_of_le le_rfl ht.1 ht.2, hc'.le_of_le ht.1 ht.2 le_rfl⟩))
-    have hcW : D.ChronalCurveOn W c 0 1 := Causal.CurveOn.restrict hc le_rfl le_rfl le_top hmem
-    exact hcW.lt_of_lt le_rfl zero_lt_one le_rfl
-
-theorem locZplus_of (hD : D.CausallyArcConnected) (hSC : D.StronglyCausal)
-    (hZ : ∀ y, y ∈ D.Zplus) : LocZplus D := by
-  intro W y hy N hN
-  obtain ⟨V, hV, hVsub, hVc⟩ := hSC y (N ∩ W) (inter_mem hN (W.isOpen.mem_nhds hy))
-  obtain ⟨z, hzI, hzV⟩ := hZ y V hV
-  exact ⟨z, (hVsub hzV).1, (rel_of_causallyConvex hD hVc (fun w hw => (hVsub hw).2)
-    (mem_of_mem_nhds hV) hzV).2 (Causal.Precausality.mem_Iplus_singleton.1 hzI)⟩
-
-theorem locZminus_of (hD : D.CausallyArcConnected) (hSC : D.StronglyCausal) {S : Set X}
-    (hZ : ∀ y, y ∉ S → y ∈ D.Zminus) : LocZminus D S := by
-  intro W y hy hyS N hN
-  obtain ⟨V, hV, hVsub, hVc⟩ := hSC y (N ∩ W) (inter_mem hN (W.isOpen.mem_nhds hy))
-  obtain ⟨z, hzI, hzV⟩ := hZ y hyS V hV
-  exact ⟨z, (hVsub hzV).1, (rel_of_causallyConvex hD hVc (fun w hw => (hVsub hw).2)
-    hzV (mem_of_mem_nhds hV)).2 (Causal.Precausality.mem_Iminus_singleton.1 hzI)⟩
-
-theorem locTarentin_of (hD : D.CausallyArcConnected) (hSC : D.StronglyCausal)
-    (hT : D.Tarentin) : LocTarentin D := by
-  intro W y hy N hN
-  obtain ⟨V, hV, hVsub, hVc⟩ := hSC y (N ∩ W) (inter_mem hN (W.isOpen.mem_nhds hy))
-  obtain ⟨p, hp, q, hq, hyd⟩ := hT y V hV
-  refine ⟨p, (hVsub hp).1, q, (hVsub hq).1, interior_mono (fun w hw => ?_) hyd⟩
-  have hwV : w ∈ V := hVc.2 p hp q hq hw
-  obtain ⟨h1, h2⟩ := Causal.Causality.mem_diamond.1 hw
-  exact Causal.Causality.mem_diamond.2
-    ⟨(rel_of_causallyConvex hD hVc (fun w hw => (hVsub hw).2) hp hwV).1 h1,
-      (rel_of_causallyConvex hD hVc (fun w hw => (hVsub hw).2) hwV hq).1 h2⟩
-
-end Local
+/-! ### §2 The local forms in every open set: `LocZplus`, `LocZminus`, `LocTarentin`,
+`LocNoPast`, `LocPastIn`, `rel_of_causallyConvex`, `locZplus_of`, `locZminus_of`,
+`locTarentin_of` are in `Causal.CausallyPlainLocZ` (T-abs-hoist-plain-locz), same names. -/
 
 /-! ### §2b The local forms for `𝔼₀` -/
 

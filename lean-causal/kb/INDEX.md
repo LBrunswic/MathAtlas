@@ -82,3 +82,4 @@ rediscover. One fact per entry.
 | [0074](entries/0074-half-lit-line.md) | pattern | The half-lit line: an absolutely minimal witness for the DEC-8 gap, valid in either reading |
 | [0075](entries/0075-pushup-of-minimal-local.md) | pattern | Local push-up gives push-up under absolute minimality on T1 spaces |
 | [0076](entries/0076-chronal-diamond-tarentin.md) | pattern | Two-sided chronology near a point gives tarentin there: chronal_neighbours ⇒ tarentin |
+| [0077](entries/0077-plain-of-pushup-chronal.md) | pattern | push_up ∧ chronal_neighbours ⇒ causally_plain; the plainness criterion is in the ETT layer |

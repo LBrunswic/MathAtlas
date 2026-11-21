@@ -1,4 +1,6 @@
 import Causal.Port.E0SingularFlat
+import Causal.CausallyPlainLocZ
+import Causal.SingularFlatPlain
 import Causal.Remarks.BTZPoints
 import Causal.LinesReachable
 
@@ -30,11 +32,14 @@ Target `T-ett-e0-model-rows` (scaffold, no `sorry`). Cited, **unmarked** (SCOPE 
   `K⁻(p) = {r = 0, τ < τ(p)}` (`E0.Kminus_axis_eq`). Assembled with the first sentence (the
   half-chronological line, `causallyPlain_cannot_be_dropped`, reused): `E0.K_neq_I`.
 * **Abstractly**, at a point of `S₀` under `BTZAxioms` (kb/0012): `BTZAxioms.K_neq_I` (`M`
-  causal), and `BTZAxioms.Kminus_ne_Iminus`, the separation `K⁻(p) ≠ I⁻(p)` **with no causality**.
+  causal), and `BTZAxioms.Kminus_ne_Iminus`, the separation `K⁻(p) ≠ I⁻(p)` **with no causality**;
+  written here by T-ett-e0-model-rows, now in `Causal.SingularFlatPlain` (T-abs-hoist-plain-locz).
 * **New: `E₀` is causally plain** (`E0.causallyPlain`, `defi:causalement_plat`), from a model-free
   criterion: push-up, `Z⁺` in every open set and `Z⁻` in every open set off a set with empty
   interior give plainness (`Causality.causallyPlain_of_locZ`); a strongly causal
-  `SingularFlatAxioms` spacetime is causally plain (`SingularFlatAxioms.causallyPlain`). So `E₀`
+  `SingularFlatAxioms` spacetime is causally plain (`SingularFlatAxioms.causallyPlain`); both
+  written here by T-ett-e0-model-rows, now in `Causal.CausallyPlainLocZ` (ETT layer) and
+  `Causal.SingularFlatPlain` (T-abs-hoist-plain-locz). So `E₀`
   carries every hypothesis of `prop:tarentin_fort_K` but `p ∈ Z⁻` at its BTZ points, where the
   conclusion fails (`E0.Zminus_cannot_be_dropped`), and `prop:K_calcul` (a), (b) hold at `E₀` by
   the paper's own route through `prop:tarentin_fort_K` (`E0.K_calcul_paper`).
@@ -71,78 +76,11 @@ namespace Causal
 
 open Set TopologicalSpace Topology Filter
 
-/-! ### A BTZ point, abstractly (`BTZAxioms`, kb/0012) -/
-
-namespace Causality
-
-variable {M : Type*} [TopologicalSpace M] {C : Causality M} {S₀ : Set M} {p : M}
-
-/-- At a BTZ point the causal past minus the point is not empty (field `singularPastAt`). -/
-theorem BTZAxioms.Jminus_diff_nonempty (h : C.BTZAxioms S₀) (hp : p ∈ S₀) :
-    (C.Jminus ⊤ {p} \ {p}).Nonempty := by
-  obtain ⟨⟨u, -, hu⟩, -⟩ := h.singularPastAt p hp
-  exact ⟨u 0, by simpa using (hu 0).1, (hu 0).2⟩
-
-/-- **`K⁻(p) ≠ I⁻(p)` at a BTZ point, with no causality asked**: `J⁻(p) ∖ {p}` lies in `K⁻(p)`
-(`SingularPastAt.Jminus_diff_subset_Kminus`) and is not empty, while `I⁻(p) = ∅`. The separation
-of `rem:K_neq_I` survives where the equality `K⁻(p) = J⁻(p) ∖ {p}` is not available. -/
-theorem BTZAxioms.Kminus_ne_Iminus (h : C.BTZAxioms S₀) (hp : p ∈ S₀) :
-    C.Kminus ⊤ {p} ≠ C.Iminus ⊤ {p} := by
-  intro hKI
-  obtain ⟨x, hx⟩ := h.Jminus_diff_nonempty hp
-  have hxK := (h.singularPastAt p hp).Jminus_diff_subset_Kminus hx
-  rw [hKI, h.Iminus_eq_empty p hp] at hxK
-  exact hxK
-
-/-- **The BTZ sentence of `rem:K_neq_I` under `BTZAxioms`** (`ETT.tex:875–877`, the BTZ point of
-an `E_{≥0}`-manifold read as the named model facts, kb/0012), `M` causal as `prop:K_calcul` (c)
-assumes: `I⁻(p) = ∅`, `K⁻(p) = J⁻(p) ∖ {p} ≠ ∅`, hence `K⁻(p) ≠ I⁻(p)`. -/
-theorem BTZAxioms.K_neq_I (h : C.BTZAxioms S₀) (hc : C.IsCausal) (hp : p ∈ S₀) :
-    C.Iminus ⊤ {p} = ∅ ∧ C.Kminus ⊤ {p} = C.Jminus ⊤ {p} \ {p} ∧
-      C.Jminus ⊤ {p} \ {p} ≠ ∅ ∧ C.Kminus ⊤ {p} ≠ C.Iminus ⊤ {p} :=
-  ⟨h.Iminus_eq_empty p hp, Kminus_eq_Jminus_diff hc (h.singularPastAt p hp),
-    (h.Jminus_diff_nonempty hp).ne_empty, h.Kminus_ne_Iminus hp⟩
-
-/-- With push-up and `Z⁺` in every open set, `J⁺_U(A) ⊂ closure I⁺_U(A)`. -/
-theorem Jplus_subset_closure_Iplus_of_locZplus (hP : C.PushUp) (hZ : E0LM.LocZplus C)
-    (U : Opens M) (A : Set M) : C.Jplus U A ⊆ closure (C.Iplus U A) := by
-  rintro y ⟨a, ha, hay⟩
-  rw [mem_closure_iff_nhds]
-  intro N hN
-  obtain ⟨z, hzN, hyz⟩ := hZ U y (C.le_mem_right hay) N hN
-  exact ⟨z, hzN, a, ha, (pushUp_iff.1 hP U).2 hay hyz⟩
-
-/-- With push-up and `Z⁻` off `S` in every open set, `J⁻_U(A) ∖ S ⊂ closure I⁻_U(A)`. -/
-theorem Jminus_diff_subset_closure_Iminus_of_locZminus {S : Set M} (hP : C.PushUp)
-    (hZ : E0LM.LocZminus C S) (U : Opens M) (A : Set M) :
-    C.Jminus U A \ S ⊆ closure (C.Iminus U A) := by
-  rintro y ⟨⟨a, ha, hya⟩, hyS⟩
-  rw [mem_closure_iff_nhds]
-  intro N hN
-  obtain ⟨z, hzN, hzy⟩ := hZ U y (C.le_mem_left hya) hyS N hN
-  exact ⟨z, hzN, a, ha, (pushUp_iff.1 hP U).1 hzy hya⟩
-
-/-- **Causal plainness from the local model facts**: push-up, `Z⁺` in every open set, `Z⁻` off a
-set `S` with empty interior in every open set. -/
-theorem causallyPlain_of_locZ {S : Set M} (hP : C.PushUp) (hZp : E0LM.LocZplus C)
-    (hZm : E0LM.LocZminus C S) (hS : interior S = ∅) : C.CausallyPlain := by
-  intro U A
-  refine ⟨interior_subset.trans (Jplus_subset_closure_Iplus_of_locZplus hP hZp U A),
-    fun y hy => ?_⟩
-  have hd : Dense Sᶜ := interior_eq_empty_iff_dense_compl.1 hS
-  refine closure_minimal (fun z hz => ?_) isClosed_closure
-    (hd.open_subset_closure_inter isOpen_interior hy)
-  exact Jminus_diff_subset_closure_Iminus_of_locZminus hP hZm U A
-    ⟨interior_subset hz.1, hz.2⟩
-
-/-- **A strongly causal `SingularFlatAxioms` spacetime is causally plain.** -/
-theorem SingularFlatAxioms.causallyPlain {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing)
-    (hSC : C.StronglyCausal) : C.CausallyPlain :=
-  causallyPlain_of_locZ h.pushUp (E0LM.locZplus_of h.causallyArcConnected hSC h.mem_Zplus)
-    (E0LM.locZminus_of h.causallyArcConnected hSC fun y hy => (h.mem_Zminus_iff y).2 hy)
-    (h.interior_sing 0 le_rfl)
-
-end Causality
+/-! The abstract lemmas once here are elsewhere, same names (T-abs-hoist-plain-locz):
+`BTZAxioms.Jminus_diff_nonempty`, `BTZAxioms.Kminus_ne_Iminus`, `BTZAxioms.K_neq_I` and
+`SingularFlatAxioms.causallyPlain` in `Causal.SingularFlatPlain`; the model-free criterion
+`causallyPlain_of_locZ`, with `Jplus_subset_closure_Iplus_of_locZplus` and
+`Jminus_diff_subset_closure_Iminus_of_locZminus`, in `Causal.CausallyPlainLocZ`. -/
 
 /-! ### At the model `E₀` -/
 
