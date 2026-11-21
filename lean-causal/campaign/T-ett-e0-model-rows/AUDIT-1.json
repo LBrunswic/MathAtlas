@@ -1,0 +1,70 @@
+{
+  "target": "T-ett-e0-model-rows",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "rem:relation_not_assumed_reflexive",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The row is unmarked and partial, which is correct. The quote in the docstring is l.235 verbatim, and the ledger tex_span [235, 236] matches. Causal.E0.relation_not_assumed_reflexive has four conjuncts. (1) For every d, every open U and every q, ¬ (minkowski d).lt U q q. This is the strict Flat.minkowski_not_lt_self (Causal/Flat/Achronal.lean:153, the ⊤ case) transported by lt_mono le_top, so it is at least the paper's 'no point of Minkowski space lies in its own chronological future', which is the ⊤ case. (2) axis.Nonempty, by (0,0) and rfl, so the BTZ clause is not vacuous. (3) For every p ∈ axis and every open U, Iminus U {p} = ∅ ∧ ¬ lt U p p. The first half is the strict Iminus_axis (Causal/Port/E0Causality.lean:794), with no model fact taken as a hypothesis. (4) E₀ is chronological (not_lt_self, via the strict calculus_lt: τ increases strictly). Readings: 'a BTZ point' is read as a point of sing(E₀) = Causal.E0.axis. defi:causal_E0 at l.1346 introduces it there ('for a singular point p ∈ sing(E₀)'), and the remark itself cites that definition. Which E₀ is OQ-34/OQ-35, both open, and this is disclosed in SCOPE (a), REPORT questions[0] and the checklist as '⚠ read'. The SCOPE statement that under the printed metric (l.1330, −dτ² + dr² + r²dθ²) the axis is timelike and I⁻(p) = ∅ fails is correct: that metric is Minkowski 3-space in cylindrical coordinates. Nothing is added beyond the reading."
+    },
+    {
+      "label": "rem:K_neq_I",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The row is unmarked and partial, which is correct: the bubble sentence (l.873-875) is not proved, and this is disclosed in SCOPE (a) and the REPORT hypotheses row 'not attempted'. The quoted lines 872-877 are verbatim apart from line breaks. The tex_span [871, 882] matches the ledger. The BTZ sentence (l.875-877) is Causal.E0.K_neq_I_btz: axis.Nonempty ∧ ∀ p ∈ axis, I⁻(p) = ∅ ∧ K⁻(p) = J⁻(p) ∖ {p} ∧ J⁻(p) ∖ {p} ≠ ∅ ∧ K⁻(p) ≠ I⁻(p). That is every assertion of the sentence, at ⊤ as in the paper, with no hypothesis. It is the abstract BTZAxioms.K_neq_I applied to the strict instance btzAxioms and isCausal, so prop:K_calcul (c)'s 'M causal' is discharged at the model, not assumed. Kminus_axis_eq gives the explicit form {x ∈ axis, x.1 < p.1}, matching l.1349's J⁻(p) = {r = 0, τ ≤ τ(p)} with p removed. The assembly Causal.E0.K_neq_I adds the existing strict causallyPlain_cannot_be_dropped (LinesReachable.lean:340, statement checked) for the first sentence. The abstract forms are as stated. BTZAxioms.Kminus_ne_Iminus takes only BTZAxioms C S₀ and p ∈ S₀ (no IsCausal), using the strict SingularPastAt.Jminus_diff_subset_Kminus and the field Iminus_eq_empty. BTZAxioms.K_neq_I adds IsCausal only for the equality, via the strict Kminus_eq_Jminus_diff. As with the first label, the model clause rests on OQ-34, which is disclosed. 'The same separation' is read as K⁻ ≠ I⁻ (REPORT questions[2]); that reading is the faithful one, and the alternative is the subject of finding 1."
+    }
+  ],
+  "new_result": {
+    "decls": [
+      "Causal.Causality.Jplus_subset_closure_Iplus_of_locZplus",
+      "Causal.Causality.Jminus_diff_subset_closure_Iminus_of_locZminus",
+      "Causal.Causality.causallyPlain_of_locZ",
+      "Causal.Causality.SingularFlatAxioms.causallyPlain",
+      "Causal.E0.causallyPlain"
+    ],
+    "statement_check": "Elaborated types, by probe. causallyPlain_of_locZ : C.PushUp → E0LM.LocZplus C → E0LM.LocZminus C S → interior S = ∅ → C.CausallyPlain. SingularFlatAxioms.causallyPlain : C.SingularFlatAxioms sing → C.StronglyCausal → C.CausallyPlain, with M, its topology, C and sing implicit. Nothing else: no typeclass beyond TopologicalSpace, and no hidden argument. The conclusion is the strict Causality.CausallyPlain (Properties.lean:55): ∀ U A, both inclusions Int J± ⊆ closure I±. That is defi:causalement_plat, quantified over every A rather than A ⊂ U, so it is at least the paper's. PushUp and StronglyCausal are the strict defs (Properties.lean:69, 105). LocZplus and LocZminus (strict Causal.Port.E0SingularFlat:309, 313) are model-free predicates, Z± inside every open W. In the corollary they are not assumed. They are derived from the SFA fields mem_Zplus and mem_Zminus_iff, which use the strict Zplus/Zminus, together with causallyArcConnected and strong causality, through the strict locZplus_of and locZminus_of. interior_sing 0 supplies the empty interior. So the corollary assumes exactly SingularFlatAxioms plus StronglyCausal, as claimed. The proof is mathematically right. For J⁺: x ≤_U y, then Z⁺ in U gives z near y with y ≪_U z, and push-up gives x ≪_U z. For J⁻ the same argument works off S, and Sᶜ is dense, so Int J⁻ ⊆ closure(Int J⁻ ∩ Sᶜ) ⊆ closure I⁻. Not vacuous: E₀ satisfies singularFlatAxioms and stronglyCausal (strict). Causal.E0.causallyPlain goes through causallyPlain_of_locZ with the strict e0_pushUp, e0_locZplus, e0_locZminus and interior_axis, all unconditional (#print checked).",
+    "consistency": "No contradiction with any recorded finding or witness. (a) The rem:pas_plat row (curation.toml:1231-1238) says 'Nothing in the paper shows an E≥0-manifold is not causally plain (cf. OQ-16), so it fails in the two families (l.290) is supported for (i) only'. kb/0029 says 'A BTZ point never witnesses a failure of causal plainness'. Causal/Remarks/BTZPoints.lean:66-75 says the same. The new theorem is the global strengthening of these, under SFA plus strong causality, and agrees with them. (b) OQ-16 (DECISIONS.md:172) stays open. The REPORT presents the result as evidence, not a ruling, and correctly does not claim that every E≥0-manifold is causally plain. The theorem is about the SFA abstraction with strong causality, and its only E≥0 instance is E₀ under OQ-34. (c) Every non-plain witness in the library violates a hypothesis. lightlikeLine is GH with push-up, but it is not in Z⁺ everywhere (lightlikeLine_not_mem_Zplus). halfChronoLine has no push-up, since otherwise prop:tarentin_fort_K's route would make it plain. spokesCausality (KBorelien.lean:573) has no push-up. The ladder edge globally_hyperbolic ⇏ causally_plain (ladder.toml:659) is therefore unaffected. (d) pushUp_of_causallyPlain_of_absolutelyMinimal is the converse direction, so there is no circularity."
+  },
+  "findings_check": [
+    {
+      "finding": "REPORT labels[1].findings[0] (ETT.tex:872-877: at E₀ the BTZ point witnesses that Z⁻, not plainness, cannot be dropped from prop:tarentin_fort_K)",
+      "true": true,
+      "notes": "This holds of the .tex. l.872 asserts that plainness cannot be dropped, and l.875-877 places the BTZ point as 'the same separation … in degenerate form'. It holds of the Lean. Zminus_cannot_be_dropped proves E₀ causally plain, absolutely minimal, tarentin, causal, T2 and second countable. 'Topological spacetime' (l.255) is second countable Hausdorff, so every hypothesis of prop:tarentin_fort_K (l.851) holds. At every axis point, p ∉ Z⁻ and K⁻(p) ≠ I⁻(p). The finding discloses that it rests on OQ-34. It is, if anything, too mild: see minor finding 2."
+    },
+    {
+      "finding": "REPORT labels[1].findings[1] (ETT.tex:876-877 with l.1561: K⁻ = J⁻ ∖ {p} assumes M causal, unstated in the remark)",
+      "true": true,
+      "notes": "l.1561 reads '(c) if M is causal and p ∈ sing_0(M), then K⁻(p) = J⁻(p) ∖ {p}', and l.769 reads 'for a BTZ point p of a causal E≥0-manifold, p ∉ K⁻(p) = J⁻(p) ∖ {p}'. l.875-877 states the equality with no causality and with 'a BTZ point' unqualified, while l.294 and l.1358-1361 use the phrase for any E≥0-manifold. The finding itself says nothing is omitted at E₀, which is causal (isCausal). The supporting Lean is BTZAxioms.Kminus_ne_Iminus: the separation needs no causality. The quotient sketch is labelled NOT FORMALIZED. I checked it by hand. τ ↦ τ+1 is an isometry of the flat extreme-BTZ metric fixing the axis, and it acts freely and properly. In the quotient, J⁻(p) is the image circle of the axis, and it lies in J⁻(u) for every u near p: off-axis lifts have J⁻ ∩ axis = {τ ≤ τ_u − r_u/2}, which projects onto the circle. So K⁻(p) = J⁻(p) ∋ p, while I⁻(p) = ∅ is kept. The sketch is sound, and the finding does not depend on it."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "From lean-causal/, `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Port/E0ModelRows.lean` exits 0 and writes nothing. As a control, a /tmp copy with axis_nonempty replaced by `sorry` fails with 'declaration uses `sorry`'. `sorry` occurs twice in the file, both times in docstring prose (l.8, l.20). There is no admit, axiom, opaque, native_decide, implemented_by, extern, unsafe or set_option. A /tmp probe (the file verbatim, plus Lean.collectAxioms) covered all 21 new declarations and the reused Iminus_axis, minkowski_not_lt_self and causallyPlain_cannot_be_dropped. Every one gives exactly [propext, Classical.choice, Quot.sound]. The probe directory /tmp/audit-e0mr was deleted. lake build was not run, per the dispatch. The imports Causal.Port.E0SingularFlat, Causal.Remarks.BTZPoints and Causal.LinesReachable are strict and committed (E0SingularFlat at 596352f). There is no GX.* import."
+  },
+  "scope": {
+    "git_status": [
+      "?? lean-causal/campaign/T-ett-e0-model-rows/",
+      "?? lean-causal/scaffold/CausalScaffold/Port/"
+    ],
+    "note": "`git status --short lean-causal papers/ett` shows only these two entries, and `git diff HEAD -- lean-causal papers/ett` is empty. The untracked scaffold Port/ directory holds only E0ModelRows.lean, and the campaign directory held only REPORT.json before this audit. The working-tree changes elsewhere in the session's opening snapshot (programme/, roadmap/, reports/blueprint/, lean-benzecri/, lean-egf/) belong to other loops and targets and are outside this dispatch's paths. No new name collides: the file compiles, and grep finds no prior use of E0.not_lt_self, E0.causallyPlain, E0.K_neq_I or causallyPlain_of_locZ."
+  },
+  "docstring_contract": "The order is as kb/0006 asks: title; the two labels cited unmarked with ETT.tex:235 and :871 (the correct \\label lines), both within the first 4000 characters (the file is 14131 characters); `>` quotes, verbatim; the Hypothesis checklist; SCOPE (disclosed) (a)-(c); the Provenance line. ledger.py's docstring_label_re (tools/ledger.py:246), applied to the first 4000 characters, finds no mark, and no ``**`…`**`` token occurs anywhere in the file. The bold phrases (**unmarked**, **at `E₀`**, **The BTZ sentence of `rem:K_neq_I` at `E₀`**, …) cannot match the regex. I checked the checklist rows: Minkowski ✓ carried; BTZ point ⚠ read (OQ-34/35), with BTZAxioms ⚠ strengthened (kb/0012); 'M causal' ✓ carried at E₀ and ⚠ weakened for the separation. Each is true. Every 'What is proved' and SCOPE claim matches a declaration: Kminus_axis_eq's form, E₀'s six properties, K_calcul_paper through Kminus_eq_Iminus_of_mem_Zminus (the anchor of prop:tarentin_fort_K, curation.toml:226-227), and l.1330/1346-1347/769/1561 cited correctly. SCOPE (a) is right that bubble_need_not_meet_Kplus refutes the bubble mechanism only without prop:tarentin_fort_K's hypotheses, which is the existing row note.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/Port/E0ModelRows.lean:1-3 and :74-145 (section Causality); REPORT notes ('it could graduate as is, for instance to Causal.Port.E0ModelRows')",
+      "what": "BTZAxioms.Jminus_diff_nonempty, BTZAxioms.Kminus_ne_Iminus, BTZAxioms.K_neq_I, Jplus_subset_closure_Iplus_of_locZplus, Jminus_diff_subset_closure_Iminus_of_locZminus, causallyPlain_of_locZ and SingularFlatAxioms.causallyPlain are model-free (layer 1, programme/README.md l.5-7). Their predicates E0LM.LocZplus and LocZminus, with locZplus_of, locZminus_of and rel_of_causallyConvex, are also model-free, but they sit in the model module Causal.Port.E0SingularFlat under a model-named namespace. Graduating the file as is, as the REPORT suggests, would strand the new layer-1 results behind an E₀ import. That is the pitfall of kb/0047, which T-abs-hoist-model-free and T-abs-hoist-cbg-cores just undid elsewhere. The REPORT does not flag this.",
+      "fix": "At graduation, split the file. The Causality section goes to an ETT-layer module (for instance Causal.PlainFromZ) together with LocZplus, LocZminus, rel_of_causallyConvex, locZplus_of and locZminus_of, hoisted out of Causal.Port.E0SingularFlat under the same full names, or abbrevs left behind as kb/0047 did. The E0 section stays in Causal.Port. Add one line to the REPORT notes."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[1].findings[0] ('In degenerate form is compatible with this')",
+      "what": "The finding is true, but it understates its own case and does not link to the finding already recorded. The paper uses 'degenerate' for exactly this claim at rem:pas_plat (ii), l.294-295: the BTZ point is 'the degenerate case of the same defect', namely the failure of causal plainness. So l.875-877 most likely does intend the BTZ point as a second witness against plainness. That is the claim already refuted by the recorded rem:pas_plat finding (curation.toml:1238) and kb/0029, now in global form by E0.causallyPlain. As written, the author may read this as a placement nit that is independent of the rem:pas_plat finding, and curation may record two unconnected findings for one error.",
+      "fix": "In the finding, cite l.294-295 and the recorded rem:pas_plat finding / kb/0029. State it as: 'rem:K_neq_I l.875-877 repeats rem:pas_plat (ii): at E₀, which is causally plain (E0.causallyPlain), the BTZ separation is the failure of p ∈ Z⁻'. Keep the suggested wording and the OQ-34 caveat."
+    }
+  ]
+}

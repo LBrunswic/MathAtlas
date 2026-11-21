@@ -69,3 +69,4 @@ rediscover. One fact per entry.
 | [0061](entries/0061-stranded-model-free-lemmas.md) | convention | Model-free lemmas stranded under Causal.E0 / Causal.E0LM: hoist on demand |
 | [0062](entries/0062-corresponding-toolkit.md) | pattern | The model-free corresponding-point toolkit is in the ETT layer |
 | [0063](entries/0063-verbatim-hoist-check.md) | pattern | Checking a verbatim hoist: dump the environment before and after |
+| [0064](entries/0064-causally-plain-of-locz.md) | pattern | Causal plainness from push-up and local Z±: causallyPlain_of_locZ; E₀ is causally plain |
