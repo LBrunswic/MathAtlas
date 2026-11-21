@@ -185,6 +185,8 @@ rediscover. One fact per entry.
 | [0177](entries/0177-massive-line-atlas.md) | pattern | The translation atlas of sing_κ(M), κ > 0, and massive_line at every Hausdorff E≥0-manifold |
 | [0178](entries/0178-isclosed-sing-name-resolution.md) | pitfall | Inside Causal.X with open SFALocal, isClosed_sing resolves to the root Causal.isClosed_sing |
 | [0179](entries/0179-epi-sfa-witness.md) | pattern | E_π: a SingularFlatAxioms witness with a non-empty massive line |
+| [0180](entries/0180-sfa-every-manifold.md) | pattern | SingularFlatAxioms at every E≥0-manifold in one name: Causal.SFAManifolds.singularFlatAxioms |
+| [0181](entries/0181-ealpha-connected.md) | pattern | E_κ is connected: SFAManifolds.massive_connectedSpace (a theorem, not an instance) |
 | [0182](entries/0182-rows-at-m-pattern.md) | pattern | The singular-flat rows at M without SingularFlatAxioms: Causal.SingularRowsLocal |
 | [0183](entries/0183-universe-metavariables-strict-forall.md) | pitfall | A strict theorem quantifying ∀ {M : Type u}, used as a term, needs its universe explicit |
 | [0184](entries/0184-e0-natural-over-family.md) | pattern | E₀ with its natural causality over the whole family |

@@ -1,0 +1,202 @@
+{
+ "target": "T-ett-singular-sfa",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "def:singular_spacetime",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Cited unmarked (no **`label`** anywhere in the file; ledger regex run on the whole file: no match). singularFlatAxioms (l.142) is a genuine, full Causal.Causality.SingularFlatAxioms (SFALocal.sing M): every field of the structure (Causal/SingularFlat.lean:173), built by (SFABTZ.singularFlatAxioms_iff_lines hmin hC).2 ⟨SFALine.line hC, SFAMassiveLine.massive_line hC⟩. Hypotheses [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] [T2Space M] [SecondCountableTopology M], AbsolutelyMinimal, IsoChartsCoverDEC25 over massAModelCausality. They are satisfiable and witnessed at E₀ and E_π. T2 and second countable are part of gx's singular (G,X)-manifold (papers/gx/legacy/labeled/RamcovGX.tex:474, adopted by DEC-25). The natural causality is such a C (SFALocal.of_isAtlasCausalityDEC25), so the definition (natural causality, MassACovered) implies the abstraction SingularFlatSpacetime on connected M (singularFlatSpacetime_of_isAtlasCausalityDEC25). singularFlatSpacetime_iff is exact: the abstraction adds connectedness only. exists_singularFlatAxioms / exists_singularFlatSpacetime give the natural causality, SFA, and uniqueness among absolutely minimal causalities with an isomorphic chart at each point (from EModelsBPrime.massA_causalite_models). singularFlatSpacetime_e0 (A = {0}, through sing_eq_of_e0Covered and isoChartsCoverDEC25_of_e0) and singularFlatSpacetime_of_massive (A = (0, ∞); its hpos is redundant, finding 4). Partial is right: OQ-18, OQ-34/OQ-35 and OQ-82 are open readings, and E_A-spacetimes for a general A are not stated (finding 5)."
+  },
+  {
+   "label": "rem:singular_flat_spacetime_therefore",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "geroch_hypotheses (l.261) and geroch_hypotheses_of_isAtlasCausalityDEC25 (l.280): MeasuresManifolds.massA_geroch_hypotheses fed with SFAManifolds.singularFlatAxioms. No hypothesis is left beyond T2, second countable (« manifold », DEC-25), the reading of the causality (OQ-18) and strong causality, which DEC-18 rules in and DEC-7 reads as StronglyCausal. The conclusion is the conjunction of theo:geroch's hypotheses (ETT.tex:1256-1260): metrizable, locally compact, tarentin, causally arc-connected, locally causally convex = StronglyCausal (DEC-7), J^±(p) ≠ {p}, and a pair of admissible measures. theo:geroch asks no connectedness, so nothing is missing. e0Manifold_geroch_hypotheses_natural is AUDIT-1 (T-ett-sfa-line-e0) code verbatim. « a differential manifold » is not formalized, so the row stays partial and unmarked."
+  },
+  {
+   "label": "prop:mesure_admissible",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "mesure_admissible (l.253) and mesure_admissible_of_isAtlasCausalityDEC25 (l.271). The conclusion (∃ μ, AdmissiblePast μ) ∧ ∃ μ, AdmissibleFuture μ is the paper's « a measure μ₋ admissible in the past and a measure μ₊ admissible in the future » (l.1726-1728). Hypotheses: strongly causal (DEC-7, carried), T2 and second countable (« manifold », carried), Borel measurable structure (as in the strict SingularFlatAxioms.mesure_admissible), and the E≥0-manifold read through DEC-25 and OQ-18 (weakened in mesure_admissible to any absolutely minimal C with an isomorphic chart at each point). Lean ≥ paper in the readings. Unmarked, because OQ-18, OQ-34/OQ-35 and OQ-82 are open."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "detail": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SFAManifolds.lean`: exit 0, no output (2.7 s, the imported oleans already built; no lake build run, as instructed). grep finds no sorry, native_decide, axiom, admit, set_option, unsafe or implemented_by. #print axioms on all 24 theorems ran from a /tmp copy of the file (elaborated from source under warningAsError), and again from a /tmp probe importing Causal and CausalScaffold.SFAManifolds. Every one depends on [propext, Classical.choice, Quot.sound] only. Both probes were deleted. No name clash: importing Causal (strict root) together with the module raises nothing. Every new full name (the Causal.SFAManifolds namespace, Causal.MeasuresManifolds.e0Manifold_mesure_admissible_natural / _geroch_hypotheses_natural, massive_connectedSpace, preconnectedSpace_of_geodesicSpace) occurs nowhere else in Causal/ or scaffold/; the grep covers kb/0082's silent same-type merge. Import closure: Causal.Remarks.EModelsBPrime is a leaf (no importer but this file) whose own closure lies inside that of the four allowed imports, so the extra import adds no build dependency."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/SFAManifolds.lean:112-123 (preconnectedSpace_of_geodesicSpace); REPORT.json def:singular_spacetime findings[2] item (4), kb_proposals[1]",
+   "what": "preconnectedSpace_of_geodesicSpace duplicates the strict Causal.staticCausality.preconnectedSpace_of_geodesic (Causal/LemmaKBare.lean:600, {X} [MetricSpace X] [GeodesicSpace X] : PreconnectedSpace X, same proof). The only change is that MetricSpace is relaxed to PseudoMetricSpace, and the name and namespace differ, so there is no clash. LemmaKBare is outside the allowed import closure, so proving the lemma locally was correct under CAMPAIGN.md. But the REPORT says the library « did not have » it and proposes it as a hoist candidate without naming the existing copy, and the docstring (l.61-63) is silent. massive_connectedSpace is new: no ConnectedSpace for Cone or Massive exists in Causal/. It is a model-level (E_κ) fact, not ETT-layer.",
+   "fix": "At graduation, add to the docstring of preconnectedSpace_of_geodesicSpace: « generalises `staticCausality.preconnectedSpace_of_geodesic` (Causal/LemmaKBare.lean:600, not imported here) to pseudometric spaces ». Rewrite kb proposal 2: the hoist is one lemma, into Causal/Static.lean beside class GeodesicSpace (Static.lean:114), with the LemmaKBare copy made an alias or removed. massive_connectedSpace's home would be Causal/Model (Massive or Cone). Both moves are strict-file edits outside this dispatch: a later hoist target, not a graduation step."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json def:singular_spacetime questions[0]",
+   "what": "The question says that whether sing(M) may be empty, or every α ∈ A must occur, is something « the paper does not say ». ETT is silent, but gx's def:atlas, which DEC-25 adopts, speaks to both halves (papers/gx/legacy/labeled/RamcovGX.tex:1905-1917). (a) « An X_A-chart is an X_α-chart for some α ∈ A », and an X_A-manifold only has to admit an X_A-atlas, so not every α ∈ A need occur. DEC-25 settles this half. (b) An X_α-chart is a chart around x ∈ sing(M), and an X_A-atlas is « a collection of X_A-charts covering M ». Read literally, this forces sing(M) ≠ ∅ for M ≠ ∅, and more: every point lies in a chart around a singular point. The library already weakens this to covering Sing(M) (SFALocal.MassACovered; Causal/GXSingularDEC25.lean checklist, « ⚠ weakened: only the singular points need an X_A-chart (gx's X_A-atlas covers M …) »). That is the Lean ≥ paper direction. Every theorem of this file holds in both readings, and the witnesses E₀ and E_π satisfy the literal one (identity charts around an axis or line point cover the model). The question blocks no statement and no mark. It is not genuinely open in a way that needs OQ-87.",
+   "fix": "Open no OQ. Record the reading in def:singular_spacetime's notes (curation text below). Optionally add one SCOPE sentence to the file: « sing_α(M) may be empty: gx's def:atlas read as covering Sing(M), as Causal.GXSingularDEC25 does; read literally (« covering M ») it forces sing(M) ≠ ∅, and every theorem here holds in either reading »."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json def:singular_spacetime findings[0], findings[2]; rem:singular_flat_spacetime_therefore findings[0]; prop:mesure_admissible findings[0]",
+   "what": "Routing of the REPORT's findings. findings[2] of def:singular_spacetime is explicitly « Roadmap, not the paper ». findings[0] of def:singular_spacetime and the single entries of the other two rows are confirmations: the definition implies the abstraction, the remark holds under DEC-18 at every such M, and the proposition holds with no new finding. All four are true. None asks the author to change anything. Only def:singular_spacetime findings[1] (« connected », l.1502) is a statement about the paper.",
+   "fix": "Put the confirmations and the roadmap note in the rows' notes (texts below), not in paper_findings. Add one new paper_findings entry, the « connected » observation, to def:singular_spacetime. The existing paper_findings of rem:singular_flat_spacetime_therefore (the reason for DEC-18) and prop:mesure_admissible (the two proof-level findings on l.1734-1743) stand unchanged."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/SFAManifolds.lean:230-239 (singularFlatSpacetime_of_massive)",
+   "what": "hpos is redundant. The theorem takes the same hmin, hC as singularFlatSpacetime and concludes the same thing, so it is a special case with one extra hypothesis. It is the « E_{>0} form » the target asked for, routed through SFAMassiveLine.singularFlatAxioms_of_massive. It is not wrong, and nothing narrower is anchored, since singularFlatSpacetime is in the same row.",
+   "fix": "Optional: add to its docstring « a special case of `singularFlatSpacetime` (`hpos` is not needed); the `A = (0, ∞)` form »."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/SFAManifolds.lean:67-77 (checklist), :83-85 (SCOPE); REPORT.json def:singular_spacetime hypotheses[0]",
+   "what": "« Let A be a subset of ℝ₊ » has no checklist row, and the REPORT marks it « carried ». E_A-spacetimes for a general A are not stated, only A = ℝ₊, {0} and (0, ∞). The REPORT note says so (« A general A is not formalized »), and SCOPE implies it. The theorems for E≥0-manifolds do cover every E_A-manifold whose causality is absolutely minimal with an isomorphic chart at each point, since its X_A-charts are charts into the family. So this under-claims rather than over-claims.",
+   "fix": "Add a checklist row: « Let A be a subset of ℝ₊ » | not stated for a general A: A = ℝ₊ (« singular flat spacetime », l.1506), with the forms A = {0} (singularFlatSpacetime_e0) and A = (0, ∞) (singularFlatSpacetime_of_massive). In the curation, record the hypothesis as « special case », not « carried »."
+  }
+ ],
+ "paper_findings_review": [
+  {
+   "claim": "def:singular_spacetime (REPORT findings[0]): in the readings, every connected, Hausdorff, second countable E≥0-manifold with its natural causality satisfies the library's abstraction SingularFlatSpacetime, mixed ones included, so nothing in the paper needs to change.",
+   "true": true,
+   "kind": "confirmation",
+   "checked": "singularFlatSpacetime_of_isAtlasCausalityDEC25 and exists_singularFlatSpacetime typecheck as stated, with standard axioms. « Mixed manifolds included » holds of the statement; no witness has points of both kinds (SFALocal SCOPE), and the REPORT discloses this. Route to notes."
+  },
+  {
+   "claim": "def:singular_spacetime (REPORT findings[1]): « connected » (l.1502) is used by no causal or topological fact Section 3 derives for singular flat spacetimes. Every field of SingularFlatAxioms holds connected or not, and the abstraction is a SingularFlatSpacetime iff M is connected.",
+   "true": true,
+   "kind": "statement-level (an unused hypothesis of a definition; informational, no correction needed)",
+   "checked": "In Lean, singularFlatAxioms takes no ConnectedSpace, singularFlatSpacetime_iff is exact, and the field SingularFlatSpacetime.connected is used nowhere in Causal/ or scaffold/ (grep for .connected and toConnectedSpace; Causal/SingularGeroch.lean:48 records it « not used »). In the paper (l.1319-1834), the only mention of M's connectedness is l.1502. theo:geroch (l.1256-1260), which the remark invokes, asks none. prop:K_calcul (l.1557) and prop:mesure_admissible (l.1726) are indeed stated for E≥0-manifolds. The claim stays scoped to Section 3: Section 4 restates « connected » explicitly (l.1933). Suggested paper_findings text below."
+  },
+  {
+   "claim": "rem:singular_flat_spacetime_therefore (REPORT findings[0]): under DEC-18 the remark's second assertion holds at every strongly causal, Hausdorff, second countable E≥0-manifold with its natural causality, connected or not. SingularFlatAxioms and ModelMeasures are both discharged, and the finding behind DEC-18 stands.",
+   "true": true,
+   "kind": "confirmation (of the ruled form)",
+   "checked": "geroch_hypotheses_of_isAtlasCausalityDEC25 and geroch_hypotheses. The by-hand example behind DEC-18 (E_α modulo a translation along its line) is unaffected, and still by hand. Route to notes; paper_findings unchanged."
+  },
+  {
+   "claim": "prop:mesure_admissible (REPORT findings[0]): the proposition holds at every such manifold with no hypothesis left beyond the readings; the two existing proof-level findings stand and no new one arises.",
+   "true": true,
+   "kind": "confirmation",
+   "checked": "mesure_admissible_of_isAtlasCausalityDEC25 and mesure_admissible. Their route is MeasuresManifolds' corrected one (the model's causally convex set chosen first), already recorded. Route to notes; paper_findings unchanged."
+  },
+  {
+   "claim": "def:singular_spacetime (REPORT findings[2]): roadmap notes, namely cited locations, the one-line assembly, the import list one module short, and ConnectedSpace (Massive π) « which the library did not have ».",
+   "true": "mostly",
+   "kind": "roadmap, not the paper",
+   "checked": "Every cited line checked: SFABTZ:638, SFALine:265 and :350, SFAMassiveLine:287 and :351, SFALocal:656, :701 and :724, EModelsBPrime:185, SingularGeroch:141, MeasuresManifolds:189 and :198. The nine docstrings naming the target as future are exactly the listed ones. EModelsBPrime is not in the closure of the four imports. Item (4) is inaccurate: the generic lemma exists as staticCausality.preconnectedSpace_of_geodesic (LemmaKBare.lean:600, finding 1). Route to notes."
+  }
+ ],
+ "question_review": {
+  "question": "Must a singular flat spacetime have a non-empty singular locus, or every α ∈ A occurring? (proposed OQ-87)",
+  "genuinely_open": false,
+  "answer": "Neither half needs a new OQ. 'Every α ∈ A occurring' is settled by DEC-25, which adopts gx's def:atlas: « an X_A-chart is an X_α-chart for some α ∈ A » (RamcovGX.tex:1910), and an X_A-manifold only admits an X_A-atlas. 'Non-empty singular locus': gx's « X_A-atlas … covering M » (l.1911), with X_α-charts around singular points (l.1908), read literally forces sing(M) ≠ ∅ for M ≠ ∅. The library has already taken, and disclosed, the weaker reading, which covers Sing(M) only (MassACovered; Causal/GXSingularDEC25.lean checklist, ⚠ weakened). The SingularFlat and SingularGeroch SCOPEs carry the consequence (« the sets sing α may be empty », timelikeLine_singularFlatAxioms). No DEC rules the literal-versus-weak cover, but no statement or mark depends on it. Every theorem here is stated for every E≥0-manifold, so it holds in both readings, and E₀ and E_π satisfy the literal one. The REPORT's « The paper does not say » should read « ETT does not say; gx's def:atlas, read literally, gives sing(M) ≠ ∅, and the library's MassACovered weakens it ». Record this in notes, not as an OQ row."
+ },
+ "imports_review": "The extra strict import Causal.Remarks.EModelsBPrime is acceptable. The target's own scope (2) names EModelsBPrime.existsUnique_isAtlasCausalityDEC25 for the existence form, so the dispatch's four-module list was one short. The module is a leaf (no importer but this file), and its closure is inside that of the four allowed imports, so nothing is rebuilt. It is needed by exists_singularFlatAxioms, exists_singularFlatSpacetime, nonvacuous_e0_natural and nonvacuous_epi_massive. A Port module importing Remarks has precedent (SFALocal imports Remarks.MassAModelsInstance), and no gate forbids it.",
+ "namespace_review": "Declaring e0Manifold_mesure_admissible_natural and e0Manifold_geroch_hypotheses_natural in Causal.MeasuresManifolds from another module is legal and established practice. Causal/MeasureTransfer.lean already declares into Causal.MeasuresManifolds, and Causal.E0 spans seven modules. The names are free: grep over Causal/ and scaffold/ finds them nowhere else, and the probe importing Causal together with the module raised nothing. The code and namespace are exactly T-ett-sfa-line-e0 AUDIT-1's suggestion_review. Inside the namespace, e0Manifold_mesure_admissible resolves to the intended Causal.MeasuresManifolds constant. Discoverability: MeasuresManifolds.lean:82 and :233 should point to Causal/Port/SFAManifolds.lean. That is T-ett-docstrings-sing0's work.",
+ "witness_review": "Every conclusion of each witness comes from a theorem of this file. E₀: nonvacuous_e0 uses singularFlatSpacetime and mesure_admissible; nonvacuous_e0_natural uses singularFlatSpacetime_of_isAtlasCausalityDEC25 and mesure_admissible_of_isAtlasCausalityDEC25; nonvacuous_e0Manifold uses singularFlatSpacetime_e0, e0Manifold_mesure_admissible_natural and e0Manifold_geroch_hypotheses_natural; nonvacuous_e0_geroch uses geroch_hypotheses. E_π: nonvacuous_epi uses singularFlatSpacetime and mesure_admissible, with ConnectedSpace from massive_connectedSpace; nonvacuous_epi_massive uses singularFlatSpacetime_of_massive with SFAMassiveLine.epi_hpos; nonvacuous_epi_geroch uses geroch_hypotheses. Only the hypotheses are imported from SFALocal.nonvacuous_e0/_epi, SFALocalE0.nonvacuous and EModelsBPrime.massA_dec25_models_*. Each witness has a singular point: sing₀ = axis at E₀, sing_π = the line at E_π. geroch_hypotheses_of_isAtlasCausalityDEC25 and the exists_* forms have no conclusion-level witness, but their hypotheses are exactly those witnessed at E₀ by nonvacuous_e0_natural (MassACovered, IsAtlasCausalityDEC25, E0.stronglyCausal).",
+ "scope": "git status --short: M roadmap/roadmap.toml; ?? lean-causal/campaign/T-ett-singular-rows-local/, lean-causal/campaign/T-ett-singular-sfa/, and three scaffold files. The roadmap diff is three status flips ready → active (T-ett-singular-sfa, T-ett-singular-rows-local, T-ett-cupcap-btz-cex), written 21:13, before the closer's file (21:22). That is the master's wave start, not the closer's. SingularRowsLocal.lean and CupCapBTZCounterexample.lean belong to the sibling closers and were not opened by this auditor for editing. The closer touched only scaffold/CausalScaffold/SFAManifolds.lean and its campaign directory. Clean.",
+ "docstring_contract": "kb/0006 is met. It has a title. The three labels are cited unmarked with ETT.tex lines (1500, 1508, 1726, all correct) within the first 4000 characters. The paper's sentences are quoted verbatim (checked against l.1500-1506, 1508-1510, 1726-1728). The hypothesis checklist rows are true: the causality ⚠ weakened (it assumes less), strong causality in the remark ⚠ strengthened (DEC-18), the « differential manifold » not formalized. SCOPE is true: why unmarked, sing_α(M), no mixed witness, what is not here. Provenance line present. Missing: a checklist row for a general A (finding 5), and the existing LemmaKBare lemma (finding 1).",
+ "graduation_fixes": [
+  "git mv lean-causal/scaffold/CausalScaffold/SFAManifolds.lean lean-causal/Causal/Port/SFAManifolds.lean. No import rewrite is needed (all five imports are strict). Add `import Causal.Port.SFAManifolds` to lean-causal/Causal.lean after `import Causal.Port.SFAMassiveLine` (l.280). Delete the stale lean-causal/.lake/build/lib/lean/CausalScaffold/SFAManifolds.* (kb/0015 item 2). No scaffold file imports the module, and the scaffold root never did. Rerun `lake env lean -DwarningAsError=true` on the moved file. If SingularRowsLocal or CupCapBTZCounterexample graduate in the same commit, grep their names against Causal.SFAManifolds (this auditor did not read them).",
+  "Docstring of preconnectedSpace_of_geodesicSpace (l.112): add « generalises `staticCausality.preconnectedSpace_of_geodesic` (Causal/LemmaKBare.lean:600, not imported here) to pseudometric spaces ». In the module docstring (l.61-63), « the library had no `ConnectedSpace` for `E_κ` » may stay, but add « (the preconnectedness of a geodesic space is also `staticCausality.preconnectedSpace_of_geodesic`, outside the imports) » (finding 1).",
+  "Optional: the checklist row for a general A (finding 5); the docstring note on singularFlatSpacetime_of_massive (finding 4); a SCOPE sentence on the empty singular locus (finding 2).",
+  "Curation of the three rows as in `curation` below: extra_lean_files gets Causal/Port/SFAManifolds.lean (kb/0015 item 6), lean_proved_override stays \"partial\", and no mark.",
+  "Re-point the 14 rows as in `blocked_on_table` below, then run `python3 tools/roadmap.py check` (stale_blockers) after setting T-ett-singular-sfa done.",
+  "kb proposals: 1 and 3 as written. Rewrite 2 (finding 1): « E_κ is connected: Causal.SFAManifolds.massive_connectedSpace κ (a theorem: haveI := massive_connectedSpace Real.pi). A geodesic space is preconnected twice over: staticCausality.preconnectedSpace_of_geodesic (Causal/LemmaKBare.lean:600, MetricSpace) and SFAManifolds.preconnectedSpace_of_geodesicSpace (PseudoMetricSpace). Hoist one into Causal/Static.lean beside GeodesicSpace (kb/0047) ».",
+  "Roadmap (planner's call): T-ett-singular-rows and T-ett-singular-rows-geroch depend only on this target and may be promoted. The REPORT's « beyond the target » note is sound. With SingularFlatAxioms at every E≥0-manifold, OQ-33's refutation by chronological Minkowski space (not an E≥0-manifold with its natural causality) can be separated from theo:geroch_sing at genuine E≥0-manifolds; T-ett-singular-rows-geroch is the place."
+ ],
+ "curation": {
+  "def:singular_spacetime": {
+   "extra_lean_files_append": [
+    "Causal/Port/SFAManifolds.lean"
+   ],
+   "decls_append": [
+    "Causal.SFAManifolds.singularFlatAxioms",
+    "Causal.SFAManifolds.singularFlatSpacetime",
+    "Causal.SFAManifolds.singularFlatSpacetime_iff",
+    "Causal.SFAManifolds.singularFlatAxioms_of_isAtlasCausalityDEC25",
+    "Causal.SFAManifolds.singularFlatSpacetime_of_isAtlasCausalityDEC25",
+    "Causal.SFAManifolds.exists_singularFlatAxioms",
+    "Causal.SFAManifolds.exists_singularFlatSpacetime",
+    "Causal.SFAManifolds.singularFlatSpacetime_e0",
+    "Causal.SFAManifolds.singularFlatSpacetime_of_massive",
+    "Causal.SFAManifolds.nonvacuous_e0",
+    "Causal.SFAManifolds.nonvacuous_e0_natural",
+    "Causal.SFAManifolds.nonvacuous_e0Manifold",
+    "Causal.SFAManifolds.nonvacuous_epi",
+    "Causal.SFAManifolds.nonvacuous_epi_massive"
+   ],
+   "notes_append": "T-ett-singular-sfa (atlas-team, 2026-11-21), audit AUDIT-1 minor (a duplicated generic lemma disclosed, findings routed to notes, the empty-locus question recorded as a reading; fixed at graduation), Causal/Port/SFAManifolds.lean: the definition implies the library's abstraction. Setting: every Hausdorff, second countable E≥0-manifold (DEC-25: SingularGXStructure (Flat.isom 2) (Minkowski 2) M) and every absolutely minimal causality with an isomorphic chart at each point (IsoChartsCoverDEC25 over massAModelCausality). There C.SingularFlatAxioms (SFALocal.sing M) holds with no field left (singularFlatAxioms, one application of SFABTZ.singularFlatAxioms_iff_lines to SFALine.line and SFAMassiveLine.massive_line), mixed manifolds included. On a connected M it is a SingularFlatSpacetime, and only then (singularFlatSpacetime, singularFlatSpacetime_iff). The natural causality (OQ-18: IsAtlasCausalityDEC25 with MassACovered M) is one such causality (singularFlatAxioms_of_isAtlasCausalityDEC25, singularFlatSpacetime_of_isAtlasCausalityDEC25). It exists, and it is the only absolutely minimal causality with an isomorphic chart at each point (exists_singularFlatAxioms, exists_singularFlatSpacetime, through EModelsBPrime.massA_causalite_models). Sub-families: E₀-manifolds (singularFlatSpacetime_e0, A = {0}) and E_{>0}-manifolds (singularFlatSpacetime_of_massive, A = (0, ∞); a special case of singularFlatSpacetime). Witnesses with a singular point, each conclusion out of these theorems: E₀ (sing₀ = axis; nonvacuous_e0, nonvacuous_e0_natural, nonvacuous_e0Manifold) and E_π (sing_π = the line; nonvacuous_epi, nonvacuous_epi_massive; E_κ is connected, massive_connectedSpace). No witness has points of both kinds. Hypotheses: E^{1,2}_A-manifold with A = ℝ₊ → read (DEC-25: MassACovered, implied by the cover); a general A ⊆ ℝ₊ → not stated (special case A = ℝ₊, with A = {0} and A = (0, ∞)); connected → carried by the SingularFlatSpacetime forms only; Hausdorff, second countable → carried (RamcovGX.tex:474, DEC-25); the causality generated by the X_A-atlas → read (OQ-18), weakened in the main forms to any absolutely minimal causality with an isomorphic chart at each point; E₀ and Isom(E^{1,2}) → read (OQ-34, OQ-35; OQ-82). Empty singular locus: ETT is silent. gx's def:atlas (RamcovGX.tex:1905-1917, DEC-25) does not require every α ∈ A to occur (« an X_α-chart for some α ∈ A »). Its « X_A-atlas … covering M », read literally, forces sing(M) ≠ ∅ for M ≠ ∅; the library reads it as covering Sing(M) (MassACovered; GXSingularDEC25 checklist, ⚠ weakened). Every theorem here holds in either reading, and E₀ and E_π satisfy the literal one, so no OQ is opened. Roadmap (not the paper): the generic lemma preconnectedSpace_of_geodesicSpace duplicates staticCausality.preconnectedSpace_of_geodesic (Causal/LemmaKBare.lean:600) for pseudometric spaces; it is a hoist candidate for Causal/Static.lean.",
+   "paper_findings_append": [
+    "ETT.tex:1502, « connected »: nothing Section 3 derives for singular flat spacetimes uses it. Every field of SingularFlatAxioms holds at every Hausdorff, second countable E≥0-manifold with its natural causality, connected or not (Causal.SFAManifolds.singularFlatAxioms). The abstraction adds connectedness only (singularFlatSpacetime_iff), and no theorem of the library under SingularFlatSpacetime uses that field. The statements of Section 3.3 written for « a singular flat spacetime » therefore hold for every E≥0-manifold, as prop:K_calcul (l.1557) and prop:mesure_admissible (l.1726) are already stated. Section 4 states « connected » again where it wants it (l.1933). The definition may stay as it is."
+   ],
+   "blocked_on": "OQ-34, OQ-35 (the reading of E₀); OQ-18 (« the causality generated by its X_A-atlas »: the natural causality, IsAtlasCausalityDEC25; SFAManifolds.singularFlatSpacetime_of_isAtlasCausalityDEC25 at every connected, Hausdorff, second countable E≥0-manifold); OQ-82 (the group)"
+  },
+  "rem:singular_flat_spacetime_therefore": {
+   "extra_lean_files_append": [
+    "Causal/Port/SFAManifolds.lean"
+   ],
+   "decls_append": [
+    "Causal.SFAManifolds.geroch_hypotheses",
+    "Causal.SFAManifolds.geroch_hypotheses_of_isAtlasCausalityDEC25",
+    "Causal.MeasuresManifolds.e0Manifold_geroch_hypotheses_natural",
+    "Causal.SFAManifolds.nonvacuous_e0_geroch",
+    "Causal.SFAManifolds.nonvacuous_epi_geroch",
+    "Causal.SFAManifolds.nonvacuous_e0Manifold"
+   ],
+   "notes_append": "T-ett-singular-sfa (atlas-team, 2026-11-21), audit AUDIT-1 minor (fixed at graduation), Causal/Port/SFAManifolds.lean: MeasuresManifolds' conditionals made unconditional. Under DEC-18 the remark holds at every strongly causal, Hausdorff, second countable E≥0-manifold, connected or not, for every absolutely minimal causality with an isomorphic chart at each point (geroch_hypotheses: MeasuresManifolds.massA_geroch_hypotheses fed with SFAManifolds.singularFlatAxioms). The natural one is included (geroch_hypotheses_of_isAtlasCausalityDEC25, OQ-18). At E₀-manifolds with their natural causality: MeasuresManifolds.e0Manifold_geroch_hypotheses_natural. Neither SingularFlatAxioms nor ModelMeasures is left as a hypothesis. Witnesses with a singular point: E₀ (nonvacuous_e0_geroch, nonvacuous_e0Manifold) and E_π (nonvacuous_epi_geroch). Hypotheses: a singular flat spacetime → weakened (every such E≥0-manifold, connected or not; DEC-25, OQ-18); strongly causal → strengthened, as ruled (DEC-18, DEC-7's StronglyCausal); « a differential manifold » → not formalized; E₀ and Isom(E^{1,2}) → read (OQ-34, OQ-35; OQ-82). The finding behind DEC-18 stands.",
+   "paper_findings_append": [],
+   "blocked_on": "OQ-18 (« natural »: SFAManifolds.geroch_hypotheses holds for every absolutely minimal causality with an isomorphic chart at each point), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀); « a differential manifold » is not formalized (no differentiable structure in the library)"
+  },
+  "prop:mesure_admissible": {
+   "extra_lean_files_append": [
+    "Causal/Port/SFAManifolds.lean"
+   ],
+   "decls_append": [
+    "Causal.SFAManifolds.mesure_admissible",
+    "Causal.SFAManifolds.mesure_admissible_of_isAtlasCausalityDEC25",
+    "Causal.MeasuresManifolds.e0Manifold_mesure_admissible_natural",
+    "Causal.SFAManifolds.nonvacuous_e0",
+    "Causal.SFAManifolds.nonvacuous_e0_natural",
+    "Causal.SFAManifolds.nonvacuous_e0Manifold",
+    "Causal.SFAManifolds.nonvacuous_epi"
+   ],
+   "notes_append": "T-ett-singular-sfa (atlas-team, 2026-11-21), audit AUDIT-1 minor (fixed at graduation), Causal/Port/SFAManifolds.lean: the proposition holds with no hypothesis left beyond the readings at every strongly causal (DEC-7), Hausdorff, second countable E≥0-manifold with its natural causality, connected or not, mixed ones included (mesure_admissible_of_isAtlasCausalityDEC25). It holds for every absolutely minimal causality with an isomorphic chart at each point (mesure_admissible: MeasuresManifolds.massA_mesure_admissible fed with SFAManifolds.singularFlatAxioms). At E₀-manifolds: MeasuresManifolds.e0Manifold_mesure_admissible_natural. Witnesses with a singular point: E₀ (nonvacuous_e0, nonvacuous_e0_natural, nonvacuous_e0Manifold) and E_π (nonvacuous_epi). Hypotheses: E≥0-manifold → read (DEC-25, OQ-18), weakened in mesure_admissible; strongly causal → carried; Hausdorff, second countable → carried (RamcovGX.tex:474, DEC-25); a measure → carried, Borel ([MeasurableSpace M] [BorelSpace M]); E₀ and Isom(E^{1,2}) → read (OQ-34, OQ-35; OQ-82). The two proof-level findings on l.1734-1743 stand; no new finding.",
+   "paper_findings_append": [],
+   "blocked_on": "OQ-18 (« natural »: SFAManifolds.mesure_admissible holds for every absolutely minimal causality with an isomorphic chart at each point), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀)"
+  }
+ },
+ "blocked_on_table": {
+  "_checked": "All 14 rows whose blocked_on names T-ett-singular-sfa (ledger.json and curation.toml agree; no other paper's ledger names it). The REPORT's re-pointing is correct row by row, with two additions: OQ-18 and OQ-82 are named wherever the M-level form will rest on them, as lem:past_BTZ already does; and rem:mesure_unilaterale moves from T-ett-singular-rows to T-ett-singular-rows-geroch, whose labels hold it. T-ett-singular-rows and T-ett-singular-rows-geroch are planned, so naming them is not stale. T-ett-cupcap-btz-cex is not a blocker of lem:cup_cap_BTZ's DEC-19 form, so it is named in neither case and the text does not depend on whether it is done this wave. Only the three rem rows depend on whether T-ett-singular-rows-local is done.",
+  "def:singular_spacetime": "OQ-34, OQ-35 (the reading of E₀); OQ-18 (« the causality generated by its X_A-atlas »: the natural causality, IsAtlasCausalityDEC25; SFAManifolds.singularFlatSpacetime_of_isAtlasCausalityDEC25 at every connected, Hausdorff, second countable E≥0-manifold); OQ-82 (the group)",
+  "rem:singular_flat_spacetime_therefore": "OQ-18 (« natural »: SFAManifolds.geroch_hypotheses holds for every absolutely minimal causality with an isomorphic chart at each point), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀); « a differential manifold » is not formalized (no differentiable structure in the library)",
+  "prop:mesure_admissible": "OQ-18 (« natural »: SFAManifolds.mesure_admissible holds for every absolutely minimal causality with an isomorphic chart at each point), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀)",
+  "lem:past_BTZ": "OQ-34, OQ-35 (the reading of E₀); OQ-18 (« singular spacetime »'s causality: any causality with an isomorphic chart at each point, absolutely minimal for SingularFlatAxioms); OQ-82 (the group). (a) holds at every Hausdorff E≥0-manifold, α = 0 (SFALine.line) and α > 0 (SFAMassiveLine.massive_line). (b) is proved under SingularFlatAxioms (SingularFlatAxioms.past_BTZ_b), which holds at every Hausdorff, second countable E≥0-manifold with an absolutely minimal causality (SFAManifolds.singularFlatAxioms); (b) at M is T-ett-singular-rows.",
+  "cor:K_injectif": "T-ett-singular-rows (the row's theorem at every E≥0-manifold, through SFAManifolds.singularFlatAxioms; the E₀ instance exists, E0.singularFlatAxioms); OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form)",
+  "prop:K_densite_sing": "T-ett-singular-rows (the row's theorem at every E≥0-manifold, through SFAManifolds.singularFlatAxioms; the E₀ instance exists, E0.singularFlatAxioms); the BTZ field is Iplus_of_lt (DEC-64), the corrected form of the assertion flagged at l.1351; OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form)",
+  "cor:K_ordre": "T-ett-singular-rows (the row's theorem at every E≥0-manifold, through SFAManifolds.singularFlatAxioms; the E₀ instance exists, E0.singularFlatAxioms); OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form)",
+  "lem:cup_cap_BTZ": "T-ett-singular-rows (the DEC-19, globally hyperbolic form at every E≥0-manifold, through SFAManifolds.singularFlatAxioms; the E₀ instance exists, E0.singularFlatAxioms); OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form)",
+  "rem:K_plongement_hypotheses": "prop:K_densite_sing at every E≥0-manifold (hypothesis (b): T-ett-singular-rows, through SFAManifolds.singularFlatAxioms; the E₀ instance exists, E0.singularFlatAxioms); OQ-34, OQ-35 (the reading of E₀)",
+  "rem:mesure_unilaterale": "T-ett-singular-rows-geroch (the remark at every causal E≥0-manifold with a BTZ point, through SFAManifolds.singularFlatAxioms; at E₀, E0.mesure_unilaterale); OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the M-level form)",
+  "rem:mesure_unilaterale_ptr": "T-ett-singular-rows-geroch (the obstruction at every E≥0-manifold, through SFAManifolds.singularFlatAxioms; its hypothesis K^+(p) ⊂ I^+(p) holds at every E≥0-manifold with an absolutely minimal causality, SFABTZ.K_calcul, and at E₀, E0.Kplus_eq_Iplus); OQ-34, OQ-35 (the reading of E₀)",
+  "rem:pas_plat": {
+   "if_T-ett-singular-rows-local_not_done": "T-ett-singular-rows-local ((ii) at a BTZ point of every causal E≥0-manifold, through SFALocal, SFABTZ and SFALine); the C⁰ causal bubbles of Chruściel–Grant and Sämann are not built",
+   "if_T-ett-singular-rows-local_done": "the C⁰ causal bubbles of Chruściel–Grant and Sämann are not built; OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 ((ii) at M)"
+  },
+  "rem:tarentin_exemples": {
+   "if_T-ett-singular-rows-local_not_done": "T-ett-singular-rows-local (the E≥0 sentence at every E≥0-manifold); Lorentzian manifolds are not in the library",
+   "if_T-ett-singular-rows-local_done": "Lorentzian manifolds are not in the library; OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the E≥0 sentence at M)"
+  },
+  "rem:lorentz_tarentin": {
+   "if_T-ett-singular-rows-local_not_done": "T-ett-singular-rows-local (the E≥0 sentence at every E≥0-manifold); Lorentzian manifolds are not in the library",
+   "if_T-ett-singular-rows-local_done": "Lorentzian manifolds are not in the library; OQ-34, OQ-35 (the reading of E₀); OQ-18, OQ-82 (the E≥0 sentence at M)"
+  },
+  "_caveat": "The 'done' texts for rem:pas_plat, rem:tarentin_exemples and rem:lorentz_tarentin assume T-ett-singular-rows-local delivers what its title states: (ii) of rem:pas_plat at a BTZ point of a causal E≥0-manifold, and the E≥0 sentences of the two tarentin remarks. Check them against that target's own audit before applying."
+ }
+}
