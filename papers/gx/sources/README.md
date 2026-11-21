@@ -10,3 +10,4 @@
 Each directory holds the PDF and `src/`, the arXiv e-print unpacked.
 | `1309.7591/` | 1309.7591 v3 | Sbierski, *On the existence of a maximal Cauchy development for the Einstein equations: a dezornification* = bib `sbierski_geroch` | the proof order of CBG (DEC-29) |
 | `thesis/` | — | Brunswic, PhD thesis *Surfaces de Cauchy polyédrales des espaces temps plats singuliers* (copied from `~/Dropbox/Archive/these_2/`, 2020-03-21) = bib `thesis` | a source for CBG and BTZ extensions (DEC-29) |
+| `MR1005085/` | — | Troyanov, *Prescribing curvature on compact surfaces with conical singularities*, Trans. AMS 324 (1991) = bib `MR1005085` | `NOTE.md` only (Theorem C verbatim, p. 795; the PDF is not committed: AMS redistribution terms), for `cex:start_singular_manifold_homeomorphic` (T-gx-troyanov-source, 2026-11-21) |
