@@ -49,9 +49,10 @@ where = "Eq. (15), the KL-weakFM loss"
 printed = ["main.tex:362-366", "main.tex:368"]
 kind = "false"
 finding = "With the printed sign delta f_init <= 0, the penalty b E_{nu_train} delta f_init of (equ:weakFM) rewards the negative part of the FM defect instead of controlling it, against l.368 ('controls only the negative part'). The follow-up's loss (GFNBounds.Core.wklfmLoss) uses e^- = max(-e, 0). Route to proved (T-egf-loss): EGF.klwfmLoss, Eq. (15) with the negative part, and EGF.loss_controls_sampling, the loss bounding TV(s_tau || kappa) by (1/sqrt 2) sqrt(L - H(kappa)) + min(1, N (L - H(kappa))) for b >= 1 + N, N = ||d lambda / d nu_train||_inf (GFNBounds.Core.il_tv_bound at q = 1); optionally EGF.Swap.printed_loss_tendsto_bot (the printed loss is unbounded below). The surviving PyTorch harness copies the printed sign (~/GFNCertified/exp/src/nonacyclic_gfn/loss/egf/kl_weak_fm.py: torch.clamp(fm_error, max=0)); its bounds/losses.py:86 has the corrected one."
-refutation = ["EGF.deltaFinitDensityPrinted_nonpos"]
-basis = ["OQ-66"]
-status = "found"
+refutation = ["EGF.deltaFinitDensityPrinted_nonpos", "EGF.SwapM.printed_loss_tendsto_bot"]
+basis = ["OQ-66", "DEC-141"]
+anchor = ["EGF.klwfmLoss", "EGF.loss_controls_defect", "EGF.loss_controls_sampling"]
+status = "adopted"
 corrected = '''The same $\deltafinit = \max(0, -(\finit+\finstar-\foutstar)) \geq 0$ in (\ref{equ:weakFM}); the penalty then controls the negative part of the FM defect, as l.368 says.'''
 summary = "The weak-FM penalty of the KL-weakFM loss uses the negative part, so that it controls (rather than rewards) the initial defect."
 added_hypotheses = []
@@ -63,11 +64,13 @@ where = "Algorithm 1"
 printed = ["main.tex:395", "main.tex:400"]
 kind = "false"
 finding = "Algorithm 1's loss (l.395) and its backward reweighting p_t (l.400, through delta f_init / f_in) inherit the printed sign of delta f_init. With the printed sign the backward factor (1 + delta f_init / f_in)^-1 of l.400 is not a probability (it is negative when delta f_init < -f_in); with the negative part it lies in (0, 1], and the forward factor of l.399 is the sampler's continuation probability (EGF.GenerativeFlow.pathLaw_hazard). Route to proved (T-egf-loss): EGF.loss_controls_sampling and EGF.algBackwardFactor_mem_Ioc; the printed factor refuted by EGF.printed_algBackwardFactor_neg. The placement of b and the square of l.407 are C-35."
-refutation = ["EGF.deltaFinitDensityPrinted_nonpos"]
-basis = ["OQ-66"]
-status = "found"
+refutation = ["EGF.deltaFinitDensityPrinted_nonpos", "EGF.Swap3.printed_algBackwardFactor_neg"]
+basis = ["OQ-66", "DEC-141"]
+anchor = ["EGF.algBackwardFactor_mem_Ioc", "EGF.cont_kappaHat_ae_eq_forwardFactor", "EGF.loss_controls_sampling"]
+status = "adopted"
 corrected = '''In Algorithm 1, $\deltafinit$ is the negative part of $\finit+\finstar-\foutstar$ (as corrected at l.362), so that both factors of $p_t$ lie in $(0,1]$.'''
 summary = "Algorithm 1 uses the corrected (non-negative) delta f_init in its loss and in p_t."
+added_hypotheses = []
 batch = "T-egf-correct-sign"
 
 [[correction]]
@@ -77,7 +80,7 @@ printed = "main.tex:423"
 kind = "false"
 finding = "int f_term-hat d lambda = 1 + int delta f_init d lambda is false under the printed sign and true under the negative-part reading: the paper's own evidence for that reading."
 refutation = ["EGF.integral_deltaFinitDensityPrinted"]
-anchor = ["EGF.integral_deltaFinitDensity", "EGF.kappaHat_eq_withDensity", "EGF.sampling_error_control"]
+anchor = ["EGF.integral_deltaFinitDensity", "EGF.kappaHat_eq_withDensity", "EGF.sampling_error_control", "EGF.integral_ftermHatDensity_eq"]
 basis = ["OQ-66", "DEC-141"]
 status = "adopted"
 corrected = '''The display is kept: with the negative-part $\deltafinit$ of Corollary \ref{cor:pinsker_negative_control} (C-1) it holds. Add after it: ``since $\int\ftermhat\,d\lambda-\int\deltafinit\,d\lambda=\Finit(\Statespace)+\Finstar(\Statespace)-\Foutstar(\Statespace)=1$''.'''
@@ -89,12 +92,15 @@ batch = "T-egf-correct-sign"
 id = "C-5"
 where = "the KL decomposition after Corollary 3.10"
 printed = ["main.tex:377", "main.tex:418"]
-kind = "gap"
+kind = "false"
 finding = "The decomposition at l.418 holds with KL(kappa || kappa-hat/kappa-hat(S)) on its left (cross-entropy, plus log-normalization, minus H(kappa)), the reverse of the direction printed there and in Corollary 3.10 (l.377); with the printed KL(kappa-hat/kappa-hat(S) || kappa) it is false in general. The cross-entropy of (equ:weakFM) and the claim of l.413 connect to the corollary only through the reverse direction; the corollary holds in both directions (Pinsker bounds the symmetric TV by either divergence). Route to proved (T-egf-loss): EGF.kl_decomposition (l.418 in the true direction) and EGF.pinsker_negative_control_rev (Corollary 3.10 with KL(kappa || kappa-hat/kappa-hat(S))), beside EGF.pinsker_negative_control (the printed direction, proved); the printed identity is to be refuted by EGF.printed_kl_decomposition_false (a two-point instance), after which this entry's kind can become false."
-basis = ["OQ-66"]
-status = "found"
+basis = ["OQ-66", "DEC-141"]
+anchor = ["EGF.kl_decomposition", "EGF.pinsker_negative_control_rev", "EGF.pinsker_negative_control_density_rev"]
+refutation = ["EGF.Null.printed_kl_decomposition_false_finite", "EGF.Null.printed_kl_decomposition_false"]
+status = "adopted"
 corrected = '''At l.418 read $\KL\left(\target \left\| \frac{\widehat\target}{\widehat\target(\Statespace)}\right.\right) = -\mathbb E_{s\sim\target}\log\ftermhat(s) + \log\int_{\Statespace}\ftermhat\,d\lambda - \mathcal H(\target)$, and add to Corollary 3.10 that (\ref{equ:control_pinsker}) also holds with this divergence, the one the cross-entropy of (\ref{equ:weakFM}) controls.'''
 summary = "The KL decomposition after Corollary 3.10 is stated in its true direction, KL(kappa || kappa-hat/kappa-hat(S)), and the corollary is stated for that divergence too."
+added_hypotheses = []
 batch = "T-egf-correct-sign"
 
 [[correction]]
@@ -103,7 +109,9 @@ where = "the weak-FM term: Eq. (15), Algorithm 1 and l.407"
 printed = ["main.tex:364-366", "main.tex:395", "main.tex:407"]
 kind = "gap"
 finding = "Three different weak-FM terms are printed: Eq. (15) (l.364) penalizes b E_{nu_train} delta f_init, linear, the weight b on the penalty; Algorithm 1 (l.395) minimizes (1/2B) sum_{t <= tau} delta f_init(s_t) p_t(s) - b E_kappa log f-hat_term, the weight b moved to the cross-entropy; l.407 calls the weak-FM term E_s sum_{t <= tau} (delta f_init(s_t))^2, squared (as in the early TensorFlow configurations, LBrunswic/ErgodicFlow HyperparametersConfig: 'WeakFMPower' with distortion_power 2.0). The control of the sampling error (Corollary 3.10 and the follow-up's theorem, GFNBounds.Core.il_tv_bound at q = 1) is for Eq. (15)'s form, with b >= 1 + ||d lambda / d nu_train||_inf on the penalty; Algorithm 1's placement amounts to a penalty weight 1/(2Bb) on the normalized loss, which that bound does not cover, and the squared penalty controls delta only through Jensen (delta <= N (E delta f_init^2)^{1/2}). Route to proved (T-egf-loss): EGF.loss_controls_sampling. The reproduction runs Eq. (15) and the other two as arms (T-egf-repro-torus-il)."
-status = "found"
+anchor = ["EGF.loss_controls_sampling", "EGF.loss_controls_sampling_essSup"]
+basis = ["OQ-84"]
+status = "proved"
 corrected = '''Algorithm 1: minimize $\mathcal L=\frac{b}{2B}\sum_{t=1}^\tau\deltafinit(\underline s_t)p_t(\underline s)-\mathbb E_{s\sim\target}\log\ftermhat(s)$, a Monte-Carlo estimate of (\ref{equ:weakFM}), with $b\geq1+\|d\lambda/d\nu_{\mathrm{train}}\|_\infty$; l.407: ``the weak-FM term $\mathbb E_{s\sim\nu_{\mathrm{train}}}\deltafinit(s)$''.'''
 summary = "The weak-FM term is the same in Eq. (15), Algorithm 1 and the discussion: linear, weighted by b on the penalty, b large enough for the control of the sampling error."
 added_hypotheses = ["b >= 1 + ||d lambda / d nu_train||_inf for the control of the sampling error"]
@@ -119,7 +127,7 @@ where = "the density of the star inflow"
 printed = ["main.tex:196", "main.tex:231-234"]
 kind = "missing-hypothesis"
 finding = "f_in* = dF_in*/d lambda presupposes F_in* = F_out* pi* << lambda, which no statement lists. For an EGF it follows from the diffeomorphism decomposition of the policy (the author, 2026-11-21): F_out* pi* = sum_i (Phi_i)_# (alpha^i F_out*) << sum_i (Phi_i)_# lambda << lambda as soon as every Phi_i is nonsingular, (Phi_i)_# lambda << lambda, which holds for diffeomorphisms and a smooth volume, for Haar measure on tori and for isometries of the sphere. Proved today only under (Phi_i)_# lambda = J_i lambda with the Phi_i measurable equivalences (EGF.inflowAC_of_isEGFPolicy, the anchor listed, narrower than the corrected text); the nonsingular form, for measurable Phi_i with no inverse and no Jacobian, is to be EGF.inflow_ac_of_map_ac and EGF.InflowAC.of_map_ac (T-egf-inflow-nonsingular), and Corollary 3.10 for such an EGF without InflowAC EGF.pinsker_negative_control_nonsingular (T-egf-loss); the anchor is then to be switched to them."
-anchor = ["EGF.inflow_ac_of_map_ac", "EGF.InflowAC.of_map_ac", "EGF.inflow_eq_withDensity_of_map_ac"]
+anchor = ["EGF.inflow_ac_of_map_ac", "EGF.InflowAC.of_map_ac", "EGF.inflow_eq_withDensity_of_map_ac", "EGF.pinsker_negative_control_nonsingular"]
 basis = ["OQ-55", "DEC-141"]
 status = "adopted"
 corrected = '''For an EGF, $\Finstar = \sum_i (\Phi_i)_\#(\forwardalpha^i \Foutstar) \ll \lambda$ because each $\Phi_i$ is nonsingular, $(\Phi_i)_\#\lambda \ll \lambda$ (true for diffeomorphisms and the Riemannian volume); hence $\finstar$ exists ($\lambda$ being finite).'''

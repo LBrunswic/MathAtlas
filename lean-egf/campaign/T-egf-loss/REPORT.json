@@ -1,0 +1,269 @@
+{
+ "package": "T-egf-loss",
+ "target": "T-egf-loss",
+ "files": [
+  "scaffold/EGFScaffold/Loss.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "cor:pinsker_negative_control",
+   "tex_lines": [
+    360,
+    425
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "EGF.entropy",
+    "EGF.LossFinite",
+    "EGF.klwfmLossReal",
+    "EGF.klwfmLoss",
+    "EGF.klwfmLossRealPrinted",
+    "EGF.klwfmLossPrinted",
+    "EGF.klwfmLoss_of_finite",
+    "EGF.lossFinite_of_ne_top",
+    "EGF.integral_ftermHatDensity",
+    "EGF.integral_ftermHatDensity_eq",
+    "EGF.ac_kappaHat_iff",
+    "EGF.llr_normalize_kappaHat_ae",
+    "EGF.kl_decomposition",
+    "EGF.klDiv_eq_top_iff_crossEntropy",
+    "EGF.crossEntropy_posPart_integrable",
+    "EGF.KLDecompositionPrinted",
+    "EGF.printed_kl_decomposition_false_of_not_ac",
+    "EGF.Null.flow",
+    "EGF.Null.unif",
+    "EGF.Null.printed_kl_decomposition_false",
+    "EGF.Null.loss_controls_sampling_inhabited",
+    "EGF.Null.q",
+    "EGF.Null.q_true",
+    "EGF.Null.q_false",
+    "EGF.Null.unif_apply",
+    "EGF.Null.kappaHat_eq",
+    "EGF.Null.ftermHat_eq",
+    "EGF.Null.printed_kl_decomposition_false_finite",
+    "EGF.pinsker_negative_control_rev",
+    "EGF.pinsker_negative_control_min",
+    "EGF.pinsker_negative_control_density_rev",
+    "EGF.loss_sub_entropy_ge",
+    "EGF.loss_ge_entropy",
+    "EGF.loss_controls_defect",
+    "EGF.loss_controls_sampling",
+    "EGF.loss_controls_sampling_essSup",
+    "EGF.SwapM.flow",
+    "EGF.SwapM.inflow_apply",
+    "EGF.SwapM.defect_true",
+    "EGF.SwapM.defect_false",
+    "EGF.SwapM.ftermHat_true",
+    "EGF.SwapM.lossFinite",
+    "EGF.SwapM.delta_eq",
+    "EGF.SwapM.entropy_eq",
+    "EGF.SwapM.loss_eq",
+    "EGF.SwapM.printed_loss_eq",
+    "EGF.SwapM.printed_loss_tendsto_bot",
+    "EGF.SwapM.loss_lt_entropy",
+    "EGF.algBackwardFactor",
+    "EGF.algBackwardFactorPrinted",
+    "EGF.algForwardFactor",
+    "EGF.algBackwardFactor_mem_Ioc",
+    "EGF.algForwardFactor_eq",
+    "EGF.algBackwardFactor_eq",
+    "EGF.algBackwardFactorReversed",
+    "EGF.algBackwardFactorReversed_eq",
+    "EGF.Swap3.flow",
+    "EGF.Swap3.printed_algBackwardFactor_neg",
+    "EGF.cont_kappaHat_ae_eq",
+    "EGF.cont_kappaHat_ae_eq_forwardFactor",
+    "EGF.reverse_isFlowMatching_iff",
+    "EGF.reverse_sampling",
+    "EGF.reverse_sampling_posterior",
+    "EGF.reverse_cont_ae_eq",
+    "EGF.printed_reverse_not_isFlowMatching",
+    "EGF.reverse_cont_ae_eq_backwardFactor",
+    "EGF.pinsker_negative_control_nonsingular",
+    "EGF.pinsker_negative_control_rev_nonsingular",
+    "EGF.pinsker_negative_control_isEGF_nonsingular",
+    "EGF.loss_controls_sampling_nonsingular"
+   ],
+   "hypotheses": [
+    {
+     "paper": "delta f_init = min(0, f_init + f_in - f_out) (main.tex:362), in Eq. (15) (:364), Corollary 3.10 (:379) and Algorithm 1 (:395, :400)",
+     "here": "corrected",
+     "note": "EGF.deltaFinitDensity = max(0, -(f_init + f_in - f_out)) (C-1 of record, C-2, C-3); the printed sign kept as EGF.klwfmLossPrinted, EGF.algBackwardFactorPrinted beside their refutations"
+    },
+    {
+     "paper": "b > 0 (main.tex:366)",
+     "here": "added",
+     "note": "the loss bound holds for b >= 1 + N with lambda <= N nu_train (C-35), i.e. b >= 1 + ||d lambda/d nu_train||_inf (loss_controls_sampling_essSup); the floor H(kappa) <= L holds for b >= N (loss_ge_entropy; sufficient, not shown necessary) [reworded by the master at graduation, AUDIT-1]; b > 0 alone does not give the floor (SwapM.loss_lt_entropy)"
+    },
+    {
+     "paper": "nu_train 'a training distribution of paths' with E_{s ~ nu_train} (main.tex:364-366)",
+     "here": "weakened",
+     "note": "read as a measure on states, E_{s~nu_train} = integral against nu_train; any measure (a probability in the paper, where the two coincide); see questions"
+    },
+    {
+     "paper": "kappa a target probability with entropy H(kappa) = -E_kappa log d kappa/d lambda (main.tex:405, :420)",
+     "here": "carried",
+     "note": "[IsProbabilityMeasure kappa], kappa << lambda, log(d kappa/d lambda) in L1(kappa) (finite entropy, presupposed by H(kappa) in R); EGF.entropy"
+    },
+    {
+     "paper": "the loss in (-inf, +inf] (cross-entropy +inf where kappa charges {f-hat = 0})",
+     "here": "carried",
+     "note": "EGF.klwfmLoss : EReal, top off EGF.LossFinite; crossEntropy_posPart_integrable shows top is the paper's value whenever H(kappa) is finite"
+    },
+    {
+     "paper": "densities f = dF/d lambda (main.tex:196)",
+     "here": "carried",
+     "note": "F_init, F_out << lambda and EGF.InflowAC; for an EGF policy with nonsingular moves InflowAC is discharged (C-6): *_nonsingular"
+    },
+    {
+     "paper": "(S, lambda) Polish, lambda finite (main.tex:155, :358)",
+     "here": "weakened",
+     "note": "any measurable space, lambda sigma-finite (standard Borel only in reverse_sampling_posterior)"
+    },
+    {
+     "paper": "KL(kappa-hat/kappa-hat(S) || kappa) in the decomposition (main.tex:418) and in Corollary 3.10 (main.tex:377)",
+     "here": "corrected",
+     "note": "the decomposition holds for KL(kappa || kappa-hat/kappa-hat(S)) (kl_decomposition, C-5) and is false as printed (Null.printed_kl_decomposition_false_finite); Corollary 3.10 holds in both directions (pinsker_negative_control_rev, pinsker_negative_control_min)"
+    },
+    {
+     "paper": "Algorithm 1, p_t (main.tex:399-400)",
+     "here": "corrected",
+     "note": "forward factor = the sampler's continuation probability (cont_kappaHat_ae_eq_forwardFactor); backward factor in (0,1] with the negative part (algBackwardFactor_mem_Ioc), negative with the printed sign (Swap3); it is not the reversed sampler's factor (finding below)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "main.tex:418 (C-5): the printed decomposition KL(kappa-hat/kappa-hat(S) || kappa) = -E_kappa log f-hat_term + log int f-hat_term d lambda - H(kappa) is false with both divergences finite: on Bool with the counting measure, no outflow, F_init uniform and kappa = (1/4) delta_true + (3/4) delta_false, the right side is KL(kappa || kappa-hat/kappa-hat(S)) = (3/4) log 3 - log 2 and the left side is log 2 - (1/2) log 3, unequal since 2^8 != 3^5 (EGF.Null.printed_kl_decomposition_false_finite). It also fails whenever kappa-hat/kappa-hat(S) charges a kappa-null set while the true hypotheses hold, the left side being +inf (EGF.printed_kl_decomposition_false_of_not_ac, instance EGF.Null.printed_kl_decomposition_false). The identity holds in the direction KL(kappa || kappa-hat/kappa-hat(S)) (EGF.kl_decomposition), and in (-inf, +inf]: KL(kappa || kappa-hat/kappa-hat(S)) = inf exactly when the cross-entropy is +inf (EGF.klDiv_eq_top_iff_crossEntropy). C-5 can move from kind gap to kind false.",
+    "main.tex:374-380 and :413 (C-5): Corollary 3.10 holds with KL(kappa || kappa-hat/kappa-hat(S)), the divergence the cross-entropy of Eq. (15) controls (EGF.pinsker_negative_control_rev, density form EGF.pinsker_negative_control_density_rev), and with the smaller of the two divergences (EGF.pinsker_negative_control_min).",
+    "main.tex:362-368 (C-2): with the printed sign the loss of Eq. (15) is unbounded below while the defect grows: on Bool, nu_train = lambda = counting measure, the swap policy, F_out = m delta_false, F_init = kappa = delta_true, the printed loss is -b m - log(1 + m) -> -inf for every b >= 0 while delta = int delta f_init d lambda = m -> inf (EGF.SwapM.printed_loss_tendsto_bot); the corrected loss there is b m - log(1 + m) (EGF.SwapM.loss_eq). With the negative part, H(kappa) <= L for b >= N (EGF.loss_ge_entropy) and, for b >= 1 + N and L finite, KL(kappa || kappa-hat/kappa-hat(S)) <= L - H, E_{nu_train} delta f_init <= L - H, delta <= N (L - H) (EGF.loss_controls_defect) and TV(s_tau || kappa) <= (1/sqrt 2) sqrt(L - H) + min(1, N (L - H)) (EGF.loss_controls_sampling), lambda <= N nu_train.",
+    "main.tex:366 (C-35): b > 0 does not suffice for the floor: in the same example with m = 1 (N = 1), any b < log 2, in particular any b in (0, log 2), gives L = b - log 2 < 0 = H(kappa) (EGF.SwapM.loss_lt_entropy). The control of the sampling error is for Eq. (15)'s placement of b, with b >= 1 + ||d lambda/d nu_train||_inf (EGF.loss_controls_sampling_essSup).",
+    "main.tex:400 (C-3): with the printed sign the backward factor (1 + delta f_init/f_in)^-1 is negative at a point of a two-state flow (swap policy, F_out = 3 delta_false + delta_true, F_init = delta_true, s = false: f_in = 1, printed delta f_init = -2, factor -1; corrected factor 1/3; EGF.Swap3.printed_algBackwardFactor_neg). With the negative part it lies in (0, 1] wherever f_in > 0 (EGF.algBackwardFactor_mem_Ioc). The forward factor of main.tex:399 is the inference sampler's continuation probability: (1 + f-hat_term/f_out)^-1 where f_out > 0 and 0 where f_out = 0 (EGF.cont_kappaHat_ae_eq_forwardFactor, with EGF.GenerativeFlow.pathLaw_hazard for the law it drives).",
+    "main.tex:396-400, the backward weight (raised by the reproduction experimenter): the printed backward factor (1 + delta f_init/f_in)^-1 is not the continuation probability of the sampler of main.tex:164 run backwards. For a backward policy B (main.tex:745) the reversed flow (B, F_in) is flow matching from kappa-hat to exactly F_init + delta F_init (EGF.reverse_isFlowMatching_iff); its sampler stops a.s. and samples (F_init + delta F_init)/(1 + delta) (EGF.reverse_sampling; it exists on a standard Borel space with Mathlib's posterior, EGF.reverse_sampling_posterior), and it continues at s with probability f_in/(f_init + delta f_init + f_in) = (1 + (f_init + delta f_init)/f_in)^-1 (EGF.reverse_cont_ae_eq, EGF.reverse_cont_ae_eq_backwardFactor). The printed factor is the continuation of the reversed flow toward delta F_init alone, which is not flow matching from kappa-hat (masses 1 + delta and delta; EGF.printed_reverse_not_isFlowMatching). The two factors agree exactly where f_init = 0 and the printed one is strictly larger where f_init > 0 (EGF.algBackwardFactorReversed_eq); in a trained flow (delta f_init = 0) the printed weights are all 1 up to t_max. The experimenter's expected (f_init + delta f_init)/f_in is the reversed sampler's. Proposed correction text: at main.tex:400 read p_t = prod_{t'<t} (1 + ((f_init + delta f_init)/f_in)(s_{t'}))^-1 for s in B_<-, if B_<- is meant to hold time reversals of sampler paths (see questions).",
+    "main.tex:423 (C-4): int f-hat_term d lambda = 1 + int delta f_init d lambda in R with the negative part (EGF.integral_ftermHatDensity_eq), an extra anchor for the adopted C-4.",
+    "main.tex:196 (C-6, EGF form): Corollary 3.10 (both directions) and the loss bound hold for an EGF policy with nonsingular moves (Phi_i)_# lambda << lambda and F_out << lambda, with no InflowAC, no Jacobian and no density hypothesis on F_out (EGF.pinsker_negative_control_nonsingular, EGF.pinsker_negative_control_rev_nonsingular, EGF.pinsker_negative_control_isEGF_nonsingular, EGF.loss_controls_sampling_nonsingular); they replace the hJ of EGF.pinsker_negative_control_isEGF."
+   ],
+   "questions": [
+    "nu_train is 'a training distribution of paths' (main.tex:366) but Eq. (15) integrates delta f_init(s) over states s ~ nu_train. Reading taken: nu_train is a measure on states and E_{s~nu_train} is the integral against it (for an unnormalized nu_train the convention of main.tex:159 would divide by nu_train(S), which rescales b); Algorithm 1's (1/2B) sum_t delta f_init(s_t) p_t(s) is then a Monte-Carlo estimate of the integral against half the sum of the forward and backward occupation measures. The theorems hold for every measure nu_train with lambda <= N nu_train.",
+    "What the backward buffer B_<- of Algorithm 1 is meant to sample. Reading taken: time reversals of sampler paths, i.e. the reversed sampler from kappa (approximating kappa-hat/kappa-hat(S)), whose weight is (1 + (f_init + delta f_init)/f_in)^-1; under this reading main.tex:400 omits f_init. The printed weight defines a different (valid, but never stopping where delta f_init = 0) backward chain; which one the experiments used, and which one the paper intends, is the author's call.",
+    "Algorithm 1 (main.tex:395) puts b on the cross-entropy and Eq. (15) on the penalty, and main.tex:407 squares the penalty (C-35). Only Eq. (15)'s form (linear penalty, b on it) is formalized; the bound needs b >= 1 + N there."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "EGF.measurable_ftermHatDensity",
+  "EGF.measurable_dens",
+  "EGF.eq_withDensity_dens",
+  "EGF.integrable_ftermHatDensity",
+  "EGF.rnDeriv_count_bool",
+  "EGF.dens_count_bool",
+  "EGF.integral_bool",
+  "EGF.integral_le_mul_of_le_smul",
+  "EGF.negMass_ratio_le_min",
+  "EGF.le_essSup_rnDeriv_smul",
+  "EGF.cont_ae_eq_ratio",
+  "EGF.GenerativeFlow.reverse",
+  "EGF.IsBackwardPolicy.inflow_inflow"
+ ],
+ "corrections": [
+  {
+   "id": "C-2",
+   "anchor": [
+    "EGF.klwfmLoss",
+    "EGF.loss_ge_entropy",
+    "EGF.loss_controls_defect",
+    "EGF.loss_controls_sampling"
+   ],
+   "refutation": [
+    "EGF.SwapM.printed_loss_tendsto_bot",
+    "EGF.klwfmLossPrinted"
+   ],
+   "notes": "Eq. (15) with the negative part and the paper's +inf (EGF.klwfmLoss, justified by EGF.crossEntropy_posPart_integrable); the printed loss is unbounded below while delta -> inf (SwapM). The loss bound TV(s_tau||kappa) <= (1/sqrt 2) sqrt(L - H) + min(1, N(L - H)) for b >= 1 + N, lambda <= N nu_train."
+  },
+  {
+   "id": "C-3",
+   "anchor": [
+    "EGF.loss_controls_sampling",
+    "EGF.algBackwardFactor_mem_Ioc",
+    "EGF.cont_kappaHat_ae_eq_forwardFactor"
+   ],
+   "refutation": [
+    "EGF.Swap3.printed_algBackwardFactor_neg"
+   ],
+   "notes": "With the negative part both factors of p_t lie in (0, 1] (forward: EGF.algForwardFactor_eq); the forward one is the sampler's continuation probability. Separately (proposed new entry below): the backward factor is not the reversed sampler's."
+  },
+  {
+   "id": "C-5",
+   "anchor": [
+    "EGF.kl_decomposition",
+    "EGF.klDiv_eq_top_iff_crossEntropy",
+    "EGF.pinsker_negative_control_rev",
+    "EGF.pinsker_negative_control_min",
+    "EGF.pinsker_negative_control_density_rev"
+   ],
+   "refutation": [
+    "EGF.Null.printed_kl_decomposition_false_finite",
+    "EGF.Null.printed_kl_decomposition_false",
+    "EGF.printed_kl_decomposition_false_of_not_ac"
+   ],
+   "notes": "The printed decomposition is refuted with both divergences finite (2^8 != 3^5), so the entry's kind can become false. The block's name printed_kl_decomposition_false (unqualified there) is EGF.Null.printed_kl_decomposition_false (infinite left side) and EGF.Null.printed_kl_decomposition_false_finite (both finite)."
+  },
+  {
+   "id": "C-35",
+   "anchor": [
+    "EGF.loss_controls_sampling",
+    "EGF.loss_controls_sampling_essSup"
+   ],
+   "refutation": [
+    "EGF.SwapM.loss_lt_entropy"
+   ],
+   "notes": "The bound is for Eq. (15)'s form, b >= 1 + ||d lambda/d nu_train||_inf; with 0 < b < log 2 (N = 1) the floor H <= L fails. Algorithm 1's placement of b (l.395) and the squared penalty of l.407 are not formalized."
+  },
+  {
+   "id": "C-6",
+   "anchor": [
+    "EGF.pinsker_negative_control_nonsingular",
+    "EGF.pinsker_negative_control_isEGF_nonsingular",
+    "EGF.pinsker_negative_control_rev_nonsingular",
+    "EGF.loss_controls_sampling_nonsingular"
+   ],
+   "notes": "The EGF form of C-6: Corollary 3.10 and the loss bound for an EGF policy with nonsingular moves, InflowAC discharged by EGF.InflowAC.of_map_ac / EGF.InflowAC.of_isEGF; replaces the Jacobian hypothesis of EGF.pinsker_negative_control_isEGF."
+  },
+  {
+   "id": "C-4",
+   "anchor": [
+    "EGF.integral_ftermHatDensity_eq"
+   ],
+   "notes": "Extra anchor (C-4 is adopted): main.tex:423 in R."
+  },
+  {
+   "id": "new (to be numbered by the master)",
+   "where": "Algorithm 1, the backward weight",
+   "printed": [
+    "main.tex:400"
+   ],
+   "kind": "false (under the time-reversal reading; see questions)",
+   "anchor": [
+    "EGF.reverse_isFlowMatching_iff",
+    "EGF.reverse_sampling",
+    "EGF.reverse_sampling_posterior",
+    "EGF.reverse_cont_ae_eq",
+    "EGF.reverse_cont_ae_eq_backwardFactor",
+    "EGF.algBackwardFactorReversed_eq"
+   ],
+   "refutation": [
+    "EGF.printed_reverse_not_isFlowMatching"
+   ],
+   "notes": "The reversed sampler continues with (1 + (f_init + delta f_init)/f_in)^-1; the printed (1 + delta f_init/f_in)^-1 is the continuation toward delta F_init alone (not flow matching), equal to it exactly where f_init = 0. Raised by the reproduction experimenter."
+  }
+ ],
+ "kb_proposals": [
+  "KL between densities: Measure.rnDeriv_eq_div (mu.rnDeriv nu =ae[nu] mu.rnDeriv xi / nu.rnDeriv xi), rnDeriv_smul_left_of_ne_top and rnDeriv_withDensity give llr kappa (c . f lambda) = log k - log f - log c kappa-a.e.; toReal_klDiv_of_measure_eq turns klDiv into that integral (EGF.llr_normalize_kappaHat_ae, EGF.kl_decomposition). Two computable KLs on Bool refute an identity by 2^8 != 3^5 through Real.log_injOn_pos.",
+  "Bool against the counting measure: EGF.rnDeriv_count_bool (mu.rnDeriv count b = mu{b}, via Measure.ext_iff_singleton and Measure.ae_count_iff), integral_count, EGF.integral_bool; Integrable.of_finite discharges every integrability hypothesis.",
+  "The continuation probability in densities: EGF.cont_ae_eq_ratio (F_out = g lambda, F_term = t lambda give cont = g/(t + g), (F_term + F_out)-a.e.); a flow reversed along a backward policy is EGF.GenerativeFlow.reverse, flow matching from kappa-hat to F_init + delta F_init (EGF.reverse_isFlowMatching_iff); Mathlib's posterior is a Markov backward policy on a standard Borel space.",
+  "Pitfalls: lambda is a keyword (no identifier hKλ); rw [lemma] with an implicit point argument rewrites all instances once unified, so repeating it fails (use simp only); rw [eq_withDensity_dens hinit] rewrites every Finit, also inside densities (use congrArg₂ (· + ·) h1 h2); integral_eq_lintegral_of_nonneg_ae and hasFiniteIntegral_iff_ofReal need (f := ...) when f is a named density."
+ ],
+ "notes": "No sorry, no warning; #print axioms of the main declarations: propext, Classical.choice, Quot.sound. lake build EGFScaffold.Loss succeeded once (3108 jobs); it rebuilt EGF.Defs, EGF.BackwardPolicy, EGF.Universality, EGF.Sampling, EGF.SamplingCorollaries, EGF.InflowNonsingular (about 10 s, no mathlib module) because their oleans predated the edit of EGF/Defs.lean committed in a2f6878 (T-egf-universality graduation); the strict tree equals HEAD (git status shows no change under lean-egf/EGF). Names differing from the block: EGF.Null.printed_kl_decomposition_false(_finite) for printed_kl_decomposition_false, EGF.Swap3.printed_algBackwardFactor_neg for printed_algBackwardFactor_neg, EGF.SwapM.printed_loss_tendsto_bot for the optional Swap.printed_loss_tendsto_bot (Swap.flow has a fixed F_out; SwapM takes m). Generic names that a graduation should check for collisions: EGF.entropy, EGF.integral_bool, EGF.negMass_ratio_le_min, EGF.le_essSup_rnDeriv_smul, EGF.measurable_dens. The module docstring (4.7k characters) keeps SCOPE and the Provenance line within the first 8000 characters (kb/0015). Non-vacuity: EGF.Null.loss_controls_sampling_inhabited (delta = 0) and EGF.SwapM.lossFinite (delta = m > 0)."
+}

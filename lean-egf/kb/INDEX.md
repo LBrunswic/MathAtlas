@@ -24,3 +24,4 @@ docstring contract is its `0006`; weakest hypotheses `0007`; no quiet weakening 
 | [0015](entries/0015-scope-in-8000-and-pitfalls.md) | pitfall | The ledger reads SCOPE from the first 8000 characters; two measure pitfalls |
 | [0016](entries/0016-nonsingular-moves-inflow.md) | pattern | F_in ≪ λ for an EGF from nonsingular moves; Haar null sets without the Jacobian |
 | [0017](entries/0017-universality-plug-in-bool.md) | pattern | The universality plug-in (IsUniversalPolicy → IsUniversalFamilyEps); cheap counterexamples on Bool |
+| [0018](entries/0018-loss-kl-and-reversed-flow.md) | pattern | The KL-weakFM loss: KL between densities, computable KLs on Bool, the reversed flow |
