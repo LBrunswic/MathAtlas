@@ -2,7 +2,7 @@
 
 One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKILL.md`).
 
-## 2026-11-20 19:45 · wave of 5 · T-lad-seed-check, T-pkg-sbierski-mghd, T-pkg-ers-predictability, T-abs-gluing-hausdorff, T-abs-nested-causalities
+## 2026-11-20 19:35 · wave of 5 · T-lad-seed-check, T-pkg-sbierski-mghd, T-pkg-ers-predictability, T-abs-gluing-hausdorff, T-abs-nested-causalities
 - T-lad-seed-check (ladder): the 7 seeded edges and the consequence read against their witnesses' signatures; `from` corrected on 2 edges (tarentin), a localisation `under` on 3, the consequence split (J⁺ and J⁻); 3 implications and 9 consequences added; checked by `ladder.py check`. emit-lean NOT run: Rules.lean imports Causal.Ladder.Basic (T-tac-ladder-core creates it), and emit-lean would make conditional edges aesop safe rules; recorded in T-tac-ladder-core. The keeper proposes T-lad-local-nodes (LocallyPushUp, LocallyCausallyOpenFuture, chronal neighbours) and T-lad-gh-causal (GH ⇒ causal without tarentin; a causally_compact node), and four ladder.py changes (closure that skips localisation `under`, namespace resolution, conjunctive `at`, label check): for the planner
 - T-pkg-sbierski-mghd (package): papers/sbierski-mghd, 19 statements, 20 edges; two texgraph gaps fixed with tests (proof titles through secondary labels; digits in env names), story_lint accepts hyphenated slugs; no other ledger moved
 - T-pkg-ers-predictability (package): papers/ers-predictability, 32 statements, 34 edges
@@ -26,7 +26,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 400e67c 8d905eb c149d7f
 - next: wave: T-tac-ladder-core, T-abs-locate-extension, T-abs-ladder-local-defs (lean-causal ×3), T-pub-blueprint, T-lad-cbg-geometry-nodes — the lean-causal three after /atlas-team's T-ett-deux-pushup-graduate frees lean-causal
 
-## 2026-11-20 21:35 · wave of 5 · T-lad-cbg-geometry-nodes, T-tac-ladder-core, T-abs-locate-extension, T-abs-ladder-local-defs, T-pub-blueprint
+## 2026-11-20 21:27 · wave of 5 · T-lad-cbg-geometry-nodes, T-tac-ladder-core, T-abs-locate-extension, T-abs-ladder-local-defs, T-pub-blueprint
 - shared cap with /atlas-team: started with keeper + publisher while /atlas-team held lean-causal for T-ett-deux-pushup-graduate, topped up with one lean-causal closer per slot it freed (3 → 4 → 5 targets)
 - T-lad-cbg-geometry-nodes (ladder): rigid, germ_extension, cauchy_slice (a new sort `geometry`), curves_extend, time_function; 2 implications, 3 counterexamples on the gated line (GH, causal, curves extend, yet not absolutely minimal: the CBG's A2 absolute minimality is a genuine localisation hypothesis), 13 consequences, 8 open entries; header corrected for the new emit-lean
 - T-tac-ladder-core (tactic): causal_ladder = aesop safe forward rules; emit-lean emits only unconditional, causality-sort, ETT-layer edges (4 rules; 7 skipped for `under`, 1 for the layer rule), writes Test.lean (5 derived, 132 not derived, a layer guard); audit minor; at integration the vacuous test fixed (mutation-checked) and the "never unfolded" docstring corrected
@@ -40,7 +40,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - for the planner: the keeper's proposals (Lean one-liners HasTimeFunction.isCausal/.curvesExtend once HasTimeFunction is hoisted; gateLine_hasTimeFunction, gateLine_tarentin; the flat time cylinder for curves_extend ⇏ is_causal; ladder.py reading `sort`, `fails` with a list); the tactic's limits (no reasoning across C.dual); HasChronalNeighbour ↔ ChronalNeighbours bridge lemma; the push-up ⇏ causally-open example above
 - next: wave: T-lad-nested-nodes (keeper), T-abs-hoist-model-free (closer, exclusive in lean-causal)
 
-## 2026-11-20 22:45 · wave of 2 · T-abs-hoist-model-free, T-lad-nested-nodes
+## 2026-11-20 22:28 · wave of 2 · T-abs-hoist-model-free, T-lad-nested-nodes
 - T-abs-hoist-model-free (abstract, exclusive in lean-causal): Causal.CompactMinimal, Causal.CurveComponents, Causal.DependenceDomain hold the four model-free lemmas of kb/0047 under their old full names; NestedCausalities' duplicates removed (dependenceDomainOn kept as an abbrev); audit clean (every constant compared against a build of HEAD); ETT-layer strict modules 44 → 47 of 217; kb/0047 rewritten. Note for the planner: `_on` was not more general than `_of_le`; `Flat.dependenceDomain` keeps its Flat namespace (a Causality-namespace alias is the author's call); `futureExtensible_of_final_on`, `not_futureExtensible_of_component_on` now have no users
 - T-lad-nested-nodes (ladder): le_nested, curve_nested of a new sort `pair`; le_nested ⇒ curve_nested checked, the converse open; 10 consequences; curve_nested covers 8 ERS binder rows. Keeper proposals for the planner: CurveNestedOn.leNested_of_causallyArcConnected (converse), not_leNested_of_curveNested_bare (pointedLine in spacelikeLine), T-abs-nested-transfer (SC, SCO, HasTimeFunction pass to the narrower causality; tarentin does not), a `[[transfer]]` schema in ladder.py; binder rows 4.72/4.73 can move curves_extend to `localisation`, and the binders' [[proposed]] entries for le_nested, curve_nested, cauchy_slice, curves_extend are stale
 - ladder: 18 properties (13 causality, 3 geometry, 2 pair), 13 checked implications, 3 counterexamples, 33 consequences; 29 of 306 pairs classified (29 of 164 within a sort); emit-lean: 4 rules, 9 checked edges skipped
@@ -49,7 +49,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 02b43b6 c02c8c8 72c0fbc ab9f54c
 - next: wave: T-abs-cbg-initial-data, T-abs-sbierski-prop-3-7, T-abs-ers-thm-4-64 (lean-causal ×3) — shared with /atlas-team's three ready lean-causal closers, which have waited on this wave's exclusivity
 
-## 2026-11-20 23:50 · wave of 3 · T-abs-ers-thm-4-64, T-loc-ealpha-cauchy, T-abs-causal-iso-invariance
+## 2026-11-20 23:45 · wave of 3 · T-abs-ers-thm-4-64, T-loc-ealpha-cauchy, T-abs-causal-iso-invariance
 - shared cap: one lean-causal closer first (agreed split), topped up as /atlas-team's wave 6 freed slots; T-abs-cbg-initial-data swapped out at dispatch (it needs Causal.CBG.cbg, model-importing: a layer-1 module cannot use it before T-abs-hoist-cbg-cores; same for T-abs-sbierski-prop-3-7)
 - T-abs-ers-thm-4-64 (abstract, layer 1): Causal.ErsUniqueness; ERS Thm 4.64 skeleton + Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73, nothing marked; SliceRestart = 4.82's hstep; one extra named hypothesis FrontierStaysIn (no roadmap row owns it yet: T-loc-quasilinear-slice is the natural owner); audit minor → clean (round 2: non-degenerate witness, narrowed FollowsSolution); OQ-57
 - T-loc-ealpha-cauchy (localisation, layer 3, E_α): Causal.Model.EAlphaCauchy; GH + every slice Cauchy with the axis, no Cauchy surface (library sense) and not GH without it, J⁻ of axis points; the 3+1 cosmic string too; ladder side conditions instantiated for massive α; audit minor; OQ-58
@@ -61,7 +61,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - for the planner: rebind both binders to the new Lean (Causal.ErsUniqueness rows 4.64–4.73, CausalIsoInvariance rows 3.27–3.39, EAlphaCauchy, GluingHausdorff, LocateExtension, LadderLocal, the hoisted modules); make T-abs-cbg-initial-data and T-abs-sbierski-prop-3-7 depend on T-abs-hoist-cbg-cores; give FrontierStaysIn an owner; the keeper's proposals (edge time_function ⇒ is_causal via isCausal_of_exists_timeFunction, curve_nested ⇒ le_nested under arc-connectedness, nested transfers, push-up ⇏ causally open, HasChronalNeighbour ↔ ChronalNeighbours bridge, a [[transfer]] schema); the duplicated withLp lemmas; inextensible_Iio_of_tendsto_not_mem to hoist
 - next: a planning run (rule 2 in spirit: the wave tool offers two layer-1 targets that cannot meet the layer rule, and both binders lag seven new modules); lean-causal left to /atlas-team meanwhile
 
-## 2026-11-21 00:20 · plan · programme-planner (binders stale; layer-1 rule through depends)
+## 2026-11-21 00:16 · plan · programme-planner (binders stale; layer-1 rule through depends)
 - binders rebound to the Lean of 2026-11-20: ers-predictability 28 rows bound, layer 1 in Lean 7 → 17, layer 3 in Lean 1 → 0 (row 4.79 now needs a quasilinear curve_nested entry); sbierski-mghd 19 rows, layer 1 in Lean 15, layer 3 in Lean 0 (GluingHausdorff, CompactMinimal, CurveComponents cited; Lemma 3.9 uses no A3)
 - roadmap 45 → 64 targets: 22 added from the waves' findings (keeper edges, tactic across C.dual, hoists, ERS 4.79–4.80, nested converse/transfer, chronal-neighbour bridge, push-up ⇏ causally open, gated-line witnesses, flat time cylinder, E_α tidy, FrontierStaysIn's owner, binder targets); T-abs-cbg-initial-data and T-abs-sbierski-prop-3-7 back to planned behind T-abs-hoist-cbg-cores (ready, exclusive) and T-abs-hoist-cbg-geometry (needs-ruling: may layer 1 import Causal.SingularFlat, the CBG Geometry's A2 field?); T-abs-dependence-domain-home needs-ruling (Flat.dependenceDomain's namespace)
 - master: T-loc-quasilinear-slice blocked on OQ-57 (planner's proposal); T-lad-local-nodes confirmed ready (OQ-52 (a) concerns only the one-sided names); OQ-40's blocks column names T-lad-programme-properties, now T-lad-gluing-nodes (noted, the register row is not edited)
@@ -69,7 +69,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 957faa9 8ef112a
 - next: wave: T-lad-local-nodes (keeper), T-abs-hoist-cbg-cores (closer, exclusive in lean-causal, while /atlas-team plans)
 
-## 2026-11-21 00:50 · wave of 2 · T-abs-hoist-cbg-cores, T-lad-local-nodes
+## 2026-11-21 00:44 · wave of 2 · T-abs-hoist-cbg-cores, T-lad-local-nodes
 - T-abs-hoist-cbg-cores (abstract, exclusive in lean-causal, during /atlas-team's planner run): Causal.CorrespondingPoints, Causal.CorrespondingSpacelike hold the model-free cores of Causal.CBG.Corresponding/NoCorresponding under their old names; audit clean (85 constants changed module only, against a rebuild of HEAD); ETT-layer modules 49 → 51 of 224; ett curation's extra_lean_files and the Sbierski binder's references updated; kb/0043 corrected, kb 0062, 0063. Left: correspondingSet, correspondingExt (model-free, unlisted)
 - T-lad-local-nodes (ladder): locally_push_up, locally_causally_open(_future), chronal_neighbours as nodes; the four conditional edges restated with the side condition in `from`; lightlike-line counterexamples; seven [[open]] entries for the pairs the old closure overstated; causal_ladder 4 → 12 rules, Test 23 derived / 235 not derived
 - keeper's finding for the planner (argued, not in Lean): the gated line looks causally open in the future but not in the past, which would make the printed J⁺-only causal openness strictly weaker than DEC-8's two-sided reading; proposals T-abs-gateline-local, a widened T-abs-pushup-not-open, deux_pushup's [[fails]] (61/462 with all three, simulated, no contradiction)
@@ -79,7 +79,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: e4df4d0 947f841 d6832d4 9c4ebef
 - next: the blueprint smoke fix (publisher); then wave: T-lad-gh-causal (keeper), T-abs-hoist-time-function (closer, exclusive in lean-causal) — lean-causal goes back to /atlas-team first (its two closers have waited)
 
-## 2026-11-21 01:30 · wave of 3 · blueprint fix, T-lad-gh-causal, T-lad-time-function-causal
+## 2026-11-21 01:08 · wave of 3 · blueprint fix, T-lad-gh-causal, T-lad-time-function-causal
 - blueprint (publisher, T-pub-blueprint maintenance): the smoke failure of 9c4ebef fixed — the click band of an arrow was 2–6 px on screen after fitting and the check clicked bounding-box centres; now a constant 14 px band (22 on touch), nearest line wins, hover lights a whole implication; the smoke clicks every segment, beside it, overlaps and junctions, and fails on the old page
 - T-lad-gh-causal and T-lad-time-function-causal (ladder, one commit): causally_compact node; GH ⇔ is_causal ∧ causally_compact as three checked edges (no tarentin); time_function ⇒ is_causal (isCausal_of_exists_timeFunction); half-plane counterexamples (… ⇏ causally_compact, ⇏ GH); 7 consequences; the time_function node's comment corrected (ETT's IsTimeFunction is not stronger). The time_function ⇒ is_causal rule is emitted but inert until HasTimeFunction is hoisted
 - emit/rebuild of Causal.Ladder.Rules/Test waited for /atlas-team's T-ett-e0-model-rows to free lean-causal (its gate-tests red meanwhile was this loop's in-flight ladder, recorded as such on both sides)
@@ -90,7 +90,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 7985e8b 6a0018d 9f24800 105daa1
 - next: wave: T-abs-hoist-time-function (closer, exclusive in lean-causal) — /atlas-team's exclusive T-ett-gxsingular-dec25 also waits for lean-causal: alternate
 
-## 2026-11-21 02:00 · wave of 1 (+ ladder follow-up) · T-abs-hoist-time-function
+## 2026-11-21 01:51 · wave of 1 (+ ladder follow-up) · T-abs-hoist-time-function
 - T-abs-hoist-time-function (abstract, exclusive in lean-causal, agreed with /atlas-team): Causal.CurvesExtend, Causal.CBG.Injective (Sbierski Lemma 3.3), Causal.CBG.CausalConvex and the new Causal.CauchyDual are ETT-layer; HasTimeFunction lives in Causal.CurvesExtend with the wrappers HasTimeFunction.isCausal and .curvesExtend; the static/Minkowski instances in Causal.Model.CurvesExtendModels and Causal.Model.InjectiveMinkowski; audit clean (11 constants changed module only; the private-name artefact explained); ETT-layer 51/225 → 55/228; stale docstrings fixed at integration; kb 0065, 0066
 - ladder follow-up (keeper): the time_function edges now use the wrappers; causal_ladder 17 rules; time_function's examples present and derived (28 derived, 297 not derived); a negative control showed the old witnesses fail
 - ladder: 23 properties, 21 checked implications, 18 counterexamples, 40 consequences; 85 of 506 pairs
@@ -99,7 +99,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 7eff58c 645b01e 37df062 68957f2
 - next: lean-causal to /atlas-team's exclusive T-ett-gxsingular-dec25; then a wave of up to 3 lean-causal closers from the ready p4 targets (nested-converse, nested-transfer, chronal-neighbour-bridge, pushup-not-open, quasilinear-one-sided); a planner pass is due soon (proposals since 00:20: doubled-line compactness, gated-line local facts and the DEC-8 finding, spacelike-line non-tarentin, E0ModelRows hoist candidates, SingularFlatAxioms.causallyPlain for OQ-16)
 
-## 2026-11-21 02:40 · plan · programme-planner (backlog since 00:20; lean-causal held by /atlas-team)
+## 2026-11-21 02:14 · plan · programme-planner (backlog since 00:20; lean-causal held by /atlas-team)
 - roadmap 64 → 68 targets: T-lad-plain-separations (keeper, ready), T-abs-gateline-local (ready; the possible DEC-8 finding: an OQ row is the master's to write only if the closer confirms it), T-abs-doubled-line-compact (ready), T-abs-hoist-plain-locz (ready; SingularFlatAxioms.causallyPlain is evidence for OQ-16 and rem:pas_plat, recorded in evidence only)
 - now ready: T-abs-sbierski-prop-3-7, T-abs-gateline-witnesses, T-abs-hoist-cbg-gluing (exclusive; + correspondingSet, correspondingExt), T-tool-ladder-py (master; + emitted() skipping formless properties); T-abs-hoist-cbg-geometry stays needs-ruling with a refined question (Causal.CBG.cbg reaches only Causal.SingularFlat, through Geometry)
 - binders rebound to the new layering (notes and headers); counts unchanged (ers 28 rows, layer 1 in Lean 17; sbierski 19, layer 1 in Lean 15)
@@ -107,7 +107,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 98dafcf
 - next: T-lad-plain-separations (keeper) now; T-tool-ladder-py (master) after it (both touch the ladder's checks); the three lean-causal closers (T-abs-sbierski-prop-3-7, T-abs-nested-converse, T-abs-nested-transfer) when /atlas-team frees lean-causal
 
-## 2026-11-21 04:10 · wave of 5 · T-lad-plain-separations, T-tool-ladder-py, T-abs-nested-converse, T-abs-nested-transfer, T-abs-sbierski-prop-3-7
+## 2026-11-21 03:46 · wave of 5 · T-lad-plain-separations, T-tool-ladder-py, T-abs-nested-converse, T-abs-nested-transfer, T-abs-sbierski-prop-3-7
 - T-lad-plain-separations (ladder): 7 counterexamples (lightlike line; deuxPushup, valid in the no-gluing reading only, cf. OQ-39), edge absolutely_minimal ∧ causally_plain ⇒ push_up (T1); 98 of 506 pairs; emitted with HEAD's tool while T-tool-ladder-py was in flight
 - T-tool-ladder-py (tooling, master, delegated and verified): standing hypotheses, sorts, list `from` in [[fails]], conjunctive `at`, [[transfer]], namespace-exact names, labels checked, formless-edge skip; same classification on the current ladder (98 classified within one sort, 192 cross-sort ill-typed); 20-breakage fixture registered in selftest (every gate bites); 68 programme tests. For the keeper: migrate the four `under`s to `standing` (3 more rules: 20; Levin's edge stays skipped, LevinUtility imports a model); update ladder-keeper.md and the ladder header. For the publisher: build.py breaks on a list `from` in [[fails]] or a non-ambient `space`, shows implied-standing as unknown, does not read [[transfer]]
 - T-abs-nested-converse (layer 1): Causal.NestedConverse; converse under arc-connectedness, bare counterexample (pointed line), trans; the rational line; audit clean
@@ -119,7 +119,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 1e997bc 5185566 8044439 f868749 48d1cf0 e177ac8 6084e8e
 - next: keeper pass (the standing migration + the nested/transfer [[fails]] and [[transfer]] entries); then wave: T-abs-chronal-neighbour-bridge, T-abs-pushup-not-open, T-abs-gateline-local (lean-causal ×3); publisher: build.py for the new ladder fields
 
-## 2026-11-21 05:00 · wave of 4 · T-lad-classify-core, T-abs-chronal-neighbour-bridge, T-abs-pushup-not-open, T-abs-gateline-local
+## 2026-11-21 04:22 · wave of 4 · T-lad-classify-core, T-abs-chronal-neighbour-bridge, T-abs-pushup-not-open, T-abs-gateline-local
 - T-lad-classify-core (ladder): every causality-sort pair classified (14 implied, 103 fails, 189 open with notes; 312 of 314 within a sort); `standing` migration; 7 [[transfer]] entries; causal_ladder 20 rules (Test 36 derived). The keeper asks the author to update `.claude/agents/ladder-keeper.md` for the new reading (an agent definition: not edited by the loop). Its target list for the planner: timelike-line-top (49 pairs), doubled line widened (45), flat time cylinder widened (44), Galileo ladder facts (40), gated-line extras (36), jump-line extras (28), rational-line extras (27), ChronalNeighbours.tarentin (a new edge), a Levin wrapper concluding HasTimeFunction, and tool proposals (backward reading of conjunctive edges in counterexample(), conditional transfers, premise-free Level-B facts)
 - T-abs-chronal-neighbour-bridge (layer 1): three strictly ordered chronology strengths; equal under arc-connectedness or absolute minimality on T1; leaving theorems restated; globalLine, sierpinskiCausality; audit minor
 - T-abs-pushup-not-open (layer 1): the jump line; ETT.tex:698 needs absolute minimality (no-gluing reading); audit minor (docstring qualifier added)
@@ -130,8 +130,19 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 52b8b45 b9bc26d 1cbb750 d41b625 6c0d59e 96488c6
 - next: the blueprint fix (publisher, running); a planner pass for the keeper's model targets and the absolutely minimal DEC-8 witness; then lean-causal waves
 
-## 2026-11-21 05:40 · plan + blueprint fix · programme-planner, publisher
+## 2026-11-21 04:49 · plan + blueprint fix · programme-planner, publisher
 - blueprint (publisher): reads the ladder only through tools/ladder.py; the "1 violation" was build.py's own TypeError on a list-valued [[fails]] from; new views for standing, space, transfers, open notes; `make check` gains an `agree` step (the page's ladder line equals the tool's); 0 page errors
 - planning run: roadmap 68 → 79 targets. Finding: 43 of the 193 [[open]] entries are already settled by merged Lean (jump line, gated line, isolated/global lines) — T-lad-record-lines (keeper, ready); 89 more would be settled by absolutely minimal witnesses alone (T-lad-record-minimal), the rest in the no-gluing reading only (T-lad-record-no-gluing). Ready layer-1 targets: T-abs-dec8-minimal-witness (the OQ-67 auditor's sketch), T-abs-pushup-of-minimal-local (a T1 edge; if it holds, under gluing local and global push-up/causal openness coincide — a finding for OQ-67 (b)), T-abs-chronal-neighbours-tarentin, T-abs-hoist-levin (exclusive), T-abs-rational-line-extras, T-abs-timelike-line-top and T-abs-galileo-ladder (no-gluing; Galileo would be evidence for OQ-18). Binders: mghdprop:EquivCha on Causal.SbierskiProp37 (sbierski layer 1 in Lean 15 → 16); mghdlem:ExtendIso's A3 entry no longer circular
 - commits: 3d20bce 763932c
 - next: wave: T-lad-record-lines (keeper), T-abs-dec8-minimal-witness, T-abs-pushup-of-minimal-local (lean-causal ×2, within the shared cap with /atlas-team's 3 closers); then T-abs-hoist-plain-locz
+
+## 2026-11-21 05:22 · wave of 3 · T-lad-record-lines, T-abs-dec8-minimal-witness, T-abs-pushup-of-minimal-local
+- T-lad-record-lines (ladder): wave 10's separations recorded — 14 [[fails]] (gated, jump, isolated, global lines), the 43 [[open]] entries they settle removed, each separation's reading noted; Causal/Ladder/Test.lean re-emitted (43 comments, rules unchanged); checked by ladder.py
+- T-abs-dec8-minimal-witness (layer 1): the half-lit line, absolutely minimal, causally arc-connected, GH, causally open in the future and not in the past — the printed J⁺-only causal openness is strictly weaker than DEC-8's in either reading of defi:causalite; ≪ empty, not tarentin; audit minor (paper attribution narrowed to ETT.tex:745–746 and OQ-9/DEC-8); OQ-69, kb/0074
+- T-abs-pushup-of-minimal-local (layer 1): on T1, absolutely minimal ∧ locally push-up ⇒ push-up, a strict weakening of lem:pushup_local's hypothesis (rationalLine); local = global for push-up (T1) and causal openness under absolute minimality; T0 (vee) and the local hypothesis (halfChronoLine) both needed; audit minor (proof line numbers corrected); OQ-70, kb/0075
+- ladder: 312/314 pairs classified within a sort, 22 implications, 49 counterexamples, 42 consequences, 7 transfers
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 17; sbierski-mghd 19 rows bound, layer 1 in Lean 16
+- gates: lean-causal ✓ (239 strict files, 0 sorry), ladder ✓, binder ✓, roadmaps ✓, test_programme + test_roadmap ✓, blueprint check ✓ (0 page errors, agree), hub: all gates green
+- journal: the headers of the twelve entries since 2026-11-20 19:35 were estimated times, each later than the commit that wrote it; set to those commit times
+- commits: a45528d 175fb94 4e06808 87e2475 6975f3f
+- next: wave: T-abs-hoist-plain-locz, T-abs-chronal-neighbours-tarentin, T-loc-quasilinear-one-sided (lean-causal ×3); the keeper has new material (the half-lit and half-chrono lines' separations, the T1 edge absolutely_minimal ∧ locally_push_up ⇒ push_up) for T-lad-record-minimal or a new keeper target
