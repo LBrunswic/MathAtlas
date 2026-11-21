@@ -8,3 +8,4 @@ import EGF.InflowNonsingular
 import EGF.UniversalFamily
 import EGF.Loss
 import EGF.UniversalityErgodic
+import EGF.TorusFamilies

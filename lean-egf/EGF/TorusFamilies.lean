@@ -52,7 +52,7 @@ forms (C-28, C-31), the second is a cited theorem stated as the named `Prop`
 
 | paper hypothesis (`main.tex:291`, `:820`) | here (`universality_tori`) |
 |---|---|
-| `Φᵢ ∈ Aff(𝕋^d)`, linear part in `SL_d(ℤ)` | ⚠ weakened: `IsUnit (A i).det` (`GL_d(ℤ)`, Bekka–Guivarc'h's `Aff`) |
+| `Φᵢ ∈ Aff(𝕋^d)`, linear part in `SL_d(ℤ)` | ⚠ weakened: `IsUnit (A i).det` (`GL_d(ℤ)`, Bekka–Guivarc'h's `Aff`); in the refuted `UniversalityToriPrinted` this is a strengthening (immaterial: `not_isUniversalFamilyEps_constOutflow` covers `SL_d(ℤ)`) |
 | the `Φᵢ` stable under inverse | ⚠ weakened: dropped (only ergodicity is used, C-28, C-29) |
 | the group generated violates (ii) | ✓ `¬ BGConditionII (linearParts (torusAffineGroup A b hA))`; ⚠ weakened in `universality_tori_of_ergodic` to: the group acts ergodically |
 | Theorem 5 of `bekka2015spectral` | ⚠ strengthened: the named hypothesis `BekkaGuivarchTheorem5 d` (DEC-141); absent from `universality_tori_of_ergodic` |
@@ -72,12 +72,16 @@ an abelian subgroup of finite index; the factor torus `𝕋^d/(W/(W ∩ ℤ^d))`
 which `Aut(𝕋̄)` embeds. `H` is a subgroup of `Equiv.Perm (UnitAddTorus (Fin d))` of affine maps,
 `linearParts H` its `p_a(H)`. Reading taken: the "mild technical assumptions" are those of
 `main.tex:820`, required of the moves at every parameter of the model. An affine toroidal family
-is the image of a model (`affineToroidalFamily`). `theo:universality_tori` holds only in corrected
+is the image of a model (`affineToroidalFamily`), its translations a function of the parameter
+(free, tied, or fixed); with all translations free and d ≥ 1, l.820 cannot hold at every parameter (the
+printed theorem is then vacuous), so the refutation uses models that tie them. Continuity
+(l.288) is not encoded; the refuting models are continuous; a one-point model refutes as well.
+`theo:universality_tori` holds only in corrected
 forms, unmarked. Not proved: that some group violates (ii) (a free subgroup of `SL_d(ℤ)`, `d ≥ 2`,
 and non-amenability of free groups), so `universality_tori` and `not_universalityToriPrinted` have
 no instance for `d ≥ 1` (at `d = 0` `universality_tori` holds degenerately, through
 `bekkaGuivarchTheorem5_zero`, ℚ⁰ having no proper subspace); the ergodicity hypothesis of
-`universality_tori_of_ergodic` is not discharged here either, but by T-egf-tori-minimal.
+`universality_tori_of_ergodic` is not discharged here, to be by T-egf-tori-minimal (planned).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Bekka–Guivarc'h read
 off arXiv:1106.2623v1 (fetched 2026-11-21), §1 p. 1 (spectral gap) and §2 (Theorem 5).
@@ -857,9 +861,12 @@ theorem isKernelErgodic_torusUniformKernel_iff {p : ℕ} (hp : 0 < p)
 /-! ### Affine toroidal models and their families (`main.tex:288`) -/
 
 /-- **An affine toroidal model** with `p` moves on `𝕋^d` (`main.tex:288`): a non-empty parameter
-type `Θ`; for each parameter `θ`, the translation parts `bθ` of the moves (parameters of the
-family), a softmax head `αθ` (positive measurable weights summing to `1`) and a scalar head `fθ`
-(the outflow density, clipped at `0`, of finite mass). -/
+type `Θ`; for each parameter `θ`, the translation parts `bθ` of the moves (a function of the
+parameter: free as in `constToroidalModel`, tied in inverse pairs, or fixed as in
+`constToroidalModelAt`), a softmax head `αθ` (positive measurable weights summing to `1`) and a
+scalar head `fθ` (the outflow density, clipped at `0`, of finite mass). The continuity of the
+family (`main.tex:288`) is not encoded: the class is larger, and the refuting models are
+continuous. -/
 structure AffineToroidalModel (d p : ℕ) where
   /-- The parameter space of the model. -/
   Θ : Type
@@ -1116,7 +1123,8 @@ noncomputable def constToroidalModel {p : ℕ} (hp : 0 < p) : AffineToroidalMode
 /-- **The printed Theorem 3.5 is false for every choice of linear parts** (C-31): for `d ≥ 1`,
 `p ≥ 1` and `det Aᵢ = ±1`, the affine toroidal family of the constant model is not ε-universal,
 whether the translations are free parameters (`main.tex:288`) or fixed at any `b` (the moves of
-`main.tex:291`). No assumption on the `Φᵢ` alone makes the theorem true. -/
+`main.tex:291`). No satisfiable assumption on the `Φᵢ` alone makes the theorem true (at `d = 1`
+the unsatisfiable one of `main.tex:820` makes it vacuously true, `universalityToriPrinted_one`). -/
 theorem not_isUniversalFamilyEps_constOutflow (hd : 0 < d) {p : ℕ} (hp : 0 < p)
     (A : Fin p → Matrix (Fin d) (Fin d) ℤ) (hA : ∀ i, IsUnit (A i).det) :
     ¬ IsUniversalFamilyEps volume (affineToroidalFamily A (constToroidalModel (d := d) hp)) ∧
@@ -1137,7 +1145,12 @@ def IsPrintedToriCondition {p : ℕ} (A : Fin p → Matrix (Fin d) (Fin d) ℤ)
 states (`main.tex:820`): for linear parts `Aᵢ` (`det = ±1`) and every affine toroidal model whose
 moves meet that assumption at every parameter, the family of the model is universal (here in the
 ε-form, weaker than the exact Definition 3.2, so its refutation is the stronger). Kept as a `Prop`
-beside its refutation (`not_universalityToriPrinted`). -/
+beside its refutation (`not_universalityToriPrinted`). Disclosed: `IsUnit det` admits `GL_d(ℤ)`
+moves where the paper has `SL_d(ℤ)`, a strengthening of this refuted `Prop` (moves meeting
+`main.tex:820` exist in `SL_d(ℤ)` for `d ≥ 2`, not in Lean); with all translations free over the
+torus and d ≥ 1, `main.tex:820` cannot hold at every parameter (vacuity in that reading), so the refutation
+ties them; a one-point model refutes it too, and the informative statements are
+`not_isUniversalFamilyEps_of_constantHeads` and `not_isUniversalFamilyEps_constOutflow`. -/
 def UniversalityToriPrinted (d : ℕ) : Prop :=
   ∀ (p : ℕ) (A : Fin p → Matrix (Fin d) (Fin d) ℤ) (hA : ∀ i, IsUnit (A i).det)
     (M : AffineToroidalModel d p), (∀ θ, IsPrintedToriCondition A (M.b θ) hA) →
