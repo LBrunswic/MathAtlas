@@ -180,9 +180,11 @@ where = "Appendix A, notation and the end of the proof"
 printed = ["main.tex:736-737", "main.tex:754-758"]
 kind = "typo"
 finding = "|J_s Phi_i^{-1}| is written for what l.233 writes |det J_s Phi_i^{-1}|; and the proof environment closes (l.758) before the deduction that yields the formula (l.759-766). Nothing to prove in Lean: the formalization reads |J_s Phi_i^{-1}| as the absolute determinant (EGF.coordJac, EGF/BackwardPolicy.lean:466) and certifies the deduction of l.759-766 inside EGF.backward_policy (the same file, :419); editorial (with C-8 the factor becomes the lambda-Jacobian)."
-status = "found"
-corrected = '''Write $|\det J_s\Phi_i^{-1}|$ at l.736--737 and in l.754--764, as l.233 does (or the $\lambda$-Jacobian of C-8), and close the proof environment after ``The result follows.'' (l.766).'''
+basis = ["DEC-141"]
+status = "adopted"
+corrected = '''Write the Jacobian factor uniformly in Appendix A as the $\lambda$-Jacobian $J^\lambda_{\Phi_i^{-1}}$ of C-8 (which is $|\det J_s\Phi_i^{-1}|$ for Lebesgue measure, as at l.233), at l.736--737 and in l.754--764; and move \verb|\end{proof}| from l.758 to after ``The result follows.'' (l.766).'''
 summary = "Appendix A: |det J| notation made uniform; the proof environment encloses the whole deduction."
+added_hypotheses = []
 batch = "T-egf-correct-backward"
 
 # --------------------------------------------------------------------------------------------
@@ -285,9 +287,11 @@ where = "Section 2, the sampling chain; Definition 3.7"
 printed = ["main.tex:163", "main.tex:316"]
 kind = "typo"
 finding = "l.163 indexes the chain (s_t)_{g >= 1} for (s_t)_{t >= 1}; l.316 names the flow (pi*, f_out*) with a density while the errors use the measure F_out*. Nothing to prove in Lean: EGF.GenerativeFlow takes the outflow as a measure (EGF/Defs.lean:123) and EGF.sampling_theorem indexes the chain by t; editorial."
-status = "found"
+basis = ["DEC-141"]
+status = "adopted"
 corrected = '''l.163: $(\underline s_t)_{t\geq 1}$; l.316 and l.322: the generative flow $(\ForwardPolicyStar,\Foutstar)$.'''
 summary = "Typos: the chain's index (t, not g); the flow written with the outflow measure F_out*."
+added_hypotheses = []
 batch = "T-egf-correct-sampling"
 
 # --------------------------------------------------------------------------------------------
@@ -387,9 +391,11 @@ where = "the proof of Theorem B.1"
 printed = "main.tex:790"
 kind = "typo"
 finding = "'nu_inf = nu_inf pi* - R + F_init': R stands for F_term. Nothing to prove in Lean: EGF.tvMass_construction and EGF.main_universality (EGF/Universality.lean:273, :950) carry F_term; editorial."
-status = "found"
+basis = ["DEC-141"]
+status = "adopted"
 corrected = '''$\nu_{\infty} =  \nu_\infty \pi^*- \Fterm + \Finit$.'''
 summary = "Typo in the proof of Theorem B.1 (R for F_term)."
+added_hypotheses = []
 batch = "T-egf-correct-universality"
 
 [[correction]]
@@ -551,7 +557,8 @@ where = "figure labels and appendix captions"
 printed = ["main.tex:494", "main.tex:587", "main.tex:729", "main.tex:1210-1211", "main.tex:1310-1311", "main.tex:1413-1414", "main.tex:1381-1386", "main.tex:1409"]
 kind = "typo"
 finding = "The label fig:toyimg is defined six times (l.587, l.1004, l.1023, l.1213, l.1313, l.1416), so 'Figure ref fig:toyimg' at l.494, meant for the comparison figure of l.498-588, resolves to the last definition (the two-spirals ablation); l.729 leaves a stray comma after the label sec:appendix_backward; the size ablations of Appendix F run on R^2 with 8 translations and f_out supported in [-4, 4]^2 (l.1210-1211, l.1310-1311, l.1413-1414), while l.431 says the experiments are on T^2 or S^2 (R^2 with Lebesgue measure is outside the finite-lambda setting of l.155, l.161); in the two-spirals figure the second row shows 4x128 and 5x128 panels (l.1381, l.1386) under a caption saying 2x64 to 5x64 (l.1409). Nothing to prove in Lean; editorial."
-status = "found"
+basis = ["DEC-141"]
+status = "adopted"
 corrected = '''Distinct labels for the six figures (\texttt{fig:toyimg} kept for the comparison figure of l.498--588); no comma at l.729; l.431: ``either a flat torus $\mathbb T^2$, or sphere $\mathbb S^2$ (the size ablations of Appendix F are run on $\mathbb R^2$)''; the caption of l.1409 matches its panels.'''
 summary = "Figure labels made unique (the body's reference pointed to an appendix figure), and the appendix captions state the ablations' state space and sizes."
 added_hypotheses = []
