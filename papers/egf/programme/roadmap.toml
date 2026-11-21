@@ -104,12 +104,13 @@ stream = "lean"
 kind = "close"
 paper = "egf"
 labels = ["theo:universality_true"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 3
 evidence = "Found by T-egf-plan-wave-1 (correction C-29, a strengthening): the summable L²-mixing of theo:universality_true (main.tex:775) is not needed, and ergodicity is necessary. Aim (new scaffold file): (1) EGF.IsKernelErgodic (π : Kernel S S) (μ : Measure S) : Prop := ∀ A, MeasurableSet A → (∀ᵐ x ∂μ, π x A = A.indicator 1 x) → μ A = 0 ∨ μ Aᶜ = 0 (Walters' invariant sets); EGF.isKernelErgodic_deterministic (Mathlib's Ergodic Φ μ ⇒ IsKernelErgodic (Kernel.deterministic Φ _) μ); EGF.isKernelErgodic_egfKernel_uniform (Φᵢ measurable and measure-preserving for a finite μ, αᵢ ≡ 1/p, p ≥ 1, and every A with Φᵢ⁻¹A =ᵐ[μ] A for all i null or conull ⇒ μ.bind π = μ and IsKernelErgodic π μ: an average of {0,1}-values is 1_A only if every term is). (2) EGF.universality_of_ergodic (lam) [IsFiniteMeasure lam] (π) [IsMarkovKernel π] (lamHat) [IsFiniteMeasure lamHat] (hinv : lamHat.bind π = lamHat) (hac : lamHat ≪ lam) (hac' : lam ≪ lamHat) (herg : IsKernelErgodic π lamHat) (Finit Fterm) [IsProbabilityMeasure Finit] [IsProbabilityMeasure Fterm] (hinit : Finit ≪ lam) (hterm : Fterm ≪ lam) (hε : 0 < ε) : the conclusion of EGF.main_universality (EGF/Universality.lean:950) verbatim (∃ f_out ≥ 0 bounded, MemLp 2, δF_init(S) + δF_term(S) < ε), with no IsSummablyL2Mixing; and its EGF.IsUniversalPolicy form once T-egf-universality has landed (else state it locally). (3) Necessity: EGF.not_universal_of_not_ergodic (an invariant A with 0 < λ(A) < λ(S): F_init = λ|_A/λ(A), F_term = λ|_{Aᶜ}/λ(Aᶜ) have bounded densities and every outflow F_out ≪ λ gives δF_init(S) + δF_term(S) ≥ 2, since (F_out π)(A) = F_out(A)); EGF.universal_iff_ergodic for π with a finite invariant λ̂ equivalent to λ. Optional: EGF.isKernelErgodic_of_isSummablyL2Mixing (the sketch in curation.toml's theo:universality_true row). Route: the outflow A + (R − B) of EGF.tvMass_construction (Universality.lean:273) with Cesàro weights (1 − t/N): (I − T)∑_{t<N}(1 − t/N)Tᵗh = h − (1/N)∑_{t=1..N}Tᵗh, so the defect is ‖(1/N)∑_{t=1..N}(μ₀ − μ₁)πᵗ‖_TV; Cesàro TV-mixing EGF.exists_tvMass_cesaro_lt_of_ergodic replaces EGF.exists_tvMass_pushIter_lt_of_tendsto (Universality.lean:581), from von Neumann's mean ergodic theorem (Mathlib ContinuousLinearMap.tendsto_birkhoffAverage_orthogonalProjection, Mathlib/Analysis/InnerProductSpace/MeanErgodic.lean:89) for the transfer operator on L²(λ̂), a contraction (copy GFNBounds.Core.densityActionL2 and norm_densityActionL2_le, lean/GFNBounds/Core/SigmaMixing.lean:458 and :465, on GFNBounds.Core.densityActionCLM, Kernel.lean:544), whose fixed points are a.e. constant under IsKernelErgodic (its adjoint is the Koopman operator, GFNBounds.Core.AdjointGeneral.funAct, AdjointGeneral.lean:106; variance argument ∫ (P(f²) − (Pf)²) dλ̂ = 0); densities first truncated as in EGF.exists_truncation (Universality.lean:474). Alternative abstract route: GFNBounds.Core.liftedOutflow / residuals_le (lean/GFNBounds/Core/Universality.lean:198, :247) with an approximate Poisson solution, θ ∈ closure (range (P − 1)). Anchors C-29 (EGF.universality_of_ergodic, EGF.not_universal_of_not_ergodic, EGF.universal_iff_ergodic). Report as a finding: the follow-up's 'Universality then does need mixing' (~/Dropbox/GFNCertified/arxiv/source/body/04_universality.tex, before lean:Core.weaklyUniversal_of_kernel) has the same issue."
 added = "2026-11-21"
 proposed_by = "egf-planner (T-egf-plan-wave-1)"
+commit = "1125a79"
 
 [[target]]
 id = "T-egf-loss"
@@ -118,13 +119,14 @@ stream = "lean"
 kind = "close"
 paper = "egf"
 labels = ["cor:pinsker_negative_control"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-egf-inflow-nonsingular"]
 evidence = "OQ-66 ruled by DEC-141 (negative part). Refined by T-egf-plan-wave-1. Aim (new scaffold file): (1) EGF.klwfmLoss (lam νtrain : Measure S) (b : ℝ) (F : GenerativeFlow S) (Finit κ : Measure S) : EReal := b·∫ deltaFinitDensity dνtrain − ∫ log ftermHatDensity dκ (+∞ where κ charges {f̂_term = 0}), Eq. (15) of main.tex:363-366 with δf_init = max(0, −(f_init + f_in − f_out)) (EGF.deltaFinitDensity, EGF/SamplingCorollaries.lean:611; C-1, C-2), and EGF.klwfmLossPrinted with EGF.deltaFinitDensityPrinted (:616); shape copied from GFNBounds.Core.wklfmLoss (lean/GFNBounds/Core/ILBound.lean:177, at q = 1, where ‖δf_init‖_{L¹(ν_train)} = E_{ν_train} δf_init) and GFNBounds.Core.ILBoundFull.ilLoss (ILBoundFull.lean:518). (2) EGF.kl_decomposition, main.tex:418-420 in the true direction: for κ ≪ λ a probability with finite entropy H(κ) = −E_κ log dκ/dλ and κ ≪ κ̂, KL(κ ‖ κ̂/κ̂(S)) = −E_κ log f̂_term + log ∫ f̂_term dλ − H(κ) (copy GFNBounds.Core.ILBoundFull.crossEntropy_decomposition, ILBoundFull.lean:412; to Mathlib's klDiv by EGF.klD_rnDeriv_eq_toReal_klDiv, SamplingCorollaries.lean:527); EGF.printed_kl_decomposition_false, a two-point instance where the printed left side KL(κ̂/κ̂(S) ‖ κ) differs (C-5). (3) EGF.pinsker_negative_control_rev: TV(s_τ ‖ κ) ≤ δ/(1 + δ) + √(½ KL(κ ‖ κ̂/κ̂(S))), from EGF.sampling_error_control (SamplingCorollaries.lean:194), EGF.pinsker (:536) with its arguments swapped and EGF.tvDist_comm (EGF/Sampling.lean:515): Corollary 3.10 holds in both directions (C-5). (4) EGF.loss_ge_entropy and EGF.loss_controls_sampling: for F_init, F_out ≪ λ, EGF.InflowAC λ F, κ a probability ≪ λ with finite entropy and finite loss, λ ≤ N • ν_train and b ≥ 1 + N: H(κ) ≤ L and TV(s_τ ‖ κ) ≤ (1/√2)√(L − H(κ)) + min(1, N(L − H(κ))), s_τ the sampler EGF.GenerativeFlow.pathLaw F F_init κ̂; port the chain of GFNBounds.Core.il_tv_bound (ILBound.lean:443; loss_ge_selfEntropy :348, klD_le_loss_sub_selfEntropy :364, lqNormD_le_loss_sub_selfEntropy :378) with its three external inputs discharged here (hNC by EGF.sampling_error_control, hPins by EGF.pinsker, htri by EGF.tvDist_triangle, SamplingCorollaries.lean:178), as the follow-up's GFNBounds.Core.SamplingGeneral.il_first_bullet_general does (lean/GFNBounds/Core/SamplingGeneralBounds.lean:709); at q = 1 the Hölder step is δ = ∫ δf_init dλ ≤ N ∫ δf_init dν_train. (5) Algorithm 1 (main.tex:383-404): EGF.algBackwardFactor_mem_Ioc ((1 + δf_init/f_in)⁻¹ ∈ (0, 1] for the corrected δf_init ≥ 0 and f_in > 0) and EGF.printed_algBackwardFactor_neg (with the printed sign the factor of l.400 can be negative: f_in = 1, δf_init = −2); the forward factor of l.399 is the sampler's continuation probability (EGF.GenerativeFlow.pathLaw_hazard, Sampling.lean:1269). Optional: EGF.Swap.printed_loss_tendsto_bot (on EGF.Swap.flow with F_out = m δ_false the printed loss tends to −∞ while δ → ∞: minimizing it does not control δ, C-2). (6) For an EGF with nonsingular moves, no InflowAC: EGF.pinsker_negative_control_nonsingular (EGF.pinsker_negative_control_density, SamplingCorollaries.lean:769, with InflowAC from T-egf-inflow-nonsingular's EGF.InflowAC.of_map_ac; replaces the hJ of pinsker_negative_control_isEGF, :910) and EGF.loss_controls_sampling_nonsingular. Anchors C-2 (EGF.klwfmLoss, EGF.loss_controls_sampling), C-3 (EGF.loss_controls_sampling, EGF.algBackwardFactor_mem_Ioc), C-5 (EGF.kl_decomposition, EGF.pinsker_negative_control_rev), C-35 (EGF.loss_controls_sampling) and the EGF form of C-6 (EGF.pinsker_negative_control_nonsingular)."
 added = "2026-11-21"
 proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
+commit = "9442319"
 
 [[target]]
 id = "T-egf-mixing-criteria"
@@ -147,7 +149,7 @@ stream = "lean"
 kind = "close"
 paper = "egf"
 labels = ["theo:universality_tori", "theo:spectral_gap_tori"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 5
 depends = ["T-egf-universality", "T-egf-universality-ergodic"]
@@ -162,7 +164,7 @@ stream = "lean"
 kind = "close"
 paper = "egf"
 labels = ["theo:universality_sphere", "theo:spectral_gap_sphere"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 5
 depends = ["T-egf-universality", "T-egf-universality-ergodic"]
@@ -239,7 +241,7 @@ title = "Correct the sign of delta f_init and the loss: Corollary 3.10, Eq. (15)
 stream = "paper"
 kind = "correct"
 paper = "egf"
-status = "planned"
+status = "ready"
 owner = "corrector"
 priority = 6
 depends = ["T-egf-adopt-dec141", "T-egf-loss"]
@@ -394,7 +396,7 @@ id = "T-egf-repro-torus-il"
 title = "Imitation learning on the continuous torus T^2: the minimal four affine moves (S, T and inverses, trainable translations), 3x32 and 4x128 MLPs, KL-weakFM with the corrected sign, the density filter; star, two spirals, checkerboard"
 stream = "repro"
 kind = "repro"
-status = "ready"
+status = "active"
 owner = "experimenter"
 priority = 3
 depends = ["T-egf-repro-scaffold"]
