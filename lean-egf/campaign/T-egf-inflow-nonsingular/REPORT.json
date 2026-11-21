@@ -1,0 +1,101 @@
+{
+  "package": "T-egf-inflow-nonsingular",
+  "target": "T-egf-inflow-nonsingular",
+  "files": ["scaffold/EGFScaffold/InflowNonsingular.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "theo:backward_policy",
+      "tex_lines": [731, 766],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "EGF.IsEGFPolicy.bind_eq_sum_map",
+        "EGF.IsEGFPolicy.inflow_eq_sum_map",
+        "EGF.inflow_ac_iff",
+        "EGF.inflow_ac_of_map_ac",
+        "EGF.bind_ac_of_map_ac",
+        "EGF.inflow_ac_of_bind_ac",
+        "EGF.bind_withDensity_ac",
+        "EGF.inflow_ac_forall_iff",
+        "EGF.bind_ac_iff_map_ac",
+        "EGF.inflow_eq_withDensity_sum_rnDeriv",
+        "EGF.inflow_eq_withDensity_of_map_ac",
+        "EGF.InflowAC.of_map_ac",
+        "EGF.InflowAC.of_map_eq_withDensity",
+        "EGF.InflowAC.of_bind_ac",
+        "EGF.InflowAC.of_isEGF",
+        "EGF.InflowAC.of_quasiMeasurePreserving",
+        "EGF.InflowAC.of_measurePreserving",
+        "EGF.map_ac_of_measurePreserving",
+        "EGF.map_ac_of_leftInverse",
+        "EGF.map_ac_of_differentiable",
+        "EGF.map_ac_of_diffeomorph",
+        "EGF.map_ac_diffeoEquiv",
+        "EGF.InflowAC.of_diffeomorph",
+        "EGF.InflowAC.of_equiv_addHaar",
+        "EGF.coordJac_ae_eq_one",
+        "EGF.rnDeriv_map_ae_eq_one",
+        "EGF.inflowDensity_one",
+        "EGF.backwardWeight_one",
+        "EGF.backward_policy_measurePreserving",
+        "EGF.inflow_eq_withDensity_measurePreserving",
+        "EGF.not_map_ac_acMap",
+        "EGF.doublingMap",
+        "EGF.doublingPolicy",
+        "EGF.doubling_witness"
+      ],
+      "hypotheses": [
+        {"paper": "S a differential (Riemannian) manifold (main.tex:217, :731)", "here": "weakened", "note": "any measurable space"},
+        {"paper": "lambda absolutely continuous w.r.t. Lebesgue (main.tex:731) / the Riemannian volume (main.tex:217)", "here": "corrected", "note": "(Phi_i)_# lambda << lambda for each i (nonsingular moves), the corrected form of record of C-6/C-7 (DEC-141); inflow_ac_iff is the sharp criterion; bind_ac_iff_map_ac shows the hypothesis is necessary when the weights are positive; not_map_ac_acMap shows it is exactly what fails in the strict counterexample EGF.printed_inflow_not_ac"},
+        {"paper": "Phi_i diffeomorphisms (main.tex:732)", "here": "weakened", "note": "measurable maps, no inverse, no Jacobian (IsEGFPolicy); homeomorphisms in InflowAC.of_isEGF, with no BorelSpace hypothesis; measurable bijections only where the printed formula needs Phi_i^{-1} (backward_policy_measurePreserving)"},
+        {"paper": "F_out = f_out lambda (main.tex:732)", "here": "weakened", "note": "F_out << lambda; any measure for the << statements, a finite one for the density statement inflow_eq_withDensity_sum_rnDeriv"},
+        {"paper": "|J_s Phi_i^{-1}| (main.tex:736-737)", "here": "carried", "note": "in backward_policy_measurePreserving the factor is 1: Phi_i measure-preserving; rnDeriv_map_ae_eq_one (lambda-Jacobian) and coordJac_ae_eq_one (coordinate Jacobian, Haar measure) show it is 1 a.e. in both readings"},
+        {"paper": "(target block, item 4) lambda sigma-finite", "here": "weakened", "note": "not assumed: EGF.backward_policy needs only Phi_i_# lambda = J_i lambda, here with J = 1"}
+      ],
+      "sorries": [],
+      "findings": [
+        "main.tex:196 presupposes f_in* = dF_in*/d lambda = d(F_out* pi*)/d lambda. For every EGF policy (main.tex:219) with measurable moves that are nonsingular, (Phi_i)_# lambda << lambda, and every F_out << lambda, F_in = sum_i (Phi_i)_#(alpha^i F_out) << lambda, on any measurable space, with no inverse, no Jacobian and no sigma-finiteness (EGF.IsEGFPolicy.bind_eq_sum_map, EGF.inflow_ac_of_map_ac, EGF.InflowAC.of_map_ac). This proves the corrected text of C-6 (the author's 'straightforward consequence of the diffeomorphism decomposition of the policy').",
+        "The criterion is sharp: F_in << lambda iff (Phi_i)_#(alpha^i F_out) << lambda for every i (EGF.inflow_ac_iff); and for positive weights (e.g. the uniform policy) lambda pi << lambda iff every move is nonsingular (EGF.bind_ac_iff_map_ac), so nonsingularity is necessary; a condition on lambda suffices only if it implies it, which the printed lambda << Lebesgue does not (EGF.not_map_ac_acMap) [reworded by the master at graduation, AUDIT-1]. The strict counterexample to the appendix setting (main.tex:731-732, EGF.printed_inflow_not_ac) satisfies every hypothesis of EGF.inflow_ac_of_map_ac but nonsingularity (EGF.not_map_ac_acMap).",
+        "Existence of f_in does not need invertible moves, only the closed form of main.tex:737 does: for measurable, possibly non-invertible moves f_in = sum_i d((Phi_i)_#(alpha^i F_out))/d lambda (EGF.inflow_eq_withDensity_sum_rnDeriv; sigma-finite lambda, finite F_out). Example: the doubling map y -> 2y of the circle, measure-preserving and not injective (EGF.doubling_witness), to which EGF.backward_policy does not apply.",
+        "For measure-preserving moves the printed formula of main.tex:735-737 holds verbatim with |J_s Phi_i^{-1}| = 1: f_in = sum_i (alpha^i f_out) o Phi_i^{-1} and beta^i = (alpha^i f_out) o Phi_i^{-1} / f_in, on any measurable space, no sigma-finiteness (EGF.backward_policy_measurePreserving, EGF.inflow_eq_withDensity_measurePreserving); both the lambda-Jacobian and, for Haar measure, the coordinate Jacobian are 1 a.e. (EGF.rnDeriv_map_ae_eq_one, EGF.coordJac_ae_eq_one). Every experiment of the paper uses such moves (main.tex:440: translations and SL_2(Z) elements of T^2; main.tex:496: rotations of S^2; the families of main.tex:284 and :303), so the discrepancy of C-8 (coordinate versus lambda-Jacobian) does not touch them. The measure-preservation of affine SL_d(Z) maps of tori and of rotations of spheres is checked by hand here and is T-egf-families's / T-egf-families-sphere's to formalize."
+      ],
+      "questions": []
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C-6",
+      "anchor": ["EGF.inflow_ac_of_map_ac", "EGF.InflowAC.of_map_ac"],
+      "supporting": ["EGF.IsEGFPolicy.bind_eq_sum_map", "EGF.inflow_ac_iff", "EGF.bind_ac_iff_map_ac", "EGF.inflow_eq_withDensity_sum_rnDeriv", "EGF.InflowAC.of_isEGF", "EGF.InflowAC.of_map_eq_withDensity", "EGF.InflowAC.of_measurePreserving", "EGF.InflowAC.of_diffeomorph", "EGF.InflowAC.of_equiv_addHaar"],
+      "notes": "Proved, sorry-free, in the corrected text's form: F_out pi = sum_i (Phi_i)_#(alpha^i F_out) << lambda as soon as (Phi_i)_# lambda << lambda for every i and F_out << lambda; measurable Phi_i, no inverse, no Jacobian, no sigma-finiteness, any measurable space. The listed anchor EGF.inflowAC_of_isEGFPolicy (narrower) can be switched: EGF.InflowAC.of_map_eq_withDensity derives its conclusion from its hypotheses minus the measurability of J and f_out. Corollary 3.10 without InflowAC (EGF.pinsker_negative_control_nonsingular) is T-egf-loss's, not done here."
+    },
+    {
+      "id": "C-7",
+      "anchor": [],
+      "supporting": ["EGF.not_map_ac_acMap", "EGF.bind_ac_iff_map_ac", "EGF.map_ac_of_measurePreserving", "EGF.map_ac_of_leftInverse", "EGF.map_ac_of_differentiable", "EGF.map_ac_of_diffeomorph", "EGF.InflowAC.of_quasiMeasurePreserving"],
+      "notes": "Supports the corrected setting (moves nonsingular for lambda): it is exactly the hypothesis the refutation EGF.printed_inflow_not_ac violates (not_map_ac_acMap), it is necessary for positive weights (bind_ac_iff_map_ac), and it holds for measure-preserving moves and for Haar measure with C^n diffeomorphisms (n >= 1) or any measurable map with a differentiable left inverse (no Jacobian formula used). It is Mathlib's Measure.QuasiMeasurePreserving."
+    },
+    {
+      "id": "C-8",
+      "anchor": [],
+      "supporting": ["EGF.backward_policy_measurePreserving", "EGF.inflow_eq_withDensity_measurePreserving", "EGF.inflowDensity_one", "EGF.backwardWeight_one", "EGF.rnDeriv_map_ae_eq_one", "EGF.coordJac_ae_eq_one"],
+      "notes": "Supports: for measure-preserving moves the lambda-Jacobian and the coordinate Jacobian (Haar measure) are both 1 a.e., and the printed formula holds verbatim with |J| = 1, without sigma-finiteness; the setting of every experiment of the paper."
+    }
+  ],
+  "extra_decls": [
+    "EGF.finsetSum_ac_iff",
+    "EGF.bind_ac_bind",
+    "EGF.IsEGFPolicy.weight_le_one",
+    "EGF.isFiniteMeasure_withDensity_weight",
+    "EGF.map_ac_of_leftInverse",
+    "EGF.inflow_ac_forall_iff"
+  ],
+  "kb_proposals": [
+    "F_in << lambda for an EGF needs only nonsingular moves: EGF.InflowAC.of_map_ac (any measurable space, measurable Phi_i, no inverse, no sigma-finiteness); for measure-preserving moves (tori, spheres) use EGF.map_ac_of_measurePreserving or EGF.InflowAC.of_measurePreserving, and EGF.backward_policy_measurePreserving for the backward policy with J = 1.",
+    "Phi_# mu << mu for Haar mu needs no Jacobian formula: if g o Phi = id with g differentiable, Phi^{-1}(A) is contained in g(A) and addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero gives the null set (EGF.map_ac_of_leftInverse).",
+    "Pitfall: measure_mono_null (fun x hx => <y, hy, h>) fails with 'expected type could not be determined'; write the inclusion with show A ⊆ B from fun x hx => ..."
+  ],
+  "notes": "Typechecked with lake env lean (no error, no warning) and built once with taskset -c 0-11 lake build EGFScaffold.InflowNonsingular (only this module compiled; no EGF.* or mathlib rebuild). All 38 declarations depend only on propext, Classical.choice, Quot.sound (checked by #print axioms, removed afterwards). New import: Mathlib.Dynamics.Ergodic.AddCircle, used only by the non-vacuity witness EGF.doubling_witness (the circle is a witness for non-invertible moves, not a torus family). No name clashes with the strict tree or with T-egf-universality's UniversalFamily.lean (checked). The file is not imported by scaffold/EGFScaffold.lean (not mine to edit): the master adds it at graduation, else the axiom sweep misses it (lean-causal kb 0025). Deviations from the target block, all in the direction of fewer hypotheses: (i) item (4)'s 'sigma-finite lambda' is dropped; (ii) EGF.map_ac_of_differentiable is proved through EGF.map_ac_of_leftInverse (image of null sets under a differentiable map), not through EGF.map_eq_withDensity_abs_det; (iii) InflowAC.of_isEGF takes no BorelSpace (the moves' measurability is part of IsEGFPolicy). No ** mark: theo:backward_policy is already marked in EGF/BackwardPolicy.lean in its corrected form of record; this file is the label's supplement, reported 'partial' because its backward-policy formula assumes measure-preserving moves."
+}

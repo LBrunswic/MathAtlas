@@ -1,0 +1,80 @@
+{
+  "target": "T-egf-inflow-nonsingular",
+  "auditor_round": 1,
+  "file": "scaffold/EGFScaffold/InflowNonsingular.lean",
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "theo:backward_policy",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "No ** mark here, which is correct: the label stays marked once, in EGF/BackwardPolicy.lean (EGF.backward_policy_rnDeriv, DEC-141), and this file is a supplement reported 'partial'. I read every statement in the file against main.tex:196, :217-219, :225-233 and :731-766, and against the strict definitions it uses (IsEGFPolicy, egfKernel, IsEGF and inflow in EGF/Defs.lean:135-243; InflowAC in EGF/SamplingCorollaries.lean:626; inflowDensity, backwardWeight, backwardKernel, backward_policy, coordJac and map_eq_withDensity_abs_det in EGF/BackwardPolicy.lean:193-536; lamAc, acMap, acPolicy and printed_inflow_not_ac at :827-886). (1) IsEGFPolicy.bind_eq_sum_map (:82) states mu pi = sum_i (Phi_i)_#(alpha^i mu) for any measure mu and measurable Phi_i. That is the mathematics of main.tex:747-752 with no inverse, and it matches target item (1) exactly. (2) inflow_ac_of_map_ac (:143) and InflowAC.of_map_ac (:235) have exactly the signatures of target item (2): IsEGFPolicy, (Phi_i)_# lam << lam for all i, and F_out << lam, with conclusion inflow << lam. There is no sigma-finiteness, no inverse and no Jacobian. Against C-6's corrected text ('F_in* = sum_i (Phi_i)_#(alpha^i F_out*) << lambda because each Phi_i is nonsingular'), the hypotheses are the added hypothesis of C-6 plus F_out << lambda, which is weaker than the paper's F_out = f_out lambda, plus the measurability of the moves and the weights, which IsEGFPolicy (strict, already audited) carries for every EGF. No hidden hypothesis. The clause 'hence f_in* exists' is a separate theorem, inflow_eq_withDensity_of_map_ac (:223), under SigmaFinite lam (see finding 1). (3) inflow_ac_iff (:133) is an iff for each fixed F_out. It needs only IsEGFPolicy, and it is sharp. bind_ac_iff_map_ac (:176) needs alpha^i(s) > 0 everywhere. That suffices: lam << alpha^i lam, then AbsolutelyContinuous.map. It is the paper's softmax-head setting (l.288, :302). The theorem is correct as stated. The REPORT's gloss on it is not (finding 2). (4) inflow_ac_of_bind_ac, bind_withDensity_ac and inflow_ac_forall_iff are correct for any kernel. InflowAC.of_map_eq_withDensity (:243) really has the hypotheses of strict EGF.inflowAC_of_isEGFPolicy (SamplingCorollaries.lean:898) minus hJm and hf, so it supersedes that anchor as claimed. (5) Instances. map_ac_of_leftInverse (:291) is sound: Phi^{-1}(A) is a subset of g(A), and Mathlib's addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero applies. map_ac_of_differentiable, map_ac_of_diffeomorph (n != 0), map_ac_diffeoEquiv, map_ac_of_measurePreserving and InflowAC.of_{isEGF, quasiMeasurePreserving, measurePreserving, diffeomorph, equiv_addHaar} are all as their docstrings say. InflowAC.of_isEGF indeed needs no BorelSpace. (6) backward_policy_measurePreserving (:370) is EGF.backward_policy at J = 1 with hJ discharged by MeasurePreserving.map_eq and withDensity_one. It has the four conclusions verbatim and no sigma-finiteness. The added hypothesis 'measure-preserving' is the reason for 'partial'. The REPORT notes disclose it, but the docstring checklist does not (finding 3). inflowDensity_one and backwardWeight_one unfold to the printed l.736-737 with |J| = 1. rnDeriv_map_ae_eq_one needs sigma-finite lam. coordJac_ae_eq_one is for Haar measure, a differentiable inverse and a measure-preserving Phi_i, and its proof is correct (withDensity_eq_iff_of_sigmaFinite). (7) Findings about the paper. That the printed formula of l.735-737 holds with |J| = 1 for measure-preserving moves is right in both readings of |J| (C-8, C-10). That every experiment uses such moves is right: l.432 and :440 (affine SL_2(Z) maps and translations of T^2), l.493 (the minimal four affine maps), l.496 (rotations of S^2). The ablation, which the REPORT does not cite, also uses such moves: main.tex:1210-1211, :1310-1311 and :1413-1414 take S = R^2 with 8 translations and Lebesgue measure. So the claim survives. Cite those lines too. The refutation EGF.printed_inflow_not_ac satisfies IsEGFPolicy (isEGFPolicy_acPolicy) and F_out = lamAc.withDensity 1 << lamAc. not_map_ac_acMap (:402) derives the failure of nonsingularity from printed_inflow_not_ac.2.2.2.2.1, the '¬ F_in << lamAc' conjunct, through inflow_ac_of_map_ac with the other two hypotheses discharged. So the counterexample violates exactly that hypothesis. (8) Non-vacuity. doubling_witness is a genuine witness, not a vacuous statement. IsEGFPolicy for p = 1 with weight 1 is built by isEGFPolicy_egfKernel. Measure preservation comes from AddCircle.ergodic_nsmul with n = 2. Non-injectivity is proved by 2*(T/2) = 0. So the hypotheses of inflow_ac_of_map_ac are satisfiable by a non-invertible move, and EGF.backward_policy (S ≃ᵐ S) cannot reach it. bind_ac_iff_map_ac's hpos is met by the uniform policy. backward_policy_measurePreserving's hypotheses are met by translations. None of the hypotheses is unsatisfiable, and no conclusion hides in a structure field."
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C-6",
+      "claim_checked": "anchor EGF.inflow_ac_of_map_ac, EGF.InflowAC.of_map_ac",
+      "holds": true,
+      "notes": "Both prove the << clause of C-6's corrected text, with fewer hypotheses than it lists: any measurable space, measurable Phi_i, F_out << lambda. There is no hidden hypothesis. The closing 'hence f_in* exists' is inflow_eq_withDensity_of_map_ac (:223), which needs SigmaFinite lam, and the REPORT does not name it among C-6's anchors. See finding 1. C-6's status 'found' and its anchor switch from EGF.inflowAC_of_isEGFPolicy are the master's to record. InflowAC.of_map_eq_withDensity proves that the old anchor's hypotheses imply the new ones, so the switch loses nothing."
+    },
+    {
+      "id": "C-7",
+      "claim_checked": "supporting: not_map_ac_acMap, bind_ac_iff_map_ac, map_ac_of_measurePreserving, map_ac_of_leftInverse, map_ac_of_differentiable, map_ac_of_diffeomorph, InflowAC.of_quasiMeasurePreserving",
+      "holds": true,
+      "notes": "Every supporting statement is correct. Nonsingularity plus measurability is Mathlib's QuasiMeasurePreserving (Measurable f ∧ μa.map f ≪ μb), as claimed. The REPORT's prose gloss 'cannot be weakened to a condition on lambda alone' overstates bind_ac_iff_map_ac (finding 2). For the master's register, not the closer's: C-7's corrected text ('or any lambda equivalent to Lebesgue measure') gives (Phi_i)_# lambda << lambda but not, without sigma-finiteness, the density f_in that the theorem's formula needs. Its own anchor EGF.backward_policy_rnDeriv carries [SigmaFinite lam] (finding 1)."
+    },
+    {
+      "id": "C-8",
+      "claim_checked": "supporting: backward_policy_measurePreserving, inflow_eq_withDensity_measurePreserving, inflowDensity_one, backwardWeight_one, rnDeriv_map_ae_eq_one, coordJac_ae_eq_one",
+      "holds": true,
+      "notes": "For measure-preserving moves the lambda-Jacobian is 1 lambda-a.e. (sigma-finite lambda), and so is the coordinate Jacobian (Haar measure, differentiable inverse). The printed l.735-737 holds with J = 1 with no sigma-finiteness. These support C-8's claim that the discrepancy does not touch the paper's experiments. C-8's anchors are unchanged (strict)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "I ran 'taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/EGFScaffold/InflowNonsingular.lean' from lean-egf/ on node1: exit 0, no error, no warning, so the file would also pass the strict lib's warningAsError. 'sorry' occurs once in the file, in the SCOPE prose ('No `sorry`.'). There is no sorry, admit, axiom, native_decide, set_option or unsafe in Lean code. The axiom probe was campaign/T-egf-inflow-nonsingular/AxiomProbe.lean: the file's text plus '#print axioms' for all 38 distinct declarations the REPORT names (decls, corrections anchors and supporting, extra_decls). It ran with lake env lean and was deleted afterwards. All 38 exist and depend only on [propext, Classical.choice, Quot.sound]. No lake build was run, and none was running (pgrep). The module's .olean (2026-11-21 11:18:07) predates the last edit of the source (11:19:23), so the closer's 'built once with lake build' refers to an earlier text. The current text typechecks; the master's graduation build is the one of record. No name clash: none of the 38 names is declared in lean-egf/EGF/** or in scaffold/EGFScaffold/UniversalFamily.lean or Basic.lean."
+  },
+  "scope": {
+    "ok": true,
+    "notes": "git status --short shows, besides the closer's two paths (?? lean-egf/scaffold/EGFScaffold/InflowNonsingular.lean, ?? lean-egf/campaign/T-egf-inflow-nonsingular/), only other loops' in-flight work. lean-causal/** and programme/roadmap.toml belong to the ETT loop. lean-egf/scaffold/EGFScaffold/UniversalFamily.lean belongs to T-egf-universality. papers/egf/programme/roadmap.toml is the master's: its diff only sets status = 'active' on T-egf-inflow-nonsingular, T-egf-universality and T-egf-repro-scaffold. No tracked file under lean-egf/ is modified. scaffold/EGFScaffold.lean, lakefile.toml and kb/ are untouched. The ignored lean-egf/build.log dates from 10:23, before this dispatch. The campaign directory held only REPORT.json before this audit."
+  },
+  "docstring_contract": {
+    "ok": false,
+    "notes": "Present and in order: the title; `theo:backward_policy` — `main.tex:733` without the mark at character 131; > quotes of main.tex:196, :731-732 and :238, verbatim; a what-is-proved table; ## Hypothesis checklist; ## SCOPE (disclosed); the Provenance line. The docstring is 4560 characters, with SCOPE at 3887 and Provenance at 4484, so both lie within the ledger's 8000. SCOPE is true: no sorry, no mark, C-6 anchored, no torus or sphere built, and Mathlib at fabf563a has no Riemannian volume measure (Geometry/Manifold/Riemannian has only Basic and PathELength). The checklist is incomplete (finding 3), and the label's own statement l.733-739 is not quoted (finding 4). The GFNBounds provenance comments are exact. GFNBounds.Core.EGF.IsEGFPolicy.bind_withDensity is at lean/GFNBounds/Core/UniversalityBody.lean:207. GFNBounds.Core.bind_absolutelyContinuous_bind is at Kernel.lean:132. GFNBounds.Core.ILBoundFull.inflowAC_of_bind_ac is at ILBoundFull.lean:581. GFNBounds.Core.Family.bind_withDensity_ac is at FamilyUniversality.lean:373. All four match their namespaces (submodule at 2e9865c). One port has no comment (finding 5)."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json corrections[C-6].notes and labels[0].findings[0] ('This proves the corrected text of C-6'); InflowNonsingular.lean:223",
+      "what": "inflow_ac_of_map_ac and InflowAC.of_map_ac prove the << clause of C-6 with no hidden hypothesis. C-6's corrected text, however, ends 'hence f_in* exists', and that clause is inflow_eq_withDensity_of_map_ac, which needs [SigmaFinite lam]. It must: on R take lambda = Leb|(0,1) + ∞•Leb|(R∖(0,1)), Phi(x) = x + 1, alpha = 1, f_out = 1_(0,1). Then lambda is equivalent to Lebesgue, Phi is nonsingular, F_out = f_out lambda = Leb|(0,1) is finite, and F_in = Leb|(1,2) << lambda. Yet F_in((1,2)) = 1, while every lambda.withDensity g gives (1,2) mass 0 or ∞, so f_in does not exist. This is harmless under def:egf's Riemannian volume, which is sigma-finite. It does bear on C-7's corrected text 'or any lambda equivalent to Lebesgue measure', whose anchor EGF.backward_policy_rnDeriv carries [SigmaFinite lam].",
+      "fix": "In REPORT/curation, name EGF.inflow_eq_withDensity_of_map_ac as the anchor of C-6's 'hence f_in* exists' clause, with its sigma-finite lambda. The master may add 'sigma-finite' to the 'lambda equivalent to Lebesgue' examples of C-6/C-7 in corrections.toml (a register edit, not the closer's)."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[1] ('so C-6/C-7's added hypothesis cannot be weakened to a condition on lambda alone'); InflowNonsingular.lean:174-185",
+      "what": "bind_ac_iff_map_ac is correctly stated: positive weights give lam pi << lam iff every move is nonsingular. Through inflow_ac_forall_iff, nonsingularity is therefore necessary for 'every F_out << lambda has F_in << lambda'. The gloss is false as written, though. Conditions on lambda alone do imply nonsingularity of every move in the paper's class: lambda equivalent to Lebesgue does for diffeomorphisms (EGF.map_ac_of_equiv_addHaar, C-7's own corrected text), and counting measure does for all maps. The sentence would reach the author as a fact contradicting C-7.",
+      "fix": "Replace the clause with: 'so nonsingularity is necessary; a condition on lambda suffices only if it implies it, which the printed lambda << Lebesgue does not (EGF.not_map_ac_acMap)'."
+    },
+    {
+      "severity": "minor",
+      "where": "InflowNonsingular.lean:46-55 (## Hypothesis checklist); REPORT.json labels[0].hypotheses (|J_s Phi_i^{-1}| marked 'carried')",
+      "what": "The checklist omits two hypotheses that some declarations add relative to the paper. (a) Measure-preserving moves, in backward_policy_measurePreserving (:370), inflow_eq_withDensity_measurePreserving (:386), coordJac_ae_eq_one (:332) and rnDeriv_map_ae_eq_one (:347). The paper's diffeomorphisms have an arbitrary Jacobian. This is the very reason the row is 'partial'. The REPORT notes disclose it, but its hypotheses row calls the |J| factor 'carried' rather than strengthened. (b) Sigma-finite lambda, in inflow_eq_withDensity_sum_rnDeriv (:205), inflow_eq_withDensity_of_map_ac (:223) and rnDeriv_map_ae_eq_one. The checklist row 'lambda sigma-finite: ⚠ weakened, not assumed' is true only of backward_policy_measurePreserving. Both are disclosed elsewhere and no mark is claimed, hence minor.",
+      "fix": "Add two checklist rows marked '⚠ strengthened': 'Φᵢ diffeomorphisms, arbitrary |J| | measure-preserving measurable bijections (|J| = 1) in backward_policy_measurePreserving, inflow_eq_withDensity_measurePreserving', and 'λ (no σ-finiteness printed) | σ-finite in inflow_eq_withDensity_sum_rnDeriv, inflow_eq_withDensity_of_map_ac, rnDeriv_map_ae_eq_one (necessary for the density)'. In REPORT, mark the |J| row 'strengthened'."
+    },
+    {
+      "severity": "minor",
+      "where": "InflowNonsingular.lean:15-26 (quote blocks)",
+      "what": "The docstring cites `theo:backward_policy` — `main.tex:733`, and backward_policy_measurePreserving and inflowDensity_one/backwardWeight_one specialize its formula. It quotes the setting (l.731-732), l.196 and l.238, but not the theorem's own statement l.733-739 (kb 0006 item 3: the paper's sentences quoted, as printed).",
+      "fix": "Add a > block quoting main.tex:733-739 (the B*, beta^i and f_in lines)."
+    },
+    {
+      "severity": "minor",
+      "where": "InflowNonsingular.lean:187-191 (EGF.IsEGFPolicy.weight_le_one)",
+      "what": "This is a verbatim port of GFNBounds.Core.EGF.IsEGFPolicy.weight_le_one (lean/GFNBounds/Core/UniversalityBody.lean:231): the same Finset.single_le_sum / weight_sum script. It has no provenance comment, which the corrected-form rule (c) requires of every port.",
+      "fix": "Add '-- ported from GFNBounds.Core.EGF.IsEGFPolicy.weight_le_one (lean/GFNBounds/Core/UniversalityBody.lean:231)' above it."
+    }
+  ]
+}
