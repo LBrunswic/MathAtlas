@@ -89,3 +89,12 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓ (Rules/Test built), ladder ✓, binder ✓, roadmaps ✓, tests ✓, blueprint ✓ (every smoke check); hub: papers-check red on benzecri and egf only — /atlas-team's in-flight closers (it holds lean-benzecri, lean-egf, papers/benzecri, papers/egf), gate-tests red through it; nothing of this wave red
 - commits: 7985e8b 6a0018d 9f24800 105daa1
 - next: wave: T-abs-hoist-time-function (closer, exclusive in lean-causal) — /atlas-team's exclusive T-ett-gxsingular-dec25 also waits for lean-causal: alternate
+
+## 2026-11-21 02:00 · wave of 1 (+ ladder follow-up) · T-abs-hoist-time-function
+- T-abs-hoist-time-function (abstract, exclusive in lean-causal, agreed with /atlas-team): Causal.CurvesExtend, Causal.CBG.Injective (Sbierski Lemma 3.3), Causal.CBG.CausalConvex and the new Causal.CauchyDual are ETT-layer; HasTimeFunction lives in Causal.CurvesExtend with the wrappers HasTimeFunction.isCausal and .curvesExtend; the static/Minkowski instances in Causal.Model.CurvesExtendModels and Causal.Model.InjectiveMinkowski; audit clean (11 constants changed module only; the private-name artefact explained); ETT-layer 51/225 → 55/228; stale docstrings fixed at integration; kb 0065, 0066
+- ladder follow-up (keeper): the time_function edges now use the wrappers; causal_ladder 17 rules; time_function's examples present and derived (28 derived, 297 not derived); a negative control showed the old witnesses fail
+- ladder: 23 properties, 21 checked implications, 18 counterexamples, 40 consequences; 85 of 506 pairs
+- binders: unchanged (ers 28 rows, layer 1 in Lean 17; sbierski 19 rows, layer 1 in Lean 15)
+- gates: lean-causal ✓ (228 strict files, 0 sorry), ladder ✓, binder ✓, roadmaps ✓, tests ✓, blueprint ✓, hub make -k check ALL GREEN; /tmp/check-lean-causal.log left for /atlas-team's sweep refresh
+- commits: 7eff58c 645b01e 37df062 68957f2
+- next: lean-causal to /atlas-team's exclusive T-ett-gxsingular-dec25; then a wave of up to 3 lean-causal closers from the ready p4 targets (nested-converse, nested-transfer, chronal-neighbour-bridge, pushup-not-open, quasilinear-one-sided); a planner pass is due soon (proposals since 00:20: doubled-line compactness, gated-line local facts and the DEC-8 finding, spacelike-line non-tarentin, E0ModelRows hoist candidates, SingularFlatAxioms.causallyPlain for OQ-16)
