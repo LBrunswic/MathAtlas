@@ -55,5 +55,6 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.Ha
 
 -- skipped Causal.Causality.StronglyCausal.isCausal (strongly_causal ⇒ is_causal): under: M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff
 -- skipped Causal.Causality.GloballyHyperbolic.stronglyCausal (globally_hyperbolic ∧ tarentin ⇒ strongly_causal): under: M Hausdorff ([T2Space M])
+-- skipped Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal (absolutely_minimal ∧ causally_plain ⇒ push_up): under: M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff
 -- skipped Causal.Causality.exists_timeFunction_of_secondCountable (globally_hyperbolic ∧ tarentin ⇒ time_function): under: M Hausdorff and second countable ([T2Space M] [SecondCountableTopology M]); ETT's spacetimes are both (ETT.tex:255)
 -- skipped Causal.Causality.LeNested.curveNestedOn (le_nested ⇒ curve_nested): sort: joins a property not of the sort causality

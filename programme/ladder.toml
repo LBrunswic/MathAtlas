@@ -34,7 +34,9 @@
 # causally_open, causally_open_future; 2 through T1: strongly_causal, strongly_causal_open ⇒
 # is_causal); after it 2 of 44, the two through T1 (the seven are [[open]] entries since); after
 # T-lad-gh-causal (2026-11-21) the same 2, of 82 (is_causal ⇏ causally_compact is recorded directly,
-# not through strongly_causal ⇒ is_causal).
+# not through strongly_causal ⇒ is_causal); after T-lad-plain-separations (2026-11-21) the same 2, of
+# 98 classified (92 of the 306 pairs within the causality sort): its edge absolutely_minimal ∧
+# causally_plain ⇒ push_up carries T1 and classifies no pair, since no property implies both premises.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`, and what is said here of two sorts holds of any two. A property of sort
@@ -102,7 +104,10 @@
 # with their signatures: no edge witness takes a separation instance; the consequences' instances
 # are in their `under`; and so were the two witnesses switched on 2026-11-21 for
 # T-abs-hoist-time-function (Causal.Causality.HasTimeFunction.curvesExtend, .isCausal: each
-# {M} [TopologicalSpace M] {C : Causality M}, C.HasTimeFunction → …, no other premise).
+# {M} [TopologicalSpace M] {C : Causality M}, C.HasTimeFunction → …, no other premise); and so were
+# those added on 2026-11-21 by T-lad-plain-separations (the edge absolutely_minimal ∧ causally_plain
+# ⇒ push_up, whose witness takes [T1Space M], in its `under`; seven counterexamples, closed
+# statements about Causal.lightlikeLine and Causal.deuxPushup, and the split halves named beside them).
 
 [[property]]
 id = "is_causal"
@@ -357,6 +362,27 @@ status = "checked"
 from = ["causally_arc_connected", "locally_push_up"]
 to = "push_up"
 witness = "Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp"
+status = "checked"
+
+# rem:deux_pushup's finding (Causal/DeuxPushup.lean, ETT layer; T-lad-plain-separations, 2026-11-21):
+# on a T1 space absolute minimality makes ≪_U interpolate (Causal.Causality.
+# interpolatesOn_of_absolutelyMinimalOn: cover U by the complements of the two end points), and
+# plainness with interpolation is push-up (pushUpOn_of_causallyPlainOn_of_interpolatesOn). Read
+# 2026-11-21 (`#check`): {M} [TopologicalSpace M] {C : Causality M} [T1Space M], C.AbsolutelyMinimal →
+# C.CausallyPlain → C.PushUp, no other premise; T1 in `under`, as for strongly_causal ⇒ is_causal, so
+# emit-lean skips it (no rule). Not a theorem of the paper: the remark prints "neither implies the
+# other", and this is why its witness of plainness without push-up (deuxPushup, counterexamples below)
+# is not absolutely minimal. absolutely_minimal cannot be dropped (deuxPushup: causally_plain ⇏
+# push_up); whether causally_plain can is the unknown pair absolutely_minimal → push_up (no Lean model
+# is absolutely minimal without push-up). With causally_arc_connected ⇒ absolutely_minimal it gives
+# causally_arc_connected ∧ causally_plain ⇒ push_up (not recorded: a composite of two edges, and the
+# matrix classifies single premises only), beside lem:pushup_local's form with locally_push_up above;
+# so a causally arc-connected T1 spacetime without push-up is not causally plain ([[open]] below).
+[[implies]]
+from = ["absolutely_minimal", "causally_plain"]
+to = "push_up"
+witness = "Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal"
+under = "M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff"
 status = "checked"
 
 # Lemma K's route to causal openness (DEC-93; no ETT label). Replaced 2026-11-21 (T-lad-local-nodes):
@@ -654,12 +680,86 @@ status = "checked"
 # while I⁺({0}) = ∅). The other half is Causal.lightlikeLine_globallyHyperbolic (Causal.LadderLocal);
 # through the closure also is_causal, causally_compact ⇏ causally_plain. The spacelike line is a
 # second witness (Causal.spacelikeLine_globallyHyperbolic, Causal.spacelikeLine_not_causallyPlain).
-# Not recorded here: the lightlike line's push-up, causal openness, causal arc-connectedness and
-# tarentin (the entries above) refute those ⇒ causally_plain as well (report of T-lad-gh-causal).
+# The lightlike line's push-up, causal openness, causal arc-connectedness and tarentin refute those
+# ⇒ causally_plain as well: the next four entries (T-lad-plain-separations).
 [[fails]]
 from = "globally_hyperbolic"
 to = "causally_plain"
 witness = "Causal.lightlikeLine_not_causallyPlain"
+status = "checked"
+
+# ---- causal plainness against push-up (rem:deux_pushup; T-lad-plain-separations, 2026-11-21). Both
+# witnesses live on ℝ, Hausdorff and second countable; each name was read by `#check` on 2026-11-21.
+#
+# The lightlike line (push-up vacuously, I^± = ∅; not plain: Int J⁺({0}) = ]0, ∞[ while I⁺({0}) = ∅).
+# Causal.deux_pushup (Causal/DeuxPushup.lean) conjoins, in its first component, AbsolutelyMinimal,
+# IsCausal, PushUp and ¬ CausallyPlain of the lightlike line: one statement, the push_up entry's
+# witness (it also gives absolutely_minimal and is_causal ⇏ causally_plain directly; the closure has
+# them from causally_arc_connected below and from globally_hyperbolic above). The other three entries
+# use split witnesses, as the gated-line entries do: the witness is the half ¬ CausallyPlain
+# (Causal.lightlikeLine_not_causallyPlain, Causal/Lines.lean), the other half
+# Causal.lightlikeLine_causallyOpen (Causal/LadderLocal.lean), Causal.lightlikeLine_causallyArcConnected
+# (Causal/LocateExtension.lean), Causal.lightlikeLine_tarentin (Causal/Remarks/Tarentin.lean, a module
+# that imports Causal.SingularFlat; no emit-lean reads a [[fails]]); no one Lean statement conjoins
+# them (a conjoined lightlike-line witness is T-abs-doubled-line-compact's second item). Through the
+# closure: locally_push_up (from push_up); causally_open_future, locally_causally_open,
+# locally_causally_open_future (from causally_open); absolutely_minimal (from causally_arc_connected)
+# ⇏ causally_plain.
+[[fails]]
+from = "push_up"
+to = "causally_plain"
+witness = "Causal.deux_pushup"
+status = "checked"
+
+[[fails]]
+from = "causally_open"
+to = "causally_plain"
+witness = "Causal.lightlikeLine_not_causallyPlain"
+status = "checked"
+
+[[fails]]
+from = "causally_arc_connected"
+to = "causally_plain"
+witness = "Causal.lightlikeLine_not_causallyPlain"
+status = "checked"
+
+[[fails]]
+from = "tarentin"
+to = "causally_plain"
+witness = "Causal.lightlikeLine_not_causallyPlain"
+status = "checked"
+
+# deuxPushup (Causal.deuxPushup, Causal/DeuxPushup.lean: on ℝ, a ≪ b iff φ(a) < ψ(b), the reflexive
+# closure plus the one pair -2 ≤ -1; its relations on U are restrictions of global ones,
+# Causal.Causality.ofRelation). Causal.deux_pushup's second component conjoins IsCausal, CausallyPlain
+# and ¬ PushUp (-2 ≤ -1 ≪ 1, not -2 ≪ 1): the witness of the first two entries. The third is split:
+# the half Causal.deuxPushup_not_absolutelyMinimal, the other half Causal.deuxPushup_causallyPlain (or
+# that component of deux_pushup); through causally_arc_connected ⇒ absolutely_minimal it also refutes
+# causally_plain ⇒ causally_arc_connected. It is the edge absolutely_minimal ∧ causally_plain ⇒ push_up
+# (T1) read backwards: a causally plain causality on a T1 space failing push-up is not absolutely
+# minimal, and the DeuxPushup module proves deuxPushup_not_absolutelyMinimal by that route. Against
+# that edge both witnesses are consistent: the lightlike line is absolutely minimal with push-up and
+# not plain, deuxPushup plain with neither. Reading: deuxPushup is a causality in the library's
+# reading of defi:causalite (the "equivalently" form, no gluing, kb/0014); under a gluing reading of
+# "sheaf" (OQ-18) every open subset is absolutely minimal, deuxPushup is not one of ETT's spacetimes,
+# and these three entries say nothing about the paper (OQ-39, OPEN, registers/DECISIONS.md). The
+# lightlike line's entries above hold in both readings (it is absolutely minimal).
+[[fails]]
+from = "causally_plain"
+to = "push_up"
+witness = "Causal.deux_pushup"
+status = "checked"
+
+[[fails]]
+from = "is_causal"
+to = "push_up"
+witness = "Causal.deux_pushup"
+status = "checked"
+
+[[fails]]
+from = "causally_plain"
+to = "absolutely_minimal"
+witness = "Causal.deuxPushup_not_absolutelyMinimal"
 status = "checked"
 
 # ------------------------------------------------------------------ consequences
@@ -1030,7 +1130,7 @@ note = "With chronal_neighbours it holds (the edge above). Without, false, argue
 [[open]]
 from = "causally_arc_connected"
 to = "push_up"
-note = "With locally_push_up it holds (lem:pushup_local, the edge above). Without, no Lean model is causally arc-connected and fails push-up; the gated line has local push-up ({⋆} and the line are opens with push-up) and fails push-up (0 ≪ 1 ≤ ⋆, nothing ≪ ⋆), argued, not in Lean, but it is not causally arc-connected"
+note = "With locally_push_up it holds (lem:pushup_local, the edge above), and with causally_plain on a T1 space (through absolutely_minimal ∧ causally_plain ⇒ push_up, the edge above), so a counterexample is not causally plain, as the lightlike line is not, which has push-up. Without, no Lean model is causally arc-connected and fails push-up; the gated line has local push-up ({⋆} and the line are opens with push-up) and fails push-up (0 ≪ 1 ≤ ⋆, nothing ≪ ⋆), argued, not in Lean, but it is not causally arc-connected"
 
 [[open]]
 from = "absolutely_minimal"
