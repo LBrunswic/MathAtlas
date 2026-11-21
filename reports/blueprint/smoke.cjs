@@ -1,7 +1,9 @@
 // Headless smoke test of the blueprint page: load it, click into a property, an implication, a pair,
-// a transfer along a nesting, a counterexample with a conjunctive `from`, an open pair, a binder row
-// and a roadmap target, at desktop and phone width, in both colour schemes; count page errors
-// (uncaught exceptions). Exit 1 on any page error or on a click that does not open its panel.
+// a transfer along a nesting, a counterexample with a conjunctive `from`, an open pair, a pair refuted
+// only off ETT's spacetimes, a binder row and a roadmap target, at desktop and phone width, in both
+// colour schemes; count page errors (uncaught exceptions). The matrix's cells and key are counted
+// against tools/ladder.py's summary (classified, implied under standing only, refuted off the ambient
+// only). Exit 1 on any page error, on a click that does not open its panel and on a count that differs.
 // The page's ladder line against `tools/ladder.py check` is the Makefile's `agree`, not this file's.
 //
 // Implications are clicked where they are drawn: every segment of every implication (a single premise's
@@ -119,7 +121,9 @@ const transferPanel = page => page.evaluate(() => {
       properties: DATA.ladder.props.length, nodesDrawn: document.querySelectorAll("#world .node").length,
       implications: DATA.ladder.implies.length, edgesDrawn: new Set([...document.querySelectorAll("#world .edge")].map(e => e.dataset.i)).size,
       within: DATA.ladder.summary.within, classified: DATA.ladder.summary.classified, illTyped: DATA.ladder.summary.ill_typed,
-      impliedStanding: DATA.ladder.summary.implied_standing, transfers: DATA.ladder.transfers.length, violations: DATA.ladder.errors.length,
+      impliedStanding: DATA.ladder.summary.implied_standing, failsOff: DATA.ladder.summary.fails_off,
+      counterexamplesOff: DATA.ladder.fails.filter(f => f.onAmbient === false).length,
+      transfers: DATA.ladder.transfers.length, violations: DATA.ladder.errors.length,
       consequences: DATA.ladder.cons.length, binders: DATA.binders.map(b => b.slug + ":" + b.rows.length).join(", "),
       targets: DATA.road.targets.length }));
     await check("the overview shows tools/ladder.py check's line and its violations", async () => {
@@ -220,6 +224,58 @@ const transferPanel = page => page.evaluate(() => {
       const want = `${q[0]} × ${q[1]}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
       const chip = await page.locator("#panel .chips .chip").first().innerText(); if (!/ill-typed/.test(chip)) throw new Error("chip " + chip);
       return want; });
+    await check("the matrix's cells and key against tools/ladder.py's summary: classified, implied under standing only, refuted off the ambient only", async () => {
+      const r = await page.evaluate(() => {
+        const L = DATA.ladder, S = L.summary, bad = [];
+        const cells = c => document.querySelectorAll(`#matrix table:not(.ttab) td button.m-${c}`).length;
+        const key = c => { const el = document.querySelector(`#matrix .mkey span[data-cls="${c}"]`), m = el && el.innerText.match(/\((\d+)\)\s*$/); return m ? +m[1] : null; };
+        const pairsOf = c => Object.values(L.pairs).filter(v => v.c === c).length;
+        const want = { classified: S.classified, "implied-standing": S.implied_standing, "fails-off": S.fails_off };
+        const got = { classified: L.classifiedAs.reduce((n, c) => n + cells(c), 0), "implied-standing": cells("implied-standing"), "fails-off": cells("fails-off") };
+        for (const k of Object.keys(want)) if (got[k] !== want[k]) bad.push(`${got[k]} ${k} cells drawn, the summary says ${want[k]}`);
+        for (const c of ["implied-standing", "fails-off"]) {
+          if (key(c) !== want[c]) bad.push(`the key says ${key(c)} ${c}, the summary ${want[c]}`);
+          if (pairsOf(c) !== want[c]) bad.push(`${pairsOf(c)} ${c} pairs in DATA, the summary says ${want[c]}`); }
+        if (FAIL.has("fails-off") || L.classifiedAs.includes("fails-off")) bad.push("fails-off is read as a refutation on ETT's spacetimes");
+        // the counterexamples shown for a pair: on the ambient for fails (those off it apart), off it for fails-off
+        for (const [k, v] of Object.entries(L.pairs)) {
+          if (v.c !== "fails" && v.c !== "fails-off") continue;
+          const on = v.c === "fails";
+          if ([v.f, ...v.also].some(i => L.fails[i].onAmbient !== on)) bad.push(`${k} (${v.c}) shows a counterexample ${on ? "off" : "on"} the ambient`);
+          if ((v.off || []).some(i => L.fails[i].onAmbient !== false)) bad.push(`${k} lists a counterexample on the ambient as off it`);
+          if (!on && !(v.s && v.s.length)) bad.push(`${k} (fails-off) names no space`); }
+        return { bad, got };
+      });
+      if (r.bad.length) throw new Error(r.bad.slice(0, 3).join("; ") + (r.bad.length > 3 ? "; …" : ""));
+      return `${r.got.classified} classified, ${r.got["implied-standing"]} implied under standing only, ${r.got["fails-off"]} refuted off the ambient only: cells, key and DATA agree with the summary`; });
+    await check("pairs view, a pair refuted only off ETT's spacetimes names its spaces", async () => {
+      const c = page.locator("#matrix td button.m-fails-off").first();
+      if (!(await c.count())) return `no pair refuted off the ambient only (tools/ladder.py summary: ${await page.evaluate(() => DATA.ladder.summary.fails_off)})`;
+      const [, , , a, b] = decodeURIComponent(await c.getAttribute("data-go")).split("/");
+      const q = await page.evaluate(([a, b]) => { const v = DATA.ladder.pairs[a + "|" + b]; return { on: onSpaces(v.s), w: DATA.ladder.fails[v.f].witness }; }, [a, b]);
+      if (!(await c.getAttribute("title")).includes(q.on)) throw new Error("the cell's title does not say " + q.on);
+      await c.click();
+      const want = `${a} ⇏ ${b}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const chip = await page.locator("#panel .chips .chip").first().innerText(); if (!chip.includes(q.on)) throw new Error("chip " + chip);
+      const txt = await section(page, "Counterexample off ETT's spacetimes");
+      if (!txt || !txt.includes(q.w)) throw new Error("no counterexample " + q.w);
+      if (!txt.includes("not one of ETT's spacetimes")) throw new Error("its space is not said to be off ETT's spacetimes");
+      await page.evaluate(a => { location.hash = "#/ladder/p/" + encodeURIComponent(a); }, a);
+      if (await toH2(page, a) !== a) throw new Error("the property's panel did not open");
+      const fo = await page.evaluate(() => [...document.querySelectorAll("#panel .pl.fo")].map(x => x.textContent));
+      if (!fo.includes(b)) throw new Error(`the panel of ${a} does not list ${b} as refuted only off ETT's spacetimes`);
+      return `${want}: ${chip}; ${q.w}; listed apart in the panel of ${a}`; });
+    await check("pairs view, a pair refuted on ETT's spacetimes and off them lists the latter apart", async () => {
+      const q = await page.evaluate(() => { for (const [k, v] of Object.entries(DATA.ladder.pairs)) if (v.c === "fails" && (v.off || []).length) { const [a, b] = k.split("|"); return { a, b, on: DATA.ladder.fails[v.f].witness, off: v.off.map(i => DATA.ladder.fails[i].witness) }; } return null; });
+      if (!q) return "no counterexample off the ambient refutes a pair refuted on it";
+      await page.evaluate(([a, b]) => { location.hash = `#/ladder/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`; }, [q.a, q.b]);
+      const want = `${q.a} ⇏ ${q.b}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const chip = await page.locator("#panel .chips .chip").first().innerText(); if (!/on ETT's spacetimes/.test(chip)) throw new Error("chip " + chip);
+      const main = await page.evaluate(() => { const h = [...document.querySelectorAll("#panel h3")].find(h => h.textContent.trim() === "Counterexample"); return h ? h.parentElement.querySelector(".mono").textContent : null; });
+      if (main !== q.on) throw new Error("the counterexample shown is " + main);
+      const txt = await section(page, "Also refuted off ETT's spacetimes");
+      if (!txt || q.off.some(w => !txt.includes(w))) throw new Error("the counterexamples off the ambient are not listed apart");
+      return `${want}: ${chip}, shown ${q.on}; off ETT's spacetimes ${q.off.join(", ")}`; });
     await page.click("#m-graph");
     await check("theme toggle: dark, then light, then back to auto", async () => {
       const bg = () => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim());

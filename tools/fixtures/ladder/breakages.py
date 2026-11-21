@@ -17,6 +17,10 @@ def _q(x):
     return '"%s"' % x
 
 
+def ids(x):
+    return x if isinstance(x, list) else [x]
+
+
 def _lst(xs):
     return "[%s]" % ", ".join(_q(x) for x in xs)
 
@@ -30,9 +34,10 @@ def picks(data):
     conj = next(e for e in data["implies"] if isinstance(e.get("from"), list) and len(e["from"]) > 1)
     cons = next(e for e in data["consequence"] if "." in e["witness"])
     fail = data["fails"][0]
+    bare = next(e for e in data["implies"] if e.get("status") == "checked" and not e.get("standing"))
     assert len(cau) >= 2 and pair, "the ladder needs two causality-sort properties and one pair-sort one"
     return {"c1": cau[0], "c2": cau[1], "pair": pair[0], "edge": edge, "conj": conj, "cons": cons,
-            "fail": fail, "lean": props[0]["lean"]}
+            "fail": fail, "bare": bare, "lean": props[0]["lean"]}
 
 
 def _implies(e, extra=""):
@@ -75,6 +80,13 @@ BREAKAGES = {
     "fails-list-contradiction": ("contradiction: counterexample",
                                  lambda p: "\n[[fails]]\nfrom = %s\nto = %s\nwitness = %s\nstatus = \"checked\"\n" % (
                                      _lst(p["conj"]["from"]), _q(p["conj"]["to"]), _q(p["fail"]["witness"]))),
+    # T-tool-ladder-space: a counterexample OFF the ambient (space T0) refutes nothing on ETT's
+    # spacetimes, but check still reads it on its own space: one that has its `to` by an edge valid
+    # on every space is a contradiction.
+    "fails-off-contradiction": ("contradiction: counterexample",
+                                lambda p: "\n[[fails]]\nfrom = %s\nto = %s\nwitness = %s\nstatus = \"checked\"\n"
+                                "space = [\"T0\"]\n" % (_lst(ids(p["bare"]["from"])), _q(p["bare"]["to"]),
+                                                          _q(p["fail"]["witness"]))),
     "fails-space-word": ("unknown space word 'hausdorff'",
                          lambda p: "\n[[fails]]\nfrom = %s\nto = %s\nwitness = %s\nstatus = \"checked\"\n"
                          "space = [\"hausdorff\"]\n" % (_q(p["fail"]["from"]) if isinstance(p["fail"]["from"], str)

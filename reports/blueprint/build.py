@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """The ETT programme's blueprint site: reports/blueprint/index.html, generated from the programme's files.
 
-    python3 build.py            write index.html beside this file
-    python3 build.py --out F    write F instead (the reproducibility check builds twice and compares)
+    python3 build.py              write index.html beside this file
+    python3 build.py --out F      write F instead (the reproducibility check builds twice and compares)
+    python3 build.py --ladder L   read the ladder from L instead of programme/ladder.toml (as
+                                  `tools/ladder.py check --file L` does): a trial ladder drawn into a
+                                  page of its own, with --out; the repository's page is built from
+                                  programme/ladder.toml only
 
 Inputs, all read, none written:
-  * programme/ladder.toml          through tools/ladder.py only (below)
+  * programme/ladder.toml          through tools/ladder.py only (below); --ladder L reads L instead
   * papers/*/certificate/binder.toml  through tools/binder.py: binders, check
   * programme/roadmap.toml         through tools/roadmap.py: load, check, open_questions
   * papers/<slug>/ledger/ledger.json  row kind, title, file and line; the statement text is read from
@@ -20,19 +24,23 @@ The ladder is evaluated by tools/ladder.py and by nothing else on this page:
   * check, summary, check_line   the violations, the counts and the summary line `ladder.py check`
                                  prints, verbatim;
   * matrix                       the class of every ordered pair (ill-typed, implied, fails, open,
-                                 implied-standing, unknown), verbatim;
-  * ambient, standing, valid, space, vocab_closure, STANDING
+                                 fails-off, implied-standing, unknown), verbatim;
+  * ambient, standing, valid, space, on_ambient, vocab_closure, STANDING
                                  the ambient space, each edge's standing words, a counterexample's
-                                 space, the vocabulary of words;
+                                 space and whether it is one of the ambient's, the vocabulary of words;
+  * off_spaces                   the spaces (word lists) of the counterexamples off the ambient that
+                                 refute a pair the matrix calls fails-off;
   * counterexample, edges_on, closure, needed_standing, _saturate
                                  what a counterexample has and lacks, which edges are valid on a
                                  space, and the saturation through them;
   * _transfer_sides              which causality of a [[transfer]] is its source;
   * emitted                      which implications emit-lean makes rules of causal_ladder.
 What the page adds is presentation: for a pair the matrix calls implied (or a counterexample's
-reading), an irredundant set of the edges the tool's own saturation used, found by dropping edges
-while tools/ladder.py's _saturate still reaches the target (so a derivation is a witness chain the
-tool accepts, never a second closure); and, at a nesting, the transfers recorded along a nesting it
+reading: of a fails pair, the counterexamples on the ambient, those off it listed apart; of a
+fails-off pair, those off it, whose spaces must be the ones off_spaces names), an irredundant set
+of the edges the tool's own saturation used, found by dropping edges while tools/ladder.py's
+_saturate still reaches the target (so a derivation is a witness chain the tool accepts, never a
+second closure); and, at a nesting, the transfers recorded along a nesting it
 implies or is implied by, read through tools/ladder.py's closure as its transfer check reads them.
 
 Every number on the page is counted here or in the page's script from these files; nothing is typed.
@@ -349,11 +357,11 @@ def space_block(e, data, amb):
     """A counterexample's space (its `space`, or the ambient), as tools/ladder.py closes it."""
     on = ld.space(e, data)
     return {"space": words(e.get("space")) if "space" in e else None, "spaceWords": sorted(on),
-            "lacksAmbient": sorted(amb - on)}
+            "lacksAmbient": sorted(amb - on), "onAmbient": ld.on_ambient(e, data)}
 
 
-def ladder_block(lean, ett):
-    data = ld.load(LADDER)
+def ladder_block(lean, ett, path=LADDER):
+    data = ld.load(path)
     errs = list(ld.check(data))
     S = ld.summary(data, errs)
     line = ld.check_line(S)
@@ -450,20 +458,36 @@ def ladder_block(lean, ett):
                     need = ld.needed_standing((a,), b, every, amb)
                     rec["w"] = need
                     rec["d"] = derive([a], b, ld.edges_on(data, ld.vocab_closure(set(need) | amb)))
-                elif v == "fails":
-                    # every counterexample the tool reads as having a and lacking b; shown: the one whose
-                    # two chains are shortest (the first of the file among equals), the others listed
-                    cands = []
+                elif v in ("fails", "fails-off"):
+                    # every counterexample the tool reads as having a and lacking b, on the ambient (fails)
+                    # or off it (fails-off, tools/ladder.py's on_ambient); shown: the one whose two chains
+                    # are shortest (the first of the file among equals), the others listed; of a fails
+                    # pair, those off the ambient that refute it too are listed apart (`off`)
+                    on_f, off_f = [], []
                     for k, (f, (has, lacks)) in enumerate(reading):
                         if a in has and b in lacks:
-                            edges = ld.edges_on(data, ld.space(f, data))
-                            da, db = derive(ids(f.get("from")), a, edges), derive([b], f.get("to"), edges)
-                            cands.append((len(da) + len(db), k, da, db))
-                    if not cands:
-                        raise AssertionError("tools/ladder.py refutes %s ⇒ %s, and no counterexample has %s and lacks %s"
-                                             % (a, b, a, b))
+                            (on_f if ld.on_ambient(f, data) else off_f).append((k, f))
+                    use = on_f if v == "fails" else off_f
+                    if not use:
+                        raise AssertionError("tools/ladder.py calls %s ⇒ %s %s, and no counterexample %s the ambient "
+                                             "has %s and lacks %s" % (a, b, v, "on" if v == "fails" else "off", a, b))
+                    cands = []
+                    for k, f in use:
+                        edges = ld.edges_on(data, ld.space(f, data))
+                        da, db = derive(ids(f.get("from")), a, edges), derive([b], f.get("to"), edges)
+                        cands.append((len(da) + len(db), k, da, db))
                     _, k, da, db = min(cands, key=lambda c: c[:2])
                     rec.update({"f": k, "da": da, "db": db, "also": sorted(c[1] for c in cands if c[1] != k)})
+                    if v == "fails":
+                        if off_f:
+                            rec["off"] = [k for k, _ in off_f]
+                    else:
+                        spaces = [list(w) for w in ld.off_spaces(data, a, b)]
+                        mine = sorted({tuple(sorted(words(f.get("space")))) for _, f in off_f})
+                        if [list(w) for w in mine] != spaces:
+                            raise AssertionError("tools/ladder.py's off_spaces(%s, %s) is %s; its counterexamples off "
+                                                 "the ambient that refute it are on %s" % (a, b, spaces, mine))
+                        rec["s"] = spaces
                 elif v == "open":
                     rec["o"] = opens[(a, b)]
                 pairs[a + "|" + b] = rec
@@ -582,19 +606,35 @@ def roadmap_block():
 
 
 # ------------------------------------------------------------------ assemble
+def arg(argv, flag, default):
+    if flag not in argv:
+        return default
+    k = argv.index(flag)
+    if k + 1 >= len(argv):
+        sys.exit("blueprint: %s needs a path" % flag)
+    return argv[k + 1]
+
+
+def shown(p):
+    """A path as the page names it: relative to the repository, or absolute when outside it."""
+    p = os.path.abspath(p)
+    return rel(p) if p.startswith(ROOT + os.sep) else p
+
+
 def main(argv):
-    out_path = argv[argv.index("--out") + 1] if "--out" in argv else os.path.join(HERE, "index.html")
+    out_path = arg(argv, "--out", os.path.join(HERE, "index.html"))
+    ladder = os.path.abspath(arg(argv, "--ladder", LADDER))
     lean = Lean()
     ledgers = {"ett": Ledger("ett")}
-    L = ladder_block(lean, ledgers["ett"])
+    L = ladder_block(lean, ledgers["ett"], ladder)
     R = roadmap_block()
     ladder_ids = {p["id"] for p in L["props"]}
     target_ids = {t.get("id") for t in R["targets"]}
     B = binder_block(lean, ladder_ids, target_ids, ledgers)
-    inputs = [LADDER, ROADMAP, README, DECISIONS] + [os.path.join(ROOT, b["path"]) for b in B] + sorted(
+    inputs = [ladder, ROADMAP, README, DECISIONS] + [os.path.join(ROOT, b["path"]) for b in B] + sorted(
         ld_.path for ld_ in ledgers.values() if ld_.ok) + sorted(
         p for p in (os.path.join(ROOT, "papers", b["slug"], "legacy", "MANIFEST.json") for b in B) if os.path.exists(p))
-    prov = {"inputs": [{"path": rel(p), "sha256": sha(p)} for p in inputs],
+    prov = {"inputs": [{"path": shown(p), "sha256": sha(p)} for p in inputs],
             "tools": [{"path": rel(p), "sha256": sha(p)} for p in TOOLS],
             "leanCommit": {s: (json.load(open(l.path, encoding="utf-8")).get("lean") or {}).get("git_commit", "")
                            for s, l in sorted(ledgers.items()) if l.ok},
@@ -607,7 +647,7 @@ def main(argv):
     with open(out_path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(page)
     print("blueprint: %s (%d bytes); %s; binders: %s; roadmap: %d targets%s" % (
-        rel(out_path) if out_path.startswith(ROOT) else out_path, len(page.encode("utf-8")), L["line"],
+        shown(out_path), len(page.encode("utf-8")), L["line"],
         ", ".join("%s %d rows" % (b["slug"], len(b["rows"])) for b in B), len(R["targets"]),
         "".join("; %s: %d violation(s)" % (k, n) for k, n in (("ladder", len(L["errors"])),
                 ("binders", sum(len(b["errors"]) for b in B)), ("roadmap", len(R["errors"]))) if n)))

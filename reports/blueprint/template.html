@@ -75,6 +75,7 @@ button.chip{cursor:pointer}
 .chip.open{border-color:var(--partial);color:var(--partial);border-style:dashed;font-weight:600}
 .chip.none{color:var(--ink-3);border-style:dotted}
 .chip.missing,.chip.fails{background:var(--fails);border-color:var(--fails);color:#fff}
+.chip.fails-off{border-color:var(--fails);color:var(--fails);border-style:dashed;font-weight:600}
 .chip.cond{border-color:var(--partial);color:var(--partial)}
 .chip.std{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-2)}
 .kw{font-family:var(--f-mono);font-size:.92em;color:var(--ink)}
@@ -98,6 +99,7 @@ button.chip{cursor:pointer}
 .pl:hover,.pl:focus-visible{background:var(--accent-soft)}
 .pl.c{border-style:dashed;border-color:var(--partial)}
 .pl.f{border-color:var(--fails);color:var(--fails)}
+.pl.fo{border-color:var(--fails);color:var(--fails);border-style:dashed}
 .pl.ghost{color:var(--ink-3);border-style:dashed;cursor:default}
 .pl.ghost:hover{background:none}
 .stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -111,6 +113,7 @@ ul.wit{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap
 ul.wit>li{border-left:3px solid var(--line);padding-left:10px}
 ul.wit>li.c{border-left-color:var(--partial)}
 ul.wit>li.f{border-left-color:var(--fails)}
+ul.wit>li.fo{border-left:3px dashed var(--fails)}
 ul.wit>li.ok{border-left-color:var(--closed)}
 ul.wit>li.tg{border-left-color:var(--accent)}
 .warn{border-left:3px solid var(--partial);padding:2px 0 2px 10px;color:var(--ink-2);font-size:.84rem;line-height:1.45}
@@ -142,6 +145,7 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
 .node.up rect.box{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
 .node.down.c rect.box,.node.up.c rect.box{stroke:var(--partial);stroke-dasharray:5 3;fill:var(--partial-soft)}
 .node.no rect.box{fill:var(--fails-soft);stroke:var(--fails);stroke-width:2}
+.node.off rect.box{fill:var(--card);stroke:var(--fails);stroke-width:2;stroke-dasharray:5 3}
 .node.dim{opacity:.45}
 .junction circle{fill:var(--card);stroke:var(--edge);stroke-width:1.4}
 .junction text{fill:var(--ink-2);font-size:11px;font-family:var(--f-body)}
@@ -175,6 +179,7 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
 .matrix button.m-implied,.mkey b.m-implied{background:var(--closed);color:#fff}
 .matrix button.m-implied-standing,.mkey b.m-implied-standing{background:repeating-linear-gradient(45deg,var(--closed-soft) 0 4px,var(--partial-soft) 4px 8px);color:var(--ink);border:1.5px dashed var(--partial)}
 .matrix button.m-fails,.mkey b.m-fails{background:var(--fails);color:#fff}
+.matrix button.m-fails-off,.mkey b.m-fails-off{background:var(--card);color:var(--fails);border:1.5px dashed var(--fails)}
 .matrix button.m-open,.mkey b.m-open{background:var(--card);border:1.5px solid var(--partial);color:var(--partial)}
 .matrix button.m-unknown,.mkey b.m-unknown{background:var(--grid);color:var(--ink-3)}
 .matrix button.m-diag,.mkey b.m-diag{background:transparent;color:var(--ink-3)}
@@ -338,13 +343,20 @@ const ST_ORDER = ["active","ready","needs-ruling","blocked","planned","done","dr
 const ST_LABEL = {planned:"planned",ready:"ready",active:"in progress","needs-ruling":"needs a ruling",blocked:"blocked",done:"done",dropped:"dropped"};
 const ST_COLOR = {active:"var(--accent)",ready:"var(--accent-soft)","needs-ruling":"var(--partial)",blocked:"var(--fails)",planned:"var(--grid)",done:"var(--closed)",dropped:"var(--terminal)"};
 const pair = (a, b) => LAD.pairs[a + "|" + b];
-/* The classes of tools/ladder.py matrix, verbatim; the page reads them and decides none. */
+/* The classes of tools/ladder.py matrix, verbatim; the page reads them and decides none. A pair refuted
+   only by counterexamples off the ambient (fails-off) is not a refutation on ETT's spacetimes: it is not
+   in FAIL, and tools/ladder.py does not count it as classified. */
 const IMPL = new Set(["implied","implied-standing"]), FAIL = new Set(["fails"]);
 const CLS_TEXT = {"implied":"implied on ETT's spacetimes","implied-standing":"implied only under standing hypotheses beyond ETT's spacetimes",
-  "fails":"refuted by a counterexample","open":"open: recorded as neither proved nor refuted","unknown":"unclassified",
+  "fails":"refuted by a counterexample on ETT's spacetimes","fails-off":"refuted only off ETT's spacetimes",
+  "open":"open: recorded as neither proved nor refuted","unknown":"unclassified",
   "ill-typed":"ill-typed: the two properties are of different sorts, so neither implication is a statement"};
-const CLS_SYM = {"implied":"⇒","implied-standing":"⇒","fails":"⇏","open":"?","unknown":"","ill-typed":"×"};
-const CLS_CHIP = {"implied":"closed","implied-standing":"cond","fails":"fails","open":"open","unknown":"none","ill-typed":"none"};
+const CLS_SYM = {"implied":"⇒","implied-standing":"⇒","fails":"⇏","fails-off":"⇏","open":"?","unknown":"","ill-typed":"×"};
+const CLS_CHIP = {"implied":"closed","implied-standing":"cond","fails":"fails","fails-off":"fails-off","open":"open","unknown":"none","ill-typed":"none"};
+/* The spaces of a fails-off pair (tools/ladder.py's off_spaces, each a list of words), as "on T0; T1". */
+const spacesText = s => (s || []).map(w => w.length ? w.join(", ") : "no standing word").join("; "), onSpaces = s => "on " + spacesText(s);
+/* A pair's class in words, with the words the tool names for it: needed_standing, or off_spaces. */
+const clsText = v => CLS_TEXT[v.c] + (v.c === "implied-standing" ? " (" + v.w.join(", ") + ")" : v.c === "fails-off" ? " (" + onSpaces(v.s) + ")" : "");
 const SORTS = LAD.sorts || [], sortOf = id => PROP[id] ? PROP[id].sort : "";
 const AMB = LAD.ambient, VOCAB = LAD.vocab || {};
 const ambWords = () => AMB.standing.map(esc).join(", ");
@@ -394,6 +406,7 @@ applyTheme();
    ===================================================================================== */
 const S = LAD.summary;
 const nChecked = LAD.implies.filter(e => e.status === "checked").length;
+const nOffF = LAD.fails.filter(f => f.onAmbient === false).length;   // counterexamples off the ambient (tools/ladder.py's on_ambient)
 const nStd = LAD.implies.filter(e => e.standing.length).length, nBeyond = LAD.implies.filter(e => e.beyond.length).length, nUnder = LAD.implies.filter(e => e.under).length;
 function consAt(id){ return LAD.cons.map((c,i) => ({...c,i})).filter(c => c.at.length === 1 && c.at[0] === id); }
 function implStr(e){ return `${e.from.map(esc).join(" ∧ ")} ⇒ ${esc(e.to)}`; }
@@ -596,6 +609,7 @@ function markLadder(){
         if (dn && IMPL.has(dn.c)) cls += " down" + (dn.c === "implied-standing" ? " c" : "");
         else if (up && IMPL.has(up.c)) cls += " up" + (up.c === "implied-standing" ? " c" : "");
         else if ((dn && FAIL.has(dn.c)) || (up && FAIL.has(up.c))) cls += " no";
+        else if ((dn && dn.c === "fails-off") || (up && up.c === "fails-off")) cls += " off";
         else cls += " dim"; }
     }
     el.attr("class", cls);
@@ -612,7 +626,7 @@ function ladderLegend(){
   const sw = (cls, dash, col) => `<svg width="26" height="8" aria-hidden="true"><path d="M1,4H25" stroke="${col}" stroke-width="1.8" ${dash ? 'stroke-dasharray="6 4"' : ""}></path></svg>`;
   $("#legend").innerHTML = `<span>${sw("", false, "var(--edge)")}checked</span><span>${sw("", true, "var(--edge)")}seed</span>
     ${nStd ? `<span><span class="mono" style="font-size:.72rem;color:var(--ink-3)">T2</span> standing hypotheses of the witness</span>` : ""}${nBeyond ? `<span>${sw("", false, "var(--partial)")}standing beyond ETT's spacetimes</span>` : ""}${nUnder ? `<span>${sw("", false, "var(--partial)")}carries <span class="mono" style="font-size:.72rem">under</span></span>` : ""}<span>∧ premises read together</span>
-    <span>arrow: implies</span>${selProp ? `<span><i style="border-color:var(--closed);background:var(--closed-soft)"></i>implied by it</span><span><i style="border-color:var(--accent);background:var(--accent-soft)"></i>implies it</span>${LAD.counts["implied-standing"] ? `<span><i style="border-color:var(--partial);border-style:dashed;background:var(--partial-soft)"></i>only under standing hypotheses</span>` : ""}<span><i style="border-color:var(--fails);background:var(--fails-soft)"></i>refuted</span>` : ""}`;
+    <span>arrow: implies</span>${selProp ? `<span><i style="border-color:var(--closed);background:var(--closed-soft)"></i>implied by it</span><span><i style="border-color:var(--accent);background:var(--accent-soft)"></i>implies it</span>${LAD.counts["implied-standing"] ? `<span><i style="border-color:var(--partial);border-style:dashed;background:var(--partial-soft)"></i>only under standing hypotheses</span>` : ""}<span><i style="border-color:var(--fails);background:var(--fails-soft)"></i>refuted</span>${LAD.counts["fails-off"] ? `<span><i style="border-color:var(--fails);border-style:dashed"></i>refuted only off ETT's spacetimes</span>` : ""}` : ""}`;
 }
 
 /* matrix */
@@ -621,15 +635,15 @@ function drawMatrix(){
   const ids = LAD.props.map(p => p.id);
   if (LAD.errors.length){ $("#matrix").innerHTML = `<p class="err" style="max-width:640px;margin:0 auto">tools/ladder.py classifies the pairs only of a ladder that checks: see its ${plural(LAD.errors.length, "violation")} in the panel.</p>`; return; }
   const cell = (a, b) => { if (a === b) return `<td><button class="m-diag" disabled aria-label="${esc(a)}">·</button></td>`;
-    const v = pair(a, b), o = v.c === "open" ? LAD.open[v.o] : null, w = v.c === "implied-standing" ? " (" + v.w.join(", ") + ")" : "";
-    return `<td><button class="m-${v.c}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(a)} ⇒ ${esc(b)}: ${esc(CLS_TEXT[v.c] + w)}${o && o.note ? esc(" · " + o.note) : ""}">${CLS_SYM[v.c]}</button></td>`; };
+    const v = pair(a, b), o = v.c === "open" ? LAD.open[v.o] : null;
+    return `<td><button class="m-${v.c}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(a)} ⇒ ${esc(b)}: ${esc(clsText(v))}${o && o.note ? esc(" · " + o.note) : ""}">${CLS_SYM[v.c]}</button></td>`; };
   const table = sub => `<table aria-label="Ordered pairs of properties: row implies column?"><thead><tr><th class="row" style="vertical-align:bottom;font-family:var(--f-body);color:var(--ink-3);font-size:.7rem">row ⇒ column</th>${sub.map(b => `<th class="col"><div><button data-go="#/ladder/p/${enc(b)}">${esc(b)}</button></div></th>`).join("")}</tr></thead>
     <tbody>${sub.map(a => `<tr><th class="row"><button data-go="#/ladder/p/${enc(a)}">${esc(a)}</button></th>${sub.map(b => cell(a, b)).join("")}</tr>`).join("")}</tbody></table>`;
   const groups = SORTS.length > 1 ? SORTS.map(s => [s, ids.filter(i => sortOf(i) === s)]) : [[null, ids]];
   const within = sub => sub.length * (sub.length - 1), cnt = k => LAD.counts[k] || 0;
   $("#matrix").innerHTML = groups.map(([s, sub]) => (s ? `<h3>sort: ${esc(s)} · ${plural(sub.length, "property", "properties")} · ${within(sub)} ordered pairs</h3>` : "") + table(sub)).join("")
-    + `<div class="mkey">${["implied","implied-standing","fails","open","unknown"].map(k => `<span><b class="m-${k}">${CLS_SYM[k]}</b>${esc(CLS_TEXT[k])} (${cnt(k)})</span>`).join("")}</div>`
-    + `<p class="note">tools/ladder.py: ${S.classified} of the ${S.within} ordered pairs within one sort are classified (${LAD.classifiedAs.map(esc).join(", ")}); ${S.implied_standing} implied under standing only, which it does not count.${S.ill_typed ? ` ${S.ill_typed} ordered pairs join two sorts: ill-typed, neither implication is a statement; they are not drawn and not among the ${S.within}.` : ""}</p>`
+    + `<div class="mkey">${["implied","implied-standing","fails","fails-off","open","unknown"].map(k => `<span data-cls="${k}"><b class="m-${k}">${CLS_SYM[k]}</b>${esc(CLS_TEXT[k])} (${cnt(k)})</span>`).join("")}</div>`
+    + `<p class="note">tools/ladder.py: ${S.classified} of the ${S.within} ordered pairs within one sort are classified (${LAD.classifiedAs.map(esc).join(", ")}); ${S.implied_standing} implied under standing only and ${S.fails_off} refuted off the ambient only (by counterexamples whose space is not one of ETT's spacetimes), which it does not count.${S.ill_typed ? ` ${S.ill_typed} ordered pairs join two sorts: ill-typed, neither implication is a statement; they are not drawn and not among the ${S.within}.` : ""}</p>`
     + (TR.length ? transferTable() : "");
 }
 /* Transfers along a nesting: for every causality-sort property and every pair-sort property, whether
@@ -674,10 +688,10 @@ function ladderOverview(){
   panel(`<div><h3>The causality ladder</h3><h2>Properties, the implications between them, and what holds at each level</h2></div>
     <p>Read from <span class="mono">programme/ladder.toml</span> through <span class="mono">tools/ladder.py</span>, which decides every class on this page. An arrow is an implication with a Lean witness: solid when the ladder-keeper has read its hypotheses against the witness (<i>checked</i>), dashed while it is a <i>seed</i>. A grey label on an arrow names the standing hypotheses its witness takes (Mathlib classes on the space, such as <span class="mono">T2</span>).</p>
     ${ambientHTML()}
-    <div class="stat"><div><b>${LAD.props.length}</b><span>properties</span></div><div><b>${nChecked}/${LAD.implies.length}</b><span>implications checked</span></div><div><b>${LAD.fails.length}</b><span>counterexamples</span></div>
-      <div><b>${LAD.errors.length ? "—" : S.classified + "/" + S.within}</b><span>ordered pairs within one sort classified</span></div><div><b>${LAD.errors.length ? "—" : S.ill_typed}</b><span>pairs across two sorts (ill-typed)</span></div><div><b>${LAD.errors.length ? "—" : S.implied_standing}</b><span>implied under standing only</span></div>
+    <div class="stat"><div><b>${LAD.props.length}</b><span>properties</span></div><div><b>${nChecked}/${LAD.implies.length}</b><span>implications checked</span></div><div><b>${LAD.fails.length}</b><span>counterexamples${nOffF ? `, ${nOffF} off ETT's spacetimes` : ""}</span></div>
+      <div><b>${LAD.errors.length ? "—" : S.classified + "/" + S.within}</b><span>ordered pairs within one sort classified</span></div><div><b>${LAD.errors.length ? "—" : S.ill_typed}</b><span>pairs across two sorts (ill-typed)</span></div><div><b>${LAD.errors.length ? "—" : S.implied_standing}</b><span>implied under standing only</span></div><div><b>${LAD.errors.length ? "—" : S.fails_off}</b><span>refuted off ETT's spacetimes only</span></div>
       <div><b>${LAD.cons.length}</b><span>consequences</span></div><div><b>${TR.length}</b><span>transfers along a nesting</span></div><div><b>${LAD.open.length}</b><span><span class="mono">[[open]]</span> entries</span></div></div>
-    ${LAD.errors.length ? "" : `<div class="chips"><span class="chip closed">implied ${cnt("implied")}</span>${cnt("implied-standing") ? `<span class="chip cond">implied under standing ${cnt("implied-standing")}</span>` : ""}<span class="chip fails">refuted ${cnt("fails")}</span><span class="chip open">open ${cnt("open")}</span><span class="chip none">unclassified ${cnt("unknown")}</span>${cnt("ill-typed") ? `<span class="chip none">ill-typed ${cnt("ill-typed")}</span>` : ""}</div>`}
+    ${LAD.errors.length ? "" : `<div class="chips"><span class="chip closed">implied ${cnt("implied")}</span>${cnt("implied-standing") ? `<span class="chip cond">implied under standing ${cnt("implied-standing")}</span>` : ""}<span class="chip fails">refuted ${cnt("fails")}</span>${cnt("fails-off") ? `<span class="chip fails-off">refuted only off ETT's spacetimes ${cnt("fails-off")}</span>` : ""}<span class="chip open">open ${cnt("open")}</span><span class="chip none">unclassified ${cnt("unknown")}</span>${cnt("ill-typed") ? `<span class="chip none">ill-typed ${cnt("ill-typed")}</span>` : ""}</div>`}
     ${SORTS.length > 1 ? `<p>The properties come in ${SORTS.length} sorts (the field <span class="mono">${esc(LAD.sortKey)}</span>; without it, ${esc(LAD.defaultSort)}): ${SORTS.map(x => `${esc(x)} ${LAD.props.filter(p => p.sort === x).length}`).join(", ")}. Each is drawn in its own frame and has its own matrix; a pair joining two sorts is ill-typed, and is not among the pairs to classify. A property of sort <span class="mono">pair</span> is a nesting of two causalities C in C′; what it carries from one to the other is a <span style="white-space:nowrap"><button class="pl" data-go="#/ladder/transfers">transfer</button>.</span></p>` : ""}
     <div><h3>tools/ladder.py check, as this build ran it</h3><p class="mono">${esc(LAD.line)}</p>${LAD.errors.map(e => `<p class="err">${esc(e)}</p>`).join("")}</div>
     <p>${plural(nStd, "implication takes", "implications take")} standing hypotheses${nBeyond ? `, ${nBeyond} of them beyond ETT's spacetimes` : nStd ? ", all of them satisfied by ETT's spacetimes" : ""}${nUnder ? `; ${plural(nUnder, "carries", "carry")} <span class="mono">under</span>, which tools/ladder.py chains as unconditional` : ""}.${LAD.emitKnown ? ` <span class="mono">tools/ladder.py emit-lean</span> makes ${LAD.implies.filter(e => e.emit && e.emit.rule).length} of the ${LAD.implies.length} implications rules of the <span class="mono">causal_ladder</span> tactic.` : ""}${LAD.emitNote ? ` <span class="err">${esc(LAD.emitNote)}</span>` : ""} Select a property for its implications and their witnesses, the pairs it refutes or leaves open, the transfers it enters and the consequences valid from it on; select an arrow for its witness; <b>Pairs</b> shows every ordered pair within a sort, and the transfers.</p>
@@ -685,7 +699,7 @@ function ladderOverview(){
     ${provHTML()}`);
 }
 function pairBtn(a, b, id){ const v = pair(a, b);
-  return `<button class="pl ${v.c === "implied-standing" ? "c" : ""} ${FAIL.has(v.c) ? "f" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(CLS_TEXT[v.c])}">${esc(a === id ? b : a)}</button>`; }
+  return `<button class="pl ${v.c === "implied-standing" ? "c" : ""} ${FAIL.has(v.c) ? "f" : v.c === "fails-off" ? "fo" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(clsText(v))}">${esc(a === id ? b : a)}</button>`; }
 function showProp(id){
   const p = PROP[id]; if (!p){ ladderOverview(); return; }
   const ids = LAD.props.map(x => x.id).filter(x => x !== id);
@@ -694,6 +708,7 @@ function showProp(id){
   const has = (a, b, set) => pair(a, b) && set.has(pair(a, b).c), is = (a, b, c) => pair(a, b) && pair(a, b).c === c;
   const down = ids.filter(b => has(id, b, IMPL)), up = ids.filter(a => has(a, id, IMPL));
   const nod = ids.filter(b => has(id, b, FAIL)), noup = ids.filter(a => has(a, id, FAIL));
+  const offd = ids.filter(b => is(id, b, "fails-off")), offup = ids.filter(a => is(a, id, "fails-off"));
   const opens = LAD.open.map((o, i) => ({...o, i})).filter(o => o.from === id || o.to === id);
   const unk = ids.filter(b => is(id, b, "unknown")), unkIn = ids.filter(a => is(a, id, "unknown"));
   const pb = (a, b) => pairBtn(a, b, id);
@@ -727,7 +742,8 @@ function showProp(id){
       ${down.length ? `<div class="linklist">${down.map(b => pb(id, b)).join("")}</div>` : ""}
       <p style="margin:8px 0 6px">${plural(up.length, "property implies", "properties imply")} it${up.length ? ":" : "."}</p>
       ${up.length ? `<div class="linklist">${up.map(a => pb(a, id)).join("")}</div>` : ""}</div>
-    <div><h3>Non-implications</h3>${nod.length || noup.length ? `${nod.length ? `<p style="margin-bottom:6px">${esc(id)} does not imply (${nod.length}):</p><div class="linklist">${nod.map(b => pb(id, b)).join("")}</div>` : ""}${noup.length ? `<p style="margin:8px 0 6px">Not implied by (${noup.length}):</p><div class="linklist">${noup.map(a => pb(a, id)).join("")}</div>` : ""}` : `<p>No counterexample of the ladder separates ${esc(id)} from another property.</p>`}</div>
+    <div><h3>Non-implications</h3>${nod.length || noup.length ? `${nod.length ? `<p style="margin-bottom:6px">${esc(id)} does not imply (${nod.length}):</p><div class="linklist">${nod.map(b => pb(id, b)).join("")}</div>` : ""}${noup.length ? `<p style="margin:8px 0 6px">Not implied by (${noup.length}):</p><div class="linklist">${noup.map(a => pb(a, id)).join("")}</div>` : ""}` : `<p>No counterexample on ETT's spacetimes separates ${esc(id)} from another property.</p>`}
+      ${offd.length || offup.length ? `<p style="margin:8px 0 6px">Refuted only by counterexamples off ETT's spacetimes (dashed), which tools/ladder.py does not count as non-implications:</p>${offd.length ? `<p class="small" style="margin-bottom:4px">from ${esc(id)} (${offd.length})</p><div class="linklist">${offd.map(b => pb(id, b)).join("")}</div>` : ""}${offup.length ? `<p class="small" style="margin:6px 0 4px">to ${esc(id)} (${offup.length})</p><div class="linklist">${offup.map(a => pb(a, id)).join("")}</div>` : ""}` : ""}</div>
     <div><h3>Open pairs (${opens.length})</h3>${opens.length ? (opens.length > 6 ? `<details><summary>${plural(opens.filter(o => o.from === id).length, "pair")} from it, ${plural(opens.filter(o => o.to === id).length, "pair")} to it, each with what it is missing</summary><ul class="wit" style="margin-top:8px">${opens.map(openLi).join("")}</ul></details>` : `<ul class="wit">${opens.map(openLi).join("")}</ul>`) : `<p>The ladder records no open pair with ${esc(id)}.</p>`}
       ${unk.length || unkIn.length ? `<details style="margin-top:8px"><summary>Unclassified within its sort: ${plural(unk.length, "pair")} from it, ${plural(unkIn.length, "pair")} to it</summary><div class="linklist" style="margin-top:6px">${unk.map(b => pb(id, b)).join("")}</div>${unkIn.length ? `<p style="margin:6px 0">to it:</p><div class="linklist">${unkIn.map(a => pb(a, id)).join("")}</div>` : ""}</details>` : ""}
       ${ill ? `<p class="prov" style="margin-top:6px">With each of the ${ill} properties of another sort the pair is ill-typed: neither implication is a statement.</p>` : ""}</div>
@@ -746,7 +762,7 @@ function spaceHTML(x){
     <p class="small" style="margin-top:4px">Read on ${x.spaceWords.length ? x.spaceWords.map(esc).join(", ") : "no standing word"}: an implication whose standing asks more is not chained there.</p>`;
 }
 function failLi(k){ const f = LAD.fails[k];
-  return `<li class="f"><span style="color:var(--ink)">a space with ${f.from.map(x => propBtn(x)).join(" ∧ ")} and without ${propBtn(f.to)}</span>${leanLine(f.witness, f.loc)}<div class="chips" style="margin-top:4px">${statusChip(f.status)}${f.from.length > 1 ? `<span class="chip">${f.from.length} properties, all of them</span>` : ""}</div>${spaceHTML(f)}${extrasHTML(f.extra)}</li>`; }
+  return `<li class="${f.onAmbient === false ? "fo" : "f"}"><span style="color:var(--ink)">a space with ${f.from.map(x => propBtn(x)).join(" ∧ ")} and without ${propBtn(f.to)}</span>${leanLine(f.witness, f.loc)}<div class="chips" style="margin-top:4px">${statusChip(f.status)}${f.from.length > 1 ? `<span class="chip">${f.from.length} properties, all of them</span>` : ""}</div>${spaceHTML(f)}${extrasHTML(f.extra)}</li>`; }
 function standingUsed(d){ const w = [...new Set(d.flatMap(i => LAD.implies[i].standing))].sort(); return w; }
 function showPair(a, b){
   const v = pair(a, b); if (!v){ ladderOverview(); return; }
@@ -754,20 +770,22 @@ function showPair(a, b){
   if (IMPL.has(v.c)){ const w = standingUsed(v.d), un = v.d.filter(i => LAD.implies[i].under);
     body = `<div><h3>Derivation (${plural(v.d.length, "edge")})</h3><p style="margin-bottom:8px">A chain of the implications through which tools/ladder.py reaches ${esc(b)} from ${esc(a)}${v.c === "implied-standing" ? `, only with the standing hypotheses ${stdChips(v.w, v.w)} beyond ETT's spacetimes (tools/ladder.py's <span class="mono">needed_standing</span>): implied under them, not on every ETT spacetime, and not counted as classified` : w.length ? `; its witnesses take ${stdChips(w)}, which ETT's spacetimes have` : ""}.</p>${derivationHTML(v.d)}
       ${un.length ? `<p class="warn" style="margin-top:8px">${plural(un.length, "edge")} of it carry <span class="mono">under</span>, a condition in words that tools/ladder.py chains as unconditional.</p>` : ""}</div>`; }
-  else if (FAIL.has(v.c)){ const f = LAD.fails[v.f];
-    body = `<div><h3>Counterexample</h3><ul class="wit">${failLi(v.f)}</ul></div>
+  else if (FAIL.has(v.c) || v.c === "fails-off"){ const f = LAD.fails[v.f], off = v.c === "fails-off", n = 1 + v.also.length;
+    body = `${off ? `<p>${n > 1 ? `The ${n} counterexamples` : "The counterexample"} of the ladder that ${n > 1 ? "have" : "has"} ${esc(a)} and ${n > 1 ? "lack" : "lacks"} ${esc(b)} ${n > 1 ? "are" : "is"} off ETT's spacetimes (${v.s.length > 1 ? "their spaces" : n > 1 ? "their space" : "its space"}: ${esc(spacesText(v.s))}, tools/ladder.py's <span class="mono">off_spaces</span>). On ETT's spacetimes no chain of implications reaches ${esc(b)} from ${esc(a)} and no counterexample refutes it, so tools/ladder.py does not count the pair as classified.</p>` : ""}
+      <div><h3>${off ? "Counterexample off ETT's spacetimes" : "Counterexample"}</h3><ul class="wit">${failLi(v.f)}</ul></div>
       ${!f.from.includes(a) ? `<div><h3>It has ${esc(a)}</h3><p style="margin-bottom:6px">${f.from.map(esc).join(" ∧ ")} ${f.from.length > 1 ? "imply" : "implies"} ${esc(a)} on its space:</p>${derivationHTML(v.da)}</div>` : ""}
       ${f.to !== b ? `<div><h3>So it lacks ${esc(b)}</h3><p style="margin-bottom:6px">${esc(b)} implies ${esc(f.to)} on its space:</p>${derivationHTML(v.db)}</div>` : ""}
       <details><summary>What tools/ladder.py reads off it: ${plural(f.has.length, "property", "properties")} it has, ${f.lacks.length} it lacks</summary><div class="linklist" style="margin-top:6px"><span class="small">has</span>${f.has.map(x => propBtn(x)).join("")}</div><div class="linklist" style="margin-top:6px"><span class="small">lacks</span>${f.lacks.map(x => propBtn(x)).join("")}</div></details>
-      ${v.also && v.also.length ? `<div><h3>Also refuted by (${v.also.length})</h3><ul class="wit">${v.also.map(failLi).join("")}</ul></div>` : ""}`; }
+      ${v.also && v.also.length ? `<div><h3>Also refuted ${off ? "off ETT's spacetimes " : ""}by (${v.also.length})</h3><ul class="wit">${v.also.map(failLi).join("")}</ul></div>` : ""}
+      ${v.off && v.off.length ? `<div><h3>Also refuted off ETT's spacetimes by (${v.off.length})</h3><p style="margin-bottom:8px">${v.off.length > 1 ? "These counterexamples are" : "This counterexample is"} not one of ETT's spacetimes; the pair is refuted on them by the counterexample${v.also.length ? "s" : ""} above.</p><ul class="wit">${v.off.map(failLi).join("")}</ul></div>` : ""}`; }
   else if (v.c === "open"){ const o = LAD.open[v.o]; body = `<div><h3>Recorded open</h3><p>${esc(o.note)}</p>${extrasHTML(o.extra)}</div>`; }
   else if (v.c === "ill-typed") body = `<p>${esc(a)} is of sort ${esc(sortOf(a))} and ${esc(b)} of sort ${esc(sortOf(b))}: neither implication is a statement. tools/ladder.py calls the pair ill-typed and does not count it among the ${S.within} pairs to classify.</p>`;
   else body = `<p>No implication chain, counterexample or <span class="mono">[[open]]</span> entry of <span class="mono">programme/ladder.toml</span> decides this pair.</p>`;
   const rev = pair(b, a);
   panel(`<div><h3>Ordered pair${sortOf(a) === sortOf(b) && SORTS.length > 1 ? " · sort " + esc(sortOf(a)) : ""}</h3><h2 class="mono">${esc(a)} ${CLS_SYM[v.c] || "⇒?"} ${esc(b)}</h2></div>
-    <div class="chips"><span class="chip ${CLS_CHIP[v.c] || "none"}">${esc(CLS_TEXT[v.c])}</span></div>
+    <div class="chips"><span class="chip ${CLS_CHIP[v.c] || "none"}">${esc(clsText(v))}</span></div>
     ${body}
-    <div><h3>The two properties</h3><div class="linklist">${propBtn(a)}${propBtn(b)}</div>${rev ? `<p style="margin-top:8px">Converse: <button class="pl" data-go="#/ladder/pair/${enc(b)}/${enc(a)}">${esc(b)} ⇒ ${esc(a)}</button> is ${esc(CLS_TEXT[rev.c])}.</p>` : ""}</div>`);
+    <div><h3>The two properties</h3><div class="linklist">${propBtn(a)}${propBtn(b)}</div>${rev ? `<p style="margin-top:8px">Converse: <button class="pl" data-go="#/ladder/pair/${enc(b)}/${enc(a)}">${esc(b)} ⇒ ${esc(a)}</button> is ${esc(clsText(rev))}.</p>` : ""}</div>`);
 }
 function showEdge(i){
   const e = LAD.implies[i]; if (!e){ ladderOverview(); return; }

@@ -331,8 +331,41 @@ class LadderStanding(unittest.TestCase):
         d = lad(implies=imps, fails=[dict(f, space=["T1"])])
         self.assertEqual(chk(d), [])
         self.assertEqual(ld.matrix(d)[("a", "b")], "unknown")
+        self.assertEqual(ld.matrix(d)[("a", "c")], "fails-off")   # a T1 space is no ETT spacetime
         self.assertTrue(has(chk(lad(implies=imps, fails=[dict(f, space=["hausdorff"])])),
                             "unknown space word 'hausdorff'"))
+
+    def test_a_counterexample_off_the_ambient_refutes_nothing_on_it(self):
+        # T-tool-ladder-space: the vee (three points, T0 and not T1) is absolutely minimal, locally
+        # push-up and not push-up, while absolutely_minimal ∧ locally_push_up ⇒ push_up holds on every
+        # T1 space; it must not make a ⇏ c `fails` on ETT's spacetimes.
+        imps = [imp(["a", "b"], "c", "B.toC", standing=["T1"])]
+        vee = {"from": ["a", "b"], "to": "c", "witness": "cex_a_not_c", "status": "checked", "space": ["T0"]}
+        d = lad(implies=imps, fails=[vee])
+        self.assertEqual(chk(d), [])
+        m = ld.matrix(d)
+        self.assertEqual((m[("a", "c")], m[("b", "c")]), ("fails-off", "fails-off"))
+        self.assertEqual(ld.off_spaces(d, "a", "c"), [("T0",)])
+        s = ld.summary(d)
+        self.assertEqual(s["fails_off"], 2)
+        self.assertEqual(s["classified"], sum(1 for v in m.values() if v in ld.CLASSIFIED))
+        self.assertNotIn(("a", "c"), ld.refuted(d))
+        self.assertIn(("a", "c"), ld.refuted(d, off=True))
+        # an [[open]] entry for a pair refuted only off the ambient stays legal
+        self.assertEqual(chk(dict(d, open=[{"from": "a", "to": "c", "note": "x"}])), [])
+        # the same counterexample with no space, or a space implying the ambient's words, is on it
+        for sp in (None, ["T2", "second_countable"], ["metrizable", "second_countable"]):
+            f = {k: v for k, v in vee.items() if k != "space"}
+            if sp:
+                f["space"] = sp
+            e = lad(implies=[imp(["a", "b"], "c", "B.toC", standing=["connected"])], fails=[f])
+            self.assertEqual(ld.matrix(e)[("a", "c")], "fails", sp)
+            self.assertTrue(has(chk(dict(e, open=[{"from": "a", "to": "c", "note": "x"}])), "already settled"), sp)
+
+    def test_a_contradiction_off_the_ambient_is_still_one(self):
+        # check reads every counterexample on its own space, on the ambient or off it
+        f = {"from": "a", "to": "b", "witness": "cex_a_not_c", "status": "checked", "space": ["T0"]}
+        self.assertTrue(has(chk(lad(fails=[f])), "contradiction"))
 
     def test_contradiction_is_read_on_the_counterexample_space(self):
         imps = [imp(["a"], "c", standing=["T2"])]
@@ -462,9 +495,9 @@ class LadderSorts(unittest.TestCase):
         line = ld.check_line(ld.summary(d))
         m = re.match(r"ladder: (\d+) properties, (\d+) implications, (\d+) counterexamples, (\d+) consequences; "
                      r"(\d+) of (\d+) ordered pairs classified \(within one sort\), (\d+) ill-typed \(across sorts\), "
-                     r"(\d+) implied under standing only, (\d+) transfers$", line)
+                     r"(\d+) implied under standing only, (\d+) refuted off the ambient only, (\d+) transfers$", line)
         self.assertIsNotNone(m, line)
-        self.assertEqual([int(x) for x in m.groups()], [5, 1, 0, 0, 1, 8, 12, 0, 0])
+        self.assertEqual([int(x) for x in m.groups()], [5, 1, 0, 0, 1, 8, 12, 0, 0, 0])
         self.assertTrue(ld.check_line(ld.summary(d, ["x", "y"])).endswith("consequences; 2 violation(s)"))
 
     def five(self, **kw):

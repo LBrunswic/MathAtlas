@@ -74,6 +74,12 @@ these values that applies:
                       A non-Hausdorff counterexample says `space = ["T1"]` (or less), and is then
                       not read against an edge whose standing asks T2.
     open              an [[open]] entry.
+    fails-off         only counterexamples OFF the ambient refute it: their `space` (closed) does
+                      not contain the ambient's words (the vee, space = ["T0"], is no ETT
+                      spacetime), so the pair may still hold on every ETT spacetime. Not counted as
+                      classified; `matrix` names the spaces' words; an [[open]] entry for it stays
+                      legal. `fails` counts only counterexamples whose space contains the ambient
+                      (no `space`, or one that implies the ambient's words) (T-tool-ladder-space).
     implied-standing  b is reached from a only through an edge whose standing is beyond the
                       ambient (e.g. connected): implied under standing hypotheses, not on every
                       ETT spacetime. Not counted as classified; `matrix` names the words.
@@ -86,7 +92,8 @@ property and direction (its nesting reaching the proved one's in the pair-sort c
 schema fault above. Its summary line is
 
     ladder: P properties, I implications, F counterexamples, C consequences; K of N ordered pairs
-    classified (within one sort), X ill-typed (across sorts), S implied under standing only, T transfers
+    classified (within one sort), X ill-typed (across sorts), S implied under standing only,
+    R refuted off the ambient only, T transfers
 
 (one line; `N violation(s)` after the semicolon instead when there are any): K counts implied,
 fails and open pairs among the N pairs within one sort; summary() gives the same numbers as a
@@ -197,6 +204,12 @@ def space(f, data):
     return ambient(data)
 
 
+def on_ambient(f, data):
+    """Is the counterexample `f` one of the ambient's spaces (its closed space contains the ambient's
+    words)? Only such a counterexample refutes a pair of the matrix (T-tool-ladder-space)."""
+    return ambient(data) <= space(f, data)
+
+
 def valid(e, on):
     """Is the edge `e` valid on the closed space `on` (None: on every space, i.e. any standing)?"""
     return on is None or set(standing(e)) <= on
@@ -249,12 +262,15 @@ def counterexample(data, f, cache=None):
     return has, lacks
 
 
-def refuted(data, clo=None):
+def refuted(data, clo=None, off=False):
     """Pairs (a, b) refuted by a counterexample, propagated along the closure valid on its space.
+    Only counterexamples on the ambient count (on_ambient); with `off`, only those OFF it.
     With `clo` given (id -> set), that one closure is used for every counterexample, and a list
     `from` contributes the union of its members' closures (the reading of older callers)."""
     bad, cache = set(), {}
     for f in data.get("fails", []):
+        if on_ambient(f, data) == off:
+            continue
         frm = ids_of(f.get("from")) or []
         if clo is not None:
             has = set().union(*(clo.get(x, {x}) for x in frm)) if frm else set()
@@ -487,9 +503,9 @@ def _contradictions(data):
 
 
 def matrix(data):
-    """(a, b) -> ill-typed | implied | fails | open | implied-standing | unknown, every a != b."""
+    """(a, b) -> ill-typed | implied | fails | open | fails-off | implied-standing | unknown, every a != b."""
     sort = sort_of(data)
-    clo, every, bad = closure(data), closure_any(data), refuted(data)
+    clo, every, bad, off = closure(data), closure_any(data), refuted(data), refuted(data, off=True)
     opens = {(o.get("from"), o.get("to")) for o in data.get("open", [])}
     ids = [p["id"] for p in data.get("property", [])]
     out = {}
@@ -499,8 +515,20 @@ def matrix(data):
                 continue
             out[(a, b)] = ("ill-typed" if sort[a] != sort[b] else "implied" if b in clo[a]
                            else "fails" if (a, b) in bad else "open" if (a, b) in opens
+                           else "fails-off" if (a, b) in off
                            else "implied-standing" if b in every[a] else "unknown")
     return out
+
+
+def off_spaces(data, a, b):
+    """The spaces (sorted word lists) of the counterexamples off the ambient refuting (a, b)."""
+    out, cache = set(), {}
+    for f in data.get("fails", []):
+        if not on_ambient(f, data):
+            has, lacks = counterexample(data, f, cache)
+            if a in has and b in lacks:
+                out.add(tuple(sorted(f.get("space", []))))
+    return sorted(out)
 
 
 def needed_standing(src, b, edges, base=()):
@@ -524,7 +552,8 @@ def summary(data, errs=()):
             "transfers": len(data.get("transfer", [])), "violations": len(errs), "pairs": len(m),
             "within": len(within), "ill_typed": len(m) - len(within),
             "classified": sum(1 for v in within if v in CLASSIFIED),
-            "implied_standing": sum(1 for v in within if v == "implied-standing")}
+            "implied_standing": sum(1 for v in within if v == "implied-standing"),
+            "fails_off": sum(1 for v in within if v == "fails-off")}
 
 
 def check_line(s):
@@ -533,8 +562,9 @@ def check_line(s):
     if s["violations"]:
         return head + "%d violation(s)" % s["violations"]
     return head + ("%d of %d ordered pairs classified (within one sort), %d ill-typed (across sorts), "
-                   "%d implied under standing only, %d transfers" % (
-                       s["classified"], s["within"], s["ill_typed"], s["implied_standing"], s["transfers"]))
+                   "%d implied under standing only, %d refuted off the ambient only, %d transfers" % (
+                       s["classified"], s["within"], s["ill_typed"], s["implied_standing"], s["fails_off"],
+                       s["transfers"]))
 
 
 # ------------------------------------------------------------------ emit-lean
@@ -869,7 +899,8 @@ def emit_test(data, index=None):
     mods = sorted({index["decls"][p["lean"]] for p in props if p["id"] in form})
     note = {"implied": "the matrix chains it through an edge not emitted",
             "fails": "refuted by a counterexample", "open": "an open pair", "unknown": "unknown",
-            "implied-standing": "implied under standing hypotheses beyond the ambient, through an edge not emitted"}
+            "implied-standing": "implied under standing hypotheses beyond the ambient, through an edge not emitted",
+            "fails-off": "refuted only by a counterexample off the ambient"}
     pos, neg, drop, seen = [], [], [], set()
     sources = [(a,) for a in ids] + [tuple(ids_of(e["from"])) for e in edges if len(ids_of(e["from"])) > 1]
     for src in sources:
@@ -979,6 +1010,8 @@ def main(argv):
             extra = ""
             if v == "implied-standing":
                 extra = " (%s)" % ", ".join(needed_standing((a,), b, edges, amb))
+            elif v == "fails-off":
+                extra = " (on %s)" % "; ".join(", ".join(w) for w in off_spaces(data, a, b))
             print("%-24s %-24s %s%s" % (a, b, v, extra))
         return
     if cmd == "emit-lean":
