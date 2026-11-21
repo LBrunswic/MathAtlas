@@ -382,3 +382,19 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - new OQ: none (next free OQ-87); lean-causal kb 0151–0158
 - for the next planner: T-ett-e-models-bprime is now an assembly only (hiso_massAModel_of_sing fed with hiso_family, then massA_singular_models), then T-ett-singular-instance; optional tidy: stale strict docstrings MassADEC25.lean l.79–83, 98–99, 484–485 and EAlphaGX.lean l.94–96 (« no family / no witness yet »), beside T-ett-docstrings-sing0; hoist candidates isAEChart_restrOpen, the duplicated eq_of_eventuallyEq_of_continuousAt, chartIso_shiftIso and ConeRot
 - next: plan (rule 2: only master T-ett-docstrings-sing0 is ready)
+
+## 2026-11-21 19:10 · plan · —
+- why: rule 2 (no ready closer after wave 21)
+- result: 126 -> 127 targets. Promoted:
+  - T-ett-e-models-bprime: re-scoped to the assembly, hiso_massAModel_of_sing fed with hiso_family, then massA_singular_models. It now carries the three corollaries at every E≥0-manifold, with witnesses at E₀ and E_π over the whole family. Labels widened. Its holonomy [r] is marked superseded.
+  - T-ett-sfa-local: its dependency on e-models-bprime is replaced by bprime-ealpha (done), since the cross-type and κ′ = κ invariances are already proved.
+  - T-ett-measures-manifolds: the model's convex set is chosen first; DEC-7's StronglyCausal is used; a K-transport lemma under ChartIso and a family Borel instance are still to write.
+  - T-ett-sfa-btz-e0: split; it keeps singularPastAt and Iplus_of_lt.
+- added: T-ett-sfa-line-e0 (planned: the line field and the E₀-manifold assembly; Mathlib at the pin has no classification of 1-manifolds).
+- T-ett-singular-instance stays planned: its scope is now folded into e-models-bprime. Close it on that target's commit if the audit confirms, and re-point the two ledger rows that name it (defi:causal_Ealpha, rem:mesure_unilaterale).
+- T-ett-docstrings-sing0's scope widened to the newly stale strict docstrings (MassADEC25, EAlphaGX, BPrimeE0; MassAModelsInstance and BPrimeEAlpha if it runs after e-models-bprime).
+- Hoist candidates were considered and not added.
+- outside lean-causal nothing is closable without a ruling. The rulings that would unblock the most: BBS-Q1 (63 rows), OQ-63 (11), OQ-42 (7), T-yamabe-scope with OQ-44 (7), OQ-45 (a) (6). Inside ETT the marks wait on OQ-34 (22), OQ-35 (20), OQ-18 (8), OQ-82 (7), OQ-64 (6).
+- gates: roadmap ✓, atlas ✓
+- wall time: 18:52–19:10 (Paris); agents: 1 (planner)
+- next: wave of T-ett-e-models-bprime, T-ett-sfa-local, T-ett-measures-manifolds (lean-causal; sfa-local writes under Causal/Port)
