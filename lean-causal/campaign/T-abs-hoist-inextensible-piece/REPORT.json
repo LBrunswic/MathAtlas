@@ -1,0 +1,159 @@
+{
+ "target": "T-abs-hoist-inextensible-piece",
+ "package": "T-abs-hoist-inextensible-piece",
+ "files": [
+  "Causal/InextensiblePiece.lean",
+  "Causal/Model/QuasilinearOneSided.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-hoist-inextensible-piece/hoist",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.futureInextensible_of_isLUB_notMem",
+    "Causal.Causality.pastInextensible_of_isGLB_notMem",
+    "Causal.Causality.inextensible_connectedComponentIn",
+    "Causal.Causality.IsCauchySurfaceOn.exists_mem_connectedComponentIn"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "moved": "One byte-identical block, cut by line range from the `git show HEAD:` copy (HEAD 73eb9a1): Causal/Model/QuasilinearOneSided.lean HEAD :186-340 (`namespace Causality` ... `end Causality`, the variable line `variable {M : Type*} [TopologicalSpace M] {C : Causality M}` and the four theorems) = Causal/InextensiblePiece.lean :77-231. It appears exactly once in the new module and nowhere in the old one. The new module repeats the old file's prelude (`namespace Causal`, `open Set TopologicalSpace Topology Filter Metric`, HEAD :97-99), so binder telescopes and the universe name u_1 are unchanged (dump). The section header HEAD :184 ('### 2. A model-free lemma ...') was not moved: it stays in QuasilinearOneSided with a pointer, and the new module has its own header (:75). No private declaration was involved. The tactic proofs generated one auxiliary constant, the matcher Causal.Causality.inextensible_connectedComponentIn.match_1_1 (from `intro β r _ hsub ⟨s, hsI, hsb⟩`), which moved with its theorem under the same name (kb/0066)."
+  }
+ ],
+ "extra_decls": [],
+ "new_modules": {
+  "Causal.InextensiblePiece": {
+   "lines": 233,
+   "layer": "ETT layer (layer 1)",
+   "imports": [
+    "Causal.Inextensible",
+    "Causal.Cauchy",
+    "Causal.LadderLocal"
+   ],
+   "import_closure": [
+    "Causal.ArcConnected",
+    "Causal.Cauchy",
+    "Causal.CauchyExtension",
+    "Causal.Causality",
+    "Causal.CompactMinimal",
+    "Causal.CurveComponents",
+    "Causal.Curves",
+    "Causal.DependenceDomain",
+    "Causal.Generated",
+    "Causal.Geroch",
+    "Causal.GlobalHyperbolicity",
+    "Causal.Inextensible",
+    "Causal.InextensiblePiece",
+    "Causal.LadderLocal",
+    "Causal.Lines",
+    "Causal.LinesCurves",
+    "Causal.LinesReachable",
+    "Causal.Local",
+    "Causal.Measure",
+    "Causal.MeasureRemarks",
+    "Causal.Minimal",
+    "Causal.Morphism",
+    "Causal.NestedCausalities",
+    "Causal.Properties",
+    "Causal.PushUp",
+    "Causal.Reachable",
+    "Causal.StrongCausality",
+    "Causal.Subdivision"
+   ],
+   "import_closure_size": "28 Causal modules including itself, from a compiled probe (header.moduleNames of an environment importing the module): Causal.LadderLocal's 27 plus itself. Zero model modules under the Name-prefix rule and under tools/ladder.py's is_model rule (MODEL_LAYER = Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat, Causal.Model, Causal.Port). tools/ladder.py model_path('Causal.InextensiblePiece', lean_index()['imports']) is None. No Causal.CBG*, Causal.Splitting*, Causal.LemmaK* or Causal.LevinUtility module in the compiled closure.",
+   "content": "5 constants, all moved: the four theorems and the matcher inextensible_connectedComponentIn.match_1_1. collectAxioms gives propext, Classical.choice and Quot.sound for each. Statements: an abstract Causality C on a topological space M, [T2Space M], an open W, curves ℝ → M, a continuous T : M → ℝ, IsOpen/IsLUB/IsGLB of a set of ℝ, connectedComponentIn (ℓ ⁻¹' W) t, IsCauchySurfaceOn. No metric notion in any statement; the proofs use the metric of ℝ only (Metric.isOpen_iff, balls of ℝ). The docstring quotes def:cauchy_surface (ETT.tex:999-1000), marks no label, gives a hypothesis checklist for inextensible_connectedComponentIn, and in SCOPE records the verbatim hoist (with line ranges), why Causal.LadderLocal is imported, and the sibling left in Causal.Model.EAlphaCauchy.",
+   "why_ladderlocal": "Causal.Inextensible and Causal.Cauchy hold every notion the four theorems use, but with `import Causal.Cauchy` alone the module does not elaborate: `hO.connectedComponentIn` (inextensible_connectedComponentIn, now :183) fails with 'failed to synthesize LocallyConnectedSpace ℝ'. In QuasilinearOneSided's closure that instance was found as instLocallyConnectedSpace ∘ LocallyConvexSpace.toLocPathConnectedSpace ∘ NormedSpace.toLocallyConvexSpace ∘ InnerProductSpace.toNormedSpace ∘ RCLike.toInnerProductSpaceReal, with ContinuousSMul ℝ ℝ from IsModuleTopology.toContinuousSMul ∘ IsTopologicalSemiring.toIsModuleTopology (the old term's constants, by module). Probes, each elaborating the module's text under a candidate import list and printing type and value hashes of the 5 constants. Calibration: under HEAD QuasilinearOneSided's own five imports the probe reproduces the 'before' dump hashes exactly. Results: Causal.Inextensible + Causal.Cauchy + Causal.LadderLocal: identical (all 5). Causal.Cauchy + Causal.CurveComponents, + Causal.NestedCausalities, + Causal.MeasureRemarks: identical. Causal.Cauchy + Causal.Measure: inextensible_connectedComponentIn differs (value 3510311563 against 1667507348). Causal.Cauchy + Mathlib.Analysis.InnerProductSpace.Basic + Mathlib.Analysis.LocallyConvex.WithSeminorms: inextensible_connectedComponentIn differs (2162750976), the ContinuousSMul ℝ ℝ argument going through ContinuousMul.to_continuousSMul. Adding Mathlib.Topology.Algebra.Module.ModuleTopology to that list makes it identical. The three mathlib modules and LocPathConnected are in the closures of Causal.MeasureRemarks and Causal.LadderLocal (through MeasureRemarks's Mathlib.Probability.Distributions.Gaussian.Real import) and not in those of Causal.Cauchy or Causal.Measure (probe). The evidence's set was kept: it is ETT-layer, it is the import set the target names, and it restores every proof term. Reading taken, flagged here: Causal.Cauchy + Causal.CurveComponents gives a smaller closure (22 Causal modules against 28) with the same terms, if the master prefers it."
+  }
+ },
+ "edited": {
+  "Causal/Model/QuasilinearOneSided.lean": "+ `import Causal.InextensiblePiece` (line 6, after the five existing imports, so the load order of the other modules is unchanged; its closure adds no module but itself, and it declares no instance). HEAD :186-340 deleted. The section header HEAD :184 stays as '### 2. A model-free lemma: a maximal piece of a time-parametrised curve is inextensible', now with a 5-line paragraph naming the four moved theorems and their module, so that sections 3-8 keep their numbers. Docstring: the bullet T-loc-quasilinear-one-sided/3-inextensible-piece (:32-36) keeps its mark and gains one sentence saying the theorem was hoisted with its three companions, same names, into Causal.InextensiblePiece, which the module imports; the SCOPE 'Imports' bullet (:92-95) lists Causal.InextensiblePiece. Everything else is byte-identical to HEAD (diff: 15 insertions, 162 deletions; hunks at :6, :34-36, :92-95, :187, :189-193). Section 3 (slopeLine_mem_of_curveNestedOn, :213 now) resolves hS.exists_mem_connectedComponentIn through the import. 1021 -> 874 lines."
+ },
+ "not_edited": "Causal.lean (root) is not edited; the master adds the import. No other module imports Causal.Model.QuasilinearOneSided (grep of Causal/, scaffold/, lean-gx/GX, lean-benzecri), so no other import had to change. Not built, by instruction: the root Causal (its olean is now stale against QuasilinearOneSided; it has no declaration of its own) and the two other closers' scaffold files. After the final build exactly 2 oleans are newer than the 'before' dump: Causal/InextensiblePiece.olean and Causal/Model/QuasilinearOneSided.olean.",
+ "left_behind": [
+  "Nothing the target lists. Section 2 held exactly the four theorems (and the matcher); there was no private helper.",
+  "Not in this target: Causal.Causality.inextensible_Iio_of_tendsto_not_mem (Causal/Model/EAlphaCauchy.lean:104), the sibling that T-loc-ealpha-tidy hoists. Causal.InextensiblePiece is a natural destination for it (the target's evidence: the master's call)."
+ ],
+ "layer": {
+  "definition": "As in the earlier hoists: a strict module is ETT-layer when tools/ladder.py model_path finds no model module (MODEL_LAYER) in its transitive import closure, counted from the import lines of every file under Causal/ (root excluded).",
+  "before": "72 of 254 (derived: the after count minus the new module; the only other edited module, Causal.Model.QuasilinearOneSided, is model layer before and after, and nothing but the root imports it)",
+  "after": "73 of 255",
+  "added": [
+   "Causal.InextensiblePiece"
+  ],
+  "lost": []
+ },
+ "closure": {
+  "module": "Causal.InextensiblePiece",
+  "compiled_closure_causal_modules": [
+   "Causal.ArcConnected",
+   "Causal.Cauchy",
+   "Causal.CauchyExtension",
+   "Causal.Causality",
+   "Causal.CompactMinimal",
+   "Causal.CurveComponents",
+   "Causal.Curves",
+   "Causal.DependenceDomain",
+   "Causal.Generated",
+   "Causal.Geroch",
+   "Causal.GlobalHyperbolicity",
+   "Causal.Inextensible",
+   "Causal.InextensiblePiece",
+   "Causal.LadderLocal",
+   "Causal.Lines",
+   "Causal.LinesCurves",
+   "Causal.LinesReachable",
+   "Causal.Local",
+   "Causal.Measure",
+   "Causal.MeasureRemarks",
+   "Causal.Minimal",
+   "Causal.Morphism",
+   "Causal.NestedCausalities",
+   "Causal.Properties",
+   "Causal.PushUp",
+   "Causal.Reachable",
+   "Causal.StrongCausality",
+   "Causal.Subdivision"
+  ],
+  "size": 28,
+  "forbidden_found": [],
+  "model_path": null,
+  "checked": "Compiled: header.moduleNames of an environment importing Causal.InextensiblePiece, filtered to Causal.*. Each name tested with tools/ladder.py is_model and against the prefixes Causal.CBG, Causal.Splitting, Causal.LemmaK, Causal.LevinUtility: none. Source: tools/ladder.py model_path('Causal.InextensiblePiece', lean_index()['imports']) is None."
+ },
+ "checks": {
+  "lake build": "`taskset -c 0-11 lake build Causal.InextensiblePiece Causal.Model.QuasilinearOneSided`: green, 3117 jobs, only these two modules built (run twice; the second run after a docstring-only edit of the new module). `pgrep -af 'lake build'` was empty before each run. A final `lake build --no-build` of the same two reports 3117 jobs up to date. No mathlib or other Causal module was rebuilt.",
+  "lake env lean -DwarningAsError=true": "clean (no output) on both files.",
+  "scripts/sorry_count.py": "strict: 0 in 255 files. The scaffold count (16 in 7 files) is other closers' work; this target touches no scaffold file.",
+  "axioms": "collectAxioms over the 5 constants of Causal.InextensiblePiece: [propext, Classical.choice, Quot.sound] for each, no other axiom.",
+  "declaration_diff": "Before any edit lean-causal was clean in git at HEAD 73eb9a1 and `lake build --no-build Causal.Model.QuasilinearOneSided` reported 3116 jobs up to date, so the 'before' dump was taken from the built oleans (kb/0063); the HEAD copy of the file is kept in /tmp/hinx/head/ for the textual check. Dump body: every constant whose module is under Causal, with name, module, kind, universe parameters, Expr.hash of the type, binder telescope (names with macro scopes erased, binder info, hash of each binder type), value hash (theorems, definitions, opaques; constructor list for inductives, rule hashes for recursors, shape for constructors), reducibility, protected, noncomputable, isInternal. Environment `import Causal.Model.QuasilinearOneSided`: before 2719 constants in 39 Causal modules; after (final build) 2719 constants in 40 Causal modules, the new one being Causal.InextensiblePiece. Removed: 0. Added: 0. Changed in module only: exactly 5, the four theorems and the matcher, from Causal.Model.QuasilinearOneSided to Causal.InextensiblePiece. Changed in kind, universe parameters, type hash, binder telescope, value hash, reducibility, protection, computability or isInternal: 0 of 2719, including every remaining constant of QuasilinearOneSided (section 3's slopeLine_mem_of_curveNestedOn, whose proof term names exists_mem_connectedComponentIn, and ers_lemma_4_86 above it). Environment `import Causal.InextensiblePiece`: 1408 constants in 28 Causal modules; every one is in the 'before' dump with identical fields apart from the module of the 5 moved constants.",
+  "duplicate_names": "kb/0082 does not occur. Each of the four names is declared in exactly one source file, Causal/InextensiblePiece.lean (grep of `theorem|lemma|def <name>` over lean-causal/Causal, lean-causal/scaffold, lean-gx/GX and lean-benzecri). In the after dump each name occurs once, with module Causal.InextensiblePiece; no other module of QuasilinearOneSided's closure declares it.",
+  "textual": "HEAD :186-340 = InextensiblePiece :77-231, byte-identical (155 lines, compared as line lists from the `git show HEAD:` copy), found exactly once in the new file. `diff` of HEAD against the edited QuasilinearOneSided shows only the hunks listed under edited.",
+  "tools": "Run read-only; `git status --short` was identical before and after. tools/ledger.py -c papers/<slug>/ledger/ledger.toml check: green for ers-predictability (32 statements, 22 Lean-stated), ett (137, 131), sbierski-mghd (19, 19), barbot (44, 39). tools/ladder.py check: green (23 properties, 25 implications, 68 counterexamples, 42 consequences; this reads the working tree's ladder.toml, which another loop is editing). tools/binder.py check: 2 binders, all links resolve. No curation, binder, ledger or ladder entry names a moved declaration (grep of papers/*/certificate, papers/*/ledger, programme/ladder.toml). papers/ers-predictability/certificate/curation.toml:203-207 (erslem:PropertyTimelike) names Causal/Model/QuasilinearOneSided.lean for ers_lemma_4_86 and ers_lemma_4_86_oneSidedBoundary, which did not move.",
+  "lean_gx": "lean-gx is untouched and does not reference Causal.Model.QuasilinearOneSided or the moved names."
+ },
+ "master_changes": {
+  "root_import": "Causal.lean: add `import Causal.InextensiblePiece`, e.g. just before `import Causal.Model.QuasilinearOneSided` (line 244). Any line after `import Causal.LadderLocal` (line 214) leaves the load order of every other module unchanged. The module is reached today only through QuasilinearOneSided. The root olean must be rebuilt in any case, since QuasilinearOneSided changed.",
+  "readme_rows": [
+   "New row, e.g. after README.md:75 (Causal.CausallyPlainLocZ): | `Causal.InextensiblePiece` | — | ETT programme, layer 1 (T-abs-hoist-inextensible-piece; no paper label): the maximal piece in an open `W` of a curve whose parameter a continuous time reads, causal in `W` on its segments inside `W`, is an inextensible causal curve of `W` (`Causality.inextensible_connectedComponentIn`, T2), so a Cauchy surface of `W` meets it there (`IsCauchySurfaceOn.exists_mem_connectedComponentIn`); the one-sided criteria `futureInextensible_of_isLUB_notMem`, `pastInextensible_of_isGLB_notMem`; moved out of `Causal.Model.QuasilinearOneSided` with the same names; 2026-11-21 |",
+   "README.md:78 (Causal.Model.QuasilinearOneSided): replace 'model-free: the maximal piece of a time-parametrised curve is inextensible (`Causality.inextensible_connectedComponentIn`)' with 'the maximal-piece lemma it uses (`Causality.inextensible_connectedComponentIn`) is in `Causal.InextensiblePiece`'."
+  ],
+  "kb": [
+   "Update kb/0081: replace 'It sits in the model module `Causal.Model.QuasilinearOneSided` but needs only `Causal.Inextensible`, `Causal.Cauchy`, `Causal.LadderLocal`: a hoist candidate (kb/0047).' with 'It is in the ETT-layer module `Causal.InextensiblePiece` (T-abs-hoist-inextensible-piece), with the one-sided criteria `futureInextensible_of_isLUB_notMem` and `pastInextensible_of_isGLB_notMem`; a layer-1 module may import it.' The rest of the entry (the slope cone, the Minkowski slab) still points at Causal.Model.QuasilinearOneSided, correctly.",
+   "kb/0047: optionally add that inextensible_connectedComponentIn and its three companions are hoisted into Causal.InextensiblePiece (T-abs-hoist-inextensible-piece)."
+  ],
+  "curation_extra_lean_files": "None needed. No papers/*/certificate/curation.toml, binder.toml or ledger names a moved declaration. The erslem:PropertyTimelike row (papers/ers-predictability/certificate/curation.toml:203-207) keeps extra_lean_files = [\"Causal/Model/QuasilinearOneSided.lean\"] for ers_lemma_4_86 and ers_lemma_4_86_oneSidedBoundary, which stayed; every ledger check is green. The ers-predictability ledger's Lean DAG will see ers_lemma_4_86's chain cross into Causal.InextensiblePiece once rebuilt (its Lean root moved).",
+  "generated": "reports/atlas/lean/facts-lean-causal.json lists the moved declarations with module Causal.Model.QuasilinearOneSided and their old lines; it is regenerated by the atlas build.",
+  "ladder": "None. The four theorems are no ladder witness (uses = []; programme/ladder.toml names none of them), and nothing in Causal/Ladder/ is affected."
+ },
+ "for_keeper": "Nothing: pure topology of curves, no ladder pair (the target's uses = []).",
+ "kb_proposals": [
+  "kb/0081 update: inextensible_connectedComponentIn, exists_mem_connectedComponentIn, futureInextensible_of_isLUB_notMem and pastInextensible_of_isGLB_notMem are in the ETT-layer Causal.InextensiblePiece, importable by layer-1 modules.",
+  "New (pattern), or a line in kb/0083: before building a hoist, probe candidate import lists without a build. Elaborate the moved text in a scratch file (imports plus the module body plus an #eval printing Expr.hash of each moved constant's type and value). Calibrate it first under the old file's own import list, where it must reproduce the dump. Here the narrowest notional closure (Causal.Cauchy) did not elaborate at all (LocallyConnectedSpace ℝ missing). A mathlib-only fix (InnerProductSpace.Basic + LocallyConvex.WithSeminorms) elaborated to a different term (ContinuousSMul ℝ ℝ through ContinuousMul.to_continuousSMul instead of IsModuleTopology), and only Mathlib.Topology.Algebra.Module.ModuleTopology or an ETT module reaching Causal.MeasureRemarks restored the old one. Note that ConstantInfo.value? returns none for theorems unless allowOpaque := true (Lean v4.31.0, Lean/Declaration.lean:482)."
+ ],
+ "notes": "Strict-library refactor. No statement changed, no declaration disappeared, was renamed or was added. In QuasilinearOneSided's closure every moved constant has its old type, universes, telescope and proof term, and only its module changed (dump). For the master: (1) Root import, README rows and the kb/0081 update are in master_changes; no curation, binder or ladder change is needed. (2) Import set: the evidence's Causal.Inextensible, Causal.Cauchy, Causal.LadderLocal, verified to restore every proof term; Causal.Cauchy alone fails to elaborate. Causal.Cauchy + Causal.CurveComponents would do as well with a smaller closure (new_modules.why_ladderlocal), the master's call. (3) Reading taken in QuasilinearOneSided's docstring: the target statement T-loc-quasilinear-one-sided/3-inextensible-piece keeps its mark, with a sentence saying where the theorem now lives. The theorem is certified and in the module's import closure, but no longer declared in that file. No tool reads target labels from docstrings, and no ledger curates the name. If the master wants a mark to mean 'declared here', unmark it and move the label's mention to Causal.InextensiblePiece's docstring. (4) Causal.InextensiblePiece is a natural home for T-loc-ealpha-tidy's inextensible_Iio_of_tendsto_not_mem (the target's evidence). (5) No git command that writes was run. The scratch files are kept for the auditor in /tmp/hinx: the HEAD copy of the file and the cut block (head/), the dumps before_qos.tsv, after_qos.tsv, after_inx.tsv with .mods closure lists, their generator dump/DumpBody.lean + dump/mk.sh and the comparer dump/cmp.py, and the import probes (probe/try.sh, try_*.lean, h_*.tsv, consts_old.tsv). The 'before' oleans were overwritten by the build, so before_qos.tsv is the only record of HEAD's compiled state; the probe under HEAD's imports (h_oldimports.tsv) reproduces its 5 relevant rows. The working tree also has changes by others: lean-egf, papers/egf, programme/ladder.toml, programme/roadmap.toml, reports/blueprint, tests/test_programme.py, tools/ladder.py and its fixture, and scaffold/CausalScaffold/OneWayMembraneChronal.lean."
+}

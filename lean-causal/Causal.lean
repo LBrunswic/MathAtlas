@@ -241,6 +241,7 @@ import Causal.ChronalTarentin
 import Causal.CausallyPlainLocZ
 import Causal.SingularFlatPlain
 import Causal.Model.FlatTimeCylinder
+import Causal.InextensiblePiece
 import Causal.Model.QuasilinearOneSided
 import Causal.RationalLineExtras
 import Causal.LevinTimeFunction

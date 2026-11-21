@@ -3,6 +3,7 @@ import Causal.CausalIsoInvariance
 import Causal.LadderLocal
 import Causal.CauchyDual
 import Causal.Flat.LipschitzGraph
+import Causal.InextensiblePiece
 
 /-!
 # ERS Lemma 4.86 on `ℝ × E`: a slope-`δ` cone nested in `C` makes the boundary of a development a graph, the development on one side
@@ -30,7 +31,9 @@ model `quasilinear`, uses `curve_nested`, `globally_hyperbolic`; provides nothin
 * **`T-loc-quasilinear-one-sided/2-theorem-4-82`** — `ers_theorem_4_82_of_slopeCone`.
 * **`T-loc-quasilinear-one-sided/3-inextensible-piece`** — model-free:
   `Causal.Causality.inextensible_connectedComponentIn`, the maximal piece in `W` of a curve
-  parametrised by a continuous time is inextensible in `W`.
+  parametrised by a continuous time is inextensible in `W`; hoisted with its three companions,
+  same names, into the ETT-layer `Causal.InextensiblePiece` (T-abs-hoist-inextensible-piece),
+  which this module imports.
 * **`T-loc-quasilinear-one-sided/4-minkowski-slab`** — `minkowskiSlab_ers_lemma_4_86`: Minkowski
   space, any slope `δ ≤ 1` (`slopeCone_leNested_staticCausality`), the slab `{|t| < 1}`,
   `S = {t = 0}`: the hypotheses hold and `∂U₁ ∖ closure S ≠ ∅`.
@@ -86,10 +89,10 @@ graph of a `1/δ`-Lipschitz `f⁺`.
   `U₁ = {|t| < 1}` with `S = {t = 0}` (Cauchy by `Causal.Flat.isCauchySurfaceOn_graph_of_saturated`):
   `∂U₁ = {|t| = 1} ≠ ∅` and the lemma applies (`minkowskiSlab_ers_lemma_4_86`). Not a
   quasilinear development: the library has no smooth `g(u, du)` (T-pkg-smooth-lorentz).
-* Imports `Causal.Static`, `Causal.CausalIsoInvariance`, `Causal.LadderLocal`, `Causal.CauchyDual`
-  and, for the slab only (section 8), `Causal.Flat.LipschitzGraph` (closure adds `Causal.Minkowski`,
-  `Causal.Flat.Form`, `.Achronal`, `.Cosmological`, `.Penrose`): no `Causal.Port.*`,
-  `Causal.Model.*`, `Causal.CBG.*`.
+* Imports `Causal.Static`, `Causal.CausalIsoInvariance`, `Causal.LadderLocal`, `Causal.CauchyDual`,
+  `Causal.InextensiblePiece` (section 2's lemmas, ETT layer) and, for the slab only (section 8),
+  `Causal.Flat.LipschitzGraph` (closure adds `Causal.Minkowski`, `Causal.Flat.Form`, `.Achronal`,
+  `.Cosmological`, `.Penrose`): no `Causal.Port.*`, `Causal.Model.*`, `Causal.CBG.*`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -181,163 +184,13 @@ theorem slopeCone_leNested_staticCausality {δ : ℝ} (hδ : 0 < δ) (hδ1 : δ 
 
 end SlopeCone
 
-/-! ### 2. A model-free lemma: a maximal piece of a time-parametrised curve is inextensible -/
+/-! ### 2. A model-free lemma: a maximal piece of a time-parametrised curve is inextensible
 
-namespace Causality
-
-variable {M : Type*} [TopologicalSpace M] {C : Causality M}
-
-/-- **A curve running out of `W`, or off to infinite time, is future-inextensible.** `c` is a
-causal curve of `W` over an open interval `I`, continuous on `ℝ`, and a continuous `T` reads its
-parameter on `I`. If `I` is bounded above, its supremum `β` has `c β ∉ W`. A strict extension at
-the future end passes, at the supremum `σ` of the reparametrised domain, through `c' σ ∈ W`, which
-would be the limit of `c` at `β` (Hausdorff), or a finite limit of `T ∘ c = id` at `+∞`. -/
-theorem futureInextensible_of_isLUB_notMem [T2Space M] {W : Opens M} {I : Set ℝ} {c : ℝ → M}
-    (hc : C.CausalCurveIn W I c) (hI : IsOpen I) (hcont : Continuous c) {T : M → ℝ}
-    (hT : Continuous T) (hTc : ∀ τ ∈ I, T (c τ) = τ) (hend : ∀ β, IsLUB I β → c β ∉ W) :
-    C.FutureInextensible W I c := by
-  refine ⟨hc, ?_⟩
-  rintro ⟨I', c', hcurve, ⟨φ, hφmono, hφmaps, hφoc, hφeq, hφend⟩, ⟨t', ht', hgrow⟩⟩
-  obtain ⟨s₀, hs₀⟩ := hc.nonempty
-  -- the new value comes after the whole reparametrised curve
-  have hafter : ∀ s ∈ I, φ s < t' := by
-    intro s hs
-    by_contra h
-    obtain ⟨w, hw, hwt⟩ := hφend s hs t' ht' (not_lt.1 h)
-    exact hgrow w hw (by rw [← hwt, hφeq w hw])
-  have hne : (φ '' I).Nonempty := ⟨_, mem_image_of_mem φ hs₀⟩
-  have hbdd : BddAbove (φ '' I) := ⟨t', by rintro _ ⟨s, hs, rfl⟩; exact (hafter s hs).le⟩
-  set σ := sSup (φ '' I) with hσdef
-  have hle : ∀ s ∈ I, φ s ≤ σ := fun s hs => le_csSup hbdd (mem_image_of_mem φ hs)
-  have hσt : σ ≤ t' := csSup_le hne (by rintro _ ⟨s, hs, rfl⟩; exact (hafter s hs).le)
-  have hσI : σ ∈ I' := hcurve.ordConnected.out (hφmaps hs₀) ht' ⟨hle s₀ hs₀, hσt⟩
-  have hcont' : ContinuousWithinAt c' (Icc (φ s₀) σ) σ :=
-    CurveOn.continuousOn C.isRelFamily_le (hcurve.curve _ (hφmaps hs₀) _ hσI) _
-      ⟨hle _ hs₀, le_rfl⟩
-  have hPW : c' σ ∈ W := hcurve.mem hσI
-  by_cases hB : BddAbove I
-  · -- the curve runs, at its future end `β = sup I`, into `c β ∉ W`; the extension into `c' σ ∈ W`
-    have hβ : IsLUB I (sSup I) := isLUB_csSup hc.nonempty hB
-    set β := sSup I
-    have hlt : ∀ s ∈ I, s < β := fun s hs => by
-      obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.1 hI s hs
-      have hmem : s + r / 2 ∈ I := hball (by
-        rw [mem_ball, Real.dist_eq, abs_of_pos (by linarith)]; linarith)
-      linarith [hβ.1 hmem]
-    have hIoo : ∀ s₁ ∈ I, Ioo s₁ β ⊆ I := fun s₁ hs₁ τ hτ => by
-      obtain ⟨s, hs, hτs⟩ := (lt_isLUB_iff hβ).1 hτ.2
-      exact hc.ordConnected.out hs₁ hs ⟨hτ.1.le, hτs.le⟩
-    have hs₀β : s₀ < β := hlt s₀ hs₀
-    have hφlim : Tendsto φ (𝓝[<] β) (𝓝[Icc (φ s₀) σ] σ) := by
-      refine tendsto_nhdsWithin_iff.2 ⟨?_, ?_⟩
-      · refine tendsto_order.2 ⟨fun a ha' => ?_, fun a ha' => ?_⟩
-        · obtain ⟨_, ⟨s₁, hs₁, rfl⟩, has₁⟩ := exists_lt_of_lt_csSup hne ha'
-          filter_upwards [Ioo_mem_nhdsLT (hlt s₁ hs₁)] with s hs
-          exact has₁.trans (hφmono hs₁ (hIoo s₁ hs₁ hs) hs.1)
-        · filter_upwards [Ioo_mem_nhdsLT hs₀β] with s hs
-          exact (hle s (hIoo s₀ hs₀ hs)).trans_lt ha'
-      · filter_upwards [Ioo_mem_nhdsLT hs₀β] with s hs
-        exact ⟨(hφmono hs₀ (hIoo s₀ hs₀ hs) hs.1).le, hle s (hIoo s₀ hs₀ hs)⟩
-    have hlim1 : Tendsto c (𝓝[<] β) (𝓝 (c' σ)) := by
-      refine (hcont'.tendsto.comp hφlim).congr' ?_
-      filter_upwards [Ioo_mem_nhdsLT hs₀β] with s hs using hφeq s (hIoo s₀ hs₀ hs)
-    have hlim2 : Tendsto c (𝓝[<] β) (𝓝 (c β)) :=
-      hcont.continuousAt.tendsto.mono_left nhdsWithin_le_nhds
-    have heq := tendsto_nhds_unique hlim1 hlim2
-    exact hend β hβ (heq ▸ hPW)
-  · -- the curve is unbounded in time at its future end: `T ∘ c' ∘ φ` cannot converge
-    have hTc' : ContinuousWithinAt (T ∘ c') (Icc (φ s₀) σ) σ :=
-      hT.continuousAt.comp_continuousWithinAt hcont'
-    obtain ⟨η, hη, hball⟩ := Metric.continuousWithinAt_iff.1 hTc' 1 one_pos
-    obtain ⟨_, ⟨s₁, hs₁, rfl⟩, hs₁σ⟩ := exists_lt_of_lt_csSup hne (show σ - η < σ by linarith)
-    obtain ⟨s, hs, hsbig⟩ := not_bddAbove_iff.1 hB (max (max s₀ s₁) (T (c' σ) + 1))
-    have h0 : s₀ < s := lt_of_le_of_lt (le_max_left _ _ |>.trans (le_max_left _ _)) hsbig
-    have h1 : s₁ < s := lt_of_le_of_lt (le_max_right _ _ |>.trans (le_max_left _ _)) hsbig
-    have h2 : T (c' σ) + 1 < s := lt_of_le_of_lt (le_max_right _ _) hsbig
-    have hφ0 := hφmono hs₀ hs h0
-    have hφ1 := hφmono hs₁ hs h1
-    have hmem : φ s ∈ Icc (φ s₀) σ := ⟨hφ0.le, hle s hs⟩
-    have hd : dist (φ s) σ < η := by
-      rw [Real.dist_eq, abs_lt]; constructor <;> linarith [hle s hs]
-    have := hball hmem hd
-    simp only [Function.comp, hφeq s hs, hTc s hs] at this
-    rw [Real.dist_eq, abs_lt] at this
-    linarith [this.2]
-
-/-- **The past end**, by time reversal (`dual_futureInextensible_iff`). -/
-theorem pastInextensible_of_isGLB_notMem [T2Space M] {W : Opens M} {I : Set ℝ} {c : ℝ → M}
-    (hc : C.CausalCurveIn W I c) (hI : IsOpen I) (hcont : Continuous c) {T : M → ℝ}
-    (hT : Continuous T) (hTc : ∀ τ ∈ I, T (c τ) = τ) (hend : ∀ β, IsGLB I β → c β ∉ W) :
-    C.PastInextensible W I c := by
-  have h := futureInextensible_of_isLUB_notMem (C := C.dual) (I := -I) (c := fun t => c (-t))
-    hc.reverse hI.neg (hcont.comp continuous_neg) (T := fun x => -T x) hT.neg
-    (fun τ hτ => by simp only [hTc (-τ) hτ, neg_neg])
-    (fun β hβ => hend (-β) (isLUB_neg.1 hβ))
-  exact dual_futureInextensible_iff.1 h
-
-/-- **The maximal piece in `W` of a time-parametrised curve is inextensible in `W`.** `ℓ` is
-continuous on `ℝ`, a continuous `T` reads its parameter (`T (ℓ τ) = τ`), and every segment of `ℓ`
-inside `W` is a causal curve of `W`. Then over the connected component through `t` of `ℓ⁻¹(W)`
-(an open interval) `ℓ` is an inextensible causal curve of `W`: each end is at infinite time, or
-at a parameter where `ℓ` leaves `W` (maximality of the component). -/
-theorem inextensible_connectedComponentIn [T2Space M] {W : Opens M} {ℓ : ℝ → M}
-    (hℓ : Continuous ℓ) {T : M → ℝ} (hT : Continuous T) (hTℓ : ∀ τ, T (ℓ τ) = τ)
-    (hcurve : ∀ a b, a ≤ b → (∀ τ ∈ Icc a b, ℓ τ ∈ W) → C.CausalCurveOn W ℓ a b) {t : ℝ}
-    (ht : ℓ t ∈ W) : C.Inextensible W (connectedComponentIn (ℓ ⁻¹' W) t) ℓ := by
-  set O : Set ℝ := ℓ ⁻¹' W with hOdef
-  have hO : IsOpen O := W.isOpen.preimage hℓ
-  set I := connectedComponentIn O t with hIdef
-  have htI : t ∈ I := mem_connectedComponentIn ht
-  have hIO : I ⊆ O := connectedComponentIn_subset O t
-  have hIo : IsOpen I := hO.connectedComponentIn
-  have hIc : I.OrdConnected := isPreconnected_connectedComponentIn.ordConnected
-  have hc : C.CausalCurveIn W I ℓ := by
-    refine ⟨⟨t, htI⟩, hIc, fun a ha b hb => ?_⟩
-    rcases le_or_gt a b with hab | hab
-    · exact hcurve a b hab fun τ hτ => hIO (hIc.out ha hb hτ)
-    · exact CurveOn.of_lt hab
-  -- a maximal piece of the line ends outside `W`, or not at all
-  have hmax : ∀ β r, 0 < r → ball β r ⊆ O → (I ∩ ball β r).Nonempty → ball β r ⊆ I := by
-    intro β r _ hsub ⟨s, hsI, hsb⟩
-    have hJ : IsPreconnected (I ∪ ball β r) := IsPreconnected.union s hsI hsb
-      isPreconnected_connectedComponentIn (by rw [Real.ball_eq_Ioo]; exact isPreconnected_Ioo)
-    have := hJ.subset_connectedComponentIn (Or.inl htI) (union_subset hIO hsub)
-    exact fun x hx => this (Or.inr hx)
-  have hlub : ∀ β, IsLUB I β → ℓ β ∉ W := by
-    intro β hβ hβW
-    obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.1 hO β hβW
-    obtain ⟨s, hs, hsβ⟩ := (lt_isLUB_iff hβ).1 (show β - r < β by linarith)
-    have hsb : s ∈ ball β r := by
-      rw [mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith [hβ.1 hs]
-    have hsub := hmax β r hr hball ⟨s, hs, hsb⟩
-    have hmem : β + r / 2 ∈ I := hsub (by
-      rw [mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith)
-    linarith [hβ.1 hmem]
-  have hglb : ∀ β, IsGLB I β → ℓ β ∉ W := by
-    intro β hβ hβW
-    obtain ⟨r, hr, hball⟩ := Metric.isOpen_iff.1 hO β hβW
-    obtain ⟨s, hs, hsβ⟩ := (isGLB_lt_iff hβ).1 (show β < β + r by linarith)
-    have hsb : s ∈ ball β r := by
-      rw [mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith [hβ.1 hs]
-    have hsub := hmax β r hr hball ⟨s, hs, hsb⟩
-    have hmem : β - r / 2 ∈ I := hsub (by
-      rw [mem_ball, Real.dist_eq, abs_lt]; constructor <;> linarith)
-    linarith [hβ.1 hmem]
-  exact inextensible_iff.2
-    ⟨pastInextensible_of_isGLB_notMem hc hIo hℓ hT (fun τ _ => hTℓ τ) hglb,
-      futureInextensible_of_isLUB_notMem hc hIo hℓ hT (fun τ _ => hTℓ τ) hlub⟩
-
-/-- **A Cauchy surface of `W` meets the maximal piece in `W` of every such curve.** -/
-theorem IsCauchySurfaceOn.exists_mem_connectedComponentIn [T2Space M] {W : Opens M} {S : Set M}
-    (hS : C.IsCauchySurfaceOn W S) {ℓ : ℝ → M}
-    (hℓ : Continuous ℓ) {T : M → ℝ} (hT : Continuous T) (hTℓ : ∀ τ, T (ℓ τ) = τ)
-    (hcurve : ∀ a b, a ≤ b → (∀ τ ∈ Icc a b, ℓ τ ∈ W) → C.CausalCurveOn W ℓ a b) {t : ℝ}
-    (ht : ℓ t ∈ W) : ∃ s ∈ connectedComponentIn (ℓ ⁻¹' W) t, ℓ s ∈ S := by
-  obtain ⟨_, ⟨⟨s, hs, rfl⟩, hxS⟩, -⟩ :=
-    hS _ _ (inextensible_connectedComponentIn hℓ hT hTℓ hcurve ht)
-  exact ⟨s, hs, hxS⟩
-
-end Causality
+Hoisted into the ETT layer, same full names (T-abs-hoist-inextensible-piece):
+`Causality.futureInextensible_of_isLUB_notMem`, `Causality.pastInextensible_of_isGLB_notMem`,
+`Causality.inextensible_connectedComponentIn` and
+`Causality.IsCauchySurfaceOn.exists_mem_connectedComponentIn` are in `Causal.InextensiblePiece`,
+which this module imports; section 3 uses the last. -/
 
 /-! ### 3. Lines of slope at most `δ` -/
 
