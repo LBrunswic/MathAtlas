@@ -292,3 +292,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 7ea17c9 3102db7 (+ this)
 - wall time: 09:55–10:18 (Paris); agents: 1 (planner)
 - next: wave in lean-causal (T-ett-massa-dec25, T-ett-ealpha-sectors, T-ett-e0-gx-structure; coordinate the package with /ett-programme: its T-loc-ealpha-tidy lease on EAlphaCauchy.lean, Static.lean), T-bz-result-b in lean-benzecri, master T-ett-curation-model-blockers (papers/ett lease)
+
+## 2026-11-21 10:46 · wave of 2 · T-bz-result-b, T-ett-curation-model-blockers
+- T-bz-result-b: result B assembled (Benzecri.theoremB beside theoremA; ResultBPrinted, resultBPrinted_iff ↔ 0 < n); the affine half of sentence 1; proof-term walk clean (67 names), so bzthm:intro_B is closed up to OQ-45 (a) alone; audit minor
+- T-ett-curation-model-blockers (master): six ETT blocked_on fields re-pointed from layers that exist (E₀, E0.singularFlatAxioms; three of them my own wording from 1ac093f) to SingularFlatAxioms for every E≥0-manifold (T-ett-singular-sfa) and their named blockers; pushed before /ett-programme's integration
+- gates: lean-benzecri ✓, roadmap ✓ (both), ledger ett ✓, atlas ✓, hub: all gates green
+- commits: a8e2f66 60ddfc9 3a8b8c0 (+ this)
+- wall time: 10:21–10:46 (Paris); agents: 1 closer, 1 audit (lean-causal held by /ett-programme's wave 16)
+- next: wave in lean-causal when /ett-programme frees it (T-ett-massa-dec25, T-ett-ealpha-sectors, T-ett-e0-gx-structure; then T-ett-model-rows-e0); outside lean-causal nothing is ready
