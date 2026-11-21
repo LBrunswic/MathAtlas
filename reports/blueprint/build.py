@@ -31,17 +31,30 @@ The ladder is evaluated by tools/ladder.py and by nothing else on this page:
   * off_spaces                   the spaces (word lists) of the counterexamples off the ambient that
                                  refute a pair the matrix calls fails-off;
   * counterexample, edges_on, closure, needed_standing, _saturate
-                                 what a counterexample has and lacks, which edges are valid on a
-                                 space, and the saturation through them;
+                                 what a counterexample has and lacks (read forwards and, through
+                                 conjunctive edges, backwards), which edges are valid on a space,
+                                 and the saturation through them;
+  * facts_on, _start             the [[fact]]s valid on a space (a property holding outright on its
+                                 sort's objects) and what a space has before any edge;
   * _transfer_sides              which causality of a [[transfer]] is its source;
   * emitted                      which implications emit-lean makes rules of causal_ladder.
 What the page adds is presentation: for a pair the matrix calls implied (or a counterexample's
 reading: of a fails pair, the counterexamples on the ambient, those off it listed apart; of a
 fails-off pair, those off it, whose spaces must be the ones off_spaces names), an irredundant set
 of the edges the tool's own saturation used, found by dropping edges while tools/ladder.py's
-_saturate still reaches the target (so a derivation is a witness chain the tool accepts, never a
-second closure); and, at a nesting, the transfers recorded along a nesting it
-implies or is implied by, read through tools/ladder.py's closure as its transfer check reads them.
+_saturate still reaches the target from tools/ladder.py's _start (so a derivation is a witness chain
+the tool accepts, never a second closure), with the facts it starts from; and, at a nesting, the
+transfers recorded along a nesting it implies or is implied by, read through tools/ladder.py's
+closure as its transfer check reads them.
+A counterexample lacks an id either forwards (the id implies its `to` on its space: a chain as above)
+or backwards (T-tool-ladder-py-2). A backward lack is explained from the edges tools/ladder.py's
+counterexample() needs for it: edges are dropped, latest first, while counterexample() on the ladder
+with the remaining edges still lacks the id; on those edges and counterexample()'s own has and lacks,
+each step is an edge whose conclusion it lacks and all of whose premises but one it has, so it lacks
+the remaining one, and every id implying it. Every id counterexample() puts in `lacks` must be so
+explained, or the build fails; nothing is put in `lacks` here.
+A [[transfer]] with a witness and `under` is conditional, as tools/ladder.py's contradiction check
+reads it (it applies `t.get("witness") and not t.get("under")` only).
 
 Every number on the page is counted here or in the page's script from these files; nothing is typed.
 The output is deterministic: no clock, no environment, every set sorted, so two builds of the same
@@ -297,6 +310,7 @@ SHOWN = {
     "open": {"from", "to", "note"},
     "transfer": {"pair", "property", "direction", "narrower", "wider", "witness", "counterexample",
                  "status", "under", "standing", "space"},
+    "fact": {"property", "witness", "status", "standing", "note"},
 }
 
 
@@ -351,6 +365,126 @@ class Derive:
             rest.remove(e)
         self.memo[key] = order
         return order
+
+
+class Reading:
+    """Chains on a space with its facts, and why a counterexample lacks what tools/ladder.py says it
+    lacks. Every set read here is the tool's: counterexample()'s has and lacks, closure() on the
+    counterexample's space, facts_on() and _start(); a step is shown only between ids the tool
+    puts in them, so the page never claims more than the tool reads."""
+
+    def __init__(self, data, derive):
+        self.data, self.derive, self.sort = data, derive, ld.sort_of(data)
+        self.implies, self.facts = data.get("implies", []), data.get("fact", [])
+        self.fails = data.get("fails", [])
+        self.at = {id(e): i for i, e in enumerate(self.implies)}
+        self.cache, self.read_memo, self.lack_memo, self.clo_memo = {}, {}, {}, {}
+
+    def chain(self, src, target, on, edges):
+        """(edge indices, fact indices): a chain from `src` with the facts valid on `on` (the tool's
+        _start) to `target` through `edges`, and the facts it uses (the target or a premise)."""
+        on = frozenset(on)
+        start = ld._start(list(src), ld.facts_on(self.data, on), self.sort)
+        order = self.derive(start, target, edges)
+        extra = start - set(src)
+        used = extra & ({target} | {x for i in order for x in ids(self.implies[i].get("from"))})
+        return order, [j for j, r in enumerate(self.facts) if r.get("property") in used and ld.valid(r, on)]
+
+    def read(self, k):
+        if k not in self.read_memo:
+            self.read_memo[k] = ld.counterexample(self.data, self.fails[k], self.cache)
+        return self.read_memo[k]
+
+    def forward(self, k, y):
+        """Does counterexample k lack y forwards (y implies its `to` on its space, tools/ladder.py's closure)?"""
+        f = self.fails[k]
+        on = ld.space(f, self.data)
+        if on not in self.clo_memo:
+            self.clo_memo[on] = ld.closure(self.data, on)
+        return f.get("to") in self.clo_memo[on].get(y, ())
+
+    def lack(self, k, y):
+        """Why counterexample k lacks y: {"d", "fd": the chain from y to the root r it implies, "r",
+        "bk": the backward steps from its `to` up to r} (no "bk" when y implies `to`)."""
+        key = (k, y)
+        if key in self.lack_memo:
+            return self.lack_memo[key]
+        f, data = self.fails[k], self.data
+        on = ld.space(f, data)
+        edges = ld.edges_on(data, on)
+        if y not in self.read(k)[1]:
+            raise AssertionError("tools/ladder.py's counterexample %s does not lack %s" % (f.get("witness"), y))
+        to = f.get("to")
+        if self.forward(k, y):
+            d, fd = self.chain([y], to, on, edges)
+            out = {"d": d, "fd": fd, "r": to}
+        else:
+            # the edges counterexample() needs to lack y: dropped latest first while it still lacks y
+            keep = list(edges)
+            for e in reversed(list(edges)):
+                trial = [x for x in keep if x is not e]
+                if y in ld.counterexample(dict(data, implies=trial), f)[1]:
+                    keep = trial
+            out = self.backward(k, on, keep, y)
+        self.lack_memo[key] = out
+        return out
+
+    def backward(self, k, on, edges, y):
+        f = self.fails[k]
+        d = dict(self.data, implies=edges)
+        has, lacks = ld.counterexample(d, f)
+        clo = ld.closure(d, on)
+        to = f.get("to")
+        root = {x: to for x in sorted(lacks) if to in clo[x]}   # x implies `to`: lacked forwards
+        made = {}                                               # x -> (the edge, its conclusion)
+        changed = True
+        while y not in root and changed:
+            changed = False
+            for e in edges:
+                frm = ids(e.get("from"))
+                if len(frm) < 2 or e.get("to") not in root:
+                    continue
+                miss = [x for x in frm if x not in has]
+                if len(miss) == 1 and miss[0] in lacks and miss[0] not in made and miss[0] != to:
+                    x = miss[0]
+                    made[x] = (e, e.get("to"))
+                    changed = True
+                    for z in sorted(lacks):
+                        if z not in root and x in clo[z]:
+                            root[z] = x
+        if y not in root:
+            raise AssertionError("tools/ladder.py's counterexample %s (without %s) lacks %s, and the edges it needs "
+                                 "for that (%s) explain it neither forwards nor backwards" % (
+                                     f.get("witness"), to, y, ", ".join(str(self.at[id(e)]) for e in edges) or "none"))
+        steps, r = [], root[y]
+        while r != to:
+            e, c = made[r]
+            frm = ids(e.get("from"))
+            dc, fc = self.chain([c], root[c], on, edges)
+            hp = []
+            for p in frm:
+                if p != r:
+                    hd, hf = self.chain(ids(f.get("from")), p, on, edges)
+                    hp.append({"p": p, "d": hd, "fx": hf})
+            steps.append({"e": self.at[id(e)], "x": r, "c": c, "r": root[c], "dc": dc, "fc": fc, "hp": hp})
+            r = root[c]
+        steps.reverse()
+        dy, fy = self.chain([y], root[y], on, edges)
+        return {"d": dy, "fd": fy, "r": root[y], "bk": steps, "edges": sorted(self.at[id(e)] for e in edges)}
+
+
+def needed_with_facts(data, a, b, every, amb):
+    """tools/ladder.py's needed_standing for a pair implied under standing, the facts of a's sort
+    counted as premise-free steps from a with their own standing (needed_standing reads edges only);
+    the words are then checked against tools/ladder.py's closure on the space they give."""
+    sort = ld.sort_of(data)
+    fe = [{"from": [a], "to": r.get("property"), "standing": ld.standing(r)} for r in data.get("fact", [])
+          if sort.get(r.get("property")) is not None and sort.get(r.get("property")) == sort.get(a)]
+    need = ld.needed_standing((a,), b, list(every) + fe, amb)
+    on = ld.vocab_closure(set(need) | amb)
+    if b not in ld.closure(data, on).get(a, ()):
+        raise AssertionError("tools/ladder.py does not reach %s from %s on %s" % (b, a, ", ".join(sorted(on))))
+    return need, on
 
 
 def space_block(e, data, amb):
@@ -410,32 +544,47 @@ def ladder_block(lean, ett, path=LADDER):
          for e in data.get("open", [])]
 
     ok = not errs                       # tools/ladder.py classifies only a ladder that checks
-    cache = {}
+    derive = Derive(data)
+    R = Reading(data, derive)
     F = []
-    for f in data.get("fails", []):
-        has, lacks = ld.counterexample(data, f, cache) if ok else (set(), set())
+    for k, f in enumerate(data.get("fails", [])):
+        has, lacks = R.read(k) if ok else (set(), set())
+        # every id counterexample() reads it to lack backwards, with why (Reading.lack): the build
+        # fails on one it cannot explain
+        back = {y: R.lack(k, y) for y in sorted(lacks) if not R.forward(k, y)} if ok else {}
         F.append({"from": ids(f.get("from")), "to": f.get("to"), "witness": f.get("witness", ""),
                   "loc": lean.locate(f.get("witness")), "status": f.get("status", ""),
-                  **space_block(f, data, amb), "has": sorted(has), "lacks": sorted(lacks),
+                  **space_block(f, data, amb), "has": sorted(has), "lacks": sorted(lacks), "back": back,
                   "extra": extras("fails", f)})
+
+    # [[fact]]: a property holding outright on every object of its sort (tools/ladder.py's facts_on)
+    FX = []
+    for r in data.get("fact", []):
+        std = ld.standing(r)
+        FX.append({"property": r.get("property"), "witness": r.get("witness", ""), "loc": lean.locate(r.get("witness")),
+                   "status": r.get("status", ""), "standing": std, "beyond": sorted(set(std) - amb),
+                   "onAmbient": ld.valid(r, amb), "sort": sort.get(r.get("property"), ""), "note": r.get("note", ""),
+                   "extra": extras("fact", r)})
 
     T = []
     for t in data.get("transfer", []):
         src, tgt = ld._transfer_sides(t)
         proved = bool(t.get("witness"))
+        # conditional: proved only under a condition in words, which tools/ladder.py's contradiction
+        # check does not apply (it applies `t.get("witness") and not t.get("under")`)
+        cond = bool(t.get("witness")) and bool(t.get("under"))
         name = t.get("witness") or t.get("counterexample") or ""
         std = ld.standing(t)
         rec = {"pair": t.get("pair"), "property": t.get("property"),
                "direction": t.get("direction", ld.DIRECTIONS[0]), "narrower": ids(t.get("narrower")),
                "wider": ids(t.get("wider")), "src": list(src), "tgt": list(tgt),
-               "kind": "witness" if proved else "counterexample", "name": name, "loc": lean.locate(name),
+               "kind": "witness" if proved else "counterexample", "cond": cond, "name": name, "loc": lean.locate(name),
                "status": t.get("status", ""), "under": t.get("under", ""), "standing": std,
                "beyond": sorted(set(std) - amb), "extra": extras("transfer", t)}
         if not proved:
             rec.update(space_block(t, data, amb))
         T.append(rec)
 
-    derive = Derive(data)
     pairs, counts, along = {}, {}, {}
     if ok:
         m = ld.matrix(data)
@@ -444,7 +593,12 @@ def ladder_block(lean, ett, path=LADDER):
         opens = {}
         for k, o in enumerate(data.get("open", [])):
             opens.setdefault((o.get("from"), o.get("to")), k)
-        reading = [(f, ld.counterexample(data, f, cache)) for f in data.get("fails", [])]
+        reading = [(f, R.read(k)) for k, f in enumerate(data.get("fails", []))]
+
+        def put(rec, key, d, fkey, fx):
+            rec[key] = d
+            if fx:
+                rec[fkey] = fx
         for a in pids:
             for b in pids:
                 if a == b:
@@ -453,16 +607,20 @@ def ladder_block(lean, ett, path=LADDER):
                 counts[v] = counts.get(v, 0) + 1
                 rec = {"c": v}
                 if v == "implied":
-                    rec["d"] = derive([a], b, on_amb)
+                    d, fx = R.chain([a], b, amb, on_amb)
+                    put(rec, "d", d, "fx", fx)
                 elif v == "implied-standing":
-                    need = ld.needed_standing((a,), b, every, amb)
+                    need, on = needed_with_facts(data, a, b, every, amb)
                     rec["w"] = need
-                    rec["d"] = derive([a], b, ld.edges_on(data, ld.vocab_closure(set(need) | amb)))
+                    d, fx = R.chain([a], b, on, ld.edges_on(data, on))
+                    put(rec, "d", d, "fx", fx)
                 elif v in ("fails", "fails-off"):
                     # every counterexample the tool reads as having a and lacking b, on the ambient (fails)
-                    # or off it (fails-off, tools/ladder.py's on_ambient); shown: the one whose two chains
-                    # are shortest (the first of the file among equals), the others listed; of a fails
-                    # pair, those off the ambient that refute it too are listed apart (`off`)
+                    # or off it (fails-off, tools/ladder.py's on_ambient); shown: one that lacks b forwards
+                    # if any, then the one whose explanation is shortest (the first of the file among
+                    # equals), the others listed; of a fails pair, those off the ambient that refute it
+                    # too are listed apart (`off`). A backward lack's explanation is the counterexample's
+                    # own (`back` of its entry), not copied here.
                     on_f, off_f = [], []
                     for k, (f, (has, lacks)) in enumerate(reading):
                         if a in has and b in lacks:
@@ -473,11 +631,20 @@ def ladder_block(lean, ett, path=LADDER):
                                              "has %s and lacks %s" % (a, b, v, "on" if v == "fails" else "off", a, b))
                     cands = []
                     for k, f in use:
-                        edges = ld.edges_on(data, ld.space(f, data))
-                        da, db = derive(ids(f.get("from")), a, edges), derive([b], f.get("to"), edges)
-                        cands.append((len(da) + len(db), k, da, db))
-                    _, k, da, db = min(cands, key=lambda c: c[:2])
-                    rec.update({"f": k, "da": da, "db": db, "also": sorted(c[1] for c in cands if c[1] != k)})
+                        on = ld.space(f, data)
+                        da, fa = R.chain(ids(f.get("from")), a, on, ld.edges_on(data, on))
+                        L = R.lack(k, b)
+                        size = len(L["d"]) + sum(1 + len(s["dc"]) + sum(len(h["d"]) for h in s["hp"]) for s in L.get("bk", []))
+                        cands.append(((1 if "bk" in L else 0, len(da) + size, k), k, da, fa, L))
+                    _, k, da, fa, L = min(cands, key=lambda c: c[0])
+                    rec.update({"f": k, "da": da})
+                    if fa:
+                        rec["fa"] = fa
+                    if "bk" in L:
+                        rec["bw"] = 1               # read backwards: LAD.fails[f].back[b]
+                    else:
+                        put(rec, "db", L["d"], "fb", L["fd"])
+                    rec["also"] = sorted(c[1] for c in cands if c[1] != k)
                     if v == "fails":
                         if off_f:
                             rec["off"] = [k for k, _ in off_f]
@@ -502,17 +669,23 @@ def ladder_block(lean, ett, path=LADDER):
                 if Q == X:
                     along.setdefault(X, []).append({"t": k, "how": "recorded"})
                 elif t["kind"] == "witness" and Q in clo.get(X, ()):
-                    along.setdefault(X, []).append({"t": k, "how": "through", "d": derive([X], Q, on_amb)})
+                    rec = {"t": k, "how": "through"}
+                    d, fx = R.chain([X], Q, amb, on_amb)
+                    put(rec, "d", d, "fx", fx)
+                    along.setdefault(X, []).append(rec)
                 elif t["kind"] == "counterexample":
                     on = ld.space(raw, data)
                     if X in ld.closure(data, on).get(Q, ()):
-                        along.setdefault(X, []).append({"t": k, "how": "through", "d": derive([Q], X, ld.edges_on(data, on))})
+                        rec = {"t": k, "how": "through"}
+                        d, fx = R.chain([Q], X, on, ld.edges_on(data, on))
+                        put(rec, "d", d, "fx", fx)
+                        along.setdefault(X, []).append(rec)
 
     sorts = []
     for p in P:
         if p["sort"] not in sorts:
             sorts.append(p["sort"])
-    return {"props": P, "implies": I, "fails": F, "cons": C, "open": O, "transfers": T, "along": along,
+    return {"props": P, "implies": I, "fails": F, "facts": FX, "cons": C, "open": O, "transfers": T, "along": along,
             "pairs": pairs, "summary": S, "counts": dict(sorted(counts.items())), "classifiedAs": list(ld.CLASSIFIED),
             "errors": errs, "line": line, "ambient": ambient, "vocab": vocab, "sorts": sorts,
             "sortKey": "sort", "defaultSort": ld.DEFAULT_SORT, "sortNames": list(ld.SORTS),

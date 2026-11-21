@@ -35,9 +35,12 @@ def picks(data):
     cons = next(e for e in data["consequence"] if "." in e["witness"])
     fail = data["fails"][0]
     bare = next(e for e in data["implies"] if e.get("status") == "checked" and not e.get("standing"))
+    fact = data["fact"][0]
+    srt = {q["id"]: q.get("sort", "causality") for q in props}
+    other = next(q["id"] for q in props if srt[q["id"]] == srt[fact["property"]] and q["id"] != fact["property"])
     assert len(cau) >= 2 and pair, "the ladder needs two causality-sort properties and one pair-sort one"
     return {"c1": cau[0], "c2": cau[1], "pair": pair[0], "edge": edge, "conj": conj, "cons": cons,
-            "fail": fail, "bare": bare, "lean": props[0]["lean"]}
+            "fail": fail, "bare": bare, "fact": fact, "fact_other": other, "lean": props[0]["lean"]}
 
 
 def _implies(e, extra=""):
@@ -87,6 +90,16 @@ BREAKAGES = {
                                 lambda p: "\n[[fails]]\nfrom = %s\nto = %s\nwitness = %s\nstatus = \"checked\"\n"
                                 "space = [\"T0\"]\n" % (_lst(ids(p["bare"]["from"])), _q(p["bare"]["to"]),
                                                           _q(p["fail"]["witness"]))),
+    # T-tool-ladder-py-2: a [[fact]] is had by every space of its sort, so a counterexample lacking it
+    # is a contradiction; a fact names a property. (The backward reading of conjunctive edges adds no
+    # contradiction the forward one misses, so it has no breakage: tests/test_programme.py checks
+    # what it classifies.)
+    "fact-contradiction": ("contradiction: counterexample",
+                           lambda p: "\n[[fails]]\nfrom = %s\nto = %s\nwitness = %s\nstatus = \"checked\"\n" % (
+                               _lst([p["fact_other"]]), _q(p["fact"]["property"]), _q(p["fail"]["witness"]))),
+    "fact-unknown-property": ("unknown property 'no_such_property'",
+                              lambda p: "\n[[fact]]\nproperty = \"no_such_property\"\nwitness = %s\n"
+                              "status = \"checked\"\n" % _q(p["fact"]["witness"])),
     "fails-space-word": ("unknown space word 'hausdorff'",
                          lambda p: "\n[[fails]]\nfrom = %s\nto = %s\nwitness = %s\nstatus = \"checked\"\n"
                          "space = [\"hausdorff\"]\n" % (_q(p["fail"]["from"]) if isinstance(p["fail"]["from"], str)

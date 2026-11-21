@@ -1,7 +1,9 @@
 // Headless smoke test of the blueprint page: load it, click into a property, an implication, a pair,
 // a transfer along a nesting, a counterexample with a conjunctive `from`, an open pair, a pair refuted
-// only off ETT's spacetimes, a binder row and a roadmap target, at desktop and phone width, in both
-// colour schemes; count page errors (uncaught exceptions). The matrix's cells and key are counted
+// only off ETT's spacetimes, a pair implied through a [[fact]], a pair refuted only by a counterexample
+// read backwards, a counterexample's backward reading, a conditional transfer, a binder row and a
+// roadmap target, at desktop and phone width, in both colour schemes; count page errors (uncaught
+// exceptions). The matrix's cells and key are counted
 // against tools/ladder.py's summary (classified, implied under standing only, refuted off the ambient
 // only). Exit 1 on any page error, on a click that does not open its panel and on a count that differs.
 // The page's ladder line against `tools/ladder.py check` is the Makefile's `agree`, not this file's.
@@ -11,12 +13,19 @@
 // 4 px beside it, plus every junction. The points come from the drawing's geometry alone (segmentPoints),
 // never from the page's hit-testing, which is what is under test.
 //
+// A check whose case the ladder does not have says so and passes; SMOKE_REQUIRE lists the cases that
+// must be present (fact, backward, reads-back, conditional), as for a trial page built from a ladder
+// written to have them (build.py --ladder).
+//
 //   PLAYWRIGHT=<.../node_modules/playwright> node smoke.cjs index.html     (SHOTS=DIR keeps screenshots)
 const path = require("path");
 const pw = require(process.env.PLAYWRIGHT || "playwright");
 
 const file = path.resolve(process.argv[2] || "index.html");
 const shots = process.env.SHOTS || "";
+const REQ = new Set((process.env.SMOKE_REQUIRE || "").split(/[\s,]+/).filter(Boolean));
+// a case the page does not have: a pass with `why`, unless SMOKE_REQUIRE asks for it
+const absent = (kind, why) => { if (REQ.has(kind)) throw new Error("SMOKE_REQUIRE=" + kind + ": " + why); return why; };
 
 async function run(browser, opts, label, steps) {
   const ctx = await browser.newContext(opts);
@@ -217,6 +226,20 @@ const transferPanel = page => page.evaluate(() => {
       await c.click(); const h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
       out.transferCells = await page.locator("#ttab td button").count();
       return await transferPanel(page) + ` (${out.transferCells} filled cells)`; });
+    await check("a conditional transfer (a witness with `under`) is shown as conditional, in its panel and its cell", async () => {
+      const k = await page.evaluate(() => DATA.ladder.transfers.findIndex(t => t.cond));
+      if (k < 0) return absent("conditional", "no conditional transfer recorded");
+      const t = await page.evaluate(k => DATA.ladder.transfers[k], k);
+      if (t.kind !== "witness" || !t.under) throw new Error("DATA calls transfer " + k + " conditional without a witness and `under`");
+      const cell = await page.evaluate(n => [...document.querySelectorAll("#ttab td button")].filter(b => b.title.includes(n + " (conditional")).length, t.name);
+      if (!cell) throw new Error("no transfer cell's title calls " + t.name + " conditional");
+      await page.evaluate(k => { location.hash = "#/ladder/transfer/" + k; }, k);
+      const want = await page.evaluate(k => transferTitle(DATA.ladder.transfers[k]), k), h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const chips = await page.evaluate(() => [...document.querySelectorAll("#panel .chips")[0].querySelectorAll(".chip")].map(c => c.innerText));
+      if (!chips.includes("conditional")) throw new Error("chips " + chips.join(", "));
+      const u = await section(page, "under");
+      if (!u || !u.includes(t.under) || !/conditional/.test(u) || !/does not apply it/.test(u)) throw new Error("the under section does not say it is conditional and not applied");
+      return `${await transferPanel(page)}; conditional (${t.under}); ${cell} cell(s) say so`; });
     await check("an ill-typed pair says so", async () => {
       const q = await page.evaluate(() => { const k = Object.keys(DATA.ladder.pairs).find(k => DATA.ladder.pairs[k].c === "ill-typed"); return k ? k.split("|") : null; });
       if (!q) return "no two sorts";
@@ -276,6 +299,54 @@ const transferPanel = page => page.evaluate(() => {
       const txt = await section(page, "Also refuted off ETT's spacetimes");
       if (!txt || q.off.some(w => !txt.includes(w))) throw new Error("the counterexamples off the ambient are not listed apart");
       return `${want}: ${chip}, shown ${q.on}; off ETT's spacetimes ${q.off.join(", ")}`; });
+    await check("a pair implied through a fact names the fact (property, witness); the property lists it; the overview counts the facts", async () => {
+      const q = await page.evaluate(() => { for (const [k, v] of Object.entries(DATA.ladder.pairs)) if (IMPL.has(v.c) && (v.fx || []).length) { const [a, b] = k.split("|"); return { a, b, d: v.d.length, fx: v.fx.map(j => DATA.ladder.facts[j]) }; } return null; });
+      const n = await page.evaluate(() => (DATA.ladder.facts || []).length);
+      if (!q) return absent("fact", `no pair implied through a fact (${n} fact(s))`);
+      await page.evaluate(([a, b]) => { location.hash = `#/ladder/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`; }, [q.a, q.b]);
+      const want = `${q.a} ⇒ ${q.b}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const txt = await section(page, "Derivation");
+      if (!txt) throw new Error("no derivation section");
+      for (const x of q.fx) if (!txt.includes(x.property) || !txt.includes(x.witness)) throw new Error(`the derivation does not name the fact ${x.property} (${x.witness})`);
+      if (/coincide/.test(txt)) throw new Error("the derivation says the two properties coincide");
+      if (!q.d && !/through a fact/.test(txt)) throw new Error("a derivation by a fact alone does not say so");
+      const p = q.fx[0].property;
+      await page.evaluate(p => { location.hash = "#/ladder/p/" + encodeURIComponent(p); }, p);
+      if (await toH2(page, p) !== p) throw new Error("the property's panel did not open");
+      const own = await section(page, "Holds outright");
+      if (!own || !own.includes(q.fx[0].witness)) throw new Error(`the panel of ${p} does not list its fact`);
+      await page.evaluate(() => { location.hash = "#/ladder"; });
+      await page.waitForFunction(() => !document.querySelector("#panel h2.mono"), null, { timeout: 2000 });
+      const shown = await page.evaluate(() => { const d = [...document.querySelectorAll("#panel .stat div")].find(d => /^facts/.test(d.querySelector("span").innerText)); return d ? +d.querySelector("b").innerText : null; });
+      if (shown !== n) throw new Error(`the overview counts ${shown} facts, DATA has ${n}`);
+      return `${want} through ${q.fx.map(x => x.property + " (" + x.witness + ")").join(", ")}${q.d ? " and " + q.d + " edge(s)" : ", no edge"}; listed at ${p}; ${n} fact(s) counted`; });
+    await check("a pair refuted only by a counterexample read backwards shows each backward step", async () => {
+      const q = await page.evaluate(() => { for (const [k, v] of Object.entries(DATA.ladder.pairs)) if (v.bw) { const [a, b] = k.split("|"), f = DATA.ladder.fails[v.f], L = f.back[b];
+        return { a, b, w: f.witness, to: f.to, r: L.r, steps: L.bk.map(s => ({ e: s.e, x: s.x, impl: DATA.ladder.implies[s.e].from.join(" ∧ ") + " ⇒ " + DATA.ladder.implies[s.e].to })) }; } return null; });
+      if (!q) return absent("backward", "no pair is refuted only by a counterexample read backwards on this ladder");
+      await page.evaluate(([a, b]) => { location.hash = `#/ladder/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`; }, [q.a, q.b]);
+      const want = `${q.a} ⇏ ${q.b}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const txt = await section(page, "So it lacks");
+      if (!txt || !/read backwards/i.test(txt)) throw new Error("the lack is not said to be read backwards");
+      const got = await page.evaluate(() => [...document.querySelectorAll("#panel li.back-step")].map(li => ({ e: +li.dataset.e, x: li.dataset.x, btn: !!li.querySelector(`button[data-go="#/ladder/edge/${li.dataset.e}"]`) })));
+      if (got.length !== q.steps.length) throw new Error(`${got.length} backward step(s) shown, ${q.steps.length} in DATA`);
+      q.steps.forEach((s, i) => { if (got[i].e !== s.e || got[i].x !== s.x || !got[i].btn) throw new Error(`step ${i + 1} shows ${JSON.stringify(got[i])}, DATA ${JSON.stringify(s)}`); });
+      const chip = await page.evaluate(() => [...document.querySelector("#panel ul.wit li").querySelectorAll(".chip")].map(c => c.innerText));
+      if (!chip.some(c => /read backwards/.test(c))) throw new Error("the counterexample's item does not say it is read backwards");
+      const b0 = page.locator(`#panel li.back-step button[data-go="#/ladder/edge/${q.steps[0].e}"]`).first();
+      await b0.click(); const h2 = await toH2(page, q.steps[0].impl); if (h2 !== q.steps[0].impl) throw new Error("the step's implication opened " + h2);
+      return `${want}: ${q.w} (without ${q.to}) read backwards through ${q.steps.map(s => s.impl + " (lacks " + s.x + ")").join(", then ")}${q.r !== q.b ? "; " + q.b + " implies " + q.r : ""}`; });
+    await check("a counterexample read backwards lists each backward lack with its implications", async () => {
+      const q = await page.evaluate(() => { for (const [k, v] of Object.entries(DATA.ladder.pairs)) { if (v.c !== "fails") continue; const f = DATA.ladder.fails[v.f], ys = Object.keys(f.back || {});
+        if (ys.length) { const [a, b] = k.split("|"); return { a, b, w: f.witness, ys, es: ys.map(y => f.back[y].bk.map(s => s.e)) }; } } return null; });
+      if (!q) return absent("reads-back", "no counterexample shown for a pair is read backwards");
+      await page.evaluate(([a, b]) => { location.hash = `#/ladder/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`; }, [q.a, q.b]);
+      const want = `${q.a} ⇏ ${q.b}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      await page.locator("#panel details summary", { hasText: "What tools/ladder.py reads off it" }).click();
+      const got = await page.evaluate(() => [...document.querySelectorAll("#panel .reads-back li[data-y]")].map(li => ({ y: li.dataset.y, es: [...li.querySelectorAll('button[data-go^="#/ladder/edge/"]')].map(b => +b.dataset.go.split("/").pop()), vis: li.getBoundingClientRect().height > 0 })));
+      if (got.map(g => g.y).join("|") !== q.ys.join("|")) throw new Error("lists " + got.map(g => g.y).join(", ") + ", DATA " + q.ys.join(", "));
+      got.forEach((g, i) => { if (!g.vis) throw new Error(g.y + " is not shown once the details open"); if (g.es.slice().sort().join() !== q.es[i].slice().sort().join()) throw new Error(`${g.y} names edges ${g.es}, DATA ${q.es[i]}`); });
+      return `${want}: ${q.w} lacks ${q.ys.length} read backwards (${q.ys.join(", ")}), each with its implications`; });
     await page.click("#m-graph");
     await check("theme toggle: dark, then light, then back to auto", async () => {
       const bg = () => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim());

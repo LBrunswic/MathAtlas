@@ -8,8 +8,13 @@
 #                  through the Playwright in the npx cache; it fails on any page error and on any
 #                  click that does not open its panel, among them every drawn segment of every
 #                  implication, on its line and 4 px beside it, every ∧ junction, a transfer, a
-#                  counterexample with a conjunctive `from`). Needs the network for the CDN libraries.
-#   make smoke     the smoke test alone, on the current index.html. SHOTS=DIR keeps screenshots.
+#                  counterexample with a conjunctive `from`, a pair implied through a [[fact]], a pair
+#                  refuted only by a counterexample read backwards, a counterexample's backward reading,
+#                  a conditional transfer; a case the ladder lacks passes saying so). Needs the network
+#                  for the CDN libraries.
+#   make smoke     the smoke test alone, on the current index.html. SHOTS=DIR keeps screenshots;
+#                  SMOKE_REQUIRE="fact backward reads-back conditional" fails on a case the page lacks
+#                  (for a trial page: python3 build.py --ladder L --out F, then node smoke.cjs F).
 #
 # The inputs are many files across the repository (and lean-causal's sources, read for locations),
 # so the page is rebuilt every time rather than tracked by make.
@@ -17,6 +22,7 @@ SHELL := /bin/bash
 .SHELLFLAGS := -o pipefail -c
 PLAYWRIGHT ?= $(firstword $(wildcard $(HOME)/.npm/_npx/*/node_modules/playwright))
 SHOTS ?=
+SMOKE_REQUIRE ?=
 
 .PHONY: all index.html check twice agree smoke
 all: index.html
@@ -38,6 +44,6 @@ agree: index.html
 
 smoke:
 	@test -n "$(PLAYWRIGHT)" || { echo "blueprint: no Playwright under ~/.npm/_npx (set PLAYWRIGHT=...)"; exit 1; }
-	PLAYWRIGHT="$(PLAYWRIGHT)" SHOTS="$(SHOTS)" node smoke.cjs index.html
+	PLAYWRIGHT="$(PLAYWRIGHT)" SHOTS="$(SHOTS)" SMOKE_REQUIRE="$(SMOKE_REQUIRE)" node smoke.cjs index.html
 
 check: twice agree smoke

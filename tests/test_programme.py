@@ -362,6 +362,43 @@ class LadderStanding(unittest.TestCase):
             self.assertEqual(ld.matrix(e)[("a", "c")], "fails", sp)
             self.assertTrue(has(chk(dict(e, open=[{"from": "a", "to": "c", "note": "x"}])), "already settled"), sp)
 
+    def test_a_counterexample_is_read_backwards_through_a_conjunctive_edge(self):
+        # T-tool-ladder-py-2: a ∧ b ⇒ c; a counterexample with a and without c lacks b
+        imps = [imp(["a", "b"], "c", "B.toC")]
+        f = {"from": "a", "to": "c", "witness": "cex_a_not_c", "status": "checked"}
+        d = lad(implies=imps, fails=[f])
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "fails")
+        has_, lacks = ld.counterexample(d, f)
+        self.assertEqual((has_, lacks & {"b", "c"}), ({"a"}, {"b", "c"}))
+        # an [[open]] entry for the pair is now settled
+        self.assertTrue(has(chk(dict(d, open=[{"from": "a", "to": "b", "note": "x"}])), "already settled"))
+        # an edge invalid on the counterexample's space is not read backwards
+        e = lad(implies=[imp(["a", "b"], "c", "B.toC", standing=["T2"])], fails=[dict(f, space=["T1"])])
+        self.assertNotEqual(ld.matrix(e)[("a", "b")], "fails")
+
+    def test_a_fact_holds_on_every_space_of_its_sort(self):
+        # T-tool-ladder-py-2: a premise-free fact (every local model is rigid) classifies each pair
+        # into it implied, and a counterexample lacking it is a contradiction
+        fact = {"property": "c", "witness": "B.toC", "status": "checked"}
+        d = lad(implies=[], fact=[fact])
+        self.assertEqual(chk(d), [])
+        m = ld.matrix(d)
+        self.assertEqual((m[("a", "c")], m[("b", "c")], m[("c", "a")]), ("implied", "implied", "unknown"))
+        f = {"from": "a", "to": "c", "witness": "cex_a_not_c", "status": "checked"}
+        self.assertTrue(has(chk(dict(d, fails=[f])), "contradiction"))
+        # a fact with standing beyond the ambient is implied under standing only
+        e = lad(implies=[], fact=[dict(fact, standing=["connected"])])
+        self.assertEqual(ld.matrix(e)[("a", "c")], "implied-standing")
+        self.assertEqual(ld.needed_standing(("a",), "c", ld.edges_on(e, None) + ld.fact_edges(e, "a"),
+                                            ld.ambient(e)), ["connected"])
+        self.assertEqual(chk(dict(e, fails=[f])), [])            # not a contradiction on the ambient
+        # schema
+        self.assertTrue(has(chk(lad(fact=[dict(fact, property="zz")])), "unknown property 'zz'"))
+        self.assertTrue(has(chk(lad(fact=[dict(fact, witness="nope")])), "witness not found"))
+        self.assertTrue(has(chk(lad(fact=[dict(fact, status="maybe")])), "status must be one of"))
+        self.assertTrue(has(chk(lad(fact=[dict(fact, sideways=1)])), "unknown key 'sideways'"))
+
     def test_a_contradiction_off_the_ambient_is_still_one(self):
         # check reads every counterexample on its own space, on the ambient or off it
         f = {"from": "a", "to": "b", "witness": "cex_a_not_c", "status": "checked", "space": ["T0"]}
@@ -577,6 +614,9 @@ class LadderTransfer(unittest.TestCase):
         self.assertEqual(self.errs(self.w(), self.c(direction="to_wider")), [])   # the other direction
         self.assertEqual(self.errs(self.w(standing=["T2"]), self.c(space=["T1"])), [])
         self.assertTrue(has(self.errs(self.w(standing=["T2"]), self.c()), "contradiction"))
+        # T-tool-ladder-py-2: a transfer proved only under a condition in words is conditional, kept
+        # out of the contradiction check (the counterexample need not meet the condition)
+        self.assertEqual(self.errs(self.w(under="closed diamonds"), self.c()), [])
 
     def test_transfer_counterexample_whose_target_has_the_property(self):
         self.assertTrue(has(self.errs(self.c(prop_="b", narrower=["a"])), "its target has a, hence b"))

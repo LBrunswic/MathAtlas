@@ -59,10 +59,11 @@
 # strongly_causal: T2; Levin, globally_hyperbolic ∧ tarentin ⇒ time_function: T2, second_countable).
 # All four are ambient, so the closure through them is exact on ETT's spacetimes. On a
 # [[consequence]] `under` keeps the witness's other hypotheses in words (a consequence chains nothing;
-# its separation words may move to `standing`, a later pass). On a [[transfer]] `under` is read as on
-# an [[implies]]: the contradiction check does not see it, so a transfer proved only under a condition
-# in words that a recorded counterexample lacks stays a [[consequence]] (globally_hyperbolic along
-# le_nested, with closed diamonds).
+# its separation words may move to `standing`, a later pass). A [[transfer]] with `under` is
+# conditional: proved only under a condition in words, it is kept out of the contradiction check (a
+# counterexample need not meet the condition), so a conditional transfer is a [[transfer]], not a
+# [[consequence]] (T-tool-ladder-py-2; e.g. globally_hyperbolic along le_nested, with closed diamonds,
+# Causal.Causality.globallyHyperbolic_iff_of_nested, may move here).
 #
 # Sorts and the matrix. `check` and `matrix` read `sort`. A pair joining two sorts is ill-typed
 # (neither implication is a statement): it is not counted among the pairs to classify, and no
@@ -72,11 +73,16 @@
 # A conjunctive `from` of a [[fails]] refutes each single id its counterexample has. A conjunctive
 # premise of an [[implies]] chains only when all its ids hold, and the matrix asks single premises:
 # such an edge classifies a pair only through a property implying all its premises (the edge
-# absolutely_minimal ∧ causally_plain ⇒ push_up classifies none), and a counterexample is never read
-# backwards through one (the rational line, absolutely minimal and not causally open in the future,
-# is not locally causally open in the future by absolutely_minimal ∧ locally_causally_open_future ⇒
-# causally_open_future, which the matrix does not see: its entry states it, since
-# T-abs-rational-line-extras, as Causal.rationalLine_separates).
+# absolutely_minimal ∧ causally_plain ⇒ push_up classifies none). A counterexample IS read backwards
+# through one, to a fixpoint (T-tool-ladder-py-2): lacking the conclusion and having every premise
+# but one, it lacks that one, and every id implying it (the rational line, absolutely minimal and not
+# causally open in the future, is not locally causally open in the future by absolutely_minimal ∧
+# locally_causally_open_future ⇒ causally_open_future; its entry also states it, since
+# T-abs-rational-line-extras, as Causal.rationalLine_separates). On this ladder the backward reading
+# settles no further pair (the closers state the backward-read conjuncts in Lean); it finds no
+# contradiction the forward reading misses. A [[fact]] (a property holding outright on its sort's
+# objects, no premise) is had by every space of its sort on which its standing holds: every property
+# of the sort implies it.
 # Classified pairs, within one sort since T-tool-ladder-py: 98 of 314 (92 of the 306 causality-sort
 # pairs) after T-lad-plain-separations; 312 of 314 after T-lad-classify-core, of which 131 implied or
 # refuted and 181 [[open]] causality-sort entries with what each is missing (the end of the file);
@@ -133,8 +139,9 @@
 #   all three (and the A2 causal facts); it is listed at the property whose field its proof consumes.
 # * No geometry-sort [[implies]] is recorded. At Level B, `germ_extension` ⇒ `rigid` and
 #   `cauchy_slice` ⇒ `rigid` hold with the premise unused: every local model is rigid
-#   (Causal.CBG.eqOn_of_liftPropOn, from the field LocalModel.rigid). A premise-free fact is not an
-#   edge, so these two pairs stay `unknown` (neither open nor a gap). emit-lean makes no CausalLadder
+#   (Causal.CBG.eqOn_of_liftPropOn, from the field LocalModel.rigid). That premise-free fact is the
+#   [[fact]] `rigid` (T-tool-ladder-py-2), which classifies the two pairs implied: 314 of 314 within
+#   a sort (they were `unknown` while a fact had to be an edge). emit-lean makes no CausalLadder
 #   rule of an edge joining a property not of the sort `causality` (the rules are about one
 #   causality), only a skipped-edge comment line in Rules.lean.
 #
@@ -382,6 +389,18 @@ id = "cauchy_slice"
 lean = "Causal.CBG.LocalModel.SliceFuture"
 sort = "geometry"
 what = "A4, both time directions (with Causal.CBG.LocalModel.SlicePast): U globally hyperbolic with Σ ⊆ U a Cauchy surface of M and of U, p ∈ ∂U ∩ J⁺(Σ) with J⁻(p) ∩ ∂U ∩ J⁺(Σ) = {p} (resp. the past form): inside every open O ∋ p, U enlarges to a globally hyperbolic open U' ⊆ U ∪ O of which Σ is a Cauchy surface (Sbierski Thm 3.6's slice, Lemma 3.11)"
+
+# Premise-free (T-tool-ladder-py-2): every Level-B local model is rigid. Causal.CBG.eqOn_of_liftPropOn
+# is A1 for the structure morphisms of a local model (LiftPropOn of its groupoid G), from the field
+# B1 (LocalModel.rigid) and local connectedness of the model space, into a Hausdorff target; it is
+# the `rigid` field of every geometry built from a local model (Causal/CBG/FromModel.lean, the
+# geometry of ofLocalModelOfGermSlice), whatever its A3 and A4. So germ_extension, cauchy_slice ⇒
+# rigid at Level B with the premise unused.
+[[fact]]
+property = "rigid"
+witness = "Causal.CBG.eqOn_of_liftPropOn"
+status = "checked"
+note = "every local model is rigid (Level B; Hausdorff target)"
 
 # ------------------------------------------------------------------ properties of a pair of causalities
 # Sort `pair` (header): C nested in C' on one space M, Causal/NestedCausalities.lean (layer 1, no

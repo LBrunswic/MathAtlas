@@ -29,7 +29,10 @@ be dropped silently, and its edge chained as unconditional).
                      asked besides of C and of C'), exactly one of witness (a Lean proof of the
                      transfer; with standing) or counterexample (a Lean nesting whose source has
                      `property` and the listed ids, whose target has the listed ids and lacks
-                     `property`; with space), status; under
+                     `property`; with space), status; under (a witness proved only under a
+                     condition in words: conditional, not applied by the contradiction check)
+    [[fact]]         property (an id: it holds outright on every object of its sort, no premise),
+                     witness, status; standing; note (T-tool-ladder-py-2)
 
 status is seed | checked. Lean names (property `lean`, every witness and counterexample) resolve
 NAMESPACE-EXACTLY: a name is found when it is the full name of a declaration of
@@ -67,12 +70,17 @@ these values that applies:
 
     ill-typed         a and b are of different sorts: neither implication is a statement. Not
                       counted among the pairs to classify.
-    implied           b is in closure(a): exact on ETT's spacetimes.
+    implied           b is in closure(a): exact on ETT's spacetimes. The closure starts from a and
+                      the [[fact]]s of a's sort valid on the ambient (a property holding outright on
+                      its sort's objects, no premise: every property of the sort implies it).
     fails             a counterexample refutes it: it has every id of its `from`, hence everything
                       the edges valid on ITS space chain from them (a' among these), and it lacks
                       `to`, hence every b' whose closure on its space reaches `to`; (a', b') fails.
                       A non-Hausdorff counterexample says `space = ["T1"]` (or less), and is then
-                      not read against an edge whose standing asks T2.
+                      not read against an edge whose standing asks T2. A counterexample is also read
+                      backwards through a conjunctive edge valid on its space, to a fixpoint: lacking
+                      the conclusion and having every premise but one, it lacks that one and every id
+                      implying it (T-tool-ladder-py-2).
     open              an [[open]] entry.
     fails-off         only counterexamples OFF the ambient refute it: their `space` (closed) does
                       not contain the ambient's words (the vee, space = ["T0"], is no ETT
@@ -85,10 +93,11 @@ these values that applies:
                       ETT spacetime. Not counted as classified; `matrix` names the words.
     unknown           none of these.
 
-`check` fails on: a counterexample that has its `to` by the edges valid on its space (a
+`check` fails on: a counterexample that has its `to` by the edges and facts valid on its space (a
 contradiction), an [[open]] pair already implied or refuted, an entry joining two sorts, a
-[[transfer]] whose counterexample satisfies the hypotheses of a proved transfer of the same
-property and direction (its nesting reaching the proved one's in the pair-sort closure), and every
+[[transfer]] whose counterexample satisfies the hypotheses of a proved, unconditional transfer of
+the same property and direction (one with `under`, proved only under a condition in words, is
+conditional and not applied) (its nesting reaching the proved one's in the pair-sort closure), and every
 schema fault above. Its summary line is
 
     ladder: P properties, I implications, F counterexamples, C consequences; K of N ordered pairs
@@ -151,6 +160,7 @@ KEYS = {
     "open": {"from", "to", "note"},
     "transfer": {"pair", "property", "direction", "narrower", "wider", "witness", "counterexample",
                  "status", "under", "standing", "space"},
+    "fact": {"property", "witness", "status", "standing", "note"},
 }
 
 
@@ -219,6 +229,24 @@ def edges_on(data, on):
     return [e for e in data.get("implies", []) if valid(e, on) and ids_of(e.get("from"))]
 
 
+def facts_on(data, on):
+    """The properties holding outright ([[fact]], premise-free) on the closed space `on` (None: every
+    fact, whatever its standing), by sort: sort -> set of ids (T-tool-ladder-py-2)."""
+    sort, out = sort_of(data), {}
+    for f in data.get("fact", []):
+        if valid(f, on) and f.get("property") in sort:
+            out.setdefault(sort[f["property"]], set()).add(f["property"])
+    return out
+
+
+def _start(ids, facts, sort):
+    """`ids` with the facts of their sort: what a space with `ids` has before any edge."""
+    have = set(ids)
+    for x in ids:
+        have |= facts.get(sort.get(x, DEFAULT_SORT), set())
+    return have
+
+
 def _saturate(start, edges):
     have = set(start)
     changed = True
@@ -234,31 +262,48 @@ def _saturate(start, edges):
 def closure(data, on=None):
     """id -> set of ids implied (reflexive), through the implies edges valid on the ambient (or on
     the closed space `on`, a set of words)."""
-    edges = edges_on(data, ambient(data) if on is None else frozenset(on))
-    return {p["id"]: _saturate({p["id"]}, edges) for p in data.get("property", [])}
+    on = ambient(data) if on is None else frozenset(on)
+    edges, facts, sort = edges_on(data, on), facts_on(data, on), sort_of(data)
+    return {p["id"]: _saturate(_start([p["id"]], facts, sort), edges) for p in data.get("property", [])}
 
 
 def closure_any(data):
     """id -> set of ids implied through every implies edge, whatever its standing."""
-    edges = edges_on(data, None)
-    return {p["id"]: _saturate({p["id"]}, edges) for p in data.get("property", [])}
+    edges, facts, sort = edges_on(data, None), facts_on(data, None), sort_of(data)
+    return {p["id"]: _saturate(_start([p["id"]], facts, sort), edges) for p in data.get("property", [])}
 
 
 def counterexample(data, f, cache=None):
-    """(has, lacks) of the counterexample `f`: the ids its space has (the closure of its `from`
-    through the edges valid on its space) and the ids it lacks (those whose closure there reaches
-    its `to`)."""
+    """(has, lacks) of the counterexample `f`: the ids its space has (the closure of its `from`, with
+    the facts of their sort, through the edges valid on its space) and the ids it lacks (those whose
+    closure there reaches its `to`), read backwards through conjunctive edges to a fixpoint: an edge
+    valid on its space whose conclusion it lacks and all of whose premises but one it has makes it
+    lack that one, and every id implying it (T-tool-ladder-py-2). The backward reading finds no
+    contradiction the forward one misses (a premise it would lack and have makes the conclusion had);
+    it classifies pairs."""
     on = space(f, data)
     key = on
     if cache is not None and key in cache:
-        edges, clo = cache[key]
+        edges, clo, facts = cache[key]
     else:
-        edges = edges_on(data, on)
-        clo = {p["id"]: _saturate({p["id"]}, edges) for p in data.get("property", [])}
+        edges, facts, sort = edges_on(data, on), facts_on(data, on), sort_of(data)
+        clo = {p["id"]: _saturate(_start([p["id"]], facts, sort), edges) for p in data.get("property", [])}
         if cache is not None:
-            cache[key] = (edges, clo)
-    has = _saturate(ids_of(f.get("from")) or [], edges)
+            cache[key] = (edges, clo, facts)
+    has = _saturate(_start(ids_of(f.get("from")) or [], facts, sort_of(data)), edges)
     lacks = {b for b, c in clo.items() if f.get("to") in c}
+    changed = True
+    while changed:
+        changed = False
+        for e in edges:
+            frm = ids_of(e.get("from")) or []
+            if e.get("to") in lacks and len(frm) > 1:
+                missing = [x for x in frm if x not in has]
+                if len(missing) == 1:
+                    new = {b for b, c in clo.items() if missing[0] in c} - lacks
+                    if new:
+                        lacks |= new
+                        changed = True
     return has, lacks
 
 
@@ -422,6 +467,16 @@ def check(data, names=None, labels=None):
             if len(set(ends)) < len(ends):
                 errs.append("%s: an id is repeated" % tag)
             _one_sort(tag, ends, sort, errs)
+    for f in data.get("fact", []):
+        tag = "fact %s" % f.get("property")
+        if f.get("status") not in STATUS:
+            errs.append("%s: status must be one of %s" % (tag, STATUS))
+        lean_ref(tag, "witness", f)
+        if not isinstance(f.get("property"), str):
+            errs.append("%s: property must be one id" % tag)
+        else:
+            known_ids(tag, [f["property"]])
+        _words(tag, f, "standing", errs)
     for o in data.get("open", []):
         tag = "open %s→%s" % (o.get("from"), o.get("to"))
         ends = [o.get("from"), o.get("to")]
@@ -470,17 +525,22 @@ def _contradictions(data):
     """The semantic violations, on a ladder whose schema is sound."""
     errs, cache = [], {}
     for f in data.get("fails", []):
-        has, _ = counterexample(data, f, cache)
+        has, lacks = counterexample(data, f, cache)
         if f["to"] in has:
-            errs.append("contradiction: counterexample %s has %s, hence %s by the implications valid on its "
-                        "space (%s), and lacks it" % (f.get("witness"), " ∧ ".join(ids_of(f["from"])), f["to"],
+            errs.append("contradiction: counterexample %s has %s, hence %s by the implications (and facts) valid "
+                        "on its space (%s), and lacks it" % (f.get("witness"), " ∧ ".join(ids_of(f["from"])), f["to"],
                                                        ", ".join(sorted(space(f, data)))))
+        elif has & lacks:
+            errs.append("contradiction: counterexample %s has and lacks %s on its space (%s)" % (
+                f.get("witness"), ", ".join(sorted(has & lacks)), ", ".join(sorted(space(f, data)))))
     clo, bad = closure(data), refuted(data)
     for o in data.get("open", []):
         a, b = o["from"], o["to"]
         if b in clo[a] or (a, b) in bad:
             errs.append("open %s→%s is already settled; remove it" % (a, b))
-    proved = [t for t in data.get("transfer", []) if t.get("witness")]
+    # a transfer proved under a condition in words (`under`) is conditional: a counterexample need not
+    # meet the condition, so the check does not apply it (T-tool-ladder-py-2)
+    proved = [t for t in data.get("transfer", []) if t.get("witness") and not t.get("under")]
     for c in (t for t in data.get("transfer", []) if t.get("counterexample")):
         on = space(c, data)
         edges = edges_on(data, on)
@@ -529,6 +589,15 @@ def off_spaces(data, a, b):
             if a in has and b in lacks:
                 out.add(tuple(sorted(f.get("space", []))))
     return sorted(out)
+
+
+def fact_edges(data, a):
+    """The [[fact]]s of a's sort as premise-free steps from a, with their own standing: what
+    needed_standing must count besides the edges for a pair implied under standing (T-tool-ladder-py-2;
+    emit-lean does not use them, a fact being no CausalLadder rule)."""
+    sort = sort_of(data)
+    return [{"from": [a], "to": f.get("property"), "standing": standing(f)} for f in data.get("fact", [])
+            if sort.get(f.get("property")) is not None and sort.get(f.get("property")) == sort.get(a)]
 
 
 def needed_standing(src, b, edges, base=()):
@@ -1009,7 +1078,7 @@ def main(argv):
         for (a, b), v in sorted(matrix(data).items()):
             extra = ""
             if v == "implied-standing":
-                extra = " (%s)" % ", ".join(needed_standing((a,), b, edges, amb))
+                extra = " (%s)" % ", ".join(needed_standing((a,), b, edges + fact_edges(data, a), amb))
             elif v == "fails-off":
                 extra = " (on %s)" % "; ".join(", ".join(w) for w in off_spaces(data, a, b))
             print("%-24s %-24s %s%s" % (a, b, v, extra))
