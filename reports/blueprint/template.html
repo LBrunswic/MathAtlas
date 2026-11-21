@@ -76,6 +76,9 @@ button.chip{cursor:pointer}
 .chip.none{color:var(--ink-3);border-style:dotted}
 .chip.missing,.chip.fails{background:var(--fails);border-color:var(--fails);color:#fff}
 .chip.cond{border-color:var(--partial);color:var(--partial)}
+.chip.std{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-2)}
+.kw{font-family:var(--f-mono);font-size:.92em;color:var(--ink)}
+.chip.std.beyond{border-color:var(--partial);color:var(--partial);border-style:dashed}
 .chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:0;box-sizing:border-box;background:var(--ink-3)}
 .dot.s-active{background:var(--accent)}.dot.s-ready{background:transparent;border:1.5px solid var(--accent)}.dot.s-needs-ruling{background:var(--partial)}
 .dot.s-blocked{background:var(--fails)}.dot.s-planned{background:transparent;border:1.5px solid var(--ink-3)}.dot.s-done{background:var(--closed)}.dot.s-dropped{background:var(--terminal)}
@@ -150,6 +153,7 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
 .edge.hi path.vis{stroke:var(--edge-hi);stroke-width:2.4;stroke-opacity:1}
 .edge.c.hi path.vis{stroke:var(--partial)}
 .edge text{fill:var(--partial);font-size:10.5px;font-family:var(--f-mono);paint-order:stroke;stroke:var(--canvas);stroke-width:3px}
+.edge text.std{fill:var(--ink-3)}
 .edge path.hit{fill:none;stroke:transparent;stroke-width:14px;vector-effect:non-scaling-stroke;pointer-events:stroke;cursor:pointer}
 @media (pointer:coarse){.edge path.hit{stroke-width:22px}}
 .edge.dim{opacity:.3}
@@ -169,13 +173,25 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
 .matrix td button{all:unset;display:block;width:26px;height:26px;text-align:center;line-height:26px;border-radius:4px;cursor:pointer;font-size:.86rem;box-sizing:border-box}
 .matrix td button:focus-visible{outline:2px solid var(--accent)}
 .matrix button.m-implied,.mkey b.m-implied{background:var(--closed);color:#fff}
-.matrix button.m-implied-c,.mkey b.m-implied-c{background:repeating-linear-gradient(45deg,var(--closed-soft) 0 4px,var(--partial-soft) 4px 8px);color:var(--ink);border:1.5px dashed var(--partial)}
+.matrix button.m-implied-standing,.mkey b.m-implied-standing{background:repeating-linear-gradient(45deg,var(--closed-soft) 0 4px,var(--partial-soft) 4px 8px);color:var(--ink);border:1.5px dashed var(--partial)}
 .matrix button.m-fails,.mkey b.m-fails{background:var(--fails);color:#fff}
-.matrix button.m-fails-c,.mkey b.m-fails-c{background:var(--fails-soft);color:var(--fails);border:1.5px dashed var(--fails)}
 .matrix button.m-open,.mkey b.m-open{background:var(--card);border:1.5px solid var(--partial);color:var(--partial)}
 .matrix button.m-unknown,.mkey b.m-unknown{background:var(--grid);color:var(--ink-3)}
 .matrix button.m-diag,.mkey b.m-diag{background:transparent;color:var(--ink-3)}
-.matrix button.m-cross,.mkey b.m-cross{background:transparent;color:var(--ink-3);border:1px dotted var(--line)}
+.matrix button.m-ill-typed,.mkey b.m-ill-typed{background:transparent;color:var(--ink-3);border:1px dotted var(--line)}
+.matrix .note{max-width:720px;margin:10px auto 0;text-align:center;font-size:.76rem;color:var(--ink-3);line-height:1.45}
+/* transfers along a nesting */
+.matrix table.ttab{border-spacing:2px}
+.ttab th.grp{font-family:var(--f-mono);font-weight:500;color:var(--ink-2);text-align:center;padding:2px 6px;border-bottom:1px solid var(--line)}
+.ttab th.dir{font-family:var(--f-body);font-weight:500;color:var(--ink-3);font-size:.68rem;white-space:normal;max-width:84px;line-height:1.25;padding:2px 4px;vertical-align:bottom}
+.ttab td,.ttab td button{width:44px}
+.matrix button.t-yes,.mkey b.t-yes{background:var(--closed);color:#fff}
+.matrix button.t-no,.mkey b.t-no{background:var(--fails);color:#fff}
+.matrix button.t-mix,.mkey b.t-mix{background:var(--partial-soft);color:var(--partial);border:1.5px solid var(--partial)}
+.matrix button.t-yes.thr,.mkey b.t-yes.thr{background:var(--closed-soft);color:var(--closed);border:1.5px dashed var(--closed)}
+.matrix button.t-no.thr,.mkey b.t-no.thr{background:var(--fails-soft);color:var(--fails);border:1.5px dashed var(--fails)}
+.mkey b.t-mix{width:auto;padding:0 3px}
+.matrix span.t-none{display:block;width:44px;height:26px;line-height:26px;text-align:center;color:var(--ink-3)}
 .matrix h3{text-align:center;margin:18px 0 8px}
 .cluster rect{fill:none;stroke:var(--line);stroke-dasharray:2 4}
 .cluster text{fill:var(--ink-3);font-family:var(--f-body);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
@@ -322,19 +338,29 @@ const ST_ORDER = ["active","ready","needs-ruling","blocked","planned","done","dr
 const ST_LABEL = {planned:"planned",ready:"ready",active:"in progress","needs-ruling":"needs a ruling",blocked:"blocked",done:"done",dropped:"dropped"};
 const ST_COLOR = {active:"var(--accent)",ready:"var(--accent-soft)","needs-ruling":"var(--partial)",blocked:"var(--fails)",planned:"var(--grid)",done:"var(--closed)",dropped:"var(--terminal)"};
 const pair = (a, b) => LAD.pairs[a + "|" + b];
-const IMPL = new Set(["implied","implied-c"]), FAIL = new Set(["fails","fails-c"]);
-const CLS_TEXT = {"implied":"implied","implied-c":"implied only through an edge with a side condition","fails":"refuted by a counterexample",
-  "fails-c":"refuted only through an edge with a side condition","open":"open: recorded as neither proved nor refuted","unknown":"unclassified",
-  "cross":"not a statement: the two properties are of different sorts"};
-const CLS_SYM = {"implied":"⇒","implied-c":"⇒","fails":"⇏","fails-c":"⇏","open":"?","unknown":"","cross":"×"};
+/* The classes of tools/ladder.py matrix, verbatim; the page reads them and decides none. */
+const IMPL = new Set(["implied","implied-standing"]), FAIL = new Set(["fails"]);
+const CLS_TEXT = {"implied":"implied on ETT's spacetimes","implied-standing":"implied only under standing hypotheses beyond ETT's spacetimes",
+  "fails":"refuted by a counterexample","open":"open: recorded as neither proved nor refuted","unknown":"unclassified",
+  "ill-typed":"ill-typed: the two properties are of different sorts, so neither implication is a statement"};
+const CLS_SYM = {"implied":"⇒","implied-standing":"⇒","fails":"⇏","open":"?","unknown":"","ill-typed":"×"};
+const CLS_CHIP = {"implied":"closed","implied-standing":"cond","fails":"fails","open":"open","unknown":"none","ill-typed":"none"};
 const SORTS = LAD.sorts || [], sortOf = id => PROP[id] ? PROP[id].sort : "";
+const AMB = LAD.ambient, VOCAB = LAD.vocab || {};
+const ambWords = () => AMB.standing.map(esc).join(", ");
+/* standing words as chips: the Mathlib class in the title; dashed amber when beyond the ambient */
+function stdChips(words, beyond){ return (words || []).map(w => `<span class="chip std ${(beyond || []).includes(w) ? "beyond" : ""}" title="${esc(VOCAB[w] ? "[" + VOCAB[w].cls + " M]" : "not a word of tools/ladder.py's vocabulary")}${(beyond || []).includes(w) ? ": beyond ETT's spacetimes" : ": ETT's spacetimes have it"}">${esc(w)}</span>`).join(""); }
+const TR = LAD.transfers || [], ALONG = LAD.along || {};
+const dirWord = t => t.direction === "to_wider" ? "wider" : "narrower";
+function transferTitle(t){ return `${t.pair} ${t.kind === "witness" ? "carries" : "does not carry"} ${t.property} to the ${dirWord(t)} causality`; }
 
 function propBtn(id, cls){ return PROP[id] ? `<button class="pl ${cls||""}" data-go="#/ladder/p/${enc(id)}">${esc(id)}</button>` : `<span class="pl ghost" title="not a property of programme/ladder.toml">${esc(id)}</span>`; }
 function tgtChip(id, compact){ const t = TGT[id]; if (!t) return `<span class="chip missing" title="not a target of programme/roadmap.toml">${esc(id)}</span>`;
   const st = esc(ST_LABEL[t.status] || t.status);
   return compact ? `<button class="chip target cmp" data-go="#/roadmap/${enc(id)}" title="${esc(id)} (${st}): ${esc(t.title)}"><i class="dot s-${esc(t.status)}"></i>${esc(id)}</button>`
     : `<button class="chip target" data-go="#/roadmap/${enc(id)}" title="${esc(t.title)}"><i class="dot s-${esc(t.status)}"></i>${esc(id)} · ${st}</button>`; }
-function leanLine(name, loc, how){ return `<span class="mono">${esc(name)}</span>${loc ? `<span class="loc">${esc(loc)}${how && how !== "exact" ? " · resolved by " + esc(how) : ""}</span>` : `<span class="loc">location not found by the page's scan</span>`}`; }
+/* A Lean name and where tools/ladder.py's index declares it (namespace-exact); none: not a full name of lean-causal/Causal. */
+function leanLine(name, loc){ return `<span class="mono">${esc(name)}</span>${loc ? `<span class="loc">${esc(loc)}</span>` : `<span class="loc" style="color:var(--fails)">not the full name of a declaration of lean-causal/Causal</span>`}`; }
 function statusChip(s){ return `<span class="chip ${s === "checked" ? "closed" : "seed"}">${esc(s)}</span>`; }
 function extrasHTML(x){ const k = Object.keys(x || {}); return k.length ? `<div class="prov">${k.map(kk => `<div><span class="mono">${esc(kk)}</span>: ${esc(typeof x[kk] === "string" ? x[kk] : JSON.stringify(x[kk]))}</div>`).join("")}</div>` : ""; }
 function texHTML(t){
@@ -367,13 +393,15 @@ applyTheme();
    1. The ladder
    ===================================================================================== */
 const S = LAD.summary;
-const nChecked = LAD.implies.filter(e => e.status === "checked").length, nCond = LAD.implies.filter(e => e.cond).length;
-function consAt(id){ return LAD.cons.map((c,i) => ({...c,i})).filter(c => c.at === id); }
+const nChecked = LAD.implies.filter(e => e.status === "checked").length;
+const nStd = LAD.implies.filter(e => e.standing.length).length, nBeyond = LAD.implies.filter(e => e.beyond.length).length, nUnder = LAD.implies.filter(e => e.under).length;
+function consAt(id){ return LAD.cons.map((c,i) => ({...c,i})).filter(c => c.at.length === 1 && c.at[0] === id); }
 function implStr(e){ return `${e.from.map(esc).join(" ∧ ")} ⇒ ${esc(e.to)}`; }
+function edgeLabel(e){ return e.beyond.length ? e.beyond.join(" ") : e.under ? "under" : e.standing.join(" "); }
 function edgeLi(i){
   const e = LAD.implies[i];
   return `<li class="${e.cond ? "c" : "ok"}"><button class="pl ${e.cond?"c":""}" data-go="#/ladder/edge/${i}" style="white-space:normal">${implStr(e)}</button>
-    ${leanLine(e.witness, e.loc)}<div class="chips" style="margin-top:4px">${statusChip(e.status)}${e.cond ? `<span class="chip cond">under a side condition</span>` : ""}${emitChip(e)}</div>
+    ${leanLine(e.witness, e.loc)}<div class="chips" style="margin-top:4px">${statusChip(e.status)}${stdChips(e.standing, e.beyond)}${e.beyond.length ? `<span class="chip cond">not on every ETT spacetime</span>` : ""}${emitChip(e)}</div>
     ${e.under ? `<div class="warn" style="margin-top:4px"><b>under</b> ${esc(e.under)}</div>` : ""}</li>`;
 }
 function emitChip(e){ if (!e.emit) return "";
@@ -381,9 +409,36 @@ function emitChip(e){ if (!e.emit) return "";
     : `<span class="chip none" title="emit-lean skips it: ${esc(e.emit.why)}">not a rule</span>`; }
 function derivationHTML(d){ return d && d.length ? `<ul class="wit">${d.map(edgeLi).join("")}</ul>` : `<p>The two properties coincide.</p>`; }
 function consLi(c, via){
-  return `<li class="${c.status === "checked" ? "ok" : ""}${via && via.c ? " c" : ""}"><span style="color:var(--ink)">${esc(c.statement)}</span>${leanLine(c.witness, c.loc)}
-    <div class="chips" style="margin-top:4px">${statusChip(c.status)}${via ? `<span class="chip ${via.c ? "cond" : ""}">at ${esc(c.at)}${via.c ? ", reached through a side condition" : ""}</span>` : ""}</div>
+  return `<li class="${c.status === "checked" ? "ok" : ""}${(via && via.c) || c.beyond.length ? " c" : ""}"><span style="color:var(--ink)">${esc(c.statement)}</span>${leanLine(c.witness, c.loc)}
+    <div class="chips" style="margin-top:4px">${statusChip(c.status)}${via || c.at.length > 1 ? `<span class="chip ${via && via.c ? "cond" : ""}">at ${c.at.map(esc).join(" ∧ ")}${via && via.c ? ", reached only under standing hypotheses" : ""}</span>` : ""}${stdChips(c.standing, c.beyond)}</div>
     ${c.under ? `<div class="warn" style="margin-top:4px"><b>under</b> ${esc(c.under)}</div>` : ""}${extrasHTML(c.extra)}</li>`;
+}
+/* The consequences valid at a property: those at it; those at a conjunction every id of which it
+   reaches through the closure (its own id or an implied pair); and, apart, the conjunctions naming it
+   that it does not reach by itself. */
+function consOf(id){
+  const reach = x => x === id ? "self" : (pair(id, x) && IMPL.has(pair(id, x).c) ? pair(id, x).c : null);
+  const direct = [], inherited = [], partial = [];
+  LAD.cons.forEach((c, i) => { const r = c.at.map(reach), C = {...c, i};
+    if (c.at.length === 1 && c.at[0] === id) direct.push(C);
+    else if (c.at.length && r.every(Boolean)) inherited.push({c:C, via:{c:r.includes("implied-standing")}});
+    else if (c.at.includes(id)) partial.push({c:C, missing:c.at.filter((x, k) => !r[k])}); });
+  return {direct, inherited, partial};
+}
+/* transfers */
+function transferSentence(t){
+  const src = t.direction === "to_wider" ? "C" : "C′", tgt = t.direction === "to_wider" ? "C′" : "C", kw = x => `<span class="kw">${esc(x)}</span>`;
+  const list = xs => xs.length <= 3 ? xs.map(kw).join(" ∧ ") : `the ${xs.length} properties asked of it below`;
+  const nest = `C is nested in C′ (${kw(t.pair)}, C the narrower)`;
+  const askSrc = `${src} has ${kw(t.property)}${t.src.length ? (t.src.length <= 3 ? " ∧ " : " and ") + list(t.src) : ""}`, askTgt = t.tgt.length ? `${tgt} has ${list(t.tgt)}` : "";
+  return t.kind === "witness" ? `If ${nest}, ${askSrc}${askTgt ? ", and " + askTgt : ""}, then ${tgt} has ${kw(t.property)}.`
+    : `A nesting where ${nest}, ${askSrc}${askTgt ? ", " + askTgt : ""}, and ${tgt} lacks ${kw(t.property)}.`;
+}
+function transferLi(k, how){
+  const t = TR[k], cls = t.kind === "witness" ? "ok" : "f";
+  return `<li class="${how && how.how === "through" ? "c" : cls}"><button class="pl ${t.kind === "witness" ? "" : "f"}" data-go="#/ladder/transfer/${k}" style="white-space:normal">${esc(transferTitle(t))}</button>
+    ${leanLine(t.name, t.loc)}<div class="chips" style="margin-top:4px">${statusChip(t.status)}<span class="chip ${t.kind === "witness" ? "closed" : "fails"}">${t.kind === "witness" ? "proved" : "counterexample"}</span>${t.src.length || t.tgt.length ? `<span class="chip">${t.src.length + t.tgt.length} ids asked besides</span>` : ""}${stdChips(t.standing, t.beyond)}${how && how.how === "through" ? `<span class="chip cond">recorded along ${esc(t.pair)}</span>` : ""}</div>
+    ${t.under ? `<div class="warn" style="margin-top:4px"><b>under</b> ${esc(t.under)}</div>` : ""}</li>`;
 }
 
 /* graph */
@@ -417,10 +472,10 @@ function ladderGraph(){
   const edges = [];
   LAD.implies.forEach((e, i) => {
     if (!PROP[e.to] || e.from.some(x => !PROP[x])) return;
-    if (e.from.length === 1) edges.push({v:e.from[0], w:e.to, i, arrow:true, label:e.cond ? "under" : ""});
+    if (e.from.length === 1) edges.push({v:e.from[0], w:e.to, i, arrow:true, label:edgeLabel(e)});
     else { const j = "∧" + i; nodes.push({id:j, kind:"junction", w:20, h:20, i});
       e.from.forEach(x => edges.push({v:x, w:j, i, arrow:false}));
-      edges.push({v:j, w:e.to, i, arrow:true, label:e.cond ? "under" : ""}); }
+      edges.push({v:j, w:e.to, i, arrow:true, label:edgeLabel(e)}); }
   });
   return {nodes, edges};
 }
@@ -437,7 +492,7 @@ function layout(G){
     const g = new dagre.graphlib.Graph({multigraph:true});
     g.setGraph({rankdir:"TB", nodesep:30, ranksep:58, marginx:0, marginy:0}); g.setDefaultEdgeLabel(() => ({}));
     ns.forEach(n => g.setNode(n.id, {width:n.w, height:n.h}));
-    es.forEach((e, k) => g.setEdge(e.v, e.w, {label:e.label, width:e.label ? 40 : 0, height:e.label ? 14 : 0, labelpos:"c"}, "e" + G.edges.indexOf(e)));
+    es.forEach((e, k) => g.setEdge(e.v, e.w, {label:e.label, width:e.label ? 12 + 6.4*e.label.length : 0, height:e.label ? 14 : 0, labelpos:"c"}, "e" + G.edges.indexOf(e)));
     dagre.layout(g); const gi = g.graph(); return {ns, g, w:gi.width || 0, h:gi.height || 0};
   }).sort((a, b) => b.ns.length - a.ns.length || b.h - a.h);
   const area = parts.reduce((a, p) => a + p.w*p.h, 0), maxW = Math.max(...parts.map(p => p.w), Math.sqrt(area)*1.6);
@@ -505,8 +560,8 @@ function drawLadder(){
     const el = eg.append("g").attr("class", "edge" + (e.status !== "checked" ? " seed" : "") + (e.cond ? " c" : "")).attr("data-i", s.i).attr("data-v", s.v).attr("data-w", s.w);
     el.append("path").attr("class", "hit").attr("d", dd);
     el.append("path").attr("class", "vis").attr("d", dd).attr("marker-end", s.arrow ? `url(#${e.cond ? "arr-c" : "arr"})` : null);
-    if (s.label && E.lx != null) el.append("text").attr("x", E.lx).attr("y", E.ly + 4).attr("text-anchor", "middle").text(s.label);
-    el.append("title").text(`${e.from.join(" ∧ ")} ⇒ ${e.to}\n${e.witness} (${e.status})${e.under ? "\nunder: " + e.under : ""}\n(click for the edge)`);
+    if (s.label && E.lx != null) el.append("text").attr("class", e.cond ? null : "std").attr("x", E.lx).attr("y", E.ly + 4).attr("text-anchor", "middle").text(s.label);
+    el.append("title").text(`${e.from.join(" ∧ ")} ⇒ ${e.to}\n${e.witness} (${e.status})${e.standing.length ? "\nstanding: " + e.standing.join(", ") + (e.beyond.length ? " (beyond ETT's spacetimes: " + e.beyond.join(", ") + ")" : " (ETT's spacetimes have it)") : ""}${e.under ? "\nunder: " + e.under : ""}\n(click for the edge)`);
   });
   const ng = world.append("g");
   G.nodes.forEach(N => { const p = L.nodes[N.id]; if (!p) return;
@@ -516,13 +571,13 @@ function drawLadder(){
       el.append("title").text(`${e.from.join(" ∧ ")} ⇒ ${e.to}: the premises are read together (click for the edge)`);
       el.on("click", ev => { ev.stopPropagation(); nav("#/ladder/edge/" + N.i); });
       el.on("mouseenter", () => hover(N.i)).on("mouseleave", () => hover(null)); return; }
-    const pr = N.p, nc = consAt(pr.id).length;
+    const pr = N.p, nc = consAt(pr.id).length, nt = (ALONG[pr.id] || []).length + (pr.sort === "causality" ? TR.filter(t => t.property === pr.id).length : 0);
     const el = ng.append("g").attr("class", "node").attr("data-id", N.id).attr("transform", `translate(${p.x - N.w/2},${p.y - N.h/2})`)
-      .attr("tabindex", 0).attr("role", "button").attr("aria-label", `${pr.id}, ${plural(nc, "consequence")}`);
+      .attr("tabindex", 0).attr("role", "button").attr("aria-label", `${pr.id}, ${plural(nc, "consequence")}${nt ? ", " + plural(nt, "transfer") : ""}`);
     el.append("rect").attr("class", "box").attr("width", N.w).attr("height", N.h).attr("rx", 8).style("filter", "drop-shadow(0 2px 5px rgba(20,30,45,.08))");
     el.append("text").attr("class", "t-mono").attr("x", 12).attr("y", 22).attr("font-size", 12.5).attr("font-weight", 500).text(pr.id.length > 26 ? pr.id.slice(0, 25) + "…" : pr.id);
     el.append("text").attr("class", "t-mono t-dim").attr("x", 12).attr("y", 39).attr("font-size", 10.5).text(short(pr.lean || ""));
-    el.append("text").attr("class", "t-dim").attr("x", 12).attr("y", 55).attr("font-size", 10.5).text(nc ? plural(nc, "consequence") : "no consequence recorded");
+    el.append("text").attr("class", "t-dim").attr("x", 12).attr("y", 55).attr("font-size", 10.5).text((nc ? plural(nc, "consequence") : "no consequence recorded") + (nt ? " · " + plural(nt, "transfer") : ""));
     el.append("title").text(pr.what);
     const go = ev => { ev.stopPropagation(); nav("#/ladder/p/" + enc(pr.id)); };
     el.on("click", go).on("keydown", ev => { if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); go(ev); } });
@@ -538,8 +593,8 @@ function markLadder(){
     if (P0){
       if (id === P0) cls += " sel";
       else { const dn = pair(P0, id), up = pair(id, P0);
-        if (dn && IMPL.has(dn.c)) cls += " down" + (dn.c === "implied-c" ? " c" : "");
-        else if (up && IMPL.has(up.c)) cls += " up" + (up.c === "implied-c" ? " c" : "");
+        if (dn && IMPL.has(dn.c)) cls += " down" + (dn.c === "implied-standing" ? " c" : "");
+        else if (up && IMPL.has(up.c)) cls += " up" + (up.c === "implied-standing" ? " c" : "");
         else if ((dn && FAIL.has(dn.c)) || (up && FAIL.has(up.c))) cls += " no";
         else cls += " dim"; }
     }
@@ -556,24 +611,46 @@ let selEdge = null, selPair = null;   // an implication, or the edges of a pair'
 function ladderLegend(){
   const sw = (cls, dash, col) => `<svg width="26" height="8" aria-hidden="true"><path d="M1,4H25" stroke="${col}" stroke-width="1.8" ${dash ? 'stroke-dasharray="6 4"' : ""}></path></svg>`;
   $("#legend").innerHTML = `<span>${sw("", false, "var(--edge)")}checked</span><span>${sw("", true, "var(--edge)")}seed</span>
-    <span>${sw("", false, "var(--partial)")}carries <span class="mono" style="font-size:.72rem">under</span></span><span>∧ premises read together</span>
-    <span>arrow: implies</span>${selProp ? `<span><i style="border-color:var(--closed);background:var(--closed-soft)"></i>implied by it</span><span><i style="border-color:var(--accent);background:var(--accent-soft)"></i>implies it</span><span><i style="border-color:var(--partial);border-style:dashed;background:var(--partial-soft)"></i>only through <span class="mono" style="font-size:.72rem">under</span></span><span><i style="border-color:var(--fails);background:var(--fails-soft)"></i>refuted</span>` : ""}`;
+    ${nStd ? `<span><span class="mono" style="font-size:.72rem;color:var(--ink-3)">T2</span> standing hypotheses of the witness</span>` : ""}${nBeyond ? `<span>${sw("", false, "var(--partial)")}standing beyond ETT's spacetimes</span>` : ""}${nUnder ? `<span>${sw("", false, "var(--partial)")}carries <span class="mono" style="font-size:.72rem">under</span></span>` : ""}<span>∧ premises read together</span>
+    <span>arrow: implies</span>${selProp ? `<span><i style="border-color:var(--closed);background:var(--closed-soft)"></i>implied by it</span><span><i style="border-color:var(--accent);background:var(--accent-soft)"></i>implies it</span>${LAD.counts["implied-standing"] ? `<span><i style="border-color:var(--partial);border-style:dashed;background:var(--partial-soft)"></i>only under standing hypotheses</span>` : ""}<span><i style="border-color:var(--fails);background:var(--fails-soft)"></i>refuted</span>` : ""}`;
 }
 
 /* matrix */
 let mode = "graph";
 function drawMatrix(){
   const ids = LAD.props.map(p => p.id);
-  if (!S){ $("#matrix").innerHTML = `<p class="err" style="max-width:640px;margin:0 auto">The pairs could not be classified: see the checker's violations in the panel.</p>`; return; }
+  if (LAD.errors.length){ $("#matrix").innerHTML = `<p class="err" style="max-width:640px;margin:0 auto">tools/ladder.py classifies the pairs only of a ladder that checks: see its ${plural(LAD.errors.length, "violation")} in the panel.</p>`; return; }
   const cell = (a, b) => { if (a === b) return `<td><button class="m-diag" disabled aria-label="${esc(a)}">·</button></td>`;
-    const v = pair(a, b); return `<td><button class="m-${v.c}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(a)} ⇒ ${esc(b)}: ${esc(CLS_TEXT[v.c])}">${CLS_SYM[v.c]}</button></td>`; };
-  const cnt = k => S[k.replace("-", "_")];
+    const v = pair(a, b), o = v.c === "open" ? LAD.open[v.o] : null, w = v.c === "implied-standing" ? " (" + v.w.join(", ") + ")" : "";
+    return `<td><button class="m-${v.c}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(a)} ⇒ ${esc(b)}: ${esc(CLS_TEXT[v.c] + w)}${o && o.note ? esc(" · " + o.note) : ""}">${CLS_SYM[v.c]}</button></td>`; };
   const table = sub => `<table aria-label="Ordered pairs of properties: row implies column?"><thead><tr><th class="row" style="vertical-align:bottom;font-family:var(--f-body);color:var(--ink-3);font-size:.7rem">row ⇒ column</th>${sub.map(b => `<th class="col"><div><button data-go="#/ladder/p/${enc(b)}">${esc(b)}</button></div></th>`).join("")}</tr></thead>
     <tbody>${sub.map(a => `<tr><th class="row"><button data-go="#/ladder/p/${enc(a)}">${esc(a)}</button></th>${sub.map(b => cell(a, b)).join("")}</tr>`).join("")}</tbody></table>`;
   const groups = SORTS.length > 1 ? SORTS.map(s => [s, ids.filter(i => sortOf(i) === s)]) : [[null, ids]];
-  $("#matrix").innerHTML = groups.map(([s, sub]) => (s ? `<h3>sort: ${esc(s)} · ${plural(sub.length, "property", "properties")}</h3>` : "") + table(sub)).join("")
-    + `<div class="mkey">${["implied","implied-c","fails","fails-c","open","unknown"].map(k => `<span><b class="m-${k}">${CLS_SYM[k]}</b>${esc(CLS_TEXT[k])} (${cnt(k)})</span>`).join("")}</div>`
-    + (S.cross ? `<p class="mkey">${S.cross} ordered pairs join two sorts and are not drawn: <span class="mono">tools/ladder.py matrix</span> lists them as unknown.</p>` : "");
+  const within = sub => sub.length * (sub.length - 1), cnt = k => LAD.counts[k] || 0;
+  $("#matrix").innerHTML = groups.map(([s, sub]) => (s ? `<h3>sort: ${esc(s)} · ${plural(sub.length, "property", "properties")} · ${within(sub)} ordered pairs</h3>` : "") + table(sub)).join("")
+    + `<div class="mkey">${["implied","implied-standing","fails","open","unknown"].map(k => `<span><b class="m-${k}">${CLS_SYM[k]}</b>${esc(CLS_TEXT[k])} (${cnt(k)})</span>`).join("")}</div>`
+    + `<p class="note">tools/ladder.py: ${S.classified} of the ${S.within} ordered pairs within one sort are classified (${LAD.classifiedAs.map(esc).join(", ")}); ${S.implied_standing} implied under standing only, which it does not count.${S.ill_typed ? ` ${S.ill_typed} ordered pairs join two sorts: ill-typed, neither implication is a statement; they are not drawn and not among the ${S.within}.` : ""}</p>`
+    + (TR.length ? transferTable() : "");
+}
+/* Transfers along a nesting: for every causality-sort property and every pair-sort property, whether
+   the nesting carries it to the narrower causality C (C′ has it, hence C) or to the wider C′. A cell
+   is what the ladder records along that nesting, or along a nesting the closure relates to it (dashed). */
+function transferCell(X, dir, P){
+  const es = (ALONG[X] || []).filter(a => TR[a.t].property === P && TR[a.t].direction === dir);
+  if (!es.length) return `<td><span class="t-none" title="no transfer recorded">·</span></td>`;
+  const rec = es.filter(a => a.how === "recorded"), use = rec.length ? rec : es, yes = use.some(a => TR[a.t].kind === "witness"), no = use.some(a => TR[a.t].kind !== "witness");
+  const cls = yes && no ? "t-mix" : yes ? "t-yes" : "t-no", thr = rec.length ? "" : " thr";
+  const tip = es.map(a => `${transferTitle(TR[a.t])}${a.how === "through" ? " (recorded along " + TR[a.t].pair + ")" : ""}: ${TR[a.t].name}`).join("\n");
+  return `<td><button class="${cls}${thr}" data-go="#/ladder/transfer/${use[0].t}" title="${esc(tip)}">${yes && no ? "✓✗" : yes ? "✓" : "✗"}</button></td>`;
+}
+function transferTable(){
+  const nest = LAD.props.filter(p => p.sort === "pair").map(p => p.id), caus = LAD.props.filter(p => p.sort === "causality").map(p => p.id);
+  const dirs = [["to_narrower", "to C, the narrower"], ["to_wider", "to C′, the wider"]];
+  return `<h3 id="transfers" style="margin-top:28px">Transfers along a nesting (sort pair) · ${plural(TR.length, "entry", "entries")}</h3>
+    <table class="ttab" id="ttab" aria-label="Transfers: does the nesting carry the property?"><thead><tr><th class="row"></th>${nest.map(X => `<th class="grp" colspan="2"><button data-go="#/ladder/p/${enc(X)}">${esc(X)}</button></th>`).join("")}</tr>
+    <tr><th class="row" style="vertical-align:bottom;font-family:var(--f-body);color:var(--ink-3);font-size:.7rem">property carried</th>${nest.map(() => dirs.map(d => `<th class="dir">${d[1]}</th>`).join("")).join("")}</tr></thead>
+    <tbody>${caus.map(P => `<tr><th class="row"><button data-go="#/ladder/p/${enc(P)}">${esc(P)}</button></th>${nest.map(X => dirs.map(d => transferCell(X, d[0], P)).join("")).join("")}</tr>`).join("")}</tbody></table>
+    <div class="mkey"><span><b class="t-yes">✓</b>proved</span><span><b class="t-no">✗</b>refuted by a counterexample</span><span><b class="t-mix">✓✗</b>both, under different hypotheses</span><span><b class="t-yes thr">✓</b><b class="t-no thr">✗</b>recorded along a nesting the closure relates to it</span><span><b class="m-diag">·</b>none recorded</span></div>`;
 }
 function setMode(m){
   mode = m; $("#m-graph").setAttribute("aria-pressed", m === "graph"); $("#m-pairs").setAttribute("aria-pressed", m === "pairs");
@@ -586,31 +663,41 @@ $("#m-graph").onclick = () => setMode("graph"); $("#m-pairs").onclick = () => se
 /* ladder panels */
 function provHTML(){
   return `<details><summary>Inputs of this build</summary><div class="prov" style="margin-top:6px">${DATA.prov.inputs.map(x => `<div><span class="mono">${esc(x.path)}</span> · sha256 ${esc(x.sha256.slice(0, 12))}</div>`).join("")}
-    <div style="margin-top:4px">Lean names located by scanning <span class="mono">lean-causal/Causal/**/*.lean</span> (${DATA.prov.leanDecls.toLocaleString("en-US")} declarations); the ledgers were built at lean-causal ${Object.entries(DATA.prov.leanCommit).map(([s, c]) => `${esc(s)} <span class="mono">${esc(c)}</span>`).join(", ")}.</div></div></details>`;
+    <div style="margin-top:4px">Read through ${DATA.prov.tools.map(x => `<span class="mono">${esc(x.path)}</span> (sha256 ${esc(x.sha256.slice(0, 12))})`).join(", ")}.</div>
+    <div style="margin-top:4px">Lean names resolved namespace-exactly by <span class="mono">tools/ladder.py</span>'s index of <span class="mono">lean-causal/Causal/**/*.lean</span> (${DATA.prov.leanDecls.toLocaleString("en-US")} declarations); the ledgers were built at lean-causal ${Object.entries(DATA.prov.leanCommit).map(([s, c]) => `${esc(s)} <span class="mono">${esc(c)}</span>`).join(", ")}.</div></div></details>`;
+}
+function ambientHTML(){
+  return `<p>The ladder is read on ${AMB.declared ? "the space of its <span class=\"mono\">[ambient]</span> table" : "ETT's topological spacetimes"}: standing ${ambWords()}${AMB.label ? ` (<span class="mono">${esc(AMB.label)}</span>)` : ""}, closed under the vocabulary's implications to ${stdChips(AMB.words)}. An implication whose <span class="mono">standing</span> is within it is exact on every such space; one beyond it is not chained, and the pairs only it reaches are <i>implied under standing</i>.${AMB.note ? " " + esc(AMB.note) : ""}</p>`;
 }
 function ladderOverview(){
+  const cnt = k => LAD.counts[k] || 0;
   panel(`<div><h3>The causality ladder</h3><h2>Properties, the implications between them, and what holds at each level</h2></div>
-    <p>Read from <span class="mono">programme/ladder.toml</span> through <span class="mono">tools/ladder.py</span>. An arrow is an implication with a Lean witness: solid when the ladder-keeper has read its side conditions against the witness (<i>checked</i>), dashed while it is a <i>seed</i>. An arrow drawn in amber carries <span class="mono">under</span>, a side condition that is not a ladder node; <span class="mono">tools/ladder.py</span>'s closure chains such an edge as if it were unconditional, so this page lists apart the pairs it alone decides.</p>
-    <div class="stat"><div><b>${LAD.props.length}</b><span>properties</span></div><div><b>${nChecked}/${LAD.implies.length}</b><span>implications checked</span></div><div><b>${LAD.cons.length}</b><span>consequences</span></div>
-      <div><b>${S ? S.classified + "/" + S.pairs : "—"}</b><span>ordered pairs classified${S && S.cross ? `; ${S.classified}/${S.within} within one sort` : ""}</span></div><div><b>${S ? S.implied_c + S.fails_c : "—"}</b><span>of them only through <span class="mono">under</span></span></div><div><b>${LAD.fails.length}</b><span>counterexamples</span></div></div>
-    ${S ? `<div class="chips"><span class="chip closed">implied ${S.implied}</span><span class="chip cond">implied through <span class="mono">under</span> ${S.implied_c}</span><span class="chip fails">refuted ${S.fails}</span>${S.fails_c ? `<span class="chip cond">refuted through <span class="mono">under</span> ${S.fails_c}</span>` : ""}<span class="chip open">open ${S.open}</span><span class="chip none">unclassified ${S.unknown}</span>${S.cross ? `<span class="chip none">across two sorts ${S.cross}</span>` : ""}</div>` : ""}
-    ${SORTS.length > 1 ? `<p>The properties come in ${SORTS.length} sorts (the field <span class="mono">${esc(LAD.sortKey)}</span>; without it, ${esc(LAD.defaultSort)}): ${SORTS.map(x => `${esc(x)} ${LAD.props.filter(p => p.sort === x).length}`).join(", ")}. Each is drawn in its own frame and has its own matrix; a pair joining two sorts is not a statement, and <span class="mono">tools/ladder.py matrix</span> lists it as unknown.</p>` : ""}
-    <div><h3>tools/ladder.py check, as this build ran it</h3><p class="mono">ladder: ${esc(LAD.line)}</p>${LAD.errors.map(e => `<p class="err">${esc(e)}</p>`).join("")}</div>
-    <p>${plural(nCond, "implication carries", "implications carry")} <span class="mono">under</span>.${LAD.emitKnown ? ` <span class="mono">tools/ladder.py emit-lean</span> makes ${LAD.implies.filter(e => e.emit && e.emit.rule).length} of the ${LAD.implies.length} implications rules of the <span class="mono">causal_ladder</span> tactic.` : ""}${LAD.emitNote ? ` <span class="err">${esc(LAD.emitNote)}</span>` : ""} Select a property for its implications and their witnesses, the pairs it refutes or leaves open, and the consequences valid from it on; select an arrow for its witness; <b>Pairs</b> shows every ordered pair.</p>
+    <p>Read from <span class="mono">programme/ladder.toml</span> through <span class="mono">tools/ladder.py</span>, which decides every class on this page. An arrow is an implication with a Lean witness: solid when the ladder-keeper has read its hypotheses against the witness (<i>checked</i>), dashed while it is a <i>seed</i>. A grey label on an arrow names the standing hypotheses its witness takes (Mathlib classes on the space, such as <span class="mono">T2</span>).</p>
+    ${ambientHTML()}
+    <div class="stat"><div><b>${LAD.props.length}</b><span>properties</span></div><div><b>${nChecked}/${LAD.implies.length}</b><span>implications checked</span></div><div><b>${LAD.fails.length}</b><span>counterexamples</span></div>
+      <div><b>${LAD.errors.length ? "—" : S.classified + "/" + S.within}</b><span>ordered pairs within one sort classified</span></div><div><b>${LAD.errors.length ? "—" : S.ill_typed}</b><span>pairs across two sorts (ill-typed)</span></div><div><b>${LAD.errors.length ? "—" : S.implied_standing}</b><span>implied under standing only</span></div>
+      <div><b>${LAD.cons.length}</b><span>consequences</span></div><div><b>${TR.length}</b><span>transfers along a nesting</span></div><div><b>${LAD.open.length}</b><span><span class="mono">[[open]]</span> entries</span></div></div>
+    ${LAD.errors.length ? "" : `<div class="chips"><span class="chip closed">implied ${cnt("implied")}</span>${cnt("implied-standing") ? `<span class="chip cond">implied under standing ${cnt("implied-standing")}</span>` : ""}<span class="chip fails">refuted ${cnt("fails")}</span><span class="chip open">open ${cnt("open")}</span><span class="chip none">unclassified ${cnt("unknown")}</span>${cnt("ill-typed") ? `<span class="chip none">ill-typed ${cnt("ill-typed")}</span>` : ""}</div>`}
+    ${SORTS.length > 1 ? `<p>The properties come in ${SORTS.length} sorts (the field <span class="mono">${esc(LAD.sortKey)}</span>; without it, ${esc(LAD.defaultSort)}): ${SORTS.map(x => `${esc(x)} ${LAD.props.filter(p => p.sort === x).length}`).join(", ")}. Each is drawn in its own frame and has its own matrix; a pair joining two sorts is ill-typed, and is not among the pairs to classify. A property of sort <span class="mono">pair</span> is a nesting of two causalities C in C′; what it carries from one to the other is a <span style="white-space:nowrap"><button class="pl" data-go="#/ladder/transfers">transfer</button>.</span></p>` : ""}
+    <div><h3>tools/ladder.py check, as this build ran it</h3><p class="mono">${esc(LAD.line)}</p>${LAD.errors.map(e => `<p class="err">${esc(e)}</p>`).join("")}</div>
+    <p>${plural(nStd, "implication takes", "implications take")} standing hypotheses${nBeyond ? `, ${nBeyond} of them beyond ETT's spacetimes` : nStd ? ", all of them satisfied by ETT's spacetimes" : ""}${nUnder ? `; ${plural(nUnder, "carries", "carry")} <span class="mono">under</span>, which tools/ladder.py chains as unconditional` : ""}.${LAD.emitKnown ? ` <span class="mono">tools/ladder.py emit-lean</span> makes ${LAD.implies.filter(e => e.emit && e.emit.rule).length} of the ${LAD.implies.length} implications rules of the <span class="mono">causal_ladder</span> tactic.` : ""}${LAD.emitNote ? ` <span class="err">${esc(LAD.emitNote)}</span>` : ""} Select a property for its implications and their witnesses, the pairs it refutes or leaves open, the transfers it enters and the consequences valid from it on; select an arrow for its witness; <b>Pairs</b> shows every ordered pair within a sort, and the transfers.</p>
     <div><h3>Properties</h3><div class="linklist">${LAD.props.map(p => propBtn(p.id)).join("")}</div></div>
     ${provHTML()}`);
 }
+function pairBtn(a, b, id){ const v = pair(a, b);
+  return `<button class="pl ${v.c === "implied-standing" ? "c" : ""} ${FAIL.has(v.c) ? "f" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(CLS_TEXT[v.c])}">${esc(a === id ? b : a)}</button>`; }
 function showProp(id){
   const p = PROP[id]; if (!p){ ladderOverview(); return; }
   const ids = LAD.props.map(x => x.id).filter(x => x !== id);
   const out = LAD.implies.map((e, i) => i).filter(i => LAD.implies[i].from.includes(id));
   const inn = LAD.implies.map((e, i) => i).filter(i => LAD.implies[i].to === id);
-  const down = ids.filter(b => pair(id, b) && IMPL.has(pair(id, b).c)), up = ids.filter(a => pair(a, id) && IMPL.has(pair(a, id).c));
-  const nod = ids.filter(b => pair(id, b) && FAIL.has(pair(id, b).c)), noup = ids.filter(a => pair(a, id) && FAIL.has(pair(a, id).c));
+  const has = (a, b, set) => pair(a, b) && set.has(pair(a, b).c), is = (a, b, c) => pair(a, b) && pair(a, b).c === c;
+  const down = ids.filter(b => has(id, b, IMPL)), up = ids.filter(a => has(a, id, IMPL));
+  const nod = ids.filter(b => has(id, b, FAIL)), noup = ids.filter(a => has(a, id, FAIL));
   const opens = LAD.open.map((o, i) => ({...o, i})).filter(o => o.from === id || o.to === id);
-  const unk = ids.filter(b => pair(id, b) && pair(id, b).c === "unknown"), unkIn = ids.filter(a => pair(a, id) && pair(a, id).c === "unknown");
-  const pb = (a, b) => { const v = pair(a, b); return `<button class="pl ${v.c.endsWith("-c") ? "c" : ""} ${FAIL.has(v.c) ? "f" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}" title="${esc(CLS_TEXT[v.c])}">${esc(a === id ? b : a)}</button>`; };
-  const direct = consAt(id), inherited = down.flatMap(b => consAt(b).map(c => ({c, via:{c:pair(id, b).c === "implied-c"}})));
+  const unk = ids.filter(b => is(id, b, "unknown")), unkIn = ids.filter(a => is(a, id, "unknown"));
+  const pb = (a, b) => pairBtn(a, b, id);
+  const K = consOf(id);
   const uses = [];
   BINDERS.forEach(B => B.rows.forEach(r => { const w = [];
     if (r.loc.includes(id)) w.push("needs it"); if (r.open.includes(id)) w.push("lists it as open");
@@ -618,7 +705,16 @@ function showProp(id){
     if (w.length) uses.push({B, r, w}); }));
   const tg = ROAD.targets.filter(t => (t.uses || []).includes(id) || (t.provides || []).includes(id));
   const e = p.ett;
-  const cross = ids.filter(b => pair(id, b) && pair(id, b).c === "cross").length;
+  const ill = ids.filter(b => is(id, b, "ill-typed")).length;
+  const nStdDown = down.filter(b => is(id, b, "implied-standing")).length;
+  const openLi = o => `<li class="c"><button class="pl" data-go="#/ladder/pair/${enc(o.from)}/${enc(o.to)}">${esc(o.from)} ⇒ ${esc(o.to)} ?</button><p style="margin-top:4px">${esc(o.note)}</p></li>`;
+  /* transfers: at a nesting, along it; at a causality-sort property, the transfers of it */
+  const along = ALONG[id] || [], trOf = p.sort === "causality" ? TR.map((t, k) => k).filter(k => TR[k].property === id) : [];
+  const alongHTML = !along.length ? "" : `<div><h3>Transfers along this nesting (${along.length})</h3><p style="margin-bottom:8px">C is nested in C′, C the narrower. A transfer carries a property of one causality to the other.</p>
+    ${[["to_narrower", "To the narrower causality C (C′ has it, hence C)"], ["to_wider", "To the wider causality C′ (C has it, hence C′)"]].map(([d, h]) => { const xs = along.filter(a => TR[a.t].direction === d);
+      return xs.length ? `<p style="margin:8px 0 6px;color:var(--ink)">${h}</p><ul class="wit">${xs.map(a => transferLi(a.t, a)).join("")}</ul>` : ""; }).join("")}
+    ${along.some(a => a.how === "through") ? `<p class="prov" style="margin-top:6px">Dashed: recorded along another nesting. A transfer proved along a nesting Q holds along every nesting that implies Q; a counterexample along P is a nesting of every property P implies (as <span class="mono">tools/ladder.py check</span> reads transfers).</p>` : ""}</div>`;
+  const trOfHTML = !trOf.length ? "" : `<div><h3>Along nestings (${trOf.length})</h3><ul class="wit">${trOf.map(k => transferLi(k)).join("")}</ul></div>`;
   panel(`<div><h3>Ladder property${SORTS.length > 1 ? " · sort " + esc(p.sort) : ""}</h3><h2 class="mono">${esc(p.id)}</h2></div>
     <p style="color:var(--ink)">${esc(p.what)}</p>
     <div>${leanLine(p.lean, p.leanloc)}</div>
@@ -627,34 +723,49 @@ function showProp(id){
     ${out.length ? `<div><h3>Implies directly (${out.length})</h3><ul class="wit">${out.map(edgeLi).join("")}</ul></div>` : ""}
     ${inn.length ? `<div><h3>Implied directly by (${inn.length})</h3><ul class="wit">${inn.map(edgeLi).join("")}</ul></div>` : ""}
     <div><h3>In the closure</h3>
-      <p style="margin-bottom:6px">${id} implies ${plural(down.length, "property", "properties")}${down.filter(b => pair(id,b).c === "implied-c").length ? `, ${down.filter(b => pair(id,b).c === "implied-c").length} of them only through <span class="mono">under</span> (dashed)` : ""}${down.length ? ":" : "."}</p>
+      <p style="margin-bottom:6px">${esc(id)} implies ${plural(down.length, "property", "properties")}${nStdDown ? `, ${nStdDown} of them only under standing hypotheses (dashed)` : ""}${down.length ? ":" : "."}</p>
       ${down.length ? `<div class="linklist">${down.map(b => pb(id, b)).join("")}</div>` : ""}
       <p style="margin:8px 0 6px">${plural(up.length, "property implies", "properties imply")} it${up.length ? ":" : "."}</p>
       ${up.length ? `<div class="linklist">${up.map(a => pb(a, id)).join("")}</div>` : ""}</div>
-    <div><h3>Non-implications</h3>${nod.length || noup.length ? `${nod.length ? `<p style="margin-bottom:6px">${id} does not imply:</p><div class="linklist">${nod.map(b => pb(id, b)).join("")}</div>` : ""}${noup.length ? `<p style="margin:8px 0 6px">Not implied by:</p><div class="linklist">${noup.map(a => pb(a, id)).join("")}</div>` : ""}` : `<p>No counterexample of the ladder involves ${esc(id)}.</p>`}</div>
-    <div><h3>Open pairs</h3>${opens.length ? `<ul class="wit">${opens.map(o => `<li class="c"><button class="pl" data-go="#/ladder/pair/${enc(o.from)}/${enc(o.to)}">${esc(o.from)} ⇒ ${esc(o.to)} ?</button><p style="margin-top:4px">${esc(o.note)}</p></li>`).join("")}</ul>` : `<p>The ladder records no open pair with ${esc(id)}.</p>`}
+    <div><h3>Non-implications</h3>${nod.length || noup.length ? `${nod.length ? `<p style="margin-bottom:6px">${esc(id)} does not imply (${nod.length}):</p><div class="linklist">${nod.map(b => pb(id, b)).join("")}</div>` : ""}${noup.length ? `<p style="margin:8px 0 6px">Not implied by (${noup.length}):</p><div class="linklist">${noup.map(a => pb(a, id)).join("")}</div>` : ""}` : `<p>No counterexample of the ladder separates ${esc(id)} from another property.</p>`}</div>
+    <div><h3>Open pairs (${opens.length})</h3>${opens.length ? (opens.length > 6 ? `<details><summary>${plural(opens.filter(o => o.from === id).length, "pair")} from it, ${plural(opens.filter(o => o.to === id).length, "pair")} to it, each with what it is missing</summary><ul class="wit" style="margin-top:8px">${opens.map(openLi).join("")}</ul></details>` : `<ul class="wit">${opens.map(openLi).join("")}</ul>`) : `<p>The ladder records no open pair with ${esc(id)}.</p>`}
       ${unk.length || unkIn.length ? `<details style="margin-top:8px"><summary>Unclassified within its sort: ${plural(unk.length, "pair")} from it, ${plural(unkIn.length, "pair")} to it</summary><div class="linklist" style="margin-top:6px">${unk.map(b => pb(id, b)).join("")}</div>${unkIn.length ? `<p style="margin:6px 0">to it:</p><div class="linklist">${unkIn.map(a => pb(a, id)).join("")}</div>` : ""}</details>` : ""}
-      ${cross ? `<p class="prov" style="margin-top:6px">With each of the ${cross} properties of another sort, neither implication is a statement.</p>` : ""}</div>
-    <div><h3>Consequences at this level (${direct.length})</h3>${direct.length ? `<ul class="wit">${direct.map(c => consLi(c)).join("")}</ul>` : `<p>The ladder records no consequence at ${esc(id)}.</p>`}</div>
-    ${inherited.length ? `<div><h3>Consequences inherited through the closure (${inherited.length})</h3><ul class="wit">${inherited.map(x => consLi(x.c, x.via)).join("")}</ul></div>` : ""}
+      ${ill ? `<p class="prov" style="margin-top:6px">With each of the ${ill} properties of another sort the pair is ill-typed: neither implication is a statement.</p>` : ""}</div>
+    ${alongHTML}${trOfHTML}
+    <div><h3>Consequences at this level (${K.direct.length})</h3>${K.direct.length ? `<ul class="wit">${K.direct.map(c => consLi(c)).join("")}</ul>` : `<p>The ladder records no consequence at ${esc(id)}.</p>`}</div>
+    ${K.inherited.length ? `<div><h3>Consequences inherited through the closure (${K.inherited.length})</h3><ul class="wit">${K.inherited.map(x => consLi(x.c, x.via)).join("")}</ul></div>` : ""}
+    ${K.partial.length ? `<div><h3>At a conjunction with other properties (${K.partial.length})</h3><ul class="wit">${K.partial.map(x => consLi(x.c) + "").join("")}</ul></div>` : ""}
     ${uses.length ? `<div><h3>In the binders (${uses.length})</h3><ul class="wit">${uses.map(u => `<li><button class="pl" data-go="#/binders/${enc(u.B.slug)}/${enc(u.r.label)}">${esc(u.B.slug)} · ${esc(u.r.ref || u.r.label)}</button><span class="loc">${esc(u.w.join("; "))}</span></li>`).join("")}</ul></div>` : ""}
     ${tg.length ? `<div><h3>On the roadmap (${tg.length})</h3><div class="linklist">${tg.map(t => tgtChip(t.id)).join("")}</div></div>` : ""}`);
   typeset($("#tex"), DATA.ettMacros, "ett");
 }
+/* What a counterexample's space is: one of ETT's spacetimes, or a space with fewer standing words. */
+function spaceHTML(x){
+  if (x.space == null) return `<p class="small" style="margin-top:4px">Its space is one of ETT's spacetimes (no <span class="kw">space</span>: the ambient, ${ambWords()}).</p>`;
+  return `<div class="chips" style="margin-top:4px"><span class="small">space</span>${stdChips(x.space)}${x.lacksAmbient.length ? `<span class="chip cond" style="white-space:normal">not one of ETT's spacetimes: lacks ${x.lacksAmbient.map(esc).join(", ")}</span>` : `<span class="chip">one of ETT's spacetimes</span>`}</div>
+    <p class="small" style="margin-top:4px">Read on ${x.spaceWords.length ? x.spaceWords.map(esc).join(", ") : "no standing word"}: an implication whose standing asks more is not chained there.</p>`;
+}
+function failLi(k){ const f = LAD.fails[k];
+  return `<li class="f"><span style="color:var(--ink)">a space with ${f.from.map(x => propBtn(x)).join(" ∧ ")} and without ${propBtn(f.to)}</span>${leanLine(f.witness, f.loc)}<div class="chips" style="margin-top:4px">${statusChip(f.status)}${f.from.length > 1 ? `<span class="chip">${f.from.length} properties, all of them</span>` : ""}</div>${spaceHTML(f)}${extrasHTML(f.extra)}</li>`; }
+function standingUsed(d){ const w = [...new Set(d.flatMap(i => LAD.implies[i].standing))].sort(); return w; }
 function showPair(a, b){
   const v = pair(a, b); if (!v){ ladderOverview(); return; }
   let body = "";
-  if (IMPL.has(v.c)) body = `<div><h3>Derivation (${plural(v.d.length, "edge")})</h3><p style="margin-bottom:8px">Forward chaining from ${esc(a)} along the implications${v.c === "implied-c" ? "; no chain avoids an edge with <span class=\"mono\">under</span>, so the pair holds only under those side conditions" : ""}.</p>${derivationHTML(v.d)}</div>`;
+  if (IMPL.has(v.c)){ const w = standingUsed(v.d), un = v.d.filter(i => LAD.implies[i].under);
+    body = `<div><h3>Derivation (${plural(v.d.length, "edge")})</h3><p style="margin-bottom:8px">A chain of the implications through which tools/ladder.py reaches ${esc(b)} from ${esc(a)}${v.c === "implied-standing" ? `, only with the standing hypotheses ${stdChips(v.w, v.w)} beyond ETT's spacetimes (tools/ladder.py's <span class="mono">needed_standing</span>): implied under them, not on every ETT spacetime, and not counted as classified` : w.length ? `; its witnesses take ${stdChips(w)}, which ETT's spacetimes have` : ""}.</p>${derivationHTML(v.d)}
+      ${un.length ? `<p class="warn" style="margin-top:8px">${plural(un.length, "edge")} of it carry <span class="mono">under</span>, a condition in words that tools/ladder.py chains as unconditional.</p>` : ""}</div>`; }
   else if (FAIL.has(v.c)){ const f = LAD.fails[v.f];
-    body = `<div><h3>Counterexample</h3><ul class="wit"><li class="f"><span style="color:var(--ink)">a space with ${esc(f.from)} and without ${esc(f.to)}</span>${leanLine(f.witness, f.loc)}<div class="chips" style="margin-top:4px">${statusChip(f.status)}</div>${f.under ? `<div class="warn"><b>under</b> ${esc(f.under)}</div>` : ""}</li></ul></div>
-      ${f.from !== a ? `<div><h3>It has ${esc(a)}</h3><p style="margin-bottom:6px">${esc(f.from)} implies ${esc(a)}:</p>${derivationHTML(v.da)}</div>` : ""}
-      ${f.to !== b ? `<div><h3>So it lacks ${esc(b)}</h3><p style="margin-bottom:6px">${esc(b)} implies ${esc(f.to)}:</p>${derivationHTML(v.db)}</div>` : ""}`; }
+    body = `<div><h3>Counterexample</h3><ul class="wit">${failLi(v.f)}</ul></div>
+      ${!f.from.includes(a) ? `<div><h3>It has ${esc(a)}</h3><p style="margin-bottom:6px">${f.from.map(esc).join(" ∧ ")} ${f.from.length > 1 ? "imply" : "implies"} ${esc(a)} on its space:</p>${derivationHTML(v.da)}</div>` : ""}
+      ${f.to !== b ? `<div><h3>So it lacks ${esc(b)}</h3><p style="margin-bottom:6px">${esc(b)} implies ${esc(f.to)} on its space:</p>${derivationHTML(v.db)}</div>` : ""}
+      <details><summary>What tools/ladder.py reads off it: ${plural(f.has.length, "property", "properties")} it has, ${f.lacks.length} it lacks</summary><div class="linklist" style="margin-top:6px"><span class="small">has</span>${f.has.map(x => propBtn(x)).join("")}</div><div class="linklist" style="margin-top:6px"><span class="small">lacks</span>${f.lacks.map(x => propBtn(x)).join("")}</div></details>
+      ${v.also && v.also.length ? `<div><h3>Also refuted by (${v.also.length})</h3><ul class="wit">${v.also.map(failLi).join("")}</ul></div>` : ""}`; }
   else if (v.c === "open"){ const o = LAD.open[v.o]; body = `<div><h3>Recorded open</h3><p>${esc(o.note)}</p>${extrasHTML(o.extra)}</div>`; }
-  else if (v.c === "cross") body = `<p>${esc(a)} is of sort ${esc(sortOf(a))} and ${esc(b)} of sort ${esc(sortOf(b))}: the ladder compares properties within one sort. <span class="mono">tools/ladder.py matrix</span> lists the pair as unknown.</p>`;
+  else if (v.c === "ill-typed") body = `<p>${esc(a)} is of sort ${esc(sortOf(a))} and ${esc(b)} of sort ${esc(sortOf(b))}: neither implication is a statement. tools/ladder.py calls the pair ill-typed and does not count it among the ${S.within} pairs to classify.</p>`;
   else body = `<p>No implication chain, counterexample or <span class="mono">[[open]]</span> entry of <span class="mono">programme/ladder.toml</span> decides this pair.</p>`;
   const rev = pair(b, a);
-  panel(`<div><h3>Ordered pair</h3><h2 class="mono">${esc(a)} ${CLS_SYM[v.c] || "⇒?"} ${esc(b)}</h2></div>
-    <div class="chips"><span class="chip ${v.c === "implied" ? "closed" : FAIL.has(v.c) ? "fails" : v.c.endsWith("-c") ? "cond" : v.c === "open" ? "open" : "none"}">${esc(CLS_TEXT[v.c])}</span></div>
+  panel(`<div><h3>Ordered pair${sortOf(a) === sortOf(b) && SORTS.length > 1 ? " · sort " + esc(sortOf(a)) : ""}</h3><h2 class="mono">${esc(a)} ${CLS_SYM[v.c] || "⇒?"} ${esc(b)}</h2></div>
+    <div class="chips"><span class="chip ${CLS_CHIP[v.c] || "none"}">${esc(CLS_TEXT[v.c])}</span></div>
     ${body}
     <div><h3>The two properties</h3><div class="linklist">${propBtn(a)}${propBtn(b)}</div>${rev ? `<p style="margin-top:8px">Converse: <button class="pl" data-go="#/ladder/pair/${enc(b)}/${enc(a)}">${esc(b)} ⇒ ${esc(a)}</button> is ${esc(CLS_TEXT[rev.c])}.</p>` : ""}</div>`);
 }
@@ -662,13 +773,39 @@ function showEdge(i){
   const e = LAD.implies[i]; if (!e){ ladderOverview(); return; }
   const users = Object.entries(LAD.pairs).filter(([k, v]) => IMPL.has(v.c) && v.d.includes(i)).map(([k]) => k.split("|"));
   panel(`<div><h3>Implication · ${esc(e.status)}</h3><h2 class="mono">${implStr(e)}</h2></div>
-    <div class="chips">${statusChip(e.status)}${e.cond ? `<span class="chip cond">under a side condition</span>` : `<span class="chip">no side condition</span>`}${e.from.length > 1 ? `<span class="chip">${e.from.length} premises, read together</span>` : ""}</div>
+    <div class="chips">${statusChip(e.status)}${e.standing.length ? "" : `<span class="chip">no standing hypothesis</span>`}${e.from.length > 1 ? `<span class="chip">${e.from.length} premises, read together</span>` : ""}</div>
     <div><h3>Witness</h3>${leanLine(e.witness, e.loc)}</div>
+    ${e.standing.length ? `<div><h3>Standing hypotheses</h3><div class="chips">${stdChips(e.standing, e.beyond)}</div><p style="margin-top:6px">${e.standing.map(w => `<span class="mono">${esc(w)}</span>: <span class="mono">[${esc(VOCAB[w] ? VOCAB[w].cls : "?")} M]</span>`).join("; ")}. ${e.beyond.length ? `ETT's spacetimes do not give ${e.beyond.map(esc).join(", ")}: tools/ladder.py does not chain this edge on them, and what only it reaches is implied under standing.` : `ETT's spacetimes have ${e.standing.length > 1 ? "them" : "it"}: tools/ladder.py chains this edge on every one, and on a counterexample's space only when that space has ${e.standing.length > 1 ? "them" : "it"}.`}</p></div>` : ""}
     ${e.emit ? `<div><h3>Lean automation</h3><p>${e.emit.rule ? `<span class="mono">tools/ladder.py emit-lean</span> makes it a rule of the <span class="mono">causal_ladder</span> tactic; the witness is in <span class="mono">${esc(e.emit.module)}</span>.` : `<span class="mono">tools/ladder.py emit-lean</span> does not make it a rule: ${esc(e.emit.why)}.`}</p></div>` : ""}
-    ${e.under ? `<div><h3>under</h3><p class="warn">${esc(e.under)}</p><p class="prov" style="margin-top:6px">Not read by <span class="mono">tools/ladder.py</span>: its closure chains this edge as if it were unconditional. Pairs that only this kind of edge decides are marked conditional on this page.</p></div>` : ""}
+    ${e.under ? `<div><h3>under</h3><p class="warn">${esc(e.under)}</p><p class="prov" style="margin-top:6px">A condition in words, not read by <span class="mono">tools/ladder.py</span>: its closure chains this edge as if it were unconditional.</p></div>` : ""}
     ${extrasHTML(e.extra)}
     <div><h3>Premises and conclusion</h3><div class="linklist">${e.from.map(x => propBtn(x)).join("")}<span style="color:var(--ink-3)">⇒</span>${propBtn(e.to)}</div></div>
-    ${users.length ? `<div><h3>Pairs whose derivation uses it (${users.length})</h3><div class="linklist">${users.map(([a, b]) => `<button class="pl ${pair(a,b).c === "implied-c" ? "c" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}">${esc(a)} ⇒ ${esc(b)}</button>`).join("")}</div></div>` : ""}`);
+    ${users.length ? `<div><h3>Pairs whose derivation uses it (${users.length})</h3><div class="linklist">${users.map(([a, b]) => `<button class="pl ${pair(a,b).c === "implied-standing" ? "c" : ""}" data-go="#/ladder/pair/${enc(a)}/${enc(b)}">${esc(a)} ⇒ ${esc(b)}</button>`).join("")}</div></div>` : ""}`);
+}
+function showTransfer(k){
+  const t = TR[k]; if (!t){ ladderOverview(); return; }
+  const at = Object.entries(ALONG).flatMap(([X, xs]) => xs.filter(a => a.t === k).map(a => ({X, ...a})));
+  const same = TR.map((x, j) => j).filter(j => j !== k && TR[j].property === t.property && TR[j].direction === t.direction);
+  const src = t.direction === "to_wider" ? "C, the narrower" : "C′, the wider", tgt = t.direction === "to_wider" ? "C′, the wider" : "C, the narrower";
+  panel(`<div><h3>Transfer along a nesting · ${esc(t.status)}</h3><h2>${esc(transferTitle(t))}</h2></div>
+    <div class="chips">${statusChip(t.status)}<span class="chip ${t.kind === "witness" ? "closed" : "fails"}">${t.kind === "witness" ? "proved" : "refuted by a counterexample"}</span><span class="chip mono">${esc(t.direction)}</span></div>
+    <p style="color:var(--ink)">${transferSentence(t)}</p>
+    <div><h3>${t.kind === "witness" ? "Witness" : "Counterexample"}</h3>${leanLine(t.name, t.loc)}</div>
+    ${t.kind === "witness" ? (t.standing.length ? `<div><h3>Standing hypotheses</h3><div class="chips">${stdChips(t.standing, t.beyond)}</div></div>` : "") : `<div><h3>Its space</h3>${spaceHTML(t)}</div>`}
+    ${t.under ? `<div><h3>under</h3><p class="warn">${esc(t.under)}</p><p class="prov" style="margin-top:6px">A condition in words: tools/ladder.py's transfer check does not read it.</p></div>` : ""}
+    <div><h3>Asked besides</h3><p style="margin-bottom:6px">of the source, ${src}${t.src.length ? ":" : ": nothing"}</p>${t.src.length ? `<div class="linklist">${t.src.map(x => propBtn(x)).join("")}</div>` : ""}
+      <p style="margin:8px 0 6px">of the target, ${tgt}${t.tgt.length ? ":" : ": nothing"}</p>${t.tgt.length ? `<div class="linklist">${t.tgt.map(x => propBtn(x)).join("")}</div>` : ""}</div>
+    <div><h3>Along the nestings (${at.length})</h3><ul class="wit">${at.map(a => `<li class="${a.how === "through" ? "c" : "ok"}">${propBtn(a.X)}<p style="margin-top:4px">${a.how === "recorded" ? "recorded along it" : t.kind === "witness" ? `${esc(a.X)} implies ${esc(t.pair)}, along which it is proved:` : `${esc(t.pair)}, along which it is refuted, implies ${esc(a.X)}:`}</p>${a.how === "through" ? derivationHTML(a.d) : ""}</li>`).join("")}</ul></div>
+    ${same.length ? `<div><h3>${esc(t.property)} ${t.direction === "to_wider" ? "to the wider" : "to the narrower"} causality, elsewhere (${same.length})</h3><ul class="wit">${same.map(j => transferLi(j)).join("")}</ul></div>` : ""}
+    <div><h3>The nesting and the property</h3><div class="linklist">${propBtn(t.pair)}${propBtn(t.property)}</div><p style="margin-top:8px"><button class="pl" data-go="#/ladder/transfers">Every transfer</button></p></div>
+    ${extrasHTML(t.extra)}`);
+}
+function showTransfers(){
+  const nest = LAD.props.filter(p => p.sort === "pair").map(p => p.id);
+  panel(`<div><h3>The causality ladder</h3><h2>Transfers along a nesting</h2></div>
+    <p>A property of sort <span class="mono">pair</span> is a nesting of two causalities on one space, C nested in C′, C the narrower. A <span class="mono">[[transfer]]</span> entry says whether a causality-sort property passes along it, to the narrower causality (C′ has it, hence C) or to the wider (C has it, hence C′), with the properties asked besides of each, and a Lean witness or counterexample. <b>Pairs</b> tabulates them under the pair sort.</p>
+    <div class="stat"><div><b>${TR.length}</b><span>entries</span></div><div><b>${TR.filter(t => t.kind === "witness").length}</b><span>proved</span></div><div><b>${TR.filter(t => t.kind !== "witness").length}</b><span>refuted</span></div></div>
+    ${nest.map(X => { const xs = ALONG[X] || []; return `<div><h3>${esc(X)} (${xs.length})</h3>${xs.length ? `<ul class="wit">${xs.map(a => transferLi(a.t, a)).join("")}</ul>` : `<p>No transfer recorded along it or a nesting related to it.</p>`}</div>`; }).join("")}`);
 }
 
 /* =====================================================================================
@@ -782,7 +919,7 @@ function showRow(slug, label){
   document.querySelectorAll(".brow.sel").forEach(e => e.classList.remove("sel"));
   const el = document.getElementById(`row-${slug}-${label}`); if (el){ el.classList.add("sel"); }
   const l = r.ledger, pr = PROPOSED[slug] || {};
-  const refLi = x => x.t === "lean" ? `<li class="ok">${leanLine(x.x, x.loc, x.how)}</li>` : x.t === "target" ? `<li class="tg"><div class="chips">${tgtChip(x.x)}</div><p style="margin-top:3px;font-size:.84rem">${esc(TGT[x.x]?.title || "")}</p></li>` : `<li class="f"><span class="mono">${esc(x.x)}</span><span class="chip missing">resolves to neither a Lean name nor a target</span></li>`;
+  const refLi = x => x.t === "lean" ? `<li class="ok">${leanLine(x.x, x.loc)}</li>` : x.t === "target" ? `<li class="tg"><div class="chips">${tgtChip(x.x)}</div><p style="margin-top:3px;font-size:.84rem">${esc(TGT[x.x]?.title || "")}</p></li>` : `<li class="f"><span class="mono">${esc(x.x)}</span><span class="chip missing">resolves to neither a Lean name nor a target</span></li>`;
   const props = [...r.loc, ...r.open.filter(x => !r.loc.includes(x))];
   const cross = r.geo.length && props.length ? `<table class="cross"><thead><tr><th style="text-align:left">property</th>${r.geo.map(g => `<th>${esc(g.model)}</th>`).join("")}</tr></thead><tbody>
       ${props.map(p => `<tr><td class="p">${PROP[p] ? propBtn(p) : `<span class="pl ghost">${esc(p)}</span>`}${r.open.includes(p) ? ` <span class="chip open" style="font-size:.66rem">open</span>` : ""}</td>${r.geo.map(g => { const s = refsStatus(g.by).s;
@@ -888,8 +1025,10 @@ function route(){
     selProp = parts[1] === "p" ? parts[2] : null; selEdge = parts[1] === "edge" ? +parts[2] : null;
     selPair = null;
     if (parts[1] === "pair"){ selProp = parts[2]; const v = pair(parts[2], parts[3]); if (v) selPair = new Set([...(v.d || []), ...(v.da || []), ...(v.db || [])]); }
+    if (parts[1] === "transfer"){ const t = TR[+parts[2]]; selProp = t && PROP[t.pair] ? t.pair : null; }
     markLadder(); ladderLegend(); if (drawn && mode === "graph" && selProp && fitTransform().k < 0.45) view();
-    if (parts[1] === "p") showProp(parts[2]); else if (parts[1] === "pair") showPair(parts[2], parts[3]); else if (parts[1] === "edge") showEdge(+parts[2]); else ladderOverview();
+    if (parts[1] === "p") showProp(parts[2]); else if (parts[1] === "pair") showPair(parts[2], parts[3]); else if (parts[1] === "edge") showEdge(+parts[2]);
+    else if (parts[1] === "transfer") showTransfer(+parts[2]); else if (parts[1] === "transfers") showTransfers(); else ladderOverview();
   } else if (v === "binders"){
     if (parts[2]) showRow(parts[1], parts[2]); else if (parts[1]) { showBinder(parts[1]); const s = document.getElementById("b-" + parts[1]); if (s) s.scrollIntoView({block:"start"}); } else bindersOverview();
     if (parts[2]){ const el = document.getElementById(`row-${parts[1]}-${parts[2]}`); if (el) el.scrollIntoView({block:"nearest"}); }

@@ -1,6 +1,8 @@
 // Headless smoke test of the blueprint page: load it, click into a property, an implication, a pair,
-// a binder row and a roadmap target, at desktop and phone width, in both colour schemes; count page
-// errors (uncaught exceptions). Exit 1 on any page error or on a click that does not open its panel.
+// a transfer along a nesting, a counterexample with a conjunctive `from`, an open pair, a binder row
+// and a roadmap target, at desktop and phone width, in both colour schemes; count page errors
+// (uncaught exceptions). Exit 1 on any page error or on a click that does not open its panel.
+// The page's ladder line against `tools/ladder.py check` is the Makefile's `agree`, not this file's.
 //
 // Implications are clicked where they are drawn: every segment of every implication (a single premise's
 // arrow; a conjunction's segment per premise into its ∧ junction and the one out of it), on its line and
@@ -93,6 +95,21 @@ const edgePanel = page => page.evaluate(() => {
   return `witness ${e.witness}${e.under ? ", under" : ""}, ${e.from.length} premise(s)`; });
 // the panel's heading once it differs from `before`
 const nextH2 = async (page, before) => { await page.waitForFunction(b => { const h = document.querySelector("#panel h2"); return h && h.innerText !== b; }, before, { timeout: 5000 }).catch(() => {}); return panelH2(page); };
+// the panel's heading once it is `want` (or after 5 s)
+const toH2 = async (page, want) => { await page.waitForFunction(w => { const h = document.querySelector("#panel h2"); return h && h.innerText === w; }, want, { timeout: 5000 }).catch(() => {}); return panelH2(page); };
+// the text of the panel section headed `name` (an h3, matched by its start)
+const section = (page, name) => page.evaluate(n => { const h = [...document.querySelectorAll("#panel h3")].find(h => h.textContent.trim().toUpperCase().startsWith(n.toUpperCase())); return h ? h.parentElement.innerText : null; }, name);
+/* The open transfer's panel against DATA: its title, its witness or counterexample, every id asked besides. */
+const transferPanel = page => page.evaluate(() => {
+  const k = +decodeURIComponent(location.hash).split("/").pop(), t = DATA.ladder.transfers[k], P = document.querySelector("#panel");
+  const sec = name => { const h = [...P.querySelectorAll("h3")].find(h => h.textContent.trim() === name); return h && h.parentElement; };
+  const bad = [], w = sec(t.kind === "witness" ? "Witness" : "Counterexample"), asked = sec("Asked besides");
+  if (P.querySelector("h2").innerText !== transferTitle(t)) bad.push("title");
+  if (!w || w.querySelector(".mono").textContent !== t.name) bad.push(t.kind);
+  const got = asked ? [...asked.querySelectorAll(".pl")].map(b => b.textContent) : [];
+  if (got.join("|") !== [...t.src, ...t.tgt].join("|")) bad.push("ids asked besides");
+  if (bad.length) throw new Error("panel of transfer " + k + " lacks " + bad.join(", "));
+  return `${transferTitle(t)}: ${t.name}, ${t.src.length} + ${t.tgt.length} ids asked besides`; });
 
 (async () => {
   const browser = await pw.chromium.launch();
@@ -101,9 +118,16 @@ const nextH2 = async (page, before) => { await page.waitForFunction(b => { const
     out.counts = await page.evaluate(() => ({
       properties: DATA.ladder.props.length, nodesDrawn: document.querySelectorAll("#world .node").length,
       implications: DATA.ladder.implies.length, edgesDrawn: new Set([...document.querySelectorAll("#world .edge")].map(e => e.dataset.i)).size,
-      pairs: DATA.ladder.summary && DATA.ladder.summary.pairs, classified: DATA.ladder.summary && DATA.ladder.summary.classified,
+      within: DATA.ladder.summary.within, classified: DATA.ladder.summary.classified, illTyped: DATA.ladder.summary.ill_typed,
+      impliedStanding: DATA.ladder.summary.implied_standing, transfers: DATA.ladder.transfers.length, violations: DATA.ladder.errors.length,
       consequences: DATA.ladder.cons.length, binders: DATA.binders.map(b => b.slug + ":" + b.rows.length).join(", "),
       targets: DATA.road.targets.length }));
+    await check("the overview shows tools/ladder.py check's line and its violations", async () => {
+      const [line, errs, shown] = await page.evaluate(() => [DATA.ladder.line, DATA.ladder.errors.length, document.querySelectorAll("#panel p.err").length]);
+      const txt = await section(page, "tools/ladder.py check");
+      if (!txt || !txt.includes(line)) throw new Error("the panel does not show " + line);
+      if (shown !== errs) throw new Error(`${shown} violation(s) shown, ${errs} in DATA`);
+      return line.replace(/^ladder: [^;]*; /, "") + ` (${errs} violation(s) shown)`; });
     const first = await page.evaluate(() => DATA.ladder.props.find(p => DATA.ladder.implies.some(e => e.from.includes(p.id)))?.id || DATA.ladder.props[0].id);
     await check("click property " + first, async () => {
       const before = await panelH2(page);
@@ -147,13 +171,64 @@ const nextH2 = async (page, before) => { await page.waitForFunction(b => { const
         if (lit.length !== all || lit.includes(0)) throw new Error(`hovering one segment lit ${lit.length} element(s), ${all} expected`);
         await page.mouse.move(2, 2); return want + ": " + await edgePanel(page) + `; hovering one segment lit its ${all - 1} segments and its junction`; }
       return want + ": " + await edgePanel(page); });
+    await check("click a nesting, then a transfer along it", async () => {
+      const X = await page.evaluate(() => DATA.ladder.props.find(p => (DATA.ladder.along[p.id] || []).length)?.id);
+      if (!X) return "no transfer recorded";
+      await page.keyboard.press("Escape"); await page.click("#zfit");
+      await page.locator(`#world .node[data-id="${X}"]`).click();
+      if (await toH2(page, X) !== X) throw new Error("the nesting's panel did not open");
+      const b = page.locator('#panel button[data-go^="#/ladder/transfer/"]').first();
+      const k = +(await b.getAttribute("data-go")).split("/").pop(), want = await page.evaluate(k => transferTitle(DATA.ladder.transfers[k]), k);
+      await b.click(); const h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      return X + " -> " + await transferPanel(page); });
     await check("pairs view, click a classified cell", async () => {
       await page.click("#m-pairs");
       const before = await panelH2(page);
-      await page.locator("#matrix td button.m-implied, #matrix td button.m-implied-c").first().click();
+      await page.locator("#matrix td button.m-implied, #matrix td button.m-implied-standing").first().click();
       const h = await nextH2(page, before); if (!/⇒|⇏/.test(h)) throw new Error("panel shows " + h);
-      out.matrixCells = await page.locator("#matrix td button:not(.m-diag)").count(); return h; });
+      out.matrixCells = await page.locator("#matrix table:not(.ttab) td button:not(.m-diag)").count();
+      const within = await page.evaluate(() => DATA.ladder.summary.within);
+      if (out.matrixCells !== within) throw new Error(`${out.matrixCells} cells drawn, tools/ladder.py counts ${within} pairs within one sort`);
+      return h + ` (${out.matrixCells} cells, the ${within} pairs within one sort)`; });
+    await check("pairs view, click a pair refuted by a counterexample with a conjunctive `from`", async () => {
+      const q = await page.evaluate(() => { for (const [k, v] of Object.entries(DATA.ladder.pairs)) if (v.c === "fails" && DATA.ladder.fails[v.f].from.length > 1) { const [a, b] = k.split("|"); return {a, b, f:DATA.ladder.fails[v.f]}; } return null; });
+      if (!q) return "no such counterexample";
+      await page.locator(`#matrix td button[data-go="#/ladder/pair/${encodeURIComponent(q.a)}/${encodeURIComponent(q.b)}"]`).click();
+      const want = `${q.a} ⇏ ${q.b}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const txt = await section(page, "Counterexample");
+      const ids = await page.evaluate(() => { const h = [...document.querySelectorAll("#panel h3")].find(h => h.textContent.trim() === "Counterexample"); return [...h.parentElement.querySelector("li").querySelectorAll(".pl")].map(b => b.textContent); });
+      if (!txt || !txt.includes(q.f.witness)) throw new Error("no witness " + q.f.witness);
+      if (ids.join("|") !== [...q.f.from, q.f.to].join("|")) throw new Error("the counterexample lists " + ids.join(", "));
+      return `${want}: ${q.f.witness}, a space with ${q.f.from.join(" ∧ ")} and without ${q.f.to}`; });
+    await check("pairs view, an open pair shows its note", async () => {
+      const c = page.locator("#matrix td button.m-open").first(); if (!(await c.count())) return "no open pair";
+      const [, , , a, b] = decodeURIComponent(await c.getAttribute("data-go")).split("/"); await c.click();
+      const want = `${a} ? ${b}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const note = await page.evaluate(([a, b]) => DATA.ladder.open.find(o => o.from === a && o.to === b).note, [a, b]);
+      const txt = await section(page, "Recorded open"); if (!txt || !txt.includes(note)) throw new Error("the note is not shown");
+      return `${want}: ${note.length} characters of note`; });
+    await check("pairs view, click a transfer cell refuted by a counterexample", async () => {
+      const c = page.locator("#ttab button.t-no:not(.thr)").first(); if (!(await c.count())) return "no counterexample in the transfer table";
+      const k = +(await c.getAttribute("data-go")).split("/").pop(), want = await page.evaluate(k => transferTitle(DATA.ladder.transfers[k]), k);
+      await c.click(); const h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      out.transferCells = await page.locator("#ttab td button").count();
+      return await transferPanel(page) + ` (${out.transferCells} filled cells)`; });
+    await check("an ill-typed pair says so", async () => {
+      const q = await page.evaluate(() => { const k = Object.keys(DATA.ladder.pairs).find(k => DATA.ladder.pairs[k].c === "ill-typed"); return k ? k.split("|") : null; });
+      if (!q) return "no two sorts";
+      await page.evaluate(([a, b]) => { location.hash = `#/ladder/pair/${encodeURIComponent(a)}/${encodeURIComponent(b)}`; }, q);
+      const want = `${q[0]} × ${q[1]}`, h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      const chip = await page.locator("#panel .chips .chip").first().innerText(); if (!/ill-typed/.test(chip)) throw new Error("chip " + chip);
+      return want; });
     await page.click("#m-graph");
+    await check("theme toggle: dark, then light, then back to auto", async () => {
+      const bg = () => page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim());
+      const seen = [];
+      for (let i = 0; i < 3; i++) { await page.click("#theme"); seen.push([await page.evaluate(() => document.documentElement.dataset.theme || "auto"), await bg()]); }
+      const d = seen.find(x => x[0] === "dark"), l = seen.find(x => x[0] === "light");
+      if (!d || !l || d[1] === l[1]) throw new Error("themes " + JSON.stringify(seen));
+      if (seen[2][0] !== "auto") throw new Error("does not return to auto");
+      return seen.map(x => x.join(" ")).join(", "); });
     await check("binders tab, click a row", async () => {
       await page.click("#tab-binders");
       const row = page.locator(".brow[data-go]").filter({ has: page.locator(".pl[data-go^='#/ladder/p/']") }).first();
@@ -189,6 +264,22 @@ const nextH2 = async (page, before) => { await page.waitForFunction(b => { const
       const want = await implText(page, pick.i), h = await clickTo(page, pick.x, pick.y, want, true);
       if (h !== want) throw new Error(`tap on ${want} [${pick.seg}] opened ${h}`);
       return want + " [" + pick.seg + "]: " + await edgePanel(page); });
+    await check("phone: open a nesting, tap a transfer", async () => {
+      const X = await page.evaluate(() => DATA.ladder.props.find(p => (DATA.ladder.along[p.id] || []).length)?.id);
+      if (!X) return "no transfer recorded";
+      await page.evaluate(x => { location.hash = "#/ladder/p/" + encodeURIComponent(x); }, X);
+      if (await toH2(page, X) !== X) throw new Error("the nesting's panel did not open");
+      const b = page.locator('#panel button[data-go^="#/ladder/transfer/"]').last();
+      await b.scrollIntoViewIfNeeded();
+      const k = +(await b.getAttribute("data-go")).split("/").pop(), want = await page.evaluate(k => transferTitle(DATA.ladder.transfers[k]), k);
+      const r = await b.boundingBox(); await page.touchscreen.tap(r.x + r.width / 2, r.y + r.height / 2);
+      const h = await toH2(page, want); if (h !== want) throw new Error("panel shows " + h);
+      return await transferPanel(page); });
+    await check("phone: pairs view and its transfer table, no horizontal overflow", async () => {
+      await page.click("#m-pairs"); await page.waitForSelector("#ttab", { timeout: 3000 }).catch(() => {});
+      const w = await page.evaluate(() => [document.documentElement.scrollWidth, innerWidth, !!document.querySelector("#ttab")]);
+      await page.click("#m-graph");
+      if (w[0] > w[1] + 1) throw new Error("page is " + w[0] + "px wide at " + w[1]); return `${w[0]}/${w[1]}${w[2] ? ", transfer table drawn" : ""}`; });
     await check("phone: binders, open a row", async () => {
       await page.click("#tab-binders"); const before = await panelH2(page); await page.locator(".brow[data-go]").nth(1).click();
       const h = await nextH2(page, before); if (h === before) throw new Error("panel did not change"); return h; });
@@ -200,7 +291,7 @@ const nextH2 = async (page, before) => { await page.waitForFunction(b => { const
   let bad = 0;
   for (const r of results) {
     console.log(`[${r.label}] page errors: ${r.pageErrors.length}; console errors: ${r.consoleErrors.length}; failed requests: ${r.failedRequests.length}`);
-    if (r.counts) console.log("  read from the page: " + JSON.stringify(r.counts) + (r.matrixCells != null ? ` matrixCells=${r.matrixCells}` : "") + (r.rowsDrawn != null ? ` rowsDrawn=${r.rowsDrawn}` : "") + (r.cardsDrawn != null ? ` cardsDrawn=${r.cardsDrawn}` : ""));
+    if (r.counts) console.log("  read from the page: " + JSON.stringify(r.counts) + (r.matrixCells != null ? ` matrixCells=${r.matrixCells}` : "") + (r.transferCells != null ? ` transferCells=${r.transferCells}` : "") + (r.rowsDrawn != null ? ` rowsDrawn=${r.rowsDrawn}` : "") + (r.cardsDrawn != null ? ` cardsDrawn=${r.cardsDrawn}` : ""));
     for (const [w, s, v] of r.checks) console.log(`  ${s === "ok" ? "ok  " : "FAIL"} ${w}: ${v}`);
     for (const e of r.pageErrors) console.log("  page error: " + e);
     for (const e of r.consoleErrors) console.log("  console error: " + e);

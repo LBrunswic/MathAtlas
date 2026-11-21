@@ -5,8 +5,7 @@
     python3 build.py --out F    write F instead (the reproducibility check builds twice and compares)
 
 Inputs, all read, none written:
-  * programme/ladder.toml          through tools/ladder.py: check, closure, refuted, matrix, and
-                                   emitted (which edges emit-lean makes rules) when the tool has it
+  * programme/ladder.toml          through tools/ladder.py only (below)
   * papers/*/certificate/binder.toml  through tools/binder.py: binders, check
   * programme/roadmap.toml         through tools/roadmap.py: load, check, open_questions
   * papers/<slug>/ledger/ledger.json  row kind, title, file and line; the statement text is read from
@@ -14,15 +13,31 @@ Inputs, all read, none written:
   * papers/<slug>/legacy/MANIFEST.json  the edition of each bound paper
   * programme/README.md            the names of the layers
   * registers/DECISIONS.md         the status and text of the OQ rows a blocked target waits on
-  * lean-causal/Causal/**/*.lean   where each Lean name is declared (read as text; no Lean is run)
+  * lean-causal/Causal/**/*.lean   through tools/ladder.py's lean_index (which names exist, and in
+                                   which module); read here as text only for the line of each name
+
+The ladder is evaluated by tools/ladder.py and by nothing else on this page:
+  * check, summary, check_line   the violations, the counts and the summary line `ladder.py check`
+                                 prints, verbatim;
+  * matrix                       the class of every ordered pair (ill-typed, implied, fails, open,
+                                 implied-standing, unknown), verbatim;
+  * ambient, standing, valid, space, vocab_closure, STANDING
+                                 the ambient space, each edge's standing words, a counterexample's
+                                 space, the vocabulary of words;
+  * counterexample, edges_on, closure, needed_standing, _saturate
+                                 what a counterexample has and lacks, which edges are valid on a
+                                 space, and the saturation through them;
+  * _transfer_sides              which causality of a [[transfer]] is its source;
+  * emitted                      which implications emit-lean makes rules of causal_ladder.
+What the page adds is presentation: for a pair the matrix calls implied (or a counterexample's
+reading), an irredundant set of the edges the tool's own saturation used, found by dropping edges
+while tools/ladder.py's _saturate still reaches the target (so a derivation is a witness chain the
+tool accepts, never a second closure); and, at a nesting, the transfers recorded along a nesting it
+implies or is implied by, read through tools/ladder.py's closure as its transfer check reads them.
 
 Every number on the page is counted here or in the page's script from these files; nothing is typed.
 The output is deterministic: no clock, no environment, every set sorted, so two builds of the same
 inputs give the same bytes (`make -C reports/blueprint check`).
-
-The ladder's `under` is shown on its edge. tools/ladder.py's closure chains an edge with `under` as if
-it were unconditional; this page classifies the same pairs, then splits off those classified only
-through such an edge (closure recomputed without them) and marks them conditional.
 """
 import glob
 import hashlib
@@ -30,7 +45,6 @@ import json
 import os
 import re
 import sys
-import tomllib
 
 sys.dont_write_bytecode = True   # nothing written beside the sources, here or in tools/
 
@@ -46,9 +60,7 @@ ROADMAP = os.path.join(ROOT, "programme", "roadmap.toml")
 README = os.path.join(ROOT, "programme", "README.md")
 DECISIONS = os.path.join(ROOT, "registers", "DECISIONS.md")
 LEAN_ROOT = os.path.join(ROOT, "lean-causal")
-CONDITION_KEYS = ("under",)          # an edge carrying one of these is conditional
-SORT_KEY, DEFAULT_SORT = "sort", "causality"   # programme/ladder.toml's header: no `sort` means causality
-EDGE_KEYS = {"from", "to", "witness", "status", "under", "at", "statement", "note", "id", "lean", "label", "what"}
+TOOLS = [os.path.join(ROOT, "tools", x) for x in ("ladder.py", "binder.py", "roadmap.py")]
 TEX_MAX = 1600
 
 
@@ -62,62 +74,79 @@ def sha(path):
 
 
 # ------------------------------------------------------------------ Lean names -> file:line
-DECL_LINE = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+|unsafe\s+|partial\s+)*"
-                       r"(?:theorem|lemma|def|abbrev|structure|class|instance|inductive)\s+([^\s(:{\[]+)")
+# Which names exist, and in which module, is tools/ladder.py's lean_index (namespace-exact, as check
+# and tools/binder.py resolve them). The line is read here: the first declaration of that full name in
+# that module's file, namespaces tracked line by line; when this scan does not find it there, the
+# location is the file alone.
+DECL_LINE = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)*(?:(?:private|protected|noncomputable|public|partial|unsafe|nonrec)\s+)*"
+                       r"(?:theorem|lemma|def|abbrev|structure|class|instance|inductive|opaque|axiom)\s+([^\s(:{\[⦃]+)")
 NS_OPEN = re.compile(r"^\s*namespace\s+(\S+)")
-SEC_OPEN = re.compile(r"^\s*(?:noncomputable\s+)?section\b(?:\s+(\S+))?")
+SEC_OPEN = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)?(?:(?:public|private|noncomputable)\s+)*section\b(?:\s+(\S+))?")
 SCOPE_END = re.compile(r"^\s*end\b(?:\s+(\S+))?\s*$")
 
 
-def lean_index(root=LEAN_ROOT):
-    """Fully qualified name -> 'lean-causal/Causal/X.lean:N', with namespaces tracked line by line."""
-    out = {}
-    for f in sorted(glob.glob(os.path.join(root, "Causal", "**", "*.lean"), recursive=True)):
-        stack, depth = [], 0
-        for n, line in enumerate(open(f, encoding="utf-8", errors="replace").read().split("\n"), 1):
-            if depth:                                  # inside a block comment
-                depth += line.count("/-") - line.count("-/")
-                depth = max(depth, 0)
+def module_file(mod):
+    return rel(os.path.join(LEAN_ROOT, *mod.split("."))) + ".lean"
+
+
+def decl_lines(path):
+    """Fully qualified name -> line, for the declarations of one Lean file."""
+    out, stack, depth = {}, [], 0
+    for n, line in enumerate(open(path, encoding="utf-8", errors="replace").read().split("\n"), 1):
+        if depth:                                  # inside a block comment
+            depth = max(depth + line.count("/-") - line.count("-/"), 0)
+            continue
+        s = line.lstrip()
+        if s.startswith("/-"):
+            depth = max(line.count("/-") - line.count("-/"), 0)
+            if depth:
                 continue
-            s = line.lstrip()
-            if s.startswith("/-"):
-                depth = max(line.count("/-") - line.count("-/"), 0)
-                if depth:
-                    continue
-            if s.startswith("--"):
-                continue
-            m = NS_OPEN.match(line)
-            if m:
-                stack.append(("ns", m[1]))
-                continue
-            m = SEC_OPEN.match(line)
-            if m and not s.startswith("section_"):
-                stack.append(("sec", m[1] or ""))
-                continue
-            if SCOPE_END.match(line):
+        if s.startswith("--"):
+            continue
+        m = NS_OPEN.match(line)
+        if m:
+            stack.extend(("ns", x) for x in m[1].split("."))
+            continue
+        m = SEC_OPEN.match(line)
+        if m and not s.startswith("section_"):
+            stack.extend(("sec", x) for x in (m[1].split(".") if m[1] else [""]))
+            continue
+        m = SCOPE_END.match(line)
+        if m:
+            for _ in (m[1].split(".") if m[1] else [""]):
                 if stack:
                     stack.pop()
-                continue
-            m = DECL_LINE.match(line)
-            if m:
-                name = m[1]
-                if name.startswith("_root_."):
-                    full = name[len("_root_."):]
-                else:
-                    full = ".".join([x for k, x in stack if k == "ns"] + [name])
-                out.setdefault(full, "%s:%d" % (rel(f), n))
+            continue
+        m = DECL_LINE.match(line)
+        if m:
+            name = m[1]
+            full = name[len("_root_."):] if name.startswith("_root_.") else ".".join(
+                [x for k, x in stack if k == "ns"] + [name])
+            out.setdefault(full, n)
     return out
 
 
-def lean_locate(name, index, by_last):
-    """(location or '', how): exact, suffix (tools/ladder.py's rule), or ''."""
-    if name in index:
-        return index[name], "exact"
-    cands = sorted(c for c in by_last.get(name.split(".")[-1], ())
-                   if c.endswith("." + name) or name.endswith("." + c))
-    if cands:
-        return index[cands[0]], "suffix" if len(cands) == 1 else "suffix, %d candidates" % len(cands)
-    return "", ""
+class Lean:
+    """The names of lean-causal/Causal as tools/ladder.py resolves them, with a file:line for each."""
+
+    def __init__(self):
+        self.index = ld.lean_index()
+        self.decls = self.index["decls"]
+        self.names = ld.lean_names()
+        self._lines = {}
+
+    def resolves(self, name):
+        return ld.resolves(name, self.names)
+
+    def locate(self, name):
+        if not isinstance(name, str) or not self.resolves(name):
+            return ""
+        f = module_file(self.decls[name])
+        if f not in self._lines:
+            p = os.path.join(ROOT, f)
+            self._lines[f] = decl_lines(p) if os.path.exists(p) else {}
+        n = self._lines[f].get(name)
+        return "%s:%d" % (f, n) if n else f
 
 
 # ------------------------------------------------------------------ TeX of a ledger row
@@ -249,143 +278,221 @@ class Ledger:
         return re.sub(r"\s+", " ", re.sub(r"\\[a-zA-Z]+\*?|[{}$]", "", t)).strip()
 
 
-# ------------------------------------------------------------------ the ladder
-def conditional(e):
-    return any(str(e.get(k) or "").strip() for k in CONDITION_KEYS)
+
+# ------------------------------------------------------------------ the ladder, through tools/ladder.py
+# The keys of each table the page shows in their own place; any other key is shown as it is written.
+SHOWN = {
+    "property": {"id", "lean", "what", "label", "sort"},
+    "implies": {"from", "to", "witness", "status", "under", "standing"},
+    "fails": {"from", "to", "witness", "status", "space"},
+    "consequence": {"at", "statement", "witness", "status", "under", "standing"},
+    "open": {"from", "to", "note"},
+    "transfer": {"pair", "property", "direction", "narrower", "wider", "witness", "counterexample",
+                 "status", "under", "standing", "space"},
+}
 
 
-def extras(e):
-    return {k: e[k] for k in sorted(e) if k not in EDGE_KEYS}
+def extras(kind, e):
+    return {k: e[k] for k in sorted(e) if k not in SHOWN[kind]}
 
 
-def derive(start, target, implies):
-    """Edge indices deriving `target` from {start}: forward chaining, unconditional edges to a fixpoint
-    before each conditional one, so a derivation uses a conditional edge only when it must."""
-    have = {start: None}
-    order = []
-    while True:
-        changed = True
-        while changed:
-            changed = False
-            for i, e in enumerate(implies):
-                if not e["cond"] and e["to"] not in have and all(x in have for x in e["from"]):
-                    have[e["to"]] = i
-                    order.append(i)
-                    changed = True
-        if target in have:
-            break
-        nxt = next((i for i, e in enumerate(implies)
-                    if e["cond"] and e["to"] not in have and all(x in have for x in e["from"])), None)
-        if nxt is None:
-            break
-        have[implies[nxt]["to"]] = nxt
-        order.append(nxt)
-    if target not in have:
-        return None
-    need, stack = set(), [target]
-    while stack:
-        x = stack.pop()
-        i = have.get(x)
-        if i is None or i in need:
-            continue
-        need.add(i)
-        stack.extend(implies[i]["from"])
-    return [i for i in order if i in need]
+def ids(x):
+    """tools/ladder.py's reading of an id or a list of ids (a malformed value reads as none)."""
+    return ld.ids_of(x) or []
 
 
-def ladder_block(lindex, by_last, ett):
+def words(x):
+    return list(x) if isinstance(x, list) else []
+
+
+class Derive:
+    """Witness chains for what tools/ladder.py decides: an irredundant subset of the edges valid on a
+    space through which the tool's saturation reaches the target, in an order in which every edge's
+    premises are already had. Edges are dropped latest first, so the chain keeps the earliest edges
+    of programme/ladder.toml. A target the tool's saturation does not reach is an error: a pair the
+    matrix decides always has a chain here, or the build fails."""
+
+    def __init__(self, data):
+        self.implies = data.get("implies", [])
+        self.at = {id(e): i for i, e in enumerate(self.implies)}
+        self.memo = {}
+
+    def __call__(self, src, target, edges):
+        src = frozenset(src)
+        key = (src, target, tuple(self.at[id(e)] for e in edges))
+        if key in self.memo:
+            return self.memo[key]
+        if target in src:
+            self.memo[key] = []
+            return []
+        if target not in ld._saturate(src, edges):
+            raise AssertionError("tools/ladder.py does not reach %s from %s through the edges given" % (
+                target, " ∧ ".join(sorted(src))))
+        keep = list(edges)
+        for e in reversed(list(edges)):
+            trial = [x for x in keep if x is not e]
+            if target in ld._saturate(src, trial):
+                keep = trial
+        have, order, rest = set(src), [], list(keep)
+        while rest:
+            e = next((x for x in rest if set(ids(x.get("from"))) <= have), None)
+            if e is None:
+                raise AssertionError("an irredundant chain to %s does not fire in order" % target)
+            order.append(self.at[id(e)])
+            have.add(e.get("to"))
+            rest.remove(e)
+        self.memo[key] = order
+        return order
+
+
+def space_block(e, data, amb):
+    """A counterexample's space (its `space`, or the ambient), as tools/ladder.py closes it."""
+    on = ld.space(e, data)
+    return {"space": words(e.get("space")) if "space" in e else None, "spaceWords": sorted(on),
+            "lacksAmbient": sorted(amb - on)}
+
+
+def ladder_block(lean, ett):
     data = ld.load(LADDER)
-    errs = sorted(ld.check(data))
+    errs = list(ld.check(data))
+    S = ld.summary(data, errs)
+    line = ld.check_line(S)
+    amb = ld.ambient(data)
+    sort = ld.sort_of(data)
     props = data.get("property", [])
-    ids = [p.get("id") for p in props]
+    pids = [p.get("id") for p in props]
+    raw_amb = data.get("ambient") if isinstance(data.get("ambient"), dict) else None
+    ambient = {"words": sorted(amb), "standing": words((raw_amb or {}).get("standing", list(ld.AMBIENT))),
+               "label": (raw_amb or {}).get("label", "" if raw_amb else ld.AMBIENT_LABEL),
+               "note": (raw_amb or {}).get("note", ""), "declared": raw_amb is not None}
+    vocab = {w: {"cls": c, "implies": list(imp)} for w, (c, imp) in ld.STANDING.items()}
 
-    def loc(name):
-        return lean_locate(name, lindex, by_last)[0] if name else ""
-    P = []
-    for p in props:
-        P.append({"id": p.get("id"), "lean": p.get("lean", ""), "leanloc": loc(p.get("lean")),
-                  "label": p.get("label", ""), "what": p.get("what", ""), "sort": p.get(SORT_KEY) or DEFAULT_SORT,
-                  "extra": {k: v for k, v in extras(p).items() if k != SORT_KEY},
-                  "ett": ett.row(p["label"]) if p.get("label") else None})
-    # Which implications `tools/ladder.py emit-lean` makes `causal_ladder` rules, when the tool says so
-    # (ladder.emitted, read off the sources; absent from older versions of the tool).
+    P = [{"id": p.get("id"), "lean": p.get("lean", ""), "leanloc": lean.locate(p.get("lean")),
+          "label": p.get("label", ""), "what": p.get("what", ""), "sort": sort.get(p.get("id"), ld.DEFAULT_SORT),
+          "extra": extras("property", p), "ett": ett.row(p["label"]) if p.get("label") else None}
+         for p in props]
+
+    # Which implications `tools/ladder.py emit-lean` makes rules of causal_ladder (ladder.emitted).
     emit, emit_note = {}, ""
-    if hasattr(ld, "emitted"):
-        try:
-            rules, skipped = ld.emitted(data)
-            for e, mod in rules:
-                emit[id(e)] = {"rule": True, "module": mod}
-            for e, why in skipped:
-                emit[id(e)] = {"rule": False, "why": why}
-        except Exception as ex:
-            emit_note = "tools/ladder.py emitted() failed: %s: %s" % (type(ex).__name__, ex)
+    try:
+        rules, skipped = ld.emitted(data, lean.index)
+        for e, mod in rules:
+            emit[id(e)] = {"rule": True, "module": mod}
+        for e, why in skipped:
+            emit[id(e)] = {"rule": False, "why": why}
+    except Exception as ex:   # a ladder mid-edit: the page says so rather than guess
+        emit_note = "tools/ladder.py emitted() failed: %s: %s" % (type(ex).__name__, ex)
+
     I = []
     for e in data.get("implies", []):
-        I.append({"from": list(e.get("from", [])), "to": e.get("to"), "witness": e.get("witness", ""),
-                  "loc": loc(e.get("witness")), "status": e.get("status", ""), "under": e.get("under", ""),
-                  "cond": conditional(e), "extra": extras(e), "emit": emit.get(id(e))})
-    F = [{"from": e.get("from"), "to": e.get("to"), "witness": e.get("witness", ""), "loc": loc(e.get("witness")),
-          "status": e.get("status", ""), "under": e.get("under", ""), "cond": conditional(e), "extra": extras(e)}
-         for e in data.get("fails", [])]
-    C = [{"at": e.get("at"), "statement": e.get("statement", ""), "witness": e.get("witness", ""),
-          "loc": loc(e.get("witness")), "status": e.get("status", ""), "under": e.get("under", ""), "extra": extras(e)}
-         for e in data.get("consequence", [])]
-    O = [{"from": e.get("from"), "to": e.get("to"), "note": e.get("note", ""), "extra": extras(e)}
+        std = ld.standing(e)
+        on_amb = ld.valid(e, amb)
+        I.append({"from": ids(e.get("from")), "to": e.get("to"), "witness": e.get("witness", ""),
+                  "loc": lean.locate(e.get("witness")), "status": e.get("status", ""), "under": e.get("under", ""),
+                  "standing": std, "beyond": sorted(set(std) - amb), "onAmbient": on_amb,
+                  "cond": (not on_amb) or bool(str(e.get("under") or "").strip()),
+                  "extra": extras("implies", e), "emit": emit.get(id(e))})
+    C = []
+    for e in data.get("consequence", []):
+        std = ld.standing(e)
+        C.append({"at": ids(e.get("at")), "statement": e.get("statement", ""), "witness": e.get("witness", ""),
+                  "loc": lean.locate(e.get("witness")), "status": e.get("status", ""), "under": e.get("under", ""),
+                  "standing": std, "beyond": sorted(set(std) - amb), "extra": extras("consequence", e)})
+    O = [{"from": e.get("from"), "to": e.get("to"), "note": e.get("note", ""), "extra": extras("open", e)}
          for e in data.get("open", [])]
 
-    pairs, summary = {}, None
-    sort_of = {p["id"]: p["sort"] for p in P}
-    try:
+    ok = not errs                       # tools/ladder.py classifies only a ladder that checks
+    cache = {}
+    F = []
+    for f in data.get("fails", []):
+        has, lacks = ld.counterexample(data, f, cache) if ok else (set(), set())
+        F.append({"from": ids(f.get("from")), "to": f.get("to"), "witness": f.get("witness", ""),
+                  "loc": lean.locate(f.get("witness")), "status": f.get("status", ""),
+                  **space_block(f, data, amb), "has": sorted(has), "lacks": sorted(lacks),
+                  "extra": extras("fails", f)})
+
+    T = []
+    for t in data.get("transfer", []):
+        src, tgt = ld._transfer_sides(t)
+        proved = bool(t.get("witness"))
+        name = t.get("witness") or t.get("counterexample") or ""
+        std = ld.standing(t)
+        rec = {"pair": t.get("pair"), "property": t.get("property"),
+               "direction": t.get("direction", ld.DIRECTIONS[0]), "narrower": ids(t.get("narrower")),
+               "wider": ids(t.get("wider")), "src": list(src), "tgt": list(tgt),
+               "kind": "witness" if proved else "counterexample", "name": name, "loc": lean.locate(name),
+               "status": t.get("status", ""), "under": t.get("under", ""), "standing": std,
+               "beyond": sorted(set(std) - amb), "extra": extras("transfer", t)}
+        if not proved:
+            rec.update(space_block(t, data, amb))
+        T.append(rec)
+
+    derive = Derive(data)
+    pairs, counts, along = {}, {}, {}
+    if ok:
         m = ld.matrix(data)
-        clo = ld.closure(data)
-        plain = dict(data, implies=[e for e in data.get("implies", []) if not conditional(e)])
-        clo0 = ld.closure(plain)
-        bad0 = ld.refuted(data, clo0)
+        on_amb = ld.edges_on(data, amb)
+        every = ld.edges_on(data, None)
         opens = {}
         for k, o in enumerate(data.get("open", [])):
             opens.setdefault((o.get("from"), o.get("to")), k)
-        for a in ids:
-            for b in ids:
+        reading = [(f, ld.counterexample(data, f, cache)) for f in data.get("fails", [])]
+        for a in pids:
+            for b in pids:
                 if a == b:
                     continue
                 v = m[(a, b)]
+                counts[v] = counts.get(v, 0) + 1
+                rec = {"c": v}
                 if v == "implied":
-                    d = derive(a, b, I)
-                    assert d is not None, "no derivation for an implied pair %s => %s" % (a, b)
-                    pairs[a + "|" + b] = {"c": "implied" if b in clo0[a] else "implied-c", "d": d}
+                    rec["d"] = derive([a], b, on_amb)
+                elif v == "implied-standing":
+                    need = ld.needed_standing((a,), b, every, amb)
+                    rec["w"] = need
+                    rec["d"] = derive([a], b, ld.edges_on(data, ld.vocab_closure(set(need) | amb)))
                 elif v == "fails":
-                    for k, f in enumerate(data.get("fails", [])):
-                        if a in clo.get(f["from"], ()) and f["to"] in clo.get(b, ()):
-                            pairs[a + "|" + b] = {"c": "fails" if (a, b) in bad0 else "fails-c", "f": k,
-                                                  "da": derive(f["from"], a, I) or [], "db": derive(b, f["to"], I) or []}
-                            break
-                    else:
-                        raise AssertionError("no counterexample for a refuted pair %s, %s" % (a, b))
+                    # every counterexample the tool reads as having a and lacking b; shown: the one whose
+                    # two chains are shortest (the first of the file among equals), the others listed
+                    cands = []
+                    for k, (f, (has, lacks)) in enumerate(reading):
+                        if a in has and b in lacks:
+                            edges = ld.edges_on(data, ld.space(f, data))
+                            da, db = derive(ids(f.get("from")), a, edges), derive([b], f.get("to"), edges)
+                            cands.append((len(da) + len(db), k, da, db))
+                    if not cands:
+                        raise AssertionError("tools/ladder.py refutes %s ⇒ %s, and no counterexample has %s and lacks %s"
+                                             % (a, b, a, b))
+                    _, k, da, db = min(cands, key=lambda c: c[:2])
+                    rec.update({"f": k, "da": da, "db": db, "also": sorted(c[1] for c in cands if c[1] != k)})
                 elif v == "open":
-                    pairs[a + "|" + b] = {"c": "open", "o": opens[(a, b)]}
-                elif sort_of[a] != sort_of[b]:
-                    pairs[a + "|" + b] = {"c": "cross"}     # ladder.py says unknown; the two sorts do not compare
-                else:
-                    pairs[a + "|" + b] = {"c": "unknown"}
-        cnt = {}
-        for v in pairs.values():
-            cnt[v["c"]] = cnt.get(v["c"], 0) + 1
-        summary = {"pairs": len(pairs), "classified": sum(v for k, v in cnt.items() if k not in ("unknown", "cross")),
-                   "within": len(pairs) - cnt.get("cross", 0),
-                   **{k.replace("-", "_"): cnt.get(k, 0) for k in ("implied", "implied-c", "fails", "fails-c", "open", "unknown", "cross")}}
-    except Exception as ex:   # a ladder mid-edit: the page still shows the file and the checker's verdict
-        errs.append("the pair classification could not be computed: %s: %s" % (type(ex).__name__, ex))
-    line = "%d properties, %d implications, %d counterexamples, %d consequences; %s" % (
-        len(props), len(I), len(F), len(C),
-        "%d violation(s)" % len(errs) if errs else "%d of %d ordered pairs classified" % (summary["classified"], summary["pairs"]))
+                    rec["o"] = opens[(a, b)]
+                pairs[a + "|" + b] = rec
+        # A transfer along a nesting reaches the nestings around it as tools/ladder.py's transfer check
+        # reads them: a proved transfer along Q holds along every X with X ⇒ Q on ETT's spacetimes (an
+        # X-nesting is a Q-nesting); a counterexample along P is a nesting of every X that P reaches
+        # through the closure on the counterexample's own space.
+        clo = ld.closure(data)
+        for X in (x for x in pids if sort.get(x) == "pair"):
+            for k, (t, raw) in enumerate(zip(T, data.get("transfer", []))):
+                Q = t["pair"]
+                if Q == X:
+                    along.setdefault(X, []).append({"t": k, "how": "recorded"})
+                elif t["kind"] == "witness" and Q in clo.get(X, ()):
+                    along.setdefault(X, []).append({"t": k, "how": "through", "d": derive([X], Q, on_amb)})
+                elif t["kind"] == "counterexample":
+                    on = ld.space(raw, data)
+                    if X in ld.closure(data, on).get(Q, ()):
+                        along.setdefault(X, []).append({"t": k, "how": "through", "d": derive([Q], X, ld.edges_on(data, on))})
+
     sorts = []
     for p in P:
         if p["sort"] not in sorts:
             sorts.append(p["sort"])
-    return {"props": P, "implies": I, "fails": F, "cons": C, "open": O, "pairs": pairs, "summary": summary,
-            "errors": errs, "line": line, "conditionKeys": list(CONDITION_KEYS), "sorts": sorts,
-            "sortKey": SORT_KEY, "defaultSort": DEFAULT_SORT, "emitKnown": hasattr(ld, "emitted") and not emit_note,
-            "emitNote": emit_note}
+    return {"props": P, "implies": I, "fails": F, "cons": C, "open": O, "transfers": T, "along": along,
+            "pairs": pairs, "summary": S, "counts": dict(sorted(counts.items())), "classifiedAs": list(ld.CLASSIFIED),
+            "errors": errs, "line": line, "ambient": ambient, "vocab": vocab, "sorts": sorts,
+            "sortKey": "sort", "defaultSort": ld.DEFAULT_SORT, "sortNames": list(ld.SORTS),
+            "emitKnown": not emit_note, "emitNote": emit_note}
 
 
 # ------------------------------------------------------------------ binders
@@ -393,19 +500,17 @@ LEMMA_HEAD = re.compile(r"^((?:Def|Definition|Thm|Theorem|Lemma|Cor|Corollary|Pr
                         r"Conjecture|Conj|Example|Claim)\.?\s+[0-9]+(?:\.[0-9]+)*)\b")
 
 
-def binder_block(lindex, by_last, ladder_ids, target_ids, ledgers):
+def binder_block(lean, ladder_ids, target_ids, ledgers):
     out = []
-    names = ld.lean_names()
     for slug, b in sorted(bd.binders().items()):
         led = ledgers.setdefault(slug, Ledger(slug))
-        errs = sorted(bd.check(slug, b, names, ladder_ids, target_ids))
+        errs = sorted(bd.check(slug, b, lean.names, ladder_ids, target_ids))
 
         def ref(x):
             if x.startswith("T-"):
                 return {"x": x, "t": "target" if x in target_ids else "missing"}
-            if ld.resolves(x, names):
-                where, how = lean_locate(x, lindex, by_last)
-                return {"x": x, "t": "lean", "loc": where, "how": how}
+            if lean.resolves(x):
+                return {"x": x, "t": "lean", "loc": lean.locate(x)}
             return {"x": x, "t": "missing"}
         rows = []
         for r in b.get("bind", []):
@@ -429,9 +534,7 @@ def binder_block(lindex, by_last, ladder_ids, target_ids, ledgers):
         out.append({"slug": slug, "title": led.title() if led.ok else "", "edition": edition,
                     "document": led.document if led.ok else "", "ledgerRows": len(led.order) if led.ok else 0,
                     "rows": rows, "unbound": unbound,
-                    "proposed": [dict(p, leanloc=lean_locate(p.get("lean", ""), lindex, by_last)[0]
-                                      if p.get("lean") and " " not in p.get("lean", "") else "")
-                                 for p in b.get("proposed", [])],
+                    "proposed": [dict(p, leanloc=lean.locate(p.get("lean"))) for p in b.get("proposed", [])],
                     "other": other, "errors": errs, "macros": led.macros,
                     "path": rel(os.path.join(ROOT, "papers", slug, "certificate", "binder.toml"))})
     return out
@@ -477,26 +580,25 @@ def roadmap_block():
             "statuses": list(rm.STATUS), "oqs": oqs}
 
 
+
 # ------------------------------------------------------------------ assemble
 def main(argv):
     out_path = argv[argv.index("--out") + 1] if "--out" in argv else os.path.join(HERE, "index.html")
-    lindex = lean_index()
-    by_last = {}
-    for n in lindex:
-        by_last.setdefault(n.split(".")[-1], []).append(n)
+    lean = Lean()
     ledgers = {"ett": Ledger("ett")}
-    L = ladder_block(lindex, by_last, ledgers["ett"])
+    L = ladder_block(lean, ledgers["ett"])
     R = roadmap_block()
     ladder_ids = {p["id"] for p in L["props"]}
     target_ids = {t.get("id") for t in R["targets"]}
-    B = binder_block(lindex, by_last, ladder_ids, target_ids, ledgers)
+    B = binder_block(lean, ladder_ids, target_ids, ledgers)
     inputs = [LADDER, ROADMAP, README, DECISIONS] + [os.path.join(ROOT, b["path"]) for b in B] + sorted(
         ld_.path for ld_ in ledgers.values() if ld_.ok) + sorted(
         p for p in (os.path.join(ROOT, "papers", b["slug"], "legacy", "MANIFEST.json") for b in B) if os.path.exists(p))
     prov = {"inputs": [{"path": rel(p), "sha256": sha(p)} for p in inputs],
+            "tools": [{"path": rel(p), "sha256": sha(p)} for p in TOOLS],
             "leanCommit": {s: (json.load(open(l.path, encoding="utf-8")).get("lean") or {}).get("git_commit", "")
                            for s, l in sorted(ledgers.items()) if l.ok},
-            "leanDecls": len(lindex)}
+            "leanDecls": len(lean.decls)}
     DATA = {"ladder": L, "binders": B, "road": R, "layers": layers(), "ettMacros": ledgers["ett"].macros, "prov": prov}
     blob = json.dumps(DATA, ensure_ascii=False, separators=(",", ":"), default=str).replace("</", "<\\/")
     tpl = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
@@ -504,14 +606,11 @@ def main(argv):
     page = tpl.replace("__DATA__", blob)
     with open(out_path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(page)
-    s = L["summary"] or {}
-    print("blueprint: %s (%d bytes); ladder: %s; binders: %s; roadmap: %d targets%s" % (
+    print("blueprint: %s (%d bytes); %s; binders: %s; roadmap: %d targets%s" % (
         rel(out_path) if out_path.startswith(ROOT) else out_path, len(page.encode("utf-8")), L["line"],
         ", ".join("%s %d rows" % (b["slug"], len(b["rows"])) for b in B), len(R["targets"]),
         "".join("; %s: %d violation(s)" % (k, n) for k, n in (("ladder", len(L["errors"])),
                 ("binders", sum(len(b["errors"]) for b in B)), ("roadmap", len(R["errors"]))) if n)))
-    if s.get("implied_c"):
-        print("blueprint: %d implied pair(s) only through an edge with `under`" % s["implied_c"])
 
 
 if __name__ == "__main__":
