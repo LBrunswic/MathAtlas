@@ -181,13 +181,14 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["rem:relation_not_assumed_reflexive", "rem:K_neq_I"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-ett-port-e0"]
-evidence = "Ledger notes. rem:relation_not_assumed_reflexive: the BTZ point is 'strengthened (a point of S₀ under BTZAxioms …; the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0))'. rem:K_neq_I: 'the BTZ sentence needs E_0' (I⁻(p) = ∅, K⁻(p) = J⁻(p) ∖ {p} at a BTZ point). These are statements about the model itself, so the E₀ instance is not narrower than the paper. rem:K_neq_I's bubble sentence stays open whatever this target does. Promoted 2026-11-20 by the planner. T-ett-port-e0 is done (0fe9136). I⁻ = ∅ on the axis is now strict: Causal.Port.E0Causality.lean:794 Iminus_axis, for every open U, and Causal.E0.btzAxioms is the instance. What remains is K⁻(p) = J⁻(p) ∖ {p} at a BTZ point of E₀, and the two anchors. This target writes new scaffold files only, so it is not exclusive. Any mark at E₀ rests on the reading of E₀ taken in Causal.Port.E0Model, which is OQ-34. The closer proves; the curation marks the row or waits for OQ-34. Priority 7: see T-ett-port-e0-sfa (the programme's closers are in lean-causal)."
+evidence = "Causal/Port/E0ModelRows.lean: both BTZ sentences at E₀ (marks wait on OQ-34); E₀ causally plain, and every strongly causal SingularFlatAxioms spacetime; audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "438946d"
 
 [[target]]
 id = "T-ett-singular-rows"
@@ -440,13 +441,14 @@ stream = "gx"
 kind = "close"
 paper = "gx"
 labels = ["cex:start_singular_manifold_homeomorphic"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-gx-troyanov-polygon"]
-evidence = "Added 2026-11-21 by the planner. DEC-136 asks for the full proof. GX.troyanovTheorem_of_exists_gt_two_pi (GX/Spherical/TroyanovPolygon.lean:2146) reduces GX.TroyanovTheorem to s ≥ 4, every θ_i ≠ 2π, some θ_i > 2π. This target is that case at s = 4. [r] (planner) At s = 4, GX.TroyanovAngleCondition (GX/SingularII/Models.lean:897) allows exactly one angle above 2π, and that angle is below 4π. χ' ≤ θ_j for every j gives θ_1 − 2π ≤ 2π − θ_2 − θ_3 − θ_4 + θ_min ≤ 2π − 2θ_min. Two angles above 2π would force the sum of the other two below θ_min. Example: (5π/2, 3π/5, 3π/5, 3π/5), χ' = 3π/10. [r] Construction. Put α_i = θ_i/2, so α_1 ∈ ]π, 2π[. The dart is the spherical triangle (v_2, v_3, v_4) with angles (Δ_2, α_3, Δ_4), minus the triangle (v_2, v_1, v_4) with angles (Δ_2 − α_2, 2π − α_1, Δ_4 − α_4) on the same side of v_2v_4. A spherical triangle is determined by its angles, so the dart exists when the two sides v_2v_4 agree: one equation in two unknowns, under the angle inequalities of both triangles. Its area is χ'/2 by Gauss–Bonnet. Planner numerics (a throwaway script, not committed): of 3000 random angle data satisfying the condition, a dart was found for 2997, letting any of θ_2, θ_3, θ_4 sit opposite v_1. The 3 misses have θ_1 − 2π < 10⁻³π, where the admissible window, of width α_1 − π, is below the scan's resolution. Unchecked: a proof that a solution always exists. The natural route is the intermediate value theorem in one parameter, as GX.exists_polar_radius does for the polygons. The double: TroyanovPolygon's double uses convexity (its gauge rescale in the stereographic chart at v_0, module doc l.53–54). A dart is star-shaped about the points near v_1, or splits along the diagonal v_1v_3 into two convex triangles whose doubles TroyanovTriangle builds. The closer chooses, and says in its REPORT which machinery generalises to s ≥ 5 (T-gx-troyanov's routes (i) and (ii)). If the dart does not cover the whole condition, prove the covered region and report the rest. DEC-136 forbids shrinking the statement. Writes a new module, and the row stays partial until T-gx-troyanov."
+evidence = "GX/Spherical/TroyanovFour.lean: Troyanov for every s = 4 datum (spherical dart); TroyanovTheorem ⇔ its case s ≥ 5 with an angle > 2π; generic StarPolygon double; audit minor"
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "942f470"
 
 [[target]]
 id = "T-gx-troyanov-reroute"
@@ -469,12 +471,13 @@ stream = "gx"
 kind = "research"
 paper = "gx"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 8
-evidence = "2026-11-21 (atlas-team wave 7): not fetchable here: ams.org answers 403 to automated fetches (curl and the web-fetch agent, the PDF and the article page alike). Needs the author to drop the PDF (DOI 10.1090/S0002-9947-1991-1005085-9, institutional access) into papers/gx/sources/MR1005085/; the NOTE.md with verbatim hypotheses and the l.1930 check then follow as planned. Updated 2026-11-21 by the planner: it no longer needs the author. A web search finds an author-hosted copy at https://sma.epfl.ch/~troyanov/Papers/Prescribing.pdf (EPFL Infoscience also has a record of the article, 114942, which answered 429 to curl). The fetch fails certificate verification only because the server omits its intermediate certificate (issuer 'DigiCert Global G2 TLS RSA SHA256 2020 CA1'; AIA 'CA Issuers - URI:http://cacerts.digicert.com/DigiCertGlobalG2TLSRSASHA2562020CA1-1.crt'). With that certificate, converted to PEM and appended to /etc/ssl/certs/ca-certificates.crt for curl --cacert, the planner fetched it into /tmp, not into the repository: HTTP 200, 2,345,119 bytes, 29 pages, sha256 e1f806c58ee288198ccd60934f0a1d00222130ab8f78ab28d5bda280138b5236. Its first page reads 'transactions of the american mathematical society Volume 324, Number 2, April 1991'. Every page carries 'License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use', so the master weighs whether to commit the PDF or only NOTE.md with its quotes. The statement for the l.1930 check is Theorem C (p. 795). Its text layer garbles the formula ('0 < 2nx(S) + Y^i^i * ln) < min{4;r,20,}'), so the quote must be transcribed from the page image. [r] The planner's reading of it is 0 < 2πχ(S) + Σ(θ_i − 2π) < min{4π, 2θ_1} with θ_1 the least angle: 2θ_min where l.1930 prints θ_i, and strict where l.1930 has ≤, as T-gx-troyanov-triangle AUDIT-1 suspected. To be confirmed on the image."
+evidence = "papers/gx/sources/MR1005085/NOTE.md: Theorem C verbatim (p. 795): 0 < χ' < min{4π, 2θ_min}; the library's subcritical recollection exact; l.1930's printed condition stronger (OQ-59)"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "8eb3c59"
 
 # ------------------------------------------------------------------ Benzécri
 [[target]]
@@ -619,13 +622,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c2s2d5_nombre_recouvrement", "bzprop:c2s2p4_ligne_brisee", "bzprop:c2s2p6_ligne_brisee_poche"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-bz-c2-poches", "T-bz-c2-hilbert"]
-evidence = "DEC-137. benzecri1960_ch2.tex l.381–449 (pp. 251–252). n(E, k) needs finitely many k-majorised opens covering a compact E, which is Prop. 3 (T-bz-c2-hilbert). Prop. 4 is an induction on n(E, k) ([sic] l.408: « O_a » read O_Q). Prop. 5 joins M to N by a broken line of r-majorised segments. Prop. 6 is an induction on p from 7° (l.445–449). 7° is about pockets (T-bz-c2-poches): stated in the enonce (l.253–256) and proved at l.334–357, with the [sic] at l.341 ('af × ff′' for af × bf′). It is proved here as a lemma, unmarked, since its row is T-bz-c2-proprietes. The unlabelled sentences after Déf. 6 (l.417–423) go in as lemmas, because § 3 Prop. 2 uses them: pseudo-balls are open and connected by 3° and 5°, and form a neighbourhood basis in a convex body by 6°. Updated 2026-11-20 by the planner: n(E, k) rests on Prop. 3, and Prop. 3 inherits OQ-45 (see T-bz-c2-hilbert). In dimension 0 no point has a majorised neighbourhood, so n(E, k) is undefined for a non-empty E there. [r] The rows are therefore expected for n ≥ 1, with the marks waiting on OQ-45, like T-bz-c2-hilbert's. Split and promoted 2026-11-21 by the planner, after T-bz-c2-hilbert (e6fbc28) and T-bz-c2-dedupe (b587783). Both dependencies are done. Déf. 6, its two unlabelled sentences and Prop. 5 move to T-bz-c2-pseudo-boules. Prop. 7 (T-bz-c2-compact) uses only Props. 4 and 6 (l.476–478), while the pseudo-balls and Prop. 5 are used in § 3 Prop. 2 (l.745–776). What exists: Prop. 3 is Benzecri.voisinage_majore (Chapter2/Hilbert.lean:561, [NeZero n]), which gives the k-majorised opens of Déf. 5. Déf. 4 is Benzecri.IsMajorePart and majorised segments are IsMajoreSeg (Chapter2/Mesure.lean:304, :292). In dimension 0, not_isMajorePart_dim_zero (Hilbert.lean:343) shows that no non-empty part is majorised, so n(E, k) is undefined for a non-empty E (OQ-45). The pockets are Benzecri.IsPocheProj and IsPocheAff (Chapter2/Poches.lean:585, :547), and 7° is about them. Hilbert.lean:104–110 lists tools for this target: isProjSegment_opens_iff, pseudoLength_le_projMeasure_opens, projMeasure_le_pseudoLength_opens, exists_nhds_projMeasure_lt, eventually_exists_projMeasure_lt. 7° is proved as a lemma, unmarked, for T-bz-c2-proprietes. The rows are marked only under OQ-45 (a), the closer's statements being for n ≥ 1, like Prop. 3's."
+evidence = "Benzecri/Chapter2/Lignes.lean: Déf. 5, Prop. 4 for n ≥ 1 (OQ-45); Prop. 6 and 7° false as printed for a cote z ≡ 0 (OQ-61), ≤ forms and z ≢ 0 forms proved; audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "c54508f"
 
 [[target]]
 id = "T-bz-c2-pseudo-boules"
@@ -634,13 +638,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c2s2d6_pseudo_boule", "bzprop:c2s2p5_ouvert_plein"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c2-hilbert"]
-evidence = "Split from T-bz-c2-lignes 2026-11-21 by the planner. DEC-137. benzecri1960_ch2.tex l.411–435 (pp. 251–252). Déf. 6 (l.411–415): the pseudo-ball of centre M and radius r is the set of N joined to M by at least one closed segment majorised by r. Two unlabelled sentences follow (l.417–423), and they go in as lemmas because § 3 Prop. 2 uses them (l.745–776, T-bz-c2-hemisphere). First, the pseudo-ball is open and connected, 'cf. 3°, 5°'. Second, in the interior of a convex body the pseudo-balls of centre M form a neighbourhood basis, by 6° ([sic] l.421 « lcs »). 5° is Benzecri.propriete_cinq and propriete_cinq_limsup (Chapter2/Hilbert.lean:1700, :1739, any dimension). 6° is propriete_six (:1495, [NeZero n]), with continuous_hilbertLength (:1277). 3° is pseudoLength_mono (Chapter2/Mesure.lean). Prop. 5 (l.425–435): a non-empty open U of a connected V that contains the pseudo-ball of radius r about each of its points is V. The printed proof joins M to N by a broken line of r-majorised segments. [r] (planner, unchecked) It needs no broken line. U is closed: for N in the closure of U, Prop. 3 (Benzecri.voisinage_majore, Hilbert.lean:561) gives an r-majorised neighbourhood W of N, and a point M' of W ∩ U is joined to N by a segment in W majorised by r, so N lies in the pseudo-ball of M', which is inside U. U is therefore clopen. In dimension 0 a connected V is a point and Prop. 5 holds trivially. If the closer follows the printed broken-line proof instead, it must wait for T-bz-c2-lignes's broken lines rather than define its own (T-bz-c2-dedupe was the cost of two copies). Dimension: no segment carries a cross-ratio when n = 0 (not_isMajoreSeg_dim_zero, Hilbert.lean:327), so every pseudo-ball is empty there, and the neighbourhood-basis sentence needs n ≥ 1 (OQ-45; OQ-56 for the reading of 6°). Writes a new module, beside T-bz-c2-lignes's in the same package."
+evidence = "Benzecri/Chapter2/PseudoBoules.lean: Déf. 6 closed; Prop. 5 for r > 0 (OQ-62: « positif »); the two sentences as lemmas; audits major (text) → minor"
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "316d051"
 
 [[target]]
 id = "T-bz-c2-proprietes"
@@ -1200,13 +1205,14 @@ stream = "gfn"
 kind = "close"
 paper = "egf"
 labels = ["theo:sampling_theorem", "theo:negative_control", "theo:negative_control_appendix", "def:virtual_flows"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-egf-headline", "T-egf-backward-policy"]
-evidence = "2026-11-20, planner: def:virtual_flows (main.tex l.316, the initial and terminal errors δ, read by theo:negative_control at l.321) added, since no target named it. papers/egf/STORY.md S-egf-3 names these five labels and the anchor EGF.main_quantitative_sampling. Its dependency sketch says 'S-egf-1, S-egf-4 → S-egf-3 (the error bound needs the explicit inflow)'. GFNBounds.Core.NegativeControl and .SamplingGeneralBounds (lean/ submodule) formalize theo:negative_control 'quoted from brunswicEGF'. S-egf-2 (tori and sphere families, resting on cited spectral-gap theorems) is not planned: whether those citations become named externals or proofs is for the author. Updated 2026-11-20 by the planner. S-egf-2's question is now T-egf-families. T-egf-headline (742a9c5) already made the δ's of def:virtual_flows strict: EGF.initialError and EGF.terminalError (lean-egf/EGF/Defs.lean:145, :149), with initialError_eq_negPart and terminalError_eq_posPart (l.168–180) and the total-variation calculus EGF.tvMass (EGF/Universality.lean; its REPORT kb_proposals[0]). The chain is T-egf-backward-policy (ready) and then this target. Split and promoted 2026-11-21 by the planner, after T-egf-backward-policy (56301de). Both dependencies are done. The two corollaries move to T-egf-sampling-corollaries, because Pinsker is a port of its own. What this target proves: def:virtual_flows (main.tex l.316) completed with F̂_init and F̂_term over EGF.initialError and EGF.terminalError (EGF/Defs.lean:145, :149). Then theo:sampling_theorem (l.178–190, cited from bengio2021flow and brunswic2024theory; proving it is Lean ≥ paper, and GFNBounds already has a proof). Then theo:negative_control (l.321–328), with theo:negative_control_appendix (l.844–851, the same statement with its proof, l.852–867) on the same anchor; the ledger links them by no twin, a point for the curation. Template: the lean/ submodule proves exactly these on a measurable space. GFNBounds.Core.SamplingGeneral (MFlow, l.123) has sampling_theorem (l.646) and expectedTau_le (l.584). GFNBounds.Core.SamplingGeneralBounds has MFlow.negative_control_general (l.370). Its module docstring (l.8) calls theo:negative_control 'the theorem quoted from `\\cite{brunswicEGF}`', that is, from this paper. Layering: no [[require]] of GFNBoundsLean, which stays with OQ-1 (lean-egf/lakefile.toml l.8–11). Port or re-prove over EGF.GenerativeFlow (EGF/Defs.lean:123) and EGF.inflow (:135), citing the GFNBounds declarations in docstrings, as T-egf-headline did (its REPORT notes: 'GFNBounds.Core was used as a template ... cited in docstrings'). On OQ-55, which the master asked about: these statements quantify over every generative flow (π*, F_out*). They never mention the Φ_i, the Jacobian or « λ ≪ Lebesgue », so no form of record of theo:backward_policy enters them. OQ-47 to OQ-50 concern def:egf, def:universal_family and def:summably_mixing, which they do not use either. The REPORT should say whether the sampler's law agrees with GFNBounds' chainLaw reading (the chain on S × Bool)."
+evidence = "EGF/Sampling.lean: def:virtual_flows, theo:sampling_theorem, theo:negative_control (+ appendix) closed and marked; sampler constructed (Ionescu-Tulcea); confirmations OQ-60; audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "a66988d"
 
 [[target]]
 id = "T-egf-sampling-corollaries"
