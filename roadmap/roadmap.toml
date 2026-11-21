@@ -212,13 +212,14 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["prop:GX_sing_espace_temps_topo", "rem:hypotheses_proposition_prop_gx"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 exclusive = true
-evidence = "DEC-25 rules OQ-19: 'a singular (G,X)-manifold carries a maximal almost-everywhere (G,X)-atlas … a morphism is an almost-everywhere morphism … ETT's GXSingular is reconciled against them later'. Causal/GXSingular.lean: 'Its reconciliation with gx's DEC-25 (a.e. morphisms of singular (G,X)-manifolds) is a follow-up, not done here'. The curation still blocks both rows on the ruled OQ-19. Source: lean-gx GX.Singular.Atlas (1,812 lines) and GX.Topology.Portly (646). Their third input, GX.Structure.Basic, is already ported as Causal.Port.GXBasic (WP-32a). Uniqueness stays among absolutely minimal causalities while OQ-18 is open, and Baire stays unused (OQ-10). A port, so exclusive in lean-causal."
+evidence = "Causal/Port/{Portly,SingularAtlas}.lean verbatim (281 constants checked) and Causal/GXSingularDEC25.lean: both rows restated under DEC-25, partial; (b′) the missing hypothesis (OQ-64); audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "933a95d"
 
 [[target]]
 id = "T-ett-k-borelien"
@@ -457,12 +458,13 @@ stream = "gx"
 kind = "tooling"
 paper = "gx"
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 9
-evidence = "Added 2026-11-21 by the planner, as the T-gx-troyanov-polygon REPORT suggested to the master ('GX.troyanovTheorem in the scaffold TroyanovAngles can become troyanovTheorem_of_exists_gt_two_pi applied to a tagged sorry. That sorry would then carry only s >= 4, every θ_i ≠ 2π, some θ_i > 2π'). Today the sorry of GX.troyanovTheorem (scaffold GXScaffold/Spherical/TroyanovAngles.lean:321–326) covers every s, although s = 3, the angles 2π and all angles below 2π are proved. The same REPORT's probe confirmed that GX.troyanovTheorem_of_exists_gt_two_pi h typechecks as GX.TroyanovTheorem, so the inline body in GX/Spherical/TroyanovPolygon.lean:2146 is the Prop definitionally. The edit: import GX.Spherical.TroyanovPolygon (strict) in the scaffold module, move the sorry into a lemma stating the remaining case with the same SORRY(cex:start_singular_manifold_homeomorphic) tag, and derive GX.troyanovTheorem from it. The scaffold sorry count stays 2, and nothing is marked. If T-gx-troyanov-four lands first, the lemma carries s ≥ 5 instead. Small: one file, no closer needed."
+evidence = "scaffold GX.troyanovTheorem routed through troyanovTheorem_of_five_le_of_exists_gt_two_pi; its sorry carries only s ≥ 5 with an angle > 2π"
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "e113f97"
 
 [[target]]
 id = "T-gx-troyanov-source"
@@ -1025,13 +1027,14 @@ stream = "other"
 kind = "close"
 paper = "syracuse"
 labels = ["prop:have_gcd_n__l_k", "lem:periodic_exists_i_a_i_", "def:circuit"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-syr-base", "T-syr-rep"]
-evidence = "Added 2026-11-21 by the planner. These are the rows of the start of § 2 that use none of the cited theorems (theo:mr, theo:matveev, theo:steiner, the computer check of l.201; see T-syr-cited). syracuse.tex l.171–188: prop:have_gcd_n__l_k, 'our starting point'. Its proof uses only lem:base (Syracuse.base, Syracuse/Base.lean:237) and a Bézout step (l.186). [r] (planner numerics, a throwaway script, not committed) On the ℤ-cycles of 1, −1, −5 and −17 under T, the GCD of the n sums is |2^{p_n} − 3^n|: 1, 1, 1, 139. On the negative cycles 2^{p_n} − 3^n is negative (−1, −1, −139), and a GCD is not, so the printed equality is false for x < 0 unless it is read up to sign. By lem:base, (2^{p_n} − 3^n)x equals a positive sum on a cycle, so 2^{p_n} − 3^n has the sign of x. The draft writes 'x ∈ ℤ' while T is the odd map (def:ring_define); Syracuse.T is total with a junk value (OQ-42 (d)). The proof's display (l.178) held in the numerics with T^{l+1}(x) in place of T^l(x), under def:ring_define_2's indexing (Syracuse.a n x = ν₂(3T^n x + 1), Base.lean:193). The draft's own proof of lem:base uses a_1 = p_1 (l.71), so the index convention is to be fixed as T-syr-base did. l.207–212: lem:periodic_exists_i_a_i_, with A_i the A_u^n of def:define_n__n_ (Syracuse.Aun, Base.lean:287; OQ-43 asks whether its product is off by one, Syracuse.AunAlt, Rep.lean:292). [r] (planner numerics over random n-periodic a ∈ {1, 2, 3}^ℤ, n ≤ 7, 62,964 cases) The ν₃ claim held in every case. The ν₂ claim ν₂(A_i − A_j) ≥ Σ_{k=1}^p a_k failed in about a quarter of the cases. It held in every case when the agreement is read on k ∈ ⟦0, p − 1⟧, with the bound Σ_{k<p} a_{i+k}: an index shift like OQ-43's. A_i − A_j ≠ 0 fails whenever the minimal period of a is a proper divisor of n (a constant a, say), and it held in every sampled case of minimal period n. So the minimal period is missing from the hypotheses (compare OQ-53, where it is assumed). The closer proves the true forms under both readings of OQ-43, as T-syr-rep did (Aun_sub_ne_zero, AunAlt_sub_ne_zero, Rep.lean:410, :428), states the printed forms with their refutations, and leaves the marks to OQ-43 and OQ-53. l.213–217: def:circuit. '(x)_{n∈ℕ}' is read as the orbit (T^n(x))_n [sic], with p ≥ εn − 1 as printed. The next sentence, 'a circuit (in the sense Steinitz) is a 1-circuit', is commentary. Writes a new module of lean-syracuse."
+evidence = "Syracuse/CycleGcd.lean: the three § 2 rows proved in true forms, printed forms refuted (OQ-63); audit clean"
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "13ff8f0"
 
 [[target]]
 id = "T-syr-cited"
@@ -1116,13 +1119,14 @@ stream = "other"
 kind = "close"
 paper = "yamabe"
 labels = ["lem:gluing-estimate", "thm:upper-bound"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-yamabe-quotient", "T-yamabe-kobayashi"]
-evidence = "Added 2026-11-21 by the planner, at the master's request: what of §6 does not wait on T-yamabe-scope. [r] (planner) Every remaining §6 row uses at least one result of T-yamabe-scope's list. lem:kobayashi (b) and lem:positivity use the Sobolev, Rellich and trace theorems (Hebey1996). lem:gluing uses Akutagawa–Botvinnik Thm 4.6 and a Seeley extension. prop:nonpositive uses AB Cor 5.3 and enlargeability (MR569070). thm:upper-bound and cor:negative use Escobar's fact (iv) and the lemmas before them. thm:lower-bound is proved in the companion paper BrunswicPerforated (l.538: 'The proof is analytic rather than geometric and is given in the companion paper'). rem:existence is informal. What is left between those inputs is algebra and one limit, which this target proves as lemmas, unmarked. (1) lem:gluing-estimate (Yamabegap.tex l.648–683). Once thm:yamabe (b) has supplied ψ with h̄ = ψ^{4/(N−2)}ḡ of constant R_h̄ ≤ 0 (l.658), the proof is a chain over the model. eq:glue-lower (l.660) is Yamabe.MeasuredModel.lem_kobayashi_a (Yamabe/Kobayashi.lean:450; the Kobayashi REPORT lists eq:glue-lower among its reusers). eq:glue-upper (l.674) is a sum over j of the boundary Yamabe inequality, with β_j as in def:yamabe-bdry (l.301), and the sign flip H^Σ_h = −H^{D_j}_h̄. Then Vol additivity, the two conformal identities Vol(Σ, h̄)^{(N−2)/N} = ‖u‖²_{p*} and A_j^{(N−2)/(N−1)} = ‖u‖²_{p#}, and the division of l.682. The closer extends the measured model by the pieces D_j and carries the three geometric inputs as hypotheses named after their lines: the existence of h̄ (thm:yamabe (b)), the boundary Yamabe inequality on D_j, and the mean-curvature flip. The statement is then the paper's minus the existence of h̄, a lemma and never the row's anchor (Lean ≥ paper). (2) thm:upper-bound's proof (l.723–729), its τ → 0 step. If g̃_τ → g uniformly and R_{g̃_τ} → R_g uniformly, with m_τ Vol(Σ, g̃_τ)^{2/N} ≤ −inf F_{g̃_τ} for each τ, then Y_[g](Σ) = R_g Vol^{2/N} ≤ −inf F_g. The tools are Yamabe.MeasuredModel.tendsto_infF_of_uniformlyClose (Yamabe/Stability.lean:593, lem:stability's 'consequently') and EH_eq_Y and Y_eq_const_mul (Yamabe/Kobayashi.lean:415, :437). Both rows stay partial, like lem:stability and lem:kobayashi: their anchoring waits on T-yamabe-scope, and the model's status on OQ-44. If OQ-44 rejects the measured model, this target is rebased with T-yamabe-quotient and T-yamabe-kobayashi. The work is used whichever way T-yamabe-scope rules, since named externals or proofs both feed these same steps. Writes a new module of lean-yamabe."
+evidence = "Yamabe/Gluing.lean: lem:gluing-estimate's chain and thm:upper-bound's τ → 0 limit as lemmas over the model, cited inputs carried; l.724 gap closed via lem:positivity; audit minor"
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "1c83dfc"
 
 [[target]]
 id = "T-hub-freeze"
@@ -1320,9 +1324,10 @@ title = "Atlas: refresh reports/atlas/sweep.json from every package's check log 
 stream = "hub"
 kind = "tooling"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 9
-evidence = "reports/atlas/sweep.json holds three packages only: lean-benzecri 2447 declarations / 27 modules, lean-causal 11851 / 195, lean-gx 11887 / 46. It was last written by the seed commit 3814d45 (git log -- reports/atlas/sweep.json), before every wave of 2026-11-20. lean-egf, lean-syracuse and lean-yamabe have no entry, so their lib cards are drawn 'not swept' (build.py l.47–62: 'a package it does not hold yet is drawn as not swept rather than given a number'). Refresh with make -C reports/atlas LOGS=<dir> (Makefile l.2–4). It reads check-<pkg>.log for every package of hub.toml's lib table and asserts each log's line 'axiom sweep (strict): N declarations in M modules' plus the clean-sweep line (build.py l.53–58). So it needs one fresh make -C <pkg> check log per package, all six. lean-causal's must come from a run when /ett-programme's lease leaves the package free, as the master's wave gates already do. The output is generated and the master commits it. Journal 2026-11-20 23:10 lists it as owed. Re-checked 2026-11-21 by the planner: still owed (git log -- reports/atlas/sweep.json shows only 3814d45). It is cheap now. The journal's last two waves record every package's gate green: lean-egf at 00:25, and lean-benzecri, lean-yamabe, lean-gx, lean-syracuse and lean-causal (223 strict modules) at 01:15. So the six check-<pkg>.log files can be the next wave's own gate logs, kept under one LOGS directory, instead of extra runs."
+evidence = "sweep.json refreshed from fresh check logs of all six packages; overlay current for all ten papers"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "d1cfe91"
