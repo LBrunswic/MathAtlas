@@ -251,6 +251,7 @@ import Causal.OneWayMembrane
 import Causal.MaximalZorn
 import Causal.Remarks.MassADEC25
 import Causal.Model.EAlphaSectors
+import Causal.Port.E0GXStructure
 
 /-!
 # Causal — topological spacetimes

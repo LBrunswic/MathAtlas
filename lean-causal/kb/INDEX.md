@@ -111,3 +111,8 @@ rediscover. One fact per entry.
 | [0103](entries/0103-static-isometric-chartiso.md) | pattern | Static spacetimes: an isometric chart of space times the identity of time is a ChartIso |
 | [0104](entries/0104-cone-discs-sector-bound.md) | pitfall | Discs in flat sectors of the cone; the sector bound |
 | [0105](entries/0105-rotations-time-axis.md) | pattern | Rotations of E^{1,2} about the time axis |
+| [0106](entries/0106-e0-singular-gx.md) | pattern | E₀ as a singular (G,X)-manifold: E0GX.singularGX |
+| [0107](entries/0107-e0-holonomy.md) | pattern | Two sector charts of E₀ differ by a holonomy power |
+| [0108](entries/0108-maximal-atlas-chartiso-pitfall.md) | pitfall | Chart isomorphisms do not pass to the maximal a.e. atlas for free |
+| [0109](entries/0109-locally-connected-product.md) | pitfall | Pitfall: LocallyConnectedSpace (X × Y) at this pin |
+| [0110](entries/0110-seg-causality.md) | pattern | A cheap causality with empty chronology for (G,X)-counterexamples |

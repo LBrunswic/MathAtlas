@@ -1,0 +1,109 @@
+{
+  "package": "T-ett-e0-gx-structure",
+  "target": "T-ett-e0-gx-structure",
+  "files": ["scaffold/CausalScaffold/E0GXStructure.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:singular_spacetime",
+      "tex_lines": [1500, 1507],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.E0GX.singularGX",
+        "Causal.E0GX.sectorAtlas",
+        "Causal.E0GX.isAEAtlas_sectorAtlas",
+        "Causal.E0GX.isGXAtlas_sectorAtlas",
+        "Causal.E0GX.support_sectorAtlas",
+        "Causal.E0GX.isPortly_compl_axis",
+        "Causal.E0GX.sectorChart_eventually_eq_zpow_smul",
+        "Causal.E0GX.sectorChart_eq_zpow_smul_on_component",
+        "Causal.E0GX.hol",
+        "Causal.E0GX.chartMap_eq_hol_smul",
+        "Causal.E0GX.isParabolic_holLin_two_pi",
+        "Causal.E0GX.source_inter_axis_eq_empty",
+        "Causal.E0GX.reg_eq",
+        "Causal.E0GX.sing_eq",
+        "Causal.E0GX.sing_eq_singE0_zero",
+        "Causal.E0GX.sing_nonempty",
+        "Causal.E0GX.chartIso_of_mem_aeAtlas",
+        "Causal.E0GX.chartIso_of_isAEChart_of_subset_compl_axis",
+        "Causal.E0GX.singularGX_nonvacuous",
+        "Causal.chartIso_of_mem_maximalAEAtlas_of_agreeOn",
+        "Causal.forall_chartIso_aeAtlas_of_reg_subset",
+        "Causal.AESupportCounterexample.counterexample"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_0 the extreme BTZ model (l.1330)",
+          "here": "read",
+          "note": "Causal.E0 = R x C with gx's metric entered through D and the curve-defined causality (OQ-34, OQ-35; existing reading of the strict E0 port)"
+        },
+        {
+          "paper": "reg(E_0), the complement of the singular line, an (Isom(E), E)-manifold (l.1331-1333)",
+          "here": "carried",
+          "note": "the sector charts (strict E0.sectorChart) form an a.e. (Flat.isom 2, Minkowski 2)-atlas with support E_0 minus the axis, portly; DEC-25's singular structure is its maximal a.e. atlas; Reg = axis^c, Sing = axis = singE0 0"
+        },
+        {
+          "paper": "Isom(E) (l.1333, l.1401)",
+          "here": "read",
+          "note": "Flat.isom 2 = SO_0(1,2) x| R^3 (question 1)"
+        },
+        {
+          "paper": "the causality of E_0 absolutely minimal (l.1382-1384)",
+          "here": "carried",
+          "note": "E0.absolutelyMinimalOn (every open set) is the hmin of the model-free lemma"
+        },
+        {
+          "paper": "E^{1,2}_A-manifold, its X_A-atlas and the generated causality (l.1502-1504)",
+          "here": "weakened",
+          "note": "not addressed: only the model X_0 = E_0 is built (T-ett-singular-sfa); the row stays partial"
+        },
+        {
+          "paper": "roadmap evidence, model-free lemma: charts of A chart isomorphisms, G by strong morphisms, DY absolutely minimal",
+          "here": "strengthened",
+          "note": "proved with DY absolutely minimal on the chart's source AND either supp(maximalAEAtlas G A) subset supp A or local agreement of DY with the transported model at the points of the chart's source outside supp A; plus DX absolutely minimal on its open sets (implied by DEC-25's (a)). The roadmap's form is refuted: Causal.AESupportCounterexample.counterexample"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1331-1333 writes sing(E_alpha) for the singular line and reg(E_alpha) for its complement, an (Isom(E),E)-manifold. Read through DEC-25, sing(E_0) is the singular locus of the singular (G,X)-structure only if the (Isom(E),E)-structure does not extend across the line. That holds: the holonomy of a loop about the line is the parabolic isometry hol(2pi), which is not the identity (Causal.E0GX.source_inter_axis_eq_empty, reg_eq). The paper states this fact nowhere and cites no source for it; it may want one sentence.",
+        "Roadmap (not the paper): the evidence of T-ett-e0-gx-structure, point (3), states as [r] a model-free lemma ('if every chart of an a.e. atlas A of Y is a ChartIso DY DX, G acts by strong morphisms and DY is absolutely minimal, then every chart of maximalAEAtlas A is a ChartIso'). It is false. Causal.AESupportCounterexample.counterexample, on C with the translations: DX = rightward horizontal segments, DY = the same segments avoiding 0, both absolutely minimal on every open set; the identity of C minus {0} is a chart isomorphism generating an a.e. atlas; the identity of C is in its maximal atlas but is not a chart isomorphism (-1 <= 1 in DX, not in DY). The true form needs the maximal atlas to have the generating support, or DY to agree with the model at the extra points. T-ett-ealpha-gx-structure plans to reuse this lemma. At alpha = 2pi the maximal atlas covers the line, so that target must use chartIso_of_mem_maximalAEAtlas_of_agreeOn and supply the agreement on the line."
+      ],
+      "questions": [
+        "Isom(E^{1,2}) (l.1333, l.1401): I read it as Flat.isom 2, the isometries whose linear part is in SO_0(1,2), i.e. preserving time- and space-orientation (the library's reading in Remarks/MassiveManifold). With the full isometry group, the maximal a.e. atlas would also contain time-reversed charts. Those are not chart isomorphisms, so hreg would fail and the group would not act by morphisms of topological spacetimes, contrary to l.1401. The paper's own hypothesis therefore points to Isom_0, but it does not say so.",
+        "Which reading of E_0 the row's mark waits on is unchanged: OQ-34 (the metric) and OQ-35 (the causality). Nothing here depends on them beyond the strict E0 port's sector charts."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.chartIso_of_mem_maximalAEAtlas_of_agreeOn",
+    "Causal.chartIso_of_mem_maximalAEAtlas_of_source_subset",
+    "Causal.forall_chartIso_maximalAEAtlas_of_support_subset",
+    "Causal.forall_chartIso_aeAtlas_of_reg_subset",
+    "Causal.AESupportCounterexample.segCausality",
+    "Causal.AESupportCounterexample.absolutelyMinimalOn_segCausality",
+    "Causal.AESupportCounterexample.counterexample",
+    "Causal.E0GX.angleShift",
+    "Causal.E0GX.lift_add_angle",
+    "Causal.E0GX.holLin_mem_lorentz",
+    "Causal.E0GX.hol",
+    "Causal.E0GX.hol_add",
+    "Causal.E0GX.hol_two_pi_mul_int",
+    "Causal.E0GX.isParabolic_holLin_two_pi",
+    "Causal.E0GX.isRigidAction_isom",
+    "Causal.E0GX.isPreconnected_ball_diff_zero",
+    "Causal.E0GX.isPortly_ne_zero",
+    "Causal.AESupportCounterexample.isPortly_compl_zero",
+    "Causal.AESupportCounterexample.isRigidAction_translation"
+  ],
+  "kb_proposals": [
+    "E0 as a singular (G,X)-manifold: Causal.E0GX.singularGX (a noncomputable abbrev; make it a local instance) on Flat.isom 2 / Minkowski 2, with Reg = axis^c (reg_eq), Sing = singE0 0 (sing_eq_singE0_zero), and DEC-25's hreg as E0GX.chartIso_of_mem_aeAtlas; IsRigidAction (Flat.isom 2) (Minkowski 2) is the theorem E0GX.isRigidAction_isom, to make local.",
+    "Two sector charts of E0 differ by E0GX.hol s, the shift theta -> theta + s of the developing angle (chartMap_eq_hol_smul); hol (2pi) is parabolic and on each overlap component they differ by hol(2pi)^k.",
+    "Chart isomorphisms do not pass from a generating a.e. atlas to its maximal atlas for free: they need supp(maximal) subset supp(generating), or agreement at the extra points (chartIso_of_mem_maximalAEAtlas_of_agreeOn); counterexample Causal.AESupportCounterexample.counterexample.",
+    "At this pin there is no LocallyConnectedSpace (X x Y) instance for general locally connected X, Y; normed spaces (R x C, C x R) get one through LocPathConnectedSpace. Restating a gx lemma generic in Z needs Z specialised.",
+    "A cheap causality with empty chronology for (G,X)-counterexamples: AESupportCounterexample.segCausality F on C (rightward horizontal segments avoiding F), absolutely minimal on every open set by exists_subdivision_Icc, with translations acting by strong morphisms when F is empty."
+  ],
+  "notes": "One new file, scaffold/CausalScaffold/E0GXStructure.lean, 0 sorry. lake env lean prints nothing (no warnings), so the file is strict-ready. lake build CausalScaffold.E0GXStructure built only this module (8635 jobs, 1 built). The file is not added to the scaffold root (kb 0025: the master does it). #print axioms gives [propext, Classical.choice, Quot.sound] for counterexample, singularGX_nonvacuous, chartIso_of_mem_aeAtlas, reg_eq, the model-free lemmas and isAEAtlas_sectorAtlas. Imports: Causal.GXSingularDEC25, Causal.Port.E0SingularFlat, Causal.Flat.Isometries, Causal.Flat.SecondCountable. Graduation checks (kb 0082): the sibling closer T-ett-ealpha-sectors may also restate gx's isPreconnected_ball_diff_zero or prove a rigidity theorem for Flat.isom 2. Mine are namespaced Causal.E0GX and are local instances, not global ones; if both graduate, merge them. Restated from gx: E0GX.isPreconnected_ball_diff_zero is gx's GX.isPreconnected_ball_diff_zero (Singular/Quotient.lean l.2260) verbatim. E0GX.isPortly_ne_zero is gx's GX.isPortly_ne_zero (l.2284) at Z = R, with one unused simp argument (mem_setOf_eq) dropped. Not done: (b') of existsUnique_causality_singularGX_dec25 at singular sources of E0, so that theorem is not yet applied to a manifold modelled on E0. At regular sources it is E0GX.chartIso_of_isAEChart_of_subset_compl_axis. The mark of def:singular_spacetime waits on OQ-34, OQ-35 and T-ett-singular-sfa, as dispatched."
+}
