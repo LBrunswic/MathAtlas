@@ -1,0 +1,428 @@
+% report.tex -- build with `make` (latexmk -lualatex; see the Makefile).
+% Every figure, commit id and date in this file is a macro of generated/numbers.tex or a row of a
+% generated/*.tex table, written by reports/programme/numbers.py from one commit (REV in the
+% Makefile). Nothing here is a number typed by hand.
+\input{preamble}
+\input{generated/numbers}
+% the PDF's /ID: a function of REV, not of the build directory (the dates follow SOURCE_DATE_EPOCH)
+\edef\progTrailerId{[<\progPdfId> <\progPdfId>]}
+\pdfvariable trailerid \expandafter{\progTrailerId}
+\newcommand{\gen}[1]{\csname @@input\endcsname generated/#1 }
+
+\title{The ETT programme: progress report\\[2pt]
+\large The ladder, the binders, the targets and the open questions}
+\author{Generated from the programme's files at commit \texttt{\progRev}\\
+\small \texttt{LeanArticles}, the \texttt{/ett-programme} loop}
+\date{\progRevDate}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+At commit \texttt{\progRev} (\progRevTime{} UTC), the causality ladder has \numLadderProperties{}
+properties. Of the \numLadderWithin{} ordered pairs within one sort, \numLadderClassified{} are
+classified, \numLadderClassFails{} of them by a counterexample. The \numBinders{} binders bind
+\numBinderErsPredictabilityRows{} rows of \texttt{ers-predictability} and
+\numBinderSbierskiMghdRows{} rows of \texttt{sbierski-mghd}. Layer~1 is in Lean for
+\numBinderErsPredictabilityLayerOneLean{} and \numBinderSbierskiMghdLayerOneLean{} of these rows,
+and layer~3 for \numBinderErsPredictabilityLayerThreeLeanRows{} and
+\numBinderSbierskiMghdLayerThreeLeanRows{}. Of the programme's \numTargets{} targets,
+\numTargetsDone{} are done (\numTargetsDoneOnRevDate{} of them on \progRevDate), \numTargetsReady{}
+are ready and \numTargetsNeedsRuling{} need a ruling. \numOqOpen{} open questions of the register
+mention the programme.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{The programme}
+%======================================================================
+
+The ETT programme reads ETT as a reasoning system for causality (\file{programme/README.md}).
+Every result it handles is cut into layers:
+\begin{enumerate}
+\item a global, causal-topological theorem of ETT, proved in any topological spacetime from
+  causality properties alone and kept in \file{lean-causal/Causal/}, which imports no metric;
+\item the localisation properties that theorem needs: local, checkable properties, each a node or
+  an edge hypothesis of the ladder;
+\item for each class of models, a geometric lemma that proves the localisation property;
+\item classification criteria, which sort the cases by the causal-topological property that holds.
+\end{enumerate}
+Its files are the ladder (\file{programme/ladder.toml}, checked by \file{tools/ladder.py}), the
+roadmap of targets (\file{programme/roadmap.toml}), a binder for each ledgered Sbierski paper
+(\file{papers/<slug>/certificate/binder.toml}, checked by \file{tools/binder.py}), and the journal
+(\file{programme/JOURNAL.md}), with an entry for each iteration of the loop.
+
+Every figure below was read from commit \texttt{\progRev} by \file{reports/programme/numbers.py},
+using that commit's own tools. The programme's first commit is \texttt{\progStartRev}
+(\progStartTime{} UTC). This is the programme's first progress report, so each series starts at
+that commit.
+
+%======================================================================
+\section{The ladder}\label{sec:ladder}
+%======================================================================
+
+\paragraph{Contents.} The ladder has \numLadderProperties{} properties, by sort:
+\begin{itemize}
+\item \numLadderSortCausality{} of sort \texttt{causality};
+\item \numLadderSortGeometry{} of sort \texttt{geometry};
+\item \numLadderSortPair{} of sort \texttt{pair}.
+\end{itemize}
+It records:
+\begin{itemize}
+\item \numLadderImplies{} implications, of which \numLadderImpliesChecked{} are checked and
+  \numLadderImpliesSeed{} seed;
+\item \numLadderFails{} counterexamples (\numLadderFailsChecked{} checked, \numLadderFailsSeed{}
+  seed);
+\item \numLadderConsequences{} consequences (\numLadderConsequenceChecked{} checked,
+  \numLadderConsequenceSeed{} seed), at \numLadderConsequenceLevels{} distinct premises;
+\item \numLadderTransfers{} transfers along a nesting (\numLadderTransferChecked{} checked);
+\item \numLadderOpenEntries{} \texttt{[[open]]} entries.
+\end{itemize}
+\texttt{tools/ladder.py check} reports \numLadderViolations{} violations.
+
+\paragraph{Classification.} \texttt{tools/ladder.py matrix} gives every ordered pair of distinct
+properties a value (Table~\ref{tab:matrix}). Of the \numLadderWithin{} pairs within one sort,
+\numLadderClassified{} are classified: implied, refuted by a counterexample on ETT's spacetimes, or
+recorded open. A further \numLadderIllTyped{} pairs join properties of different sorts. These are \texttt{ill-typed}:
+neither implication is a statement, so they are not counted. Of the rest:
+\begin{itemize}
+\item \numLadderClassFailsOff{} pairs are refuted only off the ambient;
+\item \numLadderClassImpliedStanding{} are implied only under standing hypotheses;
+\item \numLadderClassUnknown{} are unknown: \progLadderUnknownPairs.
+\end{itemize}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+sort & properties & pairs & implied & fails & open & fails-off & implied-standing & unknown\\
+\midrule
+\gen{ladder-matrix}
+\bottomrule
+\end{tabular}
+\caption{The matrix at \texttt{\progRev}, by sort. ``Pairs'' counts the ordered pairs of distinct
+properties of that sort. Each pair takes the first value of the tool's order that applies.}
+\label{tab:matrix}
+\end{table}
+
+\paragraph{The tactic.} From the checked edges, \texttt{tools/ladder.py emit-lean} makes
+\numLadderRules{} rules of the \lean{causal_ladder} tactic. Checked edges it skips:
+\numLadderRulesSkipped{}. \lean{Causal/Ladder/Rules.lean} names each skipped edge in a comment.
+
+\paragraph{How the ladder moved.} Table~\ref{tab:ladder-series} shows the ladder at each of the
+\numLadderSeriesCommits{} commits up to \texttt{\progRev} that changed \file{programme/ladder.toml}.
+Each row is the output of that commit's own \texttt{tools/ladder.py check} and \texttt{matrix},
+run on that commit's files. The series is therefore read from \texttt{git}, not parsed from the
+journal's ladder lines, whose format varies from entry to entry.
+
+The tool changed while the series ran: commit \texttt{\progLadderToolWithinRev} changed
+\file{tools/ladder.py} so that it counts the pairs within one sort. Pair counts marked
+$^\dagger$ are of all ordered pairs, as the tool counted them before that commit. The first row
+read by the new tool is \texttt{\progLadderWithinRev}.
+
+\begin{table}[h]
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{4.1cm}rrrrrrrrr@{}}
+\toprule
+commit & UTC & target & prop. & impl. & c.ex. & cons. & classified & pairs & implied & fails & open\\
+\midrule
+\gen{ladder-series}
+\bottomrule
+\end{tabular}
+\caption{The ladder at each commit that changed it. ``Target'' lists the targets whose
+\texttt{commit} in the roadmap is this commit. The columns implied, fails and open count the values printed by
+\texttt{matrix}.}
+\label{tab:ladder-series}
+\end{table}
+
+%======================================================================
+\section{The binders and the Sbierski ledgers}\label{sec:binders}
+%======================================================================
+
+\paragraph{Coverage.} There are \numBinders{} binders, and \texttt{tools/binder.py check} reports
+\numBinderCheckViolations{} violations. Table~\ref{tab:binders} gives, for each binder, the
+counts of \texttt{tools/binder.py status} and how each layer is covered.
+\begin{itemize}
+\item \textbf{Layer~1} is in Lean for a row when every entry of its \texttt{ett} is a Lean name.
+  Otherwise the row names a programme target.
+\item \textbf{Layer~2} counts the pairs (row, ladder property) of \texttt{localisation}, and those
+  that a geometric entry of the row proves. It also counts the entries of
+  \texttt{open\_localisation}.
+\item \textbf{Layer~3} is in Lean for a row when every geometric entry of the row cites only Lean
+  names. The table also gives the geometric entries that do so.
+\end{itemize}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+& & & \multicolumn{2}{c}{layer 1} & \multicolumn{2}{c}{layer 2} & \multicolumn{2}{c}{layer 3}\\
+\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(l){8-9}
+binder & ledger rows & bound & Lean & target & proved & open & rows & entries\\
+\midrule
+\gen{binder-coverage}
+\bottomrule
+\end{tabular}
+\caption{Binder coverage at \texttt{\progRev}. Layer~2 ``proved'' is the pairs that a geometric
+entry proves, out of all pairs. ``Open'' is the number of \texttt{open\_localisation} entries.
+Layer~3 ``rows'' is the rows in Lean; ``entries'' is the geometric entries citing only Lean
+names, out of all geometric entries.}
+\label{tab:binders}
+\end{table}
+
+\paragraph{Open localisation properties.} A row may declare localisation properties open
+(\texttt{open\_localisation}). Some of the names it uses are not ladder properties. A binder's
+\texttt{[[proposed]]} entries propose such names as ladder nodes, each with the target that
+would add it. Table~\ref{tab:open} counts these.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+binder & rows & entries & names & not on the ladder & of these, proposed & \texttt{[[proposed]]}\\
+\midrule
+\gen{binder-open}
+\bottomrule
+\end{tabular}
+\caption{The \texttt{open\_localisation} entries at \texttt{\progRev}: the rows that have any,
+the entries, the distinct names, those that are not ladder properties, and those among them that
+have a \texttt{[[proposed]]} entry. The last column counts the binder's
+\texttt{[[proposed]]} entries.}
+\label{tab:open}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+binder & model & geometric entries & Lean names only & citing a target\\
+\midrule
+\gen{binder-models}
+\bottomrule
+\end{tabular}
+\caption{Layer~3 by model class at \texttt{\progRev}.}
+\label{tab:models}
+\end{table}
+
+\paragraph{The ledgers.} Table~\ref{tab:ledgers} gives the ledgers of the binders' papers. It
+includes the ETT ledger, whose labels the ladder's properties carry, and uses the figures that
+\texttt{tools/status\_report.py} reads for \file{reports/status-2026-11}. The ledgers read
+\file{lean-causal} at commits \texttt{\progLedgerErsPredictabilityLeanRev},
+\texttt{\progLedgerSbierskiMghdLeanRev} and \texttt{\progLedgerEttLeanRev}.
+\begin{itemize}
+\item In \texttt{ers-predictability}, \numLedgerErsPredictabilityStated{} of
+  \numLedgerErsPredictabilityStatements{} rows are Lean-stated:
+  \numLedgerErsPredictabilityClosedlean{} closed and \numLedgerErsPredictabilityPartial{} partial.
+\item In \texttt{sbierski-mghd}, \numLedgerSbierskiMghdStated{} of
+  \numLedgerSbierskiMghdStatements{} rows are Lean-stated: \numLedgerSbierskiMghdClosedlean{}
+  closed and \numLedgerSbierskiMghdPartial{} partial.
+\end{itemize}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lrrrrrrrrrrr@{}}
+\toprule
+& & \multicolumn{3}{c}{Lean} & \multicolumn{6}{c}{bucket} & \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-11}
+ledger & rows & stated & closed & partial & A & B & C & D & T & none & closure\\
+\midrule
+\gen{ledgers}
+\bottomrule
+\end{tabular}
+\caption{The ledgers at \texttt{\progRev} (\texttt{tools/ledger.py}'s header and
+\texttt{ledger.json}). ``None'' counts the rows that have no bucket. Closure is the number of
+rows closed in bucket~A, over the non-terminal rows.}
+\label{tab:ledgers}
+\end{table}
+
+\paragraph{How the binders moved.} Table~\ref{tab:binder-series} shows \texttt{tools/binder.py
+status} at each of the \numBinderSeriesCommits{} commits up to \texttt{\progRev} that changed a
+binder. Each row is the output of that commit's own tool, run on that commit's files.
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{4.2cm}rrrrrr@{}}
+\toprule
+& & & \multicolumn{3}{c}{\texttt{ers-predictability}} & \multicolumn{3}{c}{\texttt{sbierski-mghd}}\\
+\cmidrule(lr){4-6}\cmidrule(l){7-9}
+commit & UTC & target & bound & layer 1 & layer 3 & bound & layer 1 & layer 3\\
+\midrule
+\gen{binder-series}
+\bottomrule
+\end{tabular}
+\caption{The binders at each commit that changed one. Each count is the tool's own: rows bound,
+rows with layer~1 in Lean, and rows with layer~3 in Lean. A dash means the binder did not exist
+yet.}
+\label{tab:binder-series}
+\end{table}
+
+%======================================================================
+\section{Targets}\label{sec:targets}
+%======================================================================
+
+\paragraph{By status and kind.} \file{programme/roadmap.toml} has \numTargets{} targets:
+\begin{itemize}
+\item \numTargetsDone{} done;
+\item \numTargetsReady{} ready;
+\item \numTargetsNeedsRuling{} needing a ruling;
+\item \numTargetsBlocked{} blocked on an open question;
+\item \numTargetsPlanned{} planned;
+\item \numTargetsActive{} active;
+\item \numTargetsDropped{} dropped.
+\end{itemize}
+Table~\ref{tab:kinds} breaks these down by kind, the roadmap's \texttt{kind} field.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+kind & planned & ready & active & needs-ruling & blocked & done & dropped & all\\
+\midrule
+\gen{targets-kind}
+\bottomrule
+\end{tabular}
+\caption{Targets by kind and status at \texttt{\progRev}.}
+\label{tab:kinds}
+\end{table}
+
+\paragraph{Done on \progRevDate.} A target's done date is the commit time, in UTC, of the
+commit that its \texttt{commit} field records. \numTargetsDoneOnRevDate{} targets were done on
+\progRevDate{} (Table~\ref{tab:done}), and \numTargetsDoneBeforeRevDate{} before.
+
+\begin{small}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{6.6cm}llr@{}}
+\caption{Targets done on \progRevDate, in order of commit time.}\label{tab:done}\\
+\toprule
+target & kind & commit & UTC\\
+\midrule
+\endfirsthead
+\toprule
+target & kind & commit & UTC\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\gen{targets-done-today}
+\end{longtable}
+\end{small}
+
+\paragraph{Ready.} Table~\ref{tab:ready} lists the ready targets in order of priority. Each title
+is the first clause of the target's own title.
+
+\begin{small}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{4.4cm}lr>{\raggedright\arraybackslash}p{7.6cm}@{}}
+\caption{Ready targets at \texttt{\progRev}.}\label{tab:ready}\\
+\toprule
+target & kind & priority & title (first clause)\\
+\midrule
+\endfirsthead
+\toprule
+target & kind & priority & title (first clause)\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\gen{targets-ready}
+\end{longtable}
+\end{small}
+
+%======================================================================
+\section{Open questions for the author}\label{sec:open}
+%======================================================================
+
+\paragraph{The register's questions.} \file{registers/DECISIONS.md} has \numOqOpen{} open
+questions whose row mentions the ETT programme (Table~\ref{tab:oq}). The title of each is the
+first clause of its question, without the opening ``ETT programme,''. The row itself is the
+authority, and this report reads nothing further into it. The table also gives:
+\begin{itemize}
+\item the rulings each row cites, \numOqCitedDecs{} in all (Table~\ref{tab:dec});
+\item the targets that the roadmap blocks on each question, \numTargetsBlockedOnOq{} in all.
+\end{itemize}
+
+\begin{small}
+\begin{longtable}{@{}lr>{\raggedright\arraybackslash}p{7.7cm}l>{\raggedright\arraybackslash}p{2.8cm}@{}}
+\caption{Open questions raised by the programme at \texttt{\progRev}.}\label{tab:oq}\\
+\toprule
+OQ & raised & title (first clause of the row) & cites & blocked targets\\
+\midrule
+\endfirsthead
+\toprule
+OQ & raised & title (first clause of the row) & cites & blocked targets\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\gen{oq}
+\end{longtable}
+\end{small}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lr>{\raggedright\arraybackslash}p{11.4cm}@{}}
+\toprule
+DEC & date & decision (first clause of the row)\\
+\midrule
+\gen{dec}
+\bottomrule
+\end{tabular}
+\caption{The rulings that the programme's open questions cite.}
+\label{tab:dec}
+\end{table}
+
+\paragraph{Targets waiting on a ruling.} \numTargetsNeedsRuling{} targets need a ruling
+(Table~\ref{tab:ruling}). Each target's question is in its roadmap block. The table gives the
+question's first clause.
+
+\begin{small}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{4.4cm}l>{\raggedright\arraybackslash}p{10.0cm}@{}}
+\caption{Targets needing a ruling at \texttt{\progRev}.}\label{tab:ruling}\\
+\toprule
+target & kind & question (first clause)\\
+\midrule
+\endfirsthead
+\toprule
+target & kind & question (first clause)\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\gen{targets-ruling}
+\end{longtable}
+\end{small}
+
+\paragraph{The journal.} \file{programme/JOURNAL.md} has \numJournalEntries{} entries, from
+\progJournalFirst{} to \progJournalLast{} UTC. Of these, \numJournalWaves{} report a wave and
+\numJournalPlans{} a planning run; an entry may report both. Its \numJournalAuthorLines{} ``for
+the author'' lines name \progJournalAuthorOqs. Table~\ref{tab:journal} gives the first clause of
+each line that names no OQ row.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{12.6cm}@{}}
+\toprule
+entry (UTC) & line (first clause)\\
+\midrule
+\gen{journal-author}
+\bottomrule
+\end{tabular}
+\caption{Journal lines for the author that name no OQ row.}
+\label{tab:journal}
+\end{table}
+
+\paragraph{Provenance.} Every figure is a macro of \file{generated/numbers.tex}, and every table
+body is a file of \file{generated/}. Both are written by \file{reports/programme/numbers.py}
+from commit \texttt{\progRev}, extracted with \texttt{git archive}, through that commit's
+\file{tools/ladder.py}, \file{tools/binder.py}, \file{tools/roadmap.py} and
+\file{tools/status_report.py}. The series run each earlier commit's own tools. No model was
+called and no Lean was built. \texttt{make check} in this directory does the following:
+\begin{itemize}
+\item it regenerates the numbers and compares them byte for byte;
+\item it builds the PDF a second time and compares it byte for byte;
+\item it counts the undefined references and missing glyphs in the log;
+\item it checks this text and the generated tables against every legacy draft
+  (\file{papers/*/legacy/orig}), with the shingles of \file{tools/no_legacy_prose.py}.
+\end{itemize}
+
+\end{document}

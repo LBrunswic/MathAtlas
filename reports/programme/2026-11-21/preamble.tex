@@ -1,0 +1,55 @@
+% preamble.tex -- the preamble of reports/status-2026-11, with: a glyph fallback for the symbols
+% the programme's files carry (STIX Two Math, then DejaVu Sans), \tid{} for target ids, and the
+% PDF's optional info suppressed so that two builds give the same bytes (see the Makefile).
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\directlua{luaotfload.add_fallback("progfallback",
+  {"STIXTwoMath-Regular.otf:mode=node;", "DejaVuSans.ttf:mode=node;"})}
+\setmainfont{STIX Two Text}[RawFeature={fallback=progfallback}]
+\setmathfont{STIX Two Math}
+\setmonofont{DejaVu Sans Mono}[Scale=0.80, RawFeature={fallback=progfallback}]
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage{luacode}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlist{itemsep=1pt,topsep=3pt}
+\setlength{\emergencystretch}{3em}
+
+% reproducible output: no PTEX.FullBanner, no PTEX.FileName (the dates and the /ID follow
+% SOURCE_DATE_EPOCH, which the Makefile sets to the commit time of REV)
+\pdfvariable suppressoptionalinfo \numexpr 1 + 2 \relax
+
+% ---------------------------------------------------------------- Lean names
+% \lean{name}: typeset a Lean identifier verbatim in monospace, with break points after '_', '.',
+% ':' and '/', so long names do not overflow table cells. \tid{T-...}: a target id, breakable
+% after '-' as well.
+\begin{luacode*}
+function leanname(s, breaks)
+  breaks = breaks or "_.:/"
+  local buf = ""
+  local prev = ""
+  for _, c in utf8.codes(s) do
+    local ch = utf8.char(c)
+    if prev:match("^%l$") and ch:match("^%u$") then
+      tex.sprint(-2, buf); buf = ""
+      tex.sprint("\\penalty100\\hskip0pt\\relax{}")
+    end
+    buf = buf .. ch
+    if breaks:find(ch, 1, true) then
+      tex.sprint(-2, buf); buf = ""
+      tex.sprint("\\allowbreak{}")
+    end
+    prev = ch
+  end
+  tex.sprint(-2, buf)
+end
+\end{luacode*}
+\newcommand{\lean}[1]{\texttt{\directlua{leanname("\luaescapestring{\detokenize{#1}}")}}}
+\newcommand{\tid}[1]{\texttt{\directlua{leanname("\luaescapestring{\detokenize{#1}}", "-_.:/")}}}
+\newcommand{\lbl}[1]{\lean{#1}}
+\newcommand{\file}[1]{\lean{#1}}
