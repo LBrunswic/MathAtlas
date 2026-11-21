@@ -1,0 +1,214 @@
+{
+  "package": "T-ett-measures-e0",
+  "target": "T-ett-measures-e0",
+  "files": [
+    "scaffold/CausalScaffold/MeasuresE0.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "prop:mesure_admissible",
+      "tex_lines": [
+        1726,
+        1749
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.E0.mesure_admissible",
+        "Causal.E0.modelMeasures",
+        "Causal.E0.paper_measures_local",
+        "Causal.E0.modelMeasures_local",
+        "Causal.E0.lam3_future",
+        "Causal.E0.lam3_add_lam1_past",
+        "Causal.E0.lam3_past_profile",
+        "Causal.E0.lam1",
+        "Causal.E0.admissibleFuture_of_equiv",
+        "Causal.E0.admissiblePast_of_equiv",
+        "Causal.E0.muPlus",
+        "Causal.E0.muMinus",
+        "Causal.E0.admissibleFuture_muPlus",
+        "Causal.E0.admissiblePast_muMinus",
+        "Causal.E0.lam3_add_lam1_admissiblePastOn",
+        "Causal.E0.lam3_admissibleFutureOn",
+        "Causal.E0.admissiblePastOn_restrict_of",
+        "Causal.E0.admissibleFutureOn_restrict_of"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a strongly causal E_{>=0}-manifold (l.1726)",
+          "here": "strengthened",
+          "note": "instance: M = E_0 (Causal.E0, OQ-34/OQ-35). E0.mesure_admissible is SingularFlatAxioms.mesure_admissible fed E0.singularFlatAxioms, E0.isCausal and E0.modelMeasures; the first instance with sing_0 nonempty"
+        },
+        {
+          "paper": "strongly causal",
+          "here": "weakened",
+          "note": "mesure_admissible uses E0.isCausal only (as the abstract theorem does); E_0 is strongly causal anyway (E0.stronglyCausal), and the open form ModelRowsE0.e0_stronglyCausalOpen supplies the paper's U_p in paper_measures_local"
+        },
+        {
+          "paper": "hypothesis (i): lambda_3 + lambda_1 (past) and lambda_3 (future) restricted to a relatively compact causally convex U_p (l.1734-1743)",
+          "here": "carried",
+          "note": "paper_measures_local: every neighbourhood of every point contains such a U_p, with (volume + lam1).restrict U_p admissible in the past on U_p and volume.restrict U_p in the future. ModelMeasures itself is fed with U = E_0 and the finite measures muMinus, muPlus (Measure.toFinite), as timelikeLine_modelMeasures does"
+        },
+        {
+          "paper": "lambda_3, 'the Lebesgue measure of R^3' (l.1737); lambda_1, 'the Lebesgue measure of sing(E_0) = R' (l.1739)",
+          "here": "read",
+          "note": "volume on E_0 = R x C; lam1 = image of Lebesgue measure under tau -> (tau, 0). Harmless: every finite measure with the same null sets is admissible (admissible*_of_equiv). See questions"
+        },
+        {
+          "paper": "hypothesis (ii): monotonicity of K^- and K^+ (l.1745-1746)",
+          "here": "carried",
+          "note": "inside SingularFlatAxioms.mesure_admissible (SingularFlatAxioms.K_monotone at E_0)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1737-1741, at E_0, holds as printed. lambda_3 satisfies properties 1, 3, 4 in the future (Causal.E0.lam3_future). lambda_3 + lambda_1 satisfies them in the past (Causal.E0.lam3_add_lam1_past). 'The singular term is exactly what property 3 in the past requires along a BTZ line' is sharp: lambda_3 alone satisfies 1 and 4 in the past and fails 3 at two axis points (Causal.E0.lam3_past_profile).",
+        "ETT.tex:1742-1743, 'Lemma restriction_convexe turns properties 3 and 4 of the model into properties 3 and 4 of U_p'. For property 4 this is correct as stated: for A in U_p, J^-_U(A) \\ K^-_U(A) = (J^-(A) \\ K^-(A)) cap U_p. For property 3 it needs more than property 3 of the model. With J^-_U(x) = J^-(x) cap U_p, one needs mu((J^-(q) \\ J^-(p)) cap U_p) > 0, and mu(J^-(q) \\ J^-(p)) > 0 does not give it. It does hold for lambda_3 and lambda_3 + lambda_1, because J^-(q) \\ J^-(p) meets every neighbourhood of q: in a non-empty open set off the axis, in an axis segment ]p,q] on it. Lean: Causal.E0.pos_past_inter, pos_future_inter, used by admissiblePastOn_restrict_of and admissibleFutureOn_restrict_of. By hand, not formalized: on Minkowski 3-space a finite measure equivalent to lambda_3 restricted to {t < -1} is admissible in the past, since J^-(q) \\ J^-(p) meets every slice {t = s}, s << 0, in a set of positive area. It vanishes on every U_p inside {t > -1}. So the bare inference fails, and only the paper's particular measures make the step true. Suggested wording: '... and, J^-(q) \\ J^-(p) meeting every neighbourhood of q in a non-empty open set or, at a BTZ point, in a segment of the singular line, Lemma restriction_convexe turns ...'.",
+        "The planner's [r] route was checked step by step and is correct. (1) r -> (u + r, r e^{i theta}), r >= 0, is chronological (Causal.E0.lt_ray: ClosedLt reads r1 < r2 and 0 < (r2 - r1)^2). The frontier of any <<-past or <<-future set meets each such curve at most once, for open and non-open sets alike (frontier_ray_subsingleton_of_past, _of_future). The shear (tau, z) -> (tau - |z|, z) preserves lambda_3 (Causal.MeasuresE0.measurePreserving_shear, a skew product over the identity of C). Polar coordinates close each u-slice (volume_eq_zero_of_ray_subsingleton). (2) The 'at most one axis point' claim in property 4 in the past holds: such a point x has tau(x) = max over A of f, and the maximum is attained (isGreatest_fcoord_of_mem_axis_inter, axis_inter_Jminus_diff_Kminus_subsingleton). The bound is sharp: at a BTZ point p the set is {p} (axis_inter_Jminus_diff_Kminus_axis). (3) Property 3 holds as planned. (4) The planner's Gaussian weighting is replaced by Measure.toFinite (same null sets, no integral to compute)."
+      ],
+      "questions": [
+        "Which measures are lambda_3 ('the Lebesgue measure of R^3', l.1737) and lambda_1 ('the Lebesgue measure of sing(E_0) = R', l.1739) on E_0? The paper's coordinates (tau, r, theta), read Cartesian, would give d tau dr d theta = (1/r) d lambda_3. Reading taken: lambda_3 is Lebesgue measure on R x C, the coordinates (tau, z) of Causal.E0; lambda_1 is the image of Lebesgue measure on R under tau -> (tau, 0). Harmless: properties 1-4 see a measure only through its null sets, its positivity on open sets and axis segments, and (for U_p) its finiteness on compacts. Every finite measure in the class of lambda_3 (resp. lambda_3 + lambda_1) is admissible in the future (resp. past) (admissibleFuture_of_equiv, admissiblePast_of_equiv)."
+      ]
+    },
+    {
+      "label": "rem:singular_flat_spacetime_therefore",
+      "tex_lines": [
+        1508,
+        1511
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.E0.geroch_hypotheses"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a singular flat spacetime (l.1509)",
+          "here": "strengthened",
+          "note": "instance: M = E_0 (E0.singularFlatAxioms; E0.singularFlatSpacetime also holds)"
+        },
+        {
+          "paper": "strongly causal (DEC-18)",
+          "here": "carried",
+          "note": "E0.stronglyCausal"
+        },
+        {
+          "paper": "'is therefore a differential manifold'",
+          "here": "not formalized",
+          "note": "the library has no differentiable structure (as in SingularFlatAxioms.geroch_hypotheses)"
+        },
+        {
+          "paper": "'satisfies all the hypotheses of theo:geroch'",
+          "here": "carried",
+          "note": "the library's list (SingularFlatAxioms.geroch_hypotheses): metrizable, locally compact, tarentin, causally arc-connected, strongly causal, J^±(p) != {p}, and the pair of admissible measures, now discharged at E_0 by E0.modelMeasures"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1508-1510, at E_0, with strong causality (DEC-18), holds: E_0 satisfies every hypothesis of theo:geroch the library records, including a measure admissible in the future and one admissible in the past (Causal.E0.geroch_hypotheses). This is the first instance with a BTZ line; the only earlier one was the timelike line (sing = empty). The consumers of ModelMeasures are also non-vacuous at E_0: theo:geroch_sing (i)=>(ii) and (i)=>(iii) give a Cauchy time function and a Cauchy surface (Causal.E0.geroch_sing_i_imp_ii, geroch_sing_i_imp_iii; E0.globallyHyperbolic)."
+      ],
+      "questions": []
+    },
+    {
+      "label": "rem:mesure_unilaterale",
+      "tex_lines": [
+        1713,
+        1724
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.E0.mesure_unilaterale",
+        "Causal.E0.mesure_unilaterale_sharp",
+        "Causal.E0.lam3_add_lam1_not_null_future",
+        "Causal.E0.lam3_add_lam1_future_profile",
+        "Causal.E0.muMinus_not_null_future",
+        "Causal.E0.muPlus_not_pos_past"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a causal E_{>=0}-manifold (l.1716-1717)",
+          "here": "strengthened",
+          "note": "instance: M = E_0 (E0.isCausal); SingularFlatAxioms.mesure_unilaterale fed E0.singularFlatAxioms"
+        },
+        {
+          "paper": "p < q two BTZ points of one singular line (l.1717)",
+          "here": "carried",
+          "note": "the axis of E_0 is not empty (E0.singE0_zero_nonempty); the abstract theorem asks only sing_0 nonempty"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1713-1723, at E_0, holds. The ledger note 'No witness with a BTZ point' is stale: the remark is non-vacuous at E_0 (Causal.E0.mesure_unilaterale_sharp). Each one-sided notion is inhabited (muMinus in the past, muPlus in the future), and no measure is in both. 'Property 4 is the obstruction' (l.1715-1716) is concrete there. The segment ]0,1] of the axis lies in J^+(0) \\ K^+(0), and lambda_3 + lambda_1 charges it (lam3_add_lam1_not_null_future); this is the paper's computation of l.1719-1722. Meanwhile lambda_3 + lambda_1 satisfies properties 1 and 3 in the future (lam3_add_lam1_future_profile). Dually, muPlus fails property 3 in the past (muPlus_not_pos_past)."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.MeasuresE0.shear",
+    "Causal.MeasuresE0.unshear",
+    "Causal.MeasuresE0.measurePreserving_shear",
+    "Causal.MeasuresE0.unshear_shear",
+    "Causal.MeasuresE0.continuous_unshear",
+    "Causal.MeasuresE0.polarCoord_symm_eq",
+    "Causal.MeasuresE0.volume_eq_zero_of_ray_subsingleton",
+    "Causal.MeasuresE0.ray",
+    "Causal.MeasuresE0.norm_ofReal_mul_cexp",
+    "Causal.MeasuresE0.volume_eq_zero_of_shear_ray_subsingleton",
+    "Causal.E0.rad_ray",
+    "Causal.E0.polar_ray",
+    "Causal.E0.lt_ray",
+    "Causal.E0.ray_mem_interior_of_past",
+    "Causal.E0.ray_mem_interior_of_future",
+    "Causal.E0.frontier_ray_subsingleton_of_past",
+    "Causal.E0.frontier_ray_subsingleton_of_future",
+    "Causal.E0.volume_frontier_of_past",
+    "Causal.E0.volume_frontier_of_future",
+    "Causal.E0.volume_frontier_Iminus",
+    "Causal.E0.volume_frontier_Iplus",
+    "Causal.E0.volume_axis",
+    "Causal.E0.measurable_axisEmb",
+    "Causal.E0.lam1_apply",
+    "Causal.E0.axisSeg",
+    "Causal.E0.lam1_compl_axis",
+    "Causal.E0.lam1_singleton",
+    "Causal.E0.lam1_axisSeg",
+    "Causal.E0.volume_singleton",
+    "Causal.E0.volume_add_lam1_singleton",
+    "Causal.E0.volume_add_lam1_pos",
+    "Causal.E0.volume_add_lam1_axisSeg",
+    "Causal.E0.Iplus_subset_Kplus",
+    "Causal.E0.Iminus_subset_Kminus",
+    "Causal.E0.Jplus_diff_Kplus_subset_frontier",
+    "Causal.E0.mem_Kminus_of_lt_fcoord",
+    "Causal.E0.isGreatest_fcoord_of_mem_axis_inter",
+    "Causal.E0.axis_inter_Jminus_diff_Kminus_subsingleton",
+    "Causal.E0.axis_inter_Jminus_diff_Kminus_axis",
+    "Causal.E0.Jminus_diff_Kminus_subset",
+    "Causal.E0.pos_future_inter",
+    "Causal.E0.pos_future",
+    "Causal.E0.null_future",
+    "Causal.E0.pos_past_inter",
+    "Causal.E0.pos_past",
+    "Causal.E0.null_past",
+    "Causal.E0.lam3_not_pos_past",
+    "Causal.E0.muPlus_pos",
+    "Causal.E0.muMinus_pos",
+    "Causal.E0.muMinus_axisSeg",
+    "Causal.E0.admissiblePastOn_restrict",
+    "Causal.E0.admissibleFutureOn_restrict",
+    "Causal.E0.isFiniteMeasure_restrict_of_isCompact_closure",
+    "Causal.E0.geroch_sing_i_imp_ii",
+    "Causal.E0.geroch_sing_i_imp_iii"
+  ],
+  "kb_proposals": [
+    "Lebesgue-null frontiers at E_0 without charts: vertical lines tau -> (tau, z) are null in E_0, so ConeNull's vertical sections do not apply. Use the chronological curves r -> (u + r, r e^{i theta}) (Causal.E0.lt_ray), then the shear and polar coordinates: Causal.MeasuresE0.volume_eq_zero_of_shear_ray_subsingleton, Causal.E0.volume_frontier_of_past and _of_future (any <<-past or <<-future set, open or not).",
+    "To get a finite measure with the null sets of an s-finite one, use mu.toFinite (Mathlib.MeasureTheory.Measure.WithDensityFinite). The lemmas toFinite_absolutelyContinuous, absolutelyContinuous_toFinite and toFinite_apply_eq_zero_iff live in namespace MeasureTheory, not MeasureTheory.Measure. No Gaussian density is needed. A finite measure on R x C is Regular by instance (Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure).",
+    "Property 3 of defi:mesure_dieckmann does not pass to a causally convex open V by lem:restriction_convexe alone. Prove its local form, 0 < mu((J^-(q) \\ J^-(p)) cap W) for every open W containing q (Causal.E0.pos_past_inter, pos_future_inter). Then Causal.E0.admissiblePastOn_restrict_of and admissibleFutureOn_restrict_of restrict any measure with the right null sets.",
+    "ModelMeasures with a BTZ point is Causal.E0.modelMeasures (U = E_0). The paper's local form, lambda_3 + lambda_1 and lambda_3 restricted to a relatively compact causally convex U_p, is Causal.E0.paper_measures_local. mesure_admissible, geroch_hypotheses, mesure_unilaterale and geroch_sing_i_imp_ii/iii are instantiated at E_0 under the same names in Causal.E0.",
+    "Pitfall: pgrep -f \"lake build\", and even \"[l]ake build\", matches the waiting shell's own command line, so an until-loop on it never ends. Watch the build log tail or pgrep -x lake instead."
+  ],
+  "notes": "The file imports strict modules only (Causal.Port.ModelRowsE0, Causal.Port.E0ModelRows, Causal.SingularGeroch) plus mathlib (PolarCoord, WithDensityFinite, Lebesgue.Complex). It can graduate to Causal/Port/MeasuresE0.lean with no import rewrite. It is not yet imported by the scaffold root (kb/0025): the master adds it. It has no sorry, typechecks with -DwarningAsError=true, and lake build CausalScaffold.MeasuresE0 rebuilt only that module. #print axioms (in a /tmp copy, since deleted) is [propext, Classical.choice, Quot.sound] for modelMeasures, mesure_admissible, geroch_hypotheses, mesure_unilaterale, mesure_unilaterale_sharp, lam3_future, lam3_add_lam1_past, lam3_not_pos_past, modelMeasures_local, measurePreserving_shear, axis_inter_Jminus_diff_Kminus_subsingleton, frontier_ray_subsingleton_of_past/future and admissiblePast/FutureOn_restrict. The five instances (SFinite lam1, IsFiniteMeasureOnCompacts lam1 and volume + lam1, IsFiniteMeasure muPlus and muMinus) are anonymous: do not curate them (kb/0015 item 5). Namespaces: the E_0 statements are in Causal.E0, next to E0.singularFlatAxioms; there is no clash, since the strict Causal.E0.geroch_hypotheses_of_singularFlat is distinct from the new Causal.E0.geroch_hypotheses. The measure theory on R x C is in Causal.MeasuresE0. Stale ledger text to refresh at curation: rem:mesure_unilaterale's 'No witness with a BTZ point' and prop:mesure_admissible's blocker 'measures in charts (ModelMeasures)'. At E_0 that blocker is discharged; it remains for every E_{>=0}-manifold. Geroch_sing_i_imp_ii/iii at E_0 are non-vacuity witnesses for theo:geroch_sing, not anchors of my labels. While I started, another loop's 'lake build Causal' was rebuilding the strict library (Causal/CauchyExtension.lean modified), and Causal.CauchyExtension.olean was briefly missing. I waited for it to finish and never touched it."
+}

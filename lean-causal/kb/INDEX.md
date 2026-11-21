@@ -151,3 +151,8 @@ rediscover. One fact per entry.
 | [0143](entries/0143-direct-limits-trimming-curves.md) | pattern | Direct limits and trimming of curves over intervals |
 | [0144](entries/0144-transfinite-recursion-in-proof.md) | pattern | Transfinite recursion inside a proof, and dependent maps φ i j (h : r i j) |
 | [0145](entries/0145-def-needs-open-classical.md) | pitfall | A def needs open Classical for dif_pos |
+| [0146](entries/0146-null-frontiers-e0-without-charts.md) | pattern | Lebesgue-null frontiers at E₀ without charts: chronological rays, the shear, polar coordinates |
+| [0147](entries/0147-tofinite-same-null-sets.md) | pattern | A finite measure with the null sets of an s-finite one: Measure.toFinite |
+| [0148](entries/0148-property3-local-form.md) | pitfall | Property 3 of an admissible measure does not restrict to a causally convex open set by itself |
+| [0149](entries/0149-model-measures-e0.md) | pattern | ModelMeasures with a BTZ point: Causal.E0.modelMeasures |
+| [0150](entries/0150-pgrep-matches-itself.md) | pitfall | `pgrep -f "lake build"` matches the waiting shell itself |
