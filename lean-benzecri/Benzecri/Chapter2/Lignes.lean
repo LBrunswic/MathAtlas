@@ -121,7 +121,7 @@ component `D` of `N` in the union of the other members is the union of the membe
   7° and Prop. 6 are vacuous for `n = 0`.
 * **7° is a lemma, not marked**: its row is T-bz-c2-proprietes (OQ-38). For Prop. 6 the
   segments are majorised by `log K` while 7° assumes `l_V < log K`; `septieme_majore` takes the
-  majorised form, from which 7° follows (`exists_isMajoreSeg_of_pseudoLength_lt`).
+  majorised form, from which 7° follows (`exists_isMajoreSeg_of_pseudoLength_lt`, `Mesure.lean`).
 * Tools for later targets (T-bz-c2-compact): `ligne_brisee`, `ligne_brisee_of_recouvrement`
   (with the line inside the covering), `IsLigneBrisee.append`, `.mono`, `.left_mem`,
   `.right_mem`; `IsPocheProj.ligne_brisee_poche` gives `B ∈ P` and `L ⊆ P` for every pocket.
@@ -889,14 +889,6 @@ theorem IsPocheProj.septieme_majore (hP : IsPocheProj P l φ z) {Sg : Set V} {M 
       exact (neg_le_abs _).trans_lt hlogr
 
 end Septieme
-
-/-- A pseudo-length below `c` is witnessed by a majorising `k < c`. -/
-theorem exists_isMajoreSeg_of_pseudoLength_lt {n : ℕ} {V : Type u} [TopologicalSpace V]
-    [ChartedSpace (S n) V] {Sg : Set V} {M N : V} {c : EReal} (h : pseudoLength n Sg M N < c) :
-    ∃ k : ℝ, (k : EReal) < c ∧ IsMajoreSeg n k Sg M N := by
-  obtain ⟨k, hk⟩ := iInf_lt_iff.1 h
-  obtain ⟨hmaj, hk'⟩ := iInf_lt_iff.1 hk
-  exact ⟨k, hk', hmaj⟩
 
 section Septieme2
 

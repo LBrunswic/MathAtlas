@@ -331,6 +331,15 @@ theorem pseudoLength_le {k : ℝ} {Sg : Set V} {M N : V} (h : IsMajoreSeg n k Sg
     pseudoLength n Sg M N ≤ k :=
   iInf₂_le k h
 
+/-- A pseudo-length below `c` is witnessed by a majorising `k < c`. The one copy of this fact
+(T-bz-c2-dedupe-majore): `isMajoreSeg_iff_pseudoLength_lt` (`PseudoBoules.lean`) and 7°
+(`IsPocheProj.septieme_propriete`, `Lignes.lean`) use it. -/
+theorem exists_isMajoreSeg_of_pseudoLength_lt {Sg : Set V} {M N : V} {c : EReal}
+    (h : pseudoLength n Sg M N < c) : ∃ k : ℝ, (k : EReal) < c ∧ IsMajoreSeg n k Sg M N := by
+  obtain ⟨k, hk⟩ := iInf_lt_iff.1 h
+  obtain ⟨hmaj, hk'⟩ := iInf_lt_iff.1 hk
+  exact ⟨k, hk', hmaj⟩
+
 /-- **1°, first half: `l_V(M, N) ≥ 0`.** -/
 theorem pseudoLength_nonneg (Sg : Set V) (M N : V) : 0 ≤ pseudoLength n Sg M N := by
   refine le_iInf₂ fun k hk => ?_

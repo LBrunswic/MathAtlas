@@ -266,11 +266,8 @@ theorem isMajoreSeg_iff_pseudoLength_lt {k : ℝ} {Sg : Set V} {M N : V} :
       isMajoreSeg_iff_exists_chart.2 ⟨hseg, Sg₁, A, B, hseg₁, hsub, φ, hφ, hS, hk'⟩
     exact (pseudoLength_le hmaj).trans_lt hk'k
   · intro h
-    rw [pseudoLength, iInf_lt_iff] at h
-    obtain ⟨k', hk'⟩ := h
-    rw [iInf_lt_iff] at hk'
-    obtain ⟨hmaj, hlt⟩ := hk'
-    exact hmaj.mono (EReal.coe_le_coe_iff.1 hlt.le)
+    obtain ⟨k', hk', hmaj⟩ := exists_isMajoreSeg_of_pseudoLength_lt h
+    exact hmaj.mono (EReal.coe_le_coe_iff.1 hk'.le)
 
 /-- **The pseudo-ball is the set of points at pseudo-length `< r` along some segment from `M`.** -/
 theorem mem_pseudoBoule_iff {M N : V} {r : ℝ} :
