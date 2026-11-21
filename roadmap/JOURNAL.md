@@ -198,12 +198,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 04:10–04:30 (Paris); agents: 1 (planner, alone)
 - next: wave: T-texgraph-proof-titles (master), T-bz-c2-compact, T-egf-sampling-corollaries (2 closers while /ett-programme runs 4 agents)
 
-## 2026-11-21 05:45 · wave of 3 · T-texgraph-proof-titles, T-bz-c2-compact, T-egf-sampling-corollaries
+## 2026-11-21 05:15 · wave of 3 · T-texgraph-proof-titles, T-bz-c2-compact, T-egf-sampling-corollaries
 - T-texgraph-proof-titles (master): texgraph links « Proof of Theorem~\ref », « of Kind \ref » and lone-\ref titles; five proofs reattached (yamabe l.640, 723, 731; gx l.756, 2068); ledger check refuses a title naming no statement (fixture, tests); only yamabe and gx ledgers changed; curation for cor:negative (joint proof), lem:spread_top (its proof after a remark), thm:lower-bound (companion paper)
 - T-bz-c2-compact: Prop. 7 and its corollary closed in every dimension (independent of OQ-45 and OQ-61); not vacuous (the audit's ℝⁿ example); audit minor
 - T-egf-sampling-corollaries: cor:sampling_error_control closed (on OQ-60); cor:pinsker_negative_control false as printed (δf_init's sign), corrected forms proved, Pinsker ported verbatim with Mathlib's klDiv; OQ-66; audit minor
 - gates: lean-benzecri ✓, lean-egf ✓, roadmap ✓, atlas ✓, hub: papers_check all green; gate-tests red is /ett-programme's in-flight ladder (its lease)
 - commits: d0488e5 (plan) e9925bb c65e6f0 5c5e6c6 8b6e305 58fdb39 (+ this)
-- wall time: 04:35–05:45 (Paris); agents: 2 closers, 2 audits (while /ett-programme ran 3–4 agents)
+- wall time: 04:35–05:15 (Paris); agents: 2 closers, 2 audits (while /ett-programme ran 3–4 agents)
 - new OQ: 66 (the Pinsker δ sign)
 - next: wave outside lean-causal: T-bz-c2-hemisphere, T-syr-upper-bounds, T-bz-c2-prop2-literal; master T-bz-c2-dedupe-majore (exclusive, when lean-benzecri is idle)
