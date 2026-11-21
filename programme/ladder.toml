@@ -1,61 +1,97 @@
 # The causality ladder of ETT: a DAG of causal-topological properties, with consequences at every level.
 #
-# Checked by `python3 tools/ladder.py check`; Lean automation generated from it by
-# `python3 tools/ladder.py emit-lean` (Causal/Ladder/Rules.lean, the `causal_ladder` tactic's rules).
+# Checked by `python3 tools/ladder.py check`, classified by `python3 tools/ladder.py matrix`; Lean
+# automation generated from it by `python3 tools/ladder.py emit-lean` (Causal/Ladder/Rules.lean, the
+# `causal_ladder` tactic's rules, and its tests Causal/Ladder/Test.lean). The schema of record is the
+# docstring of tools/ladder.py (T-tool-ladder-py, 2026-11-21): a key or table it does not list is a
+# violation. In short:
 #
-# [[property]]  id, lean (the Causal definition), label (ETT ledger label, if any), what (one line),
-#               sort (optional: "geometry" or "pair"; absent means "causality", see below)
-# [[implies]]   from (list of ids, read as a conjunction), to (id), witness (Lean theorem),
-#               under (side conditions that are not ladder nodes, in words), status seed|checked
-# [[fails]]     from, to, witness (a Lean counterexample: a space with `from` and not `to`), status
-# [[consequence]] at (id), statement (one line), witness (Lean theorem),
-#               under (the witness's other hypotheses, ladder ids named as such, in words), status
-# [[open]]      from, to, note: a pair whose implication is neither proved nor refuted
+# [[property]]    id, lean (the Causal definition), what (one line); label (an ETT ledger label, if
+#                 any); sort ("causality", the default when absent; "geometry"; "pair": below)
+# [[implies]]     from (an id or a list, read as a conjunction), to, witness (a Lean theorem), status;
+#                 standing (words for hypotheses on M that are no ladder node: below); under (a side
+#                 condition in words: none is left, below)
+# [[fails]]       from (an id or a list: the counterexample has every one), to, witness (a Lean
+#                 counterexample: a space with `from` and not `to`), status; space (the words its
+#                 space satisfies; absent: the ambient, i.e. it is one of ETT's spacetimes)
+# [[consequence]] at (an id or a list, read as a conjunction, of one sort), statement (one line),
+#                 witness, status; under (the witness's other hypotheses in words, ladder ids named as
+#                 such); standing
+# [[transfer]]    pair (a pair-sort id: C nested in C', C the narrower), property (a causality-sort
+#                 id), direction (to_narrower: C' has it, hence C; to_wider: C has it, hence C'),
+#                 narrower and wider (causality-sort ids asked besides of C and of C'), exactly one of
+#                 witness (with standing) or counterexample (with space), status; under
+# [[open]]        from, to, note: a pair whose implication is neither proved nor refuted in Lean
 #
-# status `seed`: the witness name exists, but its side conditions have not been read against the edge;
-# the ladder-keeper reads them and turns the edge `checked` (or fixes `under`).
+# status `seed`: the witness name exists, but its hypotheses have not been read against the entry;
+# the ladder-keeper reads them and turns it `checked` (or fixes `from`, `standing`, `under`).
 #
-# Names are written fully qualified (`Causal.Causality.…`, `Causal.Precausality.…`), as the ETT ledger
-# lists its declarations; each was resolved by the Lean elaborator (`#check`) on 2026-11-20.
+# Names. Every Lean name (a property's `lean`, a witness, a counterexample) is the FULL name of a
+# declaration of lean-causal/Causal, written fully qualified (`Causal.Causality.…`,
+# `Causal.Precausality.…`) as the ETT ledger lists its declarations. tools/ladder.py resolves it
+# namespace-exactly, by reading the sources (namespace and section blocks, comments blanked): a dotted
+# suffix of a full name is not enough. Each `label` is checked against papers/ett/ledger/ledger.json.
 #
-# `under` is NOT read by the closure (`check`, `matrix`): it chains an edge with `under` as if it were
-# unconditional; emit-lean reads `under` only to skip such an edge (no rule). Since T-lad-local-nodes
-# (2026-11-21) the `under` of an [[implies]] holds only separation and countability axioms, which the
-# Lean takes as instances ([T1Space M], [T2Space M], [SecondCountableTopology M]). ETT's topological
-# spacetimes are second countable Hausdorff (def:category_topological_spacetimes, ETT.tex:255), so
-# these are standing assumptions of the paper and the closure through them is exact on ETT's
-# spacetimes; a non-Hausdorff counterexample (branching spaces) must not be read against such an edge.
-# The localisation hypotheses that sat in `under` until then (local push-up, local causal openness in
-# the future and two-sided, chronal neighbours in every open set) are ladder nodes since that target,
-# defined in Causal/LadderLocal.lean, and stand in `from`: no edge is chained beyond what its witness
-# proves. Pairs classified only through an edge with `under`: before T-lad-local-nodes 9 of 29
-# (7 through a localisation `under`: causally_arc_connected ⇒ push_up, causally_open,
-# causally_open_future; absolutely_minimal ⇒ causally_open, causally_open_future; push_up ⇒
-# causally_open, causally_open_future; 2 through T1: strongly_causal, strongly_causal_open ⇒
-# is_causal); after it 2 of 44, the two through T1 (the seven are [[open]] entries since); after
-# T-lad-gh-causal (2026-11-21) the same 2, of 82 (is_causal ⇏ causally_compact is recorded directly,
-# not through strongly_causal ⇒ is_causal); after T-lad-plain-separations (2026-11-21) the same 2, of
-# 98 classified (92 of the 306 pairs within the causality sort): its edge absolutely_minimal ∧
-# causally_plain ⇒ push_up carries T1 and classifies no pair, since no property implies both premises.
+# The ambient and `standing`. ETT's topological spacetimes are Hausdorff and second countable
+# (def:category_topological_spacetimes, ETT.tex:255): with no [ambient] table the ladder is read on
+# the spaces with T2 and second_countable, closed under the vocabulary's implications (T0, T1, T2,
+# second_countable, first_countable, separable). `standing` lists the hypotheses on M that are not
+# ladder nodes, each a word of tools/ladder.py's vocabulary for a Mathlib class that the witness takes
+# as an instance argument (T1 [T1Space M], T2 [T2Space M], second_countable
+# [SecondCountableTopology M], connected [ConnectedSpace M], …). The closure chains an edge exactly
+# where its standing holds: on the ambient for `matrix`; on a counterexample's `space` for that
+# counterexample, so a non-Hausdorff counterexample (branching spaces) says `space = ["T1"]` or less
+# and is not read against an edge asking T2. A pair reached only through an edge whose standing
+# exceeds the ambient (e.g. connected) is `implied-standing`, not counted as classified. emit-lean
+# makes a CausalLadder rule of an edge with standing (aesop synthesises the instances, and the rule
+# does not fire where they are not in context), and its Test.lean derives such a pair with exactly
+# those instances and checks it is not derived without them: Lean checks each `standing` against
+# its witness.
+#
+# `under`. On an [[implies]] `under` is a side condition in words that is no ladder node: the closure
+# does NOT read it (an edge with `under` and no `standing` is chained as unconditional) and emit-lean
+# skips the edge. So no [[implies]] carries one. Until T-lad-local-nodes (2026-11-21) it held
+# localisation hypotheses (local push-up, local causal openness in the future and two-sided, chronal
+# neighbours in every open set), which are ladder nodes since, defined in Causal/LadderLocal.lean,
+# and stand in `from`; until T-lad-classify-core (2026-11-21) it held the four separation and
+# countability hypotheses, which are `standing` since (strongly_causal ⇒ is_causal and
+# absolutely_minimal ∧ causally_plain ⇒ push_up: T1; globally_hyperbolic ∧ tarentin ⇒
+# strongly_causal: T2; Levin, globally_hyperbolic ∧ tarentin ⇒ time_function: T2, second_countable).
+# All four are ambient, so the closure through them is exact on ETT's spacetimes. On a
+# [[consequence]] `under` keeps the witness's other hypotheses in words (a consequence chains nothing;
+# its separation words may move to `standing`, a later pass). On a [[transfer]] `under` is read as on
+# an [[implies]]: the contradiction check does not see it, so a transfer proved only under a condition
+# in words that a recorded counterexample lacks stays a [[consequence]] (globally_hyperbolic along
+# le_nested, with closed diamonds).
+#
+# Sorts and the matrix. `check` and `matrix` read `sort`. A pair joining two sorts is ill-typed
+# (neither implication is a statement): it is not counted among the pairs to classify, and no
+# [[implies]], [[fails]], [[open]] entry or consequence joins two sorts. Within one sort every ordered
+# pair (a, b) is implied (b in the closure of a), fails (a counterexample has a, through the closure
+# valid on its space, and lacks b, i.e. lacks an id b implies), open, implied-standing or unknown.
+# A conjunctive `from` of a [[fails]] refutes each single id its counterexample has. A conjunctive
+# premise of an [[implies]] chains only when all its ids hold, and the matrix asks single premises:
+# such an edge classifies a pair only through a property implying all its premises (the edge
+# absolutely_minimal ∧ causally_plain ⇒ push_up classifies none), and a counterexample is never read
+# backwards through one (the rational line, absolutely minimal and not causally open in the future,
+# is not locally causally open in the future by absolutely_minimal ∧ locally_causally_open_future ⇒
+# causally_open_future, which the matrix does not see: an [[open]] entry wants that Lean statement).
+# Classified pairs, within one sort since T-tool-ladder-py: 98 of 314 (92 of the 306 causality-sort
+# pairs) after T-lad-plain-separations; 312 of 314 after T-lad-classify-core, of which 131 implied or
+# refuted and 181 [[open]] causality-sort entries with what each is missing (the end of the file);
+# the 2 left are the geometry-sort pairs germ_extension, cauchy_slice → rigid (below).
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
-# described after `geometry`, and what is said here of two sorts holds of any two. A property of sort
-# `causality` (the default: no `sort` field) has a Lean definition that is a predicate on one
-# causality C on a topological space M; implications, counterexamples, `open` entries and the matrix
-# are about these.
+# described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
+# definition that is a predicate on one causality C on a topological space M; most entries are about
+# these.
 # A property of sort `geometry` (`sort = "geometry"`) has a Lean definition that is a predicate on the
 # structures and morphisms of a geometry, Causal.CBG.Geometry (Level A) or Causal.CBG.LocalModel
 # (Level B), not on one causality: `rigid` (A1: a predicate on a class of morphisms), `germ_extension`
 # (A3) and `cauchy_slice` (A4), the localisation properties of Sbierski's MGHD argument
 # (lean-causal/docs/CBG-DESIGN.md §2). They are [[property]] entries because tools/binder.py takes the
 # ids a binder may name from [[property]] only.
-# * `check` and `matrix` do not read `sort` (they ignore keys they do not know); emit-lean does (last
-#   item). `matrix` therefore lists every pair joining the two sorts as `unknown`: such a pair is
-#   ill-typed (neither implication is a statement), it is neither open nor a gap. Read the matrix
-#   within one sort; `check`'s "k of n ordered pairs classified" counts n over all ordered pairs, the
-#   ill-typed ones included.
-# * No [[implies]], [[fails]] or [[open]] entry joins two sorts. A property of one sort enters an
-#   edge or a consequence of another only through `under`, in words.
+# * A property of one sort enters an edge or a consequence of another only through `under`, in words.
 # * Within the geometry sort a pair is read at Level B (a local model 𝔐; `rigid` then means
 #   IsRigidFor (𝔐.IsMor s t) for all structures s, t with Hausdorff target). At Level A all three
 #   are fields of Causal.CBG.Geometry and hold outright.
@@ -64,9 +100,9 @@
 # * No geometry-sort [[implies]] is recorded. At Level B, `germ_extension` ⇒ `rigid` and
 #   `cauchy_slice` ⇒ `rigid` hold with the premise unused: every local model is rigid
 #   (Causal.CBG.eqOn_of_liftPropOn, from the field LocalModel.rigid). A premise-free fact is not an
-#   edge, so these two pairs stay `unknown`. emit-lean reads `sort`: an edge joining a property not of
-#   the sort `causality` is never a CausalLadder rule (the rules are about one causality), only a
-#   skipped-edge comment line in Rules.lean.
+#   edge, so these two pairs stay `unknown` (neither open nor a gap). emit-lean makes no CausalLadder
+#   rule of an edge joining a property not of the sort `causality` (the rules are about one
+#   causality), only a skipped-edge comment line in Rules.lean.
 #
 # A property of sort `pair` (`sort = "pair"`, T-lad-nested-nodes) has a Lean definition that is a
 # predicate on TWO causalities C, C' of one topological space M, a nesting: "C is nested in C'", C the
@@ -80,34 +116,41 @@
 #   when none is named); it passes to every open V ⊆ W (consequence Causal.Causality.CurveNestedOn.mono),
 #   so at W = M it is curve nesting on every open.
 # * Within the pair sort an entry keeps C and C' fixed: `le_nested ⇒ curve_nested` reads
-#   LeNested C C' ⇒ CurveNestedOn C C' W for every open W.
-# * A causality-sort property in a pair-sort entry is asked of ONE of the two causalities, and `under`
-#   says which ("of C", the narrower; "of C'", the wider). What a nesting does is transfer: a
-#   consequence at a pair property takes causality-sort properties of one causality to the other,
-#   typically from the wider C' to the narrower C. When the transfer is sharp (it fails without its
-#   extra hypothesis) the counterexample cannot be a [[fails]] entry, which would join two sorts: it is
-#   named in the comment above the consequence.
+#   LeNested C C' ⇒ CurveNestedOn C C' W for every open W, and the [[fails]] curve_nested ⇏ le_nested
+#   is a pair (C, C') curve-nested and not ≤-nested.
+# * What a nesting does is transfer: a causality-sort property of one causality passes to the other.
+#   Since T-lad-classify-core a transfer with no condition in words is a [[transfer]] entry (direction,
+#   the ids asked besides of each causality, a witness or a counterexample; `check` refuses a
+#   counterexample that satisfies the hypotheses of a proved transfer of the same property and
+#   direction along a nesting it implies). A transfer under a condition that is no node, and every
+#   other theorem about a nesting, is a consequence at the pair property, its `under` saying of which
+#   causality each ladder id is asked ("of C", the narrower; "of C'", the wider).
 # * emit-lean makes no CausalLadder rule of a pair-sort edge (emitted() skips any edge with a property
-#   not of the sort `causality`; a skipped-edge comment line in Rules.lean), and asks `lean_form` of no
+#   not of the sort `causality`; a skipped-edge comment line in Rules.lean), asks `lean_form` of no
 #   pair property (emit_test keeps the sort `causality` only; LeNested's binder `C C' : Causality M`
-#   would otherwise be misread as one causality).
+#   would otherwise be misread as one causality), and reads no [[transfer]].
 # * Not nodes: Causal.Causality.LtNested (≪-nesting; no theorem of the library uses it) and
 #   Causal.Causality.InextensibleNestedOn, whose node waits on OQ-41 (b) (T-lad-nested-inextensible);
 #   the latter appears below in words only, as the conclusion of a consequence at `curve_nested`.
 #
-# The names added on 2026-11-20 by T-lad-cbg-geometry-nodes and by T-lad-nested-nodes were resolved by
-# `#check` against the library as built that day (lake env lean, no build); so were those added on
-# 2026-11-21 by T-lad-local-nodes (the four localisation nodes, their eight edges, the lightlike
-# line's counterexamples), with their signatures: none takes a separation instance; and so were those
-# added on 2026-11-21 by T-lad-gh-causal (the node causally_compact, its three edges, time_function ⇒
-# is_causal, the half-plane's counterexamples, the consequences at is_causal and causally_compact),
-# with their signatures: no edge witness takes a separation instance; the consequences' instances
-# are in their `under`; and so were the two witnesses switched on 2026-11-21 for
+# Provenance of the names. Those added on 2026-11-20 by T-lad-cbg-geometry-nodes and by
+# T-lad-nested-nodes were resolved by `#check` against the library as built that day (lake env lean,
+# no build); so were those added on 2026-11-21 by T-lad-local-nodes (the four localisation nodes,
+# their eight edges, the lightlike line's counterexamples), with their signatures: none takes a
+# separation instance; by T-lad-gh-causal (the node causally_compact, its three edges, time_function
+# ⇒ is_causal, the half-plane's counterexamples, the consequences at is_causal and causally_compact),
+# with their signatures: no edge witness takes a separation instance; the two witnesses switched for
 # T-abs-hoist-time-function (Causal.Causality.HasTimeFunction.curvesExtend, .isCausal: each
-# {M} [TopologicalSpace M] {C : Causality M}, C.HasTimeFunction → …, no other premise); and so were
-# those added on 2026-11-21 by T-lad-plain-separations (the edge absolutely_minimal ∧ causally_plain
-# ⇒ push_up, whose witness takes [T1Space M], in its `under`; seven counterexamples, closed
-# statements about Causal.lightlikeLine and Causal.deuxPushup, and the split halves named beside them).
+# {M} [TopologicalSpace M] {C : Causality M}, C.HasTimeFunction → …, no other premise); those of
+# T-lad-plain-separations (the edge absolutely_minimal ∧ causally_plain ⇒ push_up, whose witness takes
+# [T1Space M]; seven counterexamples, closed statements about Causal.lightlikeLine and
+# Causal.deuxPushup, and the split halves named beside them); and those of T-lad-classify-core
+# (2026-11-21: the counterexamples on the rational, spacelike, isolated and lightlike lines and
+# Galileo's spacetime, the pointed line's pair-sort counterexample, the seven transfers, the three
+# consequences at curve_nested, and every Lean name its comments cite), from Causal.NestedConverse,
+# Causal.NestedTransfer (strict library since 8044439, f868749) and older modules; the four
+# standings were read against their witnesses' instance binders, and the dry run of emit-lean
+# (Rules and Test compiled from one /tmp file) checks them.
 
 [[property]]
 id = "is_causal"
@@ -312,12 +355,13 @@ what = "C is curve-nested in C' on an open W: every future causal curve of W for
 
 # ------------------------------------------------------------------ implications
 
-# rem:topological_spacetime_strongly_causal. Side condition: T1 (the paper has Hausdorff).
+# rem:topological_spacetime_strongly_causal. Standing: T1 (the paper has Hausdorff), the witness's
+# [T1Space M]; `under` until T-lad-classify-core (2026-11-21).
 [[implies]]
 from = ["strongly_causal"]
 to = "is_causal"
 witness = "Causal.Causality.StronglyCausal.isCausal"
-under = "M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff"
+standing = ["T1"]
 status = "checked"
 
 # Fixed 2026-11-20 (T-lad-seed-check): the seed had `from = ["strongly_causal"]`; the witness also
@@ -338,12 +382,13 @@ status = "checked"
 
 # prop:GH_fortement_causal (DEC-7). Fixed 2026-11-20 (T-lad-seed-check): the seed had
 # `from = ["globally_hyperbolic"]`; the witness also assumes tarentin (a ladder node, joins `from`)
-# and Hausdorff (`under`), exactly the paper's hypotheses.
+# and Hausdorff, exactly the paper's hypotheses. Standing: T2, the witness's [T2Space M] (`under`
+# until T-lad-classify-core).
 [[implies]]
 from = ["globally_hyperbolic", "tarentin"]
 to = "strongly_causal"
 witness = "Causal.Causality.GloballyHyperbolic.stronglyCausal"
-under = "M Hausdorff ([T2Space M])"
+standing = ["T2"]
 status = "checked"
 
 # cor:causalement_connexe_minimal. No side condition.
@@ -369,8 +414,9 @@ status = "checked"
 # interpolatesOn_of_absolutelyMinimalOn: cover U by the complements of the two end points), and
 # plainness with interpolation is push-up (pushUpOn_of_causallyPlainOn_of_interpolatesOn). Read
 # 2026-11-21 (`#check`): {M} [TopologicalSpace M] {C : Causality M} [T1Space M], C.AbsolutelyMinimal →
-# C.CausallyPlain → C.PushUp, no other premise; T1 in `under`, as for strongly_causal ⇒ is_causal, so
-# emit-lean skips it (no rule). Not a theorem of the paper: the remark prints "neither implies the
+# C.CausallyPlain → C.PushUp, no other premise; T1 in `standing` (in `under` until
+# T-lad-classify-core, which made emit-lean skip it), as for strongly_causal ⇒ is_causal. Not a
+# theorem of the paper: the remark prints "neither implies the
 # other", and this is why its witness of plainness without push-up (deuxPushup, counterexamples below)
 # is not absolutely minimal. absolutely_minimal cannot be dropped (deuxPushup: causally_plain ⇏
 # push_up); whether causally_plain can is the unknown pair absolutely_minimal → push_up (no Lean model
@@ -382,7 +428,7 @@ status = "checked"
 from = ["absolutely_minimal", "causally_plain"]
 to = "push_up"
 witness = "Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal"
-under = "M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff"
+standing = ["T1"]
 status = "checked"
 
 # Lemma K's route to causal openness (DEC-93; no ETT label). Replaced 2026-11-21 (T-lad-local-nodes):
@@ -511,7 +557,9 @@ to = "is_causal"
 witness = "Causal.Causality.HasTimeFunction.isCausal"
 status = "checked"
 
-# Levin's theorem (Causal/LevinUtility.lean), no measure. The witness's conclusion is HasTimeFunction's
+# Levin's theorem (Causal/LevinUtility.lean), no measure. Standing: T2 and second countable, the
+# witness's [T2Space M] [SecondCountableTopology M] (`under` until T-lad-classify-core); ETT's
+# spacetimes are both (ETT.tex:255). The witness's conclusion is HasTimeFunction's
 # body with monotonicity along ≤ added. Composed with the edge above it is
 # Causal.Causality.curvesExtend_of_secondCountable (not recorded separately). The Geroch route,
 # Causal.Causality.geroch_i_imp_ii (a Cauchy time function, under causal arc-connectedness,
@@ -520,7 +568,7 @@ status = "checked"
 from = ["globally_hyperbolic", "tarentin"]
 to = "time_function"
 witness = "Causal.Causality.exists_timeFunction_of_secondCountable"
-under = "M Hausdorff and second countable ([T2Space M] [SecondCountableTopology M]); ETT's spacetimes are both (ETT.tex:255)"
+standing = ["T2", "second_countable"]
 status = "checked"
 
 # ---- implications of the pair sort (header): C and C' fixed.
@@ -760,6 +808,139 @@ status = "checked"
 from = "causally_plain"
 to = "absolutely_minimal"
 witness = "Causal.deuxPushup_not_absolutelyMinimal"
+status = "checked"
+
+# ---- T-lad-classify-core (2026-11-21): counterexamples with a conjunctive `from` (the counterexample
+# has every id; through the closure valid on its space, everything they chain). Each witness and each
+# other half named was read with the Lean elaborator on 2026-11-21 (typed `example`s and `#check`,
+# lake env lean on a file outside the tree; statements quoted in the comments); every space is ℝ or
+# ℝ × ℝⁿ, Hausdorff and second countable, so no `space` is written.
+
+# The rational line (Causal.rationalLine, Causal/NestedConverse.lean: x ≤_U y iff x = y ∈ U, or
+# x < y both rational with [x, y] ⊆ U; ≪ empty). Causal.rationalLine_separates_absolutelyMinimal
+# conjoins AbsolutelyMinimal ∧ IsCausal ∧ PushUp ∧ ¬ CausallyArcConnected ∧ ¬ CausallyOpenFuture ∧
+# ¬ CausallyOpen: one statement, three entries (the third, causally_open, is also reached through
+# causally_open ⇒ causally_open_future, and is kept because the witness states it). The first Lean
+# model that is absolutely minimal and not causally open: it settles the [[open]] entries
+# absolutely_minimal → causally_open_future, → causally_open and push_up → causally_open_future,
+# → causally_open (removed), and through push_up ⇒ locally_push_up refutes locally_push_up ⇒
+# causally_arc_connected, causally_open_future, causally_open. By the edge absolutely_minimal ∧
+# locally_causally_open_future ⇒ causally_open_future the rational line is not locally causally
+# open in the future either; the matrix does not read an edge backwards through a conjunction and no
+# Lean name states it, so absolutely_minimal → locally_causally_open_future is an [[open]] entry (end
+# of the file) that wants Causal.rationalLine_not_locallyCausallyOpenFuture.
+[[fails]]
+from = ["absolutely_minimal", "is_causal", "push_up"]
+to = "causally_arc_connected"
+witness = "Causal.rationalLine_separates_absolutelyMinimal"
+status = "checked"
+
+[[fails]]
+from = ["absolutely_minimal", "is_causal", "push_up"]
+to = "causally_open_future"
+witness = "Causal.rationalLine_separates_absolutelyMinimal"
+status = "checked"
+
+[[fails]]
+from = ["absolutely_minimal", "is_causal", "push_up"]
+to = "causally_open"
+witness = "Causal.rationalLine_separates_absolutelyMinimal"
+status = "checked"
+
+# The spacelike line (Causal.spacelikeLine, Causal/Lines.lean: ≤_U the diagonal of U, ≪ empty), the
+# first globally hyperbolic model of the library that is not tarentin (every open diamond is empty,
+# Causal.spacelikeLine_openDiamond). Causal.spacelikeLine_separates_tarentin_full (Causal/
+# NestedTransfer.lean) conjoins GloballyHyperbolic ∧ StronglyCausalOpen ∧ PushUp ∧ CausallyOpen ∧
+# AbsolutelyMinimal ∧ HasTimeFunction ∧ ¬ Tarentin. Through the closure also is_causal,
+# causally_compact, strongly_causal, causally_open_future, the three local forms and curves_extend
+# ⇏ tarentin. The pair causally_arc_connected → tarentin is the isolated line's entry below (the
+# spacelike line is causally arc-connected too, Causal.spacelikeLine_causallyArcConnected, but not
+# in this conjunction).
+[[fails]]
+from = ["globally_hyperbolic", "strongly_causal_open", "push_up", "causally_open", "absolutely_minimal", "time_function"]
+to = "tarentin"
+witness = "Causal.spacelikeLine_separates_tarentin_full"
+status = "checked"
+
+# The spacelike line is not causally plain (Causal.spacelikeLine_not_causallyPlain,
+# Causal/Lines.lean, rem:droites_pas_plates: J⁺(M) = M while I⁺(M) = ∅). Split as for the gated
+# line: the witness is the half ¬ CausallyPlain, the other halves
+# Causal.spacelikeLine_globallyHyperbolic, spacelikeLine_stronglyCausalOpen, spacelikeLine_pushUp,
+# spacelikeLine_causallyOpen, spacelikeLine_absolutelyMinimal, spacelikeLine_hasTimeFunction (the
+# conjuncts of spacelikeLine_separates_tarentin_full) and spacelikeLine_causallyArcConnected
+# (Causal/NestedConverse.lean). Beside the lightlike line's last entry below, a second witness of
+# strongly_causal_open, time_function, curves_extend ⇏ causally_plain, and one that needs no edge
+# with a standing.
+[[fails]]
+from = ["globally_hyperbolic", "strongly_causal_open", "push_up", "causally_open", "absolutely_minimal", "time_function", "causally_arc_connected"]
+to = "causally_plain"
+witness = "Causal.spacelikeLine_not_causallyPlain"
+status = "checked"
+
+# The line with a chronologically isolated origin (Causal.isolatedLine, Causal/LocateExtension.lean:
+# the timelike line of ℝ ∖ {0}, 0 related to itself only). Causal.tarentin_and_plain_needed conjoins,
+# in its second component, isolatedLine.CausallyArcConnected ∧ isolatedLine.CausallyPlain ∧
+# ¬ isolatedLine.Tarentin. Through causally_arc_connected ⇒ absolutely_minimal also absolutely_minimal
+# ⇏ tarentin. It is causally open too (Causal.isolatedLine_causallyOpen), not conjoined; the
+# spacelike line's entry above already refutes causally_open ⇒ tarentin.
+[[fails]]
+from = ["causally_arc_connected", "causally_plain"]
+to = "tarentin"
+witness = "Causal.tarentin_and_plain_needed"
+status = "checked"
+
+# The lightlike line once more, with every property the Lean gives it: globally hyperbolic, push-up
+# and causally open (conjoined in Causal.lightlikeLine_separates_chronalNeighbours with
+# ¬ ChronalNeighbours), tarentin (Causal.lightlikeLine_tarentin) and causally arc-connected
+# (Causal.lightlikeLine_causallyArcConnected). On ℝ, through the edges valid there, it is also
+# strongly causal (globally_hyperbolic ∧ tarentin ⇒ strongly_causal, T2; stated besides as a conjunct
+# of Causal.CBG.lightlikeLine_sbierski_prop_3_7_iii_fails, Causal/SbierskiProp37.lean), strongly
+# causal in the open form, with a time function (Levin) and curves_extend. These two entries
+# subsume the single-premise lightlike-line entries above and add strongly_causal,
+# strongly_causal_open, time_function, curves_extend ⇏ chronal_neighbours, causally_plain. Witnesses
+# split as above: ¬ ChronalNeighbours in the conjoined statement, ¬ CausallyPlain in
+# Causal.lightlikeLine_not_causallyPlain.
+[[fails]]
+from = ["globally_hyperbolic", "push_up", "causally_open", "tarentin", "causally_arc_connected"]
+to = "chronal_neighbours"
+witness = "Causal.lightlikeLine_separates_chronalNeighbours"
+status = "checked"
+
+[[fails]]
+from = ["globally_hyperbolic", "push_up", "causally_open", "tarentin", "causally_arc_connected"]
+to = "causally_plain"
+witness = "Causal.lightlikeLine_not_causallyPlain"
+status = "checked"
+
+# Galileo's spacetime (Causal.galileo n = Causal.galileoOn (Fin n → ℝ) on ℝ × ℝⁿ,
+# rem:galileo_spacetime_not_strongly, ex:causalities_lines item 4): causal
+# (Causal.galileoOn_isCausal) and, for n ≥ 1, not strongly causal (Causal.galileo_not_stronglyCausal,
+# the witness; split as above). The converse of rem:topological_spacetime_strongly_causal fails;
+# through strongly_causal_open ⇒ strongly_causal also is_causal ⇏ strongly_causal_open. Its other
+# properties (a time function T = fst, push-up, tarentin, causal openness) are not stated in Lean.
+[[fails]]
+from = "is_causal"
+to = "strongly_causal"
+witness = "Causal.galileo_not_stronglyCausal"
+status = "checked"
+
+# ---- pair sort (C, C' fixed, header): T-abs-nested-converse (2026-11-21).
+
+# The pointed line (Causal.pointedLine, Causal/LinesReachable.lean: 0 ≤ y for y > 0) is curve-nested
+# in the spacelike line on every open (its causal curves are constant,
+# Causal.pointedLine_causalCurveOn_eq) and not ≤-nested in it (0 ≤ 1 in the first only).
+# Causal.pointedLine_separates_curveNested conjoins (∀ W, CurveNestedOn pointedLine spacelikeLine W)
+# ∧ ¬ LeNested pointedLine spacelikeLine with ¬ pointedLine.CausallyArcConnected,
+# pointedLine.IsCausal, pointedLine.PushUp and spacelikeLine.CausallyArcConnected. Replaces the
+# [[open]] entry for this pair. The converse holds when the narrower C is causally arc-connected
+# (consequence at curve_nested below), and not with C' causally arc-connected instead
+# (Causal.not_leNested_of_curveNested_wider_bare, this very pair) nor with C only absolutely minimal
+# (Causal.not_leNested_of_curveNested_absolutelyMinimal_bare, the rational line in the spacelike
+# line, Causal.rationalLine_separates_curveNested).
+[[fails]]
+from = "curve_nested"
+to = "le_nested"
+witness = "Causal.pointedLine_separates_curveNested"
 status = "checked"
 
 # ------------------------------------------------------------------ consequences
@@ -1011,12 +1192,18 @@ witness = "Causal.CBG.CGHDData.exists_extension"
 under = "a Causal.CBG.Geometry (cauchy_slice its field A4, germ_extension its field A3); M Hausdorff, connected, second countable; N Hausdorff, connected, second countable"
 status = "checked"
 
-# ---- consequences at pair properties: theorems about C nested in C' (header). Transfers, from the
-# wider C' to the narrower C, of the causality-sort properties the library has studied: is_causal
-# (outright), globally_hyperbolic (exactly when C's diamonds are closed), Cauchy surfaces and
-# inextensibility (under C's own global hyperbolicity, tarentin, causal arc-connectedness, no causal
-# endpoint). No other transfer along a nesting is in the library: LeNested and CurveNestedOn are used
-# by Causal.NestedCausalities and Causal.LadderLocal only.
+# ---- consequences at pair properties: theorems about C nested in C' (header). The transfers of a
+# causality-sort property along a nesting with no condition in words are [[transfer]] entries since
+# T-lad-classify-core (2026-11-21; after the consequences): is_causal, strongly_causal,
+# strongly_causal_open, time_function to the narrower, tarentin to the wider, and the two
+# counterexamples (tarentin to the narrower; bare globally_hyperbolic to the narrower). What stays
+# here: the structure of the nestings (transitivity, time reversal, diamonds), and the transfers under
+# a condition that is no ladder node (globally_hyperbolic exactly when C's diamonds are closed; Cauchy
+# surfaces and inextensibility under C's own global hyperbolicity, tarentin, causal
+# arc-connectedness and no causal endpoint), which a [[transfer]] could not carry: its `under` is not
+# read by the contradiction check, and the bare globally_hyperbolic transfer has a counterexample.
+# LeNested and CurveNestedOn are used by Causal.NestedCausalities, Causal.LadderLocal,
+# Causal.NestedConverse and Causal.NestedTransfer only.
 
 # Every causality is nested in itself (Causal.Causality.LeNested.refl), so with transitivity ≤-nesting
 # is a preorder on the causalities of M. ERS Remark 4.74: a better a-priori cone bound C_g ≤ C_b ≤ C_m
@@ -1041,18 +1228,12 @@ witness = "Causal.Causality.diamond_subset_of_le"
 under = "the witness asks ≤-nesting on W only (∀ x y, C.le W x y → C'.le W x y)"
 status = "checked"
 
-[[consequence]]
-at = "le_nested"
-statement = "the narrower C is causal when the wider C' is"
-witness = "Causal.Causality.isCausal_of_le_top"
-under = "is_causal of C' (ladder node); the witness asks ≤-nesting at M only (∀ x y, C.le ⊤ x y → C'.le ⊤ x y)"
-status = "checked"
-
-# T-abs-nested-causalities/1-gh, OQ-41 (a). Sharp: the closedness of C's diamonds cannot be dropped,
-# Causal.not_globallyHyperbolic_of_nested_bare (the line cut at 0, Causal.cutLine 0, is ≤-nested in the
-# globally hyperbolic timelike line, Causal.cutLine_leNested, and its diamond J(-1, 1) = [-1, 1] ∖ {0}
-# is not closed). Without separation: Causal.Causality.GloballyHyperbolic.of_nested (each diamond of C
-# closed inside the diamond of C'), .of_nested_of_isClosed, .of_nested_of_isClosed_J (J±_C(x) closed).
+# T-abs-nested-causalities/1-gh, OQ-41 (a). Sharp: the closedness of C's diamonds cannot be dropped
+# (the [[transfer]] counterexample below), Causal.not_globallyHyperbolic_of_nested_bare (the line
+# cut at 0, Causal.cutLine 0, is ≤-nested in the globally hyperbolic timelike line,
+# Causal.cutLine_leNested, and its diamond J(-1, 1) = [-1, 1] ∖ {0} is not closed). Without
+# separation: Causal.Causality.GloballyHyperbolic.of_nested (each diamond of C closed inside the
+# diamond of C'), .of_nested_of_isClosed, .of_nested_of_isClosed_J (J±_C(x) closed).
 [[consequence]]
 at = "le_nested"
 statement = "wider globally hyperbolic ⇒ narrower globally hyperbolic, exactly when the narrower diamonds are closed: with C' globally hyperbolic, C is globally hyperbolic iff every J_C(p, q) is closed"
@@ -1075,6 +1256,37 @@ status = "checked"
 at = "curve_nested"
 statement = "curve nesting on an open W gives curve nesting on every open V ⊆ W"
 witness = "Causal.Causality.CurveNestedOn.mono"
+status = "checked"
+
+# T-abs-nested-converse/1-converse (Causal/NestedConverse.lean): the converse of le_nested ⇒
+# curve_nested, under a causality-sort property of the narrower C, hence a consequence (an [[implies]]
+# with it in `under` would be chained as unconditional, against the [[fails]] curve_nested ⇏
+# le_nested). Read 2026-11-21: (h : CurveNestedOn C C' ⊤) (hC : C.CausallyArcConnected) :
+# LeNested C C', no instance. Sharp on both sides: not with C' causally arc-connected instead
+# (Causal.not_leNested_of_curveNested_wider_bare), not with C only absolutely minimal
+# (Causal.not_leNested_of_curveNested_absolutelyMinimal_bare, the rational line). Open form:
+# Causal.Causality.curveNestedOn_iff_of_causallyArcConnectedOn (C causally arc-connected on W: curve
+# nesting on W is ≤-nesting on the opens of W); at M, Causal.Causality.leNested_iff_curveNestedOn_top.
+[[consequence]]
+at = "curve_nested"
+statement = "curve nesting at M gives ≤-nesting when the narrower C is causally arc-connected (the converse of le_nested ⇒ curve_nested)"
+witness = "Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected"
+under = "causally_arc_connected of C (ladder node); nothing of C'"
+status = "checked"
+
+# ERS Remark 4.74 (a narrower wider causality C_g ≤ C_b ≤ C_m), T-abs-nested-converse/3-trans. Also
+# Causal.Causality.CurveNestedOn.refl and the mixed forms LeNested.trans_curveNestedOn,
+# CurveNestedOn.trans_leNested; all on one open W.
+[[consequence]]
+at = "curve_nested"
+statement = "curve nesting on an open W is transitive: C curve-nested in C' and C' in C'' on W give C curve-nested in C'' on W"
+witness = "Causal.Causality.CurveNestedOn.trans"
+status = "checked"
+
+[[consequence]]
+at = "curve_nested"
+statement = "curve nesting is invariant under time reversal: C.dual is curve-nested in C'.dual on W iff C is curve-nested in C' on W"
+witness = "Causal.Causality.dual_curveNestedOn_iff"
 status = "checked"
 
 # The inextensible nesting on M, InextensibleNestedOn C C' ⊤, which ERS Lemma 4.70 and the transfer of
@@ -1112,20 +1324,94 @@ witness = "Causal.Causality.ers_lemma_4_72"
 under = "curve nesting on W = U₂; is_causal and curves_extend of C' (ladder nodes); S acausal for C'; through every point of U₁ ∩ U₂ an inextensible causal curve of U₂ for C; M Hausdorff"
 status = "checked"
 
+# ------------------------------------------------------------------ transfers along a nesting
+# [[transfer]] (header, T-lad-classify-core 2026-11-21): a causality-sort property passed along a
+# pair-sort nesting, C the narrower, C' the wider; `to_narrower` reads "C' has it, hence C".
+# Witnesses from Causal/NestedTransfer.lean (T-abs-nested-transfer, layer 1, no instance on M; each
+# read 2026-11-21: {C C' : Causality M} (h : LeNested C C') (h' : C'.P) : C.P, resp.
+# (hC : C.Tarentin) : C'.Tarentin). Each LeNested.* form is the corollary of a principal form that
+# asks ≤ nested at M only (∀ x y, C.le ⊤ x y → C'.le ⊤ x y): stronglyCausal_of_le_top,
+# stronglyCausalOpen_of_le_top, hasTimeFunction_of_le_top, isCausal_of_le_top (Causal.NestedCausalities,
+# the consequence at le_nested until T-lad-classify-core), Tarentin.wider_of_le_top. The transfers
+# read ≤ only (causally convex sets, strict increase along ≤_M); tarentin reads the interiors of the
+# diamonds, which grow with ≤, so it passes to the wider causality and not to the narrower.
+
+[[transfer]]
+pair = "le_nested"
+property = "is_causal"
+direction = "to_narrower"
+witness = "Causal.Causality.LeNested.isCausal"
+status = "checked"
+
+[[transfer]]
+pair = "le_nested"
+property = "strongly_causal"
+direction = "to_narrower"
+witness = "Causal.Causality.LeNested.stronglyCausal"
+status = "checked"
+
+[[transfer]]
+pair = "le_nested"
+property = "strongly_causal_open"
+direction = "to_narrower"
+witness = "Causal.Causality.LeNested.stronglyCausalOpen"
+status = "checked"
+
+[[transfer]]
+pair = "le_nested"
+property = "time_function"
+direction = "to_narrower"
+witness = "Causal.Causality.LeNested.hasTimeFunction"
+status = "checked"
+
+[[transfer]]
+pair = "le_nested"
+property = "tarentin"
+direction = "to_wider"
+witness = "Causal.Causality.LeNested.tarentin_wider"
+status = "checked"
+
+# Tarentin does not pass to the narrower causality: Causal.leNested_tarentin_counterexample conjoins
+# spacelikeLine.LeNested timelikeLine; of the wider timelike line Tarentin, GloballyHyperbolic,
+# StronglyCausalOpen, PushUp, CausallyOpen, CausallyPlain, ChronalNeighbours, CausallyArcConnected,
+# HasTimeFunction; of the narrower spacelike line GloballyHyperbolic, StronglyCausalOpen, PushUp,
+# CausallyOpen, AbsolutelyMinimal, HasTimeFunction; and ¬ spacelikeLine.Tarentin. So no combination
+# of these properties of either line makes tarentin pass to the narrower causality. Also stated
+# without the lists: Causal.not_tarentin_of_leNested_bare.
+[[transfer]]
+pair = "le_nested"
+property = "tarentin"
+direction = "to_narrower"
+narrower = ["globally_hyperbolic", "strongly_causal_open", "push_up", "causally_open", "absolutely_minimal", "time_function"]
+wider = ["globally_hyperbolic", "strongly_causal_open", "push_up", "causally_open", "causally_plain", "chronal_neighbours", "causally_arc_connected", "time_function"]
+counterexample = "Causal.leNested_tarentin_counterexample"
+status = "checked"
+
+# Global hyperbolicity does not pass bare to the narrower causality (OQ-41 (a), T-abs-nested-causalities):
+# Causal.not_globallyHyperbolic_of_nested_bare (¬ ∀ C C' : Causality ℝ, C.LeNested C' →
+# C'.GloballyHyperbolic → C.GloballyHyperbolic) at the line cut at 0, Causal.cutLine 0, ≤-nested in
+# the timelike line (Causal.cutLine_leNested), causal (Causal.cutLine_isCausal) and not globally
+# hyperbolic (its diamond J(-1, 1) = [-1, 1] ∖ {0} is not closed). The wider timelike line's other
+# properties are those of the tarentin counterexample above (its conjuncts). It passes exactly when
+# C's diamonds are closed: the consequence Causal.Causality.globallyHyperbolic_iff_of_nested at
+# le_nested (a condition in words, so not a [[transfer]]).
+[[transfer]]
+pair = "le_nested"
+property = "globally_hyperbolic"
+direction = "to_narrower"
+narrower = ["is_causal"]
+wider = ["tarentin", "strongly_causal_open", "push_up", "causally_open", "causally_plain", "chronal_neighbours", "causally_arc_connected", "time_function"]
+counterexample = "Causal.not_globallyHyperbolic_of_nested_bare"
+status = "checked"
+
 # ------------------------------------------------------------------ open pairs
 
 # The seven pairs the closure chained through a localisation `under` until T-lad-local-nodes
-# (header): each is proved with its local premise (the edges above), and open without it.
-
-[[open]]
-from = "push_up"
-to = "causally_open_future"
-note = "With chronal_neighbours it holds (Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours). Without, false, argued, not in Lean (T-abs-pushup-not-open): on ℝ, ≪ empty and ≤_U the diagonal plus 0 ≤ 1 when 0, 1 ∈ U has push-up vacuously while J⁺((−1, 1)) = (−1, 1] is not open"
-
-[[open]]
-from = "push_up"
-to = "causally_open"
-note = "With chronal_neighbours it holds (the edge above). Without, false, argued: the line of push_up → causally_open_future (T-abs-pushup-not-open), as causally_open ⇒ causally_open_future"
+# (header): each is proved with its local premise (the edges above), and open without it. Four of
+# them are refuted since T-lad-classify-core (2026-11-21) by the rational line (the [[fails]] entries
+# on Causal.rationalLine_separates_absolutelyMinimal): push_up and absolutely_minimal ⇏
+# causally_open_future, causally_open; their [[open]] entries are removed. The three through
+# causally_arc_connected stay: the rational line is not causally arc-connected.
 
 [[open]]
 from = "causally_arc_connected"
@@ -1133,29 +1419,19 @@ to = "push_up"
 note = "With locally_push_up it holds (lem:pushup_local, the edge above), and with causally_plain on a T1 space (through absolutely_minimal ∧ causally_plain ⇒ push_up, the edge above), so a counterexample is not causally plain, as the lightlike line is not, which has push-up. Without, no Lean model is causally arc-connected and fails push-up; the gated line has local push-up ({⋆} and the line are opens with push-up) and fails push-up (0 ≪ 1 ≤ ⋆, nothing ≪ ⋆), argued, not in Lean, but it is not causally arc-connected"
 
 [[open]]
-from = "absolutely_minimal"
-to = "causally_open_future"
-note = "With locally_causally_open_future it holds (prop:topological_spacetime_absolutely_minimal, the edge above). Without, no Lean model is absolutely minimal and not causally open in the future"
-
-[[open]]
-from = "absolutely_minimal"
-to = "causally_open"
-note = "With locally_causally_open it holds (the edge above, DEC-8 reading). Without, no Lean model is absolutely minimal and not causally open"
-
-[[open]]
 from = "causally_arc_connected"
 to = "causally_open_future"
-note = "Through absolutely_minimal it holds with locally_causally_open_future (the edges above). Without, no Lean model is causally arc-connected and not causally open in the future"
+note = "Through absolutely_minimal it holds with locally_causally_open_future (the edges above). Without, no Lean model is causally arc-connected and not causally open in the future: the rational line, absolutely minimal and not causally open in the future, is not causally arc-connected (Causal.rationalLine_separates_absolutelyMinimal)"
 
 [[open]]
 from = "causally_arc_connected"
 to = "causally_open"
-note = "Through absolutely_minimal it holds with locally_causally_open (the edges above). Without, no Lean model is causally arc-connected and not causally open"
+note = "Through absolutely_minimal it holds with locally_causally_open (the edges above). Without, no Lean model is causally arc-connected and not causally open: the rational line is not causally arc-connected, the gated line (not causally open in the past, T-abs-gateline-local) neither"
 
 [[open]]
 from = "globally_hyperbolic"
 to = "time_function"
-note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it, and no Lean model is globally hyperbolic, not tarentin and without a time function"
+note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it; the one globally hyperbolic Lean model without tarentin, the spacelike line, has a time function (Causal.spacelikeLine_separates_tarentin_full), as has the line of T-abs-pushup-not-open (argued, id)"
 
 [[open]]
 from = "globally_hyperbolic"
@@ -1203,7 +1479,981 @@ from = "rigid"
 to = "cauchy_slice"
 note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_liftPropOn) and has SlicePast (Causal.CBG.LocalModel.slicePast), so this asks whether every local model has the BTZ residual SliceFutureBTZ, owed by gx for E₀"
 
+# ---- T-lad-classify-core (2026-11-21): every causality-sort pair the closure and the counterexamples
+# above leave unknown, one [[open]] entry each, grouped by the conclusion `to`. A note is one of:
+# * "False, argued: M … and …; wants N": a model M, at most two, that would refute the pair, and the
+#   Lean names N (proposed; a target's name in parentheses when one is planned) that would make it a
+#   [[fails]] entry. The models, with what the Lean states (L) and what is argued (A):
+#   - the gated line Causal.gateLine: L causal, globally hyperbolic, curves_extend, not causally
+#     arc-connected, not absolutely minimal; A a time function and tarentin (T-abs-gateline-witnesses),
+#     locally push-up, causally open in the future, two-sided locally causally open, without push-up,
+#     not causally open in the past (T-abs-gateline-local), open strong causality (small intervals
+#     and {⋆} are causally convex), no chronal neighbours at ⋆;
+#   - the doubled line Causal.doubledLine: L not causal; A causally compact, push-up (≪ empty),
+#     tarentin, causally open (T-abs-doubled-line-compact), not absolutely minimal (the two sheets
+#     cover it and no generated step crosses), no chronal neighbours, not causally plain;
+#   - the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1 when 0, 1 ∈ U): A
+#     push-up, two-sided locally causally open, causal, globally hyperbolic (its diamonds are {0, 1}
+#     or points), strongly causal in the open form, time function id; J⁺((−1, 1)) = (−1, 1] not open,
+#     hence not absolutely minimal by absolutely_minimal ∧ locally_causally_open ⇒ causally_open;
+#   - the flat time cylinder ℤe₀\𝐌ⁿ: L not causal (Causal.Flat.FlatQuotient.not_isCausal_timeGroup);
+#     A curves_extend (T-loc-flat-time-cylinder) and, as a flat spacetime, tarentin, push-up, causal
+#     openness, chronal neighbours, causal arc-connectedness (T-loc-flat-time-cylinder, widened);
+#   - the rational line Causal.rationalLine: L as above; A a time function (id), open strong causality
+#     (intervals are causally convex), not locally causally open in the future (by the edge
+#     absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future), no chronal
+#     neighbours, not tarentin, not causally compact;
+#   - the isolated line Causal.isolatedLine: L as above; A no chronal neighbours (no ≪ at 0);
+#   - Galileo's spacetime Causal.galileo n, n ≥ 1: L causal, not strongly causal; A a time function
+#     (fst), push-up, tarentin, causally open, chronal neighbours, causally plain; not absolutely
+#     minimal (on a U-shaped open, x ≪_U y across the bend is generated by no chain of small steps,
+#     which never go back in time), not causally compact (its diamonds are slabs);
+#   - Causal.timelikeLineTop (Causal/Morphism.lean: ≤_ℝ total, the timelike line on every other open):
+#     L not causal, not absolutely minimal; A causally open (J⁺_ℝ(V) = ℝ), tarentin (Int J_ℝ(p, q) =
+#     ℝ), chronal neighbours, locally push-up (the timelike line on small opens), without push-up
+#     (5 ≤_ℝ 0 ≪_ℝ 1), not causally plain, not causally compact. Like deuxPushup it is a causality in
+#     the library's reading only: it is not local in the sheaf sense (OQ-18, OQ-39).
+# * "Open: …": no model is at hand; the note says what a counterexample needs.
+# * "True, argued: …": the implication, with its proof; it wants a Lean witness.
+# When a [[fails]] entry settles one of these, `check` names it ("already settled; remove it").
+
+# → absolutely_minimal
 [[open]]
-from = "curve_nested"
-to = "le_nested"
-note = "Pair sort, at M (so on every open). False in general, argued, not in Lean: the pointed line (Causal.pointedLine, 0 ≤ y for y > 0) and the spacelike line (Causal.spacelikeLine, ≤ the diagonal) have only constant causal curves, so the first is curve-nested in the second, while 0 ≤ 1 holds in the first only. True when C is causally arc-connected (x ≤_U y of C lies on a C-causal curve of U, which is C'-causal by curve nesting on U, so x ≤_U y for C'), not in Lean either"
+from = "causally_open"
+to = "absolutely_minimal"
+note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen; or the doubled line Causal.doubledLine (not causal in Lean) is causally open and is not absolutely minimal; wants its causal openness (T-abs-doubled-line-compact), Causal.doubledLine_not_absolutelyMinimal"
+
+[[open]]
+from = "causally_open_future"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine is causally open in the future and is not absolutely minimal; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open in the future and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen"
+
+[[open]]
+from = "chronal_neighbours"
+to = "absolutely_minimal"
+note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and is not absolutely minimal; wants Causal.timelikeLineTop_chronalNeighbours; or Galileo's spacetime Causal.galileo n, n ≥ 1 has chronal neighbours and is not absolutely minimal; wants Causal.galileoOn_chronalNeighbours, Causal.galileo_not_absolutelyMinimal"
+
+[[open]]
+from = "locally_causally_open"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine is locally causally open and is not absolutely minimal; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and is not absolutely minimal; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open in the future and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen"
+
+[[open]]
+from = "locally_push_up"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine is locally push-up and is not absolutely minimal; wants Causal.gateLine_locallyPushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally push-up and is not absolutely minimal; wants Causal.timelikeLineTop_locallyPushUp"
+
+[[open]]
+from = "push_up"
+to = "absolutely_minimal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) has push-up and is not absolutely minimal; wants its push-up (T-abs-doubled-line-compact), Causal.doubledLine_not_absolutelyMinimal; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has push-up and is not absolutely minimal; wants its push-up (T-abs-pushup-not-open), its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
+
+[[open]]
+from = "strongly_causal"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine is strongly causal and is not absolutely minimal; wants Causal.gateLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal and is not absolutely minimal; wants its open strong causality, its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
+
+[[open]]
+from = "strongly_causal_open"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine is strongly causal (open form) and is not absolutely minimal; wants Causal.gateLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal (open form) and is not absolutely minimal; wants its open strong causality, its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
+
+[[open]]
+from = "tarentin"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine is tarentin and is not absolutely minimal; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is tarentin and is not absolutely minimal; wants Causal.timelikeLineTop_tarentin"
+
+[[open]]
+from = "time_function"
+to = "absolutely_minimal"
+note = "False, argued: the gated line Causal.gateLine has a time function and is not absolutely minimal; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has a time function and is not absolutely minimal; wants its time function id, its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
+
+
+# → causally_arc_connected
+[[open]]
+from = "causally_open"
+to = "causally_arc_connected"
+note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen; or the doubled line Causal.doubledLine (not causal in Lean) is causally open and is not causally arc-connected; wants its causal openness (T-abs-doubled-line-compact), Causal.doubledLine_not_absolutelyMinimal"
+
+[[open]]
+from = "causally_open_future"
+to = "causally_arc_connected"
+note = "False, argued: the gated line Causal.gateLine is causally open in the future and is not causally arc-connected; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open in the future and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen"
+
+[[open]]
+from = "chronal_neighbours"
+to = "causally_arc_connected"
+note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and is not causally arc-connected; wants Causal.timelikeLineTop_chronalNeighbours; or Galileo's spacetime Causal.galileo n, n ≥ 1 has chronal neighbours and is not causally arc-connected; wants Causal.galileoOn_chronalNeighbours, Causal.galileo_not_absolutelyMinimal"
+
+[[open]]
+from = "locally_causally_open"
+to = "causally_arc_connected"
+note = "False, argued: the gated line Causal.gateLine is locally causally open and is not causally arc-connected; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "causally_arc_connected"
+note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and is not causally arc-connected; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open in the future and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen"
+
+[[open]]
+from = "strongly_causal"
+to = "causally_arc_connected"
+note = "False, argued: the gated line Causal.gateLine is strongly causal and is not causally arc-connected; wants Causal.gateLine_stronglyCausalOpen; or the rational line Causal.rationalLine is strongly causal and is not causally arc-connected; wants Causal.rationalLine_stronglyCausalOpen"
+
+[[open]]
+from = "strongly_causal_open"
+to = "causally_arc_connected"
+note = "False, argued: the gated line Causal.gateLine is strongly causal (open form) and is not causally arc-connected; wants Causal.gateLine_stronglyCausalOpen; or the rational line Causal.rationalLine is strongly causal (open form) and is not causally arc-connected; wants Causal.rationalLine_stronglyCausalOpen"
+
+[[open]]
+from = "tarentin"
+to = "causally_arc_connected"
+note = "False, argued: the gated line Causal.gateLine is tarentin and is not causally arc-connected; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is tarentin and is not causally arc-connected; wants Causal.timelikeLineTop_tarentin"
+
+[[open]]
+from = "time_function"
+to = "causally_arc_connected"
+note = "False, argued: the gated line Causal.gateLine has a time function and is not causally arc-connected; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses); or the rational line Causal.rationalLine has a time function and is not causally arc-connected; wants Causal.rationalLine_hasTimeFunction"
+
+
+# → causally_compact
+[[open]]
+from = "causally_plain"
+to = "causally_compact"
+note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 is causally plain and is not causally compact; wants Causal.galileoOn_causallyPlain, Causal.galileo_not_causallyCompact"
+
+
+# → causally_open
+[[open]]
+from = "causally_compact"
+to = "causally_open"
+note = "False, argued: the gated line Causal.gateLine is causally compact and is not causally open; wants Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is causally compact and is not causally open; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "causally_open_future"
+to = "causally_open"
+note = "False, argued: the gated line Causal.gateLine is causally open in the future and is not causally open; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
+
+[[open]]
+from = "causally_plain"
+to = "causally_open"
+note = "Open: the models failing causal openness, the rational line, the line of T-abs-pushup-not-open and the gated line (T-abs-gateline-local), are not causally plain (argued)"
+
+[[open]]
+from = "chronal_neighbours"
+to = "causally_open"
+note = "Open: the models failing causal openness, the rational line, the line of T-abs-pushup-not-open and the gated line (T-abs-gateline-local), have no chronal neighbours (argued)"
+
+[[open]]
+from = "curves_extend"
+to = "causally_open"
+note = "False, argued: the gated line Causal.gateLine has its causal curves extending and is not causally open; wants Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the rational line Causal.rationalLine has its causal curves extending and is not causally open; wants Causal.rationalLine_hasTimeFunction"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "causally_open"
+note = "False, argued: the gated line Causal.gateLine is globally hyperbolic and is not causally open; wants Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is globally hyperbolic and is not causally open; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "locally_causally_open"
+to = "causally_open"
+note = "False, argued: the gated line Causal.gateLine is locally causally open and is not causally open; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local), Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open and is not causally open; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "causally_open"
+note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and is not causally open; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open in the future and is not causally open; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "strongly_causal"
+to = "causally_open"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal and is not causally open; wants Causal.rationalLine_stronglyCausalOpen; or the gated line Causal.gateLine is strongly causal and is not causally open; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
+
+[[open]]
+from = "strongly_causal_open"
+to = "causally_open"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal (open form) and is not causally open; wants Causal.rationalLine_stronglyCausalOpen; or the gated line Causal.gateLine is strongly causal (open form) and is not causally open; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
+
+[[open]]
+from = "tarentin"
+to = "causally_open"
+note = "False, argued: the gated line Causal.gateLine is tarentin and is not causally open; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
+
+[[open]]
+from = "time_function"
+to = "causally_open"
+note = "False, argued: the rational line Causal.rationalLine has a time function and is not causally open; wants Causal.rationalLine_hasTimeFunction; or the gated line Causal.gateLine has a time function and is not causally open; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses), Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
+
+
+# → causally_open_future
+[[open]]
+from = "causally_compact"
+to = "causally_open_future"
+note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is causally compact and is not causally open in the future; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "causally_plain"
+to = "causally_open_future"
+note = "Open: the models failing causal openness in the future, the rational line (Lean) and the line of T-abs-pushup-not-open, are not causally plain; the gated line fails it in the past only, and is locally causally open (T-abs-gateline-local)"
+
+[[open]]
+from = "chronal_neighbours"
+to = "causally_open_future"
+note = "Open: the models failing causal openness in the future, the rational line (Lean) and the line of T-abs-pushup-not-open, have no chronal neighbours; the gated line fails it in the past only, and is locally causally open (T-abs-gateline-local)"
+
+[[open]]
+from = "curves_extend"
+to = "causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine has its causal curves extending and is not causally open in the future; wants Causal.rationalLine_hasTimeFunction; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has its causal curves extending and is not causally open in the future; wants its time function id, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "causally_open_future"
+note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is globally hyperbolic and is not causally open in the future; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "locally_causally_open"
+to = "causally_open_future"
+note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open and is not causally open in the future; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "causally_open_future"
+note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open in the future and is not causally open in the future; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "strongly_causal"
+to = "causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal and is not causally open in the future; wants Causal.rationalLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal and is not causally open in the future; wants its open strong causality, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "strongly_causal_open"
+to = "causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal (open form) and is not causally open in the future; wants Causal.rationalLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal (open form) and is not causally open in the future; wants its open strong causality, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+[[open]]
+from = "tarentin"
+to = "causally_open_future"
+note = "Open: the models failing causal openness in the future, the rational line (Lean) and the line of T-abs-pushup-not-open, are not tarentin; the gated line fails it in the past only, and is locally causally open (T-abs-gateline-local)"
+
+[[open]]
+from = "time_function"
+to = "causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine has a time function and is not causally open in the future; wants Causal.rationalLine_hasTimeFunction; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has a time function and is not causally open in the future; wants its time function id, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+
+
+# → causally_plain
+[[open]]
+from = "chronal_neighbours"
+to = "causally_plain"
+note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and is not causally plain; wants Causal.timelikeLineTop_chronalNeighbours, Causal.timelikeLineTop_not_causallyPlain"
+
+
+# → chronal_neighbours
+[[open]]
+from = "causally_plain"
+to = "chronal_neighbours"
+note = "False, argued: the isolated line Causal.isolatedLine is causally plain and has no chronal neighbours; wants Causal.isolatedLine_not_chronalNeighbours (from isolatedLine_not_hasChronalNeighbour_zero, T-abs-chronal-neighbour-bridge)"
+
+
+# → curves_extend
+[[open]]
+from = "absolutely_minimal"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "causally_arc_connected"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "causally_compact"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "causally_open"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "causally_open_future"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "causally_plain"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "chronal_neighbours"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "is_causal"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "locally_causally_open"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "locally_push_up"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "push_up"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "strongly_causal"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "strongly_causal_open"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+[[open]]
+from = "tarentin"
+to = "curves_extend"
+note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+
+
+# → globally_hyperbolic
+[[open]]
+from = "causally_plain"
+to = "globally_hyperbolic"
+note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 is causally plain and is not globally hyperbolic; wants Causal.galileoOn_causallyPlain, Causal.galileo_not_causallyCompact"
+
+
+# → is_causal
+[[open]]
+from = "absolutely_minimal"
+to = "is_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is absolutely minimal and is not causal; wants its absolute minimality (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_arc_connected"
+to = "is_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally arc-connected and is not causal; wants its causal arc-connectedness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_open"
+to = "is_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open and is not causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open and is not causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_open_future"
+to = "is_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open in the future and is not causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open in the future and is not causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_plain"
+to = "is_causal"
+note = "Open: of the non-causal models the doubled line and timelikeLineTop are not causally plain (argued); the flat time cylinder is, argued, as a flat spacetime (Causal.Causality.SingularFlatAxioms.causallyPlain asks strong causality): wants its plainness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "chronal_neighbours"
+to = "is_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has chronal neighbours and is not causal; wants its chronal neighbours (T-loc-flat-time-cylinder, widened); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and is not causal; wants Causal.timelikeLineTop_chronalNeighbours"
+
+[[open]]
+from = "curves_extend"
+to = "is_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has its causal curves extending and is not causal; wants its CurvesExtend (T-loc-flat-time-cylinder)"
+
+[[open]]
+from = "locally_causally_open"
+to = "is_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open and is not causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open and is not causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "is_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open in the future and is not causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open in the future and is not causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_push_up"
+to = "is_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally push-up and is not causal; wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally push-up and is not causal; wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "push_up"
+to = "is_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) has push-up and is not causal; wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has push-up and is not causal; wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "tarentin"
+to = "is_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is tarentin and is not causal; wants its tarentin (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is tarentin and is not causal; wants its tarentin (T-loc-flat-time-cylinder, widened)"
+
+
+# → locally_causally_open
+[[open]]
+from = "absolutely_minimal"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine is absolutely minimal and is not locally causally open; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "causally_arc_connected"
+to = "locally_causally_open"
+note = "Open: through absolutely_minimal ∧ locally_causally_open ⇒ causally_open a counterexample also refutes causally_arc_connected ⇒ causally_open ([[open]] above); the models failing causal openness (the rational line; the gated line, T-abs-gateline-local) are not causally arc-connected"
+
+[[open]]
+from = "causally_compact"
+to = "locally_causally_open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally compact; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "causally_open_future"
+to = "locally_causally_open"
+note = "Open: wants a model locally causally open in the future and not in the past; the gated line, open in the future and not in the past, is two-sided locally causally open (T-abs-gateline-local)"
+
+[[open]]
+from = "causally_plain"
+to = "locally_causally_open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally plain; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "chronal_neighbours"
+to = "locally_causally_open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), has no chronal neighbours; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "curves_extend"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine has its causal curves extending and is not locally causally open; wants Causal.rationalLine_hasTimeFunction, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "locally_causally_open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not globally hyperbolic; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "is_causal"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine is causal and is not locally causally open; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "locally_causally_open"
+note = "Open: wants a model locally causally open in the future and not in the past; the gated line, open in the future and not in the past, is two-sided locally causally open (T-abs-gateline-local)"
+
+[[open]]
+from = "locally_push_up"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine is locally push-up and is not locally causally open; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "push_up"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine has push-up and is not locally causally open; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "strongly_causal"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal and is not locally causally open; wants Causal.rationalLine_stronglyCausalOpen, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "strongly_causal_open"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal (open form) and is not locally causally open; wants Causal.rationalLine_stronglyCausalOpen, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "tarentin"
+to = "locally_causally_open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not tarentin; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "time_function"
+to = "locally_causally_open"
+note = "False, argued: the rational line Causal.rationalLine has a time function and is not locally causally open; wants Causal.rationalLine_hasTimeFunction, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+
+# → locally_causally_open_future
+[[open]]
+from = "absolutely_minimal"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine is absolutely minimal and is not locally causally open in the future; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "causally_arc_connected"
+to = "locally_causally_open_future"
+note = "Open: through absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future a counterexample also refutes causally_arc_connected ⇒ causally_open_future ([[open]] above); the models failing causal openness (the rational line; the gated line, T-abs-gateline-local) are not causally arc-connected"
+
+[[open]]
+from = "causally_compact"
+to = "locally_causally_open_future"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally compact; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "causally_plain"
+to = "locally_causally_open_future"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally plain; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "chronal_neighbours"
+to = "locally_causally_open_future"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), has no chronal neighbours; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "curves_extend"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine has its causal curves extending and is not locally causally open in the future; wants Causal.rationalLine_hasTimeFunction, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "locally_causally_open_future"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not globally hyperbolic; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "is_causal"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine is causal and is not locally causally open in the future; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "locally_push_up"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine is locally push-up and is not locally causally open in the future; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "push_up"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine has push-up and is not locally causally open in the future; wants Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "strongly_causal"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal and is not locally causally open in the future; wants Causal.rationalLine_stronglyCausalOpen, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "strongly_causal_open"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine is strongly causal (open form) and is not locally causally open in the future; wants Causal.rationalLine_stronglyCausalOpen, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+[[open]]
+from = "tarentin"
+to = "locally_causally_open_future"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not tarentin; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+
+[[open]]
+from = "time_function"
+to = "locally_causally_open_future"
+note = "False, argued: the rational line Causal.rationalLine has a time function and is not locally causally open in the future; wants Causal.rationalLine_hasTimeFunction, Causal.rationalLine_not_locallyCausallyOpenFuture"
+
+
+# → locally_push_up
+[[open]]
+from = "absolutely_minimal"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "causally_arc_connected"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "causally_compact"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "causally_open"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "causally_open_future"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "causally_plain"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "chronal_neighbours"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "curves_extend"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "is_causal"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "locally_causally_open"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "strongly_causal"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "strongly_causal_open"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "tarentin"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+[[open]]
+from = "time_function"
+to = "locally_push_up"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+
+
+# → push_up
+[[open]]
+from = "absolutely_minimal"
+to = "push_up"
+note = "Open: the models without push-up (deuxPushup in Lean; the gated line, T-abs-gateline-local; timelikeLineTop, argued) are not absolutely minimal; with causally_plain on a T1 space absolute minimality gives push-up (the edge)"
+
+[[open]]
+from = "causally_compact"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is causally compact and lacks push-up; wants Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+
+[[open]]
+from = "causally_open"
+to = "push_up"
+note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
+
+[[open]]
+from = "causally_open_future"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is causally open in the future and lacks push-up; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open in the future and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
+
+[[open]]
+from = "chronal_neighbours"
+to = "push_up"
+note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and lacks push-up; wants Causal.timelikeLineTop_chronalNeighbours, Causal.timelikeLineTop_not_pushUp"
+
+[[open]]
+from = "curves_extend"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine has its causal curves extending and lacks push-up; wants Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is globally hyperbolic and lacks push-up; wants Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+
+[[open]]
+from = "locally_causally_open"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is locally causally open and lacks push-up; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and lacks push-up; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open in the future and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
+
+[[open]]
+from = "locally_push_up"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is locally push-up and lacks push-up; wants Causal.gateLine_locallyPushUp (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally push-up and lacks push-up; wants Causal.timelikeLineTop_locallyPushUp, Causal.timelikeLineTop_not_pushUp"
+
+[[open]]
+from = "strongly_causal"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is strongly causal and lacks push-up; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+
+[[open]]
+from = "strongly_causal_open"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is strongly causal (open form) and lacks push-up; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+
+[[open]]
+from = "tarentin"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine is tarentin and lacks push-up; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is tarentin and lacks push-up; wants Causal.timelikeLineTop_tarentin, Causal.timelikeLineTop_not_pushUp"
+
+[[open]]
+from = "time_function"
+to = "push_up"
+note = "False, argued: the gated line Causal.gateLine has a time function and lacks push-up; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses), Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+
+
+# → strongly_causal
+[[open]]
+from = "absolutely_minimal"
+to = "strongly_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is absolutely minimal and is not strongly causal; wants its absolute minimality (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_arc_connected"
+to = "strongly_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally arc-connected and is not strongly causal; wants its causal arc-connectedness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_compact"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally compact and is not strongly causal; wants Causal.doubledLine_causallyCompact (T-abs-doubled-line-compact)"
+
+[[open]]
+from = "causally_open"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open and is not strongly causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open and is not strongly causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_open_future"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open in the future and is not strongly causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open in the future and is not strongly causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_plain"
+to = "strongly_causal"
+note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 is causally plain and is not strongly causal; wants Causal.galileoOn_causallyPlain"
+
+[[open]]
+from = "chronal_neighbours"
+to = "strongly_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has chronal neighbours and is not strongly causal; wants its chronal neighbours (T-loc-flat-time-cylinder, widened); or Galileo's spacetime Causal.galileo n, n ≥ 1 has chronal neighbours and is not strongly causal; wants Causal.galileoOn_chronalNeighbours"
+
+[[open]]
+from = "curves_extend"
+to = "strongly_causal"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has its causal curves extending and is not strongly causal; wants its CurvesExtend (T-loc-flat-time-cylinder); or Galileo's spacetime Causal.galileo n, n ≥ 1 has its causal curves extending and is not strongly causal; wants Causal.galileoOn_hasTimeFunction"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "strongly_causal"
+note = "Open: with tarentin it holds (prop:GH_fortement_causal, T2); the one globally hyperbolic Lean model without tarentin, the spacelike line, is strongly causal in both forms"
+
+[[open]]
+from = "locally_causally_open"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open and is not strongly causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open and is not strongly causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open in the future and is not strongly causal; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open in the future and is not strongly causal; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_push_up"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally push-up and is not strongly causal; wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally push-up and is not strongly causal; wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "push_up"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) has push-up and is not strongly causal; wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has push-up and is not strongly causal; wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "tarentin"
+to = "strongly_causal"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is tarentin and is not strongly causal; wants its tarentin (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is tarentin and is not strongly causal; wants its tarentin (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "time_function"
+to = "strongly_causal"
+note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 has a time function and is not strongly causal; wants Causal.galileoOn_hasTimeFunction"
+
+
+# → strongly_causal_open
+[[open]]
+from = "absolutely_minimal"
+to = "strongly_causal_open"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is absolutely minimal and is not strongly causal (open form); wants its absolute minimality (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_arc_connected"
+to = "strongly_causal_open"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally arc-connected and is not strongly causal (open form); wants its causal arc-connectedness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_compact"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally compact and is not strongly causal (open form); wants Causal.doubledLine_causallyCompact (T-abs-doubled-line-compact)"
+
+[[open]]
+from = "causally_open"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open and is not strongly causal (open form); wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open and is not strongly causal (open form); wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_open_future"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open in the future and is not strongly causal (open form); wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open in the future and is not strongly causal (open form); wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_plain"
+to = "strongly_causal_open"
+note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 is causally plain and is not strongly causal (open form); wants Causal.galileoOn_causallyPlain"
+
+[[open]]
+from = "chronal_neighbours"
+to = "strongly_causal_open"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has chronal neighbours and is not strongly causal (open form); wants its chronal neighbours (T-loc-flat-time-cylinder, widened); or Galileo's spacetime Causal.galileo n, n ≥ 1 has chronal neighbours and is not strongly causal (open form); wants Causal.galileoOn_chronalNeighbours"
+
+[[open]]
+from = "curves_extend"
+to = "strongly_causal_open"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has its causal curves extending and is not strongly causal (open form); wants its CurvesExtend (T-loc-flat-time-cylinder); or Galileo's spacetime Causal.galileo n, n ≥ 1 has its causal curves extending and is not strongly causal (open form); wants Causal.galileoOn_hasTimeFunction"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "strongly_causal_open"
+note = "Open: with tarentin it holds (prop:GH_fortement_causal, T2); the one globally hyperbolic Lean model without tarentin, the spacelike line, is strongly causal in both forms"
+
+[[open]]
+from = "locally_causally_open"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open and is not strongly causal (open form); wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open and is not strongly causal (open form); wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open in the future and is not strongly causal (open form); wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open in the future and is not strongly causal (open form); wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_push_up"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally push-up and is not strongly causal (open form); wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally push-up and is not strongly causal (open form); wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "push_up"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) has push-up and is not strongly causal (open form); wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has push-up and is not strongly causal (open form); wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "strongly_causal"
+to = "strongly_causal_open"
+note = "Open: with tarentin and causally_open it holds (the edge); no Lean model is strongly causal without an open causally convex basis"
+
+[[open]]
+from = "tarentin"
+to = "strongly_causal_open"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is tarentin and is not strongly causal (open form); wants its tarentin (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is tarentin and is not strongly causal (open form); wants its tarentin (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "time_function"
+to = "strongly_causal_open"
+note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 has a time function and is not strongly causal (open form); wants Causal.galileoOn_hasTimeFunction"
+
+
+# → tarentin
+[[open]]
+from = "chronal_neighbours"
+to = "tarentin"
+note = "True, argued: for N ∈ 𝓝 x put V = Int N; chronal neighbours give p ≪_V x ≪_V p' with p, p' ∈ V, and I⁺_V(p) ∩ I⁻_V(p') is an open neighbourhood of x inside J_M(p, p'). Wants Causal.Causality.ChronalNeighbours.tarentin"
+
+
+# → time_function
+[[open]]
+from = "absolutely_minimal"
+to = "time_function"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is absolutely minimal and has no time function; wants its absolute minimality (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_arc_connected"
+to = "time_function"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally arc-connected and has no time function; wants its causal arc-connectedness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_compact"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally compact and has no time function; wants Causal.doubledLine_causallyCompact (T-abs-doubled-line-compact)"
+
+[[open]]
+from = "causally_open"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open and has no time function; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open and has no time function; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_open_future"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is causally open in the future and has no time function; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is causally open in the future and has no time function; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "causally_plain"
+to = "time_function"
+note = "Open: of the non-causal models the doubled line and timelikeLineTop are not causally plain (argued); the flat time cylinder is, argued, as a flat spacetime (Causal.Causality.SingularFlatAxioms.causallyPlain asks strong causality): wants its plainness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "chronal_neighbours"
+to = "time_function"
+note = "False, argued: the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has chronal neighbours and has no time function; wants its chronal neighbours (T-loc-flat-time-cylinder, widened); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and has no time function; wants Causal.timelikeLineTop_chronalNeighbours"
+
+[[open]]
+from = "is_causal"
+to = "time_function"
+note = "Open: false in Lorentzian geometry (a causal spacetime that is not stably causal, Hawking–Ellis §6.4), not in Lean; Galileo's spacetime, causal and not strongly causal, has the time function fst"
+
+[[open]]
+from = "locally_causally_open"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open and has no time function; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open and has no time function; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally causally open in the future and has no time function; wants its causal openness (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally causally open in the future and has no time function; wants its causal openness (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "locally_push_up"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is locally push-up and has no time function; wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is locally push-up and has no time function; wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "push_up"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) has push-up and has no time function; wants its push-up (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) has push-up and has no time function; wants its push-up (T-loc-flat-time-cylinder, widened)"
+
+[[open]]
+from = "strongly_causal"
+to = "time_function"
+note = "Open: false in Lorentzian geometry (a strongly causal spacetime that is not stably causal, Hawking–Ellis §6.4), not in Lean; Galileo's spacetime, causal and not strongly causal, has the time function fst"
+
+[[open]]
+from = "strongly_causal_open"
+to = "time_function"
+note = "Open: false in Lorentzian geometry (a strongly causal spacetime that is not stably causal, Hawking–Ellis §6.4), not in Lean; Galileo's spacetime, causal and not strongly causal, has the time function fst"
+
+[[open]]
+from = "tarentin"
+to = "time_function"
+note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) is tarentin and has no time function; wants its tarentin (T-abs-doubled-line-compact); or the flat time cylinder ℤe₀\\𝐌ⁿ (not causal: Causal.Flat.FlatQuotient.not_isCausal_timeGroup) is tarentin and has no time function; wants its tarentin (T-loc-flat-time-cylinder, widened)"
+

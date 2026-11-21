@@ -2,9 +2,11 @@
 import Causal.Ladder.Basic
 import Causal.ArcConnected
 import Causal.CurvesExtend
+import Causal.DeuxPushup
 import Causal.GlobalHyperbolicity
 import Causal.LadderLocal
 import Causal.Properties
+import Causal.StrongCausality
 
 /-!
 # The rules of `causal_ladder`, generated from the causality ladder
@@ -22,14 +24,20 @@ Regenerate with `python3 tools/ladder.py emit-lean`; `Causal.Ladder.Test` is gen
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
 
+-- strongly_causal ⇒ is_causal (standing: T1)
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausal.isCausal
 -- strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausal.stronglyCausalOpen
 -- strongly_causal_open ⇒ strongly_causal
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausalOpen.stronglyCausal
+-- globally_hyperbolic ∧ tarentin ⇒ strongly_causal (standing: T2)
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.GloballyHyperbolic.stronglyCausal
 -- causally_arc_connected ⇒ absolutely_minimal
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyArcConnected.absolutelyMinimal
 -- causally_arc_connected ∧ locally_push_up ⇒ push_up
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp
+-- absolutely_minimal ∧ causally_plain ⇒ push_up (standing: T1)
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal
 -- push_up ∧ chronal_neighbours ⇒ causally_open
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours
 -- absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future
@@ -57,8 +65,5 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.Ha
 -- time_function ⇒ is_causal
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.HasTimeFunction.isCausal
 
--- skipped Causal.Causality.StronglyCausal.isCausal (strongly_causal ⇒ is_causal): under: M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff
--- skipped Causal.Causality.GloballyHyperbolic.stronglyCausal (globally_hyperbolic ∧ tarentin ⇒ strongly_causal): under: M Hausdorff ([T2Space M])
--- skipped Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal (absolutely_minimal ∧ causally_plain ⇒ push_up): under: M is T1 ([T1Space M]); ETT's spacetimes are Hausdorff
--- skipped Causal.Causality.exists_timeFunction_of_secondCountable (globally_hyperbolic ∧ tarentin ⇒ time_function): under: M Hausdorff and second countable ([T2Space M] [SecondCountableTopology M]); ETT's spacetimes are both (ETT.tex:255)
+-- skipped Causal.Causality.exists_timeFunction_of_secondCountable (globally_hyperbolic ∧ tarentin ⇒ time_function): layer: Causal.Causality.exists_timeFunction_of_secondCountable lives in Causal.LevinUtility, which imports a model (Causal.LevinUtility → Causal.LemmaKSC → Causal.LemmaKReduction → Causal.LemmaKBare → Causal.Model.CurvesExtendModels)
 -- skipped Causal.Causality.LeNested.curveNestedOn (le_nested ⇒ curve_nested): sort: joins a property not of the sort causality
