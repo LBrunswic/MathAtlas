@@ -1,0 +1,97 @@
+{
+  "package": "T-bz-c2-prop2-literal",
+  "target": "T-bz-c2-prop2-literal",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Prop2Literal.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzprop:c2s2p2_pseudo_longueur_corps_convexe",
+      "tex_lines": [
+        306,
+        313
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.pseudo_longueur_corps_convexe_literal",
+        "Benzecri.PseudoLongueurCorpsConvexeLiteral",
+        "Benzecri.pseudoLongueurCorpsConvexeLiteral_holds",
+        "Benzecri.pseudoLongueurCorpsConvexePrinted_iff_literal",
+        "Benzecri.hilbertLength_eq_zero_iff_and_pos",
+        "Benzecri.hilbertLength_ne_top_iff_pos",
+        "Benzecri.subsingleton_corpsInterior_dim_zero",
+        "Benzecri.exists_ne_corpsInterior_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V̄ un corps convexe de S(n)",
+          "here": "carried",
+          "note": "IsCorpsConvexeS n K (Déf. 11), as in the strict assembly"
+        },
+        {
+          "paper": "d'intérieur V (a locally projective manifold)",
+          "here": "carried",
+          "note": "corpsInterior K = Opens.interior K with Mathlib's charted structure on an open set"
+        },
+        {
+          "paper": "l_V(A, B)",
+          "here": "carried",
+          "note": "clause (0): the segments of V from A to B reduce to (A, B) (isProjSegment_corpsInterior_iff, no n ≥ 1), so l_V is hilbertLength K on V × V"
+        },
+        {
+          "paper": "F, F′ les points d'intersection de la droite AB avec la frontière de V̄",
+          "here": "carried",
+          "note": "clause (1): for A ≠ B such F ≠ F′ exist, with A, B in the open segment )F, F′( (stronger than the strict n ≥ 1 assembly, which omits the open-segment conjunct); clause (2) holds for every such pair, in both orders"
+        },
+        {
+          "paper": "l_V(A, B) est une fonction continue sur V × V",
+          "here": "carried",
+          "note": "continuous V × V → EReal (continuous_hilbertLength). Real-valued iff n ≥ 1 (hilbertLength_ne_top_iff_pos): at n = 0 only as an EReal-valued function (question)"
+        },
+        {
+          "paper": "qui ne s'annule que sur la diagonale",
+          "here": "carried",
+          "note": "the literal reading of OQ-56: hilbertLength K A B = 0 → A = B. The exact zero set in every dimension is {A = B} ∩ {n ≥ 1} (hilbertLength_eq_zero_iff_and_pos)"
+        },
+        {
+          "paper": "the dimension n",
+          "here": "carried",
+          "note": "every n, no [NeZero n]. None of the five clauses needs n ≥ 1, the segment clause (0) included"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Under the literal reading of OQ-56, Prop. 2 (l.306–313) holds at n = 0 only vacuously. The interior of a convex body of S(0) is a single point (subsingleton_corpsInterior_dim_zero), so the clauses about A ≠ B (the frontier points, the projective measure, the zero set) have no instance. Continuity holds because V is a point. These clauses have instances exactly when n ≥ 1: some convex body of S(n) has two distinct interior points iff 0 < n (exists_ne_corpsInterior_iff, with the explicit convex body stdCorpsConvexe n, the rays of |v_i| ≤ v_0). So « holds in every dimension » (OQ-56) means « holds for n ≥ 1, and trivially at n = 0 ».",
+        "At n = 0, l_V is not real-valued: l_V(A, A) = +∞ at the one point of V (hilbertLength_self_dim_zero), and l_V is finite everywhere iff n ≥ 1 (hilbertLength_ne_top_iff_pos). The « fonction continue sur V × V » of l.312 holds at n = 0 only for a function valued in [0, +∞]. If a real-valued function is meant, the literal reading fails at n = 0 as well, for the same cause as the « iff » reading: Déf. 1 gives coincident points no measure (OQ-45).",
+        "The planner's note on the target ([r], unchecked) that the segment clause (0) might need n ≥ 1 is false. isProjSegment_corpsInterior_iff carries no [NeZero n], and all five clauses of the strict n ≥ 1 assembly hold in every dimension except the « ← » half of the last one."
+      ],
+      "questions": [
+        "OQ-56 (open). This file takes no side. It proves the literal form in every dimension (pseudo_longueur_corps_convexe_literal), with its printed-format Prop PseudoLongueurCorpsConvexeLiteral true for every n. The strict pseudo_longueur_corps_convexe remains the n ≥ 1 « iff » form. The two part ways exactly at n = 0 (pseudoLongueurCorpsConvexePrinted_iff_literal: Printed n ↔ Literal n ∧ 0 < n). Routing: under the literal answer, the mark goes on Benzecri.pseudo_longueur_corps_convexe_literal once this file graduates, with no Lean change, subject to the next question. Under the « iff » answer it goes on Benzecri.pseudo_longueur_corps_convexe if OQ-45 (a) rules n ≥ 1 implied, and otherwise the row stays partial.",
+        "« une fonction continue sur V × V » (l.312): real-valued, or valued in [0, +∞]? Reading taken: [0, +∞] (EReal), as the strict assembly and Mesure's pseudoLength already read it. Under the real-valued reading, the literal form also fails at n = 0 (hilbertLength_ne_top_iff_pos), and a mark in every dimension would need OQ-45 (b) (a point given measure 0). This bears on OQ-56's premise that the literal reading « holds in every dimension ».",
+        "Evidence on OQ-56 from the text, not a ruling: the paper derives 6° (l.249–251, « nulle si et seulement si M = N ») from Prop. 2 (l.303, « La propriété 6° résulte de la » [proposition 2]). Under the « iff » reading the derivation is immediate. Under the literal reading it also needs 1°'s l_V(M, M) = 0 (l.232), which l.297–298 calls trivial. So l.303 fits both readings and does not decide between them."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.stdCorpsCone",
+    "Benzecri.stdCorpsConvexe",
+    "Benzecri.stdCorpsConeOpen",
+    "Benzecri.stdCorpsCone_smul",
+    "Benzecri.stdCorpsConeOpen_smul",
+    "Benzecri.F_stdCorpsConvexe",
+    "Benzecri.pos_of_mem_stdCorpsCone",
+    "Benzecri.isClosed_stdCorpsCone",
+    "Benzecri.isOpen_stdCorpsConeOpen",
+    "Benzecri.stdCorpsConeOpen_subset",
+    "Benzecri.isCorpsConvexeS_stdCorpsConvexe",
+    "Benzecri.exists_isCorpsConvexeS"
+  ],
+  "kb_proposals": [
+    "A convex body of S(n) in every dimension is Benzecri.stdCorpsConvexe n (the rays of |v_i| ≤ v_0, isCorpsConvexeS_stdCorpsConvexe), and for n ≥ 1 it has two distinct interior points (exists_ne_corpsInterior_iff). Use it as a non-vacuity witness for statements about convex bodies.",
+    "The interior of a convex body of S(0) is one point (subsingleton_corpsInterior_dim_zero), and l_V ≡ +∞ there. A statement about A ≠ B in such an interior is vacuous at n = 0; a « real-valued » statement about l_V is false at n = 0 (hilbertLength_ne_top_iff_pos)."
+  ],
+  "notes": "Sorry-free, and the label is unmarked on purpose: the mark waits on OQ-56, and on OQ-45 under the « iff » answer. The file imports only Benzecri.Chapter2.Hilbert and edits no other file. It compiles under -DwarningAsError=true with no warning. lake build BenzecriScaffold.Chapter2.Prop2Literal was green, built only this module, and rebuilt nothing upstream (no lake build of lean-benzecri was running when it started). #print axioms of all nine theorems gives propext, Classical.choice and Quot.sound only. A probe importing Benzecri and this module together compiled, so there are no name clashes with the strict library; it was deleted. Name clashes with T-bz-c2-hemisphere's Hemisphere.lean (absent when this file was written) are unchecked: the new names are prefixed stdCorps* or specific to Prop. 2. The scaffold root BenzecriScaffold.lean was not edited, so the master adds the import (lean-causal kb/0025). The main theorem's term proof uses exactly the five lemmas the target names (isProjSegment_corpsInterior_iff, exists_frontier_pair, pseudoLength_eq_projMeasure, continuous_hilbertLength, hilbertLength_ne_zero). Prop. 2 was checked against the scan (journal p. 250, PDF p. 23), and the transcription matches. OQ-56's row cites l.306–310 for « ne s'annule que sur la diagonale », but the phrase is at l.312. Under the literal answer, the row's decls would add the eight label decls above beside the strict ones."
+}
