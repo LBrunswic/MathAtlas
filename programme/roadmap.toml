@@ -23,14 +23,14 @@ commit = "6148937"
 
 [[target]]
 id = "T-lad-classify-core"
-title = "Classify the core pairs of the ladder: an implication with a Lean witness, a counterexample, or an `open` entry, for every pair among the 11 seeded properties"
+title = "Classify the pairs of the ladder within each sort: an implication with a Lean witness, a counterexample, or an `open` entry, for every pair among the 13 causality-sort properties (then the geometry and pair sorts)"
 stream = "ladder"
 kind = "ladder"
 status = "planned"
 owner = "keeper"
 priority = 2
-depends = ["T-lad-seed-check"]
-evidence = "tools/ladder.py matrix: 99 of 110 ordered pairs unknown. Counterexamples exist in Lean (the timelike/lightlike/half-chrono lines, Galileo, the kink, branching spaces) and in the ETT ledger's findings."
+depends = ["T-lad-seed-check", "T-lad-local-nodes", "T-tool-ladder-py"]
+evidence = "tools/ladder.py matrix (seed): 99 of 110 ordered pairs unknown; check of 2026-11-20 23:50 (programme/JOURNAL.md): 29 of 306 ordered pairs classified, 29 of 164 within a sort. Counterexamples in Lean: the timelike/lightlike/half-chrono lines, Galileo, the kink, branching spaces, the ETT ledger's findings; since 2026-11-20 also the separations of Causal.LadderLocal (lightlikeLine_separates_chronalNeighbours, spacelikeLine_separates_noCausalEndpoint, Causal/LadderLocal.lean:586, :594), Causal.LocateExtension's isolatedLine (causally arc-connected, causally open, plain: :550, :569, :600) and tarentin_and_plain_needed (:687), the E_α and cosmic-string instances of every node (Causal/Model/EAlphaCauchy.lean:494–550, :828–849), and the witnesses the new targets build (T-abs-pushup-not-open, T-abs-gateline-witnesses, T-loc-flat-time-cylinder, T-abs-nested-converse). Planned behind T-lad-local-nodes and T-tool-ladder-py (2026-11-21): while the closure chains the localisation `under` of four edges as unconditional (programme/ladder.toml:289, :299, :308, :316 and the header), a pair it marks implied may be false, and a true counterexample such as push-up without causal openness would read as a contradiction."
 added = "2026-11-20"
 proposed_by = "programme seed"
 
@@ -98,7 +98,7 @@ oq = "OQ-41"
 owner = "keeper"
 priority = 4
 depends = ["T-abs-ladder-local-defs"]
-evidence = "Closer's finding (T-abs-nested-causalities, OQ-41 (b), registers/DECISIONS.md): ≤-nesting does not give the nesting of inextensible curves (Causal.not_isCauchySurface_of_nested_bare, cutLine 1), which item 2 and ERS 4.70 need; on M it follows from no point without causal past or future (Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top, Causal/NestedCausalities.lean:450). Binder papers/ers-predictability: open in rows 4.70, 4.71, 4.77. no_causal_endpoint has no Lean definition yet (T-abs-ladder-local-defs writes it); it is also the hypothesis of Lemma K (programme/ladder.toml consequence, `under`) and of Causal/ChainsCurves.lean:367–391."
+evidence = "Closer's finding (T-abs-nested-causalities, OQ-41 (b), registers/DECISIONS.md): ≤-nesting does not give the nesting of inextensible curves (Causal.not_isCauchySurface_of_nested_bare, cutLine 1), which item 2 and ERS 4.70 need; on M it follows from no point without causal past or future (Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top, Causal/NestedCausalities.lean:450). Binder papers/ers-predictability: open in rows 4.70, 4.71, 4.77. no_causal_endpoint has its Lean definition since T-abs-ladder-local-defs (3e48e55): Causal.Causality.NoCausalEndpoint (Causal/LadderLocal.lean:171), with the corollary GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint (:386), already the witness of the ladder's consequence at curve_nested; it is also the hypothesis of Lemma K (programme/ladder.toml consequence, `under`) and of Causal/ChainsCurves.lean:367–391. Either node is now addable; which one is OQ-41 (b)."
 added = "2026-11-20"
 proposed_by = "programme-planner (closer finding T-abs-nested-causalities)"
 
@@ -118,27 +118,27 @@ proposed_by = "programme-planner (closer finding T-abs-gluing-hausdorff)"
 
 [[target]]
 id = "T-lad-development-nodes"
-title = "Ladder nodes for developments of data: local_uniqueness (two developments of the same data have a common Cauchy sub-development) and one_sided_boundary (ERS (4.83)'s topological content), with the definitions T-abs-cbg-initial-data and T-abs-ladder-local-defs write"
+title = "Ladder node local_uniqueness for developments of data (two developments of the same datum have a common Cauchy sub-development: Sbierski Thm 2.6, ERS Prop 4.63), with the definition T-abs-cbg-initial-data writes"
 stream = "ladder"
 kind = "ladder"
 status = "planned"
 owner = "keeper"
 priority = 4
 depends = ["T-abs-cbg-initial-data", "T-abs-ladder-local-defs"]
-evidence = "Binders: local_uniqueness is open in Sbierski rows Thm 2.6, 2.7, 2.8, 3.4 (Maximal_GHD2.tex:403) and ERS rows Prop 4.63, Thm 4.64, 4.71, 4.73, 4.75, 4.82 (ghd_02_19.tex:836); one_sided_boundary in ERS rows 4.82, 4.86 (the `honesided` hypothesis of Causal.Causality.ers_theorem_4_82, Causal/NestedCausalities.lean:1391). Neither has a Lean definition yet."
+evidence = "Binders (rebound 2026-11-21): local_uniqueness is open in Sbierski rows Thm 2.6, 2.7, 2.8, 3.4 (Maximal_GHD2.tex:403) and ERS rows Prop 4.63, Thm 4.64, Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73, Thms 4.75, 4.79, 4.80, 4.82 (ghd_02_19.tex:836). On ERS's fixed background it is the existential `hlocal : ∃ V, C.IsCommonDevelopment S U₁ U₂ agree V` of Causal.Causality.ers_theorem_4_64 (Causal/ErsUniqueness.lean:235, :466), not a named predicate; for Sbierski's data it is the predicate T-abs-cbg-initial-data defines. Refined 2026-11-21: one_sided_boundary, which has its Lean definition since T-abs-ladder-local-defs (Causal.Causality.OneSidedBoundary, Causal/LadderLocal.lean:189) and waits only on OQ-52 (b), moved to T-lad-one-sided-node."
 added = "2026-11-20"
 proposed_by = "programme-planner (binders sbierski-mghd, ers-predictability)"
 
 [[target]]
 id = "T-lad-local-nodes"
-title = "Ladder nodes for the local side conditions of four checked edges: locally_push_up, locally_causally_open_future, locally_causally_open (two-sided), chronal_neighbours (chronal neighbours in every open set); the edges CausallyArcConnected.pushUp, AbsolutelyMinimal.causallyOpenFuture/causallyOpen and causallyOpen_of_pushUp rewritten with them in `from`"
+title = "Ladder nodes for the local side conditions of four checked edges: locally_push_up (Causal.Causality.LocallyPushUp), locally_causally_open_future (LocallyCausallyOpenFuture), locally_causally_open (LocallyCausallyOpen), chronal_neighbours (ChronalNeighbours, two-sided); the edges CausallyArcConnected.pushUp, AbsolutelyMinimal.causallyOpenFuture/causallyOpen and causallyOpen_of_pushUp replaced by their Causal.LadderLocal restatements, the side condition in `from`"
 stream = "ladder"
 kind = "ladder"
-status = "planned"
+status = "ready"
 owner = "keeper"
-priority = 3
+priority = 2
 depends = ["T-abs-ladder-local-defs"]
-evidence = "The keeper's proposal from T-lad-seed-check (programme/JOURNAL.md:6, entry 2026-11-20 19:45): these side conditions sit in `under` of programme/ladder.toml:146, :156, :165, :173, which the closure chains as unconditional (ladder.toml header). The keeper adds no property without a Lean definition: T-abs-ladder-local-defs writes Causality.LocallyPushUp, LocallyCausallyOpenFuture, LocallyCausallyOpen, ChronalNeighbours and the four witnesses restated with them."
+evidence = "The keeper's proposal from T-lad-seed-check (programme/JOURNAL.md, entry 2026-11-20 19:45): these side conditions sit in `under` of programme/ladder.toml:289, :299, :308, :316, which the closure chains as unconditional (ladder.toml header). The definitions exist since T-abs-ladder-local-defs (3e48e55; journal entry 2026-11-20 21:35): Causal/LadderLocal.lean:139 (LocallyPushUp), :145 (LocallyCausallyOpenFuture), :151 (LocallyCausallyOpen), :162 (ChronalNeighbours); global ⇒ local edges PushUp.locallyPushUp :224, CausallyOpenFuture.locallyCausallyOpenFuture :256, CausallyOpen.locallyCausallyOpen :288, LocallyCausallyOpen.future :271; restated witnesses CausallyArcConnected.pushUp_of_locallyPushUp :230, AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture :263, AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen :295, PushUp.causallyOpen_of_chronalNeighbours :349 (ETT-layer, where Causal.Causality.causallyOpen_of_pushUp lives in the model-importing Causal.LemmaK); separation lightlikeLine_separates_chronalNeighbours :586 (push-up, causally open, GH, no chronal neighbours). Afterwards push_up ⇏ causally_open (T-abs-pushup-not-open) can be a [[fails]] entry without contradicting the closure. OQ-52 (a) (the past base of the ONE-sided notions ChronalPastNeighbours, NoPastEndpoint) names this target in its blocks column; only the two-sided ChronalNeighbours becomes a node here, whose name a renaming of the one-sided notions does not change, so the keeper adds no one-sided node until OQ-52 rules (planner's reading, for the master to confirm)."
 added = "2026-11-20"
 proposed_by = "ladder-keeper (T-lad-seed-check), recorded by programme-planner"
 
@@ -147,13 +147,54 @@ id = "T-lad-gh-causal"
 title = "GH ⇒ causal without tarentin, and a causally_compact node (Causal.Causality.CausallyCompact): globally_hyperbolic ⇔ is_causal ∧ causally_compact as three checked edges"
 stream = "ladder"
 kind = "ladder"
-status = "planned"
+status = "ready"
 owner = "keeper"
 priority = 3
 depends = ["T-abs-ladder-local-defs"]
-evidence = "The keeper's proposal from T-lad-seed-check (programme/JOURNAL.md:6): GH reaches is_causal only through tarentin (ladder.toml:127 then :101), though GH is defined as IsCausal ∧ compact diamonds (lean-causal/Causal/Properties.lean:144); CausallyCompact is defined (Properties.lean:84) and used (ChainsCurves.lean:367). The witnesses (GloballyHyperbolic.isCausal, .causallyCompact, globallyHyperbolic_iff) do not exist as named theorems: T-abs-ladder-local-defs writes them."
+evidence = "The keeper's proposal from T-lad-seed-check (programme/JOURNAL.md:6): GH reaches is_causal only through tarentin (ladder.toml:127 then :101), though GH is defined as IsCausal ∧ compact diamonds (lean-causal/Causal/Properties.lean:144); CausallyCompact is defined (Properties.lean:84) and used (ChainsCurves.lean:367). The witnesses exist since T-abs-ladder-local-defs (3e48e55), ETT-layer: Causal.Causality.GloballyHyperbolic.isCausal (Causal/LadderLocal.lean:428), .causallyCompact (:433), globallyHyperbolic_iff (:437), IsCausal.globallyHyperbolic (:442), dual_causallyCompact (:446)."
 added = "2026-11-20"
 proposed_by = "ladder-keeper (T-lad-seed-check), recorded by programme-planner"
+
+[[target]]
+id = "T-lad-time-function-causal"
+title = "The edge time_function ⇒ is_causal (witness Causal.Causality.isCausal_of_exists_timeFunction, HasTimeFunction's body unpacked as for time_function ⇒ curves_extend), replacing the [[open]] entry; the [[open]] curves_extend → time_function note updated; the separation 'an ETT time function (defi:fonction_temps) does not make a causality causal' recorded beside the node"
+stream = "ladder"
+kind = "ladder"
+status = "ready"
+owner = "keeper"
+priority = 3
+depends = ["T-lad-cbg-geometry-nodes"]
+evidence = "Journal entry 2026-11-20 23:50 ('the keeper's proposals (edge time_function ⇒ is_causal via isCausal_of_exists_timeFunction …)') and 21:35 (HasTimeFunction.isCausal). The witness exists since T-abs-causal-iso-invariance (80260b0): Causal.Causality.isCausal_of_exists_timeFunction (Causal/CausalIsoInvariance.lean:893), ETT-layer, taking the body of Causal.Causality.HasTimeFunction verbatim; the [[open]] entries it settles or changes: programme/ladder.toml:679 (time_function → is_causal, 'wants Causality.HasTimeFunction.isCausal'), :694 (curves_extend → time_function, '… nor time_function ⇒ is_causal'). The separation: Causal.exists_isTimeFunction_not_isCausal (CausalIsoInvariance.lean:966, the doubled line). emit-lean skips the edge while HasTimeFunction lives in the model-reaching Causal.CBG.Pgcd; T-abs-hoist-time-function moves it and adds the wrapper HasTimeFunction.isCausal, after which the witness may be switched. Optional, the keeper's call: CausalIsoInvariance proves every causality-sort node invariant under causal isomorphism (IsCausalIso.*_iff, :533–789), a fact about the whole ladder rather than one node."
+added = "2026-11-21"
+proposed_by = "ladder-keeper (T-lad-cbg-geometry-nodes, T-lad-nested-nodes), recorded by programme-planner"
+
+[[target]]
+id = "T-lad-one-sided-node"
+title = "one_sided_boundary (Causal.Causality.OneSidedBoundary, ERS (4.83)'s topological content) as ladder material, in the form OQ-52 (b) rules: a node of a third sort (a property of an open set, no causality), an edge hypothesis in words only, or not a ladder property; with its consequence ers_theorem_4_82_of_oneSidedBoundary"
+stream = "ladder"
+kind = "ladder"
+status = "blocked"
+oq = "OQ-52"
+owner = "keeper"
+priority = 5
+depends = ["T-abs-ladder-local-defs"]
+evidence = "Split 2026-11-21 out of T-lad-development-nodes, since the definition exists: Causal.Causality.OneSidedAt, OneSidedBoundary (Causal/LadderLocal.lean:180, :189), consumed by Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary (:397) and ers_theorem_4_82_of_sliceRestart (Causal/ErsUniqueness.lean:722); witnesses oneSidedBoundary_Ioi_zero (:495), not_oneSidedBoundary_compl_zero (:511). Binder papers/ers-predictability: open in rows Thm 4.82, Lemma 4.86. OQ-52 (b) (registers/DECISIONS.md) asks which form: it involves no causality, so it fits neither ladder sort."
+added = "2026-11-21"
+proposed_by = "programme-planner (OQ-52, binder ers-predictability)"
+
+[[target]]
+id = "T-lad-ers-restart-nodes"
+title = "The restart hypotheses of ERS Thm 4.64 as ladder material, in the form OQ-57 (b) rules: slice_restart (Causal.Causality.SliceRestart, Steps 3–5 + Prop 4.63) and frontier_stays_in (Causal.Causality.FrontierStaysIn, Step 2's U₂ half), apart or folded, as nodes or as edge hypotheses; consequences ers_theorem_4_64, ers_theorem_4_82_of_sliceRestart"
+stream = "ladder"
+kind = "ladder"
+status = "blocked"
+oq = "OQ-57"
+owner = "keeper"
+priority = 5
+depends = ["T-abs-ers-thm-4-64"]
+evidence = "Causal/ErsUniqueness.lean:211 (SliceRestart: 'at every frontier point p of R in L at which the frontier is spacelike in W, Q p'; 4.82's hstep definitionally, :722), :226 (FrontierStaysIn), :466 (ers_theorem_4_64: hstay, hstep). Binder papers/ers-predictability (rebound 2026-11-21): proposed ids slice_restart, frontier_stays_in, open in rows Thm 4.64, Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73, Thms 4.75, 4.79, 4.80, 4.82; they replace the 2026-11-20 binder's use of cauchy_slice, which is the A4 field of a CBG local model (Causal.CBG.LocalModel.SliceFuture) and is not what the fixed-background theorems consume. OQ-57 (b) asks whether FrontierStaysIn stays apart, is folded into the restart, or becomes a ladder/localisation node. Both are hypotheses with parameters (W, S, R, L, Q), not predicates on one causality: the keeper chooses node or edge hypothesis."
+added = "2026-11-21"
+proposed_by = "programme-planner (T-abs-ers-thm-4-64 closer finding, OQ-57)"
 
 # ------------------------------------------------------------------ Lean automation
 [[target]]
@@ -172,17 +213,31 @@ commit = "1fcbea8"
 
 [[target]]
 id = "T-tool-ladder-py"
-title = "tools/ladder.py and tools/binder.py: standing separation hypotheses in a field of their own and a closure (matrix, check) and emit-lean that skip edges with a localisation `under`; namespace-exact Lean name resolution; conjunctive `at` for consequences; property `label`s checked against papers/ett's ledger — with tests and a fixture per new failure"
+title = "tools/ladder.py and tools/binder.py: standing separation hypotheses in a field of their own and a closure (matrix, check) and emit-lean that skip edges with a localisation `under`; namespace-exact Lean name resolution; conjunctive `at` for consequences; property `label`s checked against papers/ett's ledger; `sort` read by check and matrix (pairs within one sort); `fails` with a list `from`; a `[[transfer]]` table for what a pair-sort nesting carries from the wider causality to the narrower — with tests and a fixture per new failure"
 stream = "tactics"
 kind = "tooling"
 package = "none"
 status = "planned"
 owner = "master"
 priority = 3
-depends = ["T-tac-ladder-core"]
-evidence = "The keeper's four proposals from T-lad-seed-check (programme/JOURNAL.md:6). (1) programme/ladder.toml header: 'under is NOT read by tools/ladder.py: the closure chains an edge with under as if it were unconditional' (the `under` at ladder.toml:146, :156, :165, :173 are localisation conditions; those at :102 and :128 are standing T1/T2); (2) tools/ladder.py `resolves` accepts any dotted-suffix match, so `Causal.Foo.bar` resolves whenever some `bar` is declared — tools/binder.py inherits it; (3) consequences carry ladder ids in `under` as words (ladder.toml:192, :199, :207, :215) for want of a conjunctive `at`; (4) `label` is not checked. Depends on T-tac-ladder-core so that the two do not edit tools/ladder.py in one wave; afterwards the keeper migrates `under` to the new field in its next ladder target, and both binders are re-checked under the exact resolver (their names were resolved namespace-exactly by the planner on 2026-11-20). A gate must be able to fail: fixtures under tools/fixtures/ for each new rule (CLAUDE.md)."
+depends = ["T-tac-ladder-core", "T-lad-local-nodes"]
+evidence = "The keeper's four proposals from T-lad-seed-check (programme/JOURNAL.md:6). (1) programme/ladder.toml header: 'under is NOT read by tools/ladder.py: the closure chains an edge with under as if it were unconditional' (the `under` at ladder.toml:146, :156, :165, :173 are localisation conditions; those at :102 and :128 are standing T1/T2); (2) tools/ladder.py `resolves` accepts any dotted-suffix match, so `Causal.Foo.bar` resolves whenever some `bar` is declared — tools/binder.py inherits it; (3) consequences carry ladder ids in `under` as words (ladder.toml:192, :199, :207, :215) for want of a conjunctive `at`; (4) `label` is not checked. Depends on T-tac-ladder-core so that the two do not edit tools/ladder.py in one wave; afterwards the keeper migrates `under` to the new field in its next ladder target, and both binders are re-checked under the exact resolver (their names were resolved namespace-exactly by the planner on 2026-11-20). A gate must be able to fail: fixtures under tools/fixtures/ for each new rule (CLAUDE.md). Folded in 2026-11-21: (5) the keeper's reading of `sort` and of `fails` with a list (T-lad-cbg-geometry-nodes, journal entry 2026-11-20 21:35): check and matrix ignore `sort` (programme/ladder.toml:41), so matrix lists the ill-typed cross-sort pairs as unknown and 'k of n pairs classified' counts them; (6) the keeper's `[[transfer]]` schema (T-lad-nested-nodes, journal entry 2026-11-20 22:45): a nesting transfers causality-sort properties from the wider causality to the narrower (is_causal, globally_hyperbolic under closed diamonds; SC, SCO, the time function by T-abs-nested-transfer; not tarentin), which ladder.toml records only in words because a counterexample to a transfer would be a [[fails]] entry joining two sorts (comment at ladder.toml:575); a [[transfer]] entry names the pair property, the causality property, the direction, a witness or a counterexample, and is checked like a consequence. Depends on T-lad-local-nodes (2026-11-21) so that the four localisation `under` are already premises when the closure starts skipping conditional edges, and the keeper and the master do not rewrite the same edges in one wave."
 added = "2026-11-20"
 proposed_by = "ladder-keeper (T-lad-seed-check), recorded by programme-planner"
+
+[[target]]
+id = "T-tac-ladder-dual"
+title = "causal_ladder across time reversal: hand-written CausalLadder rules in Causal/Ladder/Basic.lean from the dual lemmas of the ladder nodes (C.dual.P ↔ C.P, or the dual form of a one-sided node), so that a goal about C.dual is closed from hypotheses about C; with a test file"
+stream = "tactics"
+kind = "tactic"
+package = "lean-causal"
+status = "ready"
+owner = "tactician"
+priority = 6
+depends = ["T-tac-ladder-core"]
+evidence = "Journal entry 2026-11-20 21:35 ('the tactic's limits (no reasoning across C.dual)'). Dual lemmas in the ETT layer: Causal.Causality.dual_locallyPushUp, dual_locallyCausallyOpen, dual_chronalNeighbours, dual_noCausalEndpoint, dual_causallyCompact (Causal/LadderLocal.lean:200, :267, :301, :371, :446), dual_tarentinOn (Causal/ErsUniqueness.lean:271), dual_leNested_iff (Causal/NestedCausalities.lean:145), IsCausalIso.dual (Causal/CausalIsoInvariance.lean:260); the tactician finds the rest for the 13 causality-sort nodes. Rules.lean is generated by tools/ladder.py emit-lean and is not edited; these rules are hand-written beside it (Causal/Ladder/Basic.lean, T-tac-ladder-core, 1fcbea8). A node whose definition is one-sided (causally_open_future) has a dual that is not a node: such a rule concludes the dual form only."
+added = "2026-11-21"
+proposed_by = "tactics-builder (T-tac-ladder-core), recorded by programme-planner"
 
 # ------------------------------------------------------------------ layer 1: causal-topological theorems
 [[target]]
@@ -292,19 +347,68 @@ commit = "02b43b6"
 
 [[target]]
 id = "T-abs-hoist-cbg-cores"
-title = "Move the model-free cores of Causal.CBG that the Sbierski binder cites as layer 1 into ETT-layer modules: IsCorrPair, KSide and their theorems (Corresponding), the Lemma 3.9/3.11 cores and isClosed_setOf_corresponds (NoCorresponding), TwoPiece (Ppcm), ManyPiece (Maximal), injOn_of_injOn_cauchy (Injective)"
+title = "Move the model-free cores of Causal.CBG.Corresponding and Causal.CBG.NoCorresponding into ETT-layer modules: the K⁻ and causal-convexity lemmas, Corresponds, IsCorrPair, KSide and their theorems (corresponding_K, eq_of_corresponds, corresponds_of_tendsto, corresponds_iff_mem_gluingC, the _past forms), spacelike_iff, exists_lt_Jminus_compl_subset (Lemma 3.11), IsCorrPair.exists_corresponds_of_le (Lemma 3.9's core), isClosed_setOf_corresponds, with their witnesses on lines"
 stream = "abstract"
 kind = "abstract"
 uses = ["push_up", "tarentin", "globally_hyperbolic", "causally_arc_connected"]
 package = "lean-causal"
 exclusive = true
-status = "planned"
+status = "ready"
 owner = "closer"
-priority = 6
+priority = 3
 depends = ["T-abs-hoist-model-free"]
-evidence = "Binder papers/sbierski-mghd/certificate/binder.toml (rows Lemma 3.3, Prop 3.7, Lemmas 3.9, 3.11, Thms 2.7, 2.8): these layer-1 theorems are model-free by their own docstrings (Causal/CBG/Corresponding.lean 'Model-free core', NoCorresponding 'Model-free', Ppcm.lean:226, Maximal.lean:128) but their modules import Causal.CurvesExtend → Causal.Minkowski, and Causal.CBG.Geometry imports Causal.SingularFlat — all forbidden to layer 1 (SKILL.md §3). Same refactor discipline as T-abs-hoist-model-free; planned behind it."
+evidence = "Binder papers/sbierski-mghd (rows Prop 3.7, Lemmas 3.9, 3.11, Def 3.5): model-free by their docstrings ('Model-free core', Causal/CBG/Corresponding.lean:37), but Causal.CBG.Corresponding imports Causal.CBG.Geometry (→ Causal.SingularFlat) and Causal.CBG.CausalConvex (→ Causal.CurvesExtend → Causal.Minkowski), and Causal.CBG.NoCorresponding imports Causal.CBG.Pgcd: no layer-1 module may use them (.claude/skills/ett-programme/SKILL.md §3). Ranges read 2026-11-21: Causal/CBG/Corresponding.lean:132–255 (namespace Causality: Jplus_mem_nhds_of_mem_Kminus … Jminus_mem_nhds_of_isCauchySurface), :259–656 (section Core), the witnesses timelikeLine_/lightlikeLine_corresponding_hypotheses (:994–); Causal/CBG/NoCorresponding.lean:146–254 (mem_closure_of_mem_Jminus, spacelike_iff, exists_lt_Jminus_compl_subset), :260–324 (section Core), witnesses :759–807. Checked by name 2026-11-21: these sections use no declaration of Geometry, CausalConvex, CurvesExtend, Minkowski, Static or SingularFlat (CausalConvex's le_of_causallyConvexIn_of_le appears in a docstring only), so this hoist does not wait on T-abs-hoist-time-function. Same refactor discipline as T-abs-hoist-model-free (02b43b6): no statement changes, every old full name keeps resolving (both binders, the ett and Sbierski ledgers cite them), the master rebuilds the ledgers whose Lean root moved. Unblocks T-abs-sbierski-prop-3-7 (journal entry 2026-11-20 23:50: swapped out of the wave for want of it) and T-abs-hoist-cbg-gluing. Refined 2026-11-21: TwoPiece and ManyPiece moved to T-abs-hoist-cbg-gluing, injOn_of_injOn_cauchy to T-abs-hoist-time-function, the CBG interface to T-abs-hoist-cbg-geometry."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
+
+[[target]]
+id = "T-abs-hoist-time-function"
+title = "Make the time-function layer ETT-layer: Causal.CurvesExtend without its static and Minkowski section (moved to a model module), Causality.HasTimeFunction moved beside curvesExtend_of_timeFunction, Causal.CBG.Injective (Sbierski Lemma 3.3) without its Minkowski witnesses and its Causal.Splitting import; then the wrappers HasTimeFunction.isCausal and HasTimeFunction.curvesExtend"
+stream = "abstract"
+kind = "abstract"
+uses = ["time_function", "curves_extend", "is_causal"]
+package = "lean-causal"
+exclusive = true
+status = "ready"
+owner = "closer"
+priority = 3
+depends = ["T-abs-hoist-model-free"]
+evidence = "Causal/CurvesExtend.lean imports Causal.Minkowski for its last section only (:491–549: staticCausality.curvesExtend, minkowski_curvesExtend, minkowski_isAcausal_of_isCauchySurface, timelikeLine witnesses); :112–489 is model-free (time graphs, exists_inextensible_of_timeFunction :397, curvesExtend_of_timeFunction :411, GloballyHyperbolic.curvesExtend :449, IsCauchySurface.isAcausal_of_timeFunction :475). Causal.Causality.HasTimeFunction is defined in Causal/CBG/Pgcd.lean:133, which reaches a model: hence 'Not done: HasTimeFunction.isCausal' in the SCOPE of Causal/LadderLocal.lean and of Causal/CausalIsoInvariance.lean (isCausal_of_exists_timeFunction :893 takes its body), and emit-lean skips time_function ⇒ curves_extend for the layer rule (programme/ladder.toml:325–336, 'a wrapper Causality.HasTimeFunction.curvesExtend is proposed'). Causal/CBG/Injective.lean imports Causal.Splitting (→ Causal.Flat.IsomCausal) for minkowskiSlice, minkowski_isCauchySurface_slice (its Minkowski witnesses :626–650) and dual_isCauchySurfaceOn (Causal/Splitting.lean:503, model-free); injOn_of_injOn_cauchy (:558) is the ladder's consequence at time_function. The keeper's proposals: journal entries 2026-11-20 21:35 ('HasTimeFunction.isCausal/.curvesExtend once HasTimeFunction is hoisted') and 23:50 (the edge time_function ⇒ is_causal). Users of the moved model names to re-point: Causal/LemmaKSCLocal.lean, LemmaKBare.lean, Flat/Classification.lean, Model/EAlphaCauchy.lean, CBG/Injective.lean. Afterwards Causal.CBG.CausalConvex imports only ETT-layer modules (SubExtension, CurvesExtend, CompactCauchy, CurveComponents), so isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn (binder row Thm 3.4) become usable in layer 1 too. Same refactor discipline as T-abs-hoist-model-free (02b43b6): no statement changes, every old full name keeps resolving (the Sbierski binder cites Causal.CBG.injOn_of_injOn_cauchy, Causal.CBG.sbierski_lemma_3_3, Causal.CBG.minkowski_sbierski_lemma_3_3; the ladder cites curvesExtend_of_timeFunction, exists_inextensible_of_timeFunction)."
+added = "2026-11-21"
+proposed_by = "programme-planner (keeper proposals, journal 2026-11-20 21:35 and 23:50; binder sbierski-mghd)"
+
+[[target]]
+id = "T-abs-hoist-cbg-gluing"
+title = "Move the model-free gluing cores of Causal.CBG.Ppcm and Causal.CBG.Maximal into ETT-layer modules: crossing, Cauchy sides, TwoPiece and the piece charts (Ppcm's namespace Causality), ManyPiece and the many-piece charts (Maximal's namespace Causality), with their witnesses"
+stream = "abstract"
+kind = "abstract"
+uses = ["globally_hyperbolic", "causally_arc_connected", "push_up", "tarentin"]
+package = "lean-causal"
+exclusive = true
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-abs-hoist-cbg-cores"]
+evidence = "Binder papers/sbierski-mghd (rows Thm 2.7, 2.8): Causal.Causality.TwoPiece.globallyHyperbolic (Causal/CBG/Ppcm.lean:640) and Causal.Causality.ManyPiece.globallyHyperbolic (Causal/CBG/Maximal.lean:579) are the GH of the gluings by chains, model-free (Ppcm.lean:226, Maximal.lean:128), but Ppcm imports Causal.CBG.NoCorresponding (→ Pgcd → Geometry → SingularFlat) and Maximal imports Pgcd and Bound. Ranges read 2026-11-21: Ppcm.lean:126–662 (sections Crossing, CauchySide, TwoPiece, PieceChart), Maximal.lean:114–657 (ManyPiece, ManyChart, Witness; a witness on a static model stays in a model module). Ppcm's section uses Causal.Causality.Jplus_mem_nhds_of_isAcausal and Jplus_mem_nhds_of_mem_Kminus (Causal/CBG/Corresponding.lean:203, :139), hence behind T-abs-hoist-cbg-cores. Split 2026-11-21 out of T-abs-hoist-cbg-cores (one closer's worth each). Same refactor discipline as T-abs-hoist-model-free."
+added = "2026-11-21"
+proposed_by = "programme-planner (binder sbierski-mghd)"
+
+[[target]]
+id = "T-abs-hoist-cbg-geometry"
+title = "The CBG interface in the ETT layer: Causal.CBG.Geometry (A1–A4 over abstract structures), Dev, Bound, Pgcd, and the CBG sections of Ppcm and Maximal, so that layer-1 theorems may use cbg, exists_common_extension and maxDev_isUniversal"
+stream = "abstract"
+kind = "abstract"
+uses = ["rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+package = "lean-causal"
+exclusive = true
+status = "needs-ruling"
+owner = "closer"
+priority = 6
+depends = ["T-abs-hoist-cbg-cores", "T-abs-hoist-cbg-gluing", "T-abs-hoist-time-function"]
+question = "Causal.CBG.Geometry's A2 field asks every admissible structure's causality to satisfy SingularFlatAxioms (Causal/CBG/Geometry.lean:297; the module imports Causal.SingularFlat, which imports only ETT-layer modules and no metric, but is on the layer-1 rule's forbidden list, .claude/skills/ett-programme/SKILL.md §3). For layer-1 theorems over a geometry (T-abs-cbg-initial-data; Sbierski Thms 2.7, 2.8 read as Causal.CBG.cbg), should the programme (a) admit Causal.SingularFlat (an axiom bundle, not a model) and the abstract CBG interface into the ETT layer once the three hoists are done, (b) keep it out and restate A2 with ladder properties (absolutely_minimal, causally_arc_connected, push_up, tarentin, curves_extend, time_function), changing the interface gx agreed (DEC-62–DEC-64), or (c) leave Causal.CBG outside layer 1 and state T-abs-cbg-initial-data over a bare category of developments with universal objects as hypothesis?"
+evidence = "Journal entry 2026-11-20 23:50: T-abs-cbg-initial-data was swapped out of the wave because it needs Causal.CBG.cbg, model-importing. Imports read 2026-11-21: Causal/CBG/Geometry.lean imports Causal.SingularFlat (field `sing` :285, A2 :297); Bound imports Geometry; Pgcd imports Geometry, CausalConvex, Injective; Maximal imports Ppcm, Bound, Pgcd, FamilyGluing; FamilyGluing imports only PushoutCausal and mathlib. After T-abs-hoist-time-function, T-abs-hoist-cbg-cores and T-abs-hoist-cbg-gluing, the only forbidden import left on the path to Causal.CBG.cbg is Causal.SingularFlat through Geometry (Causal.SingularFlat imports PushUp, LinesCurves, Inextensible, GlobalHyperbolicity, StrongCausality). The layer-1 rule is the author's framing (programme/README.md: layer 1 'never imports a metric'); a reading of it is a ruling."
+added = "2026-11-21"
+proposed_by = "programme-planner (journal 2026-11-20 23:50; binder sbierski-mghd)"
 
 [[target]]
 id = "T-abs-cbg-initial-data"
@@ -313,10 +417,11 @@ stream = "abstract"
 kind = "abstract"
 uses = ["globally_hyperbolic"]
 package = "lean-causal"
-status = "ready"
+status = "planned"
 owner = "closer"
 priority = 3
-evidence = "Binder papers/sbierski-mghd (rows Thm 2.6, 2.7, 2.8, Def 2.1): Lean's CBG takes a GH spacetime M₀ as datum (Causal.CBG.Dev, `cbg`), Sbierski a Riemannian (M̄, ḡ, k̄) (Maximal_GHD2.tex:360, :403–420); two GHDs of the data share no M₀, and Thm 2.8 compares them through Thm 2.6. Argument: for N a development of the datum and M₀ the one of `cbg`, local uniqueness gives a common U; M₀ ↪ maxDev(U) makes maxDev(U) a development of M₀, so N → maxDev(U) → maxDev(M₀). The datum is read as a fixed Cauchy surface Σ with the class of its developments closed under common sub-developments; the same predicate is ERS's Prop 4.63 (papers/ers-predictability). Defines the Lean predicate the keeper needs for local_uniqueness (T-lad-development-nodes)."
+depends = ["T-abs-hoist-cbg-cores", "T-abs-hoist-cbg-geometry"]
+evidence = "Binder papers/sbierski-mghd (rows Thm 2.6, 2.7, 2.8, Def 2.1): Lean's CBG takes a GH spacetime M₀ as datum (Causal.CBG.Dev, `cbg`), Sbierski a Riemannian (M̄, ḡ, k̄) (Maximal_GHD2.tex:360, :403–420); two GHDs of the data share no M₀, and Thm 2.8 compares them through Thm 2.6. Argument: for N a development of the datum and M₀ the one of `cbg`, local uniqueness gives a common U; M₀ ↪ maxDev(U) makes maxDev(U) a development of M₀, so N → maxDev(U) → maxDev(M₀). The datum is read as a fixed Cauchy surface Σ with the class of its developments closed under common sub-developments; the same predicate is ERS's Prop 4.63 (papers/ers-predictability; on the fixed background the `hlocal` of Causal.Causality.ers_theorem_4_64, Causal/ErsUniqueness.lean:466). Defines the Lean predicate the keeper needs for local_uniqueness (T-lad-development-nodes). Back to planned 2026-11-21 (the layer-1 rule; journal entry 2026-11-20 23:50, where it was swapped out of the wave): Causal.CBG.cbg and exists_common_extension live in Causal.CBG.Maximal and Ppcm, whose imports reach Causal.Minkowski (CurvesExtend), Causal.Flat.IsomCausal (Splitting, through Injective) and Causal.SingularFlat (Geometry); T-abs-hoist-time-function, T-abs-hoist-cbg-cores and T-abs-hoist-cbg-gluing remove the first two, T-abs-hoist-cbg-geometry asks the author about the third. Under its reading (c) this target is restated over a bare category of developments."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
 
@@ -327,10 +432,11 @@ stream = "abstract"
 kind = "abstract"
 uses = ["strongly_causal", "globally_hyperbolic", "push_up", "tarentin"]
 package = "lean-causal"
-status = "ready"
+status = "planned"
 owner = "closer"
 priority = 3
-evidence = "Sbierski 1309.7591 Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581; text sbierski2013existence.txt:719). lean-causal/Causal/CBG/Corresponding.lean:90–92: '(ii) … proved from A3 … Sbierski's own proof of Prop 3.7 (ii) (timelike curves, strong causality) is not formalized'; 'Downstream warning: Sbierski proves Lemma 3.8 (= A3) from Prop 3.7 (ii)'. The binder's smooth-vacuum discharge of A3 (T-loc-vacuum-rigid-germ) follows Sbierski and needs (ii) without A3, or it is circular. The model-free (i) ⇔ K⁻-bijection and uniqueness are already proved (Causal.CBG.IsCorrPair.corresponding_K, eq_of_corresponds)."
+depends = ["T-abs-hoist-cbg-cores"]
+evidence = "Sbierski 1309.7591 Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581; text sbierski2013existence.txt:719). lean-causal/Causal/CBG/Corresponding.lean:90–92: '(ii) … proved from A3 … Sbierski's own proof of Prop 3.7 (ii) (timelike curves, strong causality) is not formalized'; 'Downstream warning: Sbierski proves Lemma 3.8 (= A3) from Prop 3.7 (ii)'. The binder's smooth-vacuum discharge of A3 (T-loc-vacuum-rigid-germ) follows Sbierski and needs (ii) without A3, or it is circular. The model-free (i) ⇔ K⁻-bijection and uniqueness are already proved (Causal.CBG.IsCorrPair.corresponding_K, eq_of_corresponds). Back to planned 2026-11-21 (the layer-1 rule; journal entry 2026-11-20 23:50): IsCorrPair and KSide sit in Causal.CBG.Corresponding, which imports Geometry (→ SingularFlat) and CausalConvex (→ CurvesExtend → Minkowski); T-abs-hoist-cbg-cores moves them (Corresponding.lean:259–656) and nothing else is needed."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
 
@@ -351,17 +457,32 @@ commit = "56ccff0"
 
 [[target]]
 id = "T-abs-ers-unions"
-title = "ERS19's union constructions over nested causalities: Prop 4.63 (the union of local developments of patches of S is GH with Cauchy surface S), Thm 4.75 (patching on the components of DS_p ∩ DS_q through 4.64), Thm 4.79 (the union of the UGHDs is the MUGHD) and Thm 4.80 (the m-MGHD, through Cor 4.73 and ers_theorem_4_77_greatest)"
+title = "ERS19's union constructions on a fixed background: Prop 4.63 (the union of local developments of the patches S_p of S has S as Cauchy surface) and Thm 4.75 (patching the local developments on the components of DS_p ∩ DS_q through Thm 4.64), local uniqueness and existence named"
 stream = "abstract"
 kind = "abstract"
 uses = ["globally_hyperbolic"]
 package = "lean-causal"
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 5
 depends = ["T-abs-ers-thm-4-64"]
-evidence = "Binder papers/ers-predictability rows Prop 4.63 (ghd_02_19.tex:836), Thm 4.75 (:1001), 4.79 (:1055), 4.80 (:1066): causal-topological unions whose analytic inputs are local uniqueness and existence (named). 4.79's non-emptiness uses that D_m(S) ∩ U₁ is an m-GHD (O'Neill 14.38, 14.43), a named model fact for Minkowski. Remark 4.78's 'union under global uniqueness' is Causal.Causality.ers_theorem_4_77_greatest (NestedCausalities.lean:1222)."
+evidence = "Binder papers/ers-predictability rows Prop 4.63 (ghd_02_19.tex:836), Thm 4.75 (:1001): causal-topological unions whose analytic inputs are local uniqueness and existence (named). Reuse Causal.ErsUniqueness (56ccff0): AgreementGlues, IsCommonDevelopment, isCommonDevelopment_maxCommonDevelopment (:361), and ers_theorem_4_64 (:466) with its named hypotheses for 4.75's components; Causal.isCauchyInclusion_iSup for the union. Readings as there (OQ-57 (c): the union has S as Cauchy surface, GH not concluded — Geroch (iii) ⇒ (i) is unproved, CausalScaffold.GerochEquiv). Refined 2026-11-21: Thms 4.79, 4.80 moved to T-abs-ers-mughd (they need neither 4.63 nor 4.75), to keep one closer's worth."
 added = "2026-11-20"
+proposed_by = "programme-planner (binder ers-predictability)"
+
+[[target]]
+id = "T-abs-ers-mughd"
+title = "ERS19 Thms 4.79 and 4.80: the MUGHD (the union of all UGHDs) and the unique m-MGHD, as unions under global uniqueness (ers_theorem_4_77_greatest) with Cor 4.73 (ers_corollary_4_73) as the uniqueness; 4.79's non-emptiness (D_m(S) ∩ U₁ is an m-GHD) a named Minkowski fact"
+stream = "abstract"
+kind = "abstract"
+uses = ["curve_nested", "globally_hyperbolic", "tarentin", "is_causal", "curves_extend"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 5
+depends = ["T-abs-ers-thm-4-64"]
+evidence = "Binder papers/ers-predictability rows Thm 4.79 (ghd_02_19.tex:1055) and Thm 4.80 (:1066). Remark 4.78's 'union under global uniqueness' is Causal.Causality.ers_theorem_4_77_greatest (Causal/NestedCausalities.lean:1185); global uniqueness for m-GHDs is Causal.Causality.ers_corollary_4_73 (Causal/ErsUniqueness.lean:691), whose named hypotheses are carried (subluminality CurveNestedOn C₂ C_m, Minkowski causal with CurvesExtend, local uniqueness, FrontierStaysIn, SliceRestart). 4.79's non-emptiness: D_m(S) ∩ U₁ is an m-GHD (O'Neill 14.38, 14.43), named; the m-MGHD lies in the MUGHD. Split 2026-11-21 out of T-abs-ers-unions."
+added = "2026-11-21"
 proposed_by = "programme-planner (binder ers-predictability)"
 
 [[target]]
@@ -393,6 +514,97 @@ evidence = "ERS 1802.03020 §4.2 (ghd_02_19.tex:852: 'a manifold which projects 
 added = "2026-11-20"
 proposed_by = "programme-planner (binder ers-predictability)"
 
+[[target]]
+id = "T-abs-nested-converse"
+title = "Curve nesting back to ≤-nesting: CurveNestedOn C C' ⊤ gives LeNested C C' when C is causally arc-connected (CurveNestedOn.leNested_of_causallyArcConnected), and not without (not_leNested_of_curveNested_bare: the pointed line is curve-nested in the spacelike line, 0 ≤ 1 in the first only); and CurveNestedOn.trans"
+stream = "abstract"
+kind = "abstract"
+uses = ["curve_nested", "le_nested", "causally_arc_connected"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 4
+depends = ["T-abs-nested-causalities"]
+evidence = "The keeper's proposal (T-lad-nested-nodes, journal entry 2026-11-20 22:45: 'CurveNestedOn.leNested_of_causallyArcConnected (converse), not_leNested_of_curveNested_bare (pointedLine in spacelikeLine)'); programme/ladder.toml:719 ([[open]] curve_nested → le_nested: false in general, argued, true under causal arc-connectedness of C, 'not in Lean either'). Definitions Causal/NestedCausalities.lean:121, :130; LeNested.curveNestedOn :148, CurveNestedOn.mono :155; the lines Causal.pointedLine (Causal/LinesReachable.lean:366), Causal.spacelikeLine (Causal/Lines.lean:113). The converse's last step reads a C'-causal curve of U from x to y as x ≤_U y for C': if that needs C' causally arc-connected too, the closer adds it and reports. CurveNestedOn.trans: binder papers/ers-predictability row Remark 4.74 (a narrower wider causality C_g ≤ C_b ≤ C_m). Layer 1: ETT-layer imports only (NestedCausalities, ArcConnected, LinesReachable)."
+added = "2026-11-21"
+proposed_by = "ladder-keeper (T-lad-nested-nodes), recorded by programme-planner"
+
+[[target]]
+id = "T-abs-nested-transfer"
+title = "What a ≤-nesting carries to the narrower causality: strong causality and its open form pass from the wider C' to the narrower C (LeNested C C'), so does a continuous function strictly increasing along ≤ (HasTimeFunction's body); tarentin does not (a lines counterexample)"
+stream = "abstract"
+kind = "abstract"
+uses = ["le_nested", "strongly_causal", "strongly_causal_open", "time_function", "tarentin"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 4
+depends = ["T-abs-nested-causalities"]
+evidence = "The keeper's proposal (T-lad-nested-nodes, journal entry 2026-11-20 22:45: 'T-abs-nested-transfer (SC, SCO, HasTimeFunction pass to the narrower causality; tarentin does not)'). The transfers already in Lean are listed in the comment above the pair-sort consequences, programme/ladder.toml:575 (is_causal by isCausal_of_le_top, GH under closed diamonds by globallyHyperbolic_iff_of_nested, Cauchy surfaces and inextensibility under OQ-41's hypotheses). A causally convex set for C' is causally convex for C (its ≤ is smaller), whence SC and SCO; a time function of C' is one of C. Counterexample for tarentin: a narrower causality with smaller diamonds, e.g. Causal.spacelikeLine (≤ the diagonal, Causal/Lines.lean:113) ≤-nested in Causal.timelikeLine (tarentin, Causal.timelikeLine_tarentin, Lines.lean:177), if the spacelike line is not tarentin (to prove). The time-function transfer is stated with HasTimeFunction's body, as Causal.Causality.isCausal_of_exists_timeFunction is, while HasTimeFunction lives in Causal.CBG.Pgcd (T-abs-hoist-time-function adds the wrapper). These are the first witnesses of T-tool-ladder-py's [[transfer]] table."
+added = "2026-11-21"
+proposed_by = "ladder-keeper (T-lad-nested-nodes), recorded by programme-planner"
+
+[[target]]
+id = "T-abs-chronal-neighbour-bridge"
+title = "Bridge between LocateExtension's HasChronalNeighbour (one point, one side, chronology in M) and LadderLocal's ChronalNeighbours (every point, both sides, chronology in every open V): ChronalNeighbours gives HasChronalNeighbour everywhere; under absolute minimality on a T1 space ChronalNeighbours is 'I⁺(x) and I⁻(x) non-empty for every x'; exists_leaving restated with ChronalNeighbours"
+stream = "abstract"
+kind = "abstract"
+uses = ["causally_arc_connected", "absolutely_minimal"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 4
+depends = ["T-abs-locate-extension", "T-abs-ladder-local-defs"]
+evidence = "Journal entry 2026-11-20 21:35 ('HasChronalNeighbour ↔ ChronalNeighbours bridge lemma'); Causal/LadderLocal.lean SCOPE: 'It is not HasChronalNeighbour of the Causal.LocateExtension (one point, one side, chronology in M)'. Definitions: Causal.Causality.HasChronalNeighbour (Causal/LocateExtension.lean:138), ChronalPastNeighbours, ChronalNeighbours (Causal/LadderLocal.lean:157, :162); AbsolutelyMinimal.chronalPastNeighbours_iff (:318) gives the one-sided characterisation; the leaving theorems Causal.Causality.exists_leaving (LocateExtension.lean:397), exists_leaving_of_isOpenEmbedding (:418), whose localisation hypothesis is HasChronalNeighbour at the boundary points (OQ-51). The converse fails (one point, one side): the closer gives the separating instance if one is at hand (closedHalfLine, :758, has I⁻ = ∅ at 0). Layer 1: a new module importing LocateExtension and LadderLocal."
+added = "2026-11-21"
+proposed_by = "programme-planner (journal 2026-11-20 21:35)"
+
+[[target]]
+id = "T-abs-pushup-not-open"
+title = "Push-up does not give causal openness: on ℝ, the causality with ≪ empty and ≤_U the diagonal plus 0 ≤ 1 in every open U containing 0 and 1 has push-up, while J⁺((−1, 1)) = (−1, 1] is not open (not causally open in the future, hence not causally open)"
+stream = "abstract"
+kind = "abstract"
+uses = ["push_up", "causally_open_future", "causally_open"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 4
+depends = ["T-abs-ladder-local-defs"]
+evidence = "The auditor's separating example at T-abs-ladder-local-defs (journal entry 2026-11-20 21:35: 'push-up holds but J⁺((−1,1)) = (−1,1] is not open, so push-up alone does not give causal openness (a `fails` entry candidate)'). It is sharper than the lightlike line (lightlikeLine_separates_chronalNeighbours, Causal/LadderLocal.lean:586, push-up AND causally open without chronal neighbours): it shows the side condition of push_up ⇒ causally_open (ladder.toml:299; Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours, LadderLocal.lean:349) cannot be dropped. The closer checks the causality axioms (restriction to opens) for the stated ≤_U and names the line. The keeper records the [[fails]] entry after T-lad-local-nodes (before it, the closure chains push_up ⇒ causally_open unconditionally and `check` would report a contradiction)."
+added = "2026-11-21"
+proposed_by = "target-auditor (T-abs-ladder-local-defs), recorded by programme-planner"
+
+[[target]]
+id = "T-abs-gateline-witnesses"
+title = "The gated line has a time function and is tarentin (gateLine_hasTimeFunction, gateLine_tarentin), so that with gateLine_not_absolutelyMinimalOn it refutes time_function ⇒ absolutely_minimal and tarentin ⇒ absolutely_minimal"
+stream = "abstract"
+kind = "abstract"
+uses = ["time_function", "tarentin", "absolutely_minimal"]
+package = "lean-causal"
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-abs-hoist-time-function"]
+evidence = "The keeper's proposals (T-lad-cbg-geometry-nodes, journal entry 2026-11-20 21:35: 'gateLine_hasTimeFunction, gateLine_tarentin'). The gated line Causal.gateLine (Causal/CBG/CausalConvex.lean, ℝ ⊕ Unit, Hausdorff, second countable): gateLine_isCausal :967, gateLine_globallyHyperbolicOn :983, gateLine_curvesExtend :1014, gateLine_not_absolutelyMinimalOn :1176; ladder.toml's three [[fails]] entries on it (curves_extend, is_causal, globally_hyperbolic ⇏ absolutely_minimal). Behind T-abs-hoist-time-function, which moves HasTimeFunction out of Causal.CBG.Pgcd and makes CausalConvex's imports ETT-layer, so the witnesses may sit beside gateLine. If the gated line is not tarentin at ⋆ (an isolated point has no diamond around it), the closer reports that instead."
+added = "2026-11-21"
+proposed_by = "ladder-keeper (T-lad-cbg-geometry-nodes), recorded by programme-planner"
+
+[[target]]
+id = "T-abs-dependence-domain-home"
+title = "The name of the model-free domain of dependence: Causal.Flat.dependenceDomain (hoisted into Causal.DependenceDomain with its Flat namespace kept) and its abbrev Causal.Causality.dependenceDomainOn (NestedCausalities)"
+stream = "abstract"
+kind = "abstract"
+uses = []
+package = "lean-causal"
+status = "needs-ruling"
+owner = "closer"
+priority = 8
+depends = ["T-abs-hoist-model-free"]
+question = "The domain of dependence D(S) of a set in an open set, for any causality, is now model-free (Causal/DependenceDomain.lean:51) but keeps the name Causal.Flat.dependenceDomain, with Causal.Causality.dependenceDomainOn an abbrev of it (Causal/NestedCausalities.lean:305): keep both names as they are, or rename it Causal.Causality.dependenceDomain (the Flat name kept as a deprecated alias so the Barbot ledger still resolves)?"
+evidence = "The closer's note at T-abs-hoist-model-free (journal entry 2026-11-20 22:45: 'Flat.dependenceDomain keeps its Flat namespace (a Causality-namespace alias is the author's call)'); Causal/DependenceDomain.lean SCOPE ('The names keep their namespace Causal.Flat, so that every user resolves unchanged'). The same note records that futureExtensible_of_final_on and not_futureExtensible_of_component_on (Causal/NestedCausalities.lean:652, :792) now have no users; deleting strict-library lemmas is left to this ruling's refactor, if any."
+added = "2026-11-21"
+proposed_by = "target-closer (T-abs-hoist-model-free), recorded by programme-planner"
+
 # ------------------------------------------------------------------ layer 3: geometric localisation lemmas
 [[target]]
 id = "T-loc-ealpha-cauchy"
@@ -419,7 +631,7 @@ status = "needs-ruling"
 owner = "master"
 priority = 5
 question = "Where do smooth Lorentzian spacetimes live in Lean, for the layer-3 lemmas of the Sbierski and ERS binders: (a) a new package on mathlib's manifolds (smooth time-oriented Lorentzian manifolds, piecewise C¹ causal curves, exp maps; needed for Sbierski's glued GHDs), (b) a model module in lean-causal for smooth Lorentzian metric fields on open subsets of ℝⁿ (enough for ERS's fixed background and for local charts, not for Sbierski's abstract manifolds), or (c) neither: the classical lemmas (O'Neill's causality theory, Choquet-Bruhat local well-posedness, exp-map extension) stay cited, entering Lean only as the named hypotheses of the layer-1 theorems, and layer 3 is not formalised for these two models?"
-evidence = "Binders papers/sbierski-mghd and papers/ers-predictability (2026-11-20): every smooth-vacuum and quasilinear geometric entry points to a target, none to Lean; lean-causal has Minkowski, static, flat (G,X), E_α, E_0 models and no Lorentzian metric field (Causal/Model/: Cone, Massive). The targets below depend on this ruling: T-loc-smooth-causal-ladder, T-loc-vacuum-rigid-germ, T-loc-vacuum-slice, T-loc-vacuum-geometry, T-loc-quasilinear-causal-ladder, T-loc-quasilinear-nesting, T-loc-quasilinear-slice, T-loc-born-infeld-causal. A new package is a ruling (.claude/agents/programme-planner.md)."
+evidence = "Binders papers/sbierski-mghd and papers/ers-predictability (2026-11-20): every smooth-vacuum and quasilinear geometric entry points to a target, none to Lean; lean-causal has Minkowski, static, flat (G,X), E_α, E_0 models and no Lorentzian metric field (Causal/Model/: Cone, Massive). The targets below depend on this ruling: T-loc-smooth-causal-ladder, T-loc-vacuum-rigid-germ, T-loc-vacuum-slice, T-loc-vacuum-geometry, T-loc-quasilinear-causal-ladder, T-loc-quasilinear-nesting, T-loc-quasilinear-slice, T-loc-born-infeld-causal, and (2026-11-21) T-loc-quasilinear-frontier. A new package is a ruling (.claude/agents/programme-planner.md)."
 added = "2026-11-20"
 proposed_by = "programme-planner (binders sbierski-mghd, ers-predictability)"
 
@@ -429,13 +641,13 @@ title = "Smooth time-oriented Lorentzian manifolds as topological spacetimes: th
 stream = "localisation"
 kind = "localisation"
 model = "smooth-vacuum"
-provides = ["globally_hyperbolic", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+provides = ["globally_hyperbolic", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "curves_extend", "time_function"]
 package = "lean-causal"
 status = "planned"
 owner = "closer"
 priority = 6
 depends = ["T-pkg-smooth-lorentz"]
-evidence = "Binder papers/sbierski-mghd: the smooth-vacuum geometric entry of Def 2.1, Thms 2.7, 2.8, 3.4, 3.6, 3.13, Lemma 3.3, Prop 3.7, Lemmas 3.9, 3.11. Sbierski's causality theory is O'Neill Ch. 14 for smooth metrics (Maximal_GHD2.tex:340–345, 556–560); 'closed ≤ on GH' (O'Neill 14.22), 'open ≪' (14.3), Geroch time functions. Package per T-pkg-smooth-lorentz's ruling (one closer's worth only once the representation exists; split then)."
+evidence = "Binder papers/sbierski-mghd: the smooth-vacuum geometric entry of Def 2.1, Thms 2.7, 2.8, 3.4, 3.6, 3.13, Lemma 3.3, Prop 3.7, Lemmas 3.9, 3.11. Sbierski's causality theory is O'Neill Ch. 14 for smooth metrics (Maximal_GHD2.tex:340–345, 556–560); 'closed ≤ on GH' (O'Neill 14.22), 'open ≪' (14.3), Geroch time functions. Package per T-pkg-smooth-lorentz's ruling (one closer's worth only once the representation exists; split then). `provides` gains curves_extend and time_function 2026-11-21 (nodes since T-lad-cbg-geometry-nodes, 9f5cfce; the binder rows Lemma 3.3, Cor 3.2, Lemma 3.9 name them)."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
 
@@ -445,13 +657,13 @@ title = "Smooth vacuum A1 and A3: isometric immersions of a connected Lorentzian
 stream = "localisation"
 kind = "localisation"
 model = "smooth-vacuum"
-provides = []
+provides = ["rigid", "germ_extension"]
 package = "lean-causal"
 status = "planned"
 owner = "closer"
 priority = 7
 depends = ["T-pkg-smooth-lorentz", "T-lad-cbg-geometry-nodes", "T-abs-sbierski-prop-3-7"]
-evidence = "Sbierski 1309.7591 Lemma 3.1 (Maximal_GHD2.tex:437–450), Cor 3.2 (:452–461), Lemma 3.8 (:585–611). Binder papers/sbierski-mghd rows IsoConnected, welldefined, ExtendIso: A1 (`rigid`) and A3 (`germ_extension`) for smooth-vacuum. `provides` gains rigid and germ_extension once T-lad-cbg-geometry-nodes makes them nodes. Lemma 3.8 uses Prop 3.7 (ii), hence T-abs-sbierski-prop-3-7 (Causal/CBG/Corresponding.lean:92)."
+evidence = "Sbierski 1309.7591 Lemma 3.1 (Maximal_GHD2.tex:437–450), Cor 3.2 (:452–461), Lemma 3.8 (:585–611). Binder papers/sbierski-mghd rows IsoConnected, welldefined, ExtendIso: A1 (`rigid`) and A3 (`germ_extension`) for smooth-vacuum. `provides` is rigid and germ_extension since 2026-11-21 (nodes of sort geometry since T-lad-cbg-geometry-nodes, 9f5cfce): stated as instances of Causal.CBG.IsRigidFor and Causal.CBG.LocalModel.GermExtFuture/GermExtPast, as flat-gx does (Causal.CBG.flat_rigid, flat_germExtFuture, flat_germExtPast). Lemma 3.8 uses Prop 3.7 (ii), hence T-abs-sbierski-prop-3-7 (Causal/CBG/Corresponding.lean:92)."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
 
@@ -461,13 +673,13 @@ title = "Smooth vacuum A4: through a boundary point with (3.10), the level set S
 stream = "localisation"
 kind = "localisation"
 model = "smooth-vacuum"
-provides = []
+provides = ["cauchy_slice"]
 package = "lean-causal"
 status = "planned"
 owner = "closer"
 priority = 7
 depends = ["T-pkg-smooth-lorentz", "T-lad-cbg-geometry-nodes"]
-evidence = "Sbierski 1309.7591 Thm 3.6's proof (Maximal_GHD2.tex:662–702), Thm 2.6 (:403). Binder papers/sbierski-mghd rows LocalTheory, NotMCGHD, TNDVersion: A4 (`cauchy_slice`) and `local_uniqueness` for smooth-vacuum. The flat analogue is Causal.CBG.minkowski_coneSlice / flat_slice_future (lean-causal/docs/CBG-DESIGN.md §6, round 4: cone slices replaced level sets). `provides` gains cauchy_slice once it is a node."
+evidence = "Sbierski 1309.7591 Thm 3.6's proof (Maximal_GHD2.tex:662–702), Thm 2.6 (:403). Binder papers/sbierski-mghd rows LocalTheory, NotMCGHD, TNDVersion: A4 (`cauchy_slice`) and `local_uniqueness` for smooth-vacuum. The flat analogue is Causal.CBG.minkowski_coneSlice / flat_slice_future (lean-causal/docs/CBG-DESIGN.md §6, round 4: cone slices replaced level sets). `provides` is cauchy_slice since 2026-11-21 (a node of sort geometry since T-lad-cbg-geometry-nodes): an instance of Causal.CBG.LocalModel.SliceFuture/SlicePast, as flat-gx does (Causal.CBG.flat_slice_future, flat_slice_past); local_uniqueness is not a node (T-lad-development-nodes)."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
 
@@ -477,13 +689,13 @@ title = "The smooth vacuum instance of Causal.CBG.Geometry (structures: smooth R
 stream = "localisation"
 kind = "localisation"
 model = "smooth-vacuum"
-provides = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+provides = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice"]
 package = "lean-causal"
 status = "planned"
 owner = "closer"
 priority = 8
 depends = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "T-loc-vacuum-slice", "T-abs-cbg-initial-data"]
-evidence = "Sbierski 1309.7591 Thms 2.7, 2.8 (Maximal_GHD2.tex:411–420, proofs 723–840); lean-causal/docs/CBG-DESIGN.md §2 (Level A fields) and §4 (the flat instance as template: Causal.CBG.flatGeometry, flat_cbg). Binder papers/sbierski-mghd rows CommonExtension, MGHD."
+evidence = "Sbierski 1309.7591 Thms 2.7, 2.8 (Maximal_GHD2.tex:411–420, proofs 723–840); lean-causal/docs/CBG-DESIGN.md §2 (Level A fields) and §4 (the flat instance as template: Causal.CBG.flatGeometry, flat_cbg). Binder papers/sbierski-mghd rows CommonExtension, MGHD. `provides` gains rigid, germ_extension, cauchy_slice 2026-11-21: the Level-A fields A1, A3, A4 of the instance, assembled from T-loc-vacuum-rigid-germ and T-loc-vacuum-slice."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
 
@@ -499,7 +711,7 @@ status = "planned"
 owner = "closer"
 priority = 6
 depends = ["T-pkg-smooth-lorentz"]
-evidence = "Binder papers/ers-predictability rows Thm 4.64, Rem 4.67, Cor 4.71, 4.73, Thm 4.82: the hypotheses hcaus, hJm, hJp, hKm, hKp, hsplit, hSclosed of Causal.Causality.ers_theorem_4_82 (Causal/NestedCausalities.lean:1391) are these facts for each development (ERS §4.1, ghd_02_19.tex:802–830, the GHD definition at :814; O'Neill Ch. 14)."
+evidence = "Binder papers/ers-predictability rows Thm 4.64, Rem 4.67, Cor 4.71, 4.73, Thm 4.82: the hypotheses hcaus, hJm, hJp, hKm, hKp, hsplit, hSclosed of Causal.Causality.ers_theorem_4_82 (Causal/NestedCausalities.lean:1391) are these facts for each development (ERS §4.1, ghd_02_19.tex:802–830, the GHD definition at :814; O'Neill Ch. 14). Since T-abs-ers-thm-4-64 (56ccff0) also the named hypotheses of Causal.Causality.ers_theorem_4_64 and its corollaries, whose docstrings name this target as supplier: GloballyHyperbolicOn U₁, TarentinOn U₁, IsAcausalOn, SplitBy, CompactSlabs, InextensibleThrough, FollowsSolution (Causal/ErsUniqueness.lean:160–257), and each development GH and tarentin in ers_theorem_4_82_of_globallyHyperbolicOn (:749)."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder ers-predictability)"
 
@@ -509,13 +721,13 @@ title = "Cones to nestings for quasilinear equations: subluminal (the cone of g(
 stream = "localisation"
 kind = "localisation"
 model = "quasilinear"
-provides = ["is_causal"]
+provides = ["is_causal", "curve_nested"]
 package = "lean-causal"
 status = "planned"
 owner = "closer"
 priority = 6
 depends = ["T-pkg-smooth-lorentz", "T-lad-nested-nodes"]
-evidence = "ERS 1802.03020 (4.62), Lemma 4.70 (ghd_02_19.tex:939), Lemma 4.72 (:976), §4.4's definition of subluminal (:973). The named suppliers hn₁, hn₂, hthrough, hτ of Causal.Causality.ers_lemma_4_70 and hnest, hthrough of ers_lemma_4_72 (Causal/NestedCausalities.lean:1006, :1072; their docstrings name these as the layer-3 inputs). `provides` gains curve_nested once it is a node; the inextensible form follows OQ-41 (b)."
+evidence = "ERS 1802.03020 (4.62), Lemma 4.70 (ghd_02_19.tex:939), Lemma 4.72 (:976), §4.4's definition of subluminal (:973). The named suppliers hn₁, hn₂, hthrough, hτ of Causal.Causality.ers_lemma_4_70 and hnest, hthrough of ers_lemma_4_72 (Causal/NestedCausalities.lean:1006, :1072; their docstrings name these as the layer-3 inputs). `provides` is is_causal and curve_nested since 2026-11-21 (curve_nested a node of sort pair since T-lad-nested-nodes, c02c8c8; binder rows 3.32, 3.45, 4.72–4.74, 4.79, 4.80, 4.86 name it); the inextensible form follows OQ-41 (b) (T-lad-nested-inextensible). Also (4.87) for Lemma 4.86: the slope-δ cone around ∂₀ curve-nested in C_g."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder ers-predictability)"
 
@@ -527,26 +739,28 @@ kind = "localisation"
 model = "quasilinear"
 provides = []
 package = "lean-causal"
-status = "planned"
+status = "blocked"
 owner = "closer"
 priority = 7
 depends = ["T-pkg-smooth-lorentz", "T-abs-ers-thm-4-64"]
-evidence = "ERS Thm 4.64 proof Steps 3–5 (ghd_02_19.tex:889–912), Prop 4.63 (:836–844), Thm 4.75 (:1001–1022). Causal/NestedCausalities.lean:1377 (hstep's docstring names exactly these suppliers). Step 3 is causal (Sbierski Lemma 3.11, Causal.Causality.exists_lt_Jminus_compl_subset). `provides` gains cauchy_slice, local_uniqueness once they are nodes."
+evidence = "ERS Thm 4.64 proof Steps 3–5 (ghd_02_19.tex:889–912), Prop 4.63 (:836–844), Thm 4.75 (:1001–1022). Since T-abs-ers-thm-4-64 (56ccff0) the restart is Causal.Causality.SliceRestart (Causal/ErsUniqueness.lean:211, whose docstring names exactly these suppliers), the `hstep` of ers_theorem_4_64 (:466) and, definitionally, of ers_theorem_4_82 (ers_theorem_4_82_of_sliceRestart, :722); Prop 4.63's Step-1 use is the separate `hlocal : ∃ V, IsCommonDevelopment …`. Step 3 is causal (Sbierski Lemma 3.11, Causal.Causality.exists_lt_Jminus_compl_subset). The restart is not the ladder node cauchy_slice (the A4 field of a CBG local model): `provides` gains slice_restart and local_uniqueness if they become nodes (OQ-57 (b), T-lad-ers-restart-nodes; T-lad-development-nodes). OQ-57 names this target's scope in its blocks column: Step 2's U₂ half (FrontierStaysIn, :226) is owned by T-loc-quasilinear-frontier unless OQ-57 (b) folds it into the restart, in which case it joins this target."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder ers-predictability)"
+oq = "OQ-57"
 
 [[target]]
 id = "T-loc-quasilinear-one-sided"
-title = "ERS Lemma 4.86 on ℝ × ℝ^d: if the static cone of slope δ around ∂₀ is curve-nested in a causality C_g and U₁ is C_g-GH with Cauchy surface S open in {x⁰ = 0}, then ∂U₁ ∖ ∂S is locally the graph of a continuous function with U₁ below and the complement above (4.83), hence the `honesided` hypothesis of ers_theorem_4_82"
+title = "ERS Lemma 4.86 on ℝ × ℝ^d: if the static cone of slope δ around ∂₀ is curve-nested in a causality C_g and U₁ is C_g-GH with Cauchy surface S open in {x⁰ = 0}, then ∂U₁ ∖ ∂S is locally the graph of a continuous function with U₁ below and the complement above (4.83), hence Causal.Causality.OneSidedBoundary U₁ (closure S), the `honesided` of ers_theorem_4_82_of_oneSidedBoundary"
 stream = "localisation"
 kind = "localisation"
 model = "quasilinear"
 provides = []
+uses = ["curve_nested", "globally_hyperbolic"]
 package = "lean-causal"
 status = "ready"
 owner = "closer"
 priority = 4
-evidence = "ERS 1802.03020 Lemma 4.86 (ghd_02_19.tex:1143, proof 1159–1169; text eperon2018predictability.txt:2119). The proof is causal once (4.87) is read as a nesting: a C_δ-past-inextensible curve from a point above the graph would miss S. C_g stays abstract, the slope-δ cone is a Minkowski/static model already in lean-causal (Causal.Minkowski, Causal.Static), so this needs no ruling. Binder papers/ers-predictability rows 4.82, 4.86; reading of ∂S as closure(S) ∖ S as in OQ-41 (e). `provides` gains one_sided_boundary once T-lad-development-nodes adds it."
+evidence = "ERS 1802.03020 Lemma 4.86 (ghd_02_19.tex:1143, proof 1159–1169; text eperon2018predictability.txt:2119). The proof is causal once (4.87) is read as a nesting: a C_δ-past-inextensible curve from a point above the graph would miss S. C_g stays abstract, the slope-δ cone is a Minkowski/static model already in lean-causal (Causal.Minkowski, Causal.Static), so this needs no ruling. Binder papers/ers-predictability rows 4.82, 4.86; reading of ∂S as closure(S) ∖ S as in OQ-41 (e). Since T-abs-ladder-local-defs (3e48e55) the conclusion has its Lean form: Causal.Causality.OneSidedBoundary (Causal/LadderLocal.lean:189), consumed by ers_theorem_4_82_of_oneSidedBoundary (:397); witnesses oneSidedBoundary_Ioi_zero (:495). `provides` gains one_sided_boundary if OQ-52 (b) makes it a node (T-lad-one-sided-node); the statement does not wait on it."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder ers-predictability)"
 
@@ -562,9 +776,57 @@ status = "planned"
 owner = "closer"
 priority = 6
 depends = ["T-pkg-smooth-lorentz", "T-abs-causal-iso-invariance"]
-evidence = "ERS 1802.03020 §3 (ghd_02_19.tex:298–431, Thm 3.45 :560–724; text eperon2018predictability.txt:545–997). Binder papers/ers-predictability: the quasilinear entry of every §3 row. Whether (U, g)'s causality is derived from the conformal form (a smooth step) or read as Ψ's transport of m̂ is part of T-pkg-smooth-lorentz's ruling; Thm 3.22's hodograph formula is cited (Barbashov–Chernikov)."
+evidence = "ERS 1802.03020 §3 (ghd_02_19.tex:298–431, Thm 3.45 :560–724; text eperon2018predictability.txt:545–997). Binder papers/ers-predictability: the quasilinear entry of every §3 row. Whether (U, g)'s causality is derived from the conformal form (a smooth step) or read as Ψ's transport of m̂ is part of T-pkg-smooth-lorentz's ruling; Thm 3.22's hodograph formula is cited (Barbashov–Chernikov). Since T-abs-causal-iso-invariance (80260b0) the layer-3 output has its Lean form: Causal.IsCausalIso C_m̂ C_g Ψ (Causal/CausalIsoInvariance.lean:180), equivalently C_g = C_m̂.transport Ψ (isCausalIso_iff_eq_transport, :289); 3.31 then is IsCausalIso.globallyHyperbolic_and_isCauchySurface_iff (:828), 3.29 Causality.isCausal_of_timeFunction (:886) or IsCausalIso.isCausal_of_timeFunction (:902), 3.39 IsCausalIso.globallyHyperbolic_iff (:539). Lemma 3.32's sub/superluminal dichotomy is the nesting of T-loc-quasilinear-nesting."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder ers-predictability)"
+
+[[target]]
+id = "T-loc-quasilinear-frontier"
+title = "ERS Thm 4.64 Step 2's U₂ half for quasilinear developments: FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V — the frontier of V below a point of U₁ ∩ U₂ is swept by g(u₁)-null geodesics in ∂V, which are g(u₂)-causal (the solutions agree to first order on closure V ∩ U₁ ∩ U₂) and cannot leave U₂ before S"
+stream = "localisation"
+kind = "localisation"
+model = "quasilinear"
+provides = []
+package = "lean-causal"
+status = "blocked"
+oq = "OQ-57"
+owner = "closer"
+priority = 7
+depends = ["T-pkg-smooth-lorentz", "T-abs-ers-thm-4-64"]
+evidence = "Causal/ErsUniqueness.lean:213–226 (FrontierStaysIn; its docstring: 'no roadmap row owns it yet, T-loc-quasilinear-slice is the natural one') and the module's SCOPE ('Step 2's U₂ half is named, not proved': ETT has no relation on the closed set ∂V₀, and CurvesExtend extends segments only); ERS 1802.03020 Thm 4.64 Step 2 (ghd_02_19.tex:873–888; ':880', '… it cannot leave U₂ without first crossing S'); consumed as `hstay` by ers_theorem_4_64 (:466), ers_remark_4_67(_future, _past), ers_corollary_4_68, 4_69, 4_71, 4_73. Journal entry 2026-11-20 23:50 ('give FrontierStaysIn an owner'). Blocked on OQ-57 (b) (keep it apart, fold it into the restart, or make it a ladder/localisation node): kept apart, this target supplies it; folded, this target is dropped and T-loc-quasilinear-slice takes Step 2's U₂ half. Also waits on T-pkg-smooth-lorentz (null geodesics of g(u₁)). `provides` gains frontier_stays_in if OQ-57 (b) makes it a node (T-lad-ers-restart-nodes)."
+added = "2026-11-21"
+proposed_by = "programme-planner (T-abs-ers-thm-4-64 closer finding, journal 2026-11-20 23:50)"
+
+[[target]]
+id = "T-loc-flat-time-cylinder"
+title = "The flat time cylinder ℤe₀\\𝐌ⁿ as a separating spacetime: Hausdorff, second countable, every causal curve extends (CurvesExtend), not causal — the counterexample to curves_extend ⇒ is_causal and, through time_function ⇒ is_causal, to curves_extend ⇒ time_function"
+stream = "localisation"
+kind = "localisation"
+model = "flat-gx"
+provides = ["curves_extend"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 5
+evidence = "The keeper's proposal (T-lad-cbg-geometry-nodes, journal entry 2026-11-20 21:35: 'the flat time cylinder for curves_extend ⇏ is_causal'); programme/ladder.toml:694 ([[open]] curves_extend → time_function: 'the flat cylinder ℤe₀\\𝐌ⁿ is not causal (Causal.Flat.FlatQuotient.not_isCausal_timeGroup) and every flat spacetime has CurvesExtend (Causal.CBG.flat_curvesExtend, Hausdorff and second countable), but its second countability and the combination are not in Lean'). Pieces: Causal.Flat.FlatQuotient.timeGroup, not_isCausal_timeGroup (Causal/Flat/Quotient.lean:684, :741), Causal.CBG.flat_curvesExtend (Causal/Flat/CBG.lean), Causal.Flat.flat_secondCountableTopology (Causal/Flat/SecondCountable.lean:379). One theorem conjoining the four, for the keeper's [[fails]] entry; with T-lad-time-function-causal's edge it also settles the [[open]] pair curves_extend → time_function."
+added = "2026-11-21"
+proposed_by = "ladder-keeper (T-lad-cbg-geometry-nodes), recorded by programme-planner"
+
+[[target]]
+id = "T-loc-ealpha-tidy"
+title = "Tidy Causal.Model.EAlphaCauchy: inextensible_Iio_of_tendsto_not_mem to an ETT-layer module, the generic static ℝ × X section (Cauchy slices, the ladder side conditions, rays to a removed closed set) to a static-model module usable without Causal.Model.Massive, and the duplicated Causal.withLp_dist_fst_le/_snd_le replaced by mathlib's WithLp.dist_fst_le/dist_snd_le"
+stream = "localisation"
+kind = "localisation"
+model = "E_alpha"
+provides = []
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 6
+depends = ["T-loc-ealpha-cauchy"]
+evidence = "Journal entry 2026-11-20 23:50 ('the duplicated withLp lemmas; inextensible_Iio_of_tendsto_not_mem to hoist'). Causal/Model/EAlphaCauchy.lean:83 ('Causality.inextensible_Iio_of_tendsto_not_mem is model-free (an ETT-layer candidate, kb/0047)'), :103 (the lemma, a function non-decreasing along ≤_W); :155–487 (namespace staticCausality: isCauchySurface_slice, noCausalEndpoint, chronalNeighbours, causallyOpen, hasTimeFunction, IsRayTo, not_exists_isCauchySurfaceOn, … — statements about any static ℝ × X, used by both massive α and cosmicString α); :683–688 (Causal.withLp_dist_fst_le, withLp_dist_snd_le, used at :718–719), duplicating mathlib's WithLp.dist_fst_le, WithLp.dist_snd_le (Mathlib/Analysis/Normed/Lp/ProdLp.lean:638, :642, any p with Fact (1 ≤ p)). No statement of record changes (OQ-58 asks which of the 2+1 and 3+1 forms is of record; neither moves). The ETT-layer destination of the first item obeys the layer-1 rule (a new module, so no other closer's file is touched). Not exclusive: no module but the root Causal.lean imports EAlphaCauchy."
+added = "2026-11-21"
+proposed_by = "target-closer (T-loc-ealpha-cauchy), recorded by programme-planner"
 
 # ------------------------------------------------------------------ Sbierski's papers, ledgered and bound
 [[target]]
@@ -634,6 +896,36 @@ evidence = "SYNTHESIS Q3: ERS19's results are statements about two nested causal
 added = "2026-11-20"
 proposed_by = "programme seed"
 commit = "8d905eb"
+
+[[target]]
+id = "T-bind-ealpha-entries"
+title = "E_α geometric entries in the Sbierski binders: for each row whose localisation properties E_α × ℝ (and the 3+1 cosmic string) has in Lean — globally_hyperbolic with every slice Cauchy, tarentin, push_up, causally_open, absolutely_minimal, causally_arc_connected, curves_extend, time_function — an `E_alpha` entry naming the instance of record"
+stream = "binders"
+kind = "binder"
+paper = "sbierski-mghd"
+status = "blocked"
+oq = "OQ-58"
+owner = "planner"
+priority = 6
+depends = ["T-loc-ealpha-cauchy"]
+evidence = "Causal.Model.EAlphaCauchy (T-loc-ealpha-cauchy, 39dc3c1) instantiates the ladder for massive α (Causal.massive_globallyHyperbolic_isCauchySurface, massive_hasTimeFunction, massive_curvesExtend, … Causal/Model/EAlphaCauchy.lean:494–550) and for cosmicString α (:828–849). OQ-58 (registers/DECISIONS.md) names 'the E_alpha entries of the binders' in its blocks column: which of the 2+1 massive α and the 3+1 cosmicString α is the formalization of record. Rebinding of 2026-11-21 left both binders without E_alpha entries for that reason (papers/sbierski-mghd/certificate/binder.toml header)."
+added = "2026-11-21"
+proposed_by = "programme-planner (OQ-58)"
+
+[[target]]
+id = "T-bind-sbierski-schwarzschild"
+title = "Binder of papers/sbierski-schwarzschild (Sbierski 1507.00601): Lemma 2.17's locating step bound to Causal.LocateExtension with the localisation hypothesis HasChronalNeighbour, the spacelike-diameter argument's metric part to its model, every row split into its three layers"
+stream = "binders"
+kind = "binder"
+paper = "sbierski-schwarzschild"
+status = "blocked"
+oq = "OQ-51"
+owner = "planner"
+priority = 5
+depends = ["T-pkg-sbierski-schwarzschild"]
+evidence = "OQ-51 (registers/DECISIONS.md) names 'the binder of papers/sbierski-schwarzschild' in its blocks column: the target statement of T-abs-locate-extension is false in ETT (Causal.not_exists_leaving_bare, the isolated line), and the true form carries HasChronalNeighbour at the boundary points (exists_leaving_of_isOpenEmbedding, Causal/LocateExtension.lean:418); the binder's layer-1 entry for Lemma 2.17 depends on which form is of record. SYNTHESIS Q2: its locating and boundary steps are layer 1."
+added = "2026-11-21"
+proposed_by = "programme-planner (OQ-51)"
 
 # ------------------------------------------------------------------ publishers
 [[target]]
