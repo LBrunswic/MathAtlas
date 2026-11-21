@@ -1,0 +1,202 @@
+{
+  "package": "T-egf-mixing-criteria",
+  "target": "T-egf-mixing-criteria",
+  "fix_round": 1,
+  "files": [
+    "scaffold/EGFScaffold/MixingCriteria.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:summably_mixing",
+      "tex_lines": [
+        262,
+        274
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "EGF.SpectralGapRemarkPrinted",
+        "EGF.not_spectralGapRemarkPrinted",
+        "EGF.SpectralGapRemarkExponentialPrinted",
+        "EGF.not_spectralGapRemarkExponentialPrinted",
+        "EGF.HasOneSidedSpectralGap",
+        "EGF.HasNoAlmostInvariantVectors",
+        "EGF.IsReversibleL2",
+        "EGF.HasTwoSidedSpectralGap",
+        "EGF.HasExponentialL2Decay",
+        "EGF.isSummablyL2Mixing_of_mixingCoeff_lt_one",
+        "EGF.isSummablyL2Mixing_of_pow_contraction",
+        "EGF.hasExponentialL2Decay_of_mixingCoeff_lt_one",
+        "EGF.tsum_mixingCoeff_self_ne_top_iff",
+        "EGF.hasExponentialL2Decay_iff",
+        "EGF.mixingCoeff_one_lt_one_of_reversible",
+        "EGF.isSummablyL2Mixing_of_reversible",
+        "EGF.HasBoundedKoopmanL2",
+        "EGF.SpectralRadiusCriterionWithoutInvariance",
+        "EGF.not_spectralRadiusCriterionWithoutInvariance",
+        "EGF.Swap.transfer_eq_comp",
+        "EGF.Swap.transfer_eq_neg",
+        "EGF.Swap.transfer_eq_pow_smul",
+        "EGF.Swap.integral_transfer_mul_self",
+        "EGF.Swap.isReversibleL2",
+        "EGF.Swap.hasOneSidedSpectralGap",
+        "EGF.Swap.hasNoAlmostInvariantVectors",
+        "EGF.Swap.not_hasTwoSidedSpectralGap",
+        "EGF.Swap.mixingCoeff_eq",
+        "EGF.Swap.not_isSummablyL2Mixing",
+        "EGF.Swap.not_hasExponentialL2Decay",
+        "EGF.Swap.isEGF_flow",
+        "EGF.Swap.universal_not_summablyMixing",
+        "EGF.Swap.universalFamily_not_summablyMixing",
+        "EGF.not_isSummablyL2Mixing_of_map_eq",
+        "EGF.not_isSummablyL2Mixing_addCircle",
+        "EGF.universal_not_summablyMixing_addCircle",
+        "EGF.universalFamily_not_summablyMixing_addCircle",
+        "EGF.Sink.pol",
+        "EGF.Sink.transfer_one_eq",
+        "EGF.Sink.transfer_succ_eq_zero",
+        "EGF.Sink.mixingCoeff_succ",
+        "EGF.Sink.hasBoundedKoopmanL2",
+        "EGF.Sink.not_isSummablyL2Mixing",
+        "EGF.IsSummablyL2MixingHat",
+        "EGF.unitMeanZero_top_smul",
+        "EGF.isSummablyL2MixingHat_of_bind_eq",
+        "EGF.Swap.not_isSummablyL2MixingHat_of_finite"
+      ],
+      "hypotheses": [
+        {
+          "paper": "pi induces a Koopman operator phi -> d((phi lambda)pi)/d lambda on L2(S) (l.273)",
+          "here": "strengthened",
+          "note": "the corrected criteria assume lambda pi = lambda and lambda finite (then T contracts L2(lambda), keeps the mean, composes, and the lambda-hat of the definition is lambda). lambda pi = lambda is sufficient, not necessary; the Sink shows that some invariance hypothesis cannot be dropped: without one, a bounded Koopman operator with ||T^N|| < 1 on mean-zero functions need not give summable mixing (EGF.not_spectralRadiusCriterionWithoutInvariance)"
+        },
+        {
+          "paper": "a spectral gap: 'the spectrum of the Koopman operator is bounded away from 1 on {int phi d lambda = 0}' (l.273)",
+          "here": "strengthened",
+          "note": "the one-sided reading is refuted (EGF.not_spectralGapRemarkPrinted). Corrected to: gamma_N < 1 for some N with lambda-hat = lambda, i.e. ||T^N|| < 1 on the mean-zero subspace of L2(lambda), which by Gelfand's formula (not formalized) is spectral radius < 1 there; or, for a reversible pi, |<T phi, phi>| <= (1 - c)||phi||^2 on mean-zero phi (spectrum in [-1 + c, 1 - c])"
+        },
+        {
+          "paper": "conclusion: summably L2-mixing (l.273)",
+          "here": "carried",
+          "note": "EGF.IsSummablyL2Mixing pi lam, with lambda-hat = lambda"
+        },
+        {
+          "paper": "conclusion: 'the convergence of iterates by pi is exponential' (l.274)",
+          "here": "carried",
+          "note": "EGF.HasExponentialL2Decay: gamma_n <= C rho^n with C < infinity, rho < 1 (gamma_n is the squared L2 norm of T^n on mean-zero functions)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "main.tex:273-274 (C-30), sentence by sentence, in both readings of 'spectral gap'. Reading (a), the gloss of l.273 sentence 2 (the spectrum of the Koopman operator on {int phi d lambda = 0} stays away from the point 1): l.273 sentence 1 is false, sentence 2 is then the definition of the reading, and l.274 ('in this case, the convergence of iterates by pi is exponential') is false. The witness for both is the swap b -> not b on two points with the uniform lambda. On mean-zero functions its Koopman operator is -I (EGF.Swap.transfer_eq_neg), so its spectrum there is {-1}. Moreover <T phi, phi> = -||phi||^2 (EGF.Swap.integral_transfer_mul_self) and ||T phi - phi||^2 = 4||phi||^2 (EGF.Swap.hasNoAlmostInvariantVectors). It is reversible, ergodic and leaves lambda invariant. Yet gamma_n = lambda-hat(S) for every n and every lambda-hat (EGF.Swap.mixingCoeff_eq), so it is not summably mixing (EGF.Swap.not_isSummablyL2Mixing). Its iterates (-1)^n phi do not converge (EGF.Swap.transfer_eq_pow_smul) and do not decay (EGF.Swap.not_hasExponentialL2Decay). The two Props refuted are reading (a) with all these hypotheses: EGF.SpectralGapRemarkPrinted and EGF.SpectralGapRemarkExponentialPrinted, refuted by EGF.not_spectralGapRemarkPrinted and EGF.not_spectralGapRemarkExponentialPrinted. Reading (b), spectral radius < 1 of the Koopman operator on mean-zero functions (the operator sense of the Markov-chain literature cited at l.702): l.273 sentence 1 is false only for lack of an invariance hypothesis (the Sink, finding 3), and true with lambda pi = lambda (EGF.isSummablyL2Mixing_of_mixingCoeff_lt_one). Sentence 2, the gloss, is inaccurate: the spectrum must stay away from the unit circle (for a reversible pi, away from both 1 and -1). l.274 is true (EGF.hasExponentialL2Decay_of_mixingCoeff_lt_one). In reading (b) the swap's lesson moves to l.818 and l.833 (C-28(a)). There 'pi has a spectral gap' is drawn from one-sided or group-action results, and the swap is an EGF with alpha = 1/p whose action has a spectral gap but whose kernel has no two-sided gap (finding 6). conze2013ergodicity was not consulted, so which reading the citation supports is not settled here.",
+        "main.tex:273 (C-30, corrected form): with lambda pi = lambda, the corrected criterion holds and is sharp. ||T^N|| < 1 on mean-zero functions for one N (gamma_N < 1 with lambda-hat = lambda) gives summable L2-mixing (EGF.isSummablyL2Mixing_of_mixingCoeff_lt_one; in the target's form EGF.isSummablyL2Mixing_of_pow_contraction) and exponential decay gamma_n <= C rho^n (EGF.hasExponentialL2Decay_of_mixingCoeff_lt_one). With lambda-hat = lambda the three are equivalent (statements about gamma(lambda, lambda), not about IsSummablyL2Mixing with another lambda-hat) (EGF.tsum_mixingCoeff_self_ne_top_iff, EGF.hasExponentialL2Decay_iff), because gamma is submultiplicative (EGF.mixingCoeff_self_add_le). In this setting (lambda-hat = lambda invariant), 'spectral radius < 1 on mean-zero functions' is exactly summability of gamma(lambda, lambda). For a reversible pi, a spectrum on mean-zero functions in [-1 + c, 1 - c] gives gamma_1 <= (1 - c)/(1 + c) (EGF.mixingCoeff_one_lt_one_of_reversible, EGF.isSummablyL2Mixing_of_reversible). The swap has no such two-sided gap (EGF.Swap.not_hasTwoSidedSpectralGap).",
+        "main.tex:273 (C-30's corrected text): the corrected sentence registered in corrections.toml ('...satisfied if the Koopman operator ... has spectral radius < 1 on the subspace {phi | int phi d lambda = 0}') is still false without an invariance hypothesis. On two points the kernel pi(s) = delta_true has a bounded Koopman operator on L2(lambda) (EGF.Sink.hasBoundedKoopmanL2). After one step it vanishes on mean-zero functions (EGF.Sink.transfer_succ_eq_zero), so its spectral radius there is 0 and gamma_n = 0 for n >= 1 (EGF.Sink.mixingCoeff_succ). But it has no invariant measure equivalent to lambda, so it is not summably L2-mixing (EGF.Sink.not_isSummablyL2Mixing, EGF.not_spectralRadiusCriterionWithoutInvariance). lambda pi = lambda is a sufficient hypothesis, true in every application of the paper (l.819, l.836); it is the hypothesis of the corrected text proposed for C-30. It is not necessary: a resampling kernel pi(s) = lambda-hat, with lambda-hat ~ lambda, lambda-hat != lambda and d lambda-hat/d lambda bounded, is summably mixing although lambda pi != lambda (not formalized). Nor is it the weakest fix: an invariant lambda-hat ~ lambda with d lambda-hat/d lambda in L-infinity and T bounded on L2(lambda) would do (not formalized, question 2). The Sink shows that some invariance hypothesis cannot be dropped.",
+        "main.tex:697 ('the technical assumption of L2-mixing summability needed for universality') and main.tex:702 ('the L2-mixing summability property is essential to ensure universality'), C-29: false if read as 'summable L2-mixing is a necessary condition for universality'. Two witnesses are universal but not summably L2-mixing for any lambda-hat, as policies (EGF.IsUniversalPolicy, the conclusion of Theorem B.1) and as families (their fixed-policy families {pi} x L2_+(lambda) are epsilon-universal, EGF.IsUniversalFamilyEps, the corrected form of record of def:universal_family). The first is the swap of two points (EGF.Swap.universal_not_summablyMixing, EGF.Swap.universalFamily_not_summablyMixing). The second is a translation of infinite order of the circle (EGF.universal_not_summablyMixing_addCircle, EGF.universalFamily_not_summablyMixing_addCircle), which is the example l.697 itself gives ('on tori, one randomly initialized non-trainable translation is sufficient to ensure ergodicity'). More generally, no automorphism preserving a sigma-finite lambda is summably L2-mixing as soon as H is nonempty (lambda not trivial; for a Dirac lambda, H is empty and every gamma_n is 0), since then gamma_n = gamma_0 > 0 for every invariant lambda-hat equivalent to lambda (EGF.not_isSummablyL2Mixing_of_map_eq). So, for such lambda, Theorem B.1 as printed reaches no EGF whose only move preserves lambda. Read instead as 'needed by Theorem 3.4 as stated', the sentences describe the printed hypothesis correctly, but by C-29 (EGF.universal_iff_ergodic) that hypothesis can be replaced by ergodicity. l.702's next sentence ('spectral gap ... which is a sufficient condition for L2-mixing summability') is true for a spectral radius < 1 with lambda invariant and false for l.273's one-sided gap (finding 1).",
+        "main.tex:271 ('In contrast, ergodicity alone ensures the convergence of phi pi^n in the much weaker Cesaro sense'): not refuted. The swap illustrates it exactly: it is ergodic, and phi pi^n = (-1)^n phi converges only in the Cesaro sense (EGF.Swap.transfer_eq_pow_smul). But it is also universal, so the contrast misleads where it suggests that Cesaro convergence is not enough for universality (C-29).",
+        "main.tex:818 (context for C-28, not anchored here): the swap is the kernel of equ:forward_policy with alpha^i = 1/p (p = 1) for the group {id, not}. That group's action has no almost invariant vector on mean-zero functions (a spectral gap of the action, EGF.Swap.hasNoAlmostInvariantVectors), yet the kernel has no two-sided gap (EGF.Swap.not_hasTwoSidedSpectralGap) and is not summably mixing. A spectral gap of the action therefore does not by itself give what l.273 needs. The swap's generating measure delta_not is carried by the coset {not} of the subgroup {id}, which is consistent with Bekka-Guivarc'h's remark: aperiodicity is a sufficient condition for their equivalence, not a necessary one (Kesten), and nothing here claims more.",
+        "OQ-47 (what depends on the reading): the corrected criteria take lambda-hat = lambda, where both readings agree. In EGF.Defs' reading the swap's non-mixing holds for every lambda-hat whatsoever (EGF.Swap.mixingCoeff_eq gives gamma_n = lambda-hat(S)). Of OQ-47's other reading, one variant is formalized: transfer, mean zero and normalization of H all in L2(lambda-hat) (EGF.IsSummablyL2MixingHat). The variant normalizing H in L2(lambda) is not formalized. The formalized variant, taken with an unrestricted lambda-hat, would be satisfied by every kernel leaving lambda invariant, through lambda-hat = infinity * lambda: no function has L2 norm 1 there, so every gamma_n is 0 (EGF.unitMeanZero_top_smul, EGF.isSummablyL2MixingHat_of_bind_eq). That lambda-hat is not sigma-finite, which the usual convention for an invariant measure excludes. The message for the ruling is therefore: that reading must take lambda-hat sigma-finite (finite). With lambda-hat finite the swap fails it (EGF.Swap.not_isSummablyL2MixingHat_of_finite). On Bool every swap-invariant lambda-hat is a multiple of lambda (not formalized). So for finite lambda-hat the swap's non-mixing holds in every variant, and the counterexample does not depend on OQ-47."
+      ],
+      "questions": [
+        "main.tex:273: which sense of 'spectral gap' is meant? (a) The gloss of the next sentence, a spectrum bounded away from the point 1: then l.273 and l.274 are false (the swap). (b) Spectral radius < 1 on mean-zero functions, the operator sense of the Markov-chain literature cited at l.702: then l.273 sentence 1 needs an invariance hypothesis, the gloss should read 'away from the unit circle', and l.274 is true. The printed Props encode (a); the corrected text uses (b). conze2013ergodicity was not consulted; if it uses (b), only the gloss and the missing invariance are defects.",
+        "C-30's corrected text: state 'lambda pi = lambda' (proposed here, sufficient and true in every application, l.819 and l.836, but not necessary), or the weaker 'an invariant lambda-hat ~ lambda with d lambda-hat/d lambda bounded, T bounded on L2(lambda)' (not formalized; it would need the transfer lemmas without invariance of lambda)? The Sink shows only that some invariance hypothesis is needed.",
+        "main.tex:697 and :702: 'needed / essential for universality' read as 'a necessary condition for universality' (taken; refuted by two witnesses at the policy and at the family level). The other reading, 'the hypothesis Theorem 3.4 is stated under', is correct of the paper and is addressed by C-29 (OQ-85)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "EGF.eLpNorm_two_sq_eq_lintegral",
+    "EGF.transfer_congr_ae",
+    "EGF.transfer_one_eq_densityAction",
+    "EGF.measurable_transfer",
+    "EGF.pushIter_absolutelyContinuous",
+    "EGF.integrable_transfer",
+    "EGF.transfer_succ_ae",
+    "EGF.transfer_add_ae",
+    "EGF.integral_transfer",
+    "EGF.memLp_transfer",
+    "EGF.eLpNorm_transfer_le",
+    "EGF.mixingCoeff_self_le_one",
+    "EGF.mixingCoeff_self_add_le",
+    "EGF.mixingCoeff_self_add_mul_le",
+    "EGF.mixingCoeff_self_eq_zero_of_zero_lt_one",
+    "EGF.mixingCoeff_self_le_pow_div",
+    "EGF.tsum_mixingCoeff_self_ne_top_of_lt_one",
+    "EGF.bind_deterministic_eq_map",
+    "EGF.smul_mem_unitMeanZero",
+    "EGF.map_withDensity_measurableEquiv",
+    "EGF.pushIter_deterministic_withDensity",
+    "EGF.transfer_deterministic_ae",
+    "EGF.lintegral_transfer_sq_deterministic",
+    "EGF.mixingCoeff_deterministic",
+    "EGF.mixingCoeff_zero_ne_zero",
+    "EGF.unitMeanZero_nonempty",
+    "EGF.integrable_mul_of_memLp_two",
+    "EGF.Swap.notEquiv",
+    "EGF.Swap.policy_eq_deterministic",
+    "EGF.Swap.integral_lam",
+    "EGF.Swap.eq_of_ae_eq",
+    "EGF.Swap.lam_map_notEquiv",
+    "EGF.Swap.neg_of_integral_eq_zero",
+    "EGF.Swap.sq_eq_one_of_mem",
+    "EGF.Swap.sign_mem_unitMeanZero"
+  ],
+  "corrections": [
+    {
+      "id": "C-30",
+      "status_suggested": "proved",
+      "anchor": [
+        "EGF.isSummablyL2Mixing_of_mixingCoeff_lt_one",
+        "EGF.isSummablyL2Mixing_of_pow_contraction",
+        "EGF.hasExponentialL2Decay_of_mixingCoeff_lt_one",
+        "EGF.tsum_mixingCoeff_self_ne_top_iff",
+        "EGF.hasExponentialL2Decay_iff",
+        "EGF.isSummablyL2Mixing_of_reversible"
+      ],
+      "refutation": [
+        "EGF.not_spectralGapRemarkPrinted",
+        "EGF.not_spectralGapRemarkExponentialPrinted",
+        "EGF.Swap.transfer_eq_neg",
+        "EGF.Swap.not_isSummablyL2Mixing",
+        "EGF.Swap.mixingCoeff_eq"
+      ],
+      "added_hypothesis_needed": [
+        "an invariance hypothesis; the one proposed for the corrected text is lambda pi = lambda (lambda invariant), sufficient and true in every application (l.819, l.836), not necessary. Without any, the spectral-radius criterion is false: EGF.not_spectralRadiusCriterionWithoutInvariance"
+      ],
+      "note": "Every name the register's C-30 entry promises exists with that name: EGF.Swap.transfer_eq_neg, EGF.Swap.not_isSummablyL2Mixing, EGF.isSummablyL2Mixing_of_pow_contraction. The finding text should give both readings of l.273, sentence by sentence (labels[0].findings[0]). The corrected text should add 'for lambda invariant (lambda pi = lambda)'. The reversible clause is proved as EGF.isSummablyL2Mixing_of_reversible. Do not read the finding's sentence on l.818 ('needs the generating measure aperiodic') as a necessity; see the C-28 entry below."
+    },
+    {
+      "id": "C-29",
+      "status_suggested": "proved (the refutation of l.697-698 and l.702 is now in Lean)",
+      "anchor": [],
+      "refutation": [
+        "EGF.Swap.universal_not_summablyMixing",
+        "EGF.Swap.universalFamily_not_summablyMixing",
+        "EGF.universal_not_summablyMixing_addCircle",
+        "EGF.universalFamily_not_summablyMixing_addCircle",
+        "EGF.not_isSummablyL2Mixing_of_map_eq",
+        "EGF.not_isSummablyL2Mixing_addCircle"
+      ],
+      "note": "Closes the status note of C-29 ('whose non-mixing is not yet in Lean'). The witnesses refute l.697 and l.702 in the reading 'summable mixing is necessary for universality', for a single policy and for its fixed-policy family. One translation of the circle does not contradict l.698's 'two transformations are sufficient': it is a sharper bound, not a refutation, and should not be called 'against l.698'."
+    },
+    {
+      "id": "C-28",
+      "status_suggested": "unchanged (context only, not anchored here)",
+      "anchor": [],
+      "refutation": [],
+      "supporting": [
+        "EGF.Swap.isEGF_flow",
+        "EGF.Swap.hasNoAlmostInvariantVectors",
+        "EGF.Swap.not_hasTwoSidedSpectralGap"
+      ],
+      "note": "An EGF with alpha = 1/p whose group action has a spectral gap (no almost invariant vectors) but whose kernel has no two-sided gap: the step of l.818 from a spectral gap of the action to l.273 needs an argument, as C-28(a) says. Its generating measure is periodic, which is consistent with, and does not strengthen, Bekka-Guivarc'h's sufficient condition. Separately, the register's C-28 text says 'against l.698' of the one-ergodic-map remark. One translation of the circle does not contradict l.698's 'two transformations are sufficient to achieve universality': it is a sharper bound on T^1, not a refutation."
+    }
+  ],
+  "kb_proposals": [
+    "Under lambda pi = lambda the transfer composes a.e. (EGF.transfer_add_ae), keeps the mean (EGF.integral_transfer) and contracts L2(lambda) (EGF.eLpNorm_transfer_le). With lambda-hat = lambda, gamma is submultiplicative (EGF.mixingCoeff_self_add_le). Reduce a mixing claim to gamma_N < 1 (EGF.isSummablyL2Mixing_of_mixingCoeff_lt_one) or, for a reversible kernel, to a two-sided Rayleigh bound (EGF.isSummablyL2Mixing_of_reversible).",
+    "Deterministic kernels of automorphisms: transfer (Kernel.deterministic e _) lam n phi =ae phi o e.symm^[n] (EGF.transfer_deterministic_ae). gamma_n = gamma_0 (EGF.mixingCoeff_deterministic), so such a kernel is never summably mixing (EGF.not_isSummablyL2Mixing_of_map_eq). On (Bool, Coin.lam), EGF.Swap.eq_of_ae_eq turns an a.e. equality into an equality, so rnDeriv and transfer can be computed pointwise.",
+    "Pitfalls at this pin: rw [lintegral_congr_ae (h.mono ...)] fails when the target integrand is a metavariable, so state both integrals in a calc. hac.ae_le h has a set-membership type, so annotate it as =ae[lamHat] before .mono. gcongr on rho^N <= rho^k with rho <= 1 asks for 1 <= rho, so use pow_le_pow_right_of_le_one'. mul_le_mul_left' is deprecated (use mul_le_mul' le_rfl h). integral_fintype takes only the integrability argument. rw [<- bind_deterministic_eq_map] needs the measurability proof when the goal does not contain it.",
+    "OQ-47's all-in-L2(lambda-hat) reading is vacuous for lambda-hat = infinity * lambda (EGF.unitMeanZero_top_smul): any statement in that reading must take lambda-hat finite."
+  ],
+  "notes": "One new file, scaffold/EGFScaffold/MixingCriteria.lean (1167 lines, 0 sorry, no warning; taskset -c 0-11 lake build EGFScaffold.MixingCriteria succeeded and rebuilt nothing upstream). #print axioms of every principal declaration: [propext, Classical.choice, Quot.sound]. It imports EGF.UniversalityErgodic and Mathlib.MeasureTheory.Measure.Decomposition.IntegralRNDeriv. No port: the Markov.* density action is used by import. Namespaces: EGF, EGF.Swap (extends the existing one; no name in it clashes with EGF/SamplingCorollaries.lean, EGF/UniversalityErgodic.lean or EGF/Loss.lean, whose two-point namespaces are SwapM and Swap3), and EGF.Sink (new). def:summably_mixing stays marked in EGF/Defs.lean and is written here without the mark; the row is 'partial' because the remark l.273-274 is refuted and its corrected form needs lambda pi = lambda. The target block's 'gamma_n = 1 for every n and every invariant lambda-hat equivalent to lambda' is slightly off: in EGF.Defs' reading gamma_n = lambda-hat(S) (= 1 for lambda-hat = lambda), which is what EGF.Swap.mixingCoeff_eq proves. The non-mixing conclusion is unchanged. No existing file was edited. After the build the source was restored byte-identically following a temporary #print axioms probe, so its mtime is later than the olean's; Lake's hash trace still reports the module up to date (a rebuild was a no-op). Fix round 1 (AUDIT-1, minor): docstrings and REPORT wording only. Every non-comment line of the Lean file is unchanged, so no declaration statement changed."
+}

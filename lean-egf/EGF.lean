@@ -9,3 +9,4 @@ import EGF.UniversalFamily
 import EGF.Loss
 import EGF.UniversalityErgodic
 import EGF.TorusFamilies
+import EGF.MixingCriteria
