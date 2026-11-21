@@ -10,9 +10,13 @@ import Causal.Properties
 # The rules of `causal_ladder`, generated from the causality ladder
 
 One aesop `safe forward` rule of the rule set `CausalLadder` per `checked` implication of
-`programme/ladder.toml` with no side condition (`under`), between properties of the sort
-`causality`, whose witness lives in the ETT layer (no model imported, directly or
-transitively). Every other checked implication is a `-- skipped` line below, with its reason.
+`programme/ladder.toml` with no side condition in words (`under`), between properties of the
+sort `causality` that each have a Lean form (a predicate on one causality, as
+`Causal.Ladder.Test` writes it), whose witness lives in the ETT layer (no model imported,
+directly or transitively). An implication with `standing` hypotheses (separation, countability,
+connectedness of `M`: Mathlib classes its witness takes as instance arguments) is a rule too:
+aesop synthesises those arguments, and the rule does not fire where they are not in context.
+Every other checked implication is a `-- skipped` line below, with its reason.
 Regenerate with `python3 tools/ladder.py emit-lean`; `Causal.Ladder.Test` is generated with it.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

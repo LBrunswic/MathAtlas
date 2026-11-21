@@ -15,10 +15,13 @@ the transitive closure of the rules of `Causal.Ladder.Rules` (the emitted edges 
 `programme/ladder.toml`), from each property and from the premises of each conjunctive rule
 (28 examples, `Derived`). It fails on every other ordered pair of the properties of the
 sort `causality` written here, and on each conjunctive rule with one premise dropped
-(297 examples, `Not derived`). A pair the ladder's matrix calls `implied` that is not
-derived goes through an edge that was not emitted (a side condition `under`, or a witness
-outside the ETT layer). The first command fails if a model module is imported, directly or
-transitively: the ladder's Lean stays in the ETT layer, so that layer-1 modules may use it.
+(297 examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses
+is derived with exactly the instances its derivation needs among its binders, and is not
+derived without them (`standing dropped`): so Lean checks each edge's `standing` against its
+witness. A pair the ladder's matrix calls `implied` that is not derived goes through an edge
+that was not emitted (a side condition `under`, or a witness outside the ETT layer). The first
+command fails if a model module is imported, directly or transitively: the ladder's Lean
+stays in the ETT layer, so that layer-1 modules may use it.
 Regenerate with `python3 tools/ladder.py emit-lean`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

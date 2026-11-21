@@ -1,20 +1,100 @@
 #!/usr/bin/env python3
 """The causality ladder of ETT (programme/ladder.toml): check it, classify it, emit its Lean rules.
 
-    python3 tools/ladder.py check        schema, ids, Lean witnesses resolve, no implication contradicts a counterexample
-    python3 tools/ladder.py matrix       every ordered pair of properties: implied | fails | open | unknown
-    python3 tools/ladder.py emit-lean    write lean-causal/Causal/Ladder/Rules.lean from the checked edges
-                                         (and its tests, Causal/Ladder/Test.lean)
-    python3 tools/ladder.py dot          the implication DAG in Graphviz
+    python3 tools/ladder.py check [--file F]   schema, ids, sorts, labels, Lean names, no contradiction
+    python3 tools/ladder.py matrix [--file F]  every ordered pair of properties, classified (below)
+    python3 tools/ladder.py emit-lean          write lean-causal/Causal/Ladder/Rules.lean from the
+                                               checked edges (and its tests, Causal/Ladder/Test.lean)
+    python3 tools/ladder.py dot                the implication DAG in Graphviz
 
-Implication is read through the transitive closure of the `implies` edges (a conjunction premise
-counts only when all its ids hold): (a, b) is `implied` when b is in the closure of {a}. A
-counterexample to (a, b), a space with a and without b, also refutes (a', b') for every a' that a
-implies and every b' that implies b; such pairs are `fails`. A pair both implied and refuted is a
-contradiction, and `check` fails on it. No model is called; Lean names are resolved by reading the
-sources (a declared name matches a witness when one is a dotted suffix of the other).
+Schema. Every table and key not listed here is a violation (a misspelt `standing` would otherwise
+be dropped silently, and its edge chained as unconditional).
+
+    [ambient]        optional. standing (list of words, below), label (an ETT label), note. Absent:
+                     the standing hypotheses of ETT's topological spacetimes, T2 and
+                     second_countable (def:category_topological_spacetimes, ETT.tex:255).
+    [[property]]     id, lean, what; label (a label of papers/ett/ledger/ledger.json); sort
+                     (causality | geometry | pair; absent means causality)
+    [[implies]]      from (an id or a list, read as a conjunction), to, witness, status; under (side
+                     conditions in words); standing (list of words)
+    [[fails]]        from (an id or a list: the counterexample has every one), to, witness, status;
+                     space (list of words: what the counterexample's space satisfies; absent: the
+                     ambient, i.e. the counterexample is one of ETT's spacetimes)
+    [[consequence]]  at (an id or a list, read as a conjunction, of one sort), statement, witness,
+                     status; under; standing
+    [[open]]         from, to, note
+    [[transfer]]     pair (an id of sort pair: C nested in C', C the narrower), property (an id of
+                     sort causality), direction (to_narrower: C' has it, hence C; or to_wider;
+                     absent means to_narrower), narrower and wider (lists of causality-sort ids
+                     asked besides of C and of C'), exactly one of witness (a Lean proof of the
+                     transfer; with standing) or counterexample (a Lean nesting whose source has
+                     `property` and the listed ids, whose target has the listed ids and lacks
+                     `property`; with space), status; under
+
+status is seed | checked. Lean names (property `lean`, every witness and counterexample) resolve
+NAMESPACE-EXACTLY: a name is found when it is the full name of a declaration of
+lean-causal/Causal (namespace and section blocks read, comments blanked: lean_index); a dotted
+suffix is not enough. tools/binder.py inherits this.
+
+Standing hypotheses. `standing` lists hypotheses on the topological space M that are not ladder
+nodes; each word is a Mathlib class on M, which the witness takes as an instance argument:
+
+    T0 T1 T2 T3 regular normal   T0Space T1Space T2Space T3Space RegularSpace NormalSpace
+    first_countable              FirstCountableTopology
+    second_countable             SecondCountableTopology
+    separable                    TopologicalSpace.SeparableSpace
+    nonempty                     Nonempty
+    preconnected connected       PreconnectedSpace ConnectedSpace
+    locally_connected            LocallyConnectedSpace
+    locally_compact              LocallyCompactSpace
+    sigma_compact compact        SigmaCompactSpace CompactSpace
+    paracompact                  ParacompactSpace
+    metrizable                   TopologicalSpace.MetrizableSpace
+
+with the implications T3 → T2, regular; T2 → T1 → T0; second_countable → first_countable,
+separable; connected → preconnected, nonempty; compact → sigma_compact; metrizable → T2 (each a
+Mathlib instance, so a context with the stronger class gives the weaker). A set of words is read
+closed under them: the ambient {T2, second_countable} is {T0, T1, T2, second_countable,
+first_countable, separable}.
+
+Classification. An edge is valid on a space S (a closed set of words) when its `standing` is in S.
+For each property a, closure(a) is the transitive closure of {a} through the [[implies]] edges
+valid on the ambient (a conjunction premise counts only when all its ids hold). An [[implies]] with
+`under` and no `standing` is read as before this field existed: chained as unconditional (since
+T-lad-local-nodes its `under` holds only separation and countability words, which are ambient; the
+keeper migrates them to `standing`). `matrix` gives every ordered pair (a, b), a != b, the first of
+these values that applies:
+
+    ill-typed         a and b are of different sorts: neither implication is a statement. Not
+                      counted among the pairs to classify.
+    implied           b is in closure(a): exact on ETT's spacetimes.
+    fails             a counterexample refutes it: it has every id of its `from`, hence everything
+                      the edges valid on ITS space chain from them (a' among these), and it lacks
+                      `to`, hence every b' whose closure on its space reaches `to`; (a', b') fails.
+                      A non-Hausdorff counterexample says `space = ["T1"]` (or less), and is then
+                      not read against an edge whose standing asks T2.
+    open              an [[open]] entry.
+    implied-standing  b is reached from a only through an edge whose standing is beyond the
+                      ambient (e.g. connected): implied under standing hypotheses, not on every
+                      ETT spacetime. Not counted as classified; `matrix` names the words.
+    unknown           none of these.
+
+`check` fails on: a counterexample that has its `to` by the edges valid on its space (a
+contradiction), an [[open]] pair already implied or refuted, an entry joining two sorts, a
+[[transfer]] whose counterexample satisfies the hypotheses of a proved transfer of the same
+property and direction (its nesting reaching the proved one's in the pair-sort closure), and every
+schema fault above. Its summary line is
+
+    ladder: P properties, I implications, F counterexamples, C consequences; K of N ordered pairs
+    classified (within one sort), X ill-typed (across sorts), S implied under standing only, T transfers
+
+(one line; `N violation(s)` after the semicolon instead when there are any): K counts implied,
+fails and open pairs among the N pairs within one sort; summary() gives the same numbers as a
+dict. What emit-lean makes of `standing`, and which edges it skips, is said above `emitted`.
+No model is called; Lean names are resolved by reading the sources.
 """
 import glob
+import json
 import os
 import re
 import sys
@@ -24,9 +104,47 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILE = os.path.join(ROOT, "programme", "ladder.toml")
 LEAN_ROOT = os.path.join(ROOT, "lean-causal")
 RULES = os.path.join(LEAN_ROOT, "Causal", "Ladder", "Rules.lean")
+ETT_LEDGER = os.path.join(ROOT, "papers", "ett", "ledger", "ledger.json")
 STATUS = ("seed", "checked")
-DECL = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)?(?:private\s+|protected\s+|noncomputable\s+)*"
-                  r"(?:theorem|lemma|def|abbrev|structure|class|instance|inductive)\s+([^\s(:{\[]+)", re.M)
+SORTS = ("causality", "geometry", "pair")
+DEFAULT_SORT = "causality"
+DIRECTIONS = ("to_narrower", "to_wider")
+CLASSIFIED = ("implied", "fails", "open")
+
+# word -> (the Mathlib class on M, the words it implies). Each implication is a Mathlib instance.
+STANDING = {
+    "T0": ("T0Space", ()),
+    "T1": ("T1Space", ("T0",)),
+    "T2": ("T2Space", ("T1",)),
+    "regular": ("RegularSpace", ()),
+    "T3": ("T3Space", ("T2", "regular")),
+    "normal": ("NormalSpace", ()),
+    "first_countable": ("FirstCountableTopology", ()),
+    "second_countable": ("SecondCountableTopology", ("first_countable", "separable")),
+    "separable": ("TopologicalSpace.SeparableSpace", ()),
+    "nonempty": ("Nonempty", ()),
+    "preconnected": ("PreconnectedSpace", ()),
+    "connected": ("ConnectedSpace", ("preconnected", "nonempty")),
+    "locally_connected": ("LocallyConnectedSpace", ()),
+    "locally_compact": ("LocallyCompactSpace", ()),
+    "sigma_compact": ("SigmaCompactSpace", ()),
+    "compact": ("CompactSpace", ("sigma_compact",)),
+    "paracompact": ("ParacompactSpace", ()),
+    "metrizable": ("TopologicalSpace.MetrizableSpace", ("T2",)),
+}
+AMBIENT = ("T2", "second_countable")
+AMBIENT_LABEL = "def:category_topological_spacetimes"
+
+KEYS = {
+    "ambient": {"standing", "label", "note"},
+    "property": {"id", "lean", "what", "label", "sort"},
+    "implies": {"from", "to", "witness", "status", "under", "standing"},
+    "fails": {"from", "to", "witness", "status", "space"},
+    "consequence": {"at", "statement", "witness", "status", "under", "standing"},
+    "open": {"from", "to", "note"},
+    "transfer": {"pair", "property", "direction", "narrower", "wider", "witness", "counterexample",
+                 "status", "under", "standing", "space"},
+}
 
 
 def load(path=FILE):
@@ -34,121 +152,389 @@ def load(path=FILE):
         return tomllib.load(fh)
 
 
-def lean_names(root=LEAN_ROOT):
-    names = set()
-    for f in glob.glob(os.path.join(root, "Causal", "**", "*.lean"), recursive=True):
-        names.update(DECL.findall(open(f, encoding="utf-8").read()))
-    return names
+def ids_of(x):
+    """An id or a list of ids, as a list; None when it is neither."""
+    if x is None:
+        return []
+    if isinstance(x, str):
+        return [x]
+    if isinstance(x, list) and all(isinstance(y, str) for y in x):
+        return list(x)
+    return None
 
 
-def resolves(name, names):
-    if name in names:
-        return True
-    for d in names:
-        if name.endswith("." + d) or d.endswith("." + name):
-            return True
-    return False
+def sort_of(data):
+    return {p.get("id"): p.get("sort", DEFAULT_SORT) for p in data.get("property", [])}
 
 
-def closure(data):
-    """id -> set of ids implied (reflexive), through the implies edges."""
-    props = [p["id"] for p in data.get("property", [])]
-    out = {}
-    for a in props:
-        have = {a}
-        changed = True
-        while changed:
-            changed = False
-            for e in data.get("implies", []):
-                if set(e["from"]) <= have and e["to"] not in have:
-                    have.add(e["to"])
-                    changed = True
-        out[a] = have
-    return out
+def vocab_closure(words):
+    """`words` closed under the vocabulary's implications (unknown words are kept as they are)."""
+    out, todo = set(), list(words)
+    while todo:
+        w = todo.pop()
+        if w not in out:
+            out.add(w)
+            todo.extend(STANDING.get(w, ("", ()))[1])
+    return frozenset(out)
 
 
-def refuted(data, clo):
-    """Pairs (a, b) refuted by a counterexample, propagated along the closure."""
-    props = [p["id"] for p in data.get("property", [])]
-    bad = set()
+def ambient(data):
+    """The ambient space: the ladder's [ambient] standing, or ETT's spacetimes, closed."""
+    a = data.get("ambient")
+    words = a.get("standing", AMBIENT) if isinstance(a, dict) else AMBIENT
+    return vocab_closure(words if isinstance(words, (list, tuple)) else AMBIENT)
+
+
+def standing(e):
+    s = e.get("standing", [])
+    return list(s) if isinstance(s, list) else []
+
+
+def space(f, data):
+    """The closed set of words a counterexample's space satisfies (absent: the ambient)."""
+    if "space" in f and isinstance(f["space"], list):
+        return vocab_closure(f["space"])
+    return ambient(data)
+
+
+def valid(e, on):
+    """Is the edge `e` valid on the closed space `on` (None: on every space, i.e. any standing)?"""
+    return on is None or set(standing(e)) <= on
+
+
+def edges_on(data, on):
+    return [e for e in data.get("implies", []) if valid(e, on) and ids_of(e.get("from"))]
+
+
+def _saturate(start, edges):
+    have = set(start)
+    changed = True
+    while changed:
+        changed = False
+        for e in edges:
+            if set(ids_of(e.get("from")) or ()) <= have and e.get("to") not in have:
+                have.add(e.get("to"))
+                changed = True
+    return have
+
+
+def closure(data, on=None):
+    """id -> set of ids implied (reflexive), through the implies edges valid on the ambient (or on
+    the closed space `on`, a set of words)."""
+    edges = edges_on(data, ambient(data) if on is None else frozenset(on))
+    return {p["id"]: _saturate({p["id"]}, edges) for p in data.get("property", [])}
+
+
+def closure_any(data):
+    """id -> set of ids implied through every implies edge, whatever its standing."""
+    edges = edges_on(data, None)
+    return {p["id"]: _saturate({p["id"]}, edges) for p in data.get("property", [])}
+
+
+def counterexample(data, f, cache=None):
+    """(has, lacks) of the counterexample `f`: the ids its space has (the closure of its `from`
+    through the edges valid on its space) and the ids it lacks (those whose closure there reaches
+    its `to`)."""
+    on = space(f, data)
+    key = on
+    if cache is not None and key in cache:
+        edges, clo = cache[key]
+    else:
+        edges = edges_on(data, on)
+        clo = {p["id"]: _saturate({p["id"]}, edges) for p in data.get("property", [])}
+        if cache is not None:
+            cache[key] = (edges, clo)
+    has = _saturate(ids_of(f.get("from")) or [], edges)
+    lacks = {b for b, c in clo.items() if f.get("to") in c}
+    return has, lacks
+
+
+def refuted(data, clo=None):
+    """Pairs (a, b) refuted by a counterexample, propagated along the closure valid on its space.
+    With `clo` given (id -> set), that one closure is used for every counterexample, and a list
+    `from` contributes the union of its members' closures (the reading of older callers)."""
+    bad, cache = set(), {}
     for f in data.get("fails", []):
-        a, b = f["from"], f["to"]
-        for a2 in props:
-            if a2 in clo.get(a, ()):          # the counterexample has a, hence a2
-                for b2 in props:
-                    if b in clo.get(b2, ()):  # b2 would give b, which it lacks
-                        bad.add((a2, b2))
+        frm = ids_of(f.get("from")) or []
+        if clo is not None:
+            has = set().union(*(clo.get(x, {x}) for x in frm)) if frm else set()
+            lacks = {b for b, c in clo.items() if f.get("to") in c}
+        else:
+            has, lacks = counterexample(data, f, cache)
+        bad.update((a, b) for a in has for b in lacks)
     return bad
 
 
-def check(data, names=None):
+def lean_names(root=LEAN_ROOT):
+    """The full names of the declarations of lean-causal/Causal (lean_index's)."""
+    return set(lean_index(root)["decls"])
+
+
+def resolves(name, names):
+    """Namespace-exact: `name` is the full name of a declaration."""
+    return isinstance(name, str) and name in names
+
+
+def ett_labels(path=None):
+    """The labels of papers/ett/ledger/ledger.json, or None when the ledger is absent."""
+    path = ETT_LEDGER if path is None else path
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding="utf-8") as fh:
+        return {r["label"] for r in json.load(fh)["statements"]}
+
+
+def _words(tag, e, key, errs):
+    v = e.get(key)
+    if v is None:
+        return
+    if not isinstance(v, list) or not all(isinstance(w, str) for w in v):
+        errs.append("%s: %s must be a list of words" % (tag, key))
+        return
+    for w in v:
+        if w not in STANDING:
+            errs.append("%s: unknown %s word %r (the vocabulary: %s)" % (tag, key, w, ", ".join(STANDING)))
+
+
+def _label(tag, lab, labels, errs):
+    if labels is None:
+        errs.append("%s: label %s cannot be checked: no ETT ledger (%s)" % (
+            tag, lab, os.path.relpath(ETT_LEDGER, ROOT)))
+    elif lab not in labels:
+        errs.append("%s: label %s is not a label of papers/ett/ledger/ledger.json" % (tag, lab))
+
+
+def _one_sort(tag, xs, sort, errs):
+    sorts = sorted({sort[x] for x in xs if x in sort})
+    if len(sorts) > 1:
+        errs.append("%s: joins two sorts (ill-typed): %s" % (
+            tag, ", ".join("%s (%s)" % (x, sort[x]) for x in xs if x in sort)))
+
+
+def _transfer_sides(t):
+    """(source ids, target ids) of a transfer: the wider C' is the source of `to_narrower`."""
+    nar, wid = ids_of(t.get("narrower")) or [], ids_of(t.get("wider")) or []
+    return (wid, nar) if t.get("direction", "to_narrower") == "to_narrower" else (nar, wid)
+
+
+def check(data, names=None, labels=None):
     errs = []
     names = lean_names() if names is None else names
+    labels = ett_labels() if labels is None else labels
+    for kind in KEYS:
+        if kind != "ambient" and kind in data and not (
+                isinstance(data[kind], list) and all(isinstance(e, dict) for e in data[kind])):
+            errs.append("%s: must be an array of tables ([[%s]])" % (kind, kind))
+    data = {k: v for k, v in data.items() if k == "ambient" or k not in KEYS or (
+        isinstance(v, list) and all(isinstance(e, dict) for e in v))}
+    for k in data:
+        if k not in KEYS:
+            errs.append("unknown table %r (the tables: %s)" % (k, ", ".join(KEYS)))
+    for kind, allowed in KEYS.items():
+        rows = data.get(kind)
+        rows = [rows] if isinstance(rows, dict) and kind == "ambient" else (rows or [])
+        for e in rows:
+            for k in sorted(set(e) - allowed):
+                errs.append("%s %s: unknown key %r (the keys: %s)" % (
+                    kind, e.get("id") or e.get("witness") or e.get("counterexample") or "?", k,
+                    ", ".join(sorted(allowed))))
+    amb = data.get("ambient")
+    if amb is not None:
+        if not isinstance(amb, dict):
+            errs.append("ambient: must be a table")
+        else:
+            _words("ambient", amb, "standing", errs)
+            if amb.get("label"):
+                _label("ambient", amb["label"], labels, errs)
     props = data.get("property", [])
     ids = [p.get("id") for p in props]
     known = set(ids)
-    for i in set(x for x in ids if ids.count(x) > 1):
+    sort = sort_of(data)
+    for i in sorted(set(x for x in ids if ids.count(x) > 1), key=str):
         errs.append("property %s: duplicate id" % i)
     for p in props:
         for k in ("id", "lean", "what"):
             if not p.get(k):
                 errs.append("property %s: missing %s" % (p.get("id"), k))
         if p.get("lean") and not resolves(p["lean"], names):
-            errs.append("property %s: Lean definition %s not found in lean-causal" % (p["id"], p["lean"]))
+            errs.append("property %s: Lean definition %s not found in lean-causal (a full name)" % (
+                p.get("id"), p["lean"]))
+        if p.get("sort", DEFAULT_SORT) not in SORTS:
+            errs.append("property %s: sort %r is not one of %s" % (p.get("id"), p.get("sort"), SORTS))
+        if p.get("label"):
+            _label("property %s" % p.get("id"), p["label"], labels, errs)
+
+    def lean_ref(tag, key, e, required=True):
+        if not e.get(key):
+            if required:
+                errs.append("%s: missing %s" % (tag, key))
+        elif not resolves(e[key], names):
+            errs.append("%s: %s not found in lean-causal (a full name)" % (tag, key))
+
+    def known_ids(tag, xs):
+        for x in xs:
+            if x not in known:
+                errs.append("%s: unknown property %r" % (tag, x))
+
     for kind in ("implies", "fails", "consequence"):
         for e in data.get(kind, []):
             tag = "%s %s" % (kind, e.get("witness", "?"))
             if e.get("status") not in STATUS:
                 errs.append("%s: status must be one of %s" % (tag, STATUS))
-            if not e.get("witness"):
-                errs.append("%s: missing witness" % tag)
-            elif not resolves(e["witness"], names):
-                errs.append("%s: witness not found in lean-causal" % tag)
-            ends = []
-            if kind == "implies":
-                ends = list(e.get("from", [])) + [e.get("to")]
-                if not e.get("from"):
-                    errs.append("%s: empty premise" % tag)
-            elif kind == "fails":
-                ends = [e.get("from"), e.get("to")]
-            else:
-                ends = [e.get("at")]
+            lean_ref(tag, "witness", e)
+            if kind == "consequence":
+                at = ids_of(e.get("at"))
+                if at is None:
+                    errs.append("%s: at must be an id or a list of ids" % tag)
+                    at = []
+                elif not at:
+                    errs.append("%s: missing at" % tag)
+                ends = at
                 if not e.get("statement"):
                     errs.append("%s: missing statement" % tag)
-            for x in ends:
-                if x not in known:
-                    errs.append("%s: unknown property %r" % (tag, x))
+                _words(tag, e, "standing", errs)
+            else:
+                frm = ids_of(e.get("from"))
+                if frm is None:
+                    errs.append("%s: from must be an id or a list of ids" % tag)
+                    frm = []
+                elif not frm:
+                    errs.append("%s: empty premise" % tag)
+                ends = frm + [e.get("to")]
+                _words(tag, e, "standing" if kind == "implies" else "space", errs)
+            known_ids(tag, ends)
+            if len(set(ends)) < len(ends):
+                errs.append("%s: an id is repeated" % tag)
+            _one_sort(tag, ends, sort, errs)
     for o in data.get("open", []):
-        for x in (o.get("from"), o.get("to")):
-            if x not in known:
-                errs.append("open %s→%s: unknown property %r" % (o.get("from"), o.get("to"), x))
+        tag = "open %s→%s" % (o.get("from"), o.get("to"))
+        ends = [o.get("from"), o.get("to")]
+        known_ids(tag, ends)
+        _one_sort(tag, ends, sort, errs)
+    for t in data.get("transfer", []):
+        tag = "transfer %s of %s along %s" % (t.get("direction", "to_narrower"), t.get("property"), t.get("pair"))
+        if t.get("status") not in STATUS:
+            errs.append("%s: status must be one of %s" % (tag, STATUS))
+        if t.get("direction", "to_narrower") not in DIRECTIONS:
+            errs.append("%s: direction must be one of %s" % (tag, DIRECTIONS))
+        for key, want in (("pair", "pair"), ("property", "causality")):
+            x = t.get(key)
+            if not isinstance(x, str) or x not in known:
+                errs.append("%s: %s %r is not a property" % (tag, key, x))
+            elif sort[x] != want:
+                errs.append("%s: %s %s is of sort %s, not %s" % (tag, key, x, sort[x], want))
+        for key in ("narrower", "wider"):
+            xs = ids_of(t.get(key))
+            if xs is None:
+                errs.append("%s: %s must be a list of ids" % (tag, key))
+                continue
+            known_ids(tag, xs)
+            for x in xs:
+                if x in known and sort[x] != "causality":
+                    errs.append("%s: %s id %s is of sort %s, not causality" % (tag, key, x, sort[x]))
+        has_w, has_c = bool(t.get("witness")), bool(t.get("counterexample"))
+        if has_w == has_c:
+            errs.append("%s: exactly one of witness (the transfer) and counterexample" % tag)
+        lean_ref(tag, "witness", t, required=False)
+        lean_ref(tag, "counterexample", t, required=False)
+        if has_c and "standing" in t:
+            errs.append("%s: standing is a witness's field; a counterexample's space is `space`" % tag)
+        if has_w and "space" in t:
+            errs.append("%s: space is a counterexample's field; a witness's hypotheses are `standing`" % tag)
+        _words(tag, t, "standing", errs)
+        _words(tag, t, "space", errs)
+        if has_w and t.get("property") in (_transfer_sides(t)[1]):
+            errs.append("%s: asks %s of the causality it concludes it for (vacuous)" % (tag, t.get("property")))
     if not errs:
-        clo = closure(data)
-        bad = refuted(data, clo)
-        for a in known:
-            for b in clo[a]:
-                if (a, b) in bad:
-                    errs.append("contradiction: %s ⇒ %s by implications, refuted by a counterexample" % (a, b))
-        opens = {(o["from"], o["to"]) for o in data.get("open", [])}
-        for a, b in opens:
-            if b in clo[a] or (a, b) in bad:
-                errs.append("open %s→%s is already settled; remove it" % (a, b))
+        errs += _contradictions(data)
+    return errs
+
+
+def _contradictions(data):
+    """The semantic violations, on a ladder whose schema is sound."""
+    errs, cache = [], {}
+    for f in data.get("fails", []):
+        has, _ = counterexample(data, f, cache)
+        if f["to"] in has:
+            errs.append("contradiction: counterexample %s has %s, hence %s by the implications valid on its "
+                        "space (%s), and lacks it" % (f.get("witness"), " ∧ ".join(ids_of(f["from"])), f["to"],
+                                                       ", ".join(sorted(space(f, data)))))
+    clo, bad = closure(data), refuted(data)
+    for o in data.get("open", []):
+        a, b = o["from"], o["to"]
+        if b in clo[a] or (a, b) in bad:
+            errs.append("open %s→%s is already settled; remove it" % (a, b))
+    proved = [t for t in data.get("transfer", []) if t.get("witness")]
+    for c in (t for t in data.get("transfer", []) if t.get("counterexample")):
+        on = space(c, data)
+        edges = edges_on(data, on)
+        src, tgt = _transfer_sides(c)
+        has_src = _saturate(set(src) | {c["property"]}, edges)
+        has_tgt = _saturate(tgt, edges)
+        if c["property"] in has_tgt:
+            errs.append("contradiction: transfer counterexample %s: its target has %s, hence %s, which it "
+                        "lacks" % (c["counterexample"], " ∧ ".join(tgt), c["property"]))
+            continue
+        pairs = _saturate({c["pair"]}, edges)
+        for w in proved:
+            wsrc, wtgt = _transfer_sides(w)
+            if (w["property"] == c["property"] and w.get("direction", "to_narrower") == c.get("direction", "to_narrower")
+                    and w["pair"] in pairs and set(standing(w)) <= on
+                    and set(wsrc) <= has_src and set(wtgt) <= has_tgt):
+                errs.append("contradiction: transfer %s (%s of %s along %s) applies to counterexample %s" % (
+                    w["witness"], w.get("direction", "to_narrower"), w["property"], w["pair"], c["counterexample"]))
     return errs
 
 
 def matrix(data):
-    clo = closure(data)
-    bad = refuted(data, clo)
-    opens = {(o["from"], o["to"]) for o in data.get("open", [])}
+    """(a, b) -> ill-typed | implied | fails | open | implied-standing | unknown, every a != b."""
+    sort = sort_of(data)
+    clo, every, bad = closure(data), closure_any(data), refuted(data)
+    opens = {(o.get("from"), o.get("to")) for o in data.get("open", [])}
     ids = [p["id"] for p in data.get("property", [])]
     out = {}
     for a in ids:
         for b in ids:
             if a == b:
                 continue
-            out[(a, b)] = ("implied" if b in clo[a] else "fails" if (a, b) in bad
-                           else "open" if (a, b) in opens else "unknown")
+            out[(a, b)] = ("ill-typed" if sort[a] != sort[b] else "implied" if b in clo[a]
+                           else "fails" if (a, b) in bad else "open" if (a, b) in opens
+                           else "implied-standing" if b in every[a] else "unknown")
     return out
+
+
+def needed_standing(src, b, edges, base=()):
+    """An irredundant set of standing words (beyond the closed set `base`) with which `edges` chain
+    `b` from `src`: every word of the edges, then each dropped in turn while `b` stays reached, the
+    strongest first (a word implying more is tried first), so that T1 is kept rather than T2."""
+    words = set().union(*(set(standing(e)) for e in edges)) if edges else set()
+    words -= set(base)
+    for w in sorted(words, key=lambda x: (-len(vocab_closure([x])), x)):
+        on = vocab_closure((words - {w}) | set(base))
+        if b in _saturate(src, [e for e in edges if valid(e, on)]):
+            words.discard(w)
+    return sorted(words)
+
+
+def summary(data, errs=()):
+    m = matrix(data) if not errs else {}
+    within = [v for v in m.values() if v != "ill-typed"]
+    return {"properties": len(data.get("property", [])), "implies": len(data.get("implies", [])),
+            "fails": len(data.get("fails", [])), "consequences": len(data.get("consequence", [])),
+            "transfers": len(data.get("transfer", [])), "violations": len(errs), "pairs": len(m),
+            "within": len(within), "ill_typed": len(m) - len(within),
+            "classified": sum(1 for v in within if v in CLASSIFIED),
+            "implied_standing": sum(1 for v in within if v == "implied-standing")}
+
+
+def check_line(s):
+    head = "ladder: %d properties, %d implications, %d counterexamples, %d consequences; " % (
+        s["properties"], s["implies"], s["fails"], s["consequences"])
+    if s["violations"]:
+        return head + "%d violation(s)" % s["violations"]
+    return head + ("%d of %d ordered pairs classified (within one sort), %d ill-typed (across sorts), "
+                   "%d implied under standing only, %d transfers" % (
+                       s["classified"], s["within"], s["ill_typed"], s["implied_standing"], s["transfers"]))
 
 
 # ------------------------------------------------------------------ emit-lean
@@ -158,11 +544,24 @@ def matrix(data):
 #                             edge, and the imports of the witnesses' modules;
 #   Causal/Ladder/Test.lean   `example`s: `causal_ladder` derives every pair of the closure of the
 #                             EMITTED edges, and fails on every other ordered pair.
-# An edge is emitted when it is `checked`, has a premise, carries no `under` (a side condition is
-# not a ladder node, and a rule with an unprovable side goal must not exist), joins properties of
-# the sort `causality` only (a `geometry` property is not a predicate on one causality), and its
-# witness is declared in a module of the ETT layer: one that imports, directly or transitively, no
-# model (MODEL_LAYER), so that the layer-1 modules which call `causal_ladder` stay model-free.
+# An edge is emitted when it is `checked`, has a premise, carries no `under` (a side condition in
+# words is not a ladder node, and a rule with an unprovable side goal must not exist), joins
+# properties of the sort `causality` only (a `geometry` or `pair` property is not a predicate on one
+# causality), its `standing` words are in the vocabulary, its witness is declared in a module of the
+# ETT layer (one that imports, directly or transitively, no model: MODEL_LAYER, so that the layer-1
+# modules which call `causal_ladder` stay model-free), and each of its properties has a Lean form
+# (lean_form: a Prop-valued def of the ETT layer on one causality; a rule about a formless property
+# could never be tested, and was inert when the property's def imported a model).
+# `standing` does not stop an edge: every vocabulary word is a Mathlib class on M, which the witness
+# takes as an instance argument, and aesop's forward rules synthesise instance arguments and do not
+# fire when synthesis fails (Aesop/RuleTac/Forward.lean, makeForwardHypProofs): no side goal is left.
+# Test.lean derives a pair reached through such a rule with exactly the instances its derivation
+# needs (needed_standing) and checks, in the bare context, that it is not derived without them; so
+# a `standing` that misses an instance the witness needs, or is declared on a witness that takes
+# none, makes Test.lean fail to build (a stronger or an extra class is not detected: it only narrows
+# where the rule is tested). Checked 2026-11-21 (T-tool-ladder-py) by compiling, with `lake env
+# lean` on one file outside the tree, the rules and tests emitted for programme/ladder.toml with its
+# four separation/countability `under`s moved to `standing`, and three mutants of that file.
 # A skipped checked edge is a comment line in Rules.lean that names it and says why.
 
 TEST = os.path.join(LEAN_ROOT, "Causal", "Ladder", "Test.lean")
@@ -175,26 +574,37 @@ DECL_FQ = re.compile(r"(?:(?:private|protected|noncomputable|public|partial|unsa
 IMPORT = re.compile(r"(?:(?:public|private|meta)\s+)*import\s+(?:all\s+)?([\w.']+)\s*$")
 
 
+_COMMENT = re.compile(r"/-|-/|--")
+_NOT_NL = re.compile(r"[^\n]")
+
+
 def _code(text):
-    """`text` with its comments (`--`, nested `/- -/`, docstrings) blanked, newlines kept."""
+    """`text` with its comments (`--`, nested `/- -/`, docstrings) blanked, newlines kept. Scans
+    from one comment token to the next (a token is read where it applies, as a character otherwise)."""
     out, i, depth, n = [], 0, 0, len(text)
     while i < n:
-        if text.startswith("/-", i):
+        m = _COMMENT.search(text, i)
+        j = m.start() if m else n
+        out.append(_NOT_NL.sub(" ", text[i:j]) if depth else text[i:j])
+        if m is None:
+            break
+        tok = m.group()
+        if tok == "/-":
             depth += 1
             out.append("  ")
-            i += 2
-        elif depth and text.startswith("-/", i):
+            i = j + 2
+        elif tok == "-/" and depth:
             depth -= 1
             out.append("  ")
-            i += 2
-        elif not depth and text.startswith("--", i):
-            j = text.find("\n", i)
-            j = n if j == -1 else j
-            out.append(" " * (j - i))
-            i = j
+            i = j + 2
+        elif tok == "--" and not depth:
+            k = text.find("\n", j)
+            k = n if k == -1 else k
+            out.append(" " * (k - j))
+            i = k
         else:
-            out.append(text[i] if (not depth or text[i] == "\n") else " ")
-            i += 1
+            out.append(" " if depth and text[j] != "\n" else text[j])
+            i = j + 1
     return "".join(out)
 
 
@@ -227,7 +637,20 @@ def _signature(code, pos):
     return explicit, None
 
 
+_INDEX = {}
+
+
 def lean_index(root=LEAN_ROOT):
+    """Memoised _lean_index, keyed on the root and every source's size and mtime."""
+    files = sorted(glob.glob(os.path.join(root, "Causal", "**", "*.lean"), recursive=True))
+    key = (os.path.abspath(root), tuple((f, os.stat(f).st_mtime_ns, os.stat(f).st_size) for f in files))
+    if key not in _INDEX:
+        _INDEX.clear()
+        _INDEX[key] = _lean_index(root)
+    return _INDEX[key]
+
+
+def _lean_index(root=LEAN_ROOT):
     """What emit-lean reads off the Causal library's sources, without Lean:
     `decls`   fully qualified name -> module, for every declaration (namespaces tracked);
     `imports` module -> the Causal modules its header imports;
@@ -314,81 +737,6 @@ def model_path(mod, imports):
     return None
 
 
-def _sort(data):
-    return {p["id"]: p.get("sort", "causality") for p in data.get("property", [])}
-
-
-def emitted(data, index=None):
-    """(edges emitted as rules, with the witness's module; checked edges skipped, with the reason)."""
-    index = lean_index() if index is None else index
-    sort = _sort(data)
-    rules, skipped = [], []
-    for e in data.get("implies", []):
-        if e.get("status") != "checked":
-            continue
-        w = e.get("witness", "?")
-        mod = index["decls"].get(w)
-        chain = model_path(mod, index["imports"]) if mod else None
-        if not e.get("from"):
-            skipped.append((e, "no premise"))
-        elif e.get("under"):
-            skipped.append((e, "under: %s" % " ".join(e["under"].split())))
-        elif any(sort.get(x, "causality") != "causality" for x in list(e["from"]) + [e.get("to")]):
-            skipped.append((e, "sort: joins a property not of the sort causality"))
-        elif mod is None:
-            skipped.append((e, "not found: no declaration of this name in lean-causal/Causal"))
-        elif chain:
-            skipped.append((e, "layer: %s lives in %s, which imports a model (%s)" % (
-                w, mod, " → ".join(chain))))
-        else:
-            rules.append((e, mod))
-    return rules, skipped
-
-
-def _edge(e):
-    return "%s ⇒ %s" % (" ∧ ".join(e["from"]), e["to"])
-
-
-def emit_lean(data, index=None):
-    """The text of Causal/Ladder/Rules.lean."""
-    rules, skipped = emitted(data, index)
-    mods = sorted({m for _, m in rules})
-    lines = [GENERATED, "import Causal.Ladder.Basic"] + ["import %s" % m for m in mods] + [
-        "",
-        "/-!",
-        "# The rules of `causal_ladder`, generated from the causality ladder",
-        "",
-        "One aesop `safe forward` rule of the rule set `CausalLadder` per `checked` implication of",
-        "`programme/ladder.toml` with no side condition (`under`), between properties of the sort",
-        "`causality`, whose witness lives in the ETT layer (no model imported, directly or",
-        "transitively). Every other checked implication is a `-- skipped` line below, with its reason.",
-        "Regenerate with `python3 tools/ladder.py emit-lean`; `Causal.Ladder.Test` is generated with it.",
-        "",
-        "Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.",
-        "-/",
-        ""]
-    for e, _ in rules:
-        lines.append("-- %s" % _edge(e))
-        lines.append("attribute [aesop safe forward (rule_sets := [CausalLadder])] %s" % e["witness"])
-    if skipped:
-        lines.append("")
-    for e, why in skipped:
-        lines.append("-- skipped %s (%s): %s" % (e.get("witness", "?"), _edge(e) if e.get("from") else "?", why))
-    return "\n".join(lines) + "\n"
-
-
-def _saturate(start, edges):
-    have = set(start)
-    changed = True
-    while changed:
-        changed = False
-        for e in edges:
-            if set(e["from"]) <= have and e["to"] not in have:
-                have.add(e["to"])
-                changed = True
-    return have
-
-
 def lean_form(prop, index):
     """`P C` for a property of one causality `C : Causal.Causality M`, or (None, why)."""
     name = prop.get("lean", "")
@@ -413,12 +761,102 @@ def lean_form(prop, index):
     return None, "%s is not a predicate on one causality (explicit binders %s)" % (name, explicit)
 
 
+def emitted(data, index=None):
+    """(edges emitted as rules, with the witness's module; checked edges skipped, with the reason)."""
+    index = lean_index() if index is None else index
+    sort = sort_of(data)
+    props = {p.get("id"): p for p in data.get("property", [])}
+    forms = {}
+
+    def form(x):
+        if x not in forms:
+            forms[x] = lean_form(props[x], index) if x in props else (None, "not a property of the ladder")
+        return forms[x]
+    rules, skipped = [], []
+    for e in data.get("implies", []):
+        if e.get("status") != "checked":
+            continue
+        w = e.get("witness", "?")
+        mod = index["decls"].get(w)
+        chain = model_path(mod, index["imports"]) if mod else None
+        ends = (ids_of(e.get("from")) or []) + [e.get("to")]
+        raw = e.get("standing", [])
+        unknown = [str(x) for x in raw if x not in STANDING] if isinstance(raw, list) else ["%r (not a list)" % (raw,)]
+        formless = [(x, form(x)[1]) for x in ends if not form(x)[0]]
+        if not e.get("from"):
+            skipped.append((e, "no premise"))
+        elif e.get("under"):
+            skipped.append((e, "under: %s" % " ".join(e["under"].split())))
+        elif any(sort.get(x, DEFAULT_SORT) != DEFAULT_SORT for x in ends):
+            skipped.append((e, "sort: joins a property not of the sort causality"))
+        elif unknown:
+            skipped.append((e, "standing: %s not in the vocabulary" % ", ".join(unknown)))
+        elif mod is None:
+            skipped.append((e, "not found: no declaration of this name in lean-causal/Causal"))
+        elif chain:
+            skipped.append((e, "layer: %s lives in %s, which imports a model (%s)" % (
+                w, mod, " → ".join(chain))))
+        elif formless:
+            skipped.append((e, "no Lean form: %s" % "; ".join("%s (%s)" % xw for xw in formless)))
+        else:
+            rules.append((e, mod))
+    return rules, skipped
+
+
+def _edge(e):
+    return "%s ⇒ %s" % (" ∧ ".join(ids_of(e["from"])), e["to"])
+
+
+def _std(words):
+    return " (standing: %s)" % ", ".join(words) if words else ""
+
+
+def instances(words):
+    """The instance binders of the standing `words`, on the space M of Causal.Ladder.Test."""
+    return " ".join("[%s M]" % STANDING[w][0] for w in words)
+
+
+def emit_lean(data, index=None):
+    """The text of Causal/Ladder/Rules.lean."""
+    rules, skipped = emitted(data, index)
+    mods = sorted({m for _, m in rules})
+    lines = [GENERATED, "import Causal.Ladder.Basic"] + ["import %s" % m for m in mods] + [
+        "",
+        "/-!",
+        "# The rules of `causal_ladder`, generated from the causality ladder",
+        "",
+        "One aesop `safe forward` rule of the rule set `CausalLadder` per `checked` implication of",
+        "`programme/ladder.toml` with no side condition in words (`under`), between properties of the",
+        "sort `causality` that each have a Lean form (a predicate on one causality, as",
+        "`Causal.Ladder.Test` writes it), whose witness lives in the ETT layer (no model imported,",
+        "directly or transitively). An implication with `standing` hypotheses (separation, countability,",
+        "connectedness of `M`: Mathlib classes its witness takes as instance arguments) is a rule too:",
+        "aesop synthesises those arguments, and the rule does not fire where they are not in context.",
+        "Every other checked implication is a `-- skipped` line below, with its reason.",
+        "Regenerate with `python3 tools/ladder.py emit-lean`; `Causal.Ladder.Test` is generated with it.",
+        "",
+        "Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.",
+        "-/",
+        ""]
+    for e, _ in rules:
+        lines.append("-- %s%s" % (_edge(e), _std(standing(e))))
+        lines.append("attribute [aesop safe forward (rule_sets := [CausalLadder])] %s" % e["witness"])
+    if skipped:
+        lines.append("")
+    for e, why in skipped:
+        lines.append("-- skipped %s (%s): %s" % (e.get("witness", "?"), _edge(e) if e.get("from") else "?", why))
+    return "\n".join(lines) + "\n"
+
+
 def emit_test(data, index=None):
-    """The text of Causal/Ladder/Test.lean: the closure of the emitted edges, both ways."""
+    """The text of Causal/Ladder/Test.lean: the closure of the emitted edges, both ways. A pair
+    reached only through a rule with `standing` is derived with the instances it needs and is not
+    derived without them."""
     index = lean_index() if index is None else index
     rules, _ = emitted(data, index)
     edges = [e for e, _ in rules]
-    props = [p for p in data.get("property", []) if p.get("sort", "causality") == "causality"]
+    bare = [e for e in edges if not standing(e)]
+    props = [p for p in data.get("property", []) if p.get("sort", DEFAULT_SORT) == DEFAULT_SORT]
     form, why = {}, {}
     for p in props:
         f, w = lean_form(p, index)
@@ -430,33 +868,44 @@ def emit_test(data, index=None):
     mat = matrix(data)
     mods = sorted({index["decls"][p["lean"]] for p in props if p["id"] in form})
     note = {"implied": "the matrix chains it through an edge not emitted",
-            "fails": "refuted by a counterexample", "open": "an open pair", "unknown": "unknown"}
-    pos, neg, seen = [], [], set()
-    sources = [(a,) for a in ids] + [tuple(e["from"]) for e in edges if len(e["from"]) > 1]
+            "fails": "refuted by a counterexample", "open": "an open pair", "unknown": "unknown",
+            "implied-standing": "implied under standing hypotheses beyond the ambient, through an edge not emitted"}
+    pos, neg, drop, seen = [], [], [], set()
+    sources = [(a,) for a in ids] + [tuple(ids_of(e["from"])) for e in edges if len(ids_of(e["from"])) > 1]
     for src in sources:
         if src in seen or not all(x in form for x in src):
             continue
         seen.add(src)
+        reach0 = _saturate(src, bare)
         for b in sorted(_saturate(src, edges) - set(src)):
             if b in form:
-                pos.append((src, b))
-    seen = set()
+                words = [] if b in reach0 else needed_standing(src, b, edges)
+                pos.append((src, b, words))
+                if words:                # derived with its instances: not without them
+                    drop.append((src, b, words))
+    seen = set()                         # (premises, conclusion, instances) of the examples written
     for a in ids:
         reach = _saturate((a,), edges)
         for b in ids:
             if b != a and b not in reach:
-                seen.add(((a,), b))
-                neg.append(((a,), b, "matrix: %s" % note.get(mat.get((a, b)), mat.get((a, b)))))
-    for e in edges:                      # a conjunctive rule needs every premise
-        if len(e["from"]) > 1 and all(x in form for x in e["from"]) and e["to"] in form:
-            for x in e["from"]:
-                src = tuple(y for y in e["from"] if y != x)
-                if e["to"] not in _saturate(src, edges) and (src, e["to"]) not in seen:
-                    seen.add((src, e["to"]))
-                    neg.append((src, e["to"], "%s dropped from %s" % (x, e["witness"])))
+                seen.add(((a,), b, ()))
+                neg.append(((a,), b, [], "matrix: %s" % note.get(mat.get((a, b)), mat.get((a, b)))))
+    for src, b, words in drop:
+        seen.add((src, b, ()))
+        neg.append((src, b, [], "standing dropped: %s" % ", ".join(words)))
+    for e in edges:                      # a conjunctive rule needs every premise, its instances given
+        frm = ids_of(e["from"])
+        if len(frm) > 1 and all(x in form for x in frm) and e["to"] in form:
+            for x in frm:
+                src = tuple(y for y in frm if y != x)
+                key = (src, e["to"], tuple(standing(e)))
+                if e["to"] not in _saturate(src, edges) and key not in seen:
+                    seen.add(key)
+                    neg.append((src, e["to"], standing(e), "%s dropped from %s" % (x, e["witness"])))
 
-    def hyps(src):
-        return " ".join("(_h%d : %s)" % (i, form[x]) for i, x in enumerate(src))
+    def hyps(words, src):
+        return " ".join(([instances(words)] if words else []) +
+                        ["(_h%d : %s)" % (i, form[x]) for i, x in enumerate(src)])
 
     lines = [GENERATED, "import Causal.Ladder.Rules"] + ["import %s" % m for m in mods] + [
         "",
@@ -468,10 +917,13 @@ def emit_test(data, index=None):
         "`programme/ladder.toml`), from each property and from the premises of each conjunctive rule",
         "(%d examples, `Derived`). It fails on every other ordered pair of the properties of the" % len(pos),
         "sort `causality` written here, and on each conjunctive rule with one premise dropped",
-        "(%d examples, `Not derived`). A pair the ladder's matrix calls `implied` that is not" % len(neg),
-        "derived goes through an edge that was not emitted (a side condition `under`, or a witness",
-        "outside the ETT layer). The first command fails if a model module is imported, directly or",
-        "transitively: the ladder's Lean stays in the ETT layer, so that layer-1 modules may use it.",
+        "(%d examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses" % len(neg),
+        "is derived with exactly the instances its derivation needs among its binders, and is not",
+        "derived without them (`standing dropped`): so Lean checks each edge's `standing` against its",
+        "witness. A pair the ladder's matrix calls `implied` that is not derived goes through an edge",
+        "that was not emitted (a side condition `under`, or a witness outside the ETT layer). The first",
+        "command fails if a model module is imported, directly or transitively: the ladder's Lean",
+        "stays in the ETT layer, so that layer-1 modules may use it.",
         "Regenerate with `python3 tools/ladder.py emit-lean`.",
         "",
         "Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.",
@@ -490,13 +942,13 @@ def emit_test(data, index=None):
     lines += ["", "section", "", "universe u", "",
               "variable {M : Type u} [TopologicalSpace M] (C : Causal.Causality M)", "",
               "/-! ## Derived -/", ""]
-    for src, b in pos:
-        lines.append("-- %s ⇒ %s" % (" ∧ ".join(src), b))
-        lines.append("example %s : %s := by causal_ladder" % (hyps(src), form[b]))
+    for src, b, words in pos:
+        lines.append("-- %s ⇒ %s%s" % (" ∧ ".join(src), b, _std(words)))
+        lines.append("example %s : %s := by causal_ladder" % (hyps(words, src), form[b]))
     lines += ["", "/-! ## Not derived -/", ""]
-    for src, b, reason in neg:
+    for src, b, words, reason in neg:
         lines.append("-- %s ⇏ %s (%s)" % (" ∧ ".join(src), b, reason))
-        lines.append("example %s : True := by" % hyps(src))
+        lines.append("example %s : True := by" % hyps(words, src))
         lines.append("  fail_if_success have : %s := by causal_ladder" % form[b])
         lines.append("  trivial")
     lines += ["", "end"]
@@ -506,30 +958,38 @@ def emit_test(data, index=None):
 def main(argv):
     if not argv:
         sys.exit(__doc__)
-    data = load()
-    cmd = argv[0]
+    cmd, rest = argv[0], argv[1:]
+    path = FILE
+    if "--file" in rest:
+        k = rest.index("--file")
+        if k + 1 >= len(rest):
+            sys.exit("ladder: --file needs a path")
+        path = rest[k + 1]
+    data = load(path)
     if cmd == "check":
         errs = check(data)
         for e in errs:
             print("ladder: " + e)
-        m = matrix(data) if not errs else {}
-        n = len(data.get("property", []))
-        print("ladder: %d properties, %d implications, %d counterexamples, %d consequences; %s" % (
-            n, len(data.get("implies", [])), len(data.get("fails", [])), len(data.get("consequence", [])),
-            "%d violation(s)" % len(errs) if errs else
-            "%d of %d ordered pairs classified" % (sum(1 for v in m.values() if v != "unknown"), len(m))))
+        print(check_line(summary(data, errs)))
         sys.exit(1 if errs else 0)
     if cmd == "matrix":
+        edges = edges_on(data, None)
+        amb = ambient(data)
         for (a, b), v in sorted(matrix(data).items()):
-            print("%-24s %-24s %s" % (a, b, v))
+            extra = ""
+            if v == "implied-standing":
+                extra = " (%s)" % ", ".join(needed_standing((a,), b, edges, amb))
+            print("%-24s %-24s %s%s" % (a, b, v, extra))
         return
     if cmd == "emit-lean":
+        if path != FILE:
+            sys.exit("ladder: emit-lean writes lean-causal from programme/ladder.toml only")
         index = lean_index()
         rules, skipped = emitted(data, index)
         text, test = emit_lean(data, index), emit_test(data, index)
         os.makedirs(os.path.dirname(RULES), exist_ok=True)
-        for path, body in ((RULES, text), (TEST, test)):
-            with open(path, "w", encoding="utf-8") as fh:
+        for p, body in ((RULES, text), (TEST, test)):
+            with open(p, "w", encoding="utf-8") as fh:
                 fh.write(body)
         print("ladder: wrote %s (%d rules, %d checked edges skipped) and %s (%d derived, %d not derived)" % (
             os.path.relpath(RULES, ROOT), len(rules), len(skipped), os.path.relpath(TEST, ROOT),
@@ -539,7 +999,7 @@ def main(argv):
     if cmd == "dot":
         print("digraph ladder { rankdir=BT; node [shape=box];")
         for e in data.get("implies", []):
-            for a in e["from"]:
+            for a in ids_of(e["from"]):
                 print('  "%s" -> "%s" [style=%s];' % (a, e["to"], "solid" if e["status"] == "checked" else "dashed"))
         print("}")
         return

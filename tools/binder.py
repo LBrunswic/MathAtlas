@@ -18,6 +18,9 @@ A binder is papers/<slug>/certificate/binder.toml, authored by the programme-pla
 
 Every label, ladder id, Lean name and target id must resolve; every localisation property must be
 provided by some geometric entry (or the row says `open_localisation = ["..."]` with a reason).
+A Lean name resolves namespace-exactly, as in tools/ladder.py: it is the full name of a declaration
+of lean-causal/Causal (namespace and section blocks read, comments blanked); a dotted suffix of a
+declared name, or a declared name that is a suffix of it, is not enough.
 """
 import glob
 import json
@@ -42,6 +45,7 @@ def binders(slugs=None):
 
 
 def ref_ok(x, names, targets):
+    """A programme target id, or a Lean full name of lean-causal/Causal (namespace-exact)."""
     return x in targets if x.startswith("T-") else ld.resolves(x, names)
 
 
@@ -89,7 +93,7 @@ def main(argv):
         sys.exit(__doc__)
     cmd, slugs = argv[0], argv[1:]
     bs = binders(slugs)
-    names = ld.lean_names()
+    names = ld.lean_names()   # the declarations' full names
     ladder_ids = {p["id"] for p in ld.load().get("property", [])}
     targets = {t["id"] for t in tomllib.load(open(PROGRAMME, "rb")).get("target", [])} if os.path.exists(PROGRAMME) else set()
     if cmd == "check":

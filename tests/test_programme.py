@@ -4,7 +4,11 @@
 Each rule is shown to fail on a hand-built input that breaks it, and the shipped files to pass.
 """
 import os
+import re
+import subprocess
 import sys
+import tempfile
+import tomllib
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -262,6 +266,367 @@ class LadderEmit(unittest.TestCase):
                                  "python3 tools/ladder.py emit-lean" % os.path.relpath(path, ROOT))
 
 
+LABELS = {"def:x"}
+
+
+def chk(d, names=NAMES, labels=LABELS):
+    return ld.check(d, names, labels)
+
+
+def imp(frm, to, w="a_to_b", **kw):
+    d = {"from": frm, "to": to, "witness": w, "status": "checked"}
+    d.update(kw)
+    return d
+
+
+def has(errs, text):
+    return any(text in e for e in errs)
+
+
+class LadderStanding(unittest.TestCase):
+    """`standing`: separation and countability hypotheses, read by the closure against the ambient
+    (ETT's spacetimes: T2, second countable), and a counterexample read on its own space."""
+
+    def test_standing_within_the_ambient_is_implied(self):
+        d = lad(implies=[imp(["a"], "b", standing=["T1"])])
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "implied")      # T1 follows from the ambient T2
+
+    def test_standing_beyond_the_ambient_is_implied_under_standing_only(self):
+        d = lad(implies=[imp(["a"], "b", standing=["connected"])])
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "implied-standing")
+        s = ld.summary(d)
+        self.assertEqual((s["classified"], s["implied_standing"]), (0, 1))
+
+    def test_declared_ambient(self):
+        d = lad(implies=[imp(["a"], "b", standing=["T2"])], ambient={"standing": ["T1"]})
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "implied-standing")
+        d["ambient"] = {"standing": ["metrizable"]}                # metrizable gives T2
+        self.assertEqual(ld.matrix(d)[("a", "b")], "implied")
+        d["ambient"] = {"standing": ["Hausdorff"]}
+        self.assertTrue(has(chk(d), "ambient: unknown standing word 'Hausdorff'"))
+        d["ambient"] = {"standing": ["T2"], "label": "def:y"}
+        self.assertTrue(has(chk(d), "ambient: label def:y is not a label"))
+
+    def test_legacy_under_is_chained_as_before(self):
+        d = lad(implies=[imp(["a"], "b", under="M is T1 ([T1Space M])")])
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "implied")
+
+    def test_unknown_standing_word_fails(self):
+        self.assertTrue(has(chk(lad(implies=[imp(["a"], "b", standing=["Hausdorff"])])),
+                            "unknown standing word 'Hausdorff'"))
+
+    def test_standing_must_be_a_list(self):
+        self.assertTrue(has(chk(lad(implies=[imp(["a"], "b", standing="T1")])), "standing must be a list"))
+
+    def test_counterexample_is_read_on_its_space(self):
+        # b ⇒ c on Hausdorff spaces. A counterexample with a and without c, one of ETT's spacetimes,
+        # lacks b too; a non-Hausdorff one (space T1, a branching line) says nothing of b.
+        imps = [imp(["b"], "c", "B.toC", standing=["T2"])]
+        f = {"from": "a", "to": "c", "witness": "cex_a_not_c", "status": "checked"}
+        self.assertEqual(ld.matrix(lad(implies=imps, fails=[f]))[("a", "b")], "fails")
+        d = lad(implies=imps, fails=[dict(f, space=["T1"])])
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "unknown")
+        self.assertTrue(has(chk(lad(implies=imps, fails=[dict(f, space=["hausdorff"])])),
+                            "unknown space word 'hausdorff'"))
+
+    def test_contradiction_is_read_on_the_counterexample_space(self):
+        imps = [imp(["a"], "c", standing=["T2"])]
+        f = {"from": "a", "to": "c", "witness": "cex_a_not_c", "status": "checked"}
+        self.assertTrue(has(chk(lad(implies=imps, fails=[f])), "contradiction"))
+        self.assertEqual(chk(lad(implies=imps, fails=[dict(f, space=["T1"])])), [])
+
+    def test_refuted_with_a_given_closure(self):
+        # the reading of older callers (reports/blueprint/build.py): one closure for every counterexample
+        d = lad(fails=[{"from": "a", "to": "c", "witness": "cex_a_not_c", "status": "checked"}])
+        self.assertEqual(ld.refuted(d, ld.closure(d)), {("a", "c"), ("b", "c")})
+        self.assertEqual(ld.refuted(d, ld.closure(d)), ld.refuted(d))
+
+    def test_needed_standing_is_irredundant_and_closed(self):
+        es = [imp(["a"], "b", standing=["T1"]), imp(["b"], "c", standing=["T2", "second_countable"])]
+        self.assertEqual(ld.needed_standing(("a",), "b", es), ["T1"])
+        self.assertEqual(ld.needed_standing(("a",), "c", es), ["T2", "second_countable"])
+        self.assertEqual(ld.vocab_closure(["T2", "second_countable"]),
+                         {"T0", "T1", "T2", "second_countable", "first_countable", "separable"})
+
+
+class LadderNames(unittest.TestCase):
+    """Lean names resolve namespace-exactly: a declared full name, not a dotted suffix."""
+
+    def test_resolution_is_namespace_exact(self):
+        full = "Causal.Causality.StronglyCausal.isCausal"
+        self.assertTrue(ld.resolves(full, {full}))
+        for n in ("StronglyCausal.isCausal", "isCausal", "Causal.Other.StronglyCausal.isCausal",
+                  "X." + full):
+            self.assertFalse(ld.resolves(n, {full}), n)
+        self.assertFalse(ld.resolves(full, {"StronglyCausal.isCausal"}))   # the old suffix rule
+
+    def test_check_refuses_suffix_names(self):
+        d = lad(implies=[imp(["a"], "b", "Causal.a_to_b")])
+        self.assertTrue(has(chk(d), "witness not found"))
+        d = lad()
+        d["property"][0]["lean"] = "a"                                        # P.a is declared
+        self.assertTrue(has(chk(d), "Lean definition a not found"))
+
+    def test_lean_names_are_full_names(self):
+        with tempfile.TemporaryDirectory() as root:
+            os.makedirs(os.path.join(root, "Causal"))
+            with open(os.path.join(root, "Causal", "A.lean"), "w") as fh:
+                fh.write("namespace Causal.Causality\n-- theorem commented : True\n"
+                         "theorem StronglyCausal.isCausal : True := trivial\nend Causal.Causality\n")
+            names = ld.lean_names(root)
+        self.assertEqual(names, {"Causal.Causality.StronglyCausal.isCausal"})
+
+
+class LadderSchema(unittest.TestCase):
+    """Unknown keys and tables, conjunctive `at`, labels against papers/ett's ledger."""
+
+    def test_unknown_key_fails(self):
+        self.assertTrue(has(chk(lad(implies=[imp(["a"], "b", standnig=["T1"])])), "unknown key 'standnig'"))
+
+    def test_unknown_table_fails(self):
+        self.assertTrue(has(chk(lad(implication=[imp(["a"], "b")])), "unknown table 'implication'"))
+
+    def test_a_table_of_the_wrong_shape_fails(self):
+        self.assertTrue(has(chk({"property": prop("a")}), "property: must be an array of tables"))
+        self.assertTrue(has(chk(lad(implies=["a"])), "implies: must be an array of tables"))
+
+    def test_consequence_at_is_an_id_or_a_conjunction(self):
+        c = {"statement": "s", "witness": "a_to_b", "status": "checked"}
+        self.assertEqual(chk(lad(consequence=[dict(c, at="a")])), [])
+        self.assertEqual(chk(lad(consequence=[dict(c, at=["a", "c"])])), [])
+        self.assertTrue(has(chk(lad(consequence=[dict(c, at=["a", "zz"])])), "unknown property 'zz'"))
+        self.assertTrue(has(chk(lad(consequence=[dict(c, at=[])])), "missing at"))
+        self.assertTrue(has(chk(lad(consequence=[dict(c, at=[1])])), "at must be an id or a list"))
+        self.assertTrue(has(chk(lad(consequence=[dict(c, at=["a", "a"])])), "repeated"))
+
+    def test_label_is_an_ett_label(self):
+        d = lad()
+        d["property"][0]["label"] = "def:x"
+        self.assertEqual(chk(d), [])
+        d["property"][0]["label"] = "def:y"
+        self.assertTrue(has(chk(d), "label def:y is not a label of papers/ett/ledger/ledger.json"))
+
+    def test_label_without_the_ett_ledger_fails(self):
+        d = lad()
+        d["property"][0]["label"] = "def:x"
+        saved, ld.ETT_LEDGER = ld.ETT_LEDGER, os.path.join(ROOT, "no-such-dir", "ledger.json")
+        try:
+            errs = ld.check(d, NAMES)
+        finally:
+            ld.ETT_LEDGER = saved
+        self.assertTrue(has(errs, "cannot be checked: no ETT ledger"))
+
+
+class LadderSorts(unittest.TestCase):
+    """`sort` read by check and matrix: pairs within one sort are classified, the others ill-typed;
+    `fails` with a list `from`."""
+
+    def sorted5(self, **kw):
+        d = {"property": [prop("a"), prop("b"), prop("c"), dict(prop("g"), sort="geometry"),
+                          dict(prop("h"), sort="geometry")],
+             "implies": [imp(["a"], "b")]}
+        d.update(kw)
+        return d
+
+    def test_cross_sort_pairs_are_ill_typed_and_not_counted(self):
+        d = self.sorted5(open=[{"from": "g", "to": "h", "note": "?"}])
+        m = ld.matrix(d)
+        self.assertEqual((m[("a", "g")], m[("g", "a")], m[("g", "h")]), ("ill-typed", "ill-typed", "open"))
+        s = ld.summary(d)
+        self.assertEqual((s["pairs"], s["within"], s["ill_typed"], s["classified"]), (20, 8, 12, 2))
+
+    def test_entries_joining_two_sorts_fail(self):
+        names = NAMES | {"P.g", "P.h"}
+        cases = {"implies": imp(["a"], "g"),
+                 "fails": {"from": "a", "to": "g", "witness": "cex_a_not_c", "status": "checked"},
+                 "open": {"from": "a", "to": "g", "note": "?"},
+                 "consequence": {"at": ["a", "g"], "statement": "s", "witness": "a_to_b", "status": "checked"}}
+        self.assertEqual(chk(self.sorted5(), names), [])
+        for kind, e in cases.items():
+            d = self.sorted5()
+            d.setdefault(kind, []).append(e)
+            self.assertTrue(has(chk(d, names), "joins two sorts"), kind)
+
+    def test_unknown_sort_fails(self):
+        d = lad()
+        d["property"][2]["sort"] = "spacetime"
+        self.assertTrue(has(chk(d), "sort 'spacetime' is not one of"))
+
+    def test_check_line_is_parseable(self):
+        d = self.sorted5()
+        line = ld.check_line(ld.summary(d))
+        m = re.match(r"ladder: (\d+) properties, (\d+) implications, (\d+) counterexamples, (\d+) consequences; "
+                     r"(\d+) of (\d+) ordered pairs classified \(within one sort\), (\d+) ill-typed \(across sorts\), "
+                     r"(\d+) implied under standing only, (\d+) transfers$", line)
+        self.assertIsNotNone(m, line)
+        self.assertEqual([int(x) for x in m.groups()], [5, 1, 0, 0, 1, 8, 12, 0, 0])
+        self.assertTrue(ld.check_line(ld.summary(d, ["x", "y"])).endswith("consequences; 2 violation(s)"))
+
+    def five(self, **kw):
+        d = {"property": [prop(x) for x in "abcde"], "implies": [imp(["a", "d"], "e")]}
+        d.update(kw)
+        return d
+
+    def test_fails_with_a_list_from(self):
+        f = {"from": ["a", "d"], "to": "c", "witness": "cex_a_not_c", "status": "checked"}
+        d = self.five(fails=[f])
+        self.assertEqual(chk(d, NAMES | {"P.d", "P.e"}), [])
+        m = ld.matrix(d)
+        for a in "ade":       # the counterexample has a and d, hence e, and lacks c
+            self.assertEqual(m[(a, "c")], "fails", a)
+        self.assertEqual(ld.matrix(self.five(fails=[dict(f, **{"from": "a"})]))[("e", "c")], "unknown")
+
+    def test_fails_with_a_list_from_contradiction(self):
+        d = self.five(fails=[{"from": ["a", "d"], "to": "e", "witness": "cex_a_not_c", "status": "checked"}])
+        self.assertTrue(has(chk(d, NAMES | {"P.d", "P.e"}), "contradiction: counterexample cex_a_not_c has a ∧ d"))
+        d = self.five(fails=[{"from": [], "to": "e", "witness": "cex_a_not_c", "status": "checked"}])
+        self.assertTrue(has(chk(d, NAMES | {"P.d", "P.e"}), "empty premise"))
+
+
+class LadderTransfer(unittest.TestCase):
+    """[[transfer]]: what a nesting (sort pair) carries between the wider and the narrower causality."""
+    NAMES = NAMES | {"P.n", "P.k", "w_tr", "cex_tr"}
+
+    def tl(self, *transfers):
+        return {"property": [prop("a"), prop("b"), prop("c"), dict(prop("n"), sort="pair"),
+                             dict(prop("k"), sort="pair")],
+                "implies": [imp(["a"], "b"), imp(["n"], "k", "B.toC")], "transfer": list(transfers)}
+
+    def w(self, pair="k", prop_="a", **kw):
+        d = {"pair": pair, "property": prop_, "witness": "w_tr", "status": "checked"}
+        d.update(kw)
+        return d
+
+    def c(self, pair="n", prop_="a", **kw):
+        d = {"pair": pair, "property": prop_, "counterexample": "cex_tr", "status": "checked"}
+        d.update(kw)
+        return d
+
+    def errs(self, *transfers):
+        return chk(self.tl(*transfers), self.NAMES)
+
+    def test_good_transfers_pass(self):
+        self.assertEqual(self.errs(self.w(), self.w(direction="to_wider", narrower=["c"]),
+                                   self.c(prop_="c")), [])
+        self.assertEqual(ld.summary(self.tl(self.w()))["transfers"], 1)
+
+    def test_transfer_sorts(self):
+        self.assertTrue(has(self.errs(self.w(pair="a")), "pair a is of sort causality, not pair"))
+        self.assertTrue(has(self.errs(self.w(prop_="n")), "property n is of sort pair, not causality"))
+        self.assertTrue(has(self.errs(self.w(narrower=["k"])), "narrower id k is of sort pair"))
+        self.assertTrue(has(self.errs(self.w(wider=["zz"])), "unknown property 'zz'"))
+
+    def test_transfer_needs_exactly_one_of_witness_and_counterexample(self):
+        self.assertTrue(has(self.errs(self.w(counterexample="cex_tr")), "exactly one of witness"))
+        bare = self.w()
+        del bare["witness"]
+        self.assertTrue(has(self.errs(bare), "exactly one of witness"))
+        self.assertTrue(has(self.errs(self.w(witness="tr")), "witness not found"))
+
+    def test_transfer_direction(self):
+        self.assertTrue(has(self.errs(self.w(direction="down")), "direction must be one of"))
+
+    def test_transfer_vacuous(self):
+        self.assertTrue(has(self.errs(self.w(narrower=["a"])), "vacuous"))
+        self.assertEqual(self.errs(self.w(wider=["c"])), [])
+
+    def test_transfer_contradiction(self):
+        # the counterexample is ≤-nested along n, hence along k (n ⇒ k): the proved transfer applies
+        self.assertTrue(has(self.errs(self.w(), self.c()), "contradiction: transfer w_tr"))
+        self.assertEqual(self.errs(self.w(pair="n"), self.c(pair="k")), [])        # k does not give n
+        self.assertEqual(self.errs(self.w(narrower=["c"]), self.c()), [])         # the target lacks c
+        self.assertTrue(has(self.errs(self.w(narrower=["c"]), self.c(narrower=["c"])), "contradiction"))
+        self.assertEqual(self.errs(self.w(), self.c(direction="to_wider")), [])   # the other direction
+        self.assertEqual(self.errs(self.w(standing=["T2"]), self.c(space=["T1"])), [])
+        self.assertTrue(has(self.errs(self.w(standing=["T2"]), self.c()), "contradiction"))
+
+    def test_transfer_counterexample_whose_target_has_the_property(self):
+        self.assertTrue(has(self.errs(self.c(prop_="b", narrower=["a"])), "its target has a, hence b"))
+
+    def test_transfer_fields_of_the_other_kind(self):
+        self.assertTrue(has(self.errs(self.w(space=["T1"])), "space is a counterexample's field"))
+        self.assertTrue(has(self.errs(self.c(standing=["T1"])), "standing is a witness's field"))
+
+
+class LadderEmitStanding(unittest.TestCase):
+    """emit-lean: standing edges are rules whose tests carry the instances; an edge with a property
+    without a Lean form is skipped."""
+
+    def test_emit_skips_an_edge_with_a_formless_property(self):
+        d = {"property": [cprop("a"), cprop("two", CC + "Two"), cprop("far", CC + "Far")],
+             "implies": [edge(["a"], "two", "w_ab"), edge(["a"], "far", "w_bc")]}
+        out = ld.emit_lean(d, index())
+        self.assertNotIn("attribute", out)
+        self.assertIn("-- skipped w_ab (a ⇒ two): no Lean form: two (Causal.Causality.Two is not a "
+                      "predicate on one causality", out)
+        self.assertIn("-- skipped w_bc (a ⇒ far): no Lean form: far (Causal.Causality.Far lives in "
+                      "Causal.UsesModel, which imports a model)", out)
+
+    def test_emit_standing_edge_is_a_rule(self):
+        out = ld.emit_lean(ladder5([edge(["a"], "b", "w_ab", standing=["T1"])]), index())
+        self.assertIn("-- a ⇒ b (standing: T1)\n" + FWD + "w_ab\n", out)
+
+    def test_emit_skips_standing_with_under_and_unknown_words(self):
+        out = ld.emit_lean(ladder5([edge(["a"], "b", "w_ab", standing=["T1"], under="local push-up"),
+                                    edge(["b"], "c", "w_bc", standing=["Hausdorff"])]), index())
+        self.assertNotIn("attribute", out)
+        self.assertIn("-- skipped w_ab (a ⇒ b): under: local push-up", out)
+        self.assertIn("-- skipped w_bc (b ⇒ c): standing: Hausdorff not in the vocabulary", out)
+
+    def test_emit_test_carries_the_instances(self):
+        d = ladder5([edge(["a"], "b", "w_ab", standing=["T1"]),
+                     edge(["b"], "c", "w_bc", standing=["T2", "second_countable"]), edge(["c"], "d", "w_geo")])
+        text = ld.emit_test(d, index())
+        A, B, C_, D = ("Causal.Causality.%s C" % x for x in "ABCD")
+        self.assertIn("-- a ⇒ b (standing: T1)\nexample [T1Space M] (_h0 : %s) : %s := by causal_ladder" % (A, B), text)
+        self.assertIn("-- a ⇒ d (standing: T2, second_countable)\nexample [T2Space M] [SecondCountableTopology M] "
+                      "(_h0 : %s) : %s := by causal_ladder" % (A, D), text)
+        self.assertIn("-- c ⇒ d\nexample (_h0 : %s) : %s := by causal_ladder" % (C_, D), text)
+        self.assertIn("-- a ⇏ b (standing dropped: T1)\nexample (_h0 : %s) : True := by\n"
+                      "  fail_if_success have : %s := by causal_ladder" % (A, B), text)
+        self.assertIn("-- b ⇏ d (standing dropped: T2, second_countable)", text)
+        ex = LadderEmit.examples(None, text)
+        self.assertEqual(ex[(("a",), "e")], "not derived")
+
+    def test_emit_test_conjunction_with_standing(self):
+        text = ld.emit_test(ladder5([edge(["a", "d"], "e", "w_conj", standing=["T1"])]), index())
+        self.assertIn("-- a ∧ d ⇒ e (standing: T1)\nexample [T1Space M] (_h0 : Causal.Causality.A C) "
+                      "(_h1 : Causal.Causality.D C) : Causal.Causality.E C := by causal_ladder", text)
+        self.assertIn("-- d ⇏ e (a dropped from w_conj)\nexample [T1Space M] (_h0 : Causal.Causality.D C) : True", text)
+        self.assertIn("-- a ∧ d ⇏ e (standing dropped: T1)\nexample (_h0 : Causal.Causality.A C) "
+                      "(_h1 : Causal.Causality.D C) : True", text)
+
+
+class LadderFixture(unittest.TestCase):
+    """tools/fixtures/ladder: each breakage of the shipped ladder fails `check` with its violation."""
+    DIR = os.path.join(ROOT, "tools", "fixtures", "ladder")
+
+    def test_each_breakage_fails_with_its_violation(self):
+        ns = {"__name__": "ladder_breakages"}
+        path = os.path.join(self.DIR, "breakages.py")
+        with open(path, encoding="utf-8") as fh:
+            exec(compile(fh.read(), path, "exec"), ns)
+        with open(ld.FILE, encoding="utf-8") as fh:
+            text = fh.read()
+        names, labels = ld.lean_names(), ld.ett_labels()
+        self.assertEqual(ld.check(tomllib.loads(text), names, labels), [])
+        self.assertGreaterEqual(len(ns["BREAKAGES"]), 20)
+        for name, (want, _) in ns["BREAKAGES"].items():
+            errs = ld.check(tomllib.loads(ns["broken"](text, name)), names, labels)
+            self.assertTrue(has(errs, want), (name, want, errs))
+
+    def test_run_sh_bites(self):
+        r = subprocess.run(["bash", os.path.join(self.DIR, "run.sh")], capture_output=True, text=True,
+                           env={**os.environ, "LEANARTICLES_HUB": ROOT})
+        self.assertNotEqual(r.returncode, 0, r.stdout)
+        self.assertIn("every breakage fails the check", r.stdout)
+
+
 class Binder(unittest.TestCase):
     def setUp(self):
         self.lp = os.path.join(ROOT, "papers", "zz-binder-test", "ledger")
@@ -287,6 +652,12 @@ class Binder(unittest.TestCase):
     def test_declared_open_localisation_passes(self):
         r = {"label": "thm:x", "ett": ["T-abs-x"], "localisation": ["a"], "open_localisation": ["a"]}
         self.assertEqual(self.errs([r]), [])
+
+    def test_lean_names_resolve_namespace_exactly(self):
+        for x in ("toC", "Causal.B.toC"):        # B.toC is declared: a suffix either way
+            r = {"label": "thm:x", "ett": [x]}
+            self.assertTrue(any("ett %s resolves to neither" % x in e for e in self.errs([r])), x)
+        self.assertEqual(self.errs([{"label": "thm:x", "ett": ["B.toC"]}]), [])
 
     def test_unknown_label_and_target_fail(self):
         e = self.errs([{"label": "thm:none", "ett": ["T-abs-missing"]}])
