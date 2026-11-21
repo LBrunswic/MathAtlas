@@ -48,7 +48,7 @@ id = "C-2"
 where = "Eq. (15), the KL-weakFM loss"
 printed = ["main.tex:362-366", "main.tex:368"]
 kind = "false"
-finding = "With the printed sign delta f_init <= 0, the penalty b E_{nu_train} delta f_init of (equ:weakFM) rewards the negative part of the FM defect instead of controlling it, against l.368 ('controls only the negative part'). The follow-up's loss (GFNBounds.Core.wklfmLoss) uses e^- = max(-e, 0)."
+finding = "With the printed sign delta f_init <= 0, the penalty b E_{nu_train} delta f_init of (equ:weakFM) rewards the negative part of the FM defect instead of controlling it, against l.368 ('controls only the negative part'). The follow-up's loss (GFNBounds.Core.wklfmLoss) uses e^- = max(-e, 0). Route to proved (T-egf-loss): EGF.klwfmLoss, Eq. (15) with the negative part, and EGF.loss_controls_sampling, the loss bounding TV(s_tau || kappa) by (1/sqrt 2) sqrt(L - H(kappa)) + min(1, N (L - H(kappa))) for b >= 1 + N, N = ||d lambda / d nu_train||_inf (GFNBounds.Core.il_tv_bound at q = 1); optionally EGF.Swap.printed_loss_tendsto_bot (the printed loss is unbounded below). The surviving PyTorch harness copies the printed sign (~/GFNCertified/exp/src/nonacyclic_gfn/loss/egf/kl_weak_fm.py: torch.clamp(fm_error, max=0)); its bounds/losses.py:86 has the corrected one."
 refutation = ["EGF.deltaFinitDensityPrinted_nonpos"]
 basis = ["OQ-66"]
 status = "found"
@@ -62,10 +62,11 @@ id = "C-3"
 where = "Algorithm 1"
 printed = ["main.tex:395", "main.tex:400"]
 kind = "false"
-finding = "Algorithm 1's loss (l.395) and its backward reweighting p_t (l.400, through delta f_init / f_in) inherit the printed sign of delta f_init."
+finding = "Algorithm 1's loss (l.395) and its backward reweighting p_t (l.400, through delta f_init / f_in) inherit the printed sign of delta f_init. With the printed sign the backward factor (1 + delta f_init / f_in)^-1 of l.400 is not a probability (it is negative when delta f_init < -f_in); with the negative part it lies in (0, 1], and the forward factor of l.399 is the sampler's continuation probability (EGF.GenerativeFlow.pathLaw_hazard). Route to proved (T-egf-loss): EGF.loss_controls_sampling and EGF.algBackwardFactor_mem_Ioc; the printed factor refuted by EGF.printed_algBackwardFactor_neg. The placement of b and the square of l.407 are C-35."
 refutation = ["EGF.deltaFinitDensityPrinted_nonpos"]
 basis = ["OQ-66"]
 status = "found"
+corrected = '''In Algorithm 1, $\deltafinit$ is the negative part of $\finit+\finstar-\foutstar$ (as corrected at l.362), so that both factors of $p_t$ lie in $(0,1]$.'''
 summary = "Algorithm 1 uses the corrected (non-negative) delta f_init in its loss and in p_t."
 batch = "T-egf-correct-sign"
 
@@ -87,9 +88,23 @@ id = "C-5"
 where = "the KL decomposition after Corollary 3.10"
 printed = ["main.tex:377", "main.tex:418"]
 kind = "gap"
-finding = "The decomposition at l.418 is KL(kappa || kappa-hat/kappa-hat(S)), the reverse of the direction printed in Corollary 3.10 (l.377); the cross-entropy of (equ:weakFM) and the claim of l.413 connect to the corollary only through the reverse direction. The corollary holds in both directions."
+finding = "The decomposition at l.418 holds with KL(kappa || kappa-hat/kappa-hat(S)) on its left (cross-entropy, plus log-normalization, minus H(kappa)), the reverse of the direction printed there and in Corollary 3.10 (l.377); with the printed KL(kappa-hat/kappa-hat(S) || kappa) it is false in general. The cross-entropy of (equ:weakFM) and the claim of l.413 connect to the corollary only through the reverse direction; the corollary holds in both directions (Pinsker bounds the symmetric TV by either divergence). Route to proved (T-egf-loss): EGF.kl_decomposition (l.418 in the true direction) and EGF.pinsker_negative_control_rev (Corollary 3.10 with KL(kappa || kappa-hat/kappa-hat(S))), beside EGF.pinsker_negative_control (the printed direction, proved); the printed identity is to be refuted by EGF.printed_kl_decomposition_false (a two-point instance), after which this entry's kind can become false."
 basis = ["OQ-66"]
 status = "found"
+corrected = '''At l.418 read $\KL\left(\target \left\| \frac{\widehat\target}{\widehat\target(\Statespace)}\right.\right) = -\mathbb E_{s\sim\target}\log\ftermhat(s) + \log\int_{\Statespace}\ftermhat\,d\lambda - \mathcal H(\target)$, and add to Corollary 3.10 that (\ref{equ:control_pinsker}) also holds with this divergence, the one the cross-entropy of (\ref{equ:weakFM}) controls.'''
+summary = "The KL decomposition after Corollary 3.10 is stated in its true direction, KL(kappa || kappa-hat/kappa-hat(S)), and the corollary is stated for that divergence too."
+batch = "T-egf-correct-sign"
+
+[[correction]]
+id = "C-35"
+where = "the weak-FM term: Eq. (15), Algorithm 1 and l.407"
+printed = ["main.tex:364-366", "main.tex:395", "main.tex:407"]
+kind = "gap"
+finding = "Three different weak-FM terms are printed: Eq. (15) (l.364) penalizes b E_{nu_train} delta f_init, linear, the weight b on the penalty; Algorithm 1 (l.395) minimizes (1/2B) sum_{t <= tau} delta f_init(s_t) p_t(s) - b E_kappa log f-hat_term, the weight b moved to the cross-entropy; l.407 calls the weak-FM term E_s sum_{t <= tau} (delta f_init(s_t))^2, squared (as in the early TensorFlow configurations, LBrunswic/ErgodicFlow HyperparametersConfig: 'WeakFMPower' with distortion_power 2.0). The control of the sampling error (Corollary 3.10 and the follow-up's theorem, GFNBounds.Core.il_tv_bound at q = 1) is for Eq. (15)'s form, with b >= 1 + ||d lambda / d nu_train||_inf on the penalty; Algorithm 1's placement amounts to a penalty weight 1/(2Bb) on the normalized loss, which that bound does not cover, and the squared penalty controls delta only through Jensen (delta <= N (E delta f_init^2)^{1/2}). Route to proved (T-egf-loss): EGF.loss_controls_sampling. The reproduction runs Eq. (15) and the other two as arms (T-egf-repro-torus-il)."
+status = "found"
+corrected = '''Algorithm 1: minimize $\mathcal L=\frac{b}{2B}\sum_{t=1}^\tau\deltafinit(\underline s_t)p_t(\underline s)-\mathbb E_{s\sim\target}\log\ftermhat(s)$, a Monte-Carlo estimate of (\ref{equ:weakFM}), with $b\geq1+\|d\lambda/d\nu_{\mathrm{train}}\|_\infty$; l.407: ``the weak-FM term $\mathbb E_{s\sim\nu_{\mathrm{train}}}\deltafinit(s)$''.'''
+summary = "The weak-FM term is the same in Eq. (15), Algorithm 1 and the discussion: linear, weighted by b on the penalty, b large enough for the control of the sampling error."
+added_hypotheses = ["b >= 1 + ||d lambda / d nu_train||_inf for the control of the sampling error"]
 batch = "T-egf-correct-sign"
 
 # --------------------------------------------------------------------------------------------
@@ -101,7 +116,7 @@ id = "C-6"
 where = "the density of the star inflow"
 printed = ["main.tex:196", "main.tex:231-234"]
 kind = "missing-hypothesis"
-finding = "f_in* = dF_in*/d lambda presupposes F_in* = F_out* pi* << lambda, which no statement lists. For an EGF it follows from the diffeomorphism decomposition of the policy (the author, 2026-11-21): F_out* pi* = sum_i (Phi_i)_# (alpha^i F_out*) << sum_i (Phi_i)_# lambda << lambda as soon as every Phi_i is nonsingular, (Phi_i)_# lambda << lambda, which holds for diffeomorphisms and a smooth volume, for Haar measure on tori and for isometries of the sphere. Proved today under (Phi_i)_# lambda = J_i lambda; the bare nonsingular form is T-egf-inflow-nonsingular."
+finding = "f_in* = dF_in*/d lambda presupposes F_in* = F_out* pi* << lambda, which no statement lists. For an EGF it follows from the diffeomorphism decomposition of the policy (the author, 2026-11-21): F_out* pi* = sum_i (Phi_i)_# (alpha^i F_out*) << sum_i (Phi_i)_# lambda << lambda as soon as every Phi_i is nonsingular, (Phi_i)_# lambda << lambda, which holds for diffeomorphisms and a smooth volume, for Haar measure on tori and for isometries of the sphere. Proved today only under (Phi_i)_# lambda = J_i lambda with the Phi_i measurable equivalences (EGF.inflowAC_of_isEGFPolicy, the anchor listed, narrower than the corrected text); the nonsingular form, for measurable Phi_i with no inverse and no Jacobian, is to be EGF.inflow_ac_of_map_ac and EGF.InflowAC.of_map_ac (T-egf-inflow-nonsingular), and Corollary 3.10 for such an EGF without InflowAC EGF.pinsker_negative_control_nonsingular (T-egf-loss); the anchor is then to be switched to them."
 anchor = ["EGF.inflowAC_of_isEGFPolicy"]
 basis = ["OQ-55"]
 status = "found"
@@ -161,8 +176,9 @@ id = "C-10"
 where = "Appendix A, notation and the end of the proof"
 printed = ["main.tex:736-737", "main.tex:754-758"]
 kind = "typo"
-finding = "|J_s Phi_i^{-1}| is written for what l.233 writes |det J_s Phi_i^{-1}|; and the proof environment closes (l.758) before the deduction that yields the formula (l.759-766)."
+finding = "|J_s Phi_i^{-1}| is written for what l.233 writes |det J_s Phi_i^{-1}|; and the proof environment closes (l.758) before the deduction that yields the formula (l.759-766). Nothing to prove in Lean: the formalization reads |J_s Phi_i^{-1}| as the absolute determinant (EGF.coordJac, EGF/BackwardPolicy.lean:466) and certifies the deduction of l.759-766 inside EGF.backward_policy (the same file, :419); editorial (with C-8 the factor becomes the lambda-Jacobian)."
 status = "found"
+corrected = '''Write $|\det J_s\Phi_i^{-1}|$ at l.736--737 and in l.754--764, as l.233 does (or the $\lambda$-Jacobian of C-8), and close the proof environment after ``The result follows.'' (l.766).'''
 summary = "Appendix A: |det J| notation made uniform; the proof environment encloses the whole deduction."
 batch = "T-egf-correct-backward"
 
@@ -259,8 +275,9 @@ id = "C-17"
 where = "Section 2, the sampling chain; Definition 3.7"
 printed = ["main.tex:163", "main.tex:316"]
 kind = "typo"
-finding = "l.163 indexes the chain (s_t)_{g >= 1} for (s_t)_{t >= 1}; l.316 names the flow (pi*, f_out*) with a density while the errors use the measure F_out*."
+finding = "l.163 indexes the chain (s_t)_{g >= 1} for (s_t)_{t >= 1}; l.316 names the flow (pi*, f_out*) with a density while the errors use the measure F_out*. Nothing to prove in Lean: EGF.GenerativeFlow takes the outflow as a measure (EGF/Defs.lean:123) and EGF.sampling_theorem indexes the chain by t; editorial."
 status = "found"
+corrected = '''l.163: $(\underline s_t)_{t\geq 1}$; l.316 and l.322: the generative flow $(\ForwardPolicyStar,\Foutstar)$.'''
 summary = "Typos: the chain's index (t, not g); the flow written with the outflow measure F_out*."
 batch = "T-egf-correct-sampling"
 
@@ -303,7 +320,7 @@ label = "theo:universality"
 where = "Theorem 3.4"
 printed = "main.tex:277"
 kind = "gap"
-finding = "'the set of f_out* is dense in L2(S, lambda)' cannot hold for non-negative outflows, which are not dense in L2; presumably dense in the non-negative cone. Theorem 3.4 itself is not yet derived from Theorem B.1 in Lean (T-egf-universality)."
+finding = "'the set of f_out* is dense in L2(S, lambda)' (l.277) cannot hold: outflows are non-negative, and the a.e.-non-negative functions form a closed cone which is not dense in L2(lambda) for lambda != 0 (the constant -1 is at distance lambda(S)^{1/2} from it), so the printed hypothesis is never satisfied and Theorem 3.4 as printed is vacuous; presumably dense in the non-negative cone. Theorem 3.4 itself is not yet derived from Theorem B.1 in Lean. Route to proved (T-egf-universality): EGF.universality (Theorem 3.4 with epsilon-universality, C-18, and outflows dense in the non-negative cone) and EGF.not_dense_L2_of_nonneg (the printed hypothesis is unsatisfiable). By C-29 'summably L2-mixing' can moreover be weakened to 'ergodic for a finite invariant measure equivalent to lambda'."
 basis = ["OQ-50"]
 status = "found"
 corrected = '''provided that it contains some summably $L^2$-mixing $\ForwardPolicyStar$ and that the set of $\foutstar$ is dense in the non-negative cone of $L^2(\Statespace,\lambda)$.'''
@@ -356,8 +373,9 @@ id = "C-24"
 where = "the proof of Theorem B.1"
 printed = "main.tex:790"
 kind = "typo"
-finding = "'nu_inf = nu_inf pi* - R + F_init': R stands for F_term."
+finding = "'nu_inf = nu_inf pi* - R + F_init': R stands for F_term. Nothing to prove in Lean: EGF.tvMass_construction and EGF.main_universality (EGF/Universality.lean:273, :950) carry F_term; editorial."
 status = "found"
+corrected = '''$\nu_{\infty} =  \nu_\infty \pi^*- \Fterm + \Finit$.'''
 summary = "Typo in the proof of Theorem B.1 (R for F_term)."
 batch = "T-egf-correct-universality"
 
@@ -410,7 +428,117 @@ label = "theo:universality_tori"
 where = "Theorems 3.5 and 3.6"
 printed = ["main.tex:291", "main.tex:305"]
 kind = "missing-hypothesis"
-finding = "'provided mild technical assumptions on the (Phi_i)' and 'provided technical assumptions' are not stated; they are those of the cited spectral-gap theorems (Bekka-Guivarc'h, Thm 5 of bekka2015spectral, l.810-818; Bourgain-Gamburd, Thm 1 of bourgain2012spectral, l.830-833), to be read off and stated (T-egf-families)."
+finding = "'provided mild technical assumptions on the (Phi_i)' (l.291) and 'provided technical assumptions' (l.305) are not stated in the theorems; the appendix states them as the conditions of the cited spectral-gap theorems (tori, l.820: the Phi_i stable under inverse and their group violating (ii) of Theorem 5 of bekka2015spectral; spheres, l.836: stable under inverse, dense in SO(d,R), algebraic coefficients). Read off the sources by T-egf-plan-wave-1: Bekka-Guivarc'h (arXiv:1106.2623v1), Theorem 5, for a countable subgroup H of Aff(T^d) = GL_d(Z) ⋉ T^d: TFAE (i) the action has no spectral gap on L2_0(T^d) (almost invariant vectors), (ii) a non-trivial H-invariant factor torus on which the projection of the linear part p_a(H) is amenable, (iii) the same with 'virtually abelian' (the paper quotes (i) <=> (ii)); Bourgain-Gamburd (arXiv:1108.6264v1), Theorem 1, is about SU(d): see C-32. Gaps in the route of l.818-821 and l.836: (a) from a spectral gap of the group action to one of the kernel with alpha^i = 1/p, Bekka-Guivarc'h's own remark (their §1) needs the uniform measure on the Phi_i aperiodic (not carried by a coset of a proper subgroup); the homomorphism SL_2(Z) -> {±1} sending S and T to -1 (it respects S^4 = 1 and (ST)^3 = S^2) puts the paper's minimal four moves S^{±1}, T^{±1} in one coset of its kernel, so the step needs a further argument; and summable mixing needs a two-sided gap (C-30); (b) 'in any dimension' (l.149, l.293, l.308) fails for this route at d = 1: every subgroup of Aff(T^1) is abelian, hence amenable, so (ii) always holds, and no finite set of rotations of S^1 has a spectral gap; (c) the theorems also need the model rich enough (C-31). With C-29 every condition reduces to ergodicity of the group generated by the moves: on tori it follows from not-(ii) through Theorem 5 (a spectral gap excludes invariant vectors), and from any affine map in the group whose linear part has no periodic integer vector (the cat map [[2,1],[1,1]] = T(STS^{-1})^{-1} lies in the group of the minimal four moves, and one such map suffices, against l.698), and on T^1 from a translation of infinite order; on spheres from density in SO(d+1), with no algebraicity and no inverse-stability, for every d >= 1. Routes to proved: EGF.BekkaGuivarchTheorem5, EGF.universality_tori, EGF.universality_tori_of_ergodic (T-egf-families), EGF.universality_tori_minimal (T-egf-tori-minimal), EGF.BourgainGamburdTheorem1, EGF.universality_sphere_of_ergodic (T-egf-families-sphere), EGF.universality_sphere (T-egf-sphere-dense-ergodic). Batch moved from T-egf-correct-defs to T-egf-correct-families by T-egf-plan-wave-1 (it shares its sentences with C-31)."
 status = "found"
-summary = "Theorems 3.5 and 3.6 state the assumptions on the Phi_i that they use (those of the cited spectral-gap theorems)."
-batch = "T-egf-correct-defs"
+corrected = '''Theorem 3.5: An affine toroidal family is a universal EGF family provided its model realizes the uniform policy $\forwardalpha^i\equiv\frac1p$ and a set of outflows dense in the non-negative cone of $L^2(\Statespace,\lambda)$ (C-31), and the group generated by the $(\Phi_i)_{i=1}^p$ acts ergodically on $(\mathbb T^d,\lambda)$; this holds when that group has no non-trivial invariant factor torus on which its linear part projects to an amenable group (Theorem 5 of \citet{bekka2015spectral}), and when it contains an affine map whose linear part has no periodic integer vector (e.g. $T(STS^{-1})^{-1}=\begin{pmatrix}2&1\\1&1\end{pmatrix}$ for the minimal four moves) or, on $\mathbb T^1$, a translation of infinite order. Theorem 3.6: An isometry spherical family is a universal EGF family provided its model realizes $\forwardalpha^i\equiv\frac1p$ and a set of outflows dense in the non-negative cone of $L^2(\Statespace,\lambda)$ (C-31), and the $\Phi_i$ generate a dense subgroup of $\mathrm{SO}_{d+1}(\mathbb R)$.'''
+summary = "Theorems 3.5 and 3.6 state their assumptions: ergodicity of the group generated by the moves (on tori implied by Bekka-Guivarc'h's condition or by one hyperbolic move, on spheres by density in SO(d+1)) and a model rich enough (C-31)."
+batch = "T-egf-correct-families"
+
+# --------------------------------------------------------------------------------------------
+# Ergodicity suffices for universality; the spectral-gap remark (T-egf-plan-wave-1)           batch C-ergodicity
+
+[[correction]]
+id = "C-29"
+label = "theo:universality_true"
+where = "Theorem B.1 and Theorem 3.4: the mixing hypothesis; l.238, l.271 and the limitations of Section 6"
+printed = ["main.tex:775", "main.tex:277", "main.tex:238", "main.tex:271", "main.tex:697-698", "main.tex:702"]
+kind = "strengthening"
+finding = "Summable L2-mixing is not needed for universality. For a Markov kernel pi with a finite invariant measure lambda-hat equivalent to lambda, the conclusion of Theorem B.1 (any probabilities F_init, F_term << lambda, any eps > 0, a bounded f_out >= 0 with delta F_init(S) + delta F_term(S) < eps) holds if and only if (pi, lambda-hat) is ergodic. Sufficiency: the transfer operator T is a contraction of L2(lambda-hat) whose fixed points are constant under ergodicity, so by von Neumann's mean ergodic theorem the range of I - T is dense in the mean-zero subspace; explicitly (I - T) sum_{t<N} (1 - t/N) T^t h = h - (1/N) sum_{t=1..N} T^t h -> h for mean-zero h (a Cesaro-weighted Neumann series; the paper sums the series itself, which needs mixing), and a constant, a 0-flow since lambda-hat is invariant, makes the outflow non-negative at vanishing cost. Necessity: an invariant set A with 0 < lambda(A) < lambda(S) gives, for F_init = lambda|_A / lambda(A) and F_term = lambda|_{A^c} / lambda(A^c), delta F_init(S) + delta F_term(S) >= 2 for every outflow F_out << lambda. Hence the mixing clause of l.775 can be dropped; Theorem 3.4 (l.277) holds for any family containing such an ergodic pi; l.238 ('Ergodicity guarantees ...') is right in its epsilon form; l.697-698 ('the technical assumption of L2-mixing summability needed for universality') and l.702 ('essential to ensure universality') are wrong, and l.271's contrast misleading (Cesaro convergence is what suffices). For Theorems 3.5-3.6 (C-28): ergodicity of the group generated by the moves suffices, so one ergodic affine map suffices on tori, against l.698's 'two transformations'. The follow-up's sentence 'Universality then does need mixing' (GFNCertified, body/04_universality.tex) has the same issue. Routes to proved: EGF.universality_of_ergodic, EGF.not_universal_of_not_ergodic, EGF.universal_iff_ergodic (T-egf-universality-ergodic) and EGF.universality_of_ergodic_family (T-egf-families)."
+status = "found"
+corrected = '''Theorem B.1: \emph{Let $(\Statespace,\lambda)$ be a measured space with $\lambda$ finite and $\ForwardPolicyStar$ a Markov kernel on $\Statespace$ which admits a finite invariant measure $\widehat\lambda$ equivalent to $\lambda$ for which it is ergodic. Then for any probability distributions $\Finit,\Fterm\ll\lambda$ and any $\varepsilon>0$ there is a bounded $\foutstar\geq0$ such that the generative flow $(\ForwardPolicyStar,\foutstar)$ from $\Finit$ to $\Fterm$ has $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)<\varepsilon$. Conversely, if $\ForwardPolicyStar$ is not ergodic for $\widehat\lambda$, some such pair has $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)\geq2$ for every $\foutstar$.} Summable $L^2$-mixing (Definition 3.3) gives the outflow as a convergent series; universality itself needs only ergodicity. Theorem 3.4: replace ``some summably $L^2$-mixing $\ForwardPolicyStar$'' by ``some $\ForwardPolicyStar$ ergodic for a finite invariant measure equivalent to $\lambda$''. Section 6 (l.697--702): $L^2$-mixing summability is not needed for universality.'''
+summary = "Universality (Theorems B.1 and 3.4) holds under ergodicity alone, which is also necessary; summable L2-mixing is not needed."
+added_hypotheses = ["the invariant measure equivalent to lambda is finite (automatic under the Walters reading of 'ergodic on (S, lambda)', OQ-47)"]
+batch = "T-egf-correct-ergodicity"
+
+[[correction]]
+id = "C-30"
+label = "def:summably_mixing"
+where = "the spectral-gap remark after Definition 3.3"
+printed = ["main.tex:273-274"]
+kind = "missing-hypothesis"
+finding = "l.273-274: a Koopman operator whose spectrum on {int phi d lambda = 0} is 'bounded away from 1' need not give summable L2-mixing, nor exponential convergence of the iterates: the spectrum has to stay away from the whole unit circle (spectral radius < 1 on mean-zero functions; for a reversible pi, away from both 1 and -1). On two points with the uniform measure the swap has phi pi = -phi for mean-zero phi: its spectrum there is {-1}, bounded away from 1, while gamma_n = 1 for every n. The same one-sided notion is the one of the cited theorems (Bekka-Guivarc'h: no almost invariant vectors; Bourgain-Gamburd: lambda_1 < 2k), so l.818's 'any pi induced by (equ:forward_policy) has spectral gap if alpha^i = 1/p' needs the generating measure aperiodic before l.273 applies (C-28). Routes to proved (T-egf-mixing-criteria): the refutation EGF.Swap.transfer_eq_neg with EGF.Swap.not_isSummablyL2Mixing (kind missing-hypothesis until it exists) and the corrected criterion EGF.isSummablyL2Mixing_of_pow_contraction (||T^N|| < 1 on mean-zero functions for some N, lambda invariant, gives summable L2-mixing)."
+status = "found"
+corrected = '''This property is in particular satisfied if the Koopman operator $\phi \mapsto \frac{d (\phi\lambda)\pi}{d\lambda}$ has spectral radius $<1$ on the subspace $\{\phi~|~\int \phi\, d\lambda =0\}$ (for a reversible $\pi$: its spectrum there lies in $[-1+c,1-c]$ for some $c>0$); a spectrum bounded away from $1$ only is not enough (the swap of two points). In this case, the convergence of iterates by $\pi$ is exponential.'''
+summary = "The spectral-gap criterion for summable L2-mixing asks the spectrum on mean-zero functions to stay away from the whole unit circle, not only from 1."
+added_hypotheses = ["spectral radius < 1 on mean-zero functions (a two-sided gap for a reversible policy)"]
+batch = "T-egf-correct-ergodicity"
+
+# --------------------------------------------------------------------------------------------
+# The families (Theorems 3.5-3.6, Appendices B.2-B.3) (T-egf-plan-wave-1; C-28 above)       batch C-families
+
+[[correction]]
+id = "C-31"
+label = "theo:universality_tori"
+where = "Theorems 3.5 and 3.6: the model of an affine toroidal or isometry spherical family"
+printed = ["main.tex:288", "main.tex:291", "main.tex:302", "main.tex:305"]
+kind = "missing-hypothesis"
+finding = "An affine toroidal family (l.288) and a projective or isometry spherical family (l.302) are parameterized by the moves and 'a model having a softmax head alpha and a scalar head f_out', the model unspecified; Theorems 3.5 and 3.6 assume nothing of it, while Theorem 3.4, through which they are proved (l.819, l.836), needs the family to contain the ergodic (or summably mixing) policy alpha = 1/p and a set of outflows dense in (the non-negative cone of, C-20) L2(lambda). Without it the theorems fail: a model whose outflow head is constant gives F_out = c lambda and, lambda being invariant under the moves, the defect F_init - F_term, not small when F_init != F_term. Routes to proved: the hypothesis is carried by EGF.universality_tori, EGF.universality_tori_of_ergodic (T-egf-families) and EGF.universality_sphere_of_ergodic (T-egf-families-sphere); optionally, a constant-outflow family that is not epsilon-universal refutes the printed form."
+status = "found"
+corrected = '''In Theorems 3.5 and 3.6 add: ``whose model realizes the uniform policy $\forwardalpha^i\equiv\frac1p$ together with a set of outflows $\foutstar$ dense in the non-negative cone of $L^2(\Statespace,\lambda)$''.'''
+summary = "Theorems 3.5 and 3.6 assume the family's model rich enough: it realizes the uniform policy and outflows dense in the non-negative cone of L2."
+added_hypotheses = ["the model realizes alpha = 1/p and a set of outflows dense in the non-negative cone of L2(lambda)"]
+batch = "T-egf-correct-families"
+
+[[correction]]
+id = "C-32"
+label = "theo:spectral_gap_sphere"
+where = "Appendix B.3, the reformulation of Bourgain-Gamburd's Theorem 1"
+printed = ["main.tex:830-833", "main.tex:307"]
+kind = "missing-hypothesis"
+finding = "Theorem 1 of bourgain2012spectral (arXiv:1108.6264v1) is about SU(d), d >= 2: for g_1, ..., g_k in SU(d) with algebraic entries generating a subgroup Zariski dense in SL_d(C) (equivalently dense in SU(d), their footnote 1), the Hecke operator z f(x) = sum_j (f(g_j x) + f(g_j^{-1} x)) on L2(SU(d)) has lambda_1(z) < 2k on the orthogonal complement of the constants (a one-sided gap). The 'reformulation' of l.830-833 claims the corresponding statement for SO(d) and the EGF kernel on the sphere, which is not that theorem: it follows from it for d = 3 (SO(3) = SU(2)/{±1}, the sphere S^2 of the experiments) and is benoist2016spectral's theorem for SO(d) simple (cited at l.307 only as 'see also'); for d = 2 it is false: SO(2) is abelian, the rotation of cosine 3/5 and its inverse satisfy every hypothesis (rational entries; infinite order by Niven's theorem, hence dense) and the kernel has <P e_k, e_k> = cos(k theta), of supremum 1 over k != 0. The index also slips: Theorem 3.6 is about S^d and SO_{d+1} (l.297, l.303), the reformulation and l.307 about SO(d). By C-29 Theorem 3.6 needs no spectral gap (density of the generated subgroup suffices), so the reformulation is no longer used. Routes to proved (T-egf-families-sphere): the faithful named Prop EGF.BourgainGamburdTheorem1, EGF.SpectralGapSphereReformulation and its refutation EGF.not_spectralGapSphereReformulation_two (kind missing-hypothesis until it exists); the positive form at d = 3, EGF.spectralGapSphereReformulation_three (T-egf-spectral-gap-so3, a stretch)."
+status = "found"
+corrected = '''Quote Theorem 1 of \citet{bourgain2012spectral} as stated: for $g_1,\dots,g_k\in\mathrm{SU}(d)\cap\mathrm{Mat}_{d\times d}(\overline{\mathbb Q})$, $d\geq2$, generating a dense subgroup of $\mathrm{SU}(d)$, the operator $f\mapsto\sum_{j}\left(f(g_j\,\cdot)+f(g_j^{-1}\,\cdot)\right)$ on $L^2(\mathrm{SU}(d))$ has its spectrum on the orthogonal complement of the constants bounded above by some $c<2k$. Through $\mathrm{SO}(3)=\mathrm{SU}(2)/\{\pm1\}$ it gives the spectral gap of the EGF policy $\forwardalpha^i=\frac1p$ on $\mathbb S^2$ (and \citet{benoist2016spectral} gives it for $\mathrm{SO}(d)$ simple); it fails for $\mathrm{SO}(2)$. Theorem 3.6 itself only uses the density of the group generated by the $\Phi_i$ in $\mathrm{SO}_{d+1}(\mathbb R)$.'''
+summary = "The spherical spectral-gap theorem is quoted as Bourgain and Gamburd state it (SU(d)); the SO(d) reformulation holds for d = 3, fails for d = 2, and is not needed for Theorem 3.6."
+added_hypotheses = ["d = 3 (or SO(d) simple, by benoist2016spectral) for the spectral-gap reformulation"]
+batch = "T-egf-correct-families"
+
+[[correction]]
+id = "C-33"
+where = "Sections 3.1.2-3.1.3 and Appendix B.2"
+printed = ["main.tex:288", "main.tex:307", "main.tex:814", "main.tex:818"]
+kind = "typo"
+finding = "l.288 'all in Aff(R^d)' for Aff(T^d) (l.283-284); l.307 'a dense subgroup of SO_d(R)' for SO_{d+1}(R), the rotations of S^d (l.297, l.303); l.814 'the action of H on T' for T^d; l.818 'the we deduce'. Nothing to prove in Lean (the Lean uses UnitAddTorus (Fin d) and the rotations of the sphere of EuclideanSpace R (Fin (d+1))); editorial."
+status = "found"
+corrected = '''l.288: $\mathrm{Aff}(\mathbb T^d)$; l.307: $\mathrm{SO}_{d+1}(\mathbb R)$; l.814: $\mathbb T^d$; l.818: ``then we deduce''.'''
+summary = "Typos in Sections 3.1.2-3.1.3 and Appendix B.2: the affine group of the torus, the index of SO, the torus T^d."
+added_hypotheses = []
+batch = "T-egf-correct-families"
+
+# --------------------------------------------------------------------------------------------
+# Experiments and figures (T-egf-plan-wave-1)                              batch C-experiments, C-figures
+
+[[correction]]
+id = "C-34"
+where = "Section 4 and the Conclusion: the experimental descriptions"
+printed = ["main.tex:440", "main.tex:493", "main.tex:609", "main.tex:627", "main.tex:713"]
+kind = "typo"
+finding = "l.440: '16 transformations (8 translations and 2 elements of SL_d(Z) together with their inverse)' does not add up (8 + 2x2 = 12, or 2x(8 + 2) = 20); the surviving harness builds 12 (~/GFNCertified/exp/src/nonacyclic_gfn/env/continuous/torus.py: S^{±1}, T^{±1} and 8 rational translations); the count is to be read from LBrunswic/ErgodicFlow (T-egf-repro-rl). l.493: 'These transformations parameterize f_out and pi': the MLPs (3x32) parameterize f_out and alpha, the transformations are the four affine maps. l.609: the caption names the volcano dataset only, the table has three (volcano, earthquake, flood). l.627: the method is named 'EGFN', elsewhere 'EGF'. l.713: 'a model 30 times smaller' is not what l.496 gives: two 256x5 MLPs on inputs in R^3 (about 0.53 M parameters, with the 6-way softmax head) against Moser Flow's one 512x6 (about 1.32 M), a ratio near 2.5 (to be measured by T-egf-repro-sphere). Nothing to prove in Lean; the corrected numbers come from the reproduction report (T-egf-repro-report)."
+status = "found"
+corrected = '''l.493: ``implemented with MLPs with 3 hidden layers of width 32, which parameterize $\foutstar$ and $\forwardalpha$''; l.609: ``Negative log-likelihood scores on the earth-science datasets.''; l.627: EGF; l.440 and l.713: the numbers measured by the reproduction.'''
+summary = "Experimental descriptions corrected: the number of moves of the RL experiment, what the MLPs parameterize, the table's caption and the method's name, and the size comparison with Moser Flow."
+added_hypotheses = []
+batch = "T-egf-correct-experiments"
+
+[[correction]]
+id = "C-36"
+where = "the density filter (Section 4 and Appendix D)"
+printed = ["main.tex:435", "main.tex:885-894"]
+kind = "typo"
+finding = "The filter is described twice, differently: l.435 replaces f-hat_term by 1_{f-hat_term > eta} f-hat_term with eta chosen to minimize the negative likelihood on a validation dataset; Appendix D (l.885-894) sets f-hat_sat = m - k sigma from the mean and standard deviation of f-hat_term on the state space, with k chosen by recomputing the NLL 'on the training dataset' (l.894); and its display (l.889) reads 'f-hat_term if f-hat_term >= f-hat_term' for f-hat_term >= f-hat_sat. Since the filtered density is the terminal density the sampler uses (l.902), the reported NLL should also say whether it is that of the filtered, renormalized density. Nothing to prove in Lean; the protocol is to be fixed by the reproduction (T-egf-repro-sphere)."
+status = "found"
+corrected = '''l.889: ``if $\ftermhat\geq\widehat f_{sat}$''; l.435 and l.894: one protocol, $\eta=\widehat f_{sat}=m-k\sigma$ with $k$ chosen by the negative log-likelihood on a validation split.'''
+summary = "The density filter is described once: threshold m - k sigma with k chosen on a validation split; the condition of its display is corrected."
+added_hypotheses = []
+batch = "T-egf-correct-experiments"
+
+[[correction]]
+id = "C-37"
+where = "figure labels and appendix captions"
+printed = ["main.tex:494", "main.tex:587", "main.tex:729", "main.tex:1210-1211", "main.tex:1310-1311", "main.tex:1413-1414", "main.tex:1381-1386", "main.tex:1409"]
+kind = "typo"
+finding = "The label fig:toyimg is defined six times (l.587, l.1004, l.1023, l.1213, l.1313, l.1416), so 'Figure ref fig:toyimg' at l.494, meant for the comparison figure of l.498-588, resolves to the last definition (the two-spirals ablation); l.729 leaves a stray comma after the label sec:appendix_backward; the size ablations of Appendix F run on R^2 with 8 translations and f_out supported in [-4, 4]^2 (l.1210-1211, l.1310-1311, l.1413-1414), while l.431 says the experiments are on T^2 or S^2 (R^2 with Lebesgue measure is outside the finite-lambda setting of l.155, l.161); in the two-spirals figure the second row shows 4x128 and 5x128 panels (l.1381, l.1386) under a caption saying 2x64 to 5x64 (l.1409). Nothing to prove in Lean; editorial."
+status = "found"
+corrected = '''Distinct labels for the six figures (\texttt{fig:toyimg} kept for the comparison figure of l.498--588); no comma at l.729; l.431: ``either a flat torus $\mathbb T^2$, or sphere $\mathbb S^2$ (the size ablations of Appendix F are run on $\mathbb R^2$)''; the caption of l.1409 matches its panels.'''
+summary = "Figure labels made unique (the body's reference pointed to an appendix figure), and the appendix captions state the ablations' state space and sizes."
+added_hypotheses = []
+batch = "T-egf-correct-figures"

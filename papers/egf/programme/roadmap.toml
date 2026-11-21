@@ -67,21 +67,21 @@ proposed_by = "egf-programme set-up (DEC-141)"
 
 [[target]]
 id = "T-egf-inflow-nonsingular"
-title = "F_in << lambda from the diffeomorphism decomposition: nonsingular moves give the inflow density, with no InflowAC or Jacobian hypothesis left for EGFs"
+title = "F_in << lambda from the diffeomorphism decomposition: nonsingular moves give the inflow density (no InflowAC, no Jacobian, no measurable inverse), with the Euclidean instances and the backward policy for measure-preserving moves"
 stream = "lean"
 kind = "close"
 paper = "egf"
-labels = ["theo:backward_policy", "cor:pinsker_negative_control"]
+labels = ["theo:backward_policy"]
 status = "ready"
 owner = "closer"
 priority = 2
-evidence = "The author (2026-11-21, DEC-141): 'The fin domination in the context of the paper is a straightforward consequence of the diffeomorphism decomposition of the policy.' State EGF.inflowAC_of_map_ac: an IsEGFPolicy with measurable Phi_i, (Phi_i)_# lambda << lambda for every i and F_out << lambda give InflowAC (F_out pi = sum_i (Phi_i)_#(alpha_i F_out)). Port, by copying with a provenance comment (kb 0001, OQ-1), GFNBounds.Core.EGF.IsEGFPolicy.bind_withDensity (lean/GFNBounds/Core/UniversalityBody.lean:207), GFNBounds.Core.Family.bind_withDensity_ac (FamilyUniversality.lean:373) and GFNBounds.Core.ILBoundFull.inflowAC_of_bind_ac (ILBoundFull.lean:581); no `≃ᵐ` needed. Instances: R^d with Haar measure and Phi_i with differentiable inverse (EGF.map_eq_withDensity_abs_det), the torus (AddCircle^d with Haar measure, affine moves), the sphere (isometries preserve Measure.toSphere). Then restate pinsker_negative_control_density / _real and backward_policy for EGFs in those settings with no InflowAC and no hJ hypothesis. Proves correction C-6 (and C-7's corrected setting)."
+evidence = "The author (2026-11-21, DEC-141): 'the fin domination in the context of the paper is a straightforward consequence of the diffeomorphism decomposition of the policy'. Refined by T-egf-plan-wave-1. Aim (new scaffold file): (1) EGF.IsEGFPolicy.bind_eq_sum_map: for IsEGFPolicy π Φ α (Φ : Fin p → S → S measurable, no inverse) and any measure μ, μ.bind π = ∑ i, (μ.withDensity fun s => ENNReal.ofReal (α i s)).map (Φ i); copied with a provenance comment from GFNBounds.Core.EGF.IsEGFPolicy.bind_withDensity (lean/GFNBounds/Core/UniversalityBody.lean:207; never imported, OQ-1, kb 0001), generalized from ν.withDensity f to any μ. (2) EGF.inflow_ac_of_map_ac (lam) (hπ : IsEGFPolicy π Φ α) (hΦ : ∀ i, lam.map (Φ i) ≪ lam) (hout : Fout ≪ lam) : inflow π Fout ≪ lam, on any measurable space, no σ-finiteness (withDensity_absolutelyContinuous, AbsolutelyContinuous.map, finite sums); EGF.bind_ac_of_map_ac : lam.bind π ≪ lam (the follow-up's clause ν π ≪ ν; GFNBounds.Core.Family.bind_withDensity_ac, FamilyUniversality.lean:373, and GFNBounds.Core.ILBoundFull.inflowAC_of_bind_ac, ILBoundFull.lean:581, may be copied as a second route); EGF.InflowAC.of_map_ac (F : GenerativeFlow S) (hπ : IsEGFPolicy F.policy Φ α) (hΦ) (hout : F.outflow ≪ lam) : InflowAC lam F (EGF.InflowAC, EGF/SamplingCorollaries.lean:626) and its IsEGF form for homeomorphisms. This supersedes the hypothesis lam.map (Φ i) = lam.withDensity (J i) (Φ i measurable equivalences) of EGF.inflowAC_of_isEGFPolicy (SamplingCorollaries.lean:898). (3) Instances: EGF.map_ac_of_differentiable (μ a Haar measure on a finite-dimensional E, Φ : E ≃ᵐ E, Differentiable ℝ Φ.symm ⇒ μ.map Φ ≪ μ, from EGF.map_eq_withDensity_abs_det, EGF/BackwardPolicy.lean:476), its Cⁿ-diffeomorphism form through EGF.diffeoEquiv (BackwardPolicy.lean:536), and EGF.map_ac_of_measurePreserving (MeasurePreserving Φ λ λ ⇒ λ.map Φ ≪ λ), through which T-egf-families and T-egf-families-sphere get the torus (affine maps, Haar) and sphere (rotations, Measure.toSphere) instances: no torus or sphere is built here. (4) EGF.backward_policy_measurePreserving: for σ-finite λ and measure-preserving Φᵢ : S ≃ᵐ S, the four conclusions of EGF.backward_policy (BackwardPolicy.lean:419) with J ≡ 1, i.e. f_in = ∑ᵢ (αⁱ f_out)∘Φᵢ⁻¹ and βⁱ = (αⁱ f_out)∘Φᵢ⁻¹ / f_in: the printed formula of main.tex:735-737 holds with |J| = 1, the setting of every experiment (affine SL_d(Z) moves of tori, rotations of spheres). Anchors C-6 (EGF.inflow_ac_of_map_ac, EGF.InflowAC.of_map_ac); supports C-7 and C-8 (proved). Corollary 3.10 for such an EGF with no InflowAC hypothesis is T-egf-loss's, so that the two targets have disjoint labels."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-universality"
-title = "EGF's body universality theorem (theo:universality) from theo:universality_true, as epsilon-universality over probability measures, with outflows dense in the non-negative cone"
+title = "Theorem 3.4 (theo:universality) in its corrected form: epsilon-universal families over probability measures (def:universal_family, epsilon form) from a summably L2-mixing policy with outflows dense in the non-negative cone; the printed density hypothesis is unsatisfiable"
 stream = "lean"
 kind = "close"
 paper = "egf"
@@ -89,38 +89,127 @@ labels = ["theo:universality", "def:universal_family"]
 status = "ready"
 owner = "closer"
 priority = 3
-evidence = "Moved from roadmap/roadmap.toml (hub, blocked on OQ-50; depended on T-egf-headline, done 742a9c5). DEC-141 rules OQ-49 (probability measures) and OQ-50 (epsilon-universality). Prove theo:universality from EGF.main_universality with 'dense in the non-negative cone of L2(S, lambda)' (correction C-20) and the epsilon-version of def:universal_family (C-18, C-19), so that l.774's 'implies' holds."
+evidence = "Moved from roadmap/roadmap.toml (hub, blocked on OQ-50; depended on T-egf-headline, done 742a9c5). DEC-141 rules OQ-49 (probability measures) and OQ-50 (epsilon-universality). Refined by T-egf-plan-wave-1. Aim (new scaffold file): (1) EGF.IsUniversalFamilyEps (lam) (𝓕 : Set (GenerativeFlow S)) : Prop := ∀ μ ν, IsProbabilityMeasure μ → IsProbabilityMeasure ν → μ ≪ lam → ν ≪ lam → (bounded λ-densities, as in EGF.IsUniversalFamily, EGF/Defs.lean:325) → ∀ ε > 0, ∃ F ∈ 𝓕, initialError F.policy F.outflow ν μ univ + terminalError F.policy F.outflow ν μ univ < ε: the corrected def:universal_family (C-18, C-19); EGF.IsUniversalFamily stays as the printed exact form, with EGF.IsUniversalFamily.isUniversalFamilyEps. (2) A named single-policy predicate EGF.IsUniversalPolicy lam π (the conclusion of EGF.main_universality, EGF/Universality.lean:950: for all probabilities F_init, F_term ≪ λ and ε > 0 there is a bounded f ≥ 0 with δF_init(S) + δF_term(S) < ε for (π, f λ)) and the family lemma EGF.isUniversalFamilyEps_of_policy: if 𝓕 contains (π, (ofReal ∘ f) λ) for every f in a set D such that every bounded measurable f ≥ 0 is an L¹(λ)-limit of elements of D, and IsUniversalPolicy lam π, then IsUniversalFamilyEps lam 𝓕 (the defect is 2-Lipschitz in F_out: EGF.tvMass_bind_le, tvMass_triangle, tvMass_withDensity_le, Universality.lean:175, :123, :193). T-egf-universality-ergodic and the family targets plug into this lemma. (3) EGF.universality (theo:universality corrected, C-20): a family 𝓕 of generative flows (EGFs or not: Lean ≥ paper) that contains (π, f λ) for a summably L²-mixing π (EGF.IsSummablyL2Mixing, Defs.lean:360) and every f of a set D of non-negative functions dense in the non-negative cone of L²(λ) (∀ g, MemLp g 2 λ → 0 ≤ g → ∀ η > 0, ∃ f ∈ D, eLpNorm (f - g) 2 λ < η) is EGF.IsUniversalFamilyEps; from (2) and EGF.main_universality, L² ⇒ L¹ on a finite λ. (4) The printed hypothesis is never satisfied: EGF.not_dense_L2_of_nonneg (λ finite, λ ≠ 0: no set of a.e.-non-negative functions is dense in L²(λ), the constant −1 being at distance ≥ λ(S)^(1/2)), so Theorem 3.4 as printed is vacuous; keep the printed form as a Prop beside it. (5) Optional, supporting the proved C-18: EGF.exact_universality_fails, a family satisfying (3)'s hypotheses that is not EGF.IsUniversalFamily (Bool, uniform λ, the resampling kernel of EGF.isSummablyL2Mixing_const, Universality.lean:980, outflows with rational values, a pair with irrational masses): main.tex:774's 'implies' fails for the exact Definition 3.2. Templates (copied, never imported): GFNBounds.Core.Family.fixedPolicyFamily and WeaklyUniversal (lean/GFNBounds/Core/FamilyUniversality.lean:515, :251). Anchors C-20 (EGF.universality, EGF.not_dense_L2_of_nonneg) and the epsilon definition of C-18/C-19 (EGF.IsUniversalFamilyEps); papers/egf/certificate/curation.toml's blocked_on of def:universal_family names this target."
 added = "2026-11-20"
-proposed_by = "roadmap-planner (moved by the egf-programme set-up, DEC-141)"
+proposed_by = "roadmap-planner (moved by the egf-programme set-up, DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
-id = "T-egf-families"
-title = "EGF S-egf-2: the toroidal and spherical universal families, from the two cited spectral-gap theorems stated as named Props"
+id = "T-egf-universality-ergodic"
+title = "Theorem B.1 without mixing: a fixed policy is epsilon-universal iff it is ergodic for a finite invariant measure equivalent to lambda (Cesaro-weighted Neumann series, von Neumann's mean ergodic theorem)"
 stream = "lean"
 kind = "close"
 paper = "egf"
-labels = ["theo:universality_tori", "theo:universality_sphere", "theo:spectral_gap_tori", "theo:spectral_gap_sphere"]
-status = "planned"
+labels = ["theo:universality_true"]
+status = "ready"
 owner = "closer"
-priority = 4
-depends = ["T-egf-universality", "T-egf-inflow-nonsingular"]
-evidence = "Moved from roadmap/roadmap.toml (hub, needs-ruling). DEC-141 rules it as DEC-69 first did for Troyanov: theo:spectral_gap_tori (l.810, Theorem 5 of bekka2015spectral) and theo:spectral_gap_sphere (l.830, Theorem 1 of bourgain2012spectral) are stated as faithful named Props (their hypotheses read off the cited theorems), and theo:universality_tori, theo:universality_sphere are proved from them, with the torus and sphere instances of T-egf-inflow-nonsingular. The 'mild technical assumptions' of l.291 and l.305 become the stated hypotheses (correction C-28)."
-added = "2026-11-20"
-proposed_by = "roadmap-planner (moved by the egf-programme set-up, DEC-141)"
+priority = 3
+evidence = "Found by T-egf-plan-wave-1 (correction C-29, a strengthening): the summable L²-mixing of theo:universality_true (main.tex:775) is not needed, and ergodicity is necessary. Aim (new scaffold file): (1) EGF.IsKernelErgodic (π : Kernel S S) (μ : Measure S) : Prop := ∀ A, MeasurableSet A → (∀ᵐ x ∂μ, π x A = A.indicator 1 x) → μ A = 0 ∨ μ Aᶜ = 0 (Walters' invariant sets); EGF.isKernelErgodic_deterministic (Mathlib's Ergodic Φ μ ⇒ IsKernelErgodic (Kernel.deterministic Φ _) μ); EGF.isKernelErgodic_egfKernel_uniform (Φᵢ measurable and measure-preserving for a finite μ, αᵢ ≡ 1/p, p ≥ 1, and every A with Φᵢ⁻¹A =ᵐ[μ] A for all i null or conull ⇒ μ.bind π = μ and IsKernelErgodic π μ: an average of {0,1}-values is 1_A only if every term is). (2) EGF.universality_of_ergodic (lam) [IsFiniteMeasure lam] (π) [IsMarkovKernel π] (lamHat) [IsFiniteMeasure lamHat] (hinv : lamHat.bind π = lamHat) (hac : lamHat ≪ lam) (hac' : lam ≪ lamHat) (herg : IsKernelErgodic π lamHat) (Finit Fterm) [IsProbabilityMeasure Finit] [IsProbabilityMeasure Fterm] (hinit : Finit ≪ lam) (hterm : Fterm ≪ lam) (hε : 0 < ε) : the conclusion of EGF.main_universality (EGF/Universality.lean:950) verbatim (∃ f_out ≥ 0 bounded, MemLp 2, δF_init(S) + δF_term(S) < ε), with no IsSummablyL2Mixing; and its EGF.IsUniversalPolicy form once T-egf-universality has landed (else state it locally). (3) Necessity: EGF.not_universal_of_not_ergodic (an invariant A with 0 < λ(A) < λ(S): F_init = λ|_A/λ(A), F_term = λ|_{Aᶜ}/λ(Aᶜ) have bounded densities and every outflow F_out ≪ λ gives δF_init(S) + δF_term(S) ≥ 2, since (F_out π)(A) = F_out(A)); EGF.universal_iff_ergodic for π with a finite invariant λ̂ equivalent to λ. Optional: EGF.isKernelErgodic_of_isSummablyL2Mixing (the sketch in curation.toml's theo:universality_true row). Route: the outflow A + (R − B) of EGF.tvMass_construction (Universality.lean:273) with Cesàro weights (1 − t/N): (I − T)∑_{t<N}(1 − t/N)Tᵗh = h − (1/N)∑_{t=1..N}Tᵗh, so the defect is ‖(1/N)∑_{t=1..N}(μ₀ − μ₁)πᵗ‖_TV; Cesàro TV-mixing EGF.exists_tvMass_cesaro_lt_of_ergodic replaces EGF.exists_tvMass_pushIter_lt_of_tendsto (Universality.lean:581), from von Neumann's mean ergodic theorem (Mathlib ContinuousLinearMap.tendsto_birkhoffAverage_orthogonalProjection, Mathlib/Analysis/InnerProductSpace/MeanErgodic.lean:89) for the transfer operator on L²(λ̂), a contraction (copy GFNBounds.Core.densityActionL2 and norm_densityActionL2_le, lean/GFNBounds/Core/SigmaMixing.lean:458 and :465, on GFNBounds.Core.densityActionCLM, Kernel.lean:544), whose fixed points are a.e. constant under IsKernelErgodic (its adjoint is the Koopman operator, GFNBounds.Core.AdjointGeneral.funAct, AdjointGeneral.lean:106; variance argument ∫ (P(f²) − (Pf)²) dλ̂ = 0); densities first truncated as in EGF.exists_truncation (Universality.lean:474). Alternative abstract route: GFNBounds.Core.liftedOutflow / residuals_le (lean/GFNBounds/Core/Universality.lean:198, :247) with an approximate Poisson solution, θ ∈ closure (range (P − 1)). Anchors C-29 (EGF.universality_of_ergodic, EGF.not_universal_of_not_ergodic, EGF.universal_iff_ergodic). Report as a finding: the follow-up's 'Universality then does need mixing' (~/Dropbox/GFNCertified/arxiv/source/body/04_universality.tex, before lean:Core.weaklyUniversal_of_kernel) has the same issue."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
 
 [[target]]
 id = "T-egf-loss"
-title = "The KL-weakFM loss and Algorithm 1 with the corrected delta f_init: the loss controls the sampling error"
+title = "The KL-weakFM loss of Eq. (15) with the corrected delta f_init, the KL decomposition in its true direction, Corollary 3.10 in both directions and the loss bound on the sampling error; Algorithm 1's weights; the EGF forms without InflowAC"
 stream = "lean"
 kind = "close"
 paper = "egf"
 labels = ["cor:pinsker_negative_control"]
+status = "planned"
+owner = "closer"
+priority = 4
+depends = ["T-egf-inflow-nonsingular"]
+evidence = "OQ-66 ruled by DEC-141 (negative part). Refined by T-egf-plan-wave-1. Aim (new scaffold file): (1) EGF.klwfmLoss (lam νtrain : Measure S) (b : ℝ) (F : GenerativeFlow S) (Finit κ : Measure S) : EReal := b·∫ deltaFinitDensity dνtrain − ∫ log ftermHatDensity dκ (+∞ where κ charges {f̂_term = 0}), Eq. (15) of main.tex:363-366 with δf_init = max(0, −(f_init + f_in − f_out)) (EGF.deltaFinitDensity, EGF/SamplingCorollaries.lean:611; C-1, C-2), and EGF.klwfmLossPrinted with EGF.deltaFinitDensityPrinted (:616); shape copied from GFNBounds.Core.wklfmLoss (lean/GFNBounds/Core/ILBound.lean:177, at q = 1, where ‖δf_init‖_{L¹(ν_train)} = E_{ν_train} δf_init) and GFNBounds.Core.ILBoundFull.ilLoss (ILBoundFull.lean:518). (2) EGF.kl_decomposition, main.tex:418-420 in the true direction: for κ ≪ λ a probability with finite entropy H(κ) = −E_κ log dκ/dλ and κ ≪ κ̂, KL(κ ‖ κ̂/κ̂(S)) = −E_κ log f̂_term + log ∫ f̂_term dλ − H(κ) (copy GFNBounds.Core.ILBoundFull.crossEntropy_decomposition, ILBoundFull.lean:412; to Mathlib's klDiv by EGF.klD_rnDeriv_eq_toReal_klDiv, SamplingCorollaries.lean:527); EGF.printed_kl_decomposition_false, a two-point instance where the printed left side KL(κ̂/κ̂(S) ‖ κ) differs (C-5). (3) EGF.pinsker_negative_control_rev: TV(s_τ ‖ κ) ≤ δ/(1 + δ) + √(½ KL(κ ‖ κ̂/κ̂(S))), from EGF.sampling_error_control (SamplingCorollaries.lean:194), EGF.pinsker (:536) with its arguments swapped and EGF.tvDist_comm (EGF/Sampling.lean:515): Corollary 3.10 holds in both directions (C-5). (4) EGF.loss_ge_entropy and EGF.loss_controls_sampling: for F_init, F_out ≪ λ, EGF.InflowAC λ F, κ a probability ≪ λ with finite entropy and finite loss, λ ≤ N • ν_train and b ≥ 1 + N: H(κ) ≤ L and TV(s_τ ‖ κ) ≤ (1/√2)√(L − H(κ)) + min(1, N(L − H(κ))), s_τ the sampler EGF.GenerativeFlow.pathLaw F F_init κ̂; port the chain of GFNBounds.Core.il_tv_bound (ILBound.lean:443; loss_ge_selfEntropy :348, klD_le_loss_sub_selfEntropy :364, lqNormD_le_loss_sub_selfEntropy :378) with its three external inputs discharged here (hNC by EGF.sampling_error_control, hPins by EGF.pinsker, htri by EGF.tvDist_triangle, SamplingCorollaries.lean:178), as the follow-up's GFNBounds.Core.SamplingGeneral.il_first_bullet_general does (lean/GFNBounds/Core/SamplingGeneralBounds.lean:709); at q = 1 the Hölder step is δ = ∫ δf_init dλ ≤ N ∫ δf_init dν_train. (5) Algorithm 1 (main.tex:383-404): EGF.algBackwardFactor_mem_Ioc ((1 + δf_init/f_in)⁻¹ ∈ (0, 1] for the corrected δf_init ≥ 0 and f_in > 0) and EGF.printed_algBackwardFactor_neg (with the printed sign the factor of l.400 can be negative: f_in = 1, δf_init = −2); the forward factor of l.399 is the sampler's continuation probability (EGF.GenerativeFlow.pathLaw_hazard, Sampling.lean:1269). Optional: EGF.Swap.printed_loss_tendsto_bot (on EGF.Swap.flow with F_out = m δ_false the printed loss tends to −∞ while δ → ∞: minimizing it does not control δ, C-2). (6) For an EGF with nonsingular moves, no InflowAC: EGF.pinsker_negative_control_nonsingular (EGF.pinsker_negative_control_density, SamplingCorollaries.lean:769, with InflowAC from T-egf-inflow-nonsingular's EGF.InflowAC.of_map_ac; replaces the hJ of pinsker_negative_control_isEGF, :910) and EGF.loss_controls_sampling_nonsingular. Anchors C-2 (EGF.klwfmLoss, EGF.loss_controls_sampling), C-3 (EGF.loss_controls_sampling, EGF.algBackwardFactor_mem_Ioc), C-5 (EGF.kl_decomposition, EGF.pinsker_negative_control_rev), C-35 (EGF.loss_controls_sampling) and the EGF form of C-6 (EGF.pinsker_negative_control_nonsingular)."
+added = "2026-11-21"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
+
+[[target]]
+id = "T-egf-mixing-criteria"
+title = "The spectral-gap remark of main.tex:273: a spectrum bounded away from 1 alone does not give summable L2-mixing (the swap of two points), a spectral radius below 1 does"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["def:summably_mixing"]
 status = "ready"
 owner = "closer"
-priority = 5
-evidence = "OQ-66 ruled by DEC-141 (negative part). Define the loss of equ:weakFM (l.363-365) with delta f_init = max(0, -(f_init + f_in - f_out)) and show it bounds the sampling error through Corollary 3.10 (port GFNBounds.Core.wklfmLoss, lean/GFNBounds/Core/ILBound.lean:177, and GFNBounds.Core.SamplingGeneral.il_first_bullet_general as templates); settle the KL direction of l.418 against l.377 (correction C-5) and give the anchors of C-2 and C-3."
+priority = 6
+evidence = "Found by T-egf-plan-wave-1 (correction C-30). main.tex:273-274: 'This property is in particular satisfied if the policy π induces a Koopman operator … which has a so-called spectral gap … Informally the spectrum of the Koopman operator is bounded away from 1 on the subspace {φ | ∫ φ dλ = 0}. In this case, the convergence of iterates by π is exponential.' Aim (new scaffold file): (1) On Bool with the uniform probability and the swap b ↦ ¬b (the policy of EGF.Swap.flow, EGF/SamplingCorollaries.lean:845): EGF.Swap.transfer_eq_neg (φπ = −φ for mean-zero φ, so ∫ (φπ)φ dλ = −‖φ‖²: on mean-zero functions the spectrum is {−1}, bounded away from 1) and EGF.Swap.not_isSummablyL2Mixing (γₙ = 1 for every n and every invariant λ̂ equivalent to λ: ¬ EGF.IsSummablyL2Mixing, EGF/Defs.lean:360). (2) The corrected criterion EGF.isSummablyL2Mixing_of_pow_contraction: λ a probability with λπ = λ, N ≥ 1 and c < 1 with ∫ (transfer π λ N φ)² dλ ≤ c for every φ ∈ EGF.unitMeanZero λ (Defs.lean:351), i.e. ‖Tᴺ‖ < 1 on mean-zero functions (spectral radius < 1, Gelfand) ⇒ EGF.IsSummablyL2Mixing π λ with λ̂ = λ (under invariance the transfer preserves mean zero and composes, γ_{kN+r} ≤ cᵏ γ_r; the contraction ∫ (φπ)² ≤ ∫ φ² is EGF.lintegral_transfer_sq_le, EGF/Universality.lean:329, or GFNBounds.Core.SigmaMixing.eLpNorm_bindDensity_two_le, lean/GFNBounds/Core/SigmaMixing.lean:219). Optional: the reversible form (spectrum on mean-zero functions in [−1 + c, 1 − c]). Context: Bekka-Guivarc'h (arXiv:1106.2623v1, §1) note that for an aperiodic generating measure the spectral gap of the group action is equivalent to ‖U⁰(μ)‖ < 1, which is what l.818 needs (C-28). Anchors C-30. Independent of every other target; under C-29 the remark is no longer load-bearing for Theorems 3.5-3.6."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
+
+[[target]]
+id = "T-egf-families"
+title = "Theorem 3.5 (tori): Bekka-Guivarc'h's Theorem 5 as a faithful named Prop, and the affine toroidal family universal from it and, more strongly, from ergodicity of the generated group"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality_tori", "theo:spectral_gap_tori"]
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-egf-universality", "T-egf-universality-ergodic"]
+evidence = "Moved from roadmap/roadmap.toml (hub, needs-ruling). DEC-141 rules it as DEC-69 first did for Troyanov: the cited theorem a faithful named Prop with a non-vacuity witness (pattern: GX.TroyanovSuspensionTheorem, lean-gx/GX/SingularII/Models.lean:944), theo:universality_tori proved from it. Split by T-egf-plan-wave-1: this target is the tori; spheres are T-egf-families-sphere, the unconditional minimal instance T-egf-tori-minimal. Read off arXiv:1106.2623v1 (Bekka-Guivarc'h, §2), Theorem 5: let H be a countable subgroup of Aff(T) = Aut(T) ⋉ T, T = V/Δ a torus of dimension d ≥ 1, Aut(T) ≅ GL_d(Z), p_a : Aff(T) → Aut(T) the linear part. TFAE: (i) the action of H on T has no spectral gap (the Koopman representation on L²_0(T) has almost invariant vectors: unit ξ_n with ‖U(h)ξ_n − ξ_n‖ → 0 for every h ∈ H); (ii) there is a non-trivial H-invariant factor torus T̄ (T̄ = T/S, S = W/(W ∩ Δ), W a rational subspace ≠ V invariant under p_a(H)) such that the projection of p_a(H) on Aut(T̄) is amenable; (iii) the same with 'virtually abelian'. The paper quotes (i) ⟺ (ii) (main.tex:810-818; 'on 𝕋' at l.814 is T^d) and states its condition at l.820 (stable under inverse, violating (ii)). Aim: (1) the torus UnitAddTorus (Fin d) (Mathlib, Topology/Instances/AddCircle/Real.lean:52) with volume; EGF.torusAffine (A : Matrix (Fin d) (Fin d) ℤ) (b) x := fun i => (∑ j, A i j • x j) + b i; EGF.measurePreserving_torusAffine for det A = ±1 (a continuous additive automorphism pushes the Haar probability to a Haar probability; uniqueness of the Haar probability; translation invariance). (2) EGF.HasSpectralGap (μ) (H) (no almost invariant unit vectors in L²_0(μ)), EGF.IsAmenableGroup G (a left-invariant finitely additive probability on Set G), EGF.IsVirtuallyAbelian, the factor-torus condition EGF.BGConditionII (a ℚ-subspace W ≠ ⊤ of Fin d → ℚ invariant under every linear part, the image of the linear parts in the linear automorphisms of (Fin d → ℚ) ⧸ W amenable), and EGF.BekkaGuivarchTheorem5 (d) : Prop, faithful, all three items; a non-vacuity witness (e.g. H = ⊥ satisfies (i) and (ii)); EGF.spectral_gap_tori : BekkaGuivarchTheorem5 d → the printed (i) ⟺ (ii). (3) EGF.ergodic_of_hasSpectralGap (a set a.e.-invariant under every element of H is null or conull, 1_A − λ(A) being invariant), so with EGF.isKernelErgodic_egfKernel_uniform (T-egf-universality-ergodic) the uniform policy αᵢ ≡ 1/p of any affine family whose group violates (ii) is ergodic: no aperiodicity and no inverse-stability needed (C-28). (4) EGF.IsAffineToroidalFamily (A : Fin p → Matrix (Fin d) (Fin d) ℤ) 𝓕 (main.tex:288: members are EGFs with maps torusAffine (A i) (b i), translations free, policy and outflow from a model) and C-31's model richness (for some translations b, 𝓕 contains (egfKernel (torusAffine A b) (1/p), f λ) for every f of a set dense in the non-negative cone of L²(λ)); EGF.universality_of_ergodic_family (Theorem 3.4 with ergodicity for summable mixing, C-29: EGF.isUniversalFamilyEps_of_policy of T-egf-universality and EGF.universality_of_ergodic), EGF.universality_tori_of_ergodic (the strongest form, no named Prop: the group generated by the torusAffine (A i) (b i) acts ergodically ⇒ EGF.IsUniversalFamilyEps), and EGF.universality_tori (hBG : BekkaGuivarchTheorem5 d) (h : ¬ BGConditionII of the linear parts): the paper's condition of l.820 without inverse-stability. Anchors C-28 (tori half) and C-31 (tori half)."
+added = "2026-11-20"
+proposed_by = "roadmap-planner (moved by the egf-programme set-up, DEC-141); split and refined by T-egf-plan-wave-1"
+
+[[target]]
+id = "T-egf-families-sphere"
+title = "Theorem 3.6 (spheres): Bourgain-Gamburd's Theorem 1 as a faithful named Prop, the printed SO(d) reformulation refuted at d = 2, and the isometry spherical family universal from ergodicity"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality_sphere", "theo:spectral_gap_sphere"]
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-egf-universality", "T-egf-universality-ergodic"]
+evidence = "Split from T-egf-families by T-egf-plan-wave-1 (DEC-141: the cited theorem a faithful named Prop, Theorem 3.6 proved from it, as DEC-69 for Troyanov). Read off arXiv:1108.6264v1 (Bourgain-Gamburd, A spectral gap theorem in SU(d), JEMS 14 (2012)), Theorem 1: let g_1, …, g_k ∈ SU(d) ∩ Mat_{d×d}(Q̄), d ≥ 2, generate a subgroup Zariski dense in SL_d(C) (equivalently, their footnote 1, topologically dense in SU(d)); then the Hecke operator z f(x) = ∑_{j=1..k} (f(g_j x) + f(g_j⁻¹ x)) on L²(SU(d)) has a spectral gap: λ_1(z), the supremum of its spectrum on the orthogonal complement of the constants, is < 2k. The paper's 'reformulation' (main.tex:830-833) claims it for (Φ_1, …, Φ_p) ∈ SO(d) ∩ Mat(Q̄), dense in SO(d), stable under inverse, αⁱ = 1/p, for the EGF kernel on the sphere: not Theorem 1 (which is about SU(d) acting on itself); true for d = 3 (SO(3) = SU(2)/{±1}) and for SO(d) simple by benoist2016spectral (cited at l.307), false for d = 2 (C-32). Aim: (1) the sphere Metric.sphere (0 : EuclideanSpace ℝ (Fin (d+1))) 1 with σ = volume.toSphere (Mathlib/MeasureTheory/Constructions/HaarToSphere.lean:52), rotations acting on it, EGF.measurePreserving_rotation_sphere (a LinearIsometryEquiv preserves volume, the unit ball and cones). (2) EGF.BourgainGamburdTheorem1 : Prop, faithful (SU(d) as Matrix.specialUnitaryGroup (Fin d) ℂ, Mathlib/LinearAlgebra/UnitaryGroup.lean:255, with its subspace topology and Haar probability; entries IsAlgebraic ℚ; the closure of the generated subgroup is ⊤; ∃ c < 2k, ∀ f ∈ L²_0, Re⟨z f, f⟩ ≤ c‖f‖²), with a non-vacuity witness or a disclosed reason why none is given. (3) EGF.SpectralGapSphereReformulation (d) : Prop, the printed l.832-833 with Bourgain-Gamburd's one-sided notion for the EGF kernel on S^{d−1}, and EGF.not_spectralGapSphereReformulation_two: the rotation of cosine 3/5 and its inverse satisfy the hypotheses at d = 2 (rational entries; arccos(3/5) is not a rational multiple of π by Mathlib's niven, Mathlib/NumberTheory/Niven.lean:123, so the rotation has infinite order and its powers are dense in SO(2)), while ⟨P e_k, e_k⟩ = cos(kθ) on the characters has supremum 1 over k ≠ 0. (4) EGF.IsIsometrySphericalFamily and C-31's model richness; EGF.universality_sphere_of_ergodic (if every set a.e.-invariant under all the Φᵢ is null or conull, the isometry spherical family is EGF.IsUniversalFamilyEps σ: EGF.isUniversalFamilyEps_of_policy, EGF.isKernelErgodic_egfKernel_uniform, EGF.universality_of_ergodic); EGF.universality_sphere_one (d = 1, an irrational rotation, Mathlib AddCircle.ergodic_add_left, Mathlib/Dynamics/Ergodic/AddCircleAdd.lean:28: the paper's spectral-gap route cannot reach S¹, where no finite set of rotations has a spectral gap). The density form (dense in SO(d+1) ⇒ ergodic) is T-egf-sphere-dense-ergodic; the positive corrected reformulation at d = 3 is T-egf-spectral-gap-so3. Anchors C-28 (sphere half), C-31 (sphere half), C-32 (EGF.BourgainGamburdTheorem1, EGF.not_spectralGapSphereReformulation_two). Note: the experiment's six π/4 rotations (main.tex:496) satisfy l.836 (stable under inverse, entries √2/2, dense in SO(3) by the classification of closed subgroups of SO(3), not formalized)."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
+
+[[target]]
+id = "T-egf-tori-minimal"
+title = "The paper's minimal toroidal EGF is universal with no named Prop: ergodicity of affine maps without periodic integer vectors (Fourier), and the cat map in the group of S and T"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality_tori"]
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-egf-families"]
+evidence = "Planned by T-egf-plan-wave-1: the non-vacuity of Theorem 3.5 without any cited theorem. Aim: (1) EGF.ergodic_torusAffine_of_noPeriodic: if no nonzero k ∈ ℤ^d and n ≥ 1 have (Aᵀ)ⁿ k = k, then x ↦ A x + b is ergodic on (T^d, volume) for every b (an a.e.-invariant L² function has |f̂(Aᵀk)| = |f̂(k)| along infinite orbits while ∑ |f̂|² < ∞; Mathlib UnitAddTorus.mFourierCoeff, hasSum_sq_mFourierCoeff and mFourierBasis, Mathlib/Analysis/Fourier/AddCircleMulti.lean:300, :271). (2) EGF.catMap_noPeriodic for [[2,1],[1,1]]. (3) EGF.universality_tori_minimal: the affine toroidal family on T² with linear parts S, S⁻¹, T, T⁻¹ (S = [[0,−1],[1,0]], T = [[1,1],[0,1]]: the two generators of SL₂(ℤ) and their inverses, main.tex:293, the IL experiments l.493, the appendix figure l.1022) is universal for every choice of translations, under C-31's model richness: the group contains T(STS⁻¹)⁻¹ = [[2,1],[1,1]] composed with a translation; likewise the RL family of l.440, which contains S and T. (4) EGF.universality_tori_one: on T¹ an affine toroidal family containing a translation of infinite order is universal (Mathlib AddCircle.ergodic_add_left, Mathlib/Dynamics/Ergodic/AddCircleAdd.lean:28), where the paper's condition (ii) always holds (H abelian, hence amenable): 'in any dimension' (main.tex:149, :293) is true by C-29, not by the spectral gap. Stretch: every d ≥ 2 with linear parts generating SL_d(ℤ) (an explicit element without periodic integer vectors). Anchors C-28 (the instances) and C-29 (one ergodic map suffices on tori, against main.tex:698's 'two transformations')."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
+
+[[target]]
+id = "T-egf-sphere-dense-ergodic"
+title = "Theorem 3.6 in its strongest form: rotations generating a dense subgroup of SO(d+1) act ergodically on S^d, so the isometry spherical family is universal with no algebraicity and no inverse-stability"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:universality_sphere"]
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-egf-families-sphere"]
+evidence = "Planned by T-egf-plan-wave-1. Aim: (1) the rotation group SO(d+1) as a compact topological group (Matrix.specialOrthogonalGroup (Fin (d+1)) ℝ, Mathlib/LinearAlgebra/UnitaryGroup.lean:315, with the subspace topology, or the linear isometry equivalences of EuclideanSpace ℝ (Fin (d+1))) acting continuously on the sphere; EGF.ergodicSMul_rotation_sphere : ErgodicSMul (SO(d+1)) (sphere) σ (Mathlib's class, Mathlib/Dynamics/Ergodic/Action/Basic.lean), by transitivity and Fubini on G × S^d against the Haar probability (orbit maps push Haar to σ/σ(S^d), Haar being right-invariant on a compact group). (2) EGF.ergodic_of_dense_rotations: a set a.e.-invariant under rotations generating a dense subgroup is null or conull, by Mathlib's aeconst_of_dense_aestabilizer_smul (Mathlib/Dynamics/Ergodic/Action/OfMinimal.lean:122). (3) EGF.universality_sphere: Theorem 3.6 under 'the Φᵢ generate a dense subgroup of SO(d+1)', any d ≥ 1, with C-31's model richness, from EGF.universality_sphere_of_ergodic (T-egf-families-sphere): the algebraic coefficients and the stability under inverse of main.tex:307 and :836 are not needed (C-28, C-29). Not formalized: that the experiment's six π/4 rotations (l.496) generate a dense subgroup of SO(3). Anchors C-28 (the density form of Theorem 3.6)."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
+
+[[target]]
+id = "T-egf-spectral-gap-so3"
+title = "Stretch: the corrected spherical reformulation at d = 3 (the S^2 of the experiments) from Bourgain-Gamburd's Theorem 1 at SU(2), through SO(3) = SU(2)/{+-1}"
+stream = "lean"
+kind = "close"
+paper = "egf"
+labels = ["theo:spectral_gap_sphere"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-egf-families-sphere"]
+evidence = "Planned by T-egf-plan-wave-1; a stretch, since Theorem 3.6 no longer needs a spectral gap (C-29). Aim: EGF.spectralGapSphereReformulation_three (hBG : EGF.BourgainGamburdTheorem1) : EGF.SpectralGapSphereReformulation 3: lift each rotation with algebraic entries to SU(2) (unit quaternions; algebraic entries stay algebraic), density lifts, and the EGF kernel on L²_0(S²) is the restriction of z/(2k) on L²(SU(2)) to functions pulled back by g ↦ g·e₃ (Haar pushes to σ/4π), so its spectrum there is below λ_1(z)/(2k) < 1. Benoist-de Saxcé (benoist2016spectral, SO(d) simple: d = 3 or d ≥ 5) is not stated. Anchors the positive half of C-32."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
 
 [[target]]
 id = "T-egf-def-egf"
@@ -133,16 +222,16 @@ status = "blocked"
 oq = "OQ-48"
 owner = "closer"
 priority = 9
-evidence = "Both readings exist (EGF.IsTopologicallyErgodic, EGF.IsTopologicallyErgodicGroup, EGF.IsTopologicallyErgodic.group) with the separating example EGF.shiftZ_group_not_forward. OQ-48 is a genuine reading, left to the author by DEC-141."
+evidence = "Both readings exist (EGF.IsTopologicallyErgodic, EGF.IsTopologicallyErgodicGroup, EGF.IsTopologicallyErgodic.group) with the separating example EGF.shiftZ_group_not_forward (EGF/Defs.lean:234, :265, :270, :291). OQ-48 is a genuine reading, left to the author by DEC-141. Once ruled: (a) forward words, mark def:egf on EGF.IsEGF as it stands; (b) the generated group, add EGF.IsEGFGroup (IsEGFPolicy with IsTopologicallyErgodicGroup) and mark it, keeping EGF.IsEGF and the separating example as the record. Either way C-26 (proved) then has its form of record and C-27 (α measurable, ∑ αⁱ = 1) is already carried by EGF.IsEGFPolicy (Defs.lean:191). Noted by T-egf-plan-wave-1: no proof in the paper uses the topological clause (universality rests on measure-theoretic ergodicity, C-29)."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 # ------------------------------------------------------------------------------------------------
 # paper: the v2 working copy (~/Dropbox/ErgodicGFN arXiv/source/main.tex), one batch per target
 
 [[target]]
 id = "T-egf-correct-sign"
-title = "Correct the sign of delta f_init: Corollary 3.10, Eq. (15), Algorithm 1, the normalization identity (C-1 to C-5)"
+title = "Correct the sign of delta f_init and the loss: Corollary 3.10, Eq. (15), Algorithm 1, the KL decomposition, the normalization identity (C-1 to C-5, C-35)"
 stream = "paper"
 kind = "correct"
 paper = "egf"
@@ -150,9 +239,9 @@ status = "planned"
 owner = "corrector"
 priority = 6
 depends = ["T-egf-adopt-dec141", "T-egf-loss"]
-evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-sign."
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-sign: C-1 (main.tex:362, :379), C-2 (l.363-368), C-3 (l.395, l.400), C-4 (l.423), C-5 (l.377, l.418), C-35 (l.364 against l.395 and l.407); about seven edits. Anchors: C-1 and C-4 exist; C-2, C-3, C-5 and C-35 come from T-egf-loss."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-correct-backward"
@@ -164,9 +253,9 @@ status = "planned"
 owner = "corrector"
 priority = 6
 depends = ["T-egf-adopt-dec141", "T-egf-inflow-nonsingular"]
-evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-backward."
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-backward: C-6 (main.tex:196, l.231-234), C-7 (l.731-732), C-8 (l.735-737; the body's l.225-233 is right in its Lebesgue setting), C-9 (l.736), C-10 (l.736-737, l.754-758); about seven edits. C-6's anchor comes from T-egf-inflow-nonsingular; the others exist."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-correct-sampling"
@@ -178,9 +267,9 @@ status = "planned"
 owner = "corrector"
 priority = 6
 depends = ["T-egf-adopt-dec141"]
-evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-sampling. All its anchors exist already."
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-sampling: C-11 (main.tex:327, :850), C-12 (l.853, l.857), C-13 (l.163-165, l.178-183), C-14 (l.164), C-15 (l.863), C-16 (l.329-334), C-17 (l.163, l.316); about eight edits. All its anchors exist already (C-17 is a typo)."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-correct-universality"
@@ -192,23 +281,79 @@ status = "planned"
 owner = "corrector"
 priority = 7
 depends = ["T-egf-adopt-dec141", "T-egf-universality"]
-evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-universality (C-22 and C-25 wait on OQ-47)."
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-universality: C-18 (main.tex:249-252, l.774), C-19 (l.250-251), C-20 (l.277), C-21 (l.789), C-22 (l.775, l.779, l.793; waits on OQ-47), C-23 (l.775), C-24 (l.790), C-25 (l.264-267; waits on OQ-47); about nine edits. C-20's anchor and C-18's epsilon definition come from T-egf-universality. Theorem B.1 is edited again afterwards by T-egf-correct-ergodicity (C-29)."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-correct-defs"
-title = "Correct the definitions and the families: alpha measurable summing to 1, the assumptions of Theorems 3.5 and 3.6 (C-26 to C-28)"
+title = "Correct Definition 3.1: alpha measurable with coordinates summing to 1, and its ergodicity clause once OQ-48 is ruled (C-26, C-27)"
 stream = "paper"
 kind = "correct"
 paper = "egf"
 status = "planned"
 owner = "corrector"
 priority = 8
-depends = ["T-egf-adopt-dec141", "T-egf-families"]
-evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-defs (C-26 waits on OQ-48)."
+depends = ["T-egf-adopt-dec141"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-defs: C-27 (main.tex:219) and, once OQ-48 is ruled, C-26 (l.219-221); two edits. C-28 (Theorems 3.5-3.6) moved to T-egf-correct-families by T-egf-plan-wave-1, so this batch no longer waits on the families."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
+
+[[target]]
+id = "T-egf-correct-ergodicity"
+title = "Correct universality's hypothesis: ergodicity suffices and is necessary (Theorem B.1, Theorem 3.4, l.238, l.271, the limitations l.697-702), and the spectral-gap remark of l.273 (C-29, C-30)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 7
+depends = ["T-egf-adopt-dec141", "T-egf-universality-ergodic", "T-egf-mixing-criteria", "T-egf-correct-universality"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-ergodicity: C-29 (main.tex:775, l.277, l.238, l.271, l.697-698, l.702) and C-30 (l.273-274); about seven edits. Runs after T-egf-correct-universality, which edits the same theorem. Anchors from T-egf-universality-ergodic and T-egf-mixing-criteria."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
+
+[[target]]
+id = "T-egf-correct-families"
+title = "Correct Sections 3.1.2-3.1.3 and Appendices B.2-B.3: the assumptions of Theorems 3.5-3.6, the model's richness, the spherical reformulation, typos (C-28, C-31 to C-33)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 8
+depends = ["T-egf-adopt-dec141", "T-egf-families", "T-egf-families-sphere", "T-egf-tori-minimal", "T-egf-sphere-dense-ergodic", "T-egf-correct-ergodicity"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-families: C-28 (main.tex:291, l.293, l.305, l.307-308, l.818-821, l.836), C-31 (l.288, l.291, l.302, l.305), C-32 (l.830-833, l.307), C-33 (l.288, l.307, l.814, l.818); about ten edits, several on the same sentences. Its corrected texts rest on C-29 (ergodicity), hence the ordering after T-egf-correct-ergodicity. The positive d = 3 form of C-32 (T-egf-spectral-gap-so3) is not waited for."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
+
+[[target]]
+id = "T-egf-correct-experiments"
+title = "Correct the experimental descriptions: the RL map count, what the MLPs parameterize, the table caption and name, the size claim, the density filter (C-34, C-36)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 9
+depends = ["T-egf-adopt-dec141", "T-egf-repro-report"]
+evidence = "Applies the adopted entries of corrections.toml with batch = T-egf-correct-experiments: C-34 (main.tex:440, l.493, l.609, l.627, l.713) and C-36 (l.435, l.885-894); about eight edits. The RL count of l.440, the size ratio of l.713 and the filter protocol are facts the reproduction report (T-egf-repro-report) supplies; nothing to prove in Lean."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
+
+[[target]]
+id = "T-egf-correct-figures"
+title = "Correct the figure labels and the appendix captions: six figures share one label, the ablations' state space and sizes (C-37)"
+stream = "paper"
+kind = "correct"
+paper = "egf"
+status = "planned"
+owner = "corrector"
+priority = 8
+depends = ["T-egf-adopt-dec141"]
+evidence = "Applies the adopted entry of corrections.toml with batch = T-egf-correct-figures: C-37 (the label fig:toyimg defined at main.tex:587, :1004, :1023, :1213, :1313, :1416 and referenced at :494; the comma of :729; l.431 against :1210-1211, :1310-1311, :1413-1414; :1381-1386 against :1409); about five edits, editorial, nothing to prove."
+added = "2026-11-21"
+proposed_by = "egf-planner (T-egf-plan-wave-1)"
 
 [[target]]
 id = "T-egf-v2-package"
@@ -219,10 +364,10 @@ status = "planned"
 owner = "master"
 package = "none"
 priority = 10
-depends = ["T-egf-correct-sign", "T-egf-correct-backward", "T-egf-correct-sampling", "T-egf-correct-universality", "T-egf-correct-defs"]
-evidence = "Rebuild ~/Dropbox/ErgodicGFN arXiv/source.tar.gz (used files + main.bbl, pdflatex-only clean-room build) and preview.pdf; the author reviews `git diff camera-ready..HEAD` of the v2 repository before any upload. Never upload."
+depends = ["T-egf-correct-sign", "T-egf-correct-backward", "T-egf-correct-sampling", "T-egf-correct-universality", "T-egf-correct-defs", "T-egf-correct-ergodicity", "T-egf-correct-families", "T-egf-correct-experiments", "T-egf-correct-figures"]
+evidence = "Rebuild ~/Dropbox/ErgodicGFN arXiv/source.tar.gz (used files + main.bbl, pdflatex-only clean-room build) and preview.pdf; the author reviews `git diff camera-ready..HEAD` of the v2 repository before any upload. Never upload. The four batches added by T-egf-plan-wave-1 (ergodicity, families, experiments, figures) join the depends."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); depends refined by T-egf-plan-wave-1"
 
 # ------------------------------------------------------------------------------------------------
 # repro: LBrunswic/egf-reproduction (private), cloned at node1:~/egf-reproduction; node1's GPU only
@@ -235,71 +380,71 @@ kind = "repro"
 status = "ready"
 owner = "experimenter"
 priority = 2
-evidence = "R-0. `gh repo create LBrunswic/egf-reproduction --private` on node1, cloned at ~/egf-reproduction (outside Dropbox). Conda env `egf` (~/miniconda3, Python 3.12, torch with cu128). scripts/guard.py refuses unless hostname == node1 (and CUDA for GPU runs). Port from ~/GFNCertified/exp (nonacyclic_gfn: torus lattice, bounds/losses.py's kl_weak_fm_loss with the correct sign, exp14/exp16) and read, never copy wholesale, the TF code of LBrunswic/ErgodicFlow (its hptune.ini holds a plaintext DB password: never copied)."
+evidence = "R-0. Checked by T-egf-plan-wave-1 (2026-11-21, node1): gh is authenticated, LBrunswic/egf-reproduction does not exist yet, LBrunswic/ErgodicFlow is readable (private, last pushed 2024-12-15), ~/egf-reproduction is free, the GPU is an RTX 4090 24 GB. Steps: `gh repo create LBrunswic/egf-reproduction --private`, cloned at ~/egf-reproduction (outside Dropbox). Conda: use ~/miniconda3/bin/conda explicitly (a second install, ~/miniconda, is the shell's default): env `egf`, Python 3.12, torch with cu128 wheels. scripts/guard.py refuses unless hostname == node1, and also unless torch.cuda.is_available() for a GPU run. Layout: src/egf_repro/ with spaces (T^d = [0,1)^d mod 1, S² ⊂ ℝ³), moves (affine x ↦ A x + b mod 1, A ∈ SL₂(ℤ), b trainable; rotations, frozen), model (two tanh MLPs, orthogonal init, main.tex:433: a softmax head α over the p maps and a non-negative scalar head f_out), inflow (the closed form of l.233 with |det J| = 1, exact for measure-preserving moves), losses (KL-weakFM of Eq. (15), l.363-366, with δf_init = max(0, −(f_init + f_in − f_out)) by default and a flag for the printed min(0, ·); the stable FM loss L^q of l.194; the divergence loss of l.442; the regularizer R of l.443), sampler (s₁ ∼ F_init, stop with probability f̂_term/(f̂_term + f_out) at each step, l.164, with t_max), the density filter (App. D, l.885-894), data (2-D toys: checkerboard, two spirals, pinwheel/'star', 4 circles; earth_data), configs/*.toml (one per repro target, each citing its main.tex lines), runs/ gitignored. CPU smoke test (pytest -q, under two minutes): mass conservation ∫ f_in dλ = ∫ f_out dλ on a T² grid; δf_init ≥ 0 and ∫ f̂_term = ∫ f_init + ∫ δf_init (l.423, correction C-4); one AdamW step decreases the corrected loss on a fixed batch; the sampler terminates in [0,1)²; guard.py refuses a GPU run off node1 (monkeypatched hostname). What survives (port, never wholesale): ~/GFNCertified/exp (package nonacyclic_gfn): src/nonacyclic_gfn/bounds/losses.py:86 kl_weak_fm_loss has the correct sign (e_minus, an L^q norm); src/nonacyclic_gfn/loss/egf/kl_weak_fm.py copies the printed wrong sign (torch.clamp(fm_error, max=0)) and also sets f_init = 0 and an exit-action head (1 − p_stop), neither the paper's; env/continuous/diffeomorphisms.py:19 sl2z_generators (S, T and inverses) and loss/egf/inflow.py (closed-form inflow) are reusable; env/continuous/torus.py builds 4 SL₂(ℤ) maps + 8 rational translations = 12 maps (the paper says 16, l.440), env/continuous/sphere.py golden-angle rotations about x and y (not the paper's six π/4 rotations, l.496); experiments/exp14_egf_reproduction.py is a lattice (discrete-torus) approximation with frozen translations, exp16_best_recipe.py a trefoil on T³. The TF code LBrunswic/ErgodicFlow is read, never copied wholesale: HyperparametersConfig/*.json (early ℝ² box configurations: weak FM as 'WeakFMPower' with distortion_power 2.0 and weight 10, LR 2e-5 to 1e-4, PATH_BATCH_SIZE 128-256, MAX_LENGTH 40-100, moves permutation / orthogonal_shift / triangular_LU), ergoflow/{loss,moves,selector,flowout,replay}.py; its hptune.ini holds a plaintext DB password: never copied, never printed."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-repro-torus-il"
-title = "Imitation learning on the continuous torus T^2: 4 affine maps, 3x32 MLPs, trainable translations, the density filter; checkerboard, spiral, star"
+title = "Imitation learning on the continuous torus T^2: the minimal four affine moves (S, T and inverses, trainable translations), 3x32 and 4x128 MLPs, KL-weakFM with the corrected sign, the density filter; star, two spirals, checkerboard"
 stream = "repro"
 kind = "repro"
 status = "planned"
 owner = "experimenter"
 priority = 3
 depends = ["T-egf-repro-scaffold"]
-evidence = "R-1. The paper's 2D toy IL figures with the KL-weakFM loss (corrected sign)."
+evidence = "R-1. Reproduces Fig. toyimg (main.tex:498-588, its EGF row: ~/Dropbox/ErgodicGFN Camera ready/images/star_EGF_32x3_filtre.JPG, spiral_EGF_32x3.JPG) and the appendix figure of the 'theoretically minimal EGF' (main.tex:1007-1024: images/checker_minimal.jpg, checker_minimal_samples.JPG). Configuration (main.tex:431-435, 488-494, 1022): T² = [0,1)² with Lebesgue (Haar) λ; moves x ↦ A x + bᵢ mod 1 with A ∈ {S, S⁻¹, T, T⁻¹}, S = [[0,−1],[1,0]], T = [[1,1],[0,1]] (two generators of SL₂(ℤ) and their inverses, l.293), translation parts bᵢ trainable (l.288); two tanh MLPs with orthogonal init (l.433), f_out (scalar head) and α (softmax over the 4 maps), 3 hidden layers × 32 (Fig. toyimg) and 4 × 128 (checkerboard, l.1022); AdamW (l.433), LR not stated (1e-3, as in the ablations l.1212); loss KL-weakFM, Eq. (15) at l.363-366 with the corrected δf_init (C-1, C-2), plus R = E ∑_t f_out(s_t)² (l.443, 'as in the RL setting', l.493), the weights b and of R not stated (sweep, report); Algorithm 1 (l.383-404): replay buffers of B forward paths from (F_init, π) and B backward paths from (κ, B*) up to t_max, weights p_t (l.399-400); F_init not stated (uniform on T²); inference with F_term = κ̂ = (F_init + F_in − F_out)⁺ and the filter 1_{f̂ > η} (l.435; App. D, l.885-894). Targets: 'star' (pinwheel, the 'spin wheel' of App. F) and two spirals (Fig. toyimg), checkerboard (l.1022): the standard 2-D toys rescaled into [0,1)². Metrics: the paper shows samples and densities only; also report the exact TV and NLL of the normalized f̂_term on a grid, δ = ∫ δf_init dλ and E τ. The three printed forms of the weak-FM term (Eq. (15) linear with b on the penalty; Algorithm 1's (1/2B)∑ δf_init p_t with b on the cross-entropy, l.395; the squared term of l.407, as in ErgodicFlow's 'WeakFMPower' 2.0) are run as arms (C-35). Baselines of Fig. toyimg's first two rows, optional and shown as cited figures otherwise: Moser Flow at 32x3 from its authors' code (github.com/noamroze/moser_flow, the paper's mosergithub, l.493) and DDPM 3x32 with 100 denoising steps (l.586; the grid of results/samples/*_h{16,32,64}_L{1,2}_T{100,200}_{linear,squaredcos_cap_v2}.png). Also the printed-sign arm (δf_init = min(0, ·), as in ~/GFNCertified/exp/src/nonacyclic_gfn/loss/egf/kl_weak_fm.py) for T-egf-repro-report. Seeds ≥ 3."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-repro-rl"
-title = "Reinforcement learning on the checkerboard: 16 maps, stable vs divergence-based FM loss"
+title = "Reinforcement learning on the checkerboard of T^2: 16 affine moves, 32x5 MLPs, stable vs divergence-based FM loss with and without the regularizer"
 stream = "repro"
 kind = "repro"
 status = "planned"
 owner = "experimenter"
 priority = 4
 depends = ["T-egf-repro-scaffold"]
-evidence = "R-2. The paper's RL figure (FM loss with a target reward)."
+evidence = "R-2. Reproduces Fig. RL_checkerboard (main.tex:450-482): images/checkerjet_reward_stablenoreg.JPG and checkerjet_reward_stablenoreg_samples.JPG (density and samples, 'EGF 32x5', stable loss, no regularization) and images/Loss2vtauexpectancy_RL_checkere.JPG with its legend Loss2vtauexpectancy_RL_checkere_legend_corrected.jpg (flow size F_out(S) dashed and E τ solid along training). Configuration (main.tex:439-448): T², '16 transformations (8 translations and 2 elements of SL_d(Z) together with their inverse)' (l.440): the count does not add up (C-34); read it from LBrunswic/ErgodicFlow, else run 8 translations + {S, S⁻¹, T, T⁻¹} (12, as the harness does) and 8 translations with inverses + 4 (20) and record both; MLPs 5 hidden layers × 32 for f_out and α; four arms: the stable FM loss L^q of l.194 (q = 2 by the figure's file name 'Loss2') and the divergence loss L^div of l.442, each with and without R = E ∑_t f_out(s_t)² (l.443); reward: the checkerboard on T² (F_term = κ); F_init not stated (uniform); ν_train the trajectory occupation (E_s ∑_{t ≤ τ}, l.442-443); AdamW, tanh, orthogonal init (l.433), LR not stated. Metrics: F_out(S) and E τ along training (the predicted blow-up of the unregularized L^div arm, l.446-448, brunswic2024theory), the sampled density and its TV to the reward; seeds ≥ 3."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-repro-sphere"
-title = "Earth-science datasets on the sphere: 6 rotations by pi/4, 256x5 MLPs; NLL on volcano, earthquake, flood"
+title = "Earth-science datasets on S^2: six frozen pi/4 rotations, 256x5 MLPs, KL-weakFM; test NLL on volcano, earthquake, flood, and the density filter"
 stream = "repro"
 kind = "repro"
 status = "planned"
 owner = "experimenter"
 priority = 4
 depends = ["T-egf-repro-scaffold"]
-evidence = "R-3. The NLL table and the volcano figure. Data: earth_data.zip (MIT) of github.com/noamroze/moser_flow, downloaded on node1, with its 0.7/0.3 split; baselines stay cited."
+evidence = "R-3. Reproduces Table nll (main.tex:608-632, row EGFN: −2.31 volcano, −0.12 earthquake, 0.56 flood), Fig. volcanos (main.tex:590-605: images/volcano_less_points.jpg, volcano_test.jpg), the filter figures (main.tex:896-900: images/filter_cutoff.jpg; main.tex:904-934: images/xtrue.jpg, xpred.jpg, xpred_opt.jpg). Configuration (main.tex:496, 432-435, 885-894): S² ⊂ ℝ³ with the area measure λ; six rotations, of angle π/4 about each of x, y, z, and their inverses (l.496), frozen (an isometry spherical family; they satisfy l.836: stable under inverse, entries √2/2, dense in SO(3)); two tanh MLPs 256 × 5 (f_out, α over the 6 maps; Moser Flow's is 512 × 6); LR 1e-3 with exponential decay to 1e-5 at 3000 epochs of 25 steps (75 000 steps); loss KL-weakFM, Eq. (15) with the corrected δf_init; R not stated for the sphere (an arm); density filter f̂_sat = m − kσ (App. D), k chosen by NLL on a validation split (l.435 says validation, l.894 training: C-36; report both). Data: earth_data.zip (MIT) of github.com/noamroze/moser_flow (Volcano, Earthquake, Flood, from Mathieu and Nickel 2020), downloaded on node1 under data/, with that repository's split (record the sizes and the split used). Metric: test NLL in nats of the normalized f̂_term, filtered and unfiltered, with respect to the Riemannian area measure of S² (total 4π), the convention of the cited baselines (rozen2021moser): the normalization ∫ f̂_term dλ by quadrature, l.423 as a check. Baselines (Mixture vMF, Stereographic, Riemannian, Moser Flow, l.616-625) stay cited from rozen2021moser. Also measure: the parameter counts (two 256 × 5 MLPs ≈ 0.53 M against one 512 × 6 ≈ 1.32 M, for l.713's '30 times smaller', C-34) and, optionally, wall-clock against l.496's 'training time 10 times shorter'. Seeds ≥ 3, mean ± std (the commented table at l.633-647 had standard deviations)."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-repro-ablations"
-title = "Size ablations: networks 2x32 to 9x64 on star, 4 circles, 2 spirals"
+title = "Size ablations of Appendix F: alpha and f_out depths 2x32 to 6x32, and 2x32 to 9x64 on star, 4 circles, two spirals in R^2 with 8 translations"
 stream = "repro"
 kind = "repro"
 status = "planned"
 owner = "experimenter"
 priority = 6
 depends = ["T-egf-repro-torus-il"]
-evidence = "R-4. The appendix ablation figures."
+evidence = "R-4. Reproduces Appendix F: (a) main.tex:942-1005 (~/Dropbox/ErgodicGFN Camera ready/ablation/22.png … 26.png: f_out depth fixed while α's grows from 2 to 6, and 22, 32, 42, 52, 62.png conversely, width 32; the target and space are not stated: read them off the images); (b) main.tex:1116-1214 (star / 'spin wheel': ablation/star_{2..9}x{32,64}.png), main.tex:1217-1314 (4 circles: ablation/4Circles/*.png), main.tex:1320-1417 (two spirals: ablation/2spiral/*.png; its second row has 4x128 and 5x128 panels, l.1381, l.1386, under a 2x64-5x64 caption, C-37). Configuration (captions l.1209-1212, 1309-1312, 1412-1415): state space ℝ² (not T²: C-37) with f_out constrained to 0 outside [−4, 4]²; 8 translations; the MLPs of α and f_out of the same size, 2 × 32 to 9 × 64; LR 1e-3 constant; KL-weakFM (corrected sign). Metrics: samples and density per size; optionally NLL on held-out samples. Note: Lebesgue measure on ℝ² is infinite and translations admit no invariant probability, outside the theory (l.155, l.161)."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
 
 [[target]]
 id = "T-egf-repro-report"
-title = "Reproduction report: paper vs reproduced numbers and figures, and the printed-sign vs corrected-sign comparison"
+title = "Reproduction report: paper vs reproduced numbers and figures, the printed-sign vs corrected-sign comparison, and the measured facts the experiments batch needs"
 stream = "repro"
 kind = "repro"
 status = "planned"
 owner = "experimenter"
 priority = 8
 depends = ["T-egf-repro-torus-il", "T-egf-repro-rl", "T-egf-repro-sphere", "T-egf-repro-ablations"]
-evidence = "R-5. Documents the effect of the sign of delta f_init (correction C-2) on training, beside the reproduction table."
+evidence = "R-5. In the reproduction repository: Table nll against the reproduced NLL (mean ± std); figure by figure, the reproduced panels; the sign of δf_init (C-2): the R-1 configuration trained with the printed min(0, ·) against the corrected max(0, −·) (loss trajectory, δ = ∫ δf_init dλ, E τ, TV); the three forms of the weak-FM term (C-35). For T-egf-correct-experiments, as measured facts: the RL map count (from ErgodicFlow or the arms of R-2) for l.440, the parameter counts for l.713, the filter protocol for l.435 and l.885-894 (C-34, C-36)."
 added = "2026-11-21"
-proposed_by = "egf-programme set-up (DEC-141)"
+proposed_by = "egf-programme set-up (DEC-141); refined by T-egf-plan-wave-1"
