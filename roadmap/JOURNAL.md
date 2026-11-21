@@ -189,3 +189,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 02:48–04:05 (Paris); agents: 3 closers, 3 audits
 - new OQ: 63 (Syracuse § 2 readings), 64 (DEC-25's (b′))
 - next: plan (rule 2: no ready closer outside lean-causal, where /ett-programme runs 3 closers); candidates: T-bz-c2-compact (its dependency done), the texgraph « Theorem~\ref » proof-title gap, T-egf-sampling-corollaries (Pinsker), Troyanov s ≥ 5
+
+## 2026-11-21 04:30 · plan · —
+- why: rule 2 (no ready closer outside lean-causal, where /ett-programme runs three closers)
+- result: 86 -> 94 targets (10 ready, 13 planned, 10 needs-ruling, 5 blocked); promoted T-bz-c2-compact (OQ-61 does not reach Prop. 7), T-bz-c2-hemisphere (needs only IsDeveloping.existsUnique_smul_eq, not the Theorem), T-egf-sampling-corollaries (Pinsker copied from GFNBounds' ILBoundFull, same mathlib pin, no require); added T-syr-upper-bounds (§ 3's algebraic rows), T-texgraph-proof-titles (master: five titled proofs given to the wrong row in yamabe and gx), T-bz-c2-prop2-literal, T-bz-c2-dedupe-majore (master, exclusive), T-bz-c2-cas-affin, T-bz-c2-developpement, T-bz-c2-theoreme-affine (planned), and T-yamabe-lower-bound (needs-ruling: thm:lower-bound is proved only in the companion paper); T-gx-troyanov's s ≥ 5 route analysed ([r] numerics; a fan of triangles), still planned
+- rulings that would unblock the most (planner): BBS-Q1 (71 rows), T-yamabe-scope, OQ-45 (≈5 Benzécri marks, no Lean change), T-syr-cited, then OQ-38 (a), OQ-37, OQ-59
+- gates: roadmap ✓, atlas ✓
+- wall time: 04:10–04:30 (Paris); agents: 1 (planner, alone)
+- next: wave: T-texgraph-proof-titles (master), T-bz-c2-compact, T-egf-sampling-corollaries (2 closers while /ett-programme runs 4 agents)
