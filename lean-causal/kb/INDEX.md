@@ -132,3 +132,5 @@ rediscover. One fact per entry.
 | [0124](entries/0124-eventual-constancy-omega-one.md) | pattern | Eventual constancy on ω₁ and on well orders of uncountable cofinality |
 | [0125](entries/0125-omega-one-and-clubs.md) | pattern | ω₁ and clubs at this Mathlib pin |
 | [0126](entries/0126-ordinal-deprecations-sierpinski.md) | pitfall | Ordinal deprecations, Sierpiński space and T0Space Prop at this pin |
+| [0127](entries/0127-absolute-minimality-by-rational-subdivision.md) | pattern | Absolute minimality without arc-connectedness, by rational subdivision |
+| [0128](entries/0128-causal-openness-by-time-translation.md) | pattern | Causal openness of a polygonal causality without push-up, by time translation |
