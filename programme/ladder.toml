@@ -100,7 +100,9 @@
 # added on 2026-11-21 by T-lad-gh-causal (the node causally_compact, its three edges, time_function ⇒
 # is_causal, the half-plane's counterexamples, the consequences at is_causal and causally_compact),
 # with their signatures: no edge witness takes a separation instance; the consequences' instances
-# are in their `under`.
+# are in their `under`; and so were the two witnesses switched on 2026-11-21 for
+# T-abs-hoist-time-function (Causal.Causality.HasTimeFunction.curvesExtend, .isCausal: each
+# {M} [TopologicalSpace M] {C : Causality M}, C.HasTimeFunction → …, no other premise).
 
 [[property]]
 id = "is_causal"
@@ -178,9 +180,10 @@ lean = "Causal.Causality.Tarentin"
 label = "def:tarentin_spacetime"
 what = "every neighbourhood of every x contains p, q with x ∈ Int J_M(p,q)"
 
-# Defined in Causal/CBG/Pgcd.lean (the hypothesis form of curvesExtend_of_timeFunction and of
-# Sbierski Lemma 3.3), so downstream of CBG modules that import models (T-abs-hoist-cbg-cores).
-# No ETT label: ETT's time function (defi:fonction_temps) is Causal.Causality.IsTimeFunction, a
+# Defined in Causal/CurvesExtend.lean (ETT layer: no model imported), beside the theorem whose
+# hypothesis it is (curvesExtend_of_timeFunction; also Sbierski Lemma 3.3's), moved there verbatim,
+# same full name, from the model-reaching Causal/CBG/Pgcd.lean by T-abs-hoist-time-function
+# (2026-11-21); so emit-lean gives it a Lean form in Causal.Ladder.Test. No ETT label: ETT's time function (defi:fonction_temps) is Causal.Causality.IsTimeFunction, a
 # morphism to the timelike line, open under DEC-10, and not this node. Not stronger: it is
 # non-decreasing along ≤, not strictly increasing, and does not make the causality causal (the
 # doubled line has one and is not causal, Causal.exists_isTimeFunction_not_isCausal), while this node
@@ -452,38 +455,34 @@ to = "locally_causally_open_future"
 witness = "Causal.Causality.LocallyCausallyOpen.future"
 status = "checked"
 
-# The statement is model-free (Zorn on time graphs), but the witness lives in Causal/CurvesExtend.lean,
-# which imports Causal.Minkowski, so emit-lean skips this edge (layer rule) until it is hoisted
-# (T-abs-hoist-model-free / T-abs-hoist-cbg-cores). The witness takes the two components of
-# HasTimeFunction's existential (Continuous T; x ≤ y, x ≠ y ⇒ T x < T y) and nothing else: no
-# separation, no countability, no causality. Its hypotheses are unpacked rather than the predicate:
-# a wrapper Causality.HasTimeFunction.curvesExtend is proposed for emit-lean.
+# Model-free (Zorn on time graphs). The witness (Causal/CurvesExtend.lean, ETT layer since
+# T-abs-hoist-time-function moved its static and Minkowski section to Causal.Model.CurvesExtendModels)
+# takes h : C.HasTimeFunction and nothing else: no separation, no countability, no causality (read
+# 2026-11-21: in its section only {M} [TopologicalSpace M] {C : Causality M}). It is
+# Causal.Causality.curvesExtend_of_timeFunction (the existential's two components unpacked) read
+# through the predicate, so its premise is the node itself and the emitted rule fires on a
+# hypothesis `C.HasTimeFunction`.
 [[implies]]
 from = ["time_function"]
 to = "curves_extend"
-witness = "Causal.Causality.curvesExtend_of_timeFunction"
+witness = "Causal.Causality.HasTimeFunction.curvesExtend"
 status = "checked"
 
-# T-lad-time-function-causal (2026-11-21), replacing the [[open]] entry for this pair. The witness
-# (Causal/CausalIsoInvariance.lean, ETT layer) takes HasTimeFunction's body verbatim,
-# ∃ T : M → ℝ, Continuous T ∧ ∀ x y, x ≤_M y → x ≠ y → T x < T y, and nothing else: no separation,
-# no countability (`#check`ed 2026-11-21; it also accepts h : C.HasTimeFunction, by unfolding).
-# x ≤ y ≤ x with x ≠ y would give T x < T y < T x. Continuity and ℝ are not used
-# (Causal.Causality.isCausal_of_timeFunction, any preorder). ETT's time function
-# (defi:fonction_temps, Causal.Causality.IsTimeFunction) does not give this: the doubled line has
-# one and is not causal (Causal.exists_isTimeFunction_not_isCausal).
-# emit-lean: the witness's module is ETT-layer, so emitted() makes this edge a CausalLadder rule
-# (Rules.lean then imports Causal.CausalIsoInvariance). The rule is inert (both cases checked by a
-# probe, 2026-11-21): its premise is the unfolded existential, which a hypothesis `C.HasTimeFunction`
-# does not match, and which aesop's builtin norm rule destructProducts splits before a forward rule
-# sees it; and
-# untested, time_function having no Lean form for Causal.Ladder.Test (HasTimeFunction lives in the
-# model-reaching Causal.CBG.Pgcd). It becomes live with T-abs-hoist-time-function (the wrapper
-# Causality.HasTimeFunction.isCausal in the ETT layer), to which the witness should then switch.
+# T-lad-time-function-causal (2026-11-21), replacing the [[open]] entry for this pair; witness
+# switched by T-abs-hoist-time-function (2026-11-21) to the wrapper in Causal/CurvesExtend.lean (ETT
+# layer), which takes h : C.HasTimeFunction and nothing else: no separation, no countability (read
+# 2026-11-21: in its section only {M} [TopologicalSpace M] {C : Causality M}). x ≤ y ≤ x with x ≠ y
+# would give T x < T y < T x; continuity is not used, nor ℝ
+# (Causal.Causality.isCausal_of_timeFunction, any preorder). The previous witness,
+# Causal.Causality.isCausal_of_exists_timeFunction (Causal/CausalIsoInvariance.lean), takes the
+# predicate's body unfolded, which made its rule inert: a hypothesis `C.HasTimeFunction` does not
+# match it, and aesop's builtin norm rule destructProducts splits the existential before a forward
+# rule sees it. ETT's time function (defi:fonction_temps, Causal.Causality.IsTimeFunction) does not
+# give this: the doubled line has one and is not causal (Causal.exists_isTimeFunction_not_isCausal).
 [[implies]]
 from = ["time_function"]
 to = "is_causal"
-witness = "Causal.Causality.isCausal_of_exists_timeFunction"
+witness = "Causal.Causality.HasTimeFunction.isCausal"
 status = "checked"
 
 # Levin's theorem (Causal/LevinUtility.lean), no measure. The witness's conclusion is HasTimeFunction's
@@ -615,7 +614,8 @@ status = "checked"
 # The half-plane again, five more of its properties, each the generic static lemma at X = ]0, ∞[
 # (`#check`ed at Causal.staticCausality (Ioi 0), 2026-11-21): Causal.staticCausality.pushUp
 # (Causal/Static.lean), .chronalNeighbours, .causallyOpen, .stronglyCausalOpen, .hasTimeFunction
-# (Causal/Model/EAlphaCauchy.lean), the last also giving curves_extend (Causal.staticCausality.curvesExtend).
+# (Causal/Model/EAlphaCauchy.lean), the last also giving curves_extend (Causal.staticCausality.curvesExtend,
+# Causal/Model/CurvesExtendModels.lean since T-abs-hoist-time-function).
 # As for the gated line, the witness is the other half, ¬ CausallyCompact (the last conjunct of
 # Causal.halfPlane_hypotheses); no one Lean statement conjoins the two halves. Through the closure:
 # locally_push_up; causally_open_future and the two local forms; strongly_causal; curves_extend
