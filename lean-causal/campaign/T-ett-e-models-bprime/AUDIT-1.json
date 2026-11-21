@@ -1,0 +1,163 @@
+{
+ "target": "T-ett-e-models-bprime",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "cor:massA_causalite",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: correct. hiso_massAModel is literally the hiso of massA_singular_dec25_models (MassADEC25:396) and of existsUnique_causality_singularGX_dec25 at Xα := MassAModel, DY := massAModelCausality over the global family instance massAModelSingularGX. A probe under `import Causal` + `import CausalScaffold.EModelsBPrime` elaborated `(hiso_massAModel : ∀ o o' ψ, IsAEChart (Flat.isom 2) (Minkowski 2) ψ → ChartIso (massAModelCausality o) (massAModelCausality o') ψ)`, then existsUnique_causality_singularGX_dec25 (minkowski 2) massAModelCausality … hreg_massAModel hiso_massAModel hcov, and `massA_singular_all hcov = massA_singular_dec25_models hreg_massAModel hiso_massAModel hcov := rfl`. The case split is by (o, o'): (none, _) hiso_row_none, (some, none) hiso_column_none, (some, some) BPrimeEAlpha.hiso_family, whose IsAEChart under EAlphaGX.singularGXFamily is defeq to the family's (massAModelSingularGX_some is rfl). massA_singular_all, massA_causalite_models, existsUnique_isAtlasCausalityDEC25 carry only [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] and hcov, which is DEC-25's E≥0-manifold. There is no hidden hypothesis: the section variables add none, and the local-instance sections change no hypothesis. The conclusions are l.1396 in DEC-25's sense, with « natural » = IsAtlasCausalityDEC25 and uniqueness among absolutely minimal causalities with an isomorphic chart at each point (OQ-18). existsUnique_isAtlasCausalityDEC25 also gives ∃! among natural causalities. The per-manifold theorems are universe-polymorphic (probed at Type (u+1)). forall_exists_massA_models is for N : Type only, inherited from forall_exists_massA_models_iff; it is the 'at once' form, and massA_causalite_models covers every universe. Sub-families: isAtlasCausalityDEC25_iff_e0 and _iff_ealpha are true iffs. Their right sides are exactly the properties that BPrimeE0.existsUnique_causality_e0 and BPrimeEAlpha.existsUnique_causality_ealpha give. Both proofs go through the uniqueness clause of massA_singular_all. Witnesses: massA_dec25_models_e0_sing (E₀ with E0GX.singularGX, Sing nonempty, identity X_A-chart, E0.causality natural over the whole family, cac, push-up, unique); massA_dec25_models_epi (E_π with EAlphaGX.singularGX π, defeq to the family's value, Sing = line nonempty, massive π natural over the whole family, uniqueness included); isAtlasCausalityDEC25_model and massA_singular_model at every model."
+  },
+  {
+   "label": "cor:massA_cac",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: correct. massA_cac_models: (∃ C natural) ∧ (∀ C natural, C.CausallyArcConnected), under hcov only, from massA_singular_all and MassADEC25.massA_dec25_models. This is l.1408 in DEC-25's reading, with the existence of the natural causality now discharged. Witnesses with a singular point: massA_dec25_models_e0_sing and massA_dec25_models_epi."
+  },
+  {
+   "label": "cor:pushup_sing",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: correct. pushup_sing_models: (∃ C natural) ∧ (∀ C natural, C.PushUp), under hcov only. This is l.1419–1420 in DEC-25's reading. Same witnesses as cor:massA_cac."
+  },
+  {
+   "label": "defi:causal_Ealpha",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: correct. The row also carries the first sentence, the model sheaves, by earlier anchors, and κ = 0 is read as in OQ-34/OQ-35. causal_Ealpha_manifolds is l.1339–1340 at every E≥0-manifold: a natural causality (every chart of the maximal a.e. atlas and every X_A-chart a ChartIso), unique among absolutely minimal causalities with an isomorphic chart at each point (OQ-18), and I^±_U(x) open for every open U (U = ⊤ included), from the Causality fields isOpen_lt_right/left, which are the Lean form of the standing assumption at l.243. causal_Ealpha_e0_Iminus_eq_empty witnesses « possibly empty »: E0.causality is natural over the family, and I⁻_U(p) = ∅ for some p ∈ Sing(E₀) and every U. causal_Ealpha_lt_singLine transports the ordering half of singLine_locallyChronal through an X_A-chart into E_κ, κ > 0. The conclusion is not vacuous: C.lt W a b forces a, b ∈ W, and ε > 0. Quantified over every x on the line and every W ∋ x, it also gives the CurveOn (chronal-curve) form of s ↦ e.symm (s, apex) locally, so « locally chronal » is fairly confirmed. eq_massAModelCausality_of_chartIso: the strong claim checked. Its only hypothesis is that every X_A-chart out of the model is a ChartIso. There is no minimality, and no condition on the maximal-atlas charts, so the uniqueness class is wider than the paper's « inducing that of E_α in every chart » at M = the model. The proof uses only the identity chart (isAEChart_refl) and eq_of_chartIso_refl (GXStructure:643), which is sound because ChartIso at refl constrains every open set. The claim is correct, but only at the models themselves; the REPORT's « (a manifold covered by one chart) » overstates this (see findings). hiso_massAModel and chartIso_models_some_some are as for cor:massA_causalite."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/EModelsBPrime.lean` (from lean-causal): exit 0, no output, 3.3 s. lake build was not rerun (shared package, per dispatch). The closer's CausalScaffold.EModelsBPrime olean (18:34) is newer than the source (18:26, sha256 a36ede8a…). grep: `sorry` occurs only in the docstring line « no `sorry` in this file »; there is no native_decide, axiom or admit. A /tmp copy (`import Causal` followed by the whole file, then `#print axioms` for each of the 20 theorems) compiled with -DwarningAsError=true, exit 0. Every one of the 20 depends on [propext, Classical.choice, Quot.sound]: chartIso_models_some_some, hiso_massAModel, hiso_massAModel_sing, hiso_massAModel_sing_nonvacuous, massA_singular_all, massA_causalite_models, existsUnique_isAtlasCausalityDEC25, massA_cac_models, pushup_sing_models, causal_Ealpha_manifolds, causal_Ealpha_lt_singLine, isAtlasCausalityDEC25_iff_e0, isAtlasCausalityDEC25_iff_ealpha, forall_exists_massA_models, isAtlasCausalityDEC25_model, massA_singular_model, eq_massAModelCausality_of_chartIso, massA_dec25_models_epi, massA_dec25_models_e0_sing, causal_Ealpha_e0_Iminus_eq_empty. Since the copy redeclares every name under `import Causal`, there is no name clash with the strict library. A second probe importing both Causal and CausalScaffold.EModelsBPrime also compiled. No other file in Causal/ or scaffold/ uses the namespace EModelsBPrime, and no scaffold file imports this module. Both probes and the /tmp directory were deleted afterwards."
+ },
+ "singular_instance": {
+  "covered_in_full": true,
+  "details": "T-ett-singular-instance's scope is: « massA_singular_dec25_models over the concrete models E^{1,2}, E₀ and E_κ (κ > 0), with hreg and (b′) discharged, witnessed with a singular point (E₀ and an E_κ through their identity X_A-charts) », plus the model family over X = E^{1,2}, G = Isom(E^{1,2}) with (a), (b) and push-up (already in MassADEC25/MassAModelsInstance: MassAModel, massAModel_facts, minkowski_model_facts, massAModelSingularGX). The file covers it: massA_singular_all is massA_singular_dec25_models hreg_massAModel hiso_massAModel by rfl. E^{1,2} = E_{2π} is in the family, the witnesses are massA_dec25_models_e0_sing and massA_dec25_models_epi (each with a singular point and its identity X_A-chart) and massA_singular_model at every model, and the corollaries are stated at every E≥0-manifold. Its question field (lean-gx vs lean-causal) was answered by DEC-134. SingularFlatAxioms is T-ett-singular-sfa's, not its. So the master can set T-ett-singular-instance done on this commit, with T-ett-e-models-bprime. T-ett-singular-sfa's « T-ett-singular-instance's three corollaries » are EModelsBPrime.massA_singular_all and the per-row theorems; a pointer in its evidence is optional."
+ },
+ "findings_review": [
+  {
+   "finding": "Finding 1 (cor:massA_causalite #1): the proof (l.1399–1406) checks neither hreg ((b) second half, l.620) nor (b′) (step (B), l.631–632, OQ-64). Both hold at the E≥0 models, so this is a missing citation; prop:isom (BTZ_1.tex:378–383) and its first step (l.446) could be cited.",
+   "true": true,
+   "kind": "paper, proof-level; citation",
+   "notes": "Line numbers checked. ETT l.1396–1406 is the corollary and its proof; l.620 is (b); l.631–632 is the « isomorphisms of the model spaces » of step (B); BTZ_1.tex:378–383 is prop:isom (α, β ∈ ℝ₊, α ≠ 2π, U open connected containing a singular point, φ an a.e. E-morphism and local homeomorphism ⇒ α = β, φ a rotation-translation, l.373); BTZ_1.tex:446 is the first step of its proof (elliptic vs parabolic holonomy ⇒ β > 0 iff α > 0). Both model facts are proved in Lean (hreg_massAModel, hiso_massAModel). One caveat in the cited source, already recorded in defi:causal_Ealpha's row (« At α = 2πn, n ≥ 2, the linear holonomy is trivial »): at α ∈ 2πℤ, α ≥ 4π, l.446's « elliptic » should read « elliptic or trivial ». The conclusion β > 0 survives, since a trivial holonomy is not parabolic. E₀ → E₀ via prop:isom rests on its « mutatis mutandis » (l.447), whose l.459 step does not carry over verbatim (already a cor:massA_causalite paper_finding). Lean proves the cross-type case by causality, not holonomy (MassAModelsInstance.notMem_axis_of_isAEChart)."
+  },
+  {
+   "finding": "cor:massA_cac: holds at every E≥0-manifold, no hypothesis left; the dependence on cor:massA_causalite's existence is discharged.",
+   "true": true,
+   "kind": "confirmation",
+   "notes": "massA_cac_models, with witnesses at E₀ and E_π. l.1408–1417 is correct."
+  },
+  {
+   "finding": "cor:pushup_sing: holds at every E≥0-manifold, no hypothesis left.",
+   "true": true,
+   "kind": "confirmation",
+   "notes": "pushup_sing_models. l.1419–1428 is correct."
+  },
+  {
+   "finding": "Finding 3 (defi:causal_Ealpha #1): the definition asserts a theorem at l.1339–1340, 57 lines before cor:massA_causalite (l.1396), with no reference to prop:GX_sing_espace_temps_topo, and it rests on hreg and (b′), which it does not mention.",
+   "true": true,
+   "kind": "paper, statement-level; citation (a claim inside a definition, missing forward reference)",
+   "notes": "1396 − 1339 = 57 is right, measured to the corollary's statement. The proof starts at l.1399, 60 lines on. Two wording fixes. (1) « stated 57 lines earlier » reads as if the corollary came first; it is the definition that comes 57 lines before the corollary. (2) cor:massA_causalite states existence only. The definition's « unique » is prop:GX_sing_espace_temps_topo's (l.622), reached through « natural », and its openness clause is the standing assumption of l.243. So the sentence is cor:massA_causalite together with the uniqueness of prop:GX_sing_espace_temps_topo, not the corollary alone. This is not an error: the claim is true in the readings and is proved here."
+  },
+  {
+   "finding": "defi:causal_Ealpha #2: at a model, « unique » holds outright, absolutely minimal or not, because the identity is an X_A-chart. OQ-18's counterexample is on ℝ ⊔ ℝ, not on an E≥0-manifold.",
+   "true": true,
+   "kind": "confirmation; statement-level reading (OQ-18 evidence)",
+   "notes": "eq_massAModelCausality_of_chartIso checked; see the labels entry. OQ-18's row does say « fails on ℝ ⊔ ℝ ». The REPORT's parenthesis « At a model (a manifold covered by one chart) » overstates: the theorem is for M = MassAModel o only. A manifold covered by one X_A-chart, such as an open subset of a model, is not stated, although the same eq_of_agreeOn argument applies."
+  },
+  {
+   "finding": "Finding 4 (defi:causal_Ealpha #3): « I^±(x) is always an open subset » needs no argument, because openness of ≪ is a standing assumption (defi:causalite, l.243). « Possibly empty » happens at BTZ points.",
+   "true": true,
+   "kind": "confirmation (statement-level reading)",
+   "notes": "l.243 reads « Openness of ≪ is a standing assumption of this work », inside defi:causalite (l.237–252). In Lean this is the Causality fields isOpen_lt_right/isOpen_lt_left (Causality.lean:77–84), so a causality, once its existence is proved, is open. Here that existence is massA_singular_all. « Possibly empty » is causal_Ealpha_e0_Iminus_eq_empty (E0.Iminus_axis), in line with defi:causal_E0, l.1347."
+  },
+  {
+   "finding": "defi:causal_Ealpha #4: « For α > 0 the singular line is timelike, hence locally chronal » (l.1341), confirmed at every E≥0-manifold through X_A-charts into E_κ, κ > 0.",
+   "true": true,
+   "kind": "confirmation",
+   "notes": "causal_Ealpha_lt_singLine. « Timelike » itself is anchored at the models (singLine_chronalCurveOn, already in the row)."
+  },
+  {
+   "finding": "Finding 6 (cor:massA_causalite #2): natural over E≥0 ⇔ natural over {E₀} (resp. over {E_κ}_{κ>0}). « So the causality generated by an X_A-atlas does not depend on whether A is read as the models the manifold uses or as all of [0, ∞). »",
+   "true": true,
+   "kind": "confirmation (bears on def:singular_spacetime, l.1501–1504); overstated as written",
+   "notes": "The two iffs are proved (isAtlasCausalityDEC25_iff_e0, _iff_ealpha) for A = {0} and A = (0, ∞). The general sentence, for an arbitrary A ⊂ ℝ₊ such as {0, π}, is true by the same ten-line argument: the family's natural causality exists by massA_singular_all, a causality natural over A is absolutely minimal with an isomorphic chart at each point, so the uniqueness clause applies. But it is not stated in Lean. Before it goes to the author, restrict it to the two sub-families, or say « by the same argument, formalized for A = {0} and A = (0, ∞) ». Cite def:singular_spacetime (l.1501–1504, where A ⊂ ℝ₊ enters) rather than l.1396."
+  }
+ ],
+ "question": {
+  "is_oq18": true,
+  "new_oq_needed": false,
+  "details": "OQ-18 (registers/DECISIONS.md:175, OPEN) asks whether the sheaf clause of defi:causalite is meant as gluing (so absolute minimality), or whether « unique » should read « unique absolutely minimal ». That is the question for every « unique causality » claim in the paper. « A unique causal structure inducing that of E_α in every chart » (l.1339) is prop:GX_sing_espace_temps_topo's uniqueness (l.622) at the E≥0 models, and OQ-18 already blocks that label. A ruling on OQ-18 settles l.1339 and cor:massA_causalite's « natural » with no further question. No DEC applies, OQ-18 being open. OQ-87 is not needed. « Extending OQ-18 » is not an available action: the register header says rows are never edited once committed, and tools/registers.py check fails if one is. It is not needed either, because both rows' blocked_on already name OQ-18 (defi:causal_Ealpha « the readings of … « unique » », cor:massA_causalite « OQ-18 (« natural ») »). Keep OQ-18 in the new blocked_on texts below with the line numbers (l.1339, l.1396)."
+ },
+ "scope": {
+  "ok": true,
+  "details": "git status --short shows: M roadmap/roadmap.toml (the master's three ready → active flips, for this target, T-ett-sfa-local and T-ett-measures-manifolds; present before this audit); the untracked campaign directories T-ett-e-models-bprime and T-ett-sfa-local; and the untracked scaffold files EModelsBPrime.lean, SFALocal.lean and MeasuresManifolds.lean. The last two belong to other agents. The closer touched only its file and its campaign directory, and scaffold/CausalScaffold.lean is untouched (the master adds the import). The closer's `lake build CausalScaffold.EModelsBPrime` is the protocol's own step (docs/CAMPAIGN.md:38)."
+ },
+ "docstring_contract": {
+  "ok": true,
+  "details": "kb/0006 is followed. The module docstring has a title; the four labels cited unmarked with correct ETT.tex lines (1396, 1408, 1419, 1335), all within the first 4000 characters (offsets 308–418); verbatim quotes of l.1396, l.1408, l.1420 and l.1339–1341; a hypothesis checklist; SCOPE; and the provenance line. tools/ledger.py's mark regex `\\*\\*`label`\\*\\*` finds no match in the file: « **unmarked** » carries no backticked label, and « **`defi:causal_Ealpha`'s … » is not followed by `**`. The checklist uses « ⚠ reading » and « ✓ discharged », as the graduated MassADEC25 and MassAModelsInstance do. Checklist and SCOPE are true: (b′) and hreg are discharged and no hypothesis is added; the not-here items (O↑(1,2) ⋉ ℝ³, prop:isom in global form, SingularFlatAxioms) are indeed not here. One line nit: « Isom(E^{1,2}) (l.1331, 1401) ». Isom(E) appears at l.1333 (and at l.1401, l.1404), not at l.1331, which OQ-82 also cites; see findings."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "campaign/T-ett-e-models-bprime/REPORT.json: cor:massA_causalite findings[1]",
+   "what": "« So the causality generated by an X_A-atlas does not depend on whether A is read as the models the manifold uses or as all of [0, oo) » is stated as a consequence of the two Lean iffs. Those iffs cover A = {0} and A = (0, ∞) only, so a general A ⊂ ℝ₊ is not formalized. The claim is true by the same argument, so this is not a false finding.",
+   "fix": "At curation write: « ETT.tex:1396 « natural », and def:singular_spacetime (l.1501–1504): at an E₀-manifold, resp. an E_{>0}-manifold, a causality is natural over E_{≥0} iff it is natural over {E₀} (isAtlasCausalityDEC25_iff_e0), resp. over {E_κ}_{κ>0} (isAtlasCausalityDEC25_iff_ealpha). So for A = {0} and A = (0, ∞) the causality generated by the X_A-atlas is the same as for A = [0, ∞); for a general A ⊂ ℝ₊ the same argument applies (the uniqueness clause of massA_singular_all), not formalized. »"
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-ett-e-models-bprime/REPORT.json: defi:causal_Ealpha findings[0]",
+   "what": "« … is the content of cor:massA_causalite (l.1396), stated 57 lines earlier … ». The direction is ambiguous: it is the definition (l.1339) that comes 57 lines before the corollary. The corollary also states existence only; the « unique » of l.1339 is prop:GX_sing_espace_temps_topo's (l.622).",
+   "fix": "At curation write: « ETT.tex:1339–1340: the definition asserts a theorem. « On any E≥0-manifold M there is then a unique causal structure inducing that of E_α in every chart » is cor:massA_causalite (l.1396, existence) with the uniqueness of prop:GX_sing_espace_temps_topo (l.622), and the definition states it 57 lines before the corollary, without a reference. It rests on hreg and (b′) at the models, which the definition does not mention. In Lean it holds at every E≥0-manifold (causal_Ealpha_manifolds, existsUnique_isAtlasCausalityDEC25), « unique » read as in OQ-18. The paper may want a forward reference to cor:massA_causalite at l.1339. »"
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-ett-e-models-bprime/REPORT.json: defi:causal_Ealpha hypotheses[6] and findings[1]",
+   "what": "« At a model (a manifold covered by one chart) unique outright » equates the two. eq_massAModelCausality_of_chartIso is stated for M = MassAModel o only, not for every manifold covered by one X_A-chart.",
+   "fix": "Write « at a model (its identity is an X_A-chart covering it) » in the curated note and finding."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-ett-e-models-bprime/REPORT.json: every label's first hypotheses note (« The theorems are for M in any universe »)",
+   "what": "forall_exists_massA_models quantifies over N : Type only, inherited from forall_exists_massA_models_iff. The per-manifold theorems are universe-polymorphic (probed at Type (u+1)).",
+   "fix": "In the curated hypotheses note write « the per-manifold theorems are for M in any universe; the at-once form forall_exists_massA_models for N : Type »."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/EModelsBPrime.lean:57; REPORT.json hypotheses « Isom(E^{1,2}) acting by morphisms (l.1331, 1400-1401) »",
+   "what": "Isom(E^{1,2}) is at ETT.tex:1333 (« an (isom(E), E)-manifold ») and l.1401, l.1404. l.1331 has no Isom; the coordinates of E₀ are there. The number is inherited from OQ-82's row, which cannot be edited.",
+   "fix": "At graduation change « (l.1331, 1401) » to « (l.1333, 1401) » in the checklist row, and likewise in the curated hypotheses note."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-ett-e-models-bprime/REPORT.json: cor:massA_causalite findings[0]",
+   "what": "« its first step (BTZ_1.tex:446) gives E_0 <-> E_kappa » is right in its conclusion, but l.446's « elliptic » for α > 0 is « elliptic or trivial » at α ∈ 2πℤ, α ≥ 4π, a point the defi:causal_Ealpha row already records. Not a false finding.",
+   "fix": "Optionally add, after « gives E_0 <-> E_kappa »: « (at κ ∈ 2πℤ the holonomy is trivial rather than elliptic; the step's conclusion holds, a trivial holonomy not being parabolic) »."
+  }
+ ],
+ "graduation_fixes": [
+  "Move scaffold/CausalScaffold/EModelsBPrime.lean to Causal/Remarks/EModelsBPrime.lean. Its two imports are strict and no scaffold file imports it, so no import is rewritten. Add `import Causal.Remarks.EModelsBPrime` to Causal.lean, delete .lake/build/lib/lean/CausalScaffold/EModelsBPrime.*, and rerun `lake env lean -DwarningAsError=true` at the new path (kb/0015).",
+  "Docstring line 57: « (l.1331, 1401) » → « (l.1333, 1401) ».",
+  "Roadmap: set T-ett-e-models-bprime done and T-ett-singular-instance done in the same commit, citing this audit for the latter's scope. Optionally, in T-ett-singular-sfa's evidence, point « T-ett-singular-instance's three corollaries » to EModelsBPrime.massA_singular_all and massA_causalite_models / massA_cac_models / pushup_sing_models.",
+  "All four rows: add \"Causal/Remarks/EModelsBPrime.lean\" to extra_lean_files, keep lean_proved_override = \"partial\" and bucket D, and append the REPORT's decls for each row; all are textual theorems, prefixed Causal.EModelsBPrime.",
+  "New blocked_on, cor:massA_causalite: « OQ-18 (« natural », l.1396: unique among absolutely minimal causalities with an isomorphic chart at each point), OQ-82 (the group, Flat.isom 2 = SO₀(1,2) ⋉ ℝ³), OQ-34 and OQ-35 (the reading of E₀), and OQ-64 as a reading only (IsAEChart, ChartIso): (b′) is proved at every pair of models (EModelsBPrime.hiso_massAModel). No Lean hypothesis is left: existence, uniqueness, cac and push-up hold at every E≥0-manifold in DEC-25's reading (EModelsBPrime.massA_singular_all). »",
+  "New blocked_on, cor:massA_cac: « OQ-18 (« natural »), OQ-82 (the group), OQ-34 and OQ-35 (the reading of E₀), OQ-64 (as a reading only). No Lean hypothesis is left (EModelsBPrime.massA_cac_models). »",
+  "New blocked_on, cor:pushup_sing: « OQ-18 (« natural »), OQ-82 (the group), OQ-34 and OQ-35 (the reading of E₀), OQ-64 (as a reading only). No Lean hypothesis is left (EModelsBPrime.pushup_sing_models). »",
+  "New blocked_on, defi:causal_Ealpha: « OQ-34, OQ-35 (the reading of E₀); OQ-82 (the group); OQ-18 (« unique », l.1339: among absolutely minimal causalities, outright at the models); OQ-64 as a reading only ((b′) proved at every pair of models). No Lean hypothesis is left for the (G,X) sentence: it holds at every E≥0-manifold (EModelsBPrime.causal_Ealpha_manifolds). »",
+  "New blocked_on, rem:mesure_unilaterale: « T-ett-singular-rows, after T-ett-singular-sfa (SingularFlatAxioms for every E≥0-manifold) ». Both are planned; T-ett-singular-instance, its done dependency, is dropped from the text.",
+  "Note to append, cor:massA_causalite: « T-ett-e-models-bprime (atlas-team, 2026-11-21), audit AUDIT-1 minor (finding scope and wording, a line number; fixed at graduation), Causal/Remarks/EModelsBPrime.lean, which closes T-ett-singular-instance. (b′) between every two models of E≥0 (hiso_massAModel, by cases: hiso_row_none, hiso_column_none, BPrimeEAlpha.hiso_family over the family, chartIso_models_some_some). With hreg_massAModel it gives the three corollaries at every E≥0-manifold, no model hypothesis left: massA_singular_all (massA_singular_dec25_models hreg_massAModel hiso_massAModel), and per row massA_causalite_models and existsUnique_isAtlasCausalityDEC25. Existence at once: forall_exists_massA_models (N : Type). Sub-families: isAtlasCausalityDEC25_iff_e0, _iff_ealpha. Witnesses with a singular point: massA_dec25_models_e0_sing (E₀), massA_dec25_models_epi (E_π, natural over the whole family, uniqueness included), and massA_singular_model at every model. Hypotheses: E≥0-manifold → read (DEC-25; E₀ as in OQ-34/OQ-35); Isom(E^{1,2}) → read (OQ-82); « natural » → read (OQ-18); models cac, push-up, hreg and (b′) → carried (discharged); Baire → weakened (not used, OQ-10); second countable Hausdorff → weakened (not used). »",
+  "Note to append, cor:massA_cac / cor:pushup_sing: « T-ett-e-models-bprime (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/EModelsBPrime.lean: at every E≥0-manifold (DEC-25) the natural causality exists and every natural causality is causally arc-connected (massA_cac_models) [resp. has push-up (pushup_sing_models)], no hypothesis left; assembled with uniqueness in massA_singular_all; witnesses with a singular point: massA_dec25_models_e0_sing, massA_dec25_models_epi. »",
+  "Note to append, defi:causal_Ealpha: « T-ett-e-models-bprime (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Remarks/EModelsBPrime.lean: the (G,X) sentence (l.1339–1340) at every E≥0-manifold, E₀ included: causal_Ealpha_manifolds (the natural causality, unique among absolutely minimal causalities with an isomorphic chart at each point (OQ-18), I^±_U(x) open). At a model, « unique » holds outright, minimal or not (eq_massAModelCausality_of_chartIso: the identity is an X_A-chart). « Possibly empty » is witnessed at E₀ (causal_Ealpha_e0_Iminus_eq_empty); « locally chronal » through every X_A-chart into E_κ, κ > 0 (causal_Ealpha_lt_singLine). (b′) at every pair of models: hiso_massAModel. »",
+  "Stale text to refresh, cor:massA_cac and cor:pushup_sing notes: « At a general E≥0-manifold it holds for every natural causality, whose existence is now an assembly: (b′) between massive models at the line is proved (T-ett-bprime-ealpha, BPrimeEAlpha.hiso_family). » → « At a general E≥0-manifold the natural causality exists and every natural causality is causally arc-connected [cor:pushup_sing: has push-up], no hypothesis left (EModelsBPrime.massA_cac_models [pushup_sing_models]; T-ett-e-models-bprime). »",
+  "Stale text to refresh, cor:massA_cac paper_findings[1] and cor:pushup_sing paper_findings[1]: « …and the existence of that causality follows from (b') between massive models at the line, now proved (BPrimeEAlpha.hiso_family): an assembly (T-ett-e-models-bprime[; see cor:massA_causalite]). » → « …and that causality exists at every E_{>=0}-manifold ((b') at every pair of models, EModelsBPrime.hiso_massAModel; EModelsBPrime.massA_cac_models [pushup_sing_models]). »",
+  "Stale text to refresh, cor:massA_causalite paper_findings[last]: « …it is proved in Lean in local form (T-ett-bprime-ealpha, BPrimeEAlpha.hiso_family), so the existence half at every E≥0-manifold is an assembly (T-ett-e-models-bprime). » → « …it is proved in Lean in local form (BPrimeEAlpha.hiso_family), and the existence half holds at every E≥0-manifold (EModelsBPrime.massA_causalite_models, forall_exists_massA_models). »",
+  "Stale text to refresh, cor:massA_causalite notes (T-ett-massa-models-instance entry): « (b′) between massive models at the line → strengthened at a general manifold in this module, since proved (T-ett-bprime-ealpha) and awaiting its assembly (T-ett-e-models-bprime) » → « … strengthened in that module only; discharged by EModelsBPrime.hiso_massAModel (T-ett-e-models-bprime) ». In the T-ett-massa-dec25 entry, « Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82. » may become « Unmarked: OQ-18, OQ-64 (as a reading), OQ-82, OQ-34/OQ-35 (T-ett-singular-instance closed with T-ett-e-models-bprime). » This is history, so it is optional.",
+  "Stale text to refresh, defi:causal_Ealpha notes: « κ = 0 is not covered here; the (G,X) sentence is covered for E_{>0}-manifolds (T-ett-bprime-ealpha). » → « κ = 0 is E0.causality (defi:causal_E0, OQ-34/OQ-35); the (G,X) sentence is covered at every E≥0-manifold (EModelsBPrime.causal_Ealpha_manifolds), and at E_{>0}-manifolds alone by existsUnique_causality_ealpha. »",
+  "Stale text to refresh, defi:causal_Ealpha paper_findings (the hreg finding): « For kappa > 0 the proof can cite this fact; kappa = 0 remains open. » → « …; at kappa = 0 it holds too (E0GX.chartIso_of_mem_aeAtlas; hreg_massAModel). » This has been stale since T-ett-e0-gx-structure. In the « ETT.tex:1339-1340 … holds for E_{>0}-manifolds » finding, add « and at every E≥0-manifold (EModelsBPrime.causal_Ealpha_manifolds) ».",
+  "paper_findings to append: the REPORT's eight findings, with the wording of the six minor findings above (Finding 6 restricted; Finding 3 reworded; « at a model »; the optional l.446 caveat). Finding 1 consolidates the per-pair prop:isom citations already in the cor:massA_causalite row. If the curator prefers no duplicate, append only its last two sentences."
+ ]
+}

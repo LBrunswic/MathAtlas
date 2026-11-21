@@ -164,3 +164,5 @@ rediscover. One fact per entry.
 | [0156](entries/0156-bprime-at-ealpha.md) | pattern | (b′) at E_κ, κ > 0: Causal.BPrimeEAlpha.chartIso_of_isAEChart |
 | [0157](entries/0157-slit-box-timelike-axis.md) | pattern | The slit box at a timelike axis: work in parameter space, recover the angle mod κ′ |
 | [0158](entries/0158-static-shift-chartiso.md) | pattern | A time translation times a space isometry is a ChartIso of static spacetimes |
+| [0159](entries/0159-e-models-bprime-assembly.md) | pattern | (b′) over the whole E≥0 family, and the three corollaries at every E≥0-manifold: Causal.EModelsBPrime |
+| [0160](entries/0160-subfamily-natural-causality.md) | pattern | A sub-family's natural causality is the family's: use the uniqueness clause of massA_singular_all |
