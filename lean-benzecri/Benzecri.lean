@@ -43,3 +43,4 @@ import Benzecri.Chapter2.PremierAffine
 import Benzecri.Chapter2.TheoremeAffine
 import Benzecri.Chapter2.PremierFull
 import Benzecri.Applications.TheoremB
+import Benzecri.Applications.ResultB

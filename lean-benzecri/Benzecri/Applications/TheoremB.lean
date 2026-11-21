@@ -11,7 +11,7 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 `papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Roadmap target `T-bz-result-b-proj`.
 
 * `bzthm:intro_B` — `benzecri1960_ch1.tex:86` (l.86–105, résumé B; its three sentences l.87–99,
-  introduced by l.81–84). **Not marked** (SCOPE): the affine half of sentence 1 is
+  introduced by l.80–84). **Not marked** (SCOPE): the affine half of sentence 1 is
   T-bz-result-b's, and sentence 3 holds for `n ≥ 1` only (OQ-45 (a)). Proved here, sorry-free,
   for every simply connected covering `π : N → V` of a compact Hausdorff `V`, `N` carrying a
   structure for which `π` is a morphism, then for the universal cover `W = UniversalCover V v₀`:
