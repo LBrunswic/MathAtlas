@@ -248,6 +248,7 @@ import Causal.ErsUnions
 import Causal.ErsMughd
 import Causal.HalfLitDual
 import Causal.OneWayMembrane
+import Causal.MaximalZorn
 
 /-!
 # Causal — topological spacetimes

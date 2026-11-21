@@ -1,0 +1,289 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-maximal-zorn",
+ "files": [
+  "scaffold/CausalScaffold/MaximalZorn.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "build": "taskset -c 0-11 lake build CausalScaffold.MaximalZorn: 'Built CausalScaffold.MaximalZorn' (3106 jobs, this module only); lake build --no-build Causal.ErsMughd first reported all 3105 up to date; no Causal/ olean newer than a stamp taken before the build (find -newer). taskset -c 0-11 lake env lean -DwarningAsError=true prints nothing: strict-clean, no sorry, no warning. 1052 lines.",
+ "imports": [
+  "Causal.ErsMughd",
+  "Mathlib.Order.Zorn",
+  "Mathlib.SetTheory.Ordinal.Family"
+ ],
+ "layer": 1,
+ "closure": {
+  "count": 40,
+  "modules": [
+   "Causal.ArcConnected",
+   "Causal.Cauchy",
+   "Causal.CauchyExtension",
+   "Causal.Causality",
+   "Causal.CausallyPlainLocZ",
+   "Causal.ChronalNeighbourBridge",
+   "Causal.ChronalTarentin",
+   "Causal.CompactMinimal",
+   "Causal.CurveComponents",
+   "Causal.Curves",
+   "Causal.CurvesExtend",
+   "Causal.DependenceDomain",
+   "Causal.DeuxPushup",
+   "Causal.ErsMughd",
+   "Causal.ErsUniqueness",
+   "Causal.Generated",
+   "Causal.Geroch",
+   "Causal.GlobalHyperbolicity",
+   "Causal.Inextensible",
+   "Causal.Ladder.Basic",
+   "Causal.Ladder.Rules",
+   "Causal.LadderLocal",
+   "Causal.LevinTimeFunction",
+   "Causal.Lines",
+   "Causal.LinesCurves",
+   "Causal.LinesReachable",
+   "Causal.Local",
+   "Causal.LocateExtension",
+   "Causal.Measure",
+   "Causal.MeasureRemarks",
+   "Causal.Minimal",
+   "Causal.Morphism",
+   "Causal.NestedCausalities",
+   "Causal.NestedConverse",
+   "Causal.Properties",
+   "Causal.PushUp",
+   "Causal.PushUpOfMinimalLocal",
+   "Causal.Reachable",
+   "Causal.StrongCausality",
+   "Causal.Subdivision"
+  ],
+  "forbidden": [],
+  "how": "two ways: (1) tools/ladder.py model_path(Causal.ErsMughd) on lean_index()'s import graph: None (the only Causal import); (2) the compiled environment: env.header.moduleNames filtered on the prefix Causal, from a check copy of the file outside the tree (/tmp), 40 modules, none under Causal.Minkowski, Causal.Static, Causal.Flat, Causal.Model, Causal.Port, Causal.SingularFlat, Causal.CBG, Causal.Splitting, Causal.LemmaK*, Causal.LevinUtility. The Causal.CBG modules (Causal.CBG.Maximal, Geometry, Bound, Ppcm: model_path through Causal.CBG.Geometry -> Causal.SingularFlat) are NOT imported; their relation to this file is stated in SCOPE and in notes. Mathlib.SetTheory.Ordinal.Family is imported for the counterexample ordinalMor_separates only. No metric notion in any statement."
+ },
+ "axioms": {
+  "Causal.AbstractDev.exists_isMaximal": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.chrusciel_theorem_2_2": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.IsMaximal.isInextensible": "none",
+  "Causal.AbstractDev.IsInextensible.bijective": "none",
+  "Causal.AbstractDev.exists_upperBound_of_uniqueMorphisms": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.exists_isMaximal_of_uniqueMorphisms": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.exists_isMaximal_of_chainsInherit": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.exists_isMaximal_of_sequences": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.twoMor_rigid_not_unique": "propext",
+  "Causal.AbstractDev.ordinalMor_separates": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.not_sizeBound_ordinalMor": "propext, Classical.choice, Quot.sound",
+  "Causal.AbstractDev.natMor_separates": "Quot.sound",
+  "Causal.AbstractDev.allMor_separates": "Quot.sound",
+  "Causal.Causality.isCauchySurfaceOn_sSup_of_directedOn": "propext, Classical.choice, Quot.sound",
+  "Causal.isMaximalDevelopment_iff": "propext, Classical.choice, Quot.sound",
+  "Causal.isDevelopment_sSup_of_isChain": "propext, Classical.choice, Quot.sound",
+  "Causal.extends_ersMor_iff": "propext, Classical.choice, Quot.sound",
+  "Causal.ersMor_hypotheses": "propext, Classical.choice, Quot.sound",
+  "Causal.isMaximal_ersMor_iff": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_isMaximalDevelopment": "propext, Classical.choice, Quot.sound",
+  "Causal.ers_remark_3_56": "propext, Classical.choice, Quot.sound",
+  "Causal.ers_remark_3_56_family": "propext, Classical.choice, Quot.sound",
+  "Causal.ers_remark_3_56_of_curveNested": "propext, Classical.choice, Quot.sound",
+  "Causal.timelikeLine_ers_remark_3_56": "propext, Classical.choice, Quot.sound"
+ },
+ "chrusciel_theorem_2_2": {
+  "source": "Chruściel, arXiv 1112.5779 (J. Fixed Point Theory Appl. 2013), §2: Theorem 2.2 (references/sbierski/text/chrusciel2013maximal.txt:262-275), chain-inheriting (:242-246), Remark 2.3.1 (:277-278), proof (:290-365); archived PDF references/sbierski/pdf/chrusciel2013maximal.pdf, quoted verbatim in the module docstring (the extraction's 'Me' rendered M̃). Not a ledger label (Chruściel is not ledgered): no mark, no ledger row.",
+  "decls": [
+   "Causal.AbstractDev.chrusciel_theorem_2_2",
+   "Causal.AbstractDev.exists_isMaximal",
+   "Causal.AbstractDev.IsMaximal.isInextensible",
+   "Causal.AbstractDev.exists_upperBound_of_uniqueMorphisms",
+   "Causal.AbstractDev.exists_isMaximal_of_uniqueMorphisms"
+  ],
+  "status": "the statement proved, with rigidity weakened for existence (see hypotheses); no ledger row",
+  "hypotheses": [
+   {
+    "paper": "W-manifolds (M, g) with a W-compatible embedding i : S -> M; isometric C¹ embeddings Φ with ı̃ = Φ ∘ i",
+    "here": "carried, abstractly",
+    "note": "a type D of developments, carriers carrier : D -> Type u, a morphism predicate mor X Y f on functions of carriers, closed under identity and composition (MorphismsCompose). The CBG's Dev 𝔊 s₀ with Dev.IsMorphism, and ERS's developments on a fixed background (ersMor), have exactly this shape."
+   },
+   {
+    "paper": "W chain-inheriting: the union M of (2.2) of a chain and its embedding are W",
+    "here": "reading",
+    "note": "ChainsInherit.{v}: every NON-EMPTY COHERENT chain (IsCoherentChain: a total preorder of indices, chosen morphisms, identities, composition) of at most v developments has an upper bound with commuting morphisms (IsCocone). Coherent, because (2.2) defines ∼ through 'the isometric C¹ embedding Φ' (:355-356), i.e. through chosen, compatible embeddings."
+   },
+   {
+    "paper": "(2.1) the only isometry of a W-manifold which is the identity on a W-compatible hypersurface is the identity",
+    "here": "weakened",
+    "note": "RigidEndomorphisms. Not used for existence (exists_isMaximal: maximal developments from size bound and chain inheritance alone, by Zorn on towers); used for inextensibility (IsMaximal.isInextensible, Chruściel's antisymmetry argument :340-347) and needed there (allMor_separates)."
+   },
+   {
+    "paper": "(proof) the collection M_{W,S} is a set: C¹ manifolds embed in some R^ℓ (Whitney), Remark 2.3.1",
+    "here": "carried",
+    "note": "SizeBound.{v}: a v-small set of representatives up to isomorphism (mutually inverse morphisms; the CBG instance is Causal.CBG.SmallDev.exists_iso). Needed: ordinalMor_separates / not_sizeBound_ordinalMor (the ordinals of Type v: every v-small chain bounded, no maximal element). Free when v is the universe of D (sizeBound_self)."
+   },
+   {
+    "paper": "conclusion: M̃ with Φ : M -> M̃, M̃ inextendible in the class",
+    "here": "carried",
+    "note": "∃ Z f, mor X Z f ∧ IsInextensible mor Z (every morphism out of Z an isomorphism; bijective, IsInextensible.bijective, the form of Causal.CBG.Dev.IsETTMaximal)."
+   }
+  ],
+  "findings": [
+   "Chruściel 1112.5779 Thm 2.2 (text :262-275) assumes (2.1), but its proof uses (2.1) only to make ≺ antisymmetric (:315-347); existence of maximal elements needs only chain inheritance and the size bound: Causal.AbstractDev.exists_isMaximal applies Zorn to towers (sets of developments with chosen coherent morphisms) instead of developments, and a maximal tower's upper bound is maximal, since an extension outside the tower would extend the tower. (2.1) is what turns 'maximal' into 'inextendible in the class' (IsMaximal.isInextensible), and it cannot be dropped for that (allMor_separates). A strengthening of the theorem, not an error.",
+   "Chruściel (2.2) (:355-356) defines p ∼ q through 'the isometric C¹ embedding Φ : M̃ -> M̃₁ such that Φ ∘ ı̃ = ı̃₁', i.e. it presupposes that such an embedding is unique (else ∼ is not well defined, nor transitive). (2.1) gives uniqueness for endomorphisms only, and abstractly does not imply it for pairs: twoMor_rigid_not_unique (rigid endomorphisms, two morphisms false -> true). Under unique morphisms Chruściel's proof is exactly exists_upperBound_of_uniqueMorphisms + exists_isMaximal_of_uniqueMorphisms. In his classes uniqueness would come from the local argument that proves (2.1) (Prop 2.4, text :369-386, whose case 3 asks time-orientation to be preserved, Remark 2.5) applied to two embeddings; not checked here. The theorem is unaffected: exists_isMaximal needs no uniqueness, only coherent chains to have upper bounds."
+  ]
+ },
+ "labels": [
+  {
+   "label": "ersrem:note_two_ghds_constructed",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "Remark 3.56 (no proof); the definitions of extendible GHD and MGHD",
+     "text_lines": "ghd_02_19.tex:731-733; :117"
+    },
+    {
+     "paper": "references/sbierski/text/eperon2018predictability.txt",
+     "statement": "Remark 3.56",
+     "text_lines": "eperon2018predictability.txt:1318-1323"
+    }
+   ],
+   "tex_lines": [
+    731,
+    733
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.ers_remark_3_56",
+    "Causal.exists_isMaximalDevelopment",
+    "Causal.ers_remark_3_56_family",
+    "Causal.ers_remark_3_56_of_curveNested",
+    "Causal.isDevelopment_sSup_of_isChain",
+    "Causal.Causality.isCauchySurfaceOn_sSup_of_directedOn",
+    "Causal.IsMaximalDevelopment",
+    "Causal.IsExtension",
+    "Causal.isMaximalDevelopment_iff"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the Born-Infeld equation (Eqc1) on R^{1+1}, data on {x⁰ = 0}",
+     "here": "named",
+     "note": "abstract, in Causal.ErsMughd's vocabulary: sol with SolutionLocal, SolutionsGlue; cau with CausalityFollows."
+    },
+    {
+     "paper": "GHD: (M, g) globally hyperbolic with Cauchy surface S (:115)",
+     "here": "reading",
+     "note": "IsDevelopment (S Cauchy in U for cau u; GH not asked), OQ-57 (c), as Causal.ErsMughd. With GH required, the chain step needs GH of a directed union (Geroch (iii) => (i), CausalScaffold.GerochEquiv, or a direct argument): not proved."
+    },
+    {
+     "paper": "(implicit) 'an application of Zorn's Lemma': the union of a chain of GHDs is a GHD",
+     "here": "proved",
+     "note": "isDevelopment_sSup_of_isChain, through Causality.isCauchySurfaceOn_sSup_of_directedOn (new: directedness replaces acausality and an ambient); M T2 and hanti (≤ of cau u antisymmetric on the domain of every solution) named. hanti is implied by GH in ERS's reading (GH => causal), and holds under subluminality with a causal m (ers_remark_3_56_of_curveNested: curve_nested, causally_arc_connected, is_causal, the hypotheses of ers_remark_4_78; Born-Infeld is subluminal)."
+    },
+    {
+     "paper": "Φ_a : U_a -> R, Φ_b : U_b -> R two GHDs of the same data with Φ_a(x) ≠ Φ_b(x), x ∈ U_a ∩ U_b (Thm 3.45's conclusion)",
+     "here": "carried",
+     "note": "ha, hb, hx, hab. Theorem 3.45 itself (the Born-Infeld construction) is layer 3 (T-loc-born-infeld-causal), not here."
+    },
+    {
+     "paper": "'there exists a MGHD which contains Φ_a' (MGHD: not extendible, :117)",
+     "here": "carried",
+     "note": "IsExtension U_a u_a U_a' u_a' ∧ IsMaximalDevelopment ...; isMaximalDevelopment_iff is :117's wording (no development extending it with U ⊊ U')."
+    },
+    {
+     "paper": "'These two MGHDs are clearly distinct'",
+     "here": "carried",
+     "note": "ua' x ≠ ub' x with x ∈ Ua' ⊓ Ub', and ¬ (Ua' = Ub' ∧ EqOn ua' ub' Ua')."
+    },
+    {
+     "paper": "'the two GHDs constructed in the proof of Theorem 3.45 are not maximal'",
+     "here": "not formalised",
+     "note": "a fact of the Born-Infeld construction (layer 3)."
+    },
+    {
+     "paper": "'infinitely many distinct MGHDs ... We leave the details to the reader'",
+     "here": "weakened",
+     "note": "abstract half only: ers_remark_3_56_family (a family of developments differing pairwise at a common point gives pairwise distinct maximal developments, so an infinite such family gives infinitely many). The infinite family of GHDs of the constructed data is not built."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ghd_02_19.tex:542, :732, :1096: 'infinitely many' MGHDs is asserted three times and proved nowhere. :542 says 'one can show that there are infinitely many such MGHDs (cf section \\ref{sec:nonuniqueness})', but sec:nonuniqueness (:220-222) is the heuristic Nambu-Goto discussion; :732 (Remark 3.56) 'We leave the details to the reader'; :1096 uses it: 'The example from Section \\ref{SecIVP} shows that in general there can exist infinitely many MGHDs'. The abstract half is ers_remark_3_56_family; what is missing is an infinite family of GHDs of the data of Thm 3.45 differing pairwise at a common point.",
+    "ghd_02_19.tex:732: 'an application of Zorn's Lemma (!) to the set of globally hyperbolic extensions' leaves the chain step implicit: that the union of a chain of GHDs, with the glued solution, is a GHD. In the library's reading (S Cauchy) it holds (isDevelopment_sSup_of_isChain) given T2, the locality of the equation and antisymmetry of ≤ on the union (subluminality supplies it); the meeting-once half uses directedness through compactness of a curve segment (Causality.isCauchySurfaceOn_sSup_of_directedOn), not acausality. In ERS's reading (GH with Cauchy surface S) GH of the union is a further step (in the smooth setting, Geroch)."
+   ],
+   "questions": [
+    "Reading of 'GHD' (:115): IsDevelopment (S a Cauchy surface of U for g(u), GH not asked), the standing reading of Causal.ErsMughd / OQ-57 (c). Taken. With GH asked, Zorn's chain step needs GH of a directed union, not proved here.",
+    "Reading of 'MGHD': :117 (not extendible: no GHD (M', u') with M ⊊ M' and u = u' on M) is IsMaximalDevelopment; :1094 ('there does not exist a GHD u₂ : U₂ -> R of the same initial data with U₁ ⊊ U₂', agreement not asked) is stronger and, as ERS note there, equivalent through Thm 4.64 on nested pairs. Remark 3.56's Zorn yields the :117 kind; taken.",
+    "hanti (≤_U of g(u) antisymmetric on the domain of every solution) is named, not derived, in the main form: in ERS's GH reading it is automatic, in the Lean reading it is not; ers_remark_3_56_of_curveNested derives it from subluminality as ers_remark_4_78 does. Which form is of record for the binder: both are listed."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Causal.AbstractDev.IsCoherentChain",
+  "Causal.AbstractDev.IsCocone",
+  "Causal.AbstractDev.ChainsInherit",
+  "Causal.AbstractDev.SizeBound",
+  "Causal.AbstractDev.MorphismsCompose",
+  "Causal.AbstractDev.Extends",
+  "Causal.AbstractDev.IsIso",
+  "Causal.AbstractDev.RigidEndomorphisms",
+  "Causal.AbstractDev.UniqueMorphisms",
+  "Causal.AbstractDev.IsMaximal",
+  "Causal.AbstractDev.IsInextensible",
+  "Causal.AbstractDev.Tower",
+  "Causal.AbstractDev.IsTower",
+  "Causal.AbstractDev.Tower.sUnion",
+  "Causal.AbstractDev.Tower.singleton",
+  "Causal.AbstractDev.isTower_sUnion",
+  "Causal.AbstractDev.IsTower.exists_cocone",
+  "Causal.AbstractDev.IsTower.extend",
+  "Causal.AbstractDev.exists_isMaximal",
+  "Causal.AbstractDev.chrusciel_theorem_2_2",
+  "Causal.AbstractDev.IsMaximal.isInextensible",
+  "Causal.AbstractDev.IsInextensible.isMaximal",
+  "Causal.AbstractDev.IsInextensible.bijective",
+  "Causal.AbstractDev.UniqueMorphisms.rigidEndomorphisms",
+  "Causal.AbstractDev.exists_upperBound_of_uniqueMorphisms",
+  "Causal.AbstractDev.exists_isMaximal_of_uniqueMorphisms",
+  "Causal.AbstractDev.exists_isMaximal_of_sequences",
+  "Causal.AbstractDev.sizeBound_self",
+  "Causal.AbstractDev.exists_isMaximal_of_chainsInherit",
+  "Causal.AbstractDev.twoMor_rigid_not_unique",
+  "Causal.AbstractDev.ordinalMor_separates",
+  "Causal.AbstractDev.not_sizeBound_ordinalMor",
+  "Causal.AbstractDev.natMor_separates",
+  "Causal.AbstractDev.allMor_separates",
+  "Causal.Causality.isCauchySurfaceOn_sSup_of_directedOn",
+  "Causal.IsExtension",
+  "Causal.IsExtension.refl",
+  "Causal.IsExtension.trans",
+  "Causal.IsMaximalDevelopment",
+  "Causal.isMaximalDevelopment_iff",
+  "Causal.isDevelopment_sSup_of_isChain",
+  "Causal.Developments",
+  "Causal.ersMor",
+  "Causal.extends_ersMor_iff",
+  "Causal.ersMor_hypotheses",
+  "Causal.isMaximal_ersMor_iff",
+  "Causal.timelikeLine_ers_remark_3_56"
+ ],
+ "witness": "Positive: Causal.ersMor_hypotheses (every hypothesis of AbstractDev.exists_isMaximal_of_chainsInherit holds for the developments of an abstract initial value problem on a fixed background), used by exists_isMaximalDevelopment; Causal.timelikeLine_ers_remark_3_56 (timelike line, S = {0}, sol U u := U = ⊤, every cau u the timelike line, the constants 0 and 1: every hypothesis of ers_remark_3_56 discharged, two distinct maximal developments; degenerate, one domain ℝ). Negative, one per hypothesis of the abstract theorem: twoMor_rigid_not_unique ((2.1) does not give unique morphisms), ordinalMor_separates (no size bound: no maximal element), natMor_separates (no chain inheritance), allMor_separates (no rigidity: maximal, not inextensible).",
+ "readme_row": "| `Causal.MaximalZorn` | — | ETT programme, layer 1 (T-abs-maximal-zorn; no ETT label): Chruściel 1112.5779 Thm 2.2 abstractly (`Causal.AbstractDev`: developments with morphisms, `ChainsInherit` on coherent chains, `SizeBound`, (2.1) `RigidEndomorphisms`, `UniqueMorphisms`): maximal developments exist without rigidity (`exists_isMaximal`, Zorn on towers), inextensible under (2.1) (`chrusciel_theorem_2_2`), each hypothesis needed (`twoMor_rigid_not_unique`, `ordinalMor_separates`, `natMor_separates`, `allMor_separates`), Zorn with chains split by cofinality (`exists_isMaximal_of_sequences`); on a fixed background a directed union keeps `S` Cauchy (`Causality.isCauchySurfaceOn_sSup_of_directedOn`), a chain of developments has a development as union (`isDevelopment_sSup_of_isChain`), the developments are such a class (`ersMor_hypotheses`), and Eperon–Reall–Sbierski 1802.03020 Rem 3.56 (`exists_isMaximalDevelopment`, `ers_remark_3_56`, `_family`, `_of_curveNested`); the Zorn form beside the Zorn-free `Causal.CBG`; nothing marked; 2026-11-21 |",
+ "kb_proposals": [
+  "kb entry (pattern) 'Maximal developments by Zorn, without rigidity': state a class as carriers + a morphism predicate on functions (Causal.AbstractDev.MorphismsCompose), prove ChainsInherit (an upper bound for every non-empty coherent chain) and SizeBound; Causal.AbstractDev.exists_isMaximal gives a maximal development (Zorn on towers: coherent chains with their chosen morphisms, so no uniqueness of morphisms is needed); RigidEndomorphisms only upgrades maximal to inextensible (IsMaximal.isInextensible). With unique morphisms, Zorn on the preorder itself (exists_isMaximal_of_uniqueMorphisms) (T-abs-maximal-zorn).",
+  "kb entry (pitfall) 'Universe order, and tools/ladder.py's parser': a def's universe parameters come in the order of the `universe` command, so declare first the universe a statement must name (`universe v u w`, then `ChainsInherit.{v} mor`); do not write `def foo.{v, u, w}`: tools/ladder.py's DECL_FQ reads its name as `foo.` and the declaration never resolves for binders (T-abs-maximal-zorn).",
+  "kb entry (pattern) 'A directed union of Cauchy open sets': Causal.Causality.isCauchySurfaceOn_sSup_of_directedOn needs only M T2 and ≤ antisymmetric on the union — no acausality (isCauchySurfaceOn_iSup_of_isAcausalOn), no ambient (CBG's isCauchySurfaceOn_iSup): the segment between two meeting parameters is compact, so lies in one member. For chains of developments: Causal.isDevelopment_sSup_of_isChain (T-abs-maximal-zorn).",
+  "kb entry (pattern) 'Zorn with chains split by cofinality': Causal.AbstractDev.exists_isMaximal_of_sequences: bound every ℕ-sequence of extensions (its morphisms compose, no coherence asked) and every chain with no countable cofinal sequence; the shape of T-abs-curves-extend-second-countable's step (iii) (T-abs-maximal-zorn)."
+ ],
+ "binder_rows": [
+  {
+   "row": "ersrem:note_two_ghds_constructed (Remark 3.56)",
+   "proposal": "ett: replace [\"T-abs-maximal-zorn\"] by Causal.ers_remark_3_56, Causal.exists_isMaximalDevelopment, Causal.ers_remark_3_56_family, Causal.ers_remark_3_56_of_curveNested, Causal.isDevelopment_sSup_of_isChain, Causal.Causality.isCauchySurfaceOn_sSup_of_directedOn, Causal.AbstractDev.exists_isMaximal_of_chainsInherit, Causal.AbstractDev.chrusciel_theorem_2_2. localisation: [] -> [\"curve_nested\", \"causally_arc_connected\", \"is_causal\"] (the subluminal form; the main form names hanti, antisymmetry of ≤_U, which is not a ladder node at an open set), with geometric minkowski (is_causal by Causal.minkowski_isCausal) and quasilinear (curve_nested, causally_arc_connected by T-loc-born-infeld-causal, T-loc-quasilinear-nesting, T-loc-quasilinear-causal-ladder), as the RemMGHD row. Checked: tools/binder.py's check run in memory on binder.toml with this row replaced and the eight new names added to the index as if graduated: 0 violations (no file written). The names resolve for tools/binder.py only after graduation into Causal/.",
+   "toml": "[[bind]]\nlabel = \"ersrem:note_two_ghds_constructed\"\nett = [\"Causal.ers_remark_3_56\", \"Causal.exists_isMaximalDevelopment\", \"Causal.ers_remark_3_56_family\", \"Causal.ers_remark_3_56_of_curveNested\", \"Causal.isDevelopment_sSup_of_isChain\", \"Causal.Causality.isCauchySurfaceOn_sSup_of_directedOn\", \"Causal.AbstractDev.exists_isMaximal_of_chainsInherit\", \"Causal.AbstractDev.chrusciel_theorem_2_2\"]\nlocalisation = [\"curve_nested\", \"causally_arc_connected\", \"is_causal\"]\nnote = \"Remark 3.56 (ghd_02_19.tex:731). Zorn on the developments extending a GHD: exists_isMaximalDevelopment is Chruściel 1112.5779 Thm 2.2's abstract existence (AbstractDev.exists_isMaximal_of_chainsInherit; rigidity not needed for existence) for the class ersMor, whose chains have upper bounds (isDevelopment_sSup_of_isChain, by isCauchySurfaceOn_sSup_of_directedOn); two GHDs differing at a common point (Thm 3.45's conclusion) give distinct MGHDs (ers_remark_3_56), a pairwise-differing family pairwise distinct ones (ers_remark_3_56_family: the abstract half of 'infinitely many', the family of GHDs left to the reader and not constructed). GHD read 'S Cauchy' (OQ-57 (c)); ≤ antisymmetric on each solution's domain (hanti), from subluminality and a causal m (ers_remark_3_56_of_curveNested, the hypotheses of ers_remark_4_78). T-abs-maximal-zorn.\"\n[[bind.geometric]]\nmodel = \"minkowski\"\nproves = [\"is_causal\"]\nby = [\"Causal.minkowski_isCausal\"]\n[[bind.geometric]]\nmodel = \"quasilinear\"\nproves = [\"curve_nested\", \"causally_arc_connected\"]\nby = [\"T-loc-born-infeld-causal\", \"T-loc-quasilinear-nesting\", \"T-loc-quasilinear-causal-ladder\"]\n"
+  }
+ ],
+ "for_keeper": {
+  "consequences": [],
+  "fails": [],
+  "open_notes": [
+   "No ladder pair is settled (a Zorn construction, not a separation), as the roadmap's re-check says. hanti (≤_U antisymmetric on an open U) has no ladder node; is_causal is its form at M."
+  ]
+ },
+ "notes": "1. Strict-clean (lake env lean -DwarningAsError=true prints nothing), no sorry, namespace Causal: ready to graduate as a file move to Causal/MaximalZorn.lean. Not imported by the scaffold root CausalScaffold.lean (kb/0025; I may not edit it), so the axiom sweep does not see it until graduation; #print axioms of all 24 principal declarations are above (propext, Classical.choice, Quot.sound at most). 2. Layer 1: one Causal import (Causal.ErsMughd), closure 40 ETT-layer modules, none forbidden; the model-reaching Causal.CBG modules are not imported. 3. Names grepped against lean-causal/Causal, lean-causal/scaffold (the two other closers' files grepped read-only, never opened, imported or built), lean-gx, lean-benzecri: no clash ('Developments' occurs only as a section name in Causal.ErsMughd). 4. RELATION TO THE ZORN-FREE CBG (evidence, not a ruling): Causal.CBG.Dev 𝔊 s₀ with Dev.IsMorphism is a class of exactly this shape (carrier, morphism predicate composing); Causal.CBG.SmallDev.exists_iso is SizeBound.{u}; Geometry's rigidity A1 makes morphisms unique (UniqueMorphisms, hence RigidEndomorphisms); Dev.IsETTMaximal is IsInextensible read by bijectivity (IsInextensible.bijective). What Zorn would need there is ChainsInherit: the gluing of a coherent chain (Causal.CBG.FamilyGluing / Geometry.glue; Hausdorff by Causal.GluingHausdorff.t2Space_of_directed, the 'directed union' it already names for Chruściel) with S Cauchy in the union (the analogue of isCauchySurfaceOn_sSup_of_directedOn) and GH. cbg proves more by another road: a UNIVERSAL development (hence unique up to unique isomorphism), Zorn-free, by gluing all small developments along their pairwise MCGHDs, whose cost is the Hausdorffness of every pair (Sbierski's corresponding boundary points). Zorn gives existence without uniqueness, which is what ERS's subluminal case (Thm 3.45, Remark 3.56) allows and the CBG theorem cannot. The two hypothesis sets: Zorn = morphisms + coherent chain unions + size bound (+ (2.1) for inextensibility); CBG = morphisms + pairwise MCGHD + Hausdorff gluing of pairs + size bound + rigidity (uniqueness of morphisms) + a time function per development. 5. RELATION TO T-abs-curves-extend-second-countable (evidence): its evidence names as the hard step of (iii) that 'a chain gives its reparametrisations only existentially', needing 'a coherent choice'. Two tools are here. (a) exists_isMaximal removes the coherent-choice problem for Zorn itself (towers carry their chosen morphisms), but asks ChainsInherit, an upper bound with COMMUTING morphisms for every coherent chain; for curves with constant pieces (DEC-6) a coherent chain of uncountable cofinality can keep lengthening a constant piece, its parameter direct limit is then long and has no coherent cocone over a real interval, although the chain is bounded in the preorder. (b) exists_isMaximal_of_sequences asks no coherence at all: chains of countable cofinality are bounded through a cofinal increasing sequence whose morphisms simply compose (the planner's 'union of a cofinal sequence over nested real intervals'), and chains with no countable cofinal sequence are a separate hypothesis (the planner's step (ii), eventual constancy, plus a bound in the preorder). So (b) is the abstract form of the shared chain step; for curves IsMaximal suffices for inextensibility without rigidity (an extension mapping back has the same image, so it does not grow). Not formalised for curves here (the sibling's scope). 6. Design: exists_isMaximalDevelopment is derived from the abstract theorem (ersMor_hypotheses, isMaximal_ersMor_iff), not by a second Zorn, so the ERS corollary is an instance of Chruściel's theorem. 7. Universe order: `universe v u w` inside namespace AbstractDev so that ChainsInherit.{v} and SizeBound.{v} name the size bound; an explicit `def ChainsInherit.{v, u, w}` would have been misparsed by tools/ladder.py's DECL_FQ (name 'ChainsInherit.'), checked: no declaration of the file is misparsed now. 8. Nothing marked; the docstring's first 4000 characters carry the one cited label (at character 698)."
+}

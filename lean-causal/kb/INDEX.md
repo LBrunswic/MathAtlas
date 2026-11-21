@@ -99,3 +99,7 @@ rediscover. One fact per entry.
 | [0091](entries/0091-time-reversed-witness.md) | pattern | A time-reversed witness: dual_* transport in haves, then causal_ladder on C.dual |
 | [0092](entries/0092-one-way-membrane.md) | pattern | The one-way membrane: a planar ETT-layer causality without a model import |
 | [0093](entries/0093-jplus-only-misses-jminus-step.md) | pitfall | J⁺-only causal openness does not carry the J⁻ step of prop:tarentin_topological_spacetime_causality's proof |
+| [0094](entries/0094-maximal-by-zorn-without-rigidity.md) | pattern | Maximal developments by Zorn, without rigidity |
+| [0095](entries/0095-universe-order-and-ladder-parser.md) | pitfall | Universe order, and tools/ladder.py's parser |
+| [0096](entries/0096-directed-union-cauchy.md) | pattern | A directed union of Cauchy open sets |
+| [0097](entries/0097-zorn-split-by-cofinality.md) | pattern | Zorn with chains split by cofinality |
