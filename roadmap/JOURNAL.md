@@ -409,3 +409,20 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - new OQ: none (next free OQ-87); lean-causal kb 0159–0166
 - not done (noted): lean-causal/README.md's module table lists none of the atlas modules of waves 17–23 (it is /ett-programme's convention); a tidy pass could add them
 - next: T-ett-sfa-btz-e0 is the only ready closer (with master T-ett-docstrings-sing0): plan (rule 2) or a wave of one
+
+## 2026-11-21 20:25 · plan · —
+- why: rule 2 (only T-ett-sfa-btz-e0 ready after wave 23)
+- result: 127 -> 130 targets. The singular-flat tail is split into model-free and per-model targets.
+- new and ready:
+  - T-ett-line-development: model-free maximal arc through a closed set with a translation structure. It is γ onto the component, inextensible from « no limit at ±∞ », a closed embedding when injective. It avoids any classification of 1-manifolds.
+  - master T-ett-readme-modules: 32 strict atlas modules have no README row.
+- re-scoped:
+  - T-ett-sfa-btz-e0: singularPastAt and Iplus_of_lt at the BTZ points of every E≥0-manifold, now in the SFALocal setting.
+  - T-ett-sfa-line-e0: the α = 0 instance of the line development; planned, until T-ett-line-development is done.
+  - T-ett-singular-sfa: assembly only, through SFALocal.singularFlatAxioms_iff.
+  - T-ett-docstrings-sing0: its scope widened to the docstrings wave 23 made stale.
+- new and planned: T-ett-sfa-massive-line (the α > 0 instance, massive_line). The E_κ side has no singularPastAt or Iplus_of_lt fields.
+- outside lean-causal: nothing is ready. The rulings that would unblock the most are BBS-Q1 (63 rows), OQ-63 (11), OQ-42 (7), OQ-44 with T-yamabe-scope (7) and OQ-45 (a) (6). Inside ETT the marks wait on OQ-34 (24), OQ-35 (22), OQ-18 (10), OQ-82 (9) and OQ-64 (6).
+- gates: roadmap ✓, atlas ✓
+- wall time: 20:08–20:25 (Paris); agents: 1 (planner)
+- next: a wave of T-ett-line-development and T-ett-sfa-btz-e0 (lean-causal), plus master T-ett-readme-modules
