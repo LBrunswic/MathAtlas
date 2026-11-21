@@ -1,0 +1,86 @@
+{
+  "package": "T-bz-c2-developpement",
+  "target": "T-bz-c2-developpement",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Developpement.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzthm:c2s3t1_poche_balayable",
+      "tex_lines": [517, 533],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.exists_isDeveloping_eqOn_poche",
+        "Benzecri.chemin_jets_ferme",
+        "Benzecri.jets_produit",
+        "Benzecri.injective_of_isDeveloping_of_poche",
+        "Benzecri.exists_chart_poche",
+        "Benzecri.IsDeveloping.eq_of_eqOn_poche",
+        "Benzecri.IsPocheProj.cote_lt_one",
+        "Benzecri.closure_inter_preimage_subset_poche",
+        "Benzecri.poche_eq_connectedComponentIn",
+        "Benzecri.poche_eq_preimage_iff",
+        "Benzecri.closure_poche_subset_preimage_hemisphere",
+        "Benzecri.poche_eq_preimage_of_cote_eq_zero",
+        "Benzecri.theoreme_premier",
+        "Benzecri.situation_exemple",
+        "Benzecri.exemple_poche_projective_of_poche",
+        "Benzecri.PremierComposantePrinted",
+        "Benzecri.premierComposantePrinted",
+        "Benzecri.PremierPrinted",
+        "Benzecri.ConnexePrinted",
+        "Benzecri.premierPrinted_iff",
+        "Benzecri.theoreme_premier_model",
+        "Benzecri.theoreme_premier_demiDroite"
+      ],
+      "hypotheses": [
+        {"paper": "V une variété localement projective", "here": "weakened", "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)]. Hausdorff and second countable are never used. The printed forms PremierComposantePrinted, PremierPrinted and ConnexePrinted carry them (V : Type, T2Space, ConnectedSpace, SecondCountableTopology)."},
+        {"paper": "V connexe", "here": "weakened", "note": "[PreconnectedSpace V]. The pocket is nonempty, so V is nonempty; ConnectedSpace and PathConnectedSpace are derived inside the proof of 1°a (local path-connectedness from the charts, locPathConnectedSpace_of_proj)."},
+        {"paper": "V balayable", "here": "carried", "note": "IsBalayable (GSR n) (S n) V (strict, Ch. 1 Déf. 15, for the group of all projective automorphisms). Prop. 7 and its corollary are applied with G = ⊤."},
+        {"paper": "(P, H̊, φ, z) une poche de V", "here": "carried", "note": "IsPocheProj P l φ z (Déf. 1′, strict), H̊ given by its equation l ≠ 0."},
+        {"paper": "the dimension n", "here": "carried", "note": "every n, n = 0 included: no NeZero n anywhere."},
+        {"paper": "1°, first sentence: une carte compatible φ̃ de V sur un ouvert de S(n), induisant φ sur P", "here": "carried", "note": "exists_chart_poche: an OpenPartialHomeomorph φ̃ (its target is open), IsCompatibleChart (GSR n) φ̃, φ̃.source = univ, EqOn φ̃ φ P. The chart is unique as a map (IsDeveloping.eq_of_eqOn_poche)."},
+        {"paper": "1°, second sentence: P n'est autre que l'image réciproque par φ̃ de l'ensemble des points de H̊ où z < 1", "here": "weakened", "note": "Proved in its component form (poche_eq_connectedComponentIn: P is the connected component of each of its points in φ̃⁻¹(D)), and in the full form for the constant cote (poche_eq_preimage_of_cote_eq_zero). For a non-constant cote the full form is reduced to the connectedness of D ∩ φ̃(V) (poche_eq_preimage_iff, premierPrinted_iff) and not proved. See findings."},
+        {"paper": "proof a: « une application φ̃ de V sur S(n) … dont le germe en tout point de V appartient à J(V) »", "here": "carried", "note": "exists_isDeveloping_eqOn_poche: IsDeveloping (GSR n) p (every jet in J(V), Ch. 1 Prop. 2's notion) and EqOn p φ P. « sur » read « dans » (questions)."},
+        {"paper": "proof b: φ̃ est un homéomorphisme global (injective)", "here": "carried", "note": "injective_of_isDeveloping_of_poche, stated for EVERY developing map of V, which is stronger and is how OQ-46's alternative reading is answered."}
+      ],
+      "sorries": [],
+      "findings": [
+        "1°c, the full form (statement l.523–524; proof l.585–590), not proved for a non-constant cote and not refuted. The proof says at l.588 « on peut construire dans D ∩ φ̃(V) une ligne brisée allant de φ̃(M) à φ̃(N) ». That presumes D ∩ φ̃(V) connected, which the paper does not prove. The forward reference after the examples (l.184–186) claims only that P « n'est autre qu'une composante connexe de l'image réciproque ». Proved here: (i) the component form, for the developing map φ̃ and every point of P (poche_eq_connectedComponentIn), using condition b and a convex neighbourhood in H̊; (ii) the full form is exactly the connectedness the proof presumes, both for one V (poche_eq_preimage_iff: P = φ̃⁻¹(D ∩ φ̃(V)) ↔ IsPreconnected (D ∩ φ̃(V))) and for the printed statement (premierPrinted_iff: PremierPrinted n ↔ ConnexePrinted n); (iii) the full form holds for the constant cote z ≡ 0, where P = V (poche_eq_preimage_of_cote_eq_zero). The open case is therefore a non-constant cote, the case OQ-61 (a) would keep. No counterexample was found or formalised. Argued, not formalised: the planar examples tried all satisfy the full form, namely complements of a closed quadrant and unions of octant triangles of S(2) under the diagonal group, and convex domains. They either admit only the constant cote or are convex.",
+        "1°c, the inclusion P ⊆ φ̃⁻¹(D), which the proof (l.585–590) does not argue, needs z < 1 on φ(P). Condition a of Déf. 1′ (l.137–138) gives only « majorée par 1 ». It holds because φ(P) is open and an affine function reaching its supremum 1 at an interior point is constant, against inf z = 0 (IsPocheProj.cote_lt_one). Statement unaffected.",
+        "1°b, the bracket of l.568–570 (proof level, statement unaffected): « puisque GS(n, R) opère transitivement sur la fibre des jets de même source, il existe γ transformant φ̃ en la section φ̃ ∘ g ». Transitivity on fibres gives a γ at each point only. One γ for all of V needs V connected and the rigidity of GS(n, R) (Ch. 1 Prop. 2's uniqueness, IsDeveloping.existsUnique_smul_eq). Both are available, but the bracket names neither.",
+        "1°a (l.545–556), proof level, statement unaffected. The paper shows that a path of J(V) over a loop is closed (chemin_jets_ferme here) and concludes « L'assertation a en résulte immédiatement ». That step is the lifting criterion through the covering J(V) → V, for V connected and locally path connected. It is formalised with Mathlib's IsLocalHomeomorph.existsUnique_continuousMap_lifts. Over P the paper composes each jet with g⁻¹. The formalisation reads the lift in the single chart φ ∘ g, whose source g⁻¹P contains both paths by Prop. 7 (jetSMul_eq_of_path). The argument is the same.",
+        "OQ-46, bearing only, deciding nothing. In the Theorem's situation (V connected, sweepable, with one pocket) every developing map of V is injective (injective_of_isDeveloping_of_poche). So the projective example of § 1 (l.172–179) holds there as printed, without « p injective sur P » (exemple_poche_projective_of_poche). The forward reference « on est toujours dans la situation considérée en exemple » (l.183–184) holds too (situation_exemple: P is a component of φ̃⁻¹(D), inf z = 0 on φ̃(P), and φ̃ maps segments from P into H̊). The examples themselves are about an arbitrary étalé W, which need not be sweepable, so OQ-46's counterexample to the printed examples is untouched."
+      ],
+      "questions": [
+        "1°'s second sentence (l.523–524, « P n'est autre que l'image réciproque par φ̃ de l'ensemble des points de H̊ où z < 1 », and l.586 « P = φ̃⁻¹(D ∩ φ̃(V)) ») against the forward reference (l.184–186, « P n'est autre qu'une composante connexe de l'image réciproque »). Reading taken: the component form is proved as the formalisation's claim (PremierComposantePrinted n, proved for every n). The printed full form is stated as PremierPrinted n, and premierPrinted_iff proves it equivalent to ConnexePrinted n. It is proved for z ≡ 0 and open otherwise. Neither reading has been made the formalisation of record; that is the author's decision.",
+        "OQ-46 (open). As the dispatch asked, 1°b is stated for every developing map of V (injective_of_isDeveloping_of_poche) and not only for the φ̃ of 1°a. exemple_poche_projective_of_poche then gives the one-to-one case of the examples that the Théorème shows always holds. This answers OQ-46's alternative reading within the Theorem's hypotheses. It does not rule between adding « p injective sur P » to the examples and that reading.",
+        "« une application φ̃ de V sur S(n) » (l.538) and « L'application définie en a de V sur S(n) » (l.559): « sur » is read « dans » (into). The onto reading is false: in the model, φ̃(V) is the open hemisphere H₀ ≠ S(n) (theoreme_premier_model), and 1° itself says « sur un ouvert de S(n) »."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.jetSMul_eq_of_path",
+    "Benzecri.exists_jetSMul_eq_of_path",
+    "Benzecri.IsPocheProj.mapsTo_demiEspace",
+    "Benzecri.exists_isOpen_closedSeg_subset",
+    "Benzecri.exists_mem_openHemisphere",
+    "Benzecri.isBalayable_model",
+    "Benzecri.homothetieDemiDroite",
+    "Benzecri.isGXMorphism_homothetieDemiDroite",
+    "Benzecri.bijective_homothetieDemiDroite",
+    "Benzecri.isBalayable_demiDroite"
+  ],
+  "kb_proposals": [
+    "Lifting through J(V) without simple connectivity (Chapter2/Developpement.lean). Use Mathlib's IsLocalHomeomorph.existsUnique_continuousMap_lifts, applied to the identity of V, with isCoveringMap_jets_proj and exists_path_lifts for existence. For the uniqueness condition, a path of J(V) over the source of one maximal-atlas chart ψ is the translate of ψ's jets by the sheet of its first point, by IsCoveringMap.eq_of_comp_eq on I (jetSMul_eq_of_path). Prop. 7 puts both paths into the source of the one chart φ ∘ g.",
+    "The chart φ ∘ g of a pocket chart and an automorphism is IsCompatibleChart.trans_aut (Chapter2/Mesure.lean). Its source g⁻¹P: from g • x ∈ P, `simpa [GXAut.smul_def, hP.source_eq]`. A developing map composed with g is developing via `isDeveloping_iff_isGXMorphism.2 ((isDeveloping_iff_isGXMorphism.1 hp).comp g.isGXMorphism)`.",
+    "Convex neighbourhoods in an open hemisphere: exists_isOpen_closedSeg_subset (a ball pulled back by an affine equivalence from nonempty_hemi_affineEquiv, through isOpenEmbedding_coe_affineEquiv, coe_image_affineSegment and affineSegment_image). Every point of S(n) lies in some open hemisphere: exists_mem_openHemisphere. With isProjSegment_of_chart they turn « a point adherent to P » into a segment of V from a point of P.",
+    "The cote is < 1 on a pocket: IsPocheProj.cote_lt_one, the maximum twin of cote_pos_of_ne_zero. A pocket's closure lies over H̊ (closure_poche_subset_preimage_hemisphere), and for z ≡ 0 the pocket is all of V (poche_eq_preimage_of_cote_eq_zero).",
+    "After `obtain ⟨φ', hφ', hs, ht, he⟩ := exists_chart_of_injective hp hinj`, run `subst he`. The developing map then becomes ⇑φ' everywhere, and condition b applies with ψ := φ'.",
+    "A non-degenerate sweepable witness with a non-constant cote and P ≠ V: theoreme_premier_demiDroite (]0, ∞[ ⊂ ℝ¹, canonical projective structure, P = ]0, 1[). Homotheties are GXAut through Sphere.hemiChart_apply_eq_smul with (LinearEquiv.smulOfNeZero ℝ _ c hc).toAffineEquiv and GXAut.ofBijective. The z ≡ 0 model of ℝⁿ is isBalayable_model / theoreme_premier_model."
+  ],
+  "notes": "No sorry. Standard axioms only: a /tmp probe (deleted) ran #print axioms on all 29 declarations of the file, and each depends on exactly [propext, Classical.choice, Quot.sound]. The file is clean under `lake env lean -DwarningAsError=true`, so it can graduate as is. `taskset -c 0-11 lake build BenzecriScaffold.Chapter2.Developpement` was run once, at the end, and was green. No olean under .lake/build/lib/lean/Benzecri is newer than the source, so nothing upstream was rebuilt. scripts/sorry_count.py: strict 0 in 38 files, scaffold 0 in 3 files. Imports: Benzecri.Chapter2.Compact and Benzecri.Chapter2.Hemisphere (strict) only. The scaffold root and Benzecri.lean are not edited (the master adds the import, lean-causal kb/0025). CasAffin.lean was not read. No mark is placed, as the dispatch asked: the module docstring has no **`label`** anywhere, and the row is partial. For T-bz-c2-theoreme, the anchor of 1° is theoreme_premier (the chart, the component form, and the full-form equivalence), with the printed forms premierComposantePrinted and premierPrinted_iff. situation_exemple gives the injective developing map φ̃ that 2°–4° use (« nous supposerons … que φ̃ est l'identité », l.593–594), together with condition b's data. Non-vacuity is in the file in every dimension: theoreme_premier_model (ℝⁿ, translations, z ≡ 0, P = V). It also holds with a non-constant cote and P ≠ V: theoreme_premier_demiDroite (n = 1), which survives OQ-61 (a). The planner's [r] on 1°c is confirmed. The proof's « ligne brisée dans D ∩ φ̃(V) » presumes the connectedness, and the forward reference says « composante connexe ». The component form is proved, and the full form is reduced to that connectedness exactly. It is proved for z ≡ 0, open for a non-constant cote, and not refuted."
+}
