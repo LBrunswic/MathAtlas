@@ -33,3 +33,4 @@ import Benzecri.Chapter2.Projection
 import Benzecri.Chapter2.Hilbert
 import Benzecri.Chapter2.Lignes
 import Benzecri.Chapter2.PseudoBoules
+import Benzecri.Chapter2.Compact

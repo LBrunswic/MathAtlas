@@ -1,0 +1,80 @@
+{
+  "package": "T-bz-c2-compact",
+  "target": "T-bz-c2-compact",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter2/Compact.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzprop:c2s2p7_compact_dans_poche",
+      "tex_lines": [451, 457],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.compact_dans_poche",
+        "Benzecri.CompactDansPochePrinted",
+        "Benzecri.compactDansPochePrinted",
+        "Benzecri.exists_domaineGenerateur_proj",
+        "Benzecri.exists_domaineGenerateur_proj_isConnected",
+        "Benzecri.IsBalayableFor.exists_domaineGenerateur",
+        "Benzecri.IsLigneBrisee.smul"
+      ],
+      "hypotheses": [
+        {"paper": "V une variété localement projective", "here": "weakened", "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)]; Hausdorff and second countable never used. The printed form CompactDansPochePrinted n carries them (V : Type, T2, connected, second countable) and holds for every n (compactDansPochePrinted)"},
+        {"paper": "V connexe", "here": "weakened", "note": "[PreconnectedSpace V]; the empty V is allowed, where the statement is trivial"},
+        {"paper": "balayable pour un groupe G d'automorphismes projectifs (chap. 1, § 1, déf. 15)", "here": "carried", "note": "G : Subgroup (GXAut (GSR n) (S n) V), IsBalayableFor (GSR n) (S n) V G (strict, Structure/Classes.lean)"},
+        {"paper": "(P, H̊, φ, z) une poche de V", "here": "carried", "note": "IsPocheProj P l φ z (Déf. 1′, strict), H̊ given by its equation l ≠ 0"},
+        {"paper": "E un compact de V", "here": "weakened", "note": "IsCompact E (quasi-compact; Bourbaki's « compact » also asks Hausdorff, automatic in the paper's V)"},
+        {"paper": "conclusion: g ∈ G, gE ⊂ P", "here": "carried", "note": "∃ g ∈ G, g • E ⊆ P. « ⊂ » is the paper's non-strict inclusion: l.129 « φ(P) ⊂ H̊ » is read ⊆ by the strict pocket (IsPocheProj.image_subset), and l.237 (3°, conclusion ≤) and l.549 use it the same way"},
+        {"paper": "the dimension n", "here": "carried", "note": "every n, n = 0 included: no NeZero n. For n = 0 a connected V has at most one point (subsingleton_dim_zero) and P is nonempty, so g = 1"},
+        {"paper": "proof, first paragraph: V localement compact et localement connexe", "here": "carried", "note": "derived from the charts with no Hausdorffness of V (exists_isCompact_isPreconnected_mem_nhds_of_chartedSpace); the printed hypotheses (with T2) in exists_isCompact_isPreconnected_superset_of_locallyConnected"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Proof of Prop. 7, first paragraph (l.466–468), statement unaffected: « il suffit, pour obtenir E'', d'ajouter à E' un nombre fini de lignes brisées reliant les composantes connexes de E' » presupposes that two points of a connected V are joined by a broken line. The paper does not prove this before Prop. 7. The proof of Prop. 5 (l.432–434) asserts the same fact, while Prop. 4 covers only a compact connected E. The formalization joins the pieces topologically instead: the points lying with a fixed x₀ in some compact connected set form a clopen set (exists_isCompact_isPreconnected_superset). This needs no broken line and covers n = 0, where no broken line of majorised segments exists.",
+        "Proof of Prop. 7, l.477–479, statement unaffected: « Il résulte de la proposition 6 que gN ∈ P » applies Prop. 6 to the image gL, a broken line from gN⁰ = M⁰ to gN, not to L. Two steps are left implicit. (a) A projective automorphism carries a segment majorised by k to a segment majorised by k (2°; IsMajoreSeg.smul, and IsLigneBrisee.smul here). (b) p ≤ n(E, k) and K > 1 give 1/K^{n(E,k)} ≤ 1/K^p, the hypothesis Prop. 6 needs.",
+        "Prop. 7 uses only « B ∈ P » from Prop. 6 (l.479). So the Prop. 6 finding (false as printed for a pocket of cote z ≡ 0, T-bz-c2-lignes) does not reach Prop. 7. The corrected IsPocheProj.ligne_brisee_poche gives B ∈ P for every pocket.",
+        "Dimension 0 (the planner's [r], checked): the printed proof does not run for n = 0, because n(E, k) is undefined and Prop. 4 fails (OQ-45). The statement still holds: a connected V charted on S(0) has at most one point, and the pocket is nonempty. Prop. 7 and its corollary hold as printed in every dimension (compactDansPochePrinted, deuxPointsDansPochePrinted), so these rows do not depend on OQ-45."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bzcor:c2s2p7c_deux_points_dans_poche",
+      "tex_lines": [482, 487],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.deux_points_dans_poche",
+        "Benzecri.DeuxPointsDansPochePrinted",
+        "Benzecri.deuxPointsDansPochePrinted"
+      ],
+      "hypotheses": [
+        {"paper": "V une variété localement projective, connexe", "here": "weakened", "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)] [PreconnectedSpace V]; Hausdorff and second countable never used. The printed form DeuxPointsDansPochePrinted n carries them and holds for every n"},
+        {"paper": "balayable pour un groupe G d'automorphismes projectifs", "here": "carried", "note": "G : Subgroup (GXAut (GSR n) (S n) V), IsBalayableFor (GSR n) (S n) V G"},
+        {"paper": "(P, H̊, φ, z) une poche de V", "here": "carried", "note": "IsPocheProj P l φ z"},
+        {"paper": "M et N deux points de V; conclusion gM ∈ P; gN ∈ P", "here": "carried", "note": "∀ M N : V, ∃ g ∈ G, g • M ∈ P ∧ g • N ∈ P (M = N allowed)"},
+        {"paper": "the dimension n", "here": "carried", "note": "every n, n = 0 included"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.exists_isCompact_isPreconnected_mem_nhds_subset",
+    "Benzecri.exists_isCompact_isPreconnected_mem_nhds_of_chartedSpace",
+    "Benzecri.exists_isCompact_isPreconnected_superset",
+    "Benzecri.exists_isCompact_isPreconnected_superset_of_locallyConnected",
+    "Benzecri.IsBalayableFor.exists_domaineGenerateur",
+    "Benzecri.IsLigneBrisee.smul"
+  ],
+  "kb_proposals": [
+    "Compact connected sets in a manifold (Chapter2/Compact.lean). Every point of a space charted on a locally compact, locally connected T2 model has a compact preconnected neighbourhood, with no T2 on the manifold (exists_isCompact_isPreconnected_mem_nhds_of_chartedSpace). In a preconnected space with such neighbourhoods every compact set lies in a compact preconnected set (exists_isCompact_isPreconnected_superset, by a clopen argument with no paths or broken lines). For S(n), first haveI := locPathConnectedSpace_S n, which gives LocallyConnectedSpace.",
+    "To get a point of a pocket with cote below a positive bound ε, use hP.isGLB.exists_between (show 0 < ε) and destructure the image membership (M⁰ in Prop. 7).",
+    "ligne_brisee needs (n := n) when E's type does not fix n; otherwise « typeclass instance problem is stuck NeZero ?m ».",
+    "Broken lines are invariant under projective automorphisms: IsLigneBrisee.smul (Compact.lean), by induction with smul_set_union. It belongs next to IsMajoreSeg.smul and is a candidate to move into Lignes at graduation."
+  ],
+  "notes": "Sorry-free, standard axioms only: #print axioms of the ten principal declarations (compact_dans_poche, deux_points_dans_poche, both printed forms, exists_domaineGenerateur_proj and its isConnected form, IsBalayableFor.exists_domaineGenerateur, IsLigneBrisee.smul, and two topological lemmas) gives propext, Classical.choice, Quot.sound. The probe was a /tmp copy of the file and has been deleted. The file compiles under -DwarningAsError=true with no warning, so it can graduate as is. `taskset -c 0-11 lake build BenzecriScaffold.Chapter2.Compact` was green and rebuilt only this module (no olean under Benzecri/ is newer than the source). scripts/sorry_count.py: scaffold 0. The file imports only Benzecri.Chapter2.Lignes and Benzecri.Chapter2.PseudoBoules (strict). Both labels are marked, as the dispatch asked if both rows hold as printed in every dimension. They do, n = 0 included (compactDansPochePrinted n, deuxPointsDansPochePrinted n for every n), so OQ-45 does not reach these rows. The planner's [r] is confirmed. Anchors: compact_dans_poche and deux_points_dans_poche. Transcription l.451–491 was read against the scan (journal pp. 252–253, PDF pp. 25–26) and agrees. The K/k clash (l.464 vs l.471) is notation, as the transcription's comment l.475 says. Not given: an example that meets every hypothesis at once (a connected sweepable V with a pocket, e.g. ℝⁿ with translations as GXAut of projOfAff). That needs the affine-to-projective automorphism transfer that T-bz-c2-cas-affin lacks. The hypotheses are the strict library's predicates (IsBalayableFor, IsPocheProj), unchanged. The scaffold root BenzecriScaffold.lean was not edited; the master adds the import (lean-causal kb/0025). The Remark and Prop. 7′ are not here (T-bz-c2-cas-affin). compact_dans_poche is the input they need: apply it to the canonical projective structure once the GXAut transfer exists."
+}
