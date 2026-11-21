@@ -1,0 +1,132 @@
+{
+  "target": "T-ett-sfa-btz-e0",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "defi:causal_E0",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Cited unmarked (`defi:causal_E0` — `ETT.tex:1344`, docstring l.6); no ``**`label`**`` in the first 4000 characters (the one bold-backquote, **`J⁻(p) ⊆ sing₀(M)`**, has no label prefix and is not matched by tools/ledger.py's docstring_label_re). Row correctly stays partial: the label is printed for p ∈ sing(E₀) (model form: existing E0.causal_E0), its l.1353–1355 is false as printed (DEC-64), and the readings OQ-34/OQ-35 (E₀), OQ-18 (causality at M), OQ-82 (group) are open. The new anchors are M-level forms, read against the BTZAxioms fields (Causal/SingularFlat.lean:150–170): SFABTZ.singularPastAt is exactly `∀ p ∈ S₀, C.SingularPastAt p` and SFABTZ.Iplus_of_lt exactly `∀ p ∈ S₀, ∀ p' ∈ S₀, C.le ⊤ p p' → p ≠ p' → C.Jplus ⊤ {p'} \\ S₀ ⊆ C.Iplus ⊤ {p}`, with S₀ = SFALocal.sing M 0; the only hypotheses are [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M], C.AbsolutelyMinimal and IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality (checked with #check under `import Causal`); no T2, second countability or causality. btzAxioms_of_line builds BTZAxioms (sing₀ M) with `where`, so its `line` hypothesis is definitionally the field; btzAxioms_but_line is the other four fields; singularFlatAxioms_iff_lines is SFALocal.singularFlatAxioms_iff with the two proved fields removed (iff line ∧ massive_line); the E₀-manifold corollaries go through SFALocal.sing_eq_of_e0Covered and isoChartsCoverDEC25_of_e0 with hC.2.2 as absolute minimality. Model input: le_ballOpens_iff / lt_ballOpens_iff (in B(a, δ), a on the axis, the ball's ≤, ≪ are E0.Le, E0.Lt, from order-convexity E0.mem_ball_of_le_of_le and straight segments); le_ballSource_iff / lt_ballSource_iff transport them through a ChartIso onto ballSource e a δ = e.source ∩ e⁻¹(ball), given ball ⊆ e.target. t1Space_of_isoChartsCover / firstCountableTopology_of_isoChartsCover: correct (every point in a chart into a T1 / first countable model). mem_sing_zero_of_le, Jminus_subset_component: one causal curve from causal arc-connectedness plus Causality.mem_of_causalCurveOn, as claimed. Curve lemmas exists_below / exists_above / exists_open_inter_sing_subset / exists_axis_seq: statements as their docstrings say. nonvacuous_e0 takes only hmin, hC and sing₀ ≠ ∅ from SFALocal.nonvacuous_e0 (whose proof uses E0.causallyArcConnected and e0_witness, not E0.btzAxioms) and obtains both fields from this file's singularPastAt hmin hC and Iplus_of_lt hmin hC: genuinely derived here."
+    },
+    {
+      "label": "prop:K_calcul",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Corollary beyond the target, cited unmarked. SFABTZ.K_calcul's conclusion is the paper's three assertions verbatim with sing₀(M) = SFALocal.sing M 0: (a) ∀ p ∉ sing₀, K⁺ = I⁺ ∧ K⁻ = I⁻; (b) ∀ p ∈ sing₀, K⁺ = I⁺; (c) IsCausal → ∀ p ∈ sing₀, K⁻ = J⁻ ∖ {p}. It is the curated Causal.Causality.K_calcul (curation row prop:K_calcul) with every named hypothesis discharged: PushUp (SFALocal.pushUp), Z⁺ = M (SFALocal.mem_Zplus), M ∖ sing₀ ⊆ Z⁻ (SFALocal.mem_Zminus_of_notMem), SingularPastAt on sing₀ (SFABTZ.singularPastAt), FirstCountableTopology from the charts. Remaining hypotheses are only the E≥0-manifold reading (DEC-25 ruled; OQ-18, OQ-82, OQ-34 open); Hausdorff and second countability weakened away. No `line`. Hypotheses witnessed with a BTZ point at M = E₀ (nonvacuous_e0's first two conjuncts). Lean ≥ paper under the readings."
+    },
+    {
+      "label": "prop:K_monotone",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Corollary beyond the target, cited unmarked. SFABTZ.K_monotone: hmin, hC, C.IsCausal, q ≤ p ⊢ K⁻(q) ⊆ K⁻(p) ∧ K⁺(p) ⊆ K⁺(q), the paper's statement. It is the curated Causal.Causality.K_monotone with hdown := SFABTZ.mem_sing_zero_of_le and hfut := SFABTZ.Iplus_of_lt (DEC-64's form, exactly the shape K_monotone asks), the rest as for K_calcul. No `line`, no T2, no second countability. Witness with a BTZ point: E₀ (nonvacuous_e0 and the existing E0.isCausal, Causal/Port/E0Strong.lean:570). Lean ≥ paper under the readings."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "Rerun on node1: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SFABTZ.lean` exits 0 with no output. `sorry`: one textual occurrence, in the docstring (l.28, « no `sorry` in this file »), none in code; no native_decide, axiom, admit, unsafe or implemented_by. #print axioms, from a /tmp copy (deleted): singularPastAt, Iplus_of_lt, btzAxioms_but_line, btzAxioms_of_line, singularFlatAxioms_iff_lines, singularPastAt_e0, Iplus_of_lt_e0, singularFlatAxioms_iff_line_e0, mem_sing_zero_of_le, Jminus_subset_component, le_ballOpens_iff, lt_ballOpens_iff, le_ballSource_iff, lt_ballSource_iff, ballSource, nonvacuous_e0, K_calcul, K_monotone, t1Space_of_isoChartsCover, firstCountableTopology_of_isoChartsCover, exists_below, exists_above, exists_open_inter_sing_subset, exists_axis_seq: each [propext, Classical.choice, Quot.sound]. Name clash: a /tmp copy with `import Causal` in place of `import Causal.Port.SFALocal` elaborates with -DwarningAsError=true; no other file under Causal/ or scaffold/ (LineDevelopment.lean not read) mentions SFABTZ. No `lake build` run (shared package)."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-sfa-btz-e0/REPORT.json, labels[0].findings[0]",
+      "what": "« They are not chart facts alone »: this is stated as a fact, but the Lean only shows that the proofs use causal arc-connectedness and push-up. Nothing formalized shows that the two fields fail without absolute minimality. The existing precedent, SFALocalE0.e0_topTotal_separates (refutes I⁻(p) = ∅ without minimality, row rem:btz_pas_tarentin), does not refute these two fields: with ≤_⊤ and ≪_⊤ total, SingularPastAt and Iplus_of_lt both hold. By hand, a causality on E₀ that adds one relation x ≤_⊤ p (x regular, p BTZ) and agrees on proper open sets would break SingularPastAt (ii) at x, but this is not formalized.",
+      "fix": "In the curation's paper_findings write « the proofs use causal arc-connectedness … and push-up … » (or add « (by hand) » to the necessity claim), as in the text proposed under curation.defi:causal_E0."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-sfa-btz-e0/REPORT.json, labels[0].findings[0]",
+      "what": "« the past is a BTZ half-line in the sense of SingularPastAt » overstates SingularPastAt. That predicate is an approximation property from below, not a half-line statement. The closer's own question notes that it holds in E₀ modulo a τ-translation, where J⁻(p) is a whole circle.",
+      "fix": "Write « p is approached from below along sing₀(M) in the sense of SingularPastAt »."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-sfa-btz-e0/REPORT.json, labels[0].findings[1] (ETT.tex:1565–1573)",
+      "what": "The finding is true but understated. The file proves that some suitable sequence exists. An audit probe (/tmp, deleted, standard axioms) proves more from this file's exists_chart, exists_below and mem_interior_Jplus: at every BTZ point p of every E≥0-manifold, p ∈ Int J⁺(u) for EVERY u ∈ J⁻(p) ∖ {p}. So the proof's arbitrary increasing sequence p_n ∈ J⁻(p) ∖ {p} already meets lem:K_facile's hypothesis, and the gap at l.1570 is one of justification only.",
+      "fix": "Optional, at graduation or as a follow-up: add the lemma (below) and cite it in prop:K_calcul's l.1570 paper finding. Otherwise keep the closer's weaker wording; do not cite the stronger form to the author without an anchor. Lean (checked): theorem mem_interior_Jplus_of_le (hmin : C.AbsolutelyMinimal) (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) {p u : M} (hp : p ∈ SFALocal.sing M 0) (hup : C.le ⊤ u p) (hne : u ≠ p) : p ∈ interior (C.Jplus ⊤ {u}) := by obtain ⟨e, -, hiso, hpe, hpa, δ, hδ, hB⟩ := exists_chart hC hp; obtain ⟨w, hwV, huw, -, hwa, hwτ⟩ := exists_below hmin hC hiso hpe hpa hδ hB hup hne; have h := mem_interior_Jplus hiso hpa hB hwV hwa ⟨hpe, Metric.mem_ball_self hδ⟩ (by rw [E0.fcoord_of_axis hpa]; exact hwτ); refine interior_mono ?_ h; intro y hy; exact Precausality.mem_Jplus_singleton.2 (C.le_trans huw (Precausality.mem_Jplus_singleton.1 hy))"
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SFABTZ.lean (no theorem); REPORT.json labels[0].questions[0]",
+      "what": "The closer's reading of the label at M (the two fields plus J⁻(p) inside the component) leaves out the label's own M-level sentence, l.1349–1350: « a E≥0-manifold with at least one extreme BTZ white hole is not past distinguishing » (OQ-35's reading). Today it is anchored only through SingularFlatAxioms.not_pastDistinguishing, which waits on `line`. This file already gives it at every E≥0-manifold with a BTZ point, with no `line` and no T2 or countability. An audit probe (/tmp, deleted, standard axioms, elaborated under `import Causal`) proves it in five lines from singularPastAt (i), mem_sing_zero_of_le and SFALocal.Iminus_eq_empty.",
+      "fix": "Optional: add it (Lean below) and list it in defi:causal_E0's decls. Otherwise mention it in the row's notes as not yet stated. Lean (checked): theorem not_pastDistinguishing (hmin : C.AbsolutelyMinimal) (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) (hne : (SFALocal.sing M 0).Nonempty) : ¬ C.PastDistinguishing := by intro hd; obtain ⟨p, hp⟩ := hne; obtain ⟨u, -, hu⟩ := (singularPastAt hmin hC p hp).1; have hu0 := mem_sing_zero_of_le hmin hC hp (hu 0).1; exact (hu 0).2 (hd _ _ (by rw [SFALocal.Iminus_eq_empty hmin hC _ hu0, SFALocal.Iminus_eq_empty hmin hC _ hp]))"
+    },
+    {
+      "severity": "minor",
+      "where": "papers/ett/certificate/curation.toml l.942 (prop:mesure_admissible), l.953 (rem:singular_flat_spacetime_therefore), l.202 (rem:K_ensemble)",
+      "what": "This is not a defect of the closer's work. Once the target is graduated, the blocked_on of prop:mesure_admissible and rem:singular_flat_spacetime_therefore name a done target (« T-ett-sfa-btz-e0 ») and list « the three BTZ fields » as missing, but two of the three are now proved. rem:K_ensemble's blocked_on copies prop:K_calcul's old blocker.",
+      "fix": "Re-point them as under curation.other_rows."
+    }
+  ],
+  "findings_review": [
+    {
+      "claim": "ETT.tex:1344–1356: the two global facts the definition gives the later proofs (SingularPastAt, DEC-64's Iplus_of_lt) hold at every BTZ point of every E≥0-manifold, causal or not, without Hausdorff or countability; their proofs use causal arc-connectedness (cor:massA_cac, l.1408) and, for Iplus_of_lt, push-up (cor:pushup_sing, l.1419), both from absolute minimality (cor:massA_causalite, l.1396), all three stated after the definition.",
+      "true": true,
+      "level": "proof-level (dependency and ordering: how Section 3 transfers the model facts to M). Not statement-level: the definition's statement is about E₀ and is unaffected. Same pattern as the audited finding on rem:btz_pas_tarentin (ETT.tex:1358–1362). Line numbers checked: 1396, 1408, 1419. Wording caveats in findings 1–2."
+    },
+    {
+      "claim": "ETT.tex:1565–1573: the proof of prop:K_calcul (c) applies lem:K_facile (l.798–801, which needs p ∈ Int J⁺(p_n) for every n) without checking that hypothesis; at every BTZ point of every E≥0-manifold a suitable sequence exists (SFABTZ.singularPastAt), so prop:K_calcul holds at every E≥0-manifold ((c) when causal) and prop:K_monotone at every causal one, neither using lem:past_BTZ (a); the fourth case of prop:K_monotone (l.1626–1630) is valid at M in DEC-64's form.",
+      "true": true,
+      "level": "proof-level. The statements of prop:K_calcul and prop:K_monotone are unaffected. The gap was already in the curation (prop:K_calcul, finding on l.1570); this target gives it a Lean resolution at M. Stronger form (probe, finding 3): every u ∈ J⁻(p) ∖ {p} has p ∈ Int J⁺(u), so the paper's arbitrary sequence serves. The K_monotone remark agrees with the existing DEC-64 finding on that row (l.1630)."
+    },
+    {
+      "claim": "Roadmap: (a) needs no induction on chains; (b) the τ-translation transitions are not needed; the every-open-set local forms are more than needed (balls on the axis suffice); (c) confirmed in curve form, with p = q forcing M non-causal; (d) has a gap in its wording (the u_n at p must lie above u₀, which fails when the first step from x already reaches p, e.g. x = (0,0), p = (1,0) in E₀), repaired with exists_above / exists_below; T1 is needed for first and last parameters and is derived from the charts.",
+      "true": true,
+      "level": "roadmap only (the planner's [r] notes), nothing about the paper. Checked against the code: no exists_eqOn_rotE0_tauShift or other transition is used (the only mention is the SCOPE's l.75); singularPastAt (ii) takes u₀ on a curve after its last visit to x (exists_above), then w below p on a curve from u₀ (exists_below), and exists_axis_seq with η = τ(p) − τ(w) puts u 0 over w (so u 0 = w by injectivity of the chart: « u_0 := w » is accurate). Gap (d): when the chain is the single step x ≤ p, « above the chain's last point below p » means above x, and that does not give u₀ ≤ u₁. True."
+    }
+  ],
+  "question": {
+    "asked": "Is defi:causal_E0 a statement only of the model E₀, or also of the BTZ points of an E≥0-manifold? Reading taken: at the model, E0.causal_E0; at M, the two fields plus J⁻(p) ⊆ the component; the literal half-line not read at M.",
+    "needs_new_OQ": false,
+    "assessment": "Not genuinely open, so no OQ-87. (1) The printed text settles the scope of the main assertions: « for a singular point p ∈ sing(E₀) ». The model form is E0.causal_E0, under OQ-34/OQ-35. (2) The definition's only M-level sentences are its « In particular » consequences. At M they are rem:btz_pas_tarentin's content, a done row (SFALocal.btz_pas_tarentin), and the not-past-distinguishing sentence. OQ-35 already reads that sentence at M (« extreme BTZ white hole » = a BTZ point, sing₀ ≠ ∅), and finding 4 gives it at every E≥0-manifold. (3) Transferring the model facts to M as global fields is the strict library's audited modelling choice (Causal/SingularFlat.lean, BTZAxioms docstring and SCOPE: « The BTZ facts of defi:causal_E0 are stated globally, as the proofs of prop:K_monotone and cor:K_injectif use them »). DEC-64 ruled the corrected l.1352–1355 at exactly that level. The causality at M is OQ-18. (4) The literal half-line at M is a mathematical fact, not a reading: given `line`, it holds when M is causal (SingularFlat.Jminus_eq_image), and it fails when M is not causal. No ruling would change a statement or a mark of this row, which stays unmarked on OQ-34/OQ-35 and DEC-64 in any case. Record the reading as a note, not as an OQ.",
+    "by_hand_check": "True, by hand (not formalized). τ ↦ τ + T preserves −2dτdr + dr² + r²dθ², and the library's chart transitions near the axis include tauShift (BPrimeE0.exists_eqOn_rotE0_tauShift), so E₀/⟨τ + T⟩ is an E₀-manifold: Hausdorff and second countable, since the ℤ-action on ℝ × ℂ is free and properly discontinuous. Its BTZ points form the circle {r = 0}. Every point q of the circle has a lift q̃ below a lift p̃ of p on the axis, and the projected axis segment is causal, so q ≤ p. Together with J⁻(p) ⊆ sing₀ (mem_sing_zero_of_le) this gives J⁻(p) = the whole circle. SingularPastAt holds there: J⁻(u₀) = J⁻(p) = the circle, and p ∈ Int J⁺(u_n) from the chart. The manifold is not causal. The phenomenon is already disclosed in SingularFlat's SCOPE (Causal/SingularFlat.lean:76–80, « E_α or E_0 modulo a translation along its singular line: the component is a circle »)."
+  },
+  "scope": {
+    "ok": true,
+    "detail": "git status --short: M roadmap/roadmap.toml (the master's status bookkeeping: T-ett-sfa-btz-e0 and T-ett-line-development ready → active, T-ett-readme-modules → done with commit 3699857; modified 19:29, before the closer's files at 19:45; not the closer's), ?? lean-causal/campaign/T-ett-sfa-btz-e0/, ?? lean-causal/scaffold/CausalScaffold/SFABTZ.lean, and the other closer's ?? lean-causal/scaffold/CausalScaffold/LineDevelopment.lean and ?? lean-causal/campaign/T-ett-line-development/ (not read). No strict file, scaffold root, ledger, curation or register changed. The file imports only Causal.Port.SFALocal, as the dispatch says."
+  },
+  "docstring_contract": {
+    "ok": true,
+    "detail": "kb/0006 in order: # title (l.4); the label cited unmarked with its line (`defi:causal_E0` — `ETT.tex:1344`) within the first 4000 characters; the paper's sentences quoted verbatim (l.1345–1355, the l.1351 editorial comment noted); ## Hypothesis checklist (six rows: ⚠ read / ⚠ weakened / ✗ false + ⚠ re-scoped DEC-64, all true to the code); ## SCOPE (disclosed), true (why unmarked, one chart at a time, no transition used, `line`/`massive_line` not here); Provenance line. `prop:K_calcul`, `prop:K_monotone` are cited unmarked, as they should be."
+  },
+  "curation": {
+    "defi:causal_E0": {
+      "extra_lean_files_add": ["Causal/Port/SFABTZ.lean"],
+      "decls_add": ["Causal.SFABTZ.btzAxioms_but_line", "Causal.SFABTZ.btzAxioms_of_line", "Causal.SFABTZ.singularPastAt", "Causal.SFABTZ.Iplus_of_lt", "Causal.SFABTZ.mem_sing_zero_of_le", "Causal.SFABTZ.Jminus_subset_component", "Causal.SFABTZ.singularFlatAxioms_iff_lines", "Causal.SFABTZ.singularPastAt_e0", "Causal.SFABTZ.Iplus_of_lt_e0", "Causal.SFABTZ.singularFlatAxioms_iff_line_e0", "Causal.SFABTZ.le_ballOpens_iff", "Causal.SFABTZ.lt_ballOpens_iff", "Causal.SFABTZ.nonvacuous_e0"],
+      "decls_add_if_finding_4_adopted": ["Causal.SFABTZ.not_pastDistinguishing"],
+      "lean_proved_override": "partial (unchanged)",
+      "blocked_on": "OQ-34 (which metric on E₀: the printed one makes the line timelike) and OQ-35 (the undefined 'lightlike', 'past distinguishing', 'extreme BTZ white hole'); l.1353–1355 is false as printed (DEC-64); at the BTZ points of an E≥0-manifold (Causal.SFABTZ) also OQ-18 (« its causality », l.1339–1340: both global fields use absolute minimality) and OQ-82 (the group)",
+      "notes_append": "T-ett-sfa-btz-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording of the findings; fixed at graduation), Causal/Port/SFABTZ.lean: at every BTZ point of every E≥0-manifold (SingularGXStructure (Flat.isom 2) (Minkowski 2) M, any absolutely minimal C with IsoChartsCoverDEC25 over massAModelCausality; M causal or not; no Hausdorff or countability, since T1 and first countability come from the charts) the two global BTZ fields hold: singularPastAt and DEC-64's Iplus_of_lt. Also J⁻(p) ⊆ sing₀(M), inside the component of p (mem_sing_zero_of_le, Jminus_subset_component). With the field line they give BTZAxioms (btzAxioms_of_line). At a T2, second countable E≥0-manifold, SingularFlatAxioms is equivalent to line ∧ massive_line (singularFlatAxioms_iff_lines); at E₀-manifolds it is equivalent to line (singularFlatAxioms_iff_line_e0). Model input: in a ball of E₀ centred on the axis, the ball's ≤ and ≪ are E₀'s global ones (le_ballOpens_iff, lt_ballOpens_iff). The proofs read one chart into E₀ at a time and use no transition between charts. Not vacuous at M = E₀ (nonvacuous_e0, both fields from this module's theorems). Reading at M: the label is printed for p ∈ sing(E₀), and its model form stays E0.causal_E0. At M it is read as the two fields plus J⁻(p) inside the component. The literal J⁻(p) = {r = 0, τ ≤ τ(p)} at M needs line and M causal (SingularFlat.Jminus_eq_image). By hand, E₀ modulo a τ-translation is not causal: its BTZ points form a circle, J⁻(p) is the whole circle, and SingularPastAt still holds (SingularFlat SCOPE). Unmarked: readings.",
+      "paper_findings_add": "ETT.tex:1344–1356, a proof-level remark on how Section 3 uses the definition at the BTZ points of an E≥0-manifold (prop:K_calcul l.1565–1573, prop:K_monotone l.1626–1630, prop:K_densite_sing l.1663–1669). Two global forms are used there, and both hold at every BTZ point of every E≥0-manifold, causal or not: p is approached from below along sing₀(M), with p ∈ Int J⁺(p_n) (SingularPastAt; Causal.SFABTZ.singularPastAt), and, for p < p′ both BTZ, J⁺(p′) ∖ sing₀(M) ⊂ I⁺(p), DEC-64's corrected form of l.1352–1355 (Causal.SFABTZ.Iplus_of_lt). The proofs here read one chart into E₀ at a time and use causal arc-connectedness of M (cor:massA_cac, l.1408) and, for the second, push-up (cor:pushup_sing, l.1419), both resting on absolute minimality (cor:massA_causalite, l.1396). All three are stated after the definition. The paper may want to say that the definition's facts pass to M through these corollaries."
+    },
+    "prop:K_calcul": {
+      "extra_lean_files_add": ["Causal/Port/SFABTZ.lean"],
+      "decls_add": ["Causal.SFABTZ.K_calcul"],
+      "lean_proved_override": "partial (unchanged)",
+      "blocked_on": "OQ-16 (push-up in place of causal plainness in (a)/(b); causal plainness also holds at every E≥0-manifold, SFALocal.causallyPlain: evidence, not an answer); OQ-18 (« E≥0-manifold »'s causality: any absolutely minimal causality with an isomorphic chart at each point), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀). No Lean hypothesis is left (SFABTZ.K_calcul)",
+      "notes_append": "T-ett-sfa-btz-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor: the three assertions hold at every E≥0-manifold, (c) when M is causal (Causal.SFABTZ.K_calcul, Causal/Port/SFABTZ.lean). This is Causality.K_calcul with S = sing₀(M), its hypotheses discharged by SFALocal.pushUp, mem_Zplus, mem_Zminus_of_notMem, SFABTZ.singularPastAt and first countability from the charts. It uses neither lem:past_BTZ (a) (the field line) nor Hausdorff nor second countability. Hypotheses witnessed with a BTZ point at M = E₀ (SFABTZ.nonvacuous_e0).",
+      "paper_findings_edit": "Append to the l.1570 finding: « At every BTZ point of every E≥0-manifold such a sequence exists: p_n → p in J⁻(p) ∖ {p}, non-decreasing, with p ∈ Int J⁺(p_n) for every n and, for any given x < p, x ∈ Int_{J⁻(p)} J⁻(p_0) (Causal.SFABTZ.singularPastAt); so (c) holds (Causal.SFABTZ.K_calcul). » If finding 3's lemma is added, append also « In fact p ∈ Int J⁺(u) for every u ∈ J⁻(p) ∖ {p} (Causal.SFABTZ.mem_interior_Jplus_of_le), so the proof's arbitrary sequence serves. »"
+    },
+    "prop:K_monotone": {
+      "extra_lean_files_add": ["Causal/Port/SFABTZ.lean"],
+      "decls_add": ["Causal.SFABTZ.K_monotone"],
+      "lean_proved_override": "partial (unchanged)",
+      "blocked_on": "OQ-16 (push-up in place of causal plainness, through prop:K_calcul (a)/(b) in the future half; causal plainness also holds at every E≥0-manifold, SFALocal.causallyPlain: evidence, not an answer); OQ-18 (« E≥0-manifold »'s causality), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀). No Lean hypothesis is left (SFABTZ.K_monotone)",
+      "notes_append": "T-ett-sfa-btz-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor: the statement holds at every causal E≥0-manifold (Causal.SFABTZ.K_monotone, Causal/Port/SFABTZ.lean). This is Causality.K_monotone with S = sing₀(M), hdown = SFABTZ.mem_sing_zero_of_le and hfut = SFABTZ.Iplus_of_lt (DEC-64's form). It uses neither the field line nor Hausdorff nor second countability. Witness with a BTZ point: E₀ (SFABTZ.nonvacuous_e0, E0.isCausal).",
+      "paper_findings_edit": "Append to the l.1630 finding: « The case is valid at every E≥0-manifold in that form, which Causal.SFABTZ.Iplus_of_lt proves there; the proposition holds at every causal E≥0-manifold (Causal.SFABTZ.K_monotone). »"
+    },
+    "other_rows": {
+      "prop:mesure_admissible (l.942)": "In blocked_on replace « (T-ett-singular-sfa; at E₀-manifolds only the three BTZ fields singularPastAt, Iplus_of_lt, line of SFALocalE0.singularFlatAxioms_iff: T-ett-sfa-btz-e0, T-ett-sfa-line-e0) » with « (T-ett-singular-sfa; only the fields line and massive_line remain, SFABTZ.singularFlatAxioms_iff_lines; at E₀-manifolds only line, SFABTZ.singularFlatAxioms_iff_line_e0: T-ett-sfa-line-e0, T-ett-sfa-massive-line) », keeping the rest",
+      "rem:singular_flat_spacetime_therefore (l.953)": "In blocked_on replace « (T-ett-singular-sfa; at E₀-manifolds only the three BTZ fields of SFALocalE0.singularFlatAxioms_iff: T-ett-sfa-btz-e0, T-ett-sfa-line-e0) » with the same parenthesis as for prop:mesure_admissible, keeping the rest",
+      "rem:K_ensemble (l.202), optional": "blocked_on: « prop:K_calcul's blocker: OQ-16 (push-up in place of causal plainness); OQ-18, OQ-82, OQ-34, OQ-35 (the readings). The last sentence (l.769) holds at every causal E≥0-manifold (SFABTZ.K_calcul (c)) »; add Causal.SFABTZ.K_calcul to its decls only if the master wants that row anchored at M"
+    }
+  },
+  "graduation_fixes": [
+    "Move scaffold/CausalScaffold/SFABTZ.lean to Causal/Port/SFABTZ.lean (namespace Causal.SFABTZ unchanged, import Causal.Port.SFALocal unchanged) and add `import Causal.Port.SFABTZ` to Causal.lean; the scaffold root does not import it (kb/0025). No name clash under `import Causal` (checked).",
+    "Curation as above: defi:causal_E0 (decls, blocked_on, notes, paper finding in the reworded form of findings 1–2), prop:K_calcul and prop:K_monotone (decls, extra_lean_files, blocked_on with no done target, notes, the finding edits), and the re-pointing of prop:mesure_admissible and rem:singular_flat_spacetime_therefore, which would otherwise name the done T-ett-sfa-btz-e0.",
+    "Optional (findings 3 and 4): add the two probe-checked lemmas mem_interior_Jplus_of_le and not_pastDistinguishing to the module (section Manifold, after exists_below / mem_sing_zero_of_le). Then re-run `lake env lean -DwarningAsError=true` and list them in the docstring's « What is proved ». If they are not added, do not cite their content to the author as proved.",
+    "No OQ-87 (see question): the reading goes into defi:causal_E0's notes."
+  ]
+}

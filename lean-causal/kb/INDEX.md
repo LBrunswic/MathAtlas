@@ -172,3 +172,6 @@ rediscover. One fact per entry.
 | [0164](entries/0164-measures-through-charts.md) | pattern | Admissible measures through a chart isomorphism: choose the model's set first |
 | [0165](entries/0165-chart-image-not-convex.md) | pitfall | U causally convex in M does not make its chart image causally convex in the model |
 | [0166](entries/0166-family-measurable-instances.md) | pattern | The measurable structure of the E≥0 model family |
+| [0172](entries/0172-e0-ball-local-forms.md) | pattern | Inside a ball of E₀ centred on the axis, the ball's relations are E₀'s global ones |
+| [0173](entries/0173-global-btz-one-chart.md) | pattern | Global BTZ facts at an E≥0-manifold, one chart at a time |
+| [0174](entries/0174-t1-first-countable-from-charts.md) | pattern | Every E≥0-manifold is T1 and first countable from its charts |
