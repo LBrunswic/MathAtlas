@@ -258,3 +258,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 07:47–08:45 (Paris); agents: 5 closers, 6 audits, 1 fix round (shared cap 6 with /ett-programme)
 - new OQ: 74 (Yamabe n ≥ 1), 75 (Benzécri affine twin of OQ-71), 76 (Syracuse « the known ones », η, « ≪ »)
 - next: plan (rule 2: no ready closer; only the master T-ledger-stale-blockers, which needs papers/ett with /ett-programme). For the planner: merge exists_isCoqueStricteAff_demiDroite_ne_univ into Poches; T-bz-c2-theoreme-affine is unblocked (premier-affine done)
+
+## 2026-11-21 08:51 · wave of 1 · T-ledger-stale-blockers
+- T-ledger-stale-blockers (master): 17 ETT rows re-pointed from the done T-ett-port-e0 to their current blockers; roadmap.py check gains stale_blockers (a ledger row's blocked_on naming a done or dropped target of either roadmap fails), shown to bite on the old ledger (17), with a test case; under brief papers/ett leases, agreed with /ett-programme
+- gates: roadmap ✓ (both roadmaps), ledger ett ✓, atlas ✓, selftest ✓; unit suite: one red, LadderEmit, from /ett-programme's uncommitted programme/ladder.toml (its keeper is running; the committed ladder matches the shipped Rules/Test.lean)
+- commits: 1ac093f (+ this)
+- wall time: 08:50–08:51 (Paris); agents: none (master)
+- next: plan (rule 2: no ready closer)
