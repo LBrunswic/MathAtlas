@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-egf",
-    "git_commit": "b2446d2"
+    "git_commit": "a66988d"
   },
   "statements": [
     {
@@ -36,12 +36,57 @@
       "nl_status_auto": "cited",
       "statement_sha256": "d723518f624e5f3c2daa4e53dde78601a743933a397f2196bf3facfabe708341",
       "statement_sha256_current": "d723518f624e5f3c2daa4e53dde78601a743933a397f2196bf3facfabe708341",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "EGF/Sampling.lean",
+        "EGF/Defs.lean",
+        "EGF/Universality.lean"
+      ],
+      "decls": [
+        "EGF.sampling_theorem",
+        "EGF.GenerativeFlow.pathLaw",
+        "EGF.stopIndex",
+        "EGF.stopTime",
+        "EGF.sampledState",
+        "EGF.GenerativeFlow.pathKernel",
+        "EGF.GenerativeFlow.decide",
+        "EGF.GenerativeFlow.stop",
+        "EGF.GenerativeFlow.cont",
+        "EGF.GenerativeFlow.pathLaw_spec",
+        "EGF.GenerativeFlow.pathLaw_hazard",
+        "EGF.GenerativeFlow.pathLaw_hazard_rnDeriv",
+        "EGF.GenerativeFlow.pathLaw_chain",
+        "EGF.GenerativeFlow.pathLaw_map_state",
+        "EGF.normalize",
+        "EGF.GenerativeFlow.occupation_ac_of_isFlowMatching",
+        "EGF.GenerativeFlow.lintegral_stopTime",
+        "EGF.GenerativeFlow.pathLaw_sampledState",
+        "EGF.GenerativeFlow.mass_eq",
+        "EGF.GenerativeFlow.expectedTau_le",
+        "EGF.GenerativeFlow.sampleLaw_eq",
+        "EGF.GenerativeFlow.expectedTau",
+        "EGF.GenerativeFlow.sampleLaw",
+        "EGF.GenerativeFlow.chainKernel",
+        "EGF.GenerativeFlow.chainLaw",
+        "EGF.GenerativeFlow.chainLaw_eq",
+        "EGF.GenerativeFlow.chainLaw_tendsto_pathLaw",
+        "EGF.Resample.sampling_theorem_inhabited"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked: EGF.sampling_theorem on any measurable space, the sampler constructed (Ionescu-Tulcea, GenerativeFlow.pathLaw), with τ < ∞ a.s. added; agrees with GFNBounds' chainLaw (chainLaw_tendsto_pathLaw, lintegral_stopTime). Rests on the confirmations of OQ-60 (b).",
+      "notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked: EGF.sampling_theorem on any measurable space, the sampler constructed (Ionescu-Tulcea, GenerativeFlow.pathLaw), with τ < ∞ a.s. added; agrees with GFNBounds' chainLaw (chainLaw_tendsto_pathLaw, lintegral_stopTime). Rests on the confirmations of OQ-60 (b).",
+      "paper_findings": [
+        "The theorem is cited (main.tex:179, bengio2021flow, brunswic2024theory) and proved here on any measurable space, with no named hypothesis. The proof ports GFNBounds.Core.SamplingGeneral: the sampler's occupation measure is dominated by every super-solution, and (F_term + F_out)/F_init(S) is one.",
+        "main.tex:164: the stopping probability dF_term/d(F_term + F_out*)(s_t) is defined only (F_term + F_out*)-a.e. The footnote at main.tex:164 gives its existence. That the version does not matter is not stated, but it holds: under flow matching the sampler's unstopped mass is dominated by (F_term + F_out)/F_init(S) (EGF.GenerativeFlow.occupation_ac_of_isFlowMatching), so every version gives the same sampler law (EGF.GenerativeFlow.pathLaw_hazard_rnDeriv).",
+        "'s_tau ~ F_term' presupposes tau < inf almost surely, which the statement does not list. It follows from E(tau) < inf and is proved as a clause of EGF.sampling_theorem.",
+        "main.tex:163 indexes the chain '(s_t)_{g >= 1}' for '(s_t)_{t >= 1}' (typo)."
+      ],
+      "extra_lean_files": [
+        "EGF/Defs.lean",
+        "EGF/Universality.lean",
+        "EGF/Sampling.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -326,12 +371,35 @@
       "nl_status_auto": "definition",
       "statement_sha256": "69d658477519fef6d571073a013380361ac442e568de0df2bee02239abe106fc",
       "statement_sha256_current": "69d658477519fef6d571073a013380361ac442e568de0df2bee02239abe106fc",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "EGF/Sampling.lean",
+        "EGF/Defs.lean",
+        "EGF/Universality.lean"
+      ],
+      "decls": [
+        "EGF.virtualInit",
+        "EGF.virtualTerm",
+        "EGF.isFlowMatching_virtual",
+        "EGF.virtualInit_univ",
+        "EGF.initialError",
+        "EGF.terminalError",
+        "EGF.initialError_eq_negPart",
+        "EGF.terminalError_eq_posPart"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked in EGF/Sampling.lean: EGF.virtualInit, virtualTerm over the strict δ's (l.316–318); every generative flow is flow matching from F̂_init to F̂_term (isFlowMatching_virtual).",
+      "notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked in EGF/Sampling.lean: EGF.virtualInit, virtualTerm over the strict δ's (l.316–318); every generative flow is flow matching from F̂_init to F̂_term (isFlowMatching_virtual).",
+      "paper_findings": [
+        "main.tex:320 (the remark after the definition: any generative flow is flow matching from F_init-hat to F_term-hat) is proved for finite measures and a Markov policy (EGF.isFlowMatching_virtual), with equal virtual masses (EGF.virtualInit_univ). The proof is X + (Y - X) = Y + (X - Y) for finite measures (EGF.add_sub_eq_add_sub).",
+        "main.tex:316 names the generative flow (pi*, f_out*), a density, while the errors use the measure F_out* (main.tex:161). This is notation only."
+      ],
+      "extra_lean_files": [
+        "EGF/Defs.lean",
+        "EGF/Universality.lean",
+        "EGF/Sampling.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -357,12 +425,51 @@
       "nl_status_auto": "open",
       "statement_sha256": "7c3d0086b56feb3be137512720671c1fdd5a2c4160bbb67d2d2f97bea8f37da0",
       "statement_sha256_current": "7c3d0086b56feb3be137512720671c1fdd5a2c4160bbb67d2d2f97bea8f37da0",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "EGF/Sampling.lean",
+        "EGF/Defs.lean",
+        "EGF/Universality.lean"
+      ],
+      "decls": [
+        "EGF.main_quantitative_sampling",
+        "EGF.tvDist",
+        "EGF.tvDist_eq_iSup",
+        "EGF.virtualTerm",
+        "EGF.initialError",
+        "EGF.GenerativeFlow.pathLaw",
+        "EGF.stopIndex",
+        "EGF.stopTime",
+        "EGF.sampledState",
+        "EGF.GenerativeFlow.pathKernel",
+        "EGF.GenerativeFlow.decide",
+        "EGF.GenerativeFlow.stop",
+        "EGF.GenerativeFlow.cont",
+        "EGF.GenerativeFlow.pathLaw_spec",
+        "EGF.GenerativeFlow.pathLaw_hazard",
+        "EGF.GenerativeFlow.pathLaw_hazard_rnDeriv",
+        "EGF.GenerativeFlow.pathLaw_chain",
+        "EGF.GenerativeFlow.pathLaw_map_state",
+        "EGF.normalize",
+        "EGF.GenerativeFlow.occupation_ac_of_matched",
+        "EGF.GenerativeFlow.negative_control_marginal",
+        "EGF.TwoPoint.negative_control_sharp"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked: EGF.main_quantitative_sampling (only F_init ≠ 0), sharp (TwoPoint.negative_control_sharp). Rests on OQ-60 (a), (b). Its appendix restatement theo:negative_control_appendix is the same statement (a twin the ledger does not link).",
+      "notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked: EGF.main_quantitative_sampling (only F_init ≠ 0), sharp (TwoPoint.negative_control_sharp). Rests on OQ-60 (a), (b). Its appendix restatement theo:negative_control_appendix is the same statement (a twin the ledger does not link).",
+      "paper_findings": [
+        "The bound is sharp. On S = Bool with the identity policy, F_out = 0, F_init = delta_true and F_term = delta_false: delta F_init = delta_false, F_term-hat = delta_true + delta_false, the sampler stops at once at true, and TV(s_tau || F_term-hat/2) = 1/2 = delta F_init(S)/F_term-hat(S) (EGF.TwoPoint.negative_control_sharp).",
+        "The 1/2 of the total variation is needed. On the same example the unhalved norm ||law(s_tau) - F_term-hat/F_term-hat(S)|| = 1 exceeds the bound 1/2 (EGF.TwoPoint.negative_control_sharp, second clause). main.tex:327 says only 'TV the total variation'. main.tex:338 rewrites TV as (1/2) sum |.|, and the proof's last step (main.tex:863-866: TV(s_tau, alpha s_tau + (1 - alpha) Q) = (1 - alpha) TV(s_tau, Q) <= 1 - alpha) needs TV <= 1.",
+        "The flow is not flow matching from F_init to F_term-hat, so the sampler's termination is not given by theo:sampling_theorem. The proof takes it for granted (main.tex:853: 'The sampling distribution s_tau of F is then F_init pi^{tau,F}/F_init(S)'). It holds because F_init <= F_init-hat and the flow matches from F_init-hat: the occupation is dominated by F_term-hat + F_out, so E(tau) <= (F_term-hat(S) + F_out(S))/F_init(S) and tau < inf a.s. (clauses 1-2 of EGF.main_quantitative_sampling). The same gap is noted in GFNBounds.Core.SamplingGeneralBounds.",
+        "main.tex:322 writes the flow (pi*, f_out*) with a density, while the sampler and F_term-hat use the measure F_out* (main.tex:161). This is notation only."
+      ],
+      "extra_lean_files": [
+        "EGF/Defs.lean",
+        "EGF/Universality.lean",
+        "EGF/Sampling.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -655,12 +762,39 @@
       "nl_status_auto": "proved",
       "statement_sha256": "5ddd570955d7f552276f7edd94bfceb3e1e020ade8ebbb61866f7132f143e2fc",
       "statement_sha256_current": "5ddd570955d7f552276f7edd94bfceb3e1e020ade8ebbb61866f7132f143e2fc",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "EGF/Sampling.lean",
+        "EGF/Defs.lean",
+        "EGF/Universality.lean"
+      ],
+      "decls": [
+        "EGF.main_quantitative_sampling",
+        "EGF.GenerativeFlow.termLaw_split",
+        "EGF.GenerativeFlow.fterm_univ_eq",
+        "EGF.GenerativeFlow.negative_control_marginal",
+        "EGF.normalize_add_sub_normalize_le",
+        "EGF.tvDist_normalize_add_le",
+        "EGF.tvDist",
+        "EGF.tvDist_eq_iSup",
+        "EGF.isFlowMatching_virtual",
+        "EGF.TwoPoint.negative_control_sharp"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked on the same anchor EGF.main_quantitative_sampling as theo:negative_control (the same statement up to a comma; its proof l.852–867 is the one formalized). Rests on OQ-60.",
+      "notes": "T-egf-sampling (atlas-team, 2026-11-21), audit AUDIT-1 minor (pathLaw_spec's docstring over-stated the Markov clause, reworded at graduation; two REPORT phrasings). Marked on the same anchor EGF.main_quantitative_sampling as theo:negative_control (the same statement up to a comma; its proof l.852–867 is the one formalized). Rests on OQ-60.",
+      "paper_findings": [
+        "The proof (main.tex:852-867) is formalized as written, on measures. The flow is flow matching from F_init-hat to F_term-hat (main.tex:857, EGF.isFlowMatching_virtual). The chains from F_init and from delta F_init share their stopping rule, and their stopped laws add up to F_term-hat (main.tex:858-862, EGF.GenerativeFlow.termLaw_split). A mixture estimate concludes (main.tex:863-866, EGF.tvDist_normalize_add_le). The mass identity of main.tex:854-855 is clause 4 of the anchor.",
+        "main.tex:863 divides by delta F_init(S). That is undefined when delta F_init = 0, where the flow matches from F_init and the bound is 0 (theo:sampling_theorem). The formal mixture estimate (EGF.normalize_add_sub_normalize_le) does not divide by delta F_init(S), so that case needs no separate argument.",
+        "The termination gap and the 1/2 of TV (findings 2-3 of theo:negative_control) concern this proof: main.tex:853 presumes tau < inf a.s., and main.tex:866 needs TV <= 1.",
+        "The ledger links theo:negative_control and theo:negative_control_appendix by no twin, though the statements are identical up to a comma (main.tex:323 vs :846). Both are certified by the one anchor EGF.main_quantitative_sampling. Twinning them is a curation point for the master."
+      ],
+      "extra_lean_files": [
+        "EGF/Defs.lean",
+        "EGF/Universality.lean",
+        "EGF/Sampling.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     }
