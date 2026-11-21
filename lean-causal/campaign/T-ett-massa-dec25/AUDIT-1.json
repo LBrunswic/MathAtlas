@@ -1,0 +1,59 @@
+{
+  "target": "T-ett-massa-dec25",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "cor:massA_causalite",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, and the row is partial as dispatched: no ``**`label`**`` in the first 4000 characters, and the ledger regex finds none in the whole file. IsAtlasCausalityDEC25 reads « natural » as follows: every chart of the maximal a.e. atlas and every IsAEChart into a model is a ChartIso, and the causality is absolutely minimal. That is the OQ-18 reading over DEC-25 as Causal.GXSingularDEC25 reads it (the maximal a.e. atlas and every X_A-chart). It is disclosed in the checklist (l.66), in SCOPE « Charts » (l.86-89) and in REPORT question 3. The uniqueness half is at least the paper's statement in that reading. massA_causalite_unique_dec25 shows that an absolutely minimal C' with one isomorphic chart at each point equals the natural C. It takes no hG, ha, hb, hreg or hiso, and its proof is eq_of_agreeOn_locally plus ChartIso.agree. IsAtlasCausalityDEC25.eq is the symmetric form, under hcov. isAtlasCausalityDEC25_iff is correct and only reindexes. I = ULift.{max y z} {e // e ∈ aeAtlas}, J = ULift.{v} (Σ a, {e // IsAEChart e}), β = the sigma index, eY = the chart, and both lifts land in Type (max u v y z) as IsAtlasCausality's single universe w₃ requires. The ULift hides nothing, since each conjunct maps to its own conjunct through .down. The existence half (massA_causalite_dec25, massA_singular_dec25) takes hreg and (b′) hiso as named hypotheses, which are not axioms. It is a genuine corollary of existsUnique_causality_singularGX_dec25, and neither hypothesis makes it trivial. All the hypotheses together are satisfiable: the strict singularGX_dec25_line witnesses them, with Sing = ∅. forall_exists_isAtlasCausalityDEC25_iff is a real equivalence, not true by unfolding. The forward direction instantiates N = X_α through the strict forall_exists_causality_singularGX_iff and drops minimality. The backward direction is the existence theorem. At the E≥0 models (forall_exists_massA_dec25_models_iff), ha and hG are discharged by minkowski_model_facts and hb by massAModel_facts. massA_dec25_models reaches Flat.isom_strongMorphism, but only through the unused third conjunct of minkowski_model_facts; its G is arbitrary. See the findings: the iff and finding 2 need the maximal-atlas qualifier, and the Flat.isom 2 reading needs rewording."
+    },
+    {
+      "label": "cor:massA_cac",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, and the row is partial. massA_cac_dec25 reads: every natural causality (DEC-25, with hcov) is causally arc-connected, given that the models are. massA_cac_dec25_of_isoChartsCover is a local form that is stronger than the paper: absolutely minimal plus one isomorphic chart at each point. massA_dec25_models discharges ha and hb for E^{1,2}, E₀ and E_κ (κ > 0), for any G and any singular structures on the models. The existence of the natural causality is not assumed and is left to cor:massA_causalite, which is disclosed. The proof-term walk (Expr.getUsedConstants over values, and over values plus types, from a /tmp copy since deleted) found no transition lemma among the Causal.* constants massA_cac_dec25 reaches: no ChartIso.agreeOn_of_mem_aeAtlas, agreeOn_of_isAEChart*, agreeOn_of_smul, exists_smul_eq_*, gxGroupoid, IsRegularOn, StrongMorphism, Flat.isom* or existsUnique_*. The walk did find Causal.massA_cac, IsAtlasCausality and LocallyCausallyArcConnected.causallyArcConnected. The signature takes no hreg and no hiso. REPORT finding 3 is true."
+    },
+    {
+      "label": "cor:pushup_sing",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, and the row is partial. pushup_sing_dec25 and its local form read like cac, with hpX and hpY added. massA_dec25_models discharges hpX and hpY through minkowski_pushUp, massive_pushUp and the strict Causal.E0LM.e0_pushUp. It discharges E₀'s causal arc-connectedness through the strict Causal.E0.causallyArcConnected. massAModel_facts reaches both strict theorems, by cases on Option {κ // 0 < κ}. The walk from pushup_sing_dec25 reaches the same constants as cac, plus pushup_sing and CausallyArcConnected.pushUp. It reaches no transition, action, hreg or (b′). REPORT finding 3 is true for push-up as well."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "I ran `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/MassADEC25.lean` from lean-causal: exit 0, no output, 3 s. I did not run `lake build`, per the dispatch, and no other lake or lean process was running. The file has no sorry, native_decide, axiom, admit, opaque, implemented_by or set_option; its one 'sorry' token is the docstring's « no `sorry` ». I ran #print axioms from a /tmp copy on all 24 theorem and def declarations, every name the REPORT lists (the abbrevs MassAModel, AtlasIndexDEC25 and ModelChartIndexDEC25 aside). Each gives [propext, Classical.choice, Quot.sound]. The /tmp probe is deleted. No new name clashes with Causal/ or scaffold/, siblings included (grep -w on all 29 names). Imports are strict only."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[1]; MassADEC25.lean:273-277, 408-412 and SCOPE",
+      "what": "Finding 2 says, without qualification, that every E≥0-manifold carries a natural causality « if and only if » (b′) holds at the models. The 'only if' direction instantiates M = X_α and needs every IsAEChart out of X_α to be an isomorphism. It holds for the Lean's class of manifolds and for its maximal reading of « every chart » (maximal a.e. atlas plus every IsAEChart). It is not established if the charts are only a given covering sub-atlas, such as gx's specific X_A-atlas. OQ-64 already carries that qualifier, and the same wording was fixed at graduation for T-ett-gxsingular-dec25 (its AUDIT-1).",
+      "fix": "In finding 2 and in SCOPE, add « (for the Lean's class of manifolds and its maximal-atlas reading of the charts, as in OQ-64) » after « if and only if »."
+    },
+    {
+      "severity": "minor",
+      "where": "MassADEC25.lean:57-58, 66; REPORT.json labels[0].hypotheses[1]",
+      "what": "« Natural » needs absolute minimality (« necessary: twoLines_dec25_not_unique »). The counterexample is ℝ ⊔ ℝ, with G the translations of ℝ, X = ℝ and one model ℝ. That is a fair refutation of uniqueness-without-minimality for prop:GX_sing_espace_temps_topo's « unique » (l.622) under DEC-25, in the library's gluing-free reading of defi:causalite (OQ-18). It is correct: Sing = ∅, every IsAEChart is shown to lie in the maximal a.e. atlas (IsAEChart.trans_chart_mem_aeAtlas), and C' = C.topEnlarge is not absolutely minimal. But ℝ ⊔ ℝ is not an E≥0-manifold, and the E^{1,2} ⊔ E^{1,2} analogue is not formalized. REPORT finding 1 does say « on ℝ ⊔ ℝ with one model ℝ ». The docstring's « necessary » reads as if it were shown at cor:massA_causalite.",
+      "fix": "Write « necessary in the general DEC-25 setting (ℝ ⊔ ℝ, not an E≥0-manifold): twoLines_dec25_not_unique »."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].questions[1]; MassADEC25.lean:65, 385-390",
+      "what": "Isom(E^{1,2}) is read as Causal.Flat.isom 2 = SO₀(1,2) ⋉ ℝ^{1,2}, « the group for which (a) holds ». (a) also holds for the orthochronous O⁺(1,2) ⋉ ℝ^{1,2}: a spatial reflection preserves the future cone. So Flat.isom 2 is a reading (Isom₀), not forced by (a). This matters for the packaged existence forms only (massA_singular_dec25_models, forall_exists_massA_dec25_models_iff). A smaller G admits fewer (G,X)-atlases. Cac, push-up, uniqueness and the abstract massA_causalite_dec25 hold for any G (with hG for existence). The checklist row at l.65 does not flag it as a reading.",
+      "fix": "Write « a group for which (a) holds (Isom₀; the abstract massA_causalite_dec25 applies to any G with hG) ». Mark l.65 « ⚠ reading: Isom(E^{1,2}) as Causal.Flat.isom 2 in the packaged E≥0 forms »."
+    },
+    {
+      "severity": "minor",
+      "where": "MassADEC25.lean:76-80, 93-96 (SCOPE, Why unmarked / Witnesses)",
+      "what": "The witnesses massA_dec25_line and massA_dec25_minkowski instantiate the abstract main theorems: massA_cac_dec25, pushup_sing_dec25 and massA_causalite_unique_dec25. Both have Sing = ∅, which is disclosed, and so has twoLines_dec25_not_unique. The four MassAModel-level theorems are instantiated nowhere, not even with Sing M = ∅. They are massA_dec25_models_of_isoChartsCover, massA_dec25_models, massA_singular_dec25_models and forall_exists_massA_dec25_models_iff, and their instance argument [∀ o, SingularGXStructure _ (Minkowski 2) (MassAModel o)] has no inhabitant in lean-causal. SCOPE says the structures are « not built » and that « no E≥0-manifold with a singular point is instantiated », but it does not say plainly that these theorems have no witness.",
+      "fix": "In SCOPE « Witnesses », add: « the MassAModel-level theorems have no witness: lean-causal has no instance of ∀ o, SingularGXStructure _ (Minkowski 2) (MassAModel o) (T-ett-ealpha-gx-structure, T-ett-e0-gx-structure) »."
+    }
+  ],
+  "scope": "git status --short lean-causal papers/ett shows, besides this target's MassADEC25.lean and its campaign directory, only the sibling closers' untracked files (EAlphaSectors.lean, E0GXStructure.lean, campaign/T-ett-ealpha-sectors/, campaign/T-ett-e0-gx-structure/). They were not judged. No tracked file under lean-causal or papers/ett is modified. scaffold/CausalScaffold.lean is untouched (graduation pending, kb/0025). Elsewhere: programme/roadmap.toml belongs to /ett-programme. roadmap/roadmap.toml carries the master's ready→active status edits. lean-egf/EGF/{BackwardPolicy,SamplingCorollaries}.lean and papers/egf/certificate/curation.toml are held by the live egf lease and postdate the REPORT (10:22-10:23 against 10:21). None is this closer's.",
+  "docstring_contract": "kb/0006 is met. Title; the three labels unmarked with their ETT.tex lines (1396, 1408, 1419, checked); verbatim quotes (checked against l.1396-1428); a Hypothesis checklist; SCOPE (disclosed); Provenance. The checklist and SCOPE are true, apart from the wording points above. The quotes elide with [...] and [Proof:], which is acceptable."
+}

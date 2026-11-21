@@ -103,3 +103,7 @@ rediscover. One fact per entry.
 | [0095](entries/0095-universe-order-and-ladder-parser.md) | pitfall | Universe order, and tools/ladder.py's parser |
 | [0096](entries/0096-directed-union-cauchy.md) | pattern | A directed union of Cauchy open sets |
 | [0097](entries/0097-zorn-split-by-cofinality.md) | pattern | Zorn with chains split by cofinality |
+| [0098](entries/0098-dec25-cac-pushup-uniqueness.md) | pattern | Over DEC-25 atlases, cac, push-up and uniqueness need neither hreg nor (b′) |
+| [0099](entries/0099-isatlascausality-ulift.md) | pattern | IsAtlasCausality's index types: lift isomorphic charts with ULift |
+| [0100](entries/0100-massa-model-family.md) | pattern | The E≥0 model family MassAModel and its facts |
+| [0101](entries/0101-aechart-trans-two-lines.md) | pattern | IsAEChart composed with a maximal-atlas chart; ℝ ⊔ ℝ as a DEC-25 manifold |
