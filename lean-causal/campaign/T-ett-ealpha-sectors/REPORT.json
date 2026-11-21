@@ -1,0 +1,71 @@
+{
+  "target": "T-ett-ealpha-sectors",
+  "package": "lean-causal",
+  "files": ["scaffold/CausalScaffold/EAlphaSectors.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "defi:causal_Ealpha",
+      "tex_lines": [1331, 1342],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.EAlphaSector.chart",
+        "Causal.EAlphaSector.chartIso_chart",
+        "Causal.EAlphaSector.chart_source",
+        "Causal.EAlphaSector.chart_source_subset_regPart",
+        "Causal.EAlphaSector.exists_mem_chart_source",
+        "Causal.EAlphaSector.exists_rotation",
+        "Causal.EAlphaSector.symm_trans_chart_mem_gxGroupoid",
+        "Causal.EAlphaSector.chartIso_of_compatible",
+        "Causal.EAlphaSector.regPart_isomAtlas",
+        "Causal.sectorChart",
+        "Causal.hreg_sectorChart",
+        "Causal.sectorChart_symm_trans_mem",
+        "Causal.massA_positive_sectorCharts",
+        "Causal.massA_positive_massive",
+        "Causal.massA_positive_massive_pi",
+        "Causal.massA_positive_massive_four_pi"
+      ],
+      "hypotheses": [
+        {"paper": "alpha > 0", "here": "carried", "note": "[Fact (0 < α)] for the charts, κ : {κ // 0 < κ} for the family; α > 2π included"},
+        {"paper": "reg(E_alpha) is an (Isom(E), E)-manifold (l.1331-1333)", "here": "reading", "note": "an atlas of charts of E_α into E^{1,2} with sources in reg(E_α), covering it, transitions in gxGroupoid (Flat.isom 2) (Minkowski 2); no ChartedSpace on the subtype (kb/0001); the maximal atlas is the set of compatible charts, each a ChartIso (chartIso_of_compatible)"},
+        {"paper": "the charts are isomorphisms (hreg of massA_positive, second half of (b) of prop:GX_sing_espace_temps_topo)", "here": "carried", "note": "proved for the sector charts (hreg_sectorChart) and for every chart compatible with them"},
+        {"paper": "kappa = 0 (E_0) and every E_{>=0}-manifold (l.1339-1341)", "here": "not addressed", "note": "the row stays partial; the uniqueness sentence is T-ett-singular-instance's"}
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1331-1333 ('reg(E_alpha) [...] is an (Isom(E), E)-manifold') holds for every alpha > 0, alpha > 2pi included, and the paper gives no construction. A construction: take the polar chart (r, theta_1 + phi) -> r e^{i phi} of a sector of half-opening w = min(pi/2, alpha/4) about a direction theta_1, and restrict it to the ball B(p, r_p sin w) of the cone around a regular point p. These charts cover reg(E_alpha), and any two differ on their whole overlap by one rotation about the time axis. The bound on the opening matters for the distance: in C_{pi/2}, the polar map of a sector of opening 2pi/5 < min(pi, alpha) does not preserve the cone distance (fromPlane_wide_not_isometric). It does not matter for the conclusion, because every chart compatible with the discs is an isomorphism (chartIso_of_compatible).",
+        "The second half of (b) of prop:GX_sing_espace_temps_topo holds at X_alpha = E_alpha, alpha > 0. It says that the causality of E_alpha extends the causality reg(E_alpha) receives from its (Isom(E), E)-structure. The proof of cor:massA_causalite (ETT.tex:1400-1405) does not check it (finding of T-ett-unanchored, Causal/Remarks/MassiveManifold.lean SCOPE). It holds because every chart of reg(E_alpha) compatible with the sector atlas is an isomorphism of topological spacetimes onto an open subset of E^{1,2} (chartIso_of_compatible, regPart_isomAtlas). For kappa > 0 the proof can cite this fact; kappa = 0 remains open."
+      ],
+      "questions": [
+        "ETT.tex:1331-1333 does not say which (Isom(E), E)-structure reg(E_alpha) carries, or in which form. Reading taken: it is the flat structure whose charts are the polar developments of small sectors about a direction (the atlas EAlphaSector.chart, discs in sectors of half-opening min(pi/2, alpha/4)). The manifold is given as an atlas of charts of E_alpha with sources in reg(E_alpha), not as a ChartedSpace on the subtype, and its maximal atlas is the set of charts compatible with it. The metric -dt^2+dr^2+r^2 dtheta^2 (l.1329) singles out this structure, so the reading is offered for the author to confirm, not as a choice between alternatives."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.StaticCurve.map_isometricOn",
+    "Causal.staticLe.map_isometricOn",
+    "Causal.staticLt.map_isometricOn",
+    "Causal.staticCausality.chartIso_prod_isometricOn",
+    "Causal.EAlphaSector.ofIsometricOn",
+    "Causal.EAlphaSector.injOn_of_isometricOn",
+    "Causal.EAlphaSector.continuousOn_of_isometricOn",
+    "Causal.EAlphaSector.symm_isometricOn",
+    "Causal.EAlphaSector.angle_lt_of_coneE_lt",
+    "Causal.EAlphaSector.dist_fromPlane",
+    "Causal.EAlphaSector.fromPlane_eq_fromPlane",
+    "Causal.EAlphaSector.fromPlane_wide_not_isometric",
+    "Causal.EAlphaSector.planeRot",
+    "Causal.EAlphaSector.det_planeRot",
+    "Causal.EAlphaSector.rotIsom"
+  ],
+  "kb_proposals": [
+    "The regular charts of E_kappa (kappa > 0) are Causal.EAlphaSector.chart k, k : Index kappa a ConePoint with r > 0, and each is a ChartIso into minkowski 2 (chartIso_chart). They form an atlas of regPart with rotations as transitions (regPart_isomAtlas), and every chart compatible with them is a ChartIso (chartIso_of_compatible). hreg of massA_positive is hreg_sectorChart; the witness with a chart into an E_kappa is massA_positive_massive.",
+    "Static spacetimes: a chart of space that preserves distances on its source, times the identity of time, is a ChartIso of the static causalities (staticCausality.chartIso_prod_isometricOn), because staticLe/staticLt read distances along curves only. Build such a chart with EAlphaSector.ofIsometricOn: it takes an isometric map from an open set onto an open set, uses invFunOn as the inverse, and gets continuity from the isometry.",
+    "In the cone C_alpha, the ball B(p, r_p sin w) around a regular point lies in the flat sector of half-opening w (angle_lt_of_coneE_lt), so balls spare the proof that sectors are open. The polar map of a sector preserves the cone distance only for opening <= min(pi, alpha/2) (fromPlane_wide_not_isometric).",
+    "Rotations of E^{1,2} about the time axis are EAlphaSector.rotIsom c, built from mathlib's rotation and det_rotation conjugated by Complex.orthonormalBasisOneI.repr (det_planeRot) and lifted by Flat.Nonlox.nfSpatial / nfIsom (Causal/Flat/Nonlox/NullFrame.lean)."
+  ],
+  "notes": "Sorry-free. Axioms: propext, Classical.choice, Quot.sound only (checked by #print axioms on the main theorems). The file also typechecks cleanly under -DwarningAsError=true, so it can graduate into the strict tree unchanged. `lake build CausalScaffold.EAlphaSectors` rebuilt only this module (3364/3364, after a --no-build check). Imports: Causal.Remarks.MassiveManifold, Causal.Port.GXBasic (for symm_trans_mem_gxGroupoid), Causal.Flat.Nonlox.NullFrame (for nfSpatial, nfSpatial_mem_lorentz, nfIsom) and Mathlib.Analysis.Complex.Isometry. NullFrame is a Barbot-campaign module, and moving nfSpatial into Causal.Flat.Form would narrow this import. Names: the general lemmas carry the suffix _isometricOn under Causal.StaticCurve / staticLe / staticLt / staticCausality, the model lemmas sit in namespace Causal.EAlphaSector, and the top-level names are Causal.sectorChart, hreg_sectorChart, sectorChart_symm_trans_mem, massA_positive_sectorCharts and massA_positive_massive(_pi, _four_pi). The charts are discs inside sectors, not whole sectors (SCOPE); whole sectors would be ChartIso by chartIso_of_compatible once built. The block's [r] reason, that a sector of opening < pi and < alpha preserves the cone distance, is false for openings in (alpha/2, alpha); fromPlane_wide_not_isometric is the formal counterexample. Its conclusion still holds. After graduation two texts are out of date and were not edited: the header of Causal/Remarks/MassiveManifold.lean ('the library builds no regular chart of E_α', hreg assumed) and the docstring of massA_positive_minkowski ('the library does not build them'). Suggested curation: add the label's decls above to the defi:causal_Ealpha row and keep it partial (kappa = 0, E_{>=0}-manifolds). The l.1331-1333 sentence is now proved for kappa > 0 in the atlas reading."
+}

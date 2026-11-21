@@ -1,0 +1,57 @@
+{
+  "target": "T-ett-ealpha-sectors",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "defi:causal_Ealpha",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row partial and unmarked. The docstring's first 4000 characters contain no bold backticked label: the only **`...`** is **`ChartIso`**, and the ledger regex (tools/ledger.py:247) finds no mark anywhere in the file. What is claimed, the (Isom(E^{1,2}), E^{1,2})-structure of reg(E_kappa) for kappa > 0 (ETT.tex:1331-1333), read as an atlas, is proved as stated. (1) Sources: chart_source = univ x B(p, r_p sin w), contained in regPart (chart_source_subset_regPart: the apex is at distance r_p > r_p sin w). Cover: exists_mem_chart_source, since every regular point is the centre of its own disc. (2) Transitions: exists_rotation gives ONE rotation c on the whole overlap. The angle difference d(y) = arg u' - arg u has |d| < 2w <= kappa/2 and a constant class theta_1 - theta_1' in AddCircle kappa. Representatives in [-kappa/2, kappa/2) are unique, so d is constant. The argument never uses connectedness, so a disconnected overlap is covered, and an empty overlap is handled by by_cases. rotIsom c = (t, x) -> (t, R_c x) lies in Flat.isom 2 through nfSpatial_mem_lorentz with det_planeRot = 1. This is a subgroup of Isom(E^{1,2}), so the transitions are at least as constrained as the paper's. symm_trans_chart_mem_gxGroupoid follows by symm_trans_mem_gxGroupoid. (3) The structure is the metric one: the charts are (t, r, theta_1 + phi) -> (t, r e^{i phi}), the polar development that pulls -dt^2+dx^2 back to -dt^2+dr^2+r^2 dtheta^2. In the library's metric form, coneChart is distance-preserving from the cone ball onto the planar disc. (4) Geometry. angle_lt_of_coneE_lt is correct: coneE^2 = (s - R cos a)^2 + R^2 sin^2 a >= R^2 sin^2 a when a <= pi/2, and coneE >= R when a >= pi/2. So the ball B(p, R sin w) lies in the sector of directions within w of theta_1, and two of its directions differ by less than 2w = min(pi, kappa/2). There the AddCircle norm is the raw difference and min(., pi) changes nothing, which is dist_fromPlane. (5) chartIso_prod_isometricOn is correct in general and smuggles nothing in. staticLe and staticLt (Static.lean:305-311) read only LipOn, i.e. distances between points of the curve, and membership in U. Prod.map id e carries both ways because e is distance-preserving on its source and e.symm on its target, and time is untouched. Its hypothesis is distance preservation in the ambient metric, stronger than a local isometry. That is why the file uses discs and reaches the other compatible charts through chartIso_of_compatible. (6) chartIso_of_compatible needs only one direction of compatibility, which makes the conclusion stronger, and it is not vacuous: every chart k' satisfies it. (7) hreg_sectorChart has exactly the form of massA_positive's hreg, and of Causal.GXSingular's: forall alpha k, ChartIso (DY alpha) DX (r alpha k). (8) massA_positive_massive holds for every kappa > 0 with no remaining hypothesis. It discharges hcover (the identity chart), hXX (the rotations), hXY (k = i, g = 1, O = the chart source) and hYY (the identity). It proves IsAtlasCausality (massiveOf kappa) ... directly (hmk), so the conclusion is non-vacuous, and every atlas causality equals massiveOf kappa = @massive kappa.1 <kappa.2>. The cases kappa = pi and kappa = 4*pi are direct instances. (9) fromPlane_wide_not_isometric is a true counterexample that refutes exactly the block's [r] reason. In C_{pi/2} the points of radius 1 at directions 0 and 2pi/5 lie in a sector of opening < min(pi, alpha) = pi/2 (an open sector of opening 9pi/20, say), and they are away from the apex. Their cone angular distance is the AddCircle norm pi/10, not 2pi/5, so the cone distance coneE(1,1,pi/10) is less than the planar distance coneE(1,1,2pi/5). The [r] step « min(delta, pi) = delta », with delta read as the in-sector difference, is what fails. The [r] conclusion (wide sectors are ChartIso) is not proved; the REPORT says only that it would follow from chartIso_of_compatible once such a chart is built, and SCOPE discloses this. (10) Disclosed gaps: kappa = 0, the uniqueness sentence on E_{>=0}-manifolds, the atlas reading (no ChartedSpace on the subtype), discs rather than whole sectors. (11) Quotes of l.1331-1333 and l.1335-1340 are verbatim. Findings 1 and 2 of the REPORT are true, the second in the ChartIso reading of Causal.GXSingular that MassiveManifold.lean already records."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "Ran `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/EAlphaSectors.lean`: exit 0, no output. No `sorry`, `admit`, `native_decide`, `axiom` or `set_option` in the file. `#print axioms` on all 31 declarations the REPORT names (16 decls plus 15 extra_decls), from a /tmp copy that was deleted afterwards: each gives [propext, Classical.choice, Quot.sound], with no errors or warnings. The imports are strict: Causal.Flat.Nonlox.NullFrame (0 sorry, imported by Causal.lean:103), Causal.Port.GXBasic and Causal.Remarks.MassiveManifold are all under the Causal.* glob with warningAsError. Scope: `git diff --stat lean-causal/Causal` is empty, so EAlphaCauchy.lean and Static.lean are unchanged. The closer's only changes are the scaffold file and its campaign directory. Every other changed path is leased to another live loop (`tools/lease.py tree atlas` exits 0): lean-egf/** and papers/egf/** to egf, programme/** to programme, and roadmap/** (status flips to active) to atlas. Name check: no fully qualified name clashes with the strict library or the sibling scaffold files. Causal.Flat.Cla.rotIsom and Causal.E0.sectorChart exist in other namespaces; see the minor finding on sectorChart."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/EAlphaSectors.lean:666 (Causal.sectorChart; also hreg_sectorChart, sectorChart_symm_trans_mem)",
+      "what": "The top-level name Causal.sectorChart shadows the strict Causal.E0.sectorChart (Causal/Port/E0Strong.lean:577) wherever both are imported. A probe confirms the rule: inside `namespace Causal.X` with `open E0`, an unqualified `sectorChart` resolves to the enclosing-namespace Causal.sectorChart, not the opened one, and the call fails to elaborate. E0GXStructure.lean already uses that pattern (`namespace Causal ... namespace E0GX`, `open E0` at l.178, `sectorChart y hy`). Any later module importing both files, plausibly T-ett-singular-instance, which needs the E_0 and E_kappa charts together, would break. There is no clash today.",
+      "fix": "At graduation, move it into the EAlphaSector namespace or rename it, e.g. `massiveSectorChart`, `hreg_massiveSectorChart`, `massiveSectorChart_symm_trans_mem`, and update the REPORT's decl list."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-ett-ealpha-sectors/REPORT.json kb_proposals[2]",
+      "what": "« The polar map of a sector preserves the cone distance only for opening <= min(pi, alpha/2) (fromPlane_wide_not_isometric) » is false at alpha = 2pi. C_{2pi} is the plane, and the polar map of any sector of opening < 2pi preserves distances: for d in (pi, 2pi) the AddCircle norm 2pi - d is the planar angle. It also cites one instance (alpha = pi/2, opening 2pi/5) as if it proved a general bound. For alpha != 2pi the claim is true but not formalized.",
+      "fix": "Write: « for alpha != 2pi the polar map of a sector preserves the cone distance only for opening <= min(pi, alpha/2); for instance it fails at alpha = pi/2, opening 2pi/5 (fromPlane_wide_not_isometric) »."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/EAlphaSectors.lean:624-630 (docstring of fromPlane_wide_not_isometric) and :45-46 (header)",
+      "what": "« the directions 0 and 2pi/5 (a sector of opening 2pi/5 < pi/2) »: the two directions are the endpoints of that sector, so they lie in it only if the sector is closed. The [r] reason is refuted by an open sector of opening in (2pi/5, pi/2) that contains both. The mathematics is unaffected.",
+      "fix": "Write « (both in a sector of opening 9pi/20 < pi/2) » or « (the endpoints of a closed sector of opening 2pi/5 < pi/2) »."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/EAlphaSectors.lean:58 (Hypothesis checklist)",
+      "what": "The row « reg(E_alpha) an (Isom(E), E)-manifold (l.1332) » is marked « ✓ ». The REPORT classes it as a reading (here = reading), and SCOPE discloses it as one: an atlas of charts of E_kappa with sources in reg, not a ChartedSpace on the subtype. kb/0006's checklist vocabulary is ✓ carried / ⚠ weakened / ⚠ strengthened, and a reading belongs to SCOPE.",
+      "fix": "Write « ⚠ reading (SCOPE): an atlas of E_kappa with sources in reg(E_kappa), covering it, transitions in gxGroupoid; every compatible chart a ChartIso »."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-ett-ealpha-sectors/REPORT.json labels[0].findings[0]",
+      "what": "The finding about the paper ends with a remark that is not about the paper: « The bound on the opening matters for the distance: in C_{pi/2} ... (fromPlane_wide_not_isometric) ». ETT.tex states no sector bound. The counterexample refutes the planner's roadmap note, and the REPORT notes already say so. Sent to the author, it would read as a correction of l.1331-1333.",
+      "fix": "Keep findings[0] to the construction, and say that l.1328-1333 recalls the structure from [thesis, brunswic:hal-01317447] without constructing it. Leave the counterexample in `notes` and in the roadmap curation."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-ett-ealpha-sectors/REPORT.json notes; .lake/build/lib/lean/CausalScaffold/EAlphaSectors.olean (10:21:20)",
+      "what": "Process. The closer ran `lake build CausalScaffold.EAlphaSectors` and says so. CAMPAIGN.md allows building one's own module, but the dispatch as relayed to this audit says « Do not run lake build; typecheck with lake env lean » for this shared package. Nothing upstream was rebuilt (the Causal.* oleans predate it) and no tracked file changed, so there is no harm.",
+      "fix": "None for the files. Note it in the journal if the dispatch line was addressed to the closer."
+    }
+  ]
+}

@@ -250,6 +250,7 @@ import Causal.HalfLitDual
 import Causal.OneWayMembrane
 import Causal.MaximalZorn
 import Causal.Remarks.MassADEC25
+import Causal.Model.EAlphaSectors
 
 /-!
 # Causal — topological spacetimes

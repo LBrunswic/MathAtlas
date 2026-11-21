@@ -107,3 +107,7 @@ rediscover. One fact per entry.
 | [0099](entries/0099-isatlascausality-ulift.md) | pattern | IsAtlasCausality's index types: lift isomorphic charts with ULift |
 | [0100](entries/0100-massa-model-family.md) | pattern | The E≥0 model family MassAModel and its facts |
 | [0101](entries/0101-aechart-trans-two-lines.md) | pattern | IsAEChart composed with a maximal-atlas chart; ℝ ⊔ ℝ as a DEC-25 manifold |
+| [0102](entries/0102-ealpha-regular-charts.md) | pattern | The regular charts of E_κ and hreg |
+| [0103](entries/0103-static-isometric-chartiso.md) | pattern | Static spacetimes: an isometric chart of space times the identity of time is a ChartIso |
+| [0104](entries/0104-cone-discs-sector-bound.md) | pitfall | Discs in flat sectors of the cone; the sector bound |
+| [0105](entries/0105-rotations-time-axis.md) | pattern | Rotations of E^{1,2} about the time axis |

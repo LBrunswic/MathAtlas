@@ -15,8 +15,8 @@ facts used here — causal arc-connectedness (`cor:model_minimal` at `κ = 0`) a
 (`rem:pushup` at `κ = 0`) — are hypotheses. `E^{1,2}` and `Isom(E^{1,2})` are discharged
 (`minkowski_model_facts`); for `E_α`, `α > 0`, causal arc-connectedness and push-up are discharged
 (`massive_model_facts`), while the second half of (b) of `prop:GX_sing_espace_temps_topo` — the
-regular charts of `E_α` are isomorphisms, `hreg` — is assumed: the library builds no regular chart
-of `E_α`. With no BTZ model, `massA_positive` assumes `hreg` and the atlas only. Cited,
+regular charts of `E_α` are isomorphisms, `hreg` — is assumed here; the library now builds the regular charts of `E_κ`, `κ > 0`, and proves them
+isomorphisms (`Causal.Model.EAlphaSectors`: `hreg_sectorChart`, `massA_positive_massive`). With no BTZ model, `massA_positive` assumes `hreg` and the atlas only. Cited,
 unmarked: `cor:massA_causalite` — `ETT.tex:1396`, `cor:massA_cac` — `ETT.tex:1408`,
 `cor:pushup_sing` — `ETT.tex:1419`. `prop:GX_sing_dec` (`ETT.tex:1435`) and `lem:vecteur`
 (`ETT.tex:1751`) are smooth statements with no declaration here (SCOPE).
@@ -56,7 +56,7 @@ unmarked: `cor:massA_causalite` — `ETT.tex:1396`, `cor:massA_cac` — `ETT.tex
 | `E_{≥0}`-manifold | ⚠ strengthened (reading): the abstracted singular `(G,X)`-atlas of `existsUnique_causality_singularGX` (OQ-19 / DEC-25) |
 | `X = E^{1,2}` causally arc-connected, `G = Isom` acting by morphisms | ✓ discharged for `minkowski 2`, `Flat.isom 2` (`minkowski_model_facts`); a hypothesis in the abstract statements |
 | `E_κ`, `κ > 0`: causally arc-connected (`cor:model_minimal`), push-up (`rem:pushup`) | ✓ discharged (`massive_model_facts`, `massA_positive`) |
-| `E_κ`, `κ > 0`: (b) second half, the regular charts of `E_κ` isomorphisms | ⚠ strengthened: assumed (`hreg` of `massA_positive`); no regular chart of `E_κ` is built |
+| `E_κ`, `κ > 0`: (b) second half, the regular charts of `E_κ` isomorphisms | ⚠ strengthened: assumed (`hreg` of `massA_positive`); discharged in `Causal.Model.EAlphaSectors` (`hreg_sectorChart`, `massA_positive_sectorCharts`) |
 | `E_0`: the same two facts | ⚠ strengthened: hypotheses `hb`, `hpY` at the BTZ model (the `E₀` instance is owed) |
 | (b) second half: the regular part's causality extends | ⚠ reading of `Causal.GXSingular`: every regular chart is a `ChartIso` |
 | Baire (`cor:massA_causalite`'s proof) | ⚠ weakened: not used (OQ-10) |
@@ -351,8 +351,8 @@ theorem massA_positive {K : {κ : ℝ // 0 < κ} → Type}
 
 /-- **Witness of `massA_positive`, regular case only** (kb/0011): `E^{1,2}` with one identity chart
 into `X` and no singular chart satisfies its hypotheses, and the causality it produces is
-`minkowski 2`. A witness with a chart into some `E_κ` needs regular charts `reg(E_κ) → E^{1,2}`
-which are isomorphisms, and the library does not build them. -/
+`minkowski 2`. A witness with a chart into some `E_κ` is `massA_positive_massive`
+(`Causal.Model.EAlphaSectors`), from the regular charts `reg(E_κ) → E^{1,2}` built there. -/
 theorem massA_positive_minkowski :
     IsAtlasCausality (minkowski 2) (fun _ : Unit => OpenPartialHomeomorph.refl (Minkowski 2))
         (Empty.elim : Empty → {κ : ℝ // 0 < κ}) (fun j => j.elim) (minkowski 2) massiveOf ∧
