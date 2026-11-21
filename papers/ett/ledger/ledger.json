@@ -176,7 +176,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-causal",
-    "git_commit": "39be167"
+    "git_commit": "fa2d000"
   },
   "statements": [
     {
@@ -4445,7 +4445,8 @@
         "Causal/Model/Cone.lean",
         "Causal/Static.lean",
         "Causal/Minkowski.lean",
-        "Causal/LinesReachable.lean"
+        "Causal/LinesReachable.lean",
+        "Causal/Model/EAlphaSectors.lean"
       ],
       "decls": [
         "Causal.Massive",
@@ -4470,28 +4471,47 @@
         "Causal.staticCausality.sanity",
         "Causal.isOpen_setOf_staticLt",
         "Causal.minkowski_le_top_iff_sq",
-        "Causal.minkowski_lt_top_iff_sq"
+        "Causal.minkowski_lt_top_iff_sq",
+        "Causal.EAlphaSector.chart",
+        "Causal.EAlphaSector.chartIso_chart",
+        "Causal.EAlphaSector.chart_source",
+        "Causal.EAlphaSector.chart_source_subset_regPart",
+        "Causal.EAlphaSector.exists_mem_chart_source",
+        "Causal.EAlphaSector.exists_rotation",
+        "Causal.EAlphaSector.symm_trans_chart_mem_gxGroupoid",
+        "Causal.EAlphaSector.chartIso_of_compatible",
+        "Causal.EAlphaSector.regPart_isomAtlas",
+        "Causal.massiveSectorChart",
+        "Causal.hreg_sectorChart",
+        "Causal.sectorChart_symm_trans_mem",
+        "Causal.massA_positive_sectorCharts",
+        "Causal.massA_positive_massive",
+        "Causal.massA_positive_massive_pi",
+        "Causal.massA_positive_massive_four_pi"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "For α > 0: E_α is the static spacetime ℝ × C_α over the flat cone (a proper geodesic metric space), with the curve-defined causality; the singular line is timelike and locally chronal; E_{2π} ≅ Minkowski. κ = 0 and the (G,X) uniqueness sentence are not covered. (WP-10, WP-9, audited)",
-      "notes": "For α > 0: E_α is the static spacetime ℝ × C_α over the flat cone (a proper geodesic metric space), with the curve-defined causality; the singular line is timelike and locally chronal; E_{2π} ≅ Minkowski. κ = 0 and the (G,X) uniqueness sentence are not covered. (WP-10, WP-9, audited)",
-      "blocked_on": "the BTZ model E_0, not constructed by the paper",
+      "scope_notes": "For α > 0: E_α is the static spacetime ℝ × C_α over the flat cone (a proper geodesic metric space), with the curve-defined causality; the singular line is timelike and locally chronal; E_{2π} ≅ Minkowski. κ = 0 and the (G,X) uniqueness sentence are not covered. (WP-10, WP-9, audited) T-ett-ealpha-sectors (atlas-team, 2026-11-21), audit AUDIT-1 minor (a shadowing name renamed massiveSectorChart, a checklist reading, wording; fixed at graduation): the regular charts of E_κ, κ > 0 (Causal/Model/EAlphaSectors.lean): discs B(p, R sin w), w = min(π/2, κ/4), in flat sectors, each a ChartIso into minkowski 2 (chartIso_chart), an atlas of reg(E_κ) with single rotations as transitions (exists_rotation), every compatible chart a ChartIso (chartIso_of_compatible), hreg (hreg_sectorChart) and the first massA_positive witness with a chart into an E_κ (massA_positive_massive, at κ = π, 4π). The planner's [r] reason for the sector bound was false (fromPlane_wide_not_isometric); its conclusion holds. The E₀ model is ported (E0.singularFlatAxioms; its singular structure E0GX.singularGX).",
+      "notes": "For α > 0: E_α is the static spacetime ℝ × C_α over the flat cone (a proper geodesic metric space), with the curve-defined causality; the singular line is timelike and locally chronal; E_{2π} ≅ Minkowski. κ = 0 and the (G,X) uniqueness sentence are not covered. (WP-10, WP-9, audited) T-ett-ealpha-sectors (atlas-team, 2026-11-21), audit AUDIT-1 minor (a shadowing name renamed massiveSectorChart, a checklist reading, wording; fixed at graduation): the regular charts of E_κ, κ > 0 (Causal/Model/EAlphaSectors.lean): discs B(p, R sin w), w = min(π/2, κ/4), in flat sectors, each a ChartIso into minkowski 2 (chartIso_chart), an atlas of reg(E_κ) with single rotations as transitions (exists_rotation), every compatible chart a ChartIso (chartIso_of_compatible), hreg (hreg_sectorChart) and the first massA_positive witness with a chart into an E_κ (massA_positive_massive, at κ = π, 4π). The planner's [r] reason for the sector bound was false (fromPlane_wide_not_isometric); its conclusion holds. The E₀ model is ported (E0.singularFlatAxioms; its singular structure E0GX.singularGX).",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); E_α's singular (G,X)-structure for every α (T-ett-ealpha-gx-structure); OQ-82 (the group)",
       "lean_proved_override": "partial",
       "paper_findings": [
         "l.1327-1329 gives the metric -dt^2+dr^2+r^2 dtheta^2 for every alpha without saying that theta runs over R/alphaZ: the angle alpha enters only through the period of theta, which the sentence should state ('theta in R/alpha Z').",
         "For alpha > 0, E_alpha = R x C_alpha with C_alpha the Euclidean cone over the circle of length alpha, d^2 = r1^2 + r2^2 - 2 r1 r2 cos(min(delta, pi)); proper and geodesic for every alpha > 0, alpha > 2pi included (there geodesics between directions >= pi apart run through the apex and are not unique). The relations defined by curves in every open set form a causality, I^pm_U(A) open, and the singular line {r = 0} is a chronal curve in every open set containing it ('timelike, hence locally chronal', l.1341, confirmed).",
         "The sentence 'On any E>=0-manifold there is then a unique causal structure inducing that of E_alpha in every chart' (l.1339-1341) is the (G,X) part, not addressed.",
         "Formalized for Minkowski space R^{1,n} (and every static R x X over a geodesic space): the relations defined by curves in every open set form a causality (axioms (a)-(c), << transitive, I^pm_U(x) open), as l.1336-1339 assert; the openness of I^pm needs the geodesic hypothesis (a perturbed endpoint is reached by a geodesic segment inside a ball of U). The sentence 'On any E>=0-manifold there is then a unique causal structure...' (l.1339-1341) is not addressed.",
-        "l.1337 does not define 'future chronological curve'. The uniform reading (c-Lipschitz for one c < 1) and the pointwise one (speed < 1 at every point, supremum possibly 1) define the same <<_U in every open U, so no question to the author is needed: a pointwise-timelike curve has strict chords d(gamma s, gamma s') < |s - s'|; a fine enough inscribed polygon of geodesic segments stays in a thickening of the compact graph, hence in U, and its finitely many slopes have a maximum c < 1. The argument is in prose (Static.lean SCOPE), not formalized; causallyArcConnected independently proves that staticLt U is equivalent to a chronal curve of Causal/Curves.lean in U. (Question withdrawn after audit.)"
+        "l.1337 does not define 'future chronological curve'. The uniform reading (c-Lipschitz for one c < 1) and the pointwise one (speed < 1 at every point, supremum possibly 1) define the same <<_U in every open U, so no question to the author is needed: a pointwise-timelike curve has strict chords d(gamma s, gamma s') < |s - s'|; a fine enough inscribed polygon of geodesic segments stays in a thickening of the compact graph, hence in U, and its finitely many slopes have a maximum c < 1. The argument is in prose (Static.lean SCOPE), not formalized; causallyArcConnected independently proves that staticLt U is equivalent to a chronal curve of Causal/Curves.lean in U. (Question withdrawn after audit.)",
+        "ETT.tex:1331-1333 ('reg(E_alpha) [...] is an (Isom(E), E)-manifold') holds for every alpha > 0, alpha > 2pi included, and the paper gives no construction. A construction: take the polar chart (r, theta_1 + phi) -> r e^{i phi} of a sector of half-opening w = min(pi/2, alpha/4) about a direction theta_1, and restrict it to the ball B(p, r_p sin w) of the cone around a regular point p. These charts cover reg(E_alpha), and any two differ on their whole overlap by one rotation about the time axis. The bound on the opening matters for the distance: in C_{pi/2}, the polar map of a sector of opening 9pi/20 < min(pi, alpha) (containing the directions 0 and 2pi/5) does not preserve the cone distance (fromPlane_wide_not_isometric). It does not matter for the conclusion, because every chart compatible with the discs is an isomorphism (chartIso_of_compatible).",
+        "The second half of (b) of prop:GX_sing_espace_temps_topo holds at X_alpha = E_alpha, alpha > 0. It says that the causality of E_alpha extends the causality reg(E_alpha) receives from its (Isom(E), E)-structure. The proof of cor:massA_causalite (ETT.tex:1400-1405) does not check it (finding of T-ett-unanchored, Causal/Remarks/MassiveManifold.lean SCOPE). It holds because every chart of reg(E_alpha) compatible with the sector atlas is an isomorphism of topological spacetimes onto an open subset of E^{1,2} (chartIso_of_compatible, regPart_isomAtlas). For kappa > 0 the proof can cite this fact; kappa = 0 remains open."
       ],
       "extra_lean_files": [
         "Causal/Model/Massive.lean",
         "Causal/Model/Cone.lean",
         "Causal/Static.lean",
         "Causal/Minkowski.lean",
-        "Causal/LinesReachable.lean"
+        "Causal/LinesReachable.lean",
+        "Causal/Model/EAlphaSectors.lean"
       ],
       "size": "L",
       "in_lean_scope": true,
@@ -4868,7 +4888,8 @@
       "statement_sha256": "8149fad01688c43e86625797b0fb95ffbeb5126326f91a09f1d69cbd4c022d21",
       "statement_sha256_current": "8149fad01688c43e86625797b0fb95ffbeb5126326f91a09f1d69cbd4c022d21",
       "lean_files": [
-        "Causal/Remarks/MassiveManifold.lean"
+        "Causal/Remarks/MassiveManifold.lean",
+        "Causal/Remarks/MassADEC25.lean"
       ],
       "decls": [
         "Causal.massA_causalite",
@@ -4878,20 +4899,40 @@
         "Causal.massA_positive_minkowski",
         "Causal.minkowski_model_facts",
         "Causal.massive_model_facts",
-        "Causal.massiveOf"
+        "Causal.massiveOf",
+        "Causal.IsAtlasCausalityDEC25",
+        "Causal.IsoChartsCoverDEC25",
+        "Causal.IsAtlasCausalityDEC25.isoChartsCover",
+        "Causal.massA_causalite_unique_dec25",
+        "Causal.IsAtlasCausalityDEC25.eq",
+        "Causal.massA_causalite_dec25",
+        "Causal.forall_exists_isAtlasCausalityDEC25_iff",
+        "Causal.massA_singular_dec25",
+        "Causal.massA_dec25_models",
+        "Causal.massA_singular_dec25_models",
+        "Causal.forall_exists_massA_dec25_models_iff",
+        "Causal.twoLines_dec25_not_unique",
+        "Causal.massA_dec25_line",
+        "Causal.massA_dec25_minkowski",
+        "Causal.isAtlasCausalityDEC25_iff",
+        "Causal.AtlasIndexDEC25",
+        "Causal.ModelChartIndexDEC25"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136).",
-      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136).",
-      "blocked_on": "T-ett-singular-instance: SingularFlatAxioms discharged for every E≥0-manifold",
+      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
+      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
+      "blocked_on": "T-ett-singular-instance (the corollaries at concrete E≥0-manifolds: the models' singular structures packaged, hreg now built for κ > 0 and κ = 0), OQ-18 (« natural »), OQ-64 ((b′) at singular sources), OQ-82 (the group)",
       "lean_proved_override": "partial",
       "paper_findings": [
-        "ETT.tex:1400-1405: the proof checks absolute minimality of the models (cor:model_minimal) and Baire, but prop:GX_sing_espace_temps_topo asks causal arc-connectedness of X and of each X_α ((a), (b)) — the premise of cor:model_minimal, not its conclusion — and the second half of (b) (the causality of X_α extends that of reg(X_α)), which the proof does not check. Baire is not needed (OQ-10)."
+        "ETT.tex:1400-1405: the proof checks absolute minimality of the models (cor:model_minimal) and Baire, but prop:GX_sing_espace_temps_topo asks causal arc-connectedness of X and of each X_α ((a), (b)) — the premise of cor:model_minimal, not its conclusion — and the second half of (b) (the causality of X_α extends that of reg(X_α)), which the proof does not check. Baire is not needed (OQ-10).",
+        "ETT.tex:1396 « natural », read through prop:GX_sing_espace_temps_topo's « unique » (l.622): the uniqueness of the natural causality needs no hypothesis on the models and no argument on transition maps. Two absolutely minimal causalities that make the same chart an isomorphism agree on its domain, so if one makes every chart an isomorphism and the other some chart at each point, they are equal (massA_causalite_unique_dec25, by eq_of_agreeOn_locally). Without absolute minimality the uniqueness is false under DEC-25 too: on ℝ ⊔ ℝ with one model ℝ, a second causality that is not absolutely minimal makes every chart an isomorphism (twoLines_dec25_not_unique; library's gluing-free reading of defi:causalite, OQ-18). The printed « natural absolutely minimal » agrees with this. The paper may want to write « the unique absolutely minimal causality for which every chart is an isomorphism ». (The counterexample twoLines_dec25_not_unique is on ℝ ⊔ ℝ, in the general DEC-25 setting, not an E≥0-manifold.)",
+        "ETT.tex:1399-1406 (the proof), extending the ledger's finding (it checks absolute minimality of the models and Baire, not causal arc-connectedness and not the second half of (b)): under DEC-25 the existence half also needs (b′) at the models E_κ, E₀ (OQ-64). Given (a), (b) and hreg, every E≥0-manifold carries a natural causality if and only if every a.e. isomorphism between open subsets of the E_κ (κ ≥ 0, E₀ included) is an isomorphism of topological spacetimes (forall_exists_massA_dec25_models_iff; for the Lean's class of manifolds and its maximal-atlas reading of the charts, as OQ-64 does). The proof checks neither hreg nor (b′)."
       ],
       "extra_lean_files": [
-        "Causal/Remarks/MassiveManifold.lean"
+        "Causal/Remarks/MassiveManifold.lean",
+        "Causal/Remarks/MassADEC25.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -4926,24 +4967,41 @@
       "statement_sha256": "26d6402668e01401240a610ebda51b915481477481a23548a641bccbb7983137",
       "statement_sha256_current": "26d6402668e01401240a610ebda51b915481477481a23548a641bccbb7983137",
       "lean_files": [
-        "Causal/Remarks/MassiveManifold.lean"
+        "Causal/Remarks/MassiveManifold.lean",
+        "Causal/Remarks/MassADEC25.lean"
       ],
       "decls": [
         "Causal.massA_cac",
         "Causal.ChartIso.causallyArcConnectedOn",
         "Causal.ChartIso.curveOn_symm",
         "Causal.massA_singular",
-        "Causal.massA_positive"
+        "Causal.massA_positive",
+        "Causal.massA_cac_dec25",
+        "Causal.massA_cac_dec25_of_isoChartsCover",
+        "Causal.isAtlasCausality_isoCharts",
+        "Causal.massA_dec25_models",
+        "Causal.massA_dec25_models_of_isoChartsCover",
+        "Causal.MassAModel",
+        "Causal.massAModelCausality",
+        "Causal.massAModel_facts",
+        "Causal.massA_singular_dec25",
+        "Causal.massA_singular_dec25_models",
+        "Causal.massA_dec25_line",
+        "Causal.massA_dec25_minkowski"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25), models causally arc-connected; E₀'s causal arc-connectedness is the named hypothesis hb (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136).",
-      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25), models causally arc-connected; E₀'s causal arc-connectedness is the named hypothesis hb (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136).",
-      "blocked_on": "T-ett-singular-instance: SingularFlatAxioms discharged for every E≥0-manifold",
+      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25), models causally arc-connected; E₀'s causal arc-connectedness is the named hypothesis hb (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
+      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25), models causally arc-connected; E₀'s causal arc-connectedness is the named hypothesis hb (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
+      "blocked_on": "T-ett-singular-instance (the corollaries at concrete E≥0-manifolds: the models' singular structures packaged, hreg now built for κ > 0 and κ = 0), OQ-18 (« natural »), OQ-64 ((b′) at singular sources), OQ-82 (the group)",
       "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:1408-1417 and 1419-1428: neither proof uses the transition maps, the action of Isom(E), the second half of (b) or (b′). Both corollaries hold for every absolutely minimal causality with an isomorphic chart at each point, whatever the singular structures of the models (massA_dec25_models_of_isoChartsCover, no hypothesis on the models). They depend on cor:massA_causalite only for the existence of that causality, so OQ-64 bears on existence alone."
+      ],
       "extra_lean_files": [
-        "Causal/Remarks/MassiveManifold.lean"
+        "Causal/Remarks/MassiveManifold.lean",
+        "Causal/Remarks/MassADEC25.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -4979,24 +5037,38 @@
       "statement_sha256": "d68f8af933510b5beb3c873000ffc86a07dddc9d4ab7c9344c6d5c8b46e854e9",
       "statement_sha256_current": "d68f8af933510b5beb3c873000ffc86a07dddc9d4ab7c9344c6d5c8b46e854e9",
       "lean_files": [
-        "Causal/Remarks/MassiveManifold.lean"
+        "Causal/Remarks/MassiveManifold.lean",
+        "Causal/Remarks/MassADEC25.lean"
       ],
       "decls": [
         "Causal.pushup_sing",
         "Causal.ChartIso.pushUpOn",
         "Causal.Causality.PushUp.pushUpOn",
         "Causal.massA_singular",
-        "Causal.massA_positive"
+        "Causal.massA_positive",
+        "Causal.pushup_sing_dec25",
+        "Causal.pushup_sing_dec25_of_isoChartsCover",
+        "Causal.massA_dec25_models",
+        "Causal.massA_dec25_models_of_isoChartsCover",
+        "Causal.massAModel_facts",
+        "Causal.massA_singular_dec25",
+        "Causal.massA_singular_dec25_models",
+        "Causal.massA_dec25_line",
+        "Causal.massA_dec25_minkowski"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25); models causally arc-connected and with push-up (rem:pushup); E₀'s push-up is the named hypothesis hpY (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)); E^{1,2} discharged. For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136).",
-      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25); models causally arc-connected and with push-up (rem:pushup); E₀'s push-up is the named hypothesis hpY (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)); E^{1,2} discharged. For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136).",
-      "blocked_on": "T-ett-singular-instance: SingularFlatAxioms discharged for every E≥0-manifold",
+      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25); models causally arc-connected and with push-up (rem:pushup); E₀'s push-up is the named hypothesis hpY (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)); E^{1,2} discharged. For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
+      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (IsAtlasCausality for the abstracted atlas (OQ-19 / DEC-25); models causally arc-connected and with push-up (rem:pushup); E₀'s push-up is the named hypothesis hpY (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)); E^{1,2} discharged. For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
+      "blocked_on": "T-ett-singular-instance (the corollaries at concrete E≥0-manifolds: the models' singular structures packaged, hreg now built for κ > 0 and κ = 0), OQ-18 (« natural »), OQ-64 ((b′) at singular sources), OQ-82 (the group)",
       "lean_proved_override": "partial",
+      "paper_findings": [
+        "Same as for cor:massA_cac: the proof (ETT.tex:1423-1428) needs the existence of the natural causality only through cor:massA_causalite. Given such a causality, push-up follows with no hypothesis on the models beyond their causal arc-connectedness and push-up, both now discharged in Lean for E^{1,2}, E_κ and E₀."
+      ],
       "extra_lean_files": [
-        "Causal/Remarks/MassiveManifold.lean"
+        "Causal/Remarks/MassiveManifold.lean",
+        "Causal/Remarks/MassADEC25.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -5195,7 +5267,8 @@
       "lean_files": [
         "Causal/SingularGeroch.lean",
         "Causal/SingularFlat.lean",
-        "Causal/Port/E0SingularFlat.lean"
+        "Causal/Port/E0SingularFlat.lean",
+        "Causal/Port/E0GXStructure.lean"
       ],
       "decls": [
         "Causal.Causality.SingularFlatSpacetime",
@@ -5205,19 +5278,45 @@
         "Causal.E0.singularFlatSpacetime",
         "Causal.E0.singE0_zero_nonempty",
         "Causal.E0.exists_singularFlatSpacetime_sing_zero_nonempty",
-        "Causal.E0.globallyHyperbolic"
+        "Causal.E0.globallyHyperbolic",
+        "Causal.E0GX.singularGX",
+        "Causal.E0GX.sectorAtlas",
+        "Causal.E0GX.isAEAtlas_sectorAtlas",
+        "Causal.E0GX.isGXAtlas_sectorAtlas",
+        "Causal.E0GX.support_sectorAtlas",
+        "Causal.E0GX.isPortly_compl_axis",
+        "Causal.E0GX.sectorChart_eventually_eq_zpow_smul",
+        "Causal.E0GX.sectorChart_eq_zpow_smul_on_component",
+        "Causal.E0GX.hol",
+        "Causal.E0GX.chartMap_eq_hol_smul",
+        "Causal.E0GX.isParabolic_holLin_two_pi",
+        "Causal.E0GX.source_inter_axis_eq_empty",
+        "Causal.E0GX.reg_eq",
+        "Causal.E0GX.sing_eq",
+        "Causal.E0GX.sing_eq_singE0_zero",
+        "Causal.E0GX.sing_nonempty",
+        "Causal.E0GX.chartIso_of_mem_aeAtlas",
+        "Causal.E0GX.chartIso_of_isAEChart_of_subset_compl_axis",
+        "Causal.E0GX.singularGX_nonvacuous",
+        "Causal.chartIso_of_mem_maximalAEAtlas_of_agreeOn",
+        "Causal.forall_chartIso_aeAtlas_of_reg_subset",
+        "Causal.AESupportCounterexample.counterexample"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "Abstracted as SingularFlatSpacetime: SingularFlatAxioms (the causal facts the paper derives for E≥0-manifolds, each citing its line) plus connectedness; witnessed on the timelike line. (WP-11, audited) T-ett-port-e0-sfa (atlas-team, 2026-11-21), audit AUDIT-1 minor (a checklist row is a reading; the earlier witnesses also include every connected T2 second-countable flat manifold, sing = ∅; fixed at graduation): the first witness with sing₀ ≠ ∅, E₀ (Causal.E0.singularFlatAxioms, sing₀ = axis; Causal.E0.exists_singularFlatSpacetime_sing_zero_nonempty), a verbatim port of gx's BTZ causality (144 constants, elaborated types checked). It rests on the readings of E₀ (OQ-34, OQ-35) and on reading the definition as not requiring every model X_α. Also at E₀, unmarked: globallyHyperbolic, and the abstract lem:past_BTZ, cor:K_injectif, prop:K_densite_sing, cor:K_ordre, geroch_hypotheses_of_singularFlat.",
-      "notes": "Abstracted as SingularFlatSpacetime: SingularFlatAxioms (the causal facts the paper derives for E≥0-manifolds, each citing its line) plus connectedness; witnessed on the timelike line. (WP-11, audited) T-ett-port-e0-sfa (atlas-team, 2026-11-21), audit AUDIT-1 minor (a checklist row is a reading; the earlier witnesses also include every connected T2 second-countable flat manifold, sing = ∅; fixed at graduation): the first witness with sing₀ ≠ ∅, E₀ (Causal.E0.singularFlatAxioms, sing₀ = axis; Causal.E0.exists_singularFlatSpacetime_sing_zero_nonempty), a verbatim port of gx's BTZ causality (144 constants, elaborated types checked). It rests on the readings of E₀ (OQ-34, OQ-35) and on reading the definition as not requiring every model X_α. Also at E₀, unmarked: globallyHyperbolic, and the abstract lem:past_BTZ, cor:K_injectif, prop:K_densite_sing, cor:K_ordre, geroch_hypotheses_of_singularFlat.",
-      "blocked_on": "the singular (G,X) structure; model facts are named hypotheses (kb/0012)",
+      "scope_notes": "Abstracted as SingularFlatSpacetime: SingularFlatAxioms (the causal facts the paper derives for E≥0-manifolds, each citing its line) plus connectedness; witnessed on the timelike line. (WP-11, audited) T-ett-port-e0-sfa (atlas-team, 2026-11-21), audit AUDIT-1 minor (a checklist row is a reading; the earlier witnesses also include every connected T2 second-countable flat manifold, sing = ∅; fixed at graduation): the first witness with sing₀ ≠ ∅, E₀ (Causal.E0.singularFlatAxioms, sing₀ = axis; Causal.E0.exists_singularFlatSpacetime_sing_zero_nonempty), a verbatim port of gx's BTZ causality (144 constants, elaborated types checked). It rests on the readings of E₀ (OQ-34, OQ-35) and on reading the definition as not requiring every model X_α. Also at E₀, unmarked: globallyHyperbolic, and the abstract lem:past_BTZ, cor:K_injectif, prop:K_densite_sing, cor:K_ordre, geroch_hypotheses_of_singularFlat. T-ett-e0-gx-structure (atlas-team, 2026-11-21), audit AUDIT-1 minor (two findings reworded, a redundant rigidity theorem dropped, the group reading added to the checklist; fixed at graduation): E₀ as a singular (Flat.isom 2, Minkowski 2)-manifold under DEC-25 (Causal/Port/E0GXStructure.lean, E0GX.singularGX): the sector atlas (isAEAtlas_sectorAtlas), holonomy hol(2π) parabolic (isParabolic_holLin_two_pi), single powers on overlap components, Reg = E₀ ∖ axis (reg_eq; no chart meets the axis, source_inter_axis_eq_empty), Sing = axis; the model-free lemma chartIso_of_mem_maximalAEAtlas_of_agreeOn and corollaries; hreg at κ = 0 (chartIso_of_mem_aeAtlas) and (b′) at regular sources. Roadmap (not the paper): the evidence of T-ett-e0-gx-structure, point (3), states as [r] a model-free lemma ('if every chart of an a.e. atlas A of Y is a ChartIso DY DX, G acts by strong morphisms and DY is absolutely minimal, then every chart of maximalAEAtlas A is a ChartIso'). It is false. Causal.AESupportCounterexample.counterexample, on C with the translations: DX = rightward horizontal segments, DY = the same segments avoiding 0, both absolutely minimal on every open set; the identity of C minus {0} is a chart isomorphism generating an a.e. atlas; the identity of C is in its maximal atlas but is not a chart isomorphism (-1 <= 1 in DX, not in DY). The true form needs the maximal atlas to have the generating support, or DY to agree with the model at the extra points. T-ett-ealpha-gx-structure plans to reuse this lemma. At alpha = 2pi the maximal atlas covers the line, so that target must use chartIso_of_mem_maximalAEAtlas_of_agreeOn and supply the agreement on the line. Follow-up: hoist the model-free section and the counterexample into a model-free module (T-ett-ealpha-gx-structure reuses them).",
+      "notes": "Abstracted as SingularFlatSpacetime: SingularFlatAxioms (the causal facts the paper derives for E≥0-manifolds, each citing its line) plus connectedness; witnessed on the timelike line. (WP-11, audited) T-ett-port-e0-sfa (atlas-team, 2026-11-21), audit AUDIT-1 minor (a checklist row is a reading; the earlier witnesses also include every connected T2 second-countable flat manifold, sing = ∅; fixed at graduation): the first witness with sing₀ ≠ ∅, E₀ (Causal.E0.singularFlatAxioms, sing₀ = axis; Causal.E0.exists_singularFlatSpacetime_sing_zero_nonempty), a verbatim port of gx's BTZ causality (144 constants, elaborated types checked). It rests on the readings of E₀ (OQ-34, OQ-35) and on reading the definition as not requiring every model X_α. Also at E₀, unmarked: globallyHyperbolic, and the abstract lem:past_BTZ, cor:K_injectif, prop:K_densite_sing, cor:K_ordre, geroch_hypotheses_of_singularFlat. T-ett-e0-gx-structure (atlas-team, 2026-11-21), audit AUDIT-1 minor (two findings reworded, a redundant rigidity theorem dropped, the group reading added to the checklist; fixed at graduation): E₀ as a singular (Flat.isom 2, Minkowski 2)-manifold under DEC-25 (Causal/Port/E0GXStructure.lean, E0GX.singularGX): the sector atlas (isAEAtlas_sectorAtlas), holonomy hol(2π) parabolic (isParabolic_holLin_two_pi), single powers on overlap components, Reg = E₀ ∖ axis (reg_eq; no chart meets the axis, source_inter_axis_eq_empty), Sing = axis; the model-free lemma chartIso_of_mem_maximalAEAtlas_of_agreeOn and corollaries; hreg at κ = 0 (chartIso_of_mem_aeAtlas) and (b′) at regular sources. Roadmap (not the paper): the evidence of T-ett-e0-gx-structure, point (3), states as [r] a model-free lemma ('if every chart of an a.e. atlas A of Y is a ChartIso DY DX, G acts by strong morphisms and DY is absolutely minimal, then every chart of maximalAEAtlas A is a ChartIso'). It is false. Causal.AESupportCounterexample.counterexample, on C with the translations: DX = rightward horizontal segments, DY = the same segments avoiding 0, both absolutely minimal on every open set; the identity of C minus {0} is a chart isomorphism generating an a.e. atlas; the identity of C is in its maximal atlas but is not a chart isomorphism (-1 <= 1 in DX, not in DY). The true form needs the maximal atlas to have the generating support, or DY to agree with the model at the extra points. T-ett-ealpha-gx-structure plans to reuse this lemma. At alpha = 2pi the maximal atlas covers the line, so that target must use chartIso_of_mem_maximalAEAtlas_of_agreeOn and supply the agreement on the line. Follow-up: hoist the model-free section and the counterexample into a model-free module (T-ett-ealpha-gx-structure reuses them).",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); T-ett-singular-sfa (the definition's E^{1,2}_A-manifolds and their generated causality); OQ-82 (the group)",
       "lean_proved_override": "partial",
+      "paper_findings": [
+        "ETT.tex:1331-1333 writes sing(E_alpha) for the singular line and reg(E_alpha) for its complement, an (Isom(E),E)-manifold. Read through DEC-25, sing(E_0) is the singular locus of the singular (G,X)-structure only if the (Isom(E),E)-structure does not extend across the line. That holds: the holonomy of a loop about the line is the parabolic isometry hol(2pi), which is not the identity (Causal.E0GX.source_inter_axis_eq_empty, reg_eq). ETT.tex:1331 asserts it (« its singular locus {r=0} is a lightlike line »), and l.1322–1324 give blanket sources, but without an argument or the precise reference l.1324 promises; one sentence would do."
+      ],
       "extra_lean_files": [
         "Causal/SingularGeroch.lean",
         "Causal/SingularFlat.lean",
-        "Causal/Port/E0SingularFlat.lean"
+        "Causal/Port/E0SingularFlat.lean",
+        "Causal/Port/E0GXStructure.lean"
       ],
       "size": "M",
       "in_lean_scope": true,
