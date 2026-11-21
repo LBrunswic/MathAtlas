@@ -1,0 +1,258 @@
+{
+  "package": "T-yamabe-gluing-algebra",
+  "target": "T-yamabe-gluing-algebra",
+  "files": [
+    "scaffold/YamabeScaffold/Gluing.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:gluing-estimate",
+      "tex_lines": [
+        648,
+        683
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.Filling.gluing_estimate",
+        "Yamabe.Filling.lem_gluing_estimate",
+        "Yamabe.Filling.gluing_estimate_YB",
+        "Yamabe.Filling.glue_upper",
+        "Yamabe.MeasuredModel.glue_lower",
+        "Yamabe.Filling.boundary_term_le",
+        "Yamabe.Filling.integral_flip",
+        "Yamabe.Filling.area_match",
+        "Yamabe.MeasuredModel.normSq_pStar_conformal",
+        "Yamabe.MeasuredModel.normSq_pSharp_conformal",
+        "Yamabe.MeasuredModel.vol_conformal_univ",
+        "Yamabe.MeasuredModel.bvol_conformal_univ",
+        "Yamabe.MeasuredModel.vol_conformal_pos",
+        "Yamabe.MeasuredModel.bvol_conformal_pos",
+        "Yamabe.MeasuredModel.YB_le_EHB",
+        "Yamabe.Filling",
+        "Yamabe.GluedMetric",
+        "Yamabe.Filling.volBar",
+        "Yamabe.Filling.IsYamabeMetric",
+        "Yamabe.Filling.MeanCurvatureFlip",
+        "Yamabe.Filling.BoundaryMatch",
+        "Yamabe.Filling.BoundaryYamabe",
+        "Yamabe.MeasuredModel.IsConformal",
+        "Yamabe.MeasuredModel.DensityMeasurable",
+        "Yamabe.MeasuredModel.ConformalLaw",
+        "Yamabe.MeasuredModel.ConformalLawB",
+        "Yamabe.MeasuredModel.bdryVol",
+        "Yamabe.MeasuredModel.EHB",
+        "Yamabe.MeasuredModel.confEnergyB",
+        "Yamabe.MeasuredModel.AdmB",
+        "Yamabe.MeasuredModel.YB",
+        "Yamabe.toyFilling",
+        "Yamabe.toyGlued",
+        "Yamabe.toy_volBar_pos",
+        "Yamabe.toy_gluing_estimate"
+      ],
+      "hypotheses": [
+        {
+          "paper": "N ≥ 3 (l.605)",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "(Σ̄, ḡ) smooth closed; Σ ⊂ Σ̄ a compact domain with ∂Σ = ⊔ B_j; D_j the closures of the components of Σ̄ ∖ Σ, each meeting Σ along B_j (l.650)",
+          "here": "reading",
+          "note": "Σ is the MeasuredModel M of Yamabe.Quotient with a CurvedMetric g (Yamabe.Kobayashi). The D_j form a Filling: one MeasuredModel Y E N 1 each (one boundary component) and a measurable map glue j : X → Y identifying B_j ⊂ ∂Σ with ∂D_j. Σ̄ itself is not modelled; it is read through its pieces. 'Meeting along B_j' is BoundaryMatch: glue j pushes bvol_h on B_j to bvol_h̄ on ∂D_j (carried)."
+        },
+        {
+          "paper": "compactness",
+          "here": "carried",
+          "note": "IsFiniteMeasure of vol_g, vol_h and every bvol_h j."
+        },
+        {
+          "paper": "Σ connected (l.650)",
+          "here": "weakened",
+          "note": "not used."
+        },
+        {
+          "paper": "Σ and the B_j nonempty (implicit)",
+          "here": "carried",
+          "note": "vol_g ≠ 0 and bvol_g j ≠ 0, which give Vol(Σ, h) > 0 and A_j > 0 (vol_conformal_pos, bvol_conformal_pos)."
+        },
+        {
+          "paper": "g = ḡ|_Σ a smooth metric",
+          "here": "reading",
+          "note": "R_g, H_g are data of CurvedMetric (as in Yamabe.Kobayashi). DensityMeasurable asks the densities √det G and √det(Pᵀ G P) to be a.e.-measurable (FrameMetric carries no measurability, and the conformal identities need it)."
+        },
+        {
+          "paper": "H_g ≡ 0 on ∂Σ (l.650)",
+          "here": "carried",
+          "note": "MinimalBoundary (bvol_g j-a.e.)."
+        },
+        {
+          "paper": "Y_[ḡ](Σ̄) ≤ 0 (l.650)",
+          "here": "reading",
+          "note": "y ≤ 0, where the real y stands for Y_[ḡ](Σ̄). It enters only through thm:yamabe (b), i.e. R_h̄ = c = y·Vol(Σ̄, h̄)^{-2/N} (IsYamabeMetric). It is used only for 'the last term is non-positive'."
+        },
+        {
+          "paper": "β_j := YB_[g_j](D_j) > −∞ (l.650)",
+          "here": "weakened",
+          "note": "gluing_estimate takes any β with β_j ≤ EHB(D_j, h̄|_{D_j}) (BoundaryYamabe, carried). gluing_estimate_YB takes β_j = the model's YB_[g_j](D_j) (eq:boundary-yamabe through the conformal law), reads '> −∞' as BddBelow of the competitors' energies, and derives BoundaryYamabe (YB_le_EHB) from the boundary conformal law on D_j (ConformalLawB, l.330, carried)."
+        },
+        {
+          "paper": "m := min(0, min_Σ R_g) (l.650)",
+          "here": "weakened",
+          "note": "gluing_estimate: any m ≤ 0 with m ≤ R_g vol_g-a.e. The printed m (CurvedMetric.kobM) is in lem_gluing_estimate and gluing_estimate_YB."
+        },
+        {
+          "paper": "thm:yamabe (b): ψ > 0 smooth on Σ̄, h̄ = ψ^{4/(N−2)} ḡ, R_h̄ = Y_[ḡ](Σ̄) Vol(Σ̄, h̄)^{−2/N} (l.658)",
+          "here": "carried",
+          "note": "cited. u and h̄ = (body, cap) are given. IsConformal: Pos u and body.G = u^{4/(N−2)} • g.G on Σ. IsYamabeMetric: R_h̄ = c a.e. on Σ and on every D_j, and c = y·volBar^{−2/N}. On the D_j no conformal relation is needed by the chain."
+        },
+        {
+          "paper": "u = ψ|_Σ smooth positive (l.650, l.658)",
+          "here": "reading",
+          "note": "Pos u (val u > 0 everywhere); val u a.e.-strongly measurable for vol_g; tr u a.e.-strongly measurable for bvol_g j; tr u = val u bvol_g j-a.e. (the trace of a function continuous up to ∂Σ is its boundary value)."
+        },
+        {
+          "paper": "lem:kobayashi (a) applied to EH(Σ, h), h = u^{4/(N−2)} g (l.658–661)",
+          "here": "carried",
+          "note": "the identification of EH(Σ, h), computed from h's own curvatures, with the conformal quotient of u over g is the conformal law eq:conformal-energy-bdry (l.326–328, cited MR1152225, MR1173925), carried as ConformalLaw. Kobayashi (a) itself is the strict Yamabe.MeasuredModel.kobayashi."
+        },
+        {
+          "paper": "H^Σ_h = −H^{D_j}_h̄ on B_j (l.663)",
+          "here": "carried",
+          "note": "MeanCurvatureFlip, pointwise bvol_h j-a.e. through glue j; integrated in integral_flip."
+        },
+        {
+          "paper": "'by definition of the boundary Yamabe constant', EHB(D_j, h̄) ≥ β_j (l.663–666)",
+          "here": "carried",
+          "note": "BoundaryYamabe in gluing_estimate; derived in gluing_estimate_YB (see β_j)."
+        },
+        {
+          "paper": "Vol(Σ̄, h̄) = Vol(Σ, h̄) + Σ_j Vol(D_j, h̄) (l.672)",
+          "here": "reading",
+          "note": "Filling.volBar is defined as this sum."
+        },
+        {
+          "paper": "vol_h̄ = u^{p*} vol, bvol_h̄ = u^{p♯} bvol; Vol(Σ, h̄)^{(N−2)/N} = ‖u‖²_{p*}, A_j^{(N−2)/(N−1)} = ‖u‖²_{p♯} (l.678–680)",
+          "here": "carried",
+          "note": "proved from body.G = u^{4/(N−2)} g.G: vol_conformal_univ, bvol_conformal_univ, normSq_pStar_conformal, normSq_pSharp_conformal."
+        },
+        {
+          "paper": "h̄ is a Yamabe metric of [ḡ] (l.655)",
+          "here": "weakened",
+          "note": "only its consequence from thm:yamabe (b) is used (constant scalar curvature c = y·Vol^{−2/N}). The statements hold for every such h̄."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Σ̄ is read through its pieces. Vol(Σ̄, h̄) is the sum of the pieces' volumes (l.672 as a definition), and Y_[ḡ](Σ̄) is a real y, tied to h̄ only by thm:yamabe (b), c = y·Vol(Σ̄, h̄)^{−2/N} (l.658). The closed manifold, its conformal class and its Yamabe constant are not modelled. Is this reading of Σ̄ acceptable for the abstract layer (OQ-44), or should Σ̄ be a closed MeasuredModel of its own, with restriction maps and additivity as a hypothesis?",
+        "The statement's 'there exists a smooth positive function u on Σ such that … where h̄ is a Yamabe metric of [ḡ]' (l.650–655). Reading taken: for any Yamabe metric h̄ = ψ^{4/(N−2)} ḡ, the inequality holds with u = ψ|_Σ (lem_gluing_estimate states the ∃ with that witness). For Y_[ḡ](Σ̄) ≤ 0 the Yamabe metric is unique up to homothety (prop:csc-yamabe (a)), and the ratio Vol(Σ̄, h̄)/Vol(Σ, h̄) is scale-invariant, so the readings agree.",
+        "'β_j > −∞' is read as: the boundary conformal energies of the competitors of YB_[g_j](D_j) are bounded below (BddBelow). Lean's real sInf of a set unbounded below is 0, so without this the infimum would be junk.",
+        "The dispatch names three geometric inputs (h̄ from thm:yamabe (b), the boundary Yamabe inequality on D_j, the mean-curvature flip). The chain carries three more, and each is named. (1) The conformal law eq:conformal-energy-bdry for u on Σ (cited, l.326–328), because CurvedMetric carries R and H as free data: EH(Σ, h), computed from h's curvatures, meets the conformal quotient of u over g (where lem:kobayashi (a) lives) only through the law. (2) BoundaryMatch: B_j carries one area measure, seen from Σ or from D_j (A_j := Vol(B_j, h̄), l.663). (3) tr u = val u on B_j. The conformal identities of l.680 are proved, not carried."
+      ]
+    },
+    {
+      "label": "thm:upper-bound",
+      "tex_lines": [
+        493,
+        500
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.upper_bound_of_gluings",
+        "Yamabe.MeasuredModel.upper_bound_of_gluings_of_pos",
+        "Yamabe.MeasuredModel.upper_bound_of_limit",
+        "Yamabe.MeasuredModel.upper_bound_of_limit_of_pos",
+        "Yamabe.MeasuredModel.kobM_mul_le_neg_infF",
+        "Yamabe.MeasuredModel.tendsto_vol_of_uniformlyClose",
+        "Yamabe.CurvedMetric.tendsto_kobM",
+        "Yamabe.CurvedMetric.abs_kobM_sub_le",
+        "Yamabe.Filling.le_neg_infF_of_gluing",
+        "Yamabe.GluingInput",
+        "Yamabe.GluingInput.le_neg_infF"
+      ],
+      "hypotheses": [
+        {
+          "paper": "N ≥ 3",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "σ(Σ̄) ≤ 0 (l.495)",
+          "here": "reading",
+          "note": "used only as Y_[ḡ_τ](Σ̄) ≤ 0 for each τ (l.724), carried per τ as GluingInput.y_nonpos."
+        },
+        {
+          "paper": "g of constant scalar curvature (l.495)",
+          "here": "carried",
+          "note": "R_g x = c for every x (pointwise, since m = min(0, min_Σ R_g) is a pointwise infimum)."
+        },
+        {
+          "paper": "minimal boundary (l.495)",
+          "here": "carried",
+          "note": "MinimalBoundary g."
+        },
+        {
+          "paper": "each (B_j, g|_{B_j}) conformally round (l.495)",
+          "here": "reading",
+          "note": "used only through lem:gluing and fact (iv), both carried: the family g̃_τ and, per τ, β_j = c_N (GluingInput.bdryYamabe with β = c_N)."
+        },
+        {
+          "paper": "R_g ≤ 0 'by Proposition prop:nonpositive, or directly by hypothesis' (l.724)",
+          "here": "carried",
+          "note": "upper_bound_of_limit and upper_bound_of_gluings carry c ≤ 0. upper_bound_of_limit_of_pos and upper_bound_of_gluings_of_pos replace it by inf F_g > 0 (lem:positivity, carried) and derive R_g < 0 (see the finding)."
+        },
+        {
+          "paper": "lem:gluing: g̃_τ → g and R_{g̃_τ} → R_g uniformly, H_{g̃_τ} ≡ 0, ḡ_τ on Σ̄ with ḡ_τ|_Σ = g̃_τ and ḡ_τ|_{D_j} conformally flat (l.724)",
+          "here": "carried",
+          "note": "the family gs : ι → CurvedMetric X N over a filter l ≠ ⊥, with UniformlyClose (η τ) g g̃_τ, η → 0 (the strict reading of 'uniformly', OQ-44), and |R_{g̃_τ} − R_g| ≤ δ τ, δ → 0. Per τ: minimal boundary, finite volume, Σ and B_j nonempty, measurable densities, and a GluingInput holding the gluing estimate's inputs with β = c_N."
+        },
+        {
+          "paper": "lem:gluing-estimate applied to (Σ̄, ḡ_τ), after dropping its non-positive last term (l.724–726)",
+          "here": "carried",
+          "note": "proved: Filling.le_neg_infF_of_gluing and GluingInput.le_neg_infF, from gluing_estimate and inf F ≤ F(u) (u admissible, F ≥ 0)."
+        },
+        {
+          "paper": "m_τ Vol(Σ, g̃_τ)^{2/N} → R_g Vol(Σ, g)^{2/N} and inf F_{g̃_τ} → inf F_g (l.728)",
+          "here": "carried",
+          "note": "proved: CurvedMetric.tendsto_kobM, MeasuredModel.tendsto_vol_of_uniformlyClose, the strict tendsto_infF_of_uniformlyClose (lem:stability), giving kobM_mul_le_neg_infF."
+        },
+        {
+          "paper": "Y_[g](Σ) = EH(Σ, g) = R_g Vol(Σ, g)^{2/N} (l.724, lem:kobayashi (a))",
+          "here": "carried",
+          "note": "the strict Y_eq_const_mul, which needs every val u a.e.-strongly measurable (hD)."
+        },
+        {
+          "paper": "inf over u ∈ W^{1,2}(Σ) ∖ {0} (l.498)",
+          "here": "reading",
+          "note": "MeasuredModel.infF over Adm (0 < ‖u‖²_{p*} < ∞), OQ-44."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Minor, a citation in the proof (l.724; prop:nonpositive l.477–480; thm:upper-bound l.495). 'By Proposition prop:nonpositive, or directly by hypothesis, R_g ≤ 0 is constant.' prop:nonpositive assumes Σ̄ enlargeable. thm:upper-bound assumes only σ(Σ̄) ≤ 0, which enlargeability implies but which does not imply it (argued, not formalized: the K3 surface, N = 4, has σ = 0 and is simply connected, hence not enlargeable). None of thm:upper-bound's hypotheses states R_g ≤ 0. Without R_g ≤ 0, the limit of l.728 is min(0, R_g) Vol(Σ, g)^{2/N}, not R_g Vol(Σ, g)^{2/N}, and Y_[g](Σ) = R_g Vol^{2/N} (lem:kobayashi (a)) needs R_g ≤ 0. The gap closes inside the proof. The limit gives min(0, R_g) Vol(Σ, g)^{2/N} ≤ −inf F_g (Lean Yamabe.MeasuredModel.kobM_mul_le_neg_infF). lem:positivity gives inf F_g > 0, and the proof already uses it for cor:negative at l.728. Together they force R_g < 0, hence Y_[g](Σ) = R_g Vol^{2/N} ≤ −inf F_g (Yamabe.MeasuredModel.upper_bound_of_limit_of_pos, upper_bound_of_gluings_of_pos). Suggested fix: replace the appeal to prop:nonpositive at l.724 by this argument, or add 'Σ̄ enlargeable' to thm:upper-bound. The theorem's statement is not affected."
+      ],
+      "questions": [
+        "'R_g → uniformly' (l.724, l.728) is read as sup_x |R_{g̃_τ}(x) − R_g(x)| ≤ δ_τ → 0, and 'g̃_τ → g uniformly' as the strict UniformlyClose of lem:stability (OQ-44). 'For τ > 0' is read as a family over any filter l ≠ ⊥ (τ → 0⁺ is one), with the per-τ inequality needed only eventually in the limit lemmas, and for every τ in the assemblies.",
+        "'Constant scalar curvature' is read pointwise (R_g x = c for every x), because m = min(0, min_Σ R_g) is a pointwise infimum (CurvedMetric.kobM). With R_g = c only a.e., the limit would give kobM·Vol^{2/N}, which may be smaller than c·Vol^{2/N}.",
+        "This target formalizes the paper's own steps (l.724–728) and the assembly upper_bound_of_gluings. The inputs remain cited and carried: lem:gluing (the family g̃_τ, AB Thm 4.6 and a Seeley extension), thm:yamabe (b) on (Σ̄, ḡ_τ), fact (iv) (β_j = c_N), the conformal law, the flip, and prop:nonpositive or lem:positivity. Which of them become named externals is T-yamabe-scope's ruling."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.sqrt_det_smul",
+    "Yamabe.normSq_eq_lintegral",
+    "Yamabe.MeasuredModel.conf_exp_pStar",
+    "Yamabe.MeasuredModel.conf_exp_pSharp"
+  ],
+  "kb_proposals": [
+    "Conformal metrics on the frame model: with h.G = u^{4/(N−2)} • g.G and u > 0, vol_h = u^{p*} vol_g and bvol_h = u^{p♯} bvol_g are provable (Yamabe.sqrt_det_smul from Matrix.det_smul). FrameMetric carries no measurability, so the identity needs the density √det G to be AEMeasurable (MeasuredModel.DensityMeasurable). lintegral_withDensity_eq_lintegral_mul_non_measurable₀ needs only that, and takes any integrand (YamabeScaffold.Gluing: vol_conformal_univ, normSq_pStar_conformal, normSq_pSharp_conformal).",
+    "The filling of Σ by the D_j: Yamabe.Filling (one MeasuredModel Y E N 1 per piece, plus a measurable gluing map X → Y) and Yamabe.GluedMetric (body, cap j). The inputs are Props named after their lines (IsYamabeMetric, ConformalLaw, ConformalLawB, MeanCurvatureFlip, BoundaryMatch, BoundaryYamabe), bundled in Yamabe.GluingInput for assemblies over a family of metrics (T-yamabe-gluing-algebra).",
+    "A literal -1 passed through unification to an implicit {m : ℝ} can elaborate as Real.neg 1, which norm_num does not close. Give (m := -1) explicitly (toy_gluing_estimate).",
+    "Real.iInf over an empty type is 0 (Real.iInf_of_isEmpty), so CurvedMetric.kobM = 0 on an empty model and the volume is 0. Case on isEmpty_or_nonempty X before using ciInf_const or le_ciInf (tendsto_kobM, upper_bound_of_limit)."
+  ],
+  "notes": "One new module, scaffold/YamabeScaffold/Gluing.lean (namespace Yamabe). It imports only the strict Yamabe.Kobayashi and Yamabe.Stability, hence Mathlib. It is sorry-free: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/YamabeScaffold/Gluing.lean` exits 0 with no output. `taskset -c 0-11 lake build YamabeScaffold.Gluing` rebuilt only this module ('Built YamabeScaffold.Gluing', 8561 jobs). `#print axioms` of all 50 top-level declarations, run through a /tmp probe that was deleted afterwards, gives [propext, Classical.choice, Quot.sound] for each. No existing file was edited. The scaffold root scaffold/YamabeScaffold.lean imports only YamabeScaffold.Basic (lean-causal kb 0025): the master session should add `import YamabeScaffold.Gluing` so that the axiom sweep sees the module. Nothing is marked: both rows stay partial, as the dispatch requires, and none of these lemmas is a row's anchor. Assemblies for a future anchoring: Yamabe.Filling.lem_gluing_estimate or gluing_estimate_YB (lem:gluing-estimate) and Yamabe.MeasuredModel.upper_bound_of_gluings or upper_bound_of_gluings_of_pos (thm:upper-bound). Witness: toy_gluing_estimate applies gluing_estimate to the two-point toy model (u = 1, h̄ = toyCurved on Σ and on D_0, glue = id, c = −1, y = −Vol(Σ̄)^{2/3}, β_0 = EHB(D_0)), so its hypotheses are jointly satisfiable. For the curation, a tooling observation: the ledger row thm:upper-bound has proof: null, but its proof is at l.723–728 ('\\begin{proof}[Proof of Theorem~\\ref{thm:upper-bound}]'), so ledger.py does not link remote proofs of that form. The finding concerns l.724 (prop:nonpositive's enlargeability hypothesis). Its repair uses lem:positivity, which the paper already uses for cor:negative. upper_bound_of_gluings_of_pos also yields cor:negative's 'R_g < 0' over the model, given lem:positivity; cor:negative was not a label of this target and is not claimed."
+}

@@ -12,3 +12,5 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0004](entries/0004-curved-metric.md) | pattern | Curvature over the frame model: Yamabe.CurvedMetric |
 | [0005](entries/0005-real-sinf-nonpositive.md) | pattern | A real infimum with a nonpositive lower bound needs no nonemptiness |
 | [0006](entries/0006-integral-sq-and-junk.md) | pattern | ∫ f² as a squared L² norm; absorbing a junk Bochner integral |
+| [0007](entries/0007-filling-and-conformal.md) | pattern | Conformal metrics and the filling of Σ by the D_j on the frame model |
+| [0008](entries/0008-neg-literal-and-empty-iinf.md) | pitfall | A literal −1 into an implicit real; Real.iInf over an empty type is 0 |
