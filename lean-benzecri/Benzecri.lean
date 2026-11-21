@@ -36,3 +36,4 @@ import Benzecri.Chapter2.PseudoBoules
 import Benzecri.Chapter2.Compact
 import Benzecri.Chapter2.Hemisphere
 import Benzecri.Chapter2.Prop2Literal
+import Benzecri.Chapter2.CasAffin

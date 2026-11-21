@@ -1,0 +1,176 @@
+{
+ "package": "T-bz-c2-cas-affin",
+ "target": "T-bz-c2-cas-affin",
+ "files": [
+  "scaffold/BenzecriScaffold/Chapter2/CasAffin.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "bzrem:c2s2r1_cas_affin",
+   "tex_lines": [
+    493,
+    505
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.cas_affin",
+    "Benzecri.GXAut.affToProj",
+    "Benzecri.GXAut.affToProj_smul",
+    "Benzecri.GXAut.affToProj_injective",
+    "Benzecri.IsGXMorphism.affToProj",
+    "Benzecri.IsBalayableFor.affToProj"
+   ],
+   "hypotheses": [
+    {
+     "paper": "V une variété localement affine",
+     "here": "weakened",
+     "note": "[ChartedSpace (Fin n → ℝ) V] [HasGroupoid V (affGroupoid n)]; Hausdorff, second countable and connected never used for the first two assertions"
+    },
+    {
+     "paper": "balayable pour un groupe G d'automorphismes affins (Ch. 1 Déf. 15, affine case)",
+     "here": "carried",
+     "note": "G : Subgroup (GXAut (GAR n) (Fin n → ℝ) V), IsBalayableFor (GAR n) (Fin n → ℝ) V G (strict)"
+    },
+    {
+     "paper": "V possède une poche (P, φ, z)",
+     "here": "carried",
+     "note": "IsPocheAff P φ z (strict)"
+    },
+    {
+     "paper": "la structure localement projective de V (chap. 1, § 1, déf. 12, remarque)",
+     "here": "carried",
+     "note": "projOfAff (strict, canonical: remarque_affine_vers_projective); first conjunct HasGroupoid V (projGroupoid n)"
+    },
+    {
+     "paper": "G est un groupe d'automorphismes projectifs",
+     "here": "carried",
+     "note": "and more: GXAut.affToProj, an injective group morphism from all affine automorphisms to the projective automorphisms of projOfAff, each acting as itself (rfl); V is sweepable for G.map GXAut.affToProj with the same compact"
+    },
+    {
+     "paper": "j un homéomorphisme de ℝⁿ sur un hémisphère H̊ de S(n), compatible avec les structures affines",
+     "here": "carried",
+     "note": "every j : ℝⁿ ≃ᵃ[ℝ] H̊, any open hemisphere l ≠ 0; the reading of the marked strict Remark after Déf. 1′ (IsPocheAff.toPocheProj)"
+    },
+    {
+     "paper": "(P, H̊, j∘φ, z∘j⁻¹) est une poche de la variété localement projective de V",
+     "here": "carried",
+     "note": "IsPocheProj P l (φ.trans j) (z.comp j.symm) for projOfAff"
+    },
+    {
+     "paper": "La proposition 7 et son corollaire sont donc vrais aussi dans le cas affin",
+     "here": "carried",
+     "note": "under PreconnectedSpace V, Prop. 7's « connexe » (see questions): both assertions of Prop. 7′"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Remark, l.496–498, statement unaffected: for « La proposition 7 … sont donc vrais aussi dans le cas affin » the Remark needs V sweepable for G regarded as a group of projective automorphisms, and it leaves this implicit. The step is immediate: the action is unchanged, so the same compact generating domain serves (IsBalayableFor.affToProj)."
+   ],
+   "questions": [
+    "« connexe » in the Remark's last sentence (l.503–504). The Remark's hypotheses (l.493–495) do not print « connexe ». Its conclusion « La proposition 7 et son corollaire sont donc vrais aussi dans le cas affin » refers to Prop. 7, which assumes it. The statement it announces (« on a l'énoncé : », Prop. 7′, l.507–508) prints it. Reading taken: Prop. 7's hypotheses, connectedness included (cas_affin's third conjunct is under PreconnectedSpace V; the first two need no connectedness). This also coincides with the protocol's standing convention that a « variété » is connected. Both readings give the same Lean statement. The literal alternative, with no connectedness, is false in every dimension ≥ 1 (Benzecri.not_deuxPointsDansPocheAffineSansConnexe: ℝⁿ⁺¹ minus the hyperplane x₀ = 0, sweepable for its affine automorphisms, with the pocket {0 < x₀ < 1}, cote x₀; the points ±½𝟙 lie on the two sides and no homeomorphism moves both into one side). So I consider the reading forced by the text, and marked the row; the auditor should confirm that this is not an open reading."
+   ]
+  },
+  {
+   "label": "bzprop:c2s2p7prime_compact_dans_poche_affine",
+   "tex_lines": [
+    507,
+    512
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Benzecri.compact_dans_poche_affine",
+    "Benzecri.deux_points_dans_poche_affine",
+    "Benzecri.CompactDansPocheAffinePrinted",
+    "Benzecri.compactDansPocheAffinePrinted"
+   ],
+   "hypotheses": [
+    {
+     "paper": "V une variété localement affine",
+     "here": "weakened",
+     "note": "[ChartedSpace (Fin n → ℝ) V] [HasGroupoid V (affGroupoid n)]; T2 and second countable never used (CompactDansPocheAffinePrinted carries them, V : Type)"
+    },
+    {
+     "paper": "connexe",
+     "here": "weakened",
+     "note": "[PreconnectedSpace V] (empty V allowed)"
+    },
+    {
+     "paper": "balayable pour un groupe G d'automorphismes affins",
+     "here": "carried",
+     "note": "G : Subgroup (GXAut (GAR n) (Fin n → ℝ) V), IsBalayableFor (strict)"
+    },
+    {
+     "paper": "(P, φ, z) une poche de V",
+     "here": "carried",
+     "note": "IsPocheAff P φ z (strict)"
+    },
+    {
+     "paper": "E un compact de V",
+     "here": "weakened",
+     "note": "IsCompact E (quasi-compact)"
+    },
+    {
+     "paper": "il existe g ∈ G tel que gE ⊂ P",
+     "here": "carried",
+     "note": "∃ g ∈ G, g • E ⊆ P; « ⊂ » is Bourbaki's inclusion, as accepted for Prop. 7 by its AUDIT-1"
+    },
+    {
+     "paper": "M, N deux points : il existe g ∈ G tel que gM ∈ P; gN ∈ P",
+     "here": "carried",
+     "note": "∃ g ∈ G, g • M ∈ P ∧ g • N ∈ P"
+    },
+    {
+     "paper": "the dimension n",
+     "here": "carried",
+     "note": "every n, n = 0 included; no NeZero"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Benzecri.IsGXMorphism.transport",
+  "Benzecri.GXAut.transport",
+  "Benzecri.GXAut.transport_toHomeomorph",
+  "Benzecri.GXAut.ofOpens",
+  "Benzecri.GXAut.ofOpens_smul",
+  "Benzecri.translationSubgroup",
+  "Benzecri.isBalayableFor_translationSubgroup",
+  "Benzecri.compactDansPocheAffine_hypotheses_model",
+  "Benzecri.demiEspaceOuvert",
+  "Benzecri.mem_demiEspaceOuvert",
+  "Benzecri.connectedSpace_demiEspaceOuvert",
+  "Benzecri.isDeveloping_val_demiEspaceOuvert",
+  "Benzecri.demiEspaceAff",
+  "Benzecri.demiEspaceAff_apply",
+  "Benzecri.demiEspaceAff_apply_one",
+  "Benzecri.demiEspaceAff_mem_iff",
+  "Benzecri.isBalayable_demiEspaceOuvert",
+  "Benzecri.exists_isPocheAff_demiEspace",
+  "Benzecri.compactDansPocheAffine_hypotheses_demiEspace",
+  "Benzecri.exists_smul_subset_slab_demiEspace",
+  "Benzecri.complHyperplan",
+  "Benzecri.mem_complHyperplan",
+  "Benzecri.demiEspaceAff_mem_complHyperplan_iff",
+  "Benzecri.isBalayable_complHyperplan",
+  "Benzecri.isDeveloping_val_complHyperplan",
+  "Benzecri.isClopen_pos_complHyperplan",
+  "Benzecri.isPreconnected_preimage_val_complHyperplan",
+  "Benzecri.exists_isPocheAff_complHyperplan",
+  "Benzecri.DeuxPointsDansPocheAffineSansConnexe",
+  "Benzecri.not_deuxPointsDansPocheAffineSansConnexe"
+ ],
+ "kb_proposals": [
+  "Affine to projective automorphisms: GXAut.affToProj : GXAut (GAR n) ℝⁿ V →* GXAut (GSR n) (S n) V for projOfAff. Each automorphism acts as itself (affToProj_smul is rfl), and IsBalayableFor.affToProj keeps the compact. The general forms are IsGXMorphism.transport and GXAut.transport, for any open embedding of models that is equivariant through G' →* G. Use them wherever an affine statement is derived from its projective twin, for example T-bz-c2-theoreme-affine.",
+  "Cheap affine manifolds with automorphisms: GXAut.ofOpens builds an automorphism of an open subset U of the model from any g ∈ G with g • x ∈ U ↔ x ∈ U. On Opens of the model, chartAt X x y = y.val holds by rfl. Ready-made examples: the half-space demiEspaceOuvert n, which is homogeneous and has the pocket {0 < x₀ < 1} with cote x₀ (not constant); and the hyperplane complement complHyperplan n, which is disconnected, homogeneous and has the same pocket.",
+  "A pocket with a non-constant cote exists in every dimension ≥ 1 (exists_isPocheAff_demiEspace, by exemple_poche_affine). Use it as the non-vacuity witness for any pocket statement that must survive OQ-61 (a). In dimension 0 every affine function is constant, so no such pocket exists there.",
+  "Pitfall: on a subtype of TopologicalSpace.Opens, `rw [himg]` with himg : Subtype.val '' U = … can fail after `rw [← IsInducing.subtypeVal.isPreconnected_image]`, because the coercion differs syntactically. Use `convert h using 1; ext` instead."
+ ],
+ "notes": "One new file, sorry-free, standard axioms only (#print axioms checked for all 40 declarations). lake build BenzecriScaffold.Chapter2.CasAffin rebuilt only that module. Imports: Benzecri.Chapter2.Compact, and Benzecri.Chapter2.Projection for translationAut. Both labels are MARKED. Proof: Prop. 7′ is Prop. 7 and its corollary (compact_dans_poche, deux_points_dans_poche, strict) applied to projOfAff, the image of G under GXAut.affToProj, and the pocket IsPocheAff.toPocheProj j for j : ℝⁿ ≃ᵃ H₀. That is the Remark's own argument. The marks depend on neither OQ-45 nor OQ-61: Prop. 7 holds in every dimension, and under OQ-61 (a) IsPocheAff would only gain a hypothesis. Non-vacuity, as dispatched: ℝⁿ with its translations (translationSubgroup n = closure of range translationAut) and isPocheAff_model, in every dimension. A better witness: for every n + 1 ≥ 1, the open half-space {x₀ > 0}, swept from one point by its affine automorphisms, with a NON-CONSTANT cote. It is the witness the T-bz-c2-compact REPORT asked for, and via cas_affin its projective image also witnesses Prop. 7 with a non-constant cote. The file builds strict-clean (lake env lean -DwarningAsError=true shows no warning). At graduation, check name clashes against T-bz-c2-developpement's Developpement.lean, which I did not read, as dispatched: GXAut.transport, IsGXMorphism.transport and GXAut.ofOpens are generic names that a developing-map file might also define. The strict library has none of the 40 names (grep). The roadmap evidence's line references are right: projOfAff Poches.lean:649, hasGroupoid_projOfAff :657, toPocheProj :730, isPocheAff_model :1297, GXAut.ofBijective Classes.lean:285, IsBalayableFor :303."
+}
