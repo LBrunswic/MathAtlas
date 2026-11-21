@@ -1,0 +1,155 @@
+{
+  "package": "T-egf-universality-ergodic",
+  "target": "T-egf-universality-ergodic",
+  "files": [
+    "scaffold/EGFScaffold/UniversalityErgodic.lean"
+  ],
+  "builds": false,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "theo:universality_true",
+      "tex_lines": [
+        775,
+        804
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "EGF.universality_of_ergodic",
+        "EGF.isUniversalPolicy_of_ergodic",
+        "EGF.not_universal_of_not_ergodic",
+        "EGF.two_le_errors_of_invariant_set",
+        "EGF.isKernelErgodic_of_isUniversalPolicy",
+        "EGF.universal_iff_ergodic",
+        "EGF.universality_of_ergodic_family",
+        "EGF.not_isUniversalFamilyEps_of_not_ergodic",
+        "EGF.isUniversalFamilyEps_fixedPolicyFamily_iff",
+        "EGF.isKernelErgodic_of_tendsto",
+        "EGF.isKernelErgodic_of_isSummablyL2Mixing",
+        "EGF.IsKernelErgodic",
+        "EGF.isKernelErgodic_congr",
+        "EGF.isKernelErgodic_deterministic",
+        "EGF.isKernelErgodic_deterministic_of_quasiErgodic",
+        "EGF.IsEGFPolicy.isKernelErgodic",
+        "EGF.IsEGFPolicy.bind_eq_of_uniform",
+        "EGF.isKernelErgodic_egfKernel_uniform",
+        "EGF.isUniversalPolicy_addCircle",
+        "EGF.Swap.bind_policy_lam",
+        "EGF.Swap.isKernelErgodic_policy",
+        "EGF.Swap.isUniversalPolicy_policy",
+        "EGF.exists_tvMass_cesaro_lt_of_ergodic",
+        "EGF.cesaroOutflow",
+        "EGF.tvMass_construction_cesaro",
+        "EGF.tvMass_smul_le",
+        "EGF.Markov.ae_apply_eq_indicator_of_withDensity_invariant",
+        "EGF.Markov.ae_eq_const_of_densityAction_eq",
+        "EGF.Markov.tendsto_birkhoffAverage_densityActionL2",
+        "EGF.Markov.densityAction_toReal_rnDeriv",
+        "EGF.Markov.densityActionL2",
+        "EGF.Markov.norm_densityActionL2_le"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(S, lambda) a measured Polish space, lambda finite",
+          "here": "weakened",
+          "note": "any MeasurableSpace S, [IsFiniteMeasure lam]"
+        },
+        {
+          "paper": "pi a Markov kernel",
+          "here": "carried",
+          "note": "[IsMarkovKernel pi]"
+        },
+        {
+          "paper": "pi ergodic on (S, lambda)",
+          "here": "carried",
+          "note": "IsKernelErgodic pi lamHat (Walters' invariant sets: pi(x, A) = 1_A(x) a.e. implies A null or conull), equivalent to IsKernelErgodic pi lam when lamHat ~ lam (EGF.isKernelErgodic_congr); proved necessary (EGF.universal_iff_ergodic)"
+        },
+        {
+          "paper": "summable L2-mixing coefficients",
+          "here": "weakened",
+          "note": "dropped entirely; only the invariant measure lamHat ~ lam of def:summably_mixing is kept"
+        },
+        {
+          "paper": "the invariant lamHat of def:summably_mixing (no finiteness printed)",
+          "here": "strengthened",
+          "note": "lamHat assumed finite: C-29's declared added hypothesis. With summable mixing an infinite lamHat forces a trivial lambda (EGF.trivial_of_lamHat_univ_eq_top), so EGF.main_universality covers that case; under ergodicity alone it is not settled here"
+        },
+        {
+          "paper": "F_init, F_term probabilities << lambda with densities in L2(lambda)",
+          "here": "weakened",
+          "note": "probabilities << lambda, no L2 densities"
+        },
+        {
+          "paper": "conclusion: f_out in L2(lambda), deltaF_init(S) + deltaF_term(S) < eps",
+          "here": "carried",
+          "note": "the conclusion of EGF.main_universality verbatim: f_out >= 0, bounded, MemLp 2"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "main.tex:775 (C-29, proved): the summable L2-mixing clause is not needed. For a Markov kernel pi on a finite (S, lambda) with a finite invariant measure lamHat equivalent to lambda, the conclusion of Theorem B.1 (any probabilities F_init, F_term << lambda, any eps > 0, a bounded f_out >= 0 with deltaF_init(S) + deltaF_term(S) < eps) holds if and only if pi is ergodic for lamHat (EGF.universal_iff_ergodic; sufficiency EGF.universality_of_ergodic, necessity EGF.not_universal_of_not_ergodic). The proof replaces the paper's Neumann series by the Cesaro-weighted Neumann outflow (1/N) sum_{T<N} (sum_{t<=T} mu0 pi^t + (R - sum_{t<=T} mu1 pi^t)), whose defect is ||(1/N) sum_{t=1..N} (mu0 - mu1) pi^t||_TV (EGF.tvMass_construction_cesaro), and that tends to 0 by von Neumann's mean ergodic theorem for the density action on L2(lamHat), whose fixed points are constant under ergodicity (EGF.exists_tvMass_cesaro_lt_of_ergodic, EGF.Markov.ae_eq_const_of_densityAction_eq).",
+        "main.tex:775 (C-29, necessity is stronger than the planner's claim): necessity needs no invariant measure at all. For ANY Markov kernel pi and finite lambda, a set A with pi(x, A) = 1_A(x) lambda-a.e. and 0 < lambda(A) < lambda(S) gives F_init = lambda|_A/lambda(A), F_term = lambda|_{A^c}/lambda(A^c) (bounded densities) such that every finite outflow F_out << lambda has deltaF_init(S) + deltaF_term(S) >= 2 (EGF.not_universal_of_not_ergodic, EGF.two_le_errors_of_invariant_set). Hence a universal policy is always ergodic for lambda (EGF.isKernelErgodic_of_isUniversalPolicy).",
+        "main.tex:775: 'ergodic' is redundant beside the mixing clause: gamma_0 < infinity and gamma_n -> 0 (a fortiori summable mixing) already make (pi, lamHat) ergodic (EGF.isKernelErgodic_of_tendsto, EGF.isKernelErgodic_of_isSummablyL2Mixing). This formalizes the ledger's earlier unformalized sketch on main.tex:775.",
+        "main.tex:271: 'In contrast, ergodicity alone ensures the convergence of phi pi^n in the much weaker Cesaro sense' is true, and Cesaro convergence is exactly what universality needs (EGF.exists_tvMass_cesaro_lt_of_ergodic); the contrast with summable mixing is misleading as a statement about universality.",
+        "main.tex:697 ('the technical assumption of L2-mixing summability needed for universality') and main.tex:702 ('the L2-mixing summability property is essential to ensure universality') are false: one translation of infinite order of the circle (an isometry, which does not mix) is a universal policy (EGF.isUniversalPolicy_addCircle), as is the swap of two points with the uniform measure (EGF.Swap.isUniversalPolicy_policy). main.tex:697's own parenthesis ('one randomly initialized non-trainable translation is sufficient to ensure ergodicity') therefore already gives universality on tori by C-29 (formalized for the circle, d = 1).",
+        "main.tex:698 ('two transformations are sufficient to achieve universality'): on the circle one suffices (EGF.isUniversalPolicy_addCircle); in general any ergodic policy suffices (EGF.universality_of_ergodic_family, the Theorem 3.4 form with C-20's cone density).",
+        "main.tex:238 ('Ergodicity guarantees that the parameterized family of EGFs is able to be flow-matching for any non-zero F_init << lambda and F_term << lambda') is right in its eps form (C-18) by C-29: EGF.universality_of_ergodic_family, with the uniform EGF kernel of measure-preserving moves ergodic as soon as the moves have no common a.e.-invariant set other than null and conull ones (EGF.isKernelErgodic_egfKernel_uniform; positive non-uniform weights: EGF.IsEGFPolicy.isKernelErgodic).",
+        "The follow-up (~/Dropbox/GFNCertified/arxiv/source/body/04_universality.tex:27, before lean:Core.weaklyUniversal_of_kernel): 'Universality then does need mixing' has the same issue. Read with a frozen forward policy and a free outflow (the reading that sentence's own next paragraph names) and p = 1 (total-variation residual), ergodicity for a finite invariant measure suffices and is necessary (this file). For p = 2 the same mean-ergodic argument gives the closure of range(I - P) = mean-zero functions under ergodicity; that L^p form is not formalized here. The follow-up's own later sentence 'The condition is sufficient and not necessary' is consistent with this; 'does need' is not."
+      ],
+      "questions": [
+        "Reading of 'pi is ergodic on (S, lambda)' (main.tex:775): taken as Walters' invariant sets for the kernel, IsKernelErgodic pi lamHat (every measurable A with pi(x, A) = 1_A(x) for lamHat-a.e. x is null or conull), relative to the invariant lamHat ~ lambda; with lamHat ~ lambda it is the same relative to lambda (EGF.isKernelErgodic_congr). Other readings (ergodicity of the shift on the stationary path space, or extremality of lamHat among invariant measures) are classically equivalent for a finite invariant lamHat but not formalized.",
+        "Finiteness of the invariant lamHat (C-29's added hypothesis): kept. Whether sufficiency survives for an infinite sigma-finite invariant lamHat equivalent to a finite lambda under ergodicity alone is not settled here (it would need a different truncation than EGF.exists_truncation)."
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C-29",
+      "anchor": [
+        "EGF.universality_of_ergodic",
+        "EGF.not_universal_of_not_ergodic",
+        "EGF.universal_iff_ergodic",
+        "EGF.universality_of_ergodic_family",
+        "EGF.isUniversalFamilyEps_fixedPolicyFamily_iff"
+      ],
+      "notes": "Proved in full, sorry-free, standard axioms only (propext, Classical.choice, Quot.sound). Sufficiency (EGF.universality_of_ergodic, the conclusion of EGF.main_universality verbatim; EGF.isUniversalPolicy_of_ergodic) under C-29's declared added hypothesis that the invariant lamHat ~ lambda is finite. Necessity is stronger than C-29's text: it holds for every Markov pi and finite lambda with no invariant measure (EGF.not_universal_of_not_ergodic, stated with IsKernelErgodic pi lam; the lamHat form follows by EGF.isKernelErgodic_congr). The family form (Theorem 3.4 with ergodicity, C-29 with C-18/C-20): EGF.universality_of_ergodic_family, and its converse EGF.not_isUniversalFamilyEps_of_not_ergodic; the fixed-policy family equivalence EGF.isUniversalFamilyEps_fixedPolicyFamily_iff. Non-mixing inhabitants: EGF.isUniversalPolicy_addCircle (the C-29 remark against main.tex:697-698), EGF.Swap.isUniversalPolicy_policy. Independent of OQ-47: no theorem here assumes mixing except EGF.isKernelErgodic_of_tendsto and EGF.isKernelErgodic_of_isSummablyL2Mixing, which read def:summably_mixing as EGF.Defs does."
+    }
+  ],
+  "extra_decls": [
+    "EGF.IsKernelErgodic",
+    "EGF.isKernelErgodic_congr",
+    "EGF.isKernelErgodic_deterministic",
+    "EGF.isKernelErgodic_deterministic_of_quasiErgodic",
+    "EGF.IsEGFPolicy.isKernelErgodic",
+    "EGF.IsEGFPolicy.bind_eq_of_uniform",
+    "EGF.isKernelErgodic_egfKernel_uniform",
+    "EGF.exists_tvMass_cesaro_lt_of_ergodic",
+    "EGF.cesaroOutflow",
+    "EGF.tvMass_construction_cesaro",
+    "EGF.tvMass_smul_le",
+    "EGF.Markov.ae_apply_eq_indicator_of_withDensity_invariant",
+    "EGF.Markov.ae_eq_const_of_densityAction_eq",
+    "EGF.Markov.tendsto_birkhoffAverage_densityActionL2",
+    "EGF.Markov.densityAction_toReal_rnDeriv",
+    "EGF.Markov.integrable_of_Lp",
+    "EGF.Markov.bindDensity",
+    "EGF.Markov.densityAction",
+    "EGF.Markov.densityActionCLM",
+    "EGF.Markov.densityActionL2",
+    "EGF.Markov.norm_densityActionL2_le",
+    "EGF.Markov.isBoundedDensityAction_two",
+    "EGF.Markov.coeFn_densityActionCLM"
+  ],
+  "kb_proposals": [
+    "Universality without mixing: prove EGF.IsUniversalPolicy from ergodicity with EGF.isUniversalPolicy_of_ergodic (finite invariant lamHat ~ lam, IsKernelErgodic pi lamHat); ergodicity of an EGF kernel from its moves: EGF.isKernelErgodic_egfKernel_uniform (uniform weights, measure-preserving moves) or EGF.IsEGFPolicy.isKernelErgodic (positive weights); a Mathlib Ergodic map: EGF.isKernelErgodic_deterministic. Then EGF.universality_of_ergodic_family for the family.",
+    "Cesaro mixing in total variation from von Neumann: EGF.exists_tvMass_cesaro_lt_of_ergodic (measures <= K lamHat of equal mass), built on the ported density action EGF.Markov.densityActionL2 (||P|| <= 1 on L2(lamHat)), EGF.Markov.ae_eq_const_of_densityAction_eq (fixed points constant: (z - c)+ is an invariant density, {z > c} an invariant set, then exists_eventuallyEq_const_of_forall_separating with rational half-lines) and Mathlib's ContinuousLinearMap.tendsto_birkhoffAverage_orthogonalProjection.",
+    "Necessity of ergodicity needs no invariant measure: an invariant set A blocks every outflow << lambda (EGF.two_le_errors_of_invariant_set), so IsUniversalPolicy lam pi -> IsKernelErgodic pi lam for any Markov pi (EGF.isKernelErgodic_of_isUniversalPolicy).",
+    "Pitfalls at this pin: ENNReal.mul_lt_mul_left multiplies on the right (b * a < c * a), ENNReal.mul_lt_mul_right gives a * b < a * c; Measure.map_dirac needs MeasurableSingletonClass, the measurable form is Measure.map_dirac'; AddCircle.ergodic_add_left needs import Mathlib.Dynamics.Ergodic.AddCircleAdd (not pulled in by EGF.InflowNonsingular); rewriting with a type-ascribed (h : T) does not change the rewrite pattern, state it with have; Integrable.neg' is deprecated for Integrable.fun_neg."
+  ],
+  "notes": "BUILD NOT RUN (protocol stop, CAMPAIGN.md 'How you build'): `lake build EGFScaffold.UniversalityErgodic` would first rebuild the strict module EGF.UniversalFamily. `lake build --no-build EGF.UniversalFamily` reports it out-of-date (its olean dates from 11:34, before the graduation commit a2f6878 at 11:40 edited EGF/UniversalFamily.lean, and T-egf-loss's build at 12:15 rebuilt EGF.Defs, Universality, Sampling, BackwardPolicy, SamplingCorollaries, InflowNonsingular, which `--no-build` now reports up to date). So `builds: false` means 'not built', not 'fails'. Evidence instead: `taskset -c 0-11 lake env lean scaffold/EGFScaffold/UniversalityErgodic.lean` is clean (no error, no warning); the same file concatenated after the CURRENT committed source of EGF/UniversalFamily.lean (so independent of the stale olean) also typechecks clean (/tmp/uerg/combined.lean). The master can run `lake build EGFScaffold.UniversalityErgodic` once EGF.UniversalFamily is rebuilt. Sorry-free; #print axioms of the main declarations: [propext, Classical.choice, Quot.sound]. The Markov.* block (Kernel.lean:128-570 and SigmaMixing.lean:126-284, 455-466, Flow.lean:135 of lean/GFNBounds/Core) is a verbatim copy into namespace EGF.Markov, each declaration preceded by '-- ported from GFNBounds.Core.<name> (lean/...:line)'; GFNBounds' bind_add_measure is not copied (EGF.bind_add_measure is used). The label is unmarked (strengthening C-29); the strict mark stays with EGF.main_universality. Status 'partial' because no single declaration of this file is >= the printed statement in every respect: it drops mixing but asks lamHat finite (C-29's added hypothesis); together with EGF.main_universality (which covers the infinite lamHat case) the printed statement is of course certified. Namespace EGF.Swap gains three declarations (bind_policy_lam, isKernelErgodic_policy, isUniversalPolicy_policy) beside SamplingCorollaries' EGF.Swap.flow; T-egf-mixing-criteria's planned EGF.Swap.not_isSummablyL2Mixing would make EGF.Swap.isUniversalPolicy_policy a formal witness that C-29 is strictly stronger than main_universality. T-egf-families / T-egf-tori-minimal can reuse EGF.universality_of_ergodic_family, EGF.isKernelErgodic_egfKernel_uniform and EGF.isUniversalPolicy_addCircle (their planned EGF.universality_tori_one is essentially the latter).",
+  "master_notes": [
+    "AUDIT-1 minor, added by the master at graduation: the findings that main.tex:697 and :702 are false rest on witnesses (isUniversalPolicy_addCircle, Swap.isUniversalPolicy_policy) whose non-mixing is NOT formalized (true: both are unitary on L2, so gamma_n = gamma_0 > 0; the swap's is planned in T-egf-mixing-criteria); C-29's 697-702 clause is not proved until one witness's non-mixing is in Lean.",
+    "AUDIT-1 minor: the findings that main.tex:238 is right and :271 true hold when 'ergodicity' means ergodicity for a finite invariant lambda-hat ~ lambda, not the topological ergodicity of def:egf (main.tex:221, OQ-48), which does not imply it in general."
+  ]
+}

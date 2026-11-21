@@ -25,3 +25,4 @@ docstring contract is its `0006`; weakest hypotheses `0007`; no quiet weakening 
 | [0016](entries/0016-nonsingular-moves-inflow.md) | pattern | F_in ≪ λ for an EGF from nonsingular moves; Haar null sets without the Jacobian |
 | [0017](entries/0017-universality-plug-in-bool.md) | pattern | The universality plug-in (IsUniversalPolicy → IsUniversalFamilyEps); cheap counterexamples on Bool |
 | [0018](entries/0018-loss-kl-and-reversed-flow.md) | pattern | The KL-weakFM loss: KL between densities, computable KLs on Bool, the reversed flow |
+| [0019](entries/0019-universality-from-ergodicity.md) | pattern | Universality from ergodicity alone (Cesàro, von Neumann); necessity with no invariant measure |
