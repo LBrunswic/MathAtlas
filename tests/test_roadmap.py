@@ -92,6 +92,26 @@ class RoadmapRules(unittest.TestCase):
         self.assertEqual(rm.new_red(d, log + "papers/ett\n  FAIL x\nmake: *** [Makefile:50: lib-check] Error 2\n"),
                          ["lib-check", "papers-check: papers/ett"])
 
+    def test_ledger_row_blocked_on_a_done_target_fails(self):
+        # A copied ledger (T-ledger-stale-blockers): a row naming a done or dropped target as its
+        # blocker fails; one naming an open target, or a done id inside a longer one, does not.
+        import json
+        import tempfile
+        with tempfile.TemporaryDirectory() as root:
+            os.makedirs(os.path.join(root, "papers", "p", "ledger"))
+            rows = [{"label": "thm:a", "blocked_on": "T-old: the port (DEC-1)"},
+                    {"label": "thm:b", "blocked_on": "T-open, after T-old-sfa"},
+                    {"label": "thm:c", "blocked_on": "T-gone"}]
+            json.dump({"statements": rows}, open(os.path.join(root, "papers", "p", "ledger", "ledger.json"), "w"))
+            data = {"target": [target(id="T-old", status="done", commit="0" * 40), target(id="T-old-sfa"),
+                               target(id="T-open", status="planned"), target(id="T-gone", status="dropped")]}
+            e = rm.stale_blockers(data, root=root)
+            self.assertEqual(len(e), 2, e)
+            self.assertTrue(any("thm:a" in x and "T-old," in x for x in e), e)
+            self.assertTrue(any("thm:c" in x and "dropped" in x for x in e), e)
+            self.assertFalse(any("thm:b" in x for x in e), e)
+        self.assertEqual(rm.stale_blockers(rm.load(), root=ROOT), [])
+
 
 if __name__ == "__main__":
     unittest.main()

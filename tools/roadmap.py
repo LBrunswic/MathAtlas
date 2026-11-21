@@ -164,7 +164,31 @@ def check(data, root=ROOT):
         state[n] = 2
     for n in graph:
         visit(n, [])
+    errs.extend(stale_blockers(data, root))
     return errs
+
+
+def stale_blockers(data, root=ROOT):
+    """Ledger rows whose `blocked_on` names a target, of either roadmap, that is done or dropped:
+    such a row misreports what blocks it, and so does every count of rulings read off the ledgers
+    (T-ledger-stale-blockers: 17 ETT rows named the done T-ett-port-e0). The roadmap being checked
+    gives its own statuses; the other roadmap is read from its file."""
+    import glob
+    import json
+    status = {}
+    for path in (os.path.join(root, "roadmap", "roadmap.toml"), os.path.join(root, "programme", "roadmap.toml")):
+        if os.path.exists(path):
+            status.update({t.get("id"): t.get("status") for t in load(path).get("target", [])})
+    status.update({t.get("id"): t.get("status") for t in data.get("target", [])})
+    out = []
+    for p in sorted(glob.glob(os.path.join(root, "papers", "*", "ledger", "ledger.json"))):
+        paper = p.split(os.sep)[-3]
+        for s in json.load(open(p, encoding="utf-8")).get("statements", []):
+            for tid in sorted(set(re.findall(r"\bT-[a-z0-9]+(?:-[a-z0-9]+)*", s.get("blocked_on") or ""))):
+                if status.get(tid) in ("done", "dropped"):
+                    out.append("papers/%s %s: blocked_on names %s, which is %s; name its current blocker"
+                               % (paper, s.get("label"), tid, status[tid]))
+    return out
 
 
 def ladder_ids(root=ROOT):
