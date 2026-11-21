@@ -1097,6 +1097,12 @@ def check():
             if f is None:
                 fail.append("%s: declaration %s not found in its listed files"
                             % (s["label"], d))
+    # A proof whose title \ref's something that is no statement falls back to the most recent
+    # statement without a proof, silently the wrong row (T-texgraph-proof-titles: five such proofs).
+    g_titles, _aux = build_graph()
+    for f, ln, opt in getattr(g_titles, "unresolved_proof_titles", []):
+        fail.append("%s:%s: proof title %r names no statement (\\ref to a missing or "
+                    "non-statement label)" % (f, ln, opt))
     # A configured proof macro that opens no proof is a typo or a stale config: its proofs, and
     # their edges, would be silently missing.
     for m in CFG.proof_macros:

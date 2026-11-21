@@ -496,7 +496,31 @@ def first_words(s, n=9):
     return ' '.join(w[:n]) + ('…' if len(w) > n else '')
 
 
-PROOF_OF = re.compile(r'Proof of\s+(?:[A-Za-z.\\ ]*)\\ref\{([^}]*)\}')
+PROOF_OF = re.compile(r'Proof of\s+(?:[A-Za-z.\\ ~]*)\\ref\{([^}]*)\}')
+# Titles PROOF_OF misses (T-texgraph-proof-titles): « of Proposition \ref{x} », and a title whose
+# only \ref names a statement (« First variation at u = 1 (Remark~\ref{x}) »).
+OF_REF = re.compile(r'^\s*of\s+(?:[A-Za-z.\\ ~]*)\\ref\{([^}]*)\}')
+TITLE_REF = re.compile(r'\\ref\{([^}]*)\}')
+
+
+def proof_title_key(g, opt, proof_alias):
+    """The statement a proof's optional title names, or None (then the proof proves the most recent
+    statement still without one). « Proof of [Kind]~\\ref{x} », « of Kind \\ref{x} », or a title whose
+    only \\ref resolves to a statement label (the authors' own labels through `proof_alias`)."""
+    def resolve(lab):
+        if lab in g.nodes and g.nodes[lab]['kind'] == 'statement':
+            return lab
+        return proof_alias.get(lab)
+    for pat in (PROOF_OF, OF_REF):
+        m = pat.search(opt)
+        if m:
+            k = resolve(m.group(1))
+            if k:
+                return k
+    refs = TITLE_REF.findall(opt)
+    if len(refs) == 1:
+        return resolve(refs[0])
+    return None
 FULL_OF = re.compile(r'\\ref\{([^}]*)\}')
 
 
@@ -512,13 +536,16 @@ def link(g):
         for a in n.get('aliases', ()):
             proof_alias.setdefault(a, n['id'])
     pending = []      # statements not yet matched to a proof, most recent last
+    g.unresolved_proof_titles = []
     for n in nodes:
         if n['kind'] == 'statement':
             pending.append(n)
         elif n['kind'] == 'proof':
             tgt = None
-            m = PROOF_OF.search(n.get('opt', ''))
-            key = m and (m.group(1) if m.group(1) in g.nodes else proof_alias.get(m.group(1)))
+            key = proof_title_key(g, n.get('opt', ''), proof_alias)
+            if key is None and '\\ref{' in n.get('opt', ''):
+                # a title naming no statement: kept for ledger.py check, never serialized
+                g.unresolved_proof_titles.append((n['file'], n['line'], n['opt']))
             if key:
                 tgt = g.nodes[key]
             else:

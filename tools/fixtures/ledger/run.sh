@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Three breakages, each must make `ledger.py check` fail (exit non-zero only if all do):
+# Four breakages, each must make `ledger.py check` fail (exit non-zero only if all do):
 #  1. removing one \label leaves an unlabeled statement;
 #  2. a curated decl carrying prose ("(related, …) Causal.foo") is not a Lean name
 #     (T-ett-curation-decls: such a decl was found by its last component and passed);
 #  3. a configured proof macro that opens no proof (T-barbot-proof-macros: a misspelled macro
 #     would silently drop every proof and edge of the paper).
+#  4. a proof title that \ref's no statement (T-texgraph-proof-titles: such a proof falls back to the
+#     most recent statement without a proof, silently the wrong row).
 set -u
 T=$(mktemp -d); cp -r "$LEANARTICLES_HUB/papers/syracuse" "$T/paper"; chmod -R u+w "$T/paper"
 python3 - "$T/paper/legacy/labeled/syracuse.tex" <<'PY'
@@ -46,5 +48,19 @@ PY
 python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" build >/dev/null || { rm -rf "$T"; exit 0; }
 python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" check; s3=$?
 rm -rf "$T"
-[ "$s1" -ne 0 ] && [ "$s2" -ne 0 ] && [ "$s3" -ne 0 ] && exit 1
+T=$(mktemp -d); cp -r "$LEANARTICLES_HUB/papers/yamabe" "$T/paper"; chmod -R u+w "$T/paper"
+python3 - "$T/paper/ledger/ledger.toml" "$LEANARTICLES_HUB/lean-yamabe" "$T/paper/legacy/labeled/Yamabegap.tex" <<'PY'
+import re, sys
+p, root, tex = sys.argv[1], sys.argv[2], sys.argv[3]; s = open(p, encoding="utf-8").read()
+t = re.sub(r'(\[lean\][^\[]*?\nroot = )"[^"]*"', lambda m: m.group(1) + '"' + root + '"', s, count=1, flags=re.S)
+assert t != s, "no [lean] root to repoint"; open(p, "w", encoding="utf-8").write(t)
+x = open(tex, encoding="utf-8").read()
+y = x.replace("[Proof of Theorem~\\ref{thm:upper-bound}]", "[Proof of Theorem~\\ref{thm:upper-bnd}]", 1)
+assert y != x, "no titled proof to break"; open(tex, "w", encoding="utf-8").write(y)
+PY
+# Build first, so that only the proof-title rule (not drift) can make check fail.
+python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" build >/dev/null || { rm -rf "$T"; exit 0; }
+python3 "$LEANARTICLES_HUB/tools/ledger.py" -c "$T/paper/ledger/ledger.toml" check; s4=$?
+rm -rf "$T"
+[ "$s1" -ne 0 ] && [ "$s2" -ne 0 ] && [ "$s3" -ne 0 ] && [ "$s4" -ne 0 ] && exit 1
 exit 0
