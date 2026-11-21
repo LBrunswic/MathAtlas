@@ -118,3 +118,14 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓ (234 strict files, 0 sorry), ladder ✓, binder ✓, roadmaps ✓, full tests ✓, selftest ✓ (ladder fixture bites), blueprint ✓, hub make -k check ALL GREEN
 - commits: 1e997bc 5185566 8044439 f868749 48d1cf0 e177ac8 6084e8e
 - next: keeper pass (the standing migration + the nested/transfer [[fails]] and [[transfer]] entries); then wave: T-abs-chronal-neighbour-bridge, T-abs-pushup-not-open, T-abs-gateline-local (lean-causal ×3); publisher: build.py for the new ladder fields
+
+## 2026-11-21 05:00 · wave of 4 · T-lad-classify-core, T-abs-chronal-neighbour-bridge, T-abs-pushup-not-open, T-abs-gateline-local
+- T-lad-classify-core (ladder): every causality-sort pair classified (14 implied, 103 fails, 189 open with notes; 312 of 314 within a sort); `standing` migration; 7 [[transfer]] entries; causal_ladder 20 rules (Test 36 derived). The keeper asks the author to update `.claude/agents/ladder-keeper.md` for the new reading (an agent definition: not edited by the loop). Its target list for the planner: timelike-line-top (49 pairs), doubled line widened (45), flat time cylinder widened (44), Galileo ladder facts (40), gated-line extras (36), jump-line extras (28), rational-line extras (27), ChronalNeighbours.tarentin (a new edge), a Levin wrapper concluding HasTimeFunction, and tool proposals (backward reading of conjunctive edges in counterexample(), conditional transfers, premise-free Level-B facts)
+- T-abs-chronal-neighbour-bridge (layer 1): three strictly ordered chronology strengths; equal under arc-connectedness or absolute minimality on T1; leaving theorems restated; globalLine, sierpinskiCausality; audit minor
+- T-abs-pushup-not-open (layer 1): the jump line; ETT.tex:698 needs absolute minimality (no-gluing reading); audit minor (docstring qualifier added)
+- T-abs-gateline-local (layer 1): the gated line causally open in the future and not in the past — the DEC-8 finding, holding in the no-gluing reading (the gated line is not absolutely minimal); audit minor (reading disclosed, SCOPE corrected); OQ-67, with an auditor's sketch of an absolutely minimal witness for the planner
+- ladder: 23 properties, 22 implications, 35 counterexamples, 42 consequences, 7 transfers; 312 of 314 classified within a sort
+- binders: unchanged (ers 28 rows, layer 1 in Lean 17; sbierski 19 rows, layer 1 in Lean 15)
+- gates: lean-causal ✓ (237 strict files, 0 sorry), ladder ✓, binder ✓, roadmaps ✓, full tests ✓, selftest ✓; blueprint NOT rebuilt this wave: its build.py reads the ladder differently from the new tool ("1 violation"); the publisher is adapting it (reports/blueprint, in progress)
+- commits: 52b8b45 b9bc26d 1cbb750 d41b625 6c0d59e 96488c6
+- next: the blueprint fix (publisher, running); a planner pass for the keeper's model targets and the absolutely minimal DEC-8 witness; then lean-causal waves
