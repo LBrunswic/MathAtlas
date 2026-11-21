@@ -1,0 +1,166 @@
+{
+  "target": "T-ett-sfa-line-e0",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:past_BTZ",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, REPORT status partial, as dispatched. (1) `line` (SFALine.lean:264-269) has exactly the type of the strict field Causal.Causality.BTZAxioms.line (Causal/SingularFlat.lean:168-169) at S₀ = SFALocal.sing M 0. A probe checked `type_of% B.line = type_of% (SFALine.line hC)` by `with_reducible rfl` for an arbitrary B : C.BTZAxioms (SFALocal.sing M 0), and that `{ B with line := SFALine.line hC }` elaborates. Per #check its only hypotheses beyond [TopologicalSpace M] and [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] are [T2Space M] and IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality. « No absolute minimality » is true: there is no hmin binder, and none can be hidden. It also asks no connectedness, no second countability, and C need not be the generated causality, so for this field Lean ≥ paper under the readings DEC-25, OQ-18 and the SFALocal reading of sing₀. It does not remove minimality from `btzAxioms`. That theorem carries hmin for the four other BTZAxioms fields, through SFABTZ.btzAxioms_of_line. Iminus_eq_empty genuinely needs minimality (SFALocalE0.e0_topTotal_separates), and the paper's generated causality has it (cor:massA_causalite, l.1396), so btzAxioms is not narrower than the paper. (2) isTranslationAtlas (l.186-218) builds the strict LineDevelopment.IsTranslationAtlas structure (Causal/LineDevelopment.lean:97-108) for any family of X_A-charts into E₀ that covers sing₀(M). Here τ = (e x).1, σ = axisInv and J = axisParams, and every field is discharged from the chart and SFABTZ.mem_sing_zero_iff. trans_tau (l.158-180) is one application of BPrimeE0.exists_eqOn_rotE0_tauShift (Causal/Port/BPrimeE0.lean:627, BTZ_1 prop:isom at α = β = 0, local form) to e.symm.trans e′. Its conclusion holds for every y near x, not only y ∈ sing₀, which is stronger than the field `trans` needs. causalCurveOn_symm_axis (l.128-145) comes from E0.axis_causalCurveOn through ChartIso.curveOn_symm and needs only ChartIso C E0.causality e. (3) btzAxioms gives C.BTZAxioms (SFALocal.sing M 0) at every T2 E≥0-manifold with hmin and hC. singularFlatAxioms_iff_massive_line is an iff whose right side is textually the field massive_line at sing = SFALocal.sing M: the probe fed B.massive_line from an arbitrary SingularFlatAxioms B back through it. (4) singularFlatAxioms_e0 is a genuine, full instance of the strict Causal.Causality.SingularFlatAxioms C (SFALocalE0.sing M). By #check its only hypotheses are [T2Space M] [SecondCountableTopology M] (hcov : E0Covered M) (hC : IsE0Natural C), beside the SingularGXStructure instance. E0Covered means that every singular point lies in an a.e. chart into E₀ (an E₀-manifold, DEC-25). IsE0Natural is the natural causality, unique by existsUnique_isE0Natural. The chain SFABTZ.singularFlatAxioms_iff_line_e0 → SFALocalE0.singularFlatAxioms_iff (⇐ builds all 19 fields one by one, massive_line vacuous since sing α = ∅ for α ≠ 0) hides no hypothesis. T2 and second countability are fields of the structure and part of « topological spacetime » (l.254). line_e0 and btzAxioms_e0 are the same rewrite through SFALocal.sing_eq_of_e0Covered and isoChartsCoverDEC25_of_e0. (5) Non-vacuity. A transitive constant-closure probe (deleted) shows that nonvacuous_e0 uses SFALine.singularFlatAxioms_e0, nonvacuous_e0_family uses SFALine.btzAxioms and line_e0_axis uses SFALine.line_e0. None of the three reaches Causal.E0.singularFlatAxioms, SFALocalE0.e0_singularFlatAxioms, SFALocal.e0_singularFlatAxioms or Causal.E0.btzAxioms. The witnesses have sing₀ = axis ≠ ∅, and E0.causality is causal, so the closed-embedding branch is exercised (line_e0_axis). The row stays partial: (a) for α > 0 is T-ett-sfa-massive-line, and the readings are OQ-18, OQ-34/OQ-35 and OQ-82."
+    },
+    {
+      "label": "defi:causal_E0",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "This is a corollary beyond the target, cited unmarked (docstring l.8), and not an anchor. Jminus_eq_image (l.296-322) reads l.1347-1348 (J⁻(p) = {r = 0, τ ≤ τ(p)}, the half-line below p) at a BTZ point of M. Under [T2Space M], hmin, hC and C.IsCausal it gives the line γ through p, a closed embedding with γ 0 = p, inextensible and onto the component, with C.Jminus ⊤ {p} = γ '' Iic 0. γ is future-directed in C (CausalCurveIn inside Inextensible), so γ '' Iic 0 is the part of the line below p. The model form stays E0.causal_E0 / E0.Jminus_axis. The added hypothesis C.IsCausal is needed for the half-line shape and is disclosed in SCOPE (l.81-85), but its stated reason is imprecise (finding 3). isClosed_Jminus follows from the closed embedding. Neither declaration asks second countability. Since the file carries no ``**`label`**`` mark, tools/ledger.py associates it with no row by itself, so the master has to add it through extra_lean_files (finding 5)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "On node1, from lean-causal/: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SFALine.lean` exits 0 with no output (2.5 s; the strict lib's only leanOption is warningAsError). The only occurrence of `sorry` is in docstring prose (l.30). There is no native_decide, axiom, admit, set_option, opaque or implemented_by. #print axioms was run from a /tmp copy (since deleted) on all 21 declarations: the 18 theorems and axisParams, axisInv and IsoChart. Every one depends only on propext, Classical.choice and Quot.sound. Name clashes: the same /tmp copy, with the two imports replaced by `import Causal`, typechecks the whole body under warningAsError. The only diagnostics came from the auditor's own probe examples (an unused-variable lint in a `type_of%` check). No `Causal.SFALine` namespace exists elsewhere in Causal/ or scaffold/, SFAMassiveLine.lean excluded: it was not read, as the dispatch says, so a clash check against it is the master's at graduation. The olean CausalScaffold/SFALine.olean (20:30:23) is newer than the source (20:29:27). No `lake build` was run by the auditor."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[1] (« Section 3 uses it at M (l.1349-1350, l.1565-1573) »)",
+      "what": "The line citation of finding 2 is wrong in one place and incomplete. l.1349-1350 (« strongly tarentin in the future but not in the past », « not past distinguishing ») use only I⁻(p) = ∅ (def:strongly_tarentin_point, l.774-776), not the half-line. The places that use the half-line at M are three. l.294 (introduction: « At a BTZ point p of a E≥0-manifold, I⁻(p) = ∅ while J⁻(p) is the singular half-line below p (Definition defi:causal_E0) ») states it with no causality, and it is the one sentence the finding actually corrects. l.1565-1573 (prop:K_calcul (c), « Assume M causal ») is right. l.1783-1785 (theo:geroch_sing, strongly causal under DEC-18) uses only J⁻(p) ≠ {p}, which is true either way.",
+      "fix": "In curation, cite l.294 for the overstatement and l.1565-1573 and l.1783-1785 for the causal uses, and drop l.1349-1350 (texts under `curation.defi:causal_E0`)."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[0] (« A citation of prop:isom at l.1530 would close the step at alpha = 0 with Hausdorff alone »)",
+      "what": "Finding 1 is a refinement of the curated second finding of lem:past_BTZ (« ETT.tex:1530 … the classification of connected 1-manifolds … is not cited … A citation of the classification, or of the development argument, would close the step »), not a new finding. That entry already says that the charts make the transitions translations. What finding 1 adds is the precise source at α = 0: brunswic2021cauchy prop:isom at α = β = 0 (BTZ_1.tex:378-384, not 378-383), formalized as BPrimeE0.exists_eqOn_rotE0_tauShift. That source is true and checked: rotE0 keeps .1 and tauShift adds t. But « a citation of prop:isom … would close the step » overstates. prop:isom gives only the translation transitions. The parametrisation still needs the development argument (LineDevelopment.exists_development) or the classification, and for a compact component it is periodic (the curated first finding). The Lean-side clauses (mixed E≥0-manifolds, no connectedness, second countability or minimality) belong in the notes, not in a paper finding.",
+      "fix": "Do not add finding 1 as a new paper_findings entry. Merge it into the existing second entry of lem:past_BTZ (replacement text under `curation.lem:past_BTZ.paper_findings_replace_second`), which also repairs that entry's « does without both … needs only M Hausdorff »."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SFALine.lean:84-85 (SCOPE, « `Jminus_eq_image` asks `C` causal for the same reason (on the circle `J⁻(p)` is the whole component) »)",
+      "what": "The reason given is imprecise. On the circle, γ is periodic, so γ '' Iic 0 is also the whole component, and the set equation J⁻(p) = γ '' Iic 0 does not fail there (by hand). What fails without causality is the closed-embedding conjunct, and with it the half-line shape of γ '' Iic 0. The proof uses causality for both: the closed embedding, and antisymmetry in the ⊆ direction. The statement and the need for the hypothesis are right; only the stated reason is off. REPORT finding 2's « Causality is needed for the half-line form » is correctly worded.",
+      "fix": "At graduation, reword to: « `Jminus_eq_image` asks `C` causal for the closed embedding, that is, for `γ '' Iic 0` to be a half-line: on the circle `γ` is periodic and `J⁻(p) = γ '' Iic 0` is the whole component »."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SFALine.lean:7-9, 57-68 (docstring contract, kb/0006)",
+      "what": "`defi:causal_E0` is cited within the first 4000 characters, but its sentence (l.1347-1348) is not quoted in a `>` block (kb/0006 item 3). The checklist covers `line` only, so the hypotheses of Jminus_eq_image (C causal, C absolutely minimal) appear only in SCOPE. The rest of the contract holds: the title, the labels unmarked with their ETT.tex lines (lem:past_BTZ 1515 and defi:causal_E0 1344 are correct), the verbatim quotes of l.1518-1519 and l.1529-1533, the checklist, a true SCOPE, and the Provenance line.",
+      "fix": "At graduation, add after l.28: « > … for a singular point $p\\in \\sing(\\mass{0})$, $$I^-(p)=\\emptyset \\qquad\\text{and}\\qquad J^-(p)=\\{\\r=0,~\\tau\\leq \\tau(p)\\},$$ that is, the causal past of $p$ is exactly the singular half-line below $p$. (`ETT.tex:1346–1348`) ». Add a checklist row: « `defi:causal_E0` read at a BTZ point of `M` (`Jminus_eq_image`) | ⚠ strengthened: `C` causal (needed: on `E₀` modulo a τ-translation the line is a circle); ✓ carried: `C` absolutely minimal (the generated causality, `cor:massA_causalite`) »."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json notes (« Within its first 4000 characters it also cites `defi:causal_E0`, unmarked … The ledger may therefore associate this file with the defi:causal_E0 row »)",
+      "what": "This is false. tools/ledger.py lean_index (l.302-324) indexes only the marked form ``**`label`**`` (docstring_label_re, l.246-248), so an unmarked citation associates the file with no row. SFALine.lean reaches lem:past_BTZ or defi:causal_E0 only through curated extra_lean_files. Neither row lists it yet.",
+      "fix": "Add \"Causal/Port/SFALine.lean\" to extra_lean_files of lem:past_BTZ and of defi:causal_E0 (kb/0015 item 6)."
+    }
+  ],
+  "paper_findings_review": [
+    {
+      "finding": 1,
+      "true": true,
+      "level": "citation",
+      "lines": "ETT.tex:1530 (REPORT: 1529-1533)",
+      "duplicate_of": "lem:past_BTZ paper_findings[1] (T-ett-line-development: l.1530, the classification uncited). It is consistent with paper_findings[0] (the compact component, l.1529-1530), which it cites and does not contradict.",
+      "notes": "This is a refinement and not new. At α = 0 the uncited step can cite brunswic2021cauchy prop:isom at α = β = 0 (BTZ_1.tex:378-384) for the translation structure of sing₀(M). ETT cites that proposition only through its corollary prop:GX_sing_dec (Cor. 1.7, l.1435). The development argument still has to be supplied or cited. With both, (a) at α = 0 holds at every Hausdorff E≥0-manifold (Causal.SFALine.line), periodic for a compact component under DEC-6. Merge it into the existing entry."
+    },
+    {
+      "finding": 2,
+      "true": true,
+      "level": "sentence",
+      "lines": "ETT.tex:294 (REPORT: l.1347-1348, with uses at l.1349-1350, l.1565-1573)",
+      "duplicate_of": "It answers, in Lean for causal M, the note of T-ett-sfa-btz-e0 in the defi:causal_E0 row (« The literal J⁻(p) = {r = 0, τ ≤ τ(p)} at M needs line and M causal … By hand, E₀ modulo a τ-translation is not causal: its BTZ points form a circle, J⁻(p) is the whole circle »). That note is in notes, not in paper_findings, so a paper finding would be new.",
+      "notes": "defi:causal_E0 states the half-line in the model E₀, where it is true (E0.Jminus_axis), so it has no statement-level error. Both halves of the finding are true. At M, at every causal Hausdorff E≥0-manifold with its generated causality, J⁻(p) = γ(]−∞, 0]) (Causal.SFALine.Jminus_eq_image, Lean). At a non-causal M it fails as a half-line (by hand, correct): J⁻(p) lies in the component (SFABTZ.Jminus_subset_component), the axis of E₀/⟨τ ↦ τ + T⟩ closes into a causal loop through p, and so J⁻(p) is the whole circle. E₀/⟨τ ↦ τ + T⟩ is a connected, Hausdorff, second countable E₀-manifold, because τ-translation is an isometry acting freely and properly. Every use of the half-line in the body is in a causal M: prop:K_calcul (c) at l.1565-1573, and theo:geroch_sing at l.1783-1785, which needs only J⁻(p) ≠ {p}. The one overstatement is the introduction, l.294, which states it at every E≥0-manifold. It is sentence-level. Its Lean half belongs in the defi:causal_E0 notes. At most one new sentence-level paper finding at l.294 (text under `curation.defi:causal_E0.paper_findings_append_optional`)."
+    }
+  ],
+  "suggestion_review": {
+    "claim": "REPORT notes (iii): MeasuresManifolds.e0Manifold_mesure_admissible and e0Manifold_geroch_hypotheses become unconditional at every Hausdorff, second countable, strongly causal E₀-manifold with its natural causality, by one application each.",
+    "true": true,
+    "checked": "The statements below typecheck under -DwarningAsError=true in a /tmp probe (deleted) importing CausalScaffold.SFALine and Causal.Remarks.MeasuresManifolds. Axioms are standard, and a witness at E₀ comes from SFALocalE0.nonvacuous and E0.stronglyCausal. At graduation the import is Causal.Port.SFALine. `TopologicalSpace` must be opened for MetrizableSpace. The names are free: no `_natural` variant exists in Causal/ or scaffold/.",
+    "lean": [
+      "import Causal.Port.SFALine",
+      "import Causal.Remarks.MeasuresManifolds",
+      "",
+      "namespace Causal",
+      "namespace MeasuresManifolds",
+      "open Set Filter Topology TopologicalSpace MeasureTheory",
+      "universe u",
+      "section E0ManifoldsNatural",
+      "attribute [local instance] E0GX.singularGX",
+      "variable {M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M]",
+      "  [MeasurableSpace M] [BorelSpace M] {C : Causality M}",
+      "",
+      "theorem e0Manifold_mesure_admissible_natural [T2Space M] [SecondCountableTopology M]",
+      "    (hcov : SFALocalE0.E0Covered M) (hC : SFALocalE0.IsE0Natural C) (hSC : C.StronglyCausal) :",
+      "    (∃ μ : Measure M, C.AdmissiblePast μ) ∧ ∃ μ : Measure M, C.AdmissibleFuture μ :=",
+      "  e0Manifold_mesure_admissible hcov hC hSC (SFABTZ.singularPastAt_e0 hcov hC)",
+      "    (SFABTZ.Iplus_of_lt_e0 hcov hC) (SFALine.line_e0 hcov hC)",
+      "",
+      "theorem e0Manifold_geroch_hypotheses_natural [T2Space M] [SecondCountableTopology M]",
+      "    (hcov : SFALocalE0.E0Covered M) (hC : SFALocalE0.IsE0Natural C) (hSC : C.StronglyCausal) :",
+      "    MetrizableSpace M ∧ LocallyCompactSpace M ∧ C.Tarentin ∧ C.CausallyArcConnected ∧",
+      "      C.StronglyCausal ∧ (∀ p : M, C.Jminus ⊤ {p} ≠ {p}) ∧ (∀ p : M, C.Jplus ⊤ {p} ≠ {p}) ∧",
+      "      ∃ μp μm : Measure M, C.AdmissibleFuture μp ∧ C.AdmissiblePast μm :=",
+      "  e0Manifold_geroch_hypotheses hcov hC hSC (SFABTZ.singularPastAt_e0 hcov hC)",
+      "    (SFABTZ.Iplus_of_lt_e0 hcov hC) (SFALine.line_e0 hcov hC)",
+      "end E0ManifoldsNatural",
+      "end MeasuresManifolds",
+      "end Causal"
+    ],
+    "belongs_to": "T-ett-singular-sfa, not this target. This target's label is lem:past_BTZ and its imports exclude MeasuresManifolds. The two rows that change (prop:mesure_admissible and rem:singular_flat_spacetime_therefore) are blocked on T-ett-singular-sfa, and that target's title already lists « the E₀-manifold form ». A master may add the two theorems early, as a new module importing both, for example Causal/Remarks/MeasuresManifoldsE0.lean, with the E₀ witness. If so, record it in T-ett-singular-sfa's evidence, together with the fact that SFALine.singularFlatAxioms_e0 has already delivered the E₀-manifold form."
+  },
+  "scope": "`git status --short` shows the two untracked paths of this target (scaffold/CausalScaffold/SFALine.lean and campaign/T-ett-sfa-line-e0/), the sibling T-ett-sfa-massive-line's two untracked paths, and ` M roadmap/roadmap.toml`. The roadmap diff flips T-ett-sfa-line-e0 and T-ett-sfa-massive-line from ready to active and restores their full evidence. It is the master's dispatch, present before this audit began, and is not the closer's. No strict file, scaffold root, ledger, curation, register or .lake path was touched by the closer, and the auditor wrote only this file. All /tmp probes are deleted.",
+  "graduation_fixes": [
+    "git mv lean-causal/scaffold/CausalScaffold/SFALine.lean lean-causal/Causal/Port/SFALine.lean, then add `import Causal.Port.SFALine` to lean-causal/Causal.lean. No import changes, since the file imports only Causal.Port.SFABTZ and Causal.LineDevelopment. Delete the stale .lake/build/lib/lean/CausalScaffold/SFALine.* (kb/0015 item 2). The scaffold root never imported it, so nothing is to be removed there. Rerun `lake env lean -DwarningAsError=true` on the moved file. If SFAMassiveLine graduates in the same commit, check the two namespaces for clashes (the auditor did not read SFAMassiveLine).",
+    "Docstring SCOPE l.84-85: reword the reason Jminus_eq_image asks C causal (finding 3).",
+    "Docstring: add the `>` quote of ETT.tex:1346-1348 and the checklist row for Jminus_eq_image (finding 4).",
+    "Curation: apply the texts under `curation` below, for lem:past_BTZ, defi:causal_E0, prop:mesure_admissible and rem:singular_flat_spacetime_therefore. These are the only rows whose blocked_on names T-ett-sfa-line-e0 (curation.toml:895, 948, 959). Line 896 mentions it in notes, which are history and stay as they are.",
+    "Roadmap (planner or master): in T-ett-singular-sfa's evidence, record that the E₀-manifold form of its title is delivered (SFALine.singularFlatAxioms_e0). Its E≥0 assembly is now one application of SFALine.singularFlatAxioms_iff_massive_line once T-ett-sfa-massive-line is done, and it can take the two unconditional MeasuresManifolds corollaries (suggestion_review)."
+  ],
+  "curation": {
+    "lem:past_BTZ": {
+      "extra_lean_files_append": ["Causal/Port/SFALine.lean"],
+      "decls_append": [
+        "Causal.SFALine.line",
+        "Causal.SFALine.btzAxioms",
+        "Causal.SFALine.singularFlatAxioms_iff_massive_line",
+        "Causal.SFALine.isTranslationAtlas",
+        "Causal.SFALine.isTranslationAtlas_isoChart",
+        "Causal.SFALine.trans_tau",
+        "Causal.SFALine.causalCurveOn_symm_axis",
+        "Causal.SFALine.exists_isLineDevelopment",
+        "Causal.SFALine.line_e0",
+        "Causal.SFALine.btzAxioms_e0",
+        "Causal.SFALine.singularFlatAxioms_e0",
+        "Causal.SFALine.nonvacuous_e0",
+        "Causal.SFALine.nonvacuous_e0_family",
+        "Causal.SFALine.line_e0_axis"
+      ],
+      "notes_append": "T-ett-sfa-line-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (two findings' citations corrected and finding 1 merged into the l.1530 entry, a SCOPE reason reworded, a quote and a checklist row added for defi:causal_E0; fixed at graduation), Causal/Port/SFALine.lean. (a) at α = 0 is the field BTZAxioms.line. It holds at every Hausdorff E≥0-manifold, mixed ones included (SingularGXStructure (Flat.isom 2) (Minkowski 2) M), for every causality C with an isomorphic chart at each point (IsoChartsCoverDEC25 over massAModelCausality). It uses no connectedness, no second countability and no absolute minimality (SFALine.line). The X_A-charts into E₀ make sing₀(M) a translation line (isTranslationAtlas: chart x ↦ τ(e x), inverse r ↦ e⁻¹(r, 0)). Two charts differ along the axis by a τ-translation, by one application of BPrimeE0.exists_eqOn_rotE0_tauShift (brunswic2021cauchy prop:isom at α = β = 0) to e⁻¹ ≫ e′ (trans_tau). The inverse charts are future causal curves (causalCurveOn_symm_axis, from E0.axis_causalCurveOn through ChartIso.curveOn_symm). LineDevelopment.exists_line gives the rest, since sing₀(M) is closed (isClosed_sing_zero). With C absolutely minimal, BTZAxioms (sing₀ M) holds at every Hausdorff E≥0-manifold (btzAxioms). At a Hausdorff, second countable one, SingularFlatAxioms is equivalent to massive_line alone (singularFlatAxioms_iff_massive_line). At every Hausdorff, second countable E₀-manifold with its natural causality, SingularFlatAxioms holds with no field left (singularFlatAxioms_e0; line_e0, btzAxioms_e0). The witnesses at E₀ come from this module's theorems, not from E0.singularFlatAxioms or E0.btzAxioms (nonvacuous_e0, nonvacuous_e0_family, line_e0_axis); the auditor checked the transitive dependencies. Hypotheses: singular spacetime → read (DEC-25, OQ-18) and weakened (no connectedness; line asks no minimality). « A differential manifold » → carried as Hausdorff (DEC-25) and weakened (no second countability or smoothness, except in the SingularFlatAxioms assemblies, whose structure has it as a field). sing₀(M) → read (SFALocal.sing M 0). E₀ and the group → read (OQ-34, OQ-35, OQ-82). Unmarked: (a) for α > 0 is T-ett-sfa-massive-line, and the readings.",
+      "paper_findings_replace_second": "ETT.tex:1530, « since M is a differential manifold, it is parametrisable by ℝ »: the step is the classification of connected 1-manifolds (ℝ or the circle), which is not cited. It needs Hausdorff and second countability, which M has as a manifold; the long line shows that the countability is used. The formalization does without the classification and without second countability. The charts of E₀ and E_κ make the transitions along the line translations, and the development of the line (Causal.LineDevelopment.exists_development) needs only M Hausdorff and Δ closed. At α = 0 the translations come from brunswic2021cauchy prop:isom at α = β = 0 (BTZ_1.tex:378–384): near the axis, two X_A-charts at a BTZ point differ by a rotation about the axis after a translation along it (Causal.BPrimeE0.exists_eqOn_rotE0_tauShift). With the development, this gives (a) at α = 0 at every Hausdorff E≥0-manifold (Causal.SFALine.line). A citation of the classification, or of prop:isom together with the development argument, would close the step.",
+      "paper_findings_keep_first": true,
+      "blocked_on": "lem:past_BTZ (a) for α > 0 at every E≥0-manifold: the field massive_line, from the charts into E_κ through Causal.LineDevelopment.exists_chronal_line (T-ett-sfa-massive-line). Then SingularFlatAxioms for every Hausdorff, second countable E≥0-manifold, by one application of Causal.SFALine.singularFlatAxioms_iff_massive_line (T-ett-singular-sfa, then T-ett-singular-rows). (a) at α = 0 already holds at every Hausdorff E≥0-manifold (Causal.SFALine.line), and SingularFlatAxioms at every Hausdorff, second countable E₀-manifold (Causal.SFALine.singularFlatAxioms_e0). OQ-18 (the causality), OQ-34, OQ-35 (the reading of E₀), OQ-82 (the group)",
+      "blocked_on_caveat": "If T-ett-sfa-massive-line is graduated in the same iteration, drop its first clause and its target name, since a blocked_on must name no done target."
+    },
+    "defi:causal_E0": {
+      "extra_lean_files_append": ["Causal/Port/SFALine.lean"],
+      "decls_append": [
+        "Causal.SFALine.btzAxioms",
+        "Causal.SFALine.btzAxioms_e0",
+        "Causal.SFALine.causalCurveOn_symm_axis",
+        "Causal.SFALine.Jminus_eq_image",
+        "Causal.SFALine.isClosed_Jminus"
+      ],
+      "notes_append": "T-ett-sfa-line-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor, Causal/Port/SFALine.lean. The field line holds at every Hausdorff E≥0-manifold (SFALine.line). So BTZAxioms holds at the BTZ points of every Hausdorff E≥0-manifold whose C is absolutely minimal with an isomorphic chart at each point (SFALine.btzAxioms; at E₀-manifolds SFALine.btzAxioms_e0). « Locally causal » (l.1345) read in M: through a chart isomorphism into E₀, every segment of the axis is a future causal curve of M (SFALine.causalCurveOn_symm_axis). The note of T-ett-sfa-btz-e0 above left the literal J⁻(p) = {r = 0, τ ≤ τ(p)} at M to line. It now holds at every causal Hausdorff E≥0-manifold with C absolutely minimal: J⁻(p) = γ(]−∞, 0]) for the line γ through p, a closed embedding, so J⁻(p) is closed (SFALine.Jminus_eq_image, isClosed_Jminus; no second countability). Causality is what makes γ(]−∞, 0]) a half-line. On E₀ modulo a τ-translation (by hand), γ is periodic and J⁻(p) is the whole circle. Unmarked: readings (OQ-18, OQ-34, OQ-35, OQ-82).",
+      "paper_findings_append_optional": "ETT.tex:294 (introduction), sentence-level. « At a BTZ point p of a E≥0-manifold, I⁻(p) = ∅ while J⁻(p) is the singular half-line below p (Definition defi:causal_E0) » states at every E≥0-manifold what the definition states in the model E₀ (l.1346–1348). At M it holds when M is causal (Causal.SFALine.Jminus_eq_image, M Hausdorff with its generated causality) and fails otherwise. In E₀ modulo a translation along the axis (by hand, not formalized) the BTZ line closes into a circle, and J⁻(p) is the whole circle. Every use in the body is in a causal M: prop:K_calcul (c), l.1565–1573, and theo:geroch_sing, l.1783–1785, which needs only J⁻(p) ≠ {p}. Suggested wording: « At a BTZ point p of a causal E≥0-manifold, … ».",
+      "blocked_on": "unchanged (it names OQ-34, OQ-35, DEC-64, OQ-18 and OQ-82 and no target)"
+    },
+    "prop:mesure_admissible": {
+      "blocked_on": "SingularFlatAxioms for every E≥0-manifold (T-ett-singular-sfa; only the field massive_line remains, SFALine.singularFlatAxioms_iff_massive_line: T-ett-sfa-massive-line. At Hausdorff, second countable E₀-manifolds SingularFlatAxioms holds, SFALine.singularFlatAxioms_e0, and the three BTZ hypotheses of MeasuresManifolds.e0Manifold_mesure_admissible are SFABTZ.singularPastAt_e0, SFABTZ.Iplus_of_lt_e0 and SFALine.line_e0); OQ-18 (« natural »: ModelMeasures holds for every absolutely minimal causality with an isomorphic chart at each point, MeasuresManifolds.massA_modelMeasures), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀)",
+      "decls_append_if_suggestion_added": ["Causal.MeasuresManifolds.e0Manifold_mesure_admissible_natural"]
+    },
+    "rem:singular_flat_spacetime_therefore": {
+      "blocked_on": "SingularFlatAxioms for every E≥0-manifold (T-ett-singular-sfa; only the field massive_line remains, SFALine.singularFlatAxioms_iff_massive_line: T-ett-sfa-massive-line. At Hausdorff, second countable E₀-manifolds SingularFlatAxioms holds, SFALine.singularFlatAxioms_e0, and the three BTZ hypotheses of MeasuresManifolds.e0Manifold_geroch_hypotheses are SFABTZ.singularPastAt_e0, SFABTZ.Iplus_of_lt_e0 and SFALine.line_e0); OQ-18 (« natural »), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀); « a differential manifold » is not formalized",
+      "decls_append_if_suggestion_added": ["Causal.MeasuresManifolds.e0Manifold_geroch_hypotheses_natural"]
+    }
+  }
+}

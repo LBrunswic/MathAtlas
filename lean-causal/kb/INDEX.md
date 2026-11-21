@@ -180,3 +180,5 @@ rediscover. One fact per entry.
 | [0172](entries/0172-e0-ball-local-forms.md) | pattern | Inside a ball of E₀ centred on the axis, the ball's relations are E₀'s global ones |
 | [0173](entries/0173-global-btz-one-chart.md) | pattern | Global BTZ facts at an E≥0-manifold, one chart at a time |
 | [0174](entries/0174-t1-first-countable-from-charts.md) | pattern | Every E≥0-manifold is T1 and first countable from its charts |
+| [0175](entries/0175-btz-line-every-manifold.md) | pattern | The BTZ line at every Hausdorff E≥0-manifold: Causal.SFALine.line |
+| [0176](entries/0176-tau-translation-transitions.md) | pattern | Two X_A-charts into E₀ at a BTZ point differ along the axis by a τ-translation |
