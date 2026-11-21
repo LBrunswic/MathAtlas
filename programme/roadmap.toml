@@ -204,13 +204,14 @@ id = "T-lad-plain-separations"
 title = "Causal plainness in the ladder from witnesses already in Lean: the lightlike line refutes push_up, causally_open, causally_arc_connected, tarentin ⇒ causally_plain (through the closure also absolutely_minimal and the local forms); deuxPushup refutes causally_plain ⇒ push_up, is_causal ⇒ push_up and causally_plain ⇒ absolutely_minimal; the edge absolutely_minimal ∧ causally_plain ⇒ push_up (under T1)"
 stream = "ladder"
 kind = "ladder"
-status = "ready"
+status = "done"
 owner = "keeper"
 priority = 3
 depends = ["T-lad-gh-causal"]
 evidence = "The keeper's proposals at T-lad-gh-causal (journal entry 2026-11-21 01:30: 'lightlike-line ⇏ causally_plain entries (~9 pairs, witnesses exist)'; its report: the lightlike line also refutes push_up, causally_open, causally_arc_connected and tarentin ⇒ causally_plain, left out to stay inside that target) and at T-lad-local-nodes (journal entry 2026-11-21 00:50; its report: Causal.deux_pushup gives push_up, absolutely_minimal, is_causal ⇏ causally_plain and causally_plain ⇏ push_up, simulated +5 refuted pairs, no contradiction). Witnesses, all in Lean: Causal.deux_pushup (Causal/DeuxPushup.lean:610, ETT layer: the lightlike line absolutely minimal, causal, push-up and not causally plain; deuxPushup causal, causally plain and not push-up; one theorem), Causal.deuxPushup_not_absolutelyMinimal (:600); the lightlike line's halves, split as the gated-line entries are (programme/ladder.toml:563–567): Causal.lightlikeLine_not_causallyPlain (Causal/Lines.lean:303) against lightlikeLine_causallyOpen (Causal/LadderLocal.lean:544), lightlikeLine_causallyArcConnected (Causal/LocateExtension.lean:659), lightlikeLine_tarentin (Causal/Remarks/Tarentin.lean:416). The implication: Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal (Causal/DeuxPushup.lean:217, ETT layer, [T1Space M] and no other premise), the route by which DeuxPushup proves deuxPushup_not_absolutelyMinimal, not yet a ladder edge; with causally_arc_connected ⇒ absolutely_minimal it gives causally_arc_connected ∧ causally_plain ⇒ push_up, which bears on the [[open]] entry causally_arc_connected → push_up (ladder.toml:1030–1033). Consistent with both witnesses (the lightlike line absolutely minimal with push-up and not plain; deuxPushup plain with neither); deuxPushup lives on ℝ, Hausdorff and second countable. The edge carries `under` T1, as StronglyCausal.isCausal does (ladder.toml:311–316), so emit-lean skips it (ladder.toml:21–24): no rule, no rebuild of Causal.Ladder.Rules, no Lean written. A single conjoined lightlike-line witness, if wanted, is T-abs-doubled-line-compact's second item; push_up ∧ chronal_neighbours ⇒ causally_plain waits on T-abs-hoist-plain-locz."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-gh-causal, T-lad-local-nodes), recorded by programme-planner"
+commit = "1e997bc"
 
 # ------------------------------------------------------------------ Lean automation
 [[target]]
@@ -233,13 +234,14 @@ title = "tools/ladder.py and tools/binder.py: standing separation and countabili
 stream = "tactics"
 kind = "tooling"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 3
 depends = ["T-tac-ladder-core", "T-lad-local-nodes"]
 evidence = "The keeper's four proposals from T-lad-seed-check (programme/JOURNAL.md, entry 2026-11-20 19:45). (1) Standing separation and countability hypotheses ([T1Space M], [T2Space M], [SecondCountableTopology M]) are words in `under` (programme/ladder.toml:315, :341, :497) and the closure chains those edges as unconditional; since T-lad-local-nodes (947f841) no localisation hypothesis is left in an `under` (ladder.toml:21–37), so what remains is a field of their own, read by check and matrix (exact on ETT's spacetimes) and by emit-lean. (2) tools/ladder.py `resolves` (:44–50) accepts any dotted-suffix match, so `Causal.Foo.bar` resolves whenever some `bar` is declared; tools/binder.py inherits it (both binders resolve namespace-exactly on 2026-11-21: the planner checked every Lean name of both against the declared full names, namespace blocks read). (3) Consequences carry ladder ids in `under` as words (ladder.toml:674, :681, :689, :697, :776) for want of a conjunctive `at`. (4) `label` is not checked. (5) The keeper's reading of `sort` and of `fails` with a list (T-lad-cbg-geometry-nodes, journal entry 2026-11-20 21:35): check and matrix ignore `sort` (ladder.toml:50), so matrix lists the ill-typed cross-sort pairs as unknown and 'k of n pairs classified' counts them (85 of 506 on 2026-11-21, 79 of 306 within the causality sort). (6) The keeper's `[[transfer]]` schema (T-lad-nested-nodes, journal entry 2026-11-20 22:45): a nesting transfers causality-sort properties from the wider causality to the narrower (is_causal, globally_hyperbolic under closed diamonds; SC, SCO, the time function by T-abs-nested-transfer; not tarentin), which ladder.toml records only in words (the comment at :914–919) because a counterexample to a transfer would be a [[fails]] entry joining two sorts; a [[transfer]] entry names the pair property, the causality property, the direction, a witness or a counterexample, and is checked like a consequence. (7) Folded in 2026-11-21, the keeper's proposal at T-lad-gh-causal (journal entry 2026-11-21 01:30, 'emitted() skipping formless properties'): emitted() emits an edge whose witness module is ETT-layer even when one of its properties has no Lean form in Causal.Ladder.Test (emit_test's lean_form), which made time_function ⇒ is_causal an inert rule while HasTimeFunction lived in Causal.CBG.Pgcd; moot for that edge since T-abs-hoist-time-function (7eff58c), not in general. A gate must be able to fail: a fixture under tools/fixtures/ for each new rule (CLAUDE.md), tests in tests/test_programme.py. Afterwards the keeper migrates `under` to the new field in its next ladder target. Ready 2026-11-21: T-tac-ladder-core (1fcbea8) and T-lad-local-nodes (947f841) are done; T-lad-plain-separations adds one more T1 `under` in the old form, which the migration covers."
 added = "2026-11-20"
 proposed_by = "ladder-keeper (T-lad-seed-check), recorded by programme-planner"
+commit = "5185566"
 
 [[target]]
 id = "T-tac-ladder-dual"
@@ -450,13 +452,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["strongly_causal", "globally_hyperbolic", "push_up", "tarentin"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 3
 depends = ["T-abs-hoist-cbg-cores"]
 evidence = "Sbierski 1309.7591 Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581; text sbierski2013existence.txt:719). lean-causal/Causal/CBG/Corresponding.lean:92–96 (SCOPE): '… Prop 3.7 (ii) and C open in ∂U are proved from A3 … Sbierski's own proof of Prop 3.7 (ii) (timelike curves, strong causality) is not formalized'; 'Downstream warning: Sbierski proves Lemma 3.8 (= A3) from Prop 3.7 (ii)'. The binder's smooth-vacuum discharge of A3 (T-loc-vacuum-rigid-germ) follows Sbierski and needs (ii) without A3, or it is circular. The model-free (i) ⇔ K⁻-bijection and uniqueness are already proved (Causal.CBG.IsCorrPair.corresponding_K, eq_of_corresponds). Ready 2026-11-21: since T-abs-hoist-cbg-cores (e4df4d0) the whole setting is ETT-layer in Causal.CorrespondingPoints: Corresponds (:240), IsCorrPair (:279: ψ, g mutually inverse homeomorphisms between the opens U and V carrying ≤ and ≪ of M onto those of N), KSide (:291: push-up, causal, closed J±, the K⁻ calculus, compact J⁺(S) ∩ J⁻(x)), IsCorrPair.eq_of_corresponds (:453), corresponding_K (:478), corresponds_of_tendsto (:593, (iii) ⇒ (i)), and the timelike-line witnesses (:639–) for the satisfiability check. Layer 1: a new module importing Causal.CorrespondingPoints (and Causal.CorrespondingSpacelike if Lemma 3.9's core helps), no Causal.CBG.* module."
 added = "2026-11-20"
 proposed_by = "programme-planner (binder sbierski-mghd)"
+commit = "48d1cf0"
 
 [[target]]
 id = "T-abs-ers-thm-4-64"
@@ -539,13 +542,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["curve_nested", "le_nested", "causally_arc_connected"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-abs-nested-causalities"]
 evidence = "The keeper's proposal (T-lad-nested-nodes, journal entry 2026-11-20 22:45: 'CurveNestedOn.leNested_of_causallyArcConnected (converse), not_leNested_of_curveNested_bare (pointedLine in spacelikeLine)'); programme/ladder.toml:719 ([[open]] curve_nested → le_nested: false in general, argued, true under causal arc-connectedness of C, 'not in Lean either'). Definitions Causal/NestedCausalities.lean:121, :130; LeNested.curveNestedOn :148, CurveNestedOn.mono :155; the lines Causal.pointedLine (Causal/LinesReachable.lean:366), Causal.spacelikeLine (Causal/Lines.lean:113). The converse's last step reads a C'-causal curve of U from x to y as x ≤_U y for C': if that needs C' causally arc-connected too, the closer adds it and reports. CurveNestedOn.trans: binder papers/ers-predictability row Remark 4.74 (a narrower wider causality C_g ≤ C_b ≤ C_m). Layer 1: ETT-layer imports only (NestedCausalities, ArcConnected, LinesReachable)."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-nested-nodes), recorded by programme-planner"
+commit = "8044439"
 
 [[target]]
 id = "T-abs-nested-transfer"
@@ -554,13 +558,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["le_nested", "strongly_causal", "strongly_causal_open", "time_function", "tarentin", "globally_hyperbolic", "push_up", "causally_open"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-abs-nested-causalities"]
 evidence = "The keeper's proposals at T-lad-nested-nodes (journal entry 2026-11-20 22:45: 'T-abs-nested-transfer (SC, SCO, HasTimeFunction pass to the narrower causality; tarentin does not)') and at T-lad-gh-causal (journal entry 2026-11-21 01:30: 'spacelikeLine_not_tarentin (first GH non-tarentin model)'; its report: Int J(p, q) ⊆ Int {p} = ∅; with spacelikeLine_globallyHyperbolic, _pushUp and _causallyOpen it settles globally_hyperbolic, causally_compact, is_causal, push_up, causally_open and their local forms ⇏ tarentin). The transfers already in Lean are listed in the comment above the pair-sort consequences, programme/ladder.toml:914–919 (is_causal by isCausal_of_le_top, GH under closed diamonds by globallyHyperbolic_iff_of_nested, Cauchy surfaces and inextensibility under OQ-41's hypotheses). A causally convex set for C' is causally convex for C (its ≤ is smaller), whence SC and SCO; a time function of C' is one of C. Causality.HasTimeFunction is ETT-layer in Causal.CurvesExtend (:516) since T-abs-hoist-time-function (7eff58c), so the transfer is stated with the predicate. The counterexample for tarentin: Causal.spacelikeLine (≤ the diagonal, Causal/Lines.lean:113) is ≤-nested in Causal.timelikeLine (tarentin: Causal.timelikeLine_tarentin, Lines.lean:177) and is not tarentin (each of its diamonds is at most a point, of empty interior); the conjoined witness uses Causal.spacelikeLine_pushUp (Causal/LinesReachable.lean:464), spacelikeLine_globallyHyperbolic and spacelikeLine_causallyOpen (Causal/LadderLocal.lean:552, :564). These are the first witnesses of T-tool-ladder-py's [[transfer]] table; the keeper records the [[fails]] entries ⇏ tarentin afterwards. Layer 1: ETT-layer imports only (NestedCausalities, LadderLocal, LinesReachable, CurvesExtend)."
 added = "2026-11-21"
 proposed_by = "ladder-keeper (T-lad-nested-nodes), recorded by programme-planner"
+commit = "f868749"
 
 [[target]]
 id = "T-abs-chronal-neighbour-bridge"
