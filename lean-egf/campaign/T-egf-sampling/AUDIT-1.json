@@ -1,0 +1,65 @@
+{
+  "target": "T-egf-sampling",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "def:virtual_flows",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against main.tex:316-318 and the remark at l.320. EGF.virtualInit = F_init + EGF.initialError and EGF.virtualTerm = F_term + EGF.terminalError (Sampling.lean:132-137). These match F_init-hat := F_init + dF_init and F_term-hat := F_term + dF_term exactly. The strict initialError is (F_term + F_out) - (F_init + F_out pi) and terminalError is (F_init + F_out pi) - (F_term + F_out) (EGF/Defs.lean:145-150). They are the negative and positive parts of F_init + F_in - F_term - F_out, F_in = F_out pi = EGF.inflow (l.196). For finite measures this is kernel-checked against Mathlib's Jordan decomposition (initialError_eq_negPart, terminalError_eq_posPart). The remark at l.320, that any flow is flow matching from F_init-hat to F_term-hat, is EGF.isFlowMatching_virtual, with finite measures and a Markov policy. That is the setting of l.161. The definition takes arbitrary measures, so nothing is narrowed. The l.316 point (f_out* written for the density, F_out* used in the errors) is true and is notation only. The mark is correct."
+    },
+    {
+      "label": "theo:sampling_theorem",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read EGF.sampling_theorem (Sampling.lean:1636-1648) against l.178-190 and the sampler at l.160-171. HYPOTHESES. [IsFiniteMeasure F_init], [IsFiniteMeasure F_term] are the 'unnormalized distributions'; the paper normalises both. hterm is F_term != 0. F : GenerativeFlow is a Markov pi and a finite F_out (l.161). hFM is F_init + F_out pi = F_term + F_out as an equality of measures (equ:FM_const). Polish and lambda are dropped, which makes Lean >= paper. Nothing is added. CONCLUSIONS. (i) F_init(S) = F_term(S). (ii) The lower integral of tau : N u {inf} against pathLaw is <= F_out(S)/F_init(S) + 1. F_init(S) is finite and, by (i) and hterm, nonzero, so the ENNReal quotient is the real one. This is the printed normalisation. (iii) P(tau = inf) = 0, an added clause. (iv) map sampledState = normalize F_term = F_term/F_term(S), which is 's_tau ~ F_term' read through l.159. THE SAMPLER. pathLaw is Kernel.trajMeasure on (S x Bool)^N. It starts from normalize(F_init) bound with decide, so s_1 ~ F_init/F_init(S). Its transition (pathKernel, l.785-789) draws y ~ pi(x) whatever the flag. A raised flag stays raised, and a lowered one is raised at y with probability stop(y). stopIndex is the first raised flag and stopTime = stopIndex + 1 >= 1. sampledState = (omega_{tau-1}).1 = s_tau. stop = 1 - min(dF_out/dG, 1), G = F_term + F_out, and it equals dF_term/dG G-a.e. (stop_ae_eq). So (s_t) is a pi-chain, and given the whole trajectory the stopping coins are independent with P(tau = t | tau >= t, (s_u)_u) = stop(s_t). This is the paper's sampler, 'obtained by emulating the Markov chain ... and sampling s_tau' (l.165). I checked the closer's claim that a decision reading s_{t+1} keeps the printed hazard but breaks s_tau ~ F_term, on S = {a,b}. Take pi(a) = (delta_a + delta_b)/2, pi(b) = delta_b, F_out = delta_a, F_term = (delta_a + delta_b)/2, F_init = delta_a; this is flow matching, with hazard 1/3 at a. If the decision at a stops with probability 2/3 exactly when s_{t+1} = b, the hazard is still 1/3, but P(s_tau = a) = 2/3, not 1/2. So the question is well founded. That reading is not a sampler that emulates the chain, though, and both natural conditionings, on the past and on the whole trajectory, give pathLaw's law. I judge this an OQ-47-style confirmation that does not block the mark. Version of the RN derivative: Lean fixes one G-a.e. version. Under flow matching the unstopped mass is << G (occupation_ac_of_isFlowMatching), and there pathLaw_hazard_rnDeriv gives the hazard with Mathlib's rnDeriv itself. Sound, but see minor finding 2 on what this proves. Inhabitation: Resample.sampling_theorem_inhabited. The mark is correct."
+    },
+    {
+      "label": "theo:negative_control",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read EGF.main_quantitative_sampling (Sampling.lean:1678-1739) against l.321-328. HYPOTHESES. The paper assumes a generative flow, initial and terminal distributions, and F_init != 0. Lean takes F : GenerativeFlow, [IsFiniteMeasure F_init], [IsFiniteMeasure F_term] and hinit : F_init != 0, with no flow matching and nothing else. The finiteness is that of 'distributions', and the Jordan parts of l.316 need it. SAMPLER. pathLaw F F_init (virtualTerm ...) is the chain 'from F_init to F_term-hat': s_1 ~ F_init/F_init(S), with stopping hazard dF_term-hat/d(F_term-hat + F_out). It is the construction checked under theo:sampling_theorem. CONCLUSION. tvDist(map sampledState, normalize F_term-hat) <= initialError(S)/F_term-hat(S), which is TV(s_tau || F_term-hat/F_term-hat(S)) <= dF_init(S)/F_term-hat(S). The quotient is the real one, since F_term-hat(S) = F_init(S) + dF_init(S) lies in (0, inf) (clause 4). map sampledState is the law of s_tau because tau < inf a.s. (clause 1) and it is a probability (clause 3). TV: tvDist = tvMass/2, tvMass = (mu - nu)(S) + (nu - mu)(S) (EGF/Universality.lean:104), so TV = (1/2)||mu - nu||. That is the paper's own convention at l.338, '\\TV(...) = \\frac{1}{2}\\sum |...|', the same \\TV macro two paragraphs later. For probability measures it equals sup_A |mu(A) - nu(A)| (tvDist_eq_iSup, kernel-checked). The halved norm is fixed by the paper, so the TV question is a confirmation and does not block. The unhalved finding is genuine and kernel-checked. TwoPoint.negative_control_sharp, second clause, is ~ tvMass(...) <= dF_init(S)/F_term-hat(S) on S = Bool. There pi = id, F_out = 0, F_init = delta_true, F_term = delta_false, which meets every hypothesis (F_init != 0, finite measures, a valid GenerativeFlow). By hand: dF_init = delta_false, F_term-hat = delta_true + delta_false, the sampler stops at s_1 = true, the unhalved norm is 1 and the bound is 1/2. The sharpness clause, TV = 1/2, is also kernel-checked. Extra clauses: tau < inf a.s., E(tau) bound, mass identity (l.854-855), setwise bound. All are true and consistent. The mark is correct."
+    },
+    {
+      "label": "theo:negative_control_appendix",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "l.844-851 is word for word the statement of l.321-328, apart from a comma after 'F_init != 0' (l.846). One anchor, EGF.main_quantitative_sampling, certifies both, and the remarks under theo:negative_control apply. The proof findings are true. (a) l.853 takes termination of the chain from F_init for granted. The chain is not flow matching from F_init. Termination does follow from theo:sampling_theorem applied to the paper's own F' (flow matching from F_init-hat), because F_init <= F_init-hat. The finding gives this route itself, so the step is implicit, not a hole in the argument. GFNBounds.Core.SamplingGeneralBounds:44-45 says the same ('the fact the source leaves implicit'). (b) l.863 divides by dF_init(S), which is 0/0 when dF_init = 0. True, and a trivial edge case. (c) The last step needs TV <= 1 (the 1/2). True. (d) No twin links :323 and :846 in the ledger. This is a curation point for the master, not a paper error. The mark is correct."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "From lean-egf/: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/EGFScaffold/Sampling.lean` exits 0 with no output (2.1 s wall; a mutation test on a /tmp copy, `exact le_rfl` at l.1647, failed as expected, so the file is really elaborated). The token `sorry` occurs once, in docstring prose (l.117, 'No `sorry`'), and zero times in code. No `admit`, `axiom`, `opaque`, `native_decide` or `implemented_by`. I ran `#print axioms` through a /tmp copy of the file with the commands appended (deleted afterwards) on 32 declarations. Every one reports exactly [propext, Classical.choice, Quot.sound]: sampling_theorem, main_quantitative_sampling, virtualInit, virtualTerm, isFlowMatching_virtual, virtualInit_univ, initialError_eq_negPart, terminalError_eq_posPart, GenerativeFlow.{pathLaw, pathLaw_spec, pathLaw_hazard, pathLaw_hazard_rnDeriv, pathLaw_chain, pathLaw_map_state, occupation_ac_of_isFlowMatching, occupation_ac_of_matched, lintegral_stopTime, pathLaw_sampledState, mass_eq, expectedTau_le, sampleLaw_eq, chainLaw_eq, chainLaw_tendsto_pathLaw, termLaw_split, fterm_univ_eq, negative_control_marginal, stop_ae_eq}, normalize_add_sub_normalize_le, tvDist_normalize_add_le, tvDist_eq_iSup, TwoPoint.negative_control_sharp, Resample.sampling_theorem_inhabited. No lake build was run. The file is 1935 lines, as reported. All 190 declarations are distinct from those of EGF/*.lean and the other scaffold files, so there is no clash at graduation."
+  },
+  "scope": {
+    "git_status": [
+      "?? lean-egf/campaign/T-egf-sampling/",
+      "?? lean-egf/scaffold/EGFScaffold/Sampling.lean"
+    ],
+    "note": "`git status --short lean-egf papers/egf` shows only the two dispatched paths. The campaign directory held only REPORT.json before this audit. The scaffold root scaffold/EGFScaffold.lean was not edited, as the REPORT says (kb/0025: add the import at graduation)."
+  },
+  "docstring_contract": "The file follows kb/0006. The title is at l.5. The four labels are marked at l.7, l.9, l.11 and l.13, each as **`label`** -- `main.tex:LINE`. The bold label pattern in the first 4000 characters (which end at l.64) matches exactly theo:sampling_theorem, def:virtual_flows, theo:negative_control and theo:negative_control_appendix, and nothing else. The later bold `sampling_theorem`, `main_quantitative_sampling` and `TV` carry no label prefix, so the ledger regex ignores them. The paper's sentences are quoted in > blocks as printed, with the l.163 typo kept and one footnote elided as […]. The checklist (l.74-88) and SCOPE (l.90-117) are true, except for the wording in minor finding 1. Provenance is at l.119.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/EGFScaffold/Sampling.lean:64 (table: 'it is the paper's sampler'), :83 (checklist), :1480-1488 (pathLaw_spec docstring: '(s_t) is a Markov chain with kernel pi, whatever the stopping'); REPORT.json theo:sampling_theorem hypotheses[5].note",
+      "what": "pathLaw_spec does not show that pathLaw is the paper's sampler. Clause 2 is the two-time identity P(s_{n+1} in A, s_{n+2} in B) = int_A pi(x)(B) dP_{s_{n+1}}. That is not the Markov property, and it does not mention the flags, so it does not express 'whatever the stopping'. Clause 4 is the hazard given (tau >= t, s_t) only. The REPORT's own question shows that these clauses do not fix the law of s_tau. The identification is correct, but it rests on the definition (pathKernel, pathKernels, trajMeasure), which I checked by reading, and not on pathLaw_spec. The anchors are stated over pathLaw itself, so no statement is affected.",
+      "fix": "Reword to 'pathLaw_spec checks these clauses of l.163-164 (two-time transition, hazard given s_t); the sampler is the definition pathKernel'. Or strengthen clauses 2 and 4 to condition on the history: P(frestrictLe n omega in C, s_{n+2} in B) = int_C pi(s_{n+1})(B), and the same for the flag. Kernel.map_frestrictLe_trajMeasure_compProd_eq_map_trajMeasure gives this directly, as in pathLaw_pair."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json theo:sampling_theorem findings[1] ('so every version gives the same sampler law (EGF.GenerativeFlow.pathLaw_hazard_rnDeriv)')",
+      "what": "This finding goes to the author as a fact, and it cites more than the lemma proves. pathLaw_hazard_rnDeriv shows that the sampler built with `stop` has hazard int_A dF_term/dG d(occ n), with Mathlib's rnDeriv, wherever occ << G. No sampler is built from another version h' of dF_term/dG and compared with pathLaw. The claim is true: induct on occ, which is << G for every version by the same super-solution bound. But it is not kernel-checked as stated.",
+      "fix": "Write 'the constructed sampler's hazard is int dF_term/dG d(occ) for any G-a.e. version (pathLaw_hazard_rnDeriv with occupation_ac_of_isFlowMatching)'. Or prove that pathLaw is unchanged when stop is replaced by any G-a.e. equal measurable h' with values in [0,1]."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json theo:negative_control findings[3] ('main.tex:322')",
+      "what": "The flow '(\\ForwardPolicyStar, \\foutstar)' with the density f_out* is at main.tex:323. Line 322 is \\label{theo:negative_control}.",
+      "fix": "Cite main.tex:323 (and :846 for the appendix twin)."
+    }
+  ]
+}

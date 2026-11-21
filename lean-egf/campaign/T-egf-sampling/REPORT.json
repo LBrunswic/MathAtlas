@@ -1,0 +1,303 @@
+{
+ "package": "T-egf-sampling",
+ "target": "T-egf-sampling",
+ "files": [
+  "scaffold/EGFScaffold/Sampling.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "def:virtual_flows",
+   "tex_lines": [
+    316,
+    318
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "EGF.virtualInit",
+    "EGF.virtualTerm",
+    "EGF.isFlowMatching_virtual",
+    "EGF.virtualInit_univ",
+    "EGF.initialError",
+    "EGF.terminalError",
+    "EGF.initialError_eq_negPart",
+    "EGF.terminalError_eq_posPart"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(pi*, f_out*) a generative flow (main.tex:316)",
+     "here": "carried",
+     "note": "EGF.GenerativeFlow: pi a Markov kernel, F_out a finite measure (main.tex:161); the definition reads F_in = F_out pi = EGF.inflow"
+    },
+    {
+     "paper": "F_init, F_term initial and terminal distributions",
+     "here": "carried",
+     "note": "any measures; the finiteness used by the Jordan identification is carried where it is used (isFlowMatching_virtual, initialError_eq_negPart)"
+    },
+    {
+     "paper": "delta F_init := (F_init + F_in - F_term - F_out)^-, delta F_term := (...)^+, the positive and negative parts of a measure",
+     "here": "carried",
+     "note": "the strict EGF.initialError, EGF.terminalError (EGF/Defs.lean:145, :149), Mathlib's truncated differences, identified with the negative and positive parts of the Jordan decomposition of the signed measure (EGF.initialError_eq_negPart, EGF.terminalError_eq_posPart)"
+    },
+    {
+     "paper": "virtual distributions F_init-hat := F_init + delta F_init, F_term-hat := F_term + delta F_term (main.tex:317)",
+     "here": "carried",
+     "note": "EGF.virtualInit, EGF.virtualTerm, verbatim"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "main.tex:320 (the remark after the definition: any generative flow is flow matching from F_init-hat to F_term-hat) is proved for finite measures and a Markov policy (EGF.isFlowMatching_virtual), with equal virtual masses (EGF.virtualInit_univ). The proof is X + (Y - X) = Y + (X - Y) for finite measures (EGF.add_sub_eq_add_sub).",
+    "main.tex:316 names the generative flow (pi*, f_out*), a density, while the errors use the measure F_out* (main.tex:161). This is notation only."
+   ],
+   "questions": []
+  },
+  {
+   "label": "theo:sampling_theorem",
+   "tex_lines": [
+    178,
+    190
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "EGF.sampling_theorem",
+    "EGF.GenerativeFlow.pathLaw",
+    "EGF.stopIndex",
+    "EGF.stopTime",
+    "EGF.sampledState",
+    "EGF.GenerativeFlow.pathKernel",
+    "EGF.GenerativeFlow.decide",
+    "EGF.GenerativeFlow.stop",
+    "EGF.GenerativeFlow.cont",
+    "EGF.GenerativeFlow.pathLaw_spec",
+    "EGF.GenerativeFlow.pathLaw_hazard",
+    "EGF.GenerativeFlow.pathLaw_hazard_rnDeriv",
+    "EGF.GenerativeFlow.pathLaw_chain",
+    "EGF.GenerativeFlow.pathLaw_map_state",
+    "EGF.normalize",
+    "EGF.GenerativeFlow.occupation_ac_of_isFlowMatching",
+    "EGF.GenerativeFlow.lintegral_stopTime",
+    "EGF.GenerativeFlow.pathLaw_sampledState",
+    "EGF.GenerativeFlow.mass_eq",
+    "EGF.GenerativeFlow.expectedTau_le",
+    "EGF.GenerativeFlow.sampleLaw_eq",
+    "EGF.GenerativeFlow.expectedTau",
+    "EGF.GenerativeFlow.sampleLaw",
+    "EGF.GenerativeFlow.chainKernel",
+    "EGF.GenerativeFlow.chainLaw",
+    "EGF.GenerativeFlow.chainLaw_eq",
+    "EGF.GenerativeFlow.chainLaw_tendsto_pathLaw",
+    "EGF.Resample.sampling_theorem_inhabited"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(S, lambda) a Polish space with a finite background measure (main.tex:155, :161)",
+     "here": "weakened",
+     "note": "any measurable space; lambda is not read by the statement"
+    },
+    {
+     "paper": "F_init, F_term unnormalized distributions",
+     "here": "carried",
+     "note": "finite measures [IsFiniteMeasure]"
+    },
+    {
+     "paper": "F_term != 0",
+     "here": "carried",
+     "note": "hterm"
+    },
+    {
+     "paper": "(pi*, F_out*) a generative flow",
+     "here": "carried",
+     "note": "EGF.GenerativeFlow"
+    },
+    {
+     "paper": "flow-matching constraint F_init + F_out* pi* = F_term + F_out* (equ:FM_const)",
+     "here": "carried",
+     "note": "GenerativeFlow.IsFlowMatching, an equality of measures"
+    },
+    {
+     "paper": "the sampler (main.tex:163-165): s_1 ~ F_init, s_{t+1} = pi*(s_t), P(tau >= 1) = 1, P(tau = t | tau >= t) = dF_term/d(F_term + F_out*)(s_t), sample s_tau",
+     "here": "carried",
+     "note": "constructed, not assumed: Ionescu-Tulcea path measure GenerativeFlow.pathLaw on (S x Bool)^N; pathLaw_spec proves s_1 ~ F_init, (s_t) Markov with kernel pi whatever the stopping, tau >= 1, and the integrated hazard; pathLaw_hazard_rnDeriv gives the hazard with Mathlib's rnDeriv dF_term/d(F_term + F_out) itself on the sampler's support (occupation_ac_of_isFlowMatching). See the question on the reading"
+    },
+    {
+     "paper": "conclusion F_init(S) = F_term(S)",
+     "here": "carried",
+     "note": ""
+    },
+    {
+     "paper": "conclusion E(tau) <= F_out*(S)/F_init(S) + 1",
+     "here": "carried",
+     "note": "E(tau) is the lower Lebesgue integral of tau : N u {inf} against the path measure, in [0, inf]"
+    },
+    {
+     "paper": "conclusion s_tau ~ F_term (x ~ mu: the law of x is mu/mu(S), main.tex:159)",
+     "here": "carried",
+     "note": "and more: tau < inf almost surely, and the law of s_tau (the image of the path measure) equals F_term/F_term(S)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The theorem is cited (main.tex:179, bengio2021flow, brunswic2024theory) and proved here on any measurable space, with no named hypothesis. The proof ports GFNBounds.Core.SamplingGeneral: the sampler's occupation measure is dominated by every super-solution, and (F_term + F_out)/F_init(S) is one.",
+    "main.tex:164: the stopping probability dF_term/d(F_term + F_out*)(s_t) is defined only (F_term + F_out*)-a.e. The footnote at main.tex:164 gives its existence. That the version does not matter is not stated, but it holds: under flow matching the sampler's unstopped mass is dominated by (F_term + F_out)/F_init(S) (EGF.GenerativeFlow.occupation_ac_of_isFlowMatching), so every version gives the same sampler law (EGF.GenerativeFlow.pathLaw_hazard_rnDeriv).",
+    "'s_tau ~ F_term' presupposes tau < inf almost surely, which the statement does not list. It follows from E(tau) < inf and is proved as a clause of EGF.sampling_theorem.",
+    "main.tex:163 indexes the chain '(s_t)_{g >= 1}' for '(s_t)_{t >= 1}' (typo)."
+   ],
+   "questions": [
+    "theo:sampling_theorem and theo:negative_control: the sampler of main.tex:163-165 (confirmation). 'P(tau = t | tau >= t) = dF_term/d(F_term + F_out*)(s_t)' does not say what else the condition includes. The law of s_tau is fixed only if tau is a randomized stopping time: the decision at time t reads s_1..s_t and an independent coin, and the chain (s_t) moves on by pi regardless. If the decision may depend on s_{t+1}, the printed hazard still holds but s_tau ~ F_term can fail. Reading taken: the stopping-time reading, which main.tex:165 ('obtained by emulating the Markov chain') and the diagram main.tex:166-171 describe and which is GFNBounds' chainLaw reading. It is built as EGF.GenerativeFlow.pathLaw; pathLaw_spec lists the clauses it satisfies."
+   ]
+  },
+  {
+   "label": "theo:negative_control",
+   "tex_lines": [
+    321,
+    328
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "EGF.main_quantitative_sampling",
+    "EGF.tvDist",
+    "EGF.tvDist_eq_iSup",
+    "EGF.virtualTerm",
+    "EGF.initialError",
+    "EGF.GenerativeFlow.pathLaw",
+    "EGF.stopIndex",
+    "EGF.stopTime",
+    "EGF.sampledState",
+    "EGF.GenerativeFlow.pathKernel",
+    "EGF.GenerativeFlow.decide",
+    "EGF.GenerativeFlow.stop",
+    "EGF.GenerativeFlow.cont",
+    "EGF.GenerativeFlow.pathLaw_spec",
+    "EGF.GenerativeFlow.pathLaw_hazard",
+    "EGF.GenerativeFlow.pathLaw_hazard_rnDeriv",
+    "EGF.GenerativeFlow.pathLaw_chain",
+    "EGF.GenerativeFlow.pathLaw_map_state",
+    "EGF.normalize",
+    "EGF.GenerativeFlow.occupation_ac_of_matched",
+    "EGF.GenerativeFlow.negative_control_marginal",
+    "EGF.TwoPoint.negative_control_sharp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(pi*, f_out*) a generative flow",
+     "here": "carried",
+     "note": "EGF.GenerativeFlow"
+    },
+    {
+     "paper": "F_init, F_term initial and terminal distributions",
+     "here": "carried",
+     "note": "finite measures"
+    },
+    {
+     "paper": "F_init != 0",
+     "here": "carried",
+     "note": "hinit; flow matching is not assumed"
+    },
+    {
+     "paper": "the sample s_tau of the generative flow Markov chain from F_init to F_term-hat",
+     "here": "carried",
+     "note": "the sampler GenerativeFlow.pathLaw F F_init (virtualTerm ...), the same construction as for theo:sampling_theorem"
+    },
+    {
+     "paper": "TV the total variation",
+     "here": "carried",
+     "note": "tvDist = (1/2)||mu - nu||, the 1/2 of main.tex:338; for probability measures it is sup_A |mu(A) - nu(A)| (EGF.tvDist_eq_iSup). The setwise bound is also a clause. Without the 1/2 the statement is false (finding 2), so this is a confirmation question"
+    },
+    {
+     "paper": "conclusion TV(s_tau || F_term-hat/F_term-hat(S)) <= delta F_init(S)/F_term-hat(S)",
+     "here": "carried",
+     "note": "and more: tau < inf a.s.; E(tau) <= (F_term-hat(S) + F_out(S))/F_init(S); the law of s_tau is a probability; F_term-hat(S) = F_init(S) + delta F_init(S) (main.tex:854-855); the setwise two-sided bound"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The bound is sharp. On S = Bool with the identity policy, F_out = 0, F_init = delta_true and F_term = delta_false: delta F_init = delta_false, F_term-hat = delta_true + delta_false, the sampler stops at once at true, and TV(s_tau || F_term-hat/2) = 1/2 = delta F_init(S)/F_term-hat(S) (EGF.TwoPoint.negative_control_sharp).",
+    "The 1/2 of the total variation is needed. On the same example the unhalved norm ||law(s_tau) - F_term-hat/F_term-hat(S)|| = 1 exceeds the bound 1/2 (EGF.TwoPoint.negative_control_sharp, second clause). main.tex:327 says only 'TV the total variation'. main.tex:338 rewrites TV as (1/2) sum |.|, and the proof's last step (main.tex:863-866: TV(s_tau, alpha s_tau + (1 - alpha) Q) = (1 - alpha) TV(s_tau, Q) <= 1 - alpha) needs TV <= 1.",
+    "The flow is not flow matching from F_init to F_term-hat, so the sampler's termination is not given by theo:sampling_theorem. The proof takes it for granted (main.tex:853: 'The sampling distribution s_tau of F is then F_init pi^{tau,F}/F_init(S)'). It holds because F_init <= F_init-hat and the flow matches from F_init-hat: the occupation is dominated by F_term-hat + F_out, so E(tau) <= (F_term-hat(S) + F_out(S))/F_init(S) and tau < inf a.s. (clauses 1-2 of EGF.main_quantitative_sampling). The same gap is noted in GFNBounds.Core.SamplingGeneralBounds.",
+    "main.tex:322 writes the flow (pi*, f_out*) with a density, while the sampler and F_term-hat use the measure F_out* (main.tex:161). This is notation only."
+   ],
+   "questions": [
+    "theo:negative_control (main.tex:327) and its appendix twin (main.tex:850): 'TV the total variation' (confirmation). Reading taken: TV(mu || nu) = (1/2)||mu - nu|| = sup_A |mu(A) - nu(A)|, the paper's own convention at main.tex:338, which the proof's last step needs. The unhalved reading is refuted (EGF.TwoPoint.negative_control_sharp). The marks rest on this confirmation."
+   ]
+  },
+  {
+   "label": "theo:negative_control_appendix",
+   "tex_lines": [
+    844,
+    867
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "EGF.main_quantitative_sampling",
+    "EGF.GenerativeFlow.termLaw_split",
+    "EGF.GenerativeFlow.fterm_univ_eq",
+    "EGF.GenerativeFlow.negative_control_marginal",
+    "EGF.normalize_add_sub_normalize_le",
+    "EGF.tvDist_normalize_add_le",
+    "EGF.tvDist",
+    "EGF.tvDist_eq_iSup",
+    "EGF.isFlowMatching_virtual",
+    "EGF.TwoPoint.negative_control_sharp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "as theo:negative_control (main.tex:846-850, the same statement with a comma after 'F_init != 0')",
+     "here": "carried",
+     "note": "same anchor EGF.main_quantitative_sampling; see the theo:negative_control row"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The proof (main.tex:852-867) is formalized as written, on measures. The flow is flow matching from F_init-hat to F_term-hat (main.tex:857, EGF.isFlowMatching_virtual). The chains from F_init and from delta F_init share their stopping rule, and their stopped laws add up to F_term-hat (main.tex:858-862, EGF.GenerativeFlow.termLaw_split). A mixture estimate concludes (main.tex:863-866, EGF.tvDist_normalize_add_le). The mass identity of main.tex:854-855 is clause 4 of the anchor.",
+    "main.tex:863 divides by delta F_init(S). That is undefined when delta F_init = 0, where the flow matches from F_init and the bound is 0 (theo:sampling_theorem). The formal mixture estimate (EGF.normalize_add_sub_normalize_le) does not divide by delta F_init(S), so that case needs no separate argument.",
+    "The termination gap and the 1/2 of TV (findings 2-3 of theo:negative_control) concern this proof: main.tex:853 presumes tau < inf a.s., and main.tex:866 needs TV <= 1.",
+    "The ledger links theo:negative_control and theo:negative_control_appendix by no twin, though the statements are identical up to a comma (main.tex:323 vs :846). Both are certified by the one anchor EGF.main_quantitative_sampling. Twinning them is a curation point for the master."
+   ],
+   "questions": [
+    "Same as theo:negative_control: TV read with the 1/2 of main.tex:338 (confirmation)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "EGF.add_sub_eq_add_sub",
+  "EGF.sub_univ_eq_sub_univ",
+  "EGF.eq_of_le_of_univ",
+  "EGF.sub_univ_eq_iSup",
+  "EGF.tsub_le_sub_univ",
+  "EGF.sub_apply_of_null",
+  "EGF.sub_apply_eq_zero_of_null",
+  "EGF.normalize_univ",
+  "EGF.le_add_tvDist",
+  "EGF.tvDist_eq_sub_univ",
+  "ENat.toENNReal_eq_tsum",
+  "EGF.measurable_eval",
+  "EGF.measurable_stopIndex",
+  "EGF.measurable_stopTime",
+  "EGF.measurable_sampledState",
+  "EGF.stopIndex_eq_coe_iff",
+  "EGF.coe_le_stopIndex_iff",
+  "EGF.stopIndex_eq_top_iff",
+  "EGF.GenerativeFlow.pathLaw_pair",
+  "EGF.GenerativeFlow.lawAt_zero",
+  "EGF.GenerativeFlow.lawAt_succ_apply",
+  "EGF.GenerativeFlow.ae_flagsMonotone",
+  "EGF.GenerativeFlow.loweredLaw",
+  "EGF.GenerativeFlow.pathLaw_stopped_sampled",
+  "EGF.GenerativeFlow.occupation_le",
+  "EGF.GenerativeFlow.termLaw_eq_fterm",
+  "EGF.GenerativeFlow.stop_ae_eq"
+ ],
+ "kb_proposals": [
+  "Ionescu-Tulcea for a homogeneous chain on X: Kernel.trajMeasure (X := fun _ => X) mu0 (fun n => K.comap (fun h => h <n, Finset.mem_Iic.2 le_rfl>) (measurable_pi_apply _)); pass X explicitly. The two-time law P(w n in A, w (n+1) in B) = int_A K z B dP_{w n} comes from Kernel.map_frestrictLe_trajMeasure_compProd_eq_map_trajMeasure evaluated on (e^-1 A) x B, then setLIntegral_map (EGF.GenerativeFlow.pathLaw_pair). The time-0 marginal comes from traj_map_frestrictLe_apply with partialTraj_self (lawAt_zero). The trajMeasure lemmas need IsProbabilityMeasure mu0 as an instance.",
+  "A sampler with a randomized stopping time as a chain on S x Bool: the state moves by pi whatever the flag, and the flag is raised at the new state with probability stop. tau = 1 + Nat.find of the first raised flag. Flags are monotone a.s. (one null set per step, ae_all_iff; EGF.GenerativeFlow.ae_flagsMonotone). Every event about tau is then a.s. an event about two consecutive times (measure_congr on an =ae of sets; EGF.GenerativeFlow.pathLaw_stopIndex_eq). E(tau) = sum P(tau > n) from the pointwise ENat.toENNReal_eq_tsum and lintegral_tsum.",
+  "Total variation of finite measures without SignedMeasure: tvDist := tvMass/2. For equal masses it is (mu - nu)(S) (EGF.sub_univ_eq_sub_univ, from mu + (nu - mu) = nu + (mu - nu), itself Measure.sub_toSignedMeasure_eq_toSignedMeasure_sub). It is also sup_A (mu A - nu A) by exists_isHahnDecomposition with restrict_sub_eq_restrict_sub_restrict (EGF.sub_univ_eq_iSup, EGF.tvDist_eq_iSup).",
+  "Pitfalls at this pin. Kernel.piecewise needs DecidablePred: define with `by classical exact` and open the proofs of the apply lemmas with `classical`. `mul_le_mul_left h a` multiplies on the right (b * a <= c * a); use gcongr. After filter_upwards on an =ae of sets the goal is `{w | p w} w = ...`: `apply propext`, then `change p w <-> q w`, because simp does not unfold a setOf application."
+ ],
+ "notes": "One file, scaffold/EGFScaffold/Sampling.lean (1935 lines), sorry-free, no named hypothesis. It imports only EGF.Universality (strict, for tvMass and bind_add_measure) and Mathlib.Probability.Kernel.IonescuTulcea.Traj, with no `import Mathlib`, so it can graduate as EGF/Sampling.lean by a file move. `lake env lean` prints no warning (warningAsError-ready). `lake build EGFScaffold.Sampling` ran once at the end (2931 jobs) and rebuilt only this module. #print axioms through a /tmp probe (deleted) gives propext, Classical.choice and Quot.sound for EGF.sampling_theorem, EGF.main_quantitative_sampling, virtualInit/virtualTerm, isFlowMatching_virtual, pathLaw_spec, pathLaw_hazard_rnDeriv, chainLaw_tendsto_pathLaw, lintegral_stopTime, tvDist_eq_iSup, TwoPoint.negative_control_sharp, Resample.sampling_theorem_inhabited, and the two occupation_ac lemmas. No name clashes with EGF.Defs, EGF.Universality or EGF.BackwardPolicy (checked). The scaffold root scaffold/EGFScaffold.lean was not edited (outside the dispatch), so the axiom sweep cannot see the module (lean-causal kb/0025): add `import EGFScaffold.Sampling` there, or to EGF.lean at graduation. Anchors: EGF.sampling_theorem (theo:sampling_theorem) and EGF.main_quantitative_sampling (theo:negative_control and theo:negative_control_appendix, the planner's name); def:virtual_flows is EGF.virtualInit / EGF.virtualTerm over the strict initialError / terminalError. The sampler's law agrees with GFNBounds' chainLaw reading. GFNBounds.Core.SamplingGeneral reads the law of s_tau as termLaw, the setwise limit of P(X_n in A x {true}) for the chain frozen at stopping. That chain is ported verbatim (EGF.GenerativeFlow.chainKernel, chainLaw, chainLaw_eq, stopped_eq_chainLaw). EGF.GenerativeFlow.chainLaw_tendsto_pathLaw proves that this limit is P(tau < inf, s_tau in A) for a sampler on the path space. Here the state keeps moving by pi after tau, as in the paper's chain, and tau is a real random variable built by Ionescu-Tulcea. lintegral_stopTime proves that int tau dP is GFNBounds' expectedTau = sum P(tau > n). The two readings give the same law of s_tau and the same E(tau); the path space adds that s_tau is an honest random variable and that the chain is the paper's (pathLaw_spec). Stopping rule: as in GFNBounds, stop = 1 - min(dF_out/dG, 1), G = F_term + F_out. It is G-a.e. the paper's dF_term/dG (stop_ae_eq), and in both theorems the hazard holds with Mathlib's rnDeriv itself (pathLaw_hazard_rnDeriv with occupation_ac_of_isFlowMatching / _of_matched). OQ-55 and OQ-47 to OQ-50 do not bear: the statements never mention lambda, the Phi_i or the summable-mixing definitions. The two corollaries (Pinsker) are not attempted (T-egf-sampling-corollaries). Their sampler is EGF.GenerativeFlow.pathLaw F F_init kappa-hat with kappa-hat = (F_init + F_in - F_out)^+, and EGF.main_quantitative_sampling applies with F_term := kappa-hat. Inhabitation: EGF.Resample.sampling_theorem_inhabited (resampling policy on any probability space, outflow c mu). theo:negative_control has only F_init != 0 as a hypothesis, and EGF.TwoPoint exhibits a non-trivial instance."
+}

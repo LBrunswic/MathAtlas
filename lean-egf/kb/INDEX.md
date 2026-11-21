@@ -17,3 +17,6 @@ docstring contract is its `0006`; weakest hypotheses `0007`; no quiet weakening 
 | [0008](entries/0008-change-of-variables-as-measures.md) | pattern | Change of variables on ℝⁿ as an equality of measures |
 | [0009](entries/0009-pin-api-and-infty.md) | pitfall | At this pin: lintegral_finsetSum, zero_le, and the ∞ of open scoped ContDiff |
 | [0010](entries/0010-cheap-counterexamples-on-r.md) | pattern | Cheap measure counterexamples on ℝ: translations and restricted Lebesgue |
+| [0011](entries/0011-ionescu-tulcea-chain.md) | pattern | A homogeneous chain by Ionescu-Tulcea, and a sampler with a randomized stopping time |
+| [0012](entries/0012-tv-without-signed-measure.md) | pattern | Total variation without SignedMeasure: tvDist := tvMass/2 |
+| [0013](entries/0013-pin-pitfalls-kernel.md) | pitfall | At this pin: Kernel.piecewise needs DecidablePred; mul_le_mul_left multiplies on the right |
