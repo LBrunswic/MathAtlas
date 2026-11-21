@@ -274,3 +274,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 08:53–09:09 (Paris); agents: 1 (planner, alone)
 - next: wave of 3 in lean-benzecri: T-bz-c2-theoreme-affine, T-bz-result-b-proj, T-bz-c2-premier-full-proj
+
+## 2026-11-21 09:52 · wave of 3 · T-bz-c2-theoreme-affine, T-bz-result-b-proj, T-bz-c2-premier-full-proj
+- T-bz-c2-theoreme-affine: the affine 2°–4° and the assembly, every dimension; closed up to OQ-75 (component form marks with no Lean change); full form for every affine shell; audit minor
+- T-bz-result-b-proj: result B for the universal cover, all but the affine half of sentence 1; sentence 3 false at n = 0 (OQ-45 (a)); proof-term check: the mark needs neither OQ-71 nor OQ-75, only OQ-45 (a) and the affine half; Hopf-circle witness; audit minor
+- T-bz-c2-premier-full-proj: the projective full form for every shell and, since there every pocket is a shell, every pocket when n ≤ 1 (the Theorem as printed for n ≤ 1); the open case is exactly ConnexeOuvertPrinted (non-shell, P ≠ V, n ≥ 2): OQ-79; audit minor
+- gates: lean-benzecri ✓, roadmap ✓, atlas ✓ (all overlays current, lean-causal facts refreshed to c4e9d26), hub: all gates green
+- commits: 3eb3108 08160b0 5c102ef afd3092 (+ this)
+- wall time: 09:11–09:52 (Paris); agents: 3 closers, 3 audits (with /ett-programme's 3, cap 6)
+- new OQ: 79 (what OQ-71 and OQ-75 now leave open)
+- next: T-bz-c2-dedupe-demidroite (master, exclusive; three callers noted), then plan (rule 2); planner notes: split T-ett-singular-instance (atlas-owned, agreed with /ett-programme); T-bz-result-b (the affine half) is now unblocked
