@@ -86,3 +86,4 @@ rediscover. One fact per entry.
 | [0078](entries/0078-flat-time-cylinder.md) | pattern | The flat time cylinder: an absolutely minimal ETT spacetime with every local ladder property and ≪ total |
 | [0079](entries/0079-rational-line-extras.md) | pattern | The rational line in the ladder: an either-reading witness against local causal openness |
 | [0080](entries/0080-backward-ladder-call.md) | pattern | A ladder failure read backwards through a conjunctive edge is one causal_ladder call |
+| [0081](entries/0081-lines-in-abstract-causality.md) | pattern | Straight lines in an abstract causality, and the slope-δ cone on ℝ × E |

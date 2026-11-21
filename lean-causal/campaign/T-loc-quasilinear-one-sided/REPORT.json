@@ -1,0 +1,346 @@
+{
+ "package": "lean-causal",
+ "target": "T-loc-quasilinear-one-sided",
+ "files": [
+  "scaffold/CausalScaffold/QuasilinearOneSided.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "build": "taskset -c 0-11 lake build CausalScaffold.QuasilinearOneSided: built this module only (3116 jobs, 1 built); no Causal/ or mathlib olean rewritten (checked by timestamp). lake env lean prints nothing: no warning, so the file is warningAsError-clean for the strict library.",
+ "imports": [
+  "Causal.Static",
+  "Causal.CausalIsoInvariance",
+  "Causal.LadderLocal",
+  "Causal.CauchyDual",
+  "Causal.Flat.LipschitzGraph"
+ ],
+ "import_closure_note": "closure: 32 ETT-layer modules from the first four, plus Causal.Minkowski, Causal.Flat.Form, .Achronal, .Cosmological, .Penrose, .LipschitzGraph from the fifth; no Causal.Port.*, Causal.Model.*, Causal.CBG.* (walked the import lines). Causal.Flat.LipschitzGraph serves section 8 (the Minkowski slab witness) only.",
+ "axioms": {
+  "Causal.ers_lemma_4_86": "propext, Classical.choice, Quot.sound",
+  "Causal.ers_lemma_4_86_oneSidedBoundary": "propext, Classical.choice, Quot.sound",
+  "Causal.ers_lemma_4_86_edge": "propext, Classical.choice, Quot.sound",
+  "Causal.ers_theorem_4_82_of_slopeCone": "propext, Classical.choice, Quot.sound",
+  "Causal.exists_lipschitz_graph_of_cone": "propext, Classical.choice, Quot.sound",
+  "Causal.Causality.inextensible_connectedComponentIn": "propext, Classical.choice, Quot.sound",
+  "Causal.slopeLine_mem_of_curveNestedOn": "propext, Classical.choice, Quot.sound",
+  "Causal.slopeCone_le_top_iff": "propext, Classical.choice, Quot.sound",
+  "Causal.slopeCone_leNested_staticCausality": "propext, Classical.choice, Quot.sound",
+  "Causal.minkowski_isCauchySurfaceOn_slab": "propext, Classical.choice, Quot.sound",
+  "Causal.minkowskiSlab_ers_lemma_4_86": "propext, Classical.choice, Quot.sound",
+  "Causal.slopeCone_isCauchySurface_slice": "propext, Classical.choice, Quot.sound",
+  "Causal.ers_lemma_4_86_hypotheses_slopeCone": "propext, Classical.choice, Quot.sound"
+ },
+ "labels": [
+  {
+   "label": "erslem:PropertyTimelike",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "erslem:PropertyTimelike (Lemma 4.86; proof 1159-1169)",
+     "text_lines": "ghd_02_19.tex:1143-1151"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "(4.83) in ersthm:ThmNotBlocking",
+     "text_lines": "ghd_02_19.tex:1102-1105"
+    },
+    {
+     "paper": "references/sbierski/text/eperon2018predictability.txt",
+     "statement": "Lemma 4.86, (4.87), proof",
+     "text_lines": "eperon2018predictability.txt:2119-2170"
+    }
+   ],
+   "tex_lines": [
+    1143,
+    1151
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.ers_lemma_4_86",
+    "Causal.ers_lemma_4_86_future",
+    "Causal.ers_lemma_4_86_oneSidedBoundary",
+    "Causal.ers_lemma_4_86_edge",
+    "Causal.BoundaryGraph",
+    "Causal.BoundaryGraphAt",
+    "Causal.LiesBelowGraphAt",
+    "Causal.slopeCone",
+    "Causal.exists_lipschitz_graph_of_cone",
+    "Causal.liesBelowGraphAt_of_cone",
+    "Causal.LiesBelowGraphAt.oneSidedAt",
+    "Causal.BoundaryGraph.oneSidedBoundary",
+    "Causal.slopeLine_mem_of_curveNestedOn",
+    "Causal.mem_of_cone_of_curveNestedOn",
+    "Causal.proj_mem_of_curveNestedOn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "u1 : U1 -> R a GHD (ghd_02_19.tex:814): U1 ⊆ R^{d+1} open, solution of (4.61)",
+     "here": "reading",
+     "note": "U₁ : Opens (ℝ × E); the solution u₁ and g(u₁, du₁) enter only through the causality C of g(u₁, du₁), an arbitrary Causality (ℝ × E) (layer 3 unformalised: T-pkg-smooth-lorentz). Nothing about the PDE is used, as in the paper's proof."
+    },
+    {
+     "paper": "(U1, g(u1,du1)) globally hyperbolic with Cauchy hypersurface S (GHD definition, :814)",
+     "here": "weakened",
+     "note": "only C.IsCauchySurfaceOn U₁ S (ETT's Cauchy surface of the open set, DEC-14: every inextensible causal curve of U₁ for C meets S exactly once), and only 'at least once' is used; global hyperbolicity (GloballyHyperbolicOn) is not asked. Reading: the Lorentzian Cauchy hypersurface read as ETT's (standing reading of the ERS binder)."
+    },
+    {
+     "paper": "S ⊆ U1 (GHD definition)",
+     "here": "weakened",
+     "note": "not used: the theorems exclude closure S from ∂U₁ whether or not S ⊆ U₁ (with S ⊆ U₁ the closure and edge readings of ∂S agree: frontier_diff_closure_eq_frontier_diff_edge)."
+    },
+    {
+     "paper": "S an open and connected subset of {x^0 = 0}",
+     "here": "weakened",
+     "note": "hS0 : ∀ q ∈ S, q.1 = 0 only. Openness is a consequence (U₁ ∩ {t = 0} ⊆ S, from proj_mem_of_curveNestedOn); connectedness is not used."
+    },
+    {
+     "paper": "(4.87): ∂0 + Σ δi ∂i timelike for g(u1,du1) for all Σ|δi| < δ",
+     "here": "reading",
+     "note": "CurveNestedOn (slopeCone E δ hδ) C U₁ ∨ CurveNestedOn (slopeCone E δ hδ) C.dual U₁: the graphs of δ-Lipschitz maps in U₁ (the curves of the static cone of slope δ around ∂₀) are causal curves of U₁ for C, future-directed, or past-directed (C.dual). This is the binder's reading of (4.87) (binder.toml erslem:PropertyTimelike note); the smooth step from 'the vectors of the open cone are g-timelike' to 'the Lipschitz graphs of the closed cone of slope δ' < δ are C_g-causal curves' is not formalised. The disjunction is the paper's 'without loss of generality ∂0 is future directed' (ghd_02_19.tex:1160): one time orientation on U₁, which (4.87) gives when U₁ is connected, as it is under the paper's connected S."
+    },
+    {
+     "paper": "R^{d+1} with the ℓ¹ cone Σ|δi| < δ",
+     "here": "weakened",
+     "note": "ℝ × E, E any real normed space (any dimension, any norm); the paper's ℓ¹ cone is E = WithLp 1 (Fin d → ℝ) (checked: ers_lemma_4_86_oneSidedBoundary applies to it, /tmp check), the closed cone of any δ' < δ."
+    },
+    {
+     "paper": "conclusion (4.83): a chart ψ : V → (−ε,ε)^{d+1}, f continuous, ψ⁻¹(graph f) = ∂U1 ∩ V, below ↦ U1, above ↦ R^{d+1} ∖ U1",
+     "here": "reading",
+     "note": "BoundaryGraph U₁ (closure S): at p ∈ ∂U₁ ∖ closure S, LiesBelowGraphAt U₁ p (p.1 > 0) or LiesBelowGraphAt (flipT⁻¹' U₁) (flipT p) (p.1 < 0): a cylinder V = (t₀−ε, t₀+ε) × B_E(x₀, ρ), f continuous on B_E(x₀, ρ) with values in (t₀−ε, t₀+ε), inside V: z ∈ U₁ ↔ z.1 < f z.2 and z ∈ ∂U₁ ↔ z.1 = f z.2 (so above the graph is outside U₁). The chart is the translation by −p, composed with (t,x) ↦ (−t,x) when t₀ < 0. For E = Fin d → ℝ (sup norm) the base is a cube of side 2ρ; reaching the paper's cube (−ε,ε)^{d+1} needs a linear rescaling of space, not formalised. Moreover f is 1/δ-Lipschitz (exists_lipschitz_graph_of_cone)."
+    },
+    {
+     "paper": "∂S",
+     "here": "reading",
+     "note": "closure S, as OQ-41 (e); proved immaterial when S ⊆ U₁ (frontier_diff_closure_eq_frontier_diff_edge, ers_lemma_4_86_edge for the edge reading closure S ∖ S)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ghd_02_19.tex:1160, 'It thus follows that t_0 ≠ 0': not a consequence of p ∉ ∂S alone; it needs U₁ ∩ {x⁰ = 0} ⊆ S and more: a boundary point of U₁ on {x⁰ = 0} is a limit of points of U₁, whose vertical projections lie in S (the vertical line through a point of U₁ meets S, by the Cauchy property), so it lies in closure S. Proved as the t₀ = 0 case of Causal.ers_lemma_4_86_future through Causal.proj_mem_of_curveNestedOn; the argument is causal (uses (4.87) and the Cauchy property), not topological.",
+    "ghd_02_19.tex:1162 (and footnote): the 'past directed and past inextendible timelike curve in U₁ starting at q ∈ I⁺(S, U₁)' needs, in ETT, a two-sided inextensible curve (DEC-11/13) and no extension principle is available for an abstract C_g. The formal proof takes the maximal piece in U₁ of the whole straight line of slope ≤ δ, inextensible at both ends with no CurvesExtend and no antisymmetry (Causal.Causality.inextensible_connectedComponentIn); the footnote's case distinction (q in the future of S) disappears: the piece meets S, at time 0, so the line stays in U₁ between q and {x⁰ = 0} (Causal.slopeLine_mem_of_curveNestedOn).",
+    "ghd_02_19.tex:1168, the sequential continuity argument for f⁺ can be replaced by a bound: |f⁺(x) − f⁺(y)| ≤ ‖x − y‖/δ on a ball (Causal.exists_lipschitz_graph_of_cone), f⁺ is 1/δ-Lipschitz, stronger than the continuity (4.83) asks.",
+    "ghd_02_19.tex:1168, typo: '(x^0, f^+(\\underline{x})) ∉ U_1 for x^0 ≥ f^+(\\underline{x})' should read '(x^0, \\underline{x}) ∉ U_1'.",
+    "The proof uses only that S is met by every inextensible causal curve of U₁ (not uniqueness, not global hyperbolicity), S ⊆ {x⁰ = 0} (not open, not connected), any norm on space and any dimension: Lemma 4.86 holds in that generality (Causal.ers_lemma_4_86)."
+   ],
+   "questions": [
+    "(4.87) is read as the closed slope-δ cone (any δ' below the paper's δ) curve-nested in C_g on U₁, with either time orientation (C or C.dual). This is the binder's reading; the smooth step is T-pkg-smooth-lorentz. Is it the formalisation of record for (4.87)?",
+    "(4.83) is read in the identity chart (translation, time reflection below {t = 0}), V a cylinder (t₀−ε, t₀+ε) × B_E(x₀, ρ); the paper's cube (−ε, ε)^{d+1} is its image under a linear rescaling of space, not formalised. Accept this as (4.83)?",
+    "∂S read as closure S (OQ-41 (e)): shown immaterial when S ⊆ U₁ (both readings give the same set). The question can be closed for this lemma.",
+    "Whether the readings above (layer-3 translation of (4.87) and of the Lorentzian Cauchy hypersurface, DEC-14) suffice to mark erslem:PropertyTimelike: I did not mark it."
+   ]
+  },
+  {
+   "label": "ersthm:ThmNotBlocking",
+   "source": [
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "ersthm:ThmNotBlocking (Theorem 4.82; proof 1114-1139)",
+     "text_lines": "ghd_02_19.tex:1100-1107"
+    }
+   ],
+   "tex_lines": [
+    1100,
+    1107
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.ers_theorem_4_82_of_slopeCone"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(4.83) for the MGHD u1",
+     "here": "weakened",
+     "note": "replaced by Lemma 4.86's hypotheses for the development i₁ (slope-δ cone curve-nested in cau i₁ on dom i₁ or in its dual, S ⊆ {t = 0} a Cauchy surface of dom i₁ for cau i₁): honesided is ers_lemma_4_86_oneSidedBoundary. M = ℝ × E."
+    },
+    {
+     "paper": "every other hypothesis of Theorem 4.82",
+     "here": "carried",
+     "note": "exactly those of Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary (Causal/LadderLocal.lean:397), passed through unchanged, with their readings (OQ-57: hstep is SliceRestart definitionally; hcaus, hsplit, hJm, hJp, hKm, hKp, hSclosed the quasilinear causal ladder, T-loc-quasilinear-causal-ladder)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The theorem stays a skeleton (OQ-57): only its (4.83) input is discharged here."
+   ]
+  },
+  {
+   "label": "T-loc-quasilinear-one-sided/1-one-sided",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-loc-quasilinear-one-sided, title and evidence",
+     "text_lines": "programme/roadmap.toml:988-1001"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.ers_lemma_4_86",
+    "Causal.ers_lemma_4_86_oneSidedBoundary"
+   ],
+   "hypotheses": [
+    {
+     "paper": "target: the static cone of slope δ around ∂₀ curve-nested in a causality C_g (ladder curve_nested)",
+     "here": "carried",
+     "note": "Causal.Causality.CurveNestedOn (slopeCone E δ hδ) C U₁, or with C.dual (the other orientation); slopeCone is staticCausality E transported along (t,x) ↦ (t, δ•x) (Causal.Static, Causal.CausalIsoInvariance reused)"
+    },
+    {
+     "paper": "target: U₁ C_g-globally hyperbolic with a Cauchy surface S open in {x⁰ = 0}",
+     "here": "weakened",
+     "note": "C.IsCauchySurfaceOn U₁ S and S ⊆ {t = 0}; GH and openness not used"
+    },
+    {
+     "paper": "target: conclusion OneSidedBoundary U₁ (closure S) and the graph form (4.83)",
+     "here": "carried",
+     "note": "both: ers_lemma_4_86_oneSidedBoundary, ers_lemma_4_86 (BoundaryGraph, with a 1/δ-Lipschitz graph in exists_lipschitz_graph_of_cone)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-loc-quasilinear-one-sided/2-theorem-4-82",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-loc-quasilinear-one-sided, title and evidence",
+     "text_lines": "programme/roadmap.toml:988-1001"
+    },
+    {
+     "paper": "papers/ers-predictability/legacy/labeled/ghd_02_19.tex",
+     "statement": "ersthm:ThmNotBlocking (Theorem 4.82; proof 1114-1139)",
+     "text_lines": "ghd_02_19.tex:1100-1107"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.ers_theorem_4_82_of_slopeCone"
+   ],
+   "hypotheses": [
+    {
+     "paper": "dispatch: a corollary plugging the result into ers_theorem_4_82_of_oneSidedBoundary",
+     "here": "carried",
+     "note": "term-mode application, honesided := ers_lemma_4_86_oneSidedBoundary hδ hnest hS hS0; no restatement of the abstract theorem"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-loc-quasilinear-one-sided/3-inextensible-piece",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-loc-quasilinear-one-sided, title and evidence",
+     "text_lines": "programme/roadmap.toml:988-1001"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.inextensible_connectedComponentIn",
+    "Causal.Causality.futureInextensible_of_isLUB_notMem",
+    "Causal.Causality.pastInextensible_of_isGLB_notMem",
+    "Causal.Causality.IsCauchySurfaceOn.exists_mem_connectedComponentIn"
+   ],
+   "hypotheses": [
+    {
+     "paper": "model-free lemma (no paper statement): the C_δ-curve of the evidence is inextensible",
+     "here": "carried",
+     "note": "[T2Space M]; ℓ : ℝ → M continuous, T : M → ℝ continuous with T (ℓ τ) = τ, every segment of ℓ inside W a causal curve of W: ℓ over connectedComponentIn (ℓ⁻¹ W) t is inextensible in W. No causality of C, no CurvesExtend, nothing outside W. T2 is used for the limit at a finite end."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "T-loc-quasilinear-one-sided/4-minkowski-slab",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-loc-quasilinear-one-sided, title and evidence",
+     "text_lines": "programme/roadmap.toml:988-1001"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.minkowskiSlab_ers_lemma_4_86",
+    "Causal.minkowskiSlab",
+    "Causal.minkowski_isCauchySurfaceOn_slab",
+    "Causal.slopeCone_leNested_staticCausality",
+    "Causal.ers_lemma_4_86_hypotheses_slopeCone",
+    "Causal.slopeCone_isCauchySurface_slice"
+   ],
+   "hypotheses": [
+    {
+     "paper": "kb/0011: an example satisfying the hypotheses, with a non-empty boundary",
+     "here": "carried",
+     "note": "C = minkowski d, any 0 < δ ≤ 1 (the slope-δ cone is ≤-nested in the light cone), U₁ = {|t| < 1}, S = {t = 0} (Cauchy in U₁ by Causal.Flat.isCauchySurfaceOn_graph_of_saturated for the graph of 0); ∂U₁ ∖ closure S ∋ (1, 0); the lemma's conclusions hold there. Minkowski, not a quasilinear development (no smooth g(u, du) in the library)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.slopeScale",
+  "Causal.slopeScale_apply",
+  "Causal.slopeScale_symm_apply",
+  "Causal.slopeCone_le_top_iff",
+  "Causal.slopeCone_causalCurveOn_graph",
+  "Causal.slopeCone_leNested_staticCausality",
+  "Causal.slopeLine",
+  "Causal.flipTHomeomorph",
+  "Causal.flipT_mem_frontier_preimage",
+  "Causal.oneSidedAt_of_flipT",
+  "Causal.frontier_diff_closure_eq_frontier_diff_edge",
+  "Causal.Causality.futureInextensible_of_isLUB_notMem",
+  "Causal.Causality.pastInextensible_of_isGLB_notMem",
+  "Causal.Causality.inextensible_connectedComponentIn",
+  "Causal.Causality.IsCauchySurfaceOn.exists_mem_connectedComponentIn"
+ ],
+ "readme_row": "| `Causal.QuasilinearOneSided` | — | ETT programme, layer 3, model quasilinear (T-loc-quasilinear-one-sided): Eperon–Reall–Sbierski 1802.03020 Lemma 4.86 on ℝ × E, (4.87) read as the slope-δ cone (`slopeCone`, the static cone transported along (t, x) ↦ (t, δx)) curve-nested in C on U₁, either orientation, S ⊆ {t = 0} a Cauchy surface of U₁: (4.83) in the identity chart with a 1/δ-Lipschitz graph (`ers_lemma_4_86`), hence `OneSidedBoundary U₁ (closure S)` (`ers_lemma_4_86_oneSidedBoundary`) and Thm 4.82 with it (`ers_theorem_4_82_of_slopeCone`); GH and the openness of S not used; model-free: the maximal piece of a time-parametrised curve is inextensible (`Causality.inextensible_connectedComponentIn`); witness the Minkowski slab; the paper's labels not marked (readings); 2026-11-21 |",
+ "kb_proposals": [
+  "kb entry (pattern) 'Straight lines in an abstract causality: the maximal piece is inextensible': a continuous ℓ : ℝ → M whose parameter is read by a continuous T, causal in W on every segment inside W, is an inextensible causal curve of W over connectedComponentIn (ℓ⁻¹ W) t (Causal.Causality.inextensible_connectedComponentIn, [T2Space M]); no CurvesExtend, no antisymmetry, nothing of C outside W. With a Cauchy surface S of W: every such line through a point of W meets S on that piece (IsCauchySurfaceOn.exists_mem_connectedComponentIn). Use it when a model cone is curve-nested in an abstract C and the line is only known to be C-causal inside W (T-loc-quasilinear-one-sided).",
+  "kb entry (pattern) 'A cone of slope δ on ℝ × E': Causal.slopeCone E δ hδ is staticCausality E transported along (t, x) ↦ (t, δ • x) (Causal.slopeScale); ≤ at M is ‖q.2 − p.2‖ ≤ δ (q.1 − p.1) (slopeCone_le_top_iff), the graphs of δ-Lipschitz maps are its causal curves (slopeCone_causalCurveOn_graph), δ ≤ 1 is ≤-nested in the static cone (slopeCone_leNested_staticCausality); the ℓ¹ cone of ERS (4.87) is E = WithLp 1 (Fin d → ℝ). Its Cauchy slice: slopeCone_isCauchySurface_slice (T-loc-quasilinear-one-sided).",
+  "kb note: a GH open subset of a model with a Cauchy surface and a non-empty boundary exists in the library: the Minkowski slab {|t| < 1} with {t = 0} (Causal.minkowski_isCauchySurfaceOn_slab, via Causal.Flat.isCauchySurfaceOn_graph_of_saturated, whose W need only be saturated in {T ≥ 0} / {T ≤ 0}); cheap witness for relative Cauchy statements (T-loc-quasilinear-one-sided)."
+ ],
+ "binder_rows": [
+  {
+   "row": "erslem:PropertyTimelike (4.86)",
+   "proposal": "[[bind.geometric]] model = \"quasilinear\": by gains the Lean name of Causal.ers_lemma_4_86_oneSidedBoundary (after graduation into Causal/), the layer-3 lemma curve_nested (of the slope cone in C_g on U₁) + a Cauchy slice ⇒ OneSidedBoundary U₁ (closure S); proves stays [\"curve_nested\"] from T-loc-quasilinear-nesting (this target consumes curve_nested, it does not prove it). open_localisation one_sided_boundary stays (no node, OQ-52 (b)); its open_reason can say the quasilinear proof is in Lean. A model = \"minkowski\" entry, proves = [\"curve_nested\"], by = [\"Causal.slopeCone_leNested_staticCausality\", \"Causal.minkowskiSlab_ers_lemma_4_86\"], would record the Minkowski instance (any δ ≤ 1)."
+  },
+  {
+   "row": "ersthm:ThmNotBlocking (4.82)",
+   "proposal": "ett gains Causal.ers_theorem_4_82_of_slopeCone (the skeleton with (4.83) supplied by Lemma 4.86); in the quasilinear geometric entry, by can replace T-loc-quasilinear-one-sided by Causal.ers_lemma_4_86_oneSidedBoundary; open_localisation one_sided_boundary stays (OQ-52 (b)), slice_restart and local_uniqueness unchanged."
+  }
+ ],
+ "for_keeper": {
+  "consequences": [
+   {
+    "at": "curve_nested",
+    "statement": "ERS Lemma 4.86: on ℝ × E, the static cone of slope δ (Causal.slopeCone) curve-nested on U₁ in C (or in C.dual) and S ⊆ {t = 0} a Cauchy surface of U₁ for C give OneSidedBoundary U₁ (closure S): ∂U₁ ∖ closure S is locally the graph of a 1/δ-Lipschitz function, U₁ on one side",
+    "witness": "Causal.ers_lemma_4_86_oneSidedBoundary",
+    "under": "curve nesting on W = U₁ with the narrower C the model Causal.slopeCone E δ hδ on M = ℝ × E (E a real normed space); S ⊆ {t = 0} a Cauchy surface of U₁ for the wider (IsCauchySurfaceOn; globally_hyperbolic not used); M Hausdorff (from the normed space, no instance argument)",
+    "status": "seed",
+    "note": "#check: {E} [NormedAddCommGroup E] [NormedSpace ℝ E] {δ} (hδ : 0 < δ) {C : Causality (ℝ × E)} {U₁ : Opens (ℝ × E)} {S}, CurveNestedOn (slopeCone E δ hδ) C U₁ ∨ CurveNestedOn (slopeCone E δ hδ) C.dual U₁ → C.IsCauchySurfaceOn U₁ S → (∀ q ∈ S, q.1 = 0) → OneSidedBoundary U₁ (closure S). The narrower causality is a fixed model, so this is a layer-3 consequence, not a pair-sort edge; it becomes an edge into one_sided_boundary only if OQ-52 (b) makes that a node (T-lad-one-sided-node). Witness module after graduation: the master's choice (Causal.QuasilinearOneSided or Causal.Model.QuasilinearOneSided); tools/ladder.py resolves names in lean-causal/Causal only."
+   }
+  ],
+  "fails": [],
+  "open_notes": []
+ },
+ "notes": "1. Strict-clean (no sorry, no warning) and namespace Causal: ready to graduate as a file move (suggested Causal.QuasilinearOneSided; it is a model module: Causal.Static and Causal.Flat.LipschitzGraph). It is not imported by the scaffold root (kb/0025; I may not edit it). 2. Every declared name checked unique against Causal/, scaffold/ (FlatTimeCylinder.lean of the other closer untouched, not read, not imported, not built) and lean-gx. 3. Section 2 (Causality.futureInextensible_of_isLUB_notMem, pastInextensible_of_isGLB_notMem, inextensible_connectedComponentIn, IsCauchySurfaceOn.exists_mem_connectedComponentIn) is model-free, ETT-layer topology (kb/0047 hoist candidate); sections 4 (exists_lipschitz_graph_of_cone, liesBelowGraphAt_of_cone, LiesBelowGraphAt.oneSidedAt) need only a normed group, no causality. 4. Section 8 (the Minkowski slab, minkowskiSlab_ers_lemma_4_86) is the only user of Causal.Flat.LipschitzGraph; dropping it and that import leaves the ETT layer plus Causal.Static. 5. The paper's labels are unmarked on the readings listed under questions; the target's four sub-labels are marked (their Lean statements are the target's, proved without sorry, hypotheses weakened only). 6. Relation to Causal.Causality.OneSidedAt's docstring (Causal/LadderLocal.lean:176-182, 'that step needs the chart and is not formalised here (layer 3)'): that step is now Causal.LiesBelowGraphAt.oneSidedAt. 7. The kb/0045 pitfall (inextensibility is not monotone under nesting) is avoided rather than solved: the line is never claimed C_δ-inextensible; its maximal piece is shown C-inextensible directly. Record evidence only: whether (4.87)-as-nesting and the identity-chart (4.83) are of record is the author's."
+}
