@@ -528,3 +528,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 00:11–00:47 (Paris); agents: 2 closers, 2 audits
 - new OQ: OQ-87 (the bubble sentence: general implication or a claim about the cited C⁰ examples; l.140–141 pointwise or global). It bears on the wording of findings only. lean-causal kb 0192–0198.
 - next: T-ett-geroch-split-flow is the only ready closer. That is fewer than two, so rule 2 calls for a plan; the last planner run was one iteration ago. T-ett-docstrings-sing0 (master) can run between waves.
+
+## 2026-11-22 00:59 · plan (rule 2: one ready closer target after wave 30)
+- result: 136 -> 137 targets.
+  - Added T-ett-diamant-rows (ready, p6): lem:image_diamant and lem:passe_pgcd at every pair of Hausdorff, second countable E≥0-manifolds, with no Lean hypothesis left. Last run rejected these rows, but the compactness no longer needs the limit-curve step. The library's Zorn route (Causal/Flat/CBGCompact.lean) asks for J⁻ of an open set to be open, which takes a few lines from push-up and Z⁺, and for J^±(S) closed, which wave 30 proved. The time-reversed compactness does not follow by duality (Z⁻ fails at BTZ points), and image_diamant does not need it.
+  - Noted on T-ett-cbg-e0 (planned): A2's future-form compactness field is the one T-ett-diamant-rows proves.
+  - T-3p1-theorem-g (planned) now also depends on T-bbs-rp1-circles. Its statement needs HS-spheres and « hyperbolic of degree 0 », which wait on BBS-Q1.
+- rejected: (iii)⇒(i) (OQ-32/33: the compactness route needs a closed ≤ and a time function); the CBG rows (T-ett-cbg-e0 chain, /ett-programme); lem:C_ext_connexe (/ett-programme); the DEC-17 definitions; rem:non_separe_cas (OQ-14).
+- research: none (two ready closers); T-3p1-funnel-lemma and T-bbs-archive stay ready.
+- gates: roadmap ✓, atlas ✓
+- wall time: 00:48–00:59 (Paris); agents: 1 (planner)
+- next: a wave of T-ett-diamant-rows and T-ett-geroch-split-flow (both lean-causal, disjoint new files, strict-bound).
