@@ -777,60 +777,15 @@ theorem theoreme_poche_balayable_model :
   obtain ⟨φ', h1, h2, h3, -, -, h5, h6, -⟩ := theoreme_poche_balayable (isBalayable_model n) hC.1
   exact ⟨_, _, hC, inferInstance, φ', h1, h2, h3, h5 inferInstance, h6 hC⟩
 
-/-- **The strict shell `]0, 1[` of `]0, ∞[`, with `P ≠ V`** (the affine strict shell of
-`exists_isCoqueStricteAff_demiDroite`, `Chapter2/Poches.lean`, with `P ≠ univ` recorded): the
-component `P = ]0, 1[` of `z < 1`, `z = x₀`, with the inclusion as chart. -/
+/-- **The strict shell `]0, 1[` of `]0, ∞[`, with `P ≠ V`**: the half of Poches'
+`exists_isCoqueStricteAff_demiDroite_and_ne_univ` that records `P ≠ univ` (the one construction,
+T-bz-c2-dedupe-demidroite). -/
 theorem exists_isCoqueStricteAff_demiDroite_ne_univ :
     ∃ (P : Set demiDroiteOuverte) (φ : OpenPartialHomeomorph demiDroiteOuverte (Fin 1 → ℝ)),
       IsCoqueStricteAff P φ (LinearMap.proj 0 : (Fin 1 → ℝ) →ₗ[ℝ] ℝ).toAffineMap ∧
       P ≠ univ := by
-  set z : (Fin 1 → ℝ) →ᵃ[ℝ] ℝ := (LinearMap.proj 0 : (Fin 1 → ℝ) →ₗ[ℝ] ℝ).toAffineMap with hz
-  let x₀ : demiDroiteOuverte := ⟨fun _ => 1 / 2, show (0 : ℝ) < 1 / 2 by norm_num⟩
-  set U := (Subtype.val : demiDroiteOuverte → Fin 1 → ℝ) ⁻¹' {y | z y < 1} with hU
-  have himgU : (Subtype.val '' U : Set (Fin 1 → ℝ)) = {x | 0 < x 0 ∧ x 0 < 1} := by
-    ext y
-    constructor
-    · rintro ⟨q, hq, rfl⟩
-      exact ⟨q.2, hq⟩
-    · rintro ⟨h1, h2⟩
-      exact ⟨⟨y, h1⟩, h2, rfl⟩
-  have hC : Convex ℝ {x : Fin 1 → ℝ | 0 < x 0 ∧ x 0 < 1} :=
-    (convex_Ioo (0 : ℝ) 1).linear_preimage
-      (LinearMap.proj (R := ℝ) (φ := fun _ : Fin 1 => ℝ) 0)
-  have hUconn : IsPreconnected U := by
-    rw [← Topology.IsInducing.subtypeVal.isPreconnected_image]
-    convert hC.isPreconnected using 1
-    exact himgU
-  have hx₀ : z (x₀ : Fin 1 → ℝ) < 1 := show (1 / 2 : ℝ) < 1 by norm_num
-  have hP : connectedComponentIn U x₀ = U := hUconn.connectedComponentIn hx₀
-  have hinf : IsGLB (z '' (Subtype.val '' connectedComponentIn U x₀)) 0 := by
-    rw [hP, himgU]
-    have : z '' {x : Fin 1 → ℝ | 0 < x 0 ∧ x 0 < 1} = Ioo 0 1 := by
-      ext t
-      constructor
-      · rintro ⟨y, hy, rfl⟩
-        exact hy
-      · intro ht
-        exact ⟨fun _ => t, ht, rfl⟩
-    rw [this]
-    exact isGLB_Ioo zero_lt_one
-  obtain ⟨φ, hφeq, hφ⟩ := exemple_poche_affine isDeveloping_val_demiDroiteOuverte z hx₀ hinf
-    Subtype.val_injective.injOn
-  have hφimg : φ '' connectedComponentIn U x₀ = {x | 0 < x 0 ∧ x 0 < 1} := by
-    rw [image_congr hφeq, hP, himgU]
-  have hne : connectedComponentIn U x₀ ≠ univ := by
-    rw [hP]
-    intro h
-    have h2 : (⟨fun _ => 2, show (0 : ℝ) < 2 by norm_num⟩ : demiDroiteOuverte) ∈ U :=
-      h ▸ mem_univ _
-    exact absurd (show (2 : ℝ) < 1 from h2) (by norm_num)
-  refine ⟨_, φ, ⟨⟨hφ, by rw [hφimg]; exact hC⟩, ?_⟩, hne⟩
-  rintro ⟨A, ⟨p, w, hw, rfl⟩, hA⟩
-  rw [hφimg] at hA
-  have hw0 : w 0 ≠ 0 := fun h => hw (funext fun i => by rw [Subsingleton.elim i 0]; exact h)
-  have h2 := (hA ⟨(2 - p 0) / w 0, rfl⟩).2
-  simp only [vadd_eq_add, Pi.add_apply, Pi.smul_apply, smul_eq_mul, div_mul_cancel₀ _ hw0] at h2
-  linarith
+  obtain ⟨P, φ, h, -, hne⟩ := exists_isCoqueStricteAff_demiDroite_and_ne_univ
+  exact ⟨P, φ, h, hne⟩
 
 /-- **The Theorem on a strict shell with `P ≠ V`** (`n = 1`): the half-line `]0, ∞[` (canonical
 projective structure), sweepable by its homotheties, with the strict shell `P = ]0, 1[`; `P` is

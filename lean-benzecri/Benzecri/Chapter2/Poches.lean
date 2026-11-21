@@ -1462,13 +1462,14 @@ theorem isDeveloping_val_demiDroiteOuverte :
     IsDeveloping (GAR 1) (Subtype.val : demiDroiteOuverte → Fin 1 → ℝ) := fun x =>
   ⟨chartAt (Fin 1 → ℝ) x, (gxGroupoid _ _).chart_mem_maximalAtlas x, mem_chart_source _ x, rfl⟩
 
-/-- **A non-degenerate strict shell** (non-vacuity of Déf. 1, 2, 3 with a non-constant cote,
-through the affine example): in the locally affine manifold `]0, ∞[ ⊂ ℝ¹`, the component
-`P = ]0, 1[` of `z < 1`, `z = x₀`, with the inclusion as chart. -/
-theorem exists_isCoqueStricteAff_demiDroite :
+/-- **The strict shell `]0, 1[` of `]0, ∞[`, with its image and `P ≠ V`** (the one construction,
+T-bz-c2-dedupe-demidroite): in the locally affine manifold `]0, ∞[ ⊂ ℝ¹`, the component `P = ]0, 1[`
+of `z < 1`, `z = x₀`, with the inclusion as chart. `exists_isCoqueStricteAff_demiDroite` (here) and
+`exists_isCoqueStricteAff_demiDroite_ne_univ` (`Chapter2/Theoreme.lean`) are its two halves. -/
+theorem exists_isCoqueStricteAff_demiDroite_and_ne_univ :
     ∃ (P : Set demiDroiteOuverte) (φ : OpenPartialHomeomorph demiDroiteOuverte (Fin 1 → ℝ)),
       IsCoqueStricteAff P φ (LinearMap.proj 0 : (Fin 1 → ℝ) →ₗ[ℝ] ℝ).toAffineMap ∧
-      φ '' P = {x | 0 < x 0 ∧ x 0 < 1} := by
+      φ '' P = {x | 0 < x 0 ∧ x 0 < 1} ∧ P ≠ univ := by
   set z : (Fin 1 → ℝ) →ᵃ[ℝ] ℝ := (LinearMap.proj 0 : (Fin 1 → ℝ) →ₗ[ℝ] ℝ).toAffineMap with hz
   let x₀ : demiDroiteOuverte := ⟨fun _ => 1 / 2, show (0 : ℝ) < 1 / 2 by norm_num⟩
   set U := (Subtype.val : demiDroiteOuverte → Fin 1 → ℝ) ⁻¹' {y | z y < 1} with hU
@@ -1508,13 +1509,29 @@ theorem exists_isCoqueStricteAff_demiDroite :
     Subtype.val_injective.injOn
   have hφimg : φ '' connectedComponentIn U x₀ = {x | 0 < x 0 ∧ x 0 < 1} := by
     rw [image_congr hφeq, hP, himgU]
-  refine ⟨_, φ, ⟨⟨hφ, by rw [hφimg]; exact hC⟩, ?_⟩, hφimg⟩
+  have hne : connectedComponentIn U x₀ ≠ univ := by
+    rw [hP]
+    intro h
+    have h2 : (⟨fun _ => 2, show (0 : ℝ) < 2 by norm_num⟩ : demiDroiteOuverte) ∈ U :=
+      h ▸ mem_univ _
+    exact absurd (show (2 : ℝ) < 1 from h2) (by norm_num)
+  refine ⟨_, φ, ⟨⟨hφ, by rw [hφimg]; exact hC⟩, ?_⟩, hφimg, hne⟩
   rintro ⟨A, ⟨p, w, hw, rfl⟩, hA⟩
   rw [hφimg] at hA
   have hw0 : w 0 ≠ 0 := fun h => hw (funext fun i => by rw [Subsingleton.elim i 0]; exact h)
   have h2 := (hA ⟨(2 - p 0) / w 0, rfl⟩).2
   simp only [vadd_eq_add, Pi.add_apply, Pi.smul_apply, smul_eq_mul, div_mul_cancel₀ _ hw0] at h2
   linarith
+
+/-- **A non-degenerate strict shell** (non-vacuity of Déf. 1, 2, 3 with a non-constant cote,
+through the affine example): in the locally affine manifold `]0, ∞[ ⊂ ℝ¹`, the component
+`P = ]0, 1[` of `z < 1`, `z = x₀`, with the inclusion as chart. -/
+theorem exists_isCoqueStricteAff_demiDroite :
+    ∃ (P : Set demiDroiteOuverte) (φ : OpenPartialHomeomorph demiDroiteOuverte (Fin 1 → ℝ)),
+      IsCoqueStricteAff P φ (LinearMap.proj 0 : (Fin 1 → ℝ) →ₗ[ℝ] ℝ).toAffineMap ∧
+      φ '' P = {x | 0 < x 0 ∧ x 0 < 1} := by
+  obtain ⟨P, φ, h, himg, -⟩ := exists_isCoqueStricteAff_demiDroite_and_ne_univ
+  exact ⟨P, φ, h, himg⟩
 
 /-- **A non-degenerate projective strict shell** (non-vacuity of Déf. 1′, 2, 3 in the projective
 case, with a non-constant cote): the image, by the Remarque after Déf. 1′, of the affine strict shell
