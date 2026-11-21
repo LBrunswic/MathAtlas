@@ -331,3 +331,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 12:37–13:38 (Paris); agents: 2 closers, 2 audits
 - new OQ: none (OQ-83 went to /egf-programme; next free OQ-84); lean-causal kb 0116–0123
 - next: plan (rule 2: no ready closer); lean-causal is held by /ett-programme's wave 20 (3 closers)
+
+## 2026-11-21 14:11 · plan · —
+- why: rule 2 (no ready closer after wave 17)
+- result: 119 -> 123 targets. Promoted T-ett-ealpha-gx-structure (its dependencies done; names refreshed after the hoist; route notes: polar sector charts reach the line, BPrimeE0's slit-box scheme as a second route). Added T-ett-sfa-local-e0 (the E₀ half of T-ett-sfa-local: model-free transfer through isomorphic charts, then every E₀-manifold), T-ett-measures-e0 (λ₃ + λ₁ admissible at E₀: the first measure witnesses with sing₀ ≠ ∅; route [r]), T-ett-measures-ealpha (same label, the wave after) and master T-ett-curation-e0-blockers (eight stale ETT blocked_on fields)
+- re-scoped: T-ett-bprime-ealpha's evidence corrected the way the E₀ [r] was (the timelike stabiliser has no boost; k = 1 needs injectivity; κ = 2π a trivial special case; OQ-82 reflections at κ > 0 too); T-ett-e-models-bprime records what (b′) still lacks; T-ett-sfa-local now depends on its E₀ half
+- outside lean-causal nothing is closable without a ruling; the rulings that would unblock the most: BBS-Q1 (63 bbs rows), T-syr-cited, T-yamabe-scope with OQ-44, OQ-45 (a); inside ETT the marks wait on OQ-34 (11 rows), OQ-35 (9), OQ-18 (6), OQ-64 (5), OQ-82 (5)
+- ids: OQ-84 and OQ-85 went to /egf-programme (a664a93); next free OQ-86
+- gates: roadmap ✓, atlas ✓ (lean-causal overlay stale while /ett-programme integrates its wave 20; refreshed at the next clean tree)
+- wall time: 13:50–14:11 (Paris); agents: 1 (planner)
+- next: wave of T-ett-curation-e0-blockers (master, now) and, when /ett-programme frees lean-causal, T-ett-ealpha-gx-structure, T-ett-sfa-local-e0, T-ett-measures-e0
