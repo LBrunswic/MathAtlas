@@ -46,9 +46,18 @@ class CorrectionsRules(unittest.TestCase):
                 self.assertEqual(c, old[c["id"]])
 
     def test_errata_lists_only_applied_entries(self):
-        self.assertEqual(cr.errata(self.data), "")
-        e = dict(self.data["correction"][0], status="applied")
-        self.assertIn(e["summary"], cr.errata({"correction": [e]}))
+        # Independent of how far the shipped register has got: below `applied` nothing is listed,
+        # and an applied (or reviewed) entry is listed by its summary.
+        entries = [c for c in self.data["correction"] if c.get("summary")]
+        below = [dict(c, status="adopted") for c in entries]
+        self.assertEqual(cr.errata({"correction": below}), "")
+        for st in ("applied", "reviewed"):
+            e = dict(entries[0], status=st)
+            self.assertIn(e["summary"], cr.errata({"correction": [e] + below[1:]}))
+        shipped = cr.errata(self.data)
+        for c in self.data["correction"]:
+            if c.get("summary") and c["status"] not in ("applied", "reviewed"):
+                self.assertNotIn(c["summary"], shipped, c["id"])
 
 
 if __name__ == "__main__":
