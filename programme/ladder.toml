@@ -79,7 +79,15 @@
 # Classified pairs, within one sort since T-tool-ladder-py: 98 of 314 (92 of the 306 causality-sort
 # pairs) after T-lad-plain-separations; 312 of 314 after T-lad-classify-core, of which 131 implied or
 # refuted and 181 [[open]] causality-sort entries with what each is missing (the end of the file);
-# the 2 left are the geometry-sort pairs germ_extension, cauchy_slice → rigid (below).
+# the 2 left are the geometry-sort pairs germ_extension, cauchy_slice → rigid (below). After
+# T-lad-record-lines (2026-11-21) still 312 of 314: 162 implied or refuted (160 of the 306
+# causality-sort pairs) and 150 [[open]] entries (146 causality-sort, 4 geometry-sort), against 119
+# and 193 (189) before it; of the 43 pairs it moved, 42 are refuted in the no-gluing reading only
+# (the counterexamples' section says which entries, and why). Of the 146 refuted causality-sort
+# pairs, 91 are refuted by an absolutely minimal counterexample, hence in either reading of
+# defi:causalite (OQ-18), and 55 by non-minimal ones only: 53 by the 19 entries whose comments give
+# the no-gluing reading (the gated, jump and global lines, deuxPushup) and 2 (is_causal ⇏ strongly_causal,
+# strongly_causal_open) by Galileo's spacetime, whose non-minimality is argued, not in Lean.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -150,7 +158,12 @@
 # consequences at curve_nested, and every Lean name its comments cite), from Causal.NestedConverse,
 # Causal.NestedTransfer (strict library since 8044439, f868749) and older modules; the four
 # standings were read against their witnesses' instance binders, and the dry run of emit-lean
-# (Rules and Test compiled from one /tmp file) checks them.
+# (Rules and Test compiled from one /tmp file) checks them. Those of T-lad-record-lines (2026-11-21:
+# the five conjoined witnesses on the gated, jump, isolated and global lines, from Causal.GateLineLocal,
+# Causal.PushUpNotOpen, Causal.ChronalNeighbourBridge, strict since d41b625, 1cbb750, b9bc26d, and every
+# Lean name the refreshed [[open]] notes cite) were read by `#check` the same way, their statements
+# quoted in the comments; none takes an instance argument (closed statements about one causality on ℝ
+# or ℝ ⊕ Unit).
 
 [[property]]
 id = "is_causal"
@@ -588,7 +601,10 @@ status = "checked"
 # second countable (ℝ ⊕ Unit). The witness conjoins IsCausal, CurvesExtend, ¬ CausallyArcConnected
 # and ¬ AbsolutelyMinimalOn ⊤, which is ¬ AbsolutelyMinimal by
 # Causal.Precausality.absolutelyMinimal_iff. Through the closure (causally_arc_connected ⇒
-# absolutely_minimal) each entry also refutes `from` ⇒ causally_arc_connected.
+# absolutely_minimal) each entry also refutes `from` ⇒ causally_arc_connected. Subsumed since
+# T-lad-record-lines by the gated line's conjoined entries below (same pairs, older witnesses).
+# Reading: no-gluing only (kb/0014, OQ-18): the gated line is not absolutely minimal, so it is not one
+# of ETT's spacetimes under a gluing reading of defi:causalite (as for deuxPushup below).
 [[fails]]
 from = "curves_extend"
 to = "absolutely_minimal"
@@ -918,10 +934,189 @@ status = "checked"
 # the witness; split as above). The converse of rem:topological_spacetime_strongly_causal fails;
 # through strongly_causal_open ⇒ strongly_causal also is_causal ⇏ strongly_causal_open. Its other
 # properties (a time function T = fst, push-up, tarentin, causal openness) are not stated in Lean.
+# Reading: not recorded. Galileo's spacetime is argued not absolutely minimal (on a U-shaped open,
+# x ≪_U y across the bend is joined by no time-increasing chain of small steps; T-abs-galileo-ladder
+# asks it in Lean); if so, this entry holds in the no-gluing reading only (kb/0014, OQ-18), and
+# T-lad-record-no-gluing says so.
 [[fails]]
 from = "is_causal"
 to = "strongly_causal"
 witness = "Causal.galileo_not_stronglyCausal"
+status = "checked"
+
+# ---- T-lad-record-lines (2026-11-21): the separations wave 10 put in the strict library, each
+# recorded with its conjoined `from` list. Every witness was read by `#check` (lake env lean on a
+# file outside the tree, 2026-11-21) and its statement is quoted below; each is a closed statement
+# about one causality on ℝ ⊕ Unit or ℝ, Hausdorff and second countable, so no `space` is written.
+#
+# READING. The gated line, the jump line and the global line are NOT absolutely minimal (each
+# conjunction says so), so every entry on them holds in the library's reading of defi:causalite only,
+# the "equivalently" form without gluing (kb/0014, kb/0073): under a gluing reading of "sheaf" (OQ-18)
+# every causality is absolutely minimal, these three are not ETT spacetimes, and their entries say
+# nothing about the paper (OQ-39, OQ-67 (b), both OPEN, registers/DECISIONS.md). [[fails]] has no
+# field for it (from, to, witness, status, space; `space` takes only the vocabulary's Mathlib classes
+# on M, tools/ladder.py), so each entry says it in the comment line above it: "no-gluing only". Of the
+# 43 [[open]] pairs these entries settle, 42 hold in that reading only; the isolated line's one
+# (causally_plain ⇏ chronal_neighbours) holds in either reading. For the 42, an absolutely minimal
+# witness is what makes a separation hold in both readings (kb/0073): T-abs-dec8-minimal-witness
+# (causally_open_future ⇏ causally_open), T-abs-rational-line-extras, T-loc-flat-time-cylinder,
+# recorded by T-lad-record-minimal, beside which the keeper notes the pairs both settle.
+
+# The gated line (above) with every property Causal.GateLineLocal (T-abs-gateline-local) conjoins.
+# Causal.gateLine_separates_causallyOpen : gateLine.CausallyOpenFuture ∧ gateLine.LocallyCausallyOpen
+# ∧ gateLine.GloballyHyperbolic ∧ gateLine.IsCausal ∧ gateLine.StronglyCausalOpen ∧
+# gateLine.StronglyCausal ∧ gateLine.CurvesExtend ∧ gateLine.LocallyPushUp ∧
+# ¬gateLine.AbsolutelyMinimal ∧ ¬gateLine.CausallyOpen; Causal.gateLine_separates_pushUp : the same
+# eight properties (in another order) ∧ ¬gateLine.CausallyArcConnected ∧ ¬gateLine.PushUp. One
+# `from` for both, four entries (causally_arc_connected is also reached from absolutely_minimal
+# through causally_arc_connected ⇒ absolutely_minimal; kept because the witness states it). Through
+# the closure also causally_compact (from globally_hyperbolic) and locally_causally_open_future (from
+# locally_causally_open): 28 [[open]] pairs settled. What they carry for the ETT reader:
+# causally_open_future ⇏ causally_open, DEC-8's ± is a strict strengthening of
+# def:causally_open_spacetime_open as printed (OQ-67 (a)); locally_causally_open(_future) ⇏
+# causally_open (prop:topological_spacetime_absolutely_minimal, ETT.tex:698, needs absolute
+# minimality); locally_push_up ⇏ push_up (lem:pushup_local, ETT.tex:557, needs causal
+# arc-connectedness; with absolute minimality instead it is T-abs-pushup-of-minimal-local). Its
+# time function and tarentin (T-abs-gateline-witnesses) are not in Lean, nor in `from`.
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["causally_open_future", "locally_causally_open", "globally_hyperbolic", "is_causal", "strongly_causal_open", "strongly_causal", "curves_extend", "locally_push_up"]
+to = "absolutely_minimal"
+witness = "Causal.gateLine_separates_causallyOpen"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["causally_open_future", "locally_causally_open", "globally_hyperbolic", "is_causal", "strongly_causal_open", "strongly_causal", "curves_extend", "locally_push_up"]
+to = "causally_open"
+witness = "Causal.gateLine_separates_causallyOpen"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["causally_open_future", "locally_causally_open", "globally_hyperbolic", "is_causal", "strongly_causal_open", "strongly_causal", "curves_extend", "locally_push_up"]
+to = "causally_arc_connected"
+witness = "Causal.gateLine_separates_pushUp"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["causally_open_future", "locally_causally_open", "globally_hyperbolic", "is_causal", "strongly_causal_open", "strongly_causal", "curves_extend", "locally_push_up"]
+to = "push_up"
+witness = "Causal.gateLine_separates_pushUp"
+status = "checked"
+
+# The jump line (Causal.jumpLine, Causal/PushUpNotOpen.lean, T-abs-pushup-not-open: on ℝ, ≪ empty,
+# x ≤_U y iff x = y ∈ U, or x = 0, y = 1 and 0, 1 ∈ U).
+# Causal.jumpLine_separates_causallyOpenFuture : jumpLine.PushUp ∧ jumpLine.LocallyCausallyOpen ∧
+# jumpLine.GloballyHyperbolic ∧ jumpLine.StronglyCausalOpen ∧ jumpLine.HasTimeFunction ∧
+# ¬jumpLine.CausallyOpenFuture ∧ ¬jumpLine.CausallyOpen ∧ ¬jumpLine.AbsolutelyMinimal ∧
+# ¬jumpLine.CausallyArcConnected ∧ ¬jumpLine.ChronalNeighbours ∧ ¬jumpLine.Tarentin ∧
+# ¬jumpLine.CausallyPlain: one statement, seven entries. causally_open and causally_arc_connected
+# are also reached through the closure (from causally_open_future, absolutely_minimal) and kept
+# because the witness states them; chronal_neighbours, tarentin and causally_plain enter edges only
+# as members of conjunctive premises, which the closure does not read backwards, so they need their
+# own entries. Through the closure also locally_push_up, locally_causally_open_future, is_causal,
+# causally_compact, strongly_causal, curves_extend: 28 [[open]] pairs settled, 16 of them also by
+# the gated line. What it carries: push_up and locally_causally_open together ⇏ causally_open_future,
+# i.e. prop:topological_spacetime_absolutely_minimal (ETT.tex:698) needs absolute minimality, as
+# printed and in the DEC-8 reading (Causal.not_causallyOpenFuture_of_locallyCausallyOpenFuture_bare,
+# Causal.not_causallyOpen_of_locallyCausallyOpen_bare); push_up ⇏ causally_open_future alone holds
+# in either reading by the rational line above. The module imports Causal.Ladder.Rules (its
+# ¬ AbsolutelyMinimal is derived by causal_ladder); no emit-lean reads a [[fails]].
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "locally_causally_open", "globally_hyperbolic", "strongly_causal_open", "time_function"]
+to = "causally_open_future"
+witness = "Causal.jumpLine_separates_causallyOpenFuture"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "locally_causally_open", "globally_hyperbolic", "strongly_causal_open", "time_function"]
+to = "causally_open"
+witness = "Causal.jumpLine_separates_causallyOpenFuture"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "locally_causally_open", "globally_hyperbolic", "strongly_causal_open", "time_function"]
+to = "absolutely_minimal"
+witness = "Causal.jumpLine_separates_causallyOpenFuture"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "locally_causally_open", "globally_hyperbolic", "strongly_causal_open", "time_function"]
+to = "causally_arc_connected"
+witness = "Causal.jumpLine_separates_causallyOpenFuture"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "locally_causally_open", "globally_hyperbolic", "strongly_causal_open", "time_function"]
+to = "chronal_neighbours"
+witness = "Causal.jumpLine_separates_causallyOpenFuture"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "locally_causally_open", "globally_hyperbolic", "strongly_causal_open", "time_function"]
+to = "tarentin"
+witness = "Causal.jumpLine_separates_causallyOpenFuture"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "locally_causally_open", "globally_hyperbolic", "strongly_causal_open", "time_function"]
+to = "causally_plain"
+witness = "Causal.jumpLine_separates_causallyOpenFuture"
+status = "checked"
+
+# The isolated line (above) once more. Causal.isolatedLine_separates_chronalNeighbours
+# (Causal/ChronalNeighbourBridge.lean, T-abs-chronal-neighbour-bridge) : isolatedLine.CausallyArcConnected
+# ∧ isolatedLine.CausallyOpen ∧ isolatedLine.CausallyPlain ∧ ¬isolatedLine.HasChronalNeighbourEverywhere
+# ∧ ¬isolatedLine.ChronalNeighbours (nothing is ≪ 0; HasChronalNeighbourEverywhere is no node,
+# OQ-51). Through the closure also absolutely_minimal, causally_open_future, the two local forms of
+# causal openness, and push_up, locally_push_up (absolutely_minimal ∧ causally_plain ⇒ push_up, T1,
+# valid on ℝ) ⇏ chronal_neighbours; the one [[open]] pair it settles is causally_plain →
+# chronal_neighbours. Either reading: the isolated line is causally arc-connected
+# (Causal.isolatedLine_causallyArcConnected), hence absolutely minimal
+# (Causal.Causality.CausallyArcConnected.absolutelyMinimal), which is what a gluing reading asks
+# (OQ-18); its other entry above (causally_arc_connected ∧ causally_plain ⇏ tarentin) likewise.
+# Reading: either (causally arc-connected, hence absolutely minimal; OQ-18 does not touch it).
+[[fails]]
+from = ["causally_arc_connected", "causally_open", "causally_plain"]
+to = "chronal_neighbours"
+witness = "Causal.isolatedLine_separates_chronalNeighbours"
+status = "checked"
+
+# The globally chronological line (Causal.globalLine, Causal/ChronalNeighbourBridge.lean: on ℝ,
+# x ≪_U y iff U = ℝ and x < y; x ≤_U y iff x = y ∈ U, or U = ℝ and x < y).
+# Causal.globalLine_separates : globalLine.NonemptyChronalCones ∧ globalLine.PushUp ∧
+# globalLine.CausallyOpen ∧ globalLine.IsCausal ∧ ¬globalLine.ChronalPastNeighbours ∧
+# ¬globalLine.ChronalNeighbours ∧ ¬globalLine.AbsolutelyMinimal (NonemptyChronalCones and
+# ChronalPastNeighbours are no nodes: OQ-51, OQ-52 (a)). Two entries; through the closure also
+# locally_push_up, causally_open_future and the two local forms, and ⇏ causally_arc_connected: 10
+# [[open]] pairs settled, 2 beyond the gated and jump lines (causally_open → absolutely_minimal,
+# → causally_arc_connected). Beside the lightlike line, a second witness that the premise
+# chronal_neighbours of push_up ∧ chronal_neighbours ⇒ causally_open is sufficient, not necessary
+# (this one in the no-gluing reading only). Its chronology lives in ℝ alone: under absolute
+# minimality on a T1 space non-empty chronal cones would give chronal neighbours
+# (Causal.Causality.AbsolutelyMinimal.chronalNeighbours_of_nonemptyChronalCones), whence
+# Causal.globalLine_not_absolutelyMinimal.
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "causally_open", "is_causal"]
+to = "chronal_neighbours"
+witness = "Causal.globalLine_separates"
+status = "checked"
+
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["push_up", "causally_open", "is_causal"]
+to = "absolutely_minimal"
+witness = "Causal.globalLine_separates"
 status = "checked"
 
 # ---- pair sort (C, C' fixed, header): T-abs-nested-converse (2026-11-21).
@@ -1416,22 +1611,22 @@ status = "checked"
 [[open]]
 from = "causally_arc_connected"
 to = "push_up"
-note = "With locally_push_up it holds (lem:pushup_local, the edge above), and with causally_plain on a T1 space (through absolutely_minimal ∧ causally_plain ⇒ push_up, the edge above), so a counterexample is not causally plain, as the lightlike line is not, which has push-up. Without, no Lean model is causally arc-connected and fails push-up; the gated line has local push-up ({⋆} and the line are opens with push-up) and fails push-up (0 ≪ 1 ≤ ⋆, nothing ≪ ⋆), argued, not in Lean, but it is not causally arc-connected"
+note = "With locally_push_up it holds (lem:pushup_local, the edge above), and with causally_plain on a T1 space (through absolutely_minimal ∧ causally_plain ⇒ push_up, the edge above), so a counterexample is not causally plain, as the lightlike line is not, which has push-up. Without, no Lean model is causally arc-connected and fails push-up: the gated line has local push-up and fails push-up (0 ≪ 1 ≤ ⋆, nothing ≪ ⋆; Causal.gateLine_separates_pushUp), but it is not causally arc-connected (the same conjunction); deuxPushup fails push-up and is not absolutely minimal (Causal.deuxPushup_not_absolutelyMinimal)"
 
 [[open]]
 from = "causally_arc_connected"
 to = "causally_open_future"
-note = "Through absolutely_minimal it holds with locally_causally_open_future (the edges above). Without, no Lean model is causally arc-connected and not causally open in the future: the rational line, absolutely minimal and not causally open in the future, is not causally arc-connected (Causal.rationalLine_separates_absolutelyMinimal)"
+note = "Through absolutely_minimal it holds with locally_causally_open_future (the edges above). Without, no Lean model is causally arc-connected and not causally open in the future: the rational line, absolutely minimal and not causally open in the future, is not causally arc-connected (Causal.rationalLine_separates_absolutelyMinimal), nor is the jump line (Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "causally_arc_connected"
 to = "causally_open"
-note = "Through absolutely_minimal it holds with locally_causally_open (the edges above). Without, no Lean model is causally arc-connected and not causally open: the rational line is not causally arc-connected, the gated line (not causally open in the past, T-abs-gateline-local) neither"
+note = "Through absolutely_minimal it holds with locally_causally_open (the edges above). Without, no Lean model is causally arc-connected and not causally open: the rational line is not causally arc-connected, nor are the gated line (causally open in the future and not in the past; Causal.gateLine_separates_causallyOpen, Causal.gateLine_separates_pushUp) and the jump line (Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "globally_hyperbolic"
 to = "time_function"
-note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it; the one globally hyperbolic Lean model without tarentin, the spacelike line, has a time function (Causal.spacelikeLine_separates_tarentin_full), as has the line of T-abs-pushup-not-open (argued, id)"
+note = "Proved with tarentin (Levin, the edge above; Hausdorff, second countable). Without tarentin open: Levin's proof takes local compactness, σ-compactness and the closedness of ≤ (prop:GH_Jferme) from it; the globally hyperbolic Lean models without tarentin, the spacelike line (Causal.spacelikeLine_separates_tarentin_full) and the jump line (Causal.jumpLine_separates_causallyOpenFuture), have a time function"
 
 [[open]]
 from = "globally_hyperbolic"
@@ -1485,17 +1680,20 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 #   Lean names N (proposed; a target's name in parentheses when one is planned) that would make it a
 #   [[fails]] entry. The models, with what the Lean states (L) and what is argued (A):
 #   - the gated line Causal.gateLine: L causal, globally hyperbolic, curves_extend, not causally
-#     arc-connected, not absolutely minimal; A a time function and tarentin (T-abs-gateline-witnesses),
-#     locally push-up, causally open in the future, two-sided locally causally open, without push-up,
-#     not causally open in the past (T-abs-gateline-local), open strong causality (small intervals
-#     and {⋆} are causally convex), no chronal neighbours at ⋆;
+#     arc-connected, not absolutely minimal, and since T-abs-gateline-local locally push-up, causally
+#     open in the future, two-sided locally causally open, strongly causal in both forms, without
+#     push-up, not causally open in the past (Causal.gateLine_separates_causallyOpen,
+#     Causal.gateLine_separates_pushUp; [[fails]] entries since T-lad-record-lines); A a time function
+#     and tarentin (T-abs-gateline-witnesses), no chronal neighbours at ⋆, not causally plain (nothing
+#     is ≪ ⋆, while ⋆ ∈ Int J⁻({⋆}));
 #   - the doubled line Causal.doubledLine: L not causal; A causally compact, push-up (≪ empty),
 #     tarentin, causally open (T-abs-doubled-line-compact), not absolutely minimal (the two sheets
 #     cover it and no generated step crosses), no chronal neighbours, not causally plain;
-#   - the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1 when 0, 1 ∈ U): A
-#     push-up, two-sided locally causally open, causal, globally hyperbolic (its diamonds are {0, 1}
-#     or points), strongly causal in the open form, time function id; J⁺((−1, 1)) = (−1, 1] not open,
-#     hence not absolutely minimal by absolutely_minimal ∧ locally_causally_open ⇒ causally_open;
+#   - the jump line Causal.jumpLine of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1
+#     when 0, 1 ∈ U): L push-up, two-sided locally causally open, globally hyperbolic, strongly causal
+#     in the open form, a time function; not causally open in the future (J⁺((−1, 1)) = (−1, 1]), not
+#     absolutely minimal, not causally arc-connected, no chronal neighbours, not tarentin, not causally
+#     plain (Causal.jumpLine_separates_causallyOpenFuture; [[fails]] entries since T-lad-record-lines);
 #   - the flat time cylinder ℤe₀\𝐌ⁿ: L not causal (Causal.Flat.FlatQuotient.not_isCausal_timeGroup);
 #     A curves_extend (T-loc-flat-time-cylinder) and, as a flat spacetime, tarentin, push-up, causal
 #     openness, chronal neighbours, causal arc-connectedness (T-loc-flat-time-cylinder, widened);
@@ -1503,7 +1701,12 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 #     (intervals are causally convex), not locally causally open in the future (by the edge
 #     absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future), no chronal
 #     neighbours, not tarentin, not causally compact;
-#   - the isolated line Causal.isolatedLine: L as above; A no chronal neighbours (no ≪ at 0);
+#   - the isolated line Causal.isolatedLine: L as above, and causally open without chronal neighbours
+#     (no ≪ at 0; Causal.isolatedLine_separates_chronalNeighbours, a [[fails]] entry since
+#     T-lad-record-lines);
+#   - the globally chronological line Causal.globalLine (≪ only in ℝ itself): L push-up, causally
+#     open, causal, no chronal neighbours, not absolutely minimal (Causal.globalLine_separates, a
+#     [[fails]] entry since T-lad-record-lines);
 #   - Galileo's spacetime Causal.galileo n, n ≥ 1: L causal, not strongly causal; A a time function
 #     (fst), push-up, tarentin, causally open, chronal neighbours, causally plain; not absolutely
 #     minimal (on a U-shaped open, x ≪_U y across the bend is generated by no chain of small steps,
@@ -1516,109 +1719,32 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 # * "Open: …": no model is at hand; the note says what a counterexample needs.
 # * "True, argued: …": the implication, with its proof; it wants a Lean witness.
 # When a [[fails]] entry settles one of these, `check` names it ("already settled; remove it").
+# T-lad-record-lines (2026-11-21) removed the 43 the gated, jump, isolated and global lines settle
+# (42 of them in the no-gluing reading only, above) and refreshed the notes below that cited those
+# lines' facts as argued or wanted.
 
 # → absolutely_minimal
-[[open]]
-from = "causally_open"
-to = "absolutely_minimal"
-note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen; or the doubled line Causal.doubledLine (not causal in Lean) is causally open and is not absolutely minimal; wants its causal openness (T-abs-doubled-line-compact), Causal.doubledLine_not_absolutelyMinimal"
-
-[[open]]
-from = "causally_open_future"
-to = "absolutely_minimal"
-note = "False, argued: the gated line Causal.gateLine is causally open in the future and is not absolutely minimal; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open in the future and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen"
-
 [[open]]
 from = "chronal_neighbours"
 to = "absolutely_minimal"
 note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and is not absolutely minimal; wants Causal.timelikeLineTop_chronalNeighbours; or Galileo's spacetime Causal.galileo n, n ≥ 1 has chronal neighbours and is not absolutely minimal; wants Causal.galileoOn_chronalNeighbours, Causal.galileo_not_absolutelyMinimal"
 
 [[open]]
-from = "locally_causally_open"
-to = "absolutely_minimal"
-note = "False, argued: the gated line Causal.gateLine is locally causally open and is not absolutely minimal; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen"
-
-[[open]]
-from = "locally_causally_open_future"
-to = "absolutely_minimal"
-note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and is not absolutely minimal; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open in the future and is not absolutely minimal; wants Causal.timelikeLineTop_causallyOpen"
-
-[[open]]
-from = "locally_push_up"
-to = "absolutely_minimal"
-note = "False, argued: the gated line Causal.gateLine is locally push-up and is not absolutely minimal; wants Causal.gateLine_locallyPushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally push-up and is not absolutely minimal; wants Causal.timelikeLineTop_locallyPushUp"
-
-[[open]]
-from = "push_up"
-to = "absolutely_minimal"
-note = "False, argued: the doubled line Causal.doubledLine (not causal in Lean) has push-up and is not absolutely minimal; wants its push-up (T-abs-doubled-line-compact), Causal.doubledLine_not_absolutelyMinimal; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has push-up and is not absolutely minimal; wants its push-up (T-abs-pushup-not-open), its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
-
-[[open]]
-from = "strongly_causal"
-to = "absolutely_minimal"
-note = "False, argued: the gated line Causal.gateLine is strongly causal and is not absolutely minimal; wants Causal.gateLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal and is not absolutely minimal; wants its open strong causality, its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
-
-[[open]]
-from = "strongly_causal_open"
-to = "absolutely_minimal"
-note = "False, argued: the gated line Causal.gateLine is strongly causal (open form) and is not absolutely minimal; wants Causal.gateLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal (open form) and is not absolutely minimal; wants its open strong causality, its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
-
-[[open]]
 from = "tarentin"
 to = "absolutely_minimal"
 note = "False, argued: the gated line Causal.gateLine is tarentin and is not absolutely minimal; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is tarentin and is not absolutely minimal; wants Causal.timelikeLineTop_tarentin"
 
-[[open]]
-from = "time_function"
-to = "absolutely_minimal"
-note = "False, argued: the gated line Causal.gateLine has a time function and is not absolutely minimal; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has a time function and is not absolutely minimal; wants its time function id, its non-minimality (absolutely_minimal ∧ locally_causally_open ⇒ causally_open)"
-
 
 # → causally_arc_connected
-[[open]]
-from = "causally_open"
-to = "causally_arc_connected"
-note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen; or the doubled line Causal.doubledLine (not causal in Lean) is causally open and is not causally arc-connected; wants its causal openness (T-abs-doubled-line-compact), Causal.doubledLine_not_absolutelyMinimal"
-
-[[open]]
-from = "causally_open_future"
-to = "causally_arc_connected"
-note = "False, argued: the gated line Causal.gateLine is causally open in the future and is not causally arc-connected; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open in the future and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen"
-
 [[open]]
 from = "chronal_neighbours"
 to = "causally_arc_connected"
 note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and is not causally arc-connected; wants Causal.timelikeLineTop_chronalNeighbours; or Galileo's spacetime Causal.galileo n, n ≥ 1 has chronal neighbours and is not causally arc-connected; wants Causal.galileoOn_chronalNeighbours, Causal.galileo_not_absolutelyMinimal"
 
 [[open]]
-from = "locally_causally_open"
-to = "causally_arc_connected"
-note = "False, argued: the gated line Causal.gateLine is locally causally open and is not causally arc-connected; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen"
-
-[[open]]
-from = "locally_causally_open_future"
-to = "causally_arc_connected"
-note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and is not causally arc-connected; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open in the future and is not causally arc-connected; wants Causal.timelikeLineTop_causallyOpen"
-
-[[open]]
-from = "strongly_causal"
-to = "causally_arc_connected"
-note = "False, argued: the gated line Causal.gateLine is strongly causal and is not causally arc-connected; wants Causal.gateLine_stronglyCausalOpen; or the rational line Causal.rationalLine is strongly causal and is not causally arc-connected; wants Causal.rationalLine_stronglyCausalOpen"
-
-[[open]]
-from = "strongly_causal_open"
-to = "causally_arc_connected"
-note = "False, argued: the gated line Causal.gateLine is strongly causal (open form) and is not causally arc-connected; wants Causal.gateLine_stronglyCausalOpen; or the rational line Causal.rationalLine is strongly causal (open form) and is not causally arc-connected; wants Causal.rationalLine_stronglyCausalOpen"
-
-[[open]]
 from = "tarentin"
 to = "causally_arc_connected"
 note = "False, argued: the gated line Causal.gateLine is tarentin and is not causally arc-connected; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is tarentin and is not causally arc-connected; wants Causal.timelikeLineTop_tarentin"
-
-[[open]]
-from = "time_function"
-to = "causally_arc_connected"
-note = "False, argued: the gated line Causal.gateLine has a time function and is not causally arc-connected; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses); or the rational line Causal.rationalLine has a time function and is not causally arc-connected; wants Causal.rationalLine_hasTimeFunction"
 
 
 # → causally_compact
@@ -1630,121 +1756,36 @@ note = "False, argued: Galileo's spacetime Causal.galileo n, n ≥ 1 is causally
 
 # → causally_open
 [[open]]
-from = "causally_compact"
-to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine is causally compact and is not causally open; wants Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is causally compact and is not causally open; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "causally_open_future"
-to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine is causally open in the future and is not causally open; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
-
-[[open]]
 from = "causally_plain"
 to = "causally_open"
-note = "Open: the models failing causal openness, the rational line, the line of T-abs-pushup-not-open and the gated line (T-abs-gateline-local), are not causally plain (argued)"
+note = "Open: of the models failing causal openness, the jump line is not causally plain, in Lean (Causal.jumpLine_separates_causallyOpenFuture); the rational line (≪ empty, J⁺(ℝ) = ℝ) and the gated line (nothing is ≪ ⋆, while ⋆ ∈ Int J⁻({⋆})) are not causally plain, argued (Causal.gateLine_not_causallyPlain is an optional conjunct of T-abs-gateline-witnesses)"
 
 [[open]]
 from = "chronal_neighbours"
 to = "causally_open"
-note = "Open: the models failing causal openness, the rational line, the line of T-abs-pushup-not-open and the gated line (T-abs-gateline-local), have no chronal neighbours (argued)"
-
-[[open]]
-from = "curves_extend"
-to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine has its causal curves extending and is not causally open; wants Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the rational line Causal.rationalLine has its causal curves extending and is not causally open; wants Causal.rationalLine_hasTimeFunction"
-
-[[open]]
-from = "globally_hyperbolic"
-to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine is globally hyperbolic and is not causally open; wants Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is globally hyperbolic and is not causally open; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "locally_causally_open"
-to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine is locally causally open and is not causally open; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local), Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open and is not causally open; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "locally_causally_open_future"
-to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and is not causally open; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_causallyOpen (T-abs-gateline-local); or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open in the future and is not causally open; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "strongly_causal"
-to = "causally_open"
-note = "False, argued: the rational line Causal.rationalLine is strongly causal and is not causally open; wants Causal.rationalLine_stronglyCausalOpen; or the gated line Causal.gateLine is strongly causal and is not causally open; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
-
-[[open]]
-from = "strongly_causal_open"
-to = "causally_open"
-note = "False, argued: the rational line Causal.rationalLine is strongly causal (open form) and is not causally open; wants Causal.rationalLine_stronglyCausalOpen; or the gated line Causal.gateLine is strongly causal (open form) and is not causally open; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
+note = "Open: of the models failing causal openness, the jump line has no chronal neighbours, in Lean (Causal.jumpLine_separates_causallyOpenFuture); the rational line (≪ empty) and the gated line (nothing is ≪ ⋆) have none, argued. By push_up ∧ chronal_neighbours ⇒ causally_open a counterexample lacks push-up"
 
 [[open]]
 from = "tarentin"
 to = "causally_open"
-note = "False, argued: the gated line Causal.gateLine is tarentin and is not causally open; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
-
-[[open]]
-from = "time_function"
-to = "causally_open"
-note = "False, argued: the rational line Causal.rationalLine has a time function and is not causally open; wants Causal.rationalLine_hasTimeFunction; or the gated line Causal.gateLine has a time function and is not causally open; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses), Causal.gateLine_not_causallyOpen (T-abs-gateline-local)"
+note = "False, argued: the gated line Causal.gateLine is tarentin and is not causally open; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), its ¬ CausallyOpen being in Lean (Causal.gateLine_separates_causallyOpen); a separation in the no-gluing reading only (the gated line is not absolutely minimal; kb/0073, OQ-18)"
 
 
 # → causally_open_future
 [[open]]
-from = "causally_compact"
-to = "causally_open_future"
-note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is causally compact and is not causally open in the future; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
 from = "causally_plain"
 to = "causally_open_future"
-note = "Open: the models failing causal openness in the future, the rational line (Lean) and the line of T-abs-pushup-not-open, are not causally plain; the gated line fails it in the past only, and is locally causally open (T-abs-gateline-local)"
+note = "Open: the models failing causal openness in the future, the rational line (Causal.rationalLine_separates_absolutelyMinimal) and the jump line (Causal.jumpLine_separates_causallyOpenFuture), are not causally plain, in Lean for the jump line and argued for the rational line (≪ empty); the gated line fails causal openness in the past only (Causal.gateLine_separates_causallyOpen)"
 
 [[open]]
 from = "chronal_neighbours"
 to = "causally_open_future"
-note = "Open: the models failing causal openness in the future, the rational line (Lean) and the line of T-abs-pushup-not-open, have no chronal neighbours; the gated line fails it in the past only, and is locally causally open (T-abs-gateline-local)"
-
-[[open]]
-from = "curves_extend"
-to = "causally_open_future"
-note = "False, argued: the rational line Causal.rationalLine has its causal curves extending and is not causally open in the future; wants Causal.rationalLine_hasTimeFunction; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has its causal curves extending and is not causally open in the future; wants its time function id, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "globally_hyperbolic"
-to = "causally_open_future"
-note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is globally hyperbolic and is not causally open in the future; wants its global hyperbolicity (diamonds {0, 1} or points), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "locally_causally_open"
-to = "causally_open_future"
-note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open and is not causally open in the future; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "locally_causally_open_future"
-to = "causally_open_future"
-note = "False, argued: the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is locally causally open in the future and is not causally open in the future; wants its local causal openness (T-abs-pushup-not-open), its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "strongly_causal"
-to = "causally_open_future"
-note = "False, argued: the rational line Causal.rationalLine is strongly causal and is not causally open in the future; wants Causal.rationalLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal and is not causally open in the future; wants its open strong causality, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
-
-[[open]]
-from = "strongly_causal_open"
-to = "causally_open_future"
-note = "False, argued: the rational line Causal.rationalLine is strongly causal (open form) and is not causally open in the future; wants Causal.rationalLine_stronglyCausalOpen; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) is strongly causal (open form) and is not causally open in the future; wants its open strong causality, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+note = "Open: the models failing causal openness in the future, the rational line (Causal.rationalLine_separates_absolutelyMinimal) and the jump line (Causal.jumpLine_separates_causallyOpenFuture), have no chronal neighbours, in Lean for the jump line and argued for the rational line (≪ empty); the gated line fails causal openness in the past only (Causal.gateLine_separates_causallyOpen)"
 
 [[open]]
 from = "tarentin"
 to = "causally_open_future"
-note = "Open: the models failing causal openness in the future, the rational line (Lean) and the line of T-abs-pushup-not-open, are not tarentin; the gated line fails it in the past only, and is locally causally open (T-abs-gateline-local)"
-
-[[open]]
-from = "time_function"
-to = "causally_open_future"
-note = "False, argued: the rational line Causal.rationalLine has a time function and is not causally open in the future; wants Causal.rationalLine_hasTimeFunction; or the line of T-abs-pushup-not-open (≪ empty, ≤_U the diagonal plus 0 ≤ 1) has a time function and is not causally open in the future; wants its time function id, its J⁺((−1, 1)) = (−1, 1] (T-abs-pushup-not-open)"
+note = "Open: the models failing causal openness in the future, the rational line (Causal.rationalLine_separates_absolutelyMinimal) and the jump line (Causal.jumpLine_separates_causallyOpenFuture), are not tarentin, in Lean for the jump line and argued for the rational line (its diamonds lie in the rationals); the gated line fails causal openness in the past only (Causal.gateLine_separates_causallyOpen)"
 
 
 # → causally_plain
@@ -1752,13 +1793,6 @@ note = "False, argued: the rational line Causal.rationalLine has a time function
 from = "chronal_neighbours"
 to = "causally_plain"
 note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and is not causally plain; wants Causal.timelikeLineTop_chronalNeighbours, Causal.timelikeLineTop_not_causallyPlain"
-
-
-# → chronal_neighbours
-[[open]]
-from = "causally_plain"
-to = "chronal_neighbours"
-note = "False, argued: the isolated line Causal.isolatedLine is causally plain and has no chronal neighbours; wants Causal.isolatedLine_not_chronalNeighbours (from isolatedLine_not_hasChronalNeighbour_zero, T-abs-chronal-neighbour-bridge)"
 
 
 # → curves_extend
@@ -1916,27 +1950,27 @@ note = "False, argued: the rational line Causal.rationalLine is absolutely minim
 [[open]]
 from = "causally_arc_connected"
 to = "locally_causally_open"
-note = "Open: through absolutely_minimal ∧ locally_causally_open ⇒ causally_open a counterexample also refutes causally_arc_connected ⇒ causally_open ([[open]] above); the models failing causal openness (the rational line; the gated line, T-abs-gateline-local) are not causally arc-connected"
+note = "Open: through absolutely_minimal ∧ locally_causally_open ⇒ causally_open a counterexample also refutes causally_arc_connected ⇒ causally_open ([[open]] above); the models failing causal openness (the rational line; the gated and jump lines, Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture) are not causally arc-connected, and the gated and jump lines are locally causally open"
 
 [[open]]
 from = "causally_compact"
 to = "locally_causally_open"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally compact; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally compact; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "causally_open_future"
 to = "locally_causally_open"
-note = "Open: wants a model locally causally open in the future and not in the past; the gated line, open in the future and not in the past, is two-sided locally causally open (T-abs-gateline-local)"
+note = "Open: wants a model locally causally open in the future and not in the past; the gated line, causally open in the future and not in the past, is two-sided locally causally open (Causal.gateLine_separates_causallyOpen)"
 
 [[open]]
 from = "causally_plain"
 to = "locally_causally_open"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally plain; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally plain; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "chronal_neighbours"
 to = "locally_causally_open"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), has no chronal neighbours; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), has no chronal neighbours; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "curves_extend"
@@ -1946,7 +1980,7 @@ note = "False, argued: the rational line Causal.rationalLine has its causal curv
 [[open]]
 from = "globally_hyperbolic"
 to = "locally_causally_open"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not globally hyperbolic; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not globally hyperbolic; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "is_causal"
@@ -1956,7 +1990,7 @@ note = "False, argued: the rational line Causal.rationalLine is causal and is no
 [[open]]
 from = "locally_causally_open_future"
 to = "locally_causally_open"
-note = "Open: wants a model locally causally open in the future and not in the past; the gated line, open in the future and not in the past, is two-sided locally causally open (T-abs-gateline-local)"
+note = "Open: wants a model locally causally open in the future and not in the past; the gated line, causally open in the future and not in the past, is two-sided locally causally open (Causal.gateLine_separates_causallyOpen)"
 
 [[open]]
 from = "locally_push_up"
@@ -1981,7 +2015,7 @@ note = "False, argued: the rational line Causal.rationalLine is strongly causal 
 [[open]]
 from = "tarentin"
 to = "locally_causally_open"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not tarentin; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not tarentin; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "time_function"
@@ -1998,22 +2032,22 @@ note = "False, argued: the rational line Causal.rationalLine is absolutely minim
 [[open]]
 from = "causally_arc_connected"
 to = "locally_causally_open_future"
-note = "Open: through absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future a counterexample also refutes causally_arc_connected ⇒ causally_open_future ([[open]] above); the models failing causal openness (the rational line; the gated line, T-abs-gateline-local) are not causally arc-connected"
+note = "Open: through absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future a counterexample also refutes causally_arc_connected ⇒ causally_open_future ([[open]] above); the models failing causal openness (the rational line; the gated and jump lines, Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture) are not causally arc-connected, and the gated and jump lines are locally causally open"
 
 [[open]]
 from = "causally_compact"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally compact; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally compact; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "causally_plain"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally plain; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not causally plain; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "chronal_neighbours"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), has no chronal neighbours; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), has no chronal neighbours; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "curves_extend"
@@ -2023,7 +2057,7 @@ note = "False, argued: the rational line Causal.rationalLine has its causal curv
 [[open]]
 from = "globally_hyperbolic"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not globally hyperbolic; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not globally hyperbolic; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "is_causal"
@@ -2053,7 +2087,7 @@ note = "False, argued: the rational line Causal.rationalLine is strongly causal 
 [[open]]
 from = "tarentin"
 to = "locally_causally_open_future"
-note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not tarentin; the gated line and the line of T-abs-pushup-not-open are locally causally open"
+note = "Open: the one model failing local causal openness, the rational line (argued: absolutely minimal and not causally open in the future), is not tarentin; the gated line and the jump line are locally causally open, in Lean (Causal.gateLine_separates_causallyOpen, Causal.jumpLine_separates_causallyOpenFuture)"
 
 [[open]]
 from = "time_function"
@@ -2065,94 +2099,89 @@ note = "False, argued: the rational line Causal.rationalLine has a time function
 [[open]]
 from = "absolutely_minimal"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "causally_arc_connected"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "causally_compact"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "causally_open"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "causally_open_future"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "causally_plain"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "chronal_neighbours"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "curves_extend"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "globally_hyperbolic"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "is_causal"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "locally_causally_open"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "locally_causally_open_future"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "strongly_causal"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "strongly_causal_open"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "tarentin"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 [[open]]
 from = "time_function"
 to = "locally_push_up"
-note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line fail push-up only in opens containing a given pair, timelikeLineTop in M only; a counterexample fails it in arbitrarily small opens"
+note = "Open: no Lean model lacks local push-up: deuxPushup and the gated line (locally push-up in Lean, Causal.gateLine_separates_pushUp) fail push-up only in opens containing a given pair, timelikeLineTop in M only (argued); a counterexample fails it in arbitrarily small opens"
 
 
 # → push_up
 [[open]]
 from = "absolutely_minimal"
 to = "push_up"
-note = "Open: the models without push-up (deuxPushup in Lean; the gated line, T-abs-gateline-local; timelikeLineTop, argued) are not absolutely minimal; with causally_plain on a T1 space absolute minimality gives push-up (the edge)"
-
-[[open]]
-from = "causally_compact"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is causally compact and lacks push-up; wants Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+note = "Open: the models without push-up, deuxPushup and the gated line in Lean (Causal.deux_pushup, Causal.gateLine_separates_pushUp) and timelikeLineTop (argued), are not absolutely minimal (Causal.deuxPushup_not_absolutelyMinimal, Causal.gateLine_separates_causallyOpen, Causal.timelikeLineTop_not_absolutelyMinimal); with causally_plain on a T1 space absolute minimality gives push-up (the edge), so a counterexample is not causally plain; with locally_push_up, on a T1 space, it is T-abs-pushup-of-minimal-local"
 
 [[open]]
 from = "causally_open"
@@ -2160,59 +2189,19 @@ to = "push_up"
 note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
 
 [[open]]
-from = "causally_open_future"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is causally open in the future and lacks push-up; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is causally open in the future and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
-
-[[open]]
 from = "chronal_neighbours"
 to = "push_up"
 note = "False, argued: Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) has chronal neighbours and lacks push-up; wants Causal.timelikeLineTop_chronalNeighbours, Causal.timelikeLineTop_not_pushUp"
 
 [[open]]
-from = "curves_extend"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine has its causal curves extending and lacks push-up; wants Causal.gateLine_not_pushUp (T-abs-gateline-local)"
-
-[[open]]
-from = "globally_hyperbolic"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is globally hyperbolic and lacks push-up; wants Causal.gateLine_not_pushUp (T-abs-gateline-local)"
-
-[[open]]
-from = "locally_causally_open"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is locally causally open and lacks push-up; wants Causal.gateLine_locallyCausallyOpen (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
-
-[[open]]
-from = "locally_causally_open_future"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is locally causally open in the future and lacks push-up; wants Causal.gateLine_causallyOpenFuture (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally causally open in the future and lacks push-up; wants Causal.timelikeLineTop_causallyOpen, Causal.timelikeLineTop_not_pushUp"
-
-[[open]]
-from = "locally_push_up"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is locally push-up and lacks push-up; wants Causal.gateLine_locallyPushUp (T-abs-gateline-local), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is locally push-up and lacks push-up; wants Causal.timelikeLineTop_locallyPushUp, Causal.timelikeLineTop_not_pushUp"
-
-[[open]]
-from = "strongly_causal"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is strongly causal and lacks push-up; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_pushUp (T-abs-gateline-local)"
-
-[[open]]
-from = "strongly_causal_open"
-to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is strongly causal (open form) and lacks push-up; wants Causal.gateLine_stronglyCausalOpen, Causal.gateLine_not_pushUp (T-abs-gateline-local)"
-
-[[open]]
 from = "tarentin"
 to = "push_up"
-note = "False, argued: the gated line Causal.gateLine is tarentin and lacks push-up; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), Causal.gateLine_not_pushUp (T-abs-gateline-local); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is tarentin and lacks push-up; wants Causal.timelikeLineTop_tarentin, Causal.timelikeLineTop_not_pushUp"
+note = "False, argued: the gated line Causal.gateLine is tarentin and lacks push-up; wants Causal.gateLine_tarentin (T-abs-gateline-witnesses), its ¬ PushUp being in Lean (Causal.gateLine_separates_pushUp); or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18) is tarentin and lacks push-up; wants Causal.timelikeLineTop_tarentin, Causal.timelikeLineTop_not_pushUp. Neither model is absolutely minimal: a separation in the no-gluing reading only (kb/0073)"
 
 [[open]]
 from = "time_function"
 to = "push_up"
-note = "False, argued: the gated line Causal.gateLine has a time function and lacks push-up; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses), Causal.gateLine_not_pushUp (T-abs-gateline-local)"
+note = "False, argued: the gated line Causal.gateLine has a time function and lacks push-up; wants Causal.gateLine_hasTimeFunction (T-abs-gateline-witnesses), its ¬ PushUp being in Lean (Causal.gateLine_separates_pushUp); a separation in the no-gluing reading only (the gated line is not absolutely minimal; kb/0073, OQ-18)"
 
 
 # → strongly_causal
