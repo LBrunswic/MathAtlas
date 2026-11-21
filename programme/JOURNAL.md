@@ -223,3 +223,14 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: the report's make check ✓, roadmaps ✓, blueprint ✓
 - commits: df6ba3a (+ roadmap)
 - next: lean-causal is /atlas-team's; T-tool-ladder-py-2 (master, settles no pair today) or a hold until lean-causal frees for T-abs-gh-without-tarentin and T-lad-record-separators
+
+## 2026-11-21 11:37 · wave of 4 · T-tool-ladder-py-2, T-abs-hoist-inextensible-piece, T-abs-one-way-membrane-chronal, T-abs-gh-without-tarentin
+- T-tool-ladder-py-2 (master): counterexamples read backwards through conjunctive edges (no further pair settled; no contradiction the forward reading misses), conditional transfers kept out of the contradiction check, premise-free [[fact]]s; the fact `rigid` (every Level-B local model is rigid, Causal.CBG.eqOn_of_liftPropOn) classifies germ_extension, cauchy_slice → rigid: 314 of 314 pairs within a sort; the publisher's blueprint explains backward lacks from the tool's own results and shows facts; fact_edges added after the publisher found needed_standing ignored facts (bce2a8d)
+- T-abs-hoist-inextensible-piece (layer 1, hoist): Causal.InextensiblePiece, 5 constants moved, none changed over 14899; audit minor
+- T-abs-one-way-membrane-chronal (layer 1): the membrane with a chronology, chronal neighbours without push-up in either reading, 7 chronal_neighbours pairs; audit minor; kb 0111–0112
+- T-abs-gh-without-tarentin (layer 1): the fork (GH, strongly causal, no time function) and the loop fan (GH, time function, not strongly causal), 8 pairs; prop:GH_fortement_causal, prop:GH_Jferme and Levin's edge sharp in tarentin (evidence, for the ETT ledger's notes); audit minor; kb 0113–0115
+- ladder: 25 implications, 68 counterexamples, 1 fact; 314/314 within a sort (249 fails, 47 open, 18 implied); the keeper has 7 + 8 + the membrane's 4 tarentin pairs to record
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22; sbierski-mghd 19 rows bound, layer 1 in Lean 16
+- gates: lean-causal ✓, ladder ✓, binder ✓, roadmaps ✓, tests ✓, selftest ✓, blueprint ✓; hub: papers-check green, gate-tests red once through test_no_model_in_gates while the egf loop rebuilt its leased lean-egf and papers/egf (green when rerun alone), not this loop's
+- commits: bce2a8d ebcb66e cf4703e 28b4b95 e26b042 a400fd3
+- next: T-lad-record-separators (keeper): the membrane, the chronal membrane, the fork and the loop fan
