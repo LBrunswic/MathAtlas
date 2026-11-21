@@ -267,6 +267,7 @@ import Causal.Model.EAlphaGX
 import Causal.SFATransfer
 import Causal.Port.SFALocalE0
 import Causal.Port.MeasuresE0
+import Causal.Model.MeasuresEAlpha
 
 /-!
 # Causal — topological spacetimes

@@ -156,3 +156,6 @@ rediscover. One fact per entry.
 | [0148](entries/0148-property3-local-form.md) | pitfall | Property 3 of an admissible measure does not restrict to a causally convex open set by itself |
 | [0149](entries/0149-model-measures-e0.md) | pattern | ModelMeasures with a BTZ point: Causal.E0.modelMeasures |
 | [0150](entries/0150-pgrep-matches-itself.md) | pitfall | `pgrep -f "lake build"` matches the waiting shell itself |
+| [0151](entries/0151-static-null-frontiers-admissible.md) | pattern | Null frontiers and admissible measures on any static ℝ × X |
+| [0152](entries/0152-measures-at-ealpha.md) | pattern | Measures at E_κ: the Borel σ-algebra of Cone κ is declared once, in Causal.MeasuresEAlpha |
+| [0153](entries/0153-polar-atom-at-apex.md) | pitfall | Pushing a measure by Cone.polar puts an atom at the apex |

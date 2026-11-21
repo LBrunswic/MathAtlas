@@ -1,0 +1,144 @@
+{
+  "package": "T-ett-measures-ealpha",
+  "target": "T-ett-measures-ealpha",
+  "files": [
+    "scaffold/CausalScaffold/MeasuresEAlpha.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "prop:mesure_admissible",
+      "tex_lines": [
+        1726,
+        1749
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.MeasuresEAlpha.modelMeasures",
+        "Causal.MeasuresEAlpha.mesure_admissible",
+        "Causal.MeasuresEAlpha.exists_admissible_past_future",
+        "Causal.MeasuresEAlpha.lam3",
+        "Causal.MeasuresEAlpha.lam3_past",
+        "Causal.MeasuresEAlpha.lam3_future",
+        "Causal.MeasuresEAlpha.lam3_univ",
+        "Causal.MeasuresEAlpha.admissible_of_equiv",
+        "Causal.MeasuresEAlpha.muE",
+        "Causal.MeasuresEAlpha.admissible_muE",
+        "Causal.MeasuresEAlpha.paper_measures_local",
+        "Causal.MeasuresEAlpha.modelMeasures_local",
+        "Causal.MeasuresEAlpha.lam3_admissibleOn",
+        "Causal.MeasuresEAlpha.admissibleOn_restrict",
+        "Causal.MeasuresEAlpha.admissiblePastOn_restrict_of",
+        "Causal.MeasuresEAlpha.admissibleFutureOn_restrict_of",
+        "Causal.MeasuresEAlpha.pos_past_inter",
+        "Causal.MeasuresEAlpha.pos_future_inter",
+        "Causal.MeasuresEAlpha.static_mesure_dieckmann_of",
+        "Causal.MeasuresEAlpha.static_admissible_of_equiv",
+        "Causal.MeasuresEAlpha.static_admissiblePastOn_restrict_of",
+        "Causal.MeasuresEAlpha.static_admissibleFutureOn_restrict_of",
+        "Causal.MeasuresEAlpha.static_exists_admissible_past_future",
+        "Causal.MeasuresEAlpha.nonvacuous",
+        "Causal.MeasuresEAlpha.nonvacuous_local"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a strongly causal E_{>=0}-manifold (l.1726)",
+          "here": "strengthened",
+          "note": "instance: M = E_kappa, kappa > 0 (massive kappa = staticCausality (Cone kappa)). The model half of the proof (hypothesis (i), l.1734-1743) at E_kappa; the assembly over every E_{>=0}-manifold is T-ett-measures-manifolds"
+        },
+        {
+          "paper": "strongly causal",
+          "here": "weakened",
+          "note": "modelMeasures, mesure_admissible and exists_admissible_past_future use nothing; paper_measures_local uses the open form massive_stronglyCausalOpen (Causal.Model.EAlphaCauchy) to find U_p in every neighbourhood"
+        },
+        {
+          "paper": "lambda_3, 'the Lebesgue measure of R^3' (l.1737)",
+          "here": "read",
+          "note": "lam3 kappa = dt (x) dr dtheta: Lebesgue measure on R times the image under Cone.polar of Lebesgue measure on ]0, oo[ times the Haar measure of R/kappa Z (coneMeasure). Harmless: every finite measure with the same null sets is admissible on both sides (admissible_of_equiv), the Riemannian dt (x) r dr dtheta included (lam3Riem_equiv, admissible_of_equiv_riem). See questions"
+        },
+        {
+          "paper": "properties 1, 3, 4 'in the past and in the future' (l.1737)",
+          "here": "carried",
+          "note": "lam3_past, lam3_future, for lambda_3 itself (infinite, regular by instance)"
+        },
+        {
+          "paper": "a measure mu_- admissible in the past and a measure mu_+ admissible in the future (l.1727)",
+          "here": "weakened",
+          "note": "the conclusion is stronger at E_kappa: one finite measure, muE kappa = (lam3 kappa).toFinite, admissible in the past and in the future at once (exists_admissible_past_future)"
+        },
+        {
+          "paper": "U_p relatively compact, causally convex in M (l.1734-1735); 'restricted to the relatively compact U_p these measures are finite' (l.1741)",
+          "here": "carried",
+          "note": "lam3_admissibleOn (lambda_3 restricted to every relatively compact causally convex open V is admissible on V in the past and in the future), paper_measures_local (such a U_p in every neighbourhood of every point). ModelMeasures itself is fed U = E_kappa and the finite muE kappa, as E0.modelMeasures and timelikeLine_modelMeasures are; admissibleOn_restrict gives muE kappa restricted to every causally convex open set, no compactness needed"
+        },
+        {
+          "paper": "lem:restriction_convexe turns properties 3 and 4 of the model into those of U_p (l.1742-1743)",
+          "here": "carried",
+          "note": "property 4 by restriction_convexe; property 3 through its local form (pos_past_inter, pos_future_inter; static_pos_past_inter, static_pos_future_inter), as at E_0 (kb/0148)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:1736-1737 holds as printed at E_kappa, kappa > 0, in the reading lambda_3 = dt dr dtheta (and for every measure with its null sets). lambda_3 satisfies properties 1, 3 and 4 in the past (Causal.MeasuresEAlpha.lam3_past) and in the future (lam3_future). It is infinite (lam3_univ), so property 2 fails, which is why l.1741 restricts to a relatively compact U_p; there the restricted lambda_3 is admissible on both sides (lam3_admissibleOn, paper_measures_local).",
+        "Stronger than the proposition needs at E_kappa: one finite measure is admissible in the past and in the future at once (Causal.MeasuresEAlpha.exists_admissible_past_future; muE kappa = (lam3 kappa).toFinite), as on R^{1,n} (prop:mesure_dieckmann_Lorentz). This is the contrast with rem:mesure_unilaterale (l.1713-1716): its hypothesis 'as soon as the spacetime carries a BTZ line' cannot be dropped, since E_kappa is a causal, strongly causal E_{>=0}-model without BTZ point where both senses hold. Not a defect of the paper; it confirms that the pair mu_-, mu_+ of l.1727 is forced only by E_0.",
+        "ETT.tex:1742-1743 at E_kappa: as at E_0 (T-ett-measures-e0's finding, kb/0148), property 3 passes to a causally convex open U_p through its local form, not through lem:restriction_convexe alone. Here the local form holds for every measure positive on non-empty open sets on every static R x X: (J^-(q) \\ J^-(p)) cap W contains a non-empty open set for every open W containing q, because q is in the closure of I^-(q), J^-(p) is closed and q is not in J^-(p) (Causal.MeasuresEAlpha.static_exists_isOpen_subset_Jminus_diff_inter, static_pos_past_inter; restriction: static_admissiblePastOn_restrict_of, admissiblePastOn_restrict_of at E_kappa).",
+        "The planner's [r] route, checked step by step. (1) The reduction minkowski_mesure_dieckmann_of (Causal/MinkowskiMeasure.lean:69) restates verbatim for every static R x X (Causal.MeasuresEAlpha.static_mesure_dieckmann_of). (2) Correct, and more general than stated: each vertical line meets the frontier of any <<-past or <<-future set, open or not, at most once (static_frontier_section_subsingleton_of_past, _of_future), so that frontier is null for dt (x) nu with nu ANY s-finite measure on X, no Lebesgue measure on X needed (static_prod_frontier_of_past, _of_future). The step uses dist(x, y.2) < y.1 - t => (t, x) << y (staticCausality.lt_top_iff) and the openness of I^-(y). (3) Wrong for 'in the class of lambda_3'. Cone.polar sends the half-plane {r <= 0} to the apex, so the image under polar of (a Gaussian in r over all of R) x (Haar on R/kappa Z) gives the apex positive mass, as does the image of m x dtheta for every m on R positive on open sets (Causal.MeasuresEAlpha.map_polar_apex_pos). Its product with dt then charges the singular line R x {apex}, which lambda_3 does not (lam3_singLine), and is not absolutely continuous w.r.t. lambda_3 (not_absolutelyContinuous_map_polar). Such a measure is still admissible in the past and in the future (exists_admissible_charging_singLine): properties 1-4 do not pin down the class of lambda_3 at E_kappa. With the Gaussian restricted to r > 0, polar is no longer onto from the support, and Continuous.isOpenPosMeasure_map (OpenPos.lean:145) does not apply; coneMeasure_pos proves positivity on open sets directly. 'onto' itself is true but is not in Cone.lean (polar_surjective, proved here). The refinements of 2026-11-21 are correct: Measure.toFinite replaces the Gaussian weights, regularity is the instance Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure on the proper R x C_kappa, the class result holds (admissible_of_equiv), and the vertical lines are timelike at E_kappa. Every line reference of the block was checked (Massive.lean:125-130, :137; Cone.lean:451-453, :469, :626; Static.lean:1125-1185; MeasuresE0.lean:457, :484, :567, :576, :713, :742)."
+      ],
+      "questions": [
+        "Which measure is lambda_3, 'the Lebesgue measure lambda_3 of R^3' (l.1737), on E_kappa? For kappa != 2pi, E_kappa has no Cartesian coordinates. Reading taken: dt dr dtheta, Lebesgue measure in the cylindrical coordinates (t, r, theta) in R x ]0, oo[ x R/kappa Z, pushed to E_kappa by (t, r, theta) -> (t, polar(r, theta)) (Causal.MeasuresEAlpha.lam3). The Riemannian volume dt (x) r dr dtheta has the same null sets (lam3Riem_equiv). So has, by hand and not formalized, the pull-back of the Lebesgue measure of R^3 by (t, r, theta) -> (t, r cos(2 pi theta / kappa), r sin(2 pi theta / kappa)), which is (2 pi / kappa) dt (x) r dr dtheta. The reading is harmless: properties 1-4 see a measure only through its null sets, its positivity on open sets and, for U_p, its finiteness on compact sets, and every finite measure in the class is admissible on both sides (admissible_of_equiv, admissible_of_equiv_riem). This is the same resolution as at E_0 (T-ett-measures-e0), so no OQ is proposed. A wild homeomorphism E_kappa = R^3 could pull Lebesgue measure back outside the class; the paper evidently means a smooth one."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.MeasuresEAlpha.static_exists_isOpen_subset_Jminus_diff_inter",
+    "Causal.MeasuresEAlpha.static_exists_isOpen_subset_Jplus_diff_inter",
+    "Causal.MeasuresEAlpha.static_pos_past_inter",
+    "Causal.MeasuresEAlpha.static_pos_future_inter",
+    "Causal.MeasuresEAlpha.static_frontier_section_subsingleton_of_past",
+    "Causal.MeasuresEAlpha.static_frontier_section_subsingleton_of_future",
+    "Causal.MeasuresEAlpha.prod_eq_zero_of_section_subsingleton",
+    "Causal.MeasuresEAlpha.static_prod_frontier_of_past",
+    "Causal.MeasuresEAlpha.static_prod_frontier_of_future",
+    "Causal.MeasuresEAlpha.static_prod_frontier_Iminus",
+    "Causal.MeasuresEAlpha.static_prod_frontier_Iplus",
+    "Causal.MeasuresEAlpha.minkowski_exists_admissible_past_future",
+    "Causal.MeasuresEAlpha.instMeasurableSpaceCone",
+    "Causal.MeasuresEAlpha.instBorelSpaceCone",
+    "Causal.MeasuresEAlpha.coneMeasure",
+    "Causal.MeasuresEAlpha.instSFiniteConeMeasure",
+    "Causal.MeasuresEAlpha.coneMeasure_pos",
+    "Causal.MeasuresEAlpha.instIsOpenPosMeasureConeMeasure",
+    "Causal.MeasuresEAlpha.coneMeasure_closedBall",
+    "Causal.MeasuresEAlpha.instIsFiniteMeasureOnCompactsConeMeasure",
+    "Causal.MeasuresEAlpha.coneMeasure_apex",
+    "Causal.MeasuresEAlpha.instSFiniteLam3",
+    "Causal.MeasuresEAlpha.instIsOpenPosMeasureLam3",
+    "Causal.MeasuresEAlpha.instIsFiniteMeasureOnCompactsLam3",
+    "Causal.MeasuresEAlpha.instIsLocallyFiniteMeasureLam3",
+    "Causal.MeasuresEAlpha.instIsFiniteMeasureMuE",
+    "Causal.MeasuresEAlpha.singLine_eq_prod",
+    "Causal.MeasuresEAlpha.lam3_singLine",
+    "Causal.MeasuresEAlpha.lam3_pos",
+    "Causal.MeasuresEAlpha.lam3_frontier_Iminus",
+    "Causal.MeasuresEAlpha.lam3_frontier_Iplus",
+    "Causal.MeasuresEAlpha.coneArea",
+    "Causal.MeasuresEAlpha.instSFiniteConeArea",
+    "Causal.MeasuresEAlpha.lam3Riem",
+    "Causal.MeasuresEAlpha.lam3Riem_equiv",
+    "Causal.MeasuresEAlpha.admissible_of_equiv_riem",
+    "Causal.MeasuresEAlpha.polar_surjective",
+    "Causal.MeasuresEAlpha.map_polar_apex_pos",
+    "Causal.MeasuresEAlpha.not_absolutelyContinuous_map_polar",
+    "Causal.MeasuresEAlpha.exists_admissible_charging_singLine",
+    "Causal.MeasuresEAlpha.fact_pi_pos",
+    "Causal.MeasuresEAlpha.fact_four_pi_pos"
+  ],
+  "kb_proposals": [
+    "Null frontiers and admissible measures on any static R x X: for nu any s-finite measure on X, the frontier of any <<-past or <<-future set, open or not, is dt (x) nu-null (Causal.MeasuresEAlpha.static_prod_frontier_of_past, _of_future: ConeNull's vertical sections, no Lebesgue measure on X). With nu positive on open sets and X sigma-compact, every finite measure with the null sets of dt (x) nu is admissible in the past and in the future (static_admissible_of_equiv) and restricts to every causally convex open set (static_admissiblePastOn_restrict_of, static_admissibleFutureOn_restrict_of). Instances: E_kappa (below) and Minkowski (minkowski_exists_admissible_past_future).",
+    "Measures at E_kappa: the Borel sigma-algebra of Cone kappa is declared in Causal.MeasuresEAlpha (instMeasurableSpaceCone, instBorelSpaceCone); do not declare another. lambda_3 is Causal.MeasuresEAlpha.lam3 kappa = dt (x) coneMeasure kappa, with coneMeasure kappa = polar_*(dr on ]0, oo[ (x) Haar on R/kappa Z). ModelMeasures at E_kappa is Causal.MeasuresEAlpha.modelMeasures (U = E_kappa, the one measure muE kappa on both sides); the paper's U_p form is paper_measures_local (T-ett-measures-ealpha).",
+    "Pitfall: pushing a measure on R x R/kappa Z that is positive on open sets by Cone.polar puts an atom at the apex, since polar sends r <= 0 there (Causal.MeasuresEAlpha.map_polar_apex_pos), so the product with dt charges the singular line and leaves the class of lambda_3. Restrict r to ]0, oo[ and prove positivity on open sets by hand: a ball about mk <r, theta> contains polar(r + eps/2, theta) (coneMeasure_pos)."
+  ],
+  "notes": "The file imports strict modules only: Causal.Model.EAlphaCauchy (for massive_stronglyCausalOpen) and Causal.SingularGeroch (for ModelMeasures). Its mathlib imports are WithDensityFinite, IntervalIntegral.Periodic (the measure of AddCircle) and Normed.Lp.MeasurableSpace (EuclideanSpace, for the Minkowski cross-check). It can graduate to Causal/Model/MeasuresEAlpha.lean with no import rewrite. It has no sorry and typechecks with -DwarningAsError=true. `lake build CausalScaffold.MeasuresEAlpha` rebuilt this module only (3128 jobs, 1.6 s). Nothing upstream moved. It is not yet imported by the scaffold root (kb/0025): the master adds it. #print axioms, run in a /tmp copy since deleted, gives [propext, Classical.choice, Quot.sound] for every anchor and witness: modelMeasures, mesure_admissible, exists_admissible_past_future, lam3_past, lam3_future, lam3_univ, lam3_singLine, admissible_of_equiv, paper_measures_local, modelMeasures_local, admissibleOn_restrict, lam3_admissibleOn, admissible*On_restrict_of, pos_*_inter, the static_* lemmas, minkowski_exists_admissible_past_future, lam3Riem_equiv, map_polar_apex_pos, not_absolutelyContinuous_map_polar, exists_admissible_charging_singLine, nonvacuous and nonvacuous_local. All instances are named, so they can be curated (kb/0015 item 5). Namespace Causal.MeasuresEAlpha has no clash. Coupling: T-loc-ealpha-tidy (programme) plans to move the static section of Causal/Model/EAlphaCauchy.lean, keeping full names. This file uses only massive_stronglyCausalOpen from it; if that moves, the import may need retargeting at graduation. minkowski_exists_admissible_past_future restates minkowski_mesure_dieckmann's statement under another name, as a cross-check of the static theorem. It is not a duplicate full name (kb/0082); curate it or not as you see fit. For T-ett-measures-manifolds: the E_kappa restriction lemmas (admissiblePastOn_restrict_of, admissibleFutureOn_restrict_of) take mu << lam3 kappa and positivity on open sets, as the E_0 ones do. At `some kappa`, MassAModel gets its measurable space from this file's Cone instance and the product instance. Stale ledger text to refresh at curation: prop:mesure_admissible's blocked_on, 'ModelMeasures for every E>=0-manifold (witnessed at E0 by E0.modelMeasures)', is now witnessed at E_kappa too. rem:mesure_unilaterale is not among my labels. Its sharpness (no BTZ line, so both senses hold) is a finding under prop:mesure_admissible, with witness exists_admissible_past_future / nonvacuous."
+}
