@@ -207,3 +207,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 04:35–05:15 (Paris); agents: 2 closers, 2 audits (while /ett-programme ran 3–4 agents)
 - new OQ: 66 (the Pinsker δ sign)
 - next: wave outside lean-causal: T-bz-c2-hemisphere, T-syr-upper-bounds, T-bz-c2-prop2-literal; master T-bz-c2-dedupe-majore (exclusive, when lean-benzecri is idle)
+
+## 2026-11-21 06:03 · wave of 3 · T-bz-c2-hemisphere, T-bz-c2-prop2-literal, T-syr-upper-bounds
+- T-bz-c2-hemisphere: Ch. 2 § 3 Prop. 2 closed as printed, every dimension (« variété » read Hausdorff, DEC-122); label marked; the printed 3° needs a triangle inequality for l_W (supplied); audit minor
+- T-bz-c2-prop2-literal: Ch. 2 § 2 Prop. 2 proved under the literal reading, every dimension, with Printed ↔ Literal ∧ 0 < n; unmarked on OQ-56, and either ruling marks it with no Lean change; audit minor
+- T-syr-upper-bounds: the four § 3 rows Lean-stated, partial, unmarked; l.277 false for both readings of OQ-43 (one exponent term too many), lem:syracuse_cycle's implication true as printed, the « m = … » clause and the corollary with m = 2^{p_n} − 3^n refuted, « intertwined » not needed; audit clean
+- gates: lean-benzecri ✓, lean-syracuse ✓, roadmap ✓, atlas ✓, hub: papers_check all green; gate-tests red is /ett-programme's uncommitted programme/ladder.toml (the committed ladder matches the shipped Rules/Test.lean)
+- commits: 3123eab 5232355 6e30171 0fe82db f921030 (+ this)
+- wall time: 05:16–06:03 (Paris); agents: 3 closers, 3 audits (while /ett-programme ran a keeper and 2 lean-causal closers)
+- new OQ: 68 (a)–(d) (Syracuse § 3 readings)
+- next: plan (rule 2: no ready closer; only the master T-bz-c2-dedupe-majore is dispatchable)

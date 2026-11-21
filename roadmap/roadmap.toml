@@ -304,12 +304,13 @@ stream = "ett"
 kind = "close"
 paper = "ett"
 labels = ["prop:Cauchy_pgcd"]
-status = "ready"
+status = "done"
 owner = "master"
 priority = 9
-evidence = "lean-causal/scaffold/CausalScaffold/SubExtension.lean:124 still proves the abstract cauchy_pgcd by 'sorry -- SORRY(prop:Cauchy_pgcd)', and the scaffold root imports the module (scaffold/CausalScaffold.lean:3). T-ett-subextension (491f924) refuted that abstract statement, in the strict Causal/CBG/SubExtensionAbstract.lean (the Prop CauchyPgcdAbstract, not_cauchyPgcdAbstract, cauchyPgcdAbstract_counterexample_symm). Its REPORT: 'By kb/0022 the scaffold's sorried CausalScaffold.SubExtension.cauchy_pgcd is now refuted in its abstract form … Retiring [it] in favour of the Prop and its refutation is an edit to an existing file and needs the master or the author.' A sorry on a refuted statement is a hazard for anything that imports it. The row stays anchored over the CBG geometry (Causal.CBG.ETTSubExtension). The sorry of lem:C_ext_connexe in the same file (l.86, exists_mem_image_inf) is neither proved nor refuted and stays. This is an edit of one scaffold file, so it is not exclusive. No programme target uses it."
+evidence = "scaffold cauchy_pgcd (sorry, refuted as CauchyPgcdAbstract) removed; docstrings point to the Prop, its refutation and ett_cauchy_pgcd; scaffold sorrys 6 → 5"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "1f82940"
 
 # ------------------------------------------------------------------ gx
 [[target]]
@@ -748,13 +749,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c2s3p2_hemisphere_corps_convexe"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c2-pseudo-boules", "T-bz-c2-hilbert"]
-evidence = "DEC-137. benzecri1960_ch2.tex l.718–800 (pp. 257–259). It uses: the γ of the Theorem's 1°b (T-bz-c2-theoreme); the pseudo-balls of the convex hull W, with the continuity of l_W (T-bz-c2-hilbert); Prop. 5 (T-bz-c2-pseudo-boules since 2026-11-21, split from T-bz-c2-lignes); and the uniqueness of sections of an étalé open set over a connected base. Misprints are flagged in the transcription: « § 2, déf. 5 » is read déf. 6 (l.750; OQ-38(b) concerns only its DAG edge), and « d'après 4° » is read 3° (l.796). It feeds the second sentence of result B. Promoted to ready 2026-11-21 (04:10) by the planner, and its dependency on T-bz-c2-theoreme removed. What it takes from the Theorem is only the γ of 1°b (l.740–742: « L'élément γ a déjà été considéré en b dans la démonstration du théorème »), the fact that for an automorphism g of V there is a unique γ ∈ GS(n, ℝ) with p ∘ g = γ ∘ p. That fact uses no pocket: it is IsDeveloping.existsUnique_smul_eq (Benzecri/Structure/Developing.lean:186) applied to p and p ∘ g, for any preconnected nonempty V. Its other inputs are strict: Benzecri.pseudoBoule, isOpen_pseudoBoule, pseudoBoule_ouvert_connexe (any dimension), hasBasis_pseudoBoule ([NeZero n]) and ouvert_plein (Prop. 5, r > 0) (Chapter2/PseudoBoules.lean:215, :317, :350, :382, :505), continuous_hilbertLength (Chapter2/Hilbert.lean:1277), and the generating compact of IsBalayableFor (3°). [r] (planner, unchecked) Not in the library, and the closer's work besides the five points: the convex hull W of p(V) in H̊ is the interior of a convex body and γ-invariant (1°, also for γH̊ ≠ H̊); two sections of an étalé space over a connected set agree or are disjoint (5°); and the final step, a covering of the simply connected W (convex, hence contractible) by the connected V is a homeomorphism. Marks: the n ≥ 1 of hasBasis_pseudoBoule is OQ-45's, and the radius r > 0 is OQ-62's reading."
+evidence = "Benzecri.hemisphere_corps_convexe: Ch. 2 § 3 Prop. 2 as printed, every dimension, sorry-free; label marked (bucket A). AUDIT-1 minor, fixed at graduation."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "5232355"
 
 [[target]]
 id = "T-bz-c2-prop2-literal"
@@ -763,13 +765,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c2s2p2_pseudo_longueur_corps_convexe"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c2-hilbert"]
-evidence = "OQ-56 (registers/DECISIONS.md): « Read literally (zero only on the diagonal), Prop. 2 holds in every dimension, by lemmas proved without [NeZero n] (pseudoLength_eq_projMeasure, exists_frontier_pair, continuous_hilbertLength, hilbertLength_ne_zero; no single theorem assembles them yet) ». Strict Benzecri/Chapter2/Hilbert.lean: the n ≥ 1 assembly is pseudo_longueur_corps_convexe (:1460), its four inputs are at :1193, :1226, :1277, :1419; the module docstring repeats that no theorem assembles them (l.18–20). This target adds that theorem, in every dimension and with the literal last clause (l_V(A, B) ≠ 0 for A ≠ B), beside the printed « iff » form PseudoLongueurCorpsConvexePrinted (holds iff 0 < n). It decides nothing: the mark goes to whichever form the author's answer to OQ-56 names. [r] (planner, unchecked) The segment clause (0) of pseudo_longueur_corps_convexe, isProjSegment_corpsInterior_iff, may need n ≥ 1; if so, the literal assembly states the clauses that hold in every dimension and the closer says which. Small; it can share a wave with the other lean-benzecri closers (different labels and files)."
+evidence = "Benzecri.pseudo_longueur_corps_convexe_literal plus Printed_iff_literal: Ch. 2 § 2 Prop. 2 under the literal reading, every dimension; the label stays unmarked pending OQ-56, and either ruling now marks with no Lean change. AUDIT-1 minor."
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "3123eab"
 
 [[target]]
 id = "T-bz-c2-dedupe-majore"
@@ -1119,13 +1122,14 @@ stream = "other"
 kind = "close"
 paper = "syracuse"
 labels = ["def:syracuse_cycle_period_denote", "lem:syracuse_cycle_n__n_", "lem:syracuse_cycle", "cor:intertwined_i_"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-syr-cycle-gcd"]
-evidence = "syracuse.tex § 3 « Upper bounds » (l.269–334), its four rows that no cited result enters: def:syracuse_cycle_period_denote (l.271–274; ascending and descending indices A_Γ = {i | a_i = 1}, D_Γ = {i | a_i > 1}, with S = {2^a 3^b | a, b ∈ ℤ}, l.270), lem:syracuse_cycle_n__n_ (l.275–281; the difference Δ_i = A_{i+1} − A_i as a sum, and its form when a_i = 1), lem:syracuse_cycle (l.283–287; a_i = a_{i+1} = 1 ⇒ Δ_i ∼_S Δ_{i+1}) and cor:intertwined_i_ (l.289–292; m = A_0 ∧ ⋀_{i ∈ D} Δ_{i−1} when A and D are « intertwined »). None has a printed proof (ledger nl_status: definition, open, open, open). They are algebra on the A_u^n of a periodic sequence, the ground T-syr-cycle-gcd built (13ff8f0): Syracuse.Aun (Base.lean:287), Syracuse.AunAlt (Rep.lean:292, OQ-43's alternative), Aun_eq_three_mul_AunAlt and Aun_sub_eq_three_mul (CycleGcd.lean:400, :420: for periodic a, A_u − A_v = 3(A′_u − A′_v)), the window sums sum_range_periodic (:128), and the cycle GCD have_gcd (:271). [r] (planner; checked numerically by exact integer arithmetic on 2000 random periodic sequences, not proved) Under AunAlt, A′_{i+1} − A′_i = Σ_{k=1}^{n−1} 3^{n−1−k} 2^{a_{i+1}+⋯+a_{i+k−1}} (2^{a_{i+k}} − 2^{a_i}); the printed display has the exponent a_i + ⋯ + a_{i+k−1}, a factor 2^{a_i} too many, and it fails under both readings of OQ-43 (a likely finding). When a_i = a_{i+1} = 1, 3Δ_i = 2Δ_{i+1} under AunAlt (3677 instances, no failure), so lem:syracuse_cycle holds with the factor 2/3 ∈ S, and under Aun too, since the Δ's differ by the factor 3. On the integer cycles of 1, −1, −5 and −17, gcd(A_0, Δ_{i−1} : i ∈ D) equals gcd(A_i : i), which is m = |2^{p_n} − 3^n| for AunAlt and 2m for Aun (278 for −17, as in OQ-43). Readings the closer records and does not rule: def:syracuse_cycle_period_denote's « a_i := T^i(x_0) » (l.271) read as a_i = ν₂(3T^i(x_0) + 1) (def:ring_define_2); « m = GCD(A_i) = 2^{p_n} − 3^n » (l.284), true only up to sign (OQ-63 (a)) and only for AunAlt (OQ-43); « intertwined » (l.290); the index convention of OQ-63 (b). So the marks wait on OQ-43 and OQ-63; the closer proves the true forms under both readings, and states and refutes the printed ones, as T-syr-cycle-gcd did. Not here: theo:steiner_2 and theo:syracuse_cycle (l.294–334), which rest on the corollary to Matveev's theorem and on a computer check (l.302 « With the aid of a computer », l.326 « check the finitely many remaining cases »): T-syr-cited's question covers them."
+evidence = "Syracuse/UpperBounds.lean (80 decls, sorry-free): the four § 3 rows Lean-stated, partial and unmarked; every printed form proved or refuted for both readings of OQ-43. The marks wait on OQ-68 (a)–(d). AUDIT-1 clean."
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
+commit = "0fe82db"
 
 [[target]]
 id = "T-syr-cited"
