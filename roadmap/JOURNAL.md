@@ -320,3 +320,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 11:49–12:10 (Paris); agents: 1 (planner)
 - next: wave in lean-causal when /ett-programme frees it (T-ett-maxatlas-hoist, T-ett-bprime-e0, T-ett-model-rows-e0)
+
+## 2026-11-21 13:38 · wave of 3 · T-ett-maxatlas-hoist, T-ett-bprime-e0, T-ett-model-rows-e0
+- T-ett-maxatlas-hoist (master): the model-free lemma chartIso_of_mem_maximalAEAtlas_of_agreeOn, its corollaries and its counterexample hoisted out of Causal.Port.E0GXStructure into the ETT-layer Causal/MaximalAEAtlasIso.lean (deprecated aliases kept in E0GX)
+- T-ett-bprime-e0: (b′) at E₀ → E₀ for every a.e. isomorphism chart (chartIso_of_isAEChart), BTZ_1's prop:isom at α = β = 0 in local form, by its own route over E0GX's sector charts (no covering space); E₀-manifolds carry a unique natural causality with no model hypothesis left (existsUnique_causality_e0); findings: BTZ_1 l.459's « timelike » step has no α = 0 analogue as written (null axis; the paper's own h_ℓ, l.369/l.442, and l.370 repair it), the reflection witnesses OQ-82, the planner's [r] was incomplete (k = μ; injectivity needed); audit minor
+- T-ett-model-rows-e0: the five model rows for every κ ≥ 0 at the ported E₀ (cor:model_minimal, rem:pushup, lem:IJ_calc, lem:densite_modele (a)–(c), rem:galileo's model sentence), unmarked on OQ-34/35; findings: rem:pushup's first sentence false at κ = 0 too; densite's cited closure-of-interior fact false for J⁻ at BTZ points (contradicts l.1347), filed with Z^∓ (l.1482) and l.1488–1491 as one proof-level repair; audit minor (the closer ran its own lake build, harmless)
+- curation: prop:GH_fortement_causal and prop:GH_Jferme cite /ett-programme's sharpness witnesses (loopFan_separates, fork_separates)
+- gates: lean-causal ✓ (announced to /ett-programme), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at ebfa521, clean); hub: papers-check papers/egf and gate-tests red from the egf loop's uncommitted lean-egf scaffold (its lease), nothing of this wave
+- commits: 3263c8f 673479e 0dffb9d ebfa521 c718fb8 (+ this)
+- wall time: 12:37–13:38 (Paris); agents: 2 closers, 2 audits
+- new OQ: none (OQ-83 went to /egf-programme; next free OQ-84); lean-causal kb 0116–0123
+- next: plan (rule 2: no ready closer); lean-causal is held by /ett-programme's wave 20 (3 closers)
