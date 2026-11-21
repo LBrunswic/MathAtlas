@@ -15,3 +15,6 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0007](entries/0007-product-form-over-z.md) | pattern | Over ℤ every bound on p_n log 2 − n log 3 is a sum of log(1 + 1/(3Tᵏx)) |
 | [0008](entries/0008-cast-iterate-pitfall.md) | pitfall | `(T^[n] x : ℝ)` iterates T over ℝ: write `((T^[n] x : ℤ) : ℝ)` |
 | [0009](entries/0009-limsup-junk.md) | pattern | A real limsup is a junk value when unbounded above: state boundedness beside it |
+| [0010](entries/0010-to-z2.md) | pattern | The map A → ℤ₂ of a ℤ/2ℤ-ring with 2 ≠ 0: Syracuse.toZ2 |
+| [0011](entries/0011-two-adic-topology.md) | pattern | The 2-adic topology and the completion as ℤ₂ |
+| [0012](entries/0012-no-limit-at-minus-third.md) | pattern | T has no limit at −1/3: two integer sequences |

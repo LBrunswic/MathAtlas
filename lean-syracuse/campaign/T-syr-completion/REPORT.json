@@ -1,0 +1,155 @@
+{
+ "package": "T-syr-completion",
+ "target": "T-syr-completion",
+ "files": [
+  "scaffold/SyracuseScaffold/Completion.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "prop:ring_both_continuous_extends",
+   "tex_lines": [
+    58,
+    59
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Syracuse.ring_both_continuous_extends",
+    "Syracuse.ring_both_continuous_extends_padicInt",
+    "Syracuse.printed_T_extends_false",
+    "Syracuse.T_int_not_extends",
+    "Syracuse.not_continuousWithinAt_extension_T",
+    "Syracuse.not_exists_continuousWithinAt_extension_T",
+    "Syracuse.not_exists_continuousWithinAt_extension_T_completion",
+    "Syracuse.not_continuousWithinAt_T_padicInt",
+    "Syracuse.continuous_f",
+    "Syracuse.continuousAt_T",
+    "Syracuse.continuousOn_T",
+    "Syracuse.continuous_T_of_not_isUnit_three",
+    "Syracuse.continuous_f_completion",
+    "Syracuse.f_coe_completion",
+    "Syracuse.eq_f_completion_of_continuous",
+    "Syracuse.continuousOn_T_completion",
+    "Syracuse.T_coe_completion",
+    "Syracuse.eqOn_T_completion_of_continuousOn_odd",
+    "Syracuse.eqOn_T_completion_of_continuousOn",
+    "Syracuse.exists_neg_third_completion",
+    "Syracuse.isZ2Ring_completion",
+    "Syracuse.continuous_f_padicInt",
+    "Syracuse.f_toZ2",
+    "Syracuse.eq_f_of_continuous",
+    "Syracuse.continuousOn_T_padicInt",
+    "Syracuse.T_toZ2",
+    "Syracuse.eqOn_T_of_continuousOn_odd",
+    "Syracuse.eqOn_T_of_continuousOn",
+    "Syracuse.toZ2",
+    "Syracuse.toZ2_unique",
+    "Syracuse.toZ2_comp",
+    "Syracuse.toZ2_injective",
+    "Syracuse.denseRange_toZ2",
+    "Syracuse.nu2_toZ2",
+    "Syracuse.norm_toZ2",
+    "Syracuse.isInducing_toZ2",
+    "Syracuse.completionPkg",
+    "Syracuse.completion_ringEquiv",
+    "Syracuse.completion_twoAdic",
+    "Syracuse.ringEquiv_padicInt_unique",
+    "Syracuse.completion_zmod2_not_padicInt",
+    "Syracuse.completion_zmod2_twoAdic_not_padicInt",
+    "Syracuse.zmod4_witness",
+    "Syracuse.isAdic_padicInt",
+    "Syracuse.hasBasis_nhds_two"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A a Z/2Z-ring (l.52: noetherian, A/2A ≅ Z/2Z)",
+     "here": "carried",
+     "note": "IsZ2Ring A, which includes IsDomain: the integral reading of OQ-42 (a). It is load-bearing. Integrality cancels powers of 2 in Z/2^nZ ≅ A/2^nA (Syracuse.two_pow_dvd_natCast_iff), in Krull (Syracuse.toZ2_injective), and in the uniqueness of halves and of the odd part of 3x+1 (Syracuse.f_map, T_map, continuous_f, continuousAt_T). Without it the l.52 claim fails even with 2 ≠ 0: ZMod 4 (Syracuse.zmod4_witness)."
+    },
+    {
+     "paper": "2 ≠ 0 (claimed at l.50, false for Z/2Z)",
+     "here": "strengthened",
+     "note": "Added to every statement about A_2 or ι : A → Z_2 (OQ-42 (b)). For A = Z/2Z the completion is not Z_2 (Finding 3), and no ring hom Z/2Z → Z_2 exists. Not needed for the continuity of f_A and T_A on A: Syracuse.continuous_f and continuousAt_T hold in every Z/2Z-ring, Z/2Z included."
+    },
+    {
+     "paper": "the topology of 'the associated absolute value' |x| = 2^{-ν_2(x)} (l.52)",
+     "here": "carried",
+     "note": "Any topology on A with IsAdic (Ideal.span {2}). Its neighbourhood basis at x is {y | 2^n ∣ y − x}, the closed balls of |·| (Syracuse.hasBasis_nhds_two). The hypothesis is satisfiable: Syracuse.isAdic_withIdeal gives the canonical instance. ι is an isometry for |·| (Syracuse.norm_toZ2)."
+    },
+    {
+     "paper": "A_2, 'the 2-completion of A' (l.52)",
+     "here": "carried",
+     "note": "A reading. A_2 = UniformSpace.Completion A, for any uniform ring structure on A whose topology is 2-adic. Its entourages are {(x,y) | x − y ∈ 2^nA}, the uniformity of |·|. Every statement is also given in Z_2 through ι (the _padicInt / _toZ2 forms), justified by Syracuse.completion_ringEquiv. The algebraic lim A/2^nA (AdicCompletion) is not formalized."
+    },
+    {
+     "paper": "f_A (l.55, its two cases printed swapped)",
+     "here": "carried",
+     "note": "A reading: Syracuse.f halves the even elements and sends the odd ones to 3x+1 (OQ-42 (c), T-syr-base). The printed f_A does not exist (Syracuse.printed_f_not_definable)."
+    },
+    {
+     "paper": "T_A : 2A+1 → 2A+1 (l.55)",
+     "here": "strengthened",
+     "note": "Where the paper's T_A is meant, the condition 3x+1 ≠ 0 is added (OQ-42 (d)). Syracuse.T is total, with the junk value 0 at −1/3 when 2 ≠ 0 (Syracuse.T_of_three_mul_add_one_eq_zero). The extension statements are proved off −1/3, and refuted at −1/3."
+    },
+    {
+     "paper": "'T_A … extends continuously to A_2 … their extension is T_{A_2}'",
+     "here": "strengthened",
+     "note": "False as printed (Finding 1). Proved on A_2 ∖ {−1/3}: T_{A_2} is continuous there and extends T_A. It is the only continuous extension of T_A : 2A+1 → 2A+1 to (2A_2+1) ∖ {−1/3} (Syracuse.eqOn_T_completion_of_continuousOn_odd)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "syracuse.tex:58 — 'T_A … extends continuously to A_2' is false. Take A = Z, where T_Z is the paper's map on all of 2Z+1 (3x+1 ≠ 0 always). No g : Z_2 → Z_2 is continuous on 2Z_2+1 and agrees with T_Z on the odd integers (Syracuse.T_int_not_extends). The printed statement, quantified over all Z/2Z-rings with 2 ≠ 0, is refuted (Syracuse.printed_T_extends_false). In every Z/2Z-ring A with 2 ≠ 0, no extension of T_A to A_2 is continuous at −1/3 ∈ 2A_2+1 within 2A_2+1 (Syracuse.not_continuousWithinAt_extension_T, not_exists_continuousWithinAt_extension_T, not_exists_continuousWithinAt_extension_T_completion). The reason: the odd part of 3x+1 has no limit as x → −1/3. The integers c_j = (4^{j+1} − 1)/3 tend 2-adically to −1/3 with T(c_j) = 1, and d_j = (10·4^{j+1} − 1)/3 tend to −1/3 with T(d_j) = 5. Hence 'their extension is T_{A_2}' fails too: T_{A_2} is undefined at −1/3 (OQ-42 (d)), and no value there makes it continuous on 2A_2+1 (Syracuse.not_continuousWithinAt_T_padicInt for the junk value). Strongest true form (Syracuse.ring_both_continuous_extends): T_{A_2} is continuous on A_2 ∖ {−1/3}, extends T_A, and is the unique continuous extension of T_A : 2A+1 → 2A+1 to (2A_2+1) ∖ {−1/3}. This is the topological face of OQ-42 (d).",
+    "syracuse.tex:58 — 'T_A is continuous' holds wherever T_A is defined. T is continuous at every x with 3x+1 ≠ 0, in every Z/2Z-ring, Z/2Z included (Syracuse.continuousAt_T, continuousOn_T). For y − x ∈ 2^{n+k+1}A with k = ν_2(3x+1), one has T y − T x = 3(y − x)/2^k ∈ 2^{n+1}A. When 3 ∉ A^×, as in Z, T is continuous on all of A, hence on 2A+1 as printed (Syracuse.continuous_T_of_not_isUnit_three). When 3 ∈ A^×, as in Z_2, the printed T_A does not exist at −1/3.",
+    "syracuse.tex:52 — 'for any Z/2Z-ring A, A_2 is naturally isomorphic to Z_2' is false for A = Z/2Z. Its completion has 2 = 0 for every uniform ring structure, so it is not isomorphic to Z_2 (Syracuse.completion_zmod2_not_padicInt; for the 2-adic structure, completion_zmod2_twoAdic_not_padicInt). It holds for every other Z/2Z-ring, i.e. whenever 2 ≠ 0 (Syracuse.completion_ringEquiv, completion_twoAdic). The proof: every x is an integer modulo 2^nA, so Z/2^nZ ≅ A/2^nA (Syracuse.zmodEquivQuotient). The limit is a ring hom ι : A → Z_2 (Syracuse.toZ2). It is injective by Krull, preserves ν_2 and |·|, has dense image, and induces the 2-adic topology, so (Z_2, ι) is a completion of A (Syracuse.completionPkg). The resulting A_2 ≅ Z_2 is a ring isomorphism and a uniform isomorphism extending ι. 'Naturally' is proved in two ways: ι is the only ring hom A → Z_2 (Syracuse.toZ2_unique, toZ2_comp), and the isomorphism is the only ring isomorphism A_2 ≅ Z_2 (Syracuse.ringEquiv_padicInt_unique). The paper prints no proof ('one can show').",
+    "syracuse.tex:50–52 (evidence for OQ-42 (a)) — under the printed definition of l.52 (noetherian, A/2A ≅ Z/2Z, no integrality), the l.52 claim fails even with 2 ≠ 0. ZMod 4 is noetherian, has A/2A ≅ Z/2Z and 2 ≠ 0, and is not a domain. Its completion has 4 = 0 for every uniform ring structure, so it is not Z_2 (Syracuse.zmod4_witness). Integrality, which l.50 states but l.52 omits, is therefore load-bearing.",
+    "syracuse.tex:58 — the f_A half holds in the halve-the-even reading of OQ-42 (c) (the printed f_A does not exist, T-syr-base). f_A is continuous in every Z/2Z-ring (Syracuse.continuous_f). For 2 ≠ 0, f_{A_2} is continuous, extends f_A, and is its only continuous extension (Syracuse.continuous_f_completion, f_coe_completion, eq_f_completion_of_continuous; in Z_2 the same via ι: continuous_f_padicInt, f_toZ2, eq_f_of_continuous). The proof is left to the reader (l.57); none is printed."
+   ],
+   "questions": [
+    "OQ-42 (d), topological face: which corrected form of 'T_A extends continuously to A_2' does the author intend? No continuous extension exists at −1/3. Reading taken: the extension to A_2 ∖ {−1/3} (equivalently, from 2A+1 to (2A_2+1) ∖ {−1/3}), proved and left unmarked. Alternatives the author might prefer: restrict to the orbits avoiding −1/3 (the RepDomain of theo:rep), or state the proposition only for rings with 3 ∉ A^× (but A_2 = Z_2 always has 3 a unit, so the extension clause needs the puncture regardless).",
+    "What is 'the 2-completion of A' (l.52)? Reading taken: the uniform completion for the 2-adic uniformity (the uniformity of the absolute value |x| = 2^{-ν_2(x)}), for any uniform ring structure on A whose topology is 2-adic. Z_2 through ι is used as a concrete model, justified by Syracuse.completion_ringEquiv. The algebraic completion lim A/2^nA is not formalized here. For these rings it is also Z_2 (A/2^nA ≅ Z/2^nZ is proved), but that identification is not formalized.",
+    "OQ-42 (b): 2 ≠ 0 is assumed wherever A_2 or ι enters. For A = Z/2Z, l.52 is false (Finding 3) and halves are not unique, so nothing is claimed about its extension. Is Z/2Z meant to be excluded from 'Z/2Z-ring'?",
+    "OQ-42 (a): the l.52 claim needs integrality (ZMod 4). Is 'integral' (l.50) part of the definition of a Z/2Z-ring (l.52)? Reading taken: yes (IsZ2Ring)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Syracuse.exists_int_two_pow_dvd_sub",
+  "Syracuse.two_pow_dvd_natCast_iff",
+  "Syracuse.charP_quotient_two_pow",
+  "Syracuse.zmodEquivQuotient_surj",
+  "Syracuse.zmodEquivQuotient",
+  "Syracuse.zmodPow",
+  "Syracuse.ringHom_zmodPow_ext",
+  "Syracuse.zmodPow_compat",
+  "Syracuse.zmodPow_eq_zero_iff",
+  "Syracuse.toZModPow_toZ2",
+  "Syracuse.toZModPow_eq_zero_iff",
+  "Syracuse.two_pow_dvd_toZ2_iff",
+  "Syracuse.odd_toZ2_iff",
+  "Syracuse.isAdic_withIdeal",
+  "Syracuse.two_pow_dvd_iff_norm_le",
+  "Syracuse.continuousAt_iff_two",
+  "Syracuse.eq_of_two_pow_succ_dvd_sub_of_two_eq_zero",
+  "Syracuse.three_mul_add_one_map",
+  "Syracuse.isOpen_odd",
+  "Syracuse.T_of_three_mul_add_one_eq_zero",
+  "Syracuse.f_map",
+  "Syracuse.T_map",
+  "Syracuse.odd_of_two_dvd_three_mul_add_one",
+  "Syracuse.exists_int_three_mul_add_one",
+  "Syracuse.three_mul_neg_inv3_add_one",
+  "Syracuse.isEmbedding_toZ2",
+  "Syracuse.isZ2Ring_of_ringEquiv",
+  "Syracuse.two_ne_zero_completion"
+ ],
+ "kb_proposals": [
+  "The map A → ℤ₂ of a ℤ/2ℤ-ring with 2 ≠ 0 is Syracuse.toZ2 = PadicInt.lift of zmodPow. Here A/2ⁿA ≃ ℤ/2ⁿℤ comes from CharP plus 'every x is an integer mod 2ⁿ' (exists_int_two_pow_dvd_sub). A ring hom A → ZMod 2ⁿ is unique (ringHom_zmodPow_ext), which gives the compatibility, toZ2_unique and naturality for free. Statements transfer along any ring hom by f_map and T_map (T-syr-completion).",
+  "The 2-adic topology: state with [TopologicalSpace A] (hA : IsAdic (Ideal.span {2})). hasBasis_nhds_two gives the balls {y | 2ⁿ ∣ y − x}, and continuousAt_iff_two gives the ε–δ form. ℤ_[2] satisfies it (isAdic_padicInt). WithIdeal ⟨span {2}⟩ is the canonical instance (isAdic_withIdeal: unfold IsAdic; rfl). Never put WithIdeal on ℤ or ℤ_[2], which carry global topologies. ZMod n carries one (discrete) only through Mathlib.Topology.Instances.ZMod, which Completion.lean does not import (T-syr-completion).",
+  "UniformSpace.Completion A ≃+* ℤ_[2] is RingEquiv.ofBijective (Completion.extensionHom ι hc) (Completion.cPkg.compareEquiv pkg).bijective. The two functions are defeq (both are cPkg.extend ι). Annotate the result of compareEquiv as `Completion A ≃ᵤ ℤ_[2]`, or the AbstractCompletion local instances are not found. Ring endomorphisms of ℤ₂ are trivial (toZ2_unique at A = ℤ_[2]), so any two ring isos onto ℤ₂ agree (ringEquiv_padicInt_unique) (T-syr-completion).",
+  "T has no limit at −1/3. The integer sequences (4^{j+1}−1)/3 → −1/3 with T = 1, and (10·4^{j+1}−1)/3 → −1/3 with T = 5 (Syracuse.not_continuousWithinAt_extension_T, for any Hausdorff 2-adic target B and ring hom A → B). Cast integer identities into a ring that may have positive characteristic with congrArg Int.cast plus push_cast, not exact_mod_cast (T-syr-completion)."
+ ],
+ "notes": "Completion.lean is sorry-free and warning-free: `lake env lean -DwarningAsError=true scaffold/SyracuseScaffold/Completion.lean` passes. `lake build SyracuseScaffold.Completion` built only that module (2073 jobs, the last one ours). The strict oleans were untouched (Base/Valuation 19:53, Rep/IntegerBounds 23:01). The module imports Syracuse.Rep (for inv3, odd_inv3 and two_pow_dvd_of_dvd_three_pow_mul) and three Mathlib modules: Topology.Algebra.Nonarchimedean.AdicTopology, Topology.Algebra.UniformRing and Topology.UniformSpace.AbstractCompletion. #print axioms, run against the built olean through a /tmp probe (since deleted), covered all 73 declarations. 71 depend on [propext, Classical.choice, Quot.sound], three_mul_add_one_map on [propext, Quot.sound], and eq_of_two_pow_succ_dvd_sub_of_two_eq_zero on [propext]. No sorryAx. A second probe (deleted) imported `Syracuse` (the whole strict library), SyracuseScaffold.Completion and SyracuseScaffold.Basic together under -DwarningAsError=true and found no name clash. No label is marked. The docstring has no **`label`** (checked against the ledger's docstring_label_re). The label appears plain with `syracuse.tex:58` at character 274. The SCOPE block and the Provenance line end before character 8000, as SCOPE_BLOCK requires. The scaffold root SyracuseScaffold.lean was not edited (it is not in the dispatch): the master adds `import SyracuseScaffold.Completion` there (lean-causal kb 0025). OQ use: OQ-42 (a) (integrality, load-bearing, with the new ZMod 4 witness), (b) (2 ≠ 0 for A_2), (c) (f), (d) (T at −1/3: this file gives its topological form). OQ-43 is not involved. The l.52 claim is unlabelled. Its declarations are listed under the label because the proposition's A_2 rests on it. The curator may want a paper_finding for l.52 on this row, or on def:ring_define, which already notes 'A_2 ≅ Z_2 (l.52) also fails for Z/2Z (not formalized here; it belongs to T-syr-rep)'. It is now formalized here (Syracuse.completion_zmod2_not_padicInt)."
+}
