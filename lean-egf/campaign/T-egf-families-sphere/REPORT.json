@@ -1,0 +1,175 @@
+{
+  "package": "T-egf-families-sphere",
+  "target": "T-egf-families-sphere",
+  "files": ["scaffold/EGFScaffold/SphereFamilies.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "theo:universality_sphere",
+      "tex_lines": [305, 306],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "EGF.universality_sphere_of_ergodic",
+        "EGF.universality_sphere_of_groupErgodic",
+        "EGF.universality_sphere_iff",
+        "EGF.isKernelErgodic_sphereUniformKernel_iff",
+        "EGF.isGroupErgodic_sphereRotGroup_iff",
+        "EGF.universality_sphere_one",
+        "EGF.universality_sphere_one_of_dense",
+        "EGF.universality_sphere_one_witness",
+        "EGF.ergodic_rotSphere_two",
+        "EGF.exists_irrational_of_dense",
+        "EGF.universality_sphere_of_reformulation",
+        "EGF.ergodic_of_hasBGSpectralGap",
+        "EGF.IsometrySphericalModel",
+        "EGF.isometrySphericalFamily",
+        "EGF.IsIsometrySphericalFamily",
+        "EGF.IsRichSphericalModel",
+        "EGF.l2SphericalModel",
+        "EGF.isRichSphericalModel_l2",
+        "EGF.sphereRotGroup",
+        "EGF.not_isUniversalFamilyEps_sphere_of_constantHeads",
+        "EGF.constSphericalModelAt",
+        "EGF.IsPrintedSphereCondition",
+        "EGF.UniversalitySpherePrinted",
+        "EGF.not_universalitySpherePrinted",
+        "EGF.not_universalitySpherePrinted_one",
+        "EGF.not_universality_sphere_identity",
+        "EGF.RoundSphere",
+        "EGF.sphereVolume",
+        "EGF.SO",
+        "EGF.rotSphere",
+        "EGF.measurePreserving_rotation_sphere",
+        "EGF.measurePreserving_rotSphere",
+        "EGF.sphereUniformKernel"
+      ],
+      "hypotheses": [
+        {"paper": "Phi_i in SO_{d+1}(R) acting on S^d (l.303)", "here": "kept", "note": "Phi : Fin p -> SO n acting by x |-> Ax on RoundSphere n, n = d + 1; the theorems carry 0 < n, automatic for S^d"},
+        {"paper": "the set of Phi_i stable under inverse (l.836)", "here": "dropped", "note": "not used: ergodicity is what the proof needs (C-28, C-29)"},
+        {"paper": "algebraic coefficients (l.307, l.836)", "here": "dropped", "note": "not used; and not sufficient with 'frozen' alone (EGF.not_universality_sphere_identity)"},
+        {"paper": "the generated group dense in SO(d,R) (l.836)", "here": "weakened", "note": "universality_sphere_of_ergodic assumes that every set a.e.-invariant under all Phi_i is null or conull; density implies it for n = 2 (EGF.universality_sphere_one_of_dense, through EGF.exists_irrational_of_dense); for n >= 3 the implication is T-egf-sphere-dense-ergodic (planned), so there universality_sphere_of_ergodic has no instance in this file"},
+        {"paper": "frozen (l.307)", "here": "kept", "note": "the rich model contains the uniform kernel of the given Phi"},
+        {"paper": "spectral gap from Bourgain-Gamburd (l.307, l.836)", "here": "dropped", "note": "absent from universality_sphere_of_ergodic; EGF.universality_sphere_of_reformulation follows the paper's route from the printed reformulation taken as a hypothesis"},
+        {"paper": "an isometry spherical family (l.302-303)", "here": "weakened", "note": "any family 𝓕; the family isometrySphericalFamily M of a model (non-empty parameter type) is an instance"},
+        {"paper": "(unstated) the model realizes alpha = 1/p and outflows dense in the non-negative cone of L2", "here": "added", "note": "IsRichSphericalModel Phi 𝓕 (C-31), needed: EGF.not_isUniversalFamilyEps_sphere_of_constantHeads"},
+        {"paper": "universal EGF family", "here": "weakened", "note": "the epsilon-form of record IsUniversalFamilyEps (DEC-141)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "main.tex:305 with main.tex:836 (Theorem 3.6 as printed, 'technical assumptions' read as l.836 at every parameter of the model): false wherever the condition is satisfiable, because the theorem assumes nothing of the model. On S^1 (d = 1) the condition is satisfiable: the rotation of cosine 3/5 and its inverse have rational entries, form a set stable under inverse and generate a dense subgroup of SO(2) (Niven). The constant-heads model at these frozen rotations is not epsilon-universal (EGF.not_universalitySpherePrinted_one; in general EGF.not_universalitySpherePrinted and EGF.not_isUniversalFamilyEps_sphere_of_constantHeads: any model whose heads ignore the state, for every n >= 1). A one-point model also refutes; the informative statement is the constant-heads one. (C-31, sphere half.)",
+        "main.tex:307: 'The technical assumption is satisfied if the Phi_i have algebraic coefficients and are frozen' omits the density of l.836. The identity rotation has integer entries and is frozen, yet even the family of the L2 model (uniform kernel, every non-negative L2 outflow) is not epsilon-universal on S^{n-1}, n >= 1 (EGF.not_universality_sphere_identity). Proposed for C-28's batch.",
+        "Corrected Theorem 3.6 (C-28 sphere half, C-29, C-31): with C-31's richness, ergodicity of the moves suffices on every sphere (EGF.universality_sphere_of_ergodic), with no algebraic coefficients, no inverse-stability and no spectral gap; for the L2 model it is also necessary (EGF.universality_sphere_iff). On S^1, the density clause of l.836 alone suffices: a dense subgroup of SO(2) generated by finitely many rotations has a generator of irrational angle (EGF.exists_irrational_of_dense), and one irrational rotation is ergodic for sigma (EGF.ergodic_rotSphere_two), so Theorem 3.6 holds on S^1 under l.836's density clause plus richness (EGF.universality_sphere_one_of_dense); an instance is EGF.universality_sphere_one_witness.",
+        "C-28 (b), sphere half: no finite set of rotations of S^1 gives its uniform kernel a spectral gap in Bourgain-Gamburd's one-sided sense (EGF.not_hasBGSpectralGap_sphere_two, any p >= 1 rotations), so the spectral-gap route of l.836 gives nothing on S^1; Theorem 3.6 still holds there by the ergodic route (previous finding).",
+        "The paper's route of main.tex:836 is sound where the reformulation holds: a one-sided spectral gap of the uniform kernel makes the moves ergodic (EGF.ergodic_of_hasBGSpectralGap), and the rich family is then epsilon-universal (EGF.universality_sphere_of_reformulation, with SpectralGapSphereReformulation n as hypothesis, false for n = 2)."
+      ],
+      "questions": [
+        "main.tex:297 'natural Riemannian volume measure': read as Mathlib's sigma = volume.toSphere (sigma(A) = n vol((0,1)A)); rotation invariance is proved, the identification with a Riemannian volume is not formalized (Mathlib has none on spheres).",
+        "main.tex:305 'provided technical assumptions on the (Phi_i)': read as the condition of l.836 required at every parameter of the model. l.302 makes the rotations parameters, l.307 asks them 'frozen': the model's rotations are a function of the parameter; with all rotations free, l.836 fails at the parameter Phi = 1 (trivial group), so the printed theorem would be vacuous in that reading, and the refutation uses frozen rotations. Continuity of the family and 'tractable model' are not encoded (the refuting models are continuous).",
+        "main.tex:836 'dense in SO(d, R)' for rotations of S^d in SO_{d+1}: read as dense in the group the rotations live in, SO(n) with n = d + 1 (the index slip of C-32)."
+      ]
+    },
+    {
+      "label": "theo:spectral_gap_sphere",
+      "tex_lines": [830, 834],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "EGF.SpectralGapSphereReformulation",
+        "EGF.HasBGSpectralGap",
+        "EGF.not_spectralGapSphereReformulation_two",
+        "EGF.not_hasBGSpectralGap_sphere_two",
+        "EGF.so2Witness_eigen",
+        "EGF.so2Witness",
+        "EGF.so2Witness_algebraic",
+        "EGF.so2Witness_dense",
+        "EGF.so2Witness_inv",
+        "EGF.irrational_angle35",
+        "EGF.dense_zpowers_rotMat",
+        "EGF.BourgainGamburdTheorem1",
+        "EGF.SU",
+        "EGF.suHaar",
+        "EGF.heckeOp",
+        "EGF.bourgainGamburd_hypotheses_witness",
+        "EGF.bourgainGamburd_witness_gap",
+        "EGF.su2Witness",
+        "EGF.su2Witness_dense",
+        "EGF.su2Witness_algebraic",
+        "EGF.su2_euler",
+        "EGF.exists_meanZero_SU",
+        "EGF.bourgainGamburd_fails_trivial"
+      ],
+      "hypotheses": [
+        {"paper": "(Phi_1..Phi_p) in SO(d) ∩ Mat(Q̄) (l.832)", "here": "kept", "note": "SpectralGapSphereReformulation n: Phi : Fin p -> SO n, every entry IsAlgebraic ℤ (Q̄ as defined at l.826)"},
+        {"paper": "the generated group dense in SO(d, R)", "here": "kept", "note": "Dense (Subgroup.closure (range Phi)) in SO n, subspace topology"},
+        {"paper": "stable under inverse", "here": "kept", "note": "∀ i, ∃ j, Phi j = (Phi i)⁻¹"},
+        {"paper": "alpha^i = 1/p, the kernel of equ:forward_policy", "here": "kept", "note": "sphereUniformKernel Phi on S^{n-1} with sigma"},
+        {"paper": "'has a spectral gap'", "here": "kept", "note": "read as Bourgain-Gamburd's one-sided notion (HasBGSpectralGap): some c < 1 bounds the quadratic form of Pf(x) = ∫ f dπ(x) on the real L2_0(sigma); the refuting pair also has eigenfunctions in L2_0 with eigenvalues cos(kθ) -> 1 (EGF.so2Witness_eigen), against the spectral and almost-invariant-vector readings too"}
+      ],
+      "sorries": [],
+      "findings": [
+        "main.tex:830-833 is false as printed for SO(2) (C-32): the rotation of cosine 3/5 and its inverse have rational entries, generate a dense subgroup of SO(2) (arccos(3/5)/(2π) is irrational by Niven's theorem) and form a set stable under inverse, while the uniform kernel on S^1 has no spectral gap (EGF.not_spectralGapSphereReformulation_two). Its Markov operator has eigenfunctions Re ζ^k in L2_0(sigma) with eigenvalues cos(kθ) accumulating at 1 (EGF.so2Witness_eigen); and no finite set of rotations of S^1 has a one-sided gap at all (EGF.not_hasBGSpectralGap_sphere_two).",
+        "main.tex:830 calls the statement a 'Reformulation of Theorem 1 of bourgain2012spectral'. Read off arXiv:1108.6264v1, Theorem 1 is about SU(d), d >= 2, acting on itself (the Hecke operator z on L2(SU(d))), not about SO(d) acting on S^{d-1}; it is stated here as the named Prop EGF.BourgainGamburdTheorem1 (DEC-141). The positive reformulation at n = 3 from it (through SO(3) = SU(2)/{±1}) is T-egf-spectral-gap-so3, not done here.",
+        "main.tex:830-833 and l.307 use SO(d), while Theorem 3.6 is about S^d and SO_{d+1} (l.297, l.303): the index slips by one (C-32); SpectralGapSphereReformulation n keeps the printed index (SO(n) on S^{n-1})."
+      ],
+      "questions": [
+        "Bourgain-Gamburd's 'λ1(z), the supremum of the eigenvalues of z on the orthogonal complement of the constant functions' (p. 1) read in Rayleigh form: ∃ c < 2k, Re⟨zf, f⟩ <= c‖f‖² for f in L2_0(SU(d)). It implies the printed bound and is equivalent to it for this self-adjoint z through Peter-Weyl (not formalized).",
+        "Theorem 1's hypothesis 'Zariski dense in SL_d(C)' replaced by 'dense in SU(d)', which their footnote 1 states equivalent (not formalized). k ranges over ℕ (their introduction says k >= 2, which density forces; not formalized).",
+        "The paper's 'spectral gap' (l.273: the spectrum of the Koopman operator φ ↦ d((φλ)π)/dλ bounded away from 1 on mean-zero functions) is read, for the reformulation, on the Markov operator Pf(x) = ∫ f dπ(x), the normalized analogue of Bourgain-Gamburd's z; the Koopman operator is its L2(sigma)-adjoint with the same quadratic form (not formalized). The scaffold file MixingCriteria.lean (T-egf-mixing-criteria) defines EGF.HasOneSidedSpectralGap on the Koopman operator; the two notions agree for a sigma-invariant kernel, no bridge is proved."
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C-32",
+      "anchors": ["EGF.BourgainGamburdTheorem1", "EGF.bourgainGamburd_hypotheses_witness", "EGF.bourgainGamburd_fails_trivial", "EGF.SpectralGapSphereReformulation", "EGF.not_spectralGapSphereReformulation_two", "EGF.not_hasBGSpectralGap_sphere_two", "EGF.so2Witness_eigen"],
+      "proposed_status": "proved",
+      "note": "The refutation the registered text names (EGF.not_spectralGapSphereReformulation_two) exists, sorry-free, standard axioms; the cited theorem is the named Prop with both non-vacuity witnesses (hypotheses satisfiable: a dense pair in SU(2) with entries in Q(i), EGF.su2Witness; conclusion not trivial: EGF.bourgainGamburd_fails_trivial). The positive half at n = 3 (EGF.spectralGapSphereReformulation_three) remains T-egf-spectral-gap-so3."
+    },
+    {
+      "id": "C-28",
+      "anchors": ["EGF.universality_sphere_of_ergodic", "EGF.universality_sphere_of_groupErgodic", "EGF.universality_sphere_iff", "EGF.universality_sphere_one", "EGF.universality_sphere_one_of_dense", "EGF.not_hasBGSpectralGap_sphere_two", "EGF.not_universality_sphere_identity"],
+      "proposed_status": "proved (sphere half, except the density form for n >= 3)",
+      "note": "Sphere half: ergodicity of the moves suffices and is necessary (for the L2 model); on S^1 density in SO(2) suffices and the spectral-gap route fails (C-28 (b)). The registered corrected Theorem 3.6 ('the Phi_i generate a dense subgroup of SO_{d+1}') is proved here for d = 1 only (universality_sphere_one_of_dense); for d >= 2 it needs density => ergodicity, T-egf-sphere-dense-ergodic. New point for the batch: l.307's 'algebraic coefficients and frozen' omits density (EGF.not_universality_sphere_identity)."
+    },
+    {
+      "id": "C-31",
+      "anchors": ["EGF.IsRichSphericalModel", "EGF.universality_sphere_of_ergodic", "EGF.not_isUniversalFamilyEps_sphere_of_constantHeads", "EGF.UniversalitySpherePrinted", "EGF.not_universalitySpherePrinted", "EGF.not_universalitySpherePrinted_one"],
+      "proposed_status": "proved (sphere half)",
+      "note": "The richness hypothesis is carried by the corrected forms and shown needed: a model whose heads ignore the state is never epsilon-universal (n >= 1); the printed Theorem 3.6 over models (UniversalitySpherePrinted d) is refuted unconditionally at d = 1 (the condition of l.836 is met by EGF.so2Witness) and wherever the condition is satisfiable. As for the torus: a one-point model refutes as well."
+    }
+  ],
+  "extra_decls": [
+    "EGF.integral_egfKernel",
+    "EGF.ergodic_of_hasBGSpectralGap",
+    "EGF.not_isUniversalFamilyEps_of_inflow_eq_of_set",
+    "EGF.exists_pow_near_one",
+    "EGF.mem_topologicalClosure_zpowers",
+    "EGF.measurePreserving_rotation_sphere",
+    "EGF.integral_comp_rotSphere",
+    "EGF.integrable_sphere_of_continuous",
+    "EGF.sphereVolume_univ_ne_zero",
+    "EGF.exists_sphere_halves",
+    "EGF.isAlgebraic_ratCast",
+    "EGF.exists_rotMat",
+    "EGF.dense_zpowers_rotMat",
+    "EGF.exists_irrational_of_dense",
+    "EGF.sphereTwoCircle",
+    "EGF.angleToSphere",
+    "EGF.angleToSphere_add",
+    "EGF.su2_entries",
+    "EGF.su2_euler",
+    "EGF.isClosed_specialUnitaryGroup",
+    "EGF.exists_meanZero_SU"
+  ],
+  "kb_proposals": [
+    "Spheres: RoundSphere n with sphereVolume n = volume.toSphere; a linear isometry preserves it through Measure.toSphere_apply' and the set identity (0,1)•e⁻¹(A) = e⁻¹((0,1)•A), with MeasurePreserving.measure_preimage_equiv for e.toHomeomorph.toMeasurableEquiv (no measurability of the cone needed); toSphere is IsOpenPosMeasure (instance), sphereVolume_univ_ne_zero via toSphere_apply_univ.",
+    "SO(n) acts on EuclideanSpace through Unitary.linearIsometryEquiv ⟨Matrix.toEuclideanCLM A.1, Unitary.map_mem _ A.2.1⟩ (ofLp of the image is A *ᵥ ofLp x by rfl); SO(2) entries from Matrix.mem_specialOrthogonalGroup_fin_two_iff. SU(d) needs local instances: IsTopologicalGroup (Submonoid.continuousMul, inverse = star), CompactSpace (entry_norm_bound_of_unitary, root namespace, plus isCompact_univ_pi), MeasurableSpace := borel; its Haar probability is haarMeasure ⊤.",
+    "S^1 computations: ζ(x) = x0 + i x1 turns rotations into multiplication by a unit complex number (zeta_rotSphere); ∫ ζ^m dσ = 0 by the rotation of angle π/m; Re(wz)Re(z) = (Re(wz²) + Re w)/2 for |z| = 1 gives every quadratic form on the characters; finitely many unit complex numbers have a common power near 1 by IsCompact.tendsto_subseq plus Metric.cauchySeq_iff' (exists_pow_near_one).",
+    "Ergodicity of an irrational rotation for sigma on S^1: transport sigma to AddCircle (2π) by AddCircle.homeomorphCircle' and ζ, show it is translation invariant, then Measure.isAddInvariant_eq_smul_of_compactSpace makes it c • volume with c ≠ 0, and AddCircle.ergodic_add_right applies (Measure.ae_smul_measure_eq). AddCircle (2π) needs `haveI : Fact (0 < 2 * Real.pi)` locally (Mathlib has it only as a local instance); AddCircle.coe_add takes the period explicitly.",
+    "Density in SU(2): mem_topologicalClosure_zpowers (a continuous hom ℝ → G with h(2π) = 1 and θ/2π irrational has h(t) in the closure of the powers of h(θ)) plus Euler angles su2_euler (U = diag(e^{iφ}, e^{-iφ}) R(s) diag(e^{iψ}, e^{-iψ}) with s = arccos|α|, φ ± ψ from the arguments of α and γ).",
+    "Pitfalls: `first | ring | linear_combination h` never reaches the second branch (ring falls back to ring_nf without failing), put linear_combination first; simp rewrites ↑(Real.cos t) to Complex.cos ↑t, use -Complex.ofReal_cos, -Complex.ofReal_sin; `rw [← h]` with h : ‖α‖ e^{i arg α} = α rewrites α inside arg α too, use conv_rhs; integrability side goals inferred from `.mul` combinators produce beta-unreduced patterns, state them with an explicit `fun x => …`."
+  ],
+  "notes": "Depends on the scaffold file EGFScaffold.TorusFamilies (IsGroupErgodic, ae_invariant_of_mem_closure; imported, nothing redefined): graduate both together. scaffold/EGFScaffold.lean does not import the new module (not mine to edit). The final `taskset -c 0-11 lake build EGFScaffold.SphereFamilies` succeeded (no warning), and rebuilt EGFScaffold.TorusFamilies first because its source had changed after its olean (the T-egf-families closer's docstring edits, 15:01); nothing under EGF.* or mathlib was rebuilt. 0 sorry; #print axioms of 36 principal declarations: [propext, Classical.choice, Quot.sound]. The file adds three anonymous global instances on EGF.SU d (IsTopologicalGroup, CompactSpace, MeasurableSpace := borel) and BorelSpace, IsHaarMeasure, IsProbabilityMeasure for suHaar; at graduation they may want names, and they should be dropped if Mathlib adds them. No name collides with EGF/**, TorusFamilies.lean or MixingCriteria.lean (checked by grep; MixingCriteria's HasOneSidedSpectralGap is a different notion on the Koopman operator, see the question under theo:spectral_gap_sphere). Curation proposal: as the Troyanov row of papers/gx/certificate/curation.toml, theo:spectral_gap_sphere partial, no mark: the printed statement refuted at n = 2 (C-32), the cited theorem the named Prop EGF.BourgainGamburdTheorem1 with non-vacuity witnesses on both sides (EGF.bourgainGamburd_hypotheses_witness, EGF.bourgainGamburd_fails_trivial), the positive form at n = 3 owed to T-egf-spectral-gap-so3; theo:universality_sphere partial, no mark, anchored in EGF.universality_sphere_of_ergodic (corrected form of record pending adoption of C-28/C-31), EGF.universality_sphere_one_of_dense for d = 1, with the printed form EGF.UniversalitySpherePrinted refuted. Source read: arXiv:1108.6264v1 fetched to /tmp/egf-sphere-bg-piAHFG/bg.pdf (fresh directory, read only), pdftotext of pp. 1-4: §0 (the operator z, λ1(z), 'spectral gap', k >= 2), Theorem 1 and its footnote 1 (Zariski density equivalent to topological density in SU(d)); pdftotext drops the overline of Q̄ in Theorem 1, the abstract says 'algebraic entries'."
+}
