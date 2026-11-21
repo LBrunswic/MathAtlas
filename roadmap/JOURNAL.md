@@ -482,3 +482,20 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 22:13–22:52 (Paris); agents: 3 closers, 4 audits (one re-audit), 1 fix round
 - new OQ: none (next free OQ-87); lean-causal kb 0180–0186
 - next: a wave of T-ett-singular-rows and T-ett-singular-rows-geroch; T-ett-docstrings-sing0 runs between waves
+
+## 2026-11-21 23:38 · wave of 2 · T-ett-singular-rows, T-ett-singular-rows-geroch
+- T-ett-singular-rows: the seven Section 3.3 K rows hold at every Hausdorff, second countable E≥0-manifold, through SFAManifolds.singularFlatAxioms. They are lem:past_BTZ (b), cor:K_injectif, prop:K_densite_sing, cor:K_ordre, lem:cup_cap_BTZ in DEC-19's form, rem:K_plongement_hypotheses and cor:K_ordre_Sigma. Weaker-hypothesis forms are kept beside them. This is the first non-vacuous cup_cap_BTZ certificate at a BTZ point. Audit minor.
+- T-ett-singular-rows-geroch:
+  - rem:mesure_unilaterale and rem:mesure_unilaterale_ptr hold at every E≥0-manifold.
+  - theo:geroch_sing: (i)⇒(ii), (i)⇒(iii) and (ii)⇒(iii) hold at M. (iii)⇒(i) and the equivalence stay in the scaffold, in CausalScaffold.SingularRowsGerochEquiv, on one tagged sorry (OQ-32, T-ett-geroch-iii-i).
+  - Finding: an admissible measure forces causality.
+  - Audit minor.
+- roadmap:
+  - Appended to T-ett-geroch-iii-i's evidence: where the step at genuine E≥0-manifolds lives, and why OQ-33's witness does not reach it.
+  - Appended to T-ett-docstrings-sing0's evidence: four more stale docstrings.
+  - Evidence was appended, never replaced.
+- gates: lean-causal ✓ (strict 0 sorry in 285 files; scaffold 6 in 7), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at 73ee7ca, clean), hub: no new red
+- commits: 6c46fb8 73ee7ca 0422ede (+ this)
+- wall time: 22:55–23:38 (Paris); agents: 2 closers, 2 audits
+- new OQ: none (next free OQ-87); lean-causal kb 0187–0191
+- next: plan (rule 2). The only ready non-planner target is T-ett-docstrings-sing0 (master, exclusive in lean-causal), which runs between waves. The singular-flat track is complete; the remaining ETT marks wait on OQ-18, OQ-34/35, OQ-64, OQ-82, OQ-16 and OQ-32/33.
