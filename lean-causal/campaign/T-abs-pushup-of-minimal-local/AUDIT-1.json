@@ -1,0 +1,45 @@
+{
+  "target": "T-abs-pushup-of-minimal-local",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-pushup-of-minimal-local/1-edge",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against the library's definitions. PushUp (Causal/Properties.lean:69) is defi:pushup's set form, pushUp_iff its relational form. PushUpOn W (Causal/ArcConnected.lean:140) is both relational clauses in every open U <= W. LocallyPushUp (Causal/LadderLocal.lean:140) says every point has an open W with PushUpOn W, i.e. lem:pushup_local's cover up to choose (locallyPushUp_of_cover). AbsolutelyMinimal (Causal/Generated.lean:247) is def:topological_space_causality_absolutely as printed. Elaborated signature: {M} [TopologicalSpace M] {C : Causality M} [T1Space M], C.AbsolutelyMinimal -> C.LocallyPushUp -> C.PushUp. That is the target's statement. It has no other premise and is not vacuous (e.g. rationalLine). The open-subset form pushUpOn_of_locallyPushUpOn asks AbsolutelyMinimalOn W and a push-up neighbourhood of each point of W. exists_lt_inf_last has the signature [T1Space M], Q.AbsolutelyMinimalOn W -> V <= W -> p in O -> Q.lt V x p -> exists r, Q.lt (V inf O) r p and (r = x or Q.lt V x r). It is true as stated: it is exists_lt_inf applied to Q.dual, via dual_absolutelyMinimalOn, and kernel-checked. Both clauses of push-up are proved in every open U, the second through C.dual. T1 enters only through isOpen_compl_singleton inside exists_lt_inf."
+    },
+    {
+      "label": "T-abs-pushup-of-minimal-local/2-local-global",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "pushUp_iff_locallyPushUp ([T1Space M], C.AbsolutelyMinimal -> (C.PushUp <-> C.LocallyPushUp)) and the two causal-openness iffs (C.AbsolutelyMinimal only, no separation axiom) pair PushUp.locallyPushUp / CausallyOpenFuture.locallyCausallyOpenFuture / CausallyOpen.locallyCausallyOpen with the absolutely minimal converses. The OQ-18/OQ-67(b) finding is stated conditionally ('if defi:causalite is read with gluing, so that every causality is absolutely minimal'), which matches OQ-18's description of the gluing reading (registers/DECISIONS.md:174). The finding needs only absolute minimality of M, which a gluing reading gives, so it is exact. In that reading no Hausdorff ETT spacetime separates locally_push_up from push_up, and none separates the local from the global causal openness (either form); the gated/jump-line separations therefore hold only without gluing."
+    },
+    {
+      "label": "T-abs-pushup-of-minimal-local/3-t1-necessary",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The vee is a genuine Causal.Causality: every axiom of Causal/Causality.lean:55-83 is supplied (the library has no irreflexivity axiom, so mid << mid when left is in U is admitted, as in the paper's category C). Its topology is exactly {emptyset, {mid}, {left,mid}, {mid,right}, everything}: T0 (proved) and not T1 ({left,right} is not open). It is absolutely minimal: every cover has a member containing left, hence {left,mid}, and one containing right, hence {mid,right}. It has push-up on {left,mid}, and on {mid,right} vacuously (no chronology without left). It is not push-up (left << mid <= right, nothing << right). veeCausality_separates_pushUp conjoins T0Space and not T1Space. not_pushUp_of_absolutelyMinimal_of_locallyPushUp_T0 is the negated universal over X : Type with [T0Space X]. The REPORT correctly says the vee is not an ETT spacetime (not Hausdorff) and shows the sharpness of the standing only."
+    },
+    {
+      "label": "T-abs-pushup-of-minimal-local/4-local-push-up-necessary",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Causal.halfChronoLine (Causal/LinesReachable.lean:236) is the strict library's and unchanged (git: no modification under lean-causal/Causal; last touched 315cd9f). It is defined by x <=_U y iff x <= y and [x,y] in U, and x <<_U y iff -1 < x < y and [x,y] in U. halfChronoLine_not_pushUpOn shows that push-up fails on every open containing -1: -1 <= -1+e << -1+2e, but -1 << z would need -1 < -1. The conjunction halfChronoLine_separates_pushUp covers every claimed property; its signature was printed. Absolute minimality is the library's halfChronoLine_absolutelyMinimal. The separation is valid in either reading of defi:causalite. OQ-18 identifies the gluing reading with absolute minimality, which holds. A stricter, hereditary reading would ask a sheaf on every open, i.e. AbsolutelyMinimalOn W for all W. That holds too, by CausallyArcConnectedOn.mono plus CausallyArcConnectedOn.absolutelyMinimalOn (Causal/ArcConnected.lean:203), since the line is causally arc-connected. On R it is T2 and second countable, so it is an ETT spacetime. Among strict-library models, only deuxPushup and gateLine lacked push-up before this, and neither is absolutely minimal. So 'first absolutely minimal witness without push-up' is right."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/PushUpOfMinimalLocal.lean: exit 0, no output. grep sorry: 0; no admit/axiom/native_decide/unsafe/opaque. #print axioms (probe under /tmp, deleted) on exists_lt_inf_last, lt_of_lt_of_le_of_locallyPushUpOn, pushUpOn_of_locallyPushUpOn, pushUp_of_locallyPushUp, pushUp_iff_locallyPushUp, causallyOpenFuture_iff_locallyCausallyOpenFuture, causallyOpen_iff_locallyCausallyOpen, veeCausality_separates_pushUp, not_pushUp_of_absolutelyMinimal_of_locallyPushUp_T0, halfChronoLine_separates_pushUp, halfChronoLine_causallyArcConnected, halfChronoLine_not_pushUpOn, halfChronoLine_curvesExtend, halfChronoLine_not_chronalNeighbours, halfChronoLine_stronglyCausalOpen, halfChronoLine_hasTimeFunction: each [propext, Classical.choice, Quot.sound]. Graduation readiness: the file body elaborates under `import Causal` (the root imports all 237 strict modules), and also concatenated with Dec8MinimalWitness.lean, under -DwarningAsError=true, with no error. A sanity probe confirmed that a duplicate name is reported. No full-name clash. Layer 1: the import closure of Causal.LadderLocal + Causal.CurvesExtend is 28 Causal modules, none of Model.*, Minkowski, Static, SingularFlat, Flat.*, Port.*, CBG.*, Splitting, LemmaK*, LevinUtility. The file uses no metric notion (neighbourhoods via mem_nhds_iff_exists_Ioo_subset). Namespace Causal. for_keeper simulated on a /tmp copy of programme/ladder.toml: check reports only the three witnesses not yet in Causal/. The matrix moves exactly the 19 ordered pairs the REPORT lists from open to fails, with no contradiction. Scope: the closer touched only its two paths. The programme/roadmap.toml diff is the master's status=active flips, and the programme/ladder.toml diff is the keeper's T-lad-record-lines work (gated/jump-line entries that merely mention this target)."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-pushup-of-minimal-local/REPORT.json: labels[0].findings[0] and labels[0].source[1]",
+      "what": "The paper finding sent to the author cites wrong lines for the proof of lem:pushup_local. It says 'proof (ETT.tex:561-583)', 'the one-step claim, ETT.tex:566-572' and 'subdivide a causal curve along the cover (ETT.tex:575-582)'. In papers/ett/legacy/labeled/ETT.tex, line 561 is the '% [editorial] supplied 2026-08-22 -- verify' comment, \\begin{proof} is 562 and \\end{proof} is 584. The One step paragraph is 568-574, with the curve cut at 569-572. The Concatenation paragraph is 576-583, with the subdivision at 577-582. 'Uses causal arc-connectedness twice' also omits the explicit appeals to rem:cac_local, for every open subset U (565-566) and for each U_{i_k} (581-582). These serve the same two roles, but the author should be pointed at them. The mathematics of the finding is correct: on every T1 space, hence on every ETT spacetime (Hausdorff, ETT.tex:255), lem:pushup_local holds with 'causally arc-connected' replaced by 'absolutely minimal'. The replacement is strictly weaker: CausallyArcConnected.absolutelyMinimal needs no hypothesis, and Causal.rationalLine_separates_absolutelyMinimal is absolutely minimal and not causally arc-connected, on R.",
+      "fix": "When recording the finding, cite the proof as ETT.tex:562-584, one step 568-574, concatenation 576-583, and the inheritance to open subsets as 565-566 and 581-582."
+    }
+  ]
+}

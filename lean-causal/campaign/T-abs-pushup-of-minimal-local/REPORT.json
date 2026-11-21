@@ -1,0 +1,260 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-pushup-of-minimal-local",
+ "files": [
+  "scaffold/CausalScaffold/PushUpOfMinimalLocal.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-pushup-of-minimal-local/1-edge",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-of-minimal-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:749-761"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "lem:pushup_local (statement; proof 561-583)",
+     "text_lines": "ETT.tex:557-560"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.AbsolutelyMinimal.pushUp_of_locallyPushUp",
+    "Causal.Causality.AbsolutelyMinimalOn.pushUpOn_of_locallyPushUpOn",
+    "Causal.Causality.AbsolutelyMinimalOn.lt_of_lt_of_le_of_locallyPushUpOn",
+    "Causal.Precausality.AbsolutelyMinimalOn.exists_lt_inf_last"
+   ],
+   "hypotheses": [
+    {
+     "paper": "absolutely minimal (target)",
+     "here": "carried",
+     "note": "C.AbsolutelyMinimal (Causal/Generated.lean:247, def:topological_space_causality_absolutely as printed); the open-subset form asks AbsolutelyMinimalOn W"
+    },
+    {
+     "paper": "locally push-up (target)",
+     "here": "carried",
+     "note": "C.LocallyPushUp (Causal/LadderLocal.lean); the open-subset form asks a push-up open neighbourhood of every point of W"
+    },
+    {
+     "paper": "T1 (target, standing)",
+     "here": "carried",
+     "note": "[T1Space M], used once: {b}ᶜ open, so that the last ≪-step into b of a chain localised over {O, M ∖ {b}} lies in O. Necessary: label 3"
+    },
+    {
+     "paper": "lem:pushup_local: causally arc-connected",
+     "here": "weakened",
+     "note": "to absolute minimality plus T1; strictly weaker on T1 spaces (CausallyArcConnected.absolutelyMinimal; Causal.rationalLine_separates_absolutelyMinimal: absolutely minimal, not causally arc-connected)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "lem:pushup_local (ETT.tex:557-560) holds with 'causally arc-connected' replaced by 'absolutely minimal' on every T1 space, hence on every topological spacetime of the paper (Hausdorff, def:category_topological_spacetimes, ETT.tex:254-255). The paper's proof (ETT.tex:561-583) uses causal arc-connectedness twice: to cut the last segment of a chronal curve inside U_i (the one-step claim, ETT.tex:566-572) and to subdivide a causal curve along the cover (ETT.tex:575-582). Absolute minimality gives both without curves: the causal chain is the expansion of y ≤_U z over the cover by the U_i, and the last chronological step into z is localised in U_i by expanding y ≪ z over the two-set cover {U_i, M ∖ {z}}, open by T1 (Causal.Precausality.AbsolutelyMinimalOn.exists_lt_inf_last). Both clauses of defi:pushup (ETT.tex:307-312) are proved, the second by time reversal.",
+    "Comparison with the sibling edges AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture and .causallyOpen_of_locallyCausallyOpen (Causal/LadderLocal.lean; prop:topological_spacetime_absolutely_minimal, ETT.tex:698-701): those need no separation axiom, because J⁺_U(V) is reached through ≤-chains alone and openness propagates along the expansion of ≤ over any cover. Push-up mixes ≪ and ≤, and the step needs the last ≪-step to land in the push-up neighbourhood of its end point, which absolute minimality grants only against a cover in which that neighbourhood is the one member containing the end point: this is where T1 enters, and it cannot be removed (label 3)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-pushup-of-minimal-local/2-local-global",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-of-minimal-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:749-761"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "prop:topological_spacetime_absolutely_minimal (the sibling edges)",
+     "text_lines": "ETT.tex:698-701"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.Causality.AbsolutelyMinimal.pushUp_iff_locallyPushUp",
+    "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_iff_locallyCausallyOpenFuture",
+    "Causal.Causality.AbsolutelyMinimal.causallyOpen_iff_locallyCausallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the planner: 'under the gluing reading of defi:causalite (every causality absolutely minimal) the local and global forms of push-up and of causal openness coincide on T1 spaces'",
+     "here": "carried",
+     "note": "proved as implications from AbsolutelyMinimal: push-up ⇔ local push-up asks T1; causal openness ⇔ local causal openness (future form and DEC-8 two-sided form) asks no separation axiom. The gluing reading itself is not formalised: it is OQ-18"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "For OQ-67 (b) and OQ-18 (the master's to record, not a ruling): if defi:causalite is read with gluing, so that every causality is absolutely minimal (kb/0014), then on T1 spaces locally_push_up ⇔ push_up, and outright locally_causally_open_future ⇔ causally_open_future and locally_causally_open ⇔ causally_open. The ladder's separations locally_push_up ⇏ push_up (the gated line, Causal.gateLine_separates_pushUp) and locally_causally_open ⇏ causally_open / locally_causally_open_future ⇏ causally_open_future (the jump and gated lines) therefore hold only in the reading without gluing; they are not separations between ETT spacetimes in the gluing reading. By contrast the half-chronological line's separations (label 4) hold in either reading."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-pushup-of-minimal-local/3-t1-necessary",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-of-minimal-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:749-761"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.veeCausality_separates_pushUp",
+    "Causal.not_pushUp_of_absolutelyMinimal_of_locallyPushUp_T0",
+    "Causal.Vee",
+    "Causal.veeCausality",
+    "Causal.veeCausality_absolutelyMinimal",
+    "Causal.veeCausality_locallyPushUp",
+    "Causal.veeCausality_not_pushUp",
+    "Causal.Vee.t0Space",
+    "Causal.Vee.not_t1Space"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a witness that the standing T1 cannot be dropped",
+     "here": "carried",
+     "note": "the vee: points left, mid, right; open sets ∅, {mid}, {left, mid}, {mid, right}, the whole space (T0, not T1: {mid} is not closed); x ≤_U y iff x, y ∈ U and x ≤ y in left < mid < right; x ≪_U y iff left ∈ U, x ≠ right, y = mid. Absolutely minimal (every cover contains {left, mid} or the whole space, and {mid, right} or the whole space); push-up on {left, mid} and, vacuously, on {mid, right}; left ≪ mid ≤ right and nothing is ≪ right"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "T1 cannot be dropped from absolutely_minimal ∧ locally_push_up ⇒ push_up, nor weakened to T0 (Causal.not_pushUp_of_absolutelyMinimal_of_locallyPushUp_T0). The vee is not Hausdorff, so it is not a topological spacetime of the paper (ETT.tex:255): it shows the sharpness of the edge's standing only, and says nothing on ETT's spacetimes. It is also the first absolutely minimal causality in Lean without push-up, on a non-T1 space."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-pushup-of-minimal-local/4-local-push-up-necessary",
+   "source": [
+    {
+     "paper": "programme/roadmap.toml",
+     "statement": "T-abs-pushup-of-minimal-local, title and evidence",
+     "text_lines": "programme/roadmap.toml:749-761"
+    },
+    {
+     "paper": "papers/ett/legacy/labeled/ETT.tex",
+     "statement": "lem:pushup_local (statement; proof 561-583)",
+     "text_lines": "ETT.tex:557-560"
+    }
+   ],
+   "tex_lines": [],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.halfChronoLine_separates_pushUp",
+    "Causal.halfChronoLine_causallyArcConnected",
+    "Causal.halfChronoLine_not_pushUpOn",
+    "Causal.halfChronoLine_not_locallyPushUp",
+    "Causal.halfChronoLine_not_pushUp",
+    "Causal.halfChronoLine_chronalCurveOn_affine",
+    "Causal.halfChronoLine_stronglyCausalOpen",
+    "Causal.halfChronoLine_hasTimeFunction",
+    "Causal.halfChronoLine_inextensible_id",
+    "Causal.halfChronoLine_curvesExtend",
+    "Causal.halfChronoLine_not_chronalNeighbours"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a witness that local push-up cannot be dropped (beyond the target: the sharpness of its second premise)",
+     "here": "carried",
+     "note": "Causal.halfChronoLine (Causal/LinesReachable.lean:236): the timelike line's ≤, and x ≪_U y iff -1 < x < y and [x, y] ⊆ U. Push-up fails in every open containing -1: -1 ≤ y ≪ z without -1 ≪ z. Causally arc-connected: ≤ and causal curves are the timelike line's; p ≪_U q forces p > -1 and the affine curve from p stays after p. GH, causal, strongly causal, causally open, tarentin by definitional equality with the timelike line (kb/0052); strong causality in the open form by StronglyCausal.stronglyCausalOpen; time function id; curves extend (re-proved: CausalCurveIn is indexed by the causality)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "lem:pushup_local (ETT.tex:557-560) needs its cover by push-up opens even on a causally arc-connected, globally hyperbolic, strongly causal, causally open, tarentin spacetime with a time function: the half-chronological line on ℝ has all of these and is neither locally push-up nor push-up. Being causally arc-connected it is absolutely minimal, so this holds in either reading of defi:causalite (OQ-18). Among the ladder's witnesses it is the first lacking local push-up (the [[open]] notes on X → locally_push_up read 'no Lean model lacks local push-up') and the first absolutely minimal one without push-up (the comment above the [[implies]] absolutely_minimal ∧ causally_plain ⇒ push_up in programme/ladder.toml: 'no Lean model is absolutely minimal without push-up'). It is not causally plain (halfChronoLine_not_causallyPlain, Causal/LinesReachable.lean:292), as the edge absolutely_minimal ∧ causally_plain ⇒ push_up (T1) requires of such a witness, and it has no chronal neighbours (halfChronoLine_not_chronalNeighbours)."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.Precausality.AbsolutelyMinimalOn.exists_lt_inf_last",
+  "Causal.Causality.AbsolutelyMinimalOn.lt_of_lt_of_le_of_locallyPushUpOn",
+  "Causal.Causality.AbsolutelyMinimalOn.pushUpOn_of_locallyPushUpOn",
+  "Causal.Vee.rank",
+  "Causal.Vee.isOpen_iff",
+  "Causal.Vee.mid_mem_of_left_mem",
+  "Causal.Vee.mid_mem_of_right_mem",
+  "Causal.Vee.lower",
+  "Causal.Vee.upper",
+  "Causal.veeCausality_le",
+  "Causal.veeCausality_lt",
+  "Causal.veeCausality_pushUpOn_lower",
+  "Causal.veeCausality_pushUpOn_upper"
+ ],
+ "for_keeper": {
+  "implies": [
+   {
+    "from": [
+     "absolutely_minimal",
+     "locally_push_up"
+    ],
+    "to": "push_up",
+    "witness": "Causal.Causality.AbsolutelyMinimal.pushUp_of_locallyPushUp",
+    "standing": [
+     "T1"
+    ],
+    "note": "#check: {M} [TopologicalSpace M] {C : Causality M} [T1Space M], C.AbsolutelyMinimal → C.LocallyPushUp → C.PushUp; no other premise. Weakens lem:pushup_local's causally_arc_connected ∧ locally_push_up ⇒ push_up (Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp), which stays: it asks no T1. Sharp in all three hypotheses: T1 (the vee, below), locally_push_up (the half-chronological line, below), absolutely_minimal (the gated line, Causal.gateLine_separates_pushUp, recorded). Witness module after graduation: Causal.PushUpOfMinimalLocal (imports Causal.LadderLocal, Causal.CurvesExtend; ETT layer), so emit-lean can make it a CausalLadder rule with standing T1"
+   }
+  ],
+  "fails": [
+   {
+    "from": [
+     "causally_arc_connected",
+     "absolutely_minimal",
+     "globally_hyperbolic",
+     "is_causal",
+     "strongly_causal",
+     "strongly_causal_open",
+     "causally_open",
+     "tarentin",
+     "time_function",
+     "curves_extend"
+    ],
+    "to": "locally_push_up",
+    "witness": "Causal.halfChronoLine_separates_pushUp",
+    "note": "the half-chronological line on ℝ (an ETT spacetime: T2, second countable), absolutely minimal, so the separation holds in either reading of defi:causalite (OQ-18). It lacks push_up too (conjoined), which follows from lacking locally_push_up through push_up ⇒ locally_push_up. Sharpness of the new edge's locally_push_up and of lem:pushup_local's cover. It is not causally plain and has no chronal neighbours, so causally_plain → locally_push_up and chronal_neighbours → locally_push_up stay open"
+   },
+   {
+    "from": [
+     "absolutely_minimal",
+     "locally_push_up"
+    ],
+    "to": "push_up",
+    "witness": "Causal.veeCausality_separates_pushUp",
+    "space": [
+     "T0"
+    ],
+    "note": "the vee, three points, T0 and not T1 (conjoined: T0Space Vee ∧ ¬ T1Space Vee): sharpness of the new edge's standing T1. Not one of ETT's spacetimes; the matrix on the ambient does not read it (simulated: no change to the matrix)"
+   }
+  ],
+  "open_notes": [
+   {
+    "entry": "[[open]] absolutely_minimal → push_up and absolutely_minimal → locally_push_up, causally_arc_connected → push_up and causally_arc_connected → locally_push_up",
+    "note": "settled false by the half-chronological line (in either reading). On T1 spaces, by the new edge, the first two were one question (an absolutely minimal counterexample to push_up must lack locally_push_up)"
+   },
+   {
+    "entry": "[[open]] X → locally_push_up for X in causally_compact, causally_open, causally_open_future, curves_extend, globally_hyperbolic, is_causal, locally_causally_open, locally_causally_open_future, strongly_causal, strongly_causal_open, tarentin, time_function; and causally_open → push_up, tarentin → push_up, time_function → push_up",
+    "note": "settled false by the half-chronological line, in either reading (the notes of the push_up entries argue them with no-gluing witnesses: the gated line or timelikeLineTop)"
+   },
+   {
+    "entry": "the comment above the [[implies]] absolutely_minimal ∧ causally_plain ⇒ push_up (witness Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal; line numbers of programme/ladder.toml moved during this run, the file being edited concurrently): 'whether causally_plain can is the unknown pair absolutely_minimal → push_up (no Lean model is absolutely minimal without push-up)'",
+    "note": "now in Lean: the half-chronological line is absolutely minimal (and causally arc-connected) without push-up; causally_plain cannot be dropped from that edge either, in either reading"
+   }
+  ],
+  "simulated": "with the three entries above appended to a copy of programme/ladder.toml (/tmp only), python3 tools/ladder.py check --file reports no contradiction; its only violations are the three witnesses not yet in lean-causal/Causal (before graduation). matrix moves 19 ordered pairs from open to fails: absolutely_minimal, causally_arc_connected, causally_open, tarentin, time_function → push_up and → locally_push_up (10); causally_compact, causally_open_future, curves_extend, globally_hyperbolic, is_causal, locally_causally_open, locally_causally_open_future, strongly_causal, strongly_causal_open → locally_push_up (9). The vee entry changes nothing on the ambient."
+ },
+ "kb_proposals": [
+  "On a T1 space absolute minimality localises the LAST step of a chronological chain in any open containing its end point (Causal.Precausality.AbsolutelyMinimalOn.exists_lt_inf_last, the time reversal of exists_lt_inf); with the expansion of ≤ over a cover it turns local push-up into push-up (Causal.Causality.AbsolutelyMinimal.pushUp_of_locallyPushUp). T1 is necessary: the three-point vee (Causal.veeCausality_separates_pushUp) (T-abs-pushup-of-minimal-local).",
+  "The half-chronological line (Causal.halfChronoLine, chronology only after -1) is the cheap ETT spacetime without local push-up: causally arc-connected, GH, strongly causal, causally open, tarentin, a time function, curves extend; push-up fails in every neighbourhood of -1 (Causal.halfChronoLine_separates_pushUp). Use it before building a non-local witness for a separation into push_up or locally_push_up (T-abs-pushup-of-minimal-local).",
+  "kb/0052's definitional transfer between causalities with the same ≤ stops at the structures indexed by the causality (Causality.CausalCurveIn, hence Inextensible, CurvesExtend): `timelikeLine_curvesExtend : halfChronoLine.CurvesExtend` is a type mismatch; rebuild the structure field by field (Causal.halfChronoLine_inextensible_id). CausalCurveOn, a def over CurveOn C.le, does transfer (T-abs-pushup-of-minimal-local)."
+ ],
+ "notes": "Layer 1: imports Causal.LadderLocal and Causal.CurvesExtend only; their closure (28 Causal modules) contains no Causal.Model.*, Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Port.*, Causal.CBG.*, Splitting, LemmaK* or LevinUtility (checked by walking the import lines). No metric notion (the half-chronological line's neighbourhoods are taken with mem_nhds_iff_exists_Ioo_subset). No sorry; lake env lean prints nothing (no warning), so the file is warningAsError-clean for graduation into Causal/ (module Causal.PushUpOfMinimalLocal). #print axioms of pushUp_of_locallyPushUp, pushUpOn_of_locallyPushUpOn, pushUp_iff_locallyPushUp, veeCausality_separates_pushUp, not_pushUp_of_absolutelyMinimal_of_locallyPushUp_T0, halfChronoLine_separates_pushUp: propext, Classical.choice, Quot.sound. lake build CausalScaffold.PushUpOfMinimalLocal rebuilt only this module. The file is not imported by the scaffold root (kb/0025; I may not edit it). Every declared name checked unique against Causal/, scaffold/ (the other closer's Dec8MinimalWitness.lean untouched) and lean-gx. The edge is proved, not refuted; labels 2-4 go beyond the target's 'proved or refuted' (the planner's 'what follows', and the sharpness of each hypothesis); the master may graduate label 1 alone if it prefers, though nothing in labels 2-4 rests on more than label 1 and ETT-layer lemmas."
+}
