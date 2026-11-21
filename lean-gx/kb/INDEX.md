@@ -27,3 +27,5 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0017](entries/0017-regular-is-cone-2pi.md) | pattern | A regular point is a cone point of angle 2π: rotate a chart onto the apex of C_{2π} |
 | [0018](entries/0018-so-transitive-reflections.md) | pattern | SO(V) is transitive on the unit sphere (dim ≥ 2): compose two reflections |
 | [0019](entries/0019-insertnth-removenth.md) | pitfall | Adding or removing a marked point: Fin.insertNth / Fin.removeNth, and one rfl per index |
+| [0020](entries/0020-sph-polygon.md) | pattern | Convex spherical s-gons: GX.SphPolygon, built from the polar polygon inscribed in a circle |
+| [0021](entries/0021-triangle-tools-are-generic.md) | pattern | TroyanovTriangle's generic lemmas sit in namespace GX.SphTriangle: reuse them for s-gons |

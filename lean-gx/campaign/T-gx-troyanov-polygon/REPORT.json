@@ -1,0 +1,102 @@
+{
+  "package": "T-gx-troyanov-polygon",
+  "target": "T-gx-troyanov-polygon",
+  "files": [
+    "scaffold/GXScaffold/Spherical/TroyanovPolygon.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "cex:start_singular_manifold_homeomorphic",
+      "tex_lines": [
+        1930,
+        1930
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.troyanovTheorem_of_lt_two_pi",
+        "GX.troyanovTheorem_four_le_of_lt_two_pi",
+        "GX.troyanovTheorem_of_le_two_pi",
+        "GX.troyanovTheorem_of_exists_gt_two_pi",
+        "GX.exists_isConeSphere_of_subcritical",
+        "GX.SphPolygon",
+        "GX.exists_sphPolygon",
+        "GX.exists_polar_polygon",
+        "GX.exists_polar_radius",
+        "GX.SphPolygon.ofCyclic",
+        "GX.SphPolygon.PolyDouble",
+        "GX.SphPolygon.singularGXStructure",
+        "GX.SphPolygon.isConePoint_vertex",
+        "GX.SphPolygon.isConeSphere",
+        "GX.SphPolygon.exists_isConeSphere",
+        "GX.troyanovAngleCondition_four_lt_two_pi",
+        "GX.exists_isConeSphere_four_not_troyanovAngleCondition"
+      ],
+      "hypotheses": [
+        {
+          "paper": "s >= 3 conical singularities of angles theta_i (l.1930)",
+          "here": "carried",
+          "note": "every s (s >= 3 is part of TroyanovAngleCondition); the target's s >= 4 is GX.troyanovTheorem_four_le_of_lt_two_pi, a specialisation of GX.troyanovTheorem_of_lt_two_pi; GX.IsConeSphere M θ p, the library's reading (OQ-37 (b))"
+        },
+        {
+          "paper": "Troyanov's condition 0 < sum(theta_i - 2pi) + 4pi <= min(4pi, theta_i) (l.1930)",
+          "here": "carried",
+          "note": "GX.TroyanovAngleCondition, verbatim (DEC-69's). GX.exists_isConeSphere_of_subcritical assumes only the weaker subcritical form 0 < χ', χ' < 2θ_i (with s >= 3, θ_i in ]0, 2π[), which the printed condition implies"
+        },
+        {
+          "paper": "the angles theta_i arbitrary",
+          "here": "restricted",
+          "note": "every θ_i < 2π: the target's scope. With GX.Spherical.TroyanovTwoPi this extends to every θ_i <= 2π (GX.troyanovTheorem_of_le_two_pi). The case with some θ_i > 2π is T-gx-troyanov; GX.troyanovTheorem_of_exists_gt_two_pi reduces the body of GX.TroyanovTheorem to it (s >= 4, all θ_i ≠ 2π, some θ_i > 2π)"
+        },
+        {
+          "paper": "Troyanov's theorem MR1005085 (cited)",
+          "here": "proved for angles < 2π, not assumed",
+          "note": "DEC-136: the surface is the double of the convex spherical polygon with angles θ_i/2, built from its polar polygon inscribed in a circle (intermediate value theorem in the radius); no named hypothesis"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not a defect (l.1930): for s = 4 too the printed condition is sufficient, not necessary. The double of the spherical quadrilateral with angles (3π/4, 3π/4, 3π/4, 3π/10) is a cone sphere with angles (3π/2, 3π/2, 3π/2, 3π/5): ∑(θ_i − 2π) + 4π = 11π/10 > 3π/5 = θ_3, so the printed bound fails, while the subcritical bound χ' < 2θ_i holds (GX.exists_isConeSphere_four_not_troyanovAngleCondition, 0 sorry). The paper claims only sufficiency ('as long as'). More generally, for angles all below 2π, existence holds under the subcritical hypothesis 0 < χ' < 2θ_i (GX.exists_isConeSphere_of_subcritical). That is the library's unchecked recollection of MR1005085 (TroyanovAngleCondition.subcritical) restricted to θ_i < 2π. It is consistent with T-gx-troyanov-triangle AUDIT-1's suspicion that l.1930 bounds χ' by θ_i where Troyanov has 2θ_i, but it does not establish what MR1005085 states: that check remains T-gx-troyanov-source's.",
+        "The planner's [r] is checked in its sufficiency direction. With α_i = θ_i/2 and β_i = π − α_i, χ' > 0 is ∑β_i < 2π, and χ' < 2θ_k is β_k < ∑_{j≠k} β_j. Under these and α_i in ]0, π[, a convex spherical polygon with angles α_i exists (GX.exists_sphPolygon), and its polar polygon is inscribed in a circle (GX.exists_polar_polygon). One correction to the [r]'s 'by continuity in the radius': a single intermediate value argument is not enough. The centre of the circle is inside the polar polygon or outside it, depending on the angles, so two cases are needed (GX.exists_polar_radius). The [r]'s 'only if' direction is not proved and not needed.",
+        "The case of this target is not vacuous and meets the cex's genericity: (6π/5, 5π/4, 4π/3, 7π/5) are four pairwise distinct angles below 2π satisfying l.1930's condition (χ' = 71π/60 <= 6π/5), and a cone sphere with them exists (GX.troyanovAngleCondition_four_lt_two_pi, 0 sorry)."
+      ],
+      "questions": [
+        "No new reading. 'Conical singularity of angle θ' is read as the library reads it (GX.IsConePoint: an X_θ-chart of def:atlas onto a connected open neighbourhood of the apex of C_θ; ConeSurface SCOPE (a), OQ-37 (b)), as in T-gx-troyanov-triangle and T-gx-troyanov-two-pi. The cited theorem is read in the shape of GX.TroyanovTheorem, restated inline. Nothing is decided here."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.IsConeSphere.comp_equiv",
+    "GX.SphPolygon.comp",
+    "GX.chordCos",
+    "GX.chordGap",
+    "GX.polVec",
+    "GX.polVec_triple",
+    "GX.polVec_triple_pos",
+    "GX.sin_add_sin_sub_sin",
+    "GX.succMod",
+    "GX.triple_identity",
+    "GX.cyc_pos",
+    "GX.cyc_triple_ne_zero",
+    "GX.cyc_adjacent",
+    "GX.cyc_not_three",
+    "GX.cyc_cover",
+    "GX.isOpen_setOf_forall_imp_imp_pos",
+    "GX.isClosed_setOf_forall_imp_imp_nonneg",
+    "GX.SphPolygon.fst_ne_of_dot_nonneg",
+    "GX.SphPolygon.norm_le_of_gfun_nonneg",
+    "GX.SphPolygon.interior_K_nonempty",
+    "GX.SphPolygon.coneXAChart",
+    "GX.SphPolygon.atlas",
+    "GX.SphPolygon.isGXAtlas_atlas",
+    "GX.SphPolygon.isAEAtlas_atlas"
+  ],
+  "kb_proposals": [
+    "A convex spherical s-gon for the double is GX.SphPolygon. It records the side normals n_k, the two sides a i, b i at each vertex, and three conditions: pos (every other side is strictly positive at v_i), vertex_sep, and cover (every point of P is off the sides not through some vertex). GX.SphPolygon.ofCyclic builds one from unit vectors in cyclic order (n_i · (n_j × n_k) > 0 for i < j < k). TroyanovTriangle's double ports to s vertices by replacing 'the opposite side e_i' with '∀ k, k ≠ a i → k ≠ b i' (Vv, Kv, Uv); everything else is copied (GX.Spherical.TroyanovPolygon).",
+    "To build a polar polygon with prescribed sides β_k, inscribe it in a circle of radius r about the north pole. A chord of length β spans the azimuth arccos((cos β − cos² r)/sin² r) (GX.chordGap). Run the intermediate value theorem on [β_max/2, π/2] in two cases: G = H when the centre is outside the polygon, G + H = 2π when it is inside (GX.exists_polar_radius). Positivity of the triple products is cos r sin² r · 4 ∏ sin(half-gaps) (GX.polVec_triple).",
+    "TroyanovTriangle's generic lemmas (sheet, qOf, cplx_qOf, homeoComplex_apex, sphConeDev_lift, arg_div_mem_up, re_pos_of_polarFold_im, gfun_add, convex_gfun_nonneg, …) sit in namespace GX.SphTriangle although they do not mention a triangle. Reuse them with a selective `open SphTriangle (…)`, not a copy."
+  ],
+  "notes": "0 sorry. The /tmp probes reported standard axioms only: #print axioms gave propext, Classical.choice and Quot.sound for every principal; the probes were deleted. lake env lean -DwarningAsError=true passes, and no line exceeds 100 characters. lake build GXScaffold.Spherical.TroyanovPolygon passes and built only this module (8584 jobs, 1 built). The module imports only GX.Spherical.TroyanovTwoPi (strict), so it can graduate unchanged as GX/Spherical/TroyanovPolygon.lean. No name in it clashes with GX/ or scaffold/: grep checked; and a probe imported it together with GXScaffold.Spherical.TroyanovAngles. The same probe confirmed that GX.troyanovTheorem_of_exists_gt_two_pi h typechecks as GX.TroyanovTheorem, so the inline body is the Prop definitionally. The module is not imported by the scaffold root GXScaffold.lean, because the dispatch forbade editing it: add the import at graduation, or the axiom sweep does not see it (lean-causal kb 0025). One dispatch was enough, for both the polygon and the double (2,214 lines). The double reuses TroyanovTriangle's tools: frameSO3, polarFold, isOpenMap_restrict_of_isCompact, symm_trans_mem_aeAtlas_of_opens, isPortly_compl_singleton_sph2, and the generic SphTriangle lemmas through `open SphTriangle (…)`. The triangle-indexed parts (Fin 3, i+1, i+2, det_pos) are re-proved for SphPolygon in this file. For s = 3, GX.troyanovTheorem_of_lt_two_pi re-covers GX.troyanovTheorem_three; the triangle module is left as is. A suggestion for the master, not done because the file is outside the dispatch: GX.troyanovTheorem in the scaffold TroyanovAngles can become troyanovTheorem_of_exists_gt_two_pi applied to a tagged sorry. That sorry would then carry only s >= 4, every θ_i ≠ 2π, some θ_i > 2π. The label row stays partial and unmarked. What remains: Troyanov with some angle above 2π (T-gx-troyanov; doubling a convex polygon cannot give it) and GX.thurstonSuspensionFacts (T-gx-troyanov-suspension, OQ-37)."
+}
