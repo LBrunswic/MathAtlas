@@ -22,6 +22,9 @@
 #                 narrower and wider (causality-sort ids asked besides of C and of C'), exactly one of
 #                 witness (with standing) or counterexample (with space), status; under
 # [[open]]        from, to, note: a pair whose implication is neither proved nor refuted in Lean
+# [[fact]]        property (an id: it holds outright on every object of its sort, no premise), witness,
+#                 status; standing; note (T-tool-ladder-py-2). Two: rigid (every Level-B local model)
+#                 and curves_extend (every causality on a T1, second countable space)
 #
 # status `seed`: the witness name exists, but its hypotheses have not been read against the entry;
 # the ladder-keeper reads them and turns it `checked` (or fixes `from`, `standing`, `under`).
@@ -158,7 +161,16 @@
 # X → absolutely_minimal, the 5 that hold on ETT's spacetimes in a gluing reading (as above), and 3,
 # causally_compact, causally_plain, globally_hyperbolic → causally_arc_connected, that would want an
 # absolutely minimal witness (one that is causally plain, or has compact diamonds, and is not
-# causally arc-connected; the rational-jump plane is neither plain nor causally compact).
+# causally arc-connected; the rational-jump plane is neither plain nor causally compact). After
+# T-lad-record-curves-fact (2026-11-21) 314 of 314: 307 implied or refuted (303 of the 306
+# causality-sort pairs: 31 implied, 272 refuted) and 7 [[open]] entries (3 causality-sort, 4
+# geometry-sort). The 16 pairs it moved, X → curves_extend for every causality-sort X but
+# time_function (implied already, by its edge), are implied in either reading by the [[fact]]
+# curves_extend (standing T1, second_countable; Causal.Causality.curvesExtend_of_t1_secondCountable,
+# T-abs-curves-extend-second-countable); no counterexample lacks curves_extend, so no refuted pair
+# moves, and the 272 and their readings are as above. The 3 causality-sort entries left are
+# chronal_neighbours → absolutely_minimal and causally_plain → locally_push_up, both open in the
+# no-gluing reading only (true in any gluing reading), and strongly_causal → strongly_causal_open.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -264,7 +276,14 @@
 # `#check` the same way, with `#print axioms` (propext, Classical.choice, Quot.sound); none takes an
 # instance argument (closed statements; the notched plane's conjoin T2Space and
 # SecondCountableTopology of its carrier, a closed subspace of ℝ × ℝ, and the rational-jump plane's
-# carrier ℝ × ℝ has both by mathlib instances), so no `space` is written.
+# carrier ℝ × ℝ has both by mathlib instances), so no `space` is written. Those of
+# T-lad-record-curves-fact (2026-11-21: the [[fact]] curves_extend's witness
+# Causal.Causality.curvesExtend_of_t1_secondCountable and the two consequences'
+# IsCauchySurface.isAcausal_of_t1_secondCountable and IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable,
+# from Causal.CurvesExtendSecondCountable, strict since 7923138, and every Lean name the refreshed
+# comments cite) were read by `#check` the same way, with `#print axioms` (propext, Classical.choice,
+# Quot.sound); each takes [T1Space M] [SecondCountableTopology M] and no other instance, whence
+# their standing ["T1", "second_countable"].
 
 [[property]]
 id = "is_causal"
@@ -356,11 +375,55 @@ id = "time_function"
 lean = "Causal.Causality.HasTimeFunction"
 what = "there is a continuous T : M → ℝ with T x < T y whenever x ≤_M y and x ≠ y (Sbierski Lemma 3.3's hypothesis; not ETT's defi:fonction_temps, which asks a morphism to the timelike line)"
 
-# A named model fact (kb/0012, Causal/CauchyExtension.lean); no ETT label.
+# Defined in Causal/CauchyExtension.lean; no ETT label. Carried until 7923138 as a named model fact
+# (kb/0012: "the library does not prove it for topological spacetimes"), it is a theorem since
+# T-abs-curves-extend-second-countable on every T1, second countable space, for every causality: the
+# [[fact]] below (T-lad-record-curves-fact, 2026-11-21). ETT's spacetimes are Hausdorff and second
+# countable (ETT.tex:255), so on the ambient the node is the ladder's bottom: every causality-sort
+# property implies it (through the fact; time_function also through its edge), and it implies none
+# (every curves_extend → X is refuted). It stays a node: the consequences below name it, Lemma K's
+# second-countability-free form and lem:C_ext_connexe ask it where no countability is assumed, and
+# Causal.CBG.Geometry's A2 and LocalModel's B3 fields carry it. Off second countability it may fail:
+# the long ray with its order causality is the conjectured counterexample (Hausdorff, locally the
+# timelike line, not second countable; argued: globally hyperbolic and tarentin, with no inextensible
+# causal curve, since a curve over a real interval has a bounded image and extends above it, so
+# CurvesExtend fails at a constant curve; Causal/CurvesExtend.lean SCOPE), not in Lean, and not one
+# of ETT's spacetimes: a [[fails]] entry for it would say space = ["T2"], on which the fact's
+# standing does not hold, so it would contradict nothing, and the matrix would keep every
+# X → curves_extend implied, as it is on ETT's spacetimes (simulated on a /tmp copy, 2026-11-21).
 [[property]]
 id = "curves_extend"
 lean = "Causal.Causality.CurvesExtend"
 what = "every causal curve of M over a segment [a, b] lies on an inextensible causal curve of M (over some interval)"
+
+# Premise-free on every T1, second countable space (T-abs-curves-extend-second-countable, 7923138;
+# recorded by T-lad-record-curves-fact, 2026-11-21). Causal.Causality.curvesExtend_of_t1_secondCountable
+# (Causal/CurvesExtendSecondCountable.lean, ETT layer: it imports Causal.MaximalZorn,
+# Causal.OmegaOneConstant, Causal.CBG.CausalConvex, no model), read by `#check` on 2026-11-21:
+# ∀ {M} [TopologicalSpace M] [T1Space M] [SecondCountableTopology M] (C : Causality M), C.CurvesExtend;
+# `#print axioms` propext, Classical.choice, Quot.sound. No other hypothesis: no T2, no causality, no
+# time function, no causal arc-connectedness. Its two instance binders are the standing, both ambient
+# (T2 ⇒ T1), so the fact holds on ETT's spacetimes and makes the 16 pairs X → curves_extend implied
+# (their [[open]] entries removed), in either reading of defi:causalite (OQ-18): the witness asks
+# nothing of C. The proof is Zorn on towers of tail-free causal curves (no constant end piece), a
+# coherent chain bounded by a direct limit (countable cofinality) or by one of its members
+# (uncountable cofinality: the ω₁ lemma, Causal.OmegaOneConstant, where second countability enters);
+# a maximal curve is inextensible. The open-set form is
+# Causal.Causality.curvesExtendOn_of_t1_secondCountable (CurvesExtendOn W for every open W), the
+# general one Causal.Causality.exists_inextensible_of_t1_secondCountable (a causal curve of W over any
+# interval, not only a segment, lies on an inextensible one). The edge time_function ⇒ curves_extend
+# stays: it asks no standing (it holds on every space with a time function), and it is the
+# CausalLadder rule (a fact is none: emit-lean makes rules of [[implies]] only). Sharpness is not
+# formalised: off second countability the long ray (the property's comment); whether T1 weakens to
+# T0 is not examined (a finite space has curves_extend trivially, a curve of maximal image being
+# inextensible: argued in the witness's SCOPE; so the vee, space = ["T0"], the one counterexample to
+# which the fact does not apply, is finite and not expected to lack it).
+[[fact]]
+property = "curves_extend"
+witness = "Causal.Causality.curvesExtend_of_t1_secondCountable"
+standing = ["T1", "second_countable"]
+status = "checked"
+note = "every causality on a T1, second countable space has curves_extend (Zorn on towers; the ω₁ lemma for uncountable cofinality); on every open set too, Causal.Causality.curvesExtendOn_of_t1_secondCountable"
 
 # ---- localisation properties (T-lad-local-nodes, 2026-11-21): the side conditions of four edges,
 # defined in Causal/LadderLocal.lean (T-abs-ladder-local-defs, ETT layer, no model imported). No ETT
@@ -775,8 +838,10 @@ status = "checked"
 # convex neighbourhoods, and has no time function (T a < T w ≤ T b ≤ T a, Causal.fork_not_hasTimeFunction),
 # so it is not tarentin; bare form Causal.not_hasTimeFunction_of_globallyHyperbolic_bare. Until then
 # the [[open]] globally_hyperbolic → time_function said the globally hyperbolic Lean models without
-# tarentin all had a time function. The fork leaves globally_hyperbolic → curves_extend open (its
-# curves extending is argued, not stated).
+# tarentin all had a time function. The fork left globally_hyperbolic → curves_extend open (its
+# curves extending was argued, not stated) until T-lad-record-curves-fact (2026-11-21): the pair is
+# implied since by the [[fact]] curves_extend (T1, second countable), with no time function, so the
+# fork has curves_extend through it (Causal.Causality.curvesExtend_of_t1_secondCountable).
 [[implies]]
 from = ["globally_hyperbolic", "tarentin"]
 to = "time_function"
@@ -2158,6 +2223,11 @@ witness = "Causal.CBG.injOn_of_injOn_cauchy"
 under = "time_function of the source M; the target N causal (is_causal, of N); M, N Hausdorff"
 status = "checked"
 
+# ---- consequences at curves_extend. Since T-lad-record-curves-fact (2026-11-21) the node holds on
+# every T1, second countable space (the [[fact]] curves_extend), so on ETT's spacetimes each of these
+# holds from its other hypotheses alone: the curves_extend hypothesis (the `hext` of kb/0012, once a
+# named model fact) is a theorem there, and is carried only where no countability is assumed. Two
+# are stated with it discharged, at causally_arc_connected (the two entries after this block).
 [[consequence]]
 at = "curves_extend"
 statement = "every Cauchy surface is acausal"
@@ -2187,7 +2257,12 @@ witness = "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace"
 under = "curves_extend of N; N Hausdorff; M connected"
 status = "checked"
 
-# Lemma K with CurvesExtend in place of second countability (Causal/LemmaK.lean; DEC-93).
+# Lemma K with CurvesExtend in place of second countability (Causal/LemmaK.lean; DEC-93). Its `hext`
+# is no longer a model fact: on every T1, second countable space it is
+# Causal.Causality.curvesExtend_of_t1_secondCountable (the [[fact]]), so on ETT's spacetimes this is
+# Lemma K of record (the consequence at globally_hyperbolic, whose proof gets CurvesExtend from
+# Levin's time function); it stays the form for a Hausdorff space that is not second countable and
+# in which curves extend.
 [[consequence]]
 at = "curves_extend"
 statement = "Lemma K: a compact connected locally Cauchy set is a Cauchy surface"
@@ -2195,7 +2270,38 @@ witness = "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen_o
 under = "globally_hyperbolic, tarentin, causally_arc_connected, causally_open (ladder nodes); M Hausdorff, connected; J⁺(p) ≠ {p} and J⁻(p) ≠ {p} for every p"
 status = "checked"
 
+# T-abs-curves-extend-second-countable (7923138, Causal/CurvesExtendSecondCountable.lean): the two
+# corollaries it states, Causal.Causality.IsCauchySurface.isAcausal (the first entry of this block)
+# and Causal.Causality.IsCauchySurfaceOn.eq_of_le (Causal/CBG/CausalConvex.lean) with their
+# CurvesExtend (resp. CurvesExtendOn B) argument removed and nothing added, read by `#check` on
+# 2026-11-21: [T1Space M] [SecondCountableTopology M],
+# hS : C.IsCauchySurface S, hC : C.CausallyArcConnected ⊢ C.IsAcausal S; and [T1Space M]
+# [SecondCountableTopology M], hS : C.IsCauchySurfaceOn B S, hC : C.CausallyArcConnectedOn B,
+# x, y ∈ S, C.le B x y ⊢ x = y. The standing is their instance binders, both ambient. The second asks
+# causal arc-connectedness of the open B only, which causally_arc_connected gives on every open B
+# (Causal.Causality.CausallyArcConnectedOn.mono, rem:cac_local).
+[[consequence]]
+at = "causally_arc_connected"
+statement = "every Cauchy surface is acausal"
+witness = "Causal.Causality.IsCauchySurface.isAcausal_of_t1_secondCountable"
+standing = ["T1", "second_countable"]
+status = "checked"
+
+[[consequence]]
+at = "causally_arc_connected"
+statement = "for every open B, a Cauchy surface S of B is acausal for ≤_B: x, y ∈ S and x ≤_B y give x = y"
+witness = "Causal.Causality.IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable"
+under = "only B causally arc-connected is used (Causal.Causality.CausallyArcConnectedOn B)"
+standing = ["T1", "second_countable"]
+status = "checked"
+
 # ---- consequences at geometry properties: theorems over a Causal.CBG.Geometry 𝔊 (header).
+# The A2 field curvesExtend of Causal.CBG.Geometry (CurvesExtend on every globally hyperbolic
+# Hausdorff, connected, second countable M) and LocalModel's B3 field are dischargeable since
+# T-abs-curves-extend-second-countable: `fun _ _ => Causality.curvesExtend_of_t1_secondCountable _`
+# inhabits A2's type, `fun _ => …` B3's (the probe of its AUDIT-1, warnings as errors). The
+# structures still carry both, so the `under`s below that name them stay true; the fields are
+# redundant.
 
 # Sbierski Cor 3.2 (ETT.tex:1956–1960): consumes 𝔊.rigid (A1), with lem:C_ext_connexe for the
 # connectedness of W ∩ W' (curves_extend of developments, the A2 field).
@@ -2372,7 +2478,11 @@ status = "checked"
 # ERS Lemma 4.72 (ghd_02_19.tex:976), causal-topological skeleton; C is C₂ of g(u₂, du₂), C' is
 # Minkowski's C_m. As printed ("connected", S non-empty): Causal.Causality.ers_lemma_4_72_isConnected.
 # OQ-41 (c): S is taken C'-acausal where ERS print m-achronal. The hypotheses are jointly satisfiable
-# (Causal.timelikeLine_ers_lemma_4_72).
+# (Causal.timelikeLine_ers_lemma_4_72). On a T1, second countable M (every ETT spacetime) both curve
+# hypotheses are theorems: curves_extend of C' by the [[fact]]; an inextensible causal curve of U₂
+# for C through every point x by Causal.Causality.curvesExtendOn_of_t1_secondCountable C U₂ at the
+# constant curve at x over [0, 0] (Causal.Causality.causalCurveOn_const). Argued, not stated: no
+# Lean corollary drops them, so the `under` keeps both.
 [[consequence]]
 at = "curve_nested"
 statement = "ERS Lemma 4.72: for opens U₁, U₂ containing a preconnected S that is a Cauchy surface of U₁ for C' and of U₂ for C, U₁ ∩ U₂ is preconnected"
@@ -2471,11 +2581,16 @@ status = "checked"
 # line). The third, causally_arc_connected → causally_open_future, T-lad-record-dual-vee (2026-11-21)
 # removed, in either reading: the half-lit line's time reversal
 # (Causal.halfLightLine_dual_separates_causallyOpenFuture). All seven are settled.
-
-[[open]]
-from = "globally_hyperbolic"
-to = "curves_extend"
-note = "Proved with tarentin through time_function (Causal.Causality.curvesExtend_of_secondCountable). Without tarentin open: time_function is refuted there (the fork, Causal.fork_separates, globally hyperbolic without a time function; T-lad-record-separators), but the fork's curves extend, argued (every causal curve runs along one arc, which extends to the whole arc), not in Lean, and the loop fan and the notched plane with its time reversal, globally hyperbolic without tarentin, have curves_extend (Causal.loopFan_separates, Causal.notchedCausality_separates, Causal.notchedCausality_dual_separates); the long ray (globally hyperbolic, tarentin, not second countable, no inextensible curve) is a conjectured counterexample outside ETT's spacetimes, not formalised (Causal/CurvesExtend.lean SCOPE)"
+#
+# The entry globally_hyperbolic → curves_extend that stood here (proved with tarentin, through
+# Levin's time function; open without it, the fork's curves extending argued and not stated) was
+# removed by T-lad-record-curves-fact (2026-11-21), with the 15 other X → curves_extend entries
+# below: the [[fact]] curves_extend (Causal.Causality.curvesExtend_of_t1_secondCountable, T1, second
+# countable) makes all 16 implied, with no time function and in either reading. The long ray it named,
+# globally hyperbolic and tarentin without curves_extend, stays the conjectured counterexample off
+# second countability, argued and not in Lean (the property's comment).
+#
+# The 4 geometry-sort entries (Level B).
 
 [[open]]
 from = "germ_extension"
@@ -2605,6 +2720,11 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 #     T-lad-record-separators (the chronal membrane), chronal_neighbours → causally_arc_connected
 #     since T-lad-record-plain-chronal (the rational-jump plane); chronal_neighbours →
 #     absolutely_minimal stays open, in the no-gluing reading only.
+#   Since T-lad-record-curves-fact (2026-11-21) every model above has curves_extend, whether its
+#   witness states it or not: each carrier is T1 and second countable (ℝ, ℝ ⊕ Unit, ℝ × Bool, ℝ²,
+#   subspaces of ℝ², the flat time cylinders, ℝ × (Fin n → ℝ) for Galileo's), and the [[fact]]
+#   curves_extend (Causal.Causality.curvesExtend_of_t1_secondCountable) gives it to every causality
+#   there. So curves_extend separates none of them; the L lists name it where a witness conjoins it.
 # * "Open: …": no model is at hand; the note says what a counterexample needs.
 # * "True, argued: …": the implication, with its proof; it wants a Lean witness.
 # When a [[fails]] entry settles one of these, `check` names it ("already settled; remove it").
@@ -2618,7 +2738,7 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 # reversal, its properties now conjoined (causally_arc_connected → causally_open_future;
 # causally_arc_connected, causally_compact, globally_hyperbolic → locally_causally_open_future), and
 # refreshed the notes citing it; the vee, off the ambient, settles none. The 43 causality-sort
-# entries that stay: 16 → curves_extend (no Lean model lacks it); 12 from causally_plain,
+# entries that stayed then: 16 → curves_extend (no Lean model lacked it); 12 from causally_plain,
 # chronal_neighbours, tarentin to causal openness, global or local, in the future or two-sided (no
 # Lean model failing it is known to have any of the three; the gated line is tarentin by argument,
 # T-abs-gateline-witnesses, no-gluing); 6 from chronal neighbours (or plainness) to absolute
@@ -2629,7 +2749,7 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 # and plainness (the chronal membrane's time reversal), globally_hyperbolic, is_causal,
 # strongly_causal, strongly_causal_open → time_function (the fork) and globally_hyperbolic,
 # time_function → strongly_causal, strongly_causal_open (the loop fan); it refreshed the notes below.
-# The 24 causality-sort entries that stay: 16 → curves_extend (no Lean model lacks it;
+# The 24 causality-sort entries that stayed then: 16 → curves_extend (no Lean model lacked it;
 # T-abs-curves-extend-second-countable); 4 from causally_plain to causal openness, global or local,
 # in the future or two-sided (every Lean model failing one of them is not plain; in either reading a
 # counterexample is absolutely minimal, hence push-up, T1, hence without chronal neighbours);
@@ -2642,11 +2762,19 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 # plain, push-up spacetime without chronal neighbours and not causally open that their notes asked
 # for), and chronal_neighbours → causally_arc_connected (the rational-jump plane, absolutely minimal
 # with chronal neighbours and not causally arc-connected); it refreshed the notes below. The 19
-# causality-sort entries that stay (23 with the 4 geometry-sort ones above): 16 → curves_extend (no
-# Lean model lacks it; T-lad-record-curves-fact makes them implied); 2 true in any gluing reading and
-# so open in the no-gluing reading only, a counterexample not absolutely minimal: chronal_neighbours
-# → absolutely_minimal (Galileo, timelikeLineTop, argued; T-lad-record-no-gluing) and causally_plain →
-# locally_push_up (no model at hand); and strongly_causal → strongly_causal_open (no model at hand).
+# causality-sort entries that stayed then (23 with the 4 geometry-sort ones above): 16 →
+# curves_extend (no Lean model lacked it); 2 true in any gluing reading and so open in the no-gluing
+# reading only; and strongly_causal → strongly_causal_open. T-lad-record-curves-fact (2026-11-21)
+# removed the 16 → curves_extend (one stood above, from globally_hyperbolic), all implied, in either
+# reading, by the [[fact]] curves_extend (Causal.Causality.curvesExtend_of_t1_secondCountable: every
+# causality on a T1, second countable space; standing T1, second_countable, both ambient); no
+# counterexample lacks curves_extend, so nothing contradicts it. The 3 causality-sort entries that
+# stay (7 with the 4 geometry-sort ones above): 2 true in any gluing reading and so open in the
+# no-gluing reading only, a counterexample not absolutely minimal: chronal_neighbours →
+# absolutely_minimal (Galileo, timelikeLineTop, argued; T-abs-galileo-ladder, T-lad-record-no-gluing)
+# and causally_plain → locally_push_up (deuxPushup's defect at scales accumulating at a point, argued;
+# T-abs-plain-not-locally-pushup, T-lad-record-no-gluing); and strongly_causal →
+# strongly_causal_open (no model at hand, no target).
 
 # → absolutely_minimal
 [[open]]
@@ -2655,81 +2783,13 @@ to = "absolutely_minimal"
 note = "False, argued, in the no-gluing reading only: Galileo's spacetime Causal.galileo n, n ≥ 1, has chronal neighbours and is not absolutely minimal (on a U-shaped open, x ≪_U y across the bend is generated by no chain of small steps); wants Causal.galileoOn_chronalNeighbours, Causal.galileo_not_absolutelyMinimal; or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18, OQ-39) has chronal neighbours and is not absolutely minimal; wants Causal.timelikeLineTop_chronalNeighbours. In the gluing reading of defi:causalite every causality is absolutely minimal (OQ-18), so there the pair holds and no witness can refute it. The ladder's Lean models with chronal neighbours are all absolutely minimal: the half-plane, the flat time cylinder and the timelike circle, the chronal membrane and its time reversal, and the rational-jump plane, which is not causally arc-connected (Causal.halfPlane_hypotheses, Causal.Flat.timeCylinder_separates, Causal.Flat.timeCylinder_zero_separates, Causal.chronalMembrane_separates, Causal.chronalMembrane_dual_separates, Causal.rationalJumpPlane_separates)"
 
 
-# → curves_extend
-[[open]]
-from = "absolutely_minimal"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "causally_arc_connected"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "causally_compact"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "causally_open"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "causally_open_future"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "causally_plain"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "chronal_neighbours"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "is_causal"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "locally_causally_open"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "locally_causally_open_future"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "locally_push_up"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "push_up"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "strongly_causal"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "strongly_causal_open"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
-
-[[open]]
-from = "tarentin"
-to = "curves_extend"
-note = "Open: no Lean model lacks curves_extend (every Lean model with a time function has it; the long ray, globally hyperbolic and tarentin without it, is not second countable, Causal/CurvesExtend.lean SCOPE)"
+# → curves_extend: none since T-lad-record-curves-fact (2026-11-21). The 15 entries that stood here
+# (from absolutely_minimal, causally_arc_connected, causally_compact, causally_open,
+# causally_open_future, causally_plain, chronal_neighbours, is_causal, locally_causally_open,
+# locally_causally_open_future, locally_push_up, push_up, strongly_causal, strongly_causal_open,
+# tarentin; the sixteenth, from globally_hyperbolic, stood above) said "no Lean model lacks
+# curves_extend"; the [[fact]] curves_extend makes every one implied
+# (Causal.Causality.curvesExtend_of_t1_secondCountable, T1, second countable).
 
 
 # → locally_push_up

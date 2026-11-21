@@ -966,6 +966,7 @@ def emit_test(data, index=None):
     ids = [p["id"] for p in props if p["id"] in form]
     mat = matrix(data)
     mods = sorted({index["decls"][p["lean"]] for p in props if p["id"] in form})
+    fact_ids = {f.get("property") for f in data.get("fact", [])}
     note = {"implied": "the matrix chains it through an edge not emitted",
             "fails": "refuted by a counterexample", "open": "an open pair", "unknown": "unknown",
             "implied-standing": "implied under standing hypotheses beyond the ambient, through an edge not emitted",
@@ -989,7 +990,10 @@ def emit_test(data, index=None):
         for b in ids:
             if b != a and b not in reach:
                 seen.add(((a,), b, ()))
-                neg.append(((a,), b, [], "matrix: %s" % note.get(mat.get((a, b)), mat.get((a, b)))))
+                cls = mat.get((a, b))
+                why_neg = ("implied through a [[fact]] (no CausalLadder rule)" if cls == "implied" and b in fact_ids
+                           else note.get(cls, cls))
+                neg.append(((a,), b, [], "matrix: %s" % why_neg))
     for src, b, words in drop:
         seen.add((src, b, ()))
         neg.append((src, b, [], "standing dropped: %s" % ", ".join(words)))
