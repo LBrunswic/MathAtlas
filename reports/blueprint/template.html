@@ -150,8 +150,12 @@ details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
 .edge.hi path.vis{stroke:var(--edge-hi);stroke-width:2.4;stroke-opacity:1}
 .edge.c.hi path.vis{stroke:var(--partial)}
 .edge text{fill:var(--partial);font-size:10.5px;font-family:var(--f-mono);paint-order:stroke;stroke:var(--canvas);stroke-width:3px}
-.edge path.hit{fill:none;stroke:transparent;stroke-width:12px;pointer-events:stroke;cursor:pointer}
+.edge path.hit{fill:none;stroke:transparent;stroke-width:14px;vector-effect:non-scaling-stroke;pointer-events:stroke;cursor:pointer}
+@media (pointer:coarse){.edge path.hit{stroke-width:22px}}
 .edge.dim{opacity:.3}
+/* an implication is one target however many segments draw it: hovering any of them lights them all */
+.edge.hov{opacity:1}.edge.hov path.vis{stroke:var(--edge-hi);stroke-width:2.4;stroke-opacity:1}.edge.c.hov path.vis{stroke:var(--partial)}
+.junction.hov circle{stroke:var(--edge-hi);stroke-width:2.2}.junction.c.hov circle{stroke:var(--partial)}
 /* the pair matrix */
 .matrix{position:absolute;inset:0;overflow:auto;padding:56px 16px 90px;background:var(--canvas)}
 .matrix table{border-collapse:separate;border-spacing:2px;margin:0 auto;font-size:.76rem}
@@ -463,6 +467,29 @@ function layoutSorts(G){
     out.clusters.push({title:"sort: " + b.s, x, y, w:b.w, h:b.h}); x += b.w + 40; rowH = Math.max(rowH, b.h); W = Math.max(W, x - 40); });
   out.width = W; out.height = y + rowH; return out;
 }
+/* An implication is drawn as one segment (one premise) or as a segment per premise into its ∧ junction
+   and one out of it; every segment and the junction carry the implication's index and open its panel.
+   A segment's hit area is a transparent stroke of constant width on screen (vector-effect), so an arrow
+   is as easy to click at the fitted zoom of a phone as zoomed in. Where the hit areas of two
+   implications overlap, the pointer goes to the implication whose drawn line is nearer, not to the one
+   drawn last; a click on an `under` label goes to its own edge. */
+function samplePath(p){ const n = p.getTotalLength(), pts = []; for (let d = 0; d < n; d += 2) pts.push(p.getPointAtLength(d)); pts.push(p.getPointAtLength(n)); return pts; }
+function dist2(pts, x, y){ let m = Infinity;
+  for (let k = 1; k < pts.length; k++){ const a = pts[k-1], b = pts[k], dx = b.x - a.x, dy = b.y - a.y, l2 = dx*dx + dy*dy;
+    const t = l2 ? Math.max(0, Math.min(1, ((x - a.x)*dx + (y - a.y)*dy)/l2)) : 0, ex = a.x + t*dx - x, ey = a.y + t*dy - y; m = Math.min(m, ex*ex + ey*ey); }
+  return m; }
+function edgeAt(ev){
+  if (ev.target.tagName === "text" && ev.target.closest(".edge")) return +ev.target.closest(".edge").dataset.i;
+  const gs = [...new Set(document.elementsFromPoint(ev.clientX, ev.clientY).map(n => n.closest && n.closest("#world .edge")).filter(Boolean))];
+  if (gs.length < 2) return gs.length ? +gs[0].dataset.i : null;
+  const q = new DOMPoint(ev.clientX, ev.clientY).matrixTransform(world.node().getScreenCTM().inverse());
+  let best = null, bd = Infinity;
+  gs.forEach(g => { const d = dist2(g.__pts ??= samplePath(g.querySelector("path.vis")), q.x, q.y); if (d < bd){ bd = d; best = +g.dataset.i; } });
+  return best; }
+let hovered = null;
+function hover(i){ if (i === hovered) return;
+  if (hovered != null) world.selectAll(`.edge[data-i="${hovered}"], .junction[data-i="${hovered}"]`).classed("hov", false);
+  hovered = i; if (i != null) world.selectAll(`.edge[data-i="${i}"], .junction[data-i="${i}"]`).classed("hov", true); }
 function drawLadder(){
   world.selectAll("*").remove();
   const G = ladderGraph(), L = layoutSorts(G); NODEPOS = L.nodes;
@@ -470,14 +497,16 @@ function drawLadder(){
     cg.append("rect").attr("x", c.x).attr("y", c.y).attr("width", c.w).attr("height", c.h).attr("rx", 14);
     cg.append("text").attr("x", c.x + 16).attr("y", c.y + 22).text(c.title); });
   bbox = {x:-20, y:-20, w:L.width + 40, h:L.height + 40};
-  const line = d3.line().x(p => p.x).y(p => p.y).curve(d3.curveBasis), eg = world.append("g");
+  const line = d3.line().x(p => p.x).y(p => p.y).curve(d3.curveBasis), eg = world.append("g").attr("class", "edges");
+  hovered = null;
+  eg.on("click", ev => { const i = edgeAt(ev); if (i == null) return; ev.stopPropagation(); nav("#/ladder/edge/" + i); })
+    .on("mousemove", ev => hover(edgeAt(ev))).on("mouseleave", () => hover(null));
   L.edges.forEach(E => { const s = E.src, e = LAD.implies[s.i], dd = line(E.points);
     const el = eg.append("g").attr("class", "edge" + (e.status !== "checked" ? " seed" : "") + (e.cond ? " c" : "")).attr("data-i", s.i).attr("data-v", s.v).attr("data-w", s.w);
     el.append("path").attr("class", "hit").attr("d", dd);
     el.append("path").attr("class", "vis").attr("d", dd).attr("marker-end", s.arrow ? `url(#${e.cond ? "arr-c" : "arr"})` : null);
     if (s.label && E.lx != null) el.append("text").attr("x", E.lx).attr("y", E.ly + 4).attr("text-anchor", "middle").text(s.label);
     el.append("title").text(`${e.from.join(" ∧ ")} ⇒ ${e.to}\n${e.witness} (${e.status})${e.under ? "\nunder: " + e.under : ""}\n(click for the edge)`);
-    el.on("click", ev => { ev.stopPropagation(); nav("#/ladder/edge/" + s.i); });
   });
   const ng = world.append("g");
   G.nodes.forEach(N => { const p = L.nodes[N.id]; if (!p) return;
@@ -485,7 +514,8 @@ function drawLadder(){
       const el = ng.append("g").attr("class", "junction" + (e.cond ? " c" : "")).attr("transform", `translate(${p.x},${p.y})`).attr("data-i", N.i);
       el.append("circle").attr("r", 10); el.append("text").attr("text-anchor", "middle").attr("y", 4).text("∧");
       el.append("title").text(`${e.from.join(" ∧ ")} ⇒ ${e.to}: the premises are read together (click for the edge)`);
-      el.on("click", ev => { ev.stopPropagation(); nav("#/ladder/edge/" + N.i); }); return; }
+      el.on("click", ev => { ev.stopPropagation(); nav("#/ladder/edge/" + N.i); });
+      el.on("mouseenter", () => hover(N.i)).on("mouseleave", () => hover(null)); return; }
     const pr = N.p, nc = consAt(pr.id).length;
     const el = ng.append("g").attr("class", "node").attr("data-id", N.id).attr("transform", `translate(${p.x - N.w/2},${p.y - N.h/2})`)
       .attr("tabindex", 0).attr("role", "button").attr("aria-label", `${pr.id}, ${plural(nc, "consequence")}`);

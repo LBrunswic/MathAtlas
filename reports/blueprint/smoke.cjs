@@ -2,6 +2,11 @@
 // a binder row and a roadmap target, at desktop and phone width, in both colour schemes; count page
 // errors (uncaught exceptions). Exit 1 on any page error or on a click that does not open its panel.
 //
+// Implications are clicked where they are drawn: every segment of every implication (a single premise's
+// arrow; a conjunction's segment per premise into its ∧ junction and the one out of it), on its line and
+// 4 px beside it, plus every junction. The points come from the drawing's geometry alone (segmentPoints),
+// never from the page's hit-testing, which is what is under test.
+//
 //   PLAYWRIGHT=<.../node_modules/playwright> node smoke.cjs index.html     (SHOTS=DIR keeps screenshots)
 const path = require("path");
 const pw = require(process.env.PLAYWRIGHT || "playwright");
@@ -30,6 +35,62 @@ async function run(browser, opts, label, steps) {
 }
 
 const panelH2 = page => page.locator("#panel h2").first().innerText();
+const OFF = 4;   // px beside the drawn line: a click as a reader makes it, not a pixel-exact one
+
+/* In the page: for each drawn segment of each implication, the point of its line (or `off` px beside it,
+   along the normal) farthest from every other implication's line, outside every node, other junction
+   and other `under` label, inside the visible graph and under no HTML overlay (zoom tools, legend).
+   `clr` is that point's distance in px to the nearest other implication's line; with `hi`, only points
+   with clr <= hi count (a point inside another implication's hit area). */
+function segmentPoints(off, hi = Infinity) {
+  const world = document.querySelector("#world"), svg = world.ownerSVGElement, sr = svg.getBoundingClientRect();
+  const k = world.getScreenCTM().a, step = Math.max(0.5, 1.5 / k);
+  const scr = (el, p) => new DOMPoint(p.x, p.y).matrixTransform(el.getScreenCTM());
+  const segs = [...world.querySelectorAll(".edge")].map(g => {
+    const p = g.querySelector("path.vis"), n = p.getTotalLength(), pts = [];
+    for (let d = 0; d <= n; d += step) pts.push(scr(p, p.getPointAtLength(d)));
+    return { g, i: +g.dataset.i, p, n, pts }; });
+  const own = el => +(el.closest(".edge, .junction") || { dataset: { i: -1 } }).dataset.i;
+  const boxes = [...world.querySelectorAll(".node, .junction, .edge text")].map(el => ({ i: el.matches(".node") ? -1 : own(el), r: el.getBoundingClientRect() }));
+  const right = Math.min(sr.right, innerWidth) - 2, bottom = Math.min(sr.bottom, innerHeight) - 2;
+  return segs.map(S => {
+    const others = segs.filter(o => o.i !== S.i).flatMap(o => o.pts), bx = boxes.filter(b => b.i !== S.i);
+    let best = null;
+    for (let t = 0.08; t <= 0.921; t += 0.01) {
+      const a = scr(S.p, S.p.getPointAtLength(S.n * t)), b = scr(S.p, S.p.getPointAtLength(Math.min(S.n, S.n * t + 1))), c = scr(S.p, S.p.getPointAtLength(Math.max(0, S.n * t - 1)));
+      const tx = b.x - c.x, ty = b.y - c.y, tl = Math.hypot(tx, ty) || 1;
+      for (const sg of off ? [1, -1] : [0]) {
+        const q = { x: a.x - sg * off * ty / tl, y: a.y + sg * off * tx / tl };
+        if (q.x < sr.left + 2 || q.y < sr.top + 2 || q.x > right || q.y > bottom) continue;
+        const top = document.elementFromPoint(q.x, q.y); if (!top || !svg.contains(top)) continue;
+        if (bx.some(B => q.x > B.r.left - 6 && q.x < B.r.right + 6 && q.y > B.r.top - 6 && q.y < B.r.bottom + 6)) continue;
+        let clr = Infinity; for (const o of others) clr = Math.min(clr, Math.hypot(o.x - q.x, o.y - q.y));
+        if (clr <= hi && (!best || clr > best.clr)) best = { x: q.x, y: q.y, clr };
+      }
+    }
+    return { i: S.i, seg: S.g.dataset.v + " → " + S.g.dataset.w, ...(best || { x: null }) };
+  });
+}
+const implText = (page, i) => page.evaluate(i => { const e = DATA.ladder.implies[i]; return e.from.join(" ∧ ") + " ⇒ " + e.to; }, i);
+/* Back to the ladder's overview (Escape), then click or tap (x, y): the panel's heading, once it is `want` or after 400 ms. */
+const segmentPointsIn = (page, off, hi) => page.evaluate(`(${segmentPoints})(${off}, ${hi})`);
+async function clickTo(page, x, y, want, tap) {
+  await page.keyboard.press("Escape");
+  await page.waitForFunction(() => location.hash === "#/ladder" && !document.querySelector("#panel h2.mono"), null, { timeout: 2000 });
+  if (tap) await page.touchscreen.tap(x, y); else await page.mouse.click(x, y);
+  await page.waitForFunction(w => { const h = document.querySelector("#panel h2"); return h && h.innerText === w; }, want, { timeout: 400 }).catch(() => {});
+  return panelH2(page);
+}
+/* The open implication's panel against DATA: its witness, its `under` when it has one, its premises and conclusion. */
+const edgePanel = page => page.evaluate(() => {
+  const i = +decodeURIComponent(location.hash).split("/").pop(), e = DATA.ladder.implies[i], P = document.querySelector("#panel");
+  const sec = name => { const h = [...P.querySelectorAll("h3")].find(h => h.textContent.trim() === name); return h && h.parentElement; };
+  const bad = [], w = sec("Witness"), u = sec("under"), pr = sec("Premises and conclusion");
+  if (!w || w.querySelector(".mono").textContent !== e.witness) bad.push("witness");
+  if (e.under ? !u || u.querySelector("p").textContent !== e.under : !!u) bad.push("under");
+  if (!pr || [...pr.querySelectorAll(".pl")].map(b => b.textContent).join("|") !== [...e.from, e.to].join("|")) bad.push("premises");
+  if (bad.length) throw new Error("panel of " + e.from.join(" ∧ ") + " ⇒ " + e.to + " lacks " + bad.join(", "));
+  return `witness ${e.witness}${e.under ? ", under" : ""}, ${e.from.length} premise(s)`; });
 // the panel's heading once it differs from `before`
 const nextH2 = async (page, before) => { await page.waitForFunction(b => { const h = document.querySelector("#panel h2"); return h && h.innerText !== b; }, before, { timeout: 5000 }).catch(() => {}); return panelH2(page); };
 
@@ -48,10 +109,44 @@ const nextH2 = async (page, before) => { await page.waitForFunction(b => { const
       const before = await panelH2(page);
       await page.locator(`#world .node[data-id="${first}"]`).click();
       const h = await nextH2(page, before); if (h !== first) throw new Error("panel shows " + h); return h; });
-    await check("click an implication", async () => {
-      const before = await panelH2(page);
-      await page.locator("#world .edge path.hit").first().click({ force: true });
-      const h = await nextH2(page, before); if (!h.includes("⇒")) throw new Error("panel shows " + h); return h; });
+    await page.click("#zfit");   // the whole ladder in view, as on load (selecting a property may have centred on it)
+    for (const off of [0, OFF]) await check(`click every drawn segment of every implication ${off ? off + " px beside" : "on"} its line`, async () => {
+      const pts = await segmentPointsIn(page, off, Infinity), miss = [], bad = [];
+      for (const q of pts) {
+        const want = await implText(page, q.i);
+        if (q.x == null || q.clr < off + 3) { miss.push(want + " [" + q.seg + "]"); continue; }
+        const h = await clickTo(page, q.x, q.y, want);
+        if (h !== want) bad.push(`${want} [${q.seg}] at (${q.x.toFixed(0)},${q.y.toFixed(0)}) opened ${h}`);
+      }
+      if (miss.length) throw new Error("no clear point to click on " + miss.join("; "));
+      if (bad.length) throw new Error(`${bad.length} of ${pts.length} clicks: ` + bad.slice(0, 3).join("; ") + (bad.length > 3 ? "; …" : ""));
+      const n = await page.evaluate(() => DATA.ladder.implies.map(e => e.from.length > 1));
+      const is = [...new Set(pts.map(q => q.i))];
+      return `${pts.length} segments of ${is.length} implications (${is.filter(i => !n[i]).length} single-premise, ${is.filter(i => n[i]).length} conjunctive), each opened its own`; });
+    await check("click on a line where another implication's hit area overlaps it: the nearer line wins", async () => {
+      const pts = (await segmentPointsIn(page, 0, 6)).filter(q => q.x != null && q.clr >= 2.5), bad = [];
+      for (const q of pts) { const want = await implText(page, q.i), h = await clickTo(page, q.x, q.y, want);
+        if (h !== want) bad.push(`${want} [${q.seg}], another line ${q.clr.toFixed(1)} px away, opened ${h}`); }
+      if (bad.length) throw new Error(`${bad.length} of ${pts.length} clicks: ` + bad.slice(0, 3).join("; "));
+      return pts.length ? pts.length + " segments clicked within 6 px of another implication's line" : "no two lines that close in this drawing"; });
+    await check("click every ∧ junction", async () => {
+      const js = await page.evaluate(() => [...document.querySelectorAll("#world .junction")].map(j => { const r = j.getBoundingClientRect(); return { i: +j.dataset.i, x: r.x + r.width / 2, y: r.y + r.height / 2 }; }));
+      if (!js.length) return "no conjunctive implication drawn";
+      for (const j of js) { const want = await implText(page, j.i), h = await clickTo(page, j.x, j.y, want); if (h !== want) throw new Error(`junction of ${want} opened ${h}`); }
+      return js.length + " junctions"; });
+    for (const conj of [false, true]) await check(`${conj ? "a conjunctive" : "a single-premise"} implication's panel: witness, under, premises`, async () => {
+      const i = await page.evaluate(c => { const I = DATA.ladder.implies, ok = e => (e.from.length > 1) === c;
+        const j = I.findIndex(e => ok(e) && e.under); return j >= 0 ? j : I.findIndex(ok); }, conj);
+      if (i < 0) return "none in the ladder";
+      const q = (await segmentPointsIn(page, OFF, Infinity)).filter(q => q.i === i && q.x != null).sort((a, b) => b.clr - a.clr)[0], want = await implText(page, i);
+      if (!q) throw new Error("no clear point to click on " + want);
+      const h = await clickTo(page, q.x, q.y, want); if (h !== want) throw new Error("panel shows " + h);
+      if (conj) { await page.mouse.move(q.x, q.y);   // one segment hovered: the whole implication lights up, nothing else
+        const lit = await page.evaluate(i => [...document.querySelectorAll("#world .hov")].map(n => +n.dataset.i === i ? 1 : 0), i);
+        const all = await page.evaluate(i => document.querySelectorAll(`#world .edge[data-i="${i}"], #world .junction[data-i="${i}"]`).length, i);
+        if (lit.length !== all || lit.includes(0)) throw new Error(`hovering one segment lit ${lit.length} element(s), ${all} expected`);
+        await page.mouse.move(2, 2); return want + ": " + await edgePanel(page) + `; hovering one segment lit its ${all - 1} segments and its junction`; }
+      return want + ": " + await edgePanel(page); });
     await check("pairs view, click a classified cell", async () => {
       await page.click("#m-pairs");
       const before = await panelH2(page);
@@ -86,6 +181,14 @@ const nextH2 = async (page, before) => { await page.waitForFunction(b => { const
       const before = await panelH2(page);
       await page.evaluate(i => { location.hash = "#/ladder/p/" + encodeURIComponent(i); }, id);
       const h = await nextH2(page, before); if (h !== id) throw new Error("panel shows " + h); return h; });
+    await check("phone: tap an implication beside its line", async () => {
+      const q = (await segmentPointsIn(page, OFF, Infinity)).filter(q => q.x != null && q.clr >= OFF + 3);
+      const n = await page.evaluate(() => DATA.ladder.implies.map(e => e.from.length > 1));
+      const pick = q.filter(x => n[x.i]).sort((a, b) => b.clr - a.clr)[0] || q.sort((a, b) => b.clr - a.clr)[0];
+      if (!pick) throw new Error("no implication drawn in view");
+      const want = await implText(page, pick.i), h = await clickTo(page, pick.x, pick.y, want, true);
+      if (h !== want) throw new Error(`tap on ${want} [${pick.seg}] opened ${h}`);
+      return want + " [" + pick.seg + "]: " + await edgePanel(page); });
     await check("phone: binders, open a row", async () => {
       await page.click("#tab-binders"); const before = await panelH2(page); await page.locator(".brow[data-go]").nth(1).click();
       const h = await nextH2(page, before); if (h === before) throw new Error("panel did not change"); return h; });

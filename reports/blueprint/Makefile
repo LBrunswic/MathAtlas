@@ -4,7 +4,9 @@
 #                  papers/*/certificate/binder.toml and the ledgers; writes index.html. Runs no Lean.
 #   make check     the build, then a second build to a temporary file compared byte for byte, then
 #                  the headless smoke test (smoke.cjs: Chromium through the Playwright in the npx
-#                  cache; it fails on any page error). Needs the network for the CDN libraries.
+#                  cache; it fails on any page error and on any click that does not open its panel,
+#                  among them every drawn segment of every implication, on its line and 4 px beside
+#                  it, and every ∧ junction). Needs the network for the CDN libraries.
 #   make smoke     the smoke test alone, on the current index.html. SHOTS=DIR keeps screenshots.
 #
 # The inputs are many files across the repository (and lean-causal's sources, read for locations),
