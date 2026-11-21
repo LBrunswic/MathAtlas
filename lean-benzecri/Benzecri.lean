@@ -39,3 +39,4 @@ import Benzecri.Chapter2.Prop2Literal
 import Benzecri.Chapter2.CasAffin
 import Benzecri.Chapter2.Developpement
 import Benzecri.Chapter2.Theoreme
+import Benzecri.Chapter2.PremierAffine
