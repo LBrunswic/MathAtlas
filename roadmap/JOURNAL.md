@@ -236,3 +236,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 06:21–07:22 (Paris); agents: 4 closers, 4 audits (with /ett-programme's 2 lean-causal closers, cap 6)
 - new OQ: 71 (Benzécri 1°c, full or component form), 72 (Syracuse § 3 readings of theo:steiner_2 and theo:syracuse_cycle)
 - next: plan (rule 2: no ready closer; only the master T-bz-c2-dedupe-majore). The planner also adds a master target for tools/ledger.py decl_line (it matches the last name component only; agreed with /ett-programme)
+
+## 2026-11-21 07:44 · plan · —
+- why: rule 2 (no ready closer after wave 12)
+- result: 96 -> 102 targets (10 ready, 10 planned, 10 needs-ruling, 5 blocked); promoted T-bz-c2-theoreme (2°–4° and the assembly, independent of OQ-71; the « demi-droite » fact is to be proved, [r] route via IsCoqueProj.isCoqueStricte_iff); added T-bz-c2-premier-affine (the affine 1°; T-bz-c2-theoreme-affine re-scoped onto it), T-syr-no-circuit (theo:exists_no_circuit_other's own steps), T-syr-cited-steps (the own steps of cor:property_defined_cycles_gcd and prop:proposition, cited inputs as hypotheses), T-yamabe-negative (cor:negative over the measured model), T-ledger-decl-fullname (master: tools/ledger.py decl_line matches the last name component only; two false resolutions measured, ett lem:corresponding_K and benzecri bzdef:c1s1d8_partie_convexe, both confirmed by the master), T-ledger-stale-blockers (master: 17 ETT rows blocked by the done T-ett-port-e0)
+- rulings that would unblock the most (planner): BBS-Q1 (63 rows), OQ-63 with OQ-68 and OQ-43 (8), OQ-42 (7), T-syr-cited (up to 7), OQ-45 (5), T-yamabe-scope with OQ-44 (5–7), OQ-71 (the Benzécri headline, 3 with its affine twin and result B)
+- gates: roadmap ✓, atlas ✓
+- wall time: 07:25–07:44 (Paris); agents: 1 (planner, alone)
+- next: wave of 6: T-ledger-decl-fullname (master, after /ett-programme is told), T-bz-c2-theoreme, T-bz-c2-premier-affine, T-syr-no-circuit, T-syr-cited-steps, T-yamabe-negative
