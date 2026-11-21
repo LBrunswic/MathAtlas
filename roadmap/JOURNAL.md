@@ -157,3 +157,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 00:27–01:15 (Paris); agents: 4 closers, 4 audits, 1 fetch attempt; 2 master targets
 - coordination: lean-causal leased from /ett-programme for the exclusive E₀ port, its four ledgers rebuilt here; binder.toml leases narrowed for its planner
 - next: the only ready closers are lean-causal's (T-ett-e0-model-rows, T-ett-gxsingular-dec25); planned targets need promotion — plan, or a lean-causal wave shared with /ett-programme
+
+## 2026-11-21 01:50 · plan · —
+- why: rule 2 (fewer than two ready closers outside lean-causal, which /ett-programme held exclusively for T-abs-hoist-cbg-cores)
+- result: 78 -> 86 targets; promoted T-bz-c2-lignes (narrowed to Déf. 5, Props. 4, 6, with 7°) and T-egf-sampling (narrowed to the sampling and negative-control theorems; OQ-55 does not enter them); added T-bz-c2-pseudo-boules, T-gx-troyanov-four (s = 4 with an angle > 2π, by a spherical dart, [r]), T-gx-troyanov-reroute (master), T-syr-cycle-gcd, T-yamabe-gluing-algebra, T-egf-sampling-corollaries (planned; Pinsker is not in Mathlib), and two needs-ruling targets: T-syr-cited (named externals for theo:mr, theo:matveev, the computer check of l.201) and T-syr-empty-corollary (cor:corollary is an empty environment); T-gx-troyanov retitled to s ≥ 5 and no longer waits on the source; T-gx-troyanov-source no longer needs the author: the paper is author-hosted (sma.epfl.ch), fetchable once the server's missing DigiCert intermediate is supplied
+- gates: roadmap ✓, atlas ✓
+- wall time: 01:25–01:50 (Paris); agents: 1 (planner, alone)
+- next: wave outside lean-causal: T-egf-sampling, T-bz-c2-lignes, T-gx-troyanov-four, T-bz-c2-pseudo-boules, T-syr-cycle-gcd, T-yamabe-gluing-algebra; master: T-gx-troyanov-source, T-gx-troyanov-reroute, T-atlas-sweep-refresh
