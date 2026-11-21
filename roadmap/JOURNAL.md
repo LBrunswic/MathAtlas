@@ -352,3 +352,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - new OQ: none (next free OQ-86); lean-causal kb 0133–0141
 - for the next planner: T-ett-bprime-ealpha can reuse exists_smul_devPt_of_ringBox, but its box form needs one map into E^{1,2} on all the boxes, which a chart into E_κ′ does not give directly (audit caution)
 - next: plan (rule 2: only T-ett-measures-e0 is ready)
+
+## 2026-11-21 15:57 · wave of 1 · T-ett-measures-e0
+- T-ett-measures-e0: admissible measures at E₀, the first ModelMeasures with a BTZ point (E0.modelMeasures). The proof's sentence l.1737–1741 holds as printed: λ₃ in the future, λ₃ + λ₁ in the past, each failing exactly one of properties 1., 3., 4. on the other side; every finite measure in the class is admissible. The three rows are instantiated at E₀ (E0.mesure_admissible, E0.geroch_hypotheses, E0.mesure_unilaterale + sharp), with the paper's local form paper_measures_local. Every step of the planner's [r] route checked out. Finding (proof-level): l.1742–1743's restriction_convexe carries property 4 to U_p, not bare property 3; the paper's measures satisfy property 3 through its local form (pos_past_inter / pos_future_inter). Audit minor.
+- gates: lean-causal ✓ (re-run after /ett-programme's 7923138 changed Causal.lean meanwhile), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at 6cf97e4, clean; edges refreshed), hub: no new red
+- commits: 6cf97e4 341e642 (+ this)
+- wall time: 15:05–15:57 (Paris); agents: 1 closer, 1 audit (T-ett-measures-ealpha shares its label, so it runs next)
+- new OQ: none (the λ₃/λ₁ reading is settled by the class lemmas; next free OQ-86); lean-causal kb 0146–0150
+- for the next planner: four strict docstrings were already stale before this target and are now plainly so (BTZPoints.lean:88–91, SingularGeroch.lean:107–108, SingularFlat.lean:122–126, MeasureRemarks.lean:309: « no model with sing₀ ≠ ∅ »), a tidy target; the auditor's unchecked observation that the assembly at every E≥0-manifold may need the chart image of U_p causally convex in the model
+- next: plan (rule 2: T-ett-measures-ealpha is the only ready closer)
