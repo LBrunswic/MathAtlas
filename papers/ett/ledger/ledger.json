@@ -171,12 +171,17 @@
         "label": "lem:IJ_calc",
         "kind": "context",
         "one_line": "the step I⁻(q) ≠ ∅ ⇒ q ∈ Z⁻ needs absolute minimality (rem:absolutely_minimal_topological_spacetime, cor:model_minimal), not cited"
+      },
+      {
+        "label": "lem:densite_modele",
+        "kind": "sentence",
+        "one_line": "the cited fact 'J^±(p) is the closure of its interior' (l.1481) is false for J⁻ at a BTZ point, and the proof's 'p ∈ Z^∓' (l.1482) reaches those points; the statement stands (one proof-level repair)"
       }
     ]
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-causal",
-    "git_commit": "a4e55ff"
+    "git_commit": "ebfa521"
   },
   "statements": [
     {
@@ -2283,7 +2288,11 @@
       "lean_files": [
         "Causal/Galileo.lean",
         "Causal/Minkowski.lean",
-        "Causal/Static.lean"
+        "Causal/Static.lean",
+        "Causal/Model/Massive.lean",
+        "Causal/Port/ModelRowsE0.lean",
+        "Causal/Port/E0Strong.lean",
+        "Causal/Model/EAlphaCauchy.lean"
       ],
       "decls": [
         "Causal.galileoOn",
@@ -2299,25 +2308,34 @@
         "Causal.galileo_zero_stronglyCausal",
         "Causal.minkowski_stronglyCausal",
         "Causal.staticCausality.stronglyCausal",
-        "Causal.staticCausality.diamond_vertical"
+        "Causal.staticCausality.diamond_vertical",
+        "Causal.ModelRowsE0.models_stronglyCausal",
+        "Causal.ModelRowsE0.e0_stronglyCausalOpen",
+        "Causal.E0.stronglyCausal",
+        "Causal.massive_stronglyCausal",
+        "Causal.massive_stronglyCausalOpen"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "Galileo's spacetime is not strongly causal for n ≥ 1 (false for n = 0); Minkowski space and E_α (α > 0) are strongly causal. (WP-2, WP-9, audited)",
-      "notes": "Galileo's spacetime is not strongly causal for n ≥ 1 (false for n = 0); Minkowski space and E_α (α > 0) are strongly causal. (WP-2, WP-9, audited)",
-      "blocked_on": "the flat model spacetimes E_0",
+      "scope_notes": "Galileo's spacetime is not strongly causal for n ≥ 1 (false for n = 0); Minkowski space and E_α (α > 0) are strongly causal. (WP-2, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: the model sentence (l.672-673) for every E_κ, κ ≥ 0 (models_stronglyCausal), in both readings of strong causality (StronglyCausal and StronglyCausalOpen; OQ-8, DEC-7); E₀ StronglyCausalOpen is new (e0_stronglyCausalOpen). 'The flat model spacetimes of subsec:sing_spacetime_defi' read as the model spaces E_κ of its first subsection, not the E≥0-manifolds. The Galileo sentences are unchanged.",
+      "notes": "Galileo's spacetime is not strongly causal for n ≥ 1 (false for n = 0); Minkowski space and E_α (α > 0) are strongly causal. (WP-2, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: the model sentence (l.672-673) for every E_κ, κ ≥ 0 (models_stronglyCausal), in both readings of strong causality (StronglyCausal and StronglyCausalOpen; OQ-8, DEC-7); E₀ StronglyCausalOpen is new (e0_stronglyCausalOpen). 'The flat model spacetimes of subsec:sing_spacetime_defi' read as the model spaces E_κ of its first subsection, not the E≥0-manifolds. The Galileo sentences are unchanged.",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀)",
       "lean_proved_override": "partial",
       "paper_findings": [
         "ETT.tex:273 / 670: Galileo's spacetime R^{n+1} is written with n unrestricted; for n = 0 it is the timelike line, which is strongly causal (galileo_zero_stronglyCausal; also timelikeLine_stronglyCausal in Causal.Lines). The remark holds for n ≥ 1 only.",
         "ETT.tex:274-275: 'p ≤_U q if p ≪_U q or p = q' needs p ∈ U in the second case (relations of a causality on U hold between points of U); carried so.",
-        "ETT.tex:672-673: the last sentence (flat model spacetimes are strongly causal) is about the model spaces of subsec:sing_spacetime_defi, absent from the library; not stated.",
+        "ETT.tex:672-673: the last sentence (flat model spacetimes are strongly causal) holds for the model spaces E_κ, κ ≥ 0, read as the models of subsec:sing_spacetime_defi's first subsection (models_stronglyCausal), E₀ in the reading OQ-34/OQ-35.",
         "The sentence 'the flat model spacetimes ... are strongly causal' (l.672-674) holds for Minkowski space: the vertical diamonds J((t-e,x),(t+e,x)) are causally convex and lie in the closed e-ball (stronglyCausal)."
       ],
       "extra_lean_files": [
         "Causal/Galileo.lean",
         "Causal/Minkowski.lean",
-        "Causal/Static.lean"
+        "Causal/Static.lean",
+        "Causal/Model/Massive.lean",
+        "Causal/Port/ModelRowsE0.lean",
+        "Causal/Port/E0Strong.lean",
+        "Causal/Model/EAlphaCauchy.lean"
       ],
       "size": "S",
       "in_lean_scope": true,
@@ -4152,8 +4170,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "Disclosed by the modules themselves; no note curated against the statement yet.\n\n**GlobalHyperbolicity.lean**\n\n## SCOPE (disclosed)\n\n* `prop:GH_fortement_causal`. The paper's proof ends: \"The open set $\\ring J_M(a,b)$ contains\n  $p$, is contained in $\\U$ and is causally convex in $M$.\" Causal convexity of an **open**\n  diamond is not proved there and is not a consequence of the axioms used: for `x, y` in the\n  interior of `J(a,b)` and `x ≤ z ≤ y` one gets `z ∈ J(a,b)`, not `z` in its interior. The\n  proof here takes the full diamond `J(a,b)`, which is causally convex and is a neighbourhood\n  of `p`: that is the statement, the neighbourhood of the definition not being asked open\n  (DEC-7). `GloballyHyperbolic.stronglyCausalOpen` gives an open one under causal openness,\n  where an open diamond is causally convex (`CausallyOpen.causallyConvexIn_openDiamond`).",
-      "scope_from_lean": true,
+      "scope_notes": "Sharp in tarentin (/ett-programme, T-abs-gh-without-tarentin, 2026-11-21; Causal/GHWithoutTarentin.lean): without tarentin a globally hyperbolic spacetime need not have ≤_M or J⁺(K) closed: the fork is globally hyperbolic and strongly causal with open causally convex neighbourhoods, and neither J⁺(w) nor ≤_M is closed (Causal.fork_separates).",
+      "notes": "Sharp in tarentin (/ett-programme, T-abs-gh-without-tarentin, 2026-11-21; Causal/GHWithoutTarentin.lean): without tarentin a globally hyperbolic spacetime need not have ≤_M or J⁺(K) closed: the fork is globally hyperbolic and strongly causal with open causally convex neighbourhoods, and neither J⁺(w) nor ≤_M is closed (Causal.fork_separates).",
       "in_lean_scope": true,
       "stale": false
     },
@@ -4195,8 +4213,8 @@
       "lean_stated": "strict",
       "lean_proved": "closed",
       "bucket": "A",
-      "scope_notes": "Proved with the full diamond J(a,b) as causally convex neighbourhood (`StronglyCausal`), under the paper's hypotheses; and with the open diamond (`StronglyCausalOpen`) under two-sided causal openness, which the paper does not assume. T-ett-ruled-rows (atlas-team, 2026-11-20): closed by DEC-7, which rules OQ-8 (closed as proved, the full diamond being the neighbourhood); the strict module carries the mark (Causal/GlobalHyperbolicity.lean:8).",
-      "notes": "Proved with the full diamond J(a,b) as causally convex neighbourhood (`StronglyCausal`), under the paper's hypotheses; and with the open diamond (`StronglyCausalOpen`) under two-sided causal openness, which the paper does not assume. T-ett-ruled-rows (atlas-team, 2026-11-20): closed by DEC-7, which rules OQ-8 (closed as proved, the full diamond being the neighbourhood); the strict module carries the mark (Causal/GlobalHyperbolicity.lean:8).",
+      "scope_notes": "Proved with the full diamond J(a,b) as causally convex neighbourhood (`StronglyCausal`), under the paper's hypotheses; and with the open diamond (`StronglyCausalOpen`) under two-sided causal openness, which the paper does not assume. T-ett-ruled-rows (atlas-team, 2026-11-20): closed by DEC-7, which rules OQ-8 (closed as proved, the full diamond being the neighbourhood); the strict module carries the mark (Causal/GlobalHyperbolicity.lean:8). Sharp in tarentin (/ett-programme, T-abs-gh-without-tarentin, 2026-11-21; Causal/GHWithoutTarentin.lean): without tarentin a globally hyperbolic spacetime need not be strongly causal, in either form: the loop fan is causal, causally compact and has a time function, and is not strongly causal at its apex (Causal.loopFan_separates).",
+      "notes": "Proved with the full diamond J(a,b) as causally convex neighbourhood (`StronglyCausal`), under the paper's hypotheses; and with the open diamond (`StronglyCausalOpen`) under two-sided causal openness, which the paper does not assume. T-ett-ruled-rows (atlas-team, 2026-11-20): closed by DEC-7, which rules OQ-8 (closed as proved, the full diamond being the neighbourhood); the strict module carries the mark (Causal/GlobalHyperbolicity.lean:8). Sharp in tarentin (/ett-programme, T-abs-gh-without-tarentin, 2026-11-21; Causal/GHWithoutTarentin.lean): without tarentin a globally hyperbolic spacetime need not be strongly causal, in either form: the loop fan is causal, causally compact and has a time function, and is not strongly causal at its apex (Causal.loopFan_separates).",
       "paper_findings": [
         "The proof ends: 'The open set Int J_M(a,b) contains p, is contained in U and is causally convex in M.' Causal convexity of the open diamond is not proved: for x, y in the interior of J(a,b) and x <= z <= y one gets z in J(a,b), not z in its interior. The full diamond J(a,b) is causally convex and is a neighbourhood of p, which proves the statement if the neighbourhood V of def:strongly_causal_spacetime need not be open; an open V is obtained under two-sided causal openness."
       ],
@@ -4761,7 +4779,9 @@
         "Causal/Model/Massive.lean",
         "Causal/Static.lean",
         "Causal/LinesReachable.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean",
+        "Causal/Port/E0SingularFlat.lean"
       ],
       "decls": [
         "Causal.massive_pushUp",
@@ -4770,24 +4790,33 @@
         "Causal.staticLt_of_staticLe_of_staticLt",
         "Causal.staticCausality.pushUp",
         "Causal.staticCausality.pushUpOn",
-        "Causal.minkowski_pushUp"
+        "Causal.minkowski_pushUp",
+        "Causal.ModelRowsE0.pushup",
+        "Causal.ModelRowsE0.e0_pushUpOn",
+        "Causal.ModelRowsE0.pushup_concat_counterexample",
+        "Causal.ModelRowsE0.e0_concat_not_chronal",
+        "Causal.ModelRowsE0.e0_exists_chronalCurveOn",
+        "Causal.E0LM.e0_pushUp"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "Push-up in every open subset of every static spacetime over a geodesic space, hence of Minkowski space and of E_α, α > 0. (WP-10, WP-9, audited)",
-      "notes": "Push-up in every open subset of every static spacetime over a geodesic space, hence of Minkowski space and of E_α, α > 0. (WP-10, WP-9, audited)",
-      "blocked_on": "the BTZ model E_0",
+      "scope_notes": "Push-up in every open subset of every static spacetime over a geodesic space, hence of Minkowski space and of E_α, α > 0. (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: push-up at E₀ in every open set, future and past (pushup, e0_pushUpOn, E0LM.e0_pushUp), beside E_α, α > 0; the first sentence refuted at E₀ (pushup_concat_counterexample, e0_concat_not_chronal). Hypotheses: causal and chronological curves and their concatenation → carried (DEC-6: CausalCurveOn, ChronalCurveOn, CurveOn.concat); « in every open subset » → carried. The first sentence is read literally (the concatenated curve itself chronological); the other reading is push-up, proved.",
+      "notes": "Push-up in every open subset of every static spacetime over a geodesic space, hence of Minkowski space and of E_α, α > 0. (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: push-up at E₀ in every open set, future and past (pushup, e0_pushUpOn, E0LM.e0_pushUp), beside E_α, α > 0; the first sentence refuted at E₀ (pushup_concat_counterexample, e0_concat_not_chronal). Hypotheses: causal and chronological curves and their concatenation → carried (DEC-6: CausalCurveOn, ChronalCurveOn, CurveOn.concat); « in every open subset » → carried. The first sentence is read literally (the concatenated curve itself chronological); the other reading is push-up, proved.",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀); the first sentence (l.1375-1376) is false as printed, so a reworded form is marked only on a DEC row",
       "lean_proved_override": "partial",
       "paper_findings": [
         "The wording finding of WP-9 applies verbatim to E_alpha: the concatenation itself is not chronological; its end points are joined by a chronological curve in the same open set (Static.staticLt_of_staticLt_of_staticLe).",
-        "l.1375-1376 'the concatenation of a future causal curve with a future chronological one is future chronological' is false for the concatenated curve itself: a chronological curve followed by a null segment is not chronological (it has a null piece). What holds, and what the 'Equivalently' formula and defi:pushup need, is that the END POINTS are chronologically related in the same open set, through another curve: Lean re-times the concatenation (the chronological part sped up, the causal part slowed down) inside a tube of U (staticLt_of_staticLt_of_staticLe). Suggested wording: '...the end points of the concatenation of a future causal curve with a future chronological one are joined by a future chronological curve in the same open set.'"
+        "l.1375-1376 'the concatenation of a future causal curve with a future chronological one is future chronological' is false for the concatenated curve itself: a chronological curve followed by a null segment is not chronological (it has a null piece). What holds, and what the 'Equivalently' formula and defi:pushup need, is that the END POINTS are chronologically related in the same open set, through another curve: Lean re-times the concatenation (the chronological part sped up, the causal part slowed down) inside a tube of U (staticLt_of_staticLt_of_staticLe). Suggested wording: '...the end points of the concatenation of a future causal curve with a future chronological one are joined by a future chronological curve in the same open set.'",
+        "ETT.tex:1375-1376 at κ = 0, with a Lean witness: the axis segment [−1, 0] ending at a BTZ point p (a future causal curve, E0.axis_causalCurveOn) followed by a future chronological curve from p (e0_exists_chronalCurveOn) is a future causal curve that is not chronological, since its points at −1 and 0 lie on the axis and nothing is ≪ a point of the axis (pushup_concat_counterexample, e0_concat_not_chronal). The refutation uses only what defi:causal_E0 prints (l.1345-1347: the singular line is causal and not locally chronal, I^-(p) is empty), not the reading of E₀. A statement-level wording error, as for κ > 0; the 'Equivalently' inclusions, which defi:pushup needs, are proved at E₀ (pushup)."
       ],
       "extra_lean_files": [
         "Causal/Model/Massive.lean",
         "Causal/Static.lean",
         "Causal/LinesReachable.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean",
+        "Causal/Port/E0SingularFlat.lean"
       ],
       "size": "S",
       "in_lean_scope": true,
@@ -4826,7 +4855,9 @@
       "lean_files": [
         "Causal/Model/Massive.lean",
         "Causal/Static.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean",
+        "Causal/Port/E0Axioms.lean"
       ],
       "decls": [
         "Causal.massive_causallyArcConnected",
@@ -4836,14 +4867,18 @@
         "Causal.staticCausality.causalCurveOn_graph",
         "Causal.staticCausality.chronalCurveOn_graph",
         "Causal.minkowski_absolutelyMinimal",
-        "Causal.minkowski_causallyArcConnected"
+        "Causal.minkowski_causallyArcConnected",
+        "Causal.ModelRowsE0.model_minimal",
+        "Causal.ModelRowsE0.e0_absolutelyMinimal",
+        "Causal.E0.causallyArcConnected",
+        "Causal.E0.absolutelyMinimalOn"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "E_α (α > 0) is causally arc-connected, hence absolutely minimal, as the paper argues. (WP-10, WP-9, audited)",
-      "notes": "E_α (α > 0) is causally arc-connected, hence absolutely minimal, as the paper argues. (WP-10, WP-9, audited)",
-      "blocked_on": "the BTZ model E_0",
+      "scope_notes": "E_α (α > 0) is causally arc-connected, hence absolutely minimal, as the paper argues. (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: κ = 0 at the ported E₀. model_minimal: every E_κ, κ ≥ 0 (α = 2π is E^{1,2}), is causally arc-connected and absolutely minimal, E₀ on every open set as well (E0.causallyArcConnected, E0.absolutelyMinimalOn); no hypothesis added. Hypotheses: κ ≥ 0, the model space E_κ → carried (κ > 0: Massive α; κ = 0: Causal.E0, read (OQ-34, OQ-35)). Partial and unmarked for the reading of E₀ only.",
+      "notes": "E_α (α > 0) is causally arc-connected, hence absolutely minimal, as the paper argues. (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: κ = 0 at the ported E₀. model_minimal: every E_κ, κ ≥ 0 (α = 2π is E^{1,2}), is causally arc-connected and absolutely minimal, E₀ on every open set as well (E0.causallyArcConnected, E0.absolutelyMinimalOn); no hypothesis added. Hypotheses: κ ≥ 0, the model space E_κ → carried (κ > 0: Massive α; κ = 0: Causal.E0, read (OQ-34, OQ-35)). Partial and unmarked for the reading of E₀ only.",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀)",
       "lean_proved_override": "partial",
       "paper_findings": [
         "For alpha > 0 the paper's proof is the formal one: causal arc-connectedness of E_alpha (which the paper cites to [thesis, brunswic:hal-01317447]) is proved here, and cor:causalement_connexe_minimal concludes.",
@@ -4852,7 +4887,9 @@
       "extra_lean_files": [
         "Causal/Model/Massive.lean",
         "Causal/Static.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean",
+        "Causal/Port/E0Axioms.lean"
       ],
       "size": "S",
       "in_lean_scope": true,
@@ -4889,7 +4926,8 @@
       "statement_sha256_current": "8149fad01688c43e86625797b0fb95ffbeb5126326f91a09f1d69cbd4c022d21",
       "lean_files": [
         "Causal/Remarks/MassiveManifold.lean",
-        "Causal/Remarks/MassADEC25.lean"
+        "Causal/Remarks/MassADEC25.lean",
+        "Causal/Port/BPrimeE0.lean"
       ],
       "decls": [
         "Causal.massA_causalite",
@@ -4916,23 +4954,36 @@
         "Causal.massA_dec25_minkowski",
         "Causal.isAtlasCausalityDEC25_iff",
         "Causal.AtlasIndexDEC25",
-        "Causal.ModelChartIndexDEC25"
+        "Causal.ModelChartIndexDEC25",
+        "Causal.BPrimeE0.chartIso_of_isAEChart",
+        "Causal.BPrimeE0.exists_eqOn_rotE0_tauShift",
+        "Causal.BPrimeE0.isAEChart_rotE0_tauShift",
+        "Causal.BPrimeE0.existsUnique_causality_e0",
+        "Causal.BPrimeE0.hiso_massAModel_none",
+        "Causal.BPrimeE0.chartIso_conjE0",
+        "Causal.BPrimeE0.not_isAEChart_conjE0",
+        "Causal.BPrimeE0.nonvacuous"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
-      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82.",
-      "blocked_on": "T-ett-singular-instance (the corollaries at concrete E≥0-manifolds: the models' singular structures packaged, hreg now built for κ > 0 and κ = 0), OQ-18 (« natural »), OQ-64 ((b′) at singular sources), OQ-82 (the group)",
+      "scope_notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82. T-ett-bprime-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (BTZ_1 line numbers, finding wording, checklist vocabulary; fixed at graduation), Causal/Port/BPrimeE0.lean: (b′) at E₀ → E₀. Every a.e. isomorphism chart ψ : E₀ ⇀ E₀ (IsAEChart for E0GX.singularGX), its source meeting the axis or not, is a chart isomorphism of E0.causality (chartIso_of_isAEChart); near an axis point ψ is a rotation about the axis after a translation along it (exists_eqOn_rotE0_tauShift), and every such map is one (isAEChart_rotE0_tauShift). Assembled as the hiso of massA_singular_dec25_models at o = o′ = E₀ (hiso_massAModel_none, for any family of model structures equal to E0GX.singularGX at E₀; no such family exists yet). E₀-manifolds: existence and uniqueness with no model hypothesis left (existsUnique_causality_e0; not vacuous: nonvacuous). Its own route over E0GX's sector charts (one slit box, the limit at the axis, continuity across the slit); gx's covering-and-deck-relation route was read, not followed. Hypotheses: every E≥0-manifold → strengthened (the models E₀ only; the pairs E₀ ↔ E_κ, E_κ ↔ E_κ′ need E_κ's singular structure); E₀ → read (OQ-34, OQ-35); « isomorphisms of the model spaces » → read (OQ-64: IsAEChart, and ChartIso for « of topological spacetimes »); Isom(E^{1,2}) → read (OQ-82: SO₀(1,2) ⋉ ℝ³, used once, through the determinant); prop:isom's U open connected and φ a local homeomorphism → strengthened (read through IsAEChart, local form, which is all (b′) needs); prop:isom's α = β → strengthened (α = β = 0); Baire → weakened (not used). The planner's [r] in the target's evidence was incomplete: with g = T B_μ H_u, g hol(2π) g⁻¹ = hol(2πμ), so the deck relation gives k = μ, a positive integer, and k = 1 needs injectivity as well (μ ≥ 2 gives the non-injective h_μ).",
+      "notes": "T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: E≥0-manifold → strengthened (the abstracted singular (G,X)-atlas of Causal.existsUnique_causality_singularGX (prop:GX_sing_espace_temps_topo; OQ-19, ruled by DEC-25 in gx's terms, not yet reconciled)); model spaces E_κ, κ ≥ 0 (cor:model_minimal) → strengthened (E^{1,2} and Isom(E^{1,2}) discharged (minkowski_model_facts); E₀: causal arc-connectedness is the hypothesis hb at the BTZ model (the E₀ instance is not in lean-causal (DEC-134, T-ett-port-e0)). For E_κ, κ > 0: causal arc-connectedness and push-up are discharged (massive_model_facts); the second half of (b) of prop:GX_sing_espace_temps_topo — the regular charts of E_κ are isomorphisms onto E^{1,2}, hreg — is a model fact that is ASSUMED (the library builds no regular chart of E_κ). massA_positive (no BTZ model) assumes hreg and the atlas (hXX, hXY, hYY) only.); Baire → weakened (not used (OQ-10)); 'natural' → carried (read: every chart an isomorphism, and the unique absolutely minimal such causality (OQ-18 form of uniqueness)); (b) second half of prop:GX_sing_espace_temps_topo: the causality of X_α extends that of reg(X_α) → strengthened (hreg: every regular chart of each model is a ChartIso (reading of Causal.GXSingular); assumed for every model, E_κ (κ > 0) included). Blocker re-pointed 2026-11-21 (T-ledger-stale-blockers): T-ett-port-e0, which ported the E₀ model, is done (0fe9136). T-ett-massa-dec25 (atlas-team, 2026-11-21), audit AUDIT-1 minor (an iff qualifier, the ℝ ⊔ ℝ counterexample's scope, the group reading, the missing model-level witness; fixed at graduation). Over DEC-25 atlases (Causal/Remarks/MassADEC25.lean): the natural causality IsAtlasCausalityDEC25; cac (massA_cac_dec25) and push-up (pushup_sing_dec25) with neither hreg nor (b′) nor the group action (checked on the proof terms); uniqueness with no model hypothesis (massA_causalite_unique_dec25); existence from named hreg and (b′), and existence for every manifold ⇔ (b′) given hreg (forall_exists_isAtlasCausalityDEC25_iff; for the Lean's class of manifolds and the maximal-atlas reading). The E≥0 models (MassAModel) discharge E₀'s causal arc-connectedness and push-up (massAModel_facts); the four model-level theorems have no witness yet (no instance of the models' singular structures). Unmarked: T-ett-singular-instance, OQ-18, OQ-64, OQ-82. T-ett-bprime-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (BTZ_1 line numbers, finding wording, checklist vocabulary; fixed at graduation), Causal/Port/BPrimeE0.lean: (b′) at E₀ → E₀. Every a.e. isomorphism chart ψ : E₀ ⇀ E₀ (IsAEChart for E0GX.singularGX), its source meeting the axis or not, is a chart isomorphism of E0.causality (chartIso_of_isAEChart); near an axis point ψ is a rotation about the axis after a translation along it (exists_eqOn_rotE0_tauShift), and every such map is one (isAEChart_rotE0_tauShift). Assembled as the hiso of massA_singular_dec25_models at o = o′ = E₀ (hiso_massAModel_none, for any family of model structures equal to E0GX.singularGX at E₀; no such family exists yet). E₀-manifolds: existence and uniqueness with no model hypothesis left (existsUnique_causality_e0; not vacuous: nonvacuous). Its own route over E0GX's sector charts (one slit box, the limit at the axis, continuity across the slit); gx's covering-and-deck-relation route was read, not followed. Hypotheses: every E≥0-manifold → strengthened (the models E₀ only; the pairs E₀ ↔ E_κ, E_κ ↔ E_κ′ need E_κ's singular structure); E₀ → read (OQ-34, OQ-35); « isomorphisms of the model spaces » → read (OQ-64: IsAEChart, and ChartIso for « of topological spacetimes »); Isom(E^{1,2}) → read (OQ-82: SO₀(1,2) ⋉ ℝ³, used once, through the determinant); prop:isom's U open connected and φ a local homeomorphism → strengthened (read through IsAEChart, local form, which is all (b′) needs); prop:isom's α = β → strengthened (α = β = 0); Baire → weakened (not used). The planner's [r] in the target's evidence was incomplete: with g = T B_μ H_u, g hol(2π) g⁻¹ = hol(2πμ), so the deck relation gives k = μ, a positive integer, and k = 1 needs injectivity as well (μ ≥ 2 gives the non-injective h_μ).",
+      "blocked_on": "T-ett-singular-instance (the corollaries at concrete E≥0-manifolds: the models' singular structures packaged; hreg built for κ > 0 and κ = 0, (b′) proved at E₀ → E₀), OQ-18 (« natural »), OQ-64 (whether (b′) is part of « model space »), OQ-82 (the group), OQ-34, OQ-35 (the reading of E₀)",
       "lean_proved_override": "partial",
       "paper_findings": [
         "ETT.tex:1400-1405: the proof checks absolute minimality of the models (cor:model_minimal) and Baire, but prop:GX_sing_espace_temps_topo asks causal arc-connectedness of X and of each X_α ((a), (b)) — the premise of cor:model_minimal, not its conclusion — and the second half of (b) (the causality of X_α extends that of reg(X_α)), which the proof does not check. Baire is not needed (OQ-10).",
         "ETT.tex:1396 « natural », read through prop:GX_sing_espace_temps_topo's « unique » (l.622): the uniqueness of the natural causality needs no hypothesis on the models and no argument on transition maps. Two absolutely minimal causalities that make the same chart an isomorphism agree on its domain, so if one makes every chart an isomorphism and the other some chart at each point, they are equal (massA_causalite_unique_dec25, by eq_of_agreeOn_locally). Without absolute minimality the uniqueness is false under DEC-25 too: on ℝ ⊔ ℝ with one model ℝ, a second causality that is not absolutely minimal makes every chart an isomorphism (twoLines_dec25_not_unique; library's gluing-free reading of defi:causalite, OQ-18). The printed « natural absolutely minimal » agrees with this. The paper may want to write « the unique absolutely minimal causality for which every chart is an isomorphism ». (The counterexample twoLines_dec25_not_unique is on ℝ ⊔ ℝ, in the general DEC-25 setting, not an E≥0-manifold.)",
-        "ETT.tex:1399-1406 (the proof), extending the ledger's finding (it checks absolute minimality of the models and Baire, not causal arc-connectedness and not the second half of (b)): under DEC-25 the existence half also needs (b′) at the models E_κ, E₀ (OQ-64). Given (a), (b) and hreg, every E≥0-manifold carries a natural causality if and only if every a.e. isomorphism between open subsets of the E_κ (κ ≥ 0, E₀ included) is an isomorphism of topological spacetimes (forall_exists_massA_dec25_models_iff; for the Lean's class of manifolds and its maximal-atlas reading of the charts, as OQ-64 does). The proof checks neither hreg nor (b′)."
+        "ETT.tex:1399-1406 (the proof), extending the ledger's finding (it checks absolute minimality of the models and Baire, not causal arc-connectedness and not the second half of (b)): under DEC-25 the existence half also needs (b′) at the models E_κ, E₀ (OQ-64). Given (a), (b) and hreg, every E≥0-manifold carries a natural causality if and only if every a.e. isomorphism between open subsets of the E_κ (κ ≥ 0, E₀ included) is an isomorphism of topological spacetimes (forall_exists_massA_dec25_models_iff; for the Lean's class of manifolds and its maximal-atlas reading of the charts, as OQ-64 does). The proof checks neither hreg nor (b′).",
+        "ETT.tex:1399-1406 with l.631-632, at the models E₀ → E₀: (b′), which the existence half needs and the proof does not check (OQ-64), holds there in the readings OQ-34/35, OQ-64 and OQ-82 = SO₀ (chartIso_of_isAEChart). It is not a formality. (b′) follows from prop:isom of brunswic2021cauchy at α = β = 0 (BTZ_1.tex:378-383) in its local form, since rotations and translations of E₀ are causal isomorphisms: near an axis point every a.e. isomorphism between open subsets of E₀ is a rotation about the axis after a translation along it (exists_eqOn_rotE0_tauShift), and every such map is one (isAEChart_rotE0_tauShift). ETT.tex:1325 promises « the precise reference for each »; the proof of cor:massA_causalite (l.1399-1406), or step (B) of prop:GX_sing_espace_temps_topo (l.631-632), may want to cite prop:isom for (b′) at the models.",
+        "ETT.tex:1396 at the models E₀ only: on an E₀-manifold the natural absolutely minimal causality exists and is unique with no model hypothesis left (existsUnique_causality_e0: existsUnique_causality_singularGX_dec25 with (a), (b), hreg and (b′) discharged). In these readings the existence half of cor:massA_causalite is not refuted at E₀.",
+        "In the cited source (brunswic2021cauchy, BTZ_1.tex:447 and l.453-462; not ETT): the proof of prop:isom is written for α > 0 and carried to α = 0 « mutatis mutandis » (l.447). One step does not carry over word for word: at α = 0 the developed singular line Δ is null, not timelike, so l.459 (« Since the direction of Δ is timelike, g is an elliptic isometry of axis Δ ») has no α = 0 analogue as written. The isometries of SO₀(1,2) ⋉ ℝ³ preserving the null line are a boost B_μ, μ > 0, after a parabolic H_u, then a translation along Δ (isom_of_null_line); the developed map is ψ(τ, re^{iθ}) = (μτ + (r/μ − μr)/2 + s/2, (r/μ)e^{iμ(θ+u)}) (eq_of_dev), the paper's own h_ℓ (l.369; l.442 generates Isom(E_{0∞}) with the h_ℓ, ℓ ∈ ℝ₊*) with ℓ = μ. In place of l.462, μ < 1 is excluded by continuity across a slit (e^{2πiμ} ≠ 1) and μ > 1 by injectivity (the paper's own l.370, « injective iff ℓ = 1 ») (mu_eq_one). The paper prepares both ingredients; with this step written out the proof carries over.",
+        "ETT.tex:1331 and l.1401 (OQ-82): the reflection θ ↦ −θ of E₀ (conjE0) is a chart isomorphism of E0.causality (chartIso_conjE0: the closed forms see the angle only through δ²), and under SO₀(1,2) ⋉ ℝ³ it is not an a.e. isomorphism chart (not_isAEChart_conjE0). The reflection also preserves the developed axis, in O↑(1,2) ⋉ ℝ³, and only the determinant excludes it (at α > 0 as well). So OQ-82's answer changes the class of a.e. isomorphisms of E₀; the maps the O↑ reading adds are still causal isomorphisms, so as far as the reflection goes the choice does not decide (b′) at E₀. The O↑ statement is not proved."
       ],
       "extra_lean_files": [
         "Causal/Remarks/MassiveManifold.lean",
-        "Causal/Remarks/MassADEC25.lean"
+        "Causal/Remarks/MassADEC25.lean",
+        "Causal/Port/BPrimeE0.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -5143,7 +5194,8 @@
         "Causal/Static.lean",
         "Causal/LinesReachable.lean",
         "Causal/Properties.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean"
       ],
       "decls": [
         "Causal.massive_IJ_calc",
@@ -5153,14 +5205,20 @@
         "Causal.staticCausality.interior_Jminus",
         "Causal.staticCausality.mem_Zplus",
         "Causal.staticCausality.mem_Zminus",
-        "Causal.minkowski_IJ_calc"
+        "Causal.minkowski_IJ_calc",
+        "Causal.ModelRowsE0.IJ_calc",
+        "Causal.ModelRowsE0.e0_IJ_calc",
+        "Causal.ModelRowsE0.e0_IJ_calc_reg",
+        "Causal.ModelRowsE0.e0_Zplus_eq",
+        "Causal.ModelRowsE0.e0_Zminus_eq",
+        "Causal.Causality.J_int"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "Int J^±(p) ∩ Z^∓ = I^±(p) for every static spacetime, Minkowski and E_α (α > 0). (WP-10, WP-9, audited)",
-      "notes": "Int J^±(p) ∩ Z^∓ = I^±(p) for every static spacetime, Minkowski and E_α (α > 0). (WP-10, WP-9, audited)",
-      "blocked_on": "the BTZ model E_0",
+      "scope_notes": "Int J^±(p) ∩ Z^∓ = I^±(p) for every static spacetime, Minkowski and E_α (α > 0). (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: IJ_calc for every κ ≥ 0 and every p, BTZ points included, at E₀ through the abstract Causality.J_int (T1, absolutely minimal and push-up discharged at E₀); the paper's form with Z⁺(E₀) = E₀ and Z⁻(E₀) = reg(E₀) substituted is e0_IJ_calc_reg (e0_Zplus_eq, e0_Zminus_eq). Hypotheses: κ ≥ 0, every p ∈ E_κ → carried; I^±, J^±, Z^∓ read globally (U = E_κ), as printed.",
+      "notes": "Int J^±(p) ∩ Z^∓ = I^±(p) for every static spacetime, Minkowski and E_α (α > 0). (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: IJ_calc for every κ ≥ 0 and every p, BTZ points included, at E₀ through the abstract Causality.J_int (T1, absolutely minimal and push-up discharged at E₀); the paper's form with Z⁺(E₀) = E₀ and Z⁻(E₀) = reg(E₀) substituted is e0_IJ_calc_reg (e0_Zplus_eq, e0_Zminus_eq). Hypotheses: κ ≥ 0, every p ∈ E_κ → carried; I^±, J^±, Z^∓ read globally (U = E_κ), as printed.",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀)",
       "lean_proved_override": "partial",
       "paper_findings": [
         "Missing citation, not an error. The proof (l.1446-1447, l.1452-1454) passes from 'I^-(q) is non-empty' to 'q in Z^-' (and from non-empty chronological futures to Z^+ = E_kappa). That step is rem:absolutely_minimal_topological_spacetime (l.780-782), which applies because the models are absolutely minimal by cor:model_minimal (l.1386); Lean's proof goes the same way (AbsolutelyMinimal.mem_Zminus_iff). Suggested wording: '... so I^-(q) is non-empty and therefore, by Remark rem:absolutely_minimal_topological_spacetime and Corollary cor:model_minimal, q in Z^-(E_kappa).' For the static models Z^pm = M is also proved directly (mem_Zplus, mem_Zminus)."
@@ -5171,7 +5229,8 @@
         "Causal/Static.lean",
         "Causal/LinesReachable.lean",
         "Causal/Properties.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean"
       ],
       "size": "S",
       "in_lean_scope": true,
@@ -5211,7 +5270,8 @@
       "lean_files": [
         "Causal/Model/Massive.lean",
         "Causal/Static.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean"
       ],
       "decls": [
         "Causal.massive_densite",
@@ -5221,22 +5281,40 @@
         "Causal.staticCausality.Jplus_eq_closure_Iplus_of_causallyConvexIn",
         "Causal.staticCausality.Jminus_eq_closure_Iminus_of_causallyConvexIn",
         "Causal.minkowski_densite",
-        "Causal.minkowski_densite_of_causallyConvexIn"
+        "Causal.minkowski_densite_of_causallyConvexIn",
+        "Causal.ModelRowsE0.densite_modele",
+        "Causal.ModelRowsE0.e0_densite",
+        "Causal.ModelRowsE0.e0_densite_a",
+        "Causal.ModelRowsE0.e0_densite_b",
+        "Causal.ModelRowsE0.e0_densite_c",
+        "Causal.ModelRowsE0.e0_densite_a_of_causallyConvexIn",
+        "Causal.ModelRowsE0.e0_densite_b_of_causallyConvexIn",
+        "Causal.ModelRowsE0.e0_densite_c_of_causallyConvexIn",
+        "Causal.ModelRowsE0.e0_Jplus_eq_closure_interior",
+        "Causal.ModelRowsE0.e0_Jminus_eq_closure_interior",
+        "Causal.ModelRowsE0.e0_Jminus_axis_ne_closure_interior",
+        "Causal.ModelRowsE0.e0_Jminus_axis_ne_closure_Iminus",
+        "Causal.ModelRowsE0.e0_exists_causallyConvexIn_axis",
+        "Causal.ModelRowsE0.closure_inter_inter_of_isOpen"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "(a)(b) for α > 0, also in causally convex open subsets; the citation the proof gives is not needed there. (WP-10, WP-9, audited)",
-      "notes": "(a)(b) for α > 0, also in causally convex open subsets; the citation the proof gives is not needed there. (WP-10, WP-9, audited)",
-      "blocked_on": "the BTZ model E_0 (item (c))",
+      "scope_notes": "(a)(b) for α > 0, also in causally convex open subsets; the citation the proof gives is not needed there. (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: (a)-(c) at E₀ (e0_densite: (a) at every p, BTZ points included; (b) off the axis; (c) on it), and all three in every causally convex open V (J^±_V, I^±_V, the closure read as closure(·) ∩ V); not vacuous: a proper V through a BTZ point and a regular point (e0_exists_causallyConvexIn_axis). Hypotheses: (b) κ = 0, p ∈ reg(E₀) → carried (necessary: e0_Jminus_axis_ne_closure_Iminus); (c) p ∈ sing(E₀) → carried; a causally convex open V with J^± and I^± taken in V → read (closure(·) ∩ V); the cited [brunswic2021cauchy, §1.2] → weakened (not used). The audit refiled three of the closer's findings as one proof-level repair (below); no DEC row is needed, the statement being unchanged.",
+      "notes": "(a)(b) for α > 0, also in causally convex open subsets; the citation the proof gives is not needed there. (WP-10, WP-9, audited) T-ett-model-rows-e0 (atlas-team, 2026-11-21), audit AUDIT-1 minor (wording, fixed at graduation), Causal/Port/ModelRowsE0.lean: (a)-(c) at E₀ (e0_densite: (a) at every p, BTZ points included; (b) off the axis; (c) on it), and all three in every causally convex open V (J^±_V, I^±_V, the closure read as closure(·) ∩ V); not vacuous: a proper V through a BTZ point and a regular point (e0_exists_causallyConvexIn_axis). Hypotheses: (b) κ = 0, p ∈ reg(E₀) → carried (necessary: e0_Jminus_axis_ne_closure_Iminus); (c) p ∈ sing(E₀) → carried; a causally convex open V with J^± and I^± taken in V → read (closure(·) ∩ V); the cited [brunswic2021cauchy, §1.2] → weakened (not used). The audit refiled three of the closer's findings as one proof-level repair (below); no DEC row is needed, the statement being unchanged.",
+      "blocked_on": "OQ-34, OQ-35 (the reading of E₀)",
       "lean_proved_override": "partial",
       "paper_findings": [
-        "For alpha > 0 the proof's appeal to [brunswic2021cauchy, Section 1.2] for 'J^pm(p) is the closure of its interior' (l.1480-1482) is not needed: Z^mp(E_alpha) = E_alpha, and J^pm(p) = closure I^pm(p) follows from the vertical time shift (Static.closure_Iplus). The citation is needed only for kappa = 0."
+        "For alpha > 0 the proof's appeal to [brunswic2021cauchy, Section 1.2] for 'J^pm(p) is the closure of its interior' (l.1480-1482) is not needed: Z^mp(E_alpha) = E_alpha, and J^pm(p) = closure I^pm(p) follows from the vertical time shift (Static.closure_Iplus). The citation is needed only for kappa = 0.",
+        "ETT.tex:1480-1482: the cited fact 'for every p the set J^±(p) is the closure of its interior' is false for J⁻(p) at a BTZ point of E₀: there J⁻(p) is the half-line {r = 0, τ ≤ τ(p)}, with empty interior (e0_Jminus_axis_ne_closure_interior). This already contradicts defi:causal_E0 itself (l.1347 gives that half-line), so the finding stands whatever OQ-34 rules. The fact holds for J⁺(p) at every point and for J⁻(p) off the axis (e0_Jplus_eq_closure_interior, e0_Jminus_eq_closure_interior).",
+        "ETT.tex:1480-1491, one proof-level repair (the statement is unchanged). The condition 'if p ∈ Z^∓(E_κ)' (l.1482) lets the J⁻ case reach BTZ points (Z⁺(E₀) = E₀), where J⁻(p) ≠ closure I⁻(p) = ∅ (e0_Jminus_axis_ne_closure_Iminus); statement (b) excludes them, so it is the proof that overreaches. The paragraph for (a) at BTZ points (l.1488-1491) argues from I⁺(p) = reg(J⁺(p)), false at every BTZ point (DEC-64; E0.Iplus_ne_Jplus_diff), though (a) holds there (e0_densite_a). A repair: take p ∈ Z^±(E_κ) at l.1482, restrict the cited fact of l.1481 to the points where it holds, adjust l.1488 and delete l.1488-1491; with Z^± the main argument covers (a) at BTZ points too. It is not a misprint: the printed Z^∓ fits l.1488, and it is why l.1488-1491 exist.",
+        "At κ = 0 the closure-of-interior fact is not needed: push-up, Z⁺ = E₀, Z⁻ = reg(E₀) and the closedness of J^±(p) suffice (for (b), with an axis step: the axis points just below an axis point q of J⁻(p) are ≪ p when p is regular (E0.lt_axis_iff), and they tend to q). The closedness of J^±(p) is stated nowhere in the paper and would come from the same description of the cones in [brunswic2021cauchy, §1.2]: an observation, not an error."
       ],
       "extra_lean_files": [
         "Causal/Model/Massive.lean",
         "Causal/Static.lean",
-        "Causal/Minkowski.lean"
+        "Causal/Minkowski.lean",
+        "Causal/Port/ModelRowsE0.lean"
       ],
       "size": "S",
       "in_lean_scope": true,
