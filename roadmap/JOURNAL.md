@@ -244,3 +244,17 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 07:25–07:44 (Paris); agents: 1 (planner, alone)
 - next: wave of 6: T-ledger-decl-fullname (master, after /ett-programme is told), T-bz-c2-theoreme, T-bz-c2-premier-affine, T-syr-no-circuit, T-syr-cited-steps, T-yamabe-negative
+
+## 2026-11-21 08:45 · wave of 7 · T-bz-c2-theoreme, T-bz-c2-premier-affine, T-syr-no-circuit, T-syr-cited-steps, T-yamabe-negative, T-ledger-decl-fullname, T-bz-c2-dedupe-majore
+- T-bz-c2-theoreme: 2°–4° proved (every dimension), the demi-droite lemma (new), the Theorem assembled in both forms; the row is closed up to OQ-71 (component form marks with no Lean change); independent of OQ-45; audit minor
+- T-bz-c2-premier-affine: the affine 1°, generic in (G, X) (PremierGX); full form ⇔ connectedness, proved for z ≡ 0, star-shaped, n ≤ 1; OQ-75 (affine twin of OQ-71); audit minor
+- T-syr-no-circuit: theo:exists_no_circuit_other's steps in true form; period bound for ε > log₃(3/2) under Matveev; the statement not proved (the draft stops at l.244); audit major (a tautological conditional, ∃ B after K), fixed in one round, AUDIT-2 clean; OQ-76
+- T-syr-cited-steps: cor:property_defined_cycles_gcd and prop:proposition from the cited inputs as hypotheses; prop:proposition unconditional for x < 0; one Matveev Prop shared with NoCircuit (bridge lemma); audit minor
+- T-yamabe-negative: cor:negative and prop:nonpositive's second sentence over the measured model; finding: § 6 never requires n ≥ 1 (OQ-74); audit minor
+- T-ledger-decl-fullname (master): ledger check resolves decls by full Lean name; two false resolutions curated (ett by /ett-programme, benzecri here); fixture breakage 5, unit test
+- T-bz-c2-dedupe-majore (master): one copy of « majorised by k ⟺ pseudo-length < k », in Mesure.lean
+- gates: lean-benzecri ✓, lean-syracuse ✓, lean-yamabe ✓, roadmap ✓, atlas ✓ (lean-causal edges left at their committed state: /ett-programme's wave 15 in flight), hub: all gates green; selftest and unit suite (168) green after the ledger fix
+- commits: 7314b34 cfcdb0d fc07e4f 4897d39 5b7ec9e f9b776b 1fd5770 1242ddb cecabab 664c5a3 16514da (+ this)
+- wall time: 07:47–08:45 (Paris); agents: 5 closers, 6 audits, 1 fix round (shared cap 6 with /ett-programme)
+- new OQ: 74 (Yamabe n ≥ 1), 75 (Benzécri affine twin of OQ-71), 76 (Syracuse « the known ones », η, « ≪ »)
+- next: plan (rule 2: no ready closer; only the master T-ledger-stale-blockers, which needs papers/ett with /ett-programme). For the planner: merge exists_isCoqueStricteAff_demiDroite_ne_univ into Poches; T-bz-c2-theoreme-affine is unblocked (premier-affine done)
