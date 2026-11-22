@@ -281,3 +281,31 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - for the planner: absorb DEC-147–206 into the programme roadmap. Chiefly: DEC-167, gluing in defi:causalite (a library refactor; absolutely_minimal becomes automatic, and the no-gluing-only targets T-abs-galileo-ladder and T-abs-plain-not-locally-pushup need re-reading); DEC-163/164/166 (a) (renames to the future base); DEC-159/160 (new ladder localisation properties); DEC-168 (prove plainness per model); DEC-172 (an open-problem ladder target); DEC-190 (the curves_extend consequence); DEC-197/198; DEC-147 (the Lorentzian package). Then rescope the 11 planned targets. T-abs-ers-4-64-second-countable's dependency is now done. The tactician proposes: raise causal_ladder's maxRuleApplicationDepth and maxSafePrefixRuleApplications in Basic.lean; have emit-lean import Dual into Rules.lean (no cycle); add a ladder `dual` field so emit-lean generates the dual rules; hoist dual_hasTimeFunction and CurvesExtend.dual into the ETT layer; shorten HalfLitDual, NotchedPlane, OneWayMembrane(Chronal) with the dual rules
 - commits: f2a7833 3999b32 65646df df620bf 4515d20
 - next: a planning run (programme-planner, alone) on the rulings; `wave` alone would pick T-abs-hoist-cbg-gluing
+
+## 2026-11-22 20:55 · planning run · the author's walk-through absorbed; wave 23's pending integration done
+- planning run (programme-planner, alone): 106 → 137 targets (bd8e2a0). Ready by owner: closer 14, keeper 6, planner 3, tactician 1, master 1; 1 needs-ruling (T-loc-lipschitz-plain: where Lipschitz metrics live).
+  - The 11 ruled targets: 8 ready, 3 planned on new dependencies.
+  - DEC-167's refactor is split into four steps: inventories (T-abs-gluing-generic, T-abs-gluing-models, ready), the master's design (lean-causal/docs/GLUING-DESIGN.md), then retype and the field switch, both exclusive.
+  - Dropped: T-abs-galileo-ladder, T-abs-plain-not-locally-pushup and T-lad-record-no-gluing (their objects are no causalities under gluing); T-abs-hoist-cbg-gluing (subsumed by DEC-197); T-loc-cbg-curves-default (folded into T-abs-hoist-cbg-geometry, DEC-190).
+  - T-loc-e0-plain recorded done at 5bcad0b (SFALocalE0.causallyPlain, DEC-168).
+  - The planner simulated gluing on the ladder (no contradiction): implied 34 → 56, fails 273 → 250, open 7 → 5, and 3 pairs reopen (causally_compact, globally_hyperbolic, causally_plain → causally_arc_connected).
+- wave 23's pending integration, now that /atlas-team released the paths:
+  - curation: ERS rows 4.72, 4.73, 4.74, 4.79, 4.80 and Sbierski rows welldefined, IsoDiffeo, ExMCGHD carry the new second countable forms; all stay partial, no badge moved.
+  - ledgers ett, barbot, ers-predictability, sbierski-mghd rebuilt; papers-check green.
+  - lean-causal README rows for the three new modules.
+  - Order matters: commit README edits to a Lean root BEFORE its ledgers, since any commit into the root moves their stamp.
+- readings for the master's OQ rows, not yet written (registers/DECISIONS.md is held by /atlas-team):
+  - (a) may c_ext_connexe_of_connectedSpace_of_secondCountable anchor lem:C_ext_connexe? This reads singular flat spacetimes as T2, second countable topological spacetimes (ETT.tex:255, DEC-93) and 𝕄≥0-morphisms as IsEMorphism.
+  - (b) DEC-167's field: hereditary (every open set) or on M only? It blocks T-abs-gluing-design.
+  - (c) DEC-167's non-minimal objects (gated line, deuxPushup, kb/0073): restate them for precausalities, or retire them?
+  - (d) DEC-197: does SingularFlatAxioms become a ladder node, or do the consequences CBG consumes become the localisation properties?
+  - (e) DEC-190 "dropped everywhere": do binder rows drop curves_extend now or once a form exists? Second countable forms beside the originals, or replacing them? Are CBG's A2/B3 curvesExtend fields removed?
+  - (f) DEC-161 (b): is InextensibleNestedOn the nesting of record, with no no_causal_endpoint node?
+  - (g) DEC-163 / OQ-80: does the J⁺-only form of prop:tarentin's (ii) ⇒ (i) deserve a target?
+  - (h) DEC-168: where do Lipschitz metrics live?
+  - (i) DEC-147: the package's name (lean-lorentz is a placeholder).
+- ladder: unchanged, 314/314 within a sort: 34 implied, 273 fails, 7 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: both roadmaps ✓, ladder ✓, binder ✓, tests ✓ (88), blueprint check ✓, papers-check ✓
+- commits: bd8e2a0 89fea72 18da097 0657708 and the 18da097 restamp
+- next: wave T-abs-gluing-generic, T-abs-gluing-models, T-abs-ers-4-64-second-countable (closers, lean-causal), T-lad-nested-inextensible (keeper), T-pkg-smooth-lorentz (master: the package set-up waits on its name, reading (i))
