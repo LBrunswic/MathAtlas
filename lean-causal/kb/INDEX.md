@@ -225,3 +225,6 @@ rediscover. One fact per entry.
 | [0217](entries/0217-singular-points-of-cauchy-surface-discrete.md) | pattern | The singular points of a Cauchy surface form a discrete subspace |
 | [0218](entries/0218-inextensible-through-second-countable.md) | pattern | Through-hypotheses and SplitBy on T1, second countable spaces |
 | [0219](entries/0219-agent-grep-wrapper.md) | pitfall | The agent shell's grep can silently find nothing in the paper sources |
+| [0220](entries/0220-cauchy-embedding-open-embedding.md) | pattern | A Cauchy embedding is an open embedding: instances on N suffice |
+| [0221](entries/0221-causal-ladder-no-facts.md) | pitfall | causal_ladder does not close a ladder fact such as CurvesExtend |
+| [0222](entries/0222-gatearc-witness.md) | pattern | gateArc: a cheap Cauchy embedding that is not onto |

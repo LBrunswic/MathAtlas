@@ -1,0 +1,86 @@
+{
+  "target": "T-abs-c-ext-connexe-second-countable",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "files": ["lean-causal/scaffold/CausalScaffold/CExtConnexeSecondCountable.lean", "lean-causal/campaign/T-abs-c-ext-connexe-second-countable/REPORT.json"],
+  "labels": [
+    {
+      "label": "lem:C_ext_connexe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: correct. Compared binder by binder with Causal/CBG/CausalConvex.lean:680, :699, :713, :728, :737, :758, :770, :782 and Causal/SubExtension.lean:326. Each *_of_secondCountable keeps the original's binders and conclusion verbatim, drops hDext only, and adds [SecondCountableTopology N]. eq_of_mem_image_inter_of_secondCountable also drops hDac; its proof goes through Causality.inter_subsingleton_of_curvesExtend, not the original. The principal c_ext_connexe_of_connectedSpace_of_secondCountable asks [T2Space N] [SecondCountableTopology N] [ConnectedSpace M], hφ : IsCauchyEmbedding (both sides GH, IsEMorphism, injective, a Cauchy surface onto a Cauchy surface: def:cauchy_embedding_cauchy_extension, ETT.tex:1858) and hA, hB : IsCauchyInclusion D hφ.rangeOpens _ (rangeOpens ≤ A, both GH, a common Cauchy surface). That is the paper's ETT.tex:1933–1936 under the two readings the closer names: (a) a singular flat spacetime is a topological spacetime (ETT.tex:255) with a Causality; (b) an 𝕄≥0-morphism is an IsEMorphism. So the closer's anchor view says what the statement says; whether it anchors the row is the master's reading. Findings 1 and 2 are true and correctly cited (ETT.tex:1941–1942, 1940–1941; the row's paper_findings carry the same lines). 'The lemma's argument closes' means the library's re-routed argument (M connected), not the printed one; finding 2 says so."
+    },
+    {
+      "label": "lem:image_diamant",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: correct. image_diamant_of_secondCountable and diamond_subset_range_of_secondCountable match Causal/CauchyDiamond.lean:184 and :291 less hcover and hDext, plus [SecondCountableTopology N]. hcover is discharged by IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable ([T1Space N] [SecondCountableTopology N]), which gives M T1 and second countability through IsCauchyEmbedding.isOpenEmbedding. That theorem is kernel-checked: IsEMorphism gives continuousOn ⊤ and isOpen_image, hence IsOpenEmbedding.of_continuous_injective_isOpenMap. hK and hDac stay named and are disclosed (checklist rows 4–5, SCOPE). The finding at ETT.tex:2036–2037 is true and correctly cited (the row's second finding cites 2035–2037). It concerns the Lean form rather than the paper (in the paper M is itself a topological spacetime) and asks the author for no change. Witnessed off the identity by gateArc at p = 1."
+    },
+    {
+      "label": "lem:passe_pgcd",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: correct. passe_pgcd_of_secondCountable and passe_pgcd_explicit_of_secondCountable match Causal/CauchyDiamond.lean:314 and :332 less hcover and hDext, with [FirstCountableTopology N] replaced by [SecondCountableTopology N] (which implies it). p ∈ closure (range i) is weaker than the paper's p ∈ ∂i(M) ∩ J⁺(i(Σ)) (ETT.tex:2044), disclosed. hK, hDac and Sing/hreg/hsing stay named, disclosed. The gateArc witness meets every hypothesis at the frontier point 1 ∈ J⁺(gateArc '' {0}), as the paper's p must be."
+    },
+    {
+      "label": "lem:Sigma_separe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: correct. sigma_separe_of_t1_secondCountable asks [T1Space M] [SecondCountableTopology M], hcaus, hC : CausallyArcConnected, hS : IsCauchySurface S and hψ : IsCauchySplitting, and concludes exactly as Causal/CauchyDiamond.lean:129. Against the original (hS : IsAcausal S, no instance) it is a one-line corollary, since its hypotheses imply the original's through IsCauchySurface.isAcausal_of_t1_secondCountable (CurvesExtendSecondCountable.lean:1407). It is therefore narrower than the library form but nearer the paper's hypothesis (Σ a Cauchy surface, ETT.tex:2063), as the target prescribes, and hC is disclosed as strengthened. This is not a quiet weakening, but REPORT.statement_check's 'it is not weaker than the original' is wrong (finding 1). The neighbourhood forms Jplus/Jminus_mem_nhds_of_isCauchySurface_of_secondCountable match CorrespondingPoints.lean:211, :222 less hext ([FirstCountableTopology M] becomes [SecondCountableTopology M]). Their named hypotheses hdense and hcpt are disclosed nowhere (finding 3). The ETT.tex:2075–2077 finding is true and correctly cited, and the editorial marker is at l.2070 as stated."
+    },
+    {
+      "label": "mghdcor:welldefined",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: honest. The decl gives only the connectedness of U₁ ∩ U₂ used by the ETT route; layer 3 is not built and rigidity is not here."
+    },
+    {
+      "label": "mghdlem:IsoDiffeo",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: honest. sbierski_lemma_3_3_of_secondCountable and injective_of_mapsTo_cauchy_of_secondCountable match Causal/CBG/Injective.lean:610 and :595 less hDext, plus [SecondCountableTopology N]; [T2Space M] [T2Space N] are kept. The time function T and hDC stay named and are disclosed. Witnessed by gateArc with T = id, which is not onto."
+    },
+    {
+      "label": "mghdthm:ExMCGHD",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: honest. isCauchyInclusion_iSup/_sSup/_iSup_of_common, Causality.isCauchySurfaceOn_iSup, IsCauchyInclusion.causallyConvexIn and Causality.causallyConvexIn_of_isCauchySurfaceOn (*_of_secondCountable) match CausalConvex.lean:628, :648, :604, :571, :540, :212 less hext, plus [SecondCountableTopology M]. The Maximal_GHD2.tex:502 quote is verbatim and the line is right; the finding is true and is worded as a gain in route."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "Ran from lean-causal/: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/CExtConnexeSecondCountable.lean`, which printed nothing, exit 0 (no lake build, no make check). `sorry` occurs once in the file, in docstring prose (l.45); there are no admit, axiom, native_decide, extern or unsafe. Axioms: a copy of the CURRENT source with `#print axioms` for all 31 all_decls appended, run as /tmp/audit-cext-sc/Probe.lean through `lake env lean`. All 31 print [propext, Classical.choice, Quot.sound], none sorryAx. The probe directory was deleted afterwards. The olean (18:15:58) is newer than the source (18:15:56). Layer 1: tools/ladder.py model_path is None for the module (imports Causal.CurvesExtendSecondCountable, Causal.CBG.Injective, Causal.CorrespondingPoints). Its source closure is 51 Causal modules, none in MODEL_LAYER and none Causal.SingularCauchy/SingularGeroch; model_path(Causal.SingularCauchy) = [SingularCauchy, SingularGeroch, SingularFlat], as the REPORT says. The compiled environment of the source copy has 4741 modules, 51 Causal/CausalScaffold, forbidden []. There is no metric notion in any statement: the witnesses use timelikeLine (an order-based causality, Causal/Lines.lean:78), gateArc (orderIsoIooNegOneOne, CausalConvex.lean:1148) and Cauchy facts from Geroch, CompactCauchy, CauchyExtension, SubExtension and CauchyDiamond, all in the closure. Marks: ledger.py's docstring_label_re finds no ``**`label`**`` in the first 4000 characters or anywhere in the file. The bold phrases at l.198, 347, 402 and 423 are declaration docstrings of the form **`label` …** (house style, cf. CausalConvex.lean:677) and do not match. The twin mem_Jplus_union_Jminus_of_isCauchySurface_of_t1_secondCountable is gone; none of the 31 names exists in Causal/. Scope: git status --short shows, besides this closer's file and campaign directory, only lean-benzecri/*, papers/benzecri, papers/egf, roadmap/roadmap.toml (none mentions this target) and the concurrent lean-causal agents' Dual.lean, ErsSecondCountable.lean and their campaign directories. kb/0142, kb/0061, kb/0012 and kb/0025, cited in the docstring and REPORT, exist."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-c-ext-connexe-second-countable/REPORT.json:473 (statement_check); CExtConnexeSecondCountable.lean:47–49",
+      "what": "statement_check says sigma_separe_of_t1_secondCountable 'is not weaker than the original'. It is a one-line corollary of Causality.sigma_separe: IsCauchySurface S + CausallyArcConnected + T1 + second countable imply IsAcausal S, so it applies in fewer situations than the library form. It is nearer the paper's hypothesis, not at least the original. statement_check's 'every proof is one application of the original' is also inexact for eq_of_mem_image_inter_of_secondCountable, which applies Causality.inter_subsingleton_of_curvesExtend (that is how hDac goes). The docstring's general sentence (l.47–49, 'its curve hypothesis discharged … [T1Space M] where the original has no separation axiom') does not describe sigma_separe_of_t1_secondCountable, which has no curve hypothesis to discharge. Item 4 (l.66–67) does describe it correctly.",
+      "fix": "Reword statement_check: 'a corollary of sigma_separe, with Σ a Cauchy surface as printed, at the price of hC, T1 and second countability; sigma_separe stays in the row as the wider form'. At graduation, do not replace Causality.sigma_separe in the lem:Sigma_separe row by the new form."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/CExtConnexeSecondCountable.lean:99",
+      "what": "SCOPE: 'Only c_ext_connexe_of_connectedSpace_of_secondCountable has no named hypothesis left.' Read literally this is false. exists_inextensible_inf_of_secondCountable, isPreconnected_inf_of_preconnectedSpace_of_secondCountable, isCauchySurfaceOn_inf_iff_of_secondCountable, eq_of_mem_image_inter_of_secondCountable and IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable also have none. Among the label principals, the sentence is true.",
+      "fix": "'Of the labels' principals, only c_ext_connexe_of_connectedSpace_of_secondCountable has no named hypothesis left.'"
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/CExtConnexeSecondCountable.lean:360–375 (Jplus/Jminus_mem_nhds_of_isCauchySurface_of_secondCountable); checklist :79–91; SCOPE :101–105; REPORT.json lem:Sigma_separe hypotheses (from :233)",
+      "what": "The two neighbourhood forms, listed among lem:Sigma_separe's decls, carry the named hypotheses hdense (J∓(x) ⊆ closure K∓(x), prop:K_densite_sing) and hcpt (J∓(S) ∩ J±(x) compact), which the paper's lem:Sigma_separe does not assume. They appear in no checklist row, in no SCOPE 'what stays named' line, and nowhere in REPORT.json, whose row mentions the neighbourhood forms only for [T2Space M]. They are inherited verbatim from CorrespondingPoints.lean:211/:222, the decls are not principals, and the row is partial and unmarked, so nothing is certified on them. The dispatch nevertheless asks that every named hypothesis be listed.",
+      "fix": "Add a checklist row '(neighbourhood forms, no ψ) | ⚠ strengthened: hdense, hcpt named, as in the library'. Add them to SCOPE's 'What stays named' and to the REPORT's lem:Sigma_separe hypotheses (here: strengthened)."
+    }
+  ],
+  "ran": [
+    "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/CExtConnexeSecondCountable.lean   (exit 0, no output)",
+    "grep -c sorry; grep admit/axiom/native_decide/extern/unsafe on the file",
+    "taskset -c 0-11 lake env lean /tmp/audit-cext-sc/Probe.lean   (source copy + #print axioms × 31; deleted)",
+    "taskset -c 0-11 lake env lean /tmp/audit-cext-sc/Closure.lean   (source copy + env.header.moduleNames filter; deleted)",
+    "python3: tools/ladder.py lean_index + model_path on the module and its closure; ledger.py docstring_label_re-equivalent regex on the file; name-collision check against lean_index decls",
+    "sed/grep reads of the originals: Causal/CBG/CausalConvex.lean:205–800, Causal/CBG/Injective.lean:585–625, Causal/SubExtension.lean:326–336, Causal/CauchyDiamond.lean:60–350, Causal/CorrespondingPoints.lean:150–230, Causal/CauchyExtension.lean:150–800, Causal/CurvesExtendSecondCountable.lean:1394–1411, Causal/SingularCauchy.lean:110",
+    "papers/ett/legacy/labeled/ETT.tex:255, 1845–1865, 1932–1943, 2024–2080; papers/sbierski-mghd/legacy/labeled/Maximal_GHD2.tex:429–513; papers/ett/ledger/ledger.json rows lem:C_ext_connexe, lem:image_diamant, lem:passe_pgcd, lem:Sigma_separe; programme/ladder.toml properties",
+    "git status --short; git diff --stat (other loops' files checked for this target's names: none)"
+  ]
+}

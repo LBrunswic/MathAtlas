@@ -1,0 +1,482 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-c-ext-connexe-second-countable",
+ "files": [
+  "scaffold/CausalScaffold/CExtConnexeSecondCountable.lean"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.CExtConnexeSecondCountable",
+ "build": "Upstream checked first: taskset -c 0-11 lake build --no-build Causal.CorrespondingPoints Causal.CBG.Injective Causal.CurvesExtendSecondCountable -> 'All targets up-to-date (3123 jobs)'. Then the module build: '✔ [3124/3124] Built CausalScaffold.CExtConnexeSecondCountable (1.2s)', 'Build completed successfully (3124 jobs)': one job, nothing upstream rebuilt. Also strict-clean: taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/CExtConnexeSecondCountable.lean prints nothing, exit 0.",
+ "sorry_count": 0,
+ "imports": [
+  "Causal.CurvesExtendSecondCountable",
+  "Causal.CBG.Injective",
+  "Causal.CorrespondingPoints"
+ ],
+ "layer": 1,
+ "closure": {
+  "count": 52,
+  "forbidden": [],
+  "how": "(1) tools/ladder.py lean_index(): model_path is None for each of the three imports and for Causal.CauchyDiamond, Causal.SubExtension (both in the closure; Causal.SingularCauchy, by contrast, is ['Causal.SingularCauchy', 'Causal.SingularGeroch', 'Causal.SingularFlat']). (2) Compiled environment of a /tmp file importing the built CausalScaffold.CExtConnexeSecondCountable: 4742 modules, 52 under Causal/CausalScaffold, none equal to or below Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat, Causal.Model, Causal.Port. No metric notion in a statement (the witnesses use gateArc, mathlib's orderIsoIooNegOneOne, and the timelike line)."
+ },
+ "axioms": "All 31 declarations: [propext, Classical.choice, Quot.sound] (#print axioms on the built olean); none depends on sorryAx.",
+ "labels": [
+  {
+   "label": "lem:C_ext_connexe",
+   "paper": "ett",
+   "tex_lines": [
+    1932,
+    1943
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable",
+    "Causal.IsCauchyEmbedding.isPreconnected_inf_of_preconnectedSpace_of_secondCountable",
+    "Causal.IsCauchyEmbedding.exists_inextensible_inf_of_secondCountable",
+    "Causal.IsCauchyEmbedding.isPreconnected_inf_of_secondCountable",
+    "Causal.IsCauchyEmbedding.c_ext_connexe_of_isConnected_of_secondCountable",
+    "Causal.IsCauchyEmbedding.c_ext_connexe'_of_secondCountable",
+    "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_iff_of_secondCountable",
+    "Causal.IsCauchyEmbedding.inf_causallyConvexIn_of_secondCountable",
+    "Causal.IsCauchyEmbedding.eq_of_mem_image_inter_of_secondCountable",
+    "Causal.timelikeLine_cExtConnexe_secondCountable",
+    "Causal.timelikeLine_gateArc_secondCountable"
+   ],
+   "principal": "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable",
+   "hypotheses": [
+    {
+     "paper": "singular flat spacetimes, 𝕄≥0-morphisms",
+     "here": "weakened",
+     "note": "a reading: any causality on a topological space, IsEMorphism (the library's reading of ETT.tex:1849–1852, Causal/CauchyExtension.lean:158; Causal/SubExtension.lean:42). Whether it may anchor the ETT rows: see questions."
+    },
+    {
+     "paper": "N second countable Hausdorff (topological spacetime, ETT.tex:255)",
+     "here": "carried",
+     "note": "[T2Space N] [SecondCountableTopology N]; on M nothing: M inherits T2, T1 and second countability through the open embedding φ (IsCauchyEmbedding.isOpenEmbedding). Precedent for second countability as standing: DEC-93."
+    },
+    {
+     "paper": "M connected",
+     "here": "carried",
+     "note": "[ConnectedSpace M]"
+    },
+    {
+     "paper": "M globally hyperbolic; φ a Cauchy extension",
+     "here": "carried",
+     "note": "IsCauchyEmbedding C D φ (DEC-17): both GH, IsEMorphism, injective, a Cauchy surface onto a Cauchy surface"
+    },
+    {
+     "paper": "A, B open containing φ(M), φ(M) → A and φ(M) → B Cauchy embeddings",
+     "here": "carried",
+     "note": "IsCauchyInclusion D hφ.rangeOpens A (its first field is φ(M) ⊆ A), same for B"
+    },
+    {
+     "paper": "Σ connected via theo:geroch_sing (l.1939–1940)",
+     "here": "weakened",
+     "note": "not used by the principal form (M connected suffices); c_ext_connexe'_of_secondCountable keeps the splitting ψ as the library form does"
+    },
+    {
+     "paper": "(none in the paper) curves extend, the library's named hDext : D.CurvesExtend / hext : C.CurvesExtendOn B",
+     "here": "weakened",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable D / curvesExtendOn_of_t1_secondCountable C B (T2 gives T1); DEC-190"
+    },
+    {
+     "paper": "N causally arc-connected (library forms only)",
+     "here": "weakened",
+     "note": "not used by eq_of_mem_image_inter_of_secondCountable (the original asks hDac); still named in inf_causallyConvexIn_of_secondCountable, needed there for non-local causalities (gateLine_cauchyInclusion_not_causallyConvex)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:1941–1942, 'every point of A∩B lies on an inextensible causal curve meeting φ(Σ)': the existence of the inextensible curve, recorded in the row as proved nowhere and carried as a model fact (hDext), holds on every topological spacetime (T1 and second countable suffice, Causality.curvesExtend_of_t1_secondCountable). So the lemma's argument closes, in the abstract setting, with no named hypothesis: c_ext_connexe_of_connectedSpace_of_secondCountable (M connected, φ an IsCauchyEmbedding, A, B Cauchy-including φ(M), N T2 and second countable ⟹ A ∩ B connected).",
+    "ETT.tex:1940–1941, 'φ(Σ) is a Cauchy surface of A∩B': still not proved and still not needed (unchanged; it is T-abs-c-ext-connexe-cauchy). On a second countable N its uniqueness half holds for every causal curve of every open set with no causal arc-connectedness (eq_of_mem_image_inter_of_secondCountable)."
+   ],
+   "questions": [
+    "The anchor reading (OQ-86, ruled by DEC-190, whose text drops CurvesExtend everywhere but does not say whether the abstract forms may anchor the ETT rows). My view: c_ext_connexe_of_connectedSpace_of_secondCountable is at least the paper's statement provided (a) a singular flat spacetime is a topological spacetime, Hausdorff and second countable (ETT.tex:255; DEC-93's precedent), and (b) a 𝕄≥0-morphism is an IsEMorphism (the library's reading of ETT.tex:1849–1852). Under (a) and (b) the lemma follows by instantiation with nothing left to supply, and T-ett-cbg-e0 would stop blocking this row. Reading taken: not marked, the master's OQ row decides."
+   ]
+  },
+  {
+   "label": "lem:image_diamant",
+   "paper": "ett",
+   "tex_lines": [
+    2024,
+    2040
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.IsCauchyEmbedding.image_diamant_of_secondCountable",
+    "Causal.IsCauchyEmbedding.diamond_subset_range_of_secondCountable",
+    "Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable",
+    "Causal.IsCauchyEmbedding.isOpenEmbedding",
+    "Causal.IsCauchyEmbedding.t2Space",
+    "Causal.IsCauchyEmbedding.secondCountableTopology",
+    "Causal.timelikeLine_cExtConnexe_secondCountable",
+    "Causal.timelikeLine_gateArc_secondCountable"
+   ],
+   "principal": "Causal.IsCauchyEmbedding.image_diamant_of_secondCountable",
+   "hypotheses": [
+    {
+     "paper": "singular flat spacetimes, 𝕄≥0-morphisms",
+     "here": "weakened",
+     "note": "a reading: any causality on a topological space, IsEMorphism (the library's reading of ETT.tex:1849–1852, Causal/CauchyExtension.lean:158; Causal/SubExtension.lean:42). Whether it may anchor the ETT rows: see questions."
+    },
+    {
+     "paper": "N second countable Hausdorff (topological spacetime, ETT.tex:255)",
+     "here": "carried",
+     "note": "[T2Space N] [SecondCountableTopology N]; on M nothing: M inherits T2, T1 and second countability through the open embedding φ (IsCauchyEmbedding.isOpenEmbedding). Precedent for second countability as standing: DEC-93."
+    },
+    {
+     "paper": "M GH with Cauchy surface Σ; i a Cauchy extension; p ∈ J⁺_M(Σ)",
+     "here": "carried",
+     "note": "hS, IsCauchyEmbedding, hp"
+    },
+    {
+     "paper": "'since M is GH, K is compact' (l.2032–2033)",
+     "here": "strengthened",
+     "note": "hK : IsCompact (J⁺(Σ) ∩ J⁻(p)) stays named, as in the library form (the row's finding)"
+    },
+    {
+     "paper": "a past causal curve from i(p) to q (l.2031)",
+     "here": "strengthened",
+     "note": "hDac : D.CausallyArcConnected stays named"
+    },
+    {
+     "paper": "M = J⁺(Σ) ∪ J⁻(Σ) (used at l.2036–2037; the library's hcover)",
+     "here": "weakened",
+     "note": "discharged: IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable, from [T1Space N] [SecondCountableTopology N] only"
+    },
+    {
+     "paper": "(none in the paper) curves extend, the library's named hDext : D.CurvesExtend / hext : C.CurvesExtendOn B",
+     "here": "weakened",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable D / curvesExtendOn_of_t1_secondCountable C B (T2 gives T1); DEC-190"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:2036–2037 (refining the row's second finding): the cover M = J⁺(Σ) ∪ J⁻(Σ) the step uses needs the standing hypotheses on N only. A Cauchy embedding is an open embedding (IsEMorphism is continuous and open), so M inherits T1 and second countability from N (IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable)."
+   ],
+   "questions": [
+    "Same anchor reading as lem:C_ext_connexe. Even if accepted, this row keeps hK and hDac named in the abstract form, so it stays partial at layer 1. At E≥0-manifolds both are already discharged (Causal.SingularRowsDiamond)."
+   ]
+  },
+  {
+   "label": "lem:passe_pgcd",
+   "paper": "ett",
+   "tex_lines": [
+    2042,
+    2060
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.IsCauchyEmbedding.passe_pgcd_of_secondCountable",
+    "Causal.IsCauchyEmbedding.passe_pgcd_explicit_of_secondCountable",
+    "Causal.IsCauchyEmbedding.diamond_subset_range_of_secondCountable",
+    "Causal.timelikeLine_gateArc_secondCountable"
+   ],
+   "principal": "Causal.IsCauchyEmbedding.passe_pgcd_of_secondCountable",
+   "hypotheses": [
+    {
+     "paper": "singular flat spacetimes, 𝕄≥0-morphisms",
+     "here": "weakened",
+     "note": "a reading: any causality on a topological space, IsEMorphism (the library's reading of ETT.tex:1849–1852, Causal/CauchyExtension.lean:158; Causal/SubExtension.lean:42). Whether it may anchor the ETT rows: see questions."
+    },
+    {
+     "paper": "N second countable Hausdorff (topological spacetime, ETT.tex:255)",
+     "here": "carried",
+     "note": "[T2Space N] [SecondCountableTopology N]; on M nothing: M inherits T2, T1 and second countability through the open embedding φ (IsCauchyEmbedding.isOpenEmbedding). Precedent for second countability as standing: DEC-93."
+    },
+    {
+     "paper": "p ∈ ∂ i(M) ∩ J⁺(i(Σ))",
+     "here": "weakened",
+     "note": "p ∈ closure (range i), as in the library form"
+    },
+    {
+     "paper": "compact diamonds J_M(Σ, p_n) (through lem:image_diamant)",
+     "here": "strengthened",
+     "note": "hK at every m ∈ J⁺(Σ), named"
+    },
+    {
+     "paper": "N causally arc-connected (through lem:image_diamant)",
+     "here": "strengthened",
+     "note": "hDac named"
+    },
+    {
+     "paper": "prop:K_calcul on sing₀(N) (the explicit forms)",
+     "here": "strengthened",
+     "note": "named: Sing, hreg, hsing (kb/0012)"
+    },
+    {
+     "paper": "a sequence p_n → p (N first countable)",
+     "here": "carried",
+     "note": "[FirstCountableTopology N] of the library form follows from [SecondCountableTopology N]"
+    },
+    {
+     "paper": "M = J⁺(Σ) ∪ J⁻(Σ) (the library's hcover)",
+     "here": "weakened",
+     "note": "discharged as for lem:image_diamant"
+    },
+    {
+     "paper": "(none in the paper) curves extend, the library's named hDext : D.CurvesExtend / hext : C.CurvesExtendOn B",
+     "here": "weakened",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable D / curvesExtendOn_of_t1_secondCountable C B (T2 gives T1); DEC-190"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Same anchor reading as lem:C_ext_connexe; hK, hDac and the sing₀ facts stay named here."
+   ]
+  },
+  {
+   "label": "lem:Sigma_separe",
+   "paper": "ett",
+   "tex_lines": [
+    2062,
+    2080
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.sigma_separe_of_t1_secondCountable",
+    "Causal.Causality.Jplus_mem_nhds_of_isCauchySurface_of_secondCountable",
+    "Causal.Causality.Jminus_mem_nhds_of_isCauchySurface_of_secondCountable",
+    "Causal.timelikeLine_cExtConnexe_secondCountable"
+   ],
+   "principal": "Causal.Causality.sigma_separe_of_t1_secondCountable",
+   "hypotheses": [
+    {
+     "paper": "singular flat spacetimes, 𝕄≥0-morphisms",
+     "here": "weakened",
+     "note": "a reading: any causality on a topological space, IsEMorphism (the library's reading of ETT.tex:1849–1852, Causal/CauchyExtension.lean:158; Causal/SubExtension.lean:42). Whether it may anchor the ETT rows: see questions."
+    },
+    {
+     "paper": "M a topological spacetime (ETT.tex:255)",
+     "here": "carried",
+     "note": "[T1Space M] [SecondCountableTopology M] (T1 is all that is used; [T2Space M] in the neighbourhood forms, as in the library)"
+    },
+    {
+     "paper": "Σ a Cauchy surface of M",
+     "here": "carried",
+     "note": "hS : C.IsCauchySurface S, in place of the library form's hS : C.IsAcausal S"
+    },
+    {
+     "paper": "M globally hyperbolic",
+     "here": "weakened",
+     "note": "causal only (hcaus)"
+    },
+    {
+     "paper": "ψ the homeomorphism of theo:geroch_sing",
+     "here": "strengthened",
+     "note": "named: IsCauchySplitting C S ψ (homeomorphism, ψ(x,0) = x, the lines future causal), as in the library form"
+    },
+    {
+     "paper": "(the editorial proof's curve from σ to ψ(x,t), l.2075)",
+     "here": "strengthened",
+     "note": "hC : C.CausallyArcConnected named (it makes Σ acausal, with curves extending)"
+    },
+    {
+     "paper": "(none in the paper) curves extend, the library's named hDext : D.CurvesExtend / hext : C.CurvesExtendOn B",
+     "here": "weakened",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable D / curvesExtendOn_of_t1_secondCountable C B (T2 gives T1); DEC-190"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:2075–2077 (the EDITORIAL proof, '[editorial] supplied 2026-08-22 -- verify', l.2070): the omitted step the row records (the finite concatenated curve must be extended to an inextensible one before the Cauchy property is invoked) holds on every topological spacetime (Causality.curvesExtend_of_t1_secondCountable). So the equalities and the « In particular » hold with Σ a Cauchy surface, as printed, given ψ, causality and causal arc-connectedness (sigma_separe_of_t1_secondCountable). The one unstated input that remains is the causal arc-connectedness behind 'a causal curve from σ to ψ(x,t)'."
+   ],
+   "questions": [
+    "Same anchor reading as lem:C_ext_connexe; ψ stays named (T-ett-geroch-split-flow), and causal arc-connectedness is named in the abstract setting."
+   ]
+  },
+  {
+   "label": "mghdcor:welldefined",
+   "paper": "sbierski-mghd",
+   "tex_lines": [
+    452,
+    461
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(Sbierski's setting: smooth GH Lorentzian manifolds, isometric immersions)",
+     "here": "weakened",
+     "note": "the ETT argument (binder row) uses the connectedness of U₁ ∩ U₂, here with no curve hypothesis on a T2, second countable target"
+    },
+    {
+     "paper": "(none in the paper) curves extend, the library's named hDext : D.CurvesExtend / hext : C.CurvesExtendOn B",
+     "here": "weakened",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable D / curvesExtendOn_of_t1_secondCountable C B (T2 gives T1); DEC-190"
+    },
+    {
+     "paper": "rigidity of isometric immersions (Lemma IsoConnected)",
+     "here": "strengthened",
+     "note": "not in this file: it stays the binder's localisation property rigid"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "None new. The row's layer 1 sheds curves_extend: binder.toml's localisation of this row can drop it (T-bind-curves-extend's convention). Layer 3 (smooth vacuum) is not built."
+   ]
+  },
+  {
+   "label": "mghdlem:IsoDiffeo",
+   "paper": "sbierski-mghd",
+   "tex_lines": [
+    463,
+    481
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.CBG.sbierski_lemma_3_3_of_secondCountable",
+    "Causal.CBG.injective_of_mapsTo_cauchy_of_secondCountable",
+    "Causal.timelikeLine_gateArc_secondCountable"
+   ],
+   "principal": "Causal.CBG.sbierski_lemma_3_3_of_secondCountable",
+   "hypotheses": [
+    {
+     "paper": "(M,g), (M',g') GH spacetimes with Cauchy surfaces Σ, Σ'",
+     "here": "carried",
+     "note": "hGM, hGN; [T2Space M] [T2Space N] [SecondCountableTopology N]"
+    },
+    {
+     "paper": "ψ an isometric immersion",
+     "here": "weakened",
+     "note": "IsEMorphism (abstract local isomorphism, the reading)"
+    },
+    {
+     "paper": "ψ|Σ : Σ → Σ' a diffeomorphism",
+     "here": "carried",
+     "note": "InjOn φ S and D.IsCauchySurface (φ '' S) (the topological content used)"
+    },
+    {
+     "paper": "(GH of M, through timelike geodesics)",
+     "here": "strengthened",
+     "note": "a continuous T strictly increasing along ≤ (time function of M) named, as in the library form (kb: GH and a time function are incomparable abstractly)"
+    },
+    {
+     "paper": "(GH of M', through geodesics meeting Σ' once)",
+     "here": "strengthened",
+     "note": "hDC : D.CausallyArcConnected named, as in the library form"
+    },
+    {
+     "paper": "(none in the paper) curves extend, the library's named hDext : D.CurvesExtend / hext : C.CurvesExtendOn B",
+     "here": "weakened",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable D / curvesExtendOn_of_t1_secondCountable C B (T2 gives T1); DEC-190"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "None new. The witness timelikeLine_gateArc_secondCountable applies the new form to gateArc, which is not onto. Layer 3 is not built."
+   ]
+  },
+  {
+   "label": "mghdthm:ExMCGHD",
+   "paper": "sbierski-mghd",
+   "tex_lines": [
+    485,
+    513
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.isCauchyInclusion_iSup_of_secondCountable",
+    "Causal.isCauchyInclusion_sSup_of_secondCountable",
+    "Causal.isCauchyInclusion_iSup_of_common_of_secondCountable",
+    "Causal.Causality.isCauchySurfaceOn_iSup_of_secondCountable",
+    "Causal.IsCauchyInclusion.causallyConvexIn_of_secondCountable",
+    "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable",
+    "Causal.timelikeLine_cExtConnexe_secondCountable"
+   ],
+   "principal": "Causal.isCauchyInclusion_iSup_of_secondCountable",
+   "hypotheses": [
+    {
+     "paper": "(Sbierski's setting: GHDs of the vacuum equations)",
+     "here": "weakened",
+     "note": "open sets of one space with a causality: the union and convexity steps only (step 2 of the proof, Maximal_GHD2.tex:502)"
+    },
+    {
+     "paper": "'γ is also a segment of an inextendible timelike curve in M' (l.502)",
+     "here": "weakened",
+     "note": "a theorem: curvesExtendOn_of_t1_secondCountable C B (M T2, second countable), the library's hext discharged"
+    },
+    {
+     "paper": "M globally hyperbolic (l.502)",
+     "here": "carried",
+     "note": "IsCauchyInclusion C A B (B globally hyperbolic, Cauchy surface of A a Cauchy surface of B)"
+    },
+    {
+     "paper": "(causal arc-connectedness of B)",
+     "here": "strengthened",
+     "note": "hC : C.CausallyArcConnectedOn B named, as in the library form (used for the convexity, hence the GH of the union)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Maximal_GHD2.tex:502, 'γ is also a segment of an inextendible timelike curve in M': in the abstract setting this is the extension of curves, a theorem on every T1, second countable space for any causality (curvesExtendOn_of_t1_secondCountable). The 'at most once' then needs only that the Cauchy surface of A is one of B (Causality.isCauchySurfaceOn_iSup_of_secondCountable): neither smoothness nor timelike curves are needed. This is a gain in route, not a defect of the paper."
+   ],
+   "questions": [
+    "None new. Layer 3 (smooth vacuum) and the open localisation local_uniqueness are not here."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Causal.IsCauchyEmbedding.isOpenEmbedding",
+  "Causal.IsCauchyEmbedding.t2Space",
+  "Causal.IsCauchyEmbedding.secondCountableTopology",
+  "Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable",
+  "Causal.range_gateArc",
+  "Causal.timelikeLine_gateArc_secondCountable",
+  "Causal.timelikeLine_cExtConnexe_secondCountable"
+ ],
+ "all_decls": [
+  "Causal.IsCauchyEmbedding.isOpenEmbedding",
+  "Causal.IsCauchyEmbedding.t2Space",
+  "Causal.IsCauchyEmbedding.secondCountableTopology",
+  "Causal.IsCauchyEmbedding.exists_inextensible_inf_of_secondCountable",
+  "Causal.IsCauchyEmbedding.isPreconnected_inf_of_secondCountable",
+  "Causal.IsCauchyEmbedding.c_ext_connexe_of_isConnected_of_secondCountable",
+  "Causal.IsCauchyEmbedding.c_ext_connexe'_of_secondCountable",
+  "Causal.IsCauchyEmbedding.isPreconnected_inf_of_preconnectedSpace_of_secondCountable",
+  "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable",
+  "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_iff_of_secondCountable",
+  "Causal.IsCauchyEmbedding.inf_causallyConvexIn_of_secondCountable",
+  "Causal.IsCauchyEmbedding.eq_of_mem_image_inter_of_secondCountable",
+  "Causal.CBG.injective_of_mapsTo_cauchy_of_secondCountable",
+  "Causal.CBG.sbierski_lemma_3_3_of_secondCountable",
+  "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable",
+  "Causal.IsCauchyInclusion.causallyConvexIn_of_secondCountable",
+  "Causal.Causality.isCauchySurfaceOn_iSup_of_secondCountable",
+  "Causal.isCauchyInclusion_iSup_of_common_of_secondCountable",
+  "Causal.isCauchyInclusion_iSup_of_secondCountable",
+  "Causal.isCauchyInclusion_sSup_of_secondCountable",
+  "Causal.Causality.sigma_separe_of_t1_secondCountable",
+  "Causal.Causality.Jplus_mem_nhds_of_isCauchySurface_of_secondCountable",
+  "Causal.Causality.Jminus_mem_nhds_of_isCauchySurface_of_secondCountable",
+  "Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable",
+  "Causal.IsCauchyEmbedding.image_diamant_of_secondCountable",
+  "Causal.IsCauchyEmbedding.diamond_subset_range_of_secondCountable",
+  "Causal.IsCauchyEmbedding.passe_pgcd_of_secondCountable",
+  "Causal.IsCauchyEmbedding.passe_pgcd_explicit_of_secondCountable",
+  "Causal.timelikeLine_cExtConnexe_secondCountable",
+  "Causal.range_gateArc",
+  "Causal.timelikeLine_gateArc_secondCountable"
+ ],
+ "statement_check": "Every *_of_secondCountable theorem was compared, binder by binder, with its original (Causal/CBG/CausalConvex.lean:212, :540, :571, :604, :628, :648, :680, :699, :713, :728, :737, :758, :770, :782; Causal/CBG/Injective.lean:595, :610; Causal/SubExtension.lean:326; Causal/CauchyDiamond.lean:129, :184, :291, :314, :332; Causal/CorrespondingPoints.lean:211, :222). Each conclusion is the original's, unchanged. Each hypothesis list is the original's, less hDext / hext / hcover. Added: [SecondCountableTopology _], and [T1Space M] for sigma_separe, which had no separation axiom. Instances: on N only for image_diamant, diamond_subset_range, passe_pgcd and passe_pgcd_explicit; the original's [FirstCountableTopology N] follows. Two forms assume strictly less than the original besides: eq_of_mem_image_inter_of_secondCountable has no hDac, and mem_Jplus_union_Jminus_of_secondCountable asks [T1Space N] only. sigma_separe_of_t1_secondCountable trades the original's hS : IsAcausal S for IsCauchySurface S plus CausallyArcConnected, as the target prescribes; it is not weaker than the original, it is closer to the paper. No statement was weakened to make it provable: every proof is one application of the original.",
+ "kb_proposals": [
+  "A Cauchy embedding is an open embedding (IsCauchyEmbedding.isOpenEmbedding: an IsEMorphism is continuous and open), so its source inherits T1/T2 and second countability from the target (.t2Space, .secondCountableTopology, Topology.IsEmbedding.t1Space). A hypothesis on M of a Cauchy-extension lemma, such as hcover, can then be asked of N only (T-abs-c-ext-connexe-second-countable).",
+  "causal_ladder does not close C.CurvesExtend: a [[fact]] is not a rule (Causal/Ladder/Rules.lean holds implications only and does not import Causal.CurvesExtendSecondCountable). Discharge it by the term Causality.curvesExtend_of_t1_secondCountable C (tested 2026-11-22: aesop fails with T2 and second countable in context).",
+  "gateArc : ℝ → ]-1, 1[ is a Cauchy embedding of the timelike line that is not onto (range_gateArc; it is one by sbierski_lemma_3_3_of_secondCountable with T = id). It is a cheap layer-1 witness for Cauchy-extension lemmas off the identity, with 1 a frontier point of its range (timelikeLine_gateArc_secondCountable)."
+ ],
+ "for_keeper": "The [[consequence]] lem:C_ext_connexe at curves_extend (T-lad-record-curves-corollaries) can be restated with no premise and standing T2, second_countable on N: Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable (after graduation, module Causal.CExtConnexeSecondCountable, ETT layer). Likewise the acausality of φ(Σ) needs no causal arc-connectedness on the ambient for causal curves meeting it twice (eq_of_mem_image_inter_of_secondCountable). causal_ladder was tried and does not apply: the only ladder property discharged here, curves_extend, is a [[fact]], and the tactic has no fact rules; every other ladder property in these statements is a carried hypothesis. Proposal for the tactics-builder: register curvesExtend_of_t1_secondCountable as a safe apply rule with its instance standing.",
+ "for_binder": "papers/sbierski-mghd/certificate/binder.toml rows mghdcor:welldefined (:212), mghdlem:IsoDiffeo (:226), mghdthm:ExMCGHD (:244) cite T-abs-c-ext-connexe-second-countable as the form without hDext / hext. Those forms are c_ext_connexe_of_connectedSpace_of_secondCountable; sbierski_lemma_3_3_of_secondCountable and injective_of_mapsTo_cauchy_of_secondCountable; and isCauchyInclusion_iSup_of_secondCountable, isCauchyInclusion_sSup_of_secondCountable, IsCauchyInclusion.causallyConvexIn_of_secondCountable and Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable. curves_extend can leave those rows' localisation (T-bind-curves-extend's convention; T-bind target, roadmap line 1537).",
+ "notes": "1. STATE ON RESUMPTION. The interrupted predecessor's file typechecked with all 30 proofs closed, so no proof was missing. This session corrected and completed it. (a) Its module docstring had two accidental marks within the first 4000 characters, **`lem:C_ext_connexe`** and **`lem:Sigma_separe`** in 'What is proved'. tools/ledger.py's docstring_label_re reads these as certification claims. Both are removed: no ``**`label`**`` remains anywhere in the file. (b) It declared Causality.mem_Jplus_union_Jminus_of_isCauchySurface_of_t1_secondCountable. That is a same-statement, different-name twin of Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable (Causal/SingularCauchy.lean:110), which a layer-1 module cannot import (model_path SingularCauchy -> SingularGeroch -> SingularFlat). It is removed and inlined into IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable, now asking [T1Space N] instead of [T2Space N]. (c) Maximal_GHD2.tex:501 is corrected to :502, and OQ-86 is updated to 'ruled by DEC-190'. (d) The hypothesis checklist is restated against the PAPER's hypotheses (kb/0006), with ⚠ strengthened rows for hK, hDac, ψ, the sing₀ facts and Lemma 3.3's time function. The paper quotes of lem:image_diamant, lem:passe_pgcd and lem:Sigma_separe are restored. (e) New: range_gateArc and the off-identity witness timelikeLine_gateArc_secondCountable. 2. GRADUATION. Strict-clean (warningAsError typecheck prints nothing). No name in the file exists in Causal/ (source index of tools/ladder.py, all modules). The module is not imported by scaffold/CausalScaffold.lean (kb/0025): the master adds it. As a strict module it would be Causal/CExtConnexeSecondCountable.lean; it never names its own module. range_gateArc would sit more naturally beside gateArc in Causal.CBG.CausalConvex (not edited: frozen). 3. HOIST PROPOSAL (kb/0061). Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable is model-free (read: T1 and second countable, any causality, exists_inextensible_of_t1_secondCountable only) but sits in the model-path Causal.SingularCauchy. Its module docstring calls its other steps model-free too (IsAcausal.Jplus_inter_Jminus, CausalCurveIn.mem_image_of_between, IsCauchySurface.sigma_separe_of_isOpen, sigma_separe_of_nonemptyChronalCones); those were not read here. A hoist would let layer-1 modules use them, and this file would then drop its inlined cover. 4. DEC-167 (gluing reading of defi:causalite, a future refactor). Every statement here quantifies over Causality, so all of them would be re-elaborated against the new structure; the proofs are one-term applications of the library forms and follow those. The one place whose content changes is the SCOPE remark that inf_causallyConvexIn keeps hDac because of gateLine_cauchyInclusion_not_causallyConvex. The gated line is not absolutely minimal, so under DEC-167 it is not an ETT causality, and whether hDac can be dropped becomes open: the library's own comment already says 'under Level A ... open'. The witnesses (timelikeLine, gateArc on it) are causally arc-connected, hence absolutely minimal, and survive. IsEMorphism ('a sheaf morphism', ETT.tex:255) may also be touched by the refactor. 5. DEC-156, DEC-197: nothing in this file uses pgcd or SingularFlatAxioms. 6. Rows (the /atlas-team's to curate; no ledger edited). For lem:C_ext_connexe, c_ext_connexe_of_connectedSpace_of_secondCountable is the candidate anchor if the master reads DEC-190 as admitting the abstract setting (questions, first label). The other ETT rows keep named hypotheses (hK, hDac, ψ, sing₀) and stay partial at layer 1. The Sbierski rows stay partial (layer 3)."
+}

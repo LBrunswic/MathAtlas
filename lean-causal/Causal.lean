@@ -258,6 +258,7 @@ import Causal.RationalJumpPlane
 import Causal.NotchedPlane
 import Causal.CurvesExtendSecondCountable
 import Causal.ErsSecondCountable
+import Causal.CExtConnexeSecondCountable
 import Causal.Remarks.MassADEC25
 import Causal.Model.EAlphaSectors
 import Causal.Port.E0GXStructure
