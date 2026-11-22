@@ -56,13 +56,14 @@ id = "T-egf-hub-handover"
 title = "Hand EGF over from the hub roadmap: remove T-egf-universality and T-egf-families from roadmap/roadmap.toml (they live here now) and set OQ-50 RULED (DEC-141)"
 stream = "programme"
 kind = "tooling"
-status = "ready"
+status = "done"
 owner = "master"
 package = "none"
 priority = 1
 evidence = "At set-up /atlas-team held `roadmap` for its whole wave, so the two hub blocks could not be moved in the set-up commit. Take `tools/lease.py take egf <pid> roadmap/roadmap.toml registers/DECISIONS.md` only when /atlas-team is between iterations; delete the two [[target]] blocks (git keeps them; their ids continue here), set OQ-50's row to RULED (DEC-141) (OQ-50 was kept OPEN only because the hub block T-egf-universality is blocked on it), run both roadmaps' check and tools/registers.py check, commit --only those two files."
 added = "2026-11-21"
 proposed_by = "egf-programme set-up (DEC-141)"
+commit = "8ac31ca"
 
 # ------------------------------------------------------------------------------------------------
 # lean
@@ -166,13 +167,14 @@ stream = "lean"
 kind = "close"
 paper = "egf"
 labels = ["theo:universality_sphere", "theo:spectral_gap_sphere"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-egf-universality", "T-egf-universality-ergodic"]
 evidence = "Split from T-egf-families by T-egf-plan-wave-1 (DEC-141: the cited theorem a faithful named Prop, Theorem 3.6 proved from it, as DEC-69 for Troyanov). Read off arXiv:1108.6264v1 (Bourgain-Gamburd, A spectral gap theorem in SU(d), JEMS 14 (2012)), Theorem 1: let g_1, …, g_k ∈ SU(d) ∩ Mat_{d×d}(Q̄), d ≥ 2, generate a subgroup Zariski dense in SL_d(C) (equivalently, their footnote 1, topologically dense in SU(d)); then the Hecke operator z f(x) = ∑_{j=1..k} (f(g_j x) + f(g_j⁻¹ x)) on L²(SU(d)) has a spectral gap: λ_1(z), the supremum of its spectrum on the orthogonal complement of the constants, is < 2k. The paper's 'reformulation' (main.tex:830-833) claims it for (Φ_1, …, Φ_p) ∈ SO(d) ∩ Mat(Q̄), dense in SO(d), stable under inverse, αⁱ = 1/p, for the EGF kernel on the sphere: not Theorem 1 (which is about SU(d) acting on itself); true for d = 3 (SO(3) = SU(2)/{±1}) and for SO(d) simple by benoist2016spectral (cited at l.307), false for d = 2 (C-32). Aim: (1) the sphere Metric.sphere (0 : EuclideanSpace ℝ (Fin (d+1))) 1 with σ = volume.toSphere (Mathlib/MeasureTheory/Constructions/HaarToSphere.lean:52), rotations acting on it, EGF.measurePreserving_rotation_sphere (a LinearIsometryEquiv preserves volume, the unit ball and cones). (2) EGF.BourgainGamburdTheorem1 : Prop, faithful (SU(d) as Matrix.specialUnitaryGroup (Fin d) ℂ, Mathlib/LinearAlgebra/UnitaryGroup.lean:255, with its subspace topology and Haar probability; entries IsAlgebraic ℚ; the closure of the generated subgroup is ⊤; ∃ c < 2k, ∀ f ∈ L²_0, Re⟨z f, f⟩ ≤ c‖f‖²), with a non-vacuity witness or a disclosed reason why none is given. (3) EGF.SpectralGapSphereReformulation (d) : Prop, the printed l.832-833 with Bourgain-Gamburd's one-sided notion for the EGF kernel on S^{d−1}, and EGF.not_spectralGapSphereReformulation_two: the rotation of cosine 3/5 and its inverse satisfy the hypotheses at d = 2 (rational entries; arccos(3/5) is not a rational multiple of π by Mathlib's niven, Mathlib/NumberTheory/Niven.lean:123, so the rotation has infinite order and its powers are dense in SO(2)), while ⟨P e_k, e_k⟩ = cos(kθ) on the characters has supremum 1 over k ≠ 0. (4) EGF.IsIsometrySphericalFamily and C-31's model richness; EGF.universality_sphere_of_ergodic (if every set a.e.-invariant under all the Φᵢ is null or conull, the isometry spherical family is EGF.IsUniversalFamilyEps σ: EGF.isUniversalFamilyEps_of_policy, EGF.isKernelErgodic_egfKernel_uniform, EGF.universality_of_ergodic); EGF.universality_sphere_one (d = 1, an irrational rotation, Mathlib AddCircle.ergodic_add_left, Mathlib/Dynamics/Ergodic/AddCircleAdd.lean:28: the paper's spectral-gap route cannot reach S¹, where no finite set of rotations has a spectral gap). The density form (dense in SO(d+1) ⇒ ergodic) is T-egf-sphere-dense-ergodic; the positive corrected reformulation at d = 3 is T-egf-spectral-gap-so3. Anchors C-28 (sphere half), C-31 (sphere half), C-32 (EGF.BourgainGamburdTheorem1, EGF.not_spectralGapSphereReformulation_two). Note: the experiment's six π/4 rotations (main.tex:496) satisfy l.836 (stable under inverse, entries √2/2, dense in SO(3) by the classification of closed subgroups of SO(3), not formalized). Wave of 2026-11-21 (iteration 5): closed by the closer in lean-egf/scaffold/EGFScaffold/SphereFamilies.lean (0 sorry, standard axioms, 1820 lines; committed in the scaffold, NOT graduated; it imports the graduated EGF.TorusFamilies since b529fb3, the master repointed the import and re-typechecked it): EGF.BourgainGamburdTheorem1 (named Prop, witnesses on both sides), SpectralGapSphereReformulation refuted at SO(2) in every reading of 'spectral gap' (C-32), families as images of a model, universality_sphere_of_ergodic, universality_sphere_iff, the S^1 results, not_universalitySpherePrinted_one (C-31), a new finding at l.307 (density omitted; not_universality_sphere_identity). Its AUDIT-1 was interrupted by the API usage limit (resets 2026-11-27 09:00 UTC) during the axioms probe: no AUDIT-1.json was written. To graduate: rerun the audit (the dispatch of 2026-11-21 asks for the faithfulness of the Bourgain-Gamburd Prop against arXiv:1108.6264v1, the unnamed global instances on EGF.SU d, the printed Prop over models, and whether l.307 claims what the finding refutes), then integrate with C-28/C-31's sphere halves and C-32."
 added = "2026-11-21"
 proposed_by = "egf-planner (T-egf-plan-wave-1)"
+commit = "95a2e50"
 
 [[target]]
 id = "T-egf-tori-minimal"
@@ -402,7 +404,7 @@ id = "T-egf-repro-torus-il"
 title = "Imitation learning on the continuous torus T^2: the minimal four affine moves (S, T and inverses, trainable translations), 3x32 and 4x128 MLPs, KL-weakFM with the corrected sign, the density filter; star, two spirals, checkerboard"
 stream = "repro"
 kind = "repro"
-status = "ready"
+status = "active"
 owner = "experimenter"
 priority = 3
 depends = ["T-egf-repro-scaffold"]
