@@ -1,0 +1,60 @@
+digraph formalization {
+  rankdir=BT; node [style=filled,fontname="Helvetica",fontsize=9];
+  edge [color="#888888",arrowsize=0.6];
+  subgraph "cluster_P" {
+    label="P"; color="#cccccc";
+    "def:capstar" [label="def:capstar\n", shape=box, fillcolor="#ffffff"];
+    "thm:main" [label="thm:main\nMain theorem", shape=doubleoctagon, fillcolor="#ffffff"];
+    "thm:sharp" [label="thm:sharp\nOptimality", shape=doubleoctagon, fillcolor="#ffffff"];
+    "prop:theta-examples" [label="prop:theta-examples\n", shape=ellipse, fillcolor="#ffffff"];
+    "def:constants" [label="def:constants\n", shape=box, fillcolor="#ffffff"];
+    "lem:csp-lower" [label="lem:csp-lower\n", shape=ellipse, fillcolor="#ffffff"];
+    "rem:notF1" [label="rem:notF1\n", shape=note, fillcolor="#ffffff"];
+    "lem:capstar" [label="lem:capstar\nWell-posedness", shape=ellipse, fillcolor="#ffffff"];
+    "rem:connected" [label="rem:connected\nConnectedness is necessary", shape=note, fillcolor="#ffffff"];
+    "rem:capcomputable" [label="rem:capcomputable\noperatornamecap_* is computa", shape=note, fillcolor="#ffffff"];
+    "rem:escobar-trap" [label="rem:escobar-trap\n", shape=note, fillcolor="#ffffff"];
+    "lem:capacitary" [label="lem:capacitary\nCapacitary trace-Poincaré", shape=ellipse, fillcolor="#ffffff"];
+    "lem:holder" [label="lem:holder\nOptimally weighted Hölder", shape=ellipse, fillcolor="#ffffff"];
+    "rem:tight" [label="rem:tight\nWhere the argument is tight", shape=note, fillcolor="#ffffff"];
+    "thm:star3" [label="thm:star3\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "lem:elem" [label="lem:elem\n", shape=ellipse, fillcolor="#ffffff"];
+    "prop:starN" [label="prop:starN\n", shape=ellipse, fillcolor="#ffffff"];
+    "rem:hebey" [label="rem:hebey\n", shape=note, fillcolor="#ffffff"];
+    "rem:passing_second_variation_test_necessary" [label="rem:passing_second_variation_test_necessary\n", shape=note, fillcolor="#ffffff"];
+    "prop:torus-B" [label="prop:torus-B\nSobolev inequality on a flat", shape=ellipse, fillcolor="#ffffff"];
+    "cor:csp-torus" [label="cor:csp-torus\n", shape=ellipse, fillcolor="#ffffff"];
+    "prop:extension" [label="prop:extension\nExtension across the punctur", shape=ellipse, fillcolor="#ffffff"];
+    "cor:unconditional" [label="cor:unconditional\nThe bound is unconditional", shape=ellipse, fillcolor="#ffffff"];
+    "rem:anisotropy" [label="rem:anisotropy\nAnisotropy destroys total op", shape=note, fillcolor="#ffffff"];
+    "thm:upper" [label="thm:upper\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "cor:yamabe" [label="cor:yamabe\n", shape=ellipse, fillcolor="#ffffff"];
+    "rem:mv" [label="rem:mv\nWhy a capacity and not a per", shape=note, fillcolor="#ffffff"];
+    "rem:diameter" [label="rem:diameter\nA diameter is the wrong quan", shape=note, fillcolor="#ffffff"];
+    "rem:dichotomy" [label="rem:dichotomy\nA dichotomy is wasteful", shape=note, fillcolor="#ffffff"];
+    "q:what_sharp_our_value" [label="q:what_sharp_our_value\n", shape=ellipse, fillcolor="#ffffff"];
+    "q:does_admit_variational_characterisation" [label="q:does_admit_variational_characterisation\n", shape=ellipse, fillcolor="#ffffff"];
+  }
+  "rem:tight" -> "lem:holder";
+  "rem:tight" -> "lem:capacitary";
+  "prop:starN" -> "lem:elem";
+  "prop:starN" -> "thm:star3";
+  "cor:csp-torus" -> "lem:csp-lower";
+  "cor:unconditional" -> "prop:extension";
+  "cor:unconditional" -> "thm:star3";
+  "cor:unconditional" -> "thm:main";
+  "rem:mv" -> "thm:main";
+  "rem:mv" -> "lem:capacitary";
+  "rem:diameter" -> "thm:upper";
+  "rem:dichotomy" -> "thm:main";
+  "q:what_sharp_our_value" -> "rem:hebey";
+  "q:what_sharp_our_value" -> "rem:anisotropy";
+  subgraph "cluster_legend" {
+    label="legend"; color="#cccccc"; fontsize=10;
+    l0 [label="closed in Lean", fillcolor="#b7e4c7", shape=box];
+    l1 [label="stated, partial", fillcolor="#ffe08a", shape=box];
+    l2 [label="scaffold", fillcolor="#ffd6a5", shape=box];
+    l3 [label="no Lean", fillcolor="#ffffff", shape=box];
+    l0 -> l1 -> l2 -> l3 [style=invis];
+  }
+}

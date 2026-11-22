@@ -1,0 +1,1179 @@
+\documentclass[11pt,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+% ---- notation -------------------------------------------------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Tor}{\mathbb{T}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\aN}{a_N}
+\newcommand{\cN}{c_N}
+\newcommand{\pstar}{p^{*}}
+\newcommand{\psharp}{p^{\sharp}}
+\newcommand{\Vol}{\operatorname{Vol}}
+\newcommand{\cpstar}{\operatorname{cap}_{*}}
+\newcommand{\Fq}{\mathsf{F}}
+\newcommand{\Ric}{\operatorname{Ric}}
+\newcommand{\Sc}{\mathrm{R}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\En}{\mathcal{E}}
+\newcommand{\Yb}{\mathcal{Y}^{\partial}}
+\newcommand{\Ksob}{K}
+\newcommand{\Csp}{C_{\mathrm{SP}}}
+\newcommand{\Atil}{\widetilde{A}}
+\newcommand{\dd}{\,\mathrm{d}}
+\DeclareMathOperator{\dist}{dist}
+
+\begin{document}
+
+\title[The trace-Sobolev constant of a perforated manifold]
+      {A capacitary lower bound for the doubly critical trace-Sobolev constant
+       of a perforated manifold}
+
+\author{Léo Brunswic}
+\address{Centre de Recherche Astrophysique de Lyon, UMR5574,
+         ENS de Lyon, Université Claude Bernard Lyon 1, CNRS,
+         F--69007 Lyon, France}
+\email{leo.brunswic@ens-lyon.fr}
+
+\date{\today}
+
+\subjclass[2020]{Primary 53C21; Secondary 35J20, 46E35, 58J32, 35B27}
+\keywords{Trace-Sobolev inequality, Escobar constant, relative Yamabe invariant,
+          capacity, perforated manifold, critical exponent}
+
+\begin{abstract}
+Let $(\Sigma,g)$ be a compact connected Riemannian $N$-manifold, $N\ge3$, whose
+boundary is a disjoint union of $n$ components $B_1,\dots,B_n$, and let
+\[
+  \Fq_g(u)=\frac{\aN\|\nabla u\|_{L^2(\Sigma)}^2
+                 +\cN\sum_{j}\|u\|^2_{L^{\psharp}(B_j)}}
+                {\|u\|^2_{L^{\pstar}(\Sigma)}},
+  \qquad
+  \aN=\tfrac{4(N-1)}{N-2},\quad \pstar=\tfrac{2N}{N-2},\quad
+  \psharp=\tfrac{2(N-1)}{N-2},
+\]
+with $\cN=2(N-1)\omega_{N-1}^{1/(N-1)}$ the Escobar constant of the round ball.
+The quotient is critical in the interior and on the boundary simultaneously, and
+$\lambda_\partial(\Sigma,g):=\inf\Fq_g$ controls the relative Yamabe constant of
+$\Sigma$ from above. That $\lambda_\partial>0$ is classical and qualitative; no
+explicit lower bound has been available.
+
+We prove one. Let $\cpstar(\Sigma,g)$ be the capacity of the boundary relative to
+the bulk, taken with a neutralising background, and set
+$\theta:=\aN\cpstar/(\cN S)$ with $S=\sum_j|B_j|^{(N-2)/(N-1)}$, so that
+$\Fq_g(1)=\cN S/\Vol(\Sigma)^{(N-2)/N}$. Then
+\[
+  \lambda_\partial\;\ge\;\frac{\theta}{1+\theta}\,\Fq_g(1)
+      \Bigl(1-\frac{\Atil\,\theta\,\Fq_g(1)}{\aN(1+\theta)^{2}}+O(\Fq_g(1)^2)\Bigr),
+\]
+where $\Atil$ is an explicit constant depending only on the Sobolev--Poincaré and
+Poincaré constants of $(\Sigma,g)$. For a flat torus with $4a$-separated punctures we
+compute those constants too, so the bound is unconditional. The factor
+$\theta/(1+\theta)$ is optimal: it
+is attained, in the limit of small boundary, by the capacitary potential. For a
+Euclidean ball $\theta=2$ in every dimension, and for a Schwarzschild collar
+$\theta=1$.
+
+The result is a critical-exponent, non-asymptotic counterpart of the
+Kaizu--Brillard homogenisation law $V=PQ/(P+Q)$ for the Robin Laplacian on a
+perforated domain, with $P$ the surface conductance and $Q$ the capacity density.
+We also explain why the sharp Euclidean trace-Sobolev inequalities of
+Maggi--Villani cannot be transplanted to this setting, and why a capacity, rather
+than a perimeter, is unavoidable.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{The quotient}
+Throughout, $N\ge3$ and
+\begin{equation}
+\label{eq:constants}
+  \aN=\frac{4(N-1)}{N-2},\qquad
+  \pstar=\frac{2N}{N-2},\qquad
+  \psharp=\frac{2(N-1)}{N-2},\qquad
+  \cN=2(N-1)\,\omega_{N-1}^{1/(N-1)},
+\end{equation}
+where $\omega_{N-1}=|\Sph^{N-1}|$. For $N=3$ these are $\aN=8$, $\pstar=6$,
+$\psharp=4$ and $\cN=8\sqrt{\pi}$.
+
+Let $(\Sigma,g)$ be a compact connected Riemannian $N$-manifold with non-empty
+boundary $\partial\Sigma=\bigsqcup_{j=1}^{n}B_j$. Write $V:=\Vol(\Sigma,g)$,
+$|B_j|$ for the induced $(N-1)$-volume, and
+\begin{equation}
+\label{eq:S}
+  S:=\sum_{j=1}^{n}|B_j|^{(N-2)/(N-1)}=\sum_{j=1}^n|B_j|^{2/\psharp}.
+\end{equation}
+For $u\in W^{1,2}(\Sigma)\setminus\{0\}$ define the \emph{doubly critical
+trace-Sobolev quotient}
+\begin{equation}
+\label{eq:F}
+  \Fq_g(u):=\frac{\aN\|\nabla u\|_{L^2(\Sigma,g)}^2
+                  +\cN\sum_{j=1}^{n}\|u\|^2_{L^{\psharp}(B_j,g)}}
+                 {\|u\|^2_{L^{\pstar}(\Sigma,g)}},
+  \qquad
+  \lambda_\partial(\Sigma,g):=\inf_{u\neq0}\Fq_g(u).
+\end{equation}
+Boundary norms are those of the trace, well defined in $L^{\psharp}(\partial\Sigma)$.
+Both exponents are critical: $\pstar$ for the embedding
+$W^{1,2}(\Sigma)\hookrightarrow L^{\pstar}(\Sigma)$ and $\psharp$ for the trace
+embedding $W^{1,2}(\Sigma)\to L^{\psharp}(\partial\Sigma)$. The constant $\cN$ is
+chosen so that $\cN$ is the Escobar constant of the round ball, equivalently
+$\aN E(N,2)^2=\cN$ where $E(N,2)^2=\tfrac{N-2}{2}\omega_{N-1}^{1/(N-1)}$ is the
+sharp constant in the half-space trace inequality
+$\|u\|_{L^{\psharp}(\partial\R^N_+)}\le E(N,2)^{-1}\|\nabla u\|_{L^2(\R^N_+)}$.
+
+Evaluating \eqref{eq:F} on the constant function gives the reference value
+\begin{equation}
+\label{eq:F1}
+  \Fq_g(1)=\frac{\cN S}{V^{(N-2)/N}} ,
+\end{equation}
+and it is elementary (Remark~\ref{rem:notF1}) that $\lambda_\partial<\Fq_g(1)$
+strictly. That $\lambda_\partial>0$ follows from Rellich--Kondrachov together with
+compactness of the trace operator, by contradiction; that argument yields no
+constant. \textbf{The purpose of this paper is to supply one, and to identify the
+optimal one.}
+
+\subsection{The answer}
+The relevant geometric quantity is a capacity. Put
+$w_j:=|B_j|^{2/\psharp}/S$, so $w_j\ge0$ and $\sum_jw_j=1$, and let
+\begin{equation}
+\label{eq:ell}
+  \ell(v):=\frac1V\int_\Sigma v\dd V-\sum_{j=1}^{n}\frac{w_j}{|B_j|}\int_{B_j}v\dd\sigma ,
+\end{equation}
+a bounded linear functional on $W^{1,2}(\Sigma)$ vanishing on constants.
+
+\begin{definition}
+\label{def:capstar}
+The \emph{relative capacity with neutralising background} of $(\Sigma,g)$ is
+\begin{equation}
+\label{eq:capstar}
+  \cpstar(\Sigma,g):=\inf\bigl\{\|\nabla v\|^2_{L^2(\Sigma,g)}\;:\;
+        v\in W^{1,2}(\Sigma),\ \ell(v)=1\bigr\},
+\end{equation}
+and the \emph{capacity--area ratio} is
+$\displaystyle\theta(\Sigma,g):=\frac{\aN\cpstar(\Sigma,g)}{\cN S}$.
+\end{definition}
+
+Our main result is the following; $\Csp$ denotes the Sobolev--Poincaré constant of
+$(\Sigma,g)$ and $\lambda_1$ its first non-zero Neumann eigenvalue
+(Section~\ref{sec:setting}).
+
+\begin{theorem}[Main theorem]
+\label{thm:main}
+Let $(\Sigma,g)$ be a compact connected Riemannian $N$-manifold with non-empty
+boundary, $N\ge3$, and suppose that the quadratic Sobolev inequality
+\begin{equation}
+\label{eq:star}
+  \|u\|^2_{L^{\pstar}(\Sigma)}\;\le\;\Atil\,\|\nabla u\|^2_{L^2(\Sigma)}
+        +V^{2/\pstar}\Bigl(\frac1V\int_\Sigma u\Bigr)^{\!2},
+  \qquad u\in W^{1,2}(\Sigma),\ u\ge0.
+\end{equation}
+holds with a finite constant $\Atil=\Atil(\Sigma,g)$. Then, with
+$\theta=\theta(\Sigma,g)$ and $\Fq_g(1)$ as in \eqref{eq:F1},
+\begin{equation}
+\label{eq:main}
+  \lambda_\partial(\Sigma,g)\;\ge\;\frac{\Fq_g(1)}{\Lambda_{\max}},
+  \qquad
+  \Lambda_{\max}=\tfrac12\Bigl[(\alpha+\beta+\delta)
+      +\sqrt{(\alpha+\delta-\beta)^2+4\alpha\beta}\Bigr],
+\end{equation}
+where $\alpha=1/\theta$, $\beta=1$ and $\delta=\Atil\,\Fq_g(1)/\aN$. In
+particular
+\begin{equation}
+\label{eq:main-asymp}
+  \lambda_\partial\;\ge\;\frac{\theta}{1+\theta}\,\Fq_g(1)
+     \left(1-\frac{\Atil\,\theta\,\Fq_g(1)}{\aN(1+\theta)^2}
+            +O\bigl(\Fq_g(1)^2\bigr)\right).
+\end{equation}
+\end{theorem}
+
+The constant $\theta/(1+\theta)$ cannot be improved:
+
+\begin{theorem}[Optimality]
+\label{thm:sharp}
+For every $(\Sigma,g)$ as above,
+$\lambda_\partial\le\bigl[\theta/(1+\theta)\bigr]\Fq_g(1)\,(1+\eta)$, where
+$\eta\to0$ as $\Fq_g(1)\to0$ with $\theta$ bounded. Consequently
+\eqref{eq:main-asymp} is asymptotically sharp in the limit of small boundary.
+\end{theorem}
+
+Hypothesis \eqref{eq:star} is a statement about $(\Sigma,g)$ alone, with no
+reference to the boundary decomposition; we prove it with an explicit constant in
+Section~\ref{sec:star}. It is strictly weaker than Hebey's ``totally optimal''
+inequality, which would demand $\Atil=\Ksob(N,2)^2$ and which is expected to
+characterise the round sphere; see Remark~\ref{rem:hebey}.
+
+\subsection{What \texorpdfstring{$\theta$}{theta} is}
+\begin{proposition}
+\label{prop:theta-examples}
+In the dilute limit (one small boundary component, or many at mutual distance
+large compared with their diameters):
+\begin{enumerate}
+\item if $B$ is a Euclidean sphere of radius $a$ in flat space, then
+      $\theta\to2$, \emph{in every dimension $N\ge3$};
+\item if $N=3$ and the collar is Schwarzschild of mass $m$ in isotropic form,
+      $g=(1+m/2s)^4\delta$, with $B$ the horizon, then $\theta\to1$.
+\end{enumerate}
+\end{proposition}
+
+Thus $\theta/(1+\theta)$ equals $2/3$ for Euclidean punctures and $1/2$ for
+Schwarzschild ones: a horizon has exactly half the capacity of a Euclidean sphere
+of the same area, and this halving passes directly into the constant.
+
+\subsection{Relation to the literature}
+\label{sec:literature}
+
+\emph{Homogenisation.} The combination $\theta/(1+\theta)$ is not an accident. For
+the \emph{linear} Robin Laplacian on an $\varepsilon$-periodically perforated
+domain, Kaizu \cite{Kaizu1985a,Kaizu1985b,Kaizu1986,Kaizu1989} and Brillard
+\cite{Brillard1988} — quantitatively, with operator-norm resolvent estimates,
+Khrabustovskyi and Plum \cite{KhrabustovskyiPlum2022} — proved convergence to
+$-\Delta+V$ with
+\[
+   V=\frac{PQ}{P+Q},\qquad
+   P=\text{surface conductance density},\quad
+   Q=\text{capacity density},
+\]
+i.e.\ $V=P\,\theta/(1+\theta)$ with $\theta=Q/P$: a series combination of a surface
+channel and a capacitary channel. Under the dictionary $P\leftrightarrow\cN S$,
+$Q\leftrightarrow\aN\cpstar$ this is exactly \eqref{eq:main-asymp}.
+Theorem~\ref{thm:main} is a critical-exponent, fixed-scale counterpart: no
+$\varepsilon\to0$ limit is taken, and the exponents are $\pstar$ and $\psharp$
+rather than $2$. The classical ``strange term'' of Cioranescu and Murat
+\cite{CioranescuMurat1997} is the case $P=\infty$.
+
+\emph{Optimal transport.} For $\Omega\subset\R^N$ locally Lipschitz,
+Maggi and Villani \cite{MaggiVillani2005,MaggiVillani2008}, following
+Cordero-Erausquin, Nazaret and Villani \cite{CNV2004} and Nazaret
+\cite{Nazaret2006}, proved by mass transportation that
+\begin{equation}
+\label{eq:MV}
+  \|u\|_{L^{\pstar}(\Omega)}\le S(N,2)^{-1}\|\nabla u\|_{L^2(\Omega)}
+      +\mathrm{ISO}(B)^{-1/\psharp}\|u\|_{L^{\psharp}(\partial\Omega)},
+\end{equation}
+with \emph{both} constants sharp and \emph{independent of $\Omega$}. Inequality
+\eqref{eq:MV} has precisely the shape our proof needs. It is, however,
+unavailable here, and necessarily so: testing \eqref{eq:MV} on $u\equiv1$ over a
+closed manifold with small balls removed would give
+$V^{1/\pstar}\le\mathrm{ISO}(B)^{-1/\psharp}\,|\partial\Sigma|^{1/\psharp}$, which
+fails as the balls shrink. The hypothesis that breaks is $\Omega\subset\R^N$:
+there is no outer boundary to carry the isoperimetric deficit, and cutting along a
+fundamental domain introduces face terms that $\Fq_g$ does not control. The
+transport argument produces a \emph{perimeter}; what the geometry here requires is
+a \emph{capacity}, a two-energy object. That is the content of
+Lemma~\ref{lem:capacitary} and, we believe, the structural reason the Euclidean
+theory does not extend. See Remark~\ref{rem:mv}.
+
+\emph{Sharp trace constants on manifolds.} Li and Zhu \cite{LiZhu1997} obtained
+sharp Sobolev trace inequalities on manifolds with boundary, but in the form
+$\|u\|^2_{L^{\psharp}(\partial M)}\le S\|\nabla u\|^2_{L^2(M)}+A\|u\|^2_{L^2(\partial M)}$:
+normalised by the boundary, with a subcritical second term, and with $A(M,g)$ not
+explicit. It does not bound $\lambda_\partial$.
+
+\emph{Relative Yamabe invariants.} $\lambda_\partial$ enters geometry through the
+relative Yamabe constant of Akutagawa and Botvinnik \cite{AkutagawaBotvinnik2002};
+see Section~\ref{sec:yamabe}.
+
+\subsection{Plan}
+Section~\ref{sec:setting} fixes notation and records the two classical constants we
+use. Section~\ref{sec:cap} develops $\cpstar$ and proves
+Proposition~\ref{prop:theta-examples}. Section~\ref{sec:proof} proves
+Theorem~\ref{thm:main} from \eqref{eq:star}; the argument is three lemmas and a
+$2\times2$ eigenvalue computation. Section~\ref{sec:star} proves \eqref{eq:star}
+with an explicit constant. Section~\ref{sec:sharp} proves
+Theorem~\ref{thm:sharp}. Section~\ref{sec:yamabe} gives the application to
+relative Yamabe constants of perforated manifolds.
+Section~\ref{sec:numerics} reports numerical verification.
+Section~\ref{sec:remarks} collects remarks, including why two natural earlier
+approaches fail.
+
+\section{Setting and two classical constants}
+\label{sec:setting}
+
+Throughout $(\Sigma,g)$ is a compact connected Riemannian $N$-manifold with
+non-empty boundary $\partial\Sigma=\bigsqcup_{j=1}^nB_j$ and Lipschitz metric, and
+$V=\Vol(\Sigma,g)$. We write $\bar u:=V^{-1}\int_\Sigma u\dd V$ and
+$X:=\|\nabla u\|_{L^2(\Sigma)}$.
+
+\begin{definition}
+\label{def:constants}
+\begin{enumerate}
+\item $\lambda_1=\lambda_1(\Sigma,g)>0$ is the first non-zero Neumann eigenvalue,
+      equivalently the best constant in the Poincaré inequality
+      $\|v-\bar v\|^2_{L^2}\le\lambda_1^{-1}\|\nabla v\|^2_{L^2}$;
+\item $\Csp=\Csp(\Sigma,g)$ is the Sobolev--Poincaré constant, the least $C$ with
+      $\|v-\bar v\|_{L^{\pstar}(\Sigma)}\le C\|\nabla v\|_{L^2(\Sigma)}$ for all
+      $v\in W^{1,2}(\Sigma)$.
+\end{enumerate}
+\end{definition}
+
+Both are finite because $\Sigma$ is compact, connected and Lipschitz. We record
+the elementary lower bound on $\Csp$, which is what forbids the naive guess
+$\Csp=\Ksob(N,2)$ when the boundary is non-empty.
+
+\begin{lemma}
+\label{lem:csp-lower}
+Let $\Ksob=\Ksob(N,2)$ be the sharp Euclidean Sobolev constant,
+$\aN/\Ksob^2=N(N-1)\omega_N^{2/N}$. If $\partial\Sigma\ne\emptyset$ then
+\[
+   \Csp(\Sigma,g)\ \ge\ 2^{1/2-1/\pstar}\,\Ksob\ =\ 2^{1/N}\Ksob .
+\]
+For $N=3$: $\Ksob=0.42726\ldots$ and $\Csp\ge0.53831\ldots$.
+\end{lemma}
+
+\begin{proof}
+Fix $x_0\in\partial\Sigma$ and let $U_\varepsilon$ be an Aubin--Talenti extremal
+rescaled to concentrate at $x_0$ at scale $\varepsilon$, transplanted by normal
+coordinates and cut off at a fixed distance. As $\varepsilon\to0$ the metric
+converges to the flat one and $\Sigma$ looks, at scale $\varepsilon$, like a
+half-space; the extremal is even about the tangent hyperplane, so exactly half of
+$\int|U_\varepsilon|^{\pstar}$ and half of $\int|\nabla U_\varepsilon|^2$ survive
+the truncation to $\Sigma$. Moreover $\overline{U_\varepsilon}\to0$. Hence
+\[
+  \frac{\|U_\varepsilon-\overline{U_\varepsilon}\|_{L^{\pstar}(\Sigma)}}
+       {\|\nabla U_\varepsilon\|_{L^2(\Sigma)}}
+  \longrightarrow
+  \frac{2^{-1/\pstar}}{2^{-1/2}}\,\Ksob=2^{1/2-1/\pstar}\Ksob .
+\]
+Finally $\tfrac12-\tfrac1{\pstar}=\tfrac12-\tfrac{N-2}{2N}=\tfrac1N$.
+\end{proof}
+
+\begin{remark}
+\label{rem:notF1}
+$\lambda_\partial<\Fq_g(1)$ strictly. Indeed for $u_\epsilon=1+\epsilon\varphi$
+with $\int_\Sigma\varphi\dd V=0$ the gradient term is $O(\epsilon^2)$ while
+\[
+  \frac{d}{d\epsilon}\Big|_{0}\Fq_g(1+\epsilon\varphi)
+  =\frac{2\cN}{V^{(N-2)/N}}\sum_j|B_j|^{-1/(N-1)}\int_{B_j}\varphi\dd\sigma,
+\]
+which is $<0$ for any $\varphi$ that is $\le0$ and $\not\equiv0$ on
+$\partial\Sigma$ with zero mean on $\Sigma$. So the constant function is never
+optimal, and any lower bound of the form $\lambda_\partial\ge\kappa\Fq_g(1)$ must
+have $\kappa<1$.
+\end{remark}
+
+\section{The relative capacity with neutralising background}
+\label{sec:cap}
+
+\begin{lemma}[Well-posedness]
+\label{lem:capstar}
+Let $(\Sigma,g)$ be compact, \emph{connected}, with non-empty Lipschitz boundary.
+Then $0<\cpstar(\Sigma,g)<\infty$, the infimum in \eqref{eq:capstar} is attained,
+and for every $u\in W^{1,2}(\Sigma)$
+\begin{equation}
+\label{eq:capineq}
+  \bar u-\sum_{j}\frac{w_j}{|B_j|}\int_{B_j}u\dd\sigma
+  \;\le\;\frac{\|\nabla u\|_{L^2(\Sigma)}}{\sqrt{\cpstar}} .
+\end{equation}
+The minimiser $v$ solves $\Delta v=\mu/(2V)$ in $\Sigma$ with
+$\partial_\nu v=-\mu w_j/(2|B_j|)$ on $B_j$, where $\mu=2\cpstar$; that is, $v$ is
+the equilibrium potential of $\partial\Sigma$ against a uniform neutralising
+background.
+\end{lemma}
+
+\begin{proof}
+$\ell$ is bounded on $W^{1,2}(\Sigma)$ by the trace theorem, and $\ell(c)=0$ for
+constants $c$, so $\ell(v)=\ell(v-\bar v)$ for all $v$. Hence, by Poincaré,
+\[
+  |\ell(v)|=|\ell(v-\bar v)|\le\|\ell\|_{(W^{1,2})^*}\|v-\bar v\|_{W^{1,2}}
+  \le\|\ell\|_{(W^{1,2})^*}\bigl(1+\lambda_1^{-1/2}\bigr)\|\nabla v\|_{L^2},
+\]
+which is \eqref{eq:capineq} with
+$\cpstar\ge\bigl[\|\ell\|(1+\lambda_1^{-1/2})\bigr]^{-2}>0$. Finiteness holds
+because $\ell\not\equiv0$: choose $v$ supported in the interior with
+$\int_\Sigma v\ne0$. Attainment follows from the direct method: a minimising
+sequence normalised by $\bar v=0$ is bounded in $W^{1,2}$ by the above, and $\ell$
+is weakly continuous by compactness of the trace operator. The Euler--Lagrange
+system is the stated one, and pairing it with $v$ gives
+$\|\nabla v\|^2=\tfrac{\mu}{2}\ell(v)=\tfrac{\mu}{2}$.
+\end{proof}
+
+\begin{remark}[Connectedness is necessary]
+\label{rem:connected}
+If $\Sigma=\Sigma_1\sqcup\Sigma_2$ then $v=\mathbf 1_{\Sigma_1}\in W^{1,2}(\Sigma)$
+has $\nabla v\equiv0$ while $\ell(v)\ne0$ in general; rescaling gives
+$\cpstar=0$ and \eqref{eq:capineq} is false. The Poincaré step above is exactly
+where connectedness enters.
+\end{remark}
+
+\begin{remark}[$\cpstar$ is computable, not closed-form]
+\label{rem:capcomputable}
+$\cpstar$ is itself a variational problem, but a \emph{linear} one: a lower bound
+for $\cpstar$ is an upper bound for $\|\ell\|$, the Dirichlet principle applies,
+and finite elements give certified two-sided estimates. This is a genuine
+reduction of the doubly critical problem, but $\theta$ should not be called
+explicit.
+\end{remark}
+
+\begin{proof}[Proof of Proposition~\ref{prop:theta-examples}]
+(1) In the dilute limit the equilibrium potential of a single sphere of radius $a$
+in flat space is the Newtonian one, and
+$\cpstar\to\operatorname{cap}(B_a)=(N-2)\,\omega_{N-1}a^{N-2}$, while
+$S=(\omega_{N-1}a^{N-1})^{(N-2)/(N-1)}=\omega_{N-1}^{(N-2)/(N-1)}a^{N-2}$. Hence
+\[
+  \theta=\frac{\aN\cpstar}{\cN S}
+   =\frac{\tfrac{4(N-1)}{N-2}\,(N-2)\,\omega_{N-1}a^{N-2}}
+         {2(N-1)\omega_{N-1}^{1/(N-1)}\,\omega_{N-1}^{(N-2)/(N-1)}a^{N-2}}
+   =\frac{4(N-1)}{2(N-1)}=2 .
+\]
+(2) For $g=\varphi^4\delta$ with $\varphi=1+m/2s$ on $\R^3$, the $g$-harmonic
+potential vanishing at infinity and equal to $1$ on the horizon $s=m/2$ is
+$v=2a/(s+a)$ with $a=m/2$, since $(\varphi^2s^2v')'=0$. Therefore
+$\operatorname{cap}_g=\int\varphi^2s^2(v')^2\,4\pi\dd s=8\pi a=4\pi m$, whereas the
+horizon area is $|B|=16\pi m^2$, so $S=4\sqrt\pi\,m$ and
+\[
+  \theta=\frac{8\cdot4\pi m}{8\sqrt\pi\cdot4\sqrt\pi\,m}=1 .
+\]
+The horizon has exactly half the capacity of a Euclidean sphere of the same area.
+\end{proof}
+
+\begin{remark}
+\label{rem:escobar-trap}
+In (2) it is essential to keep the Escobar boundary term. Transplanting the
+Euclidean computation conformally, without the mean-curvature contribution, returns
+$\theta=2$ and is wrong.
+\end{remark}
+
+\section{Proof of the main theorem}
+\label{sec:proof}
+
+Fix $u\in W^{1,2}(\Sigma)$, $u\not\equiv0$. Replacing $u$ by $|u|$ changes
+nothing: $|\nabla|u||=|\nabla u|$ a.e.\ and the trace of $|u|$ is $|{\rm tr}\,u|$,
+so $\Fq_g(|u|)=\Fq_g(u)$. We may therefore assume $u\ge0$, hence $\bar u\ge0$.
+Write
+\[
+  X:=\|\nabla u\|_{L^2(\Sigma)},\qquad
+  Y:=\Bigl(\sum_{j=1}^n\|u\|^2_{L^{\psharp}(B_j)}\Bigr)^{1/2},
+\]
+so that the numerator of $\Fq_g(u)$ is $\aN X^2+\cN Y^2$.
+
+\begin{lemma}[Capacitary trace-Poincaré]
+\label{lem:capacitary}
+$\displaystyle \bar u\;\le\;\sum_j\frac{w_j}{|B_j|}\int_{B_j}u\dd\sigma
+   \;+\;\frac{X}{\sqrt{\cpstar}}$.
+\end{lemma}
+
+\begin{proof}
+Immediate from \eqref{eq:capineq}.
+\end{proof}
+
+\begin{lemma}[Optimally weighted Hölder]
+\label{lem:holder}
+$\displaystyle\sum_j\frac{w_j}{|B_j|}\int_{B_j}u\dd\sigma\;\le\;\frac{Y}{\sqrt S}$,
+and the weights $w_j=|B_j|^{2/\psharp}/S$ are the unique minimisers of
+$\sum_jw_j^2|B_j|^{-2/\psharp}$ subject to $w_j\ge0$, $\sum_jw_j=1$.
+\end{lemma}
+
+\begin{proof}
+By Hölder on each component,
+$|B_j|^{-1}\int_{B_j}u\le|B_j|^{-1/\psharp}\|u\|_{L^{\psharp}(B_j)}$. By
+Cauchy--Schwarz,
+\[
+  \sum_jw_j|B_j|^{-1/\psharp}\|u\|_{L^{\psharp}(B_j)}
+  \le\Bigl(\sum_jw_j^2|B_j|^{-2/\psharp}\Bigr)^{1/2}Y .
+\]
+Minimising $\sum_jw_j^2|B_j|^{-2/\psharp}$ under $\sum_jw_j=1$ by Lagrange
+multipliers gives $w_j\propto|B_j|^{2/\psharp}$ and the minimum value $1/S$.
+\end{proof}
+
+The choice of weights in Lemma~\ref{lem:holder} is what preserves
+$S=\sum_j|B_j|^{2/\psharp}$, rather than $\bigl(\sum_j|B_j|\bigr)^{2/\psharp}$:
+the naive uniform choice loses a factor $n^{1/(N-1)}$ over $n$ equal
+components.
+
+Combining Lemmas~\ref{lem:capacitary} and \ref{lem:holder} and multiplying by
+$V^{1/\pstar}$,
+\begin{equation}
+\label{eq:linear}
+  V^{1/\pstar}\,\bar u\;\le\;C_1X+C_2Y,
+  \qquad C_1:=\frac{V^{1/\pstar}}{\sqrt{\cpstar}},\qquad
+         C_2:=\frac{V^{1/\pstar}}{\sqrt S}.
+\end{equation}
+The two constants are exactly calibrated to the two terms of the numerator:
+\begin{equation}
+\label{eq:calib}
+  \frac{\aN}{C_1^2}=\frac{\aN\cpstar}{V^{2/\pstar}}=\theta\,\Fq_g(1),
+  \qquad
+  \frac{\cN}{C_2^2}=\frac{\cN S}{V^{2/\pstar}}=\Fq_g(1).
+\end{equation}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Since $\bar u\ge0$, squaring \eqref{eq:linear} and inserting it into
+\eqref{eq:star} gives
+\[
+  \|u\|^2_{L^{\pstar}}\;\le\;\Atil X^2+(C_1X+C_2Y)^2
+  \;=\;(\Atil+C_1^2)X^2+2C_1C_2XY+C_2^2Y^2 .
+\]
+Hence
+\[
+  \Fq_g(u)\;\ge\;\inf_{(X,Y)\neq0}\frac{\aN X^2+\cN Y^2}
+    {(\Atil+C_1^2)X^2+2C_1C_2XY+C_2^2Y^2}
+  \;=\;\frac1{\Lambda_{\max}(M)},
+\]
+where $\Lambda_{\max}(M)$ is the largest eigenvalue of
+$M=D^{1/2}QD^{1/2}$ with $D=\operatorname{diag}(\aN^{-1},\cN^{-1})$ and $Q$ the
+matrix of the denominator. Explicitly, writing
+$\alpha':=C_1^2/\aN$, $\beta':=C_2^2/\cN$, $\delta':=\Atil/\aN$ and using
+$C_1C_2/\sqrt{\aN\cN}=\sqrt{\alpha'\beta'}$,
+\[
+  M=\begin{pmatrix}\alpha'+\delta' & \sqrt{\alpha'\beta'}\\[2pt]
+                   \sqrt{\alpha'\beta'} & \beta'\end{pmatrix},
+  \qquad
+  \Lambda_{\max}=\tfrac12\Bigl[(\alpha'+\beta'+\delta')
+    +\sqrt{(\alpha'+\delta'-\beta')^2+4\alpha'\beta'}\Bigr].
+\]
+All entries of $M$ are non-negative, so by Perron--Frobenius the maximising
+eigenvector may be taken with non-negative entries; the infimum over the
+physically admissible quadrant $X,Y\ge0$ therefore coincides with the
+unconstrained one and nothing is lost. By \eqref{eq:calib},
+$\alpha'=1/(\theta\Fq_g(1))$ and $\beta'=1/\Fq_g(1)$, so
+$\Lambda_{\max}=\Lambda_{\max}^{\mathrm{norm}}/\Fq_g(1)$ with
+$\Lambda^{\mathrm{norm}}_{\max}$ as in \eqref{eq:main}, and $\delta'$ becomes
+$\delta=\Atil\Fq_g(1)/\aN$ after the same normalisation. This is \eqref{eq:main}.
+
+For \eqref{eq:main-asymp}: when $\Atil=0$ one has
+$\Lambda_{\max}=\alpha'+\beta'=(1+\theta)/(\theta\Fq_g(1))$, giving exactly
+$\theta/(1+\theta)\cdot\Fq_g(1)$. Differentiating $1/\Lambda_{\max}$ in $\delta$
+at $\delta=0$ — equivalently, applying the envelope theorem to the equivalent
+one-dimensional form
+$\Fq_g(1)\min_{p\in[0,1]}\bigl(\theta p^2+(1-p)^2\bigr)/(1+\varepsilon p^2)$ with
+$\varepsilon=\Atil\theta\Fq_g(1)/\aN$, whose minimiser at $\varepsilon=0$ is
+$p_*=1/(1+\theta)$ — gives relative loss $\varepsilon p_*^2=\varepsilon/(1+\theta)^2$,
+which is \eqref{eq:main-asymp}.
+\end{proof}
+
+\begin{remark}[Where the argument is tight]
+\label{rem:tight}
+Each of the three inequalities used is an equality for the capacitary profile:
+Lemma~\ref{lem:holder} is an equality when $u$ is constant on $\partial\Sigma$;
+Lemma~\ref{lem:capacitary} is an equality when $u$ is the equilibrium potential;
+and the Cauchy--Schwarz step is an equality when
+$X/Y=\cN\sqrt S/(\aN\sqrt{\cpstar})$, which is precisely the ratio realised by
+$u=1-s\psi$ at $s=1/(1+\theta)$. Only \eqref{eq:star} is lossy, and only at order
+$\Fq_g(1)$.
+\end{remark}
+
+\section{The quadratic Sobolev inequality \texorpdfstring{\eqref{eq:star}}{(star)}}
+\label{sec:star}
+
+We now prove \eqref{eq:star} with an explicit constant. Normalise
+$\|u\|_{L^{\pstar}(\Sigma)}=1$; both sides of \eqref{eq:star} are $2$-homogeneous.
+By Hölder,
+\begin{equation}
+\label{eq:t}
+  t:=V^{1/\pstar}\bar u\in[0,1],
+\end{equation}
+with $t=1$ exactly for constants, and \eqref{eq:star} reads
+\begin{equation}
+\label{eq:D}
+  D:=1-t^2\;\le\;\Atil X^2 .
+\end{equation}
+Thus $\Atil$ measures how a deficit in Hölder's inequality is controlled by the
+Dirichlet energy. Set $v:=u-\bar u$, so $\int_\Sigma v\dd V=0$, and write
+\[
+  n_2:=\frac{X}{\sqrt{\lambda_1}}\ \ge\ \|v\|_{L^2},
+  \qquad
+  n_{\pstar}:=\min\bigl\{\Csp X,\;1+t\bigr\}\ \ge\ \|v\|_{L^{\pstar}} ,
+\]
+the second bound because $\|v\|_{\pstar}\le\|u\|_{\pstar}+V^{1/\pstar}\bar u=1+t\le2$.
+
+\subsection{The case \texorpdfstring{$N=3$}{N = 3}}
+Here $\pstar=6$ is an integer and the expansion terminates.
+
+\begin{theorem}
+\label{thm:star3}
+Let $N=3$ and let $(\Sigma,g)$ be compact, connected, with Lipschitz boundary.
+Then \eqref{eq:star} holds with
+\begin{equation}
+\label{eq:Atil}
+  \Atil=\min_{X_0>0,\ t_0\in[0,1)}\ \max\left\{
+     \frac1{X_0^2},\quad
+     \frac{G(X_0)}{1+t_0^2+t_0^4},\quad
+     \frac{\Csp^2}{(1-t_0)^2}\right\},
+\end{equation}
+where, with $n_2=X_0/\sqrt{\lambda_1}$ and $n_6=\min\{\Csp X_0,2\}$,
+\[
+  G(X_0):=\frac1{X_0^2}\Bigl[
+     15V^{-2/3}n_2^2+20V^{-1/2}n_2^{3/2}n_6^{3/2}
+     +15V^{-1/3}n_2n_6^{3}+6V^{-1/6}n_2^{1/2}n_6^{9/2}+n_6^{6}\Bigr].
+\]
+\end{theorem}
+
+\begin{proof}
+Since $\bar u=tV^{-1/6}$ and $\int v=0$, the binomial expansion of $\int u^6=1$ is
+\begin{equation}
+\label{eq:binom}
+  1-t^6=15\bar u^4\!\int\! v^2+20\bar u^3\!\int\! v^3+15\bar u^2\!\int\! v^4
+        +6\bar u\!\int\! v^5+\int\! v^6 ,
+\end{equation}
+the term $6\bar u^5\int v$ vanishing and $\bar u^6V=t^6$. By interpolation between
+$L^2$ and $L^6$,
+\[
+  \|v\|_3\le\|v\|_2^{1/2}\|v\|_6^{1/2},\quad
+  \|v\|_4\le\|v\|_2^{1/4}\|v\|_6^{3/4},\quad
+  \|v\|_5\le\|v\|_2^{1/10}\|v\|_6^{9/10},
+\]
+and $\bar u\le V^{-1/6}$, so the right-hand side of \eqref{eq:binom} is at most
+$X^2\,G(X)$ with $G$ as above evaluated at $X$; note $G$ is non-decreasing in its
+argument. Since $1-t^2=(1-t^6)/(1+t^2+t^4)$, we obtain
+\begin{equation}
+\label{eq:Dbound}
+  D\le\frac{G(X)\,X^2}{1+t^2+t^4}.
+\end{equation}
+Now fix $X_0>0$ and $t_0\in[0,1)$ and distinguish three cases.
+
+\emph{(i) $X\ge X_0$.} Then $D\le1\le X^2/X_0^2$.
+
+\emph{(ii) $X<X_0$ and $t\ge t_0$.} Then $G(X)\le G(X_0)$ and
+$1+t^2+t^4\ge1+t_0^2+t_0^4$, so \eqref{eq:Dbound} gives
+$D\le G(X_0)X^2/(1+t_0^2+t_0^4)$.
+
+\emph{(iii) $X<X_0$ and $t<t_0$.} Then
+$1-t\le\|u\|_{\pstar}-V^{1/\pstar}\bar u\le\|v\|_{\pstar}\le\Csp X$, whence
+$D\le1\le\Csp^2X^2/(1-t_0)^2$.
+
+Taking the maximum of the three coefficients and then the minimum over
+$(X_0,t_0)$ yields \eqref{eq:Atil}.
+\end{proof}
+
+Numerically, for the unit cubic flat $3$-torus with small balls removed
+($\lambda_1V^{2/3}=4\pi^2$), \eqref{eq:Atil} gives
+\[
+  \Atil=1.073\ (\Csp=0.539),\quad
+  1.511\ (\Csp=0.70),\quad
+  1.915\ (\Csp=1.0),\quad
+  2.250\ (\Csp=1.5),
+\]
+against $\Ksob(3,2)^2=0.1826$. The route is elementary and lossy by an order of
+magnitude, and by Section~\ref{sec:numerics} this hardly matters.
+
+\subsection{General \texorpdfstring{$N$}{N}}
+The expansion \eqref{eq:binom} terminates whenever $\pstar\in\mathbb{Z}$, i.e.\
+$N-2\mid4$, i.e.\ $N\in\{3,4,6\}$ (with $\pstar=6,4,3$). For general $N$ one
+replaces it by an elementary convexity estimate.
+
+\begin{lemma}
+\label{lem:elem}
+For $q\ge2$ there is $c_q<\infty$ with
+$(1+x)^q\le1+qx+c_q\bigl(x^2+|x|^q\bigr)$ for all $x\ge-1$.
+\end{lemma}
+
+\begin{proposition}
+\label{prop:starN}
+Let $q=\pstar$ and $c_q$ as in Lemma~\ref{lem:elem}. For $u\ge0$ with
+$\|u\|_{q}=1$ and $t=V^{1/q}\bar u$,
+\[
+  D\;\le\;\tfrac{2}{q}c_q\Bigl[V^{2/q-1}\lambda_1^{-1}X^2
+        +t^{2-q}\,\Csp^{\,q}X^{q}\Bigr],
+\]
+and consequently \eqref{eq:star} holds with an explicit $\Atil$ obtained by the
+same three-branch split as in Theorem~\ref{thm:star3}.
+\end{proposition}
+
+\begin{proof}
+Apply Lemma~\ref{lem:elem} with $x=v/\bar u$ and integrate:
+$\int u^q\le\bar u^qV+c_q\bigl(\bar u^{q-2}\|v\|_2^2+\|v\|_q^q\bigr)$, the linear
+term vanishing. Since $2/q\le1$, concavity gives
+$(A+B)^{2/q}\le A^{2/q}+\tfrac2qA^{2/q-1}B$ for $A,B\ge0$, and with
+$A=\bar u^qV=t^q$ this yields
+\[
+  1=\|u\|_q^2\le V^{2/q}\bar u^2
+     +\tfrac2qc_qV^{2/q-1}\bigl(\|v\|_2^2+\bar u^{2-q}\|v\|_q^q\bigr).
+\]
+Insert $\|v\|_2\le X/\sqrt{\lambda_1}$, $\|v\|_q\le\Csp X$ and
+$\bar u^{2-q}=t^{2-q}V^{(q-2)/q}$, and use $1-t^2\le1-t^q$ for $t\in[0,1]$,
+$q\ge2$.
+\end{proof}
+
+\begin{remark}
+\label{rem:hebey}
+Inequality \eqref{eq:star} with the \emph{sharp} constant $\Atil=\Ksob(N,2)^2$ is,
+via the Poincaré inequality, equivalent to
+$\|u\|^2_{\pstar}\le\Ksob^2\|\nabla u\|^2_2+\Vol^{-2/N}\|u\|_2^2$, which is
+inequality (10) of Hebey \cite[\S4.5]{Hebey1996}: ``totally optimal in the sense
+that the two constants cannot be lowered''. Hebey proves it for the round sphere
+(after Aubin) and \emph{conjectures that the sphere is the only compact manifold
+for which it holds}; it already fails for lens spaces $\Sph^3/\mathbb{Z}_k$. So
+$\Atil=\Ksob^2$ must not be assumed. Conversely, the un-powered inequality
+$\|u\|_{\pstar}\le A\|\nabla u\|_2+\Vol^{-1/N}\|u\|_2$, whose sharp second
+constant Hebey obtains in \cite[\S4.1]{Hebey1996}, is proved by exactly the
+triangle inequality that costs first order and that \eqref{eq:star} is designed to
+avoid. Hypothesis \eqref{eq:star} sits strictly between the two, and we have not
+found it in the literature.
+\end{remark}
+
+\begin{remark}
+Passing the second-variation test at $u\equiv1$ is necessary but not sufficient
+for $\Atil=\Ksob^2$. With $u=1+\epsilon\varphi$, $\int\varphi=0$,
+\[
+  \|u\|^2_{\pstar}-V^{2/\pstar}\bar u^2
+   =(\pstar-1)V^{2/\pstar}\operatorname{Var}(\varphi)\,\epsilon^2+O(\epsilon^3),
+\]
+so that direction requires only $\Atil\ge(\pstar-2)V^{-2/N}/\lambda_1$, i.e.\
+$\lambda_1\Vol^{2/N}\ge N\omega_N^{2/N}$: for a cubic $\Tor^3$,
+$4\pi^2=39.48$ against $21.91$. This is Hebey's Proposition 4.22(1).
+\end{remark}
+
+\subsection{Explicit constants for a perforated flat torus}
+\label{sec:explicit}
+
+For the case of interest every constant above can be made explicit, so that
+Theorem~\ref{thm:main} becomes unconditional. Two ingredients: a sharp-gradient
+partition of unity on the torus, and a Kelvin reflection across the punctures.
+
+\begin{proposition}[Sobolev inequality on a flat torus with an explicit second constant]
+\label{prop:torus-B}
+For every $u\in H^1(\Tor^N_L)$, $N\ge3$,
+\begin{equation}
+\label{eq:torus-B}
+  \|u\|^2_{L^{\pstar}}\ \le\ \Ksob^2\|\nabla u\|^2_{L^2}
+        +\Ksob^2\,\frac{N\pi^2}{L^2}\,\|u\|^2_{L^2},
+\end{equation}
+that is $B_0(\Tor^N_L)\le\Ksob^2N\pi^2\Vol^{-2/N}$; for $N=3$,
+$B_0\le5.40514\,\Vol^{-2/3}$, against the sharp lower bound $\Vol^{-2/N}$.
+\end{proposition}
+
+\begin{proof}
+On $\R/\mathbb{Z}$ let $\vartheta$ be the triangle wave of amplitude $\pi/2$ and
+period $1$ with $\vartheta(0)=\pi/2$, $\vartheta(\tfrac12)=0$, and set
+$\psi_1=\cos\vartheta$, $\psi_2=\sin\vartheta$. Then $\psi_1^2+\psi_2^2\equiv1$,
+$\psi_1'^2+\psi_2'^2=\vartheta'^2\equiv\pi^2$, and $\operatorname{supp}\psi_1$,
+$\operatorname{supp}\psi_2$ are open arcs of length $1$, hence lift isometrically.
+Put $\chi_J(x):=\prod_{k=1}^N\psi_{j_k}(x_k/L)$ for $J\in\{1,2\}^N$. Then
+$\sum_J\chi_J^2\equiv1$ and, telescoping,
+\begin{equation}
+\label{eq:Lambda}
+  \Lambda:=\sum_J|\nabla\chi_J|^2\equiv\frac{N\pi^2}{L^2}.
+\end{equation}
+Now three exact steps. First, since $\pstar/2=N/(N-2)\ge1$, Minkowski in
+$L^{\pstar/2}$ gives
+$\|u\|^2_{\pstar}=\bigl\|\sum_J(\chi_Ju)^2\bigr\|_{\pstar/2}
+ \le\sum_J\|\chi_Ju\|^2_{\pstar}$.
+Second, because $\sum_J\chi_J\nabla\chi_J=\tfrac12\nabla\bigl(\sum_J\chi_J^2\bigr)=0$,
+the cross terms cancel \emph{identically}:
+\begin{equation}
+\label{eq:nocross}
+  \sum_J\|\nabla(\chi_Ju)\|^2_{L^2}=\|\nabla u\|^2_{L^2}+\int\Lambda\,u^2 .
+\end{equation}
+Third, each $\chi_Ju$ is supported in a set that lifts isometrically to $\R^N$, so
+the sharp Euclidean inequality applies to it. Combining gives \eqref{eq:torus-B}.
+\end{proof}
+
+The choice $\sum_J\chi_J^2=1$, rather than the more common
+$\sum_J\chi_J^{\pstar}=1$, is what makes \eqref{eq:nocross} an identity; with a
+Young inequality one loses a free parameter and a multiplicity factor. The value
+$\Lambda=N\pi^2/L^2$ is optimal for this method: averaging over translations
+replaces $\sup\Lambda$ by its mean, which here is already constant.
+
+\begin{corollary}
+\label{cor:csp-torus}
+$\Csp(\Tor^N_L)\le\bigl(\Ksob^2+B_0/\lambda_1\bigr)^{1/2}\le\Ksob\sqrt{1+N/4}$,
+since $\lambda_1(\Tor^N_L)=4\pi^2/L^2$. For $N=3$,
+$\Csp(\Tor^3)\le\tfrac{\sqrt7}{2}\Ksob=0.565213$, within a factor $1.3229$ of the
+lower bound $\Ksob=0.427261$ of Lemma~\ref{lem:csp-lower}.
+\end{corollary}
+
+\begin{proposition}[Extension across the punctures]
+\label{prop:extension}
+Let $\Omega=\Tor^N_L\setminus\bigcup_{j}B(x_j,a)$ with $a<L/4$ and the balls
+$4a$-separated. Then every $v\in W^{1,2}(\Omega)$ extends to
+$\tilde v\in W^{1,2}(\Tor^N_L)$ with
+$\|\nabla\tilde v\|^2_{L^2(\Tor^N)}\le E^2\|\nabla v\|^2_{L^2(\Omega)}$, where
+$E$ is independent of $a$ and of the number of punctures, and
+\[
+   E^2=1+\Bigl(1+\sqrt{M_R\,C_P(A_R)}\Bigr)^2,\qquad
+   M_R=\Bigl(\tfrac{N-1}{R^{N-1}-1}\Bigr)^{\!2},
+\]
+$C_P(A_R)$ being the Neumann Poincaré constant of the annulus $1<|y|<R$ and
+$R=2$. For $N=3$: $C_P=1.181128$ and $E(3)=1.99349$. Consequently
+\begin{equation}
+\label{eq:csp-omega}
+  \Csp(\Omega)\ \le\ 2\,E\,\Csp(\Tor^N_L)\ \le\ 2.25349\quad(N=3).
+\end{equation}
+\end{proposition}
+
+\begin{proof}[Sketch]
+Reflect through each sphere by the Kelvin map $I(x)=a^2x/|x|^2$. It is conformal
+with $|dI|=a^2/|x|^2$, and a direct computation gives, for the annulus
+$a<|y|<2a$ mapped onto $a/2<|x|<a$,
+$\int|\nabla(v\circ I)|^2\dd x=\int(|y|/a)^{-2(N-2)}|\nabla v|^2\dd y
+ \le\int|\nabla v|^2\dd y$: the Jacobian factor is $\le1$, with equality only for
+$N=2$. Cutting off radially with the profile minimising the sup of
+$s^{4-2N}\tilde\zeta'(s)^2$ subject to $\int_1^R|\tilde\zeta'|=1$, namely
+$\tilde\zeta'=-\kappa s^{N-2}$ with $\kappa=(N-1)/(R^{N-1}-1)$, and absorbing the
+cut-off term by the annulus Poincaré inequality gives the stated $E$. The collars
+$B(x_j,2a)\setminus B(x_j,a)$ are pairwise disjoint and contained in $\Omega$ by
+the $4a$-separation, so the estimates add and $E$ does not degrade with the number
+of punctures. The factor $2$ in \eqref{eq:csp-omega} converts the best constant
+$c$ into the mean, using $|c-\bar v|\le|\Omega|^{-1/\pstar}\|v-c\|_{\pstar}$.
+\end{proof}
+
+\begin{corollary}[The bound is unconditional]
+\label{cor:unconditional}
+For $N=3$ and $\Omega$ as in Proposition~\ref{prop:extension},
+Theorem~\ref{thm:star3} holds with $\Atil\le5.0782$, and hence
+Theorem~\ref{thm:main} holds with no unproved hypothesis.
+\end{corollary}
+
+Numerically, with $\theta$ computed on the same mesh, this unconditional bound
+gives $95\%$ of the measured $\lambda_\partial$ at $a/d=0.007$ and $98\%$ at
+$a/d=0.005$; at $\theta=1$ its relative loss against the sharp value is $1.6\%$
+at $\Fq_g(1)=0.1$ and $0.16\%$ at $\Fq_g(1)=0.01$. At the moderate hole sizes
+$a/d\in[0.05,0.20]$ it is visibly lossy ($19$--$61\%$ of the measured value),
+which is a statement about $\Atil$ alone: with $\Atil=\Ksob^2$ the same formula
+returns $94$--$99\%$ there. Sharpening $\Atil$ is the natural next step, and by
+Remark~\ref{rem:hebey} it cannot be pushed below $\Ksob^2$ by this route.
+
+\begin{remark}[Anisotropy destroys total optimality]
+\label{rem:anisotropy}
+Hebey's Proposition~4.22(1) states that if $\Sc_g$ is constant and \eqref{eq:star}
+holds with $\Atil=\Ksob^2$ and the sharp $\Vol^{-2/N}$, then
+$\lambda_1\Vol^{2/N}\ge N\omega_N^{2/N}$ (here $\omega_N=|\Sph^N|$). For a
+rectangular flat torus $\R^3/(TL\mathbb{Z}\times L\mathbb{Z}\times L\mathbb{Z})$
+this reads $4\pi^2T^{-4/3}\ge3(2\pi^2)^{2/3}=21.912$, which fails as soon as
+$T>1.5551$. So the totally optimal inequality is \emph{provably false} on
+anisotropic flat tori; for the cubic torus it remains open, and every explicit
+necessary condition we could test is passed --- the diameter test of
+\cite[Prop.~4.26]{Hebey1996} ($0.8660\le1.1624$) and, for $N=3$, Druet's
+mass criterion, which is satisfied only narrowly ($M_\alpha=-0.0977\,\Vol^{-1/3}<0$).
+\end{remark}
+
+\section{Optimality}
+\label{sec:sharp}
+
+Let $\psi\in W^{1,2}(\Sigma)$ be the classical equilibrium potential, i.e.\ the
+minimiser of $\|\nabla\psi\|^2$ subject to $\psi=1$ on $\partial\Sigma$ and
+$\int_\Sigma\psi\dd V=0$, and let
+$\operatorname{cap}_{\mathrm D}:=\|\nabla\psi\|^2_{L^2}$ be the corresponding
+capacity, $\theta_{\mathrm D}:=\aN\operatorname{cap}_{\mathrm D}/(\cN S)$. Since
+the constraint $\psi\equiv1$ on $\partial\Sigma$ is stronger than
+$\ell(\psi)=-1$, one has $\cpstar\le\operatorname{cap}_{\mathrm D}$ and
+$\theta\le\theta_{\mathrm D}$.
+
+\begin{theorem}
+\label{thm:upper}
+With $\rho:=\|\psi\|_{L^{\pstar}(\Sigma)}/V^{1/\pstar}$,
+\[
+  \lambda_\partial\;\le\;\frac{\theta_{\mathrm D}}{1+\theta_{\mathrm D}}\,
+      \frac{\Fq_g(1)}{(1-\rho)^{2}} ,
+\]
+provided $\rho<1$.
+\end{theorem}
+
+\begin{proof}
+Take $u_s:=1-s\psi$ for $s\in[0,1]$. Then
+$\|\nabla u_s\|^2=s^2\operatorname{cap}_{\mathrm D}$, the trace of $u_s$ is the
+constant $1-s$, so $\sum_j\|u_s\|^2_{L^{\psharp}(B_j)}=(1-s)^2S$, and
+$\|u_s\|_{\pstar}\ge V^{1/\pstar}-s\|\psi\|_{\pstar}\ge V^{1/\pstar}(1-\rho)$.
+Hence
+\[
+  \lambda_\partial\le\Fq_g(u_s)
+  \le\frac{\aN s^2\operatorname{cap}_{\mathrm D}+\cN(1-s)^2S}
+          {V^{2/\pstar}(1-\rho)^2}
+  =\frac{\Fq_g(1)}{(1-\rho)^2}\bigl[\theta_{\mathrm D}s^2+(1-s)^2\bigr].
+\]
+Minimising over $s$ gives $s_*=1/(1+\theta_{\mathrm D})$ and the value
+$\theta_{\mathrm D}/(1+\theta_{\mathrm D})$.
+\end{proof}
+
+Together with Theorem~\ref{thm:main} this sandwiches $\lambda_\partial$:
+\begin{equation}
+\label{eq:sandwich}
+  \frac{\theta}{1+\theta}\Bigl(1-\tfrac{\Atil\theta\Fq_g(1)}{\aN(1+\theta)^2}
+     +O(\Fq_g(1)^2)\Bigr)
+  \;\le\;\frac{\lambda_\partial}{\Fq_g(1)}\;\le\;
+  \frac{\theta_{\mathrm D}}{1+\theta_{\mathrm D}}\,\frac1{(1-\rho)^2},
+\end{equation}
+and both $\rho\to0$ and $\theta_{\mathrm D}/\theta\to1$ in the limit of small
+boundary, which proves Theorem~\ref{thm:sharp}. Section~\ref{sec:numerics} shows
+that $\cpstar/\operatorname{cap}_{\mathrm D}=0.9999$ already at moderate hole
+sizes, so the residual gap in \eqref{eq:sandwich} is entirely the $\Atil$ term.
+
+\section{Application: relative Yamabe constants of perforated manifolds}
+\label{sec:yamabe}
+
+Let $\overline\Sigma$ be a closed $N$-manifold, $\Sigma=\overline\Sigma\setminus
+\bigsqcup_j\operatorname{int}D_j$ the complement of $n$ disjointly embedded balls,
+and $\Yb(\Sigma)$ the relative Yamabe invariant of Akutagawa and Botvinnik
+\cite{AkutagawaBotvinnik2002}, the supremum over conformal classes of the
+boundary Yamabe energy. If $\sigma(\overline\Sigma)\le0$, if $g$ has constant
+scalar curvature and minimal boundary, and if each $(B_j,g|_{B_j})$ is
+conformally round (automatic for $N=3$), then a gluing estimate gives
+\begin{equation}
+\label{eq:yamabe-upper}
+  \Y_{[g]}(\Sigma)\;\le\;-\lambda_\partial(\Sigma,g),
+\end{equation}
+so that the \emph{gap} $\delta:=\Yb(\Sigma)-\Y_{[g]}(\Sigma)$ obeys
+$\delta\ge\lambda_\partial$ whenever $\Yb(\Sigma)\ge0$. For a punctured flat
+torus $\Yb(\Sigma)=0$, and Theorem~\ref{thm:main} converts \eqref{eq:yamabe-upper}
+into a quantitative statement:
+
+\begin{corollary}
+\label{cor:yamabe}
+Under the above hypotheses on a punctured torus, with $M$ the total boundary
+mean curvature relative to the Euclidean reference embedding,
+\[
+  |\mathrm{R}_g|\Vol(\Sigma,g)^{2/N}\;=\;\delta\;\ge\;
+  \frac{\theta}{1+\theta}\,\frac{2(N-1)M}{\Vol(\Sigma,g)^{(N-2)/N}}\,
+  \bigl(1+O(\Fq_g(1))\bigr),
+\]
+and $\theta\to1$ for Schwarzschild collars, so the constant is $1/2$.
+\end{corollary}
+
+The cosmological reading of this inequality, in Buchert's scalar averaging
+framework, is developed in the companion paper.
+
+\section{Numerical verification}
+\label{sec:numerics}
+
+All computations use a $P_1$ finite-element discretisation of a periodic
+perforated flat $3$-torus with \emph{exact} integration of the critical powers via
+complete homogeneous symmetric polynomials, $\int_Tu^m=6|T|\,m!/(m+3)!\,h_m$, and
+analytic gradients. $\cpstar$ is a linear KKT solve; $\lambda_\partial$ is a free
+minimisation over all nodal values. Details and code are described in the
+accompanying computational note.
+
+\emph{$\cpstar$ is the classical capacity.} On six meshes,
+$\cpstar/\operatorname{cap}_{\mathrm D}=0.9999$, and $\cpstar$ agrees with an
+Ewald lattice sum to $0.17\%$ at $a/d=0.1$. The $1$-D radial reduction reproduces
+$\theta=2$ for a flat ball in $N=3,4,5,6$ and $\theta=1$ for a Schwarzschild
+collar to five digits.
+
+\emph{The capacity law.} Writing $a$ for the puncture radius and $d$ for the
+lattice spacing, the slack $\theta/(1+\theta)-\lambda_\partial/\Fq_g(1)$ is
+positive in every run and obeys
+\[
+  \text{slack}=0.3264\,a^{1.906},\qquad R^2=0.99932,
+\]
+over $a/d\in[0.007,0.05]$, confirmed to $10\%$ at $a/d=0.005$. Moreover
+$u(\partial\Sigma)/u(\text{bulk})$ equals $\lambda_\partial/\Fq_g(1)$ to five
+decimals throughout, as the scalar reduction predicts.
+
+\emph{The theorem.} With $\theta$ computed on the same mesh and
+$\Csp=2^{1/3}\Ksob$, no bound of this paper exceeds the measured
+$\lambda_\partial$ in any run. At $\Atil=\Ksob^2$ the bound recovers
+$94.5$--$98.9\%$ of the measured value; at $\Atil=1.5$ it recovers
+$89$--$99\%$ in the dilute range. The dependence on $\Atil$ is mild: at
+$\theta=1$ and $\Fq_g(1)=0.1$, raising $\Atil$ from $\Ksob^2$ to $5$ — a factor
+$27$ — moves the bound from $0.4997$ to $0.4922$ against a sharp value $0.5$.
+
+\section{Remarks, and two approaches that fail}
+\label{sec:remarks}
+
+\begin{remark}[Why a capacity and not a perimeter]
+\label{rem:mv}
+The proof of Theorem~\ref{thm:main} consists of producing a linear inequality
+\[
+  V^{1/\pstar}\bar u\le C_1\|\nabla u\|_{L^2}+C_2\Bigl(\sum_j\|u\|^2_{L^{\psharp}(B_j)}\Bigr)^{1/2}
+\]
+with $C_1,C_2$ calibrated as in \eqref{eq:calib}, and this is exactly the shape of
+the Maggi--Villani inequality \eqref{eq:MV}. The difference is decisive.
+\eqref{eq:MV} holds for every locally Lipschitz $\Omega\subset\R^N$ with constants
+\emph{independent of $\Omega$}, and on a closed manifold with small balls removed
+no such inequality can hold: testing on $u\equiv1$ would force
+$V^{1/\pstar}\lesssim|\partial\Sigma|^{1/\psharp}$, which fails as the balls
+shrink. What survives is a $C_1$ that blows up like $\cpstar^{-1/2}$ and a $C_2$
+that blows up like $S^{-1/2}$. The transport argument of
+\cite{CNV2004,Nazaret2006,MaggiVillani2005} produces boundary terms of
+\emph{perimeter} type, weighted by the normal component of the transport map; what
+degenerates correctly here is a \emph{capacity}, a two-energy object. We do not
+know a mass-transport proof of Lemma~\ref{lem:capacitary}, and we suspect there is
+none of the usual kind.
+\end{remark}
+
+\begin{remark}[A diameter is the wrong quantity]
+\label{rem:diameter}
+It is tempting to bound $\bar u-\min u$ by $\|\nabla u\|_{L^2}$ along a thin tube
+joining $\arg\min u$ to $\arg\max u$, obtaining a constant controlled by
+$\operatorname{diam}(\Sigma)$ and a lower bound of the shape
+$\lambda_\partial\ge\Fq_g(1)/(1+\lambda\Fq_g(1))$. This is false. The bound tends
+to $\Fq_g(1)$ as the boundary shrinks, whereas by Theorem~\ref{thm:upper}
+$\lambda_\partial/\Fq_g(1)\to\theta/(1+\theta)\le2/3$. The defect is quantitative
+and structural: a tube of radius $r$ carrying a dipole needs
+$|X|\sim r^{1-N}$, so $\|X\|^2_{L^2}\sim Lr^{1-N}$, and since the minimiser
+attains its minimum \emph{on} $\partial\Sigma$ one is forced to $r\lesssim a$,
+giving $\lambda\sim La^{1-N}$ where the correct object is
+$\cpstar^{-1}\sim a^{2-N}$ — off by a full power of $a$. No diameter-only constant
+exists. What the argument needs is a Sobolev-type constant, which does not
+degenerate as the boundary shrinks; that is the role of $\Csp$ in \eqref{eq:star}.
+\end{remark}
+
+\begin{remark}[A dichotomy is wasteful]
+\label{rem:dichotomy}
+An earlier form of Theorem~\ref{thm:main} split on
+$\|u-\bar u\|_{\pstar}\lessgtr\eta\|u\|_{\pstar}$ and, on the branch where $u$ is
+nearly constant, \emph{discarded} $\|u-\bar u\|_{\pstar}\ge0$. Optimising $\eta$
+gives $\lambda_\partial\ge A/(1+\sqrt{A/B})^2$ with
+$A=\theta\Fq_g(1)/(1+\theta)$, $B=\aN/\Csp^2$: a relative loss of order
+$\sqrt{\Fq_g(1)}$ rather than $\Fq_g(1)$. Keeping the discarded term instead gives
+the rank-one bound
+$\lambda_\partial\ge\Fq_g(1)\,\theta/\bigl(\theta+(1+\tau)^2\bigr)$,
+$\tau=\Csp\sqrt{\theta\Fq_g(1)/\aN}$, which strictly dominates it for every
+geometry; and using \eqref{eq:star} instead of the triangle inequality removes the
+half-order loss altogether. The triangle inequality is first order in the
+deviation while the true deficit is second order, which is the whole point of
+\eqref{eq:star}.
+\end{remark}
+
+\begin{question}
+What is the sharp $\Atil$? Our value $5.0782$ for a perforated flat $3$-torus is
+$27.8$ times $\Ksob(3,2)^2$, and the numerics of Section~\ref{sec:numerics} are
+compatible with $\Atil$ as small as $\Ksob^2$ at moderate hole sizes. By
+Remark~\ref{rem:hebey} it cannot be $\Ksob^2$ with the sharp second constant unless
+the manifold is the round sphere, and by Remark~\ref{rem:anisotropy} the totally
+optimal inequality already fails on anisotropic flat tori; the value suggested by
+boundary concentration is $2^{2/N}\Ksob(N,2)^2$. Closing the interval
+$[\,2^{2/N}\Ksob^2,\ 5.08\,]$ is the AB programme in this setting.
+\end{question}
+
+\begin{question}
+Does $\theta$ admit a variational characterisation making the sandwich
+\eqref{eq:sandwich} an identity, i.e.\ is
+$\lambda_\partial=\bigl[\theta/(1+\theta)\bigr]\Fq_g(1)$ exactly for some natural
+choice of capacity? The numerics give $\cpstar/\operatorname{cap}_{\mathrm D}
+=1-10^{-4}$ and a slack of order $a^2$, so the two candidate capacities are very
+close but not equal.
+\end{question}
+
+\section*{Acknowledgements}
+This work is part of a project that has received funding from the European
+Research Council (ERC) under the European Union's Horizon 2020 research and
+innovation programme (grant agreement ERC advanced grant 740021--ARTHUS, PI: TB).
+
+\begin{thebibliography}{99}
+
+\bibitem{AkutagawaBotvinnik2002}
+K.~Akutagawa and B.~Botvinnik,
+\emph{The relative Yamabe invariant},
+Comm. Anal. Geom. \textbf{10} (2002), no.~5, 935--969.
+\href{https://doi.org/10.4310/cag.2002.v10.n5.a2}{doi:10.4310/cag.2002.v10.n5.a2}
+
+\bibitem{Brillard1988}
+A.~Brillard,
+\emph{Asymptotic analysis of two elliptic equations with oscillating terms},
+RAIRO Modél. Math. Anal. Numér. \textbf{22} (1988), no.~2, 187--216.
+
+\bibitem{BrezisLieb1985}
+H.~Brezis and E.~H.~Lieb,
+\emph{Sobolev inequalities with remainder terms},
+J. Funct. Anal. \textbf{62} (1985), no.~1, 73--86.
+\href{https://doi.org/10.1016/0022-1236(85)90020-5}{doi:10.1016/0022-1236(85)90020-5}
+
+\bibitem{CioranescuMurat1997}
+D.~Cioranescu and F.~Murat,
+\emph{A strange term coming from nowhere},
+in: Topics in the Mathematical Modelling of Composite Materials,
+Progr. Nonlinear Differential Equations Appl. \textbf{31}, Birkhäuser, Boston,
+1997, pp.~45--93.
+\href{https://doi.org/10.1007/978-1-4612-2032-9_4}{doi:10.1007/978-1-4612-2032-9\_4}
+
+\bibitem{CNV2004}
+D.~Cordero-Erausquin, B.~Nazaret and C.~Villani,
+\emph{A mass-transportation approach to sharp Sobolev and Gagliardo--Nirenberg
+inequalities},
+Adv. Math. \textbf{182} (2004), no.~2, 307--332.
+\href{https://doi.org/10.1016/S0001-8708(03)00080-X}{doi:10.1016/S0001-8708(03)00080-X}
+
+\bibitem{Escobar1988}
+J.~F.~Escobar,
+\emph{Sharp constant in a Sobolev trace inequality},
+Indiana Univ. Math. J. \textbf{37} (1988), no.~3, 687--698.
+\href{https://doi.org/10.1512/iumj.1988.37.37033}{doi:10.1512/iumj.1988.37.37033}
+
+\bibitem{Escobar1992}
+J.~F.~Escobar,
+\emph{Conformal deformation of a Riemannian metric to a scalar flat metric with
+constant mean curvature on the boundary},
+Ann. of Math. (2) \textbf{136} (1992), no.~1, 1--50.
+
+\bibitem{Hebey1996}
+E.~Hebey,
+\emph{Sobolev spaces on Riemannian manifolds},
+Lecture Notes in Mathematics \textbf{1635}, Springer, Berlin, 1996.
+
+\bibitem{Kaizu1985a}
+S.~Kaizu,
+\emph{The Robin problems on domains with many tiny holes},
+Proc. Japan Acad. Ser. A \textbf{61} (1985), no.~2, 39--42.
+
+\bibitem{Kaizu1985b}
+S.~Kaizu,
+\emph{Behavior of solutions of the Robin problems in domains with many tiny holes},
+Proc. Japan Acad. Ser. A \textbf{61} (1985), no.~5, 140--143.
+
+\bibitem{Kaizu1986}
+S.~Kaizu,
+\emph{Homogenization of eigenvalue problems for the Laplace operator with nonlinear
+terms in domains with many tiny holes},
+Proc. Japan Acad. Ser. A \textbf{62} (1986), no.~4, 133--136.
+
+\bibitem{Kaizu1989}
+S.~Kaizu,
+\emph{The Poisson equation with semilinear boundary conditions in domains with many
+tiny holes},
+J. Fac. Sci. Univ. Tokyo Sect. IA Math. \textbf{36} (1989), no.~1, 43--86.
+
+\bibitem{KhrabustovskyiPlum2022}
+A.~Khrabustovskyi and M.~Plum,
+\emph{Operator estimates for homogenization of the Robin Laplacian in a perforated
+domain},
+J. Differential Equations \textbf{338} (2022), 474--517.
+\href{https://doi.org/10.1016/j.jde.2022.08.005}{doi:10.1016/j.jde.2022.08.005}
+
+\bibitem{LiZhu1997}
+Y.~Y.~Li and M.~Zhu,
+\emph{Sharp Sobolev trace inequalities on Riemannian manifolds with boundaries},
+Comm. Pure Appl. Math. \textbf{50} (1997), no.~5, 449--487.
+
+\bibitem{MaggiNeumayer2017}
+F.~Maggi and R.~Neumayer,
+\emph{A bridge between Sobolev and Escobar inequalities and beyond},
+J. Funct. Anal. \textbf{273} (2017), no.~6, 2070--2106.
+\href{https://doi.org/10.1016/j.jfa.2017.06.013}{doi:10.1016/j.jfa.2017.06.013}
+
+\bibitem{MaggiNeumayerTomasetti2023}
+F.~Maggi, R.~Neumayer and I.~Tomasetti,
+\emph{Rigidity theorems for best Sobolev inequalities},
+Adv. Math. \textbf{434} (2023), 109330.
+\href{https://doi.org/10.1016/j.aim.2023.109330}{doi:10.1016/j.aim.2023.109330}
+
+\bibitem{MaggiVillani2005}
+F.~Maggi and C.~Villani,
+\emph{Balls have the worst best Sobolev inequalities},
+J. Geom. Anal. \textbf{15} (2005), no.~1, 83--121.
+\href{https://doi.org/10.1007/BF02921860}{doi:10.1007/BF02921860}
+
+\bibitem{MaggiVillani2008}
+F.~Maggi and C.~Villani,
+\emph{Balls have the worst best Sobolev inequalities. Part II: variants and
+extensions},
+Calc. Var. Partial Differential Equations \textbf{31} (2008), no.~1, 47--74.
+\href{https://doi.org/10.1007/s00526-007-0105-x}{doi:10.1007/s00526-007-0105-x}
+
+\bibitem{Nazaret2006}
+B.~Nazaret,
+\emph{Best constant in Sobolev trace inequalities on the half-space},
+Nonlinear Anal. \textbf{65} (2006), no.~10, 1977--1985.
+\href{https://doi.org/10.1016/j.na.2005.05.069}{doi:10.1016/j.na.2005.05.069}
+
+\end{thebibliography}
+
+\end{document}
