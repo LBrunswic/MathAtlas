@@ -26,3 +26,9 @@ docstring contract is its `0006`; weakest hypotheses `0007`; no quiet weakening 
 | [0017](entries/0017-universality-plug-in-bool.md) | pattern | The universality plug-in (IsUniversalPolicy → IsUniversalFamilyEps); cheap counterexamples on Bool |
 | [0018](entries/0018-loss-kl-and-reversed-flow.md) | pattern | The KL-weakFM loss: KL between densities, computable KLs on Bool, the reversed flow |
 | [0019](entries/0019-universality-from-ergodicity.md) | pattern | Universality from ergodicity alone (Cesàro, von Neumann); necessity with no invariant measure |
+| [0020](entries/0020-torus-haar-without-jacobian.md) | pattern | Haar measure on UnitAddTorus without a Jacobian; the global probability instance on UnitAddCircle |
+| [0021](entries/0021-group-action-notions.md) | convention | Group-action notions live in EGF.TorusFamilies; IsGroupErgodic is ErgodicSMul without the invariance |
+| [0022](entries/0022-family-is-image-of-model.md) | pattern | A paper's parameterized family is the image of a model, never a membership predicate |
+| [0023](entries/0023-sphere-toolkit.md) | pattern | Spheres, SO(n), SU(d) and S¹: the toolkit of EGF.SphereFamilies; name instances on matrix groups |
+| [0024](entries/0024-mixing-under-invariance.md) | pattern | Mixing under invariance; deterministic kernels are never summably mixing; OQ-47's vacuous reading |
+| [0025](entries/0025-pin-pitfalls-families.md) | pitfall | Pitfalls at this pin from the families and mixing targets |
