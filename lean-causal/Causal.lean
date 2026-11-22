@@ -262,6 +262,12 @@ import Causal.CurvesExtendSecondCountable
 import Causal.ErsSecondCountable
 import Causal.CExtConnexeSecondCountable
 import Causal.Ers464SecondCountable
+import Causal.GluingModels.Tools
+import Causal.GluingModels.Minimal
+import Causal.GluingModels.NonMinimal
+import Causal.GluingModels.Pushout
+import Causal.GluingModels.ModelStatic
+import Causal.GluingModels.ModelSingular
 import Causal.Remarks.MassADEC25
 import Causal.Model.EAlphaSectors
 import Causal.Port.E0GXStructure

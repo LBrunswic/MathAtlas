@@ -1,0 +1,96 @@
+{
+  "target": "T-abs-gluing-models",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "ex:causalities_lines",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, status partial. The Lean object is the printed relation: Causal.galileoLt U p q := p ∈ U ∧ p.1 < q.1 ∧ q ∈ connectedComponentIn U p (Causal/Galileo.lean:69) is ETT.tex:273-274 word for word. The le half adds p ∈ U, which the refutation does not use. galileo n = galileoOn (Fin n → ℝ) on ℝ × ℝⁿ. I checked the refutation by hand as well as through the kernel. U is the complement of the closed cup. p = (1/2, g 0) is joined to q = (2, g 0) in U by four segments ((s, g0) for s ∈ [-1, 1/2]; (-1, g s); (s, g 2); (2, g s)), none of which meets the cup. Over the cover {t > 1/4, t < 1/2}, a step in T₂ cannot start at t ≥ 1/2. A step in T₁ stays in the component of U ∩ T₁ through a, and U ∩ T₁ ⊆ P₁ ⊔ P₂, so that component lies in P₁ = {|f| < 1, t < 1}. So every chain from p stays in A = {|f| < 1, 1/2 ≤ t < 1}, while q.1 = 2. The paper's generation (lem:union_causalite, ETT.tex:367: links I⁺ in U ∩ U_i) matches Precausality.generated / AbsolutelyMinimalOn. galileo_not_minimal (n ≥ 1), galileo_not_hereditary, galileoOn_not_minimal (needs continuous f, g with f ∘ g = id), galileoOn_real_not_minimal and galileo_zero_hereditary / galileoOn_point_hereditary ([Subsingleton X]; instantiated at Fin 0 → ℝ, which is a singleton, so not vacuous) all state what the rows claim. The 'generated relation' reading is only raised (questions[0], 'Reading taken: none'). Under DEC-167 (every ETT causality is absolutely minimal) the finding holds in either form of OQ-95, since the form on M already fails. Citation: item 4 is ETT.tex:273-274 (275 is item 5's \\item)."
+    },
+    {
+      "label": "cexemple:point_transparent",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, status partial. transparentLine (Causal/TransparentLine.lean:101) is the paper's relation. transparentLine_absolutelyMinimal (:276) gives the form on M, and transparentLine_not_hereditary := transparentLine_not_absolutelyMinimalOn (h realMinusZero), with realMinusZero = ℝ ∖ {0} (:284). The finding about 'This is a topological spacetime' is conditioned on the hereditary form ('Under the hereditary form …'), so OQ-95 is not decided. The sentence is at ETT.tex:478, not 477 (see findings). Among the concrete objects the transparent line is indeed the only one separating the two forms. The general claim is overstated (see findings)."
+    },
+    {
+      "label": "def:topological_space_causality_absolutely",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, status partial. The six declarations are consequences of the definition: absolutelyMinimal_of_forall, not_forall_of_not_absolutelyMinimal, le_mem_of_split, not_absolutelyMinimal_of_le_of_ne, topEnlarge_not_absolutelyMinimal and topTotal_not_absolutelyMinimal. Each states what Tools.lean says it does. A definition has no assertion that can be 'partial', and the row gives no note; see findings."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "Each of the seven files was compiled from lean-causal/ with `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/GluingModels/<F>.lean`: rc 0 and no output for all seven. As a sanity check, a /tmp file holding a sorry fails with rc 1 under the same flag. The oleans of the seven modules and of CausalScaffold.GerochCauchy were present and newer than their sources. No lake build was run. `grep -c sorry` gives 0 in every file. Axioms were checked with a /tmp probe (outside the repository, deleted afterwards). It ran #print-axioms-style collectAxioms on all 250 declarations named in REPORT.json (inventory, labels, extra_decls, and the library lemmas cited in the notes): 249 give [propext, Classical.choice, Quot.sound] and 1 gives [propext, Quot.sound]. A sweep of all 128 constants under Causal.GluingModels (including auxiliary match_/eq_ constants) found SORRY 0 and NONSTD 0. That covers ModelScaffold's chronoMinkowski_hereditary and chronoMinkowski_minimal: they do not rest on GerochCauchy's tagged sorry (GerochCauchy.lean:788, theo:geroch). The only name the probe reported MISSING was one I had guessed myself (Precausality.AbsolutelyMinimalOn.eq_of_discrete); the real name is Causal.AbsolutelyMinimalOn.eq_of_discrete."
+  },
+  "inventory_sample": {
+    "rows_checked": "All 75 rows, mechanically. Every named declaration exists. Every 'proved' hereditary declaration has type ∀ W, X.AbsolutelyMinimalOn W, and every 'proved' on-M declaration has type X.AbsolutelyMinimal, about the named object. The exceptions are explained in the rows: linearCausality ℝ = lightlikeLine by rfl; half-plane = staticCausality (Ioi 0); the generic rows 67-68. Every 'refuted' declaration is a negation. Every file:line points at the declaration or its docstring.",
+    "read_by_hand": [
+      "All 17 rows refuted here for the first time: jumpArc, pointedLine, pointedLineMR, puncturedPlane, orderLine, totalLine, bowtie, fan, doubledLine, allRelated, galileo n ≥ 1, wideCausality, far2Causality, topEnlarge, topTotal, sourceLine, radialLine. Also linearCausality ℕ, which is new too but not tagged NEW.",
+      "Rows that only restate library refutations: gateLine, jumpLine, globalLine, deuxPushup, timelikeLineTop, densCausality, bigCausality.",
+      "Hereditary proved by hand: cutLine (timelike chain avoiding a, the step across a in one cover member), veeCausality, sierpinskiCausality, diagonalCausality, pointSpace, galileo 0, spokes_hereditary, branchingCausality (through the Pushout local copy).",
+      "Hereditary proved from arc-connectedness: spacelikeLine, halfChronoLine, isolatedLine, closedHalfLine, staticCausality, minkowski, massive, cosmicString, halfPlane, slopeCone, timeCylinder, natCausality, massiveOf, massAModelCausality, singularFlatAxioms (from a structure field), chronoMinkowski (through reflChrono).",
+      "Conditional rows. eManifold_hereditary_of_minimal (from hmin and IsoChartsCoverDEC25, through SFALocal.causallyArcConnected) is accurate. withoutChronology_absolutelyMinimalOn / _hereditary are per-W transfers. chartedCausality: the hereditary form needs hGD and hA, the form on M only hA; the row says so.",
+      "Generic tools. le_mem_of_split uses the cover {M ∖ cl B, M ∖ cl A}. not_absolutelyMinimal_of_le_of_ne and ofRelation_not_absolutelyMinimal on T2.5 are sound: T2.5 gives exactly the open neighbourhoods with disjoint closures. topEnlarge/topTotal use the pair cover {M∖{x}, M∖{y}} on T1, and no member of that cover is ⊤."
+    ],
+    "coverage": "A grep of def/abbrev … : Causality in Causal/ and scaffold/ finds 6 sites the inventory does not mention: relativeTo, chartTransport, LocalCausality.toSubtype, pullback, transport, ofOpensCausality. All are generic constructions belonging to the sibling T-abs-gluing-generic. The scaffold's only concrete causality (chronoMinkowski; reflChrono is generic) is covered."
+  },
+  "layer": "I checked by importing each module in a /tmp file and listing (← getEnv).header.moduleNames against MODEL_LAYER (tools/ladder.py:668). Tools, Minimal, NonMinimal and Pushout reach 0 model modules. ModelStatic reaches 99, ModelSingular 51 and ModelScaffold 91, so the Model* names are honest. A grep for Metric/dist/norm/Geodesic/Minkowski in the four ETT-layer files hits only prose ('distinct'). The |f q.2| in galileoCup is the absolute value on ℝ.",
+  "scope": "git status --short shows: M programme/roadmap.toml and roadmap/roadmap.toml (status flips by the masters); ?? GluingGeneric/ (the sibling's); ?? lean-yamabe/... (another loop's); ?? GluingModels/ and campaign/T-abs-gluing-models/ (this closer's). The closer touched nothing outside its own two directories. registers/ are unchanged: OQ-95 and OQ-96 are still OPEN (DECISIONS.md:318-319). No Causal.* olean is newer than 19:30 except the master's Ers464SecondCountable.",
+  "marks_and_contract": "The mark regex (tools/ledger.py:247) finds no **`label`** in any of the seven files. The three **`…`** occurrences (NonMinimal.lean:217, Tools.lean:224, :234) are bold Lean names in declaration docstrings, not labels. Each module docstring has a title, '## Hypothesis checklist', '## SCOPE (disclosed)' and Provenance, all within the first 4000 characters, and states 'No paper label is certified'. The checklists and SCOPEs are true, apart from the cutLine sentence in findings.",
+  "keeper_and_design_notes": "These are accurate. The 20 planner [[fails]] break down as gateLine 7 + jumpLine 7 + globalLine 2 + deuxPushup_not_absolutelyMinimal 1 + deux_pushup 2 of 3 + galileo_not_stronglyCausal 1, which I recounted from programme/ladder.toml. The extra entry is real: Causal.pointedLine_separates_curveNested is the witness of [[fails]] curve_nested → le_nested (programme/ladder.toml:2105-2109), and pointedLine_not_minimal holds. The replacement Causal.rationalLine_separates_curveNested is at Causal/NestedConverse.lean:413. Its statement includes rationalLine.AbsolutelyMinimal, and it concerns the same pair (CurveNestedOn spacelikeLine on every W, ¬ LeNested spacelikeLine). No other ladder witness names a refuted object. The kb proposal about ConstantInfo.value? (allowOpaque) matches Lean v4.31.0 (Lean/Declaration.lean:482-487).",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-gluing-models/REPORT.json:70 (labels[cexemple:point_transparent].findings[0]); also :48",
+      "what": "The sentence 'This is a topological spacetime' is at ETT.tex:478, not 477 (line 477 is blank). Galileo's item 4 is ETT.tex:273-274; line 275 is the \\item of Minkowski space.",
+      "fix": "Cite ETT.tex:478, and 273-274 for item 4."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-gluing-models/REPORT.json:70 and :2173 (notes.for_T-abs-gluing-design[0])",
+      "what": "Two claims hold for the concrete objects only: 'the ONLY one on which the two forms of the gluing field differ' and 'Every other object that glues on M glues hereditarily'. The conditional constructions pass the separation on from their input. I proved in a /tmp probe (standard axioms) that withoutChronology transparentLine is AbsolutelyMinimal and not AbsolutelyMinimalOn realMinusZero, so it separates the two forms. The same holds for Gluing.causality, whose on-M lemma needs only the on-M form of its pieces. And chartedCausality D M is proved on M from hA alone, while its hereditary form also needs hGD (∀ e ∈ G, ChartIso D D e). The design step reads this note for OQ-95.",
+      "fix": "Say 'the only concrete object'. Add that for withoutChronology C, reflChrono C, Gluing.causality and chartedCausality the two forms follow the input (e.g. withoutChronology transparentLine separates them), and that chartedCausality's hereditary proof needs hGD."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-gluing-models/REPORT.json:1286, :1307 (inventory rows topEnlarge C, topTotal D)",
+      "what": "The hereditary column reads 'refuted' with no condition. The refutation holds only under the conditions the on-M column carries: T1, and x ≠ y with ¬ C.le ⊤ x y. When C already relates every pair on M, topEnlarge C has the same relations as C and may glue.",
+      "fix": "Write the hereditary status as 'refuted (T1, C.le ⊤ not total)', as in on_M."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-gluing-models/REPORT.json:77 (labels[def:topological_space_causality_absolutely])",
+      "what": "The row has status 'partial', six tool lemmas as decls, and no note. A definition has no assertion to be partially proved, and listing these lemmas under the label invites the master to map them as its anchors. The definition's anchor is Precausality.AbsolutelyMinimal (Causal/Generated.lean:247).",
+      "fix": "Add a note that these are consequences used by the inventory and not anchors of the definition, or drop the row."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/GluingModels/Minimal.lean:166-168 (and :38-39)",
+      "what": "The docstring of cutLine_hereditary says 'though it is not causally arc-connected (no causal curve crosses a upwards)' as a fact. Nothing in the library or in this file proves it. REPORT row 9 discloses it as 'argued, not proved in Lean'; SCOPE does not.",
+      "fix": "Write '(argued, not proved in Lean)' in the docstring, or add a SCOPE bullet."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-abs-gluing-models/REPORT.json:2176 (notes.for_T-abs-gluing-design, 'newly found here: … bowtie and fan')",
+      "what": "The library already disclosed bowtie and fan as non-local witnesses that say nothing about absolutely minimal causalities, through AbsolutelyMinimalOn.eq_of_discrete (Causal/Chains.lean:57-61, :566-570). What is new here is the explicit Lean theorem, not the finding. The note says 'already disclosed' for DensWitness, but not for bowtie and fan.",
+      "fix": "Add 'already disclosed in Causal/Chains.lean' for bowtie and fan, as for DensWitness."
+    }
+  ],
+  "ran": [
+    "hostname (node1); git status --short; git diff --stat; git diff programme/roadmap.toml",
+    "read: programme/roadmap.toml (T-abs-gluing-models, -generic, -design, -retype, -field blocks); lean-causal/docs/CAMPAIGN.md; kb/entries/0006; REPORT.json in full; the seven Lean files in full; Causal/Generated.lean:232-300; Causal/Galileo.lean:1-200; Causal/TransparentLine.lean:1-130, 280-325; Causal/Chains.lean (bowtie, fan, totalLine, eq_of_discrete); Causal/Morphism.lean:695-760; Causal/GXStructure.lean:760-800; Causal/SFATransfer.lean:325; Causal/LinesReachable.lean:362-388; Causal/MeasureRemarks.lean:257; Causal/LineDevelopment.lean:1097, 1132; Causal/SingularFlat.lean:177-195; Causal/LemmaKObstruction.lean:157; programme/ladder.toml:1312-1336, 2091-2110; registers/DECISIONS.md DEC-167, OQ-95, OQ-96; ETT.tex 237-276, 367-399, 465-492, 665-675",
+    "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/GluingModels/{Tools,Minimal,NonMinimal,Pushout,ModelStatic,ModelSingular,ModelScaffold}.lean (all rc 0, no output)",
+    "/tmp/audit-gm/Probe.lean via lake env lean: existence, kind, elaborated type and collectAxioms of 250 names; a sweep of Causal.GluingModels.* for sorryAx and non-standard axioms",
+    "/tmp/audit-gm/Layer<F>.lean x7: model modules among header.moduleNames",
+    "/tmp/audit-gm/WC.lean: withoutChronology transparentLine is AbsolutelyMinimal and not AbsolutelyMinimalOn realMinusZero (rc 0 under -DwarningAsError=true)",
+    "/tmp/audit-gm/Sanity.lean: a sorry fails under -DwarningAsError=true (rc 1)",
+    "python3 -I scripts: the inventory's file:line positions against the sources; each row's declaration type against its claimed form; status counts recomputed (hereditary 47 proved, 3 of them conditional, 28 refuted; on M 47 / 27 / 1 carried; 17 NEW; 51 ETT / 24 model); ladder [[fails]] witnesses grouped by object",
+    "rm -rf /tmp/audit-gm afterwards; nothing in the repository was written except this file"
+  ]
+}

@@ -1,0 +1,2188 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-gluing-models",
+ "files": [
+  "scaffold/CausalScaffold/GluingModels/Tools.lean",
+  "scaffold/CausalScaffold/GluingModels/Minimal.lean",
+  "scaffold/CausalScaffold/GluingModels/NonMinimal.lean",
+  "scaffold/CausalScaffold/GluingModels/Pushout.lean",
+  "scaffold/CausalScaffold/GluingModels/ModelStatic.lean",
+  "scaffold/CausalScaffold/GluingModels/ModelSingular.lean",
+  "scaffold/CausalScaffold/GluingModels/ModelScaffold.lean"
+ ],
+ "builds": true,
+ "build_command": "cd lean-causal && taskset -c 0-11 lake build CausalScaffold.GluingModels.Tools CausalScaffold.GluingModels.Minimal CausalScaffold.GluingModels.NonMinimal CausalScaffold.GluingModels.Pushout CausalScaffold.GluingModels.ModelStatic CausalScaffold.GluingModels.ModelSingular CausalScaffold.GluingModels.ModelScaffold",
+ "sorry_count": 0,
+ "axioms": "all 125 declarations of Causal.GluingModels depend on propext, Classical.choice, Quot.sound only (campaign/T-abs-gluing-models/axioms.lean)",
+ "layer_check": "tools/ladder.py model_path with the scaffold imports added: Tools, Minimal, NonMinimal, Pushout -> None (ETT layer); ModelStatic -> Causal.Static; ModelSingular -> Causal.SingularFlat; ModelScaffold -> CausalScaffold.GerochCauchy -> Causal.Minkowski. No metric notion in an ETT-layer statement (|f x| on ℝ in galileoCup, the witness set of a refutation, is the absolute value).",
+ "labels": [
+  {
+   "label": "ex:causalities_lines",
+   "tex_lines": [
+    265,
+    278
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.GluingModels.galileo_not_minimal",
+    "Causal.GluingModels.galileo_not_hereditary",
+    "Causal.GluingModels.galileoOn_not_minimal",
+    "Causal.GluingModels.galileoOn_real_not_minimal",
+    "Causal.GluingModels.galileo_zero_hereditary",
+    "Causal.GluingModels.galileoOn_point_hereditary",
+    "Causal.timelikeLine_absolutelyMinimalOn",
+    "Causal.lightlikeLine_absolutelyMinimalOn",
+    "Causal.GluingModels.spacelikeLine_hereditary",
+    "Causal.GluingModels.minkowski_hereditary"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Galileo's spacetime ℝ^{n+1}, n unrestricted",
+     "here": "carried",
+     "note": "n ≥ 1 refuted (a continuous retraction X → ℝ, which every ℝⁿ, n ≥ 1, has); n = 0 proved hereditary"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:273-275 (ex:causalities_lines, item 4): Galileo's spacetime ℝ^{n+1} (≪_U: later time and same connected component of U; ≤_U: ≪_U or equal) is NOT absolutely minimal for n ≥ 1 (Causal.GluingModels.galileo_not_minimal; Lean proof, the dropped T-abs-galileo-ladder had only an argument). Witness: U the complement of the cup {t = 1, |x₁| ≤ 1} ∪ {|x₁| = 1, 0 ≤ t ≤ 1}; p = (1/2, 0) ≪_U q = (2, 0) through a detour below the cup, while over the cover {t > 1/4, t < 1/2} of ℝ^{n+1} every chain of localised ≪-steps from p stays in {|x₁| < 1, 1/2 ≤ t < 1}. Under DEC-167 item 4 is no causality for n ≥ 1. Items 1-3, Minkowski space of item 5, and item 4 at n = 0 glue hereditarily.",
+    "ETT.tex:670-673 (rem:galileo_spacetime_not_strongly) is about item 4, which under DEC-167 is no causality for n ≥ 1; the ladder entry is_causal -> strongly_causal (witness Causal.galileo_not_stronglyCausal) loses its witness (one of the planner's 20)."
+   ],
+   "questions": [
+    "Is item 4 meant with the relation its small opens generate (≪_U iff joined in U by a chain of time-increasing steps in small connected sets)? That reading would make it absolutely minimal by construction; it is not formalized here. Reading taken: none; item 4 is refuted as printed."
+   ]
+  },
+  {
+   "label": "cexemple:point_transparent",
+   "tex_lines": [
+    472,
+    483
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.transparentLine_absolutelyMinimal",
+    "Causal.GluingModels.transparentLine_not_hereditary"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:472-483: the paper's own transparent-point line is absolutely minimal on ℝ and not on ℝ ∖ {0} (both already in the library). Of the 75 inventoried objects it is the ONLY one on which the two forms of the gluing field differ. Under the hereditary form it is no causality, and the sentence 'This is a topological spacetime' (ETT.tex:477) becomes false: the counterexample moves to precausalities (DEC-172)."
+   ],
+   "questions": [
+    "OQ-95 (open): the inventory takes no reading; it records both forms for every object."
+   ]
+  },
+  {
+   "label": "def:topological_space_causality_absolutely",
+   "tex_lines": [
+    397,
+    399
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.GluingModels.absolutelyMinimal_of_forall",
+    "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "Causal.GluingModels.le_mem_of_split",
+    "Causal.GluingModels.not_absolutelyMinimal_of_le_of_ne",
+    "Causal.GluingModels.topEnlarge_not_absolutelyMinimal",
+    "Causal.GluingModels.topTotal_not_absolutelyMinimal"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "counts": {
+  "objects": 75,
+  "ETT_layer": 51,
+  "model_layer": 24,
+  "hereditary_proved": 47,
+  "hereditary_proved_conditionally": 3,
+  "hereditary_refuted": 28,
+  "on_M_proved": 47,
+  "on_M_refuted": 27,
+  "on_M_carried_as_hypothesis": 1,
+  "separating_the_two_forms": 1,
+  "refuted_here_for_the_first_time": 17
+ },
+ "inventory": [
+  {
+   "object": "Causal.timelikeLine",
+   "decl": "Causal.timelikeLine",
+   "at": "Causal/Lines.lean:77",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.timelikeLine_absolutelyMinimalOn",
+    "at": "Causal/Lines.lean:244"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.timelikeLine_absolutelyMinimal",
+    "at": "Causal/Lines.lean:283"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:cor:K_injectif",
+    "ett:cor:K_ordre",
+    "ett:cor:K_ordre_Sigma",
+    "ett:cor:massA_cac",
+    "ett:cor:massA_causalite",
+    "ett:cor:pushup_sing",
+    "ett:def:cauchy_embedding_cauchy_extension",
+    "ett:def:cauchy_surface",
+    "ett:def:cauchy_time_function",
+    "ett:def:causal_chain",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected",
+    "ett:def:common_sub_extension",
+    "ett:def:singular_spacetime",
+    "ett:defi:fonction_temps",
+    "ett:ex:causalities_lines",
+    "ett:ex:open_subset",
+    "ett:lem:C_ext_connexe",
+    "ett:lem:Cauchy_plongement_toutes",
+    "ett:lem:Sigma_separe",
+    "ett:lem:cup_cap_BTZ",
+    "ett:lem:image_diamant",
+    "ett:lem:past_BTZ",
+    "ett:prop:Cauchy_pgcd",
+    "ett:prop:GX_espace_temps_topo",
+    "ett:prop:GX_sing_espace_temps_topo",
+    "ett:prop:K_calcul",
+    "ett:prop:K_densite_sing",
+    "ett:prop:K_monotone",
+    "ett:prop:mesure_admissible",
+    "ett:rem:CBG_analytique",
+    "ett:rem:K_neq_I",
+    "ett:rem:minimalite_non_hereditaire",
+    "ett:rem:recursion_these",
+    "ett:rem:singular_flat_spacetime_therefore",
+    "ett:theo:geroch",
+    "ett:theo:geroch_sing",
+    "sbierski-mghd:mghdlem:IsoDiffeo",
+    "sbierski-mghd:mghdthm:ExMCGHD"
+   ],
+   "ladder_entries_resting_on_it": [
+    "leNested_tarentin_counterexample transfer:None->tarentin",
+    "not_globallyHyperbolic_of_nested_bare transfer:None->globally_hyperbolic",
+    "not_isCauchySurface_of_nested_bare fails:le_nested->inextensible_nested"
+   ]
+  },
+  {
+   "object": "Causal.lightlikeLine",
+   "decl": "Causal.lightlikeLine",
+   "at": "Causal/Lines.lean:94",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.lightlikeLine_absolutelyMinimalOn",
+    "at": "Causal/DeuxPushup.lean:228"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.lightlikeLine_absolutelyMinimal",
+    "at": "Causal/DeuxPushup.lean:235"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:def:causal_chain",
+    "ett:lem:cup_cap_BTZ",
+    "ett:prop:K_calcul",
+    "ett:rem:deux_pushup",
+    "ett:rem:droites_pas_plates",
+    "ett:rem:mesure_unilaterale_ptr",
+    "ett:rem:pas_plat",
+    "ett:rem:proof_uses_neither_causal"
+   ],
+   "ladder_entries_resting_on_it": [
+    "deux_pushup fails:causally_plain->push_up",
+    "deux_pushup fails:is_causal->push_up",
+    "deux_pushup fails:push_up->causally_plain",
+    "lightlikeLine_not_causallyPlain fails:['globally_hyperbolic', 'push_up', 'causally_open', 'tarentin', 'causally_arc_connected']->causally_plain",
+    "lightlikeLine_not_causallyPlain fails:causally_arc_connected->causally_plain",
+    "lightlikeLine_not_causallyPlain fails:causally_open->causally_plain",
+    "lightlikeLine_not_causallyPlain fails:globally_hyperbolic->causally_plain",
+    "lightlikeLine_not_causallyPlain fails:tarentin->causally_plain",
+    "lightlikeLine_not_chronalNeighbours fails:causally_arc_connected->chronal_neighbours",
+    "lightlikeLine_not_chronalNeighbours fails:tarentin->chronal_neighbours",
+    "lightlikeLine_separates_Z fails:['globally_hyperbolic', 'push_up', 'causally_open', 'tarentin', 'causally_arc_connected']->chronal_neighbours",
+    "lightlikeLine_separates_chronalNeighbours fails:causally_open->chronal_neighbours",
+    "lightlikeLine_separates_chronalNeighbours fails:globally_hyperbolic->chronal_neighbours",
+    "lightlikeLine_separates_chronalNeighbours fails:push_up->chronal_neighbours",
+    "tarentin_and_plain_needed fails:['causally_arc_connected', 'causally_plain']->tarentin"
+   ]
+  },
+  {
+   "object": "Causal.spacelikeLine",
+   "decl": "Causal.spacelikeLine",
+   "at": "Causal/Lines.lean:111",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.spacelikeLine_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:68"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.spacelikeLine_absolutelyMinimal",
+    "at": "Causal/NestedTransfer.lean:225"
+   },
+   "note": "from Causal.spacelikeLine_causallyArcConnected",
+   "ledger_rows_resting_on_it": [
+    "ett:def:causal_chain",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected",
+    "ett:rem:K_plongement_hypotheses",
+    "ett:rem:droites_pas_plates"
+   ],
+   "ladder_entries_resting_on_it": [
+    "leNested_tarentin_counterexample transfer:None->tarentin",
+    "pointedLine_separates_curveNested fails:curve_nested->le_nested",
+    "spacelikeLine_not_causallyPlain fails:['globally_hyperbolic', 'strongly_causal_open', 'push_up', 'causally_open', 'absolutely_minimal', 'time_function', 'causally_arc_connected']->causally_plain",
+    "spacelikeLine_separates_tarentin_full fails:['globally_hyperbolic', 'strongly_causal_open', 'push_up', 'causally_open', 'absolutely_minimal', 'time_function']->tarentin"
+   ]
+  },
+  {
+   "object": "Causal.halfChronoLine",
+   "decl": "Causal.halfChronoLine",
+   "at": "Causal/LinesReachable.lean:234",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.halfChronoLine_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:72"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.halfChronoLine_absolutelyMinimal",
+    "at": "Causal/LinesReachable.lean:267"
+   },
+   "note": "from Causal.halfChronoLine_causallyArcConnected; its dual (rem:K_neq_I) by Causal.GluingModels.forall_dual",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:K_neq_I"
+   ],
+   "ladder_entries_resting_on_it": [
+    "halfChronoLine_separates_pushUp fails:['causally_arc_connected', 'absolutely_minimal', 'globally_hyperbolic', 'is_causal', 'strongly_causal', 'strongly_causal_open', 'causally_open', 'tarentin', 'time_function', 'curves_extend']->locally_push_up",
+    "halfChronoLine_separates_pushUp fails:['causally_arc_connected', 'absolutely_minimal', 'globally_hyperbolic', 'is_causal', 'strongly_causal', 'strongly_causal_open', 'causally_open', 'tarentin', 'time_function', 'curves_extend']->push_up"
+   ]
+  },
+  {
+   "object": "Causal.halfLightLine",
+   "decl": "Causal.halfLightLine",
+   "at": "Causal/Dec8MinimalWitness.lean:87",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.halfLightLine_absolutelyMinimalOn",
+    "at": "Causal/Dec8MinimalWitness.lean:162"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.halfLightLine_absolutelyMinimal",
+    "at": "Causal/Dec8MinimalWitness.lean:153"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "halfLightLine_dual_separates_causallyOpenFuture fails:['absolutely_minimal', 'causally_arc_connected', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->causally_open_future",
+    "halfLightLine_dual_separates_causallyOpenFuture fails:['absolutely_minimal', 'causally_arc_connected', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->causally_open",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->causally_plain",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->chronal_neighbours",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->tarentin"
+   ]
+  },
+  {
+   "object": "Causal.halfLightLine.dual (Causal.Causality.dual halfLightLine)",
+   "decl": "Causal.halfLightLine",
+   "at": "Causal/Dec8MinimalWitness.lean:87",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.halfLightLine_dual_absolutelyMinimalOn",
+    "at": "Causal/HalfLitDual.lean:99"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.halfLightLine_dual_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:91"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "halfLightLine_dual_separates_causallyOpenFuture fails:['absolutely_minimal', 'causally_arc_connected', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->causally_open_future",
+    "halfLightLine_dual_separates_causallyOpenFuture fails:['absolutely_minimal', 'causally_arc_connected', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->causally_open",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->causally_plain",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->chronal_neighbours",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open",
+    "halfLightLine_separates_causallyOpen fails:['absolutely_minimal', 'causally_arc_connected', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'globally_hyperbolic', 'causally_compact', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->tarentin"
+   ]
+  },
+  {
+   "object": "Causal.rationalLine",
+   "decl": "Causal.rationalLine",
+   "at": "Causal/NestedConverse.lean:247",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.rationalLine_absolutelyMinimalOn",
+    "at": "Causal/RationalLineExtras.lean:144"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.rationalLine_absolutelyMinimal",
+    "at": "Causal/NestedConverse.lean:302"
+   },
+   "note": "not causally arc-connected; rational subdivision (kb/0127)",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->causally_arc_connected",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->causally_compact",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->causally_open",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->causally_open_future",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->causally_plain",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->chronal_neighbours",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->locally_causally_open",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->locally_causally_open_future",
+    "rationalLine_separates fails:['absolutely_minimal', 'is_causal', 'push_up', 'locally_push_up', 'time_function', 'curves_extend', 'strongly_causal_open', 'strongly_causal']->tarentin"
+   ]
+  },
+  {
+   "object": "Causal.isolatedLine",
+   "decl": "Causal.isolatedLine",
+   "at": "Causal/LocateExtension.lean:509",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.isolatedLine_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:76"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.isolatedLine_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:80"
+   },
+   "note": "from Causal.isolatedLine_causallyArcConnected",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "isolatedLine_separates_chronalNeighbours fails:['causally_arc_connected', 'causally_open', 'causally_plain']->chronal_neighbours",
+    "tarentin_and_plain_needed fails:['causally_arc_connected', 'causally_plain']->tarentin"
+   ]
+  },
+  {
+   "object": "Causal.closedHalfLine",
+   "decl": "Causal.closedHalfLine",
+   "at": "Causal/LocateExtension.lean:755",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.closedHalfLine_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:83"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.closedHalfLine_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:88"
+   },
+   "note": "from Causal.closedHalfLine_causallyArcConnected",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.cutLine a",
+   "decl": "Causal.cutLine",
+   "at": "Causal/NestedCausalities.lean:211",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.cutLine_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:166"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.cutLine_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:178"
+   },
+   "note": "not causally arc-connected (argued, not proved in Lean: at the first time a causal curve reaches a, it is constant just before): a timelike chain whose right ends avoid a, the step across a in one member of the cover. Witness of not_isCauchySurface_of_nested_bare (le_nested -> inextensible_nested), which therefore survives DEC-167",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "not_globallyHyperbolic_of_nested_bare transfer:None->globally_hyperbolic",
+    "not_isCauchySurface_of_nested_bare fails:le_nested->inextensible_nested"
+   ]
+  },
+  {
+   "object": "Causal.linearCausality ℝ (= lightlikeLine, rfl)",
+   "decl": "Causal.linearCausality",
+   "at": "Causal/Chains.lean:75",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.linearCausality_real_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:95"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.lightlikeLine_absolutelyMinimal",
+    "at": "Causal/DeuxPushup.lean:235"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:def:causal_chain",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.linearCausality ℕ",
+   "decl": "Causal.linearCausality",
+   "at": "Causal/Chains.lean:75",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.linearCausality_nat_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:250"
+   },
+   "note": "discrete: an absolutely minimal ≤ is the diagonal",
+   "ledger_rows_resting_on_it": [
+    "ett:def:causal_chain",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.linearCausality ℚ",
+   "decl": "Causal.linearCausality",
+   "at": "Causal/Chains.lean:75",
+   "layer": "model",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.rat_not_absolutelyMinimal",
+    "at": "Causal/ChainsCurves.lean:439"
+   },
+   "note": "existing (Causal/ChainsCurves.lean, a model-layer module); general linearCausality X depends on the topology of X",
+   "ledger_rows_resting_on_it": [
+    "ett:def:causal_chain",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.transparentLine",
+   "decl": "Causal.transparentLine",
+   "at": "Causal/TransparentLine.lean:99",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.transparentLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:100"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.transparentLine_absolutelyMinimal",
+    "at": "Causal/TransparentLine.lean:275"
+   },
+   "note": "THE object separating the two forms of OQ-95: refuted on ℝ ∖ {0} by Causal.transparentLine_not_absolutelyMinimalOn",
+   "ledger_rows_resting_on_it": [
+    "ett:cexemple:point_transparent"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.rationalJumpPlane",
+   "decl": "Causal.rationalJumpPlane",
+   "at": "Causal/RationalJumpPlane.lean:167",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.rationalJumpPlane_absolutelyMinimalOn",
+    "at": "Causal/RationalJumpPlane.lean:354"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.rationalJumpPlane_absolutelyMinimal",
+    "at": "Causal/RationalJumpPlane.lean:393"
+   },
+   "note": "not causally arc-connected",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "rationalJumpPlane_separates fails:['chronal_neighbours', 'absolutely_minimal', 'tarentin', 'causally_open', 'causally_open_future', 'locally_causally_open', 'locally_causally_open_future', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->causally_arc_connected",
+    "rationalJumpPlane_separates fails:['chronal_neighbours', 'absolutely_minimal', 'tarentin', 'causally_open', 'causally_open_future', 'locally_causally_open', 'locally_causally_open_future', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_push_up"
+   ]
+  },
+  {
+   "object": "Causal.notchedCausality",
+   "decl": "Causal.notchedCausality",
+   "at": "Causal/NotchedPlane.lean:209",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.notchedCausality_absolutelyMinimalOn",
+    "at": "Causal/NotchedPlane.lean:410"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.notchedCausality_absolutelyMinimal",
+    "at": "Causal/NotchedPlane.lean:406"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "notchedCausality_dual_separates fails:['absolutely_minimal', 'causally_arc_connected', 'causally_plain', 'push_up', 'locally_push_up', 'is_causal', 'causally_compact', 'globally_hyperbolic', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "notchedCausality_separates fails:['absolutely_minimal', 'causally_arc_connected', 'causally_plain', 'push_up', 'locally_push_up', 'causally_open_future', 'locally_causally_open_future', 'is_causal', 'causally_compact', 'globally_hyperbolic', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open"
+   ]
+  },
+  {
+   "object": "Causal.notchedCausality.dual",
+   "decl": "Causal.notchedCausality",
+   "at": "Causal/NotchedPlane.lean:209",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.notchedCausality_dual_absolutelyMinimalOn",
+    "at": "Causal/NotchedPlane.lean:772"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.notchedCausality_dual_absolutelyMinimal",
+    "at": "Causal/NotchedPlane.lean:769"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "notchedCausality_dual_separates fails:['absolutely_minimal', 'causally_arc_connected', 'causally_plain', 'push_up', 'locally_push_up', 'is_causal', 'causally_compact', 'globally_hyperbolic', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "notchedCausality_separates fails:['absolutely_minimal', 'causally_arc_connected', 'causally_plain', 'push_up', 'locally_push_up', 'causally_open_future', 'locally_causally_open_future', 'is_causal', 'causally_compact', 'globally_hyperbolic', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open"
+   ]
+  },
+  {
+   "object": "Causal.oneWayMembrane",
+   "decl": "Causal.oneWayMembrane",
+   "at": "Causal/OneWayMembrane.lean:124",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.oneWayMembrane_absolutelyMinimalOn",
+    "at": "Causal/OneWayMembrane.lean:245"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.oneWayMembrane_absolutelyMinimal",
+    "at": "Causal/OneWayMembrane.lean:241"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "oneWayMembrane_dual_separates fails:['absolutely_minimal', 'causally_arc_connected', 'tarentin', 'push_up', 'locally_push_up', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "oneWayMembrane_separates fails:['absolutely_minimal', 'causally_arc_connected', 'tarentin', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open"
+   ]
+  },
+  {
+   "object": "Causal.oneWayMembrane.dual",
+   "decl": "Causal.oneWayMembrane",
+   "at": "Causal/OneWayMembrane.lean:124",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.oneWayMembrane_dual_absolutelyMinimalOn",
+    "at": "Causal/OneWayMembrane.lean:743"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.oneWayMembrane_dual_absolutelyMinimal",
+    "at": "Causal/OneWayMembrane.lean:740"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "oneWayMembrane_dual_separates fails:['absolutely_minimal', 'causally_arc_connected', 'tarentin', 'push_up', 'locally_push_up', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "oneWayMembrane_separates fails:['absolutely_minimal', 'causally_arc_connected', 'tarentin', 'causally_open_future', 'locally_causally_open_future', 'push_up', 'locally_push_up', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open"
+   ]
+  },
+  {
+   "object": "Causal.chronalMembrane",
+   "decl": "Causal.chronalMembrane",
+   "at": "Causal/OneWayMembraneChronal.lean:158",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.chronalMembrane_absolutelyMinimalOn",
+    "at": "Causal/OneWayMembraneChronal.lean:374"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.chronalMembrane_absolutelyMinimal",
+    "at": "Causal/OneWayMembraneChronal.lean:370"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "chronalMembrane_dual_separates fails:['chronal_neighbours', 'absolutely_minimal', 'causally_arc_connected', 'tarentin', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "chronalMembrane_separates fails:['chronal_neighbours', 'absolutely_minimal', 'causally_arc_connected', 'tarentin', 'causally_open_future', 'locally_causally_open_future', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open"
+   ]
+  },
+  {
+   "object": "Causal.chronalMembrane.dual",
+   "decl": "Causal.chronalMembrane",
+   "at": "Causal/OneWayMembraneChronal.lean:158",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.chronalMembrane_dual_absolutelyMinimalOn",
+    "at": "Causal/OneWayMembraneChronal.lean:565"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.chronalMembrane_dual_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:185"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "chronalMembrane_dual_separates fails:['chronal_neighbours', 'absolutely_minimal', 'causally_arc_connected', 'tarentin', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open_future",
+    "chronalMembrane_separates fails:['chronal_neighbours', 'absolutely_minimal', 'causally_arc_connected', 'tarentin', 'causally_open_future', 'locally_causally_open_future', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'time_function', 'curves_extend']->locally_causally_open"
+   ]
+  },
+  {
+   "object": "Causal.arcCausality γ (continuous arcs)",
+   "decl": "Causal.arcCausality",
+   "at": "Causal/GHWithoutTarentin.lean:121",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.arcCausality_absolutelyMinimalOn",
+    "at": "Causal/GHWithoutTarentin.lean:214"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.arcCausality_absolutelyMinimal",
+    "at": "Causal/GHWithoutTarentin.lean:209"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.forkCausality",
+   "decl": "Causal.forkCausality",
+   "at": "Causal/GHWithoutTarentin.lean:426",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.fork_absolutelyMinimalOn",
+    "at": "Causal/GHWithoutTarentin.lean:542"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.fork_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:189"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "fork_separates fails:['absolutely_minimal', 'causally_arc_connected', 'push_up', 'locally_push_up', 'is_causal', 'causally_compact', 'globally_hyperbolic', 'strongly_causal_open', 'strongly_causal']->time_function"
+   ]
+  },
+  {
+   "object": "Causal.loopFan",
+   "decl": "Causal.loopFan",
+   "at": "Causal/GHWithoutTarentin.lean:752",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.loopFan_absolutelyMinimalOn",
+    "at": "Causal/GHWithoutTarentin.lean:803"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.loopFan_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:193"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "loopFan_separates fails:['absolutely_minimal', 'causally_arc_connected', 'push_up', 'locally_push_up', 'is_causal', 'causally_compact', 'globally_hyperbolic', 'time_function', 'curves_extend']->strongly_causal"
+   ]
+  },
+  {
+   "object": "Causal.veeCausality",
+   "decl": "Causal.veeCausality",
+   "at": "Causal/PushUpOfMinimalLocal.lean:260",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.veeCausality_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:199"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.veeCausality_absolutelyMinimal",
+    "at": "Causal/PushUpOfMinimalLocal.lean:304"
+   },
+   "note": "T0, not T1",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "veeCausality_separates_pushUp fails:['absolutely_minimal', 'locally_push_up']->push_up"
+   ]
+  },
+  {
+   "object": "Causal.sierpinskiCausality",
+   "decl": "Causal.sierpinskiCausality",
+   "at": "Causal/ChronalNeighbourBridge.lean:470",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.sierpinskiCausality_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:229"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.sierpinskiCausality_absolutelyMinimal",
+    "at": "Causal/ChronalNeighbourBridge.lean:503"
+   },
+   "note": "not T1",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.diagonalCausality M (discrete)",
+   "decl": "Causal.diagonalCausality",
+   "at": "Causal/Chains.lean:636",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.diagonalCausality_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:245"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.diagonalCausality_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:254"
+   },
+   "note": "also Causal.diagonalCausality_absolutelyMinimalOn (the ⊤ form)",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:causal_completeness_slightly_weaker"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.pointSpace",
+   "decl": "Causal.pointSpace",
+   "at": "Causal/SubExtension.lean:446",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.pointSpace_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:258"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.pointSpace_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:267"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:prop:Cauchy_pgcd"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.arcCausality γ, γ discontinuous (jumpArc)",
+   "decl": "Causal.arcCausality",
+   "at": "Causal/GHWithoutTarentin.lean:121",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.arcCausality_jumpArc_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:217"
+   },
+   "note": "NEW: the def takes any γ; at the field switch it needs (hγ : ∀ i, Continuous (γ i))",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.gateLine",
+   "decl": "Causal.gateLine",
+   "at": "Causal/CBG/CausalConvex.lean:841",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.gateLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:73"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.gateLine_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:70"
+   },
+   "note": "from Causal.gateLine_not_absolutelyMinimalOn (the ⊤ form)",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "gateLine_cauchyInclusion_not_causallyConvex fails:curves_extend->absolutely_minimal",
+    "gateLine_cauchyInclusion_not_causallyConvex fails:is_causal->absolutely_minimal",
+    "gateLine_not_absolutelyMinimalOn fails:globally_hyperbolic->absolutely_minimal",
+    "gateLine_separates_causallyOpen fails:['causally_open_future', 'locally_causally_open', 'globally_hyperbolic', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'curves_extend', 'locally_push_up']->absolutely_minimal",
+    "gateLine_separates_causallyOpen fails:['causally_open_future', 'locally_causally_open', 'globally_hyperbolic', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'curves_extend', 'locally_push_up']->causally_open",
+    "gateLine_separates_pushUp fails:['causally_open_future', 'locally_causally_open', 'globally_hyperbolic', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'curves_extend', 'locally_push_up']->causally_arc_connected",
+    "gateLine_separates_pushUp fails:['causally_open_future', 'locally_causally_open', 'globally_hyperbolic', 'is_causal', 'strongly_causal_open', 'strongly_causal', 'curves_extend', 'locally_push_up']->push_up"
+   ]
+  },
+  {
+   "object": "Causal.jumpLine",
+   "decl": "Causal.jumpLine",
+   "at": "Causal/PushUpNotOpen.lean:85",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.jumpLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:76"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.jumpLine_not_absolutelyMinimal",
+    "at": "Causal/PushUpNotOpen.lean:207"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "jumpLine_separates_causallyOpenFuture fails:['push_up', 'locally_causally_open', 'globally_hyperbolic', 'strongly_causal_open', 'time_function']->absolutely_minimal",
+    "jumpLine_separates_causallyOpenFuture fails:['push_up', 'locally_causally_open', 'globally_hyperbolic', 'strongly_causal_open', 'time_function']->causally_arc_connected",
+    "jumpLine_separates_causallyOpenFuture fails:['push_up', 'locally_causally_open', 'globally_hyperbolic', 'strongly_causal_open', 'time_function']->causally_open",
+    "jumpLine_separates_causallyOpenFuture fails:['push_up', 'locally_causally_open', 'globally_hyperbolic', 'strongly_causal_open', 'time_function']->causally_open_future",
+    "jumpLine_separates_causallyOpenFuture fails:['push_up', 'locally_causally_open', 'globally_hyperbolic', 'strongly_causal_open', 'time_function']->causally_plain",
+    "jumpLine_separates_causallyOpenFuture fails:['push_up', 'locally_causally_open', 'globally_hyperbolic', 'strongly_causal_open', 'time_function']->chronal_neighbours",
+    "jumpLine_separates_causallyOpenFuture fails:['push_up', 'locally_causally_open', 'globally_hyperbolic', 'strongly_causal_open', 'time_function']->tarentin"
+   ]
+  },
+  {
+   "object": "Causal.globalLine",
+   "decl": "Causal.globalLine",
+   "at": "Causal/ChronalNeighbourBridge.lean:343",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.globalLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:79"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.globalLine_not_absolutelyMinimal",
+    "at": "Causal/ChronalNeighbourBridge.lean:403"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "globalLine_separates_tarentin fails:['tarentin', 'push_up', 'causally_open', 'is_causal']->absolutely_minimal",
+    "globalLine_separates_tarentin fails:['tarentin', 'push_up', 'causally_open', 'is_causal']->chronal_neighbours"
+   ]
+  },
+  {
+   "object": "Causal.deuxPushup",
+   "decl": "Causal.deuxPushup",
+   "at": "Causal/DeuxPushup.lean:538",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.deuxPushup_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:82"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.deuxPushup_not_absolutelyMinimal",
+    "at": "Causal/DeuxPushup.lean:599"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:deux_pushup"
+   ],
+   "ladder_entries_resting_on_it": [
+    "deuxPushup_not_absolutelyMinimal fails:causally_plain->absolutely_minimal",
+    "deux_pushup fails:causally_plain->push_up",
+    "deux_pushup fails:is_causal->push_up",
+    "deux_pushup fails:push_up->causally_plain"
+   ]
+  },
+  {
+   "object": "Causal.timelikeLineTop",
+   "decl": "Causal.timelikeLineTop",
+   "at": "Causal/Morphism.lean:700",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.timelikeLineTop_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:85"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.timelikeLineTop_not_absolutelyMinimal",
+    "at": "Causal/Morphism.lean:752"
+   },
+   "note": "the case C = timelikeLine of Causal.Causality.topEnlarge",
+   "ledger_rows_resting_on_it": [
+    "ett:ex:open_subset",
+    "ett:prop:GX_espace_temps_topo"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.pointedLine",
+   "decl": "Causal.pointedLine",
+   "at": "Causal/LinesReachable.lean:364",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.pointedLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:146"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.pointedLine_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:137"
+   },
+   "note": "NEW: only 0 has a future; the cover {t < 1, t > 0} has no member containing [0, 2]",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:K_neq_I"
+   ],
+   "ladder_entries_resting_on_it": [
+    "pointedLine_separates_curveNested fails:curve_nested->le_nested"
+   ]
+  },
+  {
+   "object": "Causal.pointedLineMR",
+   "decl": "Causal.pointedLineMR",
+   "at": "Causal/MeasureRemarks.lean:257",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.pointedLineMR_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:157"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.pointedLineMR_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:149"
+   },
+   "note": "NEW: the same relations as pointedLine",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:mesure_unilaterale_ptr"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.puncturedPlane",
+   "decl": "Causal.puncturedPlane",
+   "at": "Causal/LinesReachable.lean:583",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.puncturedPlane_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:178"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.puncturedPlane_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:164"
+   },
+   "note": "NEW: Causality.ofRelation; (1,1) ≤ (2,2) in every open containing both",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:K_plongement_hypotheses"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.orderLine",
+   "decl": "Causal.orderLine",
+   "at": "Causal/Morphism.lean:803",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.orderLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:195"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.orderLine_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:189"
+   },
+   "note": "NEW: x ≤_U y iff x ≤ y and x, y ∈ U (non-local)",
+   "ledger_rows_resting_on_it": [
+    "ett:defi:fonction_temps"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.totalLine",
+   "decl": "Causal.totalLine",
+   "at": "Causal/Chains.lean:657",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.totalLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:186"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.totalLine_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:181"
+   },
+   "note": "NEW: Causality.ofRelation (any two points related)",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.bowtie",
+   "decl": "Causal.bowtie",
+   "at": "Causal/Chains.lean:520",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.bowtie_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:237"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.bowtie_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:228"
+   },
+   "note": "NEW: discrete, a₁ ≤ b₁",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:causal_completeness_slightly_weaker"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.fan",
+   "decl": "Causal.fan",
+   "at": "Causal/Chains.lean:693",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.fan_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:247"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.fan_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:240"
+   },
+   "note": "NEW: discrete ℕ, 0 ≤ 2",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:causal_completeness_slightly_weaker"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.doubledLine",
+   "decl": "Causal.doubledLine",
+   "at": "Causal/CausalIsoInvariance.lean:909",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.doubledLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:285"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.doubledLine_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:260"
+   },
+   "note": "NEW: (0,true) ≤ (0,false); the cover by the two sheets",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.LineDevelopment.allRelated X",
+   "decl": "Causal.LineDevelopment.allRelated",
+   "at": "Causal/LineDevelopment.lean:1095",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted (X = ℝ)",
+    "decl": "Causal.GluingModels.allRelated_real_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:210"
+   },
+   "on_M": {
+    "status": "refuted (X T2.5 with two points; X = ℝ/Pℤ)",
+    "decl": "Causal.GluingModels.allRelated_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:198"
+   },
+   "note": "NEW; the circle instance Causal.GluingModels.allRelated_circle_not_minimal is the witness of LineDevelopment.circle_line (lem:past_BTZ)",
+   "ledger_rows_resting_on_it": [
+    "ett:lem:past_BTZ"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.galileo n, n ≥ 1 (Galileo ℝ^{n+1})",
+   "decl": "Causal.galileo",
+   "at": "Causal/Galileo.lean:153",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.galileo_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:436"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.galileo_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:429"
+   },
+   "note": "NEW (was argued only): ex:causalities_lines item 4 is not absolutely minimal for n ≥ 1. General form Causal.GluingModels.galileoOn_not_minimal (X retracting continuously onto ℝ), and Causal.GluingModels.galileoOn_real_not_minimal. n = 0 glues: Causal.GluingModels.galileo_zero_hereditary",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:galileo_spacetime_not_strongly"
+   ],
+   "ladder_entries_resting_on_it": [
+    "galileo_not_stronglyCausal fails:is_causal->strongly_causal"
+   ]
+  },
+  {
+   "object": "Causal.galileoOn X (X retracts onto ℝ)",
+   "decl": "Causal.galileoOn",
+   "at": "Causal/Galileo.lean:129",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.galileoOn_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:320"
+   },
+   "note": "X a point: glues, next row",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:galileo_spacetime_not_strongly"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.galileoOn X, X a point (galileo 0)",
+   "decl": "Causal.galileoOn",
+   "at": "Causal/Galileo.lean:129",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.galileoOn_point_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/Minimal.lean:293"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.absolutelyMinimal_of_forall",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:65"
+   },
+   "note": "n = 0 of ex:causalities_lines item 4; also Causal.GluingModels.galileo_zero_hereditary; by subdivision of the time segment",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:galileo_spacetime_not_strongly"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.DensWitness.densCausality",
+   "decl": "Causal.DensWitness.densCausality",
+   "at": "Causal/CBG/SubExtensionAbstract.lean:211",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.densCausality_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:88"
+   },
+   "note": "from Causal.DensWitness.not_absolutelyMinimalOn_witness",
+   "ledger_rows_resting_on_it": [
+    "ett:prop:Cauchy_pgcd"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.DensWitness.bigCausality",
+   "decl": "Causal.DensWitness.bigCausality",
+   "at": "Causal/CBG/SubExtensionAbstract.lean:247",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.bigCausality_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:91"
+   },
+   "note": "from Causal.DensWitness.not_absolutelyMinimalOn_witness",
+   "ledger_rows_resting_on_it": [
+    "ett:prop:Cauchy_pgcd"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.DensWitness.wideCausality",
+   "decl": "Causal.DensWitness.wideCausality",
+   "at": "Causal/CBG/SubExtensionAbstract.lean:841",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.wideCausality_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:94"
+   },
+   "note": "NEW: contains 0 ≤_{gapSet} 1",
+   "ledger_rows_resting_on_it": [
+    "ett:prop:Cauchy_pgcd"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.DensWitness.far2Causality",
+   "decl": "Causal.DensWitness.far2Causality",
+   "at": "Causal/CBG/SubExtensionAbstract.lean:894",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.far2Causality_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/NonMinimal.lean:99"
+   },
+   "note": "NEW: contains 0 ≤_{gapSet} 1",
+   "ledger_rows_resting_on_it": [
+    "ett:prop:Cauchy_pgcd"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.Causality.topEnlarge C (generic)",
+   "decl": "Causal.Causality.topEnlarge",
+   "at": "Causal/GXStructure.lean:770",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted (T1, C.le ⊤ not total)",
+    "decl": "Causal.GluingModels.topEnlarge_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:224"
+   },
+   "note": "NEW, generic: whenever C does not relate two distinct points on M",
+   "ledger_rows_resting_on_it": [
+    "ett:prop:GX_espace_temps_topo"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.SFATransfer.topTotal D (generic)",
+   "decl": "Causal.SFATransfer.topTotal",
+   "at": "Causal/SFATransfer.lean:322",
+   "layer": "ETT",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:70"
+   },
+   "on_M": {
+    "status": "refuted (T1, D.le ⊤ not total)",
+    "decl": "Causal.GluingModels.topTotal_not_absolutelyMinimal",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:234"
+   },
+   "note": "NEW, generic; the E₀ instance is already Causal.SFALocalE0.e0_topTotal_separates",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:btz_pas_tarentin"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.staticCausality X (X geodesic)",
+   "decl": "Causal.staticCausality",
+   "at": "Causal/Static.lean:645",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.staticCausality_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:54"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.staticCausality.absolutelyMinimal",
+    "at": "Causal/Static.lean:783"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "barbot:bprop:danom",
+    "ett:cor:model_minimal",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected",
+    "ett:defi:causal_Ealpha",
+    "ett:lem:IJ_calc",
+    "ett:lem:densite_modele",
+    "ett:prop:mesure_admissible",
+    "ett:prop:mesure_dieckmann_Lorentz",
+    "ett:rem:causal_completeness_slightly_weaker",
+    "ett:rem:galileo_spacetime_not_strongly",
+    "ett:rem:pushup"
+   ],
+   "ladder_entries_resting_on_it": [
+    "halfPlane_hypotheses fails:causally_arc_connected->causally_compact",
+    "halfPlane_hypotheses fails:causally_open->causally_compact",
+    "halfPlane_hypotheses fails:chronal_neighbours->causally_compact",
+    "halfPlane_hypotheses fails:is_causal->causally_compact",
+    "halfPlane_hypotheses fails:push_up->causally_compact",
+    "halfPlane_hypotheses fails:strongly_causal->causally_compact",
+    "halfPlane_hypotheses fails:strongly_causal_open->causally_compact",
+    "halfPlane_hypotheses fails:tarentin->causally_compact",
+    "halfPlane_hypotheses fails:time_function->causally_compact"
+   ]
+  },
+  {
+   "object": "Causal.minkowski n",
+   "decl": "Causal.minkowski",
+   "at": "Causal/Minkowski.lean:74",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.minkowski_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:59"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.minkowski_absolutelyMinimal",
+    "at": "Causal/Minkowski.lean:115"
+   },
+   "note": "also Causal.CBG.minkowski_absolutelyMinimalOn",
+   "ledger_rows_resting_on_it": [
+    "barbot:bcor:level_sets_complete",
+    "barbot:bcor:loxo_proper",
+    "barbot:bcor:quo",
+    "barbot:bdef:omega_lambda",
+    "barbot:blem:SdanU",
+    "barbot:blem:paranongh",
+    "barbot:bprop:agissons",
+    "barbot:bprop:danom",
+    "barbot:bprop:ghyp",
+    "barbot:bprop:limites",
+    "barbot:bprop:lip",
+    "barbot:bprop:regular_cauchy_complete",
+    "barbot:bprop:splitting",
+    "barbot:bthm:cauclo",
+    "barbot:bthm:caucomp",
+    "ett:cor:K_injectif",
+    "ett:cor:K_lorentzien",
+    "ett:cor:K_ordre",
+    "ett:cor:K_ordre_Sigma",
+    "ett:cor:massA_cac",
+    "ett:cor:massA_causalite",
+    "ett:cor:model_minimal",
+    "ett:cor:pushup_sing",
+    "ett:def:cauchy_embedding_cauchy_extension",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected",
+    "ett:def:singular_spacetime",
+    "ett:defi:causal_E0",
+    "ett:defi:causal_Ealpha",
+    "ett:lem:Cauchy_plongement_toutes",
+    "ett:lem:IJ_calc",
+    "ett:lem:J_int",
+    "ett:lem:Sigma_separe",
+    "ett:lem:cup_cap_BTZ",
+    "ett:lem:cup_cap_sing",
+    "ett:lem:densite_modele",
+    "ett:lem:image_diamant",
+    "ett:lem:passe_pgcd",
+    "ett:lem:past_BTZ",
+    "ett:prop:K_calcul",
+    "ett:prop:K_densite_sing",
+    "ett:prop:K_monotone",
+    "ett:prop:mesure_admissible",
+    "ett:prop:mesure_dieckmann_Lorentz",
+    "ett:rem:CBG_manquant",
+    "ett:rem:K_plongement_hypotheses",
+    "ett:rem:btz_pas_tarentin",
+    "ett:rem:galileo_spacetime_not_strongly",
+    "ett:rem:lorentz_tarentin",
+    "ett:rem:mesure_unilaterale",
+    "ett:rem:mesure_unilaterale_ptr",
+    "ett:rem:pas_plat",
+    "ett:rem:pushup",
+    "ett:rem:relation_not_assumed_reflexive",
+    "ett:rem:sing_tarentin",
+    "ett:rem:singular_flat_spacetime_therefore",
+    "ett:rem:tarentin_exemples",
+    "ett:theo:CBG",
+    "ett:theo:geroch_sing"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.massive α (E_α, α > 0)",
+   "decl": "Causal.massive",
+   "at": "Causal/Model/Massive.lean:127",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.massive_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:63"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.massive_absolutelyMinimal",
+    "at": "Causal/Model/Massive.lean:190"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:cor:K_injectif",
+    "ett:cor:K_ordre",
+    "ett:cor:massA_cac",
+    "ett:cor:massA_causalite",
+    "ett:cor:model_minimal",
+    "ett:cor:pushup_sing",
+    "ett:def:singular_spacetime",
+    "ett:defi:causal_Ealpha",
+    "ett:lem:IJ_calc",
+    "ett:lem:Sigma_separe",
+    "ett:lem:densite_modele",
+    "ett:lem:passe_pgcd",
+    "ett:lem:past_BTZ",
+    "ett:prop:K_densite_sing",
+    "ett:prop:mesure_admissible",
+    "ett:rem:btz_pas_tarentin",
+    "ett:rem:galileo_spacetime_not_strongly",
+    "ett:rem:mesure_unilaterale",
+    "ett:rem:pushup",
+    "ett:rem:sing_tarentin",
+    "ett:rem:singular_flat_spacetime_therefore",
+    "ett:rem:tarentin_exemples",
+    "ett:theo:geroch_sing"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.cosmicString α",
+   "decl": "Causal.cosmicString",
+   "at": "Causal/Model/EAlphaCauchy.lean:732",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.cosmicString_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:68"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.cosmicString_absolutelyMinimal",
+    "at": "Causal/Model/EAlphaCauchy.lean:840"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "half-plane staticCausality (Ioi 0) (Causal.halfPlane_hypotheses)",
+   "decl": "Causal.staticCausality",
+   "at": "Causal/Static.lean:645",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.halfPlane_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:73"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.halfPlane_hypotheses",
+    "at": "Causal/ChainsCurves.lean:820"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "barbot:bprop:danom",
+    "ett:cor:model_minimal",
+    "ett:def:causally_complete",
+    "ett:def:causally_connected",
+    "ett:defi:causal_Ealpha",
+    "ett:lem:IJ_calc",
+    "ett:lem:densite_modele",
+    "ett:prop:mesure_admissible",
+    "ett:prop:mesure_dieckmann_Lorentz",
+    "ett:rem:causal_completeness_slightly_weaker",
+    "ett:rem:galileo_spacetime_not_strongly",
+    "ett:rem:pushup"
+   ],
+   "ladder_entries_resting_on_it": [
+    "halfPlane_hypotheses fails:causally_arc_connected->causally_compact",
+    "halfPlane_hypotheses fails:causally_open->causally_compact",
+    "halfPlane_hypotheses fails:chronal_neighbours->causally_compact",
+    "halfPlane_hypotheses fails:is_causal->causally_compact",
+    "halfPlane_hypotheses fails:push_up->causally_compact",
+    "halfPlane_hypotheses fails:strongly_causal->causally_compact",
+    "halfPlane_hypotheses fails:strongly_causal_open->causally_compact",
+    "halfPlane_hypotheses fails:tarentin->causally_compact",
+    "halfPlane_hypotheses fails:time_function->causally_compact"
+   ]
+  },
+  {
+   "object": "Causal.slopeCone E δ hδ",
+   "decl": "Causal.slopeCone",
+   "at": "Causal/Model/QuasilinearOneSided.lean:114",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.slopeCone_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:84"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.slopeCone_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:89"
+   },
+   "note": "causally arc-connected: Causal.GluingModels.slopeCone_causallyArcConnected",
+   "ledger_rows_resting_on_it": [
+    "ers-predictability:erslem:PropertyTimelike"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.Flat.flatCausality d M (flat (G,X))",
+   "decl": "Causal.Flat.flatCausality",
+   "at": "Causal/Flat/IsomCausal.lean:437",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.Flat.flatCausality_absolutelyMinimalOn",
+    "at": "Causal/Flat/FlatSpacetime.lean:155"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.Flat.flatCausality_absolutelyMinimal",
+    "at": "Causal/Flat/IsomCausal.lean:455"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "barbot:bcor:loxo_proper",
+    "barbot:bcor:quo",
+    "barbot:bprop:agissons",
+    "barbot:bprop:danom",
+    "barbot:bprop:regular_cauchy_complete",
+    "barbot:bprop:splitting",
+    "barbot:bthm:cauclo",
+    "barbot:bthm:caucomp",
+    "ett:prop:mesure_dieckmann_Lorentz",
+    "ett:theo:CBG"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.Flat.timeCylinder d",
+   "decl": "Causal.Flat.timeCylinder",
+   "at": "Causal/Model/FlatTimeCylinder.lean:107",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.timeCylinder_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:95"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.Flat.timeCylinder_absolutelyMinimal",
+    "at": "Causal/Model/FlatTimeCylinder.lean:138"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": [
+    "Flat.timeCylinder_separates fails:['curves_extend', 'absolutely_minimal', 'causally_arc_connected', 'push_up', 'tarentin', 'chronal_neighbours', 'causally_open', 'causally_plain']->causally_compact",
+    "Flat.timeCylinder_separates fails:['curves_extend', 'absolutely_minimal', 'causally_arc_connected', 'push_up', 'tarentin', 'chronal_neighbours', 'causally_open', 'causally_plain']->is_causal",
+    "Flat.timeCylinder_zero_separates fails:['causally_compact', 'curves_extend', 'absolutely_minimal', 'causally_arc_connected', 'push_up', 'tarentin', 'chronal_neighbours', 'causally_open', 'causally_plain']->is_causal"
+   ]
+  },
+  {
+   "object": "Causal.Flat.isomTransport g",
+   "decl": "Causal.Flat.isomTransport",
+   "at": "Causal/Flat/IsomCausal.lean:228",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.Flat.isomTransport_absolutelyMinimalOn",
+    "at": "Causal/Flat/IsomCausal.lean:237"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.isomTransport_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:100"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.spokesCausality A (A a cone)",
+   "decl": "Causal.spokesCausality",
+   "at": "Causal/KBorelien.lean:265",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.spokes_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelStatic.lean:110"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.spokes_absolutelyMinimal",
+    "at": "Causal/KBorelien.lean:427"
+   },
+   "note": "the cone hypothesis as in spokes_absolutelyMinimal; A arbitrary not treated",
+   "ledger_rows_resting_on_it": [
+    "ett:rem:K_borelien",
+    "ett:rem:K_neq_I"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.AESupportCounterexample.segCausality F",
+   "decl": "Causal.AESupportCounterexample.segCausality",
+   "at": "Causal/MaximalAEAtlasIso.lean:203",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.AESupportCounterexample.absolutelyMinimalOn_segCausality",
+    "at": "Causal/MaximalAEAtlasIso.lean:239"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.AESupportCounterexample.absolutelyMinimal_segCausality",
+    "at": "Causal/MaximalAEAtlasIso.lean:299"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:def:singular_spacetime"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.E0.causality (the E₀ port)",
+   "decl": "Causal.E0.causality",
+   "at": "Causal/Port/E0Causality.lean:654",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.E0.absolutelyMinimalOn",
+    "at": "Causal/Port/E0Axioms.lean:160"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.ModelRowsE0.e0_absolutelyMinimal",
+    "at": "Causal/Port/ModelRowsE0.lean:112"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:cor:K_injectif",
+    "ett:cor:K_ordre",
+    "ett:cor:K_ordre_Sigma",
+    "ett:cor:massA_cac",
+    "ett:cor:massA_causalite",
+    "ett:cor:model_minimal",
+    "ett:cor:pushup_sing",
+    "ett:def:cauchy_embedding_cauchy_extension",
+    "ett:def:singular_spacetime",
+    "ett:defi:causal_E0",
+    "ett:defi:causal_Ealpha",
+    "ett:lem:Cauchy_plongement_toutes",
+    "ett:lem:IJ_calc",
+    "ett:lem:Sigma_separe",
+    "ett:lem:cup_cap_BTZ",
+    "ett:lem:densite_modele",
+    "ett:lem:image_diamant",
+    "ett:lem:passe_pgcd",
+    "ett:lem:past_BTZ",
+    "ett:prop:K_densite_sing",
+    "ett:prop:mesure_admissible",
+    "ett:rem:K_neq_I",
+    "ett:rem:K_plongement_hypotheses",
+    "ett:rem:btz_pas_tarentin",
+    "ett:rem:galileo_spacetime_not_strongly",
+    "ett:rem:mesure_unilaterale",
+    "ett:rem:mesure_unilaterale_ptr",
+    "ett:rem:pushup",
+    "ett:rem:relation_not_assumed_reflexive",
+    "ett:rem:sing_tarentin",
+    "ett:rem:singular_flat_spacetime_therefore",
+    "ett:theo:geroch_sing"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.CupCapBTZCounterexample.natCausality (E₀ ∖ {w})",
+   "decl": "Causal.CupCapBTZCounterexample.natCausality",
+   "at": "Causal/Port/CupCapBTZCounterexample.lean:496",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.natCausality_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:77"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.natCausality_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:84"
+   },
+   "note": "",
+   "ledger_rows_resting_on_it": [
+    "ett:lem:cup_cap_BTZ"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.massiveOf κ",
+   "decl": "Causal.massiveOf",
+   "at": "Causal/Remarks/MassiveManifold.lean:319",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.massiveOf_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:111"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.absolutelyMinimal_of_forall",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:65"
+   },
+   "note": "on M: absolutelyMinimal_of_forall (massiveOf_hereditary κ)",
+   "ledger_rows_resting_on_it": [
+    "ett:cor:massA_cac",
+    "ett:cor:massA_causalite",
+    "ett:cor:pushup_sing",
+    "ett:defi:causal_Ealpha"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.massAModelCausality o (E≥0 family)",
+   "decl": "Causal.massAModelCausality",
+   "at": "Causal/Remarks/MassADEC25.lean:336",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.massAModelCausality_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:116"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.absolutelyMinimal_of_forall",
+    "at": "scaffold/CausalScaffold/GluingModels/Tools.lean:65"
+   },
+   "note": "on M: absolutelyMinimal_of_forall (massAModelCausality_hereditary o)",
+   "ledger_rows_resting_on_it": [
+    "ett:cor:K_injectif",
+    "ett:cor:K_ordre",
+    "ett:cor:K_ordre_Sigma",
+    "ett:cor:massA_cac",
+    "ett:cor:massA_causalite",
+    "ett:cor:pushup_sing",
+    "ett:def:cauchy_embedding_cauchy_extension",
+    "ett:def:singular_spacetime",
+    "ett:defi:causal_E0",
+    "ett:defi:causal_Ealpha",
+    "ett:lem:Cauchy_plongement_toutes",
+    "ett:lem:J_int",
+    "ett:lem:Sigma_separe",
+    "ett:lem:cup_cap_BTZ",
+    "ett:lem:cup_cap_sing",
+    "ett:lem:image_diamant",
+    "ett:lem:passe_pgcd",
+    "ett:lem:past_BTZ",
+    "ett:prop:K_calcul",
+    "ett:prop:K_densite_sing",
+    "ett:prop:K_monotone",
+    "ett:prop:mesure_admissible",
+    "ett:rem:CBG_manquant",
+    "ett:rem:K_plongement_hypotheses",
+    "ett:rem:btz_pas_tarentin",
+    "ett:rem:lorentz_tarentin",
+    "ett:rem:mesure_unilaterale",
+    "ett:rem:mesure_unilaterale_ptr",
+    "ett:rem:pas_plat",
+    "ett:rem:sing_tarentin",
+    "ett:rem:singular_flat_spacetime_therefore",
+    "ett:rem:tarentin_exemples",
+    "ett:theo:CBG",
+    "ett:theo:geroch_sing"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "every C with Causal.Causality.SingularFlatAxioms (singular flat)",
+   "decl": "Causal.Causality.SingularFlatAxioms",
+   "at": "Causal/SingularFlat.lean:177",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.singularFlatAxioms_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:62"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.Causality.SingularFlatAxioms.absolutelyMinimal",
+    "at": "Causal/SingularFlat.lean:184"
+   },
+   "note": "a field; SingularFlatSpacetime: Causal.GluingModels.singularFlatSpacetime_hereditary",
+   "ledger_rows_resting_on_it": [
+    "ett:cor:K_injectif",
+    "ett:cor:K_ordre",
+    "ett:def:singular_spacetime",
+    "ett:defi:causal_E0",
+    "ett:lem:Sigma_separe",
+    "ett:lem:corresponding_K",
+    "ett:lem:cup_cap_BTZ",
+    "ett:lem:past_BTZ",
+    "ett:prop:Cauchy_point_min",
+    "ett:prop:K_densite_sing",
+    "ett:prop:mesure_admissible",
+    "ett:rem:btz_pas_tarentin",
+    "ett:rem:lorentz_tarentin",
+    "ett:rem:mesure_unilaterale",
+    "ett:rem:pas_plat",
+    "ett:rem:singular_flat_spacetime_therefore",
+    "ett:rem:tarentin_exemples",
+    "ett:theo:CBG",
+    "ett:theo:geroch_sing",
+    "sbierski-mghd:mghdlem:FuturePoint",
+    "sbierski-mghd:mghdlem:SpacelikePoint"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "E≥0-manifolds: C with IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality",
+   "decl": "Causal.IsoChartsCoverDEC25",
+   "at": "Causal/Remarks/MassADEC25.lean:131",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved from on-M",
+    "decl": "Causal.GluingModels.eManifold_hereditary_of_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:96"
+   },
+   "on_M": {
+    "status": "carried (hmin)",
+    "decl": "Causal.SFALocal.causallyArcConnected",
+    "at": "Causal/Port/SFALocal.lean:602"
+   },
+   "note": "the two forms coincide here; E₀-manifolds: Causal.GluingModels.e0Manifold_hereditary (no hmin)",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.CBG.branchingCausality (non-Hausdorff)",
+   "decl": "Causal.CBG.branchingCausality",
+   "at": "Causal/CBG/Geometry.lean:1108",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.branchingCausality_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:123"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.branchingCausality_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:130"
+   },
+   "note": "through the local copy Causal.GluingModels.Gluing.causality_hereditary (sibling's pushout)",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.CBG.chartedCausality D M",
+   "decl": "Causal.CBG.chartedCausality",
+   "at": "Causal/CBG/Geometry.lean:418",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved (hGD, hA)",
+    "decl": "Causal.CBG.chartedCausality_absolutelyMinimalOn",
+    "at": "Causal/CBG/FromModel.lean:589"
+   },
+   "on_M": {
+    "status": "proved (hA)",
+    "decl": "Causal.CBG.chartedCausality_absolutelyMinimal",
+    "at": "Causal/CBG/FromModel.lean:583"
+   },
+   "note": "every CBG geometry: the field Causal.CBG.Geometry.absolutelyMinimalOn",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.Causality.withoutChronology C",
+   "decl": "Causal.Causality.withoutChronology",
+   "at": "Causal/LemmaKObstruction.lean:155",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved (C hereditary)",
+    "decl": "Causal.GluingModels.withoutChronology_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:141"
+   },
+   "on_M": {
+    "status": "proved (C on M)",
+    "decl": "Causal.GluingModels.withoutChronology_absolutelyMinimalOn",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:135"
+   },
+   "note": "applied at W = ⊤ with absolutelyMinimal_iff",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.sourceLine",
+   "decl": "Causal.sourceLine",
+   "at": "Causal/Remarks/Tarentin.lean:167",
+   "layer": "model",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.sourceLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:153"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.sourceLine_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:148"
+   },
+   "note": "NEW: Causality.ofRelation (cexemple:misner_tarentin)",
+   "ledger_rows_resting_on_it": [
+    "ett:cexemple:misner_tarentin"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.radialLine",
+   "decl": "Causal.radialLine",
+   "at": "Causal/Remarks/Tarentin.lean:219",
+   "layer": "model",
+   "hereditary": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.radialLine_not_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:161"
+   },
+   "on_M": {
+    "status": "refuted",
+    "decl": "Causal.GluingModels.radialLine_not_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelSingular.lean:156"
+   },
+   "note": "NEW: Causality.ofRelation (cexemple:misner_tarentin)",
+   "ledger_rows_resting_on_it": [
+    "ett:cexemple:misner_tarentin"
+   ],
+   "ladder_entries_resting_on_it": []
+  },
+  {
+   "object": "Causal.chronoMinkowski n (scaffold)",
+   "decl": "Causal.chronoMinkowski",
+   "at": "scaffold/CausalScaffold/GerochCauchy.lean:636",
+   "layer": "model",
+   "hereditary": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.chronoMinkowski_hereditary",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelScaffold.lean:51"
+   },
+   "on_M": {
+    "status": "proved",
+    "decl": "Causal.GluingModels.chronoMinkowski_minimal",
+    "at": "scaffold/CausalScaffold/GluingModels/ModelScaffold.lean:56"
+   },
+   "note": "via Causal.GluingModels.reflChrono_hereditary; module imports CausalScaffold.GerochCauchy",
+   "ledger_rows_resting_on_it": [],
+   "ladder_entries_resting_on_it": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.GluingModels.Gluing.causality_hereditary",
+  "Causal.GluingModels.Gluing.causality_minimal",
+  "Causal.GluingModels.absolutelyMinimal_of_forall",
+  "Causal.GluingModels.allRelated_circle_not_minimal",
+  "Causal.GluingModels.allRelated_not_minimal",
+  "Causal.GluingModels.allRelated_real_not_hereditary",
+  "Causal.GluingModels.arcCausality_jumpArc_not_minimal",
+  "Causal.GluingModels.bigCausality_not_minimal",
+  "Causal.GluingModels.bowtie_not_hereditary",
+  "Causal.GluingModels.bowtie_not_minimal",
+  "Causal.GluingModels.branchingCausality_hereditary",
+  "Causal.GluingModels.branchingCausality_minimal",
+  "Causal.GluingModels.chronalMembrane_dual_minimal",
+  "Causal.GluingModels.chronoMinkowski_hereditary",
+  "Causal.GluingModels.chronoMinkowski_minimal",
+  "Causal.GluingModels.closedHalfLine_hereditary",
+  "Causal.GluingModels.closedHalfLine_minimal",
+  "Causal.GluingModels.cosmicString_hereditary",
+  "Causal.GluingModels.cutLine_chain_of_timelike",
+  "Causal.GluingModels.cutLine_hereditary",
+  "Causal.GluingModels.cutLine_hereditary.match_1_1",
+  "Causal.GluingModels.cutLine_lt_chain",
+  "Causal.GluingModels.cutLine_minimal",
+  "Causal.GluingModels.densCausality_not_minimal",
+  "Causal.GluingModels.deuxPushup_not_hereditary",
+  "Causal.GluingModels.diagonalCausality_hereditary",
+  "Causal.GluingModels.diagonalCausality_minimal",
+  "Causal.GluingModels.doubledLine_not_hereditary",
+  "Causal.GluingModels.doubledLine_not_minimal",
+  "Causal.GluingModels.e0Manifold_hereditary",
+  "Causal.GluingModels.eManifold_hereditary_of_minimal",
+  "Causal.GluingModels.fan_not_hereditary",
+  "Causal.GluingModels.fan_not_minimal",
+  "Causal.GluingModels.far2Causality_not_minimal",
+  "Causal.GluingModels.forall_dual",
+  "Causal.GluingModels.forall_of_causallyArcConnected",
+  "Causal.GluingModels.fork_minimal",
+  "Causal.GluingModels.galileoCup",
+  "Causal.GluingModels.galileoCupOpens",
+  "Causal.GluingModels.galileoOn_not_minimal",
+  "Causal.GluingModels.galileoOn_point_hereditary",
+  "Causal.GluingModels.galileoOn_point_hereditary.match_1_1",
+  "Causal.GluingModels.galileoOn_real_not_minimal",
+  "Causal.GluingModels.galileo_not_hereditary",
+  "Causal.GluingModels.galileo_not_minimal",
+  "Causal.GluingModels.galileo_point_segment",
+  "Causal.GluingModels.galileo_zero_hereditary",
+  "Causal.GluingModels.gateLine_not_hereditary",
+  "Causal.GluingModels.gateLine_not_minimal",
+  "Causal.GluingModels.globalLine_not_hereditary",
+  "Causal.GluingModels.halfChronoLine_hereditary",
+  "Causal.GluingModels.halfLightLine_dual_minimal",
+  "Causal.GluingModels.halfPlane_hereditary",
+  "Causal.GluingModels.hereditary_of_reads",
+  "Causal.GluingModels.isClosed_galileoCup",
+  "Causal.GluingModels.isolatedLine_hereditary",
+  "Causal.GluingModels.isolatedLine_minimal",
+  "Causal.GluingModels.isomTransport_minimal",
+  "Causal.GluingModels.jumpArc",
+  "Causal.GluingModels.jumpArc.eq_1",
+  "Causal.GluingModels.jumpLine_not_hereditary",
+  "Causal.GluingModels.le_mem_of_split",
+  "Causal.GluingModels.le_top_of_chain_ne_top",
+  "Causal.GluingModels.linearCausality_nat_not_minimal",
+  "Causal.GluingModels.linearCausality_real_hereditary",
+  "Causal.GluingModels.loopFan_minimal",
+  "Causal.GluingModels.lt_mem_of_split",
+  "Causal.GluingModels.massAModelCausality_hereditary",
+  "Causal.GluingModels.massiveOf_hereditary",
+  "Causal.GluingModels.massive_hereditary",
+  "Causal.GluingModels.mem_connectedComponentIn_of_preconnected",
+  "Causal.GluingModels.minkowski_hereditary",
+  "Causal.GluingModels.natCausality_hereditary",
+  "Causal.GluingModels.natCausality_minimal",
+  "Causal.GluingModels.not_absolutelyMinimalOn_of_le_split",
+  "Causal.GluingModels.not_absolutelyMinimalOn_of_lt_split",
+  "Causal.GluingModels.not_absolutelyMinimal_of_le_of_ne",
+  "Causal.GluingModels.not_absolutelyMinimal_of_lt_of_ne",
+  "Causal.GluingModels.not_absolutelyMinimal_of_not_top",
+  "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+  "Causal.GluingModels.ofRelation_not_absolutelyMinimal",
+  "Causal.GluingModels.orderLine_not_hereditary",
+  "Causal.GluingModels.orderLine_not_minimal",
+  "Causal.GluingModels.pairCover",
+  "Causal.GluingModels.pointSpace_hereditary",
+  "Causal.GluingModels.pointSpace_minimal",
+  "Causal.GluingModels.pointedCover",
+  "Causal.GluingModels.pointedLineMR_not_hereditary",
+  "Causal.GluingModels.pointedLineMR_not_minimal",
+  "Causal.GluingModels.pointedLine_not_hereditary",
+  "Causal.GluingModels.pointedLine_not_minimal",
+  "Causal.GluingModels.pointed_chain_lt_one",
+  "Causal.GluingModels.puncturedPlane_not_hereditary",
+  "Causal.GluingModels.puncturedPlane_not_minimal",
+  "Causal.GluingModels.radialLine_not_hereditary",
+  "Causal.GluingModels.radialLine_not_minimal",
+  "Causal.GluingModels.reflChrono_absolutelyMinimalOn",
+  "Causal.GluingModels.reflChrono_absolutelyMinimalOn.match_1_1",
+  "Causal.GluingModels.reflChrono_hereditary",
+  "Causal.GluingModels.sierpinskiCausality_hereditary",
+  "Causal.GluingModels.singularFlatAxioms_hereditary",
+  "Causal.GluingModels.singularFlatSpacetime_hereditary",
+  "Causal.GluingModels.slopeCone_causallyArcConnected",
+  "Causal.GluingModels.slopeCone_hereditary",
+  "Causal.GluingModels.slopeCone_minimal",
+  "Causal.GluingModels.sourceLine_not_hereditary",
+  "Causal.GluingModels.sourceLine_not_minimal",
+  "Causal.GluingModels.spacelikeLine_hereditary",
+  "Causal.GluingModels.splitCover_covers",
+  "Causal.GluingModels.split_chain",
+  "Causal.GluingModels.split_link",
+  "Causal.GluingModels.spokes_hereditary",
+  "Causal.GluingModels.spokes_hereditary.match_1_1",
+  "Causal.GluingModels.staticCausality_hereditary",
+  "Causal.GluingModels.timeCylinder_hereditary",
+  "Causal.GluingModels.timelikeLineTop_not_hereditary",
+  "Causal.GluingModels.topEnlarge_not_absolutelyMinimal",
+  "Causal.GluingModels.topTotal_not_absolutelyMinimal",
+  "Causal.GluingModels.totalLine_not_hereditary",
+  "Causal.GluingModels.totalLine_not_minimal",
+  "Causal.GluingModels.transparentLine_not_hereditary",
+  "Causal.GluingModels.veeCausality_hereditary",
+  "Causal.GluingModels.wideCausality_not_minimal",
+  "Causal.GluingModels.withoutChronology_absolutelyMinimalOn",
+  "Causal.GluingModels.withoutChronology_hereditary"
+ ],
+ "local_copies_of_sibling_lemmas": {
+  "note": "Generic lemmas the sibling T-abs-gluing-generic may also prove; proved here under Causal.GluingModels, to be merged at graduation",
+  "decls": [
+   "Causal.GluingModels.absolutelyMinimal_of_forall",
+   "Causal.GluingModels.not_forall_of_not_absolutelyMinimal",
+   "Causal.GluingModels.not_absolutelyMinimal_of_not_top",
+   "Causal.GluingModels.forall_of_causallyArcConnected",
+   "Causal.GluingModels.forall_dual",
+   "Causal.GluingModels.hereditary_of_reads",
+   "Causal.GluingModels.Gluing.causality_minimal",
+   "Causal.GluingModels.Gluing.causality_hereditary",
+   "Causal.GluingModels.withoutChronology_absolutelyMinimalOn",
+   "Causal.GluingModels.withoutChronology_hereditary",
+   "Causal.GluingModels.reflChrono_absolutelyMinimalOn",
+   "Causal.GluingModels.reflChrono_hereditary",
+   "Causal.GluingModels.ofRelation_not_absolutelyMinimal"
+  ]
+ },
+ "kb_proposals": [
+  "Hereditary gluing of a concrete causality, three routes: causal arc-connectedness (Causal.GluingModels.forall_of_causallyArcConnected); a chain of an absolutely minimal neighbour avoiding the bad points (the cut line: timelike chain whose right ends avoid a, the step across a in one member of the cover); subdivision of a segment by exists_subdivision_Icc (spokes, galileo 0).",
+  "Refuting gluing: a relation across an open A ⊔ B with disjoint closures never survives the cover {M ∖ cl B, M ∖ cl A} (Causal.GluingModels.le_mem_of_split); hence on a T2.5 space every Causality.ofRelation relating two distinct points, and every relation 'x, y ∈ U and R x y', is not absolutely minimal (not_absolutelyMinimal_of_le_of_ne).",
+  "Galileo's spacetime ℝ^{n+1}, n ≥ 1, is not absolutely minimal: an open set with a cup-shaped wall and the cover {t > 1/4, t < 1/2} (Causal.GluingModels.galileoOn_not_minimal); at n = 0 it glues (galileoOn_point_hereditary).",
+  "Meta-scripts at this pin: ConstantInfo.value? returns none for theorems unless called with (allowOpaque := true); a dependency scan that forgets it silently misses every theorem body.",
+  "In ×ˢ membership proofs, give the point explicitly (show ((a, b) : X × Y) ∈ s ×ˢ t from ⟨_, _⟩): the anonymous constructor otherwise unifies the point with an unrelated pair whose first component matches."
+ ],
+ "notes": {
+  "for_the_master (graduation)": "Seven new modules under scaffold/CausalScaffold/GluingModels/, none imported by scaffold/CausalScaffold.lean (not mine to edit): add them to the scaffold root so the axiom sweep sees them (kb/0025). ModelScaffold imports CausalScaffold.GerochCauchy (which has a tagged sorry elsewhere in its file; ModelScaffold's own declarations use none) and must stay in the scaffold until GerochCauchy graduates; the six others import only Causal.* and each other (Minimal, NonMinimal, Pushout, ModelStatic, ModelSingular import Tools; ModelSingular imports Pushout). Every name lives in namespace Causal.GluingModels, so no collision with the strict library or the sibling. The four Lean scripts in campaign/T-abs-gluing-models/ (enumerate, uses, axioms, locate) are tools of this report, not library modules; gen_report.py rebuilds REPORT.json from their outputs. No build rebuilt a Causal.* or mathlib module (checked olean timestamps).",
+  "for_T-abs-gluing-design": [
+   "Form of the field (OQ-95): among the 75 inventoried objects only the transparent-point line separates the hereditary form from the form on M. Every other object that glues on M glues hereditarily, and for the E≥0-manifolds the two coincide by a theorem (Causal.GluingModels.eManifold_hereditary_of_minimal: on M ⇒ hereditary through SFALocal.causallyArcConnected).",
+   "Proof to supply at the field switch, per construction site: for most glued objects the hereditary proof is one line from causal arc-connectedness; the exceptions with hand proofs are cutLine (not arc-connected), rationalLine and rationalJumpPlane (existing, rational subdivision), veeCausality, sierpinskiCausality, diagonalCausality, pointSpace, galileo 0, spokesCausality (copy of the library proof with the cover of W), branchingCausality (via the pushout lemma).",
+   "Definitions that need a hypothesis to glue: arcCausality γ glues for continuous arcs only (Causal.GluingModels.arcCausality_jumpArc_not_minimal refutes a discontinuous one), so at the field switch the def needs (hγ : ∀ i, Continuous (γ i)) or the field proof does; spokesCausality A glues for A a cone (A arbitrary not treated); linearCausality X depends on the topology of X (ℝ glues, ℕ and ℚ do not: linearCausality_nat_not_minimal, Causal.rat_not_absolutelyMinimal); chartedCausality D M needs D hereditary (existing hA); withoutChronology C and reflChrono C glue when C does; topEnlarge C and topTotal D never glue on a T1 space once they enlarge (topEnlarge_not_absolutelyMinimal, topTotal_not_absolutelyMinimal), and Causality.ofRelation never glues on a T2.5 space once its relation relates two distinct points (ofRelation_not_absolutelyMinimal).",
+   "Objects that stop being causalities under DEC-167 (OQ-96), with the ETT rows whose Lean witnesses they are (direct use by a ledger declaration): gateLine (no row; 7 ladder entries); jumpLine (7 ladder); globalLine (2 ladder); deuxPushup (rem:deux_pushup; 4 ladder); timelikeLineTop (ex:open_subset, prop:GX_espace_temps_topo), topEnlarge (prop:GX_espace_temps_topo, Causal.GX_maximal_not_unique) and topTotal (rem:btz_pas_tarentin, Causal.SFALocalE0.e0_topTotal_separates); transparentLine under the hereditary form only (cexemple:point_transparent); galileo n ≥ 1 (rem:galileo_spacetime_not_strongly; 1 ladder); and, newly found here: pointedLine (rem:K_neq_I: bubble_need_not_meet_Kplus, pointedLine_Kplus_zero; 1 ladder), pointedLineMR (rem:mesure_unilaterale_ptr: pointedLineMR_obstruction_hypotheses and two more), puncturedPlane (rem:K_plongement_hypotheses: hypothesis_a_needed), orderLine (defi:fonction_temps: IsTimeFunctionOrder, orderLine_id_not_isTimeFunction), bowtie and fan (rem:causal_completeness_slightly_weaker: both separating witnesses), linearCausality ℚ (def:causally_complete, def:causally_connected: the rat_* witnesses), allRelated (lem:past_BTZ: LineDevelopment.circle_line), sourceLine and radialLine (cexemple:misner_tarentin), the four DensWitness causalities (prop:Cauchy_pgcd: its refutation witnesses, already disclosed as non-local), doubledLine and totalLine (no ledger row names them directly).",
+   "On a discrete space an absolutely minimal ≤ is the diagonal (AbsolutelyMinimalOn.eq_of_discrete), so under DEC-167 no discrete witness can separate causal compactness from causal completeness: rem:causal_completeness_slightly_weaker needs non-discrete witnesses (the bowtie and the fan are both discrete).",
+   "The ETT rows whose witnesses survive (absolutely minimal, hereditarily): ex:causalities_lines items 1-3 and Minkowski space, rem:K_neq_I's halfChronoLine and spokes witnesses, rem:K_plongement_hypotheses's spacelikeLine, lem:cup_cap_BTZ's natCausality, rem:K_borelien's spokes, every model row (static, massive, cosmic string, flat, E₀, E≥0 family, singular flat axioms)."
+  ],
+  "for_the_keeper (T-lad-gluing-reading)": [
+   "Beyond the planner's 20 [[fails]] entries with non-minimal witnesses (confirmed: gateLine 7, jumpLine 7, globalLine 2, deuxPushup_not_absolutelyMinimal 1, deux_pushup 2 of 3, galileo_not_stronglyCausal 1), one more rests on a non-minimal witness: Causal.pointedLine_separates_curveNested (curve_nested -> le_nested, pair sort), since Causal.pointedLine is not absolutely minimal (Causal.GluingModels.pointedLine_not_minimal). An absolutely minimal replacement exists in the library: Causal.rationalLine_separates_curveNested (Causal/NestedConverse.lean:413, the rational line curve-nested and not ≤-nested in the spacelike line), so the pair stays refuted under DEC-167 after a re-pointing.",
+   "The [[open]] entry inextensible_nested -> le_nested argues 'False' with the pointed line in the spacelike line, which is no causality under DEC-167; its argument needs another witness (the rational line is a candidate, not checked here).",
+   "The [[open]] entry chronal_neighbours -> absolutely_minimal (no-gluing reading) cites Galileo's spacetime; galileo_not_minimal now proves its non-minimality in Lean (its chronal neighbours are not proved here). Under DEC-167 the pair becomes implied anyway.",
+   "Witnesses checked and absolutely minimal (both forms), so their entries stay: lightlikeLine (incl. deux_pushup's push_up -> causally_plain), halfPlane (staticCausality (Ioi 0)), rationalLine, rationalJumpPlane, halfLightLine and its dual, halfChronoLine, isolatedLine, fork, loopFan, veeCausality, notchedCausality and dual, oneWayMembrane and dual, chronalMembrane and dual, spacelikeLine, timeCylinder, cutLine (not_isCauchySurface_of_nested_bare, not_globallyHyperbolic_of_nested_bare), timelikeLine.",
+   "causal_ladder was not used: the hereditary form is no ladder node, and the on-M forms follow from it in one step (absolutelyMinimal_of_forall)."
+  ]
+ }
+}

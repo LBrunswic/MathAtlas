@@ -5,6 +5,7 @@ import CausalScaffold.CompactCauchy
 import CausalScaffold.LemmaKSCOpen
 import CausalScaffold.GerochCauchy
 import CausalScaffold.SingularRowsGerochEquiv
+import CausalScaffold.GluingModels.ModelScaffold
 
 /-!
 # CausalScaffold
