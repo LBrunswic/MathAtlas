@@ -235,7 +235,11 @@ rediscover. One fact per entry.
 | [0227](entries/0227-binders-diff.md) | pattern | Check 'the original less some binders' mechanically |
 | [0228](entries/0228-lake-no-build-dry-run.md) | pattern | lake build --no-build is a dry run |
 | [0229](entries/0229-inextensible-through-t1.md) | pattern | InextensibleThrough on a smaller open needs only T1 on second countable spaces |
+| [0230](entries/0230-gluing-two-forms.md) | pattern | Gluing has two Lean forms; which constructions keep which |
 | [0231](entries/0231-gluing-proof-routes.md) | pattern | Proving a concrete causality glues hereditarily: three routes |
+| [0232](entries/0232-gluing-jump-lemma.md) | pattern | Refuting gluing: a relation never crosses between opens with disjoint closures |
+| [0233](entries/0233-gluing-pullback-open.md) | pattern | Pullback preserves gluing along open maps only |
 | [0234](entries/0234-gluing-galileo.md) | pattern | Galileo's spacetime does not glue for n ≥ 1 |
+| [0235](entries/0235-gluing-linear-order.md) | pattern | The causality of a linear order glues iff its intervals are connected enough |
 | [0236](entries/0236-value-allow-opaque.md) | pitfall | ConstantInfo.value? misses theorem bodies without allowOpaque |
 | [0237](entries/0237-prod-membership-point.md) | pitfall | Give the point explicitly in ×ˢ membership proofs |

@@ -1,0 +1,269 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-gluing-generic",
+ "files": [
+  "scaffold/CausalScaffold/GluingGeneric/Basic.lean",
+  "scaffold/CausalScaffold/GluingGeneric/Pullback.lean",
+  "scaffold/CausalScaffold/GluingGeneric/Generated.lean",
+  "scaffold/CausalScaffold/GluingGeneric/GX.lean",
+  "scaffold/CausalScaffold/GluingGeneric/OfRelation.lean",
+  "scaffold/CausalScaffold/GluingGeneric/Linear.lean"
+ ],
+ "builds": true,
+ "build_command": "cd lean-causal && for m in Basic Pullback Generated GX OfRelation Linear; do taskset -c 0-11 lake build CausalScaffold.GluingGeneric.$m; done  (each: Build completed successfully; only the six new modules were built, nothing in Causal.* or mathlib was rebuilt)",
+ "sorry_count": 0,
+ "axioms": "82 declarations of the six modules swept with Lean.collectAxioms: only propext, Classical.choice, Quot.sound",
+ "layer": "all six modules are ETT-layer: tools/ladder.py model_path is None for each (imports Causal.Morphism, Causal.CurveComponents, Causal.TransparentLine, Causal.CausalIsoInvariance, Causal.CBG.FamilyGluing, Causal.ChronalNeighbourBridge, Causal.Chains, Causal.SubExtension, and each other)",
+ "labels": [
+  {
+   "label": "lem:precausalite_engendre_minimale",
+   "tex_lines": [
+    498,
+    511
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Precausality.generated_absolutelyMinimalOn_all",
+    "Causal.Causality.generated_absolutelyMinimalOn_all",
+    "Causal.generated_single_transparentLine"
+   ],
+   "hypotheses": [
+    {
+     "paper": "each (≤^i,≪^i) absolutely minimal",
+     "here": "reading (hereditary)",
+     "note": "read as absolutely minimal on every open subset of U_i (∀ W ≤ U i, (P i).AbsolutelyMinimalOn W), with the hereditary conclusion ∀ W, AbsolutelyMinimalOn W. The M-only reading (hypothesis AbsolutelyMinimalOn (U i), conclusion AbsolutelyMinimal) is the library's marked anchor Causal.Precausality.generated_absolutelyMinimal; generated_single_transparentLine shows the M-only hypothesis does not give the hereditary conclusion (one chart U = ℝ, the transparent-point line)."
+    },
+    {
+     "paper": "(B) compatibility, (C) Baire (of theo:causalite_engendre)",
+     "here": "weakened",
+     "note": "not used"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "OQ-95: under a hereditary field, 'absolutely minimal' for the causality (≤^i,≪^i) of U_i reads 'on every open subset of U_i' (ETT.tex:508 uses it on W ∩ U_i only, which suffices for the M-only conclusion; the hereditary conclusion needs it on every open subset of U_i). Reading taken for the new lemma; both readings are now proved, the choice of record is the author's."
+   ]
+  },
+  {
+   "label": "ex:open_subset",
+   "tex_lines": [
+    259,
+    263
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.openSubset_not_unique_of_absolutelyMinimal",
+    "Causal.Causality.restrict_toSubtype_absolutelyMinimalOn_all",
+    "Causal.Causality.restrict_toSubtype_absolutelyMinimal_iff",
+    "Causal.transparentLine_restrict_toSubtype_not_absolutelyMinimal",
+    "Causal.Causality.pullback_absolutelyMinimalOn_all_of_isLocalHomeomorph",
+    "Causal.Causality.pullback_val_absolutelyMinimal_iff",
+    "Causal.transparentLine_pullback_val_not_absolutelyMinimal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N, M topological spacetimes (second countable Hausdorff)",
+     "here": "weakened",
+     "note": "not used"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:260 (first sentence): uniqueness is still false under gluing, in either form of the field. The restriction of the timelike line to ℝ and the diagonal causality of ℝ are both hereditarily minimal (so absolutely minimal) and both make the inclusion a strong morphism (Causal.openSubset_not_unique_of_absolutelyMinimal). DEC-167's 'uniqueness in ex:open_subset holds as printed' holds for the second sentence (Causal.LocalIsomorphism.unique, among absolutely minimal causalities) but not for the first: a strong morphism only asks the relations of W to imply those of M, and the diagonal is glued. The existing corrected forms (greatest causality; unique when the inclusion reflects the relations, InclusionStrong.eq_restrict) remain the true ones.",
+    "ETT.tex:260 existence: under the hereditary field the restriction of a causality to an open W is a causality on W (restrict_toSubtype_absolutelyMinimalOn_all); under the M-only field it is not in general (transparentLine_restrict_toSubtype_not_absolutelyMinimal: the transparent-point line restricted to ℝ ∖ {0}). Existence itself survives either way through the diagonal causality, which is glued.",
+    "ETT.tex:262 existence: under the hereditary field the pull-back along a local homeomorphism (the library's witness, Causality.pullback) is hereditarily minimal (pullback_absolutelyMinimalOn_all_of_isLocalHomeomorph); under the M-only field it need not be absolutely minimal even along an open embedding (transparentLine_pullback_val_not_absolutelyMinimal)."
+   ],
+   "questions": [
+    "Under an M-only field, does ex:open_subset's second sentence keep its existence half (some absolutely minimal causality on N making φ a local isomorphism)? The library's witness, the pull-back, fails along ℝ ∖ {0} → ℝ for the transparent-point line; in that example the timelike line on ℝ ∖ {0} should be a local isomorphism (argued, not formalized). Not settled in general; under the hereditary field the question does not arise."
+   ]
+  },
+  {
+   "label": "prop:GX_espace_temps_topo",
+   "tex_lines": [
+    589,
+    614
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.existsUnique_causality_GX_absolutelyMinimalOn_all",
+    "Causal.existsUnique_absolutelyMinimalOn_all_of_agree_locally"
+   ],
+   "hypotheses": [
+    {
+     "paper": "X Baire; M second countable Hausdorff",
+     "here": "weakened",
+     "note": "not used (as in the library's Causal.GXStructure)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Not a new reading: this adds the hereditary conclusion to the library's existsUnique_causality_GX_maximal (unique among absolutely minimal causalities), so the proposition's uniqueness holds under either form of the field (DEC-167). The label's anchor and its other readings (DEC-12, DEC-16) are the library's, curated by the master."
+   ]
+  }
+ ],
+ "table": [
+  {
+   "construction": "dual (Causality.dual)",
+   "hereditary": "preserved, both ways: Causal.Precausality.dual_absolutelyMinimalOn_all",
+   "m_only": "preserved, both ways: Causal.Causality.dual_absolutelyMinimal (library)"
+  },
+  {
+   "construction": "restriction carried by M (Causality.relativeTo U = (C.restrict U).extend)",
+   "hereditary": "preserved: Causal.Causality.relativeTo_absolutelyMinimalOn_all",
+   "m_only": "preserved: Causal.Causality.relativeTo_absolutelyMinimal (new; it fails on U itself: Causal.transparentLine_relativeTo_separates)"
+  },
+  {
+   "construction": "restriction as a spacetime ((C.restrict W).toSubtype; ex:open_subset; the CBG sub-extension 𝔊.restrict = this, Causal/CBG/Pgcd.lean:575)",
+   "hereditary": "preserved: Causal.Causality.restrict_toSubtype_absolutelyMinimalOn_all (criterion restrict_toSubtype_absolutelyMinimalOn_iff: on V' iff C on imageOpens V')",
+   "m_only": "FAILS: Causal.transparentLine_restrict_toSubtype_not_absolutelyMinimal; exact criterion Causal.Causality.restrict_toSubtype_absolutelyMinimal_iff (iff C.AbsolutelyMinimalOn W)"
+  },
+  {
+   "construction": "extension of a causality given on W (LocalPrecausality.extend, LocalCausality.extend)",
+   "hereditary": "preserved from 'hereditary on the opens of W': Causal.LocalPrecausality.extend_absolutelyMinimalOn_all, Causal.LocalCausality.extend_absolutelyMinimalOn_all",
+   "m_only": "AbsolutelyMinimalOn W ⇒ AbsolutelyMinimal: Causal.LocalPrecausality.extend_absolutelyMinimal (and on every W' ⊇ W: extend_absolutelyMinimalOn_of_le); the converse fails: Causal.transparentLine_relativeTo_separates"
+  },
+  {
+   "construction": "the bridge LocalCausality.toSubtype (a causality on W read on ↥W)",
+   "hereditary": "iff hereditary on the opens of W: Causal.LocalCausality.toSubtype_absolutelyMinimalOn_all_iff (pointwise: toSubtype_absolutelyMinimalOn_iff)",
+   "m_only": "iff L.extend.AbsolutelyMinimalOn W: Causal.LocalCausality.toSubtype_absolutelyMinimal_iff"
+  },
+  {
+   "construction": "diagonal causality of W (LocalCausality.diagonal)",
+   "hereditary": "preserved (always glued): Causal.LocalCausality.diagonal_extend_absolutelyMinimalOn",
+   "m_only": "idem"
+  },
+  {
+   "construction": "pullback along a continuous OPEN map, in particular a local homeomorphism or an open embedding (Causality.pullback; ex:open_subset second sentence)",
+   "hereditary": "preserved (D hereditary on the opens inside the range suffices): Causal.Causality.pullback_absolutelyMinimalOn_all, _of_isLocalHomeomorph, _of_isOpenEmbedding (step Causal.pullLink_refine)",
+   "m_only": "FAILS along an open embedding: Causal.transparentLine_pullback_val_not_absolutelyMinimal; criterion along Subtype.val: Causal.Causality.pullback_val_absolutelyMinimal_iff"
+  },
+  {
+   "construction": "pullback along a continuous map that is not open",
+   "hereditary": "FAILS: Causal.sierpinski_pullback_not_absolutelyMinimal (Bool discrete → Sierpiński Prop, Causal.not_isOpenMap_sierpinskiMap; the library's sierpinskiCausality is hereditarily minimal, as is every precausality on Prop: Causal.Precausality.absolutelyMinimalOn_prop)",
+   "m_only": "FAILS (same witness)"
+  },
+  {
+   "construction": "transport by a homeomorphism / causal isomorphism (Causality.transport, IsCausalIso)",
+   "hereditary": "preserved, both ways: Causal.IsCausalIso.absolutelyMinimalOn_all_iff, Causal.Causality.transport_absolutelyMinimalOn_all_iff",
+   "m_only": "preserved, both ways: Causal.IsCausalIso.absolutelyMinimal_iff (library), Causal.Causality.transport_absolutelyMinimal_iff"
+  },
+  {
+   "construction": "transport along a chart (Causality.chartTransport, chartLocal; the pieces of prop:GX_espace_temps_topo)",
+   "hereditary": "preserved (model absolutely minimal on the chart images): Causal.Causality.chartTransport_absolutelyMinimalOn_all",
+   "m_only": "FAILS: Causal.transparentLine_chartTransport_not_absolutelyMinimal (chart of ℝ ∖ {0}); criterion Causal.Causality.chartTransport_subtypeCoe_absolutelyMinimal_iff"
+  },
+  {
+   "construction": "generated causality (Precausality.generated / Causality.generated; lem:precausalite_engendre_minimale)",
+   "hereditary": "preserved from pieces hereditary on the opens of U i, no compatibility: Causal.Precausality.generated_absolutelyMinimalOn_all, Causal.Causality.generated_absolutelyMinimalOn_all; pieces only AbsolutelyMinimalOn (U i) do not suffice: Causal.generated_single_transparentLine",
+   "m_only": "preserved from AbsolutelyMinimalOn (U i): Causal.Precausality.generated_absolutelyMinimal (library)"
+  },
+  {
+   "construction": "gluing of local causalities agreeing locally (existsUnique_absolutelyMinimal_of_agree_locally)",
+   "hereditary": "the glued one is hereditary, unique among absolutely minimal: Causal.existsUnique_absolutelyMinimalOn_all_of_agree_locally",
+   "m_only": "library (existsUnique_absolutelyMinimal_of_agree_locally)"
+  },
+  {
+   "construction": "causality of a (G,X)-manifold (prop:GX_espace_temps_topo, maximal atlas)",
+   "hereditary": "hereditary, unique among absolutely minimal: Causal.existsUnique_causality_GX_absolutelyMinimalOn_all",
+   "m_only": "library (existsUnique_causality_GX_maximal)"
+  },
+  {
+   "construction": "transport along an open embedding (Causality.pushLocal, extended)",
+   "hereditary": "preserved: Causal.Causality.pushLocal_extend_absolutelyMinimalOn_all",
+   "m_only": "preserved on the whole target: Causal.Causality.pushLocal_extend_absolutelyMinimal (library: on the image, absolutelyMinimalOn_pushLocal_extend)"
+  },
+  {
+   "construction": "gluing of two spacetimes (Gluing.causality, the causality of defi:ppcm's gluing)",
+   "hereditary": "preserved, no compatibility used: Causal.Gluing.causality_absolutelyMinimalOn_all",
+   "m_only": "preserved, no compatibility used: Causal.Gluing.causality_absolutelyMinimal"
+  },
+  {
+   "construction": "gluing of a family (CBG.FamilyGlueData.causality)",
+   "hereditary": "preserved, no compatibility used: Causal.CBG.FamilyGlueData.causality_absolutelyMinimalOn_all",
+   "m_only": "library (FamilyGlueData.causality_absolutelyMinimal)"
+  },
+  {
+   "construction": "pieces of the ofOpens witness (FamilyGlueData.ofOpensCausality = pullback along an inclusion) and its glued causality",
+   "hereditary": "preserved: Causal.CBG.FamilyGlueData.ofOpensCausality_absolutelyMinimalOn_all, ofOpens_causality_absolutelyMinimalOn_all",
+   "m_only": "FAILS for a piece: criterion Causal.CBG.FamilyGlueData.ofOpensCausality_absolutelyMinimal_iff (iff Y on V i), witness the transparent-point line"
+  },
+  {
+   "construction": "the causality of curves: causally arc-connected causalities",
+   "hereditary": "library: Causal.Causality.CausallyArcConnected.absolutelyMinimalOn_all, CausallyArcConnectedOn.absolutelyMinimalOn; M-only + locally cac ⇒ hereditary: LocallyCausallyArcConnected.absolutelyMinimalOn (lem:precausalite_restriction_minimale)",
+   "m_only": "the two forms agree for locally cac causalities: Causal.Causality.LocallyCausallyArcConnected.absolutelyMinimal_iff_all"
+  },
+  {
+   "construction": "general locality principle",
+   "hereditary": "M-only + hereditary on the members of an open cover ⇒ hereditary: Causal.absolutelyMinimalOn_of_locally (library, GXStructure); one-chart support form: Causal.Precausality.absolutelyMinimalOn_of_supported",
+   "m_only": "Causal.Precausality.absolutelyMinimalOn_of_supported_of_le"
+  },
+  {
+   "construction": "causality from one global relation (Causality.ofRelation)",
+   "hereditary": "iff R and S lie in the diagonal (M Hausdorff): Causal.Causality.ofRelation_absolutelyMinimalOn_all_iff; sufficient with no hypothesis: ofRelation_absolutelyMinimalOn_of_eq",
+   "m_only": "iff R and S lie in the diagonal (M T₂.₅): Causal.Causality.ofRelation_absolutelyMinimal_iff. Sites: totalLine, fan, bowtie, puncturedPlane FAIL (Causal.totalLine_not_absolutelyMinimal, fan_, bowtie_, puncturedPlane_not_absolutelyMinimal); diagonalCausality, pointSpace hereditary (Causal.diagonalCausality_absolutelyMinimalOn_all, Causal.pointSpace_absolutelyMinimalOn_all)"
+  },
+  {
+   "construction": "causality of a linear order (linearCausality X; def:causal_chain reading (a))",
+   "hereditary": "preserved when every Icc is preconnected (order topology): Causal.linearCausality_absolutelyMinimalOn_all, _of_dense",
+   "m_only": "FAILS without it: Causal.linearCausality_int_not_absolutelyMinimal (also the library's Causal.rat_not_absolutelyMinimal for ℚ)"
+  },
+  {
+   "construction": "sub-extension constructions (CommonSubExtension.base, CommonOverExtension.self)",
+   "hereditary": "reuse the input causality (C₀, C₁): nothing to prove; the CBG restriction is the restriction as a spacetime above",
+   "m_only": "idem"
+  },
+  {
+   "construction": "subsingleton spaces (e.g. pointSpace on Unit)",
+   "hereditary": "every precausality: Causal.Precausality.absolutelyMinimalOn_of_subsingleton",
+   "m_only": "idem"
+  },
+  {
+   "construction": "not treated here",
+   "hereditary": "Causality.topEnlarge, topTotal, allRelated, timelikeLineTop (non-local by design; concrete witnesses: T-abs-gluing-models, whose Tools.lean has topEnlarge_/topTotal_not_absolutelyMinimal); model-layer constructions (Causal.Flat.IsomCausal isomTransport, CBG.Geometry): outside layer 1",
+   "m_only": ""
+  }
+ ],
+ "extra_decls": [
+  "Causal.GluingGeneric.transGen_of_image",
+  "Causal.GluingGeneric.transGen_flatten",
+  "Causal.GluingGeneric.reflTransGen_union",
+  "Causal.GluingGeneric.traceOpens",
+  "Causal.GluingGeneric.mem_traceOpens",
+  "Causal.GluingGeneric.imageOpens_traceOpens",
+  "Causal.GluingGeneric.imageOpens_inf",
+  "Causal.GluingGeneric.imageOpens_top",
+  "Causal.Precausality.absolutelyMinimalOn_congr",
+  "Causal.Precausality.absolutelyMinimalOn_of_supported",
+  "Causal.Precausality.absolutelyMinimalOn_of_supported_of_le",
+  "Causal.Precausality.absolutelyMinimalOn_of_subsingleton",
+  "Causal.Precausality.AbsolutelyMinimalOn.mem_of_le_sup",
+  "Causal.Precausality.AbsolutelyMinimalOn.mem_of_le_sup_of_disjoint",
+  "Causal.Precausality.absolutelyMinimalOn_prop",
+  "Causal.pullLink_refine",
+  "Causal.Causality.relativeTo_agree",
+  "Causal.Causality.pullback_val_agree",
+  "Causal.Causality.chartTransport_subtypeCoe_agree",
+  "Causal.sierpinskiMap",
+  "Causal.continuous_sierpinskiMap",
+  "Causal.not_isOpenMap_sierpinskiMap"
+ ],
+ "duplicates_to_merge": [
+  "Causal.GluingGeneric.imageOpens_top duplicates Causal.imageOpens_top (Causal/CBG/Pgcd.lean:127), which is model layer (Pgcd imports CBG.Geometry → SingularFlat) and so not importable here; the ETT-layer copy is mine.",
+  "With T-abs-gluing-models (scaffold/CausalScaffold/GluingModels/, names under Causal.GluingModels.*, so no clash): their Tools.ofRelation_not_absolutelyMinimal [T25] ≈ my Causality.ofRelation_absolutelyMinimal_iff (one direction); their split_link/split_chain/le_mem_of_split ≈ my AbsolutelyMinimalOn.mem_of_le_sup; their forall_dual ≈ my dual_absolutelyMinimalOn_all; their NonMinimal.totalLine_/bowtie_/fan_/puncturedPlane_not_minimal ≈ my *_not_absolutelyMinimal; their Minimal.diagonalCausality_hereditary, pointSpace_hereditary ≈ my diagonalCausality_absolutelyMinimalOn_all, pointSpace_absolutelyMinimalOn_all; their linearCausality_nat_not_minimal ≈ my linearCausality_int_not_absolutelyMinimal; their Pushout.Gluing.causality_minimal ≈ my Gluing.causality_absolutelyMinimal, and their Gluing.causality_hereditary takes CompatibleAlong where my Gluing.causality_absolutelyMinimalOn_all needs none; their transparentLine_not_hereditary ≈ the library's transparentLine_not_absolutelyMinimalOn. (Their files were read on 2026-11-22 while in progress.)"
+ ],
+ "kb_proposals": [
+  "Gluing has two Lean forms, the hereditary ∀ W, P.AbsolutelyMinimalOn W and the M-only P.AbsolutelyMinimal; CausalScaffold.GluingGeneric.* says for each generic construction which it preserves. The M-only form fails exactly where a construction makes an open piece a space of its own (toSubtype, pullback along open embeddings, chartTransport, ofOpens pieces); the witness is always the transparent-point line on ℝ ∖ {0}.",
+  "The restriction of a causality to an open W as a spacetime is (C.restrict W).toSubtype, and its absolute minimality on V' is C.AbsolutelyMinimalOn (imageOpens V') (LocalCausality.toSubtype_absolutelyMinimalOn_iff); C.relativeTo W is a different object (diagonal outside W) which preserves even the M-only form.",
+  "The jump lemma Precausality.AbsolutelyMinimalOn.mem_of_le_sup: an absolutely minimal relation never crosses between open sets whose closures do not meet; hence Causality.ofRelation glues iff its relations lie in the diagonal (T2 for the hereditary form, T₂.₅ for the M-only one), so every ofRelation witness off the diagonal is non-local.",
+  "Causality.pullback preserves gluing along open maps only (pullback_absolutelyMinimalOn_all; step pullLink_refine); along the continuous non-open bijection Bool → Prop it does not (sierpinski_pullback_not_absolutelyMinimal). Every precausality on Sierpiński space Prop is hereditarily minimal (Precausality.absolutelyMinimalOn_prop).",
+  "Lowering a chain through a map: GluingGeneric.transGen_of_image (the steps start in f '' s and lift between images of points of s); injectivity enters only in proving the step.",
+  "M-only plus hereditary on the members of an open cover gives hereditary: Causal.absolutelyMinimalOn_of_locally (Causal.GXStructure). So locally causally arc-connected causalities have the two forms equal (LocallyCausallyArcConnected.absolutelyMinimal_iff_all).",
+  "The causality of a linear order glues iff its closed intervals are connected enough: linearCausality_absolutelyMinimalOn_all needs every Icc preconnected (IsPreconnected.induction₂' with GluingGeneric.reflTransGen_union); ℤ and ℚ fail."
+ ],
+ "notes": "For T-abs-gluing-design (OQ-95). (1) Under the HEREDITARY field every generic construction of the ETT layer gets its gluing proof from these modules with hereditary inputs, with four exceptions that need a hypothesis or a change of type: Causality.pullback needs φ open (every library use is a local homeomorphism or an open embedding: pullback_localIsomorphism, FamilyGlueData.ofOpensCausality); Precausality.generated needs pieces hereditary on the opens of U i, stronger than the library's AbsolutelyMinimalOn (U i) (generated_single_transparentLine); Causality.ofRelation is a causality only with R, S in the diagonal on a Hausdorff space, so it should become a precausality-level constructor; linearCausality X needs preconnected intervals, and Causality.IsCausalChainMap (Causal/Chains.lean:110, def:causal_chain reading (a)) quantifies over every linearly ordered X with the order topology, so under the field either X is restricted or linearCausality becomes a precausality (WeakMorphism needs a Causality source). (2) Under the M-ONLY field, (C.restrict W).toSubtype, pullback along open embeddings and local homeomorphisms, chartTransport and the ofOpens pieces are not causalities without the added hypothesis 'C absolutely minimal on the relevant open' (exact criteria proved); dual, transport, relativeTo, extend (from AbsolutelyMinimalOn W), generated (from AbsolutelyMinimalOn (U i)), pushLocal.extend, both gluings and the (G,X) and agree-locally constructions are fine. (3) LocalCausality W has no gluing clause either; its natural forms are ∀ W' ≤ W, L.extend.AbsolutelyMinimalOn W' (hereditary) or L.extend.AbsolutelyMinimalOn W (M-only), equivalently those of L.toSubtype. (4) ex:open_subset's first-sentence uniqueness stays false under gluing (finding above); DEC-167's sentence on ex:open_subset should be read as the second sentence only. (5) Causal.puncturedPlane (Causal/LinesReachable.lean:584, an ofRelation witness) is not absolutely minimal (puncturedPlane_not_absolutelyMinimal); it is the witness of Causal.hypothesis_a_needed (rem:K_plongement_hypotheses, :750) and was not on the planner's non-minimal list, so T-abs-gluing-retype must restate it; a glued replacement with the same ≤ on M may be the causality of curves of the punctured plane (argued, not formalized). For the keeper: causal_ladder was not used, the hereditary form not being a ladder node; proposal, until OQ-95 rules: a node absolutely_minimal_hereditary (lean form ∀ W, C.AbsolutelyMinimalOn W) with edges hereditary ⇒ absolutely_minimal (absolutelyMinimal_iff), causally_arc_connected ⇒ hereditary (CausallyArcConnected.absolutelyMinimalOn_all), absolutely_minimal ∧ locally_causally_arc_connected ⇒ hereditary (LocallyCausallyArcConnected.absolutelyMinimalOn), and the fails entry absolutely_minimal ⇏ hereditary (transparentLine_absolutelyMinimal, transparentLine_not_absolutelyMinimalOn). For graduation: the six modules must be added to scaffold/CausalScaffold.lean (kb/0025); they import each other (Basic ← Pullback ← Generated ← GX; Basic ← OfRelation, Linear). Names are in the natural namespaces (Causality.*, Precausality.*, LocalCausality.*, Gluing.*, CBG.FamilyGlueData.*) so that the field switch can call them by dot notation; none collides with Causal/ or GluingModels/ as of this run (the one collision found, sierpinskiCausality with Causal/ChronalNeighbourBridge.lean:473, was removed by reusing the library's definition)."
+}

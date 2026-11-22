@@ -268,6 +268,12 @@ import Causal.GluingModels.NonMinimal
 import Causal.GluingModels.Pushout
 import Causal.GluingModels.ModelStatic
 import Causal.GluingModels.ModelSingular
+import Causal.GluingGeneric.Basic
+import Causal.GluingGeneric.Pullback
+import Causal.GluingGeneric.Generated
+import Causal.GluingGeneric.GX
+import Causal.GluingGeneric.OfRelation
+import Causal.GluingGeneric.Linear
 import Causal.Remarks.MassADEC25
 import Causal.Model.EAlphaSectors
 import Causal.Port.E0GXStructure
