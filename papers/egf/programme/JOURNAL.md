@@ -183,3 +183,13 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: 6064e77 cf0f61c (+ this) (hub) · 0ff8347 (v2)
 - for the planner (CHECK-1/2): l.697-698's motivation and 'two transformations are sufficient' against the 'four' of l.149, l.306, l.321; l.702's spectral-gap sentence (C-30's criterion without λ invariant; 'spectral gap' no longer defined); a definition of a kernel's ergodicity (Walters' invariant sets); π*(x,A) against π*(s→Y); the visible equation-counter gap (39)→(46); l.701's 'summably mixing' against the remark's λ̂ = λ
 - next: resume T-egf-repro-sphere and top up with the next corrector (`wave`: -defs or -families)
+
+## 2026-11-22 20:35 · wave of 2 (topped up) · T-egf-correct-defs; T-egf-repro-sphere (continues)
+- T-egf-correct-defs (correct): C-27, C-26 applied (v2 1fbdb0f): Definition 3.1 with a measurable policy summing to 1 and the generated group ergodic for λ (DEC-146); CHECK-1 minor, no fix round; register: C-27's printed line, its anchors without the topological EGF.IsEGF
+- T-egf-repro-sphere (repro): still running
+- corrections: 11 found, 2 proved, 6 adopted, 30 applied, 0 reviewed; 3 superseded
+- v2: 1fbdb0f EGF-C27,C26 (eight batches since camera-ready)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓
+- commits: f025740 5f52f56 (+ this) (hub) · 1fbdb0f (v2)
+- for the planner (CHECK-1 of -defs): Appendix A's restatement of the definition (v1 l.731: without the two clauses, nonsingular one way); the Expressivity sentence's 'Ergodicity' (group vs kernel); kernel ergodicity undefined in v2 while zero weights are allowed (read in Definition 3.1's sense Theorem 3.4 fails: the identity move with weight 1); l.319's 'a continuous family of EGFs'; the 'ergodic measures ξ' of l.142, l.216
+- next: top up with T-egf-correct-families
