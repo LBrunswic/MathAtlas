@@ -81,8 +81,8 @@ short = "GFN Bounds"
 cluster = "gfn"
 authors = "Brunswic et al."
 title = "Universality and Convergence of Generative Flows — Apps A, B, H"
-home = "lean (GFNBoundsLean, read-only)"
-summary = "Universality, the stable bounds, the Silva et al. comparison and the doubling-graph counterexample, in the GFNBoundsLean submodule pinned at 2e9865c. Not written from this hub."
+home = "lean (GFNBoundsLean, in-tree)"
+summary = "Universality, the stable bounds, the Silva et al. comparison and the doubling-graph counterexample, in GFNBoundsLean, which DEC-157 absorbed in-tree as the seed of lean/ (T-gfn-absorb, 24f4c85: a subtree merge of its main at 2e9865c). Its draft has no ledger in this hub, so the atlas shows its double DAG's counts and does not draw its rows."
 headline = []
 open = "Only terminal remarks, out of the target."
 
@@ -136,6 +136,17 @@ summary = "The averaged scalar curvature of a void is governed by the Yamabe ene
 headline = ["Yamabe.MeasuredModel.stability", "Yamabe.MeasuredModel.rem_sign"]
 open = "lem:stability and rem:sign are partial: an abstract layer, whose Riemannian anchoring waits on which cited analytic theorems become named externals (T-yamabe-scope, the author's). OQ-44 asks to confirm the layer's readings, and reports eq:hoelder's boundary line false as printed when Vol(B_j) < 1."
 
+[paper.perforated]
+short = "Perforated"
+cluster = "other"
+authors = "L. Brunswic · in preparation"
+title = "A capacitary lower bound for the doubly critical trace-Sobolev constant of a perforated manifold"
+home = "lean-yamabe (shared with yamabe)"
+source = "legacy perforated.tex (PositiveYamabeGap, 6c57c10)"
+summary = "The companion of the Yamabe gap paper, cited there as BrunswicPerforated (Yamabegap.bib:497–502). On a compact Riemannian manifold whose boundary has several components, the trace-Sobolev constant with both exponents critical is bounded below through a capacity (thm:main), under a quadratic Sobolev hypothesis that the paper proves with an explicit constant; the draft states the bound's asymptotic optimality for a small boundary (thm:sharp, open in the draft) and treats the punctured flat torus. Ledgered as a paper of its own by DEC-185 (T-yamabe-companion, 3af8e6b), so that the Lean mirror of the Yamabe research is self-contained; its Lean is lean-yamabe, with no label shared with yamabe."
+headline = []
+open = "The formalization has not started: no row names a Lean declaration yet. Closing yamabe's thm:lower-bound from it is T-yamabe-companion's second half; the story is a skeleton for the author (papers/perforated/STORY.md)."
+
 [lib."lean-causal"]
 what = "Topological spacetimes, flat Lorentzian geometry"
 about = "Strict library Causal (ETT layer and Causal.Flat for Barbot), scaffold CausalScaffold. Mathlib only."
@@ -153,7 +164,7 @@ package = "lean-benzecri"
 
 [lib."lean-egf"]
 what = "Ergodic generative flows"
-about = "Strict library EGF, scaffold EGFScaffold, a package of its own at the hub's pin (DEC-133). Mathlib only: GFNBoundsLean is not required, and absorbing it in-tree is OQ-1."
+about = "Strict library EGF, scaffold EGFScaffold, a package of its own at the hub's pin (DEC-133). Mathlib only: GFNBoundsLean, in-tree as lean/ since DEC-157, is not required."
 package = "lean-egf"
 
 [lib."lean-syracuse"]
@@ -167,8 +178,8 @@ about = "Strict library Yamabe, scaffold YamabeScaffold, a package of its own at
 package = "lean-yamabe"
 
 [lib."lean"]
-what = "GFNBoundsLean (read-only submodule)"
-about = "Not written from this hub: DEC-131 ended the DEC-2 freeze and kept the submodule read-only. Absorbing it in-tree is OQ-1."
+what = "GFNBoundsLean, in-tree"
+about = "DEC-157 (OQ-1) absorbed GFNBoundsLean in-tree as the seed of lean/ (T-gfn-absorb, 24f4c85); its gate runs as a hub package, and the other packages merge into it eventually (DEC-158). Its card reads lean/docs/COVERAGE.md, GFNBoundsLean's own coverage."
 package = ""
 
 [[edge]]
@@ -212,7 +223,14 @@ from = "gfnbounds"
 to = "egf"
 short = "GFN line"
 dashed = true
-why = "Both belong to the generative-flow line, and DEC-3 planned EGF on GFNBounds.Core. lean-egf has so far needed only Mathlib, with GFNBounds.Core as a template (DEC-133; lean-egf/campaign/T-egf-headline/REPORT.json); absorbing GFNBoundsLean in-tree is OQ-1, still open now that DEC-131 has ended the freeze."
+why = "Both belong to the generative-flow line, and DEC-3 planned EGF on GFNBounds.Core. lean-egf has so far needed only Mathlib, with GFNBounds.Core as a template (DEC-133; lean-egf/campaign/T-egf-headline/REPORT.json); GFNBoundsLean is in-tree as lean/ since DEC-157 (24f4c85), and the packages merge into it eventually (DEC-158)."
+
+[[edge]]
+from = "perforated"
+to = "yamabe"
+short = "thm:lower-bound"
+dashed = true
+why = "Yamabe's thm:lower-bound is not proved in its paper: its proof is given in the companion paper (Yamabegap.tex l.538, citing BrunswicPerforated, Yamabegap.bib:497–502; the yamabe ledger row's note). DEC-185 includes the companion so that the Lean mirror is self-contained: ledgered as papers/perforated (3af8e6b), with thm:lower-bound to be closed from it (T-yamabe-companion). Both papers live in lean-yamabe (papers/perforated/ledger/ledger.toml)."
 
 [[edge]]
 from = "lean-causal"

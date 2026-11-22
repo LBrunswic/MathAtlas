@@ -2,7 +2,7 @@
 """The atlas's Lean overlay: the Lean edges between a paper's labels, each with its witness.
 
     python3 lean_edges.py facts [PKG ...]   # RUNS LEAN: lean/facts-<pkg>.json, a local cache
-    python3 lean_edges.py edges             # no Lean: lean/edges-<paper>.json, committed
+    python3 lean_edges.py edges [PKG ...]   # no Lean: lean/edges-<paper>.json, committed
     python3 lean_edges.py status            # is each edge file current?
 
 `facts` feeds `lean_facts.lean`, behind one `import` per library of the package's lakefile, to
@@ -15,7 +15,9 @@ hashes, so a later rebuild of the package shows up as a stale overlay on the pag
 `edges` is `tools/doubledag.py`'s coupling, imported rather than re-implemented: `load` and
 `build` (principal projection, shortest witnesses, edge kinds), plus the flat projection's counts
 beside it. It reads the cached facts and the *current* ledgers, so it is cheap and is the target
-to rerun when only a ledger has moved.
+to rerun when only a ledger has moved. Given package names it rewrites only those packages' papers,
+so a refresh that skipped a busy package does not couple that package's older facts with a ledger
+that has since moved (its edge file stays as it was, and the page keeps calling it stale).
 
 The default `make` never comes here for Lean: build.py reads the committed edge files and
 `freshness()` compares them with the ledgers and packages as they are now.
@@ -135,12 +137,18 @@ def busy(pkg):
     return sorted(out)
 
 
-def cmd_facts(names):
+def selected(names):
+    """The packages of `packages()` named on the command line (all of them when none is)."""
     pk = packages()
     todo = [p for p in pk if not names or os.path.basename(p) in names]
-    if names and len(todo) != len(names):
+    if names and len(todo) != len(set(names)):
         sys.exit("lean_edges: unknown package among %s (known: %s)"
                  % (names, ", ".join(os.path.basename(p) for p in pk)))
+    return todo
+
+
+def cmd_facts(names):
+    todo = selected(names)
     body = open(os.path.join(HERE, "lean_facts.lean"), encoding="utf-8").read()
     os.makedirs(OUT, exist_ok=True)
     bad = 0
@@ -202,9 +210,11 @@ def dump(obj, path):
         fh.write("{\n" + ",\n".join(parts) + "\n}\n")
 
 
-def cmd_edges():
+def cmd_edges(names):
     os.makedirs(OUT, exist_ok=True)
-    for pkg, slugs in packages().items():
+    pk = packages()
+    for pkg in selected(names):
+        slugs = pk[pkg]
         fp = facts_path(pkg)
         if not os.path.exists(fp):
             print("lean_edges: no facts for %s: run `make -C reports/atlas lean-facts`" % os.path.basename(pkg))
@@ -296,7 +306,7 @@ def main(argv):
     if argv[0] == "facts":
         return cmd_facts(argv[1:])
     if argv[0] == "edges":
-        return cmd_edges()
+        return cmd_edges(argv[1:])
     return cmd_status()
 
 

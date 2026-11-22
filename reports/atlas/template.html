@@ -128,6 +128,8 @@ ol.wit .mono{display:block;font-family:var(--f-mono);font-size:.78rem;word-break
 ol.wit .loc{display:block;font-family:var(--f-mono);font-size:.7rem;color:var(--ink-3);word-break:break-all}
 .panel .warn{border-left:3px solid var(--partial);padding-left:10px}
 .panel details summary{cursor:pointer;color:var(--ink-2);font-size:.86rem}
+.panel details summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel details.more summary{margin-top:2px}
 .panel .prov{font-size:.78rem;color:var(--ink-3)}
 .cluster rect{fill:none;stroke:var(--line);stroke-dasharray:2 4;rx:14}
 .cluster text{fill:var(--ink-3);font-family:var(--f-body);font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:600}
@@ -633,7 +635,7 @@ function showStmt(p,n){
   P.innerHTML=`<div><h3>${esc(kindLabel(n))}${n.title?" · "+esc(n.title):""} · l.${n.line}</h3><h2 class="mono" style="font-family:var(--f-mono);font-size:1.02rem">${esc(n.id)}</h2></div>
    <div class="chips">${chipFor(s)}${n.bucket?`<span class="chip">bucket ${esc(n.bucket)}</span>`:""}<span class="chip">paper: ${esc(n.nl)}</span>${n.twin?`<span class="chip">twin of ${esc(n.twin)}</span>`:""}</div>
    <div class="tex" id="tex">${texHTML(n.tex)}</div>
-   ${n.decls.length?`<div><h3>Lean (${n.ndecls})</h3><div class="mono">${n.decls.map(esc).join("<br>")}${n.ndecls>n.decls.length?"<br>…":""}</div></div>`:""}
+   ${n.decls.length?`<div><h3>Lean (${n.ndecls})</h3>${monoList(n.decls,12)}</div>`:""}
    ${n.deps.length?`<div><h3>Uses</h3><div class="linklist">${n.deps.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
    ${users.length?`<div><h3>Used by</h3><div class="linklist">${users.map(x=>`<button data-l="${esc(x)}">${esc(x)}</button>`).join("")}</div></div>`:""}
    ${stmtLeanHTML(p,n)}
@@ -643,11 +645,17 @@ function showStmt(p,n){
   P.querySelectorAll("[data-l]").forEach(bt=>bt.onclick=()=>openStatement(p,bt.dataset.l));
   wireLean(); P.scrollTop=0; typeset(p);
 }
+// The first k names, and the rest behind a native disclosure (keyboard-reachable, no script).
+function monoList(xs,k){
+  const rest=xs.slice(k);
+  return `<div class="mono">${xs.slice(0,k).map(esc).join("<br>")}</div>`
+    +(rest.length?`<details class="more"><summary>and ${rest.length} more</summary><div class="mono">${rest.map(esc).join("<br>")}</div></details>`:"");
+}
 function stmtLeanHTML(p,n){
   const L=LE[p]; if(!L||!L.summary.labels_with_lean) return "";
   const pr=L.principals[n.id]||[], out=L.bySrc[n.id]||[], inn=L.byTgt[n.id]||[];
   if (!pr.length&&!out.length&&!inn.length) return "";
-  return `${pr.length?`<div><h3>Lean principals (${pr.length})</h3><div class="mono">${pr.slice(0,8).map(esc).join("<br>")}${pr.length>8?`<br>… and ${pr.length-8} more`:""}</div></div>`:""}
+  return `${pr.length?`<div><h3>Lean principals (${pr.length})</h3>${monoList(pr,8)}</div>`:""}
    ${out.length?`<div><h3>Lean edges: uses (${out.length})</h3><div class="linklist">${out.map(e=>leanBtn(p,e,e.t)).join("")}</div></div>`:""}
    ${inn.length?`<div><h3>Lean edges: used by (${inn.length})</h3><div class="linklist">${inn.map(e=>leanBtn(p,e,e.s)).join("")}</div></div>`:""}
    ${out.length||inn.length?`<p class="prov">Coloured by kind: ${["both","lean-only","tex-only"].map(k=>`<span class="chip lk ${KCLS[k]}">${KNAME[k]}</span>`).join(" ")}. Select one for its witness.</p>`:""}`;

@@ -59,7 +59,7 @@ for p in PAPERS:
         if len(tex)>1400: tex=tex[:1400]+" …"
         nodes.append({"id":r["label"],"block":bid,"kind":r["kind"],"num":r["number"],"title":r["title"] or "",
             "bucket":r.get("bucket") or "","lean":r.get("lean_proved") or "","nl":r["nl_status"] or "","line":r["line"],
-            "deps":[d for d in r["deps"] if d!=r["label"]],"decls":(r.get("decls") or [])[:12],"ndecls":len(r.get("decls") or []),
+            "deps":[d for d in r["deps"] if d!=r["label"]],"decls":r.get("decls") or [],"ndecls":len(r.get("decls") or []),
             "findings":r.get("paper_findings") or [],"notes":(r.get("notes") or "")[:600],"twin":r.get("twin_of") or "","tex":tex})
     ids={n["id"] for n in nodes}
     for n in nodes: n["deps"]=[d for d in n["deps"] if d in ids]

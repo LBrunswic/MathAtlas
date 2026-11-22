@@ -13,9 +13,12 @@
 #                     writes lean/edges-<paper>.json (committed)
 #   make lean         both, in that order
 #   make lean-status  is each edge file still what `make lean` would write?
+# PKGS="lean-gx lean-benzecri" restricts lean-facts, lean-edges and lean to those packages (and their
+# papers), so that a refresh after a wave leaves a busy package's facts and edge files alone.
 SHELL := /bin/bash
 .SHELLFLAGS := -o pipefail -c
 LOGS ?=
+PKGS ?=
 
 atlas.html: extract.py build.py lean_edges.py template.html hub.toml ../../roadmap/roadmap.toml \
             ../../papers/egf/programme/roadmap.toml ../../papers/egf/programme/corrections.toml $(wildcard lean/edges-*.json)
@@ -29,10 +32,10 @@ lean: lean-facts
 	$(MAKE) lean-edges
 
 lean-facts:
-	python3 lean_edges.py facts
+	python3 lean_edges.py facts $(PKGS)
 
 lean-edges:
-	python3 lean_edges.py edges
+	python3 lean_edges.py edges $(PKGS)
 
 lean-status:
 	python3 lean_edges.py status
