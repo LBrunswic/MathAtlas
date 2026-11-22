@@ -204,3 +204,6 @@ rediscover. One fact per entry.
 | [0196](entries/0196-point-between-on-curve.md) | pattern | A point of γ between two points of c lies on c, with no closed J^±(x) |
 | [0197](entries/0197-btz-point-above-every-cauchy-surface.md) | pattern | A BTZ point in J⁺(S) ∖ S for every Cauchy surface S when sing₀ ≠ ∅ |
 | [0198](entries/0198-chronology-in-causal-sfa.md) | pattern | Chronology at every point of a causal SingularFlatAxioms spacetime |
+| [0199](entries/0199-jminus-open-from-pushup.md) | pattern | J⁻ of every open set is open under push-up and Z⁺ = M |
+| [0200](entries/0200-diamond-compact-at-e-manifolds.md) | pattern | J⁺(Σ) ∩ J⁻(p) is compact at every globally hyperbolic E≥0-manifold, with no limit curves |
+| [0201](entries/0201-cauchy-diamond-rows-hypothesis-free.md) | pattern | CauchyDiamond's rows hold with no named hypothesis at every pair of E≥0-manifolds |

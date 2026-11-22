@@ -176,6 +176,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.BubbleK` | — | /atlas-team (T-ett-bubble-kplus): `rem:K_neq_I`'s bubble sentence is false under the other hypotheses of `prop:tarentin_fort_K` (Minkowski space with one spoke); the true form from `lem:K_facile`; cites, unmarked (partial): `rem:K_neq_I`; 2026-11-22 |
 | `Causal.SingularCauchy` | — | /atlas-team (T-ett-sigma-separe): A Cauchy surface separates, without the splitting: the « In particular » of `lem:Sigma_separe` under `SingularFlatAxioms`, causality only; cites, unmarked (partial): `lem:Sigma_separe`; 2026-11-22 |
 | `Causal.Remarks.SingularRowsCauchy` | — | /atlas-team (T-ett-sigma-separe): A Cauchy surface separates at every `E_{≥0}`-manifold; `cor:K_ordre_Sigma` for every Cauchy surface; Cauchy embeddings; cites, unmarked (partial): `lem:Sigma_separe`, `cor:K_ordre_Sigma`, `lem:Cauchy_plongement_toutes`; 2026-11-22 |
+| `Causal.Remarks.SingularRowsDiamond` | — | /atlas-team (T-ett-diamant-rows): `lem:image_diamant` and `lem:passe_pgcd` at every pair of `E_{≥0}`-manifolds, with the compactness of `J⁺(Σ) ∩ J⁻(p)` by Zorn on time graphs; cites, unmarked (partial): `lem:image_diamant`, `lem:passe_pgcd`; 2026-11-22 |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

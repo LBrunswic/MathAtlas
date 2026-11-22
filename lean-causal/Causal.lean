@@ -286,6 +286,7 @@ import Causal.Remarks.SingularRowsGeroch
 import Causal.BubbleK
 import Causal.SingularCauchy
 import Causal.Remarks.SingularRowsCauchy
+import Causal.Remarks.SingularRowsDiamond
 
 /-!
 # Causal — topological spacetimes

@@ -1,0 +1,96 @@
+{
+  "package": "T-ett-diamant-rows",
+  "target": "T-ett-diamant-rows",
+  "files": [
+    "scaffold/CausalScaffold/SingularRowsDiamond.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:image_diamant",
+      "tex_lines": [2024, 2040],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.SingularRowsDiamond.image_diamant",
+        "Causal.SingularRowsDiamond.diamond_subset_range",
+        "Causal.SingularRowsDiamond.isCompact_Jplus_inter_Jminus",
+        "Causal.SingularRowsDiamond.isCompact_Jplus_inter_Jminus_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsDiamond.rows_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsDiamond.nonvacuous_e0",
+        "Causal.SingularRowsDiamond.nonvacuous_e0_natural",
+        "Causal.Causality.SingularFlatAxioms.isCompact_Jplus_inter_Jminus",
+        "Causal.Causality.SingularFlatAxioms.isCompact_Jplus_inter_Jminus_of_modelMeasures",
+        "Causal.Causality.SingularFlatAxioms.isCompact_Jminus_inter_of_isCauchySurface",
+        "Causal.Causality.SingularFlatAxioms.isOpen_Jminus",
+        "Causal.Causality.isOpen_Jminus_of_pushUp"
+      ],
+      "hypotheses": [
+        {"paper": "M a globally hyperbolic singular flat spacetime (l.2025)", "here": "read", "note": "DEC-25, OQ-18: [SingularGXStructure (Flat.isom 2) (Minkowski 2) M], C absolutely minimal with IsoChartsCoverDEC25 over massAModelCausality, as in Causal.Remarks.SingularRowsCauchy; the natural causality in rows_of_isAtlasCausalityDEC25. Global hyperbolicity carried by IsCauchyEmbedding.globallyHyperbolic_source"},
+        {"paper": "« manifold »: Hausdorff, second countable (M and N)", "here": "carried", "note": "[T2Space _] [SecondCountableTopology _] for M and N"},
+        {"paper": "connected (def:singular_spacetime, l.1502)", "here": "weakened", "note": "not used"},
+        {"paper": "Σ a Cauchy surface of M (l.2025)", "here": "carried", "note": "every Cauchy surface (DEC-14), not only the one i carries onto a Cauchy surface of N (lem:Cauchy_plongement_toutes, IsCauchyEmbedding.isCauchySurface_image)"},
+        {"paper": "i : M → N a Cauchy extension (l.2026, def:cauchy_embedding_cauchy_extension)", "here": "carried", "note": "as ruled (DEC-17): IsCauchyEmbedding C D i (both globally hyperbolic, IsEMorphism, injective, some Cauchy surface onto a Cauchy surface); N an E_{>=0}-manifold as M (D absolutely minimal, IsoChartsCoverDEC25)"},
+        {"paper": "p ∈ J⁺_M(Σ) (l.2026)", "here": "carried", "note": "hp : p ∈ C.Jplus ⊤ S"},
+        {"paper": "« Since M is globally hyperbolic K is compact » (l.2032-2033)", "here": "carried", "note": "proved, no Lean hypothesis: isCompact_Jplus_inter_Jminus, for every Cauchy surface and every p (finding 1)"},
+        {"paper": "M = J⁺(Σ) ∪ J⁻(Σ), used at l.2036-2037", "here": "carried", "note": "proved: IsCauchySurface.cover_of_t1_secondCountable (finding 2)"},
+        {"paper": "N causally arc-connected, curves of N extend (used for i(Σ) acausal)", "here": "carried", "note": "proved: SFAManifolds.singularFlatAxioms (field causallyArcConnected), curvesExtend_of_t1_secondCountable"}
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2032-2033 « Since M is globally hyperbolic K is compact » (the recorded finding cites l.2031-2032; the sentence is at l.2032-2033). This is a gap in the argument; the statement is fine. def:globally_hyperbolic gives compact diamonds J(p,q) between two points, and the compactness of K = J⁺(Σ) ∩ J⁻(p) does not follow from them directly. It does hold at every globally hyperbolic, Hausdorff, second countable E_{>=0}-manifold, for every Cauchy surface Σ and every p, not only p ∈ J⁺(Σ) (Causal.SingularRowsDiamond.isCompact_Jplus_inter_Jminus). The route is not the paper's. (a) J⁻(W) is open for every open W, from Z⁺ = M and push-up (Causal.Causality.isOpen_Jminus_of_pushUp). (b) J^±(Σ) are closed (lem:Sigma_separe's « In particular », wave 30), and Σ is acausal. (c) A continuous τ strictly increasing along ≤ exists (theo:geroch_sing (i)⇒(ii)). (d) Zorn on time graphs inside the past-noncompact set gives J⁻(p) ∩ Σ compact (Causal.Flat.CBGCompact, no limit curves). (e) Finitely many open diamonds I(a_k, b_k) cover J⁻(p) ∩ Σ, and J⁺(Σ) ∩ J⁻(p) is closed in the union of the compact diamonds J(a_k, p) (CBG.isCompact_Jplus_inter_Jminus_of_isCompact). Suggest: state the compactness as a lemma before lem:image_diamant, citing (a)-(e) or O'Neill 14.40 for the smooth analogue.",
+        "ETT.tex:2036-2037 « it stays above Σ because c(1)=q ∈ K'' lies above i(Σ) and Σ is a Cauchy surface ». The relation σ' ≤ q holds in N, not in M. The step uses M = J⁺(Σ) ∪ J⁻(Σ) and the acausality of i(Σ) in N: a point of the pulled-back curve in J⁻_M(Σ) is then forced onto Σ. M = J⁺(Σ) ∪ J⁻(Σ) holds on every T1, second countable space, for any causality and any Cauchy surface: every point lies on an inextensible causal curve, and that curve meets Σ (Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable). So the proof needs neither lem:Sigma_separe (stated later, l.2062) nor its splitting ψ. Suggest: « every point of M lies on an inextensible causal curve, which meets Σ, so M = J⁺(Σ) ∪ J⁻(Σ); and i(Σ) is acausal in N ». This rewords the recorded finding, whose two inputs are now proved."
+      ],
+      "questions": [
+        "No new reading. J_M(Σ, p), with a set as its first argument, is read J⁺_M(Σ) ∩ J⁻_M(p). That extends def:diamonds, which takes two points, and it is Causal.CauchyDiamond's reading. Readings carried, not chosen here: DEC-17 (an E_{>=0}-morphism is IsEMorphism), DEC-25 and OQ-18 (the manifolds and their causalities), DEC-14 (Cauchy surface), OQ-34/OQ-35 (E₀) and OQ-82 (the group) in the witnesses."
+      ]
+    },
+    {
+      "label": "lem:passe_pgcd",
+      "tex_lines": [2042, 2060],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.SingularRowsDiamond.passe_pgcd_printed",
+        "Causal.SingularRowsDiamond.passe_pgcd",
+        "Causal.SingularRowsDiamond.passe_pgcd_explicit",
+        "Causal.SingularRowsDiamond.diamond_subset_range",
+        "Causal.SingularRowsDiamond.rows_of_isAtlasCausalityDEC25",
+        "Causal.SingularRowsDiamond.nonvacuous_e0",
+        "Causal.SingularRowsDiamond.nonvacuous_epi"
+      ],
+      "hypotheses": [
+        {"paper": "M, Σ, i as in lem:image_diamant (l.2043-2044)", "here": "read", "note": "as for lem:image_diamant: DEC-25, OQ-18, DEC-17, Hausdorff and second countable carried for M and N, connected not used"},
+        {"paper": "p ∈ ∂ i(M) ∩ J⁺(i(Σ)) (l.2044)", "here": "carried", "note": "carried exactly in passe_pgcd_printed (p ∈ frontier (range i) ∩ D.Jplus ⊤ (i '' S)). Weakened in passe_pgcd and passe_pgcd_explicit to p ∈ closure (range i). That set contains ∂ i(M) ∩ J⁺(i(Σ)), so these theorems are stronger than the printed one, which is derived from them"},
+        {"paper": "N second countable (for the sequence p_n, l.2051)", "here": "carried", "note": "first countability is all that is used, and it follows from [SecondCountableTopology N]"},
+        {"paper": "prop:K_calcul on sing₀(N) (l.2059)", "here": "carried", "note": "proved: Sing = SFALocal.sing N 0, K⁻(q) = I⁻(q) off it and K⁻(q) = J⁻(q) ∖ {q} on it, N causal (SFABTZ.K_calcul with hi.globallyHyperbolic_target.1)"},
+        {"paper": "compactness, M = J⁺(Σ) ∪ J⁻(Σ), curves extend (through lem:image_diamant)", "here": "carried", "note": "proved, as for lem:image_diamant"}
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2058-2059 (recorded, stays). lem:image_diamant is applied to p_n ∈ i(M), but nothing shows i⁻¹(p_n) ∈ J⁺_M(Σ). For a point of J⁻_M(Σ), the diamond J_N(i(Σ), p_n) is {p_n} by acausality of i(Σ). That case is Causal.SingularRowsDiamond.diamond_subset_range, which now holds at every point of M with no Lean hypothesis left.",
+        "ETT.tex:2044: neither half of the hypothesis p ∈ ∂ i(M) ∩ J⁺(i(Σ)) is used. The inclusion K⁻_N(p) ∩ J⁺(i(Σ)) ⊂ i(M) and both explicit forms hold for every p in the closure of i(M) (Causal.SingularRowsDiamond.passe_pgcd, passe_pgcd_explicit; already noted in the ledger's notes). The printed form is passe_pgcd_printed. Nothing needs to change. The uses apply it at points of ∂ j₁(N): in lem:corresponding_K (l.2129-2132) at p ∈ ∂ j₁(N) ∩ J⁺(Σ₁), as printed. In prop:Cauchy_point_min (l.2294, 2301) it is applied at the points P_n, P_0 = p for an arbitrary (p,q) ∈ C (l.2276). There p ∈ J⁺(Σ₁) is never stated; it is only implicit in step (B), « c : [0,T*[ → J⁺(Σ₁) with c(0) = P » (l.2280-2281). The closure form needs no such check.",
+        "ETT.tex:2059 « The two explicit forms follow from Proposition prop:K_calcul »: true at every E_{>=0}-manifold. The BTZ branch K⁻(p) = J⁻(p) ∖ {p} needs N causal, which N is, being globally hyperbolic (SFABTZ.K_calcul). No change."
+      ],
+      "questions": [
+        "No new reading. ∂ i(M) is read as the topological frontier of range i in N; i(M) as range i; K⁻_N(p) as D.Kminus ⊤ {p}; J_N(i(Σ), p) as J⁺_N(i(Σ)) ∩ J⁻_N(p), as for lem:image_diamant. Readings carried: DEC-17, DEC-25, OQ-18, DEC-14, and OQ-34/OQ-35 and OQ-82 in the witnesses."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.isOpen_Jminus_of_pushUp",
+    "Causal.Causality.SingularFlatAxioms.isOpen_Jminus",
+    "Causal.Causality.SingularFlatAxioms.isCompact_Jminus_inter_of_isCauchySurface",
+    "Causal.Causality.SingularFlatAxioms.isCompact_Jplus_inter_Jminus",
+    "Causal.Causality.SingularFlatAxioms.isCompact_Jplus_inter_Jminus_of_modelMeasures",
+    "Causal.SingularRowsDiamond.isCompact_Jplus_inter_Jminus",
+    "Causal.SingularRowsDiamond.isCompact_Jplus_inter_Jminus_of_isAtlasCausalityDEC25"
+  ],
+  "kb_proposals": [
+    "J⁻ of every open set is open under push-up and Z⁺ = M: Causal.Causality.isOpen_Jminus_of_pushUp (model-free, but in a module that imports Causal.Flat.CBG; hoist on demand, kb/0061). Under SingularFlatAxioms it is SingularFlatAxioms.isOpen_Jminus. It discharges hJo of Flat.CBGCompact (T-ett-diamant-rows).",
+    "J⁺(Σ) ∩ J⁻(p) is compact for every Cauchy surface Σ and every p of a globally hyperbolic E_{>=0}-manifold: Causal.SingularRowsDiamond.isCompact_Jplus_inter_Jminus. At the SFA level: SingularFlatAxioms.isCompact_Jplus_inter_Jminus (τ a hypothesis) and _of_modelMeasures. This route uses CBGCompact's Zorn and needs no limit curves. Use it for any named hK or R1 (sigmaCompact) hypothesis of a singular row (T-ett-diamant-rows).",
+    "The four CauchyDiamond theorems hold with no named hypothesis at every pair of Hausdorff, second countable E_{>=0}-manifolds: Causal.SingularRowsDiamond.image_diamant, diamond_subset_range, passe_pgcd, passe_pgcd_explicit (Sing = sing₀(N)), and the printed form passe_pgcd_printed. The time-reversed J⁻(Σ) ∩ J⁺(p) is not proved: dualising the openness argument needs Z⁻ = M, which fails at BTZ points (T-ett-diamant-rows)."
+  ],
+  "notes": "Graduation: move scaffold/CausalScaffold/SingularRowsDiamond.lean to Causal/Remarks/SingularRowsDiamond.lean (module Causal.Remarks.SingularRowsDiamond). It imports only strict modules (Causal.Flat.CBG, Causal.Remarks.SingularRowsCauchy). It typechecks with -DwarningAsError=true, with no warning. Every one of its 16 declarations depends only on propext, Classical.choice and Quot.sound (#print axioms against the built olean). `lake build CausalScaffold.SingularRowsDiamond` ran once at the end and built that module only (1 job of 8763), with nothing upstream rebuilt. The import line in Causal.lean and a README module-table row are the master's. Every step of the planner's ROUTE (a)-(d) compiled as written; nothing failed. One deviation: for (b) it uses CBGCompact's GH form GloballyHyperbolic.isCompact_Jminus_inter_of_isCauchySurface (tarentin given), rather than the general form with GloballyHyperbolic.isClosed_le spelled out; the two are equivalent. The SCOPE option of a Cauchy extension that is not onto was not built, because there is no cheap witness between E_{>=0}-manifolds (an open sub-spacetime would need a subtype causality, against kb/0001). The witnesses use the identity of E₀ (BTZ branch, at a BTZ point p ∈ J⁺(S) ∖ S with I⁻(p) = ∅) and of E_π (regular branch). So, as with CauchyDiamond's own witnesses, they meet passe_pgcd's hypothesis only at points of range i, and passe_pgcd_printed's never. The ledger's recorded finding for lem:image_diamant cites ETT.tex:2031-2032; the sentence is at 2032-2033. Not discharged: the model-free conjecture CausalScaffold.GerochCauchy's isCompact_Jminus_inter_Jplus_of_isCauchySurface (l.788). It has no SingularFlatAxioms and no global hyperbolicity. This file proves its conclusion only for SingularFlatAxioms spacetimes that are globally hyperbolic and carry a continuous τ strictly increasing along ≤. No row is marked: OQ-18, OQ-34, OQ-35 and OQ-82 remain."
+}

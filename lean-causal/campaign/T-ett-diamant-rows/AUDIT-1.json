@@ -1,0 +1,53 @@
+{
+  "target": "T-ett-diamant-rows",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:image_diamant",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against ETT.tex:2024-2040 hypothesis by hypothesis. SingularRowsDiamond.image_diamant (scaffold/CausalScaffold/SingularRowsDiamond.lean:196) assumes M and N Hausdorff and second countable (def:category_topological_spacetimes, l.254-255, so these come from the paper), both causalities absolutely minimal with IsoChartsCoverDEC25 over massAModelCausality (the DEC-25/OQ-18 reading, the same as SingularRowsCauchy, SingularRowsGeroch and SFAManifolds.singularFlatAxioms), i an IsCauchyEmbedding (DEC-17: both globally hyperbolic, injective IsEMorphism, some Cauchy surface carried onto one; this matches def:cauchy_embedding_cauchy_extension l.1858-1862), S any Cauchy surface (DEC-14) and p in J+(S). Its conclusion is i''(J+(S) ∩ J-(p)) = J+(i''S) ∩ J-(i p), which is the paper's equation in the CauchyDiamond reading J(A,q) = J+(A) ∩ J-(q) (def:diamonds l.342-347, extended to a set). The only Lean hypothesis left on M is hG, which the paper has. No tau and no extra global-hyperbolicity hypothesis: the M-level compactness isCompact_Jplus_inter_Jminus (:182) takes only hmin, hC, hG, hS and the T2/second-countable instances, and gets tau from SingularRowsGeroch.geroch_sing_i_imp_ii, whose signature (Causal/Remarks/SingularRowsGeroch.lean:385) has the same hypotheses. Connectedness (l.1502) is dropped (weakened). diamond_subset_range (:210) holds at every m and is stronger than what the paper's proof of lem:passe_pgcd uses. The compactness route is sound: CBGCompact.GloballyHyperbolic.isCompact_Jminus_inter_of_isCauchySurface (Causal/Flat/CBGCompact.lean:384) and CBG.isCompact_Jplus_inter_Jminus_of_isCompact (Causal/Flat/CBG.lean:425) are used with exactly the inputs their signatures list, and every one of them is discharged from SingularFlatAxioms, hG and hS. The row is correctly partial and unmarked: it rests on readings (OQ-18, OQ-34/35, OQ-82), not on an added hypothesis. Both findings are true. 2032-2033 is where the sentence is (the ledger's 2031-2032 is off by one), and the sentence does not follow from def:globally_hyperbolic (l.995-997) directly. M = J+(Σ) ∪ J-(Σ) is IsCauchySurface.cover_of_t1_secondCountable (Causal/SingularCauchy.lean:110), which needs only T1 and second countability. See minor findings 3 and 4 on the wording of finding 1 and the curated decl list."
+    },
+    {
+      "label": "lem:passe_pgcd",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against ETT.tex:2042-2060. passe_pgcd_printed (:257) carries the printed hypothesis exactly, p ∈ frontier(range i) ∩ J+(i''S). Its conclusion is the inclusion K-(p) ∩ J+(i''S) ⊆ range i, together with both explicit forms: I-(p) ∩ J+(iS) ⊆ range i when p ∉ sing0(N), and (J+(iS) ∩ J-(p)) minus {p} ⊆ range i when p ∈ sing0(N). D.Kminus matches defi:futur_continue (Causal/Reachable.lean:98, the same intersection over sequences and union over N of the interior within J-(p)). SFALocal.sing N 0 is the angle-0 (BTZ) singular set, as in SFABTZ.K_calcul. passe_pgcd (:224) and passe_pgcd_explicit (:239) assume only p ∈ closure(range i). The closure contains the paper's set because frontier ⊆ closure (frontier_subset_closure, used at :267), so they are at least the paper's statement. N's first countability comes from its second countability. The two K_calcul inputs are discharged by SFABTZ.K_calcul (Causal/Port/SFABTZ.lean:656), with N causal from hi.globallyHyperbolic_target.1. This matches prop:K_calcul (iii), which asks for causality. All three findings are true. 2058-2059 is the right place: the sentence applying lem:image_diamant to p_n is at l.2058-2059, and nothing shows that i⁻¹(p_n) ∈ J+_M(Σ). The closure form makes 'neither half used' true, since the boundary hypothesis is used only through the closure. The use sites (l.2129-2132, 2276, 2280-2281, 2294, 2301) are cited correctly. Correctly partial and unmarked. The printed form's hypothesis is never met by a witness, and no non-surjective IsCauchyEmbedding exists anywhere in Causal/ or scaffold/ (checked by grep). It is derived from passe_pgcd, whose hypothesis is met, so the label's certificate is not vacuous. The curation should still say so (minor finding 1)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "lake env lean -DwarningAsError=true scaffold/CausalScaffold/SingularRowsDiamond.lean: exit 0, no output. lake build CausalScaffold.SingularRowsDiamond --no-build: 'All targets up-to-date (8763 jobs)', so the olean is the current source (mtime 00:09:15, olean 00:09). No sorry, admit, axiom, native_decide or implemented_by in the file; the one 'sorry' is in the docstring prose at l.33. #print axioms on all 16 declarations listed by the REPORT gives [propext, Classical.choice, Quot.sound]. The probe was campaign/T-ett-diamant-rows/AxiomProbe.lean; it has been deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SingularRowsDiamond.lean:311-313, 83-86",
+      "what": "All the witnesses use the identity, so every inclusion and equality of both labels holds trivially there: range id = univ, and id''A = A makes image_diamant's equation an identity. What the witnesses exercise non-trivially is the hypothesis package (two E≥0-manifolds with a Cauchy embedding between them, a BTZ point p ∈ J+(S) minus S with I-(p) = ∅) and the compactness of J+(S) ∩ J-(p) at that BTZ point. SCOPE says this for passe_pgcd and passe_pgcd_printed, but nonvacuous_e0's docstring says 'lem:image_diamant holds' without saying that this is trivial at the identity. No Lean witness has a nonempty frontier(range i): the library contains no non-surjective IsCauchyEmbedding (grep over Causal/ and scaffold/). So passe_pgcd_printed's hypothesis is not shown satisfiable in Lean. The label is not vacuous, because the stronger passe_pgcd carries it, but the case the paper is about (p on the boundary of a proper extension) is never instantiated.",
+      "fix": "The curation states it on both rows: 'witnesses at the identity only; the hypotheses are inhabited, including a BTZ point, and so is the compactness, but the inclusions and equalities are trivial there; no Cauchy extension that is not onto is built, so the printed hypothesis p ∈ ∂ i(M) ∩ J+(iΣ) is never met in Lean.' Optionally, on graduation, add one clause to nonvacuous_e0's docstring saying that the image_diamant conjunct is trivial at id."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-diamant-rows/REPORT.json:72",
+      "what": "The finding is labelled 'ETT.tex:2058-2059 (recorded, stays)'. The ledger's recorded finding (papers/ett/ledger, lem:passe_pgcd paper_findings) cites ETT.tex:2054-2055, which are 'this particular sequence…' and 'Intersecting with…'. The sentence that applies lem:image_diamant to p_n is at 2058-2059. The REPORT fixes the line silently, whereas for lem:image_diamant (2031-2032 to 2032-2033) it says so.",
+      "fix": "When curating, change the recorded finding's line reference from 2054-2055 to 2058-2059."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-diamant-rows/REPORT.json:16-27 (lem:image_diamant decls)",
+      "what": "The label's decl list includes the SFA-level SingularFlatAxioms.isCompact_Jplus_inter_Jminus (tau as a hypothesis) and isCompact_Jplus_inter_Jminus_of_modelMeasures (ModelMeasures as a hypothesis). No M-level theorem uses _of_modelMeasures, so if it is curated under lem:image_diamant it becomes a principal of the label in the double DAG, and that principal carries a hypothesis the paper does not have.",
+      "fix": "List only the M-level declarations under the label (image_diamant, diamond_subset_range, isCompact_Jplus_inter_Jminus, its _of_isAtlasCausalityDEC25 form, rows_of_isAtlasCausalityDEC25 and the witnesses). Keep the SFA-level and model-free lemmas in extra_decls, where they already are."
+    },
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-diamant-rows/REPORT.json:42-43 (lem:image_diamant findings 1 and 2)",
+      "what": "Finding 1 suggests 'state the compactness as a lemma before lem:image_diamant, citing (a)-(e)'. Its step (b) is lem:Sigma_separe's 'In particular' (J±(Σ) closed). That lemma is stated after (l.2062) and is marked editorial at l.2070, so the suggestion as worded creates a forward reference. Finding 2 says the proof 'needs neither lem:Sigma_separe'. That is true of the step at l.2036-2037, the only one it discusses, but the compactness route of finding 1 does use lem:Sigma_separe's closedness. Read together, the two findings could tell the author that lem:image_diamant does not depend on lem:Sigma_separe at all. Both findings are mathematically true.",
+      "fix": "In finding 1, say that the compactness lemma must come after lem:Sigma_separe, or that the 'In particular' of lem:Sigma_separe must be moved before lem:image_diamant. In finding 2, add 'for this step'."
+    }
+  ],
+  "scope": "git status --short shows only roadmap/roadmap.toml (the master's), this campaign directory, scaffold/CausalScaffold/SingularRowsDiamond.lean (dispatched), and the other closer's SingularRowsSplitting.lean, SingularSplitting.lean and campaign/T-ett-geroch-split-flow/ (ignored). git diff HEAD -- lean-causal is empty: no tracked file was edited, Causal.lean's import line included. The campaign directory held only REPORT.json before this audit.",
+  "docstring_contract": "kb/0006 is met. Title; the labels with their ETT.tex lines (2024, 2042, both correct), written unmarked; the quotes are verbatim (l.2025-2027, 2032-2033, 2043-2048); a hypothesis checklist whose rows are true; a '## SCOPE (disclosed)' block, which the ledger's SCOPE_BLOCK regex captures; the Provenance line. There is no bold-backtick label form anywhere in the file: tools/ledger.py's docstring_label_re finds nothing. The bold phrases at l.35 and 37 begin with '**`' but are not label forms and are not matched."
+}
