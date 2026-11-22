@@ -281,6 +281,7 @@ import Causal.Port.ModelRowsE0
 import Causal.Port.BPrimeE0
 import Causal.Model.EAlphaContinuation
 import Causal.Model.EAlphaGX
+import Causal.Model.EAlphaPlain
 import Causal.SFATransfer
 import Causal.Port.SFALocalE0
 import Causal.Port.MeasuresE0

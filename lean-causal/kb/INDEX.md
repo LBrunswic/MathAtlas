@@ -244,3 +244,5 @@ rediscover. One fact per entry.
 | [0236](entries/0236-value-allow-opaque.md) | pitfall | ConstantInfo.value? misses theorem bodies without allowOpaque |
 | [0237](entries/0237-prod-membership-point.md) | pitfall | Give the point explicitly in ×ˢ membership proofs |
 | [0238](entries/0238-forward-rule-instance-cost.md) | pitfall | A forward rule with instance arguments pays a failing synthesis at every goal |
+| [0239](entries/0239-static-causally-plain.md) | pattern | Static spacetimes, hence E_α and Minkowski, are causally plain |
+| [0240](entries/0240-causally-plain-on-restrict.md) | pitfall | No lemma restricts CausallyPlain to CausallyPlainOn W |

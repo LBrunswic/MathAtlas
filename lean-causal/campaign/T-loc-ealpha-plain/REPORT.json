@@ -1,0 +1,155 @@
+{
+  "package": "lean-causal",
+  "target": "T-loc-ealpha-plain",
+  "files": [
+    "scaffold/CausalScaffold/EAlphaPlain.lean"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake env lean scaffold/CausalScaffold/EAlphaPlain.lean && taskset -c 0-11 lake build CausalScaffold.EAlphaPlain",
+  "build_result": "lake env lean: no output (no error, no warning); lake build CausalScaffold.EAlphaPlain: 'Build completed successfully (3133 jobs)', only the new module built (dry run --no-build showed [3133/3133] as the only out-of-date target). #print axioms of every new declaration: [propext, Classical.choice, Quot.sound].",
+  "sorry_count": 0,
+  "provides": {
+    "property": "causally_plain",
+    "lean": "Causal.Causality.CausallyPlain",
+    "model": "E_alpha",
+    "decls": [
+      "Causal.cosmicString_causallyPlain",
+      "Causal.massive_causallyPlain",
+      "Causal.staticCausality.causallyPlain"
+    ],
+    "statement_of_record": "Causal.cosmicString_causallyPlain : ∀ {α : ℝ} [Fact (0 < α)], (cosmicString α).CausallyPlain (DEC-188's 3+1 form); the 2+1 corollary Causal.massive_causallyPlain : (massive α).CausallyPlain; both one-line instances of Causal.staticCausality.causallyPlain : ∀ {X} [MetricSpace X] [GeodesicSpace X], (staticCausality X).CausallyPlain"
+  },
+  "labels": [
+    {
+      "label": "lem:passe_coherent",
+      "tex_lines": [
+        837,
+        839
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [
+        "Causal.cosmicString_causallyPlain",
+        "Causal.massive_causallyPlain"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M causally plain",
+          "here": "carried",
+          "note": "supplied at E_α: cosmicString_causallyPlain (3+1, of record), massive_causallyPlain (2+1); the row's own theorem is Causal.Causality.Jminus_Iminus_eq_of_mem_Zminus (Causal.Reachable), unchanged; an `example` in EAlphaPlain.lean applies it at cosmicString α with staticCausality.mem_Zminus"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:tarentin_fort_K",
+      "tex_lines": [
+        850,
+        853
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [
+        "Causal.cosmicString_causallyPlain",
+        "Causal.massive_causallyPlain"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M causally plain",
+          "here": "carried",
+          "note": "supplied at E_α by the two instances; the row's theorem Causal.Causality.Kminus_eq_Iminus_of_mem_Zminus applies as stated (two `example`s in EAlphaPlain.lean, at cosmicString α and massive α, with Z⁻ = M). Its conclusion K⁻(p) = I⁻(p) was already known at static spacetimes through push-up (Causal.staticCausality.Kminus_eq_Iminus, Causal/Static.lean:1125)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:K_calcul",
+      "tex_lines": [
+        1557,
+        1563
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [
+        "Causal.massive_causallyPlain"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M an E_{≥0}-manifold (its (a), (b) through prop:tarentin_fort_K, proof l.1565)",
+          "here": "carried at the model only",
+          "note": "at the model E_α (sing_0 = ∅) the plainness prop:tarentin_fort_K asks is now massive_causallyPlain; at E_{≥0}-manifolds it was already Causal.SFALocal.causallyPlain (Causal/Port/SFALocal.lean:607, DEC-25 reading); the row's Lean form avoids plainness altogether (PushUp.Kminus_eq_Iminus, OQ-16)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "ETT.tex proves no causal plainness of E_α or of E_{≥0}-manifolds, while prop:K_calcul's proof (l.1565, 'a direct consequence of Proposition prop:tarentin_fort_K') needs it for (a), (b): the ledger's triaged finding on prop:K_calcul. At the model E_α it is a one-line theorem from push-up and chronal neighbours (massive_causallyPlain); the author may want a sentence after rem:pushup (l.1374) saying E_α is causally plain."
+      ],
+      "questions": []
+    },
+    {
+      "label": "rem:K_plongement_hypotheses",
+      "tex_lines": [
+        951,
+        958
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [
+        "Causal.cosmicString_causallyPlain",
+        "Causal.massive_causallyPlain"
+      ],
+      "hypotheses": [
+        {
+          "paper": "'around which M is causally plain' (l.954)",
+          "here": "carried",
+          "note": "supplied at E_α globally (hence around every point); the row reads it as 'M causally plain' (its ledger note), which these instances meet"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "cor:K_lorentzien",
+      "tex_lines": [
+        884,
+        886
+      ],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [
+        "Causal.minkowski_causallyPlain"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M a Lorentzian manifold",
+          "here": "carried at Minkowski only",
+          "note": "not an E_α row: E_α is not Lorentzian at its axis. The abstract core Causal.Causality.K_lorentzien takes causal plainness (or push-up); minkowski_causallyPlain supplies the plain form at ℝ^{1,n}; Causal.minkowski_K_lorentzien already goes through push-up"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Causal.staticCausality.causallyPlain",
+    "Causal.staticCausality.causallyPlainOn",
+    "Causal.massive_causallyPlain",
+    "Causal.massive_causallyPlainOn_regOpens",
+    "Causal.cosmicString_causallyPlain",
+    "Causal.cosmicString_causallyPlainOn_offAxis",
+    "Causal.minkowski_causallyPlain",
+    "Causal.halfPlane_causallyPlain",
+    "Causal.halfPlane_causallyPlain_not_causallyCompact"
+  ],
+  "kb_proposals": [
+    "Every static spacetime ℝ × X (X any geodesic metric space, neither complete nor proper needed) is causally plain: Causal.staticCausality.causallyPlain = pushUp.causallyPlain_of_chronalNeighbours chronalNeighbours; E_α, the cosmic string, Minkowski and the half-plane are one-line instances (CausalScaffold.EAlphaPlain, T-loc-ealpha-plain).",
+    "The ETT layer has no CausallyPlain.causallyPlainOn (Causal.Properties has causallyPlainOn_top only); the restriction to an open W is `fun U _ A => h U A`, inlined in staticCausality.causallyPlainOn; a one-line candidate for Causal.Properties."
+  ],
+  "notes": "(1) Layer-3 form: each theorem concludes Causal.Causality.CausallyPlain, the `lean` of ladder id causally_plain (programme/ladder.toml:420–423), so ETT's theorems taking plainness apply at E_α without restatement (three `example`s at the end of the file: lem:passe_coherent at cosmicString α, prop:tarentin_fort_K at cosmicString α and massive α). (2) Imports: Causal.Model.EAlphaCauchy (staticCausality.chronalNeighbours), Causal.CausallyPlainLocZ (the edge), Causal.ChainsCurves (only for the half-plane: geodesicSpace_Ioi_zero and halfPlane_hypotheses); the file touches no existing module and none of the files of T-loc-ealpha-tidy. No sorry, no warning; graduation to Causal/Model/ needs no change but the module path (the names are in namespace Causal, no name clash with the strict library: the file elaborates against it). (3) For the binder target T-bind-ealpha-entries: no row of papers/sbierski-mghd/certificate/binder.toml or papers/ers-predictability/certificate/binder.toml lists causally_plain in its localisation (grep -c plain: 0 in both, 2026-11-22), so no binder row gains an E_alpha causally_plain entry now; should a row acquire causally_plain, its E_alpha entry's `by` is Causal.cosmicString_causallyPlain (DEC-188, record) with Causal.massive_causallyPlain cited as the 2+1 corollary (α_H = α/2π). ETT has no binder; its rows consuming plainness are listed under labels (lem:passe_coherent, prop:tarentin_fort_K, rem:K_plongement_hypotheses at E_α; prop:K_calcul's (a), (b) at the model; cor:K_lorentzien at Minkowski), each 'not-attempted' because this file re-proves none of them and only supplies their causally_plain hypothesis. (4) For the ladder keeper: the half-plane's plainness (Causal.halfPlane_causallyPlain_not_causallyCompact, plain ∧ ¬ CausallyCompact) is a second witness of causally_plain ⇏ causally_compact, globally_hyperbolic, pairs already classified 'fails' (tools/ladder.py matrix, 2026-11-22); it settles no new pair. (5) Not built here: plainness of E_α-manifolds, already Causal.SFALocal.causallyPlain (absolutely minimal, IsoChartsCoverDEC25)."
+}

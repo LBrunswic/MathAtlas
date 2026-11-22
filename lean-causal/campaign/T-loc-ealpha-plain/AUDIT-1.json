@@ -1,0 +1,83 @@
+{
+  "target": "T-loc-ealpha-plain",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:passe_coherent",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, status not-attempted: honest, the file proves no ETT statement and only supplies the plainness hypothesis. The first `example` (EAlphaPlain.lean:127-129) applies the row's anchor Causal.Causality.Jminus_Iminus_eq_of_mem_Zminus (C.CausallyPlain → p ∈ C.Zminus → J⁻(I⁻ p) = I⁻ p) at cosmicString α with cosmicString_causallyPlain and staticCausality.mem_Zminus p. It elaborates, so the instance has the anchor's form. tex_lines [837, 839] are correct."
+    },
+    {
+      "label": "prop:tarentin_fort_K",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, not-attempted. The second and third `example`s (:131-136) apply Causal.Causality.Kminus_eq_Iminus_of_mem_Zminus ([FirstCountableTopology M], CausallyPlain, p ∈ Z⁻) at cosmicString α and at massive α, with Z⁻ = M (staticCausality.mem_Zminus, massive_Zminus ▸ mem_univ). FirstCountableTopology is synthesised. The claim that this was already known through push-up checks out: Causal.staticCausality.Kminus_eq_Iminus is at Causal/Static.lean:1125. tex_lines [850, 853] are correct."
+    },
+    {
+      "label": "prop:K_calcul",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, not-attempted. The finding is true. ETT.tex states causal plainness of no model and of no E_{≥0}-manifold: grep of 'plain' finds only l.217, 283-325, 478 (an example line), 523-535 (the localisation clause of theo:causalite_engendre), 554, 837-872 and 954-955. Yet the proof at l.1565 ('Only the third case is not a direct consequence of Proposition prop:tarentin_fort_K') derives (a) and (b) from a proposition that assumes plainness (l.851). The finding agrees with the ledger's paper_findings[0] on prop:K_calcul and with OQ-16 (ruled DEC-168). Line citations l.1565 and l.1374 (rem:pushup) are correct, and tex_lines [1557, 1563] are correct. Causal.SFALocal.causallyPlain is at Causal/Port/SFALocal.lean:607, as cited. See finding 2 on how far the suggested repair goes."
+    },
+    {
+      "label": "rem:K_plongement_hypotheses",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, not-attempted. The note on 'around which M is causally plain' (l.954-955) matches the ledger row's reading, which takes it as global plainness ('⚠ strengthened'). Global plainness of E_α meets that reading. tex_lines end at 958, the block at 959 (finding 1)."
+    },
+    {
+      "label": "cor:K_lorentzien",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, not-attempted. The REPORT correctly says this is not an E_α row. minkowski_causallyPlain (n : ℕ), every n (n = 0 included), supplies the plain form of the abstract core Causal.Causality.K_lorentzien at ℝ^{1,n}. minkowski n is staticCausality (EuclideanSpace ℝ (Fin n)) (Causal/Minkowski.lean:76), geodesic through GeodesicSpace.ofNormedSpace. tex_lines [884, 886] are correct."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "ran": [
+      "hostname → node1",
+      "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/EAlphaPlain.lean → exit 0, no output",
+      "grep -c sorry scaffold/CausalScaffold/EAlphaPlain.lean → 0",
+      "probe /tmp/audit-ealpha-plain/Probe.lean (the module's source plus #print axioms and #check, run with lake env lean from lean-causal/; deleted afterwards): all 9 new declarations → [propext, Classical.choice, Quot.sound]",
+      "#check: staticCausality.causallyPlain : ∀ {X} [MetricSpace X] [GeodesicSpace X], (staticCausality X).CausallyPlain; staticCausality.pushUp and staticCausality.chronalNeighbours take exactly [MetricSpace X] [GeodesicSpace X] (no completeness, properness or separation); PushUp.causallyPlain_of_chronalNeighbours : C.PushUp → C.ChronalNeighbours → C.CausallyPlain with no further hypothesis",
+      "python3 tools/ladder.py matrix --file <copy of HEAD programme/ladder.toml in /tmp> → causally_plain/causally_compact fails, causally_plain/globally_hyperbolic fails (the REPORT's note (4))",
+      "grep -n -i plain papers/*/certificate/binder.toml (ers-predictability, sbierski-mghd: the only two binders) → no match",
+      "grep of each new declaration name over lean-causal/Causal and scaffold → no clash (the homonymous `causallyPlain`s live in SFALocal, SFALocalE0, E0, IsCausalIso, SingularRowsLocal and SingularFlatAxioms, none in Causal.staticCausality)",
+      "git status --short (before and after)"
+    ]
+  },
+  "checks": {
+    "conclusions_are_ladder_predicate": "Every theorem concludes Causal.Causality.CausallyPlain, or its …On form Causal.Causality.CausallyPlainOn, which is the `lean` of ladder id causally_plain (HEAD programme/ladder.toml:420-423). They are Prop-valued theorems, since CausallyPlain is a def and not a class.",
+    "objects": "Each object is the library's own definition. massive α = staticCausality (Cone α) (Causal/Model/Massive.lean:129). cosmicString α = staticCausality (StringSpace α), StringSpace α = WithLp 2 (Cone α × ℝ), CosmicString α = ℝ × StringSpace α (Causal/Model/EAlphaCauchy.lean:726-735): Hörmann's 3+1 ℝ_t × C_α × ℝ_z, which DEC-188 makes the formalization of record, and not the 2+1 massive. Only [Fact (0 < α)] is carried, so every α > 0 is covered. α > 2π is genuinely covered: Cone's metric caps the angular distance at π (angDist, Cone.lean:186), and Cone.instGeodesicSpace (Cone.lean:626) asks only Fact (0 < α). Minkowski is staticCausality (EuclideanSpace ℝ (Fin n)). The half-plane is staticCausality (Ioi 0) with geodesicSpace_Ioi_zero (ChainsCurves.lean:685). It is a non-complete X, so it witnesses the claimed generality. halfPlane_hypotheses.2.2.2.2.2 is its ¬ CausallyCompact conjunct.",
+    "on_forms": "massive_causallyPlainOn_regOpens is stated on regOpens α = ℝ × (C_α ∖ {apex}) (EAlphaCauchy.lean:560, coe_regOpens = regPart). cosmicString_causallyPlainOn_offAxis is stated on stringOffAxis α, the complement of ℝ × {r = 0} (:745). Both are the right opens.",
+    "examples": "All three `example`s are genuine applications of the strict anchors of lem:passe_coherent and prop:tarentin_fort_K with the new instances; none is trivially true.",
+    "marks": "Nothing is marked. ledger.py's mark regex (tools/ledger.py:247) needs a label prefix with a colon, so the bold declaration names in the docstring are not marks.",
+    "scope": "This closer added only scaffold/CausalScaffold/EAlphaPlain.lean and campaign/T-loc-ealpha-plain/ (REPORT.json only). The other entries all belong to other loops or closers: GluingCompact.lean, lean-yamabe, lean-benzecri, lean-gx, papers/egf, programme/, roadmap/. The ignored lean-causal/build.log (21:37, an 8870-job build replaying GerochEquiv) predates this module (21:51) and is not this closer's.",
+    "docstring_contract": "Item by item against kb/0006: the title is a sentence; no label is certified; the quote of defi:causalement_plat is verbatim and correctly located (ETT.tex:284-285, label at 283); the Hypothesis checklist is true; SCOPE is present and true (SFALocal.causallyPlain goes through causallyPlain_of_locZ with sing 0, SFALocal.lean:607-611); the Provenance line is exact. Every module reference in the docstring checks out: Static.lean:788 pushUp, EAlphaCauchy.lean:187 chronalNeighbours, Static.lean:812 mem_Zminus, Massive.lean:204 massive_Zminus, CausallyPlainLocZ.lean:202."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-loc-ealpha-plain/REPORT.json (labels[3].tex_lines)",
+      "what": "rem:K_plongement_hypotheses is given tex_lines [951, 958]. The remark ends at l.959 (\\end{rem}; the ledger's tex_span is [951, 959]), and the other four rows include their \\end line.",
+      "fix": "[951, 959]."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-loc-ealpha-plain/REPORT.json (labels[2].findings[0])",
+      "what": "The finding itself is true and correctly cited, but its suggested repair is incomplete. It proposes 'a sentence after rem:pushup (l.1374) saying E_α is causally plain'. That sentence alone does not supply prop:tarentin_fort_K's hypothesis where prop:K_calcul needs it, namely at every E_{≥0}-manifold. That also needs E₀'s plainness and the plainness clause of theo:causalite_engendre (l.523, under its Baire hypothesis (C)). In Lean that is Causal.SFALocal.causallyPlain through causallyPlain_of_locZ, as the REPORT's own hypothesis note on this row says. The alternative is the ledger's push-up repair. Since the finding goes to the author, it should not read as if one model sentence repairs l.1565.",
+      "fix": "Add that the manifold case needs, besides E_α, E₀'s plainness and theo:causalite_engendre's plainness clause (or the push-up variant the ledger's finding on prop:K_calcul proposes)."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-loc-ealpha-plain/REPORT.json (kb_proposals[1])",
+      "what": "'Causal.Properties has causallyPlainOn_top only' is imprecise: Properties.lean:228 also has dual_causallyPlainOn. The substantive point is true: there is no restriction lemma CausallyPlain → CausallyPlainOn W anywhere in Causal/.",
+      "fix": "'has causallyPlainOn_top and dual_causallyPlainOn, but no restriction CausallyPlain → CausallyPlainOn W'."
+    }
+  ],
+  "notes": "No major finding. Two things for the master, neither a finding against the closer. (1) The REPORT's 'programme/ladder.toml:420–423' is correct at HEAD, but another agent's uncommitted edit to programme/ladder.toml (the ERS restart comment block) currently shifts the node to :454–457 in the working tree. (2) The hypothesis-checklist row 'X complete or proper | not used' uses neither ✓ nor ⚠ vocabulary. It is not a paper hypothesis, so this is harmless. Graduation to Causal/Model/ should need only the module path: the file elaborates with warningAsError, and no name clashes across Causal/ or scaffold/."
+}
