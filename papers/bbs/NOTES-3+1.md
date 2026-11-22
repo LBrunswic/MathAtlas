@@ -711,3 +711,284 @@ c(h,σ) matters.
   gx's ThetaLift, quotienting the angular variable only.
 - So `RadiantCone` should state the Hausdorff criterion for a quotient explicitly. The cocycle's
   growth along orbits decides it.
+
+---
+
+## N9 (2026-11-22) — Lemma F written out: degree 0 from positivity, through the lifted holonomy
+
+*The planner's entry for roadmap target T-3p1-funnel-lemma (N5-1). It supersedes N5's sketch of
+Lemma F, which is left as written. **[q]** is a verbatim quote of `legacy/labeled/colI_v1.tex`;
+that file, `legacy/orig/colI_v1.tex` and `sources/1010.3602/eprint/colI_v1.tex` have the same line
+numbers. **[r]** is the session's reasoning, checked nowhere else. Nothing here is compiled.*
+
+### Outcome
+
+- **Lemma F holds**, in the form stated in §1 below, which is slightly stronger than N5's. The proof
+  in §2–§4 is complete at the **[r]** level. It does not minimise length. It rests on one relation
+  between lifted holonomies, (N) of §3, which is proved there.
+- **N5's sketch fails as written once a cone angle is ≥ π.** A length minimiser can pass through a
+  cone point. There, minimality makes the angle on the side of C at least π (not the inner angle),
+  so the annulus between the minimiser and C is not locally convex. Example (E) in §5 shows this
+  with two cone points of angle 1.8π. The sketch is sound when every cone angle is < π.
+- **`pro.hypdegree0`'s own angle step is not a genuine restriction** (§6). That step is at
+  l.1991–1992, not l.1979–1981 as N5 cites.
+- **A correction to N5's Theorem G table** (§7, parabolic row). Positivity also gives the elliptic
+  row its bound Θ₋ < 2π.
+
+### 1. Statement
+
+**Lemma F [r].** Let Σ be a singular HS-surface. Let H be a hyperbolic region of Σ adjacent to a
+photon circle C, and let H̄ be H together with the cuspidal singularities in its closure (BBS's H̄,
+l.1941). Assume H̄ is homeomorphic to a disc and that C is its end. Let p₁ … p_m be the time-like
+singularities of H, with cone angles θ₁ … θ_m. Let q₁ … q_n be the cusps of H̄, and write
+a = m + n. Assume **positivity**: 0 < θ_j < 2π for every j (BBS's definition, l.1510–1511:
+« all time-like singularities have a cone angle less that $2\pi$ » [q]). Orient C as the boundary
+of H. Let hol̃(C) ∈ G̃ be the holonomy of the ℝP¹-structure on C from the hyperbolic side
+(l.1905), taken for the generator of (eq>) (l.733–737). Then:
+
+- **(F1)** if a ≥ 1, hol̃(C)·x < δx for every x ∈ ℝP̃¹;
+- **(F2)** if hol(C) is hyperbolic, C is a hyperbolic ℝP¹-circle **of degree 0** from the
+  hyperbolic side, and the end of H at C is a funnel: a neighbourhood of C in H ∪ C is isometric
+  to a neighbourhood of one end of ℍ²/⟨g⟩, g = hol(C);
+- **(F3)** if hol(C) is parabolic, C is a parabolic ℝP¹-circle of degree 0, hence positive
+  (l.754–756);
+- **(F4)** if hol(C) is elliptic, its angle satisfies 0 < Θ < 2π.
+
+N5's Lemma F is (F2) for n = 0 (« a complete hyperbolic cone disc »). (F4) is N4's « Positivity of
+the total mass is Θ < 2π », now derived for a disc D₋ rather than assumed. Completeness of H is not
+used: the proof needs finitely many singularities (H is of finite type, l.1933–1936) and the
+collar of C (§3.4).
+
+### 2. Conventions
+
+The paper's own definitions, quoted:
+
+- the order: « We fix a homeomorphism between $\widetilde{\R\PP}^1$ and the real line: this defines
+  an orientation and an order $<$ on $\widetilde{\R\PP}^1$. » (l.676–677) [q]
+- δ: « Let $\delta$ be the generator of the center $\Z$ such that for every $x$ in
+  $\widetilde{\R\PP}^1$ the inequality $\delta x > x$ holds. » (l.684–685) [q]
+- the decomposition: « Parabolic and hyperbolic elements can all be decomposed as a product
+  $\tilde{g}=\delta^kg$ where $g$ has the same nature (parabolic or hyperbolic) than $\tilde{g}$,
+  but admits fixed points in $\widetilde{\R\PP}^1$. The integer $k \in \Z$ is uniquely defined. »
+  (l.696–698) [q]
+- the generator and the sign of the degree: « Let $\gamma_0$ be the generator of $\pi_1(L)$ such
+  that, for the canonical orientation defined above, and for every $x$ in the image of the
+  developing map: » (l.733–734), followed by the displayed inequality « \rho(\gamma_0)x > x »
+  labelled eq> (l.735–737), and « According to the inequality \eqref{eq>}, the degree $k$ is
+  non-negative. » (l.740) [q]
+- degree 0: « In this case, $L$ is isomorphic to the quotient by $g$ of a segment $]x_0, x_1[$
+  admitting as extremities two successive fixed points of $g$. » (l.752–753) [q]
+- the structure from the hyperbolic side: « $C$ inherits, as conformal boundary of $A_{H}$, a
+  $\R\PP^1$-structure that we call \textit{$\R\PP^1$-structure on $C$ from the hyperbolic side.} »
+  (l.1905) [q]
+- cone points: « time-like singularities are nothing but the usual cone singularities of hyperbolic
+  surfaces, since they admit neighborhoods locally modeled on the Klein model of the hyperbolic
+  disk. » (l.806–807) [q]
+
+The orientation and the rotation lifts **[r]**:
+
+- **Orientation.** H is oriented so that its developing maps preserve orientation. ∂ℍ² carries the
+  boundary orientation of ℍ², and ℝP̃¹ carries the lifted order. Then the canonical orientation of
+  the ℝP¹-circle C (l.729–731: the one for which the developing map preserves orientation) is the
+  boundary orientation of H, and γ₀ is C traversed as the boundary of H. If BBS's fixed order is
+  the opposite one, every inequality below reverses at once and no conclusion changes.
+- **R̃_c(φ)**, for c ∈ ℍ² and φ ∈ ℝ, is the lift of the rotation about c by angle φ along the
+  one-parameter rotation group. In the visual-angle coordinate ψ at c, which identifies ℝP̃¹ with ℝ
+  and in which δ is ψ ↦ ψ + 2π, R̃_c(φ) is ψ ↦ ψ + φ. Hence R̃_c(2π) = δ, and:
+  - **(S)** for 0 < φ < 2π, x < R̃_c(φ)x < δx for every x ∈ ℝP̃¹;
+  - **(S′)** an element g̃ ∈ G̃ with a fixed point satisfies g̃x < δx for every x.
+    Proof: the fixed set is δ-invariant and non-empty. Take a fixed point u with u ≤ x < δu. Then
+    g̃ preserves [u, δu], so g̃x < δu ≤ δx.
+- Both (S) and (S′) survive conjugation in G̃, because conjugation by an order-preserving
+  homeomorphism commuting with δ preserves the pointwise inequalities.
+
+### 3. Lifted holonomy of the end: the relation (N)
+
+**3.1 Tangent lifts [r].** Fix u₀ ∈ UTℍ² and identify PSL(2,ℝ) with UTℍ² by g ↦ g·u₀.
+
+- **The tangent lift.** Let γ be an immersed closed curve in the regular part, based at ∗, with
+  u₀ the developed γ′(0). Its developed unit tangent field is a path in PSL(2,ℝ) from 1 to
+  ρ(γ). Its lift to G̃ from 1 ends at **T̃(γ)**, a lift of ρ(γ). Under regular homotopy T̃(γ)
+  changes by conjugation only.
+- **The framing lift.** Let X be a nowhere-zero vector field on a surface S in the regular part.
+  Developing X gives a map S̃ → PSL(2,ℝ), x̃ ↦ g(x̃), equivariant for ρ. It lifts to G̃
+  because S̃ is simply connected, and the lift is equivariant for a unique homomorphism
+  ρ̃_X : π₁(S) → G̃ lifting ρ. This is a homotopy invariant, not only a regular-homotopy one.
+- **The comparison.** If w(γ, X) is the number of turns of γ′ relative to X along γ, then
+  **T̃(γ) = δ^{w(γ,X)} ρ̃_X(γ)**, up to conjugation. The tangent path is the X-path
+  right-multiplied by the rotation at the base point through the angle from X to γ′, and that angle
+  grows by 2π·w(γ, X).
+
+**3.2 Cone points and cusps [r].** Let σ be a small circle about a cone point p of angle θ, traversed
+counterclockwise. It develops to an arc of angle θ of a circle about the developed p, and its
+tangent field is carried along by the rotation group about that point. So T̃(σ) = R̃(θ): the
+« rotation by the real cone angle », P̃(p) of N4 (l.330–331 of these notes).
+
+Let σ be a horocycle about a cusp, traversed counterclockwise. Its tangent field is carried along
+by a parabolic one-parameter group, so T̃(σ) is the lift of that parabolic element that has fixed
+points.
+
+**3.3 The end [r].** By BBS l.1898–1905, a closed annulus A ⊃ C has a hyperbolic side A_H whose
+conformal boundary is C. Near each point of C, A_H ∪ C is a Klein chart near ∂ℍ² (the HS-structure
+at a photon). The construction:
+
+- **The field X.** Take a thin collar N ⊂ A_H of C and a nowhere-zero field X on N whose geodesic
+  rays leave through C near the foot of the collar. Rays pointing towards the boundary from a point
+  close to it fill an open interval of directions of angle less than π. So local choices patch by a
+  partition of unity, normalised.
+- **The two lifts.** The visual map x̃ ↦ (endpoint of the developed X-ray) is dev_C ∘ e on Ñ,
+  for a continuous equivariant e : Ñ → C̃. Two lifts to ℝP̃¹ of one map from a connected space
+  differ by a constant δ^m. On the image of dev_C, equivariance then gives
+  ρ̃_X(γ₀)·y = hol̃(C)·y. Two elements of G̃ that agree on an open interval are equal. So
+  **ρ̃_X(γ₀) = hol̃(C)**.
+- **The circle c.** Let c be a closed curve in N that is homotopic to C and transverse to X (a level
+  of a collar coordinate s with ds(X) > 0). Then w(c, X) = 0, so **T̃(c) = hol̃(C)**.
+
+**3.4 The relation (N) [r].** Let S be H̄ less small open discs about the p_j and cusp neighbourhoods
+about the q_j, cut off outside c. S is a disc with a holes, so it embeds in the oriented plane; let
+X₀ be the constant field there. Choose a base point on c and arcs to the small circles σ_j in the
+cyclic order (Theorem M, (M1)). Then [c] = σ₁′ ⋯ σ_a′ in π₁(S), with σ_j′ the based conjugates.
+
+By Hopf's Umlaufsatz, each of c, σ₁, …, σ_a has w(·, X₀) = +1, since each is a counterclockwise
+simple closed curve. So by 3.1–3.3:
+
+  hol̃(C) = T̃(c) = δ·ρ̃_{X₀}(c) = δ·∏_j ρ̃_{X₀}(σ_j′) = δ·∏_j (δ⁻¹ T̃(σ_j))′,
+
+that is, since δ is central:
+
+  **(N)  hol̃(C) = δ^{1−a} · P̃₁′ ⋯ P̃_a′,**
+
+with P̃_j′ a conjugate of R̃(θ_j) at a cone point, and of the parabolic lift with fixed points at a
+cusp. Three checks:
+
+- a = 0: D₋ = ℍ², and hol̃(C) = δ, the elliptic circle of angle 2π.
+- a = 1: hol̃(C) = P̃(p₁), angle θ₁.
+- Two cone points pushed together (§5): angle θ₁ + θ₂ − 2π, the merged cone.
+
+This is the normalisation that the T-3p1-theorem-m REPORT (N4:M1) expected and left unproved
+(« The session expects hol~(C-) = delta^(1-a) P~(p1)...P~(pa) »,
+`lean-gx/campaign/T-3p1-theorem-m/REPORT.json` [q]). The termwise product of N4 (M1) is off by
+δ^{a−1}.
+
+### 4. Proof of Lemma F [r]
+
+- **(F1).** For each j and every y, P̃_j′y < δy: by (S) at a cone point, since 0 < θ_j < 2π, and
+  by (S′) at a cusp. Each P̃_j′ is increasing, so by induction f := P̃₁′ ⋯ P̃_a′ satisfies
+  f(x) < δ^a x. By (N), hol̃(C)x = δ^{1−a} f(x) < δx. **Positivity is used here, and only
+  here.**
+- **(F2) and (F3).** Write hol̃(C) = δ^k g₀ with g₀ having a fixed point x₀ (l.696–698).
+  - If k ≥ 1, then hol̃(C)x₀ = δ^k x₀ ≥ δx₀, which contradicts (F1). So k ≤ 0.
+  - If k ≤ −1, then g₀x < δx (S′) gives hol̃(C)x < δ^{k+1}x ≤ x for every x, which contradicts
+    (eq>) on the non-empty image of dev_C. So k ≥ 0, which is BBS's l.740.
+  - Hence **k = 0**, and C = ]x₀, x₁[/g₀ (l.752–759).
+- **The funnel.** dev_C is injective onto ]x₀, x₁[ (l.714–715). The collar's developing map is a
+  local homeomorphism that is injective on C̃. Injectivity spreads to a neighbourhood of a compact
+  fundamental arc K and of K ∪ τK ∪ τ²K, with τ the deck generator. By equivariance it then holds
+  on a τ-invariant neighbourhood. So a neighbourhood of C is W/⟨g₀⟩, with W a g₀-invariant
+  neighbourhood of ]x₀, x₁[ in ℍ²: a neighbourhood of an end of the funnel ℍ²/⟨g₀⟩.
+  G0 does not use this sentence; it uses the degree.
+- **(F4).** hol̃(C) is conjugate to R̃(Θ). Then (eq>) gives Θ > 0 and (F1) gives Θ < 2π.
+
+**What positivity buys, physically [r].** With every incoming particle of positive mass:
+
+- a timelike total momentum has positive total mass, Θ₋ < 2π;
+- a spacelike one has a degree-0 funnel end, which is exactly G0's hypothesis. A degree k ≥ 1 end
+  needs at least one cone angle ≥ 2π, that is, negative mass.
+
+### 5. Example (E): where N5's sketch breaks
+
+**The minimality condition, corrected [r].** Let c be a loop in the class of C in H ∖ {p_j},
+passing through a cone point p, with angle α on the side of C and β = θ − α on the side of the cone
+points. Cutting the corner on one side moves p to the other side. To keep p enclosed, the cut must
+be made on the side of C. So **minimality means α ≥ π, and then β < π** (by positivity).
+
+The annulus between c and C therefore has a **reflex** corner at p unless α = π. N5's « a geodesic
+polygon whose vertices are cone points where the *inner* angle is ≥ π », followed by « locally
+convex inner boundary », is consistent only when α = π. The sketch goes through verbatim when no
+cone point of angle ≥ π lies on the minimiser, for instance when every θ_j < π.
+
+**Example (E) [r].** In ℍ², take q₁, q₂ at distance d. On one side of the segment [q₁q₂], take
+the geodesic ray ray₁ from q₁ making angle θ₁/2 with [q₁q₂], and ray₂ from q₂ making angle θ₂/2,
+with θ₁/2, θ₂/2 ∈ (π/2, π). Let R be the convex region bounded by ray₁ ∪ [q₁q₂] ∪ ray₂. Its
+double D(R) along that broken line is a complete hyperbolic cone disc, with cone angles θ₁, θ₂ at
+q₁, q₂ and one end, whose ideal circle is the double of R's ideal arc J.
+
+- **The end holonomy.** The holonomy of the end is r_{ℓ₂} r_{ℓ₁}, with ℓ_i the line of ray_i
+  (a rotation by θ is a product of two reflections at angle θ/2). The extensions of ℓ₁, ℓ₂ beyond
+  the segment form base angles π − θ_i/2 < π/2. So for d large they are ultraparallel, and the
+  holonomy is **hyperbolic**.
+- **The degree.** The common perpendicular of ℓ₁, ℓ₂ has one endpoint beyond ℓ₁ and one beyond
+  ℓ₂. Neither lies in J. Each reflection r_{ℓ_i} preserves the arc between them that contains J.
+  So the developed ideal circle is that arc, and the end has **degree 0**, as (F2) says.
+- **The minimiser.** Every loop in the class meets ray₁ and ray₂, so its length is at least
+  2·dist_{D(R)}(ray₁, ray₂). Folding D(R) onto R is 1-Lipschitz, so this is
+  2·dist_R(ray₁, ray₂). The distance between two geodesics is convex. At (q₁, q₂) both partial
+  derivatives are −cos(θ_i/2) > 0. So the minimum is d, at (q₁, q₂). The minimiser is therefore
+  the **doubled segment**, of length 2d: angle 0 on the side of the cone points, and α = θ_i > π on
+  the side of C at both vertices.
+- **What breaks.** The annulus D(R) ∖ [q₁q₂] is not locally convex. The closed geodesic of
+  ℍ²/⟨g⟩ lies behind the cone points, not in D(R). The end is a funnel only as a neighbourhood of
+  C.
+
+With θ_i < π instead, the rays converge. The common perpendicular then meets them, and its double is
+the funnel's closed geodesic, as the sketch says.
+
+At the critical distance d₀, ℓ₁ and ℓ₂ are asymptotic. The end holonomy is then **parabolic**, and
+C is a parabolic circle of degree 0, the flaring end of a parabolic cylinder (§7).
+
+### 6. The angle step of `pro.hypdegree0` (l.1946–2016), checked [r]
+
+There, H̄ is not a disc and the minimisation is in H, with cone points allowed on loops. The three
+places where cone angles enter:
+
+- **(i)** « It is obviously simple, and it contains no singular point, since every path containing
+  a singularity can be shortened. » (l.1962–1963) [q] This holds by positivity: one side of a path
+  through a point of angle < 2π is < π. The author's comment at l.1964 says as much: « here we
+  could add that the argument works because cone angles are less than $2\pi$ » [q].
+- **(ii)** « Singularities of cone angle $2\pi-2\theta < \pi$ cannot be approached by length
+  minimizing closed loops, hence $\theta \leq \pi/2$. » (l.1991–1992) [q] This is a deduction, not
+  a hypothesis. A(r₁) is an embedded regular collar of the geodesic c₀ (l.1975–1977), so near x₁
+  it is a half-disc bounded by an equidistant arc. It cannot meet x₁ in two sectors, which would
+  need a cone angle ≥ 2π. So it fills exactly one sector of angle π at x₁. Hence the cone angle is
+  ≥ π, the side of A′(r₁) has angle π − 2θ ≥ 0, and the removed wedge lies on that side, as
+  l.1993–1995 take « without loss of generality ».
+- **(iii)** The shortening (l.1995–2001):
+  - It needs θ > 0, so that Δ_i^ε, which is orthogonal to l_i, meets ĉ transversally. ĉ makes
+    angle π/2 − θ with l_i.
+  - It needs the convexity of the collar A(r₁) (a neighbourhood of a geodesic). That keeps the
+    segments [p_i, y_i^ε] in the closure of A′(r₁).
+  - It also works at θ = π/2 (cone angle π), where A′(r₁) is a cusp-shaped region between ĉ and the
+    tangent ray l_i.
+
+So `pro.hypdegree0` holds for every positive cone angle. **N5-1's « angle-< π restriction » is not
+a genuine restriction of BBS's proof.** It is a genuine restriction of N5's sketch, for the other
+reason given in §5: a minimiser in H ∖ {cone points} may sit on cone points of angle ≥ π. The line
+range « l.1979–1981 » in N5 is the definition of R. The angle sentence is l.1991–1992.
+
+### 7. Consequences for Theorem G, and what would settle this entry
+
+**Theorem G (N5), row by row [r]:**
+
+- **Hyperbolic row.** G0's hypothesis « C is hyperbolic of degree 0 from the hyperbolic side » now
+  follows from P_in hyperbolic and D₋ a disc, by (F2). G0 itself is BBS's proof of `pro.hyphyp`
+  from l.2083 on, which N5 leaves unchanged.
+- **Elliptic row.** Θ₋ ∈ (0, 2π), by (F4).
+- **Parabolic row: a correction.** N5's « a cusp: no photon circle, and D₋ closes up at a cuspidal
+  singularity » is not what happens when C₋ is a photon circle with parabolic holonomy. Then C₋ is
+  a positive parabolic circle of degree 0 (F3): the flaring end of a parabolic cylinder, realised
+  by example (E) at d = d₀. The cusp of that cylinder is behind the cone points, not in D₋. The
+  outcome in T for this row needs G0 re-run with a parabolic degree-0 C, where the regularised T′
+  is W/⟨g₀⟩ with g₀ parabolic. That is not done here.
+- **Orientation.** Lemma F uses D₋'s orientation only. N5's « holonomy is P_in⁻¹ » (the
+  hyperbolic row) is OQ-36's orientation question and is untouched.
+
+**What would settle it:**
+
+1. **(N) against a source.** Relative Euler numbers of hyperbolic cone structures. *[to verify]* A
+   reference is not archived.
+2. **3.3's collar when C carries light-like singularities.** l.1924–1925 says only the de Sitter
+   side's holonomy changes, by one parabolic factor per singularity. Whether the Klein collar of
+   the hyperbolic side survives at such a point is *[to verify]*.
+3. **A Lean statement.** It needs G̃ acting on ℝP̃¹ and the degree of an ℝP¹-circle
+   (T-bbs-rp1-circles), tangent lifts, and π₁ of the punctured disc (N4-5). (F1) is then a lemma
+   about G̃, and (N) is the geometric input.
