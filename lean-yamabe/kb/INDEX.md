@@ -33,3 +33,19 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0025](entries/0025-a-primed-copy-of-a-theorem-checked-ident.md) | pattern | A primed copy of a theorem checked identical by type_of% … = type_of% … := rfl (one universe per Type*) |
 | [0026](entries/0026-the-c-reflection-across-z-0-3v-r-4v-r-co.md) | pattern | The C¹ reflection across {z₀ = 0}: −3v∘R₁ + 4v∘R₂, ContDiff by HasFDerivWithinAt.union |
 | [0027](entries/0027-typechecking-new-modules-through-tmp-ole.md) | pattern | Typechecking new modules through /tmp oleans: symlink the existing scaffold oleans into /tmp (refines 0019) |
+| [0028](entries/0028-pattern.md) | pattern | Pattern: |
+| [0029](entries/0029-pitfall.md) | pitfall | Pitfall: |
+| [0030](entries/0030-pitfall.md) | pitfall | Pitfall: |
+| [0031](entries/0031-pattern.md) | pattern | Pattern: |
+| [0032](entries/0032-pattern.md) | pattern | pattern: |
+| [0033](entries/0033-pattern.md) | pattern | pattern: |
+| [0034](entries/0034-pattern.md) | pattern | pattern: |
+| [0035](entries/0035-pitfall.md) | pitfall | pitfall: |
+| [0036](entries/0036-pattern.md) | pattern | pattern: |
+| [0037](entries/0037-pattern.md) | pattern | Pattern: |
+| [0038](entries/0038-pattern.md) | pattern | Pattern: |
+| [0039](entries/0039-pattern.md) | pattern | Pattern: |
+| [0040](entries/0040-pattern.md) | pattern | Pattern: |
+| [0041](entries/0041-pitfall.md) | pitfall | Pitfall: |
+| [0042](entries/0042-pitfall.md) | pitfall | Pitfall: |
+| [0043](entries/0043-convention.md) | pattern | Convention: |

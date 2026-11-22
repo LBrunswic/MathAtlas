@@ -2,3 +2,52 @@
 # Created by T-yamabe-companion (2026-11-22, DEC-185): BrunswicPerforated, the companion of
 # papers/yamabe, ledgered as a paper of its own; its Lean is lean-yamabe, shared with yamabe.
 # No row is curated yet: nothing is formalized. Line numbers: legacy/labeled/perforated.tex.
+
+[[row]]
+label = "def:capstar"
+extra_lean_files = ["Yamabe/Perforated/Capacity.lean"]
+decls = ["Yamabe.MeasuredModel.ell", "Yamabe.MeasuredModel.capStar", "Yamabe.MeasuredModel.theta", "Yamabe.MeasuredModel.bdryS", "Yamabe.MeasuredModel.capWeight", "Yamabe.MeasuredModel.volMean", "Yamabe.MeasuredModel.bdryAvg", "Yamabe.MeasuredModel.energy", "Yamabe.MeasuredModel.capWeight_nonneg", "Yamabe.MeasuredModel.sum_capWeight", "Yamabe.MeasuredModel.bdryS_eq", "Yamabe.MeasuredModel.bdryS_pos", "Yamabe.MeasuredModel.ell_smul", "Yamabe.MeasuredModel.ell_add", "Yamabe.MeasuredModel.ell_sub", "Yamabe.MeasuredModel.ell_one", "Yamabe.MeasuredModel.ell_sub_smul_one", "Yamabe.MeasuredModel.ell_bounded", "Yamabe.MeasuredModel.capStar_le", "Yamabe.MeasuredModel.Fq_one_eq"]
+bucket = "A"
+notes = "T-perf-capacity (atlas-team, 2026-11-22), audit AUDIT-1 minor (a SCOPE overstatement, fixed at graduation; two findings reworded here). MARKED in Yamabe/Perforated/Capacity.lean, sorry-free, over the model of record (DEC-186): ℓ, cap* as an inf in [0, ∞] of the energy over ℓ(v) = 1, θ, S, the weights w_j."
+
+[[row]]
+label = "lem:holder"
+extra_lean_files = ["Yamabe/Perforated/Capacity.lean"]
+decls = ["Yamabe.MeasuredModel.lem_holder", "Yamabe.MeasuredModel.abs_bdryAvg_le", "Yamabe.MeasuredModel.abs_bdryAvg_le_sum", "Yamabe.MeasuredModel.holderObj", "Yamabe.MeasuredModel.holderObj_eq", "Yamabe.MeasuredModel.bdryCoef", "Yamabe.MeasuredModel.bdryCoef_eq", "Yamabe.MeasuredModel.bdryY", "Yamabe.abs_integral_le_mul_eLpNorm", "Yamabe.MeasuredModel.capWeight_of_equal", "Yamabe.MeasuredModel.bdryS_of_equal"]
+bucket = "A"
+notes = "T-perf-capacity (atlas-team, 2026-11-22), audit AUDIT-1 minor (a SCOPE overstatement, fixed at graduation; two findings reworded here). MARKED: the weighted boundary average ≤ Y/√S for every u, no sign condition; the weights are the unique minimisers on the simplex, minimum 1/S."
+paper_findings = ["Remark (l.497–500): for n components of equal area the optimal weights are already uniform (Yamabe.capWeight_of_equal); the factor n^{1/(N−1)} comes from applying Hölder once over all of ∂Σ (bdryS_of_equal). The uniform choice is the optimal one there; a non-uniform one does lose."]
+
+[[row]]
+label = "lem:capstar"
+extra_lean_files = ["Yamabe/Perforated/Capacity.lean"]
+decls = ["Yamabe.MeasuredModel.lem_capstar", "Yamabe.MeasuredModel.lem_capstar_minimiser", "Yamabe.MeasuredModel.capStar_pos", "Yamabe.MeasuredModel.capStar_ge", "Yamabe.MeasuredModel.capStar_ge_of_abs_ell_le", "Yamabe.MeasuredModel.abs_ell_le", "Yamabe.MeasuredModel.abs_ell_le_of_bounds", "Yamabe.MeasuredModel.capStar_lt_top", "Yamabe.MeasuredModel.capineq", "Yamabe.MeasuredModel.sqrt_capStar_mul_ell_le", "Yamabe.MeasuredModel.ell_eq_zero_of_capStar_eq_top", "Yamabe.MeasuredModel.capStar_attained", "Yamabe.MeasuredModel.euler_lagrange", "Yamabe.MeasuredModel.abs_ell_le_L2", "Yamabe.MeasuredModel.MeanPoincare", "Yamabe.MeasuredModel.TraceBound", "Yamabe.MeasuredModel.InteriorBump", "Yamabe.MeasuredModel.DirectMethod", "Yamabe.MeasuredModel.GradMeasurable", "Yamabe.MeasuredModel.gradInner", "Yamabe.MeasuredModel.gradInner_comm", "Yamabe.MeasuredModel.gradSq_add_smul", "Yamabe.MeasuredModel.integral_gradSq_add_smul", "Yamabe.MeasuredModel.integrable_gradInner", "Yamabe.toy_lem_capstar_hyps", "Yamabe.toy_capStar", "Yamabe.toy_meanPoincare", "Yamabe.toy_traceBound", "Yamabe.toy_interiorBump", "Yamabe.toy_directMethod", "Yamabe.toy_gradMeasurable"]
+lean_proved_override = "partial"
+blocked_on = "T-perf-poincare (MeanPoincare); OQ-110 (the Δ convention of the Euler–Lagrange system)"
+notes = "T-perf-capacity (atlas-team, 2026-11-22), audit AUDIT-1 minor (a SCOPE overstatement, fixed at graduation; two findings reworded here). Partial: 0 < cap* with the paper's bound, cap* < ∞, eq:capineq, attainment and the Euler–Lagrange system in weak form are proved from five carried hypotheses (MeanPoincare, TraceBound, InteriorBump, DirectMethod, GradMeasurable), all satisfiable together on the toy model (cap* = 8)."
+paper_findings = ["The Euler–Lagrange system as printed (l.386–387) is inconsistent under l.249's convention (−Δ + V, Δ = div∇): with the outward normal the divergence theorem forces μ = 0, while μ = 2 cap* > 0; the inward normal describes −v, and the pairing claim at l.405–406 holds only with Δ = −div∇. The correct system is −Δv = μ/(2V) in Σ with the printed boundary condition (argued; only the weak form is in Lean, Yamabe.euler_lagrange)."]
+
+[[row]]
+label = "lem:capacitary"
+extra_lean_files = ["Yamabe/Perforated/Capacity.lean"]
+decls = ["Yamabe.MeasuredModel.lem_capacitary", "Yamabe.MeasuredModel.capineq", "Yamabe.MeasuredModel.eq_linear"]
+lean_proved_override = "partial"
+blocked_on = "T-perf-poincare (MeanPoincare)"
+notes = "T-perf-capacity (atlas-team, 2026-11-22), audit AUDIT-1 minor (a SCOPE overstatement, fixed at graduation; two findings reworded here). Partial: proved for every u from the carried trace and Poincaré hypotheses; eq_linear (with |ū|, every u) and eq_calib beside it."
+
+[[row]]
+label = "def:constants"
+extra_lean_files = ["Yamabe/Perforated/Star3.lean"]
+decls = ["Yamabe.MeasuredModel.mean", "Yamabe.MeasuredModel.IsPoincareConst", "Yamabe.MeasuredModel.lambda1", "Yamabe.MeasuredModel.IsSobolevPoincareConst", "Yamabe.MeasuredModel.Csp", "Yamabe.MeasuredModel.isPoincareConst_lambda1", "Yamabe.MeasuredModel.le_lambda1", "Yamabe.MeasuredModel.lambda1_pos", "Yamabe.MeasuredModel.lambda1_eq_sInf_rayleigh", "Yamabe.MeasuredModel.isSobolevPoincareConst_Csp", "Yamabe.MeasuredModel.Csp_le", "Yamabe.MeasuredModel.Csp_nonneg"]
+lean_proved_override = "partial"
+blocked_on = "T-perf-poincare (λ₁ > 0, C_SP < ∞); OQ-109 (λ₁ read as the best Poincaré constant)"
+notes = "T-perf-star3 (atlas-team, 2026-11-22), audit AUDIT-1 minor (the headline « false as printed » qualified: the proof error is against the paper, the invalid constant on the model; fixed at graduation). λ₁ as the best Poincaré constant (attained; = the inf of the Rayleigh quotients), C_SP the least Sobolev–Poincaré constant (attained), in Yamabe/Perforated/Star3.lean, sorry-free; λ₁ > 0 and finiteness carried."
+
+[[row]]
+label = "thm:star3"
+extra_lean_files = ["Yamabe/Perforated/Star3.lean"]
+decls = ["Yamabe.star3N2", "Yamabe.star3N6", "Yamabe.star3G", "Yamabe.star3Coeff", "Yamabe.star3Atil", "Yamabe.star3AtilCorr", "Yamabe.star3Phi", "Yamabe.MeasuredModel.StarIneq", "Yamabe.MeasuredModel.StarIneqSigned", "Yamabe.star3_binom", "Yamabe.star3_interp", "Yamabe.star3_core", "Yamabe.star3_Dbound", "Yamabe.star3_normalized", "Yamabe.star3_integral", "Yamabe.MeasuredModel.star3_point", "Yamabe.MeasuredModel.star3_of_consts", "Yamabe.MeasuredModel.thm_star3_corrected", "Yamabe.MeasuredModel.thm_star3_corrected_nonneg", "Yamabe.star3G_eq", "Yamabe.star3G_not_monotone", "Yamabe.star3CexModel", "Yamabe.star3Cex_hyps", "Yamabe.star3Cex_not_star", "Yamabe.thm_star3_printed_false"]
+lean_proved_override = "partial"
+blocked_on = "OQ-109 (the correction of record), T-perf-poincare"
+notes = "T-perf-star3 (atlas-team, 2026-11-22), audit AUDIT-1 minor (the headline « false as printed » qualified: the proof error is against the paper, the invalid constant on the model; fixed at graduation). eq:binom, the interpolations, eq:Dbound, cases (i), (iii) proved as printed; the corrected theorem (the minimum over C_SP·X₀ ≤ 2) proved for every u, signed or not (thm_star3_corrected); the printed Ã refuted on the model (thm_star3_printed_false). Not marked: the correction of record is OQ-109."
+paper_findings = ["The proof is wrong (l.635, l.645–647; proved against the paper): « G is non-decreasing » fails, since the cap n₆ = min{C_SP X₀, 2} makes G decrease past 2/C_SP (Yamabe.star3G_not_monotone: G(4) < G(2) at V = λ₁ = C_SP = 1), and case (ii) uses G(X) ≤ G(X₀), which fails e.g. at X = 2/C_SP.", "The printed Ã (l.607–611) is not a valid constant on the model of record: a two-point model (masses 1/100, 99/100, V = 1) meets every hypothesis and u = (1, 1/5) needs Ã ≥ 0.27 against ≤ 0.22 printed (thm_star3_printed_false). The model violates lem:csp-lower (C_SP = 0.4595 < 0.538), so against a Riemannian Σ this is argued, not proved: a dumbbell with a neck of conductance κ → 0, every constant scaling like 1/κ, gives 0.211 against 0.270.", "The table at l.660 (λ₁V^{2/3} = 4π², V = 1): the corrected minima are 1.070, 1.509, 2.508, 4.682 and the printed formula's own minima 0.375, 0.490, 1.000, 2.250 at C_SP = 0.539, 0.70, 1.0, 1.5, against 1.073, 1.511, 1.915, 2.250 printed; the first two agree with the corrected minimum, 2.250 only with the printed formula, 1.915 with neither (numerical, not formalized)."]

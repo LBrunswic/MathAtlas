@@ -1,0 +1,317 @@
+{
+ "package": "T-perf-capacity",
+ "target": "T-perf-capacity",
+ "files": [
+  "scaffold/YamabeScaffold/Perforated/Capacity.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound (checked by #print axioms on lem_capstar, lem_capstar_minimiser, lem_capacitary, lem_holder, eq_linear, eq_calib, capStar_ge, ell_bounded, capWeight_of_equal, bdryS_of_equal, toy_lem_capstar_hyps, toy_capStar, toy_theta)",
+ "imports": "Yamabe.Negative only (strict library): the file can graduate as it stands",
+ "labels": [
+  {
+   "label": "def:capstar",
+   "tex_lines": [
+    163,
+    173
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Yamabe.MeasuredModel.ell",
+    "Yamabe.MeasuredModel.capStar",
+    "Yamabe.MeasuredModel.theta",
+    "Yamabe.MeasuredModel.bdryS",
+    "Yamabe.MeasuredModel.capWeight",
+    "Yamabe.MeasuredModel.volMean",
+    "Yamabe.MeasuredModel.bdryAvg",
+    "Yamabe.MeasuredModel.energy",
+    "Yamabe.MeasuredModel.capWeight_nonneg",
+    "Yamabe.MeasuredModel.sum_capWeight",
+    "Yamabe.MeasuredModel.bdryS_eq",
+    "Yamabe.MeasuredModel.bdryS_pos",
+    "Yamabe.MeasuredModel.ell_smul",
+    "Yamabe.MeasuredModel.ell_add",
+    "Yamabe.MeasuredModel.ell_sub",
+    "Yamabe.MeasuredModel.ell_one",
+    "Yamabe.MeasuredModel.ell_sub_smul_one",
+    "Yamabe.MeasuredModel.ell_bounded",
+    "Yamabe.MeasuredModel.capStar_le",
+    "Yamabe.MeasuredModel.Fq_one_eq"
+   ],
+   "hypotheses": [
+    {
+     "paper": "v ∈ W^{1,2}(Σ) (eq:capstar)",
+     "here": "reading",
+     "note": "v ∈ D, the admissible functions of Yamabe's MeasuredModel (DEC-186, the model of record)"
+    },
+    {
+     "paper": "‖∇v‖²_{L²(Σ,g)} (eq:capstar)",
+     "here": "carried",
+     "note": "the honest energy ∫⁻ |∇v|²_g ∈ [0,∞] (energy), so cap* ∈ [0,∞] with inf ∅ = ∞ and infinite-energy functions contribute ∞, not the junk 0 of dirichlet"
+    },
+    {
+     "paper": "ℓ(v) = V⁻¹∫v − Σ_j (w_j/|B_j|)∫_{B_j} v (eq:ell, l.159)",
+     "here": "carried",
+     "note": "Bochner integrals: 0 on non-integrable functions; under MeanPoincare and TraceBound every u ∈ D has integrable values and traces"
+    },
+    {
+     "paper": "w_j ≥ 0, Σ w_j = 1 (l.156)",
+     "here": "carried",
+     "note": "capWeight_nonneg; sum_capWeight once S ≠ 0"
+    },
+    {
+     "paper": "ℓ bounded linear on W^{1,2}, vanishing on constants (l.161)",
+     "here": "carried",
+     "note": "ell_smul, ell_add (on integrable functions), ell_one (V ≠ 0, S ≠ 0, finite measures), ell_bounded (under TraceBound and L² values); l.161 is context of the definition, outside its span l.163–173"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "θ = a_N cap*/(c_N S) is real in the paper; here θ uses cap*.toReal, which is 0 if cap* = ∞ (excluded by lem_capstar under its hypotheses). Reading taken: θ is only used where 0 < cap* < ∞."
+   ]
+  },
+  {
+   "label": "lem:capstar",
+   "tex_lines": [
+    376,
+    407
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.MeasuredModel.lem_capstar",
+    "Yamabe.MeasuredModel.lem_capstar_minimiser",
+    "Yamabe.MeasuredModel.capStar_pos",
+    "Yamabe.MeasuredModel.capStar_ge",
+    "Yamabe.MeasuredModel.capStar_ge_of_abs_ell_le",
+    "Yamabe.MeasuredModel.abs_ell_le",
+    "Yamabe.MeasuredModel.abs_ell_le_of_bounds",
+    "Yamabe.MeasuredModel.capStar_lt_top",
+    "Yamabe.MeasuredModel.capineq",
+    "Yamabe.MeasuredModel.sqrt_capStar_mul_ell_le",
+    "Yamabe.MeasuredModel.ell_eq_zero_of_capStar_eq_top",
+    "Yamabe.MeasuredModel.capStar_attained",
+    "Yamabe.MeasuredModel.euler_lagrange",
+    "Yamabe.MeasuredModel.abs_ell_le_L2",
+    "Yamabe.MeasuredModel.MeanPoincare",
+    "Yamabe.MeasuredModel.TraceBound",
+    "Yamabe.MeasuredModel.InteriorBump",
+    "Yamabe.MeasuredModel.DirectMethod",
+    "Yamabe.MeasuredModel.GradMeasurable",
+    "Yamabe.MeasuredModel.gradInner",
+    "Yamabe.MeasuredModel.gradInner_comm",
+    "Yamabe.MeasuredModel.gradSq_add_smul",
+    "Yamabe.MeasuredModel.integral_gradSq_add_smul",
+    "Yamabe.MeasuredModel.integrable_gradInner",
+    "Yamabe.toy_lem_capstar_hyps",
+    "Yamabe.toy_capStar",
+    "Yamabe.toy_meanPoincare",
+    "Yamabe.toy_traceBound",
+    "Yamabe.toy_interiorBump",
+    "Yamabe.toy_directMethod",
+    "Yamabe.toy_gradMeasurable"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N ≥ 3",
+     "here": "carried",
+     "note": ""
+    },
+    {
+     "paper": "Σ compact",
+     "here": "carried",
+     "note": "IsFiniteMeasure (vol g), IsFiniteMeasure (bvol g j)"
+    },
+    {
+     "paper": "Σ connected",
+     "here": "reading",
+     "note": "through the Poincaré inequality MeanPoincare: ∃ K, ∀ v, val v ∈ L² ∧ ‖v − v̄‖²_{L²} ≤ K‖∇v‖² (the proof's « by Poincaré », l.394; K = λ_1⁻¹). Discharge on a manifold reading: T-perf-poincare"
+    },
+    {
+     "paper": "non-empty Lipschitz boundary",
+     "here": "reading",
+     "note": "∃ j, bvol g j ≠ 0 (S > 0) and the trace theorem TraceBound, which is YamabeScaffold.Trace's TraceIneq with w12Sq unfolded (Iff.rfl, checked in a scratch file importing both); its manifold discharge is Mfd.Reads.traceIneq (scaffold)"
+    },
+    {
+     "paper": "Σ ≠ ∅",
+     "here": "carried",
+     "note": "vol g ≠ 0"
+    },
+    {
+     "paper": "« choose v supported in the interior with ∫_Σ v ≠ 0 » (l.401)",
+     "here": "carried",
+     "note": "InteriorBump: v of finite energy, tr v = 0 a.e. on every B_j, ∫ val v ≠ 0; used for cap* < ∞ only"
+    },
+    {
+     "paper": "the direct method (l.402–404): bounded sets weakly compact, ℓ weakly continuous by compactness of the trace",
+     "here": "carried",
+     "note": "DirectMethod: a finite-energy sequence bounded in W^{1,2} with energies → e has a subsequence converging in L²(Σ) and in every L²(B_j) to some v ∈ D of energy ≤ e; used for the attainment only. A W^{1,2} reading: the C¹ reading of OQ-93 (b) is not weakly closed"
+    },
+    {
+     "paper": "∇v measurable (implicit in W^{1,2})",
+     "here": "carried",
+     "note": "GradMeasurable, for the Euler–Lagrange system only (the polarisation of the energy needs integrable densities)"
+    },
+    {
+     "paper": "u ∈ W^{1,2}(Σ) in eq:capineq",
+     "here": "weakened",
+     "note": "eq:capineq holds for every u ∈ D (capineq); in multiplied form √cap*·ℓ(u) ≤ ‖∇u‖ for every u of finite energy with no hypothesis at all (sqrt_capStar_mul_ell_le)"
+    }
+   ],
+   "sorries": [],
+   "open_part": "The strong form of the Euler–Lagrange system (Δv = μ/(2V) in Σ, ∂_ν v = −μ w_j/(2|B_j|) on B_j) is not stated: the model has no Laplacian and no normal derivative; its weak form ∫⟨∇v,∇φ⟩ = (μ/2)ℓ(φ) for every φ of finite energy, and the pairing ‖∇v‖² = (μ/2)ℓ(v) = μ/2, are proved (euler_lagrange). The carried Props MeanPoincare, TraceBound, InteriorBump, DirectMethod, GradMeasurable are not discharged on a manifold reading here; all five hold on the two-point toy model (toy_lem_capstar_hyps), where cap* = 8 (toy_capStar)",
+   "findings": [
+    "l.386–387 with l.249: the paper writes the homogenised operator as −Δ + V (l.249), i.e. Δ = div∇. With that Δ and the outward normal the printed system Δv = μ/(2V), ∂_ν v = −μw_j/(2|B_j|) is inconsistent: the divergence theorem gives ∫_Σ Δv = μ/2 while ∫_{∂Σ} ∂_ν v = −(μ/2)Σ_j w_j = −μ/2, forcing μ = 0, but μ = 2cap* > 0. The Euler–Lagrange system of eq:capstar is −Δv = μ/(2V), ∂_ν v = −μw_j/(2|B_j|) (ν outward), i.e. the printed one with Δ = −div∇. Its weak form ∫⟨∇v,∇φ⟩ = (μ/2)ℓ(φ) is what Yamabe.MeasuredModel.euler_lagrange proves; the sign computation itself is argued, not formalized (the model has no Laplacian)",
+    "l.399–400: the paper's explicit lower bound cap* ≥ [‖ℓ‖(1+λ_1^{-1/2})]^{-2} is proved as stated (capStar_ge, with Λ = ‖ℓ‖ and K = λ_1⁻¹); the bound only needs |ℓ(v)| ≤ L‖∇v‖ (capStar_ge_of_abs_ell_le)",
+    "l.379: positivity of cap* needs neither the finiteness nor the attainment; and if cap* = ∞ then ℓ vanishes on every function of finite energy (ell_eq_zero_of_capStar_eq_top), so eq:capineq holds with any convention for 1/√∞"
+   ],
+   "questions": [
+    "The sign convention of Δ at l.386 (see findings). Reading taken: Δ = −div∇ (the nonnegative Laplacian) and ν the outward normal, the only convention under which the printed system is the Euler–Lagrange system; formalized in weak form only",
+    "λ_1 is « the first non-zero Neumann eigenvalue, equivalently the best constant in the Poincaré inequality » (l.319–321). Reading taken here: the Poincaré inequality with some finite constant K (MeanPoincare), which is all the proof of positivity uses; the eigenvalue reading is not formalized (T-perf-star3 defines λ_1 as a best constant, Yamabe.MeasuredModel.lambda1)"
+   ]
+  },
+  {
+   "label": "lem:capacitary",
+   "tex_lines": [
+    468,
+    476
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.MeasuredModel.lem_capacitary",
+    "Yamabe.MeasuredModel.capineq",
+    "Yamabe.MeasuredModel.eq_linear"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the setting of § 2–4 (compact, connected, non-empty Lipschitz boundary), through cap* > 0",
+     "here": "reading",
+     "note": "the same carried Props as lem_capstar's positivity: MeanPoincare, TraceBound, ∃ j, bvol g j ≠ 0, vol g ≠ 0, finite measures"
+    },
+    {
+     "paper": "u ≥ 0 (standing in § 4, l.458–460)",
+     "here": "weakened",
+     "note": "not used: lem_capacitary holds for every u ∈ D"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.458–460 and l.502–509: lem:capacitary and lem:holder hold for every u, with no sign condition; applied to u and −u they give eq:linear with |ū| (Yamabe.MeasuredModel.eq_linear: V^{1/p*}|ū| ≤ C_1 X + C_2 Y for every u ∈ D). This confirms the planner's [r] for T-perf-main (a): the u ↦ |u| reduction is not needed for eq:linear; whether it is needed at the squaring step of thm:main depends only on whether eq:star is available for signed u (T-perf-star3's StarIneqSigned)"
+   ],
+   "questions": []
+  },
+  {
+   "label": "lem:holder",
+   "tex_lines": [
+    478,
+    495
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Yamabe.MeasuredModel.lem_holder",
+    "Yamabe.MeasuredModel.abs_bdryAvg_le",
+    "Yamabe.MeasuredModel.abs_bdryAvg_le_sum",
+    "Yamabe.MeasuredModel.holderObj",
+    "Yamabe.MeasuredModel.holderObj_eq",
+    "Yamabe.MeasuredModel.bdryCoef",
+    "Yamabe.MeasuredModel.bdryCoef_eq",
+    "Yamabe.MeasuredModel.bdryY",
+    "Yamabe.abs_integral_le_mul_eLpNorm",
+    "Yamabe.MeasuredModel.capWeight_of_equal",
+    "Yamabe.MeasuredModel.bdryS_of_equal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N ≥ 3",
+     "here": "carried",
+     "note": ""
+    },
+    {
+     "paper": "Σ compact",
+     "here": "carried",
+     "note": "IsFiniteMeasure (bvol g j)"
+    },
+    {
+     "paper": "the trace of u ∈ W^{1,2} lies in L^{p♯}(B_j) (l.134)",
+     "here": "carried",
+     "note": "per u: ∀ j, MemLp (tr u) p♯ (bvol g j); without it the junk value normSq = 0 would make the inequality false"
+    },
+    {
+     "paper": "u ≥ 0 (standing in § 4)",
+     "here": "weakened",
+     "note": "not used; the inequality holds in absolute value (abs_bdryAvg_le)"
+    },
+    {
+     "paper": "every |B_j| > 0 and n ≥ 1 (implicit: |B_j|^{-2/p♯}, a minimiser on the simplex)",
+     "here": "carried",
+     "note": "∀ j, bvol g j ≠ 0 and 0 < n, for the minimisation part only; n ≥ 1 is standing by DEC-186"
+    },
+    {
+     "paper": "the constraint w_j ≥ 0, Σ w_j = 1",
+     "here": "weakened",
+     "note": "holderObj_eq: Σ w_j²|B_j|^{-2/p♯} = 1/S + Σ (w_j − w*_j)²|B_j|^{-2/p♯} on the whole hyperplane Σ w_j = 1, so w* is the unique minimiser there too; lem_holder states the simplex form"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.497–500 (commentary after lem:holder): « the naive uniform choice loses a factor n^{1/(N−1)} over n equal components ». For n components of equal area the optimal weights are themselves uniform, w_j = 1/n (capWeight_of_equal), so no choice of weights loses anything there; the factor is S/|∂Σ|^{2/p♯} = n^{1/(N−1)} (bdryS_of_equal), the loss of one Hölder over all of ∂Σ instead of one per component, as the first half of the sentence (« rather than (Σ_j|B_j|)^{2/p♯} ») says"
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Yamabe.sqrt_normSq",
+  "Yamabe.sqrt_normSq_two",
+  "Yamabe.abs_integral_le_mul_eLpNorm",
+  "Yamabe.abs_integral_le_mul_eLpNorm_two",
+  "Yamabe.MeasuredModel.energy_smul",
+  "Yamabe.MeasuredModel.energy_sub_smul_one",
+  "Yamabe.MeasuredModel.gradSq_sub_smul_one",
+  "Yamabe.MeasuredModel.volMean_smul",
+  "Yamabe.MeasuredModel.bdryAvg_smul",
+  "Yamabe.MeasuredModel.volMean_one",
+  "Yamabe.MeasuredModel.bdryAvg_one",
+  "Yamabe.MeasuredModel.val_sub_smul_one'",
+  "Yamabe.MeasuredModel.tr_sub_smul_one'",
+  "Yamabe.MeasuredModel.abs_volMean_le",
+  "Yamabe.MeasuredModel.integrable_val_of_poincare",
+  "Yamabe.MeasuredModel.memLp_tr_two",
+  "Yamabe.MeasuredModel.integrable_tr_of_traceBound",
+  "Yamabe.MeasuredModel.gradInner_self",
+  "Yamabe.MeasuredModel.gradInner_add_right",
+  "Yamabe.MeasuredModel.gradInner_smul_right",
+  "Yamabe.MeasuredModel.gradSq_add_smul_le",
+  "Yamabe.MeasuredModel.integrable_gradSq",
+  "Yamabe.MeasuredModel.dirichlet_eq_integral",
+  "Yamabe.MeasuredModel.integrable_gradSq_add_smul",
+  "Yamabe.MeasuredModel.energy_ne_top_of_integrable",
+  "Yamabe.MeasuredModel.volMean_neg",
+  "Yamabe.MeasuredModel.bdryAvg_neg",
+  "Yamabe.MeasuredModel.dirichlet_neg",
+  "Yamabe.MeasuredModel.bdryY_neg",
+  "Yamabe.MeasuredModel.eq_linear",
+  "Yamabe.MeasuredModel.eq_calib",
+  "Yamabe.MeasuredModel.Fq_one_eq",
+  "Yamabe.toy_volMean",
+  "Yamabe.toy_bdryS",
+  "Yamabe.toy_capWeight",
+  "Yamabe.toy_bdryAvg",
+  "Yamabe.toy_ell",
+  "Yamabe.toy_energy",
+  "Yamabe.toy_theta",
+  "Yamabe.toy_normSq_two_vol",
+  "Yamabe.toy_tendsto_eLpNorm"
+ ],
+ "kb_proposals": [
+  "pattern: an infimum that the paper proves finite (cap*) is best defined in ℝ≥0∞ over the honest energy ∫⁻ ofReal |∇v|² (MeasuredModel.energy), not over the real dirichlet: inf ∅ = ∞ and infinite-energy functions contribute ∞, so « 0 < cap* < ∞ » is a real statement; take .toReal only where it is finite (Yamabe.MeasuredModel.capStar)",
+  "pattern: eq:capineq-type inequalities from an infimum hold with no hypothesis in multiplied form (√cap*·ℓ(u) ≤ ‖∇u‖ for finite-energy u, sqrt_capStar_mul_ell_le); the divided form needs 0 < cap* < ∞; infinite-energy u are handled by the bound |ℓ| ≤ L√dirichlet, whose junk 0 forces ℓ(u) = 0",
+  "pattern: a model Prop restated to keep a file strict-only: TraceBound is YamabeScaffold.Trace's TraceIneq with w12Sq unfolded, and `example : M.TraceIneq g ↔ M.TraceBound g := Iff.rfl` checks it in a /tmp file importing both (Perforated/Capacity.lean)",
+  "pitfall: at this pin `zero_le` for ℝ≥0∞ takes its argument implicitly (write `fun _ => zero_le`), `tendsto_finset_sum` is deprecated for `tendsto_finsetSum`, `ofReal_norm_eq_enorm` for `ofReal_norm`; in `ENNReal.rpow_ne_top_of_nonneg` give the exponent `(y := …)` or the side goal is a metavariable",
+  "pattern: the two-point toy model satisfies a direct-method Prop (weak compactness, lsc energy, L² convergence of values and traces) by tendsto_subseq_of_bounded in Bool → ℝ and eLpNorm_le_of_ae_bound with norm_le_pi_norm (toy_directMethod, toy_tendsto_eLpNorm)"
+ ],
+ "notes": "One file, scaffold/YamabeScaffold/Perforated/Capacity.lean, importing the strict Yamabe.Negative only: sorry-free, no warning, standard axioms; it can graduate to Yamabe/Perforated/Capacity.lean as it stands (namespace Yamabe). Name checks: no collision with the strict library or the scaffold; toy_normSq_two was renamed toy_normSq_two_vol because scaffold Rellich.lean has a toy_normSq_two. Observed while checking collisions (not mine to fix): Star3.lean declares `lemma pStar_three` at Yamabe top level, which the strict Yamabe/Negative.lean:260 already declares (Star3 imports Yamabe.Kobayashi, so it compiles alone, but a module importing both Star3 and Yamabe.Negative, e.g. T-perf-main importing Star3 and this file, will fail). Star3 defines MeasuredModel.mean = (∫ val)/V, which equals this file's volMean = V⁻¹ * ∫ val (by mul_comm/div_eq_inv_mul); T-perf-main may want a bridging lemma. TraceBound ≡ TraceIneq by Iff.rfl. The marks are def:capstar and lem:holder; lem:capstar and lem:capacitary are written without the mark. The dispatch's |u| point is answered by eq_linear (lem:capacitary finding); the O(F(1)²) reading does not concern this target (it is thm:main's, T-perf-main)."
+}

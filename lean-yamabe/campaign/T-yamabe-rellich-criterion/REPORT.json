@@ -1,0 +1,82 @@
+{
+ "package": "T-yamabe-rellich-criterion",
+ "target": "T-yamabe-rellich-criterion",
+ "files": [
+  "scaffold/YamabeScaffold/RellichCriterion.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "lem:positivity",
+   "tex_lines": [
+    715,
+    721
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.totallyBounded_of_approx_finiteRank",
+    "Yamabe.totallyBounded_Lp_of_approx_finiteRank",
+    "Yamabe.isCompact_closure_Lp_of_approx_finiteRank",
+    "Yamabe.exists_subseq_tendsto_eLpNorm_of_approx",
+    "Yamabe.exists_subseq_tendsto_eLpNorm_of_approx_bdd",
+    "Yamabe.exists_subseq_tendsto_eLpNorm_two"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the target: Lp ℝ p μ with 1 ≤ p < ∞",
+     "here": "weakened",
+     "note": "Lp F p μ for any real normed F (complete for the convergence statements; F = ℝ is the target's case) and 1 ≤ p ≤ ∞, p = ∞ included ([Fact (1 ≤ p)] only)"
+    },
+    {
+     "paper": "the target: a set within every ε > 0 of the image of a bounded set under a finite-rank continuous linear map",
+     "here": "carried",
+     "note": "totallyBounded_of_approx_finiteRank: ∀ ε > 0, ∃ Y (real seminormed), T : Y →L[ℝ] E with FiniteDimensional ℝ (LinearMap.range T.toLinearMap), B bounded, ∀ x ∈ S, ∃ b ∈ B, dist x (T b) ≤ ε; any real normed E, Lp F p μ included. It is sharp: totallyBounded_iff_isBounded_and_approx (the equivalent bounded + finite-dimensional-subspace form is a characterisation of total boundedness)"
+    },
+    {
+     "paper": "the target: the u_k are functions in L^p (MemLp)",
+     "here": "weakened",
+     "note": "AEStronglyMeasurable (u k) μ; MemLp is derived from the L^p bound (bounded form) or from one approximant (finite-rank form)"
+    },
+    {
+     "paper": "(u_k) bounded in W^{1,2}(Σ) (l.720)",
+     "here": "not used",
+     "note": "this file is the functional-analytic half; the W^{1,2} bound enters the manifold half, which must produce the approximation hypothesis (Half.cell_approx in charts)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "target_statement": {
+  "status": "closed",
+  "note": "Both halves of the target's title are proved, sorry-free, standard axioms: (1) totally bounded: totallyBounded_of_approx_finiteRank (any real normed space) and totallyBounded_Lp_of_approx_finiteRank (in Lp F p μ); (2) hence a subsequence converging in L^p to a MemLp limit in the eLpNorm form, on functions: exists_subseq_tendsto_eLpNorm_of_approx_bdd (the title's finite-rank form on functions: combinations ∑ i ∈ s, c i • g i of finitely many MemLp g with |c i| ≤ K) and exists_subseq_tendsto_eLpNorm_of_approx (bounded in L^p, combinations with arbitrary coefficients). exists_subseq_tendsto_eLpNorm_two (p = 2, real functions) has the conclusion of Mfd.rellich_kondrachov: checked out of tree by `example … : type_of% (rellich_kondrachov g hμ u hu hb) := exists_subseq_tendsto_eLpNorm_two u hm hb2 happrox`, compiled against the .lake olean of YamabeScaffold.Rellich through /tmp oleans (kb 0027)."
+ },
+ "extra_decls": [
+  "Yamabe.totallyBounded_of_forall_approx",
+  "Yamabe.exists_subseq_tendsto_of_totallyBounded",
+  "Yamabe.totallyBounded_of_subset_submodule",
+  "Yamabe.totallyBounded_image_of_finiteDimensional_range",
+  "Yamabe.isCompact_closure_of_approx_finiteRank",
+  "Yamabe.totallyBounded_of_isBounded_of_approx",
+  "Yamabe.totallyBounded_iff_isBounded_and_approx",
+  "Yamabe.coeFn_finsetSum_smul",
+  "Yamabe.dist_toLp_finsetSum_le",
+  "Yamabe.exists_subseq_tendsto_eLpNorm_of_totallyBounded",
+  "Yamabe.approx_of_totallyBounded"
+ ],
+ "kb_proposals": [
+  "Pattern: the functional-analytic half of Rellich–Kondrachov is YamabeScaffold.RellichCriterion (Mathlib only): exists_subseq_tendsto_eLpNorm_of_approx needs only AEStronglyMeasurable u_k, an L^p bound ∃ K : ℝ≥0, ∀ k, eLpNorm (u k) p μ ≤ K, and for every ε > 0 a Finset s of an arbitrary index type with MemLp g_i and eLpNorm (u k − ∑ i ∈ s, c i • g i) p μ ≤ ofReal ε — no bound on the coefficients (the cell averages); exists_subseq_tendsto_eLpNorm_two is its p = 2 form, with Mfd.rellich_kondrachov's conclusion.",
+  "Pitfall: at this pin LinearMap.range does not elaborate on a ContinuousLinearMap (it expects a →ₛₗ): write LinearMap.range T.toLinearMap; the FiniteDimensional instance on the range of a map out of a finite-dimensional space is then found (LinearMap.finiteDimensional_range).",
+  "Pitfall: Lp.coeFn_zero takes E p μ explicitly (Lp.coeFn_zero F p μ); Lp.coeFn_add, Lp.coeFn_smul, Lp.dist_def and MemLp.toLp need no Fact (1 ≤ p), so a section variable [Fact (1 ≤ p)] must be omitted there (unusedSectionVars, a failure under warningAsError).",
+  "Pattern: Mathlib has no Lp.coeFn_sum at this pin; Yamabe.coeFn_finsetSum_smul gives ⇑(∑ i ∈ t, c i • G i) =ᵐ ∑ i ∈ t, c i • g i by Finset induction (Lp.coeFn_add, Lp.coeFn_smul), and Yamabe.dist_toLp_finsetSum_le turns an eLpNorm bound on v − ∑ c i • g i into a dist bound in Lp."
+ ],
+ "notes": "`taskset -c 0-11 lake build YamabeScaffold.RellichCriterion`: built, 8558 jobs, only this module compiled (nothing upstream moved). One new file, imports Mathlib only, no sorry (the gate's sorry_count.py strip-and-count gives 0), no warning under `lake env lean` (warningAsError-ready), axioms propext, Classical.choice, Quot.sound for every theorem (#print axioms of all 17, out of tree). Graduation to Yamabe/ is a file move. The scaffold root scaffold/YamabeScaffold.lean (an existing file, outside this dispatch) does not import YamabeScaffold.RellichCriterion: add the import at graduation or integration, otherwise scripts/AxiomSweep.lean does not see the module (lean-causal kb 0025). For T-yamabe-analysis (Mfd.rellich_kondrachov): REPORT-2's step (3) is closed by this file, and in the bounded form it no longer needs the bound on the averages avg_{C_z}(v_i(u_k)): the L² bound ‖u_k‖_{L²(μ)} ≤ w12 g μ (u k) and, for every ε, the cell approximation in L²(μ) (steps (1)–(2) of REPORT-2: finiteness of μ, so that the cell indicators are MemLp 2 μ, and the chart-level assembly of Half.cell_approx) suffice. lem:positivity stays partial and unmarked: this is one step of its proof, the manifold half of Rellich–Kondrachov remains."
+}

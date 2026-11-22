@@ -1,0 +1,64 @@
+{
+  "target": "T-perf-star3",
+  "auditor_round": 1,
+  "package": "T-perf-star3",
+  "round": 1,
+  "file": "scaffold/YamabeScaffold/Perforated/Star3.lean",
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "def:constants",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "perforated.tex l.316-326 read in full. lambda1 = sSup{lam > 0 : lam ||v - vbar||_2^2 <= ||grad v||_2^2 for all v in D} is the paper's 'best constant in the Poincare inequality' (l.320-321), with attainment (isPoincareConst_lambda1), maximality (le_lambda1) and the Rayleigh form (lambda1_eq_sInf_rayleigh). Csp = sInf{C >= 0 : ||v - vbar||_{p*} <= C ||grad v||_2 for all v} is 'the least C' of l.322-324, attained once one constant exists (isSobolevPoincareConst_Csp) and least (Csp_le). mean is V^{-1} int u (l.313). Not formalized, and disclosed: the 'first non-zero Neumann eigenvalue' reading (the model has no Laplacian), and lambda1 > 0 and C_SP < oo (l.319, l.328), which are carried where used and belong to T-perf-poincare. Status partial, unmarked: correct."
+    },
+    {
+      "label": "thm:star3",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "l.575-665 read in full. (a) The printed form in Lean matches the TeX term for term: star3N2 = X0/sqrt(lam), star3N6 = min{C X0, 2}, star3G = X0^{-2}[15V^{-2/3}n2^2 + 20V^{-1/2}n2^{3/2}n6^{3/2} + 15V^{-1/3}n2 n6^3 + 6V^{-1/6}n2^{1/2}n6^{9/2} + n6^6], star3Coeff = max{1/X0^2, G/(1+t0^2+t0^4), C^2/(1-t0)^2}, star3Atil = inf over X0 > 0, t0 in [0,1), with lambda1 and Csp of def:constants and V = vol(univ). StarIneq is eq:star (l.184-187) with u >= 0 pointwise. The refutation bounds Atil above by one admissible coefficient, so it holds whether 'min' is read as min or as inf. The refuted statement quantifies over every MeasuredModel with finite volume, measurable values, lambda1 > 0 and a finite Sobolev-Poincare constant: the dispatch's reading of 'compact, connected, Lipschitz'. (b) The counterexample satisfies those readings (star3Cex_hyps), but it is outside the paper's class. The two-point model has C_SP = (a b^6 + b a^6)^{1/6} = 0.45952, and the paper's own lem:csp-lower (l.333-339) proves C_SP >= 0.53831 for every Sigma of its setting with non-empty boundary, N = 3. A two-point space has no local geometry, so no Sobolev concentration. The formal refutation therefore holds against the model reading only. (c) Against the paper, the finding is very likely true, but it is not proved. My check of the dumbbell argument the REPORT mentions: take two lobes of volumes a = 1/100 and b = 99/100 joined by a neck of conductance kappa -> 0. Then lambda1 ~ kappa/(ab), C_SP^2 ~ g/kappa with g = (a b^6 + b a^6)^{1/3}, and the test function's needed constant ~ f/kappa with f = 0.26974. All scale as 1/kappa. The printed Atil times kappa tends to max{15ab, g} = max{0.1485, 0.2112} = 0.2112 < 0.2697. Here C_SP -> oo, so lem:csp-lower is no obstruction. The two-point model is exactly this degenerate, scale-free limit. The delicate step, the upper bound C_SP^2 kappa -> g, is plausible but unproved. (d) The proof error holds against the paper with no model involved. G increases on (0, 2/C] and decreases on [2/C, oo). Case (ii) (l.645) is the only use of 'G(X) <= G(X0)'. In the counterexample, normalised u has X = 1.7217 < X0 = 1e5 and t = 0.4477 >= t0 = 0, so it falls in case (ii). There G(X) = 1.289 while G(X0) = 0.1542, so D = 0.7996 > G(X0) X^2 = 0.457, whereas eq:Dbound (X^2 G(X)/(1+t^2+t^4) = 3.08) holds. Monotonicity is exactly where the proof breaks. (e) The corrected thm_star3_corrected carries the same hypotheses as the refuted printed form (IsFiniteMeasure, hD, 0 < lambda1, an SP constant exists). Its only change is the restriction C_SP X0 <= 2 in the constant, and its conclusion is stronger in u (signed, StarIneqSigned). No added hypothesis. Its hypotheses are satisfiable (star3Cex_hyps). On the two-point model the corrected constant is 0.6306 >= 0.2697, which is consistent. The closer's claim that the two alternative corrections give the same minimum checks out by hand: at X0 = 2/C the term 1/X0^2 = C^2/4 never binds, since C^2/(1-t0)^2 >= C^2. Status partial, unmarked: correct."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "taskset -c 0-11 lake env lean scaffold/YamabeScaffold/Perforated/Star3.lean: exit 0, no output. taskset -c 0-11 lake build YamabeScaffold.Perforated.Star3: 'Build completed successfully' (no lake build was running beforehand). The only 'sorry' in the file is the docstring phrase 'no `sorry` in this file' (l.37). #print axioms on all 24 theorem-level decls the REPORT names (the def:constants lemmas, star3_binom ... thm_star3_corrected_nonneg, star3G_not_monotone, star3CexModel, star3Cex_hyps, star3Cex_not_star, thm_star3_printed_false, StarIneqSigned.starIneq): [propext, Classical.choice, Quot.sound]. Every def and extra_decl named exists (#check). The probe was written under campaign/T-perf-star3/ and deleted. No name clash with Capacity.lean, RellichCriterion.lean or Yamabe/ as of the audit."
+  },
+  "numbers_recomputed": {
+    "script": "/tmp/audit-star3/check.py, /tmp/audit-star3/table.py (independent float computation)",
+    "G_at_V_lam_C_1": "G(2) = 179, G(4) = 94.2548 = 49 + 32 sqrt 2: confirmed",
+    "model": "V = 1, lambda1 = 1/(ab) = 101.0101 = 10^4/99, C_SP = 0.459517 (C^2 = 0.211156 <= 100^{-1/3} = 0.21544 <= 0.22)",
+    "u": "u = (1, 1/5): ||u||_6^2 = 0.215898 > 0.19, ubar = 0.208, V^{1/3} ubar^2 = 0.043264, ||grad u||^2 = 0.64, needed A = 0.269740",
+    "printed_coefficient_at_1e5_0": "exact 0.211156 (G(1e5) = 0.154235; Lean's bound on G is 0.15692 <= 0.22); 0.22*0.64 + 0.043264 = 0.184064 < 0.19: confirmed",
+    "printed_Atil_on_model": "0.211156 (inf at t0 = 0, any large X0); corrected 0.6306",
+    "table_l660": "corrected minima 1.0696, 1.5087, 2.5082, 4.6820 for C_SP = 0.539, 0.70, 1.0, 1.5 (lambda1 V^{2/3} = 4 pi^2): the closer's 1.070, 1.509, 2.508, 4.682 confirmed. The printed formula's literal minimum is 0.375, 0.490, 1.000, 2.250."
+  },
+  "scope": "git status --short lean-yamabe: only untracked campaign/T-perf-star3/ (REPORT.json, now this AUDIT), scaffold/YamabeScaffold/Perforated/ (Star3.lean, plus Capacity.lean belonging to T-perf-capacity), and the other dispatched targets' campaign/T-perf-capacity/, campaign/T-yamabe-rellich-criterion/ and RellichCriterion.lean. No tracked lean-yamabe file is modified. Repo-wide, the modified files are lean-causal/Causal/{CausalIsoInvariance,ChronalNeighbourBridge,Ladder/Dual,LadderLocal}.lean (mtimes 23:37-23:38, after this REPORT at 23:32, beside the ETT loop's campaign T-abs-one-sided-future-base) and the roadmap tomls: other loops' work, not this closer's. Docstring contract (lean-causal kb 0006): title, both labels within the first 4000 characters, unmarked, quoted > blocks, Hypothesis checklist (l.49), SCOPE (l.61), provenance (l.85). All present, and true except for the wording findings below.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/YamabeScaffold/Perforated/Star3.lean:11 and :1183 (docstrings of the module and of star3Cex_not_star); SCOPE :66-69; REPORT.json thm:star3 findings[1]",
+      "what": "The headline '**false as printed**' / 'Finding: thm:star3 is false as printed' is unqualified. It is formally established only over the abstract MeasuredModel class, and its witness lies outside the paper's setting: the two-point model has C_SP = 0.4595 < 0.53831, the lower bound of the paper's lem:csp-lower (l.333-339) for every Sigma with non-empty boundary, N = 3. The REPORT body does say 'on the model of record' and that the dumbbell is 'not formalized', so this is not a false finding. But put to the author as it stands, the headline reads as a proved refutation of a theorem about Riemannian manifolds, and the obvious objection (a two-point space has no local geometry and violates lem:csp-lower) is not answered.",
+      "fix": "Before it goes to the author, split the finding in two. (1) Proved against the paper, model-free: l.635 is false, and case (ii) (l.645) uses it. (2) Proved on the abstract model, and argued but not proved on manifolds: the printed Atil is not a valid constant. State that the two-point witness violates lem:csp-lower and is the scale-free thin-neck limit of a Riemannian dumbbell: lambda1 ~ kappa/(ab), C_SP^2 ~ g/kappa, and the needed constant ~ f/kappa, with 15ab = 0.1485, g = 0.2112, f = 0.2697, so the printed Atil times kappa tends to 0.2112 < 0.2697 while C_SP -> oo. Reword l.11 and l.1183 as 'false on the abstract model (thm_star3_printed_false); on manifolds by a dumbbell degeneration, not formalized'."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/YamabeScaffold/Perforated/Star3.lean:65; REPORT.json thm:star3 findings[0]",
+      "what": "''G(X) <= G(X0)' is false for X < 2/C_SP < X0' overstates the quantifier. It fails for some such X, for example X = 2/C_SP when X0 > 2/C_SP, not for all of them: for small X, G(X) is close to 15V^{-2/3}/lambda1 and can lie below G(X0).",
+      "fix": "Write 'fails for some X < X0 as soon as X0 > 2/C_SP (e.g. X = 2/C_SP, where G is maximal)'."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json thm:star3 findings[3] (l.657-664 numerics)",
+      "what": "Confirmed as stated, but incomplete in a way the author will want: the printed formula's own minimum on the torus data is 0.375, 0.490, 1.000 and 2.250. So the table matches the printed eq:Atil only at C_SP = 1.5. The values 1.073 and 1.511 match the corrected formula, and 1.915 matches neither.",
+      "fix": "Add the printed formula's literal minima to the finding."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json thm:star3 hypotheses[6] ('here': 'strengthened'); Star3.lean:59 ('⚠ changed')",
+      "what": "Contract vocabulary (kb 0006): 'strengthened' means the Lean theorem assumes more. Here nothing is assumed; the conclusion's constant is larger, a narrower conclusion. Already disclosed and marked partial, so this is a labelling nit only.",
+      "fix": "Call it a narrowed conclusion (corrected constant), not 'strengthened'."
+    }
+  ]
+}

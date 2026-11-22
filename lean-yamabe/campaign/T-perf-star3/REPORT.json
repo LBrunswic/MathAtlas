@@ -1,0 +1,168 @@
+{
+ "package": "T-perf-star3",
+ "target": "T-perf-star3",
+ "files": [
+  "scaffold/YamabeScaffold/Perforated/Star3.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "def:constants",
+   "tex_lines": [
+    316,
+    326
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.MeasuredModel.mean",
+    "Yamabe.MeasuredModel.IsPoincareConst",
+    "Yamabe.MeasuredModel.lambda1",
+    "Yamabe.MeasuredModel.IsSobolevPoincareConst",
+    "Yamabe.MeasuredModel.Csp",
+    "Yamabe.MeasuredModel.isPoincareConst_lambda1",
+    "Yamabe.MeasuredModel.le_lambda1",
+    "Yamabe.MeasuredModel.lambda1_pos",
+    "Yamabe.MeasuredModel.lambda1_eq_sInf_rayleigh",
+    "Yamabe.MeasuredModel.isSobolevPoincareConst_Csp",
+    "Yamabe.MeasuredModel.Csp_le",
+    "Yamabe.MeasuredModel.Csp_nonneg"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Sigma compact, connected, Lipschitz: lambda_1 > 0 and C_SP finite (l.319, l.328)",
+     "here": "carried where used",
+     "note": "the definitions need nothing; the attainment lemmas carry 0 < lambda1 (Lean's sSup is 0 on an empty or unbounded set, so this says lambda_1 in (0, oo)) and the existence of one Sobolev-Poincare constant. Proving them is T-perf-poincare's"
+    },
+    {
+     "paper": "v in W^{1,2}(Sigma)",
+     "here": "read",
+     "note": "v ranges over the model's D; normSq and dirichlet are 0 when infinite (Yamabe.Quotient), so an instance must take D among finite-energy functions (kb 0002)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "l.319-321: lambda_1 is 'the first non-zero Neumann eigenvalue, equivalently the best constant in the Poincare inequality'. The measured model has no Laplacian, so the spectral reading cannot be stated. Reading taken: lambda1 = sup{lambda > 0 : lambda ||v - vbar||_2^2 <= ||grad v||_2^2 for all v}, the best constant. It is attained (isPoincareConst_lambda1), maximal (le_lambda1) and equal to inf ||grad v||^2/||v - vbar||^2 over v with ||v - vbar|| > 0 (lambda1_eq_sInf_rayleigh), the variational form of the eigenvalue. The equality with an operator eigenvalue is not formalized.",
+    "l.322-324: C_SP is read as the least C >= 0 with the inequality for all v in D. It is attained once one constant exists (isSobolevPoincareConst_Csp) and is least (Csp_le)."
+   ]
+  },
+  {
+   "label": "thm:star3",
+   "tex_lines": [
+    601,
+    655
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.star3N2",
+    "Yamabe.star3N6",
+    "Yamabe.star3G",
+    "Yamabe.star3Coeff",
+    "Yamabe.star3Atil",
+    "Yamabe.star3AtilCorr",
+    "Yamabe.star3Phi",
+    "Yamabe.MeasuredModel.StarIneq",
+    "Yamabe.MeasuredModel.StarIneqSigned",
+    "Yamabe.star3_binom",
+    "Yamabe.star3_interp",
+    "Yamabe.star3_core",
+    "Yamabe.star3_Dbound",
+    "Yamabe.star3_normalized",
+    "Yamabe.star3_integral",
+    "Yamabe.MeasuredModel.star3_point",
+    "Yamabe.MeasuredModel.star3_of_consts",
+    "Yamabe.MeasuredModel.thm_star3_corrected",
+    "Yamabe.MeasuredModel.thm_star3_corrected_nonneg",
+    "Yamabe.star3G_eq",
+    "Yamabe.star3G_not_monotone",
+    "Yamabe.star3CexModel",
+    "Yamabe.star3Cex_hyps",
+    "Yamabe.star3Cex_not_star",
+    "Yamabe.thm_star3_printed_false"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N = 3",
+     "here": "carried",
+     "note": "MeasuredModel X D 3 n"
+    },
+    {
+     "paper": "(Sigma, g) compact",
+     "here": "carried",
+     "note": "IsFiniteMeasure (M.vol g)"
+    },
+    {
+     "paper": "connected, Lipschitz boundary (they make lambda_1 > 0 and C_SP finite, l.328)",
+     "here": "carried",
+     "note": "0 < M.lambda1 g and exists C, M.IsSobolevPoincareConst g C: the dispatch's 'the theorem holds for any finite values'. star3_of_consts proves it for ANY valid constants lambda > 0, C >= 0"
+    },
+    {
+     "paper": "u in W^{1,2}(Sigma)",
+     "here": "read",
+     "note": "u in D with M.val u a.e.-strongly measurable (hD), as lem_positivity carries"
+    },
+    {
+     "paper": "u >= 0 (eq:star, l.187)",
+     "here": "weakened",
+     "note": "not used: eq:star is proved for every u (StarIneqSigned)"
+    },
+    {
+     "paper": "Sigma nonempty, boundary nonempty",
+     "here": "weakened",
+     "note": "not used (vol = 0 is handled; no boundary term enters thm:star3)"
+    },
+    {
+     "paper": "the constant A-tilde of eq:Atil, the min over all X_0 > 0",
+     "here": "strengthened",
+     "note": "the min is restricted to C_SP X_0 <= 2 (star3AtilCorr), a larger constant; the printed one is refuted (thm_star3_printed_false)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.635: 'note G is non-decreasing in its argument' is false. With the cap n_6 = min{C_SP X_0, 2}, every term of G except the constant 15 V^{-2/3}/lambda_1 is a negative power of X_0 once X_0 >= 2/C_SP. So G increases on (0, 2/C_SP] and decreases on [2/C_SP, oo). Lean: star3G_not_monotone, G(4) < G(2) at V = lambda_1 = C_SP = 1, with G(2) = 179 and G(4) = 49 + 32 sqrt 2. Case (ii) (l.645-647), 'G(X) <= G(X_0)', fails for X < 2/C_SP < X_0.",
+    "l.607-611 (thm:star3): the printed A-tilde is not a valid constant, and the theorem is false as printed on the model of record (DEC-186). Since G(X_0) -> 15 V^{-2/3}/lambda_1 and 1/X_0^2 -> 0 as X_0 -> oo, the printed min is approached at large X_0, where it is about max{15V^{-2/3}/(lambda_1(1+t_0^2+t_0^4)), C_SP^2/(1-t_0)^2} (argument not formalized). Counterexample: a two-point measured model, masses 1/100 at true and 99/100 at false, energy (u(true)-u(false))^2, so V = 1, lambda_1 = 10^4/99 (Lean proves >= 100) and C_SP ~ 0.4596 (Lean proves <= 100^{-1/6}). It satisfies every hypothesis (star3Cex_hyps). The coefficient of eq:Atil at (X_0, t_0) = (10^5, 0) is <= 0.22. But u = (1, 1/5) >= 0 has ||u||_6^2 > 0.19 > 0.22 ||grad u||^2 + V^{1/3} ubar^2 = 0.184064, since eq:star at this u needs A-tilde >= 0.2697. Lean: star3Cex_not_star, thm_star3_printed_false. A Riemannian dumbbell (two lobes of volumes 1/100 and 99/100 joined by a thin neck) is expected to behave alike as the neck closes. That is not formalized.",
+    "Correction (thm:star3): restrict X_0 to (0, 2/C_SP]. There n_6 = C_SP X_0, X^2 G(X_0) bounds the right side of eq:binom for X < X_0, and the proof goes through verbatim. eq:star holds with the restricted min (thm_star3_corrected; per point, star3_point). Every other step holds as printed and is formalized: eq:binom (star3_binom), the three interpolations l.629-633 (star3_interp), eq:Dbound with G at X and the cap (star3_Dbound), cases (i) and (iii) (star3_normalized). Two other candidate corrections give the same minimum by an elementary argument (not formalized): dropping the cap (n_6 = C_SP X_0) over all X_0 > 0, and replacing G(X_0) by sup_{X <= X_0} G(X).",
+    "l.657-664 numerics (not formalized; my own numerical minimization of eq:Atil with lambda_1 V^{2/3} = 4 pi^2 and V = 1). Corrected min: about 1.070, 1.509, 2.508 and 4.682 for C_SP = 0.539, 0.70, 1.0 and 1.5. The printed 1.073 and 1.511 agree with it. The printed 1.915 and 2.250 lie below it; 2.250 = C_SP^2 is the value of the faulty large-X_0 branch at t_0 = 0. These two numbers are not certified by the proof.",
+    "Signed form (asked by the target's evidence for T-perf-main): eq:star holds for every u in W^{1,2}(Sigma), not only u >= 0, with the same (corrected) constant. The proof uses u >= 0 only for t in [0,1] (eq:t). With |t| for t, case (ii) needs |t| >= t_0 and case (iii) needs 1 - |t| <= ||u||_6 - V^{1/6}|ubar| <= ||v||_6, and both hold. Lean: thm_star3_corrected concludes StarIneqSigned. Here |t| <= 1 comes from eq:binom and the convexity of x^6 (star3_core)."
+   ],
+   "questions": [
+    "eq:Atil writes 'min'. I read it as an infimum (sInf over the admissible (X_0, t_0)). It equals the min whenever the min exists, so Lean >= paper.",
+    "Which correction of eq:Atil should be of record? Reading taken: the printed formula with X_0 restricted to C_SP X_0 <= 2 (star3AtilCorr), which keeps the printed G verbatim. The alternatives (drop the cap, or take sup_{X <= X_0} G) give the same minimum. Only the author decides.",
+    "Reading of 'compact, connected, with Lipschitz boundary' on the model: finite volume plus lambda_1 in (0, oo) plus one finite Sobolev-Poincare constant, per the dispatch ('the theorem holds for any finite values'; finiteness is T-perf-poincare's)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Yamabe.integrable_pow_of_memLp_six",
+  "Yamabe.toReal_eLpNorm_six",
+  "Yamabe.normSq_six",
+  "Yamabe.integral_poly",
+  "Yamabe.integral_mul_le_sqrt_mul_sqrt",
+  "Yamabe.star3_interp_ab",
+  "Yamabe.star3_convex",
+  "Yamabe.star3Phi_mono",
+  "Yamabe.star3Phi_scale",
+  "Yamabe.star3Coeff_nonneg",
+  "Yamabe.rpow_div_two_eq_sqrt_pow",
+  "Yamabe.inv_rpow_sixth_pow",
+  "Yamabe.MeasuredModel.StarIneqSigned.starIneq"
+ ],
+ "kb_proposals": [
+  "Pattern: Real's sSup is 0 on an empty or unbounded set, so the hypothesis 0 < sSup S says that S is nonempty and bounded: a finite positive best constant (MeasuredModel.lambda1, isPoincareConst_lambda1).",
+  "Pattern: a two-point MeasuredModel with weights uses mu := ENNReal.ofReal a • dirac true + ENNReal.ofReal b • dirac false. IsFiniteMeasure comes from Measure.smul_finite ENNReal.ofReal_ne_top, and integrals from integral_add_measure, integral_smul_measure and integral_dirac (Yamabe.star3Cex_integral). It is a cheap counterexample to a constant that depends on lambda_1 and C_SP.",
+  "Pattern: the L^2-L^6 interpolation needs no fractional Holder. Three Cauchy-Schwarz steps (integral_mul_le_Lp_mul_Lq_of_nonneg with Real.HolderConjugate.two_two) in alpha = (int v^2)^{1/4} and beta = (int v^6)^{1/12} make every bound polynomial (Yamabe.star3_interp_ab).",
+  "Pattern: a binomial expansion under the integral is add_pow, then integral_finsetSum (integral_finset_sum is deprecated at this pin) and Finset.sum_range_succ (Yamabe.star3_binom, Yamabe.integral_poly).",
+  "Pitfall: at this pin add_le_add_left h a gives b + a <= c + a, with the summand on the right.",
+  "Pitfall: nlinarith in a context of about 60 hypotheses hits maxHeartbeats. Give the explicit products (mul_le_mul_of_nonneg_right ...) and close with linarith.",
+  "Convention: Yamabe.pStar_three lives in the strict Yamabe.Negative. Import it rather than redefining it, since a duplicate breaks any module that imports both."
+ ],
+ "notes": "Imports only the strict Yamabe.Negative, for pStar_three, toyP, toyD and toyMetric. I checked the file's 68 declaration names against Yamabe/ and scaffold/ at the time of writing and found no clash. As of 23:31 there is also no short-name overlap with Capacity.lean (T-perf-capacity) or RellichCriterion.lean (T-yamabe-rellich-criterion). Both of those were still being written, so recheck MeasuredModel.mean and the generic helpers (normSq_six, toReal_eLpNorm_six, integral_poly, integral_mul_le_sqrt_mul_sqrt) when deduplicating. `lake build YamabeScaffold.Perforated.Star3` compiled only this module. Both labels stay unmarked. def:constants is partial because of a reading (the best-constant reading; lambda_1 > 0 and finiteness are T-perf-poincare's hypotheses). thm:star3 is partial because it is false as printed: its corrected form is proved sorry-free and its printed form is refuted on the model of record. Downstream, yamabe's thm:lower-bound and perforated's thm:main use A-tilde only as a finite constant depending on lambda_1, C_SP and V. The corrected A-tilde still is such a constant, but any number quoted from l.660 for C_SP >= 1 is not certified."
+}

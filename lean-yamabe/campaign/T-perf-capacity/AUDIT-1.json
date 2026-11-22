@@ -1,0 +1,64 @@
+{
+ "target": "T-perf-capacity",
+ "auditor_round": 1,
+ "file": "scaffold/YamabeScaffold/Perforated/Capacity.lean",
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "def:capstar",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "ell = volMean - bdryAvg is eq:ell (l.159) term by term: V^-1 ∫ val, and Σ_j (w_j/|B_j|) ∫ tr d(bvol j) with w_j = |B_j|^{2/p♯}/S. bdryS uses (N-2)/(N-1), which is 2/p♯ for N ≥ 3 (bdryS_eq). capStar = ⨅ v ∈ D, ⨅ (ell v = 1), energy v in ℝ≥0∞, where energy = ∫⁻ ofReal |∇v|²_g d vol_g. That is eq:capstar over the model's reading of W^{1,2}: inf ∅ = ⊤, and an infinite-energy element contributes ⊤, so it cannot lower the infimum. On a dense reading of D (C¹ per OQ-93 (b)) the value equals the W^{1,2} one, because ℓ and the energy are W^{1,2}-continuous. Junk values are disclosed in SCOPE: ℓ uses Bochner integrals, which only matter off L¹, a case that does not arise on any faithful instance. theta = a_N cap*.toReal/(c_N S) is the paper's θ wherever θ is real. If cap* = ⊤ it takes the junk value 0, a case lem_capstar excludes; this is disclosed under questions. Facts checked: w_j ≥ 0, Σ w_j = 1 once S ≠ 0, ℓ(1) = 0, linearity, and ell_bounded under TraceBound with L² values."
+  },
+  {
+   "label": "lem:capstar",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked and partial, correctly. lem_capstar gives 0 < cap* < ⊤ and eq:capineq for every u ∈ D, with the paper's exact inequality volMean u - bdryAvg u ≤ √dirichlet u / √cap*. lem_capstar_minimiser gives attainment and the weak Euler–Lagrange system ∫⟨∇v,∇φ⟩ = (μ/2)ℓ(φ) for every φ of finite energy, with μ = 2cap*, and the pairing ‖∇v‖² = μ/2. It holds for any minimiser, not only one. Carried Props, each a faithful stand-in. MeanPoincare is Poincaré with K = λ_1^-1, the paper's 'by Poincaré' (l.394), the place where connectedness enters (rem:connected). TraceBound is the trace theorem, and `M.TraceIneq g ↔ M.TraceBound g := Iff.rfl` checks in my probe against scaffold Trace.lean; its manifold discharge Mfd.Reads.traceIneq exists (ManifoldTheorems.lean:180). InteriorBump is the l.401 witness. DirectMethod is weak compactness, Rellich, compact trace into L² and lsc energy, all true on a W^{1,2} reading; the C¹ caveat is disclosed. GradMeasurable is automatic in W^{1,2}. All five, together with the finite-measure, vol ≠ 0 and ∃ j bvol ≠ 0 hypotheses, hold on the two-point toy model: toy_lem_capstar_hyps, cap* = 8. My probe fed toy_lem_capstar_hyps into lem_capstar_minimiser end to end. Caveat for the discharge, shared with the strict TraceIneq: MeanPoincare quantifies over all of D with the junk dirichlet = 0 at infinite energy, so it also forces infinite-energy elements to be a.e. constant. It must therefore be discharged on a reading where every element of D has finite energy (C¹ on compact Σ, or W^{1,2}), which is the intended one. The strong form (Δ, ∂_ν) is not stated and is disclosed as the open part. capStar_ge is the paper's bound [‖ℓ‖(1+λ_1^{-1/2})]^-2 with Λ the (W^{1,2})* norm and √K = λ_1^{-1/2}."
+  },
+  {
+   "label": "lem:capacitary",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked and partial, correctly. volMean u ≤ bdryAvg u + √dirichlet u / √cap* holds for every u ∈ D under MeanPoincare and TraceBound, through cap* > 0. It is immediate from capineq, as the paper says (l.474–476). The sign condition u ≥ 0 is dropped (⚠ weakened), and rightly so."
+  },
+  {
+   "label": "lem:holder",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The inequality is the paper's: bdryAvg u ≤ bdryY u / √S, with bdryY = (Σ_j ‖tr u‖²_{L^{p♯}(B_j)})^{1/2} = Y (l.464). It holds for every u with no sign condition and no positivity of |B_j|. The per-u hypothesis 'tr u ∈ L^{p♯}(B_j)' is a junk guard, not a narrowing. l.134 makes it standing for W^{1,2}, and where it fails the paper's Y is +∞, so the printed inequality is trivial there; in Lean, without it, normSq would be 0 and the statement false. The minimiser claim is true and complete: w* lies in the simplex, holderObj w* = 1/S, holderObj w* ≤ holderObj w on the simplex, and equality forces w = w*. holderObj_eq proves the stronger hyperplane identity Σ w_j²|B_j|^{-2/p♯} = 1/S + Σ (w_j - w*_j)²|B_j|^{-2/p♯}, which I checked by hand. The minimisation part assumes ∀ j, bvol j ≠ 0 and 0 < n. These read the paper's setting: the B_j are boundary components, so |B_j| > 0, which |B_j|^{-2/p♯} at l.482 presupposes; n ≥ 1 is standing by DEC-186; the strict library carries the same model facts. Without them the uniqueness claim is false in the model, because 0^{-r} = 0 in Mathlib. They are disclosed in the checklist. The mark is justified."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "how": "taskset -c 0-11 lake env lean scaffold/YamabeScaffold/Perforated/Capacity.lean: exit 0, no output, no warnings. A copy with one sorry appended reported exactly that sorry, so the file really is elaborated. taskset -c 0-11 lake build YamabeScaffold.Perforated.Capacity: up to date, nothing rebuilt upstream. grep -c sorry: 0. #print axioms on all 102 declarations named in REPORT.json (labels' decls and extra_decls): every one exists and depends on exactly [propext, Classical.choice, Quot.sound]. The probes were written under campaign/T-perf-capacity/ and deleted. The module imports Yamabe.Negative only (strict). Within this package, no declaration name collides with the strict library or the scaffold."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "REPORT.json, lem:holder findings[0] (l.497–500)",
+   "what": "The finding is right: capWeight_of_equal and bdryS_of_equal are correct, and S/|∂Σ|^{2/p♯} = n^{1/(N-1)} for n equal components. One clause overstates it: 'so no choice of weights loses anything there'. A non-uniform choice does lose: by holderObj_eq the excess is Σ (w_j - 1/n)² |B_j|^{-2/p♯} > 0. What is meant is that the uniform choice is the optimal one there. This sentence goes to the author.",
+   "fix": "Write: 'For n components of equal area the optimal weights are uniform, w_j = 1/n (capWeight_of_equal), so the uniform choice loses nothing there. The factor n^{1/(N-1)} = S/|∂Σ|^{2/p♯} (bdryS_of_equal) is the loss of one Hölder over all of ∂Σ instead of one per component, as the first half of the sentence says.'"
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json, lem:capstar findings[0]; Capacity.lean:86–90 (SCOPE, 'Finding (sign, l.386)')",
+   "what": "The sign finding is correct; I re-derived it. The weak form ∫⟨∇v,∇φ⟩ = (μ/2)ℓ(φ), integrated by parts with outward ν, gives -div∇v = μ/(2V) in Σ and ∂_ν v = -μ w_j/(2|B_j|) on B_j. With Δ = div∇, the convention of l.249's '-Δ + V', the divergence theorem forces μ = 0. The finding is stated for the outward normal only, and the inward normal does not rescue the printed system either. With Δ = div∇ and ν inward the system passes the compatibility test, but it is the system of -v: pairing gives ‖∇v‖² = -μ/2 < 0. The paper's own pairing claim (l.405–406, ‖∇v‖² = (μ/2)ℓ(v)) also holds only with Δ = -div∇. Adding both points would make the finding complete for the author.",
+   "fix": "Append to the finding: 'With Δ = div∇ no orientation of ν makes the printed system the Euler–Lagrange system of v. With ν inward it is the system of -v. The pairing ‖∇v‖² = (μ/2)ℓ(v) of l.405–406 holds only with Δ = -div∇.'"
+  },
+  {
+   "severity": "minor",
+   "where": "Capacity.lean:73 (SCOPE, 'Proved')",
+   "what": "'without any hypothesis in multiplied form, sqrt_capStar_mul_ell_le': that theorem assumes energy u ≠ ⊤. Its own docstring and REPORT.json say 'for every u of finite energy' correctly.",
+   "fix": "Write 'for every u of finite energy, with no other hypothesis, in multiplied form (sqrt_capStar_mul_ell_le)'."
+  }
+ ],
+ "notes": [
+  "Scope: git status --short lean-yamabe papers/perforated shows only the untracked Perforated/ directory, campaign/T-perf-capacity/, and the other closers' files (Star3.lean for T-perf-star3; RellichCriterion.lean and campaign/T-yamabe-rellich-criterion/ for T-yamabe-rellich-criterion). The tracked modifications are status edits by the master loop in roadmap/roadmap.toml, programme/roadmap.toml and papers/egf/programme/roadmap.toml. Nothing in them is attributable to this closer.",
+  "The finding 'the |u| reduction is not needed for lem:capacitary, lem:holder, eq:linear' is confirmed. eq_linear proves V^{1/p*}|ū| ≤ C_1 X + C_2 Y for every u ∈ D, using u and -u, volMean_neg, bdryAvg_neg, dirichlet_neg and bdryY_neg. eq_calib matches eq:calib (l.511–516), including θ F_g(1) = a_N cap*/V^{2/p*}.",
+  "The name clash is confirmed: Star3.lean:112 declares `lemma pStar_three` inside `namespace Yamabe`, and strict Yamabe/Negative.lean:260 declares the same `Yamabe.pStar_three`. Any module importing both (T-perf-main with Star3 and Capacity) will fail. This is T-perf-star3's file, not this target's.",
+  "The questions are well posed: the Δ convention, λ_1 read as a Poincaré constant (best constant not needed for positivity), and θ at cap* = ∞. The paper's 'the minimiser' (l.386) is unique only up to additive constants, since ℓ vanishes on constants. The Lean proves the weak Euler–Lagrange system for every minimiser, so nothing is lost."
+ ]
+}

@@ -1,0 +1,63 @@
+{
+  "target": "T-yamabe-rellich-criterion",
+  "package": "T-yamabe-rellich-criterion",
+  "auditor_round": 1,
+  "round": 1,
+  "file": "scaffold/YamabeScaffold/RellichCriterion.lean",
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "lem:positivity",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, and the REPORT row is partial. Both are correct. The paper's statement (l.717) is inf F_g > 0. This file proves one functional-analytic step of the proof (the appeal to Rellich-Kondrachov at l.720), not the lemma. The REPORT's hypothesis rows are accurate. I read each statement against the TARGET BLOCK, clause by clause. (1) THE CRITERION. totallyBounded_of_approx_finiteRank (l.144) assumes: for every eps > 0 there are Y : Type u (universe-polymorphic; my probe instantiated Type 0), a real seminormed Y, T : Y ->L[R] E, and B : Set Y, with FiniteDimensional R (range T), IsBounded B, and every x in S within dist <= eps of some T b with b in B. It concludes TotallyBounded S, for any real normed E. Y, T and B may depend on eps, which is more general than one fixed T. Writing <= eps instead of < eps changes nothing under 'for every eps'. Its Lp reading totallyBounded_Lp_of_approx_finiteRank (l.211) holds in Lp F p mu for any real normed F and any p with [Fact (1 <= p)]. That includes p = infinity, so it is wider than the target's Lp R p mu with 1 <= p < infinity. isCompact_closure_(Lp_)of_approx_finiteRank adds CompleteSpace, which R satisfies. (2) THE SEQUENCE HALF. The title's sentence holds literally on functions by composing exists_subseq_tendsto_eLpNorm_of_totallyBounded with totallyBounded_Lp_of_approx_finiteRank. My probe 3 did this in one term (F = R, Y : Type, a general finite-rank T, MemLp u_k, conclusion MemLp f p mu and eLpNorm (u (phi k) - f) p mu -> 0). exists_subseq_tendsto_eLpNorm_of_approx_bdd uses the coefficient form c |-> sum_{i in s} c i * g i with |c i| <= K. This is not narrower: take a basis of the finite-dimensional range T. The coordinate functionals are continuous, so they are bounded on T '' B, and every instance of the general hypothesis gives an instance of this one. exists_subseq_tendsto_eLpNorm_of_approx assumes an L^p bound plus approximation by a finite span with free coefficients. Both follow from the target's hypothesis (T '' B is bounded and lies in range T), so this is a relaxation. RELAXATIONS ARE REAL. In both function forms, AEStronglyMeasurable (u k) replaces MemLp (u k), and MemLp is derived in the proof: in _bdd from the eps = 1 approximant, in _of_approx from the bound. No hypothesis is added: mu is arbitrary, the index type beta is arbitrary, and the g's and s vary with eps. NON-VACUITY. approx_of_totallyBounded (l.342, proved) shows that every sequence of MemLp functions with totally bounded classes satisfies the hypotheses of _of_approx (with coefficients in {0,1}). My probe 4 checked a concrete instance of _bdd: the constant sequence 1 on R under dirac 0, with beta = Unit and s = {()}; it is closed by simp. totallyBounded_iff_isBounded_and_approx (l.188) proves the claimed sharpness. (3) THE p = 2 FORM AND Mfd.rellich_kondrachov. Its conclusion (Rellich.lean:481-484) is: exists phi, StrictMono phi and exists f : M -> R, MemLp f 2 mu and Tendsto (fun k => eLpNorm (u (phi k) - f) 2 mu) atTop (nhds 0). My probe stated, inside namespace Yamabe.Mfd and with Rellich.lean's variables, `example ... : type_of% (rellich_kondrachov g hmu u hu hb) := Yamabe.exists_subseq_tendsto_eLpNorm_two u hm hb2 happrox`. It elaborates. `with_reducible exact` also succeeds, so the two conclusions agree syntactically up to reducible unfolding, not only up to defeq. A later assembly can therefore close rellich_kondrachov's goal by `exact` once it produces hm, hb2 (an L^2 bound, immediate from w12) and happrox (the manifold half)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "TYPECHECK. From lean-yamabe/, `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/YamabeScaffold/RellichCriterion.lean` gave exit 0 and no output, so the file is ready for warningAsError. BUILD. `pgrep -af 'lake build'` found no build running. Then `taskset -c 0-11 lake build YamabeScaffold.RellichCriterion` printed 'Build completed successfully (8558 jobs)' and rebuilt nothing upstream. The olean (23:07) is newer than the source (23:05:48). SORRY. The only textual hit is the docstring phrase 'sorry-free' at l.19. scripts/sorry_count.py does not list the file. Its scaffold total of 43 comes from Rellich 1, Trace 1 and Perforated/Capacity 41, the last a parallel target. grep finds no admit, axiom, native_decide, unsafe, opaque, extern or implemented_by. AXIOMS. I wrote a probe, campaign/T-yamabe-rellich-criterion/AuditProbe.lean, importing YamabeScaffold.RellichCriterion and YamabeScaffold.Rellich, and ran it with `lake env lean`. #print axioms of all 17 declarations the REPORT names (6 decls + 11 extra_decls) each gave [propext, Classical.choice, Quot.sound]. The same probe ran the type_of% / with_reducible check against Mfd.rellich_kondrachov, the composition check (probe 3) and the non-vacuity instance (probe 4); all elaborated. The probe is deleted, and the campaign directory again holds only REPORT.json and this file."
+  },
+  "scope": {
+    "git_status": [
+      "?? lean-yamabe/campaign/T-yamabe-rellich-criterion/",
+      "?? lean-yamabe/scaffold/YamabeScaffold/Perforated/",
+      "?? lean-yamabe/scaffold/YamabeScaffold/RellichCriterion.lean"
+    ],
+    "note": "In scope. `git status --short lean-yamabe` shows no modified tracked file. Untracked are the dispatched file, this campaign directory, and Perforated/, which belongs to the parallel T-perf-capacity and T-perf-star3. The scaffold root YamabeScaffold.lean is untouched; the REPORT notes that its import must be added at graduation. Outside lean-yamabe, the modified lean-causal/*, programme/*.toml and the untracked lean-causal campaign belong to the ETT loop (T-abs-hoist-lemma-k). roadmap/roadmap.toml carries the loop's own status edits (this target ready -> active, among others). None of this is attributable to this closer."
+  },
+  "docstring_contract": "Title present (l.4). `lem:positivity` - `Yamabegap.tex:715` appears unmarked at l.8, well inside the first 4000 characters, and the ledger's line is 715. ``**`label`**`` occurs nowhere. The only bold runs are '**the criterion**' (l.28) and the declaration docstrings' '**The criterion...**', and the ledger's label regex does not match them. The `>` quote (l.15-17) is verbatim from l.720 but stops mid-sentence (see findings). The Hypothesis checklist (l.49-55) uses '⚠ weakened' correctly, for relaxations. SCOPE (l.57-66) is present and true, except for one item (see findings). Provenance (l.68) is present. The docstring's 'What is proved' list matches the declarations. Its claim that the conclusion agrees with Mfd.rellich_kondrachov's 'word for word' (l.373) is confirmed by the with_reducible probe.",
+  "finding_check": "The closer reports no finding about the paper (findings: [], questions: []), so there is nothing to verify.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/YamabeScaffold/RellichCriterion.lean:59-63 (SCOPE)",
+      "what": "SCOPE lists 'the bound on the cell averages' among the work the manifold half still owes. The file's own exists_subseq_tendsto_eLpNorm_of_approx and exists_subseq_tendsto_eLpNorm_two take arbitrary coefficients and need no such bound. The REPORT's notes say so: 'in the bounded form it no longer needs the bound on the averages'. The SCOPE therefore overstates what remains. This is conservative, not an overclaim, but the ledger reads SCOPE blocks into the paper's disclosure.",
+      "fix": "Drop the item, or qualify it: '(only for the _of_approx_bdd form; _of_approx and _two need only an L² bound and the cell approximation)'."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/YamabeScaffold/RellichCriterion.lean:15-17 (quote block)",
+      "what": "The quote of l.720 is verbatim but is cut mid-sentence after 'to some $u_\\infty$' (the paper continues 'with ...'), and no cut is marked.",
+      "fix": "Append '[…]' before '(l.720)'."
+    }
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "where": "RellichCriterion.lean:59-63",
+      "problem": "SCOPE lists the cell-average bound as remaining, though _of_approx and _two remove the need for it.",
+      "fix": "Drop or qualify the item."
+    },
+    {
+      "severity": "minor",
+      "where": "RellichCriterion.lean:15-17",
+      "problem": "The quote is cut mid-sentence without a marker.",
+      "fix": "Append '[…]'."
+    }
+  ],
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "Clean on substance. Every statement is at least as general as the target block asks: any real normed space or Lp F p mu, p = infinity included, AEStronglyMeasurable in place of MemLp, and T, B, Y allowed to depend on eps. None is vacuous: approx_of_totallyBounded and a concrete instance prove this. The p = 2 form's conclusion is syntactically Mfd.rellich_kondrachov's (with_reducible probe). The file builds under warningAsError with 0 sorry and standard axioms on all 17 declarations. lem:positivity is correctly unmarked and partial, and the scope is clean. There are two minor docstring items."
+}

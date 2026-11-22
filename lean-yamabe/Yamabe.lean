@@ -4,3 +4,6 @@ import Yamabe.Stability
 import Yamabe.Kobayashi
 import Yamabe.Gluing
 import Yamabe.Negative
+import Yamabe.RellichCriterion
+import Yamabe.Perforated.Capacity
+import Yamabe.Perforated.Star3
