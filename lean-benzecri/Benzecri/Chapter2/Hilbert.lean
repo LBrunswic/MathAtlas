@@ -9,9 +9,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 (1960) 229–332, Chapter 2 § 2, journal pp. 249–251; transcription
 `papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-hilbert (DEC-137).
 
-* `bzprop:c2s2p2_pseudo_longueur_corps_convexe` — `benzecri1960_ch2.tex:306` (Prop. 2,
-  l.306–313, proof l.315–317) — not marked: the marks wait on OQ-45 (SCOPE, « Dimension 0 »).
-  Proved, sorry-free, for `n ≥ 1`: `Benzecri.pseudo_longueur_corps_convexe` (the segment of `V`
+* **`bzprop:c2s2p2_pseudo_longueur_corps_convexe`** — `benzecri1960_ch2.tex:306` (Prop. 2,
+  l.306–313, proof l.315–317) — marked under DEC-177 (n ≥ 1 is implied throughout Chapter 2; dimension 0 excluded, recorded), on `Benzecri.pseudo_longueur_corps_convexe`
+  (SCOPE, « Dimension 0 »; OQ-56 is ruled by the same DEC-177). Proved, sorry-free, for `n ≥ 1`: `Benzecri.pseudo_longueur_corps_convexe` (the segment of `V`
   from `A` to `B` is unique; for `A ≠ B` the line `AB` meets the frontier in two points `F ≠ F'`;
   `l_V(A, B)` is the projective measure of `AB` relative to `FF'`; `l_V` is continuous on `V × V`
   and vanishes exactly on the diagonal). In every dimension: `pseudoLength_eq_projMeasure`,
@@ -19,8 +19,8 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
   reading of « ne s'annule que sur la diagonale » Prop. 2 holds in every dimension, by these lemmas
   (no single theorem assembles them). The printed form under the « iff » reading,
   `PseudoLongueurCorpsConvexePrinted n`, holds iff `0 < n` (`pseudoLongueurCorpsConvexePrinted_iff`).
-* `bzprop:c2s2p3_voisinage_majore` — `benzecri1960_ch2.tex:365` (Prop. 3, l.365–368, proof
-  l.370–379) — not marked, same reason. Proved, sorry-free, for `n ≥ 1`:
+* **`bzprop:c2s2p3_voisinage_majore`** — `benzecri1960_ch2.tex:365` (Prop. 3, l.365–368, proof
+  l.370–379) — marked under DEC-177 (n ≥ 1 is implied throughout Chapter 2; dimension 0 excluded, recorded), on `Benzecri.voisinage_majore`. Proved, sorry-free, for `n ≥ 1`:
   `Benzecri.voisinage_majore` (with an open neighbourhood: `exists_isOpen_isMajorePart`), on every
   `V` charted on `S(n)` with the projective groupoid. The printed form `VoisinageMajorePrinted n`
   holds iff `0 < n` (`voisinageMajorePrinted_iff`; for `n = 0`: `not_isMajorePart_dim_zero`).
@@ -94,9 +94,8 @@ stays interior (tube lemma); on the diagonal, the affine-ball estimate
   (`hilbertLength_self_dim_zero`), so « nulle si et seulement si $M = N$ » fails, while the
   literal « ne s'annule que sur la diagonale » holds. Prop. 3: no part containing a point is
   majorised (`not_isMajorePart_dim_zero`), already on the one-point open set `{x}` of `S(0)`,
-  Hausdorff and connected. Routing: under OQ-45 (a) both rows can be marked on
-  `pseudo_longueur_corps_convexe` and `voisinage_majore` with no Lean change; under (b) or (c)
-  they stay partial.
+  Hausdorff and connected. Routing: OQ-45 (a), ruled by DEC-177, marks both rows on
+  `pseudo_longueur_corps_convexe` and `voisinage_majore` with no Lean change.
 * **In the printed proof of Prop. 2** (l.316, finding; statement unaffected): « $F$, $F'$
   dépendent continûment de $A$, $B$ » does not reach the diagonal, where the line `AB`, hence
   `F`, `F'`, is undefined; continuity at `(A, A)` needs a separate estimate (here the affine

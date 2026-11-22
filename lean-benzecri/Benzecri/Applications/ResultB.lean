@@ -8,9 +8,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 (1960) 229–332, Introduction, § 1 « Les résultats », journal pp. 230–231; transcription
 `papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Roadmap target `T-bz-result-b`.
 
-* `bzthm:intro_B` — `benzecri1960_ch1.tex:86` (l.86–105, résumé B; its three sentences l.87–99,
-  introduced by l.80–84). **Not marked** (SCOPE): sentence 3 holds for `n ≥ 1` only, and the mark
-  waits on OQ-45 (a). Everything else is proved, sorry-free:
+* **`bzthm:intro_B`** — `benzecri1960_ch1.tex:86` (l.86–105, résumé B; its three sentences l.87–99,
+  introduced by l.80–84). Marked on `theoremB` / `resultBPrinted` (`0 < n`), marked under DEC-177 (n ≥ 1 is implied throughout Chapter 2; dimension 0 excluded, recorded):
+  sentence 3 holds for `n ≥ 1` only (SCOPE). Everything else is proved, sorry-free:
   - sentence 1, affine half, for every simply connected covering `π : N → V` of a compact
     Hausdorff locally affine `V` (`resultB_poche_aff`), then for the universal cover
     `W = UniversalCover V v₀` (`resultB_premiere_aff`);
@@ -58,8 +58,8 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 * **Sentence 3 is false for `n = 0`** (the finding of `Benzecri.Applications.TheoremB`): a
   compact locally affine `0`-manifold is finite, its universal cover a point, and every subset of
   `ℝ⁰` is bounded (`resultBTroisiemePrinted_iff`, witness `V = ℝ⁰`). So `ResultBPrinted n ↔ 0 < n`
-  (`resultBPrinted_iff`). OQ-45 (a)'s question (is `n ≥ 1` implied throughout?), not ruled. Under
-  (a), `theoremB` and `resultBPrinted` are the statement of record with no Lean change.
+  (`resultBPrinted_iff`). OQ-45 (a)'s question (is `n ≥ 1` implied throughout?), ruled by DEC-177:
+  `n ≥ 1` is implied, so `theoremB` and `resultBPrinted` are the statement of record.
 * **What the affine half uses of Ch. 2 § 3's affine Theorem**: 1°'s first sentence
   (`exists_chart_poche_affine`: 1°a, 1°b), 3° (`theoreme_troisieme_affine`) and 4°
   (`theoreme_quatrieme_affine`); never 1°'s second sentence (OQ-75, OQ-79), checked on the proof
@@ -228,8 +228,8 @@ theorem resultBAffPrinted (n : ℕ) : ResultBAffPrinted n := by
 def ResultBPrinted (n : ℕ) : Prop :=
   ResultBAffPrinted n ∧ ResultBProjPrinted n ∧ ResultBTroisiemePrinted n
 
-/-- **Result B holds as printed in every dimension `n ≥ 1`** (the statement of record under
-OQ-45 (a)). -/
+/-- **Result B holds as printed in every dimension `n ≥ 1`** (the statement of record: OQ-45 (a),
+DEC-177). -/
 theorem resultBPrinted {n : ℕ} (hn : 0 < n) : ResultBPrinted n :=
   ⟨resultBAffPrinted n, resultBProjPrinted n, (resultBTroisiemePrinted_iff n).2 hn⟩
 

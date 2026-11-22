@@ -8,8 +8,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 `papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-prop2-literal (OQ-56).
 
 * `bzprop:c2s2p2_pseudo_longueur_corps_convexe` — `benzecri1960_ch2.tex:306` (Prop. 2,
-  l.306–313, proof l.315–317) — not marked: the mark waits on OQ-56 and goes to the form the
-  author's answer names. Under the literal reading (`l_V(A, B) = 0 → A = B`) Prop. 2 holds in
+  l.306–313, proof l.315–317) — marked in `Benzecri.Chapter2.Hilbert` on the strict
+  `pseudo_longueur_corps_convexe` (DEC-177 rules OQ-56 with OQ-45: `n ≥ 1` is implied, and there
+  both readings hold). Under the literal reading (`l_V(A, B) = 0 → A = B`) Prop. 2 holds in
   every dimension, with no `[NeZero n]`: `Benzecri.pseudo_longueur_corps_convexe_literal`, the five
   clauses of the strict `pseudo_longueur_corps_convexe` with the literal last clause, and its
   printed-format `Prop` `PseudoLongueurCorpsConvexeLiteral n`, true for every `n`
@@ -68,8 +69,9 @@ for `n = 0` they are vacuous.
 
 ## SCOPE (disclosed)
 
-* **Not marked.** This file decides nothing: OQ-56 chooses between this theorem (literal) and the
-  strict `pseudo_longueur_corps_convexe` (« iff », `n ≥ 1`, with OQ-45 (a)).
+* **Not marked here.** DEC-177 (OQ-45, OQ-56) put the mark on the strict
+  `pseudo_longueur_corps_convexe` (« iff », `n ≥ 1`); this theorem is the literal reading's
+  every-dimension form.
 * **Dimension 0 is vacuous under the literal reading.** A convex body of `S(0)` has a one-point
   interior (`subsingleton_corpsInterior_dim_zero`; the example is `isCorpsConvexeS_singleton_S0`),
   so clauses 1 and 4 hold there because no `A ≠ B` exists, clause 2 because its frontier hypothesis

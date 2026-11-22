@@ -11,8 +11,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 `papers/benzecri/legacy/labeled/benzecri1960_ch1.tex`. Roadmap target `T-bz-result-b-proj`.
 
 * `bzthm:intro_B` — `benzecri1960_ch1.tex:86` (l.86–105, résumé B; its three sentences l.87–99,
-  introduced by l.80–84). **Not marked** (SCOPE): the affine half of sentence 1 is
-  T-bz-result-b's, and sentence 3 holds for `n ≥ 1` only (OQ-45 (a)). Proved here, sorry-free,
+  introduced by l.80–84). The mark is in `Benzecri.Applications.ResultB` (DEC-177: `n ≥ 1`
+  implied); here the affine half of sentence 1 is T-bz-result-b's, and sentence 3 holds for
+  `n ≥ 1` only. Proved here, sorry-free,
   for every simply connected covering `π : N → V` of a compact Hausdorff `V`, `N` carrying a
   structure for which `π` is a morphism, then for the universal cover `W = UniversalCover V v₀`:
   - l.81–84, `W` is a connected, Hausdorff, divisible, sweepable « ouvert étalé » over `S(n)`
@@ -70,7 +71,7 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 * **Sentence 3 is false for `n = 0`** (finding): a compact locally affine `0`-manifold is finite,
   its universal cover a point, and every subset of `ℝ⁰` is bounded (`resultB_isBounded_dim_zero`;
   `resultBTroisiemePrinted_iff`, witness `V = ℝ⁰`). OQ-45 (a)'s question (is `n ≥ 1` implied
-  throughout?); no new OQ.
+  throughout?), ruled by DEC-177: it is.
 * **What result B uses of Ch. 2 § 3's Theorem**: 1°'s first sentence (the chart,
   `exists_chart_poche`: 1°a, 1°b), 3° and 4° (`theoreme_troisieme`, `theoreme_quatrieme`), and
   Prop. 2 (`hemisphere_corps_convexe`); never 1°'s second sentence (OQ-71, OQ-75), checked on the

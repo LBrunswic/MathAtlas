@@ -5,21 +5,24 @@ import Benzecri.Chapter2.Hilbert
 
 J.-P. Benzécri, *Sur les variétés localement affines et localement projectives*, Bull. SMF 88
 (1960) 229–332, Chapter 2 § 2, journal pp. 249–252; transcription
-`papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-lignes (DEC-137). No label
-is marked: the dimension-0 rows wait on OQ-45, and Prop. 6 is false as printed (SCOPE).
+`papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-lignes (DEC-137). The
+dimension-0 rows are marked under DEC-177 (`n ≥ 1` implied), and Prop. 6, false as printed, in
+its corrected form under DEC-178 (a non-constant cote; SCOPE).
 
-* `bzdef:c2s2d5_nombre_recouvrement` — `benzecri1960_ch2.tex:381` (Déf. 5, l.381–385) — not
-  marked (OQ-45). `Benzecri.nombreRecouvrement n k E` (the least `m` with a covering
+* **`bzdef:c2s2d5_nombre_recouvrement`** — `benzecri1960_ch2.tex:381` (Déf. 5, l.381–385) —
+  marked under DEC-177 (n ≥ 1 is implied throughout Chapter 2; dimension 0 excluded, recorded). `Benzecri.nombreRecouvrement n k E` (the least `m` with a covering
   `IsRecouvrementMajore n k E O`, `O : Fin m → Set V`); for `n ≥ 1`, `E` compact, `k > 0` it is
   the least element (`nombreRecouvrement_isLeast`). For `n = 0` a part has such a covering iff it
   is empty (`exists_isRecouvrementMajore_dim_zero_iff`).
-* `bzprop:c2s2p4_ligne_brisee` — `benzecri1960_ch2.tex:387` (Prop. 4, l.387–391, proof l.393–409)
-  — not marked (OQ-45). Proved, sorry-free, for `n ≥ 1`: `Benzecri.ligne_brisee`. In every
+* **`bzprop:c2s2p4_ligne_brisee`** — `benzecri1960_ch2.tex:387` (Prop. 4, l.387–391, proof l.393–409)
+  — marked under DEC-177 (n ≥ 1 is implied throughout Chapter 2; dimension 0 excluded, recorded), on `Benzecri.ligne_brisee`. Proved, sorry-free, for `n ≥ 1`: `Benzecri.ligne_brisee`. In every
   dimension, for any covering of a connected part: `ligne_brisee_of_finset`,
   `ligne_brisee_of_recouvrement`. Printed form: `LigneBriseePrinted n ↔ 0 < n`.
-* `bzprop:c2s2p6_ligne_brisee_poche` — `benzecri1960_ch2.tex:437` (Prop. 6, l.437–443, proof
-  l.445–449) — not marked: **false as printed** for a pocket of cote `z = 0`, which Déf. 1′
-  allows (`ligneBriseePochePrinted_iff`: it holds only for `n = 0`, vacuously). Proved: the
+* **`bzprop:c2s2p6_ligne_brisee_poche`** — `benzecri1960_ch2.tex:437` (Prop. 6, l.437–443, proof
+  l.445–449) — marked in corrected form (DEC-178: « z non-constant » added to Déf. 1/1′, a finding
+  against the definition) on `IsPocheProj.ligne_brisee_poche_of_ne_zero`, which is Prop. 6 as
+  printed for every pocket whose cote is not identically `0`. **False as printed** for a pocket
+  of cote `z = 0`, which Déf. 1′ as printed allows (`ligneBriseePochePrinted_iff`: it holds only for `n = 0`, vacuously). Proved: the
   corrected form `IsPocheProj.ligne_brisee_poche` (`≤` always, `<` when `z(φ(A)) > 0`, any real
   `K`), and the printed conclusion whenever `z ≢ 0` (`ligne_brisee_poche_of_ne_zero`).
 * Property 7° of the editorial enonce `bzthm:c2s2_proprietes_pseudo_longueur`
@@ -117,7 +120,7 @@ component `D` of `N` in the union of the other members is the union of the membe
   (`not_isMajorePart_dim_zero`): a nonempty `E` has no covering and `n(E, k)` is undefined
   (`exists_isRecouvrementMajore_dim_zero_iff`), and no broken line exists
   (`not_isLigneBrisee_dim_zero`). Prop. 4 fails as printed for `n = 0` (one point of `S(0)`),
-  and holds for `n ≥ 1` (`ligneBriseePrinted_iff`); under OQ-45 (a) `ligne_brisee` is its anchor.
+  and holds for `n ≥ 1` (`ligneBriseePrinted_iff`); under OQ-45 (a), ruled by DEC-177, `ligne_brisee` is its anchor.
   7° and Prop. 6 are vacuous for `n = 0`.
 * **7° is a lemma, not marked**: its row is T-bz-c2-proprietes (OQ-38). For Prop. 6 the
   segments are majorised by `log K` while 7° assumes `l_V < log K`; `septieme_majore` takes the

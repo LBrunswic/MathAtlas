@@ -20,8 +20,8 @@ p. 25). Target T-bz-c2-pseudo-boules (DEC-137).
   « connexe » in Bourbaki's sense; `isConnected_pseudoBoule_iff` for the non-empty sense); in the
   interior of a convex body the pseudo-balls of centre `M` form a basis of neighbourhoods of `M`
   (`hasBasis_pseudoBoule`, `n ≥ 1`; `baseVoisinagesPrinted_iff`: exactly for `n ≥ 1`).
-* `bzprop:c2s2p5_ouvert_plein` — `benzecri1960_ch2.tex:425` (Prop. 5, l.425–429, proof
-  l.431–435) — not marked, pending the reading of « positif » (question). Prop. 5's `r` is the
+* **`bzprop:c2s2p5_ouvert_plein`** — `benzecri1960_ch2.tex:425` (Prop. 5, l.425–429, proof
+  l.431–435) — marked on `Benzecri.ouvert_plein`: « positif » means `r > 0` (DEC-179). Prop. 5's `r` is the
   radius of a pseudo-ball, a Déf. 6 radius, « un nombre réel positif »; in the paper's usage
   « positif » is `> 0`, and then `Benzecri.ouvert_plein` (the printed hypotheses, `0 < r`) is
   Prop. 5 as printed, in every dimension; `eq_univ_of_forall_pseudoBoule_subset` drops « ouvert ».

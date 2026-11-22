@@ -7,9 +7,9 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 (1960) 229–332, Chapter 2 § 3, journal pp. 256–257; transcription
 `papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-projection (DEC-137).
 
-* `bzprop:c2s3p1_projection_non_bornee` — `benzecri1960_ch2.tex:648` (Prop. 1, l.648–654, proof
-  l.656–716) — **not marked** (see SCOPE, first item): the printed statement is false in dimension
-  `0` (`projectionNonBorneePrinted_iff`: the printed form `ProjectionNonBorneePrinted n` holds iff
+* **`bzprop:c2s3p1_projection_non_bornee`** — `benzecri1960_ch2.tex:648` (Prop. 1, l.648–654, proof
+  l.656–716) — marked under DEC-177 (n ≥ 1 is implied throughout Chapter 2; dimension 0 excluded, recorded), on `Benzecri.projection_non_bornee` (see SCOPE, first item): the printed
+  statement is false in dimension `0` (`projectionNonBorneePrinted_iff`: the printed form `ProjectionNonBorneePrinted n` holds iff
   `0 < n`). Proved, sorry-free: `Benzecri.projection_non_bornee` (the statement for `n ≥ 1` and
   `V` nonempty, with no Hausdorffness, connectedness or countability of `V`), and in
   every dimension `Benzecri.projection_non_bornee_of_ne_univ` (`K ≠ ℝⁿ`, automatic for `n ≥ 1`).

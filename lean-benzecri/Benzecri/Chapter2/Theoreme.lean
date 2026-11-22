@@ -7,14 +7,14 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 (1960) 229–332, Chapter 2 § 3, journal pp. 253–255; transcription
 `papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-theoreme (DEC-137).
 
-* `bzthm:c2s3t1_poche_balayable` — `benzecri1960_ch2.tex:517` (statement l.517–533, proof
-  l.535–622; 2°–4° at l.526–532, their proofs at l.593–619). Not marked: OQ-71 is open (1°'s
-  second sentence, SCOPE). The Theorem is assembled here in both forms: `theoremeComposantePrinted`
+* **`bzthm:c2s3t1_poche_balayable`** — `benzecri1960_ch2.tex:517` (statement l.517–533, proof
+  l.535–622; 2°–4° at l.526–532, their proofs at l.593–619). Marked on
+  `theoremeComposantePrinted`: the component form of 1° is the statement of record (DEC-181, the
+  paper's own l.184–186); the full form stays an open problem with its proved cases (SCOPE). The Theorem is assembled here in both forms: `theoremeComposantePrinted`
   (1° in component form, with 2°–4°, proved in every dimension) and `theoremePrinted_iff` (1° in
   the printed full form, with 2°–4°, equivalent to `ConnexePrinted`, the connectedness the proof
-  of 1°c presumes). Under the component-form answer to OQ-71 the row is marked with no Lean change;
-  under the full-form answer the mark waits on a proof of `ConnexePrinted` (open), which needs no
-  change here.
+  of 1°c presumes). DEC-181 gave the component-form answer to OQ-71, so the row is marked with no
+  Lean change; a proof of `ConnexePrinted` (open) would add the full form.
 
 > **Théorème.** Soit $V$ une variété localement projective connexe balayable. Soit
 > $(P, \mathring{H}, \varphi, z)$ une poche de $V$.

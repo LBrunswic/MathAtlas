@@ -8,12 +8,13 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 (1960) 229–332, Chapter 2 § 3, journal pp. 255–256; transcription
 `papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-theoreme-affine.
 
-* `bzthm:c2s3t2_poche_balayable_affine` — `benzecri1960_ch2.tex:627` (statement l.627–641, proof
-  l.643–646). Not marked: OQ-75 is open (1°'s second sentence, SCOPE). Assembled in both forms:
+* **`bzthm:c2s3t2_poche_balayable_affine`** — `benzecri1960_ch2.tex:627` (statement l.627–641, proof
+  l.643–646). Marked on `theoremeComposanteAffinePrinted`: the component form of 1° is the
+  statement of record (DEC-181); the full form stays an open problem with its proved cases (SCOPE). Assembled in both forms:
   `theoremeComposanteAffinePrinted` (1° in component form, with 2°–4°, every dimension) and
   `theoremeAffinePrinted_iff` (1° in the printed full form, with 2°–4°, equivalent to
-  `ConnexeAffinePrinted`). Under the component-form answer to OQ-75 the row is marked with no Lean
-  change; under the full-form answer the mark waits only on a proof of `ConnexeAffinePrinted`.
+  `ConnexeAffinePrinted`). DEC-181 gave the component-form answer to OQ-75, so the row is marked with no Lean
+  change; a proof of `ConnexeAffinePrinted` (open) would add the full form.
 
 > Dans le cas affin, on a le
 >
