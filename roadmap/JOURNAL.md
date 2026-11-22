@@ -654,3 +654,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 ## 2026-11-22 19:03 · idle: waiting on rulings
 - New since 06:23: DEC-142 to DEC-146, all EGF's (OQ-83, OQ-84, OQ-85, OQ-47, OQ-48; /egf-programme's, DEC-141). None rules a needs-ruling question or an OQ that an /atlas-team target waits on. OQ-16, OQ-18, OQ-32, OQ-34, OQ-35, OQ-36, OQ-37, OQ-38, OQ-82, OQ-87, OQ-88, OQ-89 and OQ-90 are still OPEN.
 - The wave is empty and no planner target is ready; the waiting targets are as listed at 04:29. The loop stops (rule 6).
+
+## 2026-11-22 19:40 · wave of 6 · T-gfn-absorb, T-bz-apply-rulings, T-syr-2026-import, T-gx-troyanov-theorem-c, T-yamabe-analysis (+ T-hub-public-mirror)
+- T-gfn-absorb (master): closed. GFNBoundsLean is subtree-merged into lean/ at 2e9865c, with its 160 commits. The submodule is gone, nothing rebuilt, and lib-check is green as a hub package. Its edit of lean-causal/README.md moved the lean-causal ledgers' stamp; those ledgers are left to /ett-programme, which committed into lean-causal at df620bf.
+- T-bz-apply-rulings (master): closed. DEC-177–181 and DEC-206 are applied: ten Ch. 2 rows marked (benzecri: 64 closed, 0 partial), with docstring marks only. Prop. 6 is marked in its corrected form (DEC-178). Follow-up: a corrected-definition predicate for Déf. 1/1′ (z non-constant) with its own witness.
+- T-syr-2026-import (master): partial, now blocked on OQ-91. hyperlolipop's ~/Syracuse working tree is snapshotted into papers/syracuse/programme-2026 (358 files). How SyracuseLean (v4.34.1, library `Syracuse`) relates to lean-syracuse is OQ-91.
+- T-gx-troyanov-theorem-c: closed 1/1 label work. The row stays partial: GX.TroyanovTheoremC (strict, sorry-free), the narrower citation proved as a finding, the obligation rewired. Audit minor (round 1). OQ-92 is new.
+- T-yamabe-analysis: partial, back to ready. The externals and the model layer are proved; the six manifold theorems are tagged sorrys. Audit minor (round 1). OQ-93 is new. A planner should split it.
+- T-hub-public-mirror (master, added in session): closed. The author created LBrunswic/MathAtlas and answered the scope questions (DEC-207). `make mirror` pushes the filtered history (third-party material stripped, secret scan clean) and the atlas to https://lbrunswic.github.io/MathAtlas/, which loads with 0 page errors.
+- Not dispatched: T-ett-gluing-causality (exclusive; the lean-causal lease is held by /ett-programme) and T-ett-apply-rulings (its marks edit strict lean-causal while /ett-programme elaborates there). Both are ready for when lean-causal is idle.
+- gates: lean-benzecri ✓, lean-gx ✓, lean-yamabe ✓, lib-check ✓, roadmap ✓, registers ✓, atlas ✓. Hub: papers-check red only for egf (/egf-programme's) and the lean-causal ledgers awaiting /ett-programme's rebuild.
+- commits: 24f4c85 773e369 ffcf0e1 636edca 0d786eb 09377ee ab72c4d 3739b4b [+ roadmap/atlas/journal]
+- wall time: 18:11–19:40 UTC; agents in parallel: 2 closers, 2 auditors
+- next: wave would pick T-ett-gluing-causality (only once lean-causal is free), T-ett-apply-rulings, T-yamabe-analysis (better split by the planner first), T-yamabe-companion, T-nonacyclic-source, T-atlas-overlay-refresh. A planning run is due (rule 2: the Yamabe split, the Déf. 1/1′ follow-up, T-gfn-doubledag-refresh now unblocked).
