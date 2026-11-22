@@ -1,0 +1,65 @@
+{
+  "target": "T-egf-correct-notions",
+  "round": 2,
+  "verdict": "clean",
+  "scope": "This is a re-check after the short round on CHECK-1's findings 1, 2 and 6. The diff is git -C ~/Dropbox/ErgodicGFN arXiv/source diff against HEAD 49d6ed0: main.tex only, 6 hunks, 20 insertions and 10 deletions, uncommitted. The entries are C-50, C-51, C-52, C-56 and C-57 of papers/egf/programme/corrections.toml, all adopted. Since CHECK-1 the register changed as follows. C-50's `printed` gained main.tex:223. Its `corrected` gained the convention sentence and the l.223 text, its `anchor` gained EGF.isGroupErgodic_egfGroup_of_forall and EGF.IsEGFPolicy.isKernelErgodic, and its `finding` records the round. C-56's `anchor` gained EGF.universality_tori_single_move, and the quotation in its `corrected` is closed. tools/corrections.py check passes (63 entries, all rules hold). Every quoted text of C-50 and C-56 is present verbatim in v2. Since CHECK-1 the v2 text changed only at l.237 (the sentence appended, and the l.238 marker extended) and at l.240 (with a new marker at l.241). The C-51, C-52, C-56, C-57 hunks and the Necessity hunk are byte-identical to CHECK-1's. Anchors re-read: EGF.universal_iff_ergodic (UniversalityErgodic.lean:1633), EGF.universality_of_ergodic_family, EGF.IsKernelErgodic (l.768), EGF.isKernelErgodic_congr (l.772), EGF.Markov.tendsto_birkhoffAverage_densityActionL2, EGF.exists_tvMass_cesaro_lt_of_ergodic. Line numbers are those of the current v2. After this round, CHECK-1's l.285, l.297 and l.857 are l.286, l.298 and l.858.",
+  "entries": [
+    {
+      "id": "C-50",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "CHECK-1's reading of the definition and the bridge stands. The paragraph at l.237 is unchanged up to '... conversely if every alpha^i > 0.' Appended: 'Unless a measure is named, an ergodic policy is one ergodic for a finite invariant measure equivalent to lambda, as in Theorems 3.4 and B.1.' (1) Consistency with the definition. The convention uses the defined notion, 'ergodic for mu', with mu a finite invariant lambda-hat ~ lambda whose existence it requires. It defines only the unqualified phrase, so the definition stands as it is. By isKernelErgodic_congr the convention is equivalent to: 'admits a finite invariant measure equivalent to lambda and is ergodic for lambda'. 'Unless a measure is named' keeps the bridge sentence ('ergodic for lambda', named) under the plain definition. So the paragraph draws the distinction the theorems need. An EGF policy with positive weights is ergodic for lambda, but it is an ergodic policy only with a finite invariant lambda-hat ~ lambda. (2) Consistency with Definition 3.1. The convention concerns policies. Definition 3.1's 'the group ... is ergodic for lambda' concerns a group and names its measure. Every use of 'ergodic' for the group or its action names lambda or says 'acts ergodically' (l.145, 233, 321, 342, 877, 888, 898, 908). No sentence calls an EGF's policy 'an ergodic policy' on the strength of Definition 3.1 alone. The name 'Ergodic Generative Flows' refers to Definition 3.1, not to the convention. There is no conflict. (3) 'As in Theorems 3.4 and B.1' is exact. Theorem 3.4 (l.305) has 'some pi* ergodic for a finite invariant measure equivalent to lambda'. B.1 (l.856) has 'admits a finite invariant measure lambda-hat equivalent to lambda for which it is ergodic'. This is the hypothesis of EGF.universal_iff_ergodic: lambda finite, pi Markov, lamHat finite with lamHat.bind pi = lamHat, lamHat << lam and lam << lamHat, giving IsUniversalPolicy lam pi iff IsKernelErgodic pi lamHat. The rendered references read 'Theorems 3.4 and B.1'. (4) l.240, 'There are two key ideas that motivate Definition~\\ref{def:egf}:', removes the ambiguity (CHECK-1 finding 2). It renders as 'Definition 3.1'. The marker l.241 sits before the existing blank line, so the paragraphing is unchanged. (5) Register. added_hypotheses is unchanged: positive weights for the converse, present in the text. The convention is a naming convention, not a hypothesis of a statement. The two added anchors are the ones CHECK-1 finding 6b asked for."
+    },
+    {
+      "id": "C-51",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1, and its reading stands. CHECK-1's optional finding 3 (the gloss 'that is generative flows with F_init = F_term = 0' omits 'satisfying (2)') is carried to the wording batch, as the master ruled. It is not this batch's."
+    },
+    {
+      "id": "C-52",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1, and its reading stands. It is faithful to EGF.backward_policy and backward_policy_rnDeriv: one-way nonsingularity, IsEGFPolicy, no ergodicity."
+    },
+    {
+      "id": "C-56",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "The v2 text is unchanged since CHECK-1, and its reading stands. The last clause is anchored as worded by EGF.universality_tori_single_move, now in `anchor` (CHECK-1 finding 6a resolved). The closed quotation (finding 6c) matches the v2 text verbatim. CHECK-1's optional finding 4 ('ask of the moves only', 'the two inverse moves among the four') is carried to the wording batch, as the master ruled."
+    },
+    {
+      "id": "C-57",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1, and its reading stands. It is faithful to EGF.isSummablyL2Mixing_of_pow_contraction, modulo Gelfand's formula as at l.301 (C-30). The three refutations are excluded."
+    }
+  ],
+  "convention_check": {
+    "l286": "'The next theorem states that if the family contains an ergodic policy pi*, then the family is universal.' Under the convention: if the family contains a policy ergodic for a finite invariant measure equivalent to lambda, it is universal. That is Theorem 3.4's hypothesis on the policy (EGF.universality_of_ergodic_family, from EGF.universal_iff_ergodic). The dense outflows of Theorem 3.4 are left to the theorem, as in v1's paraphrase. The sentence is now true in the theorems' sense. The Sink counterexample of CHECK-1 (pi constant delta_true on Bool: ergodic for lambda, no invariant lambda-hat ~ lambda, EGF.Sink.not_isSummablyL2Mixing) is no longer an 'ergodic policy'.",
+    "l298": "'Ergodicity alone ensures the convergence of phi pi^n only in the much weaker Cesaro sense, and this is enough for universality.' The subject is the kernel pi of Definition 3.3, and 'ergodicity' with no measure is the property the convention names. With a finite invariant lambda-hat ~ lambda: the Cesaro averages of P h = d((h lambda-hat)pi)/d lambda-hat tend to 0 on mean-zero L^2(lambda-hat) (EGF.Markov.tendsto_birkhoffAverage_densityActionL2). Since (phi lambda)pi^n = (P^n h) lambda-hat for h = phi d lambda / d lambda-hat, this is the Cesaro convergence of phi pi^n, in total variation in the form B.1's proof uses (EGF.exists_tvMass_cesaro_lt_of_ergodic). 'Enough for universality' is EGF.universal_iff_ergodic. The sentence is now true. Strictly, the convention defines the adjective 'an ergodic policy', and the noun 'ergodicity' of a policy is its natural extension. That is not worth a finding.",
+    "l858": "'universality itself needs only ergodicity' sits inside B.1, where lambda-hat is named. Under either reading (ergodic for that lambda-hat, or the convention, equivalent by isKernelErgodic_congr) it is EGF.universal_iff_ergodic: ergodicity is sufficient and necessary. It is true.",
+    "other_uses": "No other unqualified use becomes false under the convention. l.260 (Expressivity, 'Ergodicity guarantees, for a model rich enough (Theorem 3.4), ...'): if 'Ergodicity' is a policy's, the convention makes it Theorem 3.4's hypothesis, which improves on CHECK-1's 'true through its pointer'. If it is the group's (Definition 3.1), it remains true through the pointer, as before. l.763's parenthesis ('one randomly initialized non-trainable translation is sufficient to ensure ergodicity') concerns generators, so the group: true by EGF.ae_ergodic_torusAffine_one and EGF.isGroupErgodic_of_ergodic_mem. Read for the one-move policy with alpha = 1, it is also an ergodic policy in the convention's sense: Haar measure is invariant and finite, and EGF.isKernelErgodic_deterministic applies. The abstract (l.123) and the Conclusion (l.783), 'leverage ergodicity', are informal. Every other use names its measure or concerns a group action."
+  },
+  "markers": "Every edited passage carries its '% EGF-C<n>:' line. The l.238 marker is extended to name the convention. The new marker l.241 follows l.240 and precedes the existing blank line, so the paragraphing is unchanged. The other markers (l.143, l.223, l.766, l.772, l.806, l.867) are unchanged since CHECK-1, shifted by the two added lines where they follow l.240.",
+  "scope_check": "The diff has 6 hunks, because CHECK-1's label hunk and paragraph hunk merged once l.240 changed. The lines it touches are v1 l.142, l.211 and l.216 (the label), the new paragraph after v1 l.222, v1 l.223 (now in C-50's `printed`), v1 l.697-698, l.702 and l.731-732, and C-39's v2-only Necessity line (l.866). Everything is within the entries' `printed` sites and the uses their `corrected` texts name. Nothing outside was edited. l.286, l.298 and l.858 are made true without edits, as intended. No use of the defined notion is left inconsistent (convention_check).",
+  "build": {
+    "ok": true,
+    "undefined": 0,
+    "notes": "Built with latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex in /tmp copies of the working copy and of a clone of HEAD 49d6ed0, never in the working copy. Both exit 0 with 21 pages, bibtex run. Neither has an undefined reference or citation, nor a multiply-defined label. def:egf -> 3.1, theo:universality -> 3.4, theo:universality_true -> B.1. The convention renders as 'as in Theorems 3.4 and B.1', and l.240 as 'motivate Definition 3.1:'. main.bbl is byte-identical to the tracked file and to HEAD's build. The only warning differences from HEAD are three 'Underfull \\vbox ... while \\output is active' (pages 3, 6 and 7), from column balancing after the added lines. They are cosmetic. The \\hbox warnings are unchanged. Copies deleted. The working copy is untouched: ' M main.tex', 20 insertions and 10 deletions."
+  },
+  "resolution_of_check_1": {
+    "finding_1": "Resolved by the convention sentence at l.237 (convention_check). The sentence matches C-50's `corrected`.",
+    "finding_2": "Resolved at l.240, and v1 l.223 is in C-50's `printed`.",
+    "finding_3": "Carried to the wording batch, by the master's ruling. It is not yet a register entry: no `corrected` text mentions it, so the planner should add it there (C-51's l.222 gloss, 'satisfying the flow-matching constraint (2)').",
+    "finding_4": "Carried to the wording batch, by the master's ruling. It is not yet in the register either (l.764: 'ask of the moves only', 'the two inverse moves among the four').",
+    "finding_5": "Unchanged. l.1106 ('Theoretically minimal EGF with four affine moves') belongs to C-55 (found, T-egf-correct-families-proofs), which must be applied before the v2 package.",
+    "finding_6": "(a) Resolved: EGF.universality_tori_single_move is in C-56's anchor. (b) Resolved: EGF.isGroupErgodic_egfGroup_of_forall and EGF.IsEGFPolicy.isKernelErgodic are in C-50's anchor. (c) Resolved: the quotation is closed. (d) Optional (the label line v1 l.216 in `printed`), not taken. That is harmless, since `corrected` names the label."
+  },
+  "findings": []
+}
