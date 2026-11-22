@@ -650,3 +650,7 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - No DEC row since DEC-141, and every OQ that blocks a target is still OPEN: OQ-16, OQ-18, OQ-32, OQ-34, OQ-35, OQ-36, OQ-37, OQ-38, OQ-50, OQ-82, OQ-87, OQ-88, OQ-89, OQ-90.
 - The wave is empty and no planner target is ready. The waiting targets are the ones the 04:29 entry lists: the needs-ruling questions (BBS-Q1, T-yamabe-scope, T-syr-cited, T-bz-chapter3, T-bz-transcription-check, T-barbot-terminal, T-gfn-doubledag-refresh, T-yamabe-lower-bound, T-syr-empty-corollary, T-egf-families), the targets blocked on OPEN OQs, and the CBG pair behind /ett-programme (stopped until 2026-11-27).
 - The loop stops (rule 6).
+
+## 2026-11-22 19:03 · idle: waiting on rulings
+- New since 06:23: DEC-142 to DEC-146, all EGF's (OQ-83, OQ-84, OQ-85, OQ-47, OQ-48; /egf-programme's, DEC-141). None rules a needs-ruling question or an OQ that an /atlas-team target waits on. OQ-16, OQ-18, OQ-32, OQ-34, OQ-35, OQ-36, OQ-37, OQ-38, OQ-82, OQ-87, OQ-88, OQ-89 and OQ-90 are still OPEN.
+- The wave is empty and no planner target is ready; the waiting targets are as listed at 04:29. The loop stops (rule 6).
