@@ -1,0 +1,718 @@
+{
+  "package": "lean-causal",
+  "target": "T-abs-ers-4-64-second-countable",
+  "files": [
+    "scaffold/CausalScaffold/Ers464SecondCountable.lean"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.Ers464SecondCountable  (3123 jobs; `--no-build` first showed only this module out of date; built in 1.5 s; `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers464SecondCountable.lean` clean, no output)",
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "ersprop:PropLocUniqueness",
+      "tex_lines": [
+        836,
+        844
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn_secondCountable",
+        "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn_secondCountable",
+        "Causal.Causality.eq_of_mem_of_t1_secondCountable",
+        "Causal.Causality.IsCauchySurfaceOn.of_subset_of_t1_secondCountable",
+        "Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable",
+        "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "'V is globally hyperbolic with Cauchy hypersurface S' (:843, 'immediate', not argued)",
+          "here": "weakened",
+          "note": "the original's named hext : C.CurvesExtendOn U₁ (curves_extend) is removed, proved by Causal.Causality.curvesExtendOn_of_t1_secondCountable C U₁ (kb/0142, DEC-190); the four union lemmas likewise lose their hext on B"
+        },
+        {
+          "paper": "(not printed) U₁ causally arc-connected",
+          "here": "strengthened",
+          "note": "hC : C.CausallyArcConnectedOn U₁ stays, as in the original (ladder causally_arc_connected; a Lorentzian fact: ≤ of g(u₁) is realised by causal curves). The acausality of S in U₁ is derived from it and hS"
+        },
+        {
+          "paper": "u1 a GHD",
+          "here": "carried",
+          "note": "hG : C.GloballyHyperbolicOn U₁, hS : C.IsCauchySurfaceOn U₁ S"
+        },
+        {
+          "paper": "Sogge's DS_p (local uniqueness)",
+          "here": "named",
+          "note": "hloc : C.LocalUniqueness S (U₁ ⊓ U₂) agree (local_uniqueness), as in the original"
+        },
+        {
+          "paper": "u2 a GHD",
+          "here": "weakened",
+          "note": "not used (consumed by the supplier of LocalUniqueness), as in the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "ersthm:ThmUnique",
+      "tex_lines": [
+        858,
+        912
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "u1 a GHD (GH with Cauchy hypersurface S), used at Step 1 (:868: an inextensible curve meets S at most once) and at :870 ('without loss of generality q ∈ J⁺(S, U₁)')",
+          "here": "read",
+          "note": "DEC-162: in the _of_isCauchySurfaceOn_ forms hC₁ : C.IsCauchySurfaceOn U₁ S and harc : C.CausallyArcConnectedOn U₁ (ladder causally_arc_connected, a Lorentzian fact, named) replace the original's hacausal : C.IsAcausalOn U₁ S and hsplit : C.SplitBy U₁ S, which are derived (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable, splitBy_of_t1_secondCountable). These forms are siblings of the originals, not stronger: the originals need neither second countability nor hC₁, harc"
+        },
+        {
+          "paper": "Theorem 4.64's inputs (Prop 4.63, Step 2's U₂ half, Steps 3–5)",
+          "here": "named",
+          "note": "hG (globally_hyperbolic on U₁), hT (tarentin on U₁), hK (CompactSlabs), hlocal / hloc, hstay, hstep (local_uniqueness, frontier_stays_in, slice_restart; OQ-57 (b), DEC-162), carried unchanged from the original"
+        },
+        {
+          "paper": "S a connected hypersurface",
+          "here": "weakened",
+          "note": "not used, as in the original"
+        },
+        {
+          "paper": "U1 ∩ U2 connected",
+          "here": "weakened",
+          "note": "IsPreconnected, as in the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "ersrem:RemTime",
+      "tex_lines": [
+        914,
+        916
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn_secondCountable",
+        "Causal.Causality.ers_remark_4_67_future_secondCountable",
+        "Causal.Causality.ers_remark_4_67_past_secondCountable",
+        "Causal.Causality.ers_remark_4_67_future_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.ers_remark_4_67_past_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable",
+        "Causal.Causality.Jminus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "u1 a GHD (GH with Cauchy hypersurface S), used at Step 1 (:868: an inextensible curve meets S at most once) and at :870 ('without loss of generality q ∈ J⁺(S, U₁)')",
+          "here": "read",
+          "note": "DEC-162: in the _of_isCauchySurfaceOn_ forms hC₁ : C.IsCauchySurfaceOn U₁ S and harc : C.CausallyArcConnectedOn U₁ (ladder causally_arc_connected, a Lorentzian fact, named) replace the original's hacausal : C.IsAcausalOn U₁ S and hsplit : C.SplitBy U₁ S, which are derived (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable, splitBy_of_t1_secondCountable). These forms are siblings of the originals, not stronger: the originals need neither second countability nor hC₁, harc"
+        },
+        {
+          "paper": "Theorem 4.64's inputs (Prop 4.63, Step 2's U₂ half, Steps 3–5)",
+          "here": "named",
+          "note": "hG (globally_hyperbolic on U₁), hT (tarentin on U₁), hK (CompactSlabs), hlocal / hloc, hstay, hstep (local_uniqueness, frontier_stays_in, slice_restart; OQ-57 (b), DEC-162), carried unchanged from the original"
+        },
+        {
+          "paper": "'the maximal common globally hyperbolic development' (:915)",
+          "here": "weakened",
+          "note": "ers_remark_4_67_globallyHyperbolicOn_secondCountable drops hext, hacausal and hsplit, all discharged: the original already takes hS (S Cauchy in U₁) and hC (U₁ causally arc-connected). This form is the original less discharged binders, hence stronger than the original on second countable spaces"
+        },
+        {
+          "paper": "the normal of S future directed in U1 and in U2 (:915)",
+          "here": "named",
+          "note": "hfollow : FollowsSolution C C₂ agree (U₁ ⊓ U₂), as in the original; the original's hthrough : C.InextensibleThrough U₁ is proved (inextensibleThrough_of_t1_secondCountable C U₁). In the _of_isCauchySurfaceOn_ future/past forms, harc replaces hacausal, and the original's hC₁ is kept"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erscor:CorDisCon",
+      "tex_lines": [
+        921,
+        923
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "u1 a GHD (GH with Cauchy hypersurface S), used at Step 1 (:868: an inextensible curve meets S at most once) and at :870 ('without loss of generality q ∈ J⁺(S, U₁)')",
+          "here": "read",
+          "note": "DEC-162: in the _of_isCauchySurfaceOn_ forms hC₁ : C.IsCauchySurfaceOn U₁ S and harc : C.CausallyArcConnectedOn U₁ (ladder causally_arc_connected, a Lorentzian fact, named) replace the original's hacausal : C.IsAcausalOn U₁ S and hsplit : C.SplitBy U₁ S, which are derived (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable, splitBy_of_t1_secondCountable). These forms are siblings of the originals, not stronger: the originals need neither second countability nor hC₁, harc"
+        },
+        {
+          "paper": "Theorem 4.64's inputs (Prop 4.63, Step 2's U₂ half, Steps 3–5)",
+          "here": "named",
+          "note": "hG (globally_hyperbolic on U₁), hT (tarentin on U₁), hK (CompactSlabs), hlocal / hloc, hstay, hstep (local_uniqueness, frontier_stays_in, slice_restart; OQ-57 (b), DEC-162), carried unchanged from the original"
+        },
+        {
+          "paper": "'U1 ∩ U2 is not connected'",
+          "here": "carried",
+          "note": "¬ IsPreconnected (stronger than ¬ IsConnected), as in the original; the _eqOn_ form takes u₁ x ≠ u₂ x as printed"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erscor:globally_defined_globally_hyperbolic",
+      "tex_lines": [
+        926,
+        928
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_corollary_4_69_secondCountable",
+        "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable",
+        "Causal.Causality.isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "(not printed) U2 connected, needed to apply Theorem 4.64 with U1 ∩ U2 = U2",
+          "here": "weakened",
+          "note": "the original's hthrough₂ : C₂.InextensibleThrough U₂ is removed: U₂ is preconnected because S is preconnected and Cauchy in U₂ for C₂ (isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable, any causality, T1 and second countable only)"
+        },
+        {
+          "paper": "u1 : R^{d+1} → R a GHD",
+          "here": "read",
+          "note": "ers_corollary_4_69_secondCountable keeps the original's hacausal : C.IsAcausal S and hsplit : C.SplitBy ⊤ S; ers_corollary_4_69_of_isCauchySurface_secondCountable trades them for hC₁ : C.IsCauchySurface S and harc : C.CausallyArcConnected (ladder nodes at M; DEC-162)"
+        },
+        {
+          "paper": "Theorem 4.64's inputs (Prop 4.63, Step 2's U₂ half, Steps 3–5)",
+          "here": "named",
+          "note": "hG (globally_hyperbolic on U₁), hT (tarentin on U₁), hK (CompactSlabs), hlocal / hloc, hstay, hstep (local_uniqueness, frontier_stays_in, slice_restart; OQ-57 (b), DEC-162), carried unchanged from the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erslem:LemConnected",
+      "tex_lines": [
+        939,
+        955
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_lemma_4_70_secondCountable",
+        "Causal.Causality.ers_lemma_4_70_isConnected_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "'Let γ be the maximal integral curve of T through x' (:950)",
+          "here": "weakened",
+          "note": "the original's hthrough (an inextensible Cτ-curve of M through each point of U₁ ∩ U₂) is removed, proved by inextensibleThrough_of_t1_secondCountable Cτ ⊤. This is not ERS's curve (not an integral curve of T), only its role in the proof; honce (every Cτ-inextensible curve of M meets S at most once) applies to it as to every such curve"
+        },
+        {
+          "paper": "T timelike for every g(u, du) ((4.62))",
+          "here": "named",
+          "note": "hn₁, hn₂ : InextensibleNestedOn (inextensible_nested; OQ-41 (b), DEC-161), hτ : Cτ.IsCausal (is_causal), as in the original"
+        },
+        {
+          "paper": "every maximal integral curve of T meets S at most once",
+          "here": "named",
+          "note": "honce, as in the original"
+        },
+        {
+          "paper": "u1, u2 GHDs",
+          "here": "read",
+          "note": "S ⊆ Uᵢ and S Cauchy in Uᵢ for Cᵢ (DEC-162), as in the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "erscor:CorSupLum",
+      "tex_lines": [
+        959,
+        967
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_corollary_4_71_secondCountable",
+        "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.ers_lemma_4_70_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "Lemma 4.70's maximal integral curves of T",
+          "here": "weakened",
+          "note": "the original's hthroughτ is removed, as in ers_lemma_4_70_secondCountable"
+        },
+        {
+          "paper": "u1 a GHD, in Theorem 4.64's use",
+          "here": "weakened",
+          "note": "ers_corollary_4_71_secondCountable drops hsplit, discharged from the original's own hC₁ : C.IsCauchySurfaceOn U₁ S (splitBy_of_t1_secondCountable); hacausal kept. ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable moreover trades hacausal for harc : C.CausallyArcConnectedOn U₁ (DEC-162)"
+        },
+        {
+          "paper": "Theorem 4.64's inputs (Prop 4.63, Step 2's U₂ half, Steps 3–5)",
+          "here": "named",
+          "note": "hG (globally_hyperbolic on U₁), hT (tarentin on U₁), hK (CompactSlabs), hlocal / hloc, hstay, hstep (local_uniqueness, frontier_stays_in, slice_restart; OQ-57 (b), DEC-162), carried unchanged from the original"
+        },
+        {
+          "paper": "(4.62), S meets each maximal integral curve of T at most once",
+          "here": "named",
+          "note": "hn₁, hn₂, hτ, honce, as in the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "ersthm:ThmNotBlocking",
+      "tex_lines": [
+        1100,
+        1107
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] on an abstract M ([T1Space M] for the union and time-orientation lemmas). SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "u1 a MGHD, u a GHD",
+          "here": "read",
+          "note": "hcauchy : ∀ i, (cau i).IsCauchySurfaceOn (dom i) S (DEC-162) replaces the original's hsplit : ∀ i, (cau i).SplitBy (dom i) S, which is derived (splitBy_of_t1_secondCountable). This is a sibling of ers_theorem_4_82_of_globallyHyperbolicOn, a restatement; the optional item of the target's evidence"
+        },
+        {
+          "paper": "(4.83) and the restart",
+          "here": "named",
+          "note": "honesided (OneSidedBoundary), hstep (SliceRestart), hSclosed, hG, hT, hK, as in the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "forms": [
+    {
+      "original": "Causal.Causality.eq_of_mem_of_curvesExtendOn (Causal/ErsUnions.lean:165)",
+      "new": "Causal.Causality.eq_of_mem_of_t1_secondCountable",
+      "removed": [
+        "hext : C.CurvesExtendOn B"
+      ],
+      "added": [],
+      "kind": "discharged; [T1Space M] [SecondCountableTopology M] added (original had no separation axiom)",
+      "instances_added": "[T1Space M] [SecondCountableTopology M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.IsCauchySurfaceOn.of_subset_of_curvesExtendOn (Causal/ErsUnions.lean:181)",
+      "new": "Causal.Causality.IsCauchySurfaceOn.of_subset_of_t1_secondCountable",
+      "removed": [
+        "hext : C.CurvesExtendOn B"
+      ],
+      "added": [],
+      "kind": "discharged; T1 + second countable added",
+      "instances_added": "[T1Space M] [SecondCountableTopology M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.isCauchySurfaceOn_sSup_of_curvesExtendOn (Causal/ErsUnions.lean:212)",
+      "new": "Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable",
+      "removed": [
+        "hext : C.CurvesExtendOn B"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces (Causal/ErsUnions.lean:227)",
+      "new": "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces_secondCountable",
+      "removed": [
+        "hext : C.CurvesExtendOn B"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn (Causal/ErsUnions.lean:314)",
+      "new": "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn_secondCountable",
+      "removed": [
+        "hext : C.CurvesExtendOn U₁"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn (Causal/ErsUnions.lean:328)",
+      "new": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S",
+        "hext : C.CurvesExtendOn U₁"
+      ],
+      "added": [],
+      "kind": "all three discharged (the original also takes hS : S Cauchy in U₁ and hC : U₁ causally arc-connected, for C)",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn (Causal/ErsUnions.lean:354)",
+      "new": "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn_secondCountable",
+      "removed": [
+        "hext : C.CurvesExtendOn U₁"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment (Causal/ErsUniqueness.lean:433)",
+      "new": "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S"
+      ],
+      "added": [
+        "hC₁ : C.IsCauchySurfaceOn U₁ S",
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_theorem_4_64 (Causal/ErsUniqueness.lean:466)",
+      "new": "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S"
+      ],
+      "added": [
+        "hC₁ : C.IsCauchySurfaceOn U₁ S",
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_theorem_4_64_of_localUniqueness (Causal/ErsUnions.lean:383)",
+      "new": "Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S"
+      ],
+      "added": [
+        "hC₁ : C.IsCauchySurfaceOn U₁ S",
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_remark_4_67 (Causal/ErsUniqueness.lean:486)",
+      "new": "Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S"
+      ],
+      "added": [
+        "hC₁ : C.IsCauchySurfaceOn U₁ S",
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_corollary_4_68 (Causal/ErsUniqueness.lean:594)",
+      "new": "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S"
+      ],
+      "added": [
+        "hC₁ : C.IsCauchySurfaceOn U₁ S",
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_corollary_4_68_eqOn (Causal/ErsUniqueness.lean:610)",
+      "new": "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S"
+      ],
+      "added": [
+        "hC₁ : C.IsCauchySurfaceOn U₁ S",
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.Jplus_inter_subset_of_isCauchySurfaceOn (Causal/ErsUniqueness.lean:506)",
+      "new": "Causal.Causality.Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable",
+      "removed": [
+        "hthrough : C.InextensibleThrough U",
+        "[T2Space M]"
+      ],
+      "added": [],
+      "kind": "discharged; [T2Space M] weakened to [T1Space M] (T2 served only InextensibleThrough.of_le)",
+      "instances_added": "[T1Space M] [SecondCountableTopology M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.Jminus_inter_subset_of_isCauchySurfaceOn (Causal/ErsUniqueness.lean:522)",
+      "new": "Causal.Causality.Jminus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable",
+      "removed": [
+        "hthrough : C.InextensibleThrough U",
+        "[T2Space M]"
+      ],
+      "added": [],
+      "kind": "discharged; T2 weakened to T1",
+      "instances_added": "[T1Space M] [SecondCountableTopology M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_remark_4_67_future (Causal/ErsUniqueness.lean:544)",
+      "new": "Causal.Causality.ers_remark_4_67_future_secondCountable",
+      "removed": [
+        "hthrough : C.InextensibleThrough U₁"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_remark_4_67_past (Causal/ErsUniqueness.lean:567)",
+      "new": "Causal.Causality.ers_remark_4_67_past_secondCountable",
+      "removed": [
+        "hthrough : C.InextensibleThrough U₁"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_remark_4_67_future (Causal/ErsUniqueness.lean:544)",
+      "new": "Causal.Causality.ers_remark_4_67_future_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hthrough : C.InextensibleThrough U₁"
+      ],
+      "added": [
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "hthrough discharged, hacausal traded (the original's hC₁ kept)",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_remark_4_67_past (Causal/ErsUniqueness.lean:567)",
+      "new": "Causal.Causality.ers_remark_4_67_past_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hthrough : C.InextensibleThrough U₁"
+      ],
+      "added": [
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "hthrough discharged, hacausal traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.isPreconnected_of_inextensibleThrough (Causal/ErsUniqueness.lean:345)",
+      "new": "Causal.Causality.isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable",
+      "removed": [
+        "hthrough : D.InextensibleThrough W"
+      ],
+      "added": [],
+      "kind": "discharged; T1 + second countable added; the implicit {S} now precedes {W} (section variable order; same proposition)",
+      "instances_added": "[T1Space M] [SecondCountableTopology M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_corollary_4_69 (Causal/ErsUniqueness.lean:633)",
+      "new": "Causal.Causality.ers_corollary_4_69_secondCountable",
+      "removed": [
+        "hthrough₂ : C₂.InextensibleThrough U₂"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_corollary_4_69 (Causal/ErsUniqueness.lean:633)",
+      "new": "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausal S",
+        "hsplit : C.SplitBy ⊤ S",
+        "hthrough₂ : C₂.InextensibleThrough U₂"
+      ],
+      "added": [
+        "hC₁ : C.IsCauchySurface S",
+        "harc : C.CausallyArcConnected"
+      ],
+      "kind": "hthrough₂ discharged, hacausal and hsplit traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_lemma_4_70 (Causal/NestedCausalities.lean:968)",
+      "new": "Causal.Causality.ers_lemma_4_70_secondCountable",
+      "removed": [
+        "hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_lemma_4_70_isConnected (Causal/NestedCausalities.lean:986)",
+      "new": "Causal.Causality.ers_lemma_4_70_isConnected_secondCountable",
+      "removed": [
+        "hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I"
+      ],
+      "added": [],
+      "kind": "discharged",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_corollary_4_71 (Causal/ErsUniqueness.lean:662)",
+      "new": "Causal.Causality.ers_corollary_4_71_secondCountable",
+      "removed": [
+        "hsplit : C.SplitBy U₁ S",
+        "hthroughτ : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I"
+      ],
+      "added": [],
+      "kind": "both discharged (hsplit from the original's own hC₁ : C.IsCauchySurfaceOn U₁ S)",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_corollary_4_71 (Causal/ErsUniqueness.lean:662)",
+      "new": "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S",
+        "hsplit : C.SplitBy U₁ S",
+        "hthroughτ : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I"
+      ],
+      "added": [
+        "harc : C.CausallyArcConnectedOn U₁"
+      ],
+      "kind": "hsplit, hthroughτ discharged, hacausal traded",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_theorem_4_82_of_globallyHyperbolicOn (Causal/ErsUniqueness.lean:749)",
+      "new": "Causal.Causality.ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hsplit : ∀ i, (cau i).SplitBy (dom i) S"
+      ],
+      "added": [
+        "hcauchy : ∀ i, (cau i).IsCauchySurfaceOn (dom i) S"
+      ],
+      "kind": "traded (the evidence's optional item)",
+      "instances_added": "[SecondCountableTopology M] after [T2Space M]",
+      "conclusion": "identical"
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.eq_of_mem_of_t1_secondCountable",
+    "Causal.Causality.IsCauchySurfaceOn.of_subset_of_t1_secondCountable",
+    "Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable",
+    "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces_secondCountable",
+    "Causal.Causality.Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable",
+    "Causal.Causality.Jminus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable",
+    "Causal.Causality.isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable",
+    "Causal.timelikeLine_ers_prop_4_63_secondCountable",
+    "Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable",
+    "Causal.timelikeLine_ers_lemma_4_70_secondCountable"
+  ],
+  "kb_proposals": [
+    "ERS §4.2–4.3 on T1/T2, second countable backgrounds: CausalScaffold.Ers464SecondCountable (T-abs-ers-4-64-second-countable). `…_secondCountable` = the original less discharged binders (hext, through-hypotheses, and hsplit/hacausal only where the original also has S Cauchy in the same W for the same causality, plus W causally arc-connected for hacausal). `…_of_isCauchySurfaceOn_secondCountable` = hacausal, hsplit traded for IsCauchySurfaceOn U₁ S and CausallyArcConnectedOn U₁ (DEC-162). Together with Causal.ErsSecondCountable, no ERS §4 theorem needs curves_extend, InextensibleThrough, SplitBy or IsAcausalOn except Thm 4.75's IsLocalDevelopment, maxDevelopmentIn_eq, ers_theorem_4_64_in and ers_prop_4_63 (OQ-41 reading).",
+    "Checking 'the original less some binders' mechanically: an `elab \"#binders\" n:ident` command that runs forallTelescope on the constant's type and logs each binder (binder info, user name, ppExpr type) and the body, run on both constants in a /tmp file that imports the module (or a copy of it), then a difflib.SequenceMatcher on the (binderinfo, name, type) lists. It prints exactly the removed and added binders and whether the conclusions agree; 27 pairs took one `lake env lean` run (T-abs-ers-4-64-second-countable).",
+    "`lake build <Module> --no-build` exits 3 and prints the jobs that are out of date without building anything: a dry run that shows whether upstream (Causal.*, mathlib) would be rebuilt before you start the real `lake build <Module>`.",
+    "Where an original takes InextensibleThrough U only to pass it to an open V ≤ U (InextensibleThrough.of_le, which needs T2 and ≤_U antisymmetric), its second countable form needs only T1: InextensibleThrough V holds directly (inextensibleThrough_of_t1_secondCountable C V). Example: Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable."
+  ],
+  "notes": "(1) Scope. All the target title's forms are done: ers_prop_4_63_globallyHyperbolicOn, IsCommonDevelopment.globallyHyperbolicOn and ers_remark_4_67_globallyHyperbolicOn without hext; ers_theorem_4_64, ers_remark_4_67 and ers_corollary_4_68 with S Cauchy in the causally arc-connected U₁ in place of hacausal and hsplit; ers_remark_4_67_future/_past, ers_corollary_4_69, ers_lemma_4_70 and ers_corollary_4_71 without their hthrough. Added in the same pattern: the four union lemmas of Causal.ErsUnions §1 without hext (T-abs-curves-free-cauchy's evidence assigns ErsUnions' 7 CurvesExtendOn binders to this target; all 7 now have a form); the _maxCommonDevelopment_, _of_localUniqueness_ and 4.68 _eqOn_ variants of the 4.64 trade; the trade forms of 4.67 future/past, 4.69 and 4.71; Jplus/Jminus_inter_subset and isPreconnected_of_inextensibleThrough without hthrough; and the evidence's optional item, 4.82 with hsplit traded for S Cauchy in each dom i. 4.73 was left out, as the planner instructed (Causal.ErsSecondCountable has it). Every original is unchanged and every new form stands beside it (OQ-98 (b) open; the precedent's reading, as the dispatch prescribes). (2) Mechanical check. For each of the 27 pairs in `forms` the elaborated binder lists were dumped with forallTelescope and diffed. The conclusions are identical, and the only differences are the binders listed: removed or traded, plus the added instances. In ers_remark_4_67_globallyHyperbolicOn_secondCountable and ers_corollary_4_71_secondCountable, hsplit (and in the first also hacausal) is discharged, not traded, because the original already takes S Cauchy in U₁ for C (and U₁ causally arc-connected for C): kb/0218's condition holds there. In isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable the implicit {S} precedes {W}, a section-variable order that does not change the proposition. Jplus/Jminus_inter_subset_…_of_t1_secondCountable take [T1Space M] where the originals took [T2Space M]. #print axioms on all 30 declarations: propext, Classical.choice, Quot.sound only. (3) Layer 1. The four imports have tools/ladder.py model_path None, and the compiled environment of `import CausalScaffold.Ers464SecondCountable` imports 4741 modules, none under Causal.Minkowski/Static/SingularFlat/Flat/Model/Port. No statement mentions a metric, a length or a geodesic ('metric' appears only in the quoted paper text). Hypotheses are ladder properties (globally_hyperbolic, tarentin, causally_arc_connected, is_causal, inextensible_nested) or the named localisation hypotheses carried from the originals (LocalUniqueness, FrontierStaysIn, SliceRestart, CompactSlabs, FollowsSolution, OneSidedBoundary). The witnesses use only timelikeLine and its lemmas from Causal.Lines, Causal.LinesCurves, Causal.CBG.CausalConvex (via ErsUnions) and Causal.ErsUniqueness. (4) Witnesses (kb/0011): timelikeLine_ers_prop_4_63_secondCountable (the original witness less CurvesExtendOn ⊤, conclusion strengthened by the causal convexity); timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable (proper instance U₁ = ℝ, U₂ = ]-1, 1[, u₂ the clamp, one hypothesis set exercising four forms: the 4.64 trade, the 4.67 GH form, the 4.67 future and past trades); timelikeLine_ers_lemma_4_70_secondCountable (U₂ = ]-1, 1[). The other _secondCountable forms have the originals' hypotheses less binders, so the originals' witnesses satisfy them. No witness is given for 4.68 (the original file has none; it needs a disconnected overlap), 4.69 or 4.71 trade forms, or 4.82 (the originals have none). (5) For the binder (T-bind-curves-ers-4-64). curves_extend can leave rows 4.63, 4.64 and 4.67 (binder.toml:248, :260, :272) once their `ett` names these forms: 4.63 → ers_prop_4_63_globallyHyperbolicOn_secondCountable, IsCommonDevelopment.globallyHyperbolicOn_secondCountable (localisation [globally_hyperbolic, causally_arc_connected]); 4.64 → ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable and its _maxCommonDevelopment_/_of_localUniqueness_ forms ([globally_hyperbolic, tarentin, causally_arc_connected]); 4.67 → ers_remark_4_67_of_isCauchySurfaceOn_secondCountable, ers_remark_4_67_globallyHyperbolicOn_secondCountable, ers_remark_4_67_future/_past_secondCountable or their _of_isCauchySurfaceOn_ forms (same three). Caution: rows 4.68 (:284), 4.69 (:296) and 4.71 (:321) do not list causally_arc_connected today. Their trade forms (…_of_isCauchySurfaceOn_secondCountable, ers_corollary_4_69_of_isCauchySurface_secondCountable) take it as a hypothesis, so binding them adds causally_arc_connected to those rows while IsAcausalOn/SplitBy leave. Their _secondCountable forms (4.69, 4.71) add nothing and drop only the through-hypotheses (and 4.71's hsplit). Row 4.70 (:309) → ers_lemma_4_70_secondCountable, ers_lemma_4_70_isConnected_secondCountable, localisation unchanged ([is_causal]; inextensible_nested stays open). The rows' ledger decls are the master's curation. (6) For the keeper. The [[consequence]] ERS Lemma 4.70 at inextensible_nested (programme/ladder.toml:2656, witness at :2659) gains the witness Causal.Causality.ers_lemma_4_70_secondCountable, standing [T2Space M] [SecondCountableTopology M]. Its `under` loses 'through every point of U₁ ∩ U₂ an inextensible causal curve of M for Cτ'. Kept: inextensible nesting of Cτ in C₁ on U₁ and in C₂ on U₂, is_causal of Cτ, and every inextensible Cτ-curve of M meeting S at most once. The matrix does not move. No other [[consequence]] names an original of this module. (7) For T-loc-quasilinear-causal-ladder (its evidence): with these forms, InextensibleThrough, SplitBy and IsAcausalOn are needed by no ERS 4.63–4.71 row. The rows' trade forms ask instead S Cauchy in U₁ for g(u₁) (DEC-162) and U₁ causally arc-connected (a Lorentzian fact already in that target's `provides`). Thm 4.75's IsLocalDevelopment (fields acausal, split, cauchy) still carries acausal and split. With second countability and W causally arc-connected these two fields follow from `cauchy`, but the structure is unchanged (out of scope; a later target could add an IsLocalDevelopment.of_isCauchySurfaceOn constructor). (8) DEC-167 (gluing, a later refactor; not acted on). This file would be touched only through its witnesses' timelikeLine (Causal.Lines), which would need the new field upstream. Every statement quantifies over Causality M and reads no sheaf clause, and AgreementGlues glues agreement of solutions, not the causality. (9) Graduation (kb/0015, kb/0025): scaffold/CausalScaffold.lean does not import this module yet, so the axiom sweep does not see it. The file imports only Causal.* modules, so moving it to Causal/Ers464SecondCountable.lean is a file move (rename the module path in the master's integration). No name clashes: all 30 names grepped against Causal/ and scaffold/, including the concurrent GluingGeneric/ and GluingModels/ directories. Table rows in the module docstring exceed 100 characters, as in Causal/ErsSecondCountable.lean; prose lines do not. (10) No new paper finding and no new question. Every reading here is an existing one: OQ-41 (b), (c), OQ-57 (b), OQ-77, OQ-78, all ruled by DEC-161 and DEC-162. One observation for the author, not a defect: ERS's Cor 4.69 needs U₂ connected, which the paper does not print. On a T1, second countable background it follows from S connected and Cauchy in U₂ alone, for any causality (isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable), with no timelike vector field."
+}

@@ -1,0 +1,102 @@
+{
+  "target": "T-abs-ers-4-64-second-countable",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "ersprop:PropLocUniqueness",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, row partial. I diffed the elaborated binders against the originals. ers_prop_4_63_globallyHyperbolicOn_secondCountable and IsCommonDevelopment.globallyHyperbolicOn_secondCountable equal their originals less hext, plus [SecondCountableTopology M], and the conclusions are identical. The four union lemmas also lose only hext. eq_of_mem and of_subset take T1 + SC where the originals had no separation axiom. sSup and sSup_of_pieces take T2 + SC. CausallyArcConnectedOn U₁ stays named and the REPORT calls it 'strengthened'. The docstring calls ers_prop_4_63_of_hasTimeFunction 'subsumed' (:144). That holds only on second countable M, which is this module's setting: the original asks no SC."
+    },
+    {
+      "label": "ersthm:ThmUnique",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, partial. The binder diff for each of the three trade forms (_of_isCauchySurfaceOn_, _maxCommonDevelopment_, _of_localUniqueness_) shows exactly -hacausal -hsplit +hC₁ : C.IsCauchySurfaceOn U₁ S +harc : C.CausallyArcConnectedOn U₁ +[SecondCountableTopology M], with identical conclusions. The docstring (:51-53) and the REPORT call these forms siblings, 'not stronger', which is correct: on SC spaces hC₁ ∧ harc implies hacausal ∧ hsplit. A proper witness exists (U₂ = ]-1,1[)."
+    },
+    {
+      "label": "ersrem:RemTime",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, partial. ers_remark_4_67_of_isCauchySurfaceOn_secondCountable has the same trade as 4.64. ers_remark_4_67_globallyHyperbolicOn_secondCountable is the original less hacausal, hsplit and hext. All three are discharged from the original's own hS (C, U₁) and hC, so the kb/0218 condition holds. That form really is stronger than the original on SC spaces, as the REPORT says. The future/past _secondCountable forms drop only hthrough. The future/past _of_isCauchySurfaceOn_ forms drop hacausal and hthrough and add harc, keeping the original's hC₁. Jplus/Jminus_inter_subset_…_of_t1_secondCountable are the originals with T2 replaced by T1 + SC and without hthrough, with identical conclusions and new direct proofs. All four forms are exercised by the timelikeLine witness."
+    },
+    {
+      "label": "erscor:CorDisCon",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, partial. Both trade forms show -hacausal -hsplit +hC₁ +harc +SC, with identical conclusions. There is no witness: it would need a disconnected overlap, and the original has none either. The REPORT discloses this, but the module SCOPE does not (finding 5)."
+    },
+    {
+      "label": "erscor:globally_defined_globally_hyperbolic",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, partial. ers_corollary_4_69_secondCountable is the original less hthrough₂. ers_corollary_4_69_of_isCauchySurface_secondCountable shows -hacausal -hsplit -hthrough₂ +hC₁ : C.IsCauchySurface S +harc : C.CausallyArcConnected. I checked the observation for the author against the Lean, and it says what is claimed. isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable is: [T1Space M] [SecondCountableTopology M] {W} {D : Causality M} (hS : IsPreconnected S) (hSW : S ⊆ W) (hC : D.IsCauchySurfaceOn W S) : IsPreconnected W. So U₂ is (pre)connected from S preconnected and Cauchy in U₂, for any causality, with no timelike field. It is presented as an observation, not a defect, which is correct: the paper gives no proof of 4.69."
+    },
+    {
+      "label": "erslem:LemConnected",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, partial. Both forms are the originals less hthrough (∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I), discharged by inextensibleThrough_of_t1_secondCountable Cτ ⊤. honce, hn₁, hn₂ and hτ are carried unchanged (OQ-41 (b)). A proper witness exists. Ladder consequence: programme/ladder.toml:2656 with witness at :2659, as the REPORT says."
+    },
+    {
+      "label": "erscor:CorSupLum",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, partial. ers_corollary_4_71_secondCountable is the original less hsplit and hthroughτ. hsplit comes from the original's own hC₁ : C.IsCauchySurfaceOn U₁ S, so kb/0218 is satisfied. The trade form further shows -hacausal +harc. Neither form has a witness, and the original has none."
+    },
+    {
+      "label": "ersthm:ThmNotBlocking",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, partial. This is the optional item. ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable shows -hsplit : ∀ i, (cau i).SplitBy (dom i) S +hcauchy : ∀ i, (cau i).IsCauchySurfaceOn (dom i) S +SC, with an identical conclusion. It is described as a sibling restatement, which is correct. No witness."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "ran": [
+      "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers464SecondCountable.lean: exit 0, no output, run twice",
+      "sorry/admit/axiom/native_decide/opaque grep on the file (via /usr/bin/grep): 0",
+      "a copy of the module in /tmp, with an `#binders` elab (forallTelescope, binder info, name, ppExpr type, body) on all 27 original/new pairs of REPORT.forms and the 5 helper lemmas, plus `#print axioms` on all 30 declarations; run with `lake env lean` from lean-causal/: exit 0, no warnings; every pair's body identical, binder differences exactly as REPORT.forms lists; axioms [propext, Classical.choice, Quot.sound] for all 30",
+      "tools/ladder.py model_path on the module and its four imports: None; import closure has 50 Causal.* modules, none under MODEL_LAYER; compiled env of the four imports: 4740 modules, no Causal.Minkowski/Static/SingularFlat/Flat/Model/Port",
+      "comment-stripped code (ladder._code) grep for metric/length/geodesic/Lorentz/norm/smooth: only the tactic norm_num",
+      "name-clash scan of the 30 names over Causal/ and scaffold/ (GluingGeneric/, GluingModels/ included): none",
+      "/tmp scratch deleted; no lake build, no make check"
+    ]
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/Ers464SecondCountable.lean:121",
+      "what": "In the checklist row for 4.69, the remark '(not printed; ERS use the integral curves of a timelike field)' credits the paper with an argument it does not make. Cor 4.69 has no proof in ERS (ghd_02_19.tex:925-928). Integral curves of T are Lemma 4.70's device (:950), and the original Lean cites them only in its supplier note for hthrough₂ (Causal/ErsUniqueness.lean:631).",
+      "fix": "Write '(not printed and not argued by ERS; the original Lean took hthrough₂, supplied by integral curves of a g(u₂)-timelike field)'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/Ers464SecondCountable.lean:116 (and the 'background' hypothesis note repeated in every REPORT label row)",
+      "what": "The phrase '[T1Space M] for the union and time-orientation lemmas' is inexact. Of the four union lemmas, only eq_of_mem_of_t1_secondCountable and IsCauchySurfaceOn.of_subset_of_t1_secondCountable take T1. isCauchySurfaceOn_sSup_of_secondCountable and globallyHyperbolicOn_sSup_of_pieces_secondCountable take T2, as their originals do. isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable, which the phrase omits, also takes T1.",
+      "fix": "List the T1 forms by name: eq_of_mem, IsCauchySurfaceOn.of_subset, Jplus/Jminus_inter_subset, isPreconnected."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/Ers464SecondCountable.lean:117-118",
+      "what": "CausallyArcConnectedOn U₁ (hC, harc) is an assumption the paper does not print; it is a Lorentzian fact. Causal/ErsUnions.lean's checklist marks it '⚠ strengthened', and REPORT row ersprop:PropLocUniqueness says 'strengthened'. The new checklist instead files it under '✓' in row 117 and '⚠ read' in row 118, where the trade forms add harc as a new hypothesis. It is disclosed and every row is partial, so this is not hidden, but it is the wrong contract mark (kb/0006: an assumption the paper lacks is '⚠ strengthened').",
+      "fix": "Mark harc / CausallyArcConnectedOn U₁ '⚠ strengthened (Lorentzian fact, named causally_arc_connected)' in both rows."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/Ers464SecondCountable.lean:122, and the hypothesis 'u1 : R^{d+1} → R a GHD' in REPORT row erscor:globally_defined_globally_hyperbolic",
+      "what": "The text calls 'C.IsCauchySurface S and C.CausallyArcConnected' 'ladder nodes at M'. IsCauchySurface is not a [[property]] of programme/ladder.toml; only causally_arc_connected is. The Cauchy hypothesis is the DEC-162 reading of 'GHD'.",
+      "fix": "Write 'S Cauchy in M (DEC-162 reading) and causally_arc_connected (ladder node at M)'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/Ers464SecondCountable.lean:146-152",
+      "what": "The SCOPE 'Non-vacuity' bullet says the originals' witnesses still satisfy the _secondCountable forms, and names the three new witnesses. It does not say that the 4.68 forms, the 4.69 forms, the 4.71 forms and the 4.82 form have no witness, and that their originals (and those of 4.67 future/past) have none to inherit. REPORT notes (4) does disclose this.",
+      "fix": "Add one sentence to the bullet listing the forms without a witness, as REPORT notes (4) does."
+    }
+  ],
+  "notes": "Scope: git status shows only Ers464SecondCountable.lean and this campaign directory as this closer's. The other entries belong to the concurrent closers (GluingGeneric/, GluingModels/, T-abs-gluing-models), to other loops (lean-yamabe/, papers/egf/programme/roadmap.toml, roadmap/roadmap.toml) or to the master (programme/roadmap.toml): these are ready→active status flips. No edit under Causal/ and none to scaffold/CausalScaffold.lean. Docstring contract present: title, unmarked labels with ghd_02_19.tex lines inside the first 2.4k characters, verbatim quotes (checked against :814, 837, 843, 859, 868, 870, 915, 922, 927, 940, 950, 962, 966, 1101, 1106), checklist, SCOPE, Provenance. The only lines over 100 characters are table rows. The binder notes in REPORT notes (5) agree with papers/ers-predictability/certificate/binder.toml. Rows 4.63 (:248), 4.64 (:260) and 4.67 (:272) can shed curves_extend. The trade forms of 4.68 (:284), 4.69 (:296) and 4.71 (:321) would add causally_arc_connected, which those rows lack today. Row 4.70 (:309) is unchanged. Layer 1 holds: the hypotheses are ladder properties in their On-forms, the named localisation hypotheses carried from the originals, or the DEC-162 reading 'S Cauchy'. The witnesses use only timelikeLine (Causal.Lines). Two loose but not false items: kb_proposals[0] says 'no ERS §4 theorem needs … SplitBy/IsAcausalOn except …', and this holds label by label, but ers_theorem_4_82 and ers_theorem_4_82_of_sliceRestart and isCauchySurfaceOn_iSup_of_isAcausalOn still carry them as variants. Also the 'subsumed' at :144 (see the 4.63 row)."
+}

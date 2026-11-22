@@ -231,3 +231,7 @@ rediscover. One fact per entry.
 | [0223](entries/0223-causal-ladder-dual.md) | pattern | causal_ladder across time reversal: import Causal.Ladder.Dual |
 | [0224](entries/0224-aesop-rule-pattern-guard.md) | pattern | A forward rule that grows its term needs an aesop rule pattern |
 | [0225](entries/0225-aesop-depth-limit.md) | pitfall | aesop's depth limit counts forward steps: long conjunctions and nested reversals |
+| [0226](entries/0226-ers-section4-second-countable.md) | pattern | ERS §4 on second countable backgrounds: the two suffixes |
+| [0227](entries/0227-binders-diff.md) | pattern | Check 'the original less some binders' mechanically |
+| [0228](entries/0228-lake-no-build-dry-run.md) | pattern | lake build --no-build is a dry run |
+| [0229](entries/0229-inextensible-through-t1.md) | pattern | InextensibleThrough on a smaller open needs only T1 on second countable spaces |
