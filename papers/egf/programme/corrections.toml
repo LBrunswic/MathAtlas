@@ -115,8 +115,8 @@ printed = ["main.tex:364-366", "main.tex:395", "main.tex:407"]
 kind = "gap"
 finding = "Three different weak-FM terms are printed: Eq. (15) (l.364) penalizes b E_{nu_train} delta f_init, linear, the weight b on the penalty; Algorithm 1 (l.395) minimizes (1/2B) sum_{t <= tau} delta f_init(s_t) p_t(s) - b E_kappa log f-hat_term, the weight b moved to the cross-entropy; l.407 calls the weak-FM term E_s sum_{t <= tau} (delta f_init(s_t))^2, squared (as in the early TensorFlow configurations, LBrunswic/ErgodicFlow HyperparametersConfig: 'WeakFMPower' with distortion_power 2.0). The control of the sampling error (Corollary 3.10 and the follow-up's theorem, GFNBounds.Core.il_tv_bound at q = 1) is for Eq. (15)'s form, with b >= 1 + ||d lambda / d nu_train||_inf on the penalty; Algorithm 1's placement amounts to a penalty weight 1/(2Bb) on the normalized loss, which that bound does not cover, and the squared penalty controls delta only through Jensen (delta <= N (E delta f_init^2)^{1/2}). Route to proved (T-egf-loss): EGF.loss_controls_sampling. The reproduction runs Eq. (15) and the other two as arms (T-egf-repro-torus-il)."
 anchor = ["EGF.loss_controls_sampling", "EGF.loss_controls_sampling_essSup"]
-basis = ["OQ-84"]
-status = "proved"
+basis = ["OQ-84", "DEC-143"]
+status = "adopted"
 corrected = '''Algorithm 1: minimize $\mathcal L=\frac{b}{2B}\sum_{t=1}^\tau\deltafinit(\underline s_t)p_t(\underline s)-\mathbb E_{s\sim\target}\log\ftermhat(s)$, a Monte-Carlo estimate of (\ref{equ:weakFM}), with $b\geq1+\|d\lambda/d\nu_{\mathrm{train}}\|_\infty$; l.407: ``the weak-FM term $\mathbb E_{s\sim\nu_{\mathrm{train}}}\deltafinit(s)$''.'''
 summary = "The weak-FM term is the same in Eq. (15), Algorithm 1 and the discussion: linear, weighted by b on the penalty, b large enough for the control of the sampling error."
 added_hypotheses = ["b >= 1 + ||d lambda / d nu_train||_inf for the control of the sampling error"]
@@ -376,7 +376,7 @@ label = "theo:universality_true"
 where = "the proof of Theorem B.1, convergence of the series"
 printed = "main.tex:789"
 kind = "gap"
-finding = "Summable squared L2 norms do not make sum_t eps_t converge in L2, and the printed bound mixes norms and squared norms. The conclusion stands: with lambda-hat = lambda invariant, gamma_n is the squared norm of T^n on the mean-zero subspace, so sum gamma_n < infinity gives ||T^N|| <= 1/2 for some N, hence geometric decay. The Lean proof avoids the series (truncated Neumann series plus TV-mixing)."
+finding = "Summable squared L2 norms do not make sum_t eps_t converge in L2, and the printed bound mixes norms and squared norms. The conclusion stands: with lambda-hat = lambda invariant, gamma_n is the squared norm of T^n on the mean-zero subspace, so sum gamma_n < infinity gives ||T^N|| <= 1/2 for some N, hence geometric decay. The Lean proof avoids the series (truncated Neumann series plus TV-mixing). Note (2026-11-22): OQ-47 is ruled (DEC-145, the reading taken); DEC-144 restates Theorem B.1 under ergodicity (C-29), whose Lean proof (Cesaro-weighted Neumann series) replaces the printed route; how this entry bears on v2's new proof, or on the remark that summable mixing gives the outflow as a convergent series, is for the planner."
 anchor = ["EGF.main_universality", "EGF.tvMass_construction", "EGF.exists_tvMass_pushIter_lt_of_tendsto"]
 status = "proved"
 corrected = '''Since $\sum_n\gamma_n<\infty$, some $N$ has $\|(\ForwardPolicyStar)^N\|\le\frac12$ on the mean-zero subspace of $L^2(\lambda)$; hence $\|\epsilon_t\|_2$ decays geometrically and $\sum_t\epsilon_t$ converges absolutely in $L^2(\lambda)$.'''
@@ -390,7 +390,7 @@ label = "theo:universality_true"
 where = "Theorem B.1, invariance of lambda"
 printed = ["main.tex:775", "main.tex:779", "main.tex:793"]
 kind = "missing-hypothesis"
-finding = "l.793 uses lambda pi = lambda and l.779 that pi maps L2(lambda) densities to L2(lambda) densities. Both follow if 'pi is ergodic on (S, lambda)' is read in Walters' sense (lambda invariant), as the paper uses the word (l.211, l.819); otherwise they are gaps, since Definition 3.3 only provides an invariant lambda-hat equivalent to lambda. The Lean theorem assumes neither: it lifts by the invariant lambda-hat."
+finding = "l.793 uses lambda pi = lambda and l.779 that pi maps L2(lambda) densities to L2(lambda) densities. Both follow if 'pi is ergodic on (S, lambda)' is read in Walters' sense (lambda invariant), as the paper uses the word (l.211, l.819); otherwise they are gaps, since Definition 3.3 only provides an invariant lambda-hat equivalent to lambda. The Lean theorem assumes neither: it lifts by the invariant lambda-hat. Note (2026-11-22): OQ-47 is ruled (DEC-145, the reading taken); DEC-144 restates Theorem B.1 under ergodicity (C-29), whose Lean proof (Cesaro-weighted Neumann series) replaces the printed route; how this entry bears on v2's new proof, or on the remark that summable mixing gives the outflow as a convergent series, is for the planner."
 anchor = ["EGF.main_universality", "EGF.trivial_of_lamHat_univ_eq_top"]
 basis = ["OQ-47"]
 status = "proved"
@@ -403,7 +403,7 @@ label = "theo:universality_true"
 where = "Theorem B.1, its hypotheses"
 printed = "main.tex:775"
 kind = "strengthening"
-finding = "The theorem holds without the Polish structure and without L2 densities of F_init and F_term; f_out can be taken bounded; summability of (gamma_n) can be weakened to gamma_n -> 0 with gamma_0 < infinity."
+finding = "The theorem holds without the Polish structure and without L2 densities of F_init and F_term; f_out can be taken bounded; summability of (gamma_n) can be weakened to gamma_n -> 0 with gamma_0 < infinity. Superseded (2026-11-22): DEC-144 restates Theorem B.1 under ergodicity (C-29), which is weaker than gamma_n -> 0 with gamma_0 < infinity; whether C-23's form is kept as a remark is for the planner."
 anchor = ["EGF.main_universality_of_tendsto", "EGF.main_universality"]
 status = "proved"
 summary = "Theorem B.1 holds under weaker hypotheses (no Polish structure, no L2 densities, gamma_n -> 0), with a bounded outflow."
@@ -430,9 +430,11 @@ where = "Definition 3.3"
 printed = "main.tex:264-267"
 kind = "gap"
 finding = "The mean-zero condition names no measure (l.267; l.273 and the proof of B.1 fix it as lambda), and the coefficients integrate (phi pi^n)^2 against lambda-hat while H normalizes in L2(lambda). The reading for lambda-hat != lambda is OQ-47 (a confirmation; the paper only uses lambda-hat = lambda)."
-anchor = ["EGF.IsSummablyL2Mixing"]
-basis = ["OQ-47"]
-status = "proved"
+anchor = ["EGF.IsSummablyL2Mixing", "EGF.mixingCoeff", "EGF.transfer", "EGF.unitMeanZero"]
+basis = ["OQ-47", "DEC-145"]
+added_hypotheses = []
+status = "adopted"
+corrected = '''In Definition 3.3, $\varphi\pi^n := \frac{d((\varphi\lambda)\pi^n)}{d\lambda}$ and $H = \{\varphi \in L^2(\lambda)~|~\|\varphi\|_{L^2(\lambda)} = 1 \text{ and } \int_{\Statespace} \varphi\, d\lambda=0\}$; the coefficients $\gamma_n$ integrate $(\varphi\pi^n)^2$ against $\widehat\lambda$, as printed.'''
 summary = "Definition 3.3 names the measure of its mean-zero condition and of its coefficients."
 batch = "T-egf-correct-universality"
 
@@ -490,9 +492,9 @@ where = "Theorem B.1 and Theorem 3.4: the mixing hypothesis; l.238, l.271 and th
 printed = ["main.tex:775", "main.tex:277", "main.tex:238", "main.tex:271", "main.tex:697-698", "main.tex:702"]
 kind = "strengthening"
 finding = "Summable L2-mixing is not needed for universality. For a Markov kernel pi with a finite invariant measure lambda-hat equivalent to lambda, the conclusion of Theorem B.1 (any probabilities F_init, F_term << lambda, any eps > 0, a bounded f_out >= 0 with delta F_init(S) + delta F_term(S) < eps) holds if and only if (pi, lambda-hat) is ergodic. Sufficiency: the transfer operator T is a contraction of L2(lambda-hat) whose fixed points are constant under ergodicity, so by von Neumann's mean ergodic theorem the range of I - T is dense in the mean-zero subspace; explicitly (I - T) sum_{t<N} (1 - t/N) T^t h = h - (1/N) sum_{t=1..N} T^t h -> h for mean-zero h (a Cesaro-weighted Neumann series; the paper sums the series itself, which needs mixing), and a constant, a 0-flow since lambda-hat is invariant, makes the outflow non-negative at vanishing cost. Necessity: an invariant set A with 0 < lambda(A) < lambda(S) gives, for F_init = lambda|_A / lambda(A) and F_term = lambda|_{A^c} / lambda(A^c), delta F_init(S) + delta F_term(S) >= 2 for every outflow F_out << lambda. Hence the mixing clause of l.775 can be dropped; Theorem 3.4 (l.277) holds for any family containing such an ergodic pi; l.238 ('Ergodicity guarantees ...') is right in its epsilon form; l.697-698 ('the technical assumption of L2-mixing summability needed for universality') and l.702 ('essential to ensure universality') are wrong, and l.271's contrast misleading (Cesaro convergence is what suffices). For Theorems 3.5-3.6 (C-28): ergodicity of the group generated by the moves suffices, so one ergodic affine map suffices on tori, against l.698's 'two transformations'. The follow-up's sentence 'Universality then does need mixing' (GFNCertified, body/04_universality.tex) has the same issue. Routes to proved: EGF.universality_of_ergodic, EGF.not_universal_of_not_ergodic, EGF.universal_iff_ergodic (T-egf-universality-ergodic) and EGF.universality_of_ergodic_family (T-egf-families). Status note (master, 2026-11-21, AUDIT-1 of T-egf-universality-ergodic): `proved` covers the equivalence (the anchors); the refutation of l.697-698 and l.702 ('mixing is needed') rests on witnesses that are universal (EGF.isUniversalPolicy_addCircle, EGF.Swap.isUniversalPolicy_policy) but whose non-mixing is not yet in Lean (T-egf-mixing-criteria). Adoption is OQ-85. Update (2026-11-21, T-egf-mixing-criteria graduated): the witnesses' non-mixing is now in Lean (EGF.Swap.universal_not_summablyMixing, EGF.universal_not_summablyMixing_addCircle, EGF.not_isSummablyL2Mixing_of_map_eq), so l.697 and l.702 are refuted in the reading 'summable mixing is necessary for universality'; in the reading 'the hypothesis Theorem 3.4 is stated under' they are not false. One translation of the circle does not contradict l.698's 'two transformations are sufficient'."
-anchor = ["EGF.universality_of_ergodic", "EGF.not_universal_of_not_ergodic", "EGF.universal_iff_ergodic", "EGF.universality_of_ergodic_family", "EGF.isUniversalFamilyEps_fixedPolicyFamily_iff"]
-basis = ["OQ-85"]
-status = "proved"
+anchor = ["EGF.universality_of_ergodic", "EGF.not_universal_of_not_ergodic", "EGF.universal_iff_ergodic", "EGF.universality_of_ergodic_family", "EGF.isUniversalFamilyEps_fixedPolicyFamily_iff", "EGF.isKernelErgodic_congr", "EGF.Swap.universal_not_summablyMixing", "EGF.universal_not_summablyMixing_addCircle"]
+basis = ["OQ-85", "DEC-144"]
+status = "adopted"
 corrected = '''Theorem B.1: \emph{Let $(\Statespace,\lambda)$ be a measured space with $\lambda$ finite and $\ForwardPolicyStar$ a Markov kernel on $\Statespace$ which admits a finite invariant measure $\widehat\lambda$ equivalent to $\lambda$ for which it is ergodic. Then for any probability distributions $\Finit,\Fterm\ll\lambda$ and any $\varepsilon>0$ there is a bounded $\foutstar\geq0$ such that the generative flow $(\ForwardPolicyStar,\foutstar)$ from $\Finit$ to $\Fterm$ has $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)<\varepsilon$. Conversely, if $\ForwardPolicyStar$ is not ergodic for $\widehat\lambda$, some such pair has $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)\geq2$ for every $\foutstar$.} Summable $L^2$-mixing (Definition 3.3) gives the outflow as a convergent series; universality itself needs only ergodicity. Theorem 3.4: replace ``some summably $L^2$-mixing $\ForwardPolicyStar$'' by ``some $\ForwardPolicyStar$ ergodic for a finite invariant measure equivalent to $\lambda$''. Section 6 (l.697--702): $L^2$-mixing summability is not needed for universality.'''
 summary = "Universality (Theorems B.1 and 3.4) holds under ergodicity alone, which is also necessary; summable L2-mixing is not needed."
 added_hypotheses = ["the invariant measure equivalent to lambda is finite (automatic under the Walters reading of 'ergodic on (S, lambda)', OQ-47)"]
