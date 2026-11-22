@@ -58,6 +58,17 @@ trace step, `c = 0` through `hoelder_boundary`, `u_k → 0` in `W^{1,2}`, Sobole
 
 ## SCOPE (disclosed)
 
+* **Round 2 (T-yamabe-analysis, AUDIT-2): `Mfd.const_of_tendsto` is false as stated.** It asks no
+  measurability of the limit `f`, and an `eLpNorm` of a non-measurable function is an inner
+  integral. `Mfd.not_const_of_tendsto` (`YamabeScaffold.Compactness`) refutes it from any set `S`
+  with `μ S ≠ 0` whose measurable subsets are null (a Vitali set in a chart; not in Mathlib at this
+  pin). The same defect makes `MeasuredModel.ConstLimit` fail on every model reading such an `M`,
+  so `Mfd.Reads.constLimit`, `Mfd.Reads.lem_positivity`, `Mfd.Reads.cor_negative` and
+  `Mfd.lem_positivity` rest on a false `sorry`. The corrected forms are proved:
+  `Mfd.const_of_tendsto_of_aestronglyMeasurable` and `Mfd.Reads.constLimit_of_aestronglyMeasurable`.
+  The repair, adding `MemLp f 2` to `ConstLimit`, is round 3's, together with rewiring the round-2
+  proofs (`YamabeScaffold.ManifoldTheorems`) in place of the `sorry`s of `Sobolev` and `Trace`.
+
 * **Weak convergence, read.** The paper's « converges … weakly in `W^{1,2}(Σ)` to some `u_∞` with
   `‖∇u_∞‖ ≤ liminf ‖∇u_k‖ = 0`; since `Σ` is connected, `u_∞ ≡ c` » is carried by `ConstLimit`:
   an `L²` limit of a sequence whose energy tends to `0` is a.e. constant. On a manifold it is

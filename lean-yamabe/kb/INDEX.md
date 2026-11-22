@@ -25,3 +25,11 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0017](entries/0017-hasderivat-pow-is-the-pi-power-for-fun-t.md) | pitfall | HasDerivAt.pow is the Pi power; for fun t => f t ^ 2 use fun_pow and congr_deriv |
 | [0018](entries/0018-free-curvature-data-state-an-external-at.md) | pattern | Free curvature data: state an external at the data where the paper invokes it, not over all metrics |
 | [0019](entries/0019-typecheck-a-chain-of-new-scaffold-module.md) | pattern | Typecheck a chain of new scaffold modules through /tmp oleans, without lake build |
+| [0020](entries/0020-fderivwithin-on-chart-functions-a-clm-ca.md) | pitfall | fderivWithin on chart functions: a CLM carrying TangentSpace instances fails ContinuousAdd |
+| [0021](entries/0021-u-g-against-the-chart-derivative-mfd-cha.md) | pattern | |∇u|_g against the chart derivative (Mfd.chart_comparison): give IsContinuousRiemannianBundle explicitly |
+| [0022](entries/0022-mfd-goodchart-and-mfd-assemble-from-loca.md) | pattern | Mfd.GoodChart and Mfd.assemble: from local chart estimates to global ones by a finite partition of unity |
+| [0023](entries/0023-elpnorm-of-a-non-measurable-function-is.md) | pitfall | eLpNorm of a non-measurable function is an inner integral: an L² limit must be AEStronglyMeasurable |
+| [0024](entries/0024-parenthesise-iterated-lintegrals-and-att.md) | pitfall | Parenthesise iterated lintegrals: + and ∂μ attach to the inner integral |
+| [0025](entries/0025-a-primed-copy-of-a-theorem-checked-ident.md) | pattern | A primed copy of a theorem checked identical by type_of% … = type_of% … := rfl (one universe per Type*) |
+| [0026](entries/0026-the-c-reflection-across-z-0-3v-r-4v-r-co.md) | pattern | The C¹ reflection across {z₀ = 0}: −3v∘R₁ + 4v∘R₂, ContDiff by HasFDerivWithinAt.union |
+| [0027](entries/0027-typechecking-new-modules-through-tmp-ole.md) | pattern | Typechecking new modules through /tmp oleans: symlink the existing scaffold oleans into /tmp (refines 0019) |
