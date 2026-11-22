@@ -1,0 +1,66 @@
+{
+  "target": "T-abs-ers-4-72-second-countable",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "erslem:two_ghds_subluminal_quasilinear",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ers_lemma_4_72_secondCountable and ers_lemma_4_72_isConnected_secondCountable were checked by machine against Causal.Causality.ers_lemma_4_72 / _isConnected (Causal/NestedCausalities.lean:1034, :1059). I printed every binder of both elaborated types with forallTelescope and diffed them. They are identical except that hmext : Cm.CurvesExtend and hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, C₂.Inextensible U₂ I γ ∧ x ∈ γ '' I are removed and [SecondCountableTopology M] is added after [T2Space M]. The conclusion is the same. R^{d+1} is T2 and second countable, so the instance does not narrow the paper. The gaps that remain are disclosed: hm (is_causal of m), S m-acausal where the paper prints achronal (OQ-41 (c), DEC-161), the GHDs read as 'S Cauchy' (DEC-162) and subluminality as CurveNestedOn (curve_nested). The row is partial and unmarked, which is correct. The quotes of ghd_02_19.tex:812, 814, 976, 983 are verbatim (modulo TeX), and the line references 976 and 980–984 are correct."
+    },
+    {
+      "label": "erscor:CorUniqueSub",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ers_corollary_4_73_secondCountable matches ers_corollary_4_73 (Causal/ErsUniqueness.lean:691) with exactly hmext and hthrough₂ removed and the SecondCountableTopology instance added. The only other difference is where the implicit {C} binder sits (a section variable in the original, after the instances here); it does not change the proposition. IsMDevelopment.isUniqueDevelopment_secondCountable matches the original (Causal/ErsMughd.lean:326) with exactly hmext and hthrough removed. The extra form ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable replaces hacausal and hsplit with hC₁ : C.IsCauchySurfaceOn U₁ S and harc : C.CausallyArcConnectedOn U₁. I printed IsCauchySurfaceOn (every inextensible curve meets S exactly once) and CausallyArcConnectedOn (≤/≪ on every U ≤ W realised by causal/chronal curves): neither contains acausality or splitting as a conjunct. The proof term derives hacausal by IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable (from eq_of_le_of_t1_secondCountable, CurvesExtendSecondCountable) and hsplit by splitBy_of_t1_secondCountable (from splitBy_of_inextensibleThrough with InextensibleThrough proved). Both are therefore genuinely derived. harc is the ladder property causally_arc_connected, localised. No ladder rule derives it from globally_hyperbolic or tarentin, so it is not redundant. It is named in the docstring checklist and SCOPE and in the REPORT. This form is a sibling of the original, not ≥ it, and the REPORT presents it that way. The row stays partial and unmarked."
+    },
+    {
+      "label": "ersrem:us_remark_better_bounds",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "No declaration of its own; the reading is disclosed in SCOPE. Cm is universally quantified in ers_lemma_4_72_secondCountable, so instantiating it at a narrower bound Cb gives the remark's improvement. The row is partial and unmarked."
+    },
+    {
+      "label": "ersthm:ThmMUGHD",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ers_theorem_4_79_secondCountable matches ers_theorem_4_79 (Causal/ErsMughd.lean:400) with exactly hmext and hthrough (∀ U u, IsDevelopment … → (cau u).InextensibleThrough U) removed and the SecondCountableTopology instance added; the conclusion is the same. The hypotheses that remain are carried from the original and named: hsub, harc, hinext, hex, hDm, hG, hT, hK, hlocal, hstay, hstep, OQ-78. The row is partial and unmarked."
+    },
+    {
+      "label": "ersthm:consider_subluminal_quasilinear_wave",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ers_theorem_4_80_secondCountable matches ers_theorem_4_80 (Causal/ErsMughd.lean:483) with exactly hmext and hthrough removed and the SecondCountableTopology instance added; the conclusion is the same. The row is partial and unmarked."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "ran": [
+      "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsSecondCountable.lean: exit 0, no output (no error, no warning)",
+      "/usr/bin/grep for sorry|admit|axiom|native_decide|implemented_by|@[extern in the file: 0 hits",
+      "/tmp copy of the file with #print axioms appended, compiled by lake env lean: all 12 declarations in the REPORT (decls and extra_decls) depend on [propext, Classical.choice, Quot.sound] only",
+      "/tmp probe importing CausalScaffold.ErsSecondCountable (olean 18:12:35, newer than the source at 18:12:14): binder-by-binder diff of the elaborated types of the six _secondCountable theorems against their originals; #print of InextensibleThrough, SplitBy, IsAcausalOn, IsCauchySurfaceOn, CausallyArcConnectedOn, Inextensible, Extensible, StrictlyExtends, CurveOn, CurvesExtend(On)",
+      "layer 1: tools/ladder.py model_path is None for all four imports. Their transitive closure (48 Causal modules, lean_index) contains no MODEL_LAYER module, and the compiled environment's allImportedModuleNames (4739) contains none either. Statements contain no metric, length or geodesic; 'metric' appears only in the quoted paper text",
+      "no lake build, no make check; all probes in /tmp/audit_ers472, deleted afterwards"
+    ]
+  },
+  "scope": "git status --short: the closer's changes are lean-causal/scaffold/CausalScaffold/ErsSecondCountable.lean and lean-causal/campaign/T-abs-ers-4-72-second-countable/ (REPORT.json, last written 18:14:55). The other changes belong to concurrent agents or other loops, and those written after the dispatch all postdate the REPORT: CExtConnexeSecondCountable.lean and campaign/T-abs-c-ext-connexe-second-countable; Causal/Ladder/Dual.lean at 18:17:47; lean-benzecri/** and papers/benzecri at 18:18–18:19; papers/egf, roadmap/roadmap.toml and lean-egf/scaffold. No tracked file under lean-causal/Causal changed.",
+  "docstring_contract": "kb/0006 holds. The title is present. All five labels are unmarked, with ghd_02_19.tex lines, within the first 1400 characters. The paper's sentences are quoted. The Hypothesis checklist and SCOPE are present and the SCOPE claims are true: the witnesses it names exist (Causal/NestedCausalities.lean:1392, Causal/ErsMughd.lean:525, Causal/ErsUniqueness.lean:777), as do kb/0011, 0015, 0025, 0142, DEC-161, DEC-162 and DEC-190. The Provenance line is present. The checklist uses the house vocabulary (⚠ named / ⚠ read, as in Causal/ErsMughd.lean). The second kb proposal (the grep wrapper returns nothing on the labeled .tex) was reproduced.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/ErsSecondCountable.lean:84; lean-causal/campaign/T-abs-ers-4-72-second-countable/REPORT.json:316 (notes (9))",
+      "what": "The paper column of the checklist renders ERS's curve at ghd_02_19.tex:983 as 'a past inextendible g(u₂)-causal curve of U₂ through x'. The paper's curve is timelike, past directed, starts at x and is past inextendible. REPORT notes (9) tells the author that 'the curve ERS take at :983 … need[s] no Lorentzian input; on a T1, second countable background [it is a theorem] of the causal topology alone'. What inextensibleThrough_of_t1_secondCountable proves is an inextensible (two-sided, extension-defined) causal curve of U₂ through x, not a timelike one. That curve does the proof's job, because the Cauchy property makes it meet S, but it is not ERS's curve. The REPORT's own hypothesis row for this label states the paper's curve correctly ('g(u2)-timelike curve of U2 from x').",
+      "fix": "In the checklist row, keep the paper's wording (timelike, past directed, from x). Phrase the observation as: the curve the proof needs (an inextensible causal curve of U₂ through x, which meets S by the Cauchy property) exists on every T1, second countable background without Lorentzian input."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-ers-4-72-second-countable/REPORT.json:312 (kb_proposals[0])",
+      "what": "The kb proposal says the three new lemmas 'discharge every hthrough, hthrough₂, hthroughτ and hsplit of NestedCausalities, ErsUniqueness and ErsMughd'. For the through-hypotheses this is right. For hsplit it is not. splitBy_of_t1_secondCountable needs S to be a Cauchy surface of the same W for the same causality, and most hsplit binders stand without such a hypothesis: Causal/ErsUniqueness.lean:405, 436, 469, 489, 597, 612, 636, 665, 694, 728, 755 and Causal/NestedCausalities.lean:1310 (ers_corollary_4_73's only Cauchy hypothesis on U₁ is for Cm). There hsplit is traded for IsCauchySurfaceOn, not discharged. The closer's own docstring (lines 35–37, 102–108) and ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable say exactly that, as does T-abs-ers-4-64-second-countable's evidence. The kb line would mislead the next session.",
+      "fix": "Reword to: '… discharge every hthrough, hthrough₂, hthroughτ, and every hsplit whose theorem also has S Cauchy in W for the same causality; elsewhere hsplit (and hacausal, with W causally arc-connected) can be traded for C.IsCauchySurfaceOn W S'."
+    }
+  ]
+}

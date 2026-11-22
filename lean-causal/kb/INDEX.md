@@ -223,3 +223,5 @@ rediscover. One fact per entry.
 | [0215](entries/0215-second-countable-from-cauchy-surface.md) | pattern | Second countability of an E≥0-manifold from a second countable Cauchy surface |
 | [0216](entries/0216-reg-second-countable.md) | pattern | Reg(M) of a connected, Hausdorff singular (Isom 𝐌³, 𝐌³)-manifold is second countable |
 | [0217](entries/0217-singular-points-of-cauchy-surface-discrete.md) | pattern | The singular points of a Cauchy surface form a discrete subspace |
+| [0218](entries/0218-inextensible-through-second-countable.md) | pattern | Through-hypotheses and SplitBy on T1, second countable spaces |
+| [0219](entries/0219-agent-grep-wrapper.md) | pitfall | The agent shell's grep can silently find nothing in the paper sources |
