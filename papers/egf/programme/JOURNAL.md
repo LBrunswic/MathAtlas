@@ -265,3 +265,11 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: 2b13668 8dd4a7b 8da07f8 53e0408 1d84b61 579bbeb (+ this) (hub) · 6a9c510 225d9a9 (v2)
 - for the planner (CHECK-1 of -loss-hypotheses and -wording): ν_train a probability on states at l.366; 'B trajectories in each of the two buffers' at l.392; t_max's font; v1 l.192's pair (F_out*, π*); v1 l.375 'as follow'; optional '4 circles', 'spin wheel', l.778 and l.872 'with λ̂ = λ'; and from earlier: Bekka–Guivarc'h's Theorem 5 not needed for Theorem 3.5 (a strengthening), l.919's dense-subgroup setting, l.901 'almost invariant', 'parameterized family of EGF(s)' at l.238, l.277, C-51's 'satisfying (2)', C-56's 'ask of the moves only'
 - next: rule 2 (one target ready, behind the active sphere run): a short planning run
+
+## 2026-11-23 00:10 · planning run (rule 2: one target ready, behind the active sphere run)
+- egf-planner (37e681d): the last checkers' findings become C-64 to C-72 in two ready batches, T-egf-correct-precision (C-64 to C-70) and T-egf-correct-style (C-71, C-72); C-73, the self-contained proof that a group violating Bekka–Guivarc'h's (ii) acts ergodically (T-egf-families-of-record's result), in T-egf-correct-bg-direct
+- master: C-73 proved (its anchors in the strict library) and, being a strengthening of a correct cited route that DEC-141 does not cover, raised as OQ-106 (c2cab0c); T-egf-correct-bg-direct blocked on it. OQ-106 (b) asks, optionally, whether Theorem 3.4 should read 'a parameterized family of generative flows' (Lean proves that form)
+- T-egf-spectral-gap-so3 left planned: nothing waits on it, and SU(2) → SO(3) is not in Mathlib at the pin
+- corrections: 73 entries (13 found, 3 proved, 1 adopted, 56 applied; 3 superseded)
+- asks: OQ-106 (open); the eight questions of fact for the experiments batch (21:52 entry); the seventeen v2 batches await review
+- next: T-egf-correct-precision, with T-egf-repro-sphere continuing
