@@ -598,7 +598,7 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - new OQ: none (next free OQ-88); lean-causal kb 0207–0214
 - next: plan (rule 2: no ready closer). The planner research targets T-3p1-funnel-lemma and T-bbs-archive are still waiting.
 
-## 2026-11-22 03:50 · plan + research (rule 2: no ready closer target after wave 34)
+## 2026-11-22 03:36 · plan + research (rule 2: no ready closer target after wave 34)
 - result: 139 -> 140 targets.
   - Added T-ett-sc-cauchy-e0 (ready, p7, lean-causal): A2's last field, secondCountable_of_cauchy, at E≥0-manifolds. A connected, Hausdorff E≥0-manifold with a second countable Cauchy surface is second countable, with no global hyperbolicity used. The route is [r]: Reg M second countable (DEC-49), countably many singular lines each meeting Σ, Lindelöf, then a countable chart cover.
   - Note on T-ett-cbg-e0: after T-ett-sc-cauchy-e0, every A2 field holds at E≥0-manifolds. A1, A3, A4 and LocalModel still need gx.
@@ -613,5 +613,5 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
   - T-bbs-archive partial (06760c5): CFGO 1994 and Matschull 1999 archived. Gott, CFG 1992, DJtH and 't Hooft need journal copies. It stays ready.
 - new OQ: OQ-88 (Θ₋ as the angle of the lifted holonomy; bears on OQ-36); OQ-89 (Theorem G's parabolic row).
 - gates: roadmap ✓, registers ✓, atlas ✓, hub: no new red
-- wall time: 02:57–03:50 (Paris); agents: 1 (planner)
+- wall time: 02:57–03:36 (Paris); agents: 1 (planner)
 - next: T-ett-sc-cauchy-e0 is the only ready closer, which is fewer than two, so rule 2 calls for a plan again. The roadmap is nearly exhausted without rulings.
