@@ -209,6 +209,7 @@ import Causal.KBorelien
 import Causal.CBG.ETTSubExtension
 import Causal.CBG.SubExtensionAbstract
 import Causal.GluingHausdorff
+import Causal.GluingCompact
 import Causal.NestedCausalities
 import Causal.DeuxPushup
 import Causal.LocateExtension

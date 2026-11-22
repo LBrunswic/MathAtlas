@@ -1,0 +1,74 @@
+{
+  "target": "T-abs-gluing-compact-def",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-gluing-compact-def/1-def",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "CorrespondingCompact j₁ j₂ (GluingCompact.lean:110-112) is, token for token, the binder hK of Causal.Gluing.isClosed_nonHausdorffLeft_of_isCompact (Causal/GluingHausdorff.lean:359-365). correspondingCompact_iff is Iff.rfl and the kernel accepts it. As a further check, a probe applied the OLD theorem directly to h : CorrespondingCompact j₁ j₂ and it elaborates, so the two are definitionally equal. The predicate takes the gluing datum j₁ : W → X, j₂ : W → Y with topologies on X and Y only, as the title asks. correspondingCompact_iff_forall (the property at every x : X) is correct and trivially equivalent: off the frontier take (frontier)ᶜ and K = ∅. correspondingCompact_iff_isProperMap is the properness of fun p : correspondingPairs j₁ j₂ => p.1, under [WeaklyLocallyCompactSpace X]. The ⇒ direction (CorrespondingCompact.isProperMap) carries no extra hypothesis, as the REPORT says. The property is neither trivially true nor trivially false: it holds with a corresponding pair on the line with two origins and fails on expGluing. The 'side' question (X side; the Y side is CorrespondingCompact j₂ j₁) is the keeper's concern. The target fixes the X side, because the inline hypothesis is X-side."
+    },
+    {
+      "label": "T-abs-gluing-compact-def/2-compact-form",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "isClosed_nonHausdorffLeft_of_correspondingCompact has exactly the old signature with the predicate substituted ([T2Space X] [T2Space Y], two IsOpenEmbedding hypotheses), and it is proved from the old theorem, which is untouched. isClosed_correspondingLeft_of_correspondingCompact needs no T2 and no embedding hypothesis. isClosed_nonHausdorffPoints_of_correspondingCompact takes both sides and gives closedness in the gluing. preimage_ι₂_nonHausdorffPoints (the Y-side H equals correspondingLeft j₂ j₁) is correct. In the family form, D.φ i j : U i j → M j matches preimage_ι_nonHausdorffPoints. Its hypotheses (LocallyFinite boundaries, the property for every j) can be satisfied. The ⚠ strengthened row against Chruściel is the ruled compact form (DEC-160), disclosed in the checklist. Against the target assertion (restate the theorem whose hypothesis this already is) nothing is added, so the mark holds. The REPORT nevertheless pairs status 'closed' with a 'strengthened' hypothesis row whose source is Chruściel. That is consistent only under this reading (see notes)."
+    },
+    {
+      "label": "T-abs-gluing-compact-def/3-pair-form",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The REPORT records a reading of 'its pair form … stated against it' and proves every candidate form. (a) CorrespondingCompact.isClosed_image_fst: a closed S ⊆ correspondingPairs projects to a closed set, and .isProperMap. (b) isClosed_correspondingPairs_and_nonHausdorffLeft: DEC-160's two forms in one conjunction, the pair form with no hypothesis. (c) expGluing_witness. Because no reading is left unproved, the mark does not certify a narrower statement. CorrespondingCompact.subset_correspondingLeft_of_isPreconnected is correct: with C closed (from the property) and C open in ∂ j₁(W), C is clopen in the frontier. Its hypotheses are satisfiable, for example on the line with two origins with c = {0}."
+    },
+    {
+      "label": "T-abs-gluing-compact-def/4-witnesses",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Every witness is genuine and none is vacuous. expGluing_witness: correspondingPairs closed, ¬CorrespondingCompact, ¬IsClosed H. correspondingCompact_expGluing_swap: the Y side holds, so the two sides are independent. shearGluing_witness: H = {(0,0)} closed (shearGluing_correspondingLeft) and the property false (the origin corresponds to all of {0}×ℝ). correspondingCompact_lineTwoOrigins: a non-Hausdorff gluing, with a corresponding pair (lineTwoOrigins_isCorrespondingBoundaryPair), that has the property. The sufficient conditions (_of_forall_not, _of_isCompact_frontier, _of_compactSpace, _of_continuousOn [LocallyCompactSpace X], _of_t2Space) are correct, and all of their hypotheses can be satisfied. _of_continuousOn is used for the line with two origins and for the swap. expGluing_continuous_extension_witness is correct as stated. Its statement does not contain the clause 'g extends j₂ ∘ j₁⁻¹', but its prose says it does (finding 1)."
+    },
+    {
+      "label": "prop:Cauchy_point_min",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked, rightly: this is a findings row. The citation is exact: ETT.tex:2303-2304 reads 'Proposition \\ref{prop:C_connexe} then shows that $c_n$ is entirely contained in $C_1$', and it is the only \\ref to prop:C_connexe in ETT.tex. The model is faithful as topology. M₁ = M₂ = ℝ², Hausdorff. N = (0,∞)×ℝ. j₁ = expLeft and j₂ = halfPlaneInc are open embeddings. ∂ j₁(N) is the frontier of the open quadrant. The paper's C₁ = {p ∈ ∂j₁(N) | ∃q, (p,q) ∈ C} is correspondingLeft = {0}×(0,∞) (expGluing_correspondingLeft; under T2 and open embeddings, H = C₁, nonHausdorffLeft_eq). The paper's c_n (connected, ⊂ ∂ j₁(N), P_n ∈ C₁) is c = {0}×[0,1] with P_n = (0,1) and P_{n+1} = (0,0) ∉ C₁. Both halves of prop:C_connexe are proved for this datum: C₁ open in ∂ j₁(N) (expGluing_isOpen_in_frontier), and the pairs closed in X×Y, hence in ∂×∂. So the inference from prop:C_connexe alone is invalid, and the positive form (subset_correspondingLeft_of_isPreconnected) shows the missing ingredient is the property. The finding is honest. It says 'as topology', it says it sharpens the existing ledger paper_finding on prop:C_connexe (which already reports this gap), and it does not claim the paper's conclusion is false in ETT's setting. 'The anchor ett_cauchy_point_min proves the proposition another way' is true as to the route: ETTSection4.lean:414-423 goes through CGHDData.exists_diamond_subset_of_nonempty and IsCorrPair.exists_corresponds_of_le (NoCorresponding.lean:245), with no geodesic and no openness of C. But the anchor proves the Cdist reading over an abstract CBG Geometry, and the row is lean_proved 'partial' (finding 2)."
+    },
+    {
+      "label": "prop:C_connexe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not marked. Listed for completeness, with no Lean claim. The note is accurate: the statement uses no compactness, and its second half is isClosed_correspondingPairs, already curated through C_eq_closure."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard"
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/GluingCompact.lean:515-519 (statement), :509-514 (docstring), :73-79 (SCOPE); REPORT.json kb_proposals[1] and notes",
+      "what": "expGluing_continuous_extension_witness is described as 'j₂ ∘ j₁⁻¹ extends continuously across every point of C' (docstring, SCOPE, kb proposal: 'A continuous extension of j₂ ∘ j₁⁻¹ … The exponential gluing has one'). The Lean statement proves only that near each x ∈ C the corresponding points are the values of a map g continuous on V. It has no clause saying g agrees with j₂ ∘ j₁⁻¹ on V ∩ j₁(W). The clause is true here: g(a, eᶜ) = (a, c) = j₂(a, c). So the conclusion against T-lad-gluing-nodes' 'compactness then from A3's continuous extension' stands mathematically, but the Lean does not state what the prose attributes to it, and this is the sentence that goes to the keeper and the author.",
+      "fix": "Add the conjunct `∀ w, j₁ w ∈ V → g (j₁ w) = j₂ w` to the per-point existential (with expLeft, halfPlaneInc it closes by `simp [expLeft, halfPlaneInc, Real.log_exp]`), or reword the docstring, SCOPE and kb proposal as 'near every point of C the corresponding points are the values of a continuous map'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-gluing-compact-def/REPORT.json, labels[prop:Cauchy_point_min].findings[0]",
+      "what": "'Nothing changes for the row: its Lean anchor Causal.CBG.ett_cauchy_point_min proves the proposition by another route.' The route is right (exists_diamond_subset_of_nonempty → IsCorrPair.exists_corresponds_of_le). But the anchor proves the intended Cdist reading over an abstract CBG Geometry, and the ledger row is lean_proved 'partial' (scope_notes: partial until the E₀ instance). Read bare, the sentence suggests the proposition is certified. The closing hedge, 'This file does not settle whether the step holds in ETT's geometric setting', also leaves out what the ledger's prop:C_connexe paper_finding already records: the step's conclusion is reached by that route, with the compact J⁺(Σ₂) ∩ J⁻(q₀) in place of the missing compactness of partners.",
+      "fix": "When curating the finding, write: 'the anchor proves the intended (Cdist) reading over an abstract CBG geometry (row partial), by a route that replaces the step with a ≤-minimal point of a compact set (IsCorrPair.exists_corresponds_of_le).'"
+    }
+  ],
+  "notes": "Not findings, for the master. (1) REPORT label 2-compact-form has status 'closed' and a hypothesis row 'strengthened' whose source is Chruściel 1112.5779. Under CAMPAIGN.md, 'closed' means no added hypothesis. This is consistent only because the label certifies the target assertion (restating a theorem whose hypothesis this already is), not Chruściel's 'H is closed', which DEC-160 ruled false as topology and which is unmarked here. Curate it as the target assertion. (2) The marked labels are target assertions with no colon prefix, so tools/ledger.py's docstring_label_re (prefixes from ledger.toml) does not read them. No paper label is marked: prop:Cauchy_point_min and prop:C_connexe appear in plain backticks only. All four marks lie within the first 4000 characters (offsets 516-2361). (3) At graduation (kb 0015 item 3), scaffold/CausalScaffold.lean does not yet import CausalScaffold.GluingCompact. The closer could not edit it. (4) tools/ladder.py _lean_index on a copy under Causal/ reads CorrespondingCompact as binders ['j₁ : W → X', 'j₂ : W → Y'] with type Prop, as the REPORT says. (5) The REPORT's build claim is corroborated without rebuilding: .lake/build/lib/lean/CausalScaffold/GluingCompact.olean (21:58:56) is newer than the source (21:58:50).",
+  "ran": [
+    "hostname -> node1",
+    "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/GluingCompact.lean -> exit 0, no output",
+    "copy of the file plus #print axioms on all 33 declarations plus an `example` applying isClosed_nonHausdorffLeft_of_isCompact to h : CorrespondingCompact, at /tmp/audit-gluing-compact/Probe.lean, run with lake env lean -DwarningAsError=true -> every declaration [propext, Quot.sound] or [propext, Classical.choice, Quot.sound]; the example elaborates. A deliberate trailing error (1 = 2 := rfl) was reported (exit 1), which confirms the probe was elaborated. Probe deleted afterwards.",
+    "grep sorry/admit/axiom/native_decide in the file -> 0",
+    "grep of each of the 33 new names as a declaration across lean-causal/Causal, lean-causal/scaffold, lean-gx (excluding this file) -> no clash",
+    "tools/ladder.py lean_index + model_path(CausalScaffold.GluingCompact with import Causal.GluingHausdorff) -> None (ETT layer); the only import is Causal.GluingHausdorff",
+    "grep Metric/dist/ball/Bornology/IsBounded/bddAbove -> only bddAbove inside the proof of not_correspondingCompact_shearGluing",
+    "git status --short and git diff --stat -- lean-causal -> no tracked file in lean-causal modified; untracked: this target's file and campaign dir, plus CExtConnexeCauchy/ (another closer). The other modified paths (lean-yamabe, programme/roadmap.toml ready->active, roadmap/, papers/egf) belong to other loops or the master",
+    "read ETT.tex:2000-2020, 2240-2317; ledger.json rows prop:C_connexe, prop:Cauchy_point_min; Causal/CBG/ETTSection4.lean:414-423; Causal/CBG/NoCorresponding.lean; Causal/CorrespondingSpacelike.lean:195-240; references/sbierski/text/chrusciel2013maximal.txt:870-880 (docstring quote verified); registers/DECISIONS.md:171 (DEC-160 quote verified); programme/roadmap.toml T-abs-gluing-compact-def and T-lad-gluing-nodes blocks"
+  ]
+}

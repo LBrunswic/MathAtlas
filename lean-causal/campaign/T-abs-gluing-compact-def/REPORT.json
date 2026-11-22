@@ -1,0 +1,148 @@
+{
+  "package": "T-abs-gluing-compact-def",
+  "target": "T-abs-gluing-compact-def",
+  "files": [
+    "scaffold/CausalScaffold/GluingCompact.lean"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake env lean scaffold/CausalScaffold/GluingCompact.lean && taskset -c 0-11 lake build CausalScaffold.GluingCompact (dry run --no-build first: only CausalScaffold.GluingCompact out of date, nothing upstream rebuilt; also clean under -DwarningAsError=true)",
+  "sorry_count": 0,
+  "layer": "ETT layer: the module imports Causal.GluingHausdorff only; tools/ladder.py model_path(Causal.GluingHausdorff) = None (its chain is Causal.Pushout, Causal.CBG.FamilyGluing, Causal.PushoutCausal, all ETT layer). No metric notion in a statement.",
+  "labels": [
+    {
+      "label": "T-abs-gluing-compact-def/1-def",
+      "source": [
+        {"paper": "DEC-160 (OQ-40)", "statement": "that local compactness becomes a ladder localisation property", "text_lines": "registers/DECISIONS.md:171"},
+        {"paper": "Causal.GluingHausdorff", "statement": "the inline hypothesis hK of isClosed_nonHausdorffLeft_of_isCompact", "text_lines": "lean-causal/Causal/GluingHausdorff.lean:359-365"}
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Gluing.CorrespondingCompact",
+        "Causal.Gluing.correspondingCompact_iff",
+        "Causal.Gluing.correspondingCompact_iff_forall",
+        "Causal.Gluing.correspondingCompact_iff_isProperMap",
+        "Causal.Gluing.isCorrespondingBoundaryPair_swap"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "Side. The inline hypothesis, hence the predicate, is the X-side property (Chruściel's M1, the side of nonHausdorffLeft). Reading taken: CorrespondingCompact j1 j2 is the X side and the Y side is CorrespondingCompact j2 j1. The two are independent (exponential datum: X side fails, Y side holds). Whether the ladder node is one side, or the conjunction of both sides (which is what makes the non-Hausdorff points of the gluing itself closed, isClosed_nonHausdorffPoints_of_correspondingCompact), is for the keeper or the author."
+      ]
+    },
+    {
+      "label": "T-abs-gluing-compact-def/2-compact-form",
+      "source": [
+        {"paper": "Chruściel, arXiv 1112.5779", "statement": "proof of Lemma 3.3: 'By elementary topology H is closed'", "text_lines": "references/sbierski/text/chrusciel2013maximal.txt:877-880"}
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Gluing.isClosed_nonHausdorffLeft_of_correspondingCompact",
+        "Causal.Gluing.isClosed_correspondingLeft_of_correspondingCompact",
+        "Causal.Gluing.preimage_ι₂_nonHausdorffPoints",
+        "Causal.Gluing.isClosed_nonHausdorffPoints_of_correspondingCompact",
+        "Causal.CBG.FamilyGlueData.isClosed_preimage_ι_nonHausdorffPoints",
+        "Causal.CBG.FamilyGlueData.isClosed_preimage_ι_nonHausdorffPoints_of_finite"
+      ],
+      "hypotheses": [
+        {"paper": "Chruściel: H closed 'by elementary topology'", "here": "strengthened", "note": "CorrespondingCompact j1 j2 added, as ruled by DEC-160 (the finding of T-abs-gluing-hausdorff); it cannot be dropped (expGluing_witness). The old theorem isClosed_nonHausdorffLeft_of_isCompact is untouched; the new one is proved from it, its hypothesis being the predicate by Iff.rfl"},
+        {"paper": "M1, M2 Hausdorff, O open, Psi_O injective isometry", "here": "weakened", "note": "T2 X, T2 Y and open embeddings only where H is read in the gluing; the closedness of Sbierski's C (correspondingLeft) needs no hypothesis besides the predicate"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "T-abs-gluing-compact-def/3-pair-form",
+      "source": [
+        {"paper": "DEC-160 (OQ-40)", "statement": "both the pair form (no hypothesis) and the compact form", "text_lines": "registers/DECISIONS.md:171"},
+        {"paper": "ETT (papers/ett)", "statement": "prop:C_connexe (C closed) and its use in the proof of prop:Cauchy_point_min", "text_lines": "papers/ett/legacy/labeled/ETT.tex:2240-2242, 2303-2304"}
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Gluing.CorrespondingCompact.isClosed_image_fst",
+        "Causal.Gluing.CorrespondingCompact.isProperMap",
+        "Causal.Gluing.isClosed_correspondingPairs_and_nonHausdorffLeft",
+        "Causal.Gluing.CorrespondingCompact.subset_correspondingLeft_of_isPreconnected"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'Its pair form ... stated against it' (roadmap title). Reading taken: the pair form (isClosed_correspondingPairs, no hypothesis) is what the predicate turns into the compact form, so it is stated as (a) under the predicate, every closed set of corresponding pairs projects to a closed subset of X, and the projection of the pairs onto X is a proper map; (b) DEC-160's two forms in one conjunction, isClosed_correspondingPairs_and_nonHausdorffLeft; (c) the exponential gluing, where the pairs are closed, the predicate fails and H is not closed (expGluing_witness, under 4-witnesses)."
+      ]
+    },
+    {
+      "label": "T-abs-gluing-compact-def/4-witnesses",
+      "source": [
+        {"paper": "Causal.GluingHausdorff", "statement": "not_isClosed_nonHausdorffLeft_expGluing; the shear gluing", "text_lines": "lean-causal/Causal/GluingHausdorff.lean:374-550"}
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Causal.Gluing.not_correspondingCompact_expGluing",
+        "Causal.Gluing.expGluing_witness",
+        "Causal.Gluing.expGluing_continuous_extension_witness",
+        "Causal.Gluing.expGluing_not_subset_correspondingLeft",
+        "Causal.Gluing.correspondingCompact_expGluing_swap",
+        "Causal.Gluing.not_correspondingCompact_shearGluing",
+        "Causal.Gluing.isClosed_nonHausdorffLeft_shearGluing",
+        "Causal.Gluing.shearGluing_witness",
+        "Causal.Gluing.correspondingCompact_lineTwoOrigins",
+        "Causal.Gluing.isClosed_nonHausdorffPoints_lineTwoOrigins",
+        "Causal.Gluing.correspondingCompact_of_forall_not",
+        "Causal.Gluing.correspondingCompact_of_isCompact_frontier",
+        "Causal.Gluing.correspondingCompact_of_compactSpace",
+        "Causal.Gluing.correspondingCompact_of_continuousOn",
+        "Causal.Gluing.correspondingCompact_of_t2Space"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "prop:Cauchy_point_min",
+      "tex_lines": [2270, 2304],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [
+        "Causal.Gluing.CorrespondingCompact.subset_correspondingLeft_of_isPreconnected",
+        "Causal.Gluing.expGluing_not_subset_correspondingLeft"
+      ],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [
+        "ETT.tex:2303-2304, proof of prop:Cauchy_point_min: 'Proposition prop:C_connexe then shows that c_n is entirely contained in C_1'. This is the one ETT step that uses the gluing compactness. The inference does not hold as topology, even when both halves of prop:C_connexe hold. Counterexample: Causal.Gluing.expGluing_not_subset_correspondingLeft, two copies of R^2 glued along (a, c) -> (a, e^c) and the identity on (0,∞) × R. There C_1 = {0} × (0,∞) is open in ∂j1(N) (its trace on the upper half-plane), the corresponding pairs are closed, and the segment {0} × [0,1] of ∂j1(N) is connected, meets C_1 and is not contained in it. The inference does hold under the property: if the corresponding points stay locally in a compact set and C_1 is open in ∂j1(N), then a preconnected subset of ∂j1(N) that meets C_1 lies in C_1 (CorrespondingCompact.subset_correspondingLeft_of_isPreconnected). This sharpens the curation's paper_finding on prop:C_connexe ('does not follow ... without keeping the partners q in a compact set'). Nothing changes for the row: its Lean anchor Causal.CBG.ett_cauchy_point_min proves the proposition by another route (IsCorrPair.exists_corresponds_of_le). This file does not settle whether the step holds in ETT's geometric setting."
+      ],
+      "questions": []
+    },
+    {
+      "label": "prop:C_connexe",
+      "tex_lines": [2240, 2268],
+      "status": "not-attempted",
+      "marked": false,
+      "decls": [],
+      "hypotheses": [],
+      "sorries": [],
+      "findings": [],
+      "questions": [],
+      "note": "Listed for completeness: the statement uses no compactness. Its second half is the pair form (Causal.Gluing.isClosed_correspondingPairs, already curated through Causal.Gluing.C_eq_closure). The compactness enters only where prop:Cauchy_point_min draws a connectedness consequence from it (row above). Sbierski rows: none uses the compactness. Def 3.5 / Thm 2.7 use the pair closedness and the Hausdorff criterion; Prop 3.7 is uniqueness; Lemma 3.8 is openness. Chruściel 1112.5779 Lemma 3.3, where H closed is asserted, is not a ledgered paper."
+    }
+  ],
+  "extra_decls": [
+    "Causal.Gluing.isCorrespondingBoundaryPair_swap",
+    "Causal.Gluing.preimage_ι₂_nonHausdorffPoints",
+    "Causal.Gluing.expGluing_mem_frontier",
+    "Causal.Gluing.expGluing_correspondingLeft",
+    "Causal.Gluing.expGluing_isOpen_in_frontier"
+  ],
+  "kb_proposals": [
+    "The gluing compactness of DEC-160 is Causal.Gluing.CorrespondingCompact j₁ j₂ (CausalScaffold.GluingCompact; X side, Y side = CorrespondingCompact j₂ j₁). It is Iff.rfl to the inline hypothesis of isClosed_nonHausdorffLeft_of_isCompact. For weakly locally compact X it is properness of the projection of correspondingPairs onto X (correspondingCompact_iff_isProperMap). State new gluing theorems with it, not with the inline ∀-form.",
+    "A continuous extension of j₂ ∘ j₁⁻¹ across every corresponding boundary point does not give CorrespondingCompact. The exponential gluing has one and lacks the property (expGluing_continuous_extension_witness). correspondingCompact_of_continuousOn needs the continuous map near every point of closure C, so it cannot be read as 'A3 implies the property'."
+  ],
+  "notes": "For the keeper (T-lad-gluing-nodes). NAME AND SIGNATURE: Causal.Gluing.CorrespondingCompact {X : Type u} {Y : Type v} {W : Type w} [TopologicalSpace X] [TopologicalSpace Y] (j₁ : W → X) (j₂ : W → Y) : Prop. It is defined as ∀ x ∈ frontier (range j₁), ∃ V ∈ 𝓝 x, ∃ K : Set Y, IsCompact K ∧ ∀ x' ∈ V, ∀ y, IsCorrespondingBoundaryPair j₁ j₂ x' y → y ∈ K. Its arguments are the gluing datum only: no topology on W, no open-embedding hypothesis, no causality. tools/ladder.py's index reads it as explicit binders ['j₁ : W → X', 'j₂ : W → Y'] and type Prop, once it is graduated under Causal/ (checked by running _lean_index on a copy). Its sort is none of causality, geometry or pair; T-lad-gluing-nodes already says this. In words: as the points of ∂ j₁(W) converge in X, their corresponding points in ∂ j₂(W) cannot escape every compact set of Y. WHAT IMPLIES IT: no corresponding pair at all (correspondingCompact_of_forall_not), hence any Hausdorff gluing along open embeddings (correspondingCompact_of_t2Space); ∂ j₂(W) compact (correspondingCompact_of_isCompact_frontier), hence Y compact (correspondingCompact_of_compactSpace); X locally compact and the correspondence a continuous map near every point of closure C (correspondingCompact_of_continuousOn); for X weakly locally compact, properness of the projection of the corresponding pairs onto X (correspondingCompact_iff_isProperMap, an iff). WHAT IT IMPLIES: the projection of the corresponding pairs onto X is proper (CorrespondingCompact.isProperMap, no hypothesis) and closed (CorrespondingCompact.isClosed_image_fst); Sbierski's C is closed (isClosed_correspondingLeft_of_correspondingCompact, no hypothesis); Chruściel's H is closed (isClosed_nonHausdorffLeft_of_correspondingCompact, T2 X, T2 Y, open embeddings); on both sides, the non-Hausdorff points of the gluing are closed (isClosed_nonHausdorffPoints_of_correspondingCompact); with C open in ∂ j₁(W), every preconnected subset of ∂ j₁(W) meeting C lies in C (CorrespondingCompact.subset_correspondingLeft_of_isPreconnected, the step at ETT.tex:2303); for a family with locally finite boundaries, the non-Hausdorff points seen in each piece are closed (FamilyGlueData.isClosed_preimage_ι_nonHausdorffPoints). WITNESSES: the property holds, with a corresponding pair, on the line with two origins (correspondingCompact_lineTwoOrigins; its non-Hausdorff points are closed, isClosed_nonHausdorffPoints_lineTwoOrigins). It fails, and H is not closed, on the exponential gluing (not_correspondingCompact_expGluing, expGluing_witness, where the pair form holds). The Y side holds there (correspondingCompact_expGluing_swap), so neither side implies the other. It fails while H is closed on the shear gluing (shearGluing_witness), so it is strictly stronger than the closedness of H. A continuous extension at every point of C does not give it (expGluing_continuous_extension_witness). This weighs against the T-lad-gluing-nodes evidence's 'compactness then from A3's continuous extension' read as topology; whether it holds in the CBG setting is open. GRADUATION: the module imports only Causal.GluingHausdorff and edits no existing file. Every name was grepped and none collides in Causal/, scaffold/ or lean-gx. Lines over 100 characters: only the two hypothesis-checklist table rows of the docstring, as in Causal/GluingHausdorff.lean. The marked labels are target assertions without a colon prefix, so tools/ledger.py does not read them as paper labels."
+}

@@ -246,3 +246,5 @@ rediscover. One fact per entry.
 | [0238](entries/0238-forward-rule-instance-cost.md) | pitfall | A forward rule with instance arguments pays a failing synthesis at every goal |
 | [0239](entries/0239-static-causally-plain.md) | pattern | Static spacetimes, hence E_α and Minkowski, are causally plain |
 | [0240](entries/0240-causally-plain-on-restrict.md) | pitfall | No lemma restricts CausallyPlain to CausallyPlainOn W |
+| [0241](entries/0241-corresponding-compact.md) | pattern | DEC-160's gluing compactness is Gluing.CorrespondingCompact |
+| [0242](entries/0242-continuous-extension-not-compact.md) | pitfall | A continuous extension at corresponding points does not give CorrespondingCompact |
