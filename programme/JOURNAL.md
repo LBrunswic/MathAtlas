@@ -350,3 +350,24 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub `make -k check` all green (lean/ docs restored)
 - commits: 0ea179a 1735598 d9bbc32 78ef09e and the block
 - next: wave T-lad-ers-restart-nodes (keeper), T-abs-gluing-compact-def, T-loc-ealpha-plain, T-abs-c-ext-connexe-cauchy (closers)
+
+## 2026-11-23 04:30 · wave of 4 · T-lad-ers-restart-nodes, T-abs-gluing-compact-def, T-loc-ealpha-plain, T-abs-c-ext-connexe-cauchy
+- T-lad-ers-restart-nodes (ladder): slice_restart and frontier_stays_in are edge hypotheses, not nodes; neither has a parameter-free form. 19 ERS §4 consequences (51 → 70) name them in `under`, with the second countable forms as witnesses (when they only drop binders) or as second entries (when they trade). Fact comment refreshed; matrix unchanged (e8f35dd)
+- T-abs-gluing-compact-def (layer 1, pure topology): Causal.Gluing.CorrespondingCompact, Iff.rfl to the old inline hypothesis, with its pointwise and proper-map forms. DEC-160's compact and pair forms are stated against it. Witnesses: the exponential and shear gluings, the line with two origins. Audit minor, applied (5eed9ff). Two findings:
+  - ETT.tex:2303–2304 (proof of prop:Cauchy_point_min): "c_n is entirely contained in C_1" is false as topology from prop:C_connexe alone (expGluing_not_subset_correspondingLeft) and true under the property. This sharpens the ledger's prop:C_connexe finding; the row's anchor takes another route and stays partial.
+  - A continuous extension at corresponding points does not give the property, so "A3 ⇒ compactness" is not topology.
+- T-loc-ealpha-plain (layer 3, E_α): every static spacetime over a geodesic metric space is causally plain. E_α is the 3+1 cosmic string of record, with 2+1 massive (every α) as corollary, plus regular parts, Minkowski and the half-plane (bf17b0b). Audit minor, in the REPORT. Its prop:K_calcul finding (l.1565 rests on prop:tarentin_fort_K, which assumes plainness, never proved for E_α or E≥0-manifolds in ETT.tex) needs more than one sentence for E≥0-manifolds: E₀'s plainness and theo:causalite_engendre's plainness clause, or the ledger's push-up repair.
+- T-abs-c-ext-connexe-cauchy (layer 1): the sub-arc form of the curves theorem; trimming keeps inextensibility; inextensible_nested ⇒ curve_nested on T1, second countable spaces (curveNestedOn_of_t1_secondCountable, for the keeper's [[open]] entry). lem:C_ext_connexe's middle step: a Cauchy surface Cauchy in A and in B is Cauchy in A ⊓ B, without hDac/hDext. Nothing marked (OQ-94). Audit minor, applied (5d58a2f). Finding: ETT.tex:1940–1941's step is true but unargued; its "so" is circular, not backwards (audit).
+- OQ rows STILL NOT WRITTEN (registers/DECISIONS.md held by /atlas-team the whole iteration): ex:open_subset's first uniqueness under gluing; Galileo item 4 (2026-11-22 23:10)
+- for the planner:
+  - the keeper's [[open]] inextensible_nested → curve_nested can become [[implies]] (standing T1, second_countable);
+  - isCauchySurfaceOn_inf_of_secondCountable is a candidate consequence at is_causal;
+  - the scaffold sorry exists_mem_image_inf (CausalScaffold.SubExtension:83) now has a second countable form: retire or restate it?
+  - the keeper's proposals: an edge-hypothesis schema table (T-tool-ladder-edge-hypotheses); T-abs-ers-4-75-cauchy-form; witnesses for the 4.68/4.69/4.71/4.82 forms; T-lad-record-curves-corollaries' remaining entries;
+  - CorrespondingCompact's ladder node (X side, Y side, or both: only both make the gluing's non-Hausdorff points closed) is T-lad-gluing-nodes';
+  - three planner binder targets ready.
+- ladder: 24 properties, 25 implications, 79 counterexamples, 70 consequences; 318/318 within a sort: 34 implied, 275 fails, 9 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/yamabe only (prop:nonpositive names Yamabe.Mfd.Reads.prop_nonpositive_csc, not yet in its files), /atlas-team's in-flight lean-yamabe, which it holds whole; gate-tests red through it. Not this loop's; nothing reverted. lean/ docs restored
+- commits: e8f35dd bf17b0b 5eed9ff 5d58a2f a8d6840 3ebe20f
+- next: wave T-lad-record-curves-corollaries (keeper), T-abs-hoist-lemma-k (closer, exclusive); a planning iteration soon for the accumulated proposals and the three binder targets
