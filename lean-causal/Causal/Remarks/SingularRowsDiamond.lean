@@ -77,13 +77,14 @@ and `prop:K_calcul`'s two values of `K⁻` on `sing₀(N)`.
   strictly increasing along `≤` (the Geroch time of `SingularRowsGeroch.geroch_sing_i_imp_ii`);
   then `CBG.isCompact_Jplus_inter_Jminus_of_isCompact`. At the `SingularFlatAxioms` level `τ`
   is a hypothesis (or `ModelMeasures`). The time-reversed `J⁻(Σ) ∩ J⁺(p)` is not attempted
-  (`lem:image_diamant` does not use it): the dual of the openness argument needs `Z⁻ = M`, which
-  fails at a BTZ point (`mem_Zminus_iff`); whether `J⁺` of open sets is open there is not
-  examined.
+  here (`lem:image_diamant` does not use it): the dual of the openness argument needs `Z⁻ = M`,
+  which fails at a BTZ point (`mem_Zminus_iff`). It holds by another route, `J⁺` of open sets
+  being open at BTZ points too: `Causal.SingularRowsDiamondPast.isCompact_Jminus_inter_Jplus`.
 * **Witnesses** (kb/0011) at `E₀` and `E_π` with the identity: `range id` is everything, so the
   hypothesis of `passe_pgcd` is met only at points of `range i`, where its conclusion is trivial,
   and that of `passe_pgcd_printed` (`frontier univ = ∅`) never, as for `Causal.CauchyDiamond`'s
-  own witnesses. No Cauchy extension that is not onto is built here.
+  own witnesses. No Cauchy extension that is not onto is built here; one is in
+  `Causal.Remarks.SingularRowsCauchyExt` (`cauchyExtension`), with witnesses off the identity.
 * **Findings.** (1) `ETT.tex:2032–2033`: « since `M` is globally hyperbolic `K` is compact » is a
   gap in the argument (`def:globally_hyperbolic` gives compact diamonds between two points); the
   compactness holds at every Hausdorff, second countable `E_{≥0}`-manifold, by the route above.

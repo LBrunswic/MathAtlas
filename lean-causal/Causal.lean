@@ -290,6 +290,7 @@ import Causal.Remarks.SingularRowsDiamond
 import Causal.SingularSplitting
 import Causal.Remarks.SingularRowsSplitting
 import Causal.Remarks.SingularRowsDiamondPast
+import Causal.Remarks.SingularRowsCauchyExt
 
 /-!
 # Causal — topological spacetimes

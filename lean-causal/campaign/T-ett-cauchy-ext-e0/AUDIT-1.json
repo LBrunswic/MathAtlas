@@ -1,0 +1,95 @@
+{
+  "target": "T-ett-cauchy-ext-e0",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "def:cauchy_embedding_cauchy_extension",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "This is an instance, not a certificate. It is unmarked and partial, which is correct. cauchyExtension proves everything with no assumed hypothesis. For every Cauchy time function T of E0 strictly increasing along <= (one exists: exists_cauchyTimeFunction = E0.geroch_sing_i_imp_ii) and every a, sublevel a = {T < a} is E0Covered (e0Covered_opens). Its natural causality exists and is unique (existsUnique_isE0Natural). For each natural C: AbsolutelyMinimal (hC.2.2); IsoChartsCoverDEC25 (SFALocal.isoChartsCoverDEC25_of_e0); the relations at the top are E0's (relations_top_iff composed with le/lt_iff_le/lt_top_of_isPast); C is GloballyHyperbolic (isCausal_opens, and the diamonds are E0's and lie inside {T < a}); every i^-1(T^-1 b) with b < a is a Cauchy surface; and IsCauchyEmbedding C E0.causality Subtype.val holds, which is the real DEC-17 structure: both sides GH, IsEMorphism, injective, and i^-1(T^-1(a-1)) is carried onto a Cauchy surface of E0. The inclusion is not Surjective, because the tau-orbit of the axis meets T^-1(a). The DEC-25 reading is the one the M-level rows use. #synth gives opensSingularGXStructure (sublevel _ 1) as the instance on the subtype, and T2Space and SecondCountableTopology are the subtype instances, so they are synthesised, not assumed. Connectedness is also proved (connectedSpace_sublevel, singularFlatSpacetime_sublevel), so M is a singular flat spacetime in the sense of def:singular_spacetime as well. The hypotheses hT, hTs and hC are inhabited (nonvacuous_e0 at a = 1, b = 0)."
+    },
+    {
+      "label": "lem:image_diamant",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "image_diamant_witness takes its conclusion from SingularRowsDiamond.image_diamant. The hypotheses hmin, hC, hminN, hCN, hi and hS all come from cauchyExtension and SFALocal.nonvacuous_e0, and hp is proved. The point is the axis point with T = (a+b)/2: it lies in J+_M(Sigma) minus Sigma, and the statement only says b < T p. The first conjunct, not J+(T^-1 b) contained in range i, shows that the inclusion is no longer the identity's trivial one. The docstring describes exactly what the theorem states. One wording point (finding 1): the module docstring says every row is instantiated 'at points of the frontier T^-1(a)', but this row's point is interior, as the lemma requires. Its conclusion also follows directly from the past-set property of {T < a}. Unmarked and partial, which is correct."
+    },
+    {
+      "label": "lem:passe_pgcd",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Both branches are taken from SingularRowsDiamond.passe_pgcd_printed, and its hypothesis is met at frontier points that lie outside range i. This closes the gap of T-ett-diamant-rows AUDIT-1, where frontier(range id) was empty. passe_pgcd_btz_witness uses p1 = tauFlow ta (0,0), on the axis with T p1 = a. It proves p1 in frontier(range i), via the limit along the axis from below and the fact that range i is open. It proves p1 not in range i, p1 in J+(T^-1 b), the K- inclusion, the BTZ explicit form (hrow.2.2), and that (J+(T^-1 b) cap J-(p1)) minus {p1} is non-empty: it contains the axis point with T = b. passe_pgcd_regular_witness uses q1 = tauFlow ta (0,1): off the axis by tauFlow_mem_axis, in the frontier, outside range i, in J+. It proves the K- inclusion, the regular explicit form (hrow.2.1), and that I-(q1) cap J+(T^-1 b) is non-empty, via q1 in Z- and the cover argument. nonvacuous_e0 assembles both at a = 1, b = 0. The docstrings describe exactly what each theorem exercises. As for image_diamant, the conclusions also follow directly from {T < a} being a past set (finding 1). Unmarked and partial, which is correct."
+    },
+    {
+      "label": "lem:Cauchy_plongement_toutes",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "plongement_witness takes its conclusion from SingularRowsCauchy.cauchy_plongement_toutes_manifolds, applied to the inclusion, which is not onto. Every hypothesis is discharged: hmin, hcov and hG come from cauchyExtension, hminN and hCN from SFALocal.nonvacuous_e0, then E0.globallyHyperbolic, hi.isEMorphism and hi.injective. It gives (i) <=> (ii), (ii) itself through hi.exists_cauchy, and for every c < a that i^-1(T^-1 c) is Cauchy in M and its image is Cauchy in E0. The docstring describes this exactly. Unmarked and partial, which is correct."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "I ran `taskset -c 0-11 lake env lean scaffold/CausalScaffold/SingularRowsCauchyExt.lean`: exit 0, no output. It also passes with -DwarningAsError=true, as it must after graduation to the strict lib. The only occurrence of 'sorry' in the file is in docstring prose (l.43). There is no admit, axiom, native_decide or set_option, and no bold-backtick mark. #print axioms on all 32 declarations of the module (probe under the campaign directory, deleted afterwards): 31 give [propext, Classical.choice, Quot.sound], and image_val_preimage gives [propext, Quot.sound]. Clash probe: `import Causal` (the full strict root) plus the module body compiles with no error. No lake build was run, because none was needed."
+  },
+  "port": {
+    "source": "lean-gx/GX/BTZ/Spear.lean l.1183-1511 at 8b15f9e (section CurveExt, namespace GX.E0Spear). The file is unchanged from 8b15f9e to HEAD, and lean-gx is clean against HEAD with nothing untracked.",
+    "diff": "Running `git show 8b15f9e:lean-gx/GX/BTZ/Spear.lean | sed -n 1183,1511p` against SingularRowsCauchyExt.lean l.153-481 (329 lines each) gives exactly one hunk, 171c171: `le_of_lt` -> `_root_.le_of_lt`. This matches the REPORT and the SCOPE.",
+    "universe": "The ported section is stated for `X : Type`, as in gx. No label statement is narrowed: every use is at E0 : Type, and the paper states none of these lemmas. The restriction is unnecessary, though: the whole file compiles unchanged with `X : Type u` (probe, deleted). See finding 2."
+  },
+  "scope": "git status --short --untracked-files=all shows: roadmap/roadmap.toml (the master's), lean-causal/campaign/T-ett-diamant-past/* and scaffold/CausalScaffold/SingularRowsDiamondPast.lean (the other closer's), lean-causal/campaign/T-ett-cauchy-ext-e0/REPORT.json and scaffold/CausalScaffold/SingularRowsCauchyExt.lean. Nothing lies outside the dispatch. Causal.lean is not edited, and the lean submodule and lean-gx are clean.",
+  "names": {
+    "clash": "None. I checked against the full strict root (compile probe) and against SingularRowsDiamondPast's declarations: Causal.Causality.{Jplus_mem_nhds_of_mem_Zminus, Jplus_mem_nhds_of_singularPastAt, Jplus_mem_nhds_of_Iplus_of_lt, isOpen_Jplus_of_singularPastAt}, Causal.Causality.SingularFlatAxioms.{isOpen_Jplus, isCompact_Jplus_inter_of_isCauchySurface, isCompact_Jminus_inter_Jplus, isCompact_Jminus_inter_Jplus_of_modelMeasures, exists_mem_sing_zero_Jminus_diff} and Causal.SingularRowsDiamondPast.*, which are disjoint. The other names that match are in other namespaces: Causal.Causality.IsCauchyTimeFunction.isCauchySurface_level and the per-module nonvacuous_e0. gx's twins are GX.E0Spear.*, and gx imports a git-pinned Causal, never the root.",
+    "this_module": [
+      "Causal.Causality.causallyConvexIn_of_isPast",
+      "Causal.Causality.le_iff_le_top_of_isPast",
+      "Causal.Causality.lt_iff_lt_top_of_isPast",
+      "Causal.Causality.causalCurveOn_comp_monotoneOn",
+      "Causal.Causality.causalCurveIn_comp_monotoneOn",
+      "Causal.Causality.continuousOn_of_causalCurveIn",
+      "Causal.Causality.extensible_of_timeGraph_openEnd",
+      "Causal.Causality.extensible_of_timeGraph_future",
+      "Causal.Causality.extensible_of_timeGraph_past",
+      "Causal.Causality.isCauchySurfaceOn_of_isPast",
+      "Causal.SingularRowsCauchyExt.image_val_preimage",
+      "Causal.SingularRowsCauchyExt.isEMorphism_val_of_chartIso",
+      "Causal.SingularRowsCauchyExt.sublevel",
+      "Causal.SingularRowsCauchyExt.mem_sublevel",
+      "Causal.SingularRowsCauchyExt.noCausalEndpoint_e0",
+      "Causal.SingularRowsCauchyExt.time_le_of_le",
+      "Causal.SingularRowsCauchyExt.isPast_sublevel",
+      "Causal.SingularRowsCauchyExt.level_subset_sublevel",
+      "Causal.SingularRowsCauchyExt.time_lt_of_lt",
+      "Causal.SingularRowsCauchyExt.lt_of_time_lt",
+      "Causal.SingularRowsCauchyExt.isCauchySurface_level",
+      "Causal.SingularRowsCauchyExt.isCauchySurfaceOn_sublevel",
+      "Causal.SingularRowsCauchyExt.exists_tauFlow_level",
+      "Causal.SingularRowsCauchyExt.cauchyExtension",
+      "Causal.SingularRowsCauchyExt.connectedSpace_sublevel",
+      "Causal.SingularRowsCauchyExt.singularFlatSpacetime_sublevel",
+      "Causal.SingularRowsCauchyExt.image_diamant_witness",
+      "Causal.SingularRowsCauchyExt.passe_pgcd_btz_witness",
+      "Causal.SingularRowsCauchyExt.passe_pgcd_regular_witness",
+      "Causal.SingularRowsCauchyExt.plongement_witness",
+      "Causal.SingularRowsCauchyExt.exists_cauchyTimeFunction",
+      "Causal.SingularRowsCauchyExt.nonvacuous_e0"
+    ]
+  },
+  "report_json": "Valid JSON. All four rows are partial and unmarked, and the tex_lines match the ledger spans. Every declaration listed exists, and together they cover all 32 declarations of the module. The route-change claim checks out: Causal.CurvesExtend (CauchyExtension.lean:83) and exists_inextensible_of_t1_secondCountable give only c '' I contained in c' '' I'. No paper finding is claimed, and none is needed. The docstring contract holds: title, unmarked labels with ETT.tex lines inside the first 4000 characters, verbatim quotes (1859-1862, 1870, 2025-2027, 2043-2048), hypothesis checklist, SCOPE and Provenance are all present and true, apart from finding 1's wording.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/SingularRowsCauchyExt.lean:20-22 (and REPORT kb_proposals[0])",
+      "what": "The docstring says the rows are instantiated 'at points of the frontier T^-1(a), where their conclusions are no longer trivial'. This overstates in two ways. First, only passe_pgcd's points lie on the frontier: image_diamant's point is interior (T p = (a+b)/2, in M, as the lemma requires), and plongement_witness has no point. Second, i(M) = {T < a} is a past set of E0 and T is strictly increasing along <=, so every witnessed conclusion also follows in a line from isPast_sublevel and the relations clause of cauchyExtension. For T p <= a, J-(p) minus {p} lies in {T < a}, which gives both branches of passe_pgcd and the K- inclusion, and with the equal relations it also gives image_diamant's equality. The witnesses do achieve what the target asked: the rows' hypotheses are met with range i not equal to N and p in the frontier of i(M). But they do not exercise anything the past-set property does not already give.",
+      "fix": "Reword l.20-22, for example: '... instantiated at i, which is not onto: passe_pgcd at points of the frontier T^-1(a), image_diamant at an interior BTZ point'. Add one SCOPE sentence: '{T < a} is a past set, so the conclusions here also follow from isPast_sublevel; the witnesses show the hypotheses met off range i, not the depth of the rows' proofs.' This is the master's to apply at graduation, or the closer's on a rerun."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/SingularRowsCauchyExt.lean:155",
+      "what": "Section CurveExt keeps gx's `variable {X : Type}`. Its model-free lemmas, including the past-set lemma isCauchySurfaceOn_of_isPast and extensible_of_timeGraph_future/past/openEnd, are therefore universe-monomorphic. This is disclosed in SCOPE. No label statement is narrowed below the paper, since every use is at E0 : Type. But the lemmas are narrower than they need to be: the section compiles unchanged with `{X : Type u}` (probe run, then deleted). The file's own PastSet section uses `Type u`.",
+      "fix": "When the model-free lemmas are hoisted (the kb/0061 tidy target the REPORT proposes), or at graduation, change `Type` to `Type u` on l.155. SCOPE should then record a two-token diff against gx."
+    }
+  ]
+}

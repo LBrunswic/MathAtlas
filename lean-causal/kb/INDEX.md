@@ -216,3 +216,7 @@ rediscover. One fact per entry.
 | [0208](entries/0208-diamond-past-compact.md) | pattern | J⁻(Σ) ∩ J⁺(p) is compact at every globally hyperbolic E≥0-manifold: A2's second field |
 | [0209](entries/0209-btz-point-below-every-cauchy-surface.md) | pattern | A BTZ point below every Cauchy surface when sing₀ ≠ ∅ |
 | [0210](entries/0210-singularpastat-sequence-instead-of-line.md) | pattern | At a BTZ point, SingularPastAt's sequence stands in for the line when no causality is available |
+| [0211](entries/0211-cauchy-extension-not-onto.md) | pattern | A Cauchy extension that is not onto between E≥0-manifolds: {T < a} ⊂ E₀ |
+| [0212](entries/0212-curvesextend-is-image-containment.md) | pitfall | CurvesExtend gives only image containment, never an extension of the parametrised curve |
+| [0213](entries/0213-inclusion-emorphism-from-chartiso.md) | pattern | The inclusion of an open set is an IsEMorphism once it is a ChartIso |
+| [0214](entries/0214-root-le-of-lt-in-causality.md) | pitfall | Inside namespace Causal.Causality, le_of_lt resolves to Causality.le_of_lt |
