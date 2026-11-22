@@ -313,6 +313,7 @@ import Causal.Remarks.SingularRowsSplitting
 import Causal.Remarks.SingularRowsDiamondPast
 import Causal.Remarks.SingularRowsCauchyExt
 import Causal.Remarks.SingularRowsSecondCountable
+import Causal.Model.LemmaKModels
 
 /-!
 # Causal — topological spacetimes

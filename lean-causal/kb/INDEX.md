@@ -251,3 +251,6 @@ rediscover. One fact per entry.
 | [0243](entries/0243-sub-arc-curves.md) | pattern | The sub-arc form of the curves theorem |
 | [0244](entries/0244-trim-keeps-inextensible.md) | pattern | Constant end pieces do not affect inextensibility |
 | [0245](entries/0245-cauchy-inf.md) | pattern | A Cauchy surface Cauchy in A and in B is Cauchy in A ∩ B |
+| [0246](entries/0246-lemma-k-ett-layer.md) | pattern | The Lemma K family is ETT-layer; its model corollaries are in Causal.Model.LemmaKModels |
+| [0247](entries/0247-model-path-shortest.md) | pitfall | model_path shows one shortest chain: check each direct import before a hoist |
+| [0248](entries/0248-model-stranded-duplicates.md) | pattern | Two ETT-layer re-proofs can now cite their originals |

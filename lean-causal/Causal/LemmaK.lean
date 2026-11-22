@@ -39,7 +39,7 @@ the spacetime — and this module is **the lemma of record**:
 * `Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen`: the bare form's exact
   hypotheses (`CausalScaffold.CompactCauchy.isCauchySurface_of_isLocallyCauchy`) plus
   `[SecondCountableTopology M]` and `C.CausallyOpen`. Proof: `CurvesExtend` from Levin's theorem
-  (`curvesExtend_of_secondCountable`, `Causal.LevinUtility`), then
+  (`curvesExtend_of_secondCountable`, `Causal.LevinTimeFunction`), then
   `isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus` (`Causal.LemmaKLocal`) with
   `J^±(V)` open for `V` open, read off `CausallyOpen` at `U = ⊤`.
 * `Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend`: the
@@ -53,14 +53,19 @@ the spacetime — and this module is **the lemma of record**:
 ## SCOPE (disclosed)
 
 * **Why second countability is used.** Only to obtain `CurvesExtend`: Levin's utility needs
-  σ-compactness (`sigmaCompactSpace_of_globallyHyperbolic`, `Causal.LemmaKSC`, from SC and the
-  local compactness GH gives). Causal openness is not known to imply `CurvesExtend`; the
+  σ-compactness (`sigmaCompactSpace_of_globallyHyperbolic`, `Causal.LevinTimeFunction`, from SC
+  and the local compactness GH gives). Causal openness is not known to imply `CurvesExtend`; the
   library's other routes to it need a time function (`curvesExtend_of_timeFunction`) or
   admissible measures (`GloballyHyperbolic.curvesExtend`). The SC-free form is therefore stated
   with `CurvesExtend` as a hypothesis, not without it.
 * The forms without causal openness (`CausalScaffold.CompactCauchy`, bare;
   `CausalScaffold.LemmaKSCOpen`, second countable) stay in the scaffold as open generalisations,
   not owed (DEC-93).
+* **ETT layer** (T-abs-hoist-lemma-k, 2026-11-22): this module and its whole import closure
+  (`Causal.LemmaKSCLocal`, `Causal.LemmaKLocal`, `Causal.LemmaKSC`, `Causal.LemmaKReduction`,
+  `Causal.LemmaKBare`, `Causal.LevinUtility`, `Causal.LevinTimeFunction`) import no model, so a
+  layer-1 module may import Lemma K and `causallyOpen_of_pushUp`. The model corollaries of the
+  family are in `Causal.Model.LemmaKModels`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

@@ -119,6 +119,18 @@ theorem IsCauchySurface.isAcausal {S : Set M} (hS : C.IsCauchySurface S)
   rw [hc0] at h0; rw [hc1] at h1
   exact (hz x ⟨h0, hx⟩).trans (hz y ⟨h1, hy⟩).symm
 
+/-- `CurvesExtend` for the reversed causality. -/
+theorem CurvesExtend.dual (h : C.CurvesExtend) : C.dual.CurvesExtend := by
+  intro c a b hab hc
+  have hc' : C.CausalCurveOn ⊤ (fun t => c (-t)) (-b) (-a) :=
+    CurveOn.neg (r := C.dual.le) (W := ⊤) (c := c) (a := -b) (b := -a)
+      (by rw [neg_neg, neg_neg]; exact hc)
+  obtain ⟨I, c', hc'i, hsub⟩ := h _ (-b) (-a) (neg_le_neg hab) hc'
+  refine ⟨-I, fun t => c' (-t), hc'i.dual_reverse, ?_⟩
+  rintro _ ⟨t, ht, rfl⟩
+  obtain ⟨u, hu, hcu⟩ := hsub ⟨-t, ⟨neg_le_neg ht.2, neg_le_neg ht.1⟩, rfl⟩
+  exact ⟨-u, by simpa using hu, by simpa using hcu⟩
+
 /-! ### Curves over an interval: congruence and change of open set -/
 
 theorem CausalCurveIn.mono_opens {W W' : Opens M} {I : Set ℝ} {c : ℝ → M}

@@ -1,0 +1,249 @@
+{
+ "target": "T-abs-hoist-lemma-k",
+ "package": "T-abs-hoist-lemma-k",
+ "files": {
+  "edited": [
+   "Causal/LemmaKBare.lean",
+   "Causal/LemmaKSCLocal.lean",
+   "Causal/LemmaK.lean",
+   "Causal/CauchyExtension.lean",
+   "Causal.lean"
+  ],
+  "new": [
+   "Causal/Model/LemmaKModels.lean"
+  ],
+  "campaign": [
+   "campaign/T-abs-hoist-lemma-k/REPORT.json",
+   "campaign/T-abs-hoist-lemma-k/checklist.tsv",
+   "campaign/T-abs-hoist-lemma-k/checks-before.txt",
+   "campaign/T-abs-hoist-lemma-k/layer-before.json",
+   "campaign/T-abs-hoist-lemma-k/layer-after.json",
+   "campaign/T-abs-hoist-lemma-k/dump-diff.txt"
+  ]
+ },
+ "builds": true,
+ "build_command": "cd lean-causal && taskset -c 0-11 lake build Causal CausalScaffold",
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-hoist-lemma-k/lemma-k-models",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.staticCausality.Jminus_singleton_ne",
+    "Causal.staticCausality.Jplus_singleton_ne",
+    "Causal.staticCausality.preconnectedSpace_of_geodesic",
+    "Causal.staticCausality.properSpace_of_globallyHyperbolic",
+    "Causal.staticCausality.isCauchySurface_of_compact_isLocallyCauchy",
+    "Causal.staticCausality.isCauchySurface_of_isLocallyCauchy_bare",
+    "Causal.massive_isCauchySurface_of_compact_isLocallyCauchy",
+    "Causal.minkowski_curvesExtend_of_lemmaKSCLocal"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Library, not paper. The target's evidence names one model path for Causal.LemmaKBare (to Causal.Model.CurvesExtendModels). At HEAD it had three: Causal.Model.CurvesExtendModels and Causal.Model.Massive for its static section, and Causal.Splitting, which reaches Causal.Flat.IsomCausal. tools/ladder.py's model_path reports only the shortest chain. Moving the static section alone would have left LemmaKBare model-layer through Splitting. LemmaKBare needed nothing from Splitting except Causal.CauchyDual (dual_isCauchySurfaceOn), so `import Causal.Splitting` is replaced by `import Causal.CauchyDual`."
+   ],
+   "questions": [
+    "Reading taken: the two model sections share one new model module, Causal.Model.LemmaKModels, which imports Causal.LemmaKSCLocal (and through it LemmaKBare), Causal.Model.CurvesExtendModels, Causal.Model.Massive and Causal.Minkowski. The alternative was one model module per source (e.g. Model/LemmaKBareModels, Model/LemmaKSCLocalModels). Splitting it later is a cut by line range.",
+    "Reading taken: the timelike-line non-vacuity witnesses of LemmaKBare (timelikeLine_lemmaKBare_hypotheses, timelikeLine_isOpen_Jplus/Jminus, the three timelikeLine_isCauchySurface_zero_of_lemmaKBare*) and of LemmaKSCLocal (timelikeLine_isCauchySurface_zero_of_lemmaKSCLocal) are model-free (Causal.Lines, Causal.PushUp, Causal.CompactCauchy). They stay, as in T-abs-hoist-time-function."
+   ],
+   "moved": "Causal/LemmaKBare.lean HEAD :579-669 (the header '### Static spacetimes: the bare form holds', namespace staticCausality with its 6 theorems, then massive_isCauchySurface_of_compact_isLocallyCauchy) -> Causal/Model/LemmaKModels.lean :66-156, byte-identical. Causal/LemmaKSCLocal.lean HEAD :117-119 (minkowski_curvesExtend_of_lemmaKSCLocal with its docstring) -> Causal/Model/LemmaKModels.lean :160-162, byte-identical, under a new header '### Minkowski space: track A of `Causal.LemmaKSCLocal`'. The prelude repeats the two sources' common one verbatim (namespace Causal; open Set TopologicalSpace Topology Filter Function; universe u; variable {M : Type u} [TopologicalSpace M]). The static section keeps its own `variable {X : Type*} [MetricSpace X] [GeodesicSpace X]` inside namespace staticCausality."
+  },
+  {
+   "label": "T-abs-hoist-lemma-k/curves-extend-dual",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.CurvesExtend.dual"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Reading taken: CurvesExtend.dual goes into Causal.CauchyExtension right after IsCauchySurface.isAcausal (:123), in the section 'Global hyperbolicity of an open set, acausal sets, extension of curves' where CurvesExtend is defined (:83). The variable context is the same as in LemmaKBare: {M : Type u} [TopologicalSpace M], `variable (C)` then `variable {C}` in namespace Causality. The unused [TopologicalSpace N] is not included, and the dump confirms the telescope. CauchyExtension's module docstring is left unchanged. Four ledger rows list Causal/CauchyExtension.lean, and tools/ledger.py reads its SCOPE block, so leaving it unchanged keeps their generated text the same. A SCOPE line ('CurvesExtend passes to C.dual, CurvesExtend.dual') can be added at integration if wanted."
+   ],
+   "moved": "Causal/LemmaKBare.lean HEAD :139-149 -> Causal/CauchyExtension.lean :122-132, byte-identical, followed by one blank line. The rest of CauchyExtension equals HEAD exactly (checked line by line). Lines after :121 shift by +12. The proof's CurveOn.neg and Inextensible.dual_reverse are in Causal.Inextensible, which CauchyExtension reaches through Geroch -> Cauchy. The proof term is identical (value hash, dump), although the module's simp set is much smaller than LemmaKBare's."
+  },
+  {
+   "label": "T-abs-hoist-lemma-k/ett-layer",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.causallyOpen_of_pushUp",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "moved": "No declaration of Causal.LemmaK, LemmaKReduction, LemmaKSC, LemmaKLocal, LevinUtility or LemmaKObstruction moved, and their files are not edited, except LemmaK's docstring. They become ETT-layer because LemmaKBare and LemmaKSCLocal no longer import a model. Causal.Causality.causallyOpen_of_pushUp (Causal/LemmaK.lean:98, was :93 before the docstring additions) is therefore ETT-layer."
+  }
+ ],
+ "moved_declarations": [
+  {
+   "name": "Causal.Causality.CurvesExtend.dual",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:140",
+   "new_module": "Causal.CauchyExtension",
+   "new_location": "Causal/CauchyExtension.lean:123"
+  },
+  {
+   "name": "Causal.staticCausality.Jminus_singleton_ne",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:585",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:72"
+  },
+  {
+   "name": "Causal.staticCausality.Jplus_singleton_ne",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:592",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:79"
+  },
+  {
+   "name": "Causal.staticCausality.preconnectedSpace_of_geodesic",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:600",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:87"
+  },
+  {
+   "name": "Causal.staticCausality.properSpace_of_globallyHyperbolic",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:611",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:98"
+  },
+  {
+   "name": "Causal.staticCausality.isCauchySurface_of_compact_isLocallyCauchy",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:637",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:124"
+  },
+  {
+   "name": "Causal.staticCausality.isCauchySurface_of_isLocallyCauchy_bare",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:651",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:138"
+  },
+  {
+   "name": "Causal.massive_isCauchySurface_of_compact_isLocallyCauchy",
+   "old_module": "Causal.LemmaKBare",
+   "old_location": "Causal/LemmaKBare.lean:666",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:153"
+  },
+  {
+   "name": "Causal.minkowski_curvesExtend_of_lemmaKSCLocal",
+   "old_module": "Causal.LemmaKSCLocal",
+   "old_location": "Causal/LemmaKSCLocal.lean:118",
+   "new_module": "Causal.Model.LemmaKModels",
+   "new_location": "Causal/Model/LemmaKModels.lean:161"
+  }
+ ],
+ "extra_decls": [],
+ "new_modules": {
+  "Causal.Model.LemmaKModels": "164 lines. A model module: it imports Causal.LemmaKSCLocal, Causal.Model.CurvesExtendModels, Causal.Model.Massive and Causal.Minkowski. It holds the 8 moved model declarations, verbatim. Its docstring follows kb/0006: title, 'No label is marked', the quote GHFspace.tex:576-578 (Rem 2.3), checked verbatim against papers/barbot/legacy/labeled/GHFspace.tex, What is proved, Hypothesis checklist, SCOPE and Provenance. Imported by Causal.lean (added) and by nothing else: no module named a moved declaration."
+ },
+ "edited": {
+  "Causal/LemmaKBare.lean": "Imports: `Causal.Splitting`, `Causal.Model.CurvesExtendModels` and `Causal.Model.Massive` dropped, `Causal.CauchyDual` added (CompactCauchy and CurvesExtend kept). CurvesExtend.dual (HEAD :139-150 with its blank line) and the static and E_α section (HEAD :579-670) deleted, both moved. Docstring: the Minkowski sentence and the chronal-form 'Instances' bullet say the corollaries are in Causal.Model.LemmaKModels; 'The massive models E_α are static (proved above)' becomes '(proved in Causal.Model.LemmaKModels)'; new SCOPE bullet 'ETT layer'. No code line otherwise changed.",
+  "Causal/LemmaKSCLocal.lean": "`import Causal.Minkowski` dropped. minkowski_curvesExtend_of_lemmaKSCLocal (HEAD :117-120 with its blank line) deleted, moved. Docstring: the Non-vacuity bullet says where the Minkowski witness lives; new SCOPE bullet 'ETT layer'.",
+  "Causal/LemmaK.lean": "Docstring only. New SCOPE bullet 'ETT layer'. Two stale locations corrected: curvesExtend_of_secondCountable and sigmaCompactSpace_of_globallyHyperbolic have been in Causal.LevinTimeFunction since T-abs-hoist-levin, but the docstring said Causal.LevinUtility and Causal.LemmaKSC. That correction goes slightly beyond the refactor and is disclosed here.",
+  "Causal/CauchyExtension.lean": "+ CurvesExtend.dual at :122-132 (moved). Nothing else.",
+  "Causal.lean": "+ `import Causal.Model.LemmaKModels` (:316)."
+ },
+ "re_pointed_importers": [],
+ "re_pointed_importers_note": "None needed. No module outside LemmaKBare and LemmaKSCLocal names a moved declaration. CurvesExtend.dual's users (LemmaKBare, LemmaKLocal :161 and :273, lean-gx's AbsMax/Spear `hext.dual`) all reach Causal.CauchyExtension. No downstream module used anything it had reached only through the dropped imports (Splitting, Flat.IsomCausal, Model.Massive, Model.Cone, Model.CurvesExtendModels, Minkowski, Static, mathlib's manifold/ODE files). The downstream modules are LemmaKReduction, LemmaKSC, LemmaKLocal, LevinUtility, LemmaKSCLocal, LemmaK, LemmaKObstruction, GluingModels.ModelSingular and the scaffold's LemmaKSCOpen. Lake rebuilt them all, with the same proof terms (dump).",
+ "not_edited": "LemmaKReduction, LemmaKSC, LemmaKLocal, LevinUtility and LemmaKObstruction compiled unchanged. The scaffold was not touched: CausalScaffold builds, including LemmaKSCOpen, which imports LemmaKSCLocal, with its 6 permitted sorries unchanged. README.md, kb/, programme/ and lean-gx were not touched.",
+ "layer": {
+  "definition": "As in the previous hoists. A strict module is ETT-layer when no module of its transitive import closure (itself included) is in tools/ladder.py's MODEL_LAYER: Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.*, Causal.Port.*. The closure is computed with ladder._lean_index (the sources under Causal/, root Causal.lean excluded) and ladder.model_path.",
+  "model_path_after": {
+   "Causal.LemmaKBare": null,
+   "Causal.LemmaKSCLocal": null,
+   "Causal.LemmaKReduction": null,
+   "Causal.LemmaKSC": null,
+   "Causal.LemmaKLocal": null,
+   "Causal.LemmaK": null,
+   "Causal.CauchyExtension": null,
+   "Causal.LevinUtility": null,
+   "Causal.LemmaKObstruction": null
+  },
+  "model_path_before": {
+   "Causal.LemmaKBare": "LemmaKBare -> Model.CurvesExtendModels (also -> Model.Massive, -> Splitting -> Flat.IsomCausal)",
+   "Causal.LemmaKSCLocal": "LemmaKSCLocal -> Minkowski",
+   "Causal.LemmaKReduction": "-> LemmaKBare -> Model.CurvesExtendModels",
+   "Causal.LemmaKSC": "-> LemmaKReduction -> LemmaKBare -> Model.CurvesExtendModels",
+   "Causal.LemmaKLocal": "-> LemmaKSC -> LemmaKReduction -> LemmaKBare -> Model.CurvesExtendModels",
+   "Causal.LemmaK": "-> LemmaKSCLocal -> Minkowski",
+   "Causal.CauchyExtension": null,
+   "Causal.LevinUtility": "-> LemmaKSC -> LemmaKReduction -> LemmaKBare -> Model.CurvesExtendModels",
+   "Causal.LemmaKObstruction": "-> LemmaKReduction -> LemmaKBare -> Model.CurvesExtendModels"
+  },
+  "compiled_closure_probe": "For each of the nine modules, `lake env lean` on a file importing only that module listed every Causal module in env.header.moduleNames. None matches MODEL_LAYER or Causal.Splitting. Closure sizes: LemmaKBare 26, LemmaKReduction 27, LemmaKSC 29, LemmaKLocal 30, LevinUtility 30, LemmaKSCLocal 32, LemmaK 33, LemmaKObstruction 34, CauchyExtension 21.",
+  "before": {
+   "count": "99 of 315",
+   "note": "HEAD 88fbc2c (HEAD has since moved to 579bbeb with egf commits only; `git diff 88fbc2c 579bbeb` touches nothing under lean-causal/ or programme/ladder.toml), lean-causal clean in git, `lake build --no-build Causal CausalScaffold` up to date (8884 jobs)",
+   "file": "campaign/T-abs-hoist-lemma-k/layer-before.json"
+  },
+  "after": {
+   "count": "107 of 316",
+   "file": "campaign/T-abs-hoist-lemma-k/layer-after.json"
+  },
+  "added": [
+   "Causal.LemmaK",
+   "Causal.LemmaKBare",
+   "Causal.LemmaKLocal",
+   "Causal.LemmaKObstruction",
+   "Causal.LemmaKReduction",
+   "Causal.LemmaKSC",
+   "Causal.LemmaKSCLocal",
+   "Causal.LevinUtility"
+  ],
+  "lost": [],
+  "model_modules_added": [
+   "Causal.Model.LemmaKModels"
+  ],
+  "unchanged_note": "Causal.GluingModels.ModelSingular, which imports LemmaKObstruction, stays model-layer: it imports Causal.SingularFlat and Causal.Port.* directly."
+ },
+ "checks": {
+  "lake build": "`taskset -c 0-11 lake build Causal`: green, 8875 jobs. It rebuilt everything downstream of CauchyExtension, in 5 min. Then `taskset -c 0-11 lake build Causal CausalScaffold` after the last docstring edit: green, 8885 jobs. The only warnings are the 6 permitted scaffold sorries. `lake build --no-build Causal CausalScaffold` afterwards: 'All targets up-to-date (8885 jobs)'.",
+  "lake env lean -DwarningAsError=true": "Clean on Causal/LemmaKBare.lean, LemmaKSCLocal.lean, LemmaK.lean, CauchyExtension.lean and Model/LemmaKModels.lean.",
+  "scripts/sorry_count.py": "strict 0 in 316 files; scaffold 6 in 8 files (scaffold untouched).",
+  "scripts/AxiomSweep.lean": "strict: 17112 declarations in 317 modules; scaffold: 90 in 9. Everything is within propext/Classical.choice/Quot.sound, except the 19 scaffold declarations that rest on a permitted sorry. The sweep sees Causal.Model.LemmaKModels because Causal.lean now imports it.",
+  "declaration_diff": "Before any edit, lean-causal was clean in git and `lake build --no-build Causal CausalScaffold` reported all 8884 jobs up to date, so the before-dump was taken from the oleans of HEAD (kb/0063). For every constant of every Causal.* and CausalScaffold.* module, from a file importing all 315+8 module files explicitly, the dump records: name, module, kind, universe parameters, Expr.hash of the type, binder telescope (macro scopes erased, binder infos), Expr.hash of the value, reducibility, protected, noncomputable. The script is the precedent's /tmp/htf/Dump.body.lean. The same dump was taken after the final build, importing the new module too. Result (campaign/T-abs-hoist-lemma-k/dump-diff.txt): 17191 constants before and 17191 after. None removed, none added. Exactly 9 constants changed module (the table above). Every other field, the value hash included, is identical for all 17191 constants. So every proof term is unchanged, including those of the modules whose closure lost Splitting, Massive, Minkowski and mathlib's manifold files. No private declaration was involved (kb/0066 does not arise). The dumps are in /tmp/hlk (ephemeral).",
+  "check_print": "`#check @name` (pp.universes, pp.fullNames) was run for all 167 non-internal constants of the nine modules LemmaKBare, LemmaKSCLocal, LemmaK, LemmaKReduction, LemmaKSC, LemmaKLocal, LevinUtility, LemmaKObstruction and CauchyExtension at HEAD (list: checklist.tsv). The 9 moved declarations are among them. It ran from the HEAD oleans before any edit and again after (both importing Causal). The two outputs are byte-identical: sha256 e2d16bf44090e4e454fa98576963c9a53485b4b84b4bb6de1709311dd91aedbf, kept as checks-before.txt. The after copy was removed as a duplicate.",
+  "textual": "HEAD LemmaKBare :579-669 = LemmaKModels :66-156. HEAD LemmaKSCLocal :117-119 = LemmaKModels :160-162. HEAD LemmaKBare :139-149 = CauchyExtension :122-132. All three are byte-identical (line-list comparison against `git show HEAD:` copies). CauchyExtension minus the inserted block and its blank line equals HEAD.",
+  "tools": "Run read-only, and git status was identical before and after. tools/ladder.py check: exit 0 (24 properties, 26 implications, 79 counterexamples, 72 consequences, 318 of 318 pairs classified, 7 transfers). tools/binder.py check: 2 binders, all links resolve. tools/ledger.py check: ett 137/131, barbot 44/39, sbierski-mghd 19/19, ers-predictability 32/22, all links resolve.",
+  "ladder_emit_dry_run": "In memory, no file written: ladder.emitted, emitted_facts, emit_lean and emit_test computed from HEAD's sources (git archive into /tmp) and from the new ones. Rules.lean and Test.lean come out byte-identical: 24 rules, 2 skipped edges, 1 Test-only fact, 1 skipped fact either way. This refactor adds and removes no causal_ladder rule. Lemma K enters the ladder only as [[consequence]] entries (programme/ladder.toml:2316, :2809), whose witnesses keep their module, Causal.LemmaK. Unrelated and pre-existing: the on-disk Rules.lean differs from the emit by one comment line ('-- skipped Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable ... sort'). That is the keeper's state, not this target's."
+ },
+ "lean_gx": {
+  "pin": "lean-gx pins Causal at ca2ad78f (lean-gx/lakefile.toml:27, lake-manifest.json), so nothing changes for lean-gx now. No lean-gx file was edited.",
+  "imports_of_changed_modules": "GX/BTZ/AbsMax.lean (Causal.LemmaKLocal), GX/BTZ/Spear.lean (Causal.LevinUtility, Causal.LemmaKLocal), GX/BTZ/LocalModel.lean (Causal.LevinUtility) and GX/BTZ/Causality.lean (Causal.CauchyExtension) import a module whose contents changed. All of them reach Causal.LemmaKBare, and GX/BTZ/Causality.lean reaches Causal.CauchyExtension.",
+  "names": "No lean-gx file names a moved declaration (grep of all 9 names). The two `hext.dual` uses (CurvesExtend.dual, AbsMax.lean:364, Spear.lean:1723) resolve after a bump, since Causal.CauchyExtension is in their closure.",
+  "after_a_bump": "I computed lean-gx's import closures (its own imports plus lean-causal's, HEAD vs now). Thirteen modules lose Causal.Model.Cone and Causal.Model.Massive from their closure, which they had reached only through LemmaKBare: GX.BTZ.AbsMax, CBG, FutureRay, HeadlineBridge, Holonomy, LiftGH, LocalModel, Manifolds, MixedDiamond, Spear, Surgery, TildeStructure and Uniformization. Splitting, Minkowski and CurvesExtendModels are still reached through their other imports. A comment-stripped scan for every public name of Cone and Massive (120) finds none in their code. The one hit, regPart in Manifolds.lean and TildeStructure.lean, is gx's own def (Manifolds.lean:2076, called with (y₀ := y₀)). So a bump should need no edit. This is not verified by a gx build, because the package is pinned."
+ },
+ "ledger_rows": {
+  "lemma_k_rows": "No ett or barbot ledger row has a decl in Causal.LemmaKBare, LemmaKSCLocal, LemmaK, LemmaKReduction, LemmaKSC, LemmaKLocal, LevinUtility or LemmaKObstruction, and none lists one of those files (searched over every ledger.json's decls and extra_lean_files). The Lemma K witnesses that the programme cites are programme/ladder.toml's consequences: isCauchySurface_of_isLocallyCauchy_of_causallyOpen (:2316) and ..._of_curvesExtend (:2809), both still in Causal.LemmaK, plus the comment on causallyOpen_of_pushUp (:821-823). All resolve by full name, and ladder check is green.",
+  "rows_citing_a_moved_declarations_file": [
+   "ett def:cauchy_embedding_cauchy_extension: extra_lean_files includes Causal/CauchyExtension.lean, the new home of CurvesExtend.dual. Its decls do not move, and their lines after :121 shift by +12.",
+   "ett lem:Cauchy_plongement_toutes: decls in Causal/CauchyExtension.lean (IsEMorphism.cauchy_plongement_toutes, inextensible_ordConnectedComponent, ...), all after :121, so +12 lines.",
+   "ett lem:Sigma_separe: decls Causality.IsAcausal, IsCauchySurface.isAcausal and CurvesExtend in Causal/CauchyExtension.lean, all before the insertion, so lines unchanged.",
+   "sbierski-mghd mghddef:globally_hyperbolic_development_ghd: decl Causal.IsCauchyEmbedding in Causal/CauchyExtension.lean, :769 -> :781.",
+   "ett def:singular_spacetime: no decl moves, but its curated note (papers/ett/certificate/curation.toml:885, copied into ledger.json scope_notes/notes) cites 'staticCausality.preconnectedSpace_of_geodesic (Causal/LemmaKBare.lean:600)'. It is now Causal/Model/LemmaKModels.lean:87."
+  ]
+ },
+ "kb_proposals": [
+  "The Lemma K family is ETT-layer (T-abs-hoist-lemma-k). Causal.LemmaKBare, LemmaKReduction, LemmaKSC, LemmaKLocal, LevinUtility, LemmaKSCLocal, LemmaK and LemmaKObstruction import no model, so a layer-1 module may import Lemma K, including causallyOpen_of_pushUp. The static, E_α and Minkowski corollaries are in the model module Causal.Model.LemmaKModels (staticCausality.isCauchySurface_of_compact_isLocallyCauchy, ..._bare, Jminus/Jplus_singleton_ne, preconnectedSpace_of_geodesic, properSpace_of_globallyHyperbolic, massive_isCauchySurface_of_compact_isLocallyCauchy, minkowski_curvesExtend_of_lemmaKSCLocal). Causality.CurvesExtend.dual is in Causal.CauchyExtension, beside CurvesExtend.",
+  "tools/ladder.py's model_path returns one shortest import chain, not every one. Before planning a hoist, take model_path of each direct import of the module. Causal.LemmaKBare's evidence showed only Model.CurvesExtendModels, but Model.Massive and Causal.Splitting -> Flat.IsomCausal also made it model-layer.",
+  "Two ETT-layer re-proofs now duplicate results that are themselves ETT-layer, under different names: Causal.Ladder.Dual's curvesExtend_dual_iff duplicates Causality.CurvesExtend.dual (Causal.CauchyExtension), and Causal.LadderLocal's PushUp.causallyOpen_of_chronalNeighbours duplicates Causality.causallyOpen_of_pushUp (Causal.LemmaK). Both were re-proved because the originals were model-stranded. They can now cite the originals."
+ ],
+ "notes": "Exclusive strict-library refactor. No statement changes, no declaration added, removed or renamed: 9 moved, every full name resolves, and every type and proof term is identical (dump). For the master. (1) Causal.lean already imports Causal.Model.LemmaKModels (:316), as the dispatch allowed. (2) Docstrings now stale, outside my write set: Causal/LadderLocal.lean:28 and :336 ('Causal.LemmaK, which imports a model') and :104-107 ('Not restated: the witnesses of the model-importing modules: Lemma K (Causal.LemmaK)'); Causal/Ladder/Dual.lean:99-100 and :145 ('Causality.CurvesExtend.dual is in Causal.LemmaKBare, which imports Causal.Model.CurvesExtendModels'; it is now in Causal.CauchyExtension, which Dual.lean imports at :7); Causal/Port/SFAManifolds.lean:113-114 (path `Causal/LemmaKBare.lean` -> `Causal/Model/LemmaKModels.lean`); kb/entries/0181-ealpha-connected.md:7 ('LemmaKBare.lean' -> 'Model/LemmaKModels.lean'); papers/ett/certificate/curation.toml:885 ('Causal/LemmaKBare.lean:600' -> 'Causal/Model/LemmaKModels.lean:87'); programme/ladder.toml:822-823 ('Causal.LemmaK, which imports a model', the keeper's file); docs/BARBOT-DEPENDENCIES.md:61 ('LemmaKBare:484–497'; the gx-shape theorem is now :480-493, :485-498 at HEAD); docs/BARBOT-THEOREMS.md:24 ('CauchyExtension.lean:768'; IsCauchyEmbedding is now :781, :769 at HEAD); README.md's module table has no row for Causal.Model.LemmaKModels, and its LemmaKBare row still reads correctly; programme/roadmap.toml evidence citing LemmaKBare.lean:140, :579–672 and LemmaK.lean:93 is now history, and :390's 'CurvesExtend.dual after T-abs-hoist-lemma-k' now resolves to Causal.CauchyExtension. reports/atlas and reports/blueprint are generated and stale until regenerated. (3) Unblocked: DEC-190's work on the Lemma K family's CurvesExtend hypotheses can happen in ETT-layer modules. The target at programme/roadmap.toml:509 (curvesExtend_dual_iff with the CurvesExtend binders of Causal/Ladder/Dual.lean) can cite CurvesExtend.dual. (4) No git command that writes was run. The working tree also shows programme/roadmap.toml, roadmap/roadmap.toml and lean-gx scaffold/campaign files modified or untracked by others, not by this agent."
+}

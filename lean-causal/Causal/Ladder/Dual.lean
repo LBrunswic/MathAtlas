@@ -96,8 +96,8 @@ transported). `Causal.Ladder.DualTest` shows what it derives and what it does no
   `C.dual.dual` to `C`.
 * `time_function` and `curves_extend` have their dual lemmas outside what this file may import:
   `Causality.dual_hasTimeFunction` is in `Causal.HalfLitDual`, a witness module that imports
-  `Causal.Ladder.Rules`, and `Causality.CurvesExtend.dual` is in `Causal.LemmaKBare`, which imports
-  `Causal.Model.CurvesExtendModels`. Their two proofs (`−T` is a time function of `C.dual`;
+  `Causal.Ladder.Rules`, and `Causality.CurvesExtend.dual` was in the then model-importing `Causal.LemmaKBare` (it is
+  in `Causal.CauchyExtension` since T-abs-hoist-lemma-k, so the copy below can cite it). Their two proofs (`−T` is a time function of `C.dual`;
   reverse the curve, extend it, reverse back) are repeated here under the names
   `hasTimeFunction_dual_iff` and `curvesExtend_dual_iff`, in this file's namespace; hoisting the
   library's lemmas into `Causal.CurvesExtend` and `Causal.CauchyExtension` would let these two
@@ -142,7 +142,7 @@ theorem hasTimeFunction_dual_iff : C.dual.HasTimeFunction ↔ C.HasTimeFunction 
   exact ⟨fun h => key C.dual h, key C⟩
 
 /-- `curves_extend` of the time reversal: reverse the curve, extend it, reverse back (as
-`Causality.CurvesExtend.dual`, `Causal.LemmaKBare`, which imports a model). -/
+`Causality.CurvesExtend.dual`, now in `Causal.CauchyExtension`). -/
 theorem curvesExtend_dual_iff : C.dual.CurvesExtend ↔ C.CurvesExtend := by
   have key : ∀ D : Causality M, D.CurvesExtend → D.dual.CurvesExtend := by
     intro D h c a b hab hc

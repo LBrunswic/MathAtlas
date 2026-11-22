@@ -115,7 +115,7 @@ theorem ccPrime_of_isCauchySurfaceOn (h : CCPrime Σ) (hΣW : Σ ⊆ W) (hC : Is
 ```
 
 - **Causal convexity.** The components in W of the causal line through p and q are inextensible in W
-  (`inextensible_ordConnectedComponent`, CauchyExtension:688). Each meets Σ, which the line meets at
+  (`inextensible_ordConnectedComponent`, CauchyExtension:700). Each meets Σ, which the line meets at
   most once, so the components coincide. The curve is `staticCurve_segment_of_convex` (Form).
 - **Hub lemma.** The ray argument of B, run in the component of the line in W.
 
@@ -134,7 +134,7 @@ theorem dependenceDomain_hyperboloid : dependenceDomain (minkowski d) ⊤ (lgrap
 - **S ⊆ interior.** Use a cylinder: strictness plus compactness of the sphere give δ.
   - A past causal curve that reaches the cylinder wall ends with `T ≤ 0`.
   - One that stays inside has `T → −∞`.
-  - In both cases the intermediate value theorem on `T∘c` (`continuousOn_Icc`, CauchyExtension:136)
+  - In both cases the intermediate value theorem on `T∘c` (`continuousOn_Icc`, CauchyExtension:148)
     gives the meeting point.
 - **Openness** comes from the hub lemma. If it proves expensive, keep `interior` throughout.
 - **Library gap:** a W-relative `pastExtensible_of_tendsto` (only `exists_prepend` is used).
@@ -311,7 +311,7 @@ theorem bprop_danom (hcaus : C.IsCausal) (h : DevelopsCC S) :
 
 1. D is injective: vertical maximal lifts meet Ŝ once (l.2475–2486).
 2. D is an isomorphism onto `Ω' := range D`, so Σ is Cauchy in Ω' (`isCauchySurfaceOn_image_iff`,
-   CauchyExtension:330).
+   CauchyExtension:342).
 3. Ω' is causally convex, by §1C.
 4. Γ is free and achronal on Ω': a closed causal curve in a causal M is constant.
 5. `Ω' ⊆ U(γ)`: from step 4 for `γ^q`; in the linear parabolic case, by 8.6.

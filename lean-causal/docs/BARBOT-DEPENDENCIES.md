@@ -58,7 +58,7 @@
 | `Causal.Flat.uniformization` | Flat/Loxodromic:2156 | 37,706 | same |
 | `Causal.Flat.flatGerochGH` | Flat/GerochFlat:130 | 52,590 | same |
 | `Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided` (lemma K, proved) | CompactCauchy:733–788 | 17,652 | same |
-| `…isLocallyCauchyTwoSided_of_pushUp` | LemmaKBare:484–497 | 17,822 | same |
+| `…isLocallyCauchyTwoSided_of_pushUp` | LemmaKBare:480–493 | 17,822 | same |
 | `Causal.Causality.isCauchySurface_of_isLocallyCauchy` (**bare lemma K, scaffold**) | CausalScaffold/CompactCauchy:55 | 5,206 | **`sorryAx`** |
 
 **22 of the 23 roots are axiom-clean.** The exception is the bare lemma K, which is a scaffold stub tagged `SORRY(DEC-44)` by design.

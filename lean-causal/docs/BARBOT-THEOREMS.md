@@ -21,7 +21,7 @@ def IsIsometricEmbedding f := IsLocalIsometry f ∧ Injective f                 
 def IsTameEmbedding f := ∃ h : IsIsometricEmbedding f,
   ∀ x, Bijective (FundamentalGroup.map ⟨f, h.1.1⟩ x)
 def IsFlatCauchyEmbedding f := IsIsometricEmbedding f ∧
-  IsCauchyEmbedding (flatCausality M) (flatCausality N) f        -- CauchyExtension.lean:768
+  IsCauchyEmbedding (flatCausality M) (flatCausality N) f        -- CauchyExtension.lean:781
 def CauchyComplete (M) : Prop   -- DEC-35: ∃ S Cauchy, complete for its induced length
 def CauchyCompact M := ∃ S, IsCauchySurface S ∧ IsCompact S ∧ IsSpacelike S
 def MGH M := GH M ∧ ∀ (N : FlatSpacetime d) f, IsFlatCauchyEmbedding f → Surjective f

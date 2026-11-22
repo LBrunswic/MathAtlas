@@ -1,6 +1,5 @@
 import Causal.LemmaKLocal
 import Causal.LevinUtility
-import Causal.Minkowski
 
 /-!
 # Lemma K with second countability: the two rounds-3 tracks combined
@@ -46,10 +45,13 @@ second countable, Hausdorff; tarentin, globally hyperbolic, causally arc-connect
   residue is exactly the causal openness of `J^+` at `O^+` and of `J^-` at `O^-`, a property of
   `≤` alone; second countability has done all it visibly can (it supplied `CurvesExtend`).
 * The time function of track A is not a Cauchy time function, so it gives no splitting.
-* Non-vacuity: `minkowski_curvesExtend_of_lemmaKSCLocal` (track A applies to Minkowski space) and
+* Non-vacuity: `minkowski_curvesExtend_of_lemmaKSCLocal` (track A applies to Minkowski space; in
+  the model module `Causal.Model.LemmaKModels` since T-abs-hoist-lemma-k, same full name) and
   `timelikeLine_isCauchySurface_zero_of_lemmaKSCLocal` (the hypotheses of
   `isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus_of_secondCountable` hold jointly on the
   timelike line with `Σ = {0}`).
+* **ETT layer** (T-abs-hoist-lemma-k, 2026-11-22): this module imports no model, so a layer-1
+  module may import it. Its Minkowski witness was its only reason to import `Causal.Minkowski`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -113,10 +115,6 @@ theorem local_conditions_of_isOpen_Jplus_of_secondCountable [T2Space M]
 end Causality
 
 /-! ### Non-vacuity -/
-
-/-- Track A applies to Minkowski space: curves extend there, by Levin's time function. -/
-theorem minkowski_curvesExtend_of_lemmaKSCLocal (n : ℕ) : (minkowski n).CurvesExtend :=
-  Causality.curvesExtend_of_secondCountable minkowski_tarentin minkowski_globallyHyperbolic
 
 /-- On the timelike line every hypothesis of
 `isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus_of_secondCountable` holds with `Σ = {0}`, and

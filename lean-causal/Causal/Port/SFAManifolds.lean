@@ -111,7 +111,7 @@ section Connected
 
 /-- A geodesic space is preconnected: each pair of points lies on a geodesic segment. The same
 fact for metric spaces is `Causal.staticCausality.preconnectedSpace_of_geodesic`
-(`Causal/LemmaKBare.lean`), outside this module's imports; this copy relaxes `MetricSpace` to
+(`Causal/Model/LemmaKModels.lean`), outside this module's imports; this copy relaxes `MetricSpace` to
 `PseudoMetricSpace`. One copy may be hoisted into `Causal/Static.lean` later. -/
 theorem preconnectedSpace_of_geodesicSpace (X : Type*) [PseudoMetricSpace X] [GeodesicSpace X] :
     PreconnectedSpace X := by
