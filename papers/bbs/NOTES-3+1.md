@@ -992,3 +992,57 @@ range « l.1979–1981 » in N5 is the definition of R. The angle sentence is l.
 3. **A Lean statement.** It needs G̃ acting on ℝP̃¹ and the degree of an ℝP¹-circle
    (T-bbs-rp1-circles), tangent lifts, and π₁ of the punctured disc (N4-5). (F1) is then a lemma
    about G̃, and (N) is the geometric input.
+
+---
+
+## N10 (2026-11-22) — the 2+1 references checked against their archived texts (T-bbs-archive)
+
+*The planner's entry for roadmap target T-bbs-archive. Archived under `references/`: `djh1984`,
+`djh1992`, `thooft1992` (page images only, no quotes yet) and `thooft1993`, beside `cfgo1994` and
+`matschull1999`. « » marks a verbatim quote, checked with `pdftotext -q`, at its PDF page.
+**[r]** is the planner's reading. No earlier entry is edited.*
+
+**1. N4's attribution to CFG and DJH (1992) needs one correction.** N4 says they « show that such a
+total cannot arise from timelike constituents in an open universe ».
+- DJH 1992 say the opposite of the literal words (`references/djh1992`, PDF p.2): « while each of
+  Gott's two cosmons is separately subluminal, together they give rise to a tachyonic center of
+  mass, which cannot arise in a system with physical, timelike center-of-mass momentum. »
+- What DJH 1992 show (PDF p.2): « Such a "boost-identified" spacetime will never arise by boosting
+  a "rotation-identified" space-time. Consequently, Gott's CTC's cannot be created or destroyed,
+  but come towards the interaction region from spacelike infinity. »
+- The statement about subsystems is CFGO's (`references/cfgo1994`, PDF p.4): « We show that if S
+  has the topology of IR2 and the total momentum passing through S is timelike, then there is
+  insufficient energy for a spacelike subsystem to arise. »
+- **[r]** So N4 should read: *in an open universe whose total momentum is timelike, a spacelike
+  subsystem (a Gott pair) cannot arise (CFGO 1994, sharpening CFG 1992); and a boostlike total is
+  never obtained from a rotationlike one, so Gott's CTCs are a boundary condition at spacelike
+  infinity (DJH 1992).* Conjecture G and Theorem G are unaffected. They are local statements
+  about an HS-sphere and do not use the attribution.
+
+**2. N5's « deficit of a system at rest is 8πG × (its energy) » holds in DJH's normalisation.**
+- `references/djh1984`, PDF p.10, Fig. 1's caption, as the OCR renders it: `The angle 2b is
+  proportional to the mass: /3 = 4xGM = n( 1 - a).`
+- **[r]** That reads β = 4πGM, with the excised wedge 2β, so the deficit is 8πGM.
+- The same paper (PDF p.11): « The mass of a single point source must be less than 1/4G »; and
+  « The sum of the three masses is 1/2G and space becomes compact ». These are a deficit below 2π
+  and a total of 4π = 2π·χ(S²).
+- N5's *[to verify]* on this point is discharged.
+
+**3. N5's « 't Hooft's resolution of Gott's time machine: the universe crunches before a CTC
+forms » is 't Hooft's own summary, for closed universes.**
+- `references/thooft1993`, PDF p.2: « a Gott pair of particles leads to a ‘big crunch’ [3]:
+  spacetime shrinks to a point ‘before’ any closed timelike curve has a chance of opening up. Any
+  open universe with a Gott pair in it must have physically unacceptable boundary conditions (a
+  closed timelike loop at the boundary). We here consider only closed spaces. »
+- Its reference [3] is the 1992 paper, CQG 9 1335.
+- **[r]** The crunch is global, while Theorem G's BTZ-like singularity is local. N5's comparison is
+  an analogy, as N5 already presents it.
+
+**Still open.**
+- Gott 1991 (PRL 66, 1126) and CFG 1992 (PRL 68, 263) have no free copy; they need journal copies.
+- N5-4's « 2+1 phase-space reference » is not named anywhere in these notes. N5 has only
+  « *[standard, to verify against a reference]* ».
+- `references/thooft1992` cannot be quoted until it has a text layer.
+
+What would settle each: the two journal PDFs; a named phase-space source, or the author's
+decision that a derivation in the notes replaces it; an OCR pass, or a text copy of CQG 9 1335.
