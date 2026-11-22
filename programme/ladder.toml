@@ -171,6 +171,13 @@
 # moves, and the 272 and their readings are as above. The 3 causality-sort entries left are
 # chronal_neighbours → absolutely_minimal and causally_plain → locally_push_up, both open in the
 # no-gluing reading only (true in any gluing reading), and strongly_causal → strongly_causal_open.
+# After T-lad-nested-inextensible (2026-11-22) 318 of 318: the pair-sort node inextensible_nested
+# (DEC-161 (b)) brings 4 pairs to classify (6 pair-sort pairs in all) and 42 ill-typed ones (234). Of
+# the 4, 2 are refuted, le_nested, curve_nested → inextensible_nested (the line cut at 1, one entry,
+# the second through the closure), and 2 are [[open]] entries, inextensible_nested → le_nested (false,
+# argued: the pointed line in the spacelike line) and → curve_nested (true, argued, on T1, second
+# countable spaces). In all: 34 implied, 275 refuted, 9 [[open]] (3 causality-sort, 4 geometry-sort,
+# 2 pair-sort).
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -207,9 +214,24 @@
 #   `curve_nested` is Causal.Causality.CurveNestedOn C C' W, read at the open W its entry names (W = M
 #   when none is named); it passes to every open V ⊆ W (consequence Causal.Causality.CurveNestedOn.mono),
 #   so at W = M it is curve nesting on every open.
+# * `inextensible_nested` (T-lad-nested-inextensible, 2026-11-22; DEC-161 (b), OQ-41 (b)'s reading
+#   taken: "the nesting" of ERS Lemma 4.70 and of item 2 of T-abs-nested-causalities) is
+#   Causal.Causality.InextensibleNestedOn C C' W, read at the open W its entry names (W = M when none
+#   is named). Unlike curve nesting it is not known to pass to an open V ⊆ W (no Lean lemma: an
+#   inextensible causal curve of V is in general not one of W), so at W = M it is not read "on every
+#   open". Neither le_nested nor curve_nested implies it (the line cut at 1, the [[fails]] below:
+#   ETT's inextensibility is by extension, and the point 1, with no causal past but itself, ends a
+#   narrower-inextensible curve that the timelike line extends, kb/0045); whether it implies either
+#   is open (two [[open]] entries, end of file). Curve nesting at M gives it at M when the narrower C
+#   is causally arc-connected, causal, strongly causal, with closed J^± of points and no causal
+#   endpoint (or globally hyperbolic, tarentin, causally arc-connected, no causal endpoint, M
+#   Hausdorff): properties of C, so a consequence at curve_nested, not an [[implies]] (one with them
+#   in `under` would be chained as unconditional, against the [[fails]]).
 # * Within the pair sort an entry keeps C and C' fixed: `le_nested ⇒ curve_nested` reads
 #   LeNested C C' ⇒ CurveNestedOn C C' W for every open W, and the [[fails]] curve_nested ⇏ le_nested
-#   is a pair (C, C') curve-nested and not ≤-nested.
+#   is a pair (C, C') curve-nested and not ≤-nested. A pair joining inextensible_nested reads both
+#   nestings at one open W (le_nested at every open): the [[fails]] le_nested ⇏ inextensible_nested
+#   is a pair ≤-nested and not inextensibly nested at M, which refutes it at every reading.
 # * What a nesting does is transfer: a causality-sort property of one causality passes to the other.
 #   Since T-lad-classify-core a transfer with no condition in words is a [[transfer]] entry (direction,
 #   the ids asked besides of each causality, a witness or a counterexample; `check` refuses a
@@ -221,9 +243,13 @@
 #   not of the sort `causality`; a skipped-edge comment line in Rules.lean), asks `lean_form` of no
 #   pair property (emit_test keeps the sort `causality` only; LeNested's binder `C C' : Causality M`
 #   would otherwise be misread as one causality), and reads no [[transfer]].
-# * Not nodes: Causal.Causality.LtNested (≪-nesting; no theorem of the library uses it) and
-#   Causal.Causality.InextensibleNestedOn, whose node waits on OQ-41 (b) (T-lad-nested-inextensible);
-#   the latter appears below in words only, as the conclusion of a consequence at `curve_nested`.
+# * Not nodes: Causal.Causality.LtNested (≪-nesting; no theorem of the library uses it); and
+#   Causal.Causality.NoCausalEndpoint (J^±(x) ≠ {x}, Causal/LadderLocal.lean:172), OQ-41 (b)'s other
+#   branch, a node that would give the inextensible nesting on M, which DEC-161 (b) did not adopt: it
+#   is a property of one causality, written in words in the `under` of the consequences that need it
+#   (at curve_nested and le_nested below; Lemma K's, at globally_hyperbolic and curves_extend).
+#   Whether it becomes a causality-sort node on its own account, as Lemma K's hypothesis, is not
+#   ruled (the roadmap's T-lad-nested-inextensible).
 #
 # Provenance of the names. Those added on 2026-11-20 by T-lad-cbg-geometry-nodes and by
 # T-lad-nested-nodes were resolved by `#check` against the library as built that day (lake env lean,
@@ -283,7 +309,18 @@
 # from Causal.CurvesExtendSecondCountable, strict since 7923138, and every Lean name the refreshed
 # comments cite) were read by `#check` the same way, with `#print axioms` (propext, Classical.choice,
 # Quot.sound); each takes [T1Space M] [SecondCountableTopology M] and no other instance, whence
-# their standing ["T1", "second_countable"].
+# their standing ["T1", "second_countable"]. Those of T-lad-nested-inextensible (2026-11-22: the
+# property inextensible_nested, Causal.Causality.InextensibleNestedOn; the [[fails]] witness
+# Causal.not_isCauchySurface_of_nested_bare, with the one-line refutation of le_nested ⇒
+# inextensible_nested through IsCauchySurfaceOn.of_nested compiled beside it; the six new
+# consequences' witnesses inextensibleNestedOn_top_of_noCausalEndpoint,
+# GloballyHyperbolic.dependenceDomainOn_subset_of_nested, IsCauchySurfaceOn.of_nested,
+# dependenceDomainOn_subset_of_nested, ers_lemma_4_70, Causal.IsDevelopment.exists_isMDevelopment_le;
+# and every Lean name the new comments and the two pair-sort [[open]] notes cite) were read by
+# `#check` the same way, from the built Causal.NestedCausalities, Causal.LadderLocal,
+# Causal.NestedConverse, Causal.ErsMughd, Causal.Geroch and Causal.CurvesExtendSecondCountable; of the
+# six, GloballyHyperbolic.dependenceDomainOn_subset_of_nested and ers_lemma_4_70 take [T2Space M]
+# ("M Hausdorff" in their `under`), the other four no instance.
 
 [[property]]
 id = "is_causal"
@@ -541,6 +578,22 @@ id = "curve_nested"
 lean = "Causal.Causality.CurveNestedOn"
 sort = "pair"
 what = "C is curve-nested in C' on an open W: every future causal curve of W for C, over a segment, is one for C' (W = M unless an entry names W; at M it holds on every open)"
+
+# T-lad-nested-inextensible (2026-11-22), DEC-161 (b): the nesting of record for ERS Lemma 4.70
+# ((4.62), "T is timelike with respect to g(u, du)": Causal.Causality.ers_lemma_4_70's hn₁, hn₂, Cτ
+# the causality of the field T nested in each development's) and for item 2 of
+# T-abs-nested-causalities (nested domains of dependence, the Cauchy transfer: consequences below);
+# also the `hinext` of ERS Thms 4.79, 4.80 (Causal.ers_theorem_4_79, ers_theorem_4_80: S, m-Cauchy in
+# D_m(S) ∩ U₁, is g(u₁)-Cauchy there) and the hn₁, hn₂ of Cor 4.71 (Causal.Causality.ers_corollary_4_71).
+# Read 2026-11-22 by `#check`: InextensibleNestedOn : Causality M → Causality M → Opens M → Prop,
+# ∀ ⦃I c⦄, C.Inextensible W I c → C'.Inextensible W I c (Causal/NestedCausalities.lean:135). The ERS
+# binder (papers/ers-predictability/certificate/binder.toml) proposed the id (rows 4.70, 4.71, 4.77,
+# 4.79, 4.80). Implied by neither le_nested nor curve_nested ([[fails]] below); its converses open.
+[[property]]
+id = "inextensible_nested"
+lean = "Causal.Causality.InextensibleNestedOn"
+sort = "pair"
+what = "C is inextensibly nested in C' on an open W: every inextensible causal curve of W for C is an inextensible causal curve of W for C' (W = M unless an entry names W; not known to pass to a smaller open)"
 
 # ------------------------------------------------------------------ implications
 
@@ -2055,6 +2108,33 @@ to = "le_nested"
 witness = "Causal.pointedLine_separates_curveNested"
 status = "checked"
 
+# T-lad-nested-inextensible (2026-11-22), OQ-41 (b), kb/0045. The line cut at 1 (Causal.cutLine 1,
+# Causal/NestedCausalities.lean:213: the timelike line in which nothing lies causally before 1 but 1
+# itself) is ≤-nested in the timelike line (Causal.cutLine_leNested), hence curve-nested in it on every
+# open, and not inextensibly nested in it at M: the identity over [1, ∞) is inextensible for the cut
+# line (Causal.cutLine_inextensible_Ici: it starts at 1, whose causal past is {1}) and misses the
+# timelike line's Cauchy surface {0} (Causal.timelikeLine_isCauchySurface_zero), so it is not
+# inextensible there. The witness states the refutation through the Cauchy transfer:
+# Causal.not_isCauchySurface_of_nested_bare : ¬ ∀ (C C' : Causality ℝ) S, C.LeNested C' →
+# C'.IsCauchySurface S → C.IsCauchySurface S, with which the consequence
+# Causal.Causality.IsCauchySurfaceOn.of_nested (at inextensible_nested below) gives
+# ¬ ∀ C C' : Causality ℝ, C.LeNested C' → C.InextensibleNestedOn C' ⊤ in one line (checked
+# 2026-11-22 with `lake env lean` on a file outside the tree: fun h =>
+# not_isCauchySurface_of_nested_bare fun C C' _ hle hS => IsCauchySurfaceOn.of_nested (h C C' hle) hS).
+# Its companion Causal.not_dependenceDomain_nested_bare refutes it the same way through
+# Causal.Causality.dependenceDomainOn_subset_of_nested. A direct conjoined statement
+# (cutLine 1 ≤-nested in timelikeLine ∧ ¬ InextensibleNestedOn (cutLine 1) timelikeLine ⊤) is
+# proposed (the keeper's report). On ℝ: Hausdorff, second countable, no `space`. Through the closure
+# (le_nested ⇒ curve_nested) it also refutes curve_nested → inextensible_nested. The narrower cut line
+# is causal and not globally hyperbolic (Causal.cutLine_isCausal, cutLine_not_globallyHyperbolic) and
+# has a causal endpoint at 1; the wider timelike line has every hypothesis of the consequence at
+# curve_nested that gives the nesting: those must be asked of the narrower causality.
+[[fails]]
+from = "le_nested"
+to = "inextensible_nested"
+witness = "Causal.not_isCauchySurface_of_nested_bare"
+status = "checked"
+
 # ------------------------------------------------------------------ consequences
 
 # prop:GH_Jferme, first step. Fixed 2026-11-20 (T-lad-seed-check): the seed's statement claimed
@@ -2405,7 +2485,9 @@ status = "checked"
 
 # T-abs-nested-causalities items 1 and 2 together. The bare transfer of Cauchy surfaces fails:
 # Causal.not_isCauchySurface_of_nested_bare ({0} is a Cauchy surface of the timelike line, not of the
-# line cut at 1, whose identity over [1, ∞) is inextensible: Causal.cutLine_inextensible_Ici).
+# line cut at 1, whose identity over [1, ∞) is inextensible: Causal.cutLine_inextensible_Ici). Item 2
+# goes through inextensible_nested at M: the consequences at curve_nested that give it, and the Cauchy
+# transfer at inextensible_nested (Causal.Causality.IsCauchySurfaceOn.of_nested).
 [[consequence]]
 at = "le_nested"
 statement = "a Cauchy surface S of a globally hyperbolic wider C' is a Cauchy surface of the narrower C, which is globally hyperbolic, when C's diamonds are closed"
@@ -2451,27 +2533,62 @@ statement = "curve nesting is invariant under time reversal: C.dual is curve-nes
 witness = "Causal.Causality.dual_curveNestedOn_iff"
 status = "checked"
 
-# The inextensible nesting on M, InextensibleNestedOn C C' ⊤, which ERS Lemma 4.70 and the transfer of
-# Cauchy surfaces need; whether it or no_causal_endpoint becomes a node is OQ-41 (b)
-# (T-lad-nested-inextensible). Corollary, with NoCausalEndpoint named (Causal.LadderLocal), of
-# Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top. ≤-nesting alone does not give it: the
-# line cut at 1 is ≤-nested in the timelike line and not globally hyperbolic, and its identity over
-# [1, ∞) is inextensible (Causal.cutLine_inextensible_Ici) though it extends in the timelike line;
-# whence Causal.not_isCauchySurface_of_nested_bare.
+# The inextensible nesting at M, the node inextensible_nested (T-lad-nested-inextensible, DEC-161 (b)),
+# from curve nesting at M and properties of the narrower C alone. No separation:
+# Causal.Causality.inextensibleNestedOn_top_of_noCausalEndpoint (Causal.LadderLocal), the corollary of
+# Causal.Causality.inextensibleNestedOn_top with NoCausalEndpoint named. Read 2026-11-22 by `#check`:
+# (hnest : C.CurveNestedOn C' ⊤) (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
+# (hSC : C.StronglyCausal) (hJp : ∀ x, IsClosed (C.Jplus ⊤ {x})) (hJm : ∀ x, IsClosed (C.Jminus ⊤ {x}))
+# (hE : C.NoCausalEndpoint) : C.InextensibleNestedOn C' ⊤, no instance. Not an [[implies]]
+# curve_nested ⇒ inextensible_nested: its other hypotheses are of the causality C, not of the pair, and
+# the edge would contradict the [[fails]] le_nested ⇏ inextensible_nested (the cut line at 1, which
+# has the causal endpoint 1 and is not globally hyperbolic). no_causal_endpoint is DEC-161 (b)'s
+# rejected node, hence in words.
 [[consequence]]
 at = "curve_nested"
-statement = "every inextensible causal curve of M for C is an inextensible causal curve of M for C' (InextensibleNestedOn C C' ⊤)"
+statement = "curve nesting at M gives inextensible nesting at M (inextensible_nested: every inextensible causal curve of M for C is one for C'), when the narrower C is causally arc-connected, causal and strongly causal with closed J^± of points and no causal endpoint"
+witness = "Causal.Causality.inextensibleNestedOn_top_of_noCausalEndpoint"
+under = "curve nesting at M; causally_arc_connected, is_causal and strongly_causal of C (ladder nodes); J⁺_C(x) and J⁻_C(x) closed for every x; C has no causal endpoint (Causal.Causality.NoCausalEndpoint: J⁻(x) ≠ {x} and J⁺(x) ≠ {x}); nothing of C'"
+status = "checked"
+
+# The same from global hyperbolicity of the narrower C (Hausdorff, tarentin: strong causality and the
+# closed J^± of points are then Causal.Causality.GloballyHyperbolic.stronglyCausal,
+# .isClosed_Jplus_singleton, .isClosed_Jminus_singleton). Corollary, with NoCausalEndpoint named
+# (Causal.LadderLocal), of Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top. Read
+# 2026-11-22: [T2Space M] (hT : C.Tarentin) (hG : C.GloballyHyperbolic) (hC : C.CausallyArcConnected)
+# (hE : C.NoCausalEndpoint) (hnest : C.CurveNestedOn C' ⊤) : C.InextensibleNestedOn C' ⊤. ≤-nesting
+# alone does not give it: the line cut at 1 (the [[fails]] le_nested ⇏ inextensible_nested); the
+# satisfiability witness is the timelike line in itself
+# (Causal.timelikeLine_inextensibleNestedOn_top_of_noCausalEndpoint).
+[[consequence]]
+at = "curve_nested"
+statement = "curve nesting at M gives inextensible nesting at M (inextensible_nested), when the narrower C is globally hyperbolic, tarentin, causally arc-connected and has no causal endpoint"
 witness = "Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint"
 under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_connected of C (ladder nodes); C has no causal endpoint (Causal.Causality.NoCausalEndpoint: J⁻(x) ≠ {x} and J⁺(x) ≠ {x}); M Hausdorff"
 status = "checked"
 
-# T-abs-nested-causalities/2-dod. Bare form refuted by Causal.not_isCauchySurface_of_nested_bare (as
-# above). The domain-of-dependence form, D_{C'}(S) ⊆ D_C(S), is proved under the same hypotheses in
-# the same module; not cited, as its name follows the hoist of dependenceDomain (T-abs-hoist-model-free).
+# T-abs-nested-causalities/2-dod at M: the previous entry composed with the Cauchy transfer at
+# inextensible_nested (Causal.Causality.IsCauchySurfaceOn.of_nested, below). Bare form refuted by
+# Causal.not_isCauchySurface_of_nested_bare (the [[fails]] le_nested ⇏ inextensible_nested).
 [[consequence]]
 at = "curve_nested"
 statement = "every Cauchy surface of the wider C' is a Cauchy surface of the narrower C"
 witness = "Causal.Causality.GloballyHyperbolic.isCauchySurface_of_nested"
+under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_connected of C (ladder nodes); J⁻(x) ≠ {x} and J⁺(x) ≠ {x} for C (Causal.Causality.NoCausalEndpoint, written out); M Hausdorff"
+status = "checked"
+
+# Its domain-of-dependence form, cited since the hoist of dependenceDomain (T-abs-hoist-model-free,
+# 02b43b6; dependenceDomainOn is an abbrev of Causal.Flat.dependenceDomain): the GH entry above
+# composed with nested domains of dependence at inextensible_nested
+# (Causal.Causality.dependenceDomainOn_subset_of_nested, below). Read 2026-11-22: [T2Space M]
+# (hT : C.Tarentin) (hG : C.GloballyHyperbolic) (hC : C.CausallyArcConnected)
+# (hpast : ∀ x, C.Jminus ⊤ {x} ≠ {x}) (hfut : ∀ x, C.Jplus ⊤ {x} ≠ {x}) (hnest : C.CurveNestedOn C' ⊤)
+# (S : Set M) : C'.dependenceDomainOn ⊤ S ⊆ C.dependenceDomainOn ⊤ S. Bare form refuted by
+# Causal.not_dependenceDomain_nested_bare (the line cut at 1).
+[[consequence]]
+at = "curve_nested"
+statement = "for every S ⊆ M, the domain of dependence of S for the wider C' lies in that for the narrower C"
+witness = "Causal.Causality.GloballyHyperbolic.dependenceDomainOn_subset_of_nested"
 under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_connected of C (ladder nodes); J⁻(x) ≠ {x} and J⁺(x) ≠ {x} for C (Causal.Causality.NoCausalEndpoint, written out); M Hausdorff"
 status = "checked"
 
@@ -2488,6 +2605,73 @@ at = "curve_nested"
 statement = "ERS Lemma 4.72: for opens U₁, U₂ containing a preconnected S that is a Cauchy surface of U₁ for C' and of U₂ for C, U₁ ∩ U₂ is preconnected"
 witness = "Causal.Causality.ers_lemma_4_72"
 under = "curve nesting on W = U₂; is_causal and curves_extend of C' (ladder nodes); S acausal for C'; through every point of U₁ ∩ U₂ an inextensible causal curve of U₂ for C; M Hausdorff"
+status = "checked"
+
+# ---- consequences at inextensible_nested (T-lad-nested-inextensible, 2026-11-22, DEC-161 (b)): the
+# theorems of T-abs-nested-causalities item 2 and of ERS §4 that consume the nesting of inextensible
+# curves itself, at the open W of the nesting. No [[transfer]] along it is recorded: no Lean theorem
+# carries a causality-sort property along InextensibleNestedOn alone (what it carries is a set S's
+# Cauchy property and domain of dependence, which are no ladder nodes).
+
+# T-abs-nested-causalities/2-dod, the Cauchy transfer. Read 2026-11-22 by `#check`:
+# {C C' : Causality M} {W : Opens M} {S : Set M}, C.InextensibleNestedOn C' W →
+# C'.IsCauchySurfaceOn W S → C.IsCauchySurfaceOn W S, no instance (a one-line proof: a C-inextensible
+# curve of W is C'-inextensible, so it meets S exactly once). Not at le_nested nor curve_nested: the
+# line cut at 1 (Causal.not_isCauchySurface_of_nested_bare, the [[fails]] le_nested ⇏
+# inextensible_nested). At M it is what Causal.Causality.GloballyHyperbolic.isCauchySurface_of_nested
+# (consequence at curve_nested) composes with the curve-nested form of the nesting; at the domain of
+# every solution it is ERS Thm 4.79's non-emptiness (next entry but one).
+[[consequence]]
+at = "inextensible_nested"
+statement = "the Cauchy transfer: on the open W of the nesting, every Cauchy surface of W for the wider C' is a Cauchy surface of W for the narrower C"
+witness = "Causal.Causality.IsCauchySurfaceOn.of_nested"
+under = "inextensible nesting on W; nothing else (no instance)"
+status = "checked"
+
+# T-abs-nested-causalities/2-dod, nested domains of dependence (two-sided, as the library's:
+# dependenceDomainOn is an abbrev of Causal.Flat.dependenceDomain, Causal/DependenceDomain.lean). Read
+# 2026-11-22: C.InextensibleNestedOn C' W → ∀ S, C'.dependenceDomainOn W S ⊆ C.dependenceDomainOn W S,
+# no instance. Bare form refuted by Causal.not_dependenceDomain_nested_bare (the line cut at 1: 1 lies
+# in D({0}) for the timelike line and not for the cut line).
+[[consequence]]
+at = "inextensible_nested"
+statement = "nested domains of dependence: on the open W of the nesting, for every S the domain of dependence D_W(S) of the wider C' lies in that of the narrower C"
+witness = "Causal.Causality.dependenceDomainOn_subset_of_nested"
+under = "inextensible nesting on W; nothing else (no instance)"
+status = "checked"
+
+# ERS19 Lemma 4.70 (erslem:LemConnected, ghd_02_19.tex:939), causal-topological skeleton: the
+# consequence of record of this nesting, as Lemma 4.72 is curve_nested's. The node enters twice, Cτ
+# (the causality of the field T, its inextensible causal curves of M the maximal integral curves of
+# T) the narrower causality in both: in C₁ on U₁ and in C₂ on U₂ ((4.62), T timelike for every
+# g(u, du)). Read 2026-11-22 by `#check`: [T2Space M] (hS : IsPreconnected S) (hS₁ : S ⊆ U₁)
+# (hS₂ : S ⊆ U₂) (hC₁ : C₁.IsCauchySurfaceOn U₁ S) (hC₂ : C₂.IsCauchySurfaceOn U₂ S)
+# (hτ : Cτ.IsCausal) (hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I)
+# (honce : every inextensible Cτ-curve of M meets S at most once) (hn₁ : Cτ.InextensibleNestedOn C₁ U₁)
+# (hn₂ : Cτ.InextensibleNestedOn C₂ U₂) : IsPreconnected (U₁ ⊓ U₂). As printed ("connected", S
+# non-empty): Causal.Causality.ers_lemma_4_70_isConnected. Cor 4.71 composes it with Thm 4.64
+# (Causal.Causality.ers_corollary_4_71, the same hn₁, hn₂), whose further hypotheses (hlocal, hstay,
+# hstep) are T-lad-development-nodes' and T-lad-ers-restart-nodes' edge hypotheses; it is not
+# listed here.
+[[consequence]]
+at = "inextensible_nested"
+statement = "ERS Lemma 4.70: for opens U₁, U₂ containing a preconnected S that is a Cauchy surface of U₁ for C₁ and of U₂ for C₂, into both of which the causality Cτ of a field is inextensibly nested, U₁ ∩ U₂ is preconnected"
+witness = "Causal.Causality.ers_lemma_4_70"
+under = "inextensible nesting of Cτ in C₁ on W = U₁ and of Cτ in C₂ on W = U₂ (the node twice, Cτ the narrower); is_causal of Cτ (ladder node); through every point of U₁ ∩ U₂ an inextensible causal curve of M for Cτ, each meeting S at most once; M Hausdorff"
+status = "checked"
+
+# ERS19 Thm 4.79, the non-emptiness (ersthm:ThmMUGHD, ghd_02_19.tex:1061), in ERS's abstract equation
+# (Causal.ErsMughd: solutions `sol`, the causality `cau u` of g(u, du), Minkowski's Cm): the Cauchy
+# transfer at the domain of each solution, which ERS leave implicit (OQ-78, kb/0045). Read 2026-11-22:
+# (hDm : ∀ U u, IsDevelopment sol cau S U u → ∃ W ≤ U, S ⊆ W ∧ Cm.IsCauchySurfaceOn W S ∧ sol W u)
+# (hinext : ∀ U u, sol U u → (cau u).InextensibleNestedOn Cm U) {U u}
+# (h : IsDevelopment sol cau S U u) : ∃ W ≤ U, IsMDevelopment sol cau Cm S W u, no instance. Used by
+# Causal.ers_theorem_4_79 and Causal.ers_theorem_4_80 (their `hinext`).
+[[consequence]]
+at = "inextensible_nested"
+statement = "ERS Thm 4.79, non-emptiness: inside every development (U, u) of the data on S lies an m-development (W, u), W ≤ U"
+witness = "Causal.IsDevelopment.exists_isMDevelopment_le"
+under = "inextensible nesting of cau u in Minkowski's Cm on W = U, for every solution u on every open U (the node, cau u the narrower); the Minkowski fact hDm (in every development an open W ≤ U containing S, m-Cauchy, on which u solves: O'Neill 14.38, 14.43; no Lean supplier)"
 status = "checked"
 
 # ------------------------------------------------------------------ transfers along a nesting
@@ -2611,6 +2795,23 @@ note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_l
 from = "rigid"
 to = "cauchy_slice"
 note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_liftPropOn) and has SlicePast (Causal.CBG.LocalModel.slicePast), so this asks whether every local model has the BTZ residual SliceFutureBTZ, owed by gx for E₀"
+
+# The 2 pair-sort entries (T-lad-nested-inextensible, 2026-11-22): the converses of the [[fails]]
+# le_nested ⇏ inextensible_nested, both nestings read at one open W. Neither is refuted in Lean: the
+# library's inextensibly nested pairs are a causality in itself
+# (Causal.timelikeLine_inextensibleNestedOn_top) and those that the consequences at curve_nested
+# produce, which are curve-nested by hypothesis and ≤-nested too, their narrower causality being
+# causally arc-connected (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected).
+
+[[open]]
+from = "inextensible_nested"
+to = "le_nested"
+note = "False, argued: the pointed line in the spacelike line (Causal.pointedLine, Causal.spacelikeLine). Both have the constant curves of W as their causal curves of W (Causal.pointedLine_causalCurveOn_eq; the spacelike line's ≤_U is equality; a constant curve is causal in either by reflexivity, Causal.Causality.causalCurveOn_of_forall_eq), and no causal curve of either is extensible: a strict extension is a causal curve, hence constant, and takes the old value, so its new point (StrictlyExtends.grows) is not new; so the two have the same inextensible curves of every W and the pair is inextensibly nested on every open, while it is not ≤-nested (Causal.pointedLine_not_leNested_spacelikeLine). Wants a lemma that a causality whose causal curves of W are constant has every causal curve of W inextensible, and Causal.pointedLine_separates_inextensibleNested (∀ W, InextensibleNestedOn pointedLine spacelikeLine W, ¬ LeNested pointedLine spacelikeLine). It refutes this pair only: the pointed line is curve-nested in every causality of ℝ (Causal.pointedLine_curveNestedOn)"
+
+[[open]]
+from = "inextensible_nested"
+to = "curve_nested"
+note = "True, argued, on a T1, second countable M (every ETT spacetime): let c be a causal curve of W for C over [a, b]. Its trimmed form, constant off a sub-interval I₀ (Causal.exists_tailFree_retraction), is a reparametrised sub-arc of an inextensible causal curve γ of W for C (the maximal tail-free curve in the proof of Causal.Causality.exists_inextensible_of_t1_secondCountable); γ is one for C' by the nesting, so c is a C'-curve on I₀ (restriction, and Causal.CurveOn.comp_strictMonoOn with the strictly increasing reparametrisation, continuous onto an interval) and on its constant end pieces (reflexivity). Wants the sub-arc form of that lemma (it states only c '' I ⊆ γ '' J) and Causal.Causality.InextensibleNestedOn.curveNestedOn (T1, second countable). No counterexample is known, off the ambient either; the library has no inextensibly nested pair that is not curve-nested"
 
 # ---- T-lad-classify-core (2026-11-21): every causality-sort pair the closure and the counterexamples
 # above leave unknown, one [[open]] entry each, grouped by the conclusion `to`. A note is one of:
