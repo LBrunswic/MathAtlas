@@ -158,3 +158,15 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - asks: none open; the five v2 batches await the author's review (git diff camera-ready..HEAD)
 - for the planner: an audited step marking theo:universality_tori and theo:universality_sphere in their corrected forms of record (C-28, C-31, C-49 adopted); T-egf-correct-defs (C-26, C-27 adopted) and -families (C-28, C-31, C-32, C-33, C-49 adopted) can be made ready (-families after -ergodicity, per its dependency); -ergodicity after this batch: C-21 (anchors, basis, added hypotheses) and C-29's series sentence to the λ-invariant form before it runs; new entries: v2 l.693 cites 'the proof of Theorem 3.4' (B.1's is meant; ergodicity batch), the typo 'a family of generative flow family' (l.250), the pair order (f_out*, π*) vs (π*, f_out*); kb proposals of the three new REPORTs (tori 5, sphere-dense 4, def-egf 5); the tori auditor's optional universality_tori_one_of_mem; the def-egf auditor's optional full-support witness (the cat map) for the converse direction
 - next: `wave` gives T-egf-correct-algorithm (C-35, C-38) and T-egf-repro-sphere
+
+## 2026-11-22 19:14 · wave of 2 · T-egf-correct-algorithm; T-egf-repro-sphere (continues)
+- adoption (master): C-21 (DEC-141, DEC-144; anchored on the λ-invariant mixing criteria); C-29's series sentence narrowed to 'when λ itself is invariant' (the only case with a convergent series; the theorem DEC-144 rules is unchanged); T-egf-correct-ergodicity (C-21, C-29, C-30, C-39) and -defs (C-26, C-27) made ready, every entry adopted and the dependencies done (9f631d2)
+- T-egf-correct-algorithm (correct): C-35, C-38 applied (v2 487763f); CHECK-1 minor (no fix round): the backward factor written with f̂_init, defined in the buffer sentence just above (the literal form widened an overfull box to 46pt; the checker confirms the meaning); register updated to the applied text
+- T-egf-repro-sphere (repro): running on the GPU; stays active, resumed by the next iteration
+- corrections: 11 found, 2 proved, 12 adopted, 24 applied, 0 reviewed; 3 superseded
+- ledger: 12/16 rows closed (bucket A), unchanged
+- v2: 487763f EGF-C35,C38 (six batches since camera-ready); repro: 811da29 (sphere in progress)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓ (no undefined reference after the final pass); lean-egf untouched
+- commits: 9f631d2 52e756d (+ the roadmap status and this) (hub) · 487763f (v2)
+- for the planner (CHECK-1 of the algorithm batch): l.386's 'b > 0' against the control's b condition (an optional C-35 round 2), which ν_train the b condition refers to and the estimator's missing sum over trajectories (a typo entry), the bound the b condition buys (an optional strengthening), and a found entry for the experiments batch: which loss form, b placement and backward factor the reported runs used (facts from T-egf-repro-report)
+- next: resume T-egf-repro-sphere and top up: `wave` gives the next corrector (T-egf-correct-ergodicity)
