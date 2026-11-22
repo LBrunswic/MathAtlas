@@ -3,7 +3,7 @@ import Syracuse.CycleGcd
 /-!
 # Syracuse § 3: ascending and descending indices, the differences `Δ_i = A_{i+1} − A_i`, and the GCD
 
-Every label but `lem:syracuse_cycle` (OQ-94) is marked under DEC-183 (OQ-68; OQ-43: the printed `A_u^n` stands, the other reading is
+Every label but `lem:syracuse_cycle` (OQ-101) is marked under DEC-183 (OQ-68; OQ-43: the printed `A_u^n` stands, the other reading is
 proved beside it), in corrected form or in the reading of a misprint or an undefined word (SCOPE):
 
 * **`def:syracuse_cycle_period_denote`** — `syracuse.tex:271` (l.271–274) — marked in corrected form
@@ -18,7 +18,7 @@ proved beside it), in corrected form or in the reading of a misprint or an undef
   (`DeltaAlt_eq`, `DeltaAlt_eq_asc` for the other reading of OQ-43). **False as printed** under both
   readings, at every `i` for every `a ≥ 1` of minimal period `n ≥ 2` (`deltaPrinted_ne_of_minimal`;
   at `(−5, −7)`: `syracuse_cycle_n_printed_false`, `syracuse_cycle_n_asc_printed_false`): Finding 2.
-* `lem:syracuse_cycle` — `syracuse.tex:283` (l.283–287) — not marked: OQ-94 (DEC-183 rules OQ-68,
+* `lem:syracuse_cycle` — `syracuse.tex:283` (l.283–287) — not marked: OQ-101 (DEC-183 rules OQ-68,
   but (c) had one reading proved and one refuted, not two proved). `∼_S` is read as `SEquiv`. Read
   as notation, « let `m = …` » gives the implication as printed, `Syracuse.syracuse_cycle`, for every
   `n`-periodic `a` (`syracuse_cycle_alt` for the other reading of OQ-43). Read
