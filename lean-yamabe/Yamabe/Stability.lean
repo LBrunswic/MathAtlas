@@ -3,10 +3,9 @@ import Yamabe.Quotient
 /-!
 # Stability of the trace-Sobolev quotient under comparable metrics, over the abstract model
 
-Label (abstract layer only, NOT marked: partial by design, the Riemannian anchoring waits on
-T-yamabe-scope):
+Label (the abstract layer, the formalization of record: DEC-186 accepts OQ-44's readings):
 
-* `lem:stability` — `Yamabegap.tex:697` (statement l.697–704, proof l.705–713).
+* **`lem:stability`** — `Yamabegap.tex:697` (statement l.697–704, proof l.705–713).
 
 > Let $\g,\g'$ be metrics on $\Sigma$ with $(1+\varepsilon)^{-1}\g\le\g'\le(1+\varepsilon)\g$ as
 > quadratic forms, $\varepsilon\ge0$. Then for every $u\in W^{1,2}(\Sigma)\setminus\{0\}$ and all
@@ -57,8 +56,9 @@ T-yamabe-scope):
 
 * Abstract layer only (T-yamabe-quotient, DEC-139): `vol_g = √det G · μ` and
   `bvol_g = √det (Pᵀ G P) · μb` are the model's definitions, the Riemannian volume read in a
-  measurable frame. The passage from a Riemannian manifold to the model waits on T-yamabe-scope,
-  hence the label is not marked.
+  measurable frame. DEC-186 accepts the model as the formalization of record
+  (OQ-44), so the label is marked; the passage from a Riemannian manifold to the model is the
+  scaffold's bridge `Yamabe.Mfd.Reads`.
 * The printed statement is a ratio; it is `0/0` when `F^(β)_g(u) = 0` (e.g. every `β_j = 0` and
   `u` constant). The product form `stability` holds for every `u`; `stability_ratio` assumes
   `F^(β)_g(u) ≠ 0`.

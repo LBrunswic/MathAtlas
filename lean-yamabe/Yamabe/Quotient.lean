@@ -3,10 +3,9 @@ import Mathlib
 /-!
 # The trace-Sobolev quotient `F^(β)` over an abstract measured model of `(Σ, ⊔ B_j)`
 
-Labels (abstract layer only; NOT marked: the rows are partial by design, their Riemannian
-anchoring waits on T-yamabe-scope):
+Labels (the abstract layer, the formalization of record: DEC-186 accepts OQ-44's readings):
 
-* `rem:sign` — `Yamabegap.tex:507` (statement l.507–510; its proof l.731–742, "First variation
+* **`rem:sign`** — `Yamabegap.tex:507` (statement l.507–510; its proof l.731–742, "First variation
   at u = 1"), with the value on constants `eq:F1-torus` (l.466–474);
 * the quotient `eq:trace-sobolev` (l.486–491), the Hölder inequalities `eq:hoelder` (l.605–610)
   and the quotient `F^(β)` of l.611, used by `lem:stability` (`Yamabe.Stability`).
@@ -69,8 +68,9 @@ the assembly `rem_sign`; the witness `toyModel`, `toyMetric`, `toy_infF_lt_Fq_on
 
 ## SCOPE (disclosed)
 
-* Abstract layer only (DEC-139): the passage from `(Σ, g)` to the model (measurable frames,
-  `vol_g = √det G · μ`, the trace, a smooth collar cutoff `χ`) waits on T-yamabe-scope.
+* Abstract layer only (DEC-139): the model (measurable frames, `vol_g = √det G · μ`, the trace, a smooth
+  collar cutoff `χ`) is the formalization of record (DEC-186, OQ-44); the passage from `(Σ, g)` to
+  it is the scaffold's bridge `Yamabe.Mfd.Reads`.
 * **Finding (eq:hoelder, l.609; same constant l.720).** On any `B_j` with `Vol(B_j) < 1` the
   constant `u = 1` violates the printed boundary line (`hoelder_boundary_printed_false_of_lt_one`;
   a point mass in `hoelder_boundary_printed_false`): the exponent is `1/(N-1)`, not `2/(N-1)`

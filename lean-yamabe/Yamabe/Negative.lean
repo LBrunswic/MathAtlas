@@ -85,8 +85,9 @@ prop:nonpositive, second sentence:
 
 ## SCOPE (disclosed)
 
-* Abstract layer only (DEC-139): the passage from Riemannian manifolds to the model waits on
-  T-yamabe-scope, the model's readings on OQ-44. Neither row is marked.
+* Abstract layer only (DEC-139): the model's readings are accepted (DEC-186, OQ-44), and n ≥ 1 is standing
+  in § 6 (DEC-186, OQ-74). Neither row is marked: both use lem:positivity, whose analytic input
+  `Yamabe.Mfd.rellich_kondrachov` is still open (T-yamabe-analysis).
 * cor:negative: its first assertion `inf F_g > 0` is lem:positivity itself, carried; the model
   cannot prove it, since it carries neither connectedness nor Rellich–Kondrachov nor a compact
   trace (`toyCut_infF`; `toyClosed_counterexample` for `∂Σ = ∅`). The second and third
