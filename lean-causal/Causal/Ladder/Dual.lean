@@ -78,9 +78,9 @@ lemmas, node by node (ladder id: lemma, module):
 | `le_nested` (pair) | `Causality.dual_leNested_iff` (`Causal.NestedCausalities`) |
 | `curve_nested` (pair) | `Causality.dual_curveNestedOn_iff` (`Causal.NestedConverse`) |
 
-Usage: import this file (with `Causal.Ladder.Rules` for the ladder's own rules); then
-`causal_ladder` closes `C.dual.CausallyOpenFuture` from `hO : C.CausallyOpen`, or
-`C.dual.CausallyOpenFuture` from `hM : C.AbsolutelyMinimal` and
+Usage: `Causal.Ladder.Rules` imports this file (since T-tac-ladder-integration), so every user of
+`causal_ladder` has these rules: it closes `C.dual.CausallyOpenFuture` from
+`hO : C.CausallyOpen`, or from `hM : C.AbsolutelyMinimal` and
 `hL : C.dual.LocallyCausallyOpenFuture` (the generated rule fires on `C.dual` once `hM` is
 transported). `Causal.Ladder.DualTest` shows what it derives and what it does not.
 
@@ -109,16 +109,15 @@ transported). `Causal.Ladder.DualTest` shows what it derives and what it does no
   hypothesis is destructed through a definition (`C.CausallyOpen` is not split into its two
   halves; `causallyOpen_of_future_of_past` only builds it).
 * Transport doubles the facts of a saturation, and every forward step counts towards aesop's
-  `maxRuleApplicationDepth` (30, left at its default by `causal_ladder`). With seven facts of `C`
-  a conjunction of eleven goals about `C.dual` is closed and one of twelve, about `C.dual` and
-  `C.dual.dual`, stops at the depth (measured): close a long conjunction one conjunct at a time
-  (`⟨by causal_ladder, …⟩`), as the witnesses do. A single goal with one reversal is not affected;
-  with nested reversals in a large context it can be: from 16 facts of `C`, the provable
-  `C.dual.dual.CausallyOpen` and `C.dual.dual.dual.CausallyOpenFuture` stop at depth 30 and close
-  at 60, and a refuted goal about `C.dual⁵` ends at the depth rather than by exhaustion; the
-  extreme case (16 facts, seven reversals) also meets aesop's `maxSafePrefixRuleApplications`
-  (50). Raising both limits in `causal_ladder` is a proposal for `Causal/Ladder/Basic.lean`
-  (T-tac-ladder-dual's audit).
+  `maxRuleApplicationDepth`, which `causal_ladder` sets to 60 (aesop's default is 30;
+  T-tac-ladder-integration). At depth 30, with seven facts of `C`, a conjunction of eleven goals
+  about `C.dual` was closed and one of twelve, about `C.dual` and `C.dual.dual`, stopped at the
+  depth; at 60 it closes. Nested reversals in a large context still reach the limits: from 16
+  facts of `C`, goals about `C.dual.dual.dual` close at depth 60 (one stopped at 30, as did a
+  refuted goal about `C.dual⁵` from the half-lit line's seven facts, which now fails by exhaustive
+  search), while a provable goal about `C.dual⁵` stops at 60 after 3.5 s and one about `C.dual⁷`
+  exceeds the heartbeat budget. Close a long conjunction one conjunct at a time
+  (`⟨by causal_ladder, …⟩`), as the witnesses do.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; aesop at the
 manifest's revision.

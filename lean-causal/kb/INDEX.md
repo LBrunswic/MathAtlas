@@ -226,9 +226,9 @@ rediscover. One fact per entry.
 | [0218](entries/0218-inextensible-through-second-countable.md) | pattern | Through-hypotheses and SplitBy on T1, second countable spaces |
 | [0219](entries/0219-agent-grep-wrapper.md) | pitfall | The agent shell's grep can silently find nothing in the paper sources |
 | [0220](entries/0220-cauchy-embedding-open-embedding.md) | pattern | A Cauchy embedding is an open embedding: instances on N suffice |
-| [0221](entries/0221-causal-ladder-no-facts.md) | pitfall | causal_ladder does not close a ladder fact such as CurvesExtend |
+| [0221](entries/0221-causal-ladder-no-facts.md) | pitfall | causal_ladder's fact rules, and why CurvesExtend is not one yet |
 | [0222](entries/0222-gatearc-witness.md) | pattern | gateArc: a cheap Cauchy embedding that is not onto |
-| [0223](entries/0223-causal-ladder-dual.md) | pattern | causal_ladder across time reversal: import Causal.Ladder.Dual |
+| [0223](entries/0223-causal-ladder-dual.md) | pattern | causal_ladder across time reversal (Rules imports Dual) |
 | [0224](entries/0224-aesop-rule-pattern-guard.md) | pattern | A forward rule that grows its term needs an aesop rule pattern |
 | [0225](entries/0225-aesop-depth-limit.md) | pitfall | aesop's depth limit counts forward steps: long conjunctions and nested reversals |
 | [0226](entries/0226-ers-section4-second-countable.md) | pattern | ERS §4 on second countable backgrounds: the two suffixes |
@@ -243,3 +243,4 @@ rediscover. One fact per entry.
 | [0235](entries/0235-gluing-linear-order.md) | pattern | The causality of a linear order glues iff its intervals are connected enough |
 | [0236](entries/0236-value-allow-opaque.md) | pitfall | ConstantInfo.value? misses theorem bodies without allowOpaque |
 | [0237](entries/0237-prod-membership-point.md) | pitfall | Give the point explicitly in ×ˢ membership proofs |
+| [0238](entries/0238-forward-rule-instance-cost.md) | pitfall | A forward rule with instance arguments pays a failing synthesis at every goal |

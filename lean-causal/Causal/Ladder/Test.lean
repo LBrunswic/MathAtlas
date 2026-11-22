@@ -3,6 +3,7 @@ import Causal.Ladder.Rules
 import Causal.ArcConnected
 import Causal.CauchyExtension
 import Causal.CurvesExtend
+import Causal.CurvesExtendSecondCountable
 import Causal.Generated
 import Causal.LadderLocal
 import Causal.Properties
@@ -11,17 +12,26 @@ import Causal.Properties
 # Tests of `causal_ladder`, generated from the causality ladder
 
 For `C` a causality on a topological space, `causal_ladder` derives every implication of
-the transitive closure of the rules of `Causal.Ladder.Rules` (the emitted edges of
-`programme/ladder.toml`), from each property and from the premises of each conjunctive rule
+the transitive closure of the rules of `Causal.Ladder.Rules` (the emitted edges and facts of
+`programme/ladder.toml`), from each property, from the premises of each conjunctive rule and,
+when a fact is a rule, from nothing (`⊤`), and each fact of `C.dual` too
 (42 examples, `Derived`). It fails on every other ordered pair of the properties of the
 sort `causality` written here, and on each conjunctive rule with one premise dropped
-(310 examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses
+(313 examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses
 is derived with exactly the instances its derivation needs among its binders, and is not
-derived without them (`standing dropped`): so Lean checks each edge's `standing` against its
-witness. A pair the ladder's matrix calls `implied` that is not derived goes through an edge
-that was not emitted (a side condition `under`, or a witness outside the ETT layer). The first
-command fails if a model module is imported, directly or transitively: the ladder's Lean
-stays in the ETT layer, so that layer-1 modules may use it.
+derived without them (`standing dropped`); a rule with two standing words or more is not
+derived from its premises with any one of them dropped: so Lean checks each rule's `standing`
+against its witness, an instance missing and an instance not needed alike (a class stronger
+than needed is not detected). A pair the ladder's matrix calls `implied` that is not derived
+goes through an edge or a fact that was not emitted (a side condition `under`, a witness
+outside the ETT layer, or one whose module imports `Causal.Ladder.Rules`).
+The first command fails if a model module is imported, directly or transitively: the ladder's
+Lean stays in the ETT layer, so that layer-1 modules may use it.
+
+A fact whose witness's module imports `Causal.Ladder.Rules` cannot be one of its rules (an
+import cycle). The last section registers its rule locally, as `Causal.Ladder.Rules` would
+carry it, and tests it like the others (18 examples derived, 3 not derived): the shipped
+tactic does not have it (`Not derived`: the fact with its standing, from `⊤`).
 Regenerate with `python3 tools/ladder.py emit-lean`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -178,7 +188,7 @@ example (_h0 : Causal.Causality.IsCausal C) : True := by
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- is_causal ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- is_causal ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -242,7 +252,7 @@ example (_h0 : Causal.Causality.StronglyCausal C) : True := by
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- strongly_causal ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- strongly_causal ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -302,7 +312,7 @@ example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- strongly_causal_open ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- strongly_causal_open ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -362,7 +372,7 @@ example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- globally_hyperbolic ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- globally_hyperbolic ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -430,7 +440,7 @@ example (_h0 : Causal.Causality.CausallyCompact C) : True := by
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- causally_compact ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- causally_compact ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -498,7 +508,7 @@ example (_h0 : Causal.Causality.PushUp C) : True := by
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- push_up ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- push_up ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -558,7 +568,7 @@ example (_h0 : Causal.Causality.CausallyOpen C) : True := by
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- causally_open ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- causally_open ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -618,7 +628,7 @@ example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- causally_open_future ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- causally_open_future ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -682,7 +692,7 @@ example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True :=
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- absolutely_minimal ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- absolutely_minimal ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -746,7 +756,7 @@ example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- causally_arc_connected ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- causally_arc_connected ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -814,7 +824,7 @@ example (_h0 : Causal.Causality.CausallyPlain C) : True := by
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- causally_plain ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- causally_plain ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -882,7 +892,7 @@ example (_h0 : Causal.Causality.Tarentin C) : True := by
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- tarentin ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- tarentin ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -1082,7 +1092,7 @@ example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- locally_push_up ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- locally_push_up ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -1150,7 +1160,7 @@ example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- locally_causally_open_future ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- locally_causally_open_future ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -1218,7 +1228,7 @@ example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- locally_causally_open ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- locally_causally_open ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -1278,7 +1288,7 @@ example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
--- chronal_neighbours ⇏ curves_extend (matrix: implied through a [[fact]] (no CausalLadder rule))
+-- chronal_neighbours ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
   trivial
@@ -1330,6 +1340,14 @@ example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) (_h1 : Ca
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) (_h1 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.PushUp C := by causal_ladder
   trivial
+-- globally_hyperbolic ∧ tarentin ⇏ time_function (standing dropped: T2, of Causal.Causality.GloballyHyperbolic.hasTimeFunction)
+example [SecondCountableTopology M] (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
+  trivial
+-- globally_hyperbolic ∧ tarentin ⇏ time_function (standing dropped: second_countable, of Causal.Causality.GloballyHyperbolic.hasTimeFunction)
+example [T2Space M] (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
+  trivial
 -- tarentin ∧ causally_open ⇏ strongly_causal_open (strongly_causal dropped from Causal.Causality.StronglyCausal.stronglyCausalOpen)
 example (_h0 : Causal.Causality.Tarentin C) (_h1 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
@@ -1370,5 +1388,69 @@ example [T2Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.Tarentin
 example [T2Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
+-- ⊤ ⇏ curves_extend (a [[fact]] whose rule is not in Causal.Ladder.Rules: Causal.CurvesExtendSecondCountable imports it)
+example [T1Space M] [SecondCountableTopology M] : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+
+/-! ## Facts whose witness's module imports `Causal.Ladder.Rules`, registered here
+
+Their rules, as `Causal.Ladder.Rules` would carry them, local to this section. -/
+
+section
+
+-- fact: curves_extend (standing: T1, second_countable) (Causal.CurvesExtendSecondCountable → Causal.MaximalZorn → Causal.ErsMughd → Causal.Ladder.Rules)
+attribute [local aesop safe apply (rule_sets := [CausalLadder])] Causal.Causality.curvesExtend_of_t1_secondCountable
+
+-- is_causal ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.IsCausal C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- strongly_causal ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.StronglyCausal C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- strongly_causal_open ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.StronglyCausalOpen C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- globally_hyperbolic ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.GloballyHyperbolic C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- causally_compact ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.CausallyCompact C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- push_up ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.PushUp C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- causally_open ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.CausallyOpen C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- causally_open_future ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.CausallyOpenFuture C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- absolutely_minimal ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- causally_arc_connected ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.CausallyArcConnected C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- causally_plain ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.CausallyPlain C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- tarentin ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.Tarentin C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- locally_push_up ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.LocallyPushUp C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- locally_causally_open_future ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- locally_causally_open ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.LocallyCausallyOpen C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- chronal_neighbours ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] (_h0 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.CurvesExtend C := by causal_ladder
+-- ⊤ ⇒ curves_extend (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] : Causal.Causality.CurvesExtend C := by causal_ladder
+-- ⊤ ⇒ curves_extend of C.dual (standing: T1, second_countable)
+example [T1Space M] [SecondCountableTopology M] : Causal.Causality.CurvesExtend C.dual := by causal_ladder
+-- ⊤ ⇏ curves_extend (standing dropped: T1, second_countable)
+example : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- ⊤ ⇏ curves_extend (standing dropped: T1, of Causal.Causality.curvesExtend_of_t1_secondCountable)
+example [SecondCountableTopology M] : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+-- ⊤ ⇏ curves_extend (standing dropped: second_countable, of Causal.Causality.curvesExtend_of_t1_secondCountable)
+example [T1Space M] : True := by
+  fail_if_success have : Causal.Causality.CurvesExtend C := by causal_ladder
+  trivial
+
+end
 
 end

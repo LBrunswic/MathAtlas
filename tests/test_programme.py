@@ -675,6 +675,194 @@ class LadderEmitStanding(unittest.TestCase):
                       "(_h1 : Causal.Causality.D C) : True", text)
 
 
+APPLY = "attribute [aesop safe apply (rule_sets := [CausalLadder])] "
+
+
+def findex():
+    """index() with the theorems a [[fact]] can name (tsigs), a module importing Causal.Ladder.Rules
+    (Causal.Down, through Causal.Mid2), and Causal.Ladder.Dual."""
+    ix = index()
+    ix["decls"].update({"w_fact": "Causal.Base", "w_factD": "Causal.Base", "w_two": "Causal.Base",
+                        "w_none": "Causal.Base", "w_down": "Causal.Down", "w_cyc": "Causal.Down",
+                        "w_fmodel": "Causal.UsesModel"})
+    ix["tsigs"] = {"w_fact": (["C : Causality M"], "C.C"), "w_factD": (["D : Causal.Causality M"], "D.C"),
+                   "w_two": (["C : Causality M", "U : Opens M"], "C.C"), "w_none": ([], "C.C"),
+                   "w_down": (["C : Causality M"], "C.C"), "w_fmodel": (["C : Causality M"], "C.C"),
+                   "w_ab": ([], "C.B"), "w_cyc": ([], "C.B")}
+    ix["imports"].update({"Causal.Down": ["Causal.Mid2"], "Causal.Mid2": ["Causal.Ladder.Rules"],
+                          "Causal.Ladder.Rules": ["Causal.Ladder.Basic"], "Causal.Ladder.Basic": [],
+                          "Causal.Ladder.Dual": ["Causal.Ladder.Basic", "Causal.Base"]})
+    return ix
+
+
+def fact(p, w, **kw):
+    d = {"property": p, "witness": w, "status": "checked"}
+    d.update(kw)
+    return d
+
+
+class LadderEmitFacts(unittest.TestCase):
+    """emit-lean (T-tac-ladder-integration): Rules.lean imports Causal.Ladder.Dual; a [[fact]] is a
+    safe apply rule under its standing (and forward, with the pattern of its causality, when an
+    emitted edge reads it); a fact whose witness's module imports Rules is registered in Test.lean
+    only; Test.lean derives a fact with exactly its standing and not with any word dropped."""
+
+    def test_fact_is_an_apply_rule_under_its_standing(self):
+        out = ld.emit_lean(ladder5([edge(["a"], "b", "w_ab")], fact=[fact("c", "w_fact", standing=["T1"])]),
+                           findex())
+        self.assertIn("-- fact: c (standing: T1)\n" + APPLY + "w_fact\n", out)
+        self.assertNotIn("forward (pattern", out)                # nothing reads c
+        self.assertNotIn("\n-- skipped", out)
+
+    def test_fact_read_by_an_edge_is_also_forward_on_its_binder(self):
+        d = ladder5([edge(["c", "d"], "e", "w_conj")], fact=[fact("c", "w_factD")])
+        out = ld.emit_lean(d, findex())
+        self.assertIn("-- fact: c, a premise above: also forward\n" + APPLY + "w_factD\n"
+                      "attribute [aesop safe forward (pattern := D) (rule_sets := [CausalLadder])] w_factD\n", out)
+
+    def test_fact_skips(self):
+        d = ladder5([], fact=[fact("a", "w_two"), fact("b", "w_none"), fact("c", "w_ab"),
+                              fact("d", "w_fmodel"), fact("e", "nowhere"), fact("zz", "w_fact"),
+                              fact("a", "w_fact", standing=["Hausdorff"]), fact("b", "w_fact", status="seed")])
+        d["property"].append(cprop("g", sort="geometry"))
+        d["property"].append(cprop("two", CC + "Two"))
+        d["fact"] += [fact("g", "w_fact"), fact("two", "w_fact")]
+        out = ld.emit_lean(d, findex())
+        self.assertNotIn("attribute", out)
+        for line in ("-- skipped fact w_two (a): shape: w_two does not take exactly one explicit causality",
+                     "-- skipped fact w_none (b): shape: w_none does not take exactly one explicit causality "
+                     "(explicit binders none)",
+                     "-- skipped fact w_ab (c): shape: w_ab does not take exactly one explicit causality",
+                     "-- skipped fact w_fmodel (d): layer: w_fmodel lives in Causal.UsesModel, which imports a model",
+                     "-- skipped fact nowhere (e): not found:",
+                     "-- skipped fact w_fact (zz): not a property of the ladder",
+                     "-- skipped fact w_fact (a): standing: Hausdorff not in the vocabulary",
+                     "-- skipped fact w_fact (g): sort: g is not of the sort causality",
+                     "-- skipped fact w_fact (two): no Lean form: two"):
+            self.assertIn(line, out)
+        self.assertNotIn("(b): standing", out)                   # a seed fact is ignored
+        self.assertEqual(len([x for x in out.splitlines() if x.startswith("-- skipped fact")]), 9)
+        # a theorem's name is not enough: a def of that name is not a witness
+        self.assertEqual(ld.fact_binder("Causal.Causality.A", findex())[0], None)
+
+    def test_a_cycle_skips_an_edge_and_sends_a_fact_to_test(self):
+        d = ladder5([edge(["a"], "b", "w_cyc")], fact=[fact("c", "w_down", standing=["T1", "second_countable"])])
+        ix = findex()
+        out = ld.emit_lean(d, ix)
+        self.assertNotIn("attribute", out)
+        self.assertNotIn("import Causal.Down", out)
+        self.assertIn("-- skipped w_cyc (a ⇒ b): cycle: w_cyc lives in Causal.Down, which imports "
+                      "Causal.Ladder.Rules (Causal.Down → Causal.Mid2 → Causal.Ladder.Rules)", out)
+        self.assertIn("-- skipped fact w_down (c): cycle: w_down lives in Causal.Down, which imports "
+                      "Causal.Ladder.Rules (Causal.Down → Causal.Mid2 → Causal.Ladder.Rules); "
+                      "Causal.Ladder.Test registers it locally", out)
+        text = ld.emit_test(d, ix)
+        self.assertIn("import Causal.Down\n", text)
+        main, local = text.split("/-! ## Facts whose witness's module imports")
+        self.assertNotIn("local aesop", main)
+        C3 = "Causal.Causality.C C"
+        # the shipped tactic lacks it, even with its standing
+        self.assertIn("-- ⊤ ⇏ c (a [[fact]] whose rule is not in Causal.Ladder.Rules: Causal.Down imports it)\n"
+                      "example [T1Space M] [SecondCountableTopology M] : True := by\n"
+                      "  fail_if_success have : %s := by causal_ladder" % C3, main)
+        self.assertIn("-- a ⇏ c (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules", main)
+        # registered locally, inside its own section, and tested there
+        self.assertTrue(local.rstrip().endswith("end\n\nend"))
+        self.assertIn("attribute [local aesop safe apply (rule_sets := [CausalLadder])] w_down\n", local)
+        self.assertIn("-- a ⇒ c (standing: T1, second_countable)\nexample [T1Space M] [SecondCountableTopology M] "
+                      "(_h0 : Causal.Causality.A C) : %s := by causal_ladder" % C3, local)
+        self.assertIn("-- ⊤ ⇒ c (standing: T1, second_countable)\nexample [T1Space M] [SecondCountableTopology M] "
+                      ": %s := by causal_ladder" % C3, local)
+        self.assertIn("-- ⊤ ⇒ c of C.dual (standing: T1, second_countable)\nexample [T1Space M] "
+                      "[SecondCountableTopology M] : Causal.Causality.C C.dual := by causal_ladder", local)
+        self.assertIn("-- ⊤ ⇏ c (standing dropped: T1, second_countable)\nexample : True := by\n", local)
+        self.assertIn("-- ⊤ ⇏ c (standing dropped: T1, of w_down)\nexample [SecondCountableTopology M] : True", local)
+        self.assertIn("-- ⊤ ⇏ c (standing dropped: second_countable, of w_down)\nexample [T1Space M] : True", local)
+
+    def test_rules_imports_dual_unless_it_is_a_cycle(self):
+        d = ladder5([edge(["a"], "b", "w_ab")])
+        ix = findex()
+        out = ld.emit_lean(d, ix)
+        self.assertEqual([x for x in out.splitlines() if x.startswith("import ")],
+                         ["import Causal.Ladder.Basic", "import Causal.Ladder.Dual", "import Causal.Base"])
+        self.assertIn("This module imports `Causal.Ladder.Dual`", out)
+        ix["imports"]["Causal.Ladder.Dual"] = ["Causal.Mid2"]
+        out = ld.emit_lean(d, ix)
+        self.assertNotIn("import Causal.Ladder.Dual", out)
+        self.assertNotIn("This module imports `Causal.Ladder.Dual`", out)
+        self.assertIn("-- not imported: Causal.Ladder.Dual imports Causal.Ladder.Rules (Causal.Ladder.Dual → "
+                      "Causal.Mid2 → Causal.Ladder.Rules)", out)
+        self.assertNotIn("Causal.Ladder.Dual", ld.emit_lean(d, index()))   # no such module: no import
+
+    def test_emit_test_derives_a_shipped_fact_with_exactly_its_standing(self):
+        d = ladder5([edge(["c", "d"], "e", "w_conj", standing=["T1"])],
+                    fact=[fact("c", "w_fact", standing=["T2", "second_countable"])])
+        text = ld.emit_test(d, findex())
+        self.assertNotIn("local aesop", text)
+        self.assertIn("-- ⊤ ⇒ c (standing: T2, second_countable)\nexample [T2Space M] "
+                      "[SecondCountableTopology M] : Causal.Causality.C C := by causal_ladder", text)
+        self.assertIn("-- ⊤ ⇒ c of C.dual (standing: T2, second_countable)", text)
+        self.assertIn("-- a ⇒ c (standing: T2, second_countable)", text)
+        # the fact feeds the conjunctive edge: d alone gives e, with both standings
+        self.assertIn("-- d ⇒ e (standing: T2, second_countable)\nexample [T2Space M] [SecondCountableTopology M] "
+                      "(_h0 : Causal.Causality.D C) : Causal.Causality.E C := by causal_ladder", text)
+        self.assertIn("-- d ⇏ e (standing dropped: T2, second_countable)", text)
+        self.assertIn("-- ⊤ ⇏ c (standing dropped: T2, of w_fact)\nexample [SecondCountableTopology M] : True", text)
+        self.assertIn("-- ⊤ ⇏ c (standing dropped: second_countable, of w_fact)\nexample [T2Space M] : True", text)
+        self.assertNotIn("matrix: implied through a [[fact]]", text)
+
+    def test_emit_test_drops_each_standing_word_of_an_edge(self):
+        text = ld.emit_test(ladder5([edge(["b"], "c", "w_bc", standing=["T2", "second_countable"])]), index())
+        self.assertIn("-- b ⇏ c (standing dropped: T2, of w_bc)\nexample [SecondCountableTopology M] "
+                      "(_h0 : Causal.Causality.B C) : True", text)
+        self.assertIn("-- b ⇏ c (standing dropped: second_countable, of w_bc)\nexample [T2Space M] "
+                      "(_h0 : Causal.Causality.B C) : True", text)
+        one = ld.emit_test(ladder5([edge(["b"], "c", "w_bc", standing=["T1"])]), index())
+        self.assertNotIn(", of w_bc)", one)                      # one word: the bare drop says it all
+
+    def test_lean_index_reads_theorem_signatures(self):
+        with tempfile.TemporaryDirectory() as root:
+            os.makedirs(os.path.join(root, "Causal"))
+            with open(os.path.join(root, "Causal", "Fact.lean"), "w") as fh:
+                fh.write("namespace Causal\nnamespace Causality\n"
+                         "theorem holds [T1Space M] [SecondCountableTopology M]\n    (C : Causality M) : "
+                         "C.CurvesExtend :=\n  sorry\n"
+                         "lemma two (C : Causality M) (W : Opens M) : C.P W := sorry\n"
+                         "def NotAThm (C : Causality M) : Prop := True\n"
+                         "end Causality\nend Causal\n")
+            ix = ld.lean_index(root)
+        self.assertEqual(ix["tsigs"]["Causal.Causality.holds"], (["C : Causality M"], "C.CurvesExtend"))
+        self.assertEqual(ix["tsigs"]["Causal.Causality.two"], (["C : Causality M", "W : Opens M"], "C.P W"))
+        self.assertNotIn("Causal.Causality.NotAThm", ix["tsigs"])
+        self.assertNotIn("Causal.Causality.holds", ix["sigs"])   # lean_form still reads defs only
+        self.assertEqual(ld.fact_binder("Causal.Causality.holds", ix), ("C", None))
+        self.assertIsNone(ld.fact_binder("Causal.Causality.two", ix)[0])
+
+    def test_import_chain(self):
+        imp = {"A": ["B", "C"], "B": ["D"], "C": ["D"], "D": []}
+        self.assertEqual(ld.import_chain("A", imp, "D"), ["A", "B", "D"])
+        self.assertEqual(ld.import_chain("D", imp, "D"), ["D"])
+        self.assertIsNone(ld.import_chain("D", imp, "A"))
+
+    def test_shipped_rules_import_dual_and_the_fact_is_tested(self):
+        """On the shipped ladder: Rules imports Dual, no fact is a rule of Rules (curves_extend's module
+        imports Rules), and Test registers curves_extend locally with its standing T1, second countable."""
+        ix, d = ld.lean_index(), ld.load()
+        rules, test = ld.emit_lean(d, ix), ld.emit_test(d, ix)
+        self.assertIn("\nimport Causal.Ladder.Dual\n", rules)
+        self.assertIsNone(ld.import_chain(ld.DUAL_MODULE, ix["imports"], ld.RULES_MODULE))
+        facts, local, _ = ld.emitted_facts(d, ix)
+        for f, mod, *_ in facts + local:
+            self.assertIsNone(ld.model_path(mod, ix["imports"]), mod)
+        if any(f["property"] == "curves_extend" for f, *_ in local):
+            self.assertIn("attribute [local aesop safe apply (rule_sets := [CausalLadder])] "
+                          "Causal.Causality.curvesExtend_of_t1_secondCountable", test)
+            self.assertIn("example [T1Space M] [SecondCountableTopology M] : Causal.Causality.CurvesExtend C "
+                          ":= by causal_ladder", test)
+        else:
+            self.assertIn(APPLY + "Causal.Causality.curvesExtend_of_t1_secondCountable", rules)
+
+
 class LadderFixture(unittest.TestCase):
     """tools/fixtures/ladder: each breakage of the shipped ladder fails `check` with its violation."""
     DIR = os.path.join(ROOT, "tools", "fixtures", "ladder")
