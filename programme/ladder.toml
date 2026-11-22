@@ -189,6 +189,12 @@
 # no refuted pair moves and there is no contradiction. DEC-190's curve-carrying consequences take their
 # second countable witnesses (ERS Lemmas 4.72 and 4.70, lem:C_ext_connexe), and two consequences are
 # added (lem:C_ext_connexe's acausality step at curves_extend, the abstract middle step at is_causal).
+# After T-lad-record-rulings (2026-11-22) still 318 of 318, the same 35, 275 and 8: it records DEC-163
+# (causally_open and causally_open_future both nodes of record, the one-way membrane's entry the
+# separating edge of record between them, each entry naming the node its witness takes) and DEC-164
+# (lem:pushup_local's statement of record is absolutely_minimal ∧ locally_push_up ⇒ push_up, T1) in
+# comments and `what`s, and adds one consequence (prop:tarentin_topological_spacetime_causality
+# (ii)⇒(i), at causally_open); no edge, counterexample or fact changes, so no pair moves.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -458,17 +464,44 @@ lean = "Causal.Causality.PushUp"
 label = "defi:pushup"
 what = "in every open U: x ≤_U y ≪_U z or x ≪_U y ≤_U z implies x ≪_U z"
 
+# ---- def:causally_open_spacetime_open: two nodes of record (DEC-163, 2026-11-22; OQ-67, OQ-69,
+# OQ-80; T-lad-record-rulings). DEC-8 reads the definition with J± (causally_open,
+# Causal.Causality.CausallyOpen); the printed J⁺-only form (causally_open_future,
+# Causal.Causality.CausallyOpenFuture) is no longer auxiliary: both are ladder nodes, and each theorem
+# says which it uses. Every entry names the node its witness takes, read from the witness's
+# signature (C.CausallyOpen or C.CausallyOpenFuture). In this file's comments an unqualified "causally
+# open" or "causal openness" is causally_open; the printed form is always said "in the future"; and
+# "causal openness, global or local, in the future or two-sided" means the four nodes causally_open,
+# causally_open_future, locally_causally_open, locally_causally_open_future. Between the two:
+# causally_open ⇒ causally_open_future (Causal.Causality.CausallyOpen.future, an edge below), strict.
+# The separating edge of record, causally_open_future ⇏ causally_open, is the one-way membrane's
+# [[fails]] entry (Causal.oneWayMembrane_separates: to = locally_causally_open, hence not causally
+# open through causally_open ⇒ locally_causally_open): absolutely minimal on every open set (either
+# reading of defi:causalite, OQ-80), tarentin, push-up, strongly causal, causally open in the future,
+# so it meets every printed hypothesis of prop:tarentin_topological_spacetime_causality, and it is the
+# ladder's only separation of the two with tarentin and push-up. The pair is refuted besides by the
+# half-lit line (Causal.halfLightLine_separates_causallyOpen; either reading, not tarentin), the
+# chronal membrane (Causal.chronalMembrane_separates; either reading, no push-up), the notched plane
+# (Causal.notchedCausality_separates; either reading, not tarentin) and the gated line
+# (Causal.gateLine_separates_causallyOpen; no-gluing only, removed by T-lad-gluing-reading under
+# DEC-167). Which theorem takes which node, from the witnesses: causally_open, Lemma K (DEC-93; both
+# consequences), strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open, push_up ∧
+# chronal_neighbours ⇒ causally_open (its conclusion), prop:topological_spacetime_absolutely_minimal in
+# the DEC-8 reading, the causal convexity of open diamonds and
+# prop:tarentin_topological_spacetime_causality (ii)⇒(i) (consequences at causally_open);
+# causally_open_future, prop:topological_spacetime_absolutely_minimal as printed; neither,
+# prop:tarentin_topological_spacetime_causality (i)⇒(ii) (the consequence at strongly_causal).
 [[property]]
 id = "causally_open"
 lean = "Causal.Causality.CausallyOpen"
 label = "def:causally_open_spacetime_open"
-what = "for every open U and open V ⊂ U, J⁺_U(V) and J⁻_U(V) are open (the definition read with J±, DEC-8)"
+what = "for every open U and open V ⊂ U, J⁺_U(V) and J⁻_U(V) are open (the definition read with J±, DEC-8; a node of record, DEC-163)"
 
 [[property]]
 id = "causally_open_future"
 lean = "Causal.Causality.CausallyOpenFuture"
 label = "def:causally_open_spacetime_open"
-what = "for every open U and open V ⊂ U, J⁺_U(V) is open (the definition as printed, J⁺ alone; auxiliary since DEC-8)"
+what = "for every open U and open V ⊂ U, J⁺_U(V) is open (the definition as printed, J⁺ alone; a node of record beside causally_open since DEC-163, strictly weaker: the one-way membrane)"
 
 [[property]]
 id = "absolutely_minimal"
@@ -722,7 +755,12 @@ standing = ["T1"]
 status = "checked"
 
 # Fixed 2026-11-20 (T-lad-seed-check): the seed had `from = ["strongly_causal"]`; the witness also
-# assumes tarentin and two-sided causal openness, which are ladder nodes, so they join `from`.
+# assumes tarentin and two-sided causal openness, which are ladder nodes, so they join `from`. The
+# node is causally_open (hO : C.CausallyOpen, DEC-163): the proof makes an open diamond causally
+# convex (Causal.Causality.CausallyOpen.causallyConvexIn_openDiamond, both halves), which the future
+# form alone does not give (the one-way membrane: the consequence at causally_open). Whether
+# strongly_causal ∧ tarentin ∧ causally_open_future ⇒ strongly_causal_open holds is not known (the
+# membrane is strongly causal in both forms; the [[open]] strongly_causal → strongly_causal_open).
 [[implies]]
 from = ["strongly_causal", "tarentin", "causally_open"]
 to = "strongly_causal_open"
@@ -730,7 +768,7 @@ witness = "Causal.Causality.StronglyCausal.stronglyCausalOpen"
 status = "checked"
 
 # The converse, with no hypothesis: strongly_causal_open ⇔ strongly_causal on tarentin causally
-# open spacetimes.
+# open spacetimes (causally_open, two-sided).
 [[implies]]
 from = ["strongly_causal_open"]
 to = "strongly_causal"
@@ -762,7 +800,10 @@ to = "absolutely_minimal"
 witness = "Causal.Causality.CausallyArcConnected.absolutelyMinimal"
 status = "checked"
 
-# lem:pushup_local (ETT.tex:557): push-up is local on a causally arc-connected spacetime. Replaced
+# lem:pushup_local (ETT.tex:557) as printed: push-up is local on a causally arc-connected spacetime.
+# Its statement of record since DEC-164 (OQ-70) is the next edge, with absolute minimality (T1); this
+# one stays as the printed form, which asks no T1 (on ETT's spacetimes it follows from the next one
+# through causally_arc_connected ⇒ absolutely_minimal). Replaced
 # 2026-11-21 (T-lad-local-nodes): the edge was causally_arc_connected ⇒ push_up, witness
 # Causal.Causality.CausallyArcConnected.pushUp, with the cover by PushUpOn opens in `under`; the side
 # condition is now the node locally_push_up, and the witness the Causal.LadderLocal restatement (the
@@ -773,14 +814,23 @@ to = "push_up"
 witness = "Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp"
 status = "checked"
 
+# Label: lem:pushup_local (ETT.tex:557, proof ETT.tex:562–584), its statement of record (DEC-164,
+# OQ-70, 2026-11-22: the lemma restated with absolute minimality in place of causal
+# arc-connectedness, strictly weaker on T1 spaces: Causal.rationalLine is absolutely minimal and not
+# causally arc-connected). An [[implies]] has no label field, so the label is named here; the ETT
+# row's anchor is /atlas-team's. Under DEC-167 (OQ-18: defi:causalite read with gluing) every ETT
+# causality is absolutely minimal, so the premise absolutely_minimal is had by every causality and the
+# edge reads locally_push_up ⇒ push_up on T1 spaces; the ladder says so once T-lad-gluing-reading
+# makes absolutely_minimal a [[fact]] (until then the gated line, not absolutely minimal, refutes
+# locally_push_up → push_up in the no-gluing reading).
 # T-abs-pushup-of-minimal-local (2026-11-21; Causal/PushUpOfMinimalLocal.lean, ETT layer, no model):
-# lem:pushup_local (ETT.tex:557, proof ETT.tex:562–584) with absolute minimality in place of causal
-# arc-connectedness, at the price of T1. No ETT label. Read 2026-11-21 (`#check`, lake env lean on a
-# file outside the tree): {M} [TopologicalSpace M] {C : Causality M} [T1Space M],
-# C.AbsolutelyMinimal → C.LocallyPushUp → C.PushUp, no other premise; T1 in `standing` (ambient). With
-# push_up ⇒ locally_push_up it makes push_up ⇔ locally_push_up on absolutely minimal T1 spacetimes
-# (Causal.Causality.AbsolutelyMinimal.pushUp_iff_locallyPushUp). The edge above stays: it is the
-# paper's, and asks no T1. Sharp in all three hypotheses: absolute minimality (the gated line, locally
+# lem:pushup_local with absolute minimality in place of causal arc-connectedness, at the price of T1.
+# Read 2026-11-21 (`#check`, lake env lean on a file outside the tree): {M} [TopologicalSpace M]
+# {C : Causality M} [T1Space M], C.AbsolutelyMinimal → C.LocallyPushUp → C.PushUp, no other premise;
+# T1 in `standing` (ambient). With push_up ⇒ locally_push_up it makes push_up ⇔ locally_push_up on
+# absolutely minimal T1 spacetimes (Causal.Causality.AbsolutelyMinimal.pushUp_iff_locallyPushUp). The
+# edge above stays: it is the printed form, and asks no T1. Sharp in all three hypotheses: absolute
+# minimality (the gated line, no-gluing only, locally
 # push-up without push-up: Causal.gateLine_separates_pushUp), local push-up (the half-chronological
 # line, causally arc-connected without it: Causal.halfChronoLine_separates_pushUp; both [[fails]]
 # below), and T1: the vee, the [[fails]] entry with space = ["T0"] in the section "off the ambient"
@@ -810,7 +860,7 @@ status = "checked"
 # causally plain, which Causal.halfChronoLine_not_causallyPlain states. With causally_arc_connected ⇒
 # absolutely_minimal it gives causally_arc_connected ∧ causally_plain ⇒ push_up (not recorded: a
 # composite of two edges, and the matrix classifies single premises only), beside lem:pushup_local's
-# form with locally_push_up above.
+# forms with locally_push_up above (the printed one and the statement of record, DEC-164).
 [[implies]]
 from = ["absolutely_minimal", "causally_plain"]
 to = "push_up"
@@ -818,12 +868,14 @@ witness = "Causal.Causality.pushUp_of_causallyPlain_of_absolutelyMinimal"
 standing = ["T1"]
 status = "checked"
 
-# Lemma K's route to causal openness (DEC-93; no ETT label). Replaced 2026-11-21 (T-lad-local-nodes):
+# Lemma K's route to causal openness (DEC-93; no ETT label), to the node causally_open: the witness
+# concludes C.CausallyOpen, both halves (DEC-163). Replaced 2026-11-21 (T-lad-local-nodes):
 # the edge was push_up ⇒ causally_open, witness Causal.Causality.causallyOpen_of_pushUp (Causal.LemmaK,
 # then model-importing; ETT-layer since T-abs-hoist-lemma-k), with chronal neighbours in `under`; the side condition is now the node
 # chronal_neighbours, and the witness its ETT-layer re-proof in Causal.LadderLocal (the same proof,
 # hZm, hZp being ChronalNeighbours definitionally). No separation. The premise is sufficient, not
-# necessary: the lightlike line is causally open without chronal neighbours (counterexamples below).
+# necessary: the lightlike line is causally open, two-sided (Causal.lightlikeLine_causallyOpen),
+# without chronal neighbours (counterexamples below).
 # Sharp in each premise among absolutely minimal tarentin spacetimes, in either reading
 # (T-lad-record-separators, 2026-11-21; [[fails]] entries below): chronal_neighbours cannot be
 # weakened to tarentin, the one-way membrane's time reversal having push-up and tarentin without
@@ -877,18 +929,20 @@ to = "tarentin"
 witness = "Causal.Causality.ChronalNeighbours.tarentin"
 status = "checked"
 
-# prop:topological_spacetime_absolutely_minimal (ETT.tex:698), as printed (J⁺ only). Replaced
-# 2026-11-21 (T-lad-local-nodes): the edge was absolutely_minimal ⇒ causally_open_future, witness
-# Causal.Causality.AbsolutelyMinimal.causallyOpenFuture, with local causal openness in `under`; the
-# witness is now its Causal.LadderLocal restatement (definitionally the same hypothesis). No separation.
+# prop:topological_spacetime_absolutely_minimal (ETT.tex:698), as printed (J⁺ only): the node
+# causally_open_future, premise and conclusion (DEC-163: both forms are of record, one edge each).
+# Replaced 2026-11-21 (T-lad-local-nodes): the edge was absolutely_minimal ⇒ causally_open_future,
+# witness Causal.Causality.AbsolutelyMinimal.causallyOpenFuture, with local causal openness in the
+# future in `under` (hloc : ∀ p, ∃ W ∋ p, CausallyOpenFutureOn W); the witness is now its
+# Causal.LadderLocal restatement (definitionally the same hypothesis). No separation.
 [[implies]]
 from = ["absolutely_minimal", "locally_causally_open_future"]
 to = "causally_open_future"
 witness = "Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture"
 status = "checked"
 
-# prop:topological_spacetime_absolutely_minimal in the DEC-8 reading (J±). Replaced 2026-11-21
-# (T-lad-local-nodes): the edge was absolutely_minimal ⇒ causally_open, witness
+# prop:topological_spacetime_absolutely_minimal in the DEC-8 reading (J±): the node causally_open
+# (DEC-163). Replaced 2026-11-21 (T-lad-local-nodes): the edge was absolutely_minimal ⇒ causally_open, witness
 # Causal.Causality.AbsolutelyMinimal.causallyOpen (hloc, hloc' in `under`); the witness is now its
 # Causal.LadderLocal restatement (hloc, hloc' are the two halves of LocallyCausallyOpen). No separation.
 [[implies]]
@@ -897,7 +951,9 @@ to = "causally_open"
 witness = "Causal.Causality.AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen"
 status = "checked"
 
-# DEC-8: the two-sided definition implies the printed one. No side condition.
+# DEC-8: the two-sided definition implies the printed one. No side condition. Strict (DEC-163: both
+# nodes of record): the separating edge of record the other way, causally_open_future ⇏
+# causally_open, is the one-way membrane's [[fails]] entry (Causal.oneWayMembrane_separates, below).
 [[implies]]
 from = ["causally_open"]
 to = "causally_open_future"
@@ -1475,7 +1531,8 @@ status = "checked"
 # conjunction says so), so every entry on them holds in the library's reading of defi:causalite only,
 # the "equivalently" form without gluing (kb/0014, kb/0073): under a gluing reading of "sheaf" (OQ-18)
 # every causality is absolutely minimal, these three are not ETT spacetimes, and their entries say
-# nothing about the paper (OQ-39, OQ-67 (b), both OPEN, registers/DECISIONS.md). [[fails]] has no
+# nothing about the paper (OQ-39, OQ-67 (b); ruled since, by DEC-167 (OQ-18, OQ-39: read with
+# gluing) and DEC-163 (OQ-67); T-lad-gluing-reading removes these entries). [[fails]] has no
 # field for it (from, to, witness, status, space; `space` takes only the vocabulary's Mathlib classes
 # on M, tools/ladder.py), so each entry says it in the comment line above it: "no-gluing only". Of the
 # 43 [[open]] pairs these entries settle, 42 hold in that reading only; the isolated line's one
@@ -1499,11 +1556,12 @@ status = "checked"
 # the closure also causally_compact (from globally_hyperbolic) and locally_causally_open_future (from
 # locally_causally_open): 28 [[open]] pairs settled. What they carry for the ETT reader:
 # causally_open_future ⇏ causally_open, DEC-8's ± is a strict strengthening of
-# def:causally_open_spacetime_open as printed (OQ-67 (a)); locally_causally_open(_future) ⇏
+# def:causally_open_spacetime_open as printed (OQ-67 (a); both nodes of record since DEC-163, the
+# separating edge of record being the one-way membrane's entry); locally_causally_open(_future) ⇏
 # causally_open (prop:topological_spacetime_absolutely_minimal, ETT.tex:698, needs absolute
 # minimality); locally_push_up ⇏ push_up (lem:pushup_local, ETT.tex:557, needs causal
-# arc-connectedness, or absolute minimality on a T1 space: absolutely_minimal ∧ locally_push_up ⇒
-# push_up, T-abs-pushup-of-minimal-local). Its
+# arc-connectedness as printed, or absolute minimality on a T1 space in its statement of record,
+# DEC-164: absolutely_minimal ∧ locally_push_up ⇒ push_up, T-abs-pushup-of-minimal-local). Its
 # time function and tarentin (T-abs-gateline-witnesses) are not in Lean, nor in `from`.
 # Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
 [[fails]]
@@ -1512,7 +1570,10 @@ to = "absolutely_minimal"
 witness = "Causal.gateLine_separates_causallyOpen"
 status = "checked"
 
-# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)). DEC-163: it
+# refutes causally_open_future ⇏ causally_open without gluing only; the separating edge of record is
+# the one-way membrane's entry (either reading). Under DEC-167 (gluing) the gated line is no ETT
+# spacetime and T-lad-gluing-reading removes this entry; kept until then.
 [[fails]]
 from = ["causally_open_future", "locally_causally_open", "globally_hyperbolic", "is_causal", "strongly_causal_open", "strongly_causal", "curves_extend", "locally_push_up"]
 to = "causally_open"
@@ -1694,6 +1755,9 @@ status = "checked"
 # (T-lad-record-dual-vee), with the conjoined witness
 # Causal.halfLightLine_dual_separates_causallyOpenFuture; the older Causal.halfLightLine_dual_separates
 # (AbsolutelyMinimal ∧ ¬ CausallyOpenFuture only) refutes nothing more than the rational line.
+# DEC-163: its entry to causally_open refutes causally_open_future ⇏ causally_open in either reading,
+# among causally arc-connected, globally hyperbolic, push-up spacetimes, but not tarentin ones; the
+# separating edge of record between the two nodes is the one-way membrane's entry (tarentin, OQ-80).
 # Reading: either (causally arc-connected, absolutely minimal on every open set for every cover,
 # Causal.halfLightLine_absolutelyMinimalOn; OQ-18 does not touch it).
 [[fails]]
@@ -1789,8 +1853,8 @@ status = "checked"
 # globally_hyperbolic, is_causal, locally_causally_open, locally_causally_open_future, strongly_causal,
 # strongly_causal_open, tarentin, time_function (14), and absolutely_minimal, causally_arc_connected,
 # causally_open, tarentin, time_function → push_up (5). What it carries: lem:pushup_local (ETT.tex:557)
-# needs its cover (causally_arc_connected ⇏ push_up), the edge absolutely_minimal ∧ locally_push_up ⇒
-# push_up needs local push-up, and absolutely_minimal ∧ causally_plain ⇒ push_up needs plainness; the
+# needs its cover (causally_arc_connected ⇏ push_up), as printed and in its statement of record
+# (DEC-164: the edge absolutely_minimal ∧ locally_push_up ⇒ push_up needs local push-up), and absolutely_minimal ∧ causally_plain ⇒ push_up needs plainness; the
 # notes of the settled push_up entries argued them with the gated line and timelikeLineTop, neither
 # absolutely minimal. Not causally plain (Causal.halfChronoLine_not_causallyPlain), no chronal
 # neighbours (Causal.halfChronoLine_not_chronalNeighbours: nothing is ≪ −1); not conjoined, and as
@@ -1922,6 +1986,15 @@ status = "checked"
 # needs J±. Not a counterexample to prop:tarentin_topological_spacetime_causality (it is strongly
 # causal and its Alexandrov topology is the topology), but that proof's step J⁻(˚J⁻(b)) = ˚J⁻(b)
 # fails on it (Causal.oneWayMembrane_not_Jminus_interior_Jminus_subset).
+# DEC-163 (OQ-67, OQ-69, OQ-80; T-lad-record-rulings, 2026-11-22): this entry is the separating edge
+# of record between the two nodes of def:causally_open_spacetime_open, causally_open_future ⇏
+# causally_open (its `from` has causally_open_future; lacking locally_causally_open it lacks
+# causally_open). Of record because it is absolutely minimal on every open set (either reading of
+# defi:causalite), tarentin, push-up and strongly causal, the setting of
+# prop:tarentin_topological_spacetime_causality. The half-lit line, the chronal membrane, the notched
+# plane and the gated line refute the same pair (the comment above the property causally_open). The
+# entry to locally_causally_open is kept as the one of record rather than one to causally_open: it
+# carries both pairs, causally_open_future ⇏ causally_open and ⇏ locally_causally_open.
 # Reading: either (absolutely minimal on every open set for every cover,
 # Causal.oneWayMembrane_absolutelyMinimalOn; OQ-18 does not touch it).
 [[fails]]
@@ -2309,7 +2382,9 @@ witness = "Causal.Causality.GloballyHyperbolic.isClosed_le_and_isClosed_J"
 under = "tarentin (ladder node); M Hausdorff"
 status = "checked"
 
-# Lemma K of record (DEC-93; no ETT label).
+# Lemma K of record (DEC-93; no ETT label). It takes the node causally_open (hCO : C.CausallyOpen,
+# DEC-8's two-sided form, which DEC-93 makes part of ETT's setting; DEC-163), both halves, at U = M:
+# J⁺_M(V) and J⁻_M(V) open for every open V (hCO.1 ⊤, hCO.2 ⊤).
 [[consequence]]
 at = "globally_hyperbolic"
 statement = "Lemma K: a compact connected locally Cauchy set is a Cauchy surface"
@@ -2671,7 +2746,9 @@ witness = "Causal.Causality.Iplus_injOn_Zplus"
 under = "M Hausdorff"
 status = "checked"
 
-# prop:tarentin_topological_spacetime_causality, (i)⇒(ii).
+# prop:tarentin_topological_spacetime_causality, (i)⇒(ii). No causal openness in either form (the
+# witness takes tarentin and strong causality only; DEC-163). The converse (ii)⇒(i) takes causally_open:
+# its consequence at causally_open, below.
 [[consequence]]
 at = "strongly_causal"
 statement = "the Alexandrov topology (generated by the open diamonds) is the topology of M"
@@ -2705,11 +2782,30 @@ status = "checked"
 # Not from causal openness in the future (J⁺ alone, the definition as printed), even with absolute
 # minimality and tarentin: the one-way membrane has an open diamond of M not causally convex in M
 # (Causal.oneWayMembrane_not_causallyConvexIn_openDiamond; Causal.oneWayMembrane_separates, a
-# [[fails]] entry; T-lad-record-separators, 2026-11-21).
+# [[fails]] entry; T-lad-record-separators, 2026-11-21). The witness takes causally_open
+# (hO : C.CausallyOpen), both halves: J⁻ for Int J⁻_U(q), J⁺ for Int J⁺_U(p) (DEC-163).
 [[consequence]]
 at = "causally_open"
 statement = "every open diamond Int J_U(p,q) is causally convex in U"
 witness = "Causal.Causality.CausallyOpen.causallyConvexIn_openDiamond"
+status = "checked"
+
+# prop:tarentin_topological_spacetime_causality, (ii)⇒(i) (T-lad-record-rulings, 2026-11-22: DEC-163,
+# each theorem says which node it uses). Read from the source (Causal/StrongCausality.lean:150):
+# {M} [TopologicalSpace M] {C : Causality M}, C.CausallyOpen → C.alexandrovTopology = the topology of M
+# → C.StronglyCausalOpen, no other premise, no instance argument (tarentin is not used; the
+# conclusion is the open form, so strong causality too by strongly_causal_open ⇒ strongly_causal). It
+# takes causally_open, two-sided: the printed proof's step J⁻(˚J⁻(b)) = ˚J⁻(b) (ETT.tex:746) is J⁻'s
+# half, and it fails in the future form alone (the one-way membrane,
+# Causal.oneWayMembrane_not_Jminus_interior_Jminus_subset). Whether (ii)⇒(i) holds under
+# causally_open_future is open (OQ-80, OQ-99): the membrane meets both (i) and (ii)
+# (Causal.oneWayMembrane_stronglyCausalOpen, Causal.oneWayMembrane_alexandrovTopology_eq), so it is
+# no counterexample. The two directions with tarentin and causally_open are
+# Causal.Causality.stronglyCausal_iff_alexandrovTopology_eq and stronglyCausalOpen_iff_alexandrovTopology_eq.
+[[consequence]]
+at = "causally_open"
+statement = "prop:tarentin_topological_spacetime_causality (ii)⇒(i): if the Alexandrov topology (generated by the open diamonds) is the topology of M, M is strongly causal in the open form"
+witness = "Causal.Causality.stronglyCausalOpen_of_alexandrovTopology_eq"
 status = "checked"
 
 # The relative form behind the edge time_function ⇒ curves_extend (Causal/CurvesExtend.lean).
@@ -2802,7 +2898,8 @@ status = "checked"
 # Causal.Causality.curvesExtend_of_t1_secondCountable (the [[fact]]), so on ETT's spacetimes this is
 # Lemma K of record (the consequence at globally_hyperbolic, whose proof gets CurvesExtend from
 # Levin's time function); it stays the form for a Hausdorff space that is not second countable and
-# in which curves extend.
+# in which curves extend. Like it, it takes the node causally_open (hCO : C.CausallyOpen, both halves
+# at U = M; DEC-93, DEC-163).
 [[consequence]]
 at = "curves_extend"
 statement = "Lemma K: a compact connected locally Cauchy set is a Cauchy surface"
