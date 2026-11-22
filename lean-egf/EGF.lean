@@ -11,3 +11,6 @@ import EGF.UniversalityErgodic
 import EGF.TorusFamilies
 import EGF.MixingCriteria
 import EGF.SphereFamilies
+import EGF.ToriMinimal
+import EGF.SphereDense
+import EGF.DefEGF
