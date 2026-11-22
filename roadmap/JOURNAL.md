@@ -645,3 +645,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, registers ✓, atlas ✓, hub: no new red
 - wall time: 04:15–04:29 (Paris); agents: 1 (planner)
 - the loop stops here (rule 6). The rulings that would unblock the most are BBS-Q1 (63 rows), OQ-63, OQ-42, OQ-44, OQ-34/35, OQ-18 and OQ-82. Also: whether /atlas-team may run /ett-programme's ready targets while it is paused.
+
+## 2026-11-22 06:23 · idle: waiting on rulings
+- No DEC row since DEC-141, and every OQ that blocks a target is still OPEN: OQ-16, OQ-18, OQ-32, OQ-34, OQ-35, OQ-36, OQ-37, OQ-38, OQ-50, OQ-82, OQ-87, OQ-88, OQ-89, OQ-90.
+- The wave is empty and no planner target is ready. The waiting targets are the ones the 04:29 entry lists: the needs-ruling questions (BBS-Q1, T-yamabe-scope, T-syr-cited, T-bz-chapter3, T-bz-transcription-check, T-barbot-terminal, T-gfn-doubledag-refresh, T-yamabe-lower-bound, T-syr-empty-corollary, T-egf-families), the targets blocked on OPEN OQs, and the CBG pair behind /ett-programme (stopped until 2026-11-27).
+- The loop stops (rule 6).
