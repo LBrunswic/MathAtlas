@@ -69,7 +69,8 @@ two tagged `sorry`s, the obligations of `T-gx-troyanov` and `T-gx-troyanov-suspe
   the PRESCRIBED angles; the `Prop` asserts the surface (`IsConeSphere M θ p`, angles `θ_i` at
   the `p_i`, no other singular point) and the facts for ITS suspension, so the angles enter
   through `Σ` and through the singular locus of `M` (`ThurstonCexFacts.sing_eq`). The facts at
-  `O` are DEC-69's `SuspensionCexFacts` (the paper's `Aut(Σ) ≅ Aut(M)` is not stated; the local
+  `O` are DEC-69's `SuspensionCexFacts` (the paper's `Aut(Σ) ≅ Aut(M)` is not stated here; it is proved in
+  `GXScaffold.Spherical.ThurstonSuspension`, `GX.IsConeSphere.thurstonSuspAutEquiv`, DEC-175 (c); the local
   rigidity `rigid` is the form the cex's conclusion uses, "these remarks hold for all
   neighborhoods of `O`").
 * **(b)** The suspension is read as the open ball of radius `π` about `O`

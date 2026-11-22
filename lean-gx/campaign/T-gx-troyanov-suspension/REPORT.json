@@ -1,0 +1,137 @@
+{
+  "package": "T-gx-troyanov-suspension",
+  "target": "T-gx-troyanov-suspension",
+  "files": [
+    "scaffold/GXScaffold/Spherical/ThurstonSuspension.lean"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "labels": [
+    {
+      "label": "cex:start_singular_manifold_homeomorphic",
+      "tex_lines": [
+        1930,
+        1937
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.thurstonSuspensionFacts'",
+        "GX.thurstonSuspensionFacts_iff",
+        "GX.ConeSphereAutTrivial",
+        "GX.IsConeSphere.singularAut_eq_bot",
+        "GX.IsConeSphere.thurstonCexFacts_of_aut",
+        "GX.IsConeSphere.thurston_sing_eq",
+        "GX.IsConeSphere.thurston_mem_sing_exists_ne",
+        "GX.IsConeSphere.thurston_fixes_centre",
+        "GX.IsConeSphere.thurston_eq_susp_near_centre",
+        "GX.IsConeSphere.thurston_rigid",
+        "GX.IsConeSphere.thurston_singularAut_eq_bot",
+        "GX.IsConeSphere.thurston_exists_local_ne_id",
+        "GX.IsConeSphere.thurston_rot",
+        "GX.thurstonSuspAut",
+        "GX.thurstonSuspAut_injective",
+        "GX.IsConeSphere.thurstonSuspAut_bijective",
+        "GX.IsConeSphere.thurstonSuspAutEquiv",
+        "GX.thurston_mem_reg_of_mk_mem_reg",
+        "GX.thurston_sing_eq",
+        "GX.TroyanovAngleConditionC.three_le_card_ne_two_pi",
+        "GX.ThurstonSuspensionFactsC",
+        "GX.ThurstonSuspensionFactsC.thurstonSuspensionFacts",
+        "GX.thurstonSuspensionFactsC'",
+        "GX.troyanovSuspensionTheoremS3'"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Σ a singular 𝕊²-manifold homeomorphic to a sphere with s ≥ 3 conical singularities of angles θ_i (l.1930)",
+          "here": "carried",
+          "note": "IsConeSphere M θ p; conical singularity as an X_θ-chart (DEC-175 (b))"
+        },
+        {
+          "paper": "Troyanov's condition 0 < Σ(θ_i − 2π) + 4π ≤ min(4π, θ_i) (l.1930)",
+          "here": "weakened",
+          "note": "carried verbatim in the statement of record (GX.ThurstonSuspensionFacts); every lemma uses only '≥ 3 angles ≠ 2π' (TroyanovAngleCondition.three_le_card_ne_two_pi), which Theorem C's condition also gives"
+        },
+        {
+          "paper": "the Thurston suspension of sec:susp, a singular (SO(4), 𝕊³)-manifold, centre O (l.1931)",
+          "here": "carried",
+          "note": "GX.thurstonSuspension, r ∈ [0, π) with one centre (DEC-175 (a))"
+        },
+        {
+          "paper": "generic Σ / all the θ_i different (l.1933–1935)",
+          "here": "carried",
+          "note": "pairwise distinct (DEC-69); used only through (iii) Aut(Σ) = {Id}; not used by (i), (ii), the singular locus or the isomorphism Aut(Σ) ≅ Aut(M)"
+        },
+        {
+          "paper": "an automorphism preserves distances and geodesics (l.1933)",
+          "here": "carried",
+          "note": "derived, not assumed, without a metric: chart changes along a ray fix the north pole (GX.thurston_reading_fixes_northPole), hence are 1 ⊕ A and keep the radius"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "GX.IsConeSphere.singularAut_eq_bot",
+          "obstruction": "(iii) Aut(Σ) = {Id} for a cone sphere with ≥ 3 cone points of angle ≠ 2π and pairwise distinct angles (the paper's l.1933 'if all the θ_i are different then Aut(M) = {Id}', through Aut(Σ) ≅ Aut(M)). An automorphism f preserves cone angles (IsConePoint.angle_eq), so it fixes these ≥ 3 cone points, and it is an orientation-preserving isometry of the cone metric. The missing step is a fixed-point theorem for 𝕊²: a non-identity such isometry has finite order (compact isometry group with no circle subgroup, since a circle action on 𝕊² has exactly two fixed points), and a non-identity orientation-preserving periodic homeomorphism of 𝕊² has exactly two fixed points (Brouwer–Kerékjártó, or Lefschetz–Hopf: each fixed point has index +1 and L(f) = 2). Neither the Lefschetz theorem, nor Kerékjártó's theorem, nor the metric of a cone surface is at this mathlib pin or in the library. The obligation is equivalent to this statement (GX.thurstonSuspensionFacts_iff, 0 sorry)."
+        }
+      ],
+      "findings": [
+        "l.1933 ('For instance, if all the θ_i are different then Aut(M)={Id}'): asserted without argument. Through Aut(Σ) ≅ Aut(M) it is the claim Aut(Σ) = {Id}, which is true (each automorphism fixes the ≥ 3 cone points; a non-identity orientation-preserving isometry of a cone sphere has finite order and then exactly two fixed points, Brouwer–Kerékjártó / Lefschetz–Hopf) but rests on a fixed-point theorem for 𝕊². It carries the whole weight of the cex's rigidity: in Lean, GX.ThurstonSuspensionFacts is EQUIVALENT to it (GX.thurstonSuspensionFacts_iff, 0 sorry). A gap in the argument, not a false statement; the author may want a sentence or a citation.",
+        "l.1933 ('An automorphism of M has to fix O since singular locus is homeomorphic to a line except at O'): true, and proved for every local isomorphism of open sets containing O (GX.IsConeSphere.thurston_fixes_centre). The argument needs at least three singular rays: near O the singular locus is a star of ≥ 3 arcs, near any other singular point an arc. With two cone points (the football, GX.Spherical.Football) it is an arc through O and the topological argument fails. Troyanov's condition supplies three (TroyanovAngleCondition.three_le_card_ne_two_pi), so the cex stands; the justification is 'a star with ≥ 3 branches at O' rather than 'a line except at O'.",
+        "l.1933 ('the natural map Aut(Σ) → Aut(M) is a group isomorphism'): proved (DEC-175 (c), GX.IsConeSphere.thurstonSuspAut_bijective, GX.IsConeSphere.thurstonSuspAutEquiv, 0 sorry), with no distinctness of the angles: it holds for every cone sphere with ≥ 3 cone points of angle ≠ 2π. The same proof gives the local form 'these remarks hold for all neighborhoods of O': a local isomorphism at O is susp(f) near O (GX.IsConeSphere.thurston_eq_susp_near_centre).",
+        "l.1935 ('locally we may construct a rotation around any of the axes and since those cannot be extended'): proved with the half-turn of the cone C_θ read in an X_θ-chart and suspended (GX.IsConeSphere.thurston_exists_local_ne_id). Non-extension follows from Aut(M) = {Id} alone (any local isomorphism moving a point is not extendable), so 'generic Σ' enters the cex only through Aut(Σ) = {Id}."
+      ],
+      "questions": [
+        "(iii) Aut(Σ) = {Id}, the paper's l.1933 claim (no argument, no citation), is left as a tagged sorry, per DEC-23/26 (cited results are formalized, not assumed). Formalizing it needs a fixed-point theorem for 𝕊² (Kerékjártó's theorem on periodic homeomorphisms, or Lefschetz–Hopf) plus the finiteness of the isometry group, a project of its own. Should it be carried as a named external result (a DEC), or stay an open obligation? Reading taken meanwhile: open obligation, stated as GX.IsConeSphere.singularAut_eq_bot.",
+        "OQ-92 (open): the reading taken is l.1930's printed condition for GX.ThurstonSuspensionFacts (unchanged). Evidence for the ruling: the suspension facts need only '≥ 3 angles ≠ 2π', which Theorem C's condition also gives (GX.TroyanovAngleConditionC.three_le_card_ne_two_pi). So the C-form GX.ThurstonSuspensionFactsC follows from the same (iii) (GX.thurstonSuspensionFactsC'), and it implies the printed form. Moving to C does not grow this target's scope beyond (iii) for those tuples."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.thurston_mk_mem_sing",
+    "GX.thurston_mk_mem_reg_iff",
+    "GX.thurston_O_subset_sing",
+    "GX.connectedSpace_nnreal",
+    "GX.Susp.connectedSpace",
+    "GX.Susp.homeomorph",
+    "GX.Susp.instNonempty",
+    "GX.thurston_isAEMorphism_suspHomeomorph",
+    "GX.pos_of_three_le_card_ne_two_pi",
+    "GX.IsPreconnected.subsingleton_of_subset_finite",
+    "GX.IsAEMorphism.eventually_smul_eq_of_mem",
+    "GX.IsAEMorphism.eventually_smul_eq_of_opens",
+    "GX.isAEMorphism_of_opens_of_eventually",
+    "GX.opensOPH",
+    "GX.opensOPH_apply",
+    "GX.opensOPH_symm_apply",
+    "GX.opensHomeoOf",
+    "GX.halfRotCover",
+    "GX.SphCone.halfRot",
+    "GX.SphCone.halfRot_apex",
+    "GX.conicalDev_rot",
+    "GX.sphConeDev_halfRot",
+    "GX.SphCone.isAEMorphism_halfRot",
+    "GX.SphCone.halfRot_ne",
+    "GX.SphCone.exists_ne_apex_of_isOpen",
+    "GX.thurston_isAEMorphism_posChart",
+    "GX.exists_liftSO_of_smul_northPole",
+    "GX.fst_specialOrth_smul",
+    "GX.polarProfile",
+    "GX.polarProfile_injective",
+    "GX.fst_coneChart",
+    "GX.coneChart_mk_eq_iff",
+    "GX.eq_of_inner_eqOn_sphere",
+    "GX.thurston_reading_fixes_northPole",
+    "GX.thurston_eq_map_near_centre",
+    "GX.topOpensHomeomorph",
+    "GX.singularAut_eq_bot_of_rigid"
+  ],
+  "kb_proposals": [
+    "Rays over singular points of a Thurston suspension are singular: GX.thurston_mem_reg_of_mk_mem_reg is ConicStructure.mem_reg_of_mk_mem_reg adapted line by line (c.coneChart → (sphConic σ₀).coneChart, (h : G) → liftSO W h, symm_mk_smul → sphConic_symm_smul). The transport of kb 0007 is not needed; that entry's 'Not done yet' can go.",
+    "Reading a.e. isomorphisms of open subsets in AMBIENT charts: GX.IsAEMorphism.eventually_smul_eq_of_opens (any charts at a regular point), and its converse GX.isAEMorphism_of_opens_of_eventually. GX.opensOPH turns a homeomorphism of opens into an OpenPartialHomeomorph of the ambient spaces, GX.opensHomeoOf goes back. With them a local construction is checked by chart computations only.",
+    "Rotations of the cone C_θ: GX.SphCone.halfRot = orbitsHomeomorph of (rot (1/2), id), an automorphism by isAEMorphismOf_quotientBase with GX.conicalDev_rot. Suspend a local isomorphism F of Σ with GX.thurston_isAEMorphism_posChart (Susp.posChart F).",
+    "A local isomorphism of a Thurston suspension fixing the centre is a suspension near O: GX.thurston_reading_fixes_northPole (continuation along rays with the polar profile c(t) = (1−t²)/(1+t²), GX.fst_coneChart, uniqueness by GX.eq_of_inner_eqOn_sphere), GX.exists_liftSO_of_smul_northPole, then GX.thurston_eq_map_near_centre.",
+    "Topological rigidity of the centre: a connected subset of the singular rays lies on one ray, because dir maps it into a finite set (GX.IsPreconnected.subsingleton_of_subset_finite); used for GX.IsConeSphere.thurston_fixes_centre.",
+    "What remains of cex:start_singular_manifold_homeomorphic beyond Troyanov is exactly Aut(Σ) = {Id} (GX.thurstonSuspensionFacts_iff); it needs a fixed-point theorem for 𝕊² (Kerékjártó / Lefschetz–Hopf), not at this pin."
+  ],
+  "notes": "REWIRING: GXScaffold.Spherical.TroyanovAngles cannot import this file, because this file imports it. So the obligation GX.thurstonSuspensionFacts cannot be rewired in place. Options: (a) drop GX.thurstonSuspensionFacts and GX.troyanovSuspensionTheoremS3 from TroyanovAngles and use GX.thurstonSuspensionFacts' and GX.troyanovSuspensionTheoremS3' (this file, = troyanovSuspensionTheoremS3_of troyanovTheorem thurstonSuspensionFacts'); or (b) move the Prop definitions (ThurstonCexFacts, ThurstonSuspensionFacts, thurstonSuspension) to a module both import. The type check is `example : ThurstonSuspensionFacts := thurstonSuspensionFacts'` (in the file). ROOT: scaffold/GXScaffold.lean does not import this module; add `import GXScaffold.Spherical.ThurstonSuspension`, otherwise the axiom sweep does not see it (lean-causal kb 0025). Not edited, not my file. SORRY/AXIOMS: one tagged sorry, GX.IsConeSphere.singularAut_eq_bot. Checked by #print axioms on a copy: thurstonSuspensionFacts_iff, IsConeSphere.thurstonCexFacts_of_aut, IsConeSphere.thurstonSuspAut_bijective, IsConeSphere.thurstonSuspAutEquiv, IsConeSphere.thurston_rigid/_rot/_fixes_centre/_eq_susp_near_centre/_sing_eq and thurston_mem_reg_of_mk_mem_reg use only [propext, Classical.choice, Quot.sound]. Only thurstonSuspensionFacts', thurstonSuspensionFactsC' and troyanovSuspensionTheoremS3' (and singularAut_eq_bot itself) carry sorryAx; troyanovSuspensionTheoremS3' also carries TroyanovAngles' troyanovTheoremC sorry. GRADUATION: everything except those four declarations is sorry-free. The rigidity and rotation lemmas take `Aut(Σ) = ⊥` as a hypothesis, so a split (strict: all but the four) is possible. BUILD: `lake build GXScaffold.Spherical.ThurstonSuspension` succeeded (13 s for this module, nothing in GX.* rebuilt). STATEMENT OF RECORD: unchanged; GX.ThurstonSuspensionFacts keeps the printed condition (OQ-92 open). Lemma hypotheses are weakened to '≥ 3 angles ≠ 2π' (kb 0011: weakened, welcome). The C-form is an extra Prop, not the statement of record. LABEL: stays partial: Troyanov s ≥ 5 (T-gx-troyanov) and (iii) are open."
+}

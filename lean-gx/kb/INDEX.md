@@ -34,3 +34,16 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0024](entries/0024-fin-cases-literal-pitfall.md) | pitfall | `fin_cases i` yields ⟨k, _⟩ indices that literal-index lemmas do not match |
 | [0025](entries/0025-troyanov-condition-c.md) | pattern | Troyanov's condition of record is Theorem C's (GX.TroyanovAngleConditionC); the printed one is C plus χ' ≤ θ_j |
 | [0026](entries/0026-troyanov-constructions-under-c.md) | pattern | The strict Troyanov constructions already work under Theorem C's condition; only s ≥ 5 with an angle above 2π is open |
+| [0027](entries/0027-hs-d-is-gx-hs-d-raysphere-causal-minkows.md) | pattern | HS^d is GX.HS d = RaySphere (Causal.Minkowski d), acted on by Causal.Flat.lorentz d (GXScaffold.BBS. |
+| [0028](entries/0028-rigidity-of-a-normalised-linear-action-o.md) | pattern | Rigidity of a normalised linear action on S(V): |
+| [0029](entries/0029-transitivity-of-so-0-1-d-on-the-pieces-o.md) | pattern | Transitivity of SO_0(1,d) on the pieces of HS^d, d >= 2: |
+| [0030](entries/0030-a-bbs-layer-module-outside-gx-btz-lorent.md) | pattern | A BBS-layer module outside GX/{BTZ,Lorentz}/ may not import Causal.* (scripts/causal_import_gate.py) |
+| [0031](entries/0031-pitfall.md) | pitfall | Pitfall: |
+| [0032](entries/0032-pitfall.md) | pitfall | Pitfall: |
+| [0033](entries/0033-a-chartedspace-over-a-space-homeomorphic.md) | pattern | A ChartedSpace over a space homeomorphic to a charted one: |
+| [0034](entries/0034-rays-over-singular-points-of-a-thurston.md) | pattern | Rays over singular points of a Thurston suspension are singular: |
+| [0035](entries/0035-reading-a-e.md) | pattern | Reading a.e. |
+| [0036](entries/0036-rotations-of-the-cone-c.md) | pattern | Rotations of the cone C_θ: |
+| [0037](entries/0037-a-local-isomorphism-of-a-thurston-suspen.md) | pattern | A local isomorphism of a Thurston suspension fixing the centre is a suspension near O: |
+| [0038](entries/0038-topological-rigidity-of-the-centre.md) | pattern | Topological rigidity of the centre: |
+| [0039](entries/0039-what-remains-of-cex-start-singular-manif.md) | pattern | What remains of cex:start_singular_manifold_homeomorphic beyond Troyanov is exactly Aut(Σ) = {Id} (G |
