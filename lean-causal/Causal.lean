@@ -216,6 +216,8 @@ import Causal.LadderLocal
 import Causal.Ladder.Basic
 import Causal.Ladder.Rules
 import Causal.Ladder.Test
+import Causal.Ladder.Dual
+import Causal.Ladder.DualTest
 import Causal.CompactMinimal
 import Causal.CurveComponents
 import Causal.DependenceDomain

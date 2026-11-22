@@ -228,3 +228,6 @@ rediscover. One fact per entry.
 | [0220](entries/0220-cauchy-embedding-open-embedding.md) | pattern | A Cauchy embedding is an open embedding: instances on N suffice |
 | [0221](entries/0221-causal-ladder-no-facts.md) | pitfall | causal_ladder does not close a ladder fact such as CurvesExtend |
 | [0222](entries/0222-gatearc-witness.md) | pattern | gateArc: a cheap Cauchy embedding that is not onto |
+| [0223](entries/0223-causal-ladder-dual.md) | pattern | causal_ladder across time reversal: import Causal.Ladder.Dual |
+| [0224](entries/0224-aesop-rule-pattern-guard.md) | pattern | A forward rule that grows its term needs an aesop rule pattern |
+| [0225](entries/0225-aesop-depth-limit.md) | pitfall | aesop's depth limit counts forward steps: long conjunctions and nested reversals |

@@ -1,0 +1,107 @@
+{
+ "package": "lean-causal",
+ "target": "T-tac-ladder-dual",
+ "files": [
+  "Causal/Ladder/Dual.lean (new: 40 theorems, 38 CausalLadder rules)",
+  "Causal/Ladder/DualTest.lean (new: 425 examples; written by campaign/T-tac-ladder-dual/dual_closure.py `shipped`, hand-written part included in the script)",
+  "campaign/T-tac-ladder-dual/dual_closure.py (the literal-closure model; `counts`, `shipped OUT`, `exact OUT`)",
+  "campaign/T-tac-ladder-dual/DualExact.lean (scratch, not built by lake: all 648 single-property cross pairs, derived or not)",
+  "campaign/T-tac-ladder-dual/HalfLitDualShort.lean (scratch, not built by lake: halfLightLine_dual_separates_causallyOpenFuture re-proved with the dual rules)"
+ ],
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake build Causal.Ladder.Dual Causal.Ladder.DualTest (strict library, warningAsError): success, only these two modules rebuilt (3105 jobs, Dual 1.0 s, DualTest 9.2 s). Each also passes `lake env lean -DwarningAsError=true`. Basic.lean, Rules.lean and Test.lean were not edited.",
+ "sorry_count": 0,
+ "axioms": "standard: #print axioms on curvesExtend_dual_iff, hasTimeFunction_dual_iff, absolutelyMinimal_dual gives [propext, Classical.choice, Quot.sound]; causallyOpen_of_future_of_past, leNested_dual give [propext, Quot.sound].",
+ "labels": [],
+ "layer": "ETT layer only. Dual imports Causal.Ladder.Basic, Properties, PushUp, Minimal, ArcConnected, LadderLocal, CauchyExtension, CurvesExtend, Inextensible, NestedCausalities, NestedConverse (each the module of a lemma it uses; LadderLocal, NestedConverse and CurvesExtend alone would give the same closure). tools/ladder.py model_path(Causal.Ladder.Dual) = None; its import closure (31 Causal modules) does not contain Causal.Ladder.Rules and lies inside Rules' closure plus Causal.NestedConverse, so Rules could import Dual without a cycle. DualTest carries Test.lean's run_cmd guard; checked to fire (`the ladder's Lean imports the model module Causal.Static`) on a probe importing Dual and Causal.Static, and silent without it.",
+ "tactic": {
+  "scheme": "Per two-sided node P, two safe forward rules: P_of_dual : C.dual.P → C.P (shrinks the term), and P_dual : C.P → C.dual.P with the aesop rule pattern `Causality.dual C`. A pattern rule takes its C from a subterm `C.dual` of the goal or of a hypothesis (Aesop/Index/RulePattern.lean getInGoal; Forward/State/Initial.lean and ApplyGoalDiff.lean scan hyps and target), so it fires only for a C whose time reversal is already in sight. Termination: no rule creates a new `t.dual` subterm (P_dual writes t.dual only for a t.dual present; P_of_dual, the generated rules and the introductions write terms already present), so the subjects of a saturation are the finitely many subterms of goal and hypotheses. The one-sided nodes get only the introductions C.P_future ∧ C.dual.P_future → C.P_twoSided. Pair nodes: the same two rules, pattern on the first causality.",
+  "why_not_plain_mpr": "Measured: an unguarded forward `C.IsCausal → C.dual.IsCausal` makes `(h : C.IsCausal) ⊢ C.Tarentin` fail with 'maximum rule application depth (30) was reached' instead of exhaustive search. Aesop's forward deduplication is reducible-rigid defeq (RuleTac/Forward.lean isRedundant, Forward/Match.lean), and Causality.dual is not reducible, so C.dual.dual.P is a new hypothesis.",
+  "alternative_tried": "A guard class `TimeSign (C : Causality M) (b : outParam Bool)` with a high-priority instance for C.dual flipping b and a low-priority base instance `TimeSign C false`; the rule `[TimeSign C false] → C.P → C.dual.P`. It works (the outParam makes synthesis keep the first answer, so C.dual never falls back on the base instance) and derives the same closure, but transports every fact of every causal_ladder call: the Test.lean replay went from 4.5 s to 6.3 s. The pattern guard costs nothing when no C.dual is in sight, and needs no class. Not shipped.",
+  "idle_check": "trace.aesop.forward on `(h : C.IsCausal) ⊢ C.Tarentin` with Dual imported: isCausal_dual is selected for premise h but never has a complete match (no pattern instance), so nothing is transported."
+ },
+ "rules_added": {
+  "two_sided": [
+   "is_causal: isCausal_of_dual, isCausal_dual ← Causality.dual_isCausal (Causal.Properties)",
+   "strongly_causal: stronglyCausal_of_dual, stronglyCausal_dual ← Causality.dual_stronglyCausal (Causal.Properties)",
+   "strongly_causal_open: stronglyCausalOpen_of_dual, stronglyCausalOpen_dual ← Causality.dual_stronglyCausalOpen (Causal.Properties)",
+   "globally_hyperbolic: globallyHyperbolic_of_dual, globallyHyperbolic_dual ← Causality.dual_globallyHyperbolic (Causal.Properties)",
+   "causally_compact: causallyCompact_of_dual, causallyCompact_dual ← Causality.dual_causallyCompact (Causal.LadderLocal)",
+   "push_up: pushUp_of_dual, pushUp_dual ← Causality.dual_pushUp (Causal.PushUp)",
+   "causally_open: causallyOpen_of_dual, causallyOpen_dual ← Causality.dual_causallyOpen (Causal.Properties)",
+   "absolutely_minimal: absolutelyMinimal_of_dual, absolutelyMinimal_dual ← Causality.dual_absolutelyMinimal (Causal.Minimal)",
+   "causally_arc_connected: causallyArcConnected_of_dual, causallyArcConnected_dual ← Causality.dual_causallyArcConnectedOn at ⊤ (Causal.ArcConnected; CausallyArcConnected := CausallyArcConnectedOn ⊤)",
+   "causally_plain: causallyPlain_of_dual, causallyPlain_dual ← Causality.dual_causallyPlain (Causal.Properties)",
+   "tarentin: tarentin_of_dual, tarentin_dual ← Causality.dual_tarentin (Causal.Properties)",
+   "time_function: hasTimeFunction_of_dual, hasTimeFunction_dual ← Causal.LadderDual.hasTimeFunction_dual_iff, proved in Dual.lean (the library's Causality.dual_hasTimeFunction is in Causal.HalfLitDual, a witness module importing Causal.Ladder.Rules: importing it would forbid the witnesses, the main users, from importing Dual, and forbid Rules from importing Dual)",
+   "curves_extend: curvesExtend_of_dual, curvesExtend_dual ← Causal.LadderDual.curvesExtend_dual_iff, proved in Dual.lean (the library's Causality.CurvesExtend.dual is in Causal.LemmaKBare, which imports Causal.Model.CurvesExtendModels; the proof's ingredients CurveOn.neg and Inextensible.dual_reverse are ETT-layer, Causal.Inextensible)",
+   "locally_push_up: locallyPushUp_of_dual, locallyPushUp_dual ← Causality.dual_locallyPushUp (Causal.LadderLocal)",
+   "locally_causally_open: locallyCausallyOpen_of_dual, locallyCausallyOpen_dual ← Causality.dual_locallyCausallyOpen (Causal.LadderLocal)",
+   "chronal_neighbours: chronalNeighbours_of_dual, chronalNeighbours_dual ← Causality.dual_chronalNeighbours (Causal.LadderLocal)"
+  ],
+  "one_sided": [
+   "causally_open_future: no dual lemma (its dual C.dual.CausallyOpenFuture, the past form, is not a node). Rule causallyOpen_of_future_of_past : C.CausallyOpenFuture → C.dual.CausallyOpenFuture → C.CausallyOpen (causallyOpen_iff read backwards). The past form is derived on C.dual by the generated rules once a two-sided fact is transported (C.CausallyOpen ⊢ C.dual.CausallyOpenFuture via causallyOpen_dual and CausallyOpen.future).",
+   "locally_causally_open_future: no dual lemma; rule locallyCausallyOpen_of_future_of_past : C.LocallyCausallyOpenFuture → C.dual.LocallyCausallyOpenFuture → C.LocallyCausallyOpen (the definition)."
+  ],
+  "pair": [
+   "le_nested: leNested_of_dual, leNested_dual ← Causality.dual_leNested_iff (Causal.NestedCausalities); pattern on the first causality",
+   "curve_nested: curveNestedOn_of_dual, curveNestedOn_dual ← Causality.dual_curveNestedOn_iff (Causal.NestedConverse); pattern on the first causality"
+  ],
+  "count": "38 rules (16 × 2 two-sided, 2 introductions, 2 × 2 pair) over 40 theorems (the 2 local iffs are not rules). The dispatch's '13 causality-sort nodes' are 18 in the ladder as it stands: all 18 are covered (16 by transport, 2 one-sided by introduction).",
+  "not_given_a_rule": [
+   "ChronalPastNeighbours, NoPastEndpoint (conjuncts of chronal_neighbours and no_causal_endpoint, past-based; not nodes). DEC-166(a) renames them to a future base: no rule mentions them, so for Dual.lean that refactor is a rename (dual_chronalNeighbours's statement does not change).",
+   "IsCausalIso.dual (Causal.CausalIsoInvariance): not a ladder node.",
+   "the …On W forms (dual_tarentinOn, dual_pushUpOn, dual_causallyPlainOn, dual_globallyHyperbolicOn, Precausality.dual_absolutelyMinimalOn, …): not nodes.",
+   "no_causal_endpoint (dual_noCausalEndpoint): named a ladder id in LadderLocal's docstring but not a [[property]] of programme/ladder.toml."
+  ]
+ },
+ "closure_pairs": {
+  "model": "dual_closure.py: literals (property, side), side 0 = C, side 1 = C.dual, at a bare topological space. Rules: the 19 emitted edges without standing on each side, transport of the 16 two-sided nodes, the 2 introductions.",
+  "cross_pairs": "648 single-property cross pairs (18 × 18 × 2 directions): 56 derived, 550 refuted (by a [[fails]] counterexample or its time reversal, lacks propagated backwards through the introductions: e.g. the half-lit line has causally_open_future and lacks causally_open, so it lacks the past form), 42 unknown, each in both directions: 32 involve curves_extend; 4 are strongly_causal(_open) ⇒ is_causal, implied only under T1 (a standing edge, not fired on a bare space); 2 each strongly_causal ⇏? strongly_causal_open, causally_plain ⇏? locally_push_up, chronal_neighbours ⇏? absolutely_minimal.",
+  "exactness": "DualExact.lean (all 648, derived as examples, the 592 others as fail_if_success) elaborates with Dual imported: the tactic derives exactly the model's closure. Each of the 592 negatives, run as a plain example, fails by 'exhaustive search', none by the depth or application limit.",
+  "same_side": "No same-side pair is derived only through time reversal, from any 1, 2 or 3 properties (checked in the model), and Test.lean's 352 examples replay unchanged with Dual imported (its 310 negatives still fail).",
+  "shipped_in_DualTest": "425 examples. Hand-written 24 (21 derived, 3 not derived): more than one reversal (C.dual.dual, C.dual.dual.dual), the introductions, causally_open_future ⇏ its past form (one-way membrane), le_nested and curve_nested both ways and LeNested C C' ⇏ LeNested C.dual C', standing-instance rules across reversal (T1: strongly_causal ⇒ is_causal of C.dual; T2+second countable: globally_hyperbolic ∧ tarentin ⇒ time_function of C.dual), the half-lit line's eleven positive dual facts as one conjunction, its ⇏ C.dual.CausallyOpenFuture, a term argument, two negations read backwards. Generated 401: 56 derived cross pairs, 7 conjunctive rules used on C.dual with their two-sided premises on C (e.g. absolutely_minimal(C) ∧ locally_causally_open_future(C.dual) ⇒ causally_open_future(C.dual)), 338 refuted cross pairs (all 275 P(C) ⇏ Q(C.dual), and the 63 P(C.dual) ⇏ Q(C) with a one-sided end). Only refuted pairs are shipped as negatives, so DualTest cannot go stale as the ladder grows; a derived example can, if an emitted edge is withdrawn or gains an `under`. `python3 -I campaign/T-tac-ladder-dual/dual_closure.py shipped X` reproduces DualTest.lean byte for byte (checked)."
+ },
+ "timing": "Test.lean replayed with `import Causal.Ladder.Dual` added (scratch copy; Test.lean not edited), 3 runs each, `lake env lean -DwarningAsError=true`: 4.43–4.89 s without, 4.70–5.15 s with; imports alone load in 1.0 s either way, so elaboration goes from about 3.5 s to 3.7–4.1 s. The TimeSign variant cost 6.2–6.3 s. DualTest.lean: 8.9 s (425 examples); DualExact.lean: 12 s (648).",
+ "aesop_could_not": [
+  "Time reversal is entered only where a C.dual occurs in the goal or a hypothesis (the pattern). A goal about C from hypotheses about C never goes through C.dual. Nothing is lost on the current ladder (no same-side pair needs it), but an edge that is not invariant under time reversal could make such a detour needed.",
+  "C.dual.dual is not normalised to C (simp is off, Causality.dual is not reducible). A hypothesis on C.dual.dual is shrunk by the P_of_dual rules; a goal on C.dual.dual is reached by transport (its subterms are pattern instances) or by the builtin assumption, which matches up to default-transparency defeq (C.CausallyOpenFuture ⊢ C.dual.dual.CausallyOpenFuture closes that way, not by a rule).",
+  "Depth: every forward step counts towards maxRuleApplicationDepth, 30 by default and not set by the causal_ladder macro. Transport doubles a saturation: from seven facts of C, a conjunction of eleven goals about C.dual closes, one of twelve with a C.dual.dual conjunct stops at the depth (measured). Single goals are unaffected; the witnesses already close conjunctions one conjunct at a time.",
+  "A one-sided fact is never transported, by design: C.CausallyOpenFuture does not give C.dual.CausallyOpenFuture (refuted by the one-way membrane and the half-lit line); the past form is reached only through a two-sided node or a conjunctive rule on C.dual.",
+  "Precausality-level duals: a hypothesis `C.toPrecausality.dual.AbsolutelyMinimal` is not read by the rules (it is not reducibly `C.dual.toPrecausality`, though equal by rfl, Causality.dual_toPrecausality). It closes the goal C.dual.AbsolutelyMinimal by defeq assumption but does not give C.AbsolutelyMinimal (checked).",
+  "Pair nodes: the pattern is on the first causality only, mixed facts such as LeNested C.dual C' have no rule, and le_nested ⇒ curve_nested is still not a rule (sort pair), so the dual of a LeNested does not give a CurveNestedOn."
+ ],
+ "patterns_mined": {
+  "pattern": "The `dual_*` transport in `have`s before causal_ladder (kb/0091), and the negations `fun h => X_not_P (Causality.dual_P.1 h)`. With Dual imported, the haves state the base causality's own facts and causal_ladder does the transport both ways.",
+  "would_shorten": [
+   "Causal/HalfLitDual.lean: 11 dual_* steps; halfLightLine_dual_separates_causallyOpenFuture needs no transport and no separate halfLightLine_dual_not_locallyCausallyOpenFuture (campaign/T-tac-ladder-dual/HalfLitDualShort.lean re-proves the 18-conjunct statement from the 7 base facts, typechecked, 2 s)",
+   "Causal/NotchedPlane.lean: 11 dual_* steps (lines 574–891)",
+   "Causal/OneWayMembraneChronal.lean: 6 dual_* steps (lines 541–569), and the seven negations of kb/0112",
+   "Causal/OneWayMembrane.lean: 15 dual_* steps (lines 738–821); it does not use causal_ladder yet"
+  ],
+  "not_done": "No existing proof was changed (churn); closers will pick it up once Dual is imported where they work."
+ },
+ "rulings": {
+  "DEC-163": "Both causal openness notions stay nodes: the introduction causallyOpen_of_future_of_past is the only rule joining them besides the generated CausallyOpen.future, and DualTest's negatives (one-way membrane, half-lit line) check that causally_open_future does not give its past form.",
+  "DEC-166": "(a) no rule mentions a past-based notion, so renaming them to a future base is a rename for this file; (b) OneSidedBoundary has no rule.",
+  "DEC-167": "With gluing every causality is absolutely minimal: the pair absolutelyMinimal_of_dual / absolutelyMinimal_dual becomes redundant (absolute minimality would hold of C.dual outright, a [[fact]] rather than a transport). No other rule here depends on the reading."
+ },
+ "proposals": [
+  "Integration (for the master): add Causal.Ladder.Dual and Causal.Ladder.DualTest to Causal.lean. Then either (a) have emit-lean write `import Causal.Ladder.Dual` into Rules.lean, so every causal_ladder user reasons across time reversal (no cycle: Dual does not import Rules; cost on non-dual goals 0.2–0.6 s over Test.lean's 352 examples), or (b) leave it opt-in: modules that need it import Causal.Ladder.Dual. (a) is recommended. Dual must never import a witness module (as HalfLitDual), since the witnesses are its users.",
+  "Basic.lean: set maxRuleApplicationDepth in the macro (60, say). Forward steps count towards it, and termination does not rest on it (the pattern invariant bounds the saturation; maxRuleApplications := 200 bounds the work). Also mention Causal.Ladder.Dual in its docstring.",
+  "Ladder field and emit-lean: a [[property]] key `dual` naming its time-reversal lemma (`Causal.Causality.dual_isCausal`, an iff C.dual.P ↔ C.P) for two-sided nodes, and for a one-sided node `two_sided = \"causally_open\"` with the introduction's witness. `check` resolves it and checks the layer; emit-lean emits the two wrappers (an aesop rule must be a declaration, so emit-lean writes `theorem … := (dual_P).1 h` lines or the ladder names wrapper theorems) and generates DualTest from the literal closure (dual_closure.py is a stdlib prototype that imports tools/ladder.py). This would make Rules.lean and Dual.lean one generated file and DualTest a generated test that cannot go stale.",
+  "Hoists (kb/0047, same full names): Causality.dual_hasTimeFunction from Causal.HalfLitDual into Causal.CurvesExtend (where HasTimeFunction is defined), and Causality.CurvesExtend.dual from Causal.LemmaKBare (model layer) into Causal.CauchyExtension (where CurvesExtend is defined; its ingredients are in Causal.Inextensible, already in CauchyExtension's closure). Then Dual's hasTimeFunction_dual_iff and curvesExtend_dual_iff become one-liners from them and the duplicated proofs go."
+ ],
+ "extra_decls": [
+  "Causal.LadderDual.hasTimeFunction_dual_iff (C.dual.HasTimeFunction ↔ C.HasTimeFunction; a duplicate of Causality.dual_hasTimeFunction under another name)",
+  "Causal.LadderDual.curvesExtend_dual_iff (C.dual.CurvesExtend ↔ C.CurvesExtend; the iff form of Causality.CurvesExtend.dual, ETT layer)",
+  "Causal.LadderDual.causallyOpen_of_future_of_past, Causal.LadderDual.locallyCausallyOpen_of_future_of_past",
+  "Causal.LadderDual.{P}_of_dual and {P}_dual for the 16 two-sided nodes and for leNested, curveNestedOn (rule wrappers)"
+ ],
+ "kb_proposals": [
+  "causal_ladder across time reversal: import Causal.Ladder.Dual; a goal about C.dual is closed from facts about C (two-sided nodes transported both ways; the past forms of the one-sided nodes come from the generated rules on C.dual). Transport fires only where a C.dual occurs in the goal or a hypothesis (aesop rule pattern `Causality.dual C`); one-sided facts are never transported (T-tac-ladder-dual).",
+  "A forward rule that grows its term (C.P → C.dual.P) loops in aesop, whose deduplication is reducible-rigid: guard it with a rule pattern on the grown subterm, so it fires only where that subterm already occurs. A guard class with an outParam also works but makes every call pay.",
+  "aesop's maxRuleApplicationDepth (30) counts forward steps: a long conjunction closed by one causal_ladder can hit it once time reversal doubles the saturation; close conjuncts one at a time."
+ ],
+ "notes": "For the master: (1) DualTest.lean's generated sections reflect programme/ladder.toml as it stood during this run (25 implications, 78 fails); its negatives are refuted pairs only, so a later ladder change cannot turn them red, but a withdrawn edge can turn a derived example red: regenerate with `python3 -I lean-causal/campaign/T-tac-ladder-dual/dual_closure.py shipped lean-causal/Causal/Ladder/DualTest.lean` (it imports tools/ladder.py read-only). (2) tests/test_programme.py: 72/72 pass with the new files (the lean_index now sees the two new modules; no emitted rule or test changes). (3) The scratch replay of Test.lean with Dual was a copy in /tmp with the import added: `sed 's/^import Causal.Ladder.Rules$/&\\nimport Causal.Ladder.Dual/' Causal/Ladder/Test.lean`. (4) No git command was run; other scratch in /tmp/ladder-dual."
+}
