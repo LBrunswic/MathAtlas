@@ -193,3 +193,14 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: f025740 5f52f56 (+ this) (hub) · 1fbdb0f (v2)
 - for the planner (CHECK-1 of -defs): Appendix A's restatement of the definition (v1 l.731: without the two clauses, nonsingular one way); the Expressivity sentence's 'Ergodicity' (group vs kernel); kernel ergodicity undefined in v2 while zero weights are allowed (read in Definition 3.1's sense Theorem 3.4 fails: the identity move with weight 1); l.319's 'a continuous family of EGFs'; the 'ergodic measures ξ' of l.142, l.216
 - next: top up with T-egf-correct-families
+
+## 2026-11-22 21:00 · wave of 2 (topped up) · T-egf-correct-typos; T-egf-repro-sphere (continues)
+- adoption (master): C-40 to C-43 (typos) under DEC-141 (579600d)
+- T-egf-correct-typos (correct): C-40 to C-43 applied at eight sites (v2 f3a75ad); CHECK-1 minor (one marker at the end of a display row, harmless); each fix agrees with its Lean reading (EGF.coordJac, EGF.IsBackwardPolicy, EGF.GenerativeFlow)
+- T-egf-repro-sphere (repro): still running
+- corrections: 7 found, 2 proved, 6 adopted, 34 applied, 0 reviewed; 3 superseded
+- v2: f3a75ad EGF-C40..C43 (nine batches since camera-ready)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓
+- commits: 579600d c620586 3b42666 (+ this) (hub) · f3a75ad (v2)
+- for the planner: l.759's 'for any $Y\subset\Statespace$' without 'measurable' (outside C-42's lines)
+- next: top up with the next corrector (`wave`: -families or -captions)
