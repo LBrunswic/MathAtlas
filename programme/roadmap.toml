@@ -193,7 +193,7 @@ id = "T-lad-ers-restart-nodes"
 title = "slice_restart (Causal.Causality.SliceRestart) and frontier_stays_in (Causal.Causality.FrontierStaysIn), kept apart, as named localisation hypotheses of the ERS consequences (DEC-162 accepting OQ-57 (b)'s reading as taken): [[consequence]] entries for ers_theorem_4_64 and its corollaries, ers_theorem_4_82_of_sliceRestart and ers_theorem_4_75 (RestartsIn), each naming the two in `under`; nodes only if the keeper finds a parameter-free form"
 stream = "ladder"
 kind = "ladder"
-status = "ready"
+status = "done"
 oq = "OQ-57"
 owner = "keeper"
 priority = 5
@@ -201,6 +201,7 @@ depends = ["T-abs-ers-thm-4-64"]
 evidence = "Ruled 2026-11-22 by DEC-162 (OQ-57, 77, 78, 81, 73): ERS pattern accepted: GHD read 'S Cauchy', PDE facts as named localisation hypotheses (layer 3 = the Lorentzian package of DEC-147); rows may be marked once localisations are provided. Moved blocked -> planned by the /ett-programme master: the ruling reshapes the scope, so the planner rescopes this target against it before it is ready. Previous evidence: Causal/ErsUniqueness.lean:211 (SliceRestart: 'at every frontier point p of R in L at which the frontier is spacelike in W, Q p'; 4.82's hstep definitionally, :722), :226 (FrontierStaysIn), :466 (ers_theorem_4_64: hstay, hstep). Binder papers/ers-predictability (rebound 2026-11-21): proposed ids slice_restart, frontier_stays_in, open in rows Thm 4.64, Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73, Thms 4.75, 4.79, 4.80, 4.82; they replace the 2026-11-20 binder's use of cauchy_slice, which is the A4 field of a CBG local model (Causal.CBG.LocalModel.SliceFuture) and is not what the fixed-background theorems consume. OQ-57 (b) asks whether FrontierStaysIn stays apart, is folded into the restart, or becomes a ladder/localisation node. Both are hypotheses with parameters (W, S, R, L, Q), not predicates on one causality: the keeper chooses node or edge hypothesis. Rescoped 2026-11-22 (planning run on DEC-147–206): DEC-162 accepts the ERS pattern as taken: GHD read 'S Cauchy', PDE facts as named localisation hypotheses, layer 3 in DEC-147's Lorentzian package. For OQ-57 (b) the reading taken was FrontierStaysIn apart from the restart. Both carry parameters (W, S, R, L, Q: Causal/ErsUniqueness.lean:211, :226), so the planner expects edge hypotheses on consequences; the choice is the keeper's. Consequences to record (witnesses read by #check): ers_theorem_4_64 (:466), ers_remark_4_67 (:486), ers_corollary_4_68 (:594), ers_corollary_4_71 (:662), ers_corollary_4_73 (:691), ers_theorem_4_82_of_sliceRestart (:722), ers_theorem_4_75 (Causal/ErsUnions.lean:677), and T-abs-ers-4-64-second-countable's forms if they are done by then. Layer 3: T-loc-quasilinear-slice (slice_restart) and T-loc-quasilinear-frontier (frontier_stays_in). Ready: its dependency is done and DEC-162 settles the form."
 added = "2026-11-21"
 proposed_by = "programme-planner (T-abs-ers-thm-4-64 closer finding, OQ-57)"
+commit = "e8f35dd"
 
 [[target]]
 id = "T-lad-plain-separations"
@@ -1257,13 +1258,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["curves_extend", "is_causal", "globally_hyperbolic"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-abs-curves-extend-second-countable"]
 evidence = "lean-causal/campaign/T-abs-curves-extend-second-countable/AUDIT-1.json, build.details, observation (a): the proof of exists_inextensible_of_t1_secondCountable yields a morphism with tailFreeMor X Z f, so the trimmed curve is a reparametrised sub-arc of the inextensible one, and 'a one-line corollary exposing the sub-arc form … would answer' Causal/CBG/SubExtensionAbstract.lean:84–90. That note: exists_mem_image_inf 'is neither proved nor refuted … A counterexample must have an inextensible curve of A ∩ B lying on no inextensible curve of A (or of B) through a reparametrisation: given both, the paper's end-point argument … concludes. The library has curve extension only in the image form … which is why the step is open.' The scaffold sorry (scaffold/CausalScaffold/SubExtension.lean:83, SORRY(lem:C_ext_connexe)) names (1) relative extension with reparametrisation, (2) one exit end point (a limit; Hausdorff), (3) a short curve inside A ∩ B at an end point in A ∩ B; Causal/CBG/CausalConvex.lean:108–117 says the same. Argued, for the closer, with [T2Space N] [SecondCountableTopology N] and S a Cauchy surface of M. (a) Sub-arc form: a causal curve c of an open W over an interval I has I₀ ⊆ I with c '' I₀ = c '' I, c tail-free on I₀ (Causal.exists_tailFree_retraction, Causal/CurvesExtendSecondCountable.lean:383), and an inextensible γ of W over J with φ : I₀ → J strictly monotone, ordconnected image, γ ∘ φ = c on I₀ (AbstractDev.exists_isMaximal_of_chainsInherit with tailFreeMor_chainsInherit, :1097, and tailFreeMor_inextensible_of_isMaximal, :1325: the proof of exists_inextensible_of_t1_secondCountable, :1376, exposed). (b) Let c be inextensible in A ⊓ B, trimmed to I₀; (a) in A and in B gives γ_A, γ_B. φ(S) is a Cauchy surface of A and of B (IsCauchyEmbedding.isCauchySurfaceOn_of_isCauchyInclusion, Causal/CBG/CausalConvex.lean:668), so γ_A meets it at s_A and γ_B at s_B; if either lies in the image of φ_A (φ_B), c meets φ(S). (c) Both beyond the same end, say above. If the top e_A of φ_A's image is attained, c has a last value c(t₁) ∈ A ∩ B (open); past the last parameter e' up to which γ_A stays at c(t₁), either e' = s_A (so c(t₁) ∈ φ(S)) or γ_A takes inside A ∩ B a value off c(I) (a value c(t) taken again would give c(t) ≤ c(t₁) ≤ c(t), hence equality, N being causal: hφ.globallyHyperbolic_target.1), and c followed by that piece (CurveOn.concat, Causal/Curves.lean:154) strictly extends c in A ⊓ B: a contradiction. If it is not attained, I has no trimmed final piece, p := γ_A(e_A) is the limit of c at the top, p ∉ c(I) (tail-freeness and causality), and p ∈ B would extend c through p in A ⊓ B; so p ∈ A ∖ B, and B gives p' ∈ B ∖ A with p' = p by T2: a contradiction. (d) Opposite ends, say γ_A above and γ_B below: x_B ≤ c(t) ≤ x_A along a segment of γ_B followed by one of γ_A, a causal curve of N (CurveOn.mono_opens, CurveOn.concat) lying on an inextensible curve of N (curvesExtend_of_t1_secondCountable) that meets the Cauchy surface φ(S) of N at most once ((hφ.isCauchySurface_image hS).inter_subsingleton): x_A = x_B, and c(t) = x_B by causality. So c meets φ(S), with no causal arc-connectedness of N (unlike eq_of_mem_image_inter, which (d)'s device may also free of hDac). Then isCauchySurfaceOn_inf on a second countable N. The closer may split (a) from (b)–(d) through the scaffold; if the argument fails it reports where, and the target becomes research. Value: lem:C_ext_connexe's findings 1 and 4 ('φ(Σ) is a Cauchy surface of A ∩ B … stays unproved even over the geometry', papers/ett/ledger/ledger.json) become proved on ETT's spacetimes (T2, second countable, ETT.tex:255), for any causality. The scaffold sorry, posed without second countability, stays; its retirement or restatement is the master's with /atlas-team, whose ledger row it is. Layer 1: a new ETT-layer module importing Causal.CurvesExtendSecondCountable and Causal.SubExtension. The sub-arc form is also the extension with reparametrisation that T-loc-quasilinear-frontier's evidence found missing ('CurvesExtend extends segments only'), and that Causal/CBG/Injective.lean:82–84 gives as the reason Lemma 3.3 carries a time function. Refined 2026-11-22 (planning run on DEC-147–206): Re-read against the rulings. T-abs-c-ext-connexe-second-countable (65646df) is done: Causal.CExtConnexeSecondCountable gives a Cauchy embedding's open-embedding, T2 and second-countability transfers (:134–146) and isCauchySurfaceOn_inf_iff_of_secondCountable (:217). That iff reduces the Cauchy half of this target to the meeting step, so the new module imports it beside Causal.CurvesExtendSecondCountable and Causal.SubExtension. The scaffold sorry IsCauchyEmbedding.exists_mem_image_inf (scaffold/CausalScaffold/SubExtension.lean:83) is still the step. DEC-167: the statement is over every causality and unaffected. DEC-190 makes the scaffold's statement without second countability a candidate for restatement, which is the master's with /atlas-team (the ETT row). Stays ready."
 added = "2026-11-21"
 proposed_by = "target-auditor (T-abs-curves-extend-second-countable, AUDIT-1 observation (a)), scoped by programme-planner (planning run after wave 21: the master's dispatch of 2026-11-21, the audit and report of T-abs-curves-extend-second-countable)"
+commit = "5d58a2f"
 
 [[target]]
 id = "T-abs-sc-open-without-tarentin"
@@ -1421,13 +1423,14 @@ stream = "abstract"
 kind = "abstract"
 uses = []
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-abs-gluing-hausdorff"]
 evidence = "DEC-160 (OQ-40) keeps both the pair form (no hypothesis: Causal/GluingHausdorff.lean:213, isClosed_correspondingPairs) and the compact form (:359, isClosed_nonHausdorffLeft_of_isCompact): 'that local compactness becomes a ladder localisation property'. The keeper adds no property without a Lean definition (.claude/agents/ladder-keeper.md); this target names it. It is pure topology (uses = []) and ETT layer (Causal.GluingHausdorff imports no model). Witnesses: Causal.Gluing.not_isClosed_nonHausdorffLeft_expGluing, where the property fails and H is not closed, and a gluing with the property (any gluing whose corresponding points are locally bounded). The name and the predicate's arguments (the open embedding, or the gluing datum of Causal.Gluing) are the closer's. T-lad-gluing-nodes follows. Ready."
 added = "2026-11-22"
 proposed_by = "programme-planner (planning run on the author's rulings DEC-147–206, d1c40af)"
+commit = "5eed9ff"
 
 [[target]]
 id = "T-abs-hoist-lemma-k"
@@ -1772,13 +1775,14 @@ kind = "localisation"
 model = "E_alpha"
 provides = ["causally_plain"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-loc-ealpha-cauchy"]
 evidence = "DEC-168 (OQ-16, OQ-28): keep causal plainness, and add targets to prove it for the models (E_α, E_0, Lipschitz metrics: layer 3). For E_α, apply Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours (Causal/CausallyPlainLocZ.lean:202) to massive_pushUp (Causal/Model/Massive.lean:195) and massive_chronalNeighbours (Causal/Model/EAlphaCauchy.lean:533), and to cosmicString_pushUp and cosmicString_chronalNeighbours (:836, :850). Or apply it once to staticCausality (its pushUp, and chronalNeighbours at :187), for every static ℝ × X. A new module importing Causal.Model.EAlphaCauchy and Causal.CausallyPlainLocZ, so that it does not touch T-loc-ealpha-tidy's file. The ladder's half-plane entries (static) gain plainness if the keeper wants it. Binders: T-bind-ealpha-entries adds causally_plain to the E_alpha entries. Ready."
 added = "2026-11-22"
 proposed_by = "programme-planner (planning run on the author's rulings DEC-147–206, d1c40af)"
+commit = "bf17b0b"
 
 [[target]]
 id = "T-loc-e0-plain"
