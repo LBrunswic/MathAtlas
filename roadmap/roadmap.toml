@@ -2294,12 +2294,13 @@ title = "Curate Yamabe § 6: n ≥ 1 standing (l.615's « or ∂Σ = ∅ » remo
 stream = "yamabe"
 kind = "package"
 package = "lean-yamabe"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 4
-evidence = "DEC-186 (OQ-74, OQ-44)"
+evidence = "DEC-186: lem:stability and rem:sign marked on the model of record; OQ-44/OQ-74 off the other § 6 rows (they wait on Mfd.rellich_kondrachov)"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
+commit = "fd1141b"
 
 [[target]]
 id = "T-yamabe-companion"
@@ -2389,12 +2390,13 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["lem:positivity"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
-evidence = "REPORT-2.json (T-yamabe-analysis round 2), the obstruction for Mfd.rellich_kondrachov (Rellich.lean:469–477): « Mathlib has no compactness criterion in L^p ». Its step (3) reads: « the total-boundedness wrapper: … the finite-rank map from coefficients to Lp ℝ 2 μ (indicatorConstLp of the cells V_i ∩ φ_i⁻¹ C_z) sends a closed ball to a compact set, so the W^{1,2}-ball is totally bounded in the complete Lp ℝ 2 μ (TotallyBounded.closure, isCompact_of_isClosed, IsCompact.tendsto_subseq) ». That step uses no manifold, so it is cut out of the manifold half (T-yamabe-analysis) and can run now, independently of T-yamabe-integrate-r2. A new file in lean-yamabe's scaffold that imports Mathlib only, so it graduates as soon as it is sorry-free. No Kolmogorov–Riesz criterion in Mathlib at this pin (REPORT-2; the planner's grep of lean-yamabe/.lake/packages/mathlib finds none). Search Mathlib for the total-boundedness and finite-dimensional compactness lemmas first. The conclusion must be usable by T-yamabe-analysis on functions M → ℝ (MemLp f 2 μ and eLpNorm (u (φ k) − f) 2 μ → 0), not only on Lp elements"
+evidence = "Total boundedness in Lp from finite-rank approximation (sharp), the subsequence form, the p = 2 form matching Mfd.rellich_kondrachov's goal; strict Yamabe/RellichCriterion.lean; audit minor"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "388ae54"
 
 [[target]]
 id = "T-yamabe-integrate-r3"
@@ -2436,12 +2438,13 @@ kind = "close"
 paper = "perforated"
 package = "lean-yamabe"
 labels = ["def:capstar", "lem:capstar", "lem:capacitary", "lem:holder"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
-evidence = "DEC-185 asks for yamabe's thm:lower-bound to be closed from the companion BrunswicPerforated, ledgered as papers/perforated (T-yamabe-companion, 3af8e6b: 31 rows, none formalized, Lean root lean-yamabe). This is the first link of thm:main's proof (perforated.tex § 4, l.455–516). lem:capacitary is « Immediate from eq:capineq » (l.474–476). lem:holder (l.478–495) is Hölder on each component, then Cauchy–Schwarz, then a Lagrange minimisation. The two combine into eq:linear (l.502–509). Definitions at l.155–173 (eq:ell, eq:capstar, θ) and eq:S (l.119–122). The objects fit Yamabe's MeasuredModel (strict Yamabe/Quotient.lean:472: val, tr, d, vol, bvol j). Fq is the companion's F_g, with β = c_N; infF is its λ_∂. DEC-186 accepts that layer's readings for yamabe § 6, whose Σ the companion's setting (l.311–313) contains. eq:capineq follows from cap*'s definition as an infimum. Its positivity (l.394–399) needs ℓ bounded and a Poincaré inequality, carried as model Props: the model's TraceIneq (scaffold Trace.lean:337), and T-perf-poincare's Poincaré inequality. Finiteness needs some v with ℓ(v) ≠ 0 (l.399–401). The attainment and the Euler–Lagrange system (l.401–407) need the compact trace and a W^{1,2} reading that C¹ (OQ-93 (b)) does not give: prove what the model allows and report the rest as the row's open part. New files in a Perforated/ directory of lean-yamabe's scaffold; prefer strict imports (Yamabe.Quotient), so that what is sorry-free can graduate"
+evidence = "def:capstar, lem:holder marked; lem:capstar, lem:capacitary partial on carried hypotheses (T-perf-poincare); E-L sign finding, OQ-110; strict Yamabe/Perforated/Capacity.lean; audit minor"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "388ae54"
 
 [[target]]
 id = "T-perf-star3"
@@ -2451,12 +2454,13 @@ kind = "close"
 paper = "perforated"
 package = "lean-yamabe"
 labels = ["def:constants", "thm:star3"]
-status = "ready"
+status = "blocked"
 owner = "closer"
 priority = 5
-evidence = "perforated.tex l.316–326, def:constants: λ_1 is the best Poincaré constant and C_SP the least Sobolev–Poincaré constant. thm:star3 is at l.601–618 and its proof at l.620–655: eq:binom, the bounds on ‖v‖_3, ‖v‖_4 and ‖v‖_5 by interpolation between L² and L⁶, eq:Dbound, then cases (i)–(iii). Ã enters yamabe's thm:lower-bound as « Ã depends only on the Sobolev–Poincaré and Poincaré constants of (Σ, g) » (Yamabegap.tex l.530). Independent of T-perf-capacity, so it can run in the same wave. « Both are finite because Σ is compact, connected and Lipschitz » (l.328) is T-perf-poincare's. Here the constants are definitions and the theorem holds for any finite values. λ_1 is defined as the first Neumann eigenvalue, « equivalently » the best Poincaré constant (l.320–321): the closer states which one it formalizes. eq:star is asked for u ≥ 0 (l.184–187); the proof uses t ∈ [0, 1] (eq:t). Report whether the signed form also holds (see T-perf-main)"
+evidence = "thm:star3: proof wrong at l.635/case (ii) (against the paper); the printed Ã invalid on the model (argued for a Riemannian dumbbell); the corrected theorem proved (strict Yamabe/Perforated/Star3.lean, 388ae54, audit minor); the correction of record is OQ-109"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+oq = "OQ-109"
 
 [[target]]
 id = "T-perf-main"

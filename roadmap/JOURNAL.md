@@ -704,3 +704,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: af013dc d03b9ba ef66194 dc8dca0 6a3fea0 3689eb0 9821949 106399b [+ roadmap/atlas/journal]
 - wall time: 21:40–23:00 UTC; agents in parallel: 4 closers + 1 integration agent, 6 audits
 - next: wave: T-yamabe-rellich-criterion, T-perf-capacity, T-perf-star3 (lean-yamabe, now free); T-yamabe-apply-rulings; T-hub-paper-attribute; the builder (overlay refresh for lean-gx, lean-benzecri, lean-yamabe).
+
+## 2026-11-23 00:05 · wave of 4 · T-yamabe-apply-rulings, T-yamabe-rellich-criterion, T-perf-capacity, T-perf-star3
+- T-yamabe-apply-rulings (master, done first because its marks edit strict lean-yamabe): closed. DEC-186 makes the measured-frame model of record. lem:stability and rem:sign are marked; OQ-44/74 come off the other § 6 rows, which wait on Rellich.
+- T-yamabe-rellich-criterion: closed, strict. The Lp compactness criterion, sharp; its p = 2 form closes Mfd.rellich_kondrachov's goal by exact once the chart assembly lands. Audit minor.
+- T-perf-capacity: def:capstar and lem:holder closed and marked, strict; lem:capstar and lem:capacitary partial on carried hypotheses (T-perf-poincare). E-L sign finding, OQ-110. Audit minor.
+- T-perf-star3: blocked on OQ-109. thm:star3's proof is wrong at l.635 and in case (ii), proved against the paper. The printed constant is invalid on the model, argued (not proved) for a Riemannian dumbbell. The corrected theorem is proved, strict. Audit minor (headline qualified).
+- Not dispatched: the lean-causal pair (/ett-programme), T-nonacyclic-source (the author's Overleaf source), T-hub-paper-attribute (all packages); the builder was not due.
+- gates: lean-yamabe ✓, roadmap ✓, registers ✓, atlas ✓, hub: no new red
+- commits: fd1141b 3eb9839 388ae54 3712347 [+ roadmap/atlas/journal]
+- wall time: 23:05–00:05 UTC; agents in parallel: 3 closers, 3 audits
+- next: the builder is due (overlay refresh for lean-gx, lean-benzecri, lean-yamabe); T-perf-main and T-perf-upper (after capacity), T-perf-poincare (after integrate-r2 and star3: star3 is blocked, so it waits); T-hub-paper-attribute; Rellich's manifold half (T-yamabe-analysis, planned).
