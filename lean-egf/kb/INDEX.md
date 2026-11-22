@@ -32,3 +32,11 @@ docstring contract is its `0006`; weakest hypotheses `0007`; no quiet weakening 
 | [0023](entries/0023-sphere-toolkit.md) | pattern | Spheres, SO(n), SU(d) and S¹: the toolkit of EGF.SphereFamilies; name instances on matrix groups |
 | [0024](entries/0024-mixing-under-invariance.md) | pattern | Mixing under invariance; deterministic kernels are never summably mixing; OQ-47's vacuous reading |
 | [0025](entries/0025-pin-pitfalls-families.md) | pitfall | Pitfalls at this pin from the families and mixing targets |
+| [0026](entries/0026-fourier-torus-global-volume.md) | pattern | Fourier analysis on the torus with the global volume (AddCircleMulti's local Haar measure) |
+| [0027](entries/0027-torus-ergodicity-without-gap.md) | pattern | Ergodicity on tori without a spectral gap; NoAtoms of volume on AddCircle is not an instance |
+| [0028](entries/0028-integer-matrices-sl2z.md) | pattern | Integer matrices without periodic vector; SL₂(ℤ) = ⟨S, T⟩; an irreducible cubic |
+| [0029](entries/0029-so-n-toolkit.md) | pattern | SO(n): named instances, transitivity on the sphere, the SO(3) computations |
+| [0030](entries/0030-transitive-action-ergodic.md) | pattern | Ergodicity of a transitive compact-group action by Fubini; dense subgroups through aestabilizer |
+| [0031](entries/0031-def-egf-of-record.md) | convention | def:egf of record is EGF.IsEGFErgodic; invariance under quasi-measure-preserving generators |
+| [0032](entries/0032-cheap-witnesses-circle-atoms.md) | pattern | Cheap witnesses on the circle and on atoms |
+| [0033](entries/0033-pin-pitfalls-tori-sphere-def.md) | pitfall | Pitfalls at this pin from the tori, sphere-density and def:egf targets (symmDiff precedence) |
