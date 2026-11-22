@@ -170,3 +170,16 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: 9f631d2 52e756d (+ the roadmap status and this) (hub) · 487763f (v2)
 - for the planner (CHECK-1 of the algorithm batch): l.386's 'b > 0' against the control's b condition (an optional C-35 round 2), which ν_train the b condition refers to and the estimator's missing sum over trajectories (a typo entry), the bound the b condition buys (an optional strengthening), and a found entry for the experiments batch: which loss form, b placement and backward factor the reported runs used (facts from T-egf-repro-report)
 - next: resume T-egf-repro-sphere and top up: `wave` gives the next corrector (T-egf-correct-ergodicity)
+
+## 2026-11-22 21:00 · wave of 2 (topped up) · T-egf-correct-ergodicity; T-egf-repro-sphere (continues)
+- rulings: DEC-207 (the hub's public mirror LBrunswic/MathAtlas) concerns the hub, not v2 or the reproduction repository, which stay private; no egf target moved
+- T-egf-correct-ergodicity (correct): C-29, C-39, C-21, C-30 applied (v2 0ff8347). CHECK-1 major: C-21's remark claimed the lifted partial sums work for L² densities (false for unbounded ones: the resampling kernel and F_term = (3/4)x^{-1/4}λ); the lead-in to Theorem 3.4 (l.261) and the Cesàro contrast (l.271) still announced the old hypothesis; the Discussion (l.664) described the replaced proof. The master extended C-21 (bounded densities, general ones after truncation), C-29 (l.261, l.271) and C-39 (l.664) in the register and dropped the unchecked Conze citation as C-30's adopted text does (main.bbl regenerated); one fix round; CHECK-2 minor. v2 is now 21 pages (the main body still ends on page 9)
+- T-egf-correct-families made ready (C-28, C-31, C-32, C-33, C-49 adopted; its last dependency was -ergodicity)
+- T-egf-repro-sphere (repro): still running (code at 4d5b197: the DEC-142 backward factor, the four NLL scorings, the main queue)
+- corrections: 11 found, 2 proved, 8 adopted, 28 applied, 0 reviewed; 3 superseded
+- ledger: 12/16 rows closed (bucket A), unchanged
+- v2: 0ff8347 EGF-C29,C39,C21,C30 (seven batches since camera-ready); repro: 4d5b197 (sphere in progress)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓ (also from the tracked main.bbl alone); lean-egf untouched
+- commits: 6064e77 cf0f61c (+ this) (hub) · 0ff8347 (v2)
+- for the planner (CHECK-1/2): l.697-698's motivation and 'two transformations are sufficient' against the 'four' of l.149, l.306, l.321; l.702's spectral-gap sentence (C-30's criterion without λ invariant; 'spectral gap' no longer defined); a definition of a kernel's ergodicity (Walters' invariant sets); π*(x,A) against π*(s→Y); the visible equation-counter gap (39)→(46); l.701's 'summably mixing' against the remark's λ̂ = λ
+- next: resume T-egf-repro-sphere and top up with the next corrector (`wave`: -defs or -families)
