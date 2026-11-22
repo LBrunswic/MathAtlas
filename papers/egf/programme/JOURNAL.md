@@ -273,3 +273,17 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - corrections: 73 entries (13 found, 3 proved, 1 adopted, 56 applied; 3 superseded)
 - asks: OQ-106 (open); the eight questions of fact for the experiments batch (21:52 entry); the seventeen v2 batches await review
 - next: T-egf-correct-precision, with T-egf-repro-sphere continuing
+
+## 2026-11-23 00:15 · wave of 2 (topped up) · T-egf-correct-precision, T-egf-correct-style; T-egf-repro-sphere (continues)
+- adoption (master): C-64 to C-70 (c2441d2), C-71, C-72 (1082324) under DEC-141
+- T-egf-correct-precision (correct): C-64 to C-70 applied (v2 00f8f6f); CHECK-1 minor; C-65's inline definition of m put in words after the check (three underfull lines in Algorithm 1 removed, as the checker tested)
+- T-egf-correct-style (correct): C-71, C-72 applied (v2 166f242); CHECK-1 minor; its sweep found no remaining slip of this session's kinds
+- T-egf-repro-sphere (repro): still running
+- corrections: 4 found (C-34, C-36, C-46, C-63: the experiments batch), 3 proved (C-22, C-23 superseded; C-73 on OQ-106), 1 adopted (C-24 superseded), 65 applied, 0 reviewed
+- ledger: 14/16 rows closed (bucket A), unchanged
+- v2: 166f242 EGF-C71,C72 (twenty batches since camera-ready)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓ (lean-egf and the ledger unchanged since the 22:38 gate)
+- commits: c2441d2 6538bb2 dc4ad2a 1082324 c008bd2 5f4895f (+ this) (hub) · 00f8f6f 166f242 (v2)
+- what remains: T-egf-repro-sphere (running), then T-egf-repro-ablations, then T-egf-repro-report; T-egf-correct-experiments (C-34, C-36, C-46, C-63) after the report and the author's answers to the eight questions of fact (21:52 entry); T-egf-correct-bg-direct (C-73) blocked on OQ-106; T-egf-spectral-gap-so3 (an optional stretch); T-egf-v2-package last
+- for the planner (optional): missing articles in the captions of Figures 1b, 2, 3 and the depth ablation; 'the MLPs training', 'Learning rate is kept' in Appendix E; l.512 'An EGF family is built …' (with OQ-106 (b))
+- next: wait for the sphere reproduction; no corrector batch is dispatchable
