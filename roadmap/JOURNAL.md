@@ -539,3 +539,22 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 00:48–00:59 (Paris); agents: 1 (planner)
 - next: a wave of T-ett-diamant-rows and T-ett-geroch-split-flow (both lean-causal, disjoint new files, strict-bound).
+
+## 2026-11-22 01:31 · wave of 2 · T-ett-diamant-rows, T-ett-geroch-split-flow
+- T-ett-diamant-rows: lem:image_diamant and lem:passe_pgcd hold at every pair of Hausdorff, second countable E≥0-manifolds, with no Lean hypothesis left. passe_pgcd comes as printed and for every p ∈ closure(range i).
+  - The compactness of J⁺(Σ) ∩ J⁻(p) goes by CBGCompact's Zorn, with no limit curves. Its inputs are J⁻ of open sets open (the new model-free isOpen_Jminus_of_pushUp) and J^±(Σ) closed.
+  - The time-reversed compactness is not proved: Z⁻ fails at BTZ points.
+  - The witnesses are at the identity, where the inclusions are trivial; this is disclosed on both rows. The library has no Cauchy extension that is not onto.
+  - Unmarked. Audit minor.
+- T-ett-geroch-split-flow: theo:geroch_sing's « Moreover » holds from any causal flow, with no global hyperbolicity, connectedness or openness hypothesis. VecteurFlow ⇔ IsCausalFlow, with the openness proved.
+  - lem:Sigma_separe's equalities hold for that ψ, with a model-free form that needs no closedness.
+  - E₀'s τ-flow is causal and null. VecteurFlow is inhabited at E₀, and geroch_sing_split and K_ordre_Sigma_of_splitting are instantiated.
+  - No chronal causal flow exists once there is a BTZ point.
+  - lem:vecteur at a general M stays a named flow: there is no differentiable structure.
+  - Unmarked. Audit minor, with four docstring and finding wordings fixed at graduation. The REPORT's three reading questions are moot, per the audit: no OQ.
+- roadmap: T-ett-docstrings-sing0's evidence gains SingularRowsGeroch.lean:115, SingularRowsK.lean:141 and Splitting.lean:76 (appended).
+- gates: lean-causal ✓ (strict 0 sorry in 291 files; scaffold 6 in 7), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at 543ea3a, clean), hub: no new red
+- commits: 340902c 543ea3a 3a4401f (+ this)
+- wall time: 01:00–01:31 (Paris); agents: 2 closers, 2 audits
+- new OQ: none (next free OQ-88); lean-causal kb 0199–0206
+- next: plan (rule 2: no ready closer). T-ett-docstrings-sing0 (master, exclusive, p10) has been starved: rule 2 always precedes it, and a closer in lean-causal always excludes it. Raise this with the planner.
