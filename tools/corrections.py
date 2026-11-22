@@ -25,7 +25,11 @@ Rules (each is a gate, shown to bite by tools/fixtures/corrections):
 - a `false` entry names a `refutation`, a declaration of the strict library;
 - from `proved` on: a non-empty `anchor` (a `typo` needs none), every name a declaration of the strict library;
 - from `adopted` on: a DEC row in `basis`, non-empty `corrected` and `summary`, and `added_hypotheses` (a list, maybe empty);
-- from `applied` on: `v2_commit` is a commit of the v2 repository; `reviewed` also needs `review`.
+- from `applied` on: `v2_commit` is a commit of the v2 repository; `reviewed` also needs `review`;
+- `superseded_by`, when given, names other entries of the register, each at least `adopted` and not
+  itself superseded; a superseded entry has no `batch` (it is never applied: a later adopted
+  correction makes it moot, as C-39 replaces the proof C-22 and C-24 repair). It is closed once
+  every entry superseding it is applied; `errata` omits it (its superseders' summaries cover it).
 
 Declarations are read off lean-egf/EGF/**.lean without Lean (comments blanked, namespaces tracked),
 as tools/ladder.py reads lean-causal. The strict library is sorry-free by its own gate
@@ -39,7 +43,9 @@ import subprocess
 import sys
 import tomllib
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# realpath: the v2 working copy is beside the hub in Dropbox, also when the hub is reached
+# through its ~/LeanArticles symlink.
+ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import ladder  # noqa: E402  (its comment blanker and declaration regexes)
 
@@ -168,6 +174,7 @@ def check(data, names=None, labels=None, rows=None, nlines=None, v2=V2, batches=
     bad = lambda cid, msg: errs.append("%s: %s" % (cid, msg))
     entries = data.get("correction", [])
     ids = [c.get("id", "?") for c in entries]
+    byid = {c.get("id"): c for c in entries}
     for cid in sorted(set(i for i in ids if ids.count(i) > 1)):
         bad(cid, "duplicate id")
     for c in entries:
@@ -227,7 +234,28 @@ def check(data, names=None, labels=None, rows=None, nlines=None, v2=V2, batches=
                 bad(cid, "%s, but v2_commit %r is not a commit of %s" % (st, c.get("v2_commit"), v2))
         if st == "reviewed" and not c.get("review"):
             bad(cid, "reviewed without review (when and how the author read it)")
+        sup = as_list(c.get("superseded_by"))
+        if sup and c.get("batch"):
+            bad(cid, "superseded, but has a batch: a superseded entry is never applied")
+        for n in sup:
+            if n == cid:
+                bad(cid, "superseded_by names the entry itself")
+            elif n not in byid:
+                bad(cid, "superseded_by %s is not an entry of the register" % n)
+            elif rank(byid[n].get("status")) < rank("adopted"):
+                bad(cid, "superseded_by %s, which is %s: only an adopted correction supersedes"
+                    % (n, byid[n].get("status")))
+            elif as_list(byid[n].get("superseded_by")):
+                bad(cid, "superseded_by %s, which is itself superseded: name its superseders" % n)
     return errs
+
+
+def closed(c, byid):
+    """An entry is closed when applied, or when superseded and every superseder is applied."""
+    if rank(c.get("status")) >= rank("applied"):
+        return True
+    sup = as_list(c.get("superseded_by"))
+    return bool(sup) and all(n in byid and rank(byid[n].get("status")) >= rank("applied") for n in sup)
 
 
 def set_status(text, cid, status, commit=None, review=None):
@@ -258,7 +286,8 @@ def set_status(text, cid, status, commit=None, review=None):
 
 
 def errata(data, fmt="md"):
-    rows = [c for c in data.get("correction", []) if rank(c.get("status")) >= rank("applied")]
+    rows = [c for c in data.get("correction", []) if rank(c.get("status")) >= rank("applied")
+            and not as_list(c.get("superseded_by"))]
     rows.sort(key=lambda c: int(re.sub(r"\D", "", as_list(c["printed"])[0].split(":")[1]) or 0))
     out = []
     for c in rows:
@@ -298,11 +327,16 @@ def main(argv):
         by = {}
         for c in data.get("correction", []):
             by.setdefault(c.get("status"), []).append(c)
+        byid = {c.get("id"): c for c in data.get("correction", [])}
         for st in STATUS:
             for c in by.get(st, []):
-                print("%-9s %-5s %-18s %-30s %s" % (st, c["id"], c["kind"], c.get("label") or c.get("where", ""),
-                                                   ", ".join(as_list(c["printed"]))))
-        print("corrections: " + ", ".join("%d %s" % (len(by.get(s, [])), s) for s in STATUS))
+                sup = as_list(c.get("superseded_by"))
+                print("%-9s %-5s %-18s %-30s %s%s" % (st, c["id"], c["kind"], c.get("label") or c.get("where", ""),
+                                                     ", ".join(as_list(c["printed"])),
+                                                     "  (superseded by %s)" % ", ".join(sup) if sup else ""))
+        nsup = sum(1 for c in data.get("correction", []) if as_list(c.get("superseded_by")))
+        print("corrections: " + ", ".join("%d %s" % (len(by.get(s, [])), s) for s in STATUS)
+              + ("; %d superseded" % nsup if nsup else ""))
         return
     if cmd == "errata":
         fmt = argv[argv.index("--format") + 1] if "--format" in argv else "md"

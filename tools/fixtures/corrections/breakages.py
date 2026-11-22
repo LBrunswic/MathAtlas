@@ -27,6 +27,11 @@ def entry(**kw):
     return "\n".join(out) + "\n"
 
 
+# A valid adopted entry C-9002, for the breakages that need a superseder which is not itself at fault.
+ADOPTED = entry(id="C-9002", status="adopted", anchor=["EGF.main_universality"], basis=["DEC-1"],
+                corrected="x", summary="x", added_hypotheses=[])
+
+
 def BREAKAGES(data):
     first = data["correction"][0]["id"]
     return {
@@ -48,7 +53,20 @@ def BREAKAGES(data):
         "applied-without-commit": entry(status="applied", anchor=["EGF.main_universality"], basis=["DEC-1"],
                                         corrected="x", summary="x", added_hypotheses=[],
                                         v2_commit="0000000000000000000000000000000000000000"),
+        "superseded-by-unknown": entry(superseded_by=["C-99999"]),
+        "superseded-by-self": entry(superseded_by=["C-9001"]),
+        "superseded-by-found": entry(id="C-9002") + entry(superseded_by=["C-9002"]),
+        "superseded-by-superseded": ADOPTED + entry(id="C-9003", status="adopted", anchor=["EGF.main_universality"],
+                                                    basis=["DEC-1"], corrected="x", summary="x",
+                                                    added_hypotheses=[], superseded_by=["C-9002"])
+                                    + entry(superseded_by=["C-9003"]),
+        "superseded-with-batch": ADOPTED + entry(superseded_by=["C-9002"], batch=some_batch(data)),
     }
+
+
+def some_batch(data):
+    """A `batch` the register already uses, so only the superseded rule can fail."""
+    return next((c["batch"] for c in data["correction"] if c.get("batch")), "T-egf-correct-sign")
 
 
 if __name__ == "__main__":

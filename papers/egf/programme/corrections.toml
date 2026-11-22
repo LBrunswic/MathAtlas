@@ -20,6 +20,8 @@
 #         added_hypotheses  the assumptions the correction adds (a list, maybe empty; required from `adopted`)
 #         v2_commit the v2 commit that applied it;  review: when and how the author read it
 #         batch     the `correct` target of papers/egf/programme/roadmap.toml that applies it
+#         superseded_by  the adopted entries that make it moot (it then has no batch and is never
+#                   applied; closed once they are applied; T-egf-corrections-superseded)
 #
 # Seeded 2026-11-21 from papers/egf/ledger/LEDGER.md ("What formalizing found in the paper") and
 # certificate/curation.toml `paper_findings`. Proposed `corrected` texts are proposals until adopted.
@@ -120,7 +122,7 @@ status = "adopted"
 corrected = '''Algorithm 1: minimize $\mathcal L=\frac{b}{2B}\sum_{t=1}^\tau\deltafinit(\underline s_t)p_t(\underline s)-\mathbb E_{s\sim\target}\log\ftermhat(s)$, a Monte-Carlo estimate of (\ref{equ:weakFM}), with $b\geq1+\|d\lambda/d\nu_{\mathrm{train}}\|_\infty$; l.407: ``the weak-FM term $\mathbb E_{s\sim\nu_{\mathrm{train}}}\deltafinit(s)$''.'''
 summary = "The weak-FM term is the same in Eq. (15), Algorithm 1 and the discussion: linear, weighted by b on the penalty, b large enough for the control of the sampling error."
 added_hypotheses = ["b >= 1 + ||d lambda / d nu_train||_inf for the control of the sampling error"]
-batch = "T-egf-correct-sign"
+batch = "T-egf-correct-algorithm"
 
 [[correction]]
 id = "C-38"
@@ -131,7 +133,7 @@ finding = "l.400 weights a backward path by prod_{t'<t} (1 + delta f_init/f_in)^
 refutation = ["EGF.printed_reverse_not_isFlowMatching"]
 anchor = ["EGF.reverse_cont_ae_eq_backwardFactor", "EGF.reverse_cont_ae_eq", "EGF.algBackwardFactorReversed_eq", "EGF.reverse_isFlowMatching_iff", "EGF.reverse_sampling", "EGF.reverse_sampling_posterior"]
 basis = ["OQ-83", "DEC-142"]
-status = "found"
+status = "adopted"
 corrected = '''l.400: $\displaystyle\prod_{t'<t}\left(1+\big((\finit+\deltafinit)/\finstar\big)(\underline s_{t'})\right)^{-1}$ if $\underline s\in\mathcal B_{\leftarrow}$; l.392, after ``$(\kappa, \BackwardPolicy^*)$ for $\mathcal B_{\leftarrow}$'': ``($\mathcal B_{\leftarrow}$ holds paths of the sampler of the reversed generative flow $(\BackwardPolicyStar,\Finstar)$ started from $\kappa$; the reversed flow is flow matching from $\widehat\target$ to $\Finithat=\Finit+\delta\Finit$, and its sampler continues at $\underline s_t$ with probability $\big(1+\widehat f_{\mathrm{init}}/\finstar\big)^{-1}(\underline s_t)$, $\widehat f_{\mathrm{init}}:=\finit+\deltafinit$, as the forward sampler continues with probability $\big(1+\ftermhat/\foutstar\big)^{-1}$)''.'''
 summary = "Algorithm 1's backward weights use the stopping density of the reversed sampler, f_init + delta f_init (as the forward weights use f-hat_term), not delta f_init alone."
 added_hypotheses = []
@@ -397,7 +399,7 @@ status = "proved"
 corrected = '''Remark, after the proof of Theorem~\ref{theo:universality_true}: ``If $\lambda$ itself is invariant, $\lambda\ForwardPolicyStar=\lambda$, and $\ForwardPolicyStar$ is summably $L^2$-mixing with $\widehat\lambda=\lambda$, the Ces\`aro weights can be dropped. The coefficients are then submultiplicative, $\gamma_{m+n}\leq\gamma_m\gamma_n$, so $\sum_n\gamma_n<\infty$ gives $\gamma_N<1$ for some $N$, and $\gamma_n\leq C\rho^n$ for some $C<\infty$ and $\rho<1$. For $\Finit,\Fterm$ with densities in $L^2(\lambda)$ the series $\sum_{t\geq0}(\Finit-\Fterm)(\ForwardPolicyStar)^t$ then converges absolutely in $L^2(\lambda)$, and its partial sums, lifted by a multiple of $\lambda$, give the outflow directly.'''''
 summary = "With lambda invariant, summable L2-mixing gives geometric decay of the mixing coefficients, and the outflow of Theorem B.1 as a convergent Neumann series (a remark after the ergodic proof)."
 added_hypotheses = []
-batch = "T-egf-correct-universality"
+batch = "T-egf-correct-ergodicity"
 
 [[correction]]
 id = "C-22"
@@ -409,8 +411,8 @@ finding = "l.793 uses lambda pi = lambda and l.779 that pi maps L2(lambda) densi
 anchor = ["EGF.main_universality", "EGF.trivial_of_lamHat_univ_eq_top"]
 basis = ["OQ-47"]
 status = "proved"
+superseded_by = ["C-29", "C-39"]
 summary = "Theorem B.1 states the invariant measure it uses (superseded by C-29: the restated theorem assumes a finite invariant measure equivalent to lambda)."
-batch = "T-egf-correct-universality"
 
 [[correction]]
 id = "C-23"
@@ -421,22 +423,22 @@ kind = "strengthening"
 finding = "The theorem holds without the Polish structure and without L2 densities of F_init and F_term; f_out can be taken bounded; summability of (gamma_n) can be weakened to gamma_n -> 0 with gamma_0 < infinity. Superseded (DEC-144, 2026-11-22; the planner's analysis): every weakening listed here is contained in C-29's adopted text, which assumes neither a Polish structure nor L2 densities, gives a bounded f_out, and replaces mixing by ergodicity, which is weaker than gamma_n -> 0 with gamma_0 < infinity (EGF.isKernelErgodic_of_tendsto, EGF/UniversalityErgodic.lean:1701). The intermediate form is not worth a remark of its own in v2: summable mixing is kept only as a sufficient condition with a convergent series (C-21). Nothing of this entry is printed in v2. Kept `proved`. For the master: take it out of T-egf-correct-universality (the planner does not edit `batch`) and record it as superseded by C-29 (T-egf-corrections-superseded proposes the field)."
 anchor = ["EGF.main_universality_of_tendsto", "EGF.main_universality"]
 status = "proved"
+superseded_by = ["C-29"]
 summary = "Theorem B.1 holds under weaker hypotheses (no Polish structure, no L2 densities, gamma_n -> 0), with a bounded outflow."
 added_hypotheses = []
-batch = "T-egf-correct-universality"
 
 [[correction]]
 id = "C-24"
 where = "the proof of Theorem B.1"
 printed = "main.tex:790"
 kind = "typo"
-finding = "'nu_inf = nu_inf pi* - R + F_init': R stands for F_term. Nothing to prove in Lean: EGF.tvMass_construction and EGF.main_universality (EGF/Universality.lean:273, :950) carry F_term; editorial."
+finding = "'nu_inf = nu_inf pi* - R + F_init': R stands for F_term. Nothing to prove in Lean: EGF.tvMass_construction and EGF.main_universality (EGF/Universality.lean:273, :950) carry F_term; editorial. Held out of T-egf-correct-universality by the master (2026-11-22, on the planner's advice): l.790 lies inside the proof of Theorem B.1 that C-39 replaces by the Cesaro route (DEC-144), so the edit would be applied and then overwritten; to be recorded as superseded by C-39 once T-egf-corrections-superseded lands."
 basis = ["DEC-141"]
 status = "adopted"
+superseded_by = ["C-39"]
 corrected = '''$\nu_{\infty} =  \nu_\infty \pi^*- \Fterm + \Finit$.'''
 summary = "Typo in the proof of Theorem B.1 (R for F_term)."
 added_hypotheses = []
-batch = "T-egf-correct-universality"
 
 [[correction]]
 id = "C-25"
@@ -541,8 +543,8 @@ printed = "main.tex:778-804"
 kind = "gap"
 finding = "DEC-144 (OQ-85, 2026-11-22) restates Theorem B.1 under ergodicity (C-29, adopted: a Markov kernel with a finite invariant measure lambda-hat equivalent to lambda, ergodic for it, is universal, and ergodicity is necessary). The printed proof (l.778-804) proves the mixing version: it sums the series sum_t (F_init - F_term)(pi*)^t, which needs mixing (and C-21's repair) and, at l.779 and l.793, the invariance of lambda (C-22); it proves no converse. It is therefore not a proof of the restated theorem, and C-29's corrected text gives none. The proof that holds is the Lean's (EGF/UniversalityErgodic.lean): truncate F_init and F_term to probabilities mu_0 = a lambda, mu_1 = b lambda with a, b <= K d(lambda-hat)/d(lambda) (EGF.exists_truncation, EGF/Universality.lean:474); the density action P h = d((h lambda-hat) pi)/d(lambda-hat) is a contraction of L2(lambda-hat) whose fixed points are a.e. constant under ergodicity (EGF.Markov.ae_eq_const_of_densityAction_eq), so by von Neumann's mean ergodic theorem the Cesaro averages of P^t h tend to 0 for the mean-zero h = d(mu_0 - mu_1)/d(lambda-hat) (EGF.Markov.tendsto_birkhoffAverage_densityActionL2) and some N >= 1 has ||sum_{t<N} (mu_0 - mu_1) pi^t|| < N eta (EGF.exists_tvMass_cesaro_lt_of_ergodic, :1062); the Cesaro-weighted Neumann outflow (1/N) sum_{T<N} (sum_{t<=T} mu_0 pi^t + R - sum_{t<=T} mu_1 pi^t), R = N K lambda-hat invariant, is non-negative with defect the Cesaro sum (EGF.cesaroOutflow, EGF.tvMass_construction_cesaro, :1227, :1234); its density truncated at a finite level is bounded, and the five errors add up to less than epsilon (EGF.universality_of_ergodic, :1332). Necessity: an invariant set A with 0 < lambda(A) < lambda(S) blocks every outflow << lambda, since (F_out pi)(A) = F_out(A), so F_init = lambda|A/lambda(A) and F_term = lambda|A^c/lambda(A^c) give delta F_init(S) + delta F_term(S) >= 2 (EGF.two_le_errors_of_invariant_set, :1525; EGF.not_universal_of_not_ergodic, :1574). The printed proof's repairs become: C-21, the remark appended after this proof (lambda invariant: the series converges); C-22 and C-24 (the typo of l.790, inside the replaced text), superseded. In v2 the proof is l.809-835."
 anchor = ["EGF.universality_of_ergodic", "EGF.exists_tvMass_cesaro_lt_of_ergodic", "EGF.tvMass_construction_cesaro", "EGF.cesaroOutflow", "EGF.Markov.tendsto_birkhoffAverage_densityActionL2", "EGF.Markov.ae_eq_const_of_densityAction_eq", "EGF.exists_truncation", "EGF.two_le_errors_of_invariant_set", "EGF.not_universal_of_not_ergodic"]
-basis = ["OQ-85", "DEC-144"]
-status = "found"
+basis = ["OQ-85", "DEC-144", "DEC-141"]
+status = "adopted"
 corrected = '''Replace the proof of Theorem~\ref{theo:universality_true} (l.778--804) by: ``\emph{Sufficiency.} Let $\varepsilon>0$ and $\eta=\varepsilon/5$; norms of signed measures are total variation norms. Truncating their densities, choose probability measures $\mu_0=a\lambda$, $\mu_1=b\lambda$ with $a,b\leq K\frac{d\widehat\lambda}{d\lambda}$ for some $K<\infty$ and $\|\Finit-\mu_0\|,\|\Fterm-\mu_1\|<\eta$. Since $\widehat\lambda\ForwardPolicyStar=\widehat\lambda$, every $\mu_j(\ForwardPolicyStar)^t$ is at most $K\widehat\lambda$. The operator $P:h\mapsto\frac{d((h\widehat\lambda)\ForwardPolicyStar)}{d\widehat\lambda}$ is a contraction of $L^2(\widehat\lambda)$ whose fixed points are constant, $\ForwardPolicyStar$ being ergodic for $\widehat\lambda$; by von Neumann's mean ergodic theorem, $\frac1N\sum_{t<N}P^th\to0$ in $L^2(\widehat\lambda)$, hence in $L^1(\widehat\lambda)$, for the mean-zero $h=\frac{d(\mu_0-\mu_1)}{d\widehat\lambda}$, so that some $N\geq1$ has $\big\|\sum_{t<N}(\mu_0-\mu_1)(\ForwardPolicyStar)^t\big\|<N\eta$. Let $R=NK\widehat\lambda$, which is invariant and dominates every $\sum_{t\leq T}\mu_1(\ForwardPolicyStar)^t$, $T<N$, and
 \[F=\frac1N\sum_{T<N}\Big(\sum_{t\leq T}\mu_0(\ForwardPolicyStar)^t+R-\sum_{t\leq T}\mu_1(\ForwardPolicyStar)^t\Big)\geq0,\]
 a Ces\`aro-weighted Neumann series. Telescoping, $\mu_0+F\ForwardPolicyStar-\mu_1-F=\frac1N\sum_{T<N}(\mu_0-\mu_1)(\ForwardPolicyStar)^{T+1}$, of norm less than $\eta$, the kernel being a contraction for the total variation norm. As $F\ll\lambda$, truncating its density at a level $M$ with $\|F-F_M\|<\eta$ gives a bounded $\foutstar=\frac{dF_M}{d\lambda}$, and $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)=\|\Finit+\Foutstar\ForwardPolicyStar-\Fterm-\Foutstar\|<5\eta=\varepsilon$.

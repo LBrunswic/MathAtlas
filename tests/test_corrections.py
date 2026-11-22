@@ -59,6 +59,19 @@ class CorrectionsRules(unittest.TestCase):
             if c.get("summary") and c["status"] not in ("applied", "reviewed"):
                 self.assertNotIn(c["summary"], shipped, c["id"])
 
+    def test_a_superseded_entry_closes_with_its_superseders(self):
+        sup = {"id": "C-1", "status": "proved", "superseded_by": ["C-2", "C-3"]}
+        by = lambda a, b: {"C-1": sup, "C-2": {"id": "C-2", "status": a}, "C-3": {"id": "C-3", "status": b}}
+        self.assertFalse(cr.closed(sup, by("adopted", "applied")))
+        self.assertTrue(cr.closed(sup, by("applied", "reviewed")))
+        self.assertFalse(cr.closed({"id": "C-4", "status": "proved"}, {}))
+        self.assertTrue(cr.closed({"id": "C-5", "status": "applied"}, {}))
+
+    def test_errata_omits_a_superseded_entry(self):
+        e = dict(next(c for c in self.data["correction"] if c.get("summary")), status="applied")
+        self.assertIn(e["summary"], cr.errata({"correction": [e]}))
+        self.assertNotIn(e["summary"], cr.errata({"correction": [dict(e, superseded_by=["C-1"])]}))
+
 
 if __name__ == "__main__":
     unittest.main()
