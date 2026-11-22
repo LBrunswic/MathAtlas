@@ -235,3 +235,19 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - questions of fact for the author (the experiments batch): the l.440 move count and which SL₂(ℤ) elements; whether Table nll's EGF row is filtered, with what floor, k chosen on which split; whether the depth ablation l.1003 is on ℝ²; F_init on T² and S² and R's weight; the loss form, b, the backward factor and the training values of the reported T² runs; what l.713's '30 times smaller' compares (measured 2.0-2.5); l.496's six moves and the Moser Flow timing; the S, T of Theorem 3.5's minimal four moves
 - gates: corrections ✓, roadmaps ✓, test_corrections + test_roadmap ✓
 - next: the wave: T-egf-kb-tori-sphere-def, T-egf-families-of-record, T-egf-correction-witnesses, T-egf-correct-notions (adopt C-50 with C-52 first), with T-egf-repro-sphere continuing
+
+## 2026-11-22 23:20 · wave of 5 (topped up) · T-egf-kb-tori-sphere-def, T-egf-families-of-record, T-egf-correction-witnesses, T-egf-correct-notions, T-egf-correct-families-proofs; T-egf-repro-sphere (continues)
+- adoption (master): C-50, C-51, C-52, C-56, C-57 (de0e8e3), C-53, C-54, C-55 (f30e138) under DEC-141, DEC-144; C-58 proved (its witnesses graduated)
+- T-egf-kb-tori-sphere-def (master): kb 0026-0033 (21c863b)
+- T-egf-families-of-record (close): AUDIT-1 minor, both marks stand; graduated as EGF/FamiliesOfRecord.lean: theo:universality_tori and theo:universality_sphere marked in their corrected forms of record (C-28, C-31, C-49, C-54); C-56's move counts. New result, confirmed by the auditor: ¬(ii) gives ergodicity directly (EGF.isGroupErgodic_of_not_bgConditionII), so Bekka–Guivarc'h's Theorem 5 is not needed for Theorem 3.5 (recorded on C-28)
+- T-egf-correction-witnesses (close): AUDIT-1 minor (wording, fixed at graduation); graduated as EGF/CorrectionWitnesses.lean: the zero-weight EGF refuting C-29's Theorem 3.4 in Definition 3.1's sense (C-50), the cat map (C-26), SwapM without a floor (C-58), universal non-mixing translations in every dimension (C-29, C-56)
+- T-egf-correct-notions (correct): C-50, C-51, C-52, C-56, C-57 applied (v2 0e3320c); CHECK-1 minor, a short round by the master on its finding 1 (with C-50's definition 'an ergodic policy suffices' would be false: the convention sentence), CHECK-2 clean
+- T-egf-correct-families-proofs (correct): C-53, C-54, C-55 applied (v2 01f6112); CHECK-1 minor
+- T-egf-repro-sphere (repro): still running
+- corrections: 8 found, 3 proved, 1 adopted, 51 applied, 0 reviewed; 3 superseded (left: C-58, C-59 loss hypotheses; C-60 to C-62 wording; C-34, C-36, C-46, C-63 experiments)
+- ledger: 14/16 rows closed (bucket A); theo:spectral_gap_tori and theo:spectral_gap_sphere cited named Props (C)
+- v2: 01f6112 EGF-C53,C54,C55 (fifteen batches since camera-ready); repro: 4d5b197 (sphere in progress)
+- gates: lean-egf ✓ (1962 declarations, 19 modules), corrections ✓, roadmaps ✓, test_corrections + test_roadmap ✓, v2 build ✓; hub: red only on papers/yamabe (prop:nonpositive's Yamabe.Mfd.Reads.prop_nonpositive_csc not in its files: /atlas-team's lean-yamabe work in progress) and so gate-tests; egf green
+- commits: de0e8e3 21c863b f79a58a f30e138 370d142 65396f7 b7245fa 55cd571 241f97e b565611 ca56ca3 (+ this) (hub) · 0e3320c 01f6112 (v2)
+- for the planner: a strengthening entry if v2 should say Bekka–Guivarc'h's Theorem 5 is not needed for Theorem 3.5; l.919's dense-subgroup fact without its setting; l.901 'invariant' for 'almost invariant'; 'parameterized family of EGF(s)' at v1 l.238, l.277; C-51's 'satisfying (2)'; C-56's 'ask of the moves only'
+- next: the next corrector (`wave`: -loss-hypotheses or -wording), the sphere reproduction continuing
