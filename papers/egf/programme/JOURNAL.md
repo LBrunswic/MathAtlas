@@ -86,3 +86,12 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - for the planner (first thing after the reset): split T-egf-correct-universality into the adopted entries (C-18, C-19, C-20, C-24) and those on OQ-47/OQ-85 (C-21, C-22, C-23, C-25), and T-egf-correct-defs (C-27 adopted, C-26 on OQ-48); a batch for C-30 (adopted); new typo entries (|J| at l.229, l.758, l.773, a stray comma, `$\Finit$and` at l.163, (π*, f_out*) at v1 l.320 and l.846, the two-spirals main caption, the depth-ablation caption, "lest stable", "2 hidden layer", "2spirals", "ie"); a found entry for l.400 (OQ-83); C-28 (a)'s aperiodicity wording; the reproduction config that copied "Appendix F"; kb entries proposed by the torus, sphere and mixing closers (in their REPORT.json) not yet written
 - asks: OQ-83, OQ-84, OQ-85, OQ-47, OQ-48 open; the four v2 commits are ready for the author's review (git diff camera-ready..HEAD in ~/Dropbox/ErgodicGFN arXiv/source)
 - next (after 2026-11-27 09:00 UTC): re-audit T-egf-families-sphere and graduate it; resume T-egf-repro-torus-il's report; a planning run; T-egf-hub-handover when /atlas-team frees `roadmap`
+
+## 2026-11-22 · the author's rulings (no wave: agents unavailable until 2026-11-27 09:00 UTC)
+- asked in the session at the author's request ("Raise OQ here"); recorded as DEC-142 to DEC-146, OQ-83, OQ-84, OQ-85, OQ-47, OQ-48 set RULED
+- DEC-142 (OQ-83): reversed-sampler paths; l.400 corrected to (1 + (f_init + δf_init)/f_in)⁻¹ — needs a new corrections entry (anchor EGF.reverse_cont_ae_eq_backwardFactor)
+- DEC-143 (OQ-84): Eq. (15)'s form everywhere — C-35 (proved) becomes adoptable
+- DEC-144 (OQ-85): B.1 and 3.4 restated under ergodicity — C-29 (proved) becomes adoptable; C-23 (weaker mixing) superseded; the proof of B.1 in v2 must follow the ergodic route, which C-21 and C-22 (repairs of the printed proof) bear on: for the planner
+- DEC-145 (OQ-47): the L²(λ) reading — C-21, C-22, C-25 no longer wait on a reading (check each against DEC-144)
+- DEC-146 (OQ-48): def:egf with measure ergodicity of the generated group — T-egf-def-egf moved blocked → planned for re-scoping; C-26 to be re-written
+- next (after the reset): adoption under DEC-142 to DEC-146 (master), then a planning run: the batches T-egf-correct-universality, -ergodicity, -defs re-cut to the rulings, a new entry and batch for l.400, T-egf-def-egf re-scoped
