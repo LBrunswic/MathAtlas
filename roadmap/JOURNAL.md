@@ -667,3 +667,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 24f4c85 773e369 ffcf0e1 636edca 0d786eb 09377ee ab72c4d 3739b4b [+ roadmap/atlas/journal]
 - wall time: 18:11–19:40 UTC; agents in parallel: 2 closers, 2 auditors
 - next: wave would pick T-ett-gluing-causality (only once lean-causal is free), T-ett-apply-rulings, T-yamabe-analysis (better split by the planner first), T-yamabe-companion, T-nonacyclic-source, T-atlas-overlay-refresh. A planning run is due (rule 2: the Yamabe split, the Déf. 1/1′ follow-up, T-gfn-doubledag-refresh now unblocked).
+
+## 2026-11-22 21:00 · wave of 4 · T-yamabe-analysis (round 2), T-atlas-overlay-refresh, T-yamabe-companion, T-syr-apply-rulings
+- T-yamabe-analysis (round 2): partial, back to ready. The manifold Sobolev, trace and finite-energy theorems are proved with their round-1 statements (HalfSpace, Localisation, ManifoldTheorems). Round 1's Mfd.const_of_tendsto is false as stated (no measurability of the limit), and its corrected form is proved. Audit minor. Round 3: rewire, repair ConstLimit, Rellich, trace_compact.
+- T-atlas-overlay-refresh (builder, standing): lean-gx and lean-benzecri refreshed; lean-causal, lean-egf and lean-yamabe busy. papers/perforated is on the atlas. The panel shows every principal. Two -B rebuilds byte-identical, 0 page errors.
+- T-yamabe-companion (master): closed. BrunswicPerforated is perforated.tex in Void Dynamics (6c57c10), ledgered as papers/perforated (31 statements, Lean root lean-yamabe). Closing yamabe's thm:lower-bound from it awaits the planner.
+- T-syr-apply-rulings (master): closed. DEC-183 marks 17 rows in corrected form (Syracuse: 19 closed, 6 partial). cor:corollary is terminal (DEC-194). lem:syracuse_cycle waits on OQ-101 (new; renumbered from a collision with /ett-programme's OQ-94..100). A read-only helper drafted the row map; the master checked and applied it.
+- Not run: T-nonacyclic-source. Fetching the Overleaf source with the stored credentials (DEC-200) was blocked by the permission classifier; the author was asked to place the source in Dropbox or allow the access. T-ett-gluing-causality and T-ett-apply-rulings wait while lean-causal is busy. T-yamabe-apply-rulings waits while a closer works in lean-yamabe.
+- gates: lean-yamabe ✓, lean-syracuse ✓, roadmap ✓, registers ✓, atlas ✓, papers-check ✓, hub: no new red
+- commits: 3af8e6b d80d6ea f49d088 59f3831 07b4c60 1034b2b 7611b07 [+ roadmap/atlas/journal]
+- wall time: 19:40–21:00 UTC; agents in parallel: 1 closer, 1 builder, 1 helper, 2 auditors
+- next: a planning run (rule 2 is near; the backlog wants cutting: Yamabe round 3 and thm:lower-bound from papers/perforated, the Déf. 1/1′ follow-up, papers/gfnbounds for lean/'s overlay, T-gfn-doubledag-refresh); then T-yamabe-apply-rulings, T-bz-c2-proprietes, T-gx-troyanov-suspension.
