@@ -3,10 +3,33 @@ import Syracuse.CycleGcd
 /-!
 # Syracuse § 3: ascending and descending indices, the differences `Δ_i = A_{i+1} − A_i`, and the GCD
 
-`def:syracuse_cycle_period_denote` — `syracuse.tex:271`; `lem:syracuse_cycle_n__n_` —
-`syracuse.tex:275`; `lem:syracuse_cycle` — `syracuse.tex:283`; `cor:intertwined_i_` —
-`syracuse.tex:289`. None is marked: each is false as printed, or rests on a reading of a misprint
-or of an undefined word; the true forms are proved, unmarked, under both readings of OQ-43 (SCOPE).
+Every label but `lem:syracuse_cycle` (OQ-94) is marked under DEC-183 (OQ-68; OQ-43: the printed `A_u^n` stands, the other reading is
+proved beside it), in corrected form or in the reading of a misprint or an undefined word (SCOPE):
+
+* **`def:syracuse_cycle_period_denote`** — `syracuse.tex:271` (l.271–274) — marked in corrected form
+  (DEC-183, OQ-68 (a): `a_i = a_i(x_0) = ν₂(3Tⁱ(x_0) + 1)`, extended `n`-periodically, `aPer`) on
+  `Syracuse.ascIdx` and `Syracuse.descIdx`, which partition `ℤ` on every cycle
+  (`ascIdx_union_descIdx`, `disjoint_ascIdx_descIdx`, `one_le_of_cycle`). Read literally
+  (`a_i := Tⁱ(x_0)`) both sets are empty on the cycle `(−1)` and every index is ascending on `(1)`
+  (`literal_neg_one`, `literal_one`): Finding 1.
+* **`lem:syracuse_cycle_n__n_`** — `syracuse.tex:275` (l.275–281) — marked in corrected form
+  (DEC-183, OQ-68 (b): the exponent `a_{i+1} + ⋯ + a_{i+k−1}`, with `3^{n−k}` for the printed
+  `A_u^n`, and `i + k ∈ 𝒟` for « `k ∈ 𝒟` ») on `Syracuse.Delta_eq` and `Syracuse.Delta_eq_asc`
+  (`DeltaAlt_eq`, `DeltaAlt_eq_asc` for the other reading of OQ-43). **False as printed** under both
+  readings, at every `i` for every `a ≥ 1` of minimal period `n ≥ 2` (`deltaPrinted_ne_of_minimal`;
+  at `(−5, −7)`: `syracuse_cycle_n_printed_false`, `syracuse_cycle_n_asc_printed_false`): Finding 2.
+* `lem:syracuse_cycle` — `syracuse.tex:283` (l.283–287) — not marked: OQ-94 (DEC-183 rules OQ-68,
+  but (c) had one reading proved and one refuted, not two proved). `∼_S` is read as `SEquiv`. Read
+  as notation, « let `m = …` » gives the implication as printed, `Syracuse.syracuse_cycle`, for every
+  `n`-periodic `a` (`syracuse_cycle_alt` for the other reading of OQ-43). Read
+  as an assertion, « `m = GCD(A_i) = 2^{p_n} − 3ⁿ` » is **false as printed**: on every cycle for the
+  printed `A_u^n` (`gcd_Aun_ne_of_cycle`), and at the cycle `(−1)` for the other reading
+  (`gcd_AunAlt_printed_false`): Finding 4.
+* **`cor:intertwined_i_`** — `syracuse.tex:289` (l.289–292) — marked in corrected form (DEC-183,
+  OQ-68 (d): `m = GCD(A_i : i ∈ ℤ)`, « intertwined » not needed, `⋀_{i=𝒟}` read as `i ∈ 𝒟`) on
+  `Syracuse.corGcd_eq_gcd_Aun`, and at every base point on `intertwined_aun` (`intertwined_alt` for
+  the other reading of OQ-43). **False as printed** with `m = 2^{p_n} − 3ⁿ`, at `(−5, −7)` under both
+  readings (`intertwined_printed_false`): Finding 5.
 
 > **Upper bounds.** Let $S := \{2^a3^b ~:~ a,b\in \ZZ\}$
 

@@ -9,12 +9,27 @@ import Mathlib.Data.Nat.Periodic
 /-!
 # Syracuse § 1: the 2-adic representation `x ↦ (p_n(x))` and two corollaries on periodic orbits
 
-`theo:rep` — `syracuse.tex:88`; `cor:ring_following_equivalent_enumerate` — `syracuse.tex:96`;
-`cor:ring_periodic_minimal_period` — `syracuse.tex:107`. None is marked: `theo:rep` and
-`cor:ring_periodic_minimal_period` are false as printed (Findings 1 and 3), and
-`cor:ring_following_equivalent_enumerate`, proved for every ring of `IsZ2Ring`, needs OQ-42 (a)
-(integrality: false in `ℤ × ℤ/3ℤ`, AUDIT-1) and speaks of the total `T`, `a` of the open reading
-OQ-42 (d) (SCOPE).
+Every label is marked under DEC-183: `theo:rep` and `cor:ring_periodic_minimal_period` in
+corrected form, `cor:ring_following_equivalent_enumerate` as printed in the readings of OQ-42
+(SCOPE).
+
+* **`theo:rep`** — `syracuse.tex:88` (l.88–91, proof l.92–95) — marked in corrected form (DEC-183,
+  OQ-42 (d): the domain is `RepDomain`, the odd points whose orbit avoids `−1/3`) on
+  `Syracuse.theo_rep`, which is the printed bijection onto the strictly increasing sequences from `0`,
+  with the printed inverse, on `RepDomain`; the image of the printed `φ⁻¹` is exactly `RepDomain`
+  (`repInv_image`). Stated in `ℤ₂`, which is `A₂` for every ℤ/2ℤ-ring with `2 ≠ 0` (OQ-42 (b);
+  `completion_ringEquiv`). **False as printed** on `2ℤ₂ + 1` (`rep_printed_false`,
+  `neg_inv3_not_mem_image`, `neg_third_preimage`): Finding 1.
+* **`cor:ring_following_equivalent_enumerate`** — `syracuse.tex:96` (l.96–101, proof l.102–106) —
+  marked under DEC-183 (OQ-42 (a): `A` integral, carried in `IsZ2Ring`, which l.52's definition
+  omits; (d): the total `T`, `a`) on `Syracuse.periodic_a_iff_periodic_T`, for every `x ∈ A` and
+  `n`, with no `2 ≠ 0`; the other readings of « periodic of period `n` » are
+  `eventually_periodic_a_iff_periodic_T` and `minimal_period_a_iff_minimal_period_T`.
+* **`cor:ring_periodic_minimal_period`** — `syracuse.tex:107` (l.107–109) — marked in corrected
+  form (DEC-183, OQ-53: `i ≠ j` added; OQ-43: the printed `A_u^n`) on `Syracuse.Aun_sub_ne_zero`, in
+  every ℤ/2ℤ-ring (`AunAlt_sub_ne_zero` for the other reading of OQ-43; not vacuous:
+  `cycle_neg_five`). **False as printed** at `i = j` on every cycle, e.g. `(1)` in `ℤ`
+  (`cor_ring_periodic_minimal_period_printed_false`): Finding 3.
 
 > **theo:rep.** The map $$\fonction{\phi}{2A_2+1}{\{p\in \NN^\NN~|~ p_0=0 ~\wedge~ (p_n)
 > \nearrow\nearrow\}}{x}{(p_n(x))_{n\in \NN}} $$ is bijective and its inverse is:

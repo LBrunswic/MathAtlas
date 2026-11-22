@@ -4,9 +4,24 @@ import Syracuse.IntegerBounds
 /-!
 # Syracuse § 2: the GCD identity of a cycle, the valuations of `A_i − A_j`, and ε-circuits
 
-`prop:have_gcd_n__l_k` — `syracuse.tex:171`; `lem:periodic_exists_i_a_i_` — `syracuse.tex:207`;
-`def:circuit` — `syracuse.tex:213`. None is marked: the first two are false as printed and their
-true forms are proved unmarked; the third is formalized in a reading of a misprint (SCOPE).
+Every label is marked under DEC-183 (OQ-63), the first two in corrected form, the third in the
+reading of its misprint (SCOPE):
+
+* **`prop:have_gcd_n__l_k`** — `syracuse.tex:171` (l.171–175, proof l.176–188) — marked in corrected
+  form (DEC-183, OQ-63 (a): the GCD is `|2^{p_n(x)} − 3ⁿ|`; (b): the index convention of l.62) on
+  `Syracuse.have_gcd`, on every cycle of `ℤ` (the convention of l.71: `have_gcd_shift`; up to sign:
+  `have_gcd_associated`; as printed for `x > 0`: `have_gcd_of_pos`). **False as printed** on every
+  cycle of `x < 0`, e.g. `(−1)` (`have_gcd_printed_false`, `have_gcd_printed_false_shift`): Finding 1.
+* **`lem:periodic_exists_i_a_i_`** — `syracuse.tex:207` (l.207–212) — marked in corrected form
+  (DEC-183, OQ-63 (c): `n` the minimal period, the agreement on `⟦0, p−1⟧`, the bound
+  `∑_{k=0}^{p−1} a_{i+k}`; OQ-43: the printed `A_u^n`) on `Syracuse.periodic_exists_corrected`, its
+  three conclusions (`periodic_exists_corrected_alt` for the other reading of OQ-43). **False as
+  printed**: `A_i − A_j ≠ 0` without the minimal period (`periodic_exists_printed_false`), and the
+  `ν₂` conjunct even with it (`periodic_exists_nu2_printed_false`): Findings 3, 4.
+* **`def:circuit`** — `syracuse.tex:213` (l.213–217) — marked in corrected form (DEC-183, OQ-63 (d):
+  the orbit `(Tⁿ(x))_n` for the printed `(x)_{n∈ℕ}`, and `p ≥ εn − 1` as printed) on
+  `Syracuse.IsCircuit`. Read literally the definition is degenerate: every integer is an
+  `ε`-circuit for every `ε ≤ 1` (`isCircuitLiteral_of_le_one`): Finding 6.
 
 > Our starting point is the following.
 > **prop:have_gcd_n__l_k.** Let $x\in \ZZ$ and $n\in \NN^*$ such that $T^n(x)=x$. We have :

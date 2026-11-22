@@ -6,9 +6,16 @@ import Mathlib.Topology.UniformSpace.AbstractCompletion
 /-!
 # Syracuse § 1: the 2-completion of a ℤ/2ℤ-ring is `ℤ₂`, and `f_A`, `T_A` extend to it
 
-`prop:ring_both_continuous_extends` — `syracuse.tex:58` (unmarked: its `T_A` half is false as
-printed, Finding 1; its `f_A` half holds in the reading of OQ-42 (c)), and the unlabelled claim
-`A₂ ≃ ℤ₂` of `syracuse.tex:52` (false for `ℤ/2ℤ`, Finding 3), on which the proposition rests.
+* **`prop:ring_both_continuous_extends`** — `syracuse.tex:58` (l.58–59; « left to the reader »,
+  l.57) — marked in corrected form (DEC-183, OQ-42: (a) `A` integral; (b) `2 ≠ 0` where `A₂` enters;
+  (c) `f_A` halves the even; (d) `T_{A₂}` off `−1/3`) on `Syracuse.ring_both_continuous_extends`:
+  `f_A` is continuous and `f_{A₂}` is its only continuous extension; `T_A` is continuous where it is
+  defined, and `T_{A₂}` is continuous on `A₂ ∖ {−1/3}`, extends `T_A`, and is its only continuous
+  extension to `(2A₂ + 1) ∖ {−1/3}` (in `ℤ₂`: `ring_both_continuous_extends_padicInt`). **False as
+  printed** for `T_A`, already for `A = ℤ` (`T_int_not_extends`, `printed_T_extends_false`):
+  Finding 1.
+* The unlabelled claim `A₂ ≃ ℤ₂` of `syracuse.tex:52`, on which the proposition rests: false for
+  `ℤ/2ℤ` (Finding 3), proved whenever `2 ≠ 0` (`completion_ringEquiv`).
 
 > In the following, a noetherian ring $A$ such that $A/2A \simeq \ZZ/2\ZZ$ is called a
 > $\ZZ/2\ZZ$-ring. In such a ring, the 2-valuation is well defined
@@ -969,7 +976,7 @@ theorem not_exists_continuousWithinAt_extension_T_completion
     simp only [Function.comp_apply]
     rw [hsymm, hgT x hx hx3, he]
 
-/-- **`prop:ring_both_continuous_extends`, strongest true form** (unmarked: Finding 1), with
+/-- **`prop:ring_both_continuous_extends`, strongest true form** (marked in corrected form under DEC-183, module docstring; Finding 1), with
 `A₂ = UniformSpace.Completion A`: `f_A` is continuous; `T_A` is continuous where defined; `f_A`
 extends continuously to `A₂` and its only continuous extension is `f_{A₂}`; `T_{A₂}` is continuous
 on `A₂ ∖ {−1/3}`, extends `T_A`, and is the only continuous extension of `T_A : 2A + 1 → 2A + 1`
@@ -1001,7 +1008,7 @@ theorem ring_both_continuous_extends (hA : IsAdic (Ideal.span {(2 : A)})) (h2 : 
 
 end Literal
 
-/-- **`prop:ring_both_continuous_extends` in `ℤ₂`** (the model of `A₂` through `ι`, unmarked). -/
+/-- **`prop:ring_both_continuous_extends` in `ℤ₂`** (the model of `A₂` through `ι`, a companion of the marked form). -/
 theorem ring_both_continuous_extends_padicInt {A : Type*} [CommRing A] [IsZ2Ring A]
     (h2 : (2 : A) ≠ 0) :
     (Continuous (f : ℤ_[2] → ℤ_[2]) ∧ (∀ x : A, f (toZ2 h2 x) = toZ2 h2 (f x)) ∧

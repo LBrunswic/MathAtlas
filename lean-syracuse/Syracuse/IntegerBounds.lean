@@ -5,9 +5,20 @@ import Mathlib.Analysis.Asymptotics.SpecificAsymptotics
 /-!
 # Syracuse § 1 over ℤ: bounds on `p_n(x) log 2 - n log 3`, divergent orbits and cycles
 
-**`lem:one_has`** — `syracuse.tex:114`; `lem:itemize_furthermore_itemize` — `syracuse.tex:127`;
-**`cor:corollary_2`** — `syracuse.tex:140`; `cor:bounds` — `syracuse.tex:142`. Two are marked, as
-printed; the other two are false as printed, and their true forms are proved unmarked (SCOPE).
+**`lem:one_has`** — `syracuse.tex:114` and **`cor:corollary_2`** — `syracuse.tex:140` are marked as
+printed. The two others are false as printed and marked in corrected form under DEC-183 (OQ-54):
+
+* **`lem:itemize_furthermore_itemize`** — `syracuse.tex:127` (l.127–136, proof l.137–139) — marked
+  in corrected form (DEC-183, OQ-54 (a): `n ≥ 1` in the first bullet; (b): the bound
+  `n log(1 + 1/(3x))` in the second) on `Syracuse.itemize_first` and `Syracuse.itemize_second`; the
+  constant `1/3` is sharp (`itemize_second_sharp`). **False as printed**: the first bullet at `n = 0`
+  for every `x` (`itemize_first_printed_false`), the second at `x = 1` for every `n ≥ 1`
+  (`itemize_second_printed_false`).
+* **`cor:bounds`** — `syracuse.tex:142` (l.142–143) — marked in corrected form (DEC-183, OQ-54 (c):
+  the two bounds exchanged, each with the factor `3`) on `Syracuse.bounds`:
+  `log₂(1 + 1/(3 max)) ≤ p_n/n − log₂ 3 ≤ log₂(1 + 1/(3 min))` on every cycle of `ℤ*`, of either sign
+  (`cycle_mean`). **False as printed** at `x = 1`, `n = 1` (`bounds_printed_false`); its lower bound
+  fails on every positive cycle (`bounds_printed_lower_false`).
 
 > We now concentrate on  $A=\ZZ$ case.
 

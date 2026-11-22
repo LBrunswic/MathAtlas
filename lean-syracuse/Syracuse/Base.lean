@@ -3,9 +3,36 @@ import Syracuse.Valuation
 /-!
 # Syracuse § 1: the maps `f_A`, `T_A`, the sequences `a_n`, `p_n`, the basic identity, `A_u^n`, `RHS_n`
 
-`def:ring_define` — `syracuse.tex:54`; `def:ring_define_2` — `syracuse.tex:61`; `lem:base` —
-`syracuse.tex:67`; **`def:define_n__n_`** — `syracuse.tex:80`; `lem:ring_maps_rhs_n_` —
-`syracuse.tex:84`. Only `def:define_n__n_` is marked; the four others carry findings (SCOPE).
+Every label is marked: `def:define_n__n_` as printed, the four others in corrected form under
+DEC-183 (OQ-42: the readings (a)–(d) taken here are the statements of record for the 2020 draft;
+each refuted printed form is a finding, SCOPE).
+
+* **`def:ring_define`** — `syracuse.tex:54` (l.54–56) — marked in corrected form (DEC-183, OQ-42
+  (a) `A` integral, carried in `IsZ2Ring`; (c) `f_A` halves the even, as at l.46–48; (d) `T_A` total,
+  with a junk value where `3x + 1 = 0`) on `Syracuse.f` and `Syracuse.T`, which are the paper's maps
+  wherever they exist: `T x` is odd, `2^{ν₂(3x+1)} T x = 3x + 1`, and it is the only such odd element
+  (`T_odd`, `pow_v2_mul_T`, `T_unique`). **False as printed**: the printed `f_A` exists in no
+  ℤ/2ℤ-ring (`printed_f_not_definable`), and `T_A` is undefined at `−1/3` when `3 ∈ Aˣ`
+  (`T_undefined_of_isUnit_three`, `T_undefined_padicInt`): Findings 1, 2.
+* **`def:ring_define_2`** — `syracuse.tex:61` (l.61–65) — marked in corrected form (DEC-183, OQ-42
+  (d): `a_n`, `p_n` total, with junk values on the backward orbit of `−1/3`) on `Syracuse.a` and
+  `Syracuse.p`, which are the paper's `ν₂(3Tⁿx + 1)` and `∑_{k<n} a_k(x)` wherever `3Tⁿx + 1 ≠ 0`
+  (`a_eq_nu2`, `one_le_a`).
+* **`lem:base`** — `syracuse.tex:67` (l.67–69, proof l.70–79) — marked in corrected form (DEC-183,
+  OQ-42 (d)) on `Syracuse.base`, which is the printed identity for every `x ∈ A` and every `n`, for
+  the total maps; on every orbit avoiding `−1/3` all its terms are the paper's (`base_of_orbit`),
+  hence for every `x` when `3 ∉ Aˣ`, e.g. in `ℤ` (`base_of_not_isUnit_three`). **False as printed**
+  at `x₀ = −1/3` in `ℤ₂`, whatever values `T_A(x₀)` and `p_1(x₀)` are given
+  (`base_printed_fails_padicInt`).
+* **`def:define_n__n_`** — `syracuse.tex:80` (l.80–83) — marked as printed on `Syracuse.Aun`. Under
+  DEC-183 (OQ-43) the printed `A_u^n` stands; the claim of l.284 that contradicts it is a finding of
+  `lem:syracuse_cycle` (`Syracuse.UpperBounds`).
+* **`lem:ring_maps_rhs_n_`** — `syracuse.tex:84` (l.84–87) — marked in corrected form (DEC-183, OQ-42
+  (a) `A` integral; (b) `2 ≠ 0` added) on `Syracuse.ring_maps_rhs`, which covers every ℤ/2ℤ-ring but
+  `ℤ/2ℤ` (`IsZ2Ring.two_eq_zero_iff`), and holds on all strictly increasing `p`, without `p₀ = 0`
+  (`rhs_injOn_strictMono`). **False as printed** for `A = ℤ/2ℤ` and every `n ≥ 2`
+  (`ring_maps_rhs_printed_false`, `rhs_zmod2_not_injOn`, `ring_maps_rhs_printed_statement_false`),
+  and, without integrality, in `ZMod 6` (`rhs_zmod6_not_injOn`): Finding 3.
 
 > **def:ring_define.** Let $A$ be a $\ZZ/2\ZZ$-ring, define
 > $$ \fonctiondeux{f_A}{A}{A}{x\in 2A}{3x+1}{x\notin 2A}{x/2} \text{ and }
