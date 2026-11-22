@@ -811,7 +811,7 @@ status = "planned"
 owner = "closer"
 priority = 8
 exclusive = true
-evidence = "lean-gx/GX/BTZ/CBG.lean, SCOPE 'Why a port': the field hTA (lean-causal's typeAgreement, MapClusterPt form) is refuted for E₀ (GX.E0LM.e0_not_typeAgreement), so Geometry.ofLocalModelOfBTZ cannot be instantiated for E₀. gx therefore carries a verbatim port (TLocalModel) with typeAgreement in Tendsto form, 'to be deleted once lean-causal restates the field'. Its only consumer, germ_ext_nonBTZ (Causal/CBG/FromModel.lean), has the Tendsto in scope. That is A3, germ extension, which cor:ext_continue uses (T-ett-cbg-anchor findings on rem:CBG_analytique). This is a strict-library refactor of lean-causal, so it is exclusive. It also changes what lean-gx bridges to by definitional unfolding. Planned: it serves T-ett-cbg-e0 only. Note 2026-11-21 (planning run after wave 19) by the planner. Causal.CBG.LocalModel is declared in Causal/CBG/Geometry.lean (its B3 field curvesExtend at :590), which /ett-programme's T-loc-cbg-curves-default (programme/roadmap.toml, planned) also edits, giving A2's and B3's curvesExtend a default. The two must not run in one wave; this target, planned and exclusive, waits for that one to land, and its closer re-reads the file after it. Re-checked 2026-11-21 (planning run after wave 26) by the planner: still planned. /ett-programme's T-loc-cbg-curves-default is planned in programme/roadmap.toml, and that loop is stopped on the weekly API limit until 2026-11-27. The note above keeps the two targets out of one wave, and taking Causal/CBG/Geometry.lean before that target lands would collide with it. Nothing of wave 26 bears on typeAgreement: gx's refutation GX.E0LM.e0_not_typeAgreement concerns E₀ and the MapClusterPt form, and the new line fields are not fields of LocalModel. Promotable once T-loc-cbg-curves-default is done."
+evidence = "lean-gx/GX/BTZ/CBG.lean, SCOPE 'Why a port': the field hTA (lean-causal's typeAgreement, MapClusterPt form) is refuted for E₀ (GX.E0LM.e0_not_typeAgreement), so Geometry.ofLocalModelOfBTZ cannot be instantiated for E₀. gx therefore carries a verbatim port (TLocalModel) with typeAgreement in Tendsto form, 'to be deleted once lean-causal restates the field'. Its only consumer, germ_ext_nonBTZ (Causal/CBG/FromModel.lean), has the Tendsto in scope. That is A3, germ extension, which cor:ext_continue uses (T-ett-cbg-anchor findings on rem:CBG_analytique). This is a strict-library refactor of lean-causal, so it is exclusive. It also changes what lean-gx bridges to by definitional unfolding. Planned: it serves T-ett-cbg-e0 only. Note 2026-11-21 (planning run after wave 19) by the planner. Causal.CBG.LocalModel is declared in Causal/CBG/Geometry.lean (its B3 field curvesExtend at :590), which /ett-programme's T-loc-cbg-curves-default (programme/roadmap.toml, planned) also edits, giving A2's and B3's curvesExtend a default. The two must not run in one wave; this target, planned and exclusive, waits for that one to land, and its closer re-reads the file after it. Re-checked 2026-11-21 (planning run after wave 26) by the planner: still planned. /ett-programme's T-loc-cbg-curves-default is planned in programme/roadmap.toml, and that loop is stopped on the weekly API limit until 2026-11-27. The note above keeps the two targets out of one wave, and taking Causal/CBG/Geometry.lean before that target lands would collide with it. Nothing of wave 26 bears on typeAgreement: gx's refutation GX.E0LM.e0_not_typeAgreement concerns E₀ and the MapClusterPt form, and the new line fields are not fields of LocalModel. Promotable once T-loc-cbg-curves-default is done. Re-checked 2026-11-22 by the planner: still planned, on a new gate. /ett-programme dropped T-loc-cbg-curves-default; DEC-190 drops CurvesExtend everywhere, and OQ-98 (c), OPEN, asks whether CBG's A2/B3 curvesExtend fields are removed. Causal/CBG/Geometry.lean is now the file of the programme's ready, exclusive T-abs-hoist-cbg-geometry (DEC-197: SingularFlatAxioms hoisted out of Causal.CBG.Geometry; OQ-97 OPEN on its field list). This target edits LocalModel in the same file. It waits for that refactor to land, and its closer re-reads the file after it. The dependency cannot be written in `depends`, which names only this roadmap's targets."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -888,7 +888,7 @@ status = "planned"
 owner = "closer"
 priority = 8
 depends = ["T-gx-spherical-cone", "T-gx-troyanov-triangle", "T-gx-troyanov-two-pi", "T-gx-troyanov-polygon", "T-gx-troyanov-four"]
-evidence = "DEC-136: prove it in full, do not shrink it; DEC-69 made it a named external. Re-scoped 2026-11-20 by the planner and moved from ready to planned, because it is not one dispatch. The Prop (GX/SingularII/Models.lean:944) quantifies over every s ≥ 3 and every θ with TroyanovAngleCondition (Σ(θ_i − 2π) + 4π in ]0, min(4π, θ_i)]). That is an existence theorem for cone metrics with prescribed angles. Re-scoped again 2026-11-20 by the planner, after T-gx-spherical-cone (7d7d6fa). The objects exist: GX.IsConeSphere, GX.SphCone, the angle-tied GX.TroyanovTheorem, whose proof is the tagged sorry GX.troyanovTheorem (scaffold Spherical/TroyanovAngles.lean:322). The s = 3 case is T-gx-troyanov-triangle; this target is s ≥ 4. It no longer depends on T-gx-troyanov-suspension: GX.TroyanovTheorem does not use the suspension facts, and the row's mark needs both obligations whichever closes last. [r] (planner, unchecked) Route notes, to be scoped before dispatch. (1) An angle 2π is a marked regular point: dropping it leaves the sum unchanged and keeps s ≥ 3 (GX.TroyanovAngleCondition.three_le_card_ne_two_pi), so it reduces to s − 1 points. (2) Angles above 2π occur once s ≥ 4: (5π/2, 3π/5, 3π/5, 3π/5) satisfies the condition (sum term 3π/10 ≤ 3π/5). So doubling a convex spherical polygon is not enough, and a reflex vertex or another construction is needed. MR1005085 is not archived under papers/gx/sources (T-gx-spherical-cone REPORT: the condition's subcritical form was recalled from it, unchecked). Updated and split 2026-11-20 by the planner, after T-gx-troyanov-triangle (6195fbb). s = 3 is proved: GX.troyanovTheorem_three (GX/Spherical/TroyanovTriangle.lean:2426), exactly TroyanovTheorem at s = 3 (AUDIT-1 CHECKED (1)). GX.troyanovTheorem_of_four_le (l.2442) reduces TroyanovTheorem to s ≥ 4, and the reduction is an equivalence (AUDIT-1 CHECKED (2)). The scaffold sorry (TroyanovAngles.lean:322) still covers every s. The REPORT suggests that the master re-route it through troyanovTheorem_of_four_le so that it carries only s ≥ 4. Route note (1) is now T-gx-troyanov-two-pi (drop the angles 2π). The all-below-2π part of (2) is T-gx-troyanov-polygon (double a convex spherical s-gon). What remains here is s ≥ 4, every θ_i ≠ 2π, some θ_i > 2π. The case occurs: (5π/2, 3π/5, 3π/5, 3π/5) gives χ' = 3π/10. At s = 3 it does not, since every θ_i < 2π there (troyanovAngleCondition_three_iff, l.102). Then the assembly: GX.troyanovTheorem from the four cases. No construction for an angle above 2π is in the library or the notes, and MR1005085's own proof is variational. So this target needs a scoping pass before any dispatch, starting from what T-gx-troyanov-source quotes. Hence planned, with the source as a dependency. T-gx-troyanov-triangle AUDIT-1 owes the check of l.1930's bound against the source (it suspects θ_i where Troyanov has 2θ_i). That check is T-gx-troyanov-source's, and it goes to the author only once checked. Updated 2026-11-21 by the planner, after T-gx-troyanov-polygon (bed88aa). GX.troyanovTheorem_of_exists_gt_two_pi (GX/Spherical/TroyanovPolygon.lean:2146) leaves s ≥ 4, every θ_i ≠ 2π, some θ_i > 2π, and its REPORT says that doubling a convex polygon cannot give it. Split: s = 4 is T-gx-troyanov-four (the double of a spherical dart, startable without the source); this target keeps s ≥ 5 and the assembly. The dependency on T-gx-troyanov-source is replaced by T-gx-troyanov-four: the source's existence proof is analytic, so it gives no construction: § 4 of MR1005085 is 'Analysis on a surface' (Sobolev and Trudinger inequalities) and § 5 solves the equation by '5.3 The variational method' (section titles from the planner's read of the author-hosted copy, see T-gx-troyanov-source); and the check of l.1930's bound is a finding for the author, not a step of this proof. [r] (planner, unchecked) Routes for s ≥ 5. Two angles above 2π are possible there: (5π/2, 5π/2, 2π/5, 2π/5, 2π/5) has χ' = π/5 ≤ 2π/5. (i) The double of an abstract spherical s-gon, immersed rather than embedded, with interior angles θ_i/2, one reflex corner per angle above 2π, built as a fan of convex triangles from one vertex. This generalises the dart, but its existence for the whole condition is unproved. (ii) Slit gluing: cut two cone spheres along geodesic segments of equal length joining two cone points each, and glue them crosswise. The angles at the two glued points add, so with the doubles of T-gx-troyanov-triangle and T-gx-troyanov-polygon as pieces, an induction on s may cover the case. The dart is the case of two triangles: its double is the slit gluing of two triangle doubles along the diagonal v_1v_3. Scope this target after T-gx-troyanov-four reports which of (i) and (ii) its machinery supports. Re-scoped 2026-11-21 (04:10) by the planner, after T-gx-troyanov-four (942f470) and T-gx-troyanov-reroute (e113f97), at the master's question « what existence step would cover s ≥ 5? ». Still planned: the case needs an existence argument that nobody has written, which is mathematics, not a ruling. Where it stands. The scaffold's only Troyanov sorry (GXScaffold/Spherical/TroyanovAngles.lean:328) carries s ≥ 5, every θ_i ≠ 2π, some θ_i > 2π. The T-gx-troyanov-four REPORT (lean-gx/campaign/T-gx-troyanov-four/REPORT.json, notes): GX.StarFrames and the reflex polar fold are generic (any number of reflex vertices); GX.StarPolygon.isConeSphere doubles any EMBEDDED polygon P ⊆ 𝕊², convex or not, given a disc model eK, its genuine sides and its sign facts; slit gluing of cone spheres is not supported; and « whether an embedded polygon with angles theta_i/2 exists for the whole condition at s >= 5 is not studied ». So the missing step is an existence theorem for embedded spherical s-gons with prescribed angles α_i = θ_i/2 ∈ ]0, 2π[ ∖ {π}, some above π, under A := Σα_i − (s − 2)π ∈ ]0, min(2π, α_i)] (the printed condition; Gauss–Bonnet makes A the area). [r] (planner; numerical, by least squares over vertex positions with a simplicity check; the scripts ran outside the repository and are not archived; not a proof) such polygons exist, in some cyclic order of the angles, for all 24 sampled admissible data at s = 5 (12 with one angle above 2π, 12 with two, among them (5π/2, 5π/2, 2π/5, 2π/5, 2π/5)) and for all 4 sampled at s = 6 with one. [r] (unchecked) Two candidate constructions. (a) The dart's decomposition: cut along a diagonal from a reflex vertex into a triangle and a convex (s − 1)-gon (exists_sphPolygon, GX/Spherical/TroyanovPolygon.lean:610), and match the diagonal by an IVT in the two split angles, as GX.exists_dartParams (TroyanovFour.lean:3028) does at s = 4. The planner's grid scan finds the sign change in some cyclic order for 12 of 12 sampled data at s = 5 with one angle above 2π, but only 9 of 12 at s = 6, so the convex piece does not always suffice; and the IVT needs the (s − 1)-gon's side to vary continuously with its angles, which exists_polar_radius (an IVT on the radius, :234) does not give. A naive signed version of exists_polar_polygon (sides π − α_i < 0 run backwards) reproduces the convex case but gave no embedded polygon in 30 reflex samples. (b) A fan of s − 2 triangles from one vertex c whose two neighbours have α < π (there are always at least two such angles): the triangles occupy disjoint sectors at c, whose total angle α_c < 2π, so the union is embedded; the other vertices get their angles as sums of two triangle angles, so reflex vertices are allowed there; the triangles are built one by one by angle–side–angle, and the existence reduces to ONE closing equation in s − 2 parameters (the angle of the last triangle at c's other neighbour), to be solved by an IVT along a path of valid parameters, explicit spherical trigonometry only. Its endpoint signs are not checked, and StarPolygon's disc model would have to be built for a fan, whose triangles share only c (exists_homeomorph_union_convex asks for a common interior point). OQ-59 bears on the scope: under Theorem C's condition (< min(4π, 2θ_min)) more tuples must be covered than under the printed one. Moves to ready once (b), or another route, is written out with its endpoint signs, by a planner pass or as a closer's scoping dispatch. Re-checked 2026-11-21 (planning run after the wave of 06:03) by the planner: still planned, and the scope is wider than the two routes above. No lean-gx commit since T-gx-troyanov-reroute (e113f97); the scaffold's only Troyanov sorry is still GXScaffold/Spherical/TroyanovAngles.lean:328. [r] (planner; arithmetic checked numerically, not in Lean) At s ≥ 5 the condition admits angles of 4π and more, which no double of an EMBEDDED polygon can give. Example: θ = (5π, 3π/4, π/10, π/10, π/10) satisfies GX.TroyanovAngleCondition (GX/SingularII/Models.lean:897): χ' = Σ(θ_i − 2π) + 4π = π/20, and 0 < π/20 ≤ min(4π, π/10). It also satisfies Theorem C's 0 < χ' < min{4π, 2θ_min} (papers/gx/sources/MR1005085/NOTE.md, where the θ_i are « positive numbers », with no upper bound). Its double would need a polygon with interior angle α_1 = θ_1/2 = 5π/2 > 2π. So GX.StarPolygon.isConeSphere cannot reach it, and neither can route (b): there α_c < 2π, and each other vertex gets a sum of two triangle angles, which is < 2π. In general the condition gives θ_max ≤ Σ_{i≠max,j}(2π − θ_i) < 2π(s − 2) for every j ≠ max, so θ_max < 4π at s = 4 (why the dart sufficed) but not from s = 5 on. The case left therefore splits in two. (1) Some θ_i ≥ 4π: this needs a construction that is not a double of an embedded polygon, for instance the double of an abstract (immersed) spherical polygon glued from triangles, or slit gluing. The library supports neither (T-gx-troyanov-four REPORT). (2) Every θ_i < 4π: routes (a)/(b) still apply, with their endpoint signs unchecked. Whoever scopes this target scopes both parts. This is mathematics, not a ruling (DEC-136: prove in full)."
+evidence = "DEC-136: prove it in full, do not shrink it; DEC-69 made it a named external. Re-scoped 2026-11-20 by the planner and moved from ready to planned, because it is not one dispatch. The Prop (GX/SingularII/Models.lean:944) quantifies over every s ≥ 3 and every θ with TroyanovAngleCondition (Σ(θ_i − 2π) + 4π in ]0, min(4π, θ_i)]). That is an existence theorem for cone metrics with prescribed angles. Re-scoped again 2026-11-20 by the planner, after T-gx-spherical-cone (7d7d6fa). The objects exist: GX.IsConeSphere, GX.SphCone, the angle-tied GX.TroyanovTheorem, whose proof is the tagged sorry GX.troyanovTheorem (scaffold Spherical/TroyanovAngles.lean:322). The s = 3 case is T-gx-troyanov-triangle; this target is s ≥ 4. It no longer depends on T-gx-troyanov-suspension: GX.TroyanovTheorem does not use the suspension facts, and the row's mark needs both obligations whichever closes last. [r] (planner, unchecked) Route notes, to be scoped before dispatch. (1) An angle 2π is a marked regular point: dropping it leaves the sum unchanged and keeps s ≥ 3 (GX.TroyanovAngleCondition.three_le_card_ne_two_pi), so it reduces to s − 1 points. (2) Angles above 2π occur once s ≥ 4: (5π/2, 3π/5, 3π/5, 3π/5) satisfies the condition (sum term 3π/10 ≤ 3π/5). So doubling a convex spherical polygon is not enough, and a reflex vertex or another construction is needed. MR1005085 is not archived under papers/gx/sources (T-gx-spherical-cone REPORT: the condition's subcritical form was recalled from it, unchecked). Updated and split 2026-11-20 by the planner, after T-gx-troyanov-triangle (6195fbb). s = 3 is proved: GX.troyanovTheorem_three (GX/Spherical/TroyanovTriangle.lean:2426), exactly TroyanovTheorem at s = 3 (AUDIT-1 CHECKED (1)). GX.troyanovTheorem_of_four_le (l.2442) reduces TroyanovTheorem to s ≥ 4, and the reduction is an equivalence (AUDIT-1 CHECKED (2)). The scaffold sorry (TroyanovAngles.lean:322) still covers every s. The REPORT suggests that the master re-route it through troyanovTheorem_of_four_le so that it carries only s ≥ 4. Route note (1) is now T-gx-troyanov-two-pi (drop the angles 2π). The all-below-2π part of (2) is T-gx-troyanov-polygon (double a convex spherical s-gon). What remains here is s ≥ 4, every θ_i ≠ 2π, some θ_i > 2π. The case occurs: (5π/2, 3π/5, 3π/5, 3π/5) gives χ' = 3π/10. At s = 3 it does not, since every θ_i < 2π there (troyanovAngleCondition_three_iff, l.102). Then the assembly: GX.troyanovTheorem from the four cases. No construction for an angle above 2π is in the library or the notes, and MR1005085's own proof is variational. So this target needs a scoping pass before any dispatch, starting from what T-gx-troyanov-source quotes. Hence planned, with the source as a dependency. T-gx-troyanov-triangle AUDIT-1 owes the check of l.1930's bound against the source (it suspects θ_i where Troyanov has 2θ_i). That check is T-gx-troyanov-source's, and it goes to the author only once checked. Updated 2026-11-21 by the planner, after T-gx-troyanov-polygon (bed88aa). GX.troyanovTheorem_of_exists_gt_two_pi (GX/Spherical/TroyanovPolygon.lean:2146) leaves s ≥ 4, every θ_i ≠ 2π, some θ_i > 2π, and its REPORT says that doubling a convex polygon cannot give it. Split: s = 4 is T-gx-troyanov-four (the double of a spherical dart, startable without the source); this target keeps s ≥ 5 and the assembly. The dependency on T-gx-troyanov-source is replaced by T-gx-troyanov-four: the source's existence proof is analytic, so it gives no construction: § 4 of MR1005085 is 'Analysis on a surface' (Sobolev and Trudinger inequalities) and § 5 solves the equation by '5.3 The variational method' (section titles from the planner's read of the author-hosted copy, see T-gx-troyanov-source); and the check of l.1930's bound is a finding for the author, not a step of this proof. [r] (planner, unchecked) Routes for s ≥ 5. Two angles above 2π are possible there: (5π/2, 5π/2, 2π/5, 2π/5, 2π/5) has χ' = π/5 ≤ 2π/5. (i) The double of an abstract spherical s-gon, immersed rather than embedded, with interior angles θ_i/2, one reflex corner per angle above 2π, built as a fan of convex triangles from one vertex. This generalises the dart, but its existence for the whole condition is unproved. (ii) Slit gluing: cut two cone spheres along geodesic segments of equal length joining two cone points each, and glue them crosswise. The angles at the two glued points add, so with the doubles of T-gx-troyanov-triangle and T-gx-troyanov-polygon as pieces, an induction on s may cover the case. The dart is the case of two triangles: its double is the slit gluing of two triangle doubles along the diagonal v_1v_3. Scope this target after T-gx-troyanov-four reports which of (i) and (ii) its machinery supports. Re-scoped 2026-11-21 (04:10) by the planner, after T-gx-troyanov-four (942f470) and T-gx-troyanov-reroute (e113f97), at the master's question « what existence step would cover s ≥ 5? ». Still planned: the case needs an existence argument that nobody has written, which is mathematics, not a ruling. Where it stands. The scaffold's only Troyanov sorry (GXScaffold/Spherical/TroyanovAngles.lean:328) carries s ≥ 5, every θ_i ≠ 2π, some θ_i > 2π. The T-gx-troyanov-four REPORT (lean-gx/campaign/T-gx-troyanov-four/REPORT.json, notes): GX.StarFrames and the reflex polar fold are generic (any number of reflex vertices); GX.StarPolygon.isConeSphere doubles any EMBEDDED polygon P ⊆ 𝕊², convex or not, given a disc model eK, its genuine sides and its sign facts; slit gluing of cone spheres is not supported; and « whether an embedded polygon with angles theta_i/2 exists for the whole condition at s >= 5 is not studied ». So the missing step is an existence theorem for embedded spherical s-gons with prescribed angles α_i = θ_i/2 ∈ ]0, 2π[ ∖ {π}, some above π, under A := Σα_i − (s − 2)π ∈ ]0, min(2π, α_i)] (the printed condition; Gauss–Bonnet makes A the area). [r] (planner; numerical, by least squares over vertex positions with a simplicity check; the scripts ran outside the repository and are not archived; not a proof) such polygons exist, in some cyclic order of the angles, for all 24 sampled admissible data at s = 5 (12 with one angle above 2π, 12 with two, among them (5π/2, 5π/2, 2π/5, 2π/5, 2π/5)) and for all 4 sampled at s = 6 with one. [r] (unchecked) Two candidate constructions. (a) The dart's decomposition: cut along a diagonal from a reflex vertex into a triangle and a convex (s − 1)-gon (exists_sphPolygon, GX/Spherical/TroyanovPolygon.lean:610), and match the diagonal by an IVT in the two split angles, as GX.exists_dartParams (TroyanovFour.lean:3028) does at s = 4. The planner's grid scan finds the sign change in some cyclic order for 12 of 12 sampled data at s = 5 with one angle above 2π, but only 9 of 12 at s = 6, so the convex piece does not always suffice; and the IVT needs the (s − 1)-gon's side to vary continuously with its angles, which exists_polar_radius (an IVT on the radius, :234) does not give. A naive signed version of exists_polar_polygon (sides π − α_i < 0 run backwards) reproduces the convex case but gave no embedded polygon in 30 reflex samples. (b) A fan of s − 2 triangles from one vertex c whose two neighbours have α < π (there are always at least two such angles): the triangles occupy disjoint sectors at c, whose total angle α_c < 2π, so the union is embedded; the other vertices get their angles as sums of two triangle angles, so reflex vertices are allowed there; the triangles are built one by one by angle–side–angle, and the existence reduces to ONE closing equation in s − 2 parameters (the angle of the last triangle at c's other neighbour), to be solved by an IVT along a path of valid parameters, explicit spherical trigonometry only. Its endpoint signs are not checked, and StarPolygon's disc model would have to be built for a fan, whose triangles share only c (exists_homeomorph_union_convex asks for a common interior point). OQ-59 bears on the scope: under Theorem C's condition (< min(4π, 2θ_min)) more tuples must be covered than under the printed one. Moves to ready once (b), or another route, is written out with its endpoint signs, by a planner pass or as a closer's scoping dispatch. Re-checked 2026-11-21 (planning run after the wave of 06:03) by the planner: still planned, and the scope is wider than the two routes above. No lean-gx commit since T-gx-troyanov-reroute (e113f97); the scaffold's only Troyanov sorry is still GXScaffold/Spherical/TroyanovAngles.lean:328. [r] (planner; arithmetic checked numerically, not in Lean) At s ≥ 5 the condition admits angles of 4π and more, which no double of an EMBEDDED polygon can give. Example: θ = (5π, 3π/4, π/10, π/10, π/10) satisfies GX.TroyanovAngleCondition (GX/SingularII/Models.lean:897): χ' = Σ(θ_i − 2π) + 4π = π/20, and 0 < π/20 ≤ min(4π, π/10). It also satisfies Theorem C's 0 < χ' < min{4π, 2θ_min} (papers/gx/sources/MR1005085/NOTE.md, where the θ_i are « positive numbers », with no upper bound). Its double would need a polygon with interior angle α_1 = θ_1/2 = 5π/2 > 2π. So GX.StarPolygon.isConeSphere cannot reach it, and neither can route (b): there α_c < 2π, and each other vertex gets a sum of two triangle angles, which is < 2π. In general the condition gives θ_max ≤ Σ_{i≠max,j}(2π − θ_i) < 2π(s − 2) for every j ≠ max, so θ_max < 4π at s = 4 (why the dart sufficed) but not from s = 5 on. The case left therefore splits in two. (1) Some θ_i ≥ 4π: this needs a construction that is not a double of an embedded polygon, for instance the double of an abstract (immersed) spherical polygon glued from triangles, or slit gluing. The library supports neither (T-gx-troyanov-four REPORT). (2) Every θ_i < 4π: routes (a)/(b) still apply, with their endpoint signs unchecked. Whoever scopes this target scopes both parts. This is mathematics, not a ruling (DEC-136: prove in full). Re-checked 2026-11-22 by the planner, after T-gx-troyanov-theorem-c (636edca, DEC-174). The obligation of record is now GX.troyanovTheoremC (scaffold GXScaffold/Spherical/TroyanovAngles.lean:328–336), over Theorem C's condition 0 < χ' < min{4π, 2θ_min}. It is routed through troyanovTheoremC_of_five_le_of_exists_gt_two_pi (strict GX/Spherical/TroyanovTheoremC.lean), so every case with s ≤ 4 or all angles ≤ 2π is proved. The sorry carries s ≥ 5, no angle 2π, some angle above 2π (possibly ≥ 4π), a case wider than the printed one (GX.troyanovAngleConditionC_five_not_printed). Both parts (1) and (2) above are now to be read under Theorem C's condition. GX.troyanovTheorem (printed condition) follows from it. Still planned: no existence route for the case is written out."
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -918,7 +918,7 @@ status = "ready"
 owner = "closer"
 priority = 8
 depends = ["T-gx-spherical-cone"]
-evidence = "DEC-175: r ∈ [0,π) with one centre, the conical singularity as an X_θ-chart; the Aut(Σ) → Aut(M) group isomorphism carried and proved"
+evidence = "DEC-175: r ∈ [0,π) with one centre, the conical singularity as an X_θ-chart; the Aut(Σ) → Aut(M) group isomorphism carried and proved. Note 2026-11-22 by the planner: OQ-92 (OPEN) asks whether GX.ThurstonSuspensionFacts and TroyanovSuspensionTheoremS3 move to Theorem C's condition, which would widen this target's scope. The reading taken meanwhile is l.1930's printed condition. The facts are needed for those tuples under either answer, so the target stays ready at the printed scope. The obligation is the sorry GX.thurstonSuspensionFacts (scaffold GXScaffold/Spherical/TroyanovAngles.lean:343–345)."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -1536,7 +1536,7 @@ commit = "d1c40af"
 
 [[target]]
 id = "T-bbs-layer-home"
-title = "BBS-Q1: do the L2–L3 layers (links by signature; the singular lines of bbsprop:classising and bbsdef:Hcausal) live in lean-gx or in a new lean-bbs?"
+title = "BBS L2–L3 in lean-gx (DEC-192, BBS-Q1 ruled): the links by signature and the singular lines of bbsprop:classising and bbsdef:Hcausal, over T-bbs-hs-model and T-bbs-rp1-circles"
 stream = "bbs"
 kind = "close"
 paper = "bbs"
@@ -1556,11 +1556,12 @@ stream = "bbs"
 kind = "close"
 paper = "bbs"
 labels = ["bbsdef:hs_surface_topological_surface_endowed"]
-status = "planned"
+package = "lean-gx"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-bbs-triage", "T-bbs-q1"]
-evidence = "REVIEW.md §B L2, 'Gaps: HS^n is not a type anywhere. Only its null part exists, as PenroseSphere'; §E wave W0 (2–4k lines, over lean-causal's Form and Penrose). colI_v1.tex l.615 (bbsdef:hs_surface_topological_surface_endowed: 'a topological surface endowed with a (SO₀(1,2), HS²)-structure'). Planned, not ready, because its package is BBS-Q1 (T-bbs-layer-home, needs-ruling): lean-gx (the bbs root) or a new lean-bbs. Once that is ruled, the package is set and the target promoted. It does not depend on T-bbs-layer-home itself, which is a close target for bbsprop:classising and bbsdef:Hcausal that needs this layer first. BBS-Q3 (the representation) was answered in REVIEW.md §I (2026-11-03): the unit-sphere model GX.RaySphere stays 'until someone objects'. This is the first layer that T-3p1-theorem-m's open Θ-half needs (its REPORT, N4:M3 not_stated: 'HS^2 as a (SO0(1,2), HS^2) model with its analytic action'). Updated 2026-11-20 by the planner. The wait on BBS-Q1 is now a dependency on T-bbs-q1, the author gate that asks T-bbs-layer-home's question again so that the layers can depend on it without a cycle. T-bbs-triage (a06acc2) confirms the wait: the row's notes read 'layer L2; wave W0', blocked_on 'BBS-Q1 … wave W0 not built'. When BBS-Q1 is ruled, the planner sets `package` from the ruling and promotes this target."
+evidence = "REVIEW.md §B L2, 'Gaps: HS^n is not a type anywhere. Only its null part exists, as PenroseSphere'; §E wave W0 (2–4k lines, over lean-causal's Form and Penrose). colI_v1.tex l.615 (bbsdef:hs_surface_topological_surface_endowed: 'a topological surface endowed with a (SO₀(1,2), HS²)-structure'). Planned, not ready, because its package is BBS-Q1 (T-bbs-layer-home, needs-ruling): lean-gx (the bbs root) or a new lean-bbs. Once that is ruled, the package is set and the target promoted. It does not depend on T-bbs-layer-home itself, which is a close target for bbsprop:classising and bbsdef:Hcausal that needs this layer first. BBS-Q3 (the representation) was answered in REVIEW.md §I (2026-11-03): the unit-sphere model GX.RaySphere stays 'until someone objects'. This is the first layer that T-3p1-theorem-m's open Θ-half needs (its REPORT, N4:M3 not_stated: 'HS^2 as a (SO0(1,2), HS^2) model with its analytic action'). Updated 2026-11-20 by the planner. The wait on BBS-Q1 is now a dependency on T-bbs-q1, the author gate that asks T-bbs-layer-home's question again so that the layers can depend on it without a cycle. T-bbs-triage (a06acc2) confirms the wait: the row's notes read 'layer L2; wave W0', blocked_on 'BBS-Q1 … wave W0 not built'. When BBS-Q1 is ruled, the planner sets `package` from the ruling and promotes this target. Promoted 2026-11-22 by the planner. DEC-192 rules BBS-Q1: the L2–L3 layers live inside lean-gx, so package = lean-gx, and both dependencies are done. Scope: n = 2 only. REVIEW.md §E's 2–4k estimate is for W0 at every n, with the point-links and stabilisers (the L2 table), which this target leaves out. The representation is GX.RaySphere (lean-gx/GX/Suspension/Affine.lean:94), the unit sphere of ℝ^{1,2} with the normalised action (BBS-Q3, REVIEW.md §I). The five orbits are stated for SO₀(1,2). lean-causal's `lorentz` is not proved connected (BBS-Q6). Transitivity on each orbit needs only explicit boosts and rotations, so the closer states which group it uses (DEC-152: Isom(𝔼^{1,2}) = SO₀(1,2) ⋉ ℝ³)."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -2054,10 +2055,10 @@ depends = ["T-gfn-absorb"]
 title = "The committed GFN Bounds double DAG no longer matches its inputs: regenerate it, or pin the draft it was built from"
 stream = "gfn"
 kind = "tooling"
-status = "planned"
+status = "ready"
 owner = "master"
 priority = 6
-evidence = "DEC-199: pin the 2026-09-20 artifacts as a dated measurement; regenerate after the GFN absorption (T-gfn-absorb)"
+evidence = "DEC-199: pin the 2026-09-20 artifacts as a dated measurement; regenerate after the GFN absorption (T-gfn-absorb). Moved to ready 2026-11-22 by the planner: T-gfn-absorb is done (24f4c85). The three inputs of tools/doubledag_gfnbounds.sh exist: lean/docs/lean-facts.json and lean/paper-map.json are in-tree, and the draft's ~/Dropbox/GFN Bounds/formalization-ledger.json (131 labels) is at the draft's commit b83dd0f. The committed reports/doubledag/gfnbounds/ is still the 2026-09-20 run (0775118: 96 labels with Lean, 721 principals). The script's header still describes the submodule and the freeze (DEC-2, retired by DEC-131): correct it in the same edit. DEC-199 re-keys OQ-6's nine proposals after the regeneration. OQ-5 and OQ-6 are then re-asked (DEC-202)."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
 
@@ -2270,15 +2271,16 @@ oq = "OQ-91"
 
 [[target]]
 id = "T-yamabe-analysis"
-title = "Yamabe § 6: the Yamabe theorem, Akutagawa–Botvinnik, Gromov–Lawson and Escobar's facts as named external Props; prove Sobolev, trace and Rellich on compact manifolds with boundary"
+title = "Yamabe § 6 (DEC-184), round 3: Rellich–Kondrachov on a compact manifold with boundary, its manifold half. A locally-Lebesgue μ on compact M is finite; the W^{1,2}-ball is approximated in L²(μ) by cell averages read through charts (Half.cell_approx through Mfd.assemble's partition of unity); with T-yamabe-rellich-criterion, Mfd.rellich_kondrachov's round-1 statement is proved as a primed copy"
 stream = "yamabe"
 kind = "close"
 paper = "yamabe"
-labels = ["lem:kobayashi", "lem:positivity"]
-status = "ready"
+labels = ["lem:positivity"]
+status = "planned"
 owner = "closer"
-priority = 3
-evidence = "DEC-184 (T-yamabe-scope). Round 1 (ab72c4d): the externals and the model layer. Round 2 (1034b2b, audit minor): Mfd.sobolev_embedding', eLpNorm_gradNorm_lt_top', trace_embedding' proved with the round-1 statements; Mfd.const_of_tendsto false as stated, corrected form proved. Round 3: rewire the primes in place of the round-1 sorrys (move definitions out of Sobolev/Trace to break the import cycle), repair ConstLimit with MemLp f 2, prove rellich_kondrachov and trace_compact. Readings: OQ-93"
+priority = 4
+depends = ["T-yamabe-integrate-r2", "T-yamabe-rellich-criterion"]
+evidence = "DEC-184 (T-yamabe-scope). Round 1 (ab72c4d): the externals and the model layer. Round 2 (1034b2b, audit minor): Mfd.sobolev_embedding', eLpNorm_gradNorm_lt_top', trace_embedding' proved with the round-1 statements; Mfd.const_of_tendsto false as stated, corrected form proved. Round 3: rewire the primes in place of the round-1 sorrys (move definitions out of Sobolev/Trace to break the import cycle), repair ConstLimit with MemLp f 2, prove rellich_kondrachov and trace_compact. Readings: OQ-93. Narrowed 2026-11-22 by the planner (the /atlas-team dispatch of 21:15 UTC: a monolith after two rounds). Round 3 is cut into five targets: T-yamabe-integrate-r2 (master: the rewire and the ConstLimit repair); T-yamabe-rellich-criterion (total boundedness in Lp, Mathlib only); this target (Rellich's manifold half); T-yamabe-integrate-r3 (master: Rellich rewired); and T-yamabe-trace-compact. This target keeps the id that the yamabe rows' blocked_on name. What is left here, in the order of REPORT-2.json's obstruction for Mfd.rellich_kondrachov (Rellich.lean:469–477). (1) A locally-Lebesgue μ on compact M is finite: good charts with bounded image, then a finite subcover. (2) The chart-level assembly. v_i = Mfd.chartFun (ρ_i u) is C¹ on ℍ̄ with support in the fixed compact φ_i(tsupport ρ_i). ‖Dv_i‖_{L²(ℍ̄)} ≤ C‖u‖_{W^{1,2}}, by the steps of Mfd.local_sobolev. ‖ρ_i u − (P_δ v_i)∘φ_i‖_{L²(μ)} ≤ C‖v_i − P_δ v_i‖_{L²(ℍ̄)}, by Mfd.eLpNorm_chart_comparable. Half.cell_approx (Compactness.lean:423) is proved. (3) The cell coefficients avg_{C_z}(v_i(u_k)) are bounded; then T-yamabe-rellich-criterion's criterion applies. The primed copy must have the same type as Rellich.lean:469 under AUDIT-2's Expr-equality probe; rfl alone only checks definitional equality (AUDIT-2 finding 4). The label lem:kobayashi moves to T-yamabe-integrate-r2: its manifold theorems are proved (round 2) and that target rewires them."
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -2287,6 +2289,7 @@ id = "T-yamabe-apply-rulings"
 title = "Curate Yamabe § 6: n ≥ 1 standing (l.615's « or ∂Σ = ∅ » removed), the frame-model readings, eq:hoelder's exponent 1/(N−1) at l.609 and l.720"
 stream = "yamabe"
 kind = "package"
+package = "lean-yamabe"
 status = "ready"
 owner = "master"
 priority = 4
@@ -2356,3 +2359,250 @@ evidence = "DEC-203, DEC-207: LBrunswic/MathAtlas, third-party material stripped
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 commit = "09377ee"
+
+# ------------------------------------------------------------------ Yamabe § 6 round 3 and the companion (planner, 2026-11-22 21:15 UTC)
+[[target]]
+id = "T-yamabe-integrate-r2"
+title = "Yamabe § 6, integrate T-yamabe-analysis round 2 (master). The seven primed manifold theorems of YamabeScaffold.ManifoldTheorems replace round 1's sorrys in Sobolev and Trace, with the import cycle broken. MeasuredModel.ConstLimit and Mfd.const_of_tendsto are repaired with the measurability of the limit (MemLp f 2)"
+stream = "yamabe"
+kind = "tooling"
+paper = "yamabe"
+labels = ["lem:kobayashi", "lem:positivity"]
+package = "lean-yamabe"
+exclusive = true
+status = "ready"
+owner = "master"
+priority = 3
+evidence = "lean-yamabe/campaign/T-yamabe-analysis/REPORT-2.json, notes, INTEGRATION. The primes cannot be rewired by a closer. Their proofs import YamabeScaffold.Sobolev and .Trace, which hold the sorry'd originals (chain Sobolev ← Trace ← HalfSpace ← Localisation ← ManifoldTheorems ← Compactness). The recipe: (1) delete Mfd.sobolev_embedding and Mfd.eLpNorm_gradNorm_lt_top (Sobolev.lean:374, 387), Mfd.trace_embedding (Trace.lean:398), the bridges Mfd.Reads.sobolevIneq/kobayashiB/prop_nonpositive_csc (Sobolev.lean:457–487) and Mfd.Reads.traceIneq (Trace.lean:426); (2) rename the seven primes, each Expr-identical to its original (AUDIT-2, lem:kobayashi); (3) make Rellich.lean import YamabeScaffold.Compactness, and point Mfd.Reads.rellichProp, lem_positivity and cor_negative at them. Moving the definitions (gradNorm, IsC1, w12, IsLocallyLebesgue, Reads, IsBoundaryMeasure) into a module of their own, as the dispatch of 2026-11-22 suggests, is the other way. The ConstLimit repair is AUDIT-2 finding 3 (minor, confirmed by the auditor's probe). Round 1's MeasuredModel.ConstLimit (Rellich.lean:109) and Mfd.const_of_tendsto (:481), hence Mfd.Reads.constLimit (:527), are false as stated: they ask no measurability of the limit (Mfd.not_const_of_tendsto). Four sorry-dependent declarations rest on them. The fix, at integration: add `MemLp f 2 (M.vol g) →` in ConstLimit; keep the MemLp component at :204 and pass it at :208; replace const_of_tendsto by const_of_tendsto_of_aestronglyMeasurable; prove Reads.constLimit from Reads.constLimit_of_aestronglyMeasurable. toy_constLimit and toyCut_not_constLimit survive (argued). REPORT-2's question on OQ-93 (c), the measurable L² limit, goes to the register. AUDIT-2 findings 1–2 (the docstrings of Compactness.lean:32 and Localisation.lean:10–12) were already fixed in round 2's commit 1034b2b. After this target the scaffold's six SORRY tags drop to two: Mfd.rellich_kondrachov (Rellich.lean:474, T-yamabe-analysis) and Mfd.trace_compact (Trace.lean:416, T-yamabe-trace-compact). A master target, because every edit is to an existing file, which a closer does not write (.claude/agents/target-closer.md; the atlas-team skill dispatches closers with new files only). Exclusive, because the renames rebuild the scaffold under any closer in lean-yamabe"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-rellich-criterion"
+title = "Yamabe § 6, the functional-analytic half of Rellich–Kondrachov. In Lp ℝ p μ (1 ≤ p < ∞), a set that is, for every ε > 0, within ε of the image of a bounded set under a finite-rank continuous linear map is totally bounded. Hence a sequence in it has a subsequence converging in Lp to a MemLp limit, in the eLpNorm form of Mfd.rellich_kondrachov's conclusion"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["lem:positivity"]
+status = "ready"
+owner = "closer"
+priority = 4
+evidence = "REPORT-2.json (T-yamabe-analysis round 2), the obstruction for Mfd.rellich_kondrachov (Rellich.lean:469–477): « Mathlib has no compactness criterion in L^p ». Its step (3) reads: « the total-boundedness wrapper: … the finite-rank map from coefficients to Lp ℝ 2 μ (indicatorConstLp of the cells V_i ∩ φ_i⁻¹ C_z) sends a closed ball to a compact set, so the W^{1,2}-ball is totally bounded in the complete Lp ℝ 2 μ (TotallyBounded.closure, isCompact_of_isClosed, IsCompact.tendsto_subseq) ». That step uses no manifold, so it is cut out of the manifold half (T-yamabe-analysis) and can run now, independently of T-yamabe-integrate-r2. A new file in lean-yamabe's scaffold that imports Mathlib only, so it graduates as soon as it is sorry-free. No Kolmogorov–Riesz criterion in Mathlib at this pin (REPORT-2; the planner's grep of lean-yamabe/.lake/packages/mathlib finds none). Search Mathlib for the total-boundedness and finite-dimensional compactness lemmas first. The conclusion must be usable by T-yamabe-analysis on functions M → ℝ (MemLp f 2 μ and eLpNorm (u (φ k) − f) 2 μ → 0), not only on Lp elements"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-integrate-r3"
+title = "Yamabe § 6, integrate Rellich (master): Mfd.rellich_kondrachov' replaces Rellich.lean's sorry, so that the manifold readings of lem:positivity and cor:negative rest on no sorry; lem:positivity re-curated"
+stream = "yamabe"
+kind = "tooling"
+paper = "yamabe"
+labels = ["lem:positivity"]
+package = "lean-yamabe"
+exclusive = true
+status = "planned"
+owner = "master"
+priority = 4
+depends = ["T-yamabe-analysis"]
+evidence = "The pattern of T-yamabe-integrate-r2 (REPORT-2.json notes, INTEGRATION): a closer's primed copy replaces a round-1 sorry only by a master edit of an existing file. After it, Mfd.Reads.rellichProp (Rellich.lean:499) and Reads.constLimit (repaired by T-yamabe-integrate-r2) are sorry-free. So are Mfd.Reads.lem_positivity, Reads.cor_negative and Mfd.lem_positivity (Rellich.lean:542–608). The only scaffold sorry left is Mfd.trace_compact, which lem:positivity does not use (round-1 finding, lean-yamabe/campaign/T-yamabe-analysis/REPORT.json). The marks still wait on OQ-93, OPEN, whose « blocks » column names the marks of lem:kobayashi, lem:positivity, prop:nonpositive, lem:gluing-estimate, thm:upper-bound and cor:negative « once the manifold theorems close ». The rows' blocked_on then names OQ-93 instead of T-yamabe-analysis (curation)"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-trace-compact"
+title = "Yamabe § 6, the compact trace on a compact manifold with boundary. The interpolation ‖u‖²_{L²(∂ℍ)} ≤ ε‖∂_t u‖² + C_ε‖u‖²_{L²(ℍ)} is localised by charts and combined with Rellich–Kondrachov. Mfd.trace_compact's round-1 statement is proved as a primed copy"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["lem:positivity"]
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-yamabe-integrate-r3"]
+evidence = "Trace.lean:411–416, SORRY(lem:positivity): « needs `rellich_kondrachov` and the interpolation ». REPORT-2.json gives the route, with the interpolation localised by charts, and adds « not used by lem:positivity (continuity of the trace suffices, round-1 finding) ». It is in scope because DEC-184 asks for the trace theorem to be proved and Yamabegap.tex l.720 cites the compact trace. The companion uses it too: lem:capstar's attainment (« ℓ is weakly continuous by compactness of the trace operator », perforated.tex l.402–404) and its introduction (« Rellich–Kondrachov together with compactness of the trace operator », l.149–150). It comes after T-yamabe-integrate-r3, so that it uses Rellich's final name. Integration: the round-1 original has no consumer and cannot stay in Trace.lean, which Rellich's chain imports, so the master deletes the declaration at Trace.lean:411 and renames the prime"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-capacity"
+title = "Perforated § 2–4 over Yamabe's measured model. The neutralising-background functional ℓ, the capacity cap* and θ = a_N cap*/(c_N S) (def:capstar). eq:capineq with 0 < cap* < ∞ (lem:capstar). The capacitary trace-Poincaré inequality (lem:capacitary). The optimally weighted Hölder step with its unique minimising weights (lem:holder)"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["def:capstar", "lem:capstar", "lem:capacitary", "lem:holder"]
+status = "ready"
+owner = "closer"
+priority = 4
+evidence = "DEC-185 asks for yamabe's thm:lower-bound to be closed from the companion BrunswicPerforated, ledgered as papers/perforated (T-yamabe-companion, 3af8e6b: 31 rows, none formalized, Lean root lean-yamabe). This is the first link of thm:main's proof (perforated.tex § 4, l.455–516). lem:capacitary is « Immediate from eq:capineq » (l.474–476). lem:holder (l.478–495) is Hölder on each component, then Cauchy–Schwarz, then a Lagrange minimisation. The two combine into eq:linear (l.502–509). Definitions at l.155–173 (eq:ell, eq:capstar, θ) and eq:S (l.119–122). The objects fit Yamabe's MeasuredModel (strict Yamabe/Quotient.lean:472: val, tr, d, vol, bvol j). Fq is the companion's F_g, with β = c_N; infF is its λ_∂. DEC-186 accepts that layer's readings for yamabe § 6, whose Σ the companion's setting (l.311–313) contains. eq:capineq follows from cap*'s definition as an infimum. Its positivity (l.394–399) needs ℓ bounded and a Poincaré inequality, carried as model Props: the model's TraceIneq (scaffold Trace.lean:337), and T-perf-poincare's Poincaré inequality. Finiteness needs some v with ℓ(v) ≠ 0 (l.399–401). The attainment and the Euler–Lagrange system (l.401–407) need the compact trace and a W^{1,2} reading that C¹ (OQ-93 (b)) does not give: prove what the model allows and report the rest as the row's open part. New files in a Perforated/ directory of lean-yamabe's scaffold; prefer strict imports (Yamabe.Quotient), so that what is sorry-free can graduate"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-star3"
+title = "Perforated § 5, N = 3, over the measured model. The Poincaré and Sobolev–Poincaré constants λ_1 and C_SP (def:constants). eq:star with the explicit Ã of eq:Atil (thm:star3), from the binomial expansion of ∫u⁶, L²–L⁶ interpolation and the three-case split"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["def:constants", "thm:star3"]
+status = "ready"
+owner = "closer"
+priority = 5
+evidence = "perforated.tex l.316–326, def:constants: λ_1 is the best Poincaré constant and C_SP the least Sobolev–Poincaré constant. thm:star3 is at l.601–618 and its proof at l.620–655: eq:binom, the bounds on ‖v‖_3, ‖v‖_4 and ‖v‖_5 by interpolation between L² and L⁶, eq:Dbound, then cases (i)–(iii). Ã enters yamabe's thm:lower-bound as « Ã depends only on the Sobolev–Poincaré and Poincaré constants of (Σ, g) » (Yamabegap.tex l.530). Independent of T-perf-capacity, so it can run in the same wave. « Both are finite because Σ is compact, connected and Lipschitz » (l.328) is T-perf-poincare's. Here the constants are definitions and the theorem holds for any finite values. λ_1 is defined as the first Neumann eigenvalue, « equivalently » the best Poincaré constant (l.320–321): the closer states which one it formalizes. eq:star is asked for u ≥ 0 (l.184–187); the proof uses t ∈ [0, 1] (eq:t). Report whether the signed form also holds (see T-perf-main)"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-main"
+title = "Perforated thm:main over the measured model. Under eq:star, λ_∂ ≥ F_g(1)/Λ_max, with Λ_max the larger eigenvalue of the calibrated 2×2 matrix (eq:main). Its expansion: λ_∂ ≥ θ/(1+θ) F_g(1) (1 − Ãθ F_g(1)/(a_N(1+θ)²) + O(F_g(1)²)) (eq:main-asymp)"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["thm:main"]
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-perf-capacity"]
+evidence = "perforated.tex: the statement is at l.179–206 and the proof at l.518–561. The proof runs through eq:linear and eq:calib (l.502–516), bounds the quotient by 1/Λ_max(M) for M = D^{1/2}QD^{1/2}, then uses a Perron–Frobenius remark (l.544–547) and an envelope expansion (l.553–561). Two points the closer must settle and report. (a) The step u ↦ |u| (l.457–460) needs |·| to preserve the energy and the trace; the measured model does not carry that, and the C¹ reading of W^{1,2} (OQ-93 (b)) does not satisfy it. eq:star is assumed for u ≥ 0 only (l.184–187), and ū ≥ 0 is used to square eq:linear (l.519). [r] (planner, unchecked) Applying lem:capacitary and lem:holder to u and to −u bounds |ū|. So eq:star for every u gives the bound with no lattice property; the closer proves the strongest true forms and reports the reading. (b) O(F_g(1)²) is read at fixed θ and Ã, since δ = ÃF_g(1)/a_N (l.197–198). This is the inequality yamabe's thm:lower-bound needs: Yamabegap.tex l.512–536, whose proof the paper leaves to the companion at l.538"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-star-n"
+title = "Perforated § 5, general N. The elementary inequality (1+x)^q ≤ 1 + qx + c_q(x² + |x|^q) for x ≥ −1 and q ≥ 2 (lem:elem, printed without proof). prop:starN: the deficit bound, and eq:star with an explicit Ã by thm:star3's three-branch split"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["lem:elem", "prop:starN"]
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-perf-star3"]
+evidence = "perforated.tex l.673–677: lem:elem is stated without proof (ledger nl_status open). prop:starN is at l.679–689 and its proof at l.691–704: lem:elem at x = v/ū; the concavity step (A+B)^{2/q} ≤ A^{2/q} + (2/q)A^{2/q−1}B; the Poincaré and Sobolev–Poincaré bounds. « obtained by the same three-branch split as in Theorem thm:star3 » (l.687–688) makes it depend on T-perf-star3 (def:constants and the split). yamabe's thm:lower-bound is stated for every N ≥ 3 (Yamabegap.tex l.512–536), so its Ã needs this target, not only thm:star3"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-upper"
+title = "Perforated § 6, the upper half of the sandwich. thm:upper: λ_∂ ≤ θ_D/(1+θ_D) F_g(1)/(1−ρ)² for every ψ with trace 1 on ∂Σ and mean 0, from u_s = 1 − sψ. cap* ≤ cap_D. rem:notF1: λ_∂ < F_g(1), which is yamabe's rem:sign in the companion's notation"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["thm:upper", "rem:notF1"]
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-perf-capacity"]
+evidence = "perforated.tex l.862–869 introduces ψ, cap_D and θ_D, with cap* ≤ cap_D (ψ ≡ 1 on ∂Σ gives ℓ(ψ) = −1). thm:upper is at l.871–879 and its proof at l.881–895 (Minkowski in L^{p*}, then minimisation in s). rem:notF1 (l.359–371) is Yamabe's rem:sign (Yamabegap.tex l.507–510). It is already proved over the same model: Yamabe.MeasuredModel.infF_lt_Fq_one and firstVariation_neg (Yamabe/Stability.lean, T-yamabe-quotient e4e12c0), so here it is restated. Stating thm:upper for every admissible ψ covers the paper's minimiser without proving that it exists (Lean ≥ paper). This is the upper half behind the clause « the factor θ/(1+θ) is optimal » of yamabe's thm:lower-bound (Yamabegap.tex l.530), whose limit is T-perf-dilute-limit's"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-poincare"
+title = "Perforated def:constants' « both are finite ». Over the measured model, the Poincaré inequality (λ_1 > 0) follows from RellichProp and the repaired ConstLimit, and C_SP < ∞ from it and SobolevIneq. Both are discharged on a model reading a compact connected manifold with boundary"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["def:constants"]
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-yamabe-integrate-r2", "T-perf-star3"]
+evidence = "perforated.tex l.328: « Both are finite because Σ is compact, connected and Lipschitz ». lem:capstar's positivity uses it (« by Poincaré », l.394–399), and so does the Ã of thm:star3 and prop:starN. The route is lem:positivity's: compactness (Rellich), constancy of energy-free limits (ConstLimit), then a contradiction. Yamabe.MeasuredModel.lem_positivity (scaffold Rellich.lean:117) is the template. Its Props hold on the manifold reading through Mfd.Reads.*, and the discharge becomes sorry-free when T-yamabe-integrate-r3 lands, with no further edit. It needs ConstLimit with the MemLp hypothesis (AUDIT-2 finding 3), hence the dependency on T-yamabe-integrate-r2. The definitions of λ_1 and C_SP are T-perf-star3's"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-thm-lower-bound"
+title = "Yamabe § 6, thm:lower-bound from the companion (DEC-185): δ(Σ, g) ≥ κ F_g(1) with eq:kappa's κ, over the measured model. The yamabe side is the upper bound Y_[g] ≤ −inf F_g (thm:upper-bound) and EH = Y (prop:nonpositive); the companion supplies thm:main and the explicit Ã of thm:star3 and prop:starN"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["thm:lower-bound"]
+status = "planned"
+owner = "closer"
+priority = 5
+depends = ["T-perf-main", "T-perf-star-n"]
+evidence = "DEC-185 (T-yamabe-lower-bound): « close thm:lower-bound from it ». Yamabegap.tex l.512–536. The paper says the proof « is given in the companion paper » (l.538); its sketch (l.538–545) is perforated's eq:linear, eq:calib and thm:main. The yamabe side is proved over the model. thm:upper-bound: Yamabe.MeasuredModel.upper_bound_of_gluings_of_pos and upper_bound_of_limit (Yamabe/Gluing.lean, T-yamabe-gluing-algebra 1c83dfc). EH = Y: prop_nonpositive_csc (Yamabe/Negative.lean, T-yamabe-negative cfcdb0d). F_g(1) = 2(N−1)M/Vol^{(N−2)/N}: Yamabe.MeasuredModel.Fq_one_round (Quotient.lean:587). The gap is δ = σ^∂(Σ) − EH (eq:gap-bdry, l.352–353), so the bound also needs σ^∂(Σ) ≥ 0 under thm:upper-bound's hypotheses. For the punctured torus σ^∂ = 0 is eq:sigma-torus (l.366–369), argued, not proved; for a general Σ̄ with σ(Σ̄) ≤ 0 nothing is stated. The closer carries it or reports a finding. Three clauses of the theorem wait on T-perf-dilute-limit (needs-ruling): « θ/(1+θ) is optimal », the θ values and eq:R-bound (l.530–535). Without them the row closes partial. perforated's cor:yamabe is the same bound in O(F_g(1)) form; it is T-perf-cor-yamabe"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-cor-yamabe"
+title = "Perforated cor:yamabe, the punctured-torus application: |R_g| Vol^{2/N} = δ ≥ θ/(1+θ) 2(N−1)M/Vol^{(N−2)/N} (1 + O(F_g(1))), restated in the companion's notation over T-yamabe-thm-lower-bound's declarations"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["cor:yamabe"]
+status = "planned"
+owner = "closer"
+priority = 7
+depends = ["T-yamabe-thm-lower-bound"]
+evidence = "perforated.tex l.910–939. eq:yamabe-upper (l.921) is Y_[g] ≤ −λ_∂, « a gluing estimate gives », which is yamabe's lem:gluing-estimate and thm:upper-bound. cor:yamabe (l.929–939) is stated without proof (ledger nl_status open). Its content is yamabe's thm:lower-bound (Yamabegap.tex l.512–536), hence a restatement. « θ → 1 for Schwarzschild collars, so the constant is 1/2 » waits on T-perf-dilute-limit, like the yamabe row. A target of its own because a target names one paper"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-dilute-limit"
+title = "Perforated thm:sharp and prop:theta-examples rest on limits (« of small boundary », « dilute ») that the paper asserts but does not prove: formalize the limits, or only what is proved?"
+stream = "yamabe"
+kind = "close"
+paper = "perforated"
+package = "lean-yamabe"
+labels = ["thm:sharp", "prop:theta-examples"]
+status = "needs-ruling"
+owner = "closer"
+priority = 7
+depends = ["T-perf-upper"]
+question = "perforated's thm:sharp (l.210–216) follows from thm:upper only through « both ρ → 0 and θ_D/θ → 1 in the limit of small boundary » (l.905–906). prop:theta-examples (l.225–235) needs « In the dilute limit … cap* → cap(B_a) » (l.427–429) and the same for the Schwarzschild horizon. Neither limit is proved, and neither names the family of (Σ, g) it is taken over. Are these limits to be formalized in full, which is new analysis (the capacities of shrinking holes, over a family the author fixes)? Or only their proved content, with the limits recorded as open claims? The proved content is eq:sandwich from thm:upper, and θ = 2 and θ = 1 from the limiting capacities taken as hypotheses, with the radial potentials and their capacities computed"
+evidence = "perforated.tex: thm:sharp has no proof environment (ledger nl_status open). Its proof is the sentence after eq:sandwich (l.897–907). prop:theta-examples's proof (l.426–446) takes the limit first, then computes the Newtonian capacity of a ball and that of the Schwarzschild horizon (v = 2a/(s+a)). The numerics of § 9 (cap*/cap_D = 0.9999, l.944 on) are evidence for the limits, not a proof. yamabe's thm:lower-bound carries both clauses: « The factor θ/(1+θ) is optimal. One has θ = 2 for a Euclidean ball … θ = 1 for a Schwarzschild collar, so that κ → 1/2 in the dilute limit » (Yamabegap.tex l.530), then eq:R-bound. So this ruling bounds how far T-yamabe-thm-lower-bound can close the row"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-perf-scope"
+title = "Perforated beyond what thm:lower-bound needs: are lem:csp-lower and the explicit flat-torus constants (prop:torus-B, cor:csp-torus, prop:extension, cor:unconditional) to be formalized?"
+stream = "yamabe"
+kind = "author"
+paper = "perforated"
+status = "needs-ruling"
+owner = "author"
+priority = 9
+question = "DEC-185 asks for thm:lower-bound to be closed from the companion, which takes perforated's § 2–6 (T-perf-capacity, -star3, -star-n, -main, -upper, -poincare, -dilute-limit). Five rows of the companion are off that path: lem:csp-lower (C_SP ≥ 2^{1/N}K by Aubin–Talenti concentration, l.332–357), prop:torus-B (l.742–778), cor:csp-torus (l.786–792), prop:extension (its proof a sketch, l.794–827) and cor:unconditional (l.829–834). Each rests on the sharp Euclidean Sobolev constant K(N,2), which Mathlib's Gagliardo–Nirenberg–Sobolev (an unspecified constant) does not give. Are these five rows to be formalized now? If yes, how K(N,2)'s sharpness enters is asked then"
+evidence = "papers/perforated's ledger (3af8e6b) lists the five rows. thm:lower-bound's Ã needs only thm:star3 and prop:starN (Yamabegap.tex l.530). cor:unconditional would make thm:main hypothesis-free for the punctured flat 3-torus (l.829–834), the case of interest of yamabe § 6 (Yamabegap.tex l.465). DEC-184's charge (Sobolev, trace and Rellich proved) does not name the sharp constant. lean-yamabe/.lake/packages/mathlib has eLpNorm_le_eLpNorm_fderiv_of_eq (Analysis/FunctionalSpaces/SobolevInequality.lean:600) with an unspecified constant, and no Aubin–Talenti"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+# ------------------------------------------------------------------ Benzécri and GFN (planner, 2026-11-22 21:15 UTC)
+[[target]]
+id = "T-bz-poche-nonconstant"
+title = "Benzécri Déf. 1/1′ in corrected form (DEC-178): pocket predicates whose cote is non-constant, each with a witness of non-constant cote (the model witnesses have z = 0), and Prop. 6 restated over them as printed"
+stream = "benzecri"
+kind = "close"
+paper = "benzecri"
+labels = ["bzdef:c2s1d1_poche_affine", "bzdef:c2s1d1prime_poche_projective", "bzprop:c2s2p6_ligne_brisee_poche"]
+status = "ready"
+owner = "closer"
+priority = 6
+evidence = "DEC-178 (OQ-61): « z non-constant » is added to Déf. 1/1′, and 7° and Prop. 6 then hold as printed. T-bz-apply-rulings (773e369) kept the printed, broader IsPocheAff and IsPocheProj (Benzecri/Chapter2/Poches.lean:547, :585). It carries the non-constant cote as a hypothesis where it is used (∃ y, z y ≠ 0: Lignes.lean, ligne_brisee_poche_of_ne_zero and septieme_propriete_of_ne_zero). Its curation notes on bzdef:c2s1d1_poche_affine and bzdef:c2s1d1prime_poche_projective say: « the model witness has z = 0, so a corrected-definition predicate with its own witness is a follow-up ». The witnesses isPocheAff_model and exists_isPocheProj_model (Poches.lean:1297, :1312) are the degenerate pocket (ℝⁿ, id, 0); exists_isPocheProj_cote_zero (Lignes.lean:1044) refutes the printed form. [r] (planner, unchecked) A non-degenerate witness: the open half-space {x₁ > 0} of ℝⁿ (n ≥ 1, DEC-177), z = x₁ and P = {0 < x₁ < 1}. It goes through exemple_poche_affine with p the inclusion, which is injective (DEC-180), and through IsPocheAff.toPocheProj for the projective case. On a pocket, z is non-constant iff z ≢ 0, since inf z = 0 on φ(P); the closer proves this so that the two readings agree. 7° stays with T-bz-c2-proprietes (bzthm:c2s2_proprietes_pseudo_longueur), whose assembly may use the new predicate"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gfn-ledger"
+title = "Ledger the GFN Bounds draft as papers/gfnbounds, rooted at lean/ (GFNBoundsLean, in-tree since DEC-157), so that lean/ gets the atlas's Lean overlay and the hub's own double DAG"
+stream = "gfn"
+kind = "package"
+status = "needs-ruling"
+owner = "master"
+priority = 6
+question = "Should the GFN Bounds draft be snapshotted and ledgered in the hub as papers/gfnbounds, with lean/ as its Lean root? The draft is ~/Dropbox/GFN Bounds: gfnbounds_iclr2027.tex at the draft's commit b83dd0f, 131 labelled statements in its own formalization-ledger.json. The public MathAtlas mirror (DEC-203, DEC-207 strip only third-party material) would then publish the snapshot before the ICLR 2027 decision of 16 Dec 2026, on a submission reviewed double-blind with arXiv posting permitted (SUBMISSION-ICLR2027.md)"
+evidence = "T-atlas-overlay-refresh (DEC-204): « papers/gfnbounds would let lean/ carry facts ». reports/atlas/hub.toml, [paper.gfnbounds]: « Its draft has no ledger in this hub, so the atlas shows its double DAG's counts and does not draw its rows ». lean/ is GFNBoundsLean in-tree (DEC-157, T-gfn-absorb 24f4c85). The draft keeps its own ledger and DAG (formalization-ledger.json, FORMALIZATION-LEDGER.md; « closure 96 of 96 » at ea1a2b8), and tools/doubledag_gfnbounds.sh reads them from outside the repository. A new paper in the hub is the author's to rule. DEC-202 defers OQ-5 (anchor sizes for the GFN pair) and OQ-6 (the nine reconciliation proposals) until after the absorption and T-gfn-doubledag-refresh. That refresh is independent of this target"
+added = "2026-11-22"
+proposed_by = "roadmap-planner"

@@ -678,3 +678,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 3af8e6b d80d6ea f49d088 59f3831 07b4c60 1034b2b 7611b07 [+ roadmap/atlas/journal]
 - wall time: 19:40–21:00 UTC; agents in parallel: 1 closer, 1 builder, 1 helper, 2 auditors
 - next: a planning run (rule 2 is near; the backlog wants cutting: Yamabe round 3 and thm:lower-bound from papers/perforated, the Déf. 1/1′ follow-up, papers/gfnbounds for lean/'s overlay, T-gfn-doubledag-refresh); then T-yamabe-apply-rulings, T-bz-c2-proprietes, T-gx-troyanov-suspension.
+
+## 2026-11-22 21:40 · plan (rule 2: five iterations since the last planner run)
+- roadmap-planner: 153 → 169 targets (16 added, 7 changed); `check` passes.
+  - T-yamabe-analysis is cut up. The integration of round 2 is a master target (T-yamabe-integrate-r2: rewire the primes, repair ConstLimit). The Rellich criterion is a closer target (T-yamabe-rellich-criterion). The monolith narrows to Rellich's manifold half (planned), with integrate-r3 and trace-compact after it.
+  - papers/perforated is cut toward yamabe's thm:lower-bound: T-perf-capacity, T-perf-star3 (ready), then T-perf-main, star-n, upper, poincare, T-yamabe-thm-lower-bound and T-perf-cor-yamabe (planned).
+  - T-bz-poche-nonconstant (DEC-178 follow-up) is ready.
+  - T-gfn-doubledag-refresh and T-bbs-hs-model are promoted to ready.
+- The master gave T-yamabe-apply-rulings `package = "lean-yamabe"`, so the wave tool keeps it apart from the exclusive T-yamabe-integrate-r2.
+- New needs-ruling (the author):
+  - T-perf-dilute-limit: thm:sharp and prop:theta-examples rest on limits the paper asserts. Formalize them in full, or only what is proved?
+  - T-perf-scope: five rows rest on the sharp Euclidean Sobolev constant. Formalize them now?
+  - T-gfn-ledger: ledger the GFN Bounds draft as papers/gfnbounds? The public mirror would then publish it before the ICLR decision of 16 Dec.
+- next: the wave picks T-yamabe-integrate-r2, T-gfn-doubledag-refresh and the overlay refresh. The lean-causal pair waits on /ett-programme, and T-nonacyclic-source waits on the author's Overleaf source.
