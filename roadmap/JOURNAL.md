@@ -581,3 +581,19 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 8786718 662ab55 (+ this)
 - wall time: 01:55–02:07 (Paris); agents: none (master)
 - next: a wave of T-ett-cauchy-ext-e0 and T-ett-diamant-past. At their graduation, SingularRowsDiamond.lean's SCOPE (:79–86) is re-worded.
+
+## 2026-11-22 02:56 · wave of 2 · T-ett-cauchy-ext-e0, T-ett-diamant-past
+- T-ett-diamant-past: A2's time-reversed compactness, J⁻(Σ) ∩ J⁺(p) compact, holds at every globally hyperbolic, Hausdorff, second countable E≥0-manifold with no hypothesis left, verbatim the field's conclusion.
+  - The route is not duality: J⁺ of open sets is open at every E≥0-manifold, BTZ points included, with no causality, T2 or second countability.
+  - Both A2 compactness fields now hold at E≥0-manifolds.
+  - Unmarked. Audit minor (M-level decls only; one docstring narrowed).
+- T-ett-cauchy-ext-e0: the first Cauchy extension between E≥0-manifolds that is not onto, {T < a} ⊂ E₀.
+  - lem:image_diamant, lem:passe_pgcd (as printed, both branches at frontier points) and lem:Cauchy_plongement_toutes are now witnessed off the identity. It is a past set, so the conclusions there are immediate; this is disclosed.
+  - The past-set lemma is ported verbatim from lean-gx. The planner's step (b) failed as cited, since CurvesExtend is image containment only (kb/0212).
+  - Unmarked. Audit minor (docstring reworded).
+- master: SingularRowsDiamond's SCOPE now names both new modules; kb/0201 updated.
+- gates: lean-causal ✓ (strict 0 sorry in 293 files; scaffold 6 in 7), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at a2924ea, clean), hub: no new red
+- commits: 99e9e06 a2924ea 35e1933 (+ this)
+- wall time: 02:08–02:56 (Paris); agents: 2 closers, 2 audits
+- new OQ: none (next free OQ-88); lean-causal kb 0207–0214
+- next: plan (rule 2: no ready closer). The planner research targets T-3p1-funnel-lemma and T-bbs-archive are still waiting.
