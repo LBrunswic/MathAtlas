@@ -177,7 +177,9 @@
 # the second through the closure), and 2 are [[open]] entries, inextensible_nested → le_nested (false,
 # argued: the pointed line in the spacelike line) and → curve_nested (true, argued, on T1, second
 # countable spaces). In all: 34 implied, 275 refuted, 9 [[open]] (3 causality-sort, 4 geometry-sort,
-# 2 pair-sort).
+# 2 pair-sort). After T-lad-one-sided-node (2026-11-22) still 318 of 318, the same 34, 275 and 9: it
+# adds one consequence (ERS Thm 4.82 at is_causal, one_sided_boundary in its `under`) and no node, so
+# no pair moves.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -251,6 +253,30 @@
 #   Whether it becomes a causality-sort node on its own account, as Lemma K's hypothesis, is not
 #   ruled (the roadmap's T-lad-nested-inextensible).
 #
+# One-sided notions (DEC-166, OQ-52; T-lad-one-sided-node, 2026-11-22).
+# * (a) The one-sided notions of Causal.LadderLocal take the past as base
+#   (Causal.Causality.ChronalPastNeighbours, NoPastEndpoint; the future forms are C.dual.…).
+#   DEC-166 (a) moves them to the library's future base, as CausallyOpenFuture is, the past forms
+#   becoming C.dual.… (T-abs-one-sided-future-base, a Lean refactor); no ladder id is renamed now.
+#   What the rename will change here: no id and no `lean` field. The two-sided node chronal_neighbours
+#   (Causal.Causality.ChronalNeighbours) and the two-sided Causal.Causality.NoCausalEndpoint (no node;
+#   "J⁺(x) ≠ {x} and J⁻(x) ≠ {x}" in words in `under`) keep their names and meaning; only their
+#   Lean bodies become the future form of C and of C.dual. The comments citing the one-sided names
+#   (the localisation properties' header and chronal_neighbours' comment, with
+#   Causal.Causality.ChronalPastNeighbours.mem_Zminus and
+#   Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff; the global line's entry) keep
+#   resolving, since the past names stay as definitions equal to the dual forms; the keeper moves them
+#   to the future names after the refactor. Whether a one-sided node is then added is the keeper's, not
+#   ruled.
+# * (b) one_sided_boundary (Causal.Causality.OneSidedBoundary U B, Causal/LadderLocal.lean:190, the
+#   topological content of ERS (4.83)) is an edge hypothesis only, not a ladder node. A predicate on an
+#   open U and a set B of M with no causality, it fits neither sort; it is written in words in the
+#   `under` of the consequence that takes it (ERS Thm 4.82 at is_causal,
+#   Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary; the forms through it are
+#   T-lad-ers-restart-nodes'). Its layer 3 is (4.83)'s chart condition, supplied at the quasilinear
+#   model by Lemma 4.86 (T-loc-quasilinear-one-sided, done). The binder papers/ers-predictability keeps
+#   one_sided_boundary as a [[proposed]] localisation id until T-bind-ers-rulings rewords it.
+#
 # Provenance of the names. Those added on 2026-11-20 by T-lad-cbg-geometry-nodes and by
 # T-lad-nested-nodes were resolved by `#check` against the library as built that day (lake env lean,
 # no build); so were those added on 2026-11-21 by T-lad-local-nodes (the four localisation nodes,
@@ -320,7 +346,11 @@
 # `#check` the same way, from the built Causal.NestedCausalities, Causal.LadderLocal,
 # Causal.NestedConverse, Causal.ErsMughd, Causal.Geroch and Causal.CurvesExtendSecondCountable; of the
 # six, GloballyHyperbolic.dependenceDomainOn_subset_of_nested and ers_lemma_4_70 take [T2Space M]
-# ("M Hausdorff" in their `under`), the other four no instance.
+# ("M Hausdorff" in their `under`), the other four no instance. Those of T-lad-one-sided-node
+# (2026-11-22: the consequence's witness Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary and
+# every Lean name its comment and the refreshed comments cite) were read from the sources, with no
+# build (a tactics-builder held lean-causal), the witness's signature quoted in its comment; it takes
+# [T2Space M] [LocallyConnectedSpace M], its standing ["T2", "locally_connected"].
 
 [[property]]
 id = "is_causal"
@@ -470,7 +500,11 @@ note = "every causality on a T1, second countable space has curves_extend (Zorn 
 # open neighbourhood with the property"; for push-up and future causal openness, which pass to
 # smaller opens, it is the arbitrarily-small form (Causal.Causality.locallyPushUp_iff_nhds,
 # locallyCausallyOpenFuture_iff_nhds). Each global property implies its local form (edges below).
-# The one-sided ChronalPastNeighbours is not a node (OQ-52 (a), the past base of the one-sided notions).
+# The one-sided ChronalPastNeighbours is not a node. DEC-166 (a) (OQ-52 (a)) moves the one-sided
+# notions to the library's future base, the past forms as C.dual (T-abs-one-sided-future-base, a Lean
+# refactor; what it changes here: the header's "One-sided notions"); whether a one-sided node is then
+# added is the keeper's, not ruled. OneSidedBoundary, OQ-52's other notion, is an edge hypothesis
+# only (DEC-166 (b)): no node, named in the `under` of its consequence (ERS Thm 4.82, at is_causal).
 
 # The cover (O i) of lem:pushup_local is this, up to `choose` (Causal.Causality.locallyPushUp_of_cover).
 [[property]]
@@ -1493,8 +1527,8 @@ status = "checked"
 # T-lad-record-lines on Causal.globalLine_separates : globalLine.NonemptyChronalCones ∧
 # globalLine.PushUp ∧ globalLine.CausallyOpen ∧ globalLine.IsCausal ∧ ¬globalLine.ChronalPastNeighbours
 # ∧ ¬globalLine.ChronalNeighbours ∧ ¬globalLine.AbsolutelyMinimal (NonemptyChronalCones and
-# ChronalPastNeighbours are no nodes: OQ-51, OQ-52 (a)); re-pointed by T-lad-record-minimal
-# (2026-11-21), tarentin joining `from`, to Causal.globalLine_separates_tarentin
+# ChronalPastNeighbours are no nodes: OQ-51, OQ-52 (a), ruled by DEC-166 (a)); re-pointed by
+# T-lad-record-minimal (2026-11-21), tarentin joining `from`, to Causal.globalLine_separates_tarentin
 # (Causal/ChronalTarentin.lean, T-abs-chronal-neighbours-tarentin), read by `#check`:
 # globalLine.Tarentin ∧ PushUp ∧ CausallyOpen ∧ IsCausal ∧ ¬ ChronalNeighbours ∧ ¬ AbsolutelyMinimal
 # (every point is strongly tarentin, Causal.globalLine_separates_Z: Z⁺ = Z⁻ = ℝ ∧ Tarentin ∧
@@ -2102,6 +2136,14 @@ status = "checked"
 # (Causal.not_leNested_of_curveNested_wider_bare, this very pair) nor with C only absolutely minimal
 # (Causal.not_leNested_of_curveNested_absolutelyMinimal_bare, the rational line in the spacelike
 # line, Causal.rationalLine_separates_curveNested).
+# DEC-167 (OQ-18: defi:causalite read with gluing, every ETT causality absolutely minimal): the
+# pointed line is not absolutely minimal (Causal.GluingModels.pointedLine_not_minimal; the gluing
+# inventory, lean-causal/campaign/T-abs-gluing-models/REPORT.json, lists this entry as resting on
+# it), so under DEC-167 this entry is to be re-pointed to Causal.rationalLine_separates_curveNested
+# (Causal/NestedConverse.lean:413: the rational line, absolutely minimal, causal, with push-up, is
+# curve-nested in the spacelike line on every open and not ≤-nested in it), which refutes the pair in
+# either reading. Not re-pointed yet: gluing is not yet in the library's definition of a causality,
+# and the re-pointing is T-lad-gluing-reading's.
 [[fails]]
 from = "curve_nested"
 to = "le_nested"
@@ -2192,6 +2234,45 @@ at = "is_causal"
 statement = "causality is transported by a homeomorphism e : M ≃ₜ N carrying ≤_M onto ≤_N (x ≤_M y ⇔ e x ≤_N e y), in particular by a causal isomorphism"
 witness = "Causal.LeTopIso.isCausal_iff"
 under = "the homeomorphism e with Causal.LeTopIso C D e"
+status = "checked"
+
+# ERS19 Thm 4.82 (ersthm:ThmNotBlocking, ghd_02_19.tex:1100, proof 1114–1139), causal-topological
+# skeleton with (4.83) named (T-lad-one-sided-node, 2026-11-22). Read from the source, no build
+# (Causal/LadderLocal.lean:398, a corollary of Causal.Causality.ers_theorem_4_82,
+# Causal/NestedCausalities.lean:1304): [T2Space M] [LocallyConnectedSpace M]; developments
+# dom : ι → Opens M, cau : ι → Causality M, s₀ ∈ S, an index i₁ with dom i₁ maximal among the dom i
+# (hmax); for each i: S ⊆ dom i, dom i preconnected, (hcaus) ≤_{dom i} of cau i antisymmetric,
+# (hsplit) every point of dom i in J⁺_{dom i}(S) ∪ J⁻_{dom i}(S), (hJm, hJp) J∓_{dom i}(x) relatively
+# closed in dom i, (hKm, hKp) the slabs J∓_{dom i}(q) ∩ J±_{dom i}(S) compact, closure S ∩ dom i ⊆ S;
+# (honesided) OneSidedBoundary (dom i₁) (closure S); (hstep) the restart; conclusion ∀ i,
+# dom i ≤ dom i₁. The one ladder id it asks is is_causal, of each cau i read on its development dom i
+# as a spacetime, not on ≤_M as the two entries above (hcaus is IsCausal with ≤_{dom i} for ≤_M, the first conjunct of
+# Causal.Causality.GloballyHyperbolicOn), hence `at`; closed J's of points and compact slabs over S
+# are no nodes. DEC-166 (b) (OQ-52 (b)): one_sided_boundary is an edge hypothesis only, not a ladder
+# node. Causal.Causality.OneSidedBoundary U B (Causal/LadderLocal.lean:190: U one-sided,
+# Causal.Causality.OneSidedAt, at each of its frontier points off B) is a predicate on an open U and
+# a set B of M with no causality, so it fits neither sort; it stands in `under`, in words. It is not
+# automatic: (0, ∞) has it in ℝ (Causal.oneSidedBoundary_Ioi_zero), ℝ ∖ {0} not
+# (Causal.not_oneSidedBoundary_compl_zero). Its layer 3 is ERS (4.83)'s chart condition (∂U₁ off ∂S
+# locally the graph of a continuous function, U₁ below it, its complement above), which the done
+# T-loc-quasilinear-one-sided supplies at the quasilinear model for Lemma 4.86
+# (erslem:PropertyTimelike): Causal.ers_lemma_4_86_oneSidedBoundary
+# (Causal/Model/QuasilinearOneSided.lean:677; the slope-δ cone curve-nested in C or in C.dual on U₁,
+# S a Cauchy surface of U₁ in {x⁰ = 0}; readings OQ-73, DEC-162), through
+# Causal.BoundaryGraph.oneSidedBoundary (:608, the chart condition gives OneSidedBoundary), and the
+# theorem with it supplied, Causal.ers_theorem_4_82_of_slopeCone (:722). Through this witness, each
+# with the same honesided: Causal.Causality.ers_theorem_4_82_of_sliceRestart
+# (Causal/ErsUniqueness.lean:722; hstep written SliceRestart, hsplit SplitBy, hKm, hKp
+# CompactSlabs), ers_theorem_4_82_of_globallyHyperbolicOn (:749; hcaus, hJm, hJp from
+# globally_hyperbolic and tarentin of each cau i on dom i) and
+# ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:636), left
+# to T-lad-ers-restart-nodes (slice_restart in `under`).
+[[consequence]]
+at = "is_causal"
+statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton: a maximal development U₁ = dom i₁ whose boundary off closure S is one-sided contains, under the restart, every development: dom i ⊆ U₁ for every i"
+witness = "Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary"
+under = "developments (dom i, cau i), each with S ⊆ dom i and dom i preconnected, s₀ ∈ S, U₁ = dom i₁ maximal among them; is_causal of each cau i on its dom i (ladder node, read on the development: hcaus); S splits each dom i (every point in J⁺_{dom i}(S) ∪ J⁻_{dom i}(S)); J⁺_{dom i}(x), J⁻_{dom i}(x) relatively closed in dom i; the slabs J∓_{dom i}(q) ∩ J±_{dom i}(S) compact; closure S ∩ dom i ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): OneSidedBoundary U₁ (closure S), i.e. Causal.Causality.OneSidedBoundary (dom i₁) (closure S), every frontier point of U₁ off closure S having arbitrarily small neighbourhoods V with V ∩ U₁ preconnected ((4.83)'s topological content); the restart hstep (Causal.Causality.SliceRestart definitionally: at each frontier point p ∈ dom i of the component of U₁ ∩ dom i through s₀ at which that frontier is spacelike, a neighbourhood V ⊆ dom i of p with V ∩ U₁ inside the component gives a development strictly larger than U₁)"
+standing = ["T2", "locally_connected"]
 status = "checked"
 
 [[consequence]]
