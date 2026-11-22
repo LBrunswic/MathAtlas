@@ -1,12 +1,13 @@
 import YamabeScaffold.Localisation
 
 /-!
-# The analytic theorems of § 6 on a compact manifold with boundary, under primed names
+# The analytic theorems of § 6 on a compact manifold with boundary: Sobolev embedding, trace theorem, finite energy, and their bridges to the model
 
 Labels (NOT marked: see SCOPE):
 
 * `lem:kobayashi` — `Yamabegap.tex:613` (statement l.613–625, proof l.626–638): the Sobolev
-  embedding the proof cites (l.637, `Hebey1996`) and the finite energy of a `C¹` function.
+  embedding the proof cites (l.637, `Hebey1996`), the finite energy of a `C¹` function, and
+  lem:kobayashi (b) on a model reading the manifold (`Mfd.Reads.kobayashiB`).
 * `lem:positivity` — `Yamabegap.tex:715` (statement l.715–718, proof l.719–721): the trace theorem
   of l.491 that its quotient uses, and the Sobolev embedding of l.720.
 
@@ -16,25 +17,33 @@ Labels (NOT marked: see SCOPE):
 > where the boundary norms are those of the trace of $u$, which is well defined in
 > $L^{\psharp}(\partial\Sigma)$ by the trace theorem. (l.491)
 
-## The primed names (to rewire at integration)
+## What is proved (no `sorry`, standard axioms)
 
-Each theorem here has **exactly** the statement of the round-1 theorem of the same name without
-the prime (same binders, same conclusion; checked by the `example`s at the end of the file, which
-compare the two types by `rfl`), so that the round-1 `sorry` can be replaced by a call:
-
-| round 1 (`sorry`) | here (proved) |
-|---|---|
-| `Mfd.eLpNorm_gradNorm_lt_top` (`YamabeScaffold.Sobolev`) | `Mfd.eLpNorm_gradNorm_lt_top'` |
-| `Mfd.sobolev_embedding` (`YamabeScaffold.Sobolev`) | `Mfd.sobolev_embedding'` |
-| `Mfd.trace_embedding` (`YamabeScaffold.Trace`) | `Mfd.trace_embedding'` |
+* `Mfd.eLpNorm_gradNorm_lt_top`: a `C¹` function on a compact manifold has finite energy;
+* `Mfd.sobolev_embedding`: `‖u‖_{L^{p*}(μ)} ≤ C (‖∇u‖_{L²(μ)} + ‖u‖_{L²(μ)})` for `u ∈ C¹(M)`;
+* `Mfd.trace_embedding`: `‖u‖_{L^{p♯}(σ)} ≤ C (‖∇u‖_{L²(μ)} + ‖u‖_{L²(μ)})` for `u ∈ C¹(M)`;
+* the bridges to a model reading `(M, g, μ, σ)`: `Mfd.Reads.sobolevIneq`, `Mfd.Reads.kobayashiB`,
+  `Mfd.Reads.prop_nonpositive_csc` (prop:nonpositive's second sentence), `Mfd.Reads.traceIneq`.
 
 The proofs: `gradNorm_bdd` (the metric read in a chart, `YamabeScaffold.Localisation`); a finite
 smooth partition of unity subordinate to good chart neighbourhoods (`Mfd.assemble`), on each of
 which `local_sobolev` and `local_trace` read the half-space inequalities of
 `YamabeScaffold.HalfSpace` (the `C¹` reflection across `{z₀ = 0}`, then Mathlib's
-Gagliardo–Nirenberg–Sobolev inequality and round 1's `trace_critical`) through the chart, the
+Gagliardo–Nirenberg–Sobolev inequality and `trace_critical`) through the chart, the
 comparability of `μ` with Lebesgue measure and of `σ` with `μH[N-1]`, and the comparison of `g`
 with the chart's coordinates.
+
+## Provenance of the statements
+
+The seven statements are round 1's (T-yamabe-analysis), which stated them with `sorry` in
+`YamabeScaffold.Sobolev` (the first two and three bridges) and `YamabeScaffold.Trace` (the trace
+theorem and its bridge). Round 2 proved them here under primed names; the integration
+(T-yamabe-integrate-r2) checked each primed type `Expr`-equal to its round-1 original (as AUDIT-2
+had), then deleted the round-1 `sorry`s and gave the proofs the round-1 names, so that every use
+(`YamabeScaffold.Rellich`, `YamabeScaffold.Compactness`, the curation) keeps its name and its
+statement. The definitions they are stated with (`Mfd.gradNorm`, `Mfd.IsC1`, `Mfd.w12`,
+`Mfd.IsLocallyLebesgue`, `Mfd.IsBoundaryMeasure`, `Mfd.Reads`) stay in `YamabeScaffold.Sobolev`
+and `YamabeScaffold.Trace`, which this file imports.
 
 ## Hypothesis checklist
 
@@ -46,9 +55,10 @@ with the chart's coordinates.
 
 ## SCOPE (disclosed)
 
-* Not here: `Mfd.rellich_kondrachov` and `Mfd.trace_compact` (still `sorry` in round 1's files).
-  `Mfd.const_of_tendsto` is false as stated (no measurability of the limit); its corrected form
-  is `Mfd.const_of_tendsto_of_aestronglyMeasurable` (`YamabeScaffold.Compactness`).
+* Not here: `Mfd.rellich_kondrachov` (`YamabeScaffold.Rellich`) and `Mfd.trace_compact`
+  (`YamabeScaffold.Trace`), the scaffold's two remaining `sorry`s; nothing in this file uses them.
+* No label is marked while OQ-93 is open: the manifold theorems are proved under its readings
+  (a), (b) above.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -67,9 +77,9 @@ variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace N) M
   [IsManifold (𝓡∂ N) ∞ M]
 variable [MeasurableSpace M]
 
-/-- **A `C¹` function on a compact manifold has finite Dirichlet energy** (the round-1
-`eLpNorm_gradNorm_lt_top`, same statement): `|∇u|_g` is bounded (`gradNorm_bdd`) and `μ` finite. -/
-theorem eLpNorm_gradNorm_lt_top' [BorelSpace M] [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
+/-- **A `C¹` function on a compact manifold has finite Dirichlet energy**: `|∇u|_g` is bounded
+(`gradNorm_bdd`) and `μ` finite. -/
+theorem eLpNorm_gradNorm_lt_top [BorelSpace M] [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
     {μ : Measure M} [IsFiniteMeasure μ] {u : M → ℝ} (hu : IsC1 N u) :
     eLpNorm (gradNorm g u) 2 μ < ⊤ := by
   obtain ⟨K, hK⟩ := gradNorm_bdd g hu
@@ -81,9 +91,10 @@ theorem eLpNorm_gradNorm_lt_top' [BorelSpace M] [CompactSpace M] [T2Space M] (g 
 
 variable [BorelSpace M]
 
-/-- **The Sobolev embedding** `W^{1,2}(M) ↪ L^{p*}(M)` (the round-1 `sobolev_embedding`, same
-statement). -/
-theorem sobolev_embedding' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
+/-- **The Sobolev embedding** `W^{1,2}(M) ↪ L^{p*}(M)` on a compact manifold with boundary
+(Hebey1996; cited at l.637 and l.720): `‖u‖_{L^{p*}} ≤ C ‖u‖_{W^{1,2}}` for every `u ∈ C¹(M)`.
+`local_sobolev` on good chart neighbourhoods, summed by `assemble`. -/
+theorem sobolev_embedding (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
     {μ : Measure M} (hμ : IsLocallyLebesgue N μ) :
     ∃ C : ℝ≥0, ∀ u : M → ℝ, IsC1 N u →
       eLpNorm u (ENNReal.ofReal (pStar N)) μ ≤ C * w12 g μ u := by
@@ -96,8 +107,10 @@ theorem sobolev_embedding' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : Riem
   · rintro V ⟨x₀, Cμ, Cg, hG⟩ ρ hρ hρV hρ1
     exact local_sobolev hN hG hρ hρV hρ1
 
-/-- **The trace theorem** (the round-1 `trace_embedding`, same statement). -/
-theorem trace_embedding' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
+/-- **The trace theorem** (l.491): the trace `W^{1,2}(M) → L^{p♯}(∂M)` is bounded,
+`‖u|_{∂M}‖_{L^{p♯}(σ)} ≤ C ‖u‖_{W^{1,2}(M)}` for every `u ∈ C¹(M)`. `local_trace` on good chart
+neighbourhoods inside the neighbourhoods of `IsBoundaryMeasure`, summed by `assemble`. -/
+theorem trace_embedding (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
     {μ : Measure M} (hμ : IsLocallyLebesgue N μ) {σ : Measure M} (hσ : IsBoundaryMeasure N σ) :
     ∃ C : ℝ≥0, ∀ u : M → ℝ, IsC1 N u →
       eLpNorm u (ENNReal.ofReal (pSharp N)) σ ≤ C * w12 g μ u := by
@@ -121,20 +134,21 @@ theorem trace_embedding' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : Rieman
   · rintro V ⟨x₀, Cμ, Cg, Cσ, hG, hCσ, hσV⟩ ρ hρ hρV hρ1
     exact local_trace n hn hN hσ.1 hG hCσ hσV hρ hρV hρ1
 
-/-! ## The round-1 bridges to the model, rewired to the primed theorems (sorry-free) -/
+/-! ## The bridges to the model (sorry-free) -/
 
 namespace Reads
 
 variable {D : Type*} [AddCommGroup D] [Module ℝ D] {n : ℕ} {Mm : MeasuredModel M D N n}
   {gm : FrameMetric M N} {g : RiemannianMetric N M} {μ : Measure M} {σ : Fin n → Measure M}
 
-/-- The round-1 `Mfd.Reads.sobolevIneq`, same statement, through `sobolev_embedding'`. -/
-theorem sobolevIneq' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
+/-- The Sobolev inequality on a model reading a compact manifold with boundary, through
+`sobolev_embedding`. -/
+theorem sobolevIneq (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
     (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) : Mm.SobolevIneq gm := by
-  obtain ⟨C, hC⟩ := sobolev_embedding' hN g hμ
+  obtain ⟨C, hC⟩ := sobolev_embedding hN g hμ
   refine ⟨2 * (C : ℝ) ^ 2, fun u => ?_⟩
   have hf := hr.c1 u
-  have ha : eLpNorm (gradNorm g (Mm.val u)) 2 μ ≠ ⊤ := (eLpNorm_gradNorm_lt_top' g hf).ne
+  have ha : eLpNorm (gradNorm g (Mm.val u)) 2 μ ≠ ⊤ := (eLpNorm_gradNorm_lt_top g hf).ne
   have hb : eLpNorm (Mm.val u) 2 μ ≠ ⊤ := (memLp_of_isC1 hf 2).eLpNorm_ne_top
   have h := sq_le_of_le_mul_add ha hb (hC _ hf)
   unfold MeasuredModel.w12Sq
@@ -143,31 +157,33 @@ theorem sobolevIneq' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasur
   rw [ENNReal.ofReal_ofNat]
   exact h
 
-/-- The round-1 `Mfd.Reads.kobayashiB` (lem:kobayashi (b) on a model reading `M`), same
-statement, sorry-free. -/
-theorem kobayashiB' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
+/-- lem:kobayashi (b) on a model reading a compact manifold with boundary: the Sobolev inequality
+is discharged by `sobolev_embedding`. -/
+theorem kobayashiB (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
     {gc : CurvedMetric M N} (hr : Reads Mm gc.toFrameMetric g μ σ) (hμ : IsLocallyLebesgue N μ)
     (hV : μ ≠ 0) (hH : Mm.MinimalBoundary gc) : Mm.KobayashiB gc := by
   haveI : IsFiniteMeasure (Mm.vol gc.toFrameMetric) := by rw [hr.vol_eq]; infer_instance
   exact Mm.kobayashiB_of_sobolev hN gc (by rw [hr.vol_eq]; exact hV) hr.hD hH
-    (hr.sobolevIneq' hN hμ)
+    (hr.sobolevIneq hN hμ)
 
-/-- The round-1 `Mfd.Reads.prop_nonpositive_csc`, same statement, sorry-free. -/
-theorem prop_nonpositive_csc' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
+/-- prop:nonpositive, second sentence, on a model reading a compact manifold with boundary, with
+lem:kobayashi (b) discharged by the Sobolev embedding; `Y_[g](Σ) ≤ 0` (the first sentence) carried. -/
+theorem prop_nonpositive_csc (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
     {gc : CurvedMetric M N} (hr : Reads Mm gc.toFrameMetric g μ σ) (hμ : IsLocallyLebesgue N μ)
     (hV : μ ≠ 0) (hH : Mm.MinimalBoundary gc) {c : ℝ} (hRc : ∀ x, gc.R x = c) (hY : Mm.Y gc ≤ 0) :
     (∀ x, gc.R x ≤ 0) ∧ Mm.EH gc = Mm.Y gc := by
   haveI : IsFiniteMeasure (Mm.vol gc.toFrameMetric) := by rw [hr.vol_eq]; infer_instance
-  exact Mm.prop_nonpositive_csc hN gc hr.hD hH hRc hY (hr.kobayashiB' hN hμ hV hH)
+  exact Mm.prop_nonpositive_csc hN gc hr.hD hH hRc hY (hr.kobayashiB hN hμ hV hH)
 
-/-- The round-1 `Mfd.Reads.traceIneq`, same statement, through `trace_embedding'`. -/
-theorem traceIneq' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
+/-- The trace theorem on a model reading a compact manifold with boundary, through
+`trace_embedding`. -/
+theorem traceIneq (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
     [∀ j, IsFiniteMeasure (σ j)] (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ)
     (hσ : ∀ j, IsBoundaryMeasure N (σ j)) : Mm.TraceIneq gm := by
-  choose C hC using fun j => trace_embedding' hN g hμ (hσ j)
+  choose C hC using fun j => trace_embedding hN g hμ (hσ j)
   refine ⟨2 * ∑ j, ((C j : ℝ)) ^ 2, fun u j => ?_⟩
   have hf := hr.c1 u
-  have ha : eLpNorm (gradNorm g (Mm.val u)) 2 μ ≠ ⊤ := (eLpNorm_gradNorm_lt_top' g hf).ne
+  have ha : eLpNorm (gradNorm g (Mm.val u)) 2 μ ≠ ⊤ := (eLpNorm_gradNorm_lt_top g hf).ne
   have hb : eLpNorm (Mm.val u) 2 μ ≠ ⊤ := (memLp_of_isC1 hf 2).eLpNorm_ne_top
   have h := sq_le_of_le_mul_add ha hb (hC j _ hf)
   rw [hr.bvol_eq j, hr.tr_eq u]
@@ -184,19 +200,6 @@ theorem traceIneq' (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure 
   nlinarith
 
 end Reads
-
-/-! ## The primed statements are the round-1 statements (checked by `rfl`) -/
-
-universe u v
-
-example : type_of% @eLpNorm_gradNorm_lt_top.{u} = type_of% @eLpNorm_gradNorm_lt_top'.{u} := rfl
-example : type_of% @sobolev_embedding.{u} = type_of% @sobolev_embedding'.{u} := rfl
-example : type_of% @trace_embedding.{u} = type_of% @trace_embedding'.{u} := rfl
-example : type_of% @Reads.sobolevIneq.{u, v} = type_of% @Reads.sobolevIneq'.{u, v} := rfl
-example : type_of% @Reads.kobayashiB.{u, v} = type_of% @Reads.kobayashiB'.{u, v} := rfl
-example : type_of% @Reads.prop_nonpositive_csc.{u, v} = type_of% @Reads.prop_nonpositive_csc'.{u, v} :=
-  rfl
-example : type_of% @Reads.traceIneq.{u, v} = type_of% @Reads.traceIneq'.{u, v} := rfl
 
 end Mfd
 

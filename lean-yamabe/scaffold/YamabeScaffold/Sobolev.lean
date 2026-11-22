@@ -1,14 +1,16 @@
 import Yamabe.Negative
 
 /-!
-# The Sobolev embedding `W^{1,2}(Σ) ↪ L^{p*}(Σ)` on a compact manifold with boundary, and lem:kobayashi (b)
+# The Sobolev inequality and lem:kobayashi (b) on the model; the manifold layer's definitions
 
 Labels (NOT marked: partial, see SCOPE):
 
 * `lem:kobayashi` — `Yamabegap.tex:613` (statement l.613–625, proof l.626–638): part (b)
   (l.623, proof l.632–637) over the measured model of `Yamabe.Kobayashi`, from the Sobolev
-  inequality; the assembly (a) ∧ (b); and the Sobolev embedding the proof cites (l.637, and again
-  in lem:positivity, l.720, `Hebey1996`), stated on a compact Riemannian manifold with boundary.
+  inequality; the assembly (a) ∧ (b); the Euclidean inequality behind the Sobolev embedding the
+  proof cites (l.637, and again in lem:positivity, l.720, `Hebey1996`); and the definitions of the
+  manifold layer on which that embedding is stated and proved (`Mfd.sobolev_embedding`, in
+  `YamabeScaffold.ManifoldTheorems`).
 
 > \item[(b)] If $\min_\Sigma\Rs_\g>0$, then $\Y_{[\g]}(\Sigma)>0$. (l.623)
 
@@ -35,10 +37,17 @@ Two layers.
   `C¹(M)` (`Mfd.IsC1 N`), which is dense in it: a `W^{1,2}` inequality is its inequality on `C¹`.
 * **The model layer** (`Yamabe.MeasuredModel`, the strict frame model): `SobolevIneq` is the
   inequality on a model; `Mfd.Reads` says that a model reads `(M, g, μ, σ)` (its volume is `μ`,
-  its functions are `C¹`, its `|∇u|²` is `|∇u|²_g`); `Mfd.Reads.sobolevIneq` transports the
-  manifold theorem to it.
+  its functions are `C¹`, its `|∇u|²` is `|∇u|²_g`); `Mfd.Reads.sobolevIneq`
+  (`YamabeScaffold.ManifoldTheorems`) transports the manifold theorem to it.
 
-## What is proved
+The manifold theorems themselves, `Mfd.sobolev_embedding` and `Mfd.eLpNorm_gradNorm_lt_top`, and
+their bridges to the model `Mfd.Reads.sobolevIneq`, `Mfd.Reads.kobayashiB`,
+`Mfd.Reads.prop_nonpositive_csc`, are in `YamabeScaffold.ManifoldTheorems`, proved through
+`YamabeScaffold.HalfSpace` and `YamabeScaffold.Localisation`, which import this file. Round 1
+stated them here with `sorry`; the integration of round 2 (T-yamabe-integrate-r2) deleted those
+and gave the proved copies the round-1 names, with the round-1 statements unchanged.
+
+## What is proved (no `sorry` in this file)
 
 `sobolev_euclidean` (Gagliardo–Nirenberg–Sobolev on `ℝ^N` at `p = 2`, `p' = p*`, for `C¹`
 compactly supported functions, from Mathlib's `eLpNorm_le_eLpNorm_fderiv_of_eq`);
@@ -54,12 +63,6 @@ step of l.632–637), `MeasuredModel.lem_kobayashi` (the assembly (a) ∧ (b)),
 `g_x`-orthonormal frame), through `Mfd.gradNorm_sq` (`|∇u|²_g` is the sum of squares of the frame
 components of `du_x`: Riesz and Parseval for `g_x`).
 
-## What is stated with `sorry`
-
-`Mfd.sobolev_embedding` (the embedding on `M`), `Mfd.eLpNorm_gradNorm_lt_top` (a `C¹` function
-on a compact manifold has finite energy); what Mathlib lacks is written at each `sorry`. Hence
-`Mfd.Reads.sobolevIneq`, `Mfd.Reads.kobayashiB`, `Mfd.Reads.prop_nonpositive_csc` rest on them.
-
 ## Hypothesis checklist
 
 | paper hypothesis | here |
@@ -69,14 +72,15 @@ on a compact manifold has finite energy); what Mathlib lacks is written at each 
 | `H_g ≡ 0` (standing assumption of lem:kobayashi, l.615) | ✓ carried (`MinimalBoundary`) |
 | `min_Σ R_g > 0` (l.623) | ✓ carried as `0 < ⨅ x, R_g x` (as in the strict `KobayashiB`) |
 | `Σ ≠ ∅` | ✓ carried as `vol_g ≠ 0` on the model |
-| the Sobolev embedding (l.637, Hebey1996) | on the model: `SobolevIneq` (a hypothesis of the model, discharged for a model reading a manifold by `Mfd.sobolev_embedding`, stated, `sorry`) |
+| the Sobolev embedding (l.637, Hebey1996) | on the model: `SobolevIneq` (a hypothesis of the model, discharged for a model reading a manifold by `Mfd.Reads.sobolevIneq`, from `Mfd.sobolev_embedding`, both proved in `YamabeScaffold.ManifoldTheorems`) |
 
 ## SCOPE (disclosed)
 
-* `Mfd.sobolev_embedding` is stated in its strongest usual form, in `ℝ≥0∞` (so finiteness is part
-  of the conclusion), for every locally-Lebesgue `μ`: Lean ≥ paper, since the Riemannian volume is
-  such a measure. Its proof is `sorry`: what Mathlib lacks is listed at the `sorry`. The Euclidean
-  inequality it localises to is proved (`sobolev_euclidean`).
+* `Mfd.sobolev_embedding` (`YamabeScaffold.ManifoldTheorems`) is stated in its strongest usual
+  form, in `ℝ≥0∞` (so finiteness is part of the conclusion), for every locally-Lebesgue `μ`:
+  Lean ≥ paper, since the Riemannian volume is such a measure (OQ-93 (a)). It is proved there,
+  sorry-free, from the Euclidean inequality of this file (`sobolev_euclidean`) through the
+  half-space reflection and the chart localisation.
 * `SobolevIneq` is junk-prone in the strict model's conventions (`normSq`, `dirichlet` are `0` when
   infinite). For a model reading a manifold (`Mfd.Reads`) every energy and norm is finite, so the
   inequality is genuine there (`Mfd.Reads.sobolevIneq`).
@@ -84,7 +88,7 @@ on a compact manifold has finite energy); what Mathlib lacks is written at each 
   theorems are not vacuous. Its frame is chosen pointwise (the model asks no measurability of a
   frame), so `gradNorm` is checked against the model's `du ⬝ G⁻¹ du`.
 * `Mfd.gradNorm` is the `g`-dual norm of `mfderiv`; `Mfd.RiemannianMetric` is smooth (`∞`); only
-  its continuity would be used by a proof of the embedding.
+  its continuity is used by the proof of the embedding.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -369,30 +373,6 @@ def IsLocallyLebesgue (μ : Measure M) : Prop :=
 
 variable [BorelSpace M]
 
-/-- **The Sobolev embedding** `W^{1,2}(M) ↪ L^{p*}(M)` on a compact manifold with boundary
-(Hebey1996; cited at l.637 and l.720): `‖u‖_{L^{p*}} ≤ C ‖u‖_{W^{1,2}}` for every `u ∈ C¹(M)`. -/
-theorem sobolev_embedding (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
-    {μ : Measure M} (hμ : IsLocallyLebesgue N μ) :
-    ∃ C : ℝ≥0, ∀ u : M → ℝ, IsC1 N u →
-      eLpNorm u (ENNReal.ofReal (pStar N)) μ ≤ C * w12 g μ u := by
-  sorry -- SORRY(lem:kobayashi): Mathlib has Gagliardo–Nirenberg–Sobolev on ℝ^N for C¹_c
-  -- functions (used in `sobolev_euclidean`) but (i) not its half-space version for functions that
-  -- do not vanish on ∂ℍ: it needs a C¹ extension across {y₀ = 0} (u(y', -t) := -3u(y', t) +
-  -- 4u(y', t/2)) with ‖D(Eu)‖_{L²(ℝ^N)} ≤ C ‖Du‖_{L²(ℍ)}; (ii) not the localisation on M: a finite
-  -- smooth partition of unity subordinate to charts (`SmoothPartitionOfUnity` exists), the
-  -- comparison of `gradNorm g` with the chart derivative (continuity of g in `trivializationAt`,
-  -- `tangentCoordChange`, on compact pieces) and of μ with Lebesgue measure (`IsLocallyLebesgue`).
-
-/-- A `C¹` function on a compact manifold has finite Dirichlet energy. -/
-theorem eLpNorm_gradNorm_lt_top [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
-    {μ : Measure M} [IsFiniteMeasure μ] {u : M → ℝ} (hu : IsC1 N u) :
-    eLpNorm (gradNorm g u) 2 μ < ⊤ := by
-  sorry -- SORRY(lem:kobayashi): needs a uniform bound of `gradNorm g u` on compact M: near each
-  -- point, g_x ≥ c |·|² in the chart's coordinates (continuity of g in `trivializationAt` and
-  -- positive definiteness at the centre) and the chart derivative of u bounded (u ∈ C¹ up to ∂M);
-  -- Mathlib has no lemma comparing a `ContMDiffRiemannianMetric` with the model norm through
-  -- `tangentCoordChange`.
-
 /-- A measured model of `Yamabe.Quotient` (with `X = M`) *reads* `(M, g, μ, σ)`: its volume is
 `μ`, its boundary measures are the `σ j`, its functions are `C¹` with their restriction as trace,
 and its `|∇u|²` is `|∇u|²_g`. -/
@@ -447,46 +427,6 @@ lemma sq_le_of_le_mul_add {x a b : ℝ≥0∞} {C : ℝ≥0} (ha : a ≠ ⊤) (h
   have hC0 : 0 ≤ (C : ℝ) := C.2
   have h2 : x.toReal ^ 2 ≤ ((C : ℝ) * (a.toReal + b.toReal)) ^ 2 := pow_le_pow_left₀ hx h' 2
   nlinarith [mul_nonneg (sq_nonneg (C : ℝ)) (sq_nonneg (a.toReal - b.toReal))]
-
-namespace Reads
-
-variable {D : Type*} [AddCommGroup D] [Module ℝ D] {n : ℕ} {Mm : MeasuredModel M D N n}
-  {gm : FrameMetric M N} {g : RiemannianMetric N M} {μ : Measure M} {σ : Fin n → Measure M}
-
-/-- The Sobolev inequality on a model reading a compact manifold with boundary. -/
-theorem sobolevIneq (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
-    (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) : Mm.SobolevIneq gm := by
-  obtain ⟨C, hC⟩ := sobolev_embedding hN g hμ
-  refine ⟨2 * (C : ℝ) ^ 2, fun u => ?_⟩
-  have hf := hr.c1 u
-  have ha : eLpNorm (gradNorm g (Mm.val u)) 2 μ ≠ ⊤ := (eLpNorm_gradNorm_lt_top g hf).ne
-  have hb : eLpNorm (Mm.val u) 2 μ ≠ ⊤ := (memLp_of_isC1 hf 2).eLpNorm_ne_top
-  have h := sq_le_of_le_mul_add ha hb (hC _ hf)
-  unfold MeasuredModel.w12Sq
-  rw [hr.dirichlet_eq u, hr.vol_eq]
-  unfold normSq
-  rw [ENNReal.ofReal_ofNat]
-  exact h
-
-/-- lem:kobayashi (b) on a model reading a compact manifold with boundary: the Sobolev inequality
-is discharged by `sobolev_embedding`. -/
-theorem kobayashiB (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
-    {gc : CurvedMetric M N} (hr : Reads Mm gc.toFrameMetric g μ σ) (hμ : IsLocallyLebesgue N μ)
-    (hV : μ ≠ 0) (hH : Mm.MinimalBoundary gc) : Mm.KobayashiB gc := by
-  haveI : IsFiniteMeasure (Mm.vol gc.toFrameMetric) := by rw [hr.vol_eq]; infer_instance
-  exact Mm.kobayashiB_of_sobolev hN gc (by rw [hr.vol_eq]; exact hV) hr.hD hH
-    (hr.sobolevIneq hN hμ)
-
-/-- prop:nonpositive, second sentence, on a model reading a compact manifold with boundary, with
-lem:kobayashi (b) discharged by the Sobolev embedding; `Y_[g](Σ) ≤ 0` (the first sentence) carried. -/
-theorem prop_nonpositive_csc (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
-    {gc : CurvedMetric M N} (hr : Reads Mm gc.toFrameMetric g μ σ) (hμ : IsLocallyLebesgue N μ)
-    (hV : μ ≠ 0) (hH : Mm.MinimalBoundary gc) {c : ℝ} (hRc : ∀ x, gc.R x = c) (hY : Mm.Y gc ≤ 0) :
-    (∀ x, gc.R x ≤ 0) ∧ Mm.EH gc = Mm.Y gc := by
-  haveI : IsFiniteMeasure (Mm.vol gc.toFrameMetric) := by rw [hr.vol_eq]; infer_instance
-  exact Mm.prop_nonpositive_csc hN gc hr.hD hH hRc hY (hr.kobayashiB hN hμ hV hH)
-
-end Reads
 
 /-! ### A model reading every `(M, g, μ, σ)`: `Reads` is satisfiable
 

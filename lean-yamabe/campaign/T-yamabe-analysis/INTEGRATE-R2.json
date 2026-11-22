@@ -1,0 +1,353 @@
+{
+ "target": "T-yamabe-integrate-r2",
+ "package": "T-yamabe-analysis",
+ "kind": "integration (master-owned), host node1, 2026-11-22",
+ "files_changed": [
+  "scaffold/YamabeScaffold/Sobolev.lean",
+  "scaffold/YamabeScaffold/Trace.lean",
+  "scaffold/YamabeScaffold/ManifoldTheorems.lean",
+  "scaffold/YamabeScaffold/Compactness.lean",
+  "scaffold/YamabeScaffold/Rellich.lean",
+  "scaffold/YamabeScaffold/External.lean (module docstring only: one checklist row)",
+  "scaffold/YamabeScaffold/HalfSpace.lean (module docstring only: the 'infrastructure for' pointer)",
+  "scaffold/YamabeScaffold/Localisation.lean (module docstring only: the 'infrastructure for' pointer)"
+ ],
+ "files_new": [],
+ "files_untouched": [
+  "scaffold/YamabeScaffold.lean",
+  "scaffold/YamabeScaffold/Basic.lean",
+  "everything under Yamabe/ (strict)",
+  "lakefile.toml"
+ ],
+ "import_cycle": {
+  "resolution": "No definitions module was created. The cycle existed only while the sorry'd originals sat in Sobolev/Trace beside primed proofs that import them. Once the originals are deleted and the primes renamed in ManifoldTheorems, Sobolev.lean and Trace.lean hold only what both sides import, so they are the definitions modules. A separate MfdDefs.lean would not have broken anything further: the proofs need not only the definitions (gradNorm, IsC1, w12, IsLocallyLebesgue, IsBoundaryMeasure, Reads) but also the Euclidean inequalities sobolev_euclidean (Sobolev §1) and trace_critical (Trace §1), and the bridges need the model layer (SobolevIneq, TraceIneq, w12Sq, kobayashiB_of_sobolev). Moving all of that would have emptied Sobolev/Trace for no gain. This is the roadmap block's recipe (1)-(3).",
+  "chain_after": "Yamabe.Negative <- Sobolev <- Trace <- HalfSpace <- Localisation <- ManifoldTheorems <- Compactness <- Rellich <- External. Rellich.lean now imports YamabeScaffold.Compactness instead of YamabeScaffold.Trace. Nothing upstream of Rellich imports it."
+ },
+ "renamed": [
+  {
+   "from": "Yamabe.Mfd.eLpNorm_gradNorm_lt_top'",
+   "to": "Yamabe.Mfd.eLpNorm_gradNorm_lt_top",
+   "where": "ManifoldTheorems.lean:82"
+  },
+  {
+   "from": "Yamabe.Mfd.sobolev_embedding'",
+   "to": "Yamabe.Mfd.sobolev_embedding",
+   "where": "ManifoldTheorems.lean:97"
+  },
+  {
+   "from": "Yamabe.Mfd.trace_embedding'",
+   "to": "Yamabe.Mfd.trace_embedding",
+   "where": "ManifoldTheorems.lean:113"
+  },
+  {
+   "from": "Yamabe.Mfd.Reads.sobolevIneq'",
+   "to": "Yamabe.Mfd.Reads.sobolevIneq",
+   "where": "ManifoldTheorems.lean:146"
+  },
+  {
+   "from": "Yamabe.Mfd.Reads.kobayashiB'",
+   "to": "Yamabe.Mfd.Reads.kobayashiB",
+   "where": "ManifoldTheorems.lean:162"
+  },
+  {
+   "from": "Yamabe.Mfd.Reads.prop_nonpositive_csc'",
+   "to": "Yamabe.Mfd.Reads.prop_nonpositive_csc",
+   "where": "ManifoldTheorems.lean:171"
+  },
+  {
+   "from": "Yamabe.Mfd.Reads.traceIneq'",
+   "to": "Yamabe.Mfd.Reads.traceIneq",
+   "where": "ManifoldTheorems.lean:180"
+  }
+ ],
+ "deleted": [
+  {
+   "decl": "Yamabe.Mfd.sobolev_embedding (round 1, sorry)",
+   "was": "Sobolev.lean:374"
+  },
+  {
+   "decl": "Yamabe.Mfd.eLpNorm_gradNorm_lt_top (round 1, sorry)",
+   "was": "Sobolev.lean:387"
+  },
+  {
+   "decl": "Yamabe.Mfd.Reads.sobolevIneq (round 1 bridge, on the sorry)",
+   "was": "Sobolev.lean:457"
+  },
+  {
+   "decl": "Yamabe.Mfd.Reads.kobayashiB (round 1 bridge, on the sorry)",
+   "was": "Sobolev.lean:473"
+  },
+  {
+   "decl": "Yamabe.Mfd.Reads.prop_nonpositive_csc (round 1 bridge, on the sorry)",
+   "was": "Sobolev.lean:482"
+  },
+  {
+   "decl": "Yamabe.Mfd.trace_embedding (round 1, sorry)",
+   "was": "Trace.lean:398"
+  },
+  {
+   "decl": "Yamabe.Mfd.Reads.traceIneq (round 1 bridge, on the sorry)",
+   "was": "Trace.lean:426"
+  },
+  {
+   "decl": "the seven `example : type_of% @X = type_of% @X' := rfl` checks and `universe u v`",
+   "was": "ManifoldTheorems.lean:188-199 (they named both copies; after the rename they would be X = X)"
+  }
+ ],
+ "replaced_proof": [
+  {
+   "decl": "Yamabe.Mfd.const_of_tendsto",
+   "before": "sorry (SORRY(lem:positivity), weak derivatives)",
+   "after": "const_of_tendsto_of_aestronglyMeasurable g hμ u hu f hf.aestronglyMeasurable hgrad hlim",
+   "where": "Rellich.lean:496"
+  },
+  {
+   "decl": "Yamabe.Mfd.Reads.constLimit",
+   "before": "through the sorry'd const_of_tendsto",
+   "after": "fun u f hf hdir hlim => hr.constLimit_of_aestronglyMeasurable hμ u f hf.aestronglyMeasurable hdir hlim",
+   "where": "Rellich.lean:539"
+  }
+ ],
+ "kept": [
+  {
+   "decl": "Yamabe.Mfd.not_const_of_tendsto",
+   "where": "Compactness.lean:985",
+   "note": "Not renamed: its statement is the negation of round 1's body of const_of_tendsto, spelled out, and does not mention the name. The docstring now calls it the recorded finding."
+  },
+  {
+   "decl": "Yamabe.Mfd.const_of_tendsto_of_aestronglyMeasurable",
+   "where": "Compactness.lean:933"
+  },
+  {
+   "decl": "Yamabe.Mfd.Reads.constLimit_of_aestronglyMeasurable",
+   "where": "Compactness.lean:1044"
+  }
+ ],
+ "sorry_count": {
+  "before": 6,
+  "after": 2,
+  "remaining": [
+   {
+    "decl": "Yamabe.Mfd.rellich_kondrachov",
+    "where": "Rellich.lean:481 (sorry at :486)",
+    "target": "T-yamabe-analysis"
+   },
+   {
+    "decl": "Yamabe.Mfd.trace_compact",
+    "where": "Trace.lean:407 (sorry at :412)",
+    "target": "T-yamabe-trace-compact"
+   }
+  ],
+  "measured_by": "scripts/sorry_count.py: strict 0; scaffold 2 (Rellich.lean 1, Trace.lean 1). lake build: only two warnings, both 'declaration uses sorry' (Trace.lean:407, Rellich.lean:481)."
+ },
+ "axioms": {
+  "Yamabe.Mfd.sobolev_embedding": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.trace_embedding": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.Reads.lem_positivity": [
+   "propext",
+   "sorryAx",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.MeasuredModel.lem_positivity": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "also_checked": {
+   "Yamabe.Mfd.eLpNorm_gradNorm_lt_top": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.Reads.sobolevIneq": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.Reads.kobayashiB": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.Reads.prop_nonpositive_csc": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.Reads.traceIneq": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.const_of_tendsto": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.Reads.constLimit": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.MeasuredModel.cor_negative_of_analytic": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.MeasuredModel.cor_negative_of_externals": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.toy_constLimit": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.toyCut_not_constLimit": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.toy_lem_positivity": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.not_const_of_tendsto": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.Reads.rellichProp": [
+    "propext",
+    "sorryAx",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.Reads.cor_negative": [
+    "propext",
+    "sorryAx",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.lem_positivity": [
+    "propext",
+    "sorryAx",
+    "Classical.choice",
+    "Quot.sound"
+   ]
+  },
+  "sorry_dependents": "Six scaffold constants depend on sorryAx: the two sorrys (Mfd.rellich_kondrachov, Mfd.trace_compact) and four that use rellich_kondrachov (Mfd.Reads.rellichProp, Mfd.Reads.lem_positivity, Mfd.Reads.cor_negative, Mfd.lem_positivity). A probe treated rellich_kondrachov and trace_compact as opaque leaves and walked every scaffold constant's dependency graph: no constant reaches sorryAx any other way. Nothing uses trace_compact. The AxiomSweep in make check reports the same six."
+ },
+ "statements": {
+  "unchanged_renamed": "All seven renamed theorems keep round 1's statement exactly. Before editing, a probe compared ConstantInfo.type of each original with its prime by Expr == after aligning universe parameters: all seven true (as AUDIT-2 found). After editing, the type Exprs of the renamed declarations were dumped and compared with the dump of the round-1 originals taken before the edit. With hygienic binder names normalised, they are identical.",
+  "changed": [
+   {
+    "decl": "Yamabe.MeasuredModel.ConstLimit",
+    "where": "Rellich.lean:118 (was :109)",
+    "before": "def ConstLimit : Prop :=\n  ∀ (u : ℕ → D) (f : X → ℝ), Tendsto (fun k => M.dirichlet g (u k)) atTop (𝓝 0) →\n    Tendsto (fun k => eLpNorm (M.val (u k) - f) 2 (M.vol g)) atTop (𝓝 0) →\n      ∃ c : ℝ, f =ᵐ[M.vol g] fun _ => c",
+    "after": "def ConstLimit : Prop :=\n  ∀ (u : ℕ → D) (f : X → ℝ), MemLp f 2 (M.vol g) →\n    Tendsto (fun k => M.dirichlet g (u k)) atTop (𝓝 0) →\n    Tendsto (fun k => eLpNorm (M.val (u k) - f) 2 (M.vol g)) atTop (𝓝 0) →\n      ∃ c : ℝ, f =ᵐ[M.vol g] fun _ => c",
+    "note": "One added hypothesis, MemLp f 2 (M.vol g), after f. The Prop is weaker, so every theorem taking it as a hypothesis is stronger."
+   },
+   {
+    "decl": "Yamabe.Mfd.const_of_tendsto",
+    "where": "Rellich.lean:496 (was :481)",
+    "before": "theorem const_of_tendsto [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    (g : RiemannianMetric N M) {μ : Measure M} (hμ : IsLocallyLebesgue N μ)\n    (u : ℕ → M → ℝ) (hu : ∀ k, IsC1 N (u k)) (f : M → ℝ)\n    (hgrad : Tendsto (fun k => eLpNorm (gradNorm g (u k)) 2 μ) atTop (𝓝 0))\n    (hlim : Tendsto (fun k => eLpNorm (u k - f) 2 μ) atTop (𝓝 0)) :\n    ∃ c : ℝ, f =ᵐ[μ] fun _ => c",
+    "after": "theorem const_of_tendsto [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    (g : RiemannianMetric N M) {μ : Measure M} (hμ : IsLocallyLebesgue N μ)\n    (u : ℕ → M → ℝ) (hu : ∀ k, IsC1 N (u k)) (f : M → ℝ) (hf : MemLp f 2 μ)\n    (hgrad : Tendsto (fun k => eLpNorm (gradNorm g (u k)) 2 μ) atTop (𝓝 0))\n    (hlim : Tendsto (fun k => eLpNorm (u k - f) 2 μ) atTop (𝓝 0)) :\n    ∃ c : ℝ, f =ᵐ[μ] fun _ => c",
+    "note": "One added hypothesis (hf : MemLp f 2 μ), after f. The old form is false in Lean (Mfd.not_const_of_tendsto); the new one is proved."
+   }
+  ],
+  "same_text_new_meaning": [
+   {
+    "decl": "Yamabe.MeasuredModel.lem_positivity",
+    "note": "hypothesis hC : M.ConstLimit g is now the weaker Prop, so the theorem is stronger. Proof: keeps the Rellich limit's MemLp (was discarded by `-`) and passes it to hC."
+   },
+   {
+    "decl": "Yamabe.MeasuredModel.cor_negative_of_analytic",
+    "note": "same: hC is the weaker Prop."
+   },
+   {
+    "decl": "Yamabe.MeasuredModel.cor_negative_of_externals (External.lean:498)",
+    "note": "same: hC is the weaker Prop; code unchanged."
+   },
+   {
+    "decl": "Yamabe.toy_constLimit",
+    "note": "now proves the weaker Prop (the extra MemLp hypothesis is ignored)."
+   },
+   {
+    "decl": "Yamabe.toyCut_not_constLimit",
+    "note": "now refutes the weaker Prop, so it is stronger. Witness e : Bool → ℝ is MemLp (toy_memLp under the finite counting measure)."
+   },
+   {
+    "decl": "Yamabe.Mfd.Reads.constLimit",
+    "note": "concludes the repaired Prop, which is now true; proved, sorry-free."
+   }
+  ],
+  "how_checked": "The type Expr dump (24 declarations), normalised, was compared before and after. Only ConstLimit (its value) and Mfd.const_of_tendsto changed. The other 22 are identical as Exprs."
+ },
+ "labels": [
+  {
+   "label": "lem:kobayashi",
+   "marked": false,
+   "note": "Unmarked (OQ-93 open). The manifold Sobolev embedding, finite energy and the bridges kobayashiB, prop_nonpositive_csc are now sorry-free under their round-1 names."
+  },
+  {
+   "label": "lem:positivity",
+   "marked": false,
+   "note": "Unmarked (OQ-93 open). Mfd.Reads.lem_positivity and Mfd.lem_positivity now rest on Mfd.rellich_kondrachov alone. Sobolev, trace and constancy are proved, and the false ConstLimit is repaired."
+  }
+ ],
+ "build": {
+  "pre_check": "pgrep -af 'lake build' showed no build before each lake build (none in lean-yamabe).",
+  "commands": [
+   "taskset -c 0-11 lake build YamabeScaffold.Rellich",
+   "taskset -c 0-11 lake build YamabeScaffold",
+   "taskset -c 0-11 make -C lean-yamabe check"
+  ],
+  "make_check_tail": [
+   "lake build Yamabe 2>&1 | tee build.log",
+   "Build completed successfully (8565 jobs).",
+   "lake build YamabeScaffold 2>&1 | tee -a build.log",
+   "⚠ [8567/8575] Replayed YamabeScaffold.Trace",
+   "warning: scaffold/YamabeScaffold/Trace.lean:407:8: declaration uses `sorry`",
+   "⚠ [8572/8575] Replayed YamabeScaffold.Rellich",
+   "warning: scaffold/YamabeScaffold/Rellich.lean:481:8: declaration uses `sorry`",
+   "Build completed successfully (8575 jobs).",
+   "python3 scripts/sorry_count.py",
+   "sorry (strict,   Yamabe/):                      0 in 6 files",
+   "  scaffold/YamabeScaffold/Rellich.lean: 1",
+   "  scaffold/YamabeScaffold/Trace.lean: 1",
+   "sorry (scaffold, scaffold/YamabeScaffold/):       2 in 9 files",
+   "lake env lean scripts/AxiomSweep.lean",
+   "axiom sweep (strict): 538 declarations in 7 modules",
+   "axiom sweep (scaffold): 424 declarations in 10 modules",
+   "axiom sweep (scaffold): YamabeScaffold.Trace: Yamabe.Mfd.trace_compact rests on a sorry (permitted in the scaffold)",
+   "axiom sweep (scaffold): YamabeScaffold.Rellich: Yamabe.Mfd.Reads.lem_positivity rests on a sorry (permitted in the scaffold)",
+   "axiom sweep (scaffold): YamabeScaffold.Rellich: Yamabe.Mfd.Reads.rellichProp rests on a sorry (permitted in the scaffold)",
+   "axiom sweep (scaffold): YamabeScaffold.Rellich: Yamabe.Mfd.Reads.cor_negative rests on a sorry (permitted in the scaffold)",
+   "axiom sweep (scaffold): YamabeScaffold.Rellich: Yamabe.Mfd.lem_positivity rests on a sorry (permitted in the scaffold)",
+   "axiom sweep (scaffold): YamabeScaffold.Rellich: Yamabe.Mfd.rellich_kondrachov rests on a sorry (permitted in the scaffold)",
+   "axiom sweep: all within propext/Classical.choice/Quot.sound, except 6 scaffold declaration(s) resting on a sorry",
+   "lean-yamabe: all gates green"
+  ],
+  "green": true
+ },
+ "docstrings": "Module docstrings and SCOPE were rewritten wherever they described the round-1 sorrys, the primes or the false ConstLimit: Sobolev (title; manifold theorems now in ManifoldTheorems; no sorry), Trace (title; only trace_compact is sorry), ManifoldTheorems (title; 'What is proved'; 'Provenance of the statements' replaces 'The primed names'; SCOPE), Compactness (SCOPE finding in past tense, repair recorded; not_const_of_tendsto called the record), Rellich (labels; 'What is proved'; one sorry; checklist rows incl. OQ-93 (c) read as MemLp f 2; SCOPE repair and weak-convergence bullets). External, HalfSpace and Localisation each had one pointer sentence that had become false, and only that sentence was corrected. No label is marked: every file has zero bold label marks, and the docstring contract (labels with Yamabegap.tex lines in the first 4000 chars, checklist, SCOPE, provenance) is intact.",
+ "notes_for_master": [
+  "Kept outside my writable paths, now stale: papers/yamabe/certificate/curation.toml notes (lem:kobayashi, lem:positivity) say the primes are 'to be rewired' and list const_of_tendsto/trace_embedding as sorrys (lem:positivity blocked_on). All decl names in its decls lists still exist and are unchanged.",
+  "OQ-93 (c) (registers/DECISIONS.md): the reading is now 'a measurable L² limit (MemLp f 2)', in ConstLimit and Mfd.const_of_tendsto (REPORT-2's question).",
+  "kb/0014 and kb/0023 describe round 1's ConstLimit as lacking measurability (now repaired). kb/0025's rfl-check pattern no longer has an instance in the tree (the examples were removed with the rename).",
+  "AUDIT-2's optional auditConstLimitFalse (the model-level refutation of the old ConstLimit) was not added. The finding's record is Mfd.not_const_of_tendsto, kept unchanged.",
+  "Probe files are under /tmp/integrate-r2/ (Before.lean, Dump.lean, Axioms.lean, dump-before.txt, dump-after.txt, axioms.txt), outside the repo."
+ ]
+}

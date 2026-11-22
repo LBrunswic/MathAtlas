@@ -1,14 +1,17 @@
 import YamabeScaffold.Sobolev
 
 /-!
-# The trace theorem on a compact manifold with boundary: `W^{1,2}(Σ) → L^{p♯}(∂Σ)`, and the compact trace into `L²(∂Σ)`
+# The trace inequality: Euclidean, on the model, and the compact trace into `L²(∂Σ)` on a compact manifold with boundary
 
 Labels (NOT marked: partial, see SCOPE):
 
 * `lem:positivity` — `Yamabegap.tex:715` (statement l.715–718, proof l.719–721): the two trace
   facts its proof uses, the compact trace `W^{1,2}(Σ) → L²(∂Σ)` (l.720) and, through the
-  quotient eq:trace-sobolev (l.486–491), the trace theorem `W^{1,2}(Σ) → L^{p♯}(∂Σ)`; stated on a
-  compact Riemannian manifold with boundary, and as properties of the measured model.
+  quotient eq:trace-sobolev (l.486–491), the trace theorem `W^{1,2}(Σ) → L^{p♯}(∂Σ)`: here, the
+  Euclidean critical trace inequality, the trace theorem as a property of the measured model, the
+  boundary measures of the manifold layer, and the compact trace stated on a compact Riemannian
+  manifold with boundary. The trace theorem on the manifold, `Mfd.trace_embedding`, and its
+  bridge `Mfd.Reads.traceIneq` are in `YamabeScaffold.ManifoldTheorems`.
 
 > where the boundary norms are those of the trace of $u$, which is well defined in
 > $L^{\psharp}(\partial\Sigma)$ by the trace theorem. (l.491)
@@ -39,7 +42,11 @@ through the corrected eq:hoelder).
 
 ## What is stated with `sorry`
 
-`Mfd.trace_embedding`, `Mfd.trace_compact`; hence `Mfd.Reads.traceIneq`.
+`Mfd.trace_compact` only; nothing proved depends on it. Round 1 also stated `Mfd.trace_embedding`
+here with `sorry`, and `Mfd.Reads.traceIneq` on it; the integration of round 2
+(T-yamabe-integrate-r2) deleted both and gave the proved copies of `YamabeScaffold.ManifoldTheorems`
+(through `YamabeScaffold.HalfSpace` and `YamabeScaffold.Localisation`, which import this file) the
+round-1 names, with the round-1 statements unchanged.
 
 ## Hypothesis checklist
 
@@ -55,10 +62,12 @@ through the corrected eq:hoelder).
   `W^{1,2}(Σ) → L²(∂Σ)`, not its compactness: since `‖∇u_k‖_{L²} → 0` and `u_k → c` in `L²(Σ)`,
   `u_k → c` in `W^{1,2}(Σ)` strongly, and the continuity gives the traces' convergence. The
   scaffold's `lem_positivity` (`YamabeScaffold.Rellich`) uses only `TraceIneq`; the compactness the
-  paper states is `Mfd.trace_compact`, stated for completeness.
-* Fubini over the boundary hyperplane is proved (`trace_halfSpace`, for `C¹_c` functions on `ℝᴺ`);
-  the half-space version with the gradient over the half-space only, and the chart localisation,
-  are not; what Mathlib lacks is listed at each `sorry`.
+  paper states is `Mfd.trace_compact`, stated for completeness (`sorry`; what Mathlib lacks is
+  listed there).
+* Fubini over the boundary hyperplane is proved here (`trace_halfSpace`, for `C¹_c` functions on
+  `ℝᴺ`). The half-space version with the gradient over the half-space only is
+  `Half.trace_halfSpace'` (`YamabeScaffold.HalfSpace`), and its chart localisation is
+  `Mfd.local_trace` (`YamabeScaffold.Localisation`); `Mfd.trace_embedding` assembles them.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -210,7 +219,7 @@ Escobar1988, with a non-sharp constant): for `u ∈ C¹_c(ℝ × ℝ^n)`, its tr
 `{0} × ℝ^n` satisfies `∫_{ℝ^n} |u(0, z)|^{p♯} dz ≤ C ‖Du‖_{L²(ℝ^N)}^{p♯}`. From `trace_halfSpace`
 at `q = p♯`, Hölder on the half-space (`2(p♯ - 1) = p*`) and Mathlib's Gagliardo–Nirenberg–Sobolev
 inequality on `ℝ × ℝ^n`. The half-space form (`‖Du‖` over `(0, ∞) × ℝ^n` only, for functions on
-the half-space) needs the half-space Sobolev inequality (see `Mfd.sobolev_embedding`). -/
+the half-space) is `Half.trace_halfSpace'` (`YamabeScaffold.HalfSpace`, through the reflection). -/
 theorem trace_critical {n : ℕ} (hN : 3 ≤ n + 1) :
     ∃ C : ℝ≥0, ∀ u : ℝ × EuclideanSpace ℝ (Fin n) → ℝ, ContDiff ℝ 1 u → HasCompactSupport u →
       ∫⁻ z, ‖u (0, z)‖ₑ ^ pSharp (n + 1) ≤
@@ -393,19 +402,6 @@ def IsBoundaryMeasure (σ : Measure M) : Prop :=
 
 variable [BorelSpace M]
 
-/-- **The trace theorem** (l.491): the trace `W^{1,2}(M) → L^{p♯}(∂M)` is bounded,
-`‖u|_{∂M}‖_{L^{p♯}(σ)} ≤ C ‖u‖_{W^{1,2}(M)}` for every `u ∈ C¹(M)`. -/
-theorem trace_embedding (hN : 3 ≤ N) [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
-    {μ : Measure M} (hμ : IsLocallyLebesgue N μ) {σ : Measure M} (hσ : IsBoundaryMeasure N σ) :
-    ∃ C : ℝ≥0, ∀ u : M → ℝ, IsC1 N u →
-      eLpNorm u (ENNReal.ofReal (pSharp N)) σ ≤ C * w12 g μ u := by
-  sorry -- SORRY(lem:positivity): proved here: the Euclidean critical trace inequality for
-  -- C¹_c(ℝ × ℝ^n) (`trace_critical`, via `trace_halfLine`, `trace_halfSpace`, Hölder, GNS). Missing:
-  -- the half-space Sobolev inequality (gradient over ℍ only; see `sobolev_embedding`), the
-  -- identification of the chart's EuclideanSpace ℝ (Fin N) with ℝ × ℝ^{N-1} (measure preserving)
-  -- and of μH[N-1] on {y₀ = 0} with Lebesgue measure on ℝ^{N-1}, and the chart localisation
-  -- (partition of unity, `IsLocallyLebesgue`, `IsBoundaryMeasure`).
-
 /-- **The compact trace** (l.720): every sequence bounded in `W^{1,2}(M)` has a subsequence whose
 traces converge in `L²(∂M)`. -/
 theorem trace_compact [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
@@ -416,36 +412,6 @@ theorem trace_compact [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
   sorry -- SORRY(lem:positivity): needs `rellich_kondrachov` and the interpolation
   -- ‖u‖²_{L²(∂ℍ)} ≤ ε ‖∂_t u‖²_{L²(ℍ)} + C_ε ‖u‖²_{L²(ℍ)} (from the FTC estimate of
   -- `trace_halfLine`), localised by charts; Mathlib has neither. Not used by lem_positivity.
-
-namespace Reads
-
-variable {D : Type*} [AddCommGroup D] [Module ℝ D] {n : ℕ} {Mm : MeasuredModel M D N n}
-  {gm : FrameMetric M N} {g : RiemannianMetric N M} {μ : Measure M} {σ : Fin n → Measure M}
-
-/-- The trace theorem on a model reading a compact manifold with boundary. -/
-theorem traceIneq (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]
-    [∀ j, IsFiniteMeasure (σ j)] (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ)
-    (hσ : ∀ j, IsBoundaryMeasure N (σ j)) : Mm.TraceIneq gm := by
-  choose C hC using fun j => trace_embedding hN g hμ (hσ j)
-  refine ⟨2 * ∑ j, ((C j : ℝ)) ^ 2, fun u j => ?_⟩
-  have hf := hr.c1 u
-  have ha : eLpNorm (gradNorm g (Mm.val u)) 2 μ ≠ ⊤ := (eLpNorm_gradNorm_lt_top g hf).ne
-  have hb : eLpNorm (Mm.val u) 2 μ ≠ ⊤ := (memLp_of_isC1 hf 2).eLpNorm_ne_top
-  have h := sq_le_of_le_mul_add ha hb (hC j _ hf)
-  rw [hr.bvol_eq j, hr.tr_eq u]
-  refine ⟨memLp_of_isC1 hf _, ?_⟩
-  unfold MeasuredModel.w12Sq
-  rw [hr.dirichlet_eq u, hr.vol_eq]
-  unfold normSq
-  rw [ENNReal.ofReal_ofNat]
-  have hCj : ((C j : ℝ)) ^ 2 ≤ ∑ j, ((C j : ℝ)) ^ 2 :=
-    Finset.single_le_sum (f := fun j => ((C j : ℝ)) ^ 2) (fun j _ => sq_nonneg _)
-      (Finset.mem_univ j)
-  have hw : 0 ≤ (eLpNorm (gradNorm g (Mm.val u)) 2 μ).toReal ^ 2 +
-      (eLpNorm (Mm.val u) 2 μ).toReal ^ 2 := by positivity
-  nlinarith
-
-end Reads
 
 end Mfd
 

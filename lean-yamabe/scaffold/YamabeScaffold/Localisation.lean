@@ -3,7 +3,7 @@ import YamabeScaffold.HalfSpace
 /-!
 # Chart localisation on a compact manifold with boundary: the metric and the volume read in charts
 
-Labels (NOT marked: infrastructure for the manifold theorems of `YamabeScaffold.{Sobolev,Trace,Rellich}`):
+Labels (NOT marked: infrastructure for the manifold theorems of `YamabeScaffold.ManifoldTheorems` and `YamabeScaffold.Compactness`):
 
 * `lem:kobayashi` — `Yamabegap.tex:613` (statement l.613–625, proof l.626–638): the Sobolev
   embedding its proof cites (l.637) is localised here to charts.

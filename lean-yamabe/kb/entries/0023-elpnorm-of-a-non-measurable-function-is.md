@@ -5,3 +5,5 @@ kind: pitfall
 created: 2026-11-22
 ---
 Found by T-yamabe-analysis (round 2). Pitfall: eLpNorm/lintegral of a non-measurable function is an inner integral, so 'eLpNorm (u k − f) → 0 ⇒ f =ᵐ c' needs AEStronglyMeasurable f (Mfd.not_const_of_tendsto); round 1's ConstLimit and Mfd.const_of_tendsto lack it.
+
+Repaired at T-yamabe-integrate-r2: ConstLimit and Mfd.const_of_tendsto now ask MemLp f 2.

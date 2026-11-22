@@ -80,7 +80,7 @@ assemblies over the measured model, never anchors):
 | `Y_[ḡ](Σ̄) ≤ σ(Σ̄) ≤ 0` (thm:upper-bound, l.495, l.724) | ⚠ read at the metrics used: `Ybar ≤ 0` per `τ` (SCOPE) |
 | `Σ̄` enlargeable; boundary classes positive (prop:nonpositive, l.478) | ⚠ through the externals (`AB53`, `GromovLawson`): not modelled |
 | lem:gluing (l.685–695) | ⚠ carried: the family (`ABFamily`, A–B Thm 4.6's conclusion) and the fillings with caps in the flat class (`EscobarIV`) |
-| the analytic inputs of lem:positivity and lem:kobayashi (b) | ⚠ the model's properties `SobolevIneq`, `TraceIneq`, `RellichProp`, `ConstLimit` (discharged for a model reading a manifold in `YamabeScaffold.Rellich`, from the `sorry`-stated theorems) |
+| the analytic inputs of lem:positivity and lem:kobayashi (b) | ⚠ the model's properties `SobolevIneq`, `TraceIneq`, `RellichProp`, `ConstLimit` (`ConstLimit` for a limit in `L²`); for a model reading a manifold, `SobolevIneq` and `TraceIneq` are discharged sorry-free (`YamabeScaffold.ManifoldTheorems`), `ConstLimit` sorry-free (`YamabeScaffold.Rellich`), `RellichProp` from the `sorry`-stated `Mfd.rellich_kondrachov` |
 | `N ≥ 3`, compactness, `Σ ≠ ∅`, `∂Σ ≠ ∅` | ✓ carried: `3 ≤ N`, finite `vol_g`, `bvol_g`, `vol_g ≠ 0`, `∃ j, bvol_g j ≠ 0` |
 
 ## SCOPE (disclosed)
