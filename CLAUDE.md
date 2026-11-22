@@ -60,7 +60,7 @@ by edge. The projection goes through **principals**: within a label, a declarati
 declaration of the same label transitively uses is *subordinate*; the rest are principals, and a
 walk stops only at another label's principal. That is what stops a helper listed under two labels
 from fabricating an edge between them — measured on the GFN pair, it removes 55% of the Lean-only
-edges while keeping 66% of the agreements (`reports/doubledag/gfnbounds/DOUBLEDAG.md`).
+edges while keeping 66% of the agreements (`reports/doubledag/gfnbounds/2026-09-20/DOUBLEDAG.md`, the dated first run; the current one beside it).
 
 Every edge is `both`, `lean-only`, `tex-only`, `twin` (a body statement and its full form: a
 restatement, not a dependency) or `tex-only-unformalized`. **A Lean edge carries a witness**: the

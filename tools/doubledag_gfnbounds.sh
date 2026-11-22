@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # The double DAG of the GFN pair: the draft `~/Dropbox/GFN Bounds` against the Lean library
-# pinned as this repository's `lean/` submodule. Read-only on both -- the draft is the ICLR
-# submission's predecessor and the library is frozen until 2026-09-25 (DEC-2).
+# `lean/` (GFNBoundsLean, absorbed in-tree by DEC-157). Read-only on both. The first run
+# (2026-09-20, the submodule under the DEC-2 freeze) is pinned in reports/doubledag/gfnbounds/
+# 2026-09-20/ as a dated measurement (DEC-199); this script regenerates the current one.
 #
 # It is the only pair on this host where both halves of the double DAG exist, so it is where the
 # tool is measured. The artifacts land in reports/doubledag/gfnbounds/ and are committed.

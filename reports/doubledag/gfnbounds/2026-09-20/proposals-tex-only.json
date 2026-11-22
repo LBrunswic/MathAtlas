@@ -1,0 +1,41 @@
+{
+  "kind": "tex-only",
+  "model": "claude-opus-5",
+  "doubledag": "dd.json",
+  "cost_usd": 1.9595,
+  "proposals": [
+    {
+      "source": "lem:lift_wellposed",
+      "target": "lem:adjoint",
+      "kind": "tex-only",
+      "witness": [],
+      "cassette": "002d9250",
+      "verdict": "proof-differs",
+      "confidence": "high",
+      "why": "All three clauses of `lem:lift_wellposed` are in Lean; `GFNBounds.Balance.inner_funActEdge` takes the paper's identity `λ(u)·pf(u,v)=λ(v)·pb(v,u)` — `GFNBounds.Core.IsReversalPair` unfolded — as a hypothesis, discharged by a graph-side reversal with the same formula as `GFNBounds.Core.reversal`, re-proved instead of imported. Not narrower.",
+      "action": "Route the graph reversal's facts through `GFNBounds.Core.reversal`/`IsReversalPair`, or record in paper-map that `lem:adjoint`(1) is discharged by hypothesis."
+    },
+    {
+      "source": "theo:local_convergence_full",
+      "target": "theo:db_stable_frozen_full",
+      "kind": "tex-only",
+      "witness": [],
+      "cassette": "bcb65d96",
+      "verdict": "proof-differs",
+      "confidence": "high",
+      "why": "Both are faithful. `stable_frozen_decay` and `inner_ge_of_mixing` are abstract statements about the *linearized* flow `ḣ = −Hh`, which the nonlinear flow is not, so the Lean cannot apply them: it inlines `theo:db_stable_frozen_full`'s coercivity and `ϱ` as hypotheses and re-derives the `e^{−ϱt/2}` decay by its own energy estimate.",
+      "action": "Leave both as they are; optionally record in the scope notes that theorem 31 enters as inlined hypotheses, not as a dependency."
+    },
+    {
+      "source": "prop:tb_gradient",
+      "target": "cor:db_gradient",
+      "kind": "tex-only",
+      "witness": [],
+      "cassette": "0b152602",
+      "verdict": "proof-differs",
+      "confidence": "high",
+      "why": "Not narrowing: the Lean for `prop:tb_gradient` proves the paper's statement as printed, with `GFNBounds.Balance.TBGradient.hasFDerivAt_loss` giving a Fréchet derivative and unique representative. The ℓ=1 case reproves `cor:db_gradient`'s display on the edge subtype, deliberately unbridged to that row's `𝒮²` declarations, which need `π_←` positive everywhere.",
+      "action": "Nothing to fix; keep the disclosed non-bridge, or add a lemma deriving the ℓ=1 display from the DB row on `E`."
+    }
+  ]
+}

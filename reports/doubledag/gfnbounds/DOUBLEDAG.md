@@ -9,14 +9,14 @@ The draft's statement graph and the Lean dependency graph, coupled by the map `l
 | labels | 131 |
 | labels with lean | 96 |
 | declarations in environment | 5703 |
-| declarations mapped | 1879 |
-| declarations missing from environment | 9 |
-| declarations shared by several labels | 501 |
-| principals | 721 |
-| subordinates | 1722 |
-| edges both | 131 |
-| edges lean only | 236 |
-| edges tex only | 119 |
+| declarations mapped | 2344 |
+| declarations missing from environment | 461 |
+| declarations shared by several labels | 530 |
+| principals | 733 |
+| subordinates | 1752 |
+| edges both | 132 |
+| edges lean only | 237 |
+| edges tex only | 118 |
 | edges tex only unformalized | 55 |
 | edges twin | 10 |
 
@@ -26,13 +26,13 @@ The same comparison with the naive projection -- a walk stopping at *any* declar
 
 | edges | principal | flat |
 |---|---:|---:|
-| both | 131 | 197 |
-| lean-only | 236 | 522 |
-| tex-only | 119 | 53 |
+| both | 132 | 197 |
+| lean-only | 237 | 546 |
+| tex-only | 118 | 53 |
 
-Read it as a trade, not a win: the naive projection agrees with 197 of the draft's edges and adds 522 of its own, the principal projection agrees with 131 and adds 236. It keeps 66% of the agreements and drops 55% of the Lean-only edges, so each surviving disagreement is likelier to be about the mathematics than about the map.
+Read it as a trade, not a win: the naive projection agrees with 197 of the draft's edges and adds 546 of its own, the principal projection agrees with 132 and adds 237. It keeps 67% of the agreements and drops 57% of the Lean-only edges, so each surviving disagreement is likelier to be about the mathematics than about the map.
 
-## The Lean proof uses it; the draft never says so — 236
+## The Lean proof uses it; the draft never says so — 237
 
 Either the draft omits a dependency it really has, or the Lean proof reaches for a step the paper takes for granted. `tools/dag_reconcile.py` asks which.
 
@@ -112,7 +112,7 @@ Either the draft omits a dependency it really has, or the Lean proof reaches for
 | `rem:tb_vs_db` | `def:doubling_decay_notation` | `truncation_rate_DB` → `…` → `m0` → `tau` |
 | `rem:tb_vs_db` | `def:doubling_setting` | `bhat_infinite_of_posRec` → `Stat` |
 | `rem:tb_vs_db` | `def:edge_lift` | `truncation_rate_DB` → `edgeMeasure_invariant` → `fst_edgeMeasure` |
-| `rem:tb_vs_db` | `def:lean_setting` | `bhat_infinite_of_posRec` → `Stat` |
+| `rem:tb_vs_db` | `def:lean_setting` | `sbar_bdd_iff` → `jbar` |
 | `rem:tb_vs_db` | `lem:doubling_fixed_points` | `truncation_rate_DB` → `…` → `inner_densL2_left` → `tsum_dens_mul_sq` |
 | `rem:tb_vs_db` | `lem:doubling_irreducible` | `bhat_infinite_of_posRec` → `…` → `exists_stat_none` → `toStatNone` |
 | `rem:tb_vs_db` | `lem:doubling_range` | `exists_setting_six` → `ofFamily` |
@@ -194,34 +194,35 @@ Either the draft omits a dependency it really has, or the Lean proof reaches for
 | `rem:silva_model_constant` | `rem:silva_hypotheses` | `ladder_mVal_exceeds_one` → `…` → `mPrime_le_fixedGraph_of_prob` → `mPrime_le_fixedGraph` |
 | `prop:silva_no_uniform` | `prop:silva_explicit` | `no_three_argument_bound` → `MprimeLe` |
 | `rem:path_space` | `rem:silva_hypotheses` | `ladder_sSup_mPrime_eq` → `…` → `mPrime_le_fixedGraph_of_prob` → `mPrime_le_fixedGraph` |
-| `def:doubling_setting` | `def:lean_setting` | `pstar` → `HasDouble` |
-| `lem:doubling_irreducible` | `def:lean_setting` | `toStatNone` → `OnChain` |
+| `lem:doubling_irreducible` | `def:lean_setting` | `toStatNone` → `PreStat` |
 | `lem:doubling_fixed_points` | `def:doubling_setting` | `ker_eq_const` → `OnChain` |
-| `lem:doubling_fixed_points` | `def:lean_setting` | `ker_eq_const` → `OnChain` |
 | `lem:doubling_operator` | `def:doubling_setting` | `eLpNorm_pstar_le_of_memLp` → `Stat` |
-| `lem:doubling_operator` | `def:lean_setting` | `eLpNorm_pstar_le_of_memLp` → `Stat` |
+| `lem:doubling_operator` | `def:lean_setting` | `inverse_sub_piL2_le_sum_betaHat` → `betaHat` |
 | `rem:doubling_two_constants` | `def:doubling_setting` | `inverse_sub_piL2_le_sum_betaHat` → `Stat` |
-| `rem:doubling_two_constants` | `def:lean_setting` | `inverse_sub_piL2_le_sum_betaHat` → `Stat` |
+| `rem:doubling_two_constants` | `def:lean_setting` | `inverse_sub_piL2_le_sum_betaHat` → `betaHat` |
 | `rem:doubling_two_constants` | `lem:doubling_fixed_points` | `inverse_sub_piL2_le_sum_betaHat` → `…` → `inner_densL2_left` → `tsum_dens_mul_sq` |
 | `theo:doubling_main` | `def:doubling_decay_notation` | `main_rate` → `cutBal_of_setting` |
-| `theo:doubling_main` | `def:lean_setting` | `main_unbounded` → `Stat` |
+| `theo:doubling_main` | `def:lean_setting` | `main_unbounded` → `centredTail` |
 | `theo:doubling_main` | `lem:doubling_averaging` | `main_truncation_sqrtK` → `…` → `descW_uu` → `uavg_of_cutBal` |
 | `theo:doubling_main` | `lem:doubling_descent` | `main_truncation_sqrtK` → `…` → `decay_block` → `descW_between` |
 | `theo:doubling_main` | `lem:doubling_irreducible` | `main_invariant_unique` → `toStatNone` |
 | `theo:doubling_main` | `lem:doubling_percut` | `main_unbounded` → `no_bounded_inverse` → `tsum_centredTail` |
 | `theo:doubling_main` | `lem:doubling_product` | `main_truncation_sqrtK` → `descOne_two_sided` → `prodW_R0_eq_descOne` |
 | `theo:doubling_main` | `lem:doubling_supersolution` | `main_sigmaBar_le` → `sigmaBar_le` |
-| `theo:doubling_main` | `theo:lean_main` | `main_truncation_explicit` → `main_truncation_bhat` |
-| `prop:doubling_drift` | `def:lean_setting` | `height_pstar_sub` → `HasDouble` |
-| `lem:doubling_excursion` | `def:lean_setting` | `excursion_le` → `LadderStep` → `HasDouble` |
-| `lem:doubling_supersolution` | `def:lean_setting` | `hitExp_mono` → `pstar_mono` → `HasDouble` |
-| `prop:doubling_length` | `def:lean_setting` | `hitExp_iSup_eq` → `…` → `hitExp_le_linSuper` → `HasDouble` |
-| `prop:doubling_phase` | `def:lean_setting` | `exists_stat_of_family_one` → `Stat` |
+| `theo:doubling_main` | `theo:lean_main` | `main_truncation_explicit` → `bhatK` |
+| `lem:doubling_supersolution` | `def:lean_setting` | `sigmaBar_le` → `jbar` |
+| `prop:doubling_length` | `def:lean_setting` | `sbar_iSup_eq` → `jbar` |
+| `prop:doubling_phase` | `def:lean_setting` | `exists_family_setting` → `ofFamily` |
 | `prop:doubling_phase` | `lem:doubling_supersolution` | `prop_doubling_phase` → `…` → `hitLad_mono` → `hitExp_mono` |
-| `prop:doubling_cut` | `def:lean_setting` | `cutBalanceSeq_of_stat` → `Stat` |
+| `lem:doubling_cramer_root` | `def:lean_setting` | `cramer_root_pos_iff` → `cramer_root_exists` |
+| `lem:doubling_cramer_root` | `theo:lean_main` | `cramer_root_pos_iff` → `cramer_root_unique` |
+| `lem:doubling_expansion` | `def:lean_setting` | `cR_congr` → `p_congr` → `cramer_root_unique` |
+| `lem:doubling_expansion` | `theo:lean_main` | `cR_congr` → `p_congr` → `cramer_root_unique` |
 | `rem:doubling_parity` | `def:doubling_setting` | `wm_le_foot` → `window` |
+| `rem:doubling_parity` | `def:lean_setting` | `parity_thresholds_congr` → `p_congr` → `cramer_root_unique` |
 | `rem:doubling_parity` | `lem:doubling_averaging` | `isSubsolution_inv_factorial_sq` → `qm_pos` |
 | `rem:doubling_parity` | `lem:doubling_cramer_root` | `wm_foot_expansion` → `tau_gt_two` → `cramer_ineq` |
+| `rem:doubling_parity` | `theo:lean_main` | `parity_thresholds_congr` → `p_congr` → `cramer_root_unique` |
 | `lem:doubling_descent` | `lem:doubling_cramer_root` | `doubling_descent` → `…` → `tau_gt_two` → `cramer_ineq` |
 | `lem:doubling_descent` | `lem:doubling_escape` | `doubling_descent` → `kern` |
 | `lem:doubling_escape` | `lem:doubling_averaging` | `sojourn_block` → `…` → `sum_pk` → `sum_wm` |
@@ -237,11 +238,10 @@ Either the draft omits a dependency it really has, or the Lean proof reaches for
 | `lem:doubling_weight` | `lem:doubling_cramer_root` | `weight_bound` → `…` → `tau_gt_two` → `cramer_ineq` |
 | `lem:doubling_doeblin` | `lem:doubling_averaging` | `doeblin` → `kern_ge` → `qm_pos` |
 | `lem:doubling_doeblin` | `lem:doubling_cramer_root` | `doeblin` → `…` → `tau_gt_two` → `cramer_ineq` |
-| `lem:doubling_coupling` | `lem:doubling_averaging` | `coupling_above` → `…` → `wm_pos` → `qm_pos` |
 
-*(36 more in `doubledag.json`)*
+*(37 more in `doubledag.json`)*
 
-## The draft cites it; the Lean proof term does not use it — 119
+## The draft cites it; the Lean proof term does not use it — 118
 
 Either the reference is decorative, or the Lean statement is narrower than the paper's and does not need it -- which is the direction DEC-17 forbids.
 
@@ -365,7 +365,6 @@ Either the reference is decorative, or the Lean statement is narrower than the p
 | `prop:doubling_unsolvable` | `theo:doubling_unbounded` | — |
 | `cor:doubling_truncation` | `lem:doubling_escape` | — |
 | `cor:doubling_truncation` | `theo:doubling_decay` | — |
-| `def:lean_setting` | `def:doubling_setting` | — |
 
 ## The draft cites it and one of the two ends has no Lean — 55
 
