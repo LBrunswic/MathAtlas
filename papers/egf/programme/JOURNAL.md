@@ -227,3 +227,11 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: 2610b9b 7c943be 8c3342d f535933 e83a6fe a5445a1 (+ this) (hub) · a261aa9 49d6ed0 (v2)
 - for the planner: '2 spirals' in subfigure b's subcaption, 'depths and width' in the star and 4-circles captions, 'their inverse' at v1 l.293, l.308 (l.440 is C-34's), v1 l.217 'be Riemannian manifold' (missing 'a')
 - next: rule 2 (fewer than two ready: only T-egf-repro-ablations, behind the active sphere run): a planning run
+
+## 2026-11-22 21:52 · planning run (rule 2: one target ready, behind the active sphere run)
+- egf-planner (a824af0): the checkers' and correctors' minor findings of this session become C-50 to C-63; ready now: T-egf-kb-tori-sphere-def (master), T-egf-families-of-record (closer: the audited marking of theo:universality_tori and theo:universality_sphere), T-egf-correction-witnesses (closer), the corrector batches -notions (C-50 to C-52, C-56, C-57), -families-proofs (C-53 to C-55), -loss-hypotheses (C-58, C-59), -wording (C-60 to C-62), and T-egf-repro-ablations; -experiments gains C-63; T-egf-repro-sphere untouched (active)
+- corrections: 63 entries (17 found, 2 proved, 1 adopted, 43 applied; 3 superseded)
+- genuine readings: none. Choices noted for the master: C-56's 'one move on T^d, d ≥ 2, suffices' (a strengthening, drop it if DEC-144 does not cover it); stating the bound b ≥ 1 + N buys would add a result (an OQ on OQ-85's precedent, not part of C-58); the equation-counter gap is layout
+- questions of fact for the author (the experiments batch): the l.440 move count and which SL₂(ℤ) elements; whether Table nll's EGF row is filtered, with what floor, k chosen on which split; whether the depth ablation l.1003 is on ℝ²; F_init on T² and S² and R's weight; the loss form, b, the backward factor and the training values of the reported T² runs; what l.713's '30 times smaller' compares (measured 2.0-2.5); l.496's six moves and the Moser Flow timing; the S, T of Theorem 3.5's minimal four moves
+- gates: corrections ✓, roadmaps ✓, test_corrections + test_roadmap ✓
+- next: the wave: T-egf-kb-tori-sphere-def, T-egf-families-of-record, T-egf-correction-witnesses, T-egf-correct-notions (adopt C-50 with C-52 first), with T-egf-repro-sphere continuing
