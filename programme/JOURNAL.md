@@ -331,3 +331,22 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub `make -k check` all green (lib-check ran: lean/ is in-tree and unheld; its regenerated docs restored)
 - commits: 4b23217 7b16a43 c178342 b107106 cbbff41 eda30f7 a377a7e
 - next: wave T-tac-ladder-integration (tactician, exclusive in lean-causal) and T-lad-one-sided-node (keeper); write the two OQ rows when registers/DECISIONS.md is free
+
+## 2026-11-23 01:00 · wave of 2 · T-tac-ladder-integration, T-lad-one-sided-node
+- T-tac-ladder-integration (tactic, exclusive in lean-causal). causal_ladder now runs at depth 60 and Rules.lean imports Causal.Ladder.Dual, so every user reasons across C.dual. emit-lean emits checked causality-sort [[fact]]s as safe apply rules under their standing (plus forward rules when an edge reads them), and skips a witness module that imports Rules, as a cycle. Test.lean has 376 examples, every negative failing by exhaustion. tests: LadderEmitFacts; mutate.py 11 mutants, all red. lake build Causal: 8870 jobs (1735598).
+  - PARTIAL: curves_extend's rule is not shipped. Causal.CurvesExtendSecondCountable imports Rules through MaximalZorn → ErsMughd. Test.lean tests the rule locally; kb/0221 rewritten.
+  - The fix is the tactician's proposal 1: split Causal.AbstractDev (MaximalZorn.lean:122–746) into its own module, probe kept at campaign/T-tac-ladder-integration/scratch/AbstractZornProbe.lean. CExtConnexeSecondCountable, Remarks.SingularRowsK and SingularCauchy then need explicit imports. A target for the planner.
+  - Audit minor. kb 0221/0223/0225 updated, 0238 added. 23 scratch probes kept outside the repository (~/ett-programme-wip/2026-11-22/T-tac-ladder-integration-scratch).
+- T-lad-one-sided-node (ladder): one_sided_boundary is an edge hypothesis only (DEC-166 (b)). It appears as the consequence ERS Thm 4.82 at is_causal, with OneSidedBoundary in `under`. Header: DEC-166 (a)'s rename changes no ladder id. The pointed-line [[fails]] is flagged for re-pointing under DEC-167 (0ea179a).
+- T-abs-hoist-cbg-geometry blocked on OQ-97: its field list is OQ-97's question, and the A2/B3 fields OQ-98 (c)'s.
+- OQ rows still NOT WRITTEN (registers/DECISIONS.md held by /atlas-team all iteration): ex:open_subset's first uniqueness under gluing, and Galileo item 4 (journal 2026-11-22 23:10)
+- for the planner:
+  - the AbstractDev split (above);
+  - the keeper's stale comment at programme/ladder.toml:483 ("a fact is none");
+  - T-bind-ers-rulings: binder rows ThmNotBlocking and PropertyTimelike can point at the new consequence;
+  - three binder targets ready and planner-owned (T-bind-ealpha-entries, T-bind-curves-corollaries, T-bind-sbierski-rulings), for a planning iteration.
+- ladder: 24 properties, 25 implications, 79 counterexamples, 51 consequences; 318/318 within a sort: 34 implied, 275 fails, 9 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub `make -k check` all green (lean/ docs restored)
+- commits: 0ea179a 1735598 d9bbc32 78ef09e and the block
+- next: wave T-lad-ers-restart-nodes (keeper), T-abs-gluing-compact-def, T-loc-ealpha-plain, T-abs-c-ext-connexe-cauchy (closers)
