@@ -558,3 +558,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 01:00–01:31 (Paris); agents: 2 closers, 2 audits
 - new OQ: none (next free OQ-88); lean-causal kb 0199–0206
 - next: plan (rule 2: no ready closer). T-ett-docstrings-sing0 (master, exclusive, p10) has been starved: rule 2 always precedes it, and a closer in lean-causal always excludes it. Raise this with the planner.
+
+## 2026-11-22 01:50 · plan (rule 2: no ready closer target after wave 31)
+- result: 137 -> 139 targets.
+  - Added T-ett-cauchy-ext-e0 (ready, p6): a Cauchy extension between E≥0-manifolds that is not onto, the open past set {T < 1} of E₀ with its inclusion. With it, image_diamant, passe_pgcd_printed (both branches, at frontier points) and cauchy_plongement_toutes_manifolds get witnesses that are not at the identity, answering T-ett-diamant-rows AUDIT-1.
+  - Added T-ett-diamant-past (ready, p7): J⁻(Σ) ∩ J⁺(p) is compact, by a route other than duality: J⁺ of open sets is open, in four cases, at causal SFA spacetimes. This is A2's second compactness field (theo:CBG).
+  - T-ett-docstrings-sing0 goes from p10 to p5, so that `wave` picks it alone next. Rule 2 and its exclusivity had starved it, and making it non-exclusive would race closers' builds on shared oleans.
+  - Note on T-ett-cbg-e0: after T-ett-diamant-past, all A2 fields but typeAgreement's chain hold at E≥0-manifolds.
+- rejected: (iii)⇒(i) (OQ-32: a closed ≤ and a time function); the CBG pair (/ett-programme); lem:C_ext_connexe and prop:Cauchy_pgcd; lem:vecteur (no differentiable structure); the time-reversed forms of image_diamant and passe_pgcd (not in the paper); DEC-8 openness at E≥0-manifolds (no row).
+- research: none (two ready closers). The planner notes that T-3p1-funnel-lemma and T-bbs-archive are starved the same way the docstrings target was.
+- gates: roadmap ✓, atlas ✓
+- wall time: 01:33–01:50 (Paris); agents: 1 (planner)
+- next: T-ett-docstrings-sing0 (master, alone in lean-causal), then a wave of T-ett-cauchy-ext-e0 and T-ett-diamant-past.
