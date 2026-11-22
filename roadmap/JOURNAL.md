@@ -629,3 +629,19 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 03:38–04:13 (Paris); agents: 1 planner, 1 closer, 1 audit
 - new OQ: none (next free OQ-90); lean-causal kb 0215–0217
 - next: the wave is empty. Rule 5 applies: T-bbs-archive (planner, partial; the six remaining references need journal copies, not on arXiv). If that run cannot archive anything, rule 6 applies: idle, waiting on rulings.
+
+## 2026-11-22 04:29 · research (rule 5: T-bbs-archive), then idle: waiting on rulings
+- T-bbs-archive: four more references are archived from legitimate free sources (0e2c51a): DJtH 1984 and 't Hooft 1993 from 't Hooft's Utrecht page, DJtH 1992 from CaltechAUTHORS, 't Hooft 1992 from the Utrecht repository. 't Hooft 1992 is a scan with no text layer and has no quotes yet. NOTES-3+1 N10 records three things:
+  - N4's attribution to CFG/DJtH 1992 is wrong as worded; the result is CFGO's.
+  - N5's 8πG normalisation checks out against DJtH 1984.
+  - 't Hooft's crunch concerns closed universes.
+  
+  Still missing: Gott 1991 and CFG 1992 (APS paywall), and N5-4's phase-space reference, which is never named. The target is blocked on OQ-90 (new).
+- idle: the wave is empty and no planner target is ready. Every open target waits on a ruling:
+  - needs-ruling: T-bz-transcription-check, T-yamabe-scope, T-egf-families (/egf-programme), T-gfn-doubledag-refresh, T-bbs-q1 / T-bbs-layer-home (BBS-Q1), T-syr-cited, T-bz-chapter3, T-yamabe-lower-bound, T-syr-empty-corollary, T-barbot-terminal.
+  - blocked on an OPEN OQ: T-ett-geroch-iii-i (OQ-32), T-bz-c2-proprietes (OQ-38), T-bbs-archive (OQ-90), T-egf-universality (OQ-50), T-gx-troyanov-suspension (OQ-37), T-3p1-theorem-m-theta (OQ-36).
+  - planned, waiting on /ett-programme (stopped until 2026-11-27): T-ett-cbg-typeagreement → T-ett-cbg-e0 (via T-loc-cbg-curves-default). T-gx-troyanov (s ≥ 5, mathematics under DEC-136). T-3p1-theorem-g and T-bbs-hs-model / T-bbs-rp1-circles (BBS-Q1).
+  - ETT marks wait on OQ-16, OQ-18, OQ-34, OQ-35, OQ-64, OQ-82 and OQ-87.
+- gates: roadmap ✓, registers ✓, atlas ✓, hub: no new red
+- wall time: 04:15–04:29 (Paris); agents: 1 (planner)
+- the loop stops here (rule 6). The rulings that would unblock the most are BBS-Q1 (63 rows), OQ-63, OQ-42, OQ-44, OQ-34/35, OQ-18 and OQ-82. Also: whether /atlas-team may run /ett-programme's ready targets while it is paused.
