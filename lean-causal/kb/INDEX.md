@@ -207,3 +207,8 @@ rediscover. One fact per entry.
 | [0199](entries/0199-jminus-open-from-pushup.md) | pattern | J⁻ of every open set is open under push-up and Z⁺ = M |
 | [0200](entries/0200-diamond-compact-at-e-manifolds.md) | pattern | J⁺(Σ) ∩ J⁻(p) is compact at every globally hyperbolic E≥0-manifold, with no limit curves |
 | [0201](entries/0201-cauchy-diamond-rows-hypothesis-free.md) | pattern | CauchyDiamond's rows hold with no named hypothesis at every pair of E≥0-manifolds |
+| [0202](entries/0202-geroch-moreover-any-causal-flow.md) | pattern | Geroch's « Moreover » from any causal flow; state splittings with IsCausalFlow |
+| [0203](entries/0203-e0-tau-flow.md) | pattern | E₀'s τ-translation as a mathlib Flow, causal and null |
+| [0204](entries/0204-no-chronal-flow-with-btz.md) | pattern | No chronal flow once some point has I⁻ = ∅ |
+| [0205](entries/0205-flow-tube-equalities.md) | pattern | Flow-tube equalities J^±(S) = φ(S × ℝ±) with no closedness |
+| [0206](entries/0206-iscausalflow-stranded-in-splitting.md) | pitfall | IsCausalFlow lives in Causal.Splitting, whose closure is not model-free |

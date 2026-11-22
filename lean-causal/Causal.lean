@@ -287,6 +287,8 @@ import Causal.BubbleK
 import Causal.SingularCauchy
 import Causal.Remarks.SingularRowsCauchy
 import Causal.Remarks.SingularRowsDiamond
+import Causal.SingularSplitting
+import Causal.Remarks.SingularRowsSplitting
 
 /-!
 # Causal — topological spacetimes
