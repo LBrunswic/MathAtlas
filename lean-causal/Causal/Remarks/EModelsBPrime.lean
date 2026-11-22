@@ -71,7 +71,7 @@ corollaries at every `E_{≥0}`-manifold, no model hypothesis left.
 * **Not here.** (i) O↑(1,2) ⋉ ℝ³ (OQ-82's other reading): the reflections are chart isomorphisms
   (`BPrimeE0.chartIso_conjE0`, `BPrimeEAlpha.chartIso_conjE`), the theorem for that group is not
   stated. (ii) BTZ_1's `prop:isom` in global form. (iii) `SingularFlatAxioms` at every
-  `E_{≥0}`-manifold (T-ett-sfa-local, T-ett-singular-sfa).
+  `E_{≥0}`-manifold, which is `Causal.SFAManifolds.singularFlatAxioms`.
 * **Instances.** `massAModelSingularGX` fires for a variable index only (kb/0154); sections at a
   fixed model use `EAlphaGX.singularGXFamily`, `EAlphaGX.singularGX`, `E0GX.singularGX`.
 

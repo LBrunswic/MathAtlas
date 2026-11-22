@@ -74,7 +74,8 @@ corollaries (`SFALocal.sing_eq_of_e0Covered`, `SFALocal.isoChartsCoverDEC25_of_e
 * **One chart at a time.** No transition between two charts is used (in particular not
   `BPrimeE0.exists_eqOn_rotE0_tauShift`): each step reads one chart into `E₀`, at `x`, at `p` or at
   the last BTZ point `q` of a curve; past `q` only push-up in `M` is used.
-* **Not here**: the fields `line` and `massive_line` (`lem:past_BTZ` (a); T-ett-sfa-line-e0).
+* **Not here**: the fields `line` and `massive_line` (`lem:past_BTZ` (a)); they are
+  `Causal.SFALine.line` and `Causal.SFAMassiveLine.massive_line`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Imports the strict
 `Causal.Port.SFALocal` only.

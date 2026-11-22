@@ -10,7 +10,7 @@ Target `T-ett-cbg-anchor` (2026-11-20). Bridges the sorry-free CBG development (
 `M₀`, a common sub-extension `N` (`CommonSubDev`, `j₁ = b`, `j₂ = c`), `f = j₂ ∘ j₁⁻¹`, and the
 **literal** `C` (pairs with non-separated images in `(M₁ ⊔ M₂)/N`, `Gluing.C b c`). **No label is
 marked**: everything holds over an abstract `Geometry` (DEC-60) whose singular `E₀` instance is not
-in this package (DEC-134, `T-ett-port-e0`), so each row is partial. Cited, unmarked:
+in this package (DEC-134; the CBG geometry of `E₀` is `T-ett-cbg-e0`), so each row is partial. Cited, unmarked:
 `theo:CBG` — `ETT.tex:1884`, `rem:CBG_analytique` — `ETT.tex:1903`, `prop:ppcm_Cauchy` —
 `ETT.tex:1994`, `lem:corresponding_K` — `ETT.tex:2100`, `cor:ext_continue` — `ETT.tex:2144`,
 `cor:model_corresponding` — `ETT.tex:2158`, `prop:Cauchy_non_max` — `ETT.tex:2178`,
@@ -47,7 +47,7 @@ in this package (DEC-134, `T-ett-port-e0`), so each row is partial. Cited, unmar
 
 | paper | here |
 |---|---|
-| "spacetime means singular flat spacetime" (`ETT.tex:1852`) | ⚠ strengthened: an abstract `Geometry` (DEC-60); the `E₀` instance is owed (`T-ett-port-e0`, and gx's `GermExtFutureBTZ`, `GermExtPastBTZ`, `SliceFutureBTZ` of `Geometry.ofLocalModelOfBTZ`) |
+| "spacetime means singular flat spacetime" (`ETT.tex:1852`) | ⚠ strengthened: an abstract `Geometry` (DEC-60); the `E₀` instance is owed (`T-ett-cbg-e0`, and gx's `GermExtFutureBTZ`, `GermExtPastBTZ`, `SliceFutureBTZ` of `Geometry.ofLocalModelOfBTZ`) |
 | `M₀` globally hyperbolic (`ETT.tex:1885`) | ⚠ strengthened: plus a Cauchy surface (`theo_CBG`) or the model measures (`theo_CBG_of_modelMeasures`, the named hypothesis of `theo:geroch_sing`); `M₀` T2, connected, second countable (ETT's spacetimes) |
 | "maximal" Cauchy extension (never defined) | ✓ all readings proved and equivalent: Cauchy embeddings out bijective (`IsCEMaximal`), morphisms out bijective (`IsETTMaximal`), universal (DEC-59) |
 | `C` "not separated" (`ETT.tex:2011–2012`) | ✓ literal `Gluing.C`; where the literal reading is false (`prop:Cauchy_non_max`) or empty (`prop:Cauchy_point_min`), `Cdist` (OQ-14, `rem:non_separe_cas`) |

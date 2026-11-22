@@ -73,12 +73,14 @@ and waits on OQ-34/OQ-35 (`E₀`) and OQ-82 (the group). This file builds, on ev
   part ways there only, and the paper itself reads `E_{2π}` as regular (l.1328 « `E_{2π} = E` »,
   l.2185 « `α = 2π` if `p` is regular »; DEC-74): a wording note at l.1332, not a question.
 * `E₀` is not here (`Causal.Port.E0GXStructure`); the family `MassAModel` of
-  `Causal.Remarks.MassADEC25` is not packaged with these structures, since that module imports
-  the `E₀` model (kb 0047).
+  `Causal.Remarks.MassADEC25` is not packaged with these structures here, since that module
+  imports the `E₀` model (kb 0047); it is packaged in `Causal.Remarks.MassAModelsInstance`
+  (`massAModelSingularGX`, `hreg_massAModel`).
 * (b′) at the models `E_κ` is proved only where `hreg` gives it (regular sources; every source
   from `E_{2π}`). An a.e. isomorphism chart from `E_κ`, `κ ≠ 2π`, whose source meets the line is
-  not treated: T-ett-bprime-ealpha (the continuation lemma's box form,
-  `EAlphaContinuation.exists_smul_devPt_of_ringBox`, asks no chart into `E^{1,2}` through the line).
+  not treated here: it is in `Causal.Model.BPrimeEAlpha` (`hiso_family`; the continuation lemma's
+  box form, `EAlphaContinuation.exists_smul_devPt_of_ringBox`, asks no chart into `E^{1,2}` through
+  the line).
 * **The group.** Under a larger reading of `Isom(E^{1,2})` (OQ-82: O⁺(1,2) ⋉ ℝ³, spatial
   reflections added) the sector atlas is still an a.e. atlas, and the argument of (2) carries over
   unchanged (it chains rotations and uses rigidity and faithfulness only); this is prose, the Lean

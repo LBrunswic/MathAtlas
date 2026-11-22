@@ -49,7 +49,8 @@ Neither is marked; see SCOPE.
   (`not_admissiblePast_and_admissibleFuture`, `…_of_pushUp`).
   Its hypotheses are satisfied on the pointed line at `p = 0`, `q = 1`
   (`pointedLineMR_obstruction_hypotheses`, `pointedLineMR_not_admissible`); the `_of_pushUp`
-  form has no witness here, one needing dimension at least 2.
+  form has no witness here, one needing dimension at least 2; it has one at `E₀`
+  (`Causal.SingularRowsGeroch.nonvacuous_e0_chain`; also `Causal.E0.mesure_unilaterale`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -136,9 +137,9 @@ theorem not_admissiblePast_and_admissibleFuture {μ : Measure M} (hpq : C.le ⊤
   exact (h1.pos hpq hne).ne' (measure_mono_null hsub (h2.null {p}))
 
 /-- `rem:mesure_unilaterale_ptr`, with `K^+(p) = I^+(p)` obtained from push-up at a point
-strongly tarentin in the future. No Lean witness of these hypotheses is built: `p ∈ Z^+(M)` forces
-chronological-future points near `p` off the chain, so a witness needs dimension at least 2 (see
-`pointedLineMR_obstruction_hypotheses`, which witnesses the general form only). -/
+strongly tarentin in the future. Not witnessed in this file: `p ∈ Z^+(M)` forces chronological-future points near `p` off the
+chain, so a witness needs dimension at least 2 (`pointedLineMR_obstruction_hypotheses` witnesses
+the general form only). The witness is at `E₀`: `Causal.SingularRowsGeroch.nonvacuous_e0_chain`. -/
 theorem not_admissiblePast_and_admissibleFuture_of_pushUp [FirstCountableTopology M]
     {μ : Measure M} (hP : C.PushUp) (hZ : p ∈ C.Zplus) (hpq : C.le ⊤ p q) (hne : p ≠ q)
     (hline : C.Jminus ⊤ {q} \ C.Jminus ⊤ {p} ⊆ C.Jplus ⊤ {p})
@@ -306,11 +307,12 @@ line at `p = 0`, `q = 1`, where `J^-(1) ∖ J^-(0) = {1} ⊂ J^+(0)`, `I^- = ∅
 `K^+(0) = ∅ = I^+(0)`. The obstruction is therefore not vacuous: no measure on the pointed line
 is admissible in the past and in the future at once (`pointedLineMR_not_admissible`).
 
-The `_of_pushUp` form (`not_admissiblePast_and_admissibleFuture_of_pushUp`) has **no witness
-here**: the pointed line has push-up (vacuously) but `0 ∉ Z^+` since `I^+(0) = ∅`. A witness
+The `_of_pushUp` form (`not_admissiblePast_and_admissibleFuture_of_pushUp`) has no witness
+here (its witness is at `E₀`, `Causal.SingularRowsGeroch.nonvacuous_e0_chain`): the pointed line has push-up (vacuously) but `0 ∉ Z^+` since `I^+(0) = ∅`. A witness
 needs `p ∈ Z^+(M)`, i.e. points `r ≫ p` arbitrarily close to `p`, which therefore have
 `p ∈ I^-(r) ≠ ∅` and must lie off the chain `]p, q]`: a second direction besides the chain, as
-in the 3-dimensional BTZ model. None is built. -/
+in the 3-dimensional BTZ model. None is built here; at `E₀` it is
+`Causal.SingularRowsGeroch.nonvacuous_e0_chain`. -/
 theorem pointedLineMR_obstruction_hypotheses :
     pointedLineMR.le ⊤ 0 1 ∧ (0 : ℝ) ≠ 1 ∧
     pointedLineMR.Jminus ⊤ {1} \ pointedLineMR.Jminus ⊤ {0} ⊆ pointedLineMR.Jplus ⊤ {0} ∧

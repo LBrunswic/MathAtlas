@@ -7,8 +7,8 @@ import Causal.Flat.Achronal
 two senses of admissibility
 
 Target `T-ett-unanchored` (2026-11-20). No label is marked: each remark speaks of BTZ points of
-`E^{1,2}_{≥0}`-manifolds, whose model `E₀` is not in this package (DEC-134, `T-ett-port-e0`), or of
-Lorentzian manifolds, which the library does not have. The BTZ facts enter through the fields of
+`E^{1,2}_{≥0}`-manifolds, read under DEC-25 over the model `E₀` (`Causal.E0`; OQ-18, OQ-34,
+OQ-35, OQ-82), or of Lorentzian manifolds, which the library does not have. The BTZ facts enter through the fields of
 `SingularFlatAxioms` / `BTZAxioms` (`Causal.SingularFlat`, kb/0012); Minkowski space stands for the
 Lorentzian side where an instance is meant. Cited, unmarked:
 `rem:relation_not_assumed_reflexive` — `ETT.tex:235`, `rem:pas_plat` — `ETT.tex:289`,
@@ -56,7 +56,7 @@ Lorentzian side where an instance is meant. Cited, unmarked:
 | paper | here |
 |---|---|
 | Minkowski space | ✓ `minkowski n`, every `n` |
-| BTZ point, `E_{≥0}`-manifold (`defi:causal_E0`) | ⚠ strengthened: `BTZAxioms C S₀` / `SingularFlatAxioms C sing` (named model facts; the `E₀` instance is owed, `T-ett-port-e0`) |
+| BTZ point, `E_{≥0}`-manifold (`defi:causal_E0`) | ⚠ strengthened: `BTZAxioms C S₀` / `SingularFlatAxioms C sing` (named model facts; at `E₀`, `Causal.E0.singularFlatAxioms`; at every Hausdorff, second countable `E_{≥0}`-manifold, `Causal.SFAManifolds.singularFlatAxioms`) |
 | `rem:pas_plat` (ii): `M` causal | ⚠ strengthened: `btz_past` asks `IsCausal` (the BTZ line a closed embedding, so `J^-(p)` is the image of `]-∞,0]`); the finding `interior_Jminus_eq_empty` does not |
 | Lorentzian manifold (`rem:lorentz_tarentin`) | ⚠ strengthened: an absolutely minimal T1 spacetime with `I^±(p) ≠ ∅` everywhere; instance: `minkowski n` |
 | `rem:mesure_unilaterale`: `M` causal | ✓ carried |
@@ -86,8 +86,9 @@ Lorentzian side where an instance is meant. Cited, unmarked:
 * `rem:mesure_unilaterale`: the paper's "`r ∉ I^+(p) = K^+(p)` by `prop:K_calcul`" is used in the
   form `K^+(p) = I^+(p)` from push-up and `p ∈ Z^+` (`PushUp.Kplus_eq_Iplus`, `prop:K_calcul` (b));
   the segment is computed from the field `line` (`lem:past_BTZ` (a)) and causality. The full
-  `SingularFlatAxioms` with `sing_0 ≠ ∅` has no witness in the library (`Causal.SingularFlat`,
-  SCOPE), so these two theorems are not instantiated with a BTZ point; the general obstruction
+  `SingularFlatAxioms` with `sing_0 ≠ ∅` has the witness `E₀`, where these two theorems are
+  instantiated with a BTZ point (`Causal.E0.mesure_unilaterale`, through
+  `SingularFlatAxioms.mesure_unilaterale`); the general obstruction
   `not_admissiblePast_and_admissibleFuture` is (`pointedLineMR_not_admissible`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

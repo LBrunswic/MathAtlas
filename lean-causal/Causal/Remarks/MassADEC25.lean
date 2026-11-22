@@ -77,10 +77,11 @@ uniqueness half of `cor:massA_causalite`. The existence half is stated with `hre
 ## SCOPE (disclosed)
 
 * **Why unmarked.** (1) `E₀`'s singular structure is `E0GX.singularGX`
-  (`Causal.Port.E0GXStructure`); `E_κ`'s is not yet in lean-causal (T-ett-ealpha-gx-structure).
-  `massA_dec25_models` holds for every choice of them, so it covers those once packaged, but no `E_{≥0}`-manifold with a singular point is
-  instantiated (`T-ett-singular-instance`): the four theorems over `MassAModel` have no witness yet,
-  lean-causal having no instance of `∀ o, SingularGXStructure _ (Minkowski 2) (MassAModel o)`.
+  (`Causal.Port.E0GXStructure`); `E_κ`'s is `EAlphaGX.singularGX`
+  (`Causal.Model.EAlphaGX`). `massA_dec25_models` holds for every choice of them; the family is
+  packaged as `Causal.MassAModelsInstance.massAModelSingularGX`, and the four theorems over
+  `MassAModel` are instantiated with a singular point in `Causal.Remarks.MassAModelsInstance`
+  (`massA_dec25_models_e0`, `epi_witness`).
   (2) « Natural » is a reading (OQ-18). (3) The
   existence half rests on `hreg` and (b′) (OQ-64), which depend on those structures.
 * **Proofs.** `cor:massA_cac` and `cor:pushup_sing` are `massA_cac` and `pushup_sing` of
@@ -95,8 +96,8 @@ uniqueness half of `cor:massA_causalite`. The existence half is stated with `hre
 * **Models.** `E_{≥0}` is indexed by `Option {κ // 0 < κ}`. The facts `cor:model_minimal` and
   `rem:pushup` at `κ = 0`, hypotheses in `Causal.Remarks.MassiveManifold`, are discharged here by
   `Causal.E0.causallyArcConnected` and `Causal.E0LM.e0_pushUp` (`T-ett-port-e0`).
-* **Witnesses.** `massA_dec25_line`, `massA_dec25_minkowski` have `Sing = ∅` (no singular structure
-  with a singular point in lean-causal), so the `X_A`-charts are regular;
+* **Witnesses.** `massA_dec25_line`, `massA_dec25_minkowski` have `Sing = ∅`, so the `X_A`-charts are
+  regular (witnesses with a singular point: `Causal.Remarks.MassAModelsInstance`);
   `twoLines_dec25_not_unique` reuses `GX_maximal_not_unique` (`Causal.GXStructure`), its second
   causality non-local (kb/0014).
 
@@ -481,8 +482,8 @@ model space `E^{1,2}` with the same structure and causality. `minkowski 2` is th
 of the DEC-25 atlas (every chart of the maximal a.e. atlas and every `X_A`-chart an isomorphism:
 (b′) holds at regular sources, `chartIso_model_of_subset_reg`), so the theorems of this file apply:
 it is causally arc-connected, has push-up, and is the only absolutely minimal causality with an
-isomorphic chart at every point. The model is not an `E_κ` with a singular line: the library has no
-singular structure on those (SCOPE). -/
+isomorphic chart at every point. The model is not an `E_κ` with a singular line: those are witnessed in
+`Causal.Remarks.MassAModelsInstance` (`massA_dec25_models_e0`, `epi_witness`). -/
 theorem massA_dec25_minkowski :
     IsAtlasCausalityDEC25 (Flat.isom 2) (minkowski 2) (minkowski 2)
         (fun _ : Unit => minkowski 2) ∧

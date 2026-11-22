@@ -138,8 +138,9 @@ countability, and absolute minimality where the chart facts suffice.
   `E_{≥0}`-manifolds, and its « around which `M` is causally plain » by global plainness there.
 * **`sing_α(M)`** is `SFALocal.sing M α` (brunswic2021cauchy Cor. 1.5), as in `Causal.SFALocal`.
 * **The witness of `cor:K_ordre_Sigma`** at `E₀` takes `S = J⁺(q) ∖ I⁺(q)`, which is not a Cauchy
-  surface: `K_ordre_Sigma` does not ask for one, and the library has no splitting of `E₀`, so
-  `K_ordre_Sigma_of_splitting` is not instantiated.
+  surface: `K_ordre_Sigma` does not ask for one. `K_ordre_Sigma_of_splitting` is instantiated at `E₀`
+  in `Causal.Remarks.SingularRowsSplitting` (`nonvacuous_e0`, the τ-flow splitting), and the
+  form for every Cauchy surface is `Causal.SingularRowsCauchy.K_ordre_Sigma`.
 * **Witnesses.** `E₀` has BTZ points only and `E_π` massive points only; no witness has points of
   both kinds (`Causal.SFALocal` SCOPE).
 

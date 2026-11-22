@@ -78,7 +78,9 @@ flow, causal over `ℝ`, are inextensible), `Flat.FlowField.chronalCurveOn_of_ch
   fails at a BTZ point (there `J⁻(φ ε p)` is a half-line of the singular line). The flow-free
   criteria `isClosed_Jplus_of_forall_exists` / `isClosed_Jplus_of_forall_exists_lt` only ask, at
   each `p ∉ J⁺(Σ)`, for **some** `r ∉ J⁺(Σ)` with `J⁻(r) ∈ 𝓝 p` (e.g. `p ≪ r`, a regular point
-  `r`); that is what a model with BTZ lines can try to discharge.
+  `r`); that is what a model with BTZ lines can try to discharge. Under `SingularFlatAxioms` it is
+  discharged without a flow: `Causal.Causality.SingularFlatAxioms.sigma_separe_of_isCausal`
+  (`Causal.SingularCauchy`), used for every causal flow in `Causal.SingularSplitting`.
 * **Target 3's equality is false at a point with `I⁻_U(p) = ∅`** above `S` (a BTZ point): on the
   lightlike line, with `{0}` an acausal Cauchy surface, push-up and causality all verified,
   `J⁺({0}) ∖ {0} = ]0, ∞[` and `I⁺({0}) = ∅` (`lightlikeLine_Jplus_diff_ne_Iplus`) — every

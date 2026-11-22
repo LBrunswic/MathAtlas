@@ -69,7 +69,7 @@ declarations left in the scaffold remainder, which imports this module and
   `M` locally causally convex (read as strong causality, DEC-7) and a pair of admissible measures;
   `prop:mesure_admissible` gives the measures only for strongly causal `M`, and nothing in
   Section 3 makes a singular flat spacetime strongly causal (l.1216 reads "locally causally
-  convex ⇒ strongly causal"). By hand (not formalized: the library has no `E_α`): for `α > 0`,
+  convex ⇒ strongly causal"). By hand (not formalized: the library has no quotient structure for `E_α` modulo a translation): for `α > 0`,
   `E_α` modulo a translation along its (timelike) singular line is a connected singular flat
   spacetime with a non-empty singular locus, so it does not depend on whether `A = ℝ₊` allows an
   empty one; its singular line closes into a closed timelike curve, it is totally vicious
@@ -101,11 +101,12 @@ declarations left in the scaffold remainder, which imports this module and
   `t2`, and a Hausdorff Y-tree is not tarentin at its branch point; no counterexample is known.
 * **`lem:cup_cap_BTZ` is stated for globally hyperbolic `M` (DEC-19)**, the setting of its only
   use (l.2122); its certificate is `cupCapBTZAsPrinted_of_globallyHyperbolic`. The printed form
-  (strong causality only), which the package believes false (by-hand counterexample,
-  `Causal.SingularFlat`, SCOPE), is not asserted: it stays the `Prop`
+  (strong causality only), which is false (`Causal.CupCapBTZCounterexample.not_cupCapBTZAsPrinted`,
+  at `E₀` minus a point of its BTZ line), is not asserted: it stays the `Prop`
   `CupCapBTZAsPrinted C sing`, with that finding.
 * **The BTZ facts are fields** (`Causal.SingularFlat`, SCOPE): the full structure with
-  `sing 0 ≠ ∅` has no witness in the library. Its former field `Iplus_eq`
+  `sing 0 ≠ ∅` has the witness `E₀` (`Causal.E0.singularFlatAxioms`), and every Hausdorff, second
+  countable `E_{≥0}`-manifold satisfies it (`Causal.SFAManifolds.singularFlatAxioms`). Its former field `Iplus_eq`
   (`I^+(p) = J^+(p) ∖ sing_0`, flagged at l.1351 as asserted without proof) is **false in `E₀`**
   (the radial null ray) and was replaced by `Iplus_of_lt` (DEC-64, true in `E₀`); `K_monotone`,
   through which `mesure_admissible` and every theorem here using it pass, is re-proved from the
@@ -311,9 +312,9 @@ end SingularFlatAxioms
 
 /-- `lem:cup_cap_BTZ` **as printed** (`ETT.tex:1825–1833`), for the data `(C, sing)`: if `M` is a
 strongly causal singular flat spacetime, then for every BTZ point `p` and every sequence `p_n → p`
-with `p ∉ J^-(p_n)`, `⋃_N ⋂_{n ≥ N} J^-(p_n) = J^-(p) ∖ {p}`. A definition, not a theorem: the
-package believes it false for some strongly causal singular flat spacetime. **Finding** (by hand,
-not formalized: the library has no `E_0`): in `E_0 ∖ {w}`, `w` a point of the BTZ line below
+with `p ∉ J^-(p_n)`, `⋃_N ⋂_{n ≥ N} J^-(p_n) = J^-(p) ∖ {p}`. A definition, not a theorem: it is
+false for some strongly causal singular flat spacetime. **Finding** (formalized:
+`Causal.CupCapBTZCounterexample.not_cupCapBTZAsPrinted`): in `E_0 ∖ {w}`, `w` a point of the BTZ line below
 `p` and `z` a point of that line below `w`, `z ≪ p_n` for regular `p_n → p` with
 `p ∉ J^-(p_n)` (a chronal curve from a BTZ point leaves the line at once and avoids `w`), while
 `J^-(p) = ]w, p]`, so `z` is in the left side and not the right one; granted that `E_0` is

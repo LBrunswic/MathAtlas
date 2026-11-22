@@ -69,14 +69,15 @@ ball (`ball_subset_closure_slitBox`). (6) Locality (`E0.absolutelyMinimalOn`,
 | `Isom(𝔼^{1,2})` (l.1331, l.1401) | ⚠ read (OQ-82): `Flat.isom 2 = SO₀(1,2) ⋉ ℝ³`; used once, through the determinant, to exclude the reflection |
 | prop:isom: `U` open connected containing a singular point, `φ` a local homeomorphism | ⚠ strengthened (read through `IsAEChart`), local form: conclusion on a ball about each axis point of the source; `φ` an open partial homeomorphism (injective), as `IsAEChart` asks |
 | prop:isom: `α = β` | ⚠ strengthened: `α = β = 0` (the only model here) |
-| `cor:massA_causalite`: every `E_{≥0}`-manifold | ⚠ strengthened: the models `E₀` only: (b′) at `o = o′ = E₀`; the `E_κ` pairs need `E_κ`'s singular structure |
+| `cor:massA_causalite`: every `E_{≥0}`-manifold | ⚠ strengthened: the models `E₀` only: (b′) at `o = o′ = E₀`; the `E_κ` pairs are in `Causal.Model.BPrimeEAlpha` (`hiso_family`) |
 
 ## SCOPE (disclosed)
 
 * **Why unmarked.** The row's mark waits on OQ-18 (« natural »), OQ-64 ((b′) as a hypothesis of
-  the model spaces), OQ-82 (the group) and OQ-34/OQ-35 (`E₀`), and the row itself on
-  T-ett-singular-instance (no `E_{≥0}`-manifold with all its models packaged). This file proves
-  (b′) at `E₀ → E₀` only; `E₀ ↔ E_κ` and `E_κ ↔ E_κ′` are not addressed.
+  the model spaces), OQ-82 (the group) and OQ-34/OQ-35 (`E₀`), the models are packaged in
+  `Causal.Remarks.MassAModelsInstance`. This file proves (b′) at `E₀ → E₀` only; the other pairs
+  are `Causal.Model.BPrimeEAlpha` (`hiso_family`) and `Causal.Remarks.EModelsBPrime`
+  (`hiso_massAModel`).
 * **Under OQ-82's other reading** `O↑(1,2) ⋉ ℝ³` the determinant step fails and the reflection
   after a rotation and a translation becomes an a.e. isomorphism; it is a chart isomorphism
   (`chartIso_conjE0`), but the theorem for that group is not stated (no such group in the library).

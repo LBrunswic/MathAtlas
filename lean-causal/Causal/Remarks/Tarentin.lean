@@ -5,9 +5,9 @@ import Causal.LinesReachable
 /-!
 # Remarks on tarentin spacetimes, `K^± = I^±` on Lorentzian manifolds, and two remarks on proofs
 
-Target `T-ett-unanchored` (2026-11-20). No label is marked (SCOPE): Lorentzian manifolds, the
-Misner singularity and the `E₀` model are not in the library (the `E₀` instance is owed,
-DEC-134, `T-ett-port-e0`). Cited, unmarked: `rem:tarentin_exemples` — `ETT.tex:688`,
+Target `T-ett-unanchored` (2026-11-20). No label is marked (SCOPE): Lorentzian manifolds and the
+Misner singularity are not in the library; the `E₀` model is (`Causal.E0`), read under OQ-34 and
+OQ-35. Cited, unmarked: `rem:tarentin_exemples` — `ETT.tex:688`,
 `cexemple:misner_tarentin` — `ETT.tex:1368`, `cor:K_lorentzien` — `ETT.tex:884`,
 `rem:manifolds_specialises_brunswic_cauchy` — `ETT.tex:898`, `rem:proof_uses_neither_causal` —
 `ETT.tex:1171`, `rem:recursion_these` — `ETT.tex:1140`.

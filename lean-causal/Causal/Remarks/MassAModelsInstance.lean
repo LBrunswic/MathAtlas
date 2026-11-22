@@ -62,14 +62,17 @@ that the four model-level theorems of `Causal.Remarks.MassADEC25` take; `hreg` a
 ## SCOPE (disclosed)
 
 * **Why unmarked.** OQ-18, OQ-82, OQ-34/OQ-35 (readings). The existence half at a general
-  `E_{≥0}`-manifold rests on (b′) between `E_κ`, `E_κ'` at sources meeting the line
-  (T-ett-bprime-ealpha, T-ett-e-models-bprime). For `E₀`-manifolds nothing is left.
+  `E_{≥0}`-manifold, which rested on (b′) between `E_κ`, `E_κ'` at sources meeting the line, is
+  proved in `Causal.Remarks.EModelsBPrime` (`massA_singular_all`, from
+  `Causal.Model.BPrimeEAlpha`, `hiso_family`). For `E₀`-manifolds nothing was left.
 * **The instance** fires for a variable `o` only: at `none` or `some κ` the type `MassAModel o`
   reduces to `E0` or `Massive κ.1` before instance search, so sections at a fixed model use the
   local instances `E0GX.singularGX`, `EAlphaGX.singularGX`, `EAlphaGX.singularGXFamily`, all
   definitionally the family's values.
-* **`E_π`**: local form only. Its causality is natural over the family iff (b′) holds from `E_π`
-  (`isAtlasCausalityDEC25_model_iff`), which through the line is T-ett-bprime-ealpha's.
+* **`E_π`**: local form here. Its causality is natural over the family iff (b′) holds from `E_π`
+  (`isAtlasCausalityDEC25_model_iff`); that is proved through the line in
+  `Causal.Model.BPrimeEAlpha`, and `Causal.Remarks.EModelsBPrime` states the models' rows at `E_π`
+  (`massA_dec25_models_epi`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

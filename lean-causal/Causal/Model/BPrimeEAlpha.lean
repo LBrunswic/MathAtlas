@@ -74,7 +74,7 @@ extend the formula to the ball (`prop_isom_local`). (7) Locality and the regular
 | `Isom(E^{1,2})` (ETT l.1333) | reading (OQ-82): `Flat.isom 2`; used once, through the determinant (`isom_of_timeAxis`) |
 | « isomorphisms of the model spaces » (ETT l.631–632) | reading (OQ-64): `IsAEChart`; an isomorphism of topological spacetimes is `ChartIso` |
 | « unique causal structure » (ETT l.1339) | reading (OQ-18): unique among absolutely minimal causalities |
-| « On any `E_{≥0}`-manifold » (ETT l.1339) | ⚠ special case: `E_{>0}`-manifolds (`existsUnique_causality_ealpha`); every `E_{≥0}`-manifold is the assembly over `MassAModel` (T-ett-e-models-bprime) |
+| « On any `E_{≥0}`-manifold » (ETT l.1339) | ⚠ special case: `E_{>0}`-manifolds (`existsUnique_causality_ealpha`); every `E_{≥0}`-manifold is the assembly over `MassAModel` (`Causal.Remarks.EModelsBPrime`, `massA_singular_all`, `causal_Ealpha_manifolds`) |
 
 ## SCOPE (disclosed)
 

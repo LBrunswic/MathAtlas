@@ -66,8 +66,10 @@ first model of the library with `sing₀ ≠ ∅`, through the abstract theorems
 ## SCOPE (disclosed)
 
 * **(a) Instances only, nothing marked.** The three rows are about every (strongly causal)
-  `E_{≥0}`-manifold or singular flat spacetime; they wait on T-ett-singular-sfa and on
-  `ModelMeasures` for every `E_{≥0}`-manifold, and on OQ-34/OQ-35 (which `E₀`).
+  `E_{≥0}`-manifold or singular flat spacetime; at every such manifold they are
+  `Causal.SFAManifolds.mesure_admissible` and the rows of `Causal.Remarks.SingularRowsGeroch`
+  (from `Causal.SFAManifolds.singularFlatAxioms` and
+  `Causal.MeasuresManifolds.massA_modelMeasures`); they wait on OQ-34/OQ-35 (which `E₀`).
 * **(b) The route, checked step by step.** The curves `r ↦ (u + r, r e^{iθ})`, `r ≥ 0`, are
   chronological (`lt_ray`); the frontier of any `≪`-past (or `≪`-future) set, open or not, meets
   each in at most one point (`frontier_ray_subsingleton_of_past`, `_of_future`); the shear

@@ -70,7 +70,7 @@ with its natural causality.
 ## SCOPE (disclosed)
 
 * **Why unmarked.** `lem:past_BTZ` is a statement about every `α ∈ ℝ₊` and every singular
-  spacetime; this module proves its (a) at `α = 0` only (the `E_κ` half is T-ett-sfa-massive-line),
+  spacetime; this module proves its (a) at `α = 0` only (the `E_κ` half is `Causal.SFAMassiveLine.massive_line`),
   in the readings OQ-18 (the causality), OQ-34/OQ-35 (`E₀`) and OQ-82 (the group). (b) is
   `Causality.SingularFlatAxioms.past_BTZ_b` (`Causal.SingularFlat`). `defi:causal_E0` is a
   statement of the model; `Jminus_eq_image` is its half-line read at a causal `M`, under the same

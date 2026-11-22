@@ -13,8 +13,10 @@ properties of Section 3.3 derived from it
 `lem:cup_cap_BTZ` — `ETT.tex:1825`, stated for globally hyperbolic `M` as the author ruled
 (DEC-19), certificate `cupCapBTZAsPrinted_of_globallyHyperbolic` (`Causal.SingularGeroch`)
 on `SingularFlatAxioms.cup_cap_BTZ`. None is marked: each is a statement about
-`E^{1,2}_{≥0}`-manifolds, which the library does not define (the model spaces `E_α` are not built
-and the paper does not construct `E_0`, `ETT.tex:1328–1356`). The causal facts the paper draws
+`E^{1,2}_{≥0}`-manifolds, which the library reads under DEC-25 (`Causal.Port.SFALocal`) over the
+models `E_0` (`Causal.E0`) and `E_α` (`Causal.Model.Massive`, `Causal.Model.EAlphaGX`), and the
+rows wait on those readings (OQ-18, OQ-34, OQ-35, OQ-82); the paper does not construct `E_0`
+(`ETT.tex:1328–1356`). The causal facts the paper draws
 from the model spaces are the fields of `SingularFlatAxioms C sing` (kb/0012), each with the line
 it stands for; every theorem here is proved from them.
 
@@ -81,8 +83,8 @@ l.1344–1356), `line`
 * **⚠ re-scoped, DEC-64: the field `Iplus_eq` is replaced by `Iplus_of_lt`.** The former field
   `I^+(p) = J^+(p) ∖ sing_0` (at every BTZ point `p`) is the sentence of `defi:causal_E0`
   (l.1352–1355) flagged at l.1351 as "quoted from \cite{thesis}, where it is asserted without
-  proof -- verify". **Answered: it is false** (gx review of `CBG/Geometry`, C1; by hand, not
-  formalized: the library has no `E_0`). For `E_0` with the metric `−2dτdr + dr² + r²dθ²` a future
+  proof -- verify". **Answered: it is false** (gx review of `CBG/Geometry`, C1; formalized at
+  `E_0` as `Causal.E0.Iplus_ne_Jplus_diff`, `Causal.Port.E0Axioms`). For `E_0` with the metric `−2dτdr + dr² + r²dθ²` a future
   causal vector has `r′ ≥ 0` and `2τ′r′ ≥ r′² + r²θ′²`, so `f = τ − r/2` is non-decreasing along
   causal and strictly increasing along timelike curves; the radial null ray `t ↦ (t/2, t, θ₀)` from
   `p = (0, 0)` reaches `x = (s/2, s, θ₀)`, `s > 0`, so `x ∈ J^+(p) ∖ sing_0` while `f x = f p` gives
@@ -102,7 +104,7 @@ l.1344–1356), `line`
   global form; deriving it in `M` from the model (l.1352) is the chart and causal arc-connectedness
   argument of l.1663–1669, which the field absorbs.
 * **`lem:cup_cap_BTZ`'s `⊂` needs `z ≤ p` from `z ≤ p_n`, i.e. `J^+(z)` closed at `p`.** Finding
-  (by hand, not formalized: the library has no `E_0`): in `E_0 ∖ {w}`, `w` a point of the BTZ line
+  (formalized: `Causal.CupCapBTZCounterexample.not_cupCapBTZAsPrinted`): in `E_0 ∖ {w}`, `w` a point of the BTZ line
   below `p` and `z` a point of that line below `w`, `z ≪ p_n` for regular `p_n → p` with
   `p ∉ J^-(p_n)` (a chronal curve from a BTZ point leaves the line at once and avoids `w`), while
   `J^-(p)` is the segment `]w, p]`: the lemma fails for this strongly causal singular flat
@@ -119,10 +121,14 @@ l.1344–1356), `line`
 * **Satisfiability (kb/0012), and what has no witness.** The timelike line with every
   `sing α = ∅` satisfies the whole structure (`timelikeLine_singularFlatAxioms`), and every
   theorem whose hypotheses can hold with `sing 0 = ∅` is instantiated there — in its regular
-  branch only. **The full structure with `sing 0 ≠ ∅` has no witness in the library**, so the
-  BTZ branches (`K_calcul` (b)–(c) at a BTZ point, `Jminus_eq_image`, `isClosed_Jminus`,
-  `lt_of_lt_of_le_of_not_mem`, `SingularFlatAxioms.cup_cap_BTZ`, and the BTZ cases inside
-  `K_injectif`, `K_densite_sing`, `K_monotone`) are never instantiated with a BTZ point. The
+  branch only. The full structure with `sing 0 ≠ ∅` has a witness, `E_0`
+  (`Causal.E0.singularFlatAxioms`, `Causal.E0.singE0_zero_nonempty`), and the BTZ branches are
+  instantiated there: the K rows at every point of `E_0`, BTZ points included (`Causal.E0.K_injectif`,
+  `Causal.E0.K_densite_sing`, `Causal.E0.K_ordre`, `Causal.E0.past_BTZ_b`), and
+  `SingularFlatAxioms.cup_cap_BTZ` at a BTZ point (`Causal.SingularRowsK.nonvacuous_e0_cup_cap`).
+  `Jminus_eq_image`, `isClosed_Jminus`, `lt_of_lt_of_le_of_not_mem` and `K_calcul` (b)–(c) have
+  no `E_0` instance stated by name. The first witness with a non-empty massive line is `E_π`
+  (`Causal.SFAMassiveLine.epi_singularFlatAxioms`). The
   lightlike line with `sing_0 = ℝ` satisfies `BTZAxioms` alone (`lightlikeLine_btzAxioms`) and
   the hypotheses of `cup_cap_BTZ_of_isClosed` (`lightlikeLine_cup_cap_BTZ`). Neither of these two
   lines carries the whole structure with `sing 0 ≠ ∅` (`timelikeLine_sing_zero`,

@@ -113,7 +113,8 @@ its (iii)⇒(i).
   follow through `SFALocal.isoChartsCoverDEC25_of_e0` and `SFALocal.sing_eq_of_e0Covered`, not
   stated.
 * **Witnesses.** `E₀` has BTZ points only, `E_π` massive points only. `VecteurFlow` has no witness
-  at `E₀`; the timelike line's (`Causal.SingularGeroch`) stands.
+  at `E₀` in this file; it has one in `Causal.Remarks.SingularRowsSplitting`
+  (`vecteurFlow_e0`, the τ-flow), beside the timelike line's (`Causal.SingularGeroch`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. Imports the strict
 `Causal.Port.SFAManifolds`, `Causal.Remarks.BTZPoints`, `Causal.MeasureRemarks`,

@@ -9,7 +9,8 @@ Roadmap target `T-ett-line-development`; ETT layer: it imports no model (no `Cau
 `Causal.Model`, `Causal.CBG`, `Causal.SingularFlat`). **No label is marked.** It serves
 `lem:past_BTZ` — `ETT.tex:1515`, its (a), as a model-free tool for the fields `BTZAxioms.line`
 (`α = 0`) and `SingularFlatAxioms.massive_line` (`α > 0`) of `Causal.SingularFlat`; the fields
-at every manifold are T-ett-sfa-line-e0, T-ett-sfa-massive-line and T-ett-singular-sfa.
+at every manifold are `Causal.SFALine.line` and `Causal.SFAMassiveLine.massive_line`, assembled in
+`Causal.SFAManifolds.singularFlatAxioms`.
 
 > `lem:past_BTZ` (a). For every $\alpha\in \RR_+$, each connected component of
 > $\sing_\alpha(M)$ is an inextensible causal curve; if $\alpha>0$, such a connected component is

@@ -78,8 +78,9 @@ point (`ModelMeasures`, in local form); both rows then follow from `SingularFlat
 
 ## SCOPE (disclosed)
 
-* **(a) Unmarked.** Both rows are conditional on `SingularFlatAxioms` for every
-  `E_{≥0}`-manifold (T-ett-singular-sfa); `E_{≥0}`-manifold and « natural » are readings (DEC-25,
+* **(a) Unmarked.** Both rows here are conditional on `SingularFlatAxioms` for
+  every `E_{≥0}`-manifold; that is `Causal.SFAManifolds.singularFlatAxioms`, and the unconditional
+  forms are `Causal.SFAManifolds.mesure_admissible`; `E_{≥0}`-manifold and « natural » are readings (DEC-25,
   OQ-18, OQ-82), `E₀` is read as in OQ-34/OQ-35; « a differential manifold » is not formalized.
 * **(b) The chart image.** The paper's `U_p` is causally convex in `M`; `lem:restriction_convexe`
   applied in the model needs its image causally convex in the model, which convexity in `M` does
@@ -230,7 +231,8 @@ theorem e0Manifold_modelMeasures [R1Space M] (hcov : SFALocalE0.E0Covered M)
 
 /-- **`prop:mesure_admissible` at every Hausdorff, second countable, strongly causal
 `E₀`-manifold**, given the three BTZ fields of `SingularFlatAxioms` that
-`SFALocalE0.singularFlatAxioms_iff` leaves (T-ett-singular-sfa). -/
+`SFALocalE0.singularFlatAxioms_iff` leaves (proved: `Causal.SFALine.singularFlatAxioms_e0`; the
+unconditional form is `Causal.SFAManifolds.mesure_admissible`). -/
 theorem e0Manifold_mesure_admissible [T2Space M] [SecondCountableTopology M]
     (hcov : SFALocalE0.E0Covered M) (hC : SFALocalE0.IsE0Natural C) (hSC : C.StronglyCausal)
     (hpast : ∀ p ∈ SFALocalE0.sing M 0, C.SingularPastAt p)

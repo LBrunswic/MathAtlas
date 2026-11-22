@@ -71,8 +71,9 @@ Target `T-ett-measures-ealpha` (no `sorry`). Cited, **unmarked** (SCOPE (a)):
 ## SCOPE (disclosed)
 
 * **(a) Instance only, nothing marked.** `prop:mesure_admissible` is about every strongly causal
-  `E_{≥0}`-manifold; it waits on `ModelMeasures` for every such manifold (T-ett-measures-manifolds,
-  which restricts these measures through charts) and on T-ett-singular-sfa.
+  `E_{≥0}`-manifold; at every such manifold it is `Causal.SFAManifolds.mesure_admissible`, through
+  `Causal.MeasuresManifolds.massA_modelMeasures` (which restricts these measures through charts)
+  and `Causal.SFAManifolds.singularFlatAxioms`.
 * **(b) The planner's route.** (1) The reduction is verbatim. (2) The vertical-section argument
   needs neither `P` open nor `ν` related to Lebesgue measure: `dt ⊗ ν`, `ν` s-finite, and only
   `dist(x, y.2) < y.1 − t ⇒ (t, x) ≪ y` with `I⁻(y)` open. (3) A Gaussian in `r` over all of

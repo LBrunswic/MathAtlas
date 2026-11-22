@@ -10,9 +10,10 @@ Target `T-ett-unanchored` (2026-11-20). The three corollaries of Section 3.1 whi
 `E_{≥0}`-manifold a topological spacetime, proved from the abstracted singular `(G,X)`-structure
 of `Causal.GXSingular` (`prop:GX_sing_espace_temps_topo`) by the paper's own arguments. No label
 is marked: the singular atlas is abstracted (OQ-19, ruled by DEC-25 in gx's terms and not yet
-reconciled here) and the `E₀` model is not in this package (DEC-134, `T-ett-port-e0`); its two
-facts used here — causal arc-connectedness (`cor:model_minimal` at `κ = 0`) and push-up
-(`rem:pushup` at `κ = 0`) — are hypotheses. `E^{1,2}` and `Isom(E^{1,2})` are discharged
+reconciled here) and the `E₀` model is read under OQ-34 and OQ-35; its two facts used here — causal
+arc-connectedness (`cor:model_minimal` at `κ = 0`) and push-up (`rem:pushup` at `κ = 0`) — are
+hypotheses in this file, discharged at `E₀` by `Causal.E0.causallyArcConnected` and
+`Causal.E0LM.e0_pushUp` (as `Causal.Remarks.MassADEC25` uses them). `E^{1,2}` and `Isom(E^{1,2})` are discharged
 (`minkowski_model_facts`); for `E_α`, `α > 0`, causal arc-connectedness and push-up are discharged
 (`massive_model_facts`), while the second half of (b) of `prop:GX_sing_espace_temps_topo` — the
 regular charts of `E_α` are isomorphisms, `hreg` — is assumed here; the library now builds the regular charts of `E_κ`, `κ > 0`, and proves them
@@ -47,7 +48,8 @@ unmarked: `cor:massA_causalite` — `ETT.tex:1396`, `cor:massA_cac` — `ETT.tex
 * `cor:massA_causalite`: `massA_causalite`. `cor:massA_cac`: `massA_cac`. `cor:pushup_sing`:
   `pushup_sing`. Assembly: `massA_singular`. Model facts: `minkowski_model_facts`,
   `massive_model_facts`; no BTZ model: `massA_positive`, witnessed in the regular case only
-  (`massA_positive_minkowski`: `E^{1,2}` with its identity chart; no chart into an `E_κ` is built).
+  (`massA_positive_minkowski`: `E^{1,2}` with its identity chart; the charts into an `E_κ` are built
+  in `Causal.Model.EAlphaSectors`).
 
 ## Hypothesis checklist
 
@@ -57,7 +59,7 @@ unmarked: `cor:massA_causalite` — `ETT.tex:1396`, `cor:massA_cac` — `ETT.tex
 | `X = E^{1,2}` causally arc-connected, `G = Isom` acting by morphisms | ✓ discharged for `minkowski 2`, `Flat.isom 2` (`minkowski_model_facts`); a hypothesis in the abstract statements |
 | `E_κ`, `κ > 0`: causally arc-connected (`cor:model_minimal`), push-up (`rem:pushup`) | ✓ discharged (`massive_model_facts`, `massA_positive`) |
 | `E_κ`, `κ > 0`: (b) second half, the regular charts of `E_κ` isomorphisms | ⚠ strengthened: assumed (`hreg` of `massA_positive`); discharged in `Causal.Model.EAlphaSectors` (`hreg_sectorChart`, `massA_positive_sectorCharts`) |
-| `E_0`: the same two facts | ⚠ strengthened: hypotheses `hb`, `hpY` at the BTZ model (the `E₀` instance is owed) |
+| `E_0`: the same two facts | ⚠ strengthened: hypotheses `hb`, `hpY` at the BTZ model (discharged at `E₀`: `Causal.E0.causallyArcConnected`, `Causal.E0LM.e0_pushUp`) |
 | (b) second half: the regular part's causality extends | ⚠ reading of `Causal.GXSingular`: every regular chart is a `ChartIso` |
 | Baire (`cor:massA_causalite`'s proof) | ⚠ weakened: not used (OQ-10) |
 

@@ -28,7 +28,7 @@ import Mathlib.Analysis.SpecificLimits.Basic
 | paper hypothesis | here |
 |---|---|
 | `rem:K_neq_I`: the other hypotheses of `prop:tarentin_fort_K` (absolutely minimal, tarentin, second countable Hausdorff, `p ∈ Z^-`) | ✓ carried by the witness `halfChronoLine` |
-| — "if `B` is a causal bubble of `J^+(p)` then `B` meets `K^+(p)`" | fails in general (`pointedLine`), but `pointedLine` does not meet the hypotheses of `prop:tarentin_fort_K`; under them the claim is **open** |
+| — "if `B` is a causal bubble of `J^+(p)` then `B` meets `K^+(p)`" | fails in general (`pointedLine`), but `pointedLine` does not meet the hypotheses of `prop:tarentin_fort_K`; under them, causal plainness dropped, it is false too (`Causal.not_bubbleKminusAsPrinted`, `Causal.BubbleK`: Minkowski space with one spoke) |
 | `rem:K_plongement_hypotheses`: `M` causal, the other hypothesis of `prop:K_plongement_ordre` | ✓ carried by both witnesses |
 | — "around which `M` is causally plain" | **⚠ strengthened: `M` causally plain** (`prop:tarentin_fort_K` is proved for a causally plain `M`) |
 | — `prop:GH_Jferme`: tarentin, globally hyperbolic, Hausdorff | ✓ carried |

@@ -50,7 +50,7 @@ and `sing_α(M) = ∅` for `α ≠ 0`.
 
 | paper | here |
 |---|---|
-| `E_{≥0}`-manifold | ⚠ strengthened (instance): an `E₀`-manifold only, DEC-25 (`[SingularGXStructure (Flat.isom 2) (Minkowski 2) M]`, `E0Covered M`); the `E_κ` charts are T-ett-sfa-local |
+| `E_{≥0}`-manifold | ⚠ strengthened (instance): an `E₀`-manifold only, DEC-25 (`[SingularGXStructure (Flat.isom 2) (Minkowski 2) M]`, `E0Covered M`); the `E_κ` charts are `Causal.Port.SFALocal` |
 | its causality | ⚠ read (OQ-18): the natural one (`IsE0Natural`, `existsUnique_causality_e0`) |
 | « BTZ points » = `sing₀(M)` | ⚠ read: `Sing(M)`, every point of which every `X_A`-chart sends to the axis (`mem_axis_iff`); `sing_α(M) = ∅`, `α ≠ 0` |
 | « topological spacetime »: Hausdorff, second countable (`ETT.tex:254`) | ✓ carried, `[T2Space M] [SecondCountableTopology M]`, by `metrizableSpace` and `singularFlatAxioms_iff` only: read as part of « manifold »: gx's singular `(G,X)`-manifold is « locally connected Hausdorff second countable » (`RamcovGX.tex:474`), the definition DEC-25 adopts for OQ-19, as `prop:GX_sing_dec` (`ETT.tex:1435`) and the DEC-90 precedent agree; `SingularGXStructure` gives neither |
@@ -59,9 +59,12 @@ and `sing_α(M) = ∅` for `α ≠ 0`.
 ## SCOPE (disclosed)
 
 * **Why unmarked.** Both rows are about every `E_{≥0}`-manifold; here the models are `E₀` and
-  `E^{1,2}` only (the `E_κ` charts: T-ett-sfa-local), and they wait on OQ-34/OQ-35 and OQ-82.
-* **Not proved here**: the BTZ fields `singularPastAt`, `Iplus_of_lt`, `line`
-  (T-ett-singular-sfa); `singularFlatAxioms_iff` shows they are all that is missing.
+  `E^{1,2}` only (the `E_κ` charts: `Causal.Port.SFALocal`), and they wait on OQ-34/OQ-35 and OQ-82.
+* **Not proved here**: the BTZ fields `singularPastAt`, `Iplus_of_lt`, `line`;
+  `singularFlatAxioms_iff` shows they are all that is missing. They are proved in
+  `Causal.SFABTZ.singularPastAt_e0`, `Causal.SFABTZ.Iplus_of_lt_e0` and `Causal.SFALine.line_e0`,
+  and `SingularFlatAxioms` at every T2, second countable `E₀`-manifold is
+  `Causal.SFALine.singularFlatAxioms_e0`.
 * **Hausdorff and second countable are carried, never derived.** A `SingularGXStructure` gives
   neither (not formalized: a disjoint union of uncountably many copies of `𝐌³` is not second
   countable). They are read as part of « manifold »: gx's definition of a singular `(G,X)`-manifold,
