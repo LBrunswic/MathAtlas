@@ -1,0 +1,418 @@
+{
+  "package": "T-yamabe-analysis",
+  "target": "T-yamabe-analysis",
+  "files": [
+    "scaffold/YamabeScaffold/Sobolev.lean",
+    "scaffold/YamabeScaffold/Trace.lean",
+    "scaffold/YamabeScaffold/Rellich.lean",
+    "scaffold/YamabeScaffold/External.lean"
+  ],
+  "builds": true,
+  "sorry_count": 6,
+  "sorry_count_per_file": {
+    "scaffold/YamabeScaffold/Sobolev.lean": 2,
+    "scaffold/YamabeScaffold/Trace.lean": 2,
+    "scaffold/YamabeScaffold/Rellich.lean": 2,
+    "scaffold/YamabeScaffold/External.lean": 0
+  },
+  "labels": [
+    {
+      "label": "lem:kobayashi",
+      "tex_lines": [
+        613,
+        638
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.kobayashiB_of_sobolev",
+        "Yamabe.MeasuredModel.lem_kobayashi",
+        "Yamabe.MeasuredModel.SobolevIneq",
+        "Yamabe.MeasuredModel.w12Sq",
+        "Yamabe.MeasuredModel.kobayashi_EH",
+        "Yamabe.MeasuredModel.EscobarLaw",
+        "Yamabe.Mfd.sobolev_embedding",
+        "Yamabe.Mfd.Reads.sobolevIneq",
+        "Yamabe.Mfd.Reads.kobayashiB",
+        "Yamabe.sobolev_euclidean"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(Σ, g) compact Riemannian N-manifold with boundary, N ≥ 3 (l.605)",
+          "here": "reading",
+          "note": "Two layers. Model layer: the strict MeasuredModel/CurvedMetric (DEC-186 accepted its readings). Manifold layer (Yamabe.Mfd): Mathlib's manifolds with boundary, ChartedSpace (EuclideanHalfSpace N) M, IsManifold (𝓡∂ N) ∞ M, CompactSpace, T2Space, and a smooth metric Bundle.ContMDiffRiemannianMetric on TangentSpace. Mathlib has no Riemannian volume: vol_g is read as any measure μ with Mfd.IsLocallyLebesgue N μ (near each point, in its chart, between two constant multiples of Lebesgue measure), which the Riemannian volume is; the theorem for every such μ is Lean ≥ paper."
+        },
+        {
+          "paper": "H_g ≡ 0 (standing assumption, l.615)",
+          "here": "carried",
+          "note": "MinimalBoundary g."
+        },
+        {
+          "paper": "min_Σ R_g > 0 (l.623)",
+          "here": "carried",
+          "note": "0 < ⨅ x, R_g x, as in the strict KobayashiB."
+        },
+        {
+          "paper": "Σ ≠ ∅",
+          "here": "carried",
+          "note": "vol_g ≠ 0 on the model (Y is a sInf: an empty competitor set gives 0)."
+        },
+        {
+          "paper": "the Sobolev embedding W^{1,2}(Σ) ↪ L^{p*}(Σ) on compact manifolds with boundary (l.637, Hebey1996)",
+          "here": "carried",
+          "note": "On the model: MeasuredModel.SobolevIneq, a hypothesis of kobayashiB_of_sobolev (the model is abstract). On a model reading a manifold it is discharged (Mfd.Reads.sobolevIneq, Mfd.Reads.kobayashiB) by Mfd.sobolev_embedding, which is stated (∃ C, ‖u‖_{L^{p*}(μ)} ≤ C(‖∇u‖_{L²} + ‖u‖_{L²}) in ℝ≥0∞ for every u ∈ C¹(M)) and rests on sorry."
+        },
+        {
+          "paper": "u ∈ W^{1,2}(Σ) (l.617, l.637)",
+          "here": "reading",
+          "note": "u ∈ C¹(M) up to the boundary (Mfd.IsC1), dense in W^{1,2}(M); on the model, its D."
+        },
+        {
+          "paper": "EH(Σ, u^{4/(N−2)} g) (l.620, printed left side of (a))",
+          "here": "carried",
+          "note": "kobayashi_EH: with Escobar's conformal law at (g, u, h) (EscobarLaw, a named external) and h = u^{4/(N−2)} g, the strict bound holds for EH(Σ, h) itself."
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Yamabe.Mfd.sobolev_embedding",
+          "obstruction": "Mathlib has GNS on ℝ^N for C¹_c (sobolev_euclidean is proved from it) but not the half-space version for functions not vanishing on ∂ℍ (needs a C¹ extension across {y₀ = 0}, u(y', −t) = −3u(y', t) + 4u(y', t/2), with ‖D(Eu)‖_{L²(ℝ^N)} ≤ C‖Du‖_{L²(ℍ)}), nor the chart localisation on M (finite smooth partition of unity subordinate to charts; comparison of gradNorm g with the chart derivative via continuity of g in trivializationAt/tangentCoordChange; comparison of μ with Lebesgue measure)."
+        },
+        {
+          "decl": "Yamabe.Mfd.eLpNorm_gradNorm_lt_top",
+          "obstruction": "a uniform bound of gradNorm g u on compact M: near each point g_x ≥ c|·|² in chart coordinates and the chart derivative of u bounded; Mathlib has no lemma comparing a ContMDiffRiemannianMetric with the model norm through tangentCoordChange. Used only by the bridges Mfd.Reads.*."
+        }
+      ],
+      "findings": [],
+      "questions": [
+        "The Lean model of 'compact Riemannian manifold with boundary' (l.605) for the analytic theorems: Mathlib's smooth manifolds with boundary modelled on EuclideanHalfSpace N (𝓡∂ N), compact and Hausdorff, with a smooth Bundle.ContMDiffRiemannianMetric on the tangent bundle; |∇u|_g = Mfd.gradNorm g u, the g-dual norm of mfderiv. Reading taken; the alternative (a domain of ℝ^N) would be narrower, since a punctured T³ is not one.",
+        "vol_g and the area of ∂Σ (and of each B_j): Mathlib has no Riemannian volume. Reading taken: any μ with Mfd.IsLocallyLebesgue N μ (chartwise comparable to Lebesgue measure) and any σ_j with Mfd.IsBoundaryMeasure N σ_j (carried by ∂M, chartwise dominated by the (N−1)-dimensional Hausdorff measure). The theorems hold for every such measure, hence for the Riemannian ones; the B_j are not required to be the components of ∂M (only nonzero for some j).",
+        "W^{1,2}(Σ) (Mathlib has no Sobolev spaces): read as C¹(M) up to the boundary, dense in W^{1,2}; an inequality on W^{1,2} is its inequality on C¹, and inf F over W^{1,2} ∖ {0} equals inf F over C¹ ∖ {0} (F continuous on W^{1,2} by the Sobolev and trace theorems). Reading taken."
+      ]
+    },
+    {
+      "label": "lem:positivity",
+      "tex_lines": [
+        715,
+        721
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.lem_positivity",
+        "Yamabe.MeasuredModel.RellichProp",
+        "Yamabe.MeasuredModel.ConstLimit",
+        "Yamabe.MeasuredModel.TraceIneq",
+        "Yamabe.MeasuredModel.traceL2_of_traceIneq",
+        "Yamabe.MeasuredModel.cor_negative_of_analytic",
+        "Yamabe.Mfd.lem_positivity",
+        "Yamabe.Mfd.readingModel_F",
+        "Yamabe.Mfd.Reads.lem_positivity",
+        "Yamabe.Mfd.Reads.cor_negative",
+        "Yamabe.Mfd.Reads.traceIneq",
+        "Yamabe.Mfd.Reads.rellichProp",
+        "Yamabe.Mfd.Reads.constLimit",
+        "Yamabe.Mfd.trace_embedding",
+        "Yamabe.Mfd.trace_compact",
+        "Yamabe.Mfd.rellich_kondrachov",
+        "Yamabe.Mfd.const_of_tendsto",
+        "Yamabe.Mfd.IsBoundaryMeasure",
+        "Yamabe.trace_halfLine",
+        "Yamabe.toy_sobolevIneq",
+        "Yamabe.toy_traceIneq",
+        "Yamabe.toy_rellichProp",
+        "Yamabe.toy_constLimit",
+        "Yamabe.toy_lem_positivity",
+        "Yamabe.toyCut_not_constLimit",
+        "Yamabe.trace_halfSpace",
+        "Yamabe.trace_critical"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Σ compact connected Riemannian with boundary, N ≥ 3",
+          "here": "carried",
+          "note": "Model: 3 ≤ N, finite vol_g and bvol_g, connectedness through ConstLimit (toyCut_not_constLimit shows it is the connectedness: it fails on a model of a disconnected Σ, where inf F = 0). Manifold (Mfd.lem_positivity): CompactSpace, T2Space, ConnectedSpace, smooth g; IsFiniteMeasure μ, σ_j carried (implied by the other hypotheses, not derived)."
+        },
+        {
+          "paper": "non-empty boundary (l.717)",
+          "here": "carried",
+          "note": "∃ j, bvol_g j ≠ 0 (model), ∃ j, σ_j ≠ 0 (manifold): a non-empty boundary has positive area."
+        },
+        {
+          "paper": "Σ ≠ ∅",
+          "here": "carried",
+          "note": "vol_g ≠ 0 / μ ≠ 0 (implied on M by ConnectedSpace and IsLocallyLebesgue; carried)."
+        },
+        {
+          "paper": "for every metric g (l.717)",
+          "here": "carried",
+          "note": "every FrameMetric of the model; every smooth metric g on M."
+        },
+        {
+          "paper": "u ∈ W^{1,2}(Σ) ∖ {0}",
+          "here": "reading",
+          "note": "Adm (0 < ‖u‖²_{L^{p*}}) over the model's D (OQ-44/DEC-186); on M, D = C¹(M) (Mfd.readingModel; Mfd.readingModel_F shows F is eq:trace-sobolev there)."
+        },
+        {
+          "paper": "Rellich–Kondrachov, weak limit with ‖∇u_∞‖ ≤ liminf = 0, Σ connected ⇒ u_∞ ≡ c, compact trace, Sobolev (l.720)",
+          "here": "carried",
+          "note": "Model: RellichProp (bounded in W^{1,2} ⇒ a subsequence converges in L²), ConstLimit (an L² limit of a sequence whose energy → 0 is a.e. constant: the weak-limit-and-connectedness step), TraceIneq (trace into L^{p♯}(B_j), l.491), SobolevIneq. All four hold on the strict two-point toy model (toy_*), where lem_positivity recovers inf F > 0. Manifold: Mfd.rellich_kondrachov, Mfd.const_of_tendsto, Mfd.trace_embedding, Mfd.sobolev_embedding, stated, sorry; transported to any model reading M (Mfd.Reads.*), which exists for all data (Mfd.reads_readingModel)."
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "Yamabe.Mfd.rellich_kondrachov",
+          "obstruction": "Mathlib has no compactness criterion in L^p (Kolmogorov–Riesz / Fréchet–Kolmogorov) and no mollifier estimate ‖u − u_ε‖_{L²} ≤ Cε‖∇u‖_{L²}; then Rellich on a cube (or a half-ball after a C¹ extension) and the chart localisation."
+        },
+        {
+          "decl": "Yamabe.Mfd.const_of_tendsto",
+          "obstruction": "weak derivatives on M: the L² limit f satisfies ∫ f div X dμ = 0 for C¹ vector fields X compactly supported in chart interiors, hence is a.e. locally constant (du Bois-Reymond via mollification in a chart), and M connected with μ(∂M) = 0 gives a constant; Mathlib has no distributional derivative on manifolds and no du Bois-Reymond lemma."
+        },
+        {
+          "decl": "Yamabe.Mfd.trace_embedding",
+          "obstruction": "proved here: the Euclidean critical trace inequality for C¹_c(ℝ × ℝ^n) (Yamabe.trace_critical: ‖u(0,·)‖^{p♯}_{L^{p♯}(ℝ^{N−1})} ≤ C‖Du‖^{p♯}_{L²(ℝ^N)}, via trace_halfLine (FTC), trace_halfSpace (Tonelli), Hölder with 2(p♯−1) = p*, and Mathlib's GNS). Missing: the half-space Sobolev inequality (gradient over ℍ only; see sobolev_embedding), the identification of the chart's EuclideanSpace ℝ (Fin N) with ℝ × ℝ^{N−1} (measure preserving) and of μH[N−1] on {y₀ = 0} with Lebesgue measure on ℝ^{N−1}, and the chart localisation (partition of unity, IsLocallyLebesgue, IsBoundaryMeasure)."
+        },
+        {
+          "decl": "Yamabe.Mfd.trace_compact",
+          "obstruction": "needs rellich_kondrachov and the interpolation ‖u‖²_{L²(∂ℍ)} ≤ ε‖∂_t u‖² + C_ε‖u‖²_{L²(ℍ)} (from the FTC estimate), localised; not used by lem_positivity (continuity suffices, see findings)."
+        }
+      ],
+      "findings": [
+        "Remark, not an error (l.720): « The trace operator W^{1,2}(Σ) → L²(∂Σ) is compact, so the traces converge to c in L²(∂Σ) ». The step needs only the continuity of the trace. By then ‖∇u_k‖_{L²} → 0 and u_k → c in L²(Σ), so u_k → c strongly in W^{1,2}(Σ), and a bounded trace sends this to tr u_k → c in L²(∂Σ). The Lean proof (Yamabe.MeasuredModel.lem_positivity) uses only the trace theorem into L^{p♯}(B_j) of l.491 (TraceIneq, then L²(B_j) by the corrected eq:hoelder), never compactness. Suggested wording: « The trace operator W^{1,2}(Σ) → L²(∂Σ) is bounded ». The compactness the paper states is Yamabe.Mfd.trace_compact, stated for completeness.",
+        "The second citation of eq:hoelder at l.720 is used with the corrected exponent (Vol(B_j)^{1/(N−1)} on the squared norm, Yamabe.hoelder_boundary), already recorded by T-yamabe-quotient and ruled a typo by DEC-186; the proof goes through with it."
+      ],
+      "questions": [
+        "The weak-limit step of l.720 (« a subsequence converges … weakly in W^{1,2}(Σ) to some u_∞ with ‖∇u_∞‖_{L²} ≤ liminf ‖∇u_k‖_{L²} = 0; since Σ is connected, u_∞ ≡ c ») is read, since Mathlib has no W^{1,2}, as: an L²(Σ) limit of a sequence whose Dirichlet energy tends to 0 is a.e. constant (ConstLimit on the model, Mfd.const_of_tendsto on M). That is what the step proves. Reading taken.",
+        "The positive area of a boundary component (∃ j, σ_j ≠ 0) and Vol(Σ) ≠ 0 stand for « non-empty boundary » and Σ ≠ ∅; on M they follow from ConnectedSpace, a non-empty ∂M and the local comparability of the measures, but are carried."
+      ]
+    },
+    {
+      "label": "prop:nonpositive",
+      "tex_lines": [
+        476,
+        646
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.prop_nonpositive",
+        "Yamabe.MeasuredModel.prop_nonpositive_first",
+        "Yamabe.MeasuredModel.prop_nonpositive_csc_of_sobolev",
+        "Yamabe.Mfd.Reads.prop_nonpositive_csc",
+        "Yamabe.MeasuredModel.AB53",
+        "Yamabe.YamabePSC",
+        "Yamabe.GromovLawson",
+        "Yamabe.ClosedConformal",
+        "Yamabe.ClosedConformal.sigma",
+        "Yamabe.ClosedConformal.HasPSC",
+        "Yamabe.ClosedConformal.sigma_nonpos"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Σ̄ enlargeable; each [g|_{B_j}] of positive Yamabe constant (l.478)",
+          "here": "reading",
+          "note": "through the externals of the proof (l.641–645): AB53 (Akutagawa–Botvinnik Cor. 5.3 for Σ with positive boundary classes), YamabePSC (thm:yamabe (b): a positive class contains a PSC metric) and GromovLawson (the double, enlargeable, carries no PSC metric), on the double read through its conformal classes (ClosedConformal); enlargeability and connected sums are not modelled."
+        },
+        {
+          "paper": "lem:kobayashi (b) in the second sentence (l.645)",
+          "here": "carried",
+          "note": "from SobolevIneq (prop_nonpositive_csc_of_sobolev); on a model reading M, discharged by sobolev_embedding (sorry)."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "lem:gluing-estimate",
+      "tex_lines": [
+        648,
+        683
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.Filling.lem_gluing_estimate_of_yamabe",
+        "Yamabe.Filling.YamabeB",
+        "Yamabe.Filling.YamabeData",
+        "Yamabe.Filling.Ybar",
+        "Yamabe.Filling.confEnergyBar",
+        "Yamabe.Filling.normSqBar",
+        "Yamabe.Filling.BarAdm",
+        "Yamabe.Filling.BarFactor"
+      ],
+      "hypotheses": [
+        {
+          "paper": "thm:yamabe (b) on (Σ̄, ḡ) (l.658)",
+          "here": "carried",
+          "note": "Filling.YamabeB: a minimiser ψ > 0 of Y_[ḡ](Σ̄) (Filling.Ybar, the closed conformal energy eq:conformal-energy l.178 over the pieces) and h̄ = ψ^{4/(N−2)} ḡ of constant scalar curvature Ybar·Vol(Σ̄, h̄)^{−2/N}, smooth across B_j; Escobar's law asked at h̄ (the model carries curvatures as data). The strict library's free y is replaced by Ybar."
+        },
+        {
+          "paper": "β_j := YB_[g_j](D_j) > −∞ (l.650)",
+          "here": "carried",
+          "note": "BddBelow of the cap boundary energies, as in the strict gluing_estimate_YB."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "thm:upper-bound",
+      "tex_lines": [
+        493,
+        729
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.cor_negative_of_externals",
+        "Yamabe.Filling.YamabeData.gluingInput",
+        "Yamabe.Filling.YamabeData.boundaryYamabe",
+        "Yamabe.Filling.nonempty_gluingInput",
+        "Yamabe.MeasuredModel.ABFamily",
+        "Yamabe.MeasuredModel.AB46",
+        "Yamabe.MeasuredModel.EscobarIV",
+        "Yamabe.MeasuredModel.EHB_flatBall"
+      ],
+      "hypotheses": [
+        {
+          "paper": "σ(Σ̄) ≤ 0 (l.495), used as Y_[ḡ_τ](Σ̄) ≤ 0 (l.724)",
+          "here": "reading",
+          "note": "Ybar ≤ 0 at each ḡ_τ: σ(Σ̄) = sup over all metrics cannot be bounded in a model whose curvatures are free data."
+        },
+        {
+          "paper": "lem:gluing (l.685–695)",
+          "here": "carried",
+          "note": "its output: the family (ABFamily, the conclusion of Akutagawa–Botvinnik Thm 4.6, l.690) and fillings ḡ_τ whose caps are in the class of the flat ball (EscobarIV); the cap construction (l.690–694) is not formalized."
+        },
+        {
+          "paper": "β_j = c_N by fact (iv) (l.724)",
+          "here": "carried",
+          "note": "derived (YamabeData.boundaryYamabe) from EscobarIV on the caps of ḡ_τ and Escobar's law on the caps of h̄_τ, through the strict YB_le_EHB."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "cor:negative",
+      "tex_lines": [
+        502,
+        505
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.cor_negative_of_externals",
+        "Yamabe.MeasuredModel.cor_negative_of_analytic",
+        "Yamabe.Mfd.Reads.cor_negative"
+      ],
+      "hypotheses": [
+        {
+          "paper": "lem:positivity (l.728), carried as hpos by T-yamabe-negative",
+          "here": "carried",
+          "note": "discharged: cor_negative_of_analytic (from the model's analytic properties, sorry-free), Mfd.Reads.cor_negative (on a model reading a compact connected Riemannian manifold with non-empty boundary, from the sorry-stated analytic theorems)."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.pStar_inv",
+    "Yamabe.normSq_smul",
+    "Yamabe.tendsto_eLpNorm_of_normSq",
+    "Yamabe.tendsto_normSq_of_eLpNorm",
+    "Yamabe.MeasuredModel.w12Sq_nonneg",
+    "Yamabe.MeasuredModel.dirichlet_smul",
+    "Yamabe.MeasuredModel.F_smul",
+    "Yamabe.MeasuredModel.dirichlet_sub_smul_one",
+    "Yamabe.MeasuredModel.val_sub_smul_one",
+    "Yamabe.MeasuredModel.tr_sub_smul_one",
+    "Yamabe.Mfd.RiemannianMetric",
+    "Yamabe.Mfd.gradNorm",
+    "Yamabe.Mfd.IsC1",
+    "Yamabe.Mfd.w12",
+    "Yamabe.Mfd.IsLocallyLebesgue",
+    "Yamabe.Mfd.Reads",
+    "Yamabe.Mfd.Reads.hD",
+    "Yamabe.Mfd.Reads.dirichlet_eq",
+    "Yamabe.Mfd.memLp_of_isC1",
+    "Yamabe.Mfd.sq_le_of_le_mul_add",
+    "Yamabe.Mfd.C1",
+    "Yamabe.Mfd.onb",
+    "Yamabe.Mfd.dcov",
+    "Yamabe.Mfd.gradNorm_sq",
+    "Yamabe.Mfd.frameP",
+    "Yamabe.Mfd.frameP_transpose_mul",
+    "Yamabe.Mfd.frameP_injective",
+    "Yamabe.Mfd.dFrame",
+    "Yamabe.Mfd.readingModel",
+    "Yamabe.Mfd.flatFrame",
+    "Yamabe.Mfd.reads_readingModel",
+    "Yamabe.toy_normSq_two",
+    "Yamabe.toy_w12Sq",
+    "Yamabe.toy_memLp",
+    "Yamabe.tendsto_zero_of_sq",
+    "Yamabe.MeasuredModel.EscobarI",
+    "Yamabe.MeasuredModel.EscobarII",
+    "Yamabe.pSharp_sub_one"
+  ],
+  "axioms": {
+    "standard (propext, Classical.choice, Quot.sound)": [
+      "Yamabe.sobolev_euclidean",
+      "Yamabe.trace_halfLine",
+      "Yamabe.MeasuredModel.kobayashiB_of_sobolev",
+      "Yamabe.MeasuredModel.lem_kobayashi",
+      "Yamabe.MeasuredModel.prop_nonpositive_csc_of_sobolev",
+      "Yamabe.MeasuredModel.traceL2_of_traceIneq",
+      "Yamabe.MeasuredModel.lem_positivity",
+      "Yamabe.MeasuredModel.cor_negative_of_analytic",
+      "Yamabe.toy_lem_positivity",
+      "Yamabe.toyCut_not_constLimit",
+      "Yamabe.Mfd.reads_readingModel",
+      "Yamabe.Mfd.gradNorm_sq",
+      "Yamabe.Mfd.readingModel_F",
+      "Yamabe.ClosedConformal.sigma_nonpos",
+      "Yamabe.MeasuredModel.prop_nonpositive",
+      "Yamabe.MeasuredModel.kobayashi_EH",
+      "Yamabe.MeasuredModel.EHB_flatBall",
+      "Yamabe.Filling.lem_gluing_estimate_of_yamabe",
+      "Yamabe.Filling.nonempty_gluingInput",
+      "Yamabe.MeasuredModel.cor_negative_of_externals",
+      "Yamabe.trace_halfSpace",
+      "Yamabe.trace_critical",
+      "Yamabe.pSharp_sub_one"
+    ],
+    "with sorryAx (through the six stated analytic theorems)": [
+      "Yamabe.Mfd.sobolev_embedding",
+      "Yamabe.Mfd.eLpNorm_gradNorm_lt_top",
+      "Yamabe.Mfd.trace_embedding",
+      "Yamabe.Mfd.trace_compact",
+      "Yamabe.Mfd.rellich_kondrachov",
+      "Yamabe.Mfd.const_of_tendsto",
+      "Yamabe.Mfd.Reads.sobolevIneq",
+      "Yamabe.Mfd.Reads.kobayashiB",
+      "Yamabe.Mfd.Reads.prop_nonpositive_csc",
+      "Yamabe.Mfd.Reads.traceIneq",
+      "Yamabe.Mfd.Reads.rellichProp",
+      "Yamabe.Mfd.Reads.constLimit",
+      "Yamabe.Mfd.Reads.lem_positivity",
+      "Yamabe.Mfd.Reads.cor_negative",
+      "Yamabe.Mfd.lem_positivity"
+    ]
+  },
+  "kb_proposals": [
+    "The manifold layer of lean-yamabe is Yamabe.Mfd (YamabeScaffold.Sobolev): Mathlib manifolds with boundary (ChartedSpace (EuclideanHalfSpace N) M, IsManifold (𝓡∂ N) ∞ M), a smooth Bundle.ContMDiffRiemannianMetric on TangentSpace, |∇u|_g = Mfd.gradNorm (dual norm of mfderiv), volumes as Mfd.IsLocallyLebesgue measures, boundary areas as Mfd.IsBoundaryMeasure (Trace); a MeasuredModel is tied to (M, g, μ, σ) by Mfd.Reads, and Mfd.readingModel / Mfd.reads_readingModel shows Reads is satisfiable for all data (orthonormal frame chosen pointwise: the model asks no measurability of d).",
+    "The analytic inputs of § 6 on the model are four Props: SobolevIneq, TraceIneq (into L^{p♯}(B_j)), RellichProp, ConstLimit (energy-free L² limits are constant: the connectedness). MeasuredModel.lem_positivity proves lem:positivity from them, sorry-free; all four hold on the strict toyModel (toy_sobolevIneq, toy_traceIneq, toy_rellichProp, toy_constLimit) and ConstLimit fails on toyCut.",
+    "Pitfall: with letI : Bundle.RiemannianBundle (fun x : M => TangentSpace I x) := ⟨g.toRiemannianMetric⟩ the tangent spaces become inner product spaces (‖v‖² = g.inner x v v by rfl); FiniteDimensional must be given by inferInstanceAs (FiniteDimensional ℝ (EuclideanSpace ℝ (Fin N))). mfderiv u x lands in TangentSpace 𝓘(ℝ, ℝ) (u x), on which ^ 2 fails: wrap it in a def with declared codomain ℝ (Mfd.dcov).",
+    "Pitfall: under open scoped ContDiff, ∞ is ambiguous between ℕ∞ω and ℝ≥0∞ (write ⊤ for eLpNorm bounds); defs over ChartedSpace (EuclideanHalfSpace N) M whose type does not mention N need `variable (N) in` (IsC1 N u, IsLocallyLebesgue N μ).",
+    "Pitfall: HasDerivAt.pow is about f ^ n (Pi power); for fun t => f t ^ 2 use (h.fun_pow 2).congr_deriv (by simp); `convert … using 1` fails on instance paths there.",
+    "Pattern: CurvedMetric carries R and H as free data, so an external fact quantified over all metrics (∀ h, IsConformal g h u → ConformalLaw g u h) is unsatisfiable (change H, keep G); state externals at the data where the paper invokes them, and bundle the law into an existence statement that produces a metric (Filling.YamabeB).",
+    "Pattern: a chain of new scaffold modules typechecks without lake build through /tmp oleans (lean-causal kb 0034): lake env bash -c 'LEAN_PATH=/tmp/X:$LEAN_PATH lean -R scaffold -o /tmp/X/YamabeScaffold/A.olean scaffold/YamabeScaffold/A.lean'."
+  ],
+  "notes": "Order of imports: Sobolev ← Trace ← Rellich ← External (External imports Rellich; Sobolev imports Yamabe.Negative). External.lean has no sorry and none of its declarations depends on sorryAx. The six sorries are the analytic theorems on the manifold M (sobolev_embedding, eLpNorm_gradNorm_lt_top, trace_embedding, trace_compact, rellich_kondrachov, const_of_tendsto), each with the precise missing Mathlib infrastructure at the sorry; everything over the model, the Euclidean pieces (sobolev_euclidean, trace_halfLine), the reading model and the toy witnesses is sorry-free. The wiring requested by the dispatch is: hpos of the strict cor_negative discharged by MeasuredModel.lem_positivity (cor_negative_of_analytic, sorry-free from the model's analytic properties) and by Mfd.Reads.lem_positivity (Mfd.Reads.cor_negative, through the sorry-stated manifold theorems); KobayashiB of the strict prop_nonpositive_csc discharged by kobayashiB_of_sobolev (prop_nonpositive_csc_of_sobolev) and by Mfd.Reads.kobayashiB. The scaffold root YamabeScaffold.lean is not modified (it imports only Basic): the master must add the four imports at graduation (lean-causal kb 0025). lake build of the four modules rebuilt nothing upstream. The files are warning-free apart from the sorry warnings, as the strict library's warningAsError requires at graduation (Sobolev, Trace and Rellich would not graduate before their sorries are closed). Euclidean pieces proved (smallest first): sobolev_euclidean (GNS at p = 2 on ℝ^N), trace_halfLine (1D FTC), trace_halfSpace (Tonelli over the boundary hyperplane), trace_critical (the critical trace inequality on ℝ^N for C¹_c functions, Escobar1988's inequality with a non-sharp constant). The next pieces, in order: the half-space Sobolev inequality through the C¹ reflection u(y′, −t) = −3u(y′, t) + 4u(y′, t/2) (it closes the half-space trace theorem too); the comparison of gradNorm g with chart derivatives (closes eLpNorm_gradNorm_lt_top); the chart localisation; Kolmogorov–Riesz for Rellich; weak derivatives for const_of_tendsto."
+}
