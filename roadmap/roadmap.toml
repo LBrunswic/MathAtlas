@@ -914,13 +914,14 @@ stream = "gx"
 kind = "close"
 paper = "gx"
 labels = ["cex:start_singular_manifold_homeomorphic"]
-status = "ready"
+status = "blocked"
 owner = "closer"
 priority = 8
 depends = ["T-gx-spherical-cone"]
-evidence = "DEC-175: r ∈ [0,π) with one centre, the conical singularity as an X_θ-chart; the Aut(Σ) → Aut(M) group isomorphism carried and proved. Note 2026-11-22 by the planner: OQ-92 (OPEN) asks whether GX.ThurstonSuspensionFacts and TroyanovSuspensionTheoremS3 move to Theorem C's condition, which would widen this target's scope. The reading taken meanwhile is l.1930's printed condition. The facts are needed for those tuples under either answer, so the target stays ready at the printed scope. The obligation is the sorry GX.thurstonSuspensionFacts (scaffold GXScaffold/Spherical/TroyanovAngles.lean:343–345)."
+evidence = "DEC-175 (OQ-37): (a) r ∈ [0,π) one centre, (b) the conical singularity as an X_θ-chart, (c) the Aut(Σ) → Aut(M) group isomorphism carried and proved. Partial (3689eb0, audit minor): DEC-175 (c) proved; the facts reduced to Aut(Σ) = {Id} (singularAut_eq_bot, one sorry: Lefschetz–Hopf/Brouwer–Kerékjártó on 𝕊², not at the pin); OQ-105 asks named external or mathlib-level proof"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+oq = "OQ-105"
 
 [[target]]
 id = "T-gx-cone-football"
@@ -1205,13 +1206,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzthm:c2s2_proprietes_pseudo_longueur"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c2-hilbert", "T-bz-c2-lignes"]
-evidence = "DEC-206: the conventional editorial choices (1°–7° one statement; the déf. 5 edge to déf. 6 with [sic]; descriptive references bound)"
+evidence = "DEC-206/177/178: Benzecri.proprietes_pseudo_longueur, strict, marked; the printed enonce false in every dimension; audits major (REPORT text, fixed) then clean; Benzécri 65/66 closed"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "dc8dca0"
 
 [[target]]
 id = "T-bz-c2-compact"
@@ -1557,13 +1559,14 @@ kind = "close"
 paper = "bbs"
 labels = ["bbsdef:hs_surface_topological_surface_endowed"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bbs-triage", "T-bbs-q1"]
-evidence = "REVIEW.md §B L2, 'Gaps: HS^n is not a type anywhere. Only its null part exists, as PenroseSphere'; §E wave W0 (2–4k lines, over lean-causal's Form and Penrose). colI_v1.tex l.615 (bbsdef:hs_surface_topological_surface_endowed: 'a topological surface endowed with a (SO₀(1,2), HS²)-structure'). Planned, not ready, because its package is BBS-Q1 (T-bbs-layer-home, needs-ruling): lean-gx (the bbs root) or a new lean-bbs. Once that is ruled, the package is set and the target promoted. It does not depend on T-bbs-layer-home itself, which is a close target for bbsprop:classising and bbsdef:Hcausal that needs this layer first. BBS-Q3 (the representation) was answered in REVIEW.md §I (2026-11-03): the unit-sphere model GX.RaySphere stays 'until someone objects'. This is the first layer that T-3p1-theorem-m's open Θ-half needs (its REPORT, N4:M3 not_stated: 'HS^2 as a (SO0(1,2), HS^2) model with its analytic action'). Updated 2026-11-20 by the planner. The wait on BBS-Q1 is now a dependency on T-bbs-q1, the author gate that asks T-bbs-layer-home's question again so that the layers can depend on it without a cycle. T-bbs-triage (a06acc2) confirms the wait: the row's notes read 'layer L2; wave W0', blocked_on 'BBS-Q1 … wave W0 not built'. When BBS-Q1 is ruled, the planner sets `package` from the ruling and promotes this target. Promoted 2026-11-22 by the planner. DEC-192 rules BBS-Q1: the L2–L3 layers live inside lean-gx, so package = lean-gx, and both dependencies are done. Scope: n = 2 only. REVIEW.md §E's 2–4k estimate is for W0 at every n, with the point-links and stabilisers (the L2 table), which this target leaves out. The representation is GX.RaySphere (lean-gx/GX/Suspension/Affine.lean:94), the unit sphere of ℝ^{1,2} with the normalised action (BBS-Q3, REVIEW.md §I). The five orbits are stated for SO₀(1,2). lean-causal's `lorentz` is not proved connected (BBS-Q6). Transitivity on each orbit needs only explicit boosts and rotations, so the closer states which group it uses (DEC-152: Isom(𝔼^{1,2}) = SO₀(1,2) ⋉ ℝ³)."
+evidence = "DEC-192: HS² under lorentz 2 as an analytic model, its five orbits, GX.IsHSSurface; strict GX/BBS/HSModel.lean; the row's mark waits on OQ-104 (topological surface); audit minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "3689eb0"
 
 [[target]]
 id = "T-bbs-rp1-circles"
@@ -2055,12 +2058,13 @@ depends = ["T-gfn-absorb"]
 title = "The committed GFN Bounds double DAG no longer matches its inputs: regenerate it, or pin the draft it was built from"
 stream = "gfn"
 kind = "tooling"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 6
-evidence = "DEC-199: pin the 2026-09-20 artifacts as a dated measurement; regenerate after the GFN absorption (T-gfn-absorb). Moved to ready 2026-11-22 by the planner: T-gfn-absorb is done (24f4c85). The three inputs of tools/doubledag_gfnbounds.sh exist: lean/docs/lean-facts.json and lean/paper-map.json are in-tree, and the draft's ~/Dropbox/GFN Bounds/formalization-ledger.json (131 labels) is at the draft's commit b83dd0f. The committed reports/doubledag/gfnbounds/ is still the 2026-09-20 run (0775118: 96 labels with Lean, 721 principals). The script's header still describes the submodule and the freeze (DEC-2, retired by DEC-131): correct it in the same edit. DEC-199 re-keys OQ-6's nine proposals after the regeneration. OQ-5 and OQ-6 are then re-asked (DEC-202)."
+evidence = "DEC-199: the 2026-09-20 run pinned in reports/doubledag/gfnbounds/2026-09-20/; regenerated on the in-tree lean/ (733 principals); OQ-6's nine proposals re-keyed (all present, same kind); OQ-5/OQ-6 re-asked as OQ-102/OQ-103 (DEC-202)"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "af013dc"
 
 [[target]]
 id = "T-barbot-terminal"
@@ -2370,12 +2374,13 @@ paper = "yamabe"
 labels = ["lem:kobayashi", "lem:positivity"]
 package = "lean-yamabe"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "master"
 priority = 3
-evidence = "lean-yamabe/campaign/T-yamabe-analysis/REPORT-2.json, notes, INTEGRATION. The primes cannot be rewired by a closer. Their proofs import YamabeScaffold.Sobolev and .Trace, which hold the sorry'd originals (chain Sobolev ← Trace ← HalfSpace ← Localisation ← ManifoldTheorems ← Compactness). The recipe: (1) delete Mfd.sobolev_embedding and Mfd.eLpNorm_gradNorm_lt_top (Sobolev.lean:374, 387), Mfd.trace_embedding (Trace.lean:398), the bridges Mfd.Reads.sobolevIneq/kobayashiB/prop_nonpositive_csc (Sobolev.lean:457–487) and Mfd.Reads.traceIneq (Trace.lean:426); (2) rename the seven primes, each Expr-identical to its original (AUDIT-2, lem:kobayashi); (3) make Rellich.lean import YamabeScaffold.Compactness, and point Mfd.Reads.rellichProp, lem_positivity and cor_negative at them. Moving the definitions (gradNorm, IsC1, w12, IsLocallyLebesgue, Reads, IsBoundaryMeasure) into a module of their own, as the dispatch of 2026-11-22 suggests, is the other way. The ConstLimit repair is AUDIT-2 finding 3 (minor, confirmed by the auditor's probe). Round 1's MeasuredModel.ConstLimit (Rellich.lean:109) and Mfd.const_of_tendsto (:481), hence Mfd.Reads.constLimit (:527), are false as stated: they ask no measurability of the limit (Mfd.not_const_of_tendsto). Four sorry-dependent declarations rest on them. The fix, at integration: add `MemLp f 2 (M.vol g) →` in ConstLimit; keep the MemLp component at :204 and pass it at :208; replace const_of_tendsto by const_of_tendsto_of_aestronglyMeasurable; prove Reads.constLimit from Reads.constLimit_of_aestronglyMeasurable. toy_constLimit and toyCut_not_constLimit survive (argued). REPORT-2's question on OQ-93 (c), the measurable L² limit, goes to the register. AUDIT-2 findings 1–2 (the docstrings of Compactness.lean:32 and Localisation.lean:10–12) were already fixed in round 2's commit 1034b2b. After this target the scaffold's six SORRY tags drop to two: Mfd.rellich_kondrachov (Rellich.lean:474, T-yamabe-analysis) and Mfd.trace_compact (Trace.lean:416, T-yamabe-trace-compact). A master target, because every edit is to an existing file, which a closer does not write (.claude/agents/target-closer.md; the atlas-team skill dispatches closers with new files only). Exclusive, because the renames rebuild the scaffold under any closer in lean-yamabe"
+evidence = "Round-2 proofs carry the round-1 names; ConstLimit and Mfd.const_of_tendsto ask MemLp f 2; the Yamabe scaffold down to 2 sorrys (rellich_kondrachov, trace_compact); audit minor"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "d03b9ba"
 
 [[target]]
 id = "T-yamabe-rellich-criterion"
@@ -2587,12 +2592,13 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c2s1d1_poche_affine", "bzdef:c2s1d1prime_poche_projective", "bzprop:c2s2p6_ligne_brisee_poche"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
-evidence = "DEC-178 (OQ-61): « z non-constant » is added to Déf. 1/1′, and 7° and Prop. 6 then hold as printed. T-bz-apply-rulings (773e369) kept the printed, broader IsPocheAff and IsPocheProj (Benzecri/Chapter2/Poches.lean:547, :585). It carries the non-constant cote as a hypothesis where it is used (∃ y, z y ≠ 0: Lignes.lean, ligne_brisee_poche_of_ne_zero and septieme_propriete_of_ne_zero). Its curation notes on bzdef:c2s1d1_poche_affine and bzdef:c2s1d1prime_poche_projective say: « the model witness has z = 0, so a corrected-definition predicate with its own witness is a follow-up ». The witnesses isPocheAff_model and exists_isPocheProj_model (Poches.lean:1297, :1312) are the degenerate pocket (ℝⁿ, id, 0); exists_isPocheProj_cote_zero (Lignes.lean:1044) refutes the printed form. [r] (planner, unchecked) A non-degenerate witness: the open half-space {x₁ > 0} of ℝⁿ (n ≥ 1, DEC-177), z = x₁ and P = {0 < x₁ < 1}. It goes through exemple_poche_affine with p the inclusion, which is injective (DEC-180), and through IsPocheAff.toPocheProj for the projective case. On a pocket, z is non-constant iff z ≢ 0, since inf z = 0 on φ(P); the closer proves this so that the two readings agree. 7° stays with T-bz-c2-proprietes (bzthm:c2s2_proprietes_pseudo_longueur), whose assembly may use the new predicate"
+evidence = "DEC-178: IsPocheAffNC/IsPocheProjNC of record with non-constant-cote witnesses, Prop. 6 over them; strict; audit minor"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "dc8dca0"
 
 [[target]]
 id = "T-gfn-ledger"

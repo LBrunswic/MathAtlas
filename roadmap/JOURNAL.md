@@ -691,3 +691,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
   - T-perf-scope: five rows rest on the sharp Euclidean Sobolev constant. Formalize them now?
   - T-gfn-ledger: ledger the GFN Bounds draft as papers/gfnbounds? The public mirror would then publish it before the ICLR decision of 16 Dec.
 - next: the wave picks T-yamabe-integrate-r2, T-gfn-doubledag-refresh and the overlay refresh. The lean-causal pair waits on /ett-programme, and T-nonacyclic-source waits on the author's Overleaf source.
+
+## 2026-11-22 23:00 · wave of 6 · T-yamabe-integrate-r2, T-gfn-doubledag-refresh, T-bz-poche-nonconstant, T-bz-c2-proprietes, T-bbs-hs-model, T-gx-troyanov-suspension
+- T-yamabe-integrate-r2 (master, by a Lean agent allowed to edit the scaffold): closed. The round-2 proofs carry the round-1 names, and ConstLimit asks MemLp f 2. The Yamabe scaffold is down to 2 sorrys (Rellich, trace_compact). Audit minor. Its curation missed the moved module; the hub gate caught it, fixed at 106399b.
+- T-gfn-doubledag-refresh (master): closed. The 2026-09-20 run is pinned as a dated measurement and the DAG regenerated on the in-tree lean/ (733 principals). The nine proposals were re-keyed: all present, same kinds. OQ-5/6 are re-asked as OQ-102/103 (DEC-202).
+- T-bz-poche-nonconstant: closed 3/3 in corrected form (DEC-178), strict. Audit minor.
+- T-bz-c2-proprietes: closed 1/1 (DEC-206/177/178), strict, and the printed enonce is proved false. Audit major, on a false worked example in the REPORT (round 1), then clean (round 2). Benzécri: 65 of 66 rows closed; the last is terminal.
+- T-bbs-hs-model: closed, strict. The row's mark waits on OQ-104 (« topological surface »). Audit minor.
+- T-gx-troyanov-suspension: partial, blocked on OQ-105. DEC-175 (c), Aut(Σ) ≅ Aut(M), is proved; the facts reduce to Aut(Σ) = {Id} (Lefschetz–Hopf, not at the pin). Audit minor.
+- Not dispatched: the lean-causal pair (/ett-programme), T-nonacyclic-source (needs the author's Overleaf source), and T-hub-paper-attribute (it touches every package's Lean while closers run).
+- gates: lean-yamabe ✓, lean-benzecri ✓, lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, hub: no new red (after the 106399b fix)
+- commits: af013dc d03b9ba ef66194 dc8dca0 6a3fea0 3689eb0 9821949 106399b [+ roadmap/atlas/journal]
+- wall time: 21:40–23:00 UTC; agents in parallel: 4 closers + 1 integration agent, 6 audits
+- next: wave: T-yamabe-rellich-criterion, T-perf-capacity, T-perf-star3 (lean-yamabe, now free); T-yamabe-apply-rulings; T-hub-paper-attribute; the builder (overlay refresh for lean-gx, lean-benzecri, lean-yamabe).
