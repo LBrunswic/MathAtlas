@@ -570,3 +570,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓
 - wall time: 01:33–01:50 (Paris); agents: 1 (planner)
 - next: T-ett-docstrings-sing0 (master, alone in lean-causal), then a wave of T-ett-cauchy-ext-e0 and T-ett-diamant-past.
+
+## 2026-11-22 02:07 · wave of 1 · T-ett-docstrings-sing0 (master)
+- T-ett-docstrings-sing0: 25 strict docstrings in lean-causal corrected. Prose only: no statement, proof or mark changes.
+  - Each sentence that said the library lacks an object, or that a done target is still to come, now names what exists: E₀ and E_α with the DEC-25 reading; E0.singularFlatAxioms and its BTZ-branch instances; the two by-hand findings, now formalized; nonvacuous_e0_chain; the model packaging and (b′); the SFA field and assembly theorems; the wave 30–31 witnesses.
+  - Where a claim still holds, it is kept, narrowed.
+  - ETTSection4 is re-pointed at T-ett-cbg-e0.
+  - Not touched: /ett-programme's files, and SingularRowsDiamond's SCOPE, which is for the next wave.
+- gates: lean-causal ✓ (full rebuild; strict 0 sorry in 291 files; scaffold 6 in 7), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓ (stamp only), atlas ✓ (lean-causal facts at 8786718), hub: no new red
+- commits: 8786718 662ab55 (+ this)
+- wall time: 01:55–02:07 (Paris); agents: none (master)
+- next: a wave of T-ett-cauchy-ext-e0 and T-ett-diamant-past. At their graduation, SingularRowsDiamond.lean's SCOPE (:79–86) is re-worded.
