@@ -615,3 +615,17 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, registers ✓, atlas ✓, hub: no new red
 - wall time: 02:57–03:36 (Paris); agents: 1 (planner)
 - next: T-ett-sc-cauchy-e0 is the only ready closer, which is fewer than two, so rule 2 calls for a plan again. The roadmap is nearly exhausted without rulings.
+
+## 2026-11-22 04:13 · short plan (none) + wave of 1 · T-ett-sc-cauchy-e0
+- short plan (rule 2): no second closer target. Every non-ETT row waits on a ruling or a needs-ruling target; the kb/0061 hoists have at most two consumers. No commit. The single ready closer was then dispatched alone, since re-planning could not make progress.
+- T-ett-sc-cauchy-e0: A2's last field, secondCountable_of_cauchy, holds in its own form at every Hausdorff, connected E≥0-manifold.
+  - The core theorem needs no global hyperbolicity and no absolute minimality.
+  - Every A2 field now holds at E≥0-manifolds. The E₀ CBG instance still waits on T-ett-cbg-e0, via /ett-programme.
+  - The witnesses are vacuous in spirit, which is disclosed.
+  - Finding on rem:CBG_manquant (i).
+  - Unmarked. Audit minor.
+- gates: lean-causal ✓ (strict 0 sorry in 294 files; scaffold 6 in 7), roadmap ✓, ledgers ett/barbot/sbierski-mghd/ers-predictability ✓, atlas ✓ (lean-causal facts at cf4fa76, clean), hub: no new red
+- commits: cf4fa76 291beee (+ this)
+- wall time: 03:38–04:13 (Paris); agents: 1 planner, 1 closer, 1 audit
+- new OQ: none (next free OQ-90); lean-causal kb 0215–0217
+- next: the wave is empty. Rule 5 applies: T-bbs-archive (planner, partial; the six remaining references need journal copies, not on arXiv). If that run cannot archive anything, rule 6 applies: idle, waiting on rulings.
