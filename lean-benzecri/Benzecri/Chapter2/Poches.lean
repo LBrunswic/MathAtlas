@@ -9,11 +9,13 @@ J.-P. Benzécri, *Sur les variétés localement affines et localement projective
 (1960) 229–332, Chapter 2 § 1 « Coques et poches », journal pp. 246–248; transcription
 `papers/benzecri/legacy/labeled/benzecri1960_ch2.tex`. Target T-bz-c2-poches (DEC-137).
 
-* **`bzdef:c2s1d1_poche_affine`** — `benzecri1960_ch2.tex:95` (Déf. 1, l.95–117):
-  `Benzecri.IsPocheAff`. Condition b is well posed: the chart `φ̃` exists and two choices agree on
+* `bzdef:c2s1d1_poche_affine` — `benzecri1960_ch2.tex:95` (Déf. 1, l.95–117), the printed form:
+  `Benzecri.IsPocheAff`. The statement of record is the corrected form (DEC-178, « z
+  non-constant »), `Benzecri.IsPocheAffNC`, marked in `Benzecri.Chapter2.PocheNonConstante`. Condition b is well posed: the chart `φ̃` exists and two choices agree on
   the segment (`IsAffSegment.forall_chart_iff_exists`).
-* **`bzdef:c2s1d1prime_poche_projective`** — `benzecri1960_ch2.tex:119` (Déf. 1′, l.119–145):
-  `Benzecri.IsPocheProj` (`H̊` given by its equation `l ≠ 0`; `IsProjSegment.forall_chart_iff_exists`).
+* `bzdef:c2s1d1prime_poche_projective` — `benzecri1960_ch2.tex:119` (Déf. 1′, l.119–145), the
+  printed form: `Benzecri.IsPocheProj`; the statement of record (DEC-178) is
+  `Benzecri.IsPocheProjNC`, marked in `Benzecri.Chapter2.PocheNonConstante` (`H̊` given by its equation `l ≠ 0`; `IsProjSegment.forall_chart_iff_exists`).
 * **`bzrem:c2s1r0_poche_affine_vers_projective`** — `benzecri1960_ch2.tex:147` (Remarque, l.147–153):
   `Benzecri.IsPocheAff.toPocheProj`, for every affine isomorphism `j : ℝⁿ ≃ H̊` onto any open
   hemisphere, `V` with its canonical projective structure `Benzecri.projOfAff` (Ch. 1, Déf. 12,

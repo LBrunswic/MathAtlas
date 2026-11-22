@@ -42,5 +42,7 @@ import Benzecri.Chapter2.Theoreme
 import Benzecri.Chapter2.PremierAffine
 import Benzecri.Chapter2.TheoremeAffine
 import Benzecri.Chapter2.PremierFull
+import Benzecri.Chapter2.PocheNonConstante
+import Benzecri.Chapter2.Proprietes
 import Benzecri.Applications.TheoremB
 import Benzecri.Applications.ResultB

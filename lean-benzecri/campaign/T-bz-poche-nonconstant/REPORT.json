@@ -1,0 +1,184 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-poche-nonconstant",
+  "files": [
+    "scaffold/BenzecriScaffold/PocheNonConstante.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "bzdef:c2s1d1_poche_affine",
+      "tex_lines": [
+        95,
+        117
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsPocheAffNC",
+        "Benzecri.IsPocheAff.nonConstant_tfae",
+        "Benzecri.isPocheAffNC_iff_ne_zero",
+        "Benzecri.IsPocheAffNC.exists_ne_zero",
+        "Benzecri.IsPocheAffNC.cote_pos",
+        "Benzecri.IsPocheAff.cote_pos_of_ne_zero",
+        "Benzecri.IsPocheAff.cote_nonneg",
+        "Benzecri.exists_isPocheAffNC_demiEspace",
+        "Benzecri.PocheAffNCNonVide",
+        "Benzecri.pocheAffNCNonVide_iff",
+        "Benzecri.not_isPocheAffNC_dim_zero",
+        "Benzecri.not_isPocheAffNC_model"
+      ],
+      "hypotheses": [
+        {
+          "paper": "the data (P, φ, z) and conditions a, b of Déf. 1",
+          "here": "carried",
+          "note": "the printed Benzecri.IsPocheAff (strict, marked, Chapter2/Poches.lean:547) is the parent structure of IsPocheAffNC"
+        },
+        {
+          "paper": "DEC-178: « z non-constant » added to Déf. 1",
+          "here": "carried",
+          "note": "field nonConstant : ∃ x y, z x ≠ z y (non-constant as a function on ℝⁿ). Equivalent on a pocket to z ≢ 0, z.linear ≠ 0, z non-constant on φ(P), z > 0 on φ(P) (IsPocheAff.nonConstant_tfae)"
+        },
+        {
+          "paper": "V une variété localement affine de dimension n (Hausdorff, connected, second countable)",
+          "here": "weakened",
+          "note": "any ChartedSpace (Fin n → ℝ) V in the definition and lemmas; carried (T2, connected, second countable, HasGroupoid) in the printed non-vacuity form PocheAffNCNonVide"
+        },
+        {
+          "paper": "the dimension (DEC-177: n ≥ 1 implied)",
+          "here": "carried",
+          "note": "every n; a corrected pocket exists iff n ≥ 1 (pocheAffNCNonVide_iff); none in dimension 0 (not_isPocheAffNC_dim_zero)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not new: Déf. 1 as printed (l.95–117) admits the constant cote z ≡ 0 (the strict isPocheAff_model). Formalized here as a genuine restriction of the corrected definition: not_isPocheAffNC_model. The tacit assumption is visible in « le demi-espace ouvert : z<1 » (l.158, l.165–166, l.186), a half-space only when z is non-constant. Ruled by DEC-178.",
+        "Consequence of DEC-178, for the author's information: in dimension 0 every affine function on ℝ⁰ is constant, so the corrected Déf. 1 has no instance at all when n = 0 (pocheAffNCNonVide_iff: non-empty iff 0 < n). Every Chapter 2 statement quantified over affine pockets becomes vacuous at n = 0. This agrees with DEC-177 (n ≥ 1 implied) and changes no row."
+      ],
+      "questions": [
+        "« z non-constant » (DEC-178) is not attached to a domain. Reading taken: non-constant as a function on ℝⁿ, i.e. ∃ x y, z x ≠ z y, the domain Déf. 1 gives z (« fonction linéaire z sur ℝⁿ », l.104). This is content-neutral. On a pocket it is equivalent to z ≢ 0 (the hypothesis the strict Lignes.lean carries), to z.linear ≠ 0, to z non-constant on φ(P), and to z > 0 on φ(P) (IsPocheAff.nonConstant_tfae)."
+      ]
+    },
+    {
+      "label": "bzdef:c2s1d1prime_poche_projective",
+      "tex_lines": [
+        119,
+        145
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsPocheProjNC",
+        "Benzecri.IsPocheProj.nonConstant_tfae",
+        "Benzecri.isPocheProjNC_iff_ne_zero",
+        "Benzecri.IsPocheProjNC.exists_ne_zero",
+        "Benzecri.IsPocheProjNC.cote_pos",
+        "Benzecri.exists_isPocheProjNC_demiEspace",
+        "Benzecri.PocheProjNCNonVide",
+        "Benzecri.pocheProjNCNonVide_iff",
+        "Benzecri.not_isPocheProjNC_dim_zero",
+        "Benzecri.exists_isPocheProj_not_isPocheProjNC",
+        "Benzecri.IsPocheAffNC.toPocheProjNC",
+        "Benzecri.IsPocheAffNC.toPocheProjNC_transport"
+      ],
+      "hypotheses": [
+        {
+          "paper": "the data (P, H̊, φ, z) and conditions a, b of Déf. 1′",
+          "here": "carried",
+          "note": "the printed Benzecri.IsPocheProj (strict, marked, Chapter2/Poches.lean:585) is the parent structure of IsPocheProjNC"
+        },
+        {
+          "paper": "DEC-178: « z non-constant » added to Déf. 1′",
+          "here": "carried",
+          "note": "field nonConstant : ∃ x y, z x ≠ z y, z on the affine space H̊. Equivalent on a pocket to z ≢ 0, z.linear ≠ 0, z non-constant on φ(P), z > 0 on φ(P) (IsPocheProj.nonConstant_tfae)"
+        },
+        {
+          "paper": "V une variété localement projective de dimension n",
+          "here": "weakened",
+          "note": "any ChartedSpace (S n) V in the definition and lemmas; carried in PocheProjNCNonVide"
+        },
+        {
+          "paper": "the dimension (DEC-177)",
+          "here": "carried",
+          "note": "every n; non-empty iff n ≥ 1 (pocheProjNCNonVide_iff); none in dimension 0 (not_isPocheProjNC_dim_zero: an open hemisphere of S(0) is affinely a point)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not new: Déf. 1′ as printed (l.119–145) admits z ≡ 0. The pocket (ℝⁿ, H₀, j, 0) is the strict exists_isPocheProj_cote_zero, the counterexample to the printed 7° and Prop. 6. It is a printed pocket and not a corrected one in every dimension (exists_isPocheProj_not_isPocheProjNC). Textual evidence: l.174, l.186; the proof of 7° uses 0 < z(f), l.343 and l.351. Ruled by DEC-178.",
+        "Consequence of DEC-178: the corrected Déf. 1′ is empty in dimension 0 (pocheProjNCNonVide_iff), consistent with DEC-177."
+      ],
+      "questions": [
+        "As for Déf. 1: « z non-constant » is read on the affine space H̊, the domain Déf. 1′ gives z (l.131). It is equivalent on a pocket to every other reading (IsPocheProj.nonConstant_tfae). Content-neutral.",
+        "Déf. 2 and 3 (shells, strict shells, l.188–198) are defined over pockets. Under DEC-178 they inherit the condition. Reading taken: they are not restated here, since they are not this target's labels. The strict witnesses exists_isCoqueStricteAff_demiDroite and exists_isCoqueStricteProj_demiDroite already have the non-constant cote x₀. Whether rows bzdef:c2s1d2_coque and bzdef:c2s1d3_coque_stricte need corrected-form anchors is left to the master."
+      ]
+    },
+    {
+      "label": "bzprop:c2s2p6_ligne_brisee_poche",
+      "tex_lines": [
+        437,
+        449
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.IsPocheProjNC.ligne_brisee_poche",
+        "Benzecri.LigneBriseePocheNCPrinted",
+        "Benzecri.ligneBriseePocheNCPrinted",
+        "Benzecri.IsPocheProj.exists_hypotheses_ligne_brisee",
+        "Benzecri.ligneBriseePocheNC_hypotheses_demiEspace"
+      ],
+      "hypotheses": [
+        {
+          "paper": "une poche (P, H̊, φ, z)",
+          "here": "carried",
+          "note": "IsPocheProjNC P l φ z, the corrected Déf. 1′ (DEC-178)"
+        },
+        {
+          "paper": "V une variété localement projective",
+          "here": "weakened",
+          "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)]; T2, connected, second countable carried in LigneBriseePocheNCPrinted, unused"
+        },
+        {
+          "paper": "L une ligne brisée joignant A à B, formée de p segments tous majorés par k = log K",
+          "here": "carried",
+          "note": "IsLigneBrisee n (Real.log K) p A B L (strict, Chapter2/Lignes.lean)"
+        },
+        {
+          "paper": "K (with k = log K)",
+          "here": "weakened",
+          "note": "any real K; the hypotheses force K > 1, or K < −1 with p even"
+        },
+        {
+          "paper": "A ∈ P, z(φ(A)) < 1/K^p",
+          "here": "carried",
+          "note": ""
+        },
+        {
+          "paper": "conclusion: B ∈ P, L ⊆ P, z(φ(B)) < K^p z(φ(A))",
+          "here": "carried",
+          "note": "as printed, with the strict <"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Not new: Prop. 6 (l.437–443) is false as printed under the printed Déf. 1′ (strict ligneBriseePochePrinted_iff). Over the corrected Déf. 1′ it holds as printed in every dimension (ligneBriseePocheNCPrinted n). Its hypotheses can all be met at once on every pocket of dimension ≥ 1 (IsPocheProj.exists_hypotheses_ligne_brisee), in particular on the half-space witness (ligneBriseePocheNC_hypotheses_demiEspace)."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.IsPocheProjNC.septieme_propriete",
+    "Benzecri.IsPocheAff.cote_nonneg",
+    "Benzecri.IsPocheAff.cote_pos_of_ne_zero",
+    "Benzecri.IsPocheProj.exists_hypotheses_ligne_brisee"
+  ],
+  "kb_proposals": [
+    "Corrected Déf. 1/1′ (DEC-178): IsPocheAffNC / IsPocheProjNC (PocheNonConstante.lean) extend the printed IsPocheAff / IsPocheProj with nonConstant : ∃ x y, z x ≠ z y. hP.exists_ne_zero feeds the strict _of_ne_zero lemmas (ligne_brisee_poche_of_ne_zero, septieme_propriete_of_ne_zero), and hP.toIsPocheAff / hP.toIsPocheProj reach every printed-pocket lemma. nonConstant_tfae gives the five equivalent readings. Witnesses: exists_isPocheAffNC_demiEspace and exists_isPocheProjNC_demiEspace (n + 1 ≥ 1). There is none in dimension 0.",
+    "Pitfall: the anonymous constructor of a structure with an instance-implicit parameter (IsPocheProjNC under projOfAff, which is not a global instance) synthesizes the ChartedSpace instance instead of unifying it. It fails with « failed to synthesize ChartedSpace (S n) V ». Fix: `attribute [local instance] projOfAff` in a section, or `letI` in the proof. Under `letI := transportChartedSpace …` you cannot reuse a lemma stated for projOfAff: Lean reports « synthesized type class instance is not definitionally equal ». Re-prove the field instead.",
+    "A cheap way to meet Prop. 6's hypotheses on any pocket of dimension ≥ 1: take a point of cote < 1/K^p from hP.isGLB.exists_between, then the point segment {A} repeated p times (isMajoreSeg_singleton, IsLigneBrisee.cons). See IsPocheProj.exists_hypotheses_ligne_brisee.",
+    "`push_neg` is deprecated at this pin: it warns, and the strict library turns warnings into errors. Use `push Not`, or Classical.byContradiction (fun h => hc ⟨u, h⟩) for ¬∃ → ∀."
+  ],
+  "notes": "Everything is proved: 0 sorry, no warning (strict-ready). `lake build BenzecriScaffold.PocheNonConstante` rebuilt this module only. Every principal declaration (definitions, TFAE, iff lemmas, witnesses, NonVide iffs, Remarque, Prop. 6, the printed form, the 7° lemma, the dimension-0 lemmas) depends on propext, Classical.choice and Quot.sound only (#print axioms checked). Imports: Benzecri.Chapter2.Lignes and Benzecri.Chapter2.PremierAffine; nothing from the other wave file Proprietes.lean, and no name clash with the strict library or with Proprietes.lean (checked). MARKS. The module docstring bold-marks all three labels « in corrected form, under DEC-178 ». The master should mark, at integration: (1) bzdef:c2s1d1_poche_affine on Benzecri.IsPocheAffNC, with exists_isPocheAffNC_demiEspace and pocheAffNCNonVide_iff as its non-vacuity; (2) bzdef:c2s1d1prime_poche_projective on Benzecri.IsPocheProjNC, with exists_isPocheProjNC_demiEspace and pocheProjNCNonVide_iff; (3) bzprop:c2s2p6_ligne_brisee_poche on Benzecri.IsPocheProjNC.ligne_brisee_poche and Benzecri.ligneBriseePocheNCPrinted, the printed statement over the corrected definition. Poches.lean still marks the printed IsPocheAff / IsPocheProj on rows (1) and (2). Those are strictly broader than the corrected definitions (not_isPocheAffNC_model, exists_isPocheProj_not_isPocheProjNC). Under Lean ≥ paper, a definition's anchor should be the equal one, so the master decides whether the printed predicates stay as the « printed form » decls of those rows or the marks move. Lignes.lean marks Prop. 6 on ligne_brisee_poche_of_ne_zero; the new anchor is that lemma with the corrected definition as its hypothesis. For T-bz-c2-proprietes: IsPocheProjNC.septieme_propriete (unmarked here) is 7° as printed over the corrected Déf. 1′, if its assembly wants the new predicate after graduation. The planner's [r] claims are checked and formalized: the half-space {x₀ > 0}, z = x₀, P = {0 < x₀ < 1} through exemple_poche_affine (strict exists_isPocheAff_demiEspace, p the inclusion) and IsPocheAff.toPocheProj; and on a pocket, non-constant ⟺ z ≢ 0 (nonConstant_tfae, items 1 and 2)."
+}

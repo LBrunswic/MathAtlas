@@ -1,0 +1,53 @@
+{
+  "target": "T-bz-poche-nonconstant",
+  "auditor_round": 1,
+  "package": "lean-benzecri",
+  "file": "scaffold/BenzecriScaffold/PocheNonConstante.lean",
+  "date": "2026-11-22",
+  "host": "node1",
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c2s1d1_poche_affine",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Benzecri.IsPocheAffNC (PocheNonConstante.lean:147) extends the strict, printed Benzecri.IsPocheAff (Chapter2/Poches.lean:547) with exactly one field, nonConstant : ∃ x y, z x ≠ z y, on ℝⁿ, which is where Déf. 1 puts z (« fonction linéaire z sur ℝⁿ », l.104). That is the printed definition plus DEC-178's « z non-constant », nothing more: no dimension condition is added (the empty case n = 0 is proved, not assumed: not_isPocheAffNC_dim_zero, pocheAffNCNonVide_iff). The reading of « non-constant » makes no difference: IsPocheAff.nonConstant_tfae (:194) proves five readings equivalent on a pocket: non-constant on ℝⁿ, z ≢ 0, z.linear ≠ 0, non-constant on φ(P), and z > 0 on φ(P). The printed IsPocheAff was checked against the transcription and the scan (journal p. 246–247 = PDF p. 19–20, viewed): data, condition a (IsGLB 0, ≤ 1), condition b (every compatible chart with the germ of φ at M). The witness is not vacuous. exists_isPocheAffNC_demiEspace (:425) takes V = the open half-space {x₀ > 0} of ℝⁿ⁺¹, P = {x₀ < 1}, φ from the strict exists_isPocheAff_demiEspace (CasAffin.lean:415) and z = x₀; nonConstant is witnessed by z 0 = 0 ≠ 1 = z 1, and P ≠ V. PocheAffNCNonVide (:456) carries T2, connected, second countable and HasGroupoid V (affGroupoid n), and pocheAffNCNonVide_iff (:471) proves it non-empty iff 0 < n. The restriction is real: not_isPocheAffNC_model (:255) shows the printed model (ℝⁿ, id, 0) is excluded. The mark « in corrected form, under DEC-178 » is legitimate. DEC-178 makes the corrected Déf. 1 the statement of record, and the strict library has the precedent of Lignes.lean:20–22, which marks Prop. 6 in corrected form under the same ruling. Status `closed` with the finding recorded as « Not new … Ruled by DEC-178 » is consistent with that practice."
+    },
+    {
+      "label": "bzdef:c2s1d1prime_poche_projective",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Benzecri.IsPocheProjNC (:274) extends the strict, printed Benzecri.IsPocheProj (Poches.lean:585) with exactly one field, nonConstant : ∃ x y, z x ≠ z y, with x and y in Sphere.openHemisphere l, the affine space H̊ on which Déf. 1′ defines z (l.131). That is the printed definition plus DEC-178, nothing more. IsPocheProj.nonConstant_tfae (:286) proves the same five readings equivalent on a pocket. The witness exists_isPocheProjNC_demiEspace (:443) is the Remarque transport IsPocheAffNC.toPocheProjNC (:386) of the affine witness, with the canonical projective structure projOfAff and an affine equivalence onto H₀. nonConstant transports through j (j x, j y), so the pocket is non-degenerate. PocheProjNCNonVide (:463) carries T2, connected, second countable and HasGroupoid V (projGroupoid n), and pocheProjNCNonVide_iff (:484) proves it non-empty iff 0 < n. exists_isPocheProj_not_isPocheProjNC (:356) shows that the strict counterexample (ℝⁿ, H₀, j, 0) is a printed pocket and not a corrected one, in every n. The mark is legitimate under DEC-178, as for Déf. 1."
+    },
+    {
+      "label": "bzprop:c2s2p6_ligne_brisee_poche",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IsPocheProjNC.ligne_brisee_poche (:512) takes a corrected pocket, IsLigneBrisee n (Real.log K) p A B L (strict, Lignes.lean:170), A ∈ P and z(φA) < 1/K^p, and concludes L ⊆ P ∧ ∃ hB : B ∈ P, z(φB) < K^p · z(φA). That is Prop. 6 as printed (l.437–443), with the strict <. It adds no hypothesis: any real K, no dimension condition, and V only a ChartedSpace (S n) with HasGroupoid. LigneBriseePocheNCPrinted (:558) is the strict LigneBriseePochePrinted (Lignes.lean:1032) token for token, with IsPocheProjNC in place of IsPocheProj. ligneBriseePocheNCPrinted n (:569) proves it for every n. The proof is the strict ligne_brisee_poche_of_ne_zero, fed by exists_ne_zero. The hypotheses are satisfiable. IsPocheProj.exists_hypotheses_ligne_brisee (:523) meets them on every pocket of dimension ≥ 1, for every K > 1 and p ≥ 1, and ligneBriseePocheNC_hypotheses_demiEspace (:580) instantiates this on the corrected half-space witness. That witness uses the point broken line {A} repeated p times, so B = A. This still exercises the corrected content: the conclusion z(φA) < K^p z(φA) needs z(φA) > 0, which is exactly what fails for z ≡ 0. Point segments are a reading of the strict library (isMajoreSeg_singleton), not of this file. The mark « as printed over the corrected Déf. 1′ » is legitimate under DEC-178 (« 7° and Prop. 6 then hold as printed »)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/PocheNonConstante.lean` printed no output and exited 0. The same with `-DwarningAsError=true` exited 0, so the file is strict-ready. `pgrep -af \"lake build\"` showed no other build, and `taskset -c 0-11 lake build BenzecriScaffold.PocheNonConstante` reported « Build completed successfully (2563 jobs) ». grep finds no sorry, admit, axiom, native_decide, implemented_by, opaque, unsafe or set_option. A probe under the campaign directory, since deleted, ran #print axioms on all 30 declarations of the file, every one the REPORT names included. All 30 depend on [propext, Classical.choice, Quot.sound] only, and every name the REPORT gives exists."
+  },
+  "scope": "`git status --short lean-benzecri` shows only the dispatched scaffold/BenzecriScaffold/PocheNonConstante.lean and campaign/T-bz-poche-nonconstant/ (REPORT.json), plus scaffold/BenzecriScaffold/Proprietes.lean and campaign/T-bz-c2-proprietes/, which belong to the other closer. No edit to an existing file. The repository-wide modifications (lean-yamabe, papers/egf, programme/, roadmap/) belong to other loops and are none of this closer's.",
+  "docstring_contract": "Present and true: the title; the three labels as **`label`** — `benzecri1960_ch2.tex:95/119/437`, at characters 865, 1331 and 1701 (under 4000), with correct start lines; the French quote of Déf. 1, Déf. 1′, Prop. 6 and its proof; `## Hypothesis checklist`; `## SCOPE (disclosed)`; the provenance line. The checklist was checked claim by claim. In particular, « K: the hypotheses force K > 1, or K < −1 with p even » holds: log K > 0 is needed for a majorised segment, and K < 0 with p odd makes 1/K^p < 0 < z. The SCOPE claim that the scan agrees with l.95–145 was checked on PDF p. 19–20. The cross-reference parentheticals (« cf. chap. 1, § 1, déf. 14 », …) are left out of the quote without an ellipsis, as in the strict Poches.lean:39–52 (house practice, not a finding).",
+  "overlap_with_Proprietes": "No exact name clash. All 30 declaration names were checked against Benzecri/ and scaffold/, and the hits on the short names cote_nonneg, cote_pos_of_ne_zero, ligne_brisee_poche and septieme_propriete are in the IsPocheProj namespace, not IsPocheAff or IsPocheProjNC. The two files do not import each other. There are near-duplicates in content, listed under findings.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/PocheNonConstante.lean:286, :329, :443, :546 vs scaffold/BenzecriScaffold/Proprietes.lean:138, :171, :286",
+      "what": "Near-duplicate lemmas with the T-bz-c2-proprietes file. There is no name clash, so both can graduate as they are. (1) Proprietes' IsPocheProj.exists_ne_zero_iff_nonconstant, (∃ y, z y ≠ 0) ↔ ∃ y y', z y ≠ z y', is items 2 ↔ 1 of IsPocheProj.nonConstant_tfae here. (2) Proprietes' exists_isPocheProj_cote_ne_zero (n = 1, on demiDroiteOuverte) is subsumed by exists_isPocheProjNC_demiEspace 0 together with isPocheProjNC_iff_ne_zero. (3) The 7° conjunct of proprietes_pseudo_longueur (over IsPocheProj with ∃ y, z y ≠ 0) and IsPocheProjNC.septieme_propriete here are the same statement up to isPocheProjNC_iff_ne_zero.",
+      "fix": "At graduation, keep one form of each. For example, prove Proprietes' iff as `(hP.nonConstant_tfae.out 1 0)` or drop it in favour of the TFAE, and phrase the 7° conjunct of the assembly over IsPocheProjNC (the REPORT already offers IsPocheProjNC.septieme_propriete for this). This is curation by the master, not a defect of either file."
+    },
+    {
+      "severity": "minor",
+      "where": "Benzecri/Chapter2/Poches.lean:12, :15 (strict, outside this target) vs PocheNonConstante.lean:15, :21",
+      "what": "After graduation, two modules bold-mark the rows bzdef:c2s1d1_poche_affine and bzdef:c2s1d1prime_poche_projective on predicates that are not equivalent. Poches.lean marks the printed IsPocheAff / IsPocheProj, which under DEC-178 are strictly broader than the statement of record (not_isPocheAffNC_model, exists_isPocheProj_not_isPocheProjNC). This file marks the corrected IsPocheAffNC / IsPocheProjNC. The closer disclosed this in the REPORT notes and in SCOPE. Prop. 6 has no such conflict: Lignes.lean marks ligne_brisee_poche_of_ne_zero, whose content is equivalent through isPocheProjNC_iff_ne_zero.",
+      "fix": "At integration, the master moves the marks of the two Déf. rows to IsPocheAffNC / IsPocheProjNC, or records the printed predicates as the rows' « printed form » decls in the ledger curation. Poches.lean is not this closer's to edit."
+    }
+  ],
+  "summary": "Each corrected definition is the printed strict structure plus the single field DEC-178 adds. Prop. 6 is stated as printed over the corrected Déf. 1′, with no added hypothesis and satisfiable hypotheses. The witnesses are non-degenerate: half-space, z = x₀, nonConstant from 0 ≠ 1. The paper-manifold non-vacuity forms are iff 0 < n, consistent with DEC-177. The marks are legitimate under DEC-178, as the precedent in Lignes.lean shows. The build passes with warnings as errors, with 0 sorry and standard axioms on all 30 declarations. The scope is clean. Two minor curation items remain for the master: near-duplicates with Proprietes.lean, and the double marking of the Déf. rows in Poches.lean."
+}

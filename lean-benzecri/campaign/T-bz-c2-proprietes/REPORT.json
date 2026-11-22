@@ -1,0 +1,111 @@
+{
+  "package": "T-bz-c2-proprietes",
+  "target": "T-bz-c2-proprietes",
+  "files": [
+    "scaffold/BenzecriScaffold/Proprietes.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound (all four declarations, #print axioms)",
+  "labels": [
+    {
+      "label": "bzthm:c2s2_proprietes_pseudo_longueur",
+      "tex_lines": [
+        229,
+        258
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.proprietes_pseudo_longueur",
+        "Benzecri.ProprietesPseudoLongueurPrinted",
+        "Benzecri.not_proprietesPseudoLongueurPrinted",
+        "Benzecri.IsPocheProj.exists_ne_zero_iff_nonconstant",
+        "Benzecri.exists_isPocheProj_cote_ne_zero"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V une variété localement projective",
+          "here": "weakened",
+          "note": "[ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)]; Hausdorff, connected and second countable are never used"
+        },
+        {
+          "paper": "the dimension n (never printed)",
+          "here": "carried (ruled)",
+          "note": "[NeZero n], under DEC-177 (n ≥ 1 implied throughout Ch. 2). For n = 0, 1° fails (pseudoLength_self_eq_top_dim_zero, OQ-45)"
+        },
+        {
+          "paper": "1°: l_V(M, N) ≥ 0",
+          "here": "weakened",
+          "note": "for every (Sg, M, N), segment or not"
+        },
+        {
+          "paper": "1°: l_V(M, M) = 0",
+          "here": "carried",
+          "note": "for every segment from M to M"
+        },
+        {
+          "paper": "2°: g un automorphisme projectif de V",
+          "here": "carried",
+          "note": "g : GXAut (GSR n) (S n) V (Déf. 15); (gM, gN) is the image segment g(Sg)"
+        },
+        {
+          "paper": "3°: (M, N) ⊂ (M', N')",
+          "here": "weakened",
+          "note": "(Sg, M, N) a segment with Sg ⊆ Sg'; (Sg', M', N') need not be a segment"
+        },
+        {
+          "paper": "4°: V' un ouvert de V considéré comme variété localement projective; (M, N) un segment inclus dans V'",
+          "here": "weakened",
+          "note": "W : Opens V with Mathlib's induced structure; any Sg ⊆ W with M, N ∈ W"
+        },
+        {
+          "paper": "5°: semi-continue supérieurement du segment; (M_i, N_i) tend vers (M, N)",
+          "here": "carried (reading)",
+          "note": "two forms: the neighbourhood form (open U ⊇ (M, N) and a neighbourhood of the endpoints), and the limsup form along any filter, with the endpoints converging and the segments eventually inside every open U ⊇ (M, N). See questions"
+        },
+        {
+          "paper": "6°: V l'intérieur d'un corps convexe",
+          "here": "carried",
+          "note": "literally: V = corpsInterior K, IsCorpsConvexeS n K, as in Prop. 2"
+        },
+        {
+          "paper": "7°: (P, H̊, φ, z) une poche de V",
+          "here": "carried (ruled)",
+          "note": "IsPocheProj P l φ z and ∃ y, z y ≠ 0 (DEC-178, « z non-constant »; equivalent for a pocket, IsPocheProj.exists_ne_zero_iff_nonconstant)"
+        },
+        {
+          "paper": "7°: K un nombre réel supérieur à 1",
+          "here": "weakened",
+          "note": "dropped; any real K"
+        },
+        {
+          "paper": "7°: (M, N) un segment de V",
+          "here": "weakened",
+          "note": "dropped; l_V(M, N) < log K < ⊤ forces it"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Consolidation of two ruled findings, nothing new: the enonce l.229–258 as printed, with Déf. 1′ (l.119–145) as printed and no dimension excluded, holds in NO dimension (Benzecri.not_proprietesPseudoLongueurPrinted, on Hausdorff, connected, second countable V). For n = 0, 1° (l.232) fails on the one-point open set of S(0): l_V(M, M) = +∞ (OQ-45, ruled by DEC-177). For n ≥ 1, 7° (l.253–256) fails for the pocket (ℝⁿ, H₀, j, 0) of cote 0 (OQ-61, ruled by DEC-178). Under the two rulings it holds in full (Benzecri.proprietes_pseudo_longueur)."
+      ],
+      "questions": [
+        "5° (l.245–247): « si un segment (M_i, N_i) tend vers (M, N) » is not defined in the paper. Reading taken: along any filter (sequences included), the endpoints converge and the segments eventually lie in every open set containing (M, N). Every usual notion implies this one: Hausdorff or Vietoris convergence of the segments together with their endpoints, or convergence of parametrisations. So the statement proved holds under each of them. The neighbourhood form, also proved, is upper semicontinuity for the coarsest of these topologies on segments. Convergence of the endpoints alone is NOT enough. Argued, not formalized (corrected after AUDIT-1):\n- Take the flat annulus V = (ℝ/ℤ) × ]0, 1[ (n = 2, affine hence projective). Let M = [0, 1/2] and N = [3/5, 1/2].\n- They are joined by two HORIZONTAL segments: σ₁ lifts (0, 1/2)→(3/5, 1/2), x-span d = 3/5, and σ₂ lifts (0, 1/2)→(−2/5, 1/2), x-span d = 2/5.\n- A segment of V containing a horizontal σ lies on the closed horizontal geodesic y = 1/2. There, injectivity forces its x-span to be < 1. Parametrise by x, with the extension [a, b] ⊇ [0, d] and b − a < 1. The measure is log((d − a)b/((−a)(b − d))). Its infimum, approached as b − a → 1 with a and b placed symmetrically, is l_V(σ) = log((1+d)/(1−d))². That is log 16 ≈ 2.77 for σ₁ and log(49/9) ≈ 1.69 for σ₂.\n- The constant family σ₁ has endpoints converging to (M, N), yet its limsup log 16 exceeds l_V(σ₂) = log(49/9). If the author meant endpoint convergence only, 5° is false as printed.\n- The segments must be horizontal. On a non-horizontal line no two points differ by (m, 0), so a segment can run across the whole strip. Such a segment's pseudo-length depends only on the heights of its endpoints, and two such segments with the same endpoints have the same pseudo-length. The first version of this question used non-horizontal segments, M = [0, 0.45] and N = [0.6, 0.55], and was wrong: both pseudo-lengths are log(121/81) there.",
+        "6° (l.249–251): « Si V est l'intérieur d'un corps convexe ». Reading taken: literally, V is the open set int K of S(n) with its induced structure (as for Prop. 2, which is marked on the same object). A V that is only projectively isomorphic to such an interior is not covered, because the invariance of l_V under an isomorphism between two different manifolds is not formalized. 2° is proved for automorphisms only, as printed. The printed proof of Prop. 3 (l.373–376) applies 6° through a chart, so up to isomorphism, but the formalized Prop. 3 does not use 6°.",
+        "2° (l.234–235): « l_V(gM, gN) ». Reading taken: the pseudo-length of the image segment g(M, N), with l_V a function of the segment (Déf. 3, the reading of T-bz-c2-mesure). It is the only reading in which both sides are defined."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.IsPocheProj.exists_ne_zero_iff_nonconstant",
+    "Benzecri.exists_isPocheProj_cote_ne_zero",
+    "Benzecri.ProprietesPseudoLongueurPrinted",
+    "Benzecri.not_proprietesPseudoLongueurPrinted"
+  ],
+  "kb_proposals": [
+    "An editorial enonce whose parts are already strict lemmas closes by a term-mode assembly: one theorem whose type is the conjunction, in printed order, and a refine with one anonymous-constructor component per property. Put the instance-bound data inside the conjunct (∀ (l) [Fact (l ≠ 0)] …), as SeptiemeProprietePrinted does. Then a 'Printed' def with the same shape is refuted by projecting one conjunct (.2.2.2.2.2.2) and reusing the existing per-property refutation.",
+    "A one-point open set of S(0) is a counterexample space with every « variété » instance: ConnectedSpace from isConnected_singleton, SecondCountableTopology from Finite.toSecondCountableTopology once Subsingleton U is given by hand (Subtype.ext on the two memberships, each definitionally `= x`), T2 inherited.",
+    "For a pocket, ∃ y, z y ≠ 0 ↔ z non-constant (IsPocheProj.exists_ne_zero_iff_nonconstant): a constant cote is 0, since IsGLB of the singleton image is the value (isGLB_singleton.unique). Use it to read DEC-178 off the strict library's ∃ y, z y ≠ 0."
+  ],
+  "notes": "Assembly only: the proof of Benzecri.proprietes_pseudo_longueur is a term that combines strict lemmas of Mesure (1°–4°), Hilbert (5°, 6°) and Lignes (7°). No strict module was rebuilt (lake build BenzecriScaffold.Proprietes built one job). Mark proposed on Benzecri.proprietes_pseudo_longueur under DEC-206 (one statement), DEC-177 ([NeZero n]) and DEC-178 (∃ y, z y ≠ 0 in 7°). The status is 'closed' relative to the paper as ruled. Relative to the printed text it is the strongest true form, and not_proprietesPseudoLongueurPrinted is the counterexample. The 5° reading is the strongest one: it is implied by every standard notion of convergence of segments. Under the endpoints-only reading 5° would be false (argued in questions), not weaker. Possible overlap with T-bz-poche-nonconstant (PocheNonConstante.lean), written in parallel: exists_isPocheProj_cote_ne_zero (a pocket of non-constant cote, n = 1) and IsPocheProj.exists_ne_zero_iff_nonconstant. Deduplicate at graduation and keep one copy of each. The file passes `lake env lean -DwarningAsError=true` (ready for the strict library). Suggested ledger decls: Benzecri.proprietes_pseudo_longueur (principal), Benzecri.not_proprietesPseudoLongueurPrinted, Benzecri.ProprietesPseudoLongueurPrinted, Benzecri.IsPocheProj.exists_ne_zero_iff_nonconstant, Benzecri.exists_isPocheProj_cote_ne_zero."
+}
