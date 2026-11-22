@@ -1,5 +1,6 @@
 import GX.Spherical.ConeSurface
 import GX.Spherical.TroyanovFour
+import GX.Spherical.TroyanovTheoremC
 
 /-!
 # Troyanov's theorem with the Thurston suspension, at `(SO(4), 𝕊³)`, tied to the cone angles
@@ -22,7 +23,8 @@ two tagged `sorry`s, the obligations of `T-gx-troyanov` and `T-gx-troyanov-suspe
   (`GX.TroyanovSuspensionTheoremS3.troyanovSuspensionTheorem`, 0 `sorry`), whose
   `GX.SuspensionCexFacts` it carries at the centre. The cex's conclusion at `(SO(4), 𝕊³)`:
   `GX.cex_start_singular_manifold_homeomorphic_S3` (0 `sorry` from the `Prop`).
-  The obligations, stated with tagged `sorry`: `GX.troyanovTheorem`,
+  The obligations, stated with tagged `sorry`: `GX.troyanovTheoremC` (Theorem C's condition,
+  DEC-174; `GX.troyanovTheorem` follows from it, 0 `sorry` of its own) and
   `GX.thurstonSuspensionFacts`; hence `GX.troyanovSuspensionTheoremS3`.
 * The angle condition: `GX.troyanovAngleCondition_two_pi` (it admits an angle `2π`, a marked
   regular point), `GX.TroyanovAngleCondition.three_le_card_ne_two_pi` (it forces at least
@@ -56,7 +58,7 @@ two tagged `sorry`s, the obligations of `T-gx-troyanov` and `T-gx-troyanov-suspe
 |---|---|
 | `Σ` a singular `𝕊²`-manifold homeomorphic to a sphere, `s ≥ 3` conical singularities of angles `θ_i` (l.1930) | ✓ `IsConeSphere M θ p` (`GX.Spherical.ConeSurface`); `s ≥ 3` is in `TroyanovAngleCondition`; an angle `2π` is a marked regular point (SCOPE (c)) |
 | Troyanov's condition (l.1930) | ✓ `GX.TroyanovAngleCondition`, verbatim (DEC-69's) |
-| Troyanov's theorem (MR1005085) | stated: `TroyanovTheorem`; to be proved (DEC-136), `troyanovTheorem` is a tagged `sorry` |
+| Troyanov's theorem (MR1005085) | stated with Theorem C's condition (DEC-174): `TroyanovTheoremC` (strict `GX.Spherical.TroyanovTheoremC`), its obligation `troyanovTheoremC` a tagged `sorry` (DEC-136); the printed form `TroyanovTheorem` follows |
 | the Thurston suspension, a singular `(SO(4), 𝕊³)`-manifold (l.1931) | ✓ built: `thurstonSuspension` (`GX.thurstonStructure`, an a.e. atlas proved, 0 `sorry`) |
 | "generic `Σ`" (l.1935) | ✓ read as DEC-69 read it: the `θ_i` pairwise distinct (the paper's instance, l.1933) |
 | the facts of l.1933–1935 | stated: `ThurstonCexFacts` (singular locus, `SuspensionCexFacts` at `O`); `thurstonSuspensionFacts` is a tagged `sorry` |
@@ -318,18 +320,25 @@ end Statements
 
 section Obligations
 
-/-- **Troyanov's theorem**, to be proved (DEC-136, target `T-gx-troyanov`). Routed through
-`GX.troyanovTheorem_of_five_le_of_exists_gt_two_pi` (strict `GX.Spherical.TroyanovFour`;
-T-gx-troyanov-reroute, 2026-11-21): the strict library proves every case with `s ≤ 4` or all angles
-`≤ 2π` (triangle, two-pi, polygon, dart), so the `sorry` carries only `s ≥ 5`, no angle `2π`, some
-angle above `2π`. -/
+/-- **Troyanov's theorem with Theorem C's condition**, the statement of record (DEC-174), to be
+proved (DEC-136; target `T-gx-troyanov`). Routed through
+`GX.troyanovTheoremC_of_five_le_of_exists_gt_two_pi` (strict `GX.Spherical.TroyanovTheoremC`;
+T-gx-troyanov-theorem-c, 2026-11-22): every case with `s ≤ 4` or all angles `≤ 2π` is proved in
+the strict library, so the `sorry` carries only `s ≥ 5`, no angle `2π`, some angle above `2π` — a
+case wider than the printed form's (`GX.troyanovAngleConditionC_five_not_printed`). -/
+theorem troyanovTheoremC : TroyanovTheoremC :=
+  troyanovTheoremC_of_five_le_of_exists_gt_two_pi fun {_} _ _ _ _ _ => by
+    sorry -- SORRY(cex:start_singular_manifold_homeomorphic): Troyanov's existence theorem,
+    -- T-gx-troyanov: a spherical cone sphere with `s ≥ 5` prescribed angles under Theorem C's
+    -- condition `0 < χ' < min{4π, 2θ_min}` (MR1005085, p. 795; DEC-174), none equal to `2π`, some
+    -- above `2π` (possibly `≥ 4π`). MR1005085's proof is variational; the library's doubles of
+    -- embedded polygons (`GX.StarPolygon.isConeSphere`) give only angles `< 4π`, and no
+    -- construction for this case is written (roadmap, T-gx-troyanov).
+
+/-- **Troyanov's theorem with the paper's (narrower) condition**, l.1930: from Theorem C's form
+(`GX.TroyanovTheoremC.troyanovTheorem`, the printed condition implying Theorem C's). -/
 theorem troyanovTheorem : TroyanovTheorem :=
-  troyanovTheorem_of_five_le_of_exists_gt_two_pi fun {_} _ _ _ _ _ => by
-    sorry -- SORRY(cex:start_singular_manifold_homeomorphic): Troyanov's existence theorem for
-    -- `s ≥ 5` angles, none equal to `2π` and some above `2π` (MR1005085, Theorem C, cited at
-    -- l.1930; OQ-59 for its condition of record), DEC-136; target `T-gx-troyanov`. Every other
-    -- case is proved in the strict library (`GX.Spherical.Troyanov{Triangle,TwoPi,Polygon,Four}`);
-    -- `GX.StarPolygon.isConeSphere` doubles any embedded polygon with reflex vertices.
+  troyanovTheoremC.troyanovTheorem
 
 /-- **The Thurston suspension facts**, to be proved (target `T-gx-troyanov-suspension`). -/
 theorem thurstonSuspensionFacts : ThurstonSuspensionFacts := by

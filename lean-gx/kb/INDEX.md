@@ -32,3 +32,5 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0022](entries/0022-star-polygon-double.md) | pattern | The double of a polygon, convex or not: GX.StarPolygon; reflex vertices via GX.StarFrames |
 | [0023](entries/0023-union-of-convex-disc.md) | pattern | A union of two convex bodies with a common interior point is a closed disc |
 | [0024](entries/0024-fin-cases-literal-pitfall.md) | pitfall | `fin_cases i` yields ⟨k, _⟩ indices that literal-index lemmas do not match |
+| [0025](entries/0025-troyanov-condition-c.md) | pattern | Troyanov's condition of record is Theorem C's (GX.TroyanovAngleConditionC); the printed one is C plus χ' ≤ θ_j |
+| [0026](entries/0026-troyanov-constructions-under-c.md) | pattern | The strict Troyanov constructions already work under Theorem C's condition; only s ≥ 5 with an angle above 2π is open |
