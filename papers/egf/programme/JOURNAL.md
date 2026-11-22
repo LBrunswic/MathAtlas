@@ -251,3 +251,17 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: de0e8e3 21c863b f79a58a f30e138 370d142 65396f7 b7245fa 55cd571 241f97e b565611 ca56ca3 (+ this) (hub) · 0e3320c 01f6112 (v2)
 - for the planner: a strengthening entry if v2 should say Bekka–Guivarc'h's Theorem 5 is not needed for Theorem 3.5; l.919's dense-subgroup fact without its setting; l.901 'invariant' for 'almost invariant'; 'parameterized family of EGF(s)' at v1 l.238, l.277; C-51's 'satisfying (2)'; C-56's 'ask of the moves only'
 - next: the next corrector (`wave`: -loss-hypotheses or -wording), the sphere reproduction continuing
+
+## 2026-11-22 23:35 · wave of 2 (topped up twice) · T-egf-correct-loss-hypotheses, T-egf-correct-wording; T-egf-repro-sphere (continues)
+- correction to the previous entry: its heading's time is 22:38, not 23:20
+- adoption (master): C-58, C-59 (2b13668), C-60, C-61, C-62 (53e0408) under DEC-141 (C-58 also DEC-143)
+- T-egf-correct-loss-hypotheses (correct): C-58, C-59 applied (v2 6a9c510); CHECK-1 minor
+- T-egf-correct-wording (correct): C-60, C-61, C-62 applied (v2 225d9a9); CHECK-1 minor
+- T-egf-repro-sphere (repro): still running (volcano seeds)
+- corrections: 4 found (C-34, C-36, C-46, C-63: the experiments batch), 2 proved and 1 adopted (superseded), 56 applied, 0 reviewed
+- ledger: 14/16 rows closed (bucket A), unchanged
+- v2: 225d9a9 EGF-C60,C61,C62 (seventeen batches since camera-ready)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓
+- commits: 2b13668 8dd4a7b 8da07f8 53e0408 1d84b61 579bbeb (+ this) (hub) · 6a9c510 225d9a9 (v2)
+- for the planner (CHECK-1 of -loss-hypotheses and -wording): ν_train a probability on states at l.366; 'B trajectories in each of the two buffers' at l.392; t_max's font; v1 l.192's pair (F_out*, π*); v1 l.375 'as follow'; optional '4 circles', 'spin wheel', l.778 and l.872 'with λ̂ = λ'; and from earlier: Bekka–Guivarc'h's Theorem 5 not needed for Theorem 3.5 (a strengthening), l.919's dense-subgroup setting, l.901 'almost invariant', 'parameterized family of EGF(s)' at l.238, l.277, C-51's 'satisfying (2)', C-56's 'ask of the moves only'
+- next: rule 2 (one target ready, behind the active sphere run): a short planning run
