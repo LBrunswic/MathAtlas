@@ -195,9 +195,10 @@ while the agents work, and integrate it with the rest of the wave.
 - `make -C reports/atlas`, which rebuilds the atlas from the new ledgers and roadmap.
 - `make -k check 2>&1 | tee /tmp/atlas-team-gate.log`, then
   `python3 tools/roadmap.py gates /tmp/atlas-team-gate.log`. This fails if any hub gate fails
-  that `[gates] known_red` does not list. `lib-check` runs GFNBoundsLean's own gate, which
-  regenerates `docs/` and `paper-map.json` inside the read-only `lean/` submodule. Restore it
-  every time, with `git -C lean checkout -- .`. The submodule is never committed from here.
+  that `[gates] known_red` does not list. `lib-check` runs `lean/`'s own gate (GFNBoundsLean,
+  absorbed in-tree by DEC-157), which regenerates the tracked `lean/docs/` and
+  `lean/paper-map.json`. Restore them every time, with `git -C lean checkout -- .`, unless a
+  target's work is in `lean/`.
 
 If a gate fails because of this iteration's work:
 - revert this iteration's changes to tracked files (`git checkout -- <files>`; `git mv` back
@@ -278,7 +279,8 @@ is being waited on.
 
 - Write a DEC row, or decide a reading.
 - Mark a corrected form without a DEC row ruling it.
-- Edit `legacy/`, the `lean/` submodule, a generated ledger by hand, or `hub.toml [freeze]`.
+- Edit `legacy/`, a generated ledger by hand, or `hub.toml [freeze]`; or `lean/` outside a target
+  that names it.
 - Run two `lake build`s of the same package at once: not yourself, and not by dispatching two
   closers whose final builds you have not told to wait for each other.
 - Exceed the caps of `tools/roadmap.py` (`MAX_PARALLEL`, `MAX_PER_PACKAGE`), or put a planner in a

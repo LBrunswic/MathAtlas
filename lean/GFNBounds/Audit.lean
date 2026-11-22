@@ -1,0 +1,2376 @@
+import GFNBounds.Doubling.CutBalance
+import GFNBounds.Doubling.Cramer
+import GFNBounds.Doubling.Descent
+import GFNBounds.Doubling.Excursion
+import GFNBounds.Doubling.Family
+import GFNBounds.Doubling.Supersolution
+import GFNBounds.Doubling.Tail
+import GFNBounds.Doubling.Constant
+import GFNBounds.Doubling.ConstantFunctional
+import GFNBounds.Doubling.Expansion
+import GFNBounds.Doubling.Exponent
+import GFNBounds.Doubling.FixedPoints
+import GFNBounds.Doubling.Main
+import GFNBounds.Doubling.Operator
+import GFNBounds.Doubling.R0Bound
+import GFNBounds.Doubling.WindowSum
+import GFNBounds.Doubling.Drift
+import GFNBounds.Doubling.Irreducible
+import GFNBounds.Doubling.AdjointL2
+import GFNBounds.Doubling.OperatorL2
+import GFNBounds.Doubling.PhaseEmpty
+import GFNBounds.Doubling.PhaseExists
+import GFNBounds.Doubling.SharpFull
+import GFNBounds.Doubling.Weight
+import GFNBounds.Doubling.Adjoint
+import GFNBounds.Doubling.Coupling
+import GFNBounds.Doubling.Doeblin
+import GFNBounds.Doubling.Escape
+import GFNBounds.Doubling.FixedPointsP
+import GFNBounds.Doubling.Length
+import GFNBounds.Doubling.LpContraction
+import GFNBounds.Doubling.LpLayer
+import GFNBounds.Doubling.Lyapunov
+import GFNBounds.Doubling.OperatorFinite
+import GFNBounds.Doubling.PointwiseInv
+import GFNBounds.Doubling.Product
+import GFNBounds.Doubling.Sharp
+import GFNBounds.Doubling.SharpRate
+import GFNBounds.Doubling.Sojourn
+import GFNBounds.Doubling.StatExists
+import GFNBounds.Doubling.Summable
+import GFNBounds.Doubling.TotalVariation
+import GFNBounds.Doubling.TruncationStat
+import GFNBounds.Doubling.Unsolvable
+import GFNBounds.Doubling.Kac
+import GFNBounds.Doubling.Truncation
+import GFNBounds.Doubling.PerCutNorms
+import GFNBounds.Doubling.Ramp
+import GFNBounds.Doubling.Ratios
+import GFNBounds.Doubling.Unbounded
+import GFNBounds.Doubling.RayleighBridge
+import GFNBounds.Doubling.UnboundedL2
+import GFNBounds.Balance.WeightedL2Norm
+import GFNBounds.Balance.LocalConvergenceClauses
+import GFNBounds.Balance.LocalConvergenceMixing
+import GFNBounds.Balance.SqGenerator
+import GFNBounds.Balance.FreezingGeneral
+import GFNBounds.Core.UniversalityKernelBound
+import GFNBounds.Doubling.OperatorFiniteSum
+import GFNBounds.Doubling.DescentStatement
+import GFNBounds.Graph.CycleBlowup
+import GFNBounds.Doubling.TruncationBhat
+import GFNBounds.Doubling.MainPackaging
+import GFNBounds.Graph.FrozenUnstableDB
+import GFNBounds.Balance.GlobalConvergence
+import GFNBounds.Balance.FlowExistence
+import GFNBounds.Balance.C3Wrappers
+import GFNBounds.Doubling.ExpansionSecond
+import GFNBounds.Doubling.WeightFull
+import GFNBounds.Balance.LiftFinite
+import GFNBounds.Balance.DiscreteGlobal
+import GFNBounds.Doubling.Remarks
+import GFNBounds.Balance.TrainingSpeedAssembled
+import GFNBounds.Graph.CycleRemarks
+import GFNBounds.Core.FamilyUniversality
+import GFNBounds.Core.SigmaMixing
+import GFNBounds.Graph.MorozovDB
+import GFNBounds.Core.UniversalityBody
+import GFNBounds.Balance.RemarksA
+import GFNBounds.Silva.Remarks
+import GFNBounds.Graph.MorozovFM
+import GFNBounds.Graph.UniversalityClosing
+import GFNBounds.Core.Sampling
+import GFNBounds.Graph.Sampling
+import GFNBounds.Graph.SamplerWiring
+import GFNBounds.Doubling.ExpansionTrapezoid
+import GFNBounds.Doubling.WeightChain
+import GFNBounds.Balance.TBGradient
+import GFNBounds.Core.NegativeControl
+import GFNBounds.Balance.GlobalConvergenceFinite
+import GFNBounds.Core.RLBound
+import GFNBounds.Core.ILBoundFull
+import GFNBounds.Graph.PartialSupportClose
+import GFNBounds.Silva.PathSpaceMarkov
+import GFNBounds.Doubling.RenewalClose
+import GFNBounds.Balance.LocalConvergenceClose
+import GFNBounds.Silva.PathSpaceMarkovGeneral
+import GFNBounds.Core.SamplingGeneral
+import GFNBounds.Core.SamplingGeneralBounds
+import GFNBounds.Core.AdjointGeneral
+import GFNBounds.Balance.LiftGeneral
+import GFNBounds.Doubling.RecurrenceClass
+import GFNBounds.Doubling.PhaseRecurrence
+import GFNBounds.Core.FirstVariationGeneral
+import GFNBounds.Balance.LiftGeneralMixing
+import GFNBounds.Doubling.OperatorGeneral
+import GFNBounds.Balance.TBHessian
+import GFNBounds.Balance.TBvsDB
+import GFNBounds.Balance.FreezingGeneral2
+import GFNBounds.Balance.FreezingGradientBridge
+import GFNBounds.Balance.GdDiffusionGeneral
+import GFNBounds.Balance.StableFrozenGeneral
+import GFNBounds.Balance.TBvsDBClose
+import GFNBounds.Doubling.GeomFamily
+import GFNBounds.Doubling.PolicyTable
+
+/-!
+# Axiom audit
+
+Every declaration of `GFNBounds` that certifies a statement of `app_doubling.tex` is listed here
+under `#print axioms`. `scripts/axiom_audit.py` parses the build log and fails if any of them
+reports `sorryAx`, or any axiom outside `{propext, Classical.choice, Quot.sound}`.
+
+This is the anti-laundering check. `sorry` is already a compile error inside `GFNBounds` (the
+library is built with `warningAsError := true`), but that only catches a `sorry` written *here*.
+It would not catch a closed theorem resting on a tagged `sorry` that had been imported from
+`GFNBoundsScaffold` — which is why `GFNBounds` never imports it, and why this file exists as the
+second lock rather than the first.
+
+Convention copied from `~/LeanAI/library/LeanAILibrary/DiffusionGaussianCore.lean`.
+-/
+
+namespace GFNBounds.Doubling
+
+-- `lem:doubling_range` — app_doubling.tex:86
+#print axioms epsCS_antitone
+#print axioms epsCS_one_lt_one
+#print axioms one_sub_epsCS_one_pos
+#print axioms Setting.ofFamily
+
+-- `prop:doubling_drift` — app_doubling.tex:379
+#print axioms height_pstar_sub
+#print axioms drift_family
+#print axioms drift_family_at_one
+#print axioms drift_const_iff
+
+-- `lem:doubling_percut`, Step 2 (`eq:doubling_step1`) — app_doubling.tex:1848
+#print axioms percut_id
+
+-- `lem:doubling_percut`, Steps 1, 3, 4 — app_doubling.tex:1848
+#print axioms mass_cutFn
+#print axioms mass_cutFn_le_mid
+#print axioms mass_cutFn_le_two
+#print axioms Stat.tsum_centredTail
+#print axioms Stat.mass_centredTail
+#print axioms Stat.mass_two_centredTail
+#print axioms centredTail_defect
+#print axioms Stat.mass_defect_le
+#print axioms Stat.tailMass_mul_coTail_pos
+#print axioms Stat.rayleigh_two_le'
+
+-- `prop:doubling_cut` (`eq:doubling_cut`) — app_doubling.tex:641
+#print axioms cut_balance
+#print axioms cutBalanceSeq_of_stat
+#print axioms Stat.hasSum_flux
+#print axioms Stat.lam_double_ge
+#print axioms Stat.lam_le_prev
+
+-- `lem:doubling_cramer_root` — app_doubling.tex:711
+#print axioms psi_strictConvexOn
+#print axioms cramer_root_unique
+#print axioms cramer_root_exists
+#print axioms psi_pos_of_log_eq
+#print axioms cramer_root_gt_one
+#print axioms cramer_lt_one_of_root_gt_one
+#print axioms cramer_root_pos_iff
+#print axioms cramer_form
+#print axioms cramer_kernel_integral
+#print axioms cramer_ineq
+
+-- `lem:doubling_irreducible` — app_doubling.tex:101
+#print axioms edge_pstar_pos
+#print axioms reach_all_none
+#print axioms PreStat.pos_of_irreducible
+#print axioms PreStat.toStatNone
+
+-- `lem:doubling_truncation_irreducible` (Steps 1–3) — app_doubling.tex:1805
+#print axioms reach_one_lad
+#print axioms reach_all_some
+#print axioms PreStat.toStatSome
+
+-- `theo:doubling_unbounded` — app_doubling.tex:1945
+#print axioms Stat.tailMass_succ
+#print axioms Stat.tailMass_tendsto_zero
+#print axioms Stat.lam_pow_two_ge
+#print axioms Stat.exists_tailRatio_gt
+#print axioms Stat.mass_ratio_bound
+#print axioms Stat.exists_small_mass_ratio
+#print axioms Stat.no_bounded_inverse
+#print axioms growthCond_of_family
+
+-- `lem:doubling_ramp` — app_doubling.tex:2021
+#print axioms ramp_defect_bounded
+#print axioms Stat.tsum_centredRamp
+#print axioms Stat.exists_centredRamp_ge
+#print axioms Stat.no_bounded_inverse_infty
+#print axioms gamma_family
+
+-- `rem:doubling_geometric` — app_doubling.tex:2183
+#print axioms geometric_sum
+#print axioms not_growthCond_geometric
+
+-- `lem:doubling_excursion` — app_doubling.tex:398
+#print axioms LadderStep.le_succ_add_one
+#print axioms excursion_le
+
+-- `lem:doubling_supersolution` — app_doubling.tex:426
+#print axioms pstar_mono
+#print axioms linSuper_eq
+#print axioms linSuper_ge
+#print axioms hitExp_le_linSuper
+#print axioms hitExp_mono
+#print axioms hitExp_iSup_le
+#print axioms sigmaBar_le
+
+-- `def:doubling_decay_notation` — app_doubling.tex:789
+#print axioms Decay.p_gt_one
+#print axioms Decay.tau_gt_two
+#print axioms Decay.cramer
+#print axioms Decay.one_sub_eps_pos
+#print axioms Decay.wm_pos
+#print axioms Decay.cutBal_of_setting
+
+-- `lem:doubling_averaging` — app_doubling.tex:814
+#print axioms Decay.avg_of_cutBal
+#print axioms Decay.uavg_of_avg
+#print axioms Decay.uavg_of_cutBal
+
+-- `lem:doubling_descent` — app_doubling.tex:965
+#print axioms Decay.descW
+#print axioms Decay.descW_of_ge
+#print axioms Decay.le_of_mem_window_of_ge
+#print axioms Decay.descW_uu
+#print axioms Decay.descW_between
+
+-- `theo:doubling_decay` — app_doubling.tex:1155
+#print axioms Decay.decay_block
+#print axioms Decay.uu_bounded
+#print axioms Decay.decay_two_sided
+
+-- `cor:doubling_tail` — app_doubling.tex:1230
+#print axioms rpow_ge_tangent
+#print axioms incr_le
+#print axioms le_incr
+#print axioms powerTail_ge
+#print axioms powerTail_le
+#print axioms Decay.tail_bounds
+#print axioms Decay.tail_ratio_ge
+#print axioms Decay.tail_sharp
+
+-- `cor:doubling_family` — app_doubling.tex:2087
+#print axioms Stat.tailSeq_eq_tailMass
+#print axioms Stat.rayleigh_family
+#print axioms Stat.exists_rayleigh_family
+
+-- `prop:doubling_constant`, Step 1 — app_doubling.tex:1702
+#print axioms Decay.extend_cutBal
+#print axioms Decay.extend_unique
+#print axioms Decay.extend_pos
+#print axioms Decay.extend_add
+#print axioms Decay.extend_smul
+#print axioms Decay.extend_congr_high
+
+-- `lem:doubling_expansion`, Step 4, and `rem:doubling_parity` — app_doubling.tex:848, :955
+#print axioms Decay.A_one_eq
+#print axioms Decay.A_gap
+#print axioms Decay.Gamma_pos
+#print axioms Decay.Gamma_lt_one
+#print axioms Decay.A_zero_pos
+#print axioms Decay.A_one_neg
+
+-- `lem:doubling_fixed_points`, the `P_star` half — app_doubling.tex:130
+#print axioms sq_pstar_le
+#print axioms pstar_sq_gap
+#print axioms Stat.jensen_gap_zero
+#print axioms Stat.fixed_const
+
+-- `lem:doubling_operator`(3) — app_doubling.tex:166
+#print axioms one_sub_mul_partialSum
+#print axioms partialSum_mul_one_sub
+#print axioms tendsto_pow
+#print axioms resolvent_identities
+#print axioms resolvent_inverse
+#print axioms resolvent_norm_le
+
+-- `theo:doubling_main`, assembled — app_doubling.tex:275
+#print axioms main_unbounded
+#print axioms main_unbounded_infty
+#print axioms main_sigmaBar_le
+#print axioms main_rate
+#print axioms main_truncation_irreducible
+#print axioms main_irreducible
+
+-- `eq:doubling_R0`, effectivized — app_doubling.tex:965 (in `lem:doubling_descent`)
+#print axioms incr_le'
+#print axioms le_incr'
+#print axioms telescope_Ico
+#print axioms sum_window_ge
+#print axioms sum_window_le
+#print axioms Decay.R0_eq
+#print axioms Decay.foot_rpow_le
+#print axioms Decay.le_foot_rpow
+#print axioms Decay.R0_sub_one_le
+#print axioms Decay.R0_between
+
+-- `prop:doubling_exponent` — app_doubling.tex:693
+#print axioms sum_Ico_rpow_sub_integral_le
+#print axioms integral_rpow_window
+#print axioms tendsto_foot_ratio
+#print axioms tendsto_windowPower
+#print axioms tendsto_windowV
+#print axioms exponent_is_cramer_root
+
+-- `cor:doubling_truncation`, Step 6 (Kac's formula) — app_doubling.tex:2199
+#print axioms hitExp_le_nat
+#print axioms Stat.hasSum_flux_pt
+#print axioms pstar_ptFn_sink
+#print axioms Stat.lam_sink_eq_src
+#print axioms Stat.lam_src_le_lam_one
+#print axioms hitExp_defect
+#print axioms Stat.hitInt_succ_sub
+#print axioms Stat.kac_identity
+#print axioms Stat.lam_one_ge
+
+-- `cor:doubling_truncation` — app_doubling.tex:2199
+#print axioms Stat.percut_K
+#print axioms Stat.finset_sum_le_tailMass
+#print axioms Stat.tail_lower
+#print axioms Stat.hitInt_le
+#print axioms Stat.sqrtK
+#print axioms Stat.lam_ge_prev
+#print axioms Stat.lam_chain_up
+#print axioms Stat.lam_chain_down
+#print axioms Stat.block_ratio
+#print axioms Stat.cutBalanceSeq_trunc
+#print axioms Stat.decayK
+
+-- ── the 2026-09-07 workflow round ──────────────────────────────────────────────
+
+-- the `L^p` layer (no paper label of its own; the layer `lem:doubling_operator`,
+-- `lem:doubling_fixed_points` and `prop:doubling_unsolvable` all need)
+#print axioms Stat.mu
+#print axioms Stat.ae_iff_eq
+#print axioms Stat.pstarL2
+#print axioms Stat.fixed_const_memLp
+
+-- `lem:doubling_operator`(1), the contraction clause — app_doubling.tex:166
+#print axioms Stat.eLpNorm_pstar_le_of_memLp
+#print axioms Stat.dens
+#print axioms Stat.tsum_dens_mul_sq
+
+-- `lem:doubling_fixed_points`, both halves — app_doubling.tex:130
+#print axioms Stat.ker_eq_const
+
+-- `prop:doubling_length` — app_doubling.tex:476
+#print axioms hitExp_iSup_eq
+#print axioms sbar_iSup_eq
+
+-- `prop:doubling_phase`(3), row (b) — app_doubling.tex:510
+#print axioms exists_stat_none
+#print axioms exists_stat_of_family
+#print axioms inv_of_pointwise
+#print axioms Wpow_drift_expansion
+
+-- `lem:doubling_escape` — app_doubling.tex:1026
+#print axioms Decay.escape_of_level
+#print axioms Decay.sojourn_block
+
+-- `lem:doubling_product` — app_doubling.tex:1110
+#print axioms Decay.prodW_two_sided_paper
+#print axioms Decay.prodW_R0_eq_descOne
+
+-- `theo:doubling_decay`, now unconditional — app_doubling.tex:1155
+#print axioms Decay.decay_block_of_cutBal
+#print axioms Decay.decay_two_sided_of_cutBal
+
+-- `lem:doubling_doeblin` — app_doubling.tex:1385
+#print axioms Decay.doeblin
+
+-- `lem:doubling_coupling` — app_doubling.tex:1475
+#print axioms Decay.coupling
+#print axioms Decay.coupling_above
+
+-- `theo:doubling_sharp` (conditional on `lem:doubling_weight`) — app_doubling.tex:1323
+#print axioms Decay.cutBal_unique
+#print axioms Decay.sharp
+
+-- `lem:doubling_truncation_irreducible`, Step 4 — app_doubling.tex:1805
+#print axioms exists_stat
+#print axioms stat_unique
+
+-- `prop:doubling_unsolvable` — app_doubling.tex:2126
+#print axioms doubling_unsolvable
+
+-- ── the 2026-09-07 second workflow round ───────────────────────────────────────
+
+-- `lem:doubling_weight`, Weight.lean's consequence form — app_doubling.tex:1357
+#print axioms Decay.c3
+#print axioms Decay.ell3
+#print axioms Decay.weight_bound
+
+-- `theo:doubling_sharp`, now unconditional — app_doubling.tex:1323
+#print axioms Decay.uu_bounded_of_cutBal
+#print axioms Decay.sharp_of_cutBal
+
+-- `lem:doubling_operator`(1), the adjoint clause — app_doubling.tex:166
+#print axioms Stat.densL2
+#print axioms Stat.adjoint_densL2_pow_sub_piL2
+#print axioms Stat.norm_pstarL2_pow_sub_piL2
+#print axioms Stat.betaHat
+
+-- `lem:doubling_operator`(2) and `B̂_K < ∞` — app_doubling.tex:166, :1805
+#print axioms Stat.evalChain_injective
+#print axioms Stat.exists_diffusionOp
+#print axioms Stat.exists_bhat
+
+-- `prop:doubling_phase`, rows (b) and (f) — app_doubling.tex:510
+#print axioms exists_stat_of_threshold
+#print axioms exists_threshold_family
+#print axioms exists_stat_of_family_gt_one
+#print axioms exists_stat_of_family_one
+
+-- `prop:doubling_phase`, rows (a), (c), (e) — app_doubling.tex:510
+#print axioms cut_tail_ge
+#print axioms isEmpty_stat_of_supercritical
+#print axioms isEmpty_stat_of_family_ge_one
+#print axioms isEmpty_stat_of_family_lt_one
+
+-- the definitional layer (`def:doubling_setting` — app_doubling.tex:13)
+#print axioms pstar_const
+#print axioms Stat.tsum_sub_pstar
+
+-- ── the 2026-09-07 evening round: the umbrella assembled ───────────────────────
+
+-- the `L²(λ)` Rayleigh bridge (no paper label of its own)
+#print axioms Stat.memLp_two_of_bounded
+#print axioms Stat.rayleigh_of_leftInverse
+#print axioms Stat.mass_le_of_rayleighL2
+#print axioms Stat.mass_le_of_leftInverse
+
+-- `theo:doubling_unbounded`(2), the `p = 2` clauses — app_doubling.tex:1945
+#print axioms Stat.no_diffusionOp
+#print axioms Stat.not_tendsto_partialSum
+#print axioms Stat.not_summable_betaHat
+
+-- `cor:doubling_tail_sharp`, first line as a limit — app_doubling.tex:1672
+#print axioms Decay.tendsto_tail_sharp
+#print axioms Decay.tendsto_tail_ratio_sharp
+
+-- `cor:doubling_tail`, the ratio's upper half and the two limits — app_doubling.tex:1230
+#print axioms Decay.tail_ratio_le
+#print axioms Decay.tendsto_tailSeq_zero
+#print axioms Decay.tendsto_tail_ratio_atTop
+
+-- `theo:doubling_decay`(2) with the constants written out — app_doubling.tex:1155
+#print axioms Decay.uu_bounded_explicit
+#print axioms Decay.decay_two_sided_explicit
+
+-- `theo:doubling_sharp` with `c₆` written out — app_doubling.tex:1323
+#print axioms Decay.sharp_rate_explicit
+#print axioms Decay.levelL
+#print axioms Decay.c6
+#print axioms Decay.sharp_explicit
+
+-- `theo:doubling_main`, assembled item by item — app_doubling.tex:275
+#print axioms Decay.ofC
+#print axioms main_phase
+#print axioms main_invariant_measure
+#print axioms main_constant_determined
+#print axioms main_unbounded_two
+#print axioms main_sigmaBar_eq
+#print axioms main_unsolvable
+#print axioms main_truncation_bhat
+#print axioms main_truncation_sqrtK
+
+-- `prop:doubling_constant`, Steps 2 and 3 — app_doubling.tex:1702
+#print axioms Decay.nu
+#print axioms Decay.extend_nonneg
+#print axioms Decay.tendsto_extend
+#print axioms Decay.climit_eq_sum
+#print axioms Decay.tendsto_of_cutBal
+#print axioms Decay.constant_eq
+#print axioms Decay.nu_nonneg
+#print axioms Decay.sum_nu_pos
+#print axioms Decay.nu_eq_zero
+#print axioms Decay.constant_functional
+#print axioms main_constant_functional
+
+end GFNBounds.Doubling
+
+/-! ## Wave 1 (2026-09-13): the first non-Doubling certificates
+
+Balance, Core, Graph and the new Doubling files graduated from the scaffold on 2026-09-13.
+Before this section `Audit.lean` checked Doubling only; these modules were covered solely by
+`scripts/AxiomSweep.lean`. Names are fully qualified. -/
+
+-- `lem:sigma_mixing` — GFNBounds/Core/SigmaMixing.lean
+#print axioms GFNBounds.Core.isBoundedDensityAction_two
+#print axioms GFNBounds.Core.norm_one_sub_meanProj_eq_one
+#print axioms GFNBounds.Core.lem_sigma_mixing
+#print axioms GFNBounds.Core.lem_sigma_mixing_polish
+#print axioms GFNBounds.Core.sigma_mixing_witness
+
+-- `theo/lem:sigma_mixing + prop:nonlinear_freezing(2)` — GFNBounds/Balance/WeightedL2Norm.lean
+#print axioms GFNBounds.Balance.one_sub_meanOp_ne_zero
+#print axioms GFNBounds.Balance.norm_one_sub_meanOp
+#print axioms GFNBounds.Balance.beta_zero_densOp_meanOp
+#print axioms GFNBounds.Balance.one_le_B_densOp
+#print axioms GFNBounds.Balance.rho_densOp_le
+#print axioms GFNBounds.Balance.twoState_mixing_densOp
+#print axioms GFNBounds.Balance.twoState_mixing_coefficients
+#print axioms GFNBounds.Balance.twoState_rho_eq
+#print axioms GFNBounds.Balance.twoState_rho_freezing
+
+-- `theo:local_convergence_full clauses` — GFNBounds/Balance/LocalConvergenceClauses.lean
+#print axioms GFNBounds.Balance.eps0_le_a_div
+#print axioms GFNBounds.Balance.eps0_mem_Ioc
+#print axioms GFNBounds.Balance.one_le_max_C7
+#print axioms GFNBounds.Balance.local_convergence_full_C
+#print axioms GFNBounds.Balance.gamma0_pos
+#print axioms GFNBounds.Balance.Lgd_pos
+#print axioms GFNBounds.Balance.gamma0_pos_of_weights
+#print axioms GFNBounds.Balance.local_convergence_gd_window
+#print axioms GFNBounds.Balance.abs_ratio_sub_one_le_two_a_div_three
+#print axioms GFNBounds.Balance.hasDerivAt_loss_local
+#print axioms GFNBounds.Balance.hasDerivAt_loss_ipL2_local
+#print axioms GFNBounds.Balance.local_convergence_gd_welldefined
+
+-- `theo:local_convergence_full at Core.Mixing.B` — GFNBounds/Balance/LocalConvergenceMixing.lean
+#print axioms GFNBounds.Balance.local_convergence_full_mixing
+#print axioms GFNBounds.Balance.local_convergence_gd_mixing
+#print axioms GFNBounds.Balance.eps0_mem_Ioc_mixing
+#print axioms GFNBounds.Balance.local_convergence_full_C_mixing
+#print axioms GFNBounds.Balance.gamma0_pos_of_weights_mixing
+#print axioms GFNBounds.Balance.local_convergence_gd_welldefined_mixing
+#print axioms GFNBounds.Balance.mixing_densOp_iff_summable
+#print axioms GFNBounds.Balance.meanOp_eq_of_densOp_eq
+#print axioms GFNBounds.Balance.eq_const_of_densAct_eq
+
+-- `prop:no_distant_equilibrium(3) for (x-1)^2` — GFNBounds/Balance/SqGenerator.lean
+#print axioms GFNBounds.Balance.sqDeriv_mul_one_sub_le_sharp
+#print axioms GFNBounds.Balance.sqDeriv_mul_one_sub_le
+#print axioms GFNBounds.Balance.le_abs_sqDeriv_mul_one_sub
+#print axioms GFNBounds.Balance.sqDeriv_mul_one_sub_nonpos
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_far_of
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_sq
+
+-- `prop:nonlinear_freezing(1) widened` — GFNBounds/Balance/FreezingGeneral.lean
+#print axioms GFNBounds.Balance.const_on_band_of_deriv_zero
+#print axioms GFNBounds.Balance.FreezingBands.pos_of_mem_bands
+#print axioms GFNBounds.Balance.eventually_loss_eq_of
+#print axioms GFNBounds.Balance.loss_pos_of
+#print axioms GFNBounds.Balance.loss_pos_of_nonneg
+#print axioms GFNBounds.Balance.hasFDerivAt_loss_zero_of
+#print axioms GFNBounds.Balance.freezing_item_one_general
+#print axioms GFNBounds.Balance.freezing_hasDerivAt_zero_general
+#print axioms GFNBounds.Balance.freezing_item_one_of_general
+
+-- `theo:universality_L2_full at the kernel` — GFNBounds/Core/UniversalityKernelBound.lean
+#print axioms GFNBounds.Core.coeFn_liftedOutflow
+#print axioms GFNBounds.Core.truncation_eq_zero_top
+#print axioms GFNBounds.Core.tendsto_truncation_norm_all
+#print axioms GFNBounds.Core.residuals_le_of_kernel
+#print axioms GFNBounds.Core.tendsto_residuals_of_kernel
+#print axioms GFNBounds.Core.defect_eq_zero_of_kernel_top
+#print axioms GFNBounds.Core.residuals_eq_zero_of_kernel_top
+
+-- `lem:doubling_operator(3), rem:doubling_two_constants` — GFNBounds/Doubling/OperatorFiniteSum.lean
+#print axioms GFNBounds.Doubling.resolvent_eq_tsum_of_bdd
+#print axioms GFNBounds.Doubling.inverse_sub_le_of_bdd
+#print axioms GFNBounds.Doubling.Stat.bhat_le_sum_betaHat
+#print axioms GFNBounds.Doubling.Stat.sub_piL2_eq_tsum
+#print axioms GFNBounds.Doubling.Stat.inverse_sub_piL2_le_sum_betaHat
+#print axioms GFNBounds.Doubling.Stat.inverse_sub_piL2_eq_tsum
+
+-- `lem:doubling_descent` — GFNBounds/Doubling/DescentStatement.lean
+#print axioms GFNBounds.Doubling.Decay.c4_pos
+#print axioms GFNBounds.Doubling.Decay.lt_ell1
+#print axioms GFNBounds.Doubling.Decay.thr_of_ell1
+#print axioms GFNBounds.Doubling.Decay.R0_between_of_ell1
+#print axioms GFNBounds.Doubling.Decay.R0_sub_one_le_c4
+#print axioms GFNBounds.Doubling.Decay.descent_item1_path
+#print axioms GFNBounds.Doubling.Decay.descent_item2_path
+#print axioms GFNBounds.Doubling.Decay.descent_Z_pos
+#print axioms GFNBounds.Doubling.Decay.exitLaw_eq_zero_of_notMem
+#print axioms GFNBounds.Doubling.Decay.descZ_eq_descW
+#print axioms GFNBounds.Doubling.Decay.exists_descentPath
+#print axioms GFNBounds.Doubling.Decay.doubling_descent
+
+-- `rem:cycle_no_stalemate` — GFNBounds/Graph/CycleBlowup.lean
+#print axioms GFNBounds.Graph.CycleExample.bhatSigma_cycle_tendsto
+#print axioms GFNBounds.Graph.CycleExample.bhatSigma_blowup_paper_form
+#print axioms GFNBounds.Graph.CycleExample.sigmaBar_blowup
+#print axioms GFNBounds.Graph.CycleExample.blowupDelta_pos
+#print axioms GFNBounds.Graph.CycleExample.lt_three_div_of_blowupDelta
+
+-- `cor:doubling_truncation` — GFNBounds/Doubling/TruncationBhat.lean
+#print axioms GFNBounds.Doubling.Stat.diffOpK_resolvent
+#print axioms GFNBounds.Doubling.Stat.percut_leftInverse
+#print axioms GFNBounds.Doubling.Stat.percut_bhatK
+#print axioms GFNBounds.Doubling.Stat.withEpsMax_lam
+#print axioms GFNBounds.Doubling.Decay.one_le_c9Of
+#print axioms GFNBounds.Doubling.Decay.c8Of_pos
+#print axioms GFNBounds.Doubling.Stat.decayK_explicit
+#print axioms GFNBounds.Doubling.Stat.sqrtK_explicit
+#print axioms GFNBounds.Doubling.Stat.sqrtK_bhatK
+#print axioms GFNBounds.Doubling.truncation_explicit
+#print axioms GFNBounds.Doubling.main_truncation
+
+-- `theo:doubling_main packaging` — GFNBounds/Doubling/MainPackaging.lean
+#print axioms GFNBounds.Doubling.card_chainFinset
+#print axioms GFNBounds.Doubling.main_truncation_states
+#print axioms GFNBounds.Doubling.Decay.c7Of_congr
+#print axioms GFNBounds.Doubling.Decay.c7Of_pos
+#print axioms GFNBounds.Doubling.Stat.mass_defect_centredTail_pos
+#print axioms GFNBounds.Doubling.Stat.rate_explicit
+#print axioms GFNBounds.Doubling.main_rate_explicit
+#print axioms GFNBounds.Doubling.main_c7_congr
+#print axioms GFNBounds.Doubling.main_truncation_explicit
+
+-- `prop:frozen_unstable_full` (DB half, eq:def_stability) — GFNBounds/Graph/FrozenUnstableDB.lean
+#print axioms GFNBounds.Graph.not_stable_of_witness
+#print axioms GFNBounds.Graph.BackwardPolicy.edgeFlow_one_eq_edgeMeasure
+#print axioms GFNBounds.Graph.BackwardPolicy.phat_pos_of_hatEdge
+#print axioms GFNBounds.Graph.BackwardPolicy.phat_eq_zero_of_not_hatEdge
+#print axioms GFNBounds.Graph.BackwardPolicy.edgeFlow_eq_zero_of_not_hatEdge
+#print axioms GFNBounds.Graph.BackwardPolicy.circ_eq_zero_of_not_hatEdge
+#print axioms GFNBounds.Graph.BackwardPolicy.perturbedFlow_eq_zero_of_not_hatEdge
+#print axioms GFNBounds.Graph.BackwardPolicy.perturbedFlow_pos_of_hatEdge
+#print axioms GFNBounds.Graph.BackwardPolicy.perturbedFlow_isEdgeflow
+#print axioms GFNBounds.Graph.BackwardPolicy.invariant_edgeInflow_of_pushEdge_eq
+#print axioms GFNBounds.Graph.BackwardPolicy.pushEdge_perturbedFlow_ne
+#print axioms GFNBounds.Graph.BackwardPolicy.perturbedFlow_isFlow
+#print axioms GFNBounds.Graph.BackwardPolicy.epsCirc_isZeroFlow
+#print axioms GFNBounds.Graph.BackwardPolicy.edgeMeasure_pos_iff_hatEdge
+#print axioms GFNBounds.Graph.BackwardPolicy.dbLoss_eq_edgeRatio
+#print axioms GFNBounds.Graph.BackwardPolicy.dbLoss_sub_eq_of_support
+#print axioms GFNBounds.Graph.BackwardPolicy.dbLoss_eq_zero_of
+#print axioms GFNBounds.Graph.BackwardPolicy.dbLoss_pos_of
+#print axioms GFNBounds.Graph.BackwardPolicy.dbRatio_edgeFlow_eq_one
+#print axioms GFNBounds.Graph.BackwardPolicy.dbRatio_perturbedFlow_pos
+#print axioms GFNBounds.Graph.BackwardPolicy.frozen_unstable_full_db
+#print axioms GFNBounds.Graph.BackwardPolicy.frozen_not_stable_fm
+#print axioms GFNBounds.Graph.BackwardPolicy.frozen_not_stable_db
+
+-- `prop:no_distant_equilibrium`(3) and `theo:global_dichotomy_full`(1), convergence for (log x)^2 — GFNBounds/Balance/GlobalConvergence.lean
+#print axioms GFNBounds.Balance.continuous_nrmL2
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_converges
+#print axioms GFNBounds.Balance.global_dichotomy_full_one_converges
+
+-- `prop:no_distant_equilibrium`(3), existence and uniqueness of the gradient flow — GFNBounds/Balance/FlowExistence.lean
+#print axioms GFNBounds.Balance.FlowGenerator.exists_flow
+#print axioms GFNBounds.Balance.FlowGenerator.existsUnique_flow
+#print axioms GFNBounds.Balance.isGradientFlow_unique
+#print axioms GFNBounds.Balance.reach_of_uniqueInvariant
+#print axioms GFNBounds.Balance.existsUnique_flow_logSq_of_ergodic
+#print axioms GFNBounds.Balance.existsUnique_flow_sq_of_ergodic
+#print axioms GFNBounds.Balance.existsUnique_flow_logSq
+#print axioms GFNBounds.Balance.existsUnique_flow_sq
+#print axioms GFNBounds.Balance.existsUnique_flow_logSq_graph
+#print axioms GFNBounds.Balance.existsUnique_flow_sq_graph
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_of_init
+#print axioms GFNBounds.Balance.uFloor_logSq_eq_uMin
+#print axioms GFNBounds.Balance.twoState_uniqueInvariant
+#print axioms GFNBounds.Balance.twoState_flow_exists_check
+#print axioms GFNBounds.Balance.twoState_flow_exists_check_sq
+#print axioms GFNBounds.Balance.cycle_flow_converges_check
+
+-- `theo:local_convergence_full` C^3 wrapper and DB instance; `theo:training_speed_full` items 1-2 at Gamma_3 — GFNBounds/Balance/C3Wrappers.lean
+#print axioms GFNBounds.Balance.taylor_of_C3
+#print axioms GFNBounds.Balance.local_convergence_full_C3
+#print axioms GFNBounds.Balance.local_convergence_gd_C3
+#print axioms GFNBounds.Balance.constC3_bounds
+#print axioms GFNBounds.Balance.constC3_congr
+#print axioms GFNBounds.Balance.local_convergence_full_DB
+#print axioms GFNBounds.Balance.local_convergence_gd_DB
+#print axioms GFNBounds.Balance.loss_edgeE_eq_db
+#print axioms GFNBounds.Balance.edgeKernel_mem_edgeSet
+#print axioms GFNBounds.Balance.edgeKernelE_isMarkovOn
+#print axioms GFNBounds.Balance.edgeMeasureE_isInvariant
+#print axioms GFNBounds.Balance.edgeMeasureE_pos
+#print axioms GFNBounds.Balance.edgeMeasureE_total
+#print axioms GFNBounds.Balance.Gamma3_logSq
+#print axioms GFNBounds.Balance.eps0_antitone_M3
+#print axioms GFNBounds.Balance.eps0Gamma3_le_eps0Sq
+#print axioms GFNBounds.Balance.eps0Gamma3_le_sqrt
+#print axioms GFNBounds.Balance.training_speed_full_Gamma3
+#print axioms GFNBounds.Balance.coer_edgeU
+#print axioms GFNBounds.Balance.local_convergence_full_DB_witness
+
+-- `lem:doubling_expansion` (eq:doubling_Rexp) and `rem:doubling_parity` — GFNBounds/Doubling/ExpansionSecond.lean
+#print axioms GFNBounds.Doubling.Decay.Rexp
+#print axioms GFNBounds.Doubling.Decay.Rexp_isBigO
+#print axioms GFNBounds.Doubling.Decay.cR_congr
+#print axioms GFNBounds.Doubling.Decay.parity_thresholds_congr
+#print axioms GFNBounds.Doubling.Decay.wm_le_foot
+#print axioms GFNBounds.Doubling.Decay.wm_foot_expansion
+#print axioms GFNBounds.Doubling.Decay.R0_gt_one_of_even
+#print axioms GFNBounds.Doubling.Decay.R0_lt_one_of_odd
+#print axioms GFNBounds.Doubling.Decay.Ralpha_zero_gt_one_of_even
+#print axioms GFNBounds.Doubling.Decay.Ralpha_zero_lt_one_of_odd
+#print axioms GFNBounds.Doubling.Decay.not_isSupersolution_Phi_zero
+#print axioms GFNBounds.Doubling.Decay.not_isSubsolution_Phi_zero
+#print axioms GFNBounds.Doubling.Decay.isSupersolution_two_pow
+#print axioms GFNBounds.Doubling.Decay.isSubsolution_inv_factorial_sq
+#print axioms GFNBounds.Doubling.Decay.nonempty_decay
+
+-- `lem:doubling_weight` in the paper's form — GFNBounds/Doubling/WeightFull.lean
+#print axioms GFNBounds.Doubling.Decay.doubling_weight
+#print axioms GFNBounds.Doubling.Decay.doubling_weight_paths
+#print axioms GFNBounds.Doubling.Decay.doubling_weight_of_ceils
+#print axioms GFNBounds.Doubling.Decay.doubling_weight_transform
+#print axioms GFNBounds.Doubling.Decay.weightDev_eq_sum_paths
+#print axioms GFNBounds.Doubling.Decay.descJoint_eq_sum_paths
+#print axioms GFNBounds.Doubling.Decay.sum_pathProb
+#print axioms GFNBounds.Doubling.Decay.mem_descPaths_iff
+#print axioms GFNBounds.Doubling.Decay.trajOf_mem_descPaths
+#print axioms GFNBounds.Doubling.Decay.exists_descentPath_of_mem
+#print axioms GFNBounds.Doubling.Decay.weightDev_le_c3
+
+-- `lem:lift_mixing` (equality) and `lem:lift_coercivity`, finite forms — GFNBounds/Balance/LiftFinite.lean
+#print axioms GFNBounds.Balance.lift_mixing_dens
+#print axioms GFNBounds.Balance.lift_mixing_beta
+#print axioms GFNBounds.Balance.lift_mixing_opNorm_eq
+#print axioms GFNBounds.Balance.lift_mixing_ge
+#print axioms GFNBounds.Balance.opBound_opNorm
+#print axioms GFNBounds.Balance.opNorm_densDeviation
+#print axioms GFNBounds.Balance.lift_coercivity_finite
+#print axioms GFNBounds.Balance.lift_coercivity_edgeSupport
+#print axioms GFNBounds.Balance.lift_coercivity_graph
+#print axioms GFNBounds.Balance.lift_coercivity_twoState
+#print axioms GFNBounds.Balance.twoState_lift_beta_one
+
+-- `theo:training_speed_full` item 3, the discrete global phase — GFNBounds/Balance/DiscreteGlobal.lean
+#print axioms GFNBounds.Balance.DiscreteGlobal.training_speed_gd
+#print axioms GFNBounds.Balance.DiscreteGlobal.training_speed_gd_minPos
+#print axioms GFNBounds.Balance.DiscreteGlobal.training_speed_gd_minPos_ennreal
+#print axioms GFNBounds.Balance.DiscreteGlobal.no_uniform_step
+#print axioms GFNBounds.Balance.DiscreteGlobal.no_uniform_step_graph
+#print axioms GFNBounds.Balance.DiscreteGlobal.descent_step
+#print axioms GFNBounds.Balance.DiscreteGlobal.traj_a
+#print axioms GFNBounds.Balance.DiscreteGlobal.traj_b
+#print axioms GFNBounds.Balance.DiscreteGlobal.traj_entry
+#print axioms GFNBounds.Balance.DiscreteGlobal.traj_c
+#print axioms GFNBounds.Balance.DiscreteGlobal.traj_d
+#print axioms GFNBounds.Balance.DiscreteGlobal.k0real_eq
+#print axioms GFNBounds.Balance.DiscreteGlobal.gammaStar_pos
+#print axioms GFNBounds.Balance.DiscreteGlobal.exists_descent_seq
+#print axioms GFNBounds.Balance.DiscreteGlobal.training_speed_gd_inhabited
+#print axioms GFNBounds.Balance.DiscreteGlobal.cycle_training_speed_gd_nonvacuous
+#print axioms GFNBounds.Balance.DiscreteGlobal.Gamma3_logSq_eq_Gamma3Val
+#print axioms GFNBounds.Balance.DiscreteGlobal.eps0At_Gamma3Val_eq
+#print axioms GFNBounds.Balance.DiscreteGlobal.gamma0At_Gamma3Val_eq
+-- `theo:training_speed_full` whole: item 3 with the paper's quantifiers, and items 1–3 conjoined
+#print axioms GFNBounds.Balance.DiscreteGlobal.gammaStar_ofReal
+#print axioms GFNBounds.Balance.DiscreteGlobal.gamma0W_logSq_eq_gamma0At
+#print axioms GFNBounds.Balance.DiscreteGlobal.eps0W_logSq_eq_eps0At
+#print axioms GFNBounds.Balance.DiscreteGlobal.training_speed_gd_exact
+#print axioms GFNBounds.Balance.DiscreteGlobal.training_speed_full_complete
+#print axioms GFNBounds.Balance.DiscreteGlobal.cycle_training_speed_complete_check
+
+-- the dropped renewal remark and `rem:doubling_two_constants` — GFNBounds/Doubling/Remarks.lean
+#print axioms GFNBounds.Doubling.Remarks.renewal_limit
+#print axioms GFNBounds.Doubling.Remarks.renewal_G_const
+#print axioms GFNBounds.Doubling.Remarks.renewal_hasDerivAt_G
+#print axioms GFNBounds.Doubling.Remarks.renewal_lipschitz
+#print axioms GFNBounds.Doubling.Remarks.renewal_rhs_lipschitz
+#print axioms GFNBounds.Doubling.Remarks.kernMean_eq
+#print axioms GFNBounds.Doubling.Remarks.integral_kbar_eq_kernMean
+#print axioms GFNBounds.Doubling.Remarks.kernMeasure_nonlattice
+#print axioms GFNBounds.Doubling.Remarks.kernMeasure_univ
+#print axioms GFNBounds.Doubling.Remarks.kern_boundedVariationOn
+#print axioms GFNBounds.Doubling.Remarks.renewal_limit_check
+#print axioms GFNBounds.Doubling.Remarks.bhat_le_mixing_sum
+#print axioms GFNBounds.Doubling.Remarks.diffusion_apply_eq_series
+#print axioms GFNBounds.Doubling.Remarks.two_constants_flip_three_quarters
+#print axioms GFNBounds.Doubling.Remarks.two_constants_flip_half
+#print axioms GFNBounds.Doubling.Remarks.bhat_le_mixing_sum_check
+#print axioms GFNBounds.Doubling.Remarks.diffusion_series_converges_check
+#print axioms GFNBounds.Doubling.Remarks.paths
+#print axioms GFNBounds.Doubling.Remarks.trajMass
+#print axioms GFNBounds.Doubling.Remarks.condExp
+#print axioms GFNBounds.Doubling.Remarks.paths_eq_map
+#print axioms GFNBounds.Doubling.Remarks.condExp_eq_sum_cons
+#print axioms GFNBounds.Doubling.Remarks.trajMass_cons_cons
+#print axioms GFNBounds.Doubling.Remarks.condExp_succ
+#print axioms GFNBounds.Doubling.Remarks.condExp_zero
+#print axioms GFNBounds.Doubling.Remarks.condExp_eq_iterate
+#print axioms GFNBounds.Doubling.Remarks.trajMass_nonneg
+#print axioms GFNBounds.Doubling.Remarks.sum_trajMass
+#print axioms GFNBounds.Doubling.Remarks.condExp_one_eq_funAct
+#print axioms GFNBounds.Doubling.Remarks.unwtL2_funOp_pow_wtL2
+#print axioms GFNBounds.Doubling.Remarks.diffusion_apply_eq_series_condExp
+#print axioms GFNBounds.Doubling.Remarks.flip_condExp_series_check
+
+-- `theo:local_convergence_full` (one-sided C^3, existence) and `theo:training_speed_full` items 1-2 as printed — GFNBounds/Balance/TrainingSpeedAssembled.lean
+#print axioms GFNBounds.Balance.taylor_of_C3On
+#print axioms GFNBounds.Balance.C3On_of_C3
+#print axioms GFNBounds.Balance.Gamma3W_logSq
+#print axioms GFNBounds.Balance.eps0W_logSq
+#print axioms GFNBounds.Balance.local_convergence_full_C3On
+#print axioms GFNBounds.Balance.constW_bounds
+#print axioms GFNBounds.Balance.local_convergence_gd_C3On
+#print axioms GFNBounds.Balance.sup_bootstrap_step_on
+#print axioms GFNBounds.Balance.local_convergence_full_exists
+#print axioms GFNBounds.Balance.local_convergence_full_DB_exists
+#print axioms GFNBounds.Balance.local_convergence_gd_DB_C3On
+#print axioms GFNBounds.Balance.global_phase_exact
+#print axioms GFNBounds.Balance.training_speed_full_paper
+#print axioms GFNBounds.Balance.kinkGen_C3On_not_C3
+#print axioms GFNBounds.Balance.twoState_exists_check
+#print axioms GFNBounds.Balance.cycle_training_speed_paper_check
+
+-- `lem:cycle_counterexample` items (1)-(2) and `rem:cycle_no_stalemate` — GFNBounds/Graph/CycleRemarks.lean
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_counterexample
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_counterexample_check
+#print axioms GFNBounds.Graph.CycleRemarks.inflation_force_max_mono
+#print axioms GFNBounds.Graph.CycleRemarks.not_critical
+#print axioms GFNBounds.Graph.CycleRemarks.rescaled_flow
+#print axioms GFNBounds.Graph.CycleRemarks.entryTimes_scale
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_rescaled_flow
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_rescaled_flow_sq
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_rescaled_flow_check
+#print axioms GFNBounds.Graph.CycleRemarks.mixing_sum_endpoints
+#print axioms GFNBounds.Graph.CycleRemarks.mixing_sum_gt
+#print axioms GFNBounds.Graph.CycleRemarks.mixing_sum_tendsto_top
+#print axioms GFNBounds.Graph.CycleRemarks.betaCyc_summable
+#print axioms GFNBounds.Graph.CycleRemarks.betaCyc_le_geometric
+#print axioms GFNBounds.Graph.CycleRemarks.mixing_cycle
+#print axioms GFNBounds.Graph.CycleRemarks.mixing_B_coercive
+#print axioms GFNBounds.Graph.CycleRemarks.mixing_B_tendsto_atTop
+#print axioms GFNBounds.Graph.CycleRemarks.rho_mixing_tendsto
+#print axioms GFNBounds.Graph.CycleRemarks.rhoSigma_cycle_tendsto
+#print axioms GFNBounds.Graph.CycleRemarks.kappa_cycle_tendsto
+#print axioms GFNBounds.Graph.CycleRemarks.kappa_cycle_tendsto_gen
+#print axioms GFNBounds.Graph.CycleRemarks.kappa_cycle_tendsto_fixed_measure
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_no_stalemate_limits
+#print axioms GFNBounds.Graph.CycleRemarks.betaCyc_eq
+#print axioms GFNBounds.Graph.CycleRemarks.sum_univ_eq_internal_add
+#print axioms GFNBounds.Graph.CycleRemarks.snk_inflow
+#print axioms GFNBounds.Graph.CycleRemarks.internal_flow_eq
+#print axioms GFNBounds.Graph.CycleRemarks.flow_eq_of_snk_eq
+#print axioms GFNBounds.Graph.CycleRemarks.internal_cyc
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_internal_flow
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_flow_values
+#print axioms GFNBounds.Graph.CycleRemarks.cycle_internal_flow_check
+
+-- `def:universality` for an arbitrary family, and `rem:partial_support` — GFNBounds/Core/FamilyUniversality.lean
+#print axioms GFNBounds.Core.Family.realizes_of_le
+#print axioms GFNBounds.Core.Family.StronglyUniversal.realizes_of_le
+#print axioms GFNBounds.Core.Family.mass_gap_div_le_iInf
+#print axioms GFNBounds.Core.Family.iInf_pos_of_mass_ne
+#print axioms GFNBounds.Core.Family.weaklyUniversal_fixedPolicyFamily_iff
+#print axioms GFNBounds.Core.Family.stronglyUniversal_fixedPolicyFamily_iff
+#print axioms GFNBounds.Core.Family.weaklyUniversal_const_kernel
+#print axioms GFNBounds.Core.Family.stronglyUniversal_const_kernel_top
+#print axioms GFNBounds.Graph.PartialSupport.subGraph_pathConnected
+#print axioms GFNBounds.Graph.PartialSupport.restrict_policy
+#print axioms GFNBounds.Graph.PartialSupport.partial_support_exact
+#print axioms GFNBounds.Graph.PartialSupport.partial_support_not_in_G
+#print axioms GFNBounds.Graph.PartialSupport.member_dichotomy
+#print axioms GFNBounds.Graph.PartialSupport.member_epsTarget
+#print axioms GFNBounds.Graph.PartialSupport.iInf_graphResidual_eq_zero
+#print axioms GFNBounds.Graph.PartialSupport.not_attained
+#print axioms GFNBounds.Graph.PartialSupport.graphResidual_ne_zero
+#print axioms GFNBounds.Graph.PartialSupport.not_attained_of_not_edge_src_snk
+#print axioms GFNBounds.Graph.PartialSupport.graphResidual_ne_zero_of_not_edge_src_snk
+#print axioms GFNBounds.Graph.PartialSupport.triangle_attained
+#print axioms GFNBounds.Graph.PartialSupport.diamond_partial_support
+
+-- `prop:morozov_rate` DB half of (3) and the leveled paragraph — GFNBounds/Graph/MorozovDB.lean
+#print axioms GFNBounds.Graph.morozov_rate_three_DB
+#print axioms GFNBounds.Graph.stable_frozen_discrete_DB_sigma
+#print axioms GFNBounds.Graph.stable_frozen_decay_DB_sigma
+#print axioms GFNBounds.Graph.local_convergence_full_DB_sigma
+#print axioms GFNBounds.Graph.local_convergence_gd_DB_sigma
+#print axioms GFNBounds.Graph.edge_reach_all
+#print axioms GFNBounds.Graph.Leveled.one_le_beta
+#print axioms GFNBounds.Graph.Leveled.mixing_sum_eq_top
+#print axioms GFNBounds.Graph.Leveled.not_mixing
+#print axioms GFNBounds.Graph.Leveled.periodic
+#print axioms GFNBounds.Graph.Leveled.bhatSigma_leveled_eq
+#print axioms GFNBounds.Graph.exists_linFlow
+#print axioms GFNBounds.Graph.ar_DB_check
+#print axioms GFNBounds.Graph.ar_stable_frozen_DB_witness
+#print axioms GFNBounds.Graph.ar_leveled_mixing_check
+#print axioms GFNBounds.Graph.arEps0_pos
+#print axioms GFNBounds.Graph.ar_local_convergence_DB_witness
+#print axioms GFNBounds.Graph.tri_leveled_mixing_check
+
+-- `theo:universality_L2_body`, the EGF theorem with Stern's bound as a named hypothesis — GFNBounds/Core/UniversalityBody.lean
+#print axioms GFNBounds.Core.EGF.universality_L2_body
+#print axioms GFNBounds.Core.EGF.universality_L2_body_display
+#print axioms GFNBounds.Core.EGF.tendsto_residuals_L2_body
+#print axioms GFNBounds.Core.EGF.weaklyUniversalAt_L2_body
+#print axioms GFNBounds.Core.EGF.universality_L2_body_of_full
+#print axioms GFNBounds.Core.EGF.universality_L2_body_of_stern
+#print axioms GFNBounds.Core.EGF.sternBound_of_rnDeriv_le
+#print axioms GFNBounds.Core.EGF.IsEGFPolicy.isBoundedDensityAction
+#print axioms GFNBounds.Core.EGF.IsEGFPolicy.one_le_sum_stern
+#print axioms GFNBounds.Core.EGF.universality_L2_body_coin
+#print axioms GFNBounds.Balance.RemarksA.convex_no_flat_band
+#print axioms GFNBounds.Balance.RemarksA.convex_small_deriv
+#print axioms GFNBounds.Balance.RemarksA.analytic_const_of_flat
+#print axioms GFNBounds.Balance.RemarksA.analytic_admissible_no_flat
+#print axioms GFNBounds.Balance.RemarksA.deriv_deriv_logSq
+#print axioms GFNBounds.Balance.RemarksA.deriv_deriv_logSq_neg
+#print axioms GFNBounds.Balance.RemarksA.logSq_not_convexOn
+#print axioms GFNBounds.Balance.RemarksA.tendsto_logSqDeriv_atTop
+#print axioms GFNBounds.Balance.RemarksA.tendsto_abs_logSqDeriv_nhdsGT_zero
+#print axioms GFNBounds.Balance.RemarksA.logSq_critical_balanced
+#print axioms GFNBounds.Balance.RemarksA.freezing_two_frozen
+#print axioms GFNBounds.Balance.RemarksA.freezing_two_example
+#print axioms GFNBounds.Balance.RemarksA.third_deriv_bound
+#print axioms GFNBounds.Balance.RemarksA.third_deriv_sSup
+#print axioms GFNBounds.Balance.RemarksA.radius_not_uniform_in_generator
+#print axioms GFNBounds.Balance.RemarksA.eps0C3_deltaBands_small
+#print axioms GFNBounds.Balance.RemarksA.freezing_three_multiplier
+#print axioms GFNBounds.Balance.RemarksA.freezing_three_generator
+#print axioms GFNBounds.Balance.RemarksA.freezing_three_item_one
+#print axioms GFNBounds.Balance.RemarksA.freezing_three_invisible
+#print axioms GFNBounds.Balance.RemarksA.freezing_g_ne_sq_near_one
+#print axioms GFNBounds.Balance.RemarksA.freezing_four_critical
+#print axioms GFNBounds.Balance.RemarksA.freezing_four_logSq_converges
+#print axioms GFNBounds.Balance.RemarksA.thetaOK_twoStateBands
+#print axioms GFNBounds.Balance.RemarksA.deltaBands_third_deriv
+#print axioms GFNBounds.Balance.RemarksA.visit_ratio_mass_lower
+#print axioms GFNBounds.Balance.RemarksA.visit_ratio_norm_S_le
+#print axioms GFNBounds.Balance.RemarksA.leveled_bsigma_finite_mixing_infinite
+#print axioms GFNBounds.Balance.RemarksA.path_witness
+#print axioms GFNBounds.Balance.RemarksA.triangle_witness
+#print axioms GFNBounds.Balance.RemarksA.graphs_vs_L2_periodic
+#print axioms GFNBounds.Balance.RemarksA.pathPolicy_phat
+#print axioms GFNBounds.Balance.RemarksA.mixing_of_aperiodic
+#print axioms GFNBounds.Balance.RemarksA.graphs_vs_L2_aperiodic
+#print axioms GFNBounds.Balance.RemarksA.graphs_vs_L2_rate
+#print axioms GFNBounds.Balance.RemarksA.graphs_vs_L2_rate_sigma
+#print axioms GFNBounds.Balance.RemarksA.graphs_vs_L2_balanced_ray
+#print axioms GFNBounds.Balance.RemarksA.graphs_vs_L2_mass_monotone
+#print axioms GFNBounds.Balance.RemarksA.periodicAt_iff_setGcd
+#print axioms GFNBounds.Silva.Remarks.chiSqE_unif_eq_top
+#print axioms GFNBounds.Silva.Remarks.rhsE_eq_top_of_not_full_support
+#print axioms GFNBounds.Silva.Remarks.one_add_chiSqE_eq_top
+#print axioms GFNBounds.Silva.Remarks.tv_le_rhsE
+#print axioms GFNBounds.Silva.Remarks.chiSqE_eq_ofReal
+#print axioms GFNBounds.Silva.Remarks.residualE_eq_ofReal
+#print axioms GFNBounds.Silva.Remarks.residualE_eq_top_of_pF_zero
+#print axioms GFNBounds.Silva.Remarks.tv_le_rhsE_of_pF_zero
+#print axioms GFNBounds.Silva.Remarks.identity_iff_domination
+#print axioms GFNBounds.Silva.Remarks.identity_of_uniformBackward
+#print axioms GFNBounds.Silva.Remarks.identity_fails_without_domination
+#print axioms GFNBounds.Silva.Remarks.mPrime_le_fixedGraph
+#print axioms GFNBounds.Silva.Remarks.star_mVal_lt_piInf
+#print axioms GFNBounds.Silva.Remarks.inhabit_star
+#print axioms GFNBounds.Silva.Remarks.inhabit_not_full_support
+#print axioms GFNBounds.Silva.Remarks.inhabit_pF_zero
+#print axioms GFNBounds.Silva.Remarks.inhabit_uniformBackward
+#print axioms GFNBounds.Silva.Remarks.mPrime_le_fixedGraph_of_prob
+#print axioms GFNBounds.Silva.Remarks.tree_pB_eq_one
+#print axioms GFNBounds.Silva.Remarks.tree_mVal_le_one
+#print axioms GFNBounds.Silva.Remarks.ladder_mVal_exceeds_one
+#print axioms GFNBounds.Silva.Remarks.card_ladderTraj
+#print axioms GFNBounds.Silva.Remarks.ladderPB_eq
+#print axioms GFNBounds.Silva.Remarks.ladder_mPrime_le
+#print axioms GFNBounds.Silva.Remarks.ladder_balanced
+#print axioms GFNBounds.Silva.Remarks.ladder_mVal_ge
+#print axioms GFNBounds.Silva.Remarks.tendsto_ladder_term
+#print axioms GFNBounds.Silva.Remarks.tendsto_ladder_residual_eps
+#print axioms GFNBounds.Silva.Remarks.ladder_sSup_ge
+#print axioms GFNBounds.Silva.Remarks.ladder_pF_ne_zero_of_residualE_ne_top
+#print axioms GFNBounds.Silva.Remarks.ladder_no_uniform_constant
+#print axioms GFNBounds.Silva.Remarks.cycle_no_model_free_bound
+#print axioms GFNBounds.Silva.Remarks.cycle_no_bound_along_Fk
+#print axioms GFNBounds.Silva.Remarks.residual_not_divergence_FM_loss
+#print axioms GFNBounds.Silva.Remarks.inhabit_cycle_no_bound
+#print axioms GFNBounds.Silva.Remarks.inhabit_tree
+#print axioms GFNBounds.Silva.Remarks.exists_pB_le_inv_pathCount
+#print axioms GFNBounds.Silva.Remarks.sup_pathCount_div_le_inv_wMin
+#print axioms GFNBounds.Silva.Remarks.sup_pathCount_le_sSup_mPrime_markov
+#print axioms GFNBounds.Silva.Remarks.sup_pathCount_le_sSup_mPrime
+#print axioms GFNBounds.Silva.Remarks.walksInto_infinite
+#print axioms GFNBounds.Silva.Remarks.iInf_pB_walksInto_eq_zero
+#print axioms GFNBounds.Silva.Remarks.doubling_terminal_infinite
+#print axioms GFNBounds.Silva.Remarks.not_hasSum_const_one
+#print axioms GFNBounds.Silva.Remarks.cycle_flows_target
+#print axioms GFNBounds.Silva.Remarks.cycle_no_bound_punctured
+#print axioms GFNBounds.Silva.Remarks.exists_ratio_gt_walksInto
+#print axioms GFNBounds.Silva.Remarks.ladder_sSup_mPrime_eq
+#print axioms GFNBounds.Silva.Remarks.inhabit_markov_diamond
+#print axioms GFNBounds.Silva.Remarks.inhabit_cycle_walks
+#print axioms GFNBounds.Silva.Remarks.inhabit_cycle_ratio
+#print axioms GFNBounds.Silva.Remarks.inhabit_geometric
+#print axioms GFNBounds.Graph.local_convergence_sigma_C3On
+#print axioms GFNBounds.Graph.local_convergence_gd_sigma_C3On
+#print axioms GFNBounds.Graph.arEps0FM
+#print axioms GFNBounds.Graph.arEps0FM_pos
+#print axioms GFNBounds.Graph.arSnkInd
+#print axioms GFNBounds.Graph.ar_local_convergence_FM_witness
+#print axioms GFNBounds.Graph.UniversalityClosing.universality_graphs_closing
+#print axioms GFNBounds.Graph.UniversalityClosing.universality_graphs_strongly_universal
+#print axioms GFNBounds.Graph.UniversalityClosing.freezeSink
+#print axioms GFNBounds.Graph.UniversalityClosing.IsFullTarget
+#print axioms GFNBounds.Graph.UniversalityClosing.IsFullTarget.isTarget
+#print axioms GFNBounds.Graph.UniversalityClosing.freezeSink_positiveOnEdges_iff
+#print axioms GFNBounds.Graph.UniversalityClosing.frozenBalance_eq_off
+#print axioms GFNBounds.Graph.UniversalityClosing.invProb_unique_off
+#print axioms GFNBounds.Graph.UniversalityClosing.breach_all_off
+#print axioms GFNBounds.Graph.UniversalityClosing.graphResidual_eq_zero_of_defect
+#print axioms GFNBounds.Graph.UniversalityClosing.frozenUnion_eq_iUnion
+#print axioms GFNBounds.Graph.UniversalityClosing.item_three_masses_on_internal
+#print axioms GFNBounds.Graph.UniversalityClosing.triSrcSnk_check
+#print axioms GFNBounds.Core.Sampling.FlowData.sampling_theorem
+#print axioms GFNBounds.Core.Sampling.FlowData.expectedTau_le
+#print axioms GFNBounds.Core.Sampling.FlowData.mass_eq
+#print axioms GFNBounds.Core.Sampling.FlowData.law_true_tendsto
+#print axioms GFNBounds.Core.Sampling.Parked.strict
+#print axioms GFNBounds.Core.Sampling.Parked.inhabited
+#print axioms GFNBounds.Graph.Sampling.sampler_law
+#print axioms GFNBounds.Graph.Sampling.sampler_termLaw
+#print axioms GFNBounds.Graph.Sampling.sampler_Fk
+#print axioms GFNBounds.Doubling.EMTrap.em_window
+#print axioms GFNBounds.Doubling.EMTrap.em_window_bounds
+#print axioms GFNBounds.Doubling.EMTrap.trap_unit_lower
+#print axioms GFNBounds.Doubling.EMTrap.trap_unit_upper
+#print axioms GFNBounds.Doubling.Decay.doubling_weight_chain
+#print axioms GFNBounds.Doubling.Decay.integral_chainDev
+#print axioms GFNBounds.Doubling.Decay.integrable_chainDev
+#print axioms GFNBounds.Doubling.Decay.exists_descentChain
+#print axioms GFNBounds.Doubling.Decay.sum_pathProb_matches
+#print axioms GFNBounds.Balance.TBGradient.hasFDerivAt_loss
+#print axioms GFNBounds.Balance.TBGradient.loss_contDiffOn
+#print axioms GFNBounds.Balance.TBGradient.grad_unique
+#print axioms GFNBounds.Balance.TBGradient.rho_telescope
+#print axioms GFNBounds.Balance.TBGradient.marg_pos
+#print axioms GFNBounds.Balance.TBGradient.ratio_pos
+#print axioms GFNBounds.Balance.TBGradient.K2_row_sum
+#print axioms GFNBounds.Balance.TBGradient.lam2_pos
+#print axioms GFNBounds.Balance.TBGradient.lam2_invariant
+#print axioms GFNBounds.Balance.TBGradient.reversal_row_sum
+#print axioms GFNBounds.Balance.TBGradient.psi_eq
+#print axioms GFNBounds.Balance.TBGradient.psi_one
+#print axioms GFNBounds.Balance.TBGradient.grad_one
+#print axioms GFNBounds.Balance.TBGradient.witness
+#print axioms GFNBounds.Graph.SamplerWiring.IsSamplerLaw
+#print axioms GFNBounds.Graph.SamplerWiring.Terminates
+#print axioms GFNBounds.Graph.SamplerWiring.IsSamplerLaw.unique
+#print axioms GFNBounds.Graph.SamplerWiring.samplerLaw
+#print axioms GFNBounds.Graph.SamplerWiring.sampler_general
+#print axioms GFNBounds.Graph.SamplerWiring.samplerLaw_nonneg
+#print axioms GFNBounds.Graph.SamplerWiring.sum_samplerLaw
+#print axioms GFNBounds.Graph.SamplerWiring.isSamplerLaw_prob
+#print axioms GFNBounds.Graph.SamplerWiring.isSamplerLaw_termLaw
+#print axioms GFNBounds.Graph.SamplerWiring.tvFin_le_one
+#print axioms GFNBounds.Graph.SamplerWiring.samplerTV_le_one
+#print axioms GFNBounds.Graph.SamplerWiring.sum_internal_snk
+#print axioms GFNBounds.Graph.SamplerWiring.cyc_no_edge_src_snk
+#print axioms GFNBounds.Graph.SamplerWiring.cyc_hss
+#print axioms GFNBounds.Graph.SamplerWiring.cycle_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.Fk_termMass_pos
+#print axioms GFNBounds.Graph.SamplerWiring.Fk_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.Fk_sampler_tv
+#print axioms GFNBounds.Graph.SamplerWiring.cycle_counterexample_full
+#print axioms GFNBounds.Graph.SamplerWiring.cycle_counterexample_full_check
+#print axioms GFNBounds.Graph.SamplerWiring.no_bound_divergence_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.targetC_eq_extT
+#print axioms GFNBounds.Graph.SamplerWiring.tvSet
+#print axioms GFNBounds.Graph.SamplerWiring.extT_nonneg
+#print axioms GFNBounds.Graph.SamplerWiring.sum_extT
+#print axioms GFNBounds.Graph.SamplerWiring.sSup_tvSet
+#print axioms GFNBounds.Graph.SamplerWiring.no_bound_divergence_minimax
+#print axioms GFNBounds.Graph.SamplerWiring.cycle_flows_target_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.cycle_no_model_free_bound_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.cycle_no_bound_along_Fk_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.cycle_no_bound_punctured_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.cutFlow
+#print axioms GFNBounds.Graph.SamplerWiring.cutFlow_nonneg
+#print axioms GFNBounds.Graph.SamplerWiring.cutFlow_supp
+#print axioms GFNBounds.Graph.SamplerWiring.cutFlow_cons
+#print axioms GFNBounds.Graph.SamplerWiring.graphFlow_cutFlow
+#print axioms GFNBounds.Graph.SamplerWiring.graphFlow_edgeFlow_finit
+#print axioms GFNBounds.Graph.SamplerWiring.graphFlow_edgeFlow_fterm
+#print axioms GFNBounds.Graph.SamplerWiring.outflowStar_eq_sum_internal
+#print axioms GFNBounds.Graph.SamplerWiring.graphFlow_edgeFlow_fout
+#print axioms GFNBounds.Graph.SamplerWiring.graphFlow_edgeFlow_P
+#print axioms GFNBounds.Graph.SamplerWiring.sum_internal_termFlow
+#print axioms GFNBounds.Graph.SamplerWiring.reach_src_eq
+#print axioms GFNBounds.Graph.SamplerWiring.pb_snk_src_lt_one
+#print axioms GFNBounds.Graph.SamplerWiring.edgeFlow_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.universality_graphs_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.universality_graphs_sampler_iff
+#print axioms GFNBounds.Graph.SamplerWiring.universality_graphs_closing_sampler
+#print axioms GFNBounds.Graph.SamplerWiring.sampler_check_triangle
+#print axioms GFNBounds.Graph.SamplerWiring.closing_sampler_check_triangle
+#print axioms GFNBounds.Graph.SamplerWiring.isSamplerLaw_subprob
+#print axioms GFNBounds.Graph.SamplerWiring.samplerTV_le_one_general
+#print axioms GFNBounds.Core.NegativeControl.defect
+#print axioms GFNBounds.Core.NegativeControl.dInit
+#print axioms GFNBounds.Core.NegativeControl.dTerm
+#print axioms GFNBounds.Core.NegativeControl.hatInit
+#print axioms GFNBounds.Core.NegativeControl.hatTerm
+#print axioms GFNBounds.Core.NegativeControl.sampler
+#print axioms GFNBounds.Core.NegativeControl.matched
+#print axioms GFNBounds.Core.NegativeControl.errFlow
+#print axioms GFNBounds.Core.NegativeControl.dInit_nonneg
+#print axioms GFNBounds.Core.NegativeControl.dTerm_nonneg
+#print axioms GFNBounds.Core.NegativeControl.defect_eq
+#print axioms GFNBounds.Core.NegativeControl.matched_flowMatching
+#print axioms GFNBounds.Core.NegativeControl.sampler_isGenFlow
+#print axioms GFNBounds.Core.NegativeControl.matched_isGenFlow
+#print axioms GFNBounds.Core.NegativeControl.errFlow_isGenFlow
+#print axioms GFNBounds.Core.NegativeControl.sum_mul_div_sum
+#print axioms GFNBounds.Core.NegativeControl.mixture
+#print axioms GFNBounds.Core.NegativeControl.law_true_mono
+#print axioms GFNBounds.Core.NegativeControl.sum_law_true_le_one
+#print axioms GFNBounds.Core.NegativeControl.law_true_le_one
+#print axioms GFNBounds.Core.NegativeControl.scaled_sum_law_true_le
+#print axioms GFNBounds.Core.NegativeControl.sum_pos_of_ne_zero
+#print axioms GFNBounds.Core.NegativeControl.negative_control
+#print axioms GFNBounds.Core.NegativeControl.emass
+#print axioms GFNBounds.Core.NegativeControl.inference
+#print axioms GFNBounds.Core.NegativeControl.inference_dInit
+#print axioms GFNBounds.Core.NegativeControl.inference_hatTerm
+#print axioms GFNBounds.Core.NegativeControl.sampler_inference
+#print axioms GFNBounds.Core.NegativeControl.sum_emass
+#print axioms GFNBounds.Core.NegativeControl.eDens
+#print axioms GFNBounds.Core.NegativeControl.mul_max_div
+#print axioms GFNBounds.Core.NegativeControl.integral_posPart_eDens
+#print axioms GFNBounds.Core.NegativeControl.integral_negPart_eDens
+#print axioms GFNBounds.Core.NegativeControl.integral_eDens
+#print axioms GFNBounds.Core.NegativeControl.tvD_count_form
+#print axioms GFNBounds.Core.NegativeControl.negative_control_hNC
+#print axioms GFNBounds.Core.NegativeControl.tv_le_two_fmL1_finite
+#print axioms GFNBounds.Core.NegativeControl.Tight.flow
+#print axioms GFNBounds.Core.NegativeControl.Tight.isGenFlow
+#print axioms GFNBounds.Core.NegativeControl.Tight.finit_ne
+#print axioms GFNBounds.Core.NegativeControl.Tight.hatTerm_eq
+#print axioms GFNBounds.Core.NegativeControl.Tight.dInit_eq
+#print axioms GFNBounds.Core.NegativeControl.Tight.law_succ_false
+#print axioms GFNBounds.Core.NegativeControl.Tight.law_true
+#print axioms GFNBounds.Core.NegativeControl.Tight.bound_attained
+#print axioms GFNBounds.Balance.const_of_balanced_of_uniqueInvariant
+#print axioms GFNBounds.Balance.eq_const_of_balanced_of_uniqueInvariant
+#print axioms GFNBounds.Balance.continuous_meanL2
+#print axioms GFNBounds.Balance.continuousAt_massVel
+#print axioms GFNBounds.Balance.FlowGenerator.tendsto_of_flow
+#print axioms GFNBounds.Balance.FlowGenerator.flow_floor
+#print axioms GFNBounds.Balance.FlowGenerator.flow_pos
+#print axioms GFNBounds.Balance.FlowGenerator.converges
+#print axioms GFNBounds.Balance.FlowGenerator.existsUnique_converges
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_logSq_of_ergodic
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_sq_of_ergodic
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_converges_logSq_of_ergodic
+#print axioms GFNBounds.Balance.no_distant_equilibrium_three_converges_sq_of_ergodic
+#print axioms GFNBounds.Balance.global_dichotomy_full_one_converges_of_ergodic
+#print axioms GFNBounds.Balance.lossVal_sq_eq_zero_iff_balanced
+#print axioms GFNBounds.Balance.entry_time_sq
+#print axioms GFNBounds.Balance.twoState_sq_converges_check
+#print axioms GFNBounds.Balance.lazyRotK
+#print axioms GFNBounds.Balance.lazyRotLam
+#print axioms GFNBounds.Balance.lazyRotU
+#print axioms GFNBounds.Balance.lazyRotK_nonneg
+#print axioms GFNBounds.Balance.lazyRotK_row
+#print axioms GFNBounds.Balance.lazyRotK_invariant
+#print axioms GFNBounds.Balance.lazyRotLam_pos
+#print axioms GFNBounds.Balance.lazyRotU_pos
+#print axioms GFNBounds.Balance.lazyRot_not_reversible
+#print axioms GFNBounds.Balance.lazyRot_uniqueInvariant
+#print axioms GFNBounds.Balance.lazyRot_converges_check
+#print axioms GFNBounds.Core.RLBound.holderConst_nonneg
+#print axioms GFNBounds.Core.RLBound.holderConst_top
+#print axioms GFNBounds.Core.RLBound.one_sub_inv_nonneg
+#print axioms GFNBounds.Core.RLBound.lintegral_enorm_le_holderConst
+#print axioms GFNBounds.Core.RLBound.integral_abs_le_holderConst
+#print axioms GFNBounds.Core.RLBound.stableLoss_eq_toReal_eLpNorm
+#print axioms GFNBounds.Core.RLBound.mass_floorE
+#print axioms GFNBounds.Core.RLBound.stable_boundE
+#print axioms GFNBounds.Core.RLBound.eFn
+#print axioms GFNBounds.Core.RLBound.defectFn_eq_eFn_sub
+#print axioms GFNBounds.Core.RLBound.integrable_eFn
+#print axioms GFNBounds.Core.RLBound.integral_eFn
+#print axioms GFNBounds.Core.RLBound.mass_floor_kernel
+#print axioms GFNBounds.Core.RLBound.stable_bound_kernel
+#print axioms GFNBounds.Core.RLBound.stable_bound_finite
+#print axioms GFNBounds.Core.RLBound.conjExp
+#print axioms GFNBounds.Core.RLBound.holderConjugate_conjExp
+#print axioms GFNBounds.Core.RLBound.rho
+#print axioms GFNBounds.Core.RLBound.transferConst
+#print axioms GFNBounds.Core.RLBound.transferConst_ne_top
+#print axioms GFNBounds.Core.RLBound.memLp_rho_top
+#print axioms GFNBounds.Core.RLBound.eLpNorm_le_transferConst
+#print axioms GFNBounds.Core.RLBound.eLpNorm_defectFn_le_residual
+#print axioms GFNBounds.Core.RLBound.loss_le_transferConst_mul_residual
+#print axioms GFNBounds.Core.RLBound.inf_loss_eq_zero
+#print axioms GFNBounds.Core.RLBound.inf_loss_eq_zero_top
+#print axioms GFNBounds.Core.RLBound.IsInitialFamily
+#print axioms GFNBounds.Core.RLBound.massSet
+#print axioms GFNBounds.Core.RLBound.massSetLp
+#print axioms GFNBounds.Core.RLBound.massSetLp_eq_massSet
+#print axioms GFNBounds.Core.RLBound.ofReal_mass_gap_le
+#print axioms GFNBounds.Core.RLBound.joint_inf_eq_zero
+#print axioms GFNBounds.Core.RLBound.mem_closure_of_joint_inf
+#print axioms GFNBounds.Core.RLBound.joint_infimum
+#print axioms GFNBounds.Core.RLBound.memLp_rho_self
+#print axioms GFNBounds.Core.RLBound.inf_loss_eq_zero_const_kernel
+#print axioms GFNBounds.Core.ILBoundFull.padeAux_mono
+#print axioms GFNBounds.Core.ILBoundFull.padeAux_sign
+#print axioms GFNBounds.Core.ILBoundFull.pollardAux
+#print axioms GFNBounds.Core.ILBoundFull.pollardAux_hasDerivAt
+#print axioms GFNBounds.Core.ILBoundFull.continuous_pollardAux
+#print axioms GFNBounds.Core.ILBoundFull.pollard_ineq
+#print axioms GFNBounds.Core.ILBoundFull.pollard_two
+#print axioms GFNBounds.Core.ILBoundFull.pinsker_pointwise
+#print axioms GFNBounds.Core.ILBoundFull.pinsker
+#print axioms GFNBounds.Core.ILBoundFull.lqNormE
+#print axioms GFNBounds.Core.ILBoundFull.lqNormE_nonneg
+#print axioms GFNBounds.Core.ILBoundFull.lqNormE_eq_lqNormD
+#print axioms GFNBounds.Core.ILBoundFull.wklfmLossE
+#print axioms GFNBounds.Core.ILBoundFull.wklfmLossE_eq_wklfmLoss
+#print axioms GFNBounds.Core.ILBoundFull.il_holderE
+#print axioms GFNBounds.Core.ILBoundFull.crossEntropy_decomposition
+#print axioms GFNBounds.Core.ILBoundFull.lossE_sub_selfEntropy_ge
+#print axioms GFNBounds.Core.ILBoundFull.il_bullet_one_dens
+#print axioms GFNBounds.Core.ILBoundFull.LossFinite
+#print axioms GFNBounds.Core.ILBoundFull.ilLoss
+#print axioms GFNBounds.Core.ILBoundFull.ilLoss_of_finite
+#print axioms GFNBounds.Core.ILBoundFull.finite_of_ilLoss_ne_top
+#print axioms GFNBounds.Core.ILBoundFull.crossEntropy_posPart_integrable
+#print axioms GFNBounds.Core.ILBoundFull.InflowAC
+#print axioms GFNBounds.Core.ILBoundFull.eFlow
+#print axioms GFNBounds.Core.ILBoundFull.inflowAC_of_bind_ac
+#print axioms GFNBounds.Core.ILBoundFull.densityAction_of_inflowAC
+#print axioms GFNBounds.Core.ILBoundFull.eFlow_integral
+#print axioms GFNBounds.Core.ILBoundFull.rnNorm
+#print axioms GFNBounds.Core.ILBoundFull.il_first_bullet_dens
+#print axioms GFNBounds.Core.ILBoundFull.il_first_bullet
+#print axioms GFNBounds.Core.ILBoundFull.il_tv_le_sqrt
+#print axioms GFNBounds.Core.ILBoundFull.crossEntropy_integrable_of_domination
+#print axioms GFNBounds.Core.ILBoundFull.il_member_le
+#print axioms GFNBounds.Core.ILBoundFull.ereal_le_of_forall_pos
+#print axioms GFNBounds.Core.ILBoundFull.il_iInf_eq
+#print axioms GFNBounds.Core.ILBoundFull.il_attained
+#print axioms GFNBounds.Core.ILBoundFull.il_attained_of_stronglyUniversal
+#print axioms GFNBounds.Core.ILBoundFull.il_first_bullet_finite
+#print axioms GFNBounds.Core.ILBoundFull.Example.flow
+#print axioms GFNBounds.Core.ILBoundFull.Example.ilLoss_ne_top
+#print axioms GFNBounds.Graph.PartialSupportClose.IsTargetI
+#print axioms GFNBounds.Graph.PartialSupportClose.IsTargetI.isTarget
+#print axioms GFNBounds.Graph.PartialSupportClose.Deleted
+#print axioms GFNBounds.Graph.PartialSupportClose.subGraphI
+#print axioms GFNBounds.Graph.PartialSupportClose.subGraphI_edge_iff_of_not_edge
+#print axioms GFNBounds.Graph.PartialSupportClose.subGraph_edge_imp
+#print axioms GFNBounds.Graph.PartialSupportClose.subGraphI_pathConnected
+#print axioms GFNBounds.Graph.PartialSupportClose.mem_subVerts_of_not_deleted
+#print axioms GFNBounds.Graph.PartialSupportClose.IsSinkRowI
+#print axioms GFNBounds.Graph.PartialSupportClose.restrictWithI
+#print axioms GFNBounds.Graph.PartialSupportClose.restrictWithI_pb_of_ne_snk
+#print axioms GFNBounds.Graph.PartialSupportClose.restrictWithI_pb_snk
+#print axioms GFNBounds.Graph.PartialSupportClose.restrictWithI_positiveOnEdges
+#print axioms GFNBounds.Graph.PartialSupportClose.sinkMassI
+#print axioms GFNBounds.Graph.PartialSupportClose.renormRowI
+#print axioms GFNBounds.Graph.PartialSupportClose.sinkMassI_pos
+#print axioms GFNBounds.Graph.PartialSupportClose.isSinkRowI_renormRowI
+#print axioms GFNBounds.Graph.PartialSupportClose.restrict_policyI
+#print axioms GFNBounds.Graph.PartialSupportClose.frozenRow
+#print axioms GFNBounds.Graph.PartialSupportClose.IsSrcWeight
+#print axioms GFNBounds.Graph.PartialSupportClose.exists_srcWeight
+#print axioms GFNBounds.Graph.PartialSupportClose.frozenRow_of_ne_src
+#print axioms GFNBounds.Graph.PartialSupportClose.isSinkRowI_frozenRow
+#print axioms GFNBounds.Graph.PartialSupportClose.partial_support_exactI
+#print axioms GFNBounds.Graph.PartialSupportClose.partial_support_not_in_GI
+#print axioms GFNBounds.Graph.PartialSupportClose.unifI
+#print axioms GFNBounds.Graph.PartialSupportClose.epsTargetI
+#print axioms GFNBounds.Graph.PartialSupportClose.unifI_nonneg
+#print axioms GFNBounds.Graph.PartialSupportClose.card_terminating_pos
+#print axioms GFNBounds.Graph.PartialSupportClose.unifI_le_one
+#print axioms GFNBounds.Graph.PartialSupportClose.unifI_pos
+#print axioms GFNBounds.Graph.PartialSupportClose.unifI_eq_zero
+#print axioms GFNBounds.Graph.PartialSupportClose.sum_unifI
+#print axioms GFNBounds.Graph.PartialSupportClose.exists_terminatingI
+#print axioms GFNBounds.Graph.PartialSupportClose.isTargetI_epsTargetI
+#print axioms GFNBounds.Graph.PartialSupportClose.epsTargetI_pos
+#print axioms GFNBounds.Graph.PartialSupportClose.sum_epsTargetI
+#print axioms GFNBounds.Graph.PartialSupportClose.member_epsTargetI
+#print axioms GFNBounds.Graph.PartialSupportClose.iInf_graphResidual_eq_zeroI
+#print axioms GFNBounds.Graph.PartialSupportClose.graphResidual_ne_zeroI
+#print axioms GFNBounds.Graph.PartialSupportClose.diamondE
+#print axioms GFNBounds.Graph.PartialSupportClose.diamondETarget
+#print axioms GFNBounds.Graph.PartialSupportClose.diamondE_check
+#print axioms GFNBounds.Graph.PartialSupportClose.diamondE_partial_support
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycTail
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycTraj
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycTail_succ
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycTail_eq_cons
+#print axioms GFNBounds.Silva.PathSpaceMarkov.length_cycTail
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycTail_eq_append
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycTraj_eq_append
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycTraj_injective
+#print axioms GFNBounds.Silva.PathSpaceMarkov.edge_xC_iff
+#print axioms GFNBounds.Silva.PathSpaceMarkov.edge_srcC_iff
+#print axioms GFNBounds.Silva.PathSpaceMarkov.natCast_succ_fin
+#print axioms GFNBounds.Silva.PathSpaceMarkov.isChain_cycTail
+#print axioms GFNBounds.Silva.PathSpaceMarkov.isChain_cycTraj
+#print axioms GFNBounds.Silva.PathSpaceMarkov.eq_cycTail_of_walk
+#print axioms GFNBounds.Silva.PathSpaceMarkov.eq_cycTraj
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_src
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_x_snk
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_x_x
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_x_src
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_snk
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_nonneg
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_pos_of_edge
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_supp
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycPol_row_sum
+#print axioms GFNBounds.Silva.PathSpaceMarkov.pathProb_cycTail
+#print axioms GFNBounds.Silva.PathSpaceMarkov.pathProb_cycTraj
+#print axioms GFNBounds.Silva.PathSpaceMarkov.hasSum_cycTraj
+#print axioms GFNBounds.Silva.PathSpaceMarkov.pathProb_cycTraj_ge
+#print axioms GFNBounds.Silva.PathSpaceMarkov.natCast_fin_add_mul
+#print axioms GFNBounds.Silva.PathSpaceMarkov.exists_mul_lt
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycle_exists_ratio_gt_markov
+#print axioms GFNBounds.Silva.PathSpaceMarkov.cycle_ratio_not_bddAbove_markov
+#print axioms GFNBounds.Silva.PathSpaceMarkov.inhabit_markov_cycle
+#print axioms GFNBounds.Doubling.RenewalClose.kernInf
+#print axioms GFNBounds.Doubling.RenewalClose.kernInf_pos
+#print axioms GFNBounds.Doubling.RenewalClose.kern_ge
+#print axioms GFNBounds.Doubling.RenewalClose.kbar_le_one
+#print axioms GFNBounds.Doubling.RenewalClose.sup_mul_sub_G_le
+#print axioms GFNBounds.Doubling.RenewalClose.neg_solution
+#print axioms GFNBounds.Doubling.RenewalClose.Gfun_neg
+#print axioms GFNBounds.Doubling.RenewalClose.renewal_solution_const
+#print axioms GFNBounds.Doubling.RenewalClose.renewal_limit_trivial
+#print axioms GFNBounds.Balance.lamMinOf
+#print axioms GFNBounds.Balance.supAbsOf
+#print axioms GFNBounds.Balance.lamMinOf_le
+#print axioms GFNBounds.Balance.exists_lamMinOf_eq
+#print axioms GFNBounds.Balance.lamMinOf_pos
+#print axioms GFNBounds.Balance.abs_le_supAbsOf
+#print axioms GFNBounds.Balance.exists_supAbsOf_eq
+#print axioms GFNBounds.Balance.tendsto_of_exp_decay
+#print axioms GFNBounds.Balance.local_convergence_full_paper
+#print axioms GFNBounds.Balance.local_convergence_full_DB_paper
+#print axioms GFNBounds.Balance.twoState_DB_exists_check
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_append_cons
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_ge_pow
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycW
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycW_eq_cons
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycW_eq_append
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.length_cycW
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.isChain_cycW
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_cycW_ge
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_exit_ge
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_concat
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.mem_walksInto_concat
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.reach_of_mem_of_head
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.reach_of_mem_of_getLast
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.first_entry
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.last_exit_or
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.last_exit
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.SimpleCycle
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.SimpleCycle.q_add_mul
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.SimpleCycle.q_mod
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.SimpleCycle.q_eq_q_iff
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.SimpleCycle.nxt
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.SimpleCycle.nxt_q
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.SimpleCycle.exists_lt_eq
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.ClosedIn
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_simpleCycle
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.closedIn_of_list
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.outDeg
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.IsFullSupportMarkov
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.outDeg_pos
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.outDeg_le
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycPolicy
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycPolicy_isFullSupportMarkov
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycPolicy_ge_off
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycPolicy_ge_exit
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cycPolicy_ge_cyc
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.IsFullSupportMarkovBackward
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.backProb
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.backProb_nonneg
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.backProb_pos
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.backProb_concat
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.eq_singleton_src
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.sum_backProb_le_one
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.summable_backProb
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pow_mul_one_sub_le
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_nonneg
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.fsm_nonneg
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.fsm_le_one
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.fsm_pair
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_fsm_Icc
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cnt
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cnt_add
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.one_le_cnt
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.cnt_ge_mul
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.pathProb_cycW_le
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.one_div_three_lt
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_succ_mul_lt
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.frequently_succ_mul_lt
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_pumped_of_simpleCycle
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_pumped
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_markov_ratio_gt
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_pumped_liminf
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.iInf_backProb_eq_zero
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.markov_ratio_not_bddAbove
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_markov_ratio_gt_backward
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.markov_ratio_not_bddAbove_backward
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.exists_isFullSupportMarkovBackward
+#print axioms GFNBounds.Silva.PathSpaceMarkovGeneral.inhabit_markov_general
+-- `theo:sampling_theorem`, `theo:negative_control`, `theo:RL_CV_bound_full` (1), `theo:IL_CV_bound` (first bullet) on a general measurable space — Core/SamplingGeneral.lean, Core/SamplingGeneralBounds.lean
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.G
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.cont
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stop
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.measurable_cont
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.measurable_stop
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.cont_le_one
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.cont_add_stop
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.step
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occ
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stopped
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.step_apply
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.step_mono
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.step_smul
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occ_zero
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occ_succ
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.partial_le
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation_apply
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation_le
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation_univ
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.lintegral_cont_add_stop
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw_apply
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw_univ
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw_mono
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stopped_apply
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stopped_tendsto
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stopped_add_occ
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.eq_of_le_of_univ
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.FlowMatching
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.fout_ac_G
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.fterm_ac_G
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.rnDeriv_sum_ae
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.cont_ae_eq
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stop_ae_eq
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.withDensity_cont
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.withDensity_stop
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.finit_add_step_G
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.mass_eq
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.inF
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.inT
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.inF_def
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.measurable_inF
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.measurable_inT
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.kernelFun
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.kernelFun_apply
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.measurable_kernelFun
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.chainKernel
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.chainKernel_apply
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.chainLaw
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.bind_split
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.chainLaw_eq
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occ_eq_chainLaw
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stopped_eq_chainLaw
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.bind_add_measure
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.step_add
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occ_add
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occ_smul
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation_add
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation_smul
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw_add
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw_smul
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw_eq_fterm
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.init
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.tailProb
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.expectedTau
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stoppedLaw
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.sampleLaw
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.expectedTau_eq
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.tailProb_tendsto_zero_of_ne_top
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.init_add_step
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.finit_univ_ne_zero
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.expectedTau_le
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.expectedTau_ne_top
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.tailProb_tendsto_zero
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.init_univ
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.sampleLaw_eq
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.stoppedLaw_tendsto
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.sampling_theorem
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.flow
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.flowMatching
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.fterm_ne_zero
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.inhabited
+#print axioms GFNBounds.Core.SamplingGeneral.tvD_mixture_le
+#print axioms GFNBounds.Core.SamplingGeneral.tvD_congr_left
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.sampleLaw_eq_smul
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.matched_step
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.finit_super
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.delta_super
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.termLaw_split
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation_finit_ne_top
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.occupation_delta_ne_top
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.fterm_univ_eq
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.expectedTau_ne_top_matched
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.sampleLaw_univ_matched
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.isFiniteMeasure_termLaw_finit
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.isFiniteMeasure_termLaw_delta
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.sampleLaw_le
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.negative_control_tv
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.isFiniteMeasure_bind
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.defect
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.dTerm
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.dInit
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.hatTerm
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.hat
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.hat_matched
+#print axioms GFNBounds.Core.SamplingGeneral.MFlow.negative_control_general
+#print axioms GFNBounds.Core.SamplingGeneral.infFlow
+#print axioms GFNBounds.Core.SamplingGeneral.infDelta
+#print axioms GFNBounds.Core.SamplingGeneral.eFn_eq_eFlow
+#print axioms GFNBounds.Core.SamplingGeneral.withDensity_add_ae
+#print axioms GFNBounds.Core.SamplingGeneral.measureReal_withDensity_ofReal
+#print axioms GFNBounds.Core.SamplingGeneral.integrable_eFn'
+#print axioms GFNBounds.Core.SamplingGeneral.infFlow_finite
+#print axioms GFNBounds.Core.SamplingGeneral.infFlow_matched
+#print axioms GFNBounds.Core.SamplingGeneral.tvD_congr_right
+#print axioms GFNBounds.Core.SamplingGeneral.samplerDens
+#print axioms GFNBounds.Core.SamplingGeneral.inference_negative_control
+#print axioms GFNBounds.Core.SamplingGeneral.htri_inference
+#print axioms GFNBounds.Core.SamplingGeneral.stable_bound_general_hNC
+#print axioms GFNBounds.Core.SamplingGeneral.stable_bound_general
+#print axioms GFNBounds.Core.SamplingGeneral.le_essSup_rnDeriv_smul
+#print axioms GFNBounds.Core.SamplingGeneral.essSup_rnDeriv_eq_eLpNorm_top
+#print axioms GFNBounds.Core.SamplingGeneral.stable_bound_general_essSup
+#print axioms GFNBounds.Core.SamplingGeneral.il_first_bullet_general_hNC
+#print axioms GFNBounds.Core.SamplingGeneral.il_first_bullet_general
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.theta
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.isGenerativeFlow
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.bind_ac
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.eFn_ae
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.stable_bound_general_inhabited
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.lossFinite
+#print axioms GFNBounds.Core.SamplingGeneral.Resample.il_first_bullet_general_inhabited
+-- `lem:adjoint` in the general setting — GFNBounds/Core/AdjointGeneral.lean
+#print axioms GFNBounds.Core.General.IsInvariant
+#print axioms GFNBounds.Core.General.funAct
+#print axioms GFNBounds.Core.General.isInvariant_id
+#print axioms GFNBounds.Core.General.isInvariant_const
+#print axioms GFNBounds.Core.General.IsInvariant.ae_ae
+#print axioms GFNBounds.Core.General.lintegral_rpow_le
+#print axioms GFNBounds.Core.General.IsInvariant.lintegral_rpow_lintegral_le
+#print axioms GFNBounds.Core.General.enorm_funAct_le
+#print axioms GFNBounds.Core.General.IsInvariant.funAct_congr
+#print axioms GFNBounds.Core.General.IsInvariant.aestronglyMeasurable_funAct
+#print axioms GFNBounds.Core.General.IsInvariant.eLpNorm_funAct_le
+#print axioms GFNBounds.Core.General.IsInvariant.memLp_funAct
+#print axioms GFNBounds.Core.General.funAct_one
+#print axioms GFNBounds.Core.General.IsInvariant.isLeast_opNorm_funAct
+#print axioms GFNBounds.Core.General.IsReversalPair
+#print axioms GFNBounds.Core.General.IsReversalPair.symm
+#print axioms GFNBounds.Core.General.IsReversalPair.isInvariant
+#print axioms GFNBounds.Core.General.reversal
+#print axioms GFNBounds.Core.General.posterior_congr_measure
+#print axioms GFNBounds.Core.General.IsInvariant.isReversalPair_reversal
+#print axioms GFNBounds.Core.General.IsInvariant.ae_eq_reversal
+#print axioms GFNBounds.Core.General.IsInvariant.isInvariant_reversal
+#print axioms GFNBounds.Core.General.IsInvariant.isReversalPair_reversal_symm
+#print axioms GFNBounds.Core.General.IsInvariant.reversal_reversal
+#print axioms GFNBounds.Core.General.IsInvariant.comp_absolutelyContinuous
+#print axioms GFNBounds.Core.General.IsReversalPair.lintegral_mul_apply
+#print axioms GFNBounds.Core.General.IsReversalPair.comp_withDensity
+#print axioms GFNBounds.Core.General.IsReversalPair.rnDeriv_comp
+#print axioms GFNBounds.Core.General.IsReversalPair.toReal_rnDeriv_comp
+#print axioms GFNBounds.Core.General.measurePreserving_fst_compProd
+#print axioms GFNBounds.Core.General.IsInvariant.measurePreserving_snd_compProd
+#print axioms GFNBounds.Core.General.IsReversalPair.measurePreserving_swap
+#print axioms GFNBounds.Core.General.IsInvariant.integrable_mul_compProd
+#print axioms GFNBounds.Core.General.IsReversalPair.integral_mul_funAct
+#print axioms GFNBounds.Core.General.InM2
+#print axioms GFNBounds.Core.General.ipM
+#print axioms GFNBounds.Core.General.nrmM
+#print axioms GFNBounds.Core.General.InM2.of_sigmaFinite
+#print axioms GFNBounds.Core.General.inM2_withDensity_ofReal
+#print axioms GFNBounds.Core.General.InM2.eq_withDensity_ofReal
+#print axioms GFNBounds.Core.General.IsReversalPair.inM2_comp
+#print axioms GFNBounds.Core.General.IsReversalPair.nrmM_comp_le
+#print axioms GFNBounds.Core.General.IsReversalPair.ipM_comp
+#print axioms GFNBounds.Core.General.IsReversalPair.isLeast_opNorm_comp
+#print axioms GFNBounds.Core.General.IsInvariant.rnDeriv_comp
+#print axioms GFNBounds.Core.General.IsInvariant.rnDeriv_reversal_comp
+#print axioms GFNBounds.Core.General.IsInvariant.integral_mul_funAct_reversal
+#print axioms GFNBounds.Core.General.adjoint_general
+#print axioms GFNBounds.Core.General.IsInvariant.reversal_singleton_mul
+#print axioms GFNBounds.Core.General.IsInvariant.reversal_singleton
+#print axioms GFNBounds.Core.General.IsInvariant.toReal_reversal_singleton
+-- `lem:adjoint` finite graph half — GFNBounds/Core/Adjoint.lean
+#print axioms GFNBounds.Core.adjoint_finite
+-- Balance/LiftGeneral: def:edge_lift, lem:lift_wellposed on a general measurable space
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_isMarkovKernel
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_apply
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMeasure
+#print axioms GFNBounds.Balance.LiftGeneral.lintegral_edgeLift
+#print axioms GFNBounds.Balance.LiftGeneral.lintegral_edgeMeasure
+#print axioms GFNBounds.Balance.LiftGeneral.bind_edgeLift
+#print axioms GFNBounds.Balance.LiftGeneral.fst_edgeMeasure
+#print axioms GFNBounds.Balance.LiftGeneral.snd_edgeMeasure
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMeasure_invariant
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMeasure_withDensity
+#print axioms GFNBounds.Balance.LiftGeneral.le_of_le_sqrt_mul_sqrt
+#print axioms GFNBounds.Balance.LiftGeneral.lintegral_rnDeriv_map_sq_le
+#print axioms GFNBounds.Balance.LiftGeneral.fst_absolutelyContinuous
+#print axioms GFNBounds.Balance.LiftGeneral.bind_edgeLift_eq_withDensity
+#print axioms GFNBounds.Balance.LiftGeneral.bind_edgeLift_absolutelyContinuous
+#print axioms GFNBounds.Balance.LiftGeneral.rnDeriv_bind_edgeLift
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_contraction
+#print axioms GFNBounds.Balance.LiftGeneral.IsReversal
+#print axioms GFNBounds.Balance.LiftGeneral.IsReversal.bind_eq
+#print axioms GFNBounds.Balance.LiftGeneral.IsReversal.bind_eq_left
+#print axioms GFNBounds.Balance.LiftGeneral.IsReversal.flip
+#print axioms GFNBounds.Balance.LiftGeneral.IsReversal.ae_eq
+#print axioms GFNBounds.Balance.LiftGeneral.isReversal_posterior
+#print axioms GFNBounds.Balance.LiftGeneral.lintegral_rnDeriv_bind_mul
+#print axioms GFNBounds.Balance.LiftGeneral.adjoint_of_isReversal
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLiftDual
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLiftDual_apply
+#print axioms GFNBounds.Balance.LiftGeneral.lintegral_edgeLiftDual
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_duality
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMeasure_invariant_dual
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_adjoint
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_reversal_unique
+#print axioms GFNBounds.Balance.LiftGeneral.isFiniteMeasure_withDensity_of_sq
+#print axioms GFNBounds.Balance.LiftGeneral.integral_toReal_mul_toReal
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_adjoint_real
+#print axioms GFNBounds.Balance.LiftGeneral.edgeLift_apply_singleton
+#print axioms GFNBounds.Balance.LiftGeneral.isReversal_const
+#print axioms GFNBounds.Balance.LiftGeneral.lift_wellposed
+#print axioms GFNBounds.Doubling.pstar_const_mul
+#print axioms GFNBounds.Doubling.pstar_one_sub
+#print axioms GFNBounds.Doubling.pstar_ge_ptFn_mul
+#print axioms GFNBounds.Doubling.pstar_iterate_mono
+#print axioms GFNBounds.Doubling.pstar_iterate_nonneg
+#print axioms GFNBounds.Doubling.pstar_iterate_const_mul
+#print axioms GFNBounds.Doubling.pstar_iterate_ge_ptFn_mul
+#print axioms GFNBounds.Doubling.fpass
+#print axioms GFNBounds.Doubling.fpass_zero
+#print axioms GFNBounds.Doubling.fpass_succ
+#print axioms GFNBounds.Doubling.fpass_succ_self
+#print axioms GFNBounds.Doubling.fpass_succ_of_ne
+#print axioms GFNBounds.Doubling.fpass_nonneg
+#print axioms GFNBounds.Doubling.hitP
+#print axioms GFNBounds.Doubling.hitP_zero
+#print axioms GFNBounds.Doubling.hitP_nonneg
+#print axioms GFNBounds.Doubling.hitP_mono
+#print axioms GFNBounds.Doubling.hitP_succ
+#print axioms GFNBounds.Doubling.hitP_self
+#print axioms GFNBounds.Doubling.hitP_succ_of_ne
+#print axioms GFNBounds.Doubling.hitP_le_one
+#print axioms GFNBounds.Doubling.hitP_bdd
+#print axioms GFNBounds.Doubling.hitProb
+#print axioms GFNBounds.Doubling.tendsto_hitP
+#print axioms GFNBounds.Doubling.hitP_le_hitProb
+#print axioms GFNBounds.Doubling.hitProb_nonneg
+#print axioms GFNBounds.Doubling.hitProb_le_one
+#print axioms GFNBounds.Doubling.hitProb_self
+#print axioms GFNBounds.Doubling.hitProb_solution
+#print axioms GFNBounds.Doubling.hitP_le_of_super
+#print axioms GFNBounds.Doubling.hitProb_le_of_super
+#print axioms GFNBounds.Doubling.retP
+#print axioms GFNBounds.Doubling.retProb
+#print axioms GFNBounds.Doubling.retP_nonneg
+#print axioms GFNBounds.Doubling.retP_le_one
+#print axioms GFNBounds.Doubling.retP_mono
+#print axioms GFNBounds.Doubling.tendsto_retP
+#print axioms GFNBounds.Doubling.retP_le_retProb
+#print axioms GFNBounds.Doubling.retProb_le_one
+#print axioms GFNBounds.Doubling.retProb_nonneg
+#print axioms GFNBounds.Doubling.hitT
+#print axioms GFNBounds.Doubling.hitT_zero
+#print axioms GFNBounds.Doubling.hitT_succ
+#print axioms GFNBounds.Doubling.hitT_self
+#print axioms GFNBounds.Doubling.hitT_succ_sub
+#print axioms GFNBounds.Doubling.hitT_nonneg
+#print axioms GFNBounds.Doubling.hitT_mono_succ
+#print axioms GFNBounds.Doubling.hitT_mono
+#print axioms GFNBounds.Doubling.hitT_le_nat
+#print axioms GFNBounds.Doubling.hitT_bounded
+#print axioms GFNBounds.Doubling.hitT_le_of_super
+#print axioms GFNBounds.Doubling.hitTime_solution
+#print axioms GFNBounds.Doubling.retT
+#print axioms GFNBounds.Doubling.retT_zero
+#print axioms GFNBounds.Doubling.retT_succ_sub
+#print axioms GFNBounds.Doubling.retT_mono
+#print axioms GFNBounds.Doubling.one_le_retT
+#print axioms GFNBounds.Doubling.IsRecurrentAt
+#print axioms GFNBounds.Doubling.IsTransientAt
+#print axioms GFNBounds.Doubling.IsPosRecurrentAt
+#print axioms GFNBounds.Doubling.IsNullRecurrentAt
+#print axioms GFNBounds.Doubling.IsPositiveRecurrent
+#print axioms GFNBounds.Doubling.IsNullRecurrent
+#print axioms GFNBounds.Doubling.IsRecurrent
+#print axioms GFNBounds.Doubling.IsTransient
+#print axioms GFNBounds.Doubling.isTransientAt_iff_not_recurrent
+#print axioms GFNBounds.Doubling.isRecurrentAt_of_bdd
+#print axioms GFNBounds.Doubling.Stat.summable_mul_sub_pstar
+#print axioms GFNBounds.Doubling.Stat.kac_hitP
+#print axioms GFNBounds.Doubling.Stat.lam_mul_retT_le
+#print axioms GFNBounds.Doubling.Stat.retT_bdd
+#print axioms GFNBounds.Doubling.Stat.isPosRecurrentAt
+#print axioms GFNBounds.Doubling.Stat.isPositiveRecurrent
+#print axioms GFNBounds.Doubling.hitProb_eq_one_of_reach
+#print axioms GFNBounds.Doubling.reach_iterate_pos
+#print axioms GFNBounds.Doubling.Stat.kac_eq
+#print axioms GFNBounds.Doubling.Stat.lam_eq_inv
+#print axioms GFNBounds.Doubling.stat_unique_none
+#print axioms GFNBounds.Doubling.renewal_green_le
+#print axioms GFNBounds.Doubling.renewal_green_unbdd
+#print axioms GFNBounds.Doubling.renewal_summed
+#print axioms GFNBounds.Doubling.renewal_green_ge
+#print axioms GFNBounds.Doubling.renewal_green_sublinear
+#print axioms GFNBounds.Doubling.uRet
+#print axioms GFNBounds.Doubling.fRet
+#print axioms GFNBounds.Doubling.rTail
+#print axioms GFNBounds.Doubling.uRet_nonneg
+#print axioms GFNBounds.Doubling.fRet_nonneg
+#print axioms GFNBounds.Doubling.retP_eq_sum
+#print axioms GFNBounds.Doubling.rTail_zero
+#print axioms GFNBounds.Doubling.rTail_succ
+#print axioms GFNBounds.Doubling.rTail_nonneg
+#print axioms GFNBounds.Doubling.rTail_le_one
+#print axioms GFNBounds.Doubling.rTail_anti
+#print axioms GFNBounds.Doubling.retT_eq_sum
+#print axioms GFNBounds.Doubling.iter_ptFn_eq
+#print axioms GFNBounds.Doubling.uRet_succ
+#print axioms GFNBounds.Doubling.renewal_key
+#print axioms GFNBounds.Doubling.green
+#print axioms GFNBounds.Doubling.green_le_of_transient
+#print axioms GFNBounds.Doubling.green_unbdd_of_recurrent
+#print axioms GFNBounds.Doubling.green_ge_of_posRecurrent
+#print axioms GFNBounds.Doubling.green_sublinear_of_not_bdd
+#print axioms GFNBounds.Doubling.uRet_comparison
+#print axioms GFNBounds.Doubling.green_comparison
+#print axioms GFNBounds.Doubling.exists_comparison_const
+#print axioms GFNBounds.Doubling.recurrent_solidarity
+#print axioms GFNBounds.Doubling.transient_solidarity
+#print axioms GFNBounds.Doubling.posRecurrent_solidarity
+#print axioms GFNBounds.Doubling.nullRecurrent_solidarity
+#print axioms GFNBounds.Doubling.sv
+#print axioms GFNBounds.Doubling.sv_zero
+#print axioms GFNBounds.Doubling.sv_succ
+#print axioms GFNBounds.Doubling.sv_nonneg
+#print axioms GFNBounds.Doubling.sv_src
+#print axioms GFNBounds.Doubling.ladT_one_succ
+#print axioms GFNBounds.Doubling.ladT_stepCost_le
+#print axioms GFNBounds.Doubling.sv_le_one
+#print axioms GFNBounds.Doubling.sv_anti_succ
+#print axioms GFNBounds.Doubling.sv_anti
+#print axioms GFNBounds.Doubling.tendsto_ladT
+#print axioms GFNBounds.Doubling.ladT_affine
+#print axioms GFNBounds.Doubling.pdown
+#print axioms GFNBounds.Doubling.pdown_pos
+#print axioms GFNBounds.Doubling.pdown_le_one
+#print axioms GFNBounds.Doubling.pdown_anti
+#print axioms GFNBounds.Doubling.sv_le_pdown
+#print axioms GFNBounds.Doubling.LDom
+#print axioms GFNBounds.Doubling.ldom_refl
+#print axioms GFNBounds.Doubling.ldom_trans
+#print axioms GFNBounds.Doubling.ldom_double
+#print axioms GFNBounds.Doubling.ldom_dec
+#print axioms GFNBounds.Doubling.ldom_down
+#print axioms GFNBounds.Doubling.ldom_all
+#print axioms GFNBounds.Doubling.sv_ldom
+#print axioms GFNBounds.Doubling.ladder_recurrent
+#print axioms GFNBounds.Doubling.ladder_survival_ge
+#print axioms GFNBounds.Doubling.hitLad_ge_min
+#print axioms GFNBounds.Doubling.hitLad_ge_iterate
+#print axioms GFNBounds.Doubling.hitLad_bdd_of_ldom
+#print axioms GFNBounds.Doubling.hitLad_unbdd
+#print axioms GFNBounds.Doubling.one_sub_hitP_src
+#print axioms GFNBounds.Doubling.one_sub_retP_src
+#print axioms GFNBounds.Doubling.hitT_src_lad
+#print axioms GFNBounds.Doubling.retT_src_succ
+#print axioms GFNBounds.Doubling.pstar_lad_eq_ladT
+#print axioms GFNBounds.Doubling.recurrent_src_of_sv
+#print axioms GFNBounds.Doubling.transient_src_of_sv
+#print axioms GFNBounds.Doubling.not_posRecurrent_src
+#print axioms GFNBounds.Doubling.transient_of_Wpow
+#print axioms GFNBounds.Doubling.recurrent_of_logHeight
+#print axioms GFNBounds.Doubling.phase_gt_one
+#print axioms GFNBounds.Doubling.phase_lt_one
+#print axioms GFNBounds.Doubling.phase_one_lt
+#print axioms GFNBounds.Doubling.phase_one_ge
+#print axioms GFNBounds.Doubling.phase_one_recurrent
+#print axioms GFNBounds.Doubling.phase_one_null
+#print axioms GFNBounds.Doubling.phase_one_transient
+#print axioms GFNBounds.Doubling.exists_family_setting
+#print axioms GFNBounds.Doubling.prop_doubling_phase
+#print axioms GFNBounds.Doubling.main_phase_classes
+#print axioms GFNBounds.Doubling.main_invariant_unique
+
+-- Core/FirstVariationGeneral: theo:first_variation_full on a general space, cor:gradient_formulas
+#print axioms GFNBounds.Core.General.FirstVariation.ratio
+#print axioms GFNBounds.Core.General.FirstVariation.loss
+#print axioms GFNBounds.Core.General.FirstVariation.perturb
+#print axioms GFNBounds.Core.General.FirstVariation.push
+#print axioms GFNBounds.Core.General.FirstVariation.pushDens
+#print axioms GFNBounds.Core.General.FirstVariation.dirPush
+#print axioms GFNBounds.Core.General.FirstVariation.push_isFinite
+#print axioms GFNBounds.Core.General.FirstVariation.push_one
+#print axioms GFNBounds.Core.General.FirstVariation.pushDens_one
+#print axioms GFNBounds.Core.General.FirstVariation.push_zero
+#print axioms GFNBounds.Core.General.FirstVariation.pushDens_zero
+#print axioms GFNBounds.Core.General.FirstVariation.push_congr
+#print axioms GFNBounds.Core.General.FirstVariation.push_add
+#print axioms GFNBounds.Core.General.FirstVariation.pushDens_add4
+#print axioms GFNBounds.Core.General.FirstVariation.pushDens_smul
+#print axioms GFNBounds.Core.General.FirstVariation.ofReal_one_add_split
+#print axioms GFNBounds.Core.General.FirstVariation.integrable_of_abs_le
+#print axioms GFNBounds.Core.General.FirstVariation.pushDens_one_add
+#print axioms GFNBounds.Core.General.FirstVariation.perturb_isFinite
+#print axioms GFNBounds.Core.General.FirstVariation.perturb_toSignedMeasure
+#print axioms GFNBounds.Core.General.FirstVariation.ratio_perturb
+#print axioms GFNBounds.Core.General.FirstVariation.abs_dirPush_le
+#print axioms GFNBounds.Core.General.FirstVariation.ratio_nonneg
+#print axioms GFNBounds.Core.General.FirstVariation.quot_bounds
+#print axioms GFNBounds.Core.General.FirstVariation.hasDerivAt_integral_quot
+#print axioms GFNBounds.Core.General.FirstVariation.measurable_ratio
+#print axioms GFNBounds.Core.General.FirstVariation.measurable_pushDens
+#print axioms GFNBounds.Core.General.FirstVariation.measurable_dirPush
+#print axioms GFNBounds.Core.General.FirstVariation.loss_perturb_eq
+#print axioms GFNBounds.Core.General.FirstVariation.eventually_abs_mul_lt'
+#print axioms GFNBounds.Core.General.FirstVariation.eventually_abs_mul_lt
+#print axioms GFNBounds.Core.General.FirstVariation.hasDerivAt_loss_perturb_of_continuous
+#print axioms GFNBounds.Core.General.FirstVariation.clamp
+#print axioms GFNBounds.Core.General.FirstVariation.continuous_clamp
+#print axioms GFNBounds.Core.General.FirstVariation.clamp_mem
+#print axioms GFNBounds.Core.General.FirstVariation.clamp_of_mem
+#print axioms GFNBounds.Core.General.FirstVariation.eventually_ratio_perturb_near
+#print axioms GFNBounds.Core.General.FirstVariation.hasDerivAt_loss_perturb
+#print axioms GFNBounds.Core.General.FirstVariation.exists_ae_abs_le_of_memLp_top
+#print axioms GFNBounds.Core.General.FirstVariation.ae_abs_funAct_le
+#print axioms GFNBounds.Core.General.FirstVariation.funAct_congr_of_ac
+#print axioms GFNBounds.Core.General.FirstVariation.integral_mul_pushDens
+#print axioms GFNBounds.Core.General.FirstVariation.integral_mul_dirPush
+#print axioms GFNBounds.Core.General.FirstVariation.psi
+#print axioms GFNBounds.Core.General.FirstVariation.gradDens
+#print axioms GFNBounds.Core.General.FirstVariation.integral_deriv_eq_gradDens
+#print axioms GFNBounds.Core.General.FirstVariation.exists_psi_version
+#print axioms GFNBounds.Core.General.FirstVariation.hasDerivAt_loss_gradDens
+#print axioms GFNBounds.Core.General.FirstVariation.abs_taylor_le_of_lipschitz
+#print axioms GFNBounds.Core.General.FirstVariation.loss_remainder_le
+#print axioms GFNBounds.Core.General.FirstVariation.reversal_comp_withDensity_real
+#print axioms GFNBounds.Core.General.FirstVariation.reversal_comp_signed
+#print axioms GFNBounds.Core.General.FirstVariation.withDensityᵥ_rnDeriv_mul
+#print axioms GFNBounds.Core.General.FirstVariation.representative_unique
+#print axioms GFNBounds.Core.General.FirstVariation.phi_density
+#print axioms GFNBounds.Core.General.FirstVariation.first_variation_general
+#print axioms GFNBounds.Core.General.FirstVariation.theo_first_variation_full
+#print axioms GFNBounds.Core.General.FirstVariation.theo_first_variation
+#print axioms GFNBounds.Core.General.FirstVariation.measurable_real_sign
+#print axioms GFNBounds.Core.General.FirstVariation.abs_real_sign_le
+#print axioms GFNBounds.Core.General.FirstVariation.memLp_top_rnDeriv_self
+#print axioms GFNBounds.Core.General.FirstVariation.psi_self_ae
+#print axioms GFNBounds.Core.General.FirstVariation.gradDens_self_ae
+#print axioms GFNBounds.Core.General.FirstVariation.cor_gradient_formulas
+#print axioms GFNBounds.Core.General.FirstVariation.funAct_two_mul_sub
+#print axioms GFNBounds.Core.General.FirstVariation.cor_gradient_formulas_sq
+#print axioms GFNBounds.Core.General.FirstVariation.cor_gradient_formulas_abs
+#print axioms GFNBounds.Core.General.FirstVariation.theo_first_variation_full_hypotheses_inhabited
+#print axioms GFNBounds.Balance.LiftGeneral.DetailedBalance
+#print axioms GFNBounds.Balance.LiftGeneral.detailedBalance_iff_isReversal
+#print axioms GFNBounds.Balance.LiftGeneral.db_lift_ratio_eq
+#print axioms GFNBounds.Balance.LiftGeneral.db_lift_loss_eq
+#print axioms GFNBounds.Balance.LiftGeneral.bind_edgeLift_eq_self_iff
+#print axioms GFNBounds.Balance.LiftGeneral.rnDeriv_bind_eq_one_iff
+#print axioms GFNBounds.Balance.LiftGeneral.db_lift_ratio_ae
+#print axioms GFNBounds.Balance.LiftGeneral.fst_withDensity_fst
+#print axioms GFNBounds.Balance.LiftGeneral.measurePreserving_snd_edge
+#print axioms GFNBounds.Balance.LiftGeneral.measurePreserving_fst_edge
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMeasure_univ
+#print axioms GFNBounds.Balance.LiftGeneral.ae_comp_snd
+#print axioms GFNBounds.Balance.LiftGeneral.bindDensity_edge_snd
+#print axioms GFNBounds.Balance.LiftGeneral.bindDensity_edge_fst
+#print axioms GFNBounds.Balance.LiftGeneral.bindDensity_edge
+#print axioms GFNBounds.Balance.LiftGeneral.densityAction_edge_snd
+#print axioms GFNBounds.Balance.LiftGeneral.densityAction_edge_fst
+#print axioms GFNBounds.Balance.LiftGeneral.densityAction_edge_exists
+#print axioms GFNBounds.Balance.LiftGeneral.liftSnd
+#print axioms GFNBounds.Balance.LiftGeneral.coeFn_liftSnd
+#print axioms GFNBounds.Balance.LiftGeneral.norm_liftSnd
+#print axioms GFNBounds.Balance.LiftGeneral.adjoint_liftSnd_comp
+#print axioms GFNBounds.Balance.LiftGeneral.adjoint_liftSnd_apply
+#print axioms GFNBounds.Balance.LiftGeneral.norm_adjoint_liftSnd_le
+#print axioms GFNBounds.Balance.LiftGeneral.liftSnd_constOne
+#print axioms GFNBounds.Balance.LiftGeneral.liftFst
+#print axioms GFNBounds.Balance.LiftGeneral.coeFn_liftFst
+#print axioms GFNBounds.Balance.LiftGeneral.norm_liftFst
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMarg
+#print axioms GFNBounds.Balance.LiftGeneral.densityActionL2_edge_liftSnd
+#print axioms GFNBounds.Balance.LiftGeneral.densityActionL2_edge_liftFst
+#print axioms GFNBounds.Balance.LiftGeneral.liftSnd_edgeMarg
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMarg_liftSnd
+#print axioms GFNBounds.Balance.LiftGeneral.edgeMarg_liftFst
+#print axioms GFNBounds.Balance.LiftGeneral.norm_edgeMarg_apply_le
+#print axioms GFNBounds.Balance.LiftGeneral.integral_edgeMarg
+#print axioms GFNBounds.Balance.LiftGeneral.meanProj_edge
+#print axioms GFNBounds.Balance.LiftGeneral.densityActionL2_edge_pow_succ_apply
+#print axioms GFNBounds.Balance.LiftGeneral.edge_deviation_apply
+#print axioms GFNBounds.Balance.LiftGeneral.lift_mixing_succ
+#print axioms GFNBounds.Balance.LiftGeneral.lift_mixing_general
+#print axioms GFNBounds.Balance.LiftGeneral.lift_coercivity_general
+#print axioms GFNBounds.Balance.LiftGeneral.lift_mixing_summable_iff
+#print axioms GFNBounds.Balance.LiftGeneral.lift_mixing_B
+#print axioms GFNBounds.Balance.LiftGeneral.lift_beta_zero_le_one
+#print axioms GFNBounds.Balance.LiftGeneral.lift_mixing_B_eq_one_add
+#print axioms GFNBounds.Balance.LiftGeneral.lift_coercivity_of_mixing
+#print axioms GFNBounds.Balance.LiftGeneral.db_lift
+#print axioms GFNBounds.Balance.LiftGeneral.lift_hypotheses_inhabited
+#print axioms GFNBounds.Balance.LiftGeneral.lift_coercivity_const
+#print axioms GFNBounds.Doubling.General.isInvariant_of_bind
+#print axioms GFNBounds.Doubling.General.ae_integrable_fibre
+#print axioms GFNBounds.Doubling.General.funAct_add_ae
+#print axioms GFNBounds.Doubling.General.funAct_smul
+#print axioms GFNBounds.Doubling.General.funActLM
+#print axioms GFNBounds.Doubling.General.funActLp
+#print axioms GFNBounds.Doubling.General.norm_funActLp_le
+#print axioms GFNBounds.Doubling.General.coeFn_funActLp
+#print axioms GFNBounds.Doubling.General.funActLp_constOne
+#print axioms GFNBounds.Doubling.General.indicatorConstLp_eq_smul
+#print axioms GFNBounds.Doubling.General.densityAction_indicator
+#print axioms GFNBounds.Doubling.General.setLIntegral_bindDensity_indicator
+#print axioms GFNBounds.Doubling.General.inner_densityActionL2_indicator
+#print axioms GFNBounds.Doubling.General.inner_densityActionL2_indicator_right
+#print axioms GFNBounds.Doubling.General.inner_densityActionL2_left
+#print axioms GFNBounds.Doubling.General.adjoint_funActL2
+#print axioms GFNBounds.Doubling.General.adjoint_densityActionL2
+#print axioms GFNBounds.Doubling.General.adjoint_meanProj
+#print axioms GFNBounds.Doubling.General.meanProj_mul_densityActionL2
+#print axioms GFNBounds.Doubling.General.densityActionL2_mul_meanProj
+#print axioms GFNBounds.Doubling.General.funActL2_mul_meanProj
+#print axioms GFNBounds.Doubling.General.meanProj_mul_funActL2
+#print axioms GFNBounds.Doubling.General.meanProj_mul_self
+#print axioms GFNBounds.Doubling.General.betaHat
+#print axioms GFNBounds.Doubling.General.adjoint_densityActionL2_pow_sub
+#print axioms GFNBounds.Doubling.General.norm_funActL2_pow_sub
+#print axioms GFNBounds.Doubling.General.ofReal_le_tsum_of_forall_bdd
+#print axioms GFNBounds.Doubling.General.doubling_operator_item3
+#print axioms GFNBounds.Doubling.General.KernelIrreducible
+#print axioms GFNBounds.Doubling.General.measure_singleton_mul_le
+#print axioms GFNBounds.Doubling.General.measure_singleton_ne_zero
+#print axioms GFNBounds.Doubling.General.eq_of_ae_eq
+#print axioms GFNBounds.Doubling.General.funAct_fixed_const
+#print axioms GFNBounds.Doubling.General.evalLp
+#print axioms GFNBounds.Doubling.General.evalLp_injective
+#print axioms GFNBounds.Doubling.General.finiteDimensional_Lp
+#print axioms GFNBounds.Doubling.General.eq_smul_constOne_of_fixed
+#print axioms GFNBounds.Doubling.General.meanProj_fixed_of_fixed
+#print axioms GFNBounds.Doubling.General.doubling_operator_item2
+#print axioms GFNBounds.Doubling.General.doubling_operator_item3_finite
+#print axioms GFNBounds.Doubling.General.doubling_operator_item1
+#print axioms GFNBounds.Doubling.General.lem_doubling_operator
+#print axioms GFNBounds.Doubling.General.doubling_operator_witness
+#print axioms GFNBounds.Balance.TBHessian.window
+#print axioms GFNBounds.Balance.TBHessian.Qv
+#print axioms GFNBounds.Balance.TBHessian.window_cons
+#print axioms GFNBounds.Balance.TBHessian.sum_cons
+#print axioms GFNBounds.Balance.TBHessian.window_along
+#print axioms GFNBounds.Balance.TBHessian.window_tail
+#print axioms GFNBounds.Balance.TBHessian.window_state
+#print axioms GFNBounds.Balance.TBHessian.window_two
+#print axioms GFNBounds.Balance.TBHessian.corr
+#print axioms GFNBounds.Balance.TBHessian.window_sq
+#print axioms GFNBounds.Balance.TBHessian.uAt
+#print axioms GFNBounds.Balance.TBHessian.uAt_edge
+#print axioms GFNBounds.Balance.TBHessian.pair_sum_eq
+#print axioms GFNBounds.Balance.TBHessian.Qv_iterate_uAt
+#print axioms GFNBounds.Balance.TBHessian.corr_uAt
+#print axioms GFNBounds.Balance.TBHessian.Theta
+#print axioms GFNBounds.Balance.TBHessian.HTB
+#print axioms GFNBounds.Balance.TBHessian.HDB
+#print axioms GFNBounds.Balance.TBHessian.betaHat
+#print axioms GFNBounds.Balance.TBHessian.edgeKernelE_isMarkov
+#print axioms GFNBounds.Balance.TBHessian.edgeMeasureE_isInvariant'
+#print axioms GFNBounds.Balance.TBHessian.adj_Q
+#print axioms GFNBounds.Balance.TBHessian.funAct_iterate_add
+#print axioms GFNBounds.Balance.TBHessian.densAct_iterate_add
+#print axioms GFNBounds.Balance.TBHessian.Theta_add
+#print axioms GFNBounds.Balance.TBHessian.ipL2_add_right
+#print axioms GFNBounds.Balance.TBHessian.ip_Theta
+#print axioms GFNBounds.Balance.TBHessian.ip_P_self
+#print axioms GFNBounds.Balance.TBHessian.window_variance
+#print axioms GFNBounds.Balance.TBHessian.window_nonneg
+#print axioms GFNBounds.Balance.TBHessian.Theta_psd
+#print axioms GFNBounds.Balance.TBHessian.Theta_selfAdjoint
+#print axioms GFNBounds.Balance.TBHessian.sum_range_succ_cast
+#print axioms GFNBounds.Balance.TBHessian.cesaro_sum
+#print axioms GFNBounds.Balance.TBHessian.abs_ipL2_le
+#print axioms GFNBounds.Balance.TBHessian.nrmL2_densAct_iterate_le
+#print axioms GFNBounds.Balance.TBHessian.abs_ip_Theta_le
+#print axioms GFNBounds.Balance.TBHessian.betaHat_opBound
+#print axioms GFNBounds.Balance.TBHessian.ip_Q_le_betaHat
+#print axioms GFNBounds.Balance.TBHessian.Theta_le_cesaro
+#print axioms GFNBounds.Balance.TBHessian.Theta_le
+#print axioms GFNBounds.Balance.TBHessian.abs_log_one_add_sub_le
+#print axioms GFNBounds.Balance.TBHessian.loss_eq_window
+#print axioms GFNBounds.Balance.TBHessian.abs_densAct_le
+#print axioms GFNBounds.Balance.TBHessian.ratio_perturb
+#print axioms GFNBounds.Balance.TBHessian.nrmL2_le_const
+#print axioms GFNBounds.Balance.TBHessian.half_ip_HTB
+#print axioms GFNBounds.Balance.TBHessian.ip_HDB
+#print axioms GFNBounds.Balance.TBHessian.expansion_explicit
+#print axioms GFNBounds.Balance.TBHessian.expansion_isBigO
+#print axioms GFNBounds.Balance.TBHessian.edgeMarg_window
+#print axioms GFNBounds.Balance.TBHessian.mean_Aop
+#print axioms GFNBounds.Balance.TBHessian.HTB_nonneg
+#print axioms GFNBounds.Balance.TBHessian.HTB_le
+#print axioms GFNBounds.Balance.TBHessian.HTB_one
+#print axioms GFNBounds.Balance.TBHessian.loss_one
+#print axioms GFNBounds.Balance.TBHessian.opNorm_densDeviation_zero
+#print axioms GFNBounds.Balance.TBHessian.betaHat_one
+#print axioms GFNBounds.Balance.TBHessian.one_le_Bprime
+#print axioms GFNBounds.Balance.TBHessian.stepCap
+#print axioms GFNBounds.Balance.TBHessian.pbU_nonneg
+#print axioms GFNBounds.Balance.TBHessian.pbU_row
+#print axioms GFNBounds.Balance.TBHessian.lamU_pos
+#print axioms GFNBounds.Balance.TBHessian.lamU_inv
+#print axioms GFNBounds.Balance.TBHessian.lamU_tot
+#print axioms GFNBounds.Balance.TBHessian.opNorm_zero_op
+#print axioms GFNBounds.Balance.TBHessian.densDeviation_pbU
+#print axioms GFNBounds.Balance.TBHessian.witness
+#print axioms GFNBounds.Balance.TBHessian.fejer
+#print axioms GFNBounds.Balance.TBHessian.sum_neg_one_pow
+#print axioms GFNBounds.Balance.TBHessian.alt_weighted
+#print axioms GFNBounds.Balance.TBHessian.fejer_pi_even
+#print axioms GFNBounds.Balance.TBHessian.fejer_pi_odd
+#print axioms GFNBounds.Balance.TBHessian.fejer_zero
+#print axioms GFNBounds.Balance.TBHessian.continuous_fejer
+#print axioms GFNBounds.Balance.TBHessian.tendsto_fejer
+#print axioms GFNBounds.Balance.TBHessian.funAct_lin
+#print axioms GFNBounds.Balance.TBHessian.Q_iterate_rot
+#print axioms GFNBounds.Balance.TBHessian.rayleigh_fejer
+#print axioms GFNBounds.Doubling.TBvsDB.sbar_bdd_iff
+#print axioms GFNBounds.Doubling.TBvsDB.bhat_infinite_of_posRec
+#print axioms GFNBounds.Doubling.TBvsDB.norm_sub_piL2_le
+#print axioms GFNBounds.Doubling.TBvsDB.adjoint_mul
+#print axioms GFNBounds.Doubling.TBvsDB.adjoint_one
+#print axioms GFNBounds.Doubling.TBvsDB.CoercConst
+#print axioms GFNBounds.Doubling.TBvsDB.isLeast_bhatK
+#print axioms GFNBounds.Doubling.TBvsDB.coercConst_mono
+#print axioms GFNBounds.Doubling.TBvsDB.truncation_rate
+#print axioms GFNBounds.Doubling.TBvsDB.sigmaBar_six
+#print axioms GFNBounds.Doubling.TBvsDB.row8
+#print axioms GFNBounds.Doubling.TBvsDB.exists_setting_six
+-- `prop:nonlinear_freezing, prop:no_distant_equilibrium, theo:global_dichotomy_full on a measurable space` — GFNBounds/Balance/FreezingGeneral2.lean
+#print axioms GFNBounds.Balance.General.ratioG
+#print axioms GFNBounds.Balance.General.potG
+#print axioms GFNBounds.Balance.General.gradDensityG
+#print axioms GFNBounds.Balance.General.BalancedG
+#print axioms GFNBounds.Balance.General.measurable_ratioG
+#print axioms GFNBounds.Balance.General.absolutelyContinuous_comp
+#print axioms GFNBounds.Balance.General.comp_absolutelyContinuous_self
+#print axioms GFNBounds.Balance.General.ratioG_pos
+#print axioms GFNBounds.Balance.General.ratioG_eq_one_iff
+#print axioms GFNBounds.Balance.General.FirstVariationSetting
+#print axioms GFNBounds.Balance.General.aestronglyMeasurable_gd_comp
+#print axioms GFNBounds.Balance.General.FirstVariationSetting.ratio_pos_lam
+#print axioms GFNBounds.Balance.General.FirstVariationSetting.bound
+#print axioms GFNBounds.Balance.General.FirstVariationSetting.aestronglyMeasurable_pot
+#print axioms GFNBounds.Balance.General.FirstVariationSetting.memLp_pot
+#print axioms GFNBounds.Balance.General.FirstVariationSetting.memLp_rpot
+#print axioms GFNBounds.Balance.General.FirstVariationSetting.integrable_pot
+#print axioms GFNBounds.Balance.General.FirstVariationSetting.integrable_rpot
+#print axioms GFNBounds.Balance.General.integral_funAct_eq
+#print axioms GFNBounds.Balance.General.integral_gradDensityG
+#print axioms GFNBounds.Balance.General.integrand_nonpos
+#print axioms GFNBounds.Balance.General.mass_nonpos
+#print axioms GFNBounds.Balance.General.mass_eq_zero_iff
+#print axioms GFNBounds.Balance.General.balanced_of_criticalG
+#print axioms GFNBounds.Balance.General.gradDensityG_eq_zero_of_band
+#print axioms GFNBounds.Balance.General.lossG
+#print axioms GFNBounds.Balance.General.lineG
+#print axioms GFNBounds.Balance.General.FirstVariationFull
+#print axioms GFNBounds.Balance.General.IsCriticalAlong
+#print axioms GFNBounds.Balance.General.isCriticalAlong_of_ae_zero
+#print axioms GFNBounds.Balance.General.integral_mul_eq_zero_of_critical
+#print axioms GFNBounds.Balance.General.toReal_rnDeriv_comp_eq
+#print axioms GFNBounds.Balance.General.integral_gradDensityG_mul_dens
+#print axioms GFNBounds.Balance.General.ratioG_smul
+#print axioms GFNBounds.Balance.General.lossG_smul
+#print axioms GFNBounds.Balance.General.sq_integral_le_integral_sq
+#print axioms GFNBounds.Balance.General.ErgodicG
+#print axioms GFNBounds.Balance.General.ergodicG_const
+#print axioms GFNBounds.Balance.General.balancedG_iff_const
+#print axioms GFNBounds.Balance.General.mass_le_nrm_and_eq_iff_balanced
+#print axioms GFNBounds.Balance.General.IsGradientFlowG
+#print axioms GFNBounds.Balance.General.inner_Lp_eq
+#print axioms GFNBounds.Balance.General.norm_const_of_flow
+#print axioms GFNBounds.Balance.General.oneLp
+#print axioms GFNBounds.Balance.General.inner_oneLp
+#print axioms GFNBounds.Balance.General.mass_hasDerivAt_of_flow
+#print axioms GFNBounds.Balance.General.mass_monotoneOn_of_flow
+#print axioms GFNBounds.Balance.General.pertG
+#print axioms GFNBounds.Balance.General.wtG
+#print axioms GFNBounds.Balance.General.pertG.sigmaFinite
+#print axioms GFNBounds.Balance.General.wtG.sigmaFinite
+#print axioms GFNBounds.Balance.General.toReal_rnDeriv_wt_pert
+#print axioms GFNBounds.Balance.General.freezing_three_ae_bound
+#print axioms GFNBounds.Balance.General.freezing_three_eLpNorm_le
+#print axioms GFNBounds.Balance.General.nonneg_of_ae_le
+#print axioms GFNBounds.Balance.General.freezing_three_flow
+#print axioms GFNBounds.Balance.General.ae_le_linfty
+#print axioms GFNBounds.Balance.General.nonlinear_freezing_three_general
+#print axioms GFNBounds.Balance.General.no_distant_equilibrium_one_general
+#print axioms GFNBounds.Balance.General.balanced_of_isCriticalAlong
+#print axioms GFNBounds.Balance.General.no_distant_equilibrium_two_general
+#print axioms GFNBounds.Balance.General.no_distant_equilibrium_two_flow
+#print axioms GFNBounds.Balance.General.nonlinear_freezing_one_general
+#print axioms GFNBounds.Balance.General.global_dichotomy_full_general
+#print axioms GFNBounds.Balance.General.freezing_remark_four_general
+#print axioms GFNBounds.Balance.General.isFiniteMeasure_pertG
+#print axioms GFNBounds.Balance.General.rnDeriv_pertG
+#print axioms GFNBounds.Balance.General.ratioG_const_pertG
+#print axioms GFNBounds.Balance.General.measure_univ_pertG_toReal
+#print axioms GFNBounds.Balance.General.firstVariationSetting_const_pertG
+#print axioms GFNBounds.Balance.General.boolUnif
+#print axioms GFNBounds.Balance.General.boolUnif_singleton
+#print axioms GFNBounds.Balance.General.boolH
+#print axioms GFNBounds.Balance.General.boolH_abs
+#print axioms GFNBounds.Balance.General.integral_boolH
+#print axioms GFNBounds.Balance.General.ratioG_boolH
+#print axioms GFNBounds.Balance.General.bool_witness
+#print axioms GFNBounds.Balance.General.toReal_rnDeriv_pos_of_ac
+#print axioms GFNBounds.Balance.General.bool_mass_neg
+#print axioms GFNBounds.Balance.General.bool_frozen_flow
+#print axioms GFNBounds.Balance.General.freezing_last_instance
+#print axioms GFNBounds.Balance.General.freezing_no_time_bound
+
+-- Balance/FreezingGradientBridge.lean
+#print axioms GFNBounds.Balance.General.Bridge.ratioG_eq_ratio
+#print axioms GFNBounds.Balance.General.Bridge.gradDensityG_eq_gradDens
+#print axioms GFNBounds.Balance.General.Bridge.lossG_eq_loss
+#print axioms GFNBounds.Balance.General.Bridge.AdmissibleDir
+#print axioms GFNBounds.Balance.General.Bridge.IsGradDensity
+#print axioms GFNBounds.Balance.General.Bridge.IsCriticalG
+#print axioms GFNBounds.Balance.General.Bridge.ae_abs_le_one_of_admissible
+#print axioms GFNBounds.Balance.General.Bridge.admissibleDir_of_abs_le
+#print axioms GFNBounds.Balance.General.Bridge.ratio_Icc_of_setting
+#print axioms GFNBounds.Balance.General.Bridge.gradDensityG_isGradDensity
+#print axioms GFNBounds.Balance.General.Bridge.isGradDensity_unique
+#print axioms GFNBounds.Balance.General.Bridge.isCriticalG_iff
+#print axioms GFNBounds.Balance.General.Bridge.no_distant_equilibrium_one_bridge
+#print axioms GFNBounds.Balance.General.Bridge.nonlinear_freezing_one_critical
+#print axioms GFNBounds.Balance.General.Bridge.nonlinear_freezing_one_bridge
+#print axioms GFNBounds.Balance.General.Bridge.global_dichotomy_full_bridge
+#print axioms GFNBounds.Balance.General.Bridge.freezing_remark_four_bridge
+#print axioms GFNBounds.Balance.General.Bridge.IsGradientFlowPaper
+#print axioms GFNBounds.Balance.General.Bridge.IsGradDensity.congr
+#print axioms GFNBounds.Balance.General.Bridge.isGradientFlowPaper_iff
+#print axioms GFNBounds.Balance.General.Bridge.no_distant_equilibrium_two_flow_bridge
+#print axioms GFNBounds.Balance.General.Bridge.no_distant_equilibrium_two_bridge
+#print axioms GFNBounds.Balance.General.Bridge.isFiniteMeasure_pertG_ae
+#print axioms GFNBounds.Balance.General.Bridge.isFiniteMeasure_wtG_ae
+#print axioms GFNBounds.Balance.General.Bridge.setting_pertG
+#print axioms GFNBounds.Balance.General.Bridge.nonlinear_freezing_three_bridge
+#print axioms GFNBounds.Balance.General.Bridge.AdmL
+#print axioms GFNBounds.Balance.General.Bridge.lineG_eq_perturb
+#print axioms GFNBounds.Balance.General.Bridge.firstVariationFull_of_setting
+#print axioms GFNBounds.Balance.General.Bridge.isCriticalAlong_iff
+#print axioms GFNBounds.Balance.General.Bridge.balanced_of_isCriticalAlong_bridge
+#print axioms GFNBounds.Balance.General.Bridge.hasDerivAt_twoStateBands_g
+#print axioms GFNBounds.Balance.General.Bridge.continuousOn_deriv_twoStateBands_g
+#print axioms GFNBounds.Balance.General.Bridge.bool_critical_unbalanced
+#print axioms GFNBounds.Balance.General.Bridge.bool_not_critical
+#print axioms GFNBounds.Balance.General.Bridge.bool_paper_flow
+#print axioms GFNBounds.Balance.General.Bridge.third_deriv_sSup_of_C3
+#print axioms GFNBounds.Balance.General.Bridge.boolIdx
+#print axioms GFNBounds.Balance.General.Bridge.boolFlow
+#print axioms GFNBounds.Balance.General.Bridge.boolFlow.isFinite
+#print axioms GFNBounds.Balance.General.Bridge.integral_boolUnif
+#print axioms GFNBounds.Balance.General.Bridge.boolUnif_ne_zero
+#print axioms GFNBounds.Balance.General.Bridge.ae_bool_iff
+#print axioms GFNBounds.Balance.General.Bridge.toReal_rnDeriv_boolFlow
+#print axioms GFNBounds.Balance.General.Bridge.toReal_rnDeriv_unif_boolFlow
+#print axioms GFNBounds.Balance.General.Bridge.boolFlow_univ_toReal
+#print axioms GFNBounds.Balance.General.Bridge.ratioG_boolFlow
+#print axioms GFNBounds.Balance.General.Bridge.gradDensityG_boolFlow
+#print axioms GFNBounds.Balance.General.Bridge.setting_boolFlow
+#print axioms GFNBounds.Balance.General.Bridge.boolLp
+#print axioms GFNBounds.Balance.General.Bridge.coe_boolLp
+#print axioms GFNBounds.Balance.General.Bridge.lossGrad_twoState
+#print axioms GFNBounds.Balance.General.Bridge.bool_unimodal_flow
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.three_quarters_le
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ratio_sub_one
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.abs_A_le
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.abs_r_sub_one_le_four_thirds
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.abs_r_sub_one_le_eight_thirds
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.abs_r_sub_one_le_two_a_div_three
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.sq_r_sub_one_le
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.psi_expansion
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.r_sub_one_mul_psi_le
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gext
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gext'
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gext_of_mem
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gext'_of_mem
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.continuousOn_gd
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.continuous_gext'
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.hasDerivAt_gext
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.taylor_gext'
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Pd
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Aop
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Adag
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.linHess
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.flowOf
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.wMeas
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.psiP
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gradD
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.flowOf_isFinite
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.wMeas_isFinite
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.flowOf_ac
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ac_flowOf
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.toReal_rnDeriv_flowOf
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.abs_Pd_le
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Pd_eq_densityAction
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Pd_adjoint
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Pd_one_add
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ratio_flowOf
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.toReal_rnDeriv_wMeas
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ae_data
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gd_ratio_bounds
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ratio_window
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.psi_eq_psiP
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gradDens_eq_gradD
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.loss_eventually_eq_gext
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gd_gradient
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ae_funAct_bound
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.measurable_Pd
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.measurable_Aop
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.measurable_psiP
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ae_data_psi
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gd_expansion
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.IminusP
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.funAct_const_mul
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Aop_const_mul
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.linHess_const_mul
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.Pd_eq_funAct_of_reversible
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.linHess_reversible
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.linHess_eigen
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.eigenmode_decay
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.measurable_gradD
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.measurable_linHess
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gradD_zero
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.linearization_unique
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.ae_abs_le_eLpNorm_top
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gradD_eq_gext'
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.theo_gd_diffusion_full
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.dbLoss
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.dbLoss_eq_condKernel
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.dbLoss_eq_loss
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.reversal_edgeLift_ae
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.cor_db_gradient
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.cor_db_gradient_hypotheses_inhabited
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.theo_gd_diffusion_DB
+#print axioms GFNBounds.Balance.GdDiffusionGeneral.gd_diffusion_hypotheses_inhabited
+#print axioms GFNBounds.Balance.StableFrozenGeneral.stable_frozen_decay_forward
+#print axioms GFNBounds.Balance.StableFrozenGeneral.linearFlow_hasDerivAt
+#print axioms GFNBounds.Balance.StableFrozenGeneral.linearFlow_zero
+#print axioms GFNBounds.Balance.StableFrozenGeneral.ae_norm_le_linfty
+#print axioms GFNBounds.Balance.StableFrozenGeneral.linfty_nonneg
+#print axioms GFNBounds.Balance.StableFrozenGeneral.mulOpG
+#print axioms GFNBounds.Balance.StableFrozenGeneral.coeFn_mulOpG
+#print axioms GFNBounds.Balance.StableFrozenGeneral.inner_nonneg_of_ae_mul
+#print axioms GFNBounds.Balance.StableFrozenGeneral.mulOpG_symm
+#print axioms GFNBounds.Balance.StableFrozenGeneral.mulOpG_lower
+#print axioms GFNBounds.Balance.StableFrozenGeneral.mulOpG_upper
+#print axioms GFNBounds.Balance.StableFrozenGeneral.lp_eq_zero_of_measure_zero
+#print axioms GFNBounds.Balance.StableFrozenGeneral.aOpG
+#print axioms GFNBounds.Balance.StableFrozenGeneral.hessG
+#print axioms GFNBounds.Balance.StableFrozenGeneral.hessG_apply
+#print axioms GFNBounds.Balance.StableFrozenGeneral.one_sub_eq_neg_aOpG
+#print axioms GFNBounds.Balance.StableFrozenGeneral.norm_aOpG_apply_le
+#print axioms GFNBounds.Balance.StableFrozenGeneral.aOpG_meanProj
+#print axioms GFNBounds.Balance.StableFrozenGeneral.meanProj_symm
+#print axioms GFNBounds.Balance.StableFrozenGeneral.inner_hessG_left
+#print axioms GFNBounds.Balance.StableFrozenGeneral.hessG_symm
+#print axioms GFNBounds.Balance.StableFrozenGeneral.inner_hessG_self
+#print axioms GFNBounds.Balance.StableFrozenGeneral.meanProj_hessG
+#print axioms GFNBounds.Balance.StableFrozenGeneral.hessG_coercive
+#print axioms GFNBounds.Balance.StableFrozenGeneral.hessG_upper
+#print axioms GFNBounds.Balance.StableFrozenGeneral.step_cap_mul
+#print axioms GFNBounds.Balance.StableFrozenGeneral.FrozenDecay
+#print axioms GFNBounds.Balance.StableFrozenGeneral.db_stable_frozen_general
+#print axioms GFNBounds.Balance.StableFrozenGeneral.mixSum
+#print axioms GFNBounds.Balance.StableFrozenGeneral.db_stable_frozen_DB
+#print axioms GFNBounds.Balance.StableFrozenGeneral.db_stable_frozen_FM_mixing
+#print axioms GFNBounds.Balance.StableFrozenGeneral.db_stable_frozen_DB_mixing
+#print axioms GFNBounds.Balance.StableFrozenGeneral.frozenDecay_flow_apply
+#print axioms GFNBounds.Balance.StableFrozenGeneral.deriv_deriv_sq_one
+#print axioms GFNBounds.Balance.StableFrozenGeneral.stable_frozen_witness
+-- Balance/TBvsDBClose (rem:tb_vs_db: DB supply, complex Fejér, step cap on norms)
+#print axioms GFNBounds.Doubling.TBvsDBClose.kerMeas
+#print axioms GFNBounds.Doubling.TBvsDBClose.ker
+#print axioms GFNBounds.Doubling.TBvsDBClose.ker_apply
+#print axioms GFNBounds.Doubling.TBvsDBClose.integrable_kerMeas
+#print axioms GFNBounds.Doubling.TBvsDBClose.integral_kerMeas
+#print axioms GFNBounds.Doubling.TBvsDBClose.isMarkovKernel_ker
+#print axioms GFNBounds.Doubling.TBvsDBClose.funAct_ker
+#print axioms GFNBounds.Doubling.TBvsDBClose.ker_apply_set
+#print axioms GFNBounds.Doubling.TBvsDBClose.mu_bind_ker
+#print axioms GFNBounds.Doubling.TBvsDBClose.funActLp_ker
+#print axioms GFNBounds.Doubling.TBvsDBClose.densityActionL2_ker
+#print axioms GFNBounds.Doubling.TBvsDBClose.meanProj_mu
+#print axioms GFNBounds.Doubling.TBvsDBClose.coercive_bhatK
+#print axioms GFNBounds.Doubling.TBvsDBClose.lift_coercivity_truncation
+#print axioms GFNBounds.Doubling.TBvsDBClose.truncation_rate_DB
+#print axioms GFNBounds.Balance.TBHessian.sum_Ioo_symm
+#print axioms GFNBounds.Balance.TBHessian.fejerC
+#print axioms GFNBounds.Balance.TBHessian.fejerC_eq
+#print axioms GFNBounds.Balance.TBHessian.funActC
+#print axioms GFNBounds.Balance.TBHessian.cplx
+#print axioms GFNBounds.Balance.TBHessian.ipC
+#print axioms GFNBounds.Balance.TBHessian.funActC_eq_cplx
+#print axioms GFNBounds.Balance.TBHessian.rayleigh_fejerC
+#print axioms GFNBounds.Balance.TBHessian.rayleigh_quotient_fejerC
+#print axioms GFNBounds.Balance.TBHessian.RLin
+#print axioms GFNBounds.Balance.TBHessian.ipL2_quad
+#print axioms GFNBounds.Balance.TBHessian.form_cs
+#print axioms GFNBounds.Balance.TBHessian.nrm_pow_four_le
+#print axioms GFNBounds.Balance.TBHessian.opBound_of_form
+#print axioms GFNBounds.Balance.TBHessian.nrm_sq_le_form
+#print axioms GFNBounds.Balance.TBHessian.step_nonexpansive
+#print axioms GFNBounds.Balance.TBHessian.rlin_funAct_iter
+#print axioms GFNBounds.Balance.TBHessian.rlin_densAct_iter
+#print axioms GFNBounds.Balance.TBHessian.rlin_Theta
+#print axioms GFNBounds.Balance.TBHessian.rlin_HTB
+#print axioms GFNBounds.Balance.TBHessian.HTB_selfAdjoint
+#print axioms GFNBounds.Balance.TBHessian.HDB_eq
+#print axioms GFNBounds.Balance.TBHessian.HDB_form_le_eight
+#print axioms GFNBounds.Balance.TBHessian.opBound_HTB_of_form
+#print axioms GFNBounds.Balance.TBHessian.opBound_HDB_opNorm
+#print axioms GFNBounds.Balance.TBHessian.opNorm_HTB_le
+#print axioms GFNBounds.Balance.TBHessian.stepCap_opNorm
+#print axioms GFNBounds.Balance.TBHessian.stepCap_stable
+#print axioms GFNBounds.Balance.TBHessian.stepCap_witness
+#print axioms GFNBounds.Balance.TBHessian.fejerC_witness
+
+-- the geometric row of the policy table (2026-09-19): `ε(j) = a ρ^j` has `B̂ < +∞`
+#print axioms GFNBounds.Doubling.Hardy.hardy
+#print axioms GFNBounds.Doubling.Stat.dirichlet_partial
+#print axioms GFNBounds.Doubling.Stat.poincare
+#print axioms GFNBounds.Doubling.Stat.coercive
+#print axioms GFNBounds.Doubling.Stat.defectRange_eq_kerPi
+#print axioms GFNBounds.Doubling.Stat.exists_inverse_of_tail
+#print axioms GFNBounds.Doubling.Stat.exists_diffusionOp_of_tail
+#print axioms GFNBounds.Doubling.Stat.decr_le
+#print axioms GFNBounds.Doubling.Stat.tail_le_far
+#print axioms GFNBounds.Doubling.Stat.tail_bound_of_ratio
+#print axioms GFNBounds.Doubling.Stat.exists_diffusionOp_of_ratio
+#print axioms GFNBounds.Doubling.geometric_ratio
+#print axioms GFNBounds.Doubling.geometric_exists_stat
+#print axioms GFNBounds.Doubling.main_geometric
+#print axioms GFNBounds.Doubling.geometric_diffusionOp
+#print axioms GFNBounds.Doubling.table_polynomial
+#print axioms GFNBounds.Doubling.table_uniform
+#print axioms GFNBounds.Doubling.table_geometric

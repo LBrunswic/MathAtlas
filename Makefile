@@ -44,14 +44,14 @@ else
 	  $(PY) -m unittest discover -s tests -t . -q
 endif
 
-# The Lean library's own gate. Under FREEZE=1 (DEC-2, until hub.toml [freeze].until, enforced by
-# gate-registers) the library is a read-only submodule of GFNBoundsLean and its gate is that
-# repository's; this target then only records the pin it would have checked.
+# The Lean library's own gate: lean/, GFNBoundsLean absorbed in-tree (DEC-157, T-gfn-absorb).
+# FREEZE=1 (DEC-2) is retired (DEC-131); gate-registers fails if it is still set, and this target
+# then only records the commit it would have checked.
 lib-check:
 ifeq ($(LEANARTICLES_SKIP_LIB),1)
 	@echo "lib-check: skipped (LEANARTICLES_SKIP_LIB=1, set only by tests/test_no_model_in_gates.py: the library gate builds Lean and calls no model)"
 else ifeq ($(FREEZE),1)
-	@echo "lib-check: FREEZE=1 — lean/ is the read-only submodule at $$(git -C lean rev-parse --short HEAD); its gate is GFNBoundsLean's (DEC-2)"
+	@echo "lib-check: FREEZE=1 — skipped at $$(git rev-parse --short HEAD) (DEC-2, retired by DEC-131)"
 else
 	$(MAKE) -C lean check
 endif

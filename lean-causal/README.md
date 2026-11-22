@@ -9,8 +9,8 @@ The formalization of `papers/ett`: a strict library `Causal` and a scaffold libr
     make check                           # strict build, scaffold build, sorry count, axiom sweep
 
 **This directory is a provisional home.** The hub's plan puts every project in the one package
-under `lean/`. Until GFNBoundsLean is absorbed in-tree (WP-8, OQ-1) `lean/` is a read-only
-submodule, so the library is grown here in the layout it will have there: graduation is
+under `lean/`. GFNBoundsLean is now absorbed in-tree as `lean/` (DEC-157), and the packages
+merge into it eventually (DEC-158), so the library is grown here in the layout it will have there: graduation is
 `git mv lean-causal/Causal lean/Causal` and
 `git mv lean-causal/scaffold/CausalScaffold lean/scaffold/CausalScaffold`, and
 `papers/ett/ledger/ledger.toml`'s `[lean] root` goes back to `../../../lean` (OQ-11).

@@ -19,19 +19,22 @@ again with `python3 tools/dropbox_ignore.py` if the directory is ever recreated.
 **Never create a git worktree of this repository.** The Lean build is 8 GB and is not
 worktree-portable; parallel work uses short-lived `lane/*` branches in the single checkout.
 
-## The GFN line (freeze retired, DEC-131)
+## The GFN line (freeze retired, DEC-131; absorbed in-tree, DEC-157)
 
-The DEC-2 freeze ended with the ICLR deadline and was retired by DEC-131. `lean/` (GFNBoundsLean)
-and `tools/leanlink` stay read-only submodules until OQ-1 rules whether GFNBoundsLean is absorbed
-in-tree; `lib-check` runs GFNBoundsLean's own gate, which regenerates its `docs/` in the submodule:
-restore it with `git -C lean checkout -- .` and never commit it from here.
+The DEC-2 freeze ended with the ICLR deadline and was retired by DEC-131. DEC-157 (OQ-1) absorbed
+GFNBoundsLean in-tree as the seed of `lean/` (T-gfn-absorb: a subtree merge of its `main` at
+`2e9865c`, so its history is kept): `lean/` is no longer a submodule, and its gate runs as a hub
+package. `tools/leanlink` stays a read-only submodule. `lib-check` runs `make -C lean check`,
+which regenerates the tracked `lean/docs/` and `lean/paper-map.json`: restore them with
+`git -C lean checkout -- .` after a gate, unless regenerating them is what the commit is for.
+The other packages merge into `lean/` eventually (DEC-158), not yet.
 
 ## Layout
 
 | path | what |
 |---|---|
 | `lean/` | the Lean library: one package, per project a strict lib (`warningAsError`, `sorry` is an error) and a scaffold lib; `projects.toml` lists them and every audit iterates it |
-| `lean-causal/` | the ETT library (`Causal` strict, `CausalScaffold` scaffold), a package of its own at the hub's pin **while `lean/` is a read-only submodule** (OQ-11); laid out so that moving it into `lean/` is a file move. `make -C lean-causal check` is its gate; read `lean-causal/README.md` |
+| `lean-causal/` | the ETT library (`Causal` strict, `CausalScaffold` scaffold), a package of its own at the hub's pin **until the packages merge into `lean/`** (DEC-158; OQ-11); laid out so that moving it into `lean/` is a file move. `make -C lean-causal check` is its gate; read `lean-causal/README.md` |
 | `papers/<slug>/` | one per paper: `paper.toml`, `STORY.md`, `legacy/` (frozen snapshot + `MANIFEST.json`), `ledger/` (generated statement ledger + DAG), `certificate/` (anchors, exposition), `paper/body/**` (prose only) and `paper/generated/**` |
 | `tools/` | the gates and generators (stdlib Python); `tools/leanlink` is the LeanLink submodule; `tools/cassettes/` holds every recorded model exchange |
 | `tests/` | the tools' own tests, run by `make check`; they replay cassettes and never call a model |
