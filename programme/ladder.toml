@@ -179,6 +179,9 @@
 # countable spaces). In all: 34 implied, 275 refuted, 9 [[open]] (3 causality-sort, 4 geometry-sort,
 # 2 pair-sort). After T-lad-one-sided-node (2026-11-22) still 318 of 318, the same 34, 275 and 9: it
 # adds one consequence (ERS Thm 4.82 at is_causal, one_sided_boundary in its `under`) and no node, so
+# no pair moves. After T-lad-ers-restart-nodes (2026-11-22) still 318 of 318, the same 34, 275 and 9.
+# It adds 19 consequences of ERS §4 (Thm 4.64 and its corollaries, Thm 4.75, Thms 4.79, 4.80, three
+# more forms of Thm 4.82) with slice_restart and frontier_stays_in in their `under`, and no node, so
 # no pair moves.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
@@ -271,11 +274,45 @@
 # * (b) one_sided_boundary (Causal.Causality.OneSidedBoundary U B, Causal/LadderLocal.lean:190, the
 #   topological content of ERS (4.83)) is an edge hypothesis only, not a ladder node. A predicate on an
 #   open U and a set B of M with no causality, it fits neither sort; it is written in words in the
-#   `under` of the consequence that takes it (ERS Thm 4.82 at is_causal,
-#   Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary; the forms through it are
-#   T-lad-ers-restart-nodes'). Its layer 3 is (4.83)'s chart condition, supplied at the quasilinear
-#   model by Lemma 4.86 (T-loc-quasilinear-one-sided, done). The binder papers/ers-predictability keeps
-#   one_sided_boundary as a [[proposed]] localisation id until T-bind-ers-rulings rewords it.
+#   `under` of the consequences that take it (ERS Thm 4.82 at is_causal,
+#   Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary, and the three forms through it, recorded
+#   beside it by T-lad-ers-restart-nodes with the same words). Its layer 3 is (4.83)'s chart
+#   condition, supplied at the quasilinear model by Lemma 4.86 (T-loc-quasilinear-one-sided, done).
+#   The binder papers/ers-predictability keeps one_sided_boundary as a [[proposed]] localisation id
+#   until T-bind-ers-rulings rewords it.
+#
+# The restart hypotheses of ERS §4 (DEC-162, OQ-57 (b) read as taken; T-lad-ers-restart-nodes,
+# 2026-11-22): two named localisation hypotheses, kept apart, and no node.
+# * slice_restart is Causal.Causality.SliceRestart C W S R L Q (Causal/ErsUniqueness.lean:211): at
+#   every frontier point p of the region R lying in L at which that frontier is spacelike in W
+#   relative to S (Causal.Causality.IsSpacelikeBoundaryPoint, :196: J⁻_W(p) ∩ ∂R ∩ J⁺_W(S) = {p} or
+#   the past form), Q p. It is Steps 3–5 of Thm 4.64 with Prop 4.63, and ERS Thm 4.82's `hstep`
+#   definitionally (ers_theorem_4_82_of_sliceRestart). Layer 3: T-loc-quasilinear-slice.
+# * frontier_stays_in is Causal.Causality.FrontierStaysIn C W S R L (:226): for every frontier point q
+#   of R in L lying in J⁺_W(S), the frontier points of R in J⁻_W(q) ∩ J⁺_W(S) lie in L, and the past
+#   form. It is Step 2's "γ([0,1]) ⊆ U₂" (ghd_02_19.tex:880). Layer 3: T-loc-quasilinear-frontier.
+# * Neither has a parameter-free form, so neither is a node (the keeper's call, which the target
+#   leaves to it). Both are predicates on a causality C and on an open W, a surface S, a region R and
+#   a location L, and the restart also on a conclusion Q that names the solutions ("a strictly larger
+#   common development", "a development strictly larger than U₁"). The theorems use them with R
+#   ranging over the common developments of two given developments and L = U₁ ∩ U₂ (Thm 4.64, Rem
+#   4.67, Cors 4.68, 4.69, 4.71, 4.73, Thms 4.79, 4.80), L a component of DS_p ∩ DS_q (Thm 4.75,
+#   bundled in Causal.Causality.RestartsIn) or L = W = dom i (Thm 4.82). Quantifying the parameters
+#   away gives either a trivial statement (Q true) or a false one on Minkowski space. For
+#   frontier_stays_in at every L, in 1+1 Minkowski take S = {t = 0}, R the diamond |x| < 1 − |t|,
+#   q = (1/2, 1/2) on ∂R, and L a small ball about q: the null generator of ∂R from q down to (0, 1)
+#   is in J⁻(q) ∩ J⁺(S) ∩ ∂R and leaves L (argued, not in Lean). Fixing the parameters to what the
+#   theorems use keeps the solutions (agree, the developments) in them, and fits neither sort: a pair
+#   node is a nesting of two causalities on fixed opens, and the supplier of frontier_stays_in needs
+#   g(u₁) = g(u₂) on closure R ∩ U₁ ∩ U₂, which is PDE content. So both are edge hypotheses, as
+#   one_sided_boundary is by DEC-166 (b). Each is written in words in the `under` of the consequences
+#   that take it (below: at globally_hyperbolic ∧ tarentin, at is_causal for 4.82, at
+#   inextensible_nested and curve_nested), with its Lean name and the W, S, R, L (and Q) at which
+#   the witness takes it. No sort is added and no pair moves.
+# * Thm 4.82 takes slice_restart and not frontier_stays_in. Its restart is located in all of dom i
+#   (L = W = dom i), so its Step 2 needs no U₂ half. one_sided_boundary is its other edge hypothesis.
+# * The binder papers/ers-predictability keeps both ids as [[proposed]] localisation ids until
+#   T-bind-ers-rulings rewords them as edge hypotheses.
 #
 # Provenance of the names. Those added on 2026-11-20 by T-lad-cbg-geometry-nodes and by
 # T-lad-nested-nodes were resolved by `#check` against the library as built that day (lake env lean,
@@ -350,7 +387,17 @@
 # (2026-11-22: the consequence's witness Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary and
 # every Lean name its comment and the refreshed comments cite) were read from the sources, with no
 # build (a tactics-builder held lean-causal), the witness's signature quoted in its comment; it takes
-# [T2Space M] [LocallyConnectedSpace M], its standing ["T2", "locally_connected"].
+# [T2Space M] [LocallyConnectedSpace M], its standing ["T2", "locally_connected"]. Those of
+# T-lad-ers-restart-nodes (2026-11-22: the 19 ERS §4 consequences' witnesses, from
+# Causal.ErsUniqueness, Causal.ErsUnions, Causal.Ers464SecondCountable, Causal.ErsSecondCountable,
+# and every Lean name the new and refreshed comments cite, including the definitions SliceRestart,
+# FrontierStaysIn, IsSpacelikeBoundaryPoint, IsCommonDevelopment, RestartsIn, IsLocalDevelopment and
+# the non-vacuity witnesses) were read from the sources, with no build (closers held
+# lean-causal/scaffold). Each witness's signature is quoted, binder by binder, in its comment, and
+# each name was resolved by tools/ladder.py's index. Their instance binders are their standings:
+# ["T2"] for ers_theorem_4_64, ers_remark_4_67 and ers_corollary_4_68; ["T2", "locally_connected"] for
+# ers_theorem_4_75 and the two 4.82 forms of Causal.ErsUniqueness; ["T2", "second_countable"] for every
+# `…_secondCountable` form but 4.82's, which adds "locally_connected".
 
 [[property]]
 id = "is_causal"
@@ -479,8 +526,13 @@ what = "every causal curve of M over a segment [a, b] lies on an inextensible ca
 # Causal.Causality.curvesExtendOn_of_t1_secondCountable (CurvesExtendOn W for every open W), the
 # general one Causal.Causality.exists_inextensible_of_t1_secondCountable (a causal curve of W over any
 # interval, not only a segment, lies on an inextensible one). The edge time_function ⇒ curves_extend
-# stays: it asks no standing (it holds on every space with a time function), and it is the
-# CausalLadder rule (a fact is none: emit-lean makes rules of [[implies]] only). Sharpness is not
+# stays: it asks no standing (it holds on every space with a time function), and it is the one
+# CausalLadder rule for curves_extend that Causal.Ladder.Rules carries. Since T-tac-ladder-integration
+# (1735598) emit-lean also makes rules of checked causality-sort facts (`safe apply`, with the
+# standing synthesised), but this fact's rule is skipped there as an import cycle: its witness's
+# module imports Rules (Causal.CurvesExtendSecondCountable → Causal.MaximalZorn → Causal.ErsMughd →
+# Causal.Ladder.Rules), so Rules.lean has a `-- skipped fact` line for it and Causal.Ladder.Test
+# registers the rule locally, in its last section, and tests it there. Sharpness is not
 # formalised: off second countability the long ray (the property's comment); whether T1 weakens to
 # T0 is not examined (a finite space has curves_extend trivially, a curve of maximal image being
 # inextensible: argued in the witness's SCOPE; so the vee, space = ["T0"], the one counterexample to
@@ -2265,13 +2317,246 @@ status = "checked"
 # (Causal/ErsUniqueness.lean:722; hstep written SliceRestart, hsplit SplitBy, hKm, hKp
 # CompactSlabs), ers_theorem_4_82_of_globallyHyperbolicOn (:749; hcaus, hJm, hJp from
 # globally_hyperbolic and tarentin of each cau i on dom i) and
-# ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:636), left
-# to T-lad-ers-restart-nodes (slice_restart in `under`).
+# ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:636),
+# recorded below by T-lad-ers-restart-nodes (2026-11-22), each with honesided in these words and
+# slice_restart named in `under`. The `under` here was then reworded to name slice_restart too: the
+# hypothesis and the words describing it are unchanged.
 [[consequence]]
 at = "is_causal"
 statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton: a maximal development U₁ = dom i₁ whose boundary off closure S is one-sided contains, under the restart, every development: dom i ⊆ U₁ for every i"
 witness = "Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary"
-under = "developments (dom i, cau i), each with S ⊆ dom i and dom i preconnected, s₀ ∈ S, U₁ = dom i₁ maximal among them; is_causal of each cau i on its dom i (ladder node, read on the development: hcaus); S splits each dom i (every point in J⁺_{dom i}(S) ∪ J⁻_{dom i}(S)); J⁺_{dom i}(x), J⁻_{dom i}(x) relatively closed in dom i; the slabs J∓_{dom i}(q) ∩ J±_{dom i}(S) compact; closure S ∩ dom i ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): OneSidedBoundary U₁ (closure S), i.e. Causal.Causality.OneSidedBoundary (dom i₁) (closure S), every frontier point of U₁ off closure S having arbitrarily small neighbourhoods V with V ∩ U₁ preconnected ((4.83)'s topological content); the restart hstep (Causal.Causality.SliceRestart definitionally: at each frontier point p ∈ dom i of the component of U₁ ∩ dom i through s₀ at which that frontier is spacelike, a neighbourhood V ⊆ dom i of p with V ∩ U₁ inside the component gives a development strictly larger than U₁)"
+under = "developments (dom i, cau i), each with S ⊆ dom i and dom i preconnected, s₀ ∈ S, U₁ = dom i₁ maximal among them; is_causal of each cau i on its dom i (ladder node, read on the development: hcaus); S splits each dom i (every point in J⁺_{dom i}(S) ∪ J⁻_{dom i}(S)); J⁺_{dom i}(x), J⁻_{dom i}(x) relatively closed in dom i; the slabs J∓_{dom i}(q) ∩ J±_{dom i}(S) compact; closure S ∩ dom i ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): OneSidedBoundary U₁ (closure S), i.e. Causal.Causality.OneSidedBoundary (dom i₁) (closure S), every frontier point of U₁ off closure S having arbitrarily small neighbourhoods V with V ∩ U₁ preconnected ((4.83)'s topological content); slice_restart, an edge hypothesis and no node (DEC-162), as the restart hstep (Causal.Causality.SliceRestart definitionally: at each frontier point p ∈ dom i of the component of U₁ ∩ dom i through s₀ at which that frontier is spacelike, a neighbourhood V ⊆ dom i of p with V ∩ U₁ inside the component gives a development strictly larger than U₁); no frontier_stays_in (the restart is located in all of dom i)"
+standing = ["T2", "locally_connected"]
+status = "checked"
+
+# ---- ERS §4 on a fixed background: Thm 4.64, its corollaries, Thm 4.75 and the 4.82 forms, with
+# slice_restart and frontier_stays_in named in `under` (T-lad-ers-restart-nodes, 2026-11-22; DEC-162,
+# OQ-57 (b) read as taken: the two kept apart, edge hypotheses and no nodes, header). Read from the
+# sources, with no build (closers held lean-causal/scaffold): Causal/ErsUniqueness.lean (56ccff0),
+# Causal/ErsUnions.lean (109bb64), Causal/Ers464SecondCountable.lean (c178342),
+# Causal/ErsSecondCountable.lean (3999b32), Causal/ErsMughd.lean. Each entry's `under` is its
+# witness's binders, in order of the signature, and its standing is the witness's instance binders.
+# * `at`. The causality-sort ids are read on an open set seen as a spacetime (kb/0001):
+#   Causal.Causality.GloballyHyperbolicOn U₁, TarentinOn U₁ and CausallyArcConnectedOn U₁ are
+#   globally_hyperbolic, tarentin and causally_arc_connected of U₁. At ⊤ they are the nodes at M
+#   (Causal.Causality.globallyHyperbolicOn_top, tarentinOn_top; CausallyArcConnected is
+#   CausallyArcConnectedOn ⊤ by definition). This is how the 4.82 entry above reads is_causal on each
+#   development. Cor 4.69 reads them at M itself (U₁ = ⊤). The corollaries that also consume a nesting
+#   (4.71 at inextensible_nested, 4.73 at curve_nested, 4.79 and 4.80 at both) are listed with the
+#   pair-sort consequences, beside Lemmas 4.70 and 4.72.
+# * The fixed background. M is the background; C is the causality of g(u₁, du₁), C₂ that of
+#   g(u₂, du₂). The solutions are an agreement predicate on opens that glues (Causal.AgreementGlues;
+#   for two functions EqOn, Causal.agreementGlues_eqOn). A common development
+#   (Causal.Causality.IsCommonDevelopment) is an open V ⊆ U₁ ∩ U₂ containing S on which the solutions
+#   agree, with S a Cauchy surface of V for C; GH is not asked of it.
+# * hlocal (some common development exists) is local_uniqueness's existential on this background, an
+#   edge hypothesis by DEC-162 (OQ-57 (c)), T-lad-development-nodes'. It is named here in words
+#   without being recorded for that target.
+# * Second countable forms. A `…_secondCountable` form that only drops binders (the
+#   through-hypotheses, Minkowski's hmext, or a hsplit derived from a Cauchy hypothesis the original
+#   already has) is the entry's witness, standing ["T2", "second_countable"]. On the ambient it is the
+#   original with fewer hypotheses. This applies to Rem 4.67's time orientations, Cors 4.69, 4.71 and
+#   4.73, and Thms 4.79 and 4.80. A trade form (`…_of_isCauchySurface(On)_secondCountable`, hacausal
+#   and hsplit traded for S a Cauchy surface of U₁ with U₁ causally arc-connected: DEC-162's "GHD read
+#   S Cauchy") is a sibling and not stronger. So it is a second entry, at the conjunction with
+#   causally_arc_connected: Thm 4.64, Rem 4.67 (its GH form, which concludes more on the same
+#   hypotheses), Cors 4.68, 4.69, 4.71 and 4.73. 4.82's trades hsplit alone for S Cauchy in each dom i
+#   and is the third 4.82 entry. Thm 4.75 has none: Causal.Ers464SecondCountable's SCOPE keeps
+#   hacausal and hsplit in IsLocalDevelopment, maxDevelopmentIn_eq and ers_theorem_4_64_in. It takes
+#   no curve hypothesis either.
+# * Named in comments, not entries: the _maxCommonDevelopment_ forms of 4.64 (V₀ = U₁ ∩ U₂); the
+#   _of_localUniqueness_ forms, whose hloc is local_uniqueness proper (Causal.Causality.LocalUniqueness,
+#   T-lad-development-nodes); 4.68's printed form for two functions (_eqOn); Rem 4.67's trade forms of
+#   the time orientations; "any m-GHD is a UGHD" (Causal.IsMDevelopment.isUniqueDevelopment_secondCountable).
+# * Non-vacuity (kb/0011), on the timelike line with S = {0}: Causal.timelikeLine_ers_theorem_4_64_Ioo
+#   (U₂ = ]-1, 1[, u₂ the clamp; hstay and hstep inhabited), its trade form's
+#   Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable,
+#   Causal.timelikeLine_ers_theorem_4_75 (with Causal.timelikeLine_restartsIn_ersWitnessIoo),
+#   Causal.timelikeLine_ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable and
+#   Causal.timelikeLine_ers_theorem_4_79_4_80. The 4.68, 4.69, 4.71 and 4.82 forms have no witness of
+#   their own in the library (searched by name): a non-vacuity target for them is the keeper's
+#   proposal, not a ladder entry.
+
+# ERS19 Thm 4.82 with its hstep written as slice_restart (Causal/ErsUniqueness.lean:722, definitionally
+# the theorem above): [T2Space M] [LocallyConnectedSpace M]; dom, cau, hs₀, i₁, hSU, hmax, hconn, hcaus;
+# hsplit : ∀ i, (cau i).SplitBy (dom i) S; hJm, hJp; hK : ∀ i, (cau i).CompactSlabs (dom i) S;
+# hSclosed; honesided : OneSidedBoundary (dom i₁) (closure S); hstep : ∀ i, (cau i).SliceRestart
+# (dom i) S Aᵢ (dom i) Qᵢ, Aᵢ = connectedComponentIn (dom i₁ ∩ dom i) s₀, Qᵢ p = (∃ V ∈ 𝓝 p,
+# V ⊆ dom i ∧ V ∩ dom i₁ ⊆ Aᵢ) → ∃ j, dom i₁ < dom j.
+[[consequence]]
+at = "is_causal"
+statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton, the restart written as slice_restart: a maximal development U₁ = dom i₁ whose boundary off closure S is one-sided contains every development: dom i ⊆ U₁ for every i"
+witness = "Causal.Causality.ers_theorem_4_82_of_sliceRestart"
+under = "developments (dom i, cau i), each with S ⊆ dom i and dom i preconnected, s₀ ∈ S, U₁ = dom i₁ maximal among them; is_causal of each cau i on its dom i (ladder node, read on the development: hcaus); S splits each dom i (Causal.Causality.SplitBy (dom i) S); J⁺_{dom i}(x), J⁻_{dom i}(x) relatively closed in dom i; compact slabs (Causal.Causality.CompactSlabs (dom i) S); closure S ∩ dom i ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): OneSidedBoundary U₁ (closure S), i.e. Causal.Causality.OneSidedBoundary (dom i₁) (closure S), every frontier point of U₁ off closure S having arbitrarily small neighbourhoods V with V ∩ U₁ preconnected ((4.83)'s topological content); slice_restart, an edge hypothesis and no node (DEC-162): Causal.Causality.SliceRestart (cau i) (dom i) S Aᵢ (dom i) Qᵢ for every i (hstep), Aᵢ the component of U₁ ∩ dom i through s₀, i.e. at each frontier point p ∈ dom i of Aᵢ at which that frontier is spacelike in dom i relative to S (Causal.Causality.IsSpacelikeBoundaryPoint), a neighbourhood V ⊆ dom i of p with V ∩ U₁ ⊆ Aᵢ gives a development strictly larger than U₁; no frontier_stays_in (the restart is located in all of dom i)"
+standing = ["T2", "locally_connected"]
+status = "checked"
+
+# The same with hcaus, hJm, hJp derived from globally_hyperbolic and tarentin of each development
+# (Causal/ErsUniqueness.lean:749, through GloballyHyperbolicOn.closure_Jminus_inter_subset):
+# [T2Space M] [LocallyConnectedSpace M]; hG : ∀ i, (cau i).GloballyHyperbolicOn (dom i);
+# hT : ∀ i, (cau i).TarentinOn (dom i); otherwise the previous entry's binders.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton, every development globally hyperbolic and tarentin: a maximal development U₁ = dom i₁ whose boundary off closure S is one-sided contains every development: dom i ⊆ U₁ for every i"
+witness = "Causal.Causality.ers_theorem_4_82_of_globallyHyperbolicOn"
+under = "developments (dom i, cau i), each with S ⊆ dom i and dom i preconnected, s₀ ∈ S, U₁ = dom i₁ maximal among them; globally_hyperbolic and tarentin of each cau i read on its dom i (ladder nodes, read on the development: hG, hT); S splits each dom i (Causal.Causality.SplitBy (dom i) S); compact slabs (Causal.Causality.CompactSlabs (dom i) S); closure S ∩ dom i ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): OneSidedBoundary U₁ (closure S), i.e. Causal.Causality.OneSidedBoundary (dom i₁) (closure S), every frontier point of U₁ off closure S having arbitrarily small neighbourhoods V with V ∩ U₁ preconnected ((4.83)'s topological content); slice_restart, an edge hypothesis and no node (DEC-162): Causal.Causality.SliceRestart (cau i) (dom i) S Aᵢ (dom i) Qᵢ for every i (hstep), Aᵢ the component of U₁ ∩ dom i through s₀, i.e. at each frontier point p ∈ dom i of Aᵢ at which that frontier is spacelike in dom i relative to S, a neighbourhood V ⊆ dom i of p with V ∩ U₁ ⊆ Aᵢ gives a development strictly larger than U₁; no frontier_stays_in"
+standing = ["T2", "locally_connected"]
+status = "checked"
+
+# DEC-162's reading, "u a GHD" as S a Cauchy surface of each development
+# (Causal/Ers464SecondCountable.lean:636): [T2Space M] [SecondCountableTopology M]
+# [LocallyConnectedSpace M]; hcauchy : ∀ i,
+# (cau i).IsCauchySurfaceOn (dom i) S for the previous entry's hsplit (splitBy_of_t1_secondCountable
+# derives it); otherwise the previous entry's binders. A restatement: on the ambient it asks more
+# than the previous entry (S Cauchy gives the splitting), and it is the form in the paper's reading.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Thm 4.82 (ersthm:ThmNotBlocking), skeleton, with S a Cauchy surface of each development (DEC-162): a maximal development U₁ = dom i₁ whose boundary off closure S is one-sided contains every development: dom i ⊆ U₁ for every i"
+witness = "Causal.Causality.ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable"
+under = "developments (dom i, cau i), each with S ⊆ dom i and dom i preconnected, s₀ ∈ S, U₁ = dom i₁ maximal among them; globally_hyperbolic and tarentin of each cau i read on its dom i (ladder nodes, read on the development: hG, hT); S a Cauchy surface of each dom i for cau i (hcauchy, DEC-162); compact slabs (Causal.Causality.CompactSlabs (dom i) S); closure S ∩ dom i ⊆ S; one_sided_boundary, an edge hypothesis and no node (DEC-166 (b)): OneSidedBoundary U₁ (closure S), i.e. Causal.Causality.OneSidedBoundary (dom i₁) (closure S), every frontier point of U₁ off closure S having arbitrarily small neighbourhoods V with V ∩ U₁ preconnected ((4.83)'s topological content); slice_restart, an edge hypothesis and no node (DEC-162): Causal.Causality.SliceRestart (cau i) (dom i) S Aᵢ (dom i) Qᵢ for every i (hstep), Aᵢ the component of U₁ ∩ dom i through s₀, i.e. at each frontier point p ∈ dom i of Aᵢ at which that frontier is spacelike in dom i relative to S, a neighbourhood V ⊆ dom i of p with V ∩ U₁ ⊆ Aᵢ gives a development strictly larger than U₁; no frontier_stays_in"
+standing = ["T2", "second_countable", "locally_connected"]
+status = "checked"
+
+# ERS19 Thm 4.64 (ersthm:ThmUnique, ghd_02_19.tex:858, proof 865–912), causal-topological skeleton
+# (Causal/ErsUniqueness.lean:466): [T2Space M]; hglue : AgreementGlues agree;
+# hG : C.GloballyHyperbolicOn U₁; hT : C.TarentinOn U₁; hacausal : C.IsAcausalOn U₁ S;
+# hsplit : C.SplitBy U₁ S; hK : C.CompactSlabs U₁ S; hconn : IsPreconnected (U₁ ⊓ U₂);
+# hlocal : ∃ V, C.IsCommonDevelopment S U₁ U₂ agree V; hstay : ∀ V, IsCommonDevelopment … V →
+# C.FrontierStaysIn U₁ S V (U₁ ⊓ U₂); hstep : ∀ V, IsCommonDevelopment … V → C.SliceRestart U₁ S V
+# (U₁ ⊓ U₂) (fun _ => ∃ V', IsCommonDevelopment … V' ∧ V < V'); conclusion agree (U₁ ⊓ U₂). Its form
+# for V₀: Causal.Causality.ers_theorem_4_64_maxCommonDevelopment (:433, the maximal common development
+# is U₁ ∩ U₂). With hlocal from local uniqueness (Prop 4.63):
+# Causal.Causality.ers_theorem_4_64_of_localUniqueness (Causal/ErsUnions.lean:383). Run in a region
+# L ≤ W (Thm 4.75's use): Causal.Causality.ers_theorem_4_64_in (:448), with frontier_stays_in and
+# slice_restart located in L.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Thm 4.64 (ersthm:ThmUnique), skeleton: two developments of the same data with U₁ ∩ U₂ connected agree on U₁ ∩ U₂"
+witness = "Causal.Causality.ers_theorem_4_64"
+under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes, U₁ seen as a spacetime: hG, hT); the solutions an agreement predicate that glues (Causal.AgreementGlues); S acausal in U₁ (Causal.Causality.IsAcausalOn, OQ-41), splitting U₁ (Causal.Causality.SplitBy U₁ S: every point in J⁺_{U₁}(S) ∪ J⁻_{U₁}(S)), with compact slabs J∓_{U₁}(q) ∩ J±_{U₁}(S) (Causal.Causality.CompactSlabs); U₁ ∩ U₂ preconnected; a common development exists (hlocal, local_uniqueness's existential on this background: T-lad-development-nodes), a common development being an open V ⊆ U₁ ∩ U₂ containing S on which the solutions agree, with S a Cauchy surface of V for C (Causal.Causality.IsCommonDevelopment); frontier_stays_in, an edge hypothesis and no node (DEC-162; OQ-57 (b), kept apart from the restart): Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V (hstay), i.e. for every frontier point q of V in U₁ ∩ U₂ lying in J⁺_{U₁}(S) (resp. J⁻_{U₁}(S)), the frontier points of V in J⁻_{U₁}(q) ∩ J⁺_{U₁}(S) (resp. J⁺_{U₁}(q) ∩ J⁻_{U₁}(S)) lie in U₁ ∩ U₂ (Step 2's γ([0,1]) ⊆ U₂); slice_restart, an edge hypothesis and no node (DEC-162): Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) Q for every common development V (hstep), Q 'a common development strictly larger than V', i.e. at every frontier point p of V in U₁ ∩ U₂ at which that frontier is spacelike in U₁ relative to S (Causal.Causality.IsSpacelikeBoundaryPoint), a strictly larger common development (Steps 3–5 with Prop 4.63)"
+standing = ["T2"]
+status = "checked"
+
+# DEC-162's reading (Causal/Ers464SecondCountable.lean:293): [T2Space M] [SecondCountableTopology M];
+# hC₁ : C.IsCauchySurfaceOn U₁ S and harc : C.CausallyArcConnectedOn U₁ for hacausal, hsplit
+# (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable, splitBy_of_t1_secondCountable derive them);
+# otherwise the previous entry's binders. Its V₀ form:
+# ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable (:272); with local
+# uniqueness: ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable (:312).
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
+statement = "ERS Thm 4.64 (ersthm:ThmUnique), skeleton, with S a Cauchy surface of U₁ (DEC-162): two developments of the same data with U₁ ∩ U₂ connected agree on U₁ ∩ U₂"
+witness = "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable"
+under = "globally_hyperbolic, tarentin and causally_arc_connected of C read on U₁ (ladder nodes, U₁ seen as a spacetime: hG, hT, harc); S a Cauchy surface of U₁ for C (hC₁, DEC-162's reading of 'u₁ a GHD'), in place of the previous entry's S acausal in and splitting U₁; compact slabs (Causal.Causality.CompactSlabs U₁ S); the solutions an agreement predicate that glues (Causal.AgreementGlues); U₁ ∩ U₂ preconnected; a common development exists (hlocal, local_uniqueness's existential: T-lad-development-nodes; Causal.Causality.IsCommonDevelopment); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162), in the words of the previous entry"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# ERS19 Rem 4.67, first sentence (ersrem:RemTime, ghd_02_19.tex:914; Causal/ErsUniqueness.lean:486):
+# the binders of Thm 4.64's entry; conclusion IsGreatest {V | C.IsCommonDevelopment S U₁ U₂ agree V}
+# (U₁ ⊓ U₂). GH of U₁ ∩ U₂ is not concluded here (module SCOPE); the next entry concludes it.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Rem 4.67 (ersrem:RemTime), first sentence, skeleton: under Thm 4.64's hypotheses U₁ ∩ U₂ is the greatest common development"
+witness = "Causal.Causality.ers_remark_4_67"
+under = "Thm 4.64's (the entry above at globally_hyperbolic, tarentin): globally_hyperbolic and tarentin of C read on U₁ (ladder nodes: hG, hT); the solutions an agreement predicate that glues; S acausal in U₁, splitting it, with compact slabs; U₁ ∩ U₂ preconnected; a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162)"
+standing = ["T2"]
+status = "checked"
+
+# "The maximal common GHD" as printed (Causal/Ers464SecondCountable.lean:232, the hext-free form of
+# Causal.Causality.ers_remark_4_67_globallyHyperbolicOn, Causal/ErsUnions.lean:328): [T2Space M]
+# [SecondCountableTopology M]; hglue, hG, hT, hK, hconn, hlocal, hstay, hstep;
+# hS : C.IsCauchySurfaceOn U₁ S; hC : C.CausallyArcConnectedOn U₁. Conclusion: IsGreatest … (U₁ ⊓ U₂)
+# ∧ C.GloballyHyperbolicOn (U₁ ⊓ U₂) ∧ C.CausallyConvexIn (U₁ ⊓ U₂) U₁. The trade form
+# ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (:332) has the same hypotheses and the first
+# conjunct only.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
+statement = "ERS Rem 4.67 (ersrem:RemTime), first sentence as printed, with S a Cauchy surface of U₁ (DEC-162): U₁ ∩ U₂ is the greatest common development, and it is globally hyperbolic and causally convex in U₁"
+witness = "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn_secondCountable"
+under = "globally_hyperbolic, tarentin and causally_arc_connected of C read on U₁ (ladder nodes: hG, hT, hC); S a Cauchy surface of U₁ for C (hS, DEC-162); compact slabs (Causal.Causality.CompactSlabs U₁ S); the solutions an agreement predicate that glues; U₁ ∩ U₂ preconnected; a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# ERS19 Rem 4.67, second sentence (Causal/Ers464SecondCountable.lean:427,
+# Causal.Causality.ers_remark_4_67_future less hthrough): [T2Space M] [SecondCountableTopology M];
+# {C₂}; hglue, hG, hT, hacausal;
+# hC₁ : C.IsCauchySurfaceOn U₁ S; hK, hconn, hlocal, hstay, hstep;
+# hfollow : FollowsSolution C C₂ agree (U₁ ⊓ U₂); conclusion ∀ x ∈ U₁ ⊓ U₂, x ∈ C.Jplus U₁ S →
+# x ∈ C₂.Jplus U₂ S. "Similarly for the past": Causal.Causality.ers_remark_4_67_past_secondCountable
+# (:447), the same binders. The trade forms, hacausal traded for harc:
+# ers_remark_4_67_future_of_isCauchySurfaceOn_secondCountable (:468), _past_ (:487).
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Rem 4.67 (ersrem:RemTime), second sentence, skeleton: with the normal of S future directed in both developments, a point of U₁ ∩ U₂ to the future of S in U₁ (for C) is to the future of S in U₂ (for C₂) (the past form, ERS's 'similarly for the past', is named in the comment)"
+witness = "Causal.Causality.ers_remark_4_67_future_secondCountable"
+under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes: hG, hT); the solutions an agreement predicate that glues; S acausal in U₁ and a Cauchy surface of U₁ for C; compact slabs; U₁ ∩ U₂ preconnected; a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162); the causality follows the solution on U₁ ∩ U₂ with the normal of S future directed in both (Causal.Causality.FollowsSolution C C₂ agree (U₁ ∩ U₂): if the solutions agree there, ≤_{U₁ ∩ U₂} of C lies in that of C₂)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# ERS19 Cor 4.68 (erscor:CorDisCon, ghd_02_19.tex:921; Causal/ErsUniqueness.lean:594), the
+# contrapositive of Thm 4.64: its binders less hconn, with hdis : ¬ agree (U₁ ⊓ U₂); conclusion
+# ¬ IsPreconnected (U₁ ⊓ U₂). As printed, for two functions u₁ x ≠ u₂ x:
+# Causal.Causality.ers_corollary_4_68_eqOn (:610).
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Cor 4.68 (erscor:CorDisCon), skeleton: if two developments of the same data disagree on U₁ ∩ U₂, then U₁ ∩ U₂ is not connected"
+witness = "Causal.Causality.ers_corollary_4_68"
+under = "globally_hyperbolic and tarentin of C read on U₁ (ladder nodes: hG, hT); the solutions an agreement predicate that glues, not agreeing on U₁ ∩ U₂; S acausal in U₁, splitting it, with compact slabs; a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162)"
+standing = ["T2"]
+status = "checked"
+
+# DEC-162's reading (Causal/Ers464SecondCountable.lean:351): hC₁, harc for hacausal, hsplit; for two
+# functions ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable (:370).
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
+statement = "ERS Cor 4.68 (erscor:CorDisCon), skeleton, with S a Cauchy surface of U₁ (DEC-162): if two developments of the same data disagree on U₁ ∩ U₂, then U₁ ∩ U₂ is not connected"
+witness = "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable"
+under = "globally_hyperbolic, tarentin and causally_arc_connected of C read on U₁ (ladder nodes: hG, hT, harc); S a Cauchy surface of U₁ for C (hC₁, DEC-162); compact slabs; the solutions an agreement predicate that glues, not agreeing on U₁ ∩ U₂; a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# ERS19 Cor 4.69 (erscor:globally_defined_globally_hyperbolic, ghd_02_19.tex:926), U₁ = M
+# (Causal/Ers464SecondCountable.lean:519, Causal.Causality.ers_corollary_4_69 less hthrough₂):
+# [T2Space M] [SecondCountableTopology M]; {C₂ U₂}; hglue; hG : C.GloballyHyperbolic; hT : C.Tarentin
+# (the nodes at M); hacausal : C.IsAcausal S; hsplit : C.SplitBy ⊤ S; hK : C.CompactSlabs ⊤ S;
+# hS : IsPreconnected S; hC₂ : C₂.IsCauchySurfaceOn U₂ S; hlocal, hstay : … FrontierStaysIn ⊤ S V U₂,
+# hstep : … SliceRestart ⊤ S V U₂ …; conclusion agree U₂. U₂ is preconnected from S preconnected and
+# Cauchy in U₂ (isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable).
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Cor 4.69 (erscor:globally_defined_globally_hyperbolic), skeleton: a development defined on all of M agrees on U₂ with every other development U₂ of the same data"
+witness = "Causal.Causality.ers_corollary_4_69_secondCountable"
+under = "globally_hyperbolic and tarentin of C at M (ladder nodes: hG, hT); the solutions an agreement predicate that glues; S acausal in M for C, splitting M, with compact slabs; S preconnected and a Cauchy surface of U₂ for C₂; a common development of M and U₂ exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn ⊤ S V U₂ for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart ⊤ S V U₂ 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162), located in U₂ = M ∩ U₂"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# DEC-162's reading at M (Causal/Ers464SecondCountable.lean:537): hC₁ : C.IsCauchySurface S and
+# harc : C.CausallyArcConnected (ladder node at M) for hacausal, hsplit.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
+statement = "ERS Cor 4.69 (erscor:globally_defined_globally_hyperbolic), skeleton, with S a Cauchy surface of M (DEC-162): a development defined on all of M agrees on U₂ with every other development U₂ of the same data"
+witness = "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable"
+under = "globally_hyperbolic, tarentin and causally_arc_connected of C at M (ladder nodes: hG, hT, harc); S a Cauchy surface of M for C (hC₁, DEC-162); compact slabs; S preconnected and a Cauchy surface of U₂ for C₂; the solutions an agreement predicate that glues; a common development of M and U₂ exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn ⊤ S V U₂ for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart ⊤ S V U₂ 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# ERS19 Thm 4.75 (ersthm:ThmEx, ghd_02_19.tex:1001, proof 1011–1022; Causal/ErsUnions.lean:677):
+# [T2Space M] [LocallyConnectedSpace M]; {ι β} [Nonempty β]; cau : ι → Causality M, D : ι → Opens M,
+# u : ι → M → β; hex : ∀ p ∈ S, ∃ i, p ∈ D i; hdev : ∀ i, (cau i).IsLocalDevelopment (D i) S;
+# hcomp : ∀ i j, i ≠ j → ∀ x ∈ D i ⊓ D j, (cau i).RestartsIn (D i) (componentOpens (D i ⊓ D j) x) S
+# (fun V => EqOn (u i) (u j) V). Conclusion: ∃ v, (∀ i, EqOn v (u i) (D i)) ∧ S ⊆ ⨆ D i ∧ ∀ Cu,
+# (Cu agrees with each cau i on the opens V ≤ D i) → (≤_{⨆ D i} of Cu antisymmetric) →
+# Cu.IsCauchySurfaceOn (⨆ D i) S. Causal.Causality.RestartsIn (:483) bundles, located in the component
+# A: meets (S ∩ A ≠ ∅), localUniq (Causal.Causality.LocalUniqueness (S ∩ A) A), stay (FrontierStaysIn
+# (D i) S V A) and step (SliceRestart (D i) S V A), for every development V in A
+# (Causal.Causality.IsDevelopmentIn). Causal.Causality.IsLocalDevelopment (:469) is gh, tarentin,
+# acausal, split, slabs, cauchy of the patch. The claim u_p = u_q on DS_p ∩ DS_q:
+# Causal.Causality.ers_theorem_4_75_eqOn (:643), the same hdev, hcomp.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "ERS Thm 4.75 (ersthm:ThmEx), skeleton: local developments covering S patch to one solution v on U = ⋃ D i, equal to each u_i on D i, with S ⊆ U and S a Cauchy surface of U for every causality of v that is causal on U"
+witness = "Causal.Causality.ers_theorem_4_75"
+under = "a family of patches (D i, u i, cau i) covering S, each a local development (Causal.Causality.IsLocalDevelopment (D i) S for cau i: globally_hyperbolic and tarentin of cau i read on D i (ladder nodes), S acausal in D i, splitting it, with compact slabs, and a Cauchy surface of D i; local existence, Sogge); for i ≠ j and each component A of D i ∩ D j, Causal.Causality.RestartsIn (cau i) (D i) A S (u i = u j on V) (hcomp), i.e. A meets S, local uniqueness on S ∩ A (Causal.Causality.LocalUniqueness: local_uniqueness, T-lad-development-nodes), frontier_stays_in, an edge hypothesis and no node (DEC-162): Causal.Causality.FrontierStaysIn (D i) S V A for every development V in A (Causal.Causality.IsDevelopmentIn: an open V ⊆ A containing S ∩ A on which u i = u j, with S a Cauchy surface of V), and slice_restart, an edge hypothesis and no node (DEC-162): Causal.Causality.SliceRestart (D i) S V A 'a strictly larger development in A' for every development V in A; for the conclusion's causality Cu (agreeing with each cau i on the opens of D i), ≤_U of Cu antisymmetric (is_causal of Cu read on U: part of ERS's printed conclusion, assumed as in Causal.Causality.ers_theorem_4_77, OQ-41 (d))"
 standing = ["T2", "locally_connected"]
 status = "checked"
 
@@ -2688,6 +2973,36 @@ witness = "Causal.Causality.ers_lemma_4_72"
 under = "curve nesting on W = U₂; is_causal and curves_extend of C' (ladder nodes); S acausal for C'; through every point of U₁ ∩ U₂ an inextensible causal curve of U₂ for C; M Hausdorff"
 status = "checked"
 
+# ERS19 Cor 4.73 (erscor:CorUniqueSub, ghd_02_19.tex:988: "Together with Theorem 4.64 the above lemma
+# yields"), on a second countable background (Causal/ErsSecondCountable.lean:206,
+# Causal.Causality.ers_corollary_4_73 less hmext and hthrough₂; T-lad-ers-restart-nodes, 2026-11-22):
+# [T2Space M] [SecondCountableTopology M]; {C Cm C₂ U₁ U₂ agree}; hglue; hG : C.GloballyHyperbolicOn U₁;
+# hT : C.TarentinOn U₁; hacausal : C.IsAcausalOn U₁ S; hsplit : C.SplitBy U₁ S; hK;
+# hS : IsPreconnected S; hm : Cm.IsCausal; hmacausal : Cm.IsAcausal S; hmU₁ : Cm.IsCauchySurfaceOn U₁ S;
+# hC₂ : C₂.IsCauchySurfaceOn U₂ S; hnest : CurveNestedOn C₂ Cm U₂; hlocal, hstay, hstep (Thm 4.64's);
+# conclusion agree (U₁ ⊓ U₂). The pair (C₂, Cm) is the previous entry's (C, C'). Remark 4.74's better
+# bounds: Cm any wider causality. "Any m-GHD is a UGHD by Cor 4.73" (ghd_02_19.tex:1053):
+# Causal.IsMDevelopment.isUniqueDevelopment_secondCountable (Causal/ErsSecondCountable.lean:261),
+# which derives hacausal, hsplit, hnest and the curves; it is what Thms 4.79 and 4.80 below consume.
+# The previous entry's second countable form is T-lad-record-curves-corollaries'.
+[[consequence]]
+at = "curve_nested"
+statement = "ERS Cor 4.73 (erscor:CorUniqueSub), skeleton: for subluminal equations, if u₁ is moreover an m-GHD, two developments of the same data agree on U₁ ∩ U₂"
+witness = "Causal.Causality.ers_corollary_4_73_secondCountable"
+under = "curve nesting of C₂ in Minkowski's Cm on W = U₂ (subluminality, C₂ the narrower: hnest); is_causal of Cm (ladder node: hm); S preconnected, acausal for Cm (OQ-41 (c): ERS print m-achronal), a Cauchy surface of U₁ for Cm and of U₂ for C₂; globally_hyperbolic and tarentin of C read on U₁ (ladder nodes of the causality sort: hG, hT); S acausal in U₁ for C, splitting U₁, with compact slabs; the solutions an agreement predicate that glues (Causal.AgreementGlues); a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes; Causal.Causality.IsCommonDevelopment); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162), as in Thm 4.64's entry (at globally_hyperbolic, tarentin)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# DEC-162's reading (Causal/ErsSecondCountable.lean:230): hC₁ : C.IsCauchySurfaceOn U₁ S and
+# harc : C.CausallyArcConnectedOn U₁ for hacausal, hsplit; otherwise the previous entry's binders.
+[[consequence]]
+at = "curve_nested"
+statement = "ERS Cor 4.73 (erscor:CorUniqueSub), skeleton, with S a Cauchy surface of the causally arc-connected U₁ (DEC-162): for subluminal equations, if u₁ is moreover an m-GHD, two developments of the same data agree on U₁ ∩ U₂"
+witness = "Causal.Causality.ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable"
+under = "curve nesting of C₂ in Minkowski's Cm on W = U₂ (subluminality, C₂ the narrower: hnest); is_causal of Cm (ladder node: hm); S preconnected, acausal for Cm (OQ-41 (c)), a Cauchy surface of U₁ for Cm and of U₂ for C₂; globally_hyperbolic, tarentin and causally_arc_connected of C read on U₁ (ladder nodes of the causality sort: hG, hT, harc); S a Cauchy surface of U₁ for C (hC₁, DEC-162); compact slabs; the solutions an agreement predicate that glues; a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
 # ---- consequences at inextensible_nested (T-lad-nested-inextensible, 2026-11-22, DEC-161 (b)): the
 # theorems of T-abs-nested-causalities item 2 and of ERS §4 that consume the nesting of inextensible
 # curves itself, at the open W of the nesting. No [[transfer]] along it is recorded: no Lean theorem
@@ -2731,14 +3046,41 @@ status = "checked"
 # (honce : every inextensible Cτ-curve of M meets S at most once) (hn₁ : Cτ.InextensibleNestedOn C₁ U₁)
 # (hn₂ : Cτ.InextensibleNestedOn C₂ U₂) : IsPreconnected (U₁ ⊓ U₂). As printed ("connected", S
 # non-empty): Causal.Causality.ers_lemma_4_70_isConnected. Cor 4.71 composes it with Thm 4.64
-# (Causal.Causality.ers_corollary_4_71, the same hn₁, hn₂), whose further hypotheses (hlocal, hstay,
-# hstep) are T-lad-development-nodes' and T-lad-ers-restart-nodes' edge hypotheses; it is not
-# listed here.
+# (Causal.Causality.ers_corollary_4_71, the same hn₁, hn₂): the next two entries (T-lad-ers-restart-nodes,
+# 2026-11-22), with Thm 4.64's further hypotheses (hlocal; frontier_stays_in and slice_restart, edge
+# hypotheses) in `under`. This entry's second countable form, Causal.Causality.ers_lemma_4_70_secondCountable
+# (Causal/Ers464SecondCountable.lean:558, without hthrough), is T-lad-record-curves-corollaries'.
 [[consequence]]
 at = "inextensible_nested"
 statement = "ERS Lemma 4.70: for opens U₁, U₂ containing a preconnected S that is a Cauchy surface of U₁ for C₁ and of U₂ for C₂, into both of which the causality Cτ of a field is inextensibly nested, U₁ ∩ U₂ is preconnected"
 witness = "Causal.Causality.ers_lemma_4_70"
 under = "inextensible nesting of Cτ in C₁ on W = U₁ and of Cτ in C₂ on W = U₂ (the node twice, Cτ the narrower); is_causal of Cτ (ladder node); through every point of U₁ ∩ U₂ an inextensible causal curve of M for Cτ, each meeting S at most once; M Hausdorff"
+status = "checked"
+
+# ERS19 Cor 4.71 (erscor:CorSupLum, ghd_02_19.tex:959, proof 965–967: "This follows directly from
+# Lemma 4.70 and Theorem 4.64"), on a second countable background (Causal/Ers464SecondCountable.lean:586,
+# Causal.Causality.ers_corollary_4_71 less hthroughτ and hsplit): [T2Space M]
+# [SecondCountableTopology M]; {Cτ C₂ U₁ U₂ agree}; hglue; hG : C.GloballyHyperbolicOn U₁;
+# hT : C.TarentinOn U₁; hacausal : C.IsAcausalOn U₁ S; hK; hS : IsPreconnected S;
+# hC₁ : C.IsCauchySurfaceOn U₁ S; hC₂ : C₂.IsCauchySurfaceOn U₂ S; hτ : Cτ.IsCausal; honce;
+# hn₁ : InextensibleNestedOn Cτ C U₁; hn₂ : InextensibleNestedOn Cτ C₂ U₂; hlocal, hstay, hstep (Thm
+# 4.64's); conclusion agree (U₁ ⊓ U₂). U₁ ∩ U₂ connected is Lemma 4.70's conclusion, not a hypothesis.
+[[consequence]]
+at = "inextensible_nested"
+statement = "ERS Cor 4.71 (erscor:CorSupLum), skeleton: when the causality Cτ of a field T is inextensibly nested in both developments' ((4.62), superluminal equations) and every inextensible Cτ-curve meets S at most once, two developments of the same data agree on U₁ ∩ U₂"
+witness = "Causal.Causality.ers_corollary_4_71_secondCountable"
+under = "inextensible nesting of Cτ in C on W = U₁ and of Cτ in C₂ on W = U₂ (the node twice, Cτ the narrower: hn₁, hn₂); is_causal of Cτ (ladder node); every inextensible causal curve of M for Cτ meets S at most once; S preconnected, a Cauchy surface of U₁ for C and of U₂ for C₂; globally_hyperbolic and tarentin of C read on U₁ (ladder nodes of the causality sort: hG, hT); S acausal in U₁ for C, with compact slabs; the solutions an agreement predicate that glues (Causal.AgreementGlues); a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes; Causal.Causality.IsCommonDevelopment); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162), as in Thm 4.64's entry (at globally_hyperbolic, tarentin)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# DEC-162's reading (Causal/Ers464SecondCountable.lean:610): harc : C.CausallyArcConnectedOn U₁ for
+# hacausal; otherwise the previous entry's binders.
+[[consequence]]
+at = "inextensible_nested"
+statement = "ERS Cor 4.71 (erscor:CorSupLum), skeleton, with S a Cauchy surface of the causally arc-connected U₁ (DEC-162): when Cτ is inextensibly nested in both developments' causalities and every inextensible Cτ-curve meets S at most once, two developments of the same data agree on U₁ ∩ U₂"
+witness = "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable"
+under = "inextensible nesting of Cτ in C on W = U₁ and of Cτ in C₂ on W = U₂ (the node twice, Cτ the narrower: hn₁, hn₂); is_causal of Cτ (ladder node); every inextensible causal curve of M for Cτ meets S at most once; S preconnected, a Cauchy surface of U₁ for C and of U₂ for C₂; globally_hyperbolic, tarentin and causally_arc_connected of C read on U₁ (ladder nodes of the causality sort: hG, hT, harc); compact slabs; the solutions an agreement predicate that glues; a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes); frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for every common development V), edge hypotheses and no nodes (DEC-162)"
+standing = ["T2", "second_countable"]
 status = "checked"
 
 # ERS19 Thm 4.79, the non-emptiness (ersthm:ThmMUGHD, ghd_02_19.tex:1061), in ERS's abstract equation
@@ -2753,6 +3095,40 @@ at = "inextensible_nested"
 statement = "ERS Thm 4.79, non-emptiness: inside every development (U, u) of the data on S lies an m-development (W, u), W ≤ U"
 witness = "Causal.IsDevelopment.exists_isMDevelopment_le"
 under = "inextensible nesting of cau u in Minkowski's Cm on W = U, for every solution u on every open U (the node, cau u the narrower); the Minkowski fact hDm (in every development an open W ≤ U containing S, m-Cauchy, on which u solves: O'Neill 14.38, 14.43; no Lean supplier)"
+status = "checked"
+
+# ERS19 Thm 4.79 (ersthm:ThmMUGHD, ghd_02_19.tex:1055, proof 1060–1064), the whole theorem, on a second
+# countable background (Causal/ErsSecondCountable.lean:288, Causal.ers_theorem_4_79 less hmext and
+# hthrough; T-lad-ers-restart-nodes, 2026-11-22): [T2Space M] [SecondCountableTopology M];
+# hloc : SolutionLocal sol; hglue : SolutionsGlue sol; hfollow : CausalityFollows cau;
+# hsub : ∀ U u, sol U u → CurveNestedOn (cau u) Cm U; harc : ∀ U u, sol U u →
+# (cau u).CausallyArcConnectedOn U; hinext : ∀ U u, sol U u → InextensibleNestedOn (cau u) Cm U;
+# hm : Cm.IsCausal; hmacausal : Cm.IsAcausal S; hS : IsPreconnected S; hex (a development exists);
+# hDm (as the previous entry); hG, hT, hK for every m-development (U, u): (cau u).GloballyHyperbolicOn U,
+# TarentinOn U, CompactSlabs U S; hlocal, hstay, hstep for every m-development (U₁, u₁) and development
+# (U₂, u₂), Cor 4.73's (for cau u₁, agreement EqOn u₁ u₂); conclusion ∃ U u,
+# IsMaximalUniqueDevelopment sol cau S U u. Through Causal.IsMDevelopment.isUniqueDevelopment_secondCountable
+# (any m-GHD is a UGHD) and the previous entry. No [[transfer]] is read off it: what it concludes is
+# about developments, no ladder node.
+[[consequence]]
+at = ["curve_nested", "inextensible_nested"]
+statement = "ERS Thm 4.79 (ersthm:ThmMUGHD), skeleton: for a subluminal equation with data on a preconnected, m-acausal S, the MUGHD exists: a unique development whose domain contains that of every unique development"
+witness = "Causal.ers_theorem_4_79_secondCountable"
+under = "for every solution u on every open U, curve nesting and inextensible nesting of its causality cau u in Minkowski's Cm on W = U (the two nodes, cau u the narrower: hsub, hinext), and causally_arc_connected of cau u read on U (ladder node of the causality sort: harc); is_causal of Cm (ladder node: hm); S preconnected and acausal for Cm; the abstract equation: solutions local and gluing, the causality following the solution (Causal.SolutionLocal, Causal.SolutionsGlue, Causal.CausalityFollows); a development exists (hex: Thm 4.75's existence); the Minkowski fact hDm (as in the previous entry); for every m-development (U, u) (Causal.IsMDevelopment): globally_hyperbolic and tarentin of cau u read on U (ladder nodes of the causality sort: hG, hT), compact slabs; for every m-development (U₁, u₁) and development (U₂, u₂) (Causal.IsDevelopment: S Cauchy in U₂, DEC-162): a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes), frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂) for cau u₁ and every common development V) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development' for cau u₁ and every common development V), edge hypotheses and no nodes (DEC-162), Cor 4.73's quantified over these pairs"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# ERS19 Thm 4.80 (ersthm:consider_subluminal_quasilinear_wave, ghd_02_19.tex:1066, proof 1071–1073), on a
+# second countable background (Causal/ErsSecondCountable.lean:322, Causal.ers_theorem_4_80 less hmext
+# and hthrough): the previous entry's binders; conclusion ∃ U u, IsMaximalMDevelopment sol cau Cm S U u.
+# Unique by Causal.IsMaximalMDevelopment.unique (Causal/ErsMughd.lean:463); contained in the MUGHD by
+# IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment (:470).
+[[consequence]]
+at = ["curve_nested", "inextensible_nested"]
+statement = "ERS Thm 4.80 (ersthm:consider_subluminal_quasilinear_wave), skeleton: for a subluminal equation with data on a preconnected, m-acausal S, the m-MGHD exists: an m-development whose domain contains that of every m-development, which it extends"
+witness = "Causal.ers_theorem_4_80_secondCountable"
+under = "as Thm 4.79's (the previous entry): curve nesting and inextensible nesting of each solution's cau u in Cm on its U (the two nodes: hsub, hinext), causally_arc_connected of cau u on U (harc); is_causal of Cm (hm); S preconnected and acausal for Cm; the abstract equation (Causal.SolutionLocal, Causal.SolutionsGlue, Causal.CausalityFollows); a development exists (hex); the Minkowski fact hDm; globally_hyperbolic and tarentin of each m-development's causality on its domain (hG, hT), compact slabs; for every m-development (U₁, u₁) and development (U₂, u₂): a common development exists (hlocal: local_uniqueness's existential, T-lad-development-nodes), frontier_stays_in (hstay: Causal.Causality.FrontierStaysIn U₁ S V (U₁ ∩ U₂)) and slice_restart (hstep: Causal.Causality.SliceRestart U₁ S V (U₁ ∩ U₂) 'a strictly larger common development') for cau u₁ and every common development V, edge hypotheses and no nodes (DEC-162)"
+standing = ["T2", "second_countable"]
 status = "checked"
 
 # ------------------------------------------------------------------ transfers along a nesting
