@@ -7,7 +7,7 @@ SHELL := /bin/bash
 .SHELLFLAGS := -o pipefail -c
 PY := python3
 
-.PHONY: check selftest gate-host gate-dropbox-ignore gate-registers gate-deps lib-check papers-check \
+.PHONY: check mirror selftest gate-host gate-dropbox-ignore gate-registers gate-deps lib-check papers-check \
         gate-cassettes gate-tests ledgers regression test doubledag
 
 check: gate-host gate-dropbox-ignore gate-registers gate-deps gate-cassettes gate-tests lib-check papers-check
@@ -66,6 +66,11 @@ ledgers:
 # The generalised ledger reproduces the GFN Bounds ledger byte for byte (modulo commit ids).
 regression:
 	bash tools/regression_ledger.sh
+
+# The public mirror LBrunswic/MathAtlas (DEC-203, DEC-207): filtered main and the atlas on Pages.
+# Not a gate; needs git filter-repo ($$GIT_FILTER_REPO) and push rights.
+mirror:
+	$(PY) tools/public_mirror.py push
 
 # The test suite on its own, verbosely.
 test:

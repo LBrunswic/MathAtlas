@@ -16,6 +16,10 @@ The repository lives at `~/Dropbox/LeanArticles`, symlinked as `~/LeanArticles`.
 `lean/.lake` carries the xattr `user.com.dropbox.ignored` so a Lean build never syncs; set it
 again with `python3 tools/dropbox_ignore.py` if the directory is ever recreated.
 
+The public mirror is `LBrunswic/MathAtlas` (DEC-203, DEC-207). `make mirror` (`tools/public_mirror.py`)
+rebuilds it from `main`, with the third-party material stripped from the whole history, and
+publishes the atlas on its GitHub Pages. The private repository stays the only one the loops write.
+
 **Never create a git worktree of this repository.** The Lean build is 8 GB and is not
 worktree-portable; parallel work uses short-lived `lane/*` branches in the single checkout.
 
