@@ -1,0 +1,151 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-c-ext-connexe-cauchy",
+ "files": [
+  "scaffold/CausalScaffold/CExtConnexeCauchy/SubArc.lean",
+  "scaffold/CausalScaffold/CExtConnexeCauchy/Basic.lean"
+ ],
+ "modules": [
+  "CausalScaffold.CExtConnexeCauchy.SubArc",
+  "CausalScaffold.CExtConnexeCauchy.Basic"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.CExtConnexeCauchy.SubArc CausalScaffold.CExtConnexeCauchy.Basic",
+ "build": "Upstream first: taskset -c 0-11 lake build --no-build Causal.CExtConnexeSecondCountable Causal.NestedCausalities Causal.LineDevelopment -> 'All targets up-to-date (3128 jobs)'; lake build --no-build CausalScaffold.CExtConnexeCauchy.Basic listed only CausalScaffold.CExtConnexeCauchy.SubArc as out of date. Module build: '✔ [3126/3127] Built CausalScaffold.CExtConnexeCauchy.SubArc', '✔ [3127/3127] Built CausalScaffold.CExtConnexeCauchy.Basic', 'Build completed successfully (3127 jobs)': nothing upstream rebuilt. Strict-clean: taskset -c 0-11 lake env lean -DwarningAsError=true on each file prints nothing, exit 0 (Basic checked against SubArc's olean). Iteration used lake env lean only (kb/0034, a /tmp olean, since deleted).",
+ "sorry_count": 0,
+ "imports": [
+  "Causal.CurvesExtendSecondCountable",
+  "Causal.NestedCausalities",
+  "Causal.CExtConnexeSecondCountable"
+ ],
+ "layer": 1,
+ "closure": {
+  "count": 55,
+  "forbidden": [],
+  "how": "(1) tools/ladder.py: model_path is None for Causal.CurvesExtendSecondCountable, Causal.NestedCausalities, Causal.CExtConnexeSecondCountable. (2) Compiled environment of a /tmp file importing the built CausalScaffold.CExtConnexeCauchy.Basic: 4745 modules, 55 under Causal/CausalScaffold, none equal to or below Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.SingularCauchy, Causal.Flat, Causal.Model, Causal.Port. No metric notion in a statement (Metric.mem_nhdsWithin_iff and Real.dist_eq are used inside proofs on ℝ only; the witness uses gateArc and the timelike line)."
+ },
+ "axioms": "Every declaration of both modules: [propext, Classical.choice, Quot.sound] (#print axioms on the built oleans, 27 names checked); none depends on sorryAx.",
+ "labels": [
+  {
+   "label": "lem:C_ext_connexe",
+   "paper": "ett",
+   "tex_lines": [
+    1932,
+    1943
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable",
+    "Causal.IsCauchyEmbedding.exists_mem_image_inf_of_secondCountable",
+    "Causal.IsCauchyEmbedding.isCauchyInclusion_inf_of_secondCountable",
+    "Causal.IsCauchyEmbedding.c_ext_connexe_of_secondCountable",
+    "Causal.Causality.exists_mem_inf_of_isCauchySurfaceOn",
+    "Causal.Causality.isCauchySurfaceOn_inf_of_secondCountable",
+    "Causal.timelikeLine_gateArc_cauchy_inf"
+   ],
+   "principal": "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable (the middle step); Causal.IsCauchyEmbedding.c_ext_connexe_of_secondCountable (the paper's whole route)",
+   "what_it_would_anchor": "Under OQ-94's reading (singular flat spacetimes = T2, second countable topological spacetimes with any causality; 𝕄≥0-morphisms = IsEMorphism): the middle sentence of the proof, ETT.tex:1940–1941 ('φ(Σ) is a Cauchy surface of A∩B'), by IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable with no named hypothesis; 'the map M → A∩B is a Cauchy embedding' in full by isCauchyInclusion_inf_of_secondCountable, with N causally arc-connected for the global hyperbolicity of A∩B only; the paper's route to the conclusion by c_ext_connexe_of_secondCountable (splitting ψ named, as in the scaffold form). It would answer the row's findings 1 and 4 (the step 'stays unproved even over the geometry'; exists_mem_image_inf 'neither proved nor refuted') on second countable N. The statement itself already has the hypothesis-free Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable (65646df).",
+   "hypotheses": [
+    {
+     "paper": "singular flat spacetimes, 𝕄≥0-morphisms",
+     "here": "weakened",
+     "note": "a reading (OQ-94, open): any causality on a topological space, IsEMorphism (Causal/SubExtension.lean:43)"
+    },
+    {
+     "paper": "N second countable Hausdorff (topological spacetime, ETT.tex:255)",
+     "here": "carried",
+     "note": "[T2Space N] [SecondCountableTopology N]; nothing on M. T2 is used for the uniqueness of the common end point, second countability by the curves theorem (sub-arc form) and for 'a causal curve meets φ(Σ) at most once'"
+    },
+    {
+     "paper": "M globally hyperbolic, φ a Cauchy extension",
+     "here": "carried",
+     "note": "IsCauchyEmbedding C D φ (DEC-17); used: N causal (globallyHyperbolic_target.1), φ(Σ) Cauchy in N, A, B"
+    },
+    {
+     "paper": "A, B open, containing φ(M), φ(M) → A and φ(M) → B Cauchy embeddings",
+     "here": "carried",
+     "note": "IsCauchyInclusion D hφ.rangeOpens A, same for B"
+    },
+    {
+     "paper": "M connected",
+     "here": "carried",
+     "note": "[ConnectedSpace M] in c_ext_connexe_of_secondCountable; not used by the middle step"
+    },
+    {
+     "paper": "Σ connected through theo:geroch_sing (ETT.tex:1939–1940)",
+     "here": "strengthened",
+     "note": "the splitting ψ : S × ℝ ≃ₜ M named in c_ext_connexe_of_secondCountable, as in the scaffold's c_ext_connexe; the row's finding 3 says it is not needed, and c_ext_connexe_of_connectedSpace_of_secondCountable does without it"
+    },
+    {
+     "paper": "'the map M → A∩B is a Cauchy embedding' (asserted, ETT.tex:1940)",
+     "here": "strengthened",
+     "note": "the Cauchy-surface half is proved with no further hypothesis; the global hyperbolicity of A∩B (part of the definition of a Cauchy embedding, ETT.tex:1858–1861) is taken from inf_causallyConvexIn_of_secondCountable and needs N causally arc-connected (hDac), in isCauchyInclusion_inf_of_secondCountable only"
+    },
+    {
+     "paper": "(scaffold forms) hDac, hDext, hthrough",
+     "here": "weakened",
+     "note": "not used by isCauchySurfaceOn_inf_of_secondCountable or c_ext_connexe_of_secondCountable"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:1940–1941: 'The map M → A∩B is a Cauchy embedding, so φ(Σ) is a Cauchy surface of A∩B' is true on ETT's spacetimes (Hausdorff, second countable, any causality: IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable), but the paper gives no argument, and the argument needs three things the paper never states: (i) every inextensible causal curve c of A∩B, after trimming its constant end pieces, is a reparametrised sub-arc of an inextensible curve of A and of one of B (the sub-arc form of the Zorn curves theorem; second countability); (ii) trimming keeps c inextensible in A∩B; (iii) the end-point argument. If the curve of A meets φ(Σ) after c and the one of B before it, a segment of each concatenates to a causal curve of N meeting φ(Σ) twice unless c meets it (N causal). If both meet it after c, then either c has a last value, at which the curve of A meets φ(Σ) or which it leaves inside A∩B for a new value (contradicting inextensibility), or c has a limit at its end; that limit lies in A∖B for the curve of A and in B∖A for the curve of B, and Hausdorffness makes the two limits equal. Suggested wording: 'every inextensible causal curve of A∩B lies, reparametrised, on inextensible causal curves of A and of B, which meet φ(Σ); if none meets it on the curve, both leave A∩B through its end point, which would lie in (A∖B)∩(B∖A)'.",
+    "ETT.tex:1940: the 'so' runs the wrong way. By def:cauchy_embedding_cauchy_extension (ETT.tex:1858–1861), that M → A∩B is a Cauchy embedding includes that some Cauchy surface of M is carried onto a Cauchy surface of A∩B, and that A∩B is globally hyperbolic. So the Cauchy-surface statement is what has to be proved, not a consequence (lem:Cauchy_plongement_toutes then gives it for every Σ). The global hyperbolicity of A∩B is not argued either: here it comes from the causal convexity of A∩B in N, with N causally arc-connected (isCauchyInclusion_inf_of_secondCountable)."
+   ],
+   "questions": [
+    "OQ-94 (open, not decided here): may the abstract form anchor the row? Reading taken: abstract setting, nothing marked, and 'what_it_would_anchor' states what each form would anchor if it may.",
+    "'The map M → A∩B is a Cauchy embedding' read as IsCauchyInclusion D hφ.rangeOpens (A ⊓ B), the inclusion of φ(M) ≅ M (φ is an open embedding) into A∩B. The global hyperbolicity it includes is proved only with N causally arc-connected (a fact of singular flat spacetimes, SingularFlatAxioms.causallyArcConnected, in the geometric reading). Without hDac, whether A∩B is globally hyperbolic in the abstract setting is not decided here."
+   ]
+  }
+ ],
+ "sbierski_rows": "None served. Sbierski 1309.7591 has no statement about the intersection of two Cauchy-including open sets. Its Thm 3.4 union step is the CBG union, done in 65646df. The remark at Maximal_GHD2.tex:230 ('U₁ ∩ U₂ is not a priori globally hyperbolic') concerns two developments with no common Cauchy inclusion, so it is not this situation.",
+ "extra_decls": [
+  "Causal.pauseTop",
+  "Causal.pauseTop_of_le",
+  "Causal.pauseTop_of_mem_Icc",
+  "Causal.pauseTop_of_ge",
+  "Causal.monotone_pauseTop",
+  "Causal.continuous_pauseTop",
+  "Causal.exists_compress",
+  "Causal.Causality.CausalCurveOn.comp_monotoneOn",
+  "Causal.Causality.CausalCurveIn.comp_monotoneOn",
+  "Causal.Causality.Extensible.of_top_tail",
+  "Causal.Causality.Extensible.of_bottom_tail",
+  "Causal.Causality.Inextensible.of_retraction",
+  "Causal.continuousOn_of_retraction",
+  "Causal.image_eq_of_retraction",
+  "Causal.TailFree.neg",
+  "Causal.Causality.exists_subArc_of_tailFree",
+  "Causal.Causality.exists_subArc_of_t1_secondCountable",
+  "Causal.Causality.Inextensible.exists_subArc_of_le",
+  "Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable",
+  "Causal.forall_lt_or_forall_gt_of_notMem",
+  "Causal.ordConnected_union_Icc_of_isGreatest",
+  "Causal.ordConnected_union_csSup",
+  "Causal.Causality.Inextensible.image_subset_of_subArc",
+  "Causal.Causality.Inextensible.mem_image_or_tendsto_of_above",
+  "Causal.Causality.Inextensible.mem_image_or_tendsto_of_below",
+  "Causal.Causality.mem_of_le_of_le_of_subsingleton"
+ ],
+ "for_keeper": {
+  "sub_arc_lemma": {
+   "name": "Causal.Causality.exists_subArc_of_t1_secondCountable",
+   "module": "CausalScaffold.CExtConnexeCauchy.SubArc",
+   "statement": "[T1Space M] [SecondCountableTopology M], C.CausalCurveIn W I c → ∃ I₀ ⊆ I, ∃ ρ : ℝ → ℝ, I₀.Nonempty ∧ I₀.OrdConnected ∧ TailFree I₀ c ∧ MapsTo ρ I I₀ ∧ MonotoneOn ρ I ∧ (∀ t ∈ I₀, ρ t = t) ∧ (∀ t ∈ I, c (ρ t) = c t) ∧ ∃ J γ ψ, C.Inextensible W J γ ∧ TailFree J γ ∧ StrictMonoOn ψ I₀ ∧ ContinuousOn ψ I₀ ∧ MapsTo ψ I₀ J ∧ (ψ '' I₀).OrdConnected ∧ ∀ t ∈ I₀, γ (ψ t) = c t",
+   "reading": "the trimmed curve is γ ∘ ψ on the sub-interval I₀ and constant off it (c = c ∘ ρ, ρ a monotone retraction onto I₀, continuous by continuousOn_of_retraction; c '' I₀ = c '' I by image_eq_of_retraction)",
+   "companions": "Causal.Causality.exists_subArc_of_tailFree (a tail-free curve is γ ∘ ψ on all of I); Causal.Causality.Inextensible.exists_subArc_of_le (an inextensible curve of W ≤ U, trimmed, is still inextensible in W, tail-free, same image, and a sub-arc of an inextensible curve of U); Causal.Causality.Inextensible.of_retraction (trimming keeps inextensibility, no separation axiom)"
+  },
+  "inextensible_nested_implies_curve_nested": "Yes, proved: Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable : [T1Space M] [SecondCountableTopology M] → C.InextensibleNestedOn C' W → C.CurveNestedOn C' W, with both nestings read at the same open W, as the [[open]] entry does. The [[open]] entry inextensible_nested → curve_nested (programme/ladder.toml, 'True, argued, on a T1, second countable M') can become an [[implies]] with standing T1, second countable and this witness once the module graduates. It answers T-abs-inextensible-nested-curve as worded in the dispatch.",
+  "consequence": "Causal.Causality.isCauchySurfaceOn_inf_of_secondCountable : [T2Space M] [SecondCountableTopology M] → C.IsCausal → C.IsCauchySurface T → C.IsCauchySurfaceOn A T → C.IsCauchySurfaceOn B T → C.IsCauchySurfaceOn (A ⊓ B) T. A consequence at is_causal (standing T2, second countable), and the Cauchy-surface form of lem:C_ext_connexe's middle step for the [[consequence]] lem:C_ext_connexe at curves_extend (T-lad-record-curves-corollaries)."
+ },
+ "kb_proposals": [
+  "The sub-arc form of the curves theorem: Causal.Causality.exists_subArc_of_t1_secondCountable (T1, second countable): a causal curve, trimmed to I₀ and constant off it (c = c ∘ ρ), is γ ∘ ψ on I₀ for an inextensible, tail-free γ and ψ strictly increasing, continuous, with ordconnected image. Also _of_tailFree, and Inextensible.exists_subArc_of_le for an inextensible curve of W ≤ U. This answers kb/0212's 'image containment only' (CausalScaffold.CExtConnexeCauchy.SubArc).",
+  "Constant end pieces do not affect inextensibility: Causal.Causality.Inextensible.of_retraction (inextensible over I ⇒ inextensible over the trimmed I₀ of exists_tailFree_retraction; no separation axiom), through Extensible.of_top_tail / of_bottom_tail, which pause the old extension with pauseTop and CausalCurveIn.comp_monotoneOn (a causal curve read through a continuous non-decreasing reparametrisation).",
+  "Causal.Causality.causalCurveIn_comp_monotoneOn (Causal/Remarks/SingularRowsCauchyExt.lean:191) is model-free but stranded in a model module (kb/0061). Its ETT-layer twin, under a distinct name, is Causal.Causality.CausalCurveIn.comp_monotoneOn (CExtConnexeCauchy.SubArc). Merge at the next hoist.",
+  "A Cauchy surface of M (causal, T2, second countable) that is Cauchy in the opens A and B is Cauchy in A ∩ B: Causal.Causality.isCauchySurfaceOn_inf_of_secondCountable. The end-point step, usable elsewhere: Inextensible.mem_image_or_tendsto_of_above / _below (a sub-arc relation c = γ ∘ ψ, plus a parameter s of γ after ψ(I), gives γ(s) ∈ c(I) or a limit of c at its end outside W).",
+  "Time-reversing a whole sub-arc configuration (curve c ↦ c(-·), interval I ↦ -I, map ψ ↦ -ψ(-·), parameter s ↦ -s): Inextensible.dual_reverse, CausalCurveIn.reverse, TailFree.neg, ordConnected_image_neg. Inextensible.mem_image_or_tendsto_of_below is the pattern: one application of the future form to C.dual, then simpa [neg_neg].",
+  "inextensible_nested ⇒ curve_nested on T1, second countable spaces: Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable (the ladder's [[open]] pair-sort entry)."
+ ],
+ "notes": "(1) Both modules are sorry-free and strict-clean (-DwarningAsError=true), so they can graduate to Causal/ as they are. At graduation, Basic's import CausalScaffold.CExtConnexeCauchy.SubArc must follow the move. (2) Neither module is imported by scaffold/CausalScaffold.lean (kb/0025: I may not edit the root). Add 'import CausalScaffold.CExtConnexeCauchy.SubArc' and 'import CausalScaffold.CExtConnexeCauchy.Basic' so the axiom sweep sees them. (3) Names are distinct from Causal.CExtConnexeSecondCountable's (that module has isCauchySurfaceOn_inf_iff_of_secondCountable, exists_inextensible_inf_of_secondCountable, c_ext_connexe_of_connectedSpace_of_secondCountable, ...; this one adds IsCauchyEmbedding.exists_mem_image_inf_of_secondCountable, isCauchySurfaceOn_inf_of_secondCountable, isCauchyInclusion_inf_of_secondCountable, c_ext_connexe_of_secondCountable). A grep of Causal/, scaffold/ and lean-gx finds no other declaration with any of the new names. (4) The scaffold sorry IsCauchyEmbedding.exists_mem_image_inf (scaffold/CausalScaffold/SubExtension.lean:83, SORRY(lem:C_ext_connexe)) is untouched. Its statement has no second countability, and its truth there is still not decided. Its second-countable twin is now proved, so its retirement or restatement (DEC-190) is the master's, with /atlas-team (the ETT row). The scaffold's isCauchySurfaceOn_inf and c_ext_connexe have sorry-free twins here without hDac, hDext and hthrough. (5) OQ-94 is not decided. The row's lean files, decls and findings are /atlas-team's to curate; this report proposes the decls and findings above. (6) The README module table, the docstrings of Causal.CBG.CausalConvex SCOPE (':108–117', 'not proved') and Causal.CBG.SubExtensionAbstract (':84–92', 'neither proved nor refuted') are now outdated for second countable N. They are for the master to amend; frozen library, not edited. (7) The witness has A ⊆ B (A = gateArc's range ]-1, 1[, B = ℝ). Incomparable Cauchy-including opens would need IsCauchySurfaceOn for non-symmetric intervals of the timelike line (timelikeLine_isCauchySurfaceOn_range in Causal.ErsUniqueness takes the range of a strictly increasing open map). Not done."
+}

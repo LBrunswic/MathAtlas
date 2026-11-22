@@ -262,6 +262,8 @@ import Causal.NotchedPlane
 import Causal.CurvesExtendSecondCountable
 import Causal.ErsSecondCountable
 import Causal.CExtConnexeSecondCountable
+import Causal.CExtConnexeCauchy.SubArc
+import Causal.CExtConnexeCauchy.Basic
 import Causal.Ers464SecondCountable
 import Causal.GluingModels.Tools
 import Causal.GluingModels.Minimal

@@ -248,3 +248,6 @@ rediscover. One fact per entry.
 | [0240](entries/0240-causally-plain-on-restrict.md) | pitfall | No lemma restricts CausallyPlain to CausallyPlainOn W |
 | [0241](entries/0241-corresponding-compact.md) | pattern | DEC-160's gluing compactness is Gluing.CorrespondingCompact |
 | [0242](entries/0242-continuous-extension-not-compact.md) | pitfall | A continuous extension at corresponding points does not give CorrespondingCompact |
+| [0243](entries/0243-sub-arc-curves.md) | pattern | The sub-arc form of the curves theorem |
+| [0244](entries/0244-trim-keeps-inextensible.md) | pattern | Constant end pieces do not affect inextensibility |
+| [0245](entries/0245-cauchy-inf.md) | pattern | A Cauchy surface Cauchy in A and in B is Cauchy in A ∩ B |
