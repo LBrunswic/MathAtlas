@@ -214,3 +214,16 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: 38fe786 29ed02e (+ this) (hub) · a9c3b9d (v2)
 - for the planner (CHECK-1/2 of -families): proof text in Appendix B for the no-periodic-vector, T¹ and dense ⇒ ergodic routes (Lean: ergodic_torusAffine_of_noPeriodic, ergodicSMul_rotSphere); l.302's 'a continuous family of EGFs' (members at non-ergodic rotations are not EGFs); l.1022's 'theoretically minimal' (one move suffices); l.702's spectral-gap sentence; the leftover 'technical assumption' wording (l.293, l.307, l.836); l.888's sentence repeating the lead-in; and the audited marking of theo:universality_tori and theo:universality_sphere, whose corrected forms are now applied
 - next: top up with T-egf-correct-captions
+
+## 2026-11-22 21:30 · wave of 3 (topped up twice) · T-egf-correct-captions, T-egf-correct-spelling; T-egf-repro-sphere (continues)
+- a pause at the start: lean-yamabe/scaffold/YamabeScaffold.lean and Rellich.lean were changed and unheld for about a minute (/atlas-team integrating T-yamabe-analysis); the tree check passed once it took the lease
+- adoption (master): C-44, C-45, C-47 (2610b9b), C-48 (f535933) under DEC-141
+- T-egf-correct-captions (correct): C-47, C-44, C-45 applied (v2 a261aa9); C-45's adopted 'in the second row' corrected in the register to 'in the second subfigure' after the corrector checked the panels; CHECK-1 minor
+- T-egf-correct-spelling (correct): C-48 applied at nine sites (v2 49d6ed0); its l.828 site dropped (C-32 replaced the sentence); CHECK-1 clean
+- T-egf-repro-sphere (repro): still running (earthquake arm; about an hour a run)
+- corrections: 3 found, 2 proved, 1 adopted, 43 applied, 0 reviewed; 3 superseded (left: the experiments C-34, C-36, C-46)
+- v2: 49d6ed0 EGF-C48 (twelve batches since camera-ready, eleven this session)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓
+- commits: 2610b9b 7c943be 8c3342d f535933 e83a6fe a5445a1 (+ this) (hub) · a261aa9 49d6ed0 (v2)
+- for the planner: '2 spirals' in subfigure b's subcaption, 'depths and width' in the star and 4-circles captions, 'their inverse' at v1 l.293, l.308 (l.440 is C-34's), v1 l.217 'be Riemannian manifold' (missing 'a')
+- next: rule 2 (fewer than two ready: only T-egf-repro-ablations, behind the active sphere run): a planning run
