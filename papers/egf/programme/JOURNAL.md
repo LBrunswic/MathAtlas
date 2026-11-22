@@ -95,3 +95,13 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - DEC-145 (OQ-47): the L²(λ) reading — C-21, C-22, C-25 no longer wait on a reading (check each against DEC-144)
 - DEC-146 (OQ-48): def:egf with measure ergodicity of the generated group — T-egf-def-egf moved blocked → planned for re-scoping; C-26 to be re-written
 - next (after the reset): adoption under DEC-142 to DEC-146 (master), then a planning run: the batches T-egf-correct-universality, -ergodicity, -defs re-cut to the rulings, a new entry and batch for l.400, T-egf-def-egf re-scoped
+
+## 2026-11-22 · master only (adoption; agents unavailable until 2026-11-27 09:00 UTC)
+- adoption under the new rulings: C-35 (DEC-143), C-29 (DEC-144; its anchors now include the non-mixing witnesses), C-25 (DEC-145; corrected text written by the master: Definition 3.3 names λ)
+- held for the planner: C-21, C-22 (repairs of the printed B.1 route, which DEC-144 replaces), C-23 (superseded by C-29), C-26 (def:egf, DEC-146: measure ergodicity, not yet in Lean), and a new entry for l.400 (DEC-142)
+- curation: theo:universality_true, def:summably_mixing, def:egf cite the rulings
+- corrections: 6 found, 4 proved, 9 adopted, 18 applied, 0 reviewed
+- ledger: 11/16 rows closed (bucket A)
+- gates: corrections ✓, roadmaps ✓, registers ✓, tests ✓, hub: all gates green
+- idle otherwise: every remaining target needs an agent (closer, auditor, corrector, checker, planner, experimenter), and none can run before the usage limit resets; the loop stops
+- next (after the reset): a planning run (re-cut the universality, ergodicity and defs batches to DEC-142 to DEC-146; the l.400 entry; T-egf-def-egf), the re-audit of T-egf-families-sphere, the torus repro report
