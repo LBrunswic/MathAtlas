@@ -1,0 +1,80 @@
+{
+  "target": "T-egf-families-of-record",
+  "auditor_round": 1,
+  "file": "scaffold/EGFScaffold/FamiliesOfRecord.lean",
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "theo:universality_tori",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "EGF.UniversalityToriOfRecord d was compared clause by clause with v2 Theorem 3.5 (HEAD 0e3320c l.322; the closer's l.316 is commit 49d6ed0) and with C-54's adopted text, which the corrector's working copy now carries at l.322. (a) Main clause. It quantifies over every p, A with IsUnit det (GL_d(Z), which contains SL_d(Z), so the hypothesis is weaker), every b in T^d (the map depends only on b mod Z^d) and every family F, a weaker hypothesis than 'an affine toroidal family'. It assumes IsRichToroidalModel A b F, which is C-31 and is implied by the parameter form (isRichToroidalModel_of_realizes), and IsGroupErgodic at the same b, which is C-28 at C-54's single parameter. The conclusion is IsUniversalFamilyEps (DEC-141's form of record), plus a member that is an EGF, plus: every member whose policy is sum_i alpha^i delta_{Phi_i} on the moves at b is IsEGFErgodic. That is C-54's '(the flows of the family at these translation parts are then EGFs)' in a form at least as strong, and the model form is universality_tori_of_record_model. The reading 'at every parameter' implies the single-parameter hypothesis. (b) Not BGConditionII(linearParts H) implies ergodic, faithful to 'no non-trivial invariant factor torus on which its linear part projects to an amenable group'. BGConditionII asks for a Q-subspace W != top invariant under p_a(H) with Subgroup.closure(factorProjection W L) amenable. Rational subspaces of R^d correspond to Q-subspaces of Q^d, and 'non-trivial' means T/S != 0, i.e. W != V: with W = 0 it is needed for amenable H such as the cyclic group of the cat map. The projection is exactly p_a(H) on Aut(T/S) by mem_closure_factorProjection_iff, and amenability is invariant under the injective passage to GL_Q(Q^d/W). (c) h in the group with coe h = torusAffine B c and NoPeriodicVector B. (d) d = 1, h in the group with coe h = torusAffine 1 c and orderOf h = 0. The element form implies the move form, and orderOf h = addOrderOf c is proved. (e) The e.g. is minimalMoves_example_of_record, which the mark paragraph names. For every b : Fin 4 -> T^2 it gives: Phi_T (Phi_S Phi_T Phi_S^-1)^-1 is in the group, its linear part is T(STS^-1)^-1, which equals [[2,1],[1,1]] (checked by hand too), and NoPeriodicVector holds (minimalMoves 0 = S, 2 = T, ToriMinimal.lean:804). universalityToriOfRecord (d) has no hypothesis, and no named Prop enters the marked chain: isGroupErgodic_torus_of_bekkaGuivarch carries BekkaGuivarchTheorem5 but is not used by it. Non-vacuity: the main clause (minimal moves with the L2 model, every b), the no-periodic-vector clause (minimalMoves_example_of_record) and the T^1 clause (translation by sqrt 2) are each met. The BG clause has no Lean instance (disclosed). Its hypothesis is a faithful definition, satisfiable mathematically: SL_2(Z) has a free subgroup, and the only rational subspaces it leaves invariant are 0 and Q^2. So the clause is not vacuous. Readings: GL_d(Z) is a genuine weakening, Lean >= paper. 'A translation of infinite order' gives the same statement under both readings (proved). 'Universal EGF family' is C-54's adopted text, so a form of record, not a reading."
+    },
+    {
+      "label": "theo:universality_sphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "EGF.UniversalitySphereOfRecord d is: 1 <= d implies, for all p, Phi : Fin p -> SO(d+1) generating a dense subgroup, and every F with IsRichSphericalModel Phi F, that F is IsUniversalFamilyEps (sphereVolume (d+1)), contains a member that is an EGF, and every member whose policy is sum_i alpha^i delta_{Phi_i} is IsEGFErgodic. This is v2 Theorem 3.6 (HEAD l.339; the closer's l.333) with C-49's density and C-54's single parameter and parenthetical (working copy l.343), clause for clause. d >= 1 is the paper's own hypothesis, placed inside the Prop. 'An isometry spherical family' is weakened to any family. lambda = volume.toSphere, i.e. sigma(A) = n vol((0,1)A), which is the surface measure of the round sphere by polar coordinates. It is a representation of the Riemannian volume, not a reading the paper leaves open. Universality and ergodicity are also invariant under scaling lambda by a positive constant. So the mark stands (see minor finding 3 on the word 'reading'). universalitySphereOfRecord (d) has no hypothesis. Non-vacuity: so3Pair on S^2 and so2Witness on S^1, each with the L2 model."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "No lake build running (pgrep). Run from lean-egf/: `taskset -c 0-11 lake env lean scaffold/EGFScaffold/FamiliesOfRecord.lean` exited 0 with no output, and so did the same with -DwarningAsError=true. The file has no `sorry`, `axiom`, `admit`, `native_decide` or `set_option`. A probe (a copy of the file plus #print axioms on all 37 declarations, under the campaign directory, deleted afterwards) gave [propext, Classical.choice, Quot.sound] for every declaration, and [propext, Quot.sound] for EGF.twoMoves. Every EGF.* name in REPORT.json exists in the file or in EGF/**. No declaration name collides with EGF/**, CorrectionWitnesses.lean or Basic.lean. `git status --short` shows nothing of the closer's outside the new file and the campaign directory. The three modified roadmap.toml files are the master's status edits. Docstring contract (lean-causal kb 0006, lean-egf kb 0015): both marks are within the first 4000 characters (at 157 and 494). The v1 l.291 and l.305 and the applied v2 texts are quoted verbatim. The Hypothesis checklist is at 2985, SCOPE at 5288 and Provenance at 6779, all before 8000."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/EGFScaffold/FamiliesOfRecord.lean:48-49, :58; REPORT.json (C-54 'found', 'C-54's strongest reading')",
+      "what": "C-54 has been adopted (corrections.toml, HEAD f30e138), and the corrector's v2 working copy now applies it (l.322, l.343). The docstring still says 'C-54 (found)' and 'C-54's strongest reading', and gives C-54 as a one-line paraphrase. The marked Props are C-54's form, and the roadmap aim asked for C-54's text to be quoted if it was adopted by dispatch time, which it was.",
+      "fix": "At graduation, quote C-54's corrected Theorems 3.5-3.6 (or v2 as applied after C-54) in a > block, write 'C-54 (adopted)', and call the single-parameter form the form of record rather than a reading."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/EGFScaffold/FamiliesOfRecord.lean:9, :14, :41, :46, :490, :604; REPORT.json (v2 l.316, l.333, l.879, l.320)",
+      "what": "The v2 line numbers are those of commit 49d6ed0. At v2 HEAD 0e3320c, Theorem 3.5 is l.322, Theorem 3.6 l.339 and the B.2 route l.889. In the working copy, which is being edited for C-53/C-54/C-55, they are l.322, l.343 and l.895.",
+      "fix": "Cite the v2 commit with the line numbers, or refresh them at graduation after the C-54 commit lands."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/EGFScaffold/FamiliesOfRecord.lean:65, :78-80",
+      "what": "The checklist row for the sphere's lambda says 'reading', and SCOPE says 'this stays the reading'. Under kb 0006 a statement certified only in a reading carries no mark, so the docstring contradicts its own mark. In fact volume.toSphere is the surface measure (sigma(A) = n vol((0,1)A)), and universality is invariant under positive scaling of lambda. This is a representation, and the mark stands.",
+      "fix": "Write the row as '✓ represented: sphereVolume (d + 1) = volume.toSphere, the surface measure (polar coordinates); Mathlib has no Riemannian volume to identify it with', and use 'representation' in SCOPE."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[0] (the sentence proposed for v2's B.2)",
+      "what": "The finding is true. EGF.isGroupErgodic_of_not_bgConditionII proves 'not (ii) implies ergodic' for any group of affine maps of T^d, against a faithful BGConditionII, with no named Prop and no spectral gap. In the proof the factor torus is non-trivial (W != top, since k is in O and k.k != 0), and amenability is used non-vacuously: the projected group is finite through an injection into (O -> O), and isAmenableGroup_of_finite builds the counting mean. So EGF.universality_tori's BekkaGuivarchTheorem5 hypothesis is indeed redundant (universality_tori_of_not_bgConditionII has the same signature without it). Only the proposed wording for the author is loose. 'Non-zero Fourier frequencies have finite orbits' holds for frequencies k != 0 with non-zero coefficient, not for every non-zero frequency. And 'the annihilator of such an orbit is an invariant factor torus' conflates the rational subspace W (the subtorus S = W_R/(W cap Z^d)) with the factor torus T^d/S.",
+      "fix": "Before it enters corrections.toml, reword along these lines: 'an invariant set A would give an invariant indicator with a coefficient at some k != 0; the moduli of the coefficients are constant along k -> B^T k, so by Parseval this orbit is finite; the rational subspace W annihilating it is proper and invariant under the linear parts, and their projection on the factor torus T^d/S, S = W_R/(W cap Z^d), is finite, hence amenable: (ii) holds.'"
+    }
+  ],
+  "corrections": [
+    {
+      "id": "C-28",
+      "anchored_as_reported": true,
+      "notes": "UniversalityToriOfRecord / universalityToriOfRecord is the applied Theorem 3.5, every clause, with its e.g. in minimalMoves_example_of_record. isGroupErgodic_torus_of_conditions gives the three sufficient conditions. UniversalitySphereOfRecord / universalitySphereOfRecord is the applied Theorem 3.6. The BG clause now needs no named Prop. The new finding (BG Theorem 5 is not needed for Theorem 3.5) is true and can be added to C-28's text or become a new entry."
+    },
+    {
+      "id": "C-31",
+      "anchored_as_reported": true,
+      "notes": "The richness hypothesis is IsRichToroidalModel / IsRichSphericalModel. The model-parameter form implies it (isRichToroidalModel_of_realizes, isRichSphericalModel_of_realizes). The refutations of the printed forms are cited and were not restated; their line numbers in the docstring check out."
+    },
+    {
+      "id": "C-49",
+      "anchored_as_reported": true,
+      "notes": "Density in SO(d+1), d >= 1, is the hypothesis of the marked Theorem 3.6. The pair so3Pair (without inverses) is dense, proved by mono from so3Witness_dense."
+    },
+    {
+      "id": "C-54",
+      "anchored_as_reported": true,
+      "notes": "The closer proposes the status 'proved'. Both hypotheses are at one b (resp. Phi), and the members at that parameter are EGFs (universality_tori_of_record(_model), universality_sphere_of_record(_model)). The prose parts of C-54 (l.302, l.293, l.307-308) are not Lean-anchorable, and are not claimed."
+    },
+    {
+      "id": "C-56",
+      "anchored_as_reported": true,
+      "notes": "On T^2, twoMoves = ![S, T] for every b (universality_tori_two_moves, non-vacuous by _l2). On S^2, so3Pair without inverses (so3Pair_dense, universality_sphere_two_moves_three, non-vacuous by _l2). On S^1, one rotation (universality_sphere_one_move). The single-move results on T^1 (universality_tori_one_sqrt_two) and T^d, d >= 2 (exists_universality_tori_single_move) are cited and exist. Two generators of a dense subgroup of SO(n), n >= 4, are not formalized (disclosed)."
+    }
+  ],
+  "summary": "Both marks stand. The marked statements EGF.UniversalityToriOfRecord d and EGF.UniversalitySphereOfRecord d are, clause by clause, the applied v2 Theorems 3.5-3.6 in C-54's adopted single-parameter form. Each is proved for every d with no hypothesis, no named Prop and standard axioms only. Their hypotheses are met except for the BG clause, whose faithful hypothesis has no Lean instance (disclosed) but is satisfiable mathematically. The new finding (not ergodic implies (ii), proved directly, so BG's Theorem 5 is not needed for Theorem 3.5) is true. Four minor findings: C-54 is called 'found' and not quoted; the v2 line numbers are stale; the sphere volume is called a 'reading' where it is a representation; the wording proposed for the author is loose."
+}
