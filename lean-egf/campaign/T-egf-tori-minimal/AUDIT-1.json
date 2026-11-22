@@ -1,0 +1,89 @@
+{
+ "target": "T-egf-tori-minimal",
+ "auditor_round": 1,
+ "file": "scaffold/EGFScaffold/ToriMinimal.lean",
+ "verdict": "minor",
+ "summary": "Host node1. Read: CLAUDE.md, lean-egf/docs/CAMPAIGN.md, kb INDEX and entries 0020-0022, lean-causal kb 0006, the roadmap block T-egf-tori-minimal in full, corrections C-28, C-29, C-31, C-34, main.tex l.145-150, 265-295, 436-442, 490-495, 692-700, 805-823, 1018-1024, the ledger row of theo:universality_tori, REPORT.json in full, ToriMinimal.lean in full (1101 lines), and the definitions of EGF/TorusFamilies.lean that the file uses (torusAffine, torusAffineEquiv, torusAffineGroup, linearParts, IsGroupErgodic, AffineToroidalModel, affineToroidalFamily, IsRichToroidalModel, l2ToroidalModel, universality_tori_of_ergodic, universality_tori_iff, UniversalityToriPrinted) and of EGF/UniversalFamily.lean (IsUniversalFamilyEps, IsDenseNonnegConeL2). No lake build was running (pgrep). Build: taskset -c 0-11 lake env lean scaffold/EGFScaffold/ToriMinimal.lean exits 0 with no error and no warning; the olean (18:35) is newer than the source (18:34). 0 sorry in the file (not even in comments); no axiom, admit, native_decide, set_option, opaque, unsafe or extern. #print axioms: a probe under the campaign directory held a full copy of the file followed by #print axioms for all 90 declarations the REPORT names (decls, correction anchors and extra_decls; all exist); 85 depend on [propext, Classical.choice, Quot.sound], blockDiag2, catMat, matS, matT, plasticMat on [propext, Quot.sound]. Probe deleted. Collisions: none of the 90 names is declared in EGF/** (including EGF/SphereDense.lean and EGF/DefEGF.lean, which the master graduated during this audit) or elsewhere in the scaffold. Scope: the only paths of this target in git status are the new scaffold file and the campaign directory; the staged EGF/DefEGF.lean, EGF/SphereDense.lean and the status edits of papers/egf/programme/roadmap.toml are the master's. The Lean is faithful and every anchor proves what the REPORT says; the issues are wording, in two findings for the paper and in the docstring.",
+ "labels": [
+  {
+   "label": "theo:universality_tori",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked (`theo:universality_tori` — `main.tex:291` at character 363, no **-mark anywhere), status partial: correct, the printed theorem needs C-31 and holds only in corrected forms. Fourier part: mFourier_comp_torusAffine is e_k(Ax+b) = e_k(b) e_{A^T k}(x), correct. mFourierCoeff_eq_of_invariant takes IsUnit det A, f integrable and a.e. invariance f o T =ae f, and gives f^(k) = e_{-k}(b) f^(A^T k) (checked by the change of variables); a.e. invariance is the weaker hypothesis, more than Mathlib's Ergodic needs (PreErgodic tests strictly invariant sets, whose indicators are invariant everywhere, EventuallyEq.of_eq in ergodic_of_mFourierCoeff). volume_unitAddTorus_eq_pi_haar is an equality of measures, not a multiple: volume = ENNReal.ofReal 1 • haarAddCircle = haarAddCircle on UnitAddCircle (volume_eq_smul_haarAddCircle), then rfl for the product. ergodic_torusAffine_of_noPeriodic(_transpose): constant modulus along the injective orbit (A^T)^n k and Parseval, correct for every b. NoPeriodicVector is the natural notion, non-vacuous (catMat, plasticMat), and noPeriodicVector_iff_det is the right equivalence over the domain Z. Cat map: T S T^-1 S^-1 computed by hand: TS = [[1,-1],[1,0]], TST^-1 = [[1,-2],[1,-1]], times S^-1 = [[0,1],[-1,0]] gives [[2,1],[1,1]]; equal to the corrected text's T(STS^-1)^-1. mem_torusAffineGroup_commutator holds for any p, any A, any b with A i = S, A j = T (translations universally quantified). noPeriodicVector_of_two_lt_trace: det(X^n - 1) = 2 - tr X^n < 0 from the trace recursion, correct. Universality: universality_tori_minimal, universality_tori_rl (12 and 20 moves, the 20-move form covers 8 translations and their inverses since b is universally quantified), universality_tori_cat, universality_tori_single_move, exists_universality_tori_single_move, ae_universality_tori_translation, universality_tori_of_mem_noPeriodic, universality_tori_of_mem_translation, universality_tori_sl (hd : 2 <= d, hgen 'contains SL_d(Z)', weaker than 'is'), universality_tori_one (A i = 1, addOrderOf (b i 0) = 0): each has as hypotheses only C-31's richness (adopted) and the named group condition, with IsUnit det (GL_d(Z)) for SL_d(Z), and concludes IsUniversalFamilyEps (DEC-141). Non-vacuity: _minimal_l2, _rl_l2, _cat_l2, _one_sqrt_two through l2ToroidalModel; l2ToroidalModelFree is a genuine AffineToroidalModel (non-empty Θ = translations × non-negative L2 functions, b θ = θ.1, uniform head), its family is Set.range of the flow (kb 0022), rich at every b, so universality_tori_minimal_free is a real instance. hgen is met by minimalMoves_generate at d = 2 (Mathlib's SL2Z_generators); at d >= 3 its satisfiability (finite generation of SL_d(Z)) is true but not in Lean. Stretch: plasticMat is the companion of x^3 - x - 1 (e0 -> e1 -> e2 -> e0 + e1, plasticMat_cube), irreducible over Q by the rational root theorem, of infinite order, hence C^n - 1 invertible over Q by Bezout; exists_noPeriodicVector_det_one covers d = 2 (cat), d = 3 (plastic) and d = m + 2 by blockDiag2 M catMat (even d: cat blocks; odd d: plastic and cat blocks). not_universality_tori_sl_one: identity move, b = 0, hgen holds (SL_1(Z) = {1}) and the L2 family is not epsilon-universal (universality_tori_iff, a set of volume 1/2): a correct counterexample. The T^1 anchor universality_tori_one takes the translation as a move, the corrected text says the group 'contains' it: equivalent for the paper's SL_1(Z) moves, narrower under the file's GL_1(Z) weakening (finding 5)."
+  }
+ ],
+ "checked_findings": [
+  {
+   "finding": "1 (l.1022, l.493: 'minimal four moves')",
+   "true": "in the disclosed reading only",
+   "notes": "Mathematics true and proved: one move suffices (universality_tori_cat, exists_universality_tori_single_move, ae_universality_tori_translation), and the four moves suffice for every translation. But 'four is not the minimum' is stated as a fact about the paper, and the reading is disclosed only under questions. The natural reading is the other one: l.1022 glosses 'minimal' itself ('ie two generators of SL(2,Z) together with their inverse'), l.493 points to the instance of l.293's criterion, and l.698 of the same paper says 'two transformations are sufficient', so the author did not claim four to be the minimum for universality. In that reading the claim is true: an inverse-closed set of moves with linear parts in SL_2(Z) generating SL_2(Z) has at least four elements (a self-inverse affine move has linear part +-I, and SL_2(Z) is neither cyclic nor abelian). Minor: reword (finding 1 below)."
+  },
+  {
+   "finding": "2 (l.293)",
+   "true": true,
+   "notes": "universality_tori_sl for every d >= 2 and every translation; not_universality_tori_sl_one at d = 1 is a correct counterexample. The l.820 point is true: generation of SL_d(Z) by the linear parts does not make the set of moves inverse-closed (e.g. the two moves x -> Sx, x -> Tx), and with S^{+-1}, T^{+-1} it needs b 1 = -S^-1 b 0 and b 3 = -T^-1 b 2. It is disclosed as not formalized. 'd >= 3 no longer rests on l.821 nor on conder2025generating' is true of the conditional form."
+  },
+  {
+   "finding": "3 (l.149)",
+   "true": "under C-29's corrected criterion only",
+   "notes": "l.149's 'this criterion' is the universality criterion of Theorem 3.4 (l.277: a summably L2-mixing policy). With one transformation the kernel is deterministic and never summably L2-mixing (EGF.not_isSummablyL2Mixing_of_map_eq, kb 0024), so 'confirmed ... with one transformation' is true only for the criterion as corrected by C-29 (ergodicity, adopted, DEC-144). The finding does not say so. Minor: qualify (finding 2 below)."
+  },
+  {
+   "finding": "4 (l.697-698)",
+   "true": true,
+   "notes": "ae_ergodic_torusAffine_one: almost every translation of T^d is ergodic, every d; ae_universality_tori_translation: with a rich model the one-move family is epsilon-universal. 'l.698 true, not tight' agrees with C-29's own note that one map does not contradict 'two are sufficient'."
+  },
+  {
+   "finding": "5 (l.440)",
+   "true": true,
+   "notes": "universality_tori_rl for both readings of C-34 and every translation, non-vacuous by universality_tori_rl_l2."
+  }
+ ],
+ "answers_to_dispatch": {
+  "C-28 tori half": "The anchors prove what the REPORT says. ergodic_torusAffine_of_noPeriodic + universality_tori_of_mem_noPeriodic give the corrected clause 'when it contains an affine map whose linear part has no periodic integer vector'; mem_torusAffineGroup_commutator, matT_mul_matS_mul_inv, catMat_mem_linearParts and universality_tori_minimal give the minimal four moves' instance for every translation; universality_tori_sl (every d >= 2, with exists_noPeriodicVector_det_one) and universality_tori_two_of_specialLinearGroup give the corrected l.293 sentence's d >= 2 half, minimalMoves_generate shows the minimal moves meet it, not_universality_tori_sl_one shows 'for d >= 2' is needed, and universality_tori_one with addOrderOf_coe_eq_zero_of_irrational gives 'for d = 1 if one translation part is irrational'. The register's 'd >= 3 rests on l.821 unless the stretch lands' can be updated: the stretch landed. One precision: the corrected Theorem 3.5's T^1 clause says the group 'contains' a translation of infinite order; universality_tori_one asks for a move. That is equivalent under the paper's SL_1(Z) moves, and the group form follows from ergodic_torusAffine_one_dim_one, isGroupErgodic_of_ergodic_mem and universality_tori_of_ergodic, but no single declaration states it (finding 5).",
+  "C-29": "The anchors prove what the REPORT says. isGroupErgodic_of_ergodic_mem: one ergodic element makes the group ergodic, through QuasiErgodic.ae_empty_or_univ0 on a.e.-invariant sets. One move suffices: universality_tori_cat (T^2), exists_universality_tori_single_move (every d >= 2, det 1), ae_universality_tori_translation and ae_ergodic_torusAffine_one (every d, almost every translation). The REPORT correctly says these are not combined with not_isSummablyL2Mixing_of_map_eq into a universal non-mixing witness on T^d."
+ },
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard"
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[0].findings[0] (main.tex:1022, :493)",
+   "what": "'four is not the minimum' is written as a fact about the paper; the reading 'minimal number of moves for universality' is disclosed only under questions[3]. That reading is the less natural one. l.1022 glosses 'minimal' as 'two generators of SL(2,Z) together with their inverse', l.493 cites the instance of l.293's criterion, and l.698 of the same paper says two transformations suffice. In the natural reading (the smallest inverse-closed set of moves whose linear parts generate SL_2(Z), the paper's own sufficient condition) four is indeed minimal. Sent as written, the finding would tell the author his claim is false when it is true in the sense he meant.",
+   "fix": "Reword: 'main.tex:1022 and :493: the four moves are minimal for the paper's own sufficient condition (an inverse-closed set of moves whose linear parts generate SL_2(Z)), not in the number of moves needed for universality: one move suffices (EGF.universality_tori_cat; EGF.exists_universality_tori_single_move, every d >= 2; EGF.ae_universality_tori_translation, every d), since only ergodicity of the group matters (C-29, EGF.isGroupErgodic_of_ergodic_mem). The four moves are sufficient for every choice of their translations (EGF.universality_tori_minimal).'"
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[0].findings[2] (main.tex:149)",
+   "what": "'confirmed in every dimension d >= 1 and with one transformation' is true only for the universality criterion as corrected by C-29 (ergodicity). l.149's 'this criterion' is Theorem 3.4's summable L2-mixing (l.277). A one-move family has a deterministic kernel, which is never summably L2-mixing (EGF.not_isSummablyL2Mixing_of_map_eq, kb 0024), and at d = 1 the paper's route fails (C-28 (b)). Unqualified, the confirmation says more than is proved.",
+   "fix": "Write: 'main.tex:149, for tori, with the criterion as corrected by C-29 (ergodicity of the group of the moves and a rich model, C-31): confirmed in every dimension d >= 1, and with one transformation (...); with the printed criterion (summable L2-mixing) one transformation never suffices (EGF.not_isSummablyL2Mixing_of_map_eq) and at d = 1 the paper's route fails (C-28 (b)).'"
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/EGFScaffold/ToriMinimal.lean:17-58 (module docstring)",
+   "what": "Docstring contract (kb 0006). The > block does not quote the label's own sentence, Theorem 3.5 at main.tex:291. It also leaves out l.149, l.493 and l.698, on which three of the five findings rest. Three checklist rows have no tag: 'SL_d(Z) two-generated', '\"universal EGF family\"' and 'd = 1'. The REPORT tags these weakened, carried and strengthened.",
+   "fix": "Quote l.291 (and l.149, l.493, l.698) as printed. Tag the three rows: '⚠ weakened: not used', '✓ carried: the ε-form (DEC-141)', '⚠ strengthened: one translation of infinite order'."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/EGFScaffold/ToriMinimal.lean:13-14",
+   "what": "'the printed theorem is false (C-31, EGF.not_universalityToriPrinted)' overstates that declaration. It is conditional on hex, the satisfiability of l.820, which is unproved for d >= 1, and EGF.universalityToriPrinted_one shows the printed Prop holds vacuously at d = 1. The unconditional refutation is EGF.not_isUniversalFamilyEps_constOutflow: a non-rich model is never universal, whatever the moves, for instance the minimal four.",
+   "fix": "Cite EGF.not_isUniversalFamilyEps_constOutflow, e.g. 'the printed theorem fails without C-31's richness for every choice of moves (EGF.not_isUniversalFamilyEps_constOutflow), in particular for the minimal four moves, which meet the corrected condition'."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[0].hypotheses[2]",
+   "what": "Tagged 'weakened': the replacement of 'the group violates (ii)' by 'the group contains an affine map whose linear part has no periodic integer vector'. The two conditions are incomparable. The cyclic group generated by x -> catMat x satisfies (ii): take W = 0, the projection is Z, which is amenable. Yet that group contains catMat. The tag is right for universality_tori_minimal and universality_tori_sl, where the condition is discharged, and the note itself says 'replaced by'. The weakening of record is EGF.universality_tori_of_ergodic (strict library).",
+   "fix": "Tag it 'replaced' (or 'weakened: discharged' for the instances), and name universality_tori_of_ergodic as the form weaker than both."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/EGFScaffold/ToriMinimal.lean:1047 (universality_tori_one); REPORT.json corrections[0] (C-28) notes",
+   "what": "C-28's corrected Theorem 3.5 says the group 'contains ... on T^1, a translation of infinite order'. universality_tori_one asks for a move x -> x + b i (A i = 1). For the paper's SL_1(Z) moves the two are equivalent: all moves are translations, and translations of finite order generate a finite group. Under the file's GL_1(Z) weakening the move form is narrower: x -> -x + a and x -> -x + c generate x -> x + (a - c). Not Lean < paper, since the paper's Aff uses SL_d(Z), but the anchor is not literally the corrected clause.",
+   "fix": "Optional: add universality_tori_one_of_mem (h in torusAffineGroup A b hA, ⇑h = torusAffine 1 c, addOrderOf (c 0) = 0, rich model ⇒ IsUniversalFamilyEps), three lines from ergodic_torusAffine_one_dim_one, isGroupErgodic_of_ergodic_mem and universality_tori_of_ergodic, and anchor C-28's T^1 clause on it. Or say in the REPORT that universality_tori_one is the clause for SL_1(Z) moves."
+  }
+ ]
+}
