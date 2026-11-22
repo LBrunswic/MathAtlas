@@ -1046,11 +1046,12 @@ kind = "convention"
 finding = "C-58 (applied, v2 6a9c510) made l.366 read (v2 l.423 at 225d9a9): 'for some training distribution of paths nu_train with lambda << nu_train and ||d lambda/d nu_train||_inf < infinity, and b > 0 (Algorithm 1 takes b >= 1 + ||d lambda/d nu_train||_inf, for which the loss controls the sampling error)'. Two readings are left implicit (CHECK-1 of T-egf-correct-loss-hypotheses, finding 1). (1) lambda << nu_train and d lambda/d nu_train make sense only for a measure on S, while the sentence says 'of paths'. Eq. (15)'s own E_{s ~ nu_train} delta f_init(s) already forces a measure on states, Lean's nu_train is a Measure S, and the reconciling convention (a law of the states of paths) comes only at v2 l.461, for Algorithm 1. (2) The threshold b >= 1 + ||d lambda/d nu_train||_inf is not invariant under scaling nu_train, while under the paper's convention (v1 l.159, v2 l.163: x ~ mu means the law mu/mu(S), also for an unnormalized mu) Eq. (15) is. For an unnormalized nu_train the threshold fails: on Bool with lambda the counting measure and nu_train = 5 lambda, b = 1.2 = 1 + 1/5 meets it, but E_{s ~ nu_train} is the integral against nu_train/10 = lambda/2, so (15) is Lean's loss at nu_train = lambda with weight 0.6 < log 2, which has no floor (EGF.SwapM.loss_lt_entropy: L < H(kappa); the rescaling is by hand). The threshold has to use the normalized nu_train (there 1 + 2 = 3). With nu_train a probability the two conventions for E_{nu_train} (Lean's integral, the paper's normalized law) agree, and EGF.loss_controls_sampling_essSup is the corrected form, unchanged. 'Distribution' in the paper's default sense is a probability (v1 l.159 and l.163 say 'unnormalized' when they mean it), so the sentence is faithful in that sense; the correction writes the qualifier and the state space. Under DEC-141: a convention made explicit, the corrected form proved; not a reading for the author (the unnormalized reading makes the threshold false). Algorithm 1's 'p_t-weighted law' is then a probability too, which is why C-65 states the weight its estimate carries."
 anchor = ["EGF.loss_controls_sampling_essSup", "EGF.loss_controls_defect"]
 basis = ["DEC-141", "DEC-143"]
-status = "adopted"
+status = "applied"
 corrected = '''l.366 (v2 l.423): ``for some training probability distribution $\nu_{\mathrm{train}}$ on $\Statespace$ (a law of the states of training paths, as in Algorithm~\ref{alg:IL_EGF}) with $\lambda\ll\nu_{\mathrm{train}}$ and $\|d\lambda/d\nu_{\mathrm{train}}\|_\infty<\infty$, and $b>0$ (Algorithm~\ref{alg:IL_EGF} takes $b\geq1+\|d\lambda/d\nu_{\mathrm{train}}\|_\infty$, for which the loss controls the sampling error).'' (C-58's applied text with ``probability'' and ``on $\Statespace$'' added).'''
 summary = "Eq. (15)'s training distribution is a probability on states, the normalization under which Algorithm 1's threshold on b holds."
 added_hypotheses = ["nu_train a probability measure on S (the paper's default sense of 'distribution', now written; the threshold on b is not invariant under scaling nu_train)"]
 batch = "T-egf-correct-precision"
+v2_commit = "00f8f6f"
 
 [[correction]]
 id = "C-65"
@@ -1060,11 +1061,12 @@ kind = "gap"
 finding = "Algorithm 1 fills 'B = B-> u B<- with B trajectories (s_t)_{t=1}^{t_max} using (F_init, pi*) for B-> and (kappa, pi<-*) for B<-' (v1 l.392, v2 l.454 at 225d9a9) and its loss divides by 2B (v1 l.395; C-59's display, v2 l.459); since C-59 (v2 6a9c510) v2 l.461 calls it 'a Monte-Carlo estimate of (15) for nu_train the p_t-weighted law of the states of the buffer's paths'. (1) 1/(2B) normalizes over 2B paths only if each of B-> and B<- holds B trajectories, which the reproduction does (scripts/train.py: B forward paths from F_init, B backward paths from kappa) but l.392 leaves open. (2) The display's first term is b times the integral of delta f_init against nu-hat = (1/2B) sum_{s in B} sum_{t <= t_max} p_t(s) delta_{s_t}, whose expectation nu has mass m = E[(1/2B) sum_s sum_t p_t(s)] >= 1 (p_1 = 1, the empty product, and |B| = 2B). With nu_train the law nu/m, a probability (C-64; v1 l.159's convention), the display estimates (15) with b replaced by b m. The control the text attaches to b survives: b m >= b >= 1 + ||d lambda/d nu_train||_inf, and EGF.loss_controls_sampling_essSup holds at every weight above the threshold. With |B| = B the factor would only be >= 1/2. The ambiguity is v1's ('B trajectories', 1/(2B)); C-59's naming of nu_train makes it bear on the threshold. m is not to be identified with E[min(tau, t_max)]: the survival identity for p_t is not in Lean (EGF/Loss.lean SCOPE), and the text does not need it. CHECK-1 of T-egf-correct-loss-hypotheses, finding 2. Under DEC-141: a gap in the algorithm's description made exact, nothing changed in the algorithm as run."
 anchor = ["EGF.loss_controls_sampling_essSup"]
 basis = ["DEC-141", "DEC-143"]
-status = "adopted"
-corrected = '''l.392 (v2 l.454): ``Fill replay buffer $\mathcal B=\mathcal B_{\rightarrow} \cup \mathcal B_{\leftarrow}$ with $B$ trajectories $(\underline s_t)_{t=1}^{t_{\text{max}}}$ in each of $\mathcal B_{\rightarrow}$ and $\mathcal B_{\leftarrow}$, using $(\Finit, \ForwardPolicy^*)$ for $\mathcal B_{\rightarrow}$ and ...'' (the rest as applied); v2 l.461 (C-59's text after the display of v1 l.395): ``a Monte-Carlo estimate of \eqref{equ:weakFM} with $b$ replaced by $bm$, for $\nu_{\mathrm{train}}$ the $p_t$-weighted law of the states of the buffer's paths and $m=\mathbb E\big[\frac1{2B}\sum_{\underline s\in\mathcal B}\sum_{t\leq t_{\text{max}}}p_t(\underline s)\big]\geq1$ ($p_1=1$), with $b\geq1+\|d\lambda/d\nu_{\mathrm{train}}\|_\infty$ (so that $bm\geq b$), and'' (the rest as applied).'''
+status = "applied"
+corrected = '''l.392 (v2 l.454): ``Fill replay buffer $\mathcal B=\mathcal B_{\rightarrow} \cup \mathcal B_{\leftarrow}$ with $B$ trajectories $(\underline s_t)_{t=1}^{t_{\text{max}}}$ in each of $\mathcal B_{\rightarrow}$ and $\mathcal B_{\leftarrow}$, using $(\Finit, \ForwardPolicy^*)$ for $\mathcal B_{\rightarrow}$ and ...'' (the rest as applied); v2 l.461 (C-59's text after the display of v1 l.395): ``a Monte-Carlo estimate of \eqref{equ:weakFM} with $b$ replaced by $bm$, for $\nu_{\mathrm{train}}$ the $p_t$-weighted law of the states of the buffer's paths and $m\geq1$ the expected mean over the buffer's paths of $\sum_{t\leq t_{\text{max}}}p_t$ ($p_1=1$), with $b\geq1+\|d\lambda/d\nu_{\mathrm{train}}\|_\infty$ (so that $bm\geq b$), and'' (the rest as applied).'''
 summary = "Algorithm 1 fills B trajectories in each of its two buffers, and its estimate of Eq. (15) carries the weight b m, m >= 1 the buffer's mean total weight, which keeps the threshold on b."
 added_hypotheses = []
 batch = "T-egf-correct-precision"
+v2_commit = "00f8f6f"
 
 [[correction]]
 id = "C-66"
@@ -1075,11 +1077,12 @@ kind = "gap"
 finding = "C-53's text (applied, v2 01f6112) replaced v1 l.836 by B.3's proof that density gives ergodicity (v2 l.927 at 225d9a9): '..., hence ergodically (by Fubini on SO_{d+1}(R) x S^d), and a set almost invariant under a dense subgroup of a group acting continuously and ergodically is null or conull.' Stated as a general fact, this is false without its setting: R acting on itself by translations with the counting measure is continuous, measure-preserving and ergodic (the only invariant sets are the empty set and R), Q is dense, and the Q-invariant set Q is neither null nor conull (by hand). The fact used is Mathlib's aeconst_of_dense_aestabilizer_smul (Mathlib/Dynamics/Ergodic/Action/OfMinimal.lean), for a finite inner regular measure on an R1 Borel space, preserved by a continuous action (ErgodicSMul extends SMulInvariantMeasure) of a group with continuous inverse. On S^d, lambda is a finite Borel measure on a compact metric space (hence inner regular) preserved by the rotations, so every condition holds, and the paragraph's claim (density gives ergodicity on S^d, d >= 1) is exactly EGF.isGroupErgodic_sphereRotGroup_of_dense, through EGF.ae_const_of_dense_rotations and EGF.ergodicSMul_rotSphere. So v2 claims no more than is proved, but one step is stated more generally than it holds. CHECK-1 of T-egf-correct-families-proofs, finding 1 (the corrector raised it). Under DEC-141: a step of a proof stated beyond its validity, the corrected form proved."
 anchor = ["EGF.ae_const_of_dense_rotations", "EGF.isGroupErgodic_sphereRotGroup_of_dense", "EGF.ergodicSMul_rotSphere"]
 basis = ["DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''v2 l.927 (C-53's text for v1 l.836): ``..., hence ergodically (by Fubini on $\mathrm{SO}_{d+1}(\mathbb R)\times\mathbb S^d$), and, for a finite Borel measure on a compact metric space preserved by the action, such as $\lambda$ on $\mathbb S^d$, a set almost invariant under a dense subgroup of a group acting continuously and ergodically is null or conull.'' (the rest as applied).'''
 summary = "Appendix B.3's dense-subgroup step names its setting: a finite Borel measure on a compact metric space, preserved by the action."
 added_hypotheses = ["for the dense-subgroup step, a finite Borel measure on a compact metric space preserved by the action (lambda on S^d)"]
 batch = "T-egf-correct-precision"
+v2_commit = "00f8f6f"
 
 [[correction]]
 id = "C-67"
@@ -1090,11 +1093,12 @@ kind = "gap"
 finding = "C-53's paragraph after v1 l.821 (applied, v2 l.909 at 225d9a9) proves an affine map h(x) = Mx + c ergodic for 'A a measurable set invariant under h' and ends 'A set invariant under the group is invariant under each of its elements, so one ergodic element makes the group ergodic.' The ergodicity Theorem 3.5 assumes is Definition 3.1's (v2 l.233; C-26, DEC-146): sets almost invariant under the generators, lambda(Phi_i^{-1}(A) triangle A) = 0. Read strictly, the last step needs two facts the text does not state: a set almost invariant under the generators is almost invariant under every element of the group, the moves preserving lambda (EGF.ae_invariant_of_mem_closure; for nonsingular moves EGF.ae_invariant_of_mem_closure_of_quasi), and an ergodic map has no almost invariant set other than null and conull ones (Mathlib's QuasiErgodic.ae_empty_or_univ0, used by EGF.isGroupErgodic_of_ergodic_mem). The Fourier identity needs only f o h = f almost everywhere (EGF.norm_mFourierCoeff_eq_of_invariant, EGF.ergodic_of_mFourierCoeff). Read as 'almost invariant' throughout, the paragraph is correct; C-28's l.903 sentence ('a set A invariant under the group would give the invariant mean-zero function') is right as an identity in L^2 and needs no edit. CHECK-1 of T-egf-correct-families-proofs, finding 2. Under DEC-141 (with DEC-146's definition): wording of a proof, nothing claimed beyond the Lean. If C-73 (the strengthening of B.2) is adopted, its text continues this paragraph as corrected here."
 anchor = ["EGF.isGroupErgodic_of_ergodic_mem", "EGF.ae_invariant_of_mem_closure", "EGF.norm_mFourierCoeff_eq_of_invariant", "EGF.ergodic_of_mFourierCoeff"]
 basis = ["DEC-141", "DEC-146"]
-status = "adopted"
+status = "applied"
 corrected = '''v2 l.909 (C-53's paragraph after v1 l.821): ``and $A$ a measurable set with $\lambda\big(h^{-1}(A)\,\triangle\,A\big)=0$'' for ``and $A$ a measurable set invariant under $h$''; its last sentence: ``A set almost invariant under the $\Phi_i$ is almost invariant under every element of the group, the moves preserving $\lambda$, and an ergodic map has no almost invariant set other than null and conull ones, so one ergodic element makes the group ergodic.'' '''
 summary = "Appendix B.2's Fourier argument is stated for almost invariant sets, the ergodicity Definition 3.1 asks for."
 added_hypotheses = []
 batch = "T-egf-correct-precision"
+v2_commit = "00f8f6f"
 
 [[correction]]
 id = "C-68"
@@ -1105,11 +1109,12 @@ kind = "gap"
 finding = "l.238 as applied by C-18 and C-29 (v2 l.261 at 225d9a9): 'Ergodicity guarantees, for a model rich enough (Theorem 3.4), that the parameterized family of EGFs is universal: ... even with simple transformations, such as affine maps on tori and rotations on spheres.' Since C-54 (applied, v2 01f6112) the affine toroidal and isometry spherical families are families of generative flows (v2 l.321, l.342), whose members are EGFs only at parameters where the moves generate an ergodic group (EGF.AffineToroidalModel.isEGFErgodic_flow_iff, EGF.isEGFErgodic_sphere_iff). Theorem 3.4 (v1 l.277, v2 l.305: 'A parameterized family of EGF is universal provided ...'), to which l.261 points, is about families of EGFs and does not cover them; Theorems 3.5-3.6 do, and B.2-B.3 derive them from Theorem B.1 directly, so no proof breaks. Nothing is false; the sentence's pointer and its 'of EGFs' lag behind C-54 (CHECK-1 of T-egf-correct-families-proofs, finding 3, which proposed l.238 and l.277 together). The smallest edit points to the three theorems and drops 'of EGFs'. Not in this entry: Theorem 3.4 holds for any family of generative flows (EGF.universality_of_ergodic_family; EGF.universality: Lean >= paper), and writing so at l.277 would drop a hypothesis from a true theorem, a strengthening (OQ-85's precedent) for the author, not part of this correction; Theorem 3.4 as printed stays true. Under DEC-141: an inconsistency left by an applied correction, the smallest edit."
 anchor = ["EGF.universality_of_ergodic_family", "EGF.universality_tori_of_ergodic", "EGF.universality_sphere", "EGF.AffineToroidalModel.isEGFErgodic_flow_iff", "EGF.isEGFErgodic_sphere_iff"]
 basis = ["DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''l.238 (v2 l.261): ``Ergodicity guarantees, for a model rich enough (Theorems~\ref{theo:universality}, \ref{theo:universality_tori} and~\ref{theo:universality_sphere}), that the parameterized family is universal: ...'' (the rest as applied).'''
 summary = "The Expressivity paragraph points to Theorems 3.4-3.6 for the universality of the parameterized family, whose members need not all be EGFs."
 added_hypotheses = []
 batch = "T-egf-correct-precision"
+v2_commit = "00f8f6f"
 
 [[correction]]
 id = "C-69"
@@ -1118,11 +1123,12 @@ printed = "main.tex:211"
 kind = "typo"
 finding = "C-51's text (applied, v2 l.222 at 225d9a9): '0-flows are the non-zero measures xi invariant under pi*, xi pi* = xi, that is generative flows with F_init = F_term = 0.' In v2's vocabulary (v2 l.165) a generative flow is any pair (pi*, F_out*), with F_init and F_term given separately; flow matching is the constraint (2) (equ:FM_const). A generative flow (pi*, xi) with F_init = F_term = 0 has xi invariant only if it satisfies (2), which then reads xi pi* = xi (EGF.IsFlowMatching pi xi 0 0 unfolds to it). The first clause is exact and the gloss follows it, so nothing is overclaimed; in the cited source a 'flow' includes the conservation. CHECK-1 of T-egf-correct-notions, finding 3 (optional). A precision of C-51's wording (C-51 is a typo entry); 0-flows are not formalized in lean-egf, nothing to prove. Under DEC-141, editorial."
 basis = ["DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''v2 l.222 (C-51's text for v1 l.211): ``0-flows are the non-zero measures $\xi$ invariant under $\ForwardPolicyStar$, $\xi\ForwardPolicyStar=\xi$, that is the outflows of the generative flows $(\ForwardPolicyStar,\xi)$ satisfying the flow-matching constraint~\eqref{equ:FM_const} with $\Finit=\Fterm=0$.'' '''
 summary = "0-flows are glossed as the outflows of flow-matching generative flows with zero initial and terminal flows."
 added_hypotheses = []
 batch = "T-egf-correct-precision"
+v2_commit = "00f8f6f"
 
 [[correction]]
 id = "C-70"
@@ -1132,11 +1138,12 @@ kind = "missing-hypothesis"
 finding = "C-56's text (applied, v2 l.777 at 225d9a9): '... Theorems 3.5 and 3.6 ask only that the group generated by the moves be ergodic, respectively dense, so the inverses of the four moves of Section 3.1 are not needed, ...'. (a) 'Ask only' is what they ask of the moves; they also ask C-31's rich model (the uniform policy and outflows dense in the non-negative cone), without which no number of moves gives universality (EGF.not_isUniversalFamilyEps_sphere_of_constantHeads). In context the sentence is about the families of those theorems, model included, so this is not an overclaim. (b) 'The inverses of the four moves' can be read as the inverse of each of the four moves, rather than the two inverse moves among the four (v2 l.331, l.352: 'the two generators and their inverses'). CHECK-1 of T-egf-correct-notions, finding 4 (optional, 'a later wording round'). Under DEC-141 and DEC-144 (l.697-698 'corrected accordingly'): wording of an applied correction, nothing new; the counts stay anchored as in C-56."
 anchor = ["EGF.universality_tori_of_ergodic", "EGF.universality_sphere", "EGF.universality_tori_two_moves"]
 basis = ["DEC-141", "DEC-144"]
-status = "adopted"
+status = "applied"
 corrected = '''v2 l.777 (C-56's text for v1 l.698): ``... Theorems~\ref{theo:universality_tori} and \ref{theo:universality_sphere} ask of the moves only that the group they generate be ergodic, respectively dense, so the two inverse moves among the four of Section~\ref{sec:universality} are not needed, and on ...'' (the rest as applied).'''
 summary = "The first limitation says what Theorems 3.5-3.6 ask of the moves, and that the two inverse moves among the four are not needed."
 added_hypotheses = []
 batch = "T-egf-correct-precision"
+v2_commit = "00f8f6f"
 
 # --------------------------------------------------------------------------------------------
 # Typos and optional style, last batch (planning run of 2026-11-22, third)                  batch C-style
