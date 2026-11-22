@@ -181,6 +181,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.Remarks.SingularRowsSplitting` | — | /atlas-team (T-ett-geroch-split-flow): The « Moreover » at every `E_{≥0}`-manifold from a causal flow; `E₀`'s τ-flow, null, splitting `E₀` along every Cauchy surface; cites, unmarked (partial): `theo:geroch_sing`, `lem:Sigma_separe`, `cor:K_ordre_Sigma`; 2026-11-22 |
 | `Causal.Remarks.SingularRowsDiamondPast` | — | /atlas-team (T-ett-diamant-past): `J^±` of open sets open at every `E_{≥0}`-manifold; the time-reversed compactness `J⁻(Σ) ∩ J⁺(p)` (A2's second field); cites, unmarked (partial): `theo:CBG`; 2026-11-22 |
 | `Causal.Remarks.SingularRowsCauchyExt` | — | /atlas-team (T-ett-cauchy-ext-e0): A Cauchy extension that is not onto, `{T < a} ⊂ E₀`, and the diamond and Cauchy-embedding rows witnessed off the identity; cites, unmarked (partial): `def:cauchy_embedding_cauchy_extension`, `lem:image_diamant`, `lem:passe_pgcd`, `lem:Cauchy_plongement_toutes`; 2026-11-22 |
+| `Causal.Remarks.SingularRowsSecondCountable` | — | /atlas-team (T-ett-sc-cauchy-e0): A2's last field at `E_{≥0}`-manifolds: a second countable Cauchy surface makes `M` second countable, with no global hyperbolicity; cites, unmarked (partial): `theo:CBG`, `rem:CBG_manquant`; 2026-11-22 |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

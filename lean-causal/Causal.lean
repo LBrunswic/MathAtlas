@@ -291,6 +291,7 @@ import Causal.SingularSplitting
 import Causal.Remarks.SingularRowsSplitting
 import Causal.Remarks.SingularRowsDiamondPast
 import Causal.Remarks.SingularRowsCauchyExt
+import Causal.Remarks.SingularRowsSecondCountable
 
 /-!
 # Causal — topological spacetimes

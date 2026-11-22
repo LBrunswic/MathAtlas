@@ -220,3 +220,6 @@ rediscover. One fact per entry.
 | [0212](entries/0212-curvesextend-is-image-containment.md) | pitfall | CurvesExtend gives only image containment, never an extension of the parametrised curve |
 | [0213](entries/0213-inclusion-emorphism-from-chartiso.md) | pattern | The inclusion of an open set is an IsEMorphism once it is a ChartIso |
 | [0214](entries/0214-root-le-of-lt-in-causality.md) | pitfall | Inside namespace Causal.Causality, le_of_lt resolves to Causality.le_of_lt |
+| [0215](entries/0215-second-countable-from-cauchy-surface.md) | pattern | Second countability of an E≥0-manifold from a second countable Cauchy surface |
+| [0216](entries/0216-reg-second-countable.md) | pattern | Reg(M) of a connected, Hausdorff singular (Isom 𝐌³, 𝐌³)-manifold is second countable |
+| [0217](entries/0217-singular-points-of-cauchy-surface-discrete.md) | pattern | The singular points of a Cauchy surface form a discrete subspace |
