@@ -3,6 +3,10 @@
 *Skeleton (2026-09-19). The words are the author's; each fragment names the ledger labels it
 rests on, and nothing here is copied from the legacy draft (`tools/no_legacy_prose.py`).*
 
+*Story source since DEC-182: the author's 2026 programme, snapshotted at `programme-2026/`
+(2026-11-22, `programme-2026/MANIFEST.json`); the 2020 draft in `legacy/` is superseded as the
+story source and stays frozen. How its Lean relates to `lean-syracuse` is OQ-91.*
+
 ## Objective
 
 An extension of Terras's method constraining the non-trivial cycles of the Syracuse map, through upper bounds and cyclotomic arithmetic.

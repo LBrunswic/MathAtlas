@@ -1,0 +1,85 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.6cm]{geometry}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{booktabs}
+
+%% ---------------------------------------------------------------------------
+%%  Bourbaki-style numbering: one running counter per section, shared by every
+%%  numbered statement, with small-capitals headers.
+%% ---------------------------------------------------------------------------
+\newtheoremstyle{bourbaki}%
+  {\topsep}{\topsep}{\itshape}{}{\scshape}{.}{ }{}
+\newtheoremstyle{bourbakidef}%
+  {\topsep}{\topsep}{\upshape}{}{\scshape}{.}{ }{}
+
+\theoremstyle{bourbaki}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+
+\theoremstyle{bourbakidef}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{nota}[thm]{Notation}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\eu}{e_{u}}
+\newcommand{\ev}{e_{v}}
+\DeclareMathOperator{\Mahler}{M}
+\DeclareMathOperator{\Gal}{Gal}
+\newcommand{\zmod}[1]{(\Z/#1\Z)^{\!\times}}
+
+\title{A Fox--derivative cocycle for the Syracuse cycle problem:\\
+       construction and the polynomials of short words}
+\author{Leo Brunswic}
+\date{21 June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We isolate the algebraic object underlying the cocycle calculus of the $3x+1$ problem,
+stripped of the integer specialisation $(X,Y)\mapsto(2,3)$. On the free group $F_2=\langle
+u,v\rangle$ with universal abelianisation character $\chi$, the composite $S=\chi\circ
+\partial_u$ of the Fox derivative with $\chi$ is a $1$-cocycle valued in the Laurent ring
+$\Lam=\Z[X^{\pm1},Y^{\pm1}]$. Section~1 develops $S$ from scratch: its closed form on
+positive words, the cocycle law, the fact that its class in $\Lam/(1-\chi(w))$ is a
+conjugacy invariant up to a monomial unit, and a unimodular reparametrisation that places
+every word of type $(E,o)$ in the ring $R_d=\Z[t,t^{-1},s]/(s^d-1)$, $d=\gcd(E,o)$.
+Section~2 specialises to \emph{coprime} type $\gcd(E,o)=1$, where $d=1$ and $R_1=\Z[t,t^{-1}]$
+is a one-variable Laurent ring: we catalogue \emph{all} $1233$ cyclic classes with $E+o\le20$
+($64$ types), computing for each the polynomial $P_w(t)$, its factorisation, Mahler measure
+and (where small) Galois group. Each $P_w$ is a $0/1$ polynomial divisible by
+$1+t+\cdots+t^{o-1}$ with a $\{-1,0,1\}$ (Littlewood) quotient. Two facts stand out. Every
+coprime word with $E+o\le9$ is
+cyclotomic, the first exception being type $(7,3)$ whose Mahler measure is the plastic number
+$1.32472\ldots$ (smallest Pisot number); and the smallest Mahler measure $>1$ in the whole
+range is \emph{Lehmer's number} $1.17628\ldots$, realised by an explicit word of type
+$(12,7)$ whose cocycle factor is Lehmer's degree-$10$ polynomial. The four known integer cycles
+appear as short words (values $-1,1,-5,-17$); the $-17$ cycle gives $\Phi_7$ times an
+irreducible degree-$11$ factor of Mahler measure $1.427$. Section~3 places these in cohomology:
+$R_w=\gcd(\chi\partial_u w,\chi\partial_v w)$ is the Alexander polynomial of the one-relator
+group $\langle u,v\mid w\rangle$, the order of $H^2\!\big(G_w;\Lam/(1-\chi(w))\big)$, so the
+Mahler/Lehmer phenomena are Alexander-polynomial phenomena.
+\end{abstract}
+
+\input{sections/01-construction}
+
+\input{sections/02-catalogue}
+
+\input{sections/03-cohomology}
+
+\end{document}

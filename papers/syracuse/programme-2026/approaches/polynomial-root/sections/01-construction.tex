@@ -1,0 +1,144 @@
+\section{Construction}
+
+\subsection*{The character and the Fox derivative}
+
+\begin{nota}
+$F_2=\langle u,v\rangle$ is the free group of rank $2$; $\Z[F_2]$ its integral group ring.
+We write $\Lam=\Z[X^{\pm1},Y^{\pm1}]$ for the group ring of the abelianisation
+$F_2^{\mathrm{ab}}=\Z^2$, identified with the Laurent polynomials in two variables.
+\end{nota}
+
+\begin{defn}\label{def:chi}
+The \emph{universal character} is the ring homomorphism $\chi\colon \Z[F_2]\to\Lam$ extending
+the group morphism $\chi(u)=X$, $\chi(v)=Y$. On a word $w$ it returns the abelianised
+monomial $\chi(w)=X^{\eu(w)}Y^{\ev(w)}$, where $\eu,\ev$ are the (signed) exponent sums.
+\end{defn}
+
+\begin{defn}\label{def:fox}
+The \emph{Fox derivative} $\partial_u\colon \Z[F_2]\to\Z[F_2]$ is the unique $\Z$-linear map
+satisfying $\partial_u(1)=0$, $\partial_u(u)=1$, $\partial_u(v)=0$ and the Leibniz rule
+\[
+   \partial_u(ab)=\partial_u(a)+a\,\partial_u(b)\qquad(a,b\in F_2).
+\]
+From $\partial_u(g g^{-1})=0$ one gets $\partial_u(g^{-1})=-g^{-1}\partial_u(g)$.
+\end{defn}
+
+\begin{defn}\label{def:S}
+The \emph{word cocycle} is the composite
+\[
+   S\;:=\;\chi\circ\partial_u\;\colon\;\Z[F_2]\longrightarrow\Lam .
+\]
+\end{defn}
+
+\begin{prop}[Closed form on positive words]\label{prop:closed}
+Let $w=x_1x_2\cdots x_E$ with each $x_k\in\{u,v\}$. Then
+\[
+   S(w)\;=\;\sum_{k:\,x_k=u} X^{\alpha_k}\,Y^{\beta_k},
+   \qquad
+   \alpha_k=\#\{i<k:\,x_i=u\},\quad \beta_k=\#\{i<k:\,x_i=v\}.
+\]
+In particular $S(w)$ is a sum of $\eu(w)$ monomials, each of total degree $\le E-1$, with
+all coefficients equal to $1$.
+\end{prop}
+
+\begin{proof}
+Iterating the Leibniz rule, $\partial_u(x_1\cdots x_E)=\sum_{k}x_1\cdots
+x_{k-1}\,\partial_u(x_k)=\sum_{k:\,x_k=u}x_1\cdots x_{k-1}$, since $\partial_u(u)=1$ and
+$\partial_u(v)=0$. Apply $\chi$ termwise: $\chi(x_1\cdots x_{k-1})=X^{\alpha_k}Y^{\beta_k}$.
+\end{proof}
+
+\begin{prop}[Cocycle law]\label{prop:cocycle}
+$S(u)=1$, $S(v)=0$, and for all $a,b\in F_2$
+\[
+   S(ab)\;=\;S(a)+\chi(a)\,S(b).
+\]
+Equivalently $S\in Z^1\!\big(F_2,\Lam_\chi\big)$ is a $1$-cocycle for the action of $F_2$ on
+$\Lam$ through $\chi$; these two properties determine $S$ uniquely.
+\end{prop}
+
+\begin{proof}
+Apply $\chi$ to $\partial_u(ab)=\partial_u a+a\,\partial_u b$. Uniqueness: any map with
+$S(u)=1,\,S(v)=0$ obeying the law is fixed on all words by induction on length.
+\end{proof}
+
+\subsection*{Type, closure, and conjugacy invariance}
+
+\begin{defn}\label{def:type}
+The \emph{type} of a positive word $w$ is the pair $(E,o)$ with $E=\eu(w)+\ev(w)=|w|$ (the
+length) and $o=\eu(w)$ (the number of $u$'s). Thus $\chi(w)=X^{o}Y^{E-o}$ and
+$S(w)$ has exactly $o$ terms.
+\end{defn}
+
+The interesting words are \emph{closed loops}: those for which the abelianised displacement
+$\chi(w)$ is trivial, $\chi(w)=1$. We therefore reduce modulo the \emph{closure ideal}
+$(1-\chi(w))\subset\Lam$. The following proposition is the reason this is the right
+normalisation: it makes $S$ an invariant of the cyclic word.
+
+\begin{prop}[Conjugacy invariance up to a unit]\label{prop:conj}
+For $g\in F_2$,
+\[
+   S\!\big(g\,w\,g^{-1}\big)\;=\;\chi(g)\,S(w)\;+\;S(g)\,\big(1-\chi(w)\big).
+\]
+Consequently the class of $S(w)$ in the quotient $\Lam/(1-\chi(w))$ depends only on the
+conjugacy class of $w$, up to multiplication by the monomial unit $\chi(g)$. Coboundaries
+$w\mapsto c\,(1-\chi(w))$, $c\in\Lam$, act trivially on this class.
+\end{prop}
+
+\begin{proof}
+Using Proposition~\ref{prop:cocycle} and $S(g^{-1})=-\chi(g)^{-1}S(g)$,
+\[
+   S(gwg^{-1})=S(g)+\chi(g)\big[S(w)+\chi(w)S(g^{-1})\big]
+              =\chi(g)S(w)+S(g)\big(1-\chi(w)\big).
+\]
+Since $\chi$ is abelian, conjugate words share the same $\chi(w)$, hence the same ideal
+$(1-\chi(w))$; modulo it the displayed identity reads $[S(gwg^{-1})]=\chi(g)\,[S(w)]$.
+\end{proof}
+
+Cyclic rotation of $w$ is conjugation by a prefix, so Proposition~\ref{prop:conj} says: the
+rotations $S^{(j)}(w)$ all agree in $\Lam/(1-\chi(w))$ \emph{up to a monomial}. The natural
+invariants of the cyclic word are therefore those insensitive to a monomial factor: the
+factorisation type, the Newton polygon, the roots on the torus $|X|=|Y|=1$, the Mahler
+measure, and the Galois group of the splitting field.
+
+\subsection*{Reparametrisation: the ring $R_d$}
+
+\begin{prop}[Normal form]\label{prop:reparam}
+Let $w$ have type $(E,o)$, set $d=\gcd(E,o)=\gcd(o,E-o)$ and write $(o,E-o)=d\,(o',m')$ with
+$(o',m')$ primitive. Choose $a,b\in\Z$ with $o'b-m'a=1$ and put
+\[
+   s=X^{o'}Y^{m'},\qquad t=X^{a}Y^{b}.
+\]
+Then $(s,t)$ is a $\Z$-basis of the monomial lattice, with inverse
+\[
+   X=s^{\,b}\,t^{-m'},\qquad Y=s^{-a}\,t^{\,o'},
+\]
+one has $\chi(w)=s^{d}$, and the reduction map induces a ring isomorphism
+\[
+   \Lam/\big(1-\chi(w)\big)\;\xrightarrow{\ \sim\ }\;R_d:=\Z[t,t^{-1},s]/(s^{d}-1)
+   \;\cong\;\bigoplus_{j=0}^{d-1}\Z[t,t^{-1}]\,s^{\,j}.
+\]
+Under it $S(w)$ becomes a Laurent polynomial in $t$ whose coefficients are $\Z$-combinations
+of $1,s,\dots,s^{d-1}$.
+\end{prop}
+
+\begin{proof}
+The matrix $\left(\begin{smallmatrix}o'&m'\\ a&b\end{smallmatrix}\right)$ has determinant
+$o'b-m'a=1$, hence lies in $\mathrm{GL}_2(\Z)$ and gives a monomial change of basis with the
+stated inverse. Then $s^{d}=X^{o'd}Y^{m'd}=X^{o}Y^{E-o}=\chi(w)$, so the ideal $(1-\chi(w))$
+becomes $(1-s^{d})=(s^{d}-1)$, and $t$ survives as a free Laurent variable.
+\end{proof}
+
+We normalise the (otherwise $(o',m')$-ambiguous) completion so that $t$ has smallest positive
+$Y$-exponent, matching the shape $t=Y\,X^{*}Y^{*}$; for $m'=0$ this gives $t=Y$.
+
+\begin{rem}[The study programme]\label{rem:program}
+$R_d$ is free of rank $d$ over $\Z[t^{\pm1}]$, with $s$ a formal $d$-th root of unity.
+Specialising $s\mapsto\zeta$ over the $d$-th roots of unity sends $S(w)$ to a Laurent
+polynomial $S(w)\big|_{s=\zeta}\in\Z[\zeta][t^{\pm1}]$. The programme of this approach is to
+study, systematically and across words, the \emph{roots, factorisations, Galois groups and
+Mahler measures} of these polynomials. Specialising further to $(X,Y)\mapsto(2,3)$ recovers
+the integer cocycle of the \texttt{cocycle-combine} program, where $S(w)/(\chi(w)-1)$ is the
+rational fixed point (cycle start) of the word; cyclotomic factors and small Mahler measure
+are exactly what force the arithmetic ceilings there. Here we keep $(X,Y)$ formal and read
+off the pure algebra.
+\end{rem}

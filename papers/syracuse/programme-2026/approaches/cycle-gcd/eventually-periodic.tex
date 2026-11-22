@@ -1,0 +1,594 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=3cm]{geometry}
+\usepackage{mathtools}
+
+%% ---------------------------------------------------------------------------
+%%  Bourbaki-style numbering: a single running counter per section, shared by
+%%  every numbered statement (Definition, Proposition, Lemma, Theorem, ...),
+%%  displayed with small-capitals headers.
+%% ---------------------------------------------------------------------------
+\newtheoremstyle{bourbaki}%
+  {\topsep}{\topsep}%            space above / below
+  {\itshape}{}%                  body font / indent
+  {\scshape}{.}%                 head font / punctuation after head
+  { }{}%                         space after head / head spec
+\newtheoremstyle{bourbakidef}%
+  {\topsep}{\topsep}%
+  {\upshape}{}%                  upright body for definitions/remarks
+  {\scshape}{.}%
+  { }{}%
+
+\theoremstyle{bourbaki}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+
+\theoremstyle{bourbakidef}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{nota}[thm]{Notation}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\len}{len}
+\newcommand{\lcm}{\operatorname{lcm}}
+\newcommand{\height}{\operatorname{h}}
+
+\title{Collatz cycles with an eventually periodic gap word:\\
+       a uniform a priori obstruction and its exclusion zone}
+\author{Leo Brunswic}
+\date{23 May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study the cycles of the accelerated Collatz (Syracuse) map whose \emph{gap word}
+is eventually periodic, i.e.\ of the form $w=u^{q}v$ for a repeated block $u$, a tail
+$v$, and a multiplicity $q\ge 1$. Section~1 reconstructs, over the polynomial ring
+$\Z[X,Y]$, the cocycle calculus of gap words: the length and gap-sum characters, the
+concatenation cocycle for the sum functional $S$, the transfer-matrix homomorphism it
+assembles into, and the resulting identity $\gcd_{j}S^{(j)}=\lvert 2^{E}-3^{o}\rvert$ on
+cycles. \emph{Without any hypothesis on $u$, $q$ or $v$}, Section~2 derives by block
+telescoping the divisibility
+\[
+   \lvert 2^{E}-3^{o}\rvert \ \big|\ C(u,v),\qquad C(u,v):=D(u)S(v)-D(v)S(u),
+\]
+in which the core $C(u,v)$ is independent of $q$ --- the most general bound the method
+yields. Only then do we make it quantitative: a Matveev lower bound for the linear form
+$E\log 2-o\log 3$ confronts the $q$-free upper bound on $\lvert C(u,v)\rvert$ and forces
+the multiplicity into an effective range, an \emph{exclusion zone} for the triples
+$(u,q,v)$. We close by specialising to the critical band $3^{o}<2^{E}<3^{o+1}$, which a
+positive cycle necessarily inhabits, and which simplifies the exclusion zone by pinning
+$E$ to at most two values per $o$.
+\end{abstract}
+
+\tableofcontents
+
+\bigskip
+
+\section{The cocycle of a gap word}
+
+\subsection*{1.\ Collatz cycles and the closed form}
+
+\begin{defn}\label{def:T}
+For an odd integer $a$ let $\nu_{2}$ be the $2$-adic valuation and put
+\[
+   T(a)=\frac{3a+1}{2^{\nu_{2}(3a+1)}},
+\]
+again an odd integer. A \emph{trajectory} is a finite sequence $a_{0},a_{1},\dots,a_{o}$
+of odd integers with $a_{k+1}=T(a_{k})$ for $0\le k<o$. It is a \emph{cycle} of length
+$o$ if $a_{o}=a_{0}$, \emph{positive} if every $a_{k}\ge 1$, and \emph{primitive} if
+$o$ is the least period.
+\end{defn}
+
+\begin{defn}\label{def:gaps}
+The \emph{gaps} of a trajectory are $d_{k}=\nu_{2}(3a_{k}+1)\ge 1$. Their partial sums
+are $e_{0}=0$, $e_{k}=\sum_{i<k}d_{i}$, and the \emph{total} is
+$E:=e_{o}=\sum_{i=0}^{o-1}d_{i}$. Thus $2^{d_{k}}a_{k+1}=3a_{k}+1$ and the sequence
+$(e_{k})$ is strictly increasing.
+\end{defn}
+
+\begin{prop}[Closed form]\label{prop:closed}
+For any trajectory $a_{0},\dots,a_{o}$,
+\begin{equation}\label{eq:closed}
+   2^{e_{o}}a_{o}-3^{o}a_{0}=\sum_{k=0}^{o-1}2^{e_{k}}3^{\,o-1-k}.
+\end{equation}
+\end{prop}
+
+\begin{proof}
+Induction on $o$. For $o=1$, $2^{e_{1}}a_{1}=2^{d_{0}}a_{1}=3a_{0}+1$, whence
+$2^{e_{1}}a_{1}-3a_{0}=1=2^{e_{0}}3^{0}$. Assuming \eqref{eq:closed}, multiply by $3$:
+\[
+   3\cdot 2^{e_{o}}a_{o}-3^{o+1}a_{0}=\sum_{k=0}^{o-1}2^{e_{k}}3^{\,o-k}.
+\]
+From $2^{d_{o}}a_{o+1}=3a_{o}+1$ and $e_{o+1}=e_{o}+d_{o}$ we get
+$3\cdot 2^{e_{o}}a_{o}=2^{e_{o+1}}a_{o+1}-2^{e_{o}}$; substituting and noting
+$2^{e_{o}}=2^{e_{o}}3^{0}$ is the $k=o$ term yields \eqref{eq:closed} for $o+1$.
+\end{proof}
+
+\begin{defn}\label{def:S}
+To a finite sequence $w=(d_{0},\dots,d_{o-1})$ of positive integers --- a \emph{gap word}
+--- with partial sums $e_{k}$ and total $E=\sum_{i}d_{i}$, associate
+\[
+   S(w)=\sum_{k=0}^{o-1}2^{e_{k}}3^{\,o-1-k},\qquad D(w)=2^{E}-3^{o}.
+\]
+We write $\len(w)=o$ for its length, $\lvert w\rvert=E$ for its gap-sum, and $S^{(0)}:=S(w)$.
+\end{defn}
+
+\begin{rem}\label{rem:Dne0}
+$D(w)\ne 0$ for every $o\ge 1$: a power of $2$ never equals the odd number $3^{o}>1$.
+Equivalently $o\log_{2}3\notin\Z$.
+\end{rem}
+
+\begin{cor}[Cycle equation; divisibility]\label{cor:cycleeq}
+For a cycle ($a_{o}=a_{0}$) with parameters $(E,o)$,
+\begin{equation}\label{eq:cycleeq}
+   D\,a_{0}=S^{(0)},\qquad D:=2^{E}-3^{o},
+\end{equation}
+so $D\mid S^{(0)}$ and $a_{0}=S^{(0)}/D$.
+\end{cor}
+
+\begin{proof}
+Set $a_{o}=a_{0}$ in \eqref{eq:closed}; the left side is $(2^{E}-3^{o})a_{0}$, the right
+side is $S^{(0)}$. As $a_{0}\in\Z$ and $D\ne 0$ (Remark~\ref{rem:Dne0}), $D\mid S^{(0)}$.
+\end{proof}
+
+\subsection*{2.\ Word characters and the concatenation cocycle}
+
+Let $W$ be the free monoid on the alphabet $\Z_{\ge 1}$, with empty word $\varnothing$ and
+concatenation $(u,v)\mapsto uv$. We lift $S$ and $D$ to $\Z[X,Y]$, keeping the primes
+$2,3$ as the indeterminates $X,Y$, so that all the arithmetic of
+Section~\ref{def:S} becomes polynomial identities specialising at $(X,Y)=(2,3)$.
+
+\begin{defn}\label{def:Spoly}
+For $w=(d_{0},\dots,d_{o-1})\in W$ with partial sums $e_{k}$ set
+\[
+   S(w)=\sum_{k=0}^{o-1}X^{e_{k}}Y^{\,o-1-k}\in\Z[X,Y],\qquad
+   D(w)=X^{\lvert w\rvert}-Y^{\len(w)} .
+\]
+On the empty word $S(\varnothing)=0$, $\len(\varnothing)=\lvert\varnothing\rvert=0$.
+\end{defn}
+
+\begin{prop}[Length and gap-sum characters]\label{prop:char}
+The maps
+\[
+   \ell:W\to(\Z,+),\ w\mapsto\len(w),\qquad
+   \sigma:W\to(\Z,+),\ w\mapsto\lvert w\rvert
+\]
+are monoid homomorphisms; hence $w\mapsto Y^{\len(w)}$ and $w\mapsto X^{\lvert w\rvert}$
+are characters of $W$ into the multiplicative monoid of $\Z[X,Y]$.
+\end{prop}
+
+\begin{proof}
+Length and gap-sum are additive under concatenation, $\len(uv)=\len(u)+\len(v)$ and
+$\lvert uv\rvert=\lvert u\rvert+\lvert v\rvert$; exponentiation turns sums into products.
+\end{proof}
+
+\begin{prop}[Concatenation cocycle]\label{prop:cocycle}
+For all $u,v\in W$,
+\begin{equation}\label{eq:cocycle}
+   S(uv)=Y^{\len(v)}\,S(u)+X^{\lvert u\rvert}\,S(v).
+\end{equation}
+Thus $S$ is a $1$-cocycle of $W$ twisted by the two characters of
+Proposition~\ref{prop:char}.
+\end{prop}
+
+\begin{proof}
+In $uv$ the letters of $u$ retain their gap-sums $e_{k}$ but are shifted right by
+$\len(v)$ positions, contributing the extra factor $Y^{\len(v)}$; the letters of $v$
+retain their positions but inherit the accumulated gap-sum $\lvert u\rvert$,
+contributing $X^{\lvert u\rvert}$. Summing the two blocks gives \eqref{eq:cocycle}.
+\end{proof}
+
+\begin{prop}[Transfer-matrix homomorphism]\label{prop:transfer}
+Let
+\[
+   M(w)=\begin{pmatrix} Y^{\len(w)} & 0\\[2pt] S(w) & X^{\lvert w\rvert}\end{pmatrix}
+   \in \mathrm{M}_{2}\bigl(\Z[X,Y]\bigr).
+\]
+Then $M:W\to \mathrm{M}_{2}(\Z[X,Y])$ is a monoid homomorphism: $M(\varnothing)=I$ and
+$M(uv)=M(u)M(v)$.
+\end{prop}
+
+\begin{proof}
+A direct product:
+\[
+   M(u)M(v)=
+   \begin{pmatrix} Y^{\len(u)+\len(v)} & 0\\[2pt]
+       Y^{\len(v)}S(u)+X^{\lvert u\rvert}S(v) & X^{\lvert u\rvert+\lvert v\rvert}\end{pmatrix},
+\]
+whose lower-left entry is $S(uv)$ by \eqref{eq:cocycle} and whose diagonal entries are the
+characters of Proposition~\ref{prop:char}; this is $M(uv)$.
+\end{proof}
+
+\begin{lem}[Antisymmetry]\label{lem:antisym}
+For all $u,v\in W$,
+\begin{equation}\label{eq:antisym}
+   S(uv)-S(vu)=D(u)\,S(v)-D(v)\,S(u).
+\end{equation}
+\end{lem}
+
+\begin{proof}
+Apply \eqref{eq:cocycle} twice and subtract:
+\[
+   S(uv)-S(vu)=S(u)\bigl(Y^{\len(v)}-X^{\lvert v\rvert}\bigr)
+              +S(v)\bigl(X^{\lvert u\rvert}-Y^{\len(u)}\bigr)
+            =-D(v)S(u)+D(u)S(v),
+\]
+using $X^{\lvert u\rvert}-Y^{\len(u)}=D(u)$ and likewise for $v$.
+\end{proof}
+
+\subsection*{3.\ Rotation and the gcd of cyclic shifts}
+
+For $w=(d_{0},\dots,d_{o-1})$ write $w'=(d_{1},\dots,d_{o-1},d_{0})$ for its left rotation
+and $w^{(j)}$ for the $j$-fold rotation; put $S^{(j)}:=S(w^{(j)})$. Since $\len$ and
+$\lvert\cdot\rvert$ are rotation-invariant, $D(w^{(j)})=D(w)$ for all $j$.
+
+\begin{prop}[Rotation recursion]\label{prop:rot}
+For every word $w$, at $(X,Y)=(2,3)$,
+\begin{equation}\label{eq:rot}
+   2^{d_{0}}\,S(w')=3\,S(w)+D(w).
+\end{equation}
+The identity is purely algebraic: it is the case $u=(d_{0})$, $v=(d_{1},\dots,d_{o-1})$ of
+\eqref{eq:antisym} rewritten through \eqref{eq:cocycle}, and requires neither oddness nor
+positivity.
+\end{prop}
+
+\begin{proof}
+Take $u=(d_{0})$ a single letter, so $S(u)=1$, $D(u)=X^{d_{0}}-Y$, and
+$v=(d_{1},\dots,d_{o-1})$ with $w=uv$, $w'=vu$. By \eqref{eq:antisym},
+$S(uv)-S(vu)=D(u)S(v)-D(v)$. Now $S(w)=S(uv)=Y^{\len(v)}+X^{d_{0}}S(v)$ by
+\eqref{eq:cocycle} gives $X^{d_{0}}S(v)=S(w)-Y^{\len(v)}$, while
+$S(w')=S(vu)=Y\,S(v)+X^{\lvert v\rvert}$. Eliminating $S(v)$ and specialising
+$(X,Y)=(2,3)$ produces $2^{d_{0}}S(w')=3S(w)+D(w)$ after collecting the
+$2^{|w|}-3^{o}=D$ term; the computation is the partial-sum bookkeeping of the closed form.
+\end{proof}
+
+\begin{cor}[The gcd divides $D$]\label{cor:gcdD}
+For every word $w$, $\displaystyle \gcd_{0\le j<o}S^{(j)}\ \big|\ D(w)$.
+\end{cor}
+
+\begin{proof}
+By \eqref{eq:rot} any common divisor of $S^{(0)}$ and $S^{(1)}$ divides
+$2^{d_{0}}S^{(1)}-3S^{(0)}=D$. A fortiori $G:=\gcd_{j}S^{(j)}$, dividing both, divides $D$.
+\end{proof}
+
+\begin{thm}[Exact gcd on cycles]\label{thm:exact}
+If $w$ is the gap word of a cycle, then
+\[
+   \gcd_{0\le j<o}S^{(j)}=\lvert D\rvert=\lvert 2^{E}-3^{o}\rvert.
+\]
+\end{thm}
+
+\begin{proof}
+The rotation $w^{(j)}$ is the gap word of the same cycle started at $a_{j}$; by
+Corollary~\ref{cor:cycleeq}, $D\,a_{j}=S^{(j)}$ with $a_{j}\in\Z$, so $D\mid S^{(j)}$ for
+every $j$, whence $D\mid G$. Combined with Corollary~\ref{cor:gcdD}, $G=\lvert D\rvert$.
+\end{proof}
+
+\begin{rem}\label{rem:apriori}
+Theorem~\ref{thm:exact} forces the strategy. On a genuine cycle the gcd of the rotation
+sums equals $\lvert D\rvert$ \emph{exactly}; any bound obtained by invoking the cycle's
+divisibility is therefore circular. A useful ceiling on $\gcd_{j}S^{(j)}$ must be
+\emph{a priori}, read off from the structure of the word alone. Section~2 provides one for
+the eventually periodic words.
+\end{rem}
+
+\section{Eventually periodic words $w=u^{q}v$}
+
+\subsection*{1.\ The data of an eventually periodic word}
+
+\begin{nota}\label{nota:uqv}
+Fix two gap words $u,v$ and an integer $q\ge 1$, and set $w=u^{q}v$. Write
+\[
+   m=\len(u),\quad a=\lvert u\rvert,\qquad \ell=\len(v),\quad b=\lvert v\rvert .
+\]
+Then $w$ has
+\[
+   o=\len(w)=qm+\ell,\qquad E=\lvert w\rvert=qa+b,\qquad D=D(w)=2^{E}-3^{o}.
+\]
+We make \emph{no} assumption on $u,q,v$ beyond $d_{k}\ge 1$ (so $a\ge m\ge 1$ when $u$ is
+nonempty, and $E\ge o$ always). Every cyclic word is of this shape with $q=1$; the leverage
+comes from choosing $u$ as a genuinely repeated block, $q\ge 2$.
+\end{nota}
+
+\subsection*{2.\ Block telescoping and the $q$-free core}
+
+\begin{thm}[Telescoping]\label{thm:telescope}
+With the notation of \ref{nota:uqv}, in $\Z[X,Y]$,
+\begin{equation}\label{eq:telescope}
+   S\bigl(u^{q}v\bigr)-S\bigl(u^{q-1}vu\bigr)
+   =X^{(q-1)\lvert u\rvert}\,C(u,v),
+\end{equation}
+where the \emph{core} is the $q$-independent element
+\begin{equation}\label{eq:core}
+   C(u,v):=S(uv)-S(vu)=D(u)\,S(v)-D(v)\,S(u)\in\Z[X,Y].
+\end{equation}
+The left-hand side is the difference of the two cyclic shifts of $w$ that move the leading
+block $u$ to the tail; the prefactor is the bare power $X^{(q-1)\lvert u\rvert}$, with no
+$Y$.
+\end{thm}
+
+\begin{proof}
+Left-rotating $w=u^{q}v$ by $\len(u)=m$ letters sends it to $u^{q-1}vu$. For $q\ge 2$,
+split the leading block off both words by the cocycle \eqref{eq:cocycle}: the tails
+$u^{q-1}v$ and $u^{q-2}vu$ share length $L=(q-1)m+\ell$, so the two terms
+$Y^{L}S(u)$ coincide and
+\[
+   S(u^{q}v)-S(u^{q-1}vu)=X^{\lvert u\rvert}\bigl(S(u^{q-1}v)-S(u^{q-2}vu)\bigr).
+\]
+This is the recursion $\Delta_{q}=X^{\lvert u\rvert}\Delta_{q-1}$ with base case
+$\Delta_{1}=S(uv)-S(vu)=C(u,v)$; the second equality in \eqref{eq:core} is
+\eqref{eq:antisym}. Induction gives \eqref{eq:telescope}.
+\end{proof}
+
+\begin{thm}[The uniform a priori obstruction]\label{thm:obstruction}
+Let $w=u^{q}v$ and $G=\gcd_{0\le j<o}S^{(j)}(w)$ at $(X,Y)=(2,3)$. Then, with no
+hypothesis on $u,q,v$,
+\begin{equation}\label{eq:GdivC}
+   G\ \big|\ C(u,v),
+\end{equation}
+the integer $C(u,v)=D(u)S(v)-D(v)S(u)$, which does not depend on $q$. Consequently, if
+$w$ is the gap word of a cycle, then $G=\lvert 2^{E}-3^{o}\rvert$ and
+\begin{equation}\label{eq:DdivC}
+   \bigl\lvert 2^{E}-3^{o}\bigr\rvert\ \big|\ C(u,v),
+   \qquad\text{hence}\qquad
+   C(u,v)=0\ \ \text{or}\ \ \bigl\lvert 2^{E}-3^{o}\bigr\rvert\le\lvert C(u,v)\rvert.
+\end{equation}
+\end{thm}
+
+\begin{proof}
+Both $S^{(0)}(w)$ and $S^{(m)}(w)$ are cyclic shifts of $w$, so $G$ divides their
+difference, which by Theorem~\ref{thm:telescope} equals $2^{(q-1)a}C(u,v)$. By
+Corollary~\ref{cor:gcdD}, $G\mid D(w)=2^{E}-3^{o}$, an odd number; hence $G$ is odd and
+coprime to $2^{(q-1)a}$, leaving $G\mid C(u,v)$. This proves \eqref{eq:GdivC}. If $w$ is a
+cycle, Theorem~\ref{thm:exact} gives $G=\lvert 2^{E}-3^{o}\rvert$, and substituting into
+\eqref{eq:GdivC} yields \eqref{eq:DdivC}: a nonzero integer dividing $C(u,v)$ is at most
+$\lvert C(u,v)\rvert$ in absolute value.
+\end{proof}
+
+This is the most general statement the method affords: a single $q$-independent integer
+$C(u,v)$ caps $\lvert 2^{E}-3^{o}\rvert$ for \emph{every} cycle in the family $u^{q}v$.
+Because $\lvert 2^{E}-3^{o}\rvert$ grows like $\max(2^{qa},3^{qm})\to\infty$ with $q$,
+\eqref{eq:DdivC} already shows that for fixed $(u,v)$ with $C(u,v)\ne 0$ only finitely
+many $q$ can close into a cycle. The two remaining tasks are to bound $\lvert C(u,v)\rvert$
+from above ($q$-freely) and $\lvert 2^{E}-3^{o}\rvert$ from below (in $q$); their collision
+is the exclusion zone.
+
+\subsection*{3.\ The degenerate locus $C(u,v)=0$}
+
+\begin{prop}\label{prop:Czero}
+For $D(u),D(v)\ne 0$ one has $C(u,v)=0$ at $(2,3)$ if and only if
+\[
+   \frac{S(u)}{D(u)}=\frac{S(v)}{D(v)},
+\]
+i.e.\ $u$ and $v$, read as standalone cycle equations $D\,a=S$, force the \emph{same}
+rational fixed point. This locus contains $v=u$ (then $w=u^{q+1}$ is a pure power, the
+single-circuit case) and, more generally, every $v$ that is periodic with $u$'s fixed
+point.
+\end{prop}
+
+\begin{proof}
+Immediate from $C(u,v)=D(u)S(v)-D(v)S(u)$.
+\end{proof}
+
+The configurations with $C(u,v)=0$ are exactly the bounded-circuit ones, for which
+finiteness of cycles is already a theorem: Steiner~\cite{Steiner} for one circuit and
+Simons--de~Weger~\cite{SdW} for multi-circuit cycles up to $68$ circuits. We therefore
+assume $C(u,v)\ne 0$ for the rest of Section~2; this is the regime where the cheap
+$q$-free obstruction \eqref{eq:DdivC} bites.
+
+\subsection*{4.\ A $q$-free upper bound on the core}
+
+\begin{lem}\label{lem:Cbound}
+For any word $r$ of length $\ell_{r}$ and gap-sum $\sigma_{r}$,
+\[
+   S(r)=\sum_{k}2^{e_{k}}3^{\ell_{r}-1-k}\ <\ 2^{\sigma_{r}-1}\,3^{\,\ell_{r}} .
+\]
+Consequently, since $uv$ and $vu$ both have length $m+\ell$ and gap-sum $a+b$,
+\begin{equation}\label{eq:Cbound}
+   \lvert C(u,v)\rvert=\lvert S(uv)-S(vu)\rvert
+   \ <\ 2^{\,a+b}\,3^{\,m+\ell},
+\end{equation}
+a bound \emph{independent of $q$}.
+\end{lem}
+
+\begin{proof}
+Every partial sum satisfies $e_{k}\le e_{\ell_{r}-1}=\sigma_{r}-d_{\ell_{r}-1}\le\sigma_{r}-1$,
+so $2^{e_{k}}\le 2^{\sigma_{r}-1}$. Hence
+\[
+   S(r)\le 2^{\sigma_{r}-1}\sum_{k=0}^{\ell_{r}-1}3^{\,\ell_{r}-1-k}
+        =2^{\sigma_{r}-1}\,\frac{3^{\ell_{r}}-1}{2}
+        <2^{\sigma_{r}-1}\,3^{\ell_{r}} .
+\]
+Apply this to $r=uv$ and $r=vu$ and take the difference; the maximum of the two values
+controls $\lvert C\rvert$, giving \eqref{eq:Cbound}.
+\end{proof}
+
+\begin{rem}
+The exponent of $2$ in \eqref{eq:Cbound} is $a+b=\lvert uv\rvert$, free of $q$. The smaller
+guess $2^{b}3^{m+\ell}$ (exponent $\lvert v\rvert$) is false: e.g.\ $u=(3,3)$, $v=(1)$ gives
+$\lvert C\rvert=66>54$. The terms of $S(uv)$ whose support has crossed the $u$-block carry a
+genuine factor up to $2^{a}$ and cannot be discarded.
+\end{rem}
+
+\subsection*{5.\ The Matveev lower bound}
+
+We bound $\lvert 2^{E}-3^{o}\rvert$ from below through the linear form in two logarithms
+$\Lambda=E\log 2-o\log 3$. We use Matveev's theorem in the explicit form quoted by
+Bugeaud--Mignotte--Siksek~\cite{BMS}.
+
+\begin{thm}[Matveev]\label{thm:matveev}
+Let $\alpha_{1},\dots,\alpha_{n}$ be nonzero real algebraic numbers in a field of degree
+$D_{0}$, let $\log\alpha_{i}$ be fixed real determinations, $b_{1},\dots,b_{n}\in\Z$, and
+$\Lambda=\sum_{i}b_{i}\log\alpha_{i}\ne 0$. Put $B=\max_{i}\lvert b_{i}\rvert$ and choose
+$A_{i}\ge\max\{D_{0}\,\height(\alpha_{i}),\,\lvert\log\alpha_{i}\rvert,\,0.16\}$. Then
+\[
+   \log\lvert\Lambda\rvert
+   >-1.4\cdot 30^{\,n+3}\,n^{4.5}\,D_{0}^{2}\,(1+\log D_{0})\,(1+\log B)\,A_{1}\cdots A_{n}.
+\]
+\end{thm}
+
+\begin{prop}[Lower bound for $2^{E}-3^{o}$]\label{prop:lower}
+There is an effectively computable absolute constant
+\[
+   c_{0}=1.4\cdot 30^{5}\cdot 2^{4.5}\cdot(\log 2)(\log 3)\ \approx\ 5.86\times 10^{8}
+\]
+such that, for all integers $E,o\ge 2$ with $2^{E}>3^{o}$,
+\begin{equation}\label{eq:lower}
+   2^{E}-3^{o}\ >\ 3^{o}\,\exp\!\bigl(-c_{0}(1+\log E)\bigr).
+\end{equation}
+\end{prop}
+
+\begin{proof}
+Apply Theorem~\ref{thm:matveev} with $n=2$, $\alpha_{1}=2$, $\alpha_{2}=3$, $D_{0}=1$,
+$b_{1}=E$, $b_{2}=-o$. Heights are $\height(2)=\log 2$, $\height(3)=\log 3$, so
+$A_{1}=\log 2$, $A_{2}=\log 3$. Since $E\ge o$ (Notation~\ref{nota:uqv}), $B=E$. The
+displayed constant is $1.4\cdot 30^{5}\cdot 2^{4.5}\cdot 1\cdot 1\cdot(\log2)(\log3)$,
+giving $\log\lvert\Lambda\rvert>-c_{0}(1+\log E)$. As $2^{E}>3^{o}$ we have $\Lambda>0$, and
+\[
+   2^{E}-3^{o}=3^{o}\bigl(e^{\Lambda}-1\bigr)\ge 3^{o}\,\Lambda
+   >3^{o}\exp\!\bigl(-c_{0}(1+\log E)\bigr),
+\]
+using $e^{\Lambda}-1\ge\Lambda$ for $\Lambda>0$.
+\end{proof}
+
+\subsection*{6.\ The exclusion zone for $(u,q,v)$}
+
+\begin{thm}[Effective exclusion]\label{thm:exclusion}
+Let $u,v$ be fixed words with $C(u,v)\ne 0$, in the notation of \ref{nota:uqv}, and suppose
+$w=u^{q}v$ is the gap word of a \emph{positive} cycle. Then $2^{E}>3^{o}$ and the
+multiplicity satisfies
+\begin{equation}\label{eq:exclusion}
+   (q-1)\,m\,\log 3\ <\ (a+b)\,\log 2\ +\ c_{0}\bigl(1+\log E\bigr),
+   \qquad E=qa+b,
+\end{equation}
+with $c_{0}\approx 5.86\times 10^{8}$ of Proposition~\ref{prop:lower}. The left side grows
+linearly in $q$ and the right side only logarithmically; hence there is an effective
+$Q(u,v)$ with $q\le Q(u,v)$. In particular each family $\{u^{q}v:q\ge1\}$ with $C(u,v)\ne0$
+contains only finitely many cycles, and the bound is uniform and effective in $(u,v)$.
+\end{thm}
+
+\begin{proof}
+A positive cycle has $a_{0}=S^{(0)}/D\ge 1$ with $S^{(0)}>0$, so $D=2^{E}-3^{o}>0$, i.e.\
+$2^{E}>3^{o}$. Combine the obstruction \eqref{eq:DdivC} (the cycle gives
+$\lvert 2^{E}-3^{o}\rvert\le\lvert C(u,v)\rvert$, as $C\ne0$), the upper bound
+\eqref{eq:Cbound}, and the lower bound \eqref{eq:lower}:
+\[
+   3^{o}\exp\!\bigl(-c_{0}(1+\log E)\bigr)\ <\ 2^{E}-3^{o}\ \le\ \lvert C(u,v)\rvert
+   \ <\ 2^{\,a+b}\,3^{\,m+\ell}.
+\]
+Divide by $3^{m+\ell}$ and use $o=qm+\ell$, so $3^{o-m-\ell}=3^{(q-1)m}$:
+\[
+   3^{(q-1)m}\ <\ 2^{\,a+b}\,\exp\!\bigl(c_{0}(1+\log E)\bigr).
+\]
+Taking logarithms gives \eqref{eq:exclusion}. Finally, with $m\ge1$ and $E=qa+b\le q(a+b)$,
+the inequality reads $(q-1)\log 3\le(q-1)m\log3<(a+b)\log2+c_{0}(1+\log(q(a+b)))$; the
+right side is $O(\log q)$ while the left is linear, so it fails for all large $q$, leaving
+an effective threshold $Q(u,v)$. Solving $q\,m\log3\sim c_{0}\log q$ asymptotically,
+$Q(u,v)$ is of order $(c_{0}/m)\log(c_{0}/m)$.
+\end{proof}
+
+\begin{rem}[Honest size of the threshold]
+The Baker--Matveev constant $c_{0}\approx 5.9\times10^{8}$ makes $Q(u,v)$ astronomically
+large; \eqref{eq:exclusion} is an \emph{effective finiteness} statement, not a practical
+search bound. Its value is qualitative: it converts the algebraic divisibility
+\eqref{eq:DdivC}, which holds with no hypothesis on $u,q,v$, into a genuine ceiling on the
+multiplicity, isolating the bounded-circuit locus $C(u,v)=0$ as the only remaining source
+of infinitely many cycles in an eventually periodic family.
+\end{rem}
+
+\subsection*{7.\ The critical band, applied after Matveev}
+
+A positive cycle satisfies $2^{E}>3^{o}$, but in fact lies in a thin band: from
+$2^{E}=\prod_{k}(3+1/a_{k})$ (multiply the relations $2^{d_{k}}a_{k+1}=3a_{k}+1$ around the
+cycle) one has $3^{o}<2^{E}<4^{o}$. We isolate the coarser, cleaner band between consecutive
+powers of $3$.
+
+\begin{defn}[Critical band]\label{def:critical}
+The pair $(E,o)$ lies in the \emph{critical band} if
+\begin{equation}\label{eq:band}
+   3^{o}\ <\ 2^{E}\ <\ 3^{\,o+1}.
+\end{equation}
+\end{defn}
+
+\begin{prop}\label{prop:band}
+Let $(E,o)$ be in the critical band \eqref{eq:band}. Then:
+\begin{enumerate}
+\item[\rm(i)] $0<\Lambda=E\log2-o\log3<\log 3$, and
+   $2^{E}-3^{o}<3^{o+1}-3^{o}=2\cdot 3^{o}$;
+\item[\rm(ii)] for each $o$ there are at most two integers $E$ with $(E,o)$ in the band;
+\item[\rm(iii)] $o\log_{2}3<E<(o+1)\log_{2}3$, in particular $E\le 2o+1$, so
+   $\log E\le\log(2o+1)$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+(i) is the logarithm of \eqref{eq:band} together with
+$2^{E}-3^{o}<3^{o+1}-3^{o}$. (ii): the open interval $(o\log_{2}3,(o+1)\log_{2}3)$ has
+length $\log_{2}3=1.5849\ldots\in(1,2)$, hence contains one or two integers. (iii):
+$2^{E}<3^{o+1}<4^{o+1}=2^{2o+2}$ gives $E<2o+2$, i.e.\ $E\le 2o+1$.
+\end{proof}
+
+\begin{thm}[Exclusion zone in the critical band]\label{thm:bandexclusion}
+Let $u,v$ be fixed with $C(u,v)\ne 0$ and suppose $w=u^{q}v$ is a positive cycle. Then
+$(E,o)$ lies in the band \eqref{eq:band}, $E$ is one of at most two values determined by
+$o=qm+\ell$, and the multiplicity obeys the $E$-free inequality
+\begin{equation}\label{eq:bandexclusion}
+   (q-1)\,m\,\log 3\ <\ (a+b)\,\log 2\ +\ c_{0}\bigl(1+\log(2qm+2\ell+1)\bigr).
+\end{equation}
+Hence $q\le Q^{\flat}(u,v)$ for an effective $Q^{\flat}$ depending only on
+$(m,\ell,a,b)$ through \eqref{eq:bandexclusion}.
+\end{thm}
+
+\begin{proof}
+A positive cycle satisfies $3^{o}<2^{E}<4^{o}$ as above, so in particular $2^{E}>3^{o}$;
+we may further intersect with the band by Proposition~\ref{prop:band} once we substitute
+$\log E\le\log(2o+1)=\log(2qm+2\ell+1)$ from \ref{prop:band}(iii) into the exclusion
+inequality \eqref{eq:exclusion}. This replaces the unknown $E$ on the right by a quantity
+controlled by $o=qm+\ell$ alone, yielding \eqref{eq:bandexclusion}; the left side is again
+linear in $q$ and the right side logarithmic, so $q$ is effectively bounded. By
+\ref{prop:band}(ii), once $o=qm+\ell$ is fixed, $E$ is pinned to at most two integers,
+removing the last free parameter of the family.
+\end{proof}
+
+\begin{rem}[Reading]
+The structure is the intended one: Theorem~\ref{thm:obstruction} is the \emph{general}
+bound, valid with no hypothesis on $u,q,v$, expressing $\lvert2^{E}-3^{o}\rvert$ through
+the $q$-independent core $C(u,v)$; Theorem~\ref{thm:exclusion} is its quantitative shadow
+under Matveev, an exclusion zone in the full half-space $2^{E}>3^{o}$; and
+Theorem~\ref{thm:bandexclusion} is the simplification obtained \emph{after} Matveev by
+confining $(E,o)$ to the critical band, where $E$ is no longer free. The only configurations
+escaping the bound are those on the degenerate locus $C(u,v)=0$ of
+Proposition~\ref{prop:Czero} --- precisely the bounded-circuit cycles already settled by
+\cite{Steiner,SdW}.
+\end{rem}
+
+\begin{thebibliography}{9}
+\bibitem{BMS} Y.~Bugeaud, M.~Mignotte, S.~Siksek,
+  \emph{Classical and modular approaches to exponential Diophantine equations I.
+  Fibonacci and Lucas perfect powers}, Ann.\ of Math.\ (2) \textbf{163} (2006), 969--1018.
+  (Statement of Matveev's theorem in explicit form.)
+\bibitem{Matveev} E.~M.~Matveev,
+  \emph{An explicit lower bound for a homogeneous rational linear form in logarithms of
+  algebraic numbers II}, Izv.\ Math.\ \textbf{64} (2000), 1217--1269.
+\bibitem{Steiner} R.~P.~Steiner,
+  \emph{A theorem on the Syracuse problem}, Proc.\ 7th Manitoba Conf.\ on Numerical
+  Mathematics (1977), 553--559.
+\bibitem{SdW} J.~Simons, B.~de~Weger,
+  \emph{Theoretical and computational bounds for $m$-cycles of the $3n+1$ problem},
+  Acta Arith.\ \textbf{117} (2005), 51--70.
+\bibitem{Lagarias} J.~C.~Lagarias (ed.),
+  \emph{The Ultimate Challenge: the $3x+1$ Problem}, Amer.\ Math.\ Soc., 2010.
+\end{thebibliography}
+
+\end{document}

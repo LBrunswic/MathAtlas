@@ -1,0 +1,307 @@
+<div class="wrap">
+<nav class="toc" aria-label="Contents"><div class="k">Contents</div><ol>
+<li><a href="#choose">0 · Choose a direction</a></li>
+<li><a href="#picture">1 · The program in one picture</a></li>
+<li><a href="#ledger">2 · Consolidation</a></li>
+<li><a href="#limits">3 · Limits</a></li>
+<li><a href="#pigeon">4 · Pigeonhole and simplification</a></li>
+<li><a href="#lit">5 · Literature map</a></li>
+<li><a href="#directions">6 · Directions in detail</a></li>
+<li><a href="#matrix">7 · Comparison matrix</a></li>
+<li><a href="#lean">8 · What was proved this round</a></li>
+<li><a href="#bib">9 · Bibliography</a></li>
+</ol></nav>
+<main>
+
+<div class="kicker">Syracuse · cocycle program · review, limits and directions · {date}</div>
+<h1>The cocycle program is one gcd, gcd(S, D). Given Ellison and Barina's verification alone, no nontrivial positive cycle is a word of at most three runs over base blocks of total weight ≤ 9.5·10<sup>8</sup>. Wedge-core certificates reach exactly three runs under Ellison; Rhin's bound extends them to any fixed number.</h1>
+<div class="lede">Every move in the program certifies that G = gcd(S(w), D(w)) is smaller than |D(w)|. Proved in Lean during this review:
+<ul>
+<li><b>Unconditional:</b> the cycles of either sign with a balanced parity vector are exactly 1, −1 and −5 → −7 (Knight, Lothaire 2.1.15, averaging), for every gcd.</li>
+<li><b>Given Ellison 1971:</b> no cycle on any two-letter-run word 1<sup>a</sup>d<sup>b</sup>, which includes Steiner's 1977 circuit theorem.</li>
+<li><b>Given Ellison 1971:</b> the only cycle (either sign) on two runs u<sup>a</sup>v<sup>b</sup> of any standard Christoffel pair is −5 → −7, because the wedge core of every standard pair is 6-smooth, plus a kernel-checked enumeration for small E.</li>
+<li><b>Given Ellison 1971, both signs:</b> two letter runs, circuits (Steiner on ℤ: only 1, −1, −5, −7), level-(u,v) two-cycles and powers hold only the known cycles. Barina is no longer needed (<code>SignedCycles.closed_classes</code>). The −17 cycle lies outside every class.</li>
+<li><b>Given Ellison 1971, both signs:</b> two-block cycles (Simons 2-cycles) whose two big gaps are equal are only 1 and −5 → −7 (<code>EqualTwoCycles.equal_two_blocks</code>). Simons 2005 needed Baker and lattice reduction; the equal-gap half needs only Ellison. Distinct big gaps, the shape of −17, stay open.</li>
+<li><b>Given Ellison 1971, beyond {{1,2}}:</b> the Stern–Brocot tree grown from ([1],[d]) keeps the core 6-smooth × (2<sup>d−1</sup> − 1). Its left spine (1, 1<sup>m</sup>d) is closed for every d and exponent (<code>NearPairs.near_pair_cycles</code>). Every two-run cycle word over the tree has E &lt; 20(d − 1), and the whole {{1,3}} tree is closed by a kernel-checked enumeration (<code>DPairs.dpair_three_cycles</code>). With Simons–de Weger 2005, no positive cycle lies on any of these trees, for every d (<code>DTrees.pos_dpair_cycles</code>). Negative cycles there need 3–7 equal big gaps, and a sound kernel check closes both signs for 3 ≤ d ≤ 7 (<code>DTreeChecks.dpair_cycles_le_seven</code>).</li>
+<li><b>Given Ellison 1971, any blocks:</b> over the tree grown from any non-commuting root (u₀, v₀), two-run cycle words have E &lt; 20·log₂|C(u₀, v₀)| (<code>Trees.no_cycle_tree</code>). The two-run rung is effective block by block; for the −17 blocks (1112, 114), C = −3336 and E &lt; 234.</li>
+<li><b>Given Ellison 1971, three runs:</b> a three-core identity makes D divide three explicit sums. For any three blocks with those sums nonzero, cycles have E &lt; 20(K + 2) (<code>ThreeRuns.three_runs_bounded</code>); three letter runs 1<sup>a</sup>d<sup>b</sup>e<sup>c</sup> need E &lt; 11(d + e + 2). With Ellison the method stops at four runs. The linear-programming suprema are 0.613, 0.804 and 0.890 for 2, 3 and 4 runs against Ellison's 0.856 (computed, not in Lean).</li>
+<li><b>Given Rhin (Simons–de Weger Lemma 12), four runs:</b> for any four blocks with the four sums nonzero, positive cycles have E &lt; 3500 + 16K (<code>FourRuns.four_runs_bounded</code>). Each further fixed number of runs is one more finite check of this kind. The exact reach is c<sub>m</sub> = 1 − (log₂3 − 1)/((log₂3)<sup>m</sup> − 1) (§3), and with Hercher's cycle length all few-run words are excluded unless their blocks are astronomically large (<code>RunsFrontier</code>).</li>
+<li><b>Given Ellison and Simons 2007 (negative 2-cycles, sketched):</b> every negative cycle with at most two big gaps is −1, −5 → −7 or −17 (<code>NegTwoCycles.only_known_of_few_blocks</code>).</li>
+<li><b>Repeat lemma (D7):</b> a window repeated in a cycle word forces two cycle points 2<sup>E(u)</sup> apart. Given Ellison and Barina, every repeated window in a nontrivial positive cycle covers less than 51.37 % of E and 52.79 % of o (<code>Repeat.repeat_half</code>).</li>
+<li><b>Unconditional, C-balance:</b> two windows of equal length in a positive cycle differ in weight by at most 2·log₂(x<sub>max</sub>/x<sub>min</sub>) + (E − o·log₂3) (<code>Estimators.c_balanced_cycle</code>). PROGRAM.md §9.4 is resolved: S(w) is prime to 6, so the AM–GM estimator already sandwiches its 6-free part (<code>Estimators.abelian_estimate</code>).</li>
+<li><b>Barina alone:</b> every nontrivial positive cycle has o ≥ 72 057 431 991 odd steps (Eliahou's method with certified logarithms, <code>CycleLength.cycle_length_ge</code>), so the run frontier no longer needs Hercher's Corollary 29: ≤ 3 runs over base weight ≤ 9.5·10<sup>8</sup> with Ellison, ≤ 20 runs over ≤ 5.5·10<sup>5</sup> with Rhin (<code>BarinaFrontier</code>).</li>
+<li><b>Two literature theorems now proved in Lean:</b> Eliahou 1993 (cycles above 2<sup>40</sup> have E = 301994a + 17087915b + 85137581c, b ≥ 1, ac = 0; <code>Eliahou.eliahou1993</code>, with its 2<sup>71</sup> analogue <code>eliahou_barina</code>) and Terras 1976 (parity vectors ↔ residues mod 2<sup>k</sup>; <code>Terras.terras</code>). Both were previously assumed as stated propositions.</li>
+</ul>
+Open: words with four or more runs at every level. There the wedge-core size argument with Ellison provably falls short (linear-programming supremum 0.890 &gt; 0.856); a Rhin/Baker bound, or Levin's ineffective theorem, is needed. Near-miss words show any lever there must determine G to within a factor k(w) of |D|.</div>
+<p class="prov">Basis: <a href="ledger.md">ledger.md</a> (every program claim with its status); {nbib} verified sources across 7 literature
+themes ({unverified} unverified entries excluded); the Lean project <code>~/Syracuse/lean</code> (71 files (including the parallel session's), 2,675 declarations,
+axiom audit clean, no sorry). Statements marked <span class="chip heur">heuristic</span> are not proved.</p>
+
+<section id="choose">
+<h2>0 · Choose a direction</h2>
+<p class="sub">Three lanes. Each item states what it would prove, what it costs, and what would make you stop. Details are in §6; the
+side-by-side comparison is in §7.</p>
+<div class="lanes">
+ <div class="lane rec"><h4>Recommended now</h4><ul>
+  <li><b>D1 · Finish the two-run rung, then try three runs</b> <span class="chip proved">two runs done</span><span class="m">Proved this loop: no positive cycle on any 1<sup>a</sup>d<sup>b</sup>, and Steiner's 1977 circuit theorem, both given Ellison. Next: three runs; stop if only ineffective bounds exist.</span></li>
+  <li><b>D2 · Close the balanced half</b> <span class="chip proved">done</span><span class="m">Proved, unconditionally and for every gcd: no nontrivial positive cycle has a balanced parity vector. Next: a move anchored on the unbalance witness.</span></li>
+  <li><b>D3 · Near-miss benchmark</b><span class="m">Gives: a kill test for every lever (slack vs k(w) on 3x+k cycles with small k). Cost: ~1 day. Stop: it is the stopping rule.</span></li>
+ </ul></div>
+ <div class="lane"><h4>Speculative</h4><ul>
+  <li><b>D4 · Continued-fraction renormalisation</b> <span class="chip proved">two runs at any level done</span><span class="m">Proved: the wedge core of every standard Christoffel pair is 6-smooth, so given Ellison there is no cycle on u<sup>a</sup>v<sup>b</sup>. Next: three or more runs at every level.</span></li>
+  <li><b>D5 · Explicit threshold for μ(log₂3) ≤ 5.116</b><span class="m">Replaces Rhin's exponent 13.3 beyond an explicit H₀; lowers every o₀.</span></li>
+  <li><b>D6 · Levin plus Laurent for fixed m</b><span class="m">Finiteness for m-run words; ineffective.</span></li>
+  <li><b>D7 · Repeat lemma from Mahler's 3/2 problem</b> <span class="chip proved">done</span><span class="m">Proved: a repeated window covers less than 51.37 % of E (Ellison + Barina). It bites only on low-complexity words, as expected.</span></li>
+ </ul></div>
+ <div class="lane cut"><h4>Cut, with reason</h4><ul>
+  <li><b>Covering by word patterns</b> (Zimin, Shirshov, Ramsey, additive powers)<span class="m">False as a statement about words; see §4.</span></li>
+  <li><b>6-free-axis tricks</b><span class="m">Evertse; Bugeaud–Evertse: bounded-term cores keep sixfree(C) ≥ |C|<sup>1−ε</sup>.</span></li>
+  <li><b>Layer-1 enrichments</b><span class="m">Closed by the binomial wall; 55 of 76 queued reads retired.</span></li>
+  <li><b>Livšic, transfer operators, ×2×3, Siegel's numen</b><span class="m">Null for cycles; see §5.</span></li>
+ </ul></div>
+</div>
+<div class="rec-box"><b class="h">Recommendation (separate from the menu)</b>
+D1 (two runs, every letter pair, including Steiner's circuits) and D2 (the balanced half, every gcd, unconditional) are now done. Next: D3 (the near-miss benchmark, already started in Lean), then the size test of D4 (its first step, the two-block identity, is proved). These are cheap and Lean-ready. Between them they turn the
+program into a sharp statement: <i>no positive cycle on words with at most two growing runs (of letters or of Christoffel blocks) or with a
+balanced parity vector; the open set is the unbalanced words with three or more growing runs.</i> D3 decides what any further idea must beat.</div>
+</section>
+
+<section id="picture">
+<h2>1 · The program in one picture: rotations add nothing beyond (S, D)</h2>
+<p class="sub">On a cycle all rotation sums are multiples of D. For every word the recursion 2<sup>d₀</sup>S<sup>(1)</sup> = 3S + D, with D odd,
+shows that their gcd is already gcd(S, D). Every word is therefore a primitive cycle of x ↦ (3x + k)/2<sup>ν</sup> with k(w) = D/G, and the
+no-cycle conjecture says k(w) ≠ 1.</p>
+<div class="fig">{pipeline}
+<div class="cap">Reading guide: left to right. The only quantity that matters is G. Every program move (frame strip, anchor split, wedge,
+combination round) is a certificate αS + βD that bounds G from above. Belaga and Mignotte (2006, Thm 4) state the 3x+1 conjecture in exactly
+this form: no member of the "Collatz corona" of C(ℓ−1, k−1) sums is divisible by 2<sup>ℓ</sup> − 3<sup>k</sup>.</div></div>
+<h3>The run-count hierarchy</h3>
+<p class="sub">Cut a word into runs with fixed letters or blocks and growing lengths. Then S and D become fixed polynomials in a few
+S-units, and the arithmetic of gcds of S-unit expressions applies rung by rung.</p>
+<div class="fig">{ladder}
+<div class="cap">Blue: proved (in Lean). Amber: finite but ineffective. Dashed orange: open. Text twin: (1) one run: resultant, the bounded-defect
+lever, proved, but such families are already excluded for positive cycles by the ratio sandwich; (2) two runs: Corvaja–Zannier shape,
+1<sup>a</sup>2<sup>b</sup> excluded given Ellison; (3) fixed m ≥ 3: Levin, ineffective; (4) unboundedly many runs: balanced words excluded (Knight),
+unbalanced words open.</div></div>
+</section>
+
+<section id="ledger">
+<h2>2 · Consolidation: the program's exclusions repeat the ratio sandwich; its new content is the ceiling and the gcd view</h2>
+<p class="sub">Full ledger: <a href="ledger.md">ledger.md</a>. Every row there carries a status (Lean name, conditional Prop, script, numerical,
+open, refuted) and a tag saying whether the step is generic (valid for every Syracuse-type map) or uses the (2,3) arithmetic.</p>
+<h3>What is now machine-checked</h3>
+<table>
+<tr><th>Program statement</th><th>Status</th><th>Lean</th></tr>
+<tr><td>Floor: on a cycle every nonzero rotation-ideal element C has |D| ≤ sixfree(C)</td><td><span class="chip proved">proved</span></td><td><code>Program.floor</code></td></tr>
+<tr><td>G = gcd(S, D); every word is a cycle of 3x + k(w); 3x+1 cycle ⇔ k(w) = 1</td><td><span class="chip proved">proved</span></td><td><code>Limits.G_eq_gcd</code>, <code>every_word_is_a_cycle</code></td></tr>
+<tr><td>"A representative below 3<sup>o</sup> exists" ⇔ the positive cycle is critical (a characterisation, not progress)</td><td><span class="chip proved">proved</span></td><td><code>Program.small_rep_iff_critical</code></td></tr>
+<tr><td>Bounded-defect lever: G ≤ sixfree(S(βd) − S(dβ)), independent of o</td><td><span class="chip proved">proved</span></td><td><code>BoundedDefectLever.ceiling</code></td></tr>
+<tr><td>Fixed-slope families (βd<sup>L</sup>): a nontrivial positive cycle has L ≤ 2|β| + 3·len β</td><td><span class="chip proved">proved</span></td><td><code>Limits.background_bound</code></td></tr>
+<tr><td>Knight: no high cycle (Christoffel parity vector, coprime slope)</td><td><span class="chip proved">proved</span></td><td><code>Christoffel.no_high_cycle</code></td></tr>
+<tr><td>Two runs 1<sup>a</sup>2<sup>b</sup>: no positive cycle</td><td><span class="chip cond">cond. Ellison</span></td><td><code>TwoBackground.no_cycle_one_two</code></td></tr>
+<tr><td>Two-run family d<sup>a</sup>e₁d<sup>a</sup>e₂d<sup>a</sup> (parallel session, approach <i>places-elimination</i>)</td><td><span class="chip proved">proved</span></td><td><code>TwoRun.*</code></td></tr>
+<tr><td>m ≥ 2 independent run parameters</td><td><span class="chip cond">cond. Levin</span></td><td><code>Vojta.*</code></td></tr>
+<tr><td>Squeeze against a lower bound B(o); Ellison exclusion for bounded ceilings</td><td><span class="chip cond">cond.</span></td><td><code>Program.squeeze</code>, <code>Limits.no_cycle_of_ellison_ge</code></td></tr>
+<tr><td>What a nontrivial positive cycle must look like (all exclusions combined)</td><td><span class="chip cond">cond. Ellison + Barina</span></td><td><code>Frontier.frontier</code></td></tr>
+<tr><td>Covering hypothesis; ≥ 3 growing runs at every level; explicit f(w); abelian estimator size</td><td><span class="chip open">open</span></td><td>—</td></tr>
+</table>
+<h3>Corrections the review depends on</h3>
+<ul>
+<li><b>Fixed-slope families repeat the sandwich.</b> Every family the program had excluded (βd<sup>L</sup>, u<sup>p</sup>β, d<sup>a</sup>ed<sup>b</sup>, u<sup>q</sup>v) has a rational limiting slope. For positive cycles it is already excluded by log₂3 &lt; E/o ≤ log₂(3 + 1/x<sub>min</sub>). With d = 1 only negative cycles remain, and −5 → −7 is in the family.</li>
+<li><b>But two growing runs do reach the critical slope.</b> 1<sup>a</sup>2<sup>b</sup> with b/a ≈ 1.41 does. The first-draft claim "every relevant word has unboundedly many runs" was wrong. That family is now excluded given Ellison (§8).</li>
+<li><b>Thresholds.</b> PROGRAM.md's "o ≈ 60" came from Rhin alone. de Weger (1987) may be stronger still: |2<sup>x</sup> − 3<sup>y</sup>| ≥ min(2<sup>x</sup>,3<sup>y</sup>)<sup>0.9</sup> once the minimum exceeds 10<sup>15</sup>, except (84,53). The exact wording is to be checked against the primary source. Ellison (≈2.56<sup>o</sup>, valid for E &gt; 27) is stronger until o = 574, so a bounded ceiling is excluded from E = 28 on. Rhin's Lemma 12 is proved only for δo &lt; E &lt; 1.000001δo, which is irrelevant below o ≈ 574.</li>
+<li><b>Factual fixes</b> (Lean findings).
+ <ul>
+ <li>P9's "q = 2 forces s₁ = s₂" is false; the escape is at (o,E) = (6,11).</li>
+ <li>G is always prime to 6, so P10's argument fails.</li>
+ <li>The suffix strip factor is Y<sup>len z</sup>.</li>
+ <li>Grouped anchors miss cross-group differences.</li>
+ <li>The Rhin constant is 0.0021862, inside exp(−13.3·0.46057).</li>
+ </ul></li>
+</ul>
+<div class="fig">
+<div class="legend"><span><span class="k" style="border-color:var(--c1)"></span>Ellison 1971: |D| &gt; 2<sup>E</sup>e<sup>−E/10</sup></span><span><span class="k" style="border-color:var(--c2)"></span>Rhin / Simons–de Weger: |D| &gt; 0.00219·3<sup>o</sup>/o<sup>13.3</sup></span></div>
+{thr}
+<div class="cap">How far below 3<sup>o</sup> each lower bound on |D| sits, in orders of magnitude (log₁₀), at critical E = ⌈o·log₂3⌉, for o from 18 to 1,000.
+Higher is stronger. Ellison wins below o = 574. Computed from the closed forms (hand arithmetic, not a numerical experiment).</div>
+<table class="twin"><tr><th>o</th><th>Ellison</th><th>Rhin</th></tr>{thr_rows}</table></div>
+</section>
+
+<section id="limits">
+<h2>3 · Limits: the algebra is the same for every Syracuse-type map, so the excluding input must be arithmetic</h2>
+<p class="sub">Each identity of the program holds for every X, Y in every commutative ring. Changing 3x+1 to 3x+k changes only the output
+k(w); changing 3 to 5 changes Y. So a step built from those identities cannot by itself distinguish the maps below.</p>
+<table>
+<tr><th>Map</th><th>Known cycles</th><th>D</th><th>What it shows</th></tr>
+<tr><td>3x+1, positive</td><td>only 1 → 1; none other with minimum &lt; 2<sup>71</sup> (Barina 2025)</td><td>&gt; 0</td><td>the target: k(w) = 1 never happens for w ≠ (2)<sup>n</sup></td></tr>
+<tr><td>3x+1, negative (≡ 3x−1)</td><td>−1, −5 → −7, −17 (o ≤ 7)</td><td>&lt; 0</td><td>sign-blind steps cannot exclude. The −17 word's ceiling is exactly 139 = |D| (<code>Limits.ceiling_neg17</code>)</td></tr>
+<tr><td>5x+1</td><td>1 → 3; 13 → 33 → 83; 17 → 43 → 27 (o ≤ 3)</td><td class="nw">7, 3, 3</td><td>positive D with genuine cycles: the floor holds verbatim at (2,5) (<code>Limits.five_cycles_floor</code>)</td></tr>
+<tr><td>3x+k, small k</td><td>k = 5 at (E,o) = (27,17); k = 29 at the convergent (65,41); G ≈ |D|<sup>0.9997</sup> at o = 31,913</td><td>&gt; 0</td><td><b>the binding data.</b> No ceiling G ≤ |D|<sup>θ</sup> with θ &lt; 1 can hold.</td></tr>
+<tr><td>multi-branch generalized maps</td><td>—</td><td>—</td><td>cycle and halting questions are undecidable (Conway 1972; Kurtz–Simon 2007, Π⁰₂-complete). Nothing is known for 2-branch maps.</td></tr>
+</table>
+<h3>What any no-cycle proof must contain</h3>
+<ol>
+<li><b>An exponential separation of 2<sup>E</sup> from 3<sup>o</sup>.</b> No cycles implies |2<sup>a</sup> − 3<sup>k</sup>| ≥ (1+ε)<sup>k</sup> (Tao 2011, Prop. 7, sketched). So transcendence theory, or a new separation theorem, is unavoidable. The Baker/Rhin step of the squeeze is necessary, not decoration.</li>
+<li><b>An input specific to p = 3 or to the sign of D,</b> at least for small o (negative cycles up to o = 7; 5x+1 up to o = 3).</li>
+<li><b>Resolution of G to within a factor k(w) on near-miss words.</b> These are genuine 3x+k cycles with small k.</li>
+<li><b>Effectivity.</b> In every published exclusion the only 3x+1-specific input is the verification bound N₀ (Hercher 2023). The Baker machinery itself is map-uniform: Steiner's method finds the 5x+1 cycles.</li>
+</ol>
+<h3>How far the wedge cores reach, exactly</h3>
+<p>For a word with m runs of fixed blocks, the cocycle gives m divisibilities D ∣ T<sub>R</sub>, one per excluded run. Each T<sub>R</sub> is a sum of m monomials 2<sup>(x-prefix)</sup>3<sup>(y-suffix)</sup> over the other runs (x = E, y = o·log₂3). Excluding a cycle needs a lower bound |D| ≥ 2<sup>θE</sup> with θ above the smallest of the m bounds. In the worst case that is
+<b>c<sub>m</sub> = 1 − (log₂3 − 1)/((log₂3)<sup>m</sup> − 1)</b>: 0.613, 0.804, 0.890, 0.935, 0.961 for m = 2…6 <span class="chip proved">proved in Lean for every m</span> (<code>Reach.reach_upper</code>, <code>reach_tight</code>; Ellison lies strictly between c<sub>3</sub> and c<sub>4</sub>: <code>ellison_reach</code>).</p>
+<ul>
+<li><b>The lower bound.</b> Take one run of slope (log₂3)<sup>m</sup> followed by m − 1 runs of slope 1 with weights in ratio log₂3, the whole word at the critical slope. Every excluded-run bound then telescopes to the same value, which gives c<sub>m</sub>.</li>
+<li><b>Ellison (θ = 0.856):</b> reaches m ≤ 3 (<code>ThreeRuns</code>).</li>
+<li><b>Rhin (θ → 1 as E grows):</b> reaches each fixed m, e.g. m = 4 (<code>FourRuns</code>). The required size grows like (log₂3)<sup>m</sup>.</li>
+<li><b>The four-run failure under Ellison is real on actual words,</b> e.g. 6<sup>a₀</sup>(1<sup>20</sup>2)<sup>a₁</sup>(1<sup>21</sup>2)<sup>a₂</sup>(1<sup>22</sup>2)<sup>a₃</sup> near the critical slope. All four bounds stay above 2<sup>0.8557E</sup> up to E ≈ 55,000, with limiting ratio 0.878.</li>
+<li><b>End to end, every m</b> (<code>MRuns.mruns_bounded</code>): the m-block cocycle identity gives D ∣ T<sub>R</sub>, and with any separation |D| ≥ 2<sup>θ·max − L</sup>, cycles satisfy (θ − c<sub>m</sub>)·max(E, o·log₂3) ≤ K + L + log₂m. With Ellison this bounds every two- and three-run word of any blocks (<code>mruns_ellison</code>). The nonvanishing hypothesis is removed for long runs by a 2-adic argument. Given Ellison alone, any two or three runs of non-commuting blocks, each of weight above 6B + 1, satisfy E &lt; 20(6B + 3.6) (<code>MRunsExplicit.mruns_explicit</code>).</li>
+<li><b>No side conditions for ≤ 3 runs</b> (<code>MRunsDichotomy</code>): T = 0 forces an orbit point onto a base block's own cycle. So, given Ellison, any cycle on ≤ 3 runs either has such a point or a bounded E. With Barina and Hercher: <b>no nontrivial positive cycle is a word of at most three runs over base blocks of total weight ≤ 10<sup>9</sup></b> (<code>frontier_le_three</code>); with Barina alone, ≤ 9.5·10<sup>8</sup> (<code>BarinaFrontier.frontier_le_three_barina</code>).</li>
+<li><b>Every number of runs, with Rhin</b> (<code>MRunsRhin</code>): Rhin's bound is a separation with θ = 1 &gt; c<sub>m</sub> for every m. So a nontrivial positive cycle on m runs either has an orbit point on a base block's cycle or has E ≤ σ<sub>m</sub>(6B + 11 + 14⌈log₂o⌉ + log₂m). With Barina and Hercher: <b>no nontrivial positive cycle on ≤ 10 runs over base weight ≤ 5·10<sup>7</sup>, nor on ≤ 20 runs over base weight ≤ 6·10<sup>5</sup></b> (<code>frontier_ten</code>, <code>frontier_twenty</code>); with Barina alone, ≤ 10 runs over ≤ 5·10<sup>7</sup> and ≤ 20 runs over ≤ 5.5·10<sup>5</sup> (<code>BarinaFrontier</code>). The admissible weight shrinks like (log₂3)<sup>−m</sup>: 6,560 at 30 runs, 521 at 35, none from about 40.</li>
+<li><b>Both signs</b> (<code>MRunsSigned</code>): Rhin's bound is an absolute linear-form bound (as quoted by Rukhin, arXiv:1805.10496). It gives |2<sup>E</sup> − 3<sup>o</sup>| ≥ 2<sup>max − 2 − 14⌈log₂E⌉</sup> for every word, so the all-m dichotomy holds for negative cycles too. That is the first effective statement for negative cycles with four or more runs.</li>
+<li><b>PROGRAM.md's first objective, met for few-run words</b> (<code>ExplicitF.explicit_f</code>): for any m-run word (no cycle assumed), some rotation gives a move representative D′S − A·D = 2<sup>E</sup>·T with |T| ≤ m·2<sup>6B+1</sup>·2<sup>c<sub>m</sub>·max(E, o·log₂3)</sup>. That is an explicit f(w) below 3<sup>o</sup> by 2<sup>−(1−c<sub>m</sub>)·o·log₂3</sup> up to the block term, with sharp exponent.</li>
+<li><b>Frontier</b> (<code>RunsFrontier</code>, with Barina and Hercher's E &gt; 1.375·10<sup>11</sup>): a nontrivial positive cycle that is a two-, three- or four-run word needs block coefficients above about 2<sup>6·10<sup>9</sup></sup>.</li>
+<li><b>Cycle length from Barina alone</b> (<code>CycleLength.cycle_length_ge</code>): Eliahou's method, fully proved. Certified bounds on log 2 and log 3 place E/o strictly between the Farey neighbours 103768467013/65470613321 and 10439860591/6586818670, so every nontrivial positive cycle has o ≥ 72 057 431 991 and E ≥ 114 208 327 604. Every frontier above now has a Barina-only form (<code>BarinaFrontier</code>); Hercher's Corollary 29 is no longer needed, at the price of slightly smaller constants.</li>
+</ul>
+<p><b>2-adic blindness.</b> Its finite form is Terras's theorem, now proved in Lean (<code>Terras.terras</code>): each parity pattern of length k is realised by exactly one residue class mod 2<sup>k</sup>. Every (ax+b)/2 map with ab odd is conjugate to the 2-adic shift (Bernstein–Lagarias 1996; Akin 2004:
+"the method is too general"). Parity-pattern pigeonholes in ℤ₂ cannot see 3 against 5.
+<b>Counting is map-uniform too</b> <span class="chip heur">heuristic</span>: words of type (E,o) at the critical slope number about
+e<sup>(ln p − δ)o</sup>, with δ ≈ 0.056 nats per letter for p = 3 and 0.023 for p = 5 (o = 10<sup>4</sup>). Counting cannot single out 3.</p>
+</section>
+
+<section id="pigeon">
+<h2>4 · Pigeonhole and simplification: the covering hypothesis is false as a word statement; what survives is arithmetic</h2>
+<ul>
+<li><b>Single moves need global near-periodicity.</b> A move yields a bounded 6-free core only when two rotations agree outside one bounded window
+of size b. That forces gcd(shift, o) &lt; b. Only O(o²·|A|<sup>2b</sup>) words qualify, against ≥ 2<sup>n/2</sup> unbalanced words
+(Lipatov 1982; Heinis 2001). For b = 2 these are exactly the Christoffel classes (Pirillo 2000), whose core is a monomial. <span class="chip lit">lit + derived</span></li>
+<li><b>Multi-move chains reduce to gcd(S, D).</b> Any ℤ-combination of rotations is αS + βD. A covering argument is therefore an S-unit gcd argument in disguise.</li>
+<li><b>Zimin, Shirshov, Ramsey</b> give tower or iterated-log length control and no χ-matching. Cut.</li>
+<li><b>Additive (χ-matched) powers are forced but off the critical path.</b> Over {{1,2,3,4}} every word of length 51 contains an additive square
+(Freedman–Brown 2016). Over finite subsets of ℤ in general, additive squares are open (Pirillo–Varricchio 1994; Fici–Puzynina 2023 survey);
+additive cubes are avoidable over {{0,1,3,4}} (Cassaigne–Currie–Schaeffer–Shallit 2014). But a local swap uu′ → u′u is not a difference of
+rotations, so G need not divide it.</li>
+<li><b>The dichotomy that does work.</b> A binary cyclic word is a Christoffel conjugate exactly when it is circularly balanced
+(Berstel–Lauve–Reutenauer–Saliola, Thm 6.9; Berstel–de Luca 1997). Christoffel parity words are excluded (Knight 2023), and balanced ⇒ Christoffel (Lothaire 2.1.15). Both are now in Lean, for every gcd and unconditionally: no nontrivial positive cycle has a balanced parity vector (<code>BalancedPow.no_balanced_cycle_all</code>).
+So every remaining cycle has an <b>unbalanced</b> parity word and an explicit unbalance witness: a canonical pair of rotations at which to anchor a move (D2).</li>
+<li><b>Anchor geometry for an explicit f(w).</b> In balanced words, abelian periods and anchor spacings are (semi)convergent denominators of the
+slope (Fici et al. 2016; Peltomäki 2020). C-balanced is equivalent to bounded abelian complexity (Richomme–Saari–Zamboni 2011). Cycle words are
+C-balanced <span class="chip proved">proved</span>: two windows of equal length ℓ ≤ o in a positive cycle satisfy
+E(u) − E(u′) ≤ 2·log₂(x<sub>max</sub>/x<sub>min</sub>) + (E − o·log₂3) (<code>Estimators.c_balanced_cycle</code>).
+The derivation's “+1” is the defect E − o·log₂3, which is below 1 only when 2<sup>E</sup> &lt; 2·3<sup>o</sup>.</li>
+<li><b>Repeat lemma</b> <span class="chip proved">proved</span>. Transferred from Mahler's 3/2 problem (Dubickas 2009): a window repeated
+at two cyclic positions forces two cycle points 2<sup>E(u)</sup> apart (<code>Repeat.repeat_bound</code>). Given Ellison and Barina, a repeated window
+in a nontrivial positive cycle covers less than 51.37 % of E and 52.79 % of o (<code>Repeat.repeat_half</code>). It bites only on low-complexity words.</li>
+</ul>
+</section>
+
+<section id="lit">
+<h2>5 · Literature map: the gcd literature is the live one; word combinatorics and dynamical frames are mostly null</h2>
+<table>
+<tr><th>Theme</th><th class="num">Verified</th><th>What it gives the program</th><th>Verdict</th></tr>
+<tr><td>Arithmetic of gcd(S, D)</td><td class="num">{n_arithmetic}</td><td>S-unit gcd (Bugeaud–Corvaja–Zannier, Corvaja–Zannier, Levin 2019) gives the run-count hierarchy. Evertse and Bugeaud–Evertse: the 6-free axis gains only ε. μ(log₂3) ≤ 5.116 (Bondareva–Luchin–Salikhov 2018). Zsigmondy covers 3<sup>n</sup> − 2<sup>n</sup>, so BHV is unnecessary.</td><td><span class="chip v-keep">keep</span></td></tr>
+<tr><td>Arithmetic, round 2</td><td class="num">{n_chase_arithmetic}</td><td>Effective gcd forms for small bases; Levin follow-ups; explicit S-part bounds; Ellison sharpenings; prior work on two-block cycles.</td><td><span class="chip v-open">see file</span></td></tr>
+<tr><td>Words and pigeonhole</td><td class="num">{n_words}</td><td>Covering verdict, additive-powers status, Pirillo's central words, anchor geometry in Sturmian words, abelian complexity.</td><td><span class="chip v-keep">keep (narrow)</span></td></tr>
+<tr><td>Words and limits, round 2</td><td class="num">{n_chase_words_limits}</td><td>Balanced ⇔ Christoffel proofs, quantitative Sturmian approximation, rational base 3/2, near-miss data, barrier statements.</td><td><span class="chip v-open">see file</span></td></tr>
+<tr><td>Generalized maps and limits</td><td class="num">{n_generalized_maps}</td><td>Lagarias 1990 and Belaga–Mignotte 2006 (the gcd formulation); Tao 2011 (separation is necessary); 2-adic conjugacy; undecidability scope; near-miss data.</td><td><span class="chip v-keep">keep</span></td></tr>
+<tr><td>Cocycle frames</td><td class="num">{n_frames}</td><td>Metabelian H¹ is S mod D again; Livšic needs trivial periodic data; transfer operators are non-effective; Siegel's numen equals S; ×2×3 has no bridge. One narrow lever: the repeat lemma.</td><td><span class="chip v-kill">null</span></td></tr>
+<tr><td>Incubator queue</td><td class="num">{n_queue}</td><td>95 items resolved: 55 retired by the sandwich or the closed Layer 1, 19 null, 2 live (both the balanced dichotomy). arXiv:2512.05512 is not an o-independent ceiling. 13 citation errors listed.</td><td><span class="chip v-kill">mostly null</span></td></tr>
+</table>
+<p class="prov">Theme files with full annotations, quotes and hook maps: <a href="lit/arithmetic.md">arithmetic</a> ·
+<a href="lit/chase-arithmetic.md">chase-arithmetic</a> · <a href="lit/words.md">words</a> · <a href="lit/chase-words-limits.md">chase-words-limits</a> ·
+<a href="lit/generalized-maps.md">generalized-maps</a> · <a href="lit/frames.md">frames</a> · <a href="lit/queue.md">queue</a>.</p>
+</section>
+
+<section id="directions">
+<h2>6 · Directions in detail</h2>
+<div class="cards">
+<div class="card rec"><h3>D1 · Finish two runs, then try three <span class="chip proved">two runs done</span></h3><dl>
+<dt>Theorem</dt><dd>No positive cycle whose cyclic gap word is d₁<sup>a</sup>d₂<sup>b</sup> (any letters), given Ellison. Then m = 3, if an explicit gcd bound for three S-unit differences exists.</dd>
+<dt>Why</dt><dd>Through G = gcd(S, D), D ∣ (2<sup>d₁</sup> − 2<sup>d₂</sup>)·gcd(2<sup>d₁a</sup> − 3<sup>a</sup>, 2<sup>d₂b</sup> − 3<sup>b</sup>) (<code>TwoBackground.dvd_of_cycle</code>). The {{1,2}} case took about 300 lines. The round-2 chase did not find the 1<sup>a</sup>2<sup>b</sup> exclusion in the literature: as a b-cycle it lies outside Hercher's m ≤ 91 and Rozier's bounded-block results.</dd>
+<dt>Status</dt><dd>Two runs done for all letters: <code>Circuits.no_cycle_two_letters</code>, and as the case b = 1 <b>Steiner 1977 proved conditional on Ellison</b> (<code>Circuits.steiner_of_ellison</code>). Both signs: the only cycle on 1<sup>a</sup>d<sup>b</sup> is −5 → −7, and the cycles with at most one gap ≥ 2 are 1, −1, −5, −7 (<code>SignedCycles.two_letter_cycles</code>, <code>few_blocks_cycles</code>). For negative cycles no window is needed: 1000E &lt; 1585o and Ellison already contradict E ≥ 28. Two blocks with equal big gaps, 1<sup>a₁</sup>d1<sup>a₂</sup>d: closed for both signs (<code>EqualTwoCycles.equal_two_blocks</code>). Distinct big gaps (−17) and m = 3: research.</dd>
+<dt>First test</dt><dd>1<sup>a</sup>3<sup>b</sup>: 2 − 8 = −6 is 6-smooth, so D ∣ gcd(3<sup>a</sup> − 2<sup>a</sup>, 8<sup>b</sup> − 3<sup>b</sup>) directly.</dd>
+<dt>Stop if</dt><dd>m = 3 has only Subspace-theorem (ineffective) bounds. Record it and stop at m = 2.</dd></dl></div>
+<div class="card rec"><h3>D2 · Close the balanced half <span class="chip proved">done</span></h3><dl>
+<dt>Theorem</dt><dd>No nontrivial positive cycle has a circularly balanced parity vector (all slopes, including non-coprime).</dd>
+<dt>Why</dt><dd>Knight is in Lean for Christoffel words. BLRS Thm 6.9 (balanced ⇔ Christoffel conjugate) lifts it to all balanced words. What remains then carries an explicit unbalance witness.</dd>
+<dt>Status</dt><dd>Proved in Lean for every gcd, with no literature input: <code>BalancedPow.no_balanced_cycle_all</code>. The ingredients are Lothaire 2.1.15 by averaging, non-reduced Christoffel words as powers, and Knight's C9 for powers. Open: the converse (not needed).</dd>
+<dt>First test</dt><dd>On random critical words, the shortest witness pair, its C9-style rotation difference, and log₁₀(sixfree/|D|).</dd>
+<dt>Stop if</dt><dd>The witness-pair core is never below |D| on near-miss words (D3).</dd></dl></div>
+<div class="card rec"><h3>D3 · Near-miss benchmark</h3><dl>
+<dt>Theorem</dt><dd>None. This is infrastructure: a table of critical-slope words with small k(w), and the slack of every lever on them.</dd>
+<dt>Why</dt><dd>Sibling maps only force o₀ ≥ 7. The near-misses are what any working lever must resolve (§3, item 3).</dd>
+<dt>Cost</dt><dd>About a day. Started: <code>NearMiss.lean</code> certifies k = 5, 29 and 61 at (27,17), (65,41) and (66,41) by <code>decide</code>.</dd>
+<dt>First test</dt><dd>k = 5 at (27,17) and k = 29 at (65,41); OEIS A226670–A226672 for larger o.</dd>
+<dt>Stop if</dt><dd>It is the stopping rule for D1, D2, D4 and D7.</dd></dl></div>
+<div class="card spec"><h3>D4 · Continued-fraction renormalisation <span class="chip proved">two runs, any level</span></h3><dl>
+<dt>Theorem</dt><dd>No positive cycle on words that have at most two runs <i>of Christoffel blocks</i> at some level of the continued fraction of log₂3.</dd>
+<dt>Why</dt><dd>For blocks u, v, the TwoBackground algebra goes through unchanged, with the wedge core C(u,v) = D(u)S(v) − D(v)S(u) replacing 2<sup>d₁</sup> − 2<sup>d₂</sup>: on a cycle D ∣ C(u,v)·D(u<sup>a</sup>) and D ∣ C(u,v)·D(v<sup>b</sup>) <span class="chip proved">proved</span> (<code>TwoBackground.dvd_of_cycle_block</code>). Sturmian words are recursively runs of two blocks.</dd>
+<dt>Result</dt><dd>The feared growth of |C(u,v)| does not happen for standard pairs. C(u,uv) = X<sup>|u|</sup>C(u,v) and C(uv,v) = Y<sup>len v</sup>C(u,v), so C is always −2<sup>i+1</sup>3<sup>j</sup> (<code>StdPairs.core_smooth</code>). Then D ∣ D(u<sup>a</sup>), D ∣ D(v<sup>b</sup>), and Ellison closes it (<code>StdPairs.no_cycle_std_pair</code>). Still consistent with the near-misses, whose words use letters ≥ 3.</dd>
+<dt>Beyond {{1,2}}</dt><dd>The core recursion holds from any root, so the tree grown from ([1],[d]) has core 6-smooth × (2<sup>d−1</sup> − 1) (<code>DPairs.core_dpair</code>). Given Ellison, two-run cycle words over it have E &lt; 20(d − 1). The {{1,3}} tree is closed by enumeration, and the left spine (1, 1<sup>m</sup>d) for every d (<code>NearPairs</code>). Below that bound the word has at most 20 big gaps, so Simons–de Weger 2005 closes the positive side for every d (<code>DTrees.pos_dpair_cycles</code>). Negative cycles need 3–7 equal big gaps (<code>neg_dpair_residual</code>); a kernel check closes d ≤ 7 for both signs (<code>DTreeChecks</code>). From any root (u₀, v₀) with nonzero core the same argument gives E &lt; 20·log₂|C(u₀, v₀)| (<code>Trees.no_cycle_tree</code>).</dd>
+<dt>Three runs</dt><dd>The three-core identity gives D(W) ∣ T<sub>U</sub>, T<sub>V</sub>, T<sub>Z</sub>. For any blocks with these nonzero, Ellison bounds E &lt; 20(K + 2) (<code>ThreeRuns.three_runs_bounded</code>). The same size argument fails from four runs on (linear-programming supremum 0.890 &gt; 0.856).</dd>
+<dt>Four runs</dt><dd>With Rhin's bound (<code>SimonsDeWegerLemma12</code>) in place of Ellison, four runs of any blocks are bounded for positive cycles: E &lt; 3500 + 16K (<code>FourRuns.four_runs_bounded</code>).</dd>
+<dt>Next</dt><dd>A uniform m-run statement needs a certificate that works for all m at once; the per-m checks grow like m<sup>m</sup>.</dd>
+<dt>Stop if</dt><dd>The block ceiling exceeds |D| on the level-k near-misses.</dd></dl></div>
+<div class="card spec"><h3>D5 · Explicit threshold for μ(log₂3)</h3><dl>
+<dt>Theorem</dt><dd>|E·ln2 − o·ln3| &gt; H<sup>−4.116</sup> for H ≥ H₀ explicit (Bondareva–Luchin–Salikhov 2018, made explicit).</dd>
+<dt>Why</dt><dd>It replaces 13.3 by about 4.1 in every squeeze and lowers every o₀.</dd>
+<dt>Cost</dt><dd>Reading and redoing their Padé estimates. A Lean Prop only.</dd>
+<dt>Stop if</dt><dd>H₀ is astronomically large, or the paper's constants are not recoverable. The round-2 chase reports the primary gives no explicit H₀ (it comes from Hata's Lemma 2.1), and no improvement to 2026.</dd></dl></div>
+<div class="card spec"><h3>D6 · Levin plus Laurent for fixed m</h3><dl>
+<dt>Theorem</dt><dd>For each fixed m, finitely many positive cycles on m-run words, outside explicit sub-tori, all of which are checked.</dd>
+<dt>Why</dt><dd><code>Vojta.lean</code> already states Levin as a hypothesis. Laurent and Aliev–Smyth make the exceptional families computable.</dd>
+<dt>Risk</dt><dd>Ineffective: no o₀.</dd>
+<dt>Stop if</dt><dd>The exceptional families cannot be enumerated for m = 3.</dd></dl></div>
+<div class="card spec"><h3>D7 · Repeat lemma (Mahler 3/2) <span class="chip proved">done</span></h3><dl>
+<dt>Theorem</dt><dd>If a cycle word has the same window u (length ℓ) at two positions, then 2<sup>o</sup>·2<sup>E(u)</sup>·|D| &lt; 2<sup>E</sup>3<sup>o</sup> and 2<sup>o</sup>·3<sup>ℓ</sup>·|D| &lt; 2<sup>E</sup>3<sup>o</sup> (<code>Repeat.repeat_bound</code>, either sign, unconditional).</dd>
+<dt>Why</dt><dd>Equal windows give equal affine maps, so 2<sup>E(u)</sup>(x<sub>i+ℓ</sub> − x<sub>j+ℓ</sub>) = 3<sup>ℓ</sup>(x<sub>i</sub> − x<sub>j</sub>) (Dubickas's identity). Then 2<sup>E(u)</sup> ∣ x<sub>i</sub> − x<sub>j</sub> ≠ 0, and every cycle point satisfies 2<sup>o</sup>|x||D| &lt; 2<sup>E</sup>3<sup>o</sup>. The derivation's x<sub>max</sub> bound was replaced by this one; the 152·o<sup>14.3</sup> form is not needed.</dd>
+<dt>Result</dt><dd>Given Ellison: 10000·E(u) &lt; 5850·o + 1443·E (<code>repeat_linear</code>). With the sandwich and Barina: a repeated window covers less than 51.37 % of E and 52.79 % of o (<code>repeat_half</code>). Runs and periodic stretches are repeated windows, so they are bounded too.</dd>
+<dt>Limit</dt><dd>Vacuous for generic words, whose longest repeat is about 2·log₂o letters. It re-excludes Christoffel words, whose longest circular repeat is n − 2, and three-run words with one dominant run, but not three comparable runs <span class="chip heur">derived, not in Lean</span>.</dd></dl></div>
+</div>
+</section>
+
+<section id="matrix">
+<h2>7 · Comparison matrix</h2>
+<table>
+<tr><th>Direction</th><th>Rung it closes</th><th>Effective?</th><th>Lean-ready?</th><th>Cost</th><th>Probability it delivers</th></tr>
+<tr><td>D1 two runs → three</td><td>2 (all letters, done); 3 maybe</td><td>yes (given Ellison)</td><td>two runs done</td><td>three: weeks</td><td>delivered for 2; low for 3</td></tr>
+<tr><td>D2 balanced half</td><td>4, balanced part</td><td>yes, unconditional</td><td>done (all gcd)</td><td>—</td><td>delivered</td></tr>
+<tr><td>D3 near-miss benchmark</td><td>— (kill test)</td><td>—</td><td>partly</td><td>a day</td><td>high</td></tr>
+<tr><td>D4 renormalisation</td><td>4, "two-run at some level"</td><td>yes (given Ellison)</td><td>done for two runs</td><td>beyond: weeks</td><td>delivered for two runs</td></tr>
+<tr><td>D5 explicit μ threshold</td><td>— (lowers o₀)</td><td>yes</td><td>as a Prop</td><td>weeks</td><td>medium</td></tr>
+<tr><td>D6 Levin plus Laurent</td><td>3</td><td>no</td><td>as hypotheses</td><td>weeks</td><td>medium (finiteness only)</td></tr>
+<tr><td>D7 repeat lemma</td><td>a sliver of 4</td><td>yes (given Ellison)</td><td>done</td><td>—</td><td>delivered (narrow)</td></tr>
+</table>
+</section>
+
+<section id="lean">
+<h2>8 · What was proved this round (Lean, no sorry, audit clean)</h2>
+<table>
+<tr><th>File</th><th>Headline</th></tr>
+<tr><td><code>Limits.lean</code></td><td>G = gcd(S, D). Every positive word is a positive cycle of 3x + k(w), and a 3x+1 cycle exists iff k(w) = 1. 3x−1 duality. 5x+1 and negative-cycle witnesses. The ceiling is exactly tight on −17. Fixed-slope bound L ≤ 2|β| + 3·len β. Ellison ⇒ exclusion for bounded ceilings (conditional).</td></tr>
+<tr><td><code>Christoffel.lean</code></td><td>Mechanical words. Upper and lower Christoffel words are 1u0 and 0u1 with the same middle, and are conjugate (coprime slope). Gersonides. <b>Knight's no-high-cycle theorem, unconditional</b> (it was conditional on Cohn's theorem).</td></tr>
+<tr><td><code>TwoBackground.lean</code></td><td>Generic two-background identities. On a cycle D ∣ (2<sup>d₁</sup> − 2<sup>d₂</sup>)·(each run's 2<sup>dL</sup> − 3<sup>L</sup>). <b>No positive cycle on 1<sup>a</sup>2<sup>b</sup></b>, conditional on Ellison 1971; E ≤ 27 by <code>decide</code>. Block version for u<sup>a</sup>v<sup>b</sup> with the wedge core C(u,v) (the first step of D4).</td></tr>
+<tr><td><code>NearStd.lean</code></td><td><b>Near-standard pairs</b>: a core of 6-smooth × c excludes u<sup>a</sup>Z<sup>b</sup> once c²·15<sup>E</sup> ≤ 16<sup>E</sup>, so the certificate size trades explicitly against length. <b>Literature frontier</b>: with Hercher 2023, a nontrivial positive cycle also has o &gt; 1.375·10<sup>11</sup> and at least 92 blocks.</td></tr>
+<tr><td><code>Frontier.lean</code></td><td><b>The frontier theorem</b>: given Ellison and Barina, every nontrivial positive cycle has elements &gt; 2<sup>71</sup>−1, E ≥ 45, satisfies the sandwich, has an <b>unbalanced</b> parity vector, and is not a two-letter-run word, not a standard-pair two-run word, and not a long single-run word.</td></tr>
+<tr><td><code>TwoCycles.lean</code>, <code>Renormalize.lean</code></td><td>Level-(u,v) 2-cycles u<sup>a₁</sup>v u<sup>a₂</sup>v are <b>fully excluded</b> for positive cycles (Ellison + Barina). Re-bracketing gives u<sup>a₁−a₂</sup>(u<sup>a₂</sup>v)², and (u, u<sup>a₂</sup>v) is a standard pair. Power reduction handles equal runs and all powers (u<sup>a</sup>v<sup>b</sup>)<sup>g</sup>.</td></tr>
+<tr><td><code>StdPairs.lean</code></td><td>The wedge core of every standard Christoffel pair is 6-smooth. <b>No cycle (either sign) on u<sup>a</sup>v<sup>b</sup> for any standard pair</b>, i.e. two runs at any level of the continued fraction, given Ellison.</td></tr>
+<tr><td><code>Circuits.lean</code></td><td>No positive cycle on any two-letter-run word 1<sup>a</sup>d<sup>b</sup>. <b>Steiner's 1977 circuit theorem, proved conditional on Ellison 1971.</b> The proof linearises Ellison and the sandwich, then runs two kernel-checked finite checks.</td></tr>
+<tr><td><code>StdClass.lean</code></td><td><b>Classification of standard-pair two-run cycles, both signs</b>: given Ellison, the only cycle on u<sup>a</sup>v<sup>b</sup> over a standard pair is −5 → −7. The exceptional E ≤ 27 are settled by a kernel-checked Stern–Brocot enumeration, which is proved complete.</td></tr>
+<tr><td><code>BalancedClass.lean</code></td><td><b>Classification of balanced cycles, both signs</b>: a cycle with a circularly balanced parity vector is through 1, −1 or −5 → −7. This explains the three "small" known cycles, while the fourth (−17) is unbalanced. No literature input.</td></tr>
+<tr><td><code>Balanced.lean</code>, <code>BalancedPow.lean</code></td><td>Lothaire 2.1.15 (⇒) for any gcd, via averaging. Non-reduced Christoffel words are powers, and Knight's C9 holds for powers. <b>No nontrivial positive cycle with a balanced parity vector, unconditionally and for every gcd(o,E).</b></td></tr>
+<tr><td><code>NearMiss.lean</code></td><td>The D3 benchmark started: near-miss words certified as genuine 3x+5, 3x+29 and 3x+61 cycles, and not positive 3x+1 cycles. Slack bar G = |D|/k(w).</td></tr>
+<tr><td><code>TwoRun.lean</code>, <code>Vojta.lean</code>, <code>R1/*</code></td><td>From a parallel session (approach <i>places-elimination</i>): a resultant ceiling for d<sup>a</sup>e₁d<sup>a</sup>e₂d<sup>a</sup>, Levin-conditional finiteness for r ≥ 2 run parameters, and an <code>R1/</code> decision procedure for one-parameter families.</td></tr>
+</table>
+<p class="prov">The audit after this round: 2,365 declarations under <code>Syracuse</code>, all within [propext, Classical.choice, Quot.sound]. The
+literature results used (Ellison, Levin, Rhin, Barina) appear only as named Props and explicit hypotheses.</p>
+</section>
+
+<section id="bib">
+<h2>9 · Bibliography ({nbib} verified sources)</h2>
+<p class="sub">Only entries whose key quote was fetched from the source page are listed, and an independent re-fetch pass then dropped any whose link, title or metadata did not match. {unverified} self-reported unverified entries are excluded. † marks a source that exists but whose key quote could not be re-located, or whose page is paywalled. ‡ marks a real paper whose key quote was read in a secondary source (e.g. Lagarias's annotated bibliography); it links to the DOI where one exists. The pass dropped 5 entries: 3 links pointing to unrelated papers and 2 with wrong metadata. Details are in <a href="lit/VERIFY.md">lit/VERIFY.md</a>. Each entry
+shows its verdict and the program hook. Grouped by theme; open a group to read it.</p>
+{bib}
+</section>
+
+<footer>Built {date} from <code>build_report.py</code> · ledger: <code>ledger.md</code> · Lean v4.34.1, Mathlib v4.34.1 ·
+~/Syracuse/lean: 47 files (including the parallel session's), 2,365 declarations, axiom audit clean · this is a review: research notes in ~/Syracuse were not edited.</footer>
+</main></div>

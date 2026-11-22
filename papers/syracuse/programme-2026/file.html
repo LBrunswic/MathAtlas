@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CHEATSHEET</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="/usr/share/javascript/mathjax/MathJax.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<h1 id="cheatsheet">Cheatsheet</h1>
+<p>Quick reference for the formulas and partial results in this project.
+<strong>Statements only — no proofs here.</strong> Each item links to
+the approach file holding the full derivation. When a result lands or
+changes, update the source file <em>and</em> this line.</p>
+<p>See <a href="APPROACHES.md"><code>APPROACHES.md</code></a> for the
+index of approaches.</p>
+<h2 id="notation-conventions">Notation conventions</h2>
+<p>Canonical, project-wide (fixed in <a
+href="approaches/diophantine/RATIONALE.md"><code>diophantine</code></a>):</p>
+<ul>
+<li><strong>Accelerated (odd-to-odd / Syracuse) map.</strong> <span
+class="math inline">\(a_0\)</span> is an odd start; <span
+class="math inline">\(a_1, a_2, \dots\)</span> are the successive odd
+terms produced by <span class="math inline">\(a_{k+1} =
+(3a_k+1)/2^{\,e_{k+1}-e_k}\)</span> (apply <span
+class="math inline">\(3x+1\)</span> once, divide out all factors of
+<span class="math inline">\(2\)</span>).</li>
+<li><span class="math inline">\(e_k\)</span> = number of even steps
+<strong>before</strong> the <span class="math inline">\(k\)</span>-th
+odd term, <span class="math inline">\(e_0 = 0\)</span>. Equivalently
+<span class="math inline">\(e_{k+1}-e_k = \nu_2(3a_k+1) \ge 1\)</span>;
+<span class="math inline">\((e_k)\)</span> strictly increasing.</li>
+<li><span class="math inline">\(o\)</span> = index of the final odd term
+under consideration.</li>
+<li><strong>Equivalence:</strong> <code>parity-manipulation</code>’s
+<span class="math inline">\((b_k, x_k, n)\)</span> are the <em>same
+objects</em> as <span class="math inline">\((e_k, a_k, o)\)</span> —
+same accelerated map, identical identity. The <span
+class="math inline">\(b/x/n\)</span> vs <span
+class="math inline">\(e/a/o\)</span> choice is purely notational.</li>
+</ul>
+<h2 id="core-identity">Core identity</h2>
+<blockquote>
+<p><strong>Diophantine closed form.</strong> For an odd start <span
+class="math inline">\(a_0\)</span> and any <span class="math inline">\(o
+\ge 1\)</span>, <span class="math display">\[2^{e_o}\,a_o \;-\;
+3^{o}\,a_0 \;=\; \sum_{k=0}^{o-1} 2^{e_k}\,3^{\,o-1-k}.\]</span> The
+identity is <strong>algebraic</strong>: it needs only the recurrence
+<span class="math inline">\(2^{e_{k+1}-e_k}a_{k+1}=3a_k+1\)</span>, not
+oddness or positivity — so it holds over <span
+class="math inline">\(\mathbb{Z}\)</span>, <span
+class="math inline">\(\mathbb{Q}\)</span>, and <span
+class="math inline">\(\mathbb{Z}_2\)</span>. Oddness (<span
+class="math inline">\(e_{k+1}-e_k=\nu_2(3a_k+1)\)</span>) is only needed
+to identify the sequence as a genuine Syracuse orbit. — <a
+href="approaches/diophantine/RATIONALE.md"><code>diophantine</code></a>
+· proof status: <a
+href="approaches/diophantine/STATUS.md"><code>STATUS</code></a>
+(skeleton verified, formal write-up pending)</p>
+</blockquote>
+<blockquote>
+<p><strong>2-adic reconstruction.</strong> For a strictly increasing
+<span class="math inline">\((b_k)_{k\ge0}\)</span> with <span
+class="math inline">\(b_0=0\)</span>, there is a unique trajectory in
+<span class="math inline">\(\mathbb{Z}_2\)</span> with that parity
+behavior, with start <span class="math display">\[x_0 =
+-\sum_{k=0}^{\infty}\frac{2^{b_k}}{3^{k+1}} \in \mathbb{Z}_2.\]</span>
+The map (strictly increasing <span class="math inline">\((b_k)\)</span>)
+<span class="math inline">\(\leftrightarrow\)</span> (<span
+class="math inline">\(x_0 \in \mathbb{Z}_2\)</span>) is a bijection. —
+<a
+href="approaches/parity-manipulation/RATIONALE.md"><code>parity-manipulation</code></a></p>
+</blockquote>
+<h2 id="partial-results">Partial results</h2>
+<h3 id="parity-manipulation">parity-manipulation</h3>
+<blockquote>
+<p><strong>General single-block shift.</strong> For <span
+class="math inline">\(b&#39;_k = b_k + a\,\mathbf{1}_{k&gt;q}\)</span>
+(<span class="math inline">\(a\in\mathbb{Z}\)</span>, <span
+class="math inline">\(a &gt; -c_{q+1}\)</span>): <span
+class="math display">\[x_0 - x&#39;_0 =
+-(2^a-1)\,2^{b_{q+1}}\,x_{q+1}/3^{q+1}.\]</span> — <a
+href="approaches/parity-manipulation/STATUS.md"><code>STATUS</code></a></p>
+</blockquote>
+<blockquote>
+<p><strong>Integrality theorem.</strong> For integer trajectories, <span
+class="math inline">\(x_0 - x&#39;_0 \in \mathbb{Z}
+\iff 2\cdot 3^q \mid a\)</span>. Minimal admissible shift <span
+class="math inline">\(a = 2\cdot 3^q\)</span>. Positive <span
+class="math inline">\(a\)</span> → predecessor moves; negative <span
+class="math inline">\(a\)</span> (with <span
+class="math inline">\(|a|\le c_{q+1}-1\)</span>) → successor moves. — <a
+href="approaches/parity-manipulation/STATUS.md"><code>STATUS</code></a></p>
+</blockquote>
+<blockquote>
+<p><strong>3-adic / LTE lemma.</strong> <span
+class="math inline">\(\nu_3(2^a-1) = 0\)</span> if <span
+class="math inline">\(a\)</span> odd, <span
+class="math inline">\(=1+\nu_3(a)\)</span> if <span
+class="math inline">\(a\)</span> even; equivalently <span
+class="math inline">\(\operatorname{ord}_{3^{q+1}}(2) = 2\cdot
+3^q\)</span>. — <a
+href="approaches/parity-manipulation/STATUS.md"><code>STATUS</code></a></p>
+</blockquote>
+<blockquote>
+<p><strong>Finite-support no-go.</strong> If <span
+class="math inline">\(b&#39;_k - b_k = 0\)</span> for all <span
+class="math inline">\(k \ge N\)</span>, then <span
+class="math inline">\(x&#39;_k = x_k\)</span> for all <span
+class="math inline">\(k \ge N\)</span>: any finite-support perturbation
+only re-routes the <em>past</em> of a fixed downstream node — it stays
+inside the inverse Collatz tree. New content requires
+<strong>infinite-support</strong> perturbations. — <a
+href="approaches/parity-manipulation/STATUS.md"><code>STATUS</code></a></p>
+</blockquote>
+</body>
+</html>

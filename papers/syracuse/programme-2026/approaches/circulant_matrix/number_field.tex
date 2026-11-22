@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+
+\title{The number-field rewriting: $D$ is a norm, $M$ is a regular representation}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+Observation (Léo): $\det M=\pm D^{o-1}$ looks like the \textbf{norm of an algebraic integer}, and the whole circulant framework should be expressible as algebraic relations in a number field. This is correct. This note makes it precise, flags the one subtlety ($\gcd(E,o)$), and states what the reframing buys for the \href{../cycle-gcd/STATUS.md}{cycle-gcd} program.
+
+\section{The field}
+
+Let $\beta:=2^{E/o}=t$, a root of $X^o-2^E$, and
+\[
+K:=\mathbb Q(\beta)=\mathbb Q\big(2^{E/o}\big).
+\]
+With $g:=\gcd(E,o)$ and $E/o=a/b$ in lowest terms ($b=o/g,\ a=E/g$), the minimal polynomial of $\beta$ is $X^{b}-2^{a}$, so $[K:\mathbb Q]=b=o/g$ and $K=\mathbb Q(2^{1/b})$ --- a \textbf{real radical (Kummer-type) field}. Its $\mathbb C$-conjugates are $\beta\zeta_b^{k}$, $\zeta_b=e^{2\pi i/b}$.
+
+\section{$D$ as a norm of $\beta-3$}
+
+The determinant computation (1b in \href{factorization.md}{factorization.md}) \textit{is} a norm:
+\[
+N_{K/\mathbb Q}(\,\beta-3\,)=\prod_{k=0}^{b-1}\big(\beta\zeta_b^{k}-3\big)=(-1)^{b}\big(3^{b}-2^{a}\big).
+\]
+
+\begin{itemize}
+    \item \textbf{Coprime case $\gcd(E,o)=1$} (so $b=o$): $|N_{K/\mathbb Q}(\beta-3)|=|3^{o}-2^{E}|=|D|$. So $\boxed{D=\pm N_{K/\mathbb Q}(2^{E/o}-3)}$ --- $D$ is literally the field norm of the algebraic integer $\beta-3$. (Verified: $(E,o)=(8,5)\to 13$, $(7,4)\to 47$, $(5,3)\to 5$, $(19,12)\to 7153=23\cdot 311$.)
+    \item \textbf{General case $g > 1$:} $N_{K/\mathbb Q}(\beta-3)=\pm(3^{o/g}-2^{E/g})$ is a \textbf{proper factor} of $D$, and $D=2^E-3^o=(2^{E/g})^{g}-(3^{o/g})^{g}$ is the corresponding orbit product $\prod_{\text{$g$ Galois orbits}}$. E.g. $(12,4)$: $N=5$ but $D=5\cdot 11\cdot 73$; $(6,4)$: $\beta-3=2\sqrt2-3$ is a \textbf{unit} of $\mathbb Q(\sqrt2)$ ($N=1$) while $D=-17$.
+\end{itemize}
+
+So $g=\gcd(E,o)$ --- classically the \textbf{number of circuits} of the cycle --- is exactly the degree defect $[\mathbb Q(2^{1/o}):K]$: $g=1$ is the irreducible / single-orbit case where $D$ is a clean norm; $g > 1$ splits $X^o-2^E$ and factors $D$ further. This pins the Steiner / Simons--de Weger "bounded circuits" hierarchy to field-degree structure.
+
+\section{Eigenvalues = a Galois orbit; $\det M$ = a norm}
+
+The eigenvalues $\hat c_\ell=\frac{D}{\beta\omega^\ell-3}$ ($\omega=e^{2\pi i/o}$) are the conjugates of
+\[
+\hat c_0=\frac{D}{\beta-3}=\pm\prod_{\ell\neq 0}\big(\beta\omega^\ell-3\big) = \pm\frac{N_{K/\mathbb Q}(\beta-3)}{\beta-3} \quad (\gcd(E,o)=1).
+\]
+This $\hat c_0$ is an \textbf{algebraic integer in $K$} (a product of the algebraic integers $\beta\omega^\ell-3$, and it lies in $K$ because $\hat c_0=D\cdot(\beta-3)^{-1}$). Its norm is the determinant:
+\[
+\det M = \det C = N_{K/\mathbb Q}(\hat c_0) = N_{K/\mathbb Q}\Big(\frac{D}{\beta-3}\Big) = \frac{D^{o}}{N(\beta-3)} = \pm D^{o-1}.
+\]
+\textbf{The "$o-1$" is not mysterious:} $\det M=N(\hat c_0)$ and $\hat c_0\cdot(\beta-3)=\pm D$, so $N(\hat c_0)\cdot N(\beta-3)=(\pm D)^{o} \Rightarrow N(\hat c_0)=\pm D^{o-1}$.
+
+\section{The circulant \textit{is} a regular representation}
+
+A circulant of size $o$ is an element of the group algebra $\mathbb C[\mathbb Z/o]\cong\mathbb C[x]/(x^{o}-1)$, acting by multiplication. Our $C$ corresponds to
+\[
+\xi:=3^{o-1}\sum_{r=0}^{o-1}\rho^{r}x^{r} \pmod{x^{o}-1}, \qquad \rho=\beta/3,
+\]
+i.e. $C$ is \textbf{multiplication by $\xi$} in the regular representation; under $x\mapsto\omega^\ell$ the value is the eigenvalue $\hat c_\ell$, and $\xi$ at $x=\omega^\ell$ equals $\hat c_\ell=D/(\beta\omega^\ell-3)$. In this language:
+\begin{itemize}
+    \item $\det C = \det(\text{mult by } \xi) = \mathrm{Nm}(\xi)$ --- determinant = algebra norm, \textit{automatically}.
+    \item \textbf{Word-independence (Identity B)} is the statement that a norm is \textbf{basis-independent}: the twist $M=\Delta^{-1}C\Delta$ is a change of basis, which cannot change $\mathrm{Nm}$. The word lives only in the \textit{basis} $\Delta$, never in the norm.
+\end{itemize}
+
+\section{What this buys for the gcd program}
+
+The open core of cycle-gcd --- an a-priori bound on $\gcd_j S^{(j)}$ --- becomes a question about an \textbf{ideal in the order $\mathbb Z[\beta]\subseteq\mathcal O_K$}:
+
+\begin{itemize}
+    \item \textbf{Primes of $D \leftrightarrow$ degree-one primes over $(\beta-3)$.} A rational prime $p \mid D = \pm N(\beta-3)$ means $3^o \equiv 2^E \pmod p$, i.e. $3$ is a root of $X^o-2^E \bmod p$, i.e. $(X-3) \mid (X^o-2^E) \bmod p$. By Kummer--Dedekind this is exactly a degree-one prime $\mathfrak p = (p, \beta-3)$ dividing the principal ideal $(\beta-3)$. So the factorization of $|D|$ into rational primes mirrors the factorization of the ideal $(\beta-3)$ in $\mathbb Z[\beta]$.
+    \item \textbf{The gcd is an ideal-content statement.} Each $S^{(j)}=D\theta_j$ with $\theta_j\in\mathbb Q$ (the Fourier formula), and on a genuine cycle $\gcd_j S^{(j)}=|D|$ --- the full norm. Off-cycle, $\gcd_j S^{(j)}=|D|/N$ selects a \textbf{sub-ideal} of $(\beta-3)$: $N$ measures how much the rotation data fails to be divisible by the whole of $(\beta-3)$. Bounding $\gcd_j S^{(j)}$ a priori = bounding which sub-ideal the word can realize.
+    \item \textbf{Lower bounds on $|D|$ = norm-form lower bounds.} $|D|=|N_{K/\mathbb Q}(\beta-3)|$ is a value of the \textbf{norm form} of $K=\mathbb Q(2^{1/o})$ at the integer point $\beta-3$. "Why is $|2^E-3^o|$ large?" becomes "why is this norm form large?" --- governed by the units and regulator of the radical field $\mathbb Q(2^{1/o})$ (the unit example $(6,4)$ shows where it can collapse). This is the same Baker barrier as before, now packaged as the arithmetic of one explicit family of fields.
+\end{itemize}
+
+\section{The rotation sums $S^{(j)}$ as traces in $K$}
+
+The $S^{(j)}$ do have a clean field expression --- they are \textbf{traces}. Start from the explicit form of the eigenvalue/algebraic integer:
+\[
+\hat c_0 = \frac{D}{\beta-3} = \sum_{k=0}^{o-1} 3^{o-1-k} \beta^{k} \in \mathbb Z[\beta].
+\]
+
+\textbf{(a) Each rotation sum is "$\hat c_0$ with the uniform word replaced by the actual word."} Compare term-by-term:
+\[
+\hat c_0 = \sum_{k} 3^{o-1-k} \beta^{k}, \qquad S^{(0)} = \sum_{k} 3^{o-1-k} 2^{e_k}.
+\]
+$\hat c_0$ is the \textbf{uniform-word} element ($\beta^k=2^{kE/o}$); $S^{(0)}$ is obtained by the substitution $\beta^{k}\mapsto 2^{e_k}$, i.e. replacing the average exponent $kE/o$ by the true exponent $e_k$.
+
+\textbf{(b) The word is a $\mathbb Q$-linear functional; the rotations are its values on the orbit $\beta^j\hat c_0$.} When $\gcd(E,o)=1$, $\{1,\beta,\dots,\beta^{o-1}\}$ is a $\mathbb Q$-basis of $K$. Define the \textbf{word functional} $L:K\to\mathbb Q$ by $L(\beta^k)=2^{e_k}$. Then:
+\[
+\boxed{2^{e_j} S^{(j)} = L(\beta^{j} \hat c_0) = D \cdot L\Big(\frac{\beta^{j}}{\beta-3}\Big)}
+\]
+
+\textbf{(c) Hence the rotation sums are traces.} $L=\operatorname{Tr}_{K/\mathbb Q}(\gamma_W \cdot)$ for a unique $\gamma_W \in K$ (the "word element"), giving
+\[
+2^{e_j} S^{(j)} = \operatorname{Tr}_{K/\mathbb Q}(\gamma_W \beta^{j} \hat c_0) = D \cdot \operatorname{Tr}_{K/\mathbb Q}\Big(\frac{\gamma_W \beta^{j}}{\beta-3}\Big).
+\]
+The word element $\gamma_W$ lives in the \textbf{codifferent} $\mathfrak d_K^{-1}$.
+
+\textbf{(d) Caveat / what the gcd sees.} Since $D=2^E-3^o$ is \textbf{odd} and $\gcd_j S^{(j)} \mid D$, the power-of-2 factors are invisible: $\gcd_j S^{(j)}$ is the odd part of $\gcd_j \operatorname{Tr}(\gamma_W \beta^j \hat c_0)$. \textbf{The gcd of the rotation sums is the content of the traces of the $\mathbb Z[\beta]$-orbit $\{\beta^j\hat c_0\}$ against the codifferent element $\gamma_W$.}
+
+\section{Status / open}
+
+\begin{itemize}
+    \item \textbf{Proved/clean:} $D=\pm N_{K/\mathbb Q}(\beta-3)$ for $\gcd(E,o)=1$; $\det M=N_{K/\mathbb Q}(\hat c_0) = \pm D^{o-1}$; circulant = regular representation, word-independence = norm invariance; $g=\gcd(E,o)$ = field-degree defect = circuit count. Rotation sums are traces.
+    \item \textbf{Open / next:} (i) factor the ideal $(\beta-3)$ in $\mathbb Z[\beta]$ vs $\mathcal O_K$ and read $\gcd_j S^{(j)}$ as a sub-ideal index; (ii) push the \textbf{different/codifferent} of $\mathbb Q(2^{1/o})$ to bound trace-integrality a priori; (iii) class-group/unit structure.
+\end{itemize}
+
+\end{document}

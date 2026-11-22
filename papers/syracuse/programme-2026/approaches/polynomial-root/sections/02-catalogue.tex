@@ -1,0 +1,167 @@
+\section{The coprime catalogue: $\gcd(E,o)=1$, $E+o\le 20$}
+
+When $\gcd(E,o)=1$ we have $d=1$, so $R_1=\Z[t,t^{-1}]$ and \emph{every cyclic word is a
+single Laurent polynomial in one variable}. Concretely the closure $\chi(w)=1$ is imposed by
+the substitution of Proposition~\ref{prop:reparam} with $s=1$,
+\[
+   X\longmapsto t^{-(E-o)},\qquad Y\longmapsto t^{\,o},
+\]
+under which a monomial $X^{\alpha}Y^{\beta}$ of $S(w)$ becomes $t^{\,\beta o-\alpha(E-o)}$.
+Clearing the lowest power of $t$ gives an integer polynomial $P_w(t)\in\Z[t]$, well defined up
+to $t\mapsto t^{-1}$ and a power of $t$ (Proposition~\ref{prop:conj}); e.g.\ $uuv\mapsto t+1$
+and $uuuv\mapsto t^2+t+1=\Phi_3$. The relevant invariants are those of $P_w$: its factorisation
+into cyclotomic and non-cyclotomic parts, its Mahler measure, and the Galois groups of its
+irreducible factors. (For general $d$ one keeps $s$: e.g.\ $uvuv\mapsto 1+s$ in $R_2$ and
+$uuu\mapsto1+s+s^2$ in $R_3$; all $10$ classes with $E+o\le6$, any $d$, are cyclotomic.)
+
+We enumerate \emph{every} coprime cyclic class with $E+o\le20$: $1233$ classes across $64$
+types. All data are produced by \texttt{gen\_table.py} (the cocycle law of
+Proposition~\ref{prop:cocycle} is re-verified on every split of every word up to length~$6$)
+and recorded in full in \texttt{coprime\_catalogue.csv} (which lists each $P_w$ and its
+Littlewood core $R_w$ of Proposition~\ref{prop:phio} explicitly); Table~\ref{tab:summary}
+aggregates by type and Table~\ref{tab:highlights} lists the arithmetically extreme classes.
+
+\subsection*{The four known cycles}
+
+The four known cycles of the $3n+1$ map on $\Z$ are short words of the accelerated $T$-map
+($u:x\mapsto(3x+1)/2$, $v:x\mapsto x/2$): the parity sequence of a periodic orbit is a positive
+word $w$, its fixed point $F_w(x)=x$ is the cycle value, and the type $(E,o)$ gives
+$D=2^{E}-3^{o}$. They are $\mathtt{u}$ ($\{-1\}$), $\mathtt{uv}$ ($\{1,2\}$), $\mathtt{uuv}$
+(the $-5$ cycle), and $\mathtt{uuuuvuuuvvv}$ (the $-17$ cycle, $7$ odd steps); all four are
+coprime. The Mahler measures and $D=2^E-3^o$ are exact; the fixed points reproduce the cycle
+values (checked in \texttt{gen\_table.py}).
+
+\begin{prop}[The cyclic factor and the Littlewood core]\label{prop:phio}
+Let $w$ be a cyclic word of coprime type. Then $P_w$ is a $0/1$ polynomial with exactly $o$
+terms, the full cyclotomic factor
+\[
+   g_o(t)\;:=\;\frac{t^{o}-1}{t-1}\;=\;1+t+\cdots+t^{o-1}\;=\!\!\prod_{d\mid o,\ d>1}\!\!\Phi_d(t)
+\]
+divides $P_w(t)$, and the quotient $R_w:=P_w/g_o$ has all coefficients in $\{-1,0,1\}$.
+\end{prop}
+
+\begin{proof}
+By Proposition~\ref{prop:closed} (the $k$-th $u$ has $\alpha_k=k$ earlier $u$'s) the exponents
+$e_k=o\beta_k-(E-o)k$ satisfy $e_k\equiv-(E-o)k\pmod o$; since $\gcd(E-o,o)=\gcd(E,o)=1$ the map
+$k\mapsto-(E-o)k$ is a bijection of $\Z/o\Z$, so $\{e_k\bmod o\}$ is a complete residue system.
+In particular the $e_k$ are pairwise distinct, so $P_w=\sum_k t^{e_k}$ is $0/1$ with $o$ terms;
+and reducing each $t^{e_k}$ modulo $t^{o}-1$ gives $P_w\equiv\sum_{j=0}^{o-1}t^{j}=g_o\pmod{t^{o}-1}$,
+so $P_w$ vanishes at every $o$-th root of unity except $1$, i.e.\ $g_o\mid P_w$.
+
+For the quotient, write $[P]_m$ for the coefficient of $t^m$ and let $e(\rho)$ be the unique
+exponent of $P_w$ in the class $\rho\bmod o$. From $R_w\,(t^{o}-1)=P_w\,(t-1)$ one gets
+$R_n=R_{n+o}+[P_w(t-1)]_{n+o}$; summing downward from $R_{+\infty}=0$,
+\[
+   R_n=\sum_{i\ge1}\bigl([P_w]_{n+oi-1}-[P_w]_{n+oi}\bigr)
+      =\mathbf 1\!\left[e\bigl((n{-}1)\bmod o\bigr)>n{-}1\right]
+      -\mathbf 1\!\left[e\bigl(n\bmod o\bigr)>n\right],
+\]
+a difference of two $0/1$ indicators (one exponent per residue class), hence in $\{-1,0,1\}$.
+\end{proof}
+
+\begin{cor}[Normalisation]\label{cor:Rone}
+$R_w(1)=1$; equivalently $R_w=1+(t-1)\,Q_w$, where
+$Q_w(t)=\sum_{n\ge0}\mathbf 1\!\left[e(n\bmod o)>n\right]t^{n}$ is itself a $0/1$ polynomial. Hence
+\[
+   P_w \;=\; g_o\,\bigl(1+(t-1)\,Q_w\bigr),\qquad g_o,\,Q_w\in\{0,1\}[t],\quad R_w\in\{-1,0,1\}[t].
+\]
+\end{cor}
+
+\begin{proof}
+$P_w$ has exactly $o$ terms, so $R_w(1)=P_w(1)/g_o(1)=o/o=1$. With
+$f(n):=\mathbf 1[e(n\bmod o)>n]$ the proof of Proposition~\ref{prop:phio} gives $R_n=f(n-1)-f(n)$,
+whose tail sums telescope: $\bigl[(R_w-1)/(t-1)\bigr]_n=\sum_{i>n}R_i=f(n)\in\{0,1\}$.
+\end{proof}
+
+\input{cycle_block.tex}
+
+The two trivial cycles give $P_w=1$; the $-5$ cycle gives $P_w=\Phi_2$ (purely cyclotomic);
+and the $-17$ cycle is the first to carry arithmetic, $P_w=g_7\,R_w$ with $g_7=\Phi_7$ (here
+$o=7$ is prime) and Littlewood core $R_w=t^{11}-t^{10}+t^{7}-t^{6}+t^{4}-t+1$, irreducible and
+non-reciprocal, of Mahler measure $1.42747\ldots$ (six roots off the unit circle). The
+cyclotomic factor $g_o$ is forced by Proposition~\ref{prop:phio}; the core $R_w=P_w/g_o$ is the
+genuine invariant attached to the cycle (Corollary~\ref{cor:Rone} writes it as $1+(t-1)Q_w$ with
+$Q_w=t^{10}+t^{6}+t^{3}+t^{2}+t$).
+
+\begin{prop}[Coprime cyclotomic frontier]\label{prop:cofrontier}
+Every coprime cyclic word with $E+o\le 9$ has $\Mahler(P_w)=1$; i.e.\ $P_w$ is a product of
+cyclotomic polynomials. The first non-cyclotomic class occurs at $E+o=10$, type $(7,3)$: for
+$w=\mathtt{uuvuvvv}$,
+\[
+   P_w \;=\; \Phi_3(t)\,\bigl(t^{3}-t^{2}+1\bigr),\qquad
+   \Mahler(P_w)=1.324718\ldots,
+\]
+the plastic number (the smallest Pisot number, real root of $x^{3}-x-1$); its non-cyclotomic
+factor has Galois group $S_3$.
+\end{prop}
+
+\begin{prop}[Lehmer's number is realised]\label{prop:lehmer}
+Across the $1233$ classes the Mahler measures lie in $[1,\,1.65378]$, with $274$ cyclotomic and
+$959$ non-cyclotomic. The smallest measure exceeding $1$ is \emph{Lehmer's number}
+$\Mahler=1.1762808\ldots$, attained (among others) by $w=\mathtt{uuuvuuvvvuuv}$ of type
+$(12,7)$, whose non-cyclotomic factor is Lehmer's polynomial
+\[
+   t^{10}-t^{9}+t^{7}-t^{6}+t^{5}-t^{4}+t^{3}-t+1 .
+\]
+This is the smallest Mahler measure $>1$ known for any integer polynomial (Lehmer's problem);
+that it is realised by a short Syracuse word is the catalogue's most striking feature.
+\end{prop}
+
+\input{summary_table.tex}
+
+\input{highlight_table.tex}
+
+\begin{rem}
+The cyclotomic part of $P_w$ collects roots of unity; the non-cyclotomic part carries the
+arithmetic. Small Mahler measure means a Salem or Pisot factor, and these recur across many
+words and types: within $E+o\le20$ Lehmer's value $1.17628$ is realised by several words, and
+the next measures attained are $1.21639,\,1.23526,\,1.25105,\ldots$ Specialising $t$ further to
+$(X,Y)=(2,3)$ feeds exactly these factors into
+the divisibility ceilings of \texttt{cocycle-combine}: a Salem/Lehmer factor is a
+\emph{near-cyclotomic} obstruction, with Mahler measure just above $1$. Extending the catalogue
+past $E+o=20$, and pinning down which words realise the successive small Salem numbers, is the
+natural continuation.
+\end{rem}
+
+\subsection*{The map $w\mapsto R_w$}
+
+The core is a true invariant of the cyclic word, with two reflection symmetries. Write $w^{R}$
+for the reversed word and $\bar w$ for the complement (swap $u\leftrightarrow v$, which sends
+type $(E,o)$ to $(E,E-o)$).
+
+\begin{prop}[Reflections and fibres]\label{prop:cores}
+$R_{w^{R}}$ and $R_{\bar w}$ both equal the reciprocal $t^{\deg R_w}R_w(1/t)$. Hence
+$R_{\overline{w^{R}}}=R_w$: the involution $w\mapsto\overline{w^{R}}$, of type
+$(E,o)\mapsto(E,E-o)$, preserves the core, so the cores occur in fibres closed under it. Moreover
+$R_w(0)=R_w(1)=1$.
+\end{prop}
+
+\begin{proof}
+$R_w(0)=P_w(0)/g_o(0)=1$ (both have constant term $1$) and $R_w(1)=1$ by
+Corollary~\ref{cor:Rone}. Reversal exchanges prefixes with suffixes and complement exchanges
+$(o,E-o)$; on the reduced cocycle each acts by $t\mapsto t^{-1}$ --- for the complement via the
+Fox fundamental formula $(X-1)S_u(w)+(Y-1)S_v(w)=\chi(w)-1$ together with $S_u(\bar w)=S_v(w)$
+--- and $g_o$ is reciprocal. Verified on all coprime necklaces with $E\le16$.
+\end{proof}
+
+The map is very far from injective: the $4506$ coprime necklaces with $E\le16$ realise only
+$1529$ distinct cores ($818$ up to reciprocal). The simple cores have enormous fibres ---
+$R_w=1$ for $80$ necklaces, $R_w=\Phi_6=t^2-t+1$ for $50$ --- and the $55$ \emph{cyclotomic}
+cores (Mahler $1$) have mean fibre $7.7$ against $2.8$ for the $1474$ non-cyclotomic ones. So the
+arithmetic of a word concentrates in a rare non-cyclotomic core shared by only a few necklaces.
+Table~\ref{tab:cores} lists the small-degree cores; the full distinct-core catalogue is
+\texttt{R\_cores.csv}.
+
+\input{cores_table.tex}
+
+\paragraph{How $R_w$ splits.} For coprime type the ambient ring $\Lam/(1-\chi(w))=\Z[t,t^{-1}]$
+is a domain, so ``splitting'' is the factorisation of $R_w$ into cyclotomic factors times a
+non-cyclotomic Salem/Pisot factor --- the latter absent exactly for the $55$ cyclotomic cores.
+For \emph{non-coprime} type, $d=\gcd(E,o)>1$, the ring itself splits: by the Chinese remainder
+theorem (over $\Q$)
+\[
+   \Q[t,t^{-1},s]/(s^{d}-1)\;\cong\;\prod_{e\mid d}\Q(\zeta_e)[t,t^{-1}],
+\]
+one factor per divisor $e$ of $d$, and the reduced cocycle distributes over the factors; the
+$e=1$ component recovers the present $R_w$, while the $e>1$ components carry genuinely new
+$\zeta_e$-twisted data. The non-coprime stratum is the natural next target.

@@ -1,0 +1,180 @@
+\section{Cohomological frame: $R_w$ as an Alexander polynomial}
+
+We have produced three objects --- the cocycle $S$, the reduced polynomial $P_w$, and the core
+$R_w$. This section fixes their cohomological meaning: $S$ is a $1$-cocycle on $F_2$, $P_w$ is
+its restriction to the loop $\langle w\rangle$, and $R_w$ is the \emph{Alexander polynomial} of
+the one-relator group $\langle u,v\mid w\rangle$ --- the order of an $H^2$.
+
+\subsection*{The cocycle and its restriction}
+
+By Proposition~\ref{prop:cocycle}, $S=\chi\circ\partial_u$ is a $1$-cocycle, so
+$[S]\in H^1(F_2;\Lam)$ for the coefficients $\Lam$ with $F_2$ acting through $\chi$. As $F_2$ is
+free it has cohomological dimension $1$, whence $H^n(F_2;-)=0$ for $n\ge2$: there is no $H^2$
+over $F_2$ itself, and the relevant class lives in $H^1$.
+
+Restrict to the cyclic subgroup $\langle w\rangle\cong\Z$. For $\Z$ acting on a module $M$
+through $\tau:=\chi(w)$ one has $H^1(\Z;M)=M/(\tau-1)M$ (the coinvariants), a $1$-cocycle being
+determined by its value on the generator modulo $(\tau-1)M$. Hence:
+
+\begin{prop}\label{prop:restrict}
+The restriction of $[S]$ to $\langle w\rangle$ is
+\[
+   \operatorname{res}_{\langle w\rangle}[S]\;=\;[\,S(w)\,]\;=\;P_w
+   \ \in\ H^1(\langle w\rangle;\Lam)=\Lam/(1-\chi(w)),
+\]
+the class of $S(w)$ modulo the closure ideal (Proposition~\ref{prop:conj}). So $P_w$ is the
+cocycle class evaluated on the loop $w$.
+\end{prop}
+
+\subsection*{The Alexander matrix of the relator}
+
+Alongside $S=\chi\circ\partial_u$ put the companion cocycle $T:=\chi\circ\partial_v$; on positive
+words $T(w)=\sum_{k:\,x_k=v}X^{\alpha_k}Y^{\beta_k}$ (Proposition~\ref{prop:closed} with $u,v$
+exchanged).
+
+\begin{lem}[Crowell--Fox fundamental formula]\label{lem:cf}
+$\partial_u w\,(u-1)+\partial_v w\,(v-1)=w-1$ in $\Z[F_2]$; applying $\chi$,
+\[
+   (X-1)\,S(w)+(Y-1)\,T(w)=\chi(w)-1 ,
+\]
+so $(X-1)S(w)+(Y-1)T(w)\equiv0$ in $\Lam/(1-\chi(w))$. (Certified in \texttt{gen\_table.py}.)
+\end{lem}
+
+\subsection*{The one-relator group and $H^2$}
+
+Let $G_w:=\langle u,v\mid w\rangle$. For coprime type the necklace is aperiodic, so $w$ is not a
+proper power in $F_2$; by Lyndon's theorem the presentation $2$-complex is aspherical, a
+$K(G_w,1)$. The character $\chi$ descends to $G_w$ exactly in $M:=\Lam/(1-\chi(w))$, where
+$\chi(w)=1$, making $M$ a $G_w$-module (for coprime type the image of $\chi$ is the infinite
+cyclic group $\langle t\rangle$, so $M=\Z[t,t^{-1}]=\Z[\Z]$). The cellular cochain complex of the
+presentation complex (one $0$-cell, two $1$-cells $u,v$, one $2$-cell $w$),
+\[
+   M\;\xrightarrow{\ d^0\ }\;M^2\;\xrightarrow{\ d^1\ }\;M,\qquad
+   d^1(m_u,m_v)=S(w)\,m_u+T(w)\,m_v,
+\]
+has top map the transpose of the Fox Jacobian $\partial_2=(\partial_u w,\partial_v w)$ --- the
+\emph{Alexander matrix} of the relator. Hence
+\[
+   H^2(G_w;M)=\operatorname{coker}(d^1)=M/\big(S(w),T(w)\big).
+\]
+
+\subsection*{$R_w$ is the Alexander polynomial}
+
+\begin{thm}\label{thm:alex}
+For a coprime word $w$, over $\Q[t^{\pm1}]$,
+\[
+   \gcd\big(S(w),\,T(w)\big)\;=\;R_w .
+\]
+Consequently the elementary ideal $(S(w),T(w))\otimes\Q=(R_w)$, and
+\[
+   \Q\otimes H^2(G_w;M)\;\cong\;\Q[t^{\pm1}]/(R_w).
+\]
+Thus $R_w$ is the \emph{Alexander polynomial} $\Delta_{(G_w,\chi)}$ --- the order of the
+(rational) Alexander module --- and $\deg R_w=\dim_\Q\big(\Q\otimes H^2(G_w;M)\big)$.
+\end{thm}
+
+\begin{proof}
+Write $P_w=S(w)$, $T_w=T(w)$ in $M=\Z[t^{\pm1}]$, and $g_k:=1+t+\cdots+t^{k-1}=(t^k-1)/(t-1)$.
+Clearing denominators in Lemma~\ref{lem:cf} (with $X=t^{-(E-o)}$, $Y=t^{o}$) gives
+$(t^{E-o}-1)P_w=t^{E-o}(t^{o}-1)T_w$, i.e.\ $g_{E-o}\,P_w=t^{E-o}g_o\,T_w$. By
+Corollary~\ref{cor:Rone}, $P_w=g_o R_w$; substituting and cancelling $g_o$ yields
+$T_w=t^{-(E-o)}g_{E-o}R_w$ --- a unit times $g_{E-o}R_w$. Therefore
+\[
+   \gcd(P_w,T_w)=R_w\cdot\gcd(g_o,g_{E-o}).
+\]
+The common roots of $g_o$ and $g_{E-o}$ would be common nontrivial $o$-th and $(E-o)$-th roots
+of unity; since $\gcd(o,E-o)=\gcd(E,o)=1$ there are none, so $\gcd(g_o,g_{E-o})=1$ and
+$\gcd(P_w,T_w)=R_w$. Over the principal ideal domain $\Q[t^{\pm1}]$ the ideal $(P_w,T_w)$ is then
+$(R_w)$, whence $\Q\otimes H^2(G_w;M)=\Q[t^{\pm1}]/(R_w)$.
+\end{proof}
+
+\subsection*{Dictionary}
+
+\begin{rem}\label{rem:dict}
+Theorem~\ref{thm:alex} reads the whole catalogue as Alexander-module data.
+\begin{itemize}
+\item[(i)] $\Mahler(R_w)$ is the Mahler measure of an Alexander polynomial. Lehmer's number is
+the Mahler measure of the Alexander polynomial of the $(-2,3,7)$-pretzel knot; its appearance at
+type $(12,7)$ (Proposition~\ref{prop:lehmer}) is the cocycle realisation of that classical fact.
+\item[(ii)] The reflection symmetry of Proposition~\ref{prop:cores} is \emph{external}:
+complement-then-reverse exchanges $\partial_u\leftrightarrow\partial_v$ (i.e.\ $S\leftrightarrow T$)
+and $t\mapsto t^{-1}$, and as $\gcd$ is symmetric it carries $R_w$ to the same core. Individual
+cores need \emph{not} be self-reciprocal --- unlike a knot's $\Delta$ --- see
+Remark~\ref{rem:duality}.
+\item[(iii)] $P_w=g_o R_w$ (Corollary~\ref{cor:Rone}) is the splitting ``(forced cyclotomic
+part, killed in passing from $H^1(\langle w\rangle)$ to $H^2(G_w)$) $\times$ (Alexander core
+$R_w$)''.
+\item[(iv)] The four cycles of Section~2 carry their Alexander polynomials: $R_w=1$ for
+$\{-1\},\{1\}$; $R_w=\Phi_2$ for $-5$; and $R_w=t^{11}-t^{10}+t^{7}-t^{6}+t^{4}-t+1$ for $-17$
+(so $\dim_\Q H^2=11$).
+\end{itemize}
+\end{rem}
+
+\subsection*{The Fox--Lyndon complex, torsion, and the deeper strata}
+
+\begin{rem}[The resolution and its torsion]\label{rem:torsion}
+The objects above are the low-degree pieces of one complex. The presentation $2$-complex of
+$G_w$ being aspherical, its universal cover gives a length-$2$ free resolution of $\Z$ over
+$\Z[G_w]$,
+\[
+   0\to \Z[G_w]\xrightarrow{\,(\partial_u w,\,\partial_v w)\,}\Z[G_w]^2
+        \xrightarrow{\,(u-1,\,v-1)\,}\Z[G_w]\xrightarrow{\ \varepsilon\ }\Z\to0,
+\]
+with the Fox Jacobian as its only syzygy (Fox's free calculus; Lyndon). Tensoring to the abelian
+cover $\Lam_w:=\Z[H_1(G_w)]$ (for coprime type $\Lam_w=\Z[t^{\pm1}]$) yields the \emph{Alexander
+chain complex}
+\[
+   \Lam_w\xrightarrow{\,(S,\,T)\,}\Lam_w^2
+         \xrightarrow{\,(t^{-(E-o)}-1,\ t^{o}-1)\,}\Lam_w,\qquad
+   \partial_1\partial_2=0\ \text{(Lemma~\ref{lem:cf})},
+\]
+with $H_0=\Z$, $H_2=0$, and $H_1=A_w$ the Alexander module, of order $R_w$ --- the homological
+mirror of $H^2=M/(S,T)$ in Theorem~\ref{thm:alex} (Crowell). Since $R_w\ne0$ the complex is
+acyclic over $\Q(t)$, hence carries a Reidemeister--Milnor torsion; by Milnor's formula
+\[
+   \tau(G_w,\chi)\;\doteq\;\frac{R_w(t)}{t-1}\ \in\ \Q(t)^\times/\!\pm t^{\Z}
+\]
+(the $t-1$ being the order of $H_0=\Lam_w/(t-1)$). Thus $R_w$ is the order of $H_1$ and the
+numerator of the torsion --- the master invariant of which the catalogue computes the polynomial
+part. (Here $H_2=\ker(S,T)=0$, as $\Lam_w$ is a domain and $S,T\ne0$; and the ascending chain
+of Fitting ideals of $A_w$, whose first term is the order ideal $(R_w)$ rationally, gives
+strictly finer invariants than the polynomial alone.)
+\end{rem}
+
+\begin{rem}[The non-coprime stratum is torsion in $H_1$]\label{rem:noncoprime}
+The first homology $H_1(G_w)=G_w^{\mathrm{ab}}=\Z^2/\langle(o,E-o)\rangle$ is read off the Smith
+normal form of the relator vector $[\,o,\ E-o\,]$, namely $[\,d,\ 0\,]$ with $d=\gcd(E,o)$:
+\[
+   H_1(G_w)\;\cong\;\Z\oplus\Z/d .
+\]
+Coprime type is exactly $d=1$ --- the relator class $(o,E-o)$ primitive, $H_1$ free of rank one
+on $t$. For $d>1$ the $\Z/d$ summand is the formal variable $s$ of \S1--\S2 with $s^{d}=1$, and
+\[
+   \Q\otimes\Z[H_1(G_w)]\;=\;\Q[t^{\pm1},s]/(s^{d}-1)\;\cong\;\prod_{e\mid d}\Q(\zeta_e)[t^{\pm1}],
+\]
+which is exactly the Chinese-remainder splitting of \S2. So the $s$-grading is the torsion of the
+relator's homology class --- not a second free variable, since $H_1$ has rank one. Accordingly
+$R_w$ is the $e=1$ (trivial-character) component of the $\Z/d$-twisted Alexander module over
+$\Z[H_1(G_w)]=\Z[t^{\pm1},s]/(s^{d}-1)$, and specialising $s\mapsto\zeta_e$ --- the very programme
+of \S1 --- is its isotypic decomposition over the $\Z/d$-cover, the components $e>1$ being the
+genuinely new data of the non-coprime stratum.
+\end{rem}
+
+\begin{rem}[Reciprocity and the duality locus]\label{rem:duality}
+For a knot the Alexander polynomial is symmetric, $\Delta(t)\doteq\Delta(t^{-1})$, forced by
+Poincar\'e duality of the complement and refined by a Blanchfield linking pairing
+$A_w\times A_w\to\Q(t)/\Lam_w$. \emph{This fails here in general}: the cores are usually not
+self-reciprocal --- e.g.\ the $-17$ core $t^{11}-t^{10}+t^{7}-t^{6}+t^{4}-t+1$ is not --- because
+the $2$-complex of $G_w$ is not a closed manifold. What survives is the \emph{external} symmetry
+of Proposition~\ref{prop:cores}: complement-then-reverse sends $w$ to a word with the same core,
+$R_{\overline{w^{R}}}=R_w$, via $S\leftrightarrow T$ and $t\mapsto t^{-1}$. The self-reciprocal
+cores --- those fixed by reciprocation, $R_w(t)\doteq R_w(t^{-1})$ --- form a distinguished
+\emph{duality locus}: of the $1529$ distinct cores with $E\le16$, exactly $107$ are
+self-reciprocal --- the $55$ cyclotomic cores (all reciprocal) and $52$ non-cyclotomic ones. The
+latter are the reciprocal cores, every \emph{Salem} core among them (Salem polynomials are
+reciprocal), the smallest being Lehmer's polynomial; the non-reciprocal cores, like the $-17$
+core, lie off the locus. A sufficient condition to land on it is that $w$ be a palindrome up to
+rotation ($w^{R}\sim w$): then $R_w=R_{w^{R}}\doteq R_w(t^{-1})$. Whether the words on this locus
+carry an honest Blanchfield-type sesquilinear pairing on $A_w$ --- a true duality --- is the
+natural open question.
+\end{rem}
