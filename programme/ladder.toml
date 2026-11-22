@@ -182,7 +182,13 @@
 # no pair moves. After T-lad-ers-restart-nodes (2026-11-22) still 318 of 318, the same 34, 275 and 9.
 # It adds 19 consequences of ERS §4 (Thm 4.64 and its corollaries, Thm 4.75, Thms 4.79, 4.80, three
 # more forms of Thm 4.82) with slice_restart and frontier_stays_in in their `under`, and no node, so
-# no pair moves.
+# no pair moves. After T-lad-record-curves-corollaries (2026-11-22) still 318 of 318: 35 implied, 275
+# refuted, 8 [[open]] (3 causality-sort, 4 geometry-sort, 1 pair-sort). The pair-sort [[open]]
+# inextensible_nested → curve_nested became an [[implies]] with standing T1, second_countable
+# (Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable, T-abs-c-ext-connexe-cauchy):
+# no refuted pair moves and there is no contradiction. DEC-190's curve-carrying consequences take their
+# second countable witnesses (ERS Lemmas 4.72 and 4.70, lem:C_ext_connexe), and two consequences are
+# added (lem:C_ext_connexe's acausality step at curves_extend, the abstract middle step at is_causal).
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -226,8 +232,10 @@
 #   inextensible causal curve of V is in general not one of W), so at W = M it is not read "on every
 #   open". Neither le_nested nor curve_nested implies it (the line cut at 1, the [[fails]] below:
 #   ETT's inextensibility is by extension, and the point 1, with no causal past but itself, ends a
-#   narrower-inextensible curve that the timelike line extends, kb/0045); whether it implies either
-#   is open (two [[open]] entries, end of file). Curve nesting at M gives it at M when the narrower C
+#   narrower-inextensible curve that the timelike line extends, kb/0045). It implies curve_nested at
+#   the same W on a T1, second countable M (the [[implies]] with that standing,
+#   T-lad-record-curves-corollaries); whether it implies le_nested is open (an [[open]] entry, end of
+#   file). Curve nesting at M gives it at M when the narrower C
 #   is causally arc-connected, causal, strongly causal, with closed J^± of points and no causal
 #   endpoint (or globally hyperbolic, tarentin, causally arc-connected, no causal endpoint, M
 #   Hausdorff): properties of C, so a consequence at curve_nested, not an [[implies]] (one with them
@@ -397,7 +405,18 @@
 # each name was resolved by tools/ladder.py's index. Their instance binders are their standings:
 # ["T2"] for ers_theorem_4_64, ers_remark_4_67 and ers_corollary_4_68; ["T2", "locally_connected"] for
 # ers_theorem_4_75 and the two 4.82 forms of Causal.ErsUniqueness; ["T2", "second_countable"] for every
-# `…_secondCountable` form but 4.82's, which adds "locally_connected".
+# `…_secondCountable` form but 4.82's, which adds "locally_connected". Those of
+# T-lad-record-curves-corollaries (2026-11-22: the edge witness
+# Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable; the consequences'
+# ers_lemma_4_72_secondCountable, ers_lemma_4_70_secondCountable,
+# IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable,
+# IsCauchyEmbedding.eq_of_mem_image_inter_of_secondCountable and isCauchySurfaceOn_inf_of_secondCountable,
+# from Causal.ErsSecondCountable, Causal.Ers464SecondCountable, Causal.CExtConnexeSecondCountable and
+# Causal.CExtConnexeCauchy.SubArc/Basic, strict since 3999b32, c178342, 65646df and 5d58a2f; and every
+# Lean name the new and refreshed comments cite) were read from the sources, with no build (a closer
+# held lean-causal), each signature quoted in its comment and each name resolved by tools/ladder.py's
+# index. Their instance binders are their standings: ["T1", "second_countable"] for the edge,
+# ["T2", "second_countable"] for the five consequences (of N for the two Cauchy-embedding ones).
 
 [[property]]
 id = "is_causal"
@@ -495,9 +514,14 @@ what = "there is a continuous T : M → ℝ with T x < T y whenever x ≤_M y an
 # [[fact]] below (T-lad-record-curves-fact, 2026-11-21). ETT's spacetimes are Hausdorff and second
 # countable (ETT.tex:255), so on the ambient the node is the ladder's bottom: every causality-sort
 # property implies it (through the fact; time_function also through its edge), and it implies none
-# (every curves_extend → X is refuted). It stays a node: the consequences below name it, Lemma K's
-# second-countability-free form and lem:C_ext_connexe ask it where no countability is assumed, and
-# Causal.CBG.Geometry's A2 and LocalModel's B3 fields carry it. Off second countability it may fail:
+# (every curves_extend → X is refuted). DEC-190 (OQ-86, 2026-11-22): CurvesExtend is dropped
+# everywhere, being a theorem on every ETT spacetime, and is recorded in the ladder as a consequence:
+# the [[fact]] below carries it on the ambient, and a consequence whose witness took it (or a
+# through-every-point clause it discharges) as a hypothesis takes the second countable form as its
+# witness where one exists (T-lad-record-curves-corollaries: ERS Lemmas 4.70 and 4.72,
+# lem:C_ext_connexe). It stays a node: the consequences below name it, Lemma K's
+# second-countability-free form asks it where no countability is assumed, and Causal.CBG.Geometry's
+# A2 and LocalModel's B3 fields carry it (T-loc-cbg-curves-default). Off second countability it may fail:
 # the long ray with its order causality is the conjectured counterexample (Hausdorff, locally the
 # timelike line, not second countable; argued: globally hyperbolic and tarentin, with no inextensible
 # causal curve, since a curve over a real interval has a bounded image and extends above it, so
@@ -542,7 +566,7 @@ property = "curves_extend"
 witness = "Causal.Causality.curvesExtend_of_t1_secondCountable"
 standing = ["T1", "second_countable"]
 status = "checked"
-note = "every causality on a T1, second countable space has curves_extend (Zorn on towers; the ω₁ lemma for uncountable cofinality); on every open set too, Causal.Causality.curvesExtendOn_of_t1_secondCountable"
+note = "every causality on a T1, second countable space has curves_extend (Zorn on towers; the ω₁ lemma for uncountable cofinality); on every open set too, Causal.Causality.curvesExtendOn_of_t1_secondCountable. DEC-190 (OQ-86): CurvesExtend is dropped everywhere, a theorem on every ETT spacetime, recorded as a consequence in the ladder: this fact on the ambient, and the second countable witnesses of the consequences that took it"
 
 # ---- localisation properties (T-lad-local-nodes, 2026-11-21): the side conditions of four edges,
 # defined in Causal/LadderLocal.lean (T-abs-ladder-local-defs, ETT layer, no model imported). No ETT
@@ -658,7 +682,9 @@ what = "C is ≤-nested in C': for every open U, x ≤_U y for C implies x ≤_U
 
 # Subluminality as ERS's Lemma 4.72 uses it (CurveNestedOn C₂ C_m U₂: the cone of g(u₂, du₂) inside
 # Minkowski's, on the development's domain U₂), and (4.87) of Lemma 4.86 (the slope-δ cone inside
-# g's). Implied by le_nested; the converse is open (below).
+# g's). Implied by le_nested and, on a T1, second countable M, by inextensible_nested (edges below);
+# the converse le_nested fails (the pointed line, [[fails]] below) and holds when the narrower C is
+# causally arc-connected (a consequence below).
 [[property]]
 id = "curve_nested"
 lean = "Causal.Causality.CurveNestedOn"
@@ -674,7 +700,10 @@ what = "C is curve-nested in C' on an open W: every future causal curve of W for
 # Read 2026-11-22 by `#check`: InextensibleNestedOn : Causality M → Causality M → Opens M → Prop,
 # ∀ ⦃I c⦄, C.Inextensible W I c → C'.Inextensible W I c (Causal/NestedCausalities.lean:135). The ERS
 # binder (papers/ers-predictability/certificate/binder.toml) proposed the id (rows 4.70, 4.71, 4.77,
-# 4.79, 4.80). Implied by neither le_nested nor curve_nested ([[fails]] below); its converses open.
+# 4.79, 4.80). Implied by neither le_nested nor curve_nested ([[fails]] below). It implies
+# curve_nested at the same open W on a T1, second countable M (edge below:
+# Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable); whether it implies
+# le_nested is open (end of file).
 [[property]]
 id = "inextensible_nested"
 lean = "Causal.Causality.InextensibleNestedOn"
@@ -791,7 +820,7 @@ status = "checked"
 
 # Lemma K's route to causal openness (DEC-93; no ETT label). Replaced 2026-11-21 (T-lad-local-nodes):
 # the edge was push_up ⇒ causally_open, witness Causal.Causality.causallyOpen_of_pushUp (Causal.LemmaK,
-# which imports a model), with chronal neighbours in `under`; the side condition is now the node
+# then model-importing; ETT-layer since T-abs-hoist-lemma-k), with chronal neighbours in `under`; the side condition is now the node
 # chronal_neighbours, and the witness its ETT-layer re-proof in Causal.LadderLocal (the same proof,
 # hZm, hZp being ChronalNeighbours definitionally). No separation. The premise is sufficient, not
 # necessary: the lightlike line is causally open without chronal neighbours (counterexamples below).
@@ -996,6 +1025,25 @@ status = "checked"
 from = ["le_nested"]
 to = "curve_nested"
 witness = "Causal.Causality.LeNested.curveNestedOn"
+status = "checked"
+
+# InextensibleNestedOn C C' W → CurveNestedOn C C' W, at the same open W, C and C' fixed, on a T1,
+# second countable M (T-abs-c-ext-connexe-cauchy, 5d58a2f, Causal/CExtConnexeCauchy/SubArc.lean; recorded
+# by T-lad-record-curves-corollaries, 2026-11-22; the [[open]] entry it replaces argued it so). Read
+# from the source, with no build: [T1Space M] [SecondCountableTopology M] {C C' : Causality M}
+# {W : Opens M} (h : C.InextensibleNestedOn C' W) : C.CurveNestedOn C' W. A causal curve of W for C
+# over [a, b], trimmed (Causal.exists_tailFree_retraction), is a reparametrised sub-arc of an
+# inextensible C-curve of W (Causal.Causality.exists_subArc_of_t1_secondCountable, the sub-arc form
+# of the curves theorem), which is a C'-curve by the nesting; its constant end pieces are read through
+# the retraction. The instance binders are the standing, both ambient (T2 ⇒ T1), so the pair is
+# implied on ETT's spacetimes. It does not contradict the [[fails]] le_nested ⇏ inextensible_nested
+# (the line cut at 1 has curve_nested already, through le_nested). Not a CausalLadder rule: sort
+# `pair` (emit-lean skips it, a `-- skipped` comment line in Rules.lean).
+[[implies]]
+from = ["inextensible_nested"]
+to = "curve_nested"
+witness = "Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable"
+standing = ["T1", "second_countable"]
 status = "checked"
 
 # ------------------------------------------------------------------ counterexamples
@@ -2356,7 +2404,8 @@ status = "checked"
 #   through-hypotheses, Minkowski's hmext, or a hsplit derived from a Cauchy hypothesis the original
 #   already has) is the entry's witness, standing ["T2", "second_countable"]. On the ambient it is the
 #   original with fewer hypotheses. This applies to Rem 4.67's time orientations, Cors 4.69, 4.71 and
-#   4.73, and Thms 4.79 and 4.80. A trade form (`…_of_isCauchySurface(On)_secondCountable`, hacausal
+#   4.73, and Thms 4.79 and 4.80, and (T-lad-record-curves-corollaries, 2026-11-22, DEC-190) to
+#   Lemmas 4.70 and 4.72, with the pair-sort consequences. A trade form (`…_of_isCauchySurface(On)_secondCountable`, hacausal
 #   and hsplit traded for S a Cauchy surface of U₁ with U₁ causally arc-connected: DEC-162's "GHD read
 #   S Cauchy") is a sibling and not stronger. So it is a second entry, at the conjunction with
 #   causally_arc_connected: Thm 4.64, Rem 4.67 (its GH form, which concludes more on the same
@@ -2368,6 +2417,16 @@ status = "checked"
 #   _of_localUniqueness_ forms, whose hloc is local_uniqueness proper (Causal.Causality.LocalUniqueness,
 #   T-lad-development-nodes); 4.68's printed form for two functions (_eqOn); Rem 4.67's trade forms of
 #   the time orientations; "any m-GHD is a UGHD" (Causal.IsMDevelopment.isUniqueDevelopment_secondCountable).
+#   Prop 4.63 (ersprop:PropLocUniqueness) is left to T-lad-development-nodes, whose subject it is (DEC-162
+#   splits it from 'S Cauchy'): its forms consume local_uniqueness proper, hloc : C.LocalUniqueness S
+#   (U₁ ⊓ U₂) agree. They are Causal.Causality.ers_prop_4_63 (Causal/ErsUnions.lean:299: [T2Space M];
+#   hglue, hG, hacausal, hloc; the union of the local developments is a common development),
+#   ers_prop_4_63_globallyHyperbolicOn (:354, the printed conclusion: also GH and causally convex in
+#   U₁; hS : C.IsCauchySurfaceOn U₁ S, hC : C.CausallyArcConnectedOn U₁ and hext : C.CurvesExtendOn U₁
+#   for hacausal) and its second countable form, without hext,
+#   Causal.Causality.ers_prop_4_63_globallyHyperbolicOn_secondCountable (Causal/Ers464SecondCountable.lean:256:
+#   [T2Space M] [SecondCountableTopology M]; hglue, hG, hS, hC, hloc), the entry of record once
+#   local_uniqueness is read (at globally_hyperbolic, causally_arc_connected of C read on U₁).
 # * Non-vacuity (kb/0011), on the timelike line with S = {0}: Causal.timelikeLine_ers_theorem_4_64_Ioo
 #   (U₂ = ]-1, 1[, u₂ the clamp; hstay and hstep inhabited), its trade form's
 #   Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable,
@@ -2673,7 +2732,10 @@ status = "checked"
 # every T1, second countable space (the [[fact]] curves_extend), so on ETT's spacetimes each of these
 # holds from its other hypotheses alone: the curves_extend hypothesis (the `hext` of kb/0012, once a
 # named model fact) is a theorem there, and is carried only where no countability is assumed. Two
-# are stated with it discharged, at causally_arc_connected (the two entries after this block).
+# are stated with it discharged, at causally_arc_connected (the two entries after Lemma K's). By
+# DEC-190 (T-lad-record-curves-corollaries, 2026-11-22) lem:C_ext_connexe and its acausality step take
+# their second countable forms as witnesses, with no premise (standing of the target N); the middle
+# step's abstract form follows the two entries at causally_arc_connected, at is_causal.
 [[consequence]]
 at = "curves_extend"
 statement = "every Cauchy surface is acausal"
@@ -2695,12 +2757,44 @@ witness = "Causal.Causality.causallyConnectedCurves_of_curvesExtend"
 under = "causally_arc_connected, is_causal (ladder nodes)"
 status = "checked"
 
-# lem:C_ext_connexe re-routed (Causal/CBG/CausalConvex.lean): curves_extend is asked of the target N.
+# lem:C_ext_connexe re-routed, on a second countable N (T-abs-c-ext-connexe-second-countable, 65646df;
+# recorded by T-lad-record-curves-corollaries, 2026-11-22, DEC-190). Read from the source
+# (Causal/CExtConnexeSecondCountable.lean:209), with no build: [T2Space N] [SecondCountableTopology N]
+# [ConnectedSpace M] (hφ : IsCauchyEmbedding C D φ) {A B : Opens N}
+# (hA : IsCauchyInclusion D hφ.rangeOpens A) (hB : IsCauchyInclusion D hφ.rangeOpens B) :
+# IsConnected (A ⊓ B), the proof one line: Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace
+# (Causal/CBG/CausalConvex.lean:758, the entry's witness until then: [T2Space N] [ConnectedSpace M] and
+# hDext : D.CurvesExtend) with hDext := Causal.Causality.curvesExtend_of_t1_secondCountable D. No
+# named hypothesis is left. The entry is read at N, the space whose causality curves_extend was asked
+# of, so `standing` is N's instance binders; M connected is of the source, in words. At curves_extend,
+# the ambient's bottom (the [[fact]]): it holds on every ETT spacetime N. The original stays the form
+# for a Hausdorff N that is not second countable and in which curves extend (named here, no entry).
+# Whether the row lem:C_ext_connexe may take this abstract form as its anchor is OQ-94 (open);
+# the binders' rebinding is T-bind-curves-corollaries'. The paper's middle step ('φ(Σ) is a Cauchy
+# surface of A ∩ B', ETT.tex:1940–1941) is Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable
+# (Causal/CExtConnexeCauchy/Basic.lean, T-abs-c-ext-connexe-cauchy), through the abstract form at
+# is_causal below (Causal.Causality.isCauchySurfaceOn_inf_of_secondCountable).
 [[consequence]]
 at = "curves_extend"
 statement = "lem:C_ext_connexe: for a Cauchy extension φ : M → N of a connected M and opens A, B of N into which φ(M) is Cauchy-included, A ∩ B is connected"
-witness = "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace"
-under = "curves_extend of N; N Hausdorff; M connected"
+witness = "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable"
+under = "M connected (the source of φ); nothing of N's causality beyond φ a Cauchy embedding (Causal.IsCauchyEmbedding) and A, B Cauchy inclusions of φ(M) (Causal.IsCauchyInclusion); the standing is of N"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# lem:C_ext_connexe's acausality step on a second countable N (Causal/CExtConnexeSecondCountable.lean:237,
+# T-abs-c-ext-connexe-second-countable's note for the keeper), read from the source: [T2Space N]
+# [SecondCountableTopology N] (hφ : IsCauchyEmbedding C D φ) {S : Set M} (hS : C.IsCauchySurface S)
+# {W : Opens N} {I c} (hc : D.CausalCurveIn W I c) : ∀ x ∈ c '' I ∩ φ '' S, ∀ y ∈ c '' I ∩ φ '' S,
+# x = y. It is Causal.IsCauchyEmbedding.eq_of_mem_image_inter (Causal/SubExtension.lean:326) without
+# hDext and without hDac (D causally arc-connected): φ(Σ) is a Cauchy surface of N, and every causal
+# curve lies on an inextensible one. Read at N, as the previous entry.
+[[consequence]]
+at = "curves_extend"
+statement = "for a Cauchy extension φ : M → N and a Cauchy surface Σ of M, a causal curve of any open set of N meets φ(Σ) at most once"
+witness = "Causal.IsCauchyEmbedding.eq_of_mem_image_inter_of_secondCountable"
+under = "nothing of N's causality beyond φ a Cauchy embedding (Causal.IsCauchyEmbedding): no causal arc-connectedness of N; the standing is of N"
+standing = ["T2", "second_countable"]
 status = "checked"
 
 # Lemma K with CurvesExtend in place of second countability (Causal/LemmaK.lean; DEC-93). Its `hext`
@@ -2739,6 +2833,24 @@ statement = "for every open B, a Cauchy surface S of B is acausal for ≤_B: x, 
 witness = "Causal.Causality.IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable"
 under = "only B causally arc-connected is used (Causal.Causality.CausallyArcConnectedOn B)"
 standing = ["T1", "second_countable"]
+status = "checked"
+
+# lem:C_ext_connexe's middle step, abstractly (T-abs-c-ext-connexe-cauchy, 5d58a2f, Causal/CExtConnexeCauchy/Basic.lean;
+# recorded by T-lad-record-curves-corollaries, 2026-11-22). Read from the source, with no build:
+# [T2Space M] [SecondCountableTopology M] (hC : C.IsCausal) {T : Set M} (hT : C.IsCauchySurface T)
+# {A B : Opens M} (hTA : C.IsCauchySurfaceOn A T) (hTB : C.IsCauchySurfaceOn B T) :
+# C.IsCauchySurfaceOn (A ⊓ B) T. The proof is an end-point argument the paper does not give
+# (Causal.Causality.exists_mem_inf_of_isCauchySurfaceOn, the same binders and an inextensible curve of
+# A ∩ B, which meets T): T2 for the uniqueness of the common end point, second countability through
+# the curves theorem in its sub-arc form (Causal.Causality.exists_subArc_of_tailFree). Applied to φ(Σ)
+# in N it is Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable ('φ(Σ) is a Cauchy
+# surface of A ∩ B', ETT.tex:1940–1941; N causal from φ a Cauchy embedding).
+[[consequence]]
+at = "is_causal"
+statement = "a Cauchy surface T of M that is a Cauchy surface of two open sets A and B is a Cauchy surface of A ∩ B"
+witness = "Causal.Causality.isCauchySurfaceOn_inf_of_secondCountable"
+under = "nothing else (T a Cauchy surface of M, of A and of B)"
+standing = ["T2", "second_countable"]
 status = "checked"
 
 # ---- consequences at geometry properties: theorems over a Causal.CBG.Geometry 𝔊 (header).
@@ -2909,7 +3021,9 @@ status = "checked"
 # curve_nested ⇒ inextensible_nested: its other hypotheses are of the causality C, not of the pair, and
 # the edge would contradict the [[fails]] le_nested ⇏ inextensible_nested (the cut line at 1, which
 # has the causal endpoint 1 and is not globally hyperbolic). no_causal_endpoint is DEC-161 (b)'s
-# rejected node, hence in words.
+# rejected node, hence in words. With the edge inextensible_nested ⇒ curve_nested (T1, second
+# countable; T-lad-record-curves-corollaries) the two nestings at M coincide for such a narrower C on
+# every ETT spacetime: a conditional equivalence, not a second [[implies]].
 [[consequence]]
 at = "curve_nested"
 statement = "curve nesting at M gives inextensible nesting at M (inextensible_nested: every inextensible causal curve of M for C is one for C'), when the narrower C is causally arc-connected, causal and strongly causal with closed J^± of points and no causal endpoint"
@@ -2958,19 +3072,29 @@ witness = "Causal.Causality.GloballyHyperbolic.dependenceDomainOn_subset_of_nest
 under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_connected of C (ladder nodes); J⁻(x) ≠ {x} and J⁺(x) ≠ {x} for C (Causal.Causality.NoCausalEndpoint, written out); M Hausdorff"
 status = "checked"
 
-# ERS Lemma 4.72 (ghd_02_19.tex:976), causal-topological skeleton; C is C₂ of g(u₂, du₂), C' is
-# Minkowski's C_m. As printed ("connected", S non-empty): Causal.Causality.ers_lemma_4_72_isConnected.
-# OQ-41 (c): S is taken C'-acausal where ERS print m-achronal. The hypotheses are jointly satisfiable
-# (Causal.timelikeLine_ers_lemma_4_72). On a T1, second countable M (every ETT spacetime) both curve
-# hypotheses are theorems: curves_extend of C' by the [[fact]]; an inextensible causal curve of U₂
-# for C through every point x by Causal.Causality.curvesExtendOn_of_t1_secondCountable C U₂ at the
-# constant curve at x over [0, 0] (Causal.Causality.causalCurveOn_const). Argued, not stated: no
-# Lean corollary drops them, so the `under` keeps both.
+# ERS Lemma 4.72 (erslem:two_ghds_subluminal_quasilinear, ghd_02_19.tex:976), causal-topological
+# skeleton, on a second countable background (T-abs-ers-4-72-second-countable, 3999b32; recorded by
+# T-lad-record-curves-corollaries, 2026-11-22, DEC-190); C is C₂ of g(u₂, du₂), C' is Minkowski's C_m.
+# Read from the source (Causal/ErsSecondCountable.lean:177), with no build: [T2Space M]
+# [SecondCountableTopology M] {Cm C₂ U₁ U₂} (hS : IsPreconnected S) (hS₁ : S ⊆ U₁) (hS₂ : S ⊆ U₂)
+# (hm : Cm.IsCausal) (hacausal : Cm.IsAcausal S) (hmU₁ : Cm.IsCauchySurfaceOn U₁ S)
+# (hC₂ : C₂.IsCauchySurfaceOn U₂ S) (hnest : CurveNestedOn C₂ Cm U₂) : IsPreconnected (U₁ ⊓ U₂). It is
+# Causal.Causality.ers_lemma_4_72 (Causal/NestedCausalities.lean:1034, the entry's witness until then:
+# [T2Space M], with hmext : Cm.CurvesExtend and hthrough, an inextensible causal curve of U₂ for C₂
+# through every point of U₁ ∩ U₂) with both discharged: hmext by the [[fact]]'s witness, hthrough by
+# Causal.Causality.inextensibleThrough_of_t1_secondCountable C₂ U₂ (the constant curve at x put on an
+# inextensible one, Causal.Causality.curvesExtendOn_of_t1_secondCountable). No named analytic
+# hypothesis is left: Cm causal, S m-acausal, S Cauchy in U₁ for Cm and in U₂ for C₂, and the
+# nesting. As printed ("connected", S non-empty): Causal.Causality.ers_lemma_4_72_isConnected_secondCountable
+# (the original's: ers_lemma_4_72_isConnected). OQ-41 (c): S is taken C'-acausal where ERS print
+# m-achronal. The hypotheses are jointly satisfiable (Causal.timelikeLine_ers_lemma_4_72, for the
+# original's). ERS Remark 4.74 (ersrem:us_remark_better_bounds) is this with C' any wider causality.
 [[consequence]]
 at = "curve_nested"
 statement = "ERS Lemma 4.72: for opens U₁, U₂ containing a preconnected S that is a Cauchy surface of U₁ for C' and of U₂ for C, U₁ ∩ U₂ is preconnected"
-witness = "Causal.Causality.ers_lemma_4_72"
-under = "curve nesting on W = U₂; is_causal and curves_extend of C' (ladder nodes); S acausal for C'; through every point of U₁ ∩ U₂ an inextensible causal curve of U₂ for C; M Hausdorff"
+witness = "Causal.Causality.ers_lemma_4_72_secondCountable"
+under = "curve nesting of C in C' on W = U₂ (subluminality, C the narrower: hnest); is_causal of C' (ladder node: hm); S acausal for C' (OQ-41 (c): ERS print m-achronal)"
+standing = ["T2", "second_countable"]
 status = "checked"
 
 # ERS19 Cor 4.73 (erscor:CorUniqueSub, ghd_02_19.tex:988: "Together with Theorem 4.64 the above lemma
@@ -2984,7 +3108,8 @@ status = "checked"
 # bounds: Cm any wider causality. "Any m-GHD is a UGHD by Cor 4.73" (ghd_02_19.tex:1053):
 # Causal.IsMDevelopment.isUniqueDevelopment_secondCountable (Causal/ErsSecondCountable.lean:261),
 # which derives hacausal, hsplit, hnest and the curves; it is what Thms 4.79 and 4.80 below consume.
-# The previous entry's second countable form is T-lad-record-curves-corollaries'.
+# Lemma 4.72's entry (the previous one) takes its second countable form as witness since
+# T-lad-record-curves-corollaries (2026-11-22).
 [[consequence]]
 at = "curve_nested"
 statement = "ERS Cor 4.73 (erscor:CorUniqueSub), skeleton: for subluminal equations, if u₁ is moreover an m-GHD, two developments of the same data agree on U₁ ∩ U₂"
@@ -3036,25 +3161,31 @@ witness = "Causal.Causality.dependenceDomainOn_subset_of_nested"
 under = "inextensible nesting on W; nothing else (no instance)"
 status = "checked"
 
-# ERS19 Lemma 4.70 (erslem:LemConnected, ghd_02_19.tex:939), causal-topological skeleton: the
-# consequence of record of this nesting, as Lemma 4.72 is curve_nested's. The node enters twice, Cτ
-# (the causality of the field T, its inextensible causal curves of M the maximal integral curves of
-# T) the narrower causality in both: in C₁ on U₁ and in C₂ on U₂ ((4.62), T timelike for every
-# g(u, du)). Read 2026-11-22 by `#check`: [T2Space M] (hS : IsPreconnected S) (hS₁ : S ⊆ U₁)
-# (hS₂ : S ⊆ U₂) (hC₁ : C₁.IsCauchySurfaceOn U₁ S) (hC₂ : C₂.IsCauchySurfaceOn U₂ S)
-# (hτ : Cτ.IsCausal) (hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I)
-# (honce : every inextensible Cτ-curve of M meets S at most once) (hn₁ : Cτ.InextensibleNestedOn C₁ U₁)
-# (hn₂ : Cτ.InextensibleNestedOn C₂ U₂) : IsPreconnected (U₁ ⊓ U₂). As printed ("connected", S
-# non-empty): Causal.Causality.ers_lemma_4_70_isConnected. Cor 4.71 composes it with Thm 4.64
-# (Causal.Causality.ers_corollary_4_71, the same hn₁, hn₂): the next two entries (T-lad-ers-restart-nodes,
-# 2026-11-22), with Thm 4.64's further hypotheses (hlocal; frontier_stays_in and slice_restart, edge
-# hypotheses) in `under`. This entry's second countable form, Causal.Causality.ers_lemma_4_70_secondCountable
-# (Causal/Ers464SecondCountable.lean:558, without hthrough), is T-lad-record-curves-corollaries'.
+# ERS19 Lemma 4.70 (erslem:LemConnected, ghd_02_19.tex:939), causal-topological skeleton, on a second
+# countable background: the consequence of record of this nesting, as Lemma 4.72 is curve_nested's.
+# The node enters twice, Cτ (the causality of the field T, its inextensible causal curves of M the
+# maximal integral curves of T) the narrower causality in both: in C₁ on U₁ and in C₂ on U₂ ((4.62),
+# T timelike for every g(u, du)). Read from the source (Causal/Ers464SecondCountable.lean:558,
+# T-abs-ers-4-64-second-countable, c178342; recorded by T-lad-record-curves-corollaries, 2026-11-22,
+# DEC-190), with no build: [T2Space M] [SecondCountableTopology M] {Cτ C₁ C₂ U₁ U₂}
+# (hS : IsPreconnected S) (hS₁ : S ⊆ U₁) (hS₂ : S ⊆ U₂) (hC₁ : C₁.IsCauchySurfaceOn U₁ S)
+# (hC₂ : C₂.IsCauchySurfaceOn U₂ S) (hτ : Cτ.IsCausal) (honce : ∀ I γ, Cτ.Inextensible ⊤ I γ →
+# ∀ y ∈ γ '' I ∩ S, ∀ z ∈ γ '' I ∩ S, y = z) (hn₁ : Cτ.InextensibleNestedOn C₁ U₁)
+# (hn₂ : Cτ.InextensibleNestedOn C₂ U₂) : IsPreconnected (U₁ ⊓ U₂). It is
+# Causal.Causality.ers_lemma_4_70 (the entry's witness until then, read 2026-11-22 by `#check`:
+# [T2Space M], and hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, Cτ.Inextensible ⊤ I γ ∧ x ∈ γ '' I, ERS's maximal
+# integral curve of T through each point) with hthrough discharged by
+# Causal.Causality.inextensibleThrough_of_t1_secondCountable Cτ ⊤. As printed ("connected", S
+# non-empty): Causal.Causality.ers_lemma_4_70_isConnected_secondCountable (the original's:
+# ers_lemma_4_70_isConnected). Cor 4.71 composes it with Thm 4.64 (Causal.Causality.ers_corollary_4_71,
+# the same hn₁, hn₂): the next two entries (T-lad-ers-restart-nodes, 2026-11-22), with Thm 4.64's
+# further hypotheses (hlocal; frontier_stays_in and slice_restart, edge hypotheses) in `under`.
 [[consequence]]
 at = "inextensible_nested"
 statement = "ERS Lemma 4.70: for opens U₁, U₂ containing a preconnected S that is a Cauchy surface of U₁ for C₁ and of U₂ for C₂, into both of which the causality Cτ of a field is inextensibly nested, U₁ ∩ U₂ is preconnected"
-witness = "Causal.Causality.ers_lemma_4_70"
-under = "inextensible nesting of Cτ in C₁ on W = U₁ and of Cτ in C₂ on W = U₂ (the node twice, Cτ the narrower); is_causal of Cτ (ladder node); through every point of U₁ ∩ U₂ an inextensible causal curve of M for Cτ, each meeting S at most once; M Hausdorff"
+witness = "Causal.Causality.ers_lemma_4_70_secondCountable"
+under = "inextensible nesting of Cτ in C₁ on W = U₁ and of Cτ in C₂ on W = U₂ (the node twice, Cτ the narrower: hn₁, hn₂); is_causal of Cτ (ladder node: hτ); every inextensible causal curve of M for Cτ meets S at most once (honce)"
+standing = ["T2", "second_countable"]
 status = "checked"
 
 # ERS19 Cor 4.71 (erscor:CorSupLum, ghd_02_19.tex:959, proof 965–967: "This follows directly from
@@ -3253,22 +3384,20 @@ from = "rigid"
 to = "cauchy_slice"
 note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_liftPropOn) and has SlicePast (Causal.CBG.LocalModel.slicePast), so this asks whether every local model has the BTZ residual SliceFutureBTZ, owed by gx for E₀"
 
-# The 2 pair-sort entries (T-lad-nested-inextensible, 2026-11-22): the converses of the [[fails]]
-# le_nested ⇏ inextensible_nested, both nestings read at one open W. Neither is refuted in Lean: the
+# The pair-sort entry (T-lad-nested-inextensible, 2026-11-22): a converse of the [[fails]]
+# le_nested ⇏ inextensible_nested, both nestings read at one open W. It is not refuted in Lean: the
 # library's inextensibly nested pairs are a causality in itself
 # (Causal.timelikeLine_inextensibleNestedOn_top) and those that the consequences at curve_nested
 # produce, which are curve-nested by hypothesis and ≤-nested too, their narrower causality being
-# causally arc-connected (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected).
+# causally arc-connected (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected). The other
+# converse, inextensible_nested → curve_nested, open here until T-lad-record-curves-corollaries
+# (2026-11-22), is the [[implies]] with standing T1, second_countable
+# (Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable).
 
 [[open]]
 from = "inextensible_nested"
 to = "le_nested"
 note = "False, argued: the pointed line in the spacelike line (Causal.pointedLine, Causal.spacelikeLine). Both have the constant curves of W as their causal curves of W (Causal.pointedLine_causalCurveOn_eq; the spacelike line's ≤_U is equality; a constant curve is causal in either by reflexivity, Causal.Causality.causalCurveOn_of_forall_eq), and no causal curve of either is extensible: a strict extension is a causal curve, hence constant, and takes the old value, so its new point (StrictlyExtends.grows) is not new; so the two have the same inextensible curves of every W and the pair is inextensibly nested on every open, while it is not ≤-nested (Causal.pointedLine_not_leNested_spacelikeLine). Wants a lemma that a causality whose causal curves of W are constant has every causal curve of W inextensible, and Causal.pointedLine_separates_inextensibleNested (∀ W, InextensibleNestedOn pointedLine spacelikeLine W, ¬ LeNested pointedLine spacelikeLine). It refutes this pair only: the pointed line is curve-nested in every causality of ℝ (Causal.pointedLine_curveNestedOn)"
-
-[[open]]
-from = "inextensible_nested"
-to = "curve_nested"
-note = "True, argued, on a T1, second countable M (every ETT spacetime): let c be a causal curve of W for C over [a, b]. Its trimmed form, constant off a sub-interval I₀ (Causal.exists_tailFree_retraction), is a reparametrised sub-arc of an inextensible causal curve γ of W for C (the maximal tail-free curve in the proof of Causal.Causality.exists_inextensible_of_t1_secondCountable); γ is one for C' by the nesting, so c is a C'-curve on I₀ (restriction, and Causal.CurveOn.comp_strictMonoOn with the strictly increasing reparametrisation, continuous onto an interval) and on its constant end pieces (reflexivity). Wants the sub-arc form of that lemma (it states only c '' I ⊆ γ '' J) and Causal.Causality.InextensibleNestedOn.curveNestedOn (T1, second countable). No counterexample is known, off the ambient either; the library has no inextensibly nested pair that is not curve-nested"
 
 # ---- T-lad-classify-core (2026-11-21): every causality-sort pair the closure and the counterexamples
 # above leave unknown, one [[open]] entry each, grouped by the conclusion `to`. A note is one of:

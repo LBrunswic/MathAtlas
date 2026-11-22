@@ -92,5 +92,6 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.Ha
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.GloballyHyperbolic.hasTimeFunction
 
 -- skipped Causal.Causality.LeNested.curveNestedOn (le_nested ⇒ curve_nested): sort: joins a property not of the sort causality
+-- skipped Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable (inextensible_nested ⇒ curve_nested): sort: joins a property not of the sort causality
 -- skipped fact Causal.Causality.curvesExtend_of_t1_secondCountable (curves_extend): cycle: Causal.Causality.curvesExtend_of_t1_secondCountable lives in Causal.CurvesExtendSecondCountable, which imports Causal.Ladder.Rules (Causal.CurvesExtendSecondCountable → Causal.MaximalZorn → Causal.ErsMughd → Causal.Ladder.Rules); Causal.Ladder.Test registers it locally
 -- skipped fact Causal.CBG.eqOn_of_liftPropOn (rigid): sort: rigid is not of the sort causality
