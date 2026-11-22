@@ -371,3 +371,22 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/yamabe only (prop:nonpositive names Yamabe.Mfd.Reads.prop_nonpositive_csc, not yet in its files), /atlas-team's in-flight lean-yamabe, which it holds whole; gate-tests red through it. Not this loop's; nothing reverted. lean/ docs restored
 - commits: e8f35dd bf17b0b 5eed9ff 5d58a2f a8d6840 3ebe20f
 - next: wave T-lad-record-curves-corollaries (keeper), T-abs-hoist-lemma-k (closer, exclusive); a planning iteration soon for the accumulated proposals and the three binder targets
+
+## 2026-11-23 07:00 · wave of 2 · T-abs-hoist-lemma-k, T-lad-record-curves-corollaries
+- T-abs-hoist-lemma-k (abstract, exclusive refactor): the Lemma K family is ETT-layer.
+  - Nine declarations moved verbatim with the same full names: LemmaKBare's static/E_α section and LemmaKSCLocal's Minkowski corollary went to the new model module Causal.Model.LemmaKModels; CurvesExtend.dual went to Causal.CauchyExtension.
+  - LemmaKBare also dropped Causal.Splitting, which reached Flat.IsomCausal. model_path shows only the shortest chain (kb/0247).
+  - ETT layer: 99/315 → 107/316 modules. 17191 constants; only the nine changed module, all hashes identical. lean-gx needs no edit at its bump. Audit minor (9287e1a).
+  - Stale prose fixed at integration (LadderLocal, Ladder/Dual, SFAManifolds, kb/0181, three BARBOT docs, the ett curation note of def:singular_spacetime, the ladder's Lemma K comment); README row; kb 0246–0248.
+- T-lad-record-curves-corollaries (ladder): 4.72 and 4.70 take their second countable witnesses (their `under` loses curves_extend and the through-clause); lem:C_ext_connexe takes the abstract second countable form (OQ-94 open). Two new consequences: eq_of_mem_image_inter at curves_extend, the Cauchy-in-A ⊓ B lemma at is_causal. New pair-sort edge inextensible_nested ⇒ curve_nested (T1, second_countable); its [[open]] entry is removed. DEC-190 recorded. Rules.lean re-emitted (one `-- skipped` comment) (b6c8212)
+- ladder: 24 properties, 26 implications, 79 counterexamples, 72 consequences; 318/318 within a sort: 35 implied, 275 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: lean-causal ✓ (after the docstring edits and emit-lean), ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/perforated only (ledger stale), /atlas-team's in-flight lean-yamabe and papers/perforated/ledger, both held by it; gate-tests red through it. Not this loop's; lean/ docs restored
+- OQ rows still NOT WRITTEN (registers/DECISIONS.md held by /atlas-team): ex:open_subset's first uniqueness; Galileo item 4
+- for the planner:
+  - the duplicates curvesExtend_dual_iff and PushUp.causallyOpen_of_chronalNeighbours can now cite their originals;
+  - DEC-190's CurvesExtend binders of the Lemma K family can now be dropped in ETT-layer modules (T-abs-curves-free-lemma-k);
+  - inextensible_nested → le_nested stays open (the pointed line is no causality under gluing; T-lad-gluing-reading);
+  - Prop 4.63 goes to T-lad-development-nodes.
+- commits: 9287e1a b6c8212 4ea14ad 964abd2
+- next: wave T-lad-record-rulings (keeper), T-abs-one-sided-future-base (closer, exclusive, DEC-166 (a)); then a planning iteration for the accumulated proposals and the three binder targets
