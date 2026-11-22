@@ -1,0 +1,64 @@
+{
+  "target": "T-egf-families-sphere",
+  "package": "T-egf-families-sphere",
+  "auditor_round": 1,
+  "round": 1,
+  "file": "scaffold/EGFScaffold/SphereFamilies.lean",
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "theo:universality_sphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, status partial: honest. The printed form is EGF.UniversalitySpherePrinted d. It quantifies over every IsometrySphericalModel (d+1) p whose rotations meet l.836 at every parameter, and concludes the epsilon-form IsUniversalFamilyEps (DEC-141, OQ-50). That is a fair reading of l.302-305 with l.836: requiring the condition at every parameter shrinks the class of models, so the refutation is the stronger. Its refutations satisfy their hypotheses non-vacuously. not_universalitySpherePrinted_one instantiates the Prop at constSphericalModelAt two_pos so2Witness, whose condition holds by so2Witness_inv/_dense/_algebraic. not_isUniversalFamilyEps_sphere_of_constantHeads is applied to constSphericalModelAt, whose heads are constant by rfl. The corrected forms: universality_sphere_of_ergodic (0 < n; ergodicity of the moves; IsRichSphericalModel Phi F, with F any family) drops algebraicity and inverse-stability, and replaces density by ergodicity, which density implies (for n >= 3 that implication is deferred to T-egf-sphere-dense-ergodic, planned, and disclosed in SCOPE and the REPORT). Its hypotheses are met at n = 2 (universality_sphere_one_witness, isRichSphericalModel_l2). universality_sphere_iff (L2 model at frozen Phi: epsilon-universal iff IsGroupErgodic) is a meaningful iff, with IsGroupErgodic as in EGF.TorusFamilies. universality_sphere_one_of_dense is at least C-28's registered corrected Theorem 3.6 at d = 1 (density in SO(2) plus C-31 richness, no algebraicity or inverse-stability, any family). not_universality_sphere_identity: l.307 does claim it. Its sentence 'satisfied if the Phi_i have algebraic coefficients and are frozen' lists no density. The identity has integer entries, is its own inverse, and is frozen in l2SphericalModel (rot := constant), and even that richest model is not epsilon-universal. The finding is true. Note for the author-facing text: the same paragraph's next sentence (breuillard2003dense, 'a dense subgroup') and l.836 show density was intended, so this is a hypothesis missing from the sentence, not a separate false theorem. The rotation-invariance of sigma = volume.toSphere is proved, and its identification with the Riemannian volume is disclosed as not formalized."
+    },
+    {
+      "label": "theo:spectral_gap_sphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, status partial: honest. EGF.SpectralGapSphereReformulation n carries every hypothesis of l.832-833 as printed: entries IsAlgebraic Z (Q-bar as defined at l.826), density in SO(n) (subspace topology, checked by rfl against instTopologicalSpaceSubtype), Phi_j = Phi_i^{-1}, and alpha = 1/p through sphereUniformKernel. It reads 'spectral gap' as the one-sided form HasBGSpectralGap, the weakest reading. HasBGSpectralGap is satisfiable (probe: the independent kernel const (sigma(univ)^{-1} sigma) with c = 0), so it is not vacuously false. not_spectralGapSphereReformulation_two refutes it at n = 2 with so2Witness = [R(theta), R(-theta)], cos theta = 3/5: rational entries, Niven's theorem for density, and stability under inverse are all proved. not_hasBGSpectralGap_sphere_two shows that no p >= 1 rotations of S^1 have a one-sided gap. so2Witness_eigen gives eigenfunctions Re zeta^k in L2_0 with eigenvalues Re w^k -> 1. For this symmetric pair the paper's Koopman operator (l.273) equals P, so the spectral reading also fails. That step is informal and disclosed. EGF.BourgainGamburdTheorem1 was checked against the PDF of arXiv:1108.6264v1 itself: the closer's download at /tmp/egf-sphere-bg-piAHFG/bg.pdf (md5 6dcc5afc..., identical to /tmp/egfplan_dl2/bg.pdf), read with pdftotext pp. 1-3. Every part matches: d >= 2, g_j in SU(d) with entries algebraic over Q, the Hecke operator z f(x) = sum_j (f(g_j x) + f(g_j^{-1} x)), the Haar probability (haarMeasure top, IsProbabilityMeasure and IsMulLeftInvariant checked), and lambda_1 < 2k read as: there is c < 2k with Re<zf,f> <= c||f||^2 on the mean-zero L2. That implies BG's bound, and is equivalent to it because z is self-adjoint with spectrum the closure of its eigenvalues (Peter-Weyl). Zariski density in SL_d(C) is replaced by topological density in SU(d), which is BG's footnote 1 and is correct (a proper closed subgroup of SU(d) has a proper complexification). k is unrestricted, which is harmless because density forces k >= 2. heckeOp g f * conj f is integrable for f in L2, so the conclusion has no junk-value artifact. Non-vacuity is shown on both sides. On the hypothesis side, su2Witness (diag(e^{i theta}, e^{-i theta}) and R(theta) in SU(2), entries in Q(i)) is proved algebraic and dense via Euler angles. On the conclusion side, bourgainGamburd_fails_trivial uses x |-> x_00, which is mean-zero with positive norm. The named Prop is a hypothesis only of bourgainGamburd_witness_gap and is never an axiom. The reading of the reformulation as SO(n) acting on S^{n-1}, and the index slip against l.297/l.303, are disclosed and correct."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "command": "taskset -c 0-11 lake env lean scaffold/EGFScaffold/SphereFamilies.lean (exit 0, no output: no error, no warning); no lake build run, none running",
+    "sorry": 0,
+    "axioms": "standard",
+    "axioms_detail": "#print axioms on all 71 declarations named in REPORT.json (decls, extra_decls, correction anchors), probed on a copy of the current source under the campaign directory: every one [propext, Classical.choice, Quot.sound]"
+  },
+  "builds": true,
+  "sorry_count_measured": 0,
+  "summary": "Rebuilt the file (lake env lean, clean) and counted sorry (0). Ran #print axioms on all 71 declarations the REPORT names (all standard). Checked BourgainGamburdTheorem1 against the arXiv:1108.6264v1 PDF itself: faithful, non-vacuous on both sides. Checked the SU(d) instances: the subspace topology and Borel sigma-algebra by rfl, and the Haar probability; no clash with Mathlib at fabf563a, which has no IsTopologicalGroup, CompactSpace or MeasurableSpace on specialUnitaryGroup and no MeasurableSpace on Matrix. Checked the printed Props (UniversalitySpherePrinted, SpectralGapSphereReformulation) and their refutations, whose hypotheses hold non-vacuously. Checked the l.307 finding (true) and the corrected forms (statuses partial and honest). Marks: none, correct. Scope: the closer's commit d0889b1 touches only the dispatched file and the campaign directory; the working tree shows only the master's roadmap status edit. Docstring contract: title, labels within 4000 characters, quotes, checklist, SCOPE and Provenance within 8000 characters, all present and true, except one stale line after the master's import repoint. No name collisions with EGF/**. Only minor findings.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-egf/scaffold/EGFScaffold/SphereFamilies.lean:90 (and REPORT.json notes)",
+      "what": "SCOPE says 'Imports `EGFScaffold.TorusFamilies` (`IsGroupErgodic`)', but since the master's b529fb3 the file imports the graduated EGF.TorusFamilies (line 1). The REPORT note 'graduate both together' is likewise obsolete. This is the result of the master's repoint, not a closer error.",
+      "fix": "At graduation, change the SCOPE sentence to 'Imports `EGF.TorusFamilies` (`IsGroupErgodic`, `ae_invariant_of_mem_closure`)'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-egf/scaffold/EGFScaffold/SphereFamilies.lean:250,272,283,285,290,292",
+      "what": "There are global anonymous instances on EGF.SU d (auto-named EGF.instIsTopologicalGroupSU, EGF.instCompactSpaceSU, EGF.instMeasurableSpaceSU, plus BorelSpace and the suHaar instances). SU is an abbrev, so they fire on ↥(Matrix.specialUnitaryGroup (Fin d) ℂ) in every importer. They are correct: the topology is instTopologicalSpaceSubtype by rfl, the sigma-algebra is borel by rfl, and suHaar is a left-invariant probability. There is no clash at mathlib fabf563a, which has none of these instances and no MeasurableSpace on Matrix (probed). The two Prop instances cannot form diamonds. The data instance MeasurableSpace := borel would form a non-defeq diamond with Subtype.instMeasurableSpace if Mathlib, or a later EGF file, ever adds MeasurableSpace (Matrix n n ℂ).",
+      "fix": "At graduation, give the instances explicit names and a comment saying they should be dropped when Mathlib provides them. Optionally make the MeasurableSpace/BorelSpace pair scoped (e.g., in namespace EGF.SU), because only BourgainGamburdTheorem1 and its witnesses use it."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/egf/programme/corrections.toml:545-547 (C-32 corrected/summary/added_hypotheses)",
+      "what": "REPORT proposes C-32 'proved'. Its anchors prove the faithful quote of Theorem 1 (with witnesses) and the refutation at SO(2). The registered corrected text also asserts the positive consequence 'Through SO(3) = SU(2)/{±1} it gives the spectral gap ... on S^2', and the summary says 'holds for d = 3'. No anchor proves either; that is T-egf-spectral-gap-so3, planned, and the REPORT says so. This is a register-level point for integration, not a defect of the Lean file.",
+      "fix": "When moving C-32 to proved, either mark the d = 3 sentence as cited (benoist2016spectral / BG through the double cover) and not formalized, or keep that clause pending T-egf-spectral-gap-so3."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-egf/scaffold/EGFScaffold/SphereFamilies.lean:22-35",
+      "what": "The REPORT's new finding rests on the l.307 sentence 'The technical assumption is satisfied if the Phi_i have algebraic coefficients and are frozen', and not_universality_sphere_identity refutes it, but the module docstring's quote block cites l.305, l.832-833 and l.836 only.",
+      "fix": "Optionally add the l.307 sentence to the quote block, so that a reader sees the printed claim beside not_universality_sphere_identity."
+    }
+  ],
+  "corrections_checked": [
+    {"id": "C-28 (sphere half)", "holds": true, "notes": "universality_sphere_of_ergodic, universality_sphere_of_groupErgodic, universality_sphere_iff, universality_sphere_one, universality_sphere_one_of_dense and not_hasBGSpectralGap_sphere_two prove what the REPORT says: ergodicity suffices (and is necessary for the L2 model), the density form holds for d = 1 only, and the spectral-gap route gives nothing on S^1 (C-28 (b)). The proposed status 'proved (sphere half, except the density form for n >= 3)' is honest."},
+    {"id": "C-31 (sphere half)", "holds": true, "notes": "IsRichSphericalModel is carried by every positive form and is satisfiable (isRichSphericalModel_l2). not_isUniversalFamilyEps_sphere_of_constantHeads (n >= 1) and not_universalitySpherePrinted (wherever l.836 is satisfiable) are proved. not_universalitySpherePrinted_one refutes the printed Prop at d = 1 unconditionally, its condition met by so2Witness."},
+    {"id": "C-32", "holds": true, "notes": "BourgainGamburdTheorem1 is faithful to arXiv:1108.6264v1 Theorem 1, with witnesses on both sides. SpectralGapSphereReformulation is the printed l.830-833, and not_spectralGapSphereReformulation_two refutes it at SO(2). so2Witness_eigen backs the spectral reading (the final step is informal and disclosed). The positive d = 3 half is not anchored (see finding 3)."},
+    {"id": "l.307 (new, proposed for C-28's batch)", "holds": true, "notes": "not_universality_sphere_identity proves that integer entries, inverse-stability and frozen rotations do not suffice, even for the richest model. l.307 as printed states exactly 'algebraic coefficients and frozen', so the finding is true. Density is the hypothesis missing from that sentence (l.836 has it)."}
+  ]
+}
