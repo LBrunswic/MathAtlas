@@ -1,0 +1,56 @@
+{
+  "target": "T-ett-diamant-past",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "theo:CBG",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "No assertion of theo:CBG (ETT.tex:1884-1887: a maximal Cauchy extension exists and is unique) is proved or claimed. The module cites the label unmarked, as the consumer of A2's time-reversed compactness field. The quote at l.16-18 is verbatim ETT.tex:1885-1886. tools/ledger.py's mark regex finds no bold-backtick label form in the 19,695-character file. The REPORT's 'partial' is the ledger row's existing status (LEDGER.md:891, partial). The REPORT's own question says that this file proves no assertion of the label. That is true, so the label is not overclaimed. (1) OPENNESS, all four cases checked against SingularPastAt (Causal/PushUp.lean:227), PushUp (Causal/Properties.lean:69) and the BTZAxioms/SingularFlatAxioms fields (Causal/SingularFlat.lean:153-223). Case (1), x = w: W is a neighbourhood of x and W is contained in J+(W). Case (2), x in S0 and w != x, at l.105-110: the second clause of SingularPastAt x at w gives w in interiorWithin J-(x) J-(u 0), so w <= u 0, and x is in interior J+(u 0), which is contained in J+(W) by transitivity. Nothing is asked of w or of W, as claimed. Case (3), w not in S0, at l.94-101: w is in Z-, so some v << w lies in W; push-up (hP T v).1.1 gives x in I+(v), which is open and contained in J+(W). This case does not need x not in S0, as the REPORT says. Case (4), x not in S0 and w in S0, at l.114-126, is the new route. The first clause of SingularPastAt w gives u n -> w with u n <= w and u n != w, and u n is in W eventually. If u n is in S0, Iplus_of_lt (u n, w) gives J+(w) minus S0 contained in I+(u n), and x lies in it. If u n is not in S0, case (3) applies at u n, with u n <= x by transitivity. Neither the field line nor its closed embedding is used, so no causality is needed. The case split at l.137-144 is exhaustive. SingularFlatAxioms.isOpen_Jplus (l.154) has no hc. The M-level isOpen_Jplus and isOpen_Jminus (l.225, :233) take only [SingularGXStructure], hmin and hC: no T2, no second countability, no causality. Each input (SFALocal.pushUp, SFALocal.mem_Zminus_of_notMem, SFABTZ.singularPastAt, SFABTZ.Iplus_of_lt, SFALocal.mem_Zplus) has only hmin and/or hC in its signature. These hypotheses are weaker than the paper's class. (2) COMPACTNESS at M. #check gives SingularRowsDiamondPast.isCompact_Jminus_inter_Jplus : [T2Space M] [SecondCountableTopology M], C.AbsolutelyMinimal -> IsoChartsCoverDEC25 ... -> C.GloballyHyperbolic -> forall {S}, C.IsCauchySurface S -> forall p, IsCompact (C.Jminus T S ∩ C.Jplus T {p}). That is exactly the conclusion of Geometry.isCompact_Jminus_inter_Jplus (Causal/CBG/Geometry.lean:329-333) and of LocalModel's field (:613-619), with C in place of (causality s) or (chartedCausality ...). Its binders are the field's binders minus [ConnectedSpace M] (weakened), plus the DEC-25/OQ-18 reading (hmin, hC), which is the same reading as SingularRowsDiamond, SingularRowsGeroch and SFAManifolds.singularFlatAxioms. There is no hidden tau and no hidden ModelMeasures: tau comes from SingularRowsGeroch.geroch_sing_i_imp_ii (Causal/Remarks/SingularRowsGeroch.lean:386), whose own signature is [T2] [SC] hmin hC hG and whose ModelMeasures it builds itself (MeasuresManifolds.massA_modelMeasures). In the natural form (_of_isAtlasCausalityDEC25), MassACovered is DEC-25's definition of an E>=0-manifold (SFALocal.lean:220-224), not an extra hypothesis. (3) WITNESSES. Both are drawn from the M-level theorems (kb/0011): isOpen_Jplus, isOpen_Jminus, isCompact_Jplus_inter, isCompact_Jminus_inter_Jplus and exists_btz_Jminus_diff at E0, with S from SingularRowsGeroch.nonvacuous_e0_geroch. nonvacuous_e0 really exercises case (2). x is in sing0 ∩ S, x != p, I-(x) = ∅, and W = {x}^c is open and contains p but not x. So for that W, every w in W with w <= x has w != x, and x in S0 puts the proof of isOpen_Jplus_of_singularPastAt in the branch of l.141 (case 2). I-(x) = ∅ also rules out the I+(v) neighbourhoods of cases (3) and (4). The BTZ case is witnessed: p in sing0 lies in J-(S) minus S with I-(p) = ∅, and J-(S) ∩ J+(p) is compact and non-empty (it contains p). nonvacuous_e0_natural instantiates MassACovered E0 and IsAtlasCausalityDEC25, and gets the conclusions from the natural forms. (4) FINDINGS. The REPORT records no paper finding, and none is due. ETT.tex states only the future form J_M(Σ,p) (l.2027, 2030, 2135) and J-(P0) ∩ Σ1 (l.2314). grep finds no statement of J-(Σ) ∩ J+(p) compact. See minor findings 1-2 for the curation of the decl list and for one docstring phrase."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "No lake build was running in lean-causal (checked with pgrep). 'lake env lean -DwarningAsError=true scaffold/CausalScaffold/SingularRowsDiamondPast.lean' exited 0 with no output. 'taskset -c 0-11 lake build CausalScaffold.SingularRowsDiamondPast': 'Build completed successfully (8764 jobs)', with nothing upstream rebuilt, as the REPORT says. The file contains no sorry, admit, native_decide, implemented_by, axiom, unsafe, opaque or set_option. Its one 'sorry' is docstring prose at l.20. #print axioms on all 18 declarations in the REPORT gives [propext, Classical.choice, Quot.sound]. The probe was campaign/T-ett-diamant-past/AxiomProbe.lean and has been deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-ett-diamant-past/REPORT.json:15-34 (theo:CBG decls)",
+      "what": "The REPORT lists all 18 declarations under theo:CBG. These include the model-free lemmas (Causality.Jplus_mem_nhds_of_*, isOpen_Jplus_of_singularPastAt) and the SFA-level SingularFlatAxioms.isCompact_Jminus_inter_Jplus (τ a hypothesis) and _of_modelMeasures (ModelMeasures a hypothesis). They also include exists_btz_Jminus_diff and the witnesses. None of these is an assertion of theo:CBG. If they are curated into the label's map, each becomes a principal of theo:CBG in the double DAG, and two of them carry hypotheses the paper does not have. The same issue was raised as minor finding 3 of T-ett-diamant-rows' AUDIT-1. The REPORT itself says that no assertion of theo:CBG is proved here.",
+      "fix": "At graduation, record the theorem as the target block's (vi) asks: A2's time-reversed field at E>=0-manifolds. Map at most SingularRowsDiamondPast.isCompact_Jminus_inter_Jplus and its _of_isAtlasCausalityDEC25 form under theo:CBG, or map none and cite them in the row's note. Keep the other 16 declarations in extra_decls, where they already are."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SingularRowsDiamondPast.lean:191-192 and :35-36; REPORT.json:70 (kb proposal 3)",
+      "what": "The docstrings of SingularFlatAxioms.exists_mem_sing_zero_Jminus_diff and exists_btz_Jminus_diff, and the kb proposal, describe x as 'the point of S above it on its BTZ line'. The statement only gives some x ∈ sing 0 ∩ S with p ≤ x and p ≠ x. It does not say that x lies on p's line (connectedComponentIn (sing 0) p) or that x is unique. The proof does take x on the line, and the property follows from the structure (both points BTZ with p ≤ x, causal arc-connectedness, mem_sing_zero_of_le). It is still not carried by the conclusion, so a later user of the lemma or of the kb entry would not get it from the statement.",
+      "fix": "Reword the text to 'with a BTZ point x ∈ S above it'. Alternatively, add x ∈ connectedComponentIn (sing 0) p to the conclusion, which the proof already has: x = γ s₀ with range γ = connectedComponentIn (sing 0) q, and p = γ (s₀ - 1)."
+    }
+  ],
+  "names_declared": [
+    "Causal.Causality.Jplus_mem_nhds_of_mem_Zminus",
+    "Causal.Causality.Jplus_mem_nhds_of_singularPastAt",
+    "Causal.Causality.Jplus_mem_nhds_of_Iplus_of_lt",
+    "Causal.Causality.isOpen_Jplus_of_singularPastAt",
+    "Causal.Causality.SingularFlatAxioms.isOpen_Jplus",
+    "Causal.Causality.SingularFlatAxioms.isCompact_Jplus_inter_of_isCauchySurface",
+    "Causal.Causality.SingularFlatAxioms.isCompact_Jminus_inter_Jplus",
+    "Causal.Causality.SingularFlatAxioms.isCompact_Jminus_inter_Jplus_of_modelMeasures",
+    "Causal.Causality.SingularFlatAxioms.exists_mem_sing_zero_Jminus_diff",
+    "Causal.SingularRowsDiamondPast.isOpen_Jplus",
+    "Causal.SingularRowsDiamondPast.isOpen_Jminus",
+    "Causal.SingularRowsDiamondPast.isCompact_Jplus_inter",
+    "Causal.SingularRowsDiamondPast.isCompact_Jminus_inter_Jplus",
+    "Causal.SingularRowsDiamondPast.exists_btz_Jminus_diff",
+    "Causal.SingularRowsDiamondPast.isOpen_Jplus_Jminus_of_isAtlasCausalityDEC25",
+    "Causal.SingularRowsDiamondPast.isCompact_Jminus_inter_Jplus_of_isAtlasCausalityDEC25",
+    "Causal.SingularRowsDiamondPast.nonvacuous_e0",
+    "Causal.SingularRowsDiamondPast.nonvacuous_e0_natural"
+  ],
+  "name_clash_check": "A grep over every .lean file in Causal/ and scaffold/ other than this module finds none of the 18 names. The near names are all distinct: Causal.E0.isOpen_Jplus (Port/E0Axioms.lean:438), Causal.Causality.isCompact_Jplus_inter_of_isCauchySurface and GloballyHyperbolic.isCompact_Jplus_inter_of_isCauchySurface (Flat/CBGCompact.lean:368, :395), CBG.isCompact_Jminus_inter_Jplus_of_isCompact (Flat/CBG.lean:443), Causality.isCompact_Jminus_inter_Jplus_of_isCauchySurface (scaffold GerochCauchy.lean:783), and Causality.SingularFlatAxioms.isOpen_Jminus in SingularRowsDiamond. The other closer's scaffold/CausalScaffold/SingularRowsCauchyExt.lean appeared during the audit and was read, not edited. Its snapshot declares Causal.Causality.{causallyConvexIn_of_isPast, le_iff_le_top_of_isPast, lt_iff_lt_top_of_isPast, isCauchySurfaceOn_of_isPast} and Causal.SingularRowsCauchyExt.{sublevel, mem_sublevel, sublevel_isPast_isCauchySurfaceOn, exists_tauFlow_level, cauchyExtension, image_diamant_witness, passe_pgcd_btz_witness, passe_pgcd_regular_witness, plongement_witness, exists_cauchyTimeFunction}. None of these clashes with the 18 names above. That module is still in progress, so the master should repeat the comparison at graduation.",
+  "scope": "git status --short shows only roadmap/roadmap.toml (the master's), lean-causal/campaign/T-ett-diamant-past/ and lean-causal/scaffold/CausalScaffold/SingularRowsDiamondPast.lean (dispatched). git diff HEAD -- lean-causal is empty, so no tracked file was edited, Causal.lean included. Before this audit the campaign directory held only REPORT.json.",
+  "docstring_contract": "kb/0006 is met. It has the title; the cited label with its ETT.tex line (1884, correct), unmarked; a verbatim quote (l.1885-1886); a '## Hypothesis checklist' whose rows are true (T2/SC carried for compactness and not used for openness; connected not used, ETT.tex:1502 correct; causality not used for openness; the readings DEC-25, OQ-18, OQ-34/35 and OQ-82 exist in registers/DECISIONS.md); a '## SCOPE (disclosed)' whose account of the four cases matches the proofs, with openness at T only and DEC-8's causal openness left out; and the Provenance line. The SCOPE's reference to SingularRowsDiamond.lean:79-82 is correct, and that file is not edited."
+}

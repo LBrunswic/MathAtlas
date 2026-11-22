@@ -179,6 +179,7 @@ submodule, so the library is grown here in the layout it will have there: gradua
 | `Causal.Remarks.SingularRowsDiamond` | — | /atlas-team (T-ett-diamant-rows): `lem:image_diamant` and `lem:passe_pgcd` at every pair of `E_{≥0}`-manifolds, with the compactness of `J⁺(Σ) ∩ J⁻(p)` by Zorn on time graphs; cites, unmarked (partial): `lem:image_diamant`, `lem:passe_pgcd`; 2026-11-22 |
 | `Causal.SingularSplitting` | — | /atlas-team (T-ett-geroch-split-flow): Geroch's « Moreover » from any causal flow under `SingularFlatAxioms`, and `lem:Sigma_separe`'s equalities; cites, unmarked (partial): `theo:geroch_sing`, `lem:Sigma_separe`; 2026-11-22 |
 | `Causal.Remarks.SingularRowsSplitting` | — | /atlas-team (T-ett-geroch-split-flow): The « Moreover » at every `E_{≥0}`-manifold from a causal flow; `E₀`'s τ-flow, null, splitting `E₀` along every Cauchy surface; cites, unmarked (partial): `theo:geroch_sing`, `lem:Sigma_separe`, `cor:K_ordre_Sigma`; 2026-11-22 |
+| `Causal.Remarks.SingularRowsDiamondPast` | — | /atlas-team (T-ett-diamant-past): `J^±` of open sets open at every `E_{≥0}`-manifold; the time-reversed compactness `J⁻(Σ) ∩ J⁺(p)` (A2's second field); cites, unmarked (partial): `theo:CBG`; 2026-11-22 |
 
 What each label's status is, which declarations carry it and what formalizing found in the paper
 is in `papers/ett/ledger/LEDGER.md`, generated from the sources and from

@@ -212,3 +212,7 @@ rediscover. One fact per entry.
 | [0204](entries/0204-no-chronal-flow-with-btz.md) | pattern | No chronal flow once some point has I⁻ = ∅ |
 | [0205](entries/0205-flow-tube-equalities.md) | pattern | Flow-tube equalities J^±(S) = φ(S × ℝ±) with no closedness |
 | [0206](entries/0206-iscausalflow-stranded-in-splitting.md) | pitfall | IsCausalFlow lives in Causal.Splitting, whose closure is not model-free |
+| [0207](entries/0207-jplus-open-at-btz-points.md) | pattern | J⁺ of every open set is open at a SingularFlatAxioms spacetime, BTZ points included, with no causality |
+| [0208](entries/0208-diamond-past-compact.md) | pattern | J⁻(Σ) ∩ J⁺(p) is compact at every globally hyperbolic E≥0-manifold: A2's second field |
+| [0209](entries/0209-btz-point-below-every-cauchy-surface.md) | pattern | A BTZ point below every Cauchy surface when sing₀ ≠ ∅ |
+| [0210](entries/0210-singularpastat-sequence-instead-of-line.md) | pattern | At a BTZ point, SingularPastAt's sequence stands in for the line when no causality is available |
