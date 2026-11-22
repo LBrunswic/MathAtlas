@@ -204,3 +204,13 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: 579600d c620586 3b42666 (+ this) (hub) · f3a75ad (v2)
 - for the planner: l.759's 'for any $Y\subset\Statespace$' without 'measurable' (outside C-42's lines)
 - next: top up with the next corrector (`wave`: -families or -captions)
+
+## 2026-11-22 22:10 · wave of 2 (topped up) · T-egf-correct-families; T-egf-repro-sphere (continues)
+- T-egf-correct-families (correct): C-28, C-31, C-32, C-33, C-49 applied (v2 a9c3b9d). CHECK-1 major: l.828 defined Q̄ as the algebraic real numbers, which made the newly quoted SU(d) theorem vacuous; B.3's lead-in still announced the spectral-gap route; l.821's free-group sentence was left unrestricted at d = 1 while l.293 now says d ≥ 2. The master extended C-32 (l.827-829: complex algebraic numbers, the lead-in on ergodicity) and C-28 (l.809, l.821, the l.818-820 conclusion; the S, T definition the corrector added to Theorem 3.5); one fix round; CHECK-2 minor
+- T-egf-repro-sphere (repro): still running
+- corrections: 7 found, 2 proved, 1 adopted, 39 applied, 0 reviewed; 3 superseded (left: the captions C-44, C-45, C-47; the spelling C-48; the experiments C-34, C-36, C-46)
+- v2: a9c3b9d EGF-C28..C49 (ten batches since camera-ready)
+- gates: corrections ✓, roadmaps ✓, v2 build ✓
+- commits: 38fe786 29ed02e (+ this) (hub) · a9c3b9d (v2)
+- for the planner (CHECK-1/2 of -families): proof text in Appendix B for the no-periodic-vector, T¹ and dense ⇒ ergodic routes (Lean: ergodic_torusAffine_of_noPeriodic, ergodicSMul_rotSphere); l.302's 'a continuous family of EGFs' (members at non-ergodic rotations are not EGFs); l.1022's 'theoretically minimal' (one move suffices); l.702's spectral-gap sentence; the leftover 'technical assumption' wording (l.293, l.307, l.836); l.888's sentence repeating the lead-in; and the audited marking of theo:universality_tori and theo:universality_sphere, whose corrected forms are now applied
+- next: top up with T-egf-correct-captions
