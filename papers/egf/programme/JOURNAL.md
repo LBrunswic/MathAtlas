@@ -130,3 +130,13 @@ One entry per `/egf-programme` iteration, newest last (format in `.claude/skills
 - commits: 5cf78d5 291aaa3 951502e (+ this) (hub) · none (v2) · a69083b 544794e 6ed2f65 811da29 (repro)
 - asks: none open for EGF; the v2 commits still await the author's review
 - next: `wave` gives T-egf-repro-sphere alone; after it fewer than two targets are ready and the planning run follows (the batches re-cut to DEC-142 to DEC-146 and C-31's adoption, the l.400 entry, C-26, T-egf-def-egf, the closers T-egf-tori-minimal and T-egf-sphere-dense-ergodic, the RL finding for the experiments batch)
+
+## 2026-11-22 18:03 · planning run (rule 2: one target ready)
+- correction to the 17:30 entry: with only T-egf-repro-sphere ready, rule 2 (plan) applied before rule 3, so this iteration planned instead of dispatching the sphere reproduction
+- egf-planner: the batches re-cut to DEC-142 to DEC-146 (e0e11df). Ready now: closers T-egf-tori-minimal, T-egf-sphere-dense-ergodic, T-egf-def-egf (re-scoped to DEC-146); correctors T-egf-correct-universality, -algorithm (C-35, C-38), -typos (C-40 to C-43), -captions (C-44, C-45, C-47), -spelling (C-48); experimenters T-egf-repro-sphere, -ablations; master T-egf-kb-families, T-egf-corrections-superseded. Planned: -ergodicity (after -universality), -defs (after T-egf-def-egf), -families, -experiments, -repro-report, the SO(3) stretch, the v2 package
+- corrections: 17 found, 4 proved, 10 adopted, 18 applied, 0 reviewed (49 entries; new C-38 to C-49)
+- master actions owed before the batches they feed (the planner's list): C-35's batch to T-egf-correct-algorithm; C-38 proved and adopted (DEC-142); C-39 and C-21 adopted (DEC-144) and C-29's series sentence amended to the λ-invariant form, before -ergodicity; C-22, C-23 (and C-24, which C-39 replaces) to superseded once T-egf-corrections-superseded lands; C-26 after T-egf-def-egf; C-32 and C-33 adopted (DEC-141); the typo entries C-40 to C-45, C-47, C-48 proved and adopted (DEC-141); register hygiene (C-27's line, C-37's 'Appendix F', C-30's aperiodicity wording)
+- genuine readings: none. Facts only the author can supply, wanted before the experiments batch: l.440's move count (12 or 20; the RL conclusions do not depend on it); whether Table nll's EGF row is filtered, and with what floor; whether the depth ablation (l.1003) is on R² (C-46 waits on this); optionally F_init and the weight of R in the RL experiment
+- gates: corrections ✓, roadmaps ✓, test_corrections + test_roadmap ✓ (nothing else changed)
+- commits: e0e11df (+ this) (hub)
+- next: adoption by the master (the list above), then a wave of closers (tori-minimal, sphere-dense-ergodic, def-egf), one corrector (-universality first, or -algorithm), one experimenter (repro-sphere), the master's kb target
