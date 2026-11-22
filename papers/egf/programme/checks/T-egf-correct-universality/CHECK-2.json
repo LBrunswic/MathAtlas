@@ -1,0 +1,74 @@
+{
+  "target": "T-egf-correct-universality",
+  "round": 2,
+  "verdict": "minor",
+  "scope": "git -C ~/Dropbox/ErgodicGFN arXiv/source diff against HEAD 97419c7 (main.tex only, 9 insertions, 4 deletions). This round checks what changed since CHECK-1. (1) Register: C-18 now has main.tex:238 in `printed`, its `corrected` carries the l.238 sentence and the Definition 3.2 text as applied, and its finding is extended. C-19's and C-20's `added_hypotheses` are filled, and C-20's finding is updated. (2) v2: the Expressivity sentence (l.245) is replaced, with its marker at l.246. The rest of the diff is CHECK-1's, one line lower. Anchors re-read: EGF.IsUniversalFamilyEps, EGF.universality (EGF/UniversalFamily.lean), EGF.universality_of_ergodic_family and EGF.isKernelErgodic_of_isSummablyL2Mixing (EGF/UniversalityErgodic.lean), and EGF.not_isUniversalFamilyEps_of_constantHeads and EGF.not_isUniversalFamilyEps_constOutflow (EGF/TorusFamilies.lean). Line numbers are v2 (working copy) unless marked v1.",
+  "entries": [
+    {
+      "id": "C-18",
+      "faithful": true,
+      "hypotheses_ok": false,
+      "refutation_answered": true,
+      "notes": "New site, l.245 (v1 l.238). Checked programmatically: the applied sentence is C-18's `corrected` l.238 text character for character. The first sentence of the paragraph ('Expressivity can potentially be an issue ...') is unchanged. Definition 3.2 at l.259 is now C-18's `corrected` Definition 3.2 text verbatim, pointer clause included. Reading the new sentence against the Lean. Its conclusion, 'the parameterized family of EGFs is universal: for any probability distributions F_init, F_term << lambda with bounded density it contains flows from F_init to F_term with arbitrarily small errors delta F_init(S) + delta F_term(S)', is EGF.IsUniversalFamilyEps: probability measures, << lambda, essentially bounded rnDeriv, and for every eps > 0 a member with errors < eps. The pointer '(Theorem ref{theo:universality})' renders as 'Theorem 3.4', and Theorem 3.4 is EGF.universality. Read through it, 'for a model rich enough' means Theorem 3.4's hypotheses: the family contains a summably L^2-mixing pi*, and the outflows paired with it are dense in the non-negative cone of L^2(lambda). So the sentence says no more than EGF.universality proves. 'Ergodicity' is the paper's own gloss for that policy ('a sufficiently strong ergodic policy', l.271). Summable mixing implies ergodicity (EGF.isKernelErgodic_of_isSummablyL2Mixing). Ergodicity for a finite invariant lambda-hat ~ lambda suffices by itself (EGF.universality_of_ergodic_family). So the gloss is proved in both senses. The richness qualifier is necessary, not decorative. A model whose heads ignore the state is never epsilon-universal (EGF.not_isUniversalFamilyEps_of_constantHeads, EGF.not_isUniversalFamilyEps_constOutflow, both C-31's). 'With bounded density' matches the statement of IsUniversalFamilyEps. Its proof discards the bound (isUniversalFamilyEps_of_policy), but no declaration states the family version without it, so keeping it is right. Refutation EGF.exact_universality_fails no longer applies to l.245, which claims no exact flow matching. Theorem 2.1's mass balance does not apply either, since both measures are now probabilities. hypotheses_ok is false on the register's side only (finding 1). C-18's printed l.238 now carries two added conditions, the rich model and probability measures with bounded density, and its `added_hypotheses` is still []. l.810 (v1 l.774) is unchanged and true under the corrected definition, as CHECK-1 found."
+    },
+    {
+      "id": "C-19",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged in v2 since CHECK-1 (l.259, marker l.261). `added_hypotheses` is now ['mu and nu (F_init and F_term) are probability measures'], which is in the edited statement. CHECK-1's finding 3 for C-19 is resolved."
+    },
+    {
+      "id": "C-20",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged in v2 since CHECK-1 (l.288, marker l.289). `added_hypotheses` now names the pairing with pi*, which is in the edited statement ('such that (pi*, f_out*) is in the family'). The finding now says Theorem 3.4 is derived in Lean (EGF.universality) and why the dense set must be the paired outflows (EGF.Coin.allOutflows_reading_fails). CHECK-1's findings 3 and 4 for C-20 are resolved."
+    },
+    {
+      "id": "C-25",
+      "faithful": true,
+      "hypotheses_ok": true,
+      "refutation_answered": true,
+      "notes": "Unchanged since CHECK-1 (l.277, marker l.279); faithful to EGF.transfer, EGF.unitMeanZero, EGF.mixingCoeff and EGF.IsSummablyL2Mixing (DEC-145)."
+    }
+  ],
+  "markers": "Five edited passages and five marker lines: l.246 '% EGF-C18' (l.245), l.260 '% EGF-C18' and l.261 '% EGF-C19' (Definition 3.2, l.259), l.279 '% EGF-C25' (l.277) and l.289 '% EGF-C20' (l.288). The new marker is a comment line directly after the paragraph's text line, with the blank line kept after it, so the paragraph structure is unchanged.",
+  "scope_check": "The diff has 4 hunks, against 3 in CHECK-1. The new hunk changes only the second sentence of v1 l.238, which C-18 now prints, and adds its marker. The trailing space after 'spheres.' is gone, which does not affect the output. The three CHECK-1 hunks are byte-identical, one line lower. No other line is touched. With l.245 fixed, the uses of 'universal' and of exact flow matching are now consistent with Definition 3.2 throughout v2. A grep for 'able to be flow', 'flow matching for any' and 'any non-zero' finds no remaining use. CHECK-1's major finding 1 is resolved.",
+  "build": {
+    "ok": true,
+    "undefined": 0,
+    "notes": "Ran latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex in /tmp copies of the working copy and of HEAD 97419c7. Both exit 0 with 20 pages and no undefined reference or citation. Theorem~ref{theo:universality} renders as 'Theorem 3.4'. pdftotext shows the new sentence in place. Against HEAD, the warnings differ by CHECK-1's underfull hbox (now lines 276--280) and by three new Underfull vbox warnings (badness 2310, 3646, 5345) while output is active on pages 4 to 7. Those come from the column stretching that the three extra lines cause, and are cosmetic. Both copies were deleted, and the working copy shows only 'M main.tex'. tools/corrections.py check: 49 entries, all rules hold."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "papers/egf/programme/corrections.toml (C-18, l.245 site)",
+      "what": "C-18's `added_hypotheses` is still [], but the l.238 replacement adds two conditions to the printed claim. The first is 'for a model rich enough (Theorem 3.4)', i.e. Theorem 3.4's hypotheses. It is necessary: without it the claim fails even in epsilon form (EGF.not_isUniversalFamilyEps_of_constantHeads, EGF.not_isUniversalFamilyEps_constOutflow). The second is 'probability distributions ... with bounded density', which replaces 'any non-zero F_init << lambda and F_term << lambda'. C-19's `added_hypotheses` covers 'probability' only at Definition 3.2, the line it prints, not at l.238. The edit is C-18's `corrected` text and is faithful, so this is a register mismatch only.",
+      "fix": "C-18: `added_hypotheses = ['at l.238: a model rich enough, i.e. the hypotheses of Theorem 3.4 (without it the claim fails: EGF.not_isUniversalFamilyEps_of_constantHeads)', 'at l.238: F_init, F_term probability measures with bounded density (Definition 3.2)']`. Optionally add EGF.not_isUniversalFamilyEps_constOutflow to its `refutation`."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:245",
+      "what": "For the planner (later batches); nothing to do here. Read through its pointer, 'Ergodicity guarantees' is Theorem 3.4's ergodic policy: summably mixing in this batch, ergodic for a finite invariant lambda-hat ~ lambda after C-29. Both senses are proved. But the paragraph motivates Definition 3.1 ('two key ideas that motivate this definition', v1 l.223), so a reader may take 'Ergodicity' to be Definition 3.1's topological ergodicity of the moves. No Lean theorem uses that notion, and C-26 records that it does not suffice in general. This wording is v1's and unchanged. C-26 (DEC-146: measure ergodicity of the generated group, T-egf-correct-defs) and C-29 (T-egf-correct-ergodicity) will settle it. The sentence stays correct after them only through its '(Theorem ref{theo:universality})' pointer.",
+      "fix": "None in this batch. C-29's batch should keep the pointer and must not reword l.245. If C-26's batch lands first, check that the 'rich enough' model (Theorem 3.4 after C-29) still includes a policy with a finite invariant measure equivalent to lambda. Group ergodicity gives an ergodic policy only with such a measure, e.g. when the moves preserve lambda, as on tori and spheres."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:693",
+      "what": "Carried from CHECK-1 finding 2 and recorded for the planner. v1 l.664 still reads 'from the proof of the universality Theorem ref{theo:universality}'. Theorem 3.4 has no proof; B.1's is meant. Once C-39 replaces B.1's proof, the fixed-point description will no longer match it.",
+      "fix": "A new entry batched with T-egf-correct-ergodicity, as proposed in CHECK-1."
+    },
+    {
+      "severity": "minor",
+      "where": "main.tex:258, main.tex:259, main.tex:288",
+      "what": "Carried from CHECK-1 finding 5 and recorded for the planner. The v1 typo 'a family of generative flow family' remains (l.258). The pair is written '(f_out*, pi*)' at l.259 but '(pi*, f_out*)' at l.288.",
+      "fix": "A typo entry, or C-48."
+    }
+  ],
+  "answers": {
+    "new_sentence": "Faithful. It is C-18's corrected l.238 text verbatim. Its conclusion is EGF.IsUniversalFamilyEps, and its hypothesis, through '(Theorem 3.4)', is that of EGF.universality. 'Ergodicity' is proved in both of its policy senses (EGF.isKernelErgodic_of_isSummablyL2Mixing, EGF.universality_of_ergodic_family).",
+    "rich_enough": "'for a model rich enough (Theorem 3.4)' says no more than Lean proves. It defers to Theorem 3.4's hypotheses (a summably mixing pi* in the family, paired outflows dense in the non-negative cone), which are EGF.universality's. It is necessary, since constant-head models are never epsilon-universal (EGF.not_isUniversalFamilyEps_of_constantHeads), and it asks nothing the Lean does not use. Its only gap is the register's: C-18's `added_hypotheses` does not name it (finding 1).",
+    "scope": "Only the second sentence of v1 l.238 and its marker are new. Everything else is CHECK-1's diff, shifted by one line."
+  }
+}

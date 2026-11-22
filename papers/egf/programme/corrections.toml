@@ -343,17 +343,18 @@ v2_commit = "256b365"
 id = "C-18"
 label = "def:universal_family"
 where = "Definition 3.2 and the sentence before Theorem B.1"
-printed = ["main.tex:249-252", "main.tex:774"]
+printed = ["main.tex:249-252", "main.tex:774", "main.tex:238"]
 kind = "gap"
-finding = "Definition 3.2 asks a flow that is exactly flow matching, while Theorem B.1 gives only delta F_init(S) + delta F_term(S) < eps; so 'The following theorem implies Theorem 3.4' (l.774) does not hold with the definition as printed. What is proved is epsilon-universality."
+finding = "Definition 3.2 asks a flow that is exactly flow matching, while Theorem B.1 gives only delta F_init(S) + delta F_term(S) < eps; so 'The following theorem implies Theorem 3.4' (l.774) does not hold with the definition as printed. What is proved is epsilon-universality. The Expressivity paragraph (l.238) makes the same exact and unnormalized claim ('able to be flow-matching for any non-zero F_init << lambda and F_term << lambda'), refuted by EGF.exact_universality_fails and, for unequal masses, by flow matching's mass balance; added to this entry by the master after CHECK-1 of T-egf-correct-universality (major finding 1). C-29 lists l.238 for its 'ergodicity guarantees' and judges it right in its epsilon form: the epsilon and probability wording is this entry's."
 anchor = ["EGF.IsUniversalFamilyEps", "EGF.universality", "EGF.main_universality"]
 refutation = ["EGF.exact_universality_fails"]
 basis = ["OQ-50", "DEC-141"]
-status = "adopted"
-corrected = '''A family is universal if for any two probability distributions $\mu,\nu\ll\lambda$ with bounded density and every $\varepsilon>0$ there is a flow in the family from $\Finit=\nu$ to $\Fterm=\mu$ with $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)<\varepsilon$.'''
+status = "applied"
+corrected = '''Definition 3.2 (l.251): universal if for any two probability distributions $\mu,\nu\ll \lambda$ with bounded density and every $\varepsilon>0$ there is a flow $(\foutstar,\ForwardPolicyStar)$ in the family from $\Finit=\nu$ to $\Fterm=\mu$ with $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)<\varepsilon$, where $\delta\Finit,\delta\Fterm$ are the initial and terminal errors defined in Section \ref{sec:theory1}. l.238: ``Ergodicity guarantees, for a model rich enough (Theorem~\ref{theo:universality}), that the parameterized family of EGFs is universal: for any probability distributions $\Finit,\Fterm\ll \lambda$ with bounded density it contains flows from $\Finit$ to $\Fterm$ with arbitrarily small errors $\delta\Finit(\Statespace)+\delta\Fterm(\Statespace)$, even with simple transformations, such as affine maps on tori and rotations on spheres.'' (l.774 stands as printed under the corrected definition.)'''
 summary = "Universality (Definition 3.2) is epsilon-universality, which is what Theorem B.1 proves; the exact form does not follow."
-added_hypotheses = []
+added_hypotheses = ["at l.238: a model rich enough, the hypotheses of Theorem 3.4 (necessary: EGF.not_isUniversalFamilyEps_of_constantHeads)", "at l.238: F_init and F_term probability measures with bounded density"]
 batch = "T-egf-correct-universality"
+v2_commit = "a1ddcb0"
 
 [[correction]]
 id = "C-19"
@@ -365,11 +366,12 @@ finding = "Read with unnormalized distributions (the paper's other use of the wo
 refutation = ["EGF.not_isUniversalFamilyUnnormalized"]
 anchor = ["EGF.IsUniversalFamily", "EGF.IsUniversalFamilyEps"]
 basis = ["OQ-49", "DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''for any two probability distributions $\mu,\nu\ll \lambda$ with bounded density'''
 summary = "Definition 3.2 quantifies over probability distributions (the unnormalized reading is never satisfied)."
-added_hypotheses = []
+added_hypotheses = ["mu and nu (F_init and F_term) are probability measures"]
 batch = "T-egf-correct-universality"
+v2_commit = "a1ddcb0"
 
 [[correction]]
 id = "C-20"
@@ -377,15 +379,16 @@ label = "theo:universality"
 where = "Theorem 3.4"
 printed = "main.tex:277"
 kind = "gap"
-finding = "'the set of f_out* is dense in L2(S, lambda)' (l.277) cannot hold: outflows are non-negative, and the a.e.-non-negative functions form a closed cone which is not dense in L2(lambda) for lambda != 0 (the constant -1 is at distance lambda(S)^{1/2} from it), so the printed hypothesis is never satisfied and Theorem 3.4 as printed is vacuous; presumably dense in the non-negative cone. Theorem 3.4 itself is not yet derived from Theorem B.1 in Lean. Route to proved (T-egf-universality): EGF.universality (Theorem 3.4 with epsilon-universality, C-18, and outflows dense in the non-negative cone) and EGF.not_dense_L2_of_nonneg (the printed hypothesis is unsatisfiable). By C-29 'summably L2-mixing' can moreover be weakened to 'ergodic for a finite invariant measure equivalent to lambda'."
+finding = "'the set of f_out* is dense in L2(S, lambda)' (l.277) cannot hold: outflows are non-negative, and the a.e.-non-negative functions form a closed cone which is not dense in L2(lambda) for lambda != 0 (the constant -1 is at distance lambda(S)^{1/2} from it), so the printed hypothesis is never satisfied and Theorem 3.4 as printed is vacuous; presumably dense in the non-negative cone. Theorem 3.4 is derived from Theorem B.1 in Lean (EGF.universality). The dense set must be the outflows paired with the mixing policy in the family: with any outflow of the family the theorem fails (EGF.Coin.allOutflows_reading_fails). Route to proved (T-egf-universality): EGF.universality (Theorem 3.4 with epsilon-universality, C-18, and outflows dense in the non-negative cone) and EGF.not_dense_L2_of_nonneg (the printed hypothesis is unsatisfiable). By C-29 'summably L2-mixing' can moreover be weakened to 'ergodic for a finite invariant measure equivalent to lambda'."
 anchor = ["EGF.universality", "EGF.not_dense_L2_of_nonneg"]
 refutation = ["EGF.not_dense_L2_of_nonneg", "EGF.Coin.allOutflows_reading_fails"]
 basis = ["OQ-50", "DEC-141"]
-status = "adopted"
+status = "applied"
 corrected = '''provided that it contains some summably $L^2$-mixing $\ForwardPolicyStar$ and that the set of $\foutstar$ such that $(\ForwardPolicyStar,\foutstar)$ is in the family is dense in the non-negative cone of $L^2(\Statespace,\lambda)$.'''
 summary = "Theorem 3.4 asks the outflows dense in the non-negative cone of L2 (non-negative functions are not dense in L2)."
-added_hypotheses = []
+added_hypotheses = ["the outflows dense in the non-negative cone of L2(lambda) are those paired with the mixing policy pi* in the family"]
 batch = "T-egf-correct-universality"
+v2_commit = "a1ddcb0"
 
 [[correction]]
 id = "C-21"
@@ -450,10 +453,11 @@ finding = "The mean-zero condition names no measure (l.267; l.273 and the proof 
 anchor = ["EGF.IsSummablyL2Mixing", "EGF.mixingCoeff", "EGF.transfer", "EGF.unitMeanZero"]
 basis = ["OQ-47", "DEC-145"]
 added_hypotheses = []
-status = "adopted"
+status = "applied"
 corrected = '''In Definition 3.3, $\varphi\pi^n := \frac{d((\varphi\lambda)\pi^n)}{d\lambda}$ and $H = \{\varphi \in L^2(\lambda)~|~\|\varphi\|_{L^2(\lambda)} = 1 \text{ and } \int_{\Statespace} \varphi\, d\lambda=0\}$; the coefficients $\gamma_n$ integrate $(\varphi\pi^n)^2$ against $\widehat\lambda$, as printed.'''
 summary = "Definition 3.3 names the measure of its mean-zero condition and of its coefficients."
 batch = "T-egf-correct-universality"
+v2_commit = "a1ddcb0"
 
 # --------------------------------------------------------------------------------------------
 # Definitions and families                                                              batch C-defs
