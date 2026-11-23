@@ -1,0 +1,676 @@
+{
+ "target": "T-abs-curves-free-ers-unions",
+ "package": "lean-causal",
+ "files": [],
+ "campaign_files": [
+  "campaign/T-abs-curves-free-ers-unions/REPORT.json",
+  "campaign/T-abs-curves-free-ers-unions/Probe.lean",
+  "campaign/T-abs-curves-free-ers-unions/scan_table.py",
+  "campaign/T-abs-curves-free-ers-unions/scan.json",
+  "campaign/T-abs-curves-free-ers-unions/binders_pairs.json",
+  "campaign/T-abs-curves-free-ers-unions/binders_diff.txt",
+  "campaign/T-abs-curves-free-ers-unions/axioms.txt"
+ ],
+ "builds": null,
+ "build_command": "No module was written, so nothing was built. The dispatch's rule applies: 'If none remains, the target closes on that report: write the REPORT and no module.' Evidence: cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake env lean campaign/T-abs-curves-free-ers-unions/Probe.lean > /tmp/probe.out && python3 -I campaign/T-abs-curves-free-ers-unions/scan_table.py /tmp/probe.out campaign/T-abs-curves-free-ers-unions/scan.json && python3 -I campaign/T-abs-curves-free-cauchy/binders_diff.py /tmp/probe.out campaign/T-abs-curves-free-ers-unions/binders_pairs.json /tmp/bd.json",
+ "build_result": "scaffold/CausalScaffold/ErsUnionsSecondCountable.lean was NOT created. Probe.lean imports the 123 ETT-layer modules. Before it ran, `taskset -c 0-11 lake build --no-build <the 123 modules>` printed 'All targets up-to-date (3326 jobs)', so nothing upstream had moved. Under `lake env lean -DwarningAsError=true` it exits 0 with no warning and runs in about 6 s. #print axioms on the 10 covering forms gives [propext, Classical.choice, Quot.sound] each, with no sorryAx (axioms.txt). The 13 pair checks (binders_diff.txt) agree under both default pretty-printing and pp.explicit (instance binders named by their types). Each conclusion is identical, and each pair has the same universe parameters (u, or u v for ErsMughd's).",
+ "sorry_count": 0,
+ "layer": "No module was written. The probe imports only ETT-layer modules: tools/ladder.py's model_path is None for each of the 123, checked one at a time in memory (kb/0247). Causal.ErsUnions, Causal.ErsMughd, Causal.ErsSecondCountable, Causal.Ers464SecondCountable and Causal.Ers475CauchyForm are ETT-layer. All but ErsUnions reach Causal.Ladder.Rules (through ErsMughd), and that is legal for them: none is in Causal.CurvesExtendSecondCountable's closure. No existing file was edited.",
+ "count": {
+  "CurvesExtend_or_CurvesExtendOn_binders_in_ErsUnions_and_ErsMughd": 10,
+  "already_covered": 10,
+  "covered_by_Causal.Ers464SecondCountable": 7,
+  "covered_by_Causal.ErsSecondCountable": 3,
+  "exact_forms_among_them": 6,
+  "stronger_forms_among_them": 4,
+  "formed_now": 0,
+  "could_not_form": 0,
+  "other_flagged_binders_in_the_two_modules": "9: hthrough ×3 (InextensibleThrough, dropped by the same 3 ErsMughd forms), hsplit ×4 (SplitBy; Rem 4.67's GH form drops it, the other three have trade siblings only), the structure field IsLocalDevelopment.split, and the inline hmeet (the lemma's content)"
+ },
+ "declarations": [
+  {
+   "name": "Causal.Causality.eq_of_mem_of_t1_secondCountable",
+   "file_line": "Causal/Ers464SecondCountable.lean:178",
+   "original": "Causal.Causality.eq_of_mem_of_curvesExtendOn (Causal/ErsUnions.lean:165)",
+   "statement": "[T1Space M] [SecondCountableTopology M] {W B : Opens M} (hWB : W ≤ B) (hB : C.IsCauchySurfaceOn B S) {I} {c} (hc : C.CausalCurveIn W I c) {s t} (hs : s ∈ I) (ht : t ∈ I) (hsS : c s ∈ S) (htS : c t ∈ S) : c s = c t",
+   "standing": "T1, second countable. The original less (hext : C.CurvesExtendOn B); the original has no separation axiom, so T1 is added as well",
+   "relation": "exact",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.Causality.IsCauchySurfaceOn.of_subset_of_t1_secondCountable",
+   "file_line": "Causal/Ers464SecondCountable.lean:186",
+   "original": "Causal.Causality.IsCauchySurfaceOn.of_subset_of_curvesExtendOn (Causal/ErsUnions.lean:181)",
+   "statement": "[T1Space M] [SecondCountableTopology M] {W B : Opens M} {S'} (hW : C.IsCauchySurfaceOn W S') (hS' : S' ⊆ S) (hWB : W ≤ B) (hB : C.IsCauchySurfaceOn B S) : C.IsCauchySurfaceOn W S",
+   "standing": "T1, second countable. The original less (hext : C.CurvesExtendOn B), with T1 added (the original has no separation axiom)",
+   "relation": "exact",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable",
+   "file_line": "Causal/Ers464SecondCountable.lean:194",
+   "original": "Causal.Causality.isCauchySurfaceOn_sSup_of_curvesExtendOn (Causal/ErsUnions.lean:212)",
+   "statement": "[T2Space M] [SecondCountableTopology M] {B} {𝒟 : Set (Opens M)} (hanti : ∀ ⦃x y⦄, C.le B x y → C.le B y x → x = y) (hB : C.IsCauchySurfaceOn B S) (h𝒟B : ∀ D ∈ 𝒟, D ≤ B) (h𝒟 : ∀ D ∈ 𝒟, ∃ S' ⊆ S, C.IsCauchySurfaceOn D S') : C.IsCauchySurfaceOn (sSup 𝒟) S",
+   "standing": "T2 (the original's), second countable. The original less (hext : C.CurvesExtendOn B)",
+   "relation": "exact",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces_secondCountable",
+   "file_line": "Causal/Ers464SecondCountable.lean:205",
+   "original": "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces (Causal/ErsUnions.lean:227)",
+   "statement": "[T2Space M] [SecondCountableTopology M] {B} {𝒟} (hC : C.CausallyArcConnectedOn B) (hG : C.GloballyHyperbolicOn B) (hB : C.IsCauchySurfaceOn B S) (h𝒟B : ∀ D ∈ 𝒟, D ≤ B) (h𝒟 : ∀ D ∈ 𝒟, ∃ S' ⊆ S, C.IsCauchySurfaceOn D S') (hS : S ⊆ ↑(sSup 𝒟)) : C.IsCauchySurfaceOn (sSup 𝒟) S ∧ C.CausallyConvexIn ↑(sSup 𝒟) B ∧ C.GloballyHyperbolicOn (sSup 𝒟)",
+   "standing": "T2, second countable. The original less (hext : C.CurvesExtendOn B)",
+   "relation": "exact",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn_secondCountable",
+   "file_line": "Causal/Ers464SecondCountable.lean:219",
+   "original": "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn (Causal/ErsUnions.lean:314)",
+   "statement": "[T2Space M] [SecondCountableTopology M] {U₁ U₂ V} {agree} (hV : C.IsCommonDevelopment S U₁ U₂ agree V) (hG : C.GloballyHyperbolicOn U₁) (hS : C.IsCauchySurfaceOn U₁ S) (hC : C.CausallyArcConnectedOn U₁) : C.GloballyHyperbolicOn V ∧ C.CausallyConvexIn ↑V U₁",
+   "standing": "T2, second countable. The original less (hext : C.CurvesExtendOn U₁)",
+   "relation": "exact",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn_secondCountable",
+   "file_line": "Causal/Ers464SecondCountable.lean:232",
+   "original": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn (Causal/ErsUnions.lean:328)",
+   "statement": "the original's binders less (hacausal : C.IsAcausalOn U₁ S), (hsplit : C.SplitBy U₁ S), (hext : C.CurvesExtendOn U₁), with [SecondCountableTopology M] after [T2Space M] : IsGreatest {V | C.IsCommonDevelopment S U₁ U₂ agree V} (U₁ ⊓ U₂) ∧ C.GloballyHyperbolicOn (U₁ ⊓ U₂) ∧ C.CausallyConvexIn ↑(U₁ ⊓ U₂) U₁",
+   "standing": "T2, second countable. It is stronger than the original less hext: hacausal and hsplit come from the hS (S Cauchy in U₁) and hC (U₁ causally arc-connected) that the original also takes (kb/0218, kb/0226)",
+   "relation": "stronger",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn_secondCountable",
+   "file_line": "Causal/Ers464SecondCountable.lean:256",
+   "original": "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn (Causal/ErsUnions.lean:354)",
+   "statement": "[T2Space M] [SecondCountableTopology M] {U₁ U₂} {agree} (hglue : AgreementGlues agree) (hG : C.GloballyHyperbolicOn U₁) (hS : C.IsCauchySurfaceOn U₁ S) (hC : C.CausallyArcConnectedOn U₁) (hloc : C.LocalUniqueness S (U₁ ⊓ U₂) agree) : C.IsCommonDevelopment S U₁ U₂ agree (C.localDevelopmentUnion S (U₁ ⊓ U₂) agree) ∧ C.GloballyHyperbolicOn (…) ∧ C.CausallyConvexIn ↑(…) U₁",
+   "standing": "T2, second countable. The original less (hext : C.CurvesExtendOn U₁)",
+   "relation": "exact",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable",
+   "file_line": "Causal/ErsSecondCountable.lean:261",
+   "original": "Causal.IsMDevelopment.isUniqueDevelopment (Causal/ErsMughd.lean:326)",
+   "statement": "the original's binders less (hmext : Cm.CurvesExtend) and (hthrough : ∀ U u, IsDevelopment sol cau S U u → (cau u).InextensibleThrough U), with [SecondCountableTopology M] after [T2Space M] : IsUniqueDevelopment sol cau S U₁ u₁",
+   "standing": "T2, second countable. Stronger than the original less hmext: hthrough is discharged too (inextensibleThrough_of_t1_secondCountable)",
+   "relation": "stronger",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.ers_theorem_4_79_secondCountable",
+   "file_line": "Causal/ErsSecondCountable.lean:288",
+   "original": "Causal.ers_theorem_4_79 (Causal/ErsMughd.lean:400)",
+   "statement": "the original's binders less (hmext : Cm.CurvesExtend) and hthrough, with [SecondCountableTopology M] after [T2Space M] : ∃ U u, IsMaximalUniqueDevelopment sol cau S U u",
+   "standing": "T2, second countable. Stronger than the original less hmext (hthrough discharged too)",
+   "relation": "stronger",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  },
+  {
+   "name": "Causal.ers_theorem_4_80_secondCountable",
+   "file_line": "Causal/ErsSecondCountable.lean:322",
+   "original": "Causal.ers_theorem_4_80 (Causal/ErsMughd.lean:483)",
+   "statement": "the original's binders less (hmext : Cm.CurvesExtend) and hthrough, with [SecondCountableTopology M] after [T2Space M] : ∃ U u, IsMaximalMDevelopment sol cau Cm S U u",
+   "standing": "T2, second countable. Stronger than the original less hmext (hthrough discharged too)",
+   "relation": "stronger",
+   "status": "exists (not written here), sorry-free: #print axioms [propext, Classical.choice, Quot.sound]"
+  }
+ ],
+ "scan_table": [
+  {
+   "decl": "Causal.IsMDevelopment.isUniqueDevelopment",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsMughd.lean:326",
+   "binder_file_line": "Causal/ErsMughd.lean:329",
+   "binder": "(hmext : Cm.CurvesExtend)",
+   "flags": [
+    "CurvesExtend"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable",
+   "by_file_line": "Causal/ErsSecondCountable.lean:261",
+   "by_module": "Causal.ErsSecondCountable",
+   "form_drops": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hmext AND less hthrough (the scan flags both: InextensibleThrough is discharged by inextensibleThrough_of_t1_secondCountable), plus [SecondCountableTopology M]; it implies the original less hmext"
+  },
+  {
+   "decl": "Causal.IsMDevelopment.isUniqueDevelopment",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsMughd.lean:326",
+   "binder_file_line": "Causal/ErsMughd.lean:331",
+   "binder": "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)",
+   "flags": [
+    "InextensibleThrough"
+   ],
+   "curve_extension_binder": false,
+   "status": "covered already",
+   "by": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable",
+   "by_file_line": "Causal/ErsSecondCountable.lean:261",
+   "by_module": "Causal.ErsSecondCountable",
+   "form_drops": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hmext AND less hthrough (the scan flags both: InextensibleThrough is discharged by inextensibleThrough_of_t1_secondCountable), plus [SecondCountableTopology M]; it implies the original less hmext"
+  },
+  {
+   "decl": "Causal.ers_theorem_4_79",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsMughd.lean:400",
+   "binder_file_line": "Causal/ErsMughd.lean:405",
+   "binder": "(hmext : Cm.CurvesExtend)",
+   "flags": [
+    "CurvesExtend"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.ers_theorem_4_79_secondCountable",
+   "by_file_line": "Causal/ErsSecondCountable.lean:288",
+   "by_module": "Causal.ErsSecondCountable",
+   "form_drops": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hmext AND less hthrough, plus [SecondCountableTopology M]; it implies the original less hmext"
+  },
+  {
+   "decl": "Causal.ers_theorem_4_79",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsMughd.lean:400",
+   "binder_file_line": "Causal/ErsMughd.lean:410",
+   "binder": "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)",
+   "flags": [
+    "InextensibleThrough"
+   ],
+   "curve_extension_binder": false,
+   "status": "covered already",
+   "by": "Causal.ers_theorem_4_79_secondCountable",
+   "by_file_line": "Causal/ErsSecondCountable.lean:288",
+   "by_module": "Causal.ErsSecondCountable",
+   "form_drops": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hmext AND less hthrough, plus [SecondCountableTopology M]; it implies the original less hmext"
+  },
+  {
+   "decl": "Causal.ers_theorem_4_80",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsMughd.lean:483",
+   "binder_file_line": "Causal/ErsMughd.lean:488",
+   "binder": "(hmext : Cm.CurvesExtend)",
+   "flags": [
+    "CurvesExtend"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.ers_theorem_4_80_secondCountable",
+   "by_file_line": "Causal/ErsSecondCountable.lean:322",
+   "by_module": "Causal.ErsSecondCountable",
+   "form_drops": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hmext AND less hthrough, plus [SecondCountableTopology M]; it implies the original less hmext"
+  },
+  {
+   "decl": "Causal.ers_theorem_4_80",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsMughd.lean:483",
+   "binder_file_line": "Causal/ErsMughd.lean:493",
+   "binder": "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)",
+   "flags": [
+    "InextensibleThrough"
+   ],
+   "curve_extension_binder": false,
+   "status": "covered already",
+   "by": "Causal.ers_theorem_4_80_secondCountable",
+   "by_file_line": "Causal/ErsSecondCountable.lean:322",
+   "by_module": "Causal.ErsSecondCountable",
+   "form_drops": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ (U : TopologicalSpace.Opens M) (u : M → β), Causal.IsDevelopment sol cau S U u → (cau u).InextensibleThrough U)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hmext AND less hthrough, plus [SecondCountableTopology M]; it implies the original less hmext"
+  },
+  {
+   "decl": "Causal.Causality.isCauchySurfaceOn_of_meets_of_isAcausalOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:142",
+   "binder_file_line": "Causal/ErsUnions.lean:143",
+   "binder": "(hmeet : ∀ (I : Set ℝ) (c : ℝ → M), C.Inextensible W I c → (c '' I ∩ S).Nonempty)",
+   "flags": [
+    "Inextensible"
+   ],
+   "curve_extension_binder": false,
+   "status": "not formed (outside the CurvesExtend(On) scope)",
+   "why": "not a curve-extension hypothesis: hmeet (\"every inextensible curve of W meets S\") is the existence half of the Cauchy property, the lemma's content. It cannot be discharged by the curves theorem, and no form is owed (as kb/0259's audit ruled for ers_lemma_4_70_core's htrans)."
+  },
+  {
+   "decl": "Causal.Causality.eq_of_mem_of_curvesExtendOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:165",
+   "binder_file_line": "Causal/ErsUnions.lean:166",
+   "binder": "(hext : C.CurvesExtendOn B)",
+   "flags": [
+    "CurvesExtendOn"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.Causality.eq_of_mem_of_t1_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:178",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "form_adds_instances": [
+    "T1Space M",
+    "SecondCountableTopology M"
+   ],
+   "how": "exact: the original less hext, plus [T1Space M] [SecondCountableTopology M] (the original has no separation axiom)"
+  },
+  {
+   "decl": "Causal.Causality.IsCauchySurfaceOn.of_subset_of_curvesExtendOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:181",
+   "binder_file_line": "Causal/ErsUnions.lean:182",
+   "binder": "(hext : C.CurvesExtendOn B)",
+   "flags": [
+    "CurvesExtendOn"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.Causality.IsCauchySurfaceOn.of_subset_of_t1_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:186",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "form_adds_instances": [
+    "T1Space M",
+    "SecondCountableTopology M"
+   ],
+   "how": "exact: the original less hext, plus [T1Space M] [SecondCountableTopology M] (the original has no separation axiom)"
+  },
+  {
+   "decl": "Causal.Causality.isCauchySurfaceOn_sSup_of_curvesExtendOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:212",
+   "binder_file_line": "Causal/ErsUnions.lean:213",
+   "binder": "(hext : C.CurvesExtendOn B)",
+   "flags": [
+    "CurvesExtendOn"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:194",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "exact: the original less hext, plus [SecondCountableTopology M] after [T2Space M]"
+  },
+  {
+   "decl": "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:227",
+   "binder_file_line": "Causal/ErsUnions.lean:228",
+   "binder": "(hext : C.CurvesExtendOn B)",
+   "flags": [
+    "CurvesExtendOn"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:205",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "exact: the original less hext, plus [SecondCountableTopology M] after [T2Space M]"
+  },
+  {
+   "decl": "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:314",
+   "binder_file_line": "Causal/ErsUnions.lean:317",
+   "binder": "(hext : C.CurvesExtendOn U₁)",
+   "flags": [
+    "CurvesExtendOn"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:219",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hext : C.CurvesExtendOn U₁)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "exact: the original less hext, plus [SecondCountableTopology M] after [T2Space M]"
+  },
+  {
+   "decl": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:328",
+   "binder_file_line": "Causal/ErsUnions.lean:331",
+   "binder": "(hsplit : C.SplitBy U₁ S)",
+   "flags": [
+    "SplitBy"
+   ],
+   "curve_extension_binder": false,
+   "status": "covered already",
+   "by": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:232",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hacausal : C.IsAcausalOn U₁ S)",
+    "(hsplit : C.SplitBy U₁ S)",
+    "(hext : C.CurvesExtendOn U₁)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hext AND less hacausal, hsplit (derived from hS, hC, which the original also takes), plus [SecondCountableTopology M]; it implies the original less hext on a second countable space"
+  },
+  {
+   "decl": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:328",
+   "binder_file_line": "Causal/ErsUnions.lean:340",
+   "binder": "(hext : C.CurvesExtendOn U₁)",
+   "flags": [
+    "CurvesExtendOn"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:232",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hacausal : C.IsAcausalOn U₁ S)",
+    "(hsplit : C.SplitBy U₁ S)",
+    "(hext : C.CurvesExtendOn U₁)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "stronger: the original less hext AND less hacausal, hsplit (derived from hS, hC, which the original also takes), plus [SecondCountableTopology M]; it implies the original less hext on a second countable space"
+  },
+  {
+   "decl": "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:354",
+   "binder_file_line": "Causal/ErsUnions.lean:357",
+   "binder": "(hext : C.CurvesExtendOn U₁)",
+   "flags": [
+    "CurvesExtendOn"
+   ],
+   "curve_extension_binder": true,
+   "status": "covered already",
+   "by": "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn_secondCountable",
+   "by_file_line": "Causal/Ers464SecondCountable.lean:256",
+   "by_module": "Causal.Ers464SecondCountable",
+   "form_drops": [
+    "(hext : C.CurvesExtendOn U₁)"
+   ],
+   "form_adds_instances": [
+    "SecondCountableTopology M"
+   ],
+   "how": "exact: the original less hext, plus [SecondCountableTopology M] after [T2Space M]"
+  },
+  {
+   "decl": "Causal.Causality.ers_theorem_4_64_of_localUniqueness",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:383",
+   "binder_file_line": "Causal/ErsUnions.lean:386",
+   "binder": "(hsplit : C.SplitBy U₁ S)",
+   "flags": [
+    "SplitBy"
+   ],
+   "curve_extension_binder": false,
+   "status": "not formed (outside the CurvesExtend(On) scope)",
+   "why": "SplitBy, not CurvesExtend(On): outside this target. The original has no Cauchy surface of U₁ for C, so splitBy_of_t1_secondCountable cannot discharge hsplit (kb/0218). Its trade sibling is Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:312): less hacausal and hsplit, plus [SecondCountableTopology M], (hC₁ : C.IsCauchySurfaceOn U₁ S), (harc : C.CausallyArcConnectedOn U₁). It is a sibling, not a strengthening (DEC-162, kb/0226)."
+  },
+  {
+   "decl": "Causal.Causality.maxDevelopmentIn_eq",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:422",
+   "binder_file_line": "Causal/ErsUnions.lean:424",
+   "binder": "(hsplit : C.SplitBy W S)",
+   "flags": [
+    "SplitBy"
+   ],
+   "curve_extension_binder": false,
+   "status": "not formed (outside the CurvesExtend(On) scope)",
+   "why": "SplitBy, not CurvesExtend(On): outside this target, and not dischargeable because S is not Cauchy in W in the original (kb/0218). Trade sibling: Causal.Causality.maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable (Causal/Ers475CauchyForm.lean:233), less hacausal and hsplit, plus [SecondCountableTopology M] and (hcauchy : C.IsCauchySurfaceOn W S)."
+  },
+  {
+   "decl": "Causal.Causality.ers_theorem_4_64_in",
+   "kind": "theorem",
+   "decl_file_line": "Causal/ErsUnions.lean:448",
+   "binder_file_line": "Causal/ErsUnions.lean:450",
+   "binder": "(hsplit : C.SplitBy W S)",
+   "flags": [
+    "SplitBy"
+   ],
+   "curve_extension_binder": false,
+   "status": "not formed (outside the CurvesExtend(On) scope)",
+   "why": "SplitBy, not CurvesExtend(On): outside this target, and not dischargeable (kb/0218). Trade sibling: Causal.Causality.ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable (Causal/Ers475CauchyForm.lean:263), less hacausal and hsplit, plus [SecondCountableTopology M] and (hcauchy : C.IsCauchySurfaceOn W S)."
+  },
+  {
+   "decl": "Causal.Causality.IsLocalDevelopment.mk",
+   "kind": "structure field",
+   "decl_file_line": "Causal/ErsUnions.lean:469",
+   "binder_file_line": "Causal/ErsUnions.lean:473",
+   "binder": "(split : C.SplitBy W S)",
+   "flags": [
+    "SplitBy"
+   ],
+   "curve_extension_binder": false,
+   "status": "not formed (outside the CurvesExtend(On) scope)",
+   "why": "a structure field (IsLocalDevelopment.split : C.SplitBy W S), not a hypothesis, and SplitBy, not CurvesExtend(On). By the dispatch, no form is invented. The existing curve-free counterpart is Causal.Causality.IsCauchyLocalDevelopment (Causal/Ers475CauchyForm.lean:141): IsLocalDevelopment less its acausal and split fields, equivalent to it on T1, second countable spaces for a causally arc-connected patch (isLocalDevelopment_iff_isCauchyLocalDevelopment). ers_theorem_4_75(_eqOn)_secondCountable use it."
+  }
+ ],
+ "formed_now": [],
+ "could_not_form": [],
+ "scan_whole_layer": {
+  "what": "kb/0259's forallTelescope scan over every ETT-layer module (the 123 Causal.* modules with tools/ladder.py's model_path = None, 2026-11-23; 3860 declarations), then a coverage check (scan_table.py). A form covers an original when its conclusion is the same pretty-printed string, each of its explicit and implicit binders is one of the original's (same name and type), and each instance it adds is SecondCountableTopology or T1Space. Such a form implies the original less the binders it drops, on a second countable (T1) space.",
+  "flagged_declarations": 170,
+  "with_a_CurvesExtend_or_CurvesExtendOn_binder": 90,
+  "covered": 90,
+  "uncovered": [],
+  "per_module": {
+   "Causal.CBG.CausalConvex": {
+    "curvesExtend_binders": 23,
+    "covered": 23,
+    "forms_in": [
+     "Causal.CExtConnexeSecondCountable",
+     "Causal.CurvesExtendSecondCountable",
+     "Causal.CurvesFreeCauchy.CausalConvex"
+    ]
+   },
+   "Causal.CBG.Injective": {
+    "curvesExtend_binders": 2,
+    "covered": 2,
+    "forms_in": [
+     "Causal.CExtConnexeSecondCountable"
+    ]
+   },
+   "Causal.CauchyDiamond": {
+    "curvesExtend_binders": 4,
+    "covered": 4,
+    "forms_in": [
+     "Causal.CExtConnexeSecondCountable"
+    ]
+   },
+   "Causal.CauchyExtension": {
+    "curvesExtend_binders": 2,
+    "covered": 2,
+    "forms_in": [
+     "Causal.CurvesExtendSecondCountable",
+     "Causal.CurvesFreeCauchy.Basic"
+    ]
+   },
+   "Causal.CausalIsoInvariance": {
+    "curvesExtend_binders": 1,
+    "covered": 1,
+    "forms_in": [
+     "Causal.CurvesFreeCauchy.Basic"
+    ]
+   },
+   "Causal.CompactCauchy": {
+    "curvesExtend_binders": 7,
+    "covered": 7,
+    "forms_in": [
+     "Causal.CurvesFreeCauchy.CompactCauchy"
+    ]
+   },
+   "Causal.CorrespondingPoints": {
+    "curvesExtend_binders": 3,
+    "covered": 3,
+    "forms_in": [
+     "Causal.CExtConnexeSecondCountable",
+     "Causal.CauchySeparation"
+    ]
+   },
+   "Causal.ErsMughd": {
+    "curvesExtend_binders": 3,
+    "covered": 3,
+    "forms_in": [
+     "Causal.ErsSecondCountable"
+    ]
+   },
+   "Causal.ErsUnions": {
+    "curvesExtend_binders": 7,
+    "covered": 7,
+    "forms_in": [
+     "Causal.Ers464SecondCountable"
+    ]
+   },
+   "Causal.ErsUniqueness": {
+    "curvesExtend_binders": 1,
+    "covered": 1,
+    "forms_in": [
+     "Causal.ErsSecondCountable"
+    ]
+   },
+   "Causal.Ladder.Dual": {
+    "curvesExtend_binders": 2,
+    "covered": 2,
+    "forms_in": [
+     "Causal.CurvesExtendSecondCountable",
+     "Causal.CurvesFreeCauchy.Basic"
+    ]
+   },
+   "Causal.LemmaK": {
+    "curvesExtend_binders": 1,
+    "covered": 1,
+    "forms_in": [
+     "Causal.LemmaK"
+    ]
+   },
+   "Causal.LemmaKBare": {
+    "curvesExtend_binders": 11,
+    "covered": 11,
+    "forms_in": [
+     "Causal.CurvesFreeLemmaK.Bare"
+    ]
+   },
+   "Causal.LemmaKLocal": {
+    "curvesExtend_binders": 13,
+    "covered": 13,
+    "forms_in": [
+     "Causal.CurvesFreeLemmaK.Local",
+     "Causal.LemmaKSCLocal"
+    ]
+   },
+   "Causal.LemmaKReduction": {
+    "curvesExtend_binders": 1,
+    "covered": 1,
+    "forms_in": [
+     "Causal.CurvesFreeLemmaK.Reduction"
+    ]
+   },
+   "Causal.LemmaKSC": {
+    "curvesExtend_binders": 5,
+    "covered": 5,
+    "forms_in": [
+     "Causal.CurvesFreeLemmaK.SC",
+     "Causal.LevinUtility"
+    ]
+   },
+   "Causal.NestedCausalities": {
+    "curvesExtend_binders": 3,
+    "covered": 3,
+    "forms_in": [
+     "Causal.CurvesFreeCauchy.Basic",
+     "Causal.ErsSecondCountable"
+    ]
+   },
+   "Causal.SubExtension": {
+    "curvesExtend_binders": 1,
+    "covered": 1,
+    "forms_in": [
+     "Causal.CExtConnexeSecondCountable"
+    ]
+   }
+  },
+  "Ladder_Dual": "Excluded by the dispatch (T-tac-dual-has-chronal-neighbour). For the record, the scan finds both of its binders covered: Causal.LadderDual.curvesExtend_dual (Causal/Ladder/Dual.lean:223) by Causal.Causality.CurvesExtend.dual_secondCountable (Causal.CurvesFreeCauchy.Basic), and Causal.LadderDual.curvesExtend_of_dual (:221) by Causal.Causality.curvesExtend_of_t1_secondCountable (Causal.CurvesExtendSecondCountable), which drops C's hypothesis altogether.",
+  "definitions_and_structures": "No ETT-layer definition body or structure field mentions CurvesExtend or CurvesExtendOn. The bodies that mention a flagged constant are those of the curve notions themselves: Inextensible, IsCauchySurfaceOn, IsCauchyTimeFunction, CurvesExtend, CurvesExtendOn, dependenceDomain, InextensibleNestedOn, InextensibleThrough and HasVacuousChart, each through Inextensible or Extensible. The only flagged structure field is IsLocalDevelopment.split (SplitBy). So no CurvesExtend(On) binder is hidden in a structure or a definition.",
+  "not_scanned": "The model layer (e.g. Causal.ChainsCurves' causallyConnectedCurves_of_curvesExtend, kb/0260's 'left' list) and the scaffold library are outside layer 1 and outside this scan.",
+  "full_table": "campaign/T-abs-curves-free-ers-unions/scan.json (170 flagged declarations, every flag, with the covering form where one exists)"
+ },
+ "labels": [],
+ "findings": [
+  "Library, not paper: the target's premise was stale. kb/0260 (from T-abs-curves-free-cauchy, d21912b) says the ETT-layer CurvesExtend binders still without a form include 'ErsUnions/ErsMughd'. The scan finds all 10 of them (Causal/ErsUnions.lean:166, 182, 213, 228, 317, 340, 357; Causal/ErsMughd.lean:329, 405, 488) already covered. Seven are covered by Causal.Ers464SecondCountable (T-abs-ers-4-64-second-countable, graduated 2026-11-22), whose docstring and kb/0226 list 'the four union lemmas of ErsUnions §1 without hext' and the GH forms of Prop 4.63, IsCommonDevelopment and Rem 4.67. Three are covered by Causal.ErsSecondCountable (T-abs-ers-4-72-second-countable). T-abs-curves-free-cauchy's REPORT, whose kb_proposal became kb/0260, had itself said to 'check their forms in Causal.Ers464SecondCountable / ErsSecondCountable'. So the count is 0, and the target closes on this report with no module.",
+  "Library, not paper: in the whole ETT layer, all 90 CurvesExtend(On) binders (18 modules) now have a covering second countable form, Ladder.Dual's 2 included. DEC-190's 'forms beside the originals' programme is complete for layer 1's named and inline CurvesExtend(On) hypotheses. No ETT-layer definition or structure hides one.",
+  "Library, not paper: 4 of the 10 covering forms are stronger than 'the original less the curve binder'. ers_remark_4_67_globallyHyperbolicOn_secondCountable also drops hacausal and hsplit. The three ErsMughd forms also drop hthrough. Each has the original's conclusion and a sub-list of its hypotheses, so it implies the exact form on a second countable space. No exact twin was added: it would be a strictly weaker duplicate (the precedent is T-abs-curves-free-cauchy's eq_of_mem_image_inter).",
+  "Library, not paper (witnesses, kb/0011): the library instantiates only 2 of the 10 covering forms on the timelike line. ers_prop_4_63_globallyHyperbolicOn_secondCountable is instantiated by timelikeLine_ers_prop_4_63_secondCountable, and ers_remark_4_67_globallyHyperbolicOn_secondCountable by timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable, both in Causal.Ers464SecondCountable. isCauchySurfaceOn_sSup_of_secondCountable is used by two Ers475CauchyForm proofs (Probe.lean's USEDBY lines). The originals of the three ErsMughd forms are instantiated by timelikeLine_ers_theorem_4_79_4_80, which calls isUniqueDevelopment through 4.79 and 4.80. IsCommonDevelopment.globallyHyperbolicOn is reached through timelikeLine_ers_prop_4_63. Each form's hypotheses are a sub-list of its original's plus second countability, which ℝ has, so the same data satisfy the forms. That is argued, not stated in Lean. The union-lemma chain eq_of_mem_of_curvesExtendOn → IsCauchySurfaceOn.of_subset_of_curvesExtendOn → isCauchySurfaceOn_sSup_of_curvesExtendOn → globallyHyperbolicOn_sSup_of_pieces has no timelike-line instance in either form: globallyHyperbolicOn_sSup_of_pieces is used only by its own form."
+ ],
+ "questions": [
+  "Reading of 'the original less the curve binder': I counted as covering a form with the original's conclusion that drops the curve binder and possibly more hypotheses, adding only [SecondCountableTopology M] (and [T1Space M] where the original has no separation axiom). On that reading, 4 of the 10 are covered by stronger forms, and no exact twin was written. If the loop wants exact twins anyway, they are one-line applications of the stronger forms. They would sit beside them and add nothing.",
+  "This target writes no witness, because no form is written. Should a witness-only follow-up put the four ErsUnions union lemmas' forms on the timelike line (kb/0011)? The instance is cheap: B = ⊤, 𝒟 = {⊤}, S = {0}, through timelikeLine_globallyHyperbolic, timelikeLine_causallyArcConnected and timelikeLine_isCauchySurface_zero. So is a direct second countable instance of ers_theorem_4_79/4_80, reusing timelikeLine_ers_theorem_4_79_4_80's data. This is the planner's choice, not a reading of the paper."
+ ],
+ "kb_proposals": [
+  "Every CurvesExtend(On) binder of the ETT layer has a second countable form: 90 in 18 modules, scan of 2026-11-23 over 123 modules (T-abs-curves-free-ers-unions). kb/0260's and kb/0262's 'still without a form' lists are empty. ErsUnions' 7 and ErsMughd's 3 were formed by Causal.Ers464SecondCountable and Causal.ErsSecondCountable. Ladder.Dual's 2 are covered by CurvesExtend.dual_secondCountable and curvesExtend_of_t1_secondCountable. A new ETT-layer theorem with a curve binder should come with its form.",
+  "The whole-layer coverage check takes about 6 s: campaign/T-abs-curves-free-ers-unions/Probe.lean (#curve_scan, forallTelescope over every imported Causal.* constant) and scan_table.py. A form counts when it has the same conclusion string, a binder sub-list by (name, type), and adds only SecondCountableTopology or T1Space. This finds forms under any name, which a name search misses: mem_Jplus_union_Jminus_of_isCauchySurface → IsCauchySurface.cover_of_t1_secondCountable, and isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend → isCauchySurface_of_isLocallyCauchy_of_causallyOpen. Rerun it before planning any binder target.",
+  "Two pitfalls when scanning imported constants at this pin (Lean v4.31.0). First, ConstantInfo.value? returns none for a theorem unless allowOpaque := true (Lean/Declaration.lean:482), so a 'used by' scan must match .thmInfo t => t.value. Second, a skip filter on the prefix 'eq_' (meant for equation lemmas) silently drops real theorems such as eq_of_mem_of_curvesExtendOn: skip only eq_<digits> and eq_def."
+ ],
+ "notes": "Nothing to graduate. No scaffold module was created, so no import goes into scaffold/CausalScaffold.lean. The campaign directory holds only evidence. Probe.lean is a probe, not a library module: it imports the 123 ETT-layer modules, so it must not be added to any lib glob. scan.json is generated by scan_table.py from Probe.lean's output. binders_diff.txt is the output of T-abs-curves-free-cauchy's binders_diff.py (run by path, not copied) on Probe.lean's BINDERS and EXPLICIT lines. No existing file was edited. I ran no git command, no make check, no lake build of a package or module (only `lake build --no-build` dry runs and `lake env lean`), and no tools/ladder.py emit-lean. tools/ladder.py was only imported in memory for lean_index, model_path and import_chain. Scratch files are under /tmp/ersscan. For the roadmap: the target can close as done on this report (count 0). kb/0260 and kb/0262's last sentences should be updated (kb_proposals 1).",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the quote 'the four union lemmas of ErsUnions §1 without hext' is from lean-causal/campaign/T-abs-ers-4-64-second-countable/REPORT.json notes (1), not from Ers464SecondCountable's docstring or kb/0226 (which gives the naming pattern only); 'every binder of the ETT layer' means the strict Causal.* library (123 modules): CausalScaffold.SubExtension keeps two hDext binders (scaffold/CausalScaffold/SubExtension.lean:94, :109) on statements resting on a sorry. The auditor checked all 90 rows of scan.json by the kernel. kb/0260 and kb/0262 updated."
+}

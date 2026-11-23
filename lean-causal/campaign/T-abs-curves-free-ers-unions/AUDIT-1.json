@@ -1,0 +1,65 @@
+{
+ "target": "T-abs-curves-free-ers-unions",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "label_note": "The target is abstract (layer 1) and names no paper label. No module was written, so there is no mark to check and no docstring contract (kb/0006) to apply. The covering forms were written by earlier targets (T-abs-ers-4-64-second-countable, c178342; T-abs-ers-4-72-second-countable) and were audited there.",
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "detail": "Reran `cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true campaign/T-abs-curves-free-ers-unions/Probe.lean`. It exits 0 with no warning or error in 6.4 s and prints `SCANNED 123 modules, 3860 declarations`. Probe.lean contains 0 sorry. #print axioms on the 10 covering forms gives [propext, Classical.choice, Quot.sound] for each, the same as axioms.txt. The auditor's own probe gives the same for the discharge lemmas curvesExtendOn_of_t1_secondCountable, curvesExtend_of_t1_secondCountable, inextensibleThrough_of_t1_secondCountable and splitBy_of_t1_secondCountable. There are 0 sorry in Causal/ErsUnions.lean, ErsMughd.lean, ErsSecondCountable.lean and Ers464SecondCountable.lean. No lake build was run."
+ },
+ "checks": [
+  {
+   "check": "1. Coverage of the 10 CurvesExtend(On) binders",
+   "result": "confirmed",
+   "detail": "I read each original at its cited line (Causal/ErsUnions.lean:165/166, 181/182, 212/213, 227/228, 314/317, 328/340, 354/357; Causal/ErsMughd.lean:326/329, 400/405, 483/488) and each form (Causal/Ers464SecondCountable.lean:178, 186, 194, 205, 219, 232, 256; Causal/ErsSecondCountable.lean:261, 288, 322). Every line reference in REPORT.json is correct. The six exact forms are the original less hext, plus [SecondCountableTopology M], and plus [T1Space M] in the two union lemmas whose originals have no separation axiom (eq_of_mem, of_subset). The stronger forms are ers_remark_4_67_globallyHyperbolicOn_secondCountable, which also drops hacausal and hsplit, and the three ErsMughd forms, which also drop hthrough. None of them adds a hypothesis beyond those instances. I checked this independently of the closer's string diff with a temporary probe under the campaign directory, now deleted. For each pair it works in the original's telescope with T1Space and SecondCountableTopology added as local instances and the CurvesExtend(On) binder withheld. It builds `form args` by unification, filling every argument from the original's own hypotheses, and adds the closed term as a theorem. The kernel accepted all 10, and the withheld binder occurs in none. So each form, on a T1 (or T2), second countable space, implies its original less the curve binder. Rerunning binders_diff.py (T-abs-curves-free-cauchy's) on my probe output reproduces binders_diff.txt's default section exactly. The EXPLICIT lines show identical conclusions and identical universe parameters for all 13 pairs: [u] for ErsUnions, [u, v] for ErsMughd."
+  },
+  {
+   "check": "2a. Scan completeness in the two modules",
+   "result": "confirmed",
+   "detail": "grep finds `CurvesExtend` in ErsUnions.lean at 65 and 351 (docstrings), at 166, 182, 213, 228, 317, 340 and 357 (theorem hypotheses), and at 757 (a `have` inside a proof). In ErsMughd.lean it finds 69 (a docstring table) and 329, 405, 488 (hypotheses). The 10 hypothesis occurrences are exactly the closer's 10. The other flagged binders in the two modules are the inline hmeet (ErsUnions.lean:143), hsplit at :331, :386, :424 and :450, the field IsLocalDevelopment.split (:473), and hthrough at ErsMughd.lean:331, :410 and :493: 9 in all, matching REPORT count.other_flagged_binders."
+  },
+  {
+   "check": "2b. Definitions and structure fields",
+   "result": "confirmed for the ETT layer",
+   "detail": "A textual pass over every `CurvesExtend` occurrence in lean-causal/Causal/**, classified by its enclosing declaration keyword, finds in ETT-layer def/structure bodies only the two definitions themselves (CBG/CausalConvex.lean:153 CurvesExtendOn, CauchyExtension.lean:83 CurvesExtend) and docstrings. The structure fields that mention CurvesExtend are Causal.CBG.Geometry (Geometry, :306; LocalModel, :593) and Causal.Flat.Classification (FlatLemmaKData.curvesExtend, :383). tools/ladder.py's model_path puts both modules in the model layer (CBG.Geometry -> SingularFlat; Flat.Classification is model). The probe's elaborated scan agrees: no def body mentions CurvesExtend(On), and the only flagged ctor is IsLocalDevelopment.mk (SplitBy)."
+  },
+  {
+   "check": "2c. 90 binders in 18 modules",
+   "result": "confirmed",
+   "detail": "I regenerated scan.json from my rerun of Probe.lean with scan_table.py, and it is identical to the committed scan.json. It has 90 rows with a CurvesExtend(On) binder, one such binder per row, in 18 modules, and each row has a form that drops the binder. The module list is exactly the 123 ETT-layer modules: tools/ladder.py lean_index + model_path returns 123 of 335, the same set as Probe.lean's imports. An unfiltered scan (no skip filter) finds 93. The 3 extra are compiler-generated matchers (notchedCausality_dual_separates_hasChronalNeighbour.match_1_1, notchedCausality_separates_hasChronalNeighbour.match_1_1, not_locallyCausallyOpenFuture_of_causallyArcConnected_bare.match_1_1), which are rightly skipped. The same kernel check as in check 1, run on all 90 (original, form) rows of scan.json with T1/SC instances added on every topological type of the telescope, succeeded for 90 of 90 without the withheld binder. This includes Ladder.Dual's curvesExtend_of_dual -> curvesExtend_of_t1_secondCountable and curvesExtend_dual -> CurvesExtend.dual_secondCountable."
+  },
+  {
+   "check": "3. The other binders are out of scope",
+   "result": "confirmed",
+   "detail": "SplitBy (Causal/ErsUniqueness.lean:175) says every point of W lies in J+_W(S) ∪ J-_W(S). That is a splitting, not a curve extension, and the three originals with hsplit lack S Cauchy in W for C, so kb/0218's discharge does not apply. Their trade siblings (Ers464SecondCountable.lean:312; Ers475CauchyForm.lean:233, :263) are siblings, as REPORT says, and the binders_diff output confirms what each drops and adds. hmeet (ErsUnions.lean:143) is the existence half of the Cauchy property, the lemma's content. IsLocalDevelopment.split is a SplitBy structure field, and IsCauchyLocalDevelopment is at Ers475CauchyForm.lean:141 as cited. hthrough (InextensibleThrough) is not CurvesExtend(On), and the ErsMughd forms drop it anyway."
+  },
+  {
+   "check": "4. REPORT claims",
+   "result": "confirmed, with one citation slip and one scope wording (findings)",
+   "detail": "kb/0260 was added by d21912b (T-abs-curves-free-cauchy), kb/0262 by c37eba0 (T-abs-curves-free-lemma-k) and kb/0226 by c178342 (T-abs-ers-4-64-second-countable, 2026-11-22), so the provenance is right. T-abs-curves-free-cauchy's REPORT does say 'Check their forms in Causal.Ers464SecondCountable / ErsSecondCountable'. The USEDBY lines and a grep of lean-causal/Causal and scaffold confirm that only ers_prop_4_63_globallyHyperbolicOn_secondCountable and ers_remark_4_67_globallyHyperbolicOn_secondCountable are instantiated on the timelike line. isCauchySurfaceOn_sSup_of_secondCountable is used by two Ers475CauchyForm proofs, and globallyHyperbolicOn_sSup_of_pieces is used only by its own form. The layer claim holds: all five modules have model_path None, ErsMughd and its importers reach Causal.Ladder.Rules, ErsUnions does not, and CurvesExtendSecondCountable imports none of them. kb_proposal 3's citation (Lean/Declaration.lean:482, value? with allowOpaque) is correct at the v4.31.0 toolchain. kb/0260's and kb/0262's 'still without a form' lists can be emptied for the strict Causal.* library: ErsUnions/ErsMughd and Ladder.Dual are covered (kernel-checked), and the Lemma K modules have 11+13+5+1+1 = 31 rows, all covered, which matches kb/0262's 31."
+  },
+  {
+   "check": "5. Touched files",
+   "result": "confirmed",
+   "detail": "git status --short shows only ` M programme/roadmap.toml`, ` M roadmap/roadmap.toml` and the untracked campaign directory. The programme/roadmap.toml diff is this target's status ready -> active (the master's dispatch), and roadmap/roadmap.toml is another loop's. No scaffold module was created (no scaffold/CausalScaffold/ErsUnionsSecondCountable.lean), and no tracked file under lean-causal/ was modified. The campaign directory holds only the 7 files REPORT lists, plus this AUDIT-1.json. My temporary AuditProbe1.lean was deleted."
+  }
+ ],
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-curves-free-ers-unions/REPORT.json:660",
+   "what": "findings[0] says Causal.Ers464SecondCountable's 'docstring and kb/0226 list \"the four union lemmas of ErsUnions §1 without hext\"'. Neither contains that phrase. kb/0226 (lean-causal/kb/entries/0226-ers-section4-second-countable.md) states only the `…_secondCountable` / `…_of_isCauchySurfaceOn_secondCountable` suffix pattern and lists no union lemma. The docstring (Causal/Ers464SecondCountable.lean:15–20) names the four lemmas but not with these words. The quoted phrase is from lean-causal/campaign/T-abs-ers-4-64-second-countable/REPORT.json, notes (1). The fact the citation supports (the 7 forms came from T-abs-ers-4-64-second-countable) is true.",
+   "fix": "Cite T-abs-ers-4-64-second-countable/REPORT.json notes (1) for the quotation. Cite kb/0226 only for the suffix pattern, and the docstring for the four names."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-curves-free-ers-unions/REPORT.json:655 and :670",
+   "what": "scan_whole_layer.not_scanned says 'the scaffold library [is] outside layer 1'. kb_proposals[0] then says 'Every CurvesExtend(On) binder of the ETT layer has a second countable form'. The scan's universe is tools/ladder.py's index, which covers only lean-causal/Causal/**. The scaffold module CausalScaffold.SubExtension imports only Causal.SubExtension, and it carries two `(hDext : D.CurvesExtend)` binders with no second countable form: scaffold/CausalScaffold/SubExtension.lean:94 (IsCauchyEmbedding.isCauchySurfaceOn_inf) and :109 (IsCauchyEmbedding.c_ext_connexe). Both rest on the sorry exists_mem_image_inf, and the strict CExtConnexeSecondCountable forms cover the sorry-free core, so no form is owed. But the kb entry as worded would be read as covering every ETT-layer module.",
+   "fix": "When the master writes the kb entry, qualify it as 'every CurvesExtend(On) binder of the strict ETT-layer library (the 123 Causal.* modules with model_path None)'. Note that the scaffold's two sorry-dependent statements in CausalScaffold/SubExtension.lean are outside the scan."
+  }
+ ],
+ "notes": "The closer's central claim holds and is now kernel-checked rather than string-checked. All 10 CurvesExtend(On) binders of Causal.ErsUnions (7) and Causal.ErsMughd (3) already had covering second countable forms, 6 exact and 4 stronger, and the same is true of all 90 ETT-layer rows. The target can close on the REPORT with no module. The two minor findings concern REPORT wording that the master will carry into kb/0260 and kb/0262. They do not affect the count."
+}
