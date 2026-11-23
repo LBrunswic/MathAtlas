@@ -725,3 +725,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: ba1db2f 48e5107 68b1e81 [+ roadmap/atlas/journal]
 - wall time: 00:10–01:05 UTC; agents in parallel: 2 closers, 1 builder; 3 audits plus 1 re-audit
 - next: what stays ready is the lean-causal pair (/ett-programme), T-nonacyclic-source (the author), T-hub-paper-attribute (all packages) and T-bz-chapter3 (a transcription for the author to check). T-perf-poincare and the companion's thm:lower-bound chain wait on OQ-109/111 and T-perf-star3. A planning run is due soon.
+
+## 2026-11-23 02:15 · wave of 3 · T-yamabe-analysis (round 3), T-yamabe-integrate-r3, T-bbs-rp1-circles
+- T-yamabe-analysis (round 3): closed. Rellich–Kondrachov is proved on the manifold with the round-1 statement (RellichManifold.lean, sorry-free). Audit minor.
+- T-yamabe-integrate-r3 (master, by a Lean agent): closed. Rellich is rewired in place of the round-1 sorry, and the lem:positivity chain rests on the standard axioms ([IsFiniteMeasure μ] dropped, a strengthening). The Yamabe scaffold has one sorry left, trace_compact, unused. The § 6 marks wait only on OQ-93; the chain graduates once trace_compact leaves Trace.lean.
+- T-bbs-rp1-circles: closed, strict. bbsdef:circle_data_point_structure marked; G̃ and the real angle built. Readings in OQ-113. Audit major (a false orientation claim in prose), fixed in one round; re-audit minor.
+- Promoted from planned (all dependencies done): T-yamabe-analysis, T-bbs-rp1-circles.
+- gates: lean-yamabe ✓, lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, hub: no new red
+- commits: 0554c47 72dfea8 4d17421 460791d e3220f0 07617c2 [+ roadmap/atlas/journal]
+- wall time: 01:10–02:15 UTC; agents in parallel: 2 closers + 1 integration agent, 4 audits
+- next: T-yamabe-trace-compact (now unblocked; it frees the scaffold chain to graduate), T-3p1-theorem-m-theta and T-bbs-layer-home (after rp1-circles; the angle waits on OQ-113), T-hub-paper-attribute. A planning run is due (rule 2, five iterations at the next one).

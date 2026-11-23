@@ -1575,13 +1575,14 @@ stream = "bbs"
 kind = "close"
 paper = "bbs"
 labels = ["bbsdef:circle_data_point_structure"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bbs-hs-model", "T-bbs-q1"]
-evidence = "colI_v1.tex l.766 (bbsdef:circle_data_point_structure) and the sentence after it ('ℓ(p) admits a natural ℝP¹-structure'). REVIEW.md §E wave W2 covers ℝP¹-circles (row 6) and (Γ_p, ℓ(p))-circles. The T-3p1-theorem-m REPORT (N4:M3 not_stated) lists what the Θ-half needs: 'their RP1-structures from the hyperbolic side, the universal cover G~ of PSL(2,R) acting on RP1~, and the real angle of an elliptic RP1-circle'. Mathlib has no G̃. Its package waits on BBS-Q1, like T-bbs-hs-model's. Updated 2026-11-20 by the planner: that wait is now the dependency on T-bbs-q1 (BBS-Q1 as an author gate). T-bbs-triage (a06acc2) gives the row 'layer L2; wave W2', blocked_on BBS-Q1."
+evidence = "bbsdef:circle_data_point_structure marked on GX.GammaLinkCircle (strict GX/BBS/RP1Circles.lean); G̃ and the real angle; readings OQ-113; audits major (prose, fixed) then minor"
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "e3220f0"
 
 [[target]]
 id = "T-3p1-theorem-m-theta"
@@ -2280,13 +2281,14 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["lem:positivity"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-yamabe-integrate-r2", "T-yamabe-rellich-criterion"]
-evidence = "DEC-184 (T-yamabe-scope). Round 1 (ab72c4d): the externals and the model layer. Round 2 (1034b2b, audit minor): Mfd.sobolev_embedding', eLpNorm_gradNorm_lt_top', trace_embedding' proved with the round-1 statements; Mfd.const_of_tendsto false as stated, corrected form proved. Round 3: rewire the primes in place of the round-1 sorrys (move definitions out of Sobolev/Trace to break the import cycle), repair ConstLimit with MemLp f 2, prove rellich_kondrachov and trace_compact. Readings: OQ-93. Narrowed 2026-11-22 by the planner (the /atlas-team dispatch of 21:15 UTC: a monolith after two rounds). Round 3 is cut into five targets: T-yamabe-integrate-r2 (master: the rewire and the ConstLimit repair); T-yamabe-rellich-criterion (total boundedness in Lp, Mathlib only); this target (Rellich's manifold half); T-yamabe-integrate-r3 (master: Rellich rewired); and T-yamabe-trace-compact. This target keeps the id that the yamabe rows' blocked_on name. What is left here, in the order of REPORT-2.json's obstruction for Mfd.rellich_kondrachov (Rellich.lean:469–477). (1) A locally-Lebesgue μ on compact M is finite: good charts with bounded image, then a finite subcover. (2) The chart-level assembly. v_i = Mfd.chartFun (ρ_i u) is C¹ on ℍ̄ with support in the fixed compact φ_i(tsupport ρ_i). ‖Dv_i‖_{L²(ℍ̄)} ≤ C‖u‖_{W^{1,2}}, by the steps of Mfd.local_sobolev. ‖ρ_i u − (P_δ v_i)∘φ_i‖_{L²(μ)} ≤ C‖v_i − P_δ v_i‖_{L²(ℍ̄)}, by Mfd.eLpNorm_chart_comparable. Half.cell_approx (Compactness.lean:423) is proved. (3) The cell coefficients avg_{C_z}(v_i(u_k)) are bounded; then T-yamabe-rellich-criterion's criterion applies. The primed copy must have the same type as Rellich.lean:469 under AUDIT-2's Expr-equality probe; rfl alone only checks definitional equality (AUDIT-2 finding 4). The label lem:kobayashi moves to T-yamabe-integrate-r2: its manifold theorems are proved (round 2) and that target rewires them."
+evidence = "DEC-184: round 3, Rellich–Kondrachov proved on the manifold with the round-1 statement (RellichManifold.lean, sorry-free; audit minor); the rewire is T-yamabe-integrate-r3; trace_compact is T-yamabe-trace-compact"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
+commit = "0554c47"
 
 [[target]]
 id = "T-yamabe-apply-rulings"
@@ -2407,13 +2409,14 @@ paper = "yamabe"
 labels = ["lem:positivity"]
 package = "lean-yamabe"
 exclusive = true
-status = "planned"
+status = "done"
 owner = "master"
 priority = 4
 depends = ["T-yamabe-analysis"]
-evidence = "The pattern of T-yamabe-integrate-r2 (REPORT-2.json notes, INTEGRATION): a closer's primed copy replaces a round-1 sorry only by a master edit of an existing file. After it, Mfd.Reads.rellichProp (Rellich.lean:499) and Reads.constLimit (repaired by T-yamabe-integrate-r2) are sorry-free. So are Mfd.Reads.lem_positivity, Reads.cor_negative and Mfd.lem_positivity (Rellich.lean:542–608). The only scaffold sorry left is Mfd.trace_compact, which lem:positivity does not use (round-1 finding, lean-yamabe/campaign/T-yamabe-analysis/REPORT.json). The marks still wait on OQ-93, OPEN, whose « blocks » column names the marks of lem:kobayashi, lem:positivity, prop:nonpositive, lem:gluing-estimate, thm:upper-bound and cor:negative « once the manifold theorems close ». The rows' blocked_on then names OQ-93 instead of T-yamabe-analysis (curation)"
+evidence = "Rellich–Kondrachov rewired; the lem:positivity chain on the standard axioms; [IsFiniteMeasure μ] dropped (a strengthening); scaffold 1 sorry (trace_compact, unused); marks wait on OQ-93"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "4d17421"
 
 [[target]]
 id = "T-yamabe-trace-compact"
