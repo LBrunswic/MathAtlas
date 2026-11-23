@@ -599,3 +599,20 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/gx and papers/bbs, and gate-tests red through them. Both are /atlas-team's in flight: their ledgers (06:31) predate its lean-gx commit 4cdca6c (06:39) and its BBS scaffold edits, and lean-gx pins lean-causal by git commit. Not this loop's.
 - commits: 7a62073 4f8816e
 - next: rule 3 gives T-abs-dependence-domain-home (closer, lean-causal). The planner backlog grows: waves 33–36's proposals, T-lad-record-direct-witnesses to make ready, and two ready planner targets.
+
+## 2026-11-23 08:11 · wave of 1 · T-abs-dependence-domain-home (exclusive)
+- 07:22: one iteration stopped at its preconditions. lean-gx/kb/INDEX.md and kb entries 0102–0104 were changed and held by no live loop (written 06:57, during /atlas-team's BBS wave). /atlas-team committed them at 07:45 (a42c925), and this iteration started at 07:43 on a clean tree.
+- T-abs-dependence-domain-home (abstract, layer 1; exclusive, with the whole lean-causal package leased): DEC-198's rename.
+  - Causal.Flat.dependenceDomain and its four lemmas are now in Causal.Causality, source unchanged but for the namespace.
+  - The old names are @[deprecated] theorem/abbrev wrappers: the ledger and ladder scanners find these, which they would not find for an `alias`.
+  - dependenceDomainOn is an abbrev of C.dependenceDomain W S. The two userless lemmas are kept (no deletion ruled).
+  - 64 uses re-pointed; no deprecation warning left.
+  - Constant dump with the old names substituted back: 17602 → 17607 (+5 wrappers), every pair matching.
+  - Audit minor (kb/0047's sentence on rw and the abbrev), applied (bc2d546); kb 0278.
+- For the keeper: ladder.toml:3681 and :3773 name Causal.Flat.dependenceDomain in comments (now Causal.Causality.dependenceDomain).
+- Possibly for the author: Causal.Causality now has two names for one notion, dependenceDomainOn and dependenceDomain, with three duplicate lemma pairs. Deprecating dependenceDomainOn would be a further rename, and needs a ruling; not raised as an OQ yet.
+- ladder: 25 properties, 27 implications, 83 counterexamples, 85 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open (unchanged)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: bc2d546 17a2031
+- next: rule 3 gives T-abs-curves-free-ers-unions (closer). After it, one ready abstract target is left, so a planning run follows (rule 2).
