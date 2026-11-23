@@ -1,0 +1,66 @@
+@Causality.InextensibleNestedOn.refl : ∀ {M : Type u_1} [inst : TopologicalSpace M] (C : Causality M)
+  (W : TopologicalSpace.Opens M), C.InextensibleNestedOn C W
+@Causality.InextensibleNestedOn.trans : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C C' C'' : Causality M}
+  {W : TopologicalSpace.Opens M},
+  C.InextensibleNestedOn C' W → C'.InextensibleNestedOn C'' W → C.InextensibleNestedOn C'' W
+@Causality.Inextensible.of_dual_reverse : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  (C.dual.Inextensible W (-I) fun t => c (-t)) → C.Inextensible W I c
+@Causality.dual_inextensible_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  (C.dual.Inextensible W (-I) fun t => c (-t)) ↔ C.Inextensible W I c
+@Causality.InextensibleNestedOn.dual : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C C' : Causality M}
+  {W : TopologicalSpace.Opens M}, C.InextensibleNestedOn C' W → C.dual.InextensibleNestedOn C'.dual W
+@Causality.dual_inextensibleNestedOn_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C C' : Causality M}
+  {W : TopologicalSpace.Opens M}, C.dual.InextensibleNestedOn C'.dual W ↔ C.InextensibleNestedOn C' W
+@Causality.Inextensible.restrict : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {V W : TopologicalSpace.Opens M} {I : Set ℝ} {c : ℝ → M},
+  C.Inextensible W I c → V ≤ W → (∀ t ∈ I, c t ∈ V) → C.Inextensible V I c
+@Causality.InextensibleNestedOn.mono_of_inextensible : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C C' : Causality M}
+  {V W : TopologicalSpace.Opens M},
+  C.InextensibleNestedOn C' W →
+    V ≤ W → (∀ ⦃I : Set ℝ⦄ ⦃c : ℝ → M⦄, C.Inextensible V I c → C.Inextensible W I c) → C.InextensibleNestedOn C' V
+@Causality.curveNestedOn_allRelated : ∀ {M : Type u_1} [inst : TopologicalSpace M] (C : Causality M)
+  (W : TopologicalSpace.Opens M), C.CurveNestedOn (LineDevelopment.allRelated M) W
+timelikeLine_inextensibleNestedOn_allRelated : timelikeLine.InextensibleNestedOn (LineDevelopment.allRelated ℝ) ⊤
+timelikeLine_inextensibleNested_basics : timelikeLine.InextensibleNestedOn timelikeLine ⊤ ∧
+  timelikeLine.InextensibleNestedOn (LineDevelopment.allRelated ℝ) ⊤ ∧
+    timelikeLine.dual.InextensibleNestedOn (LineDevelopment.allRelated ℝ).dual ⊤
+@CoarsePoint.allRelated_extensible : ∀ {I : Set ℝ} {c : ℝ → CoarsePoint},
+  (LineDevelopment.allRelated CoarsePoint).CausalCurveIn ⊤ I c →
+    (LineDevelopment.allRelated CoarsePoint).Extensible ⊤ I c
+CoarsePoint.allRelated_inextensibleNestedOn_top : (LineDevelopment.allRelated CoarsePoint).InextensibleNestedOn
+  CoarsePoint.diag ⊤
+CoarsePoint.not_allRelated_inextensibleNestedOn_nearOpens : ¬(LineDevelopment.allRelated
+        CoarsePoint).InextensibleNestedOn
+    CoarsePoint.diag CoarsePoint.nearOpens
+CoarsePoint.absolutelyMinimalOn : ∀ (Q : Precausality CoarsePoint) (W : TopologicalSpace.Opens CoarsePoint),
+  Q.AbsolutelyMinimalOn W
+CoarsePoint.diag_isCausal : CoarsePoint.diag.IsCausal
+CoarsePoint.separates_inextensibleNestedOn_mono : CoarsePoint.nearOpens ≤ ⊤ ∧
+  (LineDevelopment.allRelated CoarsePoint).InextensibleNestedOn CoarsePoint.diag ⊤ ∧
+    ¬(LineDevelopment.allRelated CoarsePoint).InextensibleNestedOn CoarsePoint.diag CoarsePoint.nearOpens ∧
+      (∀ (W : TopologicalSpace.Opens CoarsePoint), (LineDevelopment.allRelated CoarsePoint).AbsolutelyMinimalOn W) ∧
+        (∀ (W : TopologicalSpace.Opens CoarsePoint), CoarsePoint.diag.AbsolutelyMinimalOn W) ∧ CoarsePoint.diag.IsCausal
+not_inextensibleNestedOn_mono : ¬∀ (M : Type) [inst : TopologicalSpace M] (C C' : Causality M)
+    (V W : TopologicalSpace.Opens M), V ≤ W → C.InextensibleNestedOn C' W → C.InextensibleNestedOn C' V
+'Causal.Causality.InextensibleNestedOn.refl' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.InextensibleNestedOn.trans' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.Inextensible.of_dual_reverse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dual_inextensible_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.InextensibleNestedOn.dual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dual_inextensibleNestedOn_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.Inextensible.restrict' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.InextensibleNestedOn.mono_of_inextensible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.curveNestedOn_allRelated' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_inextensibleNestedOn_allRelated' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_inextensibleNested_basics' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.CoarsePoint.allRelated_extensible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.CoarsePoint.allRelated_inextensibleNestedOn_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.CoarsePoint.not_allRelated_inextensibleNestedOn_nearOpens' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.CoarsePoint.absolutelyMinimalOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.CoarsePoint.diag_isCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.CoarsePoint.separates_inextensibleNestedOn_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.not_inextensibleNestedOn_mono' depends on axioms: [propext, Classical.choice, Quot.sound]

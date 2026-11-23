@@ -1,0 +1,137 @@
+{
+ "target": "T-abs-inextensible-nested-basics",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/InextensibleNestedBasics.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-inextensible-nested-basics/REPORT.json",
+  "campaign/T-abs-inextensible-nested-basics/Probe.lean",
+  "campaign/T-abs-inextensible-nested-basics/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.InextensibleNestedBasics",
+ "build_result": "Built CausalScaffold.InextensibleNestedBasics (1.2 s), 3090 jobs, no warning. The --no-build dry run (kb/0228) listed only this module as out of date ([3090/3090]), so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes, as the strict library requires. campaign/.../Probe.lean imports the module and runs #check and #print axioms on 18 declarations (output in axioms.txt): each depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.NestedCausalities, Causal.LineDevelopment (for LineDevelopment.allRelated), Mathlib.Analysis.SpecialFunctions.Trigonometric.Arctan. tools/ladder.py model_path is None for each Causal import, checked one at a time in memory (kb/0247). No metric of a spacetime is used: arctan and π appear in one proof only (CoarsePoint.allRelated_extensible), where they reparametrise a curve's real parameter into a bounded interval.",
+ "labels": [],
+ "lemmas_for_the_keeper": [
+  {
+   "name": "Causal.Causality.InextensibleNestedOn.refl",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:98",
+   "statement": "(C : Causality M) (W : Opens M) : C.InextensibleNestedOn C W",
+   "standing": "none (no instance, no hypothesis)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.InextensibleNestedOn.trans",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:103",
+   "statement": "{C C' C'' : Causality M} {W : Opens M} : C.InextensibleNestedOn C' W → C'.InextensibleNestedOn C'' W → C.InextensibleNestedOn C'' W",
+   "standing": "none. The definition asks C'.Inextensible W I c, which is C'.CausalCurveIn W I c ∧ ¬ C'.Extensible W I c, so the middle causality's curves are already its causal curves. Composition is the proof.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.InextensibleNestedOn.dual",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:123",
+   "statement": "{C C' : Causality M} {W : Opens M} : C.InextensibleNestedOn C' W → C.dual.InextensibleNestedOn C'.dual W",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.dual_inextensibleNestedOn_iff",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:128",
+   "statement": "{C C' : Causality M} {W : Opens M} : C.dual.InextensibleNestedOn C'.dual W ↔ C.InextensibleNestedOn C' W",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Inextensible.of_dual_reverse",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:110",
+   "statement": "{C : Causality M} {W : Opens M} {I : Set ℝ} {c : ℝ → M} : (C.dual.Inextensible W (-I) fun t => c (-t)) → C.Inextensible W I c",
+   "standing": "none. This is the converse of the library's Inextensible.dual_reverse: it applies that lemma to C.dual and rewrites with neg_neg.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.dual_inextensible_iff",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:118",
+   "statement": "{C : Causality M} {W : Opens M} {I : Set ℝ} {c : ℝ → M} : (C.dual.Inextensible W (-I) fun t => c (-t)) ↔ C.Inextensible W I c",
+   "standing": "none. The name follows the library's dual_pastInextensible_iff and dual_futureInextensible_iff.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Inextensible.restrict",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:136",
+   "statement": "{C : Causality M} {V W : Opens M} {I : Set ℝ} {c : ℝ → M} : C.Inextensible W I c → V ≤ W → (∀ t ∈ I, c t ∈ V) → C.Inextensible V I c",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.InextensibleNestedOn.mono_of_inextensible",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:146",
+   "statement": "{C C' : Causality M} {V W : Opens M} : C.InextensibleNestedOn C' W → V ≤ W → (∀ ⦃I : Set ℝ⦄ ⦃c : ℝ → M⦄, C.Inextensible V I c → C.Inextensible W I c) → C.InextensibleNestedOn C' V",
+   "standing": "none. The added hypothesis hV (every C-inextensible curve of V is C-inextensible in W) is a sufficient condition, not a ladder node.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.curveNestedOn_allRelated",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:154",
+   "statement": "(C : Causality M) (W : Opens M) : C.CurveNestedOn (LineDevelopment.allRelated M) W",
+   "standing": "none. Every causal curve is a causal curve of allRelated.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_inextensibleNestedOn_allRelated",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:165",
+   "statement": "timelikeLine.InextensibleNestedOn (LineDevelopment.allRelated ℝ) ⊤",
+   "standing": "ℝ, no instance argument. Proved through Causality.GloballyHyperbolic.inextensibleNestedOn_top. It nests two different causalities.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_inextensibleNested_basics",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:173",
+   "statement": "timelikeLine.InextensibleNestedOn timelikeLine ⊤ ∧ timelikeLine.InextensibleNestedOn (LineDevelopment.allRelated ℝ) ⊤ ∧ timelikeLine.dual.InextensibleNestedOn (LineDevelopment.allRelated ℝ).dual ⊤",
+   "standing": "ℝ. This is the kb/0011 witness for refl, trans (timelikeLine → timelikeLine → allRelated ℝ) and dual.",
+   "status": "proved"
+  }
+ ],
+ "monotonicity_verdict": {
+  "question": "Does C.InextensibleNestedOn C' W with V ≤ W give C.InextensibleNestedOn C' V? (the ladder's `what`, programme/ladder.toml:854: 'not known to pass to a smaller open')",
+  "verdict": "False in general. Refuted in Lean on a space that is not T1. On a Hausdorff, second countable space it is false by an argued example that is not in Lean. With both causalities causal it is open.",
+  "lean_refutation": {
+   "name": "Causal.not_inextensibleNestedOn_mono",
+   "file_line": "scaffold/CausalScaffold/InextensibleNestedBasics.lean:521",
+   "statement": "¬ ∀ (M : Type) [TopologicalSpace M] (C C' : Causality M) (V W : Opens M), V ≤ W → C.InextensibleNestedOn C' W → C.InextensibleNestedOn C' V",
+   "witness": "Causal.CoarsePoint.separates_inextensibleNestedOn_mono (scaffold/CausalScaffold/InextensibleNestedBasics.lean:507): CoarsePoint.nearOpens ≤ ⊤ ∧ (LineDevelopment.allRelated CoarsePoint).InextensibleNestedOn CoarsePoint.diag ⊤ ∧ ¬ (LineDevelopment.allRelated CoarsePoint).InextensibleNestedOn CoarsePoint.diag CoarsePoint.nearOpens ∧ (∀ W, (allRelated CoarsePoint).AbsolutelyMinimalOn W) ∧ (∀ W, diag.AbsolutelyMinimalOn W) ∧ diag.IsCausal",
+   "space": "Causal.CoarsePoint has two near points (near false, near true) and a far point far S for each S : Set ℝ. Its open sets are ∅, the two near points (nearOpens) and everything. The space is not T1 (not even T0). It is second countable, with three open sets, but this is not proved in Lean. Every precausality on it is absolutely minimal on every open set (CoarsePoint.absolutelyMinimalOn), so the witness stands in either form of DEC-167's gluing. allRelated is not causal; diag (each point related only to itself) is causal.",
+   "how": "At M the nesting is vacuous: no causal curve of allRelated is inextensible (CoarsePoint.allRelated_extensible, scaffold/CausalScaffold/InextensibleNestedBasics.lean:438). By Cantor, the image of a curve misses some far point. Squeezing the parameters below π/2 by arctan (Extensible.of_comp) and appending that far point at parameter 2 gives an extension, with a pause at the last point when there is one, because the near points form an open set. On nearOpens, the step (near false up to time 0, near true after) is inextensible for allRelated, because its image is all of nearOpens. It is not a causal curve of diag, because it jumps at 0."
+  },
+  "argued_T2_counterexample_not_in_Lean": "Take the circle ℝ/3ℤ. Let C' be clockwise motion (not causal). Let C be clockwise motion that never passes a point p: x ≤ y iff the clockwise arc (x, y] misses p, and x ≪ y asks moreover x ≠ p, so that I⁻ stays open (not cutLine's convention carried to the circle, under which C is not causal). C is causal; the relations are not in Lean. Let V be the circle minus a point q ≠ p. A C-curve never passes p, so its lift moves by less than a turn and has a limit at both ends. Such a curve extends at an end unless that end is its start at p or its approach to p. So every C-inextensible curve of the circle starts at p and comes back to it. Its image is the whole circle, so it is C'-inextensible. In V, the arc from p clockwise to q is C-inextensible, and C' extends it at p from the other side.",
+  "what_does_pass": "Causal.Causality.InextensibleNestedOn.mono_of_inextensible, under hV.",
+  "why": "An inextensible curve of V need not be one of W, since it may extend out of V, and nothing ties the C'-extensions inside V to the C-inextensible curves of W. In the Lean example the nesting at M is vacuous (no inextensible curve of allRelated exists there); in the circle example the C-inextensible curves of W cover p, through which C' extends the V-curve. Whether the route closes when C and C' are both causal on a T2, second countable space is open (a heuristic, not proved)."
+ },
+ "extra_decls": [
+  "Causal.Causality.Inextensible.of_dual_reverse",
+  "Causal.Causality.dual_inextensible_iff",
+  "Causal.Causality.Inextensible.restrict",
+  "Causal.Causality.InextensibleNestedOn.mono_of_inextensible",
+  "Causal.Causality.curveNestedOn_allRelated",
+  "Causal.timelikeLine_inextensibleNestedOn_allRelated",
+  "Causal.timelikeLine_inextensibleNested_basics",
+  "Causal.CoarsePoint (inductive) and its topology instance, Causal.CoarsePoint.nearSet, nearOpens, toSet, diag, step, NearOpenOn",
+  "Causal.CoarsePoint.isOpen_iff, isOpen_nearSet, eq_univ_of_far_mem, nearSet_subset, step_mem, causalCurveIn_step, inextensible_step, not_diag_causalCurveIn_step, not_allRelated_inextensibleNestedOn_nearOpens, causalCurveIn_of_nearOpenOn, nearOpenOn_of_causalCurveIn, extensible_of_lt_two, allRelated_extensible, allRelated_inextensibleNestedOn_top, absolutelyMinimalOn, diag_isCausal, separates_inextensibleNestedOn_mono",
+  "Causal.not_inextensibleNestedOn_mono"
+ ],
+ "findings": [],
+ "questions": [
+  "My reading of 'its monotonicity in the open set' was: C and C' fixed, nesting on W ⇒ nesting on every open V ≤ W. The Lean refutation is on a space that is not T1, so it is not one of ETT's spacetimes. In the ambient (T2, second countable) the refutation is only argued (the circle with a cut, C causal, C' not). Whether the keeper wants that refutation in Lean (a [[fails]]-style record with a `space`) or the argued note is enough is the keeper's choice. With both causalities causal on a T2, second countable space, whether the nesting passes to smaller opens is open: a proof would go through limits at the ends of a curve (Hausdorff) and a one-sided curves-extend.",
+  "ERS 4.71's witness with Cτ = C (T-abs-ers-witnesses) can use Causality.InextensibleNestedOn.refl directly; no form was written for it here."
+ ],
+ "kb_proposals": [
+  "InextensibleNestedOn's basic lemmas take no hypothesis: .refl, .trans (the definition already asks C'-causality of the curve), .dual and dual_inextensibleNestedOn_iff, through dual_inextensible_iff (Causal.Causality, T-abs-inextensible-nested-basics).",
+  "InextensibleNestedOn does not pass to a smaller open: Causal.not_inextensibleNestedOn_mono, on the non-T1 coarse space Causal.CoarsePoint (allRelated into diag, vacuous at M). A T2 example on the circle with a cut is argued only. A sufficient condition is InextensibleNestedOn.mono_of_inextensible (T-abs-inextensible-nested-basics).",
+  "A cheap space with no inextensible causal curve at all: Causal.CoarsePoint with allRelated (Cantor: a curve misses a far point; squeeze by arctan through Extensible.of_comp; append). Any statement 'every inextensible curve of M ...' is vacuous there. Every precausality on it is absolutely minimal on every open set (CoarsePoint.absolutelyMinimalOn).",
+  "Everything is curve-nested in allRelated (Causality.curveNestedOn_allRelated). With GloballyHyperbolic.inextensibleNestedOn_top this gives a nesting of two distinct causalities, timelikeLine into allRelated ℝ (Causal.timelikeLine_inextensibleNestedOn_allRelated)."
+ ],
+ "notes": "One new file, 528 lines, 0 sorry, no ETT label (the docstring marks nothing with **). Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.InextensibleNestedBasics` to scaffold/CausalScaffold.lean; at graduation the file moves to Causal/ and its import goes into Causal.lean. Its imports are already Causal.* and Mathlib only. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the new names outside this file. The file adds a global TopologicalSpace instance on the new type Causal.CoarsePoint, and no instance on any existing type. No existing file was edited. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`. tools/ladder.py was only imported in memory to call lean_index and model_path. The other closers' files (Ers475CauchyForm.lean, SchwCausalLemmas.lean) were not touched.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: package; .trans standing (the quoted 'worry' is not in the roadmap); the circle's relations written out; 'why' rewritten for the Lean example; 'nonempty W' in absolutelyMinimalOn's docstring; kb/0243 -> kb/0142."
+}

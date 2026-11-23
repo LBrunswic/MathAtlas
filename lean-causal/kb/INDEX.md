@@ -276,3 +276,5 @@ rediscover. One fact per entry.
 | [0268](entries/0268-forkpoint-non-hausdorff.md) | pattern | Causal.ForkPoint: a cheap non-Hausdorff witness |
 | [0269](entries/0269-chronally-separated.md) | pattern | Sbierski's timelike separation is ChronallySeparatedOn |
 | [0270](entries/0270-restrict-ascribe.md) | pitfall | Ascribe a restricted curve before using it as a chronal curve |
+| [0271](entries/0271-coarse-point.md) | pattern | Causal.CoarsePoint refutes a property's passage to a smaller open set |
+| [0272](entries/0272-inextensible-carries-causal.md) | pattern | A nesting of inextensible curves composes with no hypothesis |
