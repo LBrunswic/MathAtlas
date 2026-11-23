@@ -80,3 +80,10 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0070](entries/0070-pitfall.md) | pitfall | Pitfall: |
 | [0071](entries/0071-pitfall.md) | pitfall | Pitfall: |
 | [0072](entries/0072-a-continuous-integer-valued-function-on.md) | pattern | A continuous integer-valued function on R that vanishes at 0 vanishes everywhere: |
+| [0073](entries/0073-d-s2-u-r-is-gx-dstilde-r-x-1-1-projected.md) | pattern | d~S2 u R+- is GX.DSTilde = R x [-1,1], projected by GX.dsCover |
+| [0074](entries/0074-a-lifted-so0-1-2-equivariance-of-a-map-i.md) | pattern | A lifted equivariance into d~S2 u R+- acts by one element of G~ at every height |
+| [0075](entries/0075-to-develop-a-map-of-a-simply-connected-s.md) | pattern | Developing a map of a simply connected space into an HS-surface |
+| [0076](entries/0076-every-g-hs2-manifold-is-locally-path-con.md) | pattern | Every (G, HS2)-manifold is locally path-connected and semilocally simply connected |
+| [0077](entries/0077-the-chart-of-isphotoncircle-rp1chartedsp.md) | pattern | The chart of IsPhotonCircle.rp1ChartedSpace is the HS-chart |
+| [0078](entries/0078-projectively-isomorphic-rp1-circles-a-ho.md) | pattern | Projectively isomorphic RP1-circles have the same lifted holonomies and real angles |
+| [0079](entries/0079-pitfall.md) | pitfall | Pitfall: |
