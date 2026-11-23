@@ -1,0 +1,188 @@
+{
+ "package": "T-bbs-hs-remark-existence",
+ "target": "T-bbs-hs-remark-existence",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSSingularities.lean"
+ ],
+ "module": "GXScaffold.BBS.HSSingularities",
+ "imports_added": [
+  "GX.BBS.QuotientCircle",
+  "GXScaffold.BBS.PSL2NormalForms"
+ ],
+ "builds": true,
+ "build_note": "lake build GXScaffold.BBS.HSSingularities: 8632/8632, only this module rebuilt (no GX.* or mathlib olean newer than the start of the session); lake env lean on the file: the 5 `declaration uses sorry` warnings only",
+ "sorry_count": 5,
+ "sorry_count_note": "was 10; 5 closed. None of the 5 left is beneath the label's declarations; all 5 belong to T-bbs-hs-link-types (l.1978/l.1991/l.2094 of the dispatch, and the two degree-0 / components rows), untouched as the dispatch says",
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "axioms_note": "#print axioms on a /tmp copy (and on a /tmp file importing the built module together with GX.BBS.GammaPElements, no name clash): GX.exists_positive_negative, GX.exists_rp1Iso_not_isIso, GX.rp1Iso_of_zpowers_eq, GX.conj_inv_swaps_timelike_spacelike, GX.not_isIso_of_positive_of_negative, GX.GammaLinkCircle.IsLiftedDev.spacelike_dichotomy, the four closed prose declarations, GX.rp1Iso_iff_of_degree_zero_hyperbolic and the three new helpers depend on exactly these",
+ "labels": [
+  {
+   "label": "bbsrem:previous_section_observed_only",
+   "tex_lines": [
+    926,
+    932
+   ],
+   "status": "partial",
+   "marked": false,
+   "marked_note": "Every assertion of the remark is now proved with no sorry beneath, including the existence half of « does not extend ». It stays partial and unmarked only because of the readings OQ-120 (a)-(c) and OQ-116 (a); the dispatch says the mark waits on OQ-120. The module docstring writes the label without the ** mark and says so.",
+   "decls": [
+    "GX.rp1Iso_of_zpowers_eq",
+    "GX.conj_inv_swaps_timelike_spacelike",
+    "GX.GTilde.lt_apply_iff_of_conj_inv",
+    "GX.not_isIso_of_positive_of_negative",
+    "GX.exists_positive_negative",
+    "GX.exists_rp1Iso_not_isIso",
+    "GX.GammaLinkCircle.IsIso",
+    "GX.GammaLinkCircle.IsSpacelikePositive",
+    "GX.GammaLinkCircle.IsSpacelikeNegative"
+   ],
+   "hypotheses": [
+    {
+     "paper": "only one RP1 hyperbolic circle of holonomy <g> (l.927-928)",
+     "here": "reading",
+     "note": "unchanged from T-bbs-hs-singularities: the lifted holonomy group in G~ (OQ-120 (b)); GX.rp1Iso_of_zpowers_eq"
+    },
+    {
+     "paper": "a real projective conjugacy between g and g^-1, preserving the orientation, permutes time-like and space-like components (l.928-930)",
+     "here": "reading",
+     "note": "unchanged: OQ-116 (a) time-like reading; GX.conj_inv_swaps_timelike_spacelike"
+    },
+    {
+     "paper": "positive and negative hyperbolic (Gamma_p, l(p))-circles are not isomorphic (l.930-931)",
+     "here": "reading",
+     "note": "unchanged: same p (OQ-120 (a)), the l.915 form of positive/negative (OQ-120 (c)); GX.not_isIso_of_positive_of_negative"
+    },
+    {
+     "paper": "this remark does not extend to hyperbolic (Gamma_p, l(p))-circles (l.928)",
+     "here": "proved, in a reading",
+     "note": "GX.exists_positive_negative (statement unchanged): at every p in dS2, a positive and a negative space-like (Gamma_p, l(p))-circle (built with degree 2) whose lifted holonomies are conjugate in G~. They are R/<delta^2 g> and R/<delta^2 g^-1>, developed by linkCover, g the lift with a fixed point of some A in Gamma_p minus 1. GX.exists_rp1Iso_not_isIso (new) states both halves at once: the two underlying RP1-circles are RP1-isomorphic and the two (Gamma_p, l(p))-circles are not isomorphic. Reading: « does not extend » = there are two non-isomorphic hyperbolic (Gamma_p, l(p))-circles whose underlying RP1-circles are isomorphic (see questions)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "« this remark does not extend » (l.928). Reading taken: there are two hyperbolic (Gamma_p, l(p))-circles that are not isomorphic but whose underlying RP1-circles are isomorphic, i.e. whose lifted holonomies are conjugate in G~ (GX.rp1Iso_iff_conj). Proved: GX.exists_positive_negative, GX.exists_rp1Iso_not_isIso. In the examples the Gamma_p-holonomies are A and A^-1, which generate the same subgroup of Gamma_p (by construction; not part of the Lean statement). The lifted holonomy groups <delta^2 g> and <delta^2 g^-1> are conjugate in G~ but not equal. Under the literal G~ reading of OQ-120 (b) with EQUAL lifted holonomy groups, the remark's own argument cannot produce such a pair. A circle's canonical generator has positive degree, so equal lifted groups mean equal lifted holonomy. For one oriented theta, the sign is then decided by the direction in which g moves the future time-like directions (GX.timelike_spacelike_dir), so the two circles have the same sign. This is argued, not formalized. Which notion of « the same holonomy » is of record for the « does not extend » half: conjugate in G~ (the reading taken), equal in Gamma_p, or equal in G~? This bears on OQ-120 (b).",
+    "The degree of the examples. The remark names no degree. Positive/negative is defined only for degree k >= 1 (l.906), and the degree is even at p in dS2 (GX.GammaLinkCircle.IsLiftedDev.even_of_nonneg), so 2 is the least possible degree. The examples are built in degree 2. The statement of GX.exists_positive_negative carries the degree only through IsSpacelikePositive/Negative (k >= 1), not as « = 2 ». The same construction with delta^(2m) g gives every even degree; this is argued, not formalized."
+   ]
+  }
+ ],
+ "closes": [
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:1124 (orig.), GX.PSL2.IsHyperbolic.isConj_iff, now l.1138",
+   "by": "PSL2.IsHyperbolic.exists_conj_of_trSq_eq hg hg' (GXScaffold.BBS.PSL2NormalForms)",
+   "also_unblocks": "GX.rp1Iso_iff_of_degree_zero_hyperbolic (l.1215) is now sorry-free"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:1133 (orig.), GX.PSL2.IsParabolic.isConj_iff, now l.1145",
+   "by": "PSL2.IsParabolic.isConj_iff_forall_le hg hg' hf hf' hfix hfix' (identical signature)"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:1149 (orig.), GX.rp1Iso_of_angle_eq, now l.1161",
+   "by": "(rp1Iso_iff_conj hf hf').2 (GTilde.exists_conj_of_angle_eq he he' hθ)"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:1265 (orig.), GX.exists_rp1Circle_of_ne_one, now l.1277",
+   "by": "exists_rp1Circle_quotient hf (GX.BBS.QuotientCircle); the statement keeps f != 1, the corrected form of l.721 (OQ-123), now recorded in SCOPE (g)"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:2358 (orig.), GX.exists_positive_negative, now l.2445",
+   "by": "the oriented theta of GX.exists_isOrientedTangent; GX.exists_gammaP_lift_fixed (A != 1 in Gamma_p, its lift g with a fixed point, g hyperbolic); g^-1 lifts A^-1, is hyperbolic, and has a fixed point; kappa g kappa^-1 = g^-1 (GTilde.IsHyperbolic.exists_conj_inv), so kappa (delta^2 g) kappa^-1 = delta^2 g^-1 since delta is central; the two circles come from GX.exists_isLiftedDev_delta_sq_mul (GX.exists_gammaLinkCircle_quotient_of_forall_lt with D = linkCover); the case split of GX.timelike_spacelike_dir decides which one is positive (GX.GammaLinkCircle.IsLiftedDev.mem_dsFutureDirs: a point of i+(L) develops to a future time-like direction)"
+  }
+ ],
+ "sorries_left": [
+  {
+   "decl": "GX.GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike",
+   "line": 1994,
+   "owner": "T-bbs-hs-link-types",
+   "obstruction": "unchanged tag: the Euclidean structure of p^perp at a time-like p (now in GX.BBS.GammaPElements, not imported here, per the dispatch)"
+  },
+  {
+   "decl": "GX.GammaLinkCircle.IsLiftedDev.isParabolic_of_null",
+   "line": 2007,
+   "owner": "T-bbs-hs-link-types",
+   "obstruction": "unchanged tag: the single-element unipotence at a light-like p"
+  },
+  {
+   "decl": "GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero",
+   "line": 2099,
+   "owner": "T-bbs-hs-link-types",
+   "obstruction": "unchanged tag: i+(l(p)) is exactly one arc between consecutive lightlike directions"
+  },
+  {
+   "decl": "GX.GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero",
+   "line": 2110,
+   "owner": "T-bbs-hs-link-types",
+   "obstruction": "unchanged tag: the parabolic analysis at a light-like p"
+  },
+  {
+   "decl": "GX.GammaLinkCircle.IsLiftedDev.iPlus_components",
+   "line": 2124,
+   "owner": "T-bbs-hs-link-types",
+   "obstruction": "unchanged tag: the arc structure of l(p)"
+  }
+ ],
+ "prose_rows": [
+  {
+   "tex_lines": [
+    747,
+    748
+   ],
+   "claim": "hyperbolic conjugacy classes parametrised by |tr|",
+   "decls": [
+    "GX.PSL2.IsHyperbolic.isConj_iff",
+    "GX.rp1Iso_iff_of_degree_zero_hyperbolic"
+   ],
+   "status": "closed (sorry-free)"
+  },
+  {
+   "tex_lines": [
+    748,
+    750
+   ],
+   "claim": "exactly two parabolic conjugacy classes",
+   "decls": [
+    "GX.PSL2.IsParabolic.isConj_iff"
+   ],
+   "status": "closed (sorry-free), under OQ-122 (b) (g x >= x read on the lift with a fixed point)"
+  },
+  {
+   "tex_lines": [
+    742,
+    744
+   ],
+   "claim": "elliptic RP1-circles parametrised by the angle",
+   "decls": [
+    "GX.rp1Iso_of_angle_eq"
+   ],
+   "status": "closed (sorry-free), central holonomy included (OQ-113 (d))"
+  },
+  {
+   "tex_lines": [
+    721,
+    722
+   ],
+   "claim": "every (non-trivial) cyclic subgroup of G~ is the holonomy group of an RP1-circle",
+   "decls": [
+    "GX.exists_rp1Circle_of_ne_one"
+   ],
+   "status": "closed in the corrected form f != 1 (OQ-123 finding, T-bbs-quotient-circle)"
+  }
+ ],
+ "statement_changes": "None. Five proof bodies were replaced; for four of them `:= by` became `:=` (term proofs), and no statement text changed. The module docstring was updated: it now names two targets and the 5 sorrys left; the label entry says the remark is proved in readings and the mark waits on OQ-120; the closed rows lost their `sorry` mentions; SCOPE gained (g), l.721 corrected (OQ-123), and (h), the reading of « does not extend ». The label stays within the first 4000 characters (at character 851). The docstrings of GX.exists_positive_negative and of the new helpers describe the construction.",
+ "extra_decls": [
+  "GX.exists_isLiftedDev_delta_sq_mul",
+  "GX.GammaLinkCircle.IsLiftedDev.mem_dsFutureDirs",
+  "GX.exists_gammaP_lift_fixed",
+  "GX.exists_rp1Iso_not_isIso"
+ ],
+ "kb_proposals": [
+  "A lift with a fixed point of a non-trivial A in Gamma_p at p in dS2 is GX.exists_gammaP_lift_fixed. A != 1 exists by contradiction with GX.fixedPoints_subset_of_deSitter at a future time-like direction. Its exists_rayLift lift F fixes the lift t1 of a null ray up to 2n (smul_eq_of_deSitter, linkCover_eq_linkCover_iff), so g = delta^(-2n) * F fixes t1. g is hyperbolic by isHyperbolic_of_linkCover; that g is not central follows from A moving a time-like direction.",
+  "A (Gamma_p, l(p))-circle with lifted holonomy delta^2 g (g a lift of A with a fixed point) is GX.exists_isLiftedDev_delta_sq_mul. It returns the fields (cs, hcs, hL) and (GammaLinkCircle.mk p cs hcs hL).IsLiftedDev theta E D (delta^(2:Z) * g), so C.pt = p by rfl. It uses exists_gammaLinkCircle_quotient_of_forall_lt with D = linkCover, hlt from sub_one_lt_apply_of_fixed, and hDf from linkCover_add_two_mul.",
+  "To state an RP1-isomorphism between the underlying RP1-circles of two GammaLinkCircles inside an existential, put `letI := C.rp1ChartedSpace θ; haveI := C.rp1_hasGroupoid θ` (and the same for C') in the statement itself. IsRP1Iso needs both the ChartedSpace and the HasGroupoid instances. The proof is (rp1Iso_iff_conj ⟨E, D, h.isLiftedDevPair⟩ ⟨E', D', h'.isLiftedDevPair⟩).2 (GX.exists_rp1Iso_not_isIso)."
+ ],
+ "notes": "One file edited, the one the dispatch names. Its two imports were added (GX.BBS.QuotientCircle strict, GXScaffold.BBS.PSL2NormalForms scaffold), and GX.BBS.GammaPElements is not imported. The scaffold root already imports both HSSingularities and PSL2NormalForms; it was not edited. The file still cannot graduate to GX: it has 5 sorrys (T-bbs-hs-link-types), and it imports the scaffold modules GXScaffold.Interaction.FunnelGTilde and GXScaffold.BBS.PSL2NormalForms. A /tmp file importing the built module together with GX.BBS.GammaPElements compiles, so T-bbs-hs-link-types can add that import without a name clash. For the curation: the label's decls can add GX.exists_rp1Iso_not_isIso. Its blocked_on no longer needs « the existence half GX.exists_positive_negative is a tagged sorry »; what remains is the readings OQ-120 (a)-(c) and OQ-116 (a), plus the new question on « same holonomy » (an extension of OQ-120 (b)). The 5 tags left carry the label name but no declaration of the label depends on them. No ledger, curation, kb, roadmap or register file was touched, and no git command was run. Scratch files: /tmp/hsre/ (outside the repository)."
+}

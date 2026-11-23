@@ -109,3 +109,6 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0099](entries/0099-pitfall.md) | pitfall | Pitfall: |
 | [0100](entries/0100-pitfall.md) | pitfall | Pitfall: |
 | [0101](entries/0101-pitfall.md) | pitfall | Pitfall: |
+| [0102](entries/0102-a-lift-with-a-fixed-point-of-a-non-trivi.md) | pattern | A lift with a fixed point of a non-trivial A ∈ Γ_p at p ∈ dS²: GX.exists_gammaP_lift_fixed |
+| [0103](entries/0103-a-p-p-circle-with-lifted-holonomy-g-gx-e.md) | pattern | A (Γ_p, ℓ(p))-circle with lifted holonomy δ²g: GX.exists_isLiftedDev_delta_sq_mul |
+| [0104](entries/0104-stating-an-p-isomorphism-of-two-gammalin.md) | pattern | Stating an ℝP¹-isomorphism of two GammaLinkCircles' underlying circles inside an existential |

@@ -1,19 +1,24 @@
 import GX.BBS.IPm
+import GX.BBS.QuotientCircle
 import GXScaffold.Interaction.FunnelGTilde
+import GXScaffold.BBS.PSL2NormalForms
 
 /-!
 # BBS § 3.3: the classification of `ℝP¹`-circles and of HS-singularities, and the remark that positive and negative hyperbolic links are not isomorphic
 
-Target `T-bbs-hs-singularities` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx, DEC-192).
-`papers/bbs/legacy/labeled/colI_v1.tex`. 10 tagged `sorry`s, none beneath the label's three
-assertions. Imports `GXScaffold.Interaction.FunnelGTilde` (sorry-free) for its `G̃` toolkit (parabolic
-fixed points, `apply_lt_delta_of_fixed`, `le_conj_apply`).
+Targets `T-bbs-hs-singularities` and `T-bbs-hs-remark-existence` (`roadmap/roadmap.toml`; BBS
+layer L2 in lean-gx, DEC-192). `papers/bbs/legacy/labeled/colI_v1.tex`. 5 tagged `sorry`s, none
+beneath the label (the time-like, light-like and degree-`0` types and the components of `I^±`).
+Imports `GX.BBS.QuotientCircle` (the quotient circles `J/⟨f⟩`), `GXScaffold.BBS.PSL2NormalForms`
+(sorry-free: the normal forms of `PSL(2,ℝ)` and `G̃`) and `GXScaffold.Interaction.FunnelGTilde`
+(sorry-free: parabolic fixed points, `apply_lt_delta_of_fixed`, `le_conj_apply`).
 
-* `bbsrem:previous_section_observed_only` — `colI_v1.tex:926` — partial (unmarked: its three
-  assertions are proved, in readings; the existence half of "does not extend" is a tagged `sorry`):
-  (i) `GX.rp1Iso_of_zpowers_eq`, (ii) `GX.conj_inv_swaps_timelike_spacelike` (with the `G̃` form
-  `GX.GTilde.lt_apply_iff_of_conj_inv`), (iii) `GX.not_isIso_of_positive_of_negative`;
-  `GX.exists_positive_negative` (`sorry`: the quotient construction).
+* `bbsrem:previous_section_observed_only` — `colI_v1.tex:926` — partial (unmarked: every assertion
+  is proved, no `sorry` beneath, in the readings OQ-120 (a)–(c) and OQ-116 (a); the mark waits on
+  OQ-120): (i) `GX.rp1Iso_of_zpowers_eq`, (ii) `GX.conj_inv_swaps_timelike_spacelike` (with the
+  `G̃` form `GX.GTilde.lt_apply_iff_of_conj_inv`), (iii) `GX.not_isIso_of_positive_of_negative`;
+  "does not extend": `GX.exists_positive_negative` (at every `p ∈ dS²`, the quotients
+  `ℝ/⟨δ² g⟩` and `ℝ/⟨δ² g⁻¹⟩`), with both halves `GX.exists_rp1Iso_not_isIso`.
 
 > In the previous section we observed that there is only one $\R\PP^1$ hyperbolic circle of
 > holonomy $\langle g \rangle$ up to $\R\PP^1$-isomorphism, but this remark does not extend to
@@ -41,9 +46,11 @@ The unlabeled prose of § 3.3 (l.688–760, l.785–802, l.855–922), stated in
   `(k, [g])` parametrises degree `k` (`GX.rp1Iso_iff_of_degree_pos`, every `k`); positive or
   negative parabolic (`GX.GTilde.IsParabolic.le_or_ge`); degree-`0` parabolic is positive
   (`GX.HasLiftedHolonomy.le_apply_of_parabolic`); `x₀` repelling, `x₁` attracting
-  (`GX.IsLiftedDevPair.repelling_attracting`). `sorry`: the `PSL(2,ℝ)` normal forms
-  (`GX.PSL2.IsHyperbolic.isConj_iff` ⇐, `GX.PSL2.IsParabolic.isConj_iff`, `GX.rp1Iso_of_angle_eq`)
-  and the quotient construction (`GX.exists_rp1Circle_of_ne_one`).
+  (`GX.IsLiftedDevPair.repelling_attracting`); through the normal forms of
+  `GXScaffold.BBS.PSL2NormalForms`, `GX.PSL2.IsHyperbolic.isConj_iff`,
+  `GX.PSL2.IsParabolic.isConj_iff`, `GX.rp1Iso_of_angle_eq`; every non-trivial cyclic subgroup is a
+  lifted holonomy group (`GX.exists_rp1Circle_of_ne_one`, by `GX.exists_rp1Circle_quotient`;
+  l.721 corrected, SCOPE (g)).
 * **`G̃`.** Three fixed points force `1` (`GX.PSL2.eq_one_of_three_fixed`); a hyperbolic element is
   conjugate to its inverse (`GX.PSL2.IsHyperbolic.exists_conj_inv`, `GX.GTilde.IsHyperbolic.exists_conj_inv`);
   its fixed points and directions (`GX.GTilde.IsHyperbolic.fixed_structure`).
@@ -56,7 +63,9 @@ The unlabeled prose of § 3.3 (l.688–760, l.785–802, l.855–922), stated in
   holonomy `GX.regular_not_isHyperbolic`); **the degree is even** at non-timelike `p`
   (`…even_of_nonneg`, l.905); positive/negative (`GX.GammaLinkCircle.IsSpacelikePositive`,
   `…Negative`, independent of the choice of `θ, E, D` (`…forall`), **dichotomy** `…spacelike_dichotomy`; light-like
-  `…lightlike_dichotomy`). `sorry`: the time-like and light-like types (`…isElliptic_of_timelike`,
+  `…lightlike_dichotomy`); the examples of l.928 (`GX.exists_gammaP_lift_fixed`: a lift with a
+  fixed point of `A ∈ Γ_p ∖ {1}`; `GX.exists_isLiftedDev_delta_sq_mul`: the quotient `ℝ/⟨δ² g⟩`).
+  `sorry`: the time-like and light-like types (`…isElliptic_of_timelike`,
   `…isParabolic_of_null`), the degree-`0` types (`…spacelike_degree_zero`, `…bdPlus_degree_zero`),
   the components of `I^±` (`…iPlus_components`).
 
@@ -92,6 +101,15 @@ The unlabeled prose of § 3.3 (l.688–760, l.785–802, l.855–922), stated in
   primary definition of l.908–913 (left extremities of the components of `I⁺` repelling,
   resp. attracting) follows from `GX.GTilde.IsHyperbolic.fixed_structure` and
   `GX.timelike_spacelike_dir`, argued, not formalized.
+* **(g)** l.721–722 "every cyclic subgroup of `G̃` is the holonomy group" is false for the trivial
+  subgroup (`GX.not_every_cyclic_subgroup_is_holonomy`, `GX.BBS.QuotientCircle`; OQ-123); stated
+  here for `f ≠ 1`.
+* **(h)** "Does not extend" (l.928) is read as: there are two hyperbolic `(Γ_p, ℓ(p))`-circles
+  whose underlying `ℝP¹`-circles are isomorphic (conjugate lifted holonomies in `G̃`, OQ-120 (b))
+  and which are not isomorphic. The examples have degree `2` (`f = δ² g`, `f' = δ² g⁻¹`) and
+  `Γ_p`-holonomies `A` and `A⁻¹`, which generate the same subgroup of `Γ_p`; the statements give
+  the degree only as `k ≥ 1` and do not state the `Γ_p`-holonomy. The identifications `θ`, `θ'`
+  in the isomorphism clause are not required to be oriented (the witnesses are).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 through `GX.BBS.IPm`.
@@ -1119,9 +1137,8 @@ theorem trSq_conj (c g : PSL(2, ℝ)) : trSq (c * g * c⁻¹) = trSq g := by
 /-- **Hyperbolic conjugacy classes are parametrised by the absolute value of the trace**
 (l.747–748): two hyperbolic elements of `PSL(2,ℝ)` are conjugate iff `tr² ` agree. -/
 theorem IsHyperbolic.isConj_iff {g g' : PSL(2, ℝ)} (hg : IsHyperbolic g) (hg' : IsHyperbolic g') :
-    (∃ c : PSL(2, ℝ), g' = c * g * c⁻¹) ↔ trSq g = trSq g' := by
-  refine ⟨fun ⟨c, hc⟩ => by rw [hc, trSq_conj], fun htr => ?_⟩
-  sorry -- SORRY(bbsrem:previous_section_observed_only): the converse needs the normal form of a hyperbolic `A ∈ SL(2,ℝ)` up to `SL(2,ℝ)`-conjugacy, `diag(λ, λ⁻¹)` (an eigenbasis of positive determinant), with `λ` determined by `tr² = (λ + λ⁻¹)²` up to `λ ↦ ±λ^{±1}`; not built
+    (∃ c : PSL(2, ℝ), g' = c * g * c⁻¹) ↔ trSq g = trSq g' :=
+  ⟨fun ⟨c, hc⟩ => by rw [hc, trSq_conj], exists_conj_of_trSq_eq hg hg'⟩
 
 /-- **There are exactly two parabolic conjugacy classes** (l.748–750): two parabolic elements of
 `PSL(2,ℝ)` are conjugate iff their lifts with a fixed point are both positive or both
@@ -1129,8 +1146,8 @@ negative. -/
 theorem IsParabolic.isConj_iff {g g' : PSL(2, ℝ)} (hg : IsParabolic g) (hg' : IsParabolic g')
     {f f' : GTilde} (hf : GTilde.toPSL f = g) (hf' : GTilde.toPSL f' = g') (hfix : ∃ x, f x = x)
     (hfix' : ∃ x, f' x = x) :
-    (∃ c : PSL(2, ℝ), g' = c * g * c⁻¹) ↔ ((∀ x, x ≤ f x) ↔ (∀ x, x ≤ f' x)) := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): needs the normal form `±[[1, ±1], [0, 1]]` of a parabolic element of `SL(2,ℝ)` up to `SL(2,ℝ)`-conjugacy (the sign `±1` of the off-diagonal entry is the conjugacy invariant, and it is the positive/negative class of its lift with a fixed point); not built
+    (∃ c : PSL(2, ℝ), g' = c * g * c⁻¹) ↔ ((∀ x, x ≤ f x) ↔ (∀ x, x ≤ f' x)) :=
+  isConj_iff_forall_le hg hg' hf hf' hfix hfix'
 
 end PSL2
 
@@ -1145,8 +1162,8 @@ included, OQ-113 (d)) with the same real angle are isomorphic. -/
 theorem rp1Iso_of_angle_eq {f f' : GTilde} (hf : HasLiftedHolonomy L f)
     (hf' : HasLiftedHolonomy L' f') (he : GTilde.IsElliptic f ∨ GTilde.toPSL f = 1)
     (he' : GTilde.IsElliptic f' ∨ GTilde.toPSL f' = 1) (hθ : GTilde.angle f = GTilde.angle f') :
-    ∃ φ : L ≃ₜ L', IsRP1Iso φ := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): needs that an elliptic element of `SL(2,ℝ)` is `SL(2,ℝ)`-conjugate to a rotation (its fixed point in `ℍ²`), and that two lifts of rotations to `G̃` with the same translation number are conjugate (`GXScaffold.Interaction.FunnelGTilde`'s `GTilde.rot`); with `GX.rp1Iso_iff_conj` this closes it. The rotation normal form is not built
+    ∃ φ : L ≃ₜ L', IsRP1Iso φ :=
+  (rp1Iso_iff_conj hf hf').2 (GTilde.exists_conj_of_angle_eq he he' hθ)
 
 /-- **The case `k ≥ 1`** (l.746–747): non-elliptic `ℝP¹`-circles of degree `k ≥ 1` are
 parametrised by `(k, [g])`, `[g]` the conjugacy class of `g` in `G = PSL(2,ℝ)`. Proved for every
@@ -1261,8 +1278,8 @@ subgroup of `G̃` is the holonomy group of an `ℝP¹`-circle. -/
 theorem exists_rp1Circle_of_ne_one {f : GTilde} (hf : f ≠ 1) :
     ∃ (L : Type) (_ : TopologicalSpace L) (_ : ChartedSpace RP1 L),
       HasGroupoid L (gxGroupoid PSL(2, ℝ) RP1) ∧ IsCircle L ∧
-        (HasLiftedHolonomy L f ∨ HasLiftedHolonomy L f⁻¹) := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): the quotient `J/⟨f⟩` of a component `J` of `{x | x < f x}` (or of `{x | f x < x}`, for `f⁻¹`) as an `ℝP¹`-circle needs `GX.gxQuotient` on the open subset `J` of `ℝP̃¹` with the structure pulled back along `GX.RP1.proj`, and a homeomorphism `J/⟨f⟩ ≃ₜ 𝕊¹` (a fundamental domain `[x, f x]`); not built
+        (HasLiftedHolonomy L f ∨ HasLiftedHolonomy L f⁻¹) :=
+  exists_rp1Circle_quotient hf
 
 /-! ## 5. `(Γ_p, ℓ(p))`-circles: the lifted developing map -/
 
@@ -2345,17 +2362,140 @@ theorem conj_inv_swaps_timelike_spacelike {p : HS 2} (hp : p ∈ HS.piece 2 .deS
       · exact absurd ((hfn (h t)).2 hq) this.ne
       · exact absurd (hS _ hq) (lt_asymm this)
 
+/-- **The quotient `ℝ/⟨δ² g⟩` along `linkCover`** (the examples of l.928): for `g ∈ G̃` with a fixed
+point lifting `A ∈ Γ_p` through `linkCover p θ`, the quotient of `ℝP̃¹` by `δ² g` is a
+`(Γ_p, ℓ(p))`-circle `⟨p, cs, hcs, hL⟩` (so its point is `p` by definition) with a lifted developing
+pair of lifted holonomy `δ² g`. Through `GX.exists_gammaLinkCircle_quotient_of_forall_lt`. -/
+theorem exists_isLiftedDev_delta_sq_mul (p : HS 2) (θ : TpHS p ≃ₗ[ℝ] ℂ) {A : GammaP p}
+    {g : GTilde} (hg : ∀ t, linkCover p θ (g t) = A • linkCover p θ t) (hfix : ∃ x, g x = x) :
+    ∃ (L : Type) (_ : TopologicalSpace L) (cs : ChartedSpace (Link p) L)
+      (hcs : HasGroupoid L (gxGroupoid (GammaP p) (Link p))) (hL : IsCircle L) (E : ℝ → L)
+      (D : ℝ → ℝ),
+        (GammaLinkCircle.mk p cs hcs hL).IsLiftedDev θ E D (GTilde.delta ^ (2 : ℤ) * g) := by
+  have happ : ∀ x, (GTilde.delta ^ (2 : ℤ) * g) x = g x + 2 * ((1 : ℤ) : ℝ) := fun x => by
+    rw [GTilde.coe_mul_apply, GTilde.delta_zpow_apply]; push_cast; ring
+  have hlt : ∀ x, x < (GTilde.delta ^ (2 : ℤ) * g) x := fun x => by
+    rw [happ]
+    have := GTilde.sub_one_lt_apply_of_fixed hfix x
+    push_cast; linarith
+  have hDf : ∀ x, linkCover p θ ((GTilde.delta ^ (2 : ℤ) * g) x) = A • linkCover p θ x :=
+    fun x => by rw [happ, linkCover_add_two_mul, hg]
+  obtain ⟨L, _, cs, hcs, hL, E, ψ, hE, hψc, hψm, hψf, hdev⟩ :=
+    exists_gammaLinkCircle_quotient_of_forall_lt p
+      (isCoveringMap_linkCover p θ).isLocalHomeomorph hlt hDf
+  exact ⟨L, inferInstance, cs, hcs, hL, E, ψ, hE, hψc, hψm, hdev, hψf⟩
+
+/-- A point of `i⁺(L)` develops to a future time-like direction, at `p ∈ dS²`. -/
+theorem GammaLinkCircle.IsLiftedDev.mem_dsFutureDirs {C : GammaLinkCircle L}
+    {θ : TpHS C.pt ≃ₗ[ℝ] ℂ} {E : ℝ → L} {D : ℝ → ℝ} {f : GTilde} (h : C.IsLiftedDev θ E D f)
+    (hp : C.pt ∈ HS.piece 2 .deSitter) {s : ℝ} (hs : E s ∈ C.iPlusL) :
+    linkCover C.pt θ (D s) ∈ dsFutureDirs C.pt := by
+  rw [← iPlus_of_deSitter hp]
+  exact (Set.ext_iff.1 h.2.2.2.1.preimage_iPlus s).2 hs
+
+/-- **At `p ∈ dS²`, a non-trivial element of `Γ_p` lifts to `G̃` with a fixed point** through
+`linkCover p θ`: some `A ∈ Γ_p ∖ {1}` (`Γ_p` moves the time-like directions,
+`GX.fixedPoints_subset_of_deSitter`) has a lift `g ∈ G̃` with a fixed point (`A` fixes the
+lightlike directions, `GX.smul_eq_of_deSitter`, so a lift through `GX.exists_rayLift` fixes the
+lift of one of them up to `δ^{2n}`), and `g` is hyperbolic (`GX.isHyperbolic_of_linkCover`). -/
+theorem exists_gammaP_lift_fixed {p : HS 2} (hp : p ∈ HS.piece 2 .deSitter)
+    (θ : TpHS p ≃ₗ[ℝ] ℂ) :
+    ∃ (A : GammaP p) (g : GTilde), A ≠ 1 ∧ (∀ t, linkCover p θ (g t) = A • linkCover p θ t) ∧
+      (∃ x, g x = x) ∧ GTilde.IsHyperbolic g := by
+  -- `Γ_p` moves a future time-like direction
+  obtain ⟨σ, hσ⟩ := (isConnected_dsFutureDirs hp).nonempty
+  obtain ⟨A, hA⟩ : ∃ A : GammaP p, A • σ ≠ σ := by
+    by_contra h
+    push Not at h
+    exact (minkQ_neg_of_timelike (Or.inl hσ)).ne (fixedPoints_subset_of_deSitter hp h)
+  have hA1 : A ≠ 1 := fun h => hA (by rw [h, one_smul])
+  -- its lift, normalised by `δ^{2n}` to fix the lift of a lightlike direction
+  obtain ⟨F, hF⟩ := exists_rayLift p (θ := θ) (θ' := θ) (g₀ := 1)
+    (fun σ => (one_smul _ _).symm) A
+  obtain ⟨n₁, -, h₁, -⟩ := exists_two_null hp
+  obtain ⟨t₁, ht₁⟩ := linkCover_surjective p θ n₁
+  obtain ⟨n, hn⟩ := (linkCover_eq_linkCover_iff p θ).1
+    (show linkCover p θ t₁ = linkCover p θ (F t₁) by rw [hF, ht₁, smul_eq_of_deSitter hp h₁ A])
+  set g : GTilde := GTilde.delta ^ (-(2 * n)) * F
+  have hgapp : ∀ t, g t = F t + 2 * ((-n : ℤ) : ℝ) := fun t => by
+    rw [GTilde.coe_mul_apply, GTilde.delta_zpow_apply]; push_cast; ring
+  have hg : ∀ t, linkCover p θ (g t) = A • linkCover p θ t := fun t => by
+    rw [hgapp, linkCover_add_two_mul, hF]
+  have hfix : ∃ x, g x = x := ⟨t₁, by rw [hgapp, hn]; push_cast; ring⟩
+  -- `g` is not central: it does not fix the lifts of `σ`
+  have hg1 : GTilde.toPSL g ≠ 1 := fun h1 => by
+    have hk : g ∈ GTilde.toPSL.ker := h1
+    rw [GTilde.ker_toPSL, Subgroup.mem_zpowers_iff] at hk
+    obtain ⟨j, hj⟩ := hk
+    obtain ⟨x, hx⟩ := hfix
+    rw [← hj, GTilde.delta_zpow_apply] at hx
+    have hj0 : j = 0 := by exact_mod_cast (show (j : ℝ) = 0 by linarith)
+    obtain ⟨t, ht⟩ := linkCover_surjective p θ σ
+    apply hA
+    rw [← ht, ← hg, ← hj, hj0, zpow_zero, GTilde.one_apply]
+  exact ⟨A, g, hA1, hg, hfix, isHyperbolic_of_linkCover hp hg hg1⟩
+
 /-- **`bbsrem:previous_section_observed_only`, "this remark does not extend"** (l.928): at
 every `p ∈ dS²` there are a positive and a negative space-like `(Γ_p, ℓ(p))`-circle of degree `2`
 whose lifted holonomies are conjugate in `G̃`, i.e. (`GX.rp1Iso_iff_conj`) whose underlying
-`ℝP¹`-circles are isomorphic. -/
+`ℝP¹`-circles are isomorphic. They are `ℝ/⟨δ² g⟩` and `ℝ/⟨δ² g⁻¹⟩` (developed by `linkCover`),
+`g` the lift with a fixed point of some `A ∈ Γ_p ∖ {1}` (`GX.exists_gammaP_lift_fixed`); `g` is
+conjugate to `g⁻¹` in `G̃` (`GX.GTilde.IsHyperbolic.exists_conj_inv`), and the one of `g`, `g⁻¹`
+moving the future time-like directions up gives the positive circle
+(`GX.timelike_spacelike_dir`). -/
 theorem exists_positive_negative {p : HS 2} (hp : p ∈ HS.piece 2 .deSitter) :
     ∃ (L L' : Type) (_ : TopologicalSpace L) (_ : TopologicalSpace L') (C : GammaLinkCircle L)
       (C' : GammaLinkCircle L'), C.pt = p ∧ C'.pt = p ∧ C.IsSpacelikePositive ∧
       C'.IsSpacelikeNegative ∧ ∃ (θ : TpHS C.pt ≃ₗ[ℝ] ℂ) (θ' : TpHS C'.pt ≃ₗ[ℝ] ℂ) (E : ℝ → L)
         (E' : ℝ → L') (D D' : ℝ → ℝ) (f f' : GTilde), C.IsLiftedDev θ E D f ∧
         C'.IsLiftedDev θ' E' D' f' ∧ ∃ κ : GTilde, f' = κ * f * κ⁻¹ := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): the examples are the quotients `ℝ/⟨δ² g̃⟩` and `ℝ/⟨δ² g̃⁻¹⟩` (`g̃` the lift with fixed points of a boost `A ∈ Γ_p ∖ {1}`, acting on `ℝP̃¹ → ℓ(p)` through `GX.exists_rayLift`); building a `(Γ_p, ℓ(p))`-circle on the orbit space needs `GX.gxQuotient` for the pulled-back structure on `ℝ` and a homeomorphism `Orbits ℤ ℝ ≃ₜ 𝕊¹`, not built here
+  obtain ⟨θ, hθ⟩ := exists_isOrientedTangent p
+  obtain ⟨A, g, hA1, hg, hfix, hh⟩ := exists_gammaP_lift_fixed hp θ
+  -- `g⁻¹` lifts `A⁻¹`, with a fixed point, hyperbolic
+  have hgi : ∀ t, linkCover p θ (g⁻¹ t) = A⁻¹ • linkCover p θ t := fun t => by
+    rw [eq_inv_smul_iff, ← hg, GTilde.apply_inv_apply]
+  have hfixi : ∃ x, g⁻¹ x = x := by
+    obtain ⟨x, hx⟩ := hfix
+    exact ⟨x, by have := GTilde.inv_apply_apply g x; rwa [hx] at this⟩
+  have hhi : GTilde.IsHyperbolic g⁻¹ := isHyperbolic_of_linkCover hp hgi (by
+    rw [map_inv]; exact inv_ne_one.2 hh.toPSL_ne_one)
+  -- the conjugacy `κ g κ⁻¹ = g⁻¹`, and `κ (δ² g) κ⁻¹ = δ² g⁻¹`, `κ (δ² g⁻¹) κ⁻¹ = δ² g`
+  obtain ⟨κ, hκ⟩ := hh.exists_conj_inv hfix
+  have hc : κ * GTilde.delta ^ (2 : ℤ) = GTilde.delta ^ (2 : ℤ) * κ :=
+    (Subgroup.mem_center_iff.1 (Subgroup.zpow_mem _ GTilde.delta_mem_center 2)) κ
+  have hκi : κ * g⁻¹ * κ⁻¹ = g := by
+    calc κ * g⁻¹ * κ⁻¹ = (κ * g * κ⁻¹)⁻¹ := by group
+      _ = g := by rw [hκ, inv_inv]
+  have hconj : ∀ g₁ g₂ : GTilde, κ * g₁ * κ⁻¹ = g₂ →
+      GTilde.delta ^ (2 : ℤ) * g₂ = κ * (GTilde.delta ^ (2 : ℤ) * g₁) * κ⁻¹ := fun g₁ g₂ e => by
+    rw [← e, ← mul_assoc κ, hc]; group
+  -- the two quotients `ℝ/⟨δ² g⟩` and `ℝ/⟨δ² g⁻¹⟩`
+  obtain ⟨L₁, _, cs₁, hcs₁, hL₁, E₁, D₁, h₁⟩ := exists_isLiftedDev_delta_sq_mul p θ hg hfix
+  obtain ⟨L₂, _, cs₂, hcs₂, hL₂, E₂, D₂, h₂⟩ := exists_isLiftedDev_delta_sq_mul p θ hgi hfixi
+  set C₁ : GammaLinkCircle L₁ := GammaLinkCircle.mk p cs₁ hcs₁ hL₁
+  set C₂ : GammaLinkCircle L₂ := GammaLinkCircle.mk p cs₂ hcs₂ hL₂
+  have hT₁ : ∀ s, E₁ s ∈ C₁.iPlusL → linkCover p θ (D₁ s) ∈ dsFutureDirs p ∪ dsPastDirs p :=
+    fun s hs => Or.inl (h₁.mem_dsFutureDirs hp hs)
+  have hT₂ : ∀ s, E₂ s ∈ C₂.iPlusL → linkCover p θ (D₂ s) ∈ dsFutureDirs p ∪ dsPastDirs p :=
+    fun s hs => Or.inl (h₂.mem_dsFutureDirs hp hs)
+  have h2 : (1 : ℤ) ≤ 2 := by norm_num
+  rcases timelike_spacelike_dir hp hA1 hg hfix with ⟨hT, -⟩ | ⟨hT, -⟩
+  · -- `g` moves the time-like directions up: `ℝ/⟨δ² g⟩` is positive, `ℝ/⟨δ² g⁻¹⟩` negative
+    refine ⟨L₁, L₂, inferInstance, inferInstance, C₁, C₂, rfl, rfl,
+      ⟨hp, θ, hθ, E₁, D₁, _, 2, g, h₁, h2, hfix, hh, rfl, fun s hs => (hT _ (hT₁ s hs)).le⟩,
+      ⟨hp, θ, hθ, E₂, D₂, _, 2, g⁻¹, h₂, h2, hfixi, hhi, rfl, fun s hs => ?_⟩,
+      θ, θ, E₁, E₂, D₁, D₂, _, _, h₁, h₂, κ, hconj g g⁻¹ hκ⟩
+    have := GTilde.strictMono g⁻¹ (hT _ (hT₂ s hs))
+    rw [GTilde.inv_apply_apply] at this
+    exact this.le
+  · -- `g` moves the time-like directions down: `ℝ/⟨δ² g⁻¹⟩` is positive, `ℝ/⟨δ² g⟩` negative
+    refine ⟨L₂, L₁, inferInstance, inferInstance, C₂, C₁, rfl, rfl,
+      ⟨hp, θ, hθ, E₂, D₂, _, 2, g⁻¹, h₂, h2, hfixi, hhi, rfl, fun s hs => ?_⟩,
+      ⟨hp, θ, hθ, E₁, D₁, _, 2, g, h₁, h2, hfix, hh, rfl, fun s hs => (hT _ (hT₁ s hs)).le⟩,
+      θ, θ, E₂, E₁, D₂, D₁, _, _, h₂, h₁, κ, hconj g⁻¹ g hκi⟩
+    have := GTilde.strictMono g⁻¹ (hT _ (hT₂ s hs))
+    rw [GTilde.inv_apply_apply] at this
+    exact this.le
 
 /-- **`bbsrem:previous_section_observed_only` (iii)** (l.930–931): positive and negative
 hyperbolic `(Γ_p, ℓ(p))`-circles are not isomorphic. -/
@@ -2439,6 +2579,33 @@ theorem GammaLinkCircle.IsLiftedDev.spacelike_dichotomy {C : GammaLinkCircle L}
       fun s hs => (hr _ ((hiff s).1 hs)).le⟩, hnot⟩
   · exact ⟨Or.inr ⟨hp, θ, hθ, E, D, f, k, g, h, hk, hg, hh, hfg,
       fun s hs => (hl _ ((hiff s).1 hs)).le⟩, hnot⟩
+
+/-- **`bbsrem:previous_section_observed_only`, "this remark does not extend"** (l.927–931), with
+both halves: at every `p ∈ dS²` there are two space-like `(Γ_p, ℓ(p))`-circles of degree `2`, one
+positive and one negative, whose underlying `ℝP¹`-circles are `ℝP¹`-isomorphic (the analogue of
+(i) holds for them) and which are not `(Γ_p, ℓ(p))`-isomorphic. The identifications `θ`, `θ'` of the
+`ℝP¹`-structures carry no `IsOrientedTangent` condition here (nor in `GX.exists_positive_negative`),
+so the isomorphism clause is stated for some identifications, not for oriented ones; the proof's
+witnesses are oriented, so the oriented form holds as well, but it is not stated. -/
+theorem exists_rp1Iso_not_isIso {p : HS 2} (hp : p ∈ HS.piece 2 .deSitter) :
+    ∃ (L L' : Type) (_ : TopologicalSpace L) (_ : TopologicalSpace L') (C : GammaLinkCircle L)
+      (C' : GammaLinkCircle L'), C.pt = p ∧ C'.pt = p ∧ C.IsSpacelikePositive ∧
+      C'.IsSpacelikeNegative ∧ (∀ φ : L ≃ₜ L', ¬ C.IsIso C' φ) ∧
+      ∃ (θ : TpHS C.pt ≃ₗ[ℝ] ℂ) (θ' : TpHS C'.pt ≃ₗ[ℝ] ℂ),
+        letI := C.rp1ChartedSpace θ
+        letI := C'.rp1ChartedSpace θ'
+        haveI := C.rp1_hasGroupoid θ
+        haveI := C'.rp1_hasGroupoid θ'
+        ∃ φ : L ≃ₜ L', IsRP1Iso φ := by
+  obtain ⟨L, L', _, _, C, C', hC, hC', hpos, hneg, θ, θ', E, E', D, D', f, f', h, h', κ, hκ⟩ :=
+    exists_positive_negative hp
+  refine ⟨L, L', inferInstance, inferInstance, C, C', hC, hC', hpos, hneg,
+    fun φ => not_isIso_of_positive_of_negative hpos hneg φ, θ, θ', ?_⟩
+  letI := C.rp1ChartedSpace θ
+  letI := C'.rp1ChartedSpace θ'
+  haveI := C.rp1_hasGroupoid θ
+  haveI := C'.rp1_hasGroupoid θ'
+  exact (rp1Iso_iff_conj ⟨E, D, h.isLiftedDevPair⟩ ⟨E', D', h'.isLiftedDevPair⟩).2 ⟨κ, hκ⟩
 
 end Remark
 
