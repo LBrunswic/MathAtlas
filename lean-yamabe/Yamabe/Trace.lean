@@ -12,7 +12,7 @@ Labels (NOT marked: partial, see SCOPE):
   the boundary measures of the manifold layer. The trace theorem on the manifold,
   `Mfd.trace_embedding`, and its bridge `Mfd.Reads.traceIneq` are in `Yamabe.ManifoldTheorems`;
   the compact trace on a compact Riemannian manifold with boundary, `Mfd.trace_compact`, is
-  stated in the scaffold module `YamabeScaffold.TraceCompact`.
+  proved in `Yamabe.TraceCompact` (through the interpolation of `Yamabe.TraceInterp`).
 
 > where the boundary norms are those of the trace of $u$, which is well defined in
 > $L^{\psharp}(\partial\Sigma)$ by the trace theorem. (l.491)
@@ -65,8 +65,7 @@ this file) the round-1 names, with the round-1 statements unchanged.
   `W^{1,2}(Σ) → L²(∂Σ)`, not its compactness: since `‖∇u_k‖_{L²} → 0` and `u_k → c` in `L²(Σ)`,
   `u_k → c` in `W^{1,2}(Σ)` strongly, and the continuity gives the traces' convergence.
   `lem_positivity` (`Yamabe.Rellich`) uses only `TraceIneq`; the compactness the paper states is
-  `Mfd.trace_compact`, stated for completeness in the scaffold module `YamabeScaffold.TraceCompact`
-  (`sorry`; what Mathlib lacks is listed there).
+  `Mfd.trace_compact`, proved in `Yamabe.TraceCompact` (T-yamabe-trace-compact).
 * Fubini over the boundary hyperplane is proved here (`trace_halfSpace`, for `C¹_c` functions on
   `ℝᴺ`). The half-space version with the gradient over the half-space only is
   `Half.trace_halfSpace'` (`Yamabe.HalfSpace`), and its chart localisation is

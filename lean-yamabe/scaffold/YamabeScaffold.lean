@@ -1,2 +1,1 @@
 import YamabeScaffold.Basic
-import YamabeScaffold.TraceCompact

@@ -18,3 +18,7 @@ import Yamabe.Compactness
 import Yamabe.RellichManifold
 import Yamabe.Rellich
 import Yamabe.External
+import Yamabe.TraceInterp
+import Yamabe.TraceCompact
+import Yamabe.Perforated.Poincare
+import Yamabe.Perforated.StarN

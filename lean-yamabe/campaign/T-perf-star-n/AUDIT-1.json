@@ -1,0 +1,65 @@
+{
+ "target": "T-perf-star-n",
+ "package": "T-perf-star-n",
+ "auditor_round": 1,
+ "round": 1,
+ "file": "scaffold/YamabeScaffold/Perforated/StarN.lean",
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "lem:elem",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Yamabe.lem_elem : ∀ {q : ℝ}, 2 ≤ q → ∃ c, ∀ x, -1 ≤ x → (1 + x) ^ q ≤ 1 + q * x + c * (x ^ 2 + |x| ^ q). Read against l.673–677, hypothesis by hypothesis: q real with q ≥ 2 (the paper applies it at the non-integer q = p*), one c for all x ≥ −1 (∃ before ∀, as « there is c_q < ∞ with … for all x ≥ −1 »), and c real, so finite. (1 + x)^q and |x|^q are Real.rpow on a nonnegative base, and x ^ 2 is the monoid square (checked by rfl in a probe). This is exactly the printed statement. It has no sorry, standard axioms, and the witness elemC q = q²·2^q (elem_elemC) is kernel-checked, so the mark ``**`lem:elem`**`` is legitimate. The finding « printed without proof » is true: \\end{lemma} is at l.677 and prop:starN begins at l.679. Extras, also sorry-free: elem_const_nonneg (every admissible c is ≥ 0, from x = 1 and Bernoulli) and elem_signed (max c q works for every real x, with |1+x|^q). The ledger row (nl_status open, no decls) is consistent with a first formalization."
+  },
+  {
+   "label": "prop:starN",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked and partial. That is correct and conservative. Yamabe.MeasuredModel.prop_starN carries hN : 3 ≤ N, [IsFiniteMeasure (M.vol g)], hD (a.e.-strong measurability), hl1 : 0 < M.lambda1 g, hCsp : ∃ C, M.IsSobolevPoincareConst g C, and hc (c is any constant satisfying lem:elem at q = pStar N). Leaving aside hN and hc, which are the label's own parameters, these are exactly thm_star3_corrected's hypotheses (Star3.lean:994–997, compared through #check). Conclusion 1 is the printed deficit bound at λ₁ = M.lambda1 g and C_SP = M.Csp g, for every u with u ≥ 0 and (eLpNorm …).toReal = 1. Since toReal ∞ = 0, the normalization means ‖u‖_q = 1. D = 1 − t², t = V^{1/q}ū, X = √dirichlet. t^{2−q} is an rpow on t > 0 (mean_pos_of_nonneg), so no junk value enters. Conclusion 2 is M.StarIneq g (starNAtil q c V λ₁ C_SP), which is eq:star for every u ≥ 0 at a genuine real infimum: the admissible set is nonempty at (1, 1/2) and bounded below by 0. So Lean ≥ paper, on the existential reading of « an explicit Ã » as well. The Ã of record is a reading (starNAtil: thm:star3's three branches with prop:starN's bound in case (ii), X₀ > 0, t₀ ∈ (0,1), min read as inf). It is disclosed in the checklist, in SCOPE and as a question. The « no cap » claim is checked by hand and in Lean. prop:starN's bound uses ‖v‖_q ≤ C_SP X with no min{·, 2}. For X < X₀ and t ≥ t₀ > 0 one has X^q = X^{q−2}X² ≤ X₀^{q−2}X², and t^{2−q} ≤ t₀^{2−q} because 2 − q < 0, so case (ii) is monotone. starN_split proves the three cases with no cap. The planner's [r] holds. The carried λ₁ > 0 and finite C_SP are OQ-109's readings, recorded there, and are the reason the row is not marked. The witness toy_prop_starN shows every hypothesis satisfiable together at N = 3. There is no witness for N ≥ 4, but nothing in the hypotheses depends on N beyond the exponent p* (note only). Minor: u ≥ 0 is read pointwise on the representative (∀ x, 0 ≤ M.val u x), while the paper's u ∈ W^{1,2} has u ≥ 0 a.e. This is the convention of the strict StarIneq, and the signed forms cover eq:star for every u. The checklist calls it « ✓ carried » (see findings)."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "commands": [
+   "pgrep -af 'lake build': no lake build running",
+   "cd lean-yamabe && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/YamabeScaffold/Perforated/StarN.lean: exit 0, no output",
+   "lake build not rerun: .lake/build/lib/lean/YamabeScaffold/Perforated/StarN.olean (04:15:26) is newer than the source (04:14:26), and the probes import it",
+   "campaign/T-perf-star-n/AuditProbe.lean (deleted): #print axioms on lem_elem, elem_elemC, elem_signed, elem_signed_elemC, elem_const_nonneg, starN_split, starN_core, starNAtil_le, prop_starN, prop_starN_signed, prop_starN_explicit, thm_main_starN, starN_of_consts, starN_signed_of_consts, starN_deficit, starN_deficit_signed and toy_prop_starN: every one depends on [propext, Classical.choice, Quot.sound]. The printed lem:elem was restated by hand and closed by lem_elem. x ^ 2 = x ^ (2:ℕ) holds by rfl.",
+   "campaign/T-perf-star-n/AuditDecls.lean (deleted): #check of all 35 declarations named in REPORT decls and extra_decls: all exist",
+   "grep sorry|admit|axiom|native_decide|implemented_by|extern|unsafe|opaque|set_option|private: only docstring line 45 (« no `sorry` in this file »)",
+   "campaign/T-perf-star-n/AuditClash.lean (deleted): import Yamabe (the root, which imports every strict module; checked against find Yamabe), YamabeScaffold.Perforated.StarN, YamabeScaffold.Perforated.Poincare, YamabeScaffold.TraceCompact and YamabeScaffold.TraceInterp, all four oleans newer than their sources: exit 0, no duplicate declaration. A textual grep of the 35 declared names over Yamabe/ and scaffold/ also finds none outside StarN.lean."
+  ]
+ },
+ "scope": "git status --short shows M TraceCompact.lean and ?? TraceInterp.lean (T-yamabe-trace-compact's REPORT files), ?? Perforated/Poincare.lean (T-perf-poincare's), the three campaign directories, roadmap/roadmap.toml (the master's) and lean-gx/** (another loop). This closer's footprint is exactly the dispatched new file scaffold/YamabeScaffold/Perforated/StarN.lean and campaign/T-perf-star-n/REPORT.json. StarN.lean imports only the strict Yamabe.Perforated.Main. No edit outside scope.",
+ "docstring_contract": "kb 0006 (lean-causal) is met. Title; ``**`lem:elem`** — `perforated.tex:673` `` and `` `prop:starN` — `perforated.tex:679` `` at lines 8 and 10 (within 4000 characters); three > blocks, checked verbatim against l.673–677, l.681–688 and l.692–703 by script; ## Hypothesis checklist; ## SCOPE (disclosed); the provenance line. Every cited line number was checked (l.182, 312–313, 316–326, 319, 328, 577–578, 584–587, 612, 641–651, 649–650, 694–695) and is right, except the l.701–702 / l.702 citation of the unused clause (finding 2). The SCOPE items are true. The checklist is true except two rows (findings 3 and 4).",
+ "graduation": "A file move to Yamabe/Perforated/StarN.lean (module Yamabe.Perforated.StarN), which compiles under warningAsError. No name clash with Poincare.lean, TraceCompact.lean, TraceInterp.lean or any strict module, so all four can graduate together. Ledger: lem:elem marked (lem_elem and its helpers); prop:starN partial, unmarked, decls as listed in REPORT. thm_main_starN is a composite, not a row.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "REPORT.json prop:starN findings[5] (numerical, N = 3)",
+   "what": "Part of this finding is wrong as stated. The optimal c_6 ≈ 31.37 at x ≈ 0.76 is confirmed. The thm:star3 corrected minima 1.070, 1.509, 2.508, 4.682 agree with a grid recomputation (1.070, 1.510, 2.509, 4.687). But the quoted infima of starNAtil are coarse-grid upper bounds, not the infima. At V = 1, λ₁ = 4π², c = c_6^opt they are ≈ 1.48, 2.45, 4.94, 11.04 at C_SP = 0.539, 0.70, 1.0, 1.5, against the claimed 1.50, 2.52, 5.17, 11.1 (4.6% high at C_SP = 1.0). At c = 2304 they are ≈ 19.54, 19.91, 23.11, 37.97, against « about 19.6 to 39 ». The conclusion holds: the general-N route is weaker than thm:star3's at N = 3. The audit verified this by a direct grid with local refinement; branch balance at C_SP = 0.539 is 1/X₀² ≈ C²/(1−t₀)² ≈ branch (ii) ≈ 1.48 at (X₀, t₀) ≈ (0.822, 0.557).",
+   "fix": "Replace the numbers by ≈ 1.48, 2.45, 4.94, 11.0 (and ≈ 19.5–38.0 at c_6 = 2304), or present them as upper bounds (« at most »), before the finding goes to the author."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json prop:starN findings[2]; StarN.lean:99",
+   "what": "The cited clause « and use 1 − t² ≤ 1 − t^q for t ∈ [0,1], q ≥ 2 » is at l.702–703 of perforated.tex. The REPORT cites l.701–702, and l.701 is « Insert ‖v‖₂ ≤ X/√λ₁ … ». The docstring cites l.702. The substance is right: V^{2/q}ū² = t², so the display of l.697–699 already bounds 1 − t², and the clause is true but unused.",
+   "fix": "Cite l.702–703 in the REPORT finding and the SCOPE bullet."
+  },
+  {
+   "severity": "minor",
+   "where": "StarN.lean:73–83 (## Hypothesis checklist)",
+   "what": "The checklist omits the standing hypothesis « non-empty boundary » (l.311–312) and the Riemannian-manifold setting that the model replaces. Neither is used, so the Lean statement is weaker in these, which is not a faithfulness problem. Star3.lean's checklist records the first as « Σ ≠ ∅, ∂Σ ≠ ∅ ⚠ weakened: not used ».",
+   "fix": "Add a row « ∂Σ ≠ ∅ (l.311–312) | ⚠ weakened: not used »."
+  },
+  {
+   "severity": "minor",
+   "where": "StarN.lean:82 (checklist row « u ≥ 0, ‖u‖_q = 1 »); prop_starN, StarN.lean:833",
+   "what": "u ≥ 0 is read pointwise on the model's representative (∀ x, 0 ≤ M.val u x), while for u ∈ W^{1,2} the paper's u ≥ 0 means almost everywhere. This is the convention of the strict StarIneq (Star3.lean:812), and the signed forms (prop_starN_signed, starN_signed_of_consts) give eq:star for every u, so the eq:star conclusion is unaffected. Only the deficit-bound conjunct is narrower, by null sets, for a representative that is negative on a null set. It is disclosed in form: the REPORT shows the Lean hypothesis and the row is partial. But the checklist says « ✓ carried » where it is a reading.",
+   "fix": "Mark the row « ⚠ read: pointwise on M.val u, the convention of StarIneq ». Optionally state the deficit bound under ∀ᵐ x, 0 ≤ M.val u x, using integral_mono_ae."
+  }
+ ]
+}

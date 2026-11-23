@@ -1,0 +1,157 @@
+{
+ "package": "T-perf-star-n",
+ "target": "T-perf-star-n",
+ "files": [
+  "scaffold/YamabeScaffold/Perforated/StarN.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "lem:elem",
+   "tex_lines": [
+    673,
+    677
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Yamabe.lem_elem",
+    "Yamabe.elemC",
+    "Yamabe.elem_elemC",
+    "Yamabe.rpow_le_one_add_tangent",
+    "Yamabe.two_rpow_ge_four",
+    "Yamabe.elem_const_nonneg",
+    "Yamabe.elem_signed",
+    "Yamabe.le_elemC",
+    "Yamabe.elem_signed_elemC"
+   ],
+   "hypotheses": [
+    {
+     "paper": "q >= 2",
+     "here": "carried",
+     "note": "q real, (1+x)^q and |x|^q as Real.rpow"
+    },
+    {
+     "paper": "x >= -1",
+     "here": "carried",
+     "note": "elem_signed extends it to every real x with |1+x|^q, at max(c_q, q)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "lem:elem (l.673-677) is printed without proof. It is true, with the explicit constant c_q = q^2 * 2^q (Yamabe.elem_elemC). The proof needs no calculus: the tangent inequality s^p <= 1 + p s^(p-1) (s - 1) for s > 0, p >= 1 (Bernoulli's inequality at 1/s), applied twice on [0,1], Bernoulli on [-1,0], and (1+x)^q <= 2^q x^q for x >= 1. Every constant of the lemma is >= 0 (elem_const_nonneg), and max(c_q, q) serves for every real x with |1+x|^q (elem_signed)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "prop:starN",
+   "tex_lines": [
+    679,
+    704
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.MeasuredModel.prop_starN",
+    "Yamabe.MeasuredModel.prop_starN_signed",
+    "Yamabe.MeasuredModel.prop_starN_explicit",
+    "Yamabe.starNCoeff",
+    "Yamabe.starNAtil",
+    "Yamabe.starNCoeff_nonneg",
+    "Yamabe.starNAtil_nonneg",
+    "Yamabe.starNAtil_le",
+    "Yamabe.rpow_add_le_tangent",
+    "Yamabe.elem_scaled",
+    "Yamabe.starN_core",
+    "Yamabe.starN_split",
+    "Yamabe.MeasuredModel.normalized_facts",
+    "Yamabe.MeasuredModel.starN_minkowski",
+    "Yamabe.MeasuredModel.starN_deficit_of_pointwise",
+    "Yamabe.MeasuredModel.mean_pos_of_nonneg",
+    "Yamabe.MeasuredModel.starN_deficit",
+    "Yamabe.MeasuredModel.starN_deficit_signed",
+    "Yamabe.MeasuredModel.star_of_normalized",
+    "Yamabe.MeasuredModel.starN_point",
+    "Yamabe.MeasuredModel.starN_point_signed",
+    "Yamabe.MeasuredModel.le_starNAtil_of_forall",
+    "Yamabe.MeasuredModel.starN_of_consts",
+    "Yamabe.MeasuredModel.starN_signed_of_consts",
+    "Yamabe.toy_prop_starN"
+   ],
+   "hypotheses": [
+    {
+     "paper": "q = p*, N >= 3 (the standing N >= 3 of thm:main, l.182)",
+     "here": "carried",
+     "note": "hN : 3 <= N; q >= 2 follows (two_le_pStar)"
+    },
+    {
+     "paper": "c_q as in Lemma lem:elem",
+     "here": "carried",
+     "note": "any c satisfying lem:elem's inequality at q = p*; every statement holds for each such c, and prop_starN_explicit takes c_q = q^2 2^q"
+    },
+    {
+     "paper": "(Sigma, g) compact",
+     "here": "carried",
+     "note": "IsFiniteMeasure (M.vol g), as in Star3.lean"
+    },
+    {
+     "paper": "connected, Lipschitz: lambda_1 > 0 and C_SP finite (l.319, l.328)",
+     "here": "carried",
+     "note": "0 < M.lambda1 g and exists C, M.IsSobolevPoincareConst g C, exactly as Star3.lean carries them (OQ-109's readings; their proof is T-perf-poincare's). The working theorems starN_deficit, starN_of_consts take any valid Poincare and Sobolev-Poincare constants lambda, C."
+    },
+    {
+     "paper": "u in W^{1,2}(Sigma)",
+     "here": "read",
+     "note": "u in the model's D with M.val u a.e.-strongly measurable (hD), as in Star3.lean; junk values (normSq, dirichlet = 0 when infinite) enter only through IsPoincareConst and IsSobolevPoincareConst (kb 0002)"
+    },
+    {
+     "paper": "u >= 0 with ||u||_q = 1, t = V^{1/q} ubar, D = 1 - t^2, X = ||grad u||",
+     "here": "carried",
+     "note": "forall x, 0 <= M.val u x; (eLpNorm (M.val u) (ofReal q) (M.vol g)).toReal = 1; t = V^(1/q) * M.mean g u; X = sqrt (M.dirichlet g u)"
+    },
+    {
+     "paper": "an explicit Atil obtained by the same three-branch split as in thm:star3 (l.687-688)",
+     "here": "read",
+     "note": "starNAtil q c V lambda C = inf over X0 > 0, t0 in (0,1) of max{1/X0^2, (2/q) c (V^(2/q-1)/lambda + t0^(2-q) C^q X0^(q-2)), C^2/(1-t0)^2}; see the questions"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The planner's [r] claim checks out, and Lean proves it: prop:starN's bound (l.683-685) has no cap like thm:star3's n6 = min{C_SP X0, 2} (l.612), which is where thm:star3 fails (OQ-109). For X < X0 and t >= t0 > 0 one has X^q <= X0^(q-2) X^2 and t^(2-q) <= t0^(2-q), so case (ii) is monotone and the three-branch split goes through (Yamabe.starN_split). prop:starN is proved as printed: the deficit bound for u >= 0, ||u||_q = 1, and eq:star with an explicit Atil. OQ-109's correction does not touch it.",
+    "l.694-695: the concavity step (A+B)^(2/q) <= A^(2/q) + (2/q) A^(2/q-1) B is stated 'for A, B >= 0'. For q > 2 it needs A > 0, since A^(2/q-1) is undefined at A = 0. Nothing is lost here: A = t^q > 0, because u >= 0 and ||u||_q = 1 force ubar > 0 (Yamabe.MeasuredModel.mean_pos_of_nonneg).",
+    "l.701-702: 'and use 1 - t^2 <= 1 - t^q for t in [0,1], q >= 2' is true but unused. The display of l.697-699 already bounds 1 - t^2, since V^(2/q) ubar^2 = t^2 exactly.",
+    "l.687-688: Atil is not printed. Unlike thm:star3's t0 in [0,1), the split here needs t0 > 0: the branch-(ii) coefficient contains t0^(2-q), which is infinite at t0 = 0.",
+    "Beyond the paper: the proof extends to every u, signed or not. Replace t by |t| and c_q by max(c_q, q); case (iii) covers ubar = 0. So eq:star holds for every u with the same form of Atil (Yamabe.MeasuredModel.prop_starN_signed). Through thm_main_signed this gives thm:main for every N >= 3 with no lattice property (Yamabe.MeasuredModel.thm_main_starN), which is what yamabe's thm:lower-bound needs for general N.",
+    "Numerical, not formalized (python, coarse grid): at N = 3, V = 1, lambda_1 = 4 pi^2, the optimal c_6 = sup_x ((1+x)^6 - 1 - 6x)/(x^2 + |x|^6) is about 31.37 (attained near x = 0.76). prop:starN's Atil is then about 1.50, 2.52, 5.17, 11.1 at C_SP = 0.539, 0.70, 1.0, 1.5, against the corrected thm:star3 minima 1.070, 1.509, 2.508, 4.682 (OQ-109). At N = 3 the general-N route is weaker than thm:star3's. With the explicit c_6 = q^2 2^q = 2304 it gives about 19.6 to 39."
+   ],
+   "questions": [
+    "The explicit Atil (l.687-688) is not printed. Reading taken: Yamabe.starNAtil, the infimum over X0 > 0 and t0 in (0,1) of the three branch coefficients, with prop:starN's bound in branch (ii): max{1/X0^2, (2/q) c_q (V^(2/q-1) lambda_1^(-1) + t0^(2-q) C_SP^q X0^(q-2)), C_SP^2/(1-t0)^2}. t0 = 0 is excluded (its coefficient is infinite), and 'min' is read as an infimum, as for eq:Atil in Star3.lean. Is this the Atil of record? It bears on yamabe thm:lower-bound for N >= 4.",
+    "'c_q as in Lemma lem:elem' (l.681): read as any constant satisfying lem:elem's inequality, and every statement is proved for each such c. The explicit one formalized is q^2 2^q, far from optimal (about 31.4 against 2304 at q = 6). Is a specific c_q intended, for example the optimal sup_x ((1+x)^q - 1 - qx)/(x^2 + |x|^q)?",
+    "The mark of prop:starN waits on OQ-109's readings of lambda_1 (the best Poincare constant) and C_SP (the least Sobolev-Poincare constant), and on 'compact, connected, Lipschitz' read as finite volume, lambda_1 in (0, oo) and a finite C_SP. These are carried as in def:constants, and their proof is T-perf-poincare's. No new reading is taken here; OQ-109's correction of thm:star3 is not needed."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Yamabe.rpow_add_le_tangent",
+  "Yamabe.rpow_le_one_add_tangent",
+  "Yamabe.two_rpow_ge_four",
+  "Yamabe.MeasuredModel.star_of_normalized",
+  "Yamabe.MeasuredModel.starN_minkowski",
+  "Yamabe.MeasuredModel.thm_main_starN"
+ ],
+ "kb_proposals": [
+  "pattern: a second-order bound for rpow without derivatives. The tangent inequality s^p <= 1 + p s^(p-1) (s-1) (s > 0, p >= 1) is Bernoulli at 1/s multiplied by s^p (Yamabe.rpow_le_one_add_tangent). Applied twice it gives (1+x)^q <= 1 + qx + q(q-1)2^(q-2) x^2 on [0,1] (Yamabe.elem_elemC); concavity's (A+B)^p <= A^p + p A^(p-1) B is rpow_one_add_le_one_add_mul_self at B/A (Yamabe.rpow_add_le_tangent).",
+  "pitfall: Bernoulli's inequalities one_add_mul_self_le_rpow_one_add (p >= 1) and rpow_one_add_le_one_add_mul_self (0 <= p <= 1) are in the root namespace at this pin, not Real. (Analysis/Convex/SpecificFunctions/Basic).",
+  "pitfall: after `set s := E with hs`, `rcases (ENNReal.toReal_nonneg : 0 <= s).eq_or_lt with h0 | h` states h0 with the body E, not s, so `rw [<- h0]` on a goal in s fails; write `rw [hs, <- h0]`.",
+  "pitfall: `rw [integral_add (i1.add i2) i3]` fails to find the pattern, which is a Pi sum. State the integrability with an explicit lambda first (`have i12 : Integrable (fun x => f x + g x) nu := i1.add i2`), then `rw [integral_add i12 i3]`.",
+  "pitfall: toReal_enorm' does not rewrite norm-e of a real m; use Real.enorm_eq_ofReal_abs, then ENNReal.toReal_ofReal (abs_nonneg m), for eLpNorm_const's toReal = |m| * V^(1/q).",
+  "pattern: the 2-homogeneity of eq:star on the model, for any class of u closed under positive scaling, is Yamabe.MeasuredModel.star_of_normalized: scale by k = ||u||_q^(-1) through eLpNorm_const_smul, map_smul and energy_smul (Capacity). dirichlet_smul is in Yamabe.Sobolev, which Yamabe.Perforated.Main does not import."
+ ],
+ "notes": "One new file, scaffold/YamabeScaffold/Perforated/StarN.lean (module YamabeScaffold.Perforated.StarN, namespace Yamabe). It imports only the strict Yamabe.Perforated.Main, and neither Poincare.lean nor TraceCompact.lean. Sorry-free; `lake build YamabeScaffold.Perforated.StarN` succeeded and rebuilt nothing upstream; `lake env lean -DwarningAsError=true` on the file is clean, so graduation is a file move. #print axioms of lem_elem, prop_starN, prop_starN_signed, prop_starN_explicit, thm_main_starN, toy_prop_starN and starN_split: propext, Classical.choice, Quot.sound. Marked: lem:elem only. prop:starN is unmarked and partial for the same reason as def:constants: it carries 0 < lambda_1 and a finite C_SP. Proving those is T-perf-poincare's, and their readings are OQ-109's. The printed statement is otherwise proved as printed, with no correction. thm_main_starN (thm:main for every N >= 3 at the constant of prop:starN) is a composite of thm_main_signed, like thm_main_three, and is not a row of this target. toy_prop_starN shows that all hypotheses of prop_starN hold together on the two-point toy model (N = 3)."
+}

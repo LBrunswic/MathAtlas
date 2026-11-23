@@ -1,0 +1,115 @@
+{
+  "package": "T-perf-poincare",
+  "target": "T-perf-poincare",
+  "files": [
+    "scaffold/YamabeScaffold/Perforated/Poincare.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "def:constants",
+      "tex_lines": [
+        316,
+        328
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.NonConst",
+        "Yamabe.MeasuredModel.meanPoincare_of_rellich",
+        "Yamabe.MeasuredModel.lambda1_pos_iff",
+        "Yamabe.MeasuredModel.lambda1_pos_of_rellich",
+        "Yamabe.MeasuredModel.lambda1_eq_zero_of_forall_const",
+        "Yamabe.MeasuredModel.exists_isSobolevPoincareConst",
+        "Yamabe.MeasuredModel.def_constants_of_analytic",
+        "Yamabe.toy_def_constants",
+        "Yamabe.toyCut_lambda1_eq_zero",
+        "Yamabe.Mfd.Reads.meanPoincare",
+        "Yamabe.Mfd.Reads.exists_isSobolevPoincareConst",
+        "Yamabe.Mfd.Reads.lambda1_pos",
+        "Yamabe.Mfd.Reads.def_constants",
+        "Yamabe.Mfd.readingModel_nonConst",
+        "Yamabe.Mfd.readingModel_def_constants"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Σ compact (l.311, l.328)",
+          "here": "carried on the model; proved on the manifold",
+          "note": "model: IsFiniteMeasure (vol g) and RellichProp; manifold: CompactSpace, T2Space, with Rellich proved (Mfd.Reads.rellichProp) and μ finite derived"
+        },
+        {
+          "paper": "Σ connected (l.311, l.328)",
+          "here": "carried on the model; proved on the manifold",
+          "note": "model: ConstLimit (toyCut_lambda1_eq_zero: on toyCut, cut in two, λ₁ = 0); manifold: ConnectedSpace, via Mfd.Reads.constLimit"
+        },
+        {
+          "paper": "Lipschitz metric (l.311), « Lipschitz » (l.328)",
+          "here": "read",
+          "note": "OQ-93 (a): a smooth Mathlib manifold with boundary and a smooth Riemannian metric; narrower than Lipschitz"
+        },
+        {
+          "paper": "v ∈ W^{1,2}(Σ) (l.324)",
+          "here": "read",
+          "note": "model: D with AEStronglyMeasurable values (hD); manifold: C¹(M) (OQ-93 (b)). λ₁ over C¹ is ≥, and C_SP over C¹ is ≤, the W^{1,2} one; equality by density is argued, not formalized"
+        },
+        {
+          "paper": "the Sobolev embedding behind C_SP (Hebey, cited l.720 of the yamabe paper)",
+          "here": "carried on the model; proved on the manifold",
+          "note": "SobolevIneq; Mfd.Reads.sobolevIneq"
+        },
+        {
+          "paper": "N ≥ 3 (p* finite)",
+          "here": "carried",
+          "note": "only for C_SP on the manifold (hN); λ₁ and MeanPoincare need no N ≥ 3"
+        },
+        {
+          "paper": "Σ ≠ ∅ and of positive dimension (implicit: some v ≠ v̄ exists)",
+          "here": "carried on the model; derived on the reading model",
+          "note": "model: NonConst; reading model: from μ ≠ 0 (Mfd.readingModel_nonConst, a smooth Urysohn function). Without it λ₁ = 0 (lambda1_eq_zero_of_forall_const)"
+        },
+        {
+          "paper": "∂Σ ≠ ∅ (l.312)",
+          "here": "weakened",
+          "note": "not used"
+        },
+        {
+          "paper": "V = Vol(Σ, g)",
+          "here": "read",
+          "note": "OQ-93 (a): every locally-Lebesgue μ"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "No error found in l.316–328: λ₁ > 0 and C_SP < ∞ hold under the standing hypotheses of l.311, as l.328 says, and the route is lem:positivity's (compactness, constancy of energy-free limits, contradiction).",
+        "Remark, not an error: the « equivalently » of l.319–320 (first non-zero Neumann eigenvalue = best Poincaré constant) needs Σ connected, which l.311 assumes. On a disconnected Σ the first non-zero eigenvalue is positive while the best Poincaré constant is 0 (on the model: toyCut_lambda1_eq_zero). So under the best-constant reading of OQ-109, λ₁ > 0 is where connectedness enters."
+      ],
+      "questions": [
+        "« Both are finite » (l.328) for λ₁, whose item already says λ₁ > 0. Reading taken (as OQ-109 records): λ₁ ∈ (0, ∞). That means some λ > 0 is a Poincaré constant (λ₁ > 0) and the set of them is bounded (λ₁ < ∞; it needs a non-constant function). For C_SP it means that some Sobolev–Poincaré constant exists. Both are then attained (Star3).",
+        "λ₁ is read as the best Poincaré constant (OQ-109, open); the Neumann-eigenvalue form is not stated (the model has no Laplacian).",
+        "The manifold statements are under OQ-93 (open): smooth for Lipschitz, C¹(M) for W^{1,2}(Σ) (which makes them weaker than printed until density is formalized), any locally-Lebesgue μ for Vol, μ ≠ 0 for Σ ≠ ∅. The anchor candidate Mfd.readingModel_def_constants carries no other hypothesis.",
+        "OQ-112 (marking convention): the model-level assembly carries NonConst, an existence hypothesis the paper's setting supplies. It is discharged on the reading model (readingModel_nonConst), so the manifold anchor does not depend on OQ-112. The generic reading (Mfd.Reads.def_constants) still carries it, because Reads does not force D to contain a non-constant function."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.MeasuredModel.memLp_two_of_rellich",
+    "Yamabe.MeasuredModel.normSq_sub_mean_pos",
+    "Yamabe.MeasuredModel.exists_isPoincareConst_of_meanPoincare",
+    "Yamabe.MeasuredModel.meanPoincare_of_isPoincareConst",
+    "Yamabe.Mfd.exists_ne_of_isLocallyLebesgue",
+    "Yamabe.Mfd.Reads.capStar_pos",
+    "Yamabe.Mfd.Reads.thm_star3_corrected",
+    "Yamabe.Mfd.readingModel_thm_star3_corrected"
+  ],
+  "kb_proposals": [
+    "pattern: MeanPoincare over the model follows from RellichProp, ConstLimit, measurable values (hD) and a finite vol: MeasuredModel.meanPoincare_of_rellich (Perforated/Poincare). λ₁ > 0 also needs NonConst, a function that is not a.e. constant; without one λ₁ = 0 (lambda1_eq_zero_of_forall_const). C_SP < ∞ follows from SobolevIneq and MeanPoincare with no measure hypothesis (exists_isSobolevPoincareConst).",
+    "pattern: with measurable values, Rellich at the constant sequence puts every value in L² (memLp_two_of_rellich): the limit gives eLpNorm (val u − f) 2 = 0, then use eLpNorm_eq_zero_iff and MemLp.ae_eq.",
+    "pattern: the contradiction proof of a Poincaré inequality on the model (meanPoincare_of_rellich). Normalise w_k = (v_k − v̄_k)/‖v_k − v̄_k‖₂ and show ∫ w_k = 0. Pass the integral to the L² limit with abs_integral_le_mul_eLpNorm_two (Capacity). The limit f = c a.e. gives ∫ f = cV, hence c = 0. Then eLpNorm (val w_k) 2 = 1 contradicts eLpNorm (val w_k − f) → 0.",
+    "pattern: a non-constant C¹ function on a compact manifold with boundary (Mfd.readingModel_nonConst). Apply exists_contMDiffMap_zero_one_nhds_of_isClosed (𝓡∂ N) (n := 1) to {x} and {y}; NormalSpace is found from compact T2. Then use nhdsSet_singleton and eventually_nhds_iff, and Mfd.measure_pos_of_isOpen on both neighbourhoods. The two distinct points come from IsLocallyLebesgue and μ ≠ 0 (Mfd.exists_ne_of_isLocallyLebesgue): volume on EuclideanSpace ℝ (Fin N) has no atoms.",
+    "pitfall: in rw [measure_singleton] the first singleton matched may be the μ one, which then asks for NoAtoms μ. Give measure_singleton (μ := (volume : Measure (EuclideanSpace ℝ (Fin N)))).",
+    "pitfall: MeasuredModel.mean_eq_volMean and toy_lambda1_pos already live in the strict Yamabe.Perforated.Main. Import Main instead of redefining them: a duplicate breaks any module that imports both.",
+    "pitfall: a hypothesis obtained after `set ν := M.vol g` is stated with M.vol g, so `simp only [lemmas stated in ν] at h` makes no progress. Restate it first: `have h' : … ν … := h`."
+  ],
+  "notes": "One file, scaffold/YamabeScaffold/Perforated/Poincare.lean (module YamabeScaffold.Perforated.Poincare, namespace Yamabe). It imports only the strict Yamabe.Rellich and Yamabe.Perforated.Main. It is sorry-free, `lake build YamabeScaffold.Perforated.Poincare` builds it alone (nothing upstream rebuilt), it also compiles with -DwarningAsError=true, and every declaration's axioms are [propext, Classical.choice, Quot.sound]. It can graduate as it stands to Yamabe/Perforated/Poincare.lean. Nothing is marked, per the dispatch: def:constants waits on OQ-109 and OQ-93. Name checks: no collision with the strict library, StarN.lean or TraceCompact.lean as of 2026-11-23 04:40. Main's mean_eq_volMean and toy_lambda1_pos are reused, not redefined. Mfd.Reads.lambda1_pos, Mfd.Reads.capStar_pos and Mfd.Reads.thm_star3_corrected share their last component with MeasuredModel.* lemmas, but they live in another namespace and do not collide. Correction to the roadmap title: λ₁ ∈ (0, ∞) needs more than RellichProp and ConstLimit; it also needs hD and NonConst, and lambda1_eq_zero_of_forall_const shows NonConst cannot be dropped. MeanPoincare needs hD and a finite vol besides them. For the curation of def:constants: blocked_on can drop T-perf-poincare and keep OQ-109 and OQ-93. The consumers are discharged on readings: Capacity's carried MeanPoincare by Mfd.Reads.meanPoincare; Star3's carried 0 < λ₁ and ∃ C by Mfd.Reads.thm_star3_corrected (N = 3, with NonConst) and Mfd.readingModel_thm_star3_corrected (no carried hypothesis); lem:capstar's 0 < cap* by Mfd.Reads.capStar_pos. lem:capstar's other carried hypotheses (InteriorBump, DirectMethod) are not touched."
+}

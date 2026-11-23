@@ -1,0 +1,54 @@
+{
+  "package": "T-yamabe-trace-compact",
+  "target": "T-yamabe-trace-compact",
+  "files": [
+    "scaffold/YamabeScaffold/TraceCompact.lean",
+    "scaffold/YamabeScaffold/TraceInterp.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "lem:positivity",
+      "tex_lines": [715, 721],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.Mfd.trace_compact",
+        "Yamabe.Mfd.trace_interp_sub",
+        "Yamabe.Mfd.trace_interp",
+        "Yamabe.Mfd.memLp_two_of_isC1",
+        "Yamabe.Mfd.local_trace_interp",
+        "Yamabe.Half.trace_interp_halfSpace"
+      ],
+      "hypotheses": [
+        {"paper": "Σ a compact Riemannian manifold with boundary", "here": "carried", "note": "CompactSpace, T2Space, IsManifold (𝓡∂ N) ∞ M, smooth g; every N ≥ 1 (NeZero N), the paper's N ≥ 3 is not needed"},
+        {"paper": "the volume vol_g", "here": "read", "note": "every IsLocallyLebesgue μ (OQ-93 (a)); its finiteness is derived"},
+        {"paper": "the induced measure of ∂Σ", "here": "read", "note": "every σ with IsBoundaryMeasure N σ (OQ-93 (a)): only an upper bound by μH[N-1] in charts is asked, so the theorem covers the Riemannian area and more"},
+        {"paper": "(u_k) bounded in W^{1,2}(Σ)", "here": "read", "note": "u_k ∈ C¹(M) with w12 g μ (u_k) ≤ K (OQ-93 (b)); the statement is round 1's, unchanged"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "l.720 says « the trace operator W^{1,2}(Σ) → L²(∂Σ) is compact ». The library has no W^{1,2}(Σ) and no trace operator, so the reading taken is round 1's: every sequence of C¹ functions bounded in the W^{1,2} norm has a subsequence whose restrictions to ∂M converge in L²(σ) to some f with MemLp f 2 σ. This is OQ-93 (b), still open; no new reading was added. The limit f is not identified as the trace of the L²(μ) limit, which needs a W^{1,2} space; the proof of lem:positivity identifies it through the constancy step and needs only the continuity of the trace (Yamabe.Trace, SCOPE)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.Half.norm_Φ_one_zero",
+    "Yamabe.Half.trace_interp_halfSpace",
+    "Yamabe.Mfd.assemble_family",
+    "Yamabe.Mfd.local_trace_interp",
+    "Yamabe.Mfd.trace_interp_sub",
+    "Yamabe.Mfd.trace_interp",
+    "Yamabe.Mfd.memLp_two_of_isC1"
+  ],
+  "kb_proposals": [
+    "pitfall: the library never proves |∇u|_g = Mfd.gradNorm measurable, so a W^{1,2} bound of u − w cannot be derived from w12 u and w12 w: eLpNorm_add_le needs AEStronglyMeasurable, and the lower lintegral of a non-measurable function is not subadditive. Split the derivative term in the chart, where fderivWithin of chartFun (ρu) is continuous on ℍ̄ (fderivWithin_sub, then eLpNorm_sub_le), and state the estimate for differences (Yamabe.Mfd.local_trace_interp, trace_interp_sub).",
+    "pattern: Mfd.assemble_family is Mfd.assemble for a family of right-hand sides R j with one constant for all j. Index it by a subtype of parameter tuples, e.g. {j : ℝ × (M → ℝ) × (M → ℝ) // 0 < j.1 ∧ IsC1 N j.2.1 ∧ IsC1 N j.2.2}, so that the constant does not depend on δ (Yamabe.Mfd.trace_interp_sub).",
+    "pattern: the q = 2 trace on the half-space with the gradient over ℍ̄ only. Apply trace_halfSpace to w = Half.ext v ∘ Half.Φ n. Bound |∂_t w p| by ‖Half.extD v (Φ p)‖ at every p: extD is continuous, so no measurability is lost, and it equals fderivWithin v ℍ̄ on ℍ̄. Pass to ℍ̄ by lintegral_mono_set and MeasurePreserving.setLIntegral_comp_preimage_emb, with (Φ n).toHomeomorph.measurableEmbedding (Yamabe.Half.trace_interp_halfSpace).",
+    "pattern: from an interpolation inequality to an L²(σ) limit. Use EMetric.cauchySeq_iff with Lp.edist_toLp_toLp, then ENNReal.lt_iff_exists_real_btwn to get a real r, choosing δ against the W^{1,2} bound before the index. Conclude with cauchySeq_tendsto_of_complete and Lp.tendsto_Lp_iff_tendsto_eLpNorm', as RellichCriterion does (Yamabe.Mfd.trace_compact).",
+    "pitfall: at this pin mul_le_mul_left' is deprecated for mul_le_mul_right : b ≤ c → ∀ a, a * b ≤ a * c (multiplier on the left despite the name; compare kb 0041)."
+  ],
+  "notes": "Mfd.trace_compact is proved in place: the statement is unchanged (git diff touches only the docstring and the proof), sorry-free, axioms propext, Classical.choice, Quot.sound. The same holds for every declaration of TraceInterp.lean. Both files typecheck under -DwarningAsError=true, so graduation is a file move. TraceCompact.lean now imports YamabeScaffold.TraceInterp. At graduation, move TraceInterp.lean to Yamabe/TraceInterp.lean and rename the import to Yamabe.TraceInterp. The scaffold root YamabeScaffold.lean reaches TraceInterp only transitively; the master may list it there. `lake build YamabeScaffold.TraceCompact` built only TraceInterp and TraceCompact; no Yamabe.* or mathlib module was rebuilt. The docstrings mark no label: trace_compact is one step of lem:positivity's proof (l.720) under the readings of OQ-93, and nothing uses it. The route was the dispatch's, with one change. The interpolation is ‖u − w‖_{L²(σ)} ≤ C(δ(w12 u + w12 w) + δ⁻¹‖u − w‖_{L²(μ)}), linear in δ, in difference form for the reason in kb_proposals[0]. It holds for every N ≥ 1 and every boundary measure, and the single-function form is Mfd.trace_interp."
+}
