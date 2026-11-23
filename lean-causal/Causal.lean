@@ -256,6 +256,7 @@ import Causal.OneWayMembrane
 import Causal.MaximalZorn
 import Causal.OneWayMembraneChronal
 import Causal.GHWithoutTarentin
+import Causal.SCOpenWithoutTarentin
 import Causal.OmegaOneConstant
 import Causal.RationalJumpPlane
 import Causal.NotchedPlane

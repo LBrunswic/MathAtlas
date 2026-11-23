@@ -1,0 +1,64 @@
+{
+  "target": "T-abs-sc-open-without-tarentin",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "T-abs-sc-open-without-tarentin/sc-open-edge",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "This is a ladder edge, not an ETT label, so there is no paper block. The statements were checked against Causal/Properties.lean (StronglyCausal :105, StronglyCausalOpen :109, CausallyConvexIn :99, CausallyOpen :130, diamond :77) and Causal/Causality.lean (Jplus/Jminus :92/:95). The elaborated signature of StronglyCausal.stronglyCausalOpen_of_causallyOpen is `∀ {M} [TopologicalSpace M] {C : Causality M}, C.CausallyOpen → C.StronglyCausal → C.StronglyCausalOpen`. That is the dispatch's statement exactly. There is no tarentin and no instance argument beyond TopologicalSpace (the file's only `variable` lines are :106 and :110). The weaker forms take what the REPORT says they take. _of_isOpen_Jplus_Jminus takes ∀ O : Opens M, IsOpen (J⁺_⊤ O) ∧ IsOpen (J⁻_⊤ O), which is the roadmap's optional hypothesis. _of_isOpen_hull takes ∀ O, IsOpen (J⁺_⊤ O ∩ J⁻_⊤ O), weaker since J± open implies hull open. exists_opens_causallyConvexIn_of_isOpen_hull is the pointwise core: V ∈ 𝓝 p, CausallyConvexIn V ⊤ and the hull of interior V open give an open W ∋ p with W ⊆ V, causally convex in M. causallyConvexIn_top_iff (`CausallyConvexIn V ⊤ ↔ J⁺_⊤ V ∩ J⁻_⊤ V ⊆ V`) is exactly the definition with U = ⊤. stronglyCausalOpen_iff_stronglyCausal_of_causallyOpen is `C.CausallyOpen → (C.StronglyCausalOpen ↔ C.StronglyCausal)` and needs no tarentin. The old witness StronglyCausal.stronglyCausalOpen (Causal/GlobalHyperbolicity.lean:226, with hT) is untouched. DEC-163: the docstring says the witness takes the two-sided node causally_open (§ 'Which causal openness', :51–61). Witnesses, none vacuous. The timelike line meets every hypothesis. The spacelike line is weak, as disclosed: every subset is causally convex there. The isolated line: isolatedLine_stronglyCausal (:273) is new (no strong-causality lemma for isolatedLine exists in Causal/ or the scaffold) and goes through closed intervals, which are order-convex because ≤_M lies in the order of ℝ (:260). Its causal openness is Causal.isolatedLine_causallyOpen (Causal/LocateExtension.lean:569). It is not tarentin by Causal.tarentin_and_plain_needed (Causal/LocateExtension.lean:687), whose projection .2.1.2.2.1 elaborates to ¬isolatedLine.Tarentin. Mathematically, no diamond J_M(a,b) with a < 0 < b contains 0, so no open diamond does."
+    },
+    {
+      "label": "T-abs-sc-open-without-tarentin/counterexample-shape",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "StronglyCausal.exists_not_isOpen_hull (:212) says what the REPORT says. From SC and ¬SCO it gives p and N ∈ 𝓝 p with three properties: (i) some open O ∋ p has its hull in N; (ii) every open O ∋ p whose hull lies in N has a non-open hull; (iii) no open W ∋ p with W ⊆ N has hull W ⊆ W. Since W ⊆ hull W always, (iii) is 'W is not its own hull', as the docstring says. This is a conditional characterisation: the REPORT claims no model meets SC ∧ ¬SCO. not_causallyOpen_of_not_stronglyCausalOpen (:233) states ¬CausallyOpen ∧ ¬(∀ O, J±_⊤ O open), the correct contrapositive."
+    },
+    {
+      "label": "prop:GH_fortement_causal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, and partial in the REPORT. DEC-7 (registers/DECISIONS.md:18) makes StronglyCausal the definition and closes prop:GH_fortement_causal with the full diamond, so the open form is auxiliary and this declaration cannot certify the row. The reading is right. GloballyHyperbolic.stronglyCausalOpen_of_isOpen_Jplus_Jminus takes [T2Space M] (hT : C.Tarentin) (hJ : J±_⊤ of opens open) (hG). The library's GloballyHyperbolic.stronglyCausalOpen asks C.CausallyOpen in place of hJ, so hJ is weaker than that. The REPORT's finding is a sharpening of the ledger's existing paper_finding, which reads 'an open V is obtained under two-sided causal openness'. The sharpening is correct: in the proof the open neighbourhood is the hull of ˚J_M(a,b), not the open diamond. It is not a new error claim against the paper. The REPORT's hypothesis row ('strengthened' relative to the paper) is right. The docstring's checklist row disagrees with it (finding 1)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "ran": [
+      "hostname -> node1",
+      "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SCOpenWithoutTarentin.lean -> exit 0, no output (1.35 s)",
+      "grep -c sorry on the file -> 0; no admit/native_decide/axiom/unsafe/extern/opaque/set_option/instance",
+      "/tmp/audit-sc-open/probe.lean (a copy of the file plus #print axioms on all 20 declarations and #check on the main ones and on the cited library facts), run with lake env lean from lean-causal -> every declaration [propext, Classical.choice, Quot.sound], no sorryAx; the probe was deleted afterwards",
+      "no lake build, no make check (per dispatch)",
+      "tools/ladder.py model_path on each direct import (GlobalHyperbolicity, Lines, LadderLocal, NestedTransfer, LocateExtension, OneWayMembrane) -> None for all six; import_chain to Causal.Ladder.Rules -> None for all six (graduation will not make a rule cycle)",
+      "tools/ladder.py matrix/_contradictions in memory on a deepcopy of programme/ladder.toml. Edge `from` reduced to [strongly_causal, causally_open], witness renamed -> 0 pairs move, 0 contradictions, (strongly_causal, strongly_causal_open) stays open. New edge added beside the old one -> 0 move, 0 new contradictions",
+      "grep -w of the 19 short names over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-egf, lean-yamabe (file excluded) -> no clash",
+      "git status --short"
+    ]
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SCOpenWithoutTarentin.lean:81",
+      "what": "The checklist row for prop:GH_fortement_causal (open form) puts `CausallyOpen` in the 'paper hypothesis' column and marks J^±_M-openness '⚠ weakened'. The paper (ETT.tex:1199–1200) assumes only tarentin and global hyperbolicity, Hausdorff from the category, and no causal openness. Against the paper, the Lean form adds J^±_M(O) open, which is '⚠ strengthened' in kb/0006's sense, as the REPORT's own row says ('strengthened'). The docstring and the REPORT disagree, and the docstring compares against the library's form, not the paper. It also quotes no sentence of prop:GH_fortement_causal, though the file says it bears on it. Disclosed elsewhere (partial, unmarked), hence minor.",
+      "fix": "Rewrite the row as: `prop:GH_fortement_causal`, open form: tarentin, globally hyperbolic, Hausdorff | ✓ carried; ⚠ strengthened: J^±_M(O) open for open O (the paper assumes no causal openness; the library's GloballyHyperbolic.stronglyCausalOpen asks all of CausallyOpen). Add the paper's sentence ('Let M be a tarentin topological spacetime. If M is globally hyperbolic, then M is strongly causal.') to the quote block."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/CausalScaffold/SCOpenWithoutTarentin.lean:289; REPORT.json kb_proposals[3]",
+      "what": "'The hull argument needs the past half of causal openness' (docstring heading) and 'The hull argument needs J⁻-openness' (kb proposal) state a necessity that is not proved. oneWayMembrane_hull_not_isOpen shows that the future half alone does not make the hull open (insufficiency, in one model). The file's own _of_isOpen_hull runs on hull-openness alone, which need not come from J⁻-openness. The REPORT's questions entry and the main theorem's docstring (:185–186) say it exactly ('the future half alone does not open the hull'). Only these two phrasings overreach.",
+      "fix": "Say 'The future half of causal openness alone does not open the hull' in the heading and in the kb proposal."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json notes",
+      "what": "'19 theorems': the file has 20 theorem declarations. The short name stronglyCausalOpen_of_isOpen_Jplus_Jminus occurs twice, under StronglyCausal (:172) and GloballyHyperbolic (:200). '19 names' is right for the clash grep, which found none.",
+      "fix": "Say '20 theorems, 19 distinct short names'."
+    }
+  ],
+  "membrane": "oneWayMembrane_hull_not_isOpen (:295) is checked. Statement: COF ∧ SC ∧ ¬CO ∧ ∃ V ∈ 𝓝 (0,1), CausallyConvexIn V ⊤ ∧ ¬IsOpen (hull (interior V)). The proof takes V = {−1<u<3, 0<v<4, u≤v}, the box intersected with L = {u ≤ v}. V is convex in M because a diamond lies in the product box and a point of R = {v<u} cannot precede b ∈ L (one-way). (1,1) is in the hull: (0,1) ≤_M (1,1) ≤_M (2,3), with (0,1) and (2,3) in ˚V = box ∩ {u<v}. (1+ε/2, 1) ∈ R is not in J⁻_M(˚V), since R is future-closed and ˚V ⊆ L. The REPORT and the docstring both say the membrane is StronglyCausalOpen (oneWayMembrane_stronglyCausalOpen, by balls), so this refutes the argument, not the statement, and they leave SC ∧ COF ⇒ SCO open. That is exactly right, apart from finding 2's phrasing.",
+  "keeper_notes": "The edge's binders are confirmed: explicit (hO : C.CausallyOpen) (h : C.StronglyCausal), implicit {M} [TopologicalSpace M] {C}, no T0–T3 or other STANDING instance, so standing = [] is right. Emission is an aesop forward rule, so the order of the premises against `from` does not matter (the old edge already has the witness's binders (hT, hO, h) against from = [strongly_causal, tarentin, causally_open]). Lean forms: strongly_causal → Causal.Causality.StronglyCausal, causally_open → Causal.Causality.CausallyOpen, strongly_causal_open → Causal.Causality.StronglyCausalOpen. The matrix does not move. Reasoned from programme/ladder.toml: the reduced edge fires from a node only if the node implies both strongly_causal and causally_open. strongly_causal does not imply causally_open: the notched plane and the one-way membrane are strongly causal and not causally open (the [[open]] note at ~:4049 and the membrane's entries). So (strongly_causal, strongly_causal_open) stays open, and no other pair gains, which the in-memory simulation confirms (0 moved). Until graduation into Causal/, check() reports 'witness not found' for the renamed witness, as the REPORT says.",
+  "scope": "git status --short shows two paths for this closer, lean-causal/scaffold/CausalScaffold/SCOpenWithoutTarentin.lean (new, mtime 01:13) and lean-causal/campaign/T-abs-sc-open-without-tarentin/ (REPORT.json, Probe.lean, axioms.txt, and now this AUDIT-1.json). The other entries are not this closer's. lean-causal/scaffold/CausalScaffold/CurvesFreeCauchy/ belongs to the concurrent closer. programme/roadmap.toml is the master's: two status flips ready→active. lean-yamabe/* and roadmap/roadmap.toml belong to the /atlas-team Yamabe line. lean-gx/scaffold/GXScaffold/BBS/ belongs to another loop. reports/atlas/lean/edges-perforated.json has mtime 2026-11-22 23:53, before this target's work. All were present at the start of this audit. No existing file was edited by the closer. Probe.lean in the campaign directory is not globbed by lakefile.toml (Causal.*, scaffold CausalScaffold.*), and other campaign directories already keep probes."
+}

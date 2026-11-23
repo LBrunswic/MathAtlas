@@ -262,3 +262,5 @@ rediscover. One fact per entry.
 | [0254](entries/0254-hoist-check-ledger-files.md) | pitfall | Before a hoist, check the ledger rows listing the moved declarations' file |
 | [0255](entries/0255-hoist-universe-variable.md) | pitfall | A hoisted declaration under variable {M : Type*} must keep its universe parameter |
 | [0256](entries/0256-cited-twins.md) | convention | Twins under different names, kept because both are cited |
+| [0257](entries/0257-sc-open-without-tarentin.md) | pattern | Strong causality gives its open form under causal openness, without tarentin |
+| [0258](entries/0258-isolated-line-strongly-causal.md) | pattern | The isolated line is strongly causal: a cheap non-tarentin witness |

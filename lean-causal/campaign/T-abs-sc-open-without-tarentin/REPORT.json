@@ -1,0 +1,138 @@
+{
+ "target": "T-abs-sc-open-without-tarentin",
+ "package": "T-abs-sc-open-without-tarentin",
+ "files": [
+  "scaffold/CausalScaffold/SCOpenWithoutTarentin.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-sc-open-without-tarentin/REPORT.json",
+  "campaign/T-abs-sc-open-without-tarentin/Probe.lean",
+  "campaign/T-abs-sc-open-without-tarentin/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.SCOpenWithoutTarentin",
+ "build_result": "Built CausalScaffold.SCOpenWithoutTarentin (1.3s), 3093 jobs, no warning. The --no-build dry run first listed only this module as out of date, so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes, as the strict library requires. campaign/.../Probe.lean is the file followed by #print axioms. All 11 principal declarations depend on [propext, Classical.choice, Quot.sound] only, with no sorryAx (axioms.txt).",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.GlobalHyperbolicity, Causal.Lines, Causal.LadderLocal, Causal.NestedTransfer, Causal.LocateExtension, Causal.OneWayMembrane. tools/ladder.py model_path is None for each of them (checked one by one, kb/0247). No Lorentzian notion is used. The membrane witness reads a neighbourhood through the sup distance of ℝ × ℝ (Metric.isOpen_iff), as Causal.OneWayMembrane itself does.",
+ "labels": [
+  {
+   "label": "T-abs-sc-open-without-tarentin/sc-open-edge",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen",
+    "Causal.Causality.StronglyCausal.stronglyCausalOpen_of_isOpen_Jplus_Jminus",
+    "Causal.Causality.StronglyCausal.stronglyCausalOpen_of_isOpen_hull",
+    "Causal.Causality.exists_opens_causallyConvexIn_of_isOpen_hull",
+    "Causal.Causality.stronglyCausalOpen_iff_stronglyCausal_of_causallyOpen"
+   ],
+   "hypotheses": [
+    {
+     "paper": "tarentin (the old witness Causal.Causality.StronglyCausal.stronglyCausalOpen, Causal/GlobalHyperbolicity.lean:226)",
+     "here": "weakened",
+     "note": "dropped. The old witness needed it only to find an open diamond inside the convex neighbourhood"
+    },
+    {
+     "paper": "causally_open (two-sided, every U, DEC-8)",
+     "here": "carried",
+     "note": "the ladder witness, :187, takes `(hO : C.CausallyOpen) (h : C.StronglyCausal)` and has no instance argument"
+    },
+    {
+     "paper": "causally_open",
+     "here": "weakened",
+     "note": "_of_isOpen_Jplus_Jminus (:172) asks only that J⁺_M(O) and J⁻_M(O) be open for every open O (U = ⊤). _of_isOpen_hull (:161) asks only that the hull J⁺_M(O) ∩ J⁻_M(O) be open"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The planner's argument (programme/roadmap.toml, the target's evidence) checks against the definitions in Causal/Properties.lean with no gap. Take V ∈ 𝓝 p with CausallyConvexIn V ⊤, O := interior V and H := J⁺_⊤ O ∩ J⁻_⊤ O. Then p ∈ O ⊆ H by reflexivity (subset_Jplus_top_inter_Jminus_top, :115). H ⊆ V: z ∈ H gives a ≤_M z ≤_M b with a, b ∈ O ⊆ V, so z ∈ diamond ⊤ a b ⊆ V (CausallyConvexIn.Jplus_top_inter_Jminus_top_subset, :139). H is causally convex in M by transitivity, and this holds for the hull of ANY set (causallyConvexIn_Jplus_top_inter_Jminus_top, :121). H is open when J^±_⊤(O) are. The step 'z ∈ diamond ⊤ a b ⊆ V' reads CausallyConvexIn V ⊤ exactly as defined (diamond in U = ⊤ between two points of V). V itself need not be open, which is DEC-7's reading of StronglyCausal.",
+    "A cleaner characterisation, proved (causallyConvexIn_top_iff, :129): a set V is causally convex in M iff J⁺_M(V) ∩ J⁻_M(V) ⊆ V, that is, iff V is its own hull. The planner's 'V = J⁺_M(V) ∩ J⁻_M(V)' is therefore the definition, read through the hull."
+   ],
+   "questions": [
+    "Does the future form causally_open_future alone suffice for strongly_causal ⇒ strongly_causal_open? This is not settled. The proof uses both halves, at U = M only. The future half alone does not make the argument's hull open: on the one-way membrane (causally open in the future, strongly causal, not causally open), take V = {−1 < u < 3, 0 < v < 4, u ≤ v}, a neighbourhood of (0,1) that is causally convex in M. The hull J⁺_M(˚V) ∩ J⁻_M(˚V) contains the membrane point (1,1) and no point (1+ε, 1) of R, so it is not open (Causal.oneWayMembrane_hull_not_isOpen, :295). The membrane is StronglyCausalOpen all the same (by balls, oneWayMembrane_stronglyCausalOpen). So this refutes the argument, not the statement. A counterexample to 'strongly_causal ∧ causally_open_future ⇒ strongly_causal_open' would itself separate the open pair strongly_causal → strongly_causal_open. The reading taken: the ladder witness takes the two-sided node, as DEC-163 asks, and its docstring says so."
+   ]
+  },
+  {
+   "label": "T-abs-sc-open-without-tarentin/counterexample-shape",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.StronglyCausal.exists_not_isOpen_hull",
+    "Causal.Causality.StronglyCausal.not_causallyOpen_of_not_stronglyCausalOpen"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "The planner's remark is stated with content, not as a bare contrapositive (exists_not_isOpen_hull, :212). Let C be strongly causal and not StronglyCausalOpen. Then there are a point p and a neighbourhood N ∈ 𝓝 p with three properties. (i) Some open O ∋ p has its hull J⁺_M(O) ∩ J⁻_M(O) inside N (O = the interior of a causally convex neighbourhood in N), so (ii) is not vacuous. (ii) The hull of EVERY open O ∋ p whose hull lies in N is not open. (iii) No open W ∋ p inside N contains its own hull: the planner's 'regress'. Tarentin plays no role. The ladder's form (not_causallyOpen_of_not_stronglyCausalOpen, :233): such a C is not causally open, and not even causally open at M (¬ ∀ O open, J⁺_M(O) and J⁻_M(O) open)."
+   ],
+   "questions": []
+  },
+  {
+   "label": "prop:GH_fortement_causal",
+   "tex_lines": [
+    1199,
+    1217
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.GloballyHyperbolic.stronglyCausalOpen_of_isOpen_Jplus_Jminus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "tarentin, globally hyperbolic, Hausdorff",
+     "here": "carried",
+     "note": "[T2Space M] (hT : C.Tarentin) (hG : C.GloballyHyperbolic)"
+    },
+    {
+     "paper": "(none) — for the OPEN form only (the literal reading of the neighbourhood V, through defi:convexite_causale)",
+     "here": "strengthened",
+     "note": "J⁺_M(O), J⁻_M(O) open for every open O. This is weaker than the library's GloballyHyperbolic.stronglyCausalOpen, which asks CausallyOpen (every U)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:1214–1215 ('The open set ˚J_M(a,b) contains p, is contained in U and is causally convex in M'). The ledger's paper_finding already says the open diamond's convexity is unproved and that 'an open V is obtained under two-sided causal openness'. Proposed sharpening: openness at M of J^± of open sets is enough. The open neighbourhood is then the hull J⁺_M(˚J) ∩ J⁻_M(˚J) of the interior of the full diamond J = J_M(a,b), not the open diamond. Under DEC-7 the row stays closed by GloballyHyperbolic.stronglyCausal; this declaration concerns only the auxiliary open form, so the row is unmarked here."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.subset_Jplus_top_inter_Jminus_top",
+  "Causal.Causality.causallyConvexIn_Jplus_top_inter_Jminus_top",
+  "Causal.Causality.causallyConvexIn_top_iff",
+  "Causal.Causality.CausallyConvexIn.Jplus_top_inter_Jminus_top_subset",
+  "Causal.Causality.CausallyOpen.isOpen_Jplus_top_Jminus_top",
+  "Causal.timelikeLine_scOpen_of_causallyOpen",
+  "Causal.spacelikeLine_scOpen_without_tarentin",
+  "Causal.isolatedLine_le_top",
+  "Causal.isolatedLine_causallyConvexIn_Icc",
+  "Causal.isolatedLine_stronglyCausal",
+  "Causal.isolatedLine_scOpen_without_tarentin",
+  "Causal.oneWayMembrane_hull_not_isOpen"
+ ],
+ "witnesses": {
+  "timelike line": "Causal.timelikeLine_scOpen_of_causallyOpen (:245): strongly causal and causally open (timelikeLine_causallyOpen_of_chronalNeighbours); the theorem gives the open form. Tarentin holds here too.",
+  "spacelike line, not tarentin": "Causal.spacelikeLine_scOpen_without_tarentin (:253): strongly causal, causally open, not tarentin (spacelikeLine_not_tarentin), so the old witness does not apply and the new one does. A weak witness: the library derives its strong causality from its open form, because every subset is causally convex there.",
+  "isolated line, not tarentin": "Causal.isolatedLine_scOpen_without_tarentin (:282): the line with a chronologically isolated origin (Causal.isolatedLine, kb/0050). It is strongly causal by CLOSED intervals (isolatedLine_stronglyCausal, :273, new), causally open (isolatedLine_causallyOpen) and not tarentin (tarentin_and_plain_needed.2.1.2.2.1). The theorem gives StronglyCausalOpen, which the library did not have. Open intervals would give it directly; the closed ones are chosen so that the theorem does the work.",
+  "one-way membrane (the argument's limit)": "Causal.oneWayMembrane_hull_not_isOpen (:295), as under questions."
+ },
+ "ladder": {
+  "edge": "[[implies]] from = [\"strongly_causal\", \"causally_open\"], to = \"strongly_causal_open\", witness = \"Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen\", standing = [] (no instance argument), status checked once the module is graduated into Causal/. Signature: ∀ {M : Type u_1} [TopologicalSpace M] {C : Causality M}, C.CausallyOpen → C.StronglyCausal → C.StronglyCausalOpen. It is a forward rule as emitted: both premises are explicit ladder forms.",
+  "old_edge": "from = [strongly_causal, tarentin, causally_open] (programme/ladder.toml:867–870, witness Causal.Causality.StronglyCausal.stronglyCausalOpen). The new edge implies it. Whether it stays as a second edge is the keeper's call (T-lad-record-sc-open-edge); it classifies nothing more.",
+  "matrix": "I ran tools/ladder.py's matrix() and check() in memory on 2026-11-23, with the edge's `from` reduced and the witness renamed; nothing was written. 0 pairs move and nothing contradicts. strongly_causal → strongly_causal_open stays `open`, because no model separates it. The single check error, 'witness not found in lean-causal', is because the witness is still in the scaffold; graduation removes it.",
+  "open_note": "Proposed sharpening of the [[open]] note for strongly_causal → strongly_causal_open (programme/ladder.toml:4048–4052). Old text: 'A counterexample lacks tarentin or two-sided causal openness.' New text: 'A counterexample is not causally open, nor even causally open at M (Causal.Causality.StronglyCausal.not_causallyOpen_of_not_stronglyCausalOpen). At its bad point p, in some neighbourhood N, the hull J⁺_M(O) ∩ J⁻_M(O) of every open O ∋ p whose hull lies in N is not open, while such O exist (StronglyCausal.exists_not_isOpen_hull). Tarentin is irrelevant. Whether the future half causally_open_future suffices is open: the one-way membrane makes the argument's hull non-open, yet it is StronglyCausalOpen (Causal.oneWayMembrane_hull_not_isOpen).' The rest of the note stands: the notched plane and its reversal, and the one-way membrane and its reversal, lack causal openness and are strongly causal in both forms.",
+  "edge_comment": "The comment above the old edge (programme/ladder.toml:859–865) says 'Whether strongly_causal ∧ tarentin ∧ causally_open_future ⇒ strongly_causal_open holds is not known'. It can now read without tarentin: whether strongly_causal ∧ causally_open_future ⇒ strongly_causal_open holds is not known, and the hull argument fails there (oneWayMembrane_hull_not_isOpen).",
+  "isolated_line": "Optional, moves no pair. The isolated line's [[fails]] entry (witness Causal.tarentin_and_plain_needed, from = [causally_arc_connected, causally_plain] → tarentin) could gain strongly_causal, strongly_causal_open and causally_open through Causal.isolatedLine_scOpen_without_tarentin. The spacelike line already refutes each of these → tarentin."
+ },
+ "kb_proposals": [
+  "Strong causality gives the open form under causal openness at M alone, with no tarentin: J⁺_M(O) ∩ J⁻_M(O), for O the interior of a causally convex neighbourhood, is the open convex neighbourhood. Witness StronglyCausal.stronglyCausalOpen_of_causallyOpen; weaker forms _of_isOpen_Jplus_Jminus and _of_isOpen_hull (T-abs-sc-open-without-tarentin).",
+  "A set is causally convex in M iff it contains its causal hull J⁺_M(V) ∩ J⁻_M(V) (causallyConvexIn_top_iff). The hull of any set is causally convex (causallyConvexIn_Jplus_top_inter_Jminus_top).",
+  "kb/0117 sharpened: E₀'s StronglyCausalOpen follows generically from its strong causality and E0.isOpen_Jplus / E0.isOpen_Jminus through StronglyCausal.stronglyCausalOpen_of_isOpen_Jplus_Jminus, which asks openness at U = ⊤ only.",
+  "The hull argument needs J⁻-openness. On the one-way membrane the hull of the interior of a causally convex neighbourhood is not open (oneWayMembrane_hull_not_isOpen), yet the membrane is StronglyCausalOpen: whether causally_open_future suffices for SC ⇒ SCO is open.",
+  "The isolated line (kb/0050) is strongly causal: every order-convex set of ℝ is causally convex in M (isolatedLine_causallyConvexIn_Icc). It is a cheap non-tarentin witness for theorems that take strong causality and causal openness."
+ ],
+ "notes": "One new file, 342 lines, 0 sorry, 19 theorems, no new definition. Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.SCOpenWithoutTarentin` to scaffold/CausalScaffold.lean, or the axiom sweep does not see the module. At graduation the file moves to Causal/ (for example Causal/SCOpenWithoutTarentin.lean) and its import goes into Causal.lean. The imports are already Causal.* only, and every one is ETT-layer. No existing file was edited. I ran no git command, and neither tools/ladder.py emit-lean nor make check. Name clashes: grep -w over Causal/ and scaffold/ finds none of the 19 names outside this file (kb/0082). No ETT label is marked (no `**`label`**` in the docstring). Curation suggestion: def:strongly_causal_spacetime's notes may cite Causal.Causality.stronglyCausalOpen_iff_stronglyCausal_of_causallyOpen, since on causally open spacetimes DEC-7's reading and the literal one agree with no tarentin. Before this, the library's equivalence went through the Alexandrov topology and asked tarentin (stronglyCausal_iff_alexandrovTopology_eq / stronglyCausalOpen_iff_alexandrovTopology_eq). The other closer's directory scaffold/CausalScaffold/CurvesFreeCauchy/ was not touched."
+}
