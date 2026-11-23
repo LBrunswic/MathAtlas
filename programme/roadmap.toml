@@ -1277,13 +1277,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["strongly_causal", "strongly_causal_open", "causally_open"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = []
 evidence = "The master's dispatch of 2026-11-21 after wave 21, item (6): strongly_causal → strongly_causal_open is the last causality-sort pair with no model and no target. No construction found (planner's analysis below); this target is the reduction it gave. The edge [[implies]] from = [strongly_causal, tarentin, causally_open] → strongly_causal_open (programme/ladder.toml:558–562) has the witness Causal.Causality.StronglyCausal.stronglyCausalOpen (Causal/GlobalHyperbolicity.lean:226–233), which uses tarentin only to find a, b in the convex neighbourhood with p in the open diamond, then CausallyOpen.causallyConvexIn_openDiamond (Causal/StrongCausality.lean:124). Argued, without tarentin: given N ∈ 𝓝 p, strong causality gives V ∈ 𝓝 p, V ⊆ N, causally convex in M (Causal.Causality.StronglyCausal, Causal/Properties.lean:105; CausallyConvexIn, :99). Let O := interior V, so p ∈ O and O is open, and let H := C.Jplus ⊤ O ∩ C.Jminus ⊤ O. H is open, by the first and second halves of CausallyOpen (Causal/Properties.lean:130) at U = ⊤, V = O. It contains p (reflexivity). It lies in V: z ∈ H means a ≤_M z ≤_M b with a, b ∈ O ⊆ V, so z ∈ diamond ⊤ a b ⊆ V. It is causally convex in M: for x, y ∈ H and x ≤ z ≤ y, a ≤ x ≤ z ≤ y ≤ b. So H is the open convex neighbourhood StronglyCausalOpen asks (:109). Only J^±_M of open sets need be open, not every J^±_U(V). Statement: Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen (hO : C.CausallyOpen) (h : C.StronglyCausal) : C.StronglyCausalOpen, optionally with the weaker hypothesis (∀ V : Opens M, IsOpen (C.Jplus ⊤ V) ∧ IsOpen (C.Jminus ⊤ V)), no instance argument; the old witness stays. Simulated with tools/ladder.py's matrix on the live ladder (in memory, 2026-11-21), the edge's `from` reduced to [strongly_causal, causally_open]: 0 pairs move, 0 contradictions. The value is that the edge is sharp in fewer words, and that the [[open]] note of strongly_causal → strongly_causal_open (programme/ladder.toml:2803–2806: 'A counterexample lacks tarentin or two-sided causal openness') narrows. A counterexample must fail two-sided causal openness, and at its bad point p the hull J⁺_M(O) ∩ J⁻_M(O) of every small open O ∋ p is not open; more, every open V ∋ p must fail V = J⁺_M(V) ∩ J⁻_M(V), so the regress 'open neighbourhood of the hull, hull of that' must leave some neighbourhood of p. That is a mechanism the notched plane and the one-way membrane (which lack causal openness and are strongly causal in both forms) do not have. Layer 1: Causal.GlobalHyperbolicity is ETT-layer; a new module or that file's neighbour. The keeper's record is T-lad-record-sc-open-edge. Refined 2026-11-22 (planning run on DEC-147–206): Re-read against the rulings. DEC-167 leaves it valid: it is a theorem about every causality and builds no witness. Under gluing the pair strongly_causal → strongly_causal_open is still open (the simulation of T-lad-gluing-reading keeps it open), and a counterexample must now be absolutely minimal as well; none of the dropped non-minimal witnesses bore on it. DEC-163 (both openness notions nodes, each theorem saying which): this edge uses two-sided causal openness, causally_open, and says so. Stays ready."
 added = "2026-11-21"
 proposed_by = "programme-planner (planning run after wave 21, the master's dispatch item (6): strongly_causal → strongly_causal_open)"
+commit = "364ec2d"
 
 [[target]]
 id = "T-abs-gluing-generic"
@@ -1492,13 +1493,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["curves_extend", "globally_hyperbolic", "causally_arc_connected", "is_causal"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-abs-curves-extend-second-countable"]
 evidence = "DEC-190. The journal counted about 90 named CurvesExtend(On) hypotheses in 19 modules, dischargeable on T1 second countable spaces (2026-11-21 14:32). The planner re-counted them on 2026-11-22 by grep of the `(h… : ….CurvesExtend(On) …)` binders: CBG/CausalConvex 23, LemmaKLocal 13, LemmaKBare 12, ErsUnions 7, CompactCauchy 7, LemmaKSC 5, CauchyDiamond 4, NestedCausalities 3, ErsMughd 3, CorrespondingPoints 3, Ladder/Dual 2, CBG/Injective 2, and 1 each in SubExtension, LemmaKReduction, LemmaK, ErsUniqueness, CausalIsoInvariance, CauchyExtension, CBG/Ppcm and CBG/FromModel. Other targets own the rest. Lemma K's 32: T-abs-curves-free-lemma-k. ErsUnions' 7 and ErsUniqueness' 1: T-abs-ers-4-64-second-countable. ErsMughd's 3 and NestedCausalities' 4.72 are done (Causal.ErsSecondCountable). The Cauchy-embedding hypotheses of CausalConvex and Injective are partly done (Causal.CExtConnexeSecondCountable, 65646df), and the closer lists which remain. Ppcm's and FromModel's go through the CBG fields (T-abs-hoist-cbg-geometry). Ladder/Dual's 2 are the tactician's (T-tac-dual-generated). The modules here are ETT-layer (import index, 2026-11-22). The forms follow Causal.ErsSecondCountable's pattern, with the statement check by #check strings. Not exclusive: a new module. Ready: its dependency is done."
 added = "2026-11-22"
 proposed_by = "programme-planner (planning run on the author's rulings DEC-147–206, d1c40af)"
+commit = "d21912b"
 
 # ------------------------------------------------------------------ layer 3: geometric localisation lemmas
 [[target]]
