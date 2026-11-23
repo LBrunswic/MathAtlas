@@ -1,0 +1,142 @@
+@Causal.Causality.SingularFlatAxioms.Iplus_nonempty : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {sing : ℝ → Set M}, C.SingularFlatAxioms sing → ∀ (p : M), (C.Iplus ⊤ {p}).Nonempty
+'Causal.Causality.SingularFlatAxioms.Iplus_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.Causality.SingularFlatAxioms.Iminus_nonempty_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {sing : ℝ → Set M},
+  C.SingularFlatAxioms sing → ∀ (p : M), (C.Iminus ⊤ {p}).Nonempty ↔ p ∉ sing 0
+'Causal.Causality.SingularFlatAxioms.Iminus_nonempty_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {sing : ℝ → Set M}, C.SingularFlatAxioms sing → C.HasChronalNeighbourEverywhere
+'Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Causal.Causality.SingularFlatAxioms.not_nonemptyChronalCones : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {sing : ℝ → Set M}, C.SingularFlatAxioms sing → (sing 0).Nonempty → ¬C.NonemptyChronalCones
+'Causal.Causality.SingularFlatAxioms.not_nonemptyChronalCones' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Causal.Causality.SingularFlatAxioms.not_chronalPastNeighbours : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {sing : ℝ → Set M}, C.SingularFlatAxioms sing → (sing 0).Nonempty → ¬C.ChronalPastNeighbours
+'Causal.Causality.SingularFlatAxioms.not_chronalPastNeighbours' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Causal.Causality.SingularFlatAxioms.not_chronalNeighbours : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {sing : ℝ → Set M}, C.SingularFlatAxioms sing → (sing 0).Nonempty → ¬C.ChronalNeighbours
+'Causal.Causality.SingularFlatAxioms.not_chronalNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.Causality.SingularFlatSpacetime.exists_leaving : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {sing : ℝ → Set M},
+  C.SingularFlatSpacetime sing →
+    ∀ {O : Set M},
+      IsOpen O →
+        O.Nonempty →
+          O ≠ Set.univ →
+            ∃ γ,
+              (C.ChronalCurveOn ⊤ γ 0 1 ∨ C.dual.ChronalCurveOn ⊤ γ 0 1) ∧
+                (∀ t ∈ Set.Ico 0 1, γ t ∈ O) ∧ γ 1 ∉ O ∧ γ 1 ∈ frontier O
+'Causal.Causality.SingularFlatSpacetime.exists_leaving' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.E0.hasChronalNeighbourEverywhere : Causal.E0.causality.HasChronalNeighbourEverywhere
+'Causal.E0.hasChronalNeighbourEverywhere' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.E0.Iminus_nonempty_iff : ∀ (p : Causal.E0), (Causal.E0.causality.Iminus ⊤ {p}).Nonempty ↔ p ∉ Causal.E0.axis
+'Causal.E0.Iminus_nonempty_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.E0.chronalFutureNeighbours : Causal.E0.causality.ChronalFutureNeighbours
+'Causal.E0.chronalFutureNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.E0.not_nonemptyChronalCones : ¬Causal.E0.causality.NonemptyChronalCones
+'Causal.E0.not_nonemptyChronalCones' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.E0.not_chronalPastNeighbours : ¬Causal.E0.causality.ChronalPastNeighbours
+'Causal.E0.not_chronalPastNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.E0.not_chronalNeighbours : ¬Causal.E0.causality.ChronalNeighbours
+'Causal.E0.not_chronalNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.E0.separates_chronalNeighbours : T2Space Causal.E0 ∧
+  SecondCountableTopology Causal.E0 ∧
+    ConnectedSpace Causal.E0 ∧
+      Causal.E0.causality.CausallyArcConnected ∧
+        Causal.E0.causality.AbsolutelyMinimal ∧
+          Causal.E0.causality.IsCausal ∧
+            Causal.E0.causality.PushUp ∧
+              Causal.E0.causality.Tarentin ∧
+                Causal.E0.causality.CausallyPlain ∧
+                  Causal.E0.causality.GloballyHyperbolic ∧
+                    Causal.E0.causality.StronglyCausal ∧
+                      Causal.E0.causality.StronglyCausalOpen ∧
+                        Causal.E0.causality.CurvesExtend ∧
+                          Causal.E0.causality.HasChronalNeighbourEverywhere ∧
+                            Causal.E0.causality.ChronalFutureNeighbours ∧
+                              ¬Causal.E0.causality.NonemptyChronalCones ∧
+                                ¬Causal.E0.causality.ChronalPastNeighbours ∧ ¬Causal.E0.causality.ChronalNeighbours
+'Causal.E0.separates_chronalNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.E0.exists_leaving : ∀ {O : Set Causal.E0},
+  IsOpen O →
+    O.Nonempty →
+      O ≠ Set.univ →
+        ∃ γ,
+          (Causal.E0.causality.ChronalCurveOn ⊤ γ 0 1 ∨ Causal.E0.causality.dual.ChronalCurveOn ⊤ γ 0 1) ∧
+            (∀ t ∈ Set.Ico 0 1, γ t ∈ O) ∧ γ 1 ∉ O ∧ γ 1 ∈ frontier O
+'Causal.E0.exists_leaving' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocal.hasChronalNeighbourEverywhere : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  Causal.IsoChartsCoverDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+    C.HasChronalNeighbourEverywhere
+'Causal.SFALocal.hasChronalNeighbourEverywhere' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocal.hasChronalNeighbourEverywhere_of_isAtlasCausalityDEC25 : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  Causal.SFALocal.MassACovered M →
+    Causal.IsAtlasCausalityDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+      C.HasChronalNeighbourEverywhere
+'Causal.SFALocal.hasChronalNeighbourEverywhere_of_isAtlasCausalityDEC25' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Causal.SFALocal.chronalFutureNeighbours : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  Causal.IsoChartsCoverDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+    C.ChronalFutureNeighbours
+'Causal.SFALocal.chronalFutureNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocal.Iminus_nonempty_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  C.AbsolutelyMinimal →
+    Causal.IsoChartsCoverDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+      ∀ (p : M), (C.Iminus ⊤ {p}).Nonempty ↔ p ∉ Causal.SFALocal.sing M 0
+'Causal.SFALocal.Iminus_nonempty_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocal.not_nonemptyChronalCones : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  C.AbsolutelyMinimal →
+    Causal.IsoChartsCoverDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+      (Causal.SFALocal.sing M 0).Nonempty → ¬C.NonemptyChronalCones
+'Causal.SFALocal.not_nonemptyChronalCones' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocal.not_chronalPastNeighbours : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  C.AbsolutelyMinimal →
+    Causal.IsoChartsCoverDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+      (Causal.SFALocal.sing M 0).Nonempty → ¬C.ChronalPastNeighbours
+'Causal.SFALocal.not_chronalPastNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocal.not_chronalNeighbours : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  C.AbsolutelyMinimal →
+    Causal.IsoChartsCoverDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+      (Causal.SFALocal.sing M 0).Nonempty → ¬C.ChronalNeighbours
+'Causal.SFALocal.not_chronalNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocal.exists_leaving : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M}
+  [PreconnectedSpace M],
+  C.AbsolutelyMinimal →
+    Causal.IsoChartsCoverDEC25 (↥(Causal.Flat.isom 2)) C (Causal.minkowski 2) Causal.massAModelCausality →
+      ∀ {O : Set M},
+        IsOpen O →
+          O.Nonempty →
+            O ≠ Set.univ →
+              ∃ γ,
+                (C.ChronalCurveOn ⊤ γ 0 1 ∨ C.dual.ChronalCurveOn ⊤ γ 0 1) ∧
+                  (∀ t ∈ Set.Ico 0 1, γ t ∈ O) ∧ γ 1 ∉ O ∧ γ 1 ∈ frontier O
+'Causal.SFALocal.exists_leaving' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocalE0.hasChronalNeighbourEverywhere : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  Causal.SFALocalE0.E0Covered M → Causal.SFALocalE0.IsE0Natural C → C.HasChronalNeighbourEverywhere
+'Causal.SFALocalE0.hasChronalNeighbourEverywhere' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocalE0.chronalFutureNeighbours : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  Causal.SFALocalE0.E0Covered M → Causal.SFALocalE0.IsE0Natural C → C.ChronalFutureNeighbours
+'Causal.SFALocalE0.chronalFutureNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.SFALocalE0.Iminus_nonempty_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  [inst_1 : Causal.SingularGXStructure (↥(Causal.Flat.isom 2)) (Causal.Minkowski 2) M] {C : Causal.Causality M},
+  Causal.SFALocalE0.E0Covered M →
+    Causal.SFALocalE0.IsE0Natural C → ∀ (p : M), (C.Iminus ⊤ {p}).Nonempty ↔ p ∉ Causal.SFALocalE0.sing M 0
+'Causal.SFALocalE0.Iminus_nonempty_iff' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,101 @@
+{
+ "target": "T-loc-e0-has-chronal-neighbour",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "provides": [
+  {
+   "property": "has_chronal_neighbour",
+   "ladder_lean": "Causal.Causality.HasChronalNeighbourEverywhere (programme/ladder.toml:753; def at Causal/ChronalNeighbourBridge.lean:107)",
+   "e0_statement": "Causal.E0.hasChronalNeighbourEverywhere : Causality.HasChronalNeighbourEverywhere E0.causality (scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:147)",
+   "is_ladder_definition": true,
+   "abstract_consumer_applies": true,
+   "notes": "Printed with pp.fieldNotation false: the type is the ladder's constant applied to Causal.E0.causality, no restatement. An auditor `example` stating it with the full name Causal.Causality.HasChronalNeighbourEverywhere typechecks against the theorem. Causal.E0.exists_leaving (:194) is Causality.exists_leaving_of_hasChronalNeighbourEverywhere (Causal/ChronalNeighbourBridge.lean:257) applied to E0.causallyArcConnected and E0.hasChronalNeighbourEverywhere as stated, and an auditor `example` re-derives it in one application."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "command": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean: exit 0, no output (no lake build run, per the dispatch). The olean (05:37:58) is newer than the source (05:37:50). Rerunning the closer's Probe.lean with lake env lean reproduces axioms.txt byte for byte. 26 `depends on axioms` lines, each [propext, Classical.choice, Quot.sound], no sorryAx. The auditor's probe (written under the campaign directory, then deleted) printed the axioms of all 26 declarations again with the same result. The file has no sorry, admit, axiom, native_decide, opaque, implemented_by or set_option. Its 26 theorems are exactly the 26 the REPORT lists, at the line numbers it gives. The 8 examples are at 320, 325, 330, 337, 341, 344, 349 and 359."
+ },
+ "checks": [
+  {
+   "check": "1. Layer-3 rule",
+   "result": "pass",
+   "notes": "See `provides`. The module imports models (Causal.Port.E0SingularFlat, Causal.Port.SFAManifolds, and Causal.SingularFlat, which is MODEL_LAYER at tools/ladder.py:724), which layer 3 expects. It graduates under Causal.Model, a MODEL_LAYER prefix."
+  },
+  {
+   "check": "2. kb/0047 stranded lemmas",
+   "result": "pass",
+   "notes": "No declaration is model-free. Each of the 26 mentions Causal.E0, SFALocal, SFALocalE0 or SingularFlatAxioms/SingularFlatSpacetime. SingularFlatAxioms lives in Causal.SingularFlat, and SingularFlatSpacetime in Causal.SingularGeroch, which imports it, so both are model-layer under tools/ladder.py:724. No ETT-layer module can import them, so the SingularFlatAxioms.* lemmas have no ETT-layer home. The model-free step Z⁺ = M ⇒ HasChronalNeighbourEverywhere is written inline three times as Or.inl (Iplus_nonempty_of_mem_Zplus …) (:94/:109, :218, :290), not as a lemma. The same holds for LocZplus ⇒ ChronalFutureNeighbours (:158, :231, :296). The REPORT's two model-free proposals (Causal/ChronalNeighbourBridge.lean; Causal/CausallyPlainLocZ.lean, which is ETT-layer and already imports Causal.LadderLocal) are plausible homes, and neither was written in the file."
+  },
+  {
+   "check": "3a. Every E≥0-manifold: IsoChartsCoverDEC25 implied by every SFA instance of Causal.Port.SFAManifolds and Causal.Port.SFALocalE0",
+   "result": "pass",
+   "notes": "SFAManifolds.singularFlatAxioms (:145), singularFlatSpacetime (:151) and singularFlatSpacetime_of_massive (:235) take hC : IsoChartsCoverDEC25 directly. singularFlatAxioms_of_isAtlasCausalityDEC25 (:165) and exists_singularFlatAxioms (:189) take IsAtlasCausalityDEC25 + MassACovered, which give it through SFALocal.of_isAtlasCausalityDEC25 (Causal/Port/SFALocal.lean:656). SFAManifolds.singularFlatSpacetime_e0 (:225) and SFALine.singularFlatAxioms_e0 (E₀-manifolds, E0Covered + IsE0Natural) give it through SFALocal.isoChartsCoverDEC25_of_e0 (Causal/Port/SFALocal.lean:527). The auditor checked this with an `example`: SFALocal.hasChronalNeighbourEverywhere (SFALocal.isoChartsCoverDEC25_of_e0 hcov hC) typechecks. The E₀-manifold form is also proved on its own (SFALocalE0.hasChronalNeighbourEverywhere, :288). SFALocalE0.e0_singularFlatAxioms is closed at E₀, where IsoChartsCoverDEC25 holds (SFALocal.nonvacuous_e0.2.1, used at :345). The `example`s at :320, :325, :337 and :341 typecheck, so each instance route is as claimed. The SFALocal form drops absolute minimality, T2 and second countability. The checklist correctly marks this '⚠ weakened' (Lean assumes less)."
+  },
+  {
+   "check": "3b. General SingularFlatAxioms form is the title's",
+   "result": "pass",
+   "notes": "Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere (h : C.SingularFlatAxioms sing) : C.HasChronalNeighbourEverywhere (:107) is the title's declaration with no other hypothesis. Its proof is the field mem_Zplus through Iplus_nonempty_of_mem_Zplus (the left disjunct)."
+  },
+  {
+   "check": "3c. Which-side claims, non-vacuity",
+   "result": "pass",
+   "notes": "SingularFlatAxioms.Iminus_nonempty_iff (:99) gives I⁻(p) ≠ ∅ ↔ p ∉ sing 0, from the fields Iminus_eq_empty (BTZAxioms) and mem_Zminus_iff. The not_* forms (:112, :119, :125) take (sing 0).Nonempty and are inhabited at E₀ (E0.not_*, through singE0_zero_nonempty). E0.Iminus_nonempty_iff (:151) uses p ∉ E0.axis, and singE0 0 = axis. SFALocal's sing M 0 is exactly the BTZ points: angle none = 0 and angle (some κ) = κ > 0 (Causal/Port/SFALocal.lean:146). The SFALocal sides carry hmin, which kb/0135 requires and the docstrings disclose. They are non-vacuous at E₀ (example :344 instantiates SFALocal.not_chronalNeighbours with nonvacuous_e0). SFALocalE0.* is non-vacuous by SFALocalE0.nonvacuous (example :349), and the IsoChartsCoverDEC25 forms are non-vacuous at E_π with no BTZ point (example :359). SingularFlatSpacetime.exists_leaving is inhabited through SFAManifolds.singularFlatSpacetime."
+  },
+  {
+   "check": "3d. Bundle E0.separates_chronalNeighbours",
+   "result": "pass",
+   "notes": "Printed with pp.fieldNotation false, each causal conjunct is the ladder's own constant at E0.causality: CausallyArcConnected, Precausality.AbsolutelyMinimal (the ladder's absolutely_minimal lean name), IsCausal, PushUp, Tarentin, CausallyPlain, GloballyHyperbolic, StronglyCausal, StronglyCausalOpen, CurvesExtend, HasChronalNeighbourEverywhere and ¬ ChronalNeighbours. The auditor restated the whole conjunction with full names, and it typechecks against the theorem. The other conjuncts are T2Space, SecondCountableTopology, ConnectedSpace, ChronalFutureNeighbours, ¬ NonemptyChronalCones and ¬ ChronalPastNeighbours, which are no ladder nodes. The statement is closed and takes no instance argument. The keeper can therefore cite it in the proposed [[fails]] [has_chronal_neighbour, absolutely_minimal, causally_arc_connected, is_causal, push_up, tarentin, causally_plain, globally_hyperbolic, strongly_causal, strongly_causal_open, curves_extend] → chronal_neighbours. The docstring's list (:172–176) matches the 18 conjuncts in order."
+  },
+  {
+   "check": "4. Paper references",
+   "result": "pass",
+   "notes": "papers/ett/legacy/labeled/ETT.tex:1344 is \\begin{defi}[Causal structure at a BTZ point]\\label{defi:causal_E0}, and :1347 is the line $$I^-(p)=\\emptyset … J^-(p)=…$$. The docstring quotes it verbatim. :1358 is \\begin{rem}\\label{rem:btz_pas_tarentin}, and :1359–1361 is quoted verbatim. def:singular_spacetime (cited at :130) exists at ETT.tex:1500. No label is marked: the ledger regex (tools/ledger.py:247) needs **`prefix:name`**, and the four **`…`** in the file (:47, :104, :145, :172) are not labels."
+  },
+  {
+   "check": "5. Build and axioms",
+   "result": "pass",
+   "notes": "See `build`."
+  },
+  {
+   "check": "6. Touched files",
+   "result": "pass",
+   "notes": "git status --short shows ` M programme/JOURNAL.md` and ` M programme/roadmap.toml`. Both are the loop's dispatch edits, not the closer's: roadmap.toml changes only ready→active on the three dispatched targets, and JOURNAL.md has a clock note. Both were written at 05:26–05:27, before the closer's file (05:37:50). Also shown: the untracked lean-causal/scaffold/CausalScaffold/Model/ (only E0ChronalNeighbour.lean), this campaign directory (REPORT.json, Probe.lean, axioms.txt), and the other two closers' files, which are expected. scaffold/CausalScaffold.lean is not edited. kb/0082: none of the 26 full names is declared elsewhere in Causal/ or scaffold/. Causal.Causality.exists_leaving (LocateExtension) has a different full name."
+  },
+  {
+   "check": "7. Docstrings, kb references, REPORT line numbers",
+   "result": "pass with minor findings",
+   "notes": "The contract's sections are all present: title, cited labels unmarked with ETT.tex lines, verbatim quotes, the Hypothesis checklist, SCOPE and Provenance. kb/0047 and kb/0135 are cited for what they say. The 26 file_line entries and the example lines (:320, :325, :337, :341) are correct. Causal/ChronalNeighbourBridge.lean:107/:257, ChronalNeighbourConjoined.lean:122 and ladder.toml:775 (E₀'s reversal is not an E₀-manifold, :774–775) are correct. The findings below are wording only."
+  }
+ ],
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-loc-e0-has-chronal-neighbour/REPORT.json:221 (ladder_proposals[1]), and :130/:220",
+   "what": "The REPORT says the ladder comment 'has a second witness' in E₀. The ladder already records the notched plane as the second witness of has_chronal_neighbour ⇏ chronal_neighbours, beside the closed half-line (programme/ladder.toml:2540–2541). E₀ would be the third, and the first that is tarentin. The proposed [[fails]] → chronal_neighbours would also move no pair: ladder.toml:2511–2512 notes that every pair X → chronal_neighbours is refuted already. Its value is evidence, a GH + push-up + tarentin + plain witness, not a classification change. The REPORT does not say this.",
+   "fix": "Reword to 'a third witness (after the closed half-line and the notched plane), the first with tarentin', and note that the entry refutes no new pair."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-loc-e0-has-chronal-neighbour/REPORT.json:144 (SFALocal.hasChronalNeighbourEverywhere standing) and :253 (questions[0])",
+   "what": "The REPORT claims 'covers every SingularFlatAxioms instance of the library … Each asks at least hC'. This overstates the case. SFALine.singularFlatAxioms_e0 asks IsE0Natural + E0Covered, not IsoChartsCoverDEC25, and reaches it only through SFALocal.isoChartsCoverDEC25_of_e0 (Causal/Port/SFALocal.lean:527), which the REPORT does not name. The library's SingularFlatAxioms instances outside DEC-25 carry no SingularGXStructure, so the SFALocal form does not apply to them: timelikeLine_singularFlatAxioms (Causal/SingularFlat.lean:597), CBG.flat_singularFlatAxioms (Causal/Flat/CBG.lean:367) and timeCylinder_singularFlatAxioms (Causal/Model/FlatTimeCylinder.lean:133). Only the general SingularFlatAxioms form covers them. No Lean statement is affected, and the title's scope is covered by the general form together with the SFALocal and SFALocalE0 forms.",
+   "fix": "Replace the claim with: 'covers every SingularFlatAxioms instance of Causal.Port.SFAManifolds, SFAMassiveLine, SFALine and SFALocalE0, the E₀-manifold ones through SFALocal.isoChartsCoverDEC25_of_e0. The library's other instances (timelike line, flat CBG manifolds, time cylinders) are covered by Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere.'"
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:53,57",
+   "what": "Two departures from the docstring contract (kb/0006) in the checklist table. Row 3 ('the sides at BTZ points … | absolute minimality carried …') has no ✓/⚠ mark. It is '✓ carried': the paper's causality on an E≥0-manifold is the unique natural one, which is absolutely minimal (cor:massA_causalite; SFAManifolds.exists_singularFlatAxioms). The header reads '| hypothesis | here |' where kb/0006 has '| paper hypothesis | here |'.",
+   "fix": "Write '✓ carried (absolute minimality, a property of the paper's natural causality; I⁻(p) = ∅ is not a chart fact, kb/0135)'. Optionally rename the header column."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:31-33",
+   "what": "The text 'so with a BTZ point nothing two-sided holds: not_nonemptyChronalCones, not_chronalPastNeighbours, not_chronalNeighbours' is imprecise: ChronalPastNeighbours is one-sided, the past side. SCOPE (:62–65) states it correctly.",
+   "fix": "Write 'so with a BTZ point neither the past side nor anything two-sided holds: …'."
+  }
+ ],
+ "notes": "There are no major findings. Nothing is marked, and no paper finding is claimed (REPORT findings: []), so no false finding can reach the author. A trivial slip in REPORT.json:261 (notes): it says 'Two sections use attribute [local instance]', but there are three, at :281 (namespace SFALocalE0), :335 (E0Instance) and :357 (EPiInstance). The REPORT's graduation notes are accurate: add the import to scaffold/CausalScaffold.lean, move the file to Causal/Model/E0ChronalNeighbour.lean, add it to Causal.lean, and add a README row. The SingularFlatAxioms.* lemmas are general over the SFA abstraction, not E₀-specific. At graduation a home beside Causal.SingularFlat (model layer) would be more discoverable than a module named for E₀. That is a curation choice, not a kb/0047 issue. The auditor's probe (AuditProbe.lean) was written in this directory and deleted after the run. The auditor changed no other file."
+}

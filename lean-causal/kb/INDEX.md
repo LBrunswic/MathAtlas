@@ -280,4 +280,5 @@ rediscover. One fact per entry.
 | [0272](entries/0272-inextensible-carries-causal.md) | pattern | A nesting of inextensible curves composes with no hypothesis |
 | [0273](entries/0273-timelike-homotopy.md) | pattern | Sbierski's timelike homotopy and future one-connectedness in ETT |
 | [0274](entries/0274-chronal-injective.md) | pitfall | A chronal curve of a chronological open set is injective; homotopies must not pause |
+| [0275](entries/0275-chronal-neighbour-one-sided.md) | pattern | has_chronal_neighbour from one-sided neighbours, and from Z⁺ at E₀ |
 | [0276](entries/0276-conjoin-fails-witness.md) | pattern | Conjoin a node into a recorded separation, and simulate the re-pointing first |

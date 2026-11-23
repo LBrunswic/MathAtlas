@@ -1,0 +1,263 @@
+{
+ "target": "T-loc-e0-has-chronal-neighbour",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-loc-e0-has-chronal-neighbour/REPORT.json",
+  "campaign/T-loc-e0-has-chronal-neighbour/Probe.lean",
+  "campaign/T-loc-e0-has-chronal-neighbour/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.Model.E0ChronalNeighbour",
+ "build_result": "Built CausalScaffold.Model.E0ChronalNeighbour (2.4 s), 8677 jobs, no warning. The --no-build dry run (kb/0228) listed only this module as out of date ([8677/8677]), so nothing upstream was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes with no output. campaign/T-loc-e0-has-chronal-neighbour/Probe.lean imports the module and runs #check and #print axioms on all 26 declarations (output in axioms.txt). Each depends on [propext, Classical.choice, Quot.sound] only. sorryAx appears nowhere.",
+ "sorry_count": 0,
+ "layer": {
+  "layer": 3,
+  "kind": "localisation",
+  "model": "E_0",
+  "provides": [
+   "has_chronal_neighbour"
+  ],
+  "ladder_definition": "Causal.Causality.HasChronalNeighbourEverywhere (Causal/ChronalNeighbourBridge.lean:107)",
+  "side": "The future disjunct, (C.Iplus ⊤ {p}).Nonempty, holds at every point, BTZ points included. The past disjunct holds exactly off sing₀ (Iminus_nonempty_iff), so at a BTZ point only the left disjunct of HasChronalNeighbour holds. E₀ also has the future side in every open set (ChronalFutureNeighbours). It has neither NonemptyChronalCones nor ChronalPastNeighbours nor ChronalNeighbours.",
+  "imports": [
+   "Causal.SingularFlat",
+   "Causal.ChronalNeighbourBridge",
+   "Causal.Port.E0SingularFlat",
+   "Causal.Port.SFAManifolds"
+  ],
+  "classification": "Model layer, as a layer-3 module must be. tools/ladder.py was imported in memory only (lean_index, model_path); emit-lean was not run. model_path: Causal.SingularFlat, Causal.Port.E0SingularFlat and Causal.Port.SFAManifolds are model modules (MODEL_LAYER), and Causal.ChronalNeighbourBridge is ETT-layer (None). After graduation the module sits under Causal.Model, a MODEL_LAYER prefix."
+ },
+ "labels": [],
+ "lemmas_for_the_keeper": [
+  {
+   "name": "Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:107",
+   "statement": "{M : Type u} [TopologicalSpace M] {C : Causality M} {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) : C.HasChronalNeighbourEverywhere",
+   "standing": "Every causality with SingularFlatAxioms. No other hypothesis. This is the title's declaration, the general form. Proof: fun p => Or.inl (h.Iplus_nonempty p), the left (future) disjunct of HasChronalNeighbour.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.SingularFlatAxioms.Iplus_nonempty",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:92",
+   "statement": "{M : Type u} [TopologicalSpace M] {C : Causality M} {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) (p : M) : (C.Iplus ⊤ {p}).Nonempty",
+   "standing": "SingularFlatAxioms. The future side at every point. Proof: Iplus_nonempty_of_mem_Zplus (h.mem_Zplus p), the inline step (rem:btz_pas_tarentin's field read at U = M).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.SingularFlatAxioms.Iminus_nonempty_iff",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:99",
+   "statement": "{M : Type u} [TopologicalSpace M] {C : Causality M} {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) (p : M) : (C.Iminus ⊤ {p}).Nonempty ↔ p ∉ sing 0",
+   "standing": "SingularFlatAxioms. The past side holds exactly off the BTZ points. Fields Iminus_eq_empty and mem_Zminus_iff.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.SingularFlatAxioms.not_nonemptyChronalCones",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:112",
+   "statement": "{M : Type u} [TopologicalSpace M] {C : Causality M} {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) (hne : (sing 0).Nonempty) : ¬ C.NonemptyChronalCones",
+   "standing": "SingularFlatAxioms with a BTZ point.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.SingularFlatAxioms.not_chronalPastNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:119",
+   "statement": "{M : Type u} [TopologicalSpace M] {C : Causality M} {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) (hne : (sing 0).Nonempty) : ¬ C.ChronalPastNeighbours",
+   "standing": "SingularFlatAxioms with a BTZ point. Through ChronalPastNeighbours.Iminus_nonempty (Causal.ChronalNeighbourBridge).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.SingularFlatAxioms.not_chronalNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:125",
+   "statement": "{M : Type u} [TopologicalSpace M] {C : Causality M} {sing : ℝ → Set M} (h : C.SingularFlatAxioms sing) (hne : (sing 0).Nonempty) : ¬ C.ChronalNeighbours",
+   "standing": "SingularFlatAxioms with a BTZ point. Ladder node chronal_neighbours fails.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.SingularFlatSpacetime.exists_leaving",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:131",
+   "statement": "{M} [TopologicalSpace M] {C} {sing} (h : C.SingularFlatSpacetime sing) {O : Set M} (hO : IsOpen O) (hne : O.Nonempty) (hne' : O ≠ univ) : ∃ γ : ℝ → M, (C.ChronalCurveOn ⊤ γ 0 1 ∨ C.dual.ChronalCurveOn ⊤ γ 0 1) ∧ (∀ t ∈ Ico (0 : ℝ) 1, γ t ∈ O) ∧ γ 1 ∉ O ∧ γ 1 ∈ frontier O",
+   "standing": "SingularFlatSpacetime (SingularFlatAxioms and ConnectedSpace). Proof: exists_leaving_of_hasChronalNeighbourEverywhere h.causallyArcConnected h.hasChronalNeighbourEverywhere, applied as stated.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:147",
+   "statement": "E0.causality.HasChronalNeighbourEverywhere",
+   "standing": "E₀ = ℝ × ℂ. No instance argument. Proof: E0.singularFlatAxioms.hasChronalNeighbourEverywhere. THE E₀ ENTRY for the node's layer-3 comment.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.Iminus_nonempty_iff",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:151",
+   "statement": "(p : E0) : (E0.causality.Iminus ⊤ {p}).Nonempty ↔ p ∉ E0.axis",
+   "standing": "E₀. The past side holds exactly off the BTZ line (the axis).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.chronalFutureNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:157",
+   "statement": "E0.causality.ChronalFutureNeighbours",
+   "standing": "E₀. The future side holds in every open set: ∀ V, ∀ v ∈ V, ∃ p ∈ V, v ≪_V p. Proof: E0LM.e0_locZplus V v hv V (V.isOpen.mem_nhds hv). This is not a ladder node (one-sided notions, DEC-166 (a)).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.not_nonemptyChronalCones",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:161",
+   "statement": "¬ E0.causality.NonemptyChronalCones",
+   "standing": "E₀",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.not_chronalPastNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:165",
+   "statement": "¬ E0.causality.ChronalPastNeighbours",
+   "standing": "E₀",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.not_chronalNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:169",
+   "statement": "¬ E0.causality.ChronalNeighbours",
+   "standing": "E₀",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.separates_chronalNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:177",
+   "statement": "T2Space E0 ∧ SecondCountableTopology E0 ∧ ConnectedSpace E0 ∧ causality.CausallyArcConnected ∧ causality.AbsolutelyMinimal ∧ causality.IsCausal ∧ causality.PushUp ∧ causality.Tarentin ∧ causality.CausallyPlain ∧ causality.GloballyHyperbolic ∧ causality.StronglyCausal ∧ causality.StronglyCausalOpen ∧ causality.CurvesExtend ∧ causality.HasChronalNeighbourEverywhere ∧ causality.ChronalFutureNeighbours ∧ ¬ causality.NonemptyChronalCones ∧ ¬ causality.ChronalPastNeighbours ∧ ¬ causality.ChronalNeighbours  (causality = E0.causality)",
+   "standing": "E₀. It bundles existing E₀ facts: E0.causallyArcConnected, isCausal, E0LM.e0_pushUp, tarentin, causallyPlain, globallyHyperbolic, stronglyCausal, ModelRowsE0.e0_stronglyCausalOpen, curvesExtend. It is a candidate model witness for a [[fails]] [has_chronal_neighbour, absolutely_minimal, causally_arc_connected, is_causal, push_up, tarentin, causally_plain, globally_hyperbolic, strongly_causal, strongly_causal_open, curves_extend] → chronal_neighbours. That from-set is larger than closedHalfLine_separates_chronalNeighbours' [has_chronal_neighbour, causally_arc_connected, absolutely_minimal].",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.E0.exists_leaving",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:194",
+   "statement": "{O : Set E0} (hO : IsOpen O) (hne : O.Nonempty) (hne' : O ≠ univ) : ∃ γ : ℝ → E0, (E0.causality.ChronalCurveOn ⊤ γ 0 1 ∨ E0.causality.dual.ChronalCurveOn ⊤ γ 0 1) ∧ (∀ t ∈ Ico (0 : ℝ) 1, γ t ∈ O) ∧ γ 1 ∉ O ∧ γ 1 ∈ frontier O",
+   "standing": "E₀. THE LAYER-3 WITNESS. A one-line application of Causal.Causality.exists_leaving_of_hasChronalNeighbourEverywhere (Causal/ChronalNeighbourBridge.lean:257) to E0.causallyArcConnected and E0.hasChronalNeighbourEverywhere. PreconnectedSpace E0 comes by inferInstance. The abstract theorem applies to E₀ without restatement.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:215",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) : C.HasChronalNeighbourEverywhere",
+   "standing": "Every E≥0-manifold under DEC-25, for every causality with an isomorphic chart at each point over the family. It asks no absolute minimality, no T2 and no second countability: SFALocal.mem_Zplus is a chart fact. This is weaker than the hypotheses of every SingularFlatAxioms instance (SFAManifolds.singularFlatAxioms asks T2, second countable, absolutely minimal and hC), so it covers every DEC-25 instance (SFALine.singularFlatAxioms_e0 through SFALocal.isoChartsCoverDEC25_of_e0); the library's instances outside DEC-25 (timelikeLine_singularFlatAxioms, CBG.flat_singularFlatAxioms, timeCylinder_singularFlatAxioms) are covered by the general SingularFlatAxioms form only. The instances' route is also checked by `example`s at the end of the file.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.hasChronalNeighbourEverywhere_of_isAtlasCausalityDEC25",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:221",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hcov : SFALocal.MassACovered M) (hC : IsAtlasCausalityDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) : C.HasChronalNeighbourEverywhere",
+   "standing": "The natural causality of an E≥0-manifold. No T2 and no second countability.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.chronalFutureNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:228",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) : C.ChronalFutureNeighbours",
+   "standing": "E≥0-manifolds, chart fact (SFALocal.locZplus), no absolute minimality. Not a ladder node.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.Iminus_nonempty_iff",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:235",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hmin : C.AbsolutelyMinimal) (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) (p : M) : (C.Iminus ⊤ {p}).Nonempty ↔ p ∉ SFALocal.sing M 0",
+   "standing": "E≥0-manifolds. Absolute minimality is needed for the BTZ half (kb/0135: I⁻(p) = ∅ is not a chart fact; SFATransfer's topTotal witness).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.not_nonemptyChronalCones",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:243",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hmin : C.AbsolutelyMinimal) (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) (hne : (SFALocal.sing M 0).Nonempty) : ¬ C.NonemptyChronalCones",
+   "standing": "E≥0-manifolds with a BTZ point; absolute minimality carried",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.not_chronalPastNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:251",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hmin : C.AbsolutelyMinimal) (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) (hne : (SFALocal.sing M 0).Nonempty) : ¬ C.ChronalPastNeighbours",
+   "standing": "as above",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.not_chronalNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:259",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hmin : C.AbsolutelyMinimal) (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) (hne : (SFALocal.sing M 0).Nonempty) : ¬ C.ChronalNeighbours",
+   "standing": "as above",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocal.exists_leaving",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:267",
+   "statement": "{M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} [PreconnectedSpace M] (hmin : C.AbsolutelyMinimal) (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) {O : Set M} (hO : IsOpen O) (hne : O.Nonempty) (hne' : O ≠ univ) : ∃ γ : ℝ → M, (C.ChronalCurveOn ⊤ γ 0 1 ∨ C.dual.ChronalCurveOn ⊤ γ 0 1) ∧ (∀ t ∈ Ico (0 : ℝ) 1, γ t ∈ O) ∧ γ 1 ∉ O ∧ γ 1 ∈ frontier O",
+   "standing": "Connected E≥0-manifolds. exists_leaving_of_hasChronalNeighbourEverywhere with SFALocal.causallyArcConnected hmin hC (which needs absolute minimality).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocalE0.hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:288",
+   "statement": "(local instance E0GX.singularGX) {M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hcov : SFALocalE0.E0Covered M) (hC : SFALocalE0.IsE0Natural C) : C.HasChronalNeighbourEverywhere",
+   "standing": "E₀-manifolds with their natural causality (SFALocalE0.mem_Zplus). No T2 and no second countability.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocalE0.chronalFutureNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:294",
+   "statement": "(local instance E0GX.singularGX) {M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hcov : SFALocalE0.E0Covered M) (hC : SFALocalE0.IsE0Natural C) : C.ChronalFutureNeighbours",
+   "standing": "E₀-manifolds (SFALocalE0.locZplus).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.SFALocalE0.Iminus_nonempty_iff",
+   "file_line": "scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:300",
+   "statement": "(local instance E0GX.singularGX) {M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] {C : Causality M} (hcov : SFALocalE0.E0Covered M) (hC : SFALocalE0.IsE0Natural C) (p : M) : (C.Iminus ⊤ {p}).Nonempty ↔ p ∉ SFALocalE0.sing M 0",
+   "standing": "E₀-manifolds",
+   "status": "proved"
+  }
+ ],
+ "keeper_entry": "For the node's layer-3 comment (T-lad-record-direct-witnesses), name E₀'s entry Causal.E0.hasChronalNeighbourEverywhere. Name the E≥0-manifold entry Causal.SFALocal.hasChronalNeighbourEverywhere: IsoChartsCoverDEC25 alone, no absolute minimality, no T2 or second countability. Name the general one Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere. The witness that the abstract theorem applies without restatement is Causal.E0.exists_leaving. The comment's words 'on the future side, at its BTZ points too' are confirmed, and in a stronger form: E₀ and every E≥0-manifold have chronal future neighbours in every open set (Causal.E0.chronalFutureNeighbours, Causal.SFALocal.chronalFutureNeighbours).",
+ "ladder_proposals": [
+  "Possible [[fails]] with a model witness: [has_chronal_neighbour, absolutely_minimal, causally_arc_connected, is_causal, push_up, tarentin, causally_plain, globally_hyperbolic, strongly_causal, strongly_causal_open, curves_extend] → chronal_neighbours, witness Causal.E0.separates_chronalNeighbours. The existing [[fails]] has_chronal_neighbour → chronal_neighbours (closedHalfLine_separates_chronalNeighbours) has from = [has_chronal_neighbour, causally_arc_connected, absolutely_minimal]. Whether to add E₀'s entry or replace that one is the keeper's call.",
+  "E₀ is a model where NonemptyChronalCones fails while has_chronal_neighbour holds (Causal.E0.not_nonemptyChronalCones), beside the closed half-line. The ladder comment that this node 'is not chronal_neighbours under any hypothesis of the library' has a third witness after the closed half-line and the notched plane (ladder.toml:2540–2541), the first that is tarentin (and GH, push-up, plain). A [[fails]] from it would refute no new pair: every X → chronal_neighbours is refuted already (ladder.toml:2511–2512)."
+ ],
+ "extra_decls": [
+  "Causal.Causality.SingularFlatAxioms.Iplus_nonempty",
+  "Causal.Causality.SingularFlatAxioms.Iminus_nonempty_iff",
+  "Causal.Causality.SingularFlatAxioms.not_nonemptyChronalCones",
+  "Causal.Causality.SingularFlatAxioms.not_chronalPastNeighbours",
+  "Causal.Causality.SingularFlatAxioms.not_chronalNeighbours",
+  "Causal.Causality.SingularFlatSpacetime.exists_leaving",
+  "Causal.E0.Iminus_nonempty_iff",
+  "Causal.E0.chronalFutureNeighbours",
+  "Causal.E0.not_nonemptyChronalCones",
+  "Causal.E0.not_chronalPastNeighbours",
+  "Causal.E0.not_chronalNeighbours",
+  "Causal.E0.separates_chronalNeighbours",
+  "Causal.SFALocal.hasChronalNeighbourEverywhere_of_isAtlasCausalityDEC25",
+  "Causal.SFALocal.chronalFutureNeighbours",
+  "Causal.SFALocal.Iminus_nonempty_iff",
+  "Causal.SFALocal.not_nonemptyChronalCones",
+  "Causal.SFALocal.not_chronalPastNeighbours",
+  "Causal.SFALocal.not_chronalNeighbours",
+  "Causal.SFALocal.exists_leaving",
+  "Causal.SFALocalE0.chronalFutureNeighbours",
+  "Causal.SFALocalE0.Iminus_nonempty_iff"
+ ],
+ "model_free_lemma_proposals": [
+  "Causal.Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus : (∀ p, p ∈ C.Zplus) → C.HasChronalNeighbourEverywhere (proof: fun h p => Or.inl (Iplus_nonempty_of_mem_Zplus (h p))). Proposed ETT-layer home: Causal/ChronalNeighbourBridge.lean (it imports Causal.Properties through Causal.LocateExtension). The dual, from Z⁻ = M, follows through dual_hasChronalNeighbourEverywhere. Written inline here (kb/0047), not as a lemma.",
+  "Causal.E0LM.LocZplus.chronalFutureNeighbours : E0LM.LocZplus C → C.ChronalFutureNeighbours (proof: fun h V v hv => h V v hv V (V.isOpen.mem_nhds hv)). Proposed ETT-layer home: Causal/CausallyPlainLocZ.lean, or a module importing it and Causal.LadderLocal. Written inline three times here (E0, SFALocal, SFALocalE0).",
+  "With T-abs-chronal-neighbour-conjoined's ChronalFutureNeighbours.hasChronalNeighbourEverywhere (scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:122, another closer's file, not graduated), E₀'s entry would also be E0.chronalFutureNeighbours.hasChronalNeighbourEverywhere. There is no name clash between the two files."
+ ],
+ "findings": [],
+ "questions": [
+  "Scope of 'every E≥0-manifold the existing SingularFlatAxioms instances cover'. I stated the E≥0-manifold form under IsoChartsCoverDEC25 alone (Causal.SFALocal.hasChronalNeighbourEverywhere). That covers every SingularFlatAxioms instance of the library: SFAManifolds.singularFlatAxioms and singularFlatAxioms_of_isAtlasCausalityDEC25 at E≥0-manifolds, SFALine.singularFlatAxioms_e0 at E₀-manifolds, SFAMassiveLine.singularFlatAxioms_of_massive, SFALocalE0.e0_singularFlatAxioms. Each reaches IsoChartsCoverDEC25 (SFALine.singularFlatAxioms_e0 through SFALocal.isoChartsCoverDEC25_of_e0); the instances outside DEC-25 (timelikeLine_singularFlatAxioms, CBG.flat_singularFlatAxioms, timeCylinder_singularFlatAxioms) are covered by the general form only. The form also covers non-minimal causalities with isomorphic charts, which are not SingularFlatAxioms. The SingularFlatAxioms route is kept as `example`s (scaffold/CausalScaffold/Model/E0ChronalNeighbour.lean:320, 325, 337, 341), not as theorems with the stronger hypotheses. If the keeper wants a named theorem per instance, each is one line.",
+  "Which side, stated as the reading I took. HasChronalNeighbour is an 'or', and the future disjunct is the one that holds everywhere. For the time reversal of E₀ (not an E≥0-manifold, ladder.toml:775) it is the past disjunct of the reversed causality, by dual_hasChronalNeighbourEverywhere (checked by an `example`)."
+ ],
+ "kb_proposals": [
+  "has_chronal_neighbour at E₀ and every E≥0-manifold (T-loc-e0-has-chronal-neighbour, Causal.Model.E0ChronalNeighbour after graduation): Causal.E0.hasChronalNeighbourEverywhere; Causal.SFALocal.hasChronalNeighbourEverywhere (IsoChartsCoverDEC25 alone: Z⁺ = M is a chart fact); Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere. It is always the future disjunct. The past one holds iff p ∉ sing₀ (…Iminus_nonempty_iff), which at a manifold needs absolute minimality (kb/0135).",
+  "E₀ has chronal future neighbours in every open set and no chronal past neighbours (Causal.E0.chronalFutureNeighbours, not_chronalPastNeighbours, likewise SFALocal.* at E≥0-manifolds). Causal.E0.separates_chronalNeighbours is a model witness of has_chronal_neighbour ⇏ chronal_neighbours with push-up, GH, tarentin, plain and strong causality.",
+  "LocZplus D ⇒ D.ChronalFutureNeighbours is one line: fun V v hv => hZ V v hv V (V.isOpen.mem_nhds hv). Every model with a LocZplus lemma (E0LM.e0_locZplus, SFALocal.locZplus, SFALocalE0.locZplus) has the future-base one-sided neighbours."
+ ],
+ "notes": "One new file, 368 lines, 0 sorry, no ETT label marked. The docstring cites rem:btz_pas_tarentin (ETT.tex:1358) and defi:causal_E0 (ETT.tex:1344) in single backticks, without the ** mark. Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.Model.E0ChronalNeighbour` to scaffold/CausalScaffold.lean. I did not edit that file. At graduation the file moves to Causal/Model/E0ChronalNeighbour.lean, the module is renamed Causal.Model.E0ChronalNeighbour, its import goes into Causal.lean, and a README row is added. Its imports are already Causal.* only. The file adds declarations to five existing namespaces from a new module: Causal.Causality.SingularFlatAxioms, Causal.Causality.SingularFlatSpacetime, Causal.E0, Causal.SFALocal and Causal.SFALocalE0. A grep over Causal/ and scaffold/ finds none of the 26 new full names elsewhere (kb/0082). The other closer's scaffold/CausalScaffold/ChronalNeighbourConjoined.lean declares Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere and Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere, different full names. Two sections use `attribute [local instance]` (E0GX.singularGX; EAlphaGX.singularGX and EAlphaGX.fact_pi_pos in the Checks), and the file adds no global instance. The Checks section has 8 `example`s: the SingularFlatAxioms instances' route (SFAManifolds.singularFlatAxioms, singularFlatAxioms_of_isAtlasCausalityDEC25, SFALine.singularFlatAxioms_e0, SFALocalE0.e0_singularFlatAxioms), non-vacuity of the manifold forms at E₀ (SFALocal.nonvacuous_e0, SFALocalE0.nonvacuous) and E_π (SFALocal.nonvacuous_epi), and E₀'s time reversal. No existing file was edited. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean` in any form.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: E₀ is the third witness, not the second, and the proposed [[fails]] refutes no new pair; the coverage claim narrowed to the DEC-25 instances (the others by the general form); the checklist header and row 3's mark; the 'nothing two-sided' sentence."
+}
