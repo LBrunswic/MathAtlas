@@ -499,28 +499,6 @@ theorem IsPhotonCircle.coe_rp1ToBdPlus_chartAt {C : Set M} (hC : IsPhotonCircle 
 
 end PhotonCharts
 
-/-- A continuous integer-valued function on a preconnected space is constant. -/
-theorem eq_of_continuous_int {X : Type*} [TopologicalSpace X] [PreconnectedSpace X] {g : X → ℝ}
-    (hg : Continuous g) (hint : ∀ x, ∃ n : ℤ, g x = n) (x y : X) : g x = g y := by
-  have key : ∀ a b : X, g a < g b → False := by
-    intro a b hab
-    obtain ⟨n, hn⟩ := hint a
-    obtain ⟨m, hm⟩ := hint b
-    have hnm : n < m := by exact_mod_cast (hn ▸ hm ▸ hab)
-    have hnm' : ((n : ℝ) + 1) ≤ m := by exact_mod_cast hnm
-    obtain ⟨c, -, hc⟩ := isPreconnected_univ.intermediate_value (mem_univ a) (mem_univ b)
-      hg.continuousOn (show (n : ℝ) + 1 / 2 ∈ Icc (g a) (g b) from
-        ⟨by rw [hn]; linarith, by rw [hm]; linarith⟩)
-    obtain ⟨k, hk⟩ := hint c
-    rw [hk] at hc
-    have h1 : n < k := by exact_mod_cast (show (n : ℝ) < k by linarith)
-    have h2 : k < n + 1 := by exact_mod_cast (show (k : ℝ) < n + 1 by linarith)
-    omega
-  rcases lt_trichotomy (g x) (g y) with h | h | h
-  · exact (key x y h).elim
-  · exact h
-  · exact (key y x h).elim
-
 /-- **`ι̃_ε` is `G̃`-equivariant, so the holonomy acts on `R₋` and `R₊` by one element of `G̃`**:
 if a continuous `dev` of the strip satisfies `π (dev (s + 1, t)) = B • π (dev (s, t))` for some
 `B ∈ SO₀(1,2)`, there is `h ∈ G̃` with `(dev (s + 1, t)).1 = h (dev (s, t)).1` for all `(s, t)`,
@@ -549,7 +527,7 @@ theorem exists_gTilde_of_holonomy {ε : ℝ} (hε : ε ^ 2 = 1) {dev : DSTilde �
   set z₀ : DSTilde := rPlus 0
   obtain ⟨n, hn⟩ := hint z₀
   refine ⟨GTilde.delta ^ n * h₀, fun z => ?_⟩
-  have hz := eq_of_continuous_int hc hint z z₀
+  have hz := eq_of_continuous_intValued hc hint z z₀
   rw [GTilde.coe_mul_apply, GTilde.delta_zpow_apply]
   simp only [hk] at hz hn
   linarith
@@ -707,7 +685,7 @@ theorem IsIotaPrime.apply_add_one {dev : DSTilde → DSTilde} {ι' : DSTilde →
     rw [show ((rPlus s).1 + 1, (rPlus s).2) = rPlus (s + 1) from rfl, h.apply_rPlus,
       h.apply_rPlus]
     ring
-  have hconst := eq_of_continuous_int hgc hint (s, t) (rPlus s)
+  have hconst := eq_of_continuous_intValued hgc hint (s, t) (rPlus s)
   rw [h1] at hconst
   simp only [hg] at hconst
   linarith
