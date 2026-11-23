@@ -55,8 +55,9 @@ and `YamabeScaffold.Trace`, which this file imports.
 
 ## SCOPE (disclosed)
 
-* Not here: `Mfd.rellich_kondrachov` (`YamabeScaffold.Rellich`) and `Mfd.trace_compact`
-  (`YamabeScaffold.Trace`), the scaffold's two remaining `sorry`s; nothing in this file uses them.
+* Not here: `Mfd.rellich_kondrachov` (proved downstream, in `YamabeScaffold.RellichManifold`) and
+  `Mfd.trace_compact` (`YamabeScaffold.Trace`, the scaffold's one remaining `sorry`); nothing in
+  this file uses either.
 * No label is marked while OQ-93 is open: the manifold theorems are proved under its readings
   (a), (b) above.
 

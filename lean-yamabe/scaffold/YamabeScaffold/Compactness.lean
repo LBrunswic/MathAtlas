@@ -44,9 +44,10 @@ Labels (NOT marked: see SCOPE):
 
 ## SCOPE (disclosed)
 
-* Rellich–Kondrachov on `M` is not proved: the Euclidean cell approximation is; what remains is its
+* Rellich–Kondrachov on `M` is not proved here, only the Euclidean cell approximation. Its
   chart-level assembly (cut-offs read in good charts, `Mfd.chartFun`), the finiteness of a
-  locally-Lebesgue `μ`, and the total-boundedness wrapper in `Lp ℝ 2 μ`.
+  locally-Lebesgue `μ` and the total-boundedness wrapper in `Lp ℝ 2 μ` (`Yamabe.RellichCriterion`)
+  are `YamabeScaffold.RellichManifold`, which imports this file and proves `Mfd.rellich_kondrachov`.
 * **Finding on the round-1 statement** `Mfd.const_of_tendsto` (`YamabeScaffold.Rellich`): it was
   false as stated, because `eLpNorm` of a non-measurable function is an inner integral
   (`Mfd.not_const_of_tendsto`, kept as the record of the finding); the measurability hypothesis is

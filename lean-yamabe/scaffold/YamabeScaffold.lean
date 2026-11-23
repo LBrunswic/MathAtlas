@@ -7,3 +7,4 @@ import YamabeScaffold.HalfSpace
 import YamabeScaffold.Localisation
 import YamabeScaffold.ManifoldTheorems
 import YamabeScaffold.Compactness
+import YamabeScaffold.RellichManifold

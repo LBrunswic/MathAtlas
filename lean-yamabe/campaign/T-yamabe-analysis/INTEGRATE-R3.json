@@ -1,0 +1,187 @@
+{
+ "target": "T-yamabe-integrate-r3",
+ "package": "T-yamabe-analysis",
+ "kind": "integration (master-owned), host node1, 2026-11-23",
+ "recipe": "REPORT-3.json notes (INTEGRATION), steps (1)-(3), with the docstring fixes of AUDIT-3's minor finding",
+ "files_changed": [
+  "scaffold/YamabeScaffold/RellichManifold.lean (import, the two identity checks removed, the rename, module and theorem docstrings)",
+  "scaffold/YamabeScaffold/Rellich.lean (import, the round-1 sorry deleted, [IsFiniteMeasure μ] dropped from five theorems, module docstring)",
+  "scaffold/YamabeScaffold.lean (import YamabeScaffold.RellichManifold appended)",
+  "scaffold/YamabeScaffold/ManifoldTheorems.lean (module docstring only: the SCOPE 'Not here' bullet, l.58-60)",
+  "scaffold/YamabeScaffold/External.lean (module docstring only: one checklist row, l.83)",
+  "scaffold/YamabeScaffold/Compactness.lean (module docstring only: the SCOPE bullet on Rellich-Kondrachov, l.47-50)",
+  "scaffold/YamabeScaffold/Trace.lean (the comment at the sorry of trace_compact only, l.412-415; its first line kept verbatim, as roadmap T-yamabe-trace-compact quotes it)",
+  "Yamabe/RellichCriterion.lean (strict; docstrings only: module docstring l.13, l.46-48, l.60-66, and the docstring of exists_subseq_tendsto_eLpNorm_two, l.376-377)",
+  "Yamabe/Negative.lean (strict; module docstring only: the SCOPE bullet, l.88-92)"
+ ],
+ "files_new": [],
+ "files_untouched": [
+  "lakefile.toml",
+  "scripts/",
+  "docs/",
+  "kb/",
+  "every other file under Yamabe/ and scaffold/"
+ ],
+ "renamed": [
+  {
+   "from": "Yamabe.Mfd.rellich_kondrachov'",
+   "to": "Yamabe.Mfd.rellich_kondrachov",
+   "where": "RellichManifold.lean:226"
+  }
+ ],
+ "deleted": [
+  {
+   "decl": "Yamabe.Mfd.rellich_kondrachov (round 1, sorry; its docstring and the SORRY comment)",
+   "was": "Rellich.lean:479-490 (theorem at :481, sorry at :486)"
+  },
+  {
+   "decl": "the identity checks `universe u in example : type_of% @Mfd.rellich_kondrachov.{u} = type_of% @Mfd.rellich_kondrachov'.{u} := rfl` and the `run_cmd` Expr-equality check",
+   "was": "RellichManifold.lean:297-310 (they named both copies; after the rename they would compare X with X)"
+  }
+ ],
+ "imports": {
+  "RellichManifold.lean": "import YamabeScaffold.Rellich -> import YamabeScaffold.Compactness (with Yamabe.RellichCriterion, unchanged)",
+  "Rellich.lean": "import YamabeScaffold.Compactness -> import YamabeScaffold.RellichManifold",
+  "YamabeScaffold.lean": "+ import YamabeScaffold.RellichManifold (so AxiomSweep, which imports the root, sees the module)",
+  "chain_after": "Yamabe.Negative <- Sobolev <- Trace <- HalfSpace <- Localisation <- ManifoldTheorems <- Compactness <- RellichManifold (+ Yamabe.RellichCriterion) <- Rellich <- External"
+ },
+ "statements": {
+  "unchanged_renamed": "Yamabe.Mfd.rellich_kondrachov keeps the round-1 statement. The types of every constant of YamabeScaffold.Rellich, .RellichManifold and .External were dumped before and after the edit (pp.all, names sanitised). The renamed theorem's type is identical, character for character, to the dump of the deleted round-1 original and to that of the prime. The universe parameter count is 1 in all three cases.",
+  "changed": [
+   {
+    "decl": "Yamabe.Mfd.Reads.rellichProp",
+    "where": "Rellich.lean:510",
+    "before": "theorem rellichProp [CompactSpace M] [T2Space M] [IsFiniteMeasure μ]\n    (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) : Mm.RellichProp gm",
+    "after": "theorem rellichProp [CompactSpace M] [T2Space M]\n    (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) : Mm.RellichProp gm"
+   },
+   {
+    "decl": "Yamabe.Mfd.Reads.constLimit",
+    "where": "Rellich.lean:540",
+    "before": "theorem constLimit [CompactSpace M] [T2Space M] [ConnectedSpace M] [IsFiniteMeasure μ]\n    (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) : Mm.ConstLimit gm",
+    "after": "theorem constLimit [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) : Mm.ConstLimit gm"
+   },
+   {
+    "decl": "Yamabe.Mfd.Reads.lem_positivity",
+    "where": "Rellich.lean:548",
+    "before": "theorem lem_positivity (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    [IsFiniteMeasure μ] [∀ j, IsFiniteMeasure (σ j)]\n    (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) (hσ : ∀ j, IsBoundaryMeasure N (σ j))\n    (hV : μ ≠ 0) (hB : ∃ j, σ j ≠ 0) :\n    0 < Mm.infF gm (fun _ => cN N)",
+    "after": "theorem lem_positivity (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    [∀ j, IsFiniteMeasure (σ j)]\n    (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) (hσ : ∀ j, IsBoundaryMeasure N (σ j))\n    (hV : μ ≠ 0) (hB : ∃ j, σ j ≠ 0) :\n    0 < Mm.infF gm (fun _ => cN N)"
+   },
+   {
+    "decl": "Yamabe.Mfd.Reads.cor_negative",
+    "where": "Rellich.lean:563",
+    "before": "... (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    [IsFiniteMeasure μ] [∀ j, IsFiniteMeasure (σ j)] {gc : CurvedMetric M N} ... (rest unchanged)",
+    "after": "... (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    [∀ j, IsFiniteMeasure (σ j)] {gc : CurvedMetric M N} ... (rest unchanged)"
+   },
+   {
+    "decl": "Yamabe.Mfd.lem_positivity",
+    "where": "Rellich.lean:607",
+    "before": "theorem lem_positivity (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    (g : RiemannianMetric N M) {μ : Measure M} [IsFiniteMeasure μ] (hμ : IsLocallyLebesgue N μ)\n    {n : ℕ} {σ : Fin n → Measure M} [∀ j, IsFiniteMeasure (σ j)]\n    (hσ : ∀ j, IsBoundaryMeasure N (σ j)) (hV : μ ≠ 0) (hB : ∃ j, σ j ≠ 0) :\n    0 < (readingModel g μ σ).infF (flatFrame N M) (fun _ => cN N)",
+    "after": "theorem lem_positivity (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]\n    (g : RiemannianMetric N M) {μ : Measure M} (hμ : IsLocallyLebesgue N μ)\n    {n : ℕ} {σ : Fin n → Measure M} [∀ j, IsFiniteMeasure (σ j)]\n    (hσ : ∀ j, IsBoundaryMeasure N (σ j)) (hV : μ ≠ 0) (hB : ∃ j, σ j ≠ 0) :\n    0 < (readingModel g μ σ).infF (flatFrame N M) (fun _ => cN N)"
+   }
+  ],
+  "nature_of_change": "Optional step 3 of the dispatch was done. It is a pure strengthening: one instance binder [IsFiniteMeasure μ] was removed from each of the five theorems, and nothing else changed. Each proof now opens with `haveI := isFiniteMeasure_of_isLocallyLebesgue hμ` (RellichManifold.lean:105; it needs only [CompactSpace M] and hμ, which all five carry). The [∀ j, IsFiniteMeasure (σ j)] binders stay, because the dispatch did not cover them and they are not derived anywhere. How checked: (a) In the type dumps, each before-type minus the one `[@MeasureTheory.IsFiniteMeasure.{u_1} M inst μ]` binder equals the after-type, instance names normalised. The binder no longer appears in any after-type. No other constant of the three modules changed type, and the only constant that disappeared is the prime. (b) An out-of-tree probe derives the old statements of rellichProp, constLimit, Reads.lem_positivity and Mfd.lem_positivity, with [IsFiniteMeasure μ], from the new ones by direct application, and compiles. (c) No caller elsewhere: the five are used only inside Rellich.lean, and grep finds no use in External.lean, the strict library or other packages; curation.toml lists them by name only.",
+  "same_text_new_meaning": "None. Every other statement in the touched files is unchanged (type dumps)."
+ },
+ "labels": [
+  {
+   "label": "lem:positivity",
+   "marked": false,
+   "note": "Unmarked: OQ-93 is OPEN. Mfd.Reads.lem_positivity, Mfd.Reads.cor_negative and Mfd.lem_positivity now rest on no sorry, under OQ-93's readings (a)-(c). Every docstring that mentions it is unmarked: the only bold in RellichManifold.lean is a declaration name and a paragraph lead, neither of which has a paper-label prefix."
+  }
+ ],
+ "sorry_count": {
+  "before": 2,
+  "after": 1,
+  "remaining": [
+   {
+    "decl": "Yamabe.Mfd.trace_compact",
+    "where": "Trace.lean:407 (sorry at :412)",
+    "target": "T-yamabe-trace-compact",
+    "used_by": "nothing"
+   }
+  ],
+  "measured_by": "scripts/sorry_count.py gives strict 0 in 11 files and scaffold 1 in 10 files (Trace.lean 1). lake build YamabeScaffold gives one warning, 'declaration uses sorry' at Trace.lean:407. AxiomSweep finds 1 scaffold declaration on a sorry: Yamabe.Mfd.trace_compact."
+ },
+ "axioms": {
+  "Yamabe.Mfd.Reads.rellichProp": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.Reads.constLimit": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.Reads.lem_positivity": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.Reads.cor_negative": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.lem_positivity": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "also_checked": {
+   "Yamabe.Mfd.rellich_kondrachov": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.isFiniteMeasure_of_isLocallyLebesgue": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "Yamabe.Mfd.trace_compact": [
+    "propext",
+    "sorryAx",
+    "Classical.choice",
+    "Quot.sound"
+   ]
+  },
+  "before_for_comparison": "Before the edit (same probe, current oleans) Mfd.rellich_kondrachov, Mfd.Reads.rellichProp, Mfd.Reads.lem_positivity, Mfd.Reads.cor_negative and Mfd.lem_positivity were [propext, sorryAx, Classical.choice, Quot.sound]. Mfd.Reads.constLimit and Mfd.rellich_kondrachov' had the standard three.",
+  "how": "#print axioms and collectAxioms in an out-of-tree probe (/tmp/integrate-r3/Axioms.lean, `lake env lean`, importing the root YamabeScaffold). The probe also confirms that Yamabe.Mfd.rellich_kondrachov now lives in YamabeScaffold.RellichManifold and that the primed name is gone. AxiomSweep in make check agrees: every scaffold declaration except trace_compact is within the standard three."
+ },
+ "docstrings": "Every place AUDIT-3 listed was rewritten so that it is true after the rewire. RellichManifold.lean: the 'What is proved' bullet on the theorem, and a new SCOPE bullet 'Provenance of the statement'. It records the round-1 sorry, the round-3 prime, the two in-file identity checks (now historical, REPORT-3 and AUDIT-3), and the rename. The theorem docstring was also updated. Rellich.lean: the label paragraph ('resting on no sorry'); 'What is proved' (the four manifold readings sorry-free; μ's finiteness derived); 'What is stated with sorry' ('Nothing', with the history); two checklist rows; and a new SCOPE bullet on why no label is marked while OQ-93 is open, which also records the dropped binders. ManifoldTheorems.lean:58-60: one remaining sorry, rellich_kondrachov proved downstream. External.lean:83: RellichProp sorry-free from Mfd.rellich_kondrachov (YamabeScaffold.RellichManifold). Compactness.lean:47-50: a further stale SCOPE bullet ('Rellich-Kondrachov on M is not proved ... what remains is its chart-level assembly'), found by grep and not in AUDIT-3's list, now points to RellichManifold. Trace.lean:412-415: the SORRY comment of trace_compact. Its first line is kept verbatim, and it adds that the scaffold now proves rellich_kondrachov downstream. Strict RellichCriterion.lean: l.13 and l.46-48 give the location as YamabeScaffold.RellichManifold. The SCOPE at l.60-66 says the manifold half is done, without the _bdd bound. The declaration docstring at l.376-377 gives the new location. Strict Negative.lean:88-92: 'still open' became 'proved, under the readings of OQ-93, which is open'. Each edit was asserted by script. The diffs of the two strict files touch comment lines only.",
+ "build": {
+  "pre_check": "pgrep -af 'lake build' before each build. No lake build was running in lean-yamabe; another agent's `lake env lean` ran in lean-gx.",
+  "commands": [
+   "taskset -c 0-11 lake build YamabeScaffold.Rellich (8571 jobs, green; the only warning was Trace.lean:407 sorry)",
+   "taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/YamabeScaffold/{RellichManifold,Rellich,External,ManifoldTheorems,Compactness}.lean (each exit 0, no output)",
+   "taskset -c 0-11 make -C lean-yamabe check"
+  ],
+  "make_check_tail": [
+   "Build completed successfully (8570 jobs).",
+   "lake build YamabeScaffold 2>&1 | tee -a build.log",
+   "⚠ [8572/8581] Built YamabeScaffold.Trace (4.0s)",
+   "warning: scaffold/YamabeScaffold/Trace.lean:407:8: declaration uses `sorry`",
+   "✔ [8579/8581] Built YamabeScaffold.External (2.5s)",
+   "✔ [8580/8581] Built YamabeScaffold (1.6s)",
+   "Build completed successfully (8581 jobs).",
+   "python3 scripts/sorry_count.py",
+   "sorry (strict,   Yamabe/):                      0 in 11 files",
+   "  scaffold/YamabeScaffold/Trace.lean: 1",
+   "sorry (scaffold, scaffold/YamabeScaffold/):       1 in 10 files",
+   "lake env lean scripts/AxiomSweep.lean",
+   "axiom sweep (strict): 1002 declarations in 12 modules",
+   "axiom sweep (scaffold): 434 declarations in 11 modules",
+   "axiom sweep (scaffold): YamabeScaffold.Trace: Yamabe.Mfd.trace_compact rests on a sorry (permitted in the scaffold)",
+   "axiom sweep: all within propext/Classical.choice/Quot.sound, except 1 scaffold declaration(s) resting on a sorry",
+   "lean-yamabe: all gates green"
+  ],
+  "green": true
+ },
+ "notes_for_master": [
+  "The curation still needs work outside my writable paths. papers/yamabe/certificate/curation.toml: the lem:positivity row's blocked_on (l.82) names T-yamabe-integrate-r3 and 'Mfd.rellich_kondrachov, the one open manifold theorem it uses'. Per the block it should now name OQ-93 only. Its extra_lean_files already lists RellichManifold.lean. The rows of thm:upper-bound, cor:negative and prop:nonpositive (l.39, 48, 58, 74) also say 'Mfd.rellich_kondrachov is still open'. Every decl name in those rows still exists. Yamabe.Mfd.rellich_kondrachov now sits in YamabeScaffold.RellichManifold, not YamabeScaffold.Rellich.",
+  "Statement change of record: [IsFiniteMeasure μ] was dropped from Mfd.Reads.rellichProp, Reads.constLimit, Reads.lem_positivity, Reads.cor_negative and Mfd.lem_positivity. This is a strengthening (see statements.nature_of_change). The curation's hypothesis notes that mention compactness 'as finite vol' refer to the model layer (MeasuredModel.lem_positivity), which is unchanged.",
+  "Possibly stale, outside my paths: the roadmap target T-yamabe-trace-compact quotes Trace.lean:411-416. The quoted first line is unchanged, but the comment block is now one line longer and ends at l.415, with `end Mfd` at l.417. kb/0025's rfl-check pattern and REPORT-3's run_cmd pattern no longer have an instance in the tree: the checks were removed with the rename, as at integrate-r2.",
+  "The probe files are in /tmp/integrate-r3/, outside the repo: Dump.lean, dump-before.txt, dump-after.txt, Axioms.lean, axioms.txt, the edit scripts and the pre-edit copies (*.before)."
+ ]
+}

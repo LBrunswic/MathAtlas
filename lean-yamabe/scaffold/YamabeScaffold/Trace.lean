@@ -411,7 +411,8 @@ theorem trace_compact [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
       Tendsto (fun k => eLpNorm (u (φ k) - f) 2 σ) atTop (𝓝 0) := by
   sorry -- SORRY(lem:positivity): needs `rellich_kondrachov` and the interpolation
   -- ‖u‖²_{L²(∂ℍ)} ≤ ε ‖∂_t u‖²_{L²(ℍ)} + C_ε ‖u‖²_{L²(ℍ)} (from the FTC estimate of
-  -- `trace_halfLine`), localised by charts; Mathlib has neither. Not used by lem_positivity.
+  -- `trace_halfLine`), localised by charts; Mathlib has neither. The scaffold proves the first
+  -- (`YamabeScaffold.RellichManifold`, downstream of this file). Not used by lem_positivity.
 
 end Mfd
 
