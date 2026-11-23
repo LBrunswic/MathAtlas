@@ -715,3 +715,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: fd1141b 3eb9839 388ae54 3712347 [+ roadmap/atlas/journal]
 - wall time: 23:05–00:05 UTC; agents in parallel: 3 closers, 3 audits
 - next: the builder is due (overlay refresh for lean-gx, lean-benzecri, lean-yamabe); T-perf-main and T-perf-upper (after capacity), T-perf-poincare (after integrate-r2 and star3: star3 is blocked, so it waits); T-hub-paper-attribute; Rellich's manifold half (T-yamabe-analysis, planned).
+
+## 2026-11-23 01:05 · wave of 3 · T-perf-main, T-perf-upper, T-atlas-overlay-refresh
+- T-perf-upper: closed. thm:upper and rem:notF1 marked, strict. thm:upper is true but lossy: Hölder removes the (1−ρ)^{-2} and the proviso. Audit minor.
+- T-perf-main: blocked on OQ-111. thm:main is proved over the model, strict: under AbsLatticeApprox, and in a signed form needing no lattice property; eq:main-asymp with an explicit O(F²) remainder, uniform in θ. Audit major on a false claim in the REPORT (« C¹ lacks thm:main for N ≥ 4 »), withdrawn in one fix round with the hypothesis weakened; re-audit minor.
+- T-atlas-overlay-refresh (builder): lean-gx, lean-benzecri, lean-yamabe and lean-syracuse refreshed; papers/perforated's first edges. Two -B runs byte-identical, 0 page errors.
+- OQ-111 (thm:main readings) and OQ-112 (the convention for carried existence hypotheses) are new.
+- gates: lean-yamabe ✓, roadmap ✓, registers ✓, atlas ✓. Hub: papers-check red only for papers/ett (plus gate-tests, which reruns it), from /ett-programme's uncommitted lean-causal refactor (lem:Sigma_separe's declarations moved). No atlas commit touches lean-causal or papers/ett.
+- commits: ba1db2f 48e5107 68b1e81 [+ roadmap/atlas/journal]
+- wall time: 00:10–01:05 UTC; agents in parallel: 2 closers, 1 builder; 3 audits plus 1 re-audit
+- next: what stays ready is the lean-causal pair (/ett-programme), T-nonacyclic-source (the author), T-hub-paper-attribute (all packages) and T-bz-chapter3 (a transcription for the author to check). T-perf-poincare and the companion's thm:lower-bound chain wait on OQ-109/111 and T-perf-star3. A planning run is due soon.

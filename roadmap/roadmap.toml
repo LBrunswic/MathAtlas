@@ -2347,7 +2347,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last run: wave of 2026-11-22 20:00 (lean-gx, lean-benzecri refreshed; lean-causal, lean-egf, lean-yamabe busy); papers/gfnbounds would let lean/ carry facts"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last run: 2026-11-23 00:10 (lean-gx, lean-benzecri, lean-yamabe, lean-syracuse refreshed; lean-causal, lean-egf busy). The template's texHTML leaves the benzecri macro \\bzcf raw (a builder follow-up)"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -2470,13 +2470,14 @@ kind = "close"
 paper = "perforated"
 package = "lean-yamabe"
 labels = ["thm:main"]
-status = "planned"
+status = "blocked"
 owner = "closer"
 priority = 5
 depends = ["T-perf-capacity"]
-evidence = "perforated.tex: the statement is at l.179–206 and the proof at l.518–561. The proof runs through eq:linear and eq:calib (l.502–516), bounds the quotient by 1/Λ_max(M) for M = D^{1/2}QD^{1/2}, then uses a Perron–Frobenius remark (l.544–547) and an envelope expansion (l.553–561). Two points the closer must settle and report. (a) The step u ↦ |u| (l.457–460) needs |·| to preserve the energy and the trace; the measured model does not carry that, and the C¹ reading of W^{1,2} (OQ-93 (b)) does not satisfy it. eq:star is assumed for u ≥ 0 only (l.184–187), and ū ≥ 0 is used to square eq:linear (l.519). [r] (planner, unchecked) Applying lem:capacitary and lem:holder to u and to −u bounds |ū|. So eq:star for every u gives the bound with no lattice property; the closer proves the strongest true forms and reports the reading. (b) O(F_g(1)²) is read at fixed θ and Ã, since δ = ÃF_g(1)/a_N (l.197–198). This is the inequality yamabe's thm:lower-bound needs: Yamabegap.tex l.512–536, whose proof the paper leaves to the companion at l.538"
+evidence = "thm:main proved over the model (strict Yamabe/Perforated/Main.lean, 48e5107): thm_main under AbsLatticeApprox, thm_main_signed, eq:main-asymp O(F²) uniform in θ; the lattice form of record and the O(F²) reading are OQ-111; MeanPoincare waits on T-perf-poincare; audits major (REPORT text, fixed) then minor"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+oq = "OQ-111"
 
 [[target]]
 id = "T-perf-star-n"
@@ -2502,13 +2503,14 @@ kind = "close"
 paper = "perforated"
 package = "lean-yamabe"
 labels = ["thm:upper", "rem:notF1"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-perf-capacity"]
-evidence = "perforated.tex l.862–869 introduces ψ, cap_D and θ_D, with cap* ≤ cap_D (ψ ≡ 1 on ∂Σ gives ℓ(ψ) = −1). thm:upper is at l.871–879 and its proof at l.881–895 (Minkowski in L^{p*}, then minimisation in s). rem:notF1 (l.359–371) is Yamabe's rem:sign (Yamabegap.tex l.507–510). It is already proved over the same model: Yamabe.MeasuredModel.infF_lt_Fq_one and firstVariation_neg (Yamabe/Stability.lean, T-yamabe-quotient e4e12c0), so here it is restated. Stating thm:upper for every admissible ψ covers the paper's minimiser without proving that it exists (Lean ≥ paper). This is the upper half behind the clause « the factor θ/(1+θ) is optimal » of yamabe's thm:lower-bound (Yamabegap.tex l.530), whose limit is T-perf-dilute-limit's"
+evidence = "thm:upper and rem:notF1 marked (strict Yamabe/Perforated/Upper.lean); thm:upper found lossy (no (1−ρ)^{-2}, no ρ < 1); audit minor"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "48e5107"
 
 [[target]]
 id = "T-perf-poincare"
