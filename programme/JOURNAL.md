@@ -439,3 +439,20 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/bbs only (ledger stale), /atlas-team's in-flight lean-gx/scaffold/GXScaffold/BBS, which it holds. Not this loop's
 - commits: 364ec2d d21912b 1cec96b 51d84ae
 - next: a PLANNING RUN (programme-planner, alone). The ready closers are down to T-loc-ealpha-tidy and the exclusive T-abs-dependence-domain-home; the three planner-owned binder targets are ready (rule 2's binder clause in spirit); and the proposals since 2026-11-22 23:10 wait. The run takes those: the keeper edits above, emit-lean's argument handling, T-abs-chronal-neighbour-conjoined, E₀'s has_chronal_neighbour, the AbstractDev split for the curves_extend rule, the duplicates to merge, ealpha-tidy's exclusivity, and T-lad-gluing-reading's 21 entries.
+
+## 2026-11-23 14:10 · planning run · waves 24–30's proposals folded in; the three binder targets done
+- planning run (programme-planner, alone): 137 → 154 targets (03c1fa0); ready 5 → 20 (closer 10, planner 4, keeper 2, tactician 2, master 2); 2 needs-ruling, 2 blocked
+  - 17 new targets: the keeper's ladder edits, the emit-lean argument fix (kb/0252), the edge-hypothesis table (tool + ladder + binders), the AbstractDev split so curves_extend's fact rule ships, the dual rule for has_chronal_neighbour, six layer-1 targets (direct cutLine witness, conjoined chronal witnesses, InextensibleNestedOn basics, ERS 4.75's Cauchy form and witnesses, ErsUnions' curve binders, the model-stranded duplicates), E₀'s has_chronal_neighbour (layer 3, DEC-159's BTZ case), and T-abs-scaffold-c-ext-connexe (needs-ruling)
+  - promoted: T-lad-record-sc-open-edge, T-abs-curves-free-lemma-k, T-bind-ers-rulings, T-pkg-sbierski-schwarzschild; T-loc-ealpha-tidy made exclusive
+  - every target that stays planned names its OQ (OQ-95/96/97/100/108) or its reason
+- binders (cd2d694):
+  - T-bind-curves-corollaries (DEC-190): the ERS rows 4.72/4.73/4.74/4.79/4.80 and the Sbierski rows welldefined/IsoDiffeo/ExMCGHD bound to the second countable forms; curves_extend left their localisation. Cor 3.2 / Thm 3.4's CBG assembly still reads the A2 field (OQ-98 (c), T-bind-cbg-hoist).
+  - T-bind-ealpha-entries (DEC-188): E_α entries of record (the 3+1 cosmic string) on five Sbierski rows; none on ERS, whose localisation is g(u) and m on ℝ^{d+1}.
+  - T-bind-sbierski-rulings (DEC-165): Prop 3.7 recorded; the regularity of p is owed per model.
+  - A curation mirror: welldefined's decls gain isCauchySurfaceOn_inf_of_secondCountable (bd55874).
+- reading for the author, as a needs-ruling target (not an OQ row): T-abs-scaffold-c-ext-connexe. The scaffold sorry IsCauchyEmbedding.exists_mem_image_inf (CausalScaffold.SubExtension:83) is proved on second countable spaces (exists_mem_image_inf_of_secondCountable). (a) Retire it with isCauchySurfaceOn_inf and c_ext_connexe and re-point the ett row; (b) restate it with second countability and close it; or (c) keep it as the open general statement? It goes with OQ-94.
+- for /atlas-team: lem:C_ext_connexe's curation names the three scaffold declarations, and its finding "exists_mem_image_inf neither proved nor refuted" is stale for second countable N. Pending its findings from the gluing inventories: ETT rows on non-minimal witnesses; ETT.tex:2303–2304; prop:K_calcul's plainness gap; ETT.tex:1940–1941.
+- ladder unchanged (354/354: 37 implied, 309 fails, 8 open); binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: both roadmaps ✓, ladder ✓, binder ✓, tests ✓, blueprint ✓, papers-check ✓
+- commits: cd2d694 03c1fa0 bd55874
+- next: wave T-tool-ladder-emit-args (master), T-pkg-sbierski-schwarzschild (master), T-lad-record-cauchy-separation (keeper), T-tac-dual-has-chronal-neighbour (tactician), T-abs-curves-free-lemma-k, T-abs-cutline-inextensible-direct (closers)
