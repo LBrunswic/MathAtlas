@@ -85,3 +85,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0077](entries/0077-pitfall.md) | pitfall | pitfall: |
 | [0078](entries/0078-pitfall.md) | pitfall | pitfall: |
 | [0079](entries/0079-pattern.md) | pattern | pattern: |
+| [0080](entries/0080-thm-main-supplies-lem-positivity-for-fre.md) | pattern | thm:main supplies lem:positivity for free |
+| [0081](entries/0081-a-one-dimension-constant-typed-at-n-3-st.md) | pattern | A one-dimension constant typed at N = 3: state at generic N with hN3 : N = 3 |
+| [0082](entries/0082-checking-that-a-scaffold-module-can-grad.md) | pattern | Checking that a scaffold module can graduate: compile a /tmp copy against import Yamabe |
+| [0083](entries/0083-a-supremum-over-conformal-classes-is-not.md) | convention | A supremum over conformal classes is not definable on the model: carry it as a parameter |

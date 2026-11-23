@@ -22,3 +22,4 @@ import Yamabe.TraceInterp
 import Yamabe.TraceCompact
 import Yamabe.Perforated.Poincare
 import Yamabe.Perforated.StarN
+import Yamabe.LowerBound

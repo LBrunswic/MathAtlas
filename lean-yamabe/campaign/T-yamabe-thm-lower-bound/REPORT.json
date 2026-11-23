@@ -1,0 +1,172 @@
+{
+  "package": "T-yamabe-thm-lower-bound",
+  "target": "T-yamabe-thm-lower-bound",
+  "files": [
+    "scaffold/YamabeScaffold/LowerBound.lean"
+  ],
+  "module": "YamabeScaffold.LowerBound",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build YamabeScaffold.LowerBound (only this module compiled; nothing upstream rebuilt)",
+  "strict_ready": "yes: no sorry, clean under -DwarningAsError=true, imports only the strict Yamabe.Perforated.Poincare and Yamabe.Perforated.StarN; also compiled clean with `import Yamabe` (the whole strict root) in place of its imports, so graduation creates no name clash",
+  "sorry_count": 0,
+  "axioms": {
+    "every declaration of the file": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "checked": [
+      "Yamabe.MeasuredModel.thm_lower_bound",
+      "Yamabe.MeasuredModel.thm_lower_bound_signed",
+      "Yamabe.MeasuredModel.thm_lower_bound_three",
+      "Yamabe.MeasuredModel.thm_lower_bound_starN",
+      "Yamabe.Mfd.Reads.thm_lower_bound_three",
+      "Yamabe.Mfd.Reads.thm_lower_bound_starN",
+      "Yamabe.MeasuredModel.lower_bound_of_eq_main",
+      "Yamabe.MeasuredModel.gap_ge_of_le_infF",
+      "Yamabe.MeasuredModel.kappa_mul_Fq",
+      "Yamabe.le_abs_of_round",
+      "Yamabe.toy_thm_lower_bound"
+    ]
+  },
+  "labels": [
+    {
+      "label": "thm:lower-bound",
+      "paper": "yamabe",
+      "tex_lines": [
+        512,
+        536
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.thm_lower_bound",
+        "Yamabe.MeasuredModel.thm_lower_bound_signed",
+        "Yamabe.MeasuredModel.thm_lower_bound_three",
+        "Yamabe.MeasuredModel.thm_lower_bound_starN",
+        "Yamabe.Mfd.Reads.thm_lower_bound_three",
+        "Yamabe.Mfd.Reads.thm_lower_bound_starN",
+        "Yamabe.MeasuredModel.lower_bound_of_eq_main",
+        "Yamabe.MeasuredModel.gap_ge_of_le_infF",
+        "Yamabe.MeasuredModel.gapBdry",
+        "Yamabe.MeasuredModel.kappa",
+        "Yamabe.MeasuredModel.kappa_mul_Fq",
+        "Yamabe.le_abs_of_round",
+        "Yamabe.toy_thm_lower_bound"
+      ],
+      "what_is_proved": "Over the measured model (DEC-186), under thm:upper-bound's hypotheses read as the strict upper_bound_of_gluings_of_pos reads them, and thm:main's hypotheses (MeanPoincare, TraceBound, InteriorBump, eq:star with any constant Ã): R_g ≡ c < 0 and EH(Σ,g) = Y_[g](Σ); κF_g(1) > 0; δ(Σ,g) ≥ F_g(1)/Λ_max (eq:main's form) and δ(Σ,g) ≥ κF_g(1) (eq:lower-bound) for every value σb ≥ 0 of σ^∂(Σ); |R_g| Vol^{2/N} ≥ κF_g(1) (eq:R-bound before the dilute limit, no σ^∂ needed); for round B_j of radii r_j, F_g(1) = 2(N−1)M/Vol^{(N−2)/N} and |R_g| ≥ κ·2(N−1)M/Vol; the remainder of eq:kappa is the explicit mainRem N θ Ã F, O(F²) at fixed θ, Ã, with |mainRem| ≤ (5/7)(ÃF/a_N)² for |ÃF/a_N| ≤ 1/4 uniformly in θ. Both forms of thm:main are covered (thm_lower_bound: eq:star for u ≥ 0 + AbsLatticeApprox; thm_lower_bound_signed: eq:star for every u), so OQ-111 (a) picks one with no Lean change. Instances: N = 3 at star3AtilCorr V λ C (corrected thm:star3), N ≥ 3 at starNAtil (prop:starN), for any valid λ, C. On a model reading a compact connected manifold with boundary (Mfd.Reads, OQ-93) at λ₁ and C_SP of def:constants: MeanPoincare, the trace theorem, λ₁ ∈ (0,∞), C_SP < ∞ and eq:star are discharged. lem:positivity (and R_g ≤ 0) is not carried: inf F_g ≥ F_g(1)/Λ_max > 0 comes from thm:main. Witness: toy_thm_lower_bound discharges every hypothesis on the two-point toy model (R_g ≡ −8, σb = 0) and gets a positive bound.",
+      "hypotheses": [
+        {
+          "paper": "N ≥ 3",
+          "here": "carried",
+          "note": "hN; N = 3 as hN3 (subst in the proof)"
+        },
+        {
+          "paper": "thm:upper-bound: σ(Σ̄) ≤ 0, constant scalar curvature, minimal boundary, B_j conformally round (l.495, invoked at l.514)",
+          "here": "read",
+          "note": "as in the strict upper_bound_of_gluings_of_pos: R_g x = c for every x, MinimalBoundary, the lem:gluing family g̃_τ with, per τ, a GluingInput (β_j = c_N, Y_[ḡ_τ](Σ̄) ≤ 0); conformal roundness enters only through the family and fact (iv), as in the strict library"
+        },
+        {
+          "paper": "R_g ≤ 0 or lem:positivity inside thm:upper-bound's proof (l.724, l.728)",
+          "here": "derived",
+          "note": "inf F_g ≥ F_g(1)/Λ_max > 0 by thm:main (Fq_one_pos, Λ_max ≥ 1)"
+        },
+        {
+          "paper": "Σ compact, Σ ≠ ∅, ∂Σ ≠ ∅ (n ≥ 1 standing, DEC-186)",
+          "here": "carried",
+          "note": "IsFiniteMeasure of vol and bvol; vol ≠ 0; ∃ j, bvol j ≠ 0 (manifold form: CompactSpace, μ ≠ 0, ∃ j, σ j ≠ 0)"
+        },
+        {
+          "paper": "Σ connected; the trace theorem (lem:capstar, eq:linear of the companion)",
+          "here": "carried on the model, discharged on a reading",
+          "note": "MeanPoincare, TraceBound (model); Reads.meanPoincare, Reads.traceIneq (manifold, ConnectedSpace)"
+        },
+        {
+          "paper": "cap* < ∞, so θ > 0 (perforated l.399–401)",
+          "here": "carried",
+          "note": "InteriorBump, in every form including the manifold ones"
+        },
+        {
+          "paper": "cap*: « mean over Σ exceeds its (area-weighted) mean over ∂Σ by one » (l.514)",
+          "here": "read",
+          "note": "the companion's ℓ with weights w_j = |B_j|^{(N−2)/(N−1)}/S (perforated l.156–170), which are area weights only for n = 1 or equal areas; question"
+        },
+        {
+          "paper": "θ (eq:theta-def, l.515–518)",
+          "here": "exact",
+          "note": "MeasuredModel.theta = a_N cap*/(c_N Σ_j Vol(B_j)^{(N−2)/(N−1)})"
+        },
+        {
+          "paper": "eq:star with Ã; « Ã depends only on the Sobolev–Poincaré and Poincaré constants » (l.530)",
+          "here": "generalized",
+          "note": "every real Ã with eq:star; instances star3AtilCorr V λ C (OQ-109) and starNAtil q c V λ C (OQ-118), which also depend on V; manifold forms at λ₁, C_SP with NonConst carried"
+        },
+        {
+          "paper": "u ↦ |u| (perforated l.458–460)",
+          "here": "carried",
+          "note": "AbsLatticeApprox in thm_lower_bound only; the _signed, _three, _starN and manifold forms do not use it"
+        },
+        {
+          "paper": "δ(Σ,g) = σ^∂(Σ) − EH(Σ,g) (eq:gap-bdry, l.352–353)",
+          "here": "read",
+          "note": "gapBdry σb g = σb − EH g for a real σb: σ^∂(Σ), a supremum over conformal classes, is not definable on the model (R, H are free data, kb 0018)"
+        },
+        {
+          "paper": "σ^∂(Σ) ≥ 0 (used by the proof: perforated l.925; for Σ̄ = T³ it is eq:sigma-torus l.366–369, argued)",
+          "here": "carried (added hypothesis)",
+          "note": "hσb : 0 ≤ σb; without it the proved form is δ ≥ σ^∂(Σ) + κF_g(1) (gap_ge_of_le_infF); finding 1"
+        },
+        {
+          "paper": "O(F_g(1)²) in eq:kappa (l.528)",
+          "here": "read",
+          "note": "OQ-111 (b): the explicit remainder mainRem N θ Ã F, with IsBigO and the uniform bound as conjuncts"
+        },
+        {
+          "paper": "κF_g(1) = κ·2(N−1)M/Vol^{(N−2)/N} (l.522–524)",
+          "here": "conditional",
+          "note": "a conjunct for every r ≥ 0 with Vol(B_j) = ω_{N−1} r_j^{N−1} (the Setting l.467, eq:F1-torus l.469), M = ω_{N−1}Σ r_j^{N−2} (OQ-44, accepted by DEC-186); finding 2"
+        },
+        {
+          "paper": "|R_g| (eq:R-bound)",
+          "here": "exact",
+          "note": "|c| with c < 0 derived"
+        },
+        {
+          "paper": "« θ/(1+θ) is optimal », θ = 2 (ball), θ = 1 (Schwarzschild), κ → 1/2, eq:R-bound's (1 + o(1)), « |R_g| ≥ 2M/Vol for N = 3 » (l.530–535)",
+          "here": "not formalized",
+          "note": "wait on T-perf-dilute-limit (needs-ruling); eq:R-bound before the limit is proved: |R_g| Vol^{2/N} ≥ κF_g(1) and, for round B_j, |R_g| ≥ κ·2(N−1)M/Vol (= 2M/Vol at N = 3, κ = 1/2)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Missing hypothesis (thm:lower-bound l.514–524; eq:gap-bdry l.352–353; eq:sigma-torus l.366–369; companion perforated.tex l.924–925). thm:lower-bound states δ(Σ,g) ≥ κF_g(1) under thm:upper-bound's hypotheses alone, with δ = σ^∂(Σ) − EH(Σ,g). The proof it points to (l.538; the companion: « δ ≥ λ_∂ whenever Yb(Σ) ≥ 0 », l.925) needs σ^∂(Σ) ≥ 0. thm:upper-bound's hypotheses (σ(Σ̄) ≤ 0, l.495) do not give it, and the paper proves it for no Σ̄: for Σ̄ = T³ it is eq:sigma-torus, whose lower half (« attaching Schwarzschild collars of mass tending to zero », l.369) is argued; for any other Σ̄ with σ(Σ̄) ≤ 0 the sign of σ^∂(Σ) is not discussed. Without a sign the argument gives δ(Σ,g) ≥ σ^∂(Σ) + κF_g(1), and −EH(Σ,g) ≥ κF_g(1) (Lean: Yamabe.MeasuredModel.gap_ge_of_le_infF). The printed bound is proved with σ^∂(Σ) ≥ 0 carried (hσb in every thm_lower_bound*). No counterexample is formalized: σ^∂(Σ) is a supremum over conformal classes and cannot be defined on the model. Suggested fix: add « and σ^∂(Σ) ≥ 0 » to the theorem (as the companion does at l.925), or state it for Σ̄ = T³ and prove eq:sigma-torus.",
+        "Minor, the second equality of eq:lower-bound (l.522–524). « κF_g(1) = κ·2(N−1)M/Vol^{(N−2)/N} » is eq:F1-torus (l.469), stated for Schwarzschild-like punctured metrics, whose B_j are round spheres of radius r_j (the Setting, l.467). thm:lower-bound assumes only thm:upper-bound's hypotheses, under which each B_j is only conformally round. Then M (eq:mass-def l.385, def:reference l.379–380) is defined only for B_j of positive Gauss curvature (N = 3). Minkowski's inequality ∫_{∂C}H ≥ √(4π|∂C|), with equality only for a round sphere, gives c_3|B_j|^{1/2} ≤ 4M_j, hence F_g(1) ≤ 4M/Vol^{1/3}, strictly when some B_j is not round. There the equality is false, and the M form of the bound does not follow from the F form. This is argued, not formalized. Lean states the M forms as conjuncts conditional on round areas (through Yamabe.MeasuredModel.Fq_one_round). Suggested fix: « for a Schwarzschild-like punctured g » before the second equality.",
+        "Minor, wording (l.530). « Ã depends only on the Sobolev–Poincaré and Poincaré constants of (Σ,g) »: the constants actually proved depend on Vol(Σ,g) as well, both the corrected thm:star3's star3AtilCorr V λ₁ C_SP and prop:starN's starNAtil q c_q V λ₁ C_SP (companion eq:Atil l.606–618, where V enters G). λ₁ is not scale-invariant and Ã is, so V enters through λ₁V^{2/N}. Suggested wording: « … constants and the volume of (Σ,g) ».",
+        "Minor, the optimality clause (l.530). « The factor θ/(1+θ) is optimal » is the companion's thm:sharp (perforated l.211), which is about λ_∂ = inf F_g. The bound on δ passes through the one-sided δ ≥ λ_∂ (thm:upper-bound; perforated l.925). Optimality of θ/(1+θ) for δ would also need δ ≤ λ_∂(1 + o(1)), and neither paper states or proves that: eq:sandwich (l.547) gives only δ ≤ F_g(1). Not formalized (T-perf-dilute-limit).",
+        "Remark, a simplification (l.530–535). eq:R-bound does not need σ^∂(Σ). |R_g|Vol^{2/N} = −Y_[g](Σ) ≥ λ_∂ ≥ κF_g(1) follows from thm:upper-bound and thm:main directly, without δ: R_g < 0 and EH = Y are derived, and the σ-free core is proved as the conjunct κF_g(1) ≤ |c|Vol^{2/N}. So the « giving » at l.530 holds even where finding 1's hypothesis fails. The companion's cor:yamabe writes |R_g|Vol^{2/N} = δ (perforated l.934), which needs Yb(Σ) = 0."
+      ],
+      "questions": [
+        "σ^∂(Σ) ≥ 0 (finding 1): is it a hypothesis of thm:lower-bound, or is the theorem meant for Σ̄ = T³ only, with eq:sigma-torus as a lemma to prove? Reading taken: a carried hypothesis 0 ≤ σb, every statement quantified over the value σb of σ^∂(Σ); the sign-free form δ ≥ σ^∂ + κF_g(1) is proved too.",
+        "« (area-weighted) mean over ∂Σ » (l.514) against the companion's weights w_j = |B_j|^{(N−2)/(N−1)}/S (perforated l.156–170, eq:ell), which lem:holder (l.479) shows to be the optimal ones. They agree only for n = 1 or equal areas. Reading taken: the companion's (MeasuredModel.capStar, ell); with literal area weights the second identity of eq:calib (c_N/C_2² = F_g(1), perforated l.512) fails for n ≥ 2 with unequal areas, since lem:holder's minimum 1/S is attained only at the companion's weights, so the proof as printed would not give θ/(1+θ) for that θ.",
+        "Which form of thm:main is of record (OQ-111 (a)) and the reading of O(F_g(1)²) (OQ-111 (b)): both forms are stated (thm_lower_bound, thm_lower_bound_signed) with the explicit remainder mainRem; no Lean change is needed for either answer.",
+        "Which Ã instantiates « explicit κ »: the statement holds for every Ã with eq:star; N = 3 at star3AtilCorr (OQ-109's correction), N ≥ 3 at starNAtil (OQ-118, any lem:elem constant c_q on the model, c_q = q²2^q on the manifold form). OQ-109 and OQ-118 choose an instance and do not touch the statement.",
+        "« δ » in the companion (perforated l.924) is Yb(Σ) − Y_[g](Σ), « Yb » being « the supremum over conformal classes of the boundary Yamabe energy » (l.916), which could also be read as the boundary-normalized EHB. Reading taken: yamabe's eq:sigma-bdry (sup of Y_[g], volume-normalized) and eq:gap-bdry with EH; EH = Y is proved here, so the two gaps agree. This bears more on T-perf-cor-yamabe."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.le_abs_of_round",
+    "Yamabe.MeasuredModel.gapBdry",
+    "Yamabe.MeasuredModel.kappa",
+    "Yamabe.MeasuredModel.kappa_mul_Fq",
+    "Yamabe.MeasuredModel.gap_ge_of_le_infF",
+    "Yamabe.MeasuredModel.lower_bound_of_eq_main"
+  ],
+  "kb_proposals": [
+    "pattern: thm:main supplies lem:positivity for free. eq:main's F_g(1)/Λ_max is positive (Fq_one_pos, Λ_max ≥ β = 1), so upper_bound_of_gluings_of_pos takes hpos from thm:main and nothing downstream of thm:main needs to carry lem:positivity or R_g ≤ 0 (Yamabe.MeasuredModel.lower_bound_of_eq_main).",
+    "pattern: a statement for one dimension whose constant is typed at N = 3 (star3_of_consts, Reads.thm_star3_corrected) can be stated at a generic N with (hN3 : N = 3) and `subst hN3` in the proof. The conclusion then reads exactly like the generic theorem's and needs no ((3 : ℕ) : ℝ) casts (Yamabe.MeasuredModel.thm_lower_bound_three, Mfd.Reads.thm_lower_bound_three).",
+    "pattern: to check that a scaffold module can graduate without name clashes, compile a /tmp copy of it with its imports replaced by `import Yamabe` (the whole strict root), under -DwarningAsError=true. This takes seconds and writes nothing.",
+    "convention: a topological invariant that is a supremum over conformal classes (σ^∂(Σ), σ(Σ̄)) is not definable on the model, because R and H are free data, so the supremum is unbounded and Real.sSup is junk 0. Carry it as a real parameter, state the sign-free form, and carry only the sign the paper's proof uses (Yamabe.MeasuredModel.gapBdry)."
+  ],
+  "notes": "One new file, scaffold/YamabeScaffold/LowerBound.lean (592 lines), strict-ready: no sorry, standard axioms only, clean under warningAsError, imports only strict modules (Yamabe.Perforated.Poincare, Yamabe.Perforated.StarN), and clean when compiled against the full `import Yamabe`. It can graduate as Yamabe/LowerBound.lean by a file move; Yamabe.lean would need `import Yamabe.LowerBound` added by the master. The row is partial and unmarked: σ^∂(Σ) ≥ 0 is an added hypothesis (finding 1); the model carries MeanPoincare, TraceBound, InteriorBump and eq:star, and the manifold forms discharge all but InteriorBump and NonConst under OQ-93's readings; thm:upper-bound's inputs enter through GluingInput as in the strict library; three clauses (optimality, θ = 2 / θ = 1 with κ → 1/2, eq:R-bound's o(1)) wait on T-perf-dilute-limit; the marks wait on OQ-93 and OQ-111. Suggested ledger decls for thm:lower-bound, principal first: Yamabe.MeasuredModel.thm_lower_bound, thm_lower_bound_signed, thm_lower_bound_three, thm_lower_bound_starN, Yamabe.Mfd.Reads.thm_lower_bound_three, Yamabe.Mfd.Reads.thm_lower_bound_starN. No existing file was edited. The only build run was `lake build YamabeScaffold.LowerBound`, which compiled this module alone."
+}
