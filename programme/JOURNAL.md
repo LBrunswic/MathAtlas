@@ -583,3 +583,19 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/gx and papers/yamabe only. Both are /atlas-team's in flight: gx's ledger (06:31) predates its lean-gx commit 4cdca6c (06:39), and yamabe has the CorYamabe scaffold it holds. Not this loop's.
 - commits: 6d471fa 42baea6
 - next: rule 3 gives T-tac-curves-fact-rule (tactician, lean-causal). A planning run is due soon: the proposals of waves 33–35, T-lad-record-direct-witnesses to make ready, and two ready planner targets.
+
+## 2026-11-23 07:18 · wave of 1 · T-tac-curves-fact-rule (exclusive)
+- T-tac-curves-fact-rule (tactic; exclusive, with the whole lean-causal package leased): curves_extend's [[fact]] is now a causal_ladder rule.
+  - The split: Causal.AbstractDev (Chruściel's abstract-development Zorn block) moved byte for byte out of MaximalZorn into its own ETT-layer module importing Mathlib only. CurvesExtendSecondCountable now imports it instead of MaximalZorn, so it no longer reaches Causal.Ladder.Rules. Constant dump: 17602 before and after, 102 changed module, nothing else.
+  - The master ran emit-lean. Rules.lean imports CurvesExtendSecondCountable and carries curvesExtend_of_t1_secondCountable as a safe apply rule (standing T1, second countable).
+  - Test.lean's local registration is retired: 71 derived, 355 not derived. DualTest unchanged; mutate.py: 11/11 mutants killed.
+  - ersrem:note_two_ghds_constructed's extra_lean_files gains AbstractDev. kb/0221 rewritten; Basic.lean, a ladder.py comment and a test docstring updated.
+  - New constraint: no module in CurvesExtendSecondCountable's 31-module closure may use causal_ladder.
+  - Audit minor, applied (7a62073).
+- For the keeper: ladder.toml:618–640 (the curves_extend fact's comment) is stale. It still says the rule is skipped as a cycle and registered in Test, and :633–634 calls the time_function edge "the one CausalLadder rule for curves_extend". This goes with T-lad-record-direct-witnesses.
+- For /atlas-team: reports/atlas/lean/edges-ers-predictability.json still gives MaximalZorn line numbers (e.g. ersMor_hypotheses :906 → :239), and facts-lean-causal.json gives Causal.MaximalZorn for the AbstractDev declarations, until the next `make -C reports/atlas`.
+- ladder: 25 properties, 27 implications, 83 counterexamples, 85 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open (unchanged); Rules: 25 edge rules, 1 fact rule
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/gx and papers/bbs, and gate-tests red through them. Both are /atlas-team's in flight: their ledgers (06:31) predate its lean-gx commit 4cdca6c (06:39) and its BBS scaffold edits, and lean-gx pins lean-causal by git commit. Not this loop's.
+- commits: 7a62073 4f8816e
+- next: rule 3 gives T-abs-dependence-domain-home (closer, lean-causal). The planner backlog grows: waves 33–36's proposals, T-lad-record-direct-witnesses to make ready, and two ready planner targets.
