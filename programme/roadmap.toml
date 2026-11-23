@@ -333,13 +333,14 @@ id = "T-lad-record-sc-open-edge"
 title = "Record T-abs-sc-open-without-tarentin's results. The edge strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open loses tarentin (witness Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen, standing []), beside or in place of the tarentin form. The isolated line's [[fails]] entries gain strongly_causal, strongly_causal_open and causally_open in their `from`. The [[open]] note of strongly_causal → strongly_causal_open is sharpened: a counterexample is not causally open, and the future half alone does not open the hull"
 stream = "ladder"
 kind = "ladder"
-status = "ready"
+status = "done"
 owner = "keeper"
 priority = 6
 depends = ["T-abs-sc-open-without-tarentin"]
 evidence = "programme/ladder.toml:556–562 (the edge, `from` = strongly_causal, tarentin, causally_open, witness StronglyCausal.stronglyCausalOpen) and :2802–2806 (the [[open]] entry). The planner simulated tools/ladder.py's matrix with the edge's `from` reduced (in memory, 2026-11-21): no pair moves and there is no contradiction, so the record is the edge and the note. Whether the tarentin form stays as a second edge is the keeper's call: a conjunctive edge implied by a weaker one classifies nothing more. emit-lean regenerates Causal/Ladder/Rules.lean and Test.lean for the new edge. Re-read 2026-11-23 (planning run after wave 30): its dependency is done (364ec2d). The keeper's three edits of journal 2026-11-23 12:20. (1) The edge (programme/ladder.toml:866–870, from = strongly_causal, tarentin, causally_open, witness StronglyCausal.stronglyCausalOpen) takes Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen (Causal/SCOpenWithoutTarentin.lean:187) with tarentin dropped, standing []; no pair moves (the simulation above). (2) The isolated line's [[fails]] entries (ladder.toml:1583–1594 and :1784–1808) gain strongly_causal, strongly_causal_open and causally_open, conjoined in Causal.isolatedLine_scOpen_without_tarentin (SCOpenWithoutTarentin.lean:282: StronglyCausal ∧ CausallyOpen ∧ ¬ Tarentin ∧ StronglyCausalOpen; isolatedLine_stronglyCausal :273; kb/0258). The isolated line is absolutely minimal on every open (Causal.GluingModels.isolatedLine_hereditary), so the entries survive DEC-167. (3) The [[open]] note (ladder.toml:4049–4052) records kb/0257: a counterexample to strongly_causal → strongly_causal_open is not causally open even at M, and the one-way membrane is StronglyCausalOpen with a non-open hull (oneWayMembrane_hull_not_isOpen), so whether causally_open_future suffices stays open. emit-lean regenerates Rules.lean and Test.lean for the changed edge. Ready."
 added = "2026-11-21"
 proposed_by = "programme-planner (planning run after wave 21, the master's dispatch item (6): strongly_causal → strongly_causal_open)"
+commit = "791b0aa"
 
 [[target]]
 id = "T-lad-gluing-reading"
@@ -574,13 +575,14 @@ stream = "tactics"
 kind = "tactic"
 package = "lean-causal"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "tactician"
 priority = 6
 depends = ["T-lad-has-chronal-neighbour"]
 evidence = "The keeper's proposal (T-lad-has-chronal-neighbour, 5117a6d; journal 2026-11-23 10:30: 'a dual rule for the node (Causal.Ladder.Dual)'). The node is invariant under time reversal: Causal.Causality.dual_hasChronalNeighbourEverywhere (Causal/ChronalNeighbourBridge.lean:121; programme/ladder.toml:728–729). Causal/Ladder/Dual.lean holds the hand-written forward rules over the other causality-sort nodes (T-tac-ladder-dual), and Rules.lean has imported Causal.ChronalNeighbourBridge since 5117a6d. kb/0248: Dual's curvesExtend_dual_iff (:145) duplicates Causal.Causality.CurvesExtend.dual (Causal/CauchyExtension.lean:123), no longer model-stranded since T-abs-hoist-lemma-k, and Dual already imports CauchyExtension (tools/ladder.py's import index). Both stay hand-written until T-tac-dual-generated generates them. DualTest gets examples for the new rule, every negative failing by exhaustion. Ready. Exclusive since 2026-11-23 (planning run after wave 31; journal 2026-11-23 16:50): it edits Causal/Ladder/Dual.lean, which Causal/Ladder/Rules.lean imports, so about 30 strict modules rebuild under any closer of the same wave; the master held it out of wave 31 for that reason."
 added = "2026-11-23"
 proposed_by = "programme-planner (planning run after wave 30: proposals of journal 2026-11-22 23:10 to 2026-11-23 12:20)"
+commit = "3653b3d"
 
 [[target]]
 id = "T-tac-curves-fact-rule"
@@ -617,13 +619,14 @@ title = "Edge hypotheses as first-class ladder entries. A table [[edge_hypothesi
 stream = "tactics"
 kind = "tooling"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 5
 depends = ["T-tool-ladder-emit-args"]
 evidence = "The keeper's proposal (T-lad-ers-restart-nodes, e8f35dd; journal 2026-11-23 04:30: 'an edge-hypothesis schema table (T-tool-ladder-edge-hypotheses)'). The rulings made several localisation hypotheses edge hypotheses with no node: slice_restart and frontier_stays_in (DEC-162; Causal.Causality.SliceRestart, FrontierStaysIn); one_sided_boundary (DEC-166 (b); Causal.Causality.OneSidedBoundary); HasChronalNeighbour at boundary points (DEC-159; Causal.Causality.HasChronalNeighbour); and, on the fixed background, local_uniqueness (DEC-162; Causal.Causality.LocalUniqueness). DEC-160's corresponding_compact (Causal.Gluing.CorrespondingCompact) may join them (T-lad-gluing-nodes). Today they are words in `under` (programme/ladder.toml:2694–2936, :3245–3267). The binders carry them as [[proposed]] ids because tools/binder.py accepts only [[property]] ids (:78, :85, :97). Scope: the schema, in ladder.py's docstring and check; matrix and emit-lean ignore the table, since an edge hypothesis classifies no pair; binder.py reads the table. Fixtures go under tools/fixtures/ladder/ (an unresolved Lean name; an id that clashes with a property), with binder tests (an edge-hypothesis id accepted, an unknown one refused). The publisher, whose blueprint reads the ladder, is told. It runs after T-tool-ladder-emit-args, which edits the same file (hence `depends`). The keeper fills the table (T-lad-edge-hypotheses). Planned until then. Re-read 2026-11-23 (planning run after wave 31): T-tool-ladder-emit-args is done (df1fb2d); ready. It runs before T-tac-ladder-dual-key, which edits the same schema, docstring and check of tools/ladder.py (hence that target's `depends`). A third binder now reads has_chronal_neighbour's boundary form: papers/sbierski-schwarzschild, Lemma 2.17's row (T-bind-edge-hypotheses)."
 added = "2026-11-23"
 proposed_by = "programme-planner (planning run after wave 30: proposals of journal 2026-11-22 23:10 to 2026-11-23 12:20)"
+commit = "5654963"
 
 # ------------------------------------------------------------------ layer 1: causal-topological theorems
 [[target]]
