@@ -499,7 +499,8 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: 5654963 3653b3d 791b0aa 848b3ac 078b37e
 - next: wave T-abs-inextensible-nested-basics, T-abs-ers-4-75-cauchy-form, T-abs-schw-causal-lemmas (closers)
 
-## 2026-11-23 23:30 · wave of 3 · T-abs-ers-4-75-cauchy-form, T-abs-schw-causal-lemmas, T-abs-inextensible-nested-basics
+## 2026-11-23 05:22 · wave of 3 · T-abs-ers-4-75-cauchy-form, T-abs-schw-causal-lemmas, T-abs-inextensible-nested-basics
+- clock: this heading said 23:30. The headings from 2026-11-23 08:40 to 20:40 ran ahead of the clock; their commits are at 2026-11-23 00:04–04:10 UTC (git log -- programme/JOURNAL.md). From here on, headings are UTC from `date -u`.
 - T-abs-ers-4-75-cauchy-form (abstract, layer 1): Causal.Ers475CauchyForm, ERS Thm 4.75 with "GHD" read "S Cauchy" (DEC-162) on a T2, second countable background, beside the originals.
   - IsCauchyLocalDevelopment (IsLocalDevelopment less acausal and split); ers_theorem_4_75_secondCountable and _eqOn_, at least as strong as the originals there; the 4.63/4.64 siblings with hacausal and hsplit traded for S Cauchy; IsCauchySurfaceOn.of_inter_eq. No causal arc-connectedness asked.
   - Audit minor (the 4.63 checklist row), applied (ee6ad88); kb/0218 refined, kb 0265–0266.
@@ -523,3 +524,42 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
   - The Schwarzschild binder rows can now name SchwCausalLemmas' declarations, and ers-predictability's can name the Ers475 forms.
   - Monotonicity of inextensible_nested with both causalities causal, as a ladder [[open]] note or a target, and whether to put the T2 circle in Lean.
 - next: wave T-abs-timelike-homotopy, T-loc-e0-has-chronal-neighbour, T-abs-chronal-neighbour-conjoined (closers, lean-causal)
+
+## 2026-11-23 06:01 · wave of 3 · T-abs-timelike-homotopy, T-loc-e0-has-chronal-neighbour, T-abs-chronal-neighbour-conjoined
+- T-abs-timelike-homotopy (abstract, layer 1): Causal.TimelikeHomotopy, Sbierski 1507.00601 Def 2.13 with timelike curves read as chronal curves.
+  - Definitions: ChronalHomotopyOn (jointly continuous on [0,1]², chronal slices, fixed endpoints), ChronallyHomotopicOn, FutureOneConnectedOn, FutureOneConnected.
+  - An equivalence on chronal curves; two-sided (dual_futureOneConnectedOn); invariant under IsCausalIso and ChartIso; reads only ≪.
+  - The timelike line is future one-connected on every open set, non-trivially.
+  - Row schwdef:timelike_homotopic_fixed_endpoints: proposed anchor FutureOneConnectedOn, partial (an incomparable class of curves under C0), unmarked.
+  - Audit minor, applied (9448424); kb 0273–0274.
+- T-abs-chronal-neighbour-conjoined (abstract, layer 1): Causal.ChronalNeighbourConjoined.
+  - ChronalPast/FutureNeighbours.hasChronalNeighbourEverywhere.
+  - notchedCausality_separates_hasChronalNeighbour (and its dual), with every recorded conjunct plus the node, hereditary minimality and the one-sided pair.
+  - globalLine_separates_hasChronalNeighbour (with Tarentin; no gluing only); two bare forms.
+  - The re-pointings were simulated in memory: no pair changes.
+  - Audit minor, applied (c72ff51); kb 0276.
+- T-loc-e0-has-chronal-neighbour (localisation, layer 3, E_0): Causal.Model.E0ChronalNeighbour.
+  - HasChronalNeighbourEverywhere (the future disjunct, from mem_Zplus) for every SingularFlatAxioms causality, for E₀, for every causality with isomorphic DEC-25 charts (SFALocal; no minimality, separation or countability) and for E₀-manifolds.
+  - exists_leaving applied with no restatement.
+  - I⁻(p) ≠ ∅ ↔ p ∉ sing₀, so with a BTZ point the past and two-sided notions fail; E0.chronalFutureNeighbours holds.
+  - Audit minor, applied (524cc76); kb 0275.
+- Sbierski 1507.00601 findings, all verified by the audit; none in a register yet (the planner's T-cur-schw-layer1 or the binder's notes):
+  - Thm 3.1 Step 2.1 (:572–579): the printed homotopy Γ(t,s) = (σ_{λ(t)} * λ|[t,1])(s) splits at s = 1/2. Its slices at t = 0 and at t = 1 are constant on half of [0, 1], so they are not timelike (Def 2.1, 2.13). The interior slices are fine. Fix: split at s = t, Γ(t,s) = σ_{λ(t)}(s/t) for s ≤ t and λ(s) for s ≥ t, with Γ(0,·) = λ.
+  - :876 writes γᵢ(0), γᵢ(1) where γᵢ(t₀), γᵢ(t₁) are meant, and the homotopy is over [0,1]×[t₀,t₁].
+  - :1623 writes γ(x₀⁻) where γ(y₀⁻) is meant.
+- ladder: 25 properties, 27 implications, 83 counterexamples, 85 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open (unchanged)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: 9448424 c72ff51 524cc76 5a456e6
+- proposals for the planner:
+  - T-lad-record-direct-witnesses has every input in Lean now and can be made ready:
+    - the cut line's direct witness;
+    - the conjoined notched-plane and global-line witnesses (ladder :2545, :1910 required; :1884, :1891, :2372, :2397 optional);
+    - InextensibleNestedOn.refl/trans/dual;
+    - E0.hasChronalNeighbourEverywhere.
+  - T-lad-c0-extension-nodes: future_one_connected has its Lean form (FutureOneConnected), a fact (timelikeLine_futureOneConnected) and dual transport (dual_futureOneConnected). locally_strongly_causal still waits on T-abs-diamond-confinement.
+  - T-loc-minkowski-future-one-connected: its evidence quotes the printed Step 2.1 formula as the homotopy to formalise; use the s = t split.
+  - Stranded: ChartIso.chronalCurveOn_image, chronalCurveOn_symm_image and chartImage_subset_target belong in Causal.GXStructure. The symm form duplicates Causal.Flat.curveOn_chart_symm (for T-abs-merge-stranded-duplicates).
+  - Model-free homes (the E₀ closer's proposals): Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus in ChronalNeighbourBridge, and E0LM.LocZplus.chronalFutureNeighbours in CausallyPlainLocZ.
+  - inextensible_nested's monotonicity with both causalities causal (wave 33) as an [[open]] note or a target.
+- next: rule 3 gives T-loc-ealpha-tidy alone (exclusive in lean-causal). Two planner targets are ready (T-bind-curves-ers-4-64, T-bind-ers-rulings), and the proposals above wait for the planner.
