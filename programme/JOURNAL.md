@@ -470,3 +470,16 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓ (86), blueprint ✓, hub `make -k check` all green
 - commits: df1fb2d 1eb6189 697178b 895ccd8 c37eba0 24f0b57 88cfc89
 - next: a PLANNING RUN (rule 2: a paper was set up), alone. It runs T-bind-sbierski-schwarzschild (planner-owned) and marks T-tac-dual-has-chronal-neighbour exclusive. Then the wave T-lad-record-sc-open-edge, T-abs-inextensible-nested-basics, T-abs-ers-4-75-cauchy-form, and the tactician alone.
+
+## 2026-11-23 18:30 · planning run · the Schwarzschild binder; 154 → 171 targets
+- T-bind-sbierski-schwarzschild (planner): papers/sbierski-schwarzschild/certificate/binder.toml, 30 rows bound, layer 1 in Lean 11 (d788814).
+  - Lemma 2.17 is bound to the locating theorems with has_chronal_neighbour (DEC-159) and causally_arc_connected. These are properties of the extension M̃, so Sbierski's own layer 3 is the C⁰ class.
+  - The metric rows (timelike and spacelike diameters) have no layer-1 statement.
+  - future_one_connected and locally_strongly_causal are proposed as nodes.
+  - Finding: Prop 6.5 prints (M_ext, g_ext) for the interior.
+- planning (89a44cf): 17 new targets. They cover the causal skeleton of C⁰-inextendibility at layer 1 (T-abs-schw-causal-lemmas and T-abs-timelike-homotopy ready), its ladder nodes, and the layer-3 entries for C⁰ metrics (T-loc-c0-metric-causality, needs-ruling: where C⁰ Lorentzian metrics live), Minkowski and Schwarzschild. T-tac-dual-has-chronal-neighbour is now exclusive; T-tool-ladder-edge-hypotheses and T-bind-curves-ers-4-64 are ready.
+- registers: the binder's readings as OQ-114 (Sbierski's Cauchy hypersurfaces, timelike curves, vs ETT's, causal curves, DEC-14) and OQ-115 (M̃ time-oriented by construction, the double-cover lift cited) (220fb62); R1 is the needs-ruling question of T-loc-c0-metric-causality
+- ladder unchanged (354/354); binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: both roadmaps ✓, binder ✓ (3), tests ✓, blueprint ✓ (three binders), papers-check ✓
+- commits: 220fb62 d788814 89a44cf 1d1c7d5
+- next: wave T-tool-ladder-edge-hypotheses (master), T-lad-record-sc-open-edge (keeper), T-tac-dual-has-chronal-neighbour (tactician, exclusive in lean-causal)
