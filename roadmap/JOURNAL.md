@@ -745,3 +745,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
   - T-perf-star-n is ready (no dependency on the cap that broke thm:star3, [r]). T-perf-poincare now waits on T-yamabe-graduate-analysis, since the strict perforated modules cannot import the scaffold's RellichProp. T-3p1-theorem-m-theta adds bbsrem:causally_regular_hs_sphere_containing and depends on T-bbs-photon-circles. T-bbs-layer-home is re-scoped (several dispatches).
 - No new question for the author.
 - next: a wave of T-yamabe-graduate-analysis (exclusive in lean-yamabe), T-bbs-i-pm, T-bbs-photon-circles, T-3p1-funnel-gtilde (lean-gx) and the builder's T-atlas-tex-text-macros.
+
+## 2026-11-23 04:10 · wave of 4 · T-yamabe-graduate-analysis, T-bbs-i-pm, T-bbs-photon-circles, T-3p1-funnel-gtilde
+- T-yamabe-graduate-analysis (master, by a Lean agent): closed. The nine sorry-free § 6 modules are strict (lean-yamabe: strict 20 files, 0 sorry), and trace_compact sits alone in the scaffold. T-perf-poincare is unblocked.
+- T-bbs-i-pm: closed, strict. The developing map of a (Γ_p, ℓ(p))-circle; lies_domain marked; the other two rows partial. Finding: l.828–833's tangent directions (l.835–836, l.844 false as printed). OQ-116. Audit minor.
+- T-bbs-photon-circles: closed, strict (research). PSL(2,ℝ) ≃ SO₀(1,2), ℝP¹ ≃ ∂ℍ²₊, photon-circle ℝP¹-structures, ι_L. OQ-117. Audit minor.
+- T-3p1-funnel-gtilde: closed (research, kept in the scaffold for the author). Lemma F's G̃ half from N9; (F4) fails at a = 0 under OQ-113 (d). Audit minor.
+- gates: lean-yamabe ✓, lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, hub (see the gates line)
+- commits: 9fbefdd 117bce5 b5ea22c 7706e0d [+ roadmap/atlas/journal]
+- wall time: 02:40–04:10 UTC; agents in parallel: 3 closers + 1 graduation agent, 4 audits
+- next: T-perf-poincare, T-perf-star-n, T-yamabe-trace-compact (lean-yamabe); T-3p1-theorem-m-theta (after photon circles); the builder (T-atlas-tex-text-macros, overlay refresh) is due.
