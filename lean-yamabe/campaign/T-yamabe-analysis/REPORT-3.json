@@ -1,0 +1,93 @@
+{
+ "package": "T-yamabe-analysis",
+ "target": "T-yamabe-analysis",
+ "round": 3,
+ "files": [
+  "scaffold/YamabeScaffold/RellichManifold.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": {
+  "Yamabe.Mfd.rellich_kondrachov'": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.local_cell_approx": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.isFiniteMeasure_of_isLocallyLebesgue": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "Yamabe.Mfd.isLocallyFiniteMeasure_of_isLocallyLebesgue": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ]
+ },
+ "closed_primed": [
+  {
+   "primed": "Yamabe.Mfd.rellich_kondrachov'",
+   "where": "RellichManifold.lean:224",
+   "rewires": "Yamabe.Mfd.rellich_kondrachov (Rellich.lean:481, sorry at :486)",
+   "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "identity_check": "Two checks in the file. (1) `example : type_of% @Mfd.rellich_kondrachov.{u} = type_of% @Mfd.rellich_kondrachov'.{u} := rfl` (RellichManifold.lean:299; definitional only). (2) A `run_cmd` (RellichManifold.lean:304) that throws unless the two ConstantInfo types are Expr-equal (`==`, i.e. Expr.eqv: binder names and binder info ignored) after instantiating the copy's level parameters with the original's, and unless the two have the same number of universe parameters. Negative control, out of tree: a copy whose hypothesis `w12 g μ (u k) ≤ K` was unfolded to `eLpNorm (gradNorm g (u k)) 2 μ + eLpNorm (u k) 2 μ ≤ K` still passes (1) but fails (2) with 'the types of rellich_kondrachov and its copy differ'."
+  }
+ ],
+ "labels": [
+  {
+   "label": "lem:positivity",
+   "tex_lines": [
+    715,
+    721
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.Mfd.rellich_kondrachov'",
+    "Yamabe.Mfd.local_cell_approx",
+    "Yamabe.Mfd.isFiniteMeasure_of_isLocallyLebesgue",
+    "Yamabe.Mfd.isLocallyFiniteMeasure_of_isLocallyLebesgue"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the Rellich–Kondrachov theorem (l.720): (u_k) bounded in W^{1,2}(Σ) has a subsequence converging in L²(Σ)",
+     "here": "carried",
+     "note": "now PROVED on the manifold layer: Mfd.rellich_kondrachov', exactly the round-1 statement of Mfd.rellich_kondrachov (Expr-checked). Proof: μ is finite (isFiniteMeasure_of_isLocallyLebesgue); good chart neighbourhoods (exists_goodChart), a finite subcover and a smooth partition of unity ρ_i subordinate to it (as in Mfd.assemble); on each chart local_cell_approx: v_i = chartFun (ρ_i u) is C¹ on ℍ̄ and vanishes outside the fixed compact φ_i(tsupport ρ_i) ⊆ closedBall 0 R_i; Half.cell_approx R_i δ gives ‖v_i − P_δ v_i‖_{L²(ℍ̄)} ≤ √(2·2^N·N) δ ‖Dv_i‖_{L²(ℍ̄)}; ρ_i u − Σ_z avg_{C_z}(v_i)·1_{V_i ∩ φ_i⁻¹C_z} = 1_{V_i}·(v_i − P_δ v_i)∘φ_i, so its L²(μ) norm is ≤ Cμ^{1/2}‖v_i − P_δ v_i‖_{L²(ℍ̄)} (eLpNorm_chart_comparable); ‖Dv_i‖_{L²(ℍ̄)} ≤ Cμ^{1/2}·c·‖u‖_{W^{1,2}} (the steps of local_sobolev, eLpNorm_dChart_mul_le). Summing over i: ‖u − Σ c·g‖_{L²(μ)} ≤ (Σ_i A_i) δ K ≤ ε for δ = ε/((Σ A_i)K + 1). The strict criterion exists_subseq_tendsto_eLpNorm_two (Yamabe.RellichCriterion) concludes; its arbitrary-coefficient form needs no bound on the cell averages, so REPORT-2's step (3) (bounded coefficients) is not needed."
+    },
+    {
+     "paper": "Σ compact Riemannian N-manifold with boundary; vol_g; (u_k) ⊂ W^{1,2}(Σ)",
+     "here": "reading",
+     "note": "unchanged from round 1 (OQ-93 (a): every IsLocallyLebesgue μ, (b): W^{1,2} read as C¹ with ‖∇u‖_{L²} + ‖u‖_{L²} ≤ K). N ≥ 3 is not needed for this step. Finiteness of μ is derived, not assumed."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "No new reading. The paper cites Rellich–Kondrachov at l.720 without a reference or a precise form. The reading taken is the round-1 statement, under OQ-93 (a) and (b): every sequence of C¹ functions bounded in W^{1,2}(μ), for every locally-Lebesgue μ, has a subsequence converging in L²(μ) (eLpNorm → 0) to a limit f with MemLp f 2 μ. The weak W^{1,2} convergence of the same sentence stays carried by ConstLimit (OQ-93 (c))."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Yamabe.Mfd.isLocallyFiniteMeasure_of_isLocallyLebesgue",
+  "Yamabe.Mfd.isFiniteMeasure_of_isLocallyLebesgue",
+  "Yamabe.Mfd.local_cell_approx"
+ ],
+ "kb_proposals": [
+  "Pattern: Rellich–Kondrachov on the manifold layer is Mfd.rellich_kondrachov' (YamabeScaffold.RellichManifold): Mfd.local_cell_approx gives, per good chart and C¹ cut-off ρ, an A < ∞ with ‖ρu − Σ_{z∈Z} avg_{C_z}(chartFun (ρu)) • 1_{V ∩ φ⁻¹ C_z}‖_{L²(μ)} ≤ A·δ·w12 g μ u for every δ > 0 (Z from Half.cell_approx); the global sum runs over β = Σ _ : t, (Fin N → ℤ) with s = Finset.univ.sigma Z, split by Finset.sum_sigma, Finset.sum_sub_distrib and u = Σ ρ_i u; exists_subseq_tendsto_eLpNorm_two concludes.",
+  "Pattern: a locally-Lebesgue μ is IsLocallyFiniteMeasure (Mfd.isLocallyFiniteMeasure_of_isLocallyLebesgue: interior U ∩ (chart source ∩ φ⁻¹ ball(φ x₀, 1)) has μ ≤ C·vol(ball)), so on a compact M `infer_instance` gives IsFiniteMeasure μ (CompactSpace.isFiniteMeasure through isFiniteMeasureOnCompacts_of_isLocallyFiniteMeasure): Mfd.isFiniteMeasure_of_isLocallyLebesgue. The [IsFiniteMeasure μ] binders of Mfd.Reads.rellichProp, Reads.constLimit, Reads.lem_positivity, Reads.cor_negative and Mfd.lem_positivity are derivable from hμ.",
+  "Pattern: check a primed copy syntactically inside the file with a run_cmd: find? both constants, compare levelParams.length, then `a.type == b.type.instantiateLevelParams b.levelParams (a.levelParams.map Level.param)` and throwError otherwise (Expr.eqv ignores binder names and info). Unlike `type_of% … = type_of% … := rfl` it rejects a copy that differs by unfolding a definition (tested: w12 unfolded).",
+  "Pitfall: Half.cell_approx R hδ leaves N a metavariable ('typeclass instance problem is stuck: NeZero ?m'): write Half.cell_approx (N := N) R hδ.",
+  "Pitfall: after `set φ := extChartAt (𝓡∂ N) x₀`, `simp only [chartFun_chart (hVs hy)]` does not fire on `chartFun N x₀ f (↑φ y)` (unused simp arg), while `rw [chartFun_chart (hVs hy)]` does.",
+  "Pattern: from the squared lintegral bound of Half.cell_approx to an eLpNorm bound: write the constant as ENNReal.ofReal (B * δ) ^ (2:ℝ), B = √(2·2^N·N), then `rw [← ENNReal.rpow_le_rpow_iff two_pos, ENNReal.mul_rpow_of_nonneg _ _ two_pos.le, ← lintegral_enorm_rpow_two_eq, ← lintegral_enorm_rpow_two_eq, hcδ]; exact hZv`."
+ ],
+ "notes": "INTEGRATION (T-yamabe-integrate-r3, master-owned). The file imports YamabeScaffold.Rellich only for the two identity checks at its end; everything else comes from Compactness (and below) and the strict Yamabe.RellichCriterion. Recipe: (1) in RellichManifold.lean replace `import YamabeScaffold.Rellich` by `import YamabeScaffold.Compactness`, delete the `universe u in example …` and the `run_cmd` block, rename rellich_kondrachov' to rellich_kondrachov (docstring too); (2) in Rellich.lean delete Mfd.rellich_kondrachov (l.479–490, docstring and theorem) and replace `import YamabeScaffold.Compactness` by `import YamabeScaffold.RellichManifold`; (3) add `import YamabeScaffold.RellichManifold` to the scaffold root YamabeScaffold.lean (an existing file, not touched here), or AxiomSweep does not see the module. SIMULATED OUT OF TREE (/tmp oleans, kb 0027, nothing in the repository written): the rewired RellichManifold compiles under -DwarningAsError=true with only Compactness + RellichCriterion imported, and the rewired Rellich.lean compiles against it; then Mfd.Reads.rellichProp, Mfd.Reads.lem_positivity, Mfd.Reads.cor_negative and Mfd.lem_positivity each depend only on propext, Classical.choice, Quot.sound (no sorryAx). After the rewire the scaffold's only sorry is Mfd.trace_compact (Trace.lean:407), which nothing uses. lem:positivity stays unmarked (OQ-93 open). BUILD: `pgrep -af \"lake build\"` showed none in lean-yamabe; `taskset -c 0-11 lake build YamabeScaffold.RellichManifold` built only the new module (8571 jobs, the rest replayed; the only warnings are the two replayed round-1 sorrys, Trace.lean:407 and Rellich.lean:481). `lake env lean -DwarningAsError=true` on the file: exit 0, no output. scripts/sorry_count.py does not list the file. Axioms by #print axioms out of tree on the built olean. OBSERVATION (not a finding about the paper): Mfd.lem_positivity and the Reads bridges take [IsFiniteMeasure μ] although it now follows from hμ and CompactSpace (Mfd.isFiniteMeasure_of_isLocallyLebesgue); dropping the binder would strengthen them, a statement change left to the integration."
+}

@@ -61,3 +61,9 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0053](entries/0053-pitfall.md) | pitfall | pitfall: |
 | [0054](entries/0054-pattern.md) | pattern | pattern: |
 | [0055](entries/0055-pattern.md) | pattern | pattern: |
+| [0056](entries/0056-pattern.md) | pattern | Pattern: |
+| [0057](entries/0057-pattern.md) | pattern | Pattern: |
+| [0058](entries/0058-pattern.md) | pattern | Pattern: |
+| [0059](entries/0059-pitfall.md) | pitfall | Pitfall: |
+| [0060](entries/0060-pitfall.md) | pitfall | Pitfall: |
+| [0061](entries/0061-pattern.md) | pattern | Pattern: |
