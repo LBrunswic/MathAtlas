@@ -9,91 +9,104 @@
 # to CurveNestedOn.trans, notes of 3.29 and 4.72. Rebound once more 2026-11-21 (T-bind-curves-extend,
 # planning run after wave 21): curves_extend is discharged at layer 1 (below). Rebound 2026-11-23
 # (T-bind-curves-corollaries, DEC-190): rows 4.72, 4.73, 4.74, 4.79, 4.80 name the second countable
-# forms of Causal.ErsSecondCountable and drop curves_extend. It records how the argument factors, not
-# what Lean has closed.
+# forms of Causal.ErsSecondCountable and drop curves_extend. Rebound 2026-11-23 twice more, in the
+# planning run after wave 38: T-bind-curves-ers-4-64 (DEC-190: rows 4.63, 4.64, 4.67–4.71 and 4.82
+# name Causal.Ers464SecondCountable's forms, curves_extend leaves the last three rows that listed it)
+# and T-bind-ers-rulings (DEC-161, DEC-162, DEC-166 (b): inextensible_nested is a node; slice_restart,
+# frontier_stays_in, local_uniqueness and one_sided_boundary are edge hypotheses; Thm 4.75 and Prop
+# 4.63 name Causal.Ers475CauchyForm's 'S Cauchy' forms). It records how the argument factors, not what
+# Lean has closed.
 #
 # curves_extend, a [[fact]] of the ladder (T-abs-curves-extend-second-countable, 7923138; recorded by
-# T-lad-record-curves-fact, 71b5cc7). Every causality on a T1, second countable space has
-# CurvesExtendOn W for every open W (Causal.Causality.curvesExtendOn_of_t1_secondCountable) and
-# CurvesExtend (curvesExtend_of_t1_secondCountable). ERS's spaces are open subsets of ℝ^{d+1}, T2
-# and second countable, so the property costs the quasilinear model nothing but its topology. DEC-190
-# (OQ-86) drops it everywhere, a theorem on every ETT spacetime. The convention of these binders since
-# DEC-190 (T-bind-curves-corollaries, shared with papers/sbierski-mghd):
-#   * a row whose `ett` names a form without the curve hypothesis does not list curves_extend, and
-#     none of its geometric entries proves it (Minkowski's Causal.minkowski_curvesExtend is no longer
-#     cited there). Here rows 4.72, 4.73, 4.79, 4.80, whose forms are Causal.ErsSecondCountable's
-#     (T-abs-ers-4-72-second-countable): each `_secondCountable` theorem is its original less `hmext`
-#     (Cm.CurvesExtend) and the through-hypotheses, with [SecondCountableTopology M] added. The
-#     originals stay in the library beside them (whether they are replaced is OQ-98 (b)) and are named
-#     in the notes, not in `ett`;
-#   * a row whose ETT theorem still takes it (`hext`, read on U₁, in 4.63, 4.64, 4.67) keeps it in
-#     `localisation`, its quasilinear entry citing the fact's witness. Those rows have second countable
-#     forms in Causal.Ers464SecondCountable (T-abs-ers-4-64-second-countable, c178342) and are rebound by
-#     T-bind-curves-ers-4-64. Whether DEC-190 drops it from a row before a form exists is OQ-98 (a),
-#     not taken here.
-# The same theorem applied to a constant curve gives InextensibleThrough W on every open W
-# (Causal.Causality.inextensibleThrough_of_t1_secondCountable), hence SplitBy W S for a Cauchy surface
-# S of W (splitBy_of_t1_secondCountable) and IsAcausalOn W S when W is causally arc-connected
-# (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable): those leave layer 3 on ℝ^{d+1} too.
+# T-lad-record-curves-fact, 71b5cc7; a causal_ladder rule since T-tac-curves-fact-rule, 7a62073). Every
+# causality on a T1, second countable space has CurvesExtendOn W for every open W
+# (Causal.Causality.curvesExtendOn_of_t1_secondCountable) and CurvesExtend
+# (curvesExtend_of_t1_secondCountable). ERS's spaces are open subsets of ℝ^{d+1}, T2 and second
+# countable, so the property costs the quasilinear model nothing but its topology. DEC-190 (OQ-86) drops
+# it everywhere, a theorem on every ETT spacetime. The convention of these binders since DEC-190
+# (T-bind-curves-corollaries, shared with papers/sbierski-mghd): a row whose `ett` names a form without
+# the curve hypothesis does not list curves_extend, and none of its geometric entries proves it. Since
+# T-bind-curves-ers-4-64 NO row of this binder lists it: every ERS theorem that took a curve hypothesis
+# (`hext : CurvesExtendOn U₁`, `hmext : Cm.CurvesExtend`, or an `hthrough`: an inextensible curve
+# through every point) has a form without it, in Causal.ErsSecondCountable (T-abs-ers-4-72-second-
+# countable: 4.72, 4.73, 4.79, 4.80) or Causal.Ers464SecondCountable (T-abs-ers-4-64-second-countable,
+# c178342: 4.63, 4.64, 4.67–4.71, 4.82); T-abs-curves-free-ers-unions (16b1d10) found all ten
+# CurvesExtend(On) binders of ErsUnions and ErsMughd covered. Each `_secondCountable` form is its
+# original less the discharged binders, with [SecondCountableTopology M] added; the originals stay in
+# the library beside them (whether they are replaced is OQ-98 (b)) and are named in the notes, not in
+# `ett`. The same theorem applied to a constant curve gives InextensibleThrough W on every open W
+# (inextensibleThrough_of_t1_secondCountable), hence SplitBy W S for a Cauchy surface S of W
+# (splitBy_of_t1_secondCountable) and IsAcausalOn W S when W is causally arc-connected
+# (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable): those left layer 3 on ℝ^{d+1} too.
 #
 # How the paper factors (SYNTHESIS Q3; KB note eperon2018predictability). A GHD u : U → ℝ of a
 # quasilinear equation on the FIXED background ℝ^{d+1} carries two causalities: C_g of g(u, du) and
 # C_m of Minkowski. Sub-/superluminality is a NESTING of causalities (Causal.NestedCausalities; ladder
-# nodes `le_nested`, `curve_nested` of sort `pair` since T-lad-nested-nodes, c02c8c8): subluminal =
-# CurveNestedOn C_g C_m (4.72); (4.62) = InextensibleNestedOn Cτ C_g for the causality Cτ of the
-# integral curves of T (4.70). The global arguments of §4 are causal-topological
-# (T-abs-nested-causalities, T-abs-ers-thm-4-64, done); their analytic inputs are named hypotheses:
-#   `hlocal`  Prop 4.63's Step-1 use: some common development exists (proposed id local_uniqueness)
-#   `hstay`   Thm 4.64 Step 2's "γ([0,1]) ⊆ U₂" (Causal.Causality.FrontierStaysIn; proposed id frontier_stays_in)
-#   `hstep`   Steps 3–5 + Prop 4.63, the slice restart (Causal.Causality.SliceRestart; proposed id
-#             slice_restart), which is ers_theorem_4_82's `hstep` definitionally
+# nodes of sort `pair`): subluminal = CurveNestedOn C_g C_m (`curve_nested`, 4.72); (4.62) =
+# InextensibleNestedOn Cτ C_g for the causality Cτ of the integral curves of T (`inextensible_nested`,
+# 4.70; the nesting of record, DEC-161 (b), a node since T-lad-nested-inextensible, 7b16a43). The global
+# arguments of §4 are causal-topological (T-abs-nested-causalities, T-abs-ers-thm-4-64, done); their
+# analytic inputs are named hypotheses, EDGE HYPOTHESES and no ladder nodes (DEC-162 on OQ-57 (b),
+# DEC-166 (b) on OQ-52 (b); the [[proposed]] block below, until T-lad-edge-hypotheses fills the ladder's
+# [[edge_hypothesis]] table and T-bind-edge-hypotheses cites them by id):
+#   `hlocal`  Prop 4.63's Step-1 use: some common development exists (local_uniqueness)
+#   `hstay`   Thm 4.64 Step 2's "γ([0,1]) ⊆ U₂" (Causal.Causality.FrontierStaysIn, frontier_stays_in)
+#   `hstep`   Steps 3–5 + Prop 4.63, the slice restart (Causal.Causality.SliceRestart, slice_restart),
+#             which is ers_theorem_4_82's `hstep` definitionally; kept apart from `hstay` (DEC-162)
+#   `honesided` (4.83)'s topological content (Causal.Causality.OneSidedBoundary, one_sided_boundary)
 #   GH, tarentin of each development, read on the open set (GloballyHyperbolicOn, TarentinOn), and the
-#   Cauchy facts SplitBy, CompactSlabs, IsAcausalOn, InextensibleThrough, FollowsSolution — the
-#   quasilinear model's causal ladder (T-loc-quasilinear-causal-ladder).
-# The restart is NOT the ladder node `cauchy_slice` (the A4 field of a CBG local model,
-# Causal.CBG.LocalModel.SliceFuture): on a fixed background there is no A3 and no geometry, and the
-# layer-1 theorems consume SliceRestart. The 2026-11-20 binder had proposed `cauchy_slice` for it; it
-# is replaced by `slice_restart` (not a node: OQ-57 (b), T-lad-ers-restart-nodes).
+#   Cauchy facts CompactSlabs, FollowsSolution — the quasilinear model's causal ladder
+#   (T-loc-quasilinear-causal-ladder).
+# Their layer 3 is DEC-147's Lorentzian package (DEC-162): T-loc-quasilinear-slice (slice_restart,
+# local uniqueness), T-loc-quasilinear-frontier (frontier_stays_in), both waiting on
+# T-pkg-smooth-lorentz (OQ-100: the package's name); one_sided_boundary's is in Lean at the
+# quasilinear model (Causal.ers_lemma_4_86_oneSidedBoundary, T-loc-quasilinear-one-sided). The restart
+# is NOT the ladder node `cauchy_slice` (the A4 field of a CBG local model,
+# Causal.CBG.LocalModel.SliceFuture): on a fixed background there is no A3 and no geometry.
 #
-# Readings. As taken in OQ-41 (S acausal; two-sided domains; ∂S = closure(S) ∖ S) and in OQ-57 (one
-# causality in Thm 4.64; FrontierStaysIn apart from the restart; common developments with S Cauchy,
-# GH not concluded; 3.29's "stably causal" as IsCausal from a function strictly increasing along ≤).
-# OQ-57 names the binder rows of §3–4 in its blocks column: the rows below are rebound with these
-# readings and their curation waits on the ruling; OQ-57 (d) asks whether erslem:lemma_orientation
-# should name the node `time_function` — it does not here until ruled.
+# Readings, all ruled. DEC-161 (OQ-41, all readings as taken): (a) item 1 sharp iff marked; (b) curve
+# nesting, InextensibleNestedOn, is 'the nesting' (no_causal_endpoint stays a definition,
+# Causal.Causality.NoCausalEndpoint, in words in the `under` of
+# GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint); (c) S acausal where ERS print
+# achronal; (d) Thm 4.77's added hypothesis (the union causal) recorded; (e) ∂S = closure(S) ∖ S.
+# DEC-162 (OQ-57, 77, 78, 81, 73: the ERS pattern accepted): one causality in Thm 4.64; FrontierStaysIn
+# kept apart from the restart; a GHD read 'S Cauchy' (so the `_of_isCauchySurfaceOn_` forms and
+# Causal.Ers475CauchyForm are the forms of record, the originals' `hacausal`, `hsplit` their
+# pre-ruling reading); PDE facts as named localisation hypotheses, layer 3 in DEC-147's package; 3.29's
+# 'stably causal' read as IsCausal from a function strictly increasing along ≤ (OQ-57 (d): the row does
+# not name time_function); rows may be marked once their localisations are provided (the master's
+# curation). DEC-166 (b) (OQ-52 (b)): OneSidedBoundary is an edge hypothesis only, not a node.
 #
-# Models. `quasilinear` is the paper's class (smooth g(u, du) on open subsets of ℝ^{d+1}): nothing of
-# it is in Lean (T-pkg-smooth-lorentz asks how smooth Lorentzian metrics enter). The Born–Infeld
-# scalar of §3 is a quasilinear model whose solutions are causally flat: (U, g) is the transport of
-# 1+1 Minkowski (V, m̂) by the hodograph map Ψ (Lemmas 3.27, 3.31), i.e. IsCausalIso C_m̂ C_g Ψ
-# (Causal.CausalIsoInvariance). `minkowski` is the background m, in Lean (Causal.minkowski_*;
-# Causal.minkowski_curvesExtend in Causal.Model.CurvesExtendModels since T-abs-hoist-time-function).
-# No `E_alpha` entries (T-bind-ealpha-entries, DEC-188, left them optional here): ERS's localisation
-# properties are those of the solution's g(u) on open subsets of ℝ^{d+1} and of the background m, and
-# the cosmic string is neither; an entry would read E_α as the fixed background of another equation,
-# which is not this paper's setting (papers/sbierski-mghd carries the E_α entries).
+# Models. `quasilinear` is the paper's class (smooth g(u, du) on open subsets of ℝ^{d+1}): its layer 3
+# is DEC-147's package (T-pkg-smooth-lorentz, blocked on OQ-100), but for Lemma 4.86's one-sidedness,
+# in Lean (Causal.Model.QuasilinearOneSided). The Born–Infeld scalar of §3 is a quasilinear model whose
+# solutions are causally flat: (U, g) is the transport of 1+1 Minkowski (V, m̂) by the hodograph map Ψ
+# (Lemmas 3.27, 3.31), i.e. IsCausalIso C_m̂ C_g Ψ (Causal.CausalIsoInvariance). `minkowski` is the
+# background m, in Lean (Causal.minkowski_*). No `E_alpha` entries (T-bind-ealpha-entries, DEC-188, left
+# them optional here): ERS's localisation properties are those of the solution's g(u) on open subsets
+# of ℝ^{d+1} and of the background m, and the cosmic string is neither; an entry would read E_α as the
+# fixed background of another equation, which is not this paper's setting (papers/sbierski-mghd carries
+# the E_α entries).
 #
 # Findings of this binder (reported to the master):
-# * Thm 4.64 with Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73 are in Lean as skeletons (Causal.ErsUniqueness,
-#   nothing marked, OQ-57), and §3's causal transport (Lemmas 3.27, 3.29, 3.31, 3.39) is
-#   Causal.CausalIsoInvariance. What stays open is layer 3 and three non-node hypotheses:
-#   local_uniqueness, slice_restart, frontier_stays_in (the last owned by T-loc-quasilinear-frontier,
-#   blocked on OQ-57 (b)).
-# * The nesting nodes are what OQ-41 (b) asks about: InextensibleNestedOn is not implied by
-#   ≤-nesting (cutLine 1) and holds on M from Causal.Causality.NoCausalEndpoint (J^±(x) ≠ {x}, defined
-#   in Causal.LadderLocal) + GH + tarentin + causal arc-connectedness
-#   (GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint). Rows 4.70, 4.71, 4.77 depend on
-#   that ruling (T-lad-nested-inextensible, blocked on OQ-41).
+# * Thm 4.64 with Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73, and Thm 4.75, are in Lean as skeletons
+#   (Causal.ErsUniqueness, Causal.ErsUnions, and their DEC-162 / DEC-190 forms in
+#   Causal.Ers464SecondCountable, Causal.ErsSecondCountable, Causal.Ers475CauchyForm; nothing marked),
+#   and §3's causal transport (Lemmas 3.27, 3.29, 3.31, 3.39) is Causal.CausalIsoInvariance. What stays
+#   open is layer 3 and the four edge hypotheses above.
+# * The 'S Cauchy' trade asks causal arc-connectedness only where the acausality of S between two
+#   points of S related by ≤_{U₁} is used (Rem 4.67's time orientations, kb/0265). Thm 4.75 and Prop
+#   4.63 in Causal.Ers475CauchyForm ask none; Ers464SecondCountable's trade forms of 4.64, 4.67 (first
+#   sentence) and 4.68 ask it and may not need it: T-abs-ers-4-64-without-arc.
 # * The two nestings meet in Lean since T-abs-nested-converse and T-abs-nested-transfer: curve nesting is
 #   ≤-nesting when the narrower causality is causally arc-connected (CurveNestedOn.leNested_of_causallyArcConnected;
 #   not without, the pointed line), curve nesting is transitive (CurveNestedOn.trans: Remark 4.74), and a
 #   ≤-nesting carries is_causal, strong causality (both forms) and a time function to the narrower
 #   causality, tarentin to the wider only (the spacelike line, the first GH model that is not tarentin).
-#   So where C_g is causally arc-connected, the ladder's [[transfer]] entries along le_nested apply to
-#   subluminality, which the quasilinear layer-3 targets can use.
-# * (4.83)'s topological content is Causal.Causality.OneSidedBoundary (Causal.LadderLocal), consumed by
-#   ers_theorem_4_82_of_oneSidedBoundary; its node waits on OQ-52 (b) (it involves no causality:
-#   T-lad-one-sided-node).
+#   InextensibleNestedOn is not implied by ≤-nesting (Causal.cutLine_separates_inextensibleNested, the
+#   cut line, T-abs-cutline-inextensible-direct), is reflexive, transitive and invariant under time
+#   reversal (InextensibleNestedOn.refl/trans/dual, T-abs-inextensible-nested-basics, a4ce20a), and is
+#   not monotone in the open set in general (Causal.not_inextensibleNestedOn_mono, a non-T1 space).
 # * ERS §3's non-uniqueness (Thm 3.45) is, causally, two flat 1+1 developments whose developing maps
 #   Ψ_a, Ψ_b overlap on a disconnected set — the fixed-background failure of the Einstein gluing
 #   (§4.2; Sbierski Cor 3.2 needs U₁ ∩ U₂ connected). T-abs-ers-etale-mghd states it.
@@ -101,42 +114,35 @@
 #   the principal symbol outside the solution's range: PDE, no causal content), Conjecture 4.81 (open
 #   by nature, nothing to factor).
 
-# ------------------------------------------------------------------ proposed localisation ids
-[[proposed]]
-id = "inextensible_nested"
-lean = "Causal.Causality.InextensibleNestedOn"
-target = "T-lad-nested-inextensible"
-what = "inextensible causal curves of W for C are inextensible for C' ((4.62) for Cτ ⊆ C_g, ERS 4.70); OQ-41 (b): this, or no_causal_endpoint, is the node"
-
-[[proposed]]
-id = "no_causal_endpoint"
-lean = "Causal.Causality.NoCausalEndpoint"
-target = "T-lad-nested-inextensible"
-what = "J⁻(x) ≠ {x} and J⁺(x) ≠ {x} for every x: with GH, tarentin and causal arc-connectedness it gives inextensible_nested on M (Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint); also the hypothesis of Lemma K and of ChainsCurves"
-
+# ------------------------------------------------------------------ edge hypotheses (not yet ids of the ladder's table)
+# Named localisation hypotheses, edge hypotheses and no ladder nodes (DEC-162, DEC-166 (b)). They stay
+# in rows' `open_localisation` under these names until T-lad-edge-hypotheses gives them
+# [[edge_hypothesis]] ids (T-bind-edge-hypotheses then cites them by id and the quasilinear entries
+# prove them). inextensible_nested and no_causal_endpoint, proposed here until 2026-11-23, are gone:
+# the first is a ladder node (DEC-161 (b)), the second stays a definition (DEC-161 (b)).
 [[proposed]]
 id = "local_uniqueness"
-lean = "on this fixed background the existential `∃ V, C.IsCommonDevelopment S U₁ U₂ agree V` (Causal.Causality.IsCommonDevelopment), the `hlocal` of Causal.Causality.ers_theorem_4_64; for data, T-abs-cbg-initial-data defines it"
-target = "T-lad-development-nodes"
-what = "two developments of the same data have a common GH development (ERS Prop 4.63; Sbierski Thm 2.6)"
+lean = "Causal.Causality.LocalUniqueness"
+target = "T-lad-edge-hypotheses"
+what = "two developments of the same data have a common development (ERS Prop 4.63; Sbierski Thm 2.6): on this fixed background the existential `∃ V, C.IsCommonDevelopment S U₁ U₂ agree V`, the `hlocal` of Causal.Causality.ers_theorem_4_64, supplied by Causal.Causality.LocalUniqueness through the _of_localUniqueness_ forms; an edge hypothesis (DEC-162). For data over a geometry, T-abs-cbg-initial-data defines it and T-lad-development-nodes makes it a node"
 
 [[proposed]]
 id = "slice_restart"
 lean = "Causal.Causality.SliceRestart"
-target = "T-lad-ers-restart-nodes"
-what = "at every spacelike frontier point of a common development in U₁ ∩ U₂, a strictly larger common development (Thm 4.64 Steps 3–5 with Prop 4.63; the `hstep` of ers_theorem_4_64 and, definitionally, of ers_theorem_4_82); OQ-57 (b)"
+target = "T-lad-edge-hypotheses"
+what = "at every spacelike frontier point of a common development in U₁ ∩ U₂ (or in a component A of the overlap, Thm 4.75's RestartsIn), a strictly larger common development (Thm 4.64 Steps 3–5 with Prop 4.63; the `hstep` of ers_theorem_4_64 and, definitionally, of ers_theorem_4_82); an edge hypothesis, kept apart from frontier_stays_in (DEC-162); layer 3 T-loc-quasilinear-slice"
 
 [[proposed]]
 id = "frontier_stays_in"
 lean = "Causal.Causality.FrontierStaysIn"
-target = "T-lad-ers-restart-nodes"
-what = "the frontier of a common development below a point of U₁ ∩ U₂ and above S stays in U₁ ∩ U₂ (Thm 4.64 Step 2, ghd_02_19.tex:880); OQ-57 (b): apart, folded into the restart, or a node"
+target = "T-lad-edge-hypotheses"
+what = "the frontier of a common development below a point of U₁ ∩ U₂ (or of a component A) and above S stays in it (Thm 4.64 Step 2, ghd_02_19.tex:880); an edge hypothesis, kept apart from the restart (DEC-162); layer 3 T-loc-quasilinear-frontier"
 
 [[proposed]]
 id = "one_sided_boundary"
 lean = "Causal.Causality.OneSidedBoundary"
-target = "T-lad-one-sided-node"
-what = "the topological content of (4.83): every boundary point of U₁ off closure S has arbitrarily small neighbourhoods V with V ∩ U₁ preconnected (the `honesided` of Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary); no causality, OQ-52 (b)"
+target = "T-lad-edge-hypotheses"
+what = "the topological content of (4.83): every boundary point of U₁ off closure S has arbitrarily small neighbourhoods V with V ∩ U₁ preconnected (the `honesided` of Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary); no causality; an edge hypothesis only, not a node (DEC-166 (b)), named in the `under` of the ladder's consequence ERS Thm 4.82 at is_causal; layer 3 in Lean at the quasilinear model (Causal.ers_lemma_4_86_oneSidedBoundary)"
 
 # ------------------------------------------------------------------ §3 the Born–Infeld scalar (layer 3, with the ETT theorem each supplies)
 [[bind]]
@@ -259,87 +265,85 @@ by = ["T-loc-born-infeld-causal", "T-loc-quasilinear-nesting", "T-loc-quasilinea
 
 [[bind]]
 label = "ersprop:PropLocUniqueness"
-ett = ["Causal.Causality.ers_prop_4_63", "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn", "Causal.Causality.ers_prop_4_63_of_hasTimeFunction", "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn", "Causal.Causality.isDevelopmentIn_localDevelopmentUnion", "Causal.Causality.isCauchySurfaceOn_sSup_of_isAcausalOn", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn", "Causal.Causality.GloballyHyperbolicOn.of_causallyConvexIn", "Causal.Causality.IsCauchySurfaceOn.eq_of_le"]
-localisation = ["globally_hyperbolic", "causally_arc_connected", "curves_extend"]
+ett = ["Causal.Causality.ers_prop_4_63_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.isDevelopmentIn_localDevelopmentUnion_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable", "Causal.Causality.ers_prop_4_63_globallyHyperbolicOn_secondCountable", "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn_secondCountable", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable", "Causal.Causality.GloballyHyperbolicOn.of_causallyConvexIn", "Causal.Causality.IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable", "Causal.Causality.ers_prop_4_63", "Causal.Causality.isDevelopmentIn_localDevelopmentUnion", "Causal.Causality.isCauchySurfaceOn_sSup_of_isAcausalOn"]
+localisation = ["globally_hyperbolic", "causally_arc_connected"]
 open_localisation = ["local_uniqueness"]
-open_reason = "Local uniqueness is the PDE input (Sogge, energy estimates), named Causal.Causality.LocalUniqueness: a predicate on (C, S, a region, the solutions), not a ladder node (T-lad-development-nodes). curves_extend, read on U₁ (CurvesExtendOn U₁, the `hext` of ers_prop_4_63_globallyHyperbolicOn), is no longer open (T-bind-curves-extend, 2026-11-21): it is discharged at layer 1 by Causal.Causality.curvesExtendOn_of_t1_secondCountable, U₁ being an open subset of ℝ^{d+1}, and the quasilinear entry cites it; the form of the row's theorem without `hext` is T-abs-ers-4-64-second-countable."
-note = "Prop 4.63 (ghd_02_19.tex:836). The PDE gives agreement on small DS_p (LocalUniqueness). The ETT part is the union V = localDevelopmentUnion, which contains ⋃ DS_p. It is a common development: ers_prop_4_63, under the OQ-41 reading S acausal in U₁ with only ≤_{U₁} antisymmetric, through isDevelopmentIn_localDevelopmentUnion and isCauchySurfaceOn_sSup_of_isAcausalOn. It is globally hyperbolic and causally convex in U₁ (ers_prop_4_63_globallyHyperbolicOn) when S is a Cauchy surface of the GH U₁ and U₁ is causally arc-connected with curves extending (CausallyArcConnectedOn U₁, CurvesExtendOn U₁). There acausality comes from IsCauchySurfaceOn.eq_of_le, and GH from IsCommonDevelopment.globallyHyperbolicOn (causallyConvexIn_of_isCauchySurfaceOn, GloballyHyperbolicOn.of_causallyConvexIn); no Geroch (iii) ⇒ (i) is used. ERS get GH from the Cauchy property (Geroch). Causal.isCauchyInclusion_iSup is not used: each DS_p has its own S_p, so there is no common Cauchy-included A. globallyHyperbolicOn_sSup_of_pieces and Causal.Causality.isCauchySurfaceOn_iSup form a parallel union route that the anchors do not use. Thm 4.64 uses 4.63 twice: in Step 1 (`hlocal`, ers_theorem_4_64_of_localUniqueness) and in Step 5 (inside the restart SliceRestart)."
+open_reason = "local_uniqueness is the PDE input (Sogge, energy estimates), named Causal.Causality.LocalUniqueness: a predicate on (C, S, a region, the solutions), an edge hypothesis and no node (DEC-162; the [[proposed]] block, T-lad-edge-hypotheses). Its layer 3 is DEC-147's package (T-loc-quasilinear-slice, the energy estimates cited). curves_extend left the row with T-bind-curves-ers-4-64 (DEC-190): every form its `ett` names is free of `hext`."
+note = "Prop 4.63 (ghd_02_19.tex:836). The PDE gives agreement on small DS_p (LocalUniqueness). The ETT part is the union V = localDevelopmentUnion, which contains ⋃ DS_p. DEC-162's reading (u₁ a GHD read 'S Cauchy in U₁'), on a T2, second countable background: ers_prop_4_63_of_isCauchySurfaceOn_secondCountable (Causal.Ers475CauchyForm, T-abs-ers-4-75-cauchy-form, ee6ad88) gives a common development with S Cauchy from S Cauchy in U₁ and ≤_{U₁} antisymmetric, with no acausality and no causal arc-connectedness, through isDevelopmentIn_localDevelopmentUnion_of_isCauchySurfaceOn_secondCountable and isCauchySurfaceOn_sSup_of_secondCountable (the acausality served only the union, kb/0265). Its GH form ers_prop_4_63_globallyHyperbolicOn_secondCountable (Causal.Ers464SecondCountable, T-abs-ers-4-64-second-countable, c178342) concludes V globally hyperbolic and causally convex in U₁ when S is a Cauchy surface of the GH U₁ and U₁ is causally arc-connected (CausallyArcConnectedOn U₁, the row's causally_arc_connected): acausality from IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable, GH from IsCommonDevelopment.globallyHyperbolicOn_secondCountable (causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable, GloballyHyperbolicOn.of_causallyConvexIn); no Geroch (iii) ⇒ (i) is used. ERS get GH from the Cauchy property (Geroch). The OQ-41 form ers_prop_4_63 (S acausal in U₁, only ≤_{U₁} antisymmetric; isDevelopmentIn_localDevelopmentUnion, isCauchySurfaceOn_sSup_of_isAcausalOn) stays, a sibling (DEC-161 (c)). Rebound 2026-11-23 (T-bind-curves-ers-4-64, DEC-190): the forms with `hext : CurvesExtendOn U₁` (ers_prop_4_63_globallyHyperbolicOn, IsCommonDevelopment.globallyHyperbolicOn; ers_prop_4_63_of_hasTimeFunction, whose time function served only `hext`) and the curve forms of the union lemmas (IsCauchySurfaceOn.eq_of_le, causallyConvexIn_of_isCauchySurfaceOn) are named here, not in `ett`; curves_extend leaves the row and its quasilinear entry. Causal.isCauchyInclusion_iSup is not used: each DS_p has its own S_p, so there is no common Cauchy-included A. Thm 4.64 uses 4.63 twice: in Step 1 (`hlocal`, the _of_localUniqueness_ forms) and in Step 5 (inside the restart SliceRestart)."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["globally_hyperbolic", "causally_arc_connected", "curves_extend"]
-by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "Causal.Causality.curvesExtendOn_of_t1_secondCountable"]
+proves = ["globally_hyperbolic", "causally_arc_connected"]
+by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice"]
 
 [[bind]]
 label = "ersthm:ThmUnique"
-ett = ["Causal.Causality.ers_theorem_4_64", "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment", "Causal.Causality.isCommonDevelopment_maxCommonDevelopment", "Causal.Causality.exists_isSpacelikeBoundaryPoint", "Causal.Causality.exists_spacelike_boundary_point", "Causal.Causality.ers_theorem_4_64_of_localUniqueness", "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn"]
-localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected", "curves_extend"]
+ett = ["Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.IsCommonDevelopment.globallyHyperbolicOn_secondCountable", "Causal.Causality.ers_theorem_4_64", "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment", "Causal.Causality.isCommonDevelopment_maxCommonDevelopment", "Causal.Causality.exists_isSpacelikeBoundaryPoint", "Causal.Causality.exists_spacelike_boundary_point", "Causal.Causality.ers_theorem_4_64_of_localUniqueness"]
+localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "`hlocal` (Prop 4.63, local_uniqueness: T-lad-development-nodes; supplied by LocalUniqueness through ers_theorem_4_64_of_localUniqueness), `hstep` (Steps 3–5 + Prop 4.63, SliceRestart) and `hstay` (Step 2's U₂ half, FrontierStaysIn) are named hypotheses, not ladder nodes: OQ-57 (b), T-lad-ers-restart-nodes. No A3 is needed on a fixed background. causally_arc_connected and curves_extend (read on U₁) enter only IsCommonDevelopment.globallyHyperbolicOn (V₀ GH), with S a Cauchy surface of U₁; curves_extend is discharged at layer 1 since T-bind-curves-extend (Causal.Causality.curvesExtendOn_of_t1_secondCountable on U₁ ⊆ ℝ^{d+1}, cited by the quasilinear entry); the form without `hext` is T-abs-ers-4-64-second-countable."
-note = "Thm 4.64 (ghd_02_19.tex:858, proof 865–912), Causal.ErsUniqueness (T-abs-ers-thm-4-64, 56ccff0), unmarked. Step 1 the maximal common development V₀ as a union (isCommonDevelopment_maxCommonDevelopment; S Cauchy, GH not concluded); Step 2 a frontier point with (4.65) in U₁ (exists_isSpacelikeBoundaryPoint through exists_spacelike_boundary_point: null geodesics replaced by a minimal point of a compact set, exists_minimal_of_isCompact_on), in U₂ by FrontierStaysIn; Steps 3–5 + Prop 4.63 the restart (SliceRestart; Step 3 is Sbierski's Lemma 3.11). GH and tarentin are of g(u₁) on U₁ (GloballyHyperbolicOn, TarentinOn); the Cauchy facts of S in U₁ (SplitBy, CompactSlabs, IsAcausalOn) are the quasilinear model's. One causality (OQ-57 (a)); U₁ ∩ U₂ preconnected. Since T-abs-ers-unions: hlocal from local uniqueness (ers_theorem_4_64_of_localUniqueness, through Prop 4.63), and V₀ GH (IsCommonDevelopment.globallyHyperbolicOn) when moreover S is a Cauchy surface of U₁ (IsCauchySurfaceOn U₁ S, not a hypothesis of ers_theorem_4_64, which reads U₁'s Cauchy property as IsAcausalOn, SplitBy and CompactSlabs) and U₁ is causally arc-connected with curves extending. On ℝ^{d+1} (T1, second countable) the curves extend at layer 1 (curvesExtendOn_of_t1_secondCountable), and so do two of the Cauchy facts read as the model's: an inextensible curve of U₁ runs through every point (InextensibleThrough U₁, the constant curve extended), hence S splits U₁ (SplitBy, splitBy_of_inextensibleThrough), and S is acausal in U₁ once it is a Cauchy surface of the causally arc-connected U₁ (IsAcausalOn, Causal.Causality.IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable); the form of 4.64 taking those instead of `hacausal`, `hsplit` is T-abs-ers-4-64-second-countable (rebound 2026-11-21, T-bind-curves-extend)."
+open_reason = "Three named hypotheses, edge hypotheses and no ladder nodes (DEC-162 on OQ-57 (b), as taken: the restart and the frontier kept apart): `hlocal` (Prop 4.63's Step 1, local_uniqueness's existential; supplied by Causal.Causality.LocalUniqueness through the _of_localUniqueness_ forms), `hstep` (Steps 3–5 + Prop 4.63, Causal.Causality.SliceRestart, slice_restart) and `hstay` (Step 2's U₂ half, Causal.Causality.FrontierStaysIn, frontier_stays_in). The ladder names them in the `under` of the 4.64 consequences (T-lad-ers-restart-nodes, e8f35dd); T-lad-edge-hypotheses gives them table ids. Their layer 3 is DEC-147's package (T-loc-quasilinear-slice, T-loc-quasilinear-frontier), behind T-pkg-smooth-lorentz (OQ-100). No A3 is needed on a fixed background."
+note = "Thm 4.64 (ghd_02_19.tex:858, proof 865–912), Causal.ErsUniqueness (T-abs-ers-thm-4-64, 56ccff0), unmarked. Step 1 the maximal common development V₀ as a union (isCommonDevelopment_maxCommonDevelopment; S Cauchy, GH not concluded); Step 2 a frontier point with (4.65) in U₁ (exists_isSpacelikeBoundaryPoint through exists_spacelike_boundary_point: null geodesics replaced by a minimal point of a compact set, exists_minimal_of_isCompact_on), in U₂ by FrontierStaysIn; Steps 3–5 + Prop 4.63 the restart (SliceRestart; Step 3 is Sbierski's Lemma 3.11). One causality (OQ-57 (a), DEC-162); U₁ ∩ U₂ preconnected. DEC-162's reading, u₁ a GHD read 'S Cauchy in U₁': the forms of record are Causal.Ers464SecondCountable's (T-abs-ers-4-64-second-countable, c178342), on a T2, second countable background: ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable with its _maxCommonDevelopment_ and _of_localUniqueness_ forms. They trade the original's `hacausal` (IsAcausalOn U₁ S) and `hsplit` (SplitBy U₁ S) for `hC₁ : IsCauchySurfaceOn U₁ S` and `harc : CausallyArcConnectedOn U₁` (the row's causally_arc_connected), deriving the acausality (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable) and the splitting (splitBy_of_t1_secondCountable). The original ers_theorem_4_64 (U₁'s Cauchy property read as IsAcausalOn, SplitBy and CompactSlabs; no curve hypothesis) stays, a sibling. GH and tarentin are of g(u₁) on U₁ (GloballyHyperbolicOn, TarentinOn); CompactSlabs is the quasilinear model's. V₀ is GH by IsCommonDevelopment.globallyHyperbolicOn_secondCountable (S Cauchy in U₁, U₁ causally arc-connected). Rebound 2026-11-23 (T-bind-curves-ers-4-64, DEC-190): curves_extend leaves the row and its quasilinear entry; the `hext` form IsCommonDevelopment.globallyHyperbolicOn is named here, not in `ett`. Whether the trade forms need harc at all is T-abs-ers-4-64-without-arc's question: Thm 4.75's region form ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable asks none (kb/0265), and the auditor of T-abs-ers-4-75-cauchy-form checked Step 1 without it; if 4.64's forms drop it, causally_arc_connected stays in this row only for V₀'s GH. Witness: Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected", "curves_extend"]
-by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier", "Causal.Causality.curvesExtendOn_of_t1_secondCountable"]
+proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
+by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "ersrem:RemTime"
-ett = ["Causal.Causality.ers_remark_4_67", "Causal.Causality.ers_remark_4_67_future", "Causal.Causality.ers_remark_4_67_past", "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn"]
-localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected", "curves_extend"]
+ett = ["Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_remark_4_67_globallyHyperbolicOn_secondCountable", "Causal.Causality.ers_remark_4_67_future_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_remark_4_67_past_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_remark_4_67_future_secondCountable", "Causal.Causality.ers_remark_4_67_past_secondCountable", "Causal.Causality.Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable", "Causal.Causality.Jminus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable", "Causal.Causality.ers_remark_4_67"]
+localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "As Thm 4.64. causally_arc_connected and curves_extend (read on U₁) enter only ers_remark_4_67_globallyHyperbolicOn, with S a Cauchy surface of U₁; curves_extend is discharged at layer 1 since T-bind-curves-extend (Causal.Causality.curvesExtendOn_of_t1_secondCountable on U₁ ⊆ ℝ^{d+1}, cited by the quasilinear entry); the form without `hext` is T-abs-ers-4-64-second-countable."
-note = "Remark 4.67 (ghd_02_19.tex:914). Under 4.64, U₁ ∩ U₂ is the greatest common development (ers_remark_4_67; 'maximal common GHD' read with S Cauchy, OQ-57 (c)), and a point to the future (past) of S in U₁ is to its future (past) in U₂ (ers_remark_4_67_future/_past), with the time orientations of g(u₁), g(u₂) agreeing on U₁ ∩ U₂ (FollowsSolution, layer 3) and an inextensible curve of U₁ through every point (InextensibleThrough: layer 3 when this binder was written, layer 1 on ℝ^{d+1} since 7923138, the constant curve extended by curvesExtendOn_of_t1_secondCountable; the form of ers_remark_4_67_future/_past without `hthrough` is T-abs-ers-4-64-second-countable). It is the `hpair` of Causal.Causality.ers_theorem_4_77. Since T-abs-ers-unions: 'maximal common GHD' as printed, U₁ ∩ U₂ also GH and causally convex in U₁ (ers_remark_4_67_globallyHyperbolicOn), adding S Cauchy in U₁, CausallyArcConnectedOn U₁ and CurvesExtendOn U₁ (evidence for OQ-57 (c))."
+open_reason = "As Thm 4.64. `hfollow` (the time orientations of g(u₁), g(u₂) agree on U₁ ∩ U₂, FollowsSolution) is a named input of the quasilinear model (T-loc-quasilinear-causal-ladder), no ladder property."
+note = "Remark 4.67 (ghd_02_19.tex:914). Under 4.64, U₁ ∩ U₂ is the greatest common development ('maximal common GHD' read with S Cauchy, OQ-57 (c), DEC-162), and a point to the future (past) of S in U₁ is to its future (past) in U₂, the time orientations of g(u₁), g(u₂) agreeing on U₁ ∩ U₂ (FollowsSolution, layer 3). It is the `hpair` of Causal.Causality.ers_theorem_4_77. Forms of record (Causal.Ers464SecondCountable, T2, second countable background): ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (the first sentence, hacausal and hsplit traded for S Cauchy in the causally arc-connected U₁, DEC-162); ers_remark_4_67_globallyHyperbolicOn_secondCountable ('maximal common GHD' as printed: U₁ ∩ U₂ also GH and causally convex in U₁; hacausal, hsplit and hext derived from S Cauchy in U₁ and U₁ causally arc-connected, which the original already took); the future and past sentences without `hthrough` (ers_remark_4_67_future_secondCountable, _past_; hacausal kept) and their trade forms (_future_of_isCauchySurfaceOn_secondCountable, _past_), through Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable and its past form (T1 suffices). The future and past sentences use the acausality of S between two points of S related by ≤_{U₁}, so their trade forms need harc (kb/0265); the first sentence's may not (T-abs-ers-4-64-without-arc). The original ers_remark_4_67 stays, a sibling. Rebound 2026-11-23 (T-bind-curves-ers-4-64, DEC-190): the `hext` form ers_remark_4_67_globallyHyperbolicOn and the `hthrough` forms ers_remark_4_67_future, ers_remark_4_67_past are named here, not in `ett`; curves_extend leaves the row and its quasilinear entry. Witness of the trade and GH forms: Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected", "curves_extend"]
-by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier", "Causal.Causality.curvesExtendOn_of_t1_secondCountable"]
+proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
+by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "erscor:CorDisCon"
-ett = ["Causal.Causality.ers_corollary_4_68", "Causal.Causality.ers_corollary_4_68_eqOn"]
-localisation = ["globally_hyperbolic", "tarentin"]
+ett = ["Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_corollary_4_68", "Causal.Causality.ers_corollary_4_68_eqOn"]
+localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
 open_reason = "As Thm 4.64."
-note = "Cor 4.68 (ghd_02_19.tex:921): the contrapositive of 4.64 — disagreement forces a disconnected (not even preconnected) overlap, the only mechanism of non-uniqueness (cf. Thm 3.45); ers_corollary_4_68_eqOn for two functions as printed."
+note = "Cor 4.68 (ghd_02_19.tex:921): the contrapositive of 4.64 — disagreement forces a disconnected (not even preconnected) overlap, the only mechanism of non-uniqueness (cf. Thm 3.45); the _eqOn forms for two functions as printed. Forms of record (DEC-162, Causal.Ers464SecondCountable): ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable and ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable, hacausal and hsplit traded for S Cauchy in the causally arc-connected U₁, which adds causally_arc_connected to the row (rebound 2026-11-23, T-bind-curves-ers-4-64); whether harc is needed is T-abs-ers-4-64-without-arc's question. The originals ers_corollary_4_68, ers_corollary_4_68_eqOn (no curve hypothesis) stay, siblings. No witness in the library: T-abs-ers-witnesses (argued, not in Lean: on the timelike line with S = {0} every development is an interval, so the overlap is connected and the hypotheses cannot be met with a disagreement; a witness needs a plane model)."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["globally_hyperbolic", "tarentin"]
+proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "erscor:globally_defined_globally_hyperbolic"
-ett = ["Causal.Causality.ers_corollary_4_69", "Causal.Causality.isPreconnected_of_inextensibleThrough", "Causal.isConnected_of_curves"]
-localisation = ["globally_hyperbolic", "tarentin"]
+ett = ["Causal.Causality.ers_corollary_4_69_secondCountable", "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable", "Causal.Causality.isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable"]
+localisation = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
 open_reason = "As Thm 4.64."
-note = "Cor 4.69 (ghd_02_19.tex:926): U₁ = ℝ^{d+1}, so the hypotheses on U₁ are the ladder nodes globally_hyperbolic and tarentin of C (at ⊤), and U₁ ∩ U₂ = U₂ is preconnected because every point lies on an inextensible curve of U₂ meeting the preconnected S (isPreconnected_of_inextensibleThrough)."
+note = "Cor 4.69 (ghd_02_19.tex:926): U₁ = ℝ^{d+1}, so the hypotheses on U₁ are the ladder nodes globally_hyperbolic and tarentin of C (at ⊤). U₁ ∩ U₂ = U₂ is preconnected: on a T1, second countable background, from S preconnected and Cauchy in U₂ (isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable; ERS give Cor 4.69 no proof). Forms of record (Causal.Ers464SecondCountable): ers_corollary_4_69_secondCountable (the original less `hthrough₂`) and ers_corollary_4_69_of_isCauchySurface_secondCountable (DEC-162: u₁ a GHD read 'S a Cauchy surface of M', with C causally arc-connected at M, the ladder node causally_arc_connected, in place of hacausal and hsplit). Rebound 2026-11-23 (T-bind-curves-ers-4-64): the original ers_corollary_4_69 (with `hthrough₂ : InextensibleThrough U₂`, through isPreconnected_of_inextensibleThrough and Causal.isConnected_of_curves) is named here, not in `ett`; the trade form adds causally_arc_connected to the row."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["globally_hyperbolic", "tarentin"]
+proves = ["globally_hyperbolic", "tarentin", "causally_arc_connected"]
 by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 # ------------------------------------------------------------------ §4.3 superluminal, §4.4 subluminal
 [[bind]]
 label = "erslem:LemConnected"
-ett = ["Causal.Causality.ers_lemma_4_70", "Causal.Causality.ers_lemma_4_70_isConnected", "Causal.Causality.ers_lemma_4_70_core"]
-localisation = ["is_causal"]
-open_localisation = ["inextensible_nested"]
-open_reason = "(4.62) is read as InextensibleNestedOn Cτ C_i (OQ-41 (b), T-lad-nested-inextensible, blocked); is_causal is Cτ's (no closed orbit of T)."
-note = "Lemma 4.70 (ghd_02_19.tex:939). The integral curve of T through x, inextensible in each U_i, meets S once: its segment to S lies in U₁ ∩ U₂, which is connected through S."
+ett = ["Causal.Causality.ers_lemma_4_70_secondCountable", "Causal.Causality.ers_lemma_4_70_isConnected_secondCountable", "Causal.Causality.ers_lemma_4_70_core"]
+localisation = ["is_causal", "inextensible_nested"]
+note = "Lemma 4.70 (ghd_02_19.tex:939). The integral curve of T through x, inextensible in each U_i, meets S once: its segment to S lies in U₁ ∩ U₂, which is connected through S. (4.62) is the nesting of record (DEC-161 (b), OQ-41 (b) as taken): InextensibleNestedOn Cτ C_i U_i for the causality Cτ of T's integral curves, the pair-sort node inextensible_nested (T-lad-nested-inextensible, 7b16a43; the ladder's consequence at inextensible_nested, witness Causal.Causality.ers_lemma_4_70_secondCountable). is_causal is Cτ's (no closed orbit of T). Forms of record (Causal.Ers464SecondCountable, T-abs-ers-4-64-second-countable): ers_lemma_4_70_secondCountable and ers_lemma_4_70_isConnected_secondCountable, the originals ers_lemma_4_70, ers_lemma_4_70_isConnected less `hthrough` (ERS's maximal integral curve through each point, replaced by inextensibleThrough_of_t1_secondCountable Cτ ⊤; `honce` applies to it as to any Cτ-inextensible curve), on a T2, second countable background; ers_lemma_4_70_core is the topological core, the curves given. Rebound 2026-11-23 (T-bind-curves-ers-4-64): the originals are named here, not in `ett`. Rebound the same day (T-bind-ers-rulings, DEC-161 (b)): inextensible_nested moves from open_localisation to localisation, its layer 3 T-loc-quasilinear-nesting. Witness: Causal.timelikeLine_ers_lemma_4_70_secondCountable."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["is_causal"]
+proves = ["is_causal", "inextensible_nested"]
 by = ["T-loc-quasilinear-nesting"]
 
 [[bind]]
 label = "erscor:CorSupLum"
-ett = ["Causal.Causality.ers_corollary_4_71", "Causal.Causality.ers_lemma_4_70", "Causal.Causality.ers_theorem_4_64"]
-localisation = ["is_causal", "globally_hyperbolic", "tarentin"]
-open_localisation = ["inextensible_nested", "local_uniqueness", "slice_restart", "frontier_stays_in"]
-open_reason = "As 4.70 and 4.64."
-note = "Cor 4.71 (ghd_02_19.tex:959): 4.70 + 4.64, global uniqueness for superluminal equations (ers_corollary_4_71 composes them, the named hypotheses of both kept)."
+ett = ["Causal.Causality.ers_corollary_4_71_secondCountable", "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.ers_lemma_4_70_secondCountable", "Causal.Causality.ers_theorem_4_64", "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable"]
+localisation = ["is_causal", "inextensible_nested", "globally_hyperbolic", "tarentin", "causally_arc_connected"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
+open_reason = "As Thm 4.64."
+note = "Cor 4.71 (ghd_02_19.tex:959): 4.70 + 4.64, global uniqueness for superluminal equations. Forms of record (Causal.Ers464SecondCountable): ers_corollary_4_71_secondCountable (the original less `hthroughτ` and `hsplit`: hthroughτ as in 4.70, hsplit from S Cauchy in U₁; S acausal in U₁ kept, DEC-161 (c)) and ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable (hacausal traded for U₁ causally arc-connected, DEC-162). Both take InextensibleNestedOn Cτ C U₁ and InextensibleNestedOn Cτ C₂ U₂ (inextensible_nested, DEC-161 (b)), Cτ causal, and 4.64's three named hypotheses. Rebound 2026-11-23 (T-bind-curves-ers-4-64, then T-bind-ers-rulings): the original ers_corollary_4_71 (with hthroughτ) is named here, not in `ett`; inextensible_nested leaves open_localisation; causally_arc_connected enters with the trade form. No witness in the library: T-abs-ers-witnesses (Cτ = C, InextensibleNestedOn.refl)."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["is_causal", "globally_hyperbolic", "tarentin"]
+proves = ["is_causal", "inextensible_nested", "globally_hyperbolic", "tarentin", "causally_arc_connected"]
 by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
@@ -385,11 +389,11 @@ by = ["T-loc-quasilinear-nesting"]
 # ------------------------------------------------------------------ §4.5–4.8 existence, MGHD, MUGHD, one-sided boundaries
 [[bind]]
 label = "ersthm:ThmEx"
-ett = ["Causal.Causality.ers_theorem_4_75", "Causal.Causality.ers_theorem_4_75_eqOn", "Causal.Causality.ers_theorem_4_64_in", "Causal.Causality.maxDevelopmentIn_eq", "Causal.Causality.isCauchySurfaceOn_iSup_of_inf", "Causal.Causality.isCauchySurfaceOn_of_componentOpens"]
+ett = ["Causal.Causality.ers_theorem_4_75_secondCountable", "Causal.Causality.ers_theorem_4_75_eqOn_secondCountable", "Causal.Causality.ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.IsCauchyLocalDevelopment", "Causal.Causality.IsCauchySurfaceOn.of_inter_eq", "Causal.Causality.isCauchySurfaceOn_iSup_of_inf", "Causal.Causality.isCauchySurfaceOn_of_componentOpens", "Causal.Causality.ers_theorem_4_75", "Causal.Causality.ers_theorem_4_75_eqOn", "Causal.Causality.ers_theorem_4_64_in", "Causal.Causality.maxDevelopmentIn_eq"]
 localisation = ["globally_hyperbolic", "tarentin", "is_causal"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "is_causal"]
-open_reason = "Named: local existence on {t = 0} patches (Sogge; IsLocalDevelopment), and Theorem 4.64's inputs located in each component A of DS_p ∩ DS_q (RestartsIn). These are: A meets S (N's integral curves); local uniqueness on S ∩ A; FrontierStaysIn in A (T-loc-quasilinear-frontier); SliceRestart in A (T-loc-quasilinear-slice). Both T-loc targets are scoped today to U₁ ∩ U₂, so the component-located forms are a scope question for both (T-lad-development-nodes; OQ-57 (b), T-lad-ers-restart-nodes). is_causal: the union U = ⋃ DS_p is causal (≤_U of the patched causality antisymmetric). That is a part of the printed conclusion (U a GHD, :1021), assumed as in row 4.77. For a general quasilinear equation no T-loc target supplies it: T-loc-quasilinear-nesting's is_causal needs (4.62)."
-note = "Thm 4.75 (ghd_02_19.tex:1001). The claim u_p = u_q on DS_p ∩ DS_q (ers_theorem_4_75_eqOn) is proved by running Thm 4.64's argument in each component A, with W = DS_p (ers_theorem_4_64_in, maxDevelopmentIn_eq). This replaces ERS's 4.64 on D_pS_A, D_qS_A and the boundary argument. The union has S as Cauchy surface by Thm 4.77's argument without S ⊆ Uᵢ (isCauchySurfaceOn_iSup_of_inf). That argument uses S Cauchy in each DS_p ∩ DS_q, obtained from the components (isCauchySurfaceOn_of_componentOpens), and the union causal. GH of U is not concluded (OQ-57 (c)). Each DS_p is GH and tarentin for g(u_p), inside IsLocalDevelopment."
+open_reason = "Named: local existence on {t = 0} patches (Sogge), in the form of record Causal.Causality.IsCauchyLocalDevelopment (each patch GH and tarentin for g(u_p), with compact slabs and S a Cauchy surface of it; no acausality, no splitting), and Theorem 4.64's inputs located in each component A of DS_p ∩ DS_q (Causal.Causality.RestartsIn): A meets S (N's integral curves); local uniqueness on S ∩ A (local_uniqueness); FrontierStaysIn in A (frontier_stays_in, T-loc-quasilinear-frontier); SliceRestart in A (slice_restart, T-loc-quasilinear-slice). The three are edge hypotheses and no nodes (DEC-162); both T-loc targets supply them for L any component of the overlap (their scope, 2026-11-21). is_causal: the union U = ⋃ DS_p is causal (≤_U of the patched causality antisymmetric), a part of the printed conclusion (U a GHD, :1021) assumed, as in row 4.77 (OQ-41 (d), DEC-161 (d): recorded). For a general quasilinear equation no T-loc target supplies it: T-loc-quasilinear-nesting's is_causal needs (4.62)."
+note = "Thm 4.75 (ghd_02_19.tex:1001). The claim u_p = u_q on DS_p ∩ DS_q is proved by running Thm 4.64's argument in each component A, with W = DS_p. This replaces ERS's 4.64 on D_pS_A, D_qS_A and the boundary argument. The union has S as Cauchy surface by Thm 4.77's argument without S ⊆ Uᵢ (isCauchySurfaceOn_iSup_of_inf), from S Cauchy in each DS_p ∩ DS_q, obtained from the components (isCauchySurfaceOn_of_componentOpens), and the union causal. GH of U is not concluded (OQ-57 (c), DEC-162). DEC-162's reading (each u_p a GHD read 'S Cauchy in DS_p'): the forms of record are Causal.Ers475CauchyForm's (T-abs-ers-4-75-cauchy-form, ee6ad88), on a T2, second countable, locally connected background. ers_theorem_4_75_secondCountable and ers_theorem_4_75_eqOn_secondCountable take the patches as IsCauchyLocalDevelopment (IsLocalDevelopment less `acausal` and `split`; IsLocalDevelopment.isCauchyLocalDevelopment), so they are at least as strong as the originals there. 4.64 runs in each component as ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable, through maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable, with no causal arc-connectedness asked (the acausality served only the union, kb/0265). ERS's S_p, Cauchy in DS_p, gives S Cauchy in DS_p through IsCauchySurfaceOn.of_inter_eq when S ∩ DS_p = S_p ∩ DS_p. The originals (ers_theorem_4_75, ers_theorem_4_75_eqOn, ers_theorem_4_64_in, maxDevelopmentIn_eq; Causal.ErsUnions; each patch Causal.Causality.IsLocalDevelopment) stay. Witness: Causal.timelikeLine_ers_theorem_4_75_secondCountable. Rebound 2026-11-23 (T-bind-ers-rulings, DEC-162)."
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["globally_hyperbolic", "tarentin"]
@@ -398,13 +402,11 @@ by = ["T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasi
 [[bind]]
 label = "ersthm:ThmUMGHD"
 ett = ["Causal.Causality.ers_theorem_4_77", "Causal.Causality.ers_theorem_4_77_greatest"]
-localisation = ["is_causal"]
-open_localisation = ["inextensible_nested"]
-open_reason = "Through Cor 4.71 (OQ-41 (b)). OQ-41 (d): the Lean skeleton adds 'the union is causal' and concludes 'S is a Cauchy surface', not GH (Geroch (iii) ⇒ (i) unproved)."
-note = "Thm 4.77 (ghd_02_19.tex:1031): the union of all GHDs is the unique MGHD; its Cauchy property by ERS's open–closed argument along a curve (the `step` of ers_theorem_4_77); global uniqueness (`hpair`) is Rem 4.67 after Cor 4.71."
+localisation = ["is_causal", "inextensible_nested"]
+note = "Thm 4.77 (ghd_02_19.tex:1031): the union of all GHDs is the unique MGHD; its Cauchy property by ERS's open–closed argument along a curve (the `step` of ers_theorem_4_77); global uniqueness (`hpair`, S Cauchy in every pairwise overlap) is Rem 4.67 after Cor 4.71, which is where inextensible_nested enters ((4.62), DEC-161 (b); the row's quasilinear entry), with 4.71's named hypotheses. DEC-161 (d) (OQ-41 (d)): the Lean skeleton adds 'the union is causal' (`hcaus`, the row's is_causal) and concludes 'S is a Cauchy surface of the union', not GH (Geroch (iii) ⇒ (i) unproved); the added hypothesis is recorded, not dropped. Rebound 2026-11-23 (T-bind-ers-rulings): inextensible_nested moves from open_localisation to localisation."
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["is_causal"]
+proves = ["is_causal", "inextensible_nested"]
 by = ["T-loc-quasilinear-nesting"]
 
 [[bind]]
@@ -424,9 +426,9 @@ by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder"]
 [[bind]]
 label = "ersthm:ThmMUGHD"
 ett = ["Causal.ers_theorem_4_79_secondCountable", "Causal.ers_theorem_4_79_of_exists", "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable", "Causal.IsDevelopment.exists_isMDevelopment_le", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73_secondCountable"]
-localisation = ["curve_nested", "causally_arc_connected", "is_causal", "globally_hyperbolic", "tarentin"]
-open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "inextensible_nested"]
-open_reason = "Through Cor 4.73's 4.64 (T-lad-development-nodes; OQ-57 (b), T-lad-ers-restart-nodes). inextensible_nested: D_m(S) ∩ U₁ an m-GHD needs S g(u₁)-Cauchy there, InextensibleNestedOn, not a consequence of curve nesting (OQ-41 (b), kb/0045). The Minkowski fact hDm (O'Neill 14.38, 14.43: int D_m(S, U₁) m-GH with Cauchy surface S) is named and has no Lean supplier."
+localisation = ["curve_nested", "inextensible_nested", "causally_arc_connected", "is_causal", "globally_hyperbolic", "tarentin"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
+open_reason = "Through Cor 4.73's 4.64: local_uniqueness, slice_restart and frontier_stays_in, edge hypotheses and no nodes (DEC-162; T-lad-edge-hypotheses). inextensible_nested is a node since T-lad-nested-inextensible (DEC-161 (b)) and leaves open_localisation (T-bind-ers-rulings, 2026-11-23): ers_theorem_4_79_secondCountable takes `hinext : InextensibleNestedOn (cau u) Cm U` on every development (D_m(S) ∩ U₁ an m-GHD needs S g(u₁)-Cauchy there, not a consequence of curve nesting, kb/0045), the ladder's consequence at [curve_nested, inextensible_nested]; its layer 3 is T-loc-quasilinear-nesting (for smooth g(u) a g-inextensible causal curve of U has no endpoint in U, hence is m-inextensible once it is m-causal). The Minkowski fact hDm (O'Neill 14.38, 14.43: int D_m(S, U₁) m-GH with Cauchy surface S) is named and has no Lean supplier."
 note = "Thm 4.79 (ghd_02_19.tex:1055), Causal.ErsMughd (T-abs-ers-mughd), unmarked. The MUGHD is the union of all UGHDs, glued by ers_remark_4_78 under subluminality (S acausal in the union for g(v)); non-empty by IsDevelopment.exists_isMDevelopment_le (D_m(S) ∩ U₁) and IsMDevelopment.isUniqueDevelopment (4.73). ers_theorem_4_77_greatest is not used: it is about one causality and all S-Cauchy opens, with no solution. ERS's appeal to Remark 4.67 for pairs of UGHDs (:1063) is valid (their overlap is connected, by Lemma 4.72's argument) but not checked in the paper; the Lean route bypasses it. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): ers_theorem_4_79_secondCountable (Causal.ErsSecondCountable) is ers_theorem_4_79 less `hmext` and `hthrough` on a Hausdorff, second countable background, with IsMDevelopment.isUniqueDevelopment_secondCountable for the non-emptiness, so curves_extend leaves the row and its Minkowski entry; ers_theorem_4_79_of_exists takes no curve hypothesis."
 [[bind.geometric]]
 model = "minkowski"
@@ -434,15 +436,15 @@ proves = ["is_causal"]
 by = ["Causal.minkowski_isCausal"]
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["curve_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
+proves = ["curve_nested", "inextensible_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
 by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "ersthm:consider_subluminal_quasilinear_wave"
 ett = ["Causal.ers_theorem_4_80_secondCountable", "Causal.ers_theorem_4_80_of_exists", "Causal.IsMaximalMDevelopment.unique", "Causal.IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment", "Causal.Causality.isCauchySurfaceOn_sSup_of_isCausal", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73_secondCountable"]
-localisation = ["curve_nested", "causally_arc_connected", "is_causal", "globally_hyperbolic", "tarentin"]
-open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "inextensible_nested"]
-open_reason = "As Thm 4.79."
+localisation = ["curve_nested", "inextensible_nested", "causally_arc_connected", "is_causal", "globally_hyperbolic", "tarentin"]
+open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
+open_reason = "As Thm 4.79 (inextensible_nested a node, DEC-161 (b): `hinext` of ers_theorem_4_80_secondCountable)."
 note = "Thm 4.80 (ghd_02_19.tex:1066), Causal.ErsMughd (T-abs-ers-mughd), unmarked: the unique m-MGHD, the union of the m-GHDs (m-Cauchy by isCauchySurfaceOn_sSup_of_isCausal, implicit in the paper at :1072), contained in the MUGHD (IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment). The two example claims of :1075 are not formalised. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): ers_theorem_4_80_secondCountable (Causal.ErsSecondCountable) is ers_theorem_4_80 less `hmext` and `hthrough` on a Hausdorff, second countable background, so curves_extend leaves the row and its Minkowski entry."
 [[bind.geometric]]
 model = "minkowski"
@@ -450,16 +452,16 @@ proves = ["is_causal"]
 by = ["Causal.minkowski_isCausal"]
 [[bind.geometric]]
 model = "quasilinear"
-proves = ["curve_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
+proves = ["curve_nested", "inextensible_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
 by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-quasilinear-slice", "T-loc-quasilinear-frontier"]
 
 [[bind]]
 label = "ersthm:ThmNotBlocking"
-ett = ["Causal.Causality.ers_theorem_4_82", "Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary", "Causal.Causality.ers_theorem_4_82_of_sliceRestart", "Causal.Causality.ers_theorem_4_82_of_globallyHyperbolicOn", "Causal.Causality.frontier_connectedComponentIn_inter", "Causal.Causality.exists_spacelike_boundary_point"]
+ett = ["Causal.Causality.ers_theorem_4_82", "Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary", "Causal.Causality.ers_theorem_4_82_of_sliceRestart", "Causal.Causality.ers_theorem_4_82_of_globallyHyperbolicOn", "Causal.Causality.ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable", "Causal.Causality.frontier_connectedComponentIn_inter", "Causal.Causality.exists_spacelike_boundary_point"]
 localisation = ["globally_hyperbolic", "tarentin"]
 open_localisation = ["one_sided_boundary", "slice_restart", "local_uniqueness"]
-open_reason = "(4.83) enters through its topological content Causal.Causality.OneSidedBoundary (`honesided`; node: OQ-52 (b), T-lad-one-sided-node); at the quasilinear model Lemma 4.86 supplies it from curve_nested and a Cauchy slice, Causal.ers_theorem_4_82_of_slopeCone (T-loc-quasilinear-one-sided); `hstep` is SliceRestart definitionally (ers_theorem_4_82_of_sliceRestart; OQ-57 (b), T-lad-ers-restart-nodes) and contains Prop 4.63 (T-lad-development-nodes). OQ-41 (e): ∂S read as closure(S) ∖ S."
-note = "Thm 4.82 (ghd_02_19.tex:1100, proof 1114–1139). The component A of U₁ ∩ U₂ through S has boundary points in U₂ on ∂U₁ (4.84); a spacelike one (4.85) without null geodesics; one-sidedness puts a neighbourhood's trace on U₁ inside A; the restart extends the MGHD: contradiction. With each development GH and tarentin (ladder nodes read on dom i), hcaus, hJm, hJp are derived (ers_theorem_4_82_of_globallyHyperbolicOn)."
+open_reason = "(4.83) enters through its topological content Causal.Causality.OneSidedBoundary U₁ (closure S) (`honesided`), an edge hypothesis only and no node (DEC-166 (b)), named in the `under` of the ladder's consequence ERS Thm 4.82 at is_causal (witness ers_theorem_4_82_of_oneSidedBoundary; T-lad-one-sided-node, 0ea179a). At the quasilinear model Lemma 4.86 supplies it in Lean from curve_nested and a Cauchy slice: Causal.ers_theorem_4_82_of_slopeCone (T-loc-quasilinear-one-sided). `hstep` is SliceRestart definitionally (ers_theorem_4_82_of_sliceRestart), an edge hypothesis (DEC-162), and contains Prop 4.63 (local_uniqueness). T-lad-edge-hypotheses gives the three table ids. OQ-41 (e), DEC-161: ∂S read as closure(S) ∖ S."
+note = "Thm 4.82 (ghd_02_19.tex:1100, proof 1114–1139). The component A of U₁ ∩ U₂ through S has boundary points in U₂ on ∂U₁ (4.84); a spacelike one (4.85) without null geodesics; one-sidedness puts a neighbourhood's trace on U₁ inside A; the restart extends the MGHD: contradiction. With each development GH and tarentin (ladder nodes read on dom i), hcaus, hJm, hJp are derived (ers_theorem_4_82_of_globallyHyperbolicOn). In DEC-162's reading (u₁ an MGHD and u a GHD, each read 'S Cauchy in dom i'), ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable (Causal.Ers464SecondCountable, a restatement) trades hsplit for S Cauchy in each dom i on a T2, second countable background (rebound 2026-11-23, T-bind-curves-ers-4-64). No witness in the library: T-abs-ers-witnesses."
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["globally_hyperbolic", "tarentin"]
@@ -470,9 +472,9 @@ label = "erslem:PropertyTimelike"
 ett = ["Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary", "Causal.Causality.OneSidedBoundary"]
 localisation = ["curve_nested"]
 open_localisation = ["one_sided_boundary"]
-open_reason = "Its output (4.83) is one_sided_boundary, Causal.Causality.OneSidedBoundary U₁ (closure S), not a node (OQ-52 (b), T-lad-one-sided-node). The layer-3 proof is in Lean: Causal.ers_lemma_4_86_oneSidedBoundary (and ers_lemma_4_86, the graph form), from curve_nested of the slope-δ cone and a Cauchy slice, readings disclosed, unmarked (T-loc-quasilinear-one-sided)."
-note = "Lemma 4.86 (ghd_02_19.tex:1143, proof 1159–1169). A layer-3 lemma (coordinates of ℝ^{d+1}): if the cone of slope δ around ∂₀ is g-timelike ((4.87), read as the nesting curve_nested of the static slope-δ causality in C_g), a C_δ-past-inextensible curve from a point above the graph would miss S, so ∂U₁ is the graph of the continuous f⁺; it supplies (4.83) to 4.82 as the `honesided` of ers_theorem_4_82_of_oneSidedBoundary. Its proof is causal once the narrow cone is a nested causality: T-loc-quasilinear-one-sided."
+open_reason = "Its output (4.83) is one_sided_boundary, Causal.Causality.OneSidedBoundary U₁ (closure S), an edge hypothesis only and no node (DEC-166 (b)); binder.py accepts it as `proves` once T-lad-edge-hypotheses gives it a table id (T-bind-edge-hypotheses). The layer-3 proof is in Lean: Causal.ers_lemma_4_86_oneSidedBoundary (and ers_lemma_4_86, the graph form), from curve_nested of the slope-δ cone and a Cauchy slice, readings disclosed (OQ-73, DEC-162), unmarked (T-loc-quasilinear-one-sided)."
+note = "Lemma 4.86 (ghd_02_19.tex:1143, proof 1159–1169). A layer-3 lemma (coordinates of ℝ^{d+1}): if the cone of slope δ around ∂₀ is g-timelike ((4.87), read as the nesting curve_nested of the static slope-δ causality in C_g), a C_δ-past-inextensible curve from a point above the graph would miss S, so ∂U₁ is the graph of the continuous f⁺; it supplies (4.83) to 4.82 as the `honesided` of ers_theorem_4_82_of_oneSidedBoundary (Causal.ers_theorem_4_82_of_slopeCone). Its proof is causal once the narrow cone is a nested causality: T-loc-quasilinear-one-sided."
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["curve_nested"]
-by = ["T-loc-quasilinear-nesting"]
+by = ["T-loc-quasilinear-nesting", "Causal.ers_lemma_4_86_oneSidedBoundary"]
