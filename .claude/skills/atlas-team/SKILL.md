@@ -245,6 +245,17 @@ Messages follow the repository's style:
 Then `git push origin main`, retrying network errors up to four times. Never force-push. If the
 push is rejected, stop the loop and say so.
 
+**Publish the public atlas.** After a successful push, run `make mirror`
+(`tools/public_mirror.py push`, DEC-203/207). It rebuilds the filtered public mirror
+LBrunswic/MathAtlas from `main`, verifies that no stripped third-party path survives, pushes
+`main` as a fast-forward, and republishes the atlas on GitHub Pages
+(https://lbrunswic.github.io/MathAtlas/). Run it only after your own push succeeded, so the
+public site never shows work that `origin` does not have. It needs `git-filter-repo` (on PATH, in
+`~/.local/bin`). If it refuses because the strip rules changed (a history rewrite needs
+`--rewrite`, an author decision) or the push fails, do not retry with force. Record it in the
+journal and go on: the next iteration's run catches up, since the mirror is rebuilt from scratch
+each time.
+
 ## 6. Journal and hand-off
 
 Append one entry to `roadmap/JOURNAL.md`:
