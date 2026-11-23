@@ -399,13 +399,14 @@ id = "T-lad-record-cauchy-separation"
 title = "Record lem:Sigma_separe's ETT-layer forms (Causal.CauchySeparation, T-abs-hoist-dual-cover). The consequence 'M = J⁺(Σ) ∪ J⁻(Σ) for every Cauchy surface Σ' at curves_extend takes Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable (standing T1, second_countable) as its witness of record, the curve-taking form named in the comment. IsCauchySurface.sigma_separe_of_nonemptyChronalCones, the regular case of lem:Sigma_separe, becomes a consequence where its hypotheses sit"
 stream = "ladder"
 kind = "ladder"
-status = "ready"
+status = "done"
 owner = "keeper"
 priority = 5
 depends = ["T-abs-hoist-dual-cover"]
 evidence = "The keeper's proposals of journal 2026-11-23 10:30 and 12:20. (1) programme/ladder.toml:3085–3089: the [[consequence]] at curves_extend 'M = J⁺(Σ) ∪ J⁻(Σ) for every Cauchy surface Σ', witness Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface, takes CurvesExtend's body as `hext`. Since a295191 the form without it is Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable (Causal/CauchySeparation.lean:92; [T1Space M] [SecondCountableTopology M]). By the ladder's convention for forms that only drop binders (ladder.toml:2720–2727, T-lad-record-curves-corollaries) it is the witness, with standing [\"T1\", \"second_countable\"]. Whether the entry stays at curves_extend or moves to the bottom of the causality sort, the fact making curves_extend free, is the keeper's call. (2) Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones (CauchySeparation.lean:282: [T2Space M] [SecondCountableTopology M], IsCausal, CausallyArcConnected, NoPastEndpoint and NonemptyChronalCones give J±(Σ) closed, J⁺(Σ) ∩ J⁻(Σ) = Σ, the neighbourhood clauses, the cover, J±(Σ) ∖ Σ open and Σ closed) becomes a consequence at [is_causal, causally_arc_connected], with NonemptyChronalCones and NoPastEndpoint in `under` (neither is a node; NonemptyChronalCones gives has_chronal_neighbour by NonemptyChronalCones.hasChronalNeighbourEverywhere, Causal/ChronalNeighbourBridge.lean:129, and the comment at ladder.toml:715–727 already names it). Its witness on the timelike line is Causal.timelikeLine_sigma_separe_of_nonemptyChronalCones. The ladder has no lem:Sigma_separe consequence yet. Its narrower corollary Causal.Causality.sigma_separe_of_t1_secondCountable (Causal/CExtConnexeSecondCountable.lean:358, with the splitting ψ) may be a second entry. (3) For J⁺(Σ) ∩ J⁻(Σ) = Σ the ETT-layer twin Causal.Causality.IsAcausal.Jplus_inter_Jminus (CauchySeparation.lean:112) is cited, not Causal.Causality.Jplus_inter_Jminus_eq (Causal/CBG/Ppcm.lean:184, model layer; kb/0256). No edge changes, so emit-lean is unaffected. Checked by tools/ladder.py check. Ready."
 added = "2026-11-23"
 proposed_by = "programme-planner (planning run after wave 30: proposals of journal 2026-11-22 23:10 to 2026-11-23 12:20)"
+commit = "697178b"
 
 [[target]]
 id = "T-lad-record-direct-witnesses"
@@ -588,12 +589,13 @@ title = "tools/ladder.py: every subcommand refuses an argument it does not know,
 stream = "tactics"
 kind = "tooling"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 3
 evidence = "kb/0252 (T-abs-one-sided-future-base, 1cef44b; journal 2026-11-23 08:40: a tool fix for the planner). tools/ladder.py's main (:1334–1391) reads only `--file` from the rest of the command line and ignores every other argument, so emit-lean (:1362–1381) goes on to write RULES and TEST. The fix: a parser per subcommand (stdlib); an unknown argument is an error with exit 2, and --help/-h prints the docstring. A test in tests/test_programme.py runs `emit-lean --help` and an unknown flag against a copy and asserts the generated files are byte-identical afterwards. It fails on today's tool, so the gate can fail. The dry run kb/0252 describes (ladder.emit_lean / emit_test in memory) may become a `--dry-run` flag printing the diff. Owner: the master, who edits tools/ (T-tool-ladder-py, T-tool-ladder-py-2). Ready."
 added = "2026-11-23"
 proposed_by = "programme-planner (planning run after wave 30: proposals of journal 2026-11-22 23:10 to 2026-11-23 12:20)"
+commit = "df1fb2d"
 
 [[target]]
 id = "T-tool-ladder-edge-hypotheses"
@@ -1573,13 +1575,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["push_up", "tarentin", "chronal_neighbours", "causally_open", "curves_extend"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-abs-hoist-lemma-k"]
 evidence = "DEC-190 (OQ-86): CurvesExtend is dropped everywhere, now a theorem on every ETT spacetime. The target covers the 32 binders of the Lemma K family (T-abs-hoist-lemma-k's count). It follows the pattern of Causal.ErsSecondCountable (3999b32): each form is exactly its original less the hypothesis, with the instances inserted, checked by comparing #check strings (that closer's REPORT note 2), with witnesses on the timelike line. The ETT rows (prop:K_calcul, Lemma K and its local forms) may then take them as anchors, which is /atlas-team's curation. Planned until the hoist: before it, a layer-1 module may not import Lemma K. Re-read 2026-11-23 (planning run after wave 30): its dependency is done (9287e1a: the Lemma K family is ETT-layer, its Minkowski and static sections in Causal.Model.LemmaKModels). OQ-98 (b) (beside or replace) is open: this target adds forms beside the originals, the reversible choice and the precedent of Causal.ErsSecondCountable, Causal.Ers464SecondCountable and Causal.CurvesFreeCauchy (d21912b). Before writing, diff the 32 binders against the forms that exist by elaborated binder lists (kb/0260, kb/0227; T-abs-curves-free-cauchy found 26 of its 45 already formed), with kb/0259's forallTelescope scan for inline curve hypotheses (lean-causal/campaign/T-abs-curves-free-cauchy/Probe_Binders.lean, binders_diff.py). Not here: the remaining binders of ErsUnions/ErsMughd (T-abs-curves-free-ers-unions) and Causal.Ladder.Dual's curvesExtend_dual_iff (T-tac-dual-has-chronal-neighbour). Ready."
 added = "2026-11-22"
 proposed_by = "programme-planner (planning run on the author's rulings DEC-147–206, d1c40af)"
+commit = "c37eba0"
 
 [[target]]
 id = "T-abs-curves-free-cauchy"
@@ -1604,13 +1607,14 @@ stream = "abstract"
 kind = "abstract"
 uses = ["le_nested", "inextensible_nested"]
 package = "lean-causal"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-lad-nested-inextensible"]
 evidence = "The keeper's proposal 1 (T-lad-nested-inextensible, 7b16a43; journal 2026-11-22 23:10). programme/ladder.toml:2570–2595: the [[fails]] le_nested → inextensible_nested has the indirect witness Causal.not_isCauchySurface_of_nested_bare, and the one-line step through Causal.Causality.IsCauchySurfaceOn.of_nested was compiled outside the tree. 'A direct conjoined statement (cutLine 1 ≤-nested in timelikeLine ∧ ¬ InextensibleNestedOn (cutLine 1) timelikeLine ⊤) is proposed'. Pieces: Causal.cutLine, cutLine_leNested (Causal/NestedCausalities.lean:258), cutLine_isCausal, cutLine_not_globallyHyperbolic, cutLine_inextensible_Ici (:490), and Causal.timelikeLine_isCauchySurface_zero. The cut line is absolutely minimal on every open (Causal.GluingModels.cutLine_hereditary; cutLine_minimal, Causal/GluingModels/Minimal.lean:178), so the witness stands under DEC-167. A new ETT-layer module, so no other closer's file is touched. ℝ is T2 and second countable, so the entry needs no `space`. The keeper re-points the entry (T-lad-record-direct-witnesses). Ready."
 added = "2026-11-23"
 proposed_by = "programme-planner (planning run after wave 30: proposals of journal 2026-11-22 23:10 to 2026-11-23 12:20)"
+commit = "895ccd8"
 
 [[target]]
 id = "T-abs-chronal-neighbour-conjoined"
@@ -2089,12 +2093,13 @@ id = "T-pkg-sbierski-schwarzschild"
 title = "Ledger Sbierski, C⁰-inextendibility of Schwarzschild and the spacelike diameter (arXiv 1507.00601) as papers/sbierski-schwarzschild"
 stream = "binders"
 kind = "package"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 4
 evidence = "The founding C⁰-inextendibility paper (T1); its locating and boundary steps are layer 1 (SYNTHESIS Q2). Re-read 2026-11-23 (planning run after wave 30): promoted to ready. Its scope is the set-up of T-pkg-sbierski-mghd (685b84a; papers/sbierski-mghd/legacy/MANIFEST.json: the arXiv e-print snapshot under papers/<slug>/sources/, labels prefixed per paper, Lean root lean-causal, an external paper with no story; the skill's master row). The localisation property its binder needs exists now: has_chronal_neighbour (T-lad-has-chronal-neighbour, 5117a6d; DEC-159), with Lemma 2.17's layer 1 in Lean (Causal.Causality.exists_leaving_of_isOpenEmbedding, Causal/LocateExtension.lean:418; exists_leaving_of_hasChronalNeighbourEverywhere, Causal/ChronalNeighbourBridge.lean:257). The KB has the extraction and the PDF (references/sbierski/text/sbierski2015c.txt, pdf/sbierski2015c.pdf, notes/sbierski2015c.md); the source itself comes from arXiv. Once set up, T-bind-sbierski-schwarzschild becomes ready (rule 2)."
 added = "2026-11-20"
 proposed_by = "programme seed"
+commit = "1eb6189"
 
 [[target]]
 id = "T-bind-sbierski-mghd"
@@ -2148,7 +2153,7 @@ title = "Binder of papers/sbierski-schwarzschild (Sbierski 1507.00601): Lemma 2.
 stream = "binders"
 kind = "binder"
 paper = "sbierski-schwarzschild"
-status = "planned"
+status = "ready"
 oq = "OQ-51"
 owner = "planner"
 priority = 5
