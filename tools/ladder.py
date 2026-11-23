@@ -3,10 +3,14 @@
 
     python3 tools/ladder.py check [--file F]   schema, ids, sorts, labels, Lean names, no contradiction
     python3 tools/ladder.py matrix [--file F]  every ordered pair of properties, classified (below)
-    python3 tools/ladder.py emit-lean          write lean-causal/Causal/Ladder/Rules.lean from the
+    python3 tools/ladder.py emit-lean [--dry-run]  write lean-causal/Causal/Ladder/Rules.lean from the
                                                checked edges and facts (and its tests,
                                                Causal/Ladder/Test.lean)
     python3 tools/ladder.py dot                the implication DAG in Graphviz
+    -h, --help anywhere                        this text; nothing is read or written. Any other
+                                               argument a subcommand does not take: exit 2.
+                                               --dry-run: say whether Rules.lean / Test.lean would
+                                               change, write nothing.
 
 Schema. Every table and key not listed here is a violation (a misspelt `standing` would otherwise
 be dropped silently, and its edge chained as unconditional).
@@ -1331,16 +1335,43 @@ def emit_test(data, index=None):
     return "\n".join(lines) + "\n"
 
 
-def main(argv):
-    if not argv:
-        sys.exit(__doc__)
+#: The options each subcommand takes (name -> number of values). Anything else is refused with exit
+#: status 2 before the ladder is read or a file written, so that a misspelt flag never runs a
+#: subcommand with its defaults (T-tool-ladder-emit-args: `emit-lean --help` used to rewrite the
+#: generated Rules.lean and Test.lean, kb/0252).
+OPTIONS = {"check": {"--file": 1}, "matrix": {"--file": 1}, "dot": {"--file": 1},
+           "emit-lean": {"--dry-run": 0}}
+
+
+def parse_args(argv):
+    """(cmd, opts) from the command line; `-h`/`--help` anywhere prints the usage and exits 0 having
+    read and written nothing; an unknown subcommand or argument exits 2 with a message."""
+    if not argv or any(a in ("-h", "--help") for a in argv):
+        print(__doc__)
+        sys.exit(0 if argv else 2)
     cmd, rest = argv[0], argv[1:]
-    path = FILE
-    if "--file" in rest:
-        k = rest.index("--file")
-        if k + 1 >= len(rest):
-            sys.exit("ladder: --file needs a path")
-        path = rest[k + 1]
+    if cmd not in OPTIONS:
+        sys.stderr.write("ladder: unknown subcommand %r (one of %s)\n" % (cmd, ", ".join(sorted(OPTIONS))))
+        sys.exit(2)
+    opts, k = {}, 0
+    while k < len(rest):
+        a = rest[k]
+        if a not in OPTIONS[cmd]:
+            sys.stderr.write("ladder: %s takes no argument %r (it takes: %s)\n" % (
+                cmd, a, ", ".join(sorted(OPTIONS[cmd])) or "none"))
+            sys.exit(2)
+        n = OPTIONS[cmd][a]
+        if n and k + n >= len(rest):
+            sys.stderr.write("ladder: %s needs a value\n" % a)
+            sys.exit(2)
+        opts[a] = rest[k + 1] if n else True
+        k += 1 + n
+    return cmd, opts
+
+
+def main(argv):
+    cmd, opts = parse_args(argv)
+    path = opts.get("--file", FILE)
     data = load(path)
     if cmd == "check":
         errs = check(data)
@@ -1360,12 +1391,20 @@ def main(argv):
             print("%-24s %-24s %s%s" % (a, b, v, extra))
         return
     if cmd == "emit-lean":
-        if path != FILE:
-            sys.exit("ladder: emit-lean writes lean-causal from programme/ladder.toml only")
         index = lean_index()
         rules, skipped = emitted(data, index)
         facts, local, fskipped = emitted_facts(data, index, rules)
         text, test = emit_lean(data, index), emit_test(data, index)
+        if opts.get("--dry-run"):
+            for p, body in ((RULES, text), (TEST, test)):
+                try:
+                    with open(p, encoding="utf-8") as fh:
+                        cur = fh.read()
+                except FileNotFoundError:
+                    cur = None
+                print("ladder: %s %s" % (os.path.relpath(p, ROOT), "unchanged" if cur == body else
+                                         "absent" if cur is None else "would change"))
+            return
         os.makedirs(os.path.dirname(RULES), exist_ok=True)
         for p, body in ((RULES, text), (TEST, test)):
             with open(p, "w", encoding="utf-8") as fh:
@@ -1384,7 +1423,6 @@ def main(argv):
                 print('  "%s" -> "%s" [style=%s];' % (a, e["to"], "solid" if e["status"] == "checked" else "dashed"))
         print("}")
         return
-    sys.exit(__doc__)
 
 
 if __name__ == "__main__":

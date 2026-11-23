@@ -266,6 +266,49 @@ class LadderEmit(unittest.TestCase):
                                  "python3 tools/ladder.py emit-lean" % os.path.relpath(path, ROOT))
 
 
+
+class LadderArgs(unittest.TestCase):
+    """T-tool-ladder-emit-args (kb/0252): an argument a subcommand does not take is refused (exit 2),
+    and -h/--help prints the usage, before anything is read or written. Under the old main, which
+    read only --file, `emit-lean --help` and `emit-lean --bogus` rewrote Rules.lean and Test.lean:
+    the mtime checks below fail on it."""
+    TOOL = os.path.join(ROOT, "tools", "ladder.py")
+
+    def run_tool(self, *args):
+        return subprocess.run([sys.executable, "-B", self.TOOL, *args], capture_output=True, text=True)
+
+    def stamps(self):
+        return [os.stat(p).st_mtime_ns for p in (ld.RULES, ld.TEST)]
+
+    def test_help_writes_nothing(self):
+        before = self.stamps()
+        for args in (("emit-lean", "--help"), ("emit-lean", "-h"), ("--help",), ("check", "-h")):
+            r = self.run_tool(*args)
+            self.assertEqual(r.returncode, 0, (args, r.stderr))
+            self.assertIn("python3 tools/ladder.py emit-lean", r.stdout)
+        self.assertEqual(self.stamps(), before)
+
+    def test_unknown_argument_is_refused_and_writes_nothing(self):
+        before = self.stamps()
+        for args in (("emit-lean", "--bogus"), ("emit-lean", "--file", "x"), ("check", "--nope"),
+                     ("matrix", "extra"), ("frobnicate",), ("check", "--file")):
+            r = self.run_tool(*args)
+            self.assertEqual(r.returncode, 2, (args, r.stdout, r.stderr))
+        self.assertEqual(self.stamps(), before)
+
+    def test_dry_run_writes_nothing(self):
+        before = self.stamps()
+        r = self.run_tool("emit-lean", "--dry-run")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertRegex(r.stdout, r"Rules\.lean (unchanged|would change)")
+        self.assertEqual(self.stamps(), before)
+
+    def test_parse_args(self):
+        self.assertEqual(ld.parse_args(["check", "--file", "f.toml"]), ("check", {"--file": "f.toml"}))
+        self.assertEqual(ld.parse_args(["emit-lean", "--dry-run"]), ("emit-lean", {"--dry-run": True}))
+        self.assertEqual(ld.parse_args(["dot"]), ("dot", {}))
+
+
 LABELS = {"def:x"}
 
 
