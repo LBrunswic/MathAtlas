@@ -56,5 +56,6 @@ import GX.BBS.HSModel
 import GX.BBS.RP1Circles
 import GX.BBS.IPm
 import GX.BBS.PhotonCircles
+import GX.BBS.GammaPElements
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/
