@@ -3,13 +3,14 @@ import Causal.Cauchy
 import Causal.LadderLocal
 
 /-!
-# The maximal piece in an open set of a time-parametrised causal curve is inextensible
+# Inextensible causal curves of an open set: the maximal piece of a time-parametrised curve, and a curve running out of the set in finite time
 
-Programme target `T-abs-hoist-inextensible-piece` (`programme/roadmap.toml`; layer 1, stream
-abstract, no label of `ETT.tex`; ETT-layer imports only, no model; no metric on the spacetime).
-Nothing is marked: the module proves no statement of the paper. It produces inextensible causal
-curves (`Causality.Inextensible`, DEC-11 and DEC-13, `Causal.Inextensible`) from a time that reads
-the parameter, and makes a Cauchy surface (`Causality.IsCauchySurfaceOn`, DEC-14) meet them.
+Programme targets `T-abs-hoist-inextensible-piece` and `T-loc-ealpha-tidy`
+(`programme/roadmap.toml`). The module is layer 1: no label of `ETT.tex`, ETT-layer imports only,
+no model, no metric on the spacetime. Nothing is marked: it proves no statement of the paper.
+It produces inextensible causal curves (`Causality.Inextensible`, DEC-11 and DEC-13,
+`Causal.Inextensible`) from a time that reads the parameter, or from a limit outside the open set,
+and makes a Cauchy surface (`Causality.IsCauchySurfaceOn`, DEC-14) meet them.
 
 > Let $M$ be a topological spacetime. A Cauchy surface in $M$ is a subset $S\subset M$ such that
 > every causal curve of $M$ meets $S$ exactly once. (`def:cauchy_surface`, `ETT.tex:999–1000`)
@@ -35,6 +36,13 @@ T-loc-quasilinear-one-sided), same full names, same statements, text verbatim (k
 * `IsCauchySurfaceOn.exists_mem_connectedComponentIn`: a Cauchy surface of `W` meets `ℓ` on that
   piece.
 
+Hoisted out of `Causal.Model.EAlphaCauchy` (written by T-loc-ealpha-cauchy) by T-loc-ealpha-tidy,
+same full name, same statement, text verbatim, namespace `Causal.Causality`:
+
+* `inextensible_Iio_of_tendsto_not_mem`: a causal curve of `W` over `]-∞, b[` which tends, at its
+  future end, to a point `P ∉ W`, and along which a function non-decreasing for `≤_W` is unbounded
+  below, is inextensible in `W` (kb/0055: "a curve runs into the boundary").
+
 ## Hypothesis checklist (`inextensible_connectedComponentIn`)
 
 | hypothesis | role |
@@ -44,14 +52,30 @@ T-loc-quasilinear-one-sided), same full names, same statements, text verbatim (k
 | every segment of `ℓ` inside `W` causal in `W` | ✓ carried (`CausalCurveOn W ℓ a b` when `ℓ '' [a, b] ⊆ W`); nothing about `C` outside `W` |
 | curves extend, antisymmetry, other separation, countability | none asked |
 
+## Hypothesis checklist (`inextensible_Iio_of_tendsto_not_mem`)
+
+| hypothesis | role |
+|---|---|
+| `[T2Space M]` | ✓ carried: an extension after the curve passes, at the supremum of the reparametrised domain, through a point of `W` that would be a second limit of `c` at `b` |
+| `c` tends to `P ∉ W` as `τ → b⁻` | ✓ carried: that limit is the point the extension would have to pass through |
+| `f` non-decreasing for `≤_W`, unbounded below along `c` | ✓ carried: rules out an extension before the curve |
+| continuity of `c` on `ℝ`, a time reading the parameter, curves extend, countability | none asked |
+
 ## SCOPE (disclosed)
 
 * **A verbatim hoist.** HEAD `73eb9a1` `Causal/Model/QuasilinearOneSided.lean` l.186–340
-  (`namespace Causality` … `end Causality`) is l.77–231 here, under the same prelude
-  (`namespace Causal`, `open Set TopologicalSpace Topology Filter Metric`). The auxiliary matcher
+  (`namespace Causality` … `end Causality`) is l.99–251 here (its `end Causality` is l.310,
+  after the second hoist), under the same prelude (`namespace Causal`,
+  `open Set TopologicalSpace Topology Filter Metric`). The auxiliary matcher
   `inextensible_connectedComponentIn.match_1_1` moved with its theorem under the same name.
   `Causal.Model.QuasilinearOneSided` imports this module; its section 3
   (`slopeLine_mem_of_curveNestedOn`) is the consumer, and through it ERS Lemma 4.86.
+* **A second verbatim hoist** (T-loc-ealpha-tidy). HEAD `29b547f`
+  `Causal/Model/EAlphaCauchy.lean` l.99–152 (the docstring and the theorem; it sat in that file's
+  `namespace Causality` under the same `variable` line and the same prelude) is l.255–308 here,
+  inside this module's `namespace Causality`. Its consumer is `staticCausality.IsRayTo.inextensible`
+  (`Causal.Model.StaticCauchy`), and through it every "no Cauchy surface once the axis is removed"
+  statement of `Causal.Model.EAlphaCauchy`.
 * **Imports.** `Causal.Inextensible` and `Causal.Cauchy` hold every notion used; `Causal.LadderLocal`
   (ETT layer) is imported for one instance path (kb/0083). `IsOpen.connectedComponentIn` needs
   `LocallyConnectedSpace ℝ`, which `Causal.Cauchy`'s closure does not provide. In
@@ -61,11 +85,9 @@ T-loc-quasilinear-one-sided), same full names, same statements, text verbatim (k
   `Causal.LadderLocal`'s closure has (through `Causal.MeasureRemarks`); with it every proof term
   is the one it was there (environment dump). The proofs use the metric of `ℝ`
   (`Metric.isOpen_iff`, balls of `ℝ`); no statement mentions a metric.
-* **Not here.** The sibling `Causality.inextensible_Iio_of_tendsto_not_mem`
-  (`Causal.Model.EAlphaCauchy`, target T-loc-ealpha-tidy).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`. The hoisted text was
-written by T-loc-quasilinear-one-sided (`9bda56f`).
+written by T-loc-quasilinear-one-sided (`9bda56f`) and T-loc-ealpha-cauchy.
 -/
 
 namespace Causal
@@ -227,6 +249,63 @@ theorem IsCauchySurfaceOn.exists_mem_connectedComponentIn [T2Space M] {W : Opens
   obtain ⟨_, ⟨⟨s, hs, rfl⟩, hxS⟩, -⟩ :=
     hS _ _ (inextensible_connectedComponentIn hℓ hT hTℓ hcurve ht)
   exact ⟨s, hs, hxS⟩
+
+/-! ### A causal curve of `W` running out of `W` in finite time -/
+
+/-- A causal curve of the open set `W` over `]-∞, b[` which tends, at its future end, to a point
+`P ∉ W`, and along which a function non-decreasing for `≤_W` is unbounded below, is inextensible
+in `W`. A strict extension adds a value before the curve (excluded by `f`), between two of its
+values (then it is one of them), or after it: then the new curve passes through the limit of the
+old one at the supremum of the reparametrised domain, which is `P ∉ W`. -/
+theorem inextensible_Iio_of_tendsto_not_mem [T2Space M] {W : Opens M} {b : ℝ} {c : ℝ → M}
+    (hc : C.CausalCurveIn W (Iio b) c) {P : M} (hP : P ∉ W)
+    (hlim : Tendsto c (𝓝[<] b) (𝓝 P)) {f : M → ℝ} (hf : ∀ x y, C.le W x y → f x ≤ f y)
+    (hbot : ∀ B, ∃ s < b, f (c s) < B) : C.Inextensible W (Iio b) c := by
+  refine ⟨hc, ?_⟩
+  rintro ⟨I', c', hcurve, ⟨φ, hφmono, hφmaps, hφoc, hφeq⟩, ⟨t', ht', hgrow⟩⟩
+  have hb1 : b - 1 ∈ Iio b := by simp
+  by_cases h1 : ∃ s ∈ Iio b, t' ≤ φ s
+  · by_cases h2 : ∃ s ∈ Iio b, φ s ≤ t'
+    · -- the new value lies between two old ones: it is an old one
+      obtain ⟨s₁, hs₁, h₁⟩ := h1
+      obtain ⟨s₂, hs₂, h₂⟩ := h2
+      obtain ⟨s, hs, hseq⟩ := hφoc.out (mem_image_of_mem φ hs₂) (mem_image_of_mem φ hs₁) ⟨h₂, h₁⟩
+      exact hgrow s hs (by rw [← hseq, hφeq s hs])
+    · -- the new value comes before the whole curve: `f` is unbounded below along it
+      simp only [not_exists, not_and, not_le] at h2
+      obtain ⟨s, hs, hfs⟩ := hbot (f (c' t'))
+      have := hf _ _ (hcurve.le_of_le ht' (hφmaps hs) (h2 s hs).le)
+      rw [hφeq s hs] at this
+      linarith
+  · -- the new value comes after the whole curve: the new curve passes through the limit `P`
+    simp only [not_exists, not_and, not_le] at h1
+    have hne : (φ '' Iio b).Nonempty := ⟨_, mem_image_of_mem φ hb1⟩
+    have hbdd : BddAbove (φ '' Iio b) := ⟨t', by rintro _ ⟨s, hs, rfl⟩; exact (h1 s hs).le⟩
+    have hσt : sSup (φ '' Iio b) ≤ t' :=
+      csSup_le hne (by rintro _ ⟨s, hs, rfl⟩; exact (h1 s hs).le)
+    have ha : φ (b - 1) ∈ I' := hφmaps hb1
+    have hle : ∀ s ∈ Iio b, φ s ≤ sSup (φ '' Iio b) := fun s hs =>
+      le_csSup hbdd (mem_image_of_mem φ hs)
+    have hσI : sSup (φ '' Iio b) ∈ I' := hcurve.ordConnected.out ha ht' ⟨hle _ hb1, hσt⟩
+    have hφlim : Tendsto φ (𝓝[<] b)
+        (𝓝[Icc (φ (b - 1)) (sSup (φ '' Iio b))] (sSup (φ '' Iio b))) := by
+      refine tendsto_nhdsWithin_iff.2 ⟨?_, ?_⟩
+      · refine tendsto_order.2 ⟨fun a ha' => ?_, fun a ha' => ?_⟩
+        · obtain ⟨_, ⟨s₀, hs₀, rfl⟩, has₀⟩ := exists_lt_of_lt_csSup hne ha'
+          filter_upwards [Ioo_mem_nhdsLT (show s₀ < b from hs₀)] with s hs
+          exact has₀.trans (hφmono hs₀ hs.2 hs.1)
+        · filter_upwards [self_mem_nhdsWithin] with s hs
+          exact (hle s hs).trans_lt ha'
+      · filter_upwards [Ioo_mem_nhdsLT (show b - 1 < b by linarith)] with s hs
+        exact ⟨(hφmono hb1 hs.2 hs.1).le, hle s hs.2⟩
+    have hcont : ContinuousWithinAt c' (Icc (φ (b - 1)) (sSup (φ '' Iio b)))
+        (sSup (φ '' Iio b)) :=
+      CurveOn.continuousOn C.isRelFamily_le (hcurve.curve _ ha _ hσI) _ ⟨hle _ hb1, le_rfl⟩
+    have hlim' : Tendsto c (𝓝[<] b) (𝓝 (c' (sSup (φ '' Iio b)))) := by
+      refine (hcont.tendsto.comp hφlim).congr' ?_
+      filter_upwards [self_mem_nhdsWithin] with s hs using hφeq s hs
+    have hP' := tendsto_nhds_unique hlim' hlim
+    exact hP (hP' ▸ hcurve.mem hσI)
 
 end Causality
 

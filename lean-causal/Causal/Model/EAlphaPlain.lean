@@ -22,7 +22,7 @@ statement here is an instance.
   `push_up ∧ chronal_neighbours ⇒ causally_plain`
   (`Causality.PushUp.causallyPlain_of_chronalNeighbours`, `Causal.CausallyPlainLocZ`) applied to
   `staticCausality.pushUp` (`Causal.Static`) and `staticCausality.chronalNeighbours`
-  (`Causal.Model.EAlphaCauchy`). On every open subset too
+  (`Causal.Model.StaticCauchy`). On every open subset too
   (`staticCausality.causallyPlainOn`, `Causality.CausallyPlainOn`).
 * **`massive_causallyPlain`**: `E_α = ℝ × C_α`, `α > 0` (`massive α`, ETT's 2+1 form), and
   **`cosmicString_causallyPlain`**: Hörmann's 3+1 conical spacetime `E_α × ℝ_z`

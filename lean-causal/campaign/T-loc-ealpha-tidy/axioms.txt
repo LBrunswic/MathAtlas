@@ -1,0 +1,213 @@
+@Causal.Causality.inextensible_Iio_of_tendsto_not_mem : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} [T2Space M] {W : TopologicalSpace.Opens M} {b : ℝ} {c : ℝ → M},
+  C.CausalCurveIn W (Set.Iio b) c →
+    ∀ {P : M},
+      P ∉ W →
+        Filter.Tendsto c (nhdsWithin b (Set.Iio b)) (nhds P) →
+          ∀ {f : M → ℝ},
+            (∀ (x y : M), C.le W x y → f x ≤ f y) → (∀ (B : ℝ), ∃ s < b, f (c s) < B) → C.Inextensible W (Set.Iio b) c
+@Causal.staticCausality.Iminus_inter_slice : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X]
+  (x : ℝ × X) (t₁ : ℝ), (Causal.staticCausality X).Iminus ⊤ {x} ∩ {p | p.1 = t₁} = {t₁} ×ˢ Metric.ball x.2 (x.1 - t₁)
+@Causal.staticCausality.IsRayTo : {X : Type u_1} → [MetricSpace X] → Set X → (ℝ → X) → Prop
+@Causal.staticCausality.IsRayTo.causalCurveIn : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] {A : Set X} {r : ℝ → X},
+  Causal.staticCausality.IsRayTo A r →
+    ∀ (hA : IsClosed A) {b : ℝ} {ρ : ℝ → ℝ},
+      (∀ τ < b, ∀ τ' < b, |ρ τ - ρ τ'| ≤ |τ - τ'|) →
+        (∀ τ < b, 0 < ρ τ) →
+          (Causal.staticCausality X).CausalCurveIn (Causal.staticCausality.offOpens hA) (Set.Iio b)
+            (Causal.staticCausality.rayCurve r ρ)
+@Causal.staticCausality.IsRayTo.continuous : ∀ {X : Type u_1} [inst : MetricSpace X] {A : Set X} {r : ℝ → X},
+  Causal.staticCausality.IsRayTo A r → Continuous r
+@Causal.staticCausality.IsRayTo.inextensible : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X]
+  {A : Set X} {r : ℝ → X},
+  Causal.staticCausality.IsRayTo A r →
+    ∀ (hA : IsClosed A) {b : ℝ} {ρ : ℝ → ℝ},
+      (∀ τ < b, ∀ τ' < b, |ρ τ - ρ τ'| ≤ |τ - τ'|) →
+        (∀ τ < b, 0 < ρ τ) →
+          Filter.Tendsto ρ (nhdsWithin b (Set.Iio b)) (nhds 0) →
+            (Causal.staticCausality X).Inextensible (Causal.staticCausality.offOpens hA) (Set.Iio b)
+              (Causal.staticCausality.rayCurve r ρ)
+@Causal.staticCausality.IsRayTo.infall : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X]
+  {A : Set X} {r : ℝ → X},
+  Causal.staticCausality.IsRayTo A r →
+    ∀ (hA : IsClosed A) (t₀ : ℝ),
+      (Causal.staticCausality X).Inextensible (Causal.staticCausality.offOpens hA) (Set.Iio t₀)
+          (Causal.staticCausality.rayCurve r fun τ => (t₀ - τ) / 2) ∧
+        (∀ a < t₀,
+            ∀ b < t₀,
+              (Causal.staticCausality X).ChronalCurveOn (Causal.staticCausality.offOpens hA)
+                (Causal.staticCausality.rayCurve r fun τ => (t₀ - τ) / 2) a b) ∧
+          ∀ τ < t₀, (Causal.staticCausality.rayCurve r (fun τ => (t₀ - τ) / 2) τ).1 ≠ t₀
+@Causal.staticCausality.IsRayTo.not_exists_isCauchySurfaceOn : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] {A : Set X} {r : ℝ → X},
+  Causal.staticCausality.IsRayTo A r →
+    ∀ (hA : IsClosed A), ¬∃ S, (Causal.staticCausality X).IsCauchySurfaceOn (Causal.staticCausality.offOpens hA) S
+@Causal.staticCausality.IsRayTo.not_globallyHyperbolicOn : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] {A : Set X} {r : ℝ → X},
+  Causal.staticCausality.IsRayTo A r →
+    ∀ (hA : IsClosed A), ¬(Causal.staticCausality X).GloballyHyperbolicOn (Causal.staticCausality.offOpens hA)
+@Causal.staticCausality.IsRayTo.not_isCauchySurfaceOn_of_subset_slice : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] {A : Set X} {r : ℝ → X},
+  Causal.staticCausality.IsRayTo A r →
+    ∀ (hA : IsClosed A) (t₀ : ℝ) {S : Set (ℝ × X)},
+      S ⊆ {p | p.1 = t₀} → ¬(Causal.staticCausality X).IsCauchySurfaceOn (Causal.staticCausality.offOpens hA) S
+@Causal.staticCausality.Jminus_diff_Iminus_inter_slice : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] (x : ℝ × X) (t₁ : ℝ),
+  (Causal.staticCausality X).Jminus ⊤ {x} \ (Causal.staticCausality X).Iminus ⊤ {x} ∩ {p | p.1 = t₁} =
+    {t₁} ×ˢ Metric.sphere x.2 (x.1 - t₁)
+@Causal.staticCausality.Jminus_eq_off_union : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X]
+  {A : Set X} (hA : IsClosed A) (x : ℝ × X),
+  (Causal.staticCausality X).Jminus ⊤ {x} =
+    (Causal.staticCausality X).Jminus (Causal.staticCausality.offOpens hA) {x} ∪
+      ⋃ ξ ∈ (Causal.staticCausality X).Jminus ⊤ {x} ∩ {p | p.2 ∈ A}, (Causal.staticCausality X).Jminus ⊤ {ξ}
+@Causal.staticCausality.Jminus_inter_slice : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X]
+  (x : ℝ × X) (t₁ : ℝ),
+  (Causal.staticCausality X).Jminus ⊤ {x} ∩ {p | p.1 = t₁} = {t₁} ×ˢ Metric.closedBall x.2 (x.1 - t₁)
+@Causal.staticCausality.Jplus_inter_slice : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X]
+  (x : ℝ × X) (t₁ : ℝ),
+  (Causal.staticCausality X).Jplus ⊤ {x} ∩ {p | p.1 = t₁} = {t₁} ×ˢ Metric.closedBall x.2 (t₁ - x.1)
+@Causal.staticCausality.causallyOpen : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X],
+  (Causal.staticCausality X).CausallyOpen
+@Causal.staticCausality.chronalNeighbours : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X],
+  (Causal.staticCausality X).ChronalNeighbours
+@Causal.staticCausality.hasTimeFunction : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X],
+  (Causal.staticCausality X).HasTimeFunction
+@Causal.staticCausality.isCauchySurface_slice : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] [CompleteSpace X] (t₀ : ℝ),
+  (Causal.staticCausality X).IsCauchySurface {p | p.1 = t₀}
+@Causal.staticCausality.isCauchyTimeFunction_sub_const : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] [CompleteSpace X] (t₀ : ℝ),
+  (Causal.staticCausality X).IsCauchyTimeFunction fun p => p.1 - t₀
+@Causal.staticCausality.isCompact_Jminus_inter_slice : ∀ {X : Type u_1} [inst : MetricSpace X]
+  [inst_1 : Causal.GeodesicSpace X] [ProperSpace X] (x : ℝ × X) (t₁ : ℝ),
+  IsCompact ((Causal.staticCausality X).Jminus ⊤ {x} ∩ {p | p.1 = t₁}) ∧
+    IsCompact ((Causal.staticCausality X).Jplus ⊤ {x} ∩ {p | p.1 = t₁})
+@Causal.staticCausality.mem_offOpens : ∀ {X : Type u_1} [inst : MetricSpace X] {A : Set X} {hA : IsClosed A}
+  {p : ℝ × X}, p ∈ Causal.staticCausality.offOpens hA ↔ p.2 ∉ A
+@Causal.staticCausality.noCausalEndpoint : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X],
+  (Causal.staticCausality X).NoCausalEndpoint
+@Causal.staticCausality.offOpens : {X : Type u_1} →
+  [inst : MetricSpace X] → {A : Set X} → IsClosed A → TopologicalSpace.Opens (ℝ × X)
+@Causal.staticCausality.rayCurve : {X : Type u_1} → (ℝ → X) → (ℝ → ℝ) → ℝ → ℝ × X
+@Causal.staticCausality.stronglyCausalOpen : ∀ {X : Type u_1} [inst : MetricSpace X] [inst_1 : Causal.GeodesicSpace X],
+  (Causal.staticCausality X).StronglyCausalOpen
+Causal.halfPlane_separates : (T2Space (ℝ × ↑(Set.Ioi 0)) ∧
+    SecondCountableTopology (ℝ × ↑(Set.Ioi 0)) ∧ ConnectedSpace (ℝ × ↑(Set.Ioi 0))) ∧
+  (Causal.staticCausality ↑(Set.Ioi 0)).Tarentin ∧
+    (Causal.staticCausality ↑(Set.Ioi 0)).IsCausal ∧
+      (Causal.staticCausality ↑(Set.Ioi 0)).CausallyArcConnected ∧
+        (Causal.staticCausality ↑(Set.Ioi 0)).StronglyCausal ∧
+          (Causal.staticCausality ↑(Set.Ioi 0)).AbsolutelyMinimal ∧
+            (Causal.staticCausality ↑(Set.Ioi 0)).PushUp ∧
+              (Causal.staticCausality ↑(Set.Ioi 0)).ChronalNeighbours ∧
+                (Causal.staticCausality ↑(Set.Ioi 0)).CausallyOpen ∧
+                  (Causal.staticCausality ↑(Set.Ioi 0)).StronglyCausalOpen ∧
+                    (Causal.staticCausality ↑(Set.Ioi 0)).HasTimeFunction ∧
+                      (Causal.staticCausality ↑(Set.Ioi 0)).CurvesExtend ∧
+                        (Causal.staticCausality ↑(Set.Ioi 0)).CausallyPlain ∧
+                          ¬(Causal.staticCausality ↑(Set.Ioi 0)).CausallyCompact
+@Causal.properSpace_withLpTwo : ∀ {X : Type u_1} {Y : Type u_2} [inst : MetricSpace X] [inst_1 : MetricSpace Y]
+  [ProperSpace X] [ProperSpace Y], ProperSpace (WithLp 2 (X × Y))
+'Causal.Causality.inextensible_Iio_of_tendsto_not_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.Iminus_inter_slice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo.causalCurveIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo.continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo.inextensible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo.infall' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo.not_exists_isCauchySurfaceOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo.not_globallyHyperbolicOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.IsRayTo.not_isCauchySurfaceOn_of_subset_slice' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.staticCausality.Jminus_diff_Iminus_inter_slice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.Jminus_eq_off_union' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.Jminus_inter_slice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.Jplus_inter_slice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.causallyOpen' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.chronalNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.hasTimeFunction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.isCauchySurface_slice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.isCauchyTimeFunction_sub_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.isCompact_Jminus_inter_slice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.mem_offOpens' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.noCausalEndpoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.offOpens' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.rayCurve' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.staticCausality.stronglyCausalOpen' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.halfPlane_separates' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.properSpace_withLpTwo' depends on axioms: [propext, Classical.choice, Quot.sound]
+Causal.Causality.inextensible_Iio_of_tendsto_not_mem	Causal.InextensiblePiece	[propext, Classical.choice, Quot.sound]
+Causal.Causality.inextensible_Iio_of_tendsto_not_mem._simp_1_1	Causal.InextensiblePiece	[propext]
+Causal.Causality.inextensible_Iio_of_tendsto_not_mem._simp_1_2	Causal.InextensiblePiece	[propext]
+Causal.Causality.inextensible_Iio_of_tendsto_not_mem._simp_1_3	Causal.InextensiblePiece	[propext]
+Causal.staticCausality.Iminus_inter_slice	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Iminus_inter_slice._simp_1_1	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Iminus_inter_slice._simp_1_2	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Iminus_inter_slice._simp_1_3	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Iminus_inter_slice._simp_1_4	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Iminus_inter_slice._simp_1_5	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.casesOn	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.causalCurveIn	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.continuous	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.inextensible	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.infall	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.lip	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.mem_zero	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.mk	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.mk._flat_ctor	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.not_exists_isCauchySurfaceOn	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.not_globallyHyperbolicOn	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.not_isCauchySurfaceOn_of_subset_slice	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.not_mem	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.rec	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.IsRayTo.recOn	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_1	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_2	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_3	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_4	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_5	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_6	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_7	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_diff_Iminus_inter_slice._simp_1_8	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_eq_off_union	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_eq_off_union._simp_1_1	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_eq_off_union._simp_1_2	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_eq_off_union._simp_1_3	Causal.Model.StaticCauchy	[propext, Quot.sound]
+Causal.staticCausality.Jminus_eq_off_union._simp_1_4	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_eq_off_union._simp_1_5	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_inter_slice	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_inter_slice._simp_1_1	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_inter_slice._simp_1_2	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jminus_inter_slice._simp_1_3	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_inter_slice._simp_1_4	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jminus_inter_slice._simp_1_5	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jplus_inter_slice	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jplus_inter_slice._simp_1_1	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jplus_inter_slice._simp_1_2	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.Jplus_inter_slice._simp_1_3	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jplus_inter_slice._simp_1_4	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.Jplus_inter_slice._simp_1_5	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.causallyOpen	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.chronalNeighbours	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.hasTimeFunction	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.isCauchySurface_slice	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.isCauchySurface_slice._simp_1_1	Causal.Model.StaticCauchy	[propext]
+Causal.staticCausality.isCauchyTimeFunction_sub_const	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.isCompact_Jminus_inter_slice	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.mem_offOpens	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.noCausalEndpoint	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.offOpens	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.offOpens._proof_1	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.offOpens.congr_simp	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.rayCurve	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.rayCurve.eq_1	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.staticCausality.stronglyCausalOpen	Causal.Model.StaticCauchy	[propext, Classical.choice, Quot.sound]
+Causal.halfPlane_separates	Causal.Model.HalfPlaneLadder	[propext, Classical.choice, Quot.sound]
+Causal.properSpace_withLpTwo	Causal.Model.EAlphaCauchy	[propext, Classical.choice, Quot.sound]
+70 constants
+Causal.withLp_dist_fst_le in the environment: false
+Causal.withLp_dist_snd_le in the environment: false

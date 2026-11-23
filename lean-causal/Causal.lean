@@ -225,6 +225,8 @@ import Causal.DependenceDomain
 import Causal.ErsUniqueness
 import Causal.CausalIsoInvariance
 import Causal.Model.EAlphaCauchy
+import Causal.Model.StaticCauchy
+import Causal.Model.HalfPlaneLadder
 import Causal.Port.E0Strong
 import Causal.Port.E0SingularFlat
 import Causal.Port.E0ModelRows

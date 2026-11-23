@@ -11,6 +11,7 @@ with no Cauchy surface in the library's sense and not globally hyperbolic
 (`IsRayTo.not_exists_isCauchySurfaceOn`, `.not_globallyHyperbolicOn`): cheap non-GH open subsets of
 GH models, e.g. the regular part of E_α. (The library's Cauchy surfaces test causal curves, so
 "no Cauchy surface" here is weaker than the classical, timelike-tested statement.) The pattern
-"a curve runs into the boundary" is `Causality.inextensible_Iio_of_tendsto_not_mem` (model-free,
-in a model-importing module: a hoist candidate, kb/0047) (`Causal.Model.EAlphaCauchy`,
-T-loc-ealpha-cauchy).
+"a curve runs into the boundary" is `Causality.inextensible_Iio_of_tendsto_not_mem`, in the
+ETT-layer `Causal.InextensiblePiece` since T-loc-ealpha-tidy (2026-11-23). The slice and `IsRayTo`
+statements are in `Causal.Model.StaticCauchy`, which does not import `Causal.Model.Massive`
+(T-loc-ealpha-cauchy, T-loc-ealpha-tidy).

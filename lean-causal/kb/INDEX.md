@@ -282,3 +282,4 @@ rediscover. One fact per entry.
 | [0274](entries/0274-chronal-injective.md) | pitfall | A chronal curve of a chronological open set is injective; homotopies must not pause |
 | [0275](entries/0275-chronal-neighbour-one-sided.md) | pattern | has_chronal_neighbour from one-sided neighbours, and from Z⁺ at E₀ |
 | [0276](entries/0276-conjoin-fails-witness.md) | pattern | Conjoin a node into a recorded separation, and simulate the re-pointing first |
+| [0277](entries/0277-static-cauchy.md) | pattern | Static ℝ × X side conditions live in Causal.Model.StaticCauchy |
