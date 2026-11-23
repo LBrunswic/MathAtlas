@@ -38,6 +38,12 @@ be dropped silently, and its edge chained as unconditional).
                      condition in words: conditional, not applied by the contradiction check)
     [[fact]]         property (an id: it holds outright on every object of its sort, no premise),
                      witness, status; standing; note (T-tool-ladder-py-2)
+    [[edge_hypothesis]]  id, lean, what; label (an ETT label); reads (words: what it is a
+                     hypothesis on, e.g. "a causality and an open set"); note. A localisation hypothesis
+                     the rulings keep OUT of the nodes (DEC-159, DEC-162, DEC-166 (b)): it classifies no
+                     pair, so matrix and emit-lean ignore the table; an `under` may cite it by id, and
+                     tools/binder.py accepts its ids as localisation, open_localisation and proves ids.
+                     Its id is no [[property]] id, and its Lean name resolves (T-tool-ladder-edge-hypotheses).
 
 status is seed | checked. Lean names (property `lean`, every witness and counterexample) resolve
 NAMESPACE-EXACTLY: a name is found when it is the full name of a declaration of
@@ -166,6 +172,7 @@ KEYS = {
     "transfer": {"pair", "property", "direction", "narrower", "wider", "witness", "counterexample",
                  "status", "under", "standing", "space"},
     "fact": {"property", "witness", "status", "standing", "note"},
+    "edge_hypothesis": {"id", "lean", "what", "label", "reads", "note"},
 }
 
 
@@ -429,6 +436,23 @@ def check(data, names=None, labels=None):
             errs.append("property %s: sort %r is not one of %s" % (p.get("id"), p.get("sort"), SORTS))
         if p.get("label"):
             _label("property %s" % p.get("id"), p["label"], labels, errs)
+    ehs = data.get("edge_hypothesis", [])
+    eids = [e.get("id") for e in ehs]
+    for i in sorted(set(x for x in eids if eids.count(x) > 1), key=str):
+        errs.append("edge_hypothesis %s: duplicate id" % i)
+    for e in ehs:
+        tag = "edge_hypothesis %s" % e.get("id")
+        for k in ("id", "lean", "what"):
+            if not e.get(k):
+                errs.append("%s: missing %s" % (tag, k))
+        if e.get("id") in known:
+            errs.append("%s: id is a [[property]] id (an edge hypothesis is not a node)" % tag)
+        if e.get("lean") and not resolves(e["lean"], names):
+            errs.append("%s: Lean definition %s not found in lean-causal (a full name)" % (tag, e["lean"]))
+        if e.get("reads") is not None and not isinstance(e["reads"], str):
+            errs.append("%s: reads must be words (a string)" % tag)
+        if e.get("label"):
+            _label(tag, e["label"], labels, errs)
 
     def lean_ref(tag, key, e, required=True):
         if not e.get(key):

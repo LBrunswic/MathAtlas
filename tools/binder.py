@@ -10,6 +10,7 @@ A binder is papers/<slug>/certificate/binder.toml, authored by the programme-pla
     label = "thm:..."                 # a row of papers/<slug>/ledger/ledger.json
     ett = ["Causal.foo", "T-abs-..."] # layer 1: the ETT theorem(s), as Lean names or programme targets
     localisation = ["rigid", ...]     # layer 2: the localisation properties, as programme/ladder.toml ids
+                                      # ([[property]] or [[edge_hypothesis]] ids)
     note = "..."                      # how the paper's argument factors
     [[bind.geometric]]                # layer 3, one per model class
     model = "smooth-vacuum"           # minkowski | flat-gx | E_alpha | E_0 | C0 | lipschitz | smooth-vacuum | quasilinear | ...
@@ -49,7 +50,10 @@ def ref_ok(x, names, targets):
     return x in targets if x.startswith("T-") else ld.resolves(x, names)
 
 
-def check(slug, b, names, ladder_ids, targets):
+def check(slug, b, names, ladder_ids, targets, edge_ids=frozenset()):
+    """`ladder_ids`: the ladder's [[property]] ids; `edge_ids`: its [[edge_hypothesis]] ids, accepted as
+    localisation, open_localisation and proves ids too (T-tool-ladder-edge-hypotheses)."""
+    known = set(ladder_ids) | set(edge_ids)
     errs = []
     lp = os.path.join(ROOT, "papers", slug, "ledger", "ledger.json")
     if not os.path.exists(lp):
@@ -74,15 +78,15 @@ def check(slug, b, names, ladder_ids, targets):
             if not g.get("model"):
                 errs.append("%s: geometric entry without model" % tag)
             for p in g.get("proves", []):
-                if p not in ladder_ids:
-                    errs.append("%s: geometric proves %r, not a ladder property" % (tag, p))
+                if p not in known:
+                    errs.append("%s: geometric proves %r, not a ladder property or edge hypothesis" % (tag, p))
                 provided.add(p)
             for x in g.get("by", []):
                 if not ref_ok(x, names, targets):
                     errs.append("%s: geometric by %s resolves to neither a Lean name nor a programme target" % (tag, x))
         for p in r.get("localisation", []):
-            if p not in ladder_ids:
-                errs.append("%s: localisation %r is not a ladder property" % (tag, p))
+            if p not in known:
+                errs.append("%s: localisation %r is not a ladder property or edge hypothesis" % (tag, p))
             elif p not in provided and p not in r.get("open_localisation", []):
                 errs.append("%s: localisation %r is provided by no geometric entry and not declared open" % (tag, p))
     return errs
@@ -94,10 +98,12 @@ def main(argv):
     cmd, slugs = argv[0], argv[1:]
     bs = binders(slugs)
     names = ld.lean_names()   # the declarations' full names
-    ladder_ids = {p["id"] for p in ld.load().get("property", [])}
+    lad = ld.load()
+    ladder_ids = {p["id"] for p in lad.get("property", [])}
+    edge_ids = {e["id"] for e in lad.get("edge_hypothesis", []) if e.get("id")}
     targets = {t["id"] for t in tomllib.load(open(PROGRAMME, "rb")).get("target", [])} if os.path.exists(PROGRAMME) else set()
     if cmd == "check":
-        errs = [e for s, b in bs.items() for e in check(s, b, names, ladder_ids, targets)]
+        errs = [e for s, b in bs.items() for e in check(s, b, names, ladder_ids, targets, edge_ids)]
         for e in errs:
             print("binder: " + e)
         print("binder: %d binder(s), %s" % (len(bs), "%d violation(s)" % len(errs) if errs else "all links resolve"))

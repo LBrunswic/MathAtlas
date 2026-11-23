@@ -120,6 +120,13 @@ BREAKAGES = {
     "transfer-vacuous": ("vacuous",
                          lambda p: "\n[[transfer]]\npair = %s\nproperty = %s\nnarrower = [%s]\nwitness = %s\n"
                          "status = \"checked\"\n" % (_q(p["pair"]), _q(p["c1"]), _q(p["c1"]), _q(p["edge"]["witness"]))),
+    # T-tool-ladder-edge-hypotheses: an edge hypothesis's Lean name resolves, and its id is no property id.
+    "edge-hypothesis-lean": ("Lean definition Causal.no_such_edge_hypothesis not found",
+                             lambda p: "\n[[edge_hypothesis]]\nid = \"eh_fixture\"\nlean = \"Causal.no_such_edge_hypothesis\"\n"
+                                       "what = \"fixture\"\n"),
+    "edge-hypothesis-id-clash": ("id is a [[property]] id",
+                                 lambda p: "\n[[edge_hypothesis]]\nid = %s\nlean = %s\nwhat = \"fixture\"\n" % (
+                                     _q(p["c1"]), _q(p["lean"]))),
     "transfer-contradiction": (
         "contradiction: transfer",
         lambda p: ("\n[[transfer]]\npair = %s\nproperty = %s\nwitness = %s\nstatus = \"checked\"\n"

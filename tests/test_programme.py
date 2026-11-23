@@ -969,6 +969,60 @@ class Binder(unittest.TestCase):
         self.assertTrue(any("resolves to neither" in x for x in e))
 
 
+class LadderEdgeHypotheses(unittest.TestCase):
+    """T-tool-ladder-edge-hypotheses: the [[edge_hypothesis]] table is checked (ids disjoint from the
+    properties', Lean names resolve, the required keys) and ignored by the matrix; tools/binder.py
+    accepts its ids as localisation ids."""
+    BASE = {"property": [{"id": "a", "lean": "P.a", "what": "a"}, {"id": "b", "lean": "P.b", "what": "b"}]}
+
+    def with_eh(self, **eh):
+        d = dict(self.BASE)
+        d["edge_hypothesis"] = [dict({"id": "eh", "lean": "P.c", "what": "x"}, **eh)]
+        return d
+
+    def test_a_good_entry_passes_and_moves_no_pair(self):
+        d = self.with_eh(reads="a causality and an open set", note="n")
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d), ld.matrix(dict(self.BASE)))
+
+    def test_violations(self):
+        self.assertTrue(has(chk(self.with_eh(id="a")), "id is a [[property]] id"))
+        self.assertTrue(has(chk(self.with_eh(lean="Causal.Nope")), "Lean definition Causal.Nope not found"))
+        self.assertTrue(has(chk(self.with_eh(what="")), "edge_hypothesis eh: missing what"))
+        self.assertTrue(has(chk(self.with_eh(reads=["x"])), "reads must be words"))
+        self.assertTrue(has(chk(self.with_eh(colour="red")), "unknown key 'colour'"))
+        d = self.with_eh()
+        d["edge_hypothesis"].append(dict(d["edge_hypothesis"][0]))
+        self.assertTrue(has(chk(d), "edge_hypothesis eh: duplicate id"))
+
+
+class BinderEdgeHypotheses(unittest.TestCase):
+    def setUp(self):
+        self.lp = os.path.join(ROOT, "papers", "zz-binder-eh-test", "ledger")
+        os.makedirs(self.lp, exist_ok=True)
+        open(os.path.join(self.lp, "ledger.json"), "w").write('{"statements": [{"label": "thm:x"}]}')
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(os.path.join(ROOT, "papers", "zz-binder-eh-test"))
+
+    def errs(self, rows, edge_ids=frozenset({"eh"})):
+        return bd.check("zz-binder-eh-test", {"bind": rows}, NAMES, {"a", "b"}, {"T-abs-x"}, edge_ids)
+
+    def test_edge_hypothesis_id_is_a_localisation_id(self):
+        r = {"label": "thm:x", "ett": ["T-abs-x"], "localisation": ["a", "eh"], "open_localisation": ["eh"],
+             "geometric": [{"model": "minkowski", "proves": ["a"], "by": ["a_to_b"]}]}
+        self.assertEqual(self.errs([r]), [])
+        r2 = dict(r, open_localisation=[], geometric=[{"model": "minkowski", "proves": ["a", "eh"], "by": ["a_to_b"]}])
+        self.assertEqual(self.errs([r2]), [])
+
+    def test_unknown_id_is_refused_and_edge_ids_are_needed(self):
+        r = {"label": "thm:x", "ett": ["T-abs-x"], "localisation": ["eh"], "open_localisation": ["eh"]}
+        self.assertTrue(any("not a ladder property or edge hypothesis" in e for e in self.errs([r], frozenset())))
+        r = {"label": "thm:x", "ett": ["T-abs-x"], "localisation": ["nope"], "open_localisation": ["nope"]}
+        self.assertTrue(any("'nope' is not a ladder property or edge hypothesis" in e for e in self.errs([r])))
+
+
 class Lease(unittest.TestCase):
     def test_covers_is_a_path_prefix(self):
         self.assertTrue(ls.covers("lean-causal", "lean-causal/Causal/X.lean"))
