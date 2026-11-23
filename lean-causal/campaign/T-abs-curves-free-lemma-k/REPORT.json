@@ -1,0 +1,664 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-curves-free-lemma-k",
+ "files": [
+  "scaffold/CausalScaffold/CurvesFreeLemmaK/Bare.lean",
+  "scaffold/CausalScaffold/CurvesFreeLemmaK/Reduction.lean",
+  "scaffold/CausalScaffold/CurvesFreeLemmaK/SC.lean",
+  "scaffold/CausalScaffold/CurvesFreeLemmaK/Local.lean"
+ ],
+ "modules": [
+  "CausalScaffold.CurvesFreeLemmaK.Bare",
+  "CausalScaffold.CurvesFreeLemmaK.Reduction",
+  "CausalScaffold.CurvesFreeLemmaK.SC",
+  "CausalScaffold.CurvesFreeLemmaK.Local"
+ ],
+ "builds": true,
+ "build_command": "cd lean-causal && taskset -c 0-11 lake build CausalScaffold.CurvesFreeLemmaK.Bare CausalScaffold.CurvesFreeLemmaK.Reduction CausalScaffold.CurvesFreeLemmaK.SC CausalScaffold.CurvesFreeLemmaK.Local  (each preceded by the same with --no-build: only these modules were out of date, no Causal.* or mathlib job; 3132/3132 jobs, no warning, no error)",
+ "sorry_count": 0,
+ "axioms": "#print axioms of the 24 new forms, the 7 pre-existing forms and the 14 witnesses (campaign/T-abs-curves-free-lemma-k/Probe_Binders.lean): all [propext, Classical.choice, Quot.sound]; no sorryAx",
+ "layer1": "Direct imports: Bare <- Causal.LemmaKBare, Causal.CurvesExtendSecondCountable; Reduction <- Causal.LemmaKReduction, CausalScaffold.CurvesFreeLemmaK.Bare; SC <- Causal.LevinUtility, CausalScaffold.CurvesFreeLemmaK.Reduction; Local <- Causal.LemmaKSCLocal, CausalScaffold.CurvesFreeLemmaK.SC. tools/ladder.py model_path of every Causal direct import (and of LemmaKSC, LemmaKLocal, LemmaK, LemmaKObstruction, CompactCauchy): None. Compiled closure of CausalScaffold.CurvesFreeLemmaK.Local (env.header.moduleNames): 60 Causal/CausalScaffold modules, none under MODEL_LAYER (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). No metric notion in a statement: the hypotheses are the originals' (ladder properties, Cauchy and openness data, Z^±, the splitting) less hext, plus [SecondCountableTopology M]; the witnesses use the timelike line (Causal.Lines), as Causal.CurvesFreeCauchy does.",
+ "coverage": {
+  "scan": "kb/0259 forallTelescope scan of every public constant of the eight modules (campaign/T-abs-curves-free-lemma-k/Probe_Scan.lean, output scan.txt): a binder is flagged when its elaborated type uses CurvesExtend, CurvesExtendOn, InextensibleThrough, SplitBy or Inextensible (so an inline 'through every point an inextensible curve' would be caught). 36 constants flagged: 31 carry hext : C.CurvesExtend; 5 mention Inextensible only (LemmaKObstruction.not_isCauchySurface_of_vacuousCharts, not_mem_of_vacuous; LemmaKReduction.exists_mem_of_inextensible_of_mem_chart, exists_not_le_of_inextensible, isCauchySurfaceOn_of_forall_not_inextensible), each a given curve hc or the vacuity hypothesis 'no inextensible curve in U': not a curve-extension hypothesis, no form owed. No CurvesExtendOn, InextensibleThrough or SplitBy binder, and no inline curve-extension hypothesis, in the family. LemmaKSCLocal, LevinUtility and LemmaKObstruction have no hext.",
+  "count": "31 hext binders: LemmaKBare 11, LemmaKReduction 1, LemmaKSC 5, LemmaKLocal 13, LemmaK 1. The planner's 32 included Causality.CurvesExtend.dual, which T-abs-hoist-lemma-k moved to Causal.CauchyExtension; its form Causality.CurvesExtend.dual_secondCountable is in Causal.CurvesFreeCauchy.Basic (T-abs-curves-free-cauchy).",
+  "already_formed": "7 of the 31, each verified exact (the original less hext, plus [SecondCountableTopology M] after [T2Space M], conclusion identical) by kb/0227's pair check: LemmaKSC.isCauchySurface_iff_local -> isCauchySurface_iff_local_of_secondCountable and isCauchySurface_iff_isOpen_strictJplus -> isCauchySurface_iff_isOpen_strictJplus_of_secondCountable (Causal.LevinUtility); LemmaKLocal.IsLocallyCauchy.isLocallyCauchyTwoSided -> isLocallyCauchyTwoSided_of_secondCountable, isCauchySurface_iff_isOpen_Jplus_chartFutureSide -> ..._of_secondCountable, isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus -> ..._of_secondCountable, local_conditions_of_isOpen_Jplus -> ..._of_secondCountable (Causal.LemmaKSCLocal); LemmaK.isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend -> isCauchySurface_of_isLocallyCauchy_of_causallyOpen (Causal.LemmaK, the lemma of record). These go through Levin's route (curvesExtend_of_secondCountable hT hG) and are not restated. Found by a whole-environment search (import Causal) for every constant whose name extends the original's or whose conclusion is identical, then filtered; the other conclusion matches (e.g. Causal.CurvesFreeCauchy.CompactCauchy's splitting form, CausalScaffold.LemmaKSCOpen's sorry) have different hypothesis sets and are not forms of these originals.",
+  "formed_here": "24: LemmaKBare 11 (Bare), LemmaKReduction 1 (Reduction), LemmaKSC 3 (SC), LemmaKLocal 9 (Local).",
+  "left": "none of the 31. Outside the family (not this target's): Causal.Flat.FlatLemmaKData's field curvesExtend (model layer, Causal/Flat/Classification.lean:383), and the Lemma K witnesses of Causal.Model.LemmaKModels (no hext binder: 0 flagged by the second scan)."
+ },
+ "forms_table": [
+  {
+   "original": "Causal.Causality.exists_lt_of_le_of_isCauchySurfaceOn",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.exists_lt_of_le_of_isCauchySurfaceOn_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.exists_lt_of_le_of_ne_of_isLocallyCauchy",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.exists_lt_of_le_of_ne_of_isLocallyCauchy_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isOpen_strictJplus_of_Zminus",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isOpen_strictJplus_of_Zminus_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isOpen_strictJplus_of_twoSided",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isOpen_strictJplus_of_twoSided_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isAcausal_of_isLocallyCauchy",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isAcausal_of_isLocallyCauchy_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_strictJplus",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_strictJplus_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_chronal",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_chronal_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isOpen_strictJplus_of_isCauchySplitting",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isOpen_strictJplus_of_isCauchySplitting_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isCauchySplitting_via_strictJplus",
+   "original_module": "Causal.LemmaKBare",
+   "new_form": "Causal.Causality.isCauchySurface_of_isCauchySplitting_via_strictJplus_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Bare",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_iff_of_curvesExtend",
+   "original_module": "Causal.LemmaKReduction",
+   "new_form": "Causal.Causality.isCauchySurface_iff_of_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Reduction",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isOpen_strictJplus_of_isCauchySurface",
+   "original_module": "Causal.LemmaKSC",
+   "new_form": "Causal.Causality.isOpen_strictJplus_of_isCauchySurface_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.SC",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isAcausal_of_isLocallyCauchy_of_relOpen",
+   "original_module": "Causal.LemmaKSC",
+   "new_form": "Causal.Causality.isAcausal_of_isLocallyCauchy_of_relOpen_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.SC",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isAcausal_iff_of_isLocallyCauchy",
+   "original_module": "Causal.LemmaKSC",
+   "new_form": "Causal.Causality.isAcausal_iff_of_isLocallyCauchy_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.SC",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_iff_local",
+   "original_module": "Causal.LemmaKSC",
+   "new_form": "Causal.Causality.isCauchySurface_iff_local_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.LevinUtility",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_iff_isOpen_strictJplus",
+   "original_module": "Causal.LemmaKSC",
+   "new_form": "Causal.Causality.isCauchySurface_iff_isOpen_strictJplus_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.LevinUtility",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.exists_nhds_subset_Jplus_of_isCauchySurfaceOn",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.exists_nhds_subset_Jplus_of_isCauchySurfaceOn_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isOpen_Jplus_diff_of_isCauchySurfaceOn",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isOpen_Jplus_diff_of_isCauchySurfaceOn_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isOpen_Jminus_diff_of_isCauchySurfaceOn",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isOpen_Jminus_diff_of_isCauchySurfaceOn_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isLocallyCauchyTwoSided_iff",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isLocallyCauchyTwoSided_iff_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_pushUp_of_isOpen_Jplus",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_pushUp_of_isOpen_Jplus_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_splitting",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_splitting_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isOpen_chartFutureSide",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isOpen_chartFutureSide_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.strictJplus_eq_Jplus_chartFutureSide",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.strictJplus_eq_Jplus_chartFutureSide_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isOpen_Jplus_chartFutureSide",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isCauchySurface_of_isOpen_Jplus_chartFutureSide_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeLemmaK.Local",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.IsLocallyCauchy.isLocallyCauchyTwoSided",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isLocallyCauchyTwoSided_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.LemmaKSCLocal",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_iff_isOpen_Jplus_chartFutureSide",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isCauchySurface_iff_isOpen_Jplus_chartFutureSide_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.LemmaKSCLocal",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.LemmaKSCLocal",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.local_conditions_of_isOpen_Jplus",
+   "original_module": "Causal.LemmaKLocal",
+   "new_form": "Causal.Causality.local_conditions_of_isOpen_Jplus_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.LemmaKSCLocal",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend",
+   "original_module": "Causal.LemmaK",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen",
+   "new_form_module": "(pre-existing) Causal.LemmaK",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  }
+ ],
+ "labels": [
+  {
+   "label": "bthm:cauclo",
+   "paper": "barbot",
+   "tex_lines": [
+    352,
+    360
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_splitting_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isCauchySplitting_via_strictJplus_secondCountable"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(Lemma K's named model fact CurvesExtend, kb/0012; not in Barbot)",
+     "here": "dropped",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable C; [SecondCountableTopology M] added beside [T2Space M] (ETT.tex:255)"
+    },
+    {
+     "paper": "(Lemma K's named splitting, DEC-44)",
+     "here": "carried",
+     "note": "the splitting is kept; isCauchySurface_of_isLocallyCauchy_of_splitting_secondCountable also drops two-sidedness (IsLocallyCauchy in place of IsLocallyCauchyTwoSided), as its original in Causal.LemmaKLocal does"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "The row is closed in the ledger through Causal.Flat.Classification (DEC-72) and none of its decls is in the Lemma K family. Its Lemma K decl Causality.isCauchySurface_of_isLocallyCauchyTwoSided already has a curve-free form (Causal.CurvesFreeCauchy.CompactCauchy). The two forms here are further curve-free forms of Lemma K under a splitting: one without two-sidedness, one through the core. They are not an anchor; 'partial' describes what these files prove of the row."
+  },
+  {
+   "label": "clomax (Barbot Rem 2.3, GHFspace.tex:572; Lemma K, DEC-44/DEC-93; no ledger row)",
+   "paper": "barbot",
+   "tex_lines": [
+    571,
+    579
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.exists_lt_of_le_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.exists_lt_of_le_of_ne_of_isLocallyCauchy_secondCountable",
+    "Causal.Causality.isOpen_strictJplus_of_Zminus_secondCountable",
+    "Causal.Causality.isOpen_strictJplus_of_twoSided_secondCountable",
+    "Causal.Causality.isAcausal_of_isLocallyCauchy_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_strictJplus_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_chronal_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp_secondCountable",
+    "Causal.Causality.isOpen_strictJplus_of_isCauchySplitting_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isCauchySplitting_via_strictJplus_secondCountable",
+    "Causal.Causality.isCauchySurface_iff_of_secondCountable",
+    "Causal.Causality.isOpen_strictJplus_of_isCauchySurface_secondCountable",
+    "Causal.Causality.isAcausal_of_isLocallyCauchy_of_relOpen_secondCountable",
+    "Causal.Causality.isAcausal_iff_of_isLocallyCauchy_secondCountable",
+    "Causal.Causality.exists_nhds_subset_Jplus_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.isOpen_Jplus_diff_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.isOpen_Jminus_diff_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.isLocallyCauchyTwoSided_iff_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_pushUp_of_isOpen_Jplus_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_splitting_secondCountable",
+    "Causal.Causality.isOpen_chartFutureSide_secondCountable",
+    "Causal.Causality.strictJplus_eq_Jplus_chartFutureSide_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isOpen_Jplus_chartFutureSide_secondCountable"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(CurvesExtend, Lemma K's named model fact, kb/0012)",
+     "here": "dropped",
+     "note": "every hext of the family now has a form on T2, second countable spacetimes: 24 here, 7 pre-existing"
+    },
+    {
+     "paper": "Σ compact, connected (DEC-44's corrected reading of 'spacelike hypersurface')",
+     "here": "carried",
+     "note": "with the originals' openness data (strict future/past open; or push-up and Z^± = M; or J^±(V) open; or a splitting), unchanged"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "Lemma K carries no paper label; the rem 'clomax' is not a ledger row (the barbot ledger has 44 rows, none clomax). None of the forms is the bare or the second countable Lemma K (CausalScaffold.CompactCauchy, CausalScaffold.LemmaKSCOpen, both tagged sorries, untouched); each keeps its original's openness datum. One consequence (CausalScaffold.CurvesFreeLemmaK.Reduction, SCOPE): on every second countable spacetime the open second countable Lemma K is equivalent, with no curve hypothesis left, to 'every compact connected locally Cauchy Σ is acausal and J^+(Σ) ∪ J^-(Σ) = M' (isCauchySurface_iff_of_secondCountable)."
+  },
+  {
+   "label": "Lemma K's local forms (Causal.LemmaKLocal, Causal.LemmaKSC; no paper label)",
+   "paper": "barbot",
+   "tex_lines": [
+    571,
+    579
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.isOpen_strictJplus_of_isCauchySurface_secondCountable",
+    "Causal.Causality.isAcausal_of_isLocallyCauchy_of_relOpen_secondCountable",
+    "Causal.Causality.isAcausal_iff_of_isLocallyCauchy_secondCountable",
+    "Causal.Causality.exists_nhds_subset_Jplus_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.isOpen_Jplus_diff_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.isOpen_Jminus_diff_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.isLocallyCauchyTwoSided_iff_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_pushUp_of_isOpen_Jplus_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_splitting_secondCountable",
+    "Causal.Causality.isOpen_chartFutureSide_secondCountable",
+    "Causal.Causality.strictJplus_eq_Jplus_chartFutureSide_secondCountable",
+    "Causal.Causality.isCauchySurface_of_isOpen_Jplus_chartFutureSide_secondCountable"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(CurvesExtend, named, kb/0012)",
+     "here": "dropped",
+     "note": "T1 route; for strictJplus_eq_Jplus_chartFutureSide (and LemmaKBare's isOpen_strictJplus_of_twoSided, isOpen_strictJplus_of_isCauchySplitting), which have no Tarentin/GloballyHyperbolic binder, Levin's route could not have given the form"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "The local residue (1')+(2') and the sharp residue (J^+(O^+), J^-(O^-) open) now hold, or are equivalent to Lemma K, on every T2 second countable spacetime with no curve hypothesis: the equivalences were already formed (LevinUtility, LemmaKSCLocal); the steps and the one-direction forms are formed here."
+  },
+  {
+   "label": "prop:K_calcul",
+   "paper": "ett",
+   "tex_lines": [
+    1557,
+    1563
+   ],
+   "status": "not-attempted",
+   "marked": false,
+   "decls": [],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The dispatch and the roadmap evidence list prop:K_calcul among the rows that may take Lemma K's forms. Its 'K' is the set K^±(p) (ETT.tex:1557-1563), not Lemma K. Its decls (Causal/PushUp.lean, Causal/SingularFlat.lean, Causal/Port/SFABTZ.lean) carry no CurvesExtend binder. So no form here serves it. Reading taken: the mention is a name collision, and nothing is owed to prop:K_calcul by this target."
+   ],
+   "note": "Not touched."
+  }
+ ],
+ "new_decls": [
+  "Causal.Causality.exists_lt_of_le_of_isCauchySurfaceOn_secondCountable",
+  "Causal.Causality.exists_lt_of_le_of_ne_of_isLocallyCauchy_secondCountable",
+  "Causal.Causality.isOpen_strictJplus_of_Zminus_secondCountable",
+  "Causal.Causality.isOpen_strictJplus_of_twoSided_secondCountable",
+  "Causal.Causality.isAcausal_of_isLocallyCauchy_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_strictJplus_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_chronal_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_of_pushUp_secondCountable",
+  "Causal.Causality.isOpen_strictJplus_of_isCauchySplitting_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isCauchySplitting_via_strictJplus_secondCountable",
+  "Causal.Causality.isCauchySurface_iff_of_secondCountable",
+  "Causal.Causality.isOpen_strictJplus_of_isCauchySurface_secondCountable",
+  "Causal.Causality.isAcausal_of_isLocallyCauchy_of_relOpen_secondCountable",
+  "Causal.Causality.isAcausal_iff_of_isLocallyCauchy_secondCountable",
+  "Causal.Causality.exists_nhds_subset_Jplus_of_isCauchySurfaceOn_secondCountable",
+  "Causal.Causality.isOpen_Jplus_diff_of_isCauchySurfaceOn_secondCountable",
+  "Causal.Causality.isOpen_Jminus_diff_of_isCauchySurfaceOn_secondCountable",
+  "Causal.Causality.isLocallyCauchyTwoSided_iff_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_pushUp_of_isOpen_Jplus_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_splitting_secondCountable",
+  "Causal.Causality.isOpen_chartFutureSide_secondCountable",
+  "Causal.Causality.strictJplus_eq_Jplus_chartFutureSide_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isOpen_Jplus_chartFutureSide_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKBare_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKBare_twoSided_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKBare_gx_secondCountable",
+  "Causal.timelikeLine_reduction_hypotheses_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_reduction_secondCountable",
+  "Causal.timelikeLine_isOpen_strictJplus_zero_secondCountable",
+  "Causal.timelikeLine_lemmaKSC_local_secondCountable",
+  "Causal.timelikeLine_isAcausal_zero_of_relOpen_secondCountable",
+  "Causal.timelikeLine_isAcausal_zero_iff_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKLocal_pushUp_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKLocal_splitting_secondCountable",
+  "Causal.timelikeLine_isLocallyCauchyTwoSided_zero_secondCountable",
+  "Causal.timelikeLine_strictJplus_zero_eq_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_chartFutureSide_secondCountable"
+ ],
+ "extra_decls": [
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKBare_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKBare_twoSided_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKBare_gx_secondCountable",
+  "Causal.timelikeLine_reduction_hypotheses_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_reduction_secondCountable",
+  "Causal.timelikeLine_isOpen_strictJplus_zero_secondCountable",
+  "Causal.timelikeLine_lemmaKSC_local_secondCountable",
+  "Causal.timelikeLine_isAcausal_zero_of_relOpen_secondCountable",
+  "Causal.timelikeLine_isAcausal_zero_iff_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKLocal_pushUp_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaKLocal_splitting_secondCountable",
+  "Causal.timelikeLine_isLocallyCauchyTwoSided_zero_secondCountable",
+  "Causal.timelikeLine_strictJplus_zero_eq_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_chartFutureSide_secondCountable"
+ ],
+ "kb_proposals": [
+  "The Lemma K family (Causal.LemmaKBare, LemmaKReduction, LemmaKSC, LemmaKLocal, LemmaK) has, since T-abs-curves-free-lemma-k, a curve-free form of each of its 31 hext : C.CurvesExtend theorems: 24 in CausalScaffold.CurvesFreeLemmaK.{Bare,Reduction,SC,Local} (name + _secondCountable; isCauchySurface_iff_of_curvesExtend -> isCauchySurface_iff_of_secondCountable), 7 pre-existing (Causal.LevinUtility, Causal.LemmaKSCLocal: _of_secondCountable; Causal.LemmaK: isCauchySurface_of_isLocallyCauchy_of_causallyOpen). Each is the original less hext plus [SecondCountableTopology M] (all originals are T2).",
+  "Levin's route (curvesExtend_of_secondCountable hT hG) needs Tarentin and GloballyHyperbolic binders. Three Lemma K steps (strictJplus_eq_Jplus_chartFutureSide, isOpen_strictJplus_of_twoSided, isOpen_strictJplus_of_isCauchySplitting) have neither, so only the T1 route (curvesExtend_of_t1_secondCountable C) gives their forms. Prefer the T1 route in a curve-free batch."
+ ],
+ "notes_for_keeper": "programme/ladder.toml. (1) The [[consequence]] at curves_extend 'Lemma K' (ladder.toml:3169-3174, witness isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend): its exact curve-free form is the lemma of record isCauchySurface_of_isLocallyCauchy_of_causallyOpen, already the [[consequence]] at globally_hyperbolic (ladder.toml:2632-2637). Verified here by elaborated binder lists: exactly hext removed and [SecondCountableTopology M] added, conclusion identical. Nothing new for that entry; its comment (3162-3168) already says so. (2) Candidate consequences that need no curves_extend, standing T2 and second_countable, if the keeper wants them (the keeper decides; none is proposed as owed). The chronal form isCauchySurface_of_isLocallyCauchy_of_chronal_secondCountable: at [globally_hyperbolic, push_up], under tarentin, causally_arc_connected, connected M, J^±(p) ≠ {p}, Z^+ = Z^- = M. The gx shape isCauchySurface_of_isLocallyCauchy_of_pushUp_of_isOpen_Jplus_secondCountable: at [globally_hyperbolic, push_up], under Z^+ = M and J^+_M(V) open for V open (causally_open_future at U = M). The two-sided form isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus_secondCountable is subsumed by the lemma of record (two-sidedness is free on second countable spacetimes, isLocallyCauchyTwoSided_of_secondCountable). (3) No ladder entry cites any of the other 30 originals.",
+ "notes_for_atlas_team": "No ETT or barbot ledger row lists a declaration of the Lemma K family, and none lists one of its files (searched decls, lean_files and extra_lean_files of every papers/*/ledger/ledger.json, and every curation.toml/binder.toml). So no row can take these forms as anchors by substitution. bthm:cauclo's Lemma K decl (Causality.isCauchySurface_of_isLocallyCauchyTwoSided) already has its curve-free form in Causal.CurvesFreeCauchy.CompactCauchy. isCauchySurface_of_isLocallyCauchy_of_splitting_secondCountable (Local) is a stronger curve-free form under a splitting (IsLocallyCauchy, not two-sided), if the row's curation wants one. The row's model data Causal.Flat.FlatLemmaKData still has a curvesExtend field (Causal/Flat/Classification.lean:383). Every FlatSpacetime is T2 (a field) and second countable (Causal.Flat.SecondCountable, flat_secondCountableTopology, DEC-49), so a model-layer target could discharge that field by curvesExtend_of_t1_secondCountable. That is not this target's and not done here. prop:K_calcul is unrelated (K^± sets); see its label entry.",
+ "notes": "Four new modules under scaffold/CausalScaffold/CurvesFreeLemmaK/, sorry-free, no warning, chained Bare <- Reduction <- SC <- Local as the originals are, each importing only ETT-layer modules. They are not yet imported by the scaffold root; the master adds them (kb/0025). Each new form is BESIDE its original (OQ-98 open). It is named original + '_secondCountable', except isCauchySurface_iff_of_curvesExtend -> isCauchySurface_iff_of_secondCountable (the Causal.CurvesFreeCauchy convention for '_of_curvesExtend' names on a T2 original). Every pair, the 24 new and the 7 pre-existing, was checked by elaborated binder lists (campaign/T-abs-curves-free-lemma-k/Probe_Binders.lean, binders_diff.py, output binders_diff.txt/json): exactly (hext : C.CurvesExtend) removed and [SecondCountableTopology M] added after [T2Space M], conclusion identical, 31/31. No T1Space was added: every original is already T2. Witnesses on the timelike line mirror each original file's witnesses and supply no curve hypothesis: they destructure the originals' hypothesis bundles with the CurvesExtend component discarded. The Cauchy input of the Reduction and SC witnesses is the curve-free timelikeLine_isCauchySurface_zero_of_lemmaKBare_secondCountable. Scratch probes Closure.lean, Probe_Existing.lean and Scan2.lean are in /tmp/cflk (ephemeral). Their results are in this report and in scan.txt. No git command that writes was run. The working tree's other changes (programme/roadmap.toml, roadmap/roadmap.toml, reports/atlas/lean/edges-perforated.json) are not this agent's. No paper finding: the target changes no reading."
+}

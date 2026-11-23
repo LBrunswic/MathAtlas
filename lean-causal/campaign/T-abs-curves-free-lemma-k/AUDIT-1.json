@@ -1,0 +1,71 @@
+{
+ "target": "T-abs-curves-free-lemma-k",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bthm:cauclo",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Not marked in any of the four files (no **`label`** anywhere; the only bold-backtick at Local.lean:133 is a theorem docstring, not a label). The barbot ledger row is closed and MARKED via Causal.Flat.Classification (DEC-72); no row of any papers/*/ledger/ledger.json lists any of the 90 declarations of the eight family modules (checked against tools/ladder.py's decl index). REPORT's 'partial' describes only what these files prove of the row, and it says the forms are not anchors. Honest. One of its two listed decls, isCauchySurface_of_isCauchySplitting_via_strictJplus_secondCountable, is the same proposition as the existing Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_secondCountable, not a 'further' form: see finding 1."
+  },
+  {
+   "label": "clomax (Barbot Rem 2.3, no ledger row)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The barbot ledger has 44 rows and none is clomax. The quotes ETT.tex:255 and GHFspace.tex:576-578 in Bare.lean are verbatim. None of the forms is DEC-44's bare form, and the files say so."
+  },
+  {
+   "label": "Lemma K's local forms (no paper label)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The 9 Local and 3 SC forms are each exactly the original less hext plus [SecondCountableTopology M] after [T2Space M] (my Expr-level check, below). The 4 LemmaKSCLocal and 2 LevinUtility forms that already existed are also exact."
+  },
+  {
+   "label": "prop:K_calcul",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The closer's reading is right. ETT.tex:1557-1563 is about the sets K^±(p) (defi:futur_continue, ETT.tex:759, 'continuously reachable future and past', with lem:K_facile ETT.tex:798). That is a name collision with Lemma K, and nothing is owed. Small inaccuracy in the REPORT question: the row's lean_files are Causal/PushUp.lean, Causal/MeasureRemarks.lean and Causal/Port/SFABTZ.lean, not SingularFlat.lean (Causal.Causality.K_calcul is PushUp.lean:260; SingularFlat.lean:400 is SingularFlatAxioms.K_calcul). None of the four files mentions CurvesExtend, so the conclusion stands."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "ran": [
+   "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/CurvesFreeLemmaK/{Bare,Reduction,SC,Local}.lean: all exit 0, no output. The oleans (02:29) are newer than the sources (last edit 02:28:59).",
+   "grep sorry/admit/axiom/native_decide in the four files: 0 in code. 6 hits, all in docstring prose.",
+   "#print axioms of 45 declarations (24 new forms, 14 witnesses, 7 pre-existing forms), from a /tmp scratch importing the built modules: every one is [propext, Classical.choice, Quot.sound].",
+   "Expr-level pair check (/tmp scratch) on all 31 pairs, written independently of the closer's string diff: forallTelescope both types; remove every binder whose head is Causal.Causality.CurvesExtend from the original and every SecondCountableTopology binder from the new form; match the remaining binders positionally (type after replaceFVars, binderInfo, user name) and the conclusion structurally; compare levelParams. 31/31: exactly hext removed, [SecondCountableTopology M] added right after [T2Space M], no other difference, universes identical ([u]). Negative controls (3 mismatched pairs) were all caught.",
+   "kb/0259 scan (/tmp scratch) over the eight modules, 94 public constants. Flags binder types that directly use CurvesExtend, CurvesExtendOn, InextensibleThrough, SplitBy, Inextensible or CausalCurveOn, plus a transitive check that unfolds Causal.* definitions for the first four. Result: exactly 31 hext binders (Bare 11, Reduction 1, SC 5, Local 13, LemmaK 1), no inline or bundled curve-extension binder, and the closer's 5 Inextensible-only binders, which are a given curve hc or the vacuity hypothesis 'no inextensible curve in U': rightly excluded. The other flags were conclusion-only (the 3 timelike-line hypothesis bundles, withoutChronology_inextensible).",
+   "Whole-library search (import Causal, CausalScaffold and the new modules) for existing theorems with each original's conclusion and a hypothesis set within the original's less hext plus {SC, T1}. It found finding 1. Otherwise only the new forms, the 7 claimed pre-existing forms, and the sorried scaffold bare forms CompactCauchy/LemmaKSCOpen.",
+   "Witnesses (copies of each source with an inspection command appended): all 14 are closed statements, and each calls the new curve-free forms (or Levin's pre-existing one). None calls a constant with a CurvesExtend binder. The CurvesExtend component of timelikeLine_lemmaKBare(_twoSided)_hypotheses is discarded at the right position.",
+   "tools/ladder.py model_path: None for Causal.LemmaKBare, CurvesExtendSecondCountable, LemmaKReduction, LevinUtility and LemmaKSCLocal (and for LemmaKSC, LemmaKLocal, LemmaK, LemmaKObstruction). The compiled closure of CausalScaffold.CurvesFreeLemmaK.Local has 60 Causal/CausalScaffold modules and none under MODEL_LAYER.",
+   "Name clash: grep -w of the 38 new names across every lean-*/ package except .lake: only the closer's own Probe_Binders.lean.",
+   "git status --short: the closer's only paths are the two untracked dirs. The other entries are not the closer's: programme/roadmap.toml and roadmap/roadmap.toml (masters); reports/atlas/lean/edges-perforated.json (mtime 2026-11-22 23:53); lean-gx/.../FunnelGTilde.lean (created 02:43, after the REPORT at 02:31); and the Yamabe moves, committed in 9fbefdd during this audit. No tracked lean-causal file is modified."
+  ]
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/CurvesFreeLemmaK/Bare.lean:203; REPORT.json coverage.already_formed (l.24) and labels[0].note",
+   "what": "isCauchySurface_of_isCauchySplitting_via_strictJplus_secondCountable (new) is the same proposition as the existing Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_secondCountable (Causal/CurvesFreeCauchy/CompactCauchy.lean:153, T-abs-curves-free-cauchy). They have the same hypotheses and the same conclusion; only the implicit binders {S₀} {ψ} sit at a different position, so the two are not syntactically equal but each is the other's instance. The reason is that the original ..._via_strictJplus is itself a re-proof (twin) of Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided. So kb/0260's diff-first missed one existing form. The REPORT's claim that the other conclusion matches, 'e.g. Causal.CurvesFreeCauchy.CompactCauchy's splitting form', 'have different hypothesis sets' is false for this pair, and the bthm:cauclo note calls this form a 'further' curve-free form. The statement itself is correct: exactly the original less hext plus SC.",
+   "fix": "Disclose the twin. Say so in Bare.lean's docstring for the theorem and in SCOPE, and in the REPORT (7 exact forms already existed, plus 1 existing twin up to implicit-binder order). Alternatively drop the new form and cite the existing one. Keeping it beside the original is defensible under OQ-98, since the original is itself a twin, but it must be said."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-curves-free-lemma-k/REPORT.json notes_for_keeper (2) (l.661)",
+   "what": "'The two-sided form isCauchySurface_of_isLocallyCauchyTwoSided_of_isOpen_Jplus_secondCountable is subsumed by the lemma of record' gets the direction wrong. The lemma of record isCauchySurface_of_isLocallyCauchy_of_causallyOpen needs C.CausallyOpen, that is J^±_U(V) open for every U ⊇ V (Causal/Properties.lean:130). The two-sided form needs only J^±_M(V) open (U = M). So the lemma of record does not imply the two-sided form. The two-sided form is subsumed by Causal.Causality.isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus_of_secondCountable (Causal/LemmaKSCLocal.lean:94), which needs only the U = M halves and is itself more general than the lemma of record.",
+   "fix": "Correct the note before the keeper reads it: the two-sided form is subsumed by isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus_of_secondCountable (LemmaKSCLocal). That form, not the lemma of record, is the candidate if the keeper wants Lemma K at causally_open_future/past at U = M only."
+  }
+ ],
+ "checks": {
+  "faithfulness": "No label is anchored or marked. Each of the 24 new forms is exactly its original less (hext : C.CurvesExtend) plus [SecondCountableTopology M] after [T2Space M]. Nothing else changed: binders, names, binder info, conclusion and universes are identical. No T1Space was added, correctly, since every original is already T2.",
+  "already_formed_7": "Confirmed exact by the Expr check: LevinUtility's isCauchySurface_iff_local_of_secondCountable and isCauchySurface_iff_isOpen_strictJplus_of_secondCountable; LemmaKSCLocal's isLocallyCauchyTwoSided_of_secondCountable, isCauchySurface_iff_isOpen_Jplus_chartFutureSide_of_secondCountable, isCauchySurface_of_isLocallyCauchy_of_isOpen_Jplus_of_secondCountable and local_conditions_of_isOpen_Jplus_of_secondCountable; LemmaK's isCauchySurface_of_isLocallyCauchy_of_causallyOpen = ..._of_causallyOpen_of_curvesExtend less hext plus SC. The planner's 32nd binder, CurvesExtend.dual (Causal/CauchyExtension.lean:123), has its form CurvesExtend.dual_secondCountable at Causal/CurvesFreeCauchy/Basic.lean:98.",
+  "three_without_T_or_G": "strictJplus_eq_Jplus_chartFutureSide, isOpen_strictJplus_of_twoSided and isOpen_strictJplus_of_isCauchySplitting have neither a Tarentin nor a GloballyHyperbolic binder. Their forms pass the exact check, and the proofs use curvesExtend_of_t1_secondCountable C ([T1Space M] [SecondCountableTopology M] only; T1 from T2).",
+  "witnesses": "14 witnesses, all non-vacuous (closed statements on the timelike line, Σ = {0}), and none passes a curve hypothesis to a new form. 13 of the 24 new forms have a direct witness. The other 11 are exact originals less hext plus SC, so the hypotheses of any instance of the original on a second countable space (for example ℝ) satisfy them. This mirrors the original files, which have witnesses for the same subset.",
+  "docstring_contract": "kb/0006: each file has a title, the statement that no label is marked, verbatim quotes, a hypothesis checklist, a SCOPE and the provenance line. The line references (LemmaKBare.lean:198-562, 65-76; LemmaKReduction.lean:181; LemmaKSC.lean:193, 250, 343; LemmaKLocal.lean:103-296) check out. The SCOPE claims are true: no ledger row lists a family declaration, and Reduction's equivalence with LemmaKSCOpen's statement is correct. The only omission is finding 1.",
+  "keeper_notes": "(1) is accurate: the [[consequence]] at curves_extend 'Lemma K' (ladder.toml:3169-3174) and its comment at 3162-3168, and the lemma of record at globally_hyperbolic (2632-2637). (3) is accurate: no ladder entry cites any of the other 30 originals. In (2), the chronal and gx candidates are described correctly, but the two-sided remark is backwards (finding 2).",
+  "layer1_scope": "Layer 1 holds and no metric notion appears in any statement. The scope is clean: only the closer's two directories."
+ }
+}

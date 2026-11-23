@@ -260,6 +260,10 @@ import Causal.SCOpenWithoutTarentin
 import Causal.CurvesFreeCauchy.CompactCauchy
 import Causal.CurvesFreeCauchy.CausalConvex
 import Causal.CurvesFreeCauchy.Basic
+import Causal.CurvesFreeLemmaK.Bare
+import Causal.CurvesFreeLemmaK.Reduction
+import Causal.CurvesFreeLemmaK.SC
+import Causal.CurvesFreeLemmaK.Local
 import Causal.OmegaOneConstant
 import Causal.RationalJumpPlane
 import Causal.NotchedPlane

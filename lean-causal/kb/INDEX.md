@@ -267,3 +267,5 @@ rediscover. One fact per entry.
 | [0259](entries/0259-curve-binder-scan.md) | pitfall | A grep for CurvesExtend binders misses inline curve hypotheses |
 | [0260](entries/0260-curve-free-forms-diff-first.md) | pattern | Before planning a curve-free batch, diff the originals against existing forms |
 | [0261](entries/0261-cutline-inextensible-witness.md) | pattern | The direct witness for le_nested ⇏ inextensible_nested |
+| [0262](entries/0262-lemma-k-curve-free.md) | pattern | Lemma K's family has a curve-free form of each of its 31 curve theorems |
+| [0263](entries/0263-curves-route-t1.md) | pattern | Prefer the T1 route to discharge CurvesExtend |
