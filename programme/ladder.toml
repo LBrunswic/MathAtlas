@@ -722,7 +722,8 @@ what = "in every open V, every v ∈ V has p, p' ∈ V with p ≪_V v ≪_V p' (
 #   Lean (Causal.globalLine_separates), and it is no causality with gluing. Every theorem of the
 #   library that takes it also takes absolute minimality (T1) or causal arc-connectedness
 #   (Causal.Causality.K_lorentzien, Causal.Causality.Zplus_Zminus_eq_univ,
-#   Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones), where it is
+#   Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones, a consequence at
+#   is_causal ∧ causally_arc_connected since T-lad-record-cauchy-separation), where it is
 #   chronal_neighbours. This node is not chronal_neighbours under any hypothesis of the library: the
 #   closed half-line, causally arc-connected, has it and lacks chronal neighbours (a [[fails]] below).
 # * Invariant under time reversal (Causal.Causality.dual_hasChronalNeighbourEverywhere), so it needs
@@ -3074,7 +3075,10 @@ status = "checked"
 # are stated with it discharged, at causally_arc_connected (the two entries after Lemma K's). By
 # DEC-190 (T-lad-record-curves-corollaries, 2026-11-22) lem:C_ext_connexe and its acausality step take
 # their second countable forms as witnesses, with no premise (standing of the target N); the middle
-# step's abstract form follows the two entries at causally_arc_connected, at is_causal.
+# step's abstract form follows the two entries at causally_arc_connected, at is_causal. Since
+# T-lad-record-cauchy-separation (2026-11-23) the cover M = J⁺(Σ) ∪ J⁻(Σ) takes its T1, second
+# countable form too (Causal.CauchySeparation), and the other ETT-layer forms of lem:Sigma_separe
+# follow the entry at is_causal.
 [[consequence]]
 at = "curves_extend"
 statement = "every Cauchy surface is acausal"
@@ -3082,10 +3086,29 @@ witness = "Causal.Causality.IsCauchySurface.isAcausal"
 under = "causally_arc_connected (ladder node)"
 status = "checked"
 
+# The cover that the proof of lem:image_diamant uses (ETT.tex:2024), step (1) of lem:Sigma_separe's
+# « In particular » (T-abs-hoist-dual-cover, a295191; recorded by T-lad-record-cauchy-separation,
+# 2026-11-23). Read from the source (Causal/CauchySeparation.lean:92), with no build: [T1Space M]
+# [SecondCountableTopology M] (hS : C.IsCauchySurface S) (x : M) ⊢ x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S.
+# Nothing of C: no causality, no causal arc-connectedness, no global hyperbolicity. The proof extends
+# the constant curve at x (Causal.Causality.exists_inextensible_of_t1_secondCountable) and meets S.
+# It is the witness until then, Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface
+# (Causal/CorrespondingPoints.lean:151: hext : C.CurvesExtend, no separation), with hext dropped and
+# T1, second countable standing, so by the convention for forms that only drop binders (the ERS
+# block's "Second countable forms") it is the witness, standing its instance binders, both ambient.
+# The entry stays at curves_extend, which is the bottom of the causality sort on the ambient (the
+# [[fact]]: every causality-sort property implies it there), as the two DEC-190 entries below do; no
+# lower `at` exists, and the witness asks nothing of C that a lower one would name. The original
+# stays the form on a space that is not second countable and in which curves extend (named here, no
+# entry). Its twin on the source of a Cauchy embedding, from instances on the target N, is
+# Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable (Causal/CExtConnexeSecondCountable.lean,
+# the hcover of lem:image_diamant and lem:passe_pgcd).
 [[consequence]]
 at = "curves_extend"
 statement = "M = J⁺(Σ) ∪ J⁻(Σ) for every Cauchy surface Σ"
-witness = "Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface"
+witness = "Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable"
+under = "nothing of the causality (no is_causal, no causally_arc_connected): Σ a Cauchy surface of M"
+standing = ["T1", "second_countable"]
 status = "checked"
 
 # The witness's `hext` is CurvesExtend's body written out (definitionally the predicate).
@@ -3191,6 +3214,100 @@ statement = "a Cauchy surface T of M that is a Cauchy surface of two open sets A
 witness = "Causal.Causality.isCauchySurfaceOn_inf_of_secondCountable"
 under = "nothing else (T a Cauchy surface of M, of A and of B)"
 standing = ["T2", "second_countable"]
+status = "checked"
+
+# ---- lem:Sigma_separe's ETT-layer forms (ETT.tex:2062–2069; T-lad-record-cauchy-separation,
+# 2026-11-23). Causal/CauchySeparation.lean (T-abs-hoist-dual-cover, a295191) holds the model-free
+# steps of the « In particular » (J±(Σ) closed, J⁺(Σ) ∩ J⁻(Σ) = Σ, J⁺(Σ) a neighbourhood of its
+# points outside Σ), moved verbatim from Causal.SingularCauchy, ETT layer (it imports
+# Causal.CurvesExtendSecondCountable, Causal.CauchyDual, Causal.ChronalNeighbourBridge; no model).
+# Read from the source, with no build; each signature is quoted in its entry's comment. Step (1), the
+# cover, is the entry at curves_extend above. Not entries, named here: step (3),
+# Causal.Causality.IsCauchySurface.isOpen_Jplus_diff_of_Iminus_nonempty ([T2Space M]
+# [SecondCountableTopology M], Cauchy S, IsCausal, CausallyArcConnected, S chronological at its
+# points, a chronological past at every point of J⁺(S) ∖ S ⊢ J⁺(S) ∖ S open) and its pointwise form
+# IsCauchySurface.exists_isOpen_of_Iminus_nonempty, through which the regular case below goes; and
+# the connectedness step Causal.Causality.CausalCurveIn.mem_image_of_between (T2, causal). The
+# singular case, at BTZ points too, is Causal.Causality.SingularFlatAxioms.sigma_separe_of_isCausal
+# (Causal.SingularCauchy, model layer: under SingularFlatAxioms, causal only), through the assembly
+# below. The equalities J±(Σ) = ψ(Σ × ℝ±) need the splitting ψ of theo:geroch_sing, named: the last
+# entry of this block.
+
+# Step (2) (Causal/CauchySeparation.lean:112): (hc : C.IsCausal) (hS : C.IsAcausal S) ⊢
+# C.Jplus ⊤ S ∩ C.Jminus ⊤ S = S. No separation, no instance binder. Cited for J⁺(Σ) ∩ J⁻(Σ) = Σ in
+# place of its model-layer twin Causal.Causality.Jplus_inter_Jminus_eq (Causal/CBG/Ppcm.lean:184,
+# which imports a model; kb/0256), as the module's SCOPE says. A Cauchy surface is acausal under
+# causally_arc_connected (the entry at causally_arc_connected above), whence the clause at
+# is_causal ∧ causally_arc_connected in the two entries after this one.
+[[consequence]]
+at = "is_causal"
+statement = "an acausal set S is J⁺(S) ∩ J⁻(S)"
+witness = "Causal.Causality.IsAcausal.Jplus_inter_Jminus"
+under = "S acausal (Causal.Causality.IsAcausal); nothing else"
+status = "checked"
+
+# Step (5), the assembly (Causal/CauchySeparation.lean:235): [T1Space M] [SecondCountableTopology M]
+# (hS : C.IsCauchySurface S) (hc : C.IsCausal) (hac : C.CausallyArcConnected)
+# (hP : IsOpen (C.Jplus ⊤ S \ S)) (hM : IsOpen (C.Jminus ⊤ S \ S)) ⊢ J±(S) closed, J⁺(S) ∩ J⁻(S) = S,
+# J±(S) ∈ 𝓝 y for y ∈ J±(S) ∖ S, ∀ x, x ∈ J⁺(S) ∪ J⁻(S), J±(S) ∖ S open, S closed. The
+# causal-topological argument with its localisation input in `under`: the complement of J±(S) is
+# J∓(S) ∖ S, by the cover and step (2). The regular case below and the singular one
+# (SingularFlatAxioms.sigma_separe_of_isCausal, the block's comment) are this, with the openness
+# proved from the model.
+[[consequence]]
+at = ["is_causal", "causally_arc_connected"]
+statement = "lem:Sigma_separe's « In particular », from the openness of J±(Σ) ∖ Σ: for a Cauchy surface Σ with J⁺(Σ) ∖ Σ and J⁻(Σ) ∖ Σ open, J±(Σ) are closed, J⁺(Σ) ∩ J⁻(Σ) = Σ, each J±(Σ) is a neighbourhood of its points outside Σ, M = J⁺(Σ) ∪ J⁻(Σ) and Σ is closed"
+witness = "Causal.Causality.IsCauchySurface.sigma_separe_of_isOpen"
+under = "Σ a Cauchy surface of M; J⁺(Σ) ∖ Σ and J⁻(Σ) ∖ Σ open (no node)"
+standing = ["T1", "second_countable"]
+status = "checked"
+
+# The regular case (Causal/CauchySeparation.lean:282): [T2Space M] [SecondCountableTopology M]
+# (hS : C.IsCauchySurface S) (hc : C.IsCausal) (hac : C.CausallyArcConnected)
+# (hJ : C.NoPastEndpoint) (hI : C.NonemptyChronalCones) ⊢ the nine conclusions of the assembly. The
+# proof derives ¬ x ≪ x from hJ (Causal.Causality.Jplus_not_mem_nhds) and the openness of J±(S) ∖ S
+# from step (3), for C and for C.dual. How NonemptyChronalCones is recorded: as a hypothesis in
+# `under`, the witness's own, and not by a node in `at`. It is no node (the comment above
+# has_chronal_neighbour), and under causally_arc_connected, which `at` has, it is chronal_neighbours
+# with no separation (Causal.Causality.CausallyArcConnected.chronalNeighbours_iff, whose right side is
+# NonemptyChronalCones' body; the two directions by name,
+# Causal.Causality.CausallyArcConnected.chronalNeighbours_of_nonemptyChronalCones and
+# Causal.Causality.ChronalNeighbours.nonemptyChronalCones, the latter with no hypothesis). So the
+# entry holds at is_causal ∧ causally_arc_connected ∧ chronal_neighbours with no past endpoint alone
+# in words. It is not has_chronal_neighbour, which it implies
+# (Causal.Causality.NonemptyChronalCones.hasChronalNeighbourEverywhere) and which the closed
+# half-line has without it (Causal.closedHalfLine_separates_chronalNeighbours, the [[fails]]
+# has_chronal_neighbour → chronal_neighbours); whether the regular case holds with has_chronal_neighbour
+# in its place is not examined. NoPastEndpoint is no node either
+# (the header's "One-sided notions"). Both fail at a BTZ point (I⁻ = ∅, rem:btz_pas_tarentin), where
+# the singular form takes over. The hypotheses are met on the timelike line with Σ = {0}
+# (Causal.timelikeLine_sigma_separe_of_nonemptyChronalCones, kb/0011).
+[[consequence]]
+at = ["is_causal", "causally_arc_connected"]
+statement = "lem:Sigma_separe's « In particular », regular case: for every Cauchy surface Σ, J±(Σ) are closed, J⁺(Σ) ∩ J⁻(Σ) = Σ, each J±(Σ) is a neighbourhood of its points outside Σ, M = J⁺(Σ) ∪ J⁻(Σ), J±(Σ) ∖ Σ are open and Σ is closed"
+witness = "Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones"
+under = "Σ a Cauchy surface of M; no past endpoint, J⁻(x) ≠ {x} for every x (Causal.Causality.NoPastEndpoint, no node); non-empty chronological cones, I⁺(x) and I⁻(x) non-empty for every x (Causal.Causality.NonemptyChronalCones, no node), which under causally_arc_connected is chronal_neighbours (ladder node; Causal.Causality.CausallyArcConnected.chronalNeighbours_iff)"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# lem:Sigma_separe with the splitting named (Causal/CExtConnexeSecondCountable.lean:358):
+# [T1Space M] [SecondCountableTopology M] (hcaus : C.IsCausal) (hC : C.CausallyArcConnected)
+# (hS : C.IsCauchySurface S) {ψ : S × ℝ ≃ₜ M} (hψ : IsCauchySplitting C S ψ) ⊢ J⁺(S) = ψ(S × [0, ∞)),
+# J⁻(S) = ψ(S × (−∞, 0]), J±(S) closed, J⁺(S) ∩ J⁻(S) = S, J⁺(S) ∈ 𝓝 y for y ∈ J⁺(S) ∖ S. It is
+# Causal.Causality.sigma_separe (Causal/CauchyDiamond.lean:129: S acausal in place of S Cauchy)
+# with the acausality from causally_arc_connected (IsCauchySurface.isAcausal_of_t1_secondCountable).
+# Beside the regular case, not below it: it asks ψ, and asks neither T2 nor the two hypotheses in
+# words of the regular case; it gives the two equalities, the lemma's main clause, and not the
+# cover nor J⁻(Σ)'s neighbourhood clause. ψ stays a named hypothesis; the library builds one from a
+# causal flow along an acausal Cauchy surface Σ once J±(Σ) are closed
+# (Causal.Causality.IsCausalFlow.isCauchySplitting, Causal/Splitting.lean), which the regular case
+# gives. No global hyperbolicity is used.
+[[consequence]]
+at = ["is_causal", "causally_arc_connected"]
+statement = "lem:Sigma_separe with a named splitting: for a Cauchy surface Σ and a Cauchy splitting ψ : Σ × ℝ ≃ M, J⁺(Σ) = ψ(Σ × ℝ₊) and J⁻(Σ) = ψ(Σ × ℝ₋), so J±(Σ) are closed, J⁺(Σ) ∩ J⁻(Σ) = Σ and J⁺(Σ) is a neighbourhood of its points outside Σ"
+witness = "Causal.Causality.sigma_separe_of_t1_secondCountable"
+under = "Σ a Cauchy surface of M; ψ : Σ × ℝ ≃ₜ M a Cauchy splitting (Causal.Causality.IsCauchySplitting: ψ(x, 0) = x and s ≤ t gives ψ(x, s) ≤ ψ(x, t)), the homeomorphism of theo:geroch_sing carried as a named hypothesis (kb/0012)"
+standing = ["T1", "second_countable"]
 status = "checked"
 
 # ---- consequences at has_chronal_neighbour, and the boundary form of Lemma 2.17
