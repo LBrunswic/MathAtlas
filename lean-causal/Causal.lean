@@ -287,6 +287,7 @@ import Causal.GluingGeneric.GX
 import Causal.GluingGeneric.OfRelation
 import Causal.GluingGeneric.Linear
 import Causal.CutLineInextensible
+import Causal.SchwCausalLemmas
 import Causal.Remarks.MassADEC25
 import Causal.Model.EAlphaSectors
 import Causal.Port.E0GXStructure

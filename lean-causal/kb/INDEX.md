@@ -272,3 +272,7 @@ rediscover. One fact per entry.
 | [0264](entries/0264-dual-rule-really-used.md) | pitfall | Show a dual rule is really used: erase it and watch examples fail |
 | [0265](entries/0265-acausal-only-for-unions.md) | pattern | When the acausal-for-Cauchy trade needs no arc-connectedness |
 | [0266](entries/0266-ers-4-75-cauchy-form.md) | pattern | ERS Thm 4.75 on second countable backgrounds |
+| [0267](entries/0267-future-inextensible-leaving.md) | pattern | A curve with no limit at its end, or leaving an open set, is future-inextensible |
+| [0268](entries/0268-forkpoint-non-hausdorff.md) | pattern | Causal.ForkPoint: a cheap non-Hausdorff witness |
+| [0269](entries/0269-chronally-separated.md) | pattern | Sbierski's timelike separation is ChronallySeparatedOn |
+| [0270](entries/0270-restrict-ascribe.md) | pitfall | Ascribe a restricted curve before using it as a chronal curve |

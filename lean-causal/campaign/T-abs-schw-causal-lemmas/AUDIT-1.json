@@ -1,0 +1,81 @@
+{
+ "target": "T-abs-schw-causal-lemmas",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "schwprop:UnionPasts",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "schw_prop_2_7 (SchwCausalLemmas.lean:161) states C.Iminus W {γ 1} = ⋃ s ∈ Ico 0 1, C.Iminus W {γ s} for C.ChronalCurveOn W γ 0 1, for any causality C and any open W. With W = ⊤ this is Prop 2.7 (:310–316) once 'future directed timelike curve' is read as a chronal curve, which is the binder's reading. The general Iminus_eq_biUnion_Ico (:142) and its dual Iplus_eq_biUnion_Ioc (:167) are correct generalisations. No hypothesis is added. Prop 2.6 is the axiom isOpen_lt_right, and Iminus is {y | ∃ x ∈ A, lt U y x} (Causal/Causality.lean:101). The row is partial only for the C0 layer 3 (T-loc-c0-metric-causality, which exists in programme/roadmap.toml:2141 and is not done). That is honest. The label is unmarked. Binder localisation [] matches."
+  },
+  {
+   "label": "schwdef:timelike_separated_set",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "ChronallySeparatedOn W K A B (:368) quantifies over every σ with C.ChronalCurveOn W σ 0 1 ∨ C.dual.ChronalCurveOn W σ 0 1, σ 0 ∈ A, σ 1 ∈ B, and asks for ∃ s ∈ Icc 0 1, σ s ∈ K. That is Def 2.14 (:390–392) word for word, with 'timelike curve' read as future or past directed. Defs 2.1–2.2 (:235–245) force that reading in a time-oriented M, and Def 2.14 is used only on the time-oriented M_int (:1772). Reformulation (:393): schw_def_2_14_iff (:477) takes K closed and C.CausallyArcConnected. That hypothesis is how ETT renders the paper's curve-defined I^± (Def 2.2), so it is a reading, not a silent strengthening. The REPORT and SCOPE disclose it, and it is the binder's localisation causally_arc_connected. ⇐ needs nothing (chronallySeparatedOn_of_Iplus_Iminus). The directions check out: a C.dual curve from A to B gives C.lt V (σ 1) (σ 0), so σ 1 ∈ Iminus V A. Counterexample allRelated_chronallySeparated_not_iff (:518) is genuine: allRelated ℝ is a Causality of the strict library (LineDevelopment.lean:1097), K = {0} is closed, every chronal curve of it or of its dual is continuous, so IVT gives separation, and allRelated's lt on {0}ᶜ relates -1 and 1, so 1 ∈ I⁺(-1, ℝ ∖ {0}). The ⇒ therefore fails without arc-connectedness. This is not a claim against the paper, and none is made. Non-vacuity: timelikeLine_chronallySeparated and timelikeLine_not_chronallySeparated_empty. The label is unmarked and the row is partial."
+  },
+  {
+   "label": "schwthm:MinkInex",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Only Step 1's sentence (:485, 'and hence it is future inextendible in M_Mink') is formalized, and the row is partial with that scope stated. futureInextensible_of_leaving (:241) is the universal 'hence': any causal curve of an open U ⊇ W over [a, b], in W on [a, b), with γ b ∉ W, is FutureInextensible in W over [a, b), given [T2Space M], which the paper has as a standing hypothesis (:228). exists_leaving_futureInextensible_of_isOpenEmbedding (:277) adds T2 to exactly the hypotheses of the strict exists_leaving_of_isOpenEmbedding (LocateExtension.lean:418) and adds D.FutureInextensible (range ι) (Ico 0 1) γ to its conclusion. ETT's notion is stated in ι(N) ⊆ M̃, not in N, and SCOPE discloses this. Sbierski's own Def 2.10 sentence in N is not_continuousExtension_preimage (:327): ¬∃ δ' continuous on [a, b] agreeing with δ on [a, b), for any continuous ι. That is literally the paper's notion, so here Lean ≥ paper. futureInextensible_of_not_continuousExtension (:339) correctly proves that Sbierski's notion implies ETT's with no separation axiom. Counterexample forkPoint_leaving_futureExtensible (:631) is genuine. ForkPoint's opens are ∅, {x}, {x,p}, {x,q}, univ, so p and q cannot be separated, and forkPoint_not_t2Space confirms it. toQ is continuous, so it is an allRelated chronal curve of ⊤ over [0, 1]. It lies in xp on [0, 1) and toQ 1 = q ∉ xp, so every hypothesis of futureInextensible_of_leaving except T2 holds. Yet toP over Icc 0 1 with φ = id strictly extends it at the future end by p. Precision point: the witness shows T2 is needed for futureInextensible_of_leaving, the paper's universal sentence. It does not show T2 is needed for the existential exists_leaving_futureInextensible_of_isOpenEmbedding. On ForkPoint with allRelated, all hypotheses of that theorem except T2 hold, and its conclusion is true anyway: the curve p at 0, x on (0, 1), q at 1 already has image {x, p} = ι(N), so it cannot grow. The REPORT's row note ('[T2Space M] … needed …, a curve satisfying every other hypothesis') should be read as being about futureInextensible_of_leaving, as the docstring says (:115). The label is unmarked."
+  },
+  {
+   "label": "schwthm:MainThm",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The Lean content is the same as for schwthm:MinkInex, with N = M_max, and the row is partial with the Kruskal case split and Thms 4.10 and 4.11 out of scope (stated). The cited line is off: the sentence 'and thus it is future inextendible in M_max' is InexSchwarzschild2.tex:798. :799 is a blank line, yet it is used in REPORT tex_lines [799, 799] and at docstring :29, :57, :274. The error comes from the dispatch and the roadmap evidence. The label is unmarked."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "ran": [
+   "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/SchwCausalLemmas.lean  -> exit 0, no output",
+   "grep -c sorry scaffold/CausalScaffold/SchwCausalLemmas.lean -> 0 (no admit, axiom, native_decide, implemented_by)",
+   "probe /tmp/audit-schw/Probe.lean (a copy of the module plus #print axioms on all 37 named declarations of the REPORT), lake env lean -DwarningAsError=true -> every declaration ⊆ [propext, Classical.choice, Quot.sound] (ForkPoint none, ForkPoint.xp [propext]); no sorryAx. Probe deleted afterwards.",
+   "tools/ladder.py model_path for each direct import (Causal.ChronalNeighbourBridge, Causal.Inextensible, Causal.LinesCurves, Causal.LineDevelopment) -> None for all four (kb/0247)",
+   "name-clash grep of the 37 names (ChronallySeparatedOn, ForkPoint, futureInextensible_of_leaving, ...) over lean-causal/Causal, lean-causal/scaffold, lean-gx/GX, lean-gx/scaffold -> no clash",
+   "ledger.py's mark regex on the file -> no **`label`** mark",
+   "git status --short -> only this target's file and campaign dir, plus the other closers' files (InextensibleNestedBasics, Ers475CauchyForm, lean-gx BBS) and the masters' roadmap.toml edits"
+  ]
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-schw-causal-lemmas/REPORT.json (labels[3].tex_lines, labels[3].note); scaffold/CausalScaffold/SchwCausalLemmas.lean:29, :57, :274",
+   "what": "Thm 4.9's sentence 'and thus it is future inextendible in M_max' is at InexSchwarzschild2.tex:798. :799 is an empty line. The dispatch and the roadmap evidence carry the same off-by-one.",
+   "fix": "Cite :798 (the proof paragraph :797–798) when the master curates the row, and in the docstring at the next edit."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-schw-causal-lemmas/REPORT.json notes, 'FOR THE BINDER' (schwthm:Exterior, schwthm:Inex, schwlem:BoundsOnReach)",
+   "what": "schwthm:Exterior is grouped with the 'rows citing T-abs-schw-causal-lemmas for timelike separation' and pointed at ChronallySeparatedOn, schw_def_2_14_iff and ChronallySeparatedOn.mono. But Thm 4.10's proof (:1077–1079, 'analogous to the proof of Theorem 3.1') uses no timelike separation, and its binder row (binder.toml:361–366) names none. Def 2.14 is used only in Thm 4.11 (:1772, :1813). The same note also omits schw_prop_2_7 for schwthm:Inex, although Prop 2.7 is used in Thm 4.11's proof at :1628.",
+   "fix": "In the binder, give schwthm:Inex ChronallySeparatedOn, schw_def_2_14_iff, ChronallySeparatedOn.mono and schw_prop_2_7, and give schwlem:BoundsOnReach the separation decls. For schwthm:Exterior, either drop the separation decls or re-derive what the row cites the target for."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/SchwCausalLemmas.lean:97, :90",
+   "what": "Docstring checklist (kb/0006). Row :97 ('Lemma 2.17's hypotheses') has no ✓/⚠ tag. It lists only 'connected M̃, chronal neighbours at ∂ι(M)', leaving out C.CausallyArcConnected and [Nonempty N], which exists_leaving_futureInextensible_of_isOpenEmbedding assumes. Row :90 tags Prop 2.7's '(M, g) continuous metric' as '✓ carried' while the Lean holds for any causality. The REPORT correctly says 'weakened'.",
+   "fix": "Tag row :97 '✓ carried (exists_leaving_of_isOpenEmbedding's: connected M̃, C.CausallyArcConnected, Nonempty N, HasChronalNeighbour at ∂ι(N))', and tag row :90's metric clause '⚠ weakened: any causality'."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-schw-causal-lemmas/REPORT.json labels[2..3].hypotheses[0].note",
+   "what": "'[T2Space M]; used … and needed: on the non-Hausdorff ForkPoint … a curve satisfying every other hypothesis is future-extensible' sits on the rows whose principal is the existential exists_leaving_futureInextensible_of_isOpenEmbedding. The witness proves necessity for futureInextensible_of_leaving only, which is the docstring's exact claim (:115). For the existential theorem, ForkPoint with allRelated satisfies every hypothesis but T2 and still satisfies the conclusion: a leaving curve with image {x, p} cannot grow in xp.",
+   "fix": "Say 'needed in futureInextensible_of_leaving (the paper's universal \"hence\")' wherever the REPORT text is reused (binder, ladder consequence)."
+  }
+ ],
+ "checks": {
+  "faithfulness": "All four rows have Lean ≥ paper in the stated readings. There is no vacuous form: FutureExtensible is inhabited (ForkPoint), FutureInextensible is inhabited (timelikeLine_dual_futureInextensible), and ChronallySeparated is both inhabited and refuted on the timelike line.",
+  "counterexamples": "allRelated_chronallySeparated_not_iff and forkPoint_leaving_futureExtensible are read and genuine. Neither is presented as an error of the paper, and the REPORT records no paper finding.",
+  "readings": "Two readings are taken as stated: timelike = chronal curve of C or of C.dual, and 'future inextendible in M' = ETT FutureInextensible in ι(N), with Sbierski's continuous Def 2.10 also proved in N. Neither OQ-114 nor OQ-115 is decided: the file mentions no Cauchy surface, and every statement is about one causality C on M̃ and its dual, which is the binder's provisional reading in OQ-115, not a ruling.",
+  "marks": "None. All four rows are partial, with the missing C0 layer 3 (T-loc-c0-metric-causality) named.",
+  "layer_1": "model_path is None for all four direct imports. Statements use no metric notion: ℝ appears only as the parameter and in witnesses, and ForkPoint's topology is generateFrom.",
+  "scope": "Clean.",
+  "docstring_contract": "Title, the four labels unmarked and within the first 4000 characters, verbatim quotes (the paper's typo 'seperated' kept), checklist, SCOPE, provenance. Precision nits as above.",
+  "binder_notes": "Line numbers checked against the file. The row correspondences are correct except for schwthm:Exterior (finding 2). Localisations match binder.toml (schwprop:UnionPasts [], schwdef:timelike_separated_set [causally_arc_connected], MinkInex/MainThm/dimensional_maximal [has_chronal_neighbour, causally_arc_connected]), and both quoted binder notes exist (binder.toml:245, :296)."
+ }
+}

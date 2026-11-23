@@ -1,0 +1,219 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-schw-causal-lemmas",
+ "files": [
+  "scaffold/CausalScaffold/SchwCausalLemmas.lean"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.SchwCausalLemmas  (dry run --no-build first: only this module out of date; built, 3094/3094, no warning)",
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "schwprop:UnionPasts",
+   "tex_lines": [
+    310,
+    320
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.schw_prop_2_7",
+    "Causal.Causality.Iminus_eq_biUnion_Ico",
+    "Causal.Causality.Iplus_eq_biUnion_Ioc"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(M, g) Lorentzian with a continuous metric",
+     "here": "weakened",
+     "note": "any ETT causality C on any space; any open W (W = ⊤ is M). Partial only because the row is about C⁰ Lorentzian manifolds: the C0 model's layer 3 (T-loc-c0-metric-causality) turns the ETT statement into the paper's; the layer-1 argument is complete, sorry-free, with no added hypothesis."
+    },
+    {
+     "paper": "γ : [0, 1] → M future directed timelike",
+     "here": "carried",
+     "note": "C.ChronalCurveOn W γ 0 1 (the binder's reading of Def 2.1: timelike curve = chronal curve). Over any [a, b], a < b: Iminus_eq_biUnion_Ico; time-reversed (I⁺(γ(a)) = ⋃_{a<s≤b} I⁺(γ(s))): Iplus_eq_biUnion_Ioc, by C.dual."
+    },
+    {
+     "paper": "Prop 2.6 (I⁺(q, M) open)",
+     "here": "weakened",
+     "note": "free: an axiom of an ETT causality (isOpen_lt_right); no ladder property used."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "schwdef:timelike_separated_set",
+   "tex_lines": [
+    390,
+    393
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ChronallySeparatedOn",
+    "Causal.Causality.ChronallySeparated",
+    "Causal.Causality.schw_def_2_14_iff",
+    "Causal.Causality.chronallySeparatedOn_iff_of_isClosed",
+    "Causal.Causality.chronallySeparatedOn_iff_of_coe_eq",
+    "Causal.Causality.chronallySeparatedOn_of_Iplus_Iminus",
+    "Causal.Causality.Iplus_Iminus_of_chronallySeparatedOn",
+    "Causal.Causality.dual_chronallySeparatedOn",
+    "Causal.Causality.ChronallySeparatedOn.symm",
+    "Causal.Causality.ChronallySeparatedOn.mono"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A, B, K ⊆ M; timelike curves σ : [0, 1] → M",
+     "here": "carried",
+     "note": "ChronallySeparatedOn W K A B: every chronal curve of C or of C.dual of the open W over [0, 1] with σ 0 ∈ A, σ 1 ∈ B meets K; ChronallySeparated = On ⊤. Invariant under time reversal (dual_chronallySeparatedOn), symmetric in A, B (ChronallySeparatedOn.symm), monotone (ChronallySeparatedOn.mono: larger K, smaller A, B; Thm 4.11 Step 1.5 passes from K to U ⊇ closure K)."
+    },
+    {
+     "paper": "the reformulation: K closed",
+     "here": "carried",
+     "note": "schw_def_2_14_iff (W = M) and chronallySeparatedOn_iff_of_isClosed (any open W); weakened in chronallySeparatedOn_iff_of_coe_eq: any open V with V = W ∖ K (K closed in W suffices)."
+    },
+    {
+     "paper": "the reformulation: I^±(A, M ∖ K) are defined by timelike curves in M ∖ K (Def 2.2), which the 'clearly' uses",
+     "here": "carried",
+     "note": "as causal arc-connectedness, for the ⇒ only: C.CausallyArcConnected (paper form), C.CausallyArcConnectedOn W (closed form), C.CausallyArcConnectedOn (W ∖ K) (general form). The ⇐ needs no hypothesis (chronallySeparatedOn_of_Iplus_Iminus: a curve avoiding K is a chronal curve of W ∖ K by CurveOn.restrict). The ⇒ fails without it: allRelated ℝ, K = {0}, A = {-1}, B = {1} (Causal.allRelated_chronallySeparated_not_iff). This is the target's `uses` (causally_arc_connected)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Def 2.14 says 'timelike curve' with no direction. Reading taken: future or past directed (a chronal curve of C or of C.dual), which Sbierski's Defs 2.1–2.2 force in a time-oriented M (:235–241: one-sided tangents in one cone; 'future (past) directed … at some point (and hence at all points)'); with future curves only, the reformulation would lose its I⁻ clause. The reading is the paper's, recorded for the auditor, not an open question."
+   ]
+  },
+  {
+   "label": "schwthm:MinkInex",
+   "tex_lines": [
+    485,
+    485
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding",
+    "Causal.Causality.exists_leaving_inextensible_of_isOpenEmbedding",
+    "Causal.Causality.futureInextensible_of_leaving",
+    "Causal.Causality.ChronalCurveOn.futureInextensible_of_leaving",
+    "Causal.Causality.futureInextensible_of_forall_not_tendsto",
+    "Causal.Causality.forall_not_tendsto_of_tendsto_notMem",
+    "Causal.Causality.dual_futureInextensible_Ico_iff",
+    "Causal.Causality.not_continuousExtension_of_tendsto",
+    "Causal.Causality.not_continuousExtension_preimage",
+    "Causal.Causality.futureInextensible_of_not_continuousExtension"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M̃ a manifold, hence Hausdorff (standing assumption, InexSchwarzschild2.tex:228)",
+     "here": "carried",
+     "note": "[T2Space M]; used (the limit of the curve at the exit parameter is unique) and needed: on the non-Hausdorff three-point Causal.ForkPoint with allRelated, a curve satisfying every other hypothesis is future-extensible through the other limit (Causal.forkPoint_leaving_futureExtensible). The separation-free core is futureInextensible_of_forall_not_tendsto."
+    },
+    {
+     "paper": "ι : M ↪ M̃ an isometric embedding onto a proper subset (Def 2.15)",
+     "here": "weakened",
+     "note": "an open embedding (IsOpenEmbedding ι), as in exists_leaving_of_isOpenEmbedding; only ι(N) open is used. not_continuousExtension_preimage (Sbierski's notion in N) asks ι continuous only."
+    },
+    {
+     "paper": "γ̃ a (future directed, after time reversal) timelike curve",
+     "here": "weakened",
+     "note": "futureInextensible_of_leaving takes a future CAUSAL curve of any open U ≥ W over [a, b]; the chronal form ChronalCurveOn.futureInextensible_of_leaving is the paper's. 'Otherwise reverse the time orientation' is D = C.dual; the C-only form is exists_leaving_inextensible_of_isOpenEmbedding (C.PastInextensible of the reversed curve over (-1, 0])."
+    },
+    {
+     "paper": "Lemma 2.17's hypotheses (connected M̃; the proof's 'Let q̃ ∈ I⁻(p̃, Ũ)')",
+     "here": "carried",
+     "note": "exactly those of Causal.Causality.exists_leaving_of_isOpenEmbedding (Causal/LocateExtension.lean:418): [PreconnectedSpace M], [Nonempty N], range ι ≠ univ, C.CausallyArcConnected, HasChronalNeighbour at every frontier point (DEC-159's edge hypothesis, that lemma's, not new here)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'Future inextendible in M_Mink' (:485) read as ETT's FutureInextensible (DEC-11, DEC-13: no strict CAUSAL extension at the future end), stated in the open W = ι(N) of M̃ with C's relations at the opens of W (kb/0001; Rem 2.3), as the target's title says. Sbierski's own Def 2.10 (no CONTINUOUS extension to [a, b]) is proved too, in W (not_continuousExtension_of_tendsto) and in N for δ = ι⁻¹ ∘ γ (not_continuousExtension_preimage, the paper's literal sentence); it implies ETT's (futureInextensible_of_not_continuousExtension). ETT's notion in N needs a causality on N transported by ι (Rem 2.3, Causal.ChartIso): left to T-abs-c0-extension-skeleton.",
+    "Readings R2/R3 of the binder (OQ-114 Cauchy hypersurfaces, OQ-115 time-orientability of M̃) are not decided: no statement mentions a Cauchy surface, and every statement is about one causality C on M̃ (a time-oriented M̃) and its reversal C.dual, which is what any ruling on OQ-115 yields once a time orientation (or the double cover) is chosen."
+   ],
+   "note": "Step 1's inextensibility sentence only (Thm 3.1, proof 480–624): the rest of the theorem is Lemma 2.4's chart, Minkowski's future one-connectedness, the timelike diameter and the confinement (T-loc-c0-chart-diameter, T-loc-minkowski-*, T-abs-diamond-confinement, T-abs-c0-extension-skeleton)."
+  },
+  {
+   "label": "schwthm:MainThm",
+   "tex_lines": [
+    799,
+    799
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding",
+    "Causal.Causality.exists_leaving_inextensible_of_isOpenEmbedding",
+    "Causal.Causality.futureInextensible_of_leaving",
+    "Causal.Causality.ChronalCurveOn.futureInextensible_of_leaving",
+    "Causal.Causality.futureInextensible_of_forall_not_tendsto",
+    "Causal.Causality.forall_not_tendsto_of_tendsto_notMem",
+    "Causal.Causality.dual_futureInextensible_Ico_iff",
+    "Causal.Causality.not_continuousExtension_of_tendsto",
+    "Causal.Causality.not_continuousExtension_preimage",
+    "Causal.Causality.futureInextensible_of_not_continuousExtension"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M̃ a manifold, hence Hausdorff (standing assumption, InexSchwarzschild2.tex:228)",
+     "here": "carried",
+     "note": "[T2Space M]; used (the limit of the curve at the exit parameter is unique) and needed: on the non-Hausdorff three-point Causal.ForkPoint with allRelated, a curve satisfying every other hypothesis is future-extensible through the other limit (Causal.forkPoint_leaving_futureExtensible). The separation-free core is futureInextensible_of_forall_not_tendsto."
+    },
+    {
+     "paper": "ι : M ↪ M̃ an isometric embedding onto a proper subset (Def 2.15)",
+     "here": "weakened",
+     "note": "an open embedding (IsOpenEmbedding ι), as in exists_leaving_of_isOpenEmbedding; only ι(N) open is used. not_continuousExtension_preimage (Sbierski's notion in N) asks ι continuous only."
+    },
+    {
+     "paper": "γ̃ a (future directed, after time reversal) timelike curve",
+     "here": "weakened",
+     "note": "futureInextensible_of_leaving takes a future CAUSAL curve of any open U ≥ W over [a, b]; the chronal form ChronalCurveOn.futureInextensible_of_leaving is the paper's. 'Otherwise reverse the time orientation' is D = C.dual; the C-only form is exists_leaving_inextensible_of_isOpenEmbedding (C.PastInextensible of the reversed curve over (-1, 0])."
+    },
+    {
+     "paper": "Lemma 2.17's hypotheses (connected M̃; the proof's 'Let q̃ ∈ I⁻(p̃, Ũ)')",
+     "here": "carried",
+     "note": "exactly those of Causal.Causality.exists_leaving_of_isOpenEmbedding (Causal/LocateExtension.lean:418): [PreconnectedSpace M], [Nonempty N], range ι ≠ univ, C.CausallyArcConnected, HasChronalNeighbour at every frontier point (DEC-159's edge hypothesis, that lemma's, not new here)."
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'Future inextendible in M_Mink' (:485) read as ETT's FutureInextensible (DEC-11, DEC-13: no strict CAUSAL extension at the future end), stated in the open W = ι(N) of M̃ with C's relations at the opens of W (kb/0001; Rem 2.3), as the target's title says. Sbierski's own Def 2.10 (no CONTINUOUS extension to [a, b]) is proved too, in W (not_continuousExtension_of_tendsto) and in N for δ = ι⁻¹ ∘ γ (not_continuousExtension_preimage, the paper's literal sentence); it implies ETT's (futureInextensible_of_not_continuousExtension). ETT's notion in N needs a causality on N transported by ι (Rem 2.3, Causal.ChartIso): left to T-abs-c0-extension-skeleton.",
+    "Readings R2/R3 of the binder (OQ-114 Cauchy hypersurfaces, OQ-115 time-orientability of M̃) are not decided: no statement mentions a Cauchy surface, and every statement is about one causality C on M̃ (a time-oriented M̃) and its reversal C.dual, which is what any ruling on OQ-115 yields once a time orientation (or the double cover) is chosen."
+   ],
+   "note": "The proof of Thm 4.9 from Thms 4.10, 4.11 (:797–813), its sentence at :799 ('… and thus it is future inextendible in M_max'), the same theorem as for schwthm:MinkInex with N = M_max. The Kruskal case split (i)–(iii) and Thms 4.10, 4.11 are not here (layer 3 / other targets)."
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.futureInextensible_of_forall_not_tendsto",
+  "Causal.Causality.forall_not_tendsto_of_tendsto_notMem",
+  "Causal.Causality.futureInextensible_of_not_continuousExtension",
+  "Causal.Causality.dual_futureInextensible_Ico_iff",
+  "Causal.Causality.Iminus_eq_biUnion_Ico",
+  "Causal.Causality.Iplus_eq_biUnion_Ioc",
+  "Causal.timelikeLine_chronallySeparated",
+  "Causal.timelikeLine_not_chronallySeparated_empty",
+  "Causal.allRelated_chronallySeparated_not_iff",
+  "Causal.timelikeLine_dual_chronalCurveOn",
+  "Causal.timelikeLine_dual_futureInextensible",
+  "Causal.timelikeLine_exists_leaving_futureInextensible",
+  "Causal.ForkPoint",
+  "Causal.ForkPoint.xp",
+  "Causal.ForkPoint.toQ",
+  "Causal.ForkPoint.toP",
+  "Causal.ForkPoint.continuous_toQ",
+  "Causal.ForkPoint.continuous_toP",
+  "Causal.forkPoint_leaving_futureExtensible",
+  "Causal.forkPoint_not_t2Space"
+ ],
+ "kb_proposals": [
+  "A causal curve of W over I with IsLUB I b, b ∉ I and no limit in W at b⁻ is future-inextensible in W, with no separation axiom and no time function: Causality.futureInextensible_of_forall_not_tendsto (CausalScaffold.SchwCausalLemmas); with T2, a curve of M over [a, b] in W on [a, b) leaving at b is: futureInextensible_of_leaving. Prefer them to InextensiblePiece's futureInextensible_of_isLUB_notMem (time function, I open, c continuous on ℝ) in the bounded case.",
+  "A cheap non-Hausdorff witness: Causal.ForkPoint (x generic, p and q in its closure and not separated, topology generateFrom {{x},{x,p},{x,q}}) with LineDevelopment.allRelated; toQ leaves {x,p} at 1 and is still future-extensible there through p (forkPoint_leaving_futureExtensible).",
+  "Sbierski's timelike separation (1507.00601 Def 2.14) is Causality.ChronallySeparatedOn W K A B (curves of C or C.dual over [0, 1]); its I^± reformulation for K closed is schw_def_2_14_iff, whose ⇒ needs causal arc-connectedness of W ∖ K (allRelated ℝ refutes it otherwise) and whose ⇐ needs nothing.",
+  "Pin names (kb/0004): Icc \\ {b} = Ico is Set.Icc_sdiff_right (not Icc_diff_right); a def on ℝ by `if t < 1` must be `noncomputable` (Real.decidableLT).",
+  "CurveOn.restrict (…) |>.causalCurveOn fails: the restricted term's type is CurveOn r W c a b, not ChronalCurveOn; ascribe it first (`have hc : C.ChronalCurveOn W c a b := CurveOn.restrict …`), the cousin of kb/0010."
+ ],
+ "notes": "ETT layer: the four direct imports (Causal.ChronalNeighbourBridge, Causal.Inextensible, Causal.LinesCurves, Causal.LineDevelopment) each have tools/ladder.py model_path None (checked one by one, kb/0247); no model, no metric in a statement (ℝ only as the curve parameter and in witnesses; ForkPoint's topology is generateFrom). All 37 declarations print axioms [propext, Classical.choice, Quot.sound] or fewer, no sorryAx. NO LABEL IS MARKED, by the external-Sbierski convention of certificate/curation.toml (the ETT argument is complete and sorry-free; the rows need the C0 model's layer 3). The module is not imported by scaffold/CausalScaffold.lean (kb/0025): the master adds it. No finding against the paper: Prop 2.7, Def 2.14's reformulation and Step 1's inextensibility are correct as printed; Step 1 uses the Hausdorff assumption of :228, and needs it (ForkPoint). FOR THE BINDER (papers/sbierski-schwarzschild/certificate/binder.toml), rows that can now name Lean instead of the target: schwprop:UnionPasts → Causal.Causality.schw_prop_2_7 (SchwCausalLemmas.lean:161; general Iminus_eq_biUnion_Ico :142, dual Iplus_eq_biUnion_Ioc :167), localisation none; schwdef:timelike_separated_set → Causal.Causality.ChronallySeparatedOn (:368), ChronallySeparated (:374), schw_def_2_14_iff (:477), chronallySeparatedOn_iff_of_isClosed (:467), localisation causally_arc_connected (of M ∖ K; for Thm 4.11 the schwarzschild entry on M_int); schwthm:MinkInex, schwthm:MainThm and the twin schwthm:dimensional_maximal_analytic_schwarzschild (Step 1's inextensibility) → Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding (:277), localisation as exists_leaving_of_isOpenEmbedding (has_chronal_neighbour at the frontier, causally_arc_connected, of M̃) plus Hausdorff (standing); schwthm:Exterior, schwthm:Inex, schwlem:BoundsOnReach (rows citing T-abs-schw-causal-lemmas for timelike separation) → ChronallySeparatedOn, schw_def_2_14_iff, ChronallySeparatedOn.mono; schwlem:ExtensionLemma's note 'Not addressed by the lemma: the inextensibility of ι⁻¹ ∘ γ in N' → exists_leaving_futureInextensible_of_isOpenEmbedding (in ι(N), ETT's notion) and not_continuousExtension_preimage (:327, in N, Sbierski's Def 2.10 notion); schwdef:future_past_extendible's note 'Sbierski's continuous inextendibility implies ETT's' is now Causal.Causality.futureInextensible_of_not_continuousExtension (:339), no separation axiom. FOR THE KEEPER (programme/ladder.toml): no new node (ChronallySeparatedOn takes sets, it is not a property of a causality). exists_leaving_futureInextensible_of_isOpenEmbedding is a consequence at causally_arc_connected with the edge hypothesis has_chronal_neighbour at ∂ι(N), like exists_leaving_of_isOpenEmbedding, with [T2Space M] standing; schw_def_2_14_iff is a consequence at causally_arc_connected. Nothing was run of tools/ladder.py beyond model_path (no emit-lean, kb/0252)."
+}
