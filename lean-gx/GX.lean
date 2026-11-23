@@ -53,5 +53,6 @@ import GX.Spherical.TroyanovPolygon
 import GX.Spherical.TroyanovFour
 import GX.Spherical.TroyanovTheoremC
 import GX.BBS.HSModel
+import GX.BBS.RP1Circles
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/

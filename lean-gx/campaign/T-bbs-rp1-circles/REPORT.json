@@ -1,0 +1,193 @@
+{
+ "package": "T-bbs-rp1-circles",
+ "target": "T-bbs-rp1-circles",
+ "files": [
+  "scaffold/GXScaffold/BBS/RP1Circles.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "bbsdef:circle_data_point_structure",
+   "tex_lines": [
+    766,
+    768
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.GammaLinkCircle",
+    "GX.GammaP",
+    "GX.TpHS",
+    "GX.Link",
+    "GX.GammaP.tangent",
+    "GX.IsCircle"
+   ],
+   "hypotheses": [
+    {
+     "paper": "p a point of HS^2 (l.762, l.767)",
+     "here": "carried",
+     "note": "field pt : GX.HS 2 (T-bbs-hs-model's HS^2, the rays of Causal.Minkowski 2)"
+    },
+    {
+     "paper": "l(p), the space of rays in T_p HS^2 (l.762)",
+     "here": "carried",
+     "note": "GX.Link p = GX.RaySphere (GX.TpHS p), TpHS p = R^{1,2}/Rp: the tangent plane of the ray space at [p]. The identification of the tangent plane with V/Rp depends on the representative p only through a positive scaling, which does not move rays, so the space of rays is canonical. A representation, disclosed in SCOPE (a), not a reading."
+    },
+    {
+     "paper": "Gamma_p, the pointwise stabiliser of p in SO_0(1,2), 'the subgroup which preserves every point of the ray p' (l.763-764)",
+     "here": "carried",
+     "note": "GX.GammaP p = {A in Causal.Flat.lorentz 2 | A p = p}; GX.mem_gammaP_iff_ray: equivalently A (c p) = c p for every c > 0."
+    },
+    {
+     "paper": "the action of Gamma_p on l(p) (implicit)",
+     "here": "carried",
+     "note": "the tangent action: A acts on R^{1,2}/Rp by the induced map (GX.GammaP.tangent, a linear equivalence) and on its rays by GX.linRaySmul; a MulAction with ContinuousConstSMul."
+    },
+    {
+     "paper": "a (Gamma_p, l(p))-structure (l.767)",
+     "here": "carried",
+     "note": "gx's convention (DEC-16): fields atlas : ChartedSpace (Link pt) L and hasGroupoid : HasGroupoid L (gxGroupoid (GammaP pt) (Link pt)), read over the maximal atlas. That (Gamma_p, l(p)) is analytic (faithful and rigid) is not proved and not needed by the definition."
+    },
+    {
+     "paper": "on the circle (l.767)",
+     "here": "carried",
+     "note": "field isCircle : GX.IsCircle L, i.e. L is homeomorphic to mathlib's Circle. l(p) itself is one: GX.GammaLinkCircle.regular (the link of a regular point)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "No statement of colI_v1.tex l.673-771 was found false. The next sentence (l.770-771, no label) is proved under the double-cover reading of its 'natural RP1-structure' (SCOPE (e); see the questions). GX.GammaLinkCircle.rp1_hasGroupoid gives every (Gamma_p, l(p))-circle an underlying RP1-structure. GX.GammaLinkCircle.rp1_compatible with GX.linkToRP1_eq_smul shows that it does not depend on the oriented identification of T_p HS^2 with R^2. These are listed under extra_decls, not as this label's declarations."
+   ],
+   "questions": [
+    "The natural RP1-structure of l(p) (l.770), a reading disclosed in SCOPE (e). Reading taken: the double covering S(T_p HS^2) -> P(T_p HS^2) ~ RP1, read through an oriented identification T_p HS^2 = C (GX.linkToRP1, GX.IsOrientedTangent). Gamma_p acts through SL(2,R), because the determinant of its tangent action is det A = 1 (GX.det_tangent). Evidence that this is BBS's structure: at l.902-905 one turn of l(p) is delta^2, and here l(p) has lifted holonomy delta^2 (GX.hasLiftedHolonomy_link). It is the only reading uniform in p. At a space-like or light-like p, Gamma_p fixes four or two rays of l(p), and a non-trivial element of PSL(2,R) fixes at most two points of RP1 (a parabolic one only one), so no degree-one equivariant identification exists [r, also checked by the audit]. At a time-like p the visual map is a degree-one alternative: see the angle-normalisation question.",
+    "The orientation convention (l.621, l.770, and the fixed homeomorphism RP1~ = R of l.676-677) changes no invariant of the underlying RP1-circle. Convention taken: HS^2 is oriented as the unit sphere of R^{1,2} in the coordinates (t, x0, x1), outward normal first (GX.vol3, GX.IsOrientedTangent). RP1 = P(R^2) is oriented counterclockwise, and RP1~ = R through t -> [cos pi t : sin pi t]. The opposite orientation of HS^2, or of RP1~, gives the mirror RP1-structure, and the canonical orientation of l.729-731 flips with it. The new lifted holonomy is c~ f^-1 c~ = delta^k (c~ g^-1 c~), with c~ x = -x, and I^+- becomes -I^+-. Since g'(-x) >= -x iff g x >= x, the degree, the trace class, the angle and the sign (positive or negative, l.908-922) are unchanged; this invariance is not formalized. So the question is only which convention the author wants recorded."
+   ]
+  }
+ ],
+ "dispatch_scope": [
+  {
+   "item": "RP1-circles: (PSL(2,R), RP1)-structures on the circle (l.728-729)",
+   "status": "stated and used",
+   "decls": [
+    "GX.RP1",
+    "GX.RP1.mk",
+    "GX.RP1.mk_eq_mk_iff",
+    "GX.pslMk",
+    "GX.isAnalyticAction_rp1",
+    "GX.psl_center_eq_bot",
+    "GX.IsCircle"
+   ],
+   "note": "An RP1-circle is [ChartedSpace RP1 L] [HasGroupoid L (gxGroupoid PSL(2,R) RP1)] with IsCircle L. PSL(2,R) is mathlib's Matrix.ProjectiveSpecialLinearGroup acting projectively. The action is faithful and rigid, and the centre is trivial. The classification of RP1-circles (l.701-760) is not formalized, apart from the degree and its sign."
+  },
+  {
+   "item": "G~ acting on RP1~ (l.675-699)",
+   "status": "proved",
+   "decls": [
+    "GX.GTilde",
+    "GX.GTilde.toPSL",
+    "GX.GTilde.toPSL_surjective",
+    "GX.GTilde.ker_toPSL",
+    "GX.GTilde.zpow_delta_injective",
+    "GX.GTilde.delta",
+    "GX.GTilde.delta_apply",
+    "GX.GTilde.lt_delta_apply",
+    "GX.GTilde.center_eq_zpowers",
+    "GX.RP1.addCircleHomeomorph",
+    "GX.GTilde.eq_of_eqOn",
+    "GX.slDeg_eq_one",
+    "GX.GTilde.IsElliptic.zpow_apply_ne",
+    "GX.GTilde.IsElliptic.properlyDiscontinuousSMul",
+    "GX.GTilde.exists_delta_zpow_mul_of_not_isElliptic",
+    "GX.GTilde.delta_zpow_mul_unique"
+   ],
+   "note": "G~ is 'the group of projective transformations of RP1~' (l.679-680): the lifts through RP1.proj of the elements of PSL(2,R), a subgroup of CircleDeg1Lift units. Proved: the exact sequence 0 -> Z -> G~ -> G -> 0, delta x > x, the centre of G~ is <delta>, and RP1~/Z = RP1. Elliptic elements act freely and properly discontinuously. Non-elliptic elements decompose as delta^k g with g fixing a point, and k is unique. Not formalized: that G~ is the universal covering group (no topology on either group), and that elliptic elements are conjugate to translations."
+  },
+  {
+   "item": "the real angle of an elliptic RP1-circle (l.742-744)",
+   "status": "proved (well defined), under the normalisation reading",
+   "decls": [
+    "GX.GTilde.angle",
+    "GX.GTilde.angle_conj",
+    "GX.GTilde.angle_delta",
+    "GX.GTilde.angle_eq_of_delta_zpow_mul",
+    "GX.IsDevAlong",
+    "GX.isDevAlong_iff_isGXMorphism",
+    "GX.HasLiftedHolonomy",
+    "GX.exists_hasLiftedHolonomy",
+    "GX.HasLiftedHolonomy.conj",
+    "GX.HasLiftedHolonomy.lt_apply",
+    "GX.HasLiftedHolonomy.deg_nonneg",
+    "GX.HasRealAngle",
+    "GX.HasRealAngle.unique",
+    "GX.exists_hasRealAngle",
+    "GX.HasRealAngle.nonneg",
+    "GX.HasRealAngle.pos_of_isElliptic",
+    "GX.hasRealAngle_rp1",
+    "GX.hasRealAngle_link",
+    "GX.lt_apply_of_strictMono"
+   ],
+   "note": "The lifted holonomy of an RP1-circle is f in G~ with D(s+1) = f(D s). Here D : R -> RP1~ is an increasing lift of a developing map along a periodic covering R -> L, and the increasing condition is the canonical orientation of l.729-731. Then f x > x at every point D s of the image (eq>, GX.lt_apply_of_strictMono). It exists, by gx's exists_developingMap on the pulled-back structure. It is unique up to conjugacy in G~. So the real angle 2 pi tau(f) is well defined. It is >= 0, and > 0 for elliptic or central holonomy. The degree k is >= 0 (l.740), and the angle of delta^k g is 2 pi k. RP1 itself has holonomy delta and angle 2 pi. l(p), with the double-cover structure of l.770 (SCOPE (e)), has holonomy delta^2 and angle 4 pi."
+  }
+ ],
+ "questions": [
+  "Normalisation of 'the angle'. l.742-744 do not fix it, but the paper does: in Lemma surgery-key (l.2952-2969), 'C_+ carries an elliptic structure of angle theta' embeds e(Sigma) in P_theta, the model of a particle of cone angle theta (l.2827, the massive particle of l.1142-1159). In the regular case theta = 2 pi, C_+ = boundary of H^2 = RP1 with holonomy delta, so angle(delta) = 2 pi. This is the convention taken here (2 pi times the translation number of the lifted holonomy), and NOTES-3+1 N4's. Under the double-cover structure of l.770 (SCOPE (e)), the link of a regular point then has real angle 4 pi, not 2 pi (proved: GX.hasRealAngle_link, holonomy delta^2). The session's own reasoning [r], not evidence: the link of a cone point of cone angle theta has RP1-angle 2 theta, while a photon circle around that single cone point (N4/Lemma F, a = 1) has angle theta. The paper is not contradicted, since it only says time-like singularities are characterized by their elliptic RP1-circle (l.808-809) and by their cone angle (l.864). At a time-like p there is a second natural RP1-structure on l(p), Gamma_p-equivariant and of degree one. It is the visual map v -> endpoint of c_v on dH^2_+ ~ RP1, through SO_0(1,2) ~ PSL(2,R) (l.763). Under it a regular link has holonomy delta and angle 2 pi, and a cone point's link has angle equal to its cone angle. It does not exist at space-like or light-like p (SCOPE (e)). So the factor 2 can be removed in three ways. (i) Keep the uniform double cover, with angle(link) = 2 x cone angle: the formalized reading. (ii) Read l.770 at time-like p as the visual structure, a reading that depends on p. (iii) Renormalise delta = pi, which conflicts with surgery-key, as the photon circle of H^2 would then have angle pi. Which does the author intend? It matters for Theorem M's Theta and for Lemma F (F4), 0 < Theta < 2 pi.",
+  "'Elliptic' for G~ and for RP1-circles (l.688-694). Reading taken: GX.PSL2.IsElliptic is |tr| < 2, which excludes 1. The 'elliptic circles' include those with central holonomy delta^k, because l.693-694 includes RP1 itself, of holonomy delta, whose projection 1 is not elliptic. GX.HasRealAngle.pos_of_isElliptic therefore takes 'elliptic or central'.",
+  "See the label's questions for the double-cover reading of l.770 (SCOPE (e)) and for the orientation convention, which changes no invariant."
+ ],
+ "extra_decls": [
+  "GX.injective_of_isOpenMap_real",
+  "GX.trans_symm_trans_mem_gxGroupoid",
+  "GX.hasGroupoid_comp_of_equivariant",
+  "GX.RP1.isLocalHomeomorph_sq",
+  "GX.RP1.isQuotientMap_sq",
+  "GX.RP1.isInducing_coe",
+  "GX.RP1.isCoveringMap_proj",
+  "GX.RP1.exists_lift",
+  "GX.raySphereComplexHomeomorph",
+  "GX.isPeriodicCover_of_homeomorph",
+  "GX.IsDevAlong.comp_continuous",
+  "GX.IsDevAlong.exists_eq_smul",
+  "GX.IsDevAlong.isLocalHomeomorph",
+  "GX.det_tangent",
+  "GX.vol3_lin",
+  "GX.vol3_eq_of_mk_eq",
+  "GX.sl_eq_upper_lower_upper",
+  "GX.PSL2.four_le_trSq_of_smul_eq",
+  "GX.PSL2.exists_smul_eq_of_not_isElliptic",
+  "GX.mem_gammaP_iff_ray",
+  "GX.gammaP_smul_def",
+  "GX.isCircle_link",
+  "GX.GammaLinkCircle.regular",
+  "GX.GammaLinkCircle.rp1ChartedSpace",
+  "GX.GammaLinkCircle.rp1_hasGroupoid",
+  "GX.GammaLinkCircle.rp1_compatible",
+  "GX.linkToRP1",
+  "GX.IsOrientedTangent",
+  "GX.exists_isOrientedTangent",
+  "GX.gammaToSL",
+  "GX.linkRP1ChartedSpace",
+  "GX.linkToRP1_eq_smul",
+  "GX.hasLiftedHolonomy_link",
+  "GX.lt_apply_of_strictMono"
+ ],
+ "kb_proposals": [
+  "RP1 is GX.RP1 = mathlib's Circle, the line R z being z / conj z (GX.RP1.mk, mk_eq_mk_iff). PSL(2,R) is mathlib's PSL(2, R), with GX.pslMk g . mk z = mk (slLin g z). The pair is analytic (GX.isAnalyticAction_rp1, via GX.eq_smul_of_eventually_eigen).",
+  "G~ is GX.GTilde, a subgroup of CircleDeg1Lift units: the lifts through RP1.proj t = exp(2 pi i t), so delta = t -> t + 1. Its real angle is 2 pi times mathlib's translationNumber (GX.GTilde.angle). Reuse translationNumber_conj_eq, translationNumber_mul_of_commute and lt_translationNumber_of_forall_add_lt.",
+  "Every lift of g in SL(2,R) to R commutes with t -> t + 1. The degree is a homomorphism to {1, -1}, trivial on squares, and SL(2,R) is a product of unipotents (GX.slDeg_eq_one, GX.sl_eq_upper_lower_upper). No connectedness of SL(2,R) is needed.",
+  "The holonomy of an RP1-circle lifted to G~ is GX.HasLiftedHolonomy: a periodic covering E : R -> L and an increasing lift D : R -> R of a developing map along E (GX.IsDevAlong). Existence: gx's exists_developingMap on pullbackChartedSpace (GX.isDevAlong_iff_isGXMorphism). Uniqueness up to conjugacy: GX.HasLiftedHolonomy.conj.",
+  "Change of model along an equivariant map q : X -> Y: GX.hasGroupoid_comp_of_equivariant puts an (H, Y)-structure on a (G, X)-manifold through ChartedSpace.comp, when every Y-chart of X is q (for instance a pullbackChartedSpace).",
+  "T_p HS^2 is Causal.Minkowski 2 quotiented by R . p. Its normed structure needs the local instance GX.isClosed_span_hs. The determinant of a map on the quotient comes from mathlib's LinearMap.det_eq_det_mul_det.",
+  "Pitfall: inside namespace GX, `exists_lift` resolves to gx's spread lemma GX.exists_lift. Write GX.RP1.exists_lift.",
+  "Pitfall: `open Real` makes the letter pi a token, so it cannot name a variable.",
+  "Pitfall: Circle's topology instance is not syntactically the subtype topology, so Topology.IsInducing.subtypeVal does not rewrite against it. Use GX.RP1.isInducing_coe, which is stated with @ and instTopologicalSpaceCircle.",
+  "Pitfall: `first | ring | linear_combination h` never reaches linear_combination, because ring falls back to ring_nf and succeeds. Use ring1.",
+  "Pitfall: inside a structure's namespace, `atlas` resolves to a field named atlas. Write ChartedSpace.atlas."
+ ],
+ "notes": "One new file, sorry-free, standard axioms only, and clean under -DwarningAsError=true, so it can graduate to GX/BBS/RP1Circles.lean as is. It imports GX.BBS.HSModel and mathlib only, and the DEC-33 import gate is ok. `lake build GXScaffold.BBS.RP1Circles` rebuilt only this module (about 10 s). kb/0025: the scaffold root scaffold/GXScaffold.lean does not import this module, and I may not edit it, so the axiom sweep cannot see the module until the loop adds the import or graduates the file. The label is marked: the definition is formalized word for word, with representations disclosed in SCOPE (a), and no hypothesis is added. Its decls are GX.GammaLinkCircle and its direct definitions only. The l.770 theorems are in extra_decls, so they do not become the label's principals. The questions concern the following prose (l.770 and §3.3.1), not the definition. Fix round 1 (AUDIT-1): docstrings and this report only, plus the one-line lemma GX.lt_apply_of_strictMono; no statement or proof changed."
+}

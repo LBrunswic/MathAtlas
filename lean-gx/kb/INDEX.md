@@ -47,3 +47,14 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0037](entries/0037-a-local-isomorphism-of-a-thurston-suspen.md) | pattern | A local isomorphism of a Thurston suspension fixing the centre is a suspension near O: |
 | [0038](entries/0038-topological-rigidity-of-the-centre.md) | pattern | Topological rigidity of the centre: |
 | [0039](entries/0039-what-remains-of-cex-start-singular-manif.md) | pattern | What remains of cex:start_singular_manifold_homeomorphic beyond Troyanov is exactly Aut(Σ) = {Id} (G |
+| [0040](entries/0040-rp1-is-gx-rp1-mathlib-s-circle-the-line.md) | pattern | RP1 is GX.RP1 = mathlib's Circle, the line R z being z / conj z (GX.RP1.mk, mk_eq_mk_iff). |
+| [0041](entries/0041-g-is-gx-gtilde-a-subgroup-of-circledeg1l.md) | pattern | G~ is GX.GTilde, a subgroup of CircleDeg1Lift units: |
+| [0042](entries/0042-every-lift-of-g-in-sl-2-r-to-r-commutes.md) | pattern | Every lift of g in SL(2,R) to R commutes with t -> t + 1. |
+| [0043](entries/0043-the-holonomy-of-an-rp1-circle-lifted-to.md) | pattern | The holonomy of an RP1-circle lifted to G~ is GX.HasLiftedHolonomy: |
+| [0044](entries/0044-change-of-model-along-an-equivariant-map.md) | pattern | Change of model along an equivariant map q : |
+| [0045](entries/0045-t-p-hs-2-is-causal-minkowski-2-quotiente.md) | pattern | T_p HS^2 is Causal.Minkowski 2 quotiented by R . |
+| [0046](entries/0046-pitfall.md) | pitfall | Pitfall: |
+| [0047](entries/0047-pitfall.md) | pitfall | Pitfall: |
+| [0048](entries/0048-pitfall.md) | pitfall | Pitfall: |
+| [0049](entries/0049-pitfall.md) | pitfall | Pitfall: |
+| [0050](entries/0050-pitfall.md) | pitfall | Pitfall: |
