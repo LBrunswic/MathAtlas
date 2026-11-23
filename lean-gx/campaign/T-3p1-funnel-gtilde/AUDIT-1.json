@@ -1,0 +1,69 @@
+{
+  "target": "T-3p1-funnel-gtilde",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "N9:R",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "GX.GTilde.rot phi t = t + phi/2pi is the lift of slRot(phi/2) from 1, rot_two_pi gives R~(2pi) = delta, and GX.GTilde.IsRotLift phi = {h rot(phi) h^-1} is exactly {R~_c(phi) : c in H^2}, because PSL(2,R) is transitive on H^2. eq_conj_rot_of_lift proves the 'lift along the one-parameter group' characterisation. The identification of slRot(phi/2) with the hyperbolic rotation by phi about the SO(2)-fixed point (through v -> v (x) v), and the orientation (N9 :790-794, OQ-113 (c)), are readings. Both are disclosed in SCOPE (a) and the row is partial. Unmarked, as the dispatch requires. Citation slip: the R~_c(phi) bullet is NOTES :795-797, not :794 (minor finding 1)."
+    },
+    {
+      "label": "N9:S",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IsRotLift.S gives x < f x < delta x for every conjugate of R~(phi) with 0 < phi < 2pi, which is (S) for every c. rot_S_iff shows the bound is sharp. lt_conj_apply and conj_apply_lt_delta are the conjugation sentence at :802-803. The row is partial only through N9:R's reading. Unmarked."
+    },
+    {
+      "label": "N9:S'",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "apply_lt_delta_of_fixed: (exists x0, f x0 = x0) -> f x < delta x for every x. This is literally (S'), so the row is closed. Unmarked under the dispatch's 'nothing is marked' rule, which is allowed: no mark is ever an overclaim."
+    },
+    {
+      "label": "N9:F1",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "funnel_F1 assumes a >= 1, positivity (theta < 2pi only, so it assumes less than the note's 0 < theta_j < 2pi), the singularity lifts (SingKind.IsLift: IsRotLift theta at a cone point; parabolic with a fixed point at a cusp, a superset of the note's set) and (N). It concludes hol x < delta x for every x. That is at least the note's (F1). (N) carried as GX.RelationN is the dispatch's named hypothesis. RelationN is faithful: hol = delta^(1 - (a:Z)) * (List.ofFn P).prod, with the exponent an integer (no truncated Nat subtraction) and the factors in the order P~1' ... P~a'. It is satisfiable and not vacuous: relationN_one, relationN_two_rot, and the auditor's probe, which satisfied the (F1)/(F4) hypotheses jointly at a = 1 with a cone point of angle pi. funnel_F1_needs_positivity is a genuine instance: angle 2pi is not IsPositive, and (F1) fails. The circle form holds for every lifted holonomy of L. Partial because (N) is carried. Unmarked."
+    },
+    {
+      "label": "N9:F2",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "funnel_F2 and funnel_F2_circle: a hyperbolic hol with (N), positivity and (eq>) has degree 0 and only degree 0, for every lifted holonomy of L. They hold for every a, because at a = 0 hol = delta is central and not hyperbolic. HasDegree f k := f = delta^k f0 with f0 having a fixed point is BBS l.696-698: f0 has the same nature automatically, since toPSL delta = 1. It is unique and conjugation-invariant. (eq>) is weakened to 'exists x, x < hol x', a weaker hypothesis. The funnel sentence (:750-752) is not stated: the dispatch puts it out of scope, the docstring discloses it in SCOPE (f), and the row is partial. The closer's minor gap at :879-880 is real and harmless: the step uses (F1), which needs a >= 1, and a = 0 is vacuous for (F2)/(F3). Unmarked."
+    },
+    {
+      "label": "N9:F3",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "funnel_F3 and funnel_F3_circle: a parabolic hol has degree 0, only degree 0, and is positive (x <= f x for every x and every lifted holonomy f). This is BBS's positive parabolic class (colI l.748) with g = hol, since k = 0. Positivity goes through IsParabolic.le_apply and the new PSL2 lemma. Partial because (N) is carried. Unmarked."
+    },
+    {
+      "label": "N9:F4",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read with gx's IsElliptic (tr^2 < 4), funnel_F4 gives 0 < angle < 2pi, funnel_F4_tau gives 0 < tau < 1 (no normalisation needed), and funnel_F4_circle gives the bound for every HasRealAngle Theta and every lifted holonomy. All hold for every a. Read wide (elliptic or toPSL hol = 1, OQ-113 (d)), funnel_F4_wide needs a >= 1. The finding is correct. BBS l.688-694 counts delta as a non-trivial elliptic element ('it includes the usual real projective structure on RP1'), and N9's own check at :864 calls the a = 0 case 'the elliptic circle of angle 2pi'. Under that reading (F4) fails at a = 0: Theta = 2pi and tau = 1, so it fails in the normalisation-free tau form too. a = 0 lies inside Lemma F's hypotheses: (F1) alone restricts to a >= 1, and the case is realised by the regular HS-sphere, H = H^2. funnel_F4_wide_fails is a genuine instance. The auditor's probe derived from it the negation of the universally quantified wide (F4) without a >= 1, instantiating a = 0, Fin.elim0, delta, hasLiftedHolonomy_rp1 and Or.inr toPSL_delta. The finding is hedged on the reading, and the reading is left as a question (OQ-113 (d)). The proposed correction, 'if a >= 1' or 'non-central elliptic', is sufficient (funnel_F4_wide). The remark on :890 (the conjugacy to R~(Theta) is unnecessary) is a remark, not a claimed error, and it is accurate. Partial. Unmarked."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "On node1, with no other lake build running. `taskset -c 0-11 lake env lean scaffold/GXScaffold/Interaction/FunnelGTilde.lean` exits 0 with no output (no warnings). `taskset -c 0-11 lake build GXScaffold.Interaction.FunnelGTilde`: 'Build completed successfully (8628 jobs)', nothing upstream rebuilt. The only 'sorry' token in the file is in the docstring ('0 `sorry`', l.10). There is no axiom, admit, native_decide or unsafe, and the only set_option is linter.unusedSectionVars false. The auditor's probe (campaign/T-3p1-funnel-gtilde/AuditProbe.lean, deleted afterwards) collected the axioms of all 117 constants of the module (85 non-internal): all within propext, Classical.choice and Quot.sound. It also ran #print axioms on funnel_F1, F1_circle, F1_needs_positivity, F2, F2_circle, F3, F3_circle, F4, F4_tau, F4_circle, F4_wide, F4_wide_fails, IsRotLift.S, rot_S_iff, apply_lt_delta_of_fixed, eq_conj_rot_of_lift, PSL2.IsParabolic.eq_of_smul_eq, PSL2.slLin_eq_of_smul_eq, GTilde.IsParabolic.le_apply and relationN_two_rot: all [propext, Classical.choice, Quot.sound]. DEC-33 gate: `python3 scripts/causal_import_gate.py` gives 'ok (DEC-33)'. The file imports only GX.BBS.RP1Circles: no Causal import, and neither IPm nor PhotonCircles. Scope: `git status --short lean-gx papers/bbs` shows only lean-gx/campaign/T-3p1-funnel-gtilde/, scaffold/GXScaffold/Interaction/FunnelGTilde.lean, and scaffold/GXScaffold/BBS/ (IPm.lean and PhotonCircles.lean, the two concurrent closers' dispatched files). The repo-wide changes outside that path are the loops' status edits to roadmap/roadmap.toml and programme/roadmap.toml, plus reports/atlas/lean/edges-perforated.json (dated 2026-11-22 23:53, before this wave). None is the closer's. The module is not yet imported by scaffold/GXScaffold.lean, so the package AxiomSweep misses it until the master adds the import. The closer discloses this, and it is the master's step."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/Interaction/FunnelGTilde.lean:12, :48; REPORT.json N9:R tex_lines [794, 797]; REPORT.json N9:F2 findings[0] and proof_lines [879, 887]",
+      "what": "Line citations off by one or two. The R~_c(phi) bullet of NOTES-3+1.md is :795-797, but the file cites :794 and 'N9 l.794-799'; :794 is the last line of the Orientation bullet. 'G0 does not use this sentence; it uses the degree' is NOTES :889, not :887, and the (F2) proof block runs to :889.",
+      "fix": "Cite :795 (docstring l.12), 'N9 l.795-799' (l.48), tex_lines [795, 797], ':889' and proof_lines [879, 889]."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/Interaction/FunnelGTilde.lean:517 (also the module docstring l.27-28 and REPORT kb_proposals[1])",
+      "what": "The docstring of GX.PSL2.IsParabolic.eq_of_smul_eq says 'has exactly one fixed point on RP1', but the theorem proves only uniqueness: two fixed points are equal. Existence is gx's PSL2.exists_smul_eq_of_not_isElliptic, which is not combined here. The mathematics is right. The wording overstates what this declaration proves.",
+      "fix": "Write 'has at most one fixed point on RP1 (existence: GX.PSL2.exists_smul_eq_of_not_isElliptic)', or add the existence half as a corollary."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+ "target": "T-bbs-i-pm",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bbsdef:lies_denote_respectively_set",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked partial, as it should be. dsProj p (tpMk w) = Q(p) w - B(p,w) p is a positive multiple of the derivative at s = 0 of the hyperboloid-normalised curve (p + s w)/sqrt(Q(p + s w)), so the causal type and time orientation of a direction of l(p), read in T_p dS^2 = p^perp, are exactly those of the Lean set. Time orientation: future = positive first coordinate, inherited from R^{1,2}. This is consistent with l.829-832: with it, the future infinity of dS^2 is the circle bd H^2_+, so directions entering dS^2 from p in bd H^2_+ are past (i^-), as printed. dsFutureDirs and dsPastDirs are the future and past TIMELIKE directions: a reading, disclosed in SCOPE (a), the checklist and question 1. My reading of l.815 and l.820: l.815 ('in the two first cases [time-like, light-like], it can be future oriented or past oriented') gives light-like directions a time orientation, and l.820 takes 'the set of future oriented directions' with no time-like restriction. So the literal text favours the CAUSAL (closed) arcs. The timelike reading departs from the letter, but it is the one l.844 (openness, refuted under the causal reading by GX.not_isOpen_preimage_dsFutureCausal_regular), l.873/875 and l.898-904 require. The paper does not settle it, so the row stays partial and the question goes to an OQ row. See finding 4 for the evidence the OQ row should carry. Facts l.824 (isConnected_dsFutureDirs/PastDirs, ncard_components_compl_ds) and l.840 at dS^2 (frontier_ds, fixedPoints_eq_of_deSitter) read correctly. The dS^2 piece is inhabited (my probe), so they are not vacuous."
+  },
+  {
+   "label": "bbsdef:lies_domain_respectively_set",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The mark is legitimate. GX.lightDomain p k = {sigma | eventually for s in nhdsWithin 0 (Ioi 0), cv p sigma s in piece k}, with cv p sigma s = [p + s w]. That is the paper's 'c_v(s) lies in ... for s sufficiently small', with c_v the oriented projective line from p (l.762-763). It is lift-free (mem_lightDomain_iff_forall_lift). iPlus and iMinus select hypPlus/deSitter at bd H^2_+ and deSitter/hypMinus at bd H^2_-, exactly l.829-832. My call on 'domain' (l.829, l.831): it does NOT assert openness. This paper uses 'domain' as a neutral noun. At l.1144 'a domain D bounded by two time-like totally geodesic half-planes P_1, P_2', D must contain P_1 and P_2 to be glued along them. 'Fundamental domain' appears at l.1381, 2242, 3163 and 3168. The paper writes 'open domain' when it means open: l.636, 641, 844, 1040, 1211, 1380, 1941, 2110, 2819, 2837. So the paper settles the word, and SCOPE (c)'s reading is the paper's usage, not an open choice. The definition is transcribed literally, with no added hypothesis. The defect the closer found (the tangent directions fall on the dS^2 side) is real, but it surfaces in the unlabeled facts l.835-836 and l.844, not in a false assertion of this label. The ledger reads the mark: line 12, character 546, prefix bbsdef. No other label is bold-marked in the first 4000 characters. See finding 5 for the contingency if the author adopts the correction."
+  },
+  {
+   "label": "bbsdef:circle_developing_map_preimages",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked partial, rightly. IsDevAlong (locally d = A . chart_{E s} o E) is gx's developing map of the pulled-back structure (isDevAlong_iff_isGXMorphism, for E a local homeomorphism). It exists on the universal covering R -> L with a holonomy in Gamma_p (exists_isDevAlong, through isAnalyticAction_link) and is unique up to Gamma_p. Universal forms, for every developing map along every E, are proved separately from the existential assembly devPreimages. They cover deck invariance for every phi with E o phi = E (stronger than for homeomorphisms only), the projections E '' d^{-1}(i^pm) = i^pm(L) for E onto, and chart independence of i^pm(L) over the maximal atlas. Openness is proved only where the arc is open, and disclosed as such. The printed openness claim of l.844 is refuted at every p in bd H^2_+ by not_isOpen_preimage_iMinus_regular, with d = E for the regular link. Its hypotheses hold: GammaLinkCircle.regular is a (Gamma_p, l(p))-circle, E is a periodic cover (the universal covering), d = E satisfies IsDevAlong with A = 1, and bd H^2_+ is inhabited (my probe). 'Domain' at l.844 read 'open set'. Its 'open connected' reading is refuted (not_isPreconnected_preimage_iPlus_regular). That is consistent with my call on l.829."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/GXScaffold/BBS/IPm.lean: exit 0, no output. pgrep found no lake build running, and lake build GXScaffold.BBS.IPm reported 'Build completed successfully', up to date, rebuilding nothing upstream. grep finds no sorry, admit, axiom, native_decide or opaque; the only 'sorry' is the docstring's '0 `sorry`'. I ran #print axioms on all 207 declarations of the file plus every GX.* name in REPORT.json. Each depends on exactly [propext, Classical.choice, Quot.sound]. The probe files under campaign/T-bbs-i-pm/ are deleted. The import is GX.BBS.RP1Circles only, and scripts/causal_import_gate.py says 'ok (DEC-33)' over the whole package, PhotonCircles.lean and FunnelGTilde.lean included. Scope: the closer's paths are scaffold/GXScaffold/BBS/IPm.lean and campaign/T-bbs-i-pm/ only. Nothing tracked in lean-gx is modified. The other dirty paths in git status belong to concurrent loops: lean-causal/Causal/Ladder/Dual.lean, lean-causal/campaign/T-tac-ladder-dual/dual_closure.py, programme/*.toml, roadmap/roadmap.toml, and the two other closers' files. Name clashes: none. The three new modules (IPm, PhotonCircles, FunnelGTilde) import together with no 'already declared' error. A textual scan of IPm's 206 declarations against all 65 .lean files under GX/ and scaffold/ finds none. Content duplicates exist without name clashes: finding 1."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BBS/IPm.lean:477-491",
+   "what": "Duplicate lemmas, no name clash. GX.minkQ_two (l.481) and GX.minkB_two (l.485) have statements identical to GX.minkQ_coords and GX.minkB_coords in BBS/PhotonCircles.lean (l.165, l.169). GX.minkQ_two also duplicates Causal.Flat.minkQ_two (Causal/Flat/Penrose.lean:1078), already in scope through GX.BBS.RP1Circles. GX.norm_sq_two (l.477) duplicates PhotonCircles' GX.norm_sq_snd_two (l.162) up to v.2. GX.isOpen_isFutureTimelike (l.489) duplicates Causal.Flat.isOpen_futureTimelikeCone (Isometries.lean:2023, in scope). If both files graduate, namespace GX carries two names for each fact.",
+   "fix": "At graduation, keep one copy (Causal.Flat.minkQ_two and Causal.Flat.isOpen_futureTimelikeCone where they exist), delete the others and rewrite their uses: `rw [minkQ_two]` becomes `rw [Causal.Flat.minkQ_two]`, and so on. Do not `open Causal.Flat` to shorten them: inside namespace GX, minkQ_two would then be ambiguous."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-bbs-i-pm/REPORT.json: labels[2].hypotheses['open domain (l.844)']",
+   "what": "Wrong term. The entry says \"here\": \"weakened\". In CAMPAIGN/kb-0006 vocabulary that means the Lean theorem assumes LESS than the paper. Here the Lean CONCLUSION is narrower than the paper's (openness only where the arc is open), and the printed claim is refuted. The docstring row (a plain ⚠ with 'finding') is accurate, and the row is partial and unmarked, so no mark is affected. A reader of the JSON alone would take this hypothesis for a strength.",
+   "fix": "Record it as a narrowed conclusion (for example \"here\": \"narrowed (finding)\"), or move it out of `hypotheses` and leave it in `findings`, where it already is."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-bbs-i-pm/REPORT.json labels[0].findings/questions, labels[1].findings, labels[2].findings; IPm.lean SCOPE (b)",
+   "what": "Some claims headed for the author as facts are true and elementary but not stated in Lean. (i) 'The complement of each arc ALONE is connected': only i^+'s complement is proved (isConnected_compl_dsFutureDirs), not i^-'s. (ii) 'the four lightlike directions': frontier_ds identifies the extremities with the lightlike directions but does not count them. (iii) 'The corrected arc {B(p,.) > 0} is ... Gamma_p-invariant' and 'with the corrected l.828-833 ... l.844 holds at every p': no Lean statement. It follows in a few lines from nullPairing_smul, IsDevAlong.preimage_eq and IsDevAlong.continuous. (iv) The preimage counterexample to l.844 is proved at bd H^2_+ only. At bd H^2_- only the arc-level not_isOpen_iPlus_of_bdMinus exists. One point suffices to refute l.844, so the finding stands.",
+   "fix": "Prove (iii): Gamma_p-invariance of {B(p,.) > 0}, and openness plus deck invariance of d^{-1}{B > 0} for every developing map. Prove (i) and (iv) by symmetry. Or reword the REPORT so these read as argued, not proved."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-bbs-i-pm/REPORT.json labels[0].questions[0]; IPm.lean SCOPE (a)",
+   "what": "The OQ evidence on question 1 (timelike vs causal) is incomplete. The direction is right; the evidence is missing. Uses after l.846 bear on it. At l.870-875, I = i^pm(l(p)) is 'an interval of l(p)' with fixed-point extremities on which <g> acts with quotient a circle, so it is an open arc. At l.898-904 the components of I^+ are ]x_0, x_1[ with g-fixed extremities, again open arcs. Both support timelike. l.877 cuts the other way: I is 'a component of l(p) \\ (i^+ u i^-)', again an open interval between fixed points (Misner). That fits the causal reading only: under the timelike reading those components are closed arcs containing the four fixed points. So neither reading makes l.844, l.873 and l.877 all literally true. The intended picture is four fixed null directions bounding four open arcs. Also, l.815 literally gives light-like directions a time orientation, so the literal text of l.820 is the causal reading. The REPORT presents l.815 only as a suggestion.",
+   "fix": "In the OQ row, cite l.815 as the literal causal reading, l.844, l.873/875 and l.898-904 for timelike, and l.877 as inexact under timelike. Keep the row partial."
+  },
+  {
+   "severity": "minor",
+   "where": "IPm.lean:12 (mark), REPORT.json labels[1].questions[0]",
+   "what": "My call on 'the domain' at l.829 and l.831: it does not assert openness. The paper uses 'domain' for non-open sets (l.1144, the fundamental domains) and writes 'open domain' when it means open (ten places). So the mark stands, and this question needs no OQ row. Contingency: the mark certifies the PRINTED definition, which the REPORT's smallest correction amends (the dS^2 side becomes {B(p,.) > 0}). If the author adopts that correction, lightDomain p .deSitter no longer anchors the corrected label.",
+   "fix": "Master: record this call in the row and do not open an OQ for 'domain'. Log the l.835-836/l.844 correction as a finding. If it is adopted, re-anchor bbsdef:lies_domain_respectively_set to the corrected set (for example lightDomain p .deSitter \\ tangentDirs p) and re-audit the mark."
+  }
+ ],
+ "checked": {
+  "finding_l826": "Genuine. l.826 announces an extension 'to time-like singularities', but l.828-833 is for p in bd H^2_pm, the light-like singularities of l.794-797. The time-like case is l.838 (l.785-789).",
+  "finding_tangent_placement": "Genuine. At null p, Q(p + s w) = 2 s B(p,w) + s^2 Q(w). For a tangent direction (B(p,w) = 0, w not in Rp), Q(w) > 0, because p^perp is degenerate with Q >= 0 vanishing only on Rp. So c_v(s) is in dS^2 for every s > 0: c_v is the tangent line of the conic, outside the disc except at p. The printed dS^2-side set is therefore the closed half-circle {B(p,.) >= 0}, and the printed H^2_pm side is the open one {B(p,.) < 0}. The tangent directions are p^perp/Rp (GX.tangentDirs), exactly two (ncard_tangentDirs).",
+  "counterexample_l835_836": "Genuine. Every component of the complement of T is contained in that complement, and the printed i^- (at bd H^2_+) contains the nonempty T, so it is not a component under any reading of 'are the connected components' (components_compl_tangentDirs_ne_of_bdPlus, ..._bdMinus). The strongest true form is proved: the components are {i^+, i^- \\ T} (components_compl_tangentDirs_of_bdPlus, ..._bdMinus).",
+  "counterexample_l844": "Genuine. For the regular link at p in bd H^2_+, d = E (the universal covering) is a developing map. E is open and onto, so E(E^{-1} i^-) = i^-, and i^- is not open (not_isOpen_iMinus_of_bdPlus). Hence d^{-1}(i^-) is not open. The universal claim of l.844 is refuted at every p in bd H^2_+. 'Strongest true form' is accurate in the sense of 'for every L at p'. For a particular L whose developing image avoids T (for example a degree-0 parabolic circle, quotient of the open arc), the preimage is open even there."
+ }
+}

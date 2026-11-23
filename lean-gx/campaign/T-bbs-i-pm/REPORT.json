@@ -1,0 +1,214 @@
+{
+ "package": "T-bbs-i-pm",
+ "target": "T-bbs-i-pm",
+ "files": [
+  "scaffold/GXScaffold/BBS/IPm.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "bbsdef:lies_denote_respectively_set",
+   "tex_lines": [
+    819,
+    822
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.dsFutureDirs",
+    "GX.dsPastDirs",
+    "GX.dsProj",
+    "GX.perpLin",
+    "GX.iPlus",
+    "GX.iMinus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "p lies in dS^2 (l.820)",
+     "here": "carried",
+     "note": "hp : p ∈ HS.piece 2 .deSitter wherever a fact needs it; the definition itself is stated for every p (GX.iPlus selects it at p ∈ dS^2 via GX.iPlus_of_deSitter)."
+    },
+    {
+     "paper": "the set of future oriented (resp. past oriented) directions (l.820-821)",
+     "here": "reading",
+     "note": "T_p dS^2 is p^⊥ ⊂ R^{1,2} (the tangent plane of the hyperboloid that carries the Klein model's metric), identified with T_p HS^2 = R^{1,2}/Rp by the orthogonal projection (GX.dsProj = Q(p) times it), time-oriented by R^{1,2}. 'Future oriented' is read future TIMELIKE: GX.dsFutureDirs = {σ | IsFutureTimelike (dsProj p σ)}, GX.dsPastDirs likewise. See the questions."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "No assertion inside l.819-822. The facts printed after it are proved under the timelike reading. l.824: i^+(l(p)) and i^-(l(p)) are connected (GX.isConnected_dsFutureDirs, GX.isConnected_dsPastDirs). The complement of i^+ ∪ i^- has exactly two connected components (GX.ncard_components_compl_ds). The complement of each arc ALONE is connected (GX.isConnected_compl_dsFutureDirs), so 'their complement has two connected components' (l.824) is true only for the complement of the union. l.840 at p ∈ dS^2: the extremities of the arcs are the four lightlike directions (GX.frontier_ds), and these are exactly the fixed points of Gamma_p (GX.fixedPoints_eq_of_deSitter)."
+   ],
+   "questions": [
+    "'Future oriented directions' at p ∈ dS^2 (l.820-821): timelike only (open arcs) or causal (closed arcs)? Reading taken: timelike. Evidence for it: l.844 says d^{-1}(i^±(l(p))) is open. Under the causal reading the closed arc is not open (GX.not_isOpen_dsFutureCausalDirs: a nonempty proper closed subset of the circle l(p)). Its preimage under the regular link's developing map is not open either (GX.not_isOpen_preimage_dsFutureCausal_regular), so the causal reading makes l.844 false at every p ∈ dS^2. Evidence against it: l.815 ('Moreover, in the two first cases [time-like, light-like], it can be future oriented or past oriented') counts lightlike directions among the oriented ones, which suggests the causal reading. l.824 and l.840 fit either reading. For the author: an OQ row.",
+    "'their complement in l(p) has two connected components' (l.824). Reading taken: the complement of i^+(l(p)) ∪ i^-(l(p)), proved (GX.ncard_components_compl_ds). The complement of each arc alone is connected (GX.isConnected_compl_dsFutureDirs), so the reading 'the complement of each' is false."
+   ]
+  },
+  {
+   "label": "bbsdef:lies_domain_respectively_set",
+   "tex_lines": [
+    828,
+    833
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "GX.lightDomain",
+    "GX.cv",
+    "GX.iPlus",
+    "GX.iMinus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "p lies in ∂H^2_+ (resp. ∂H^2_-) (l.829, l.831)",
+     "here": "carried",
+     "note": "HS.piece 2 .bdPlus / .bdMinus. GX.iPlus_of_bdPlus, GX.iMinus_of_bdPlus, GX.iPlus_of_bdMinus, GX.iMinus_of_bdMinus: i^+ = lightDomain p .hypPlus and i^- = lightDomain p .deSitter at ∂H^2_+; i^- = lightDomain p .hypMinus and i^+ = lightDomain p .deSitter at ∂H^2_-."
+    },
+    {
+     "paper": "c_v, the oriented projective line starting from p defined by v (l.762-763)",
+     "here": "carried",
+     "note": "GX.cv p σ s = [p + s w], s ≥ 0, w a lift of σ to R^{1,2}: the half of the oriented projective line from p through [w]. Only its germ at s = 0+ is used. That germ does not depend on the lift (GX.eventually_rayNormalize_congr, a reparametrisation s ↦ s/(1+sc)), so the definition is lift-free (GX.mem_lightDomain_iff_forall_lift)."
+    },
+    {
+     "paper": "c_v(s) lies in H^2_+ (resp. dS^2) for s sufficiently small (l.830)",
+     "here": "carried",
+     "note": "∀ᶠ s in 𝓝[>] 0, cv p σ s ∈ HS.piece 2 k (GX.lightDomain p k). The values: {B(p,·) < 0} for the H^2_± side (GX.lightDomain_hypPlus_eq, GX.lightDomain_hypMinus_eq) and {B(p,·) ≥ 0} for the dS^2 side (GX.lightDomain_deSitter_eq)."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.826 is a slip: it announces an extension 'to time-like singularities', but the definition that follows (l.828-833) is for p ∈ ∂H^2_±, which are light-like singularities. The time-like case is l.838 (proved: GX.iPlus_iMinus_of_timelike).",
+    "The literal definition puts the two directions tangent to ∂H^2_± into the dS^2 side. At p ∈ ∂H^2_+, for a tangent direction v, c_v is the tangent line of the conic ∂H^2_+, and it lies in dS^2 except at p. So the printed i^-(l(p)) = lightDomain p .deSitter = {B(p,·) ≥ 0} (GX.lightDomain_deSitter_eq) contains the tangent directions (GX.tangentDirs_subset_lightDomain_deSitter). It is a closed arc and not open (GX.not_isOpen_iMinus_of_bdPlus); symmetrically i^+(l(p)) at p ∈ ∂H^2_- (GX.not_isOpen_iPlus_of_bdMinus). Consequently l.835-836 is false as printed: 'i^+(l(p)) and i^-(l(p)) are the connected components of the complement of the two [tangent directions]'. A counterexample is proved at every lightlike p: GX.components_compl_tangentDirs_ne_of_bdPlus and GX.components_compl_tangentDirs_ne_of_bdMinus. The strongest true form is proved too. There are exactly two tangent directions (GX.ncard_tangentDirs), and the components of their complement are {B(p,·) < 0} and {B(p,·) > 0} (GX.components_compl_tangentDirs), that is, i^+(l(p)) and i^-(l(p)) minus the tangent directions at ∂H^2_+ (GX.components_compl_tangentDirs_of_bdPlus), and symmetrically at ∂H^2_- (GX.components_compl_tangentDirs_of_bdMinus). The smallest correction: in l.829-832 the dS^2 side should be 'c_v(s) lies in dS^2 for s small and v is not tangent to ∂H^2_±' (equivalently the interior of the printed set). This makes l.835-836 and l.844 true.",
+    "l.840 at lightlike p (true for the printed definition): the extremities of the arcs are the two tangent directions (GX.frontier_nullNeg, GX.frontier_nullNonneg), and these are exactly the fixed points of Gamma_p (GX.fixedPoints_eq_of_null). At a timelike p, Gamma_p has no fixed direction (GX.fixedPoints_eq_empty_of_timelike), and the arcs are empty. GX.frontier_iPlus_union_frontier_iMinus states l.840 for every p ∈ HS^2."
+   ],
+   "questions": [
+    "'the domain i^±(l(p))' (l.829, l.831). Reading taken: 'domain' names a subset and does not assert openness, since l.844 writes 'open domain'. If 'domain' asserts openness, the label is false as printed for the dS^2 side (GX.not_isOpen_iMinus_of_bdPlus, GX.not_isOpen_iPlus_of_bdMinus), and the row should be partial: the master session may demote the mark.",
+    "'the two points in l(p) which are directions tangent to ∂H^2_±' (l.835-836). Taken as p^⊥/Rp, the tangent line of the null cone at p (GX.tangentDirs = {B(p,·) = 0}). There are exactly two such directions (GX.tangentDirs_eq, GX.ncard_tangentDirs). That they are the directions of curves in ∂H^2_± through p is not formalized: HS^2 carries no smooth structure here."
+   ]
+  },
+  {
+   "label": "bbsdef:circle_developing_map_preimages",
+   "tex_lines": [
+    842,
+    846
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.GammaLinkCircle.iPlusL",
+    "GX.GammaLinkCircle.iMinusL",
+    "GX.GammaLinkCircle.IsDevAlong",
+    "GX.GammaLinkCircle.exists_isDevAlong",
+    "GX.GammaLinkCircle.devPreimages",
+    "GX.isAnalyticAction_link"
+   ],
+   "hypotheses": [
+    {
+     "paper": "L a (Gamma_p, l(p))-circle (l.843)",
+     "here": "carried",
+     "note": "GX.GammaLinkCircle (T-bbs-rp1-circles, strict)."
+    },
+    {
+     "paper": "d : L~ → l(p) the developing map (l.843)",
+     "here": "carried",
+     "note": "Built here, as RP1Circles SCOPE (d) required. (Gamma_p, l(p)) is analytic (GX.isAnalyticAction_link: faithful by GX.gammaP_eq_one_of_tangent, rigid by GX.gammaP_eq_of_eqOn, through GX.det_tangent). With gx's developing theorem this gives a developing map on the universal covering L~ = R (a periodic covering E : R → L), with a holonomy rho ∈ Gamma_p, d(s+1) = rho d(s) (GX.GammaLinkCircle.exists_isDevAlong). It is unique up to a unique element of Gamma_p (GX.GammaLinkCircle.IsDevAlong.existsUnique_eq_smul). GX.GammaLinkCircle.IsDevAlong is gx's IsGXMorphism of the pulled-back structure (GX.GammaLinkCircle.isDevAlong_iff_isGXMorphism). The results below hold along every map E : M → L, not only the universal covering."
+    },
+    {
+     "paper": "open domain in L~ (l.844)",
+     "here": "weakened",
+     "note": "Proved open wherever the arc i^±(l(p)) is open: always, except i^- at p ∈ ∂H^2_+ and i^+ at p ∈ ∂H^2_- (GX.GammaLinkCircle.IsDevAlong.isOpen_preimage_iPlus, ..._iMinus). There it fails: GX.not_isOpen_preimage_iMinus_regular. 'Domain' read 'open set' (not connected: GX.not_isPreconnected_preimage_iPlus_regular)."
+    },
+    {
+     "paper": "preserved by the deck transformations (l.844)",
+     "here": "carried",
+     "note": "For every φ with E ∘ φ = E and every p (GX.GammaLinkCircle.IsDevAlong.deck_iPlus, ..._iMinus): d^{-1}(i^±(l(p))) = E^{-1}(i^±(L)) (GX.GammaLinkCircle.IsDevAlong.preimage_iPlus), by the Gamma_p-invariance of the arcs (GX.smul_mem_iPlus_iff, GX.smul_mem_iMinus_iff)."
+    },
+    {
+     "paper": "their projections in L are denoted i^+(L), i^-(L) (l.845)",
+     "here": "carried",
+     "note": "GX.GammaLinkCircle.iPlusL = {x | chart_x(x) ∈ i^+(l(p))}, chart-independent over the maximal atlas (GX.GammaLinkCircle.mem_iPlusL_iff_of_mem_maximalAtlas). It is the projection E '' d^{-1}(i^+(l(p))) for every surjective E and every developing map d along E (GX.GammaLinkCircle.IsDevAlong.image_preimage_iPlus), so it depends neither on the covering nor on d. Assembly: GX.GammaLinkCircle.devPreimages."
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.844 'The preimages d^{-1}(i^+(l(p))) and d^{-1}(i^-(l(p))) are open' is false as printed at a lightlike p, for the dS^2-side arc of the printed l.828-833 definition (i^- at ∂H^2_+, i^+ at ∂H^2_-). Counterexample: the link of a regular point p ∈ ∂H^2_+ (GX.GammaLinkCircle.regular p) with its developing map: d^{-1}(i^-(l(p))) is not open (GX.not_isOpen_preimage_iMinus_regular). Strongest true form, proved: open wherever the arc is open, that is, at every p ∈ dS^2, both arcs at p ∈ ∂H^2_± except that one, and trivially at a timelike p (GX.GammaLinkCircle.devPreimages). With the corrected l.828-833 (the tangent directions removed: {B(p,·) > 0}, open and Gamma_p-invariant), l.844 holds at every p. Deck invariance and the projections hold for every p, as printed."
+   ],
+   "questions": [
+    "'open domain' (l.844). Reading taken: 'open subset'. As 'open connected subset' it is false: d^{-1}(i^±) is invariant under s ↦ s + 1. For the regular link at p ∈ dS^2 it is a proper nonempty subset of R, hence not connected (GX.not_isPreconnected_preimage_iPlus_regular).",
+    "This label inherits the reading of bbsdef:lies_denote_respectively_set at p ∈ dS^2 (timelike arcs). Under the causal reading, l.844's openness fails at every p ∈ dS^2 (GX.not_isOpen_preimage_dsFutureCausal_regular)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.isAnalyticAction_link",
+  "GX.gammaP_eq_of_eqOn",
+  "GX.gammaP_eq_one_of_tangent",
+  "GX.GammaLinkCircle.isDevAlong_iff_isGXMorphism",
+  "GX.GammaLinkCircle.IsDevAlong.existsUnique_eq_smul",
+  "GX.GammaLinkCircle.IsDevAlong.continuous",
+  "GX.connectedComponentIn_eq_of_closed",
+  "GX.connectedComponentIn_eq_of_open",
+  "GX.components_eq_pair",
+  "GX.linkArea",
+  "GX.linkArea_tangent",
+  "GX.eq_smul_of_linkArea_eq_zero",
+  "GX.eq_add_of_linkArea_ne_zero",
+  "GX.slLin_area",
+  "GX.mem_lorentz_of_fix",
+  "GX.convex_isFutureTimelike",
+  "GX.convex_isFutureCausal_ne_zero",
+  "GX.isFutureTimelike_add_smul",
+  "GX.isFutureTimelike_of_minkB_neg",
+  "GX.isFutureTimelike_iff_norm",
+  "GX.isFutureCausal_iff_norm",
+  "GX.jRot",
+  "GX.inner_two",
+  "GX.norm_sq_two",
+  "GX.minkQ_two",
+  "GX.minkB_two",
+  "GX.minkQ_perp_eq",
+  "GX.dirOf",
+  "GX.image_dirOf_eq",
+  "GX.tendsto_dirOf_add",
+  "GX.eventually_rayNormalize_congr",
+  "GX.preconnectedSpace_link",
+  "GX.gammaHalfTurn",
+  "GX.fixedPoints_eq_empty_of_timelike",
+  "GX.fixedPoints_eq_of_deSitter",
+  "GX.fixedPoints_eq_of_null",
+  "GX.frontier_iPlus_union_frontier_iMinus",
+  "GX.frontier_ds",
+  "GX.ncard_components_compl_ds",
+  "GX.isConnected_compl_dsFutureDirs",
+  "GX.tangentDirs",
+  "GX.tangentDirs_eq",
+  "GX.ncard_tangentDirs",
+  "GX.components_compl_tangentDirs",
+  "GX.components_compl_tangentDirs_of_bdPlus",
+  "GX.components_compl_tangentDirs_ne_of_bdPlus",
+  "GX.components_compl_tangentDirs_of_bdMinus",
+  "GX.components_compl_tangentDirs_ne_of_bdMinus",
+  "GX.not_isOpen_iMinus_of_bdPlus",
+  "GX.not_isOpen_iPlus_of_bdMinus",
+  "GX.not_isOpen_preimage_iMinus_regular",
+  "GX.not_isOpen_dsFutureCausalDirs",
+  "GX.not_isOpen_preimage_dsFutureCausal_regular",
+  "GX.not_isPreconnected_preimage_iPlus_regular"
+ ],
+ "kb_proposals": [
+  "(Γ_p, ℓ(p)) is analytic (GX.isAnalyticAction_link, BBS/IPm). A (Γ_p, ℓ(p))-circle's developing map is GX.GammaLinkCircle.IsDevAlong, built on a periodic cover ℝ → L by GX.GammaLinkCircle.exists_isDevAlong and unique up to Γ_p.",
+  "2D linear algebra in T_p HS² without bases: GX.linkArea is preserved by Γ_p (GX.linkArea_tangent, from det_tangent through gammaToSL), and Cramer's rule (GX.eq_add_of_linkArea_ne_zero) goes with it. Together they exclude an element of Γ_p swapping two null lines.",
+  "Explicit elements of Γ_p for an arbitrary p. At p ∈ dS²: Causal.Flat.boost in the frame (√Q(p)⁻¹ (1, t p₁), (0, J p₁)) (GX.dsU, GX.jVec). At null p: Causal.Flat.nullRot p (jVec p). At timelike p: GX.gammaHalfTurn. GX.mem_lorentz_of_fix proves membership in SO₀(1,2): fixing a nonzero causal vector forces orthochronous.",
+  "Pitfall: inside namespace GX, minkQ resolves to GX.minkQ (Singular/Quotient, on ℝ × ℂ). Write Causal.Flat.minkQ, and never `open Causal.Flat (minkQ)`.",
+  "Pitfall: {σ | f σ < 0} with f a linear map on TpHS p elaborates σ : TpHS p. Equated with a Set (Link p), the Link side is then silently coerced as an image. Annotate {σ : Link p | ...}.",
+  "Coordinates on Causal.Minkowski 2: GX.minkQ_two and GX.minkB_two expand into v.1, v.2 0 and v.2 1. An identity modulo ‖x‖ = 1 closes by `linear_combination q * hx`, with q computed by sympy's `reduced` (outside Lean).",
+  "Germs at 0⁺ of s ↦ [p + s w] in HS² do not depend on the lift w (GX.eventually_rayNormalize_congr, reparametrising s ↦ s/(1+sc)).",
+  "'S has two components' reads {K | ∃ x ∈ S, connectedComponentIn S x = K} = {S₁, S₂}. Prove it with GX.components_eq_pair and GX.connectedComponentIn_eq_of_closed (or _of_open), then Set.ncard_pair."
+ ],
+ "notes": "One new file, scaffold/GXScaffold/BBS/IPm.lean (module GXScaffold.BBS.IPm, namespace GX), 0 sorry, standard axioms only. It typechecks with -DwarningAsError=true, so it is strict-ready. `lake build GXScaffold.BBS.IPm` built only this module: no GX.* or mathlib rebuild. It imports only GX.BBS.RP1Circles, so no Causal.* import (DEC-33 gate clean), and it imports neither PhotonCircles.lean nor FunnelGTilde.lean. No existing file was edited. The module is not imported by any scaffold or strict root (kb/0025): graduation must add `import GX.BBS.IPm` where the strict root lists modules. A name-clash scan against GX/ and scaffold/GXScaffold/ (the two concurrent closers' files included) found none at the time of writing. Mark: only bbsdef:lies_domain_respectively_set, which formalizes the printed definition literally. Its findings (the tangent directions sit in the dS²-side arc, so l.835-836 and l.844 fail) are about the prose beside it and about l.844. If the auditor reads 'the domain' at l.829 and l.831 as asserting openness, that row becomes partial (see its first question). l.844 is formalized along an arbitrary E : M → L with a developing map; existence and uniqueness are proved on the universal covering ℝ."
+}

@@ -58,3 +58,25 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0048](entries/0048-pitfall.md) | pitfall | Pitfall: |
 | [0049](entries/0049-pitfall.md) | pitfall | Pitfall: |
 | [0050](entries/0050-pitfall.md) | pitfall | Pitfall: |
+| [0051](entries/0051-p-p-is-analytic-gx-isanalyticaction-link.md) | pattern | (Γ_p, ℓ(p)) is analytic (GX.isAnalyticAction_link, BBS/IPm). |
+| [0052](entries/0052-2d-linear-algebra-in-t-p-hs-without-base.md) | pattern | 2D linear algebra in T_p HS² without bases: |
+| [0053](entries/0053-explicit-elements-of-p-for-an-arbitrary.md) | pattern | Explicit elements of Γ_p for an arbitrary p. |
+| [0054](entries/0054-pitfall.md) | pitfall | Pitfall: |
+| [0055](entries/0055-pitfall.md) | pitfall | Pitfall: |
+| [0056](entries/0056-coordinates-on-causal-minkowski-2.md) | pattern | Coordinates on Causal.Minkowski 2: |
+| [0057](entries/0057-germs-at-0-of-s-p-s-w-in-hs-do-not-depen.md) | pattern | Germs at 0⁺ of s ↦ [p + s w] in HS² do not depend on the lift w (GX.eventually_rayNormalize_congr, r |
+| [0058](entries/0058-s-has-two-components-reads-k-x-s-connect.md) | pattern | 'S has two components' reads {K / ∃ x ∈ S, connectedComponentIn S x = K} = {S₁, S₂}. |
+| [0059](entries/0059-so-0-1-2-psl-2-r-is-gx-pslequivlorentz-t.md) | pattern | SO_0(1,2) ≅ PSL(2,R) is GX.pslEquivLorentz, through the spinor representation GX.spinLorentz (X ↦ g  |
+| [0060](entries/0060-linearmap-det-on-causal-minkowski-2-is-v.md) | pattern | LinearMap.det on Causal.Minkowski 2 is vol3 of the images of e_t, e_x, e_y (GX.det_eq_vol3, through  |
+| [0061](entries/0061-an-element-of-so-2-acting-on-euclideansp.md) | pattern | An element of SO(2) acting on EuclideanSpace ℝ (Fin 2) is multiplication by a unit complex number (G |
+| [0062](entries/0062-to-restrict-a-chart-e.md) | pattern | To restrict a chart e : |
+| [0063](entries/0063-which-piece-of-hs-a-point-of-an-hs-surfa.md) | pattern | Which piece of HS² a point of an HS-surface lies over is chart-independent: |
+| [0064](entries/0064-in-hs-the-isotropic-projections-are-expl.md) | pattern | In HS² the isotropic projections are explicit. |
+| [0065](entries/0065-pitfall.md) | pitfall | Pitfall: |
+| [0066](entries/0066-pitfall.md) | pitfall | Pitfall: |
+| [0067](entries/0067-pitfall.md) | pitfall | Pitfall: |
+| [0068](entries/0068-lemma-f-s-g-toolkit-is-in-gxscaffold-int.md) | pattern | Lemma F's G~ toolkit is in GXScaffold.Interaction.FunnelGTilde: |
+| [0069](entries/0069-a-parabolic-element-of-psl-2-r-has-exact.md) | pattern | A parabolic element of PSL(2,R) has exactly one fixed point on RP1: |
+| [0070](entries/0070-pitfall.md) | pitfall | Pitfall: |
+| [0071](entries/0071-pitfall.md) | pitfall | Pitfall: |
+| [0072](entries/0072-a-continuous-integer-valued-function-on.md) | pattern | A continuous integer-valued function on R that vanishes at 0 vanishes everywhere: |

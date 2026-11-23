@@ -1,0 +1,311 @@
+{
+ "package": "T-bbs-photon-circles",
+ "target": "T-bbs-photon-circles",
+ "files": [
+  "scaffold/GXScaffold/BBS/PhotonCircles.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "BBS:l763:SO0=PSL",
+   "tex_lines": [
+    763,
+    764
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.pslEquivLorentz",
+    "GX.pslToLorentz",
+    "GX.spinLorentz",
+    "GX.ker_spinLorentz",
+    "GX.spinLorentz_surjective"
+   ],
+   "hypotheses": [
+    {
+     "paper": "SO_0(1,2), the time-orientation and orientation preserving isometries of R^{1,2} (l.594-595)",
+     "here": "carried",
+     "note": "Causal.Flat.lorentz 2, as in GX.BBS.HSModel"
+    },
+    {
+     "paper": "PSL(2,R), the projective transformations of RP^1 (l.679)",
+     "here": "carried",
+     "note": "mathlib's PSL(2, R) acting on GX.RP1 (GX.BBS.RP1Circles)"
+    },
+    {
+     "paper": "'SO_0(1,2) ≈ PSL(2,R)' (l.598, l.763)",
+     "here": "read",
+     "note": "an isomorphism of groups, realised by the spinor representation g ↦ (X ↦ g X gᵀ) on X = [[t + x, y], [y, t − x]]. Kernel {±1} (GX.ker_spinLorentz). Onto, because rotations (by half the angle, GX.rot_mem_range_spinLorentz) and boosts (diag(e^{ζ/2}, e^{−ζ/2}), GX.spinLorentz_boostSL) are reached and generate lorentz 2 (GX.HS.boostRot_eq_top). There is no topology on lorentz 2 at this pin (HSModel SCOPE (b)), so no continuity or Lie-group statement is made"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'SO_0(1,2) ≈ PSL(2,R)' (l.598, l.763) is read as an isomorphism of abstract groups, the spinor one, which ∂H²₊ ≅ RP¹ intertwines (GX.smul_rp1ToBdPlus). This is the only structure lorentz 2 has at this pin. Is a topological (Lie-group) isomorphism needed downstream? If so it needs a topology on lorentz 2 first."
+   ]
+  },
+  {
+   "label": "BBS:l1903:bd=RP1",
+   "tex_lines": [
+    1903,
+    1904
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "GX.rp1ToBdPlus",
+    "GX.smul_rp1ToBdPlus",
+    "GX.rp1ToBdMinus",
+    "GX.smul_rp1ToBdMinus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "'the conformal boundary of H² is naturally RP¹ and hyperbolic isometries are restrictions of real projective transformations' (l.1903-1904); the planner's scope (1): an equivariant homeomorphism RP¹ ≅ ∂H²₊ through the spinor map, with ∂H²₋ = −∂H²₊",
+     "here": "carried",
+     "note": "GX.rp1ToBdPlus : RP1 ≃ₜ ∂H²₊ sends the line R z to the null ray of the spinor S(z) = (|z|², Re z², Im z²) (GX.coe_rp1ToBdPlus_mk). On the circle model of GX.RP1 it is w ↦ [(1, Re w, Im w)] (GX.coe_rp1ToBdPlus). A • rp1ToBdPlus w = rp1ToBdPlus (pslEquivLorentz⁻¹ A • w) for every A ∈ SO_0(1,2) (GX.smul_rp1ToBdPlus). GX.rp1ToBdMinus = −rp1ToBdPlus, equivariant (GX.smul_rp1ToBdMinus). ∂H²₊ is the frontier of the Klein disc H²₊ (GX.HS.frontier_hypPlus, T-bbs-hs-model). 'Naturally' is carried as 'equivariantly'; uniqueness of the equivariant identification is not claimed"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "BBS:l1903:hyperbolic-side",
+   "tex_lines": [
+    1895,
+    1905
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.IsPhoton",
+    "GX.isPhoton_iff",
+    "GX.IsPhotonCircle",
+    "GX.photonChartOf",
+    "GX.photonChartedSpace",
+    "GX.photon_hasGroupoid",
+    "GX.photonChartOf_mem_maximalAtlas",
+    "GX.IsPhotonCircle.rp1ChartedSpace",
+    "GX.IsPhotonCircle.rp1_hasGroupoid",
+    "GX.IsPhotonCircle.exists_hasLiftedHolonomy",
+    "GX.IsPhotonCircle.exists_hasRealAngle"
+   ],
+   "hypotheses": [
+    {
+     "paper": "Σ a closed connected positive causal HS-surface (l.1859-1860)",
+     "here": "weakened",
+     "note": "any (SO_0(1,2), HS²)-manifold M: ChartedSpace (HS 2) M with HasGroupoid M (gxGroupoid (lorentz 2) (HS 2)). No compactness, connectedness, Hausdorffness, positivity or causality is used"
+    },
+    {
+     "paper": "a photon, 'a point corresponding in every HS-chart to points in ∂H²±' (l.1866-1867)",
+     "here": "carried",
+     "note": "GX.IsPhoton, over the maximal atlas. GX.isPhoton_iff: equivalently GX.hsRegion x ∈ {bdPlus, bdMinus}, the piece being chart-independent (GX.region_eq_hsRegion)"
+    },
+    {
+     "paper": "C a circle of photons, regular (no light-like singularity in C) (l.1895-1896, l.1923)",
+     "here": "read",
+     "note": "GX.IsPhotonCircle C: photons, open in the set of photons, homeomorphic to the circle. Regularity is read by taking M non-singular; for a singular Σ take M = Reg Σ ⊇ C. A circle of photons is made of future photons only or of past photons only (GX.IsPhotonCircle.exists_bdPiece)"
+    },
+    {
+     "paper": "the RP¹-structure from the hyperbolic side, inherited by C 'as conformal boundary of A_H' (l.1897-1905)",
+     "here": "read",
+     "note": "the planner's scope (2): the HS-charts of M restricted to C (GX.restrictMatch) composed with ∂H²± ≅ RP¹. Chart changes are the PSL(2,R) elements matching the SO_0(1,2) chart changes (GX.photonChartOf_compatible). The structure is a (PSL(2,R), RP¹)-structure, and the chart of any HS-chart of the maximal atlas lies in its maximal atlas (GX.photonChartOf_mem_maximalAtlas). The annulus A, A_H, the infinite length of paths and the accumulation of geodesic rays (l.1897-1903) are not formalized"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "'Circle of photons' (l.1868-1871, l.1895) is read as a set of photons that is open in the set P of photons and homeomorphic to the circle (GX.IsPhotonCircle). For a Hausdorff Σ this is a circle component of P, since P is locally a circle by the charts built here; that equivalence is not formalized. 'Regular' is read as lying in a non-singular HS-surface (apply to Reg Σ).",
+    "'The RP¹-structure on C from the hyperbolic side' (l.1905) is read as the HS-charts restricted to C, composed with the spinor identification ∂H²± ≅ RP¹ (∂H²₋ through the antipode). The paper's construction is through C as the conformal boundary of A_H. The two agree because near a photon the chart is the Klein model, with C on ∂H²± = frontier H²±, and SO_0(1,2) acts there through PSL(2,R). That is the argument of l.1903-1904, not a theorem of this file. Does the author intend anything beyond this chart-level structure, for example a statement about A_H?"
+   ]
+  },
+  {
+   "label": "BBS:l1907:isotropic-foliations",
+   "tex_lines": [
+    1907,
+    1909
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.nullDir",
+    "GX.eq_smul_nullDir",
+    "GX.vol3_nullDir_nonneg",
+    "GX.vol3_nullDir_pos",
+    "GX.null_orth_cases",
+    "GX.iotaL_ne_iotaR",
+    "GX.leafOver",
+    "GX.leafOver_eq",
+    "GX.mem_leafOver_iff",
+    "GX.leafPt_eq",
+    "GX.minkB_leafNormal",
+    "GX.minkQ_leafNormal",
+    "GX.nullDir_neg"
+   ],
+   "hypotheses": [
+    {
+     "paper": "A_S, a de Sitter annulus of Σ adjacent to C, 'foliated by the light-like lines. Actually, there are two such foliations' (l.1907-1909; § 6.3 l.2026-2028)",
+     "here": "read",
+     "note": "proved in the model dS² ⊂ HS² only, the planner's scope (3). Through each point σ of dS² pass exactly two lightlike projective lines. A future null n ≠ 0 orthogonal to σ is a positive multiple of n_L(σ) or of n_R(σ) (GX.null_orth_cases), and these differ (GX.iotaL_ne_iotaR). The leaf lies on the degenerate plane ⟨u, m⟩: leafPt = t u + √(1−t²) m with u null, m spacelike unit and u ⊥ m (GX.leafPt_eq). The leaves of the ε-foliation are the fibres of ι_ε over dS² (GX.leafOver, GX.leafOver_eq) and partition dS² (GX.mem_leafOver_iff). Their transfer to A_S ⊂ Σ through the HS-charts is not formalized"
+    },
+    {
+     "paper": "'left' (l.2983)",
+     "here": "read",
+     "note": "a convention: ε = 1 is left, i.e. (w, n_L) is a direct basis of T_σ HS² for every future timelike w, in HS²'s orientation GX.vol3 (outward normal first) (GX.vol3_nullDir_pos). Every theorem is proved for both ε = ±1"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The left isotropic foliation (l.2983, and the left/right pair of l.2981-2985) is never defined. § 6.3 (l.2026-2030), to which l.1908-1909 refers, introduces the two isotropic foliations as F₁, F₂ with no left/right assignment, so 'left' needs a sentence fixing it against the orientation of HS² (l.621-623). Typos: 'It is is foliated' (l.1907-1908), 'the leaf of the left foliation trough it' (l.2988)."
+   ],
+   "questions": [
+    "Which isotropic foliation is 'left' (l.2983)? Reading taken: the one whose future null direction n_L at σ makes (future timelike w, n_L) a direct basis of T_σ HS², for the orientation of HS² of GX.vol3 (outward normal first, the RP1Circles SCOPE (c) convention). In coordinates, ι_L(t, x, y) = [(1, t x + s y, t y − s x)] with s = √(1 − t²). With the opposite convention L and R swap, and the antipodal map swaps them (GX.nullDir_neg). Nothing proved here depends on the choice."
+   ]
+  },
+  {
+   "label": "BBS:l2983:iota-L",
+   "tex_lines": [
+    2979,
+    2990
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.HS.closedDS",
+    "GX.iota",
+    "GX.iotaL",
+    "GX.iotaR",
+    "GX.continuous_iota",
+    "GX.isProperMap_iota",
+    "GX.iota_smul",
+    "GX.iotaChart",
+    "GX.closure_leafOver",
+    "GX.existsUnique_alpha",
+    "GX.existsUnique_omega",
+    "GX.iota_of_mem_bdPlus",
+    "GX.iota_of_mem_bdMinus",
+    "GX.iota_rp1ToBdMinus",
+    "GX.iota_rp1ToBdPlus"
+   ],
+   "hypotheses": [
+    {
+     "paper": "d̃S² completed by the two lines of photons R₊, R₋ ≅ RP̃¹ (l.2979-2981)",
+     "here": "read",
+     "note": "the HS² form of the planner's scope (3): dS² ∪ ∂H²₊ ∪ ∂H²₋ = GX.HS.closedDS (minkQ ≥ 0). The universal cover d̃S² with R± is left to T-3p1-theorem-m-theta"
+    },
+    {
+     "paper": "each leaf has an α-limit in R₋ and an ω-limit in R₊; every point of R₋ (R₊) is the α-limit (ω-limit) of exactly one leaf of each foliation (l.2983-2986)",
+     "here": "carried",
+     "note": "in HS²: the closure of the ε-leaf over u ∈ ∂H²₊ is the leaf together with u and −u ∈ ∂H²₋ (GX.closure_leafOver). Every point of ∂H²₋, and every point of ∂H²₊, lies in the closure of exactly one ε-leaf (GX.existsUnique_alpha, GX.existsUnique_omega)"
+    },
+    {
+     "paper": "ι_L continuous (l.2987-2989)",
+     "here": "carried",
+     "note": "GX.continuous_iota, in HS²"
+    },
+    {
+     "paper": "ι_L a proper submersion (l.2989-2990)",
+     "here": "carried",
+     "note": "in HS²: proper (GX.isProperMap_iota). It is a trivial bundle: σ ↦ (ι_ε σ, t(σ)) is a homeomorphism dS² ∪ ∂H²± ≃ₜ ∂H²₊ × [−1, 1] (GX.iotaChart), so ι_ε is a projection. 'Submersion' is read topologically (locally a product projection)"
+    },
+    {
+     "paper": "(the planner's scope) ι_L SO_0(1,2)-equivariant and projective on ∂H²₋",
+     "here": "carried",
+     "note": "GX.iota_smul. On ∂H²₊ ι_ε is the identity (GX.iota_of_mem_bdPlus) and on ∂H²₋ it is the antipode (GX.iota_of_mem_bdMinus). Read through RP¹ ≅ ∂H²₋ and RP¹ ≅ ∂H²₊ it is the identity of RP¹ (GX.iota_rp1ToBdMinus)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "In HS², ι_L and ι_R both restrict to the antipode ∂H²₋ → ∂H²₊ (GX.iota_of_mem_bdMinus). So the projective isomorphism ῑ : C₋ → C₊ of l.3011-3013 does not depend on the foliation in the quotient. The two foliations differ only after lifting to d̃S²: there the left and right leaves through a point of R₋ end a full turn apart. That last statement is the session's reading [r] of the formula GX.leafPt, not proved here. Along an ε-leaf the spatial direction turns through −επ from past to future: cos θ = t, sin θ = ε√(1−t²). Reading taken for T-3p1-theorem-m-theta: the paper's ι'_L is the lift for the left foliation, and the choice matters only up to δ."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.mink3",
+  "GX.mink3_ext",
+  "GX.eq_mink3",
+  "GX.norm_sq_snd_two",
+  "GX.minkQ_coords",
+  "GX.minkB_coords",
+  "GX.vol3_eq",
+  "GX.coord3",
+  "GX.basis3",
+  "GX.vol3_eq_det",
+  "GX.vol3_map",
+  "GX.det_eq_vol3",
+  "GX.vol3_lorentz",
+  "GX.vol3_smul_left",
+  "GX.timeUnit_eq",
+  "GX.spinor",
+  "GX.minkQ_spinor",
+  "GX.spinor_fst",
+  "GX.spinL",
+  "GX.spinL_spinor",
+  "GX.spinL_comp",
+  "GX.minkQ_spinL",
+  "GX.det_spinL",
+  "GX.spinLinL",
+  "GX.spinLin",
+  "GX.spinLin_mem",
+  "GX.spinLorentz_spinor",
+  "GX.circleToPenrose",
+  "GX.coe_rp1ToBdPlus",
+  "GX.coe_rp1ToBdPlus_mk",
+  "GX.spinLorentz_smul_rp1ToBdPlus",
+  "GX.center_le_ker_spinLorentz",
+  "GX.boostSL",
+  "GX.spinLorentz_boostSL",
+  "GX.exists_circle_of_specialOrth",
+  "GX.rot_mem_range_spinLorentz",
+  "GX.pslEquivLorentz_mk",
+  "GX.bdNegHomeomorph",
+  "GX.HS.mem_closedDS_iff",
+  "GX.HS.smul_mem_closedDS_iff",
+  "GX.HS.isClosed_closedDS",
+  "GX.HS.closedDS_coord",
+  "GX.lorentzClosedDSAction",
+  "GX.lorentzPieceAction",
+  "GX.continuous_nullDir",
+  "GX.leafPt",
+  "GX.leafNormal",
+  "GX.leafPtHS",
+  "GX.leafCurve",
+  "GX.continuous_leafCurve",
+  "GX.leafOver_eq_image",
+  "GX.restrictMatch",
+  "GX.coe_restrictMatch_apply",
+  "GX.hsRegion",
+  "GX.region_eq_hsRegion",
+  "GX.bdPiece",
+  "GX.rp1ToBd",
+  "GX.smul_rp1ToBd",
+  "GX.photonChartOf_compatible",
+  "GX.eventually_hsRegion_bdPlus",
+  "GX.eventually_hsRegion_bdMinus",
+  "GX.IsPhotonCircle.exists_bdPiece"
+ ],
+ "kb_proposals": [
+  "SO_0(1,2) ≅ PSL(2,R) is GX.pslEquivLorentz, through the spinor representation GX.spinLorentz (X ↦ g X gᵀ, X = [[t + x, y], [y, t − x]]). ∂H²₊ ≅ RP¹ is GX.rp1ToBdPlus, w ↦ [(1, Re w, Im w)], intertwining them (GX.smul_rp1ToBdPlus). ∂H²₋ is reached through GX.rp1ToBdMinus = −rp1ToBdPlus (GXScaffold.BBS.PhotonCircles).",
+  "LinearMap.det on Causal.Minkowski 2 is vol3 of the images of e_t, e_x, e_y (GX.det_eq_vol3, through GX.basis3 and Module.Basis.det_comp), and SO_0(1,2) preserves vol3 (GX.vol3_lorentz). Use this instead of computing a toMatrix.",
+  "An element of SO(2) acting on EuclideanSpace ℝ (Fin 2) is multiplication by a unit complex number (GX.exists_circle_of_specialOrth). Transport it to ℂ with Complex.orthonormalBasisOneI.repr and apply mathlib's linear_isometry_complex. det_rotation and Complex.det_conjAe rule out the reflection.",
+  "To restrict a chart e : M → X to subsets C ⊆ M and T ⊆ X that it matches on its source (x ∈ C ↔ e x ∈ T), use GX.restrictMatch, an OpenPartialHomeomorph C T. Apply restrOpen first to handle a C that is only relatively open (GX.photonChartOf).",
+  "Which piece of HS² a point of an HS-surface lies over is chart-independent: GX.hsRegion, GX.region_eq_hsRegion. Photons are GX.IsPhoton, with GX.isPhoton_iff.",
+  "In HS² the isotropic projections are explicit. On dS² ∪ ∂H²± = GX.HS.closedDS (where ‖x‖ = 1), GX.nullDir ε σ = (1, t x + ε s y, t y − ε s x) with s = √(1 − t²). GX.iotaChart trivialises ι_ε as ∂H²₊ × [−1, 1]. Equivariance goes through uniqueness (GX.eq_smul_nullDir) and vol3 invariance.",
+  "Pitfall: with h : σ ∈ S for a set S := {σ | 0 ≤ f σ}, the ascription (h : 0 ≤ f σ).lt_or_eq still fails, because dot notation reads the inferred type. Restate it as have h' : 0 ≤ f σ := h.",
+  "Pitfall: `include h in` goes before the docstring. A def whose proof fields use a section hypothesis takes it as an argument only if it is included.",
+  "Pitfall: inside namespace GX.IsPhotonCircle (any structure namespace reusing a GX name), exists_hasLiftedHolonomy resolves to the theorem being declared and fails as non-terminating recursion. Write GX.exists_hasLiftedHolonomy (compare kb/0046)."
+ ],
+ "notes": "One new file (1620 lines), sorry-free, standard axioms only, and clean under -DwarningAsError=true, so it can graduate to GX/BBS/PhotonCircles.lean as is. It imports GX.BBS.RP1Circles only and the DEC-33 import gate is ok. `lake build GXScaffold.BBS.PhotonCircles` rebuilt only this module (8-13 s). The scaffold root does not import it, as with RP1Circles (kb/0025). Overlap with T-bbs-i-pm: scaffold/GXScaffold/BBS/IPm.lean declares GX.minkQ_two and GX.minkB_two with the same statements as this file's GX.minkQ_coords and GX.minkB_coords. I renamed mine to avoid a duplicate-name clash at graduation; one pair can be dropped when both graduate. The file adds two named instances, GX.lorentzClosedDSAction and GX.lorentzPieceAction (MulAction (lorentz 2) on HS.closedDS and on every HS.piece 2 k). If another graduating file adds a MulAction on HS.piece, keep one. Pseudo-labels follow the T-3p1-theorem-m convention, none marked. BBS:l1903:bd=RP1 is 'closed' for the planner's scope (1). The four 'partial' rows are partial for readings (groups only; the circle of photons; the hyperbolic side through charts) or because only the HS² model is proved. No statement of § 5.1 was found false. Not built, by the planner's scope: the universal cover d̃S² with R±, the de Sitter side (Mess Prop. 17), the coincidence of the two sides (l.1923), and the visual map ℓ(p) → ∂H²₊ at time-like p (OQ-113 (b)). The last needs only the exit-point map ℓ(p) → ∂H²₊ (one map and its Γ_p-equivariance), followed by GX.rp1ToBdPlus.symm."
+}

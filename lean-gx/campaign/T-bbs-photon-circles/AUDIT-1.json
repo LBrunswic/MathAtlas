@@ -1,0 +1,76 @@
+{
+ "target": "T-bbs-photon-circles",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "BBS:l763:SO0=PSL",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: right for 'groups only'. pslEquivLorentz : PSL(2,R) ≃* Causal.Flat.lorentz 2 is a real isomorphism. lorentz 2 is minkQ-preserving, future-cone-preserving and det 1, i.e. BBS's SO_0(1,2) of l.594-595. Checked by hand: spinL is X ↦ M X Mᵀ on X = [[t+x, y], [y, t−x]]. ker_spinLorentz gives spinLorentz.ker = center SL(2,R) through the faithful action on RP1, and a probe of my own derived spinLorentz g = 1 → g = 1 ∨ g = −1 and spinLorentz (−1) = 1 from it. It is onto because rotations (by half the angle) and boosts diag(e^{ζ/2}, e^{−ζ/2}) generate boostRot, and boostRot = ⊤ is strict (HSModel l.1003). PSL(2,R) is mathlib's SL ⧸ center. There is no topology on lorentz 2 at this pin (HSModel SCOPE (b)), so the Lie-group reading is honestly left as a question."
+  },
+  {
+   "label": "BBS:l1903:bd=RP1",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, status closed, which holds for the planner's scope (1). rp1ToBdPlus : RP1 ≃ₜ HS.piece 2 .bdPlus is a real Homeomorph (circleToPenrose then bdPlusHomeomorph.symm). Its coordinate form w ↦ [(1, Re w, Im w)] and its spinor form mk z ↦ |z|⁻² S(z) are both proved. smul_rp1ToBdPlus says A • rp1ToBdPlus w = rp1ToBdPlus (pslEquivLorentz.symm A • w) for every A ∈ SO_0(1,2), and smul_rp1ToBdMinus is the same through the antipode. The paper itself defines ∂H²± as the boundaries of H²± in HS² (l.590), and the frontier is the strict GX.HS.frontier_hypPlus. So reading 'conformal boundary' as that frontier, and 'naturally' as 'equivariantly', is the model's content, not an extra reading. Uniqueness of the equivariant identification is true (PSL(2,R) has trivial centralizer in Homeo(RP1)) and is not claimed."
+  },
+  {
+   "label": "BBS:l1903:hyperbolic-side",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: right. IsPhoton is word for word l.1866-1867 over the maximal atlas. IsPhotonCircle (photons, relatively open in the photon set, homeomorphic to Circle) is no stronger than 'circle component of P' for Hausdorff M, so this reading does not narrow. The structure is a real (PSL(2,R), RP1)-structure: HasGroupoid C (gxGroupoid PSL(2,R) RP1) by photonChartOf_compatible, with chart changes pslEquivLorentz.symm of the SO_0(1,2) chart changes. It does not depend on the atlas: photonChartOf_mem_maximalAtlas puts the chart of every HS-chart of M's maximal atlas into C's maximal atlas. It is non-vacuous: my probe proved IsPhotonCircle (M := HS 2) (HS.piece 2 .bdPlus) in about ten lines, with standard axioms, and exists_hasLiftedHolonomy holds on it. Narrowing, disclosed (row partial, dispatch scope 'regular'): only circles in a non-singular HS-manifold. The paper's hyperbolic-side structure (l.1897-1905) is also defined for circles containing light-like singularities, which is not covered (finding 2). The structure comes from the charts, not from A_H's conformal boundary, and SCOPE (c) says so."
+  },
+  {
+   "label": "BBS:l1907:isotropic-foliations",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: right. HS² model only, disclosed in SCOPE (d). The leaves are the fibres of ι_ε over dS² and lie in the degenerate plane ⟨u, m⟩ with u null and u ⊥ m (leafPt_eq, minkB_leafNormal, minkQ_leafNormal). iotaChart gives a real (trivial) foliation. null_orth_cases with iotaL_ne_iotaR gives exactly two lightlike lines through each point of dS². By hand: the two dS²-arcs of u^⊥ are the L-leaf and the R-leaf over u, antipodal to each other, which matches nullDir_neg. Along the ε-leaf the spatial angle turns by −επ, as the REPORT says. 'Left' is a disclosed convention (ε = 1 makes (w, n_L) direct for vol3), and I checked vol3(e_x, e_t, n_1(e_x)) = 1 > 0. The checklist row uses '✓' where the content is model-only (finding 1)."
+  },
+  {
+   "label": "BBS:l2983:iota-L",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial: right. This is the HS² form of a step in the proof of the ledger label bbslem:surgery_key (proof span l.2958-3011), not BBS's ι_L on d̃S² ∪ R₋ ∪ R₊; SCOPE (d) defers that to T-3p1-theorem-m-theta. The following are proved as stated: continuous_iota; isProperMap_iota (trivial here, since closedDS is compact; in d̃S² it is not); iota_smul (SO_0(1,2)-equivariant); iotaChart (closedDS ≃ₜ ∂H²₊ × [−1,1]); closure_leafOver (closure = leaf ∪ {u, −u}); existsUnique_alpha and existsUnique_omega; identity on ∂H²₊ and antipode on ∂H²₋ for both ε. The latter backs the REPORT's note that ι_L = ι_R on ∂H²₋ in HS². iota_rp1ToBdMinus ('projective on ∂H²₋') is tautological by the choice rp1ToBdMinus = −rp1ToBdPlus, but true. 'Submersion' is read topologically. The REPORT discloses this; the docstring only implies it through iotaChart."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "Rerun on node1 with no other lake process running. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/GXScaffold/BBS/PhotonCircles.lean` exits 0 with no output. `taskset -c 0-11 lake build GXScaffold.BBS.PhotonCircles` reports 'Build completed successfully', with nothing upstream rebuilt. grep finds 'sorry' once, in the docstring ('0 `sorry`'), and no axiom, opaque, extern, implemented_by, native_decide or unsafe. My probe (campaign/T-bbs-photon-circles/AuditProbe.lean, since deleted) ran #print axioms on all 110 declarations the REPORT names: 109 depend on [propext, Classical.choice, Quot.sound] and GX.bdPiece on none. The same probe proved the IsPhotonCircle example and the ±1 kernel corollaries with standard axioms. `python3 scripts/causal_import_gate.py` reports ok (DEC-33); the file imports GX.BBS.RP1Circles only. Name clashes, by a textual intersection of declared names with every file under GX/ and scaffold/: none with BBS/IPm.lean, Interaction/FunnelGTilde.lean or any strict module. The dotted names (HS.closedDS, IsPhotonCircle.*) appear nowhere else; GammaLinkCircle.rp1ChartedSpace is in another namespace. Instances: lorentzClosedDSAction and lorentzPieceAction have no counterpart anywhere. The strict library has only hsAction on HS d, and IPm only adds `instance : Nonempty (Link p)` and isAnalyticAction_link. IPm.lean was being edited during the audit (1618, then 1991 lines), so the clash check is a snapshot from about 03:20. Scope: git status shows nothing of this closer's outside scaffold/GXScaffold/BBS/PhotonCircles.lean and campaign/T-bbs-photon-circles/. The roadmap edits are the loop's status flips; the other untracked paths belong to the other closers and loops."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BBS/PhotonCircles.lean:92-93",
+   "what": "The hypothesis checklist marks '✓' on 'the two foliations by light-like lines (l.1907-1909)' and on 'ι_L continuous, a proper submersion (l.2987-2990)', but both are proved only in the model: dS² ⊂ HS² instead of A_S ⊂ Σ, and the closed annulus of HS² instead of d̃S² ∪ R±. Both are special cases or quotient forms. They are disclosed in the same cells and in SCOPE (d), and the rows are partial and unmarked, so nothing is over-certified, but the glyph contradicts kb 0006's vocabulary.",
+   "fix": "Write '⚠ HS² model only (SCOPE (d))' in both cells, and add 'submersion read topologically (iotaChart)' to the second."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BBS/PhotonCircles.lean:90; REPORT.json labels[2].hypotheses[2]",
+   "what": "The row 'C a circle of photons, regular (l.1895-1896) | ⚠ read' presents regularity as a hypothesis of the paper. In fact l.1895-1896 explicitly allow light-like singularities on C, and the hyperbolic-side structure (l.1897-1905) is built for them too. The Lean covers regular circles only. The dispatch scoped it so and the row is partial, but the narrowing should be named as one.",
+   "fix": "Write '⚠ narrowed: regular C only (dispatch scope). Circles containing light-like singularities, for which the paper also defines the hyperbolic-side structure, are not covered.'"
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BBS/PhotonCircles.lean (no example)",
+   "what": "No inhabitant of GX.IsPhotonCircle is given, though kb 0011 asks for one when it is cheap. It is: my probe proved IsPhotonCircle (M := GX.HS 2) (GX.HS.piece 2 .bdPlus) in about ten lines from isPhoton_iff, eventually_hsRegion_bdPlus, mem_piece_iff_region and ⟨rp1ToBdPlus.symm⟩, and exists_hasLiftedHolonomy applies to it.",
+   "fix": "Add theorem GX.isPhotonCircle_bdPlus (∂H²₊ is a regular circle of photons of HS²) before graduation."
+  },
+  {
+   "severity": "minor",
+   "where": "PhotonCircles.lean:88, 922; REPORT.json labels[2].hypotheses[0], labels[3].findings[0], labels[4].questions[0]",
+   "what": "Some line numbers are off. 'Σ closed connected positive causal' is l.1861, not l.1859-1860 (those are the \\section and \\label lines). The typo 'trough' is l.2989, not l.2988. The remark with ῑ : C₋ → C₊ (bbsrem:causally_regular_hs_sphere_containing) is l.3013-3016, not l.3011-3013 (l.3011 is \\end{proof}). The docstring of iota_rp1ToBdMinus cites 'BBS l.2990' for 'projective on ∂H²₋', but l.2990 says 'proper submersion'; 'projective on ∂H²₋' is the planner's scope and the remark's.",
+   "fix": "Correct the line numbers before any of these go to the author."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[3].findings[0], questions[0]",
+   "what": "The finding that the left isotropic foliation is never defined is accurate: 'left' appears only at l.2983 and l.2989, and § 6.3 names F₁, F₂ with no assignment. It is not a false finding. But the paper does fix a 'left'/'right' convention, for the two families of lines ruling the boundary quadric Q of AdS₃ (L_l, L_r, l.402-404). Through the link L(p) ≅ HS² of the suspension, each isotropic leaf through v spans with p a lightlike plane tangent to Q. That plane meets Q in one left and one right line, and the ray of v ends on one of them. This is a plausible source of the paper's 'left' (my own reading, not checked in Lean). The question offers only the orientation convention.",
+   "fix": "In the question to the author, offer the l.402-404 ruling convention as a second candidate beside the vol3 orientation convention."
+  }
+ ],
+ "notes": "No major finding. The kernel checks the proofs. The statements say what the REPORT claims, every partial reading is disclosed, nothing is marked, and the build, sorry count, axioms, import gate and scope are clean. On graduation: (i) recheck name clashes against the final IPm.lean, which was still changing during this audit; (ii) minkQ_coords/minkB_coords (here) and minkQ_two/minkB_two (IPm) state the same thing, and one pair can be dropped; (iii) the ι_L material is a step in the proof of the ledger label bbslem:surgery_key (l.2958-3011), worth recording in the roadmap for T-3p1-theorem-m-theta."
+}
