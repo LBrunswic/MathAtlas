@@ -769,3 +769,22 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 03:53–05:25 UTC; agents in parallel: 5 closers + 1 builder, 7 audits (one fix round)
 - New questions for the author: OQ-119 (Θ = 0 without ι'_L as a target? the remark's bucket D scope; « degree included » at Θ = 0) and OQ-120 (« isomorphic » with the same p; « holonomy ⟨g⟩ » in G̃; positive/negative in l.915's form).
 - next: only one ready closer target is left (T-ett-gluing-causality, lean-causal, /ett-programme's package), so the next iteration plans: split T-bbs-hs-singularities along its four groups and refill the lean-gx and lean-yamabe queues.
+
+## 2026-11-23 05:55 · plan (rule 2: no dispatchable ready closer target outside lean-causal)
+- roadmap-planner: 175 → 192 targets (17 added, 3 changed); roadmap check ✓.
+- T-bbs-hs-singularities' 10 sorrys split:
+  - wave A, three new upstream files, ready in parallel: T-bbs-psl2-normal-forms, T-bbs-quotient-circle, T-bbs-gammap-elements;
+  - then T-bbs-hs-remark-existence (closes bbsrem:previous_section_observed_only modulo OQ-120), then T-bbs-hs-link-types (the file sorry-free);
+  - then T-bbs-remark-readings (proves both readings of OQ-120 (a) and (c)) and T-bbs-hs-graduate (master, exclusive).
+- The next BBS layer:
+  - ready: T-bbs-hs-suspension (bbsdef:singular_hs_surface_oriented_surface, mark on OQ-104);
+  - planned: T-bbs-p-p, T-bbs-classising-types, T-bbs-degk, T-bbs-positive-hs-surface, T-bbs-hcausal;
+  - T-bbs-layer-home narrowed to the AdS half; T-3p1-theorem-g now depends on positive and causal HS-spheres.
+- T-bbs-curation-blockers (master, ready): 57 bbs rows still name BBS-Q1, which DEC-192 ruled.
+- lean-yamabe:
+  - T-yamabe-thm-lower-bound planned → ready (thm:main's Lean is already strict; the instance waits on OQ-109, 111, 118);
+  - T-yamabe-poincare-binder (master cleanup: the redundant [IsFiniteMeasure], confirmed by AUDIT-1 of T-perf-poincare).
+- lean-gx cleanup: T-gx-mtheta-dedupe. No photon-circle target is needed: isPhotonCircle_bdMinus/bdPlus and modelAnnulus already show DSAnnulus is not vacuous.
+- lean-benzecri: only T-bz-chapter3 is open (bzthm:intro_C waits on it).
+- New question for the author: T-bbs-q8 (needs-ruling, BBS-Q8, REVIEW §F item 8). The rows on singular AdS spacetimes in § 3.4–3.6 need a suspension into AdS₃. Build it hard-wired to AdS₃ as printed, or as one κ-family (AdS₃ at κ = −1, flat E^{1,2} at κ = 0)?
+- next: a wave of T-bbs-psl2-normal-forms, T-bbs-quotient-circle, T-bbs-gammap-elements (lean-gx) and T-yamabe-thm-lower-bound (lean-yamabe), with the master targets T-ett-apply-rulings (when lean-causal is idle) and T-bbs-curation-blockers. lean-causal waits on /ett-programme.
