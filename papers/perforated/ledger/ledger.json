@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-yamabe",
-    "git_commit": "9fbefdd"
+    "git_commit": "3b71ab0"
   },
   "statements": [
     {
@@ -258,7 +258,8 @@
       "statement_sha256": "966e99b4b9f1871f7f266168abebd8372dfd167e063e6c30b1667f9960547c25",
       "statement_sha256_current": "966e99b4b9f1871f7f266168abebd8372dfd167e063e6c30b1667f9960547c25",
       "lean_files": [
-        "Yamabe/Perforated/Star3.lean"
+        "Yamabe/Perforated/Star3.lean",
+        "Yamabe/Perforated/Poincare.lean"
       ],
       "decls": [
         "Yamabe.MeasuredModel.mean",
@@ -272,17 +273,33 @@
         "Yamabe.MeasuredModel.lambda1_eq_sInf_rayleigh",
         "Yamabe.MeasuredModel.isSobolevPoincareConst_Csp",
         "Yamabe.MeasuredModel.Csp_le",
-        "Yamabe.MeasuredModel.Csp_nonneg"
+        "Yamabe.MeasuredModel.Csp_nonneg",
+        "Yamabe.MeasuredModel.NonConst",
+        "Yamabe.MeasuredModel.meanPoincare_of_rellich",
+        "Yamabe.MeasuredModel.lambda1_pos_iff",
+        "Yamabe.MeasuredModel.lambda1_pos_of_rellich",
+        "Yamabe.MeasuredModel.lambda1_eq_zero_of_forall_const",
+        "Yamabe.MeasuredModel.exists_isSobolevPoincareConst",
+        "Yamabe.MeasuredModel.def_constants_of_analytic",
+        "Yamabe.toy_def_constants",
+        "Yamabe.toyCut_lambda1_eq_zero",
+        "Yamabe.Mfd.Reads.meanPoincare",
+        "Yamabe.Mfd.Reads.exists_isSobolevPoincareConst",
+        "Yamabe.Mfd.Reads.lambda1_pos",
+        "Yamabe.Mfd.Reads.def_constants",
+        "Yamabe.Mfd.readingModel_nonConst",
+        "Yamabe.Mfd.readingModel_def_constants"
       ],
       "lean_stated": "strict",
       "lean_proved": "partial",
       "bucket": "",
-      "scope_notes": "T-perf-star3 (atlas-team, 2026-11-22), audit AUDIT-1 minor (the headline « false as printed » qualified: the proof error is against the paper, the invalid constant on the model; fixed at graduation). λ₁ as the best Poincaré constant (attained; = the inf of the Rayleigh quotients), C_SP the least Sobolev–Poincaré constant (attained), in Yamabe/Perforated/Star3.lean, sorry-free; λ₁ > 0 and finiteness carried.",
-      "notes": "T-perf-star3 (atlas-team, 2026-11-22), audit AUDIT-1 minor (the headline « false as printed » qualified: the proof error is against the paper, the invalid constant on the model; fixed at graduation). λ₁ as the best Poincaré constant (attained; = the inf of the Rayleigh quotients), C_SP the least Sobolev–Poincaré constant (attained), in Yamabe/Perforated/Star3.lean, sorry-free; λ₁ > 0 and finiteness carried.",
-      "blocked_on": "T-perf-poincare (λ₁ > 0, C_SP < ∞); OQ-109 (λ₁ read as the best Poincaré constant)",
+      "scope_notes": "T-perf-star3 (atlas-team, 2026-11-22), audit AUDIT-1 minor (the headline « false as printed » qualified: the proof error is against the paper, the invalid constant on the model; fixed at graduation). λ₁ as the best Poincaré constant (attained; = the inf of the Rayleigh quotients), C_SP the least Sobolev–Poincaré constant (attained), in Yamabe/Perforated/Star3.lean, sorry-free; λ₁ > 0 and finiteness carried. T-perf-poincare (2026-11-23, audit minor): λ₁ ∈ (0, ∞), MeanPoincare and a finite Sobolev–Poincaré constant are proved on the model from RellichProp, ConstLimit, hD and NonConst (each necessary), and on the C¹ reading of a compact connected manifold with only μ ≠ 0 (Mfd.readingModel_def_constants, Yamabe/Perforated/Poincare.lean). Unmarked: OQ-109, OQ-93.",
+      "notes": "T-perf-star3 (atlas-team, 2026-11-22), audit AUDIT-1 minor (the headline « false as printed » qualified: the proof error is against the paper, the invalid constant on the model; fixed at graduation). λ₁ as the best Poincaré constant (attained; = the inf of the Rayleigh quotients), C_SP the least Sobolev–Poincaré constant (attained), in Yamabe/Perforated/Star3.lean, sorry-free; λ₁ > 0 and finiteness carried. T-perf-poincare (2026-11-23, audit minor): λ₁ ∈ (0, ∞), MeanPoincare and a finite Sobolev–Poincaré constant are proved on the model from RellichProp, ConstLimit, hD and NonConst (each necessary), and on the C¹ reading of a compact connected manifold with only μ ≠ 0 (Mfd.readingModel_def_constants, Yamabe/Perforated/Poincare.lean). Unmarked: OQ-109, OQ-93.",
+      "blocked_on": "OQ-109 (λ₁ read as the best Poincaré constant); OQ-93 (the manifold readings)",
       "lean_proved_override": "partial",
       "extra_lean_files": [
-        "Yamabe/Perforated/Star3.lean"
+        "Yamabe/Perforated/Star3.lean",
+        "Yamabe/Perforated/Poincare.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -785,12 +802,31 @@
       "nl_status_auto": "open",
       "statement_sha256": "30a3c4f7cc43fae3db55456a0edb1cb592b979a042b879734b38f3dcbd7aa6e7",
       "statement_sha256_current": "30a3c4f7cc43fae3db55456a0edb1cb592b979a042b879734b38f3dcbd7aa6e7",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
-      "bucket": "",
-      "scope_notes": "",
+      "lean_files": [
+        "Yamabe/Perforated/StarN.lean"
+      ],
+      "decls": [
+        "Yamabe.lem_elem",
+        "Yamabe.elemC",
+        "Yamabe.elem_elemC",
+        "Yamabe.rpow_le_one_add_tangent",
+        "Yamabe.two_rpow_ge_four",
+        "Yamabe.elem_const_nonneg",
+        "Yamabe.elem_signed",
+        "Yamabe.le_elemC",
+        "Yamabe.elem_signed_elemC"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "closed",
+      "bucket": "A",
+      "scope_notes": "T-perf-star-n (atlas-team, 2026-11-23), audit AUDIT-1 minor (REPORT numbers, a citation, two checklist rows; fixed or reworded here). MARKED in Yamabe/Perforated/StarN.lean, sorry-free: lem_elem, the printed statement, with the explicit c_q = q²·2^q (elem_elemC), by Bernoulli's inequality; elem_signed extends it to every real x.",
+      "notes": "T-perf-star-n (atlas-team, 2026-11-23), audit AUDIT-1 minor (REPORT numbers, a citation, two checklist rows; fixed or reworded here). MARKED in Yamabe/Perforated/StarN.lean, sorry-free: lem_elem, the printed statement, with the explicit c_q = q²·2^q (elem_elemC), by Bernoulli's inequality; elem_signed extends it to every real x.",
+      "paper_findings": [
+        "Minor (l.673–677): lem:elem is printed without proof; it is true with c_q = q²·2^q (Lean Yamabe.elem_elemC); the optimal c_6 ≈ 31.37 (numerical)."
+      ],
+      "extra_lean_files": [
+        "Yamabe/Perforated/StarN.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -822,12 +858,54 @@
       "nl_status_auto": "proved",
       "statement_sha256": "42fcc799f514c3ff5a9470ae4546db9aa707b61649e80d46c921be8811233fe3",
       "statement_sha256_current": "42fcc799f514c3ff5a9470ae4546db9aa707b61649e80d46c921be8811233fe3",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
+      "lean_files": [
+        "Yamabe/Perforated/StarN.lean",
+        "Yamabe/Perforated/Star3.lean",
+        "Yamabe/Perforated/Main.lean"
+      ],
+      "decls": [
+        "Yamabe.MeasuredModel.prop_starN",
+        "Yamabe.MeasuredModel.prop_starN_signed",
+        "Yamabe.MeasuredModel.prop_starN_explicit",
+        "Yamabe.starNCoeff",
+        "Yamabe.starNAtil",
+        "Yamabe.starNCoeff_nonneg",
+        "Yamabe.starNAtil_nonneg",
+        "Yamabe.starNAtil_le",
+        "Yamabe.rpow_add_le_tangent",
+        "Yamabe.elem_scaled",
+        "Yamabe.starN_core",
+        "Yamabe.starN_split",
+        "Yamabe.MeasuredModel.normalized_facts",
+        "Yamabe.MeasuredModel.starN_minkowski",
+        "Yamabe.MeasuredModel.starN_deficit_of_pointwise",
+        "Yamabe.MeasuredModel.mean_pos_of_nonneg",
+        "Yamabe.MeasuredModel.starN_deficit",
+        "Yamabe.MeasuredModel.starN_deficit_signed",
+        "Yamabe.MeasuredModel.star_of_normalized",
+        "Yamabe.MeasuredModel.starN_point",
+        "Yamabe.MeasuredModel.starN_point_signed",
+        "Yamabe.MeasuredModel.le_starNAtil_of_forall",
+        "Yamabe.MeasuredModel.starN_of_consts",
+        "Yamabe.MeasuredModel.starN_signed_of_consts",
+        "Yamabe.toy_prop_starN"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
       "bucket": "",
-      "scope_notes": "",
+      "scope_notes": "T-perf-star-n (atlas-team, 2026-11-23), audit AUDIT-1 minor. prop_starN proves both halves as printed (the deficit bound at λ₁, C_SP; eq:star for u ≥ 0 at starNAtil) for any c_q satisfying lem:elem, carrying 0 < λ₁ and a finite C_SP exactly as Star3 does (discharged on the reading model by T-perf-poincare); prop_starN_signed for every u; thm_main_starN gives thm:main for every N ≥ 3. Unmarked: OQ-118, OQ-109.",
+      "notes": "T-perf-star-n (atlas-team, 2026-11-23), audit AUDIT-1 minor. prop_starN proves both halves as printed (the deficit bound at λ₁, C_SP; eq:star for u ≥ 0 at starNAtil) for any c_q satisfying lem:elem, carrying 0 < λ₁ and a finite C_SP exactly as Star3 does (discharged on the reading model by T-perf-poincare); prop_starN_signed for every u; thm_main_starN gives thm:main for every N ≥ 3. Unmarked: OQ-118, OQ-109.",
+      "blocked_on": "OQ-118 (the Ã of record, c_q); OQ-109 (λ₁ and C_SP's readings)",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "Remark: prop:starN's bound has no cap like thm:star3's n₆ (l.612), so its case (ii) is monotone and OQ-109's failure does not reach it (Lean Yamabe.starN_split).",
+        "Minor (l.694–695): the concavity step, stated for A, B ≥ 0, needs A > 0 for q > 2; harmless, A = t^q > 0 since u ≥ 0 with ‖u‖_q = 1 forces ū > 0 (mean_pos_of_nonneg). Minor (l.702–703): « use 1 − t² ≤ 1 − t^q » is true but unused. Ã (l.687–688) is not printed, and t₀ > 0 is needed (OQ-118)."
+      ],
+      "extra_lean_files": [
+        "Yamabe/Perforated/StarN.lean",
+        "Yamabe/Perforated/Star3.lean",
+        "Yamabe/Perforated/Main.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
