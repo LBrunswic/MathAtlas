@@ -328,6 +328,7 @@ import Causal.Remarks.SingularRowsSecondCountable
 import Causal.Model.LemmaKModels
 import Causal.CauchySeparation
 import Causal.TimelikeHomotopy
+import Causal.ChronalNeighbourConjoined
 
 /-!
 # Causal — topological spacetimes

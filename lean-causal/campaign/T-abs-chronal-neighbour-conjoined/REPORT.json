@@ -1,0 +1,177 @@
+{
+ "target": "T-abs-chronal-neighbour-conjoined",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-chronal-neighbour-conjoined/REPORT.json",
+  "campaign/T-abs-chronal-neighbour-conjoined/Probe.lean",
+  "campaign/T-abs-chronal-neighbour-conjoined/axioms.txt",
+  "campaign/T-abs-chronal-neighbour-conjoined/LadderProbe.lean"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.ChronalNeighbourConjoined",
+ "build_result": "Built CausalScaffold.ChronalNeighbourConjoined (973 ms), 3110 jobs, no warning. The --no-build dry run (kb/0228) run first listed only this module as out of date, so nothing upstream (Causal.*, mathlib) was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes (exit 0, no output). campaign/.../Probe.lean imports the module and runs #check and #print axioms on all 13 declarations (output in axioms.txt). Each depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx. campaign/.../LadderProbe.lean (scratch, imports Causal.NotchedPlane only, not built by lake) passes under `lake env lean`.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.ChronalNeighbourBridge, Causal.ChronalTarentin, Causal.NotchedPlane. tools/ladder.py's model_path is None for each, checked one at a time in memory (kb/0247), and None for the new module with those three imports added to the index in memory. The transitive closure holds 44 Causal modules and no module of MODEL_LAYER (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). No statement mentions a metric, a curve length or a geodesic. The notched plane is the subtype {u ≤ 0 ∨ v ≤ 0} of ℝ × ℝ, as in Causal.NotchedPlane; the statements name notchedPlane and notchedCausality only.",
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.Causality.ChronalPastNeighbours.hasChronalNeighbour",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:104",
+   "statement": "{C : Causality M} (h : C.ChronalPastNeighbours) (p : M) : C.HasChronalNeighbour p",
+   "standing": "[TopologicalSpace M] only; no ladder standing. Or.inr of ChronalPastNeighbours.Iminus_nonempty.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:110",
+   "statement": "{C : Causality M} (h : C.ChronalPastNeighbours) : C.HasChronalNeighbourEverywhere",
+   "standing": "[TopologicalSpace M] only; no ladder standing. The lemma the keeper's comment names (ladder.toml:2538).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbour",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:116",
+   "statement": "{C : Causality M} (h : C.ChronalFutureNeighbours) (p : M) : C.HasChronalNeighbour p",
+   "standing": "[TopologicalSpace M] only. Or.inl of ChronalFutureNeighbours.Iplus_nonempty.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:122",
+   "statement": "{C : Causality M} (h : C.ChronalFutureNeighbours) : C.HasChronalNeighbourEverywhere",
+   "standing": "[TopologicalSpace M] only. The future form the target's title asks; used for the time-reversed notched plane.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.notchedCausality_hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:132",
+   "statement": "notchedCausality.HasChronalNeighbourEverywhere",
+   "standing": "closed statement, no instance argument. notchedCausality_chronalPastNeighbours.hasChronalNeighbourEverywhere, the ladder comment's term (fun x => Or.inr (notchedCausality_chronalPastNeighbours.Iminus_nonempty x)) under a name.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.notchedCausality_not_chronalFutureNeighbours",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:138",
+   "statement": "¬ notchedCausality.ChronalFutureNeighbours",
+   "standing": "closed statement. From ChronalPastNeighbours and ¬ ChronalNeighbours (the corner has no chronal future).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.notchedCausality_separates_hasChronalNeighbour",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:151",
+   "statement": "T2Space notchedPlane ∧ SecondCountableTopology notchedPlane ∧ notchedCausality.HasChronalNeighbourEverywhere ∧ notchedCausality.AbsolutelyMinimal ∧ (∀ W : Opens notchedPlane, notchedCausality.AbsolutelyMinimalOn W) ∧ notchedCausality.CausallyArcConnected ∧ CausallyPlain ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ IsCausal ∧ CausallyCompact ∧ GloballyHyperbolic ∧ StronglyCausalOpen ∧ StronglyCausal ∧ HasTimeFunction ∧ CurvesExtend ∧ ChronalPastNeighbours ∧ ¬ ChronalFutureNeighbours ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpen ∧ ¬ ChronalNeighbours ∧ ¬ Tarentin (all of notchedCausality)",
+   "standing": "closed statement, no instance argument (T2 and second countability are conjuncts, mathlib instances). Every one of the 20 conjuncts of Causal.notchedCausality_separates, in order, plus 4: HasChronalNeighbourEverywhere, ∀ W, AbsolutelyMinimalOn W (either reading, DEC-167), ChronalPastNeighbours, ¬ ChronalFutureNeighbours.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.notchedCausality_dual_hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:178",
+   "statement": "notchedCausality.dual.HasChronalNeighbourEverywhere",
+   "standing": "closed statement. Through ChronalFutureNeighbours.hasChronalNeighbourEverywhere for C := notchedCausality.dual (dual_chronalFutureNeighbours). causal_ladder also closes it from notchedCausality.HasChronalNeighbourEverywhere (the Dual rule pair; LadderProbe.lean).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.notchedCausality_dual_separates_hasChronalNeighbour",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:190",
+   "statement": "T2Space notchedPlane ∧ SecondCountableTopology notchedPlane ∧ notchedCausality.dual.HasChronalNeighbourEverywhere ∧ AbsolutelyMinimal ∧ (∀ W : Opens notchedPlane, notchedCausality.dual.AbsolutelyMinimalOn W) ∧ CausallyArcConnected ∧ CausallyPlain ∧ PushUp ∧ LocallyPushUp ∧ IsCausal ∧ CausallyCompact ∧ GloballyHyperbolic ∧ StronglyCausalOpen ∧ StronglyCausal ∧ HasTimeFunction ∧ CurvesExtend ∧ ChronalFutureNeighbours ∧ ¬ ChronalPastNeighbours ∧ ¬ CausallyOpenFuture ∧ ¬ LocallyCausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpen ∧ ¬ ChronalNeighbours ∧ ¬ Tarentin (all of notchedCausality.dual)",
+   "standing": "closed statement. Every one of the 20 conjuncts of Causal.notchedCausality_dual_separates, in order, plus 4: HasChronalNeighbourEverywhere, ∀ W, AbsolutelyMinimalOn W, ChronalFutureNeighbours, ¬ ChronalPastNeighbours.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.globalLine_hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:220",
+   "statement": "globalLine.HasChronalNeighbourEverywhere",
+   "standing": "closed statement. globalLine_nonemptyChronalCones.hasChronalNeighbourEverywhere, the ladder comment's term (ladder.toml:1901) under a name.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.globalLine_separates_hasChronalNeighbour",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:229",
+   "statement": "globalLine.HasChronalNeighbourEverywhere ∧ globalLine.Tarentin ∧ globalLine.NonemptyChronalCones ∧ globalLine.PushUp ∧ globalLine.CausallyOpen ∧ globalLine.IsCausal ∧ ¬ globalLine.ChronalPastNeighbours ∧ ¬ globalLine.ChronalNeighbours ∧ ¬ globalLine.AbsolutelyMinimal",
+   "standing": "closed statement on ℝ. Every one of the 7 conjuncts of Causal.globalLine_separates, plus HasChronalNeighbourEverywhere and Tarentin (Causal.globalLine_tarentin), so also every conjunct of Causal.globalLine_separates_tarentin. No-gluing reading only: ¬ AbsolutelyMinimal is a conjunct and the docstring says that under DEC-167 globalLine is no causality.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.not_tarentin_of_hasChronalNeighbourEverywhere_bare",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:244",
+   "statement": "¬ ∀ (M : Type) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] (C : Causality M), (∀ W : Opens M, C.AbsolutelyMinimalOn W) → C.HasChronalNeighbourEverywhere → C.CausallyPlain → C.PushUp → C.GloballyHyperbolic → C.CausallyOpenFuture → C.Tarentin",
+   "standing": "closed statement. The notched plane. Either reading (the class asks absolute minimality on every open set). Same shape as Causal.not_locallyCausallyOpen_of_causallyPlain_bare.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare",
+   "file_line": "scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:259",
+   "statement": "¬ ∀ (M : Type) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M] (C : Causality M), C.HasChronalNeighbourEverywhere → C.Tarentin → C.PushUp → C.CausallyOpen → C.IsCausal → C.AbsolutelyMinimal",
+   "standing": "closed statement. The global line. No-gluing reading only: under DEC-167 every causality is absolutely minimal, so the refuted implication holds for every causality, and the global line is no causality. This refutation does not survive the refactor.",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "ladder_entry": "programme/ladder.toml:2545 ([[fails]] from [has_chronal_neighbour, absolutely_minimal, causally_arc_connected, causally_plain, push_up, locally_push_up, causally_open_future, locally_causally_open_future, is_causal, causally_compact, globally_hyperbolic, strongly_causal_open, strongly_causal, time_function, curves_extend] to tarentin; comment 2521–2544)",
+   "current_witness": "Causal.notchedCausality_separates (its has_chronal_neighbour split off, through notchedCausality_chronalPastNeighbours and ChronalPastNeighbours.Iminus_nonempty)",
+   "replace_with": "Causal.notchedCausality_separates_hasChronalNeighbour",
+   "required": true,
+   "note": "Every id of `from` is now one conjunct, and ¬ Tarentin is the last conjunct. The comment's sentence 'A conjoined Lean statement (…) is the keeper's proposal' (2537–2539) can go. The comment's term is Causal.notchedCausality_hasChronalNeighbourEverywhere, and the lemma it names is Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere. Its reading ('either', notchedCausality_absolutelyMinimalOn) is now a conjunct too."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:1910 ([[fails]] from [has_chronal_neighbour, push_up, causally_open, is_causal] to absolutely_minimal; comment 1897–1909)",
+   "current_witness": "Causal.globalLine_separates (its has_chronal_neighbour split off, through Causal.Causality.NonemptyChronalCones.hasChronalNeighbourEverywhere)",
+   "replace_with": "Causal.globalLine_separates_hasChronalNeighbour",
+   "required": true,
+   "note": "Every id of `from` is a conjunct, and ¬ AbsolutelyMinimal is the last one. Reading: no-gluing only, unchanged. The conjunct ¬ AbsolutelyMinimal and the docstring say that under DEC-167 globalLine is no causality, so T-lad-gluing-reading may remove the entry. 'split as the gated line's global hyperbolicity is, no one Lean statement conjoining the two halves' (1901–1902) is no longer true once the entry is re-pointed."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:1884 ([[fails]] from [tarentin, push_up, causally_open, is_causal] to chronal_neighbours) and programme/ladder.toml:1891 (same from, to absolutely_minimal)",
+   "current_witness": "Causal.globalLine_separates_tarentin",
+   "replace_with": "Causal.globalLine_separates_hasChronalNeighbour (optional)",
+   "required": false,
+   "note": "The new declaration carries every conjunct of globalLine_separates_tarentin as well, so the three global-line entries can share one witness, and has_chronal_neighbour can join their `from`. The in-memory simulation (below) shows this moves no pair."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:2372 ([[fails]] from [absolutely_minimal, …, curves_extend] to locally_causally_open)",
+   "current_witness": "Causal.notchedCausality_separates",
+   "replace_with": "Causal.notchedCausality_separates_hasChronalNeighbour (optional)",
+   "required": false,
+   "note": "has_chronal_neighbour could join its `from`. This moves no pair: has_chronal_neighbour → locally_causally_open is refuted already."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:2397 ([[fails]] from [absolutely_minimal, …, curves_extend] to locally_causally_open_future; the time-reversed notched plane)",
+   "current_witness": "Causal.notchedCausality_dual_separates",
+   "replace_with": "Causal.notchedCausality_dual_separates_hasChronalNeighbour (optional)",
+   "required": false,
+   "note": "The comment at 2541–2542 says 'Its time reversal has the node too, through Causal.Causality.dual_hasChronalNeighbourEverywhere, and refutes nothing more'. It is now a conjunct, proved through the future form. Adding has_chronal_neighbour to this entry's `from` moves no pair."
+  }
+ ],
+ "ladder_simulation": "In memory only (no file written): on a deepcopy of tools/ladder.py's load(), I pointed the five entries above at the new declarations. I added has_chronal_neighbour to the `from` of 1884, 1891, 2372 and 2397, and tarentin to 1910 (5 ids added in all; the tarentin on 1910 is optional, not part of the 1910 proposal: the witness carries Tarentin, so either from-set is covered). Then I ran matrix() and _contradictions(). Before and after: 0 contradictions, and no pair changes classification (309 fails, 37 implied, 8 open, 246 ill-typed). So the re-pointing is safe and refutes nothing new. The two required entries were classified already. The point is the single-declaration witness, not a new pair.",
+ "extra_decls": [
+  "Causal.Causality.ChronalPastNeighbours.hasChronalNeighbour",
+  "Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbour",
+  "Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere",
+  "Causal.notchedCausality_not_chronalFutureNeighbours",
+  "Causal.notchedCausality_dual_hasChronalNeighbourEverywhere",
+  "Causal.notchedCausality_dual_separates_hasChronalNeighbour",
+  "Causal.globalLine_hasChronalNeighbourEverywhere",
+  "Causal.not_tarentin_of_hasChronalNeighbourEverywhere_bare",
+  "Causal.not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare"
+ ],
+ "findings": [
+  "No paper is involved (layer 1, no ETT label). About the ladder: the two terms its comments give 'in their comments, not compiled' (ladder.toml:469–473, 2531 and 1901) are now compiled and named. fun x => Or.inr (notchedCausality_chronalPastNeighbours.Iminus_nonempty x) is Causal.notchedCausality_hasChronalNeighbourEverywhere (through ChronalPastNeighbours.hasChronalNeighbourEverywhere). globalLine_nonemptyChronalCones.hasChronalNeighbourEverywhere is Causal.globalLine_hasChronalNeighbourEverywhere. Both statements in the comments are confirmed. Once the entries are re-pointed, the header sentence 'Two of the four [[fails]] witnesses state has_chronal_neighbour through one or two named lemmas, not as a conjunct' (ladder.toml:469–473) is stale.",
+  "The one-sidedness the notched plane's entry rests on ('a chronal neighbour at every point, one-sided', ladder.toml:2534–2535) is now stated in Lean: notchedCausality.ChronalPastNeighbours ∧ ¬ notchedCausality.ChronalFutureNeighbours are conjuncts of the conjoined witness, through Causal.notchedCausality_not_chronalFutureNeighbours.",
+  "causal_ladder does not derive has_chronal_neighbour from ChronalPastNeighbours, ChronalFutureNeighbours or NonemptyChronalCones, because these are no nodes (fail_if_success in LadderProbe.lean). It does transport the node across C.dual. If the keeper wants causal_ladder to close the node from a one-sided hypothesis, the two new lemmas would be the witnesses of such edges. That is only possible if ChronalFutureNeighbours became a node, which the ladder leaves to the keeper (ladder.toml:312, 'the keeper's call; not ruled'; the '(no node)' remark at :737). DEC-166 (a) only renames the one-sided notions."
+ ],
+ "questions": [
+  "The extra conjuncts. The dispatch asks for 'every conjunct of the original separation PLUS the has_chronal_neighbour conjunct'. I read that as a lower bound. I kept every original conjunct, in its original order, and added the node, then the following. For the notched plane and its reversal: ∀ W, AbsolutelyMinimalOn W (the reading), and the one-sided chronal-neighbour pair. For the global line: Tarentin, so that one declaration can witness all three of the global line's entries. If the keeper wants the minimal conjunction (original plus node only), that is a one-line change. The keeper decides.",
+  "The global line's first two entries (1884, 1891, witness globalLine_separates_tarentin) are outside the target. I offer the re-pointing as optional and did not assume it.",
+  "The bare forms (not_tarentin_of_hasChronalNeighbourEverywhere_bare, not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare) are extras in the style of not_locallyCausallyOpen_of_causallyPlain_bare. The second is a refutation in the no-gluing reading only: after the DEC-167 refactor globalLine will not typecheck as a Causality, and the declaration goes with it."
+ ],
+ "kb_proposals": [
+  "One-sided chronal neighbours give has_chronal_neighbour: Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere and its future form ChronalFutureNeighbours.hasChronalNeighbourEverywhere (point forms .hasChronalNeighbour). causal_ladder does not derive the node from them (no nodes), but it carries the node across C.dual (T-abs-chronal-neighbour-conjoined).",
+  "Conjoining a node into a recorded [[fails]] witness takes one term: `let ⟨h₁, …, hₙ⟩ := old_separates` and a new anonymous constructor with the node's lemma inserted. Before proposing new `from` ids, simulate in memory: copy.deepcopy(ladder.load()), edit, then compare ladder.matrix and ladder._contradictions (T-abs-chronal-neighbour-conjoined)."
+ ],
+ "notes": "One new file, 267 lines, 0 sorry, no ETT label (the docstring marks nothing with **). Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.ChronalNeighbourConjoined` to scaffold/CausalScaffold.lean. I did not edit it. At graduation the file moves to Causal/ and its import goes into Causal.lean. Its imports are already Causal.* only. tools/ladder.py resolves witness names only in lean-causal/Causal, so the keeper's re-pointing (T-lad-record-direct-witnesses) has to wait for graduation. Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri and lean finds none of the 13 new names outside this file. The file adds no instance. No existing file was edited, the ladder included. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`. tools/ladder.py was only imported in memory, to call lean_index, model_path, load, matrix and _contradictions.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the bare form's docstring (chronal past neighbours in every open set, not chronal future neighbours); LadderProbe.lean cited by full path and date; findings[2] no longer credits DEC-166 (a); the simulation's tarentin on 1910 marked optional."
+}

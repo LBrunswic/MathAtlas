@@ -1,0 +1,78 @@
+{
+ "target": "T-abs-chronal-neighbour-conjoined",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "(no ETT label; layer 1) Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere / ChronalFutureNeighbours.hasChronalNeighbourEverywhere, with the point forms .hasChronalNeighbour",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "These are the lemmas the target title names (ladder.toml:2538). The hypothesis is h : C.ChronalPastNeighbours (resp. ChronalFutureNeighbours), with [TopologicalSpace M] only, and the conclusion is the ladder's node: [[property]] has_chronal_neighbour has lean = \"Causal.Causality.HasChronalNeighbourEverywhere\" (ladder.toml:752-754), defined as forall p, C.HasChronalNeighbour p (ChronalNeighbourBridge.lean:107), where HasChronalNeighbour p is (C.Iplus top {p}).Nonempty or (C.Iminus top {p}).Nonempty (LocateExtension.lean:138). The past form gives the Or.inr side and the future form the Or.inl side, as the docstrings say. The module docstring has no **`label`** mark, which is correct because no label is certified."
+  },
+  {
+   "label": "Causal.notchedCausality_separates_hasChronalNeighbour (the notched plane with the node)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Compared conjunct by conjunct with Causal.notchedCausality_separates (NotchedPlane.lean:798-812; 20 conjuncts). All 20 are present in their original relative order, plus 4 more: HasChronalNeighbourEverywhere (the ladder's node, in its own name), forall W : Opens notchedPlane, AbsolutelyMinimalOn W (notchedCausality_absolutelyMinimalOn), ChronalPastNeighbours and not ChronalFutureNeighbours. Every id of the `from` of ladder.toml:2545 is a conjunct, and not Tarentin is the last one. The extra conjuncts are kernel-checked and described accurately. AbsolutelyMinimalOn W is the every-cover, every-sub-open condition (Generated.lean:239), so 'either reading' of DEC-167 holds whichever way OQ-95 is answered: the hereditary form is the stronger one. not ChronalFutureNeighbours is derived from ChronalPastNeighbours together with not ChronalNeighbours."
+  },
+  {
+   "label": "Causal.notchedCausality_dual_separates_hasChronalNeighbour (the time-reversed plane, through the future form)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Compared with Causal.notchedCausality_dual_separates (NotchedPlane.lean:832-843; 20 conjuncts). All 20 are present in order, plus dual.HasChronalNeighbourEverywhere (through ChronalFutureNeighbours.hasChronalNeighbourEverywhere and dual_chronalFutureNeighbours), forall W, dual.AbsolutelyMinimalOn W, dual.ChronalFutureNeighbours and not dual.ChronalPastNeighbours. Every id of the `from` of ladder.toml:2397 is carried, has_chronal_neighbour as well, and not LocallyCausallyOpenFuture is present."
+  },
+  {
+   "label": "Causal.globalLine_separates_hasChronalNeighbour (the global line with the node)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Compared with Causal.globalLine_separates (ChronalNeighbourBridge.lean:472-475; 7 conjuncts). All 7 are present in order, after HasChronalNeighbourEverywhere and Tarentin (Causal.globalLine_tarentin, ChronalTarentin.lean:208). It therefore also carries all 6 conjuncts of Causal.globalLine_separates_tarentin (ChronalTarentin.lean:224). The `from` and `to` of ladder.toml:1910, 1884 and 1891 are covered. 'No causality with gluing' is stated both as the conjunct not AbsolutelyMinimal and in the docstrings (file lines 47-49 and 227-228), consistent with DEC-167 (registers/DECISIONS.md:178)."
+  },
+  {
+   "label": "Bare forms not_tarentin_of_hasChronalNeighbourEverywhere_bare / not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Neither is vacuous: each is a not-forall over M : Type with [T2Space] and [SecondCountableTopology], refuted by a concrete witness that meets every hypothesis (the notched plane, resp. the global line). The first quantifies over the class 'forall W, AbsolutelyMinimalOn W' and its docstring says it holds in either reading, which is true because the witness is hereditarily absolutely minimal. This follows the precedent not_locallyCausallyOpen_of_causallyPlain_bare. The second's docstring (lines 257-258) says it holds in the no-gluing reading only, and REPORT.json says the declaration goes away with the DEC-167 refactor, which is correct: under gluing the refuted implication becomes true. One wording problem in the first docstring: see finding 1."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ChronalNeighbourConjoined.lean` exits 0 with no output. `lake build` was NOT run, per the dispatch. The olean (.lake/build/lib/lean/CausalScaffold/ChronalNeighbourConjoined.olean, 05:36:34) is newer than the source (05:36:31). The closer's Probe.lean, rerun with `lake env lean`, produced output byte-identical to axioms.txt: the 13 declarations each depend on [propext, Classical.choice, Quot.sound] and nothing else, with no sorryAx. Probe.lean #checks and #prints axioms for exactly the 13 declarations REPORT.json lists. grep -w for sorry|admit|axiom|native_decide|sorryAx|implemented_by|extern|unsafe|opaque|set_option|decide in the module and in both campaign .lean files finds nothing. LadderProbe.lean also passes under `lake env lean` (exit 0)."
+ },
+ "checks": {
+  "layer_1": "The direct imports are Causal.ChronalNeighbourBridge, Causal.ChronalTarentin and Causal.NotchedPlane. Calling tools/ladder.py in memory (sys.dont_write_bytecode, lean_index + model_path + is_model) gives model_path = None for each of the three, and None for the new module with those imports added to the index in memory. The transitive closure is 44 Causal modules, with no MODEL_LAYER module among them (Causal.Minkowski, Static, SingularFlat, Flat.*, Model.*, Port.*). No statement mentions a metric, a curve length or a geodesic. The carriers are notchedPlane (a subtype of R x R) and R. The hypotheses are ladder nodes, plus the instance standing (T2, second countable), plus two non-node ETT-layer predicates: ChronalPast/FutureNeighbours, which the target title dictates, and forall W, AbsolutelyMinimalOn W, which is the 'either reading' class of the bare-form precedent.",
+  "line_references": "Every cited ladder line holds at HEAD (programme/ladder.toml is unmodified; last commit 791b0aa). The [[fails]] headers are at 2545 (notched plane to tarentin), 1910 (global line, has_chronal_neighbour to absolutely_minimal), 1884 and 1891 (globalLine_separates_tarentin, to chronal_neighbours and to absolutely_minimal), 2372 (notched plane to locally_causally_open) and 2397 (dual, to locally_causally_open_future). The header sentence 'Two of the four [[fails]] witnesses ... not compiled' is at 469-473. The comment ranges 2521-2544 and 1897-1909, the quoted ranges 2526-2539 and 1898-1902 (verbatim, with marked elisions), and lines 2531, 2534-2535, 2537-2539, 2538, 2541-2542 and 1901 are all correct. On the Lean side, NotchedPlane.lean:798 and ChronalNeighbourBridge.lean:472 are correct, and the REPORT's file_line values for the 13 declarations (104, 110, 116, 122, 132, 138, 151, 178, 190, 220, 229, 244, 259) match the file. The roadmap's own evidence lines (ladder.toml:2478-2499, 1814-1817) have drifted, and the closer used the current lines.",
+  "repointing": "For each of the six proposals, the new witness carries every id of the entry's `from` and the negation of its `to`. I reran the in-memory simulation on a deepcopy of ladder.load(): I re-pointed the six entries, added has_chronal_neighbour to the `from` of 1884, 1891, 2372 and 2397, and added tarentin to 1910. Before and after: 0 contradictions, Counter({fails: 309, ill-typed: 246, implied: 37, open: 8}), and no pair changes classification. This reproduces REPORT.json's figures exactly. Nothing was written to the ladder.",
+  "touched_files": "`git status --short` shows the closer's two untracked paths (scaffold/CausalScaffold/ChronalNeighbourConjoined.lean and campaign/T-abs-chronal-neighbour-conjoined/). It also shows the other closers' TimelikeHomotopy.lean, Model/ and campaign/T-loc-e0-has-chronal-neighbour/, and two tracked modifications that belong to the master and are not this closer's: programme/roadmap.toml (status ready to active for the three dispatched targets) and programme/JOURNAL.md (the master's clock note). No tracked file under lean-causal/ is modified (`git diff --name-only` lists only programme/*). scaffold/CausalScaffold.lean is untouched, as is ladder.toml. No name of the 13 is declared elsewhere in lean-causal, lean, lean-gx, lean-benzecri or lean-egf. The concurrent E0ChronalNeighbour.lean has SingularFlatAxioms.hasChronalNeighbourEverywhere and E0.hasChronalNeighbourEverywhere, which are in other namespaces and do not clash.",
+  "scratch_LadderProbe": "No gate compiles LadderProbe.lean. The lakefile globs only Causal.* and scaffold/CausalScaffold.*, and lean-causal/Makefile runs build, scaffold and scripts/AxiomSweep.lean, none of which reads campaign/. It should NOT be deleted before commit as things stand: the module's SCOPE (file lines 76-77) and REPORT.json (declarations[7].standing, findings[2], kb_proposals[0]) cite it as the evidence for the causal_ladder claims, and committed campaign probes have precedent (18 tracked campaign/*.lean, e.g. T-tac-dual-has-chronal-neighbour/ProbesNeg.lean and T-tac-ladder-integration/scratch/AbstractZornProbe.lean). It is a dated record, not a live check: its fail_if_success lines would go stale silently if causal_ladder gained a rule. If the master prefers to delete it, the docstring sentence that cites it must go too (finding 4).",
+  "docstring_contract": "kb/0006 is met: a one-sentence title, no label marks (correct for layer 1, and the docstring says no ETT label is certified), the source sentences quoted in > blocks with line numbers (the ladder, since no paper is involved), a Hypothesis checklist, SCOPE (disclosed) and the Provenance line. The checklist and SCOPE are true as checked above. The kb references resolve to the right entries: kb/0247 (model_path per direct import), kb/0228, kb/0015, kb/0025, kb/0082, kb/0014 and kb/0073. REPORT.json is valid JSON and has the CAMPAIGN.md shape (labels [] is correct)."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:243",
+   "what": "The docstring of not_tarentin_of_hasChronalNeighbourEverywhere_bare says 'the notched plane, whose chronal neighbours are all to the past'. Read literally, this is false. Points off the notch's edge have chronal futures: notchedChronalStep (NotchedPlane.lean:133) is a strict increase in both null coordinates along a segment in U, so for example (-1,-1) is chronologically before (-1/2,-1/2). What holds is ChronalPastNeighbours together with not ChronalFutureNeighbours: the edge points (0 <= u and 0 <= v, notchedCausality_not_lt_of_mem_edge) have no chronal future. ('No chronal future neighbours' at lines 39-40 and 136 is the property's name, as in the library's 'no chronal neighbours', and is fine.)",
+   "fix": "Write '... the notched plane, which has chronal past neighbours in every open set but not chronal future neighbours (the points of the notch's edge have no chronal future)'."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-chronal-neighbour-conjoined/REPORT.json findings[2]",
+   "what": "The REPORT says ChronalFutureNeighbours becoming a node is something 'which DEC-166 (a) and the ladder's comment at 703-735 decline'. DEC-166 (a) (registers/DECISIONS.md:177) only moves the one-sided notions to the future base. The ladder says 'No node of one fixed side is added (the keeper's call; not ruled)' (programme/ladder.toml:312). The '(no node)' remark in the has_chronal_neighbour comment is at ladder.toml:737, outside 703-735. The question is open for the keeper, not ruled against.",
+   "fix": "Write 'which the keeper has not added (ladder.toml:312, \"the keeper's call; not ruled\"; :737)', and drop the attribution to DEC-166 (a)."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-chronal-neighbour-conjoined/REPORT.json ladder_simulation vs lemmas_for_the_keeper[1]",
+   "what": "The simulation adds tarentin to the `from` of ladder.toml:1910, but the 1910 proposal does not propose it: it only re-points the entry. The effect is harmless. A superset of `from` ids with the same witness can only add has-properties, so the clean result also covers the proposal as written, and the witness does carry Tarentin. Still, the keeper reads two different proposals.",
+   "fix": "In lemmas_for_the_keeper[1], add 'optionally, tarentin can join `from` (the witness carries it; simulated: no pair moves)', or describe the simulation as covering the proposal plus that optional id."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/ChronalNeighbourConjoined.lean:76-77",
+   "what": "SCOPE cites '(campaign probe `LadderProbe.lean`)' with no path. The file is not compiled by any gate, so after graduation a strict-library docstring rests a claim about causal_ladder (it carries the node across C.dual, and does not derive it from ChronalPastNeighbours or NonemptyChronalCones) on an ungated, dated probe.",
+   "fix": "Give the full path, lean-causal/campaign/T-abs-chronal-neighbour-conjoined/LadderProbe.lean, with '(2026-11-23; not compiled by a gate)', and keep the probe at commit. Optionally, move the positive example (dual transport by causal_ladder) into the module as an `example`, so that a gate checks it."
+  }
+ ],
+ "notes": "All four findings are minor wording or record fixes. None touches a statement, and no mathematics changes. Faithfulness holds. Every conjoined witness contains every conjunct of its original, in order, plus the node under the ladder's own Lean name, so the keeper can cite one declaration per entry once the module graduates. tools/ladder.py resolves witnesses only in lean-causal/Causal, as REPORT.json says. The module docstring quotes ladder comment text (2537-2539, 1901-1902) that the keeper's re-pointing is expected to delete. That is a dated quote and needs no fix. The only file the auditor wrote is this one: the probe output went to a /tmp file, which was removed, and ladder.py was imported with bytecode writing disabled."
+}

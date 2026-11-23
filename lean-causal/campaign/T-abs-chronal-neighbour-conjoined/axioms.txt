@@ -1,0 +1,94 @@
+@Causality.ChronalPastNeighbours.hasChronalNeighbour : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M},
+  C.ChronalPastNeighbours → ∀ (p : M), C.HasChronalNeighbour p
+@Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M}, C.ChronalPastNeighbours → C.HasChronalNeighbourEverywhere
+@Causality.ChronalFutureNeighbours.hasChronalNeighbour : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M},
+  C.ChronalFutureNeighbours → ∀ (p : M), C.HasChronalNeighbour p
+@Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M}, C.ChronalFutureNeighbours → C.HasChronalNeighbourEverywhere
+notchedCausality_hasChronalNeighbourEverywhere : notchedCausality.HasChronalNeighbourEverywhere
+notchedCausality_not_chronalFutureNeighbours : ¬notchedCausality.ChronalFutureNeighbours
+notchedCausality_separates_hasChronalNeighbour : T2Space ↑notchedPlane ∧
+  SecondCountableTopology ↑notchedPlane ∧
+    notchedCausality.HasChronalNeighbourEverywhere ∧
+      notchedCausality.AbsolutelyMinimal ∧
+        (∀ (W : TopologicalSpace.Opens ↑notchedPlane), notchedCausality.AbsolutelyMinimalOn W) ∧
+          notchedCausality.CausallyArcConnected ∧
+            notchedCausality.CausallyPlain ∧
+              notchedCausality.PushUp ∧
+                notchedCausality.LocallyPushUp ∧
+                  notchedCausality.CausallyOpenFuture ∧
+                    notchedCausality.LocallyCausallyOpenFuture ∧
+                      notchedCausality.IsCausal ∧
+                        notchedCausality.CausallyCompact ∧
+                          notchedCausality.GloballyHyperbolic ∧
+                            notchedCausality.StronglyCausalOpen ∧
+                              notchedCausality.StronglyCausal ∧
+                                notchedCausality.HasTimeFunction ∧
+                                  notchedCausality.CurvesExtend ∧
+                                    notchedCausality.ChronalPastNeighbours ∧
+                                      ¬notchedCausality.ChronalFutureNeighbours ∧
+                                        ¬notchedCausality.CausallyOpen ∧
+                                          ¬notchedCausality.LocallyCausallyOpen ∧
+                                            ¬notchedCausality.ChronalNeighbours ∧ ¬notchedCausality.Tarentin
+notchedCausality_dual_hasChronalNeighbourEverywhere : notchedCausality.dual.HasChronalNeighbourEverywhere
+notchedCausality_dual_separates_hasChronalNeighbour : T2Space ↑notchedPlane ∧
+  SecondCountableTopology ↑notchedPlane ∧
+    notchedCausality.dual.HasChronalNeighbourEverywhere ∧
+      notchedCausality.dual.AbsolutelyMinimal ∧
+        (∀ (W : TopologicalSpace.Opens ↑notchedPlane), notchedCausality.dual.AbsolutelyMinimalOn W) ∧
+          notchedCausality.dual.CausallyArcConnected ∧
+            notchedCausality.dual.CausallyPlain ∧
+              notchedCausality.dual.PushUp ∧
+                notchedCausality.dual.LocallyPushUp ∧
+                  notchedCausality.dual.IsCausal ∧
+                    notchedCausality.dual.CausallyCompact ∧
+                      notchedCausality.dual.GloballyHyperbolic ∧
+                        notchedCausality.dual.StronglyCausalOpen ∧
+                          notchedCausality.dual.StronglyCausal ∧
+                            notchedCausality.dual.HasTimeFunction ∧
+                              notchedCausality.dual.CurvesExtend ∧
+                                notchedCausality.dual.ChronalFutureNeighbours ∧
+                                  ¬notchedCausality.dual.ChronalPastNeighbours ∧
+                                    ¬notchedCausality.dual.CausallyOpenFuture ∧
+                                      ¬notchedCausality.dual.LocallyCausallyOpenFuture ∧
+                                        ¬notchedCausality.dual.CausallyOpen ∧
+                                          ¬notchedCausality.dual.LocallyCausallyOpen ∧
+                                            ¬notchedCausality.dual.ChronalNeighbours ∧ ¬notchedCausality.dual.Tarentin
+globalLine_hasChronalNeighbourEverywhere : globalLine.HasChronalNeighbourEverywhere
+globalLine_separates_hasChronalNeighbour : globalLine.HasChronalNeighbourEverywhere ∧
+  globalLine.Tarentin ∧
+    globalLine.NonemptyChronalCones ∧
+      globalLine.PushUp ∧
+        globalLine.CausallyOpen ∧
+          globalLine.IsCausal ∧
+            ¬globalLine.ChronalPastNeighbours ∧ ¬globalLine.ChronalNeighbours ∧ ¬globalLine.AbsolutelyMinimal
+not_tarentin_of_hasChronalNeighbourEverywhere_bare : ¬∀ (M : Type) [inst : TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] (C : Causality M),
+    (∀ (W : TopologicalSpace.Opens M), C.AbsolutelyMinimalOn W) →
+      C.HasChronalNeighbourEverywhere →
+        C.CausallyPlain → C.PushUp → C.GloballyHyperbolic → C.CausallyOpenFuture → C.Tarentin
+not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare : ¬∀ (M : Type) [inst : TopologicalSpace M] [T2Space M]
+    [SecondCountableTopology M] (C : Causality M),
+    C.HasChronalNeighbourEverywhere → C.Tarentin → C.PushUp → C.CausallyOpen → C.IsCausal → C.AbsolutelyMinimal
+'Causal.Causality.ChronalPastNeighbours.hasChronalNeighbour' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbour' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.notchedCausality_hasChronalNeighbourEverywhere' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.notchedCausality_not_chronalFutureNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.notchedCausality_separates_hasChronalNeighbour' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.notchedCausality_dual_hasChronalNeighbourEverywhere' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.notchedCausality_dual_separates_hasChronalNeighbour' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.globalLine_hasChronalNeighbourEverywhere' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.globalLine_separates_hasChronalNeighbour' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.not_tarentin_of_hasChronalNeighbourEverywhere_bare' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

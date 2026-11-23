@@ -1,0 +1,33 @@
+import CausalScaffold.ChronalNeighbourConjoined
+
+/-! Probe for T-abs-chronal-neighbour-conjoined: the statements and axioms of every declaration. -/
+
+open Causal
+
+#check @Causal.Causality.ChronalPastNeighbours.hasChronalNeighbour
+#check @Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere
+#check @Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbour
+#check @Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere
+#check @Causal.notchedCausality_hasChronalNeighbourEverywhere
+#check @Causal.notchedCausality_not_chronalFutureNeighbours
+#check @Causal.notchedCausality_separates_hasChronalNeighbour
+#check @Causal.notchedCausality_dual_hasChronalNeighbourEverywhere
+#check @Causal.notchedCausality_dual_separates_hasChronalNeighbour
+#check @Causal.globalLine_hasChronalNeighbourEverywhere
+#check @Causal.globalLine_separates_hasChronalNeighbour
+#check @Causal.not_tarentin_of_hasChronalNeighbourEverywhere_bare
+#check @Causal.not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare
+
+#print axioms Causal.Causality.ChronalPastNeighbours.hasChronalNeighbour
+#print axioms Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere
+#print axioms Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbour
+#print axioms Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere
+#print axioms Causal.notchedCausality_hasChronalNeighbourEverywhere
+#print axioms Causal.notchedCausality_not_chronalFutureNeighbours
+#print axioms Causal.notchedCausality_separates_hasChronalNeighbour
+#print axioms Causal.notchedCausality_dual_hasChronalNeighbourEverywhere
+#print axioms Causal.notchedCausality_dual_separates_hasChronalNeighbour
+#print axioms Causal.globalLine_hasChronalNeighbourEverywhere
+#print axioms Causal.globalLine_separates_hasChronalNeighbour
+#print axioms Causal.not_tarentin_of_hasChronalNeighbourEverywhere_bare
+#print axioms Causal.not_absolutelyMinimal_of_hasChronalNeighbourEverywhere_bare
