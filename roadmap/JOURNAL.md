@@ -814,3 +814,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 06:38–07:45 UTC; agents in parallel: 3 closers + 1 builder, 4 audits (no fix round)
 - New questions for the author: OQ-124 (« same holonomy » in « does not extend »), OQ-125 (cor:yamabe: Yb = 0, M, θ → 1, the O(F) factor), OQ-126 (singular HS-surfaces: « oriented », « HS-isomorphic », independence from the developing data).
 - next: T-bbs-hs-link-types (lean-gx; it leaves HSSingularities sorry-free). lean-causal waits on /ett-programme. The lean-gx and lean-yamabe queues are thin after it: a planning run is due soon.
+
+## 2026-11-23 08:25 · wave of 1 · T-bbs-hs-link-types
+- T-bbs-hs-link-types: closed. HSSingularities.lean is sorry-free (211 declarations): the arc structure of ℓ(p), the time-like and light-like types through GammaPElements, the degree-0 types at dS² and ∂ℍ²±, and the components of I±. It stays in the scaffold until FunnelGTilde and PSL2NormalForms graduate (T-bbs-hs-graduate). Findings: Misner (l.877–878) is false as printed under OQ-116 (a); the printed closed arc at l.887–888 is never the developed image (OQ-116 (b)). Audit minor (citations, a duplicate, existence marked as argued; fixed).
+- Only one target was dispatchable: the other ready closers are in lean-causal, held by /ett-programme. T-hub-paper-attribute was left for the planner, because it adds a LeanLink dependency to every package.
+- Promoted, their dependencies done: T-bbs-remark-readings, T-bbs-hs-graduate (master, exclusive), T-bbs-p-p, T-bbs-degk, T-bbs-positive-hs-surface and T-bbs-hcausal → ready.
+- gates: lean-gx ✓ (scaffold 3 tagged sorrys, all Troyanov/Thurston), roadmap ✓, atlas ✓, hub: make -k check rc 0, no new red
+- commits: 3de13af cbe0e7a [+ roadmap/atlas/journal]
+- wall time: 07:44–08:25 UTC; agents: 1 closer, 1 audit
+- No new OQ: the findings are evidence for OQ-116 (a) and (b).
+- next: a lean-gx wave (T-bbs-p-p, T-bbs-positive-hs-surface, T-bbs-degk or T-bbs-hcausal, at most 3 per package; T-bbs-hs-graduate is exclusive and goes alone). A planning run is due soon (rule 2, five iterations since 05:55): T-hub-paper-attribute's split, and the lean-yamabe and lean-benzecri queues.
