@@ -1,5 +1,8 @@
 import json,re,sys,os,glob,tomllib
+sys.dont_write_bytecode=True
 HERE=os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0,HERE)
+import textmode  # noqa: E402
 ROOT=os.path.dirname(os.path.dirname(HERE))
 # Every paper with a generated ledger: hub.toml's order first, then any ledger hub.toml does not
 # curate yet (build.py gives it a placeholder card), so a newly counted paper cannot be left out.
@@ -26,9 +29,45 @@ def title_of(cmd):
     out=re.sub(r"\\(AdS|dS|HS)\b",r"\1",out)   # BBS's text macros in section titles
     out=re.sub(r"\s+"," ",out)
     return out.strip()
+# paper macros, for MathJax and for the text-mode expansion (textmode.py): \newcommand / \renewcommand / \def / \DeclareMathOperator from every legacy file
+def braced(s,i):
+    assert s[i]=="{"; d=0
+    for j in range(i,len(s)):
+        if s[j]=="{": d+=1
+        elif s[j]=="}":
+            d-=1
+            if d==0: return s[i+1:j],j+1
+    return None,len(s)
+def macros_of(L):
+    root=L["paper"]["root"]; mac={}
+    files=set(L["paper"]["files"])
+    for dp,_,fs in os.walk(os.path.dirname(root.rstrip("/"))):
+        for f in fs:
+            if f.endswith((".tex",".sty")): files.add(os.path.join(dp,f))
+    for f in sorted(files):
+        fp=f if os.path.isabs(f) else os.path.join(root,f)
+        try: s=open(fp,encoding="utf-8",errors="replace").read()
+        except OSError: continue
+        s=re.sub(r"(?m)(?<!\\)%.*$","",s)
+        for m in re.finditer(r"\\(?:re)?newcommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*(?:\[[^\]]*\])?\s*(?=\{)",s):
+            body,_=braced(s,m.end())
+            if body is None or len(body)>200 or "\\ensuremath" in body and False: continue
+            body=body.replace("\\ensuremath","").replace("\\xspace","")
+            mac[m[1]]=[body,int(m[2])] if m[2] else body
+        for m in re.finditer(r"\\DeclareMathOperator\*?\s*\{?\\([A-Za-z]+)\}?\s*(?=\{)",s):
+            body,_=braced(s,m.end())
+            if body is not None: mac[m[1]]="\\operatorname{"+body+"}"
+        for m in re.finditer(r"\\def\\([A-Za-z]+)\s*(?=\{)",s):
+            body,_=braced(s,m.end())
+            if body is not None and len(body)<200: mac.setdefault(m[1],body)
+    for bad in ["section","label","ref","cite","emph","textbf","begin","end","item","newline","\\"]:
+        mac.pop(bad,None)
+    return mac
+
 data={}
 for p in PAPERS:
     L=json.load(open(f"{ROOT}/papers/{p}/ledger/ledger.json"))
+    mac=macros_of(L)
     root=L["paper"]["root"]; rows=L["statements"]
     srcs={}; heads={}
     for f in L["paper"]["files"]:
@@ -55,8 +94,10 @@ for p in PAPERS:
         if cnt[key]>SPLIT and sub:
             bid+=f":{sub[0]}"; btitle=f"{sec[2]} › {sub[2]}"
         if bid not in blocks: blocks[bid]={"id":bid,"title":btitle,"order":(r["file"],sec[0],sub[0] if sub and cnt[key]>SPLIT else 0)}
-        src=srcs[r["file"]]; a,b=r["tex_span"]; tex=clean("\n".join(src[a-1:b]))
-        if len(tex)>1400: tex=tex[:1400]+" …"
+        src=srcs[r["file"]]; a,b=r["tex_span"]
+        # the paper's text-mode macros expanded outside math (MathJax expands them inside), then cut,
+        # never inside a math span
+        tex=textmode.cut(textmode.expand(clean("\n".join(src[a-1:b])),mac),1400)
         nodes.append({"id":r["label"],"block":bid,"kind":r["kind"],"num":r["number"],"title":r["title"] or "",
             "bucket":r.get("bucket") or "","lean":r.get("lean_proved") or "","nl":r["nl_status"] or "","line":r["line"],
             "deps":[d for d in r["deps"] if d!=r["label"]],"decls":r.get("decls") or [],"ndecls":len(r.get("decls") or []),
@@ -67,44 +108,8 @@ for p in PAPERS:
     for b in bl: del b["order"]
     md=open(f"{ROOT}/papers/{p}/ledger/LEDGER.md",encoding="utf-8").read()
     c=re.search(r"\*\*Closure: (\d+) of (\d+)\.\*\*",md)
-    data[p]={"blocks":bl,"nodes":nodes,"closed":int(c[1]),"target":int(c[2])}
+    data[p]={"blocks":bl,"nodes":nodes,"closed":int(c[1]),"target":int(c[2]),"macros":mac}
     print(p,len(bl),[ (b["title"][:30],sum(1 for n in nodes if n["block"]==b["id"])) for b in bl],file=sys.stderr)
-json.dump(data,open(sys.argv[1],"w"),ensure_ascii=False,separators=(",",":"))
-
-# paper macros for MathJax: \newcommand / \renewcommand / \def / \DeclareMathOperator from every legacy file
-def braced(s,i):
-    assert s[i]=="{"; d=0
-    for j in range(i,len(s)):
-        if s[j]=="{": d+=1
-        elif s[j]=="}":
-            d-=1
-            if d==0: return s[i+1:j],j+1
-    return None,len(s)
-for p in PAPERS:
-    L=json.load(open(f"{ROOT}/papers/{p}/ledger/ledger.json"))
-    root=L["paper"]["root"]; mac={}
-    files=set(L["paper"]["files"])
-    for dp,_,fs in os.walk(os.path.dirname(root.rstrip("/"))):
-        for f in fs:
-            if f.endswith((".tex",".sty")): files.add(os.path.join(dp,f))
-    for f in sorted(files):
-        fp=f if os.path.isabs(f) else os.path.join(root,f)
-        try: s=open(fp,encoding="utf-8",errors="replace").read()
-        except OSError: continue
-        s=re.sub(r"(?m)(?<!\\)%.*$","",s)
-        for m in re.finditer(r"\\(?:re)?newcommand\*?\s*\{?\\([A-Za-z]+)\}?\s*(?:\[(\d)\])?\s*(?:\[[^\]]*\])?\s*(?=\{)",s):
-            body,_=braced(s,m.end())
-            if body is None or len(body)>200 or "\\ensuremath" in body and False: continue
-            body=body.replace("\\ensuremath","").replace("\\xspace","")
-            mac[m[1]]=[body,int(m[2])] if m[2] else body
-        for m in re.finditer(r"\\DeclareMathOperator\*?\s*\{?\\([A-Za-z]+)\}?\s*(?=\{)",s):
-            body,_=braced(s,m.end())
-            if body is not None: mac[m[1]]="\\operatorname{"+body+"}"
-        for m in re.finditer(r"\\def\\([A-Za-z]+)\s*(?=\{)",s):
-            body,_=braced(s,m.end())
-            if body is not None and len(body)<200: mac.setdefault(m[1],body)
-    for bad in ["section","label","ref","cite","emph","textbf","begin","end","item","newline","\\"]:
-        mac.pop(bad,None)
-    data[p]["macros"]=mac
     print(p,"macros",len(mac),file=sys.stderr)
 json.dump(data,open(sys.argv[1],"w"),ensure_ascii=False,separators=(",",":"))
+

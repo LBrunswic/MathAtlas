@@ -662,9 +662,42 @@ function stmtLeanHTML(p,n){
 }
 function texHTML(t){
   const body=t.replace(/^\\begin\{[a-zA-Z*]+\}(\[[^\]]*\])?/,"").replace(/\\end\{[a-zA-Z*]+\}\s*$/,"")
-    .replace(/\\(begin|end)\{(itemize|enumerate)\}/g,"").replace(/\\item\s*/g,"\n• ").replace(/\\(emph|textit|textbf)\{([^{}]*)\}/g,"$2")
+    .replace(/\\(begin|end)\{(itemize|enumerate)\}(\[[^\]]*\])?/g,"").replace(/\\item\s*/g,"\n• ").replace(/\\(emph|textit|textbf)\{([^{}]*)\}/g,"$2")
     .replace(/\\(cite|ref|eqref|cref|Cref)(\[[^\]]*\])?\{[^}]*\}/g,"[·]").trim();
-  return `<div class="mj">${esc(body).replace(/\n\s*\n/g,"<br><br>")}</div>`;
+  return `<div class="mj">${mathSplit(body).map(([m,x])=>m?esc(x):textMode(x)).join("").replace(/\n\s*\n/g,"<br><br>")}</div>`;
+}
+// The math and text pieces of a statement, on MathJax's delimiters; textmode.py splits on the same, and
+// extract.py has already expanded the paper's text macros in the text pieces.
+const MATHENV="equation|align|alignat|gather|multline|flalign|eqnarray|displaymath|math|split|array|matrix|pmatrix|bmatrix|Bmatrix|vmatrix|Vmatrix|smallmatrix|cases|CD";
+const MOPEN=new RegExp(String.raw`\\[\\$]|\$\$|\$|\\\(|\\\[|\\begin\{(${MATHENV})(\*?)\}`,"g");
+function mathSplit(s){
+  const out=[]; let i=0, from=0;
+  for(;;){
+    MOPEN.lastIndex=from; const m=MOPEN.exec(s);
+    if(!m){ out.push([false,s.slice(i)]); return out; }
+    const t=m[0]; let e=-1;
+    if(t==="\\\\"||t==="\\$"){ from=m.index+2; continue; }
+    if(t==="$"){ for(let j=m.index+1;j<s.length;j++){ if(s[j]==="\\"){ j++; continue; } if(s[j]==="$"){ e=j+1; break; } } }
+    else { const c={"$$":"$$","\\(":"\\)","\\[":"\\]"}[t]||`\\end{${m[1]}${m[2]}}`, k=s.indexOf(c,m.index+t.length); if(k>=0) e=k+c.length; }
+    if(e<0){ from=m.index+t.length; continue; }
+    out.push([false,s.slice(i,m.index)],[true,s.slice(m.index,e)]); i=from=e;
+  }
+}
+// Text-mode commands outside math, which MathJax never sees: \S, \, and the other spacing commands,
+// \ldots, accents, \textsuperscript; \index and \noindent print nothing. Anything else stays as written.
+const TACC={"'":"\u0301",'"':"\u0308","`":"\u0300","^":"\u0302","~":"\u0303"};
+const TWORD=new Map([["S","§"],["ldots","…"],["dots","…"],["textellipsis","…"],["noindent",""],["quad","\u2003"],["qquad","\u2003\u2003"],["thinspace","\u202F"]]);
+const TSYM=new Map([[",","\u202F"],[" "," "],["\n"," "],["-",""],["@",""],["&","&"],["%","%"],["#","#"],["_","_"],["{","{"],["}","}"]]);
+function textMode(x){
+  return esc(x.replace(/\\\\|\\textsuperscript\{([^{}]*)\}|\\index\{[^{}]*\}|\{\\(['"`^~])\s*([A-Za-z])\}|\\(['"`^~])\s*(?:\{([A-Za-z])\}|([A-Za-z]))|\\([A-Za-z]+)[ \t]*|\\([^A-Za-z])|~/g,
+    (m,sup,a1,c1,a2,c2,c3,w,sym)=>{
+      if(sup!==undefined) return "\uE000"+sup+"\uE001";
+      if(a1) return (c1+TACC[a1]).normalize("NFC");
+      if(a2) return ((c2||c3)+TACC[a2]).normalize("NFC");
+      if(w!==undefined) return TWORD.has(w)?TWORD.get(w):m;
+      if(sym!==undefined) return TSYM.has(sym)?TSYM.get(sym):m;
+      return m==="~"?"\u00A0":m;
+    })).replace(/\uE000/g,"<sup>").replace(/\uE001/g,"</sup>");
 }
 let mjMacrosFor=null;
 function typeset(p){

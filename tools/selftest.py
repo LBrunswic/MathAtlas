@@ -19,7 +19,8 @@ FIX = os.path.join(ROOT, "tools", "fixtures")
 GATES = {"host_guard.py": "host", "dropbox_ignore.py": "dropbox-ignore", "deps_register.py": "deps",
          "legacy_check.py": "legacy-frozen", "ledger.py": "ledger", "story_lint.py": "story",
          "no_legacy_prose.py": "no-legacy-prose", "papers_check.py": "papers-check",
-         "doubledag.py": "doubledag", "ladder.py": "ladder", "corrections.py": "corrections"}
+         "doubledag.py": "doubledag", "ladder.py": "ladder", "corrections.py": "corrections",
+         "reports/atlas/check.py": "atlas"}
 
 
 def main():

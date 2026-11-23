@@ -20,14 +20,23 @@ SHELL := /bin/bash
 LOGS ?=
 PKGS ?=
 
-atlas.html: extract.py build.py lean_edges.py template.html hub.toml ../../roadmap/roadmap.toml \
+atlas.html: extract.py textmode.py build.py lean_edges.py template.html hub.toml ../../roadmap/roadmap.toml \
             ../../papers/egf/programme/roadmap.toml ../../papers/egf/programme/corrections.toml $(wildcard lean/edges-*.json)
 	python3 extract.py data.json 2>/dev/null
 	python3 build.py $(if $(LOGS),--logs $(LOGS))
 	{ echo '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>'; cat atlas.body.html; echo '</body></html>'; } > atlas.html
 	rm -f data.json atlas.body.html
 
-.PHONY: lean lean-facts lean-edges lean-status
+.PHONY: check selftest lean lean-facts lean-edges lean-status
+# The atlas check (check.py): no statement of the page carries a macro of its paper outside math, where
+# MathJax would leave it raw. selftest shows it bite on tools/fixtures/atlas/run.sh.
+check: atlas.html
+	python3 check.py atlas.html
+
+selftest: atlas.html
+	@if bash ../../tools/fixtures/atlas/run.sh >/dev/null 2>&1; then echo "atlas selftest: FAIL check.py passed on its fixture"; exit 1; \
+	else echo "atlas selftest: check.py fails on its fixture"; fi
+
 lean: lean-facts
 	$(MAKE) lean-edges
 

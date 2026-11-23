@@ -8,13 +8,18 @@ SHELL := /bin/bash
 PY := python3
 
 .PHONY: check mirror selftest gate-host gate-dropbox-ignore gate-registers gate-deps lib-check papers-check \
-        gate-cassettes gate-tests ledgers regression test doubledag
+        gate-cassettes gate-tests gate-atlas ledgers regression test doubledag
 
-check: gate-host gate-dropbox-ignore gate-registers gate-deps gate-cassettes gate-tests lib-check papers-check
+check: gate-host gate-dropbox-ignore gate-registers gate-deps gate-cassettes gate-tests lib-check papers-check gate-atlas
 	@echo "check: all gates green"
 
 gate-host:
 	$(PY) tools/host_guard.py
+
+# The built atlas shows no paper macro raw outside math (MathJax expands macros inside math only;
+# reports/atlas/textmode.py expands the text-mode ones). Reads the committed atlas.html, builds nothing.
+gate-atlas:
+	$(PY) reports/atlas/check.py reports/atlas/atlas.html
 
 gate-dropbox-ignore:
 	$(PY) tools/dropbox_ignore.py --check
