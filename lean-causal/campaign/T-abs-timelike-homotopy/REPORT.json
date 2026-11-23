@@ -1,0 +1,427 @@
+{
+ "target": "T-abs-timelike-homotopy",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/TimelikeHomotopy.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-timelike-homotopy/REPORT.json",
+  "campaign/T-abs-timelike-homotopy/Probe.lean",
+  "campaign/T-abs-timelike-homotopy/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.TimelikeHomotopy",
+ "build_result": "Built CausalScaffold.TimelikeHomotopy (1.5 s), 3100 jobs, no warning. The --no-build dry run (kb/0228) listed only this module as out of date ([3100/3100]), so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file exits 0 with no output, as the strict library requires. campaign/.../Probe.lean imports the module and runs #check on the 4 definitions and #print axioms on 53 declarations (and #check on the 4 definitions; 57 declarations in all) (output in axioms.txt). Each depends on [propext, Classical.choice, Quot.sound] only, and no sorryAx appears.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.CausalIsoInvariance, Causal.GXStructure, Causal.LinesCurves, Causal.Inextensible. tools/ladder.py model_path is None for each, checked one at a time in memory (kb/0247), and for the module itself with those imports added. The transitive closure (29 Causal modules) contains none of Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.*, Causal.Port.*. No statement mentions a metric, a curve length or a geodesic. Mathlib's metric on ℝ appears in one proof only (timelikeLine_chronalCurveOn_iff, the ε-δ step). No ladder hypothesis is used, and no causal_ladder step was needed.",
+ "labels": [],
+ "paper_row": {
+  "paper": "papers/sbierski-schwarzschild",
+  "label": "schwdef:timelike_homotopic_fixed_endpoints",
+  "tex_lines": [
+   380,
+   386
+  ],
+  "status": "partial",
+  "marked": false,
+  "proposed_decls": [
+   "Causal.Causality.FutureOneConnectedOn",
+   "Causal.Causality.FutureOneConnected",
+   "Causal.Causality.ChronallyHomotopicOn",
+   "Causal.Causality.ChronalHomotopyOn"
+  ],
+  "principal": "Causal.Causality.FutureOneConnectedOn. It unfolds to ChronallyHomotopicOn and ChronalHomotopyOn, so it carries both items of the definition.",
+  "lean_ge_paper": "Yes, under the binder's reading. Each clause of Def 2.13 is carried as printed: Γ is jointly continuous on [0,1]²; every Γ(t, ·), t ∈ [0,1], is a future curve from γ₀(0) to γ₀(1); Γ(0, ·) = γ₀ and Γ(1, ·) = γ₁ on [0,1]; and future one-connectedness quantifies over all p, q and all pairs of curves. The hypothesis 'time-oriented Lorentzian manifold with a continuous metric' is weakened to any causality on any topological space, and any open W (W = ⊤ is Sbierski's M). The one reading is 'future directed timelike curve' = 'future chronal curve of C' (Causal.Curves, DEC-6), the binder's reading for Def 2.14 too (ChronallySeparatedOn). So it is not literally ≥ Sbierski's Lorentzian notion. Under the C0 model every piecewise smooth timelike curve is a chronal curve, but not conversely. The ETT ∀ therefore ranges over more curves and the ETT ∃ admits more homotopies, and neither notion implies the other without a layer-3 comparison. Hence 'partial' (a reading), unmarked, as the other external Sbierski rows are (curation convention).",
+  "hypotheses": [
+   {
+    "paper": "(M, g) time-oriented Lorentzian manifold, continuous metric",
+    "here": "weakened",
+    "note": "any causality C on a topological space M, any open W"
+   },
+   {
+    "paper": "future directed timelike curves γᵢ : [0, 1] → M",
+    "here": "carried (reading)",
+    "note": "future chronal curves of C over [0, 1] in W"
+   },
+   {
+    "paper": "Γ : [0,1] × [0,1] → M continuous",
+    "here": "carried",
+    "note": "ContinuousOn (uncurry Γ) (Icc 0 1 ×ˢ Icc 0 1)"
+   },
+   {
+    "paper": "γ₀(0) = γ₁(0), γ₀(1) = γ₁(1) (premise of (1))",
+    "here": "carried",
+    "note": "a consequence of the homotopy (ChronalHomotopyOn.right_zero, right_one); asked explicitly in FutureOneConnectedOn"
+   }
+  ],
+  "sorries": []
+ },
+ "lemmas_for_the_keeper": [
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:122",
+   "statement": "structure (C : Causality M) (W : Opens M) (Γ : ℝ → ℝ → M) (γ₀ γ₁ : ℝ → M) : Prop — continuousOn : ContinuousOn (uncurry Γ) (Icc 0 1 ×ˢ Icc 0 1); chronalCurveOn : ∀ t ∈ Icc 0 1, C.ChronalCurveOn W (Γ t) 0 1; fix_zero : ∀ t ∈ Icc 0 1, Γ t 0 = γ₀ 0; fix_one : ∀ t ∈ Icc 0 1, Γ t 1 = γ₀ 1; eqOn_zero : EqOn (Γ 0) γ₀ (Icc 0 1); eqOn_one : EqOn (Γ 1) γ₁ (Icc 0 1)",
+   "standing": "definition (Sbierski Def 2.13 (1), the homotopy). Any causality, any open W.",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.ChronallyHomotopicOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:133",
+   "statement": "def (C) (W) (γ₀ γ₁ : ℝ → M) : Prop := ∃ Γ, C.ChronalHomotopyOn W Γ γ₀ γ₁",
+   "standing": "definition (Sbierski Def 2.13 (1), 'timelike homotopic with fixed endpoints'). The paper's premise (γ₀, γ₁ future timelike with the same endpoints) is a consequence: ChronalHomotopyOn.chronalCurveOn_left/right, right_zero/right_one.",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.FutureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:139",
+   "statement": "def (C) (W : Opens M) : Prop := ∀ p q : M, ∀ γ₀ γ₁ : ℝ → M, C.ChronalCurveOn W γ₀ 0 1 → γ₀ 0 = p → γ₀ 1 = q → C.ChronalCurveOn W γ₁ 0 1 → γ₁ 0 = p → γ₁ 1 = q → C.ChronallyHomotopicOn W γ₀ γ₁",
+   "standing": "definition (Sbierski Def 2.13 (2)), for the open W seen as a spacetime (kb/0001); no quantification over smaller opens (the notion is not hereditary).",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.FutureOneConnected",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:146",
+   "statement": "def (C) : Prop := C.FutureOneConnectedOn ⊤",
+   "standing": "definition (Sbierski Def 2.13 (2), W = M). The proposed ladder node future_one_connected.",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.ChronalCurveOn.lt_self_of_eq",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:154",
+   "statement": "C.ChronalCurveOn W c a b → a ≤ s → s < s' → s' ≤ b → c s = c s' → C.lt W (c s) (c s)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalCurveOn.injOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:161",
+   "statement": "C.ChronalCurveOn W c a b → (∀ x, ¬ C.lt W x x) → InjOn c (Icc a b)",
+   "standing": "none beyond the explicit chronology of W (no x ≪_W x). Used for the Step 2.1 finding.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.mapsTo",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:173",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → MapsTo (uncurry Γ) (Icc 0 1 ×ˢ Icc 0 1) W",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.chronalCurveOn_left",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:177",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → C.ChronalCurveOn W γ₀ 0 1",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.chronalCurveOn_right",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:180",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → C.ChronalCurveOn W γ₁ 0 1",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.right_zero / right_one",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:184",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → γ₁ 0 = γ₀ 0 (resp. γ₁ 1 = γ₀ 1, :187)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.congr_left / congr_right",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:190",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → EqOn γ₀ γ₀' (Icc 0 1) → C.ChronalHomotopyOn W Γ γ₀' γ₁ (and the right form, :197)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.mono_opens",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:203",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → W ≤ W' → C.ChronalHomotopyOn W' Γ γ₀ γ₁",
+   "standing": "none. With the ChartIso transport this gives Thm 3.1 Step 3's ι ∘ Γ as a homotopy of M̃.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.restrict",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:209",
+   "statement": "C.ChronalHomotopyOn W' Γ γ₀ γ₁ → W ≤ W' → MapsTo (uncurry Γ) (Icc 0 1 ×ˢ Icc 0 1) W → C.ChronalHomotopyOn W Γ γ₀ γ₁",
+   "standing": "none. The step Thm 3.1 Step 3 needs once ι ∘ Γ is known to lie in Ũ.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.refl",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:216",
+   "statement": "C.ChronalCurveOn W γ 0 1 → C.ChronalHomotopyOn W (fun _ => γ) γ γ",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.symm",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:221",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → C.ChronalHomotopyOn W (fun t => Γ (1 - t)) γ₁ γ₀",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.trans",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:239",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → C.ChronalHomotopyOn W Γ' γ₁ γ₂ → C.ChronalHomotopyOn W (fun t => if t ≤ 1/2 then Γ (2 * t) else Γ' (2 * t - 1)) γ₀ γ₂",
+   "standing": "none. Joint continuity by ContinuousOn.union_of_isClosed on [0, 1/2] × [0, 1] ∪ [1/2, 1] × [0, 1], the two pieces agreeing at t = 1/2 through γ₁.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.dual",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:298",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → C.dual.ChronalHomotopyOn W (fun t s => Γ t (1 - s)) (fun s => γ₀ (1 - s)) (fun s => γ₁ (1 - s))",
+   "standing": "none (CurveOn.reverse on every slice)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.dual_symm",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:314",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → C.dual.ChronalHomotopyOn W (fun t s => Γ (1 - t) (1 - s)) (fun s => γ₁ (1 - s)) (fun s => γ₀ (1 - s))",
+   "standing": "none (both parameters reversed)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.congr_lt",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:320",
+   "statement": "(∀ U x y, C.lt U x y ↔ D.lt U x y) → C.ChronalHomotopyOn W Γ γ₀ γ₁ → D.ChronalHomotopyOn W Γ γ₀ γ₁",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronallyHomotopicOn.refl / symm / trans",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:351",
+   "statement": "refl : C.ChronalCurveOn W γ 0 1 → C.ChronallyHomotopicOn W γ γ; symm (:354); trans (:358)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronallyHomotopicOn.chronalCurveOn_left / chronalCurveOn_right / right_zero / right_one / of_eqOn / mono_opens / dual",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:334",
+   "statement": "the relation-level forms of the homotopy lemmas (:334–378)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronallyHomotopicOn.comp_reparam",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:381",
+   "statement": "C.ChronalCurveOn W γ 0 1 → StrictMonoOn ψ (Icc 0 1) → ContinuousOn ψ (Icc 0 1) → ψ 0 = 0 → ψ 1 = 1 → C.ChronallyHomotopicOn W γ (γ ∘ ψ)",
+   "standing": "none. Homotopy γ((1 - t) s + t ψ(s)). Sbierski's 'modulo parametrisation' (:621).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.chronallyHomotopicOn_equivalence",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:427",
+   "statement": "(C) (W) : Equivalence (fun γ γ' : {γ : ℝ → M // C.ChronalCurveOn W γ 0 1} => C.ChronallyHomotopicOn W γ.1 γ'.1)",
+   "standing": "none. The target's 'the homotopy relation is an equivalence'.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.chronalHomotopySetoid",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:434",
+   "statement": "(C) (W) : Setoid {γ : ℝ → M // C.ChronalCurveOn W γ 0 1}",
+   "standing": "definition",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.dual_chronallyHomotopicOn_iff",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:439",
+   "statement": "C.dual.ChronallyHomotopicOn W (fun s => γ₀ (1 - s)) (fun s => γ₁ (1 - s)) ↔ C.ChronallyHomotopicOn W γ₀ γ₁",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.FutureOneConnectedOn.dual",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:449",
+   "statement": "C.FutureOneConnectedOn W → C.dual.FutureOneConnectedOn W",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.dual_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:460",
+   "statement": "C.dual.FutureOneConnectedOn W ↔ C.FutureOneConnectedOn W",
+   "standing": "none. Future one-connectedness is time-reversal invariant: the node is two-sided, no past form is needed.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.dual_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:463",
+   "statement": "C.dual.FutureOneConnected ↔ C.FutureOneConnected",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.futureOneConnectedOn_congr_lt",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:469",
+   "statement": "(∀ U x y, C.lt U x y ↔ D.lt U x y) → (C.FutureOneConnectedOn W ↔ D.FutureOneConnectedOn W)",
+   "standing": "none. The notion reads ≪ only, not ≤: the layer-1 content of the conformal invariance (:845).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsCausalIso.chronalHomotopyOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:494",
+   "statement": "IsCausalIso C D e → C.ChronalHomotopyOn W Γ γ₀ γ₁ → D.ChronalHomotopyOn (e.opensCongr W) (fun t s => e (Γ t s)) (e ∘ γ₀) (e ∘ γ₁)",
+   "standing": "none; e : M ≃ₜ N",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsCausalIso.chronallyHomotopicOn_iff",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:504",
+   "statement": "IsCausalIso C D e → (C.ChronallyHomotopicOn W γ₀ γ₁ ↔ D.ChronallyHomotopicOn (e.opensCongr W) (e ∘ γ₀) (e ∘ γ₁))",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsCausalIso.futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:513",
+   "statement": "IsCausalIso C D e → C.FutureOneConnectedOn W → D.FutureOneConnectedOn (e.opensCongr W)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsCausalIso.futureOneConnectedOn_iff",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:529",
+   "statement": "IsCausalIso C D e → (C.FutureOneConnectedOn W ↔ D.FutureOneConnectedOn (e.opensCongr W))",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsCausalIso.futureOneConnected_iff",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:535",
+   "statement": "IsCausalIso C D e → (C.FutureOneConnected ↔ D.FutureOneConnected)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.chartImage_subset_target",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:545",
+   "statement": "(U : Opens M) : (chartImage e U : Set X) ⊆ e.target",
+   "standing": "none; e : OpenPartialHomeomorph M X",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.chronalCurveOn_image",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:558",
+   "statement": "ChartIso C D e → W ≤ chartSource e → C.ChronalCurveOn W c a b → D.ChronalCurveOn (chartImage e W) (e ∘ c) a b",
+   "standing": "none. ETT-layer; the model-layer ChartIso.curveOn_symm (Causal.Remarks.MassiveManifold) cannot be imported in layer 1.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.chronalCurveOn_symm_image",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:574",
+   "statement": "ChartIso C D e → W ≤ chartSource e → D.ChronalCurveOn (chartImage e W) d a b → C.ChronalCurveOn W (e.symm ∘ d) a b",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.chronalHomotopyOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:596",
+   "statement": "ChartIso C D e → W ≤ chartSource e → C.ChronalHomotopyOn W Γ γ₀ γ₁ → D.ChronalHomotopyOn (chartImage e W) (fun t s => e (Γ t s)) (e ∘ γ₀) (e ∘ γ₁)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.chronalHomotopyOn_symm",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:607",
+   "statement": "ChartIso C D e → W ≤ chartSource e → D.ChronalHomotopyOn (chartImage e W) Δ δ₀ δ₁ → C.ChronalHomotopyOn W (fun t s => e.symm (Δ t s)) (e.symm ∘ δ₀) (e.symm ∘ δ₁)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.chronallyHomotopicOn_iff",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:619",
+   "statement": "ChartIso C D e → W ≤ chartSource e → MapsTo γ₀ (Icc 0 1) W → MapsTo γ₁ (Icc 0 1) W → (C.ChronallyHomotopicOn W γ₀ γ₁ ↔ D.ChronallyHomotopicOn (chartImage e W) (e ∘ γ₀) (e ∘ γ₁))",
+   "standing": "the two MapsTo hypotheses are needed for '⇐' only: e is junk off its source, so e ∘ γ alone does not determine γ there.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.futureOneConnectedOn_iff",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:629",
+   "statement": "ChartIso C D e → W ≤ chartSource e → (C.FutureOneConnectedOn W ↔ D.FutureOneConnectedOn (chartImage e W))",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_chronalCurveOn_iff",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:655",
+   "statement": "timelikeLine.ChronalCurveOn U c a b ↔ StrictMonoOn c (Icc a b) ∧ ContinuousOn c (Icc a b) ∧ MapsTo c (Icc a b) U",
+   "standing": "ℝ, any open U",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:679",
+   "statement": "(W : Opens ℝ) : timelikeLine.FutureOneConnectedOn W",
+   "standing": "ℝ, every open W. Homotopy (1 - t) γ₀ + t γ₁, which stays in [p, q] ⊆ W.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:720",
+   "statement": "timelikeLine.FutureOneConnected",
+   "standing": "ℝ. The kb/0011 witness, and the fact for the keeper's node.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_dual_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:724",
+   "statement": "timelikeLine.dual.FutureOneConnected",
+   "standing": "ℝ",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_chronallyHomotopicOn_sq",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:729",
+   "statement": "timelikeLine.ChronallyHomotopicOn ⊤ id (fun s => s ^ 2) ∧ id ≠ (fun s : ℝ => s ^ 2)",
+   "standing": "ℝ. Shows the relation relates distinct curves.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_not_chronalCurveOn_pause",
+   "file_line": "scaffold/CausalScaffold/TimelikeHomotopy.lean:744",
+   "statement": "(lam : ℝ → ℝ) (hlam : lam 0 = 0) (W : Opens ℝ) : ¬ timelikeLine.ChronalCurveOn W (fun s => if s ≤ 1/2 then (2 * s) * lam 0 else lam (2 * s - 1)) 0 1",
+   "standing": "ℝ. Sbierski's printed Step 2.1 slice Γ(0, ·) = σ_{λ(0)} * λ (:572, :577, λ(0) = 0) on the 1 + 0-dimensional Minkowski line: not a chronal curve, whatever λ.",
+   "status": "proved"
+  }
+ ],
+ "extra_decls": [
+  "Causal.Causality.ChronalCurveOn.lt_self_of_eq",
+  "Causal.Causality.ChronalCurveOn.injOn",
+  "Causal.Causality.ChronalHomotopyOn.mapsTo",
+  "Causal.Causality.ChronalHomotopyOn.mono_opens",
+  "Causal.Causality.ChronalHomotopyOn.restrict",
+  "Causal.Causality.ChronalHomotopyOn.congr_left",
+  "Causal.Causality.ChronalHomotopyOn.congr_right",
+  "Causal.Causality.ChronalHomotopyOn.congr_lt",
+  "Causal.Causality.ChronallyHomotopicOn.comp_reparam",
+  "Causal.Causality.ChronallyHomotopicOn.of_eqOn",
+  "Causal.chartImage_subset_target",
+  "Causal.ChartIso.chronalCurveOn_image",
+  "Causal.ChartIso.chronalCurveOn_symm_image",
+  "Causal.timelikeLine_chronalCurveOn_iff",
+  "Causal.timelikeLine_not_chronalCurveOn_pause"
+ ],
+ "findings": [
+  "Sbierski Thm 3.1 Step 2.1 (InexSchwarzschild2.tex:572, :575–579): the printed homotopy Γ(t, s) = (σ_{λ(t)} * λ|_{[t,1]})(s), with the concatenation split at s = 1/2 (:572) and λ(0) = 0, has degenerate end slices. At t = 0 the first half is σ_{λ(0)} = σ_0 ≡ 0, so Γ(0, ·) is constant on [0, 1/2]. It is therefore neither λ (Def 2.13 asks Γ(0, ·) = γ₀) nor a timelike curve. At t = 1, λ|_{[1,1]} is a point and cannot be 'linearly rescaled' to [0, 1] (:579), so Γ(1, ·) is constant on [1/2, 1]: neither σ_{λ(1)} nor timelike. In Lean: a chronal curve of a chronological open set is injective (Causal.Causality.ChronalCurveOn.injOn, TimelikeHomotopy.lean:161). The printed slice is not a chronal curve of the timelike line, the 1 + 0-dimensional Minkowski space, whatever λ (Causal.timelikeLine_not_chronalCurveOn_pause, :744). The conclusion of Step 2.1 still holds with the split at s = t: Γ(t, s) = σ_{λ(t)}(s/t) for 0 ≤ s ≤ t, λ(s) for t ≤ s ≤ 1, t ∈ (0, 1], and Γ(0, ·) = λ. This is continuous on [0,1]², since |σ_{λ(t)}(s/t)| ≤ |λ(t)| → 0, with Γ(1, ·) = σ_{λ(1)}. Every slice is a segment to λ(t) ≫ 0 followed by λ. This is not in Lean: it is a Minkowski fact, for T-loc-minkowski-future-one-connected.",
+  "Notational, minor. Def 2.13 is over [0, 1] (:383), but the proof of Prop 4.12 applies it to curves γᵢ : [t₀, t₁] → M_ext. It writes their endpoint conditions as γ₀(0) = γ₁(0), γ₀(1) = γ₁(1) (should be t₀, t₁) and the homotopy as Γ : [t₀,t₁] × [t₀,t₁] → M_ext, so the homotopy parameter also runs over [t₀, t₁] (:876). Thm 4.11 uses Γ : [0,1] × [y₀⁻, s] → M_int (:1623), whose curve σ runs 'from γ(x₀⁻)' over [y₀⁻, s] (x₀⁻ for y₀⁻). Both are the [0, 1] notion after an affine change of the parameters (CurveOn.comp_affine). Nothing here depends on them."
+ ],
+ "questions": [
+  "Curves. I read 'future directed timelike curve' (Sbierski Def 2.1–2.2: piecewise smooth, timelike one-sided tangents in one cone) as a future chronal curve of C (Causal.Curves, DEC-6), the binder's reading, as for Def 2.14. Under the C0 model the ETT class is larger, so ETT future one-connectedness and Sbierski's do not imply each other a priori. For the consumers (Thm 3.1 Step 3, Thm 4.11's (FuturePastPreserving)) the ETT notion is what the confinement argument uses. Proving it of the models is harder at layer 3, though: Prop 4.12's proof (:876) projects piecewise smooth curves with speed < 1, which an ETT chronal curve need not be. The alternative, a model-supplied curve class as a parameter, was not taken.",
+  "Continuity. I took joint continuity on [0,1]², as printed, not the continuity of each slice. Slice continuity is automatic for chronal curves (CurveOn.continuousOn). Joint continuity is what Step 3's open–closed argument (:621) needs for the openness of I.",
+  "Direction. Def 2.13 says 'future directed' explicitly, so only chronal curves of C enter, not of C.dual (unlike Def 2.14's undirected 'timelike'). The past form is not needed: C.dual is future one-connected iff C is (Causal.Causality.dual_futureOneConnectedOn). The keeper's node can be two-sided.",
+  "Open set. FutureOneConnectedOn W is a property of W seen as a spacetime: chronal curves of W read only ≪_U, U ≤ W. It does not quantify over smaller open sets, because Sbierski's notion is not hereditary. Whether the keeper wants a hereditary variant is open; I wrote none.",
+  "Equivalence. The paper does not state that the relation is an equivalence. The target asked for it, and it holds on chronal curves only: reflexivity needs the curve to be chronal, the paper's own premise."
+ ],
+ "kb_proposals": [
+  "Sbierski 1507.00601 Def 2.13 is Causality.ChronalHomotopyOn W Γ γ₀ γ₁ (jointly continuous on [0,1]², future chronal slices, fixed endpoints), ChronallyHomotopicOn (∃ Γ) and FutureOneConnectedOn / FutureOneConnected (CausalScaffold.TimelikeHomotopy, T-abs-timelike-homotopy). The relation is an equivalence on the chronal curves (chronallyHomotopicOn_equivalence); trans glues in t through ContinuousOn.union_of_isClosed on [0,1/2]×[0,1] ∪ [1/2,1]×[0,1].",
+  "Future one-connectedness is two-sided (dual_futureOneConnectedOn), reads ≪ only (futureOneConnectedOn_congr_lt), and passes through IsCausalIso (futureOneConnectedOn_iff, with e.opensCongr W) and through a ChartIso on W ≤ chartSource e (ChartIso.futureOneConnectedOn_iff, with chartImage e W). The timelike line is future one-connected on every open set (timelikeLine_futureOneConnectedOn).",
+  "On the timelike line the chronal curves of U over [a, b] are exactly the continuous strictly increasing maps of [a, b] into U (Causal.timelikeLine_chronalCurveOn_iff): a quick way to build chronal curves and homotopies of ℝ.",
+  "ETT-layer ChartIso transport of chronal curves, both ways: ChartIso.chronalCurveOn_image and ChartIso.chronalCurveOn_symm_image (CausalScaffold.TimelikeHomotopy). The older ChartIso.curveOn_symm sits in the model-layer Causal.Remarks.MassiveManifold and cannot be imported from layer 1.",
+  "A chronal curve of an open set with no x ≪ x is injective (Causality.ChronalCurveOn.injOn): a reparametrisation with a pause is never chronal there, so homotopies must not concatenate at a fixed split point when one piece can degenerate (Sbierski Step 2.1, timelikeLine_not_chronalCurveOn_pause)."
+ ],
+ "notes": "One new file, 754 lines, 0 sorry. No ETT label; the docstring marks nothing with **. The Sbierski row is cited unmarked, as `schwdef:timelike_homotopic_fixed_endpoints`. Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.TimelikeHomotopy` to scaffold/CausalScaffold.lean, which I did not edit. At graduation the file moves to Causal/ and its import goes into Causal.lean; its imports are already Causal.* only. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the new names outside this file. There is no instance and no new type. No existing file was edited. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean` in any form. tools/ladder.py was only imported in memory for lean_index, model_path and MODEL_LAYER. For the keeper (T-lad-c0-extension-nodes), the node future_one_connected can take Lean form Causal.Causality.FutureOneConnected, fact timelikeLine_futureOneConnected, dual transport dual_futureOneConnected, and invariance IsCausalIso.futureOneConnected_iff. No space that fails future one-connectedness is in Lean. Candidates: Minkowski 1+1 minus a closed disc (model layer), or allRelated on a circle, which needs π₁(S¹) from mathlib's covering-space lifting.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the probe count (53 #print axioms + 4 #check, of 57); the curve row of the checklist marked a reading, the incomparability moved into SCOPE; the ChartIso lemmas noted as stranded (their home Causal.GXStructure; the duplicate Causal.Flat.curveOn_chart_symm, Flat/CauchyComplete.lean:2516); the Step 2.1 finding made precise: both end slices degenerate, the interior slices are fine, Lean witnesses t = 0 on the timelike line only while Sbierski's dimension is d+1 ≥ 2 (:228), against Defs 2.1 and 2.13."
+}

@@ -278,3 +278,5 @@ rediscover. One fact per entry.
 | [0270](entries/0270-restrict-ascribe.md) | pitfall | Ascribe a restricted curve before using it as a chronal curve |
 | [0271](entries/0271-coarse-point.md) | pattern | Causal.CoarsePoint refutes a property's passage to a smaller open set |
 | [0272](entries/0272-inextensible-carries-causal.md) | pattern | A nesting of inextensible curves composes with no hypothesis |
+| [0273](entries/0273-timelike-homotopy.md) | pattern | Sbierski's timelike homotopy and future one-connectedness in ETT |
+| [0274](entries/0274-chronal-injective.md) | pitfall | A chronal curve of a chronological open set is injective; homotopies must not pause |
