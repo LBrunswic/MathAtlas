@@ -1,0 +1,118 @@
+@Causal.Causality.AbsolutelyMinimal.chronalFutureNeighbours_iff.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} [T1Space.{u_1} M],
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    (Causal.Causality.ChronalFutureNeighbours.{u_1} C ↔
+      ∀ (x : M),
+        Set.Nonempty.{u_1}
+          (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+            (Singleton.singleton.{u_1, u_1} x)))
+@Causal.Causality.CausallyArcConnected.chronalFutureNeighbours_iff.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    (Causal.Causality.ChronalFutureNeighbours.{u_1} C ↔
+      ∀ (x : M),
+        Set.Nonempty.{u_1}
+          (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+            (Singleton.singleton.{u_1, u_1} x)))
+@Causal.Causality.ChronalFutureNeighbours.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.ChronalFutureNeighbours.Iplus_nonempty.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalFutureNeighbours.{u_1} C →
+    ∀ (x : M),
+      Set.Nonempty.{u_1}
+        (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+          (Singleton.singleton.{u_1, u_1} x))
+@Causal.Causality.ChronalFutureNeighbours.Iplus_nonempty_of_mem.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {p : M},
+  Causal.Causality.ChronalFutureNeighbours.{u_1} C →
+    ∀ {V : TopologicalSpace.Opens.{u_1} M},
+      Membership.mem.{u_1, u_1} V p →
+        Set.Nonempty.{u_1}
+          (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V
+            (Singleton.singleton.{u_1, u_1} p))
+@Causal.Causality.ChronalFutureNeighbours.mem_Zplus.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalFutureNeighbours.{u_1} C →
+    ∀ (x : M), Membership.mem.{u_1, u_1} (Causal.Causality.Zplus.{u_1} C) x
+@Causal.Causality.NoFutureEndpoint.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.chronalNeighbours_iff_future.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C ↔
+    Causal.Causality.ChronalFutureNeighbours.{u_1} (Causal.Causality.dual.{u_1} C) ∧
+      Causal.Causality.ChronalFutureNeighbours.{u_1} C
+@Causal.Causality.chronalPastNeighbours_def.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalPastNeighbours.{u_1} C ↔
+    ∀ (V : TopologicalSpace.Opens.{u_1} M) (v : M),
+      Membership.mem.{u_1, u_1} V v →
+        ∃ p,
+          Membership.mem.{u_1, u_1} V p ∧ Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V p v
+@Causal.Causality.dual_chronalFutureNeighbours.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalFutureNeighbours.{u_1} (Causal.Causality.dual.{u_1} C) ↔
+    Causal.Causality.ChronalPastNeighbours.{u_1} C
+@Causal.Causality.dual_chronalPastNeighbours.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalPastNeighbours.{u_1} (Causal.Causality.dual.{u_1} C) ↔
+    Causal.Causality.ChronalFutureNeighbours.{u_1} C
+@Causal.Causality.dual_noFutureEndpoint.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NoFutureEndpoint.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.NoPastEndpoint.{u_1} C
+@Causal.Causality.dual_noPastEndpoint.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NoPastEndpoint.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.NoFutureEndpoint.{u_1} C
+@Causal.Causality.noCausalEndpoint_iff_future.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NoCausalEndpoint.{u_1} C ↔
+    Causal.Causality.NoFutureEndpoint.{u_1} (Causal.Causality.dual.{u_1} C) ∧ Causal.Causality.NoFutureEndpoint.{u_1} C
+@Causal.Causality.noFutureEndpoint_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NoFutureEndpoint.{u_1} C ↔
+    ∀ (x : M),
+      ∃ y, Ne.{u_1 + 1} y x ∧ Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y
+@Causal.Causality.noPastEndpoint_def.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NoPastEndpoint.{u_1} C ↔
+    ∀ (x : M),
+      Ne.{u_1 + 1}
+        (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+          (Singleton.singleton.{u_1, u_1} x))
+        (Singleton.singleton.{u_1, u_1} x)
+@Causal.IsCausalIso.chronalFutureNeighbours_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.ChronalFutureNeighbours.{u_1} C ↔ Causal.Causality.ChronalFutureNeighbours.{u_2} D)
+@Causal.IsCausalIso.noFutureEndpoint_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.NoFutureEndpoint.{u_1} C ↔ Causal.Causality.NoFutureEndpoint.{u_2} D)
+def Causal.Causality.ChronalFutureNeighbours.{u} : {M : Type u} →
+  [inst : TopologicalSpace.{u} M] → Causal.Causality.{u} M → Prop :=
+fun {M} [TopologicalSpace.{u} M] C =>
+  ∀ (V : TopologicalSpace.Opens.{u} M) (v : M),
+    Membership.mem.{u, u} V v →
+      ∃ p, Membership.mem.{u, u} V p ∧ Causal.Precausality.lt.{u} (Causal.Causality.toPrecausality.{u} C) V v p
+def Causal.Causality.ChronalPastNeighbours.{u} : {M : Type u} →
+  [inst : TopologicalSpace.{u} M] → Causal.Causality.{u} M → Prop :=
+fun {M} [TopologicalSpace.{u} M] C => Causal.Causality.ChronalFutureNeighbours.{u} (Causal.Causality.dual.{u} C)
+def Causal.Causality.ChronalNeighbours.{u} : {M : Type u} →
+  [inst : TopologicalSpace.{u} M] → Causal.Causality.{u} M → Prop :=
+fun {M} [TopologicalSpace.{u} M] C =>
+  Causal.Causality.ChronalPastNeighbours.{u} C ∧ Causal.Causality.ChronalFutureNeighbours.{u} C
+def Causal.Causality.NoFutureEndpoint.{u} : {M : Type u} →
+  [inst : TopologicalSpace.{u} M] → Causal.Causality.{u} M → Prop :=
+fun {M} [TopologicalSpace.{u} M] C =>
+  ∀ (x : M),
+    Ne.{u + 1}
+      (Causal.Precausality.Jplus.{u} (Causal.Causality.toPrecausality.{u} C) Top.top.{u} (Singleton.singleton.{u, u} x))
+      (Singleton.singleton.{u, u} x)
+def Causal.Causality.NoPastEndpoint.{u} : {M : Type u} →
+  [inst : TopologicalSpace.{u} M] → Causal.Causality.{u} M → Prop :=
+fun {M} [TopologicalSpace.{u} M] C => Causal.Causality.NoFutureEndpoint.{u} (Causal.Causality.dual.{u} C)
+def Causal.Causality.NoCausalEndpoint.{u} : {M : Type u} →
+  [inst : TopologicalSpace.{u} M] → Causal.Causality.{u} M → Prop :=
+fun {M} [TopologicalSpace.{u} M] C => Causal.Causality.NoPastEndpoint.{u} C ∧ Causal.Causality.NoFutureEndpoint.{u} C

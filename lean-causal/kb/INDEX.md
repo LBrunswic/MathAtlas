@@ -254,3 +254,7 @@ rediscover. One fact per entry.
 | [0246](entries/0246-lemma-k-ett-layer.md) | pattern | The Lemma K family is ETT-layer; its model corollaries are in Causal.Model.LemmaKModels |
 | [0247](entries/0247-model-path-shortest.md) | pitfall | model_path shows one shortest chain: check each direct import before a hoist |
 | [0248](entries/0248-model-stranded-duplicates.md) | pattern | Two ETT-layer re-proofs can now cite their originals |
+| [0249](entries/0249-one-sided-future-base.md) | convention | The one-sided chronal and endpoint notions have the future as base |
+| [0250](entries/0250-rw-chronal-neighbours.md) | pitfall | rw [ChronalNeighbours, foo_iff (C := C.dual)] no longer finds the future side |
+| [0251](entries/0251-definition-body-refactor-check.md) | pattern | Checking a definition-body refactor that keeps every statement |
+| [0252](entries/0252-emit-lean-ignores-args.md) | pitfall | tools/ladder.py emit-lean --help runs emit-lean |

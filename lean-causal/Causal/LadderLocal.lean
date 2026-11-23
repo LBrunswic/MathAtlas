@@ -23,12 +23,14 @@ dual and its global ⇒ local lemma, and each witness is restated with it as pre
 * **`T-abs-ladder-local-defs/locally-causally-open`** — `LocallyCausallyOpen`;
   `CausallyOpen.locallyCausallyOpen`; `AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen`
   (the same, DEC-8 reading).
-* **`T-abs-ladder-local-defs/chronal-neighbours`** — `ChronalPastNeighbours`,
-  `ChronalNeighbours`; `PushUp.causallyOpen_of_chronalNeighbours`, a re-proof of
+* **`T-abs-ladder-local-defs/chronal-neighbours`** — `ChronalFutureNeighbours` (the base),
+  `ChronalPastNeighbours` (its `C.dual`), `ChronalNeighbours`;
+  `PushUp.causallyOpen_of_chronalNeighbours`, a re-proof of
   `Causal.Causality.causallyOpen_of_pushUp` (`Causal.LemmaK`, ETT-layer since T-abs-hoist-lemma-k; the re-proof
   predates it).
-* **`T-abs-ladder-local-defs/no-causal-endpoint`** — `NoPastEndpoint`, `NoCausalEndpoint`
-  (`J^±(x) ≠ {x}`, `theo:geroch`, `ETT.tex:1259`);
+* **`T-abs-ladder-local-defs/no-causal-endpoint`** — `NoFutureEndpoint` (the base),
+  `NoPastEndpoint` (its `C.dual`), `NoCausalEndpoint` (`J^±(x) ≠ {x}`, `theo:geroch`,
+  `ETT.tex:1259`);
   `GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint`,
   `inextensibleNestedOn_top_of_noCausalEndpoint` (`Causal.NestedCausalities`).
 * **`T-abs-ladder-local-defs/one-sided-boundary`** — `OneSidedAt`, `OneSidedBoundary` (the
@@ -78,11 +80,15 @@ the named property, which is that hypothesis (definitionally, or up to `choose` 
 
 ## SCOPE (disclosed)
 
-* **The past is the base of the one-sided chronal and endpoint notions** (`ChronalPastNeighbours`,
-  `NoPastEndpoint`; the future ones are `C.dual.…`), unlike `CausallyOpenFuture`: the witnesses
-  take the past hypothesis first, and past neighbours give *future* causal openness
-  (`PushUp.causallyOpenFuture_of_chronalPastNeighbours`), so the future theorem is the base one
-  (kb/0002).
+* **The future is the base of the one-sided chronal and endpoint notions** (DEC-166 (a),
+  T-abs-one-sided-future-base), as `CausallyOpenFuture` is of causal openness:
+  `ChronalFutureNeighbours` and `NoFutureEndpoint` are the definitions, `ChronalPastNeighbours` and
+  `NoPastEndpoint` are their `C.dual.…` (`dual_chronalFutureNeighbours`, `dual_noFutureEndpoint`;
+  the past bodies, `chronalPastNeighbours_def`, `noPastEndpoint_def`, hold by `Iff.rfl`). The
+  two-sided `ChronalNeighbours` and `NoCausalEndpoint` are the past side and the future side, in
+  that order (`.1` past, `.2` future); until DEC-166 the past was the base. The witnesses still take
+  the past hypothesis first: past neighbours give *future* causal openness
+  (`PushUp.causallyOpenFuture_of_chronalPastNeighbours`), the base theorem (kb/0002).
 * **"Local" is "every point has an open neighbourhood with the property"**, the form the
   witnesses use. For push-up and future causal openness, which pass to smaller opens
   (`PushUpOn.mono`, `CausallyOpenFutureOn.mono`), it is equivalent to the arbitrarily-small form
@@ -153,24 +159,39 @@ neighbourhood serves both (`locallyCausallyOpen_iff`). -/
 def LocallyCausallyOpen : Prop :=
   C.LocallyCausallyOpenFuture ∧ C.dual.LocallyCausallyOpenFuture
 
+/-- **Chronal future neighbours in every open set**: every point `v` of every open `V` has a
+point `p ∈ V` with `v ≪_V p`, chronology taken in `V`. The base of the one-sided chronal notions
+(DEC-166 (a)), as `CausallyOpenFuture` is of causal openness: the past form is
+`ChronalPastNeighbours`, the chronal future neighbours of `C.dual`. -/
+def ChronalFutureNeighbours : Prop := ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V v p
+
 /-- **Chronal past neighbours in every open set**: every point `v` of every open `V` has a point
-`p ∈ V` with `p ≪_V v`, chronology taken in `V`. Past neighbours give causal openness in the
-future, under push-up (`PushUp.causallyOpenFuture_of_chronalPastNeighbours`). -/
-def ChronalPastNeighbours : Prop := ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V p v
+`p ∈ V` with `p ≪_V v`, chronology taken in `V` (`chronalPastNeighbours_def`); defined as the
+chronal future neighbours of the time reversal `C.dual` (DEC-166 (a)). Past neighbours give causal
+openness in the future, under push-up (`PushUp.causallyOpenFuture_of_chronalPastNeighbours`). -/
+def ChronalPastNeighbours : Prop := C.dual.ChronalFutureNeighbours
 
 /-- **Chronal neighbours in every open set** (ladder `chronal_neighbours`): every point `v` of
-every open `V` has `p, p' ∈ V` with `p ≪_V v ≪_V p'`. The `under` of `push_up ⇒ causally_open`
-(`hZm`, `hZp` of `causallyOpen_of_pushUp`, `Causal.LemmaK`). -/
-def ChronalNeighbours : Prop := C.ChronalPastNeighbours ∧ C.dual.ChronalPastNeighbours
+every open `V` has `p, p' ∈ V` with `p ≪_V v ≪_V p'`, the past side first (`.1`, i.e.
+`C.dual.ChronalFutureNeighbours`) and the future side second (`.2`). The `under` of
+`push_up ⇒ causally_open` (`hZm`, `hZp` of `causallyOpen_of_pushUp`, `Causal.LemmaK`). -/
+def ChronalNeighbours : Prop := C.ChronalPastNeighbours ∧ C.ChronalFutureNeighbours
 
-/-- **No past endpoint**: `J⁻(x) ≠ {x}` for every `x`, i.e. every point has a causal past point
-other than itself (`noPastEndpoint_iff`). -/
-def NoPastEndpoint : Prop := ∀ x : M, C.Jminus ⊤ {x} ≠ {x}
+/-- **No future endpoint**: `J⁺(x) ≠ {x}` for every `x`, i.e. every point has a causal future
+point other than itself (`noFutureEndpoint_iff`). The base of the one-sided endpoint notions
+(DEC-166 (a)): the past form is `NoPastEndpoint`, the same for `C.dual`. -/
+def NoFutureEndpoint : Prop := ∀ x : M, C.Jplus ⊤ {x} ≠ {x}
 
-/-- **No causal endpoint** (ladder `no_causal_endpoint`): `J^±(x) ≠ {x}` for every `x`, a
-hypothesis of `theo:geroch` (`ETT.tex:1259`), of Lemma K, and of the inextensible nesting on `M`
+/-- **No past endpoint**: `J⁻(x) ≠ {x}` for every `x` (`noPastEndpoint_def`), i.e. every point has
+a causal past point other than itself (`noPastEndpoint_iff`); defined as no future endpoint for
+the time reversal `C.dual` (DEC-166 (a)). -/
+def NoPastEndpoint : Prop := C.dual.NoFutureEndpoint
+
+/-- **No causal endpoint** (ladder `no_causal_endpoint`): `J^±(x) ≠ {x}` for every `x`, the past
+side first (`.1`) and the future side second (`.2`). A hypothesis of `theo:geroch`
+(`ETT.tex:1259`), of Lemma K, and of the inextensible nesting on `M`
 (`GloballyHyperbolic.inextensibleNestedOn_top`). -/
-def NoCausalEndpoint : Prop := C.NoPastEndpoint ∧ C.dual.NoPastEndpoint
+def NoCausalEndpoint : Prop := C.NoPastEndpoint ∧ C.NoFutureEndpoint
 
 end Defs
 
@@ -300,6 +321,28 @@ theorem AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen (h : C.AbsolutelyM
 
 /-! ## Chronal neighbours -/
 
+/-- `ChronalPastNeighbours` unfolded (its body before DEC-166 (a)): every point `v` of every open
+`V` has `p ∈ V` with `p ≪_V v`. -/
+theorem chronalPastNeighbours_def :
+    C.ChronalPastNeighbours ↔ ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V p v :=
+  Iff.rfl
+
+/-- The chronal future neighbours of the time reversal are the chronal past neighbours (the
+definition of `ChronalPastNeighbours`). -/
+theorem dual_chronalFutureNeighbours :
+    C.dual.ChronalFutureNeighbours ↔ C.ChronalPastNeighbours :=
+  Iff.rfl
+
+/-- The chronal past neighbours of the time reversal are the chronal future neighbours. -/
+theorem dual_chronalPastNeighbours :
+    C.dual.ChronalPastNeighbours ↔ C.ChronalFutureNeighbours :=
+  Iff.rfl
+
+/-- `ChronalNeighbours` is the future base for `C.dual` (the past side) and for `C`. -/
+theorem chronalNeighbours_iff_future :
+    C.ChronalNeighbours ↔ C.dual.ChronalFutureNeighbours ∧ C.ChronalFutureNeighbours :=
+  Iff.rfl
+
 theorem dual_chronalNeighbours : C.dual.ChronalNeighbours ↔ C.ChronalNeighbours :=
   ⟨fun h => ⟨h.2, h.1⟩, fun h => ⟨h.2, h.1⟩⟩
 
@@ -309,6 +352,12 @@ theorem ChronalPastNeighbours.mem_Zminus (h : C.ChronalPastNeighbours) (x : M) :
   intro N hN
   obtain ⟨p, hpV, hpx⟩ := h ⟨interior N, isOpen_interior⟩ x (mem_interior_iff_mem_nhds.2 hN)
   exact ⟨p, by simpa using C.lt_mono le_top hpx, interior_subset hpV⟩
+
+/-- With chronal future neighbours, every point is strongly tarentin in the future
+(`ChronalPastNeighbours.mem_Zminus` for `C.dual`). -/
+theorem ChronalFutureNeighbours.mem_Zplus (h : C.ChronalFutureNeighbours) (x : M) :
+    x ∈ C.Zplus :=
+  ChronalPastNeighbours.mem_Zminus (C := C.dual) h x
 
 /-- With chronal neighbours, every point is strongly tarentin in the future. -/
 theorem ChronalNeighbours.mem_Zplus (h : C.ChronalNeighbours) (x : M) : x ∈ C.Zplus :=
@@ -331,6 +380,13 @@ theorem AbsolutelyMinimal.chronalPastNeighbours_iff [T1Space M] (h : C.Absolutel
     obtain ⟨r, hvr, -⟩ := hmin.exists_lt_inf le_rfl V hv hvy
     have hrv : C.lt (⊤ ⊓ V) r v := hvr
     exact ⟨r, (inf_le_right : ⊤ ⊓ V ≤ V) (C.lt_mem_left hrv), C.lt_mono inf_le_right hrv⟩
+
+/-- Under absolute minimality on a `T1` space, chronal future neighbours in every open set are
+just a non-empty chronological future at every point (`AbsolutelyMinimal.chronalPastNeighbours_iff`
+for `C.dual`). -/
+theorem AbsolutelyMinimal.chronalFutureNeighbours_iff [T1Space M] (h : C.AbsolutelyMinimal) :
+    C.ChronalFutureNeighbours ↔ ∀ x : M, (C.Iplus ⊤ {x}).Nonempty :=
+  AbsolutelyMinimal.chronalPastNeighbours_iff (C := C.dual) (dual_absolutelyMinimal.2 h)
 
 /-- **Causal openness in the future from push-up and chronal past neighbours** (`push_up ∧
 chronal_past_neighbours ⇒ causally_open_future`). The proof of `causallyOpenFuture_of_pushUp`
@@ -355,20 +411,43 @@ theorem PushUp.causallyOpen_of_chronalNeighbours (h : C.PushUp) (hN : C.ChronalN
 
 /-! ## No causal endpoint -/
 
-/-- No past endpoint: every point has a causal past point other than itself. -/
-theorem noPastEndpoint_iff : C.NoPastEndpoint ↔ ∀ x : M, ∃ y, y ≠ x ∧ C.le ⊤ y x := by
+/-- `NoPastEndpoint` unfolded (its body before DEC-166 (a)): `J⁻(x) ≠ {x}` for every `x`. -/
+theorem noPastEndpoint_def : C.NoPastEndpoint ↔ ∀ x : M, C.Jminus ⊤ {x} ≠ {x} :=
+  Iff.rfl
+
+/-- No future endpoint for the time reversal is no past endpoint (the definition of
+`NoPastEndpoint`). -/
+theorem dual_noFutureEndpoint : C.dual.NoFutureEndpoint ↔ C.NoPastEndpoint :=
+  Iff.rfl
+
+/-- No past endpoint for the time reversal is no future endpoint. -/
+theorem dual_noPastEndpoint : C.dual.NoPastEndpoint ↔ C.NoFutureEndpoint :=
+  Iff.rfl
+
+/-- `NoCausalEndpoint` is the future base for `C.dual` (the past side) and for `C`. -/
+theorem noCausalEndpoint_iff_future :
+    C.NoCausalEndpoint ↔ C.dual.NoFutureEndpoint ∧ C.NoFutureEndpoint :=
+  Iff.rfl
+
+/-- No future endpoint: every point has a causal future point other than itself. -/
+theorem noFutureEndpoint_iff : C.NoFutureEndpoint ↔ ∀ x : M, ∃ y, y ≠ x ∧ C.le ⊤ x y := by
   constructor
   · intro h x
     by_contra hne
     push Not at hne
     refine h x (Set.ext fun y => ?_)
-    rw [Precausality.mem_Jminus_singleton, mem_singleton_iff]
+    rw [Precausality.mem_Jplus_singleton, mem_singleton_iff]
     exact ⟨fun hy => by_contra fun hyx => hne y hyx hy, fun hy => hy ▸ C.le_refl trivial⟩
   · intro h x hx
     obtain ⟨y, hyx, hy⟩ := h x
-    have hyJ : y ∈ C.Jminus ⊤ {x} := by simpa using hy
+    have hyJ : y ∈ C.Jplus ⊤ {x} := by simpa using hy
     rw [hx] at hyJ
     exact hyx hyJ
+
+/-- No past endpoint: every point has a causal past point other than itself
+(`noFutureEndpoint_iff` for `C.dual`). -/
+theorem noPastEndpoint_iff : C.NoPastEndpoint ↔ ∀ x : M, ∃ y, y ≠ x ∧ C.le ⊤ y x :=
+  noFutureEndpoint_iff (C := C.dual)
 
 theorem dual_noCausalEndpoint : C.dual.NoCausalEndpoint ↔ C.NoCausalEndpoint :=
   ⟨fun h => ⟨h.2, h.1⟩, fun h => ⟨h.2, h.1⟩⟩
@@ -533,7 +612,7 @@ theorem not_oneSidedBoundary_compl_zero :
 theorem lightlikeLine_noCausalEndpoint : lightlikeLine.NoCausalEndpoint :=
   ⟨Causality.noPastEndpoint_iff.2 fun p =>
       ⟨p - 1, (sub_one_lt p).ne, show p - 1 ≤ p ∧ _ from ⟨by linarith, fun _ _ => trivial⟩⟩,
-    Causality.noPastEndpoint_iff.2 fun p =>
+    Causality.noFutureEndpoint_iff.2 fun p =>
       ⟨p + 1, (lt_add_one p).ne', show p ≤ p + 1 ∧ _ from ⟨by linarith, fun _ _ => trivial⟩⟩⟩
 
 /-- The lightlike line has no chronal neighbours: its chronological relation is empty. -/

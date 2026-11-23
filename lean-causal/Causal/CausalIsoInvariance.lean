@@ -35,9 +35,10 @@ no metric. No label of
   `causallyOpen_iff`, `causallyOpenFuture_iff`, `causallyPlain_iff`, `absolutelyMinimal_iff`,
   `causallyArcConnected_iff`, `curvesExtend_iff`; the side conditions of `Causal.LadderLocal`
   (`locallyPushUp_iff`, `locallyCausallyOpenFuture_iff`, `locallyCausallyOpen_iff`,
-  `chronalPastNeighbours_iff`, `chronalNeighbours_iff`, `noPastEndpoint_iff`,
-  `noCausalEndpoint_iff`); `locallyCausallyArcConnected_iff`, the `…On` forms, `Zplus_image`,
-  `causalCurveOn_iff`, `chronalCurveOn_iff`.
+  `chronalPastNeighbours_iff`, `chronalFutureNeighbours_iff`, `chronalNeighbours_iff`,
+  `noPastEndpoint_iff`, `noFutureEndpoint_iff`, `noCausalEndpoint_iff`);
+  `locallyCausallyArcConnected_iff`, the `…On` forms, `Zplus_image`, `causalCurveOn_iff`,
+  `chronalCurveOn_iff`.
 * **`T-abs-causal-iso-invariance/time-function`** (3.29 `:349`, 3.39 `:426`) —
   `isTimeFunction_comp_iff` (`defi:fonction_temps`), `isTimeFunctionOrder_comp_iff`,
   `isCauchyTimeFunction_comp_iff`, `exists_timeFunction_iff` (the body of the node
@@ -739,6 +740,10 @@ theorem chronalPastNeighbours (hC : C.ChronalPastNeighbours) : D.ChronalPastNeig
 theorem chronalPastNeighbours_iff : C.ChronalPastNeighbours ↔ D.ChronalPastNeighbours :=
   ⟨h.chronalPastNeighbours, h.symm.chronalPastNeighbours⟩
 
+/-- The future base (`C.dual.ChronalPastNeighbours`, definitionally). -/
+theorem chronalFutureNeighbours_iff : C.ChronalFutureNeighbours ↔ D.ChronalFutureNeighbours :=
+  h.dual.chronalPastNeighbours_iff
+
 theorem chronalNeighbours_iff : C.ChronalNeighbours ↔ D.ChronalNeighbours :=
   and_congr h.chronalPastNeighbours_iff h.dual.chronalPastNeighbours_iff
 
@@ -749,6 +754,10 @@ theorem noPastEndpoint_iff : C.NoPastEndpoint ↔ D.NoPastEndpoint := by
   refine ⟨fun hC a => ?_, fun hD x => (key x).1 (hD (e x))⟩
   obtain ⟨x, rfl⟩ := e.surjective a
   exact (key x).2 (hC x)
+
+/-- The future base (`C.dual.NoPastEndpoint`, definitionally). -/
+theorem noFutureEndpoint_iff : C.NoFutureEndpoint ↔ D.NoFutureEndpoint :=
+  h.dual.noPastEndpoint_iff
 
 theorem noCausalEndpoint_iff : C.NoCausalEndpoint ↔ D.NoCausalEndpoint :=
   and_congr h.noPastEndpoint_iff h.dual.noPastEndpoint_iff

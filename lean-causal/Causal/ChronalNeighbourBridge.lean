@@ -8,17 +8,19 @@ Programme target `T-abs-chronal-neighbour-bridge` (`programme/roadmap.toml:571�
 label of `ETT.tex`; ETT-layer imports only, no model, no metric notion). It joins
 `HasChronalNeighbour` of `Causal.LocateExtension` (one point, one side, chronology in `M`;
 `LocateExtension.lean:138`) and `ChronalNeighbours` of `Causal.LadderLocal` (every point, both
-sides, chronology in every open `V`; `LadderLocal.lean:163`), through two named forms of chronology
+sides, chronology in every open `V`; `LadderLocal.lean:178`), through two named forms of chronology
 in `M`: `HasChronalNeighbourEverywhere` (every point, one side) and `NonemptyChronalCones` (every
 point, both sides).
 
 * **`T-abs-chronal-neighbour-bridge/0-everywhere`** — `ChronalNeighbours.hasChronalNeighbour`,
   `ChronalNeighbours.hasChronalNeighbourEverywhere`: chronal neighbours in every open set give a
   chronal neighbour at every point; in fact both sides in `M` (`ChronalNeighbours.nonemptyChronalCones`)
-  and in every open `V ∋ p` (`ChronalPastNeighbours.Iminus_nonempty_of_mem`).
+  and in every open `V ∋ p` (`ChronalPastNeighbours.Iminus_nonempty_of_mem`, and the future base
+  `ChronalFutureNeighbours.Iplus_nonempty_of_mem`).
 * **`T-abs-chronal-neighbour-bridge/1-minimal`** — `AbsolutelyMinimal.chronalNeighbours_iff`:
   under absolute minimality on a `T1` space, `ChronalNeighbours` iff `I⁺(x)` and `I⁻(x)` are
-  non-empty for every `x`; also `CausallyArcConnected.chronalNeighbours_iff` (no separation) and
+  non-empty for every `x`; also `CausallyArcConnected.chronalNeighbours_iff` (no separation, one
+  side each: `CausallyArcConnected.chronalPastNeighbours_iff`, `…chronalFutureNeighbours_iff`) and
   `AbsolutelyMinimal.chronalNeighbours_iff_Z`. Neither hypothesis can be dropped: `globalLine_separates`
   (`T2`, not absolutely minimal), `sierpinskiCausality_separates` (absolutely minimal, not `T1`);
   the latter also shows that `T1` cannot be dropped from `AbsolutelyMinimal.chronalPastNeighbours_iff`
@@ -40,7 +42,7 @@ point, both sides).
 > ChronalNeighbours (`programme/roadmap.toml:572`, the target's title)
 
 > It is not `HasChronalNeighbour` of the `Causal.LocateExtension` (one point, one side,
-> chronology in `M`). (`Causal/LadderLocal.lean:93–94`, SCOPE)
+> chronology in `M`). (`Causal/LadderLocal.lean:100–101`, SCOPE)
 
 ## Hypothesis checklist
 
@@ -141,6 +143,17 @@ theorem ChronalPastNeighbours.Iminus_nonempty (h : C.ChronalPastNeighbours) (x :
     (C.Iminus ⊤ {x}).Nonempty :=
   h.Iminus_nonempty_of_mem (V := ⊤) trivial
 
+/-- With chronal future neighbours, every point of an open `V` has a chronological future in `V`
+(`ChronalPastNeighbours.Iminus_nonempty_of_mem` for `C.dual`). -/
+theorem ChronalFutureNeighbours.Iplus_nonempty_of_mem (h : C.ChronalFutureNeighbours)
+    {V : Opens M} (hp : p ∈ V) : (C.Iplus V {p}).Nonempty :=
+  ChronalPastNeighbours.Iminus_nonempty_of_mem (C := C.dual) h hp
+
+/-- With chronal future neighbours, every point has a chronological future in `M`. -/
+theorem ChronalFutureNeighbours.Iplus_nonempty (h : C.ChronalFutureNeighbours) (x : M) :
+    (C.Iplus ⊤ {x}).Nonempty :=
+  ChronalPastNeighbours.Iminus_nonempty (C := C.dual) h x
+
 theorem ChronalNeighbours.Iminus_nonempty (h : C.ChronalNeighbours) (x : M) :
     (C.Iminus ⊤ {x}).Nonempty :=
   h.1.Iminus_nonempty x
@@ -175,9 +188,8 @@ non-empty chronological cones at every point**: both sides of
 `sierpinskiCausality_separates`). -/
 theorem AbsolutelyMinimal.chronalNeighbours_iff [T1Space M] (h : C.AbsolutelyMinimal) :
     C.ChronalNeighbours ↔ ∀ x : M, (C.Iplus ⊤ {x}).Nonempty ∧ (C.Iminus ⊤ {x}).Nonempty := by
-  have hd : C.dual.AbsolutelyMinimal := dual_absolutelyMinimal.2 h
   rw [ChronalNeighbours, AbsolutelyMinimal.chronalPastNeighbours_iff h,
-    AbsolutelyMinimal.chronalPastNeighbours_iff hd, ← forall_and]
+    AbsolutelyMinimal.chronalFutureNeighbours_iff h, ← forall_and]
   exact forall_congr' fun _ => And.comm
 
 /-- The same with the name `NonemptyChronalCones`. -/
@@ -218,13 +230,19 @@ theorem CausallyArcConnected.chronalPastNeighbours_iff (hC : C.CausallyArcConnec
   have hqv : C.lt V q v := Precausality.mem_Iminus_singleton.1 hq
   exact ⟨q, C.lt_mem_left hqv, hqv⟩
 
+/-- **Under causal arc-connectedness, with no separation axiom**, chronal future neighbours in
+every open set are a non-empty chronological future at every point
+(`CausallyArcConnected.chronalPastNeighbours_iff` for `C.dual`). -/
+theorem CausallyArcConnected.chronalFutureNeighbours_iff (hC : C.CausallyArcConnected) :
+    C.ChronalFutureNeighbours ↔ ∀ x : M, (C.Iplus ⊤ {x}).Nonempty :=
+  CausallyArcConnected.chronalPastNeighbours_iff (C := C.dual) (dual_causallyArcConnectedOn.2 hC)
+
 /-- **Under causal arc-connectedness, with no separation axiom**, `ChronalNeighbours` iff `I⁺(x)`
 and `I⁻(x)` are non-empty for every `x`. -/
 theorem CausallyArcConnected.chronalNeighbours_iff (hC : C.CausallyArcConnected) :
     C.ChronalNeighbours ↔ ∀ x : M, (C.Iplus ⊤ {x}).Nonempty ∧ (C.Iminus ⊤ {x}).Nonempty := by
-  have hd : C.dual.CausallyArcConnected := dual_causallyArcConnectedOn.2 hC
   rw [ChronalNeighbours, CausallyArcConnected.chronalPastNeighbours_iff hC,
-    CausallyArcConnected.chronalPastNeighbours_iff hd, ← forall_and]
+    CausallyArcConnected.chronalFutureNeighbours_iff hC, ← forall_and]
   exact forall_congr' fun _ => And.comm
 
 /-- `causally_arc_connected ∧ nonempty_chronal_cones ⇒ chronal_neighbours`, no separation. -/

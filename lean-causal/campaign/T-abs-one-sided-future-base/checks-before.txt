@@ -1,0 +1,2325 @@
+@Causal.Causality.isCausal_of_exists_timeFunction.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  (∃ T,
+      Continuous.{u_1, 0} T ∧
+        ∀ (x y : M),
+          Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y →
+            Ne.{u_1 + 1} x y → LT.lt.{0} (T x) (T y)) →
+    Causal.Causality.IsCausal.{u_1} C
+@Causal.Causality.isCausal_of_timeFunction.{u_1,
+    u_2} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {α : Type u_2}
+  [inst_1 : Preorder.{u_2} α] {T : M → α},
+  (∀ (x y : M),
+      Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y →
+        Ne.{u_1 + 1} x y → LT.lt.{u_2} (T x) (T y)) →
+    Causal.Causality.IsCausal.{u_1} C
+@Causal.Causality.transport.{u_1,
+    u_2} : {M : Type u_1} →
+  {N : Type u_2} →
+    [inst : TopologicalSpace.{u_1} M] →
+      [inst_1 : TopologicalSpace.{u_2} N] →
+        Causal.Causality.{u_1} M → Homeomorph.{u_1, u_2} M N → Causal.Causality.{u_2} N
+@Causal.IsCausalIso.{u_1,
+    u_2} : {M : Type u_1} →
+  {N : Type u_2} →
+    [inst : TopologicalSpace.{u_1} M] →
+      [inst_1 : TopologicalSpace.{u_2} N] →
+        Causal.Causality.{u_1} M → Causal.Causality.{u_2} N → Homeomorph.{u_1, u_2} M N → Prop
+@Causal.IsCausalIso.Iminus_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ (U : TopologicalSpace.Opens.{u_1} M) (A : Set.{u_1} M),
+      Eq.{u_2 + 1}
+        (Causal.Precausality.Iminus.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+          ((Homeomorph.opensCongr.{u_1, u_2} e) U) (Set.image.{u_1, u_2} (⇑e) A))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U A))
+@Causal.IsCausalIso.Iplus_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ (U : TopologicalSpace.Opens.{u_1} M) (A : Set.{u_1} M),
+      Eq.{u_2 + 1}
+        (Causal.Precausality.Iplus.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+          ((Homeomorph.opensCongr.{u_1, u_2} e) U) (Set.image.{u_1, u_2} (⇑e) A))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U A))
+@Causal.IsCausalIso.Jminus_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ (U : TopologicalSpace.Opens.{u_1} M) (A : Set.{u_1} M),
+      Eq.{u_2 + 1}
+        (Causal.Precausality.Jminus.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+          ((Homeomorph.opensCongr.{u_1, u_2} e) U) (Set.image.{u_1, u_2} (⇑e) A))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U A))
+@Causal.IsCausalIso.Jplus_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ (U : TopologicalSpace.Opens.{u_1} M) (A : Set.{u_1} M),
+      Eq.{u_2 + 1}
+        (Causal.Precausality.Jplus.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+          ((Homeomorph.opensCongr.{u_1, u_2} e) U) (Set.image.{u_1, u_2} (⇑e) A))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U A))
+@Causal.IsCausalIso.Zminus_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    Eq.{u_2 + 1} (Causal.Causality.Zminus.{u_2} D) (Set.image.{u_1, u_2} (⇑e) (Causal.Causality.Zminus.{u_1} C))
+@Causal.IsCausalIso.Zplus_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    Eq.{u_2 + 1} (Causal.Causality.Zplus.{u_2} D) (Set.image.{u_1, u_2} (⇑e) (Causal.Causality.Zplus.{u_1} C))
+@Causal.IsCausalIso.absolutelyMinimalOn.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Precausality.AbsolutelyMinimalOn.{u_1} (Causal.Causality.toPrecausality.{u_1} C) W →
+        Causal.Precausality.AbsolutelyMinimalOn.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+          ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.absolutelyMinimalOn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Precausality.AbsolutelyMinimalOn.{u_1} (Causal.Causality.toPrecausality.{u_1} C) W ↔
+        Causal.Precausality.AbsolutelyMinimalOn.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+          ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.absolutelyMinimal_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) ↔
+      Causal.Precausality.AbsolutelyMinimal.{u_2} (Causal.Causality.toPrecausality.{u_2} D))
+@Causal.IsCausalIso.casesOn.{u_1, u_2,
+    u_3} : {M : Type u_2} →
+  {N : Type u_3} →
+    [inst : TopologicalSpace.{u_2} M] →
+      [inst_1 : TopologicalSpace.{u_3} N] →
+        {C : Causal.Causality.{u_2} M} →
+          {D : Causal.Causality.{u_3} N} →
+            {e : Homeomorph.{u_2, u_3} M N} →
+              {motive : Causal.IsCausalIso.{u_2, u_3} C D e → Sort u_1} →
+                (t : Causal.IsCausalIso.{u_2, u_3} C D e) →
+                  ((strong : Causal.StrongMorphism.{u_2, u_3} C D ⇑e) →
+                      (strong_symm : Causal.StrongMorphism.{u_3, u_2} D C ⇑(Homeomorph.symm.{u_2, u_3} e)) → motive ⋯) →
+                    motive t
+@Causal.IsCausalIso.causalCurveIn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M} {I : Set.{0} ℝ} {c : ℝ → M},
+      Causal.Causality.CausalCurveIn.{u_1} C W I c ↔
+        Causal.Causality.CausalCurveIn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W) I
+          (Function.comp.{1, u_1 + 1, u_2 + 1} (⇑e) c)
+@Causal.IsCausalIso.causalCurveOn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M} {c : ℝ → M} {a b : ℝ},
+      Causal.Causality.CausalCurveOn.{u_1} C W c a b ↔
+        Causal.Causality.CausalCurveOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+          (Function.comp.{1, u_1 + 1, u_2 + 1} (⇑e) c) a b
+@Causal.IsCausalIso.causallyArcConnectedOn.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Causality.CausallyArcConnectedOn.{u_1} C W →
+        Causal.Causality.CausallyArcConnectedOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.causallyArcConnectedOn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Causality.CausallyArcConnectedOn.{u_1} C W ↔
+        Causal.Causality.CausallyArcConnectedOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.causallyArcConnected_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.CausallyArcConnected.{u_1} C ↔ Causal.Causality.CausallyArcConnected.{u_2} D)
+@Causal.IsCausalIso.causallyCompact_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.CausallyCompact.{u_1} C ↔ Causal.Causality.CausallyCompact.{u_2} D)
+@Causal.IsCausalIso.causallyConvexIn_image_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {V : Set.{u_1} M} {U : TopologicalSpace.Opens.{u_1} M},
+      Causal.Causality.CausallyConvexIn.{u_2} D (Set.image.{u_1, u_2} (⇑e) V) ((Homeomorph.opensCongr.{u_1, u_2} e) U) ↔
+        Causal.Causality.CausallyConvexIn.{u_1} C V U
+@Causal.IsCausalIso.causallyOpenFutureOn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Causality.CausallyOpenFutureOn.{u_1} C W ↔
+        Causal.Causality.CausallyOpenFutureOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.causallyOpenFuture_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.CausallyOpenFuture.{u_1} C ↔ Causal.Causality.CausallyOpenFuture.{u_2} D)
+@Causal.IsCausalIso.causallyOpen_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → (Causal.Causality.CausallyOpen.{u_1} C ↔ Causal.Causality.CausallyOpen.{u_2} D)
+@Causal.IsCausalIso.causallyPlain.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.Causality.CausallyPlain.{u_1} C → Causal.Causality.CausallyPlain.{u_2} D
+@Causal.IsCausalIso.causallyPlain_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.CausallyPlain.{u_1} C ↔ Causal.Causality.CausallyPlain.{u_2} D)
+@Causal.IsCausalIso.chronalCurveOn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M} {c : ℝ → M} {a b : ℝ},
+      Causal.Causality.ChronalCurveOn.{u_1} C W c a b ↔
+        Causal.Causality.ChronalCurveOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+          (Function.comp.{1, u_1 + 1, u_2 + 1} (⇑e) c) a b
+@Causal.IsCausalIso.chronalNeighbours_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.ChronalNeighbours.{u_1} C ↔ Causal.Causality.ChronalNeighbours.{u_2} D)
+@Causal.IsCausalIso.chronalPastNeighbours.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    Causal.Causality.ChronalPastNeighbours.{u_1} C → Causal.Causality.ChronalPastNeighbours.{u_2} D
+@Causal.IsCausalIso.chronalPastNeighbours_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.ChronalPastNeighbours.{u_1} C ↔ Causal.Causality.ChronalPastNeighbours.{u_2} D)
+@Causal.IsCausalIso.curvesExtend.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.Causality.CurvesExtend.{u_1} C → Causal.Causality.CurvesExtend.{u_2} D
+@Causal.IsCausalIso.curvesExtend_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → (Causal.Causality.CurvesExtend.{u_1} C ↔ Causal.Causality.CurvesExtend.{u_2} D)
+@Causal.IsCausalIso.diamond_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ (U : TopologicalSpace.Opens.{u_1} M) (p q : M),
+      Eq.{u_2 + 1} (Causal.Causality.diamond.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) U) (e p) (e q))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Causality.diamond.{u_1} C U p q))
+@Causal.IsCausalIso.dual.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    Causal.IsCausalIso.{u_1, u_2} (Causal.Causality.dual.{u_1} C) (Causal.Causality.dual.{u_2} D) e
+@Causal.IsCausalIso.eq_transport.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Eq.{u_2 + 1} D (Causal.Causality.transport.{u_1, u_2} C e)
+@Causal.IsCausalIso.exists_timeFunction_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ((∃ T,
+        Continuous.{u_1, 0} T ∧
+          ∀ (x y : M),
+            Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y →
+              Ne.{u_1 + 1} x y → LT.lt.{0} (T x) (T y)) ↔
+      ∃ T,
+        Continuous.{u_2, 0} T ∧
+          ∀ (a b : N),
+            Causal.Precausality.le.{u_2} (Causal.Causality.toPrecausality.{u_2} D) Top.top.{u_2} a b →
+              Ne.{u_2 + 1} a b → LT.lt.{0} (T a) (T b))
+@Causal.IsCausalIso.globallyHyperbolicOn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Causality.GloballyHyperbolicOn.{u_1} C W ↔
+        Causal.Causality.GloballyHyperbolicOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.globallyHyperbolic_and_isCauchySurface_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ (S : Set.{u_2} N),
+      Causal.Causality.GloballyHyperbolic.{u_2} D ∧ Causal.Causality.IsCauchySurface.{u_2} D S ↔
+        Causal.Causality.GloballyHyperbolic.{u_1} C ∧
+          Causal.Causality.IsCauchySurface.{u_1} C (Set.preimage.{u_1, u_2} (⇑e) S)
+@Causal.IsCausalIso.globallyHyperbolic_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.GloballyHyperbolic.{u_1} C ↔ Causal.Causality.GloballyHyperbolic.{u_2} D)
+@Causal.IsCausalIso.inextensible_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M} {I : Set.{0} ℝ} {c : ℝ → M},
+      Causal.Causality.Inextensible.{u_1} C W I c ↔
+        Causal.Causality.Inextensible.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W) I
+          (Function.comp.{1, u_1 + 1, u_2 + 1} (⇑e) c)
+@Causal.IsCausalIso.isAcausal_image_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {S : Set.{u_1} M},
+      Causal.Causality.IsAcausal.{u_2} D (Set.image.{u_1, u_2} (⇑e) S) ↔ Causal.Causality.IsAcausal.{u_1} C S
+@Causal.IsCausalIso.isCauchySurfaceOn_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M} {S : Set.{u_1} M},
+      Causal.Causality.IsCauchySurfaceOn.{u_1} C W S →
+        Causal.Causality.IsCauchySurfaceOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+          (Set.image.{u_1, u_2} (⇑e) S)
+@Causal.IsCausalIso.isCauchySurfaceOn_image_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M} {S : Set.{u_1} M},
+      Causal.Causality.IsCauchySurfaceOn.{u_1} C W S ↔
+        Causal.Causality.IsCauchySurfaceOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+          (Set.image.{u_1, u_2} (⇑e) S)
+@Causal.IsCausalIso.isCauchySurface_image_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {S : Set.{u_1} M},
+      Causal.Causality.IsCauchySurface.{u_1} C S ↔
+        Causal.Causality.IsCauchySurface.{u_2} D (Set.image.{u_1, u_2} (⇑e) S)
+@Causal.IsCausalIso.isCauchySurface_preimage_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {S : Set.{u_2} N},
+      Causal.Causality.IsCauchySurface.{u_2} D S ↔
+        Causal.Causality.IsCauchySurface.{u_1} C (Set.preimage.{u_1, u_2} (⇑e) S)
+@Causal.IsCausalIso.isCauchyTimeFunction_comp_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {T : N → ℝ},
+      Causal.Causality.IsCauchyTimeFunction.{u_1} C (Function.comp.{u_1 + 1, u_2 + 1, 1} T ⇑e) ↔
+        Causal.Causality.IsCauchyTimeFunction.{u_2} D T
+@Causal.IsCausalIso.isCausal_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → (Causal.Causality.IsCausal.{u_1} C ↔ Causal.Causality.IsCausal.{u_2} D)
+@Causal.IsCausalIso.isCausal_of_timeFunction.{u_1, u_2,
+    u_3} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {α : Type u_3} [inst_2 : Preorder.{u_3} α] {T : M → α},
+      (∀ (x y : M),
+          Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y →
+            Ne.{u_1 + 1} x y → LT.lt.{u_3} (T x) (T y)) →
+        Causal.Causality.IsCausal.{u_2} D
+@Causal.IsCausalIso.isEMorphism.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.IsEMorphism.{u_1, u_2} C D ⇑e
+@Causal.IsCausalIso.isTimeFunctionOrder_comp_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {T : N → ℝ},
+      Causal.Causality.IsTimeFunctionOrder.{u_1} C (Function.comp.{u_1 + 1, u_2 + 1, 1} T ⇑e) ↔
+        Causal.Causality.IsTimeFunctionOrder.{u_2} D T
+@Causal.IsCausalIso.isTimeFunction_comp_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {T : N → ℝ},
+      Causal.Causality.IsTimeFunction.{u_1} C (Function.comp.{u_1 + 1, u_2 + 1, 1} T ⇑e) ↔
+        Causal.Causality.IsTimeFunction.{u_2} D T
+@Causal.IsCausalIso.leTopIso.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.LeTopIso.{u_1, u_2} C D e
+@Causal.IsCausalIso.le_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {U : TopologicalSpace.Opens.{u_1} M} {x y : M},
+      Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U x y ↔
+        Causal.Precausality.le.{u_2} (Causal.Causality.toPrecausality.{u_2} D) ((Homeomorph.opensCongr.{u_1, u_2} e) U)
+          (e x) (e y)
+@Causal.IsCausalIso.le_top_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {x y : M},
+      Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y ↔
+        Causal.Precausality.le.{u_2} (Causal.Causality.toPrecausality.{u_2} D) Top.top.{u_2} (e x) (e y)
+@Causal.IsCausalIso.locallyCausallyArcConnected.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    Causal.Causality.LocallyCausallyArcConnected.{u_1} C → Causal.Causality.LocallyCausallyArcConnected.{u_2} D
+@Causal.IsCausalIso.locallyCausallyArcConnected_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.LocallyCausallyArcConnected.{u_1} C ↔ Causal.Causality.LocallyCausallyArcConnected.{u_2} D)
+@Causal.IsCausalIso.locallyCausallyOpenFuture.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    Causal.Causality.LocallyCausallyOpenFuture.{u_1} C → Causal.Causality.LocallyCausallyOpenFuture.{u_2} D
+@Causal.IsCausalIso.locallyCausallyOpenFuture_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.LocallyCausallyOpenFuture.{u_1} C ↔ Causal.Causality.LocallyCausallyOpenFuture.{u_2} D)
+@Causal.IsCausalIso.locallyCausallyOpen_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.LocallyCausallyOpen.{u_1} C ↔ Causal.Causality.LocallyCausallyOpen.{u_2} D)
+@Causal.IsCausalIso.locallyPushUp.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.Causality.LocallyPushUp.{u_1} C → Causal.Causality.LocallyPushUp.{u_2} D
+@Causal.IsCausalIso.locallyPushUp_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.LocallyPushUp.{u_1} C ↔ Causal.Causality.LocallyPushUp.{u_2} D)
+@Causal.IsCausalIso.lt_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {U : TopologicalSpace.Opens.{u_1} M} {x y : M},
+      Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U x y ↔
+        Causal.Precausality.lt.{u_2} (Causal.Causality.toPrecausality.{u_2} D) ((Homeomorph.opensCongr.{u_1, u_2} e) U)
+          (e x) (e y)
+@Causal.IsCausalIso.lt_top_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {x y : M},
+      Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y ↔
+        Causal.Precausality.lt.{u_2} (Causal.Causality.toPrecausality.{u_2} D) Top.top.{u_2} (e x) (e y)
+@Causal.IsCausalIso.mk.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.StrongMorphism.{u_1, u_2} C D ⇑e →
+    Causal.StrongMorphism.{u_2, u_1} D C ⇑(Homeomorph.symm.{u_1, u_2} e) → Causal.IsCausalIso.{u_1, u_2} C D e
+@Causal.IsCausalIso.noCausalEndpoint_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.NoCausalEndpoint.{u_1} C ↔ Causal.Causality.NoCausalEndpoint.{u_2} D)
+@Causal.IsCausalIso.noPastEndpoint_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.NoPastEndpoint.{u_1} C ↔ Causal.Causality.NoPastEndpoint.{u_2} D)
+@Causal.IsCausalIso.openDiamond_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ (U : TopologicalSpace.Opens.{u_1} M) (p q : M),
+      Eq.{u_2 + 1} (Causal.Causality.openDiamond.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) U) (e p) (e q))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Causality.openDiamond.{u_1} C U p q))
+@Causal.IsCausalIso.pushUpOn.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Causality.PushUpOn.{u_1} C W → Causal.Causality.PushUpOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.pushUpOn_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M},
+      Causal.Causality.PushUpOn.{u_1} C W ↔ Causal.Causality.PushUpOn.{u_2} D ((Homeomorph.opensCongr.{u_1, u_2} e) W)
+@Causal.IsCausalIso.pushUp_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → (Causal.Causality.PushUp.{u_1} C ↔ Causal.Causality.PushUp.{u_2} D)
+@Causal.IsCausalIso.rec.{u_1, u_2,
+    u_3} : {M : Type u_2} →
+  {N : Type u_3} →
+    [inst : TopologicalSpace.{u_2} M] →
+      [inst_1 : TopologicalSpace.{u_3} N] →
+        {C : Causal.Causality.{u_2} M} →
+          {D : Causal.Causality.{u_3} N} →
+            {e : Homeomorph.{u_2, u_3} M N} →
+              {motive : Causal.IsCausalIso.{u_2, u_3} C D e → Sort u_1} →
+                ((strong : Causal.StrongMorphism.{u_2, u_3} C D ⇑e) →
+                    (strong_symm : Causal.StrongMorphism.{u_3, u_2} D C ⇑(Homeomorph.symm.{u_2, u_3} e)) → motive ⋯) →
+                  (t : Causal.IsCausalIso.{u_2, u_3} C D e) → motive t
+@Causal.IsCausalIso.recOn.{u_1, u_2,
+    u_3} : {M : Type u_2} →
+  {N : Type u_3} →
+    [inst : TopologicalSpace.{u_2} M] →
+      [inst_1 : TopologicalSpace.{u_3} N] →
+        {C : Causal.Causality.{u_2} M} →
+          {D : Causal.Causality.{u_3} N} →
+            {e : Homeomorph.{u_2, u_3} M N} →
+              {motive : Causal.IsCausalIso.{u_2, u_3} C D e → Sort u_1} →
+                (t : Causal.IsCausalIso.{u_2, u_3} C D e) →
+                  ((strong : Causal.StrongMorphism.{u_2, u_3} C D ⇑e) →
+                      (strong_symm : Causal.StrongMorphism.{u_3, u_2} D C ⇑(Homeomorph.symm.{u_2, u_3} e)) → motive ⋯) →
+                    motive t
+@Causal.IsCausalIso.refl.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M] (C : Causal.Causality.{u_1} M),
+  Causal.IsCausalIso.{u_1, u_1} C C (Homeomorph.refl.{u_1} M)
+@Causal.IsCausalIso.strictMono_le_comp_iff.{u_1, u_2,
+    u_3} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    ∀ {α : Type u_3} [inst_2 : Preorder.{u_3} α] {T : N → α},
+      (∀ (x y : M),
+          Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y →
+            Ne.{u_1 + 1} x y → LT.lt.{u_3} (T (e x)) (T (e y))) ↔
+        ∀ (a b : N),
+          Causal.Precausality.le.{u_2} (Causal.Causality.toPrecausality.{u_2} D) Top.top.{u_2} a b →
+            Ne.{u_2 + 1} a b → LT.lt.{u_3} (T a) (T b)
+@Causal.IsCausalIso.strong.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.StrongMorphism.{u_1, u_2} C D ⇑e
+@Causal.IsCausalIso.strong_symm.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.StrongMorphism.{u_2, u_1} D C ⇑(Homeomorph.symm.{u_1, u_2} e)
+@Causal.IsCausalIso.stronglyCausalOpen_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.StronglyCausalOpen.{u_1} C ↔ Causal.Causality.StronglyCausalOpen.{u_2} D)
+@Causal.IsCausalIso.stronglyCausal_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    (Causal.Causality.StronglyCausal.{u_1} C ↔ Causal.Causality.StronglyCausal.{u_2} D)
+@Causal.IsCausalIso.symm.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → Causal.IsCausalIso.{u_2, u_1} D C (Homeomorph.symm.{u_1, u_2} e)
+@Causal.IsCausalIso.tarentin_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e → (Causal.Causality.Tarentin.{u_1} C ↔ Causal.Causality.Tarentin.{u_2} D)
+@Causal.IsCausalIso.trans.{u_1, u_2,
+    u_3} : ∀ {M : Type u_1} {N : Type u_2} {P : Type u_3} [inst : TopologicalSpace.{u_1} M]
+  [inst_1 : TopologicalSpace.{u_2} N] [inst_2 : TopologicalSpace.{u_3} P] {C : Causal.Causality.{u_1} M}
+  {D : Causal.Causality.{u_2} N} {E : Causal.Causality.{u_3} P} {e : Homeomorph.{u_1, u_2} M N}
+  {f : Homeomorph.{u_2, u_3} N P},
+  Causal.IsCausalIso.{u_1, u_2} C D e →
+    Causal.IsCausalIso.{u_2, u_3} D E f → Causal.IsCausalIso.{u_1, u_3} C E (Homeomorph.trans.{u_1, u_2, u_3} e f)
+@Causal.LeTopIso.{u_1,
+    u_2} : {M : Type u_1} →
+  {N : Type u_2} →
+    [inst : TopologicalSpace.{u_1} M] →
+      [inst_1 : TopologicalSpace.{u_2} N] →
+        Causal.Causality.{u_1} M → Causal.Causality.{u_2} N → Homeomorph.{u_1, u_2} M N → Prop
+@Causal.LeTopIso.causallyCompact_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    (Causal.Causality.CausallyCompact.{u_1} C ↔ Causal.Causality.CausallyCompact.{u_2} D)
+@Causal.LeTopIso.causallyConvexIn_image_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    ∀ {V : Set.{u_1} M},
+      Causal.Causality.CausallyConvexIn.{u_2} D (Set.image.{u_1, u_2} (⇑e) V) Top.top.{u_2} ↔
+        Causal.Causality.CausallyConvexIn.{u_1} C V Top.top.{u_1}
+@Causal.LeTopIso.diamond_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    ∀ (p q : M),
+      Eq.{u_2 + 1} (Causal.Causality.diamond.{u_2} D Top.top.{u_2} (e p) (e q))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Causality.diamond.{u_1} C Top.top.{u_1} p q))
+@Causal.LeTopIso.exists_timeFunction_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    ((∃ T,
+        Continuous.{u_1, 0} T ∧
+          ∀ (x y : M),
+            Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y →
+              Ne.{u_1 + 1} x y → LT.lt.{0} (T x) (T y)) ↔
+      ∃ T,
+        Continuous.{u_2, 0} T ∧
+          ∀ (a b : N),
+            Causal.Precausality.le.{u_2} (Causal.Causality.toPrecausality.{u_2} D) Top.top.{u_2} a b →
+              Ne.{u_2 + 1} a b → LT.lt.{0} (T a) (T b))
+@Causal.LeTopIso.globallyHyperbolic_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    (Causal.Causality.GloballyHyperbolic.{u_1} C ↔ Causal.Causality.GloballyHyperbolic.{u_2} D)
+@Causal.LeTopIso.isAcausal_image_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    ∀ {S : Set.{u_1} M},
+      Causal.Causality.IsAcausal.{u_2} D (Set.image.{u_1, u_2} (⇑e) S) ↔ Causal.Causality.IsAcausal.{u_1} C S
+@Causal.LeTopIso.isCausal_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e → (Causal.Causality.IsCausal.{u_1} C ↔ Causal.Causality.IsCausal.{u_2} D)
+@Causal.LeTopIso.openDiamond_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    ∀ (p q : M),
+      Eq.{u_2 + 1} (Causal.Causality.openDiamond.{u_2} D Top.top.{u_2} (e p) (e q))
+        (Set.image.{u_1, u_2} (⇑e) (Causal.Causality.openDiamond.{u_1} C Top.top.{u_1} p q))
+@Causal.LeTopIso.strictMono_le_comp_iff.{u_1, u_2,
+    u_3} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    ∀ {α : Type u_3} [inst_2 : Preorder.{u_3} α] {T : N → α},
+      (∀ (x y : M),
+          Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x y →
+            Ne.{u_1 + 1} x y → LT.lt.{u_3} (T (e x)) (T (e y))) ↔
+        ∀ (a b : N),
+          Causal.Precausality.le.{u_2} (Causal.Causality.toPrecausality.{u_2} D) Top.top.{u_2} a b →
+            Ne.{u_2 + 1} a b → LT.lt.{u_3} (T a) (T b)
+@Causal.LeTopIso.stronglyCausal.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e → Causal.Causality.StronglyCausal.{u_1} C → Causal.Causality.StronglyCausal.{u_2} D
+@Causal.LeTopIso.stronglyCausalOpen.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    Causal.Causality.StronglyCausalOpen.{u_1} C → Causal.Causality.StronglyCausalOpen.{u_2} D
+@Causal.LeTopIso.stronglyCausalOpen_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e →
+    (Causal.Causality.StronglyCausalOpen.{u_1} C ↔ Causal.Causality.StronglyCausalOpen.{u_2} D)
+@Causal.LeTopIso.stronglyCausal_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e → (Causal.Causality.StronglyCausal.{u_1} C ↔ Causal.Causality.StronglyCausal.{u_2} D)
+@Causal.LeTopIso.symm.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e → Causal.LeTopIso.{u_2, u_1} D C (Homeomorph.symm.{u_1, u_2} e)
+@Causal.LeTopIso.tarentin.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e → Causal.Causality.Tarentin.{u_1} C → Causal.Causality.Tarentin.{u_2} D
+@Causal.LeTopIso.tarentin_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.LeTopIso.{u_1, u_2} C D e → (Causal.Causality.Tarentin.{u_1} C ↔ Causal.Causality.Tarentin.{u_2} D)
+@Causal.chartImage_toOpenPartialHomeomorph.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N) (U : TopologicalSpace.Opens.{u_1} M),
+  Eq.{u_2 + 1} (Causal.chartImage.{u_1, u_2} (Homeomorph.toOpenPartialHomeomorph.{u_1, u_2} e) U)
+    ((Homeomorph.opensCongr.{u_1, u_2} e) U)
+@Causal.chartTransport_toOpenPartialHomeomorph.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (D : Causal.Causality.{u_2} N) (e : Homeomorph.{u_1, u_2} M N),
+  Eq.{u_1 + 1} (Causal.Causality.chartTransport.{u_1, u_2} D (Homeomorph.toOpenPartialHomeomorph.{u_1, u_2} e))
+    (Causal.Causality.transport.{u_2, u_1} D (Homeomorph.symm.{u_1, u_2} e))
+@Causal.coe_opensCongr.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N) (U : TopologicalSpace.Opens.{u_1} M),
+  Eq.{u_2 + 1} (↑((Homeomorph.opensCongr.{u_1, u_2} e) U)) (Set.image.{u_1, u_2} ⇑e ↑U)
+@Causal.curveOn_comp.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N) {r : TopologicalSpace.Opens.{u_1} M → M → M → Prop}
+  {r' : TopologicalSpace.Opens.{u_2} N → N → N → Prop},
+  (∀ (U : TopologicalSpace.Opens.{u_1} M) (x y : M),
+      r U x y → r' ((Homeomorph.opensCongr.{u_1, u_2} e) U) (e x) (e y)) →
+    ∀ {W : TopologicalSpace.Opens.{u_1} M} {c : ℝ → M} {a b : ℝ},
+      Causal.CurveOn.{u_1} r W c a b →
+        Causal.CurveOn.{u_2} r' ((Homeomorph.opensCongr.{u_1, u_2} e) W) (Function.comp.{1, u_1 + 1, u_2 + 1} (⇑e) c) a
+          b
+Causal.doubledLine : Causal.Causality.{0} (Prod.{0, 0} ℝ Bool)
+Causal.doubledLine_isTimeFunction_fst : Causal.Causality.IsTimeFunction.{0} Causal.doubledLine Prod.fst.{0, 0}
+Causal.doubledLine_not_isCausal : ¬Causal.Causality.IsCausal.{0} Causal.doubledLine
+Causal.exists_isTimeFunction_not_isCausal : ∃ C T,
+  Causal.Causality.IsTimeFunction.{0} C T ∧ ¬Causal.Causality.IsCausal.{0} C
+@Causal.homeomorph_symm_image_image.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N) (S : Set.{u_1} M),
+  Eq.{u_1 + 1} (Set.image.{u_2, u_1} (⇑(Homeomorph.symm.{u_1, u_2} e)) (Set.image.{u_1, u_2} (⇑e) S)) S
+@Causal.isCausalIso_iff.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e ↔
+    ∀ (U : TopologicalSpace.Opens.{u_1} M) (x y : M),
+      (Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U x y ↔
+          Causal.Precausality.le.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+            ((Homeomorph.opensCongr.{u_1, u_2} e) U) (e x) (e y)) ∧
+        (Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) U x y ↔
+          Causal.Precausality.lt.{u_2} (Causal.Causality.toPrecausality.{u_2} D)
+            ((Homeomorph.opensCongr.{u_1, u_2} e) U) (e x) (e y))
+@Causal.isCausalIso_iff_chartIso.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e ↔ Causal.ChartIso.{u_1, u_2} C D (Homeomorph.toOpenPartialHomeomorph.{u_1, u_2} e)
+@Causal.isCausalIso_iff_eq_transport.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  {C : Causal.Causality.{u_1} M} {D : Causal.Causality.{u_2} N} {e : Homeomorph.{u_1, u_2} M N},
+  Causal.IsCausalIso.{u_1, u_2} C D e ↔ Eq.{u_2 + 1} D (Causal.Causality.transport.{u_1, u_2} C e)
+Causal.isCausalIso_iff_nonempty_iso.{u_1} : ∀ (X Y : Causal.Spacetime.{u_1}),
+  (∃ e, Causal.IsCausalIso.{u_1, u_1} (Causal.Spacetime.causality.{u_1} X) (Causal.Spacetime.causality.{u_1} Y) e) ↔
+    Nonempty.{u_1 + 1} (CategoryTheory.Iso.{u_1, u_1 + 1} X Y)
+@Causal.isCausalIso_transport.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (C : Causal.Causality.{u_1} M) (e : Homeomorph.{u_1, u_2} M N),
+  Causal.IsCausalIso.{u_1, u_2} C (Causal.Causality.transport.{u_1, u_2} C e) e
+@Causal.mem_opensCongr.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N) {U : TopologicalSpace.Opens.{u_1} M} {x : M},
+  Membership.mem.{u_2, u_2} ((Homeomorph.opensCongr.{u_1, u_2} e) U) (e x) ↔ Membership.mem.{u_1, u_1} U x
+Causal.not_isCausalIso_timelikeLine_lightlikeLine : ¬Causal.IsCausalIso.{0, 0} Causal.timelikeLine Causal.lightlikeLine
+    (Homeomorph.refl.{0} ℝ)
+@Causal.opensCongr_symm_opensCongr.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N) (V : TopologicalSpace.Opens.{u_2} N),
+  Eq.{u_2 + 1}
+    ((Homeomorph.opensCongr.{u_1, u_2} e) ((Homeomorph.opensCongr.{u_2, u_1} (Homeomorph.symm.{u_1, u_2} e)) V)) V
+@Causal.opensCongr_top.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N), Eq.{u_2 + 1} ((Homeomorph.opensCongr.{u_1, u_2} e) Top.top.{u_1}) Top.top.{u_2}
+@Causal.symm_opensCongr_opensCongr.{u_1,
+    u_2} : ∀ {M : Type u_1} {N : Type u_2} [inst : TopologicalSpace.{u_1} M] [inst_1 : TopologicalSpace.{u_2} N]
+  (e : Homeomorph.{u_1, u_2} M N) (U : TopologicalSpace.Opens.{u_1} M),
+  Eq.{u_1 + 1}
+    ((Homeomorph.opensCongr.{u_2, u_1} (Homeomorph.symm.{u_1, u_2} e)) ((Homeomorph.opensCongr.{u_1, u_2} e) U)) U
+Causal.timelikeLine_isCausalIso_addRight : ∀ (t : ℝ),
+  Causal.IsCausalIso.{0, 0} Causal.timelikeLine Causal.timelikeLine (Homeomorph.addRight.{0} t)
+Causal.timelikeLine_leTopIso_lightlikeLine : Causal.LeTopIso.{0, 0} Causal.timelikeLine Causal.lightlikeLine
+  (Homeomorph.refl.{0} ℝ)
+@Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.PushUp.{u_1} C → Causal.Causality.ChronalNeighbours.{u_1} C → Causal.Causality.CausallyPlain.{u_1} C
+@Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} [T1Space.{u_1} M],
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    (Causal.Causality.ChronalNeighbours.{u_1} C ↔
+      ∀ (x : M),
+        Set.Nonempty.{u_1}
+            (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+              (Singleton.singleton.{u_1, u_1} x)) ∧
+          Set.Nonempty.{u_1}
+            (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+              (Singleton.singleton.{u_1, u_1} x)))
+@Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff_Z.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} [T1Space.{u_1} M],
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    (Causal.Causality.ChronalNeighbours.{u_1} C ↔
+      Eq.{u_1 + 1} (Causal.Causality.Zplus.{u_1} C) Set.univ.{u_1} ∧
+        Eq.{u_1 + 1} (Causal.Causality.Zminus.{u_1} C) Set.univ.{u_1})
+@Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff_nonemptyChronalCones.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} [T1Space.{u_1} M],
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    (Causal.Causality.ChronalNeighbours.{u_1} C ↔ Causal.Causality.NonemptyChronalCones.{u_1} C)
+@Causal.Causality.AbsolutelyMinimal.chronalNeighbours_of_nonemptyChronalCones.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} [T1Space.{u_1} M],
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    Causal.Causality.NonemptyChronalCones.{u_1} C → Causal.Causality.ChronalNeighbours.{u_1} C
+@Causal.Causality.AbsolutelyMinimal.hasChronalNeighbour_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {p : M} [T1Space.{u_1} M],
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    (Causal.Causality.HasChronalNeighbour.{u_1} C p ↔
+      Membership.mem.{u_1, u_1} (Union.union.{u_1} (Causal.Causality.Zplus.{u_1} C) (Causal.Causality.Zminus.{u_1} C))
+        p)
+@Causal.Causality.CausallyArcConnected.chronalNeighbours_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    (Causal.Causality.ChronalNeighbours.{u_1} C ↔
+      ∀ (x : M),
+        Set.Nonempty.{u_1}
+            (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+              (Singleton.singleton.{u_1, u_1} x)) ∧
+          Set.Nonempty.{u_1}
+            (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+              (Singleton.singleton.{u_1, u_1} x)))
+@Causal.Causality.CausallyArcConnected.chronalNeighbours_of_nonemptyChronalCones.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    Causal.Causality.NonemptyChronalCones.{u_1} C → Causal.Causality.ChronalNeighbours.{u_1} C
+@Causal.Causality.CausallyArcConnected.chronalPastNeighbours_iff.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    (Causal.Causality.ChronalPastNeighbours.{u_1} C ↔
+      ∀ (x : M),
+        Set.Nonempty.{u_1}
+          (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+            (Singleton.singleton.{u_1, u_1} x)))
+@Causal.Causality.ChronalNeighbours.Iminus_nonempty.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C →
+    ∀ (x : M),
+      Set.Nonempty.{u_1}
+        (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+          (Singleton.singleton.{u_1, u_1} x))
+@Causal.Causality.ChronalNeighbours.Iplus_nonempty.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C →
+    ∀ (x : M),
+      Set.Nonempty.{u_1}
+        (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+          (Singleton.singleton.{u_1, u_1} x))
+@Causal.Causality.ChronalNeighbours.hasChronalNeighbour.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C → ∀ (p : M), Causal.Causality.HasChronalNeighbour.{u_1} C p
+@Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C → Causal.Causality.HasChronalNeighbourEverywhere.{u_1} C
+@Causal.Causality.ChronalNeighbours.nonemptyChronalCones.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C → Causal.Causality.NonemptyChronalCones.{u_1} C
+@Causal.Causality.ChronalPastNeighbours.Iminus_nonempty.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalPastNeighbours.{u_1} C →
+    ∀ (x : M),
+      Set.Nonempty.{u_1}
+        (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+          (Singleton.singleton.{u_1, u_1} x))
+@Causal.Causality.ChronalPastNeighbours.Iminus_nonempty_of_mem.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {p : M},
+  Causal.Causality.ChronalPastNeighbours.{u_1} C →
+    ∀ {V : TopologicalSpace.Opens.{u_1} M},
+      Membership.mem.{u_1, u_1} V p →
+        Set.Nonempty.{u_1}
+          (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V
+            (Singleton.singleton.{u_1, u_1} p))
+@Causal.Causality.HasChronalNeighbourEverywhere.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.NonemptyChronalCones.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.NonemptyChronalCones.hasChronalNeighbourEverywhere.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NonemptyChronalCones.{u_1} C → Causal.Causality.HasChronalNeighbourEverywhere.{u_1} C
+@Causal.Causality.dual_hasChronalNeighbourEverywhere.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.HasChronalNeighbourEverywhere.{u_1} (Causal.Causality.dual.{u_1} C) ↔
+    Causal.Causality.HasChronalNeighbourEverywhere.{u_1} C
+@Causal.Causality.dual_nonemptyChronalCones.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NonemptyChronalCones.{u_1} (Causal.Causality.dual.{u_1} C) ↔
+    Causal.Causality.NonemptyChronalCones.{u_1} C
+@Causal.Causality.exists_leaving_of_chronalNeighbours.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {O : Set.{u_1} M} [PreconnectedSpace.{u_1} M],
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    Causal.Causality.ChronalNeighbours.{u_1} C →
+      IsOpen.{u_1} O →
+        Set.Nonempty.{u_1} O →
+          Ne.{u_1 + 1} O Set.univ.{u_1} →
+            ∃ γ,
+              (Causal.Causality.ChronalCurveOn.{u_1} C Top.top.{u_1} γ 0 1 ∨
+                  Causal.Causality.ChronalCurveOn.{u_1} (Causal.Causality.dual.{u_1} C) Top.top.{u_1} γ 0 1) ∧
+                (∀ (t : ℝ), Membership.mem.{0, 0} (Set.Ico.{0} 0 1) t → Membership.mem.{u_1, u_1} O (γ t)) ∧
+                  γ 1 ∉ O ∧ Membership.mem.{u_1, u_1} (frontier.{u_1} O) (γ 1)
+@Causal.Causality.exists_leaving_of_hasChronalNeighbourEverywhere.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {O : Set.{u_1} M} [PreconnectedSpace.{u_1} M],
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    Causal.Causality.HasChronalNeighbourEverywhere.{u_1} C →
+      IsOpen.{u_1} O →
+        Set.Nonempty.{u_1} O →
+          Ne.{u_1 + 1} O Set.univ.{u_1} →
+            ∃ γ,
+              (Causal.Causality.ChronalCurveOn.{u_1} C Top.top.{u_1} γ 0 1 ∨
+                  Causal.Causality.ChronalCurveOn.{u_1} (Causal.Causality.dual.{u_1} C) Top.top.{u_1} γ 0 1) ∧
+                (∀ (t : ℝ), Membership.mem.{0, 0} (Set.Ico.{0} 0 1) t → Membership.mem.{u_1, u_1} O (γ t)) ∧
+                  γ 1 ∉ O ∧ Membership.mem.{u_1, u_1} (frontier.{u_1} O) (γ 1)
+@Causal.Causality.exists_leaving_of_isOpenEmbedding_of_chronalNeighbours.{u_1,
+    u_2} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {N : Type u_2}
+  [inst_1 : TopologicalSpace.{u_2} N] [Nonempty.{u_2 + 1} N] [PreconnectedSpace.{u_1} M] {ι : N → M}
+  (hι : Topology.IsOpenEmbedding.{u_2, u_1} ι),
+  Ne.{u_1 + 1} (Set.range.{u_1, u_2 + 1} ι) Set.univ.{u_1} →
+    Causal.Causality.CausallyArcConnected.{u_1} C →
+      Causal.Causality.ChronalNeighbours.{u_1} C →
+        ∃ D,
+          (Eq.{u_1 + 1} D C ∨ Eq.{u_1 + 1} D (Causal.Causality.dual.{u_1} C)) ∧
+            ∃ γ,
+              Causal.Causality.ChronalCurveOn.{u_1} D Top.top.{u_1} γ 0 1 ∧
+                (∀ (t : ℝ),
+                    Membership.mem.{0, 0} (Set.Ico.{0} 0 1) t →
+                      Membership.mem.{u_1, u_1} (Set.range.{u_1, u_2 + 1} ι) (γ t)) ∧
+                  γ 1 ∉ Set.range.{u_1, u_2 + 1} ι ∧
+                    Membership.mem.{u_1, u_1} (frontier.{u_1} (Set.range.{u_1, u_2 + 1} ι)) (γ 1) ∧
+                      ∀ (s : ℝ),
+                        Membership.mem.{0, 0} (Set.Ico.{0} 0 1) s →
+                          Causal.Causality.ChronalCurveOn.{u_1} D
+                            (TopologicalSpace.Opens.mk.{u_1} (Set.range.{u_1, u_2 + 1} ι) ⋯) γ 0 s
+@Causal.Causality.exists_leaving_of_locallyCausallyArcConnected.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {O : Set.{u_1} M} [PreconnectedSpace.{u_1} M],
+  Causal.Causality.LocallyCausallyArcConnected.{u_1} C →
+    Causal.Causality.ChronalNeighbours.{u_1} C →
+      IsOpen.{u_1} O →
+        Set.Nonempty.{u_1} O →
+          Ne.{u_1 + 1} O Set.univ.{u_1} →
+            ∃ γ,
+              (Causal.Causality.ChronalCurveOn.{u_1} C Top.top.{u_1} γ 0 1 ∨
+                  Causal.Causality.ChronalCurveOn.{u_1} (Causal.Causality.dual.{u_1} C) Top.top.{u_1} γ 0 1) ∧
+                (∀ (t : ℝ), Membership.mem.{0, 0} (Set.Ico.{0} 0 1) t → Membership.mem.{u_1, u_1} O (γ t)) ∧
+                  γ 1 ∉ O ∧ Membership.mem.{u_1, u_1} (frontier.{u_1} O) (γ 1)
+@Causal.Causality.exists_leaving_of_locallyCausallyArcConnected_of_chronalPastNeighbours.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {O : Set.{u_1} M} [PreconnectedSpace.{u_1} M],
+  Causal.Causality.LocallyCausallyArcConnected.{u_1} C →
+    Causal.Causality.ChronalPastNeighbours.{u_1} C →
+      IsOpen.{u_1} O →
+        Set.Nonempty.{u_1} O →
+          Ne.{u_1 + 1} O Set.univ.{u_1} →
+            ∃ γ,
+              (Causal.Causality.ChronalCurveOn.{u_1} C Top.top.{u_1} γ 0 1 ∨
+                  Causal.Causality.ChronalCurveOn.{u_1} (Causal.Causality.dual.{u_1} C) Top.top.{u_1} γ 0 1) ∧
+                (∀ (t : ℝ), Membership.mem.{0, 0} (Set.Ico.{0} 0 1) t → Membership.mem.{u_1, u_1} O (γ t)) ∧
+                  γ 1 ∉ O ∧ Membership.mem.{u_1, u_1} (frontier.{u_1} O) (γ 1)
+@Causal.Causality.frontier_subset_closure_boundary_of_chronalNeighbours.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {O : Set.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    Causal.Causality.ChronalNeighbours.{u_1} C →
+      IsOpen.{u_1} O →
+        HasSubset.Subset.{u_1} (frontier.{u_1} O)
+          (closure.{u_1}
+            (Union.union.{u_1} (Causal.Causality.futureBoundary.{u_1} C O) (Causal.Causality.pastBoundary.{u_1} C O)))
+@Causal.Causality.futureBoundary_union_pastBoundary_nonempty_of_chronalNeighbours.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {O : Set.{u_1} M} [PreconnectedSpace.{u_1} M],
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    Causal.Causality.ChronalNeighbours.{u_1} C →
+      IsOpen.{u_1} O →
+        Set.Nonempty.{u_1} O →
+          Ne.{u_1 + 1} O Set.univ.{u_1} →
+            Set.Nonempty.{u_1}
+              (Union.union.{u_1} (Causal.Causality.futureBoundary.{u_1} C O) (Causal.Causality.pastBoundary.{u_1} C O))
+Causal.closedHalfLine_hasChronalNeighbourEverywhere : Causal.Causality.HasChronalNeighbourEverywhere.{0}
+  Causal.closedHalfLine
+Causal.closedHalfLine_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.closedHalfLine
+Causal.closedHalfLine_not_nonemptyChronalCones : ¬Causal.Causality.NonemptyChronalCones.{0} Causal.closedHalfLine
+Causal.closedHalfLine_separates_chronalNeighbours : T1Space.{0} Causal.ClosedHalfLine ∧
+  PreconnectedSpace.{0} Causal.ClosedHalfLine ∧
+    Causal.Causality.CausallyArcConnected.{0} Causal.closedHalfLine ∧
+      Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.closedHalfLine) ∧
+        Causal.Causality.HasChronalNeighbourEverywhere.{0} Causal.closedHalfLine ∧
+          ¬Causal.Causality.NonemptyChronalCones.{0} Causal.closedHalfLine ∧
+            ¬Causal.Causality.ChronalNeighbours.{0} Causal.closedHalfLine
+Causal.globalLine : Causal.Causality.{0} ℝ
+Causal.globalLine_causallyOpen : Causal.Causality.CausallyOpen.{0} Causal.globalLine
+Causal.globalLine_isCausal : Causal.Causality.IsCausal.{0} Causal.globalLine
+Causal.globalLine_nonemptyChronalCones : Causal.Causality.NonemptyChronalCones.{0} Causal.globalLine
+Causal.globalLine_not_absolutelyMinimal : ¬Causal.Precausality.AbsolutelyMinimal.{0}
+    (Causal.Causality.toPrecausality.{0} Causal.globalLine)
+Causal.globalLine_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.globalLine
+Causal.globalLine_not_chronalPastNeighbours : ¬Causal.Causality.ChronalPastNeighbours.{0} Causal.globalLine
+Causal.globalLine_pushUp : Causal.Causality.PushUp.{0} Causal.globalLine
+Causal.globalLine_separates : Causal.Causality.NonemptyChronalCones.{0} Causal.globalLine ∧
+  Causal.Causality.PushUp.{0} Causal.globalLine ∧
+    Causal.Causality.CausallyOpen.{0} Causal.globalLine ∧
+      Causal.Causality.IsCausal.{0} Causal.globalLine ∧
+        ¬Causal.Causality.ChronalPastNeighbours.{0} Causal.globalLine ∧
+          ¬Causal.Causality.ChronalNeighbours.{0} Causal.globalLine ∧
+            ¬Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.globalLine)
+Causal.isolatedLine_separates_chronalNeighbours : Causal.Causality.CausallyArcConnected.{0} Causal.isolatedLine ∧
+  Causal.Causality.CausallyOpen.{0} Causal.isolatedLine ∧
+    Causal.Causality.CausallyPlain.{0} Causal.isolatedLine ∧
+      ¬Causal.Causality.HasChronalNeighbourEverywhere.{0} Causal.isolatedLine ∧
+        ¬Causal.Causality.ChronalNeighbours.{0} Causal.isolatedLine
+Causal.lightlikeLine_separates_hasChronalNeighbour : Causal.Causality.PushUp.{0} Causal.lightlikeLine ∧
+  Causal.Causality.CausallyOpen.{0} Causal.lightlikeLine ∧
+    Causal.Causality.GloballyHyperbolic.{0} Causal.lightlikeLine ∧
+      Causal.Causality.NoCausalEndpoint.{0} Causal.lightlikeLine ∧
+        Causal.Causality.CausallyArcConnected.{0} Causal.lightlikeLine ∧
+          Causal.Causality.Tarentin.{0} Causal.lightlikeLine ∧
+            ¬Causal.Causality.HasChronalNeighbourEverywhere.{0} Causal.lightlikeLine
+Causal.not_chronalNeighbours_of_absolutelyMinimal_bare : ¬∀ (X : Type) [inst : TopologicalSpace.{0} X]
+    (D : Causal.Causality.{0} X),
+    Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} D) →
+      Causal.Causality.NonemptyChronalCones.{0} D → Causal.Causality.ChronalNeighbours.{0} D
+Causal.not_chronalNeighbours_of_hasChronalNeighbourEverywhere_bare : ¬∀ (X : Type) [inst : TopologicalSpace.{0} X]
+    [T1Space.{0} X] (D : Causal.Causality.{0} X),
+    Causal.Causality.CausallyArcConnected.{0} D →
+      Causal.Causality.HasChronalNeighbourEverywhere.{0} D → Causal.Causality.ChronalNeighbours.{0} D
+Causal.not_chronalNeighbours_of_t1_bare : ¬∀ (X : Type) [inst : TopologicalSpace.{0} X] [T1Space.{0} X]
+    (D : Causal.Causality.{0} X), Causal.Causality.NonemptyChronalCones.{0} D → Causal.Causality.ChronalNeighbours.{0} D
+Causal.not_chronalPastNeighbours_of_absolutelyMinimal_bare : ¬∀ (X : Type) [inst : TopologicalSpace.{0} X]
+    (D : Causal.Causality.{0} X),
+    Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} D) →
+      (∀ (x : X),
+          Set.Nonempty.{0}
+            (Causal.Precausality.Iminus.{0} (Causal.Causality.toPrecausality.{0} D) Top.top.{0}
+              (Singleton.singleton.{0, 0} x))) →
+        Causal.Causality.ChronalPastNeighbours.{0} D
+Causal.sierpinskiCausality : Causal.Causality.{0} Prop
+Causal.sierpinskiCausality_absolutelyMinimal : Causal.Precausality.AbsolutelyMinimal.{0}
+  (Causal.Causality.toPrecausality.{0} Causal.sierpinskiCausality)
+Causal.sierpinskiCausality_nonemptyChronalCones : Causal.Causality.NonemptyChronalCones.{0} Causal.sierpinskiCausality
+Causal.sierpinskiCausality_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.sierpinskiCausality
+Causal.sierpinskiCausality_not_chronalPastNeighbours : ¬Causal.Causality.ChronalPastNeighbours.{0}
+    Causal.sierpinskiCausality
+Causal.sierpinskiCausality_separates : Causal.Precausality.AbsolutelyMinimal.{0}
+    (Causal.Causality.toPrecausality.{0} Causal.sierpinskiCausality) ∧
+  Causal.Causality.NonemptyChronalCones.{0} Causal.sierpinskiCausality ∧
+    ¬Causal.Causality.ChronalPastNeighbours.{0} Causal.sierpinskiCausality ∧
+      ¬Causal.Causality.ChronalNeighbours.{0} Causal.sierpinskiCausality ∧ ¬T1Space.{0} Prop
+Causal.timelikeLine_nonemptyChronalCones : Causal.Causality.NonemptyChronalCones.{0} Causal.timelikeLine
+@Causal.Causality.ChronalNeighbours.exists_lt_lt.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {x : M},
+  Causal.Causality.ChronalNeighbours.{u_1} C →
+    ∀ {N : Set.{u_1} M},
+      Membership.mem.{u_1, u_1} (nhds.{u_1} x) N →
+        ∃ V,
+          HasSubset.Subset.{u_1} (↑V) N ∧
+            ∃ a,
+              Membership.mem.{u_1, u_1} V a ∧
+                ∃ b,
+                  Membership.mem.{u_1, u_1} V b ∧
+                    Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V a x ∧
+                      Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V x b ∧
+                        Membership.mem.{u_1, u_1} (nhds.{u_1} x)
+                            (Inter.inter.{u_1}
+                              (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V
+                                (Singleton.singleton.{u_1, u_1} a))
+                              (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V
+                                (Singleton.singleton.{u_1, u_1} b))) ∧
+                          HasSubset.Subset.{u_1}
+                            (Inter.inter.{u_1}
+                              (Causal.Precausality.Iplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V
+                                (Singleton.singleton.{u_1, u_1} a))
+                              (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) V
+                                (Singleton.singleton.{u_1, u_1} b)))
+                            (Causal.Causality.diamond.{u_1} C Top.top.{u_1} a b)
+@Causal.Causality.ChronalNeighbours.tarentin.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M}, Causal.Causality.ChronalNeighbours.{u_1} C → Causal.Causality.Tarentin.{u_1} C
+@Causal.Causality.not_chronalNeighbours_of_not_tarentin.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M}, ¬Causal.Causality.Tarentin.{u_1} C → ¬Causal.Causality.ChronalNeighbours.{u_1} C
+Causal.globalLine_separates_Z : Eq.{1} (Causal.Causality.Zplus.{0} Causal.globalLine) Set.univ.{0} ∧
+  Eq.{1} (Causal.Causality.Zminus.{0} Causal.globalLine) Set.univ.{0} ∧
+    Causal.Causality.Tarentin.{0} Causal.globalLine ∧ ¬Causal.Causality.ChronalNeighbours.{0} Causal.globalLine
+Causal.globalLine_separates_tarentin : Causal.Causality.Tarentin.{0} Causal.globalLine ∧
+  Causal.Causality.PushUp.{0} Causal.globalLine ∧
+    Causal.Causality.CausallyOpen.{0} Causal.globalLine ∧
+      Causal.Causality.IsCausal.{0} Causal.globalLine ∧
+        ¬Causal.Causality.ChronalNeighbours.{0} Causal.globalLine ∧
+          ¬Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.globalLine)
+Causal.isolatedLine_separates_chronalNeighbours_tarentin : Causal.Causality.CausallyArcConnected.{0}
+    Causal.isolatedLine ∧
+  Causal.Causality.CausallyPlain.{0} Causal.isolatedLine ∧
+    ¬Causal.Causality.Tarentin.{0} Causal.isolatedLine ∧ ¬Causal.Causality.ChronalNeighbours.{0} Causal.isolatedLine
+Causal.lightlikeLine_separates_Z : Causal.Causality.GloballyHyperbolic.{0} Causal.lightlikeLine ∧
+  Causal.Causality.PushUp.{0} Causal.lightlikeLine ∧
+    Causal.Causality.CausallyOpen.{0} Causal.lightlikeLine ∧
+      Causal.Causality.CausallyArcConnected.{0} Causal.lightlikeLine ∧
+        Causal.Causality.Tarentin.{0} Causal.lightlikeLine ∧
+          Eq.{1} (Causal.Causality.Zplus.{0} Causal.lightlikeLine) EmptyCollection.emptyCollection.{0} ∧
+            Eq.{1} (Causal.Causality.Zminus.{0} Causal.lightlikeLine) EmptyCollection.emptyCollection.{0} ∧
+              ¬Causal.Causality.ChronalNeighbours.{0} Causal.lightlikeLine
+Causal.halfLightLine_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.halfLightLine
+Causal.halfLightLine_separates_causallyOpen : Causal.Precausality.AbsolutelyMinimal.{0}
+    (Causal.Causality.toPrecausality.{0} Causal.halfLightLine) ∧
+  Causal.Causality.CausallyArcConnected.{0} Causal.halfLightLine ∧
+    Causal.Causality.CausallyOpenFuture.{0} Causal.halfLightLine ∧
+      Causal.Causality.LocallyCausallyOpenFuture.{0} Causal.halfLightLine ∧
+        Causal.Causality.PushUp.{0} Causal.halfLightLine ∧
+          Causal.Causality.LocallyPushUp.{0} Causal.halfLightLine ∧
+            Causal.Causality.IsCausal.{0} Causal.halfLightLine ∧
+              Causal.Causality.GloballyHyperbolic.{0} Causal.halfLightLine ∧
+                Causal.Causality.CausallyCompact.{0} Causal.halfLightLine ∧
+                  Causal.Causality.StronglyCausalOpen.{0} Causal.halfLightLine ∧
+                    Causal.Causality.StronglyCausal.{0} Causal.halfLightLine ∧
+                      Causal.Causality.HasTimeFunction.{0} Causal.halfLightLine ∧
+                        Causal.Causality.CurvesExtend.{0} Causal.halfLightLine ∧
+                          ¬Causal.Causality.CausallyOpen.{0} Causal.halfLightLine ∧
+                            ¬Causal.Causality.LocallyCausallyOpen.{0} Causal.halfLightLine ∧
+                              ¬Causal.Causality.Tarentin.{0} Causal.halfLightLine ∧
+                                ¬Causal.Causality.ChronalNeighbours.{0} Causal.halfLightLine ∧
+                                  ¬Causal.Causality.CausallyPlain.{0} Causal.halfLightLine
+@Causal.arcCausality_not_chronalNeighbours.{u_1,
+    u_2} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M] {ι : Type u_2} {γ : ι → ℝ → M} [Nonempty.{u_1 + 1} M],
+  ¬Causal.Causality.ChronalNeighbours.{u_1} (Causal.arcCausality.{u_1, u_2} γ)
+Causal.fork_separates : T2Space.{0} ↑Causal.forkSet ∧
+  SecondCountableTopology.{0} ↑Causal.forkSet ∧
+    Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.forkCausality) ∧
+      Causal.Causality.CausallyArcConnected.{0} Causal.forkCausality ∧
+        Causal.Causality.PushUp.{0} Causal.forkCausality ∧
+          Causal.Causality.LocallyPushUp.{0} Causal.forkCausality ∧
+            Causal.Causality.IsCausal.{0} Causal.forkCausality ∧
+              Causal.Causality.CausallyCompact.{0} Causal.forkCausality ∧
+                Causal.Causality.GloballyHyperbolic.{0} Causal.forkCausality ∧
+                  Causal.Causality.StronglyCausalOpen.{0} Causal.forkCausality ∧
+                    Causal.Causality.StronglyCausal.{0} Causal.forkCausality ∧
+                      ¬Causal.Causality.HasTimeFunction.{0} Causal.forkCausality ∧
+                        ¬Causal.Causality.Tarentin.{0} Causal.forkCausality ∧
+                          ¬Causal.Causality.ChronalNeighbours.{0} Causal.forkCausality
+Causal.loopFan_separates : T2Space.{0} ↑Causal.loopSet ∧
+  SecondCountableTopology.{0} ↑Causal.loopSet ∧
+    Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.loopFan) ∧
+      Causal.Causality.CausallyArcConnected.{0} Causal.loopFan ∧
+        Causal.Causality.PushUp.{0} Causal.loopFan ∧
+          Causal.Causality.LocallyPushUp.{0} Causal.loopFan ∧
+            Causal.Causality.IsCausal.{0} Causal.loopFan ∧
+              Causal.Causality.CausallyCompact.{0} Causal.loopFan ∧
+                Causal.Causality.GloballyHyperbolic.{0} Causal.loopFan ∧
+                  Causal.Causality.HasTimeFunction.{0} Causal.loopFan ∧
+                    Causal.Causality.CurvesExtend.{0} Causal.loopFan ∧
+                      ¬Causal.Causality.StronglyCausal.{0} Causal.loopFan ∧
+                        ¬Causal.Causality.StronglyCausalOpen.{0} Causal.loopFan ∧
+                          ¬Causal.Causality.Tarentin.{0} Causal.loopFan ∧
+                            ¬Causal.Causality.ChronalNeighbours.{0} Causal.loopFan
+Causal.halfLightLine_dual_separates_causallyOpenFuture : Causal.Precausality.AbsolutelyMinimal.{0}
+    (Causal.Causality.toPrecausality.{0} (Causal.Causality.dual.{0} Causal.halfLightLine)) ∧
+  Causal.Causality.CausallyArcConnected.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+    Causal.Causality.PushUp.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+      Causal.Causality.LocallyPushUp.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+        Causal.Causality.IsCausal.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+          Causal.Causality.GloballyHyperbolic.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+            Causal.Causality.CausallyCompact.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+              Causal.Causality.StronglyCausalOpen.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                Causal.Causality.StronglyCausal.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                  Causal.Causality.HasTimeFunction.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                    Causal.Causality.CurvesExtend.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                      ¬Causal.Causality.CausallyOpenFuture.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                        ¬Causal.Causality.LocallyCausallyOpenFuture.{0}
+                              (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                          ¬Causal.Causality.CausallyOpen.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                            ¬Causal.Causality.LocallyCausallyOpen.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                              ¬Causal.Causality.Tarentin.{0} (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                                ¬Causal.Causality.ChronalNeighbours.{0}
+                                      (Causal.Causality.dual.{0} Causal.halfLightLine) ∧
+                                  ¬Causal.Causality.CausallyPlain.{0} (Causal.Causality.dual.{0} Causal.halfLightLine)
+@Causal.LadderDual.absolutelyMinimal_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} (Causal.Causality.dual.{u_1} C))
+@Causal.LadderDual.absolutelyMinimal_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} (Causal.Causality.dual.{u_1} C)) →
+    Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C)
+@Causal.LadderDual.causallyArcConnected_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    Causal.Causality.CausallyArcConnected.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.causallyArcConnected_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} (Causal.Causality.dual.{u_1} C) →
+    Causal.Causality.CausallyArcConnected.{u_1} C
+@Causal.LadderDual.causallyCompact_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyCompact.{u_1} C → Causal.Causality.CausallyCompact.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.causallyCompact_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyCompact.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.CausallyCompact.{u_1} C
+@Causal.LadderDual.causallyOpen_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyOpen.{u_1} C → Causal.Causality.CausallyOpen.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.causallyOpen_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyOpen.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.CausallyOpen.{u_1} C
+@Causal.LadderDual.causallyOpen_of_future_of_past.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyOpenFuture.{u_1} C →
+    Causal.Causality.CausallyOpenFuture.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.CausallyOpen.{u_1} C
+@Causal.LadderDual.causallyPlain_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyPlain.{u_1} C → Causal.Causality.CausallyPlain.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.causallyPlain_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyPlain.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.CausallyPlain.{u_1} C
+@Causal.LadderDual.chronalNeighbours_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C → Causal.Causality.ChronalNeighbours.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.chronalNeighbours_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.ChronalNeighbours.{u_1} C
+@Causal.LadderDual.curveNestedOn_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C C' : Causal.Causality.{u_1} M} {W : TopologicalSpace.Opens.{u_1} M},
+  Causal.Causality.CurveNestedOn.{u_1} C C' W →
+    Causal.Causality.CurveNestedOn.{u_1} (Causal.Causality.dual.{u_1} C) (Causal.Causality.dual.{u_1} C') W
+@Causal.LadderDual.curveNestedOn_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C C' : Causal.Causality.{u_1} M} {W : TopologicalSpace.Opens.{u_1} M},
+  Causal.Causality.CurveNestedOn.{u_1} (Causal.Causality.dual.{u_1} C) (Causal.Causality.dual.{u_1} C') W →
+    Causal.Causality.CurveNestedOn.{u_1} C C' W
+@Causal.LadderDual.curvesExtend_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CurvesExtend.{u_1} C → Causal.Causality.CurvesExtend.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.curvesExtend_dual_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CurvesExtend.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.CurvesExtend.{u_1} C
+@Causal.LadderDual.curvesExtend_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CurvesExtend.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.CurvesExtend.{u_1} C
+@Causal.LadderDual.globallyHyperbolic_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.GloballyHyperbolic.{u_1} C →
+    Causal.Causality.GloballyHyperbolic.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.globallyHyperbolic_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.GloballyHyperbolic.{u_1} (Causal.Causality.dual.{u_1} C) →
+    Causal.Causality.GloballyHyperbolic.{u_1} C
+@Causal.LadderDual.hasTimeFunction_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.HasTimeFunction.{u_1} C → Causal.Causality.HasTimeFunction.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.hasTimeFunction_dual_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.HasTimeFunction.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.HasTimeFunction.{u_1} C
+@Causal.LadderDual.hasTimeFunction_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.HasTimeFunction.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.HasTimeFunction.{u_1} C
+@Causal.LadderDual.isCausal_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.IsCausal.{u_1} C → Causal.Causality.IsCausal.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.isCausal_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.IsCausal.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.IsCausal.{u_1} C
+@Causal.LadderDual.leNested_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C C' : Causal.Causality.{u_1} M},
+  Causal.Causality.LeNested.{u_1} C C' →
+    Causal.Causality.LeNested.{u_1} (Causal.Causality.dual.{u_1} C) (Causal.Causality.dual.{u_1} C')
+@Causal.LadderDual.leNested_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C C' : Causal.Causality.{u_1} M},
+  Causal.Causality.LeNested.{u_1} (Causal.Causality.dual.{u_1} C) (Causal.Causality.dual.{u_1} C') →
+    Causal.Causality.LeNested.{u_1} C C'
+@Causal.LadderDual.locallyCausallyOpen_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyCausallyOpen.{u_1} C →
+    Causal.Causality.LocallyCausallyOpen.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.locallyCausallyOpen_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyCausallyOpen.{u_1} (Causal.Causality.dual.{u_1} C) →
+    Causal.Causality.LocallyCausallyOpen.{u_1} C
+@Causal.LadderDual.locallyCausallyOpen_of_future_of_past.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyCausallyOpenFuture.{u_1} C →
+    Causal.Causality.LocallyCausallyOpenFuture.{u_1} (Causal.Causality.dual.{u_1} C) →
+      Causal.Causality.LocallyCausallyOpen.{u_1} C
+@Causal.LadderDual.locallyPushUp_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyPushUp.{u_1} C → Causal.Causality.LocallyPushUp.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.locallyPushUp_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyPushUp.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.LocallyPushUp.{u_1} C
+@Causal.LadderDual.pushUp_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.PushUp.{u_1} C → Causal.Causality.PushUp.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.pushUp_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.PushUp.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.PushUp.{u_1} C
+@Causal.LadderDual.stronglyCausalOpen_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.StronglyCausalOpen.{u_1} C →
+    Causal.Causality.StronglyCausalOpen.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.stronglyCausalOpen_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.StronglyCausalOpen.{u_1} (Causal.Causality.dual.{u_1} C) →
+    Causal.Causality.StronglyCausalOpen.{u_1} C
+@Causal.LadderDual.stronglyCausal_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.StronglyCausal.{u_1} C → Causal.Causality.StronglyCausal.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.stronglyCausal_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.StronglyCausal.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.StronglyCausal.{u_1} C
+@Causal.LadderDual.tarentin_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.Tarentin.{u_1} C → Causal.Causality.Tarentin.{u_1} (Causal.Causality.dual.{u_1} C)
+@Causal.LadderDual.tarentin_of_dual.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.Tarentin.{u_1} (Causal.Causality.dual.{u_1} C) → Causal.Causality.Tarentin.{u_1} C
+@Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    Causal.Causality.LocallyCausallyOpenFuture.{u_1} C → Causal.Causality.CausallyOpenFuture.{u_1} C
+@Causal.Causality.AbsolutelyMinimal.causallyOpen_of_locallyCausallyOpen.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    Causal.Causality.LocallyCausallyOpen.{u_1} C → Causal.Causality.CausallyOpen.{u_1} C
+@Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} [T1Space.{u_1} M],
+  Causal.Precausality.AbsolutelyMinimal.{u_1} (Causal.Causality.toPrecausality.{u_1} C) →
+    (Causal.Causality.ChronalPastNeighbours.{u_1} C ↔
+      ∀ (x : M),
+        Set.Nonempty.{u_1}
+          (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+            (Singleton.singleton.{u_1, u_1} x)))
+@Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyArcConnected.{u_1} C →
+    Causal.Causality.LocallyPushUp.{u_1} C → Causal.Causality.PushUp.{u_1} C
+@Causal.Causality.CausallyOpen.locallyCausallyOpen.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M}, Causal.Causality.CausallyOpen.{u_1} C → Causal.Causality.LocallyCausallyOpen.{u_1} C
+@Causal.Causality.CausallyOpenFuture.locallyCausallyOpenFuture.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyOpenFuture.{u_1} C → Causal.Causality.LocallyCausallyOpenFuture.{u_1} C
+@Causal.Causality.CausallyOpenFutureOn.mono.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {W W' : TopologicalSpace.Opens.{u_1} M},
+  Causal.Causality.CausallyOpenFutureOn.{u_1} C W → LE.le.{u_1} W' W → Causal.Causality.CausallyOpenFutureOn.{u_1} C W'
+@Causal.Causality.ChronalNeighbours.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.ChronalNeighbours.mem_Zplus.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} C → ∀ (x : M), Membership.mem.{u_1, u_1} (Causal.Causality.Zplus.{u_1} C) x
+@Causal.Causality.ChronalPastNeighbours.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.ChronalPastNeighbours.mem_Zminus.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalPastNeighbours.{u_1} C →
+    ∀ (x : M), Membership.mem.{u_1, u_1} (Causal.Causality.Zminus.{u_1} C) x
+@Causal.Causality.GloballyHyperbolic.causallyCompact.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M}, Causal.Causality.GloballyHyperbolic.{u_1} C → Causal.Causality.CausallyCompact.{u_1} C
+@Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} [T2Space.{u_1} M] {C' : Causal.Causality.{u_1} M},
+  Causal.Causality.Tarentin.{u_1} C →
+    Causal.Causality.GloballyHyperbolic.{u_1} C →
+      Causal.Causality.CausallyArcConnected.{u_1} C →
+        Causal.Causality.NoCausalEndpoint.{u_1} C →
+          Causal.Causality.CurveNestedOn.{u_1} C C' Top.top.{u_1} →
+            Causal.Causality.InextensibleNestedOn.{u_1} C C' Top.top.{u_1}
+@Causal.Causality.GloballyHyperbolic.isCausal.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M}, Causal.Causality.GloballyHyperbolic.{u_1} C → Causal.Causality.IsCausal.{u_1} C
+@Causal.Causality.IsCausal.globallyHyperbolic.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.IsCausal.{u_1} C →
+    Causal.Causality.CausallyCompact.{u_1} C → Causal.Causality.GloballyHyperbolic.{u_1} C
+@Causal.Causality.LocallyCausallyOpen.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.LocallyCausallyOpen.future.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyCausallyOpen.{u_1} C → Causal.Causality.LocallyCausallyOpenFuture.{u_1} C
+@Causal.Causality.LocallyCausallyOpenFuture.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.LocallyPushUp.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.NoCausalEndpoint.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.NoPastEndpoint.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → Causal.Causality.{u_1} M → Prop
+@Causal.Causality.OneSidedAt.{u_1} : {M : Type u_1} → [TopologicalSpace.{u_1} M] → Set.{u_1} M → M → Prop
+@Causal.Causality.OneSidedBoundary.{u_1} : {M : Type u_1} →
+  [inst : TopologicalSpace.{u_1} M] → TopologicalSpace.Opens.{u_1} M → Set.{u_1} M → Prop
+@Causal.Causality.PushUp.causallyOpenFuture_of_chronalPastNeighbours.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M},
+  Causal.Causality.PushUp.{u_1} C →
+    Causal.Causality.ChronalPastNeighbours.{u_1} C → Causal.Causality.CausallyOpenFuture.{u_1} C
+@Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.PushUp.{u_1} C → Causal.Causality.ChronalNeighbours.{u_1} C → Causal.Causality.CausallyOpen.{u_1} C
+@Causal.Causality.PushUp.locallyPushUp.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M}, Causal.Causality.PushUp.{u_1} C → Causal.Causality.LocallyPushUp.{u_1} C
+@Causal.Causality.PushUpOn.mono.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {W W' : TopologicalSpace.Opens.{u_1} M},
+  Causal.Causality.PushUpOn.{u_1} C W → LE.le.{u_1} W' W → Causal.Causality.PushUpOn.{u_1} C W'
+@Causal.Causality.dual_causallyCompact.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.CausallyCompact.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.CausallyCompact.{u_1} C
+@Causal.Causality.dual_chronalNeighbours.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.ChronalNeighbours.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.ChronalNeighbours.{u_1} C
+@Causal.Causality.dual_locallyCausallyOpen.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyCausallyOpen.{u_1} (Causal.Causality.dual.{u_1} C) ↔
+    Causal.Causality.LocallyCausallyOpen.{u_1} C
+@Causal.Causality.dual_locallyPushUp.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyPushUp.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.LocallyPushUp.{u_1} C
+@Causal.Causality.dual_noCausalEndpoint.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NoCausalEndpoint.{u_1} (Causal.Causality.dual.{u_1} C) ↔ Causal.Causality.NoCausalEndpoint.{u_1} C
+@Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary.{u_1,
+    u_2} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M] [T2Space.{u_1} M] [LocallyConnectedSpace.{u_1} M]
+  {ι : Type u_2} (dom : ι → TopologicalSpace.Opens.{u_1} M) (cau : ι → Causal.Causality.{u_1} M) {S : Set.{u_1} M}
+  {s₀ : M},
+  Membership.mem.{u_1, u_1} S s₀ →
+    ∀ (i₁ : ι),
+      (∀ (i : ι), HasSubset.Subset.{u_1} S ↑(dom i)) →
+        (∀ (i : ι), LE.le.{u_1} (dom i₁) (dom i) → Eq.{u_1 + 1} (dom i) (dom i₁)) →
+          (∀ (i : ι), IsPreconnected.{u_1} ↑(dom i)) →
+            (∀ (i : ι) ⦃x y : M⦄,
+                Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i) x y →
+                  Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i) y x →
+                    Eq.{u_1 + 1} x y) →
+              (∀ (i : ι) (q : M),
+                  Membership.mem.{u_1, u_1} (dom i) q →
+                    Membership.mem.{u_1, u_1}
+                      (Union.union.{u_1}
+                        (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i) S)
+                        (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i) S))
+                      q) →
+                (∀ (i : ι) (x : M),
+                    Membership.mem.{u_1, u_1} (dom i) x →
+                      HasSubset.Subset.{u_1}
+                        (Inter.inter.{u_1}
+                          (closure.{u_1}
+                            (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                              (Singleton.singleton.{u_1, u_1} x)))
+                          ↑(dom i))
+                        (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                          (Singleton.singleton.{u_1, u_1} x))) →
+                  (∀ (i : ι) (x : M),
+                      Membership.mem.{u_1, u_1} (dom i) x →
+                        HasSubset.Subset.{u_1}
+                          (Inter.inter.{u_1}
+                            (closure.{u_1}
+                              (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                                (Singleton.singleton.{u_1, u_1} x)))
+                            ↑(dom i))
+                          (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                            (Singleton.singleton.{u_1, u_1} x))) →
+                    (∀ (i : ι) (q : M),
+                        IsCompact.{u_1}
+                          (Inter.inter.{u_1}
+                            (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                              (Singleton.singleton.{u_1, u_1} q))
+                            (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                              S))) →
+                      (∀ (i : ι) (q : M),
+                          IsCompact.{u_1}
+                            (Inter.inter.{u_1}
+                              (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                                (Singleton.singleton.{u_1, u_1} q))
+                              (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                                S))) →
+                        (∀ (i : ι), HasSubset.Subset.{u_1} (Inter.inter.{u_1} (closure.{u_1} S) ↑(dom i)) S) →
+                          Causal.Causality.OneSidedBoundary.{u_1} (dom i₁) (closure.{u_1} S) →
+                            (∀ (i : ι) (p : M),
+                                Membership.mem.{u_1, u_1}
+                                    (Inter.inter.{u_1}
+                                      (frontier.{u_1}
+                                        (connectedComponentIn.{u_1} (Inter.inter.{u_1} ↑(dom i₁) ↑(dom i)) s₀))
+                                      ↑(dom i))
+                                    p →
+                                  Eq.{u_1 + 1}
+                                        (Inter.inter.{u_1}
+                                          (Inter.inter.{u_1}
+                                            (Causal.Precausality.Jminus.{u_1}
+                                              (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                                              (Singleton.singleton.{u_1, u_1} p))
+                                            (frontier.{u_1}
+                                              (connectedComponentIn.{u_1} (Inter.inter.{u_1} ↑(dom i₁) ↑(dom i)) s₀)))
+                                          (Causal.Precausality.Jplus.{u_1}
+                                            (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i) S))
+                                        (Singleton.singleton.{u_1, u_1} p) ∨
+                                      Eq.{u_1 + 1}
+                                        (Inter.inter.{u_1}
+                                          (Inter.inter.{u_1}
+                                            (Causal.Precausality.Jplus.{u_1}
+                                              (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i)
+                                              (Singleton.singleton.{u_1, u_1} p))
+                                            (frontier.{u_1}
+                                              (connectedComponentIn.{u_1} (Inter.inter.{u_1} ↑(dom i₁) ↑(dom i)) s₀)))
+                                          (Causal.Precausality.Jminus.{u_1}
+                                            (Causal.Causality.toPrecausality.{u_1} (cau i)) (dom i) S))
+                                        (Singleton.singleton.{u_1, u_1} p) →
+                                    (∃ V,
+                                        Membership.mem.{u_1, u_1} (nhds.{u_1} p) V ∧
+                                          HasSubset.Subset.{u_1} V ↑(dom i) ∧
+                                            HasSubset.Subset.{u_1} (Inter.inter.{u_1} V ↑(dom i₁))
+                                              (connectedComponentIn.{u_1} (Inter.inter.{u_1} ↑(dom i₁) ↑(dom i)) s₀)) →
+                                      ∃ j, LT.lt.{u_1} (dom i₁) (dom j)) →
+                              ∀ (i : ι), LE.le.{u_1} (dom i) (dom i₁)
+@Causal.Causality.globallyHyperbolic_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.GloballyHyperbolic.{u_1} C ↔
+    Causal.Causality.IsCausal.{u_1} C ∧ Causal.Causality.CausallyCompact.{u_1} C
+@Causal.Causality.inextensibleNestedOn_top_of_noCausalEndpoint.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C C' : Causal.Causality.{u_1} M},
+  Causal.Causality.CurveNestedOn.{u_1} C C' Top.top.{u_1} →
+    Causal.Causality.CausallyArcConnected.{u_1} C →
+      Causal.Causality.IsCausal.{u_1} C →
+        Causal.Causality.StronglyCausal.{u_1} C →
+          (∀ (x : M),
+              IsClosed.{u_1}
+                (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                  (Singleton.singleton.{u_1, u_1} x))) →
+            (∀ (x : M),
+                IsClosed.{u_1}
+                  (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                    (Singleton.singleton.{u_1, u_1} x))) →
+              Causal.Causality.NoCausalEndpoint.{u_1} C → Causal.Causality.InextensibleNestedOn.{u_1} C C' Top.top.{u_1}
+@Causal.Causality.locallyCausallyOpenFuture_iff_nhds.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyCausallyOpenFuture.{u_1} C ↔
+    ∀ (x : M) (N : Set.{u_1} M),
+      Membership.mem.{u_1, u_1} (nhds.{u_1} x) N →
+        ∃ W,
+          Membership.mem.{u_1, u_1} W x ∧
+            HasSubset.Subset.{u_1} (↑W) N ∧ Causal.Causality.CausallyOpenFutureOn.{u_1} C W
+@Causal.Causality.locallyCausallyOpen_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyCausallyOpen.{u_1} C ↔
+    ∀ (x : M),
+      ∃ W,
+        Membership.mem.{u_1, u_1} W x ∧
+          Causal.Causality.CausallyOpenFutureOn.{u_1} C W ∧
+            Causal.Causality.CausallyOpenFutureOn.{u_1} (Causal.Causality.dual.{u_1} C) W
+@Causal.Causality.locallyPushUp_iff_nhds.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.LocallyPushUp.{u_1} C ↔
+    ∀ (x : M) (N : Set.{u_1} M),
+      Membership.mem.{u_1, u_1} (nhds.{u_1} x) N →
+        ∃ W, Membership.mem.{u_1, u_1} W x ∧ HasSubset.Subset.{u_1} (↑W) N ∧ Causal.Causality.PushUpOn.{u_1} C W
+@Causal.Causality.locallyPushUp_of_cover.{u_1,
+    u_2} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {ι : Sort u_2}
+  {O : ι → TopologicalSpace.Opens.{u_1} M},
+  (∀ (x : M), ∃ i, Membership.mem.{u_1, u_1} (O i) x) →
+    (∀ (i : ι), Causal.Causality.PushUpOn.{u_1} C (O i)) → Causal.Causality.LocallyPushUp.{u_1} C
+@Causal.Causality.noPastEndpoint_iff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M},
+  Causal.Causality.NoPastEndpoint.{u_1} C ↔
+    ∀ (x : M),
+      ∃ y, Ne.{u_1 + 1} y x ∧ Causal.Precausality.le.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} y x
+Causal.lightlikeLine_causallyOpen : Causal.Causality.CausallyOpen.{0} Causal.lightlikeLine
+Causal.lightlikeLine_globallyHyperbolic : Causal.Causality.GloballyHyperbolic.{0} Causal.lightlikeLine
+Causal.lightlikeLine_noCausalEndpoint : Causal.Causality.NoCausalEndpoint.{0} Causal.lightlikeLine
+Causal.lightlikeLine_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.lightlikeLine
+Causal.lightlikeLine_separates_chronalNeighbours : Causal.Causality.PushUp.{0} Causal.lightlikeLine ∧
+  Causal.Causality.CausallyOpen.{0} Causal.lightlikeLine ∧
+    Causal.Causality.GloballyHyperbolic.{0} Causal.lightlikeLine ∧
+      Causal.Causality.NoCausalEndpoint.{0} Causal.lightlikeLine ∧
+        ¬Causal.Causality.ChronalNeighbours.{0} Causal.lightlikeLine
+Causal.not_oneSidedBoundary_compl_zero : ¬Causal.Causality.OneSidedBoundary.{0}
+    (TopologicalSpace.Opens.mk.{0} (Compl.compl.{0} (Singleton.singleton.{0, 0} 0)) ⋯)
+    EmptyCollection.emptyCollection.{0}
+Causal.oneSidedBoundary_Ioi_zero : Causal.Causality.OneSidedBoundary.{0}
+  (TopologicalSpace.Opens.mk.{0} (Set.Ioi.{0} 0) ⋯) EmptyCollection.emptyCollection.{0}
+Causal.spacelikeLine_causallyOpen : Causal.Causality.CausallyOpen.{0} Causal.spacelikeLine
+Causal.spacelikeLine_globallyHyperbolic : Causal.Causality.GloballyHyperbolic.{0} Causal.spacelikeLine
+Causal.spacelikeLine_not_noCausalEndpoint : ¬Causal.Causality.NoCausalEndpoint.{0} Causal.spacelikeLine
+Causal.spacelikeLine_separates_noCausalEndpoint : Causal.Causality.PushUp.{0} Causal.spacelikeLine ∧
+  Causal.Causality.CausallyOpen.{0} Causal.spacelikeLine ∧
+    Causal.Causality.GloballyHyperbolic.{0} Causal.spacelikeLine ∧
+      ¬Causal.Causality.NoCausalEndpoint.{0} Causal.spacelikeLine
+Causal.timelikeLine_causallyOpen_of_chronalNeighbours : Causal.Causality.CausallyOpen.{0} Causal.timelikeLine
+Causal.timelikeLine_chronalNeighbours : Causal.Causality.ChronalNeighbours.{0} Causal.timelikeLine
+Causal.timelikeLine_inextensibleNestedOn_top_of_noCausalEndpoint : Causal.Causality.InextensibleNestedOn.{0}
+  Causal.timelikeLine Causal.timelikeLine Top.top.{0}
+Causal.timelikeLine_locallyCausallyOpen : Causal.Causality.LocallyCausallyOpen.{0} Causal.timelikeLine
+Causal.timelikeLine_locallyPushUp : Causal.Causality.LocallyPushUp.{0} Causal.timelikeLine
+Causal.timelikeLine_noCausalEndpoint : Causal.Causality.NoCausalEndpoint.{0} Causal.timelikeLine
+@Causal.cosmicString_chronalNeighbours : ∀ {α : ℝ} [inst : Fact (LT.lt.{0} 0 α)],
+  Causal.Causality.ChronalNeighbours.{0} (Causal.cosmicString α)
+@Causal.cosmicString_noCausalEndpoint : ∀ {α : ℝ} [inst : Fact (LT.lt.{0} 0 α)],
+  Causal.Causality.NoCausalEndpoint.{0} (Causal.cosmicString α)
+@Causal.massive_chronalNeighbours : ∀ {α : ℝ} [inst : Fact (LT.lt.{0} 0 α)],
+  Causal.Causality.ChronalNeighbours.{0} (Causal.massive α)
+@Causal.massive_noCausalEndpoint : ∀ {α : ℝ} [inst : Fact (LT.lt.{0} 0 α)],
+  Causal.Causality.NoCausalEndpoint.{0} (Causal.massive α)
+@Causal.staticCausality.chronalNeighbours.{u_1} : ∀ {X : Type u_1} [inst : MetricSpace.{u_1} X]
+  [inst_1 : Causal.GeodesicSpace.{u_1} X], Causal.Causality.ChronalNeighbours.{u_1} (Causal.staticCausality.{u_1} X)
+@Causal.staticCausality.noCausalEndpoint.{u_1} : ∀ {X : Type u_1} [inst : MetricSpace.{u_1} X]
+  [inst_1 : Causal.GeodesicSpace.{u_1} X], Causal.Causality.NoCausalEndpoint.{u_1} (Causal.staticCausality.{u_1} X)
+@Causal.Flat.timeCylinder_chronalNeighbours : ∀ {d : ℕ},
+  Causal.Causality.ChronalNeighbours.{0} (Causal.Flat.timeCylinder d)
+@Causal.Flat.timeCylinder_separates : ∀ {d : ℕ},
+  LE.le.{0} 1 d →
+    (T2Space.{0} (Causal.Flat.TimeCylinder d) ∧
+        SecondCountableTopology.{0} (Causal.Flat.TimeCylinder d) ∧ ConnectedSpace.{0} (Causal.Flat.TimeCylinder d)) ∧
+      Causal.Causality.CurvesExtend.{0} (Causal.Flat.timeCylinder d) ∧
+        Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} (Causal.Flat.timeCylinder d)) ∧
+          Causal.Causality.CausallyArcConnected.{0} (Causal.Flat.timeCylinder d) ∧
+            Causal.Causality.PushUp.{0} (Causal.Flat.timeCylinder d) ∧
+              Causal.Causality.Tarentin.{0} (Causal.Flat.timeCylinder d) ∧
+                Causal.Causality.ChronalNeighbours.{0} (Causal.Flat.timeCylinder d) ∧
+                  Causal.Causality.CausallyOpen.{0} (Causal.Flat.timeCylinder d) ∧
+                    Causal.Causality.CausallyPlain.{0} (Causal.Flat.timeCylinder d) ∧
+                      ¬Causal.Causality.IsCausal.{0} (Causal.Flat.timeCylinder d) ∧
+                        ¬Causal.Causality.CausallyCompact.{0} (Causal.Flat.timeCylinder d)
+Causal.Flat.timeCylinder_zero_separates : (T2Space.{0} (Causal.Flat.TimeCylinder 0) ∧
+    SecondCountableTopology.{0} (Causal.Flat.TimeCylinder 0) ∧
+      ConnectedSpace.{0} (Causal.Flat.TimeCylinder 0) ∧ CompactSpace.{0} (Causal.Flat.TimeCylinder 0)) ∧
+  Causal.Causality.CurvesExtend.{0} (Causal.Flat.timeCylinder 0) ∧
+    Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} (Causal.Flat.timeCylinder 0)) ∧
+      Causal.Causality.CausallyArcConnected.{0} (Causal.Flat.timeCylinder 0) ∧
+        Causal.Causality.PushUp.{0} (Causal.Flat.timeCylinder 0) ∧
+          Causal.Causality.Tarentin.{0} (Causal.Flat.timeCylinder 0) ∧
+            Causal.Causality.ChronalNeighbours.{0} (Causal.Flat.timeCylinder 0) ∧
+              Causal.Causality.CausallyOpen.{0} (Causal.Flat.timeCylinder 0) ∧
+                Causal.Causality.CausallyPlain.{0} (Causal.Flat.timeCylinder 0) ∧
+                  Causal.Causality.CausallyCompact.{0} (Causal.Flat.timeCylinder 0) ∧
+                    ¬Causal.Causality.IsCausal.{0} (Causal.Flat.timeCylinder 0)
+Causal.leNested_tarentin_counterexample : Causal.Causality.LeNested.{0} Causal.spacelikeLine Causal.timelikeLine ∧
+  (Causal.Causality.Tarentin.{0} Causal.timelikeLine ∧
+      Causal.Causality.GloballyHyperbolic.{0} Causal.timelikeLine ∧
+        Causal.Causality.StronglyCausalOpen.{0} Causal.timelikeLine ∧
+          Causal.Causality.PushUp.{0} Causal.timelikeLine ∧
+            Causal.Causality.CausallyOpen.{0} Causal.timelikeLine ∧
+              Causal.Causality.CausallyPlain.{0} Causal.timelikeLine ∧
+                Causal.Causality.ChronalNeighbours.{0} Causal.timelikeLine ∧
+                  Causal.Causality.CausallyArcConnected.{0} Causal.timelikeLine ∧
+                    Causal.Causality.HasTimeFunction.{0} Causal.timelikeLine) ∧
+    (Causal.Causality.GloballyHyperbolic.{0} Causal.spacelikeLine ∧
+        Causal.Causality.StronglyCausalOpen.{0} Causal.spacelikeLine ∧
+          Causal.Causality.PushUp.{0} Causal.spacelikeLine ∧
+            Causal.Causality.CausallyOpen.{0} Causal.spacelikeLine ∧
+              Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.spacelikeLine) ∧
+                Causal.Causality.HasTimeFunction.{0} Causal.spacelikeLine) ∧
+      ¬Causal.Causality.Tarentin.{0} Causal.spacelikeLine
+@Causal.continuous_notchedPath : ∀ {a b : ↑Causal.notchedPlane} {hab : LE.le.{0} ↑a ↑b},
+  Continuous.{0, 0} fun r => ↑(Causal.notchedPath a b hab r)
+Causal.interior_notchedEdge : Eq.{1} (interior.{0} Causal.notchedEdge) EmptyCollection.emptyCollection.{0}
+Causal.isClosed_notchedPlane : IsClosed.{0} Causal.notchedPlane
+@Causal.not_isOpen_of_notchedCorner_mem : ∀ {S : Set.{0} ↑Causal.notchedPlane},
+  Membership.mem.{0, 0} S Causal.notchedCorner →
+    HasSubset.Subset.{0} S (setOf.{0} fun x => LE.le.{0} (↑x).1 0) → ¬IsOpen.{0} S
+Causal.not_locallyCausallyOpenFuture_of_causallyPlain_bare : ¬∀ (M : Type) [inst : TopologicalSpace.{0} M]
+    [T2Space.{0} M] [SecondCountableTopology.{0} M] (C : Causal.Causality.{0} M),
+    (∀ (W : TopologicalSpace.Opens.{0} M),
+        Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} C) W) →
+      Causal.Causality.CausallyPlain.{0} C →
+        Causal.Causality.PushUp.{0} C →
+          Causal.Causality.GloballyHyperbolic.{0} C → Causal.Causality.LocallyCausallyOpenFuture.{0} C
+Causal.not_locallyCausallyOpen_of_causallyPlain_bare : ¬∀ (M : Type) [inst : TopologicalSpace.{0} M] [T2Space.{0} M]
+    [SecondCountableTopology.{0} M] (C : Causal.Causality.{0} M),
+    (∀ (W : TopologicalSpace.Opens.{0} M),
+        Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} C) W) →
+      Causal.Causality.CausallyPlain.{0} C →
+        Causal.Causality.PushUp.{0} C →
+          Causal.Causality.GloballyHyperbolic.{0} C →
+            Causal.Causality.CausallyOpenFuture.{0} C → Causal.Causality.LocallyCausallyOpen.{0} C
+Causal.notchedCausality : Causal.Causality.{0} ↑Causal.notchedPlane
+@Causal.notchedCausality_Jminus_subset : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {V : Set.{0} ↑Causal.notchedPlane},
+  (∀ (y : ↑Causal.notchedPlane), Membership.mem.{0, 0} V y → LT.lt.{0} 0 (↑y).2) →
+    HasSubset.Subset.{0}
+      (Causal.Precausality.Jminus.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) U V)
+      (setOf.{0} fun x => LE.le.{0} (↑x).1 0)
+Causal.notchedCausality_absolutelyMinimal : Causal.Precausality.AbsolutelyMinimal.{0}
+  (Causal.Causality.toPrecausality.{0} Causal.notchedCausality)
+Causal.notchedCausality_absolutelyMinimalOn : ∀ (W : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane),
+  Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) W
+Causal.notchedCausality_causallyArcConnected : Causal.Causality.CausallyArcConnected.{0} Causal.notchedCausality
+Causal.notchedCausality_causallyArcConnectedOn : ∀ (W : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane),
+  Causal.Causality.CausallyArcConnectedOn.{0} Causal.notchedCausality W
+Causal.notchedCausality_causallyCompact : Causal.Causality.CausallyCompact.{0} Causal.notchedCausality
+Causal.notchedCausality_causallyOpenFuture : Causal.Causality.CausallyOpenFuture.{0} Causal.notchedCausality
+Causal.notchedCausality_causallyPlain : Causal.Causality.CausallyPlain.{0} Causal.notchedCausality
+Causal.notchedCausality_chronalPastNeighbours : Causal.Causality.ChronalPastNeighbours.{0} Causal.notchedCausality
+Causal.notchedCausality_diamond_eq : ∀ (p q : ↑Causal.notchedPlane),
+  Eq.{1} (Causal.Causality.diamond.{0} Causal.notchedCausality Top.top.{0} p q)
+    (Set.preimage.{0, 0} Subtype.val.{1} (Set.Icc.{0} ↑p ↑q))
+Causal.notchedCausality_dual_absolutelyMinimal : Causal.Precausality.AbsolutelyMinimal.{0}
+  (Causal.Causality.toPrecausality.{0} (Causal.Causality.dual.{0} Causal.notchedCausality))
+Causal.notchedCausality_dual_absolutelyMinimalOn : ∀ (W : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane),
+  Causal.Precausality.AbsolutelyMinimalOn.{0}
+    (Causal.Causality.toPrecausality.{0} (Causal.Causality.dual.{0} Causal.notchedCausality)) W
+Causal.notchedCausality_dual_causallyArcConnected : Causal.Causality.CausallyArcConnected.{0}
+  (Causal.Causality.dual.{0} Causal.notchedCausality)
+Causal.notchedCausality_dual_hasTimeFunction : Causal.Causality.HasTimeFunction.{0}
+  (Causal.Causality.dual.{0} Causal.notchedCausality)
+Causal.notchedCausality_dual_not_locallyCausallyOpenFuture : ¬Causal.Causality.LocallyCausallyOpenFuture.{0}
+    (Causal.Causality.dual.{0} Causal.notchedCausality)
+Causal.notchedCausality_dual_separates : T2Space.{0} ↑Causal.notchedPlane ∧
+  SecondCountableTopology.{0} ↑Causal.notchedPlane ∧
+    Causal.Precausality.AbsolutelyMinimal.{0}
+        (Causal.Causality.toPrecausality.{0} (Causal.Causality.dual.{0} Causal.notchedCausality)) ∧
+      Causal.Causality.CausallyArcConnected.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+        Causal.Causality.CausallyPlain.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+          Causal.Causality.PushUp.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+            Causal.Causality.LocallyPushUp.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+              Causal.Causality.IsCausal.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                Causal.Causality.CausallyCompact.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                  Causal.Causality.GloballyHyperbolic.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                    Causal.Causality.StronglyCausalOpen.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                      Causal.Causality.StronglyCausal.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                        Causal.Causality.HasTimeFunction.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                          Causal.Causality.CurvesExtend.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                            ¬Causal.Causality.CausallyOpenFuture.{0}
+                                  (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                              ¬Causal.Causality.LocallyCausallyOpenFuture.{0}
+                                    (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                                ¬Causal.Causality.CausallyOpen.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                                  ¬Causal.Causality.LocallyCausallyOpen.{0}
+                                        (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                                    ¬Causal.Causality.ChronalNeighbours.{0}
+                                          (Causal.Causality.dual.{0} Causal.notchedCausality) ∧
+                                      ¬Causal.Causality.Tarentin.{0} (Causal.Causality.dual.{0} Causal.notchedCausality)
+@Causal.notchedCausality_exists_lt_right_of_notMem_edge : ∀ {W : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {y : ↑Causal.notchedPlane},
+  Membership.mem.{0, 0} W y →
+    y ∉ Causal.notchedEdge →
+      ∀ {N : Set.{0} ↑Causal.notchedPlane},
+        Membership.mem.{0, 0} (nhds.{0} y) N →
+          ∃ z,
+            Membership.mem.{0, 0} N z ∧
+              Causal.Precausality.lt.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) W y z
+Causal.notchedCausality_globallyHyperbolic : Causal.Causality.GloballyHyperbolic.{0} Causal.notchedCausality
+Causal.notchedCausality_hasTimeFunction : Causal.Causality.HasTimeFunction.{0} Causal.notchedCausality
+Causal.notchedCausality_isCausal : Causal.Causality.IsCausal.{0} Causal.notchedCausality
+@Causal.notchedCausality_le : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {x y : ↑Causal.notchedPlane},
+  Causal.Precausality.le.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) U x y ↔
+    Relation.TransGen.{1} (Causal.notchedStep U) x y
+@Causal.notchedCausality_le_prod : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {x y : ↑Causal.notchedPlane},
+  Causal.Precausality.le.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) U x y → LE.le.{0} ↑x ↑y
+@Causal.notchedCausality_le_top_iff : ∀ {x y : ↑Causal.notchedPlane},
+  Causal.Precausality.le.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) Top.top.{0} x y ↔
+    LE.le.{0} ↑x ↑y
+@Causal.notchedCausality_lt : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {x y : ↑Causal.notchedPlane},
+  Causal.Precausality.lt.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) U x y ↔
+    Relation.TransGen.{1} (Causal.notchedChronalStep U) x y
+@Causal.notchedCausality_lt_prod : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {x y : ↑Causal.notchedPlane},
+  Causal.Precausality.lt.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) U x y →
+    LT.lt.{0} (↑x).1 (↑y).1 ∧ LT.lt.{0} (↑x).2 (↑y).2
+@Causal.notchedCausality_lt_top_iff : ∀ {x y : ↑Causal.notchedPlane},
+  Causal.Precausality.lt.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) Top.top.{0} x y ↔
+    LT.lt.{0} (↑x).1 (↑y).1 ∧ LT.lt.{0} (↑x).2 (↑y).2
+Causal.notchedCausality_not_causallyOpen : ¬Causal.Causality.CausallyOpen.{0} Causal.notchedCausality
+Causal.notchedCausality_not_causallyOpenPast : ¬Causal.Causality.CausallyOpenFuture.{0}
+    (Causal.Causality.dual.{0} Causal.notchedCausality)
+@Causal.notchedCausality_not_causallyOpenPastOn : ∀ {W : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane},
+  Membership.mem.{0, 0} W Causal.notchedCorner →
+    ¬Causal.Causality.CausallyOpenFutureOn.{0} (Causal.Causality.dual.{0} Causal.notchedCausality) W
+Causal.notchedCausality_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.notchedCausality
+Causal.notchedCausality_not_isOpen_Jminus_box : ¬IsOpen.{0}
+    (Causal.Precausality.Jminus.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) Top.top.{0}
+      (setOf.{0} fun y =>
+        Membership.mem.{0, 0} (Set.Ioo.{0} (-1 / 2) (1 / 2)) (↑y).1 ∧
+          Membership.mem.{0, 0} (Set.Ioo.{0} (1 / 2) (3 / 2)) (↑y).2))
+Causal.notchedCausality_not_locallyCausallyOpen : ¬Causal.Causality.LocallyCausallyOpen.{0} Causal.notchedCausality
+@Causal.notchedCausality_not_lt_of_mem_edge : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {x y : ↑Causal.notchedPlane},
+  Membership.mem.{0, 0} Causal.notchedEdge x →
+    ¬Causal.Precausality.lt.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) U x y
+Causal.notchedCausality_not_tarentin : ¬Causal.Causality.Tarentin.{0} Causal.notchedCausality
+Causal.notchedCausality_pushUp : Causal.Causality.PushUp.{0} Causal.notchedCausality
+Causal.notchedCausality_separates : T2Space.{0} ↑Causal.notchedPlane ∧
+  SecondCountableTopology.{0} ↑Causal.notchedPlane ∧
+    Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.notchedCausality) ∧
+      Causal.Causality.CausallyArcConnected.{0} Causal.notchedCausality ∧
+        Causal.Causality.CausallyPlain.{0} Causal.notchedCausality ∧
+          Causal.Causality.PushUp.{0} Causal.notchedCausality ∧
+            Causal.Causality.LocallyPushUp.{0} Causal.notchedCausality ∧
+              Causal.Causality.CausallyOpenFuture.{0} Causal.notchedCausality ∧
+                Causal.Causality.LocallyCausallyOpenFuture.{0} Causal.notchedCausality ∧
+                  Causal.Causality.IsCausal.{0} Causal.notchedCausality ∧
+                    Causal.Causality.CausallyCompact.{0} Causal.notchedCausality ∧
+                      Causal.Causality.GloballyHyperbolic.{0} Causal.notchedCausality ∧
+                        Causal.Causality.StronglyCausalOpen.{0} Causal.notchedCausality ∧
+                          Causal.Causality.StronglyCausal.{0} Causal.notchedCausality ∧
+                            Causal.Causality.HasTimeFunction.{0} Causal.notchedCausality ∧
+                              Causal.Causality.CurvesExtend.{0} Causal.notchedCausality ∧
+                                ¬Causal.Causality.CausallyOpen.{0} Causal.notchedCausality ∧
+                                  ¬Causal.Causality.LocallyCausallyOpen.{0} Causal.notchedCausality ∧
+                                    ¬Causal.Causality.ChronalNeighbours.{0} Causal.notchedCausality ∧
+                                      ¬Causal.Causality.Tarentin.{0} Causal.notchedCausality
+Causal.notchedCausality_stronglyCausalOpen : Causal.Causality.StronglyCausalOpen.{0} Causal.notchedCausality
+Causal.notchedChronalStep : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane →
+  ↑Causal.notchedPlane → ↑Causal.notchedPlane → Prop
+@Causal.notchedChronalStep.eventually_left : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane},
+  Causal.notchedChronalStep U a b → ∀ᶠ (a' : ↑Causal.notchedPlane) in nhds.{0} a, Causal.notchedChronalStep U a' b
+@Causal.notchedChronalStep.eventually_right : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane},
+  Causal.notchedChronalStep U a b → ∀ᶠ (b' : ↑Causal.notchedPlane) in nhds.{0} b, Causal.notchedChronalStep U a b'
+@Causal.notchedChronalStep.exists_chronalCurveOn : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane},
+  Causal.notchedChronalStep U a b →
+    ∃ c, Causal.Causality.ChronalCurveOn.{0} Causal.notchedCausality U c 0 1 ∧ Eq.{1} (c 0) a ∧ Eq.{1} (c 1) b
+@Causal.notchedChronalStep.mono : ∀ {U V : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane}, LE.le.{0} V U → Causal.notchedChronalStep V a b → Causal.notchedChronalStep U a b
+@Causal.notchedChronalStep.notchedStep : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane}, Causal.notchedChronalStep U a b → Causal.notchedStep U a b
+Causal.notchedCorner : ↑Causal.notchedPlane
+Causal.notchedCorner_notMem_openDiamond : ∀ (p q : ↑Causal.notchedPlane),
+  Causal.notchedCorner ∉ Causal.Causality.openDiamond.{0} Causal.notchedCausality Top.top.{0} p q
+Causal.notchedEdge : Set.{0} ↑Causal.notchedPlane
+Causal.notchedPath : (a b : ↑Causal.notchedPlane) → LE.le.{0} ↑a ↑b → ℝ → ↑Causal.notchedPlane
+Causal.notchedPath_clamp_mem_segment : ∀ (p q : Prod.{0, 0} ℝ ℝ) (r : ℝ),
+  Membership.mem.{0, 0} (segment.{0, 0} ℝ p q)
+    (HAdd.hAdd.{0, 0, 0} p (HSMul.hSMul.{0, 0, 0} (Max.max.{0} 0 (Min.min.{0} r 1)) (HSub.hSub.{0, 0, 0} q p)))
+@Causal.notchedPath_coord : ∀ {a b : ↑Causal.notchedPlane} {hab : LE.le.{0} ↑a ↑b} {s s' : ℝ},
+  Membership.mem.{0, 0} (Set.Icc.{0} 0 1) s →
+    Membership.mem.{0, 0} (Set.Icc.{0} 0 1) s' →
+      Eq.{1} (HSub.hSub.{0, 0, 0} (↑(Causal.notchedPath a b hab s')).1 (↑(Causal.notchedPath a b hab s)).1)
+          (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} s' s) (HSub.hSub.{0, 0, 0} (↑b).1 (↑a).1)) ∧
+        Eq.{1} (HSub.hSub.{0, 0, 0} (↑(Causal.notchedPath a b hab s')).2 (↑(Causal.notchedPath a b hab s)).2)
+          (HMul.hMul.{0, 0, 0} (HSub.hSub.{0, 0, 0} s' s) (HSub.hSub.{0, 0, 0} (↑b).2 (↑a).2))
+@Causal.notchedPath_local : ∀ {a b : ↑Causal.notchedPlane} {hab : LE.le.{0} ↑a ↑b} (t : ℝ)
+  (N : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane),
+  Membership.mem.{0, 0} N (Causal.notchedPath a b hab t) →
+    ∃ l u,
+      LT.lt.{0} l t ∧
+        LT.lt.{0} t u ∧
+          ∀ (s : ℝ),
+            Membership.mem.{0, 0} (Set.Icc.{0} 0 1) s →
+              ∀ (s' : ℝ),
+                Membership.mem.{0, 0} (Set.Icc.{0} 0 1) s' →
+                  LT.lt.{0} l s →
+                    LT.lt.{0} s s' →
+                      LT.lt.{0} s' u →
+                        Causal.notchedStep N (Causal.notchedPath a b hab s) (Causal.notchedPath a b hab s')
+@Causal.notchedPath_mono : ∀ {a b : ↑Causal.notchedPlane} {hab : LE.le.{0} ↑a ↑b} {s s' : ℝ},
+  Membership.mem.{0, 0} (Set.Icc.{0} 0 1) s →
+    Membership.mem.{0, 0} (Set.Icc.{0} 0 1) s' →
+      LE.le.{0} s s' → LE.le.{0} ↑(Causal.notchedPath a b hab s) ↑(Causal.notchedPath a b hab s')
+@Causal.notchedPath_one : ∀ {a b : ↑Causal.notchedPlane} {hab : LE.le.{0} ↑a ↑b},
+  Eq.{1} (Causal.notchedPath a b hab 1) b
+@Causal.notchedPath_val_of_mem : ∀ {a b : ↑Causal.notchedPlane} {hab : LE.le.{0} ↑a ↑b} {r : ℝ},
+  Membership.mem.{0, 0} (Set.Icc.{0} 0 1) r →
+    Eq.{1} (↑(Causal.notchedPath a b hab r))
+      (HAdd.hAdd.{0, 0, 0} (↑a) (HSMul.hSMul.{0, 0, 0} r (HSub.hSub.{0, 0, 0} ↑b ↑a)))
+@Causal.notchedPath_zero : ∀ {a b : ↑Causal.notchedPlane} {hab : LE.le.{0} ↑a ↑b},
+  Eq.{1} (Causal.notchedPath a b hab 0) a
+Causal.notchedPlane : Set.{0} (Prod.{0, 0} ℝ ℝ)
+@Causal.notchedPlane_image_subset : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {O : Set.{0} (Prod.{0, 0} ℝ ℝ)},
+  Eq.{1} (Set.preimage.{0, 0} Subtype.val.{1} O) ↑U → HasSubset.Subset.{0} (Set.image.{0, 0} Subtype.val.{1} ↑U) O
+@Causal.notchedPlane_of_le : ∀ {p q : Prod.{0, 0} ℝ ℝ},
+  Membership.mem.{0, 0} Causal.notchedPlane q → LE.le.{0} p q → Membership.mem.{0, 0} Causal.notchedPlane p
+@Causal.notchedPlane_segment_subset_image : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {O : Set.{0} (Prod.{0, 0} ℝ ℝ)},
+  Eq.{1} (Set.preimage.{0, 0} Subtype.val.{1} O) ↑U →
+    ∀ {p q : Prod.{0, 0} ℝ ℝ},
+      LE.le.{0} p q →
+        Membership.mem.{0, 0} Causal.notchedPlane q →
+          HasSubset.Subset.{0} (segment.{0, 0} ℝ p q) O →
+            HasSubset.Subset.{0} (segment.{0, 0} ℝ p q) (Set.image.{0, 0} Subtype.val.{1} ↑U)
+Causal.notchedStep : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane →
+  ↑Causal.notchedPlane → ↑Causal.notchedPlane → Prop
+@Causal.notchedStep.exists_causalCurveOn : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane},
+  Causal.notchedStep U a b →
+    ∃ c, Causal.Causality.CausalCurveOn.{0} Causal.notchedCausality U c 0 1 ∧ Eq.{1} (c 0) a ∧ Eq.{1} (c 1) b
+@Causal.notchedStep.exists_chronalStep_left : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane},
+  Causal.notchedStep U a b →
+    ∀ {N : Set.{0} ↑Causal.notchedPlane},
+      Membership.mem.{0, 0} (nhds.{0} a) N → ∃ a', Membership.mem.{0, 0} N a' ∧ Causal.notchedChronalStep U a' b
+@Causal.notchedStep.exists_chronalStep_right : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane}
+  {a b : ↑Causal.notchedPlane},
+  Causal.notchedStep U a b →
+    ∀ {ε₀ : ℝ},
+      LT.lt.{0} 0 ε₀ →
+        Membership.mem.{0, 0} Causal.notchedPlane (HAdd.hAdd.{0, 0, 0} (↑b) (Prod.mk.{0, 0} ε₀ ε₀)) →
+          ∀ {N : Set.{0} ↑Causal.notchedPlane},
+            Membership.mem.{0, 0} (nhds.{0} b) N → ∃ b', Membership.mem.{0, 0} N b' ∧ Causal.notchedChronalStep U a b'
+@Causal.notchedStep.mem_left : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {a b : ↑Causal.notchedPlane},
+  Causal.notchedStep U a b → Membership.mem.{0, 0} U a
+@Causal.notchedStep.mem_right : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {a b : ↑Causal.notchedPlane},
+  Causal.notchedStep U a b → Membership.mem.{0, 0} U b
+@Causal.notchedStep.mono : ∀ {U V : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {a b : ↑Causal.notchedPlane},
+  LE.le.{0} V U → Causal.notchedStep V a b → Causal.notchedStep U a b
+@Causal.notchedStep_refl : ∀ {U : TopologicalSpace.Opens.{0} ↑Causal.notchedPlane} {a : ↑Causal.notchedPlane},
+  Membership.mem.{0, 0} U a → Causal.notchedStep U a a
+@Causal.segment_subset_notchedPlane : ∀ {a b : Prod.{0, 0} ℝ ℝ},
+  LE.le.{0} a b →
+    Membership.mem.{0, 0} Causal.notchedPlane b → HasSubset.Subset.{0} (segment.{0, 0} ℝ a b) Causal.notchedPlane
+Causal.oneWayMembrane_dual_separates : Causal.Precausality.AbsolutelyMinimal.{0}
+    (Causal.Causality.toPrecausality.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane)) ∧
+  Causal.Causality.CausallyArcConnected.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+    Causal.Causality.Tarentin.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+      Causal.Causality.PushUp.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+        Causal.Causality.LocallyPushUp.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+          Causal.Causality.IsCausal.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+            Causal.Causality.StronglyCausalOpen.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+              Causal.Causality.StronglyCausal.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                Causal.Causality.HasTimeFunction.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                  Causal.Causality.CurvesExtend.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                    ¬Causal.Causality.CausallyOpenFuture.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                      ¬Causal.Causality.LocallyCausallyOpenFuture.{0}
+                            (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                        ¬Causal.Causality.CausallyOpen.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                          ¬Causal.Causality.LocallyCausallyOpen.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                            ¬Causal.Causality.CausallyCompact.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                              ¬Causal.Causality.GloballyHyperbolic.{0}
+                                    (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                                ¬Causal.Causality.CausallyPlain.{0} (Causal.Causality.dual.{0} Causal.oneWayMembrane) ∧
+                                  ¬Causal.Causality.ChronalNeighbours.{0}
+                                      (Causal.Causality.dual.{0} Causal.oneWayMembrane)
+Causal.oneWayMembrane_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.oneWayMembrane
+Causal.oneWayMembrane_separates : Causal.Precausality.AbsolutelyMinimal.{0}
+    (Causal.Causality.toPrecausality.{0} Causal.oneWayMembrane) ∧
+  Causal.Causality.CausallyArcConnected.{0} Causal.oneWayMembrane ∧
+    Causal.Causality.Tarentin.{0} Causal.oneWayMembrane ∧
+      Causal.Causality.CausallyOpenFuture.{0} Causal.oneWayMembrane ∧
+        Causal.Causality.LocallyCausallyOpenFuture.{0} Causal.oneWayMembrane ∧
+          Causal.Causality.PushUp.{0} Causal.oneWayMembrane ∧
+            Causal.Causality.LocallyPushUp.{0} Causal.oneWayMembrane ∧
+              Causal.Causality.IsCausal.{0} Causal.oneWayMembrane ∧
+                Causal.Causality.StronglyCausalOpen.{0} Causal.oneWayMembrane ∧
+                  Causal.Causality.StronglyCausal.{0} Causal.oneWayMembrane ∧
+                    Causal.Causality.HasTimeFunction.{0} Causal.oneWayMembrane ∧
+                      Causal.Causality.CurvesExtend.{0} Causal.oneWayMembrane ∧
+                        ¬Causal.Causality.CausallyOpen.{0} Causal.oneWayMembrane ∧
+                          ¬Causal.Causality.LocallyCausallyOpen.{0} Causal.oneWayMembrane ∧
+                            ¬Causal.Causality.CausallyCompact.{0} Causal.oneWayMembrane ∧
+                              ¬Causal.Causality.GloballyHyperbolic.{0} Causal.oneWayMembrane ∧
+                                ¬Causal.Causality.CausallyPlain.{0} Causal.oneWayMembrane ∧
+                                  ¬Causal.Causality.ChronalNeighbours.{0} Causal.oneWayMembrane
+Causal.chronalMembrane_chronalNeighbours : Causal.Causality.ChronalNeighbours.{0} Causal.chronalMembrane
+Causal.chronalMembrane_dual_separates : Causal.Causality.ChronalNeighbours.{0}
+    (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+  Causal.Precausality.AbsolutelyMinimal.{0}
+      (Causal.Causality.toPrecausality.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane)) ∧
+    Causal.Causality.CausallyArcConnected.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+      Causal.Causality.Tarentin.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+        Causal.Causality.IsCausal.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+          Causal.Causality.StronglyCausalOpen.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+            Causal.Causality.StronglyCausal.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+              Causal.Causality.HasTimeFunction.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                Causal.Causality.CurvesExtend.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                  ¬Causal.Causality.CausallyOpenFuture.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                    ¬Causal.Causality.LocallyCausallyOpenFuture.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                      ¬Causal.Causality.CausallyOpen.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                        ¬Causal.Causality.LocallyCausallyOpen.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                          ¬Causal.Causality.PushUp.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                            ¬Causal.Causality.LocallyPushUp.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                              ¬Causal.Causality.CausallyPlain.{0} (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                                ¬Causal.Causality.CausallyCompact.{0}
+                                      (Causal.Causality.dual.{0} Causal.chronalMembrane) ∧
+                                  ¬Causal.Causality.GloballyHyperbolic.{0}
+                                      (Causal.Causality.dual.{0} Causal.chronalMembrane)
+Causal.chronalMembrane_separates : Causal.Causality.ChronalNeighbours.{0} Causal.chronalMembrane ∧
+  Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.chronalMembrane) ∧
+    Causal.Causality.CausallyArcConnected.{0} Causal.chronalMembrane ∧
+      Causal.Causality.Tarentin.{0} Causal.chronalMembrane ∧
+        Causal.Causality.CausallyOpenFuture.{0} Causal.chronalMembrane ∧
+          Causal.Causality.LocallyCausallyOpenFuture.{0} Causal.chronalMembrane ∧
+            Causal.Causality.IsCausal.{0} Causal.chronalMembrane ∧
+              Causal.Causality.StronglyCausalOpen.{0} Causal.chronalMembrane ∧
+                Causal.Causality.StronglyCausal.{0} Causal.chronalMembrane ∧
+                  Causal.Causality.HasTimeFunction.{0} Causal.chronalMembrane ∧
+                    Causal.Causality.CurvesExtend.{0} Causal.chronalMembrane ∧
+                      ¬Causal.Causality.CausallyOpen.{0} Causal.chronalMembrane ∧
+                        ¬Causal.Causality.LocallyCausallyOpen.{0} Causal.chronalMembrane ∧
+                          ¬Causal.Causality.PushUp.{0} Causal.chronalMembrane ∧
+                            ¬Causal.Causality.LocallyPushUp.{0} Causal.chronalMembrane ∧
+                              ¬Causal.Causality.CausallyPlain.{0} Causal.chronalMembrane ∧
+                                ¬Causal.Causality.CausallyCompact.{0} Causal.chronalMembrane ∧
+                                  ¬Causal.Causality.GloballyHyperbolic.{0} Causal.chronalMembrane
+Causal.exists_chronalNeighbours_absolutelyMinimal_not_locallyPushUp : ∃ C,
+  (∀ (W : TopologicalSpace.Opens.{0} (Prod.{0, 0} ℝ ℝ)),
+      Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} C) W) ∧
+    Causal.Causality.CausallyArcConnected.{0} C ∧
+      Causal.Causality.ChronalNeighbours.{0} C ∧
+        Causal.Causality.CausallyOpenFuture.{0} C ∧
+          ¬Causal.Causality.LocallyPushUp.{0} C ∧
+            ¬Causal.Causality.CausallyPlain.{0} C ∧
+              ¬Causal.Causality.LocallyCausallyOpen.{0} C ∧
+                ¬Causal.Causality.CausallyOpenFuture.{0} (Causal.Causality.dual.{0} C)
+Causal.not_causallyOpen_of_chronalNeighbours_bare : ¬∀ (C : Causal.Causality.{0} (Prod.{0, 0} ℝ ℝ)),
+    Causal.Causality.CausallyArcConnected.{0} C →
+      Causal.Causality.ChronalNeighbours.{0} C → Causal.Causality.LocallyCausallyOpen.{0} C
+Causal.not_causallyPlain_of_chronalNeighbours_bare : ¬∀ (C : Causal.Causality.{0} (Prod.{0, 0} ℝ ℝ)),
+    Causal.Causality.CausallyArcConnected.{0} C →
+      Causal.Causality.ChronalNeighbours.{0} C → Causal.Causality.CausallyPlain.{0} C
+Causal.not_locallyPushUp_of_chronalNeighbours_bare : ¬∀ (C : Causal.Causality.{0} (Prod.{0, 0} ℝ ℝ)),
+    Causal.Causality.CausallyArcConnected.{0} C →
+      Causal.Causality.ChronalNeighbours.{0} C → Causal.Causality.LocallyPushUp.{0} C
+Causal.jumpLine_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.jumpLine
+Causal.jumpLine_separates_causallyOpenFuture : Causal.Causality.PushUp.{0} Causal.jumpLine ∧
+  Causal.Causality.LocallyCausallyOpen.{0} Causal.jumpLine ∧
+    Causal.Causality.GloballyHyperbolic.{0} Causal.jumpLine ∧
+      Causal.Causality.StronglyCausalOpen.{0} Causal.jumpLine ∧
+        Causal.Causality.HasTimeFunction.{0} Causal.jumpLine ∧
+          ¬Causal.Causality.CausallyOpenFuture.{0} Causal.jumpLine ∧
+            ¬Causal.Causality.CausallyOpen.{0} Causal.jumpLine ∧
+              ¬Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.jumpLine) ∧
+                ¬Causal.Causality.CausallyArcConnected.{0} Causal.jumpLine ∧
+                  ¬Causal.Causality.ChronalNeighbours.{0} Causal.jumpLine ∧
+                    ¬Causal.Causality.Tarentin.{0} Causal.jumpLine ∧ ¬Causal.Causality.CausallyPlain.{0} Causal.jumpLine
+Causal.halfChronoLine_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.halfChronoLine
+Causal.exists_chronalNeighbours_absolutelyMinimal_not_causallyArcConnected : ∃ C,
+  (∀ (W : TopologicalSpace.Opens.{0} (Prod.{0, 0} ℝ ℝ)),
+      Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} C) W) ∧
+    Causal.Causality.ChronalNeighbours.{0} C ∧
+      Causal.Causality.CausallyOpen.{0} C ∧
+        Causal.Causality.HasTimeFunction.{0} C ∧
+          ¬Causal.Causality.LocallyCausallyArcConnected.{0} C ∧
+            ¬Causal.Causality.CausallyArcConnected.{0} C ∧
+              ¬Causal.Causality.LocallyPushUp.{0} C ∧ ¬Causal.Causality.CausallyPlain.{0} C
+Causal.not_causallyArcConnected_of_chronalNeighbours_bare : ¬∀ (C : Causal.Causality.{0} (Prod.{0, 0} ℝ ℝ)),
+    (∀ (W : TopologicalSpace.Opens.{0} (Prod.{0, 0} ℝ ℝ)),
+        Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} C) W) →
+      Causal.Causality.ChronalNeighbours.{0} C →
+        Causal.Causality.CausallyOpen.{0} C → Causal.Causality.CausallyArcConnected.{0} C
+Causal.not_causallyPlain_of_chronalNeighbours_causallyOpen_bare : ¬∀ (C : Causal.Causality.{0} (Prod.{0, 0} ℝ ℝ)),
+    (∀ (W : TopologicalSpace.Opens.{0} (Prod.{0, 0} ℝ ℝ)),
+        Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} C) W) →
+      Causal.Causality.ChronalNeighbours.{0} C →
+        Causal.Causality.CausallyOpen.{0} C → Causal.Causality.CausallyPlain.{0} C
+Causal.not_locallyPushUp_of_chronalNeighbours_causallyOpen_bare : ¬∀ (C : Causal.Causality.{0} (Prod.{0, 0} ℝ ℝ)),
+    (∀ (W : TopologicalSpace.Opens.{0} (Prod.{0, 0} ℝ ℝ)),
+        Causal.Precausality.AbsolutelyMinimalOn.{0} (Causal.Causality.toPrecausality.{0} C) W) →
+      Causal.Causality.ChronalNeighbours.{0} C →
+        Causal.Causality.CausallyOpen.{0} C → Causal.Causality.LocallyPushUp.{0} C
+Causal.rationalJumpPlane_chronalNeighbours : Causal.Causality.ChronalNeighbours.{0} Causal.rationalJumpPlane
+Causal.rationalJumpPlane_separates : Causal.Causality.ChronalNeighbours.{0} Causal.rationalJumpPlane ∧
+  Causal.Precausality.AbsolutelyMinimal.{0} (Causal.Causality.toPrecausality.{0} Causal.rationalJumpPlane) ∧
+    Causal.Causality.Tarentin.{0} Causal.rationalJumpPlane ∧
+      Causal.Causality.CausallyOpen.{0} Causal.rationalJumpPlane ∧
+        Causal.Causality.CausallyOpenFuture.{0} Causal.rationalJumpPlane ∧
+          Causal.Causality.LocallyCausallyOpen.{0} Causal.rationalJumpPlane ∧
+            Causal.Causality.LocallyCausallyOpenFuture.{0} Causal.rationalJumpPlane ∧
+              Causal.Causality.IsCausal.{0} Causal.rationalJumpPlane ∧
+                Causal.Causality.StronglyCausalOpen.{0} Causal.rationalJumpPlane ∧
+                  Causal.Causality.StronglyCausal.{0} Causal.rationalJumpPlane ∧
+                    Causal.Causality.HasTimeFunction.{0} Causal.rationalJumpPlane ∧
+                      Causal.Causality.CurvesExtend.{0} Causal.rationalJumpPlane ∧
+                        ¬Causal.Causality.CausallyArcConnected.{0} Causal.rationalJumpPlane ∧
+                          ¬Causal.Causality.PushUp.{0} Causal.rationalJumpPlane ∧
+                            ¬Causal.Causality.LocallyPushUp.{0} Causal.rationalJumpPlane ∧
+                              ¬Causal.Causality.CausallyPlain.{0} Causal.rationalJumpPlane ∧
+                                ¬Causal.Causality.CausallyCompact.{0} Causal.rationalJumpPlane ∧
+                                  ¬Causal.Causality.GloballyHyperbolic.{0} Causal.rationalJumpPlane
+Causal.rationalLine_not_chronalNeighbours : ¬Causal.Causality.ChronalNeighbours.{0} Causal.rationalLine
+Causal.rationalLine_separates : Causal.Precausality.AbsolutelyMinimal.{0}
+    (Causal.Causality.toPrecausality.{0} Causal.rationalLine) ∧
+  Causal.Causality.IsCausal.{0} Causal.rationalLine ∧
+    Causal.Causality.PushUp.{0} Causal.rationalLine ∧
+      Causal.Causality.LocallyPushUp.{0} Causal.rationalLine ∧
+        Causal.Causality.HasTimeFunction.{0} Causal.rationalLine ∧
+          Causal.Causality.CurvesExtend.{0} Causal.rationalLine ∧
+            Causal.Causality.StronglyCausalOpen.{0} Causal.rationalLine ∧
+              Causal.Causality.StronglyCausal.{0} Causal.rationalLine ∧
+                ¬Causal.Causality.CausallyArcConnected.{0} Causal.rationalLine ∧
+                  ¬Causal.Causality.CausallyOpenFuture.{0} Causal.rationalLine ∧
+                    ¬Causal.Causality.CausallyOpen.{0} Causal.rationalLine ∧
+                      ¬Causal.Causality.LocallyCausallyOpenFuture.{0} Causal.rationalLine ∧
+                        ¬Causal.Causality.LocallyCausallyOpen.{0} Causal.rationalLine ∧
+                          ¬Causal.Causality.Tarentin.{0} Causal.rationalLine ∧
+                            ¬Causal.Causality.CausallyPlain.{0} Causal.rationalLine ∧
+                              ¬Causal.Causality.ChronalNeighbours.{0} Causal.rationalLine ∧
+                                ¬Causal.Causality.CausallyCompact.{0} Causal.rationalLine ∧
+                                  ¬Causal.Causality.GloballyHyperbolic.{0} Causal.rationalLine
+Causal.SingularRowsCauchyExt.noCausalEndpoint_e0 : Causal.Causality.NoCausalEndpoint.{0} Causal.E0.causality
+@Causal.Causality.CausalCurveIn.mem_image_of_between.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} [T2Space.{u_1} M],
+  Causal.Causality.IsCausal.{u_1} C →
+    ∀ {c γ : ℝ → M} {J : Set.{0} ℝ},
+      Causal.Causality.CausalCurveOn.{u_1} C Top.top.{u_1} c 0 1 →
+        Causal.Causality.CausalCurveIn.{u_1} C Top.top.{u_1} J γ →
+          HasSubset.Subset.{u_1} (Set.image.{0, u_1} c (Set.Icc.{0} 0 1)) (Set.image.{0, u_1} γ J) →
+            ∀ {τ₀ s₀ τ₁ : ℝ},
+              Membership.mem.{0, 0} J τ₀ →
+                Membership.mem.{0, 0} J τ₁ →
+                  Eq.{u_1 + 1} (γ τ₀) (c 0) →
+                    Eq.{u_1 + 1} (γ τ₁) (c 1) →
+                      LE.le.{0} τ₀ s₀ →
+                        LE.le.{0} s₀ τ₁ → Membership.mem.{u_1, u_1} (Set.image.{0, u_1} c (Set.Icc.{0} 0 1)) (γ s₀)
+@Causal.Causality.IsAcausal.Jplus_inter_Jminus.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M},
+  Causal.Causality.IsCausal.{u_1} C →
+    Causal.Causality.IsAcausal.{u_1} C S →
+      Eq.{u_1 + 1}
+        (Inter.inter.{u_1} (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+          (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S))
+        S
+@Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} [T1Space.{u_1} M] [SecondCountableTopology.{u_1} M],
+  Causal.Causality.IsCauchySurface.{u_1} C S →
+    ∀ (x : M),
+      Membership.mem.{u_1, u_1}
+        (Union.union.{u_1} (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+          (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S))
+        x
+@Causal.Causality.IsCauchySurface.exists_isOpen_of_Iminus_nonempty.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} [T2Space.{u_1} M]
+  [SecondCountableTopology.{u_1} M],
+  Causal.Causality.IsCausal.{u_1} C →
+    Causal.Causality.CausallyArcConnected.{u_1} C →
+      Causal.Causality.IsCauchySurface.{u_1} C S →
+        (∀ (x : M),
+            Membership.mem.{u_1, u_1} S x →
+              ¬Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x x) →
+          ∀ {p : M},
+            Membership.mem.{u_1, u_1}
+                (SDiff.sdiff.{u_1}
+                  (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+                p →
+              Set.Nonempty.{u_1}
+                  (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                    (Singleton.singleton.{u_1, u_1} p)) →
+                ∃ O,
+                  IsOpen.{u_1} O ∧
+                    Membership.mem.{u_1, u_1} O p ∧
+                      HasSubset.Subset.{u_1} O
+                        (SDiff.sdiff.{u_1}
+                          (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+@Causal.Causality.IsCauchySurface.isOpen_Jplus_diff_of_Iminus_nonempty.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} [T2Space.{u_1} M]
+  [SecondCountableTopology.{u_1} M],
+  Causal.Causality.IsCauchySurface.{u_1} C S →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.CausallyArcConnected.{u_1} C →
+        (∀ (x : M),
+            Membership.mem.{u_1, u_1} S x →
+              ¬Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x x) →
+          (∀ (p : M),
+              Membership.mem.{u_1, u_1}
+                  (SDiff.sdiff.{u_1}
+                    (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+                  p →
+                Set.Nonempty.{u_1}
+                  (Causal.Precausality.Iminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                    (Singleton.singleton.{u_1, u_1} p))) →
+            IsOpen.{u_1}
+              (SDiff.sdiff.{u_1}
+                (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+@Causal.Causality.IsCauchySurface.sigma_separe_of_isOpen.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} [T1Space.{u_1} M] [SecondCountableTopology.{u_1} M],
+  Causal.Causality.IsCauchySurface.{u_1} C S →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.CausallyArcConnected.{u_1} C →
+        IsOpen.{u_1}
+            (SDiff.sdiff.{u_1}
+              (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S) →
+          IsOpen.{u_1}
+              (SDiff.sdiff.{u_1}
+                (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S) →
+            IsClosed.{u_1} (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+              IsClosed.{u_1}
+                  (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+                Eq.{u_1 + 1}
+                    (Inter.inter.{u_1}
+                      (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                      (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S))
+                    S ∧
+                  (∀ (y : M),
+                      Membership.mem.{u_1, u_1}
+                          (SDiff.sdiff.{u_1}
+                            (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                            S)
+                          y →
+                        Membership.mem.{u_1, u_1} (nhds.{u_1} y)
+                          (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)) ∧
+                    (∀ (y : M),
+                        Membership.mem.{u_1, u_1}
+                            (SDiff.sdiff.{u_1}
+                              (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S)
+                              S)
+                            y →
+                          Membership.mem.{u_1, u_1} (nhds.{u_1} y)
+                            (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                              S)) ∧
+                      (∀ (x : M),
+                          Membership.mem.{u_1, u_1}
+                            (Union.union.{u_1}
+                              (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S)
+                              (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S))
+                            x) ∧
+                        IsOpen.{u_1}
+                            (SDiff.sdiff.{u_1}
+                              (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S)
+                              S) ∧
+                          IsOpen.{u_1}
+                              (SDiff.sdiff.{u_1}
+                                (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C)
+                                  Top.top.{u_1} S)
+                                S) ∧
+                            IsClosed.{u_1} S
+@Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} [T2Space.{u_1} M]
+  [SecondCountableTopology.{u_1} M],
+  Causal.Causality.IsCauchySurface.{u_1} C S →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.CausallyArcConnected.{u_1} C →
+        Causal.Causality.NoPastEndpoint.{u_1} C →
+          Causal.Causality.NonemptyChronalCones.{u_1} C →
+            IsClosed.{u_1} (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+              IsClosed.{u_1}
+                  (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+                Eq.{u_1 + 1}
+                    (Inter.inter.{u_1}
+                      (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                      (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S))
+                    S ∧
+                  (∀ (y : M),
+                      Membership.mem.{u_1, u_1}
+                          (SDiff.sdiff.{u_1}
+                            (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                            S)
+                          y →
+                        Membership.mem.{u_1, u_1} (nhds.{u_1} y)
+                          (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)) ∧
+                    (∀ (y : M),
+                        Membership.mem.{u_1, u_1}
+                            (SDiff.sdiff.{u_1}
+                              (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S)
+                              S)
+                            y →
+                          Membership.mem.{u_1, u_1} (nhds.{u_1} y)
+                            (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                              S)) ∧
+                      (∀ (x : M),
+                          Membership.mem.{u_1, u_1}
+                            (Union.union.{u_1}
+                              (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S)
+                              (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S))
+                            x) ∧
+                        IsOpen.{u_1}
+                            (SDiff.sdiff.{u_1}
+                              (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1}
+                                S)
+                              S) ∧
+                          IsOpen.{u_1}
+                              (SDiff.sdiff.{u_1}
+                                (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C)
+                                  Top.top.{u_1} S)
+                                S) ∧
+                            IsClosed.{u_1} S
+@Causal.Causality.SingularFlatAxioms.exists_isOpen_of_mem_sing_zero.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} {sing : ℝ → Set.{u_1} M},
+  Causal.Causality.SingularFlatAxioms.{u_1} C sing →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.IsCauchySurface.{u_1} C S →
+        ∀ {p : M},
+          Membership.mem.{u_1, u_1}
+              (SDiff.sdiff.{u_1}
+                (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+              p →
+            Membership.mem.{u_1, u_1} (sing 0) p →
+              ∃ O,
+                IsOpen.{u_1} O ∧
+                  Membership.mem.{u_1, u_1} O p ∧
+                    HasSubset.Subset.{u_1} O
+                      (SDiff.sdiff.{u_1}
+                        (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+@Causal.Causality.SingularFlatAxioms.exists_mem_sing_zero_Jplus_diff.{u_1} : ∀ {M : Type u_1}
+  [inst : TopologicalSpace.{u_1} M] {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} {sing : ℝ → Set.{u_1} M},
+  Causal.Causality.SingularFlatAxioms.{u_1} C sing →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.IsCauchySurface.{u_1} C S →
+        Set.Nonempty.{u_1} (sing 0) →
+          ∃ p,
+            Membership.mem.{u_1, u_1} (sing 0) p ∧
+              Membership.mem.{u_1, u_1}
+                (SDiff.sdiff.{u_1}
+                  (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+                p
+@Causal.Causality.SingularFlatAxioms.isOpen_Jminus_diff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} {sing : ℝ → Set.{u_1} M},
+  Causal.Causality.SingularFlatAxioms.{u_1} C sing →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.IsCauchySurface.{u_1} C S →
+        IsOpen.{u_1}
+          (SDiff.sdiff.{u_1}
+            (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+@Causal.Causality.SingularFlatAxioms.isOpen_Jplus_diff.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} {sing : ℝ → Set.{u_1} M},
+  Causal.Causality.SingularFlatAxioms.{u_1} C sing →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.IsCauchySurface.{u_1} C S →
+        IsOpen.{u_1}
+          (SDiff.sdiff.{u_1} (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+            S)
+@Causal.Causality.SingularFlatAxioms.not_lt_self.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {sing : ℝ → Set.{u_1} M},
+  Causal.Causality.SingularFlatAxioms.{u_1} C sing →
+    Causal.Causality.IsCausal.{u_1} C →
+      ∀ (x : M), ¬Causal.Precausality.lt.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} x x
+@Causal.Causality.SingularFlatAxioms.sigma_separe.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} {sing : ℝ → Set.{u_1} M},
+  Causal.Causality.SingularFlatAxioms.{u_1} C sing →
+    Causal.Causality.GloballyHyperbolic.{u_1} C →
+      Causal.Causality.IsCauchySurface.{u_1} C S →
+        IsClosed.{u_1} (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+          IsClosed.{u_1} (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+            Eq.{u_1 + 1}
+                (Inter.inter.{u_1}
+                  (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                  (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S))
+                S ∧
+              ∀ (y : M),
+                Membership.mem.{u_1, u_1}
+                    (SDiff.sdiff.{u_1}
+                      (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+                    y →
+                  Membership.mem.{u_1, u_1} (nhds.{u_1} y)
+                    (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+@Causal.Causality.SingularFlatAxioms.sigma_separe_of_isCausal.{u_1} : ∀ {M : Type u_1} [inst : TopologicalSpace.{u_1} M]
+  {C : Causal.Causality.{u_1} M} {S : Set.{u_1} M} {sing : ℝ → Set.{u_1} M},
+  Causal.Causality.SingularFlatAxioms.{u_1} C sing →
+    Causal.Causality.IsCausal.{u_1} C →
+      Causal.Causality.IsCauchySurface.{u_1} C S →
+        IsClosed.{u_1} (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+          IsClosed.{u_1} (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) ∧
+            Eq.{u_1 + 1}
+                (Inter.inter.{u_1}
+                  (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                  (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S))
+                S ∧
+              (∀ (y : M),
+                  Membership.mem.{u_1, u_1}
+                      (SDiff.sdiff.{u_1}
+                        (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S) S)
+                      y →
+                    Membership.mem.{u_1, u_1} (nhds.{u_1} y)
+                      (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)) ∧
+                (∀ (y : M),
+                    Membership.mem.{u_1, u_1}
+                        (SDiff.sdiff.{u_1}
+                          (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                          S)
+                        y →
+                      Membership.mem.{u_1, u_1} (nhds.{u_1} y)
+                        (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)) ∧
+                  (∀ (x : M),
+                      Membership.mem.{u_1, u_1}
+                        (Union.union.{u_1}
+                          (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                          (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S))
+                        x) ∧
+                    IsOpen.{u_1}
+                        (SDiff.sdiff.{u_1}
+                          (Causal.Precausality.Jplus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                          S) ∧
+                      IsOpen.{u_1}
+                          (SDiff.sdiff.{u_1}
+                            (Causal.Precausality.Jminus.{u_1} (Causal.Causality.toPrecausality.{u_1} C) Top.top.{u_1} S)
+                            S) ∧
+                        IsClosed.{u_1} S
+Causal.timelikeLine_sigma_separe : IsClosed.{0}
+    (Causal.Precausality.Jplus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+      (Singleton.singleton.{0, 0} 0)) ∧
+  IsClosed.{0}
+      (Causal.Precausality.Jminus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+        (Singleton.singleton.{0, 0} 0)) ∧
+    Eq.{1}
+        (Inter.inter.{0}
+          (Causal.Precausality.Jplus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+            (Singleton.singleton.{0, 0} 0))
+          (Causal.Precausality.Jminus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+            (Singleton.singleton.{0, 0} 0)))
+        (Singleton.singleton.{0, 0} 0) ∧
+      ∀ (y : ℝ),
+        Membership.mem.{0, 0}
+            (SDiff.sdiff.{0}
+              (Causal.Precausality.Jplus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+                (Singleton.singleton.{0, 0} 0))
+              (Singleton.singleton.{0, 0} 0))
+            y →
+          Membership.mem.{0, 0} (nhds.{0} y)
+            (Causal.Precausality.Jplus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+              (Singleton.singleton.{0, 0} 0))
+Causal.timelikeLine_sigma_separe_of_nonemptyChronalCones : IsClosed.{0}
+    (Causal.Precausality.Jplus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+      (Singleton.singleton.{0, 0} 0)) ∧
+  IsClosed.{0}
+      (Causal.Precausality.Jminus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+        (Singleton.singleton.{0, 0} 0)) ∧
+    Eq.{1}
+        (Inter.inter.{0}
+          (Causal.Precausality.Jplus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+            (Singleton.singleton.{0, 0} 0))
+          (Causal.Precausality.Jminus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+            (Singleton.singleton.{0, 0} 0)))
+        (Singleton.singleton.{0, 0} 0) ∧
+      IsOpen.{0}
+          (SDiff.sdiff.{0}
+            (Causal.Precausality.Jplus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+              (Singleton.singleton.{0, 0} 0))
+            (Singleton.singleton.{0, 0} 0)) ∧
+        IsOpen.{0}
+          (SDiff.sdiff.{0}
+            (Causal.Precausality.Jminus.{0} (Causal.Causality.toPrecausality.{0} Causal.timelikeLine) Top.top.{0}
+              (Singleton.singleton.{0, 0} 0))
+            (Singleton.singleton.{0, 0} 0))

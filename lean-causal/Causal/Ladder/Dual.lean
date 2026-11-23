@@ -102,9 +102,11 @@ transported). `Causal.Ladder.DualTest` shows what it derives and what it does no
   `hasTimeFunction_dual_iff` and `curvesExtend_dual_iff`, in this file's namespace; hoisting the
   library's lemmas into `Causal.CurvesExtend` and `Causal.CauchyExtension` would let these two
   become one-liners.
-* No rule is given for the past-based conjuncts `ChronalPastNeighbours` and `NoPastEndpoint` (not
-  nodes; DEC-166 renames them to a future base), nor for `IsCausalIso` (`IsCausalIso.dual`, not a
-  node), nor for the `…On W` forms (`dual_tarentinOn`, `dual_pushUpOn`, …), which are not nodes.
+* No rule is given for the one-sided conjuncts `ChronalFutureNeighbours`, `NoFutureEndpoint` and
+  their duals `ChronalPastNeighbours`, `NoPastEndpoint` (not nodes; since DEC-166 (a) the future
+  forms are the base, `dual_chronalFutureNeighbours` and the like in `Causal.LadderLocal`), nor for
+  `IsCausalIso` (`IsCausalIso.dual`, not a node), nor for the `…On W` forms (`dual_tarentinOn`,
+  `dual_pushUpOn`, …), which are not nodes.
 * Like the generated rules, these are forward: a hypothesis under a binder is not used, and no
   hypothesis is destructed through a definition (`C.CausallyOpen` is not split into its two
   halves; `causallyOpen_of_future_of_past` only builds it).

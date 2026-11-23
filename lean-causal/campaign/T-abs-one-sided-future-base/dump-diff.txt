@@ -1,0 +1,110 @@
+T-abs-one-sided-future-base: environment dump, before (HEAD oleans, lean-causal clean, all 8885 jobs up to date) vs after (final build).
+Harness: every constant of every Causal.* and CausalScaffold.* module, from one file importing all 324 module files (the precedent's /tmp/htf/Dump.body.lean, plus a column: which of the six one-sided/two-sided constants the TYPE uses).
+Fields: name, module, kind, universe params, Expr.hash of type, binder telescope, Expr.hash of value, reducibility, protected, noncomputable, internal.
+
+constants: 17191 before, 17209 after; removed 0; added 18.
+
+ADDED (18):
+  thm	Causal.Causality.AbsolutelyMinimal.chronalFutureNeighbours_iff	Causal.LadderLocal
+  thm	Causal.Causality.CausallyArcConnected.chronalFutureNeighbours_iff	Causal.ChronalNeighbourBridge
+  def	Causal.Causality.ChronalFutureNeighbours	Causal.LadderLocal
+  thm	Causal.Causality.ChronalFutureNeighbours.Iplus_nonempty	Causal.ChronalNeighbourBridge
+  thm	Causal.Causality.ChronalFutureNeighbours.Iplus_nonempty_of_mem	Causal.ChronalNeighbourBridge
+  thm	Causal.Causality.ChronalFutureNeighbours.mem_Zplus	Causal.LadderLocal
+  def	Causal.Causality.NoFutureEndpoint	Causal.LadderLocal
+  thm	Causal.Causality.chronalNeighbours_iff_future	Causal.LadderLocal
+  thm	Causal.Causality.chronalPastNeighbours_def	Causal.LadderLocal
+  thm	Causal.Causality.dual_chronalFutureNeighbours	Causal.LadderLocal
+  thm	Causal.Causality.dual_chronalPastNeighbours	Causal.LadderLocal
+  thm	Causal.Causality.dual_noFutureEndpoint	Causal.LadderLocal
+  thm	Causal.Causality.dual_noPastEndpoint	Causal.LadderLocal
+  thm	Causal.Causality.noCausalEndpoint_iff_future	Causal.LadderLocal
+  thm	Causal.Causality.noFutureEndpoint_iff	Causal.LadderLocal
+  thm	Causal.Causality.noPastEndpoint_def	Causal.LadderLocal
+  thm	Causal.IsCausalIso.chronalFutureNeighbours_iff	Causal.CausalIsoInvariance
+  thm	Causal.IsCausalIso.noFutureEndpoint_iff	Causal.CausalIsoInvariance
+
+module, kind, levels, telescope, reducibility, protected, noncomputable: no difference for any of the 17191 common constants.
+
+TYPE hash differences: 7, all auxiliary (none is a statement anyone writes):
+  Causal.Causality.ChronalNeighbours.eq_1
+  Causal.arcCausality_not_chronalNeighbours.match_1_1
+  Causal.halfLightLine_not_chronalNeighbours.match_1_1
+  Causal.jumpLine_not_chronalNeighbours.match_1_1
+  Causal.lightlikeLine_not_chronalNeighbours.match_1_1
+  Causal.notchedCausality_not_chronalNeighbours.match_1_1
+  Causal.oneWayMembrane_not_chronalNeighbours.match_1_1
+  ChronalNeighbours.eq_1 is the equation lemma of the definition (its type is the definition's body);
+  the six match_1_1 are the matchers Lean generates for term-mode destructuring (`let ⟨_, _, hp⟩ := h.1 ⊤ 0 trivial` and the like) of the
+  existential a side of ChronalNeighbours unfolds to. Past side (`h.1`, five of them): now `∃ p ∈ V, C.dual.lt V v p`, before
+  `∃ p ∈ V, C.lt V p v`. Future side (`h.2`, notchedCausality_not_chronalNeighbours): now `∃ p ∈ V, C.lt V v p`, before
+  `∃ p ∈ V, C.dual.lt V p v`. Definitionally equal each time; the sources are unchanged (kb/0066).
+
+VALUE hash differences: 56:
+  (a) definitions whose body changed (4):
+      Causal.Causality.ChronalNeighbours
+      Causal.Causality.ChronalPastNeighbours
+      Causal.Causality.NoCausalEndpoint
+      Causal.Causality.NoPastEndpoint
+  (b) proofs edited by hand because they no longer compiled (4):
+      Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff
+      Causal.Causality.CausallyArcConnected.chronalNeighbours_iff
+      Causal.Causality.noPastEndpoint_iff
+      Causal.lightlikeLine_noCausalEndpoint
+  (c) matchers (auxiliary, 6):
+      Causal.arcCausality_not_chronalNeighbours.match_1_1
+      Causal.halfLightLine_not_chronalNeighbours.match_1_1
+      Causal.jumpLine_not_chronalNeighbours.match_1_1
+      Causal.lightlikeLine_not_chronalNeighbours.match_1_1
+      Causal.notchedCausality_not_chronalNeighbours.match_1_1
+      Causal.oneWayMembrane_not_chronalNeighbours.match_1_1
+  (d) proofs whose SOURCE is unchanged (declaration block identical in HEAD and now, checked block by block) but whose elaborated term
+      embeds the new unfolding (C.dual.lt V v p for C.lt V p v, C.dual.Jplus for C.Jminus, C.ChronalFutureNeighbours for
+      C.dual.ChronalPastNeighbours) (42):
+      Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff	Causal.LadderLocal
+      Causal.Causality.CausallyArcConnected.chronalPastNeighbours_iff	Causal.ChronalNeighbourBridge
+      Causal.Causality.ChronalNeighbours.Iminus_nonempty	Causal.ChronalNeighbourBridge
+      Causal.Causality.ChronalNeighbours.Iplus_nonempty	Causal.ChronalNeighbourBridge
+      Causal.Causality.ChronalNeighbours.exists_lt_lt	Causal.ChronalTarentin
+      Causal.Causality.ChronalNeighbours.mem_Zplus	Causal.LadderLocal
+      Causal.Causality.ChronalPastNeighbours.Iminus_nonempty_of_mem	Causal.ChronalNeighbourBridge
+      Causal.Causality.ChronalPastNeighbours.mem_Zminus	Causal.LadderLocal
+      Causal.Causality.GloballyHyperbolic.inextensibleNestedOn_top_of_noCausalEndpoint	Causal.LadderLocal
+      Causal.Causality.PushUp.causallyOpenFuture_of_chronalPastNeighbours	Causal.LadderLocal
+      Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours	Causal.LadderLocal
+      Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours	Causal.CausallyPlainLocZ
+      Causal.Causality.dual_chronalNeighbours	Causal.LadderLocal
+      Causal.Causality.dual_noCausalEndpoint	Causal.LadderLocal
+      Causal.Causality.exists_leaving_of_locallyCausallyArcConnected	Causal.ChronalNeighbourBridge
+      Causal.Causality.inextensibleNestedOn_top_of_noCausalEndpoint	Causal.LadderLocal
+      Causal.IsCausalIso.chronalNeighbours_iff	Causal.CausalIsoInvariance
+      Causal.IsCausalIso.chronalPastNeighbours	Causal.CausalIsoInvariance
+      Causal.IsCausalIso.noCausalEndpoint_iff	Causal.CausalIsoInvariance
+      Causal.IsCausalIso.noPastEndpoint_iff	Causal.CausalIsoInvariance
+      Causal.SingularRowsCauchyExt.isCauchySurface_level	Causal.Remarks.SingularRowsCauchyExt
+      Causal.SingularRowsCauchyExt.noCausalEndpoint_e0	Causal.Remarks.SingularRowsCauchyExt
+      Causal.arcCausality_not_chronalNeighbours	Causal.GHWithoutTarentin
+      Causal.chronalMembrane_chronalNeighbours	Causal.OneWayMembraneChronal
+      Causal.globalLine_not_chronalNeighbours	Causal.ChronalNeighbourBridge
+      Causal.globalLine_not_chronalPastNeighbours	Causal.ChronalNeighbourBridge
+      Causal.halfChronoLine_not_chronalNeighbours	Causal.PushUpOfMinimalLocal
+      Causal.halfLightLine_not_chronalNeighbours	Causal.Dec8MinimalWitness
+      Causal.jumpLine_not_chronalNeighbours	Causal.PushUpNotOpen
+      Causal.lightlikeLine_not_chronalNeighbours	Causal.LadderLocal
+      Causal.notchedCausality_chronalPastNeighbours	Causal.NotchedPlane
+      Causal.notchedCausality_not_chronalNeighbours	Causal.NotchedPlane
+      Causal.oneWayMembrane_not_chronalNeighbours	Causal.OneWayMembrane
+      Causal.rationalJumpPlane_chronalNeighbours	Causal.RationalJumpPlane
+      Causal.rationalLine_not_chronalNeighbours	Causal.RationalLineExtras
+      Causal.sierpinskiCausality_not_chronalNeighbours	Causal.ChronalNeighbourBridge
+      Causal.sierpinskiCausality_not_chronalPastNeighbours	Causal.ChronalNeighbourBridge
+      Causal.spacelikeLine_not_noCausalEndpoint	Causal.LadderLocal
+      Causal.staticCausality.chronalNeighbours	Causal.Model.EAlphaCauchy
+      Causal.staticCausality.noCausalEndpoint	Causal.Model.EAlphaCauchy
+      Causal.timelikeLine_chronalNeighbours	Causal.LadderLocal
+      Causal.timelikeLine_noCausalEndpoint	Causal.LadderLocal
+
+Statements: the #check @n (pp.universes, pp.fullNames) of the 405 declarations of checklist.tsv (every non-auxiliary declaration of
+LadderLocal, ChronalNeighbourBridge, CausalIsoInvariance, SingularCauchy, NotchedPlane, Ladder.Dual, and every declaration anywhere whose
+type mentions ChronalPastNeighbours, NoPastEndpoint, ChronalNeighbours or NoCausalEndpoint) is byte-identical before and after:
+sha256 fecec455df859e973326c9728cc07542fa4a1cf5634fb20fea45593ffd3ec9c3 (checks-before.txt) both times.

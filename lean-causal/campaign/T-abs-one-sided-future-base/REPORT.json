@@ -1,0 +1,139 @@
+{
+ "target": "T-abs-one-sided-future-base",
+ "package": "T-abs-one-sided-future-base",
+ "files": {
+  "edited": [
+   "Causal/LadderLocal.lean",
+   "Causal/ChronalNeighbourBridge.lean",
+   "Causal/CausalIsoInvariance.lean",
+   "Causal/Ladder/Dual.lean"
+  ],
+  "new": [],
+  "campaign": [
+   "campaign/T-abs-one-sided-future-base/REPORT.json",
+   "campaign/T-abs-one-sided-future-base/checklist.tsv",
+   "campaign/T-abs-one-sided-future-base/checks-before.txt",
+   "campaign/T-abs-one-sided-future-base/checks-new.txt",
+   "campaign/T-abs-one-sided-future-base/dump-diff.txt",
+   "campaign/T-abs-one-sided-future-base/probe.lean",
+   "campaign/T-abs-one-sided-future-base/emit_probe.py"
+  ]
+ },
+ "builds": true,
+ "build_command": "cd lean-causal && taskset -c 0-11 lake build Causal CausalScaffold",
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-one-sided-future-base/future-base",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ChronalFutureNeighbours",
+    "Causal.Causality.NoFutureEndpoint",
+    "Causal.Causality.ChronalPastNeighbours",
+    "Causal.Causality.NoPastEndpoint",
+    "Causal.Causality.ChronalNeighbours",
+    "Causal.Causality.NoCausalEndpoint"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Library, not paper. No existing statement wrote C.dual.ChronalPastNeighbours or C.dual.NoPastEndpoint (grep of Causal/ and scaffold/), so after the swap no statement reads as a double dual. Every use of the old future side was the projection h.2 or the term-mode argument (C := C.dual) h.2, and these still elaborate: C.ChronalFutureNeighbours and C.dual.ChronalPastNeighbours are definitionally equal by one delta step and structure eta (C.dual.dual is C by rfl, Causality.dual_dual)."
+   ],
+   "questions": [
+    "Reading taken (the dispatch allowed either): ChronalNeighbours is re-expressed as C.ChronalPastNeighbours ∧ C.ChronalFutureNeighbours. The alternative was to keep the text C.ChronalPastNeighbours ∧ C.dual.ChronalPastNeighbours, whose second conjunct would then unfold to C.dual.dual.ChronalFutureNeighbours. I kept the order, past first (.1) and future second (.2), so every projection keeps its meaning and every conjunct is definitionally what it was (probe.lean: Iff.rfl against the old body and against Lemma K's hZm ∧ hZp). The same holds for NoCausalEndpoint := C.NoPastEndpoint ∧ C.NoFutureEndpoint. The alternative ordering, the future first as CausallyOpen and LocallyCausallyOpen have it, would have swapped .1 and .2 for every user, so I did not take it.",
+    "Names chosen after CausallyOpenFuture: ChronalFutureNeighbours and NoFutureEndpoint (the dispatch's examples). Bridge names: chronalPastNeighbours_def and noPastEndpoint_def (the old bodies, Iff.rfl). These follow mathlib's _def for an unfolding, because noPastEndpoint_iff was already taken by the characterisation ∃ y ≠ x, y ≤ x. The others are dual_chronalFutureNeighbours, dual_chronalPastNeighbours, dual_noFutureEndpoint and dual_noPastEndpoint (kb/0002), and chronalNeighbours_iff_future and noCausalEndpoint_iff_future (each two-sided notion as the future base of C.dual and of C)."
+   ]
+  }
+ ],
+ "new_definitions": {
+  "Causal.Causality.ChronalFutureNeighbours": "Causal/LadderLocal.lean:166. ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V v p. This is literally Lemma K's hZp (Causal/LemmaK.lean:100).",
+  "Causal.Causality.NoFutureEndpoint": "Causal/LadderLocal.lean:183. ∀ x : M, C.Jplus ⊤ {x} ≠ {x}."
+ },
+ "redefined_keeping_name_and_statement": {
+  "Causal.Causality.ChronalPastNeighbours": "Causal/LadderLocal.lean:172 (HEAD :159). Now C.dual.ChronalFutureNeighbours. Before: ∀ V, ∀ v ∈ V, ∃ p ∈ V, C.lt V p v. Equal by Iff.rfl (chronalPastNeighbours_def).",
+  "Causal.Causality.NoPastEndpoint": "Causal/LadderLocal.lean:188 (HEAD :168). Now C.dual.NoFutureEndpoint. Before: ∀ x, C.Jminus ⊤ {x} ≠ {x}. Equal by Iff.rfl (noPastEndpoint_def).",
+  "Causal.Causality.ChronalNeighbours": "Causal/LadderLocal.lean:178 (HEAD :164). Now C.ChronalPastNeighbours ∧ C.ChronalFutureNeighbours. Before: C.ChronalPastNeighbours ∧ C.dual.ChronalPastNeighbours. Still the conjunction of both sides, past first. Each conjunct is definitionally what it was, and Iff.rfl proves the equivalence with the old body (probe.lean). Name, type and ladder id unchanged. The tactic's rules mention it only as a head constant, which aesop does not unfold, and Rules, Test and DualTest compile unchanged.",
+  "Causal.Causality.NoCausalEndpoint": "Causal/LadderLocal.lean:194 (HEAD :173). Now C.NoPastEndpoint ∧ C.NoFutureEndpoint. Before: C.NoPastEndpoint ∧ C.dual.NoPastEndpoint. Same remarks."
+ },
+ "bridge_lemmas": [
+  "Causal.Causality.chronalPastNeighbours_def (LadderLocal :326, Iff.rfl): C.ChronalPastNeighbours ↔ ∀ V, ∀ v ∈ V, ∃ p ∈ V, C.lt V p v",
+  "Causal.Causality.dual_chronalFutureNeighbours (:332, Iff.rfl): C.dual.ChronalFutureNeighbours ↔ C.ChronalPastNeighbours",
+  "Causal.Causality.dual_chronalPastNeighbours (:337, Iff.rfl): C.dual.ChronalPastNeighbours ↔ C.ChronalFutureNeighbours",
+  "Causal.Causality.chronalNeighbours_iff_future (:342, Iff.rfl): C.ChronalNeighbours ↔ C.dual.ChronalFutureNeighbours ∧ C.ChronalFutureNeighbours",
+  "Causal.Causality.noPastEndpoint_def (:415, Iff.rfl): C.NoPastEndpoint ↔ ∀ x, C.Jminus ⊤ {x} ≠ {x}",
+  "Causal.Causality.dual_noFutureEndpoint (:420, Iff.rfl): C.dual.NoFutureEndpoint ↔ C.NoPastEndpoint",
+  "Causal.Causality.dual_noPastEndpoint (:424, Iff.rfl): C.dual.NoPastEndpoint ↔ C.NoFutureEndpoint",
+  "Causal.Causality.noCausalEndpoint_iff_future (:428, Iff.rfl): C.NoCausalEndpoint ↔ C.dual.NoFutureEndpoint ∧ C.NoFutureEndpoint"
+ ],
+ "extra_decls": [
+  "Causal.Causality.noFutureEndpoint_iff (LadderLocal :433): C.NoFutureEndpoint ↔ ∀ x, ∃ y, y ≠ x ∧ C.le ⊤ x y. Proved directly: it is HEAD's proof of noPastEndpoint_iff with Jminus replaced by Jplus. noPastEndpoint_iff is now its C.dual (kb/0002).",
+  "Causal.Causality.ChronalFutureNeighbours.mem_Zplus (LadderLocal :358): with future neighbours every point is in Z⁺. This is ChronalPastNeighbours.mem_Zminus for C.dual.",
+  "Causal.Causality.AbsolutelyMinimal.chronalFutureNeighbours_iff (LadderLocal :387): on a T1 space with absolute minimality, ChronalFutureNeighbours ↔ ∀ x, (C.Iplus ⊤ {x}).Nonempty. This is the past form for C.dual.",
+  "Causal.Causality.ChronalFutureNeighbours.Iplus_nonempty_of_mem, .Iplus_nonempty (ChronalNeighbourBridge :148, :153): the duals of ChronalPastNeighbours.Iminus_nonempty_of_mem and .Iminus_nonempty.",
+  "Causal.Causality.CausallyArcConnected.chronalFutureNeighbours_iff (ChronalNeighbourBridge :236): the dual of CausallyArcConnected.chronalPastNeighbours_iff.",
+  "Causal.IsCausalIso.chronalFutureNeighbours_iff, Causal.IsCausalIso.noFutureEndpoint_iff (CausalIsoInvariance :744, :759): invariance of the two new bases. Each is h.dual.…Past…_iff. They keep the module's claim that every side condition of Causal.LadderLocal is invariant."
+ ],
+ "downstream_proofs_changed": [
+  {
+   "decl": "Causal.Causality.noPastEndpoint_iff",
+   "where": "Causal/LadderLocal.lean:449",
+   "why": "HEAD's `rw [Precausality.mem_Jminus_singleton]` no longer finds Jminus, because the goal now shows C.dual.Jplus. The proof is moved verbatim, with Jminus replaced by Jplus, to the new noFutureEndpoint_iff (:433). noPastEndpoint_iff becomes `noFutureEndpoint_iff (C := C.dual)`. Its statement is unchanged."
+  },
+  {
+   "decl": "Causal.lightlikeLine_noCausalEndpoint",
+   "where": "Causal/LadderLocal.lean:612",
+   "why": "The future conjunct was `Causality.noPastEndpoint_iff.2 …`, which the unifier had read as C.dual's. The expected type is now lightlikeLine.NoFutureEndpoint, and NoPastEndpoint ?C cannot be unified with it, so the conjunct now calls `Causality.noFutureEndpoint_iff.2 …`. The witness term is the same (show p ≤ p + 1 ∧ _). One line changed."
+  },
+  {
+   "decl": "Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff",
+   "where": "Causal/ChronalNeighbourBridge.lean:189",
+   "why": "After `rw [ChronalNeighbours]` the future side is C.ChronalFutureNeighbours, so `rw [AbsolutelyMinimal.chronalPastNeighbours_iff hd]` (hd for C.dual) finds no occurrence. It now rewrites with AbsolutelyMinimal.chronalFutureNeighbours_iff h, and the now unused `have hd` is removed. Two lines changed."
+  },
+  {
+   "decl": "Causal.Causality.CausallyArcConnected.chronalNeighbours_iff",
+   "where": "Causal/ChronalNeighbourBridge.lean:242",
+   "why": "The same, with the new CausallyArcConnected.chronalFutureNeighbours_iff hC (:236). `have hd` removed."
+  }
+ ],
+ "downstream_proofs_unchanged_note": "No other proof was touched. Every other user compiles as it was: the 11 uses in ChronalNeighbourBridge apart from the two above, CausalIsoInvariance (chronalPastNeighbours, chronalNeighbours_iff, noPastEndpoint_iff and noCausalEndpoint_iff, all unchanged), SingularCauchy (hJ x), NotchedPlane (intro V v hv; exact ⟨p, hp, TransGen.single hst⟩), Ladder/Dual and Rules/Test/DualTest, and the 17 other modules whose source names ChronalNeighbours or NoCausalEndpoint. 42 of their proof terms change hash anyway, with unchanged source (dump-diff.txt (d)). Each term embeds the new unfolding (C.dual.lt V v p where it had C.lt V p v), which is definitionally the same.",
+ "statement_comparison": {
+  "method": "Before any edit (lean-causal clean in git; `lake build --no-build Causal CausalScaffold`: all 8885 jobs up to date), `#check @n` with pp.universes and pp.fullNames was run, from `import Causal`, on the 405 names of checklist.tsv. These are every non-auxiliary declaration of the six modules the evidence lists (LadderLocal, ChronalNeighbourBridge, CausalIsoInvariance, SingularCauchy, NotchedPlane, Ladder.Dual), plus every declaration anywhere whose type uses ChronalPastNeighbours, NoPastEndpoint, ChronalNeighbours or NoCausalEndpoint (111 constants in 21 modules, read off the environment). The same file was run after the final build.",
+  "result": "Byte-identical: sha256 fecec455df859e973326c9728cc07542fa4a1cf5634fb20fea45593ffd3ec9c3 before and after (checks-before.txt). The 18 added declarations are in checks-new.txt, with #print of the six definitions and the definitional probes (probe.lean)."
+ },
+ "declaration_dump_comparison": {
+  "method": "Every constant of every Causal.* and CausalScaffold.* module, from a file importing all 324 module files. Recorded per constant: name, module, kind, levels, type hash, telescope, value hash, reducibility, protected, noncomputable, internal, and which of the six notions the type uses. The harness is T-abs-hoist-time-function's Dump.body.lean plus that last column. Taken from HEAD's oleans before the first edit, and again after the final build.",
+  "constants": "17191 before, 17209 after; 0 removed; 18 added (the list above).",
+  "unchanged": "For all 17191 common constants: module, kind, universe levels, binder telescope, reducibility, protected and noncomputable are identical.",
+  "type_hash_changes": "7, all auxiliary. Causal.Causality.ChronalNeighbours.eq_1 is the definition's equation lemma, so its type is the body. The other six are the match_1_1 matchers of six term-mode `let ⟨_, _, hp⟩ := h.1 …` refutations (arcCausality, halfLightLine, jumpLine, lightlikeLine, notchedCausality via h.2, oneWayMembrane), typed by the existential a side unfolds to (kb/0066). No statement type changed.",
+  "value_hash_changes": "56: the 4 redefined notions, the 4 hand-changed proofs, the 6 matchers, and 42 proofs with unchanged source (verified block by block against `git archive HEAD`). Full list in dump-diff.txt."
+ },
+ "chronal_neighbours_check": "ChronalNeighbours still means the conjunction of both sides, the past side first. Its body is C.ChronalPastNeighbours ∧ C.ChronalFutureNeighbours, the past as the future base of C.dual (chronalNeighbours_iff_future, Iff.rfl). probe.lean checks by Iff.rfl that it is the old C.ChronalPastNeighbours ∧ C.dual.ChronalPastNeighbours and Lemma K's hZm ∧ hZp. It checks by projection that h.2 : C.dual.ChronalPastNeighbours still typechecks, that ⟨h, h'⟩ with h' : C.dual.ChronalPastNeighbours still builds it, and that causallyOpen_of_pushUp hp h.1 h.2 (Causal.LemmaK) applies. The ladder tactic's rules name it only as a head constant (Rules.lean:62, 64, 66; Dual.lean:239-243), and DualTest (1626 lines) and Test compile unchanged. NoCausalEndpoint passes the same checks.",
+ "emit_lean_impact": "None. In memory (emit_probe.py, which writes nothing), ladder.emit_lean and emit_test were run on the working-tree programme/ladder.toml, once against HEAD's sources and once against the edited ones. The outputs are identical (24 rules, 2 skipped; Test identical) and equal to the files on disk. DualTest: campaign/T-tac-ladder-dual/dual_closure.py `shipped` was written to a /tmp scratch file and is byte-identical to Causal/Ladder/DualTest.lean. Disclosure: early on I ran `python3 tools/ladder.py emit-lean --help` to look for an output option. The tool ignores the extra argument and wrote Causal/Ladder/Rules.lean and Test.lean in place. `git diff` shows them byte-identical to HEAD, and git status lists neither. Only their mtimes changed.",
+ "lean_gx": "No impact. lean-gx pins Causal at ca2ad78f (lean-gx/lakefile.toml:27), and no lean-gx file names ChronalPastNeighbours, NoPastEndpoint, ChronalNeighbours, NoCausalEndpoint or LadderLocal (grep, .lake excluded). Using lean-causal's current import graph, the closure of lean-gx's 33 imported Causal modules reaches none of the four edited modules. No lean-gx file was edited.",
+ "scaffold": "Not edited. No scaffold file names any of the six notions. `lake build CausalScaffold` is green, with its 6 permitted sorries unchanged.",
+ "checks": {
+  "lake build": "`taskset -c 0-11 lake build Causal`, after the definition and proof changes: green, 8875 jobs. Then `taskset -c 0-11 lake build Causal CausalScaffold`, after the last docstring edits: green, 8885 jobs. The only warnings are the 6 permitted scaffold sorries. `lake build --no-build Causal CausalScaffold` afterwards reports all 8885 targets up to date.",
+  "lake env lean -DwarningAsError=true": "Clean on LadderLocal, ChronalNeighbourBridge, CausalIsoInvariance and Ladder/Dual.",
+  "scripts/sorry_count.py": "strict 0 in 316 files; scaffold 6 in 8 files (unchanged).",
+  "scripts/AxiomSweep.lean": "strict: 17130 declarations in 317 modules (+18); scaffold: 90 in 9. All within propext/Classical.choice/Quot.sound, except the 19 scaffold declarations that rest on a permitted sorry.",
+  "tools": "Run read-only; git status identical before and after. tools/ladder.py check: exit 0 (24 properties, 26 implications, 79 counterexamples, 73 consequences, 318 of 318 pairs classified, 7 transfers). tools/binder.py check: 2 binders, all links resolve. tools/ledger.py check: ett 137/131, barbot 44/39, ers-predictability 32/22, sbierski-mghd 19/19, all links resolve.",
+  "docstrings": "kb/0006: in the four edited modules every mark is still within the first 4000 characters of the docstring (last mark at 2080, 2349, 2794; Dual has none). No line over 100 characters was added."
+ },
+ "kb_proposals": [
+  "The one-sided chronal and endpoint notions have the future as base (DEC-166 (a), T-abs-one-sided-future-base). Causality.ChronalFutureNeighbours (∀ V, ∀ v ∈ V, ∃ p ∈ V, v ≪_V p) and NoFutureEndpoint (J⁺(x) ≠ {x}) are the definitions. ChronalPastNeighbours := C.dual.ChronalFutureNeighbours and NoPastEndpoint := C.dual.NoFutureEndpoint; their old bodies are chronalPastNeighbours_def and noPastEndpoint_def, by Iff.rfl. ChronalNeighbours := C.ChronalPastNeighbours ∧ C.ChronalFutureNeighbours and NoCausalEndpoint := C.NoPastEndpoint ∧ C.NoFutureEndpoint, with .1 past and .2 future as before. The duals dual_chronalFutureNeighbours/PastNeighbours and dual_noFutureEndpoint/PastEndpoint are Iff.rfl, and each one-sided lemma has its future form (noFutureEndpoint_iff, ChronalFutureNeighbours.mem_Zplus, .Iplus_nonempty(_of_mem), AbsolutelyMinimal/CausallyArcConnected.chronalFutureNeighbours_iff, IsCausalIso.chronalFutureNeighbours_iff, .noFutureEndpoint_iff). Update kb/0053, which says 'past form ChronalPastNeighbours'.",
+  "Pitfall after the swap: `rw [ChronalNeighbours, foo_iff (C := C.dual) …]` no longer finds C.dual.ChronalPastNeighbours, because the future side is now syntactically C.ChronalFutureNeighbours. Rewrite with the future-form lemma, or with `← dual_chronalPastNeighbours`. Term-mode `h.2` passed where C.dual.ChronalPastNeighbours is expected still elaborates: C.dual.dual is C by structure eta, Causality.dual_dual is rfl.",
+  "A definition-body refactor that keeps every statement has a different check from a verbatim hoist (kb/0063). Check the statements by `#check @n` byte-identity on every declaration that mentions the notions. Expect value-hash changes in proofs whose source is unchanged, since elaborated terms embed the unfolded types, and type changes in the definition's eq_1 and in term-mode matchers (kb/0066). These are not regressions. List them by class, and verify 'source unchanged' block by block against `git archive HEAD`.",
+  "Pitfall: `python3 tools/ladder.py emit-lean --help` RUNS emit-lean. The tool ignores extra arguments and writes Causal/Ladder/Rules.lean and Test.lean in place. For a dry run, call ladder.emit_lean / ladder.emit_test in memory (campaign/T-abs-one-sided-future-base/emit_probe.py). DualTest's generator takes an output path: `dual_closure.py shipped /tmp/x.lean`."
+ ],
+ "notes_for_keeper": [
+  "programme/ladder.toml:268-280 (the header's 'One-sided notions (DEC-166 …)', item (a)): the refactor is done. Causal.Causality.ChronalFutureNeighbours and Causal.Causality.NoFutureEndpoint are the definitions. ChronalPastNeighbours := C.dual.ChronalFutureNeighbours, NoPastEndpoint := C.dual.NoFutureEndpoint, ChronalNeighbours := C.ChronalPastNeighbours ∧ C.ChronalFutureNeighbours, NoCausalEndpoint := C.NoPastEndpoint ∧ C.NoFutureEndpoint. The cited Causal.Causality.ChronalPastNeighbours.mem_Zminus and AbsolutelyMinimal.chronalPastNeighbours_iff still resolve with unchanged statements, and their future-named counterparts are Causal.Causality.ChronalFutureNeighbours.mem_Zplus and Causal.Causality.AbsolutelyMinimal.chronalFutureNeighbours_iff.",
+  "programme/ladder.toml:606-610 (the localisation properties' header, 'The one-sided ChronalPastNeighbours is not a node. DEC-166 (a) … moves …'): done. Neither ChronalFutureNeighbours nor ChronalPastNeighbours is a node, and whether one becomes a node is still yours.",
+  "programme/ladder.toml:631-634 (chronal_neighbours' comment, 'Two-sided (ChronalPastNeighbours of C and of C.dual)'): now ChronalPastNeighbours ∧ ChronalFutureNeighbours, i.e. the future base for C.dual and for C (Causal.Causality.chronalNeighbours_iff_future). For the future side: Causal.Causality.ChronalFutureNeighbours.mem_Zplus and Causal.Causality.AbsolutelyMinimal.chronalFutureNeighbours_iff.",
+  "The global line's entry (programme/ladder.toml:1676-1680): its witness Causal.globalLine_separates is unchanged and still states ¬ globalLine.ChronalPastNeighbours. Nothing to change unless you want the future form cited.",
+  "Stale line references in programme/ladder.toml, for LadderLocal: :266 cites NoCausalEndpoint at Causal/LadderLocal.lean:172, now :194 (:173 at HEAD). :288 and :2427 cite OneSidedBoundary at :190, now :212 (:191 at HEAD). :2416 cites ers_theorem_4_82_of_oneSidedBoundary at :398, now :478 (:399 at HEAD).",
+  "The ladder's `lean` fields need no change: no id is renamed and no node is added. emit-lean's output is unchanged."
+ ],
+ "notes": "Exclusive strict-library refactor, with no statement changed and no declaration removed or renamed. Four definitions got new bodies, with names and types kept, 18 declarations were added, and 4 proofs changed (listed above). For the master: (1) Docstrings were updated in the four edited files: LadderLocal (the module bullets for chronal-neighbours and no-causal-endpoint, the first SCOPE bullet, now 'The future is the base …', and the six definitions' docstrings), ChronalNeighbourBridge (bullets 0 and 1, plus two stale line references: LadderLocal.lean:163 -> :178 and :93–94 -> :100–101, which were already one line off at HEAD), CausalIsoInvariance (the ladder bullet lists the two new invariance lemmas) and Ladder/Dual (the 'No rule is given for …' bullet no longer says DEC-166 will rename; it names the future bases). (2) Outside my write set, now stale or worth refreshing: kb/entries/0053 ('past form ChronalPastNeighbours'); README.md's rows for Causal.LadderLocal (:61) and Causal.ChronalNeighbourBridge (:69), which list the named side conditions without the two future bases; programme/ladder.toml (see notes_for_keeper); the generated reports/atlas and reports/blueprint, which cite CausalIsoInvariance and LadderLocal line numbers (CausalIsoInvariance: +1 after :38, +5 after :743, +9 after :758). (3) papers/ers-predictability lists Causal/LadderLocal.lean in ersthm:ThmNotBlocking's lean_files. Its decls do not change, but ers_theorem_4_82_of_oneSidedBoundary moved :399 -> :478, so regenerate if the ledger records lines. (4) Optional follow-up, not done because those proofs compile unchanged: ChronalNeighbours.mem_Zplus, ChronalNeighbours.Iplus_nonempty and similar users pass h.2 to a past lemma at C.dual, and could cite the new future forms (h.2.mem_Zplus, h.2.Iplus_nonempty). (5) The before/after environment dumps (/tmp/osfb/before.tsv, after.tsv) and HEAD's extracted sources (/tmp/osfb/headsrc) are ephemeral; the comparison is recorded in dump-diff.txt."
+}
