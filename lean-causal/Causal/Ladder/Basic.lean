@@ -67,9 +67,10 @@ depth, as T-tac-ladder-dual's audit proposed, and changes no verdict.
   and does not fire where synthesis fails. Failing synthesis costs a few milliseconds each time a
   rule is tried, which is why a fact that no implication reads is an apply rule only.
 * A fact whose witness's module imports `Causal.Ladder.Rules` cannot be one of its rules (an import
-  cycle): `curves_extend` (`Causal.CurvesExtendSecondCountable` imports `Causal.MaximalZorn`, which
-  imports `Causal.ErsMughd`, a user of this tactic). `Causal.Ladder.Test` registers its rule
-  locally to test it; elsewhere, discharge `C.CurvesExtend` by the witness (kb/0221).
+  cycle): emit-lean writes a `-- skipped fact … cycle` line and `Causal.Ladder.Test` registers its
+  rule locally to test it (kb/0221). No fact is in that case since T-tac-curves-fact-rule, which
+  made `curves_extend` a rule by splitting `Causal.AbstractDev` out of `Causal.MaximalZorn`; no
+  module in `Causal.CurvesExtendSecondCountable`'s closure may use this tactic.
 * Nested time reversals in a large context are slow: from 16 facts of `C`, a goal about
   `C.dual⁵` fails at depth 60 after 3.5 s, and one about `C.dual⁷` exceeds the heartbeat budget.
 

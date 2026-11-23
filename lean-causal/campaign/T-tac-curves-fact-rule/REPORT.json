@@ -1,0 +1,159 @@
+{
+ "target": "T-tac-curves-fact-rule",
+ "package": "lean-causal",
+ "files": {
+  "new": [
+   "Causal/AbstractDev.lean"
+  ],
+  "edited": [
+   "Causal/MaximalZorn.lean",
+   "Causal/CurvesExtendSecondCountable.lean",
+   "Causal.lean",
+   "README.md",
+   "kb/entries/0221-causal-ladder-no-facts.md"
+  ],
+  "importers_edited": [],
+  "campaign": [
+   "campaign/T-tac-curves-fact-rule/REPORT.json",
+   "campaign/T-tac-curves-fact-rule/Probe.lean",
+   "campaign/T-tac-curves-fact-rule/axioms.txt",
+   "campaign/T-tac-curves-fact-rule/dump-diff.txt",
+   "campaign/T-tac-curves-fact-rule/scratch/Dump.lean",
+   "campaign/T-tac-curves-fact-rule/scratch/dump_cmp.py",
+   "campaign/T-tac-curves-fact-rule/scratch/simulate_rules_import.py"
+  ],
+  "not_edited": "Causal/Ladder/{Rules,Test,DualTest,Basic}.lean, tools/, programme/ladder.toml, kb/INDEX.md, papers/: no edits. tools/ladder.py emit-lean was not run in any form; emit_lean/emit_test were not called, not even in memory. Read-only, in memory: ladder.lean_index, import_chain, model_path, emitted, emitted_facts and dual_import. No git command was run."
+ },
+ "builds": true,
+ "build_commands": [
+  {
+   "cmd": "taskset -c 0-11 lake build Causal.AbstractDev",
+   "jobs": 1006,
+   "result": "green (built before the importers)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal",
+   "jobs": 8894,
+   "result": "green. It rebuilt 27 modules: MaximalZorn, CurvesExtendSecondCountable, the 24 modules downstream of it and the root. No warning in the log (the strict lib is warningAsError)."
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build CausalScaffold",
+   "jobs": 8757,
+   "result": "green, nothing rebuilt. No scaffold module imports anything that reaches MaximalZorn or Rules. Its only warnings are the 6 pre-existing scaffold sorries (CompactCauchy:79, GerochCauchy:783, GerochEquiv:70, LemmaKSCOpen:72, SingularRowsGerochEquiv:50, SubExtension:83)."
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal.AbstractDev Causal.MaximalZorn Causal.CurvesExtendSecondCountable",
+   "jobs": 3125,
+   "result": "green (up to date)"
+  },
+  {
+   "cmd": "lake build --no-build Causal CausalScaffold",
+   "jobs": 8904,
+   "result": "All targets up-to-date. It was 8903 before the split; the new module is the one extra job."
+  }
+ ],
+ "sorry_count": 0,
+ "sorry_detail": "scripts/sorry_count.py: strict 0 in 335 files (334 before; AbstractDev is the new one); scaffold 6 in 8 files, unchanged.",
+ "labels": [],
+ "moves": {
+  "block": "Causal/MaximalZorn.lean:128-746 (`namespace AbstractDev` ... `end AbstractDev`) is now Causal/AbstractDev.lean:101-719, byte-identical (checked by diff). The new module's context is `namespace Causal` (:97), `open Set TopologicalSpace Topology Function` (:99), which repeats MaximalZorn:122/124, and `end Causal` (:721). The `universe v u w` line moved inside the block (:153 -> :126), so every universe parameter is unchanged (kb/0255; the dump shows levels identical). MaximalZorn drops :126 (the `## 1. Abstract developments` heading), :128-746 and the blank line :747. Its heading `## 2. Developments on a fixed background` loses its number. Its code after the block equals HEAD :749-1054 line for line.",
+  "declarations": [
+   "Causal.AbstractDev.IsCoherentChain: MaximalZorn.lean:134 -> AbstractDev.lean:107",
+   "Causal.AbstractDev.IsCocone: MaximalZorn.lean:146 -> AbstractDev.lean:119",
+   "Causal.AbstractDev.ChainsInherit: MaximalZorn.lean:160 -> AbstractDev.lean:133",
+   "Causal.AbstractDev.SizeBound: MaximalZorn.lean:168 -> AbstractDev.lean:141",
+   "Causal.AbstractDev.MorphismsCompose: MaximalZorn.lean:174 -> AbstractDev.lean:147",
+   "Causal.AbstractDev.Extends: MaximalZorn.lean:183 -> AbstractDev.lean:156",
+   "Causal.AbstractDev.IsIso: MaximalZorn.lean:186 -> AbstractDev.lean:159",
+   "Causal.AbstractDev.RigidEndomorphisms: MaximalZorn.lean:192 -> AbstractDev.lean:165",
+   "Causal.AbstractDev.UniqueMorphisms: MaximalZorn.lean:196 -> AbstractDev.lean:169",
+   "Causal.AbstractDev.IsMaximal: MaximalZorn.lean:200 -> AbstractDev.lean:173",
+   "Causal.AbstractDev.IsInextensible: MaximalZorn.lean:204 -> AbstractDev.lean:177",
+   "Causal.AbstractDev.Tower: MaximalZorn.lean:215 -> AbstractDev.lean:188",
+   "Causal.AbstractDev.Tower.LE: MaximalZorn.lean:224 -> AbstractDev.lean:197",
+   "Causal.AbstractDev.Tower.LE.refl: MaximalZorn.lean:227 -> AbstractDev.lean:200",
+   "Causal.AbstractDev.Tower.LE.trans: MaximalZorn.lean:230 -> AbstractDev.lean:203",
+   "Causal.AbstractDev.IsTower: MaximalZorn.lean:236 -> AbstractDev.lean:209",
+   "Causal.AbstractDev.Tower.sUnion: MaximalZorn.lean:251 -> AbstractDev.lean:224",
+   "Causal.AbstractDev.Tower.le_sUnion: MaximalZorn.lean:256 -> AbstractDev.lean:229",
+   "Causal.AbstractDev.Tower.singleton: MaximalZorn.lean:261 -> AbstractDev.lean:234",
+   "Causal.AbstractDev.isTower_singleton: MaximalZorn.lean:266 -> AbstractDev.lean:239",
+   "Causal.AbstractDev.isTower_sUnion: MaximalZorn.lean:295 -> AbstractDev.lean:268",
+   "Causal.AbstractDev.IsTower.exists_cocone: MaximalZorn.lean:339 -> AbstractDev.lean:312",
+   "Causal.AbstractDev.IsTower.extend: MaximalZorn.lean:365 -> AbstractDev.lean:338",
+   "Causal.AbstractDev.exists_isMaximal: MaximalZorn.lean:454 -> AbstractDev.lean:427",
+   "Causal.AbstractDev.IsMaximal.isInextensible: MaximalZorn.lean:495 -> AbstractDev.lean:468",
+   "Causal.AbstractDev.chrusciel_theorem_2_2: MaximalZorn.lean:503 -> AbstractDev.lean:476",
+   "Causal.AbstractDev.UniqueMorphisms.rigidEndomorphisms: MaximalZorn.lean:512 -> AbstractDev.lean:485",
+   "Causal.AbstractDev.exists_upperBound_of_uniqueMorphisms: MaximalZorn.lean:519 -> AbstractDev.lean:492",
+   "Causal.AbstractDev.exists_isMaximal_of_uniqueMorphisms: MaximalZorn.lean:542 -> AbstractDev.lean:515",
+   "Causal.AbstractDev.exists_isMaximal_of_sequences: MaximalZorn.lean:571 -> AbstractDev.lean:544",
+   "Causal.AbstractDev.sizeBound_self: MaximalZorn.lean:632 -> AbstractDev.lean:605",
+   "Causal.AbstractDev.exists_isMaximal_of_chainsInherit: MaximalZorn.lean:638 -> AbstractDev.lean:611",
+   "Causal.AbstractDev.IsInextensible.isMaximal: MaximalZorn.lean:645 -> AbstractDev.lean:618",
+   "Causal.AbstractDev.IsInextensible.bijective: MaximalZorn.lean:648 -> AbstractDev.lean:621",
+   "Causal.AbstractDev.twoMor: MaximalZorn.lean:657 -> AbstractDev.lean:630",
+   "Causal.AbstractDev.twoMor_rigid_not_unique: MaximalZorn.lean:662 -> AbstractDev.lean:635",
+   "Causal.AbstractDev.ordinalMor: MaximalZorn.lean:681 -> AbstractDev.lean:654",
+   "Causal.AbstractDev.ordinalMor_separates: MaximalZorn.lean:687 -> AbstractDev.lean:660",
+   "Causal.AbstractDev.not_sizeBound_ordinalMor: MaximalZorn.lean:700 -> AbstractDev.lean:673",
+   "Causal.AbstractDev.natMor: MaximalZorn.lean:708 -> AbstractDev.lean:681",
+   "Causal.AbstractDev.natMor_separates: MaximalZorn.lean:712 -> AbstractDev.lean:685",
+   "Causal.AbstractDev.allMor: MaximalZorn.lean:724 -> AbstractDev.lean:697",
+   "Causal.AbstractDev.allMor_separates: MaximalZorn.lean:729 -> AbstractDev.lean:702"
+  ],
+  "constants": "102 constants changed module, from Causal.MaximalZorn to Causal.AbstractDev: 94 non-internal and 8 internal (_flat_ctor, _simp_1_n, _sizeOf_*, match_1_n). These are the 43 source declarations with their fields, recursors and auxiliaries. MaximalZorn keeps 21 constants (123 before)."
+ },
+ "import_changes": {
+  "Causal/AbstractDev.lean (new)": "import Mathlib.Topology.Sets.Opens, Mathlib.Order.Zorn, Mathlib.SetTheory.Ordinal.Family (the probe's three). It imports no Causal module. Opens is there for the TopologicalSpace/Topology namespaces of the `open` line the text was elaborated under.",
+  "Causal/MaximalZorn.lean": "was `import Causal.ErsMughd`, `import Mathlib.Order.Zorn`, `import Mathlib.SetTheory.Ordinal.Family`; now `import Causal.ErsMughd`, `import Causal.AbstractDev`. ErsMughd stays first, so the import closure and its load order are those of HEAD; both Mathlib imports come through AbstractDev.",
+  "Causal/CurvesExtendSecondCountable.lean": "`import Causal.MaximalZorn` -> `import Causal.AbstractDev` (line 1). The docstring's import list (line 9) is updated to match. OmegaOneConstant and CBG.CausalConvex are kept.",
+  "Causal.lean": "`import Causal.AbstractDev` added at :258, just before `import Causal.MaximalZorn`.",
+  "importers": "None edited. Every direct importer of CurvesExtendSecondCountable builds unchanged with identical proof terms: CExtConnexeCauchy.SubArc, CExtConnexeSecondCountable, CauchySeparation, CurvesFreeCauchy.{Basic, CausalConvex, CompactCauchy}, ErsSecondCountable, Ladder.Test, Remarks.SingularRowsK, and CurvesFreeLemmaK.Bare, which the dispatch's list omits. The tactician's three candidates (CExtConnexeSecondCountable, Remarks.SingularRowsK, SingularCauchy) use none of MaximalZorn's ERS content. 25 modules' Causal import closures shrank, by 1 to 21 modules (CurvesExtendSecondCountable lost 21: ErsMughd, ErsUniqueness, NestedConverse, Ladder.{Basic, Dual, Rules}, ...). All still build, and the dump shows their terms unchanged.",
+  "readme": "README.md: a new row for `Causal.AbstractDev` (:86), and MaximalZorn's row (:87) rewritten to point to it."
+ },
+ "dump": {
+  "method": "kb/0063, with T-abs-hoist-dual-cover's dump_body.lean and dump_cmp.py (copied to scratch/). A file importing Causal and CausalScaffold dumps every constant of every Causal.*/CausalScaffold.* module: module, kind, universe levels, Expr.hash of type and value, binder telescope (macro scopes erased), reducibility, protected, noncomputable, internal. Causal.lean imports all 334 (now 335) strict files, so nothing is missed. The before-dump was taken first, before any edit, with `lake build --no-build Causal CausalScaffold` reporting all 8903 jobs up to date (HEAD's oleans). The after-dump was taken after the final builds.",
+  "result": "17602 constants before and 17602 after. None removed, none added. 102 changed module, all `Causal.AbstractDev.*`, MaximalZorn -> AbstractDev (the list is dump-diff.txt). Field diffs: 0. Every type hash, universe-level list, telescope and value hash is identical across the library. That includes CurvesExtendSecondCountable and the 24 modules whose import closure shrank, so kb/0083's risk (a narrowed closure changing a proof term) did not materialise. The TSV dumps are in /tmp/tcfr (ephemeral).",
+  "file": "campaign/T-tac-curves-fact-rule/dump-diff.txt"
+ },
+ "axioms": "campaign/T-tac-curves-fact-rule/axioms.txt, from Probe.lean: #print axioms for the 43 source declarations of Causal.AbstractDev and 5 users (exists_isMaximalDevelopment, ers_remark_3_56, curvesExtend_of_t1_secondCountable, curvesExtendOn_of_t1_secondCountable, exists_inextensible_of_t1_secondCountable). All are within [propext, Classical.choice, Quot.sound]. It also has #check @curvesExtend_of_t1_secondCountable: ∀ {M : Type u_1} [TopologicalSpace M] [T1Space M] [SecondCountableTopology M] (C : Causality M), C.CurvesExtend.",
+ "layer": "Checked with tools/ladder.py's index in memory. model_path is None for Causal.AbstractDev (it has no Causal import at all), for Causal.CurvesExtendSecondCountable and for each of its direct imports (AbstractDev, OmegaOneConstant, CBG.CausalConvex; kb/0247), and for Causal.MaximalZorn.",
+ "cycle_check": {
+  "witness_module": "import_chain(Causal.CurvesExtendSecondCountable, imports, Causal.Ladder.Rules) = None (it was CurvesExtendSecondCountable -> MaximalZorn -> ErsMughd -> Rules). Its closure is 31 modules: AbstractDev, OmegaOneConstant, CBG.CausalConvex and 28 below them. None is Causal.Ladder.*, and neither ErsMughd nor MaximalZorn is among them.",
+  "classification": "In memory, ladder.emitted_facts(load(), lean_index()) puts curves_extend in in_rules: (Causal.Causality.curvesExtend_of_t1_secondCountable, Causal.CurvesExtendSecondCountable, binder C, forward False). in_test_only (local) is empty. The one fact skipped is Causal.CBG.eqOn_of_liftPropOn (rigid), for its sort, unchanged. forward is False because no emitted edge has curves_extend as a premise; the only emitted edge touching it is time_function ⇒ curves_extend. dual_import is (True, None).",
+  "new_rules_imports": "Rules' witness modules would be the 13 current ones plus Causal.CurvesExtendSecondCountable, with none removed.",
+  "simulated_graph": "The import graph was rebuilt with Rules importing [Ladder.Basic, Ladder.Dual] + those 14 modules. A DFS over every Causal module finds no cycle.",
+  "rules_importers": "The direct importers of Rules are ErsMughd, GHWithoutTarentin, HalfLitDual, Ladder.DualTest, Ladder.Test, Model.FlatTimeCylinder, OneWayMembraneChronal, PushUpNotOpen, RationalJumpPlane and RationalLineExtras. None is in CurvesExtendSecondCountable's closure. 21 modules lie downstream of Rules.",
+  "downstream_simulation": "16 of those 21 do not already see CurvesExtendSecondCountable's closure: ChronalNeighbourConjoined, CutLineInextensible, ErsMughd, GHWithoutTarentin, GluingModels.{Minimal, ModelStatic, NonMinimal}, HalfLitDual, Ladder.DualTest, MaximalZorn, Model.FlatTimeCylinder, NotchedPlane, OneWayMembraneChronal, PushUpNotOpen, RationalJumpPlane, RationalLineExtras. Each was copied to /tmp with `import Causal.CurvesExtendSecondCountable` and `attribute [local aesop safe apply (rule_sets := [CausalLadder])] Causal.Causality.curvesExtend_of_t1_secondCountable` added after its imports, then typechecked with `lake env lean -DwarningAsError=true`. All 16 are clean. That is a dry run of the rebuild emit-lean triggers: the bigger environment plus the new rule, including DualTest's fail_if_success negatives. The script is scratch/simulate_rules_import.py."
+ },
+ "master_sequence": [
+  "0. Precondition: the tree as left here, already built (`lake build --no-build Causal CausalScaffold`: 8904 jobs up to date). Until step 1, tests/test_programme.py's LadderEmit.test_shipped_rules_and_tests_are_generated is RED: in memory emit-lean now differs from the shipped Rules.lean and Test.lean, which is expected. For the same reason mutate.py's unmutated run is red, so do not run it before step 1.",
+  "1. `cd /home/maxbrain/Dropbox/LeanArticles && python3 tools/ladder.py emit-lean` (no argument, or `--dry-run` first to see 'would change'). No change to tools/ladder.py is needed: emitted_facts already classifies the fact as in_rules, and the local section and its paragraph are generated only when `local` is non-empty.",
+  "1a. Expected Causal/Ladder/Rules.lean diff: (+) `import Causal.CurvesExtendSecondCountable` after `import Causal.CurvesExtend` (sorted). (+) after the last edge rule (now :96, `Causal.Causality.GloballyHyperbolic.hasTimeFunction`), the two lines `-- fact: curves_extend (standing: T1, second_countable)` and `attribute [aesop safe apply (rule_sets := [CausalLadder])] Causal.Causality.curvesExtend_of_t1_secondCountable`. Apply only, no forward line, as nothing reads curves_extend. (−) the line `-- skipped fact Causal.Causality.curvesExtend_of_t1_secondCountable (curves_extend): cycle: ...` (now :100). The docstring is unchanged: its fact paragraph is emitted when `facts or local`, and facts is now non-empty. The other skipped lines (two sort-skipped edges, the rigid fact) are unchanged.",
+  "1b. Expected Causal/Ladder/Test.lean diff, predicted by reading emit_test (not computed; check against the real output). (−) `import Causal.CurvesExtendSecondCountable` (it was imported only for the local section; Rules now brings it). (−) the docstring paragraph 'A fact whose witness's module imports `Causal.Ladder.Rules` cannot be one of its rules ... (19 examples derived, 3 not derived) ...'. (−) the whole last section `## Facts whose witness's module imports Causal.Ladder.Rules, registered here`, including `attribute [local aesop safe apply ...] curvesExtend_of_t1_secondCountable`. (−) `-- ⊤ ⇏ curves_extend (a [[fact]] whose rule is not in Causal.Ladder.Rules: ...)`. (−) the 17 negatives `X ⇏ curves_extend (matrix: implied through a [[fact]] whose rule is not in Causal.Ladder.Rules (a cycle; registered locally below))`. (+) in Derived: the same 17 pairs `X ⇒ curves_extend (standing: T1, second_countable)` with `[T1Space M] [SecondCountableTopology M]`, plus `⊤ ⇒ curves_extend` and `⊤ ⇒ curves_extend of C.dual`. (+) in Not derived: 17 `X ⇏ curves_extend (standing dropped: T1, second_countable)` with no instances, `⊤ ⇏ curves_extend (standing dropped: T1, second_countable)`, and the two word drops `⊤ ⇏ curves_extend (standing dropped: T1|second_countable, of Causal.Causality.curvesExtend_of_t1_secondCountable)`. (~) the existing `globally_hyperbolic ∧ tarentin ⇒ curves_extend (standing: T2, second_countable)` (:101) and its drop (:1464) probably become `(standing: T1, second_countable)`: needed_standing drops T2 first, and the fact keeps curves_extend reached with T1 and second countability. Counts: header 'Derived' 44 -> 63, 'Not derived' 345 -> 347; total examples 411 -> 410 (today 63 derived and 348 not derived, local section included).",
+  "2. `cd lean-causal && taskset -c 0-11 lake build Causal.Ladder.Rules Causal.Ladder.Test`. This rebuilds Rules and the 21 modules downstream of it, whose closure gains CurvesExtendSecondCountable's (31 modules, among them OmegaOneConstant's cardinal/ordinal Mathlib and CBG.CausalConvex). The 16 that lacked it typecheck clean in the simulation above.",
+  "3. `python3 -I lean-causal/campaign/T-tac-ladder-dual/dual_closure.py shipped /tmp/DualTest.lean && diff /tmp/DualTest.lean lean-causal/Causal/Ladder/DualTest.lean`. Expected: NO diff. The script reads only the bare `safe forward` edge rules of Rules.lean; the fact line carries `(standing: ...)`, so its refusal guard does not fire; the edges are unchanged. I ran it already, against the current Rules.lean, and got no diff. If there is none, leave DualTest.lean alone. Then `taskset -c 0-11 lake build Causal.Ladder.DualTest` (it is rebuilt anyway in step 2's cascade).",
+  "4. `cd lean-causal && taskset -c 0-11 lake build Causal && lake build CausalScaffold`, then the gates.",
+  "5. `python3 -m unittest tests.test_programme` (or the LadderEmit* classes). test_shipped_rules_and_tests_are_generated must be green again. LadderEmitFacts.test_shipped_rules_import_dual_and_the_fact_is_tested now takes its else branch and asserts `APPLY + 'Causal.Causality.curvesExtend_of_t1_secondCountable'` in emit_lean's output, which is how the suite checks the shipped rule.",
+  "6. mutate.py: `cd /home/maxbrain/Dropbox/LeanArticles && python3 -I lean-causal/campaign/T-tac-ladder-integration/mutate.py`, AFTER step 1. It copies tools/ladder.py into a tempdir with symlinks to programme/, lean-causal/, papers/ and registers/, applies 11 mutants and runs the unittest classes LadderEmit, LadderEmitStanding and LadderEmitFacts. It writes nothing in the tree. Expected: '(unmutated) OK' and every mutant FAILED. It checks the generator, not this rule in Lean: the cycle mutants ('fact cycle ignored', 'no local bare drop') are caught by fixture tests (findex's Causal.Down -> Mid2 -> Rules), not by the real ladder, so losing the real cycle costs them nothing. The check that the shipped rule is tested is step 2's build of Causal.Ladder.Test (⊤ ⇒ curves_extend and of C.dual, the 17 X ⇒ curves_extend pairs, and the three standing drops) together with step 5.",
+  "7. Ledger (kb/0254). papers/ers-predictability/certificate/curation.toml:215, row ersrem:note_two_ghds_constructed, lists `Causal.AbstractDev.exists_isMaximal_of_chainsInherit` with extra_lean_files = [\"Causal/MaximalZorn.lean\"]. That declaration now lives in Causal/AbstractDev.lean: tools/ledger.py's declared_names finds it there and no longer in MaximalZorn.lean, checked in memory. `ledger.py check` will fail with 'declaration Causal.AbstractDev.exists_isMaximal_of_chainsInherit not found in its listed files' until \"Causal/AbstractDev.lean\" is added to that extra_lean_files and `python3 tools/ledger_curate.py --paper papers/ers-predictability` is run (the T-abs-hoist-dual-cover precedent). Then rebuild the ers-predictability ledger and the reports that record declaration modules (reports/atlas/lean/facts-lean-causal.json, edges-ers-predictability.json, blueprint). binder.toml resolves by name, so it needs nothing."
+ ],
+ "findings": [
+  "MaximalZorn's only importer is now the root Causal.lean: no module imports it, and CurvesExtendSecondCountable reaches ERS content by no path.",
+  "None of the importers the tactician named (CExtConnexeSecondCountable, Remarks.SingularRowsK, SingularCauchy) needs MaximalZorn, nor does any other: the whole library builds with no importer edit, and the dump shows no proof term moved.",
+  "Stale prose outside my write set, for the master or the owners. (a) Causal/Ladder/Basic.lean:69-72, a SCOPE bullet (hand-written, in Causal/Ladder/, which I may not edit). Proposed replacement: '* A fact whose witness's module imports `Causal.Ladder.Rules` cannot be one of its rules (an import cycle): emit-lean writes a `-- skipped fact ... cycle` line and `Causal.Ladder.Test` registers its rule locally to test it (kb/0221). No fact is in that case since T-tac-curves-fact-rule, which made `curves_extend` a rule by splitting `Causal.AbstractDev` out of `Causal.MaximalZorn`.' (b) programme/ladder.toml:618-640, the keeper's curves_extend fact comment (T-lad-record-direct-witnesses): 'it imports Causal.MaximalZorn' and 'but this fact's rule is skipped there as an import cycle ... Causal.Ladder.Test registers the rule locally' are no longer true after step 1. (c) tools/ladder.py:711-716, a comment naming curves_extend as the cycle example, and the docstring of tests/test_programme.py LadderEmitFacts.test_shipped_rules_import_dual_and_the_fact_is_tested ('no fact is a rule of Rules (curves_extend's module imports Rules)'). The code of both is correct in either state. (d) kb/INDEX.md:0221's title should be the entry's new one: 'causal_ladder's fact rules; a fact's witness module must not reach Causal.Ladder.Rules'.",
+  "Constraint created by the shipped rule: Rules will import CurvesExtendSecondCountable, so no module in its 31-module closure (AbstractDev, OmegaOneConstant, CBG.CausalConvex, CurvesExtend, CompactCauchy, SubExtension, CurveComponents, ...) may ever use causal_ladder or import a module that does. kb/0221 now says so.",
+  "kb/0221 is written as true after the master's step 1. Between this hand-back and step 1 the rule is not yet in Rules.lean."
+ ],
+ "questions": [
+  "The new module's docstring repeats MaximalZorn's Chruściel quotes, What-is-proved bullets, the five Chruściel checklist rows and three SCOPE bullets. In MaximalZorn they are replaced by one pointer bullet, one checklist row and one SCOPE line, and its title is now 'Maximal developments by Zorn's lemma on a fixed background: ERS Remark 3.56'. Reading taken: a module's docstring describes what the module proves (kb/0006). If you prefer MaximalZorn's docstring untouched, revert only its lines 1-71: the code below them is HEAD's minus the block."
+ ],
+ "kb_proposals": [
+  "Dry-run the rebuild an emit-lean will trigger when Rules gains a witness module: copy every module downstream of Rules that lacks the module's closure, add the import and a `local aesop` registration of the new rule after its imports, and `lake env lean -DwarningAsError=true` each (campaign/T-tac-curves-fact-rule/scratch/simulate_rules_import.py). It touches no generated file.",
+  "tests/test_programme.py's test_shipped_rules_and_tests_are_generated goes red as soon as a witness module's import closure changes whether a rule is emitted (here: the cycle broken), before anyone edits the ladder. mutate.py's unmutated run is then red too, so run it only after emit-lean.",
+  "A hoist that shrinks importers' closures (here 25 modules lost 1 to 21 Causal modules each) can still leave every proof term identical. kb/0083 is a risk to check by dump, not a certainty; the dump took 100 s for 17602 constants."
+ ],
+ "notes": "Exclusive strict-library refactor. Same full names, same statements, same proof terms: 102 constants changed module, and no other field of any of the 17602 constants changed. 0 sorry. Axioms standard. Builds green: lake build Causal (8894 jobs) and CausalScaffold (8757), and --no-build reports all 8904 up to date. The generated files (Rules, Test, DualTest) and tools/ladder.py are untouched; master_sequence says what to run and what to expect. The ledger needs the one curation line in step 7.",
+ "corrected_after_audit": "AUDIT-1 (minor). The master ran the sequence: emit-lean gave 71 derived and 355 not derived (master_sequence 1b's 63/347 was a prediction; the gap is the 8 two-premise pairs and their 8 dropped-standing negatives), DualTest unchanged, tests OK, mutate.py unmutated OK and 11/11 mutants killed. The stale prose was fixed by the master (Basic.lean, tools/ladder.py, tests docstring, kb INDEX title). Left to their owners: programme/ladder.toml:620, 633–640 (the keeper) and reports/atlas's lean edges (/atlas-team)."
+}

@@ -888,8 +888,9 @@ class LadderEmitFacts(unittest.TestCase):
         self.assertIsNone(ld.import_chain("D", imp, "A"))
 
     def test_shipped_rules_import_dual_and_the_fact_is_tested(self):
-        """On the shipped ladder: Rules imports Dual, no fact is a rule of Rules (curves_extend's module
-        imports Rules), and Test registers curves_extend locally with its standing T1, second countable."""
+        """On the shipped ladder: Rules imports Dual, and curves_extend's fact is tested: a rule of Rules
+        since T-tac-curves-fact-rule, or, if its module ever reaches Rules again, registered locally in
+        Test with its standing T1, second countable."""
         ix, d = ld.lean_index(), ld.load()
         rules, test = ld.emit_lean(d, ix), ld.emit_test(d, ix)
         self.assertIn("\nimport Causal.Ladder.Dual\n", rules)

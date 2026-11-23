@@ -226,7 +226,7 @@ rediscover. One fact per entry.
 | [0218](entries/0218-inextensible-through-second-countable.md) | pattern | Through-hypotheses and SplitBy on T1, second countable spaces |
 | [0219](entries/0219-agent-grep-wrapper.md) | pitfall | The agent shell's grep can silently find nothing in the paper sources |
 | [0220](entries/0220-cauchy-embedding-open-embedding.md) | pattern | A Cauchy embedding is an open embedding: instances on N suffice |
-| [0221](entries/0221-causal-ladder-no-facts.md) | pitfall | causal_ladder's fact rules, and why CurvesExtend is not one yet |
+| [0221](entries/0221-causal-ladder-no-facts.md) | pitfall | causal_ladder's fact rules; a fact's witness module must not reach Causal.Ladder.Rules |
 | [0222](entries/0222-gatearc-witness.md) | pattern | gateArc: a cheap Cauchy embedding that is not onto |
 | [0223](entries/0223-causal-ladder-dual.md) | pattern | causal_ladder across time reversal (Rules imports Dual) |
 | [0224](entries/0224-aesop-rule-pattern-guard.md) | pattern | A forward rule that grows its term needs an aesop rule pattern |

@@ -1,4 +1,4 @@
-import Causal.MaximalZorn
+import Causal.AbstractDev
 import Causal.OmegaOneConstant
 import Causal.CBG.CausalConvex
 
@@ -6,7 +6,7 @@ import Causal.CBG.CausalConvex
 # Curves extend in every T1, second countable space with a causality
 
 Programme target `T-abs-curves-extend-second-countable` (`programme/roadmap.toml`; layer 1:
-ETT-layer imports only, `Causal.MaximalZorn`, `Causal.OmegaOneConstant`, `Causal.CBG.CausalConvex`;
+ETT-layer imports only, `Causal.AbstractDev`, `Causal.OmegaOneConstant`, `Causal.CBG.CausalConvex`;
 no model; no metric notion in a statement). There is no paper behind it, so **no label is
 marked**. The statement, as the target words it:
 

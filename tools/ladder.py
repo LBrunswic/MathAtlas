@@ -709,8 +709,8 @@ def check_line(s):
 #   nothing reads the fact: measured on Test.lean with the fact curves_extend, the forward form
 #   costs +12 s (a failing synthesis of T1Space M and SecondCountableTopology M, 8 ms each, at
 #   every goal of every search with a causality in sight), the apply form +0.6 s.
-# * A fact passing every check but whose witness's module imports Causal.Ladder.Rules (curves_extend:
-#   Causal.CurvesExtendSecondCountable → MaximalZorn → ErsMughd → Rules) is a skipped line in
+# * A fact passing every check but whose witness's module imports Causal.Ladder.Rules (curves_extend
+#   was one until T-tac-curves-fact-rule split Causal.AbstractDev out of MaximalZorn) is a skipped line in
 #   Rules.lean and is registered LOCALLY in a last section of Test.lean, which tests the rule there
 #   (the fact with exactly its standing, from ⊤ and from each property; not without it; not with any
 #   one word dropped; of C.dual) and shows, outside that section, that the shipped tactic lacks it.
