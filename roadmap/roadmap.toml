@@ -1679,13 +1679,14 @@ stream = "bbs"
 kind = "research"
 paper = "bbs"
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-bbs-rp1-circles", "T-3p1-funnel-gtilde"]
-evidence = "Split (1) of T-bbs-hs-singularities (59052ae; its evidence and its REPORT notes name the four groups). Three tagged sorrys of lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean wait on it, each with its obstruction written out. GX.PSL2.IsHyperbolic.isConj_iff, the converse (l.1121, sorry l.1124): « needs the normal form of a hyperbolic A ∈ SL(2,ℝ) up to SL(2,ℝ)-conjugacy, diag(λ, λ⁻¹) (an eigenbasis of positive determinant) … not built ». GX.PSL2.IsParabolic.isConj_iff (l.1129, sorry l.1133): « needs the normal form ±[[1, ±1], [0, 1]] … (the sign ±1 of the off-diagonal entry is the conjugacy invariant …) ». GX.rp1Iso_of_angle_eq (l.1145, sorry l.1149): « needs that an elliptic element of SL(2,ℝ) is SL(2,ℝ)-conjugate to a rotation … and that two lifts of rotations to G̃ with the same translation number are conjugate ». GX.rp1Iso_iff_of_degree_zero_hyperbolic (l.1199) inherits sorryAx from the first (AUDIT-2 build note). At the pin: PSL2.trSq and the trace classes IsElliptic, IsParabolic, IsHyperbolic (strict GX/BBS/RP1Circles.lean:957–985), GTilde.toPSL; slRot, GTilde.rot, tau, IsRotLift, eq_conj_rot_of_lift (scaffold GXScaffold/Interaction/FunnelGTilde.lean:106–243, sorry-free). Scope: writes only the new file lean-gx/scaffold/GXScaffold/BBS/PSL2NormalForms.lean (imports GX.BBS.RP1Circles and GXScaffold.Interaction.FunnelGTilde). It does not edit HSSingularities.lean; T-bbs-hs-remark-existence wires it in. HSSingularities.lean and the scaffold root will import the file, so no declaration may take a name HSSingularities.lean declares (GX.PSL2.IsHyperbolic.isConj_iff, GX.PSL2.IsParabolic.isConj_iff, GX.rp1Iso_of_angle_eq). Standard mathematics, no reading. The prose it serves (l.740–760) is unlabeled, hence kind research with no label, as T-bbs-photon-circles. Runs beside T-bbs-quotient-circle and T-bbs-gammap-elements (disjoint new files)."
+evidence = "77297c2 (audit minor): GXScaffold/BBS/PSL2NormalForms.lean, sorry-free, in the scaffold (imports FunnelGTilde; graduates with it, T-bbs-hs-graduate). Hyperbolic by tr², the two parabolic classes, elliptic by the angle (PSL and G̃). Closes HSSingularities' IsHyperbolic.isConj_iff, IsParabolic.isConj_iff, rp1Iso_of_angle_eq (wiring: T-bbs-hs-remark-existence). OQ-122 (b)."
 added = "2026-11-23"
 proposed_by = "roadmap-planner, 2026-11-23"
+commit = "77297c2"
 
 [[target]]
 id = "T-bbs-quotient-circle"
@@ -1694,13 +1695,14 @@ stream = "bbs"
 kind = "research"
 paper = "bbs"
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-bbs-rp1-circles"]
-evidence = "Split (2) of T-bbs-hs-singularities (59052ae). Two tagged sorrys of HSSingularities.lean wait on this construction. GX.exists_rp1Circle_of_ne_one (l.1261, sorry l.1265): « the quotient J/⟨f⟩ of a component J of {x | x < f x} … as an ℝP¹-circle needs GX.gxQuotient on the open subset J of ℝP̃¹ with the structure pulled back along GX.RP1.proj, and a homeomorphism J/⟨f⟩ ≃ₜ 𝕊¹ (a fundamental domain [x, f x]); not built ». GX.exists_positive_negative (l.2352, sorry l.2358): « building a (Γ_p, ℓ(p))-circle on the orbit space needs GX.gxQuotient for the pulled-back structure on ℝ and a homeomorphism Orbits ℤ ℝ ≃ₜ 𝕊¹, not built here ». At the pin, all strict: GX.gxQuotient (GX/Singular/Quotient.lean:658, a free, locally discrete action by (G,X)-morphisms), Orbits (Quotient.lean:447), IsCircle and HasLiftedHolonomy (GX/BBS/RP1Circles.lean:1324, 1436), GammaLinkCircle (RP1Circles.lean:1817), addCircleHomeomorph (RP1Circles.lean:415). The ℝP¹ instance states the content of GX.exists_rp1Circle_of_ne_one under another name. The (Γ_p, ℓ(p)) instance builds a GammaLinkCircle on the quotient from any local homeomorphism D : ℝ → ℓ(p) with D ∘ f = ρ • D, ρ ∈ Γ_p; HSSingularities' GX.linkCover (l.1276) is one, and stays where it is. Scope: writes only lean-gx/scaffold/GXScaffold/BBS/QuotientCircle.lean (imports GX.BBS.RP1Circles and GX.Singular.Quotient, both strict, so it graduates to GX/BBS/ when sorry-free). It does not edit HSSingularities.lean and takes no name it declares (GX.exists_rp1Circle_of_ne_one, GX.exists_positive_negative). No reading; the prose is unlabeled (kind research, as T-bbs-photon-circles)."
+evidence = "a24d992 (audit minor): strict GX/BBS/QuotientCircle.lean. GX.exists_gxQuotientCircle (J/⟨f⟩ a (G,X)-circle, unique up to maximal atlas) with ℝP¹ and (Γ_p, ℓ(p)) instances. Closes HSSingularities' exists_rp1Circle_of_ne_one and the construction half of exists_positive_negative (wiring: T-bbs-hs-remark-existence). Finding: l.721–722 false for the trivial subgroup. OQ-123."
 added = "2026-11-23"
 proposed_by = "roadmap-planner, 2026-11-23"
+commit = "a24d992"
 
 [[target]]
 id = "T-bbs-gammap-elements"
@@ -1709,13 +1711,14 @@ stream = "bbs"
 kind = "research"
 paper = "bbs"
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 4
 depends = ["T-bbs-i-pm"]
-evidence = "Split (3) of T-bbs-hs-singularities (59052ae). Two tagged sorrys of HSSingularities.lean wait on it. GX.GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike (l.1976, sorry l.1978): « needs that at a time-like p the tangent action of ρ ∈ Γ_p is a rotation of the Euclidean plane p^⊥ (dsProj is an isometry onto it), so that it has an eigen-ray only when it is ±id … The Euclidean structure of p^⊥ at a time-like p is not built in GX.BBS.IPm ». …isParabolic_of_null (l.1989, sorry l.1991): « needs the single-element form of GX.fixedPoints_eq_of_null: an element ≠ 1 of Γ_p, p lightlike, fixes no ray but the two tangent directions (its tangent action preserves B(p, ·) and the tangent line, so it is unipotent) ». …bdPlus_degree_zero (l.2088) needs the same parabolic analysis. At the pin, strict: GammaP, GammaP.tangent, gammaToSL (GX/BBS/RP1Circles.lean:1724, 1751, 2059); dsProj, nullPairing, tangentDirs and the group forms fixedPoints_eq_empty_of_timelike, smul_eq_of_null, fixedPoints_eq_of_null (GX/BBS/IPm.lean:589, 1324, 1363, 1803, 2005, 2046). The statements are about Γ_p, gammaToSL and the trace classes of PSL(2,ℝ) only, so nothing from HSSingularities is needed. Scope: writes only lean-gx/scaffold/GXScaffold/BBS/GammaPElements.lean (imports GX.BBS.IPm, strict, so it graduates when sorry-free). It does not edit HSSingularities.lean (T-bbs-hs-link-types wires it in) and takes no name under GX.GammaLinkCircle.IsLiftedDev. « Elliptic or 1 » is the time-like statement as HSSingularities states it (central holonomy counted as elliptic, OQ-113 (d)); the lemma itself is true under either reading. Kind research: l.785–800 is unlabeled."
+evidence = "7c93c5d (audit minor): strict GX/BBS/GammaPElements.lean. Time-like p: ρ ∈ Γ_p a rotation of p^⊥, 1 or the half-turn iff its PSL image is 1, elliptic otherwise; light-like p: unipotent, parabolic iff ρ ≠ 1. Closes HSSingularities l.1978, l.1991 and the parabolic step of l.2094 (wiring: T-bbs-hs-link-types). OQ-122 (a)."
 added = "2026-11-23"
 proposed_by = "roadmap-planner, 2026-11-23"
+commit = "7c93c5d"
 
 [[target]]
 id = "T-bbs-hs-remark-existence"
@@ -1725,7 +1728,7 @@ kind = "close"
 paper = "bbs"
 labels = ["bbsrem:previous_section_observed_only"]
 package = "lean-gx"
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 5
 depends = ["T-bbs-psl2-normal-forms", "T-bbs-quotient-circle"]
@@ -1899,12 +1902,13 @@ stream = "bbs"
 kind = "tooling"
 paper = "bbs"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 6
-evidence = "papers/bbs/certificate/curation.toml carries the sentence 58 times (e.g. l.36, bbsprop:classising), and papers/bbs/ledger/ledger.json shows it on 57 rows. BBS-Q1 was ruled by DEC-192 (T-bbs-q1 done, d1c40af), and T-bbs-layer-home is planned, not needs-ruling. roadmap.py's stale_blockers does not see it, because it flags only done or dropped target ids. The current blockers, from this planning run. The § 3 link rows go to their targets: bbsdef:singular_hs_surface_oriented_surface to T-bbs-hs-suspension, bbsrem:p_p to T-bbs-p-p, bbsrem:degk and bbsrem:case_tachyons_see_remark to T-bbs-degk, bbsdef:hs_surface_interaction_singular_line to T-bbs-positive-hs-surface, bbsdef:Hcausal to T-bbs-hcausal, bbsprop:classising to T-bbs-classising-types and T-bbs-q8. The AdS rows of § 3.4–3.7 and the L3b rows of § 6 go to T-bbs-q8 (the background) with their wave. The § 4–5 rows keep « wave W4 not built », without the BBS-Q1 clause. No mark changes."
+evidence = "2f27056: the 57 bbs rows blocked on the ruled BBS-Q1 (DEC-192) re-pointed at their current blockers (the planning run's targets, T-bbs-q8, wave W4); 8 link rows have no target yet and say so."
 added = "2026-11-23"
 proposed_by = "roadmap-planner, 2026-11-23"
+commit = "2f27056"
 
 [[target]]
 id = "T-gx-mtheta-dedupe"
@@ -2893,13 +2897,14 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["thm:lower-bound"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
 depends = ["T-perf-star-n", "T-perf-poincare", "T-perf-capacity", "T-yamabe-gluing-algebra", "T-yamabe-negative"]
-evidence = "DEC-185 (T-yamabe-lower-bound): « close thm:lower-bound from it ». Yamabegap.tex l.512–536. The paper says the proof « is given in the companion paper » (l.538); its sketch (l.538–545) is perforated's eq:linear, eq:calib and thm:main. The yamabe side is proved over the model. thm:upper-bound: Yamabe.MeasuredModel.upper_bound_of_gluings_of_pos and upper_bound_of_limit (Yamabe/Gluing.lean, T-yamabe-gluing-algebra 1c83dfc). EH = Y: prop_nonpositive_csc (Yamabe/Negative.lean, T-yamabe-negative cfcdb0d). F_g(1) = 2(N−1)M/Vol^{(N−2)/N}: Yamabe.MeasuredModel.Fq_one_round (Quotient.lean:587). The gap is δ = σ^∂(Σ) − EH (eq:gap-bdry, l.352–353), so the bound also needs σ^∂(Σ) ≥ 0 under thm:upper-bound's hypotheses. For the punctured torus σ^∂ = 0 is eq:sigma-torus (l.366–369), argued, not proved; for a general Σ̄ with σ(Σ̄) ≤ 0 nothing is stated. The closer carries it or reports a finding. Three clauses of the theorem wait on T-perf-dilute-limit (needs-ruling): « θ/(1+θ) is optimal », the θ values and eq:R-bound (l.530–535). Without them the row closes partial. perforated's cor:yamabe is the same bound in O(F_g(1)) form; it is T-perf-cor-yamabe. Refined 2026-11-23 (planner): still planned. T-perf-main is blocked on OQ-111 (which form of thm:main is of record), and T-perf-star-n is now ready. thm_main carries MeanPoincare and TraceBound (Main.lean:767–768). T-perf-poincare discharges MeanPoincare on the manifold reading. TraceBound is TraceIneq by Iff.rfl (T-perf-capacity REPORT), discharged by Mfd.Reads.traceIneq. For N = 3 the printed Ã is refuted on the model (OQ-109). The corrected star3AtilCorr is a finite constant of λ₁, C_SP and V, and that is all thm:main and this bound use (T-perf-star3 REPORT notes). The marks on the yamabe side wait on OQ-93 Refined 2026-11-23 05:40 (planner): ready. T-perf-main leaves depends. Its Lean is in the strict library (Yamabe/Perforated/Main.lean, 48e5107): thm_main under AbsLatticeApprox (l.767), thm_main_signed with no lattice property (l.786), and the explicit remainder mainRem with mainRem_le_uniform (l.238, l.371). Only its mark waits on OQ-111. This target states the bound over both forms of thm:main, so OQ-111 (a)'s answer picks one with no Lean change. It uses the explicit remainder, which implies every non-vacuous reading of « O(F_g(1)²) » (OQ-111 (b)). yamabe prints no Ã: « where Ã depends only on the Sobolev–Poincaré and Poincaré constants of (Σ,g) » (Yamabegap.tex l.530). So the bound is stated for every Ã with eq:star, and instantiated at the proved star3AtilCorr (N = 3, Star3.lean:125; thm:main at it, Main.lean:803) and starNAtil (N ≥ 4, StarN.lean:416). OQ-109 and OQ-118 then choose an instance and do not touch the statement. σ^∂(Σ) ≥ 0 is carried or reported, as above. The row closes partial: its marks wait on OQ-93 and OQ-111, and three of its clauses on T-perf-dilute-limit. Writes a new strict-ready file in lean-yamabe (e.g. Yamabe/LowerBound.lean, importing Yamabe.Perforated.Poincare, which brings Main, Star3 and Negative, and Yamabe.Perforated.StarN); no other lean-yamabe target is ready."
+evidence = "2aae116 (audit clean): strict Yamabe/LowerBound.lean. thm:lower-bound partial, unmarked: δ ≥ κF_g(1) over the model under thm:upper-bound's and thm:main's hypotheses, both forms of thm:main, every Ã with eq:star (instances star3AtilCorr, starNAtil), manifold forms; σ^∂(Σ) ≥ 0 added (finding: the theorem needs it). Marks wait on OQ-93, OQ-111, OQ-121; three clauses on T-perf-dilute-limit."
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "2aae116"
 
 [[target]]
 id = "T-perf-cor-yamabe"
@@ -2909,7 +2914,7 @@ kind = "close"
 paper = "perforated"
 package = "lean-yamabe"
 labels = ["cor:yamabe"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-yamabe-thm-lower-bound"]
