@@ -18,7 +18,7 @@ the transitive closure of the rules of `Causal.Ladder.Rules` (the emitted edges 
 when a fact is a rule, from nothing (`⊤`), and each fact of `C.dual` too
 (44 examples, `Derived`). It fails on every other ordered pair of the properties of the
 sort `causality` written here, and on each conjunctive rule with one premise dropped
-(348 examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses
+(345 examples, `Not derived`). A pair derived only through a rule with `standing` hypotheses
 is derived with exactly the instances its derivation needs among its binders, and is not
 derived without them (`standing dropped`); a rule with two standing words or more is not
 derived from its premises with any one of them dropped: so Lean checks each rule's `standing`
@@ -86,16 +86,16 @@ example (_h0 : Causal.Causality.LocallyCausallyOpen C) : Causal.Causality.Locall
 example (_h0 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.HasChronalNeighbourEverywhere C := by causal_ladder
 -- chronal_neighbours ⇒ tarentin
 example (_h0 : Causal.Causality.ChronalNeighbours C) : Causal.Causality.Tarentin C := by causal_ladder
--- strongly_causal ∧ tarentin ∧ causally_open ⇒ causally_open_future
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.CausallyOpenFuture C := by causal_ladder
--- strongly_causal ∧ tarentin ∧ causally_open ⇒ is_causal (standing: T1)
-example [T1Space M] (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.IsCausal C := by causal_ladder
--- strongly_causal ∧ tarentin ∧ causally_open ⇒ locally_causally_open
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
--- strongly_causal ∧ tarentin ∧ causally_open ⇒ locally_causally_open_future
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
--- strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.StronglyCausalOpen C := by causal_ladder
+-- strongly_causal ∧ causally_open ⇒ causally_open_future
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+-- strongly_causal ∧ causally_open ⇒ is_causal (standing: T1)
+example [T1Space M] (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : Causal.Causality.IsCausal C := by causal_ladder
+-- strongly_causal ∧ causally_open ⇒ locally_causally_open
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpen C := by causal_ladder
+-- strongly_causal ∧ causally_open ⇒ locally_causally_open_future
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+-- strongly_causal ∧ causally_open ⇒ strongly_causal_open
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : Causal.Causality.StronglyCausalOpen C := by causal_ladder
 -- globally_hyperbolic ∧ tarentin ⇒ causally_compact
 example (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : Causal.Causality.CausallyCompact C := by causal_ladder
 -- globally_hyperbolic ∧ tarentin ⇒ curves_extend (standing: T2, second_countable)
@@ -1457,8 +1457,8 @@ example (_h0 : Causal.Causality.StronglyCausal C) : True := by
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
   trivial
--- strongly_causal ∧ tarentin ∧ causally_open ⇏ is_causal (standing dropped: T1)
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : True := by
+-- strongly_causal ∧ causally_open ⇏ is_causal (standing dropped: T1)
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
   trivial
 -- globally_hyperbolic ∧ tarentin ⇏ curves_extend (standing dropped: T2, second_countable)
@@ -1492,18 +1492,6 @@ example [SecondCountableTopology M] (_h0 : Causal.Causality.GloballyHyperbolic C
 -- globally_hyperbolic ∧ tarentin ⇏ time_function (standing dropped: second_countable, of Causal.Causality.GloballyHyperbolic.hasTimeFunction)
 example [T2Space M] (_h0 : Causal.Causality.GloballyHyperbolic C) (_h1 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
-  trivial
--- tarentin ∧ causally_open ⇏ strongly_causal_open (strongly_causal dropped from Causal.Causality.StronglyCausal.stronglyCausalOpen)
-example (_h0 : Causal.Causality.Tarentin C) (_h1 : Causal.Causality.CausallyOpen C) : True := by
-  fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
-  trivial
--- strongly_causal ∧ causally_open ⇏ strongly_causal_open (tarentin dropped from Causal.Causality.StronglyCausal.stronglyCausalOpen)
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : True := by
-  fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
-  trivial
--- strongly_causal ∧ tarentin ⇏ strongly_causal_open (causally_open dropped from Causal.Causality.StronglyCausal.stronglyCausalOpen)
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) : True := by
-  fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
   trivial
 -- tarentin ⇏ strongly_causal (globally_hyperbolic dropped from Causal.Causality.GloballyHyperbolic.stronglyCausal)
 example [T2Space M] (_h0 : Causal.Causality.Tarentin C) : True := by

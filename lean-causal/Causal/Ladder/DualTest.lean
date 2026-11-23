@@ -278,8 +278,8 @@ example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C.dual) : Causal.C
 
 /-! ## Derived on `C.dual` through a conjunctive rule, two-sided premises on `C` -/
 
--- strongly_causal(C) ∧ tarentin(C) ∧ causally_open(C) ⇒ strongly_causal_open(C.dual) (Causal.Causality.StronglyCausal.stronglyCausalOpen on C.dual)
-example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.Tarentin C) (_h2 : Causal.Causality.CausallyOpen C) : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
+-- strongly_causal(C) ∧ causally_open(C) ⇒ strongly_causal_open(C.dual) (Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen on C.dual)
+example (_h0 : Causal.Causality.StronglyCausal C) (_h1 : Causal.Causality.CausallyOpen C) : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
 -- causally_arc_connected(C) ∧ locally_push_up(C) ⇒ push_up(C.dual) (Causal.Causality.CausallyArcConnected.pushUp_of_locallyPushUp on C.dual)
 example (_h0 : Causal.Causality.CausallyArcConnected C) (_h1 : Causal.Causality.LocallyPushUp C) : Causal.Causality.PushUp C.dual := by causal_ladder
 -- push_up(C) ∧ chronal_neighbours(C) ⇒ causally_open(C.dual) (Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours on C.dual)

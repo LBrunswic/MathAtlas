@@ -210,6 +210,13 @@
 # only, no-gluing only: of the 306 refuted causality-sort pairs, 282 by an absolutely minimal
 # counterexample and 24 by the 21 non-minimal entries only (16 X → absolutely_minimal, the 5 that hold
 # in a gluing reading, the 3 → causally_arc_connected, as above).
+# After T-lad-record-sc-open-edge (2026-11-23) still 354 of 354, the same 37, 309 and 8: the edge
+# strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open loses tarentin (witness
+# Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen, T-abs-sc-open-without-tarentin;
+# the tarentin form is not kept), and the isolated line's two [[fails]] entries gain strongly_causal,
+# strongly_causal_open and causally_open in `from` (Causal.isolatedLine_scOpen_without_tarentin). No
+# pair moves and no other counterexample's derived properties change; the [[open]] strongly_causal →
+# strongly_causal_open narrows: a counterexample is not causally open, even at M.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -526,10 +533,10 @@ what = "in every open U: x ≤_U y ≪_U z or x ≪_U y ≤_U z implies x ≪_U 
 # (Causal.notchedCausality_separates; either reading, not tarentin) and the gated line
 # (Causal.gateLine_separates_causallyOpen; no-gluing only, removed by T-lad-gluing-reading under
 # DEC-167). Which theorem takes which node, from the witnesses: causally_open, Lemma K (DEC-93; both
-# consequences), strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open, push_up ∧
-# chronal_neighbours ⇒ causally_open (its conclusion), prop:topological_spacetime_absolutely_minimal in
-# the DEC-8 reading, the causal convexity of open diamonds and
-# prop:tarentin_topological_spacetime_causality (ii)⇒(i) (consequences at causally_open);
+# consequences), strongly_causal ∧ causally_open ⇒ strongly_causal_open (tarentin dropped by
+# T-lad-record-sc-open-edge), push_up ∧ chronal_neighbours ⇒ causally_open (its conclusion),
+# prop:topological_spacetime_absolutely_minimal in the DEC-8 reading, the causal convexity of open
+# diamonds and prop:tarentin_topological_spacetime_causality (ii)⇒(i) (consequences at causally_open);
 # causally_open_future, prop:topological_spacetime_absolutely_minimal as printed; neither,
 # prop:tarentin_topological_spacetime_causality (i)⇒(ii) (the consequence at strongly_causal).
 [[property]]
@@ -857,21 +864,40 @@ witness = "Causal.Causality.StronglyCausal.isCausal"
 standing = ["T1"]
 status = "checked"
 
-# Fixed 2026-11-20 (T-lad-seed-check): the seed had `from = ["strongly_causal"]`; the witness also
-# assumes tarentin and two-sided causal openness, which are ladder nodes, so they join `from`. The
-# node is causally_open (hO : C.CausallyOpen, DEC-163): the proof makes an open diamond causally
-# convex (Causal.Causality.CausallyOpen.causallyConvexIn_openDiamond, both halves), which the future
-# form alone does not give (the one-way membrane: the consequence at causally_open). Whether
-# strongly_causal ∧ tarentin ∧ causally_open_future ⇒ strongly_causal_open holds is not known (the
-# membrane is strongly causal in both forms; the [[open]] strongly_causal → strongly_causal_open).
+# Fixed 2026-11-20 (T-lad-seed-check): the seed had `from = ["strongly_causal"]`; its witness then,
+# Causal.Causality.StronglyCausal.stronglyCausalOpen (Causal/GlobalHyperbolicity.lean:226), also
+# assumes tarentin and two-sided causal openness, which joined `from` (tarentin found a, b in the
+# causally convex neighbourhood with p in the open diamond, which causal openness makes causally
+# convex: Causal.Causality.CausallyOpen.causallyConvexIn_openDiamond). Re-pointed by
+# T-lad-record-sc-open-edge (2026-11-23), tarentin dropped, to
+# Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen (Causal/SCOpenWithoutTarentin.lean:187,
+# T-abs-sc-open-without-tarentin, 364ec2d): (hO : C.CausallyOpen) (h : C.StronglyCausal), no instance
+# argument, so no standing. For V a neighbourhood of p causally convex in M and O := interior V, the
+# hull J⁺_M(O) ∩ J⁻_M(O) contains p, lies in V, is causally convex in M and is open by causal openness
+# at U = M. The tarentin form is not kept as a second edge: its premises contain this edge's, so it
+# classifies no pair (the matrix did not move) and its CausalLadder rule could fire only where this
+# one has; its witness stays in Lean (Causal.Causality.GloballyHyperbolic.stronglyCausalOpen uses it).
+# The node is causally_open (DEC-163): the proof opens the hull with both halves, at U = M only;
+# weaker hypotheses that are no node give the same, J^±_M of every open set open
+# (Causal.Causality.StronglyCausal.stronglyCausalOpen_of_isOpen_Jplus_Jminus) or the hull of every
+# open set open (Causal.Causality.StronglyCausal.stronglyCausalOpen_of_isOpen_hull). The future half
+# alone does not open the hull: on the one-way membrane, causally open in the future, strongly causal
+# and not causally open, the hull of the interior of a causally convex neighbourhood of (0, 1) is not
+# open (Causal.oneWayMembrane_hull_not_isOpen). The membrane is strongly causal in the open form all
+# the same (Causal.oneWayMembrane_stronglyCausalOpen), so this refutes the argument, not
+# strongly_causal ∧ causally_open_future ⇒ strongly_causal_open, which is not known (the [[open]]
+# strongly_causal → strongly_causal_open). Models without tarentin on which the edge applies: the
+# spacelike line (Causal.spacelikeLine_scOpen_without_tarentin) and the isolated line
+# (Causal.isolatedLine_scOpen_without_tarentin, its open form new to the library; its entries below).
 [[implies]]
-from = ["strongly_causal", "tarentin", "causally_open"]
+from = ["strongly_causal", "causally_open"]
 to = "strongly_causal_open"
-witness = "Causal.Causality.StronglyCausal.stronglyCausalOpen"
+witness = "Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen"
 status = "checked"
 
-# The converse, with no hypothesis: strongly_causal_open ⇔ strongly_causal on tarentin causally
-# open spacetimes (causally_open, two-sided).
+# The converse, with no hypothesis: strongly_causal_open ⇔ strongly_causal on causally open
+# spacetimes (causally_open, two-sided), with no tarentin since T-lad-record-sc-open-edge; in one
+# statement Causal.Causality.stronglyCausalOpen_iff_stronglyCausal_of_causallyOpen.
 [[implies]]
 from = ["strongly_causal_open"]
 to = "strongly_causal"
@@ -1087,7 +1113,8 @@ status = "checked"
 # Until then the ladder reached is_causal from globally_hyperbolic only with tarentin, through
 # strongly_causal (whose edge to is_causal asks T1): the pair (globally_hyperbolic, is_causal) was
 # unknown. As CausalLadder rules the three form a cycle of the shape already present
-# (strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open ⇒ strongly_causal): forward
+# (strongly_causal ∧ causally_open ⇒ strongly_causal_open ⇒ strongly_causal; tarentin among the
+# premises until T-lad-record-sc-open-edge): forward
 # rules stop because aesop adds no hypothesis whose type is already in the context.
 [[implies]]
 from = ["globally_hyperbolic"]
@@ -1585,10 +1612,19 @@ status = "checked"
 # the timelike line of ℝ ∖ {0}, 0 related to itself only). Causal.tarentin_and_plain_needed conjoins,
 # in its second component, isolatedLine.CausallyArcConnected ∧ isolatedLine.CausallyPlain ∧
 # ¬ isolatedLine.Tarentin. Through causally_arc_connected ⇒ absolutely_minimal also absolutely_minimal
-# ⇏ tarentin. It is causally open too (Causal.isolatedLine_causallyOpen), not conjoined; the
-# spacelike line's entry above already refutes causally_open ⇒ tarentin.
+# ⇏ tarentin. Since T-lad-record-sc-open-edge (2026-11-23) `from` also has strongly_causal,
+# strongly_causal_open and causally_open, conjoined with ¬ Tarentin in
+# Causal.isolatedLine_scOpen_without_tarentin (Causal/SCOpenWithoutTarentin.lean:282: StronglyCausal
+# ∧ CausallyOpen ∧ ¬ Tarentin ∧ StronglyCausalOpen; strong causality by closed intervals,
+# Causal.isolatedLine_stronglyCausal, :273; the open form by the edge strongly_causal ∧ causally_open
+# ⇒ strongly_causal_open, whose old tarentin form did not apply here). The witness stays the half
+# carrying causally_arc_connected and causally_plain. The three ids add no pair (the spacelike line's
+# entry above already refutes strongly_causal, strongly_causal_open, causally_open ⇒ tarentin); they
+# record the model, with the spacelike line, on which that edge gives the open form and its tarentin
+# form does not. The isolated line is absolutely minimal on every open set
+# (Causal.GluingModels.isolatedLine_hereditary), so the entry holds in either reading (DEC-167).
 [[fails]]
-from = ["causally_arc_connected", "causally_plain"]
+from = ["causally_arc_connected", "causally_plain", "strongly_causal", "strongly_causal_open", "causally_open"]
 to = "tarentin"
 witness = "Causal.tarentin_and_plain_needed"
 status = "checked"
@@ -1797,14 +1833,22 @@ status = "checked"
 # other model without the node, is not plain). Either reading: the isolated line is causally
 # arc-connected (Causal.isolatedLine_causallyArcConnected), hence absolutely minimal
 # (Causal.Causality.CausallyArcConnected.absolutelyMinimal), which is what a gluing reading asks
-# (OQ-18); its other entry above (causally_arc_connected ∧ causally_plain ⇏ tarentin) likewise.
+# (OQ-18); its other entry above (causally_arc_connected ∧ causally_plain ∧ strong causality in both
+# forms ∧ causally_open ⇏ tarentin) likewise.
 # Since chronal_neighbours ⇒ tarentin (T-lad-record-minimal) that other entry refutes the pair too,
 # a second way the Lean states as Causal.isolatedLine_separates_chronalNeighbours_tarentin
 # (Causal/ChronalTarentin.lean: CausallyArcConnected ∧ CausallyPlain ∧ ¬ Tarentin ∧
 # ¬ ChronalNeighbours), not recorded: it refutes nothing this entry does not.
-# Reading: either (causally arc-connected, hence absolutely minimal; OQ-18 does not touch it).
+# Since T-lad-record-sc-open-edge (2026-11-23) `from` also has strongly_causal and
+# strongly_causal_open: Causal.isolatedLine_scOpen_without_tarentin (Causal/SCOpenWithoutTarentin.lean:282)
+# states StronglyCausal ∧ CausallyOpen ∧ StronglyCausalOpen of the line (with ¬ Tarentin), the
+# open form through the edge strongly_causal ∧ causally_open ⇒ strongly_causal_open. They add no pair
+# (the lightlike line, strongly causal in both forms on ℝ, refutes strongly_causal,
+# strongly_causal_open → has_chronal_neighbour already).
+# Reading: either (causally arc-connected, hence absolutely minimal; OQ-18 does not touch it; absolutely
+# minimal on every open set besides, Causal.GluingModels.isolatedLine_hereditary, DEC-167).
 [[fails]]
-from = ["causally_arc_connected", "causally_open", "causally_plain"]
+from = ["causally_arc_connected", "causally_open", "causally_plain", "strongly_causal", "strongly_causal_open"]
 to = "has_chronal_neighbour"
 witness = "Causal.isolatedLine_separates_chronalNeighbours"
 status = "checked"
@@ -4137,7 +4181,9 @@ note = "False, argued: the pointed line in the spacelike line (Causal.pointedLin
 # absolutely_minimal (Galileo, timelikeLineTop, argued; T-abs-galileo-ladder, T-lad-record-no-gluing)
 # and causally_plain → locally_push_up (deuxPushup's defect at scales accumulating at a point, argued;
 # T-abs-plain-not-locally-pushup, T-lad-record-no-gluing); and strongly_causal →
-# strongly_causal_open (no model at hand, no target).
+# strongly_causal_open (no model at hand, no target). T-abs-sc-open-without-tarentin (364ec2d) narrowed
+# the last, recorded by T-lad-record-sc-open-edge (2026-11-23): its edge lost tarentin, so a
+# counterexample is not causally open, even at M (its note); no pair moved.
 
 # → absolutely_minimal
 [[open]]
@@ -4166,4 +4212,4 @@ note = "Open, in the no-gluing reading only: the Lean models without local push-
 [[open]]
 from = "strongly_causal"
 to = "strongly_causal_open"
-note = "Open: with tarentin and causally_open it holds (the edge); no Lean model is strongly causal without an open causally convex basis (the fork is strongly causal in both forms, the loop fan in neither: Causal.fork_separates, Causal.loopFan_separates). A counterexample lacks tarentin or two-sided causal openness; the notched plane and its time reversal lack both and are strongly causal in both forms (Causal.notchedCausality_separates, Causal.notchedCausality_dual_separates), as are the one-way membrane and its reversal, which lack two-sided causal openness (Causal.oneWayMembrane_separates, Causal.oneWayMembrane_dual_separates)"
+note = "Open: with causally_open it holds, no tarentin asked (the edge, Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen, T-lad-record-sc-open-edge); no Lean model is strongly causal without an open causally convex basis (the fork is strongly causal in both forms, the loop fan in neither: Causal.fork_separates, Causal.loopFan_separates). A counterexample is not causally open, not even at M: J⁺_M(O) or J⁻_M(O) is not open for some open O (Causal.Causality.StronglyCausal.not_causallyOpen_of_not_stronglyCausalOpen). More, it has a point p and a neighbourhood N of p such that some open O ∋ p has its hull J⁺_M(O) ∩ J⁻_M(O) inside N, the hull of every such O is not open, and no open W ∋ p inside N contains its own hull (Causal.Causality.StronglyCausal.exists_not_isOpen_hull). The future half alone does not open the hull: the one-way membrane, causally open in the future, strongly causal and not causally open, has a neighbourhood of (0, 1) causally convex in M whose interior has a hull that is not open (Causal.oneWayMembrane_hull_not_isOpen); it is strongly causal in the open form all the same (Causal.oneWayMembrane_stronglyCausalOpen), so this refutes the hull argument, not the pair, and whether strongly_causal ∧ causally_open_future ⇒ strongly_causal_open holds is open as well (a counterexample to it would settle this pair). Among the Lean models without two-sided causal openness, the notched plane and its time reversal (not tarentin either) and the one-way membrane and its reversal are strongly causal in both forms (Causal.notchedCausality_separates, Causal.notchedCausality_dual_separates, Causal.oneWayMembrane_separates, Causal.oneWayMembrane_dual_separates). Under DEC-167 (defi:causalite read with gluing) a counterexample must be absolutely minimal besides"

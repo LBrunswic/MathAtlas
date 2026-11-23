@@ -12,6 +12,7 @@ import Causal.LadderLocal
 import Causal.LevinTimeFunction
 import Causal.Properties
 import Causal.PushUpOfMinimalLocal
+import Causal.SCOpenWithoutTarentin
 import Causal.StrongCausality
 
 /-!
@@ -45,8 +46,8 @@ Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 
 -- strongly_causal ⇒ is_causal (standing: T1)
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausal.isCausal
--- strongly_causal ∧ tarentin ∧ causally_open ⇒ strongly_causal_open
-attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausal.stronglyCausalOpen
+-- strongly_causal ∧ causally_open ⇒ strongly_causal_open
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen
 -- strongly_causal_open ⇒ strongly_causal
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausalOpen.stronglyCausal
 -- globally_hyperbolic ∧ tarentin ⇒ strongly_causal (standing: T2)
