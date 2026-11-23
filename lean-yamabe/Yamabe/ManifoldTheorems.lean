@@ -1,4 +1,4 @@
-import YamabeScaffold.Localisation
+import Yamabe.Localisation
 
 /-!
 # The analytic theorems of § 6 on a compact manifold with boundary: Sobolev embedding, trace theorem, finite energy, and their bridges to the model
@@ -25,10 +25,10 @@ Labels (NOT marked: see SCOPE):
 * the bridges to a model reading `(M, g, μ, σ)`: `Mfd.Reads.sobolevIneq`, `Mfd.Reads.kobayashiB`,
   `Mfd.Reads.prop_nonpositive_csc` (prop:nonpositive's second sentence), `Mfd.Reads.traceIneq`.
 
-The proofs: `gradNorm_bdd` (the metric read in a chart, `YamabeScaffold.Localisation`); a finite
+The proofs: `gradNorm_bdd` (the metric read in a chart, `Yamabe.Localisation`); a finite
 smooth partition of unity subordinate to good chart neighbourhoods (`Mfd.assemble`), on each of
 which `local_sobolev` and `local_trace` read the half-space inequalities of
-`YamabeScaffold.HalfSpace` (the `C¹` reflection across `{z₀ = 0}`, then Mathlib's
+`Yamabe.HalfSpace` (the `C¹` reflection across `{z₀ = 0}`, then Mathlib's
 Gagliardo–Nirenberg–Sobolev inequality and `trace_critical`) through the chart, the
 comparability of `μ` with Lebesgue measure and of `σ` with `μH[N-1]`, and the comparison of `g`
 with the chart's coordinates.
@@ -36,14 +36,14 @@ with the chart's coordinates.
 ## Provenance of the statements
 
 The seven statements are round 1's (T-yamabe-analysis), which stated them with `sorry` in
-`YamabeScaffold.Sobolev` (the first two and three bridges) and `YamabeScaffold.Trace` (the trace
-theorem and its bridge). Round 2 proved them here under primed names; the integration
+`Yamabe.Sobolev` (the first two and three bridges) and `Yamabe.Trace` (the trace theorem and its
+bridge), then scaffold modules. Round 2 proved them here under primed names; the integration
 (T-yamabe-integrate-r2) checked each primed type `Expr`-equal to its round-1 original (as AUDIT-2
 had), then deleted the round-1 `sorry`s and gave the proofs the round-1 names, so that every use
-(`YamabeScaffold.Rellich`, `YamabeScaffold.Compactness`, the curation) keeps its name and its
+(`Yamabe.Rellich`, `Yamabe.Compactness`, the curation) keeps its name and its
 statement. The definitions they are stated with (`Mfd.gradNorm`, `Mfd.IsC1`, `Mfd.w12`,
-`Mfd.IsLocallyLebesgue`, `Mfd.IsBoundaryMeasure`, `Mfd.Reads`) stay in `YamabeScaffold.Sobolev`
-and `YamabeScaffold.Trace`, which this file imports.
+`Mfd.IsLocallyLebesgue`, `Mfd.IsBoundaryMeasure`, `Mfd.Reads`) stay in `Yamabe.Sobolev`
+and `Yamabe.Trace`, which this file imports.
 
 ## Hypothesis checklist
 
@@ -55,9 +55,9 @@ and `YamabeScaffold.Trace`, which this file imports.
 
 ## SCOPE (disclosed)
 
-* Not here: `Mfd.rellich_kondrachov` (proved downstream, in `YamabeScaffold.RellichManifold`) and
-  `Mfd.trace_compact` (`YamabeScaffold.Trace`, the scaffold's one remaining `sorry`); nothing in
-  this file uses either.
+* Not here: `Mfd.rellich_kondrachov` (proved downstream, in `Yamabe.RellichManifold`) and
+  `Mfd.trace_compact` (stated downstream, in the scaffold module `YamabeScaffold.TraceCompact`,
+  the scaffold's one remaining `sorry`); nothing in this file uses either.
 * No label is marked while OQ-93 is open: the manifold theorems are proved under its readings
   (a), (b) above.
 

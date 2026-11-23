@@ -1,4 +1,4 @@
-import YamabeScaffold.Rellich
+import Yamabe.Rellich
 
 /-!
 # The named external facts of § 6 (DEC-184), and the paper's steps that consume them
@@ -16,7 +16,7 @@ assemblies over the measured model, never anchors):
 * `thm:upper-bound` — `Yamabegap.tex:493` and `cor:negative` — `Yamabegap.tex:502`: from the
   externals (fact (iv) for `β_j = c_N`, thm:yamabe (b), the conformal law, l.724) and
   lem:positivity from the analytic properties (`cor_negative_of_externals`);
-* `lem:positivity` — `Yamabegap.tex:715`: consumed there; proved in `YamabeScaffold.Rellich`.
+* `lem:positivity` — `Yamabegap.tex:715`: consumed there; proved in `Yamabe.Rellich`.
 * eq:cN (l.337–340, `EHB_flatBall`) and l.465 (`ClosedConformal.sigma_nonpos`).
 
 > We shall use the following facts. [...] (i) Every conformal class contains a metric with minimal
@@ -80,7 +80,7 @@ assemblies over the measured model, never anchors):
 | `Y_[ḡ](Σ̄) ≤ σ(Σ̄) ≤ 0` (thm:upper-bound, l.495, l.724) | ⚠ read at the metrics used: `Ybar ≤ 0` per `τ` (SCOPE) |
 | `Σ̄` enlargeable; boundary classes positive (prop:nonpositive, l.478) | ⚠ through the externals (`AB53`, `GromovLawson`): not modelled |
 | lem:gluing (l.685–695) | ⚠ carried: the family (`ABFamily`, A–B Thm 4.6's conclusion) and the fillings with caps in the flat class (`EscobarIV`) |
-| the analytic inputs of lem:positivity and lem:kobayashi (b) | ⚠ the model's properties `SobolevIneq`, `TraceIneq`, `RellichProp`, `ConstLimit` (`ConstLimit` for a limit in `L²`); for a model reading a manifold, `SobolevIneq` and `TraceIneq` are discharged sorry-free (`YamabeScaffold.ManifoldTheorems`), `ConstLimit` sorry-free (`YamabeScaffold.Rellich`), `RellichProp` sorry-free from `Mfd.rellich_kondrachov` (`YamabeScaffold.RellichManifold`) |
+| the analytic inputs of lem:positivity and lem:kobayashi (b) | ⚠ the model's properties `SobolevIneq`, `TraceIneq`, `RellichProp`, `ConstLimit` (`ConstLimit` for a limit in `L²`); for a model reading a manifold, `SobolevIneq` and `TraceIneq` are discharged sorry-free (`Yamabe.ManifoldTheorems`), `ConstLimit` sorry-free (`Yamabe.Rellich`), `RellichProp` sorry-free from `Mfd.rellich_kondrachov` (`Yamabe.RellichManifold`) |
 | `N ≥ 3`, compactness, `Σ ≠ ∅`, `∂Σ ≠ ∅` | ✓ carried: `3 ≤ N`, finite `vol_g`, `bvol_g`, `vol_g ≠ 0`, `∃ j, bvol_g j ≠ 0` |
 
 ## SCOPE (disclosed)

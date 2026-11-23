@@ -1,4 +1,4 @@
-import YamabeScaffold.Compactness
+import Yamabe.Compactness
 import Yamabe.RellichCriterion
 
 /-!
@@ -24,13 +24,13 @@ Labels (NOT marked: partial, see SCOPE):
   cut-off `ρ` supported in `V`, the function `ρ u` is approximated in `L²(μ)` by the finite
   combination `∑_z avg_{C_z}(v) · 1_{V ∩ φ⁻¹ C_z}` of the averages of `v = (ρ u) ∘ φ⁻¹` on the grid
   cubes `C_z` of side `δ`, with error `≤ A δ ‖u‖_{W^{1,2}}`, `A` independent of `u` and `δ`: the
-  Euclidean `Half.cell_approx` (`YamabeScaffold.Compactness`) read through the chart
+  Euclidean `Half.cell_approx` (`Yamabe.Compactness`) read through the chart
   (`Mfd.eLpNorm_chart_comparable`) and the chart derivative bound `Mfd.eLpNorm_dChart_mul_le`;
 * **`Mfd.rellich_kondrachov`**, round 1's statement (see SCOPE): every sequence of `C¹` functions
   bounded in `W^{1,2}(μ)` has a subsequence converging in `L²(μ)`. The partition of unity of
   `Mfd.assemble` sums the local approximations; the strict criterion
   `exists_subseq_tendsto_eLpNorm_two` (`Yamabe.RellichCriterion`, total boundedness in `Lp`)
-  concludes. `YamabeScaffold.Rellich` imports this file, and its manifold readings of
+  concludes. `Yamabe.Rellich` imports this file, and its manifold readings of
   lem:positivity and cor:negative (`Mfd.Reads.rellichProp` and what rests on it) use this theorem.
 
 ## Hypothesis checklist
@@ -47,13 +47,13 @@ Labels (NOT marked: partial, see SCOPE):
 * The weak `W^{1,2}` convergence of l.720 is not stated here: as in round 1 it is carried by the
   constancy step (`Mfd.const_of_tendsto`, `ConstLimit`; OQ-93 (c)).
 * **Provenance of the statement.** `Mfd.rellich_kondrachov` is round 1's statement
-  (T-yamabe-analysis), which stated it with `sorry` in `YamabeScaffold.Rellich`. Round 3 proved it
-  here under the primed name `Mfd.rellich_kondrachov'`, its type checked `Expr`-equal to the
+  (T-yamabe-analysis), which stated it with `sorry` in Rellich.lean, then in the scaffold. Round 3
+  proved it here under the primed name `Mfd.rellich_kondrachov'`, its type checked `Expr`-equal to the
   round-1 original (binder names aside, universe parameters aligned) by an in-file `run_cmd` and a
   `type_of% … = type_of% … := rfl` example (REPORT-3, AUDIT-3). The integration
   (T-yamabe-integrate-r3) deleted the round-1 `sorry` and gave the proof the round-1 name, so that
   every use keeps its name and its statement; the two checks, which named both copies, went with
-  the rename. The file imports only `YamabeScaffold.Compactness` and `Yamabe.RellichCriterion`.
+  the rename. The file imports only `Yamabe.Compactness` and `Yamabe.RellichCriterion`.
 * No label is marked: this is one step of lem:positivity's proof, under the readings of OQ-93.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -222,7 +222,7 @@ theorem local_cell_approx [CompactSpace M] {g : RiemannianMetric N M} {μ : Meas
 
 /-- **Rellich–Kondrachov** on a compact manifold with boundary (l.720): every sequence bounded in
 `W^{1,2}(M)` has a subsequence converging in `L²(M)`. Round 1's statement, which it stated with
-`sorry` in `YamabeScaffold.Rellich`, proved (module docstring, SCOPE). -/
+`sorry` in Rellich.lean, then in the scaffold, proved (module docstring, SCOPE). -/
 theorem rellich_kondrachov [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
     {μ : Measure M} (hμ : IsLocallyLebesgue N μ)
     (u : ℕ → M → ℝ) (hu : ∀ k, IsC1 N (u k)) (hb : ∃ K : ℝ≥0, ∀ k, w12 g μ (u k) ≤ K) :

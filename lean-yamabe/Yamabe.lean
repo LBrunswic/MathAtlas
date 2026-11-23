@@ -9,3 +9,12 @@ import Yamabe.Perforated.Capacity
 import Yamabe.Perforated.Star3
 import Yamabe.Perforated.Upper
 import Yamabe.Perforated.Main
+import Yamabe.Sobolev
+import Yamabe.Trace
+import Yamabe.HalfSpace
+import Yamabe.Localisation
+import Yamabe.ManifoldTheorems
+import Yamabe.Compactness
+import Yamabe.RellichManifold
+import Yamabe.Rellich
+import Yamabe.External

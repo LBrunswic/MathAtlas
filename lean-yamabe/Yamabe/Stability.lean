@@ -58,7 +58,7 @@ Label (the abstract layer, the formalization of record: DEC-186 accepts OQ-44's 
   `bvol_g = √det (Pᵀ G P) · μb` are the model's definitions, the Riemannian volume read in a
   measurable frame. DEC-186 accepts the model as the formalization of record
   (OQ-44), so the label is marked; the passage from a Riemannian manifold to the model is the
-  scaffold's bridge `Yamabe.Mfd.Reads`.
+  bridge `Yamabe.Mfd.Reads` (`Yamabe.Sobolev`).
 * The printed statement is a ratio; it is `0/0` when `F^(β)_g(u) = 0` (e.g. every `β_j = 0` and
   `u` constant). The product form `stability` holds for every `u`; `stability_ratio` assumes
   `F^(β)_g(u) ≠ 0`.

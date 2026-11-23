@@ -1,4 +1,4 @@
-import YamabeScaffold.RellichManifold
+import Yamabe.RellichManifold
 
 /-!
 # Rellich–Kondrachov on a compact manifold with boundary, and lem:positivity
@@ -10,7 +10,7 @@ Labels (NOT marked: partial, see SCOPE):
   (`TraceIneq`), Rellich–Kondrachov (`RellichProp`) and the constancy of a limit with vanishing
   energy on a connected `Σ` (`ConstLimit`, for a limit in `L²`); the constancy statement on a
   compact connected Riemannian manifold with boundary (proved; Rellich–Kondrachov there is
-  `Mfd.rellich_kondrachov`, proved in `YamabeScaffold.RellichManifold`, which this file imports);
+  `Mfd.rellich_kondrachov`, proved in `Yamabe.RellichManifold`, which this file imports);
   and the assemblies with lem:positivity discharged for a model reading such a manifold
   (`cor:negative`'s `hpos`), resting on no `sorry`.
 
@@ -40,11 +40,11 @@ trace step, `c = 0` through `hoelder_boundary`, `u_k → 0` in `W^{1,2}`, Sobole
 `toy_memLp`, `tendsto_zero_of_sq`), and `toy_lem_positivity`; `ConstLimit` is the connectedness:
 `toyCut_not_constLimit`. On the manifold layer, sorry-free: `Mfd.const_of_tendsto` (the
 constancy step for a limit in `L²(μ)`, from `Mfd.const_of_tendsto_of_aestronglyMeasurable`,
-`YamabeScaffold.Compactness`), `Mfd.Reads.constLimit` (`ConstLimit` on a model reading `M`) and
+`Yamabe.Compactness`), `Mfd.Reads.constLimit` (`ConstLimit` on a model reading `M`) and
 `Mfd.readingModel_F` (on the reading model `F^(β)` is eq:trace-sobolev on `C¹(M)`). On the
 manifold layer, sorry-free as well, from Rellich–Kondrachov (`Mfd.rellich_kondrachov`,
-`YamabeScaffold.RellichManifold`) and the Sobolev and trace theorems
-(`YamabeScaffold.ManifoldTheorems`), all proved: `Mfd.Reads.rellichProp`,
+`Yamabe.RellichManifold`) and the Sobolev and trace theorems
+(`Yamabe.ManifoldTheorems`), all proved: `Mfd.Reads.rellichProp`,
 `Mfd.Reads.lem_positivity`, `Mfd.Reads.cor_negative` (cor:negative with `hpos` discharged on a
 model reading `M`) and `Mfd.lem_positivity` (lem:positivity on `M` itself). None of them assumes
 `μ` finite: on a compact `M` that follows from `IsLocallyLebesgue`
@@ -53,7 +53,7 @@ model reading `M`) and `Mfd.lem_positivity` (lem:positivity on `M` itself). None
 ## What is stated with `sorry`
 
 Nothing. Round 1 stated `Mfd.rellich_kondrachov` here with `sorry`; round 3 proved it in
-`YamabeScaffold.RellichManifold` under a primed name, and the integration (T-yamabe-integrate-r3)
+`Yamabe.RellichManifold` under a primed name, and the integration (T-yamabe-integrate-r3)
 deleted the original and gave the proof the round-1 name and statement (that file's SCOPE). Round 1
 also stated `Mfd.const_of_tendsto` here with `sorry`, in a form that was false; see SCOPE.
 
@@ -65,7 +65,7 @@ also stated `Mfd.const_of_tendsto` here with `sorry`, in a form that was false; 
 | `∂Σ ≠ ∅` (l.717) | ✓ carried as `∃ j, bvol_g j ≠ 0` (a non-empty boundary has positive area) |
 | "for every metric `g`" | ✓ every `FrameMetric` of the model |
 | `u ∈ W^{1,2}(Σ) ∖ {0}` | ⚠ read as `Adm` (OQ-44, DEC-186), over the model's `D` |
-| Rellich–Kondrachov, compact trace, Sobolev (l.720) | on the model: ⚠ carried as `RellichProp`, `TraceIneq`, `SobolevIneq`, `ConstLimit`; on `M`, transported by `Mfd.Reads.*`: Sobolev and trace proved (`YamabeScaffold.ManifoldTheorems`), the constancy step proved (`Mfd.const_of_tendsto`), Rellich–Kondrachov proved (`Mfd.rellich_kondrachov`, `YamabeScaffold.RellichManifold`); the compact trace is not used (SCOPE) |
+| Rellich–Kondrachov, compact trace, Sobolev (l.720) | on the model: ⚠ carried as `RellichProp`, `TraceIneq`, `SobolevIneq`, `ConstLimit`; on `M`, transported by `Mfd.Reads.*`: Sobolev and trace proved (`Yamabe.ManifoldTheorems`), the constancy step proved (`Mfd.const_of_tendsto`), Rellich–Kondrachov proved (`Mfd.rellich_kondrachov`, `Yamabe.RellichManifold`); the compact trace is not used (SCOPE) |
 | `u_∞ ∈ W^{1,2}(Σ)`, the limit of l.720 | ⚠ read (OQ-93 (c)) as a limit in `L²` (`MemLp f 2`) of the sequence, in `ConstLimit` and `Mfd.const_of_tendsto` |
 
 ## SCOPE (disclosed)
@@ -75,7 +75,7 @@ also stated `Mfd.const_of_tendsto` here with `sorry`, in a form that was false; 
   `Mfd.const_of_tendsto` with no measurability of the limit `f`; as an `eLpNorm` of a
   non-measurable function is an inner integral, both were false on a manifold carrying a set `S`
   with `μ S ≠ 0` whose measurable subsets are null (a Vitali set in a chart; not in Mathlib at this
-  pin): `Mfd.not_const_of_tendsto` (`YamabeScaffold.Compactness`), kept as the record. Both now ask
+  pin): `Mfd.not_const_of_tendsto` (`Yamabe.Compactness`), kept as the record. Both now ask
   `MemLp f 2`, which costs nothing at l.720 (`u_∞ ∈ W^{1,2} ⊂ L²`, and `RellichProp` gives the
   limit in `L²`): `MeasuredModel.lem_positivity` passes the Rellich limit's `MemLp`; the toy
   witnesses `toy_constLimit` and `toyCut_not_constLimit` hold for the repaired Prop;
@@ -88,7 +88,7 @@ also stated `Mfd.const_of_tendsto` here with `sorry`, in a form that was false; 
   `Mfd.const_of_tendsto`, proved without weak derivatives (which Mathlib does not have on
   manifolds) by the Poincaré double-integral estimate in charts. Mathlib has no `W^{1,2}(Σ)`; its
   role is played by the model's `D` (on `M`, `C¹(M)`, dense in `W^{1,2}`).
-* **Continuity suffices** for the trace step (see `YamabeScaffold.Trace`): the proof here uses the
+* **Continuity suffices** for the trace step (see `Yamabe.Trace`): the proof here uses the
   trace theorem into `L^{p♯}` (`TraceIneq`), never the compactness of the trace.
 * **eq:hoelder at l.720.** The second citation uses the corrected exponent (`hoelder_boundary`:
   `Vol(B_j)^{1/(N-1)}` on the squared norm), as recorded by T-yamabe-quotient (DEC-186).
@@ -133,9 +133,9 @@ def ConstLimit : Prop :=
     Tendsto (fun k => eLpNorm (M.val (u k) - f) 2 (M.vol g)) atTop (𝓝 0) →
       ∃ c : ℝ, f =ᵐ[M.vol g] fun _ => c
 
-/-- **lem:positivity** over the model (l.715–721): on a model of finite volume with a boundary
-component of positive area, with the Sobolev inequality, the trace theorem, Rellich–Kondrachov
-and the constancy of energy-free limits, `inf_{u ≠ 0} F_g(u) > 0`. -/
+/-- The positivity lemma (lem:positivity, l.715–721) over the model: on a model of finite volume
+with a boundary component of positive area, with the Sobolev inequality, the trace theorem,
+Rellich–Kondrachov and the constancy of energy-free limits, `inf_{u ≠ 0} F_g(u) > 0`. -/
 theorem lem_positivity (hN : 3 ≤ N) [IsFiniteMeasure (M.vol g)] [∀ j, IsFiniteMeasure (M.bvol g j)]
     (hV : M.vol g ≠ 0) (hB : ∃ j, M.bvol g j ≠ 0)
     (hD : ∀ u, AEStronglyMeasurable (M.val u) (M.vol g))
@@ -490,7 +490,7 @@ variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace N) M
 
 /-- **Constancy of energy-free limits** on a compact connected manifold with boundary (l.720, «
 `‖∇u_∞‖_{L²} ≤ liminf ‖∇u_k‖_{L²} = 0`; since `Σ` is connected, `u_∞ ≡ c` »), for a limit
-`f ∈ L²(μ)`: `Mfd.const_of_tendsto_of_aestronglyMeasurable` (`YamabeScaffold.Compactness`, the
+`f ∈ L²(μ)`: `Mfd.const_of_tendsto_of_aestronglyMeasurable` (`Yamabe.Compactness`, the
 Poincaré double-integral estimate in charts). Round 1 stated it without `MemLp f 2 μ`, which made it
 false (`Mfd.not_const_of_tendsto`). -/
 theorem const_of_tendsto [CompactSpace M] [T2Space M] [ConnectedSpace M]
@@ -536,15 +536,16 @@ theorem rellichProp [CompactSpace M] [T2Space M]
   · rw [hr.vol_eq]; exact hconv
 
 /-- The constancy step on a model reading a compact connected manifold with boundary:
-`constLimit_of_aestronglyMeasurable` (`YamabeScaffold.Compactness`) at `MemLp.aestronglyMeasurable`. -/
+`constLimit_of_aestronglyMeasurable` (`Yamabe.Compactness`) at `MemLp.aestronglyMeasurable`. -/
 theorem constLimit [CompactSpace M] [T2Space M] [ConnectedSpace M]
     (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) : Mm.ConstLimit gm :=
   haveI := isFiniteMeasure_of_isLocallyLebesgue hμ
   fun u f hf hdir hlim =>
     hr.constLimit_of_aestronglyMeasurable hμ u f hf.aestronglyMeasurable hdir hlim
 
-/-- **lem:positivity** for a model reading a compact connected Riemannian manifold with
-non-empty boundary (l.717): `inf F_g > 0`, from the Sobolev, trace and Rellich theorems on `M`. -/
+/-- The positivity lemma (lem:positivity, l.717) for a model reading a compact connected
+Riemannian manifold with non-empty boundary: `inf F_g > 0`, from the Sobolev, trace and Rellich
+theorems on `M`. -/
 theorem lem_positivity (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]
     [∀ j, IsFiniteMeasure (σ j)]
     (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) (hσ : ∀ j, IsBoundaryMeasure N (σ j))
@@ -601,9 +602,9 @@ theorem readingModel_F (g : RiemannianMetric N M) (μ : Measure M) {n : ℕ} (σ
   simp only [hr.bvol_eq, hr.tr_eq]
   rfl
 
-/-- **lem:positivity on a compact connected Riemannian manifold with non-empty boundary** (l.717):
-`inf_{u ∈ C¹(M), u ≠ 0} F_g(u) > 0`, `F_g` the trace-Sobolev quotient of eq:trace-sobolev
-(`readingModel_F`), from the Sobolev, trace and Rellich theorems on `M`. -/
+/-- The positivity lemma (lem:positivity, l.717) on a compact connected Riemannian manifold with
+non-empty boundary: `inf_{u ∈ C¹(M), u ≠ 0} F_g(u) > 0`, `F_g` the trace-Sobolev quotient of
+eq:trace-sobolev (`readingModel_F`), from the Sobolev, trace and Rellich theorems on `M`. -/
 theorem lem_positivity (hN : 3 ≤ N) [CompactSpace M] [T2Space M] [ConnectedSpace M]
     (g : RiemannianMetric N M) {μ : Measure M} (hμ : IsLocallyLebesgue N μ)
     {n : ℕ} {σ : Fin n → Measure M} [∀ j, IsFiniteMeasure (σ j)]

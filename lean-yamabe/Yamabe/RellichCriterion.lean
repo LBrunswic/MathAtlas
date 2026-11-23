@@ -10,7 +10,7 @@ Labels (NOT marked: a step of the proof, see SCOPE):
   converges in $L^2(\Sigma)$ » (l.720). In `L^p` (`1 ≤ p`), a set that is, for every `ε > 0`,
   within `ε` of the image of a bounded set under a finite-rank continuous linear map is totally
   bounded; hence a sequence in it has a subsequence converging in `L^p` to a `MemLp` limit, in the
-  `eLpNorm` form of the conclusion of `Mfd.rellich_kondrachov` (`YamabeScaffold.RellichManifold`).
+  `eLpNorm` form of the conclusion of `Mfd.rellich_kondrachov` (`Yamabe.RellichManifold`).
 
 > By \eqref{eq:hoelder}, $(u_k)$ is bounded in $W^{1,2}(\Sigma)$, so by the Rellich--Kondrachov
 > theorem a subsequence converges in $L^2(\Sigma)$ and weakly in $W^{1,2}(\Sigma)$ to some
@@ -44,8 +44,8 @@ Labels (NOT marked: a step of the proof, see SCOPE):
   `approx_of_totallyBounded`, the converse (the function-level hypotheses hold for every
   sequence whose classes are totally bounded); for `p = 2`, `F = ℝ`,
   `exists_subseq_tendsto_eLpNorm_two`, whose conclusion is that of `Mfd.rellich_kondrachov`
-  (checked out of tree by `type_of%` against round 1's statement, then in `YamabeScaffold.Rellich`;
-  the theorem is now proved in `YamabeScaffold.RellichManifold`, which concludes with this one).
+  (checked out of tree by `type_of%` against round 1's statement, then in `Yamabe.Rellich`;
+  the theorem is now proved in `Yamabe.RellichManifold`, which concludes with this one).
 
 ## Hypothesis checklist
 
@@ -60,7 +60,7 @@ Labels (NOT marked: a step of the proof, see SCOPE):
 * This file is the functional-analytic half of `Mfd.rellich_kondrachov` only. It does not prove
   Rellich–Kondrachov on a manifold: the manifold half (the chart-level assembly of
   `Half.cell_approx` with the partition of unity of `Mfd.assemble`, the finiteness of a
-  locally-Lebesgue `μ`) is the scaffold's `YamabeScaffold.RellichManifold`, which concludes with
+  locally-Lebesgue `μ`) is `Yamabe.RellichManifold`, which concludes with
   `exists_subseq_tendsto_eLpNorm_two`, the arbitrary-coefficient form, so the bound on the cell
   averages that the `_bdd` form asks is not needed. `lem:positivity` is not certified here, and no
   label is marked while OQ-93 is open. It imports Mathlib only.
@@ -374,7 +374,7 @@ end Lp
 /-! ## 4. The shape of `Mfd.rellich_kondrachov` -/
 
 /-- For `p = 2` and real functions, the conclusion is, word for word, that of
-`Mfd.rellich_kondrachov` (`YamabeScaffold.RellichManifold`, whose proof ends with this theorem). -/
+`Mfd.rellich_kondrachov` (`Yamabe.RellichManifold`, whose proof ends with this theorem). -/
 theorem exists_subseq_tendsto_eLpNorm_two {M β : Type*} [MeasurableSpace M] {μ : Measure M}
     (u : ℕ → M → ℝ) (hu : ∀ k, AEStronglyMeasurable (u k) μ)
     (hb : ∃ K : ℝ≥0, ∀ k, eLpNorm (u k) 2 μ ≤ K)

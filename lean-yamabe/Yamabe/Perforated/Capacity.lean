@@ -78,7 +78,7 @@ admissible functions with values `val`, trace `tr`, differential `d`; `vol g`, `
   `F_g(1) = c_N S / V^{(N-2)/N}` (`Fq_one_eq`).
 * **Why lem:capstar and lem:capacitary are partial.** Their positivity rests on the carried
   `MeanPoincare` (T-perf-poincare discharges it) and `TraceBound` (definitionally
-  `YamabeScaffold.Trace`'s `TraceIneq`, whose manifold discharge is `Mfd.Reads.traceIneq`), the
+  `Yamabe.Trace`'s `TraceIneq`, whose manifold discharge is `Mfd.Reads.traceIneq`), the
   finiteness on `InteriorBump`, the attainment on `DirectMethod` (a `W^{1,2}` reading: the `C¹`
   reading of OQ-93 (b) is not weakly closed), the Euler–Lagrange system on `GradMeasurable`. The
   strong form `Δv = μ/(2V)`, `∂_ν v = −μ w_j/(2|B_j|)` is not formalized: the model has no
@@ -201,9 +201,9 @@ def MeanPoincare : Prop :=
     normSq (M.vol g) 2 (M.val v - fun _ => M.volMean g v) ≤ K * M.dirichlet g v
 
 /-- The trace theorem on the model (l.134, l.393): every trace lies in `L^{p♯}(B_j)` and
-`‖tr u‖²_{L^{p♯}(B_j)} ≤ C ‖u‖²_{W^{1,2}(Σ)}`. This is `TraceIneq` of `YamabeScaffold.Trace`
-with its `w12Sq` unfolded (definitionally equal), restated here so that this file imports the
-strict library only. -/
+`‖tr u‖²_{L^{p♯}(B_j)} ≤ C ‖u‖²_{W^{1,2}(Σ)}`. This is `TraceIneq` of `Yamabe.Trace`
+with its `w12Sq` unfolded (definitionally equal), restated here because `Yamabe.Trace` was a
+scaffold module, which the strict library cannot import, when this file was written. -/
 def TraceBound : Prop :=
   ∃ C : ℝ, ∀ u : D, ∀ j, MemLp (M.tr u) (ENNReal.ofReal (pSharp N)) (M.bvol g j) ∧
     normSq (M.bvol g j) (pSharp N) (M.tr u) ≤ C * (M.dirichlet g u + normSq (M.vol g) 2 (M.val u))

@@ -1,9 +1,9 @@
-import YamabeScaffold.Trace
+import Yamabe.Trace
 
 /-!
 # The Sobolev and trace inequalities on the closed half-space, with the gradient over the half-space only
 
-Labels (NOT marked: infrastructure for the manifold theorems of `YamabeScaffold.ManifoldTheorems`):
+Labels (NOT marked: infrastructure for the manifold theorems of `Yamabe.ManifoldTheorems`):
 
 * `lem:kobayashi` — `Yamabegap.tex:613` (statement l.613–625, proof l.626–638): the Sobolev
   embedding the proof cites (l.637), in the half-space chart.

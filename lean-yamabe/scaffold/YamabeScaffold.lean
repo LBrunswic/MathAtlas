@@ -1,10 +1,2 @@
 import YamabeScaffold.Basic
-import YamabeScaffold.Sobolev
-import YamabeScaffold.Trace
-import YamabeScaffold.Rellich
-import YamabeScaffold.External
-import YamabeScaffold.HalfSpace
-import YamabeScaffold.Localisation
-import YamabeScaffold.ManifoldTheorems
-import YamabeScaffold.Compactness
-import YamabeScaffold.RellichManifold
+import YamabeScaffold.TraceCompact

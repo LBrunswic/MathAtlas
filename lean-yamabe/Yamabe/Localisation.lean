@@ -1,9 +1,9 @@
-import YamabeScaffold.HalfSpace
+import Yamabe.HalfSpace
 
 /-!
 # Chart localisation on a compact manifold with boundary: the metric and the volume read in charts
 
-Labels (NOT marked: infrastructure for the manifold theorems of `YamabeScaffold.ManifoldTheorems` and `YamabeScaffold.Compactness`):
+Labels (NOT marked: infrastructure for the manifold theorems of `Yamabe.ManifoldTheorems` and `Yamabe.Compactness`):
 
 * `lem:kobayashi` — `Yamabegap.tex:613` (statement l.613–625, proof l.626–638): the Sobolev
   embedding its proof cites (l.637) is localised here to charts.
@@ -42,13 +42,13 @@ Labels (NOT marked: infrastructure for the manifold theorems of `YamabeScaffold.
 
 | paper hypothesis | here |
 |---|---|
-| `Σ` compact Riemannian with boundary | ✓ carried as in `YamabeScaffold.Sobolev`: `CompactSpace`, `T2Space`, smooth `g`; only the continuity of `g` is used |
+| `Σ` compact Riemannian with boundary | ✓ carried as in `Yamabe.Sobolev`: `CompactSpace`, `T2Space`, smooth `g`; only the continuity of `g` is used |
 | `u ∈ W^{1,2}(Σ)` | ⚠ read as `C¹(M)`, as in round 1 (OQ-93 (b)) |
 
 ## SCOPE (disclosed)
 
 * Infrastructure only: no label of the paper is certified here. The theorems it serves are in
-  `YamabeScaffold.ManifoldTheorems`.
+  `Yamabe.ManifoldTheorems`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

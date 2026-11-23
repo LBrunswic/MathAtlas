@@ -10,7 +10,7 @@ Labels (NOT marked: partial, see SCOPE):
   inequality; the assembly (a) ∧ (b); the Euclidean inequality behind the Sobolev embedding the
   proof cites (l.637, and again in lem:positivity, l.720, `Hebey1996`); and the definitions of the
   manifold layer on which that embedding is stated and proved (`Mfd.sobolev_embedding`, in
-  `YamabeScaffold.ManifoldTheorems`).
+  `Yamabe.ManifoldTheorems`).
 
 > \item[(b)] If $\min_\Sigma\Rs_\g>0$, then $\Y_{[\g]}(\Sigma)>0$. (l.623)
 
@@ -38,12 +38,12 @@ Two layers.
 * **The model layer** (`Yamabe.MeasuredModel`, the strict frame model): `SobolevIneq` is the
   inequality on a model; `Mfd.Reads` says that a model reads `(M, g, μ, σ)` (its volume is `μ`,
   its functions are `C¹`, its `|∇u|²` is `|∇u|²_g`); `Mfd.Reads.sobolevIneq`
-  (`YamabeScaffold.ManifoldTheorems`) transports the manifold theorem to it.
+  (`Yamabe.ManifoldTheorems`) transports the manifold theorem to it.
 
 The manifold theorems themselves, `Mfd.sobolev_embedding` and `Mfd.eLpNorm_gradNorm_lt_top`, and
 their bridges to the model `Mfd.Reads.sobolevIneq`, `Mfd.Reads.kobayashiB`,
-`Mfd.Reads.prop_nonpositive_csc`, are in `YamabeScaffold.ManifoldTheorems`, proved through
-`YamabeScaffold.HalfSpace` and `YamabeScaffold.Localisation`, which import this file. Round 1
+`Mfd.Reads.prop_nonpositive_csc`, are in `Yamabe.ManifoldTheorems`, proved through
+`Yamabe.HalfSpace` and `Yamabe.Localisation`, which import this file. Round 1
 stated them here with `sorry`; the integration of round 2 (T-yamabe-integrate-r2) deleted those
 and gave the proved copies the round-1 names, with the round-1 statements unchanged.
 
@@ -72,11 +72,11 @@ components of `du_x`: Riesz and Parseval for `g_x`).
 | `H_g ≡ 0` (standing assumption of lem:kobayashi, l.615) | ✓ carried (`MinimalBoundary`) |
 | `min_Σ R_g > 0` (l.623) | ✓ carried as `0 < ⨅ x, R_g x` (as in the strict `KobayashiB`) |
 | `Σ ≠ ∅` | ✓ carried as `vol_g ≠ 0` on the model |
-| the Sobolev embedding (l.637, Hebey1996) | on the model: `SobolevIneq` (a hypothesis of the model, discharged for a model reading a manifold by `Mfd.Reads.sobolevIneq`, from `Mfd.sobolev_embedding`, both proved in `YamabeScaffold.ManifoldTheorems`) |
+| the Sobolev embedding (l.637, Hebey1996) | on the model: `SobolevIneq` (a hypothesis of the model, discharged for a model reading a manifold by `Mfd.Reads.sobolevIneq`, from `Mfd.sobolev_embedding`, both proved in `Yamabe.ManifoldTheorems`) |
 
 ## SCOPE (disclosed)
 
-* `Mfd.sobolev_embedding` (`YamabeScaffold.ManifoldTheorems`) is stated in its strongest usual
+* `Mfd.sobolev_embedding` (`Yamabe.ManifoldTheorems`) is stated in its strongest usual
   form, in `ℝ≥0∞` (so finiteness is part of the conclusion), for every locally-Lebesgue `μ`:
   Lean ≥ paper, since the Riemannian volume is such a measure (OQ-93 (a)). It is proved there,
   sorry-free, from the Euclidean inequality of this file (`sobolev_euclidean`) through the

@@ -1,4 +1,4 @@
-import YamabeScaffold.ManifoldTheorems
+import Yamabe.ManifoldTheorems
 
 /-!
 # The Poincaré double-integral estimate, and the constancy of energy-free limits on a connected manifold
@@ -47,14 +47,14 @@ Labels (NOT marked: see SCOPE):
 * Rellich–Kondrachov on `M` is not proved here, only the Euclidean cell approximation. Its
   chart-level assembly (cut-offs read in good charts, `Mfd.chartFun`), the finiteness of a
   locally-Lebesgue `μ` and the total-boundedness wrapper in `Lp ℝ 2 μ` (`Yamabe.RellichCriterion`)
-  are `YamabeScaffold.RellichManifold`, which imports this file and proves `Mfd.rellich_kondrachov`.
-* **Finding on the round-1 statement** `Mfd.const_of_tendsto` (`YamabeScaffold.Rellich`): it was
+  are `Yamabe.RellichManifold`, which imports this file and proves `Mfd.rellich_kondrachov`.
+* **Finding on the round-1 statement** `Mfd.const_of_tendsto` (`Yamabe.Rellich`): it was
   false as stated, because `eLpNorm` of a non-measurable function is an inner integral
   (`Mfd.not_const_of_tendsto`, kept as the record of the finding); the measurability hypothesis is
   added here, and it costs nothing at l.720: the limit there is given by Rellich–Kondrachov in
   `L²`, hence measurable. The same defect sat in the model Prop `MeasuredModel.ConstLimit`. Both
   were repaired at the integration of round 2 (T-yamabe-integrate-r2): `Mfd.Reads.constLimit`
-  (`ConstLimit` on a model reading `M`) and `Mfd.const_of_tendsto` (`YamabeScaffold.Rellich`) now
+  (`ConstLimit` on a model reading `M`) and `Mfd.const_of_tendsto` (`Yamabe.Rellich`) now
   ask `MemLp f 2`, and are proved from `Mfd.Reads.constLimit_of_aestronglyMeasurable` and
   `Mfd.const_of_tendsto_of_aestronglyMeasurable` (this file); `MeasuredModel.lem_positivity` applies `ConstLimit` only to the
   Rellich limit, which is `MemLp`.
@@ -929,7 +929,7 @@ theorem local_const {g : RiemannianMetric N M} {μ : Measure M} {x₀ : M} {V : 
 for a **measurable** limit: if `u_k ∈ C¹(M)`, `‖∇u_k‖_{L²(μ)} → 0` and `u_k → f` in `L²(μ)` with
 `f` `μ`-a.e. strongly measurable, then `f` is `μ`-a.e. constant. This is round 1's
 `Mfd.const_of_tendsto` with the hypothesis `AEStronglyMeasurable f μ` added, which that statement
-needed (`not_const_of_tendsto`); the repaired `Mfd.const_of_tendsto` (`YamabeScaffold.Rellich`,
+needed (`not_const_of_tendsto`); the repaired `Mfd.const_of_tendsto` (`Yamabe.Rellich`,
 with `MemLp f 2 μ`) follows from this theorem by `MemLp.aestronglyMeasurable`. -/
 theorem const_of_tendsto_of_aestronglyMeasurable [CompactSpace M] [T2Space M] [ConnectedSpace M]
     (g : RiemannianMetric N M) {μ : Measure M} (hμ : IsLocallyLebesgue N μ)
@@ -1041,7 +1041,7 @@ variable {D : Type*} [AddCommGroup D] [Module ℝ D] {n : ℕ} {Mm : MeasuredMod
 measurable limit**. Round 1's `MeasuredModel.ConstLimit` quantified over every `f`, measurable or
 not, and was refuted (`not_const_of_tendsto`) as soon as `μ` charges a set without non-null
 measurable subsets; the repaired `ConstLimit` asks `MemLp f 2`, and `Mfd.Reads.constLimit`
-(`YamabeScaffold.Rellich`) is this theorem applied to `MemLp.aestronglyMeasurable`. -/
+(`Yamabe.Rellich`) is this theorem applied to `MemLp.aestronglyMeasurable`. -/
 theorem constLimit_of_aestronglyMeasurable [CompactSpace M] [T2Space M] [ConnectedSpace M]
     [IsFiniteMeasure μ] (hr : Reads Mm gm g μ σ) (hμ : IsLocallyLebesgue N μ) :
     ∀ (u : ℕ → D) (f : M → ℝ), AEStronglyMeasurable f (Mm.vol gm) →

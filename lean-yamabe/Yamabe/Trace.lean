@@ -1,17 +1,18 @@
-import YamabeScaffold.Sobolev
+import Yamabe.Sobolev
 
 /-!
-# The trace inequality: Euclidean, on the model, and the compact trace into `L²(∂Σ)` on a compact manifold with boundary
+# The trace inequality: Euclidean and on the model; the boundary measures of a compact manifold with boundary
 
 Labels (NOT marked: partial, see SCOPE):
 
 * `lem:positivity` — `Yamabegap.tex:715` (statement l.715–718, proof l.719–721): the two trace
   facts its proof uses, the compact trace `W^{1,2}(Σ) → L²(∂Σ)` (l.720) and, through the
   quotient eq:trace-sobolev (l.486–491), the trace theorem `W^{1,2}(Σ) → L^{p♯}(∂Σ)`: here, the
-  Euclidean critical trace inequality, the trace theorem as a property of the measured model, the
-  boundary measures of the manifold layer, and the compact trace stated on a compact Riemannian
-  manifold with boundary. The trace theorem on the manifold, `Mfd.trace_embedding`, and its
-  bridge `Mfd.Reads.traceIneq` are in `YamabeScaffold.ManifoldTheorems`.
+  Euclidean critical trace inequality, the trace theorem as a property of the measured model, and
+  the boundary measures of the manifold layer. The trace theorem on the manifold,
+  `Mfd.trace_embedding`, and its bridge `Mfd.Reads.traceIneq` are in `Yamabe.ManifoldTheorems`;
+  the compact trace on a compact Riemannian manifold with boundary, `Mfd.trace_compact`, is
+  stated in the scaffold module `YamabeScaffold.TraceCompact`.
 
 > where the boundary norms are those of the trace of $u$, which is well defined in
 > $L^{\psharp}(\partial\Sigma)$ by the trace theorem. (l.491)
@@ -22,7 +23,7 @@ Labels (NOT marked: partial, see SCOPE):
 
 ## The setting
 
-As in `YamabeScaffold.Sobolev`: `M` a compact smooth manifold with boundary modelled on
+As in `Yamabe.Sobolev`: `M` a compact smooth manifold with boundary modelled on
 `EuclideanHalfSpace N`, `g` a smooth Riemannian metric, `μ` a locally-Lebesgue volume. A boundary
 measure is any `σ` with `Mfd.IsBoundaryMeasure N σ`: carried by `∂M`, and near every point, in its
 chart, bounded by a constant times the `(N-1)`-dimensional Hausdorff measure of the chart image
@@ -42,17 +43,19 @@ through the corrected eq:hoelder).
 
 ## What is stated with `sorry`
 
-`Mfd.trace_compact` only; nothing proved depends on it. Round 1 also stated `Mfd.trace_embedding`
-here with `sorry`, and `Mfd.Reads.traceIneq` on it; the integration of round 2
-(T-yamabe-integrate-r2) deleted both and gave the proved copies of `YamabeScaffold.ManifoldTheorems`
-(through `YamabeScaffold.HalfSpace` and `YamabeScaffold.Localisation`, which import this file) the
-round-1 names, with the round-1 statements unchanged.
+Nothing. Round 1 stated `Mfd.trace_compact` here with `sorry`; nothing depends on it, and
+T-yamabe-graduate-analysis moved it unchanged to the scaffold module `YamabeScaffold.TraceCompact`,
+downstream of `Mfd.rellich_kondrachov` (`Yamabe.RellichManifold`), which its proof needs. Round 1
+also stated `Mfd.trace_embedding` here with `sorry`, and `Mfd.Reads.traceIneq` on it; the
+integration of round 2 (T-yamabe-integrate-r2) deleted both and gave the proved copies of
+`Yamabe.ManifoldTheorems` (through `Yamabe.HalfSpace` and `Yamabe.Localisation`, which import
+this file) the round-1 names, with the round-1 statements unchanged.
 
 ## Hypothesis checklist
 
 | paper hypothesis | here |
 |---|---|
-| `Σ` compact Riemannian with boundary, `N ≥ 3` | ✓ carried, as in `YamabeScaffold.Sobolev` (`μ` ⚠ read) |
+| `Σ` compact Riemannian with boundary, `N ≥ 3` | ✓ carried, as in `Yamabe.Sobolev` (`μ` ⚠ read) |
 | the induced measure of `∂Σ` | ⚠ read: any `σ` with `IsBoundaryMeasure N σ` (a weakening: only an upper bound is asked) |
 | `u ∈ W^{1,2}(Σ)` | ⚠ read: `u ∈ C¹(M)` |
 
@@ -60,14 +63,14 @@ round-1 names, with the round-1 statements unchanged.
 
 * **Remark on l.720.** The proof of lem:positivity needs only the *continuity* of the trace
   `W^{1,2}(Σ) → L²(∂Σ)`, not its compactness: since `‖∇u_k‖_{L²} → 0` and `u_k → c` in `L²(Σ)`,
-  `u_k → c` in `W^{1,2}(Σ)` strongly, and the continuity gives the traces' convergence. The
-  scaffold's `lem_positivity` (`YamabeScaffold.Rellich`) uses only `TraceIneq`; the compactness the
-  paper states is `Mfd.trace_compact`, stated for completeness (`sorry`; what Mathlib lacks is
-  listed there).
+  `u_k → c` in `W^{1,2}(Σ)` strongly, and the continuity gives the traces' convergence.
+  `lem_positivity` (`Yamabe.Rellich`) uses only `TraceIneq`; the compactness the paper states is
+  `Mfd.trace_compact`, stated for completeness in the scaffold module `YamabeScaffold.TraceCompact`
+  (`sorry`; what Mathlib lacks is listed there).
 * Fubini over the boundary hyperplane is proved here (`trace_halfSpace`, for `C¹_c` functions on
   `ℝᴺ`). The half-space version with the gradient over the half-space only is
-  `Half.trace_halfSpace'` (`YamabeScaffold.HalfSpace`), and its chart localisation is
-  `Mfd.local_trace` (`YamabeScaffold.Localisation`); `Mfd.trace_embedding` assembles them.
+  `Half.trace_halfSpace'` (`Yamabe.HalfSpace`), and its chart localisation is
+  `Mfd.local_trace` (`Yamabe.Localisation`); `Mfd.trace_embedding` assembles them.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -219,7 +222,7 @@ Escobar1988, with a non-sharp constant): for `u ∈ C¹_c(ℝ × ℝ^n)`, its tr
 `{0} × ℝ^n` satisfies `∫_{ℝ^n} |u(0, z)|^{p♯} dz ≤ C ‖Du‖_{L²(ℝ^N)}^{p♯}`. From `trace_halfSpace`
 at `q = p♯`, Hölder on the half-space (`2(p♯ - 1) = p*`) and Mathlib's Gagliardo–Nirenberg–Sobolev
 inequality on `ℝ × ℝ^n`. The half-space form (`‖Du‖` over `(0, ∞) × ℝ^n` only, for functions on
-the half-space) is `Half.trace_halfSpace'` (`YamabeScaffold.HalfSpace`, through the reflection). -/
+the half-space) is `Half.trace_halfSpace'` (`Yamabe.HalfSpace`, through the reflection). -/
 theorem trace_critical {n : ℕ} (hN : 3 ≤ n + 1) :
     ∃ C : ℝ≥0, ∀ u : ℝ × EuclideanSpace ℝ (Fin n) → ℝ, ContDiff ℝ 1 u → HasCompactSupport u →
       ∫⁻ z, ‖u (0, z)‖ₑ ^ pSharp (n + 1) ≤
@@ -399,20 +402,6 @@ def IsBoundaryMeasure (σ : Measure M) : Prop :=
     ∀ x₀ : M, ∃ U ∈ 𝓝 x₀, ∃ C : ℝ≥0, ∀ A ⊆ U ∩ (chartAt (EuclideanHalfSpace N) x₀).source,
       MeasurableSet A →
         σ A ≤ C * Measure.hausdorffMeasure ((N : ℝ) - 1) (extChartAt (𝓡∂ N) x₀ '' A)
-
-variable [BorelSpace M]
-
-/-- **The compact trace** (l.720): every sequence bounded in `W^{1,2}(M)` has a subsequence whose
-traces converge in `L²(∂M)`. -/
-theorem trace_compact [CompactSpace M] [T2Space M] (g : RiemannianMetric N M)
-    {μ : Measure M} (hμ : IsLocallyLebesgue N μ) {σ : Measure M} (hσ : IsBoundaryMeasure N σ)
-    (u : ℕ → M → ℝ) (hu : ∀ k, IsC1 N (u k)) (hb : ∃ K : ℝ≥0, ∀ k, w12 g μ (u k) ≤ K) :
-    ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∃ f : M → ℝ, MemLp f 2 σ ∧
-      Tendsto (fun k => eLpNorm (u (φ k) - f) 2 σ) atTop (𝓝 0) := by
-  sorry -- SORRY(lem:positivity): needs `rellich_kondrachov` and the interpolation
-  -- ‖u‖²_{L²(∂ℍ)} ≤ ε ‖∂_t u‖²_{L²(ℍ)} + C_ε ‖u‖²_{L²(ℍ)} (from the FTC estimate of
-  -- `trace_halfLine`), localised by charts; Mathlib has neither. The scaffold proves the first
-  -- (`YamabeScaffold.RellichManifold`, downstream of this file). Not used by lem_positivity.
 
 end Mfd
 
