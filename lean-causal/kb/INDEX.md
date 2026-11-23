@@ -269,3 +269,4 @@ rediscover. One fact per entry.
 | [0261](entries/0261-cutline-inextensible-witness.md) | pattern | The direct witness for le_nested ⇏ inextensible_nested |
 | [0262](entries/0262-lemma-k-curve-free.md) | pattern | Lemma K's family has a curve-free form of each of its 31 curve theorems |
 | [0263](entries/0263-curves-route-t1.md) | pattern | Prefer the T1 route to discharge CurvesExtend |
+| [0264](entries/0264-dual-rule-really-used.md) | pitfall | Show a dual rule is really used: erase it and watch examples fail |

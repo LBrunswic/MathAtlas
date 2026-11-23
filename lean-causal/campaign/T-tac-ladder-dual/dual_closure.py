@@ -2,17 +2,27 @@
 
 Side 0 is a property of `C`, side 1 of `C.dual`. The rules modelled are those `causal_ladder` has
 with `Causal.Ladder.Rules` and `Causal.Ladder.Dual` imported, on a bare topological space (no
-standing instance): every emitted edge without `standing`, on each side; the transport of every
-two-sided node between the sides; and the two one-sided introductions
+standing instance): every edge rule of Rules.lean without `standing`, on each side; the transport
+of every two-sided node between the sides; and the two one-sided introductions
 (P_future of C and of C.dual give the two-sided node of C).
+
+The edges are read off Rules.lean (the `-- from ⇒ to (standing: …)` line emit-lean writes above
+each rule), not off programme/ladder.toml, so the derived examples are those of the rules the
+build has, also while the ladder is ahead of the last emit-lean; the ladder gives the properties,
+their Lean forms and the counterexamples. The script refuses to run when Rules.lean has a fact rule
+without standing (not modelled: it would fire on a bare space), or when Dual.lean lacks the rule
+pair `p_of_dual` / `p_dual` of a two-sided node (p the Lean name of the node, first letter
+lowered) or the introduction `t_of_future_of_past` of a one-sided one.
 
     python3 -I dual_closure.py counts            the numbers of the report
     python3 -I dual_closure.py shipped OUT       Causal/Ladder/DualTest.lean (hand-written part included)
     python3 -I dual_closure.py exact OUT         a scratch file: every cross pair, derived or not
 
-Run from anywhere; it reads the repository's programme/ladder.toml through tools/ladder.py.
+Run from anywhere; it reads the repository's programme/ladder.toml through tools/ladder.py, and
+lean-causal/Causal/Ladder/Rules.lean and Dual.lean. Rerun `shipped` after `tools/ladder.py emit-lean`.
 """
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -22,13 +32,63 @@ import ladder as ld  # noqa: E402
 
 ONE_SIDED = {"causally_open_future": "causally_open",
              "locally_causally_open_future": "locally_causally_open"}
+LADDER_DIR = os.path.join(REPO, "lean-causal", "Causal", "Ladder")
+EDGE_RULE = "attribute [aesop safe forward (rule_sets := [CausalLadder])] "
+PLAIN = "attribute [aesop safe forward (rule_sets := [CausalLadder])]\n"
+PATTERNED = "attribute [aesop safe forward (pattern := Causality.dual C) (rule_sets := [CausalLadder])]\n"
+
+
+def rules_edges(ids):
+    """The edge rules of Rules.lean, as ladder edges {from, to, standing, witness}."""
+    with open(os.path.join(LADDER_DIR, "Rules.lean"), encoding="utf-8") as fh:
+        lines = fh.read().split("\n")
+    edges = []
+    for i, line in enumerate(lines):
+        if line.startswith("-- fact: ") and "(standing: " not in line:
+            raise SystemExit("Rules.lean: a fact rule without standing is not modelled: %s" % line)
+        if not line.startswith(EDGE_RULE):
+            continue
+        m = re.match(r"-- (.+) ⇒ (\S+)(?: \(standing: ([^)]*)\))?$", lines[i - 1])
+        if not m:
+            raise SystemExit("Rules.lean:%d: no `-- from ⇒ to` line above the rule" % (i + 1))
+        frm, to = m.group(1).split(" ∧ "), m.group(2)
+        unknown = [x for x in frm + [to] if x not in ids]
+        if unknown:
+            raise SystemExit("Rules.lean:%d: %s not a property with a Lean form" % (i + 1, unknown))
+        edges.append({"from": frm, "to": to, "witness": line[len(EDGE_RULE):].strip(),
+                      "standing": m.group(3).split(", ") if m.group(3) else []})
+    return edges
+
+
+def check_dual(two, lean):
+    """Dual.lean has the transport pair of every two-sided node and the introduction of every
+    one-sided one, in the attribute blocks of `causal_ladder`'s rule set."""
+    with open(os.path.join(LADDER_DIR, "Dual.lean"), encoding="utf-8") as fh:
+        src = fh.read()
+
+    def block(head):
+        i = src.find(head)
+        if i < 0:
+            raise SystemExit("Dual.lean: no attribute block %r" % head.strip())
+        return set(src[i + len(head):].split("\n\n", 1)[0].split())
+
+    plain, patterned = block(PLAIN), block(PATTERNED)
+
+    def short(x):
+        n = lean[x].rsplit(".", 1)[1]
+        return n[0].lower() + n[1:]
+    missing = ["%s_of_dual" % short(x) for x in two if "%s_of_dual" % short(x) not in plain]
+    missing += ["%s_dual" % short(x) for x in two if "%s_dual" % short(x) not in patterned]
+    missing += ["%s_of_future_of_past" % short(t) for t in ONE_SIDED.values()
+                if "%s_of_future_of_past" % short(t) not in plain]
+    if missing:
+        raise SystemExit("Dual.lean lacks the rules %s: add them, or list a node that is not "
+                         "invariant under time reversal in ONE_SIDED" % ", ".join(missing))
 
 
 def setup():
     data = ld.load()
     index = ld.lean_index()
-    rules, _ = ld.emitted(data, index)
-    edges = [e for e, _ in rules if not ld.standing(e)]
     props = [p for p in data["property"] if p.get("sort", "causality") == "causality"]
     form = {}
     for p in props:
@@ -37,6 +97,8 @@ def setup():
             form[p["id"]] = f
     ids = [p["id"] for p in props if p["id"] in form]
     two = [x for x in ids if x not in ONE_SIDED]
+    check_dual(two, {p["id"]: p["lean"] for p in props})
+    edges = [e for e in rules_edges(ids) if not ld.standing(e)]
     return data, edges, ids, two, form
 
 
@@ -165,11 +227,13 @@ For `C` a causality on a topological space, `causal_ladder` with the rules of
 `Causal.Ladder.Rules` and `Causal.Ladder.Dual` closes a goal about `C.dual` from hypotheses about
 `C`, and conversely. The examples come in two parts.
 
-* Hand-written: more than one time reversal, the two one-sided nodes, the two pair nodes, rules
-  with standing instances, and the shapes the time-reversed witnesses use (kb/0091): a
-  conjunction about `C.dual` from facts about `C`, a term argument, a negation read backwards.
-* Written by `campaign/T-tac-ladder-dual/dual_closure.py` from `programme/ladder.toml` as it
-  stood on 2026-11-22 (not regenerated by `tools/ladder.py emit-lean`): every single-property
+* Hand-written: more than one time reversal, the two one-sided nodes, the node
+  `has_chronal_neighbour`, the two pair nodes, rules with standing instances, and the shapes the
+  time-reversed witnesses use (kb/0091): a conjunction about `C.dual` from facts about `C`, a
+  term argument, a negation read backwards.
+* Written by `campaign/T-tac-ladder-dual/dual_closure.py` from the edge rules of
+  `Causal.Ladder.Rules` and the properties and counterexamples of `programme/ladder.toml` (not by
+  `tools/ladder.py emit-lean`; the script is rerun after it): every single-property
   pair `P(C) ⊢ Q(C.dual)` and `P(C.dual) ⊢ Q(C)` of the closure ({nder} examples, `Derived`), each
   conjunctive rule used on `C.dual` with its two-sided premises given on `C` ({nmix} examples),
   and the pairs across time reversal that a counterexample of the ladder, or its time reversal,
@@ -233,6 +297,20 @@ example (hM : C.AbsolutelyMinimal) (hf : C.LocallyCausallyOpenFuture)
 -- the one-way membrane (`Causal.OneWayMembrane`) is causally open in the future, not in the past
 example (_hf : C.CausallyOpenFuture) (_hM : C.AbsolutelyMinimal) (_hT : C.Tarentin) : True := by
   fail_if_success have : C.dual.CausallyOpenFuture := by causal_ladder
+  trivial
+
+/-! ## `has_chronal_neighbour`: one side at each point, so invariant under time reversal -/
+
+-- an odd number of reversals (`C.dual.dual.dual` is `C.dual` by `rfl`, not `C`)
+example (h : C.dual.dual.dual.HasChronalNeighbourEverywhere) :
+    C.HasChronalNeighbourEverywhere := by
+  causal_ladder
+-- the point predicate of the time reversal: `h` transported, then applied at `p` (builtin rule)
+example (h : C.HasChronalNeighbourEverywhere) (p : M) : C.dual.HasChronalNeighbour p := by
+  causal_ladder
+-- the closed half-line (`closedHalfLine_separates_chronalNeighbours`): `I⁻(0) = ∅`
+example (_hK : C.CausallyArcConnected) (_hH : C.HasChronalNeighbourEverywhere) : True := by
+  fail_if_success have : C.dual.ChronalNeighbours := by causal_ladder
   trivial
 
 /-! ## The pair nodes -/

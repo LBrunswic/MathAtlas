@@ -9,6 +9,7 @@ import Causal.CurvesExtend
 import Causal.Inextensible
 import Causal.NestedCausalities
 import Causal.NestedConverse
+import Causal.ChronalNeighbourBridge
 
 /-!
 # `causal_ladder` across time reversal: the hand-written rules of the dual lemmas
@@ -37,12 +38,16 @@ sight stay bounded by those of the goal and hypotheses, and over the finitely ma
 named there the saturated facts are finite (a cycle of three nestings with `C.dual.dual.dual` in
 sight ends by exhaustive search; T-tac-ladder-dual's audit). When no `C.dual` occurs in the goal
 or a hypothesis nothing is transported, so a goal without a time reversal costs about what it cost
-before (the generated tests replay 0.2–0.6 s slower, out of about 4.5 s).
+before (T-tac-ladder-dual measured the generated tests 0.2–0.6 s slower, out of about 4.5 s; the
+pair of `has_chronal_neighbour` added no measurable time, T-tac-dual-has-chronal-neighbour).
 
 So, once `C.dual` is in sight, a two-sided fact of `C` is a fact of `C.dual` and conversely, and
 the generated rules fire on `C.dual` as on any causality, which gives the past forms of the
 one-sided nodes (`C.CausallyOpen ⊢ C.dual.CausallyOpenFuture`, through `C.dual.CausallyOpen` and
-`CausallyOpen.future`). The two **one-sided** nodes,
+`CausallyOpen.future`). The node `has_chronal_neighbour` (a chronal neighbour at every point, on
+one side at least) is two-sided in this sense: either side suffices at each point, so the notion
+is invariant under time reversal (`Causality.dual_hasChronalNeighbourEverywhere`), and it is
+transported like the others. The two **one-sided** nodes,
 `causally_open_future` and `locally_causally_open_future`, have no dual lemma: their dual form
 `C.dual.P` (the past form) is not a node. Their only rules here conclude the two-sided node from
 both forms (`causallyOpen_of_future_of_past`, `locallyCausallyOpen_of_future_of_past`, the
@@ -68,11 +73,12 @@ lemmas, node by node (ladder id: lemma, module):
 | `causally_arc_connected` | `Causality.dual_causallyArcConnectedOn` at `⊤` (`ArcConnected`) |
 | `causally_plain` | `Causality.dual_causallyPlain` (`Causal.Properties`) |
 | `tarentin` | `Causality.dual_tarentin` (`Causal.Properties`) |
-| `time_function` | proved here, `hasTimeFunction_dual_iff` (see SCOPE) |
-| `curves_extend` | proved here, `curvesExtend_dual_iff` (see SCOPE) |
+| `time_function` | `Causality.dual_hasTimeFunction` (`Causal.CurvesExtend`) |
+| `curves_extend` | `Causality.CurvesExtend.dual` (`Causal.CauchyExtension`), at `C` and `C.dual` |
 | `locally_push_up` | `Causality.dual_locallyPushUp` (`Causal.LadderLocal`) |
 | `locally_causally_open` | `Causality.dual_locallyCausallyOpen` (`Causal.LadderLocal`) |
 | `chronal_neighbours` | `Causality.dual_chronalNeighbours` (`Causal.LadderLocal`) |
+| `has_chronal_neighbour` | `Causality.dual_hasChronalNeighbourEverywhere` (`ChronalNeighbourBridge`) |
 | `causally_open_future` | one-sided: no dual lemma; `causallyOpen_iff` read backwards |
 | `locally_causally_open_future` | one-sided: no dual lemma; `LocallyCausallyOpen`'s definition |
 | `le_nested` (pair) | `Causality.dual_leNested_iff` (`Causal.NestedCausalities`) |
@@ -82,7 +88,9 @@ Usage: `Causal.Ladder.Rules` imports this file (since T-tac-ladder-integration),
 `causal_ladder` has these rules: it closes `C.dual.CausallyOpenFuture` from
 `hO : C.CausallyOpen`, or from `hM : C.AbsolutelyMinimal` and
 `hL : C.dual.LocallyCausallyOpenFuture` (the generated rule fires on `C.dual` once `hM` is
-transported). `Causal.Ladder.DualTest` shows what it derives and what it does not.
+transported); and `C.dual.HasChronalNeighbourEverywhere` from `C.HasChronalNeighbourEverywhere`
+or from `C.ChronalNeighbours` (transported, then the generated edge on `C.dual`).
+`Causal.Ladder.DualTest` shows what it derives and what it does not.
 
 ## SCOPE (disclosed)
 
@@ -94,19 +102,21 @@ transported). `Causal.Ladder.DualTest` shows what it derives and what it does no
 * A goal about `C.dual.dual` is closed through the hypotheses of its terms or the builtin
   `assumption`, which sees `C.dual.dual` as `C` up to definitional equality; nothing rewrites
   `C.dual.dual` to `C`.
-* `time_function` and `curves_extend` had their dual lemmas outside what this file could import:
-  `Causality.dual_hasTimeFunction` was in `Causal.HalfLitDual`, a witness module that imports
-  `Causal.Ladder.Rules` (it is in `Causal.CurvesExtend` since T-abs-hoist-dual-cover, and
-  `hasTimeFunction_dual_iff` below cites it), and `Causality.CurvesExtend.dual` was in the then
-  model-importing `Causal.LemmaKBare` (it is in `Causal.CauchyExtension` since
-  T-abs-hoist-lemma-k, so the copy below can cite it). The proof of the second (reverse the
-  curve, extend it, reverse back) is repeated here under the name `curvesExtend_dual_iff`, in this
-  file's namespace; citing `Causality.CurvesExtend.dual` would make it a one-liner too.
+* `time_function` and `curves_extend` had their dual lemmas outside what this file could import
+  when it was written, and both were re-proved here: `Causality.dual_hasTimeFunction` was in
+  `Causal.HalfLitDual`, a witness module that imports `Causal.Ladder.Rules`, and
+  `Causality.CurvesExtend.dual` in the then model-importing `Causal.LemmaKBare`. The first is in
+  `Causal.CurvesExtend` since T-abs-hoist-dual-cover, the second in `Causal.CauchyExtension` since
+  T-abs-hoist-lemma-k, and the iffs below now cite them in one line (`hasTimeFunction_dual_iff`
+  since T-abs-hoist-dual-cover, `curvesExtend_dual_iff` since T-tac-dual-has-chronal-neighbour):
+  no proof of the library is repeated here.
 * No rule is given for the one-sided conjuncts `ChronalFutureNeighbours`, `NoFutureEndpoint` and
   their duals `ChronalPastNeighbours`, `NoPastEndpoint` (not nodes; since DEC-166 (a) the future
   forms are the base, `dual_chronalFutureNeighbours` and the like in `Causal.LadderLocal`), nor for
   `IsCausalIso` (`IsCausalIso.dual`, not a node), nor for the `…On W` forms (`dual_tarentinOn`,
-  `dual_pushUpOn`, …), which are not nodes.
+  `dual_pushUpOn`, …), nor for the point predicate `HasChronalNeighbour p`
+  (`dual_hasChronalNeighbour`, `Causal.LocateExtension`) and `NonemptyChronalCones`
+  (`dual_nonemptyChronalCones`, `Causal.ChronalNeighbourBridge`), which are not nodes.
 * Like the generated rules, these are forward: a hypothesis under a binder is not used, and no
   hypothesis is destructed through a definition (`C.CausallyOpen` is not split into its two
   halves; `causallyOpen_of_future_of_past` only builds it).
@@ -133,27 +143,18 @@ universe u
 
 variable {M : Type u} [TopologicalSpace M] {C C' : Causality M} {W : Opens M}
 
-/-! ## The two dual lemmas (the first cites `Causality.dual_hasTimeFunction`, the second is proved here) -/
+/-! ## The two dual lemmas, from the library's -/
 
 /-- `time_function` of the time reversal: `−T`, `Causality.dual_hasTimeFunction`
 (`Causal.CurvesExtend`, since T-abs-hoist-dual-cover). -/
 theorem hasTimeFunction_dual_iff : C.dual.HasTimeFunction ↔ C.HasTimeFunction :=
   Causality.dual_hasTimeFunction
 
-/-- `curves_extend` of the time reversal: reverse the curve, extend it, reverse back (as
-`Causality.CurvesExtend.dual`, now in `Causal.CauchyExtension`). -/
-theorem curvesExtend_dual_iff : C.dual.CurvesExtend ↔ C.CurvesExtend := by
-  have key : ∀ D : Causality M, D.CurvesExtend → D.dual.CurvesExtend := by
-    intro D h c a b hab hc
-    have hc' : D.CausalCurveOn ⊤ (fun t => c (-t)) (-b) (-a) :=
-      CurveOn.neg (r := D.dual.le) (W := ⊤) (c := c) (a := -b) (b := -a)
-        (by rw [neg_neg, neg_neg]; exact hc)
-    obtain ⟨I, c', hc'i, hsub⟩ := h _ (-b) (-a) (neg_le_neg hab) hc'
-    refine ⟨-I, fun t => c' (-t), hc'i.dual_reverse, ?_⟩
-    rintro _ ⟨t, ht, rfl⟩
-    obtain ⟨u, hu, hcu⟩ := hsub ⟨-t, ⟨neg_le_neg ht.2, neg_le_neg ht.1⟩, rfl⟩
-    exact ⟨-u, by simpa using hu, by simpa using hcu⟩
-  exact ⟨fun h => key C.dual h, key C⟩
+/-- `curves_extend` of the time reversal: `Causality.CurvesExtend.dual` (`Causal.CauchyExtension`,
+since T-abs-hoist-lemma-k: reverse the curve, extend it, reverse back), at `C.dual` for `.1`
+(`C.dual.dual` is `C` by `rfl`, `Causality.dual_dual`) and at `C` for `.2`. -/
+theorem curvesExtend_dual_iff : C.dual.CurvesExtend ↔ C.CurvesExtend :=
+  ⟨CurvesExtend.dual (C := C.dual), CurvesExtend.dual⟩
 
 /-! ## Two-sided nodes: `C.dual.P → C.P` and `C.P → C.dual.P` -/
 
@@ -239,6 +240,13 @@ theorem chronalNeighbours_dual (h : C.ChronalNeighbours) :
     C.dual.ChronalNeighbours :=
   dual_chronalNeighbours.2 h
 
+theorem hasChronalNeighbourEverywhere_of_dual (h : C.dual.HasChronalNeighbourEverywhere) :
+    C.HasChronalNeighbourEverywhere :=
+  dual_hasChronalNeighbourEverywhere.1 h
+theorem hasChronalNeighbourEverywhere_dual (h : C.HasChronalNeighbourEverywhere) :
+    C.dual.HasChronalNeighbourEverywhere :=
+  dual_hasChronalNeighbourEverywhere.2 h
+
 /-! ## One-sided nodes: the two-sided node from the future and the past forms -/
 
 /-- `causally_open` from `causally_open_future` and its past form (`causallyOpen_iff`). -/
@@ -274,6 +282,7 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])]
   causallyCompact_of_dual pushUp_of_dual causallyOpen_of_dual absolutelyMinimal_of_dual
   causallyArcConnected_of_dual causallyPlain_of_dual tarentin_of_dual hasTimeFunction_of_dual
   curvesExtend_of_dual locallyPushUp_of_dual locallyCausallyOpen_of_dual chronalNeighbours_of_dual
+  hasChronalNeighbourEverywhere_of_dual
   causallyOpen_of_future_of_past locallyCausallyOpen_of_future_of_past
   leNested_of_dual curveNestedOn_of_dual
 
@@ -282,6 +291,7 @@ attribute [aesop safe forward (pattern := Causality.dual C) (rule_sets := [Causa
   causallyCompact_dual pushUp_dual causallyOpen_dual absolutelyMinimal_dual
   causallyArcConnected_dual causallyPlain_dual tarentin_dual hasTimeFunction_dual
   curvesExtend_dual locallyPushUp_dual locallyCausallyOpen_dual chronalNeighbours_dual
+  hasChronalNeighbourEverywhere_dual
   leNested_dual curveNestedOn_dual
 
 end Causal.LadderDual
