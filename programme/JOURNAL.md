@@ -498,3 +498,28 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/perforated only (ledger stale), /atlas-team's in-flight lean-yamabe scaffold (it holds T-perf-* in lean-yamabe); gate-tests red through it. Not this loop's
 - commits: 5654963 3653b3d 791b0aa 848b3ac 078b37e
 - next: wave T-abs-inextensible-nested-basics, T-abs-ers-4-75-cauchy-form, T-abs-schw-causal-lemmas (closers)
+
+## 2026-11-23 23:30 · wave of 3 · T-abs-ers-4-75-cauchy-form, T-abs-schw-causal-lemmas, T-abs-inextensible-nested-basics
+- T-abs-ers-4-75-cauchy-form (abstract, layer 1): Causal.Ers475CauchyForm, ERS Thm 4.75 with "GHD" read "S Cauchy" (DEC-162) on a T2, second countable background, beside the originals.
+  - IsCauchyLocalDevelopment (IsLocalDevelopment less acausal and split); ers_theorem_4_75_secondCountable and _eqOn_, at least as strong as the originals there; the 4.63/4.64 siblings with hacausal and hsplit traded for S Cauchy; IsCauchySurfaceOn.of_inter_eq. No causal arc-connectedness asked.
+  - Audit minor (the 4.63 checklist row), applied (ee6ad88); kb/0218 refined, kb 0265–0266.
+- T-abs-schw-causal-lemmas (abstract, layer 1): Causal.SchwCausalLemmas, Sbierski 1507.00601 §2 for any causality: Prop 2.7 (schw_prop_2_7), Def 2.14 (ChronallySeparatedOn, schw_def_2_14_iff), Lemma 2.17's leaving curve (exists_leaving_futureInextensible_of_isOpenEmbedding; Hausdorff is needed in futureInextensible_of_leaving only, witnessed by forkPoint_leaving_futureExtensible) and not_continuousExtension_preimage.
+  - Audit minor (a line reference, two checklist rows), applied (873469e); kb 0267–0270.
+  - The closer's binder notes for schwthm:Exterior and schwthm:Inex are inaccurate (not applied; the binder is the planner's).
+- T-abs-inextensible-nested-basics (abstract, layer 1): Causal.InextensibleNestedBasics. InextensibleNestedOn.refl, .trans, .dual (and dual_inextensibleNestedOn_iff) take no hypothesis, since Inextensible carries CausalCurveIn.
+  - Monotonicity in the open set is refuted in Lean (not_inextensibleNestedOn_mono) on Causal.CoarsePoint. That space is not T1, and every precausality on it is absolutely minimal on every open set (so either form of DEC-167 holds).
+  - Sufficient condition: mono_of_inextensible (through Inextensible.restrict).
+  - A Hausdorff circle refutation is argued, not in Lean. With both causalities causal on a T2, second countable space the question is open.
+  - Audit minor (six wording items: the circle's relations written out, "nonempty W", kb/0142, the REPORT's package and 'why'), applied (a4ce20a); kb 0271–0272.
+- ladder: 25 properties, 27 implications, 83 counterexamples, 85 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open (unchanged; the keeper records the new lemmas in T-lad-record-direct-witnesses)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓ (106), blueprint ✓, hub: all gates green, no new red
+- commits: ee6ad88 873469e a4ce20a 8c2dab5
+- proposals for the planner:
+  - Ers464SecondCountable's trade forms may not need harc either (the 4.75 route did not).
+  - IsCauchySurfaceOn.of_inter_eq has a model-stranded twin to hoist.
+  - T-abs-sc-open-hoist (kb from wave 32).
+  - The isolated line's full form.
+  - The Schwarzschild binder rows can now name SchwCausalLemmas' declarations, and ers-predictability's can name the Ers475 forms.
+  - Monotonicity of inextensible_nested with both causalities causal, as a ladder [[open]] note or a target, and whether to put the T2 circle in Lean.
+- next: wave T-abs-timelike-homotopy, T-loc-e0-has-chronal-neighbour, T-abs-chronal-neighbour-conjoined (closers, lean-causal)
