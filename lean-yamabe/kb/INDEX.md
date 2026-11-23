@@ -89,3 +89,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0081](entries/0081-a-one-dimension-constant-typed-at-n-3-st.md) | pattern | A one-dimension constant typed at N = 3: state at generic N with hN3 : N = 3 |
 | [0082](entries/0082-checking-that-a-scaffold-module-can-grad.md) | pattern | Checking that a scaffold module can graduate: compile a /tmp copy against import Yamabe |
 | [0083](entries/0083-a-supremum-over-conformal-classes-is-not.md) | convention | A supremum over conformal classes is not definable on the model: carry it as a parameter |
+| [0084](entries/0084-restating-a-strict-result-in-a-second-pa.md) | pattern | Restating a strict result in a second paper's notation: one core lemma over the strict assembly |
+| [0085](entries/0085-a-printed-needing-a-non-definable-invari.md) | pattern | A printed « = δ » needing a non-definable invariant's value: carry hYb : σb = 0 |
+| [0086](entries/0086-a-1-o-f-factor-from-an-explicit-o-f-rema.md) | pattern | A « (1 + O(F)) » factor from an explicit O(F²) remainder: corRem and its uniform bound |
+| [0087](entries/0087-pitfall.md) | pitfall | Pitfall: |

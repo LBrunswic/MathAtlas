@@ -1,0 +1,172 @@
+{
+  "package": "T-perf-cor-yamabe",
+  "target": "T-perf-cor-yamabe",
+  "files": [
+    "scaffold/YamabeScaffold/CorYamabe.lean"
+  ],
+  "module": "YamabeScaffold.CorYamabe",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build YamabeScaffold.CorYamabe (only this module compiled, 2.9 s; nothing upstream rebuilt)",
+  "strict_ready": "yes: no sorry, clean under -DwarningAsError=true, imports only the strict Yamabe.LowerBound; a /tmp copy with `import Yamabe` (the whole strict root) in place of its import compiles clean under -DwarningAsError=true, so graduation creates no name clash (kb 0082)",
+  "sorry_count": 0,
+  "axioms": {
+    "every declaration of the file": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "checked": [
+      "Yamabe.MeasuredModel.cor_yamabe",
+      "Yamabe.MeasuredModel.cor_yamabe_signed",
+      "Yamabe.MeasuredModel.cor_yamabe_three",
+      "Yamabe.MeasuredModel.cor_yamabe_starN",
+      "Yamabe.Mfd.Reads.cor_yamabe_three",
+      "Yamabe.Mfd.Reads.cor_yamabe_starN",
+      "Yamabe.MeasuredModel.cor_yamabe_of_eq_main",
+      "Yamabe.MeasuredModel.gapYb",
+      "Yamabe.MeasuredModel.kappa_eq_corRem",
+      "Yamabe.corRem",
+      "Yamabe.eq_main_cor_identity",
+      "Yamabe.corRem_le_uniform",
+      "Yamabe.corRem_isBigO",
+      "Yamabe.corConst_tendsto_half",
+      "Yamabe.toy_cor_yamabe"
+    ]
+  },
+  "labels": [
+    {
+      "label": "cor:yamabe",
+      "paper": "perforated",
+      "tex_lines": [
+        929,
+        939
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.cor_yamabe",
+        "Yamabe.MeasuredModel.cor_yamabe_signed",
+        "Yamabe.MeasuredModel.cor_yamabe_three",
+        "Yamabe.MeasuredModel.cor_yamabe_starN",
+        "Yamabe.Mfd.Reads.cor_yamabe_three",
+        "Yamabe.Mfd.Reads.cor_yamabe_starN",
+        "Yamabe.MeasuredModel.cor_yamabe_of_eq_main",
+        "Yamabe.MeasuredModel.gapYb",
+        "Yamabe.MeasuredModel.kappa_eq_corRem",
+        "Yamabe.corRem",
+        "Yamabe.eq_main_cor_identity",
+        "Yamabe.corRem_le_uniform",
+        "Yamabe.corRem_isBigO",
+        "Yamabe.corConst_tendsto_half",
+        "Yamabe.toy_cor_yamabe"
+      ],
+      "what_is_proved": "Over the measured model (DEC-186), under thm:lower-bound's hypotheses one to one (thm:upper-bound's as the strict upper_bound_of_gluings_of_pos reads them; thm:main's as thm_main or thm_main_signed read them), and with Yb(Σ) = 0 carried as hYb : σb = 0: R_g ≡ c < 0 and Y_[g](Σ) = c Vol^{2/N}; eq:yamabe-upper Y_[g](Σ) ≤ −λ_∂ (l.922); for every value s of Yb(Σ), the companion's δ = s − Y_[g] equals yamabe's gapBdry, δ = s + |R_g| Vol^{2/N} and δ ≥ s + λ_∂ (l.924–925, sharpened); at Yb = 0, |R_g| Vol^{2/N} = δ (l.934); θ/(1+θ) F_g(1) (1 + corRem) is > 0, ≤ λ_∂ and ≤ δ; for round B_j of radii r_j, F_g(1) = 2(N−1)M/Vol^{(N−2)/N} with M = ω_{N−1}Σ r_j^{N−2} and the printed δ ≥ θ/(1+θ)·2(N−1)M/Vol^{(N−2)/N}·(1 + corRem) (l.934–936); corRem = O(F) at fixed θ, Ã, and |corRem| ≤ (3/7)|ÃF/a_N| for |ÃF/a_N| ≤ 1/4 uniformly in θ > 0. Six forms, the same as thm:lower-bound's anchors: cor_yamabe (eq:star for u ≥ 0 + AbsLatticeApprox), cor_yamabe_signed, cor_yamabe_three (N = 3, star3AtilCorr V λ C, OQ-109), cor_yamabe_starN (starNAtil, OQ-118), and on a manifold reading (Mfd.Reads, OQ-93) Mfd.Reads.cor_yamabe_three/_starN at λ₁, C_SP with MeanPoincare, the trace theorem and eq:star discharged. « so the constant is 1/2 » is proved as an implication (corConst_tendsto_half: θ → 1 and ÃF → 0 give θ/(1+θ)(1 + corRem) → 1/2). Nothing is re-proved: the assembly cor_yamabe_of_eq_main calls the strict lower_bound_of_eq_main (thm:lower-bound) and upper_bound_of_gluings_of_pos (eq:yamabe-upper); eq:main comes from the strict eq_main_lattice / eq_main_signed / star3_of_consts / starN_signed_of_consts / Reads forms, exactly as in thm_lower_bound_*. Witness: toy_cor_yamabe applies the principal anchor cor_yamabe on the two-point toy model (R_g ≡ −8, exact lattice property, corrected thm:star3 constant at λ = 4, C = 1, Yb = 0) and gets |R_g|Vol^{2/3} = δ ≥ a positive bound.",
+      "hypotheses": [
+        {
+          "paper": "N ≥ 3; Σ compact, Σ ≠ ∅; n ≥ 1 balls (l.913–914)",
+          "here": "carried",
+          "note": "hN (hN3 : N = 3 in the _three forms); IsFiniteMeasure of vol and bvol; vol ≠ 0; ∃ j, bvol j ≠ 0 (DEC-186). Manifold forms: CompactSpace, ConnectedSpace, μ ≠ 0, ∃ j, σ j ≠ 0"
+        },
+        {
+          "paper": "σ(Σ̄) ≤ 0, constant scalar curvature, minimal boundary, each B_j conformally round (l.917–919)",
+          "here": "read",
+          "note": "as in the strict upper_bound_of_gluings_of_pos: R_g x = c for every x, MinimalBoundary, the lem:gluing family g̃_τ with a GluingInput per τ (β_j = c_N, Y_[ḡ_τ](Σ̄) ≤ 0); roundness enters only through the family, as in the strict library"
+        },
+        {
+          "paper": "« a gluing estimate gives » eq:yamabe-upper (l.919–922)",
+          "here": "derived",
+          "note": "a conclusion, from upper_bound_of_gluings_of_pos on the inputs above; its λ_∂ > 0 (lem:positivity) comes from thm:main (kb 0080), so neither R_g ≤ 0 nor lem:positivity is carried"
+        },
+        {
+          "paper": "thm:main's hypothesis eq:star with a finite Ã (« Theorem thm:main converts », l.926)",
+          "here": "generalized",
+          "note": "every real Ã with eq:star (StarIneq in cor_yamabe, StarIneqSigned in cor_yamabe_signed); instances star3AtilCorr V λ C (OQ-109) and starNAtil q c V λ C (OQ-118); on a manifold reading discharged at λ₁, C_SP with NonConst carried"
+        },
+        {
+          "paper": "Σ connected, the trace theorem, cap* < ∞ (thm:main, lem:capstar)",
+          "here": "carried on the model, discharged on a reading",
+          "note": "MeanPoincare, TraceBound, InteriorBump (model); Reads.meanPoincare, Reads.traceIneq (manifold); InteriorBump carried in every form"
+        },
+        {
+          "paper": "u ↦ |u| (perforated l.458–460)",
+          "here": "carried",
+          "note": "AbsLatticeApprox in cor_yamabe only; the _signed, _three, _starN and manifold forms do not use it"
+        },
+        {
+          "paper": "Yb(Σ), « the relative Yamabe invariant of Akutagawa and Botvinnik, the supremum over conformal classes of the boundary Yamabe energy » (l.915–917)",
+          "here": "read",
+          "note": "a real parameter σb, the value of yamabe's σ^∂(Σ) (OQ-121 (c)); not definable on the model because R, H are free data (kb 0018, kb 0083)"
+        },
+        {
+          "paper": "« on a punctured torus »: « For a punctured flat torus Yb(Σ)=0 » (l.925–926, asserted)",
+          "here": "carried (a reading of an unproved assertion)",
+          "note": "hYb : σb = 0; used only for « |R_g| Vol^{2/N} = δ » and for stating the bounds on δ; the sign-free δ = Yb + |R_g| Vol^{2/N} ≥ Yb + λ_∂ is a conclusion for every value, and the bound on |R_g| Vol^{2/N} needs no Yb; finding 1"
+        },
+        {
+          "paper": "δ := Yb(Σ) − Y_[g](Σ) (l.924)",
+          "here": "exact",
+          "note": "gapYb σb g = σb − Y g; equal to yamabe's gapBdry σb g = σb − EH g (EH = Y proved)"
+        },
+        {
+          "paper": "M, « the total boundary mean curvature relative to the Euclidean reference embedding » (l.931–932)",
+          "here": "read",
+          "note": "OQ-44 as ruled by DEC-186 for yamabe l.467: M = roundMass N r = ω_{N−1}Σ r_j^{N−2} for B_j with the areas of round spheres of radii r_j; the M form is a conjunct conditional on that; finding 2"
+        },
+        {
+          "paper": "1 + O(F_g(1)) (l.936)",
+          "here": "read",
+          "note": "OQ-111 (b) extended from O(F²) to O(F): the explicit 1 + corRem N θ Ã F, corRem = −ÃθF/(a_N(1+θ)²) + mainRem; IsBigO at fixed θ, Ã and the uniform bound (3/7)|ÃF/a_N| are conjuncts"
+        },
+        {
+          "paper": "|R_g| (l.934)",
+          "here": "exact",
+          "note": "|c| with c < 0 derived"
+        },
+        {
+          "paper": "« θ → 1 for Schwarzschild collars » (l.938)",
+          "here": "not formalized",
+          "note": "T-perf-dilute-limit (needs-ruling); finding 3, question"
+        },
+        {
+          "paper": "« so the constant is 1/2 » (l.938)",
+          "here": "proved as an implication",
+          "note": "corConst_tendsto_half: along any filter, θ → 1 and Ã F_g(1) → 0 give θ/(1+θ)(1 + corRem) → 1/2; the premise θ → 1 is not proved"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Unproved premise (perforated l.925–926, used at l.934). « For a punctured flat torus Yb(Σ)=0 » carries the equality « |R_g| Vol^{2/N} = δ ». The companion asserts it with no proof or reference, and the corollary is stated for a punctured torus in every N ≥ 3. Its only counterpart, yamabe's eq:sigma-torus (Yamabegap.tex l.365–369), is stated for T³ only, and it is argued, not proved. Its lower half (« attaching Schwarzschild collars of mass tending to zero, whose energy tends to zero ») exhibits metrics of small energy. That bounds Y_[g] of their classes from above, while Yb ≥ 0 needs classes whose infimum Y_[g] is ≥ −ε; the thm:lower-bound audit made the same observation. For N ≥ 4 neither paper has a source. Lean carries it as hYb : σb = 0 and proves the sign-free form for every value of Yb(Σ): δ = Yb + |R_g| Vol^{2/N} ≥ Yb + λ_∂ ≥ Yb + θ/(1+θ) F_g(1)(1 + corRem). No counterexample is formalized: Yb is a supremum over conformal classes and is not definable on the model. Suggested fix: prove or cite Yb(T^N ∖ ⊔ int D_j) = 0 for every N, or state the corollary for |R_g| Vol^{2/N}, which needs no Yb (finding 4), and add « = δ, since Yb(Σ) = 0 » with its reference.",
+        "M undefined, and the M form unproved for non-round B_j (perforated l.931–932, l.935; yamabe def:reference l.378–381, eq:mass-def l.383–387). The companion never defines M. Its own M is the 2×2 matrix of l.529–543 (and a manifold at l.287–288). The phrase « relative to the Euclidean reference embedding » points to yamabe's eq:mass-def over def:reference, which is stated for N = 3 and B_j of positive Gauss curvature only (Weyl–Nirenberg). For N ≥ 4 no Euclidean reference embedding is defined unless B_j is round. The corollary assumes only conformally round B_j (l.918–919). With H_g = 0, M_j = ∫_{∂C_j} H, and Minkowski's inequality ∫H ≥ √(4π|∂C_j|), with equality only for a round sphere, gives c_3|B_j|^{1/2} ≤ 4M_j. Hence F_g(1) ≤ 4M/Vol^{1/3} = 2(N−1)M/Vol^{(N−2)/N} at N = 3, strictly when some B_j is not round. So the printed M bound is stronger than what the argument gives, and it does not follow from it. This is argued, not formalized, and it is yamabe's finding 2 on thm:lower-bound l.522–524 carried to the companion. Lean states the M form as a conjunct conditional on round areas (M = roundMass N r, OQ-44/DEC-186). Suggested fix: « for a Schwarzschild-like punctured g (each B_j round of radius r_j), M = ω_{N−1}Σ_j r_j^{N−2} », or state the bound with F_g(1).",
+        "Minor, the last clause (perforated l.938 against prop:theta-examples l.225–235). « θ → 1 for Schwarzschild collars » names no limit and no dimension. prop:theta-examples (ii) (l.232–233) gives θ → 1 only in the dilute limit (l.227–228), only for N = 3, and for the scalar-flat isotropic collar (1 + m/2s)⁴δ. The g of cor:yamabe has constant negative scalar curvature (R_g < 0 is a conclusion here), so it is not that collar metric, and θ is not conformally invariant: under g ↦ u^{4/(N−2)}g the Dirichlet energy becomes ∫|∇v|²u² dV. So the clause needs the limit named and a statement relating the θ of the constant-scalar-curvature representative to the collar's. This is argued and waits on T-perf-dilute-limit. The implication « θ → 1 ⇒ the constant is 1/2 » is proved (corConst_tendsto_half). For the full factor θ/(1+θ)(1 + O(F_g(1))) it also needs Ã F_g(1) → 0.",
+        "Remark, the corollary's inequality is not specific to tori (l.924–936). |R_g| Vol^{2/N} = −Y_[g](Σ) ≥ λ_∂ ≥ θ/(1+θ) F_g(1)(1 + O(F_g(1))) holds under the lead-in's hypotheses for every Σ̄ with σ(Σ̄) ≤ 0 (conjuncts of every anchor: Y = cVol^{2/N}, Y ≤ −λ_∂, θ/(1+θ)F(1+corRem) ≤ λ_∂). Only the identification with δ uses Yb(Σ) = 0. « δ ≥ λ_∂ whenever Yb(Σ) ≥ 0 » (l.924–925) holds in the sharper form δ = Yb + |R_g| Vol^{2/N} ≥ Yb + λ_∂, for every value of Yb.",
+        "Remark, l.936. The O(F_g(1)) is uniform in θ: |corRem| ≤ (3/7)|ÃF_g(1)/a_N| whenever |ÃF_g(1)/a_N| ≤ 1/4, for every θ > 0 (Yamabe.corRem_le_uniform). This extends thm:main's uniform O(F²) (Yamabe.mainRem_le_uniform) through θ/(1+θ)² ≤ 1/4."
+      ],
+      "questions": [
+        "« Yb(Σ) … the supremum over conformal classes of the boundary Yamabe energy » (l.915–917; OQ-121 (c)). It could be yamabe's σ^∂(Σ) = sup Y_[g](Σ), the volume-normalized minimal-boundary Yamabe constant. It could also be a boundary-normalized (Escobar-type) energy, which would change δ. Reading taken: σ^∂(Σ), a real parameter σb. The companion's δ (with Y_[g]) equals yamabe's (with EH), proved (gapYb = gapBdry).",
+        "Yb(Σ) = 0 on a punctured torus (finding 1; with OQ-121 (a)): is it a hypothesis of cor:yamabe, or a lemma to prove (eq:sigma-torus for every N)? Reading taken: a carried hypothesis hYb : σb = 0, with every other conclusion proved for every value of Yb(Σ).",
+        "M (finding 2; OQ-44 as ruled by DEC-186 for yamabe): is cor:yamabe meant for Schwarzschild-like punctured g only (round B_j)? Reading taken: M = roundMass N r, with the M form conditional on round areas; the F_g(1) form is unconditional.",
+        "« 1 + O(F_g(1)) » (l.936; OQ-111 (b) extended). Reading taken: the fixed explicit function 1 + corRem N θ Ã F_g(1), O(F) at fixed θ, Ã, and bounded by (3/7)|ÃF/a_N| uniformly in θ. An existential remainder would be vacuous for one (Σ, g).",
+        "Which thm:main form is of record, and which Ã (OQ-111 (a), OQ-109, OQ-118)? Reading taken: all six forms of thm:lower-bound's anchors are stated; a ruling picks one and changes no Lean.",
+        "« θ → 1 for Schwarzschild collars » (finding 3; T-perf-dilute-limit). Whose θ (the collar metric's or the constant-scalar-curvature g's), which limit, and which N? Reading taken: not formalized; only the implication to « the constant is 1/2 » is proved.",
+        "The manifold forms (Mfd.Reads.cor_yamabe_three/_starN) rest on OQ-93's readings (Mathlib manifold with boundary, IsLocallyLebesgue volume, the C¹ reading of W^{1,2}), as thm:lower-bound's do."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.corRem",
+    "Yamabe.eq_main_cor_identity",
+    "Yamabe.corRem_le_uniform",
+    "Yamabe.corRem_isBigO",
+    "Yamabe.corConst_tendsto_half",
+    "Yamabe.MeasuredModel.gapYb",
+    "Yamabe.MeasuredModel.kappa_eq_corRem",
+    "Yamabe.MeasuredModel.cor_yamabe_of_eq_main"
+  ],
+  "kb_proposals": [
+    "pattern: to restate a strict result in a second paper's notation, write one core lemma that takes the strict assembly's input (here eq:main) and calls the strict assembly (lower_bound_of_eq_main) plus the extra strict facts the new notation needs (upper_bound_of_gluings_of_pos for λ_∂). Then write the anchors one to one with the strict anchors, generated from one conclusion template so that the forms agree verbatim (Yamabe.MeasuredModel.cor_yamabe_of_eq_main, cor_yamabe*).",
+    "pattern: a printed « = δ » that needs the value of a non-definable invariant (« Yb(Σ) = 0 on a punctured torus »): carry `{σb : ℝ} (hYb : σb = 0)` rather than a literal 0, and add the sign-free identity δ = σb + … for every value as a conjunct. The reading stays visible and nothing else depends on it (Yamabe.MeasuredModel.cor_yamabe).",
+    "pattern: a « (1 + O(F)) » factor built from an explicit O(F²) remainder: define corRem := (first-order term) + mainRem. Get the uniform bound |corRem| ≤ (3/7)|ÃF/a_N| from mainRem_le_uniform and θ/(1+θ)² ≤ 1/4, then get IsBigO and the limit θ/(1+θ)(1 + corRem) → 1/2 from that bound (Yamabe.corRem_le_uniform, corRem_isBigO, corConst_tendsto_half).",
+    "pitfall: `hq.mul (tendsto_const_nhds.add hrem)` fails to elaborate (the constant of tendsto_const_nhds is an unassigned metavariable). State `have h1 : Tendsto (fun i => 1 + f i) l (𝓝 (1 + 0)) := tendsto_const_nhds.add hrem` first, then `hq.mul h1` and `convert … using 2; norm_num`."
+  ],
+  "notes": "One new file, scaffold/YamabeScaffold/CorYamabe.lean (about 700 lines). It is strict-ready: no sorry, standard axioms only, clean under warningAsError, and it imports only the strict Yamabe.LowerBound. It is also clean compiled against the full `import Yamabe`. It can graduate as Yamabe/Perforated/CorYamabe.lean (module Yamabe.Perforated.CorYamabe) by a file move; Yamabe.lean would need `import Yamabe.Perforated.CorYamabe` added by the master. The row is partial and unmarked (the module docstring writes `cor:yamabe` — `perforated.tex:929` without the mark), for four reasons. Yb(Σ) = 0 is carried (finding 1). The M form is conditional on round B_j (finding 2). « θ → 1 for Schwarzschild collars » waits on T-perf-dilute-limit (finding 3). The model carries thm:main's hypotheses; the manifold forms discharge all but InteriorBump and NonConst under OQ-93. The readings of OQ-109, OQ-111, OQ-118 and OQ-121 (c) are open. Suggested ledger decls for cor:yamabe, principal first: Yamabe.MeasuredModel.cor_yamabe, Yamabe.MeasuredModel.cor_yamabe_signed, Yamabe.MeasuredModel.cor_yamabe_three, Yamabe.MeasuredModel.cor_yamabe_starN, Yamabe.Mfd.Reads.cor_yamabe_three, Yamabe.Mfd.Reads.cor_yamabe_starN, Yamabe.corConst_tendsto_half. Their statement vocabulary is Yamabe.MeasuredModel.gapYb and Yamabe.corRem. No existing file was edited. The only build run was `lake build YamabeScaffold.CorYamabe`, which compiled this module alone; a `lake build Causal` of another loop was running at the same time in lean-causal, a separate package and .lake. Typechecks went through `lake env lean` and /tmp copies (/tmp/coryam), which write nothing under the package."
+}
