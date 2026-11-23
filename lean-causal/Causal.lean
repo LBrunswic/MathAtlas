@@ -257,6 +257,9 @@ import Causal.MaximalZorn
 import Causal.OneWayMembraneChronal
 import Causal.GHWithoutTarentin
 import Causal.SCOpenWithoutTarentin
+import Causal.CurvesFreeCauchy.CompactCauchy
+import Causal.CurvesFreeCauchy.CausalConvex
+import Causal.CurvesFreeCauchy.Basic
 import Causal.OmegaOneConstant
 import Causal.RationalJumpPlane
 import Causal.NotchedPlane

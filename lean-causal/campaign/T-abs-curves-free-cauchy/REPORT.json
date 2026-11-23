@@ -1,0 +1,796 @@
+{
+ "package": "lean-causal",
+ "target": "T-abs-curves-free-cauchy",
+ "files": [
+  "scaffold/CausalScaffold/CurvesFreeCauchy/CompactCauchy.lean",
+  "scaffold/CausalScaffold/CurvesFreeCauchy/CausalConvex.lean",
+  "scaffold/CausalScaffold/CurvesFreeCauchy/Basic.lean"
+ ],
+ "modules": [
+  "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+  "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+  "CausalScaffold.CurvesFreeCauchy.Basic"
+ ],
+ "builds": true,
+ "build_command": "cd lean-causal && taskset -c 0-11 lake build CausalScaffold.CurvesFreeCauchy.CompactCauchy CausalScaffold.CurvesFreeCauchy.CausalConvex CausalScaffold.CurvesFreeCauchy.Basic  (preceded by the same with --no-build: only these three were out of date; built 3141/3141 jobs, no warning)",
+ "sorry_count": 0,
+ "axioms": "#print axioms of all 27 new declarations: [propext, Classical.choice, Quot.sound] (campaign/T-abs-curves-free-cauchy/Probe_Binders.lean)",
+ "layer1": "every direct import is ETT-layer by tools/ladder.py model_path (None): Causal.CompactCauchy, Causal.CurvesExtendSecondCountable, Causal.ErsSecondCountable, Causal.CExtConnexeSecondCountable, Causal.CausalIsoInvariance, Causal.NestedCausalities, Causal.ErsUniqueness. No metric notion in a statement; hypotheses are the originals' (ladder properties, named localisation data) less the curve binder, plus [SecondCountableTopology _] / [T1Space _].",
+ "labels": [
+  {
+   "label": "bthm:cauclo",
+   "paper": "barbot",
+   "tex_lines": [
+    352,
+    360
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_secondCountable",
+    "Causal.Causality.eq_of_le_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.mem_Jplus_or_Jminus_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.exists_box_of_twoSided_secondCountable",
+    "Causal.Causality.exists_graph_secondCountable",
+    "Causal.Causality.exists_sign_nhds_secondCountable",
+    "Causal.Causality.isAcausal_of_graph_secondCountable",
+    "Causal.timelikeLine_isCauchySurface_zero_of_lemmaK_secondCountable",
+    "Causal.timelikeLine_isCauchySurface_one_of_lemmaK_secondCountable"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(Lemma K's named model fact CurvesExtend, kb/0012; not in Barbot)",
+     "here": "dropped",
+     "note": "discharged by Causality.curvesExtend_of_t1_secondCountable; [SecondCountableTopology M] added beside the original's [T2Space M] (ETT.tex:255)"
+    },
+    {
+     "paper": "(Lemma K's named splitting psi and two-sidedness, DEC-44)",
+     "here": "carried",
+     "note": "unchanged from the original isCauchySurface_of_isLocallyCauchyTwoSided"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "The row is closed in the ledger through Causal.Flat.Classification (DEC-72); these are additional curve-free forms of its Lemma K decl Causality.isCauchySurface_of_isLocallyCauchyTwoSided and its six step lemmas, not an anchor. 'partial' describes what this target's files prove of the row, not a change to the row."
+  },
+  {
+   "label": "lem:C_ext_connexe",
+   "paper": "ett",
+   "tex_lines": [
+    1932,
+    1937
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.IsCauchyEmbedding.c_ext_connexe_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.exists_inextensible_inf_meeting_of_subsingleton_secondCountable",
+    "Causal.Causality.exists_inextensible_inf_meeting_secondCountable",
+    "Causal.Causality.mem_connectedComponentIn_inf_of_subsingleton_secondCountable",
+    "Causal.Causality.mem_connectedComponentIn_inf_secondCountable",
+    "Causal.Causality.isPreconnected_inf_of_subset_secondCountable",
+    "Causal.Causality.isPreconnected_inf_secondCountable",
+    "Causal.Causality.inter_subsingleton_of_t1_secondCountable",
+    "Causal.Causality.isCauchySurfaceOn_iff_of_t1_secondCountable",
+    "Causal.timelikeLine_isPreconnected_inf_secondCountable",
+    "Causal.timelikeLine_c_ext_connexe_of_isCauchySurfaceOn_secondCountable",
+    "Causal.timelikeLine_gateArc_c_ext_connexe_of_isCauchySurfaceOn_secondCountable"
+   ],
+   "hypotheses": [
+    {
+     "paper": "every point of A ∩ B lies on an inextensible causal curve (ETT.tex:1941-1942)",
+     "here": "dropped",
+     "note": "the original c_ext_connexe_of_isCauchySurfaceOn carried it inline as hthrough (InextensibleThrough (A ⊓ B) written out); discharged by Causality.inextensibleThrough_of_t1_secondCountable D (A ⊓ B), [T1Space N] [SecondCountableTopology N] added (the original has no separation axiom)"
+    },
+    {
+     "paper": "phi(Σ) is a Cauchy surface of A ∩ B (ETT.tex:1940-1941, asserted without argument)",
+     "here": "carried",
+     "note": "hcauchy, named as in the original"
+    },
+    {
+     "paper": "M connected via theo:geroch_sing's splitting",
+     "here": "carried",
+     "note": "the splitting psi, named as in the original"
+    },
+    {
+     "paper": "singular flat spacetimes, M≥0-morphisms",
+     "here": "weakened",
+     "note": "any causality, IsEMorphism: the originals' abstract reading (Causal/SubExtension.lean:42), unchanged"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "Curve-free forms of the row's decl c_ext_connexe_of_isCauchySurfaceOn and of the topological steps of Causal.CBG.CausalConvex. The row's principal with no named hypothesis is the pre-existing IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable (Causal.CExtConnexeSecondCountable); nothing here changes the row's anchor question (DEC-190, OQ-86)."
+  }
+ ],
+ "forms_table": [
+  {
+   "original": "Causal.Causality.eq_of_le_of_isCauchySurfaceOn",
+   "new_form": "Causal.Causality.eq_of_le_of_isCauchySurfaceOn_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.mem_Jplus_or_Jminus_of_isCauchySurfaceOn",
+   "new_form": "Causal.Causality.mem_Jplus_or_Jminus_of_isCauchySurfaceOn_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.exists_box_of_twoSided",
+   "new_form": "Causal.Causality.exists_box_of_twoSided_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.exists_graph",
+   "new_form": "Causal.Causality.exists_graph_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.exists_sign_nhds",
+   "new_form": "Causal.Causality.exists_sign_nhds_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isAcausal_of_graph",
+   "new_form": "Causal.Causality.isAcausal_of_graph_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided",
+   "new_form": "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CompactCauchy",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.inter_subsingleton_of_curvesExtend",
+   "new_form": "Causal.Causality.inter_subsingleton_of_t1_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space M]",
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isCauchySurfaceOn_iff_of_curvesExtend",
+   "new_form": "Causal.Causality.isCauchySurfaceOn_iff_of_t1_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space M]",
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.exists_inextensible_inf_meeting_of_subsingleton",
+   "new_form": "Causal.Causality.exists_inextensible_inf_meeting_of_subsingleton_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.exists_inextensible_inf_meeting",
+   "new_form": "Causal.Causality.exists_inextensible_inf_meeting_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.mem_connectedComponentIn_inf_of_subsingleton",
+   "new_form": "Causal.Causality.mem_connectedComponentIn_inf_of_subsingleton_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.mem_connectedComponentIn_inf",
+   "new_form": "Causal.Causality.mem_connectedComponentIn_inf_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isPreconnected_inf_of_subset",
+   "new_form": "Causal.Causality.isPreconnected_inf_of_subset_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.isPreconnected_inf",
+   "new_form": "Causal.Causality.isPreconnected_inf_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.c_ext_connexe_of_isCauchySurfaceOn",
+   "new_form": "Causal.IsCauchyEmbedding.c_ext_connexe_of_isCauchySurfaceOn_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.CausalConvex",
+   "binders_removed": [
+    "(hthrough : ∀ x ∈ A ⊓ B, ∃ I c, D.Inextensible (A ⊓ B) I c ∧ x ∈ c '' I)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space N]",
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.image_Icc_subset_of_curvesExtend",
+   "new_form": "Causal.Causality.image_Icc_subset_of_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.Basic",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.CurvesExtend.dual",
+   "new_form": "Causal.Causality.CurvesExtend.dual_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.Basic",
+   "binders_removed": [
+    "(h : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space M]",
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.IsCausalIso.curvesExtend",
+   "new_form": "Causal.IsCausalIso.curvesExtend_secondCountable",
+   "new_form_module": "CausalScaffold.CurvesFreeCauchy.Basic",
+   "binders_removed": [
+    "(hC : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space M]",
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": true
+  },
+  {
+   "original": "Causal.Causality.IsCauchySurfaceOn.eq_of_le",
+   "new_form": "Causal.Causality.IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CurvesExtendSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space M]",
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.IsCauchySurface.isAcausal",
+   "new_form": "Causal.Causality.IsCauchySurface.isAcausal_of_t1_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CurvesExtendSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space M]",
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.mem_Jplus_union_Jminus_of_isCauchySurface",
+   "new_form": "Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CauchySeparation",
+   "binders_removed": [
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : T1Space M]",
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.Jplus_mem_nhds_of_isCauchySurface",
+   "new_form": "Causal.Causality.Jplus_mem_nhds_of_isCauchySurface_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "[_inst : FirstCountableTopology M]",
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.Jminus_mem_nhds_of_isCauchySurface",
+   "new_form": "Causal.Causality.Jminus_mem_nhds_of_isCauchySurface_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "[_inst : FirstCountableTopology M]",
+    "(hext : C.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.image_diamant",
+   "new_form": "Causal.IsCauchyEmbedding.image_diamant_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hcover : ∀ (x : M), x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S)",
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.diamond_subset_range",
+   "new_form": "Causal.IsCauchyEmbedding.diamond_subset_range_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hcover : ∀ (x : M), x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S)",
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.passe_pgcd",
+   "new_form": "Causal.IsCauchyEmbedding.passe_pgcd_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "[_inst : FirstCountableTopology N]",
+    "(hcover : ∀ (x : M), x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S)",
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.passe_pgcd_explicit",
+   "new_form": "Causal.IsCauchyEmbedding.passe_pgcd_explicit_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "[_inst : FirstCountableTopology N]",
+    "(hcover : ∀ (x : M), x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S)",
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.eq_of_mem_image_inter",
+   "new_form": "Causal.IsCauchyEmbedding.eq_of_mem_image_inter_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDac : D.CausallyArcConnected)",
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.exists_inextensible_inf",
+   "new_form": "Causal.IsCauchyEmbedding.exists_inextensible_inf_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.isPreconnected_inf",
+   "new_form": "Causal.IsCauchyEmbedding.isPreconnected_inf_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.c_ext_connexe_of_isConnected",
+   "new_form": "Causal.IsCauchyEmbedding.c_ext_connexe_of_isConnected_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.c_ext_connexe'",
+   "new_form": "Causal.IsCauchyEmbedding.c_ext_connexe'_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.isPreconnected_inf_of_preconnectedSpace",
+   "new_form": "Causal.IsCauchyEmbedding.isPreconnected_inf_of_preconnectedSpace_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace",
+   "new_form": "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_iff",
+   "new_form": "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_iff_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyEmbedding.inf_causallyConvexIn",
+   "new_form": "Causal.IsCauchyEmbedding.inf_causallyConvexIn_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hDext : D.CurvesExtend)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology N]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn",
+   "new_form": "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.IsCauchyInclusion.causallyConvexIn",
+   "new_form": "Causal.IsCauchyInclusion.causallyConvexIn_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.isCauchySurfaceOn_iSup",
+   "new_form": "Causal.Causality.isCauchySurfaceOn_iSup_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.isCauchyInclusion_iSup_of_common",
+   "new_form": "Causal.isCauchyInclusion_iSup_of_common_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.isCauchyInclusion_iSup",
+   "new_form": "Causal.isCauchyInclusion_iSup_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.isCauchyInclusion_sSup",
+   "new_form": "Causal.isCauchyInclusion_sSup_of_secondCountable",
+   "new_form_module": "(pre-existing) Causal.CExtConnexeSecondCountable",
+   "binders_removed": [
+    "(hext : C.CurvesExtendOn B)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.ers_lemma_4_72",
+   "new_form": "Causal.Causality.ers_lemma_4_72_secondCountable",
+   "new_form_module": "(pre-existing) Causal.ErsSecondCountable",
+   "binders_removed": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, C₂.Inextensible U₂ I γ ∧ x ∈ γ '' I)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  },
+  {
+   "original": "Causal.Causality.ers_lemma_4_72_isConnected",
+   "new_form": "Causal.Causality.ers_lemma_4_72_isConnected_secondCountable",
+   "new_form_module": "(pre-existing) Causal.ErsSecondCountable",
+   "binders_removed": [
+    "(hmext : Cm.CurvesExtend)",
+    "(hthrough : ∀ x ∈ U₁ ⊓ U₂, ∃ I γ, C₂.Inextensible U₂ I γ ∧ x ∈ γ '' I)"
+   ],
+   "binders_added": [
+    "[_inst : SecondCountableTopology M]"
+   ],
+   "conclusion_identical": true,
+   "by_this_target": false
+  }
+ ],
+ "coverage": {
+  "rescan": "Elaborated-binder scan (forallTelescope; a binder whose type mentions Causality.CurvesExtend, CurvesExtendOn, InextensibleThrough or SplitBy, or an inline 'every point on an inextensible curve' or hcover binder) of the eight source modules on 2026-11-23. Counts: Causal.CompactCauchy 7, Causal.CauchyDiamond 4 (each with hcover too), Causal.CorrespondingPoints 3, Causal.CausalIsoInvariance 1, Causal.CauchyExtension 2 (IsCauchySurface.isAcausal and CurvesExtend.dual), Causal.SubExtension 1 named (eq_of_mem_image_inter) + 1 inline through-hypothesis (c_ext_connexe_of_isCauchySurfaceOn's hthrough), Causal.CBG.CausalConvex 23, Causal.NestedCausalities 3 CurvesExtend (ers_lemma_4_72, ers_lemma_4_72_isConnected, image_Icc_subset_of_curvesExtend) + inline hthrough in ers_lemma_4_70(_isConnected) and hsplit in ers_theorem_4_82. The planner's counts stand; the hoists moved nothing out of these eight modules.",
+  "covered_here": [
+   "Causal.CompactCauchy: all 7",
+   "Causal.CBG.CausalConvex: the 8 not in Causal.CExtConnexeSecondCountable or Causal.CurvesExtendSecondCountable",
+   "Causal.NestedCausalities: image_Icc_subset_of_curvesExtend",
+   "Causal.CausalIsoInvariance: IsCausalIso.curvesExtend",
+   "Causal.CauchyExtension: CurvesExtend.dual",
+   "Causal.SubExtension: c_ext_connexe_of_isCauchySurfaceOn (inline hthrough)"
+  ],
+  "already_covered_elsewhere": [
+   "Causal.CauchyDiamond's 4 (image_diamant, diamond_subset_range, passe_pgcd, passe_pgcd_explicit): Causal.CExtConnexeSecondCountable, *_of_secondCountable, which drop hDext and hcover (and FirstCountableTopology N where present)",
+   "Causal.CorrespondingPoints' 3: Jplus_mem_nhds_of_isCauchySurface, Jminus_mem_nhds_of_isCauchySurface -> *_of_secondCountable (Causal.CExtConnexeSecondCountable; FirstCountableTopology replaced by SecondCountableTopology); mem_Jplus_union_Jminus_of_isCauchySurface -> Causality.IsCauchySurface.cover_of_t1_secondCountable (Causal.CauchySeparation), exactly the original less hext plus [T1Space M] [SecondCountableTopology M]",
+   "Causal.CauchyExtension: IsCauchySurface.isAcausal -> IsCauchySurface.isAcausal_of_t1_secondCountable (Causal.CurvesExtendSecondCountable)",
+   "Causal.SubExtension: eq_of_mem_image_inter -> eq_of_mem_image_inter_of_secondCountable (Causal.CExtConnexeSecondCountable), which also drops hDac: stronger than the original less hDext, so no exact form is added",
+   "Causal.CBG.CausalConvex: 14 in Causal.CExtConnexeSecondCountable; IsCauchySurfaceOn.eq_of_le -> IsCauchySurfaceOn.eq_of_le_of_t1_secondCountable (Causal.CurvesExtendSecondCountable)",
+   "Causal.NestedCausalities: ers_lemma_4_72(_isConnected) -> *_secondCountable (Causal.ErsSecondCountable); ers_lemma_4_70(_isConnected)'s inline hthrough -> *_secondCountable (Causal.Ers464SecondCountable)"
+  ],
+  "left": [
+   {
+    "decl": "Causal.isConnected_of_curves (Causal.SubExtension)",
+    "why": "its hcurve asks curves meeting T, the lemma's content; not a curve-extension hypothesis, not dischargeable by the curves theorem alone"
+   },
+   {
+    "decl": "Causal.IsCausalIso.curvesExtend_iff (Causal.CausalIsoInvariance)",
+    "why": "no curve binder (an iff between the two CurvesExtend)"
+   },
+   {
+    "decl": "Causal.Causality.ers_theorem_4_82 (Causal.NestedCausalities), hsplit",
+    "why": "kb/0218: S is not Cauchy in W for the same causality there; traded in Causal.Ers464SecondCountable (ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable)"
+   },
+   {
+    "decl": "Causal.Causality.causallyConnectedCurves_of_curvesExtend (Causal.ChainsCurves)",
+    "why": "outside the target's modules and model-layer (Causal.ChainsCurves imports Causal.Minkowski, model_path), so a layer-1 module cannot import it; its hext is CurvesExtend's body written out, missed by a (h… : ….CurvesExtend) grep. A curve-free form needs a hoist first"
+   }
+  ]
+ },
+ "extra_decls": [
+  "Causal.Causality.image_Icc_subset_of_secondCountable",
+  "Causal.Causality.CurvesExtend.dual_secondCountable",
+  "Causal.IsCausalIso.curvesExtend_secondCountable",
+  "Causal.Causality.inter_subsingleton_of_t1_secondCountable",
+  "Causal.Causality.isCauchySurfaceOn_iff_of_t1_secondCountable",
+  "Causal.timelikeLine_image_Icc_subset_secondCountable",
+  "Causal.timelikeLine_dual_curvesExtend_secondCountable",
+  "Causal.timelikeLine_transport_curvesExtend_secondCountable"
+ ],
+ "new_decls": [
+  "Causal.Causality.eq_of_le_of_isCauchySurfaceOn_secondCountable",
+  "Causal.Causality.mem_Jplus_or_Jminus_of_isCauchySurfaceOn_secondCountable",
+  "Causal.Causality.exists_box_of_twoSided_secondCountable",
+  "Causal.Causality.exists_graph_secondCountable",
+  "Causal.Causality.exists_sign_nhds_secondCountable",
+  "Causal.Causality.isAcausal_of_graph_secondCountable",
+  "Causal.Causality.isCauchySurface_of_isLocallyCauchyTwoSided_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_zero_of_lemmaK_secondCountable",
+  "Causal.timelikeLine_isCauchySurface_one_of_lemmaK_secondCountable",
+  "Causal.Causality.inter_subsingleton_of_t1_secondCountable",
+  "Causal.Causality.isCauchySurfaceOn_iff_of_t1_secondCountable",
+  "Causal.Causality.exists_inextensible_inf_meeting_of_subsingleton_secondCountable",
+  "Causal.Causality.exists_inextensible_inf_meeting_secondCountable",
+  "Causal.Causality.mem_connectedComponentIn_inf_of_subsingleton_secondCountable",
+  "Causal.Causality.mem_connectedComponentIn_inf_secondCountable",
+  "Causal.Causality.isPreconnected_inf_of_subset_secondCountable",
+  "Causal.Causality.isPreconnected_inf_secondCountable",
+  "Causal.IsCauchyEmbedding.c_ext_connexe_of_isCauchySurfaceOn_secondCountable",
+  "Causal.timelikeLine_isPreconnected_inf_secondCountable",
+  "Causal.timelikeLine_c_ext_connexe_of_isCauchySurfaceOn_secondCountable",
+  "Causal.timelikeLine_gateArc_c_ext_connexe_of_isCauchySurfaceOn_secondCountable",
+  "Causal.Causality.image_Icc_subset_of_secondCountable",
+  "Causal.Causality.CurvesExtend.dual_secondCountable",
+  "Causal.IsCausalIso.curvesExtend_secondCountable",
+  "Causal.timelikeLine_image_Icc_subset_secondCountable",
+  "Causal.timelikeLine_dual_curvesExtend_secondCountable",
+  "Causal.timelikeLine_transport_curvesExtend_secondCountable"
+ ],
+ "kb_proposals": [
+  "A (h… : ….CurvesExtend(On) …) grep misses curve hypotheses written out: SubExtension's c_ext_connexe_of_isCauchySurfaceOn (hthrough = InextensibleThrough (A ⊓ B) inline) and ChainsCurves' causallyConnectedCurves_of_curvesExtend (hext = CurvesExtend's body). Scan elaborated binder types instead: a forallTelescope command over a module list, flagging binders whose type mentions Causality.CurvesExtend/CurvesExtendOn/InextensibleThrough/SplitBy or Inextensible under an ∃ (the 104 ETT-layer modules took 20 s; campaign/T-abs-curves-free-cauchy has the pair check).",
+  "Before planning a curve-free batch, diff the target's originals against the existing *_secondCountable / *_of_secondCountable forms: of this target's 45 binders, 26 already had a form (Causal.CExtConnexeSecondCountable, Causal.CurvesExtendSecondCountable, Causal.CauchySeparation, Causal.ErsSecondCountable, Causal.Ers464SecondCountable), all verified exact or stronger by kb/0227's method.",
+  "After this target the ETT layer's named CurvesExtend(On) binders without a curve-free form are only those of Causal.LemmaK, LemmaKBare, LemmaKLocal, LemmaKReduction, LemmaKSC (T-abs-curves-free-lemma-k), Causal.ErsUnions' 7 and ErsMughd's 3 (check their forms in Causal.Ers464SecondCountable / ErsSecondCountable) and Causal.Ladder.Dual's 2 (tactician); Causal.HalfLitDual's hit is a matcher (match_1_1), not a theorem."
+ ],
+ "notes": "Three new modules under scaffold/CausalScaffold/CurvesFreeCauchy/, sorry-free, no warning, each importing only ETT-layer Causal modules; they are not yet imported by the scaffold root (the master adds them, kb/0025). Each new form is BESIDE its original (OQ-98 open), named original+'_secondCountable', or with the original's '_of_curvesExtend' replaced by '_of_t1_secondCountable' (CausalConvex, T1 added) / '_of_secondCountable' (Basic, the original already T2); each pair checked by elaborated binder lists (campaign/T-abs-curves-free-cauchy/Probe_Binders.lean + binders_diff.py, output binders_diff.txt): exactly the curve binder removed and only [SecondCountableTopology _] (and [T1Space _] where the original has no separation axiom) added, conclusions identical, for all 19 new pairs; the 26 pre-existing pairs are re-verified there too. FOR THE KEEPER (programme/ladder.toml): the [[consequence]] at curves_extend 'M = J⁺(Σ) ∪ J⁻(Σ) for every Cauchy surface Σ' (witness Causality.mem_Jplus_union_Jminus_of_isCauchySurface) can take Causality.IsCauchySurface.cover_of_t1_secondCountable, exactly the original less hext, standing T1, second_countable; 'every Cauchy surface is acausal' can take Causality.IsCauchySurface.isAcausal_of_t1_secondCountable (under causally_arc_connected); neither is new here but both are verified exact. The causal-connectedness consequence's witness (ChainsCurves, model-layer) has no curve-free form (see left). Lemma K's consequence witness is in the Lemma K family (T-abs-curves-free-lemma-k); this module's isCauchySurface_of_isLocallyCauchyTwoSided_secondCountable is the splitting form, a different statement. FOR THE BINDER TARGETS: no binder.toml (ers-predictability, sbierski-mghd) lists any of the 19 originals; ERS19 Lemma 4.72's step image_Icc_subset_of_curvesExtend now has image_Icc_subset_of_secondCountable, though ers_lemma_4_72_secondCountable already needed no step form. No ledger row lists image_Icc_subset_of_curvesExtend, CurvesExtend.dual or IsCausalIso.curvesExtend, so Basic.lean serves no label. Rows with pre-existing curve-free forms of their decls (not by this target): lem:image_diamant, lem:passe_pgcd, lem:Sigma_separe (ett), ersprop:PropLocUniqueness (ers-predictability). No paper finding and no question: the target changes no reading."
+}

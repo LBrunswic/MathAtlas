@@ -264,3 +264,5 @@ rediscover. One fact per entry.
 | [0256](entries/0256-cited-twins.md) | convention | Twins under different names, kept because both are cited |
 | [0257](entries/0257-sc-open-without-tarentin.md) | pattern | Strong causality gives its open form under causal openness, without tarentin |
 | [0258](entries/0258-isolated-line-strongly-causal.md) | pattern | The isolated line is strongly causal: a cheap non-tarentin witness |
+| [0259](entries/0259-curve-binder-scan.md) | pitfall | A grep for CurvesExtend binders misses inline curve hypotheses |
+| [0260](entries/0260-curve-free-forms-diff-first.md) | pattern | Before planning a curve-free batch, diff the originals against existing forms |

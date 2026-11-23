@@ -1,0 +1,58 @@
+{
+ "target": "T-abs-curves-free-cauchy",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bthm:cauclo",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked; REPORT status 'partial'. The row is closed in papers/barbot/ledger (bucket A, through Causal.Flat.Classification). The 9 decls here are the curve-free forms of its Lemma K decl Causality.isCauchySurface_of_isLocallyCauchyTwoSided and its six step lemmas, plus two timelike-line witnesses, not an anchor. 'partial' describes this target's files only. It must not be read as a downgrade of the row. The seven forms are each exactly the original less (hext : C.CurvesExtend) plus [SecondCountableTopology M], and every original already has [T2Space M]. Checked by an elaborated binder diff (default pp and pp.explicit with instance fvars resolved) on source copies, not on oleans. Conclusions are identical and universe parameters equal. The witnesses apply the new Lemma K form to Sigma = {0} and {1} on the timelike line, using timelikeLine_lemmaK_hypotheses(_one) with the CurvesExtend conjunct discarded (Causal/CompactCauchy.lean:848, :869). Non-vacuous."
+  },
+  {
+   "label": "lem:C_ext_connexe",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked; REPORT status 'partial', consistent with the ledger row (lean_proved partial, bucket D). c_ext_connexe_of_isCauchySurfaceOn_secondCountable is exactly the original less the inline hthrough (InextensibleThrough (A ⊓ B) written out) plus [T1Space N] [SecondCountableTopology N], and the original has no separation axiom. hcauchy and psi are still carried as named hypotheses, as disclosed. Both instances are within ETT.tex:255's standing assumptions. The 8 CBG.CausalConvex step forms are exact: 6 originals are T2 (+SC) and 2 have no separation axiom (+T1 +SC). The docstring counts (6 T2 originals and 3 without a separation axiom, the c_ext one included) are true. Witnesses: A = timelikeArcOpens (]-1,1[) != top = B with common Cauchy surface {gateArc 0}, and c_ext along id and along gateArc (not onto, kb/0222). No curve hypothesis is supplied in any of them. Non-vacuous."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "detail": "lake env lean -DwarningAsError=true on each of CompactCauchy.lean, CausalConvex.lean and Basic.lean (from lean-causal/, taskset -c 0-11): exit 0, no message. The only 'sorry' hits are docstring prose (CompactCauchy.lean:29, :59; CausalConvex.lean:35; Basic.lean:25). There is no axiom, admit or native_decide. #print axioms on all 27 new declarations, compiled from /tmp source copies, gives [propext, Classical.choice, Quot.sound] for each."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "campaign/T-abs-curves-free-cauchy/REPORT.json (coverage.rescan / coverage.left); Causal/NestedCausalities.lean:930, Causal/CompactCauchy.lean:262, Causal/CorrespondingPoints.lean:180",
+   "what": "The 'left' list is incomplete under the closer's own declared scan criterion ('an inline every-point-on-an-inextensible-curve or hcover binder'). My elaborated scan of the eight source modules (forallTelescope, used constants) also flags three binders. (1) Causality.ers_lemma_4_70_core's inline htrans: through every point of U1 ⊓ U2 runs a curve inextensible in both components and meeting S in segments. (2) Causality.exists_box's hpart: a J+ ∪ J- cover of U. (3) Causality.Jplus_mem_nhds_of_isAcausal's hcov: a J+ ∪ J- cover of M. NestedCausalities has 7 hits, not the 3 + 2 + 1 listed. None is a CurvesExtend(On) binder, and none can be discharged by the curves theorem alone: htrans is the core lemma's content, and exists_box and Jplus_mem_nhds_of_isAcausal have no Cauchy hypothesis from which cover_of_t1_secondCountable could produce the cover. So no form is owed, and the 45-binder count and the 19 + 26 split stand.",
+   "fix": "Add the three to coverage.left with that reason (the lemma's content, not a curve-extension hypothesis), so that the next planner does not re-count them."
+  },
+  {
+   "severity": "minor",
+   "where": "campaign/T-abs-curves-free-cauchy/REPORT.json (notes, FOR THE KEEPER); programme/ladder.toml:3163-3168",
+   "what": "The keeper note says 'every Cauchy surface is acausal' can take IsCauchySurface.isAcausal_of_t1_secondCountable under causally_arc_connected. programme/ladder.toml already records exactly that [[consequence]] (at = causally_arc_connected, standing [T1, second_countable], recorded since T-lad-record-curves-fact, 2026-11-21). Only the 'M = J+(Sigma) ∪ J-(Sigma)' entry (ladder.toml:3085-3089, witness mem_Jplus_union_Jminus_of_isCauchySurface) still lacks a second-countable witness. For that entry, IsCauchySurface.cover_of_t1_secondCountable (Causal.CauchySeparation, ETT-layer) is verified exact: the original less hext plus [T1Space M] [SecondCountableTopology M], with the same conclusion.",
+   "fix": "Tell the keeper that only the cover entry needs action. The acausality entry at causally_arc_connected already exists."
+  }
+ ],
+ "checks": {
+  "binder_diff_19_new": "All 19 are exact: each removes exactly the named curve binder (or c_ext_connexe_of_isCauchySurfaceOn's inline hthrough) and adds exactly [SecondCountableTopology _], plus [T1Space _] for the 5 originals with no separation axiom (inter_subsingleton_of_curvesExtend, isCauchySurfaceOn_iff_of_curvesExtend, c_ext_connexe_of_isCauchySurfaceOn, CurvesExtend.dual, IsCausalIso.curvesExtend). Conclusions are identical under both pp and pp.explicit, and the level parameters are equal.",
+  "binder_diff_26_preexisting": "All 26 were re-checked, not a sample. Exact: IsCauchySurfaceOn.eq_of_le, IsCauchySurface.isAcausal, mem_Jplus_union_Jminus_of_isCauchySurface -> IsCauchySurface.cover_of_t1_secondCountable (less hext, +T1 +SC; the original has no separation axiom), the 9 CBG.CausalConvex IsCauchyEmbedding forms, the 5 CurvesExtendOn B forms, and ers_lemma_4_72(_isConnected), which drop hmext and hthrough. FirstCountableTopology replaced by SecondCountableTopology, which implies it: Jplus/Jminus_mem_nhds_of_isCauchySurface, passe_pgcd(_explicit). Stronger: the 4 CauchyDiamond forms also drop hcover, and eq_of_mem_image_inter_of_secondCountable also drops hDac. Also checked outside the 45: ers_lemma_4_70(_isConnected)_secondCountable (Ers464SecondCountable) are exact (less hthrough, +SC). ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable trades hsplit and the slab/closure data for hcauchy, hK, hG and hT, as described (kb/0218).",
+  "completeness_scan": "An elaborated scan of all 108 ETT-layer Causal modules (tools/ladder.py model_path None, Ladder.Test excluded) flags every binder whose type uses CurvesExtend, CurvesExtendOn, InextensibleThrough or SplitBy, or Inextensible under Exists, or a Jplus ∪ Jminus cover. In the target's 8 modules the named CurvesExtend(On) hits are CompactCauchy 7, CauchyDiamond 4, CorrespondingPoints 3, CausalIsoInvariance 1, CauchyExtension 2, SubExtension 1 (+2 inline), CBG.CausalConvex 23 and NestedCausalities 3. That is 45 with SubExtension's inline hthrough, matching the REPORT. The 'left' reasons are right. isConnected_of_curves' hcurve asks for curves meeting T (content). IsCausalIso.curvesExtend_iff has no curve binder (the scan does not flag it). ers_theorem_4_82's hsplit is traded per kb/0218. Causal.ChainsCurves is model-layer (model_path [Causal.ChainsCurves, Causal.Minkowski]; it imports Causal.Minkowski directly), and its hext is CurvesExtend's body written out (ChainsCurves.lean:200). The kb proposal's list of remaining families agrees with the scan. CBG.Injective's 2 and ErsUniqueness' ers_corollary_4_73 also hit, but they already have forms (injective_of_mapsTo_cauchy_of_secondCountable, sbierski_lemma_3_3_of_secondCountable, ers_corollary_4_73_secondCountable).",
+  "iso_source_only": "IsCausalIso.curvesExtend_secondCountable's instance binders are [T1Space M] [SecondCountableTopology M] on the source M, with e : M ≃ₜ N and nothing on N. The witness timelikeLine_transport_curvesExtend_secondCountable takes an arbitrary N with only [TopologicalSpace N]. Note (not a finding): since e is a homeomorphism, N is T1 and second countable anyway, so this is a convenience, not a mathematical strengthening.",
+  "marks": "No ``**`label`**`` in any of the three files under ledger.py's own regex. Declaration docstrings at CausalConvex.lean:151 and :183 open with **`lem:C_ext_connexe`... but do not match the mark form, and they lie past the 4000-character head the ledger reads.",
+  "layer1": "The direct imports (Causal.CompactCauchy, CurvesExtendSecondCountable, ErsSecondCountable, CExtConnexeSecondCountable, CausalIsoInvariance, NestedCausalities, ErsUniqueness) all have model_path None (kb/0247: each direct import checked). No metric notion appears in any statement.",
+  "scope": "git status --short shows: M programme/roadmap.toml (the master's two status flips to active); M roadmap/roadmap.toml, ?? lean-gx/scaffold/GXScaffold/BBS/ and ?? reports/atlas/lean/edges-perforated.json (all under the atlas lease, .leases/atlas.json); and the closer's two directories. The closer edited nothing else. SCOpenWithoutTarentin has since been committed (364ec2d).",
+  "names": "None of the 27 new names is declared anywhere else in lean-causal/Causal, lean-causal/scaffold or lean-gx.",
+  "docstring_contract": "Title, the unmarked label with its tex line, verbatim quotes (ETT.tex:255, ETT.tex:1940-1942 and GHFspace.tex:576-578 all checked against the labeled sources), Hypothesis checklist, SCOPE (disclosed) and Provenance are present in all three files. The cited Lean lines are correct: Causal/CompactCauchy.lean:738 is the Lemma K original, and :49-61 is its checklist. The claim that no ledger row and no binder.toml lists the Basic.lean originals or any of the 19 originals is confirmed by grep."
+ },
+ "ran": [
+  "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/CurvesFreeCauchy/{CompactCauchy,CausalConvex,Basic}.lean",
+  "/tmp/audit-cfc/P_{CompactCauchy,CausalConvex,Basic}.lean: each source file with an independent #abinders elaborator (forallTelescope, ppExpr plus pp.explicit/pp.universes) appended, with #print axioms for its new decls; P_pre.lean for the 26 pre-existing pairs; P_extra.lean for ers_lemma_4_70(_isConnected) and ers_theorem_4_82. All run with lake env lean. Diffed with difflib on (binderinfo, name, explicit type with instance fvars resolved to their class).",
+  "/tmp/audit-cfc/Scan.lean: an elaborated curve-binder scan over the 108 ETT-layer modules (about 25 s)",
+  "python3 tools/ladder.py lean_index/model_path on the direct imports and on Causal.ChainsCurves",
+  "grep for marks (ledger.py's regex), sorry, name clashes, ledger and binder.toml references, and ladder.toml witnesses; git status --short; .leases/*.json",
+  "Scratch files were kept in /tmp/audit-cfc and deleted after this audit. Nothing was written in the repository except this file."
+ ]
+}
