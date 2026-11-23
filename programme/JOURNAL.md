@@ -390,3 +390,15 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
   - Prop 4.63 goes to T-lad-development-nodes.
 - commits: 9287e1a b6c8212 4ea14ad 964abd2
 - next: wave T-lad-record-rulings (keeper), T-abs-one-sided-future-base (closer, exclusive, DEC-166 (a)); then a planning iteration for the accumulated proposals and the three binder targets
+
+## 2026-11-23 08:40 · wave of 2 · T-lad-record-rulings, T-abs-one-sided-future-base
+- registers: OQ-107 (ex:open_subset's first uniqueness under gluing) and OQ-108 (Galileo's spacetime under gluing) written; DECISIONS.md was free at last (87ef5e2)
+- T-lad-record-rulings (ladder). DEC-163: causally_open_future and causally_open are both nodes of record. A naming rule for comments; each edge and consequence names the openness node its witness takes. The one-way membrane is the separating edge of record; the gated line's entry is kept, commented as no-gluing only. New consequence prop:tarentin_topological_spacetime_causality (ii)⇒(i) at causally_open; whether the future form suffices is OQ-99. DEC-164: the T1 edge absolutely_minimal ∧ locally_push_up ⇒ push_up is labelled as lem:pushup_local's statement of record. Matrix unchanged (a02c4e4)
+- T-abs-one-sided-future-base (abstract, exclusive refactor, DEC-166 (a)). ChronalFutureNeighbours and NoFutureEndpoint are the bases; ChronalPastNeighbours and NoPastEndpoint are their duals, each rfl-equal to its HEAD body. ChronalNeighbours and NoCausalEndpoint keep their meaning and order. 18 declarations added, 4 proofs changed, no statement changed (405 `#check @` byte-identical). Audit minor (1cef44b). kb/0053 and two README rows updated; kb 0249–0252, incl. the pitfall that `tools/ladder.py emit-lean --help` RUNS emit-lean (a tool fix for the planner)
+- ladder: 24 properties, 26 implications, 79 counterexamples, 73 consequences; 318/318 within a sort: 35 implied, 275 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub `make -k check` all green (lean/ docs restored)
+- for the keeper's next pass: move the ladder comments citing ChronalPastNeighbours / NoPastEndpoint to the future names (programme/ladder.toml 273–286, 612–616, 637–640, 1686–1692; the stale LadderLocal line references at :266, :288, :2416, :2427)
+- roadmap: 81 done, 36 planned, 9 ready (closer 5, planner 3, keeper 1), 2 blocked, 1 needs-ruling. The planner's three ready binder targets and the accumulated proposals (journal 2026-11-22 23:10 to this entry) wait for a planning run. Rule 2 calls one when fewer than two abstract/localisation targets are ready.
+- commits: 87ef5e2 a02c4e4 1cef44b c09c5d1 ee549f9
+- next: wave T-lad-has-chronal-neighbour (keeper), T-abs-hoist-dual-cover (closer, exclusive)
