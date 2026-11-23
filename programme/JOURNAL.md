@@ -402,3 +402,26 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - roadmap: 81 done, 36 planned, 9 ready (closer 5, planner 3, keeper 1), 2 blocked, 1 needs-ruling. The planner's three ready binder targets and the accumulated proposals (journal 2026-11-22 23:10 to this entry) wait for a planning run. Rule 2 calls one when fewer than two abstract/localisation targets are ready.
 - commits: 87ef5e2 a02c4e4 1cef44b c09c5d1 ee549f9
 - next: wave T-lad-has-chronal-neighbour (keeper), T-abs-hoist-dual-cover (closer, exclusive)
+
+## 2026-11-23 10:30 · wave of 2 · T-abs-hoist-dual-cover, T-lad-has-chronal-neighbour
+- T-abs-hoist-dual-cover (abstract, exclusive refactor):
+  - dual_hasTimeFunction moved to Causal.CurvesExtend, after `end Causal`, so it keeps its universe variable.
+  - lem:Sigma_separe's model-free steps (cover_of_t1_secondCountable and six more, with their witness) moved to the new ETT-layer Causal.CauchySeparation.
+  - Two proofs re-pointed, no statement changed; 17209 constants, 9 changed module, 2 changed value. ETT layer 107/316 → 108/317. Audit minor (a295191).
+  - At integration: CurvesExtend's earlier lines kept at HEAD's numbers, so six citations elsewhere stay exact; CauchySeparation's checklist names step (3)'s hchr; lem:Sigma_separe's curation lists the new file (the ett ledger check needed it); the CExtConnexeSecondCountable line references in programme/ +1; README rows; kb 0091/0244/0248 updated, 0253–0256 (0255 corrected: a universe rename shows in levelParams and the type hash, not in `#check @`).
+- T-lad-has-chronal-neighbour (ladder, DEC-159): node has_chronal_neighbour (HasChronalNeighbourEverywhere, the everywhere form), with the edge chronal_neighbours ⇒ it.
+  - Counterexamples: the lightlike line, the closed half-line, the notched plane and the global line (no-gluing). The notched-plane derivation was compiled by the master in a scratch file.
+  - 36 new pairs: 2 implied, 34 refuted, 0 open. Eight consequences, including Lemma 2.17's ladder form and its boundary form (an edge hypothesis).
+  - Comments moved to the one-sided future base. emit-lean: Rules imports ChronalNeighbourBridge, 25 edge rules (5117a6d).
+- ladder: 25 properties, 27 implications, 83 counterexamples, 81 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub `make -k check` all green
+- for the planner, the keeper's proposals:
+  - T-abs-chronal-neighbour-conjoined: one-line conjoined witnesses for the notched plane and the global line;
+  - E₀'s SingularFlatAxioms.hasChronalNeighbourEverywhere, layer 3 for BTZ, DEC-159's case;
+  - a dual rule for the node (Causal.Ladder.Dual);
+  - sigma_separe_of_nonemptyChronalCones as a consequence;
+  - T-lad-gluing-reading now removes 21 non-minimal entries.
+  Also the hoist's twin Jplus_inter_Jminus_eq / IsAcausal.Jplus_inter_Jminus (both cited, kept, kb/0256).
+- commits: a295191 5117a6d 8756c67 c180669
+- next: wave T-abs-curves-free-cauchy, T-loc-ealpha-tidy, T-abs-sc-open-without-tarentin (closers). Afterwards fewer than two abstract/localisation targets are ready (T-abs-dependence-domain-home, exclusive, stays), so a planning run comes next: the three binder targets and the proposals since 2026-11-22 23:10
