@@ -735,3 +735,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 0554c47 72dfea8 4d17421 460791d e3220f0 07617c2 [+ roadmap/atlas/journal]
 - wall time: 01:10–02:15 UTC; agents in parallel: 2 closers + 1 integration agent, 4 audits
 - next: T-yamabe-trace-compact (now unblocked; it frees the scaffold chain to graduate), T-3p1-theorem-m-theta and T-bbs-layer-home (after rp1-circles; the angle waits on OQ-113), T-hub-paper-attribute. A planning run is due (rule 2, five iterations at the next one).
+
+## 2026-11-23 02:45 · plan (rule 2: five iterations since the last planner run)
+- roadmap-planner: 170 → 175 targets (6 added, 10 changed), `check` passes.
+  - Added:
+    - T-yamabe-graduate-analysis (master, exclusive): trace_compact moves to its own scaffold file, and the nine sorry-free modules go to strict;
+    - T-bbs-i-pm, T-bbs-photon-circles (§ 5.1, the missing layer for M-theta and OQ-113 (b)), T-3p1-funnel-gtilde (Lemma F's G̃ half; (N) carried) and T-bbs-hs-singularities (planned);
+    - T-atlas-tex-text-macros (builder: the benzecri \bzcf raw in the panel).
+  - T-perf-star-n is ready (no dependency on the cap that broke thm:star3, [r]). T-perf-poincare now waits on T-yamabe-graduate-analysis, since the strict perforated modules cannot import the scaffold's RellichProp. T-3p1-theorem-m-theta adds bbsrem:causally_regular_hs_sphere_containing and depends on T-bbs-photon-circles. T-bbs-layer-home is re-scoped (several dispatches).
+- No new question for the author.
+- next: a wave of T-yamabe-graduate-analysis (exclusive in lean-yamabe), T-bbs-i-pm, T-bbs-photon-circles, T-3p1-funnel-gtilde (lean-gx) and the builder's T-atlas-tex-text-macros.
