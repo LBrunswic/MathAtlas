@@ -1,0 +1,246 @@
+{
+ "target": "T-abs-dependence-domain-home",
+ "package": "lean-causal",
+ "ruling": "DEC-198 (registers/DECISIONS.md:209): rename to Causal.Causality.dependenceDomain; Causal.Flat.dependenceDomain kept as a deprecated alias.",
+ "files": {
+  "edited": [
+   "Causal/DependenceDomain.lean",
+   "Causal/NestedCausalities.lean",
+   "Causal/Flat/Cla/CoverMax.lean",
+   "Causal/Flat/Cla/UnipEnvelope.lean",
+   "Causal/Flat/Develop.lean",
+   "Causal/Flat/Examples.lean",
+   "Causal/Flat/LipschitzGraph.lean",
+   "Causal/Flat/Nonloxodromic.lean",
+   "Causal/CausallyPlainLocZ.lean",
+   "README.md",
+   "kb/entries/0047-model-free-lemmas-stranded.md"
+  ],
+  "new": [],
+  "campaign": [
+   "campaign/T-abs-dependence-domain-home/REPORT.json",
+   "campaign/T-abs-dependence-domain-home/Probe.lean",
+   "campaign/T-abs-dependence-domain-home/axioms.txt",
+   "campaign/T-abs-dependence-domain-home/dump-diff.txt",
+   "campaign/T-abs-dependence-domain-home/scratch/Dump.lean",
+   "campaign/T-abs-dependence-domain-home/scratch/dump_cmp.py",
+   "campaign/T-abs-dependence-domain-home/scratch/DumpSubst.lean",
+   "campaign/T-abs-dependence-domain-home/scratch/dump_subst_cmp.py"
+  ],
+  "scaffold": "no scaffold file names any of the five names (grep), so none was edited",
+  "not_edited": "Causal/Ladder/{Basic,Rules,Test,DualTest}.lean, Causal.lean, lakefile.toml, docs/BARBOT-WAVE3.md (a dated design note, see findings), kb/INDEX.md (0047's title does not name the definition), programme/, papers/, tools/, lean-gx/. No git command, no make check, no emit-lean in any form."
+ },
+ "builds": true,
+ "build_commands": [
+  {
+   "cmd": "taskset -c 0-11 lake build --no-build Causal CausalScaffold",
+   "when": "before any edit",
+   "jobs": 8904,
+   "result": "all targets up to date with a clean lean-causal tree, so the before-dump was taken from HEAD's oleans (kb/0063). Warnings: the 6 pre-existing scaffold sorries only."
+  },
+  {
+   "cmd": "taskset -c 0-11 lake env lean -DwarningAsError=true Causal/DependenceDomain.lean",
+   "result": "clean"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal",
+   "jobs": 8894,
+   "result": "green. 177 modules rebuilt (DependenceDomain and everything downstream of it, including Causal.Ladder.Rules, Test and DualTest). No warning in the log: the strict library is warningAsError, so no module uses a deprecated name."
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build CausalScaffold",
+   "jobs": 8757,
+   "result": "green. 4 rebuilt (GerochCauchy, GluingModels.ModelScaffold, SingularRowsGerochEquiv, the root). Warnings: exactly the 6 pre-existing 'declaration uses sorry' (CompactCauchy:79, GerochCauchy:783, GerochEquiv:70, LemmaKSCOpen:72, SingularRowsGerochEquiv:50, SubExtension:83). No deprecation warning."
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build --no-build Causal CausalScaffold",
+   "when": "after",
+   "jobs": 8904,
+   "result": "all targets up to date; the sorted warning list is identical to the before list (diffed)."
+  }
+ ],
+ "sorry_count": 0,
+ "labels": [],
+ "renames": [
+  {
+   "old": "Causal.Flat.dependenceDomain",
+   "new": "Causal.Causality.dependenceDomain",
+   "kind": "def",
+   "old_at": "Causal/DependenceDomain.lean:51",
+   "new_at": "Causal/DependenceDomain.lean:60",
+   "alias_at": "Causal/DependenceDomain.lean:97-101"
+  },
+  {
+   "old": "Causal.Flat.mem_dependenceDomain",
+   "new": "Causal.Causality.mem_dependenceDomain",
+   "kind": "theorem",
+   "old_at": "Causal/DependenceDomain.lean:60",
+   "new_at": "Causal/DependenceDomain.lean:69",
+   "alias_at": "Causal/DependenceDomain.lean:107-110"
+  },
+  {
+   "old": "Causal.Flat.dependenceDomain_subset",
+   "new": "Causal.Causality.dependenceDomain_subset",
+   "kind": "theorem",
+   "old_at": "Causal/DependenceDomain.lean:64",
+   "new_at": "Causal/DependenceDomain.lean:73",
+   "alias_at": "Causal/DependenceDomain.lean:113-115"
+  },
+  {
+   "old": "Causal.Flat.subset_dependenceDomain",
+   "new": "Causal.Causality.subset_dependenceDomain",
+   "kind": "theorem",
+   "old_at": "Causal/DependenceDomain.lean:66",
+   "new_at": "Causal/DependenceDomain.lean:75",
+   "alias_at": "Causal/DependenceDomain.lean:118-120"
+  },
+  {
+   "old": "Causal.Flat.dependenceDomain_eq_of_isCauchySurfaceOn",
+   "new": "Causal.Causality.dependenceDomain_eq_of_isCauchySurfaceOn",
+   "kind": "theorem",
+   "old_at": "Causal/DependenceDomain.lean:70",
+   "new_at": "Causal/DependenceDomain.lean:79",
+   "alias_at": "Causal/DependenceDomain.lean:123-126"
+  }
+ ],
+ "rename_notes": [
+  "Same arguments, same body, same proofs: the source of the definition and of the four theorems is HEAD's verbatim, only the enclosing namespace changed (Causal.Flat -> Causal.Causality). Universe parameter u_1 kept (kb/0255; the dump shows the levels identical).",
+  "Dot notation: the first explicit argument is C : Causality M, so C.dependenceDomain W S elaborates to Causality.dependenceDomain C W S (Probe.lean, by rfl). The re-pointed users write it (minkowski d).dependenceDomain ⊤ S, the same length as the old dependenceDomain (minkowski d) ⊤ S.",
+  "No collision: before the change no constant of the library was named Causal.Causality.dependenceDomain or Causal.Causality.{mem_dependenceDomain, dependenceDomain_subset, subset_dependenceDomain, dependenceDomain_eq_of_isCauchySurfaceOn} (the before-dump has only dependenceDomainOn and its lemmas there). No new name had to be picked.",
+  "The Minkowski results of Causal.Flat whose names contain dependenceDomain (meets_of_mem_dependenceDomain, dependenceDomain_hyperboloid, CCAction.dependenceDomain_subset_UGamma, ...) are not about the general definition's module and keep their Flat names and their namespace; only their statements now read (minkowski d).dependenceDomain."
+ ],
+ "aliases": {
+  "form": "the library's existing form for deprecations (Causal/Port/E0GXStructure.lean:325, :332): a docstring, then @[deprecated <new full name> (since := \"2026-11-23\")] on a theorem whose statement is the new theorem's and whose proof is the new theorem; the definition's alias is an abbrev with the same signature whose body is C.dependenceDomain W S. Not Batteries' `alias`: the hub's source scanners (tools/ledger.py declared_names via _DECL_FULL, tools/ladder.py lean_index) match theorem/def/abbrev/... and not `alias`, so an `alias` old name would stop resolving if a ledger, curation or ladder ever named it.",
+  "list": [
+   "Causal.Flat.dependenceDomain (abbrev, reducible) -> Causal.Causality.dependenceDomain",
+   "Causal.Flat.mem_dependenceDomain -> Causal.Causality.mem_dependenceDomain",
+   "Causal.Flat.dependenceDomain_subset -> Causal.Causality.dependenceDomain_subset",
+   "Causal.Flat.subset_dependenceDomain -> Causal.Causality.subset_dependenceDomain",
+   "Causal.Flat.dependenceDomain_eq_of_isCauchySurfaceOn -> Causal.Causality.dependenceDomain_eq_of_isCauchySurfaceOn"
+  ],
+  "checked": "Each alias has exactly the type (Expr hash), universe levels and binder telescope of its new name (after-dump); @Flat.X.{0} = @Causality.X.{0} by rfl for all five (Probe.lean); a use of Flat.dependenceDomain or Flat.mem_dependenceDomain raises the deprecation warning naming the new constant (Probe.lean, #guard_msgs). Lean 4.31 adds a note to that warning: 'The updated constant is in a different namespace. Dot notation may need to be changed'."
+ },
+ "redirect": {
+  "decl": "Causal.Causality.dependenceDomainOn (Causal/NestedCausalities.lean:306, abbrev, still reducible)",
+  "body": "C.dependenceDomain W S (was Flat.dependenceDomain C W S)",
+  "lemmas": "dependenceDomainOn_subset :309, subset_dependenceDomainOn :311, dependenceDomainOn_eq_of_isCauchySurfaceOn :314 now apply dependenceDomain_subset, subset_dependenceDomain, dependenceDomain_eq_of_isCauchySurfaceOn (Causality namespace) instead of the Flat ones. Statements unchanged.",
+  "kept": "futureExtensible_of_final_on and not_futureExtensible_of_component_on (NestedCausalities, userless) are untouched: DEC-198 rules no deletion."
+ },
+ "repointed_uses": {
+  "Causal/NestedCausalities.lean": "4 (the abbrev's body and the three lemma proofs) + SCOPE bullet :89-92 and the abbrev's docstring :304",
+  "Causal/Flat/Cla/CoverMax.lean": "21 occurrences of the definition (lines 98 (2), 116-118, 189-190, 200, 249, 251, 271, 281-282, 306, 312, 317, 521, 530, 643, 676, 740)",
+  "Causal/Flat/Cla/UnipEnvelope.lean": "1 (:1405)",
+  "Causal/Flat/Develop.lean": "8 definition uses (344, 353, 474, 523, 538, 556, 571, 2375) and 2 lemma uses (Causality.subset_dependenceDomain at 572, 615); line 571 wrapped to stay under 100 columns",
+  "Causal/Flat/Examples.lean": "1 (:219)",
+  "Causal/Flat/LipschitzGraph.lean": "20 definition uses and 6 lemma uses (Causality.dependenceDomain_eq_of_isCauchySurfaceOn :946, Causality.mem_dependenceDomain :1018, :1060, :1453, :1476, :1584); module docstring bullet D (:82-86)",
+  "Causal/Flat/Nonloxodromic.lean": "1 (:2730)",
+  "Causal/CausallyPlainLocZ.lean": "docstring only (:49-51, its SCOPE's parenthesis on the kept Flat namespace now records DEC-198)",
+  "total_code": 64
+ },
+ "docs_updated": [
+  "Causal/DependenceDomain.lean module docstring: intro (new home and the deprecated aliases), What-is-proved bullets with the Causality names, a SCOPE bullet on the rename; the sentence 'The names keep their namespace Causal.Flat, so that every user resolves unchanged' is gone.",
+  "README.md:63, the row of Causal.CompactMinimal / CurveComponents / DependenceDomain.",
+  "kb/entries/0047: 'renamed Causal.Causality.dependenceDomain by DEC-198 (T-abs-dependence-domain-home)' added beside the two statements of the old name as current; the rest of the entry untouched."
+ ],
+ "dump": {
+  "method": "kb/0063 extended for a rename. Before: scratch/Dump.lean (T-tac-curves-fact-rule's, copied) over HEAD's oleans (lake build --no-build reported all 8904 jobs up to date, clean tree), every constant of every Causal.*/CausalScaffold.* module: module, kind, universe levels, Expr.hash of type and value, binder telescope (macro scopes erased), reducibility, protected, noncomputable, internal. After: scratch/DumpSubst.lean, the same columns plus, for every constant, its name with the five renamed prefixes mapped back to the old ones and the hashes of its type and value after the same substitution inside the terms (Expr.replace on every .const), plus whether it is deprecated. scratch/dump_subst_cmp.py compares (python3 -I).",
+  "result": "17602 constants before, 17607 after. Raw by name: none removed, 5 added (the five Causal.Causality names), 46 constants keep their name with a changed type or value hash, and the 5 old names are now the aliases. Substituted: the 5 new deprecated aliases are set aside; every other after-constant maps to exactly one before-constant and conversely (0 unmatched either way), and over all 17602 pairs NO field differs (module, kind, levels, type hash, telescope, value hash, reducibility, protected, noncomputable, internal). The renamed five stay in Causal.DependenceDomain with their kind, levels and reducibility (the definition semireducible, as before). So every type and every proof term of the library changed only by the renaming, and all 46 raw hash changes are explained by it: the 4 dependenceDomainOn constants, 3 CCAction lemmas, 15 Flat.Cla lemmas, 20 Flat lemmas and 4 private LipschitzGraph constants (intDep, its _proof_1, futureExtensible_of_timeSub_neg, pastExtensible_of_timeSub_pos). The TSV dumps are in /tmp/tadd (ephemeral).",
+  "file": "campaign/T-abs-dependence-domain-home/dump-diff.txt"
+ },
+ "axioms": "campaign/T-abs-dependence-domain-home/axioms.txt: the five new names, dependenceDomainOn and its five lemmas, not_dependenceDomain_nested_bare and the five aliases depend on [propext, Classical.choice, Quot.sound] only (17 #print axioms).",
+ "tool_checks": [
+  {
+   "cmd": "python3 tools/ladder.py check",
+   "result": "exit 0: 25 properties, 27 implications, 83 counterexamples, 85 consequences, 354 of 354 pairs classified, 7 transfers"
+  },
+  {
+   "cmd": "python3 tools/binder.py check",
+   "result": "exit 0: 3 binder(s), all links resolve"
+  },
+  {
+   "cmd": "python3 tools/ledger.py -c papers/barbot/ledger/ledger.toml check",
+   "result": "exit 0: 44 statements, 39 Lean-stated, all links resolve. Also exit 0, read-only, for sbierski-mghd, ers-predictability, ett, sbierski-schwarzschild (the other lean-causal ledgers)."
+  }
+ ],
+ "external_references": {
+  "summary": "None needs re-pointing to keep resolving: no ladder witness, binder link or curated decl names one of the five renamed constants. Two ladder comments name the old definition.",
+  "programme/ladder.toml": [
+   {
+    "line": 3681,
+    "text": "# 02b43b6; dependenceDomainOn is an abbrev of Causal.Flat.dependenceDomain): ...",
+    "repoint": "Causal.Causality.dependenceDomain (comment only)"
+   },
+   {
+    "line": 3773,
+    "text": "# dependenceDomainOn is an abbrev of Causal.Flat.dependenceDomain, Causal/DependenceDomain.lean). ...",
+    "repoint": "Causal.Causality.dependenceDomain (comment only)"
+   },
+   {
+    "lines": [
+     425,
+     426,
+     430,
+     2627,
+     2628,
+     3680,
+     3683,
+     3686,
+     3687,
+     3691,
+     3774,
+     3775,
+     3780
+    ],
+    "note": "name dependenceDomainOn, dependenceDomainOn_subset_of_nested, GloballyHyperbolic.dependenceDomainOn_subset_of_nested or not_dependenceDomain_nested_bare: names unchanged by this target, nothing to re-point. The witnesses at :3691 and :3780 are among them."
+   }
+  ],
+  "binder.toml": "papers/{ers-predictability,sbierski-mghd,sbierski-schwarzschild}/certificate/binder.toml: no mention.",
+  "papers/barbot/certificate/curation.toml": [
+   {
+    "line": 539,
+    "names": [
+     "Causal.Flat.CCAction.dependenceDomain_subset_UGamma",
+     "Causal.Flat.CCAction.dependenceDomain_subset_achronalDomain",
+     "Causal.Flat.CCAction.dependenceDomain_subset_compl_nullHyperplanes"
+    ],
+    "repoint": "none: Minkowski lemmas of Causal.Flat.Develop, not renamed"
+   },
+   {
+    "line": 577,
+    "names": [
+     "Causal.Flat.dependenceDomain_hyperboloid"
+    ],
+    "repoint": "none: Minkowski lemma of Causal.Flat.LipschitzGraph, not renamed"
+   },
+   {
+    "line": 579,
+    "names": [
+     "dependenceDomain_hyperboloid (prose in paper_findings)"
+    ],
+    "repoint": "none"
+   }
+  ],
+  "papers/barbot/ledger": "ledger.json lists Causal.Flat.dependenceDomain_hyperboloid only (same name). Its statement now reads (minkowski d).dependenceDomain; if the ledger or atlas stores elaborated types or a Lean stamp, the master's rebuild refreshes them. ledger.py check passes now.",
+  "Causal/Ladder/{Rules,Test,DualTest}.lean": "no mention of any dependenceDomain name; all three rebuilt green in lake build Causal. Rules.lean would not change on a re-emit for this target's sake (no witness is renamed); emit-lean was not run in any form (kb/0252).",
+  "lean-gx": "no mention in lean-gx's own sources (grep excluding .lake). Its pinned copy of lean-causal (.lake/packages/Causal at ca2ad78, lake-manifest.json) predates Causal.DependenceDomain and contains no dependenceDomain at all. Nothing to re-point at its next bump.",
+  "other hub files naming the old definition (generated or history, not for this target)": "reports/atlas/lean/facts-lean-causal.json and reports/atlas/atlas.html (atlas overlay, DEC-204 refresh), reports/blueprint/index.html, programme/JOURNAL.md and programme/roadmap.toml (history), lean-causal/docs/BARBOT-WAVE3.md:125-131 (Wave 3 design note, dated)."
+ },
+ "findings": [
+  "No paper statement is involved (an abstract refactor, no label). Library findings only.",
+  "The rename changes no type and no proof term except by the substitution of names (dump: 0 differences over 17602 constants after substituting back).",
+  "Causal.Causality now holds two names for one notion: dependenceDomainOn (NestedCausalities, a reducible abbrev of C.dependenceDomain W S) and dependenceDomain, with duplicate lemma pairs dependenceDomainOn_subset / dependenceDomain_subset, subset_dependenceDomainOn / subset_dependenceDomain, dependenceDomainOn_eq_of_isCauchySurfaceOn / dependenceDomain_eq_of_isCauchySurfaceOn. See questions.",
+  "lean-causal/docs/BARBOT-WAVE3.md:125-131 still shows the Wave 3 design's `def dependenceDomain` in Causal.Flat. It is a dated design note outside this dispatch's write set; left as history."
+ ],
+ "questions": [
+  "dependenceDomainOn after DEC-198. With the definition in Causal.Causality, C.dependenceDomainOn W S and C.dependenceDomain W S are the same notion under two names in one namespace (rfl, Probe.lean). The dispatch says 'redirect', DEC-198 says nothing on it. Reading taken: redirected, kept as a non-deprecated abbrev with its three lemmas, since the ladder's witnesses (programme/ladder.toml:3691, :3780) and the ERS statements name it. Deprecating it in favour of dependenceDomain (and its three lemmas in favour of the Causality ones) would be a further rename for the author to rule on.",
+  "The definition's alias is an abbrev (reducible), so a term written with the old name unfolds to the new one at reducible transparency; the renamed definition itself stays a semireducible def, as it was. Batteries' `alias` would give a semireducible alias. Reading taken: abbrev, the friendlier alias for any old user (there is none in the hub). Say if you want a plain def."
+ ],
+ "kb_proposals": [
+  "A rename across namespaces is checked like a hoist (kb/0063) with the renamed prefixes substituted back inside every type and value (Expr.replace on .const): campaign/T-abs-dependence-domain-home/scratch/DumpSubst.lean and dump_subst_cmp.py. Set aside only the new deprecated aliases (deprecated AND named as a renamed constant's old name): the library already has deprecated constants (E0GX.*, the auto-deprecated *.toCtorIdx).",
+  "Write a deprecated alias as `@[deprecated New (since := ...)] theorem|abbrev Old ... := New`, the library's form (Port/E0GXStructure), not Batteries `alias`: tools/ledger.py's declared_names and tools/ladder.py's lean_index match theorem/def/abbrev/... and not `alias`, so an `alias`-ed old name would stop resolving in a ledger or the ladder.",
+  "After renaming X out of a namespace N with a deprecated alias N.X, every unqualified X inside N resolves to the alias, an error under warningAsError: re-point to dot notation ((minkowski d).dependenceDomain ⊤ S, the same length as dependenceDomain (minkowski d) ⊤ S) or to the new namespace (Causality.mem_dependenceDomain).",
+  "At Lean v4.31 the deprecation warning for a target in another namespace adds a paragraph 'Note: The updated constant is in a different namespace. Dot notation may need to be changed (...)'; a #guard_msgs must include it. The API to test deprecation in a script is Lean.Linter.isDeprecated env n."
+ ],
+ "notes": "Exclusive strict-library rename (DEC-198). 0 sorry, standard axioms, builds green (Causal 8894 jobs, CausalScaffold 8757; no new warning, no deprecation warning anywhere). Every type and proof term changed only by the renaming (dump). The old Flat names survive as deprecated aliases in Causal/DependenceDomain.lean with the new statements. No ledger, curation, binder or ladder entry must change to resolve; the two ladder comments at programme/ladder.toml:3681 and :3773 could be updated by the keeper. The master rebuilds the Barbot ledger after the commit, as planned; its check passes already.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: kb/0047's sentence on dependenceDomainOn rewritten (rw does not see through the abbrev at the head; simp and unification do). Left to their owners: programme/ladder.toml:3681, :3773 (the keeper's comments); docs/BARBOT-WAVE3.md (a dated design note, kept)."
+}

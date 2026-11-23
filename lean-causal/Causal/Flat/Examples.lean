@@ -216,7 +216,7 @@ theorem rem22_cone (hd : 0 < d) :
       (minkowski d).IsCauchySurfaceOn (futureTimelikeCone d) (graph (hyperboloid d)) ∧
       (flatCausality d (futureTimelikeCone d)).IsCauchySurface
         (Subtype.val ⁻¹' graph (hyperboloid d)) ∧
-      dependenceDomain (minkowski d) ⊤ (graph (hyperboloid d)) =
+      (minkowski d).dependenceDomain ⊤ (graph (hyperboloid d)) =
         (futureTimelikeCone d : Set (Minkowski d)) ∧
       ¬ (minkowski d).IsCauchySurface (graph (hyperboloid d)) := by
   have h := cosmoRegular_cone hd

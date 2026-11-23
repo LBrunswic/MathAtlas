@@ -86,9 +86,10 @@ it uses, among these three: item 1 only `≤` at `M` (or at `W`); item 2 inexten
   function, spacelike level sets and their domains of dependence are named hypotheses.
 * 4.77 concludes that `S` is a Cauchy surface of the union; "globally hyperbolic" from it is
   Geroch's (iii)⇒(i), the cited and unproved step of `CausalScaffold.GerochEquiv`, not invoked.
-* `dependenceDomainOn` is an `abbrev` of the library's `Flat.dependenceDomain`
+* `dependenceDomainOn` is an `abbrev` of the library's `Causality.dependenceDomain`
   (`Causal.DependenceDomain`, hoisted out of `Causal.Flat.LipschitzGraph` by
-  T-abs-hoist-model-free): two-sided, as the library's. `D^±` are not treated.
+  T-abs-hoist-model-free, renamed from `Flat.dependenceDomain` by DEC-198): two-sided, as the
+  library's. `D^±` are not treated.
 * The component lemma (an inextensible curve of `W`, cut to an open `U ≤ W`) is the library's
   `inextensible_ordConnectedComponent_of_le` and the change of relations along a curve its
   `curveOn_of_rel_imp` (`Causal.CurveComponents`); `futureExtensible_of_final_on` and
@@ -300,19 +301,19 @@ variable {C C' : Causality M} {U V W : Opens M} {I : Set ℝ} {c : ℝ → M} {S
 variable (C) in
 /-- **The domain of dependence** `D(S)` of `S` in the open `W`: the points of `W` every
 inextensible causal curve of `W` through which meets `S`. An `abbrev` of the library's
-`Flat.dependenceDomain C W S` (`Causal.DependenceDomain`), kept so that the statements below read
+`C.dependenceDomain W S` (`Causal.DependenceDomain`), kept so that the statements below read
 as before. -/
 abbrev dependenceDomainOn (W : Opens M) (S : Set M) : Set M :=
-  Flat.dependenceDomain C W S
+  C.dependenceDomain W S
 
-theorem dependenceDomainOn_subset : C.dependenceDomainOn W S ⊆ W := Flat.dependenceDomain_subset
+theorem dependenceDomainOn_subset : C.dependenceDomainOn W S ⊆ W := dependenceDomain_subset
 
 theorem subset_dependenceDomainOn (hSW : S ⊆ W) : S ⊆ C.dependenceDomainOn W S :=
-  Flat.subset_dependenceDomain hSW
+  subset_dependenceDomain hSW
 
 theorem dependenceDomainOn_eq_of_isCauchySurfaceOn (h : C.IsCauchySurfaceOn W S) :
     C.dependenceDomainOn W S = W :=
-  Flat.dependenceDomain_eq_of_isCauchySurfaceOn h
+  dependenceDomain_eq_of_isCauchySurfaceOn h
 
 /-- **Nested domains of dependence**: the wider causality has the smaller domain of dependence,
 when inextensibility is nested. -/

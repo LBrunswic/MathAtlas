@@ -1,0 +1,91 @@
+{
+ "target": "T-abs-dependence-domain-home",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "label_notes": "No paper label is involved: an exclusive strict-library rename under DEC-198 (registers/DECISIONS.md:209). No **`label`** mark was added or removed anywhere in the diff (grep of the + and - lines). The faithfulness check is therefore against DEC-198 and the dispatch, below.",
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "commands": [
+   "taskset -c 0-11 lake env lean -DwarningAsError=true on all nine edited Lean files (Causal/DependenceDomain.lean, Causal/NestedCausalities.lean, Causal/CausallyPlainLocZ.lean, Causal/Flat/Develop.lean, Causal/Flat/LipschitzGraph.lean, Causal/Flat/Cla/CoverMax.lean, Causal/Flat/Cla/UnipEnvelope.lean, Causal/Flat/Examples.lean, Causal/Flat/Nonloxodromic.lean): exit 0, no message, each. No lake build was run, as dispatched; the closer's build logs (/tmp/tadd/build-causal-1.log: 8894 jobs, 0 warnings; build-scaffold-1.log: the 6 pre-existing scaffold sorry warnings only) were read, and every edited source predates the rebuilt oleans (sources 07:50-07:51, Causal/DependenceDomain.olean 07:51:15, Causal.olean 07:55:35).",
+   "A control probe confirmed the flag bites: a use of Causal.Flat.dependenceDomain and Causal.Flat.dependenceDomain_subset under -DwarningAsError=true is two errors ('has been deprecated: Use Causal.Causality.... instead'), exit 1.",
+   "lakefile.toml: lean_lib Causal carries leanOptions = { warningAsError = true }, so the green lake build Causal also excludes every deprecated use in the 177 rebuilt modules.",
+   "sorry: every edited file has the same `sorry` word count as at HEAD, all in docstrings ('no `sorry`'); no + or - line of the diff contains the word.",
+   "#print axioms (auditor probe under the campaign directory, deleted afterwards): the five Causal.Causality names, dependenceDomainOn and its three lemmas, the two userless lemmas futureExtensible_of_final_on and not_futureExtensible_of_component_on, the five Causal.Flat aliases, and five re-pointed Flat users (dependenceDomain_hyperboloid, rem22_cone, CCAction.dependenceDomain_subset_UGamma, Cla.cover_range_eq_of_mgh, bprop_danom): [propext, Classical.choice, Quot.sound] for all 21.",
+   "The closer's Probe.lean was rerun: exit 0, no message (its two #guard_msgs on the deprecation warning pass, 17 #print axioms standard)."
+  ]
+ },
+ "checks": {
+  "1_faithfulness_DEC198": {
+   "ok": true,
+   "notes": [
+    "The definition is now Causal.Causality.dependenceDomain (Causal/DependenceDomain.lean:60), a semireducible def as before, universe u_1, binders M{} inst[] C() W() S().",
+    "Source compared with `git show HEAD:lean-causal/Causal/DependenceDomain.lean` (also byte-identical to the closer's /tmp/tadd/DependenceDomain.lean.orig): lines 58-85 (the definition and its four lemmas) are HEAD's verbatim; only `namespace Causal.Flat` / `end Causal.Flat` became `Causal.Causality`. Inside Causal.Causality, `Causality M` and `dependenceDomain C W S` resolve to the same constants as before (the dump confirms it).",
+    "Causal.Flat.dependenceDomain still exists (:97-100), @[deprecated Causal.Causality.dependenceDomain (since := \"2026-11-23\")], an abbrev whose body is C.dependenceDomain W S. Checked: deprecatedAttr param newName = Causal.Causality.dependenceDomain, reducibility reducible, and `Flat.dependenceDomain C W S = Causality.dependenceDomain C W S` closes by `with_reducible rfl`.",
+    "The four theorem aliases (:106-126) are deprecated (newName each the Causality theorem) and have exactly the type of their new name: in the after-dump the type hash, levels and telescope of Causal.Flat.X equal those of Causal.Causality.X for all five X. The old statements as written at HEAD (p ∈ Flat.dependenceDomain C W S ↔ ..., S ⊆ Flat.dependenceDomain C W S, Flat.dependenceDomain C W S ⊆ W) are still proved by the old names (term mode, auditor probe).",
+    "No deletion: no declaration line is removed by the diff except dependenceDomainOn_subset's, which is replaced by itself with a re-pointed proof; futureExtensible_of_final_on and not_futureExtensible_of_component_on are present at NestedCausalities.lean:653 and :793 (HEAD :652, :792), axioms standard. The dump's 0 removed constants confirms it.",
+    "dependenceDomainOn (NestedCausalities.lean:306) is a reducible abbrev of C.dependenceDomain W S; its three lemmas (:309, :311, :314) apply the Causality lemmas; statements unchanged (type hashes equal before and after in the dump).",
+    "Alias form, for the master (not a finding): the theorem/abbrev wrappers marked @[deprecated] are a correct reading of 'kept as a deprecated alias' (old name exists, is deprecated with the new name as target, and is definitionally / propositionally the new one). Differences from Batteries' `alias` (.lake/packages/batteries/Batteries/Tactic/Alias.lean:133-176): Batteries makes a def alias semireducible (hints .regular 0, no @[reducible]) with value the bare constant and records AliasInfo (doc-gen shows 'alias of'); the closer's def alias is an abbrev (reducible, @[inline], eta-expanded body) and the theorem aliases are ordinary theorems whose proof is the new theorem. The closer's reason holds: tools/ledger.py _DECL_FULL (:404-406) and tools/ladder.py DECL_FQ (:726) match theorem/def/abbrev/... and not `alias`; the form is the library's precedent (Causal/Port/E0GXStructure.lean:325, :332).",
+    "Limitation shared by every alias form, for the master: a term elaborated with the old def name keeps the constant Causal.Flat.dependenceDomain at its head, and `rw [Flat.dependenceDomain_eq_of_isCauchySurfaceOn h]` on a goal `Flat.dependenceDomain C W S = W` now fails (the alias theorem's LHS head is Causality.dependenceDomain; kabstract matches heads syntactically), where it worked at HEAD. simp and term-mode uses still work. No user of the old names exists in the hub (lean-gx's pinned Causal at ca2ad78 predates Causal.DependenceDomain), so this is a note, not a finding."
+   ]
+  },
+  "2_no_deprecated_use": {
+   "ok": true,
+   "notes": [
+    "grep of Causal/ and scaffold/ for Flat.(dependenceDomain|mem_dependenceDomain|dependenceDomain_subset|subset_dependenceDomain|dependenceDomain_eq_of_isCauchySurfaceOn): docstrings only (DependenceDomain.lean:41-43, NestedCausalities.lean:91, CausallyPlainLocZ.lean:49, LipschitzGraph.lean:84). Unqualified uses of the five names: only the declarations themselves (DependenceDomain.lean) and the three proofs in NestedCausalities.lean:309, :312, :316, which sit in namespace Causal.Causality (:295-486) and resolve to the new names (warningAsError compile clean). scaffold/: no mention of dependenceDomain at all.",
+    "All nine edited Lean files compile under -DwarningAsError=true (see build). Re-pointed code uses counted from the diff: CoverMax 21, UnipEnvelope 1, Develop 10, Examples 1, LipschitzGraph 26, Nonloxodromic 1, NestedCausalities 4 = 64, as claimed."
+   ]
+  },
+  "3_dump": {
+   "ok": true,
+   "notes": [
+    "dump-diff.txt and scratch/{Dump.lean, DumpSubst.lean, dump_cmp.py, dump_subst_cmp.py} exist; the TSV dumps were still in /tmp/tadd. Rerunning `python3 -I scratch/dump_subst_cmp.py /tmp/tadd/before.txt /tmp/tadd/after-subst.txt` reproduces dump-diff.txt byte for byte: 17602 -> 17607, 0 removed, 5 added (the Causality names), 5 deprecated aliases set aside, 0 unmatched either way, 0 field differences after substitution, 46 raw type/value hash changes all explained.",
+    "Method read: substBack maps the five new names (and names below them) back to the old ones inside every .const of every type and value, before hashing; the comparison keys after-constants by their substituted name. Sound for what it claims (only renames). It cannot by itself detect a user that goes through a deprecated alias (that term keeps Causal.Flat.* and hashes the same before and after); the warningAsError compiles cover that.",
+    "Spot checks of changed-hash rows: Causal.Flat.rem22_cone, Causal.Flat.dependenceDomain_hyperboloid (raw type and value hash changed; substituted hashes equal HEAD's 253345535/2013121157 and 481125033/3595432186), Causal.Causality.dependenceDomainOn (type hash unchanged, value hash changed, substituted value equals HEAD's 4026309429, reducible both), Causal.Flat.Cla.envelopeMaximal_of_maximal (value only, substituted equal). The five renamed constants: substituted type and value hashes, levels, telescope and reducibility equal those of the HEAD constants of the old names."
+   ]
+  },
+  "4_layer": {
+   "ok": true,
+   "notes": "From the hub root, tools/ladder.py in memory: lean_index()['imports']['Causal.DependenceDomain'] = ['Causal.Cauchy']; model_path('Causal.DependenceDomain') = None; model_path('Causal.NestedCausalities') = None. The diff adds no import line to any file. The index resolves all five Causality names and all five Flat aliases to Causal.DependenceDomain, and dependenceDomainOn and the two userless lemmas to Causal.NestedCausalities."
+  },
+  "5_resolution": {
+   "ok": true,
+   "notes": [
+    "python3 tools/ladder.py check: exit 0 (25 properties, 27 implications, 83 counterexamples, 85 consequences, 354 of 354 pairs classified, 7 transfers).",
+    "python3 tools/binder.py check: exit 0 (3 binders, all links resolve).",
+    "python3 tools/ladder.py emit-lean --dry-run: Rules.lean unchanged, Test.lean unchanged; exit 0.",
+    "python3 tools/ledger.py -c papers/barbot/ledger/ledger.toml check: exit 0 (44 statements, 39 Lean-stated, all links resolve). Also exit 0 for sbierski-mghd, ers-predictability, ett, sbierski-schwarzschild.",
+    "External references verified: programme/ladder.toml names Causal.Flat.dependenceDomain only in comments at :3681 and :3773 (no witness names any of the five); papers/*/certificate/*.toml: only papers/barbot/certificate/curation.toml:539, :577, :579, which name the Minkowski lemmas CCAction.dependenceDomain_subset_{UGamma,achronalDomain,compl_nullHyperplanes} and Flat.dependenceDomain_hyperboloid (not renamed); no binder mentions; lean-gx: no Lean, toml or md source mentions dependenceDomain outside .lake, and its pinned Causal (ca2ad78) has none in Lean."
+   ]
+  },
+  "6_docs": {
+   "ok": true,
+   "notes": [
+    "Causal/DependenceDomain.lean docstring: title, 'No label is certified', the Barbot quote, Hypothesis checklist, SCOPE, Provenance all present (kb/0006). The intro (:10-12), What-is-proved bullets (:22-27) and SCOPE (:38-48) are accurate after the rename; the removed sentence 'The names keep their namespace Causal.Flat' was the one made false. :12 says 'The former names Causal.Flat.*', meaning the five listed at :41-43, not all of Causal.Flat; acceptable as read with SCOPE.",
+    "README.md:63 is accurate (renamed Causality.dependenceDomain with its four lemmas by DEC-198, the former Flat.* names deprecated aliases).",
+    "kb/0047: the added parentheticals are accurate; see the minor finding on the sentence the closer rewrote.",
+    "NestedCausalities.lean:89-92 and :302-305, CausallyPlainLocZ.lean:47-51, LipschitzGraph.lean:82-86: accurate.",
+    "Remaining stale mentions of the old name outside this dispatch's write set: programme/ladder.toml:3681, :3773 (comments, the ladder keeper's file); lean-causal/docs/BARBOT-WAVE3.md:125-131 (dated Wave 3 design note, shows `def dependenceDomain` without namespace); reports/blueprint/index.html, reports/atlas/atlas.html and the ignored reports/atlas/lean/facts-lean-causal.json (generated, refreshed by their builders); programme/JOURNAL.md:44, :66 and earlier campaign REPORT/AUDIT files (history). None inside lean-causal's Lean sources, README or kb beyond the intended historical mentions."
+   ]
+  },
+  "7_scope": {
+   "ok": true,
+   "notes": "git status --short: the 11 lean-causal files listed in REPORT.json, the untracked campaign directory, and programme/roadmap.toml (only this target's status ready -> active, the loop's). lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean, lean-gx/campaign/T-bbs-hs-link-types/ and roadmap/roadmap.toml (T-bbs-hs-link-types ready -> active) are /atlas-team's concurrent target, not this closer's. The auditor's three probes and /tmp output were deleted; only this file was written."
+  }
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/kb/entries/0047-model-free-lemmas-stranded.md:15-16",
+   "what": "The sentence the closer rewrote still says dependenceDomainOn is 'reducible: `simp`/`rw` see through it'. That is only half true, and the claim predates this target (HEAD has the same words). Auditor probe: `rw [Causality.dependenceDomain_eq_of_isCauchySurfaceOn h]` on the goal `C.dependenceDomainOn W S = ↑W` fails ('Did not find an occurrence of the pattern C.dependenceDomain W S'), because rw's kabstract matches the head constant syntactically. `simp only [...]` succeeds, and so does `rw [Causality.mem_dependenceDomain] at hp` for `hp : p ∈ C.dependenceDomainOn W S`, where the head is Membership.mem. The rewritten sentence also leads with the stale target: 'now an abbrev of Flat.dependenceDomain (since DEC-198 of Causality.dependenceDomain; ...)'.",
+   "fix": "Rewrite it as: '... now an `abbrev` of `Causality.dependenceDomain` (of `Flat.dependenceDomain` before DEC-198). Reducible, so `simp` and unification see through it; `rw` with a `Causality.dependenceDomain` lemma does not match `C.dependenceDomainOn W S` at the head, so use the `dependenceDomainOn_*` lemmas or `simp only`.'"
+  }
+ ],
+ "notes_for_master": [
+  "dependenceDomainOn and dependenceDomain are now two names for one notion in Causal.Causality, with three duplicate lemma pairs. The closer kept dependenceDomainOn non-deprecated, because ladder witnesses (programme/ladder.toml:3691, :3780) and the ERS statements name it. That reading fits the dispatch ('redirected'), and DEC-198 is silent on it. Deprecating it would need a ruling.",
+  "The def alias is an abbrev (reducible), where Batteries' alias would give a semireducible def. Neither form lets `rw` with the alias theorems rewrite a term built with Flat.dependenceDomain (head mismatch). No hub user is affected.",
+  "The two ladder comments at programme/ladder.toml:3681 and :3773 can be refreshed by the keeper. The Barbot ledger and the atlas rebuild after the commit, as planned."
+ ]
+}

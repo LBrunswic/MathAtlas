@@ -95,7 +95,7 @@ acausal graph is the set of points every future causal line through which meets 
 (`meets_of_mem_dependenceDomain`, `mem_dependenceDomain_of_meets`), and `γ` maps causal lines
 to causal lines (`isom_smul_add_smul`, the linear part preserving the future cone). -/
 theorem cover_smul_mem_dependenceDomain {St : Set (Minkowski d)} (hcc : CCPrime St) (γ : isom d)
-    {z : Minkowski d} (hz : z ∈ dependenceDomain (minkowski d) ⊤ St) : γ • z ∈ dependenceDomain (minkowski d) ⊤ (γ • St) := by
+    {z : Minkowski d} (hz : z ∈ (minkowski d).dependenceDomain ⊤ St) : γ • z ∈ (minkowski d).dependenceDomain ⊤ (γ • St) := by
   obtain ⟨f, -, rfl⟩ := isEntireAcausalGraph_iff.1 hcc.entire
   obtain ⟨f', hf', hSt⟩ := isEntireAcausalGraph_iff.1 (ccPrime_smul γ hcc).entire
   rw [hSt]
@@ -113,9 +113,9 @@ theorem cover_smul_mem_dependenceDomain {St : Set (Minkowski d)} (hcc : CCPrime 
 /-- **An isometry carries `int D(Σ)` into `int D(γΣ)`** (`cover_smul_mem_dependenceDomain` and
 the homeomorphism `γ`). -/
 theorem cover_smul_mem_interior_dependenceDomain {St : Set (Minkowski d)} (hcc : CCPrime St)
-    (γ : isom d) {z : Minkowski d} (hz : z ∈ interior (dependenceDomain (minkowski d) ⊤ St)) :
-    γ • z ∈ interior (dependenceDomain (minkowski d) ⊤ (γ • St)) := by
-  have hopen : IsOpen ((fun p => γ • p) '' interior (dependenceDomain (minkowski d) ⊤ St)) :=
+    (γ : isom d) {z : Minkowski d} (hz : z ∈ interior ((minkowski d).dependenceDomain ⊤ St)) :
+    γ • z ∈ interior ((minkowski d).dependenceDomain ⊤ (γ • St)) := by
+  have hopen : IsOpen ((fun p => γ • p) '' interior ((minkowski d).dependenceDomain ⊤ St)) :=
     (isom.toHomeomorph γ).isOpenMap _ isOpen_interior
   refine interior_maximal ?_ hopen ⟨z, hz, rfl⟩
   rintro _ ⟨y, hy, rfl⟩
@@ -186,8 +186,8 @@ variable {f : EuclideanSpace ℝ (Fin d) → ℝ} {Γ : Subgroup (isom d)}
 in the compact `K = (J⁻(x) ∪ J⁺(x) ∪ J⁻(y) ∪ J⁺(y)) ∩ Σ` (`isCompact_Jminus_inter_graph`), and
 `Γ` acts properly on `Σ` (`CCAction.proper`). -/
 theorem cover_finite_le_smul (hcc : CCAction Γ (graph f)) {x y : Minkowski d}
-    (hx : x ∈ dependenceDomain (minkowski d) ⊤ (graph f))
-    (hy : y ∈ dependenceDomain (minkowski d) ⊤ (graph f)) :
+    (hx : x ∈ (minkowski d).dependenceDomain ⊤ (graph f))
+    (hy : y ∈ (minkowski d).dependenceDomain ⊤ (graph f)) :
     {γ : isom d | γ ∈ Γ ∧ (minkowski d).le ⊤ x (γ • y)}.Finite := by
   obtain ⟨f', hf', hff'⟩ := isEntireAcausalGraph_iff.1 hcc.cc.entire
   have hf : IsStrictContraction f := by
@@ -197,7 +197,7 @@ theorem cover_finite_le_smul (hcc : CCAction Γ (graph f)) {x y : Minkowski d}
     rw [this]; exact hf'
   set K : Minkowski d → Set (Minkowski d) := fun z =>
     ((minkowski d).Jminus ⊤ {z} ∩ graph f) ∪ ((minkowski d).Jplus ⊤ {z} ∩ graph f) with hKdef
-  have hKc : ∀ z ∈ dependenceDomain (minkowski d) ⊤ (graph f), IsCompact (K z) := fun z hz =>
+  have hKc : ∀ z ∈ (minkowski d).dependenceDomain ⊤ (graph f), IsCompact (K z) := fun z hz =>
     (isCompact_Jminus_inter_graph hf fun v hv hv0 => meets_of_mem_dependenceDomain hz hv hv0).union
       (isCompact_Jplus_inter_graph hf fun v hv hv0 => meets_of_mem_dependenceDomain hz hv hv0)
   have hKS : ∀ z, K z ⊆ graph f := fun z w hw => by
@@ -246,9 +246,9 @@ theorem cover_exists_box {W : Set (Minkowski d)} (hW : IsOpen W) {z : Minkowski 
 boxes `[aᵢ, bᵢ]` (`cover_exists_box`); `γ K ∩ K ≠ ∅` forces some `aⱼ ≤ γ bᵢ`, and each set of such
 `γ` is finite (`cover_finite_le_smul`). -/
 theorem cover_finite_smul_inter (hcc : CCAction Γ (graph f)) {K : Set (Minkowski d)}
-    (hKW : K ⊆ interior (dependenceDomain (minkowski d) ⊤ (graph f))) (hK : IsCompact K) :
+    (hKW : K ⊆ interior ((minkowski d).dependenceDomain ⊤ (graph f))) (hK : IsCompact K) :
     {γ : isom d | γ ∈ Γ ∧ (γ • K ∩ K).Nonempty}.Finite := by
-  set W := interior (dependenceDomain (minkowski d) ⊤ (graph f))
+  set W := interior ((minkowski d).dependenceDomain ⊤ (graph f))
   have hbox : ∀ z ∈ W, ∃ a b : Minkowski d, a ∈ W ∧ b ∈ W ∧
       ∀ᶠ q in 𝓝 z, (minkowski d).le ⊤ a q ∧ (minkowski d).le ⊤ q b :=
     fun z hz => cover_exists_box isOpen_interior hz
@@ -268,7 +268,7 @@ theorem cover_finite_smul_inter (hcc : CCAction Γ (graph f)) {K : Set (Minkowsk
 /-- **`int D(Σ)` is causally convex in `𝐌ⁿ`** (`mem_interior_dependenceDomain_of_le_of_nonneg`,
 `…_nonpos`, according to the side of `Σ`). -/
 theorem cover_causallyConvexIn (hf : IsStrictContraction f) :
-    (minkowski d).CausallyConvexIn (interior (dependenceDomain (minkowski d) ⊤ (graph f))) ⊤ := by
+    (minkowski d).CausallyConvexIn (interior ((minkowski d).dependenceDomain ⊤ (graph f))) ⊤ := by
   refine ⟨fun _ _ => trivial, fun p hp q hq z hz => ?_⟩
   obtain ⟨h1, h2⟩ := Causality.mem_diamond.1 hz
   rcases le_total 0 (timeSub f z) with h0 | h0
@@ -278,8 +278,8 @@ theorem cover_causallyConvexIn (hf : IsStrictContraction f) :
 /-- **`int D(Σ)` is connected**: every point is joined to `Σ` by its vertical segment, which lies
 in `int D(Σ)` (`cover_causallyConvexIn`), and `Σ` is connected. -/
 theorem cover_isConnected (hf : IsStrictContraction f) :
-    IsConnected (interior (dependenceDomain (minkowski d) ⊤ (graph f))) := by
-  set W := interior (dependenceDomain (minkowski d) ⊤ (graph f))
+    IsConnected (interior ((minkowski d).dependenceDomain ⊤ (graph f))) := by
+  set W := interior ((minkowski d).dependenceDomain ⊤ (graph f))
   have hSW : graph f ⊆ W := graph_subset_interior_dependenceDomain hf
   have hconv := cover_causallyConvexIn hf
   have hgc : IsPreconnected (graph f) := isPreconnected_graph f hf.lipschitzWith.continuous
@@ -303,18 +303,18 @@ theorem cover_isConnected (hf : IsStrictContraction f) :
 `γ x − x` is spacelike (`D(Σ) ⊆ U(Γ) ⊆ Ω_γ`, `dependenceDomain_subset_UGamma`,
 `Ug_subset_achronalDomain`): `γ x ≠ x` and `x ≰ γ x`. -/
 theorem cover_minkQ_pos (hcc : CCAction Γ (graph f)) {γ : isom d} (hγ : γ ∈ Γ) (h1 : γ ≠ 1)
-    {x : Minkowski d} (hx : x ∈ dependenceDomain (minkowski d) ⊤ (graph f)) :
+    {x : Minkowski d} (hx : x ∈ (minkowski d).dependenceDomain ⊤ (graph f)) :
     0 < minkQ (γ • x - x) := by
   have := Ug_subset_achronalDomain γ (hcc.dependenceDomain_subset_UGamma hx γ hγ h1) 1 one_ne_zero
   simpa using this
 
 theorem cover_not_le_smul (hcc : CCAction Γ (graph f)) {γ : isom d} (hγ : γ ∈ Γ) (h1 : γ ≠ 1)
-    {x : Minkowski d} (hx : x ∈ dependenceDomain (minkowski d) ⊤ (graph f)) :
+    {x : Minkowski d} (hx : x ∈ (minkowski d).dependenceDomain ⊤ (graph f)) :
     ¬ (minkowski d).le ⊤ x (γ • x) := fun h =>
   absurd (cover_minkQ_pos hcc hγ h1 hx) (not_lt.2 (le_top_iff_minkQ.1 h).2)
 
 theorem cover_smul_ne (hcc : CCAction Γ (graph f)) {γ : isom d} (hγ : γ ∈ Γ) (h1 : γ ≠ 1)
-    {x : Minkowski d} (hx : x ∈ dependenceDomain (minkowski d) ⊤ (graph f)) : γ • x ≠ x :=
+    {x : Minkowski d} (hx : x ∈ (minkowski d).dependenceDomain ⊤ (graph f)) : γ • x ≠ x :=
   fun h => by have := cover_minkQ_pos hcc hγ h1 hx; rw [h, sub_self, minkQ_zero] at this
               exact lt_irrefl _ this
 
@@ -518,7 +518,7 @@ is the `Γ`-invariant `W`. -/
 theorem cover_range_eq_of_mgh (M : FlatSpacetime.{u} d) (hM : MGH M) {x₀ : M}
     {D : UniversalCover M x₀ → Minkowski d} {ρ : Deck (UniversalCover.proj M x₀) →* isom d}
     (hpair : IsDevelopingPair x₀ D ρ) {S : Set M} (h : DevelopsCC x₀ D S) :
-    range D = interior (dependenceDomain (minkowski d) ⊤ (D '' (UniversalCover.proj M x₀ ⁻¹' S))) := by
+    range D = interior ((minkowski d).dependenceDomain ⊤ (D '' (UniversalCover.proj M x₀ ⁻¹' S))) := by
   letI := flatCoverChartedSpace d M x₀
   have hGH := hM.1
   have hcc := ccAction_of_developsCC hpair h
@@ -527,7 +527,7 @@ theorem cover_range_eq_of_mgh (M : FlatSpacetime.{u} d) (hM : MGH M) {x₀ : M}
   rw [hgfS] at hcc hDW0 ⊢
   set Γ := ρ.range with hΓ
   set W : Opens (Minkowski d) :=
-    ⟨interior (dependenceDomain (minkowski d) ⊤ (graph gf)), isOpen_interior⟩ with hWdef
+    ⟨interior ((minkowski d).dependenceDomain ⊤ (graph gf)), isOpen_interior⟩ with hWdef
   have hDW : range D ⊆ W := interior_maximal hDW0 hpair.gx.isOpenMap.isOpen_range
   -- the action of `Γ` on `W`
   haveI : FlatQuotient.Invariant Γ W := ⟨fun γ p hp => by
@@ -640,7 +640,7 @@ theorem cover_isCauchySurfaceOn_range {X : Type*} [TopologicalSpace X]
     {W : Opens (Minkowski d)} (hW : (W : Set (Minkowski d)) = range D) {S : Set X}
     (hS : (flatCausality d X).IsCauchySurface S) :
     (minkowski d).IsCauchySurfaceOn W (D '' (UniversalCover.proj X y₀ ⁻¹' S)) ∧
-      range D ⊆ dependenceDomain (minkowski d) ⊤ (D '' (UniversalCover.proj X y₀ ⁻¹' S)) := by
+      range D ⊆ (minkowski d).dependenceDomain ⊤ (D '' (UniversalCover.proj X y₀ ⁻¹' S)) := by
   letI := flatCoverChartedSpace d X y₀
   haveI := hasGroupoid_flatCover (d := d) X y₀
   set Sh := UniversalCover.proj X y₀ ⁻¹' S
@@ -673,7 +673,7 @@ theorem cover_surjective_of_range_eq {M : FlatSpacetime.{u} d} (hGH : GH M) {x�
     {D : UniversalCover M x₀ → Minkowski d} {ρ : Deck (UniversalCover.proj M x₀) →* isom d}
     (hpair : IsDevelopingPair x₀ D ρ) {S : Set M} (h : DevelopsCC x₀ D S)
     (hrange : range D =
-      interior (dependenceDomain (minkowski d) ⊤ (D '' (UniversalCover.proj M x₀ ⁻¹' S))))
+      interior ((minkowski d).dependenceDomain ⊤ (D '' (UniversalCover.proj M x₀ ⁻¹' S))))
     {M' : FlatSpacetime.{v} d} {p : M' → M} (hp : IsFiniteCover d p) (hC' : CauchyCompact M')
     {N : FlatSpacetime.{w} d} {g : M' → N} (hg : IsFlatCauchyEmbedding d g) : Surjective g := by
   obtain ⟨hgi, -, hGHN, -⟩ := isFlatCauchyEmbedding_iff.1 hg
@@ -737,7 +737,7 @@ theorem cover_surjective_of_range_eq {M : FlatSpacetime.{u} d} (hGH : GH M) {x�
     exact ⟨q z, by rw [mem_preimage, h2]; exact hz, rfl⟩
   have heq := cover_eq_of_subset_of_isEntireAcausalGraph (ccPrime_smul hh h.cc).entire
     hS2.entire hsub
-  have hrN : range DN ⊆ interior (dependenceDomain (minkowski d) ⊤
+  have hrN : range DN ⊆ interior ((minkowski d).dependenceDomain ⊤
       (hh • (D '' (UniversalCover.proj M x₀ ⁻¹' S)))) := by
     rw [heq]; exact interior_maximal hRT.2 hpairN.gx.isOpenMap.isOpen_range
   -- `G` is onto

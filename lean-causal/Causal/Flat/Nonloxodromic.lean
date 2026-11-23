@@ -2727,7 +2727,7 @@ for a Hausdorff `M`, `Σ = 𝒟(S̃)` is a Cauchy surface of the open `𝒟(M̃)
 it meets `Σ` (`exists_mem_nullLine_of_mem_dependenceDomain`, l.3123–3125). -/
 theorem range_subset_dependenceDomain_of_developsCC [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
     (hcaus : (flatCausality d M).IsCausal) (h : DevelopsCC x₀ D S) :
-    range D ⊆ dependenceDomain (minkowski d) ⊤ (D '' (UniversalCover.proj M x₀ ⁻¹' S)) := by
+    range D ⊆ (minkowski d).dependenceDomain ⊤ (D '' (UniversalCover.proj M x₀ ⁻¹' S)) := by
   letI := flatCoverChartedSpace d M x₀
   haveI := hasGroupoid_flatCover (d := d) M x₀
   set Sh := UniversalCover.proj M x₀ ⁻¹' S

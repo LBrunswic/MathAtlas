@@ -341,7 +341,7 @@ private theorem fst_pos_of_future {v : Minkowski d} (hv : IsFutureCausal v) (hv0
 
 /-- Every causal line through a point of `D(S)` meets `S`. -/
 theorem exists_mem_line_of_mem_dependenceDomain {S : Set (Minkowski d)} {y : Minkowski d}
-    (hy : y ∈ dependenceDomain (minkowski d) ⊤ S) {v : Minkowski d} (hv : IsFutureCausal v)
+    (hy : y ∈ (minkowski d).dependenceDomain ⊤ S) {v : Minkowski d} (hv : IsFutureCausal v)
     (hv0 : v ≠ 0) : ∃ s : ℝ, y + s • v ∈ S := by
   have hv1 := fst_pos_of_future hv hv0
   obtain ⟨_, ⟨τ, -, rfl⟩, hτS⟩ := hy.2 univ (timeLine y v) (inextensible_timeLine y hv hv0)
@@ -350,7 +350,7 @@ theorem exists_mem_line_of_mem_dependenceDomain {S : Set (Minkowski d)} {y : Min
 
 /-- Every null line through a point of `D(S)` meets `S`, in either time orientation. -/
 theorem exists_mem_nullLine_of_mem_dependenceDomain {S : Set (Minkowski d)} {y : Minkowski d}
-    (hy : y ∈ dependenceDomain (minkowski d) ⊤ S) {ℓ : Minkowski d} (hℓ0 : ℓ ≠ 0)
+    (hy : y ∈ (minkowski d).dependenceDomain ⊤ S) {ℓ : Minkowski d} (hℓ0 : ℓ ≠ 0)
     (hℓ : minkQ ℓ = 0) : ∃ s : ℝ, y + s • ℓ ∈ S := by
   have h1 : ℓ.1 ≠ 0 := fun h => hℓ0 (eq_zero_of_fst_eq_zero h hℓ.le)
   rcases lt_or_gt_of_ne h1 with hlt | hgt
@@ -471,7 +471,7 @@ If `T(y) ≥ 0`, the points `k^{-m} z₀`, `z₀ ∈ Σ` below `y`, all lie in t
 `J⁻(y) ∩ Σ` (hub step); properness makes `⟨k⟩` finite, which torsion-freeness excludes. If
 `T(y) ≤ 0`, the same with `k^m` and `J⁺(y) ∩ Σ`. -/
 theorem false_of_le_smul (h : CCAction Γ S) {k : isom d} (hk : k ∈ Γ) (h1 : k ≠ 1)
-    {y : Minkowski d} (hy : y ∈ dependenceDomain (minkowski d) ⊤ S)
+    {y : Minkowski d} (hy : y ∈ (minkowski d).dependenceDomain ⊤ S)
     (hle : (minkowski d).le ⊤ y (k • y)) : False := by
   obtain ⟨f, hf, rfl⟩ := isEntireAcausalGraph_iff.1 h.cc.entire
   have hmeet := fun (v : Minkowski d) (hv : IsFutureCausal v) (hv0 : v ≠ 0) =>
@@ -520,7 +520,7 @@ theorem false_of_le_smul (h : CCAction Γ S) {k : isom d} (hk : k ∈ Γ) (h1 : 
 
 /-- **`D(Σ) ⊆ Ω_γ`** for every nontrivial `γ ∈ Γ`. -/
 theorem dependenceDomain_subset_achronalDomain (h : CCAction Γ S) {γ : isom d} (hγ : γ ∈ Γ)
-    (h1 : γ ≠ 1) : dependenceDomain (minkowski d) ⊤ S ⊆ achronalDomain γ := by
+    (h1 : γ ≠ 1) : (minkowski d).dependenceDomain ⊤ S ⊆ achronalDomain γ := by
   intro y hy q hq
   by_contra hneg
   have hk : γ ^ q ∈ Γ := zpow_mem hγ q
@@ -535,7 +535,7 @@ theorem dependenceDomain_subset_achronalDomain (h : CCAction Γ S) {γ : isom d}
 `J` through `y ∈ D(Σ)` meets `Σ`, so the null hyperplane `c + J^⊥` through `y` meets `Σ`; by
 (CC′)(b) (Barbot's Cor 8.3) `Σ` then meets the line `c + J` of fixed points, against freeness. -/
 theorem dependenceDomain_subset_compl_nullHyperplanes (h : CCAction Γ S) {γ : isom d}
-    (hγ : γ ∈ Γ) (h1 : γ ≠ 1) : dependenceDomain (minkowski d) ⊤ S ⊆ (nullHyperplanes γ)ᶜ := by
+    (hγ : γ ∈ Γ) (h1 : γ ≠ 1) : (minkowski d).dependenceDomain ⊤ S ⊆ (nullHyperplanes γ)ᶜ := by
   rintro y hy ⟨R, U, ⟨hR, hU, hRe, hn, hU1, hg, hc⟩, c, hcfix, hyc⟩
   obtain ⟨v₀, hv₀, hv₀0⟩ := exists_mem_nullPart_ne_zero hU.1 hn (pOf_ne_zero hU1)
   have hq0 := minkQ_eq_zero_of_mem_nullPart hv₀
@@ -553,7 +553,7 @@ theorem dependenceDomain_subset_compl_nullHyperplanes (h : CCAction Γ S) {γ : 
 
 /-- **Lemma 8.6, core**: `D(Σ) ⊆ U(Γ)`. -/
 theorem dependenceDomain_subset_UGamma (h : CCAction Γ S) :
-    dependenceDomain (minkowski d) ⊤ S ⊆ UGamma Γ := by
+    (minkowski d).dependenceDomain ⊤ S ⊆ UGamma Γ := by
   intro y hy γ hγ h1
   unfold Ug
   split_ifs with h2 h3
@@ -568,7 +568,8 @@ lies in the interior `Ω(Γ)` of `U(Γ)`, because the interior of the domain of 
 a neighbourhood of `Σ` inside `U(Γ)`. -/
 theorem blem_SdanU (h : CCAction Γ S) :
     (∀ γ ∈ Γ, γ ≠ 1 → S ⊆ Ug γ) ∧ S ⊆ omegaGamma Γ := by
-  have hD : S ⊆ dependenceDomain (minkowski d) ⊤ S := subset_dependenceDomain fun _ _ => trivial
+  have hD : S ⊆ (minkowski d).dependenceDomain ⊤ S :=
+    Causality.subset_dependenceDomain fun _ _ => trivial
   refine ⟨fun γ hγ h1 x hx => h.dependenceDomain_subset_UGamma (hD hx) γ hγ h1, ?_⟩
   obtain ⟨f, hf, hfS⟩ := isEntireAcausalGraph_iff.1 h.cc.entire
   have := graph_subset_interior_dependenceDomain hf
@@ -611,7 +612,7 @@ theorem nini (h : CCAction Γ S) {γ : isom d} (hγ : γ ∈ Γ) (h1 : γ ≠ 1)
   refine ⟨h.not_isNonspacelikeElliptic hγ h1, fun ht => ?_, fun n hn => h.zpow_ne_one hγ h1 hn⟩
   obtain ⟨x, hx⟩ := h.nonempty
   have := h.dependenceDomain_subset_achronalDomain hγ h1
-    (subset_dependenceDomain (C := minkowski d) (W := ⊤) (fun _ _ => trivial) hx)
+    (Causality.subset_dependenceDomain (C := minkowski d) (W := ⊤) (fun _ _ => trivial) hx)
   rw [achronalDomain_eq_empty_of_isTransverseParabolic ht] at this
   exact this
 
@@ -2371,7 +2372,7 @@ theorem bprop_danom [T2Space M] (hpair : IsDevelopingPair x₀ D ρ)
       (subset_univ Sh)).1 (isCauchySurface_liftSet x₀ hcaus h.cauchy)
     rwa [flatCausality_self] at this
   -- steps 3–5: `𝒟(M̃) ⊆ D(Σ) ⊆ U(Γ)`
-  have hD : range D ⊆ dependenceDomain (minkowski d) ⊤ (D '' Sh) := by
+  have hD : range D ⊆ (minkowski d).dependenceDomain ⊤ (D '' Sh) := by
     intro y hy
     refine ⟨trivial, fun I c hc ⟨t, ht, hct⟩ => ?_⟩
     have hcW : c t ∈ W := by rw [hct]; exact hy

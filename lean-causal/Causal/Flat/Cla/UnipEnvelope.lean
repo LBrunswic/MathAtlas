@@ -1402,7 +1402,7 @@ theorem envelopeMaximal_of_maximal (ψ : isom (e + 1)) {ℓ : Fin e → ℝ}
   clear hquo
   generalize D '' (UniversalCover.proj N y₀ ⁻¹' S) = Sg at hDD hac hpre hinvS
   generalize hRD : range D = RD at hDD hopenD hsub ⊢
-  have hRD' : ∀ p ∈ RD, p ∈ dependenceDomain (minkowski (e + 1)) ⊤ Sg := fun p hp => hDD hp
+  have hRD' : ∀ p ∈ RD, p ∈ (minkowski (e + 1)).dependenceDomain ⊤ Sg := fun p hp => hDD hp
   clear hDD hpair hcaus hS
   generalize hφ : g * ψ = φ
   have hsub' : ∀ x ∈ unipDomain a b, φ • x ∈ RD := fun x hx =>

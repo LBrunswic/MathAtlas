@@ -47,7 +47,8 @@ and this module proves criteria for it.
 * **A verbatim hoist.** The moved text is byte-identical to its source (`E0SingularFlat` HEAD
   `bd1fafb` l.302–380, `E0ModelRows` l.106–136); the two Port modules import this one. The
   namespace `E0LM` is kept so that the names do not change (as `Flat.dependenceDomain` kept
-  `Flat`, kb/0047); a rename is a separate question. The `E₀` instances (`E0LM.e0_locZplus`, …)
+  `Flat` at its hoist, kb/0047, until DEC-198 renamed it `Causality.dependenceDomain`); a rename
+  is a separate question. The `E₀` instances (`E0LM.e0_locZplus`, …)
   stay in `Causal.Port.E0SingularFlat`, and `SingularFlatAxioms.causallyPlain` and the
   `BTZAxioms` lemmas, stated over `Causal.SingularFlat`'s bundles, are in `Causal.SingularFlatPlain`.
 * **What the ladder edge does not say.** It asks chronology in every open set at every point,

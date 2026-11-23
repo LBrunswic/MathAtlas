@@ -1,0 +1,36 @@
+# T-abs-dependence-domain-home: #print axioms of the renamed principal declarations, the redirected
+# dependenceDomainOn family and the deprecated aliases, from campaign/T-abs-dependence-domain-home/Probe.lean
+# (taskset -c 0-11 lake env lean campaign/T-abs-dependence-domain-home/Probe.lean, 2026-11-23, node1;
+# exit 0, no warning: the two deprecation warnings are captured by #guard_msgs). Standard axioms only.
+
+@Causality.dependenceDomain : {M : Type u_1} → [inst : TopologicalSpace M] → Causality M → Opens M → Set M → Set M
+@Causality.mem_dependenceDomain : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M} {W : Opens M}
+  {S : Set M} {p : M},
+  p ∈ C.dependenceDomain W S ↔
+    p ∈ W ∧ ∀ (I : Set ℝ) (c : ℝ → M), C.Inextensible W I c → p ∈ c '' I → (c '' I ∩ S).Nonempty
+@Causality.dependenceDomain_subset : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M} {W : Opens M}
+  {S : Set M}, C.dependenceDomain W S ⊆ ↑W
+@Causality.subset_dependenceDomain : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M} {W : Opens M}
+  {S : Set M}, S ⊆ ↑W → S ⊆ C.dependenceDomain W S
+@Causality.dependenceDomain_eq_of_isCauchySurfaceOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W : Opens M} {S : Set M}, C.IsCauchySurfaceOn W S → C.dependenceDomain W S = ↑W
+@Causality.dependenceDomainOn : {M : Type u_1} → [inst : TopologicalSpace M] → Causality M → Opens M → Set M → Set M
+'Causal.Causality.dependenceDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.mem_dependenceDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dependenceDomain_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.subset_dependenceDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dependenceDomain_eq_of_isCauchySurfaceOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dependenceDomainOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dependenceDomainOn_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.subset_dependenceDomainOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dependenceDomainOn_eq_of_isCauchySurfaceOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.dependenceDomainOn_subset_of_nested' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.GloballyHyperbolic.dependenceDomainOn_subset_of_nested' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.not_dependenceDomain_nested_bare' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Flat.dependenceDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Flat.mem_dependenceDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Flat.dependenceDomain_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Flat.subset_dependenceDomain' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Flat.dependenceDomain_eq_of_isCauchySurfaceOn' depends on axioms: [propext, Classical.choice, Quot.sound]
