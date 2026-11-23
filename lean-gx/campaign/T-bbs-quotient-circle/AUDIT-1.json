@@ -1,0 +1,64 @@
+{
+ "target": "T-bbs-quotient-circle",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "(unlabeled) colI_v1.tex l.689-711, the quotient circle J/<f> (the block's statement)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "GX.exists_gxQuotientCircle, read against the block one hypothesis at a time. Hypotheses: J.OrdConnected with a point x0 (weaker than 'open interval': openness follows, because a bijection f of J with x < f x leaves no endpoint, and the proof gets it as the range of the open embedding psi); BijOn/StrictMonoOn/ContinuousOn f J ('increasing homeomorphism of J', continuity of the inverse is automatic); x < f x on J; IsLocalHomeomorphOn D J (equivalent to D|J a local homeomorphism, J being open); D (f x) = gamma . D x on J; [Group G] [MulAction G X] [ContinuousConstSMul G X] only. Conclusion: L : Type, ChartedSpace X L, HasGroupoid (gxGroupoid G X), IsCircle L; pi continuous on J, open on J, pi '' J = univ, and on J the fibres are exactly the <f>-orbits, so pi|J induces a homeomorphism J/<f> ~ L; D develops along pi (D = g . chart o pi near every x in J, so pi is a (G,X)-morphism from the pulled-back structure); psi : R -> J is an increasing homeomorphism conjugating s+1 to f, E = pi o psi is a periodic covering along which D o psi develops with D(psi(s+1)) = gamma . D(psi s); the maximal atlas is unique. All notions are the strict library's (IsCircle, IsPeriodicCover, gxGroupoid; gxQuotient is used in the proof of GX.exists_gxQuotient_add_one, and its morphism-plus-uniqueness conclusion is restated). Not vacuous: the RP1 and (Gamma_p, l(p)) instances apply it to concrete data. 'Free and properly discontinuous' for <f> on J is not a declaration of its own (SCOPE (a)); it is an intermediate observation of the paper, the block does not ask for it, and the file proves it for the conjugate translation action."
+  },
+  {
+   "label": "(unlabeled) l.690-701, 'non-trivial elliptic elements act as translations, i.e. freely and properly discontinuously'; 'if k != 0 the action is free and properly discontinuous'",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "GX.GTilde.exists_conj_translation: an element of G~ without a fixed point moves every point the same way and is conjugate, by an increasing homeomorphism of R, to s -> s+1 or s -> s-1. 'No fixed point' really is weaker than either paper hypothesis: strict GX.GTilde.IsElliptic.apply_ne (RP1Circles.lean:1139) gives it for elliptic elements, and GX.GTilde.apply_ne_of_degree_ne_zero (HSSingularities.lean:745) for delta^k g with k != 0. The topological reading (SCOPE (c), question 1) is the one the paper's own 'i.e.' gives. The projective reading (conjugate in G~ to the lift of a rotation) is named and correctly placed in T-bbs-psl2-normal-forms. The quotient spaces are GX.exists_hasLiftedHolonomy_of_forall_lt (onto) and GX.exists_rp1Circle_quotient."
+  },
+  {
+   "label": "(unlabeled) l.705-710, the degree-0 circles ]x0, x1[/<g>",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "GX.exists_hasLiftedHolonomy_of_lt_apply covers any component J of {x | x < f x}. When the component is ]x0, x1[ between successive fixed points, this is the paper's case; g or g^-1 is chosen by orientation, as GX.exists_rp1Circle_quotient does. The conclusion is HasLiftedHolonomy L f with range D = J, D an increasing homeomorphism R -> J conjugating s+1 to f, which identifies L with J/<f>. GX.GTilde.bijOn_connectedComponentIn (f permutes the component) is proved with the intermediate value theorem."
+  },
+  {
+   "label": "(unlabeled) l.721-722, 'every cyclic subgroup of G~ is the holonomy group of a real projective circle'",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Corrected form proved: GX.exists_rp1Circle_quotient (f != 1 gives an RP1-circle with HasLiftedHolonomy L f or f^-1); group form GX.exists_rp1Circle_zpowers (H cyclic, H != bot). The finding is true. GX.not_hasLiftedHolonomy_one: D is strictly increasing and D(s+1) = D s is impossible. GX.not_every_cyclic_subgroup_is_holonomy applies this to bot, which is cyclic (Subgroup.zpowers_one_eq_bot). The refutation does not depend on the oriented reading (d): any lifted developing map is a local homeomorphism R -> R, hence injective, so the trivial holonomy is excluded under every reading. The paper's own proof says 'rho(1) is non-trivial' at l.718. This is a real defect of the printed sentence, if a slip of wording: G~ is torsion-free, so 'non-trivial cyclic' = 'infinite cyclic', and the sentence is true if 'cyclic' is read as 'infinite cyclic'. The REPORT's smallest correction is the right one. The closes-map was re-run in /tmp, importing HSSingularities and QuotientCircle: exists_rp1Circle_of_ne_one's statement, restated verbatim, is closed by `exists_rp1Circle_quotient hf`, with no name clash between the two modules."
+  },
+  {
+   "label": "(unlabeled) the (Gamma_p, l(p))-circle quotients needed by bbsrem:previous_section_observed_only (l.926-932) and HSSingularities' exists_positive_negative (l.2358)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "GX.exists_gammaLinkCircle_quotient (any J, f, local homeomorphism D on J into Link p, rho in GammaP p) returns the fields of GammaLinkCircle.mk p cs hcs hL with (GammaLinkCircle.mk p cs hcs hL).IsDevAlong E (D o psi) (strict IPm notion), so C.pt = p by rfl. The _of_lt_apply and _of_forall_lt variants specialise it to f in G~. The construction half of l.2358 was re-run in /tmp: g a lift of A in Gamma_p through linkCover with a fixed point, and f = delta^2 * g. hlt comes from GTilde.sub_one_lt_apply_of_fixed, and hDf from linkCover_add_two_mul with n = 1. With these, C := <p, cs, hcs, hL> gives C.IsLiftedDev theta E psi f := <hE, hpsic, hpsim, hdev, hpsif>. It compiles, as the REPORT describes. Choosing the boost, the signs, and f' = kappa f kappa^-1 are rightly left to T-bbs-hs-remark-existence."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "From lean-gx/: `taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/QuotientCircle.lean` and the same with -DwarningAsError=true both exit 0 with no output. The run really elaborates: a /tmp copy with one proof term broken fails at that line. The file has 788 lines and no sorry, admit, axiom, native_decide or set_option. `#print axioms` on all 19 declarations, from a /tmp probe that has since been deleted, gives [propext, Classical.choice, Quot.sound] for each. The olean, dated 06:21, is newer than the source, dated 06:19. lake build was not re-run, per the dispatch. Imports are GX.BBS.IPm and GX.Singular.Quotient, both strict, with no scaffold and no Causal.* import. scripts/causal_import_gate.py passes. The file can graduate to GX/BBS/QuotientCircle.lean by a file move plus a module rename. Using IPm instead of the block's RP1Circles is acceptable: IPm imports RP1Circles, holds GammaLinkCircle.IsDevAlong, and HSSingularities already imports it. No name clashes: none of the 19 names occurs anywhere in GX/ or scaffold/ outside this file. That was re-checked after the master's commits 7c93c5d (GX/BBS/GammaPElements.lean graduated) and 77297c2 (PSL2NormalForms), which landed during the audit. Scope is clean. git status shows only scaffold/GXScaffold/BBS/QuotientCircle.lean and campaign/T-bbs-quotient-circle/ for this target. HSSingularities.lean, scaffold/GXScaffold.lean and GX/ are untouched. The roadmap and lean-causal diffs are the master's and the ETT loop's."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/campaign/T-bbs-quotient-circle/REPORT.json: statement.status; scaffold/GXScaffold/BBS/QuotientCircle.lean:66",
+   "what": "The REPORT gives status 'closed' to a statement whose tex_lines (688-722) include l.721, which is false as printed. Under DEC-27 such a row is partial, never closed. The range also includes three readings (SCOPE (b)-(d)), and CAMPAIGN counts a reading as 'partial'. The checklist row 'free and properly discontinuous ... ✓' presents as a carried hypothesis a paper claim that SCOPE (a) says is not a declaration for <f> on J. Everything is disclosed, and there is no label, mark or ledger row, so no gate reads it. But a curator transcribing 'closed' onto the prose rows l.688-722 would contradict the finding. The HSSingularities REPORT already has those rows as 'partial'.",
+   "fix": "Write statement.status as 'partial' for tex_lines 688-722. Or keep 'closed' but scope it explicitly to the block's corrected statement ('every non-trivial cyclic subgroup'). Reword the checklist row as a derived claim ('⚠ derived, for the conjugate translation action; SCOPE (a)')."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BBS/QuotientCircle.lean:105",
+   "what": "GX.image_Ioo_of_strictMono duplicates mathlib: it is `(OrderEmbedding.ofStrictMono ψ hψ).image_Ioo hr a b` (OrderEmbedding.image_Ioo, Mathlib/Order/Interval/Set/OrdConnected.lean:90). The one-liner was checked to typecheck at this pin. CAMPAIGN 'Reuse' asks for a mathlib grep before general lemmas.",
+   "fix": "Replace the proof with the mathlib one-liner, or drop the lemma and call OrderEmbedding.image_Ioo at its two uses (l.124, l.284)."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/GXScaffold/BBS/QuotientCircle.lean:701",
+   "what": "The docstring of GX.not_hasLiftedHolonomy_one cites l.716-717 for 'ρ(1) is non-trivial'. The sentence is at colI_v1.tex:718, where the REPORT cites it correctly.",
+   "fix": "l.716–717 -> l.718."
+  }
+ ],
+ "notes": "No major finding. The finding about the paper is true and fairly framed. When it goes to the author, it could add that G~ is torsion-free, so 'non-trivial' and 'infinite cyclic' coincide: the printed sentence is a slip of wording, not a mathematical error, and the paper's own proof (l.718) already excludes the trivial case. Both questions name their readings, and the readings are sound. 'as translations' is read topologically, which is what the paper's 'i.e.' says, and the projective reading is pointed to T-bbs-psl2-normal-forms. 'naturally' is read as the gxQuotient structure, unique up to maximal atlas. The docstring contract is met: title, unlabeled-prose source with no ** mark (bbsrem:previous_section_observed_only appears in plain backticks only, so the ledger regex reads no mark), the quotes verbatim against l.690-692, 698-701, 709-710, 721-722, a hypothesis checklist, SCOPE and provenance. The REPORT's note that scaffold/GXScaffold.lean does not import the module, so the axiom sweep misses it until it graduates or is imported, is correct and is the master's to act on. The closer's /tmp/qc_test was left in place: it is not this auditor's file."
+}

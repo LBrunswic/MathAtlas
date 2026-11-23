@@ -1,0 +1,111 @@
+{
+ "package": "T-bbs-quotient-circle",
+ "target": "T-bbs-quotient-circle",
+ "files": [
+  "scaffold/GXScaffold/BBS/QuotientCircle.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [],
+ "statement": {
+  "source": "papers/bbs/legacy/labeled/colI_v1.tex, unlabeled prose of § 3.3.1 (l.688-722) and the quotients of § 3.3.2 used by bbsrem:previous_section_observed_only (l.926-932); kind research, no label",
+  "tex_lines": [
+   688,
+   722
+  ],
+  "status": "closed",
+  "decls": [
+   "GX.exists_gxQuotientCircle",
+   "GX.exists_reparam_conj_add_one",
+   "GX.exists_gxQuotient_add_one",
+   "GX.GTilde.exists_conj_translation",
+   "GX.exists_hasLiftedHolonomy_of_lt_apply",
+   "GX.exists_hasLiftedHolonomy_of_forall_lt",
+   "GX.exists_rp1Circle_quotient",
+   "GX.exists_rp1Circle_zpowers",
+   "GX.not_hasLiftedHolonomy_one",
+   "GX.not_every_cyclic_subgroup_is_holonomy",
+   "GX.exists_gammaLinkCircle_quotient",
+   "GX.exists_gammaLinkCircle_quotient_of_lt_apply",
+   "GX.exists_gammaLinkCircle_quotient_of_forall_lt"
+  ],
+  "hypotheses": [
+   {
+    "paper": "an increasing homeomorphism f of J (the block; g on ]x0, x1[, l.709)",
+    "here": "carried",
+    "note": "BijOn f J J, StrictMonoOn f J, ContinuousOn f J"
+   },
+   {
+    "paper": "J an open interval (]x0, x1[ or RP~1)",
+    "here": "weakened",
+    "note": "J.OrdConnected with a point x0 in J; openness is derived (range of the open embedding psi)"
+   },
+   {
+    "paper": "x < f x on J",
+    "here": "carried",
+    "note": "the canonical orientation of l.729-737; for f x < x use f^-1 (GX.exists_rp1Circle_quotient does)"
+   },
+   {
+    "paper": "the action is free and properly discontinuous (l.691, l.699, l.709)",
+    "here": "carried",
+    "note": "derived from x < f x through the conjugacy psi to s -> s + 1; proved for the translation action (hfree, hdisc of GX.gxQuotient inside GX.exists_gxQuotient_add_one), not stated as a separate declaration for <f> on J"
+   },
+   {
+    "paper": "D : J -> X a local homeomorphism with D o f = gamma . D",
+    "here": "carried",
+    "note": "IsLocalHomeomorphOn D J, equivariance on J"
+   },
+   {
+    "paper": "non-trivial elliptic (l.690), k != 0 (l.698)",
+    "here": "weakened",
+    "note": "GX.GTilde.exists_conj_translation needs only: no fixed point"
+   },
+   {
+    "paper": "every cyclic subgroup of G~ (l.721)",
+    "here": "corrected",
+    "note": "false for the trivial subgroup (GX.not_every_cyclic_subgroup_is_holonomy); proved for the non-trivial ones (GX.exists_rp1Circle_zpowers, GX.exists_rp1Circle_quotient)"
+   }
+  ],
+  "conclusion": "GX.exists_gxQuotientCircle: L : Type with ChartedSpace X L, HasGroupoid L (gxGroupoid G X), IsCircle L; pi : R -> L continuous on J, open on J, pi '' J = univ, fibres on J the <f>-orbits (exists n : N, f^[n] x = y or f^[n] y = x); D developing along pi on J; psi : R -> J continuous, strictly increasing, onto J, psi 0 = x0, psi (s+1) = f (psi s); E = pi o psi a periodic covering along which D o psi develops; holonomy D (psi (s+1)) = gamma . D (psi s); uniqueness of the structure up to maximal atlas among those along which D o psi develops"
+ },
+ "closes": [
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:1265, GX.exists_rp1Circle_of_ne_one",
+   "by": "GX.exists_rp1Circle_quotient",
+   "how": "same statement; the proof becomes `exists_rp1Circle_quotient hf` (verified in a /tmp concatenation of both files: it compiles, HSSingularities drops to 9 sorrys)"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:2358, GX.exists_positive_negative (the quotient construction only)",
+   "by": "GX.exists_gammaLinkCircle_quotient_of_forall_lt",
+   "how": "with D = linkCover p theta ((isCoveringMap_linkCover p theta).isLocalHomeomorph) and f = delta^2 * g (g the lift of A with a fixed point): hlt from GTilde.sub_one_lt_apply_of_fixed, hDf from linkCover_add_two_mul. `obtain <L, _, cs, hcs, hL, E, psi, hE, hpsic, hpsim, hpsif, hdev> := ...` then C := <p, cs, hcs, hL> (C.pt = p by rfl) and C.IsLiftedDev theta E psi f := <hE, hpsic, hpsim, hdev, hpsif> (verified in /tmp: both examples compile). Same for f' = delta^2 * g^-1. Not done here (outside this file): the choice of A in Gamma_p minus 1 (a boost, kb 0053), its lift with a fixed point, and the positive/negative signs (spacelike_dichotomy, sign of g vs g^-1 on I+, GTilde.IsHyperbolic.exists_conj_inv for f' = kappa f kappa^-1)"
+  }
+ ],
+ "findings": [
+  "l.721-722 'every cyclic subgroup of G~ is the holonomy group of a real projective circle' is false for the trivial subgroup: an RP1-circle's lifted developing map is increasing with D (s+1) = f (D s), so f != 1 (GX.not_hasLiftedHolonomy_one; GX.not_every_cyclic_subgroup_is_holonomy refutes the printed group form). The paper's own proof says 'rho(1) is non-trivial' (l.718). Smallest correction: 'every non-trivial cyclic subgroup' (proved: GX.exists_rp1Circle_zpowers). HSSingularities' docstring of GX.exists_rp1Circle_of_ne_one already states the corrected form without recording it as a finding."
+ ],
+ "questions": [
+  "l.690-691 'non-trivial elliptic elements act on RP~1 as translations, i.e. freely and properly discontinuously': read topologically, as the paper's 'i.e.' glosses it. Proved stronger than free and properly discontinuous: every element of G~ without fixed point is conjugate, by an increasing homeomorphism of R, to s -> s + 1 or s -> s - 1 (GX.GTilde.exists_conj_translation). The projective reading (conjugate in G~ to the lift of a rotation, which acts on RP~1 = R by a translation t -> t + c) is the rotation normal form of T-bbs-psl2-normal-forms, not proved here.",
+  "'naturally a real projective structure' (l.692, l.700): read as the structure for which the projection is a (G,X)-morphism from the structure pulled back along the developing map (GX.gxQuotient), unique up to maximal atlas; the uniqueness is part of GX.exists_gxQuotientCircle."
+ ],
+ "extra_decls": [
+  "GX.image_Ioo_of_strictMono",
+  "GX.isOpenEmbedding_of_strictMono",
+  "GX.addIntAction",
+  "GX.zpow_smul_of_add_one",
+  "GX.GTilde.Icc_subset_setOf_lt_apply",
+  "GX.GTilde.bijOn_connectedComponentIn"
+ ],
+ "kb_proposals": [
+  "A quotient circle J/<f> (J an interval, f an increasing homeomorphism of J, x < f x) is GX.exists_gxQuotientCircle: it conjugates f to s -> s + 1 by a fundamental domain psi : R -> J (GX.exists_reparam_conj_add_one: f as an Equiv.Perm J via BijOn.equiv, psi s = (F ^ floor s) (x0 + fract s * (f x0 - x0))), then builds R/Z with the structure of D o psi (GX.exists_gxQuotient_add_one: Multiplicative Z acting by GX.addIntAction through letI, GX.gxQuotient, Orbits ~ Circle by Quotient.lift RP1.proj and Equiv.toHomeomorphOfContinuousOpen).",
+  "To return a (Gamma_p, l(p))-circle with C.pt = p from an existential, return its fields (cs, hcs, hL) and state (GammaLinkCircle.mk p cs hcs hL).IsDevAlong E d: D : R -> Link p then typechecks, and the consumer builds C := <p, cs, hcs, hL> with C.pt = p by rfl (GX.exists_gammaLinkCircle_quotient_of_forall_lt).",
+  "Pitfall: mem_connectedComponentIn hx0 with hx0 : x0 < f x0 elaborates with F := Real.lt x0 (a set as a predicate) and x := f x0; ascribe (show x0 in {x | x < f x} from hx0) and pass the set explicitly (J := connectedComponentIn {x | x < f x} x0).",
+  "Pitfall: at this pin Equiv.Perm's apply_inv_self / inv_apply_self are not available (only MulAut's); use sigma.apply_symm_apply and sigma.symm_apply_apply (sigma^-1 is defeq sigma.symm).",
+  "Pitfall: Quotient.lift on Orbits G M (= Quotient (MulAction.orbitRel G M), an explicit setoid) needs `letI : Setoid M := MulAction.orbitRel G M` for `a ≈ b` to elaborate; inside, Quotient.sound h : orbitMk G a = orbitMk G b feeds GX.exists_smul_eq_of_orbitMk_eq."
+ ],
+ "notes": "One new file, 788 lines, 0 sorry, standard axioms only, clean under -DwarningAsError=true, so it can graduate to GX/BBS/QuotientCircle.lean as is. Imports: GX.BBS.IPm (strict; it imports GX.BBS.RP1Circles, which the block named) and GX.Singular.Quotient. IPm is added to the block's list because GX.GammaLinkCircle.IsDevAlong lives there; HSSingularities already imports IPm, so no new dependency for it. causal_import_gate: no Causal.* import. `lake build GXScaffold.BBS.QuotientCircle` rebuilt only this module (8629 jobs, nothing upstream). No name of HSSingularities.lean, FunnelGTilde, PSL2NormalForms.lean or GammaPElements.lean (as on disk at 06:20) is reused; checked by concatenating QuotientCircle and HSSingularities in /tmp/qc_test/Test.lean (compiles, 9 sorrys left after closing exists_rp1Circle_of_ne_one). The scaffold root scaffold/GXScaffold.lean does not import the new module (not mine to edit): the axiom sweep will not see it until it is imported or graduated (lean-causal kb 0025). The ledger is not touched: the target has no label."
+}

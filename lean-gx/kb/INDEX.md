@@ -104,3 +104,8 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0094](entries/0094-the-lift-with-a-fixed-point-of-1-s-0-1-i.md) | pattern | The lift with a fixed point of [[1, s], [0, 1]] is positive iff s < 0 |
 | [0095](entries/0095-pitfall.md) | pitfall | Pitfall: |
 | [0096](entries/0096-fin-two-induction-instead-of-the-set-wor.md) | pattern | fin_two_induction instead of the set workaround of kb/0071 |
+| [0097](entries/0097-a-quotient-circle-j-f-is-gx-exists-gxquo.md) | pattern | A quotient circle J/⟨f⟩ is GX.exists_gxQuotientCircle |
+| [0098](entries/0098-returning-a-p-p-circle-with-c-pt-p-from.md) | pattern | Returning a (Γ_p, ℓ(p))-circle with C.pt = p from an existential |
+| [0099](entries/0099-pitfall.md) | pitfall | Pitfall: |
+| [0100](entries/0100-pitfall.md) | pitfall | Pitfall: |
+| [0101](entries/0101-pitfall.md) | pitfall | Pitfall: |
