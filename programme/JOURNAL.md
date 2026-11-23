@@ -425,3 +425,17 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
   Also the hoist's twin Jplus_inter_Jminus_eq / IsAcausal.Jplus_inter_Jminus (both cited, kept, kb/0256).
 - commits: a295191 5117a6d 8756c67 c180669
 - next: wave T-abs-curves-free-cauchy, T-loc-ealpha-tidy, T-abs-sc-open-without-tarentin (closers). Afterwards fewer than two abstract/localisation targets are ready (T-abs-dependence-domain-home, exclusive, stays), so a planning run comes next: the three binder targets and the proposals since 2026-11-22 23:10
+
+## 2026-11-23 12:20 · wave of 2 · T-abs-curves-free-cauchy, T-abs-sc-open-without-tarentin
+- T-loc-ealpha-tidy was left out of the wave although `wave` picked it: it moves a lemma into the strict upstream Causal.InextensiblePiece, which would rebuild under the other closers. So it is exclusive in effect; the planner should mark it `exclusive = true`.
+- T-abs-curves-free-cauchy (layer 1, DEC-190): Causal.CurvesFreeCauchy.{CompactCauchy, CausalConvex, Basic}, 19 second countable forms beside the originals, each exactly its original less the curve binder. An elaborated scan found 45 curve binders; 26 already had a form elsewhere, all 26 verified by the audit. The ETT-layer binders still without a form are now in the Lemma K modules, ErsUnions/ErsMughd and Ladder.Dual only. Audit minor (d21912b); kb 0259–0260
+- T-abs-sc-open-without-tarentin (layer 1): StronglyCausal.stronglyCausalOpen_of_causallyOpen gives strong causality plus two-sided causal openness ⇒ the open form, without tarentin. Weaker hull forms; the two readings of strong causality agree on causally open spacetimes. A counterexample to strongly_causal → strongly_causal_open is not causally open even at M. The future half alone does not open the hull (the one-way membrane), so whether causally_open_future suffices stays open. Witnesses: the timelike, spacelike and isolated lines (isolatedLine_stronglyCausal, new). Audit minor, applied (364ec2d); kb 0257–0258
+- for the keeper:
+  - the edge [strongly_causal, tarentin, causally_open] → strongly_causal_open can drop tarentin (new witness, standing []; no pair moves);
+  - the "M = J⁺(Σ) ∪ J⁻(Σ)" consequence (programme/ladder.toml ~3085) can take IsCauchySurface.cover_of_t1_secondCountable;
+  - the isolated line's [[fails]] can gain strongly_causal, strongly_causal_open, causally_open.
+- ladder: unchanged, 354/354 within a sort: 37 implied, 309 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/bbs only (ledger stale), /atlas-team's in-flight lean-gx/scaffold/GXScaffold/BBS, which it holds. Not this loop's
+- commits: 364ec2d d21912b 1cec96b 51d84ae
+- next: a PLANNING RUN (programme-planner, alone). The ready closers are down to T-loc-ealpha-tidy and the exclusive T-abs-dependence-domain-home; the three planner-owned binder targets are ready (rule 2's binder clause in spirit); and the proposals since 2026-11-22 23:10 wait. The run takes those: the keeper edits above, emit-lean's argument handling, T-abs-chronal-neighbour-conjoined, E₀'s has_chronal_neighbour, the AbstractDev split for the curves_extend rule, the duplicates to merge, ealpha-tidy's exclusivity, and T-lad-gluing-reading's 21 entries.
