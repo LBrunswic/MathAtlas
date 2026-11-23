@@ -1,0 +1,72 @@
+digraph formalization {
+  rankdir=BT; node [style=filled,fontname="Helvetica",fontsize=9];
+  edge [color="#888888",arrowsize=0.6];
+  subgraph "cluster_P" {
+    label="The C^0-inextendibility of the Schwarzschild spacetime and the spacelike diameter in Lorentzian Geometry (one file)"; color="#cccccc";
+    "schwthm:dimensional_maximal_analytic_schwarzschild" [label="schwthm:dimensional_maximal_analytic_schwarzschild\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwthm:connected_globally_hyperbolic_lorentzian" [label="schwthm:connected_globally_hyperbolic_lorentzian\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwdef:timelike_curve" [label="schwdef:timelike_curve\n", shape=box, fillcolor="#ffffff"];
+    "schwdef:future_past_directed" [label="schwdef:future_past_directed\n", shape=box, fillcolor="#ffffff"];
+    "schwrem:setting_above_definition_time_oriented" [label="schwrem:setting_above_definition_time_oriented\n", shape=note, fillcolor="#ffffff"];
+    "schwlem:NormalForm" [label="schwlem:NormalForm\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwprop:FutureOpen" [label="schwprop:FutureOpen\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwprop:UnionPasts" [label="schwprop:UnionPasts\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwprop:FlowChart" [label="schwprop:FlowChart\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwdef:lorentzian_distance_function" [label="schwdef:lorentzian_distance_function\n", shape=box, fillcolor="#ffffff"];
+    "schwdef:future_past_extendible" [label="schwdef:future_past_extendible\n", shape=box, fillcolor="#ffffff"];
+    "schwrem:note_notion_future_past" [label="schwrem:note_notion_future_past\n", shape=note, fillcolor="#ffffff"];
+    "schwdef:cauchy_hypersurface" [label="schwdef:cauchy_hypersurface\n", shape=box, fillcolor="#ffffff"];
+    "schwdef:timelike_homotopic_fixed_endpoints" [label="schwdef:timelike_homotopic_fixed_endpoints\n", shape=box, fillcolor="#ffffff"];
+    "schwdef:timelike_separated_set" [label="schwdef:timelike_separated_set\n", shape=box, fillcolor="#ffffff"];
+    "schwdef:extension" [label="schwdef:extension\n", shape=box, fillcolor="#ffffff"];
+    "schwrem:course_question_extendibility_also" [label="schwrem:course_question_extendibility_also\n", shape=note, fillcolor="#ffffff"];
+    "schwlem:ExtensionLemma" [label="schwlem:ExtensionLemma\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwthm:MinkInex" [label="schwthm:MinkInex\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwthm:MainThm" [label="schwthm:MainThm\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwthm:Exterior" [label="schwthm:Exterior\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwthm:Inex" [label="schwthm:Inex\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwprop:ExtFutCon" [label="schwprop:ExtFutCon\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwprop:LengthToInfty" [label="schwprop:LengthToInfty\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwdef:spacelike_diameter" [label="schwdef:spacelike_diameter\n", shape=box, fillcolor="#ffffff"];
+    "schwdef:DefRegFlowChart" [label="schwdef:DefRegFlowChart\n", shape=box, fillcolor="#ffffff"];
+    "schwthm:DiamFinite" [label="schwthm:DiamFinite\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwthm:time_oriented_lorentzian_manifold" [label="schwthm:time_oriented_lorentzian_manifold\n", shape=doubleoctagon, fillcolor="#ffffff"];
+    "schwlem:BoundsOnReach" [label="schwlem:BoundsOnReach\n", shape=ellipse, fillcolor="#ffffff"];
+    "schwprop:IntFutCon" [label="schwprop:IntFutCon\n", shape=ellipse, fillcolor="#ffffff"];
+  }
+  "schwthm:dimensional_maximal_analytic_schwarzschild" -> "schwthm:MainThm";
+  "schwthm:connected_globally_hyperbolic_lorentzian" -> "schwthm:DiamFinite";
+  "schwprop:FutureOpen" -> "schwlem:NormalForm";
+  "schwprop:UnionPasts" -> "schwprop:FutureOpen";
+  "schwprop:FlowChart" -> "schwprop:FutureOpen";
+  "schwlem:ExtensionLemma" -> "schwprop:FutureOpen";
+  "schwthm:MinkInex" -> "schwlem:ExtensionLemma";
+  "schwthm:MinkInex" -> "schwlem:NormalForm";
+  "schwthm:MainThm" -> "schwlem:ExtensionLemma";
+  "schwthm:MainThm" -> "schwthm:Exterior";
+  "schwthm:MainThm" -> "schwthm:Inex";
+  "schwthm:Exterior" -> "schwthm:MinkInex";
+  "schwthm:Exterior" -> "schwprop:ExtFutCon";
+  "schwthm:Exterior" -> "schwprop:LengthToInfty";
+  "schwthm:Inex" -> "schwlem:NormalForm";
+  "schwthm:Inex" -> "schwthm:MinkInex";
+  "schwthm:Inex" -> "schwprop:IntFutCon";
+  "schwthm:Inex" -> "schwprop:UnionPasts";
+  "schwthm:Inex" -> "schwlem:BoundsOnReach";
+  "schwthm:Inex" -> "schwthm:DiamFinite";
+  "schwthm:Inex" -> "schwdef:DefRegFlowChart";
+  "schwprop:ExtFutCon" -> "schwthm:MinkInex";
+  "schwthm:time_oriented_lorentzian_manifold" -> "schwprop:FlowChart";
+  "schwthm:time_oriented_lorentzian_manifold" -> "schwprop:FutureOpen";
+  "schwthm:time_oriented_lorentzian_manifold" -> "schwthm:DiamFinite";
+  "schwprop:IntFutCon" -> "schwlem:BoundsOnReach";
+  "schwprop:IntFutCon" -> "schwprop:ExtFutCon";
+  subgraph "cluster_legend" {
+    label="legend"; color="#cccccc"; fontsize=10;
+    l0 [label="closed in Lean", fillcolor="#b7e4c7", shape=box];
+    l1 [label="stated, partial", fillcolor="#ffe08a", shape=box];
+    l2 [label="scaffold", fillcolor="#ffd6a5", shape=box];
+    l3 [label="no Lean", fillcolor="#ffffff", shape=box];
+    l0 -> l1 -> l2 -> l3 [style=invis];
+  }
+}

@@ -1,0 +1,34 @@
+# Ledger configuration for sbierski-schwarzschild: J. Sbierski, The C^0-inextendibility of the
+# Schwarzschild spacetime and the spacelike diameter in Lorentzian Geometry (arXiv 1507.00601 v2,
+# J. Differential Geom. 108, 2018), an EXTERNAL paper ledgered for the ETT programme
+# (programme/roadmap.toml T-pkg-sbierski-schwarzschild), as DEC-34 for Barbot and as
+# papers/sbierski-mghd. Its Lean home is `lean-causal/` (Causal / CausalScaffold), shared with
+# papers/ett, papers/barbot, papers/sbierski-mghd and papers/ers-predictability; the labels carry
+# schw-prefixed kinds (schwthm, schwlem, ...) so that no other ledger rooted in lean-causal reads
+# this one's docstring marks (kb/0024). Every statement carries its schw label first, ahead of the
+# author's own label, whose name it reuses; the twelve without one get a mechanical name.
+[paper]
+root = "../legacy/labeled"
+document = "InexSchwarzschild2.tex"
+notation = []
+files = [["InexSchwarzschild2.tex", "body", "P"]]
+label_prefixes = ["schwthm", "schwprop", "schwlem", "schwcor", "schwdef", "schwrem"]
+coverage_recursive = false
+# The two theorem* of the introduction restate Theorem 4.9 (MainThm) and Theorem 5.3 (DiamFinite).
+twins = { "schwthm:dimensional_maximal_analytic_schwarzschild" = "schwthm:MainThm", "schwthm:connected_globally_hyperbolic_lorentzian" = "schwthm:DiamFinite" }
+
+[paper.titles]
+P = "The C^0-inextendibility of the Schwarzschild spacetime and the spacelike diameter in Lorentzian Geometry (one file)"
+
+[lean]
+root = "../../../lean-causal"
+strict = ["Causal"]
+scaffold = ["scaffold/CausalScaffold"]
+scope = ["*"]
+
+[output]
+dir = "."
+json = "ledger.json"
+markdown = "LEDGER.md"
+dot = "dag.dot"
+tool_name = "tools/ledger.py"
