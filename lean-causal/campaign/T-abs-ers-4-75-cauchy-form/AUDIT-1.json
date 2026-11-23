@@ -1,0 +1,57 @@
+{
+  "target": "T-abs-ers-4-75-cauchy-form",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "ersthm:ThmEx",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, REPORT status partial: honest. The tex block (ghd_02_19.tex:1001-1022) and the quotes in the module docstring (:1002, :1012-1021, :814) are verbatim. The Lean keeps the original's readings, named inputs (RestartsIn, CompactSlabs, GH, tarentin), hcaus (OQ-41 (d)) and the conclusion (S Cauchy in the union, GH not concluded, OQ-57 (c), delegated to Causal.ErsUnions' checklist row, which applies unchanged here). Added against the original: [SecondCountableTopology M], which holds on R^{d+1}. Pair check (kb/0227, forallTelescope dump plus difflib, /tmp): ers_theorem_4_75(_eqOn) -> _secondCountable differ only in hdev's type, IsLocalDevelopment -> IsCauchyLocalDevelopment, and the added instance; maxDevelopmentIn_eq, ers_theorem_4_64_in and isDevelopmentIn_maxDevelopmentIn -> _of_isCauchySurfaceOn_secondCountable differ only in hacausal (and hsplit) removed, hcauchy : C.IsCauchySurfaceOn W S and the instance added; the witness's statement is identical to timelikeLine_ers_theorem_4_75's. Conclusions are identical in all 8 pairs, and the universe parameters are the same. Claim (b) is correct. IsLocalDevelopment's fields are gh, tarentin, acausal, split, slabs, cauchy (checked with #print), and IsCauchyLocalDevelopment is exactly those less acausal and split. In a /tmp scratch, ers_theorem_4_75_eqOn's and ers_theorem_4_75's statements (with [SecondCountableTopology M] added) are proved from the new forms by `fun i => (hdev i).isCauchyLocalDevelopment`. So the 4.75 forms are at least as strong as the originals on a second countable M, not siblings, and the docstring (lines 33-39) says so. Claim (a) is correct. The originals use hacausal only through isCauchySurfaceOn_sSup_of_isAcausalOn (in isDevelopmentIn_localDevelopmentUnion and isDevelopmentIn_maxDevelopmentIn) and hsplit only at exists_isSpacelikeBoundaryPoint. isCauchySurfaceOn_sSup_of_secondCountable (T2, second countable: hanti on B, S Cauchy in B, members D <= B each with a Cauchy surface S' inside S, giving S Cauchy in sSup) supplies the first, and splitBy_of_t1_secondCountable the second. No harc is needed. kb/0218's harc requirement is for deriving IsAcausalOn, which these forms do not need; it is not contradicted. The reading 'u_p a GHD of the data on S_p' read as 'S Cauchy in DS_p' (:1012) is the existing IsLocalDevelopment reading (OQ-77, ruled by DEC-162). The REPORT and the checklist row (line 69) describe it and do not decide it anew. The extra supplier lemma IsCauchySurfaceOn.of_inter_eq is correct (a curve inextensible in W stays in W, so S and S' meet it in the same points) and needs no acausality."
+    },
+    {
+      "label": "ersprop:PropLocUniqueness",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, REPORT status partial: honest. ers_prop_4_63_of_isCauchySurfaceOn_secondCountable is ers_prop_4_63 with hacausal (the OQ-41 reading) traded for hcauchy : C.IsCauchySurfaceOn U1 S, which is DEC-162's reading of 'u1 a GHD with Cauchy hypersurface S' and closer to the paper than hacausal. It also adds [SecondCountableTopology M]. The conclusion is identical (pair check). It is a sibling, as stated. The conclusion is a common development with S Cauchy, not a common GHD (OQ-57 (c)). The REPORT discloses this (the GH form stays in ers_prop_4_63_globallyHyperbolicOn_secondCountable, with harc), but the module's checklist does not (minor finding 1)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "ran": [
+      "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers475CauchyForm.lean: exit 0, no output",
+      "the same on a /tmp copy of the source with #print axioms appended: elaborates to the end, exit 0",
+      "the olean (04:46:27) is newer than the source (04:46:24)",
+      "grep: 0 occurrences of sorry, admit, axiom, native_decide or implemented_by in the file",
+      "/tmp probe importing CausalScaffold.Ers475CauchyForm: #print axioms on all 13 declarations the REPORT names gives [propext, Classical.choice, Quot.sound] for each",
+      "/tmp probe: #binders (kb/0227) on the 8 pairs, diffed with difflib; levelParams compared",
+      "/tmp probe: derivation of both 4.75 originals (with [SecondCountableTopology M]) from the new forms; the original maxDevelopmentIn_eq from hcauchy and harc (the sibling direction)",
+      "/tmp probe: kb proposal 1's Step 1 claim (isCommonDevelopment_maxCommonDevelopment with hcauchy for hacausal, T2 and second countable) holds: proved in 3 lines",
+      "tools/ladder.py model_path: None for Causal.Ers464SecondCountable, Causal.ErsSecondCountable and Causal.ErsUnions; the import closure has 4746 modules, none under Causal.Minkowski/Static/SingularFlat/Flat/Model/Port; no metric vocabulary below the docstring",
+      "grep -w of the 13 new names across Causal/ and scaffold/: no clash",
+      "mark regex of tools/ledger.py:247: no match in the file",
+      "git status --short: only scaffold/CausalScaffold/Ers475CauchyForm.lean and campaign/T-abs-ers-4-75-cauchy-form/ are this closer's; the other entries belong to concurrent closers and loops (SchwCausalLemmas.lean, InextensibleNestedBasics.lean, lean-gx/*, papers/bbs, registers OQ-119) and to the master (programme/, roadmap/)"
+    ]
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/Ers475CauchyForm.lean:60-64,71",
+      "what": "The checklist says that rows not listed are the originals' and that Causal.ErsUnions' checklist stands for them. That checklist's row '4.63: \"immediate\": V globally hyperbolic | ✓ proved under ⚠ strengthened (CausallyArcConnectedOn U1, CurvesExtendOn U1)' does not hold for this module. ers_prop_4_63_of_isCauchySurfaceOn_secondCountable concludes only IsCommonDevelopment (S Cauchy in V, not GH), and the GH form is ers_prop_4_63_globallyHyperbolicOn_secondCountable in Causal.Ers464SecondCountable, with harc. The REPORT discloses this; the docstring does not. The label is unmarked and partial, so this is not a false certification.",
+      "fix": "Add a checklist row (or a SCOPE line): '4.63: V globally hyperbolic: not concluded by the form here, a common development with S Cauchy (OQ-57 (c)). GH: ers_prop_4_63_globallyHyperbolicOn_secondCountable (Causal.Ers464SecondCountable), with CausallyArcConnectedOn U1.'"
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-ers-4-75-cauchy-form/REPORT.json labels[0].questions[0]",
+      "what": "The entry about u_p being a GHD of the data on S_p (:1012) is filed under 'questions', but it says itself that it is not a new question: OQ-57 and OQ-77, ruled by DEC-162, cover it. The content is correct, and the reading is described, not decided anew. Filed as a question, it could be turned into a duplicate OQ row.",
+      "fix": "Treat it as a note when curating: no new OQ row."
+    }
+  ],
+  "claims_checked": {
+    "a_no_harc": "Confirmed. The originals use the acausality of S only for the union's Cauchy property. On T2, second countable spaces isCauchySurfaceOn_sSup_of_secondCountable gets that from S Cauchy in the ambient W, and splitBy_of_t1_secondCountable gives SplitBy. No form asks CausallyArcConnectedOn. The region forms and the 4.63 form are siblings of their originals: hcauchy and hacausal are incomparable without harc.",
+    "b_stronger_475": "Confirmed: IsLocalDevelopment -> IsCauchyLocalDevelopment with no hypothesis, so each 4.75 original with [SecondCountableTopology M] follows from its new form. The docstring calls these forms 'at least as strong', not siblings, and says that strictness is not witnessed.",
+    "witness": "timelikeLine_ers_theorem_4_75_secondCountable is a proper instance: two patches (top and ]-1,1[) whose overlap is ]-1,1[, the solutions id and the clamp (different outside the overlap), hcomp non-trivial for i ≠ j, and hdev inhabited through the original IsLocalDevelopment witnesses."
+  }
+}

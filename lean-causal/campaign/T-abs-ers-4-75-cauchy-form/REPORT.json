@@ -1,0 +1,233 @@
+{
+  "package": "lean-causal",
+  "target": "T-abs-ers-4-75-cauchy-form",
+  "files": [
+    "scaffold/CausalScaffold/Ers475CauchyForm.lean"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.Ers475CauchyForm  (3128 jobs; `--no-build` first listed only this module as out of date; built in 1.2 s. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers475CauchyForm.lean` exits 0 with no output)",
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "ersthm:ThmEx",
+      "tex_lines": [
+        1001,
+        1022
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_theorem_4_75_secondCountable",
+        "Causal.Causality.ers_theorem_4_75_eqOn_secondCountable",
+        "Causal.Causality.ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.isDevelopmentIn_maxDevelopmentIn_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.IsCauchyLocalDevelopment",
+        "Causal.Causality.IsLocalDevelopment.isCauchyLocalDevelopment",
+        "Causal.Causality.IsCauchyLocalDevelopment.isLocalDevelopment",
+        "Causal.Causality.IsCauchyLocalDevelopment.splitBy",
+        "Causal.Causality.isLocalDevelopment_iff_isCauchyLocalDevelopment",
+        "Causal.Causality.IsCauchySurfaceOn.of_inter_eq",
+        "Causal.timelikeLine_ers_theorem_4_75_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M] [LocallyConnectedSpace M] on an abstract M. SecondCountableTopology is added against the original Lean theorem, not against the paper: R^{d+1} and its open sets are second countable"
+        },
+        {
+          "paper": "each u_p : DS_p → R a GHD of the data on S_p (:1012)",
+          "here": "read",
+          "note": "DEC-162: hdev : ∀ i, (cau i).IsCauchyLocalDevelopment (D i) S — D i GH and tarentin for cau i, compact slabs, S a Cauchy surface of D i. This is IsLocalDevelopment less its fields acausal (S acausal in D i) and split (S splits D i), which the original asks and this form does not: neither is needed on a T2, second countable M (notes 2). No causal arc-connectedness is asked either. IsCauchySurfaceOn.of_inter_eq passes from S_p Cauchy in DS_p to S when S ∩ DS_p = S_p ∩ DS_p, with no acausality"
+        },
+        {
+          "paper": "Theorem 4.64 on D_pS_A, D_qS_A; D_pS_A ∩ D_qS_A = A (:1014–1021)",
+          "here": "named",
+          "note": "replaced, as in the original, by 4.64's argument in the component A (ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable, W = DS_p); its inputs located in A stay named (RestartsIn: A meets S, LocalUniqueness, FrontierStaysIn, SliceRestart), carried unchanged"
+        },
+        {
+          "paper": "U = ⋃ DS_p a GHD (:1021, not argued)",
+          "here": "strengthened",
+          "note": "as in the original: S Cauchy in U for every Cu agreeing with each cau i on D i and with ≤_U antisymmetric (hcaus, a part of the printed conclusion assumed, OQ-41 (d)); GH of U not concluded (OQ-57 (c))"
+        },
+        {
+          "paper": "S connected",
+          "here": "weakened",
+          "note": "not used, as in the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "ERS's u_p is a GHD of the data on S_p (ghd_02_19.tex:1012), so its Cauchy hypersurface is S_p, while the patching uses S Cauchy in each DS_p. The reading taken is the original's (IsLocalDevelopment.cauchy, Causal/ErsUnions.lean:469): the supplier provides S Cauchy in DS_p (DEC-162 reads GHD as 'S Cauchy'). The new lemma IsCauchySurfaceOn.of_inter_eq shows that this follows from S_p Cauchy in DS_p and S ∩ DS_p = S_p ∩ DS_p, which ERS do not print. The original's docstring route, IsCauchySurfaceOn.of_subset_of_isAcausalOn, needs S acausal in DS_p besides. Not a new question: the row's readings OQ-57 and OQ-77 already cover it."
+      ]
+    },
+    {
+      "label": "ersprop:PropLocUniqueness",
+      "tex_lines": [
+        836,
+        844
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Causal.Causality.ers_prop_4_63_of_isCauchySurfaceOn_secondCountable",
+        "Causal.Causality.isDevelopmentIn_localDevelopmentUnion_of_isCauchySurfaceOn_secondCountable"
+      ],
+      "hypotheses": [
+        {
+          "paper": "background R^{d+1} (:812, 814)",
+          "here": "carried",
+          "note": "[T2Space M] [SecondCountableTopology M]"
+        },
+        {
+          "paper": "u1 a GHD with Cauchy hypersurface S",
+          "here": "read",
+          "note": "DEC-162: hG : C.GloballyHyperbolicOn U₁ (only ≤_{U₁} antisymmetric used) and hcauchy : C.IsCauchySurfaceOn U₁ S, in place of the original ers_prop_4_63's hacausal : C.IsAcausalOn U₁ S (OQ-41's reading). No causal arc-connectedness. A sibling of ers_prop_4_63, not a strengthening. The GH conclusion stays in ers_prop_4_63_globallyHyperbolicOn_secondCountable (Causal.Ers464SecondCountable), which still needs causal arc-connectedness for GH"
+        },
+        {
+          "paper": "Sogge's DS_p (local uniqueness)",
+          "here": "named",
+          "note": "hloc : C.LocalUniqueness S (U₁ ⊓ U₂) agree, as in the original"
+        },
+        {
+          "paper": "u2 a GHD",
+          "here": "weakened",
+          "note": "not used, as in the original"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "forms": [
+    {
+      "original": "Causal.Causality.maxDevelopmentIn_eq (Causal/ErsUnions.lean:422)",
+      "new": "Causal.Causality.maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn W S",
+        "hsplit : C.SplitBy W S"
+      ],
+      "added": [
+        "hcauchy : C.IsCauchySurfaceOn W S",
+        "[SecondCountableTopology M] after [T2Space M]"
+      ],
+      "kind": "traded (sibling, not stronger: the original needs neither hcauchy nor second countability)",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_theorem_4_64_in (Causal/ErsUnions.lean:448)",
+      "new": "Causal.Causality.ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn W S",
+        "hsplit : C.SplitBy W S"
+      ],
+      "added": [
+        "hcauchy : C.IsCauchySurfaceOn W S",
+        "[SecondCountableTopology M] after [T2Space M]"
+      ],
+      "kind": "traded (sibling)",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.isDevelopmentIn_maxDevelopmentIn (Causal/ErsUnions.lean:407)",
+      "new": "Causal.Causality.isDevelopmentIn_maxDevelopmentIn_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn W S"
+      ],
+      "added": [
+        "hcauchy : C.IsCauchySurfaceOn W S",
+        "[SecondCountableTopology M] after [T2Space M]"
+      ],
+      "kind": "traded (sibling)",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.isDevelopmentIn_localDevelopmentUnion (Causal/ErsUnions.lean:279)",
+      "new": "Causal.Causality.isDevelopmentIn_localDevelopmentUnion_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn W S"
+      ],
+      "added": [
+        "hcauchy : C.IsCauchySurfaceOn W S",
+        "[SecondCountableTopology M] after [T2Space M]"
+      ],
+      "kind": "traded (sibling)",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_prop_4_63 (Causal/ErsUnions.lean:299)",
+      "new": "Causal.Causality.ers_prop_4_63_of_isCauchySurfaceOn_secondCountable",
+      "removed": [
+        "hacausal : C.IsAcausalOn U₁ S"
+      ],
+      "added": [
+        "hcauchy : C.IsCauchySurfaceOn U₁ S",
+        "[SecondCountableTopology M] after [T2Space M]"
+      ],
+      "kind": "traded (sibling)",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_theorem_4_75_eqOn (Causal/ErsUnions.lean:643)",
+      "new": "Causal.Causality.ers_theorem_4_75_eqOn_secondCountable",
+      "removed": [
+        "hdev : ∀ (i : ι), (cau i).IsLocalDevelopment (D i) S"
+      ],
+      "added": [
+        "hdev : ∀ (i : ι), (cau i).IsCauchyLocalDevelopment (D i) S",
+        "[SecondCountableTopology M] between [T2Space M] and [LocallyConnectedSpace M]"
+      ],
+      "kind": "fields acausal and split of each patch dropped. At least as strong as the original on a second countable M, not a sibling: IsLocalDevelopment.isCauchyLocalDevelopment needs no hypothesis, so the original (with SC) is the new form applied to fun i => (hdev i).isCauchyLocalDevelopment (checked in a scratch file)",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.ers_theorem_4_75 (Causal/ErsUnions.lean:677)",
+      "new": "Causal.Causality.ers_theorem_4_75_secondCountable",
+      "removed": [
+        "hdev : ∀ (i : ι), (cau i).IsLocalDevelopment (D i) S"
+      ],
+      "added": [
+        "hdev : ∀ (i : ι), (cau i).IsCauchyLocalDevelopment (D i) S",
+        "[SecondCountableTopology M] between [T2Space M] and [LocallyConnectedSpace M]"
+      ],
+      "kind": "as ers_theorem_4_75_eqOn_secondCountable: at least as strong as the original on a second countable M",
+      "conclusion": "identical"
+    },
+    {
+      "original": "Causal.Causality.IsLocalDevelopment (Causal/ErsUnions.lean:469; fields gh, tarentin, acausal, split, slabs, cauchy)",
+      "new": "Causal.Causality.IsCauchyLocalDevelopment (fields gh, tarentin, slabs, cauchy)",
+      "removed": [
+        "acausal : C.IsAcausalOn W S",
+        "split : C.SplitBy W S"
+      ],
+      "added": [],
+      "kind": "IsLocalDevelopment → IsCauchyLocalDevelopment with no hypothesis (IsLocalDevelopment.isCauchyLocalDevelopment). The converse holds on a T1, second countable M when W is causally arc-connected (IsCauchyLocalDevelopment.isLocalDevelopment; isLocalDevelopment_iff_isCauchyLocalDevelopment). The dispatch's sibling 'Cauchy and arc-connectedness fields in place of acausal and split' is IsCauchyLocalDevelopment W S ∧ C.CausallyArcConnectedOn W, which implies IsLocalDevelopment on second countable T1 spaces; it is not introduced, since nothing needs the arc field",
+      "conclusion": "-"
+    },
+    {
+      "original": "Causal.timelikeLine_ers_theorem_4_75 (Causal/ErsUnions.lean:894)",
+      "new": "Causal.timelikeLine_ers_theorem_4_75_secondCountable",
+      "removed": [],
+      "added": [],
+      "kind": "the same witness (statement identical) run through ers_theorem_4_75_secondCountable",
+      "conclusion": "identical"
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.IsCauchySurfaceOn.of_inter_eq",
+    "Causal.Causality.IsCauchyLocalDevelopment.splitBy",
+    "Causal.Causality.isLocalDevelopment_iff_isCauchyLocalDevelopment",
+    "Causal.Causality.isDevelopmentIn_localDevelopmentUnion_of_isCauchySurfaceOn_secondCountable",
+    "Causal.Causality.isDevelopmentIn_maxDevelopmentIn_of_isCauchySurfaceOn_secondCountable",
+    "Causal.timelikeLine_ers_theorem_4_75_secondCountable"
+  ],
+  "kb_proposals": [
+    "kb/0218's 'the trade needs harc' holds only where IsAcausalOn W S is used between two points of S related directly by ≤_W, as in Remark 4.67's time orientations (Jplus_inter_subset_…). Where the acausality only serves a union of opens D ≤ W, each with a Cauchy surface inside S, 'S Cauchy in W' replaces it on a T2, second countable M with no harc (isCauchySurfaceOn_sSup_of_secondCountable). That covers Prop 4.63, 4.64 in a region, Thm 4.75 (CausalScaffold.Ers475CauchyForm) and also Step 1 of Thm 4.64, isCommonDevelopment_maxCommonDevelopment (checked in a scratch file, not in the module).",
+    "ERS Thm 4.75 on a T2, second countable background: CausalScaffold.Ers475CauchyForm. IsCauchyLocalDevelopment is IsLocalDevelopment less acausal and split; ers_theorem_4_75(_eqOn)_secondCountable with it are at least as strong as the originals (suffix …_secondCountable, kb/0226). maxDevelopmentIn_eq, ers_theorem_4_64_in and ers_prop_4_63 get …_of_isCauchySurfaceOn_secondCountable siblings that trade hacausal (and hsplit) for IsCauchySurfaceOn W S alone. With this module, kb/0226's four exceptions are closed: no ERS §4 theorem needs SplitBy or IsAcausalOn.",
+    "IsCauchySurfaceOn.of_inter_eq (Causal.Causality, ETT layer): S' Cauchy in W and S ∩ W = S' ∩ W give S Cauchy in W. Its twin Causal.CBG.isCauchySurfaceOn_congr' (hypothesis ∀ x ∈ W, x ∈ S ↔ x ∈ S') is model-stranded in Causal.Flat.CBGSlice (kb/0061); merge or cite at the next tidy."
+  ],
+  "notes": "(1) Scope. All four forms the target names are done, beside their unchanged originals (OQ-98 (b) open, the precedent of Causal.Ers464SecondCountable): maxDevelopmentIn_eq, ers_theorem_4_64_in, ers_theorem_4_75_eqOn, ers_theorem_4_75, plus the sibling of IsLocalDevelopment (IsCauchyLocalDevelopment) with its relations to the original, and the witness (the trade form of timelikeLine_ers_theorem_4_75). Added in the same pattern: Step 1 in a region (isDevelopmentIn_maxDevelopmentIn_…), Prop 4.63 in a region (isDevelopmentIn_localDevelopmentUnion_…) and ers_prop_4_63_of_isCauchySurfaceOn_secondCountable. The last one is kb/0226's fourth remaining exception, and it costs two lines once the region lemma exists. (2) Deviation from the target title, in the stronger direction. The title asks the trade 'S a Cauchy surface of the patch, the patch causally arc-connected'. No form asks causal arc-connectedness. The originals use S acausal in W only inside unions: isCauchySurfaceOn_sSup_of_isAcausalOn in isDevelopmentIn_localDevelopmentUnion and isDevelopmentIn_maxDevelopmentIn. On a T2, second countable M, isCauchySurfaceOn_sSup_of_secondCountable gives the same union from S Cauchy in the ambient W, and SplitBy W S is splitBy_of_t1_secondCountable. So the region forms trade hacausal and hsplit for hcauchy alone, and the 4.75 forms drop acausal and split from each patch, since IsLocalDevelopment already carries cauchy for the same patch and causality. kb/0226's 'siblings, not strengthenings' therefore holds for the region forms and the 4.63 form, but NOT for the two 4.75 forms. Those are at least as strong as the originals on a second countable M: the original, with [SecondCountableTopology M], follows from ers_theorem_4_75_secondCountable by fun i => (hdev i).isCauchyLocalDevelopment (checked in /tmp, not in the module). Strictness, i.e. a Cauchy local development whose S is not acausal, is not witnessed. The docstring says this. (3) Mechanical check (kb/0227). forallTelescope dumps of the 8 pairs were diffed after normalising hygienic instance names. Every conclusion is identical. The only differences are those listed in `forms` and [SecondCountableTopology M]. #print axioms on all 13 declarations: propext, Classical.choice, Quot.sound only. (4) Layer 1. The three direct imports (Causal.Ers464SecondCountable, Causal.ErsSecondCountable, Causal.ErsUnions) each have tools/ladder.py model_path None. The compiled environment of `import CausalScaffold.Ers475CauchyForm` has 4746 modules, none under Causal.Minkowski/Static/SingularFlat/Flat/Model/Port. No statement mentions a metric ('metric' occurs only in the quoted paper text and in the docstring's 'no metric notion'). The hypotheses are ladder properties (globally_hyperbolic, tarentin on the patch; is_causal through hcaus; causally_arc_connected only in IsCauchyLocalDevelopment.isLocalDevelopment and the iff) or the originals' named localisation hypotheses (RestartsIn: LocalUniqueness, FrontierStaysIn, SliceRestart; CompactSlabs). (5) For the binder row ersthm:ThmEx (papers/ers-predictability/certificate/binder.toml:387): the ett list can add Causal.Causality.ers_theorem_4_75_secondCountable, ers_theorem_4_75_eqOn_secondCountable, ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable and maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable. The open_reason's 'local existence on {t = 0} patches (Sogge; IsLocalDevelopment)' can read IsCauchyLocalDevelopment: GH, tarentin, compact slabs and S Cauchy in DS_p, with no acausality or splitting asked. RestartsIn is unchanged, so local_uniqueness, slice_restart, frontier_stays_in and is_causal stay open. The row stays partial and unmarked. ersprop:PropLocUniqueness can add ers_prop_4_63_of_isCauchySurfaceOn_secondCountable beside ers_prop_4_63. (6) For the keeper. Ers464SecondCountable's 4.64/4.67 (first sentence)/4.68 trade forms ask harc, but by the scratch check of Step 1 (kb proposal 1) they would not need it if ers_theorem_4_64_maxCommonDevelopment's body were re-run with that Step 1. That is a possible follow-up target and is not done here. Remark 4.67's future/past trade forms do need harc. (7) Graduation. The module is not imported by the scaffold root CausalScaffold.lean, which this closer may not edit (kb/0025). Graduation moves it to Causal/ like Ers464SecondCountable (no sorry; warningAsError clean). Nothing in it depends on another closer's files."
+}
