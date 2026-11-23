@@ -1,0 +1,62 @@
+{
+ "target": "T-bbs-hs-link-types",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bbsrem:previous_section_observed_only",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The closer changed nothing under this label. None of its declarations (rp1Iso_of_zpowers_eq, conj_inv_swaps_timelike_spacelike, GTilde.lt_apply_iff_of_conj_inv, not_isIso_of_positive_of_negative, exists_positive_negative, exists_rp1Iso_not_isIso) has a changed signature, and the module docstring still writes the label unmarked. The REPORT keeps the row partial and claims no mark, which is correct. The five closed sorrys carried the tag but lay beneath none of the label's assertions. Prose rows (unlabeled, no mark to claim), each checked against colI_v1.tex. (1) l.788-791, isElliptic_of_timelike: IsElliptic f or toPSL f = 1, under OQ-113 (d) and OQ-122 (a). Unchanged and faithful in that reading. (2) l.797-800, isParabolic_of_null: carries the added toPSL f != 1, a disclosed correction (checklist and finding 3). (3) l.866-879, spacelike_degree_zero together with spacelike_degree_zero_misner: >= paper under OQ-116 (a). The trichotomy is proved, and the Misner case is pinned exactly (image = K n {Q > 0}, and image != K for every component K). (4) l.880-891, bdPlus_degree_zero and the new bdMinus_degree_zero, null_degree_zero, null_degree_zero_ne: >= paper under OQ-116 (b). The ∂ℍ²₋ case of l.889-890 is now stated, with i± read correctly from iPlus_of_bdMinus and iMinus_of_bdMinus. (5) l.893-905, iPlus_components: the union form in ℝP̃¹. The components follow by connectedComponentIn_iUnion_Ioo_two (x1 < x0 + 1 <= x0 + 2). The ∃ x0 form is equivalent to the paper's 'let x0 be a left extremity', because the union determines every left extremity as x0 + 2i. The reading I± = linkCover⁻¹ i± is disclosed (SCOPE (i), questions). The two unused hypotheses (_hθ, _hk) are satisfiable and kept as the dispatch required. Findings 1 and 2 are true, and so is finding 3, which is carried: see the minor findings for their wording."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "From lean-gx/: `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/GXScaffold/BBS/HSSingularities.lean` exits 0 with no output. No lake build was run. The word `sorry` occurs 5 times in the file, all in docstrings; there is no admit, native_decide, axiom, unsafe or implemented_by. The only set_option, linter.unusedSectionVars false, was already there at HEAD. Axioms were checked two ways. (a) A scratch copy of the source under /tmp, with an appended command sweeping env.constants.map₂ through Lean.collectAxioms, gives 215 local declarations: 211 module declarations plus the probe's own elaborator. Nothing outside propext, Classical.choice and Quot.sound, and no sorryAx. (b) The closer's campaign/T-bbs-hs-link-types/Axioms.lean, rerun against the built olean (which is newer than the source), filters by module index, so it sweeps the whole module. It reports 211 declarations with no non-standard axiom, and #print axioms on the ten named declarations gives [propext, Classical.choice, Quot.sound]. The scratch files were deleted."
+ },
+ "checks": {
+  "statement_diff": "A signature-by-signature diff of HEAD against the working file (127 declarations now, 105 at HEAD) shows exactly three changed signatures. hθ -> _hθ in spacelike_degree_zero and bdPlus_degree_zero, and hk -> _hk in iPlus_components. None of the three is referenced in its proof. There are no variable, include, section or open changes. 22 declarations are new, matching the REPORT's extra_decls. Elaborating the HEAD file and the new file and comparing the types of the five formerly-sorry theorems gives equal Expr hashes, and pp.all output that differs only in those three binder names. The new import GX.BBS.GammaPElements therefore changed no statement. No other file references the renamed theorems.",
+  "findings_true": "Finding 1 (Misner) is true and not a strawman. Under OQ-116 (a), (i⁺ u i⁻)ᶜ = {Q >= 0} (compl_dsFutureDirs_union), and its components are the closed arcs {Q >= 0, <j,.> >= 0} and {Q >= 0, <j,.> <= 0}, each with light-like ends (components_compl_ds, exists_null_mem_of_mem_components_compl_ds). The developed image is an open arc between consecutive fixed points, which are the null directions, so it is never a component. OQ-116 (a) already says l.877 is exact only under the causal reading, and the closer's remark that the causal reading breaks l.873/l.875 (I is then the interior of the closed causal arc) is correct. Finding 2 is true. lightDomain_deSitter_eq puts the tangent directions in the printed i⁻ at ∂ℍ²₊. Those directions are fixed by the holonomy, so the developed image avoids them (null_degree_zero_ne, unconditional). This is an instance of OQ-116 (b). Finding 3 is true; it was carried from T-bbs-hs-singularities.",
+  "duplicates_and_clashes": "There are no name clashes: a grep of lean-gx/GX, lean-gx/scaffold, lean-causal/Causal and lean/ finds none of the 22 new names, and the only shared short name, lt_apply, sits in a different namespace (HasLiftedHolonomy.lt_apply). The toPSL bridge GX.toPSL_eq_of_linkCover is not in GammaPElements (kb 0090 records it only as a pattern) or anywhere else in strict GX. connectedComponentIn_iUnion_Ioo_two reuses the strict IPm connectedComponentIn_eq_of_open and duplicates nothing. Two content duplicates are listed under findings.",
+  "scope": "git status: M lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean, ?? lean-gx/campaign/T-bbs-hs-link-types/ (REPORT.json, Axioms.lean). The modified roadmap/roadmap.toml (this target ready -> active) and programme/roadmap.toml (an ETT target ready -> active) are the dispatching loops' status flips, not the closer's edits. Nothing else is touched.",
+  "docstring_contract": "Title, unmarked label line within the first 4000 characters, quotes, hypothesis checklist (five new rows), SCOPE (i) and Provenance are all present. The '0 sorry' and import lines are true. The checklist rows (unused _hθ/_hk; OQ-116 (a)/(b); the added toPSL f != 1) are true. The line citations listed under findings are wrong."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean:133, :2627; REPORT.json findings[0]",
+   "what": "The Misner bullet is cited as l.876-877. In colI_v1.tex, l.876 ends the BTZ-like future bullet; the Misner bullet (« If I is a component … Misner singularity ») is l.877-878. This finding goes to the author with these numbers.",
+   "fix": "Cite l.877-878 in SCOPE (i), in the docstring of spacelike_degree_zero_misner and in the REPORT finding."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean:2887, :2911; REPORT.json findings[1]",
+   "what": "null_degree_zero_ne's headline reads « l.884-886 as printed is never realised ». l.884-886 is the future cuspidal bullet (I = i⁺), which is realised. The bullet never realised at ∂ℍ²₊ is « If I = i⁻(ℓ(p)) » at l.887-888, together with l.882's « quotient of i⁺ or i⁻ ». The REPORT's « l.881-886 » leaves out l.887-888 for the same reason. connectedComponentIn_iUnion_Ioo_two cites l.902-903 for the components of I^±, which are at l.904-905.",
+   "fix": "In null_degree_zero_ne's docstring write l.882 and l.887-888 (with l.889-890 for ∂ℍ²₋). In the REPORT finding write l.880-890. For connectedComponentIn_iUnion_Ioo_two write l.904-905."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json findings[0], findings[1]",
+   "what": "Both findings say a printed case description is false. The Lean proves the conditional: in the Misner case I != K (spacelike_degree_zero_misner), and at ∂ℍ²₊ I != the closed arc (null_degree_zero_ne). Read as a conditional, the paper's bullet is vacuous; the defect lies in the case analysis, and only bites because Misner links, and links with image {B(p,.) > 0}, exist. They do exist. One example is the quotient of the space-like arc ]b, a+1[ (arc_structure_of_deSitter) by <g> or <g⁻¹> through the strict exists_gammaLinkCircle_quotient, and the paper builds Misner singularities in § sub:misner. No Lean witness is given, and the REPORT does not say this step is argued.",
+   "fix": "Add « existence of the case argued (quotient of the open arc by <g^±1>), not formalized » to findings 1 and 2, or prove the witnesses with exists_gammaLinkCircle_quotient."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json findings[2]",
+   "what": "The restated l.794-800 finding gives only the regular link (δ²) as its witness. AUDIT-1 of T-bbs-hs-singularities flagged that this is a regular point, outside the printed classification of singularities. The file's docstring (HSSingularities.lean:2443-2448) answers it with the singular example: the n-fold cyclic cover, n >= 2, with lifted holonomy δ^{2n}, argued. The REPORT's restatement drops that example.",
+   "fix": "Add the n-fold cyclic cover of ℓ(p), n >= 2 (trivial Γ_p-holonomy, lifted holonomy δ^{2n}; argued, not built) as the singular counterexample."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean:2410, :2284",
+   "what": "Reuse. GammaLinkCircle.IsLiftedDev.lt_apply re-proves the strict GX.lt_apply_of_strictMono (GX/BBS/RP1Circles.lean:1483), specialised to IsLiftedDev. components_compl_ds repeats about 45 lines of the proof of the strict GX.ncard_components_compl_ds (GX/BBS/IPm.lean:1041), which builds the same set equality internally and exposes only its ncard. The closer disclosed the second; strict was frozen, so no refactor was possible.",
+   "fix": "Write lt_apply as `lt_apply_of_strictMono h.2.2.1 h.2.2.2.2 s`. At graduation, move components_compl_ds into IPm and derive ncard_components_compl_ds from it."
+  }
+ ],
+ "integration_notes": [
+  "lean-gx/scaffold/GXScaffold.lean:11 still says « ten tagged sorrys » for BBS.HSSingularities, which now has 0. The closer reported it as outside the dispatch; fix it at integration.",
+  "The module docstring's label line (HSSingularities.lean:17-19, from an earlier wave) names the readings OQ-120 (a)-(c) and OQ-116 (a) but not OQ-124, which the REPORT and the ledger notes include. This predates the target."
+ ]
+}

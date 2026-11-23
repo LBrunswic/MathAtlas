@@ -118,3 +118,10 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0108](entries/0108-pitfall.md) | pitfall | Pitfall: |
 | [0109](entries/0109-continuity-on-gx-bisusp-at-regular-point.md) | pattern | Continuity on GX.BiSusp at regular points and at the apices |
 | [0110](entries/0110-a-singular-hs-structure-is-gx-singularhs.md) | pattern | A singular HS-structure is GX.SingularHSStructure |
+| [0111](entries/0111-the-arc-structure-of-p-at-p-ds-read-on-p.md) | pattern | The arc structure of ℓ(p) at p ∈ dS², read on ℝP̃¹: GX.arc_structure_of_deSitter |
+| [0112](entries/0112-arguing-on-one-turn-of-p-reduce-into-a-a.md) | pattern | Arguing on one turn of ℓ(p): reduce into [a, a + 2) and split at a, b, a+1, b+1 |
+| [0113](entries/0113-the-developed-image-of-a-degree-0-light.md) | pattern | The developed image of a degree-0 light-like link: GX.GammaLinkCircle.IsLiftedDev.null_degree_zero |
+| [0114](entries/0114-i-l-l-or-from-the-values-of-the-developi.md) | pattern | i±(L) = L or ∅ from the values of the developing map |
+| [0115](entries/0115-the-two-components-of-p-i-i-at-p-ds-gx-c.md) | pattern | The two components of ℓ(p) ∖ (i⁺ ∪ i⁻) at p ∈ dS²: GX.components_compl_ds |
+| [0116](entries/0116-pitfall.md) | pitfall | Pitfall: |
+| [0117](entries/0117-pitfall.md) | pitfall | Pitfall: |

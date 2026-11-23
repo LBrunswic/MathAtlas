@@ -1,0 +1,227 @@
+{
+ "package": "T-bbs-hs-link-types",
+ "target": "T-bbs-hs-link-types",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSSingularities.lean"
+ ],
+ "module": "GXScaffold.BBS.HSSingularities",
+ "imports_added": [
+  "GX.BBS.GammaPElements"
+ ],
+ "builds": true,
+ "build_note": "lake build GXScaffold.BBS.HSSingularities (taskset -c 0-11), run at the end: 8633/8633, only this module rebuilt (12 s), no GX.* or mathlib module rebuilt. lake env lean on the file: no output at all, and no output with -DwarningAsError=true either (no sorry, no linter warning), so the strict library's options accept it as it stands.",
+ "sorry_count": 0,
+ "sorry_count_note": "was 5; all 5 closed (isElliptic_of_timelike, isParabolic_of_null, spacelike_degree_zero, bdPlus_degree_zero, iPlus_components; at l.1995/2008/2100/2111/2125 at the start of the session, the dispatch's l.1978/1991/2083/2094/2108). The word `sorry` now occurs only in docstrings.",
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "axioms_note": "campaign/T-bbs-hs-link-types/Axioms.lean imports the built module and sweeps every one of its 211 declarations with Lean.collectAxioms: none depends on an axiom outside these three (no sorryAx). #print axioms of the five closed theorems and of the new ones gives exactly these three.",
+ "labels": [
+  {
+   "label": "bbsrem:previous_section_observed_only",
+   "tex_lines": [
+    926,
+    932
+   ],
+   "status": "partial",
+   "marked": false,
+   "marked_note": "Unchanged. The five sorrys carried this label's SORRY tag but lay beneath none of its declarations (the docstring's l.8-9 said so, and the axiom sweep of the previous wave confirmed GX.exists_positive_negative, GX.not_isIso_of_positive_of_negative and GX.exists_rp1Iso_not_isIso sorry-free). Closing them changes nothing in the row: it stays partial and unmarked on the readings OQ-120 (a)-(c), OQ-116 (a) and OQ-124. No mark is claimed.",
+   "decls": [
+    "GX.rp1Iso_of_zpowers_eq",
+    "GX.conj_inv_swaps_timelike_spacelike",
+    "GX.GTilde.lt_apply_iff_of_conj_inv",
+    "GX.not_isIso_of_positive_of_negative",
+    "GX.exists_positive_negative",
+    "GX.exists_rp1Iso_not_isIso"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "closes": [
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:1995 (start of session), GX.GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike, now l.2419",
+   "by": "h.exists_linkCover_apply gives rho; the toPSL bridge GX.toPSL_eq_of_linkCover (new; kb/0090) gives toPSL f = pslMk (gammaToSL theta rho); then GX.GammaP.isElliptic_or_eq_one_of_timelike (strict GX.BBS.GammaPElements)"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:2008, GX.GammaLinkCircle.IsLiftedDev.isParabolic_of_null, now l.2435",
+   "by": "the toPSL bridge and GX.GammaP.isParabolic_iff_of_null; rho = 1 would make toPSL f = 1, against the hypothesis"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:2100, GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero, now l.2528",
+   "by": "IsLiftedDevPair.exhaust gives range D = ]x0, x1[ with x0 < x1 < x0 + 1 consecutive fixed points of f; GX.GTilde.IsHyperbolic.fixed_eq gives Fix(f) = x0 + Z u x1 + Z. If ]x0, x1[ meets i+, GX.arc_structure_of_deSitter (new) gives linkCover^-1 i+ = U_i ]x0 + 2i, x1 + 2i[, so the image is exactly i+; if it meets i-, the same lemma at ]x0 - 1, x1 - 1[ (linkCover (t - 1) = -linkCover t) gives the image i-; otherwise every point is space-like (non-fixed, so not light-like by GX.fixed_iff_null). i+-(L) = L or empty by the new GX.GammaLinkCircle.IsLiftedDev.iPlusL_eq_univ / iPlusL_eq_empty (and iMinus)."
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:2111, GX.GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero, now l.2835",
+   "by": "the new GX.GammaLinkCircle.IsLiftedDev.null_degree_zero (every light-like p): Fix(f) = linkCover^-1(T) by GX.GammaP.smul_eq_iff_of_null and |f t - t| < 1 (apply_lt_delta_of_fixed, sub_one_lt_apply_of_fixed); exhaust gives range D = ]x0, x0 + 1[ (parabolic: x1 = delta x0); the image is preconnected and avoids T, so lies in {B(p,.) < 0} or {B(p,.) > 0}, and is all of it by the new GX.image_Ioo_add_one_eq (B(p,-sigma) = -B(p,sigma)); then iPlus_of_bdPlus, lightDomain_hypPlus_eq, lightDomain_deSitter_eq, nullNonneg_sdiff"
+  },
+  {
+   "sorry": "scaffold/GXScaffold/BBS/HSSingularities.lean:2125, GX.GammaLinkCircle.IsLiftedDev.iPlus_components, now l.2944",
+   "by": "even_of_nonneg makes k = 2m, so g lifts the holonomy rho too (linkCover_add_two_mul); rho != 1 as g is hyperbolic; a future time-like direction lifts to a non-fixed t; GX.GTilde.IsHyperbolic.exists_consecutive (new) gives consecutive fixed points a < t < b < a + 1 with Fix(g) = a + Z u b + Z; GX.arc_structure_of_deSitter gives both preimages. The intervals are the components of the unions by the new GX.connectedComponentIn_iUnion_Ioo_two."
+  }
+ ],
+ "sorries_left": [],
+ "prose_rows": [
+  {
+   "tex_lines": [
+    788,
+    791
+   ],
+   "claim": "time-like singularities: Gamma_p elliptic, L an elliptic RP1-circle",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike",
+    "GX.toPSL_eq_of_linkCover"
+   ],
+   "status": "closed (sorry-free), under OQ-113 (d) (« elliptic » includes central holonomy) and OQ-122 (a); the central case is exactly the holonomy 1 or the half-turn (GX.GammaP.pslMk_gammaToSL_eq_one_iff_of_timelike)"
+  },
+  {
+   "tex_lines": [
+    794,
+    795
+   ],
+   "claim": "space-like singularities: L a hyperbolic RP1-circle",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.isHyperbolic_of_deSitter",
+    "GX.regular_not_isHyperbolic"
+   ],
+   "status": "unchanged (sorry-free since T-bbs-hs-singularities): corrected form, non-trivial holonomy added; false without it (GX.regular_not_isHyperbolic)"
+  },
+  {
+   "tex_lines": [
+    797,
+    800
+   ],
+   "claim": "light-like singularities: L a parabolic RP1-circle",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.isParabolic_of_null",
+    "GX.not_isParabolic_delta_sq"
+   ],
+   "status": "closed (sorry-free) in the corrected form with non-trivial holonomy (toPSL f != 1), false without it (GX.not_isParabolic_delta_sq: the regular link has lifted holonomy delta^2); reading OQ-122 (a)"
+  },
+  {
+   "tex_lines": [
+    824,
+    824
+   ],
+   "claim": "at p in dS2, the complement of i+ u i- has two connected components",
+   "decls": [
+    "GX.components_compl_ds",
+    "GX.exists_null_mem_of_mem_components_compl_ds"
+   ],
+   "status": "new, sorry-free: the two components are named, {Q >= 0, <j,.> >= 0} and {Q >= 0, <j,.> <= 0}, each containing a light-like direction (GX.ncard_components_compl_ds in IPm only counts them)"
+  },
+  {
+   "tex_lines": [
+    896,
+    902
+   ],
+   "claim": "the arc structure of l(p): i+(l(p)) is exactly one arc between consecutive light-like directions (the step the three dS2 sorrys lacked)",
+   "decls": [
+    "GX.arc_structure_of_deSitter",
+    "GX.GTilde.IsHyperbolic.exists_consecutive",
+    "GX.GTilde.IsHyperbolic.fixed_eq"
+   ],
+   "status": "new, sorry-free, under OQ-116 (a)"
+  },
+  {
+   "tex_lines": [
+    866,
+    879
+   ],
+   "claim": "space-like singularities of degree 0: I = i+(l(p)) (BTZ-like past), I = i-(l(p)) (BTZ-like future) or I a component of l(p) minus (i+ u i-) (Misner), with i+-(L) accordingly",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero",
+    "GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero_misner"
+   ],
+   "status": "closed (sorry-free) under OQ-116 (a). The Misner bullet (l.876-877) is false as printed under that reading and is proved in its strongest true form (see findings). The orientation of theta is not used (binder _htheta)."
+  },
+  {
+   "tex_lines": [
+    880,
+    888
+   ],
+   "claim": "light-like singularities of degree 0 at p in bdH2+: L is the quotient of i+(l(p)) (future cuspidal) or i-(l(p)) (extreme BTZ-like future)",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero",
+    "GX.GammaLinkCircle.IsLiftedDev.null_degree_zero",
+    "GX.GammaLinkCircle.IsLiftedDev.null_degree_zero_ne"
+   ],
+   "status": "closed (sorry-free) under OQ-116 (b): the second case is i-(l(p)) minus the two tangent directions; the printed closed arc i-(l(p)) is never the developed image (GX.GammaLinkCircle.IsLiftedDev.null_degree_zero_ne). The orientation of theta is not used (binder _htheta)."
+  },
+  {
+   "tex_lines": [
+    889,
+    891
+   ],
+   "claim": "the case p in bdH2- is similar: past cuspidal and extreme BTZ-like past singularities",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.bdMinus_degree_zero",
+    "GX.GammaLinkCircle.IsLiftedDev.null_degree_zero_ne"
+   ],
+   "status": "new, sorry-free, under OQ-116 (b): image = i-(l(p)) (past cuspidal) or i+(l(p)) minus the tangent directions (extreme BTZ-like past); never the printed closed arc i+(l(p))"
+  },
+  {
+   "tex_lines": [
+    893,
+    905
+   ],
+   "claim": "space-like singularities of degree k >= 1: the fixed points of g are delta^i x0, delta^i x1; the components of I+ are delta^(2i)]x0, x1[, those of I- are delta^(2i+1)]x0, x1[; k is even",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.iPlus_components",
+    "GX.connectedComponentIn_iUnion_Ioo_two",
+    "GX.GammaLinkCircle.IsLiftedDev.even_of_nonneg"
+   ],
+   "status": "closed (sorry-free) under OQ-116 (a), I+- read in RP~1 as linkCover^-1 i+-(l(p)) (see questions); k >= 1 is not used (binder _hk)"
+  }
+ ],
+ "statement_changes": "No statement changed in content. Three binders were renamed, the types being alpha-equivalent: `hθ` -> `_hθ` in GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero and bdPlus_degree_zero, `hk` -> `_hk` in GX.GammaLinkCircle.IsLiftedDev.iPlus_components. These hypotheses are not used by the proofs, the unused-variable linter warns on them (`clear h` does not count as a use), and the strict library's warningAsError would then reject the file at graduation. `_h` is the strict library's own convention (GX/BTZ/AbsMax.lean, GX/BTZ/Rigid.lean, GX/BTZ/LocalModel.lean). No caller uses the names. The checked diff of all declaration signatures against the start of the session shows only these three. The module docstring was updated: three targets, 0 sorry, the new import, a « types by the position of p » entry in Main declarations, six rows in the hypothesis checklist and SCOPE (i). The docstrings of the five theorems name what they use.",
+ "extra_decls": [
+  "GX.GTilde.IsHyperbolic.fixed_eq",
+  "GX.GTilde.IsHyperbolic.exists_consecutive",
+  "GX.toPSL_eq_of_linkCover",
+  "GX.neg_mem_dsPastDirs_iff",
+  "GX.neg_mem_dsFutureDirs_iff",
+  "GX.mem_Ico_two_cases",
+  "GX.exists_linkCover_eq_Ico",
+  "GX.arc_structure_of_deSitter",
+  "GX.image_Ioo_add_one_eq",
+  "GX.components_compl_ds",
+  "GX.exists_null_mem_of_mem_components_compl_ds",
+  "GX.GammaLinkCircle.IsLiftedDev.iPlusL_eq_univ",
+  "GX.GammaLinkCircle.IsLiftedDev.iMinusL_eq_univ",
+  "GX.GammaLinkCircle.IsLiftedDev.iPlusL_eq_empty",
+  "GX.GammaLinkCircle.IsLiftedDev.iMinusL_eq_empty",
+  "GX.GammaLinkCircle.IsLiftedDev.lt_apply",
+  "GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero_misner",
+  "GX.GammaLinkCircle.IsLiftedDev.null_degree_zero",
+  "GX.GammaLinkCircle.linkCover_mem_of_image_eq",
+  "GX.GammaLinkCircle.IsLiftedDev.bdMinus_degree_zero",
+  "GX.GammaLinkCircle.IsLiftedDev.null_degree_zero_ne",
+  "GX.connectedComponentIn_iUnion_Ioo_two"
+ ],
+ "findings": [
+  "colI_v1.tex l.876-877 (Misner): « If I is a component of l(p) minus (i+(l(p)) u i-(l(p))) » is false under the time-like reading of l.820 (OQ-116 (a), the file's reading). The two components are closed arcs, each containing light-like directions (GX.components_compl_ds, GX.exists_null_mem_of_mem_components_compl_ds). The developed image I is open and contains none of them. Proved: in the Misner case I is a component K minus its light-like directions (its two ends), I = K n {Q > 0}, and I != K for every component K (GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero_misner). Under the causal reading the Misner bullet holds as printed but the two BTZ-like bullets (l.873, l.875, « I = i+-(l(p)) ») fail, since I is then the interior of the closed arc. This is argued, not formalized, and confirms OQ-116 (a): no reading makes l.873, l.875 and l.877 all literally true. Smallest correction: « I is the interior of a component ».",
+  "colI_v1.tex l.881-886 and l.889-891 (light-like, degree 0): « L is the quotient of i+(l(p)) or i-(l(p)) » with the printed i-(l(p)) at bdH2+ (l.828-833; the closed arc {B(p,.) >= 0}). The developed image is never that arc, because it contains the two tangent directions, which are fixed by the holonomy (GX.GammaLinkCircle.IsLiftedDev.null_degree_zero_ne; symmetrically i+(l(p)) at bdH2-). The image is i- minus the tangent directions (GX.GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero, bdMinus_degree_zero). This is the correction OQ-116 (b) proposes; this closure adds the degree-0 instance.",
+  "colI_v1.tex l.794-800 (carried from T-bbs-hs-singularities, restated because isParabolic_of_null is now proved): « L is a hyperbolic / parabolic RP1-circle » needs non-trivial holonomy. The regular link has lifted holonomy delta^2, neither hyperbolic nor parabolic (GX.regular_not_isHyperbolic, GX.not_isParabolic_delta_sq). The Lean statements carry toPSL f != 1."
+ ],
+ "questions": [
+  "I+- (l.898): « the preimage in L~_p of i+-(l(p)) by the developing map », with L~_p ≈ RP~1. Reading taken: I+- is read in RP~1, as linkCover^-1(i+-(l(p))). The identification L~_p ≈ RP~1 is D, which is onto in degree k >= 1, so this is D(d^-1(i+-)). GX.GammaLinkCircle.IsLiftedDev.iPlus_components states it this way (the statement is the previous closer's, unchanged). The alternative, d^-1(i+-) inside L~ = R through E, is its preimage under the homeomorphism D.",
+  "OQ-116 (a), carried. i+- at p in dS2 is read as the future (past) time-like directions. This decides the Misner bullet: see the first finding. Under the causal reading, spacelike_degree_zero's first two cases would fail as printed.",
+  "OQ-116 (b), carried. At bdH2+ the dS2 side is read without its tangent directions (i- minus T), the closed arc being impossible as a developed image (second finding). The ∂ℍ²₋ statement (new) uses the mirror reading, i+ minus T.",
+  "OQ-113 (d) and OQ-122 (a), carried. « Elliptic » includes central holonomy (time-like case: holonomy 1 or the half-turn). At a light-like p, every element != 1 of Gamma_p is parabolic (Gamma_p is the group of null rotations, not cyclic)."
+ ],
+ "kb_proposals": [
+  "The arc structure of l(p) at p in dS2, read on RP~1, is GX.arc_structure_of_deSitter. Let g lift A != 1 of Gamma_p and have a fixed point. Let a < b < a + 1 be consecutive fixed points with Fix(g) = a + Z u b + Z and ]a, b[ meeting i+. Then linkCover^-1 i+ = U_i ]a+2i, b+2i[ and linkCover^-1 i- = U_i ]a+2i+1, b+2i+1[, and ]b, a+1[ is space-like. Get a and b around any non-fixed t from GX.GTilde.IsHyperbolic.exists_consecutive.",
+  "To argue on one turn of l(p) (delta^2, period 2), reduce t into [a, a + 2) with GX.exists_linkCover_eq_Ico theta a t. Then split by GX.mem_Ico_two_cases into the four points a, b, a+1, b+1 and the four open intervals between them; linkCover (y + 1) = -linkCover y moves between the halves.",
+  "At a light-like p, the developed image of a degree-0 link is {B(p,.) < 0} or {B(p,.) > 0} (GX.GammaLinkCircle.IsLiftedDev.null_degree_zero). The 'onto' step is GX.image_Ioo_add_one_eq: an open half-turn ]a, a+1[ mapping into a set with no antipodal pair and containing neither end maps onto it.",
+  "i+-(L) = L or empty follows from the values of the developing map, by GX.GammaLinkCircle.IsLiftedDev.iPlusL_eq_univ / iPlusL_eq_empty (iMinus alike), through IsDevAlong.preimage_iPlus and E surjective.",
+  "The two components of l(p) minus (i+ u i-) at p in dS2 are named by GX.components_compl_ds: {Q >= 0, <j,.> >= 0} and {Q >= 0, <j,.> <= 0}. IPm's ncard_components_compl_ds only counts them.",
+  "Pitfall: `clear h` does not silence the unused-variables linter. A hypothesis the paper's statement carries but the proof does not use must be named `_h` (the strict library's convention), or warningAsError rejects the file at graduation.",
+  "Pitfall: `(hS hx : 0 < _).ne' h0` leaves `?m = 0` unsolved. Write `(show 0 < Q (dsProj p σ) from hS hx).ne' h0`. Likewise, membership in {σ | 0 ≤ nullPairing p σ} needs a `show` before `not_le.2`."
+ ],
+ "notes": "One file edited, the one the dispatch names. Its single new import, GX.BBS.GammaPElements, is strict. No name clash: grep over lean-gx/GX, lean-gx/scaffold, lean-causal/Causal and lean/ finds none of the 22 new names elsewhere, and GammaP.fixedPoints_eq_of_null needed no qualification since nothing here sits in namespace GX.GammaP. HSSingularities.lean is now sorry-free and warning-free (even under -DwarningAsError=true), with standard axioms only. Graduation to GX (T-bbs-hs-graduate) is blocked by one thing only: the file imports two scaffold modules, GXScaffold.Interaction.FunnelGTilde (a 3+1 research module kept in the scaffold until the author reads it) and GXScaffold.BBS.PSL2NormalForms (which imports FunnelGTilde). Both are sorry-free, and strict GX cannot import GXScaffold, so they must graduate first or together. The scaffold root lean-gx/scaffold/GXScaffold.lean still says « ten tagged sorrys » for BBS.HSSingularities; the count is stale (now 0) and was not edited, being outside the dispatch. The report directory also holds Axioms.lean, the 211-declaration axiom sweep (lake env lean campaign/T-bbs-hs-link-types/Axioms.lean). The ledger row of bbsrem:previous_section_observed_only does not change."
+}

@@ -1,4 +1,5 @@
 import GX.BBS.IPm
+import GX.BBS.GammaPElements
 import GX.BBS.QuotientCircle
 import GXScaffold.Interaction.FunnelGTilde
 import GXScaffold.BBS.PSL2NormalForms
@@ -6,16 +7,16 @@ import GXScaffold.BBS.PSL2NormalForms
 /-!
 # BBS § 3.3: the classification of `ℝP¹`-circles and of HS-singularities, and the remark that positive and negative hyperbolic links are not isomorphic
 
-Targets `T-bbs-hs-singularities` and `T-bbs-hs-remark-existence` (`roadmap/roadmap.toml`; BBS
-layer L2 in lean-gx, DEC-192). `papers/bbs/legacy/labeled/colI_v1.tex`. 5 tagged `sorry`s, none
-beneath the label (the time-like, light-like and degree-`0` types and the components of `I^±`).
-Imports `GX.BBS.QuotientCircle` (the quotient circles `J/⟨f⟩`), `GXScaffold.BBS.PSL2NormalForms`
-(sorry-free: the normal forms of `PSL(2,ℝ)` and `G̃`) and `GXScaffold.Interaction.FunnelGTilde`
-(sorry-free: parabolic fixed points, `apply_lt_delta_of_fixed`, `le_conj_apply`).
+Targets `T-bbs-hs-singularities`, `T-bbs-hs-remark-existence` and `T-bbs-hs-link-types`
+(`roadmap/roadmap.toml`; BBS layer L2 in lean-gx, DEC-192). `papers/bbs/legacy/labeled/colI_v1.tex`.
+0 `sorry`. Imports `GX.BBS.QuotientCircle` (the quotient circles `J/⟨f⟩`), `GX.BBS.GammaPElements`
+(the elements of `Γ_p` by the position of `p`), `GXScaffold.BBS.PSL2NormalForms` (sorry-free: the
+normal forms of `PSL(2,ℝ)` and `G̃`) and `GXScaffold.Interaction.FunnelGTilde` (sorry-free:
+parabolic fixed points, `apply_lt_delta_of_fixed`, `le_conj_apply`).
 
 * `bbsrem:previous_section_observed_only` — `colI_v1.tex:926` — partial (unmarked: every assertion
-  is proved, no `sorry` beneath, in the readings OQ-120 (a)–(c) and OQ-116 (a); the mark waits on
-  OQ-120): (i) `GX.rp1Iso_of_zpowers_eq`, (ii) `GX.conj_inv_swaps_timelike_spacelike` (with the
+  is proved, no `sorry` beneath, in the readings OQ-120 (a)–(c), OQ-124 and OQ-116 (a); the mark
+  waits on OQ-120 and OQ-124): (i) `GX.rp1Iso_of_zpowers_eq`, (ii) `GX.conj_inv_swaps_timelike_spacelike` (with the
   `G̃` form `GX.GTilde.lt_apply_iff_of_conj_inv`), (iii) `GX.not_isIso_of_positive_of_negative`;
   "does not extend": `GX.exists_positive_negative` (at every `p ∈ dS²`, the quotients
   `ℝ/⟨δ² g⟩` and `ℝ/⟨δ² g⁻¹⟩`), with both halves `GX.exists_rp1Iso_not_isIso`.
@@ -65,9 +66,21 @@ The unlabeled prose of § 3.3 (l.688–760, l.785–802, l.855–922), stated in
   `…Negative`, independent of the choice of `θ, E, D` (`…forall`), **dichotomy** `…spacelike_dichotomy`; light-like
   `…lightlike_dichotomy`); the examples of l.928 (`GX.exists_gammaP_lift_fixed`: a lift with a
   fixed point of `A ∈ Γ_p ∖ {1}`; `GX.exists_isLiftedDev_delta_sq_mul`: the quotient `ℝ/⟨δ² g⟩`).
-  `sorry`: the time-like and light-like types (`…isElliptic_of_timelike`,
-  `…isParabolic_of_null`), the degree-`0` types (`…spacelike_degree_zero`, `…bdPlus_degree_zero`),
-  the components of `I^±` (`…iPlus_components`).
+* **The types by the position of `p`** (l.785–802, l.855–905; unlabeled prose): time-like links
+  are elliptic or central (`…isElliptic_of_timelike`, through `GX.toPSL_eq_of_linkCover` and
+  `GX.GammaP.isElliptic_or_eq_one_of_timelike`), light-like links with non-trivial holonomy are
+  parabolic (`…isParabolic_of_null`, `GX.GammaP.isParabolic_iff_of_null`). **The arc structure of
+  `ℓ(p)`** at `p ∈ dS²`, read on `ℝP̃¹` (`GX.arc_structure_of_deSitter`: between consecutive fixed
+  points `a < b < a + 1` of a lift of `A ≠ 1`, `linkCover⁻¹ i⁺ = ⋃ᵢ ]a + 2i, b + 2i[` exactly);
+  the two components of `ℓ(p) ∖ (i⁺ ∪ i⁻)` (`GX.components_compl_ds`). Degree `0` at `dS²`:
+  BTZ-like past, BTZ-like future or Misner (`…spacelike_degree_zero`; Misner in its strongest true
+  form `…spacelike_degree_zero_misner`, SCOPE (i)); degree `0` at a light-like `p`: the image is
+  one of the open arcs `{B(p,·) ≶ 0}` (`…null_degree_zero`, through `GX.image_Ioo_add_one_eq`),
+  so future cuspidal or extreme BTZ-like future at `∂ℍ²₊` (`…bdPlus_degree_zero`), past cuspidal
+  or extreme BTZ-like past at `∂ℍ²₋` (`…bdMinus_degree_zero`), never the printed closed arc
+  (`…null_degree_zero_ne`, OQ-116 (b)); degree
+  `k ≥ 1` at `dS²`: the components of `I^±` (`…iPlus_components`, from
+  `GX.GTilde.IsHyperbolic.exists_consecutive`).
 
 ## Hypothesis checklist
 
@@ -79,6 +92,11 @@ The unlabeled prose of § 3.3 (l.688–760, l.785–802, l.855–922), stated in
 | positive / negative (l.908–915) | ⚠ reading: the l.915 form, `g x ≥ x` (`≤`) on `I⁺ = D(E⁻¹ i⁺(L))`, `f = δᵏ g`, `k ≥ 1`, `θ` oriented; independent of the choices (`…forall`); the repelling-endpoint form of l.908–913 not formalized (SCOPE (f)) |
 | time-like / space-like components (l.929–930) | ⚠ `i^±` under OQ-116 (a) (time-like reading, `GX.BBS.IPm`); space-like: `Q(dsProj σ) > 0` |
 | `p ∈ dS²` (the hyperbolic case) | ✓ `HS.piece 2 .deSitter` |
+| `p ∈ ℍ²±` (l.788), `p ∈ ∂ℍ²±` (l.797) | ✓ `Q(p) < 0`, `Q(p) = 0` (both components at once) |
+| « `L` is a hyperbolic / parabolic `ℝP¹`-circle » (l.794–800) | ⚠ added: non-trivial holonomy `toPSL f ≠ 1` (false without: `GX.regular_not_isHyperbolic`, `GX.not_isParabolic_delta_sq`) |
+| degree `0` (l.866, l.881) | ✓ `f` has a fixed point (`f = δ⁰ g`) |
+| `θ` oriented (degree `0`), `k ≥ 1` (l.893) | unused: `_hθ`, `_hk` (SCOPE (i)) |
+| `i^±(ℓ(p))` (l.873–891) | ⚠ OQ-116 (a) at `dS²`; at `∂ℍ²±` the open arc `i^∓ ∖ T` for the printed closed one (OQ-116 (b)) |
 
 ## SCOPE (disclosed)
 
@@ -110,6 +128,18 @@ The unlabeled prose of § 3.3 (l.688–760, l.785–802, l.855–922), stated in
   `Γ_p`-holonomies `A` and `A⁻¹`, which generate the same subgroup of `Γ_p`; the statements give
   the degree only as `k ≥ 1` and do not state the `Γ_p`-holonomy. The identifications `θ`, `θ'`
   in the isomorphism clause are not required to be oriented (the witnesses are).
+* **(i)** The types by the position of `p` (l.855–905, T-bbs-hs-link-types), under OQ-116 (a)
+  (time-like `i^±` at `dS²`) and OQ-116 (b) (`i⁻ ∖ T` at `∂ℍ²₊`, the printed `i⁻(ℓ(p))` being a
+  closed arc). Misner (l.877–878): « `I` is a component of `ℓ(p) ∖ (i⁺ ∪ i⁻)` » is false under the
+  time-like reading, the components being closed arcs with light-like ends and `I` containing no
+  light-like direction; proved instead: `I` is a component minus its two extremities
+  (`…spacelike_degree_zero_misner`). The degree-`0` types do not use the orientation of `θ`, and the
+  components of `I^±` do not use `k ≥ 1` (any `g` hyperbolic with a fixed point and `f = δᵏ g`
+  lifting a holonomy forces `k` even and gives the same arcs): those hypotheses of the statements
+  are kept and named `_hθ`, `_hk`. `I^±` is read in `ℝP̃¹` (`linkCover⁻¹ i^±`), the identification
+  `L̃_p ≈ ℝP̃¹` of l.898 being `D`, onto in degree `k ≥ 1`; `linkCover⁻¹ i^±` is stated as a union
+  of intervals, which are its components by `GX.connectedComponentIn_iUnion_Ioo_two`. The
+  `∂ℍ²₋` case of l.889–891 (« similar ») is `…bdMinus_degree_zero`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal `ca2ad78`
 through `GX.BBS.IPm`.
@@ -875,6 +905,51 @@ theorem GTilde.IsHyperbolic.fixed_structure {f : GTilde} (hf : IsHyperbolic f) {
       · rw [hc1]
       · exact (d₀ y h).le
       · exact (d₁ y h).le)
+
+/-- The fixed points of a hyperbolic `f ∈ G̃` with fixed points `c < c₁ < c + 1` are `c + ℤ` and
+`c₁ + ℤ`. -/
+theorem GTilde.IsHyperbolic.fixed_eq {f : GTilde} (hf : IsHyperbolic f) {c c₁ : ℝ}
+    (hc : f c = c) (hc₁I : c₁ ∈ Ioo c (c + 1)) (hc₁ : f c₁ = c₁) {y : ℝ} (hy : f y = y) :
+    ∃ i : ℤ, y = c + i ∨ y = c₁ + i := by
+  obtain ⟨c₂, -, -, huniq, -⟩ := hf.fixed_structure hc
+  have h1 := huniq c₁ hc₁I hc₁
+  have hn1 : c + ⌊y - c⌋ ≤ y := by have := Int.floor_le (y - c); linarith
+  have hn2 : y < c + ⌊y - c⌋ + 1 := by have := Int.lt_floor_add_one (y - c); linarith
+  have hfy : f (y - ⌊y - c⌋) = y - ⌊y - c⌋ := by
+    have := GTilde.map_add_int f (y - ⌊y - c⌋) ⌊y - c⌋
+    rw [sub_add_cancel, hy] at this; linarith
+  rcases eq_or_lt_of_le hn1 with h | h
+  · exact ⟨⌊y - c⌋, Or.inl h.symm⟩
+  · refine ⟨⌊y - c⌋, Or.inr ?_⟩
+    have := huniq (y - ⌊y - c⌋) ⟨by linarith, by linarith⟩ hfy
+    linarith
+
+/-- **Consecutive fixed points.** A point not fixed by a hyperbolic `f ∈ G̃` with a fixed point
+lies between two consecutive fixed points `a < b < a + 1`, and the fixed points of `f` are
+`a + ℤ` and `b + ℤ`. -/
+theorem GTilde.IsHyperbolic.exists_consecutive {f : GTilde} (hf : IsHyperbolic f)
+    (hfix : ∃ x, f x = x) {t : ℝ} (ht : f t ≠ t) :
+    ∃ a b : ℝ, a < t ∧ t < b ∧ b < a + 1 ∧ f a = a ∧ f b = b ∧
+      ∀ y, f y = y → ∃ i : ℤ, y = a + i ∨ y = b + i := by
+  obtain ⟨c, hc⟩ := hfix
+  obtain ⟨c₁, hc₁I, hc₁, -, -⟩ := hf.fixed_structure hc
+  have hfix_add : ∀ x, f x = x → ∀ m : ℤ, f (x + m) = x + m := fun x hx m => by
+    rw [GTilde.map_add_int, hx]
+  have hn1 : c + ⌊t - c⌋ ≤ t := by have := Int.floor_le (t - c); linarith
+  have hn2 : t < c + ⌊t - c⌋ + 1 := by have := Int.lt_floor_add_one (t - c); linarith
+  have htn : t ≠ c + ⌊t - c⌋ := fun h => ht (by rw [h]; exact hfix_add c hc _)
+  have htn1 : t ≠ c₁ + ⌊t - c⌋ := fun h => ht (by rw [h]; exact hfix_add c₁ hc₁ _)
+  rcases lt_or_gt_of_ne htn1 with h | h
+  · refine ⟨c + ⌊t - c⌋, c₁ + ⌊t - c⌋, lt_of_le_of_ne hn1 (Ne.symm htn), h,
+      by linarith [hc₁I.2], hfix_add c hc _, hfix_add c₁ hc₁ _, fun y hy => ?_⟩
+    obtain ⟨i, hi | hi⟩ := hf.fixed_eq hc hc₁I hc₁ hy
+    · exact ⟨i - ⌊t - c⌋, Or.inl (by rw [hi]; push_cast; ring)⟩
+    · exact ⟨i - ⌊t - c⌋, Or.inr (by rw [hi]; push_cast; ring)⟩
+  · refine ⟨c₁ + ⌊t - c⌋, c + ((⌊t - c⌋ + 1 : ℤ) : ℝ), h, by push_cast; linarith,
+      by push_cast; linarith [hc₁I.1], hfix_add c₁ hc₁ _, hfix_add c hc _, fun y hy => ?_⟩
+    obtain ⟨i, hi | hi⟩ := hf.fixed_eq hc hc₁I hc₁ hy
+    · exact ⟨i - (⌊t - c⌋ + 1), Or.inr (by rw [hi]; push_cast; ring)⟩
+    · exact ⟨i - ⌊t - c⌋, Or.inl (by rw [hi]; push_cast; ring)⟩
 
 section Iso2
 
@@ -1984,15 +2059,368 @@ theorem timelike_spacelike_dir (hp : p ∈ HS.piece 2 .deSitter) (hA : A ≠ 1)
     exact Or.inr ⟨hT, fun t ht => by
       have := GTilde.strictMono g (hS t ht); rwa [GTilde.apply_inv_apply] at this⟩
 
+/-! ### The arc structure of `ℓ(p)` read on `ℝP̃¹` (l.824, l.835–840, l.896–902) -/
+
+/-- **The `toPSL` bridge** (kb/0090): a lift `g` of `A ∈ Γ_p` through `linkCover` projects to
+`pslMk (gammaToSL θ A)`. -/
+theorem toPSL_eq_of_linkCover (hg : ∀ t, linkCover p θ (g t) = A • linkCover p θ t) :
+    GTilde.toPSL g = pslMk (gammaToSL p θ A) :=
+  GTilde.toPSL_eq_iff.2 fun t => by
+    rw [← linkToRP1_linkCover, hg, linkToRP1_smul, linkToRP1_linkCover]
+
+theorem neg_mem_dsPastDirs_iff (σ : Link p) : -σ ∈ dsPastDirs p ↔ σ ∈ dsFutureDirs p := by
+  simp only [dsFutureDirs, dsPastDirs, mem_setOf_eq, dsProj_neg, neg_neg]
+
+theorem neg_mem_dsFutureDirs_iff (σ : Link p) : -σ ∈ dsFutureDirs p ↔ σ ∈ dsPastDirs p := by
+  simp only [dsFutureDirs, dsPastDirs, mem_setOf_eq, dsProj_neg]
+
+/-- A point of `[a, a + 2)` is one of `a, b, a + 1, b + 1` or lies in one of the four open
+intervals between them. -/
+theorem mem_Ico_two_cases {a b y : ℝ} (h1 : a ≤ y) (h2 : y < a + 2) :
+    (y = a ∨ y = b ∨ y = a + 1 ∨ y = b + 1) ∨ y ∈ Ioo a b ∨ y ∈ Ioo b (a + 1) ∨
+      y ∈ Ioo (a + 1) (b + 1) ∨ y ∈ Ioo (b + 1) (a + 2) := by
+  rcases eq_or_lt_of_le h1 with h | h
+  · exact Or.inl (Or.inl h.symm)
+  rcases lt_trichotomy y b with h3 | h3 | h3
+  · exact Or.inr (Or.inl ⟨h, h3⟩)
+  · exact Or.inl (Or.inr (Or.inl h3))
+  rcases lt_trichotomy y (a + 1) with h4 | h4 | h4
+  · exact Or.inr (Or.inr (Or.inl ⟨h3, h4⟩))
+  · exact Or.inl (Or.inr (Or.inr (Or.inl h4)))
+  rcases lt_trichotomy y (b + 1) with h5 | h5 | h5
+  · exact Or.inr (Or.inr (Or.inr (Or.inl ⟨h4, h5⟩)))
+  · exact Or.inl (Or.inr (Or.inr (Or.inr h5)))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr ⟨h5, h2⟩)))
+
+/-- `t` reduced modulo `2` (one turn of `ℓ(p)`, `δ²`) into `[a, a + 2)`. -/
+theorem exists_linkCover_eq_Ico (θ : TpHS p ≃ₗ[ℝ] ℂ) (a t : ℝ) :
+    ∃ n : ℤ, a ≤ t - 2 * n ∧ t - 2 * n < a + 2 ∧
+      linkCover p θ t = linkCover p θ (t - 2 * n) := by
+  refine ⟨⌊(t - a) / 2⌋, ?_, ?_, ?_⟩
+  · have := Int.floor_le ((t - a) / 2); linarith
+  · have := Int.lt_floor_add_one ((t - a) / 2); linarith
+  · rw [← linkCover_add_two_mul p θ (t - 2 * ⌊(t - a) / 2⌋) ⌊(t - a) / 2⌋, sub_add_cancel]
+
+/-- **The arc structure of `ℓ(p)` at `p ∈ dS²`, read on `ℝP̃¹`** (l.824, l.896–902): let `g` lift
+`A ∈ Γ_p ∖ {1}` and have a fixed point, and let `a < b < a + 1` be consecutive fixed points of `g`
+(the fixed points of `g` being `a + ℤ` and `b + ℤ`) such that `]a, b[` meets the future time-like
+directions. Then `linkCover⁻¹(i⁺(ℓ(p))) = ⋃ᵢ ]a + 2i, b + 2i[`,
+`linkCover⁻¹(i⁻(ℓ(p))) = ⋃ᵢ ]a + 2i + 1, b + 2i + 1[`, and `]b, a + 1[` is space-like: `i⁺(ℓ(p))`
+is exactly one arc between two consecutive light-like directions. -/
+theorem arc_structure_of_deSitter (hp : p ∈ HS.piece 2 .deSitter) (hA : A ≠ 1)
+    (hg : ∀ t, linkCover p θ (g t) = A • linkCover p θ t) (hfix : ∃ x, g x = x)
+    {a b : ℝ} (hab : a < b) (hba : b < a + 1) (ha : g a = a) (hb : g b = b)
+    (hfe : ∀ y, g y = y → ∃ i : ℤ, y = a + i ∨ y = b + i)
+    (hF : ∃ t ∈ Ioo a b, linkCover p θ t ∈ dsFutureDirs p) :
+    (∀ t, linkCover p θ t ∈ dsFutureDirs p ↔ ∃ i : ℤ, t ∈ Ioo (a + 2 * i) (b + 2 * i)) ∧
+    (∀ t, linkCover p θ t ∈ dsPastDirs p ↔ ∃ i : ℤ, t ∈ Ioo (a + 2 * i + 1) (b + 2 * i + 1)) ∧
+    (∀ t ∈ Ioo b (a + 1), 0 < Causal.Flat.minkQ (dsProj p (linkCover p θ t))) := by
+  have hfn := fixed_iff_null hp hA hg hfix
+  have hno₀ : ∀ y ∈ Ioo a b, g y ≠ y := fun y hy hgy => by
+    obtain ⟨i, hi | hi⟩ := hfe y hgy
+    · have h1 : (0 : ℝ) < i := by linarith [hy.1]
+      have h2 : (i : ℝ) < 1 := by linarith [hy.2]
+      have : (0 : ℤ) < i := by exact_mod_cast h1
+      have : i < (1 : ℤ) := by exact_mod_cast h2
+      omega
+    · have h1 : (-1 : ℝ) < i := by linarith [hy.1]
+      have h2 : (i : ℝ) < 0 := by linarith [hy.2]
+      have : (-1 : ℤ) < i := by exact_mod_cast h1
+      have : i < (0 : ℤ) := by exact_mod_cast h2
+      omega
+  have hno₁ : ∀ y ∈ Ioo b (a + 1), g y ≠ y := fun y hy hgy => by
+    obtain ⟨i, hi | hi⟩ := hfe y hgy
+    · have h1 : (0 : ℝ) < i := by linarith [hy.1]
+      have h2 : (i : ℝ) < 1 := by linarith [hy.2]
+      have : (0 : ℤ) < i := by exact_mod_cast h1
+      have : i < (1 : ℤ) := by exact_mod_cast h2
+      omega
+    · have h1 : (0 : ℝ) < i := by linarith [hy.1]
+      have h2 : (i : ℝ) < 1 := by linarith [hy.2]
+      have : (0 : ℤ) < i := by exact_mod_cast h1
+      have : i < (1 : ℤ) := by exact_mod_cast h2
+      omega
+  set F := dsFutureDirs p
+  set P := dsPastDirs p
+  set S := {σ : Link p | 0 < Causal.Flat.minkQ (dsProj p σ)}
+  have hFo : IsOpen F := isOpen_dsFutureDirs p
+  have hPo : IsOpen P := isOpen_dsPastDirs p
+  have hSo : IsOpen S :=
+    isOpen_lt continuous_const (Causal.Flat.continuous_minkQ.comp (continuous_dsProj p))
+  have hFP : Disjoint F P := Set.disjoint_left.2 fun σ h1 h2 => by
+    have e1 := h1.1
+    have e2 := h2.1
+    simp only [Prod.fst_neg] at e2
+    linarith
+  have hFS : Disjoint F S := Set.disjoint_left.2 fun σ h1 h2 =>
+    (minkQ_neg_of_timelike (Or.inl h1)).not_gt h2
+  have hPS : Disjoint P S := Set.disjoint_left.2 fun σ h1 h2 =>
+    (minkQ_neg_of_timelike (Or.inr h1)).not_gt h2
+  have hcls : ∀ y, g y ≠ y →
+      linkCover p θ y ∈ F ∨ linkCover p θ y ∈ P ∨ linkCover p θ y ∈ S := fun y hy => by
+    rcases lt_trichotomy (Causal.Flat.minkQ (dsProj p (linkCover p θ y))) 0 with h | h | h
+    · rcases timelike_of_minkQ_neg h with h' | h'
+      · exact Or.inl h'
+      · exact Or.inr (Or.inl h')
+    · exact absurd ((hfn y).2 h) hy
+    · exact Or.inr (Or.inr h)
+  have hnull : ∀ y, g y = y → linkCover p θ y ∉ F ∧ linkCover p θ y ∉ P := fun y hy =>
+    ⟨fun h => (minkQ_neg_of_timelike (Or.inl h)).ne ((hfn y).1 hy),
+      fun h => (minkQ_neg_of_timelike (Or.inr h)).ne ((hfn y).1 hy)⟩
+  obtain ⟨t₀, ht₀, ht₀F⟩ := hF
+  -- `g` is hyperbolic
+  have hg1 : GTilde.toPSL g ≠ 1 := fun h1 => by
+    have hk : g ∈ GTilde.toPSL.ker := h1
+    rw [GTilde.ker_toPSL, Subgroup.mem_zpowers_iff] at hk
+    obtain ⟨j, rfl⟩ := hk
+    have hj : j = 0 := by
+      have := ha
+      rw [GTilde.delta_zpow_apply] at this
+      exact_mod_cast (show (j : ℝ) = 0 by linarith)
+    exact (hnull t₀ (by rw [hj, zpow_zero, GTilde.one_apply])).1 ht₀F
+  have hh := isHyperbolic_of_linkCover hp hg hg1
+  -- 1. `]a, b[` maps into `F` (it is preconnected and avoids the light-like directions)
+  have h0 : ∀ y ∈ Ioo a b, linkCover p θ y ∈ F := by
+    have hsub : linkCover p θ '' Ioo a b ⊆ F ∪ (P ∪ S) := by
+      rintro _ ⟨y, hy, rfl⟩
+      rcases hcls y (hno₀ y hy) with h | h | h
+      exacts [Or.inl h, Or.inr (Or.inl h), Or.inr (Or.inr h)]
+    rcases (isPreconnected_Ioo.image _
+        (isCoveringMap_linkCover p θ).continuous.continuousOn).subset_or_subset hFo
+        (hPo.union hSo) (Set.disjoint_union_right.2 ⟨hFP, hFS⟩) hsub with h | h
+    · exact fun y hy => h ⟨y, hy, rfl⟩
+    · exfalso
+      rcases h ⟨t₀, ht₀, rfl⟩ with h' | h'
+      · exact Set.disjoint_left.1 hFP ht₀F h'
+      · exact Set.disjoint_left.1 hFS ht₀F h'
+  -- 2. `]b, a + 1[` maps into `S`: `g` moves it the other way (`GX.timelike_spacelike_dir`)
+  have h1 : ∀ y ∈ Ioo b (a + 1), linkCover p θ y ∈ S := by
+    obtain ⟨c₁, hc₁I, hc₁, huniq, hdir⟩ := hh.fixed_structure ha
+    obtain rfl : b = c₁ := huniq b ⟨hab, hba⟩ hb
+    intro y hy
+    have ht₀T : linkCover p θ t₀ ∈ F ∪ P := Or.inl ht₀F
+    rcases hcls y (hno₁ y hy) with hyF | hyP | hyS
+    · exfalso
+      have hyT : linkCover p θ y ∈ F ∪ P := Or.inl hyF
+      rcases timelike_spacelike_dir hp hA hg hfix with ⟨hT, -⟩ | ⟨hT, -⟩ <;>
+        rcases hdir with ⟨d₀, d₁⟩ | ⟨d₀, d₁⟩
+      · exact lt_asymm (hT y hyT) (d₁ y hy)
+      · exact lt_asymm (hT t₀ ht₀T) (d₀ t₀ ht₀)
+      · exact lt_asymm (hT t₀ ht₀T) (d₀ t₀ ht₀)
+      · exact lt_asymm (hT y hyT) (d₁ y hy)
+    · exfalso
+      have hyT : linkCover p θ y ∈ F ∪ P := Or.inr hyP
+      rcases timelike_spacelike_dir hp hA hg hfix with ⟨hT, -⟩ | ⟨hT, -⟩ <;>
+        rcases hdir with ⟨d₀, d₁⟩ | ⟨d₀, d₁⟩
+      · exact lt_asymm (hT y hyT) (d₁ y hy)
+      · exact lt_asymm (hT t₀ ht₀T) (d₀ t₀ ht₀)
+      · exact lt_asymm (hT t₀ ht₀T) (d₀ t₀ ht₀)
+      · exact lt_asymm (hT y hyT) (d₁ y hy)
+    · exact hyS
+  -- 3. the translates by `δ` (the antipodal map)
+  have hsub1 : ∀ y, linkCover p θ y = -linkCover p θ (y - 1) := fun y => by
+    rw [← linkCover_add_one, sub_add_cancel]
+  have h2 : ∀ y ∈ Ioo (a + 1) (b + 1), linkCover p θ y ∈ P := fun y hy => by
+    rw [hsub1, neg_mem_dsPastDirs_iff]
+    exact h0 (y - 1) ⟨by linarith [hy.1], by linarith [hy.2]⟩
+  have h3 : ∀ y ∈ Ioo (b + 1) (a + 2), linkCover p θ y ∈ S := fun y hy => by
+    show 0 < Causal.Flat.minkQ (dsProj p (linkCover p θ y))
+    rw [hsub1, minkQ_dsProj_neg]
+    exact h1 (y - 1) ⟨by linarith [hy.1], by linarith [hy.2]⟩
+  have hfix1 : ∀ x, g x = x → g (x + 1) = x + 1 := fun x hx => by
+    have := GTilde.map_add_int g x 1; push_cast at this; rw [this, hx]
+  have hfixed : ∀ y, (y = a ∨ y = b ∨ y = a + 1 ∨ y = b + 1) → g y = y := by
+    rintro y (rfl | rfl | rfl | rfl)
+    exacts [ha, hb, hfix1 _ ha, hfix1 _ hb]
+  -- 4. one turn `[a, a + 2)` of `ℓ(p)`
+  refine ⟨fun t => ⟨fun htF => ?_, fun ⟨i, hi⟩ => ?_⟩, fun t => ⟨fun htP => ?_, fun ⟨i, hi⟩ => ?_⟩,
+    h1⟩
+  · obtain ⟨n, hn1, hn2, hn⟩ := exists_linkCover_eq_Ico θ a t
+    rw [hn] at htF
+    rcases mem_Ico_two_cases hn1 hn2 with hy | hy | hy | hy | hy
+    · exact absurd htF (hnull _ (hfixed _ hy)).1
+    · exact ⟨n, by linarith [hy.1], by linarith [hy.2]⟩
+    · exact absurd (h1 _ hy) (Set.disjoint_left.1 hFS htF)
+    · exact absurd (h2 _ hy) (Set.disjoint_left.1 hFP htF)
+    · exact absurd (h3 _ hy) (Set.disjoint_left.1 hFS htF)
+  · rw [show t = t - 2 * i + 2 * i by ring, linkCover_add_two_mul]
+    exact h0 _ ⟨by linarith [hi.1], by linarith [hi.2]⟩
+  · obtain ⟨n, hn1, hn2, hn⟩ := exists_linkCover_eq_Ico θ a t
+    rw [hn] at htP
+    rcases mem_Ico_two_cases hn1 hn2 with hy | hy | hy | hy | hy
+    · exact absurd htP (hnull _ (hfixed _ hy)).2
+    · exact absurd (h0 _ hy) (Set.disjoint_right.1 hFP htP)
+    · exact absurd (h1 _ hy) (Set.disjoint_left.1 hPS htP)
+    · exact ⟨n, by linarith [hy.1], by linarith [hy.2]⟩
+    · exact absurd (h3 _ hy) (Set.disjoint_left.1 hPS htP)
+  · rw [show t = t - 2 * i + 2 * i by ring, linkCover_add_two_mul]
+    exact h2 _ ⟨by linarith [hi.1], by linarith [hi.2]⟩
+
+/-- **An open half-turn of `ℓ(p)` onto an arc** (the light-like case of l.835–836): if `linkCover`
+maps `]a, a + 1[` into a set `U` containing no pair of opposite directions, nor `linkCover a`, nor
+`linkCover (a + 1)`, then it maps `]a, a + 1[` onto `U`. -/
+theorem image_Ioo_add_one_eq {U : Set (Link p)} {a : ℝ}
+    (hU : ∀ t ∈ Ioo a (a + 1), linkCover p θ t ∈ U) (hneg : ∀ σ ∈ U, -σ ∉ U)
+    (ha : linkCover p θ a ∉ U) (ha1 : linkCover p θ (a + 1) ∉ U) :
+    linkCover p θ '' Ioo a (a + 1) = U := by
+  refine Subset.antisymm (by rintro _ ⟨t, ht, rfl⟩; exact hU t ht) fun σ hσ => ?_
+  obtain ⟨t, rfl⟩ := linkCover_surjective p θ σ
+  obtain ⟨n, hn1, hn2, hn⟩ := exists_linkCover_eq_Ico θ a t
+  rw [hn] at hσ ⊢
+  rcases eq_or_lt_of_le hn1 with h | h
+  · rw [← h] at hσ; exact absurd hσ ha
+  rcases lt_trichotomy (t - 2 * n) (a + 1) with h' | h' | h'
+  · exact ⟨_, ⟨h, h'⟩, rfl⟩
+  · rw [h'] at hσ; exact absurd hσ ha1
+  · exfalso
+    have e := linkCover_add_one p θ (t - 2 * n - 1)
+    rw [sub_add_cancel] at e
+    rw [e] at hσ
+    exact hneg _ (hU _ ⟨by linarith, by linarith⟩) hσ
+
+/-- **l.824, the two components**: at `p ∈ dS²` the components of `ℓ(p) ∖ (i⁺ ∪ i⁻)` (time-like
+reading, OQ-116 (a)) are the two closed arcs `{Q ≥ 0, ⟨j, ·⟩ ≥ 0}` and `{Q ≥ 0, ⟨j, ·⟩ ≤ 0}`, each
+bounded by two light-like directions. -/
+theorem components_compl_ds (hp : p ∈ HS.piece 2 .deSitter) :
+    {K | ∃ σ ∈ (dsFutureDirs p ∪ dsPastDirs p)ᶜ,
+      connectedComponentIn (dsFutureDirs p ∪ dsPastDirs p)ᶜ σ = K} =
+      {{σ : Link p | 0 ≤ Causal.Flat.minkQ (dsProj p σ) ∧ 0 ≤ jPairing p σ},
+        {σ : Link p | 0 ≤ Causal.Flat.minkQ (dsProj p σ) ∧ jPairing p σ ≤ 0}} := by
+  have hp1 := norm_snd_of_deSitter hp
+  set S₁ : Set (Link p) := {σ | 0 ≤ Causal.Flat.minkQ (dsProj p σ) ∧ 0 ≤ jPairing p σ}
+  set S₂ : Set (Link p) := {σ | 0 ≤ Causal.Flat.minkQ (dsProj p σ) ∧ jPairing p σ ≤ 0}
+  have hS : (dsFutureDirs p ∪ dsPastDirs p)ᶜ = S₁ ∪ S₂ := by
+    rw [compl_dsFutureDirs_union]
+    ext σ
+    simp only [mem_setOf_eq, mem_union, S₁, S₂]
+    constructor
+    · intro h
+      rcases le_total 0 (jPairing p σ) with h' | h'
+      exacts [Or.inl ⟨h, h'⟩, Or.inr ⟨h, h'⟩]
+    · rintro (h | h)
+      exacts [h.1, h.1]
+  have hneg : S₂ = (fun σ : Link p => -σ) '' S₁ := by
+    ext σ
+    simp only [mem_image, mem_setOf_eq, S₁, S₂]
+    constructor
+    · rintro ⟨h1, h2⟩
+      refine ⟨-σ, ⟨?_, ?_⟩, neg_neg σ⟩
+      · rwa [dsProj_neg, Causal.Flat.minkQ_neg]
+      · rw [jPairing_neg]; linarith
+    · rintro ⟨τ, ⟨h1, h2⟩, rfl⟩
+      refine ⟨?_, ?_⟩
+      · rwa [dsProj_neg, Causal.Flat.minkQ_neg]
+      · rw [jPairing_neg]; linarith
+  have hc₁ : IsClosed S₁ :=
+    (isClosed_le continuous_const (Causal.Flat.continuous_minkQ.comp (continuous_dsProj p))).inter
+      (isClosed_le continuous_const (continuous_jPairing p))
+  have hc₂ : IsClosed S₂ :=
+    (isClosed_le continuous_const (Causal.Flat.continuous_minkQ.comp (continuous_dsProj p))).inter
+      (isClosed_le (continuous_jPairing p) continuous_const)
+  have hd : Disjoint S₁ S₂ := Set.disjoint_left.2 fun σ h1 h2 =>
+    jPairing_ne_zero_of_deSitter hp h1.1 (le_antisymm h2.2 h1.2)
+  have h₁ : IsPreconnected S₁ := by
+    show IsPreconnected {σ : Link p | _}
+    rw [image_dsSide hp]
+    refine (convex_dsSide p _).isPreconnected.image _
+      ((continuousOn_dirOf p).mono fun w hw => ?_)
+    show tpMk p w ≠ 0
+    intro h0
+    obtain ⟨c, hc⟩ := (tpMk_eq_zero_iff p).1 h0
+    have hb := hw.2
+    rw [hc, Causal.Flat.minkB_smul_right, minkB_jVec, mul_zero] at hb
+    exact lt_irrefl _ hb
+  have h₂ : IsPreconnected S₂ := by
+    rw [hneg]; exact h₁.image _ continuous_neg.continuousOn
+  have hj := tpMk_jVec_ne_zero p hp1
+  have hmem : dirOf p (jVec p) ∈ S₁ := by
+    refine ⟨?_, ?_⟩
+    · rw [dsProj_dirOf p hj, Causal.Flat.minkQ_smul, perpLin_apply,
+        show Causal.Flat.minkB (p : 𝕄) (jVec p) = 0 by
+          rw [Causal.Flat.minkB_comm]; exact minkB_jVec p,
+        zero_smul, sub_zero, Causal.Flat.minkQ_smul, minkQ_jVec]
+      positivity
+    · rw [jPairing_dirOf p hj, ← Causal.Flat.minkQ_eq_minkB, minkQ_jVec]
+      positivity
+  exact components_eq_pair hS
+    (fun x hx => connectedComponentIn_eq_of_closed hS h₁ hc₁ hc₂ hd hx)
+    (fun x hx => connectedComponentIn_eq_of_closed (hS.trans (union_comm _ _)) h₂ hc₂ hc₁
+      hd.symm hx) ⟨_, hmem⟩ ⟨_, hneg ▸ mem_image_of_mem _ hmem⟩
+
+/-- Each component of `ℓ(p) ∖ (i⁺ ∪ i⁻)`, `p ∈ dS²`, contains a light-like direction. -/
+theorem exists_null_mem_of_mem_components_compl_ds (hp : p ∈ HS.piece 2 .deSitter)
+    {K : Set (Link p)} (hK : K ∈ {K | ∃ σ ∈ (dsFutureDirs p ∪ dsPastDirs p)ᶜ,
+      connectedComponentIn (dsFutureDirs p ∪ dsPastDirs p)ᶜ σ = K}) :
+    ∃ σ ∈ K, Causal.Flat.minkQ (dsProj p σ) = 0 := by
+  rw [components_compl_ds hp] at hK
+  obtain ⟨n, -, hn, -, -⟩ := exists_two_null hp
+  have hn' : Causal.Flat.minkQ (dsProj p ((-n : Link p) : TpHS p)) = 0 := by
+    rw [minkQ_dsProj_neg]; exact hn
+  rcases hK with rfl | rfl
+  · rcases le_total 0 (jPairing p n) with h | h
+    · exact ⟨n, ⟨hn.ge, h⟩, hn⟩
+    · exact ⟨-n, ⟨hn'.ge, by rw [jPairing_neg]; linarith⟩, hn'⟩
+  · rcases le_total 0 (jPairing p n) with h | h
+    · exact ⟨-n, ⟨hn'.ge, by rw [jPairing_neg]; linarith⟩, hn'⟩
+    · exact ⟨n, ⟨hn.ge, h⟩, hn⟩
+
 end DeSitterDynamics
+
+/-- `i⁺(L) = L` when the developing map takes its values in `i⁺(ℓ(p))`. -/
+theorem GammaLinkCircle.IsLiftedDev.iPlusL_eq_univ (h : C.IsLiftedDev θ E D f)
+    (hs : ∀ s, linkCover C.pt θ (D s) ∈ iPlus C.pt) : C.iPlusL = univ := by
+  obtain ⟨hE, -, -, hd, -⟩ := h
+  refine eq_univ_of_forall fun x => ?_
+  obtain ⟨s, rfl⟩ := hE.surjective x
+  have : s ∈ (linkCover C.pt θ ∘ D) ⁻¹' iPlus C.pt := hs s
+  rw [hd.preimage_iPlus] at this
+  exact this
+
+/-- `i⁻(L) = L` when the developing map takes its values in `i⁻(ℓ(p))`. -/
+theorem GammaLinkCircle.IsLiftedDev.iMinusL_eq_univ (h : C.IsLiftedDev θ E D f)
+    (hs : ∀ s, linkCover C.pt θ (D s) ∈ iMinus C.pt) : C.iMinusL = univ := by
+  obtain ⟨hE, -, -, hd, -⟩ := h
+  refine eq_univ_of_forall fun x => ?_
+  obtain ⟨s, rfl⟩ := hE.surjective x
+  have : s ∈ (linkCover C.pt θ ∘ D) ⁻¹' iMinus C.pt := hs s
+  rw [hd.preimage_iMinus] at this
+  exact this
+
+/-- `i⁺(L) = ∅` when the developing map avoids `i⁺(ℓ(p))`. -/
+theorem GammaLinkCircle.IsLiftedDev.iPlusL_eq_empty (h : C.IsLiftedDev θ E D f)
+    (hs : ∀ s, linkCover C.pt θ (D s) ∉ iPlus C.pt) : C.iPlusL = ∅ := by
+  obtain ⟨hE, -, -, hd, -⟩ := h
+  refine eq_empty_of_forall_notMem fun x hx => ?_
+  obtain ⟨s, rfl⟩ := hE.surjective x
+  have : s ∈ E ⁻¹' C.iPlusL := hx
+  rw [← hd.preimage_iPlus] at this
+  exact hs s this
+
+/-- `i⁻(L) = ∅` when the developing map avoids `i⁻(ℓ(p))`. -/
+theorem GammaLinkCircle.IsLiftedDev.iMinusL_eq_empty (h : C.IsLiftedDev θ E D f)
+    (hs : ∀ s, linkCover C.pt θ (D s) ∉ iMinus C.pt) : C.iMinusL = ∅ := by
+  obtain ⟨hE, -, -, hd, -⟩ := h
+  refine eq_empty_of_forall_notMem fun x hx => ?_
+  obtain ⟨s, rfl⟩ := hE.surjective x
+  have : s ∈ E ⁻¹' C.iMinusL := hx
+  rw [← hd.preimage_iMinus] at this
+  exact hs s this
+
+/-- The lifted developing map moves its image to the right: `D s < f (D s)` (l.733–737). -/
+theorem GammaLinkCircle.IsLiftedDev.lt_apply (h : C.IsLiftedDev θ E D f) (s : ℝ) :
+    D s < f (D s) :=
+  lt_apply_of_strictMono h.2.2.1 h.2.2.2.2 s
 
 /-! ### The types by the position of `p` (l.785–802) -/
 
 /-- **Time-like** (l.788–791): at `p ∈ ℍ²±` the underlying `ℝP¹`-circle is elliptic (central
-holonomy included, OQ-113 (d)). -/
+holonomy included, OQ-113 (d); central exactly for the holonomies `1` and the half-turn,
+`GX.GammaP.pslMk_gammaToSL_eq_one_iff_of_timelike`). -/
 theorem GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike (h : C.IsLiftedDev θ E D f)
     (hp : Causal.Flat.minkQ (C.pt : 𝕄) < 0) : GTilde.IsElliptic f ∨ GTilde.toPSL f = 1 := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): needs that at a time-like `p` the tangent action of `ρ ∈ Γ_p` is a rotation of the Euclidean plane `p^⊥` (`dsProj` is an isometry onto it), so that it has an eigen-ray only when it is `±id`; then `pslMk (gammaToSL ρ)` has no fixed point on `ℝP¹` or is `1`. The Euclidean structure of `p^⊥` at a time-like `p` is not built in `GX.BBS.IPm`
+  obtain ⟨ρ, hρf⟩ := h.exists_linkCover_apply
+  rw [GTilde.IsElliptic, toPSL_eq_of_linkCover hρf]
+  exact GammaP.isElliptic_or_eq_one_of_timelike hp θ ρ
 
 /-- **Space-like** (l.794–795): at `p ∈ dS²` and with non-trivial holonomy, the underlying
 `ℝP¹`-circle is hyperbolic. -/
@@ -2002,10 +2430,15 @@ theorem GammaLinkCircle.IsLiftedDev.isHyperbolic_of_deSitter (h : C.IsLiftedDev 
   exact isHyperbolic_of_linkCover hp hρf hρ
 
 /-- **Light-like** (l.797–800): at `p ∈ ∂ℍ²±` and with non-trivial holonomy, the underlying
-`ℝP¹`-circle is parabolic. -/
+`ℝP¹`-circle is parabolic (every `ρ ≠ 1` of `Γ_p` is unipotent, `GX.GammaP.isParabolic_iff_of_null`;
+OQ-122 (a)). -/
 theorem GammaLinkCircle.IsLiftedDev.isParabolic_of_null (h : C.IsLiftedDev θ E D f)
     (hp : Causal.Flat.minkQ (C.pt : 𝕄) = 0) (hρ : GTilde.toPSL f ≠ 1) : GTilde.IsParabolic f := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): needs the single-element form of `GX.fixedPoints_eq_of_null`: an element `≠ 1` of `Γ_p`, `p` lightlike, fixes no ray but the two tangent directions (its tangent action preserves `B(p, ·)` and the tangent line, so it is unipotent). With the argument of `GX.GammaLinkCircle.IsLiftedDev.even_of_nonneg` (no anti-fixed ray) the underlying element of `PSL(2,ℝ)` then has exactly one fixed point. Not built
+  obtain ⟨ρ, hρf⟩ := h.exists_linkCover_apply
+  have e := toPSL_eq_of_linkCover hρf
+  rw [GTilde.IsParabolic, e, GammaP.isParabolic_iff_of_null hp θ ρ]
+  rintro rfl
+  exact hρ (by rw [e, map_one]; rfl)
 
 /-- **l.794–795 and l.797–800 need non-trivial holonomy**: at every `p`, the link of a regular
 point is a `(Γ_p, ℓ(p))`-circle whose underlying `ℝP¹`-circle has lifted holonomy `δ²`, which is not
@@ -2089,40 +2522,454 @@ theorem GammaLinkCircle.IsLiftedDev.even_of_nonneg (h : C.IsLiftedDev θ E D f)
 /-- **Space-like singularities of degree `0`** (l.866–879): `L` is the quotient of an interval `I`
 of `ℓ(p)` by `⟨g⟩` (`I` the image of `D`, read in `ℓ(p)`), and there are three possibilities:
 `I = i⁺(ℓ(p))` (BTZ-like past; then `L = i⁺(L)`, `i⁻(L) = ∅`), `I = i⁻(ℓ(p))` (BTZ-like future),
-or `I` a space-like arc (Misner; `i⁺(L) = i⁻(L) = ∅`). -/
-theorem GammaLinkCircle.IsLiftedDev.spacelike_degree_zero (hθ : IsOrientedTangent C.pt θ)
+or `I` a space-like arc (Misner; `i⁺(L) = i⁻(L) = ∅`; exactly a component of `ℓ(p) ∖ (i⁺ ∪ i⁻)`
+minus its light-like ends: `GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero_misner`). The
+orientation of `θ` is not used (SCOPE (i)). -/
+theorem GammaLinkCircle.IsLiftedDev.spacelike_degree_zero (_hθ : IsOrientedTangent C.pt θ)
     (h : C.IsLiftedDev θ E D f) (hp : C.pt ∈ HS.piece 2 .deSitter) (hh : GTilde.IsHyperbolic f)
     (hfix : ∃ x, f x = x) :
     (linkCover C.pt θ '' range D = iPlus C.pt ∧ C.iPlusL = univ ∧ C.iMinusL = ∅) ∨
     (linkCover C.pt θ '' range D = iMinus C.pt ∧ C.iMinusL = univ ∧ C.iPlusL = ∅) ∨
     (linkCover C.pt θ '' range D ⊆ {σ | 0 < Causal.Flat.minkQ (dsProj C.pt σ)} ∧
       C.iPlusL = ∅ ∧ C.iMinusL = ∅) := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): by `GX.IsLiftedDevPair.exhaust` the developed image is `]x₀, x₁[` between consecutive fixed points of `f`, which are the lifts of the lightlike directions (`GX.fixed_iff_null`), so `linkCover` maps it into one of `i⁺`, `i⁻`, the space-like set (`GX.timelike_spacelike_dir`'s `half` argument); the missing step is "onto": that `i⁺(ℓ(p))` is exactly one arc between two consecutive lightlike directions (its lift is a union of components of `ℝ ∖ Fix(g)`), not built
+  obtain ⟨ρ, hρf⟩ := h.exists_linkCover_apply
+  have hρ1 : ρ ≠ 1 := by
+    rintro rfl
+    exact hh.toPSL_ne_one (by rw [toPSL_eq_of_linkCover hρf, map_one]; rfl)
+  have hfn := fixed_iff_null hp hρ1 hρf hfix
+  -- degree `0`: the developed image is `]x₀, x₁[`, `x₀ < x₁ < x₀ + 1` consecutive fixed points
+  obtain ⟨x₀, x₁, hlt, hx₀, hx₁, hD, hx₁'⟩ : ∃ x₀ x₁ : ℝ, x₀ < x₁ ∧ f x₀ = x₀ ∧ f x₁ = x₁ ∧
+      range D = Ioo x₀ x₁ ∧ x₁ < x₀ + 1 := by
+    letI := C.rp1ChartedSpace θ
+    haveI := C.rp1_hasGroupoid θ
+    rcases h.isLiftedDevPair.exhaust with ⟨he, -⟩ | ⟨k, hk, g, hg, -, hfg, -⟩ |
+      ⟨-, x₀, x₁, hlt, hx₀, hx₁, hD, -, hδ⟩
+    · exfalso
+      rcases he with he | he
+      · exact lt_asymm he hh
+      · exact hh.toPSL_ne_one he
+    · exfalso
+      obtain ⟨x, hx⟩ := hfix
+      exact GTilde.apply_ne_of_degree_ne_zero (by omega) hg hfg x hx
+    · exact ⟨x₀, x₁, hlt, hx₀, hx₁, hD, by have := hδ hh; rwa [GTilde.delta_apply] at this⟩
+  have hfe : ∀ y, f y = y → ∃ i : ℤ, y = x₀ + i ∨ y = x₁ + i := fun y hy =>
+    hh.fixed_eq hx₀ ⟨hlt, hx₁'⟩ hx₁ hy
+  have hDs : ∀ s, D s ∈ Ioo x₀ x₁ := fun s => hD ▸ mem_range_self s
+  have htr : ∀ (t : ℝ) (i : ℤ), linkCover C.pt θ (t - 2 * i) = linkCover C.pt θ t := fun t i => by
+    have := linkCover_add_two_mul C.pt θ (t - 2 * i) i
+    rw [sub_add_cancel] at this
+    exact this.symm
+  have hFP : ∀ σ : Link C.pt, σ ∈ dsFutureDirs C.pt → σ ∉ dsPastDirs C.pt := fun σ h1 h2 => by
+    have e1 := h1.1
+    have e2 := h2.1
+    simp only [Prod.fst_neg] at e2
+    linarith
+  -- BTZ-like past: `]x₀, x₁[` meets `i⁺`, hence is `i⁺` (`GX.arc_structure_of_deSitter`)
+  by_cases hF : ∃ t ∈ Ioo x₀ x₁, linkCover C.pt θ t ∈ dsFutureDirs C.pt
+  · obtain ⟨hFc, -, -⟩ := arc_structure_of_deSitter hp hρ1 hρf hfix hlt hx₁' hx₀ hx₁ hfe hF
+    have hin : ∀ t ∈ Ioo x₀ x₁, linkCover C.pt θ t ∈ dsFutureDirs C.pt := fun t ht =>
+      (hFc t).2 ⟨0, by simpa using ht⟩
+    refine Or.inl ⟨?_, h.iPlusL_eq_univ fun s => ?_, h.iMinusL_eq_empty fun s hs => ?_⟩
+    · rw [hD, iPlus_of_deSitter hp]
+      refine Subset.antisymm (by rintro _ ⟨t, ht, rfl⟩; exact hin t ht) fun σ hσ => ?_
+      obtain ⟨t, rfl⟩ := linkCover_surjective C.pt θ σ
+      obtain ⟨i, hi⟩ := (hFc t).1 hσ
+      exact ⟨t - 2 * i, ⟨by linarith [hi.1], by linarith [hi.2]⟩, htr t i⟩
+    · rw [iPlus_of_deSitter hp]; exact hin _ (hDs s)
+    · rw [iMinus_of_deSitter hp] at hs; exact hFP _ (hin _ (hDs s)) hs
+  -- BTZ-like future: `]x₀, x₁[` meets `i⁻`; then `]x₀ − 1, x₁ − 1[` meets `i⁺`
+  by_cases hP : ∃ t ∈ Ioo x₀ x₁, linkCover C.pt θ t ∈ dsPastDirs C.pt
+  · have hsh : ∀ t, linkCover C.pt θ (t - 1) = -linkCover C.pt θ t := fun t => by
+      have e := linkCover_add_one C.pt θ (t - 1)
+      rw [sub_add_cancel] at e
+      rw [e, neg_neg]
+    have hF' : ∃ t ∈ Ioo (x₀ - 1) (x₁ - 1), linkCover C.pt θ t ∈ dsFutureDirs C.pt := by
+      obtain ⟨t, ht, htP⟩ := hP
+      exact ⟨t - 1, ⟨by linarith [ht.1], by linarith [ht.2]⟩, by
+        rw [hsh, neg_mem_dsFutureDirs_iff]; exact htP⟩
+    have hx₀' : f (x₀ - 1) = x₀ - 1 := by
+      have := GTilde.map_add_int f (x₀ - 1) 1; push_cast at this
+      rw [sub_add_cancel, hx₀] at this; linarith
+    have hx₁'' : f (x₁ - 1) = x₁ - 1 := by
+      have := GTilde.map_add_int f (x₁ - 1) 1; push_cast at this
+      rw [sub_add_cancel, hx₁] at this; linarith
+    obtain ⟨-, hPc, -⟩ := arc_structure_of_deSitter hp hρ1 hρf hfix (by linarith) (by linarith)
+      hx₀' hx₁'' (fun y hy => by
+        obtain ⟨i, hi | hi⟩ := hfe y hy
+        · exact ⟨i + 1, Or.inl (by rw [hi]; push_cast; ring)⟩
+        · exact ⟨i + 1, Or.inr (by rw [hi]; push_cast; ring)⟩) hF'
+    have hin : ∀ t ∈ Ioo x₀ x₁, linkCover C.pt θ t ∈ dsPastDirs C.pt := fun t ht =>
+      (hPc t).2 ⟨0, by push_cast; constructor <;> linarith [ht.1, ht.2]⟩
+    refine Or.inr (Or.inl ⟨?_, h.iMinusL_eq_univ fun s => ?_, h.iPlusL_eq_empty fun s hs => ?_⟩)
+    · rw [hD, iMinus_of_deSitter hp]
+      refine Subset.antisymm (by rintro _ ⟨t, ht, rfl⟩; exact hin t ht) fun σ hσ => ?_
+      obtain ⟨t, rfl⟩ := linkCover_surjective C.pt θ σ
+      obtain ⟨i, hi⟩ := (hPc t).1 hσ
+      exact ⟨t - 2 * i, ⟨by linarith [hi.1], by linarith [hi.2]⟩, htr t i⟩
+    · rw [iMinus_of_deSitter hp]; exact hin _ (hDs s)
+    · rw [iPlus_of_deSitter hp] at hs; exact hFP _ hs (hin _ (hDs s))
+  -- Misner: neither; the developed image avoids the light-like directions (no fixed point)
+  have hS : ∀ s, 0 < Causal.Flat.minkQ (dsProj C.pt (linkCover C.pt θ (D s))) := fun s => by
+    rcases lt_trichotomy (Causal.Flat.minkQ (dsProj C.pt (linkCover C.pt θ (D s)))) 0 with
+      h0 | h0 | h0
+    · rcases timelike_of_minkQ_neg h0 with h1 | h1
+      · exact absurd ⟨D s, hDs s, h1⟩ hF
+      · exact absurd ⟨D s, hDs s, h1⟩ hP
+    · exact absurd ((hfn (D s)).2 h0) (h.lt_apply s).ne'
+    · exact h0
+  refine Or.inr (Or.inr ⟨?_, h.iPlusL_eq_empty fun s hs => ?_, h.iMinusL_eq_empty fun s hs => ?_⟩)
+  · rintro _ ⟨_, ⟨s, rfl⟩, rfl⟩; exact hS s
+  · rw [iPlus_of_deSitter hp] at hs
+    exact (minkQ_neg_of_timelike (Or.inl hs)).not_gt (hS s)
+  · rw [iMinus_of_deSitter hp] at hs
+    exact (minkQ_neg_of_timelike (Or.inr hs)).not_gt (hS s)
+
+/-- **Misner singularities** (l.877–878), the strongest true form under the time-like reading of
+`i^±` (OQ-116 (a)): in the third case of `GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero`
+the developed image is a component `K` of `ℓ(p) ∖ (i⁺(ℓ(p)) ∪ i⁻(ℓ(p)))` deprived of its two
+light-like extremities; it is never `K` itself, so l.877 as printed ("`I` is a component") fails
+under this reading. -/
+theorem GammaLinkCircle.IsLiftedDev.spacelike_degree_zero_misner (h : C.IsLiftedDev θ E D f)
+    (hp : C.pt ∈ HS.piece 2 .deSitter) (hh : GTilde.IsHyperbolic f) (hfix : ∃ x, f x = x)
+    (hS : linkCover C.pt θ '' range D ⊆ {σ | 0 < Causal.Flat.minkQ (dsProj C.pt σ)}) :
+    (∃ K ∈ {K | ∃ σ ∈ (iPlus C.pt ∪ iMinus C.pt)ᶜ,
+        connectedComponentIn (iPlus C.pt ∪ iMinus C.pt)ᶜ σ = K},
+      linkCover C.pt θ '' range D = K ∩ {σ | 0 < Causal.Flat.minkQ (dsProj C.pt σ)}) ∧
+    ∀ K ∈ {K | ∃ σ ∈ (iPlus C.pt ∪ iMinus C.pt)ᶜ,
+        connectedComponentIn (iPlus C.pt ∪ iMinus C.pt)ᶜ σ = K},
+      linkCover C.pt θ '' range D ≠ K := by
+  rw [iPlus_of_deSitter hp, iMinus_of_deSitter hp]
+  obtain ⟨ρ, hρf⟩ := h.exists_linkCover_apply
+  have hρ1 : ρ ≠ 1 := by
+    rintro rfl
+    exact hh.toPSL_ne_one (by rw [toPSL_eq_of_linkCover hρf, map_one]; rfl)
+  have hfn := fixed_iff_null hp hρ1 hρf hfix
+  obtain ⟨x₀, x₁, hlt, hx₀, hx₁, hD, hx₁'⟩ : ∃ x₀ x₁ : ℝ, x₀ < x₁ ∧ f x₀ = x₀ ∧ f x₁ = x₁ ∧
+      range D = Ioo x₀ x₁ ∧ x₁ < x₀ + 1 := by
+    letI := C.rp1ChartedSpace θ
+    haveI := C.rp1_hasGroupoid θ
+    rcases h.isLiftedDevPair.exhaust with ⟨he, -⟩ | ⟨k, hk, g, hg, -, hfg, -⟩ |
+      ⟨-, x₀, x₁, hlt, hx₀, hx₁, hD, -, hδ⟩
+    · exfalso
+      rcases he with he | he
+      · exact lt_asymm he hh
+      · exact hh.toPSL_ne_one he
+    · exfalso
+      obtain ⟨x, hx⟩ := hfix
+      exact GTilde.apply_ne_of_degree_ne_zero (by omega) hg hfg x hx
+    · exact ⟨x₀, x₁, hlt, hx₀, hx₁, hD, by have := hδ hh; rwa [GTilde.delta_apply] at this⟩
+  set S := {σ : Link C.pt | 0 < Causal.Flat.minkQ (dsProj C.pt σ)}
+  have hin : ∀ t ∈ Ioo x₀ x₁, linkCover C.pt θ t ∈ S := fun t ht => by
+    obtain ⟨s, rfl⟩ : t ∈ range D := hD ▸ ht
+    exact hS ⟨D s, mem_range_self s, rfl⟩
+  -- 1. `]x₁, x₀ + 1[` is time-like: `f` moves it the other way
+  have hT1 : ∀ y ∈ Ioo x₁ (x₀ + 1),
+      Causal.Flat.minkQ (dsProj C.pt (linkCover C.pt θ y)) < 0 := by
+    obtain ⟨c₁, hc₁I, hc₁, huniq, hdir⟩ := hh.fixed_structure hx₀
+    obtain rfl : x₁ = c₁ := huniq x₁ ⟨hlt, hx₁'⟩ hx₁
+    intro y hy
+    have hny : f y ≠ y := fun hfy => (huniq y ⟨hlt.trans hy.1, hy.2⟩ hfy ▸ hy).1.false
+    have ht₀ : (x₀ + x₁) / 2 ∈ Ioo x₀ x₁ := ⟨by linarith, by linarith⟩
+    have ht₀S := hin _ ht₀
+    rcases lt_trichotomy (Causal.Flat.minkQ (dsProj C.pt (linkCover C.pt θ y))) 0 with
+      h0 | h0 | h0
+    · exact h0
+    · exact absurd ((hfn y).2 h0) hny
+    · exfalso
+      rcases timelike_spacelike_dir hp hρ1 hρf hfix with ⟨-, hS'⟩ | ⟨-, hS'⟩ <;>
+        rcases hdir with ⟨d₀, d₁⟩ | ⟨d₀, d₁⟩
+      · exact lt_asymm (hS' _ ht₀S) (d₀ _ ht₀)
+      · exact lt_asymm (hS' y h0) (d₁ y hy)
+      · exact lt_asymm (hS' y h0) (d₁ y hy)
+      · exact lt_asymm (hS' _ ht₀S) (d₀ _ ht₀)
+  have hsub1 : ∀ y, linkCover C.pt θ y = -linkCover C.pt θ (y - 1) := fun y => by
+    rw [← linkCover_add_one, sub_add_cancel]
+  have hx₀1 : f (x₀ + 1) = x₀ + 1 := by
+    have := GTilde.map_add_int f x₀ 1; push_cast at this; rw [this, hx₀]
+  have hx₁1 : f (x₁ + 1) = x₁ + 1 := by
+    have := GTilde.map_add_int f x₁ 1; push_cast at this; rw [this, hx₁]
+  -- 2. an arc `J ⊆ S` with no pair of opposite directions, containing the image, is the image
+  have key : ∀ J : Set (Link C.pt), J ⊆ S → (∀ σ ∈ J, -σ ∉ J) →
+      (∀ t ∈ Ioo x₀ x₁, linkCover C.pt θ t ∈ J) → linkCover C.pt θ '' range D = J := by
+    intro J hJS hJn hJ
+    rw [hD]
+    refine Subset.antisymm (by rintro _ ⟨t, ht, rfl⟩; exact hJ t ht) fun σ hσ => ?_
+    obtain ⟨t, rfl⟩ := linkCover_surjective C.pt θ σ
+    obtain ⟨n, hn1, hn2, hn⟩ := exists_linkCover_eq_Ico θ x₀ t
+    rw [hn] at hσ ⊢
+    have hσS : 0 < Causal.Flat.minkQ (dsProj C.pt (linkCover C.pt θ (t - 2 * n))) := hJS hσ
+    rcases mem_Ico_two_cases (b := x₁) hn1 hn2 with hy | hy | hy | hy | hy
+    · exfalso
+      have hfy : f (t - 2 * n) = t - 2 * n := by
+        rcases hy with hy | hy | hy | hy <;> rw [hy]
+        exacts [hx₀, hx₁, hx₀1, hx₁1]
+      exact hσS.ne' ((hfn _).1 hfy)
+    · exact ⟨_, hy, rfl⟩
+    · exact absurd (hT1 _ hy) (not_lt.2 hσS.le)
+    · exfalso
+      rw [hsub1] at hσ
+      exact hJn _ (hJ _ ⟨by linarith [hy.1], by linarith [hy.2]⟩) hσ
+    · exfalso
+      rw [hsub1, minkQ_dsProj_neg] at hσS
+      exact absurd (hT1 _ ⟨by linarith [hy.1], by linarith [hy.2]⟩) (not_lt.2 hσS.le)
+  have hjne : ∀ σ ∈ S, jPairing C.pt σ ≠ 0 := fun σ hσ =>
+    jPairing_ne_zero_of_deSitter hp (le_of_lt hσ)
+  have hnegS : ∀ σ : Link C.pt, -σ ∈ S ↔ σ ∈ S := fun σ => by
+    show 0 < Causal.Flat.minkQ (dsProj C.pt ((-σ : Link C.pt) : TpHS C.pt)) ↔ _
+    rw [minkQ_dsProj_neg]; rfl
+  refine ⟨?_, fun K hK himg => ?_⟩
+  · rw [components_compl_ds hp]
+    have hsub : linkCover C.pt θ '' Ioo x₀ x₁ ⊆
+        {σ : Link C.pt | 0 < jPairing C.pt σ} ∪ {σ : Link C.pt | jPairing C.pt σ < 0} := by
+      rintro _ ⟨t, ht, rfl⟩
+      rcases lt_or_gt_of_ne (hjne _ (hin t ht)) with h1 | h1
+      exacts [Or.inr h1, Or.inl h1]
+    rcases (isPreconnected_Ioo.image _
+        (isCoveringMap_linkCover C.pt θ).continuous.continuousOn).subset_or_subset
+        (isOpen_lt continuous_const (continuous_jPairing C.pt))
+        (isOpen_lt (continuous_jPairing C.pt) continuous_const)
+        (Set.disjoint_left.2 fun σ (h1 : 0 < jPairing C.pt σ)
+          (h2 : jPairing C.pt σ < 0) => lt_asymm h1 h2) hsub with hpos | hneg
+    · refine ⟨_, Or.inl rfl, key _ inter_subset_right (fun σ hσ hσ' => ?_) fun t ht =>
+        ⟨⟨(hin t ht).le, (hpos ⟨t, ht, rfl⟩ : 0 < jPairing C.pt _).le⟩, hin t ht⟩⟩
+      have h1 := hσ.1.2
+      have h2 := hσ'.1.2
+      rw [jPairing_neg] at h2
+      exact hjne σ hσ.2 (by linarith)
+    · refine ⟨_, Or.inr rfl, key _ inter_subset_right (fun σ hσ hσ' => ?_) fun t ht =>
+        ⟨⟨(hin t ht).le, (hneg ⟨t, ht, rfl⟩ : jPairing C.pt _ < 0).le⟩, hin t ht⟩⟩
+      have h1 := hσ.1.2
+      have h2 := hσ'.1.2
+      rw [jPairing_neg] at h2
+      exact hjne σ hσ.2 (by linarith)
+  · obtain ⟨σ, hσK, hσ0⟩ := exists_null_mem_of_mem_components_compl_ds hp hK
+    rw [← himg] at hσK
+    exact (show 0 < Causal.Flat.minkQ (dsProj C.pt σ) from hS hσK).ne' hσ0
+
+/-- **Light-like singularities of degree `0`, the developed image** (l.880–891), at every
+light-like `p`: the fixed points of `f` are the lifts of the two tangent directions
+(`GX.GammaP.smul_eq_iff_of_null`), and the developed image `]x₀, x₀ + 1[` maps onto one of the two
+open arcs `{B(p,·) < 0}`, `{B(p,·) > 0}` bounded by them (`GX.image_Ioo_add_one_eq`). -/
+theorem GammaLinkCircle.IsLiftedDev.null_degree_zero (h : C.IsLiftedDev θ E D f)
+    (hQ : Causal.Flat.minkQ (C.pt : 𝕄) = 0) (hpar : GTilde.IsParabolic f)
+    (hfix : ∃ x, f x = x) :
+    linkCover C.pt θ '' range D = {σ : Link C.pt | nullPairing C.pt σ < 0} ∨
+      linkCover C.pt θ '' range D = {σ : Link C.pt | 0 < nullPairing C.pt σ} := by
+  obtain ⟨ρ, hρf⟩ := h.exists_linkCover_apply
+  have hρ1 : ρ ≠ 1 := by
+    rintro rfl
+    exact hpar.2 (by rw [toPSL_eq_of_linkCover hρf, map_one]; rfl)
+  -- the fixed points of `f` are the lifts of the two tangent directions
+  have hfn : ∀ t, f t = t ↔ linkCover C.pt θ t ∈ tangentDirs C.pt := fun t => by
+    rw [← GammaP.smul_eq_iff_of_null hQ hρ1, ← hρf]
+    refine ⟨fun ht => by rw [ht], fun h1 => ?_⟩
+    obtain ⟨n, hn⟩ := (linkCover_eq_linkCover_iff C.pt θ).1 h1.symm
+    have ha := GTilde.apply_lt_delta_of_fixed hfix t
+    have hb := GTilde.sub_one_lt_apply_of_fixed hfix t
+    rw [GTilde.delta_apply] at ha
+    rw [hn] at ha hb
+    have : n = 0 := by
+      have : n < 1 := by exact_mod_cast (show (n : ℝ) < 1 by linarith)
+      have : -1 < n := by exact_mod_cast (show (-1 : ℝ) < n by linarith)
+      omega
+    rw [hn, this]; simp
+  -- degree `0`, parabolic: the developed image is `]x₀, x₀ + 1[`
+  obtain ⟨x₀, hx₀, hD⟩ : ∃ x₀ : ℝ, f x₀ = x₀ ∧ range D = Ioo x₀ (x₀ + 1) := by
+    letI := C.rp1ChartedSpace θ
+    haveI := C.rp1_hasGroupoid θ
+    rcases h.isLiftedDevPair.exhaust with ⟨he, -⟩ | ⟨k, hk, g, hg, -, hfg, -⟩ |
+      ⟨-, x₀, x₁, -, hx₀, -, hD, hδ, -⟩
+    · exfalso
+      rcases he with he | he
+      · exact (ne_of_lt he) hpar.1
+      · exact hpar.2 he
+    · exfalso
+      obtain ⟨x, hx⟩ := hfix
+      exact GTilde.apply_ne_of_degree_ne_zero (by omega) hg hfg x hx
+    · exact ⟨x₀, hx₀, by rw [hD, hδ hpar, GTilde.delta_apply]⟩
+  have hx₀1 : f (x₀ + 1) = x₀ + 1 := by
+    have := GTilde.map_add_int f x₀ 1; push_cast at this; rw [this, hx₀]
+  have hT₀ : nullPairing C.pt (linkCover C.pt θ x₀) = 0 := (hfn x₀).1 hx₀
+  have hT₁ : nullPairing C.pt (linkCover C.pt θ (x₀ + 1)) = 0 := (hfn _).1 hx₀1
+  have hnegB : ∀ σ : Link C.pt, nullPairing C.pt ((-σ : Link C.pt) : TpHS C.pt) =
+      -nullPairing C.pt σ := fun σ => by rw [coe_neg_sphere, map_neg]
+  -- the image avoids the tangent directions, so lies in `{B(p,·) < 0}` or `{B(p,·) > 0}`
+  have hsub : linkCover C.pt θ '' Ioo x₀ (x₀ + 1) ⊆
+      {σ : Link C.pt | nullPairing C.pt σ < 0} ∪ {σ : Link C.pt | 0 < nullPairing C.pt σ} := by
+    rintro _ ⟨t, ht, rfl⟩
+    obtain ⟨s, rfl⟩ : t ∈ range D := hD ▸ ht
+    have h0 : nullPairing C.pt (linkCover C.pt θ (D s)) ≠ 0 := fun h0 =>
+      (h.lt_apply s).ne' ((hfn (D s)).2 h0)
+    rcases lt_or_gt_of_ne h0 with h1 | h1
+    exacts [Or.inl h1, Or.inr h1]
+  rw [hD]
+  rcases (isPreconnected_Ioo.image _
+      (isCoveringMap_linkCover C.pt θ).continuous.continuousOn).subset_or_subset
+      (isOpen_lt (continuous_nullPairing C.pt) continuous_const)
+      (isOpen_lt continuous_const (continuous_nullPairing C.pt))
+      (Set.disjoint_left.2 fun σ (h1 : nullPairing C.pt σ < 0)
+        (h2 : 0 < nullPairing C.pt σ) => lt_asymm h1 h2) hsub with hN | hP
+  · refine Or.inl (image_Ioo_add_one_eq (fun t ht => hN ⟨t, ht, rfl⟩)
+      (fun σ (hσ : nullPairing C.pt σ < 0)
+        (hσ' : nullPairing C.pt ((-σ : Link C.pt) : TpHS C.pt) < 0) => ?_)
+      (fun h0 => (h0 : nullPairing C.pt _ < 0).ne hT₀)
+      (fun h0 => (h0 : nullPairing C.pt _ < 0).ne hT₁))
+    rw [hnegB] at hσ'; linarith
+  · refine Or.inr (image_Ioo_add_one_eq (fun t ht => hP ⟨t, ht, rfl⟩)
+      (fun σ (hσ : 0 < nullPairing C.pt σ)
+        (hσ' : 0 < nullPairing C.pt ((-σ : Link C.pt) : TpHS C.pt)) => ?_)
+      (fun h0 => (h0 : 0 < nullPairing C.pt _).ne' hT₀)
+      (fun h0 => (h0 : 0 < nullPairing C.pt _).ne' hT₁))
+    rw [hnegB] at hσ'; linarith
+
+/-- The developed image of `D` contains every developed point. -/
+theorem GammaLinkCircle.linkCover_mem_of_image_eq (S : Set (Link C.pt))
+    (hS : linkCover C.pt θ '' range D = S) (s : ℝ) : linkCover C.pt θ (D s) ∈ S :=
+  hS ▸ ⟨D s, mem_range_self s, rfl⟩
 
 /-- **Light-like singularities of degree `0`** (l.880–891), at `p ∈ ∂ℍ²₊`: `L` is the quotient of
 `i⁺(ℓ(p))` (future cuspidal) or of `i⁻(ℓ(p))` minus its tangent directions (extreme BTZ-like
-future; the printed `i⁻(ℓ(p))` is a closed arc, OQ-116 (b)) by a parabolic element. -/
-theorem GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero (hθ : IsOrientedTangent C.pt θ)
+future; the printed `i⁻(ℓ(p))` is a closed arc, OQ-116 (b)) by a parabolic element
+(`GX.GammaLinkCircle.IsLiftedDev.null_degree_zero`). The orientation of `θ` is not used
+(SCOPE (i)). -/
+theorem GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero (_hθ : IsOrientedTangent C.pt θ)
     (h : C.IsLiftedDev θ E D f) (hp : C.pt ∈ HS.piece 2 .bdPlus) (hpar : GTilde.IsParabolic f)
     (hfix : ∃ x, f x = x) :
     (linkCover C.pt θ '' range D = iPlus C.pt ∧ C.iPlusL = univ ∧ C.iMinusL = ∅) ∨
     (linkCover C.pt θ '' range D = iMinus C.pt \ tangentDirs C.pt ∧ C.iMinusL = univ ∧
       C.iPlusL = ∅) := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): needs the parabolic analysis at a lightlike `p` (see `GX.GammaLinkCircle.IsLiftedDev.isParabolic_of_null`): the fixed points of `f` are the lifts of the two tangent directions, and the two open arcs `{B(p,·) < 0} = i⁺`, `{B(p,·) > 0} = i⁻ ∖ T` (`GX.components_compl_tangentDirs`) are the possible images; not built
+  have hQ : Causal.Flat.minkQ (C.pt : 𝕄) = 0 := hp.1
+  have hiP : iPlus C.pt = {σ : Link C.pt | nullPairing C.pt σ < 0} := by
+    rw [iPlus_of_bdPlus hp, lightDomain_hypPlus_eq hp]
+  have hiM : iMinus C.pt = {σ : Link C.pt | 0 ≤ nullPairing C.pt σ} := by
+    rw [iMinus_of_bdPlus hp, lightDomain_deSitter_eq hQ]
+  rcases h.null_degree_zero hQ hpar hfix with hN | hP
+  · have hin := GammaLinkCircle.linkCover_mem_of_image_eq _ hN
+    refine Or.inl ⟨by rw [hN, hiP], h.iPlusL_eq_univ fun s => ?_,
+      h.iMinusL_eq_empty fun s hs => ?_⟩
+    · rw [hiP]; exact hin s
+    · rw [hiM] at hs
+      exact (not_le.2 (show nullPairing C.pt _ < 0 from hin s))
+        (show 0 ≤ nullPairing C.pt _ from hs)
+  · have hin := GammaLinkCircle.linkCover_mem_of_image_eq _ hP
+    refine Or.inr ⟨by rw [hP, hiM, nullNonneg_sdiff], h.iMinusL_eq_univ fun s => ?_,
+      h.iPlusL_eq_empty fun s hs => ?_⟩
+    · rw [hiM]; exact (show 0 < nullPairing C.pt _ from hin s).le
+    · rw [hiP] at hs; exact lt_asymm (show 0 < nullPairing C.pt _ from hin s) hs
+
+/-- **Light-like singularities of degree `0` at `p ∈ ∂ℍ²₋`** (l.889–891, « similar »): `L` is the
+quotient of `i⁻(ℓ(p))` (past cuspidal) or of `i⁺(ℓ(p))` minus its tangent directions (extreme
+BTZ-like past; the printed `i⁺(ℓ(p))` is a closed arc there, OQ-116 (b)). -/
+theorem GammaLinkCircle.IsLiftedDev.bdMinus_degree_zero (h : C.IsLiftedDev θ E D f)
+    (hp : C.pt ∈ HS.piece 2 .bdMinus) (hpar : GTilde.IsParabolic f) (hfix : ∃ x, f x = x) :
+    (linkCover C.pt θ '' range D = iMinus C.pt ∧ C.iMinusL = univ ∧ C.iPlusL = ∅) ∨
+    (linkCover C.pt θ '' range D = iPlus C.pt \ tangentDirs C.pt ∧ C.iPlusL = univ ∧
+      C.iMinusL = ∅) := by
+  have hQ : Causal.Flat.minkQ (C.pt : 𝕄) = 0 := hp.1
+  have hiM : iMinus C.pt = {σ : Link C.pt | nullPairing C.pt σ < 0} := by
+    rw [iMinus_of_bdMinus hp, lightDomain_hypMinus_eq hp]
+  have hiP : iPlus C.pt = {σ : Link C.pt | 0 ≤ nullPairing C.pt σ} := by
+    rw [iPlus_of_bdMinus hp, lightDomain_deSitter_eq hQ]
+  rcases h.null_degree_zero hQ hpar hfix with hN | hP
+  · have hin := GammaLinkCircle.linkCover_mem_of_image_eq _ hN
+    refine Or.inl ⟨by rw [hN, hiM], h.iMinusL_eq_univ fun s => ?_,
+      h.iPlusL_eq_empty fun s hs => ?_⟩
+    · rw [hiM]; exact hin s
+    · rw [hiP] at hs
+      exact (not_le.2 (show nullPairing C.pt _ < 0 from hin s))
+        (show 0 ≤ nullPairing C.pt _ from hs)
+  · have hin := GammaLinkCircle.linkCover_mem_of_image_eq _ hP
+    refine Or.inr ⟨by rw [hP, hiP, nullNonneg_sdiff], h.iPlusL_eq_univ fun s => ?_,
+      h.iMinusL_eq_empty fun s hs => ?_⟩
+    · rw [hiP]; exact (show 0 < nullPairing C.pt _ from hin s).le
+    · rw [hiM] at hs; exact lt_asymm (show 0 < nullPairing C.pt _ from hin s) hs
+
+/-- **l.887–888 (with l.882) as printed is never realised** (OQ-116 (b)): at `p ∈ ∂ℍ²₊`, the developed image of
+a light-like link of degree `0` is never the printed `i⁻(ℓ(p))`, a closed arc containing the two
+tangent directions (which are fixed by the holonomy); symmetrically at `p ∈ ∂ℍ²₋` it is never the
+printed `i⁺(ℓ(p))`. -/
+theorem GammaLinkCircle.IsLiftedDev.null_degree_zero_ne (h : C.IsLiftedDev θ E D f)
+    (hQ : Causal.Flat.minkQ (C.pt : 𝕄) = 0) (hpar : GTilde.IsParabolic f) (hfix : ∃ x, f x = x) :
+    (C.pt ∈ HS.piece 2 .bdPlus → linkCover C.pt θ '' range D ≠ iMinus C.pt) ∧
+      (C.pt ∈ HS.piece 2 .bdMinus → linkCover C.pt θ '' range D ≠ iPlus C.pt) := by
+  obtain ⟨τ, hτ⟩ : (tangentDirs C.pt).Nonempty := by
+    rw [tangentDirs_eq hQ]; exact ⟨_, mem_insert _ _⟩
+  have hτ' : nullPairing C.pt τ = 0 := hτ
+  have key : linkCover C.pt θ '' range D ≠ {σ : Link C.pt | 0 ≤ nullPairing C.pt σ} := by
+    intro he
+    have hτM : τ ∈ {σ : Link C.pt | 0 ≤ nullPairing C.pt σ} := le_of_eq hτ'.symm
+    rw [← he] at hτM
+    rcases h.null_degree_zero hQ hpar hfix with h1 | h1 <;> rw [h1] at hτM
+    · exact (show nullPairing C.pt τ < 0 from hτM).ne hτ'
+    · exact (show 0 < nullPairing C.pt τ from hτM).ne' hτ'
+  refine ⟨fun hp => ?_, fun hp => ?_⟩
+  · rwa [iMinus_of_bdPlus hp, lightDomain_deSitter_eq hQ]
+  · rwa [iPlus_of_bdMinus hp, lightDomain_deSitter_eq hQ]
 
 /-! ### Degree `k ≥ 1` (l.893–922) -/
 
+/-- **The components of `I^±`** (l.904–905): in `⋃ⱼ ]u + 2j, v + 2j[` with `v ≤ u + 2`, the
+component of a point of `]u + 2i, v + 2i[` is that interval. -/
+theorem connectedComponentIn_iUnion_Ioo_two {u v : ℝ} (huv : v ≤ u + 2) {i : ℤ} {t : ℝ}
+    (ht : t ∈ Ioo (u + 2 * i) (v + 2 * i)) :
+    connectedComponentIn (⋃ j : ℤ, Ioo (u + 2 * j) (v + 2 * j)) t = Ioo (u + 2 * i) (v + 2 * i) := by
+  refine connectedComponentIn_eq_of_open (S₂ := ⋃ (j : ℤ) (_ : j ≠ i), Ioo (u + 2 * j) (v + 2 * j))
+    ?_ isPreconnected_Ioo isOpen_Ioo (isOpen_iUnion fun j => isOpen_iUnion fun _ => isOpen_Ioo)
+    ?_ ht
+  · ext y
+    simp only [mem_iUnion, mem_union]
+    constructor
+    · rintro ⟨j, hj⟩
+      by_cases hji : j = i
+      · exact Or.inl (hji ▸ hj)
+      · exact Or.inr ⟨j, hji, hj⟩
+    · rintro (hy | ⟨j, -, hj⟩)
+      exacts [⟨i, hy⟩, ⟨j, hj⟩]
+  · refine Set.disjoint_left.2 fun y hy hy' => ?_
+    simp only [mem_iUnion] at hy'
+    obtain ⟨j, hji, hj⟩ := hy'
+    have h1 : (2 : ℝ) * (i - j) < 2 := by linarith [hy.1, hj.2]
+    have h2 : (2 : ℝ) * (j - i) < 2 := by linarith [hy.2, hj.1]
+    have : (i : ℝ) - j < 1 := by linarith
+    have : (j : ℝ) - i < 1 := by linarith
+    have : i - j < (1 : ℤ) := by exact_mod_cast (show ((i - j : ℤ) : ℝ) < 1 by push_cast; linarith)
+    have : j - i < (1 : ℤ) := by exact_mod_cast (show ((j - i : ℤ) : ℝ) < 1 by push_cast; linarith)
+    exact hji (by omega)
+
 /-- **Space-like singularities of degree `k ≥ 1`, the components of `I^±`** (l.896–905): the fixed
 points of `g` are `x₀ + i`, `x₁ + i` (`x_{2i} = δⁱ x₀`, `x_{2i+1} = δⁱ x₁`), the components of
-`I⁺` are `δ^{2i} ]x₀, x₁[` and those of `I⁻` are `δ^{2i+1} ]x₀, x₁[`. -/
+`I⁺` are `δ^{2i} ]x₀, x₁[` and those of `I⁻` are `δ^{2i+1} ]x₀, x₁[` (`I^±` read in `ℝP̃¹` as
+`linkCover⁻¹ i^±`; `GX.arc_structure_of_deSitter`); these intervals are the components of the
+union by `GX.connectedComponentIn_iUnion_Ioo_two`. `k ≥ 1` is not used (SCOPE (i)). -/
 theorem GammaLinkCircle.IsLiftedDev.iPlus_components (h : C.IsLiftedDev θ E D f)
-    (hp : C.pt ∈ HS.piece 2 .deSitter) {k : ℤ} (hk : 1 ≤ k) {g : GTilde} (hg : ∃ x, g x = x)
+    (hp : C.pt ∈ HS.piece 2 .deSitter) {k : ℤ} (_hk : 1 ≤ k) {g : GTilde} (hg : ∃ x, g x = x)
     (hh : GTilde.IsHyperbolic g) (hfg : f = GTilde.delta ^ k * g) :
     ∃ x₀ x₁ : ℝ, x₀ < x₁ ∧ x₁ < x₀ + 1 ∧ g x₀ = x₀ ∧ g x₁ = x₁ ∧
       (∀ y, g y = y → ∃ i : ℤ, y = x₀ + i ∨ y = x₁ + i) ∧
       linkCover C.pt θ ⁻¹' iPlus C.pt = ⋃ i : ℤ, Ioo (x₀ + 2 * i) (x₁ + 2 * i) ∧
       linkCover C.pt θ ⁻¹' iMinus C.pt = ⋃ i : ℤ, Ioo (x₀ + 2 * i + 1) (x₁ + 2 * i + 1) := by
-  sorry -- SORRY(bbsrem:previous_section_observed_only): the dynamics are built (`GX.GTilde.IsHyperbolic.fixed_structure`: fixed points `x₀ + ℤ`, `x₁ + ℤ`; `GX.timelike_spacelike_dir`: time-like components moved one way, space-like the other); the missing step is the arc structure of `ℓ(p)`: that `linkCover` maps `]x₀, x₁[` onto `i⁺(ℓ(p))` exactly (not into a proper sub-arc), i.e. that `i⁺` is one arc between consecutive lightlike directions; not built
+  obtain ⟨ρ, hρf⟩ := h.exists_linkCover_apply
+  -- the degree is even (`GX.GammaLinkCircle.IsLiftedDev.even_of_nonneg`), so `g` lifts `ρ` too
+  obtain ⟨m, hm⟩ :=
+    h.even_of_nonneg (show (0 : ℝ) < Causal.Flat.minkQ (C.pt : 𝕄) from hp).le hg hfg
+  have hρg : ∀ t, linkCover C.pt θ (g t) = ρ • linkCover C.pt θ t := fun t => by
+    have := hρf t
+    rwa [hfg, GTilde.coe_mul_apply, GTilde.delta_zpow_apply, hm,
+      show ((m + m : ℤ) : ℝ) = 2 * (m : ℝ) by push_cast; ring, linkCover_add_two_mul] at this
+  have hρ1 : ρ ≠ 1 := by
+    rintro rfl
+    exact hh.toPSL_ne_one (by rw [toPSL_eq_of_linkCover hρg, map_one]; rfl)
+  -- a future time-like direction, and the two fixed points of `g` around one of its lifts
+  obtain ⟨σ, hσ⟩ := (isConnected_dsFutureDirs hp).nonempty
+  obtain ⟨t, rfl⟩ := linkCover_surjective C.pt θ σ
+  have ht : g t ≠ t := fun ht =>
+    (minkQ_neg_of_timelike (Or.inl hσ)).ne ((fixed_iff_null hp hρ1 hρg hg t).1 ht)
+  obtain ⟨a, b, hat, htb, hba, ha, hb, hfe⟩ := hh.exists_consecutive hg ht
+  obtain ⟨hFc, hPc, -⟩ := arc_structure_of_deSitter hp hρ1 hρg hg (hat.trans htb) hba ha hb hfe
+    ⟨t, ⟨hat, htb⟩, hσ⟩
+  refine ⟨a, b, hat.trans htb, hba, ha, hb, hfe, ?_, ?_⟩
+  · ext t'; rw [mem_preimage, iPlus_of_deSitter hp, hFc, mem_iUnion]
+  · ext t'; rw [mem_preimage, iMinus_of_deSitter hp, hPc, mem_iUnion]
 
 /-- **A positive space-like singularity of degree `k ≥ 1`** (l.908–910), in the form of l.915
 (a reading, SCOPE (f)): `p ∈ dS²`, the underlying `ℝP¹`-circle is hyperbolic of degree `k ≥ 1`,
