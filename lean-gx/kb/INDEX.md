@@ -87,3 +87,11 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0077](entries/0077-the-chart-of-isphotoncircle-rp1chartedsp.md) | pattern | The chart of IsPhotonCircle.rp1ChartedSpace is the HS-chart |
 | [0078](entries/0078-projectively-isomorphic-rp1-circles-a-ho.md) | pattern | Projectively isomorphic RP1-circles have the same lifted holonomies and real angles |
 | [0079](entries/0079-pitfall.md) | pitfall | Pitfall: |
+| [0080](entries/0080-p-circles-are-classified-by-gx-rp1iso-if.md) | pattern | ℝP¹-circles are classified by GX.rp1Iso_iff_conj |
+| [0081](entries/0081-the-universal-covering-p-p-is-gx-linkcov.md) | pattern | The universal covering ℝP̃¹ → ℓ(p) is GX.linkCover; lifting Γ_p to G̃ |
+| [0082](entries/0082-a-hyperbolic-a-in-sl-2-is-conjugate-to-a.md) | pattern | A hyperbolic A in SL(2,ℝ) is conjugate to A⁻¹ by a traceless h |
+| [0083](entries/0083-three-fixed-points-of-psl-2-on-p-force-1.md) | pattern | Three fixed points of PSL(2,ℝ) on ℝP¹ force 1 |
+| [0084](entries/0084-at-p-in-ds-an-element-1-of-p-fixes-only.md) | pattern | At p in dS², an element ≠ 1 of Γ_p fixes only light-like rays |
+| [0085](entries/0085-isomorphisms-of-gammalinkcircles-with-th.md) | pattern | Isomorphisms of GammaLinkCircles with the same p: destructure and subst |
+| [0086](entries/0086-pitfall.md) | pitfall | Pitfall: |
+| [0087](entries/0087-pitfall.md) | pitfall | Pitfall: |

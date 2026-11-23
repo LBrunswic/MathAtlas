@@ -1,0 +1,244 @@
+{
+ "target": "T-bbs-hs-singularities",
+ "package": "T-bbs-hs-singularities",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSSingularities.lean"
+ ],
+ "builds": true,
+ "sorry_count": 10,
+ "labels": [
+  {
+   "label": "bbsrem:previous_section_observed_only",
+   "tex_lines": [
+    926,
+    932
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.rp1Iso_of_zpowers_eq",
+    "GX.conj_inv_swaps_timelike_spacelike",
+    "GX.GTilde.lt_apply_iff_of_conj_inv",
+    "GX.not_isIso_of_positive_of_negative",
+    "GX.exists_positive_negative",
+    "GX.GammaLinkCircle.IsIso",
+    "GX.GammaLinkCircle.IsSpacelikePositive",
+    "GX.GammaLinkCircle.IsSpacelikeNegative"
+   ],
+   "hypotheses": [
+    {
+     "paper": "only one RP1 hyperbolic circle of holonomy <g> (l.927-928)",
+     "here": "reading",
+     "note": "holonomy group read in G~ (lifted holonomy); in G = PSL(2,R) circles of every degree share <g> and are pairwise non-isomorphic (the degree is an invariant, GX.rp1Iso_iff_of_degree_pos). Proved in the G~ reading: GX.rp1Iso_of_zpowers_eq, standard axioms only."
+    },
+    {
+     "paper": "a real projective conjugacy between g and g^-1, preserving the orientation, permutes time-like and space-like components (l.928-930)",
+     "here": "reading",
+     "note": "Reading OQ-116 (a) (open): time-like = i+ u i- in GX.BBS.IPm's time-like reading; space-like = Q(dsProj sigma) > 0. Under that reading: h in G~ (orientation-preserving projective transformations of RP~1) with h g h^-1 = g^-1, g the lift with a fixed point of A in Gamma_p minus 1 at p in dS2, maps time-like directions to space-like ones and back (GX.conj_inv_swaps_timelike_spacelike, through GX.timelike_spacelike_dir; standard axioms only)."
+    },
+    {
+     "paper": "positive and negative hyperbolic (Gamma_p, l(p))-circles are not isomorphic (l.930-931)",
+     "here": "reading",
+     "note": "Two readings. (1) Isomorphism = homeomorphism that is a (Gamma_p, l(p))-morphism, same p (GX.GammaLinkCircle.IsIso; SCOPE (e)). (2) Positive/negative is the l.915 form (g x >= x, resp. <=, on I+), not the primary repelling-endpoint definition of l.908-913; their equivalence is argued (fixed_structure, timelike_spacelike_dir), not formalized (SCOPE (f)). Positivity proved choice-free (IsSpacelikePositive.forall) and an isomorphism invariant (IsIso.isSpacelikePositive). Proved: GX.not_isIso_of_positive_of_negative, standard axioms only."
+    },
+    {
+     "paper": "this remark does not extend (l.928): a positive and a negative circle with the same holonomy group exist",
+     "here": "stated",
+     "note": "GX.exists_positive_negative, tagged sorry (the quotient construction)."
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.exists_positive_negative",
+     "obstruction": "the examples are the quotients R/<delta^2 g~> and R/<delta^2 g~^-1> (g~ the lift with fixed points of a boost A in Gamma_p minus 1, through GX.exists_rayLift); a (Gamma_p, l(p))-circle on the orbit space needs GX.gxQuotient for the pulled-back structure on R and Orbits Z R homeomorphic to the circle; not built"
+    }
+   ],
+   "findings": [
+    "l.794-795 (space-like) and l.797-800 (light-like): 'L is a hyperbolic (resp. parabolic) RP1-circle' needs non-trivial holonomy. At p in dS2 or on the boundary of H2, Gamma_p contains no element acting as -id on l(p), so trivial Gamma_p-holonomy gives a central lifted holonomy delta^(2n), neither hyperbolic nor parabolic. Lean: the link of a regular point has lifted holonomy delta^2 (GX.regular_not_isHyperbolic; GX.not_isParabolic_delta_sq). That point is regular; the singular counterexample is the n-fold cyclic cover of l(p), n >= 2 (trivial Gamma_p-holonomy, lifted holonomy delta^(2n), real angle 4 pi n), argued, not built. With non-trivial holonomy the space-like claim is proved (GX.GammaLinkCircle.IsLiftedDev.isHyperbolic_of_deSitter); the light-like one is stated (isParabolic_of_null, tagged sorry). Smallest correction: 'with non-trivial holonomy' in both bullets. The time-like bullet (l.788-791) is not affected: central holonomy (e.g. the half-turn, lifted holonomy delta, RP~1/<delta> = RP1) is elliptic by l.693-694 and OQ-113 (d).",
+    "l.878: 'L=i^+(L) = i^-(L)=\\emptyset' reads as L empty; intended 'i^+(L) = i^-(L) = \\emptyset' (typo, not formalized).",
+    "l.927-928: true only if 'holonomy <g>' is the lifted holonomy group in G~; with the holonomy in G = PSL(2,R) the RP1-circles of degrees 0, 1, 2, ... all have holonomy <g> and are pairwise non-isomorphic (GX.rp1Iso_iff_of_degree_pos makes the degree an invariant; examples not built).",
+    "l.746-747: the parametrisation by (k, [g]) holds for every degree k, not only k >= 1 (GX.rp1Iso_iff_of_degree_pos carries no hypothesis on k). Not a defect."
+   ],
+   "questions": [
+    "Isomorphism of (Gamma_p, l(p))-circles (l.931): read with the same p (a (Gamma_p, l(p))-morphism homeomorphism). An isomorphism through B in SO0(1,2) moving p to p' would preserve i+- and the orientation, so the conclusion is unchanged (argued, not formalized). Which notion is of record?",
+    "'holonomy <g>' (l.927): read as the lifted holonomy group in G~ (see findings). Accept?",
+    "i+-(l(p)) are as in GX.BBS.IPm: OQ-116 (a) timelike reading at dS2 is used for the time-like components; OQ-116 is open, so (ii) is proved under that reading. Under the causal reading the lightlike directions would be time-like and (ii) would have to exclude them."
+   ]
+  }
+ ],
+ "prose_rows": [
+  {
+   "tex_lines": [
+    688,
+    723
+   ],
+   "claim": "classification of RP1-circles (l.712-719); every cyclic subgroup is a holonomy group, and two circles are isomorphic iff their holonomy groups are conjugate (l.721-723)",
+   "status": "partial",
+   "note": "The developed-image classification is closed (exhaust). l.721-723 is closed only in the oriented form of l.723-731: isomorphism iff the oriented lifted holonomies (elements of G~) are conjugate (rp1Iso_iff_conj). The printed group form (conjugate holonomy groups => isomorphic) is proved only for two equal hyperbolic groups (rp1Iso_of_zpowers_eq). The existence half is a sorry.",
+   "decls": [
+    "GX.IsLiftedDevPair.exhaust",
+    "GX.rp1Iso_iff_conj",
+    "GX.conj_of_rp1Iso",
+    "GX.exists_rp1Iso_of_conj",
+    "GX.GTilde.IsComp.exists_add_int",
+    "GX.rp1Iso_of_zpowers_eq (group form, equal hyperbolic groups)",
+    "GX.exists_rp1Circle_of_ne_one (sorry: quotient construction)"
+   ]
+  },
+  {
+   "tex_lines": [
+    742,
+    744
+   ],
+   "claim": "elliptic circles parametrised by the angle",
+   "status": "stated",
+   "decls": [
+    "GX.rp1Iso_of_angle_eq (sorry: rotation normal form)"
+   ]
+  },
+  {
+   "tex_lines": [
+    746,
+    750
+   ],
+   "claim": "degree k >= 1 parametrised by (k,[g]); hyperbolic classes by |tr|; two parabolic classes",
+   "status": "partial",
+   "decls": [
+    "GX.rp1Iso_iff_of_degree_pos (closed, every k)",
+    "GX.PSL2.trSq_conj",
+    "GX.PSL2.IsHyperbolic.isConj_iff (=> proved, <= sorry: normal form)",
+    "GX.GTilde.IsParabolic.le_or_ge (closed)",
+    "GX.PSL2.IsParabolic.isConj_iff (sorry: normal form)"
+   ]
+  },
+  {
+   "tex_lines": [
+    752,
+    759
+   ],
+   "claim": "degree 0: parabolic positive; hyperbolic by a positive real; x0 repelling, x1 attracting",
+   "status": "partial",
+   "decls": [
+    "GX.HasLiftedHolonomy.le_apply_of_parabolic (closed)",
+    "GX.rp1Iso_iff_of_degree_zero_hyperbolic (reduced to isConj_iff)",
+    "GX.IsLiftedDevPair.repelling_attracting (closed)"
+   ]
+  },
+  {
+   "tex_lines": [
+    785,
+    802
+   ],
+   "claim": "types by the position of p",
+   "status": "partial (finding)",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.isHyperbolic_of_deSitter (closed, non-trivial holonomy)",
+    "GX.regular_not_isHyperbolic (counterexample, regular link)",
+    "GX.not_isParabolic_delta_sq",
+    "GX.GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike (sorry)",
+    "GX.GammaLinkCircle.IsLiftedDev.isParabolic_of_null (sorry)"
+   ]
+  },
+  {
+   "tex_lines": [
+    866,
+    891
+   ],
+   "claim": "degree-0 types: BTZ-like past/future, Misner, cuspidal, extreme BTZ-like",
+   "status": "stated",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.spacelike_degree_zero (sorry)",
+    "GX.GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero (sorry)"
+   ]
+  },
+  {
+   "tex_lines": [
+    893,
+    922
+   ],
+   "claim": "degree k >= 1: k even, components of I+-, positive/negative dichotomy (l.906-915, in the l.915 form), light-like (l.917-922)",
+   "status": "partial",
+   "decls": [
+    "GX.GammaLinkCircle.IsLiftedDev.even_of_nonneg (closed)",
+    "GX.GammaLinkCircle.IsLiftedDev.spacelike_dichotomy (closed)",
+    "GX.GammaLinkCircle.IsLiftedDev.lightlike_dichotomy (closed)",
+    "GX.GammaLinkCircle.IsSpacelikePositive.forall (closed)",
+    "GX.GammaLinkCircle.IsLiftedDev.iPlus_components (sorry: arc structure of l(p))"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.IsRP1Iso",
+  "GX.IsLiftedDevPair",
+  "GX.IsLiftedDevPair.isComp",
+  "GX.IsLiftedDevPair.add_int",
+  "GX.IsLiftedDevPair.conj",
+  "GX.GTilde.IsComp",
+  "GX.GTilde.IsComp.subset",
+  "GX.GTilde.IsComp.eq",
+  "GX.GTilde.IsComp.eq_univ",
+  "GX.GTilde.IsComp.subset_Ioo",
+  "GX.GTilde.IsComp.exists_add_int",
+  "GX.GTilde.eq_of_fixed_Ioo",
+  "GX.GTilde.le_apply_of_Icc",
+  "GX.GTilde.apply_le_of_Icc",
+  "GX.GTilde.lt_apply_of_no_fixed",
+  "GX.GTilde.IsHyperbolic.fixed_structure",
+  "GX.GTilde.conj_factor",
+  "GX.GTilde.apply_ne_of_degree_ne_zero",
+  "GX.GTilde.eq_one_of_conj_inv",
+  "GX.GTilde.IsHyperbolic.exists_conj_inv",
+  "GX.GTilde.IsHyperbolic.not_forall_le",
+  "GX.GTilde.IsHyperbolic.not_forall_ge",
+  "GX.quadForm_eq_zero_of_three",
+  "GX.RP1.eq_of_cross_eq_zero",
+  "GX.fixed_quadForm",
+  "GX.PSL2.eq_one_of_three_fixed",
+  "GX.PSL2.isHyperbolic_of_two_fixed",
+  "GX.PSL2.exists_conj_inv_of_matrix",
+  "GX.PSL2.IsHyperbolic.exists_conj_inv",
+  "GX.PSL2.trSq_conj",
+  "GX.map_add_int_of_add_one",
+  "GX.linkCover",
+  "GX.coe_linkCover",
+  "GX.linkToRP1_linkCover",
+  "GX.linkCover_add_one",
+  "GX.linkCover_eq_linkCover_iff",
+  "GX.linkCover_add_two_mul",
+  "GX.linkCover_add_int",
+  "GX.isCoveringMap_linkCover",
+  "GX.linkCover_surjective",
+  "GX.linkCover_lift_eq",
+  "GX.exists_rayLift",
+  "GX.GammaLinkCircle.IsLiftedDev",
+  "GX.GammaLinkCircle.IsLiftedDev.isLiftedDevPair",
+  "GX.GammaLinkCircle.IsLiftedDev.isLocalHomeomorph",
+  "GX.GammaLinkCircle.exists_isLiftedDev",
+  "GX.GammaLinkCircle.IsLiftedDev.exists_linkCover_apply",
+  "GX.GammaLinkCircle.IsLiftedDev.relate",
+  "GX.GammaLinkCircle.IsDevAlong.comp_reparam",
+  "GX.GammaLinkCircle.rp1_chartAt_apply",
+  "GX.exists_two_null",
+  "GX.eq_one_of_smul_eq_of_deSitter",
+  "GX.fixed_iff_null",
+  "GX.sign_const",
+  "GX.isHyperbolic_of_linkCover",
+  "GX.timelike_spacelike_dir",
+  "GX.minkQ_dsProj_neg",
+  "GX.neg_mem_timelike_iff",
+  "GX.minkQ_neg_of_timelike",
+  "GX.timelike_of_minkQ_neg",
+  "GX.not_isParabolic_delta_sq"
+ ],
+ "kb_proposals": [
+  "RP1-circles are classified by GX.rp1Iso_iff_conj (iso iff conjugate lifted holonomies in G~); its 'if' half descends Phi = D'^-1 o D through the periodic covers, after moving the developed image by GX.GTilde.IsComp.exists_add_int (components of {x < f x} are integer translates).",
+  "The universal covering RP~1 -> l(p) is GX.linkCover (t -> ray of theta^-1(e^{i pi t})), delta acts as the antipodal map; GX.exists_rayLift lifts A in Gamma_p to G~ (between two oriented theta, via linkToRP1_eq_smul); GX.GammaLinkCircle.IsLiftedDev.relate relates any two lifted developing pairs (E' = E o psi, D' = k o D o psi, f' = k f k^-1).",
+  "A hyperbolic A in SL(2,R) is conjugated to A^-1 by a traceless h anticommuting with A - (tr/2) I (GX.PSL2.exists_conj_inv_of_matrix, three cases b != 0, c != 0, b = c = 0); then GX.GTilde.IsHyperbolic.exists_conj_inv in G~.",
+  "Three fixed points of PSL(2,R) on RP1 force 1 (GX.PSL2.eq_one_of_three_fixed): the fixed-line quadratic form c x^2 + (d-a) x y - b y^2 vanishes at three independent vectors; the linear_combination coefficients are the 3x3 adjugate (sympy).",
+  "At p in dS2, an element != 1 of Gamma_p fixes only lightlike rays (GX.eq_one_of_smul_eq_of_deSitter, via PSL2.eq_one_of_three_fixed and the centre of SL(2,R)); its G~-lift moves time-like and space-like directions in opposite directions (GX.timelike_spacelike_dir).",
+  "Isomorphisms of GammaLinkCircles with C'.pt = C.pt: destructure C' and subst (GX.GammaLinkCircle.IsIso).",
+  "Pitfall: after `set k := a * b`, `rw [GTilde.coe_mul_apply]` can unfold k; `clear_value k` first.",
+  "Pitfall: anonymous-constructor patterns in `fun <...> =>` accept `_` but not `-` (that is rcases syntax)."
+ ],
+ "notes": "Imports GXScaffold.Interaction.FunnelGTilde (sorry-free scaffold research module) for its G~ toolkit (IsParabolic.eq_of_smul_eq, le_apply, apply_lt_delta_of_fixed, sub_one_lt_apply_of_fixed, le_conj_apply, trSq_one): graduating this file into GX/ needs FunnelGTilde graduated first, or those lemmas hoisted. The scaffold root GXScaffold.lean does not yet import GXScaffold.BBS.HSSingularities (kb 0025: add it for the axiom sweep). No name clashes with the scaffold root's modules or with the current TheoremMTheta.lean (checked by grep). The label's three assertions use only propext, Classical.choice, Quot.sound (#print axioms of GX.rp1Iso_of_zpowers_eq, GX.conj_inv_swaps_timelike_spacelike, GX.not_isIso_of_positive_of_negative); rp1Iso_iff_of_degree_zero_hyperbolic inherits sorryAx from PSL2.IsHyperbolic.isConj_iff. Fix round 1 (AUDIT-1): the time-like clause dropped from finding 1, line citations re-checked against colI_v1.tex, readings (OQ-116 (a) for (ii), same-p isomorphism, the l.915 form of positivity, the oriented element form of l.721-723) disclosed in SCOPE (d)-(f) and here; GX.not_isParabolic_delta_sq added. The target is larger than one dispatch, as its evidence foresaw: the remaining sorries split naturally into (1) PSL(2,R) normal forms (hyperbolic, parabolic, elliptic conjugacy), (2) the quotient construction of circles (existence halves, incl. the label's 'does not extend'), (3) the arc structure of l(p) (degree-0 types, components of I+-), (4) single-element fixed points at time-like and light-like p. Built with `lake build GXScaffold.BBS.HSSingularities` (success; the upstream oleans GX/BBS/IPm and GXScaffold/Interaction/FunnelGTilde keep their 03:44 UTC timestamps, so nothing upstream was rebuilt)."
+}

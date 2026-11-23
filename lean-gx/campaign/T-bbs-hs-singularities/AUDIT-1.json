@@ -1,0 +1,58 @@
+{
+  "target": "T-bbs-hs-singularities",
+  "auditor_round": 1,
+  "verdict": "major",
+  "labels": [
+    {
+      "label": "bbsrem:previous_section_observed_only",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and reported partial, which is right: the existence half (\"this remark does not extend\") is the tagged sorry GX.exists_positive_negative. (i) GX.rp1Iso_of_zpowers_eq says exactly what l.927-928 says. Lifted holonomy is defined only up to conjugacy and HasLiftedHolonomy is closed under conjugation (IsLiftedDevPair.conj), so 'L has holonomy <g>' means some representative f has <f> = <g>, which is the Lean hypothesis. (ii) GX.conj_inv_swaps_timelike_spacelike: h in G~ with h g h^-1 = g^-1, g the lift with a fixed point of A != 1 in Gamma_p, p in dS2. h sends time-like directions to space-like ones and space-like to time-like, which is at least l.928-930. It rests on IPm's time-like reading of i^+-, OQ-116 (a), and the checklist discloses that. Here g lifts the holonomy factor because k is even (even_of_nonneg). (iii) GX.not_isIso_of_positive_of_negative holds in the disclosed reading of isomorphism as 'same p' (GammaLinkCircle.IsIso). Under that reading the negative conclusion is weaker than one where an SO0(1,2) element may move p; the checklist and the REPORT question name this. IsSpacelikePositive/Negative are not vacuous: spacelike_dichotomy shows every space-like circle of degree >= 1 is exactly one of the two, and the quotient examples exist mathematically (unbuilt, under the sorry). The definition is the paper's 'in other words' form (l.915), not its primary definition (l.908-913); see the minor finding. All three assertions use propext, Classical.choice and Quot.sound only. The paper block and its ledger row (colI_v1.tex:926, informal, bucket D) match the docstring's label line and its verbatim quote."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 10,
+    "axioms": "standard (propext, Classical.choice, Quot.sound) for every declaration the REPORT calls proved or closed. sorryAx appears exactly in the 10 tagged sorrys (PSL2.IsHyperbolic.isConj_iff, PSL2.IsParabolic.isConj_iff, rp1Iso_of_angle_eq, exists_rp1Circle_of_ne_one, IsLiftedDev.isElliptic_of_timelike, IsLiftedDev.isParabolic_of_null, IsLiftedDev.spacelike_degree_zero, IsLiftedDev.bdPlus_degree_zero, IsLiftedDev.iPlus_components, exists_positive_negative), plus rp1Iso_iff_of_degree_zero_hyperbolic, which inherits it from isConj_iff as REPORT.notes discloses. Checked by #print axioms on all 101 declarations of a /tmp copy of the file (since deleted). Ran `taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSSingularities.lean`: exit 0, ten 'declaration uses sorry' warnings, nothing else. Every sorry is tagged SORRY(bbsrem:previous_section_observed_only) with a specific obstruction. The import GXScaffold.Interaction.FunnelGTilde is sorry-free."
+  },
+  "findings": [
+    {
+      "severity": "major",
+      "where": "lean-gx/campaign/T-bbs-hs-singularities/REPORT.json:57 (labels[0].findings[0])",
+      "what": "False sub-claim in a finding sent to the author. The finding says 'Same for the time-like (central holonomy, e.g. the half-turn) ... cases. Smallest correction: with non-trivial holonomy', i.e. that l.788-791's 'L is an elliptic RP1-circle' also needs non-trivial holonomy. That is not a defect of the paper. At a time-like p the half-turn (GX.gammaHalfTurn, acting on l(p) as sigma -> -sigma) has lifted holonomy delta, and RP~1/<delta> is RP1 itself. l.693-694 names RP1 explicitly as an elliptic circle ('Observe that it includes the usual real projective structure on RP1'). The hub's reading OQ-113 (d), adopted by this file in SCOPE (b), counts central holonomy as elliptic. The file's own GX.GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike (l.1961) states the time-like case with no non-trivial-holonomy hypothesis, while isHyperbolic_of_deSitter and isParabolic_of_null carry one. So the finding contradicts both the paper's text and the file. The dS2 and light-like parts of the finding are true: at p in dS2 or on the boundary of H2, Gamma_p contains no -id, so trivial Gamma_p-holonomy gives lifted holonomy delta^(2n), which is neither hyperbolic nor parabolic.",
+      "fix": "Drop 'the time-like (central holonomy, e.g. the half-turn) and' from the finding, so that it covers the space-like and light-like bullets only (l.794-795, l.797-800). Alternatively, state the time-like part only as conditional on rejecting OQ-113 (d), the strict reading of 'elliptic' that l.693-694 rules out."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-bbs-hs-singularities/REPORT.json:57; scaffold/GXScaffold/BBS/HSSingularities.lean:1978",
+      "what": "The finding's only Lean counterexample, GX.regular_not_isHyperbolic, is the link of a regular point. In e(l(p)) the point p is not singular, and the printed bullets classify singularities, so an author may dismiss the counterexample as outside the claim. The finding is still true for genuine singularities: the n-fold cyclic cover of l(p), n >= 2, has trivial Gamma_p-holonomy and lifted holonomy delta^(2n), central and not hyperbolic.",
+      "fix": "Add the n-fold cover (n >= 2) as the singular counterexample, argued or built, and say that regular_not_isHyperbolic covers the regular link."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json:57; scaffold/GXScaffold/BBS/HSSingularities.lean:53-55, 1959, 1965, 1972, 1978, 2088, 2097, 2132, 2144",
+      "what": "Several line citations are off. In colI_v1.tex the space-like bullet is l.794-795, but the file cites l.796-797, which is a blank line followed by the start of the light-like bullet. Time-like is l.788-791 (cited l.789-792). Light-like is l.797-800 (cited l.800-803). Positive/negative is l.908-915, the negative case l.911-913 (cited l.908-918, l.916-918). Light-like of degree >= 1 is l.917-922 (cited l.920-924). Findings go to the author with these numbers.",
+      "fix": "Re-cite against papers/bbs/legacy/labeled/colI_v1.tex."
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/GXScaffold/BBS/HSSingularities.lean:69 (checklist row 'positive / negative'), 2091-2102",
+      "what": "The checklist marks the row ✓, but IsSpacelikePositive/Negative formalize the paper's restatement at l.915 ('positive iff g x >= x on I+'). The paper's primary definition (l.908-913) is that the left extremities of the components of I+ are repelling fixed points of g. The equivalence of the two is true (through IsHyperbolic.fixed_structure and timelike_spacelike_dir) but is not formalized. Label (iii) rests on this definition.",
+      "fix": "Mark the row ⚠ (reading: the l.915 form, equivalence with l.908-913 argued) and add it to SCOPE, or prove the equivalence with GTilde.IsRepellingAt/IsAttractingAt."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json:75 (prose_rows[0]); scaffold/GXScaffold/BBS/HSSingularities.lean:35-36, 938-942",
+      "what": "l.721-723 says the circles are isomorphic iff their 'holonomy groups are conjugate'. GX.rp1Iso_iff_conj uses conjugacy of the oriented lifted holonomies (elements), so its 'if' half has a stronger hypothesis than the group form. The group form follows from the canonical orientation (deg_nonneg, positivity of degree-0 parabolics, direction of elliptics, g ~ g^-1 for hyperbolics), but only its hyperbolic equal-group case is proved (rp1Iso_of_zpowers_eq). The row is reported 'closed ... iso<->conj' with no reading named. This is the paper's orientation-corrected form (l.723-731), so it is not a Lean < paper defect, but it is undisclosed.",
+      "fix": "Name the element reading in the prose row and the docstring, or add the group form (zpowers conjugate => iso) for every type."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json:35-38 (labels[0].hypotheses[1]); scaffold/GXScaffold/BBS/HSSingularities.lean:73-82",
+      "what": "The REPORT's hypothesis row for (ii) says 'carried' although it rests on OQ-116 (a), the time-like reading of i^+-; the docstring checklist marks it ⚠. Separately, the 'same p' reading of (Gamma_p, l(p))-isomorphism appears in the checklist and the questions but not in SCOPE, which kb 0006 asks to list every reading.",
+      "fix": "Set 'here' to 'reading' for (ii), and add the same-p isomorphism reading to SCOPE."
+    }
+  ],
+  "scope": "git status --short shows, under lean-gx, only the untracked lean-gx/campaign/T-bbs-hs-singularities/ (REPORT.json) and lean-gx/scaffold/GXScaffold/BBS/ (HSSingularities.lean alone). There are no tracked modifications under lean-gx: the master's TheoremMTheta, GXScaffold.lean and kb edits were committed in 4211879. The HSSingularities.olean (04:50:54) is newer than the source (04:50:29), consistent with the closer's lake build. Name clashes: none with GX or GXScaffold. TheoremMTheta's hasLiftedHolonomy_iff is GX.DSAnnulus.hasLiftedHolonomy_iff, not GX.hasLiftedHolonomy_iff. No duplicate of a strict GX lemma found: IPm's fixedPoints_* are statements about the whole group, not about single elements.",
+  "docstring_contract": "kb 0006 (lean-causal/kb/entries/0006-docstring-contract.md; lean-gx's 0006 is the spherical-models entry) is met: title; the label unmarked with colI_v1.tex:926 within the first 4000 characters; a verbatim quote of l.927-931 and l.712-722; the hypothesis checklist; SCOPE; provenance (mathlib fabf563a, lean-causal ca2ad78, matching lake-manifest.json). The docstring's claim of '10 tagged sorrys, none beneath the label's three assertions' is true. The departures from the contract are the minor findings above (checklist row 69, SCOPE missing the same-p reading, line numbers)."
+}

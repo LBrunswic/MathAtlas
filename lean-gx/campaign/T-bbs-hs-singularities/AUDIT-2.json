@@ -1,0 +1,66 @@
+{
+  "target": "T-bbs-hs-singularities",
+  "auditor_round": 2,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bbsrem:previous_section_observed_only",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Still unmarked: no **`label`** in the first 4000 characters. The bold label strings at l.2230, 2292, 2347 and 2359 are in declaration docstrings, which tools/ledger.py does not read. REPORT says partial with marked=false, which is right: the existence half 'this remark does not extend' (l.928) is the tagged sorry GX.exists_positive_negative. The three assertions read as in round 1. (i) GX.rp1Iso_of_zpowers_eq: holonomy group read in G~, SCOPE (a). (ii) GX.conj_inv_swaps_timelike_spacelike: now labelled 'reading' in the REPORT (OQ-116 (a)) and ⚠ in the checklist. (iii) GX.not_isIso_of_positive_of_negative: two readings, both disclosed. The first is same-p isomorphism (SCOPE (e), checklist row l.69). The second is the l.915 form of positivity (SCOPE (f), checklist row l.70 now ⚠, IsSpacelikePositive docstring l.2109-2113). These three use only propext, Classical.choice and Quot.sound. Their statements are unchanged from round 1, as the closer says. The ledger row is papers/bbs/ledger/ledger.json, colI_v1.tex:926, tex_span 926-932, informal, bucket D, and it matches."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 10,
+    "axioms": "standard for every declaration the REPORT calls proved or closed. Ran `taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSSingularities.lean` from lean-gx/: exit 0, exactly ten 'declaration uses sorry' warnings, at l.1121, 1129, 1145, 1261, 1976, 1989, 2075, 2087, 2100 and 2351, and nothing else. Code sorry count (comments stripped, as in ledger.py) is 10, and there are 10 SORRY(bbsrem:previous_section_observed_only) tags. #print axioms was run on all 102 declarations of a copy at /tmp/audit2-hs/Probe.lean, now deleted. Round 1 had 101; the new one is GX.not_isParabolic_delta_sq. 91 declarations use propext, Classical.choice and Quot.sound only. These include the new GX.not_isParabolic_delta_sq, GX.regular_not_isHyperbolic, GX.GammaLinkCircle.IsLiftedDev.isHyperbolic_of_deSitter, rp1Iso_iff_conj, IsLiftedDevPair.exhaust, rp1Iso_iff_of_degree_pos, even_of_nonneg, spacelike_dichotomy, lightlike_dichotomy and IsSpacelikePositive.forall. 11 use sorryAx: the 10 tagged sorrys, plus rp1Iso_iff_of_degree_zero_hyperbolic, which inherits it from PSL2.IsHyperbolic.isConj_iff as the REPORT discloses ('reduced to isConj_iff'). lake build was not run, per dispatch. The olean (05:09:25) is newer than the source (05:08:47), consistent with the closer's reported build."
+  },
+  "round1_resolution": [
+    {
+      "finding": "major: time-like clause in REPORT finding 1",
+      "resolved": true,
+      "notes": "The finding now covers l.794-795 (space-like) and l.797-800 (light-like) only. It says explicitly that the time-like bullet l.788-791 is not affected: central holonomy is elliptic by l.693-694 and OQ-113 (d). Checked true against the tex. l.799 does claim 'the link L is a parabolic RP1-circle', and l.795 claims 'L is a hyperbolic RP1-circle', both unconditionally. With trivial Gamma_p-holonomy, linkCover(f t) = linkCover t for all t. linkCover identifies t and t' iff t' - t is in 2Z (linkCover_eq_linkCover_iff), so f - id is a continuous 2Z-valued function, hence constant, and f = delta^(2n) with n >= 1 since D is increasing. Then toPSL f = 1, so f is neither hyperbolic (trSq = 4) nor parabolic: PSL2.IsParabolic (RP1Circles.lean:982) requires g != 1. The claim that Gamma_p has no element acting as -id at p in dS2 or on the boundary of H2 is right: -id on the Lorentzian plane p-perp reverses time orientation, and at a null p, Gamma_p is unipotent. GX.GammaLinkCircle.IsLiftedDev.even_of_nonneg, at every p with minkQ p >= 0, formalizes the consequence: no ray is sent to its antipode, so the degree is even. 'Real angle 4 pi n' matches the hub convention: angle(delta) = 2 pi (OQ-113 (a)), and hasRealAngle_link gives 4 pi. With non-trivial holonomy the space-like bullet is proved (isHyperbolic_of_deSitter, standard axioms), and the light-like one is stated (isParabolic_of_null, tagged sorry). So 'with non-trivial holonomy' is a sufficient correction for the space-like bullet, and proved sufficient modulo that sorry for the light-like one. The REPORT says so."
+    },
+    {
+      "finding": "minor 1: dS2 counterexample is a regular point",
+      "resolved": true,
+      "notes": "The REPORT and the docstring at l.1993-1997 now call regular_not_isHyperbolic the regular link and name the n-fold cyclic cover of l(p), n >= 2, as the singular counterexample, argued and not built. That counterexample is valid: its charts are local sections of the covering S1 -> l(p), so the transitions are the identity, which lies in Gamma_p, and its developing map is the covering. regular_not_isHyperbolic has no hypothesis on p, so together with not_isParabolic_delta_sq it is also a Lean counterexample at a null p for l.797-800."
+    },
+    {
+      "finding": "minor 2: line citations",
+      "resolved": true,
+      "notes": "Every l.NNN in the file (56 distinct ranges) and in the REPORT (19) was checked against papers/bbs/legacy/labeled/colI_v1.tex, and all are correct. Examples: 788-791, 794-795, 797-800, 866-879, 880-891, 896-905, 905, 908-910, 911-913, 915, 917-922, 927-931, 693-694, 712-723 (the quote is verbatim with an elision), 742-744, 746-747, 747-748, 748-750, 752-756, 756-757, 758-759, 878."
+    },
+    {
+      "finding": "minor 3: positive/negative checklist row",
+      "resolved": true,
+      "notes": "Checklist row l.70 is now ⚠ (reading: the l.915 form). SCOPE (f) discloses that the equivalence with the repelling-endpoint form of l.908-913 is argued and not formalized, and the docstrings of IsSpacelikePositive/Negative repeat it. The argued equivalence is plausible: endpoints of i+ arcs are null directions, which are fixed points (fixed_iff_null), and the dynamics come from fixed_structure and timelike_spacelike_dir."
+    },
+    {
+      "finding": "minor 4: l.721-723 prose row",
+      "resolved": true,
+      "notes": "prose_rows[0] is now partial and names the oriented element reading. SCOPE (d) and docstring l.35-37 disclose it. The group form is proved only for two equal hyperbolic groups (rp1Iso_of_zpowers_eq), which is accurate."
+    },
+    {
+      "finding": "minor 5: (ii) carried / same-p not in SCOPE",
+      "resolved": true,
+      "notes": "hypotheses[1].here is 'reading' (OQ-116 (a)). SCOPE (e) adds the same-p reading of isomorphism, with the argued remark that an SO0(1,2)-move of p preserves i+- and the orientation."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-bbs-hs-singularities/REPORT.json labels[0].hypotheses[2].note ('Positivity proved choice-free (IsSpacelikePositive.forall)'); lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean:58 ('choice-free `…forall`')",
+      "what": "'choice-free' reads, in Lean usage, as 'does not use Classical.choice'. #print axioms GX.GammaLinkCircle.IsSpacelikePositive.forall gives [propext, Classical.choice, Quot.sound]. What the lemma proves is that positivity does not depend on the choice of theta, E and D. The checklist row l.70 and the docstring at l.2128 say exactly that.",
+      "fix": "Replace 'choice-free' with 'independent of the choices of theta, E, D' in both places."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BBS/HSSingularities.lean:1993-1995",
+      "what": "The docstring calls regular_not_isHyperbolic 'the link of a regular point of dS2' and then adds '(nor parabolic, ..., for l.797-800)'. The theorem is stated for every p : HS 2. For l.797-800 the relevant instance is a regular point on the boundary of H2+-, not one in dS2. The mathematics is right, and the Lean covers the null case, but the docstring points the light-like counterexample at the wrong piece.",
+      "fix": "Say 'the link of a regular point (any p; in dS2 for l.794-795, on the boundary of H2+- for l.797-800)'."
+    }
+  ],
+  "scope": "git status --short shows two untracked paths under lean-gx: lean-gx/campaign/T-bbs-hs-singularities/ (REPORT.json and AUDIT-1.json, plus this AUDIT-2.json) and lean-gx/scaffold/GXScaffold/BBS/ (HSSingularities.lean alone). There are no tracked modifications under lean-gx or papers/bbs. The ignored files under lean-gx are older WP-* campaign logs. The other entries in the working tree belong to the master or to the other loop. These are roadmap/roadmap.toml and programme/roadmap.toml (status flips, including this target's planned -> active) and lean-causal T-abs-inextensible-nested-basics. None is the closer's.",
+  "docstring_contract": "kb 0006 (lean-causal/kb/entries/0006-docstring-contract.md) is met. The docstring has a title, and the label is unmarked with colI_v1.tex:926 inside the first 4000 characters. It quotes l.927-931 and l.712-723 verbatim. The hypothesis checklist has rows l.67-72, now with ⚠ on the four readings. SCOPE (a)-(f) is true as checked above. Provenance (mathlib fabf563a, lean-causal ca2ad78) matches lake-manifest.json. The claim '10 tagged sorrys, none beneath the label's three assertions' holds."
+}
