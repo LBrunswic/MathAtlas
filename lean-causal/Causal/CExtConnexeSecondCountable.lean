@@ -1,14 +1,15 @@
 import Causal.CurvesExtendSecondCountable
 import Causal.CBG.Injective
 import Causal.CorrespondingPoints
+import Causal.CauchySeparation
 
 /-!
 # The Cauchy-embedding lemmas on second countable spaces, without their curve hypotheses
 
 Programme target `T-abs-c-ext-connexe-second-countable` (`programme/roadmap.toml`; layer 1: it
-imports `Causal.CurvesExtendSecondCountable`, `Causal.CBG.Injective`,
-`Causal.CorrespondingPoints`, all ETT-layer; no model; no metric notion in a statement). **No
-label is marked** (SCOPE). The labels served, unmarked: `lem:C_ext_connexe` — `ETT.tex:1932`;
+imports `Causal.CurvesExtendSecondCountable`, `Causal.CBG.Injective`, `Causal.CorrespondingPoints`
+and `Causal.CauchySeparation`, all ETT-layer; no model; no metric notion in a statement). **No label
+is marked** (SCOPE). The labels served, unmarked: `lem:C_ext_connexe` — `ETT.tex:1932`;
 `lem:image_diamant` — `ETT.tex:2024`; `lem:passe_pgcd` — `ETT.tex:2042`; `lem:Sigma_separe` —
 `ETT.tex:2062`; Sbierski 1309.7591 `mghdcor:welldefined` (Cor 3.2, `Maximal_GHD2.tex:452`),
 `mghdlem:IsoDiffeo` (Lemma 3.3, `:463`), `mghdthm:ExMCGHD` (Thm 3.4, `:485`).
@@ -394,17 +395,15 @@ variable {M : Type u} {N : Type v} [TopologicalSpace M] [TopologicalSpace N]
 
 /-- **`M = J⁺(Σ) ∪ J⁻(Σ)` from instances on `N` only** (the `hcover` of `image_diamant` and
 `passe_pgcd`), for the source of a Cauchy embedding into a T1, second countable `N`: `M` is T1 and
-second countable through the open embedding, so curves of `M` extend
-(`mem_Jplus_union_Jminus_of_isCauchySurface`). The same cover on `M` itself is
-`Causality.IsCauchySurface.cover_of_t1_secondCountable`, in `Causal.SingularCauchy`, which a
-layer-1 module cannot import (it imports `Causal.SingularFlat` through `Causal.SingularGeroch`). -/
+second countable through the open embedding, and the cover on `M` itself is
+`Causality.IsCauchySurface.cover_of_t1_secondCountable` (`Causal.CauchySeparation`, ETT-layer
+since T-abs-hoist-dual-cover). -/
 theorem IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable [T1Space N]
     [SecondCountableTopology N] (hi : IsCauchyEmbedding C D i) {S : Set M}
     (hS : C.IsCauchySurface S) (x : M) : x ∈ C.Jplus ⊤ S ∪ C.Jminus ⊤ S := by
   haveI : T1Space M := hi.isOpenEmbedding.isEmbedding.t1Space
   haveI := hi.secondCountableTopology
-  exact Causality.mem_Jplus_union_Jminus_of_isCauchySurface
-    (Causality.curvesExtend_of_t1_secondCountable C) hS x
+  exact hS.cover_of_t1_secondCountable x
 
 /-- **`lem:image_diamant` without `hDext` and `hcover`** (`ETT.tex:2024`): `i` a Cauchy extension
 into a T2, second countable `N`, `Σ` a Cauchy surface of `M`, `p ∈ J⁺(Σ)` ⟹

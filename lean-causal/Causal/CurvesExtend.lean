@@ -560,3 +560,29 @@ theorem timelikeLine_curvesExtend_of_globallyHyperbolic : timelikeLine.CurvesExt
     timelikeLine_globallyHyperbolic
 
 end Causal
+
+/-! ### The ladder node `time_function` under time reversal
+
+Its time reversal, `Causality.dual_hasTimeFunction` (`T ↦ −T`), moved here verbatim from
+`Causal.HalfLitDual`, same full name (T-abs-hoist-dual-cover); it sits after `end Causal` so that
+its universe variable stays the original's. -/
+
+namespace Causal
+
+open Set TopologicalSpace Topology
+
+namespace Causality
+
+variable {M : Type*} [TopologicalSpace M] {C : Causality M}
+
+/-- **A time function of the time reversal** (`time_function` of `C.dual`): `T` is continuous and
+strictly increasing along `≤` of `C` iff `−T` is so along `≤` of `C.dual`. -/
+theorem dual_hasTimeFunction : C.dual.HasTimeFunction ↔ C.HasTimeFunction := by
+  have key : ∀ D : Causality M, D.HasTimeFunction → D.dual.HasTimeFunction := by
+    rintro D ⟨T, hTc, hT⟩
+    exact ⟨fun x => -T x, hTc.neg, fun x y hxy hne => neg_lt_neg (hT y x hxy (Ne.symm hne))⟩
+  exact ⟨fun h => key C.dual h, key C⟩
+
+end Causality
+
+end Causal

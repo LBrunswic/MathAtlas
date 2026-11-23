@@ -94,14 +94,14 @@ transported). `Causal.Ladder.DualTest` shows what it derives and what it does no
 * A goal about `C.dual.dual` is closed through the hypotheses of its terms or the builtin
   `assumption`, which sees `C.dual.dual` as `C` up to definitional equality; nothing rewrites
   `C.dual.dual` to `C`.
-* `time_function` and `curves_extend` have their dual lemmas outside what this file may import:
-  `Causality.dual_hasTimeFunction` is in `Causal.HalfLitDual`, a witness module that imports
-  `Causal.Ladder.Rules`, and `Causality.CurvesExtend.dual` was in the then model-importing `Causal.LemmaKBare` (it is
-  in `Causal.CauchyExtension` since T-abs-hoist-lemma-k, so the copy below can cite it). Their two proofs (`−T` is a time function of `C.dual`;
-  reverse the curve, extend it, reverse back) are repeated here under the names
-  `hasTimeFunction_dual_iff` and `curvesExtend_dual_iff`, in this file's namespace; hoisting the
-  library's lemmas into `Causal.CurvesExtend` and `Causal.CauchyExtension` would let these two
-  become one-liners.
+* `time_function` and `curves_extend` had their dual lemmas outside what this file could import:
+  `Causality.dual_hasTimeFunction` was in `Causal.HalfLitDual`, a witness module that imports
+  `Causal.Ladder.Rules` (it is in `Causal.CurvesExtend` since T-abs-hoist-dual-cover, and
+  `hasTimeFunction_dual_iff` below cites it), and `Causality.CurvesExtend.dual` was in the then
+  model-importing `Causal.LemmaKBare` (it is in `Causal.CauchyExtension` since
+  T-abs-hoist-lemma-k, so the copy below can cite it). The proof of the second (reverse the
+  curve, extend it, reverse back) is repeated here under the name `curvesExtend_dual_iff`, in this
+  file's namespace; citing `Causality.CurvesExtend.dual` would make it a one-liner too.
 * No rule is given for the one-sided conjuncts `ChronalFutureNeighbours`, `NoFutureEndpoint` and
   their duals `ChronalPastNeighbours`, `NoPastEndpoint` (not nodes; since DEC-166 (a) the future
   forms are the base, `dual_chronalFutureNeighbours` and the like in `Causal.LadderLocal`), nor for
@@ -133,15 +133,12 @@ universe u
 
 variable {M : Type u} [TopologicalSpace M] {C C' : Causality M} {W : Opens M}
 
-/-! ## The two dual lemmas proved here -/
+/-! ## The two dual lemmas (the first cites `Causality.dual_hasTimeFunction`, the second is proved here) -/
 
-/-- `time_function` of the time reversal: `−T` (as `Causality.dual_hasTimeFunction`,
-`Causal.HalfLitDual`, which this file does not import). -/
-theorem hasTimeFunction_dual_iff : C.dual.HasTimeFunction ↔ C.HasTimeFunction := by
-  have key : ∀ D : Causality M, D.HasTimeFunction → D.dual.HasTimeFunction := by
-    rintro D ⟨T, hTc, hT⟩
-    exact ⟨fun x => -T x, hTc.neg, fun x y hxy hne => neg_lt_neg (hT y x hxy (Ne.symm hne))⟩
-  exact ⟨fun h => key C.dual h, key C⟩
+/-- `time_function` of the time reversal: `−T`, `Causality.dual_hasTimeFunction`
+(`Causal.CurvesExtend`, since T-abs-hoist-dual-cover). -/
+theorem hasTimeFunction_dual_iff : C.dual.HasTimeFunction ↔ C.HasTimeFunction :=
+  Causality.dual_hasTimeFunction
 
 /-- `curves_extend` of the time reversal: reverse the curve, extend it, reverse back (as
 `Causality.CurvesExtend.dual`, now in `Causal.CauchyExtension`). -/

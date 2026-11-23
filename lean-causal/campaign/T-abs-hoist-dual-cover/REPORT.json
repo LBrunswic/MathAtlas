@@ -1,0 +1,336 @@
+{
+ "target": "T-abs-hoist-dual-cover",
+ "package": "T-abs-hoist-dual-cover",
+ "files": {
+  "edited": [
+   "Causal/CurvesExtend.lean",
+   "Causal/HalfLitDual.lean",
+   "Causal/SingularCauchy.lean",
+   "Causal/CExtConnexeSecondCountable.lean",
+   "Causal/Ladder/Dual.lean",
+   "Causal.lean"
+  ],
+  "new": [
+   "Causal/CauchySeparation.lean"
+  ],
+  "campaign": [
+   "campaign/T-abs-hoist-dual-cover/REPORT.json",
+   "campaign/T-abs-hoist-dual-cover/checklist.tsv",
+   "campaign/T-abs-hoist-dual-cover/checks-before.txt",
+   "campaign/T-abs-hoist-dual-cover/checks-after.txt",
+   "campaign/T-abs-hoist-dual-cover/dump-diff.txt",
+   "campaign/T-abs-hoist-dual-cover/dump_body.lean",
+   "campaign/T-abs-hoist-dual-cover/dump_cmp.py",
+   "campaign/T-abs-hoist-dual-cover/emit_probe.py",
+   "campaign/T-abs-hoist-dual-cover/layer-before.json",
+   "campaign/T-abs-hoist-dual-cover/layer-after.json"
+  ]
+ },
+ "builds": true,
+ "build_command": "cd lean-causal && taskset -c 0-11 lake build Causal CausalScaffold",
+ "sorry_count": 0,
+ "labels": [
+  {
+   "label": "T-abs-hoist-dual-cover/dual-time-function",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.dual_hasTimeFunction",
+    "Causal.LadderDual.hasTimeFunction_dual_iff"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "Reading taken: the theorem goes at the END of Causal.CurvesExtend (:566-586), in its own block `namespace Causal` / `open Set TopologicalSpace Topology` / `namespace Causality` / `variable {M : Type*} [TopologicalSpace M] {C : Causality M}`, which is HalfLitDual's HEAD :79-86 byte for byte. The reason: CurvesExtend's own scope has `universe u` and `variable {M : Type u} [TopologicalSpace M]`. Placing the theorem beside HasTimeFunction.isCausal (:540) would rename its universe parameter u_1 to u, and that changes #check @ and the type hash. As placed, levelParams stay [u_1] and the dump shows no field change. The cost: the theorem sits at :578, 58 lines after the definition of HasTimeFunction (:520) and after the timelike-line witnesses, under its own header '### The ladder node `time_function` under time reversal'."
+   ],
+   "moved": "Causal/HalfLitDual.lean HEAD :87-93 (docstring and theorem), with its context :79-86 and its `end Causality` :95, is now Causal/CurvesExtend.lean :568-584, byte-identical. The theorem itself is at :578. HalfLitDual drops HEAD :83-96 (namespace Causality ... end Causality and one blank line). The rest of its code equals HEAD (checked line by line). Its one user, halfLightLine_dual_hasTimeFunction (HalfLitDual :94), resolves the same full name through Dec8MinimalWitness -> CurvesExtend. The proof term is identical (value hash).",
+   "proof_changed": "Causal.LadderDual.hasTimeFunction_dual_iff (Causal/Ladder/Dual.lean:140, the line is unchanged). Its five-line re-proof (`key`, then T -> -T) is replaced by the term `Causality.dual_hasTimeFunction`, which Dual.lean reaches through its existing `import Causal.CurvesExtend` (:8). #print gives `fun {M} [TopologicalSpace M] {C} => Causal.Causality.dual_hasTimeFunction`, and its #check @ is unchanged. Value hash 520039207 -> 2382481344. The statement is unchanged, and so are its users hasTimeFunction_of_dual / hasTimeFunction_dual (:214-218) and the two rule lists (:275, :283), whose value hashes are identical. curvesExtend_dual_iff was not touched, as the dispatch requires: it could now cite Causality.CurvesExtend.dual (kb/0248)."
+  },
+  {
+   "label": "T-abs-hoist-dual-cover/cauchy-separation",
+   "tex_lines": [
+    2062,
+    2069
+   ],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable",
+    "Causal.Causality.IsAcausal.Jplus_inter_Jminus",
+    "Causal.Causality.CausalCurveIn.mem_image_of_between",
+    "Causal.Causality.IsCauchySurface.exists_isOpen_of_Iminus_nonempty",
+    "Causal.Causality.IsCauchySurface.sigma_separe_of_isOpen",
+    "Causal.Causality.IsCauchySurface.isOpen_Jplus_diff_of_Iminus_nonempty",
+    "Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones",
+    "Causal.timelikeLine_sigma_separe_of_nonemptyChronalCones",
+    "Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Library, not paper. The target's evidence names four steps besides cover_of_t1_secondCountable. All seven declarations of SingularCauchy's section 'Model-free steps' (HEAD :105-316) are model-free, and the four named ones cannot move alone. sigma_separe_of_isOpen uses cover_of_t1_secondCountable and IsAcausal.Jplus_inter_Jminus. sigma_separe_of_nonemptyChronalCones uses isOpen_Jplus_diff_of_Iminus_nonempty, which uses exists_isOpen_of_Iminus_nonempty, which uses mem_image_of_between. So exists_isOpen_of_Iminus_nonempty and isOpen_Jplus_diff_of_Iminus_nonempty, which the module docstring also calls model-free (step (3)), moved too. Their dependencies were checked with ladder._lean_index: exists_inextensible_of_t1_secondCountable and IsCauchySurface.isAcausal_of_t1_secondCountable (CurvesExtendSecondCountable), Jplus_not_mem_nhds (Geroch), NoPastEndpoint (LadderLocal), NonemptyChronalCones (ChronalNeighbourBridge), causalCurveOn_const and isRelFamily_le (Curves), CausalCurveOn.causalCurveIn_Icc (CurvesExtend), dual_isCauchySurfaceOn (CauchyDual), dual_isCausal (Properties), dual_causallyArcConnectedOn (ArcConnected). All are ETT-layer. Everything left in SingularCauchy uses SingularFlatAxioms (Causal.SingularFlat, model layer), except timelikeLine_sigma_separe, which uses timelikeLine_singularFlatAxioms (SingularFlat).",
+    "Library: Causal.Causality.Jplus_inter_Jminus_eq (Causal/CBG/Ppcm.lean:184, model-layer through CBG.Pgcd -> SingularFlat; lean-gx Spear.lean:3748 and :3787 use it) states the same thing as the hoisted IsAcausal.Jplus_inter_Jminus, under another name, with S bound after the causality hypothesis. It is a twin, not merged (both names are cited). The new module's SCOPE records it."
+   ],
+   "questions": [
+    "Reading taken: the new ETT-layer module is named Causal.CauchySeparation (Causal/CauchySeparation.lean). The dispatch's example name was Causal/CauchyCover.lean, but the module holds the whole separation argument (cover, J+ ∩ J- = S, openness of J±(S) \\ S, closedness), not only the cover. Renaming it is a file move plus the two importers.",
+    "Reading taken: the witness timelikeLine_sigma_separe_of_nonemptyChronalCones (kb/0011, the non-vacuity of sigma_separe_of_nonemptyChronalCones) moved with its theorem. It is model-free (Geroch, Lines, LinesCurves, ChronalNeighbourBridge). Its sibling timelikeLine_sigma_separe stays, since it goes through timelikeLine_singularFlatAxioms. The alternative was to leave it in SingularCauchy, which would put a model-free witness in a model module, away from its theorem.",
+    "Reading taken: SingularCauchy now imports Causal.SingularGeroch and Causal.CauchySeparation. The three ETT-layer imports it had (CurvesExtendSecondCountable, CauchyDual, ChronalNeighbourBridge) are exactly CauchySeparation's imports, so its import closure is HEAD's plus Causal.CauchySeparation. ChronalNeighbourBridge was needed only by the moved sigma_separe_of_nonemptyChronalCones."
+   ],
+   "moved": "Causal/SingularCauchy.lean HEAD :105-316 (the header '### Model-free steps' and the seven theorems) -> Causal/CauchySeparation.lean :86-297, and HEAD :461-471 (the witness) -> :301-311, both byte-identical. The new module's prelude (:74-85: namespace Causal; open Set TopologicalSpace Topology Filter; universe u; variable {M : Type u} [TopologicalSpace M]; namespace Causality; variable {C : Causality M} {S : Set M}) equals SingularCauchy's HEAD :92-104. Under a new header '### Witness on the timelike line (kb/0011)', the module closes with `end Causality` / `end Causal`. SingularCauchy drops HEAD :105-317 and :461-472. Its code after the docstring equals HEAD minus those lines (checked line by line). No auxiliary constant (matcher, proof_n) belonged to the moved theorems (dump), so kb/0066 did not arise.",
+   "proof_changed": "Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable (Causal/CExtConnexeSecondCountable.lean:401, the twin inlined 'for want of' the hoist). After its two haveI's (T1Space M, SecondCountableTopology M), `exact Causality.mem_Jplus_union_Jminus_of_isCauchySurface (Causality.curvesExtend_of_t1_secondCountable C) hS x` became `exact hS.cover_of_t1_secondCountable x`. That needs `import Causal.CauchySeparation` (:4). #check @ is unchanged. Value hash 2038531396 -> 3877432289. Its four users in the same file (image_diamant_, diamond_subset_range_, passe_pgcd_, passe_pgcd_explicit_of_secondCountable) keep their value hashes, as do CExtConnexeCauchy.Basic's declarations."
+  },
+  {
+   "label": "T-abs-hoist-dual-cover/kb-0244-twin",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.causalCurveIn_comp_monotoneOn",
+    "Causal.Causality.CausalCurveIn.comp_monotoneOn",
+    "Causal.Causality.causalCurveOn_comp_monotoneOn",
+    "Causal.Causality.CausalCurveOn.comp_monotoneOn"
+   ],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [
+    "Report only, nothing merged (as the dispatch asks). Yes, the model module can import the ETT one. Causal.CExtConnexeCauchy.SubArc is ETT-layer, and its import closure does not contain Causal.Remarks.SingularRowsCauchyExt (ladder.import_chain: None either way), so there is no cycle. A scratch copy of Causal/Remarks/SingularRowsCauchyExt.lean with `import Causal.CExtConnexeCauchy.SubArc` prepended compiles clean under -DwarningAsError=true (/tmp, nothing written to the tree, 6.3 s). A file importing both modules shows no clash. The twins come in pairs. The model ones are stated over {X : Type}, universe 0 (section CurveExt, :158): causalCurveOn_comp_monotoneOn (:162) and causalCurveIn_comp_monotoneOn (:191). The ETT ones are universe-polymorphic over {M : Type u_1}: CausalCurveOn.comp_monotoneOn (SubArc :141) and CausalCurveIn.comp_monotoneOn (:169). Each ETT one has the same binders and conclusion as its model twin, so each model one is the Type-0 instance of its ETT twin. A later tidy can reprove the model pair as one-line citations, with statements unchanged, or retire them."
+   ],
+   "questions": []
+  },
+  {
+   "label": "T-abs-hoist-dual-cover/ett-layer",
+   "tex_lines": [],
+   "status": "closed",
+   "marked": false,
+   "decls": [],
+   "hypotheses": [],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "moved": "No module changes layer except the new one. Causal.CauchySeparation is ETT-layer. Causal.SingularCauchy stays model-layer (-> SingularGeroch -> SingularFlat), as do its importers. CurvesExtend, HalfLitDual, CExtConnexeSecondCountable and Ladder.Dual stay ETT-layer."
+  }
+ ],
+ "moved_declarations": [
+  {
+   "name": "Causal.Causality.dual_hasTimeFunction",
+   "old_module": "Causal.HalfLitDual",
+   "old_location": "Causal/HalfLitDual.lean:89",
+   "new_module": "Causal.CurvesExtend",
+   "new_location": "Causal/CurvesExtend.lean:578"
+  },
+  {
+   "name": "Causal.Causality.IsCauchySurface.cover_of_t1_secondCountable",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:110",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:91"
+  },
+  {
+   "name": "Causal.Causality.IsAcausal.Jplus_inter_Jminus",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:130",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:111"
+  },
+  {
+   "name": "Causal.Causality.CausalCurveIn.mem_image_of_between",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:145",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:126"
+  },
+  {
+   "name": "Causal.Causality.IsCauchySurface.exists_isOpen_of_Iminus_nonempty",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:197",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:178"
+  },
+  {
+   "name": "Causal.Causality.IsCauchySurface.sigma_separe_of_isOpen",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:253",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:234"
+  },
+  {
+   "name": "Causal.Causality.IsCauchySurface.isOpen_Jplus_diff_of_Iminus_nonempty",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:287",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:268"
+  },
+  {
+   "name": "Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:300",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:281"
+  },
+  {
+   "name": "Causal.timelikeLine_sigma_separe_of_nonemptyChronalCones",
+   "old_module": "Causal.SingularCauchy",
+   "old_location": "Causal/SingularCauchy.lean:463",
+   "new_module": "Causal.CauchySeparation",
+   "new_location": "Causal/CauchySeparation.lean:303"
+  }
+ ],
+ "proofs_changed": [
+  {
+   "name": "Causal.LadderDual.hasTimeFunction_dual_iff",
+   "location": "Causal/Ladder/Dual.lean:140",
+   "was": "the five-line re-proof (key; rintro D ⟨T, hTc, hT⟩; −T)",
+   "now": "the term Causality.dual_hasTimeFunction",
+   "value_hash": "520039207 -> 2382481344",
+   "statement": "unchanged (#check @ byte-identical)"
+  },
+  {
+   "name": "Causal.IsCauchyEmbedding.mem_Jplus_union_Jminus_of_secondCountable",
+   "location": "Causal/CExtConnexeSecondCountable.lean:401",
+   "was": "Causality.mem_Jplus_union_Jminus_of_isCauchySurface (Causality.curvesExtend_of_t1_secondCountable C) hS x",
+   "now": "hS.cover_of_t1_secondCountable x",
+   "value_hash": "2038531396 -> 3877432289",
+   "statement": "unchanged (#check @ byte-identical)"
+  }
+ ],
+ "extra_decls": [],
+ "new_modules": {
+  "Causal.CauchySeparation": "315 lines, ETT layer. Imports Causal.CurvesExtendSecondCountable, Causal.CauchyDual and Causal.ChronalNeighbourBridge. Holds the 8 moved declarations, verbatim. Its docstring follows kb/0006: title, 'No label is marked', lem:Sigma_separe cited unmarked with the quote ETT.tex:2062-2069 (checked verbatim against papers/ett/legacy/labeled/ETT.tex), What is proved, Hypothesis checklist, SCOPE (moved, why unmarked, twins) and Provenance. Imported by Causal.lean (:317, added), Causal.SingularCauchy and Causal.CExtConnexeSecondCountable."
+ },
+ "edited": {
+  "Causal/CurvesExtend.lean": "+ dual_hasTimeFunction at the end (:566-586: blank, header, the HalfLitDual block, `end Causal`). Docstring: the 'ladder node time_function' bullet of What is proved gains its time reversal (+2 lines, :48-50). Code before :564 equals HEAD.",
+  "Causal/HalfLitDual.lean": "- HEAD :83-96 (the Causality block holding dual_hasTimeFunction). Docstring: the SCOPE bullet that said the lemma 'belongs beside HasTimeFunction in Causal.CurvesExtend, which this target may not edit' now says it is there (:72-73). Imports unchanged.",
+  "Causal/SingularCauchy.lean": "Imports: CurvesExtendSecondCountable, CauchyDual and ChronalNeighbourBridge replaced by Causal.CauchySeparation, which imports exactly those three. - HEAD :105-317 and :461-472, both moved. Docstring: the sentence 'This module imports no model.' (:12) becomes 'This module imports no model space, but it is of the model layer (tools/ladder.py) through Causal.SingularGeroch, which imports Causal.SingularFlat; its model-free steps are in the ETT-layer Causal.CauchySeparation.' The HEAD sentence was already false in tools/ladder.py's sense, and the hoist exists because of that model path; this correction is disclosed here. The 'steps, model-free' bullet and the Witnesses bullet now say where the moved declarations are. Provenance now lists the imports. 254 lines (HEAD 475).",
+  "Causal/CExtConnexeSecondCountable.lean": "+ `import Causal.CauchySeparation` (:4). The twin's proof is re-pointed (above). Docstring: the import list (:9-11, reflowed to HEAD's 7 lines), and the twin's docstring (:396-400). It no longer says that cover_of_t1_secondCountable is 'in Causal.SingularCauchy, which a layer-1 module cannot import'. HEAD lines :4-396 shift by +1. The twin's theorem line stays :401, and lines after it shift by -1 (e.g. image_diamant_of_secondCountable :413 -> :412).",
+  "Causal/Ladder/Dual.lean": "The proof change of hasTimeFunction_dual_iff (above). Its docstring (:138-139) and the SCOPE bullet on the two re-proofs (:97-104) now say that dual_hasTimeFunction is in CurvesExtend and cited, and that curvesExtend_dual_iff alone is still repeated. The SCOPE bullet keeps its 8 lines. The proof is 3 lines shorter, so lines after :143 shift by -3 (290 -> 287 lines). No file cites Ladder/Dual.lean by line number (grep).",
+  "Causal.lean": "+ `import Causal.CauchySeparation` (:317)."
+ },
+ "re_pointed_importers": [],
+ "re_pointed_importers_note": "No importer needed re-pointing to resolve a name. The users of the moved steps are Remarks/SingularRowsDiamond (:205, :218, :233, :249, :378), Remarks/SingularRowsCauchyExt (:887) and SingularCauchy's own SingularFlatAxioms section. All reach Causal.CauchySeparation through SingularCauchy, and their proof hashes are unchanged. The only import added outside the new module and Causal.lean is in CExtConnexeSecondCountable, for the permitted proof change. Ten modules' import closures gain exactly Causal.CauchySeparation: SingularCauchy, SingularSplitting, CExtConnexeSecondCountable, CExtConnexeCauchy.Basic, and the Remarks modules SingularRowsCauchy, SingularRowsCauchyExt, SingularRowsDiamond, SingularRowsDiamondPast, SingularRowsSecondCountable, SingularRowsSplitting. No closure loses a module.",
+ "not_edited": "The scaffold, README.md, kb/, programme/ (a keeper is editing programme/ladder.toml in parallel; it was not touched here), lean-gx, and the generated Causal/Ladder/Rules.lean, Test.lean and DualTest.lean were not edited. tools/ladder.py emit-lean was not run in any form.",
+ "layer": {
+  "definition": "As in the previous hoists. A strict module is ETT-layer when no module of its transitive import closure (itself included) is in tools/ladder.py's MODEL_LAYER: Causal.Minkowski, Causal.Static, Causal.SingularFlat, Causal.Flat.*, Causal.Model.*, Causal.Port.*. The closure is computed with ladder._lean_index and ladder.model_path. kb/0247: model_path was taken for every direct import of every touched module.",
+  "model_path_after": {
+   "Causal.CauchySeparation": null,
+   "Causal.CurvesExtend": null,
+   "Causal.HalfLitDual": null,
+   "Causal.CExtConnexeSecondCountable": null,
+   "Causal.Ladder.Dual": null,
+   "Causal.SingularCauchy": "SingularCauchy -> SingularGeroch -> SingularFlat (unchanged)"
+  },
+  "direct_imports_after": {
+   "Causal.CauchySeparation": "CurvesExtendSecondCountable, CauchyDual, ChronalNeighbourBridge: all None",
+   "Causal.SingularCauchy": "SingularGeroch -> SingularFlat; CauchySeparation None",
+   "Causal.CurvesExtend": "CauchyExtension, Geroch: None",
+   "Causal.HalfLitDual": "Dec8MinimalWitness, Ladder.Rules: None",
+   "Causal.CExtConnexeSecondCountable": "CurvesExtendSecondCountable, CBG.Injective, CorrespondingPoints, CauchySeparation: None",
+   "Causal.Ladder.Dual": "its 11 imports: None"
+  },
+  "compiled_closure_probe": "For CauchySeparation, CExtConnexeSecondCountable, CurvesExtend, Ladder.Dual and HalfLitDual, `lake env lean` ran on a file importing only that module and filtered env.header.moduleNames for MODEL_LAYER. None was found, and SingularCauchy is in none of these closures. Compiled closure sizes, Causal modules: 51, 54, 22, 31, 41.",
+  "before": {
+   "count": "107 of 316",
+   "note": "HEAD fd76dfa, lean-causal clean in git, `lake build --no-build Causal CausalScaffold` up to date (8885 jobs)",
+   "file": "campaign/T-abs-hoist-dual-cover/layer-before.json"
+  },
+  "after": {
+   "count": "108 of 317",
+   "file": "campaign/T-abs-hoist-dual-cover/layer-after.json"
+  },
+  "added": [
+   "Causal.CauchySeparation"
+  ],
+  "lost": [],
+  "ladder_reach": "Causal.CurvesExtend does not import Causal.Ladder.Rules (import_chain None), so dual_hasTimeFunction can now be cited by Rules.lean or a generated Dual (T-tac-dual-generated, which depends on this target). In HalfLitDual, which imports Rules, it would have been a cycle. Causal.CauchySeparation does reach Rules: CurvesExtendSecondCountable -> MaximalZorn -> ErsMughd -> Rules. An [[implies]] witnessed there would therefore be skipped as `cycle` by emit-lean. [[consequence]] witnesses are unaffected."
+ },
+ "checks": {
+  "lake build": "First `taskset -c 0-11 lake build Causal`: green, 8876 jobs, 1 min 55 s, rebuilding everything downstream of CurvesExtend. Then, after the last docstring edits, `taskset -c 0-11 lake build Causal CausalScaffold`: green, 8886 jobs. The only warnings are the 6 permitted scaffold sorries (CompactCauchy:79, GerochCauchy:783, GerochEquiv:70, LemmaKSCOpen:72, SingularRowsGerochEquiv:50, SubExtension:83). `lake build --no-build Causal CausalScaffold` afterwards: 'All targets up-to-date (8886 jobs)'.",
+  "lake env lean -DwarningAsError=true": "Clean on Causal/CauchySeparation.lean, SingularCauchy.lean, HalfLitDual.lean, CurvesExtend.lean, Ladder/Dual.lean and CExtConnexeSecondCountable.lean.",
+  "scripts/sorry_count.py": "strict 0 in 317 files; scaffold 6 in 8 files (scaffold untouched).",
+  "scripts/AxiomSweep.lean": "strict: 17130 declarations in 318 modules; scaffold: 90 in 9. Everything is within propext/Classical.choice/Quot.sound, except the 19 scaffold declarations that rest on a permitted sorry. #print axioms on the 9 moved constants and the 2 re-proved ones: exactly [propext, Classical.choice, Quot.sound].",
+  "declaration_diff": "The before-dump was taken first, at 00:13:36 UTC, before any source edit. At that point lean-causal was clean in git and `lake build --no-build` reported all 8885 jobs up to date, so it is HEAD's oleans (kb/0063). The dump covers every constant of every Causal.* and CausalScaffold.* module, from a file importing all 316+8 module files explicitly plus Causal and CausalScaffold. It records name, module, kind, universe parameters, Expr.hash of the type, binder telescope (macro scopes erased, binder infos), Expr.hash of the value, reducibility, protected, noncomputable and internal. The script is campaign/T-abs-hoist-dual-cover/dump_body.lean (the precedent's) and the comparison is dump_cmp.py. The same dump was taken after the final build, importing the new module too. Result (dump-diff.txt): 17209 constants before and 17209 after, none removed, none added. Exactly 9 changed module (the table). Exactly 2 changed value hash: hasTimeFunction_dual_iff and mem_Jplus_union_Jminus_of_secondCountable, the two permitted proof changes. All other fields of all 17209 constants are identical. That covers type hashes, levels and telescopes everywhere, and the value hashes of every user of the moved declarations and of every module whose closure gained CauchySeparation. The after-dump was repeated after each of the three builds, with identical results. The TSV dumps are in /tmp/hdc (ephemeral).",
+  "check_print": "`#check @name` (pp.universes, pp.fullNames) was run, importing Causal, for all 120 non-internal constants of the five touched modules at HEAD: CExtConnexeSecondCountable 33, CurvesExtend 24, HalfLitDual 7, Ladder.Dual 40, SingularCauchy 16 (list: checklist.tsv). The 9 moved and the 2 re-proved constants are among them. It ran on HEAD's oleans before any edit and again after the final build. The outputs are byte-identical: sha256 cab202cc98b04a8db259eff8ce6f08130a3dc9278c86c8454c82097e4e4bc788, kept as checks-before.txt and checks-after.txt.",
+  "textual": "Line-list comparisons against `git archive HEAD` copies, all byte-identical. SingularCauchy HEAD :105-316 = CauchySeparation :86-297. HEAD :461-471 = :301-311. The prelude, HEAD :92-104, = CauchySeparation :73-85. HalfLitDual HEAD :79-95 = CurvesExtend :568-584. SingularCauchy's and HalfLitDual's code after the docstring equals HEAD minus the moved lines. CurvesExtend's code is HEAD's followed by the new block. A source-level index (ladder._lean_index, HEAD vs now) gives 11150 declarations either way, with the same 9 moved and none added or removed.",
+  "tools": "Run read-only, and git status was identical before and after. tools/ladder.py check: exit 0 (25 properties, 354 of 354 pairs; the working tree's ladder.toml holds a keeper's uncommitted edits). tools/binder.py check: 2 binders, all links resolve. tools/ledger.py check: barbot 44/39, sbierski-mghd 19/19 and ers-predictability 32/22 resolve all links. ett FAILS, five times, which is expected and is the master's to fix (ledger_rows below): 'lem:Sigma_separe: declaration X not found in its listed files' for cover_of_t1_secondCountable, IsAcausal.Jplus_inter_Jminus, CausalCurveIn.mem_image_of_between, sigma_separe_of_isOpen and sigma_separe_of_nonemptyChronalCones.",
+  "ladder_emit_dry_run": "In memory, nothing written (campaign/T-abs-hoist-dual-cover/emit_probe.py; git status unchanged). With HEAD's programme/ladder.toml, ladder.emit_lean and emit_test from HEAD's sources (git archive into /tmp) and from the working tree's are both byte-identical to the on-disk Rules.lean and Test.lean. campaign/T-tac-ladder-dual/dual_closure.py `shipped`, run into /tmp with ladder.load and lean_index patched the same way, gives a DualTest byte-identical to the on-disk Causal/Ladder/DualTest.lean from both sources. This refactor changes none of the three generated files. Unrelated: with the keeper's uncommitted working-tree ladder.toml, the emits differ from disk (a new rule chronal_neighbours ⇒ has_chronal_neighbour, `import Causal.ChronalNeighbourBridge`, 44/348 examples). That is the keeper's in-progress state."
+ },
+ "lean_gx": {
+  "pin": "lean-gx pins Causal at ca2ad78f (lean-gx/lakefile.toml:27), so nothing changes for lean-gx now. No lean-gx file was edited.",
+  "closures": "lean-gx's import closures were computed (its own imports plus lean-causal's, HEAD vs now; /tmp/hdc/gx.py). No gx module's closure changes. None reaches Causal.HalfLitDual, SingularCauchy, CExtConnexeSecondCountable or Ladder.Dual. 14 gx modules reach Causal.CurvesExtend (GX/BTZ/Causality.lean:10 and LocalModel.lean:9 import it directly), and after a bump they see one more name, Causal.Causality.dual_hasTimeFunction.",
+  "names": "No lean-gx declaration or identifier is named dual_hasTimeFunction, and none of the moved names occurs in lean-gx (grep). gx's Jplus_inter_Jminus_eq uses are of Causal.Causality.Jplus_inter_Jminus_eq (CBG.Ppcm), which did not move. A bump should need no edit. This is not verified by a gx build, because the package is pinned. lean-benzecri and the other packages import no Causal module."
+ },
+ "ledger_rows": {
+  "gate_failure": "papers/ett lem:Sigma_separe lists five moved decls (cover_of_t1_secondCountable, IsAcausal.Jplus_inter_Jminus, CausalCurveIn.mem_image_of_between, IsCauchySurface.sigma_separe_of_isOpen, sigma_separe_of_nonemptyChronalCones). Its listed files (curation.toml:1053 extra_lean_files) include Causal/SingularCauchy.lean but not the new file. So `tools/ledger.py -c papers/ett/ledger/ledger.toml check` fails, and make check with it, until the master adds \"Causal/CauchySeparation.lean\" to that row's extra_lean_files in papers/ett/certificate/curation.toml:1053 and runs `python3 tools/ledger_curate.py --paper papers/ett` (apply, then rebuild). Simulated in memory by patching ledger.load_ledger: with that one entry added, the five failures go away and the only remaining failure is the expected 'ledger.json is not what build would write'. The rebuilt ledger differs from the committed one only in that row's lean_files and extra_lean_files, which gain the new path. ledger.declared_names finds all 8 moved names in Causal/CauchySeparation.lean (:91, :111, :126, :178, :234, :268, :281, :303).",
+  "other_rows": "No other ledger row names a moved declaration. sbierski-mghd rows mghdcor:welldefined, mghdlem:IsoDiffeo and mghdthm:ExMCGHD list Causal/CExtConnexeSecondCountable.lean (and IsoDiffeo also Causal/CurvesExtend.lean) with curated notes. Their scope_notes do not come from those modules' SCOPE blocks, and their check stays green. ledger.json records no line numbers."
+ },
+ "stale_prose_outside_write_set": [
+  {
+   "where": "papers/ett/certificate/curation.toml:1053",
+   "what": "lem:Sigma_separe extra_lean_files lacks the new home of five of its decls (gate failure, above)",
+   "replacement": "append \"Causal/CauchySeparation.lean\" after \"Causal/SingularCauchy.lean\""
+  },
+  {
+   "where": "papers/ett/certificate/curation.toml:1059 (notes)",
+   "what": "'Causal/SingularCauchy.lean and Causal/Remarks/SingularRowsCauchy.lean, sorry-free, unmarked: … model-free steps (IsCauchySurface.cover_of_t1_secondCountable, T1 and second countable only; sigma_separe_of_nonemptyChronalCones)'",
+   "replacement": "'model-free steps (Causal/CauchySeparation.lean since T-abs-hoist-dual-cover: IsCauchySurface.cover_of_t1_secondCountable, T1 and second countable only; sigma_separe_of_nonemptyChronalCones)'"
+  },
+  {
+   "where": "lean-causal/README.md (module table)",
+   "what": "no row for the new module",
+   "replacement": "| `Causal.CauchySeparation` | — | ETT programme, layer 1 (T-abs-hoist-dual-cover): the model-free steps of `lem:Sigma_separe`'s « In particular », moved verbatim (same full names) out of `Causal.SingularCauchy`: `IsCauchySurface.cover_of_t1_secondCountable` (`M = J⁺(Σ) ∪ J⁻(Σ)`, T1 and second countable, any causality), `IsAcausal.Jplus_inter_Jminus`, `CausalCurveIn.mem_image_of_between`, `exists_isOpen_of_Iminus_nonempty`, `isOpen_Jplus_diff_of_Iminus_nonempty`, `sigma_separe_of_isOpen`, `sigma_separe_of_nonemptyChronalCones` and its timelike-line witness; cites, unmarked: `lem:Sigma_separe`; `Causality.dual_hasTimeFunction` moved to `Causal.CurvesExtend`; 2026-11-23 |"
+  },
+  {
+   "where": "lean-causal/README.md:84 (Causal.HalfLitDual row)",
+   "what": "'(`−id`, through the new `Causality.dual_hasTimeFunction`)'",
+   "replacement": "'(`−id`, through `Causality.dual_hasTimeFunction`, in `Causal.CurvesExtend` since T-abs-hoist-dual-cover)'"
+  },
+  {
+   "where": "lean-causal/README.md:187 (Causal.SingularCauchy row)",
+   "what": "still true; optionally note the split",
+   "replacement": "append '; its model-free steps are in `Causal.CauchySeparation` (T-abs-hoist-dual-cover)' before '; 2026-11-22'"
+  },
+  {
+   "where": "programme/ladder.toml:3101 (keeper's file, comment)",
+   "what": "'(Causal/CExtConnexeSecondCountable.lean:209)', c_ext_connexe_of_connectedSpace_of_secondCountable, is now :210 (the added import line)",
+   "replacement": ":210"
+  },
+  {
+   "where": "programme/ladder.toml:3124 (keeper's file, comment)",
+   "what": "'(Causal/CExtConnexeSecondCountable.lean:237', eq_of_mem_image_inter_of_secondCountable, is now :238",
+   "replacement": ":238"
+  },
+  {
+   "where": "lean-causal/kb/entries/0244-trim-keeps-inextensible.md:7",
+   "what": "'has a twin, `causalCurveIn_comp_monotoneOn`, to merge at the next hoist, kb/0061'; the dispatch rules out a merge (both names are cited)",
+   "replacement": "'has a twin, `causalCurveIn_comp_monotoneOn` (with `causalCurveOn_comp_monotoneOn`, the Type-0 instances of `CausalCurveIn`/`CausalCurveOn.comp_monotoneOn`); both names are cited, so they are kept, and the model module can import `Causal.CExtConnexeCauchy.SubArc` (no cycle; probe of T-abs-hoist-dual-cover)'"
+  },
+  {
+   "where": "lean-causal/kb/entries/0091-time-reversed-witness.md:7",
+   "what": "'(HasTimeFunction has one since T-abs-halflit-dual-separates, `Causality.dual_hasTimeFunction`, by T ↦ −T)': true, but gives no module",
+   "replacement": "add ', in `Causal.CurvesExtend` since T-abs-hoist-dual-cover' after 'by T ↦ −T'"
+  },
+  {
+   "where": "lean-causal/kb/entries/0248-model-stranded-duplicates.md:7",
+   "what": "still true for curvesExtend_dual_iff",
+   "replacement": "optionally add: 'Causal.Ladder.Dual's hasTimeFunction_dual_iff cites Causality.dual_hasTimeFunction since T-abs-hoist-dual-cover; curvesExtend_dual_iff is still the copy.'"
+  },
+  {
+   "where": "programme/roadmap.toml:503 (T-tac-dual-generated title)",
+   "what": "'hasTimeFunction_dual_iff and curvesExtend_dual_iff become one-liners after the hoists': the first is one now",
+   "replacement": "the planner's call; history"
+  },
+  {
+   "where": "reports/atlas, reports/blueprint",
+   "what": "generated; stale until regenerated (new module, moved declarations)",
+   "replacement": "regenerate"
+  }
+ ],
+ "kb_proposals": [
+  "The model-free steps of lem:Sigma_separe are ETT-layer, in Causal.CauchySeparation (T-abs-hoist-dual-cover). They are IsCauchySurface.cover_of_t1_secondCountable (M = J⁺(S) ∪ J⁻(S) on every T1, second countable space, any causality), IsAcausal.Jplus_inter_Jminus, CausalCurveIn.mem_image_of_between, exists_isOpen_of_Iminus_nonempty, isOpen_Jplus_diff_of_Iminus_nonempty, sigma_separe_of_isOpen and sigma_separe_of_nonemptyChronalCones, with the timelike-line witness. Causal.SingularCauchy keeps the SingularFlatAxioms steps. Causality.dual_hasTimeFunction is in Causal.CurvesExtend, which does not import Causal.Ladder.Rules, so Rules or a generated Dual may cite it. CauchySeparation does reach Rules, through CurvesExtendSecondCountable.",
+  "Before a hoist, check every ledger row's decls for the moved names. A move out of a file in a row's extra_lean_files fails `ledger.py check` ('declaration … not found in its listed files') until curation.toml adds the new file and ledger_curate.py rebuilds (T-abs-hoist-dual-cover: ett lem:Sigma_separe).",
+  "A declaration under `variable {M : Type*}` moved into a scope with `universe u` / `variable {M : Type u}` changes its universe parameter from u_1 to u, which shows in #check @ and the type hash. Reopen a scope carrying the original variable line, for example a block after the module's `end Causal` (T-abs-hoist-dual-cover, dual_hasTimeFunction in Causal.CurvesExtend).",
+  "Twins under different names, kept because both are cited. Causal.Causality.Jplus_inter_Jminus_eq (Causal.CBG.Ppcm, model-layer, used by lean-gx) and IsAcausal.Jplus_inter_Jminus (Causal.CauchySeparation, ETT). Remarks/SingularRowsCauchyExt's causalCurveOn_ / causalCurveIn_comp_monotoneOn, over Type, are the Type-0 instances of CExtConnexeCauchy.SubArc's universe-polymorphic CausalCurveOn. / CausalCurveIn.comp_monotoneOn. SingularRowsCauchyExt compiles with SubArc imported."
+ ],
+ "notes": "Exclusive strict-library refactor. No statement changes and no declaration added, removed or renamed: 9 moved under the same full names, and 2 proofs changed where the dispatch permits. Every type is identical, and so is every other proof term (dump). For the master. (1) GATE: make check fails in the ett ledger until \"Causal/CauchySeparation.lean\" is added to lem:Sigma_separe's extra_lean_files (papers/ett/certificate/curation.toml:1053) and `python3 tools/ledger_curate.py --paper papers/ett` is run (ledger_rows). (2) Causal.lean already imports Causal.CauchySeparation (:317), as the dispatch allows. (3) Docstring edits beyond the strictly needed: SingularCauchy's 'This module imports no model.' was corrected (it is model-layer through SingularFlat), and CExtConnexeSecondCountable's import paragraph was reflowed to keep HEAD's line count. Both are disclosed under edited. (4) Unblocked: T-tac-dual-generated (programme/roadmap.toml:501, depends on this target). hasTimeFunction_dual_iff is a one-liner, and dual_hasTimeFunction is citable without a cycle. A layer-1 module may now use the cover and the separation steps. (5) Stale prose outside my write set: the list above, with replacements. (6) No git command that writes was run. The working tree also shows programme/ladder.toml (a keeper's), programme/roadmap.toml, roadmap/roadmap.toml and lean-yamabe/reports paths modified or untracked by others, not by this agent."
+}

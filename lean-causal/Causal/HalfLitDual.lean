@@ -18,8 +18,8 @@ LemmaK* or LevinUtility module, transitively. Each property is stated with the l
   open causally convex neighbourhoods, and neither tarentin, nor with chronal neighbours, nor
   causally plain; causally compact, causal, locally push-up, strongly causal and with curves
   extending by `causal_ladder`.
-* **`T-abs-halflit-dual-separates/2-time-function`** — `Causality.dual_hasTimeFunction` (`T ↦ −T`),
-  so `−id` is a time function of `halfLightLine.dual` (`halfLightLine_dual_hasTimeFunction`).
+* **`T-abs-halflit-dual-separates/2-time-function`** — `Causality.dual_hasTimeFunction` (`T ↦ −T`,
+  first proved here, now in `Causal.CurvesExtend`), so `−id` is a time function of `halfLightLine.dual` (`halfLightLine_dual_hasTimeFunction`).
 * **`T-abs-halflit-dual-separates/3-not-causally-open-future`** —
   `halfLightLine_dual_not_locallyCausallyOpenFuture`, by `causal_ladder` through the edge
   `absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future` and
@@ -69,8 +69,8 @@ LemmaK* or LevinUtility module, transitively. Each property is stated with the l
   causally_open_future` an absolutely minimal witness (the jump line's is not).
 * `ℝ` is Hausdorff and second countable (mathlib instances): the line is one of ETT's spacetimes.
   No metric notion appears in a statement: the order and the topology of `ℝ` only.
-* `Causality.dual_hasTimeFunction` is general (any `C`); it belongs beside `HasTimeFunction` in
-  `Causal.CurvesExtend`, which this target may not edit (a hoist for the master).
+* `Causality.dual_hasTimeFunction` is general (any `C`); it is in `Causal.CurvesExtend`, where
+  `HasTimeFunction` is defined (moved there verbatim, same full name, T-abs-hoist-dual-cover).
 * Names checked unique against `Causal/`, the scaffold, `lean-gx/` and `lean-benzecri/`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -79,20 +79,6 @@ Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 namespace Causal
 
 open Set TopologicalSpace Topology
-
-namespace Causality
-
-variable {M : Type*} [TopologicalSpace M] {C : Causality M}
-
-/-- **A time function of the time reversal** (`time_function` of `C.dual`): `T` is continuous and
-strictly increasing along `≤` of `C` iff `−T` is so along `≤` of `C.dual`. -/
-theorem dual_hasTimeFunction : C.dual.HasTimeFunction ↔ C.HasTimeFunction := by
-  have key : ∀ D : Causality M, D.HasTimeFunction → D.dual.HasTimeFunction := by
-    rintro D ⟨T, hTc, hT⟩
-    exact ⟨fun x => -T x, hTc.neg, fun x y hxy hne => neg_lt_neg (hT y x hxy (Ne.symm hne))⟩
-  exact ⟨fun h => key C.dual h, key C⟩
-
-end Causality
 
 /-! ## The time-reversed half-lit line in the ladder -/
 

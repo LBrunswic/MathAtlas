@@ -258,3 +258,7 @@ rediscover. One fact per entry.
 | [0250](entries/0250-rw-chronal-neighbours.md) | pitfall | rw [ChronalNeighbours, foo_iff (C := C.dual)] no longer finds the future side |
 | [0251](entries/0251-definition-body-refactor-check.md) | pattern | Checking a definition-body refactor that keeps every statement |
 | [0252](entries/0252-emit-lean-ignores-args.md) | pitfall | tools/ladder.py emit-lean --help runs emit-lean |
+| [0253](entries/0253-cauchy-separation.md) | pattern | lem:Sigma_separe's model-free steps are in Causal.CauchySeparation |
+| [0254](entries/0254-hoist-check-ledger-files.md) | pitfall | Before a hoist, check the ledger rows listing the moved declarations' file |
+| [0255](entries/0255-hoist-universe-variable.md) | pitfall | A hoisted declaration under variable {M : Type*} must keep its universe parameter |
+| [0256](entries/0256-cited-twins.md) | convention | Twins under different names, kept because both are cited |
