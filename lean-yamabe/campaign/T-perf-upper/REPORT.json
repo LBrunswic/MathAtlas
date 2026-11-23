@@ -1,0 +1,197 @@
+{
+ "package": "T-perf-upper",
+ "target": "T-perf-upper",
+ "files": [
+  "scaffold/YamabeScaffold/Perforated/Upper.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "thm:upper",
+   "tex_lines": [
+    871,
+    895
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Yamabe.MeasuredModel.thm_upper",
+    "Yamabe.MeasuredModel.thm_upper_strong",
+    "Yamabe.MeasuredModel.thm_upper_capD",
+    "Yamabe.MeasuredModel.upperTest_sStar",
+    "Yamabe.MeasuredModel.Fq_upperTest_le_printed",
+    "Yamabe.MeasuredModel.Fq_upperTest_le",
+    "Yamabe.MeasuredModel.Fq_upperTest_le_raw",
+    "Yamabe.MeasuredModel.IsCapDCompetitor",
+    "Yamabe.MeasuredModel.capD",
+    "Yamabe.MeasuredModel.thetaDOf",
+    "Yamabe.MeasuredModel.thetaD",
+    "Yamabe.MeasuredModel.rhoOf",
+    "Yamabe.MeasuredModel.upperTest",
+    "Yamabe.MeasuredModel.ell_of_isCapDCompetitor",
+    "Yamabe.MeasuredModel.capStar_le_energy_of_isCapDCompetitor",
+    "Yamabe.MeasuredModel.capStar_le_capD",
+    "Yamabe.MeasuredModel.theta_le_thetaDOf",
+    "Yamabe.MeasuredModel.theta_le_thetaD",
+    "Yamabe.MeasuredModel.dirichlet_upperTest",
+    "Yamabe.MeasuredModel.energy_upperTest",
+    "Yamabe.MeasuredModel.sandwich_quadratic",
+    "Yamabe.MeasuredModel.sandwich_quadratic_le",
+    "Yamabe.le_normSq_of_integral_eq",
+    "Yamabe.toyPsi",
+    "Yamabe.toy_isCapDCompetitor",
+    "Yamabe.toy_memLp_psi",
+    "Yamabe.toy_capD",
+    "Yamabe.toy_rho",
+    "Yamabe.toy_thetaDOf",
+    "Yamabe.toy_thm_upper_strong"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N >= 3 (l.106)",
+     "here": "carried",
+     "note": "hN"
+    },
+    {
+     "paper": "Sigma compact (l.117)",
+     "here": "carried",
+     "note": "IsFiniteMeasure (vol g), IsFiniteMeasure (bvol g j)"
+    },
+    {
+     "paper": "Sigma connected (l.117)",
+     "here": "weakened",
+     "note": "not used"
+    },
+    {
+     "paper": "non-empty boundary (l.117)",
+     "here": "weakened",
+     "note": "not used by thm_upper / thm_upper_strong / thm_upper_capD (if every B_j is null, F_g(1) = 0 and lambda <= F_g(1)); carried as S != 0 in cap* <= cap_D, theta <= theta_D, where l = -1 needs sum w_j = 1"
+    },
+    {
+     "paper": "psi the minimiser of ||grad psi||^2 (l.862-864)",
+     "here": "weakened",
+     "note": "every competitor psi (thm_upper); the infimum cap_D with no minimiser (thm_upper_capD, Jensen form, cap_D < oo)"
+    },
+    {
+     "paper": "psi in W^{1,2}(Sigma) (l.862)",
+     "here": "read",
+     "note": "psi in D with val psi in L^{p*}(Sigma): the junk guard for rho (an infinite norm would give the junk rho = 0 < 1) and for u_s being a Lean competitor"
+    },
+    {
+     "paper": "psi = 1 on dSigma, int psi = 0 (l.863-864)",
+     "here": "carried",
+     "note": "IsCapDCompetitor: tr psi = 1 bvol_j-a.e. on every B_j, Bochner integral against vol_g = 0"
+    },
+    {
+     "paper": "rho < 1 (l.878)",
+     "here": "carried",
+     "note": "in thm_upper; not needed by thm_upper_strong"
+    },
+    {
+     "paper": "s in [0,1] (l.882)",
+     "here": "weakened",
+     "note": "Fq_upperTest_le holds for every real s"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "thm:upper (l.871-879) is true as printed but lossy. At l.885 the triangle inequality ||u_s||_{p*} >= V^{1/p*} - s||psi||_{p*} >= V^{1/p*}(1 - rho) can be replaced by Hoelder against 1: since int_Sigma psi = 0, int_Sigma u_s = V, so ||u_s||_{p*} >= V^{1/p*} for every real s (Yamabe.le_normSq_of_integral_eq). Hence lambda_d <= theta_D/(1 + theta_D) F_g(1), with no factor (1 - rho)^{-2} and no proviso rho < 1 (Yamabe.MeasuredModel.thm_upper_strong); the printed statement follows (thm_upper).",
+    "The proviso rho < 1 (l.878) does bite: on the two-point toy model rho = 1 exactly (Yamabe.toy_rho), so the printed theorem says nothing there, while the Jensen form gives lambda_d <= theta_D/(1 + theta_D) F_g(1) with theta_D = theta = 64/c_3 and cap_D = cap* = 8 (Yamabe.toy_thm_upper_strong, Yamabe.toy_capD).",
+    "Consequence for eq:sandwich (l.897-904) and the proof of thm:sharp (l.905-906): the right side of eq:sandwich improves to theta_D/(1 + theta_D), and the limit rho -> 0 asserted at l.905 is not needed; thm:sharp needs only theta_D/theta -> 1.",
+    "l.862-866 defines cap_D through 'the minimiser', whose existence the paper does not prove. The Lean statement holds for every competitor psi and, in the Jensen form, for the infimum cap_D with no minimiser (thm_upper_capD); the paper's statement for the minimiser is the special case."
+   ],
+   "questions": [
+    "'psi in W^{1,2}(Sigma)' (l.862) is read as psi in D with values in L^{p*}(Sigma). The guard is needed: an infinite L^{p*} norm makes the Lean rho the junk 0, and u_s would not be a Lean competitor. The model's SobolevIneq bounds the junk normSq and does not give MemLp, so the guard cannot be derived from it. The infimum capD runs over the same class.",
+    "'psi = 1 on dSigma' is read as tr psi = 1 bvol_j-almost everywhere on each B_j, and 'int_Sigma psi dV = 0' as the Bochner integral against vol_g. Under the L^{p*} guard the integral is genuine.",
+    "cap_D of a given competitor is dirichlet psi = ||grad psi||^2, which is the junk 0 at infinite energy. For such a psi the theorem holds only through the junk competitors of Lean's inf F (kb 0002). upperTest_sStar shows that the bound is attained by u_{s*} = 1 - s* psi, s* = 1/(1 + theta_D) in (0, 1], a competitor of energy s*^2 ||grad psi||^2. That energy is finite for the paper's psi, so the bound also holds for the infimum over finite-energy competitors."
+   ]
+  },
+  {
+   "label": "rem:notF1",
+   "tex_lines": [
+    359,
+    371
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Yamabe.MeasuredModel.rem_notF1",
+    "Yamabe.MeasuredModel.rem_notF1_of_cutoff",
+    "Yamabe.MeasuredModel.firstVariation",
+    "Yamabe.MeasuredModel.firstVariation_eq",
+    "Yamabe.MeasuredModel.hasDerivAt_F_one_add_of_memLp",
+    "Yamabe.MeasuredModel.firstVariation_neg_of_integrable",
+    "Yamabe.MeasuredModel.neg_isDirection",
+    "Yamabe.MeasuredModel.exists_Fq_lt_Fq_one_of_isCapDCompetitor",
+    "Yamabe.MeasuredModel.infF_lt_Fq_one_of_isCapDCompetitor",
+    "Yamabe.MeasuredModel.kappa_lt_one_of_isCapDCompetitor",
+    "Yamabe.MeasuredModel.exists_isCapDCompetitor_of_cutoff",
+    "Yamabe.hasDerivAt_normSq_one_add_of_memLp",
+    "Yamabe.toy_rem_notF1",
+    "Yamabe.MeasuredModel.Fq_one_eq",
+    "Yamabe.MeasuredModel.dirichlet_one_add_smul"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N >= 3, Sigma compact, non-empty boundary (l.117)",
+     "here": "carried",
+     "note": "hN, finite measures, vol g != 0, exists j, bvol g j != 0"
+    },
+    {
+     "paper": "Sigma connected",
+     "here": "weakened",
+     "note": "not used"
+    },
+    {
+     "paper": "phi with int phi = 0 (l.361-362), phi in W^{1,2}",
+     "here": "read",
+     "note": "val phi in L^{p*}, tr phi in L^{p#}(B_j), per direction: junk guards, no bound and no smoothness"
+    },
+    {
+     "paper": "such phi exist (implicit at l.367)",
+     "here": "read",
+     "note": "carried as one competitor psi of cap_D with L^{p*} values (phi = -psi, neg_isDirection); implied by the strict rem:sign's bounded boundary cutoff chi (exists_isCapDCompetitor_of_cutoff, rem_notF1_of_cutoff)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The first-variation formula (l.364-365) holds in every W^{1,2} direction, with values in L^{p*}, traces in L^{p#}, and no bound or smoothness: Yamabe.hasDerivAt_normSq_one_add_of_memLp uses d|x|^q/dx = q|x|^{q-2}x and domination by q(1 + |f|)^q. Yamabe's appendix (Yamabegap.tex l.732) assumes phi smooth, and the strict rem:sign proves the formula for bounded phi.",
+    "lambda_d < F_g(1) also follows from thm:upper's Jensen form, with no derivative: lambda_d <= theta_D/(1 + theta_D) F_g(1) < F_g(1) once F_g(1) > 0 (exists_Fq_lt_Fq_one_of_isCapDCompetitor). rem_notF1 (iv)-(v) take this route, at an explicit competitor of energy s^2 ||grad psi||^2."
+   ],
+   "questions": [
+    "The existence of a direction phi (implicit at l.367) is carried on the abstract model as one competitor psi of cap_D with L^{p*} values (phi = -psi). The bounded boundary cutoff chi of the strict rem:sign implies it (exists_isCapDCompetitor_of_cutoff), and DEC-186 accepted chi when rem:sign was marked. Reading taken: psi is carried, and the label is marked on that precedent. If the author wants the existence proved, the proof belongs to the Riemannian bridge (Mfd.Reads), not to the abstract model."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Yamabe.normSq_fun_const",
+  "Yamabe.normSq_ae_congr",
+  "Yamabe.abs_rpow_sub_two_mul_self",
+  "Yamabe.MeasuredModel.val_upperTest",
+  "Yamabe.MeasuredModel.tr_upperTest",
+  "Yamabe.MeasuredModel.infF_le_F_of_adm",
+  "Yamabe.MeasuredModel.infF_eq_zero_of_vol_eq_zero",
+  "Yamabe.MeasuredModel.adm_one_of_vol_ne_zero",
+  "Yamabe.MeasuredModel.bdryS_eq_zero_of_not",
+  "Yamabe.MeasuredModel.infF_le_zero_of_not",
+  "Yamabe.MeasuredModel.thetaDOf_nonneg",
+  "Yamabe.MeasuredModel.thetaD_nonneg",
+  "Yamabe.MeasuredModel.zero_le_Fq_one",
+  "Yamabe.MeasuredModel.frac_le_frac_add"
+ ],
+ "kb_proposals": [
+  "pattern: if int u = nu(X), then ||u||_{L^q} >= nu(X)^{1/q}, by Hoelder against 1 (abs_integral_le_mul_eLpNorm), as in Yamabe.le_normSq_of_integral_eq. A mean-zero perturbation never lowers the L^q norm of 1, so test functions 1 - s psi need no triangle inequality.",
+  "pattern: the first variation of ||1 + eps f||^2_{L^q} for an unbounded f in L^q, q > 1 (Yamabe.hasDerivAt_normSq_one_add_of_memLp). Use Mathlib's hasDerivAt_abs_rpow (Analysis/InnerProductSpace/NormPow), dominate by q(1 + |f|)^q, and get integrability from MemLp.integrable_norm_rpow' on (memLp_const 1).add hf.norm.",
+  "pattern: an upper bound on Lean's inf F is weakened by junk competitors (infinite energy gives dirichlet = 0). Also state the bound at an explicit competitor of finite energy (Yamabe.MeasuredModel.upperTest_sStar); that bounds the honest infimum too.",
+  "pitfall: at this pin ENNReal.toReal_rpow reads x.toReal ^ z = (x ^ z).toReal. To turn (x ^ z).toReal into x.toReal ^ z, rewrite with ← ENNReal.toReal_rpow.",
+  "pitfall: (memLp_const 1).add (hf.const_mul c) against a goal MemLp (fun x => 1 + c * f x) times out in whnf. Give memLp_const its (μ := ...) (p := ...), bind the sum with have, then exact it.",
+  "pitfall: a HasDerivAt.comp result closes a goal on fun e => |1 + e * f x| ^ q by exact this.congr_deriv (by ring). Do not use convert ... using 1, which leaves a function-equality goal that ring cannot close."
+ ],
+ "notes": "Upper.lean imports the strict Yamabe.Perforated.Capacity only and does not import Main.lean. T-perf-main's Main.lean defines Yamabe.MeasuredModel.adm_one with the statement of my adm_one_of_vol_ne_zero. I renamed mine so that the two do not clash at graduation; the graduation may merge them. Every other name was checked against the strict library and the scaffold, Main.lean included, and none collides. thm_upper_strong is the form T-perf-dilute-limit should use for thm:sharp, since it needs no rho. The derivative lemmas (hasDerivAt_normSq_one_add_of_memLp, hasDerivAt_F_one_add_of_memLp, firstVariation_neg_of_integrable) extend the strict bounded-direction ones to L^q directions; the strict ones are untouched. The file also typechecks under -DwarningAsError=true, so it is strict-ready."
+}

@@ -1,0 +1,62 @@
+{
+  "target": "T-perf-main",
+  "package": "T-perf-main",
+  "auditor_round": 1,
+  "round": 1,
+  "file": "scaffold/YamabeScaffold/Perforated/Main.lean",
+  "verdict": "major",
+  "labels": [
+    {
+      "label": "thm:main",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against perforated.tex l.179-206 (statement), l.458-460, l.502-516, l.518-561 (proof). eq:main: thm_main's first conjunct is F_g(1)/lamMax(1/theta, 1, A F_g(1)/a_N) <= infF (fun _ => c_N), and lamMax is the printed formula 1/2[(alpha+beta+delta) + sqrt((alpha+delta-beta)^2 + 4 alpha beta)] with alpha = 1/theta, beta = 1, delta = A F_g(1)/a_N. lambda_partial is infF over Adm (DEC-186). The infimum is genuine: le_csInf on a set that is nonempty (one is in Adm) and bounded below. eq:star is StarIneq A (u >= 0, as printed, mean = V^-1 int u). Its junk values are benign under MeanPoincare: an infinite-energy u then has a.e. constant values and satisfies eq:star with equality. The carried MeanPoincare, TraceBound, InteriorBump and AbsLattice are facts of (Sigma, W^{1,2}(Sigma)) that the model lacks: Poincare on a connected Sigma, the critical trace theorem, an interior bump, and Stampacchia's |u| in W^{1,2}. They are not extra hypotheses of the paper, and the row is partial and unmarked, as disclosed. The toy witness (toy_thm_main_hyps, toy_capStar_route_hyps) satisfies all of them together with StarIneqSigned at star3AtilCorr 2 4 1. AbsLattice (Main.lean:479) faithfully stands in for l.458-460 on W^{1,2}: it asks dirichlet w <= dirichlet u, which the paper's equality |grad|u|| = |grad u| implies, so it is weaker; and F(w) <= F(u) is exactly the direction le_Fq_of_lattice needs. It is not the weakest form, though (see the major finding). thm_main_signed strengthens eq:star to every u (disclosed as strengthened). It is correct but is not the printed form by itself. thm_main_three: its type mentions only star3AtilCorr (checked by #print), never the printed star3Atil, and it uses no AbsLattice. eq:main-asymp: mainRem is a fixed explicit function of (N, theta, A, F), the inequality is eq:main rewritten exactly, and the content is in the separate conjuncts. Those conjuncts are not vacuous: mainRem is O(F^2) at fixed theta, A, and |R| <= (5/7)(A F/a_N)^2 for |A F/a_N| <= 1/4 and every theta > 0, applied in particular at F = F_g(1). I rechecked the reduction by hand: alpha = 1/theta, f = theta/(1+theta), alpha f^3 = theta^2/(1+theta)^3, so (1+theta)/theta * alpha f^3 delta = theta delta/(1+theta)^2 and |R| <= (20/7) theta/(1+theta)^2 delta^2. Uniformity holds because theta/(1+theta)^2 <= 1/4 and 1/4 <= (1+theta)/(4 theta). The derivative -alpha/(1+alpha)^3 matches the rank-one perturbation computation, i.e. l.559's relative loss. quad_lamMax_attained's eigenvector (sqrt(alpha beta), Lambda - alpha - delta) checks by hand for any real delta. Marks: the module docstring has no **`label`** (ledger regex run: no label found). The bold **thm:main** at Main.lean:786 sits in a declaration docstring without backticks, so it is not a mark."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "taskset -c 0-11 lake env lean scaffold/YamabeScaffold/Perforated/Main.lean: no output, no warnings. taskset -c 0-11 lake build YamabeScaffold.Perforated.Main: replayed with nothing rebuilt (olean 00:16:31 is newer than the source at 00:15:53; the only other lake build running was lean-causal's). The single grep hit for 'sorry' is the docstring sentence at l.52; there is none in code. A probe under campaign/T-perf-main (since deleted) ran #print axioms on all 48 decls in REPORT.decls and REPORT.extra_decls: every one is [propext, Classical.choice, Quot.sound]. A second probe importing Yamabe (strict umbrella), every current YamabeScaffold module, Perforated.Upper and Perforated.Main together loads with no clash, so the two files can graduate together. git status --short lean-yamabe shows only campaign/T-perf-main/ (REPORT.json, now this file), campaign/T-perf-upper/ (the other closer) and scaffold/YamabeScaffold/Perforated/ (Main.lean dispatched, Upper.lean T-perf-upper's). No tracked file is modified."
+  },
+  "findings": [
+    {
+      "severity": "major",
+      "where": "Main.lean:110-114 (SCOPE, Reading (a)); REPORT.json labels[0].questions[0]; kb_proposals[4]",
+      "what": "The claim that 'under the C^1 reading [OQ-93 (b)] the paper does not supply thm:main for N >= 4 (without a signed prop:starN)' is false. It is stated as fact in the SCOPE and in question (a), and the dispatch already relays it as 'N >= 4 then lacks thm:main'. The step at l.458-460 needs only an approximate lattice property, and C^1(M) has one. Let phi_e(t) = sqrt(t^2 + e^2) - e, which is smooth. Then w_e = phi_e o u is C^1, 0 <= w_e <= |u|, |grad w_e| = |phi_e'(u)| |grad u| <= |grad u|, and tr w_e = phi_e(tr u). Also w_e increases to |u| as e decreases to 0. So the numerator of F(w_e) is at most that of F(u): the energy is no larger, and the trace norms are no larger since w_e <= |u|. The denominator ||w_e||^2_{p*} tends to ||u||^2_{p*} by monotone convergence. Hence F_g(1)/Lambda_max <= F(w_e) <= num(u)/||w_e||^2_{p*}, which tends to F(u). prop:starN (l.681, u >= 0 only) applied to the C^1 functions w_e >= 0 therefore gives thm:main for every N >= 3 under the C^1 reading, with no signed prop:starN. The premise of question (a) to the author is a false gap. The closer is right that the exact AbsLattice fails for C^1.",
+      "fix": "Reword the SCOPE bullet, question (a) and the kb proposal. AbsLattice holds on W^{1,2} (Stampacchia), and under the C^1 reading an approximate lattice property, w_e = sqrt(u^2+e^2) - e, gives the same reduction, so N >= 4 is not short of thm:main. Recommended: also weaken AbsLattice to an approximate form and restate thm_main under it, so that the printed-form theorem covers both readings. One such form: for every u there are w_k in D with val w_k >= 0, dirichlet w_k <= dirichlet u, normSq_{p#}(tr w_k) <= normSq_{p#}(tr u) on each B_j, and normSq_{p*}(val w_k) -> normSq_{p*}(val u). AbsLattice implies it (take the constant sequence), C^1 satisfies it, and le_Fq_of_lattice goes through by passing to the limit."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[2]; Main.lean:87 (checklist row 'Ã >= 0 (implicit at l.543)')",
+      "what": "l.543's 'All entries of M are non-negative' is not a gap: eq:star itself forces Ã >= 0. For u >= 0, Hölder gives V^{2/p*} ū^2 <= ||u||^2_{p*}, so eq:star at any u >= 0 of positive energy gives Ã ||grad u||^2 >= 0. Every (Sigma, g) of the paper has such a u. The finding also misstates the condition: the one entry that depends on Ã is alpha' + delta' = (C_1^2 + Ã)/a_N, which is non-negative iff Ã >= -C_1^2. The Lean's generality in A is a harmless generalization, not a correction of the paper.",
+      "fix": "Drop the finding or reword it: 'l.543 holds as printed: eq:star forces Ã >= 0 (Hölder); the Lean needs no sign of Ã, since only sqrt(alpha' beta') >= 0 matters.' Change the checklist row to 'Ã >= 0 (follows from eq:star) | not needed'."
+    },
+    {
+      "severity": "minor",
+      "where": "Main.lean:91-137 (module docstring)",
+      "what": "The SCOPE block spans characters 5829-9678 and the docstring closes at 9754. tools/ledger.py lean_scope_blocks reads SCOPE_BLOCK.search(text[:8000]), which needs 'Provenance:' or '-/' inside the window, so it finds nothing and skips Main.lean silently. The ledger row for thm:main would carry no disclosed scope. Capacity.lean, Star3.lean and Upper.lean all fit. Labels are within 4000 characters (thm:main at char 83).",
+      "fix": "Shorten the module docstring so that 'Provenance:' falls before character 8000, e.g. by trimming the 'What is proved' list (l.52-72) or the quoted proof passage (l.37-43). Check with the same regex."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].questions[0] and questions[2]",
+      "what": "'thm_main_three closes thm:main [for N = 3] modulo lambda, C_SP and MeanPoincare/TraceBound/InteriorBump' overstates. thm:main is quantified over every Ã satisfying eq:star for u >= 0. thm_main_three is thm:main at the one constant star3AtilCorr V lambda C, a special case and the thm:star3 + thm:main composite. For an arbitrary Ã with eq:star for u >= 0, N = 3 still needs AbsLattice (thm_main) or the signed eq:star for that Ã. Likewise 'It does not depend on which correction becomes of record': its truth does not, but its statement is pinned to star3AtilCorr, so another OQ-109 ruling would need a re-instantiation through thm_main_signed. REPORT.notes already frames it correctly ('the N = 3 composite with T-perf-star3').",
+      "fix": "Reword the two questions accordingly. No Lean change."
+    },
+    {
+      "severity": "minor",
+      "where": "Main.lean:98-103 (SCOPE, 'What thm:main takes from lem:capstar')",
+      "what": "'Only 0 < cap*' is true of eq:main but not of thm:main as a whole. eq:main-asymp's O(F^2) conjuncts also need cap* < oo (theta > 0, InteriorBump). At Lean's junk theta = 0, (1+theta)/theta = 0, so mainRem is identically -1 and not O(F^2). The checklist row at l.84 states this correctly.",
+      "fix": "Write 'What eq:main takes from lem:capstar: only 0 < cap*; eq:main-asymp also takes cap* < oo (theta > 0)'."
+    }
+  ],
+  "checked": {
+    "faithfulness": "thm_main is at least the printed thm:main (eq:main and eq:main-asymp) over the model, under the disclosed carried hypotheses, which are satisfiable together (toy witness). thm_main_signed is correct with a disclosed strengthened eq:star. thm_main_three never uses the printed Ã.",
+    "O_reading": "Not vacuous: a fixed explicit remainder with an O(F^2) statement and explicit bounds, applied at F = F_g(1). The uniform bound (5/7)(Ã F/a_N)^2 for |Ã F/a_N| <= 1/4 is correct for every theta > 0.",
+    "lattice": "AbsLattice is a faithful, indeed weaker, stand-in for l.458-460 on W^{1,2}. It is not the weakest form: an approximate lattice property suffices and holds for C^1. That is the major finding.",
+    "closer_findings": "findings[0] (no sign needed after eq_linear with |ū|): correct. findings[1] (O(F^2) uniform in theta): correct. findings[2] (l.543 needs Ã >= 0): not a gap (minor). findings[3] (eq:main, eq:main-asymp correct as printed; Lambda_max the larger eigenvalue; normalisation; derivative): correct.",
+    "scope": "Clean.",
+    "docstring_contract": "Title, unmarked label within 4000 characters, quote, checklist, SCOPE and provenance are present. SCOPE is beyond the ledger's 8000-character read, and two statements in it need rewording (findings 1 and 5)."
+  }
+}

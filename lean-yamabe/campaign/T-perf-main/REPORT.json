@@ -1,0 +1,173 @@
+{
+ "package": "T-perf-main",
+ "target": "T-perf-main",
+ "files": [
+  "scaffold/YamabeScaffold/Perforated/Main.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "thm:main",
+   "tex_lines": [
+    179,
+    206
+   ],
+   "proof_lines": [
+    [
+     458,
+     460
+    ],
+    [
+     502,
+     516
+    ],
+    [
+     518,
+     561
+    ]
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.MeasuredModel.thm_main",
+    "Yamabe.MeasuredModel.thm_main_signed",
+    "Yamabe.MeasuredModel.thm_main_three",
+    "Yamabe.lamMax",
+    "Yamabe.mainMatrix",
+    "Yamabe.le_lamMax_left",
+    "Yamabe.le_lamMax_right",
+    "Yamabe.lamMax_sub_mul_sub",
+    "Yamabe.lamMax_charpoly",
+    "Yamabe.quad_le_lamMax",
+    "Yamabe.quad_lamMax_attained",
+    "Yamabe.det_mainMatrix_sub",
+    "Yamabe.lamMax_largest_eigenvalue",
+    "Yamabe.lamMax_zero",
+    "Yamabe.lamMax_smul",
+    "Yamabe.mainRem",
+    "Yamabe.eq_main_asymp_identity",
+    "Yamabe.inv_lamMax_sub_le",
+    "Yamabe.mainRem_le",
+    "Yamabe.mainRem_le_uniform",
+    "Yamabe.mainRem_isBigO",
+    "Yamabe.hasDerivAt_inv_lamMax",
+    "Yamabe.MeasuredModel.mainLamMax",
+    "Yamabe.MeasuredModel.AbsLattice",
+    "Yamabe.MeasuredModel.AbsLattice.approx",
+    "Yamabe.MeasuredModel.AbsLatticeApprox",
+    "Yamabe.MeasuredModel.linC1",
+    "Yamabe.MeasuredModel.linC2",
+    "Yamabe.MeasuredModel.calib_main",
+    "Yamabe.MeasuredModel.le_Fq_of_linear_of_star",
+    "Yamabe.MeasuredModel.le_Fq_of_star",
+    "Yamabe.MeasuredModel.eq_linear_of_capStar_pos",
+    "Yamabe.MeasuredModel.le_Fq_of_star_of_capStar_pos",
+    "Yamabe.MeasuredModel.eq_main_signed",
+    "Yamabe.MeasuredModel.le_Fq_of_lattice",
+    "Yamabe.MeasuredModel.eq_main_lattice",
+    "Yamabe.MeasuredModel.eq_main_signed_of_capStar_pos",
+    "Yamabe.MeasuredModel.eq_main_lattice_of_capStar_pos",
+    "Yamabe.MeasuredModel.lamMax_unnormalized",
+    "Yamabe.MeasuredModel.theta_pos",
+    "Yamabe.MeasuredModel.eq_main_asymp_of_main",
+    "Yamabe.toy_thm_main_hyps",
+    "Yamabe.toy_capStar_route_hyps",
+    "Yamabe.toy_thm_main",
+    "Yamabe.toy_absLattice"
+   ],
+   "hypotheses": [
+    {
+     "paper": "N >= 3 (l.182)",
+     "here": "carried",
+     "note": "hN : 3 <= N"
+    },
+    {
+     "paper": "(Sigma, g) compact (l.181)",
+     "here": "carried",
+     "note": "IsFiniteMeasure (vol g), IsFiniteMeasure (bvol g j)"
+    },
+    {
+     "paper": "Sigma non-empty, boundary non-empty (l.181)",
+     "here": "read",
+     "note": "vol g != 0 and some bvol g j != 0 (S > 0), as in lem_capstar"
+    },
+    {
+     "paper": "connected, and the trace theorem (through lem:capstar / lem:capacitary, l.393-394)",
+     "here": "carried",
+     "note": "MeanPoincare and TraceBound (T-perf-capacity's Props), used only through eq_linear. Alternative for eq:main: the _of_capStar_pos variants carry 0 < cap* (lem:capstar's conclusion) plus finite energies and L^{p#} traces instead; the two sets are incomparable. eq:main-asymp also needs cap* < oo (theta > 0, InteriorBump)"
+    },
+    {
+     "paper": "cap* < oo (lem:capstar, l.399-401)",
+     "here": "carried",
+     "note": "InteriorBump, for eq:main-asymp only (theta > 0); eq:main needs no finiteness: Lean's 1/theta = 0 when cap* = oo is the limit theta -> oo and the bound stays true"
+    },
+    {
+     "paper": "the step u -> |u| (l.458-460): |grad|u|| = |grad u| a.e., tr|u| = |tr u|",
+     "here": "carried",
+     "note": "AbsLatticeApprox in thm_main: for every u, w_k in D with w_k >= 0, dirichlet w_k <= dirichlet u, trace L^{p#} norms <= those of u, and ||w_k||^2_{p*} -> ||u||^2_{p*}. The exact AbsLattice (|u| in D with no larger energy, as on W^{1,2}) gives it (AbsLattice.approx). The C^1 reading of OQ-93 (b) gives it through w_e = sqrt(u^2+e^2) - e (argued, not formalized), though |u| itself is not C^1. thm_main_signed does not use it"
+    },
+    {
+     "paper": "eq:star for u >= 0 with a finite constant A (l.183-189)",
+     "here": "carried",
+     "note": "StarIneq A in thm_main (as printed); strengthened to StarIneqSigned A (every u) in thm_main_signed. thm_main_three is thm:main at the single constant A = star3AtilCorr V lambda C (via star3_of_consts, any valid lambda, C_SP; never the printed constant): a special case, the thm:star3 + thm:main composite"
+    },
+    {
+     "paper": "A >= 0 (follows from eq:star by Hoelder, V^{2/p*} u-bar^2 <= ||u||^2_{p*})",
+     "here": "not needed",
+     "note": "the Lean holds for every real A; a harmless generalization"
+    },
+    {
+     "paper": "lambda_partial = inf over u != 0 of F_g (l.132)",
+     "here": "read",
+     "note": "infF over Adm (0 < ||u||^2_{p*} < oo), DEC-186"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.458-460 and l.519: the reduction to u >= 0 serves eq:star alone. eq:linear holds for every u with |u-bar| in place of u-bar, by lem:capacitary and lem:holder applied to u and to -u (Yamabe.MeasuredModel.eq_linear). So the squaring at l.519 needs no sign. Under eq:star for every u, eq:main follows with no lattice property (Yamabe.MeasuredModel.eq_main_signed, thm_main_signed). This confirms the planner's [r] claim.",
+    "l.204 (and the abstract, l.82; l.901): the O(F_g(1)^2) is uniform in theta. With R the exact remainder (Yamabe.mainRem), |R| <= (20/7) theta/(1+theta)^2 (A F/a_N)^2 when |A F/a_N| <= (1+theta)/(4 theta) (mainRem_le). Also |R| <= (5/7)(A F/a_N)^2 when |A F/a_N| <= 1/4, for every theta > 0 (mainRem_le_uniform). So the term is O(delta^2) with delta = A F_g(1)/a_N, and its constant depends only on (A/a_N)^2. Fixing theta is not needed.",
+    "eq:main and eq:main-asymp are otherwise correct as printed. Lambda_max is the larger eigenvalue of the calibrated matrix (lamMax_largest_eigenvalue). Lambda_max(M) = Lambda_max^norm/F_g(1) (l.546-550, lamMax_unnormalized). The derivative of 1/Lambda_max in delta at 0 is -alpha/(1+alpha)^3, i.e. the relative loss eps/(1+theta)^2 of l.559 (hasDerivAt_inv_lamMax)."
+   ],
+   "questions": [
+    "(a) The step u -> |u| (l.458-460) is not carried by the model of record (DEC-186). It needs only an approximate lattice property, carried here as AbsLatticeApprox. That property follows from the exact one on W^{1,2} (AbsLattice.approx), and under the C^1 reading of OQ-93 (b) from w_e = sqrt(u^2+e^2) - e (argued). So thm_main with prop:starN (eq:star for u >= 0) gives thm:main for every N >= 3 under either reading. The round-1 claim of a gap for N >= 4 under the C^1 reading was wrong; the audit (AUDIT-1) corrected it. The only open point is which form of the lattice hypothesis is of record: exact AbsLattice or AbsLatticeApprox. thm_main takes the weaker one. Separately, thm_main_signed avoids the lattice step altogether at the price of eq:star for every u.",
+    "(b) O(F_g(1)^2) (l.204) is a statement about one (Sigma, g), so an existential remainder would be vacuous. Reading taken: the remainder is the fixed function Yamabe.mainRem N theta A of F, depending on the model only through (theta, A, F_g(1)). eq:main-asymp is then eq:main rewritten exactly (eq_main_asymp_identity). The remainder is O(F^2) as F -> 0 at fixed theta, A (mainRem_isBigO), with the explicit bounds mainRem_le and mainRem_le_uniform. Accept?",
+    "OQ-109: thm_main_three is thm:main at the single constant star3AtilCorr, the corrected constant proved valid by star3_of_consts for any Poincare constant lambda > 0 and Sobolev-Poincare constant C. It never uses the printed A-tilde. Its truth does not depend on the OQ-109 ruling, but its statement is pinned to star3AtilCorr. Another ruling would be instantiated through thm_main_signed or thm_main at the constant of record."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Yamabe.lamMax",
+  "Yamabe.mainMatrix",
+  "Yamabe.quad_le_lamMax",
+  "Yamabe.quad_lamMax_attained",
+  "Yamabe.lamMax_largest_eigenvalue",
+  "Yamabe.lamMax_smul",
+  "Yamabe.lamMax_zero",
+  "Yamabe.inv_lamMax_sub_le",
+  "Yamabe.hasDerivAt_inv_lamMax",
+  "Yamabe.MeasuredModel.eq_linear_of_capStar_pos",
+  "Yamabe.MeasuredModel.le_Fq_of_lattice",
+  "Yamabe.MeasuredModel.normSq_congr_abs",
+  "Yamabe.MeasuredModel.mean_eq_volMean",
+  "Yamabe.toy_isPoincareConst",
+  "Yamabe.toy_lambda1_pos",
+  "Yamabe.toy_isSobolevPoincareConst",
+  "Yamabe.MeasuredModel.AbsLatticeApprox",
+  "Yamabe.MeasuredModel.AbsLattice.approx"
+ ],
+ "kb_proposals": [
+  "pattern: an O(.) term in a statement about one object (eq:main-asymp) must be a fixed function of the parameters, since an existential remainder is vacuous. Define the exact remainder (Yamabe.mainRem), prove the statement as an identity, then prove IsBigO and an explicit bound separately.",
+  "pattern: the larger eigenvalue of [[p, q], [q, r]] with q >= 0. Work with the explicit root Lambda = (p+r+s)/2: (Lambda-p)(Lambda-r) = q^2, and the form bound follows from (sqrt(Lambda-p) x - sqrt(Lambda-r) y)^2 >= 0. det(M - mu 1) is Matrix.det_fin_two and then simp with Matrix.cons_val_zero/one (Yamabe.quad_le_lamMax, lamMax_largest_eigenvalue).",
+  "pattern: an explicit O(delta^2) for 1/Lambda(delta) without calculus. Lambda solves Lambda^2 - T Lambda + delta = 0, so h = 1/Lambda solves P(h) = delta h^2 - T h + 1 = 0, and (h - g)(Lambda - delta g) = P(g) for any g. Take g the linearisation and bound Lambda - delta g below. HasDerivAt then follows from hasDerivAt_iff_isLittleO and IsBigO.trans_isLittleO (isLittleO_pow_id one_lt_two) (Yamabe.inv_lamMax_sub_le, hasDerivAt_inv_lamMax).",
+  "pitfall: an eventual bound near a limit is Filter.Tendsto.eventually_le_const (hv : v < u) (h : Tendsto f l (nhds v)) : eventually f <= u. It is a to_dual name, absent from grep for 'theorem ...eventually_le_const'; use it with filter_upwards.",
+  "pattern: on the model, the step u -> |u| of perforated l.458-460 is the Prop MeasuredModel.AbsLatticeApprox (scaffold Perforated/Main): nonnegative w_k with no larger energy and trace norms and ||w_k||_{p*} -> ||u||_{p*}. le_Fq_of_lattice passes to the limit with ge_of_tendsto. The exact AbsLattice implies it (constant sequence), and the C^1 reading satisfies it through w_e = sqrt(u^2+e^2) - e although |u| is not C^1. The toy model satisfies the exact form (toy_absLattice).",
+  "pattern: eq:capineq needs only 0 < cap*: sqrt_capStar_mul_ell_le applied to u and -u gives |ell(u)| <= X/sqrt(cap*) for finite-energy u, with cap* = oo handled by ell_eq_zero_of_capStar_eq_top (Yamabe.MeasuredModel.eq_linear_of_capStar_pos)."
+ ],
+ "notes": "Round 2 (fix of AUDIT-1, verdict major on the claims, not the Lean). No statement removed. (1) AbsLattice is weakened to AbsLatticeApprox in thm_main, eq_main_lattice, eq_main_lattice_of_capStar_pos and le_Fq_of_lattice. Each hypothesis is weaker, so each theorem is stronger. AbsLattice.approx gives it from the exact form; toy_thm_main uses it. The false claim that the C^1 reading lacks thm:main for N >= 4 is withdrawn from SCOPE, question (a) and the kb proposal. (2) The l.543 finding is dropped: eq:star forces A >= 0 by Hoelder. A remark stays in SCOPE: the Lean needs no sign of A, since only sqrt(alpha' beta') >= 0 matters. The checklist row is fixed. (3) The module docstring is shortened. 'Provenance:' is at character 5915, and the ledger regex SCOPE_BLOCK finds the whole SCOPE within text[:8000]. (4) thm_main_three is described as thm:main at the single constant star3AtilCorr, a special case. (5) SCOPE: eq:main takes only 0 < cap* from lem:capstar; eq:main-asymp also takes cap* < oo. Still one file, sorry-free, builds as YamabeScaffold.Perforated.Main, axioms propext/Classical.choice/Quot.sound. No name clashes with the strict library or Upper.lean (checked by grep). Anchor candidates: Yamabe.MeasuredModel.thm_main (printed form) and thm_main_signed. The witnesses toy_thm_main_hyps and toy_capStar_route_hyps show the hypotheses jointly satisfiable on the two-point toy model."
+}

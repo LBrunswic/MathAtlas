@@ -1,0 +1,64 @@
+{
+  "target": "T-perf-main",
+  "package": "T-perf-main",
+  "auditor_round": 2,
+  "round": 2,
+  "file": "scaffold/YamabeScaffold/Perforated/Main.lean",
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "thm:main",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Re-read against perforated.tex l.179-206, l.458-460, l.502-561 and l.679-689 (prop:starN). AbsLatticeApprox (Main.lean:654) says: for every u there are w : N -> D with val (w k) >= 0 everywhere, dirichlet (w k) <= dirichlet u, normSq_{p#}(tr (w k)) <= normSq_{p#}(tr u) on each B_j, and normSq_{p*}(val (w k)) -> normSq_{p*}(val u) (checked by #print). This is the form AUDIT-1 recommended. It is weaker than AbsLattice: AbsLattice.approx (Main.lean:661, the constant sequence through normSq_congr_abs) is kernel-checked. It is strictly weaker on the C^1 reading of OQ-93 (b). There a C^1 u that changes sign with nonzero gradient on its zero set has |u| not C^1, and a continuous w equal to |u| a.e. equals it everywhere, so AbsLattice fails. w_e = sqrt(u^2+e^2) - e with e = 1/(k+1) satisfies AbsLatticeApprox: w_e >= 0; |grad w_e| = |u|/sqrt(u^2+e^2) |grad u| <= |grad u|; tr w_e = phi_e(tr u) <= |tr u|; and w_e increases to |u|, so the p*-norm converges by monotone convergence. All quantities are finite on a compact manifold, so no junk value interferes. That argument is not formalized, and the file says so. AbsLatticeApprox is a faithful stand-in for l.458-460. The paper's step F(|u|) = F(u) on W^{1,2} implies it, the C^1 reading implies it, and it is exactly what the reduction needs: le_Fq_of_lattice passes to the limit, and the kernel checks it. It is satisfiable: toy_thm_main_hyps holds the exact form on the two-point toy model, and toy_thm_main feeds it through AbsLattice.approx. The restated theorems are no narrower than before. Main.lean was untracked and its olean rebuilt, so no pre-fix text survives on disk. I rebuilt the pre-fix forms from AUDIT-1's description: the same conclusions with hL : AbsLattice. A probe proved each one from the new theorem composed with AbsLattice.approx, and all four typecheck: thm_main with its five conjuncts written out in full, eq_main_lattice, eq_main_lattice_of_capStar_pos and le_Fq_of_lattice. The conclusions of thm_main match AUDIT-1's reading: eq:main with the printed lamMax, eq:main-asymp with mainRem, IsBigO, and the 20/7 and 5/7 bounds. thm_main_signed and thm_main_three are unchanged in substance. thm_main_three's docstring now calls it a special case at the one constant star3AtilCorr. Marks: no **`label`** anywhere in the file (ledger regex, with this paper's prefixes thm|lem|prop|cor|def|rem|q). thm:main is unmarked at char 83, as a partial row should be. thm_main's declaration docstring has lost its bold. thm_main_signed's (Main.lean:784) keeps a bold phrase without backticks, deep in the file; it is not a mark. One loose phrase, not a finding: 'thm_main with prop:starN (u >= 0) gives thm:main for every N >= 3' (SCOPE (a), REPORT question (a)). thm:main is conditional on eq:star and needs no prop:starN. The phrase is AUDIT-1's own, and its sense is true: the lattice step does not block any N under either reading."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "taskset -c 0-11 lake env lean scaffold/YamabeScaffold/Perforated/Main.lean: exit 0, no output, no warnings. pgrep showed no lake build running. taskset -c 0-11 lake build YamabeScaffold.Perforated.Main: 'Build completed successfully (8565 jobs)'. It was a replay: the olean (00:31:50) is newer than the source (00:31:01) and was unchanged. Sorry: 0 in code, counted with ledger.py's strip_lean_comments. The one textual hit is the docstring phrase at l.42. No admit and no axiom declaration. Axioms: a probe under campaign/T-perf-main ran #print axioms on all 50 distinct names in REPORT.labels[0].decls and REPORT.extra_decls, including AbsLatticeApprox and AbsLattice.approx. Each gives [propext, Classical.choice, Quot.sound]. A co-import probe of Yamabe, YamabeScaffold, Perforated.Upper and Perforated.Main loads with no clash. grep finds AbsLattice* in no other module. All three probes are deleted."
+  },
+  "audit1_resolution": [
+    {
+      "finding": "major: under the C^1 reading the paper 'does not supply thm:main for N >= 4'",
+      "resolved": true,
+      "how": "Withdrawn from the SCOPE (Reading (a) now says that AbsLatticeApprox holds under either reading), from REPORT question (a) (which says the round-1 claim was wrong), from the hypotheses row and from kb_proposals[4]. A grep of Main.lean and REPORT.json for 'N >= 4', 'does not supply', 'lacks' and 'signed prop:starN' finds only the withdrawal sentences and the unrelated 'facts ... that the model lacks'. The recommended Lean change was also made: AbsLatticeApprox replaces AbsLattice in thm_main, eq_main_lattice, eq_main_lattice_of_capStar_pos and le_Fq_of_lattice."
+    },
+    {
+      "finding": "minor: the l.543 finding",
+      "resolved": true,
+      "how": "Gone from REPORT.findings, which keeps three items. The checklist row reads 'Ã >= 0 (follows from eq:star, Hölder) | not needed'. The SCOPE has the remark 'only sqrt(α'β') >= 0 matters; l.543 holds as printed, eq:star forcing Ã >= 0'. The Hölder argument is correct: V^{2/p*} ū^2 <= ||u||^2_{p*} for u >= 0."
+    },
+    {
+      "finding": "minor: the SCOPE was past the ledger's 8000-character window",
+      "resolved": true,
+      "how": "Ran tools/ledger.py's SCOPE_BLOCK on text[:8000] of Main.lean. It matches characters 3524-5915 ('## SCOPE' to 'Provenance:'), the same match as on the full text, so the whole SCOPE is read. The docstring closes at char 5990. The label thm:main is at char 83, inside lean_index's 4000-character head."
+    },
+    {
+      "finding": "minor: thm_main_three overstated",
+      "resolved": true,
+      "how": "REPORT question (a) no longer mentions thm_main_three. The OQ-109 question says its statement is pinned to star3AtilCorr and that another ruling goes through thm_main_signed or thm_main. The hypotheses row and the thm_main_three docstring say 'a special case'. So does the SCOPE: 'thm:main at the one constant star3AtilCorr ... a special case'."
+    },
+    {
+      "finding": "minor: 'only 0 < cap*'",
+      "resolved": true,
+      "how": "The SCOPE now reads 'eq:main takes only 0 < cap* ...; eq:main-asymp also takes cap* < ∞ (θ > 0)', and the hypotheses rows of REPORT agree."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json kb_proposals[4]",
+      "what": "'the C^1 reading satisfies it through w_e = sqrt(u^2+e^2) - e although |u| is not C^1' is stated as a plain fact. The SCOPE, the AbsLatticeApprox docstring and the hypotheses row all qualify the same statement as 'argued, not formalized'. The claim is true; I checked the argument. But a kb entry reads as house knowledge, and without the qualifier a reader would take the C^1 case as formalized somewhere.",
+      "fix": "Append '(argued, not formalized)' after 'although |u| is not C^1' in kb_proposals[4]. No Lean change."
+    }
+  ],
+  "checked": {
+    "faithfulness": "thm_main is at least the printed thm:main over the model, under the disclosed carried facts MeanPoincare, TraceBound, InteriorBump and AbsLatticeApprox. These are jointly satisfiable on the toy model. The row stays partial and unmarked, as disclosed. AbsLatticeApprox is weaker than AbsLattice (kernel-checked implication; strictly weaker on the C^1 reading, argued), and it is faithful to l.458-460.",
+    "no_narrowing": "Probe: the pre-fix (AbsLattice) forms of thm_main, eq_main_lattice, eq_main_lattice_of_capStar_pos and le_Fq_of_lattice each follow from the new ones by AbsLattice.approx.",
+    "new_claims": "No new false claim. Each new sentence was checked against the source and the paper: AbsLatticeApprox's description, 'It needs only AbsLatticeApprox', 'Provenance at 5915', 'each theorem is stronger', 'eq:star forces Ã >= 0', the cap* sentence and the thm_main_three wording. All are true. The one precision issue is the minor finding.",
+    "scope": "git status --short lean-yamabe shows only campaign/T-perf-main/ (AUDIT-1, REPORT, now AUDIT-2), campaign/T-perf-upper/ (the other closer) and scaffold/YamabeScaffold/Perforated/ (Main.lean dispatched; Upper.lean is T-perf-upper's). No tracked file in lean-yamabe is modified. The repository's other modified paths (lean-causal, programme, roadmap, reports/atlas) predate this round and belong to the other loops.",
+    "docstring_contract": "Present and true: title, unmarked label with its perforated.tex line inside 4000 characters, verbatim quotes of l.181-205 and l.458-460, hypothesis checklist, SCOPE (disclosed) entirely inside the ledger's 8000-character read, and the provenance line."
+  }
+}

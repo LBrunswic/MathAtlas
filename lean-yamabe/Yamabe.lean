@@ -7,3 +7,5 @@ import Yamabe.Negative
 import Yamabe.RellichCriterion
 import Yamabe.Perforated.Capacity
 import Yamabe.Perforated.Star3
+import Yamabe.Perforated.Upper
+import Yamabe.Perforated.Main
