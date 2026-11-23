@@ -112,3 +112,9 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0102](entries/0102-a-lift-with-a-fixed-point-of-a-non-trivi.md) | pattern | A lift with a fixed point of a non-trivial A ∈ Γ_p at p ∈ dS²: GX.exists_gammaP_lift_fixed |
 | [0103](entries/0103-a-p-p-circle-with-lifted-holonomy-g-gx-e.md) | pattern | A (Γ_p, ℓ(p))-circle with lifted holonomy δ²g: GX.exists_isLiftedDev_delta_sq_mul |
 | [0104](entries/0104-stating-an-p-isomorphism-of-two-gammalin.md) | pattern | Stating an ℝP¹-isomorphism of two GammaLinkCircles' underlying circles inside an existential |
+| [0105](entries/0105-l-is-gx-bisusp-l-with-gx-gammalinkcircle.md) | pattern | 𝔢(L) is GX.BiSusp L with GX.GammaLinkCircle.DevData.suspStructure |
+| [0106](entries/0106-no-p-equivariant-product-chart-on-l-at-a.md) | pattern | No Γ_p-equivariant product chart on 𝔢(L) at a non-time-like p: build charts from one equivariant lift |
+| [0107](entries/0107-pitfall.md) | pitfall | Pitfall: |
+| [0108](entries/0108-pitfall.md) | pitfall | Pitfall: |
+| [0109](entries/0109-continuity-on-gx-bisusp-at-regular-point.md) | pattern | Continuity on GX.BiSusp at regular points and at the apices |
+| [0110](entries/0110-a-singular-hs-structure-is-gx-singularhs.md) | pattern | A singular HS-structure is GX.SingularHSStructure |

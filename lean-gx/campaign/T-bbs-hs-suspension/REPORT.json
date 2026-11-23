@@ -1,0 +1,141 @@
+{
+ "package": "T-bbs-hs-suspension",
+ "target": "T-bbs-hs-suspension",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSSuspension.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "bbsdef:singular_hs_surface_oriented_surface",
+   "tex_lines": [
+    948,
+    953
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.IsSingularHSSurface",
+    "GX.SingularHSStructure",
+    "GX.SingularHSStructure.IsIso",
+    "GX.SingularHSStructure.regChartedSpace",
+    "GX.SingularHSStructure.isHSSurface_reg",
+    "GX.SingularHSStructure.isClosed_sing",
+    "GX.isSingularHSSurface_ofHSSurface",
+    "GX.GammaLinkCircle.DevData.isSingularHSSurface",
+    "GX.BiSusp",
+    "GX.suspSeg",
+    "GX.suspChart",
+    "GX.GammaLinkCircle.DevData",
+    "GX.GammaLinkCircle.nonempty_devData",
+    "GX.GammaLinkCircle.DevData.suspAtlas",
+    "GX.GammaLinkCircle.DevData.suspAtlas_eventually_eq_smul",
+    "GX.GammaLinkCircle.DevData.support_suspAtlas",
+    "GX.GammaLinkCircle.DevData.mem_maximalAtlas_of_mem_suspAtlas",
+    "GX.GammaLinkCircle.DevData.suspStructure",
+    "GX.GammaLinkCircle.suspHomeomorph",
+    "GX.GammaLinkCircle.DevData.isHSSurface_reg",
+    "GX.GammaLinkCircle.DevData.regular_susp"
+   ],
+   "hypotheses": [
+    {
+     "paper": "an oriented surface (l.949)",
+     "here": "reading",
+     "note": "GX.IsTopologicalSurface (Hausdorff, locally R^2; OQ-104's most inclusive reading). 'Oriented' adds no field: the orientation is the one the HS-structure induces on Σ ∖ 𝒮 (l.621-623), SCOPE (d)"
+    },
+    {
+     "paper": "a discrete subset 𝒮 (l.949)",
+     "here": "carried",
+     "note": "DiscreteTopology A.sing; 𝒮 is then closed, derived (GX.SingularHSStructure.isClosed_sing: Σ ∖ 𝒮 is the open support of the atlas)"
+    },
+    {
+     "paper": "Σ ∖ 𝒮 is a regular HS-surface (l.950)",
+     "here": "carried",
+     "note": "an HS-atlas of partial charts of Σ whose support is exactly Σ ∖ 𝒮; GX.SingularHSStructure.isHSSurface_reg turns it into the strict GX.IsHSSurface on the open subset"
+    },
+    {
+     "paper": "every p in 𝒮 admits a neighborhood HS-isomorphic to an open subset of 𝔢(L) (l.951-952)",
+     "here": "reading",
+     "note": "GX.SingularHSStructure.IsIso: an open partial homeomorphism Σ → 𝔢(L) around the point, matching 𝒮 with the apices {p̄, −p̄}, and reading in any charts, near every regular point, as an element of SO₀(1,2); SCOPE (e)"
+    },
+    {
+     "paper": "the suspension 𝔢(L) of a (Γ_p, ℓ(p))-circle L (l.952; construction l.774-780)",
+     "here": "reading",
+     "note": "GX.GammaLinkCircle L at any point q of HS² (p is overloaded, finding 1), L : Type; 𝔢(L) = GX.BiSusp L with Δ.suspStructure for developing data Δ, existentially quantified (Δ-independence argued, not formalized; SCOPE (b))"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Notation, l.951-952: 'every p in 𝒮 ... a (Γ_p, ℓ(p))-circle L' uses p both for the point of 𝒮 ⊂ Σ and for the point of HS² indexing Γ_p and ℓ(p). Formalized with an independent point q ∈ HS² (the circle's C.pt), existentially quantified.",
+    "Gap filled, l.778-779: 'operate as we did for e(Σ) ... The resulting space 𝔢(L) is topologically a sphere' is stated without proof, and the proof is not routine: Γ_p maps each segment 𝔢(v) onto 𝔢(gv) but preserves no parametrisation of the segments (at a space-like or light-like p it fixes the light-like directions and moves the points of their segments, [ap + bn] ↦ [ap + e^ζ bn]), so no Γ_p-equivariant trivialisation ℓ(p) × ]0,π[ ≅ HS² ∖ {±p} exists. The statement is true: GX.GammaLinkCircle.suspHomeomorph, through a holonomy-equivariant lift of the developing map (GX.GammaLinkCircle.nonempty_devData, a tent average) which makes 𝔢(L) = L × [0,π]/∼ with chart changes in Γ_p (GX.GammaLinkCircle.DevData.suspAtlas_eventually_eq_smul).",
+    "Terminology, l.780: the apices are called 'two singular points', but for the regular link L = ℓ(p) they are regular: 𝔢(ℓ(p)) is HS² itself, the apices going to p and −p (GX.GammaLinkCircle.DevData.regular_susp). Read as marked points; Def l.948 allows 𝒮 to contain regular points.",
+    "Language, l.781-782: 'the singularity corresponding to p as a prefered status, as representation a (Γ_p, ℓ(p))-singularity' reads as 'has a preferred status, as representative of a (Γ_p, ℓ(p))-singularity'; 'prefered' is misspelled. Not formalized.",
+    "Minor, l.641-644 (used through 'operate as we did', l.778): the gluing of e(Σ) takes one coordinate change g_ij per overlap U_ij. For a circle with non-trivial holonomy, two charts overlap in two arcs on which the chart changes are different elements of Γ_p, so a single g_ij does not exist in general. Read here with chart changes local to each point (gx's atlas convention, DEC-16)."
+   ],
+   "questions": [
+    "OQ-104 (open): 'surface' read as GX.IsTopologicalSurface (Hausdorff, locally R^2, no countability, no connectedness), as for bbsdef:hs_surface_topological_surface_endowed. The mark waits on OQ-104.",
+    "'Oriented surface' (l.949): read as the orientation induced by the HS-structure on Σ ∖ 𝒮 (l.621-623), which extends over the discrete 𝒮; no separate orientation datum is required (topological orientations are not available at this pin). Alternative: Σ carries an orientation, which the HS-structure must induce on Σ ∖ 𝒮.",
+    "'HS-isomorphic to an open subset of 𝔢(L)' at a point of 𝒮 (l.951-952): read as GX.SingularHSStructure.IsIso, which sends the points of 𝒮 to the apices p̄, −p̄ and is an HS-morphism in charts off them. Alternative: only an HS-isomorphism off 𝒮 and off the apices, with no matching. The two give the same surfaces if a regular point of 𝒮 may be modelled on 𝔢(ℓ(q)) = HS² (proved: GX.GammaLinkCircle.DevData.regular_susp), but that equivalence is argued, not formalized.",
+    "𝔢(L) is built from developing data Δ (a periodic covering, a developing map and a holonomy-equivariant lift), which is a choice. Reading: GX.IsSingularHSSurface quantifies over Δ existentially. 𝔢(L) depends on Δ only up to HS-isomorphism. Argument, not formalized: two developing maps differ by an element of Γ_p after lifting the covering, and two equivariant lifts differ by a periodic positive factor and a multiple of p."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.BiSusp",
+  "GX.BiSusp.mk",
+  "GX.BiSusp.lift",
+  "GX.BiSusp.poles",
+  "GX.BiSusp.north",
+  "GX.BiSusp.south",
+  "GX.BiSusp.nhds_mk",
+  "GX.BiSusp.isOpen_image_mk'",
+  "GX.BiSusp.homeomorphSph2",
+  "GX.BiSusp.homeomorphHS",
+  "GX.BiSusp.isTopologicalSurface",
+  "GX.IsTopologicalSurface.of_homeomorph",
+  "GX.arcPt",
+  "GX.arcAngle",
+  "GX.arcPt_arcAngle",
+  "GX.arcAngle_arcPt",
+  "GX.smul_arcPt",
+  "GX.dirOf_gammaP",
+  "GX.tpMk_ne_zero_iff",
+  "GX.neg_ne_self_hs",
+  "GX.hsDual",
+  "GX.suspSeg",
+  "GX.mem_suspSeg_iff",
+  "GX.image_arcPt_eq_suspSeg",
+  "GX.iUnion_suspSeg",
+  "GX.IsConeLift",
+  "GX.suspChart",
+  "GX.suspChart_target_eq",
+  "GX.range_suspMap_mk",
+  "GX.tent",
+  "GX.tentAvg",
+  "GX.continuous_tentAvg",
+  "GX.tentAvg_add_one",
+  "GX.finite_int_near",
+  "GX.gammaP_coe_mul_apply",
+  "GX.gammaP_coe_inv_apply",
+  "GX.tpMk_gammaP_ne_zero",
+  "GX.GammaLinkCircle.DevData.vlift_add_int",
+  "GX.GammaLinkCircle.DevData.eventually_of_eventually_E",
+  "GX.SingularHSStructure.isIso_refl",
+  "GX.SingularHSStructure.ofHSSurface"
+ ],
+ "kb_proposals": [
+  "𝔢(L) is GX.BiSusp L (L × [0,π], each end collapsed, quotient topology) with GX.GammaLinkCircle.DevData.suspStructure Δ; its charts are GX.suspChart c W, [σ,t] ↦ [cos t p + sin t W(σ)], for a lift W over a chart c of L; 𝔢(v) is GX.suspSeg p v.",
+  "Γ_p preserves no parametrisation of the segments 𝔢(v) at a non-time-like p, so 𝔢(L) has no Γ_p-equivariant product chart. Build the charts from one holonomy-equivariant lift of the developing map (GX.GammaLinkCircle.DevData.vlift). It exists by GX.tentAvg, the tent-weighted average of ρⁿ w₀(s − n): continuous by continuous_finsum, equivariant by finsum_comp_equiv and map_finsum. Its chart changes are then elements of Γ_p.",
+  "Pitfall: in a structure instance `{ a := x,` followed by a line break and `b := y }`, the continuation field must start at a column ≥ the first field's column; otherwise the error is 'unexpected identifier; expected }'. Open with `{` and put one field per line.",
+  "Pitfall: (GammaLinkCircle.regular p).pt is p only up to delta. Instance search then fails, e.g. HSMul (GammaP p) (Link (regular p).pt). Restate the facts with explicit types first (obtain ⟨d', hd'⟩ : ∃ d' : ℝ → Link p, d' = Δ.d) and pass p explicitly to lemmas (dirOf_gammaP p, smul_arcPt p).",
+  "On GX.BiSusp, continuity at a regular point reduces to continuity of the composite with mk' (GX.BiSusp.nhds_mk: 𝓝 (mk' q) = map mk' (𝓝 q)). Continuity at the apices comes free from the quotient topology (GX.BiSusp.continuous_lift).",
+  "A singular HS-structure is GX.SingularHSStructure: 𝒮, plus an atlas of partial charts of Σ whose support is Σ ∖ 𝒮. GX.SingularHSStructure.regChartedSpace and isHSSurface_reg recover the strict GX.IsHSSurface on the open set Σ ∖ 𝒮."
+ ],
+ "notes": "Imports only the strict GX.BBS.IPm (not HSSingularities, not Causal.* directly), 0 sorry, no warning under the default options, so it should pass warningAsError and graduate by git mv to GX/BBS/HSSuspension.lean. `lake build GXScaffold.BBS.HSSuspension` ran once at the end: 8629 jobs, only this module built, nothing upstream rebuilt. Names were grepped against GX/ and scaffold/GXScaffold/ (HSSingularities, PSL2NormalForms, Interaction/*): no clash. The label stays unmarked, because its mark waits on OQ-104 and three further readings are reported as questions. Every assertion of the 𝔢(L) prose of l.774-780 is proved: segments, gluing in Γ_p, sphere, HS-surface off the apices, and 𝔢(ℓ(p)) = HS². bbsrem:p_p (the types of p̄, −p̄) is not attempted. A natural follow-up target is the Δ-independence of 𝔢(L) up to HS-isomorphism: lift the covering E' through E, relate the developing maps by an element of Γ_p, and reparametrise the segments by arccos((cos t + β sin t)/N), which is continuous up to t ∈ {0, π}. After the build, the module docstring was edited twice, comments only: SCOPE (a) and (g) now say which claims are argued and not formalized. The file was re-checked with `lake env lean` (0 errors, 0 warnings). The .olean therefore predates that docstring edit, and graduation rebuilds the module anyway."
+}

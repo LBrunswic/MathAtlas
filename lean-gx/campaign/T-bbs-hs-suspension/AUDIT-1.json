@@ -1,0 +1,59 @@
+{
+ "target": "T-bbs-hs-suspension",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bbsdef:singular_hs_surface_oriented_surface",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "I read GX.IsSingularHSSurface (HSSuspension.lean:1459) against colI_v1.tex:948-953 one clause at a time. (1) « surface »: IsTopologicalSurface M, which is OQ-104's reading (OQ-104 is OPEN in registers/DECISIONS.md:327), named. (2) « oriented »: not a field, a named reading. This is sound: the HS-structure orients Σ∖𝒮 (l.621-623), that orientation extends over a closed discrete 𝒮, and mathlib at the pin has no orientations of topological manifolds. (3) « discrete subset 𝒮 »: DiscreteTopology A.sing, carried. That 𝒮 is closed is derived from support_eq (isClosed_sing). (4) « Σ∖𝒮 is a regular HS-surface »: SingularHSStructure gives a gxGroupoid-compatible atlas of partial charts of Σ whose support is exactly 𝒮ᶜ. With T2 from (1), isHSSurface_reg yields the strict GX.IsHSSurface on regOpens. Carried. (5) « every p ∈ 𝒮 admits a neighborhood HS-isomorphic to an open subset of 𝔢(L) of a (Γ_p, ℓ(p))-circle L »: there exist L : Type, C : GammaLinkCircle L, Δ : C.DevData, and an OpenPartialHomeomorph φ : M → BiSusp L with x ∈ φ.source and IsIso A Δ.suspStructure φ. IsIso (l.923-927) is not degenerate. φ.source is an open neighbourhood of x and φ.target is open. Clause 1 matches the singular sets, so x goes to an apex and regular points go to regular points. Clause 2 asks for an element of SO₀(1,2) (Causal.Flat.lorentz 2 is SO₀(1,2): det 1, preserves the future cone) in any pair of charts near every regular point of the source. This is the strict gx morphism condition (it is literally GX.IsRegularOn.exists_smul_eq), not a vacuous one. The readings are named in the REPORT questions: the matching reading of « HS-isomorphic », p overloaded (finding 1), and Δ existential. I checked the closer's argument that the matching reading equals the no-matching reading, via regular_susp: it holds. I also checked the Δ-independence argument: two equivariant lifts differ by κ w + μ p with κ > 0 and κ, μ 1-periodic, and the segment reparametrisation is a homeomorphism fixing the ends. It holds as well. 𝔢(L) itself is faithful to l.775-781. suspAtlas consists of cone charts over charts of L's maximal (Γ_p, ℓ(p))-atlas (mem_maximalAtlas_of_mem_suspAtlas). Each segment {σ}×[0,π] goes onto 𝔢(c σ) (range_suspMap_mk). The chart changes are the same elements g_ij ∈ Γ_p as L's (suspAtlas_eventually_eq_smul), so the regular part is ⊔𝔢(U_i)∖{±p}/g_ij, as SCOPE (a) argues. Witnesses: every HS-surface (𝒮 = ∅), and every 𝔢(L) with 𝒮 = poles = {north, south}, two distinct points (north_ne_south), so the singular clause is exercised with 𝒮 ≠ ∅. The 𝔢(L) witness is the refl map with isIso_refl, which is legitimate. Neither witness exhibits a non-removable singular point, and for L = ℓ(p) the apices are removable (regular_susp). The paper's definition does not require 𝒮 to be minimal, and SCOPE (h) discloses that singularity of the apices for L ≇ ℓ(p) is not formalized. Status partial and unmarked: correct, since the mark waits on OQ-104 and three further readings. The module docstring (first 4000 characters) has no **`label`** mark; see the minor finding on the declaration docstring at l.1455. The other theorems are universal over Δ (isHSSurface_reg, regular_susp, isSingularHSSurface), so nothing in them is narrower than the paper."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "From lean-gx/, `taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSSuspension.lean` printed nothing and exited 0. The same command with `-DwarningAsError=true` also exited 0. Both runs are on the current source, after the docstring edit. lake build was not run. Code sorry count is 0 (comments stripped as tools/ledger.py does); the one textual `sorry` is the docstring's « 0 `sorry` » (l.7). There is no axiom, opaque, unsafe, implemented_by or native_decide. #print axioms ran on a copy of the module under /tmp, now deleted. All 183 non-internal declarations of the module (collectAxioms) depend only on propext, Classical.choice and Quot.sound, including the 21 the REPORT lists under the label. The only import is the strict GX.BBS.IPm: no HSSingularities, no Causal.* directly, no open of both Causal and GX. scripts/causal_import_gate.py: ok (DEC-33). Clash probe: I imported GX (all 60 strict modules) and GXScaffold (all scaffold modules except this one, HSSingularities and PSL2NormalForms included). None of the 183 names exists there; the probe was sanity-checked on GX.IsHSSurface and GX.Susp. All REPORT decl and extra_decl names exist. So the file can graduate by git mv to GX/BBS/HSSuspension.lean."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/campaign/T-bbs-hs-suspension/REPORT.json findings[1..3]; HSSuspension.lean:16,28,71-74,110,112,160,424,714,858,1429,1440",
+   "what": "Every line citation in the 77x range is one line early. In colI_v1.tex the 𝔢(L) paragraph is l.775-781, not 774-780. 𝔢(v) and « the closed segment [−p, p] » are l.777-778, not 776-777. « operate as we did » is l.779 and « topologically a sphere » is l.780, not 778-779. « two singular points » is l.781, not 780. The garbled « as a prefered status, as representation a » sentence is l.782-783, not 781-782. Also, e(Σ) is l.625-659, not 627-660 (l.112). These numbers reach the author with the findings.",
+   "fix": "Shift each of these citations by +1, in the REPORT findings and in the module and declaration docstrings."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json findings[1] and notes; HSSuspension.lean:73 (checklist ✓)",
+   "what": "Finding 2 says the paper's « topologically a sphere » is « now proved » (« The statement is true: GX.GammaLinkCircle.suspHomeomorph »), and the notes say « every assertion of the 𝔢(L) prose is proved ». What is formal is that the coordinate model BiSusp L, with suspStructure Δ, is a sphere. That this model is the paper's quotient ⊔𝔢(U_i)/∼ is argued, not formalized (SCOPE (a), (g)). The apices are not shown singular when L ≇ ℓ(p) (SCOPE (h)). Finding 2 also calls the proof « not routine ». That is a judgement: the regular part is an interval bundle over the circle whose structure group preserves the orientation of the segments, so it is trivial. The mathematical content of the finding is true: the paper gives no proof, and no Γ_p-equivariant trivialisation exists at a non-time-like p, which I checked for the boost, and for the parabolic at a light-like p, [ap + be] ↦ [(a + sb)p + be].",
+   "fix": "Reword finding 2: « stated without proof; proved for the coordinate model, whose identity with the paper's quotient is argued (SCOPE (a)) ». Drop « not routine », or replace it with the specific obstruction (no Γ_p-equivariant product chart). Qualify « every assertion proved » in the notes the same way."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json findings[4] (l.641-644, one g_ij per overlap)",
+   "what": "The finding is overstated. It is true only for atlases with disconnected overlaps, such as two arcs covering a circle. An atlas whose pairwise overlaps are connected always exists: three arcs for a circle, a good cover for a surface. With such an atlas there is one g_ij per overlap, and with no triple overlaps on the circle no cocycle is needed. So the paper's « can be understood as » is correct for a suitable atlas. Sent as stated, the finding would tell the author his construction is defective when it is at most imprecise.",
+   "fix": "Rephrase it as a precision remark: the description needs an atlas with connected overlaps, which always exists, or chart changes local to each component (gx's convention). Alternatively, drop it."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSSuspension.lean:1455",
+   "what": "The declaration docstring of GX.IsSingularHSSurface opens with **`bbsdef:singular_hs_surface_oriented_surface`**. That is the house certification-mark form, on a row that is partial and unmarked. It is not in the module docstring and lies beyond tools/ledger.py's 4000-character window, so no gate reads it as a mark. Still, strict precedent sets the bold form only on marked rows (RP1Circles.lean:1813, IPm.lean:1318). The OQ-104-waiting row bbsdef:hs_surface_topological_surface_endowed stays unbold in its declaration docstring (HSModel.lean:1434).",
+   "fix": "Unbold it: write `bbsdef:singular_hs_surface_oriented_surface` (partial; readings SCOPE (b)-(e))."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSSuspension.lean:77-115",
+   "what": "The SCOPE block starts at character 5575 but `Provenance:` is at character 8796. tools/ledger.py's SCOPE_BLOCK search on text[:8000] therefore finds no match (checked), and the ledger cannot show this module's disclosed scope. This is the same point as T-bbs-hs-remark-existence AUDIT-1 item 3.",
+   "fix": "Shorten the header (e.g. the « Main declarations » list) so that Provenance falls before character 8000. Alternatively, accept it while the curation row carries the readings."
+  },
+  {
+   "severity": "minor",
+   "where": "HSSuspension.lean:905-927 (SingularHSStructure, IsIso); REPORT notes",
+   "what": "Reuse is not addressed for two strict notions, both already in scope through GX.BBS.IPm. (a) IsIso's chart clause is verbatim the field exists_smul_eq of GX.IsRegularOn (GX/Singular/Atlas.lean:568). SingularHSStructure parallels gx's a.e. atlases (GX.IsAEAtlas, GX.SingularGXStructure), with no bridge lemma and no SCOPE line saying why it differs: BBS's 𝒮 is a datum that may contain removable points, while gx's Sing is intrinsic; and gx's IsGXAtlas works on connected components while gxGroupoid is local. (b) The BBS L0 suspension céleste (GX.ConicStructure, GX.ConicChart.celestialAtlas; GX/Suspension/Conic.lean:359, Celestial.lean) is not mentioned. It cannot serve here: its map_smul is a Γ_p-equivariant radial trivialisation, which SCOPE (a) itself shows does not exist at a non-time-like p. That is worth stating, and worth reporting to the author as a limit of L0's ConicStructure for (SO₀(1,2), HS²). The CAMPAIGN « Reuse » rule and the dispatch both ask for this.",
+   "fix": "Restate IsIso's second clause as GX.IsRegularOn (Causal.Flat.lorentz 2) A.atlas B.atlas φ (φ.source ∩ A.singᶜ), or prove the two equivalent. Add a SCOPE line relating SingularHSStructure to GX.IsAEAtlas / SingularGXStructure, and one explaining why GX.ConicStructure does not apply (no equivariant radial chart at a space-like or light-like p). Optionally add a bridge: A.atlas is an IsAEAtlas when 𝒮ᶜ is portly."
+  }
+ ],
+ "scope": "git status --short shows ` M roadmap/roadmap.toml` and the two untracked paths lean-gx/campaign/T-bbs-hs-suspension/ (REPORT.json only, before this file) and lean-gx/scaffold/GXScaffold/BBS/HSSuspension.lean. The roadmap.toml diff is the master's five ready→active status flips. HSSingularities.lean, kb/INDEX.md, kb 0102-0104 and curation.toml were committed in ff939f9 for T-bbs-hs-remark-existence, and their content is that target's. Nothing outside the dispatch was touched by this closer.",
+ "docstring_contract": "Title, the label line unmarked with `colI_v1.tex:948`, verbatim quotes of l.775-781, l.649-651 and l.949-952 (content checked; line labels off by one, finding 1), the hypothesis checklist, SCOPE (a)-(h) and Provenance (mathlib fabf563a, lean-causal ca2ad78) are all present. The SCOPE statements I checked are true: no equivariant trivialisation at a non-time-like p; Δ-independence as argued; the orientation extends over a closed discrete 𝒮; no manifold orientations at the pin; the apices are regular for ℓ(p). The SCOPE extraction window is finding 5."
+}

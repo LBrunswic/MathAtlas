@@ -58,5 +58,6 @@ import GX.BBS.IPm
 import GX.BBS.PhotonCircles
 import GX.BBS.GammaPElements
 import GX.BBS.QuotientCircle
+import GX.BBS.HSSuspension
 
 /-! The strict library of the paper `gx` (`papers/gx`). Every module is imported here. -/
