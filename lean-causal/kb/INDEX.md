@@ -266,3 +266,4 @@ rediscover. One fact per entry.
 | [0258](entries/0258-isolated-line-strongly-causal.md) | pattern | The isolated line is strongly causal: a cheap non-tarentin witness |
 | [0259](entries/0259-curve-binder-scan.md) | pitfall | A grep for CurvesExtend binders misses inline curve hypotheses |
 | [0260](entries/0260-curve-free-forms-diff-first.md) | pattern | Before planning a curve-free batch, diff the originals against existing forms |
+| [0261](entries/0261-cutline-inextensible-witness.md) | pattern | The direct witness for le_nested ⇏ inextensible_nested |

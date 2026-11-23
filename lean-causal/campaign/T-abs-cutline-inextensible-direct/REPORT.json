@@ -1,0 +1,52 @@
+{
+ "target": "T-abs-cutline-inextensible-direct",
+ "package": "T-abs-cutline-inextensible-direct",
+ "files": [
+  "scaffold/CausalScaffold/CutLineInextensible.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-cutline-inextensible-direct/REPORT.json",
+  "campaign/T-abs-cutline-inextensible-direct/Probe.lean",
+  "campaign/T-abs-cutline-inextensible-direct/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.CutLineInextensible",
+ "build_result": "Built CausalScaffold.CutLineInextensible (0.9 s), 3128 jobs, no warning. The --no-build dry run (kb/0228) listed only this module as out of date ([3128/3128]), so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes, as the strict library requires. campaign/.../Probe.lean is the module followed by #check and #print axioms (output in axioms.txt). All 5 declarations depend on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.NestedCausalities, Causal.LadderLocal, Causal.GluingModels.Minimal. tools/ladder.py model_path is None for each of them, checked one at a time in memory (kb/0247). No metric or Lorentzian notion is used.",
+ "labels": [],
+ "witness": {
+  "name": "Causal.cutLine_separates_inextensibleNested",
+  "file_line": "scaffold/CausalScaffold/CutLineInextensible.lean:93",
+  "statement": "theorem Causal.cutLine_separates_inextensibleNested : (Causal.cutLine 1).LeNested Causal.timelikeLine ∧ ¬ (Causal.cutLine 1).InextensibleNestedOn Causal.timelikeLine ⊤ ∧ (Causal.cutLine 1).IsCausal ∧ (Causal.cutLine 1).AbsolutelyMinimal ∧ ∀ (W : TopologicalSpace.Opens ℝ), (Causal.cutLine 1).AbsolutelyMinimalOn W",
+  "reading": "The narrower causality is cutLine 1 and the wider is timelikeLine. Conjunct 1 is the entry's `from` (le_nested, Causal.Causality.LeNested). Conjunct 2 is the failure of `to` (inextensible_nested, Causal.Causality.InextensibleNestedOn) at W = ⊤. Conjuncts 3 to 5 say that the narrower causality is causal and glues in both Lean forms of DEC-167: on M (the ladder node absolutely_minimal, Causal.Precausality.AbsolutelyMinimal) and on every open set (the hereditary form). The witness therefore stands whichever form OQ-95 rules. No instance argument and no `space` are needed: the space is ℝ.",
+  "proof": "A term: ⟨cutLine_leNested 1, cutLine_not_inextensibleNestedOn_top, cutLine_isCausal 1, GluingModels.cutLine_minimal 1, GluingModels.cutLine_hereditary 1⟩. The new step is cutLine_not_inextensibleNestedOn_top (:64). Given the nesting, cutLine_inextensible_Ici makes the identity over [1, ∞) inextensible for the timelike line. timelikeLine_isCauchySurface_zero then gives a parameter t ≥ 1 with t = 0, a contradiction. The Cauchy transfer IsCauchySurfaceOn.of_nested is not used."
+ },
+ "extra_decls": [
+  "Causal.cutLine_not_inextensibleNestedOn_top",
+  "Causal.cutLine_one_Jminus_top",
+  "Causal.cutLine_one_not_noPastEndpoint",
+  "Causal.cutLine_inextensibleNested_missing"
+ ],
+ "extra_decls_notes": {
+  "Causal.cutLine_not_inextensibleNestedOn_top": ":64. The failure on its own: ¬ (cutLine 1).InextensibleNestedOn timelikeLine ⊤.",
+  "Causal.cutLine_one_Jminus_top": ":73. (cutLine 1).Jminus ⊤ {1} = {1}. This is the one new mathematical fact in the file: no point lies causally before 1 except 1 itself.",
+  "Causal.cutLine_one_not_noPastEndpoint": ":86. ¬ (cutLine 1).NoPastEndpoint (Causal.LadderLocal, the past half of the ladder node no_causal_endpoint).",
+  "Causal.cutLine_inextensibleNested_missing": ":104. ¬ (cutLine 1).GloballyHyperbolic ∧ ¬ (cutLine 1).NoPastEndpoint ∧ timelikeLine.GloballyHyperbolic ∧ timelikeLine.IsCauchySurface {0}. It states in Lean what the ladder comment above the entry (programme/ladder.toml, the comment before `to = \"inextensible_nested\"`) says in words. The narrower causality lacks two hypotheses of Causality.inextensibleNestedOn_top / GloballyHyperbolic.inextensibleNestedOn_top: global hyperbolicity and the absence of a past endpoint. The wider causality is globally hyperbolic with Cauchy surface {0}. Because the narrower causality lacks two hypotheses at once, the witness does not show that either one alone is needed."
+ },
+ "for_the_keeper": {
+  "entry": "programme/ladder.toml, [[fails]] from = \"le_nested\", to = \"inextensible_nested\" (currently witness = \"Causal.not_isCauchySurface_of_nested_bare\")",
+  "new_witness": "Causal.cutLine_separates_inextensibleNested",
+  "module_after_graduation": "Today the module is CausalScaffold.CutLineInextensible (scaffold). Graduation moves it into Causal/ (for example Causal/CutLineInextensible.lean). Until then tools/ladder.py check reports 'witness not found in lean-causal', because lean_index scans Causal/ only.",
+  "comment_update": "The comment can now name the direct witness. The old witness and the one-line step through IsCauchySurfaceOn.of_nested can stay as the indirect route. The sentence on what the narrower causality lacks can cite Causal.cutLine_inextensibleNested_missing. The DEC-167 standing is inside the witness itself (AbsolutelyMinimal and the hereditary form), so the entry needs no gluing caveat.",
+  "closure_note": "Curve-nesting on every open set is not a conjunct. le_nested ⇒ curve_nested is a ladder edge (LeNested.curveNestedOn), so the closure already makes this witness refute curve_nested → inextensible_nested, as the comment says."
+ },
+ "findings": [],
+ "questions": [
+  "Which conjuncts the witness carries. The dispatch asks for 'exactly the `from` properties' together with cutLine_isCausal and, if cheap, the gluing conjunct. I took both gluing forms: AbsolutelyMinimal, the ladder node, and ∀ W, AbsolutelyMinimalOn W, the hereditary form, because OQ-95 is open. I left out curve-nesting and the facts about the wider causality, which went into a separate theorem (cutLine_inextensibleNested_missing). If the keeper wants the witness to read only the from/to pair, cutLine_not_inextensibleNestedOn_top together with cutLine_leNested is that pair."
+ ],
+ "kb_proposals": [
+  "The direct witness for le_nested ⇏ inextensible_nested is Causal.cutLine_separates_inextensibleNested (cutLine 1 ≤-nested in timelikeLine, not inextensibly nested at ⊤, causal, glues in both forms). The failure on its own is cutLine_not_inextensibleNestedOn_top, three lines through cutLine_inextensible_Ici and timelikeLine_isCauchySurface_zero with no Cauchy transfer (T-abs-cutline-inextensible-direct)."
+ ],
+ "notes": "One new file, 110 lines, 0 sorry, 5 theorems, no new definition. Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.CutLineInextensible` to scaffold/CausalScaffold.lean, or the axiom sweep misses the module; at graduation the file moves to Causal/ and its import goes into Causal.lean. The imports are already Causal.* only, all ETT-layer. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the 5 names outside this file. No ETT label is marked: the docstring has no **`label`**. No existing file was edited. I ran no git command, no `make check`, and no `tools/ladder.py emit-lean`; tools/ladder.py was only imported in memory to call lean_index and model_path. The other closer's scaffold/CausalScaffold/CurvesFreeLemmaK/ was not touched."
+}

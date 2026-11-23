@@ -1,0 +1,12 @@
+import CausalScaffold.CutLineInextensible
+
+#check @Causal.cutLine_separates_inextensibleNested
+#check @Causal.cutLine_not_inextensibleNestedOn_top
+#check @Causal.cutLine_one_Jminus_top
+#check @Causal.cutLine_one_not_noPastEndpoint
+#check @Causal.cutLine_inextensibleNested_missing
+#print axioms Causal.cutLine_separates_inextensibleNested
+#print axioms Causal.cutLine_not_inextensibleNestedOn_top
+#print axioms Causal.cutLine_one_Jminus_top
+#print axioms Causal.cutLine_one_not_noPastEndpoint
+#print axioms Causal.cutLine_inextensibleNested_missing

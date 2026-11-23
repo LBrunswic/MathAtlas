@@ -1,0 +1,51 @@
+{
+ "target": "T-abs-cutline-inextensible-direct",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "label_notes": "The target is layer 1 and carries no ETT.tex label. The file marks none: grep '\\*\\*`' finds nothing, and the docstring says 'No label is certified here'. The faithfulness check is therefore against the ladder entry (programme/ladder.toml:2591-2595, [[fails]] from = \"le_nested\", to = \"inextensible_nested\") and the roadmap block (programme/roadmap.toml:1601-1613).",
+ "witness_check": {
+  "decl": "Causal.cutLine_separates_inextensibleNested (scaffold/CausalScaffold/CutLineInextensible.lean:93)",
+  "statement_as_elaborated": "(cutLine 1).LeNested timelikeLine ∧ ¬ (cutLine 1).InextensibleNestedOn timelikeLine ⊤ ∧ (cutLine 1).IsCausal ∧ (cutLine 1).AbsolutelyMinimal ∧ ∀ W : Opens ℝ, (cutLine 1).AbsolutelyMinimalOn W. This is what the REPORT says.",
+  "ladder_predicates": "In a scratch probe the theorem was accepted, by `example ... := Causal.cutLine_separates_inextensibleNested`, against the statement written with fully qualified ladder `lean` names: Causal.Causality.LeNested (le_nested), Causal.Causality.InextensibleNestedOn (inextensible_nested), Causal.Causality.IsCausal (is_causal), Causal.Precausality.AbsolutelyMinimal (absolutely_minimal, through .toPrecausality). No local redefinition shadows them: no Causality.AbsolutelyMinimal exists, and the dot notation resolves to the Precausality definition.",
+  "orientation": "Correct. LeNested C C' and InextensibleNestedOn C C' W both take the narrower causality first (NestedCausalities.lean:121, :135). Here C = cutLine 1 is the narrower causality and C' = timelikeLine the wider one. The failure is at W = ⊤, which is the ladder's default ('W = M unless an entry names W'). The entry names no W.",
+  "from_coverage": "The entry's `from` is the single id le_nested, and conjunct 1 states it. Conjunct 2 is the negation of `to`. is_causal and the gluing conjuncts are extra and true. Nothing is vacuous: these are concrete facts about two concrete causalities on ℝ, and no hypothesis or instance argument is taken."
+ },
+ "proof_spot_checks": {
+  "cutLine_definition": "Causal/NestedCausalities.lean:213. x ≤_U y iff (x = y ∧ x ∈ U) ∨ (x < y ∧ y ≠ a ∧ Icc x y ⊆ U). This matches the docstring ('nothing lies causally before 1 but 1 itself'). timelikeLine (Causal/Lines.lean:78) is x ≤ y ∧ Icc x y ⊆ U.",
+  "cutLine_not_inextensibleNestedOn_top": ":64. It feeds h cutLine_inextensible_Ici (the identity over Ici 1, inextensible for the cut line, NestedCausalities.lean:490) into timelikeLine_isCauchySurface_zero (Causal/Geroch.lean:563). That yields t ≥ 1 with id t = 0, which is absurd. The proof is direct. It uses the wider line's Cauchy surface only, not Causality.IsCauchySurfaceOn.of_nested, as claimed.",
+  "cutLine_one_Jminus_top": ":73. Jminus ⊤ {1} = {y | le ⊤ y 1}. The right disjunct needs 1 ≠ 1 and is discharged by absurd. The left gives y = 1. The converse is le_refl. Correct, and new: no existing cutLine lemma states it (grep over Causal/).",
+  "cutLine_one_not_noPastEndpoint": ":86. Through noPastEndpoint_def (Causal/LadderLocal.lean:415, Iff.rfl to ∀ x, Jminus ⊤ {x} ≠ {x}) at x = 1. Correct."
+ },
+ "missing_theorem_check": "cutLine_inextensibleNested_missing (:104) states ¬ (cutLine 1).GloballyHyperbolic ∧ ¬ (cutLine 1).NoPastEndpoint ∧ timelikeLine.GloballyHyperbolic ∧ timelikeLine.IsCauchySurface {0}. All four conjuncts are strict-library facts or the file's own. The REPORT's caveat, that the witness 'does not show that either one alone is needed', is accurate. If anything it is an understatement: for GloballyHyperbolic.inextensibleNestedOn_top (NestedCausalities.lean:448) the cut line also may lack CausallyArcConnected (argued to fail, not proved) and Tarentin (not examined), so 'lacks two hypotheses at once' should read 'lacks at least two'. One sentence of the surrounding prose is inaccurate (finding 1).",
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "ran": [
+   "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/CutLineInextensible.lean: exit 0, no output",
+   "grep -c -w sorry: 0. grep for admit/axiom/native_decide/implemented_by/extern/unsafe/opaque: none",
+   "/tmp scratch: the file's source followed by #print axioms on the five declarations and two `example`s restating the witness in fully qualified ladder names, run with lake env lean. Exit 0. All five depend on [propext, Classical.choice, Quot.sound]. The scratch directory was deleted afterwards.",
+   "No lake build and no make check were run (concurrent closer)."
+  ],
+  "note": "The closer's campaign axioms.txt (02:19:03) and Probe.lean (02:18:47) predate the module's last write (02:19:23). The rerun above on the current file gives the same statements and axioms, so nothing follows from it."
+ },
+ "layer": "tools/ladder.py imported in memory: model_path(m, lean_index()['imports']) is None for Causal.NestedCausalities, Causal.LadderLocal and Causal.GluingModels.Minimal, and for a virtual module importing all three. The file is ETT-layer.",
+ "scope": "git status --short (and --untracked-files=all) shows: M programme/roadmap.toml (master's status flips, diff checked), ?? lean-causal/campaign/T-abs-curves-free-lemma-k/ and scaffold/CausalScaffold/CurvesFreeLemmaK/ (the concurrent closer's), ?? reports/atlas/lean/edges-perforated.json (mtime 2026-11-22 23:53, before this closer's work), and this closer's scaffold/CausalScaffold/CutLineInextensible.lean plus its campaign directory. No edit outside the dispatched file and campaign directory. scaffold/CausalScaffold.lean does not import the module yet. That is left to the master at graduation (kb/0015, kb/0025), as the REPORT says.",
+ "name_clash": "grep -rnw over lean-causal/Causal/ and lean-causal/scaffold/ finds none of the five names outside this file, and lean_index has none of them in Causal/.",
+ "docstring_contract": "Title, the no-label statement, '## Hypothesis checklist' (ladder entry | here, which fits a layer-1 target with no paper label), '## SCOPE (disclosed)' and the Provenance line are all present. There are no labels, so the 4000-character rule is moot. The SCOPE items are true: J⁻_M({1}) = {1} is the one new step; curve-nesting follows from LeNested.curveNestedOn (NestedCausalities.lean:150), and through the closure the witness refutes curve_nested → inextensible_nested; causal arc-connectedness of the cut line is argued, not proved (GluingModels/Minimal.lean:164-166). A small gap: the SCOPE list of assembled modules (:46) omits Causal.Lines, where timelikeLine_globallyHyperbolic lives. Findings 1 and 2 give the inaccuracies.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/CutLineInextensible.lean:27-32 and :100-103; REPORT.json extra_decls_notes['Causal.cutLine_inextensibleNested_missing']",
+   "what": "Global hyperbolicity is presented as a hypothesis of Causality.inextensibleNestedOn_top (NestedCausalities.lean:431) that the cut line lacks. That theorem takes no global hyperbolicity. Its hypotheses are CurveNestedOn, CausallyArcConnected, IsCausal, StronglyCausal, closed J⁺/J⁻ of points, hpast and hfut. Global hyperbolicity is a hypothesis of GloballyHyperbolic.inextensibleNestedOn_top (:448) only. Against :431 the cut line lacks hpast (proved here) and closed J⁺ of points (J⁺(0) = [0,∞)∖{1}, not stated in the file), not GH. 'Lacks two hypotheses at once' should also read 'at least two': CausallyArcConnected is argued to fail and Tarentin is not examined.",
+   "fix": "Reword: 'not globally hyperbolic (a hypothesis of GloballyHyperbolic.inextensibleNestedOn_top) and 1 is a past endpoint (hpast, a hypothesis of both)'. Optionally add ¬ ∀ x, IsClosed ((cutLine 1).Jplus ⊤ {x}) if the theorem is meant to cover Causality.inextensibleNestedOn_top as well. The theorem's statement is true as it stands. Only its description is off."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/CutLineInextensible.lean:19-22 and :89-92; REPORT.json for_the_keeper.comment_update",
+   "what": "The REPORT says 'The DEC-167 standing is inside the witness itself ..., so the entry needs no gluing caveat'. The docstring says the witness 'stands in either reading'. But the witness states gluing only for the narrower causality (cutLine 1). Under DEC-167 the wider timelikeLine must also be an ETT causality, and its gluing is not a conjunct. The conclusion is true, since the strict library has Causal.timelikeLine_absolutelyMinimal (Causal/Lines.lean:283) and Causal.timelikeLine_absolutelyMinimalOn (:245), but it is not inside the witness.",
+   "fix": "Either add timelikeLine.AbsolutelyMinimal ∧ ∀ W, timelikeLine.AbsolutelyMinimalOn W as conjuncts (two terms, ETT-layer, already imported), or name those two lemmas in the docstring and in the keeper's note, so that the entry's DEC-167 standing rests on stated facts for both causalities."
+  }
+ ]
+}
