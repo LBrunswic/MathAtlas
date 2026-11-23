@@ -616,3 +616,16 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: bc2d546 17a2031
 - next: rule 3 gives T-abs-curves-free-ers-unions (closer). After it, one ready abstract target is left, so a planning run follows (rule 2).
+
+## 2026-11-23 08:52 · wave of 1 · T-abs-curves-free-ers-unions
+- T-abs-curves-free-ers-unions (abstract, layer 1): closed on the report, with nothing left to form and no module written.
+  - The scan (kb/0259) over the 123 ETT-layer modules finds that the 10 CurvesExtend(On) binders of ErsUnions (7) and ErsMughd (3) are all covered: by Ers464SecondCountable (six exact, Rem 4.67's GH form stronger) and by ErsSecondCountable (three stronger, hthrough dropped too).
+  - Across the strict library, 90 binders in 18 modules each have a covering second countable form. The auditor checked all 90 with the kernel. The scaffold's SubExtension keeps two, on statements resting on a sorry.
+  - The target's premise (kb/0260's list) was stale.
+  - Audit minor (a quote's source, and "the ETT layer" read as the strict library), applied (16b1d10); kb/0260 and kb/0262 updated.
+- For the planner: only 2 of the 10 covering forms are instantiated on the timelike line. A witness-only follow-up (the union-lemma forms, 4.79/4.80) is cheap (kb/0011).
+- ladder: 25 properties, 27 implications, 83 counterexamples, 85 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open (unchanged)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red (no Lean changed)
+- commits: 16b1d10 ac8c0be
+- next: a PLANNING RUN (rule 2: only one ready abstract target, T-abs-merge-stranded-duplicates). It folds in waves 33–38's proposals, makes T-lad-record-direct-witnesses ready, and runs the two ready planner targets (T-bind-curves-ers-4-64, T-bind-ers-rulings).
