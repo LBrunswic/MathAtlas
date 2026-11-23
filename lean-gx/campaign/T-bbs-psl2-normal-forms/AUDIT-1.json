@@ -1,0 +1,65 @@
+{
+  "target": "T-bbs-psl2-normal-forms",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "(prose, no label) colI_v1.tex l.742-744: elliptic, the angle",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Uses the strict notions GX.PSL2.IsElliptic (trSq < 4, GX/BBS/RP1Circles.lean:979), GX.GTilde.IsElliptic and GX.GTilde.angle (2 pi times the translation number, RP1Circles.lean:1099). SL: GX.sl_exists_conj_slRot (A ~ rot(alpha), 0 < |alpha| < pi, conjugator in SL(2,R)). PSL: GX.PSL2.IsElliptic.exists_conj_slRot (0 < alpha < pi), and GX.PSL2.slRot_conj_iff makes alpha in (0, pi) a complete invariant. G~: GX.GTilde.isRotLift_angle (f = h R~(angle f) h^-1), GX.GTilde.exists_conj_of_angle_eq (same real angle => conjugate in G~) and the converse GX.GTilde.isConj_iff_angle_eq. Hypothesis is 'IsElliptic f or toPSL f = 1', exactly HSSingularities' form (central included, OQ-113 (d)); including central elements widens the statement, so Lean >= paper. No mark (no ledger label), correctly."
+    },
+    {
+      "label": "(prose, no label) colI_v1.tex l.747-748: hyperbolic classes parametrised by |tr|",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Uses GX.PSL2.IsHyperbolic (4 < trSq) and GX.PSL2.trSq. SL: GX.sl_exists_conj_slDiag (A = P diag(l, l^-1) P^-1, |l| > 1, l + l^-1 = tr A, P in SL(2,R)). PSL: GX.PSL2.IsHyperbolic.exists_conj_slDiag (l > 1). Injectivity: GX.PSL2.IsHyperbolic.exists_conj_of_trSq_eq; well-definedness and the iff: GX.PSL2.IsHyperbolic.isConj_iff_trSq_eq; l > 1 a complete invariant: GX.PSL2.slDiag_conj_iff. Surjectivity onto (2, oo) is not one declaration: GX.PSL2.isHyperbolic_slDiag only says diag(l, l^-1) is hyperbolic. The auditor checked that 'for every t > 2 there is a hyperbolic g with trSq g = t^2' follows in four lines from GX.exists_abs_gt_one_add_inv_eq, GX.PSL2.isHyperbolic_slDiag and GX.PSL2.trSq_pslMk_slDiag (scratch file, deleted), so the REPORT's 'every |tr| > 2 occurs' holds."
+    },
+    {
+      "label": "(prose, no label) colI_v1.tex l.748-750: exactly two parabolic classes, positive and negative",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Uses GX.PSL2.IsParabolic (trSq = 4, g != 1). SL: GX.sl_exists_conj_slUpper (tr^2 = 4, A not central => A ~ +-[[1, sigma], [0, 1]], sigma = +-1). PSL: GX.PSL2.IsParabolic.exists_conj_slUpper gives at most two classes. Both are parabolic (GX.PSL2.isParabolic_slUpper) and distinct (GX.PSL2.not_exists_conj_slUpper_one_neg_one), so there are exactly two. GX.PSL2.IsParabolic.isConj_iff_forall_le (parabolic g, g' are conjugate iff their lifts with a fixed point are both positive or both not) has the signature of HSSingularities' GX.PSL2.IsParabolic.isConj_iff. GX.GTilde.forall_le_iff_of_toPSL_conj_slUpper gives the sign: positive iff s < 0. The auditor confirmed the sign by hand: [[1, s], [0, 1]] sends [cos pi t : sin pi t] to cot(new angle) = cot(pi t) + s, so the fixed-point lift moves points up iff s < 0. Together with HSSingularities' GX.GTilde.IsParabolic.le_or_ge (positive or negative, not both), this is the paper's sentence. The reading of 'g x' for g in G as the lift with a fixed point is disclosed in SCOPE, the checklist and the REPORT's question. See minor finding 1 about the row's status."
+    },
+    {
+      "label": "(prose, no label) colI_v1.tex l.756-757: degree-0 hyperbolic circles (downstream)",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "'closed (downstream)' is verified. In a scratch file importing GXScaffold.BBS.HSSingularities and GXScaffold.BBS.PSL2NormalForms, GX.rp1Iso_iff_of_degree_zero_hyperbolic, restated verbatim and proved through the closed hyperbolic converse, depends only on [propext, Classical.choice, Quot.sound]."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "From lean-gx/: `taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/PSL2NormalForms.lean` and the same with `-DwarningAsError=true` both exit 0 with no output. `lake build` was not rerun (the dispatch forbids it). The olean (06:13:41) is newer than the source (06:13:26), which fits the closer's build note. The file has 0 `sorry` and no admit, axiom, native_decide or opaque. It has 50 declarations, the same set as REPORT.decls. `#print axioms` was run on all 50 twice: through `import GXScaffold.BBS.PSL2NormalForms`, and on an inline copy of the source so a stale olean cannot matter. Each gives exactly [propext, Classical.choice, Quot.sound]. The scratch files were under /tmp/audit-psl2nf/ and have been deleted."
+  },
+  "closes_check": {
+    "method": "Scratch file /tmp/audit-psl2nf/Closes.lean (deleted), importing GXScaffold.BBS.HSSingularities and GXScaffold.BBS.PSL2NormalForms together. The three HSSingularities statements are restated verbatim under *_audit names, with the same opens and the same Param section variables, and closed with the REPORT's terms. The joint import raised no 'already declared' error, so no name clashes between the two modules.",
+    "GX.PSL2.IsHyperbolic.isConj_iff (sorry l.1124)": "closes: `exact PSL2.IsHyperbolic.exists_conj_of_trSq_eq hg hg' htr` inside the existing `refine ⟨fun ⟨c, hc⟩ => by rw [hc, trSq_conj], fun htr => ?_⟩`; standard axioms",
+    "GX.PSL2.IsParabolic.isConj_iff (sorry l.1133)": "closes: `exact PSL2.IsParabolic.isConj_iff_forall_le hg hg' hf hf' hfix hfix'`; standard axioms",
+    "GX.rp1Iso_of_angle_eq (sorry l.1149)": "closes: `exact (rp1Iso_iff_conj hf hf').2 (GTilde.exists_conj_of_angle_eq he he' hθ)`; standard axioms",
+    "GX.rp1Iso_iff_of_degree_zero_hyperbolic (l.1199)": "with the hyperbolic converse closed, the verbatim proof depends on standard axioms only",
+    "control": "the current HSSingularities originals still report sorryAx, as expected before wiring"
+  },
+  "question_check": "The reading in the REPORT's question is sound. l.739 fixes g as the factor of rho(gamma_0) = delta^k g that has a fixed point in RP~1, while l.747 takes classes in G. The lift with a fixed point is unique (GX.GTilde.delta_zpow_mul_unique) and exists for a non-elliptic element (GX.GTilde.exists_delta_zpow_mul_of_not_isElliptic). Any other lift is delta^k f0 with k != 0. For k >= 1, f0 x + k > x - 1 + k >= x (FunnelGTilde's sub_one_lt_apply_of_fixed), so 'g x >= x' holds, strictly, for every parabolic element. For k <= -1, f0 x + k < x + 1 + k <= x (apply_lt_delta_of_fixed), so it fails at every point for every parabolic element. No reading through another lift gives two classes. The question is correctly a question, not a finding.",
+  "scope_check": "`git status --short` shows, for this closer, only lean-gx/scaffold/GXScaffold/BBS/PSL2NormalForms.lean and lean-gx/campaign/T-bbs-psl2-normal-forms/. The other entries belong to other agents: the sibling closers' QuotientCircle.lean and GammaPElements.lean with their campaign dirs, the yamabe closer's LowerBound.lean with its campaign dir, the ETT loop's lean-causal edits, and roadmap/programme ready->active moves, which are the master's `roadmap.py set`. HSSingularities.lean, GX/ and the scaffold root are untouched.",
+  "name_clash_check": "No name declared in the file is declared anywhere else, checked by grep for the 50 short names over lean-gx/GX, lean-gx/scaffold (HSSingularities.lean and the current QuotientCircle.lean and GammaPElements.lean included), lean-causal/Causal and the pinned .lake/packages/Causal. The joint import with HSSingularities typechecks.",
+  "reuse_check": "There are no duplicates of strict GX lemmas. Strict GX has slUpper, pslMk_*, trSq_mk and the trace classes, and the file reuses them. FunnelGTilde (slRot, rot, IsRotLift, le_conj_apply, IsParabolic.le_apply/eq_of_smul_eq) is reused, not reproved. GX/Spherical has no SL(2,R) normal form. Mathlib at the pin has GL(2) predicates (Matrix.IsParabolic/IsElliptic/IsHyperbolic in LinearAlgebra/Matrix/GeneralLinearGroup/FinTwo.lean) and Matrix.trace_units_conj for GL units, but no SL(2,R)-conjugacy normal form. GX.sl_trace_conj is a three-line SL form, acceptable. Two overlaps arise by design of the dispatch, for the master's information. First, GX.PSL2.IsHyperbolic.isConj_iff_trSq_eq and GX.PSL2.IsParabolic.isConj_iff_forall_le have the same statements as HSSingularities' reserved GX.PSL2.IsHyperbolic.isConj_iff and GX.PSL2.IsParabolic.isConj_iff, so T-bbs-hs-remark-existence may reduce the latter to one-line aliases. Second, HSSingularities' GX.PSL2.trSq_conj (PSL) and fixed_quadForm (the form slQuad written inline) could be re-derived from GX.sl_trace_conj and GX.slQuad.",
+  "graduation_note": "The file cannot graduate to strict GX on its own, because it imports the scaffold module GXScaffold.Interaction.FunnelGTilde and GX never imports GXScaffold. FunnelGTilde imports only GX.BBS.RP1Circles and has 0 sorry, so graduating FunnelGTilde first, or both together, makes this file graduable: it passes -DwarningAsError=true and imports no Causal.* (kb 0030). The SL/PSL hyperbolic and parabolic normal forms use only strict GX. The G~ parts need FunnelGTilde: the parabolic sign (via PSL2.IsParabolic.eq_of_smul_eq, GTilde.IsParabolic.le_apply, le_conj_apply) and everything elliptic (slRot, rot, IsRotLift).",
+  "docstring_contract": "kb 0006 (lean-causal/kb/entries/0006) is followed: the title, no ** mark (no label), the paper's sentences quoted verbatim (l.743-749, checked against colI_v1.tex), '## Hypothesis checklist', '## SCOPE (disclosed)' and Provenance are all present. SCOPE is true: group theory only, and the parabolic reading disclosed. The 'Main declarations' and 'For HSSingularities' sections name existing declarations and correct closing terms.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-bbs-psl2-normal-forms/REPORT.json: prose_rows[2] (tex_lines 748-750) and hypotheses[3]",
+      "what": "The parabolic row is 'closed', but the REPORT records its key hypothesis as 'here': 'read' (g x read on the lift with a fixed point) and asks a question about it. CAMPAIGN.md defines a row resting on a reading as `partial`, and the sibling precedent T-bbs-photon-circles marks its 'read' row partial. Nothing is over-claimed in a certification sense: there is no label and no mark, the reading is the only one under which the sentence is true, and it is disclosed in SCOPE, the checklist and the question.",
+      "fix": "Either mark prose_rows[2] `partial` until the author confirms the reading, or record hypotheses[3] as `carried` with the justification that l.739 fixes g as the factor with a fixed point. In both cases keep the question."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BBS/PSL2NormalForms.lean:71-72 (Hypothesis checklist)",
+      "what": "The line references are off by one. The checklist cites '\"the angle\" (l.743)', but the phrase is at l.744 of colI_v1.tex, as the REPORT itself says. It cites 'elliptic (l.742)', but l.742 is the heading and the sentence is l.743.",
+      "fix": "Cite l.743 for 'elliptic' and l.744 for 'the angle'."
+    }
+  ]
+}

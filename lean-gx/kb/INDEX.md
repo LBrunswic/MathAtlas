@@ -95,3 +95,12 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0085](entries/0085-isomorphisms-of-gammalinkcircles-with-th.md) | pattern | Isomorphisms of GammaLinkCircles with the same p: destructure and subst |
 | [0086](entries/0086-pitfall.md) | pitfall | Pitfall: |
 | [0087](entries/0087-pitfall.md) | pitfall | Pitfall: |
+| [0088](entries/0088-at-a-time-like-p-q-dsproj-is-positive-de.md) | pattern | At a time-like p, Q ∘ dsProj is positive definite and an eigen-ray forces ±id |
+| [0089](entries/0089-at-a-light-like-p-p-is-unipotent-on-t-ph.md) | pattern | At a light-like p, Γ_p is unipotent on T_pHS² without a basis |
+| [0090](entries/0090-the-topsl-bridge-for-a-lift-of-p-topsl-f.md) | pattern | The toPSL bridge for a lift of ρ ∈ Γ_p: toPSL f = pslMk (gammaToSL θ ρ) |
+| [0091](entries/0091-pitfall.md) | pitfall | Pitfall: |
+| [0092](entries/0092-sl-2-conjugacy-from-the-trace-and-the-fo.md) | pattern | SL(2,ℝ) conjugacy from the trace and the form slQuad A = det[v ∣ A v] |
+| [0093](entries/0093-elliptic-or-central-f-in-g-is-h-r-angle.md) | pattern | Elliptic or central f in G̃ is h R̃(angle f) h⁻¹; lifting PSL conjugacies to G̃ |
+| [0094](entries/0094-the-lift-with-a-fixed-point-of-1-s-0-1-i.md) | pattern | The lift with a fixed point of [[1, s], [0, 1]] is positive iff s < 0 |
+| [0095](entries/0095-pitfall.md) | pitfall | Pitfall: |
+| [0096](entries/0096-fin-two-induction-instead-of-the-set-wor.md) | pattern | fin_two_induction instead of the set workaround of kb/0071 |

@@ -1,0 +1,215 @@
+{
+ "package": "T-bbs-psl2-normal-forms",
+ "target": "T-bbs-psl2-normal-forms",
+ "files": [
+  "scaffold/GXScaffold/BBS/PSL2NormalForms.lean"
+ ],
+ "module": "GXScaffold.BBS.PSL2NormalForms",
+ "imports": [
+  "GX.BBS.RP1Circles",
+  "GXScaffold.Interaction.FunnelGTilde"
+ ],
+ "builds": true,
+ "build_note": "lake build GXScaffold.BBS.PSL2NormalForms: 8629/8629, only this module rebuilt (no GX.* or mathlib rebuild); lake env lean on the file: no error, no warning",
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "axioms_note": "#print axioms run on all 50 declarations of the file (temporarily appended, then removed): each depends on exactly [propext, Classical.choice, Quot.sound]",
+ "labels": [],
+ "prose_rows": [
+  {
+   "tex_lines": [
+    742,
+    744
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "claim": "Elliptic RP1-circles are uniquely parametrized by a positive real number (the angle): its group-theoretic content, that an elliptic element is conjugate to a rotation and that two elliptic (or central) elements of G~ with the same real angle are conjugate in G~",
+   "status": "closed",
+   "decls": [
+    "GX.sl_exists_conj_slRot (SL(2,R): A ~ rot(alpha), 0 < |alpha| < pi)",
+    "GX.PSL2.IsElliptic.exists_conj_slRot (PSL(2,R): g ~ rot(alpha), 0 < alpha < pi)",
+    "GX.PSL2.isElliptic_slRot",
+    "GX.PSL2.slRot_conj_iff (alpha in (0, pi) is a complete invariant in PSL(2,R))",
+    "GX.GTilde.isRotLift_angle (elliptic or central f = h R~(angle f) h^-1)",
+    "GX.GTilde.exists_conj_of_angle_eq",
+    "GX.GTilde.isConj_iff_angle_eq"
+   ],
+   "note": "The circle-level statement GX.rp1Iso_of_angle_eq (HSSingularities) closes with (rp1Iso_iff_conj hf hf').2 (GTilde.exists_conj_of_angle_eq he he' hθ). Central holonomy is included as in HSSingularities (OQ-113 (d))."
+  },
+  {
+   "tex_lines": [
+    747,
+    748
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "claim": "Hyperbolic conjugacy classes are uniquely parametrized by a positive real number, the absolute value of their trace",
+   "status": "closed",
+   "decls": [
+    "GX.sl_exists_conj_slDiag (SL(2,R): A ~ diag(l, l^-1), |l| > 1, l + l^-1 = tr A)",
+    "GX.PSL2.IsHyperbolic.exists_conj_slDiag (PSL(2,R): l > 1, tr^2 = (l + l^-1)^2)",
+    "GX.PSL2.IsHyperbolic.exists_conj_of_trSq_eq (same tr^2 => conjugate)",
+    "GX.PSL2.IsHyperbolic.isConj_iff_trSq_eq (iff)",
+    "GX.PSL2.isHyperbolic_slDiag (every |tr| > 2 occurs)",
+    "GX.PSL2.slDiag_conj_iff (l > 1 is a complete invariant)"
+   ]
+  },
+  {
+   "tex_lines": [
+    748,
+    750
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "claim": "There are exactly two parabolic conjugacy classes, positive (g x >= x on RP~1) and negative (g x <= x)",
+   "status": "closed",
+   "decls": [
+    "GX.sl_exists_conj_slUpper (SL(2,R): A ~ +-[[1, +-1], [0, 1]])",
+    "GX.PSL2.IsParabolic.exists_conj_slUpper (PSL(2,R): g ~ [[1, s], [0, 1]], s = +-1)",
+    "GX.PSL2.isParabolic_slUpper",
+    "GX.PSL2.not_exists_conj_slUpper_one_neg_one (the two classes are distinct)",
+    "GX.GTilde.forall_le_iff_of_toPSL_conj_slUpper (the lift with a fixed point of a conjugate of [[1, s], [0, 1]] is positive iff s < 0)",
+    "GX.PSL2.IsParabolic.isConj_iff_forall_le (conjugate iff the lifts with a fixed point are both positive or both negative; the signature of GX.PSL2.IsParabolic.isConj_iff)"
+   ],
+   "note": "The positive class is that of [[1, -1], [0, 1]] and the negative one that of [[1, 1], [0, 1]], in the coordinates of GX.RP1 (proj t = [cos pi t : sin pi t])."
+  },
+  {
+   "tex_lines": [
+    756,
+    757
+   ],
+   "source": "papers/bbs/legacy/labeled/colI_v1.tex",
+   "claim": "hyperbolic RP1-circles of degree 0 are uniquely parametrized by a positive real number",
+   "status": "closed (downstream)",
+   "decls": [
+    "GX.PSL2.IsHyperbolic.exists_conj_of_trSq_eq"
+   ],
+   "note": "GX.rp1Iso_iff_of_degree_zero_hyperbolic (HSSingularities l.1199) inherits sorryAx only from GX.PSL2.IsHyperbolic.isConj_iff; once that sorry is closed with the lemma above it is sorry-free."
+  }
+ ],
+ "closes_downstream": [
+  {
+   "decl": "GX.PSL2.IsHyperbolic.isConj_iff",
+   "where": "scaffold/GXScaffold/BBS/HSSingularities.lean:1121 (sorry l.1124, the <= direction)",
+   "by": "PSL2.IsHyperbolic.exists_conj_of_trSq_eq hg hg' htr",
+   "also_unblocks": "GX.rp1Iso_iff_of_degree_zero_hyperbolic (l.1199)"
+  },
+  {
+   "decl": "GX.PSL2.IsParabolic.isConj_iff",
+   "where": "scaffold/GXScaffold/BBS/HSSingularities.lean:1129 (sorry l.1133)",
+   "by": "PSL2.IsParabolic.isConj_iff_forall_le hg hg' hf hf' hfix hfix' (identical signature)"
+  },
+  {
+   "decl": "GX.rp1Iso_of_angle_eq",
+   "where": "scaffold/GXScaffold/BBS/HSSingularities.lean:1145 (sorry l.1149)",
+   "by": "(rp1Iso_iff_conj hf hf').2 (GTilde.exists_conj_of_angle_eq he he' hθ)"
+  }
+ ],
+ "closes_downstream_test": "Checked in a scratch file outside the repository (deleted) importing both GXScaffold.BBS.HSSingularities and GXScaffold.BBS.PSL2NormalForms: the three statements, restated verbatim, close with exactly the terms above; the joint import shows no name clash; standard axioms only.",
+ "decls": [
+  "GX.slCompanion",
+  "GX.slDiag",
+  "GX.slQuad",
+  "GX.slQuad_smul",
+  "GX.slQuad_inv",
+  "GX.slQuad_neg",
+  "GX.sl_trace_inv",
+  "GX.sl_trace_neg",
+  "GX.sl_trace_conj",
+  "GX.exists_conj_slCompanion",
+  "GX.exists_conj_slCompanion_of_pos",
+  "GX.sl_exists_conj_of_trace_eq",
+  "GX.trace_sq_eq_four_of_mem_center",
+  "GX.exists_slQuad_ne_zero",
+  "GX.exists_slQuad_pos_of_four_lt",
+  "GX.pslMk_neg",
+  "GX.pslMk_conj",
+  "GX.exists_pslMk_eq_trace_nonneg",
+  "GX.exists_abs_gt_one_add_inv_eq",
+  "GX.sl_exists_conj_slDiag",
+  "GX.PSL2.trSq_pslMk_slDiag",
+  "GX.PSL2.IsHyperbolic.exists_conj_slDiag",
+  "GX.PSL2.IsHyperbolic.exists_conj_of_trSq_eq",
+  "GX.PSL2.IsHyperbolic.isConj_iff_trSq_eq",
+  "GX.PSL2.isHyperbolic_slDiag",
+  "GX.PSL2.slDiag_conj_iff",
+  "GX.slUpper_inv",
+  "GX.sl_exists_conj_slUpper_of_trace_eq_two",
+  "GX.sl_exists_conj_slUpper",
+  "GX.PSL2.isParabolic_slUpper",
+  "GX.PSL2.IsParabolic.exists_conj_slUpper",
+  "GX.GTilde.exists_delta_zpow_of_toPSL_conj",
+  "GX.GTilde.exists_conj_of_toPSL_conj",
+  "GX.GTilde.forall_le_iff_of_conj",
+  "GX.GTilde.forall_le_iff_of_toPSL_slUpper",
+  "GX.GTilde.forall_le_iff_of_toPSL_conj_slUpper",
+  "GX.PSL2.not_exists_conj_slUpper_one_neg_one",
+  "GX.PSL2.IsParabolic.isConj_iff_forall_le",
+  "GX.slRot_zero",
+  "GX.slRot_inv",
+  "GX.sl_exists_conj_slRot_of_pos",
+  "GX.sl_exists_conj_slRot",
+  "GX.PSL2.isElliptic_slRot",
+  "GX.PSL2.IsElliptic.exists_conj_slRot",
+  "GX.GTilde.delta_zpow_eq_rot",
+  "GX.GTilde.isRotLift_of_toPSL_conj",
+  "GX.GTilde.isRotLift_angle",
+  "GX.GTilde.exists_conj_of_angle_eq",
+  "GX.GTilde.isConj_iff_angle_eq",
+  "GX.PSL2.slRot_conj_iff"
+ ],
+ "extra_decls": [
+  "GX.sl_exists_conj_of_trace_eq",
+  "GX.exists_conj_slCompanion",
+  "GX.slQuad",
+  "GX.slQuad_inv",
+  "GX.slQuad_neg",
+  "GX.sl_trace_conj",
+  "GX.pslMk_neg",
+  "GX.pslMk_conj",
+  "GX.exists_pslMk_eq_trace_nonneg",
+  "GX.GTilde.exists_delta_zpow_of_toPSL_conj",
+  "GX.GTilde.exists_conj_of_toPSL_conj",
+  "GX.GTilde.forall_le_iff_of_conj",
+  "GX.GTilde.delta_zpow_eq_rot",
+  "GX.slUpper_inv",
+  "GX.slRot_zero",
+  "GX.slRot_inv"
+ ],
+ "hypotheses": [
+  {
+   "paper": "elliptic (l.742-743)",
+   "here": "carried",
+   "note": "GX.PSL2.IsElliptic (tr^2 < 4); central holonomy (toPSL f = 1) included as in HSSingularities, OQ-113 (d)"
+  },
+  {
+   "paper": "the angle (l.744)",
+   "here": "carried",
+   "note": "GX.GTilde.angle, 2 pi times the translation number"
+  },
+  {
+   "paper": "the absolute value of their trace (l.748)",
+   "here": "carried",
+   "note": "GX.PSL2.trSq; |tr| and tr^2 determine each other"
+  },
+  {
+   "paper": "g x >= x for every x in RP~1, g parabolic in G (l.748-749)",
+   "here": "read",
+   "note": "g x is read on the lift of g to G~ that has a fixed point (unique: GX.GTilde.delta_zpow_mul_unique), as l.739 sets up (rho(gamma_0) = delta^k g, g with fixed points) and as GX.PSL2.IsParabolic.isConj_iff (HSSingularities) states it; the result holds for every lift with a fixed point"
+  }
+ ],
+ "sorries": [],
+ "findings": [],
+ "questions": [
+  "l.748-749 write 'g x >= x for every x in RP~1' for a parabolic g in G = PSL(2,R), which acts on RP1, not on RP~1. Read as the lift of g with a fixed point, the reading l.739 sets up and HSSingularities already uses (GX.PSL2.IsParabolic.isConj_iff). Under any other lift delta^k g~ (k != 0) the inequality is strict everywhere or fails everywhere, so no other reading gives two classes. Confirm?"
+ ],
+ "kb_proposals": [
+  "Conjugacy in SL(2,R) is decided by GX.sl_exists_conj_of_trace_eq: same trace, and the forms slQuad A = det[v | A v] = c x^2 + (d-a) x y - b y^2 both take a positive value. [v | A v] with q(v) = 1 conjugates A to slCompanion (tr A). For the other sign use A^-1 in SL (slQuad_inv) or -A in PSL (slQuad_neg, pslMk_neg).",
+  "In G~, an elliptic or central f is h R~(angle f) h^-1 (GX.GTilde.isRotLift_angle). A conjugacy in PSL(2,R) lifts to G~ up to delta^n (GX.GTilde.exists_delta_zpow_of_toPSL_conj), exactly when both elements have fixed points (GX.GTilde.exists_conj_of_toPSL_conj).",
+  "The lift with a fixed point of [[1, s], [0, 1]] is positive iff s < 0 (GX.GTilde.forall_le_iff_of_toPSL_slUpper): f 0 = 0, and proj (f (1/2)) = [s : 1] decides the sign through cos(pi f(1/2)).",
+  "Pitfall: `first | ring | linear_combination ...` never reaches the second branch, because `ring` that fails falls back to ring_nf with a 'Try this' and does not fail. Use `ring1`.",
+  "Pattern: Matrix.SpecialLinearGroup.fin_two_induction turns A : SL(2,R) into <!![a, b; c, d], hdet>, so simp evaluates the entries and the determinant is hdet. It avoids the `set b := A 0 1` mismatches of kb/0071."
+ ],
+ "notes": "Self-contained group theory; no sorry, no new hypothesis, no edit outside the file. HSSingularities and the scaffold root need `import GXScaffold.BBS.PSL2NormalForms` (T-bbs-hs-remark-existence). No name of this file is declared in HSSingularities.lean, in GX/ or GXScaffold/ elsewhere, in lean-causal, or (at 06:13) in the parallel QuotientCircle.lean and GammaPElements.lean. HSSingularities' GX.PSL2.trSq_conj is unchanged; GX.sl_trace_conj here is its SL(2,R) form, not a duplicate name. The method: one conjugacy criterion (same trace, positive values of det[v | A v]) gives all three normal forms. The parabolic classes are told apart through G~ (positivity is a conjugacy invariant, GX.GTilde.le_conj_apply), not by a matrix computation."
+}
