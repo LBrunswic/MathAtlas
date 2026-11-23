@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-yamabe",
-    "git_commit": "2aae116"
+    "git_commit": "f416687"
   },
   "statements": [
     {
@@ -1247,12 +1247,50 @@
       "nl_status_auto": "open",
       "statement_sha256": "866706b44d1b34fa9a18dfa0d8d20090d18b02ec23a09b9d47c71a624226bd66",
       "statement_sha256_current": "866706b44d1b34fa9a18dfa0d8d20090d18b02ec23a09b9d47c71a624226bd66",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
+      "lean_files": [
+        "Yamabe/Perforated/CorYamabe.lean",
+        "Yamabe/LowerBound.lean",
+        "Yamabe/Perforated/Main.lean",
+        "Yamabe/Perforated/Star3.lean",
+        "Yamabe/Perforated/StarN.lean",
+        "Yamabe/Perforated/Poincare.lean",
+        "Yamabe/Gluing.lean",
+        "Yamabe/Negative.lean",
+        "Yamabe/Quotient.lean"
+      ],
+      "decls": [
+        "Yamabe.MeasuredModel.cor_yamabe",
+        "Yamabe.MeasuredModel.cor_yamabe_signed",
+        "Yamabe.MeasuredModel.cor_yamabe_three",
+        "Yamabe.MeasuredModel.cor_yamabe_starN",
+        "Yamabe.Mfd.Reads.cor_yamabe_three",
+        "Yamabe.Mfd.Reads.cor_yamabe_starN",
+        "Yamabe.corConst_tendsto_half"
+      ],
+      "lean_stated": "strict",
+      "lean_proved": "partial",
       "bucket": "",
-      "scope_notes": "",
+      "scope_notes": "T-perf-cor-yamabe (atlas-team, 2026-11-23), audit AUDIT-1 clean: Yamabe/Perforated/CorYamabe.lean, strict, sorry-free. Partial, unmarked. Stated without proof in the paper (l.929–939); its content is yamabe's thm:lower-bound, so it is restated over Yamabe/LowerBound.lean (nothing re-proved: cor_yamabe_of_eq_main calls the strict lower_bound_of_eq_main and upper_bound_of_gluings_of_pos). Six anchors, one per form of thm:lower-bound (both forms of thm:main, the proved Ã at N = 3 and N ≥ 3, the manifold reading under OQ-93); each takes its counterpart's hypotheses with Yb(Σ) = 0 carried (hYb) in place of σ^∂ ≥ 0. Conclusions: R_g ≡ c < 0 and Y = c·Vol^{2/N}; eq:yamabe-upper Y ≤ −λ_∂ (proved); δ = Yb + ∣R_g∣Vol^{2/N} ≥ Yb + λ_∂ for every Yb, so ∣R_g∣Vol^{2/N} = δ at Yb = 0; θ/(1+θ)F_g(1)(1 + corRem) positive and ≤ λ_∂ ≤ δ, with 1 + corRem exactly thm:main's ((1+θ)/θ)/Λ_max; the M form for round B_j; corRem = O(F) uniformly in θ. « The constant is 1/2 » as an implication (corConst_tendsto_half). Broader than printed: Σ̄ need not be a torus. Non-vacuity: Yamabe.toy_cor_yamabe.",
+      "notes": "T-perf-cor-yamabe (atlas-team, 2026-11-23), audit AUDIT-1 clean: Yamabe/Perforated/CorYamabe.lean, strict, sorry-free. Partial, unmarked. Stated without proof in the paper (l.929–939); its content is yamabe's thm:lower-bound, so it is restated over Yamabe/LowerBound.lean (nothing re-proved: cor_yamabe_of_eq_main calls the strict lower_bound_of_eq_main and upper_bound_of_gluings_of_pos). Six anchors, one per form of thm:lower-bound (both forms of thm:main, the proved Ã at N = 3 and N ≥ 3, the manifold reading under OQ-93); each takes its counterpart's hypotheses with Yb(Σ) = 0 carried (hYb) in place of σ^∂ ≥ 0. Conclusions: R_g ≡ c < 0 and Y = c·Vol^{2/N}; eq:yamabe-upper Y ≤ −λ_∂ (proved); δ = Yb + ∣R_g∣Vol^{2/N} ≥ Yb + λ_∂ for every Yb, so ∣R_g∣Vol^{2/N} = δ at Yb = 0; θ/(1+θ)F_g(1)(1 + corRem) positive and ≤ λ_∂ ≤ δ, with 1 + corRem exactly thm:main's ((1+θ)/θ)/Λ_max; the M form for round B_j; corRem = O(F) uniformly in θ. « The constant is 1/2 » as an implication (corConst_tendsto_half). Broader than printed: Σ̄ need not be a torus. Non-vacuity: Yamabe.toy_cor_yamabe.",
+      "blocked_on": "OQ-125 (Yb(Σ) = 0; M; the θ clause; the O(F) factor), OQ-121 (c), OQ-93, OQ-111; the θ → 1 clause on T-perf-dilute-limit (needs-ruling)",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "Yb(Σ) = 0 (l.925–926), used for « = δ » (l.934), is asserted and proved in neither paper: yamabe's eq:sigma-torus covers T³ only, as an argument that bounds Y_[g] from above, not below; nothing for N ≥ 4. The bound on ∣R_g∣Vol^{2/N} itself needs no Yb.",
+        "M (l.931–932) is never defined in the companion (the letter names a manifold, l.287–288, and the 2×2 matrix, l.529–543); for a non-round B_j at N = 3 Minkowski's inequality makes F_g(1) < 2(N−1)M/Vol^{(N−2)/N}, so the M form does not follow from the argument (argued).",
+        "Minor (l.938): θ → 1 is prop:theta-examples (ii)'s, at N = 3, in the dilute limit, for the scalar-flat collar; the corollary's g has constant negative scalar curvature and θ is not conformally invariant.",
+        "Remark: the inequality holds for every Σ̄ with σ(Σ̄) ≤ 0, and « δ ≥ λ_∂ whenever Yb ≥ 0 » holds in the sharper form δ = Yb + ∣R_g∣Vol^{2/N} ≥ Yb + λ_∂; the O(F_g(1)) is uniform in θ."
+      ],
+      "extra_lean_files": [
+        "Yamabe/Perforated/CorYamabe.lean",
+        "Yamabe/LowerBound.lean",
+        "Yamabe/Perforated/Main.lean",
+        "Yamabe/Perforated/Star3.lean",
+        "Yamabe/Perforated/StarN.lean",
+        "Yamabe/Perforated/Poincare.lean",
+        "Yamabe/Gluing.lean",
+        "Yamabe/Negative.lean",
+        "Yamabe/Quotient.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
