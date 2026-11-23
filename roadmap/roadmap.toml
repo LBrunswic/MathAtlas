@@ -1592,13 +1592,14 @@ kind = "research"
 paper = "bbs"
 labels = ["bbsrem:causally_regular_hs_sphere_containing"]
 package = "lean-gx"
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bbs-rp1-circles", "T-bbs-photon-circles"]
-evidence = "DEC-176, DEC-191: transported orientation (Theorem M proved; N5 l.477 reads P_in); Θ₋ is the angle of the lifted holonomy (N9). Waits on T-bbs-rp1-circles. Refined 2026-11-23 (planner), after T-bbs-rp1-circles (e3220f0). (1) The statement. N4 (M3) says the real-angle half « is BBS's remark after Lemma surgery-key (l.3013) ». That remark is the ledger row bbsrem:causally_regular_hs_sphere_containing (« the map ι'_L : C̃₋ → C̃₊ induces a projective isomorphism ῑ : C₋ → C₊ », l.3013–3016), now in labels. Its proof is surgery-key's. dS̃² is completed by the photon lines R± (l.2979–2981), and each leaf of the left isotropic foliation runs from R₋ to R₊, which gives ι_L (l.2983–2990). ι'_L on D̃ is then asserted: « Since D does not contain singularities, we have an analogous proper submersion » (l.2991–2995). The closer may carry that sentence as a named hypothesis, stated over N4's data (discs D±, a regular annulus A), as T-3p1-theorem-m did. Θ₋ = Θ₊ then follows from GX.HasLiftedHolonomy.conj and GX.GTilde.angle_conj (strict RP1Circles.lean). (2) It does not wait on OQ-113. Both sides are angles of the same kind, 2π times the translation number of the lifted holonomy of an ℝP¹-circle (GX.GTilde.angle). OQ-113's normalisations (a) and (iii) rescale both by one common factor, and OQ-113 (b) is about the links ℓ(p), not the photon circles C±. What does wait on OQ-113 is the value of Θ: Θ as a total cone angle, the mass 1 − Θ/2π, Lemma F's 0 < Θ < 2π. This target states none of them. (3) It is not one dispatch on the present layer. ∂ℍ²± ≅ ℝP¹ (through SO₀(1,2) ≅ PSL(2,ℝ), l.763), the ℝP¹-structure of a circle of photons (§ 5.1) and the isotropic foliations of dS² exist in no library at this pin: RP1Circles.lean SCOPE (d) and HSModel.lean have none. Hence the dependency on T-bbs-photon-circles"
+evidence = "4211879 (audit minor): Θ₋ = Θ₊ for every regular de Sitter annulus of every HS-surface with no named hypothesis (GX.DSAnnulus.theta_eq_of_regular, the developing map of the annulus and its holonomy in G̃); degrees agree for non-elliptic C±; the ι'_L route too. bbsrem:causally_regular_hs_sphere_containing partial, unmarked: under IsIotaPrime for every Θ, with no hypothesis when Θ₋ > 0; Θ = 0 without ι'_L open. Kept in the scaffold as 3+1 research. OQ-119 (Θ = 0 as a target? the remark's bucket D; « degree included » at Θ = 0). Cleanup left: GX.eq_of_continuous_int duplicates the strict GX.eq_of_continuous_intValued."
 added = "2026-11-20"
 proposed_by = "roadmap-planner"
+commit = "4211879"
 
 [[target]]
 id = "T-bbs-i-pm"
@@ -1625,13 +1626,14 @@ kind = "close"
 paper = "bbs"
 labels = ["bbsrem:previous_section_observed_only"]
 package = "lean-gx"
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bbs-i-pm"]
-evidence = "RP1Circles.lean SCOPE (d) (e3220f0): « Not formalized (prose, no label): the classification of ℝP¹-circles (l.701–760) and « elliptic elements act as translations » ...; the parametrisation by the trace ». The singularity types of l.855–924 use that classification and i^±(L) (T-bbs-i-pm). For instance, in degree 0, L is the quotient of an interval I of ℓ(p) whose ends are fixed points of g, with three cases by I = i^+, i^−, or a spacelike component (l.866–878). bbsrem:previous_section_observed_only (l.926–932) says that positive and negative hyperbolic (Γ_p, ℓ(p))-circles are not isomorphic, and it rests on both; its ledger notes read « REVIEW §A row 13; link; layer L2; wave W2 ». Already strict: GX.GTilde with the decomposition δ^k g (exists_delta_zpow_mul_of_not_isElliptic, delta_zpow_mul_unique); HasLiftedHolonomy and its uniqueness up to conjugacy (HasLiftedHolonomy.conj); deg_nonneg (l.740's « the degree k is non-negative »). The closer meets two assertions printed without proof: « These examples exhaust the list … An easy case-by-case study leads to a proof of our claim » (l.712–719), and « We invite the reader to convince himself that the ℝP¹-structure and the additional data of i^±(L) determine the (Γ_p, ℓ(p))-structure on the link » (l.850–852). OQ-113 (a) bears only on the time-like item (« characterized by their cone angle », l.864). Stated with the ℝP¹-angle of the underlying elliptic circle, it waits on no ruling. Planned until T-bbs-i-pm lands. It may then need splitting into the ℝP¹ classification and the HS types"
+evidence = "59052ae (AUDIT-1 major, fixed in one round; AUDIT-2 minor): GXScaffold/BBS/HSSingularities.lean, 10 tagged sorrys. bbsrem:previous_section_observed_only partial, unmarked: (i)–(iii) proved under readings (OQ-120 (a)–(c), OQ-116 (a)); « does not extend » (GX.exists_positive_negative) a sorry. § 3.3 prose proved: ℝP¹-circles iso iff oriented lifted holonomies conjugate (rp1Iso_iff_conj), exhaustion, (k,[g]) for every degree, evenness off time-like p, the space-like and light-like dichotomies. Paper finding: l.794–795, l.797–800 need « with non-trivial holonomy ». For the planner, the split the closer names: (1) PSL(2,ℝ) normal forms (hyperbolic by ∣tr∣ converse, the two parabolic classes, elliptic by the angle); (2) the existence halves (every cyclic subgroup a holonomy group; the remark's two examples, the quotient-circle construction); (3) single-element fixed points at time-like and light-like p (elliptic and parabolic types); (4) the arc structure of ℓ(p) (degree-0 BTZ-like, Misner, cuspidal types; components of I±)."
 added = "2026-11-23"
 proposed_by = "roadmap-planner"
+commit = "59052ae"
 
 [[target]]
 id = "T-bbs-photon-circles"
@@ -2416,7 +2418,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last run: 2026-11-23 00:10 (lean-gx, lean-benzecri, lean-yamabe, lean-syracuse refreshed; lean-causal, lean-egf busy). The template's texHTML leaves the benzecri macro \\bzcf raw (a builder follow-up, now T-atlas-tex-text-macros)"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last run: 2026-11-23 04:20 (lean-gx, lean-yamabe refreshed; lean-causal, lean-egf other loops'); the template's texHTML is T-atlas-tex-text-macros"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -2522,13 +2524,14 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["lem:positivity"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-yamabe-graduate-analysis"]
-evidence = "Trace.lean:405–416 (theorem at l.407), SORRY(lem:positivity) at l.412: « needs `rellich_kondrachov` and the interpolation ». REPORT-2.json gives the route, with the interpolation localised by charts, and adds « not used by lem:positivity (continuity of the trace suffices, round-1 finding) ». It is in scope because DEC-184 asks for the trace theorem to be proved and Yamabegap.tex l.720 cites the compact trace. The companion uses it too: lem:capstar's attainment (« ℓ is weakly continuous by compactness of the trace operator », perforated.tex l.402–404) and its introduction (« Rellich–Kondrachov together with compactness of the trace operator », l.149–150). It comes after T-yamabe-integrate-r3, so that it uses Rellich's final name. Integration: the round-1 original has no consumer and cannot stay in Trace.lean, which Rellich's chain imports, so the master deletes the declaration at Trace.lean:411 and renames the prime. Refined 2026-11-23 (planner): that integration is gone. The target now follows T-yamabe-graduate-analysis, which moves the statement unchanged into scaffold/YamabeScaffold/TraceCompact.lean and imports the graduated Rellich–Kondrachov (Yamabe.Mfd.rellich_kondrachov, RellichManifold.lean). The closer replaces the sorry in place, keeping the round-1 statement and writing no primed copy; graduating TraceCompact.lean afterwards is a file move. Already proved for the interpolation: trace_halfLine and trace_halfSpace (the FTC trace estimates, Trace.lean:86 on), Half.trace_halfSpace' (HalfSpace.lean:520), the chart localisation Mfd.local_trace (Localisation.lean:768), and the partition of unity Mfd.assemble (Localisation.lean:685), by which RellichManifold sums its local approximations (REPORT-3 kb_proposals)"
+evidence = "Closed at 3b71ab0 (audit minor); see the commit"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "3b71ab0"
 
 [[target]]
 id = "T-perf-capacity"
@@ -2587,12 +2590,13 @@ kind = "close"
 paper = "perforated"
 package = "lean-yamabe"
 labels = ["lem:elem", "prop:starN"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 5
-evidence = "perforated.tex l.673–677: lem:elem is stated without proof (ledger nl_status open). prop:starN is at l.679–689 and its proof at l.691–704: lem:elem at x = v/ū; the concavity step (A+B)^{2/q} ≤ A^{2/q} + (2/q)A^{2/q−1}B; the Poincaré and Sobolev–Poincaré bounds. « obtained by the same three-branch split as in Theorem thm:star3 » (l.687–688) makes it depend on T-perf-star3 (def:constants and the split). yamabe's thm:lower-bound is stated for every N ≥ 3 (Yamabegap.tex l.512–536), so its Ã needs this target, not only thm:star3. Refined 2026-11-23 (planner): the dependency on T-perf-star3 is dropped. T-perf-star3 is blocked on OQ-109, which asks which correction of thm:star3's Ã is of record. Its Lean is strict since 388ae54: lambda1, Csp, IsPoincareConst, IsSobolevPoincareConst, StarIneq and StarIneqSigned (Yamabe/Perforated/Star3.lean:796–818), and cases (i) and (iii) of the split are proved as printed (the ledger notes of thm:star3). [r] (planner) OQ-109's failure is in case (ii), where the cap n₆ = min{C_SP X₀, 2} (perforated.tex l.612) makes G decrease (Yamabe.star3G_not_monotone). prop:starN's bound has no cap: for X < X₀ and t ≥ t₀, X^q ≤ X₀^{q−2} X² and t^{2−q} ≤ t₀^{2−q}, so its case (ii) is monotone and the split goes through. The closer is to check this. The closer also defines the explicit Ã, which the paper does not print, and carries 0 < λ₁ and a finite C_SP as Star3.lean does (its l.58; their proof is T-perf-poincare's). lem:elem is a real inequality and needs no reading. prop:starN's mark may wait on OQ-109's readings of λ₁ and C_SP (the readings, not the correction), as def:constants' does"
+evidence = "Closed at 3b71ab0 (audit minor); see the commit"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "3b71ab0"
 
 [[target]]
 id = "T-perf-upper"
@@ -2619,13 +2623,14 @@ kind = "close"
 paper = "perforated"
 package = "lean-yamabe"
 labels = ["def:constants"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 6
 depends = ["T-yamabe-integrate-r2", "T-yamabe-graduate-analysis"]
-evidence = "perforated.tex l.328: « Both are finite because Σ is compact, connected and Lipschitz ». lem:capstar's positivity uses it (« by Poincaré », l.394–399), and so does the Ã of thm:star3 and prop:starN. The route is lem:positivity's: compactness (Rellich), constancy of energy-free limits (ConstLimit), then a contradiction. Yamabe.MeasuredModel.lem_positivity (scaffold Rellich.lean:117) is the template. Its Props hold on the manifold reading through Mfd.Reads.*, and the discharge becomes sorry-free when T-yamabe-integrate-r3 lands, with no further edit. It needs ConstLimit with the MemLp hypothesis (AUDIT-2 finding 3), hence the dependency on T-yamabe-integrate-r2. The definitions of λ_1 and C_SP are T-perf-star3's. Refined 2026-11-23 (planner). (1) T-perf-star3 is dropped from depends. This target needs only its definitions lambda1, Csp, IsPoincareConst and IsSobolevPoincareConst, strict in Yamabe/Perforated/Star3.lean since 388ae54 (l.796–809). OQ-109, on which T-perf-star3 is blocked, asks which correction of thm:star3's Ã is of record, and nothing here depends on Ã. Star3.lean:58 assigns this target the proof of λ₁ ∈ (0, ∞) and C_SP < ∞ (« their proof is T-perf-poincare's »). Capacity.lean:80 does the same for MeanPoincare (« T-perf-poincare discharges it »), which lem:capstar, lem:capacitary and thm:main carry (Capacity.lean:592 on, Main.lean:767–768). (2) It depends on T-yamabe-graduate-analysis instead, because RellichProp, ConstLimit and SobolevIneq are scaffold definitions today (Rellich.lean:121, :130; Sobolev.lean:182), and the strict Yamabe/Perforated/ cannot import the scaffold. T-yamabe-integrate-r3 has landed (4d17421), so the Mfd.Reads bridges are sorry-free. (3) Points for the closer. lambda1 is an sSup, which is 0 on an unbounded set (Star3.lean:800, T-perf-star3's kb pattern), so λ₁ > 0 also needs some v with v ≠ v̄ in L², which a manifold reading supplies. MeasuredModel.mean (Star3) and volMean (Capacity) agree up to mul_comm (T-perf-capacity REPORT notes). (4) The mark of def:constants waits on OQ-109's readings taken (λ₁ as the best Poincaré constant; « compact, connected, Lipschitz » as finite volume, λ₁ ∈ (0, ∞) and a finite C_SP), and on the manifold also on OQ-93, so the row may close partial"
+evidence = "λ₁ ∈ (0,∞), MeanPoincare, a finite C_SP on the model and on the C¹ reading (strict Yamabe/Perforated/Poincare.lean); def:constants waits on OQ-109, OQ-93; audit minor"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "3b71ab0"
 
 [[target]]
 id = "T-yamabe-thm-lower-bound"

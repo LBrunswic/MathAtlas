@@ -755,3 +755,17 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 9fbefdd 117bce5 b5ea22c 7706e0d [+ roadmap/atlas/journal]
 - wall time: 02:40–04:10 UTC; agents in parallel: 3 closers + 1 graduation agent, 4 audits
 - next: T-perf-poincare, T-perf-star-n, T-yamabe-trace-compact (lean-yamabe); T-3p1-theorem-m-theta (after photon circles); the builder (T-atlas-tex-text-macros, overlay refresh) is due.
+
+## 2026-11-23 05:25 · wave of 6 · T-yamabe-trace-compact, T-perf-poincare, T-perf-star-n, T-atlas-overlay-refresh, T-3p1-theorem-m-theta, T-bbs-hs-singularities
+- T-yamabe-trace-compact: closed, strict. No sorry is left in lean-yamabe; the § 6 marks wait on OQ-93. Audit minor.
+- T-perf-poincare: closed, strict (λ₁ ∈ (0,∞), MeanPoincare, a finite C_SP). The companion rows blocked on it now name OQ-109–112. Audit minor.
+- T-perf-star-n: closed, strict. prop:starN under OQ-118's readings (Ã, c_q); lem:elem marked. Audit minor.
+- T-atlas-overlay-refresh (builder, standing): Lean edges refreshed for lean-gx and lean-yamabe (f490811); back to ready.
+- T-3p1-theorem-m-theta: closed (research, kept in the scaffold for the author). Θ₋ = Θ₊ for every regular de Sitter annulus with no named hypothesis. bbsrem:causally_regular_hs_sphere_containing is partial: proved under IsIotaPrime for every Θ, and with no hypothesis when Θ₋ > 0. OQ-119. Audit minor (two docstrings fixed; a duplicate lemma left for a cleanup).
+- T-bbs-hs-singularities: partial, done for this dispatch. 10 tagged sorrys in the scaffold. bbsrem:previous_section_observed_only is partial and unmarked, its three assertions proved under readings. Finding: l.794–800 need « with non-trivial holonomy ». OQ-120. Audit round 1 major (a false time-like clause in a paper finding), fixed; round 2 minor. Its evidence names the four-part split for the planner.
+- Ledger: an unmarked row whose extra_lean_files include a strict file reads as strict/closed. The two partial bbs rows now carry scaffold/partial overrides (4399232).
+- gates: lean-yamabe ✓, lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, hub: make -k check rc 0, no new red
+- commits: 3b71ab0 c99dc29 106f726 f490811 4211879 59052ae 4399232 [+ roadmap/atlas/journal]
+- wall time: 03:53–05:25 UTC; agents in parallel: 5 closers + 1 builder, 7 audits (one fix round)
+- New questions for the author: OQ-119 (Θ = 0 without ι'_L as a target? the remark's bucket D scope; « degree included » at Θ = 0) and OQ-120 (« isomorphic » with the same p; « holonomy ⟨g⟩ » in G̃; positive/negative in l.915's form).
+- next: only one ready closer target is left (T-ett-gluing-causality, lean-causal, /ett-programme's package), so the next iteration plans: split T-bbs-hs-singularities along its four groups and refill the lean-gx and lean-yamabe queues.
