@@ -3,6 +3,7 @@ import Causal.Ladder.Basic
 import Causal.Ladder.Dual
 import Causal.ArcConnected
 import Causal.CausallyPlainLocZ
+import Causal.ChronalNeighbourBridge
 import Causal.ChronalTarentin
 import Causal.CurvesExtend
 import Causal.DeuxPushup
@@ -64,6 +65,8 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.Pu
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours
 -- chronal_neighbours ⇒ tarentin
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.ChronalNeighbours.tarentin
+-- chronal_neighbours ⇒ has_chronal_neighbour
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere
 -- absolutely_minimal ∧ locally_causally_open_future ⇒ causally_open_future
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.AbsolutelyMinimal.causallyOpenFuture_of_locallyCausallyOpenFuture
 -- absolutely_minimal ∧ locally_causally_open ⇒ causally_open

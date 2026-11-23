@@ -195,6 +195,21 @@
 # (lem:pushup_local's statement of record is absolutely_minimal ∧ locally_push_up ⇒ push_up, T1) in
 # comments and `what`s, and adds one consequence (prop:tarentin_topological_spacetime_causality
 # (ii)⇒(i), at causally_open); no edge, counterexample or fact changes, so no pair moves.
+# After T-lad-has-chronal-neighbour (2026-11-23) 354 of 354: the causality-sort node
+# has_chronal_neighbour (DEC-159, Causal.Causality.HasChronalNeighbourEverywhere) brings 36 pairs to
+# classify (342 causality-sort pairs; 246 ill-typed). Of the 36, 2 are implied (chronal_neighbours →
+# has_chronal_neighbour, its edge; has_chronal_neighbour → curves_extend, the [[fact]]) and 34 refuted,
+# none open: X → has_chronal_neighbour for the 17 other X by the lightlike line (16) and the isolated
+# line (causally_plain; its entry re-pointed to the node, every pair it refuted kept), and
+# has_chronal_neighbour → X for the 17 other X, 14 through the closure by the models with chronal
+# neighbours lacking X, → chronal_neighbours by the closed half-line (and the notched plane), →
+# tarentin by the notched plane and → absolutely_minimal by the global line. In all: 37 implied
+# (33 causality-sort), 309 refuted (306 causality-sort), 8 [[open]] (3 causality-sort, 4
+# geometry-sort, 1 pair-sort); no other pair moved. Of the 34, 33 are refuted by absolutely minimal
+# counterexamples, in either reading; has_chronal_neighbour → absolutely_minimal by the global line
+# only, no-gluing only: of the 306 refuted causality-sort pairs, 282 by an absolutely minimal
+# counterexample and 24 by the 21 non-minimal entries only (16 X → absolutely_minimal, the 5 that hold
+# in a gluing reading, the 3 → causally_arc_connected, as above).
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -263,7 +278,7 @@
 #   pair property (emit_test keeps the sort `causality` only; LeNested's binder `C C' : Causality M`
 #   would otherwise be misread as one causality), and reads no [[transfer]].
 # * Not nodes: Causal.Causality.LtNested (≪-nesting; no theorem of the library uses it); and
-#   Causal.Causality.NoCausalEndpoint (J^±(x) ≠ {x}, Causal/LadderLocal.lean:172), OQ-41 (b)'s other
+#   Causal.Causality.NoCausalEndpoint (J^±(x) ≠ {x}, Causal/LadderLocal.lean:194), OQ-41 (b)'s other
 #   branch, a node that would give the inextensible nesting on M, which DEC-161 (b) did not adopt: it
 #   is a property of one causality, written in words in the `under` of the consequences that need it
 #   (at curve_nested and le_nested below; Lemma K's, at globally_hyperbolic and curves_extend).
@@ -271,21 +286,30 @@
 #   ruled (the roadmap's T-lad-nested-inextensible).
 #
 # One-sided notions (DEC-166, OQ-52; T-lad-one-sided-node, 2026-11-22).
-# * (a) The one-sided notions of Causal.LadderLocal take the past as base
-#   (Causal.Causality.ChronalPastNeighbours, NoPastEndpoint; the future forms are C.dual.…).
-#   DEC-166 (a) moves them to the library's future base, as CausallyOpenFuture is, the past forms
-#   becoming C.dual.… (T-abs-one-sided-future-base, a Lean refactor); no ladder id is renamed now.
-#   What the rename will change here: no id and no `lean` field. The two-sided node chronal_neighbours
-#   (Causal.Causality.ChronalNeighbours) and the two-sided Causal.Causality.NoCausalEndpoint (no node;
-#   "J⁺(x) ≠ {x} and J⁻(x) ≠ {x}" in words in `under`) keep their names and meaning; only their
-#   Lean bodies become the future form of C and of C.dual. The comments citing the one-sided names
-#   (the localisation properties' header and chronal_neighbours' comment, with
-#   Causal.Causality.ChronalPastNeighbours.mem_Zminus and
-#   Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff; the global line's entry) keep
-#   resolving, since the past names stay as definitions equal to the dual forms; the keeper moves them
-#   to the future names after the refactor. Whether a one-sided node is then added is the keeper's, not
-#   ruled.
-# * (b) one_sided_boundary (Causal.Causality.OneSidedBoundary U B, Causal/LadderLocal.lean:190, the
+# * (a) The one-sided notions of Causal.LadderLocal take the future as base since
+#   T-abs-one-sided-future-base (1cef44b, DEC-166 (a)), as CausallyOpenFuture does:
+#   Causal.Causality.ChronalFutureNeighbours (Causal/LadderLocal.lean:166) and
+#   Causal.Causality.NoFutureEndpoint (:183) are the bases, and the past forms their duals,
+#   ChronalPastNeighbours := C.dual.ChronalFutureNeighbours (:172) and NoPastEndpoint :=
+#   C.dual.NoFutureEndpoint (:188). No ladder id and no `lean` field changed. The two-sided node
+#   chronal_neighbours (Causal.Causality.ChronalNeighbours, :178, ChronalPastNeighbours ∧
+#   ChronalFutureNeighbours, i.e. the future form of C.dual and of C,
+#   Causal.Causality.chronalNeighbours_iff_future) and the two-sided Causal.Causality.NoCausalEndpoint
+#   (:194, no node; "J⁺(x) ≠ {x} and J⁻(x) ≠ {x}" in words in `under`) keep their names and meaning.
+#   The comments that cited the past names as the base (the localisation properties' header,
+#   chronal_neighbours' comment, the global line's entry) were moved to the future names by
+#   T-lad-has-chronal-neighbour (2026-11-23): chronal_neighbours' comment cites
+#   Causal.Causality.ChronalFutureNeighbours.mem_Zplus and
+#   Causal.Causality.AbsolutelyMinimal.chronalFutureNeighbours_iff, with the past forms
+#   ChronalPastNeighbours.mem_Zminus and AbsolutelyMinimal.chronalPastNeighbours_iff as their duals.
+#   No node of one fixed side is added (the keeper's call; not ruled): the one-sided localisation
+#   property the programme asks, DEC-159's, is has_chronal_neighbour (one point, either side,
+#   chronology in M), invariant under time reversal. ChronalFutureNeighbours (one fixed side, in every
+#   open set) is the hypothesis of no ladder entry; its past form is that of
+#   Causal.Causality.PushUp.causallyOpenFuture_of_chronalPastNeighbours, which the ladder uses only
+#   through chronal_neighbours (the edge push_up ∧ chronal_neighbours ⇒ causally_open, both sides);
+#   as a node it would come with its dual, a pair of nodes for one notion up to time reversal.
+# * (b) one_sided_boundary (Causal.Causality.OneSidedBoundary U B, Causal/LadderLocal.lean:212, the
 #   topological content of ERS (4.83)) is an edge hypothesis only, not a ladder node. A predicate on an
 #   open U and a set B of M with no causality, it fits neither sort; it is written in words in the
 #   `under` of the consequences that take it (ERS Thm 4.82 at is_causal,
@@ -423,6 +447,23 @@
 # held lean-causal), each signature quoted in its comment and each name resolved by tools/ladder.py's
 # index. Their instance binders are their standings: ["T1", "second_countable"] for the edge,
 # ["T2", "second_countable"] for the five consequences (of N for the two Cauchy-embedding ones).
+# Those of T-lad-has-chronal-neighbour (2026-11-23: the property has_chronal_neighbour,
+# Causal.Causality.HasChronalNeighbourEverywhere; the edge witness
+# Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere; the [[fails]] witnesses
+# Causal.lightlikeLine_separates_hasChronalNeighbour, Causal.closedHalfLine_separates_chronalNeighbours,
+# Causal.notchedCausality_separates and Causal.globalLine_separates, and the isolated line's re-pointed
+# entry; the eight consequences' witnesses, from Causal.LocateExtension and
+# Causal.ChronalNeighbourBridge; and every Lean name the new and refreshed comments cite) were read
+# from the sources, with no build (an exclusive closer held lean-causal), each signature quoted in its
+# comment and each name resolved by tools/ladder.py's index. The edge witness takes no instance argument (no standing); of the
+# consequences, exists_leaving_of_hasChronalNeighbourEverywhere, exists_leaving_of_isOpenEmbedding and
+# futureBoundary_union_pastBoundary_nonempty_of_tarentin take [PreconnectedSpace M] (standing
+# ["preconnected"], beyond the ambient: a consequence chains nothing) and
+# AbsolutelyMinimal.hasChronalNeighbour_iff takes [T1Space M] (["T1"]). Two of the four [[fails]]
+# witnesses state has_chronal_neighbour through one or two named lemmas, not as a conjunct (the
+# global line's through NonemptyChronalCones.hasChronalNeighbourEverywhere, the notched plane's
+# through notchedCausality_chronalPastNeighbours and ChronalPastNeighbours.Iminus_nonempty), split as
+# the gated line's global hyperbolicity is; the terms are in their comments, not compiled.
 
 [[property]]
 id = "is_causal"
@@ -609,11 +650,14 @@ note = "every causality on a T1, second countable space has curves_extend (Zorn 
 # open neighbourhood with the property"; for push-up and future causal openness, which pass to
 # smaller opens, it is the arbitrarily-small form (Causal.Causality.locallyPushUp_iff_nhds,
 # locallyCausallyOpenFuture_iff_nhds). Each global property implies its local form (edges below).
-# The one-sided ChronalPastNeighbours is not a node. DEC-166 (a) (OQ-52 (a)) moves the one-sided
-# notions to the library's future base, the past forms as C.dual (T-abs-one-sided-future-base, a Lean
-# refactor; what it changes here: the header's "One-sided notions"); whether a one-sided node is then
-# added is the keeper's, not ruled. OneSidedBoundary, OQ-52's other notion, is an edge hypothesis
-# only (DEC-166 (b)): no node, named in the `under` of its consequence (ERS Thm 4.82, at is_causal).
+# The one-sided ChronalFutureNeighbours is not a node, nor its past form ChronalPastNeighbours
+# (C.dual.ChronalFutureNeighbours): since T-abs-one-sided-future-base (1cef44b, DEC-166 (a), OQ-52 (a))
+# the future form is the library's base and the past form its dual (the header's "One-sided
+# notions"). The fifth localisation node, has_chronal_neighbour (DEC-159, T-lad-has-chronal-neighbour,
+# 2026-11-23), is one-sided in another sense, at one point and on either side, chronology in M; its
+# entry follows chronal_neighbours' below, its Lean definition is in Causal/ChronalNeighbourBridge.lean.
+# OneSidedBoundary, OQ-52's other notion, is an edge hypothesis only (DEC-166 (b)): no node, named in
+# the `under` of its consequence (ERS Thm 4.82, at is_causal).
 
 # The cover (O i) of lem:pushup_local is this, up to `choose` (Causal.Causality.locallyPushUp_of_cover).
 [[property]]
@@ -634,14 +678,72 @@ id = "locally_causally_open"
 lean = "Causal.Causality.LocallyCausallyOpen"
 what = "local causal openness in the future and in the past: every point has an open neighbourhood W with J⁺_U(V) and J⁻_U(V) open for all opens V ⊆ U ⊆ W"
 
-# Two-sided (ChronalPastNeighbours of C and of C.dual). Chronology is taken in V, not in M; it makes
-# every point strongly tarentin (Causal.Causality.ChronalNeighbours.mem_Zplus, ChronalPastNeighbours.
-# mem_Zminus), and under absolute minimality on a T1 space it is I^±(x) ≠ ∅ for every x
-# (Causal.Causality.AbsolutelyMinimal.chronalPastNeighbours_iff, past side).
+# Two-sided: ChronalFutureNeighbours of C.dual (the past side, `.1`, which is
+# Causal.Causality.ChronalPastNeighbours by definition since T-abs-one-sided-future-base, 1cef44b,
+# DEC-166 (a)) and of C (the future side, `.2`): Causal.Causality.chronalNeighbours_iff_future.
+# Chronology is taken in V, not in M; it makes every point strongly tarentin
+# (Causal.Causality.ChronalNeighbours.mem_Zplus; one side each,
+# Causal.Causality.ChronalFutureNeighbours.mem_Zplus and its dual
+# Causal.Causality.ChronalPastNeighbours.mem_Zminus), and under absolute minimality on a T1 space it
+# is I^±(x) ≠ ∅ for every x (Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff; one side each,
+# Causal.Causality.AbsolutelyMinimal.chronalFutureNeighbours_iff and its dual
+# chronalPastNeighbours_iff).
 [[property]]
 id = "chronal_neighbours"
 lean = "Causal.Causality.ChronalNeighbours"
 what = "in every open V, every v ∈ V has p, p' ∈ V with p ≪_V v ≪_V p' (chronology taken in V)"
+
+# ---- has_chronal_neighbour (T-lad-has-chronal-neighbour, 2026-11-23; DEC-159, OQ-51): the
+# localisation property of locating an extension (Sbierski 1507.00601 Lemma 2.17, Grant–Kunzinger–
+# Sämann 1804.10423 Lemma 3.8; no ETT label). Causal.Causality.HasChronalNeighbourEverywhere
+# (Causal/ChronalNeighbourBridge.lean, ETT layer: it imports Causal.LocateExtension and
+# Causal.LadderLocal, no model) is ∀ p, C.HasChronalNeighbour p; Causal.Causality.HasChronalNeighbour p
+# (Causal/LocateExtension.lean) is (C.Iplus ⊤ {p}).Nonempty ∨ (C.Iminus ⊤ {p}).Nonempty: one point,
+# one side, chronology in M. It is what both Lorentzian proofs take from the metric (Sbierski's
+# "let q̃ ∈ I⁻(p̃, Ũ)", GKS's Ĩ±(p̃) ∩ Ω̃ ≠ ∅), made one-sided so that a BTZ point (I⁻ = ∅ ≠ I⁺,
+# rem:btz_pas_tarentin) qualifies. Without it at the boundary Lemma 2.17 is false in ETT
+# (Causal.not_exists_leaving_bare: the isolated line, OQ-51). The form, the keeper's choice:
+# * Everywhere, not the point predicate. A node is a predicate on one causality. The point
+#   predicate at the frontier points of one open set, which is all Lemma 2.17 asks, is an edge
+#   hypothesis: written in words in the `under` of the boundary form
+#   (Causal.Causality.exists_leaving_of_isOpenEmbedding, a consequence at causally_arc_connected
+#   below), as one_sided_boundary and slice_restart are (DEC-166 (b), DEC-162). The node gives it at
+#   every frontier point of every open set.
+# * One node: Causal.Causality.NonemptyChronalCones (I⁺(x) and I⁻(x) both non-empty for every x) is
+#   not added. It lies between chronal_neighbours and this node
+#   (Causal.Causality.ChronalNeighbours.nonemptyChronalCones,
+#   Causal.Causality.NonemptyChronalCones.hasChronalNeighbourEverywhere), and it is chronal_neighbours
+#   on every absolutely minimal spacetime on a T1 space
+#   (Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff_nonemptyChronalCones) and on every
+#   causally arc-connected one, with no separation
+#   (Causal.Causality.CausallyArcConnected.chronalNeighbours_iff).
+#   Under DEC-167 (gluing: every ETT causality absolutely minimal) it is therefore chronal_neighbours
+#   on every ETT spacetime, a second name for one notion: only the global line separates the two in
+#   Lean (Causal.globalLine_separates), and it is no causality with gluing. Every theorem of the
+#   library that takes it also takes absolute minimality (T1) or causal arc-connectedness
+#   (Causal.Causality.K_lorentzien, Causal.Causality.Zplus_Zminus_eq_univ,
+#   Causal.Causality.IsCauchySurface.sigma_separe_of_nonemptyChronalCones), where it is
+#   chronal_neighbours. This node is not chronal_neighbours under any hypothesis of the library: the
+#   closed half-line, causally arc-connected, has it and lacks chronal neighbours (a [[fails]] below).
+# * Invariant under time reversal (Causal.Causality.dual_hasChronalNeighbourEverywhere), so it needs
+#   no future and past pair, unlike the one-sided ChronalFutureNeighbours (no node).
+# Characterisations (consequences below): under causal arc-connectedness with no separation
+# (Causal.Causality.CausallyArcConnected.hasChronalNeighbour_iff), or under absolute minimality on a
+# T1 space (Causal.Causality.AbsolutelyMinimal.hasChronalNeighbour_iff), a point has a chronal
+# neighbour iff it lies in Z⁺(M) ∪ Z⁻(M): there the node is Z⁺ ∪ Z⁻ = M.
+# Layer 3 per model: a model with chronal neighbours has it through chronal_neighbours ⇒
+# has_chronal_neighbour (the timelike line, the static spacetimes and the half-plane, E_α's massive
+# and cosmic-string causalities, the flat time cylinders: Causal.timelikeLine_chronalNeighbours,
+# Causal.staticCausality.chronalNeighbours, Causal.massive_chronalNeighbours,
+# Causal.cosmicString_chronalNeighbours, Causal.Flat.timeCylinder_chronalNeighbours); Schwarzschild's
+# comes through T-loc-smooth-causal-ladder's chronal_neighbours. An E_{≥0}-manifold has it on the
+# future side, at its BTZ points too (rem:btz_pas_tarentin, the field
+# Causal.Causality.SingularFlatAxioms.mem_Zplus), which no ladder entry states. The binder of
+# papers/sbierski-schwarzschild binds Lemma 2.17 to it (T-bind-sbierski-schwarzschild).
+[[property]]
+id = "has_chronal_neighbour"
+lean = "Causal.Causality.HasChronalNeighbourEverywhere"
+what = "every point p has a chronal neighbour in M, on one side at least: I⁺(p) or I⁻(p) non-empty, chronology taken in M (Causal.Causality.HasChronalNeighbour at every point; the endpoint of the closed half-line, I⁻ = ∅ ≠ I⁺, qualifies)"
 
 # ------------------------------------------------------------------ properties of a geometry
 # Sort `geometry` (header): Sbierski 1309.7591's A1, A3, A4 in lean-causal's CBG interface, the fields
@@ -927,6 +1029,24 @@ status = "checked"
 from = ["chronal_neighbours"]
 to = "tarentin"
 witness = "Causal.Causality.ChronalNeighbours.tarentin"
+status = "checked"
+
+# T-lad-has-chronal-neighbour (2026-11-23; DEC-159). Chronal neighbours in every open set give a
+# chronal neighbour in M at every point: the open V = M, the future side
+# (Causal.Causality.ChronalNeighbours.hasChronalNeighbour, through ChronalNeighbours.Iplus_nonempty;
+# the past side gives it as well). No ETT label. Read from the source, with no build (a closer held
+# lean-causal; Causal/ChronalNeighbourBridge.lean, ETT layer): {M} [TopologicalSpace M]
+# {C : Causality M} (h : C.ChronalNeighbours) : C.HasChronalNeighbourEverywhere, no other premise, no
+# instance argument, so no standing. Strict, in either reading: the closed half-line has
+# has_chronal_neighbour and is causally arc-connected without chronal neighbours
+# (Causal.closedHalfLine_separates_chronalNeighbours, a [[fails]] below; bare form
+# Causal.not_chronalNeighbours_of_hasChronalNeighbourEverywhere_bare, with T1 and causal
+# arc-connectedness). With it every model with chronal neighbours has has_chronal_neighbour, and
+# every counterexample lacking has_chronal_neighbour lacks chronal_neighbours.
+[[implies]]
+from = ["chronal_neighbours"]
+to = "has_chronal_neighbour"
+witness = "Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere"
 status = "checked"
 
 # prop:topological_spacetime_absolutely_minimal (ETT.tex:698), as printed (J⁺ only): the node
@@ -1664,12 +1784,17 @@ status = "checked"
 # The isolated line (above) once more. Causal.isolatedLine_separates_chronalNeighbours
 # (Causal/ChronalNeighbourBridge.lean, T-abs-chronal-neighbour-bridge) : isolatedLine.CausallyArcConnected
 # ∧ isolatedLine.CausallyOpen ∧ isolatedLine.CausallyPlain ∧ ¬isolatedLine.HasChronalNeighbourEverywhere
-# ∧ ¬isolatedLine.ChronalNeighbours (nothing is ≪ 0; HasChronalNeighbourEverywhere is no node,
-# OQ-51). Through the closure also absolutely_minimal, causally_open_future, the two local forms of
-# causal openness, and push_up, locally_push_up (absolutely_minimal ∧ causally_plain ⇒ push_up, T1,
-# valid on ℝ) ⇏ chronal_neighbours; the one [[open]] pair it settles is causally_plain →
-# chronal_neighbours. Either reading: the isolated line is causally arc-connected
-# (Causal.isolatedLine_causallyArcConnected), hence absolutely minimal
+# ∧ ¬isolatedLine.ChronalNeighbours (nothing is ≪ 0). Through the closure also absolutely_minimal,
+# causally_open_future, the two local forms of causal openness, and push_up, locally_push_up
+# (absolutely_minimal ∧ causally_plain ⇒ push_up, T1, valid on ℝ) ⇏ chronal_neighbours; the one
+# [[open]] pair it settled is causally_plain → chronal_neighbours. Re-pointed by
+# T-lad-has-chronal-neighbour (2026-11-23) from to = chronal_neighbours to has_chronal_neighbour, the
+# node its witness's ¬ HasChronalNeighbourEverywhere is since DEC-159 (the same witness, the `to` that
+# carries the most): lacking it, the line lacks chronal_neighbours (chronal_neighbours ⇒
+# has_chronal_neighbour), so every pair the entry refuted stays refuted, and it settles besides
+# causally_plain → has_chronal_neighbour, which no other entry refutes (the lightlike line, the
+# other model without the node, is not plain). Either reading: the isolated line is causally
+# arc-connected (Causal.isolatedLine_causallyArcConnected), hence absolutely minimal
 # (Causal.Causality.CausallyArcConnected.absolutelyMinimal), which is what a gluing reading asks
 # (OQ-18); its other entry above (causally_arc_connected ∧ causally_plain ⇏ tarentin) likewise.
 # Since chronal_neighbours ⇒ tarentin (T-lad-record-minimal) that other entry refutes the pair too,
@@ -1679,7 +1804,7 @@ status = "checked"
 # Reading: either (causally arc-connected, hence absolutely minimal; OQ-18 does not touch it).
 [[fails]]
 from = ["causally_arc_connected", "causally_open", "causally_plain"]
-to = "chronal_neighbours"
+to = "has_chronal_neighbour"
 witness = "Causal.isolatedLine_separates_chronalNeighbours"
 status = "checked"
 
@@ -1687,10 +1812,13 @@ status = "checked"
 # x ≪_U y iff U = ℝ and x < y; x ≤_U y iff x = y ∈ U, or U = ℝ and x < y). Recorded by
 # T-lad-record-lines on Causal.globalLine_separates : globalLine.NonemptyChronalCones ∧
 # globalLine.PushUp ∧ globalLine.CausallyOpen ∧ globalLine.IsCausal ∧ ¬globalLine.ChronalPastNeighbours
-# ∧ ¬globalLine.ChronalNeighbours ∧ ¬globalLine.AbsolutelyMinimal (NonemptyChronalCones and
-# ChronalPastNeighbours are no nodes: OQ-51, OQ-52 (a), ruled by DEC-166 (a)); re-pointed by
-# T-lad-record-minimal (2026-11-21), tarentin joining `from`, to Causal.globalLine_separates_tarentin
-# (Causal/ChronalTarentin.lean, T-abs-chronal-neighbours-tarentin), read by `#check`:
+# ∧ ¬globalLine.ChronalNeighbours ∧ ¬globalLine.AbsolutelyMinimal (NonemptyChronalCones is no node,
+# T-lad-has-chronal-neighbour's choice, the comment above has_chronal_neighbour, and it gives that
+# node: the global line's third entry below; ChronalPastNeighbours is no node, the past side of
+# chronal_neighbours, C.dual.ChronalFutureNeighbours since T-abs-one-sided-future-base, DEC-166 (a));
+# re-pointed by T-lad-record-minimal (2026-11-21), tarentin joining `from`, to
+# Causal.globalLine_separates_tarentin (Causal/ChronalTarentin.lean, T-abs-chronal-neighbours-tarentin),
+# read by `#check`:
 # globalLine.Tarentin ∧ PushUp ∧ CausallyOpen ∧ IsCausal ∧ ¬ ChronalNeighbours ∧ ¬ AbsolutelyMinimal
 # (every point is strongly tarentin, Causal.globalLine_separates_Z: Z⁺ = Z⁻ = ℝ ∧ Tarentin ∧
 # ¬ ChronalNeighbours, not recorded, as Z^± are no nodes). Through the closure also locally_push_up,
@@ -1719,6 +1847,25 @@ status = "checked"
 from = ["tarentin", "push_up", "causally_open", "is_causal"]
 to = "absolutely_minimal"
 witness = "Causal.globalLine_separates_tarentin"
+status = "checked"
+
+# The global line a third time (T-lad-has-chronal-neighbour, 2026-11-23), on the witness the entries
+# above were first recorded on, Causal.globalLine_separates (quoted above). Its first conjunct,
+# globalLine.NonemptyChronalCones, gives has_chronal_neighbour by one application of
+# Causal.Causality.NonemptyChronalCones.hasChronalNeighbourEverywhere
+# (Causal.globalLine_nonemptyChronalCones.hasChronalNeighbourEverywhere): split as the gated line's
+# global hyperbolicity is, no one Lean statement conjoining the two halves. It settles
+# has_chronal_neighbour → absolutely_minimal, the one pair from the node that the models with chronal
+# neighbours leave (chronal_neighbours → absolutely_minimal is [[open]]: no Lean model with chronal
+# neighbours is non-minimal), in the no-gluing reading only. Under DEC-167 every causality is
+# absolutely minimal, so the pair holds trivially, and T-lad-gluing-reading removes this entry with
+# the other non-minimal ones (21 since this one: the gated line 7, the jump line 7, the global line 3,
+# deuxPushup 3, Galileo's spacetime 1).
+# Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
+[[fails]]
+from = ["has_chronal_neighbour", "push_up", "causally_open", "is_causal"]
+to = "absolutely_minimal"
+witness = "Causal.globalLine_separates"
 status = "checked"
 
 # ---- T-lad-record-minimal (2026-11-21): the wave's absolutely minimal witnesses. Each space is
@@ -2260,6 +2407,102 @@ to = "locally_push_up"
 witness = "Causal.rationalJumpPlane_separates"
 status = "checked"
 
+# ---- T-lad-has-chronal-neighbour (2026-11-23; DEC-159): the separations of has_chronal_neighbour.
+# Each witness was read from the sources, with no build (a closer held lean-causal), and its
+# statement is quoted; the spaces are ℝ, the closed half-line Ici (0 : ℝ) and the notched plane, a
+# closed subspace of ℝ × ℝ, Hausdorff and second countable (mathlib's instances for ℝ and for a
+# subtype; the notched plane's witness conjoins both), so no `space` is written. With the isolated
+# line's entry, re-pointed to has_chronal_neighbour above, and the global line's third entry, they
+# classify the 36 pairs the node brings (2 × 18 with the other causality-sort nodes): 2 implied
+# (chronal_neighbours → has_chronal_neighbour, its edge; has_chronal_neighbour → curves_extend, the
+# [[fact]]) and 34 refuted, none open. From the node, 14 pairs are refuted through the closure by the
+# models with chronal neighbours that lack the conclusion (the half-plane, the flat time cylinders,
+# the chronal membrane and its time reversal, the rational-jump plane: no new entry), and 3 by the
+# entries here and the global line's. Into the node, every pair but chronal_neighbours' is refuted:
+# 16 by the lightlike line, causally_plain → has_chronal_neighbour by the isolated line. All 34 hold in
+# either reading but has_chronal_neighbour → absolutely_minimal (the global line, no-gluing only).
+
+# The lightlike line (above), once more, on its has_chronal_neighbour witness.
+# Causal.lightlikeLine_separates_hasChronalNeighbour (Causal/ChronalNeighbourBridge.lean,
+# T-abs-chronal-neighbour-bridge) : lightlikeLine.PushUp ∧ lightlikeLine.CausallyOpen ∧
+# lightlikeLine.GloballyHyperbolic ∧ lightlikeLine.NoCausalEndpoint ∧
+# lightlikeLine.CausallyArcConnected ∧ lightlikeLine.Tarentin ∧
+# ¬ lightlikeLine.HasChronalNeighbourEverywhere (a closed statement, no instance argument; its
+# chronology is empty, so no point has a chronal neighbour, Causal.Precausality.mem_Iplus_singleton
+# read at 0). Every id of `from` in one statement; NoCausalEndpoint is no node. Through the closure on
+# ℝ also locally_push_up, causally_open_future and the two local forms, is_causal, causally_compact,
+# absolutely_minimal, strongly_causal (globally_hyperbolic ∧ tarentin ⇒ strongly_causal, T2),
+# strongly_causal_open, time_function (Levin, T2, second countable) and curves_extend (the [[fact]]):
+# 16 pairs X → has_chronal_neighbour refuted, every causality-sort X but causally_plain (the lightlike
+# line is not plain, Causal.lightlikeLine_not_causallyPlain: the isolated line's entry) and
+# chronal_neighbours (implied). What it carries: no causality-sort property but chronal_neighbours
+# gives a chronal neighbour anywhere, not even push-up, two-sided causal openness, global
+# hyperbolicity, tarentin and causal arc-connectedness together, so Lemma 2.17's localisation
+# hypothesis is not supplied by the rest of the ladder (Causal.lightlikeLine_futureBoundary: no
+# chronal curve leaves any set).
+# Reading: either (causally arc-connected, hence absolutely minimal; OQ-18 does not touch it).
+[[fails]]
+from = ["push_up", "causally_open", "globally_hyperbolic", "causally_arc_connected", "tarentin"]
+to = "has_chronal_neighbour"
+witness = "Causal.lightlikeLine_separates_hasChronalNeighbour"
+status = "checked"
+
+# The closed half-line (Causal.closedHalfLine on Causal.ClosedHalfLine = Ici (0 : ℝ),
+# Causal/LocateExtension.lean: the timelike line's causality on [0, ∞), x ≤_U y iff x ≤ y and
+# [x, y] ⊆ U, x ≪_U y iff moreover x < y; its endpoint has a chronological future and no
+# chronological past, as a BTZ point, Causal.closedHalfLine_oneSided).
+# Causal.closedHalfLine_separates_chronalNeighbours (Causal/ChronalNeighbourBridge.lean) :
+# T1Space ClosedHalfLine ∧ PreconnectedSpace ClosedHalfLine ∧ closedHalfLine.CausallyArcConnected ∧
+# closedHalfLine.AbsolutelyMinimal ∧ closedHalfLine.HasChronalNeighbourEverywhere ∧
+# ¬ closedHalfLine.NonemptyChronalCones ∧ ¬ closedHalfLine.ChronalNeighbours (a closed statement, no
+# instance argument; I⁻(0) = ∅, Causal.closedHalfLine_Iminus_zero; bare form
+# Causal.not_chronalNeighbours_of_hasChronalNeighbourEverywhere_bare). The carrier is a subtype of ℝ,
+# Hausdorff and second countable by mathlib's instances (the witness states T1 only), so it is one of
+# ETT's spacetimes and no `space` is written. It settles has_chronal_neighbour → chronal_neighbours:
+# the edge chronal_neighbours ⇒ has_chronal_neighbour does not reverse, even on a causally
+# arc-connected spacetime, and the two notions do not meet under absolute minimality
+# (Causal.Causality.AbsolutelyMinimal.chronalNeighbours_iff asks both cones). The half-line is
+# argued to be tarentin, push-up, causally open, plain and globally hyperbolic too, none of it in
+# Lean; as entries those would move no pair (it lacks only chronal_neighbours, and every pair
+# X → chronal_neighbours is refuted already, has_chronal_neighbour's by this entry).
+# Reading: either (causally arc-connected, hence absolutely minimal on every open set; OQ-18 does not
+# touch it).
+[[fails]]
+from = ["has_chronal_neighbour", "causally_arc_connected", "absolutely_minimal"]
+to = "chronal_neighbours"
+witness = "Causal.closedHalfLine_separates_chronalNeighbours"
+status = "checked"
+
+# The notched plane (above, T-lad-record-plain-chronal), on its ¬ Tarentin.
+# Causal.notchedCausality_separates (quoted above: T2Space ∧ SecondCountableTopology of
+# notchedPlane ∧ AbsolutelyMinimal ∧ CausallyArcConnected ∧ CausallyPlain ∧ PushUp ∧ LocallyPushUp ∧
+# CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ IsCausal ∧ CausallyCompact ∧ GloballyHyperbolic ∧
+# StronglyCausalOpen ∧ StronglyCausal ∧ HasTimeFunction ∧ CurvesExtend ∧ ¬ CausallyOpen ∧
+# ¬ LocallyCausallyOpen ∧ ¬ ChronalNeighbours ∧ ¬ Tarentin). Its has_chronal_neighbour is the other
+# half, split as the gated line's global hyperbolicity is: every point has chronal past neighbours in
+# every open set, v − (ε, ε) ≪_V v (Causal.notchedCausality_chronalPastNeighbours,
+# Causal/NotchedPlane.lean), hence a chronological past in M
+# (Causal.Causality.ChronalPastNeighbours.Iminus_nonempty), the past side of HasChronalNeighbour:
+# fun x => Or.inr (notchedCausality_chronalPastNeighbours.Iminus_nonempty x).
+# The corner (0, 0) has no chronal future and lies in no open diamond
+# (Causal.notchedCorner_notMem_openDiamond), whence ¬ Tarentin there. It settles
+# has_chronal_neighbour → tarentin: a chronal neighbour at every point, one-sided, does not give
+# the tarentin property, even with absolute minimality on every open set, causal plainness, push-up,
+# causal openness in the future and global hyperbolicity; so the edge chronal_neighbours ⇒ tarentin
+# needs both sides in every open set, not one side in M. A conjoined Lean statement (the witness with
+# HasChronalNeighbourEverywhere, or a lemma ChronalPastNeighbours.hasChronalNeighbourEverywhere) is
+# the keeper's proposal. Lacking tarentin, it lacks chronal_neighbours (chronal_neighbours ⇒
+# tarentin, read backwards; its witness states it), so it is a second witness of
+# has_chronal_neighbour → chronal_neighbours beside the closed half-line. Its time reversal has the
+# node too, through Causal.Causality.dual_hasChronalNeighbourEverywhere, and refutes nothing more.
+# Reading: either (absolutely minimal on every open set for every cover,
+# Causal.notchedCausality_absolutelyMinimalOn; OQ-18 does not touch it).
+[[fails]]
+from = ["has_chronal_neighbour", "absolutely_minimal", "causally_arc_connected", "causally_plain", "push_up", "locally_push_up", "causally_open_future", "locally_causally_open_future", "is_causal", "causally_compact", "globally_hyperbolic", "strongly_causal_open", "strongly_causal", "time_function", "curves_extend"]
+to = "tarentin"
+witness = "Causal.notchedCausality_separates"
+status = "checked"
+
 # ---- off the ambient (T-lad-record-dual-vee, 2026-11-21): counterexamples whose space is not one of
 # ETT's spacetimes, each with a `space` key listing what its Lean witness states of the space. Since
 # T-tool-ladder-space (599b0b0) refuted() and `matrix` count a [[fails]] only when its space, closed
@@ -2413,7 +2656,7 @@ status = "checked"
 
 # ERS19 Thm 4.82 (ersthm:ThmNotBlocking, ghd_02_19.tex:1100, proof 1114–1139), causal-topological
 # skeleton with (4.83) named (T-lad-one-sided-node, 2026-11-22). Read from the source, no build
-# (Causal/LadderLocal.lean:398, a corollary of Causal.Causality.ers_theorem_4_82,
+# (Causal/LadderLocal.lean:478, a corollary of Causal.Causality.ers_theorem_4_82,
 # Causal/NestedCausalities.lean:1304): [T2Space M] [LocallyConnectedSpace M]; developments
 # dom : ι → Opens M, cau : ι → Causality M, s₀ ∈ S, an index i₁ with dom i₁ maximal among the dom i
 # (hmax); for each i: S ⊆ dom i, dom i preconnected, (hcaus) ≤_{dom i} of cau i antisymmetric,
@@ -2424,7 +2667,7 @@ status = "checked"
 # as a spacetime, not on ≤_M as the two entries above (hcaus is IsCausal with ≤_{dom i} for ≤_M, the first conjunct of
 # Causal.Causality.GloballyHyperbolicOn), hence `at`; closed J's of points and compact slabs over S
 # are no nodes. DEC-166 (b) (OQ-52 (b)): one_sided_boundary is an edge hypothesis only, not a ladder
-# node. Causal.Causality.OneSidedBoundary U B (Causal/LadderLocal.lean:190: U one-sided,
+# node. Causal.Causality.OneSidedBoundary U B (Causal/LadderLocal.lean:212: U one-sided,
 # Causal.Causality.OneSidedAt, at each of its frontier points off B) is a predicate on an open U and
 # a set B of M with no causality, so it fits neither sort; it stands in `under`, in words. It is not
 # automatic: (0, ∞) has it in ℝ (Causal.oneSidedBoundary_Ioi_zero), ℝ ∖ {0} not
@@ -2855,7 +3098,7 @@ status = "checked"
 
 # lem:C_ext_connexe re-routed, on a second countable N (T-abs-c-ext-connexe-second-countable, 65646df;
 # recorded by T-lad-record-curves-corollaries, 2026-11-22, DEC-190). Read from the source
-# (Causal/CExtConnexeSecondCountable.lean:209), with no build: [T2Space N] [SecondCountableTopology N]
+# (Causal/CExtConnexeSecondCountable.lean:210), with no build: [T2Space N] [SecondCountableTopology N]
 # [ConnectedSpace M] (hφ : IsCauchyEmbedding C D φ) {A B : Opens N}
 # (hA : IsCauchyInclusion D hφ.rangeOpens A) (hB : IsCauchyInclusion D hφ.rangeOpens B) :
 # IsConnected (A ⊓ B), the proof one line: Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace
@@ -2878,7 +3121,7 @@ under = "M connected (the source of φ); nothing of N's causality beyond φ a Ca
 standing = ["T2", "second_countable"]
 status = "checked"
 
-# lem:C_ext_connexe's acausality step on a second countable N (Causal/CExtConnexeSecondCountable.lean:237,
+# lem:C_ext_connexe's acausality step on a second countable N (Causal/CExtConnexeSecondCountable.lean:238,
 # T-abs-c-ext-connexe-second-countable's note for the keeper), read from the source: [T2Space N]
 # [SecondCountableTopology N] (hφ : IsCauchyEmbedding C D φ) {S : Set M} (hS : C.IsCauchySurface S)
 # {W : Opens N} {I c} (hc : D.CausalCurveIn W I c) : ∀ x ∈ c '' I ∩ φ '' S, ∀ y ∈ c '' I ∩ φ '' S,
@@ -2948,6 +3191,125 @@ statement = "a Cauchy surface T of M that is a Cauchy surface of two open sets A
 witness = "Causal.Causality.isCauchySurfaceOn_inf_of_secondCountable"
 under = "nothing else (T a Cauchy surface of M, of A and of B)"
 standing = ["T2", "second_countable"]
+status = "checked"
+
+# ---- consequences at has_chronal_neighbour, and the boundary form of Lemma 2.17
+# (T-lad-has-chronal-neighbour, 2026-11-23; DEC-159, OQ-51). Sbierski 1507.00601 Lemma 2.17 and
+# Grant–Kunzinger–Sämann 1804.10423 Lemma 3.8 in ETT: Causal/LocateExtension.lean
+# (T-abs-locate-extension) and Causal/ChronalNeighbourBridge.lean (T-abs-chronal-neighbour-bridge),
+# ETT layer, no model. Read from
+# the sources, with no build (a closer held lean-causal); each signature is quoted in its comment, and
+# each name was resolved by tools/ladder.py's index. The curve is future or past
+# (C.ChronalCurveOn ⊤ γ 0 1 ∨ C.dual.ChronalCurveOn ⊤ γ 0 1, the time reversal standing for
+# Sbierski's "otherwise reverse the time orientation"); its endpoint lies on ∂O. The connectedness of
+# M is the instance [PreconnectedSpace M], beyond the ambient, whence standing ["preconnected"].
+# Without the chronal neighbour at the boundary the lemma is false (Causal.not_exists_leaving_bare:
+# the isolated line, causally arc-connected, causally open and plain, and (0, ∞), whose boundary
+# point 0 has none).
+
+# The every-point form: the node. [PreconnectedSpace M] (hC : C.CausallyArcConnected)
+# (hE : C.HasChronalNeighbourEverywhere) (hO : IsOpen O) (hne : O.Nonempty) (hne' : O ≠ univ) ⊢
+# ∃ γ : ℝ → M, (C.ChronalCurveOn ⊤ γ 0 1 ∨ C.dual.ChronalCurveOn ⊤ γ 0 1) ∧
+# (∀ t ∈ Ico 0 1, γ t ∈ O) ∧ γ 1 ∉ O ∧ γ 1 ∈ frontier O. With chronal_neighbours in place of the node
+# it is Causal.Causality.exists_leaving_of_chronalNeighbours, a corollary through the edge (not
+# recorded). Sharp in the node: the lightlike line is causally arc-connected and connected, and no
+# chronal curve leaves any set (Causal.lightlikeLine_futureBoundary, lightlikeLine_pastBoundary); the
+# closed half-line has the node without chronal neighbours, and a chronal curve leaves (0, ∞) through
+# its endpoint, where I⁻ = ∅ (Causal.closedHalfLine_oneSided: the one-sided hypothesis at work).
+[[consequence]]
+at = ["has_chronal_neighbour", "causally_arc_connected"]
+statement = "Sbierski Lemma 2.17 / GKS Lemma 3.8, every-point form: for every non-empty open O ≠ M, a chronal curve γ of M, future or past, lies in O on [0, 1) and ends on ∂O (∂⁺O ∪ ∂⁻O ≠ ∅)"
+witness = "Causal.Causality.exists_leaving_of_hasChronalNeighbourEverywhere"
+under = "O open, non-empty, O ≠ M; M connected (standing)"
+standing = ["preconnected"]
+status = "checked"
+
+# The boundary form, Sbierski's statement for an open embedding: the localisation hypothesis at the
+# frontier points of ι(N) only, an edge hypothesis (DEC-159; the comment above has_chronal_neighbour).
+# {N : Type v} [TopologicalSpace N] [Nonempty N] [PreconnectedSpace M] {ι : N → M}
+# (hι : IsOpenEmbedding ι) (hproper : range ι ≠ univ) (hC : C.CausallyArcConnected)
+# (hchr : ∀ p ∈ frontier (range ι), C.HasChronalNeighbour p) ⊢ ∃ D : Causality M, (D = C ∨
+# D = C.dual) ∧ ∃ γ : ℝ → M, D.ChronalCurveOn ⊤ γ 0 1 ∧ (∀ t ∈ Ico 0 1, γ t ∈ range ι) ∧
+# γ 1 ∉ range ι ∧ γ 1 ∈ frontier (range ι) ∧ ∀ s ∈ Ico 0 1, D.ChronalCurveOn ⟨range ι, _⟩ γ 0 s.
+# Only ι(N) open is used of ι (not the Cᵏ isometry); the node has_chronal_neighbour gives hchr at
+# every frontier point (Causal.Causality.exists_leaving_of_isOpenEmbedding_of_chronalNeighbours is
+# the corollary with chronal_neighbours). Its layer 3 is per model (the property's comment): a C⁰
+# Lorentzian manifold has a chronal neighbour at every point, both sides; an E_{≥0}-manifold on the
+# future side. Of the open set, a weaker hypothesis suffices locally: a causally arc-connected
+# neighbourhood of each frontier point in which it has a chronological future or past, nothing asked
+# of M away from ∂O (Causal.Causality.exists_leaving_of_local).
+[[consequence]]
+at = "causally_arc_connected"
+statement = "Sbierski 1507.00601 Lemma 2.17 in ETT, boundary form: for an open embedding ι : N → M of a non-empty space onto a proper subset, a chronal curve γ of C or of C.dual lies in ι(N) on [0, 1), ends on ∂ι(N), and is a chronal curve of the spacetime ι(N) on every [0, s], s < 1"
+witness = "Causal.Causality.exists_leaving_of_isOpenEmbedding"
+under = "the localisation hypothesis at the frontier points of ι(N) only, an edge hypothesis and no node (DEC-159): every p ∈ ∂ι(N) has a chronal neighbour, Causal.Causality.HasChronalNeighbour p (I⁺(p) or I⁻(p) non-empty in M), which has_chronal_neighbour (ladder node) gives at every point; ι an open embedding (IsOpenEmbedding ι), N non-empty, range ι ≠ M; M connected (standing)"
+standing = ["preconnected"]
+status = "checked"
+
+# The sharp form: the boundary hypothesis at ONE frontier point is necessary and sufficient. (hC :
+# C.CausallyArcConnected) (hO : IsOpen O) ⊢ (C.futureBoundary O ∪ C.pastBoundary O).Nonempty ↔
+# ∃ p ∈ frontier O, C.HasChronalNeighbour p. No connectedness, no separation. The endpoint of a
+# leaving curve has a chronal neighbour, its start
+# (Causal.Causality.hasChronalNeighbour_of_mem_boundary).
+[[consequence]]
+at = "causally_arc_connected"
+statement = "for every open O, a chronal curve of M, future or past, leaves O (∂⁺O ∪ ∂⁻O ≠ ∅) iff some frontier point of O has a chronal neighbour"
+witness = "Causal.Causality.futureBoundary_union_pastBoundary_nonempty_iff"
+under = "O open; the chronal neighbour at one frontier point, Causal.Causality.HasChronalNeighbour p, the edge hypothesis of the boundary form (no node)"
+status = "checked"
+
+# Density. (hC : C.CausallyArcConnected) (hO : IsOpen O) (hchr : ∀ p ∈ frontier O,
+# C.HasChronalNeighbour p) ⊢ frontier O ⊆ closure (C.futureBoundary O ∪ C.pastBoundary O).
+[[consequence]]
+at = "causally_arc_connected"
+statement = "for every open O, if every frontier point of O has a chronal neighbour, the endpoints of leaving chronal curves, ∂⁺O ∪ ∂⁻O, are dense in ∂O"
+witness = "Causal.Causality.frontier_subset_closure_boundary"
+under = "O open; the edge hypothesis of the boundary form at every frontier point of O (Causal.Causality.HasChronalNeighbour p for p ∈ ∂O), which has_chronal_neighbour (ladder node) gives"
+status = "checked"
+
+# The ladder form, with no localisation hypothesis, for an open set that is not dense:
+# [PreconnectedSpace M] (hC : C.CausallyArcConnected) (hT : C.Tarentin) (hP : C.CausallyPlain)
+# (hO : IsOpen O) (hne : O.Nonempty) (hdense : closure O ≠ univ) ⊢
+# (C.futureBoundary O ∪ C.pastBoundary O).Nonempty. Neither tarentin nor plainness can be dropped
+# (Causal.tarentin_and_plain_needed: the lightlike line, tarentin and not plain; the isolated line,
+# plain and not tarentin; no curve leaves (0, ∞)). The dense case (O = M ∖ {p}) is open in the
+# library (OQ-51; Causal/LocateExtension.lean SCOPE): by the sharp form above, it asks whether
+# tarentin, plainness and causal arc-connectedness give a chronal neighbour to some point of ∂O.
+[[consequence]]
+at = ["tarentin", "causally_plain", "causally_arc_connected"]
+statement = "locating an extension with ladder nodes only: a chronal curve of M, future or past, leaves every non-empty open O whose closure is not M"
+witness = "Causal.Causality.futureBoundary_union_pastBoundary_nonempty_of_tarentin"
+under = "O open, non-empty, closure O ≠ M (not dense); M connected (standing)"
+standing = ["preconnected"]
+status = "checked"
+
+# The characterisations of the node's point predicate. (hC : C.CausallyArcConnected) ⊢
+# C.HasChronalNeighbour p ↔ p ∈ C.Zplus ∪ C.Zminus, no separation
+# (Causal/LocateExtension.lean; through CausallyArcConnected.mem_Zplus_iff, mem_Zminus_iff).
+[[consequence]]
+at = "causally_arc_connected"
+statement = "a point p has a chronal neighbour iff it is strongly tarentin in the future or in the past (p ∈ Z⁺(M) ∪ Z⁻(M)); so has_chronal_neighbour is Z⁺ ∪ Z⁻ = M"
+witness = "Causal.Causality.CausallyArcConnected.hasChronalNeighbour_iff"
+status = "checked"
+
+# [T1Space M] (h : C.AbsolutelyMinimal) ⊢ C.HasChronalNeighbour p ↔ p ∈ C.Zplus ∪ C.Zminus
+# (Causal/ChronalNeighbourBridge.lean; through AbsolutelyMinimal.mem_Zplus_iff, mem_Zminus_iff, the
+# consequences at absolutely_minimal above). Under DEC-167 (every ETT causality absolutely minimal)
+# it holds on every ETT spacetime.
+[[consequence]]
+at = "absolutely_minimal"
+statement = "a point p has a chronal neighbour iff it is strongly tarentin in the future or in the past (p ∈ Z⁺(M) ∪ Z⁻(M)); so has_chronal_neighbour is Z⁺ ∪ Z⁻ = M"
+witness = "Causal.Causality.AbsolutelyMinimal.hasChronalNeighbour_iff"
+standing = ["T1"]
+status = "checked"
+
+# Time reversal: C.dual.HasChronalNeighbourEverywhere ↔ C.HasChronalNeighbourEverywhere (the point
+# predicate's two sides swap, Causal.Causality.dual_hasChronalNeighbour). The node's `dual` lemma
+# for T-lad-dual-keys.
+[[consequence]]
+at = "has_chronal_neighbour"
+statement = "the node is invariant under time reversal: C.dual has a chronal neighbour at every point iff C has"
+witness = "Causal.Causality.dual_hasChronalNeighbourEverywhere"
 status = "checked"
 
 # ---- consequences at geometry properties: theorems over a Causal.CBG.Geometry 𝔊 (header).
