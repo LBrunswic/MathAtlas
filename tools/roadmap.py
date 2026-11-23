@@ -48,6 +48,7 @@ PACKAGE_OF = {"ett": "lean-causal", "barbot": "lean-causal", "gx": "lean-gx", "b
 PACKAGE_OF.update({s: "lean-causal" for s in ("sbierski-mghd", "ers-predictability", "sbierski-schwarzschild",
                                                "sbierski-boundary", "sbierski-flrw", "sbierski-extensions",
                                                "sbierski-holonomy", "gls-timelike")})
+PACKAGE_OF.update({"btz": "lean-gx", "alexandrov": "lean-alexandrov"})   # DEC-208, DEC-209
 REQUIRED = ["id", "title", "stream", "kind", "status", "owner", "priority", "evidence", "added", "proposed_by"]
 
 
