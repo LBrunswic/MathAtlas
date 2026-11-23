@@ -563,3 +563,23 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
   - Model-free homes (the E₀ closer's proposals): Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus in ChronalNeighbourBridge, and E0LM.LocZplus.chronalFutureNeighbours in CausallyPlainLocZ.
   - inextensible_nested's monotonicity with both causalities causal (wave 33) as an [[open]] note or a target.
 - next: rule 3 gives T-loc-ealpha-tidy alone (exclusive in lean-causal). Two planner targets are ready (T-bind-curves-ers-4-64, T-bind-ers-rulings), and the proposals above wait for the planner.
+
+## 2026-11-23 06:41 · wave of 1 · T-loc-ealpha-tidy (exclusive)
+- T-loc-ealpha-tidy (localisation, layer 3, E_α; exclusive, with the whole lean-causal package leased): Causal.Model.EAlphaCauchy is split. No statement of record changed and full names are unchanged.
+  - Causality.inextensible_Iio_of_tendsto_not_mem is now in the ETT-layer Causal.InextensiblePiece (which gains no import).
+  - The 24 static ℝ × X declarations are now in the new Causal.Model.StaticCauchy, which does not import Massive.
+  - The withLp duplicates are replaced by mathlib's, and the unused Causal.CBG.Pgcd import is dropped (closure 47 → 37 modules).
+  - New: Causal.halfPlane_separates (Causal.Model.HalfPlaneLadder).
+  - Before/after constant dump: 68 constants changed module; the only proof-term change is properSpace_withLpTwo's. `lake build Causal` and `CausalScaffold` are green.
+  - Audit minor (two docstrings, the README row, EAlphaPlain's reference), applied (6d471fa); kb 0055, 0056, 0066 updated; kb 0277.
+  - emit-lean --dry-run: Rules and Test unchanged. The ett curation needs no change: rem:galileo_spacetime_not_strongly's declarations stay in EAlphaCauchy.
+- For the keeper:
+  - ladder.toml:1361–1363 still points to EAlphaCauchy.lean; the four lemmas are now at StaticCauchy.lean :109, :129, :132, :135.
+  - :1366 ("no one Lean statement conjoins the two halves") is now false.
+  - The nine half-plane entries (:1336–1358 and :1369–1397) can be re-pointed to Causal.halfPlane_separates. This joins T-lad-record-direct-witnesses' re-pointings.
+- For the planner: papers/sbierski-mghd/certificate/binder.toml:71 and :76 cite the old EAlphaCauchy ranges (now :107–164 and :434–455).
+- ladder: 25 properties, 27 implications, 83 counterexamples, 85 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open (unchanged)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/gx and papers/yamabe only. Both are /atlas-team's in flight: gx's ledger (06:31) predates its lean-gx commit 4cdca6c (06:39), and yamabe has the CorYamabe scaffold it holds. Not this loop's.
+- commits: 6d471fa 42baea6
+- next: rule 3 gives T-tac-curves-fact-rule (tactician, lean-causal). A planning run is due soon: the proposals of waves 33–35, T-lad-record-direct-witnesses to make ready, and two ready planner targets.
