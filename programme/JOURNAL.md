@@ -483,3 +483,18 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: both roadmaps ✓, binder ✓ (3), tests ✓, blueprint ✓ (three binders), papers-check ✓
 - commits: 220fb62 d788814 89a44cf 1d1c7d5
 - next: wave T-tool-ladder-edge-hypotheses (master), T-lad-record-sc-open-edge (keeper), T-tac-dual-has-chronal-neighbour (tactician, exclusive in lean-causal)
+
+## 2026-11-23 20:40 · wave of 3 · T-tool-ladder-edge-hypotheses, T-lad-record-sc-open-edge, T-tac-dual-has-chronal-neighbour
+- T-tool-ladder-edge-hypotheses (master, tooling): a new ladder table [[edge_hypothesis]] (id, lean, what; label, reads, note) for the localisation hypotheses the rulings keep out of the nodes.
+  - check: required keys, duplicate ids, no [[property]] id, the Lean name resolves.
+  - matrix, emit-lean and the check line ignore it (the blueprint's ladder line is unchanged). tools/binder.py accepts its ids as localisation, open_localisation and proves ids.
+  - Tests LadderEdgeHypotheses and BinderEdgeHypotheses; two fixture breakages (5654963). The keeper fills the table (T-lad-edge-hypotheses).
+- T-tac-dual-has-chronal-neighbour (tactic, exclusive): Dual.lean's rule pair for has_chronal_neighbour; curvesExtend_dual_iff is a one-liner. DualTest 425 → 470, every negative failing by exhaustion. dual_closure.py now reads its edges off the shipped Rules.lean and guards against a missing pair. Audit clean (3653b3d); kb 0264, 0248 updated
+- T-lad-record-sc-open-edge (ladder): the edge strongly_causal ∧ causally_open ⇒ strongly_causal_open (StronglyCausal.stronglyCausalOpen_of_causallyOpen) replaces the tarentin form. The isolated line's two [[fails]] gain strongly_causal, strongly_causal_open, causally_open. The [[open]] note is sharpened: the causally_open_future form is open too. Matrix unchanged.
+  - emit-lean run by the master after the tactician: Rules imports Causal.SCOpenWithoutTarentin and swaps the rule; Test 5 derived rewritten, 3 negatives gone; DualTest regenerated against it (791b0aa)
+  - for the planner, the keeper's T-abs-sc-open-hoist: SCOpenWithoutTarentin's model-free half into a lighter module, since Rules.lean now pulls in OneWayMembrane and NestedTransfer
+- ladder: 25 properties, 27 implications, 83 counterexamples, 85 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 11, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/perforated only (ledger stale), /atlas-team's in-flight lean-yamabe scaffold (it holds T-perf-* in lean-yamabe); gate-tests red through it. Not this loop's
+- commits: 5654963 3653b3d 791b0aa 848b3ac 078b37e
+- next: wave T-abs-inextensible-nested-basics, T-abs-ers-4-75-cauchy-form, T-abs-schw-causal-lemmas (closers)
