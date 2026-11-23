@@ -617,7 +617,7 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - commits: bc2d546 17a2031
 - next: rule 3 gives T-abs-curves-free-ers-unions (closer). After it, one ready abstract target is left, so a planning run follows (rule 2).
 
-## 2026-11-23 08:52 · wave of 1 · T-abs-curves-free-ers-unions
+## 2026-11-23 08:40 · wave of 1 · T-abs-curves-free-ers-unions
 - T-abs-curves-free-ers-unions (abstract, layer 1): closed on the report, with nothing left to form and no module written.
   - The scan (kb/0259) over the 123 ETT-layer modules finds that the 10 CurvesExtend(On) binders of ErsUnions (7) and ErsMughd (3) are all covered: by Ers464SecondCountable (six exact, Rem 4.67's GH form stronger) and by ErsSecondCountable (three stronger, hthrough dropped too).
   - Across the strict library, 90 binders in 18 modules each have a covering second countable form. The auditor checked all 90 with the kernel. The scaffold's SubExtension keeps two, on statements resting on a sorry.
@@ -629,3 +629,22 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red (no Lean changed)
 - commits: 16b1d10 ac8c0be
 - next: a PLANNING RUN (rule 2: only one ready abstract target, T-abs-merge-stranded-duplicates). It folds in waves 33–38's proposals, makes T-lad-record-direct-witnesses ready, and runs the two ready planner targets (T-bind-curves-ers-4-64, T-bind-ers-rulings).
+
+## 2026-11-23 09:12 · planning run · waves 33–38's proposals folded in; 171 → 181 targets
+- Planner targets applied (886c471, set done):
+  - T-bind-curves-ers-4-64: ERS rows 4.63, 4.64, 4.67, 4.68–4.71 name the Ers464SecondCountable forms (4.63 also Ers475CauchyForm's), and curves_extend leaves the binder (DEC-190).
+  - T-bind-ers-rulings: DEC-161, DEC-162 and DEC-166 (b) are recorded as ruled. inextensible_nested is in rows 4.70, 4.71, 4.77, 4.79, 4.80; one_sided_boundary is cited at 4.82 and 4.86.
+  - The Schwarzschild binder names SchwCausalLemmas, TimelikeHomotopy and the chronal-neighbour lemmas, with layer 1 in Lean 11 → 14. The 1507.00601 findings (Step 2.1, :876, :1623, :798, Prop 6.5) are recorded in it.
+  - The sbierski-mghd static ranges are re-pointed.
+- Targets (171 → 181):
+  - Added, ready: T-lad-future-one-connected-node, T-lad-record-ers-cauchy-forms, T-abs-ers-4-64-without-arc, T-abs-ers-sc-witnesses, T-abs-isolated-line-conjoined, T-abs-hoist-stranded-homes (exclusive), T-abs-sc-open-hoist (exclusive; emit-lean after).
+  - Added, planned: T-abs-not-future-one-connected, T-abs-inextensible-nested-mono, T-bind-schw-future-one-connected.
+  - Planned → ready: T-lad-record-direct-witnesses (scope extended: the half-plane's nine entries, the stale comments, inextensible_nested's monotonicity), T-lad-edge-hypotheses, T-abs-diamond-confinement, T-abs-ers-witnesses, T-loc-minkowski-future-one-connected (the s = t split, not the printed homotopy), T-cur-schw-layer1.
+  - T-lad-c0-extension-nodes is rescoped to locally_strongly_causal.
+  - T-abs-merge-stranded-duplicates also takes the Cauchy-surface congruence twins.
+  - Adding the future_one_connected node will drop the classified pairs below 354/354 until T-abs-not-future-one-connected gives a separation.
+- registers: OQ-127 (dependenceDomainOn beside DEC-198's Causality.dependenceDomain; no target blocked) (79145f8)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 14, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: 79145f8 886c471
+- next: T-lad-record-direct-witnesses (keeper) and T-cur-schw-layer1 (master), with lean-causal closers from T-abs-diamond-confinement, T-abs-ers-4-64-without-arc and T-loc-minkowski-future-one-connected. /atlas-team has a closer in lean-causal (T-ett-geroch-iii-i), so at most two of the three fit under MAX_PER_PACKAGE.
