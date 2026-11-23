@@ -6,27 +6,36 @@
 # 21:35, 22:45, 23:50) to the ladder nodes and the Lean that exist now, and again later that day after
 # T-abs-hoist-cbg-cores (e4df4d0) and T-abs-hoist-time-function (7eff58c), and once more after
 # T-abs-sbierski-prop-3-7 (48d1cf0: Prop 3.7 and Lemma 3.8's smooth-vacuum entry), and for
-# curves_extend after T-abs-curves-extend-second-countable (7923138; T-bind-curves-extend, below). It
-# records how Sbierski's argument factors, not what Lean has closed: the ledger's curation stays the
-# loop's.
+# curves_extend after T-abs-curves-extend-second-countable (7923138; T-bind-curves-extend, below).
+# Rebound 2026-11-23 (planning run after wave 30): curves_extend leaves Cor 3.2, Lemma 3.3, Thm 3.4
+# (T-bind-curves-corollaries, DEC-190), E_alpha entries added (T-bind-ealpha-entries, DEC-188), Prop
+# 3.7's setting after DEC-165 (T-bind-sbierski-rulings). It records how Sbierski's argument factors,
+# not what Lean has closed: the ledger's curation stays the loop's.
 #
 # curves_extend, a [[fact]] of the ladder since T-lad-record-curves-fact (71b5cc7): every causality on
 # a T1, second countable space has CurvesExtend (Causal.Causality.curvesExtend_of_t1_secondCountable)
-# and CurvesExtendOn W for every open W (curvesExtendOn_of_t1_secondCountable). Sbierski's GHDs are
-# second countable: he proves it of the maximal one (Maximal_GHD2.tex:763 for Thm 2.7's gluing,
-# :821 by Geroch's appendix for Thm 2.8's) and uses it of every GHD (:823, 'Since M is second
-# countable and time oriented'); the CBG's A2 field asks it as an instance argument
-# ([SecondCountableTopology M], Causal/CBG/Geometry.lean:304–306). So for smooth-vacuum the property
-# is the fact applied to the manifold's topology, which T-loc-smooth-causal-ladder's representation
-# carries; each smooth-vacuum entry proving curves_extend cites the fact's witness beside it. The
-# convention (shared with papers/ers-predictability): a property that is a [[fact]] on the model's
-# spaces stays in `localisation` while the row's ETT theorem still takes it as a hypothesis (`hext`,
-# `hDext`, or the A2 field), its entry citing the witness; the flat-gx entries keep their model
-# lemma Causal.CBG.flat_curvesExtend. It leaves a row when the row's `ett` names a form without the
-# hypothesis (T-abs-c-ext-connexe-second-countable; rebinding T-bind-curves-corollaries). The A2
-# field itself (and LocalModel's B3) was already derivable from the A2 time-function field
-# (Causal.Causality.HasTimeFunction.curvesExtend) and is now a theorem outright: T-loc-cbg-curves-default
-# gives both fields a default.
+# and CurvesExtendOn W for every open W (curvesExtendOn_of_t1_secondCountable). DEC-190 (OQ-86) drops
+# it everywhere: it is a theorem on every ETT spacetime (Hausdorff and second countable, ETT.tex:255),
+# recorded in the ladder as consequences. Sbierski's GHDs are second countable: he proves it of the
+# maximal one (Maximal_GHD2.tex:763 for Thm 2.7's gluing, :821 by Geroch's appendix for Thm 2.8's) and
+# uses it of every GHD (:823, 'Since M is second countable and time oriented'); the CBG's A2 field asks
+# it as an instance argument ([SecondCountableTopology M], Causal/CBG/Geometry.lean:304–306).
+# The convention of these binders since DEC-190 (T-bind-curves-corollaries, shared with
+# papers/ers-predictability):
+#   * a row whose `ett` names a form without the curve hypothesis does not list curves_extend, and none
+#     of its geometric entries proves it. Here Cor 3.2, Lemma 3.3 and Thm 3.4, whose curve-taking steps
+#     have second countable forms in Causal.CExtConnexeSecondCountable (T-abs-c-ext-connexe-second-countable,
+#     65646df) and Causal.CExtConnexeCauchy.Basic (T-abs-c-ext-connexe-cauchy, 5d58a2f). The CBG assembly
+#     names those rows also cite (IsCGHD.eqOn, exists_mcghd, cauchy_pgcd_geometry) still read
+#     CurvesExtend from the A2 field (e.g. N₁.causality_curvesExtend, Causal/CBG/Pgcd.lean:262–263);
+#     that field is T-bind-cbg-hoist's (T-abs-hoist-cbg-geometry; removed or defaulted is OQ-98 (c));
+#   * a row whose ETT theorem still takes it (the CBG rows Thms 2.7, 2.8, 3.6, 3.13 through the A2
+#     field, Lemma 3.9 through kSide_future) keeps it in `localisation`; each model's entry cites its
+#     model lemma (Causal.CBG.flat_curvesExtend, Causal.cosmicString_curvesExtend) or, for smooth-vacuum,
+#     the fact's witness. Whether DEC-190 drops it from those rows before a form exists is OQ-98 (a),
+#     not taken here.
+# The A2 field (and LocalModel's B3) was already derivable from the A2 time-function field
+# (Causal.Causality.HasTimeFunction.curvesExtend) and is a theorem outright on second countable spaces.
 #
 # How the paper factors. lean-causal's CBG (Causal.CBG.*, docs/CBG-DESIGN.md, DEC-29/DEC-60) follows
 # this paper's order over an abstract geometry `Causal.CBG.Geometry` whose interface fields ARE the
@@ -53,8 +62,22 @@
 # Causal.CBG.flat_cbg; its A3 and A4 as instances of the ladder definitions are
 # Causal.CBG.flat_germExtFuture / flat_germExtPast (LocalModel.GermExtFuture/Past) and
 # flat_slice_future / flat_slice_past. E_0 (BTZ lines) is owed by gx through
-# Geometry.ofLocalModelOfBTZ and is not bound here; E_α entries (Causal.Model.EAlphaCauchy) wait on
-# OQ-58 (T-bind-ealpha-entries).
+# Geometry.ofLocalModelOfBTZ and is not bound here.
+# `E_alpha` (T-bind-ealpha-entries, DEC-188 on OQ-58): Hörmann's 3+1 cosmic string E_α × ℝ_z,
+# `Causal.cosmicString α` (Causal.Model.EAlphaCauchy, T-loc-ealpha-cauchy; Hörmann's α_H is α/2π), is
+# the formalization of record; ETT's 2+1 `Causal.massive α` = ℝ × C_α is kept as its corollary, each
+# entry's lemma having a massive twin (massive_globallyHyperbolic_isCauchySurface, massive_pushUp,
+# massive_tarentin, massive_causallyArcConnected, massive_hasTimeFunction, massive_curvesExtend,
+# massive_causallyPlain; Causal/Model/Massive.lean, Causal/Model/EAlphaCauchy.lean:494–551,
+# Causal/Model/EAlphaPlain.lean:86).
+# A row gets an E_alpha entry exactly when every localisation property it lists has a cosmic-string
+# lemma in Lean: globally_hyperbolic (cosmicString_globallyHyperbolic, every slice {t = t₀} Cauchy by
+# cosmicString_globallyHyperbolic_isCauchySurface), absolutely_minimal, causally_arc_connected,
+# push_up, tarentin, time_function, curves_extend (cosmicString_absolutelyMinimal, …, :829–850), and
+# causally_plain (cosmicString_causallyPlain, Causal.Model.EAlphaPlain, T-loc-ealpha-plain), which no
+# row of this paper lists. The geometry-sort nodes (rigid, germ_extension, cauchy_slice) have no E_α
+# instance in Lean, so Thms 2.7, 2.8, 3.4, 3.6, 3.13, Cor 3.2, Lemmas 3.1, 3.8 get none; rows with an
+# empty `localisation` need none. absolutely_minimal is cited by its lemma until T-bind-gluing (DEC-167).
 #
 # Findings of this binder (reported to the master):
 # * Every theorem row of §3 has its layer-1 theorem in Lean, sorry-free. In the ETT layer (no model
@@ -89,8 +112,12 @@
 #   circular; it is not any more, and Lemma 3.8's smooth-vacuum entry cites the A3-free theorem. The
 #   equivalence (i) ⇔ (ii) ⇔ (iii) and the uniqueness (sbierski_prop_3_7, _unique) ask M causally
 #   arc-connected and p regular (not a BTZ point): (ii) ⇒ (iii) fails at a BTZ point
-#   (lightlikeLine_sbierski_prop_3_7_iii_fails). OQ-65 asks whether these belong to the setting; the
-#   label stays unmarked.
+#   (lightlikeLine_sbierski_prop_3_7_iii_fails). DEC-165 (OQ-65) rules both part of the setting:
+#   automatic in Sbierski's smooth setting, they are layer-3 facts, discharged per model
+#   (smooth-vacuum: T-loc-smooth-causal-ladder, whose KSide data have empty singular sets; flat-gx:
+#   Causal.CBG.flat_singularFlatAxioms, an empty singular set). The BTZ failure is recorded as where
+#   ETT goes beyond the paper (E_0). The mark waits on the layer-3 discharge (the master's, once it
+#   exists); until then the label stays unmarked.
 # * Lemma 3.9 (CGHDData.exists_spacelike_corresponding, Causal/CBG/NoCorresponding.lean:228) uses no A3:
 #   CGHDData is only the GH setting of A3's hypotheses; the proof consumes A2 (closed J⁻ and the K⁻
 #   calculus through kSide_future, which uses curves_extend; SingularFlatAxioms.K_monotone) and
@@ -124,6 +151,10 @@ by = ["T-loc-smooth-causal-ladder"]
 model = "flat-gx"
 proves = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
 by = ["Causal.CBG.flat_singularFlatAxioms"]
+[[bind.geometric]]
+model = "E_alpha"
+proves = ["globally_hyperbolic", "absolutely_minimal", "causally_arc_connected", "push_up", "tarentin"]
+by = ["Causal.cosmicString_globallyHyperbolic", "Causal.cosmicString_globallyHyperbolic_isCauchySurface", "Causal.cosmicString_absolutelyMinimal", "Causal.cosmicString_causallyArcConnected", "Causal.cosmicString_pushUp", "Causal.cosmicString_tarentin"]
 
 [[bind]]
 label = "mghddef:extension"
@@ -210,51 +241,55 @@ by = ["Causal.CBG.flat_rigid"]
 
 [[bind]]
 label = "mghdcor:welldefined"
-ett = ["Causal.CBG.IsCGHD.eqOn", "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace"]
-localisation = ["rigid", "curves_extend"]
-note = "Cor 3.2 (Maximal_GHD2.tex:452). Agreement on Σ propagates to U₁ ∩ U₂ by rigidity on a CONNECTED open: U₁ ∩ U₂ is connected because both Cauchy-include Σ in one M (lem:C_ext_connexe re-routed, c_ext_connexe_of_connectedSpace, the ladder's consequence at curves_extend, asked of the target; ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function). That connectedness is exactly what fails on a fixed background (ERS19 §4.2, Thm 3.45; papers/ers-predictability). Its `hDext` (curves extend in N) is the fact on a second countable N, cited by the smooth-vacuum entry; the form without it is T-abs-c-ext-connexe-second-countable, and the paper's middle step ('φ(Σ) is a Cauchy surface of A ∩ B', the scaffold's exists_mem_image_inf) on a T2, second countable N is T-abs-c-ext-connexe-cauchy (rebound 2026-11-21)."
+ett = ["Causal.CBG.IsCGHD.eqOn", "Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable", "Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable"]
+localisation = ["rigid"]
+note = "Cor 3.2 (Maximal_GHD2.tex:452). Agreement on Σ propagates to U₁ ∩ U₂ by rigidity on a CONNECTED open: U₁ ∩ U₂ is connected because both Cauchy-include Σ in one M (lem:C_ext_connexe re-routed). Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): the connectedness is Causal.IsCauchyEmbedding.c_ext_connexe_of_connectedSpace_of_secondCountable (Causal.CExtConnexeSecondCountable, T-abs-c-ext-connexe-second-countable, 65646df), the original c_ext_connexe_of_connectedSpace less its `hDext`, with no named hypothesis left on a Hausdorff, second countable target, which Sbierski's GHDs are (header); so curves_extend leaves the row and its entries. The paper's middle step ('φ(Σ) is a Cauchy surface of A ∩ B', the scaffold's exists_mem_image_inf) is Causal.IsCauchyEmbedding.isCauchySurfaceOn_inf_of_secondCountable (Causal.CExtConnexeCauchy.Basic, T-abs-c-ext-connexe-cauchy, 5d58a2f), without `hDac` or `hDext`. The CBG assembly IsCGHD.eqOn still feeds the original with the A2 field causality_curvesExtend (Causal/CBG/Pgcd.lean:262–263), which goes with T-bind-cbg-hoist. That connectedness is exactly what fails on a fixed background (ERS19 §4.2, Thm 3.45; papers/ers-predictability). No E_alpha entry: rigid has no E_α instance in Lean."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["rigid", "curves_extend"]
-by = ["T-loc-vacuum-rigid-germ", "T-loc-smooth-causal-ladder", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
+proves = ["rigid"]
+by = ["T-loc-vacuum-rigid-germ"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["rigid", "curves_extend"]
-by = ["Causal.CBG.flat_rigid", "Causal.CBG.flat_curvesExtend"]
+proves = ["rigid"]
+by = ["Causal.CBG.flat_rigid"]
 
 [[bind]]
 label = "mghdlem:IsoDiffeo"
-ett = ["Causal.CBG.injOn_of_injOn_cauchy", "Causal.CBG.sbierski_lemma_3_3", "Causal.CBG.injective_of_globallyHyperbolic", "Causal.Causality.HasTimeFunction.isCausal", "Causal.Causality.HasTimeFunction.curvesExtend"]
-localisation = ["causally_arc_connected", "time_function", "curves_extend"]
-note = "Lemma 3.3 (Maximal_GHD2.tex:463). Model-free: timelike geodesics replaced by lifts of causal curves along a local homeomorphism; a time function replaces GH of M (incomparable in the abstract setting). injOn_of_injOn_cauchy is the ladder's consequence at time_function, ETT-layer in Causal.CBG.Injective since T-abs-hoist-time-function (7eff58c; the Minkowski instance minkowski_sbierski_lemma_3_3 moved to Causal.Model.InjectiveMinkowski). The target's hypotheses of the principal and printed forms, N causal and N with CurvesExtend, follow from a time function of N by the ladder edges time_function ⇒ is_causal and time_function ⇒ curves_extend (HasTimeFunction.isCausal, .curvesExtend, Causal.CurvesExtend); that is also how the A2 field curvesExtend is discharged (Causal/CBG/Geometry.lean:299–301). Without a time function, on a second countable N, CurvesExtend is the fact (curvesExtend_of_t1_secondCountable, cited by the smooth-vacuum entry; rebound 2026-11-21); the form of sbierski_lemma_3_3 and injective_of_mapsTo_cauchy without `hDext` is T-abs-c-ext-connexe-second-countable."
+ett = ["Causal.CBG.injOn_of_injOn_cauchy", "Causal.CBG.sbierski_lemma_3_3_of_secondCountable", "Causal.CBG.injective_of_mapsTo_cauchy_of_secondCountable", "Causal.CBG.injective_of_globallyHyperbolic", "Causal.Causality.HasTimeFunction.isCausal"]
+localisation = ["causally_arc_connected", "time_function"]
+note = "Lemma 3.3 (Maximal_GHD2.tex:463). Model-free: timelike geodesics replaced by lifts of causal curves along a local homeomorphism; a time function replaces GH of M (incomparable in the abstract setting). injOn_of_injOn_cauchy is the ladder's consequence at time_function, ETT-layer in Causal.CBG.Injective since T-abs-hoist-time-function (7eff58c; the Minkowski instance minkowski_sbierski_lemma_3_3 moved to Causal.Model.InjectiveMinkowski); it takes no curve hypothesis. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): the printed form and Sbierski's hypotheses on the target are Causal.CBG.sbierski_lemma_3_3_of_secondCountable and injective_of_mapsTo_cauchy_of_secondCountable (Causal.CExtConnexeSecondCountable, T-abs-c-ext-connexe-second-countable), the originals less `hDext` on a Hausdorff, second countable N, so curves_extend leaves the row and its entries, and HasTimeFunction.curvesExtend is no longer needed. The target's other hypothesis, N causal, follows from a time function of N by the ladder edge time_function ⇒ is_causal (HasTimeFunction.isCausal, Causal.CurvesExtend); injective_of_globallyHyperbolic obtains M's time function from Geroch's (i) ⇒ (ii)."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["causally_arc_connected", "time_function", "curves_extend"]
-by = ["T-loc-smooth-causal-ladder", "Causal.Causality.curvesExtend_of_t1_secondCountable"]
+proves = ["causally_arc_connected", "time_function"]
+by = ["T-loc-smooth-causal-ladder"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["causally_arc_connected", "time_function", "curves_extend"]
-by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_hasTimeFunction", "Causal.CBG.flat_curvesExtend"]
+proves = ["causally_arc_connected", "time_function"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_hasTimeFunction"]
 [[bind.geometric]]
 model = "minkowski"
 proves = []
 by = ["Causal.CBG.minkowski_sbierski_lemma_3_3"]
+[[bind.geometric]]
+model = "E_alpha"
+proves = ["causally_arc_connected", "time_function"]
+by = ["Causal.cosmicString_causallyArcConnected", "Causal.cosmicString_hasTimeFunction"]
 
 [[bind]]
 label = "mghdthm:ExMCGHD"
-ett = ["Causal.CBG.exists_mcghd", "Causal.CBG.mcghd_unique", "Causal.CBG.cauchy_pgcd_geometry", "Causal.isCauchyInclusion_iSup", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn", "Causal.Causality.inextensible_ordConnectedComponent_of_le"]
-localisation = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
+ett = ["Causal.CBG.exists_mcghd", "Causal.CBG.mcghd_unique", "Causal.CBG.cauchy_pgcd_geometry", "Causal.isCauchyInclusion_iSup_of_secondCountable", "Causal.isCauchyInclusion_sSup_of_secondCountable", "Causal.IsCauchyInclusion.causallyConvexIn_of_secondCountable", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable", "Causal.Causality.inextensible_ordConnectedComponent_of_le"]
+localisation = ["causally_arc_connected", "absolutely_minimal", "rigid", "time_function"]
 open_localisation = ["local_uniqueness"]
 open_reason = "Non-emptiness of the family of CGHDs is Thm 2.6 (local_uniqueness, T-lad-development-nodes), automatic for ETT's datum M₀."
-note = "Thm 3.4 (Maximal_GHD2.tex:485). The union of all CGHDs: a union of Cauchy inclusions is a Cauchy inclusion (no Zorn), well defined by A1 (Cor 3.2), injective by Lemma 3.3. The proof's 'the corresponding curve segment in U_α is inextendible in U_α' is inextensible_ordConnectedComponent_of_le, ETT-layer since T-abs-hoist-model-free (Causal.CurveComponents); isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn are ETT-layer in Causal.CBG.CausalConvex since T-abs-hoist-time-function (7eff58c), which moved Causal.CurvesExtend's Minkowski section to Causal.Model.CurvesExtendModels. The rest of the row (exists_mcghd, mcghd_unique, cauchy_pgcd_geometry in Causal.CBG.Pgcd) is over a CBG geometry, behind Causal.SingularFlat (T-abs-hoist-cbg-geometry). The `hext : CurvesExtendOn B` of isCauchyInclusion_iSup and causallyConvexIn_of_isCauchySurfaceOn is the fact on a second countable B (curvesExtendOn_of_t1_secondCountable, cited by the smooth-vacuum entry; rebound 2026-11-21); the forms without it are T-abs-c-ext-connexe-second-countable."
+note = "Thm 3.4 (Maximal_GHD2.tex:485). The union of all CGHDs: a union of Cauchy inclusions is a Cauchy inclusion (no Zorn), well defined by A1 (Cor 3.2), injective by Lemma 3.3. The proof's 'the corresponding curve segment in U_α is inextendible in U_α' is inextensible_ordConnectedComponent_of_le, ETT-layer since T-abs-hoist-model-free (Causal.CurveComponents), no curve hypothesis. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): the union and its convexity are Causal.isCauchyInclusion_iSup_of_secondCountable, isCauchyInclusion_sSup_of_secondCountable, IsCauchyInclusion.causallyConvexIn_of_secondCountable and Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable (Causal.CExtConnexeSecondCountable, T-abs-c-ext-connexe-second-countable), the originals (isCauchyInclusion_iSup, causallyConvexIn_of_isCauchySurfaceOn, ETT-layer in Causal.CBG.CausalConvex) less `hext : CurvesExtendOn B`, so curves_extend leaves the row and its entries. The rest of the row (exists_mcghd, mcghd_unique, cauchy_pgcd_geometry in Causal.CBG.Pgcd) is over a CBG geometry, behind Causal.SingularFlat (T-abs-hoist-cbg-geometry), and still reads CurvesExtend from the A2 field (T-bind-cbg-hoist). No E_alpha entry: rigid has no E_α instance in Lean."
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
-by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ", "Causal.Causality.curvesExtend_of_t1_secondCountable", "Causal.Causality.curvesExtendOn_of_t1_secondCountable"]
+proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "time_function"]
+by = ["T-loc-smooth-causal-ladder", "T-loc-vacuum-rigid-germ"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "curves_extend", "time_function"]
-by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG.flat_curvesExtend", "Causal.CBG.flat_hasTimeFunction"]
+proves = ["causally_arc_connected", "absolutely_minimal", "rigid", "time_function"]
+by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG.flat_hasTimeFunction"]
 
 # ------------------------------------------------------------------ §3.2 no corresponding boundary points
 [[bind]]
@@ -281,7 +316,7 @@ by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_germExtFuture", "Ca
 label = "mghdprop:EquivCha"
 ett = ["Causal.CBG.sbierski_prop_3_7_i_imp_ii", "Causal.CBG.sbierski_prop_3_7_i_imp_ii_ladder", "Causal.CBG.sbierski_prop_3_7", "Causal.CBG.sbierski_prop_3_7_unique", "Causal.CBG.IsCorrPair.corresponding_K", "Causal.CBG.IsCorrPair.eq_of_corresponds", "Causal.CBG.corresponds_of_tendsto"]
 localisation = ["push_up", "tarentin", "causally_arc_connected"]
-note = "Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581), rebound 2026-11-21 after T-abs-sbierski-prop-3-7 (48d1cf0). (i) ⇒ (ii) is Causal.CBG.sbierski_prop_3_7_i_imp_ii (Causal.SbierskiProp37, ETT layer): Sbierski's route — the curve's points ≪ the corresponding point by push-up and closed J⁺, strong causality of the target, a causally convex V — for every timelike curve of U ending at p, future or past, from the KSide calculus, with NO A3 (kb/0071); its ladder-only form sbierski_prop_3_7_i_imp_ii_ladder asks push-up, GH and tarentin of both spacetimes and causal arc-connectedness of the target (Hausdorff). Strong causality, which Sbierski uses, follows from GH + tarentin (Causal.Causality.GloballyHyperbolic.stronglyCausal); GH and the KSide facts come from the CGHD setting (CGHDData.isCorrPair, kSide_future, kSide_past), not from a localisation. The equivalence (sbierski_prop_3_7, future and past sides) and 'at most one corresponding point' (sbierski_prop_3_7_unique) add (ii) ⇒ (iii), which needs a timelike curve of U ending at p: M causally arc-connected and p regular; it fails at a BTZ point (Causal.CBG.lightlikeLine_sbierski_prop_3_7_iii_fails), so the label stays unmarked (OQ-65 (a): is arc-connectedness, and regularity, part of the setting? (b): is IsCorrPair + KSide + convexity the paper's CGHD setting abstracted?). (i) ⇔ the K⁻ bijection is corresponding_K; (iii) ⇒ (i) corresponds_of_tendsto; uniqueness also eq_of_corresponds — CAUSAL, not topological (Causal.Gluing.shearGluing_not_unique refutes it for bare gluings, OQ-40). The A3 route of before, Causal.CBG.CGHDData.tendsto_comp (Causal.CBG.Corresponding, over the CBG geometry), is no longer this row's ETT theorem. causally_arc_connected enters with the ladder form and the equivalence; the smooth model has it, and Sing = ∅ there, so every point is regular."
+note = "Prop 3.7 (Maximal_GHD2.tex:544, proof 563–581), rebound 2026-11-21 after T-abs-sbierski-prop-3-7 (48d1cf0). (i) ⇒ (ii) is Causal.CBG.sbierski_prop_3_7_i_imp_ii (Causal.SbierskiProp37, ETT layer): Sbierski's route — the curve's points ≪ the corresponding point by push-up and closed J⁺, strong causality of the target, a causally convex V — for every timelike curve of U ending at p, future or past, from the KSide calculus, with NO A3 (kb/0071); its ladder-only form sbierski_prop_3_7_i_imp_ii_ladder asks push-up, GH and tarentin of both spacetimes and causal arc-connectedness of the target (Hausdorff). Strong causality, which Sbierski uses, follows from GH + tarentin (Causal.Causality.GloballyHyperbolic.stronglyCausal); GH and the KSide facts come from the CGHD setting (CGHDData.isCorrPair, kSide_future, kSide_past), not from a localisation. The equivalence (sbierski_prop_3_7, future and past sides) and 'at most one corresponding point' (sbierski_prop_3_7_unique) add (ii) ⇒ (iii), which needs a timelike curve of U ending at p: M causally arc-connected and p regular (hac, and hreg, hreg' : p ∉ SingM, SingM', the KSide singular sets; Causal/SbierskiProp37.lean:491). Rebound 2026-11-23 (T-bind-sbierski-rulings): DEC-165 (OQ-65) rules both part of the setting, automatic in Sbierski's smooth setting and so layer-3 facts. causally_arc_connected is a ladder node, in `localisation` and provided per model; regularity is no ladder property (a condition on the KSide data), so it is recorded here and owed by each model's entry: smooth-vacuum by T-loc-smooth-causal-ladder, whose KSide data have empty singular sets (every point regular), flat-gx by Causal.CBG.flat_singularFlatAxioms (empty singular set). The E_alpha entry provides the ladder properties only: whether the axis points of the cosmic string are regular for KSide data is not stated in Lean. (ii) ⇒ (iii) fails at a BTZ point (Causal.CBG.lightlikeLine_sbierski_prop_3_7_iii_fails): recorded, as DEC-165 asks, as where ETT goes beyond the paper (E_0, whose BTZ lines no smooth GHD has). The mark is the master's once the layer-3 discharge exists; until then the label stays unmarked. (i) ⇔ the K⁻ bijection is corresponding_K; (iii) ⇒ (i) corresponds_of_tendsto; uniqueness also eq_of_corresponds — CAUSAL, not topological (Causal.Gluing.shearGluing_not_unique refutes it for bare gluings, OQ-40). The A3 route of before, Causal.CBG.CGHDData.tendsto_comp (Causal.CBG.Corresponding, over the CBG geometry), is no longer this row's ETT theorem. causally_arc_connected enters with the ladder form and the equivalence."
 [[bind.geometric]]
 model = "smooth-vacuum"
 proves = ["push_up", "tarentin", "causally_arc_connected"]
@@ -290,6 +325,10 @@ by = ["T-loc-smooth-causal-ladder"]
 model = "flat-gx"
 proves = ["push_up", "tarentin", "causally_arc_connected"]
 by = ["Causal.CBG.flat_singularFlatAxioms"]
+[[bind.geometric]]
+model = "E_alpha"
+proves = ["push_up", "tarentin", "causally_arc_connected"]
+by = ["Causal.cosmicString_pushUp", "Causal.cosmicString_tarentin", "Causal.cosmicString_causallyArcConnected"]
 
 [[bind]]
 label = "mghdlem:ExtendIso"
@@ -318,6 +357,10 @@ by = ["T-loc-smooth-causal-ladder", "Causal.Causality.curvesExtend_of_t1_secondC
 model = "flat-gx"
 proves = ["push_up", "tarentin", "curves_extend"]
 by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_curvesExtend"]
+[[bind.geometric]]
+model = "E_alpha"
+proves = ["push_up", "tarentin", "curves_extend"]
+by = ["Causal.cosmicString_pushUp", "Causal.cosmicString_tarentin", "Causal.cosmicString_curvesExtend"]
 
 [[bind]]
 label = "mghdlem:FuturePoint"
@@ -332,6 +375,10 @@ by = ["T-loc-smooth-causal-ladder"]
 model = "flat-gx"
 proves = ["tarentin", "push_up"]
 by = ["Causal.CBG.flat_singularFlatAxioms"]
+[[bind.geometric]]
+model = "E_alpha"
+proves = ["tarentin", "push_up"]
+by = ["Causal.cosmicString_tarentin", "Causal.cosmicString_pushUp"]
 
 [[bind]]
 label = "mghdthm:TNDVersion"

@@ -7,23 +7,34 @@
 # ladder's pair-sort nodes; notes refreshed later that day after T-abs-hoist-time-function (7eff58c),
 # and again after T-abs-nested-converse (8044439) and T-abs-nested-transfer (f868749): Remark 4.74 bound
 # to CurveNestedOn.trans, notes of 3.29 and 4.72. Rebound once more 2026-11-21 (T-bind-curves-extend,
-# planning run after wave 21): curves_extend is discharged at layer 1 (below). It records how the
-# argument factors, not what Lean has closed.
+# planning run after wave 21): curves_extend is discharged at layer 1 (below). Rebound 2026-11-23
+# (T-bind-curves-corollaries, DEC-190): rows 4.72, 4.73, 4.74, 4.79, 4.80 name the second countable
+# forms of Causal.ErsSecondCountable and drop curves_extend. It records how the argument factors, not
+# what Lean has closed.
 #
 # curves_extend, a [[fact]] of the ladder (T-abs-curves-extend-second-countable, 7923138; recorded by
 # T-lad-record-curves-fact, 71b5cc7). Every causality on a T1, second countable space has
 # CurvesExtendOn W for every open W (Causal.Causality.curvesExtendOn_of_t1_secondCountable) and
 # CurvesExtend (curvesExtend_of_t1_secondCountable). ERS's spaces are open subsets of ℝ^{d+1}, T2
-# and second countable, so the property costs the quasilinear model nothing but its topology. The
-# convention of these binders for a localisation property that is a [[fact]] on the model's spaces:
-# it stays in `localisation` while the row's ETT theorem still takes it as a hypothesis (here
-# `hext`, `hmext`), and the geometric entry of each model cites the fact's witness in `by` (a model
-# lemma, where one exists, stays beside it: minkowski_curvesExtend). It leaves the row when the row's
-# `ett` names a form without the hypothesis (T-abs-ers-4-64-second-countable,
-# T-abs-ers-4-72-second-countable; rebinding T-bind-curves-corollaries). The same theorem applied to
-# a constant curve gives InextensibleThrough W on every open W, hence SplitBy W S for a Cauchy
-# surface S of W (splitBy_of_inextensibleThrough): those leave layer 3 on ℝ^{d+1} too, as the
-# corollary targets state.
+# and second countable, so the property costs the quasilinear model nothing but its topology. DEC-190
+# (OQ-86) drops it everywhere, a theorem on every ETT spacetime. The convention of these binders since
+# DEC-190 (T-bind-curves-corollaries, shared with papers/sbierski-mghd):
+#   * a row whose `ett` names a form without the curve hypothesis does not list curves_extend, and
+#     none of its geometric entries proves it (Minkowski's Causal.minkowski_curvesExtend is no longer
+#     cited there). Here rows 4.72, 4.73, 4.79, 4.80, whose forms are Causal.ErsSecondCountable's
+#     (T-abs-ers-4-72-second-countable): each `_secondCountable` theorem is its original less `hmext`
+#     (Cm.CurvesExtend) and the through-hypotheses, with [SecondCountableTopology M] added. The
+#     originals stay in the library beside them (whether they are replaced is OQ-98 (b)) and are named
+#     in the notes, not in `ett`;
+#   * a row whose ETT theorem still takes it (`hext`, read on U₁, in 4.63, 4.64, 4.67) keeps it in
+#     `localisation`, its quasilinear entry citing the fact's witness. Those rows have second countable
+#     forms in Causal.Ers464SecondCountable (T-abs-ers-4-64-second-countable, c178342) and are rebound by
+#     T-bind-curves-ers-4-64. Whether DEC-190 drops it from a row before a form exists is OQ-98 (a),
+#     not taken here.
+# The same theorem applied to a constant curve gives InextensibleThrough W on every open W
+# (Causal.Causality.inextensibleThrough_of_t1_secondCountable), hence SplitBy W S for a Cauchy surface
+# S of W (splitBy_of_t1_secondCountable) and IsAcausalOn W S when W is causally arc-connected
+# (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable): those leave layer 3 on ℝ^{d+1} too.
 #
 # How the paper factors (SYNTHESIS Q3; KB note eperon2018predictability). A GHD u : U → ℝ of a
 # quasilinear equation on the FIXED background ℝ^{d+1} carries two causalities: C_g of g(u, du) and
@@ -57,6 +68,10 @@
 # 1+1 Minkowski (V, m̂) by the hodograph map Ψ (Lemmas 3.27, 3.31), i.e. IsCausalIso C_m̂ C_g Ψ
 # (Causal.CausalIsoInvariance). `minkowski` is the background m, in Lean (Causal.minkowski_*;
 # Causal.minkowski_curvesExtend in Causal.Model.CurvesExtendModels since T-abs-hoist-time-function).
+# No `E_alpha` entries (T-bind-ealpha-entries, DEC-188, left them optional here): ERS's localisation
+# properties are those of the solution's g(u) on open subsets of ℝ^{d+1} and of the background m, and
+# the cosmic string is neither; an entry would read E_α as the fixed background of another equation,
+# which is not this paper's setting (papers/sbierski-mghd carries the E_α entries).
 #
 # Findings of this binder (reported to the master):
 # * Thm 4.64 with Rem 4.67, Cors 4.68, 4.69, 4.71, 4.73 are in Lean as skeletons (Causal.ErsUniqueness,
@@ -329,13 +344,13 @@ by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-qua
 
 [[bind]]
 label = "erslem:two_ghds_subluminal_quasilinear"
-ett = ["Causal.Causality.ers_lemma_4_72", "Causal.Causality.ers_lemma_4_72_isConnected"]
-localisation = ["is_causal", "curves_extend", "curve_nested"]
-note = "Lemma 4.72 (ghd_02_19.tex:976), the ladder's consequence at curve_nested. A g(u₂)-causal curve is m-causal (subluminality: CurveNestedOn C₂ C_m on U₂), so it cannot leave the m-GH U₁ before meeting S. is_causal and curves_extend are Minkowski's (C_m, the wider causality). OQ-41 (c): S is taken m-acausal where ERS print m-achronal. Since T-abs-nested-converse (8044439) the curve nesting is a ≤-nesting when the narrower causality is causally arc-connected (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected, leNested_iff_curveNestedOn_top), and then Causal.NestedTransfer (T-abs-nested-transfer, f868749) carries is_causal, strong causality (both forms) and a time function of C_m to C₂ (LeNested.isCausal, .stronglyCausal, .stronglyCausalOpen, .hasTimeFunction) but not tarentin (Causal.spacelikeLine_separates_tarentin); 4.72 itself consumes the curve nesting directly and needs none of these (rebound 2026-11-21, notes only). Since 7923138 both curve hypotheses are layer 1 on ℝ^{d+1}: `hmext` is Causal.Causality.curvesExtend_of_t1_secondCountable Cm (Minkowski's own lemma stays the entry's), and `hthrough` (an inextensible C₂-curve of U₂ through every point of U₁ ∩ U₂, ERS's integral curves) is curvesExtendOn_of_t1_secondCountable C₂ U₂ applied to a constant curve; the form without both is T-abs-ers-4-72-second-countable, after which the row asks only is_causal of C_m, curve_nested and S m-acausal (OQ-41 (c))."
+ett = ["Causal.Causality.ers_lemma_4_72_secondCountable", "Causal.Causality.ers_lemma_4_72_isConnected_secondCountable", "Causal.Causality.inextensibleThrough_of_t1_secondCountable"]
+localisation = ["is_causal", "curve_nested"]
+note = "Lemma 4.72 (ghd_02_19.tex:976), the ladder's consequence at curve_nested. A g(u₂)-causal curve is m-causal (subluminality: CurveNestedOn C₂ C_m on U₂), so it cannot leave the m-GH U₁ before meeting S. is_causal is Minkowski's (C_m, the wider causality). OQ-41 (c): S is taken m-acausal where ERS print m-achronal. Since T-abs-nested-converse (8044439) the curve nesting is a ≤-nesting when the narrower causality is causally arc-connected (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected, leNested_iff_curveNestedOn_top), and then Causal.NestedTransfer (T-abs-nested-transfer, f868749) carries is_causal, strong causality (both forms) and a time function of C_m to C₂ (LeNested.isCausal, .stronglyCausal, .stronglyCausalOpen, .hasTimeFunction) but not tarentin (Causal.spacelikeLine_separates_tarentin); 4.72 itself consumes the curve nesting directly and needs none of these (rebound 2026-11-21, notes only). Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): the row's theorems are Causal.Causality.ers_lemma_4_72_secondCountable and ers_lemma_4_72_isConnected_secondCountable (Causal.ErsSecondCountable, T-abs-ers-4-72-second-countable), the originals ers_lemma_4_72, ers_lemma_4_72_isConnected less `hmext` (Cm.CurvesExtend, now curvesExtend_of_t1_secondCountable Cm) and `hthrough` (an inextensible C₂-curve of U₂ through every point of U₁ ∩ U₂, ERS's integral curves, now inextensibleThrough_of_t1_secondCountable), on a Hausdorff, second countable background such as ℝ^{d+1}. So curves_extend leaves the row and its Minkowski entry; the row asks is_causal of C_m, curve_nested and S m-acausal where ERS print m-achronal (OQ-41 (c), DEC-161)."
 [[bind.geometric]]
 model = "minkowski"
-proves = ["is_causal", "curves_extend"]
-by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
+proves = ["is_causal"]
+by = ["Causal.minkowski_isCausal"]
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["curve_nested"]
@@ -343,15 +358,15 @@ by = ["T-loc-quasilinear-nesting"]
 
 [[bind]]
 label = "erscor:CorUniqueSub"
-ett = ["Causal.Causality.ers_corollary_4_73", "Causal.Causality.ers_lemma_4_72", "Causal.Causality.ers_theorem_4_64", "Causal.IsMDevelopment.isUniqueDevelopment"]
-localisation = ["is_causal", "curves_extend", "curve_nested", "globally_hyperbolic", "tarentin", "causally_arc_connected"]
+ett = ["Causal.Causality.ers_corollary_4_73_secondCountable", "Causal.Causality.ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable", "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable", "Causal.Causality.ers_lemma_4_72_secondCountable", "Causal.Causality.ers_theorem_4_64", "Causal.Causality.splitBy_of_t1_secondCountable", "Causal.Causality.IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable"]
+localisation = ["is_causal", "curve_nested", "globally_hyperbolic", "tarentin", "causally_arc_connected"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in"]
 open_reason = "As 4.64."
-note = "Cor 4.73 (ghd_02_19.tex:988): 4.72 + 4.64, every m-GHD is a UGHD (ers_corollary_4_73; for the developments of Causal.ErsMughd, IsMDevelopment.isUniqueDevelopment, ERS's use at :1053). is_causal, curves_extend are Minkowski's; curve_nested is subluminality; causally_arc_connected is ≤ of g(u) realised by causal curves, which with curve_nested and C_m's acausality of S gives 4.73's IsAcausalOn U₁ S; globally_hyperbolic, tarentin are g(u₁)'s on U₁."
+note = "Cor 4.73 (ghd_02_19.tex:988): 4.72 + 4.64, every m-GHD is a UGHD (for the developments of Causal.ErsMughd, ERS's use at :1053). Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): Causal.Causality.ers_corollary_4_73_secondCountable and IsMDevelopment.isUniqueDevelopment_secondCountable (Causal.ErsSecondCountable) are the originals ers_corollary_4_73, IsMDevelopment.isUniqueDevelopment less `hmext` and `hthrough₂`, on a Hausdorff, second countable background, so curves_extend leaves the row and its Minkowski entry. ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable moreover reads u₁ a GHD as S Cauchy in U₁ for C (DEC-162) and derives 4.73's `hsplit` (splitBy_of_t1_secondCountable) and `hacausal` (IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable, U₁ causally arc-connected for C). is_causal is Minkowski's; curve_nested is subluminality; causally_arc_connected is ≤ of g(u) realised by causal curves, which with curve_nested and C_m's acausality of S gives 4.73's IsAcausalOn U₁ S; globally_hyperbolic, tarentin are g(u₁)'s on U₁. 4.64's own curve-free forms are T-bind-curves-ers-4-64's."
 [[bind.geometric]]
 model = "minkowski"
-proves = ["is_causal", "curves_extend"]
-by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
+proves = ["is_causal"]
+by = ["Causal.minkowski_isCausal"]
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["curve_nested", "globally_hyperbolic", "tarentin", "causally_arc_connected"]
@@ -359,9 +374,9 @@ by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-qua
 
 [[bind]]
 label = "ersrem:us_remark_better_bounds"
-ett = ["Causal.Causality.ers_lemma_4_72", "Causal.Causality.CurveNestedOn.trans", "Causal.Causality.LeNested.trans_curveNestedOn", "Causal.Causality.LeNested.trans"]
+ett = ["Causal.Causality.ers_lemma_4_72_secondCountable", "Causal.Causality.CurveNestedOn.trans", "Causal.Causality.LeNested.trans_curveNestedOn", "Causal.Causality.LeNested.trans"]
 localisation = ["curve_nested"]
-note = "Remark 4.74 (ghd_02_19.tex:993). A better a-priori cone bound is a narrower wider causality C_g ≤ C_b ≤ C_m: 4.72 applied with C_b in place of C_m gives more UGHDs. Subluminality being a curve nesting, the transitivity the remark uses is Causal.Causality.CurveNestedOn.trans (Causal.NestedConverse, T-abs-nested-converse, 8044439; rebound 2026-11-21): C_g curve-nested in C_b and C_b in C_m give C_g in C_m, so the bound C_b keeps 4.72's conclusion for m; the mixed forms LeNested.trans_curveNestedOn, CurveNestedOn.trans_leNested, and ≤-nesting's LeNested.trans (the ladder's consequence at le_nested) serve when the bound C_b ⊆ C_m is a ≤-nesting of constant-coefficient cones."
+note = "Remark 4.74 (ghd_02_19.tex:993). A better a-priori cone bound is a narrower wider causality C_g ≤ C_b ≤ C_m: 4.72 applied with C_b in place of C_m gives more UGHDs. Subluminality being a curve nesting, the transitivity the remark uses is Causal.Causality.CurveNestedOn.trans (Causal.NestedConverse, T-abs-nested-converse, 8044439; rebound 2026-11-21): C_g curve-nested in C_b and C_b in C_m give C_g in C_m, so the bound C_b keeps 4.72's conclusion for m; the mixed forms LeNested.trans_curveNestedOn, CurveNestedOn.trans_leNested, and ≤-nesting's LeNested.trans (the ladder's consequence at le_nested) serve when the bound C_b ⊆ C_m is a ≤-nesting of constant-coefficient cones. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): 4.72 is cited in its second countable form ers_lemma_4_72_secondCountable (Causal.ErsSecondCountable), whose wider causality is arbitrary and needs no CurvesExtend, so the bound C_b costs only is_causal and the nesting (the module's docstring: the remark has no declaration of its own)."
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["curve_nested"]
@@ -408,15 +423,15 @@ by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder"]
 
 [[bind]]
 label = "ersthm:ThmMUGHD"
-ett = ["Causal.ers_theorem_4_79", "Causal.ers_theorem_4_79_of_exists", "Causal.IsMDevelopment.isUniqueDevelopment", "Causal.IsDevelopment.exists_isMDevelopment_le", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73"]
-localisation = ["curve_nested", "causally_arc_connected", "is_causal", "curves_extend", "globally_hyperbolic", "tarentin"]
+ett = ["Causal.ers_theorem_4_79_secondCountable", "Causal.ers_theorem_4_79_of_exists", "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable", "Causal.IsDevelopment.exists_isMDevelopment_le", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73_secondCountable"]
+localisation = ["curve_nested", "causally_arc_connected", "is_causal", "globally_hyperbolic", "tarentin"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "inextensible_nested"]
 open_reason = "Through Cor 4.73's 4.64 (T-lad-development-nodes; OQ-57 (b), T-lad-ers-restart-nodes). inextensible_nested: D_m(S) ∩ U₁ an m-GHD needs S g(u₁)-Cauchy there, InextensibleNestedOn, not a consequence of curve nesting (OQ-41 (b), kb/0045). The Minkowski fact hDm (O'Neill 14.38, 14.43: int D_m(S, U₁) m-GH with Cauchy surface S) is named and has no Lean supplier."
-note = "Thm 4.79 (ghd_02_19.tex:1055), Causal.ErsMughd (T-abs-ers-mughd), unmarked. The MUGHD is the union of all UGHDs, glued by ers_remark_4_78 under subluminality (S acausal in the union for g(v)); non-empty by IsDevelopment.exists_isMDevelopment_le (D_m(S) ∩ U₁) and IsMDevelopment.isUniqueDevelopment (4.73). ers_theorem_4_77_greatest is not used: it is about one causality and all S-Cauchy opens, with no solution. ERS's appeal to Remark 4.67 for pairs of UGHDs (:1063) is valid (their overlap is connected, by Lemma 4.72's argument) but not checked in the paper; the Lean route bypasses it."
+note = "Thm 4.79 (ghd_02_19.tex:1055), Causal.ErsMughd (T-abs-ers-mughd), unmarked. The MUGHD is the union of all UGHDs, glued by ers_remark_4_78 under subluminality (S acausal in the union for g(v)); non-empty by IsDevelopment.exists_isMDevelopment_le (D_m(S) ∩ U₁) and IsMDevelopment.isUniqueDevelopment (4.73). ers_theorem_4_77_greatest is not used: it is about one causality and all S-Cauchy opens, with no solution. ERS's appeal to Remark 4.67 for pairs of UGHDs (:1063) is valid (their overlap is connected, by Lemma 4.72's argument) but not checked in the paper; the Lean route bypasses it. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): ers_theorem_4_79_secondCountable (Causal.ErsSecondCountable) is ers_theorem_4_79 less `hmext` and `hthrough` on a Hausdorff, second countable background, with IsMDevelopment.isUniqueDevelopment_secondCountable for the non-emptiness, so curves_extend leaves the row and its Minkowski entry; ers_theorem_4_79_of_exists takes no curve hypothesis."
 [[bind.geometric]]
 model = "minkowski"
-proves = ["is_causal", "curves_extend"]
-by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
+proves = ["is_causal"]
+by = ["Causal.minkowski_isCausal"]
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["curve_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
@@ -424,15 +439,15 @@ by = ["T-loc-quasilinear-nesting", "T-loc-quasilinear-causal-ladder", "T-loc-qua
 
 [[bind]]
 label = "ersthm:consider_subluminal_quasilinear_wave"
-ett = ["Causal.ers_theorem_4_80", "Causal.ers_theorem_4_80_of_exists", "Causal.IsMaximalMDevelopment.unique", "Causal.IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment", "Causal.Causality.isCauchySurfaceOn_sSup_of_isCausal", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73"]
-localisation = ["curve_nested", "causally_arc_connected", "is_causal", "curves_extend", "globally_hyperbolic", "tarentin"]
+ett = ["Causal.ers_theorem_4_80_secondCountable", "Causal.ers_theorem_4_80_of_exists", "Causal.IsMaximalMDevelopment.unique", "Causal.IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment", "Causal.Causality.isCauchySurfaceOn_sSup_of_isCausal", "Causal.ers_remark_4_78", "Causal.Causality.ers_corollary_4_73_secondCountable"]
+localisation = ["curve_nested", "causally_arc_connected", "is_causal", "globally_hyperbolic", "tarentin"]
 open_localisation = ["local_uniqueness", "slice_restart", "frontier_stays_in", "inextensible_nested"]
 open_reason = "As Thm 4.79."
-note = "Thm 4.80 (ghd_02_19.tex:1066), Causal.ErsMughd (T-abs-ers-mughd), unmarked: the unique m-MGHD, the union of the m-GHDs (m-Cauchy by isCauchySurfaceOn_sSup_of_isCausal, implicit in the paper at :1072), contained in the MUGHD (IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment). The two example claims of :1075 are not formalised."
+note = "Thm 4.80 (ghd_02_19.tex:1066), Causal.ErsMughd (T-abs-ers-mughd), unmarked: the unique m-MGHD, the union of the m-GHDs (m-Cauchy by isCauchySurfaceOn_sSup_of_isCausal, implicit in the paper at :1072), contained in the MUGHD (IsMaximalMDevelopment.le_of_isMaximalUniqueDevelopment). The two example claims of :1075 are not formalised. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): ers_theorem_4_80_secondCountable (Causal.ErsSecondCountable) is ers_theorem_4_80 less `hmext` and `hthrough` on a Hausdorff, second countable background, so curves_extend leaves the row and its Minkowski entry."
 [[bind.geometric]]
 model = "minkowski"
-proves = ["is_causal", "curves_extend"]
-by = ["Causal.minkowski_isCausal", "Causal.minkowski_curvesExtend"]
+proves = ["is_causal"]
+by = ["Causal.minkowski_isCausal"]
 [[bind.geometric]]
 model = "quasilinear"
 proves = ["curve_nested", "causally_arc_connected", "globally_hyperbolic", "tarentin"]
