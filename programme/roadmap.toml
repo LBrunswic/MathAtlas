@@ -1940,6 +1940,20 @@ evidence = "T-abs-inextensible-nested-basics (a4ce20a; journal 2026-11-23 05:22;
 added = "2026-11-23"
 proposed_by = "programme-planner (planning run after wave 38: proposals of journal 2026-11-23 05:22 to 08:40)"
 
+[[target]]
+id = "T-abs-strong-causality-lifts"
+title = "Strong causality lifts along a causal map to a strongly causal space: if p : M̃ → M and D : M̃ → X send causal curves to causal curves, M and X are strongly causal, and every point x̃ has a neighbourhood basis of sets C(W) ∩ D⁻¹(V) (C(W) the component of p⁻¹(W) containing x̃ in the coarser topology, W ∋ p x̃, V ∋ D x̃ open), then M̃ is strongly causal; with tarentin, its topology is its Alexandrov topology"
+stream = "abstract"
+kind = "abstract"
+uses = ["strongly_causal", "tarentin"]
+package = "lean-causal"
+status = "ready"
+owner = "closer"
+priority = 5
+evidence = "Proof (author's session 2026-11-24): take W causally convex in M and V causally convex in X. A causal curve with ends in C(W) ∩ D⁻¹(V) projects to a causal curve of M with ends in W, so it stays in W; being connected, it stays in C(W). Its development is a causal curve of X with ends in V, so it stays in V. These sets are causally convex and form a basis, so M̃ is strongly causal. The conclusion T = Alex(T) is Causal.Causality.StronglyCausal.alexandrovTopology_eq (Causal/StrongCausality.lean:137, needs tarentin). Layer-1 rule: p and D are abstract causal maps between topological spacetimes, no metric. Intended instance: M̃ the maximal branched covering of a singular (G,X)-manifold, T_D = natural ∨ D*τ_X its candidate tamifying topology (gx l.2146), which T-loc-btz-tamifying-initial and T-loc-ealpha-tamifying-alexandrov instantiate."
+added = "2026-11-24"
+proposed_by = "author (session 2026-11-24: is the tamifying topology the Alexandrov topology?)"
+
 # ------------------------------------------------------------------ layer 3: geometric localisation lemmas
 [[target]]
 id = "T-loc-ealpha-cauchy"
@@ -2455,6 +2469,54 @@ depends = ["T-loc-c0-metric-causality", "T-loc-spacelike-diameter-finite"]
 evidence = "Binder papers/sbierski-schwarzschild: the C0 entries of Prop 2.8 (InexSchwarzschild2.tex:322–341), Thm 5.3 and its twin, Thm 5.7 (:1241–1421). 'The next theorem is not needed for the proof of Theorem 4.11' (:1237), hence the low priority. Its causal steps are ETT axioms and notions used verbatim (the binder names them): the flow lines meet the Cauchy hypersurface once, and I^± are open (Steps 2.2–2.3). The rest builds global regular flow charts from precompactness (Steps 1–2) and applies Thm 5.3. Planned behind the C0 ruling and the smooth Thm 5.3."
 added = "2026-11-23"
 proposed_by = "programme-planner (binder papers/sbierski-schwarzschild, T-bind-sbierski-schwarzschild, planning run after wave 31)"
+
+[[target]]
+id = "T-loc-btz-tamifying-initial"
+title = "BTZ: the tamifying topology T_BTZ of BTZ̃ is the initial topology natural ∨ D*τ_Mink of the developing map; with E₀ and Minkowski strongly causal, T-abs-strong-causality-lifts gives (BTZ̃, T_BTZ) strongly causal, recovering T_BTZ = Alex(T_BTZ) (GX.btz_tamifying_topology_generated_open_ett) from base data; check causal openness of (BTZ̃, T_BTZ)"
+stream = "localisation"
+kind = "localisation"
+model = "E_0"
+provides = ["strongly_causal", "tarentin"]
+package = "lean-gx"
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-abs-strong-causality-lifts"]
+evidence = "gx l.2241 defines T_BTZ by the natural topology and U_λ = {rθ² < λ}, sets of the D-preimage (horn) type; the equality T_BTZ = natural ∨ D*τ_Mink is expected, not yet checked (GX.btzJDevHomeomorph, GX.btz_axis_diamond in GX/BTZ/Topology.lean are the tools). E₀ strongly causal: GX.E0.alexandrovTopology_eq (GX/BTZ/Causality.lean:3137) with tarentin and causal openness. Tarentin of BTZ̃: GX.btz_hasBasis_nhds_diamond_ett (GX/BTZ/Topology.lean:2182). The causal map conditions: D and p send ETT causal curves (btzCylCausality) to causal curves."
+added = "2026-11-24"
+proposed_by = "author (session 2026-11-24: is the tamifying topology the Alexandrov topology?)"
+
+[[target]]
+id = "T-loc-ealpha-tamifying-alexandrov"
+title = "Massive particles: on the maximal branched covering Ẽ_α (natural topology, D continuous), the natural topology is natural ∨ D*τ_Mink, Ẽ_α is tarentin, and by T-abs-strong-causality-lifts (E_α and Minkowski strongly causal) it is strongly causal, so its topology is its Alexandrov topology"
+stream = "localisation"
+kind = "localisation"
+model = "E_alpha"
+provides = ["strongly_causal", "tarentin"]
+package = "lean-causal"
+status = "planned"
+owner = "closer"
+priority = 6
+depends = ["T-abs-strong-causality-lifts"]
+evidence = "Author's session 2026-11-24. E_α is tame, so T_D is the natural topology of Ẽ_α. Tarentin at the axis is the local part; strong causality comes from the lift. Lean homes: Causal/Model/EAlphaCauchy.lean (E_α), the universal branched covering in GX.Branched (lean-gx; until the ARCHITECTURE.md move, the model lives in lean-causal and the cover in lean-gx: the closer states it in whichever package already imports both, or reports the import as the blocker)."
+added = "2026-11-24"
+proposed_by = "author (session 2026-11-24: is the tamifying topology the Alexandrov topology?)"
+
+[[target]]
+id = "T-loc-tamifying-coarsest"
+title = "gx l.2146: is T_D = natural ∨ D*τ_X (the coarsest topology finer than the natural one making D continuous; deck transformations are automatically continuous) tamifying, i.e. does it satisfy (A) and (D)? If so, for strongly causal E_A-manifolds (BTZ and massive lines) the tamifying topology of M̃ is its Alexandrov topology"
+stream = "localisation"
+kind = "localisation"
+model = "flat-gx"
+provides = ["strongly_causal"]
+package = "lean-gx"
+status = "planned"
+owner = "closer"
+priority = 7
+depends = ["T-loc-btz-tamifying-initial", "T-loc-ealpha-tamifying-alexandrov"]
+evidence = "Author's session 2026-11-24. Any tamifying T contains T_D: it is finer than the natural topology and (B) makes D continuous. The paper's 'messed-up' T' (l.2140, natural for t < 0) is tamifying but not chart-compatible with T_BTZ; the expectation, unchecked, is T' ≠ Alex(T'), so the Alexandrov property singles out T_D. Corollary target: with M strongly causal, T-abs-strong-causality-lifts applies to (M̃, T_D). Gluing: T_D is glued from the models' T_α over descending charts (GX.IsDescendingChartMap, DEC-109)."
+added = "2026-11-24"
+proposed_by = "author (session 2026-11-24: is the tamifying topology the Alexandrov topology?)"
 
 # ------------------------------------------------------------------ Sbierski's papers, ledgered and bound
 [[target]]
