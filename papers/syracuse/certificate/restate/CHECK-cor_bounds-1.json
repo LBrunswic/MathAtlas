@@ -1,0 +1,45 @@
+{
+ "label": "cor:bounds",
+ "round": 1,
+ "anchor": [
+  "Syracuse.bounds",
+  "Syracuse.cycle_mean"
+ ],
+ "rewritten_sha256": "f7b6774b01bdc27c37e4dad478b3d9d8792ef2b155d9e62ed666c2f58fb25585",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "x : ℤ",
+   "rewrite": "x ∈ Z (stronger than the printed N, listed)",
+   "ok": true
+  },
+  {
+   "lean": "n : ℕ, hn : 1 ≤ n, hcyc : T^[n] x = x",
+   "rewrite": "∃ n ∈ N*, T^n(x) = x; for such n",
+   "ok": true
+  },
+  {
+   "lean": "hm : IsLeast (range T^[k] x) m, hM : IsGreatest … M",
+   "rewrite": "min_k T^k(x), max_k T^k(x) (they exist on a cycle, exists_isLeast_isGreatest_of_cycle)",
+   "ok": true
+  },
+  {
+   "lean": "logb 2 (1+1/(3M)) ≤ p n x / n − logb 2 3 ≤ logb 2 (1+1/(3m))",
+   "rewrite": "the displayed chain with 3max left, 3min right",
+   "ok": true
+  },
+  {
+   "lean": "cycle_mean: p_n/n − log₂3 = (1/n) Σ_{k<n} log₂(1 + 1/(3T^k x))",
+   "rewrite": "the 'more precisely' identity",
+   "ok": true
+  },
+  {
+   "lean": "T = Syracuse.T on ℤ, p n x = Σ_{k<n} a k x",
+   "rewrite": "T_Z by its formula; p_n of def:ring_define_2",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}

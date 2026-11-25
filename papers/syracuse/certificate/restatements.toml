@@ -5,39 +5,97 @@
 
 [[entry]]
 label = "prop:ring_both_continuous_extends"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "syracuse.tex:58-59"
 printed_sha256 = "8ec702b731197e335cb592469fdca2e18f0f30b900c551df8ecaf05622c80432"
-finding = "[strong: refuting declaration] syracuse.tex:58 — 'T_A … extends continuously to A_2' is false. Take A = Z, where T_Z is the paper's map on all of 2Z+1 (3x+1 ≠ 0 always). No g : Z_2 → Z_2 is continuous on 2Z_2+1 and agrees with T_Z on the odd integers (Syracuse.T_int_not_extends). The printed statement, quantified over all Z/2Z-rings with 2 ≠ 0, is r"
-refutation = ["Syracuse.not_continuousWithinAt_extension_T", "Syracuse.not_exists_continuousWithinAt_extension_T", "Syracuse.not_exists_continuousWithinAt_extension_T_completion", "Syracuse.not_continuousWithinAt_T_padicInt"]
+finding = "The T half is false as written: for A = Z no map continuous on 2Z_2+1 agrees with T_Z on the odd integers, and in every Z/2Z-ring with 2 != 0 no extension of T_A is continuous at -1/3 within 2A_2+1, where T_{A_2} is moreover undefined. The f half needs the printed cases of f_A swapped, 2 != 0 and an integral A."
+refutation = ["Syracuse.printed_T_extends_false", "Syracuse.T_int_not_extends", "Syracuse.not_exists_continuousWithinAt_extension_T_completion"]
+anchor = ["Syracuse.ring_both_continuous_extends"]
+basis = ["DEC-183"]
+rewritten = '''
+Let $A$ be a $\ZZ/2\ZZ$-ring (integral, as at the beginning of this section) with $2\neq 0$, endowed with its $2$-adic topology (the ideals $2^kA$, $k\in\NN$, form a basis of neighbourhoods of $0$) and the associated uniform structure of topological group, and let $A_2$ be its completion, $A$ being mapped to $A_2$ canonically. Let $f_A(x)=x/2$ for $x\in 2A$ and $f_A(x)=3x+1$ for $x\notin 2A$, and $T_A(x)=\frac{3x+1}{2^{\nu_2(3x+1)}}$ for every $x\in A$ with $3x+1\neq 0$; $f_{A_2}$ and $T_{A_2}$ are given by the same formulas on $A_2$. Then:
+\begin{enumerate}
+\item $f_A$ is continuous on $A$, and $T_A$ is continuous on $\{x\in A~|~3x+1\neq 0\}$;
+\item $f_{A_2}$ is continuous, $f_{A_2}(x)=f_A(x)$ for every $x\in A$, and $f_{A_2}$ is the only continuous map $A_2\to A_2$ with this property;
+\item $T_{A_2}$ is continuous on $\{w\in A_2~|~3w+1\neq 0\}$ and $T_{A_2}(x)=T_A(x)$ for every $x\in A$ with $3x+1\neq 0$; moreover every map $g:A_2\to A_2$ continuous on $\{w\in 2A_2+1~|~3w+1\neq 0\}$ with $g(x)=T_A(x)$ for every $x\in 2A+1$ such that $3x+1\neq 0$ coincides with $T_{A_2}$ on $\{w\in 2A_2+1~|~3w+1\neq 0\}$;
+\item there is $w_0\in 2A_2+1$ with $3w_0+1=0$ (that is, $w_0=-\frac13$), and no map $g:A_2\to A_2$ with $g(x)=T_A(x)$ for every $x\in 2A+1$ such that $3x+1\neq 0$ is continuous at $w_0$ within $2A_2+1$. In particular $T_A$ has no continuous extension to $2A_2+1$.
+\end{enumerate}
+'''
+changes = ["~ reading: a Z/2Z-ring is integral, as l.50 says and l.52 omits (OQ-42 (a), DEC-183)", "+ hypothesis: 2 != 0, which excludes A = Z/2Z, whose completion is not Z_2 (OQ-42 (b), DEC-183)", "+ hypothesis: the 2-adic topology and uniform structure of A, and A_2 as its completion, made explicit", "~ notation: f_A halves the even and sends x to 3x+1 off 2A; the printed cases are swapped (OQ-42 (c), DEC-183)", "~ conclusion: T_A is continuous wherever its formula is defined, {3x+1 != 0}, which contains 2A+1 when 3 is not a unit (OQ-42 (d), DEC-183)", "- conclusion: 'T_A extends continuously to A_2' and 'its extension is T_{A_2}' are refuted (printed_T_extends_false at A = Z, T_int_not_extends; not_exists_continuousWithinAt_extension_T_completion); replaced by items 3 and 4: T_{A_2} is continuous off -1/3, extends T_A, is its only continuous extension to (2A_2+1) minus -1/3, and no extension is continuous at -1/3 within 2A_2+1", "~ conclusion: 'their extension is f_{A_2}' made precise as uniqueness of the continuous extension (item 2)"]
+check = "CHECK-prop_ring_both_continuous_extends-1.json"
 
 [[entry]]
 label = "lem:ring_maps_rhs_n_"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "syracuse.tex:84-87"
 printed_sha256 = "751597ed5c805b9d47875d7566d0e7b559dcd3c061c4d34ee9f8d6d4728127fc"
-finding = "[strong: false as written] syracuse.tex:84–86 — false as printed: in the Z/2Z-ring Z/2Z, RHS_2(0,1) = 3+2 = 1 = 3+4 = RHS_2(0,2) (Syracuse.ring_maps_rhs_printed_false); RHS_n is not injective for every n ≥ 2 (Syracuse.rhs_zmod2_not_injOn; it is in fact constant, ="
+finding = "False as written for the Z/2Z-ring Z/2Z itself: there RHS_2(0,1) = 1 = RHS_2(0,2), and RHS_n is injective for no n >= 2. Under the printed definition of l.52 (no integrality) ZMod 6 refutes it too."
+refutation = ["Syracuse.ring_maps_rhs_printed_statement_false", "Syracuse.ring_maps_rhs_printed_false"]
+anchor = ["Syracuse.ring_maps_rhs"]
+basis = ["DEC-183"]
+rewritten = '''
+Let $A$ be a $\ZZ/2\ZZ$-ring (integral, as at the beginning of this section) with $2\neq 0$, which excludes $A=\ZZ/2\ZZ$.
+For $n\in \NN$, the maps $$\fonction{RHS_n}{\{p\in \NN^n~|~ p_0=0~\wedge~p \nearrow\nearrow \} }{A}{p}{\sum_{k=0}^{n-1}2^{p_k}3^{n-1-k}} $$
+are injective, where $p\nearrow\nearrow$ means $p_0<p_1<\cdots<p_{n-1}$.
+'''
+changes = ["+ hypothesis: 2 != 0, i.e. A is not Z/2Z, where RHS_2(0,1) = RHS_2(0,2) (ring_maps_rhs_printed_false, ring_maps_rhs_printed_statement_false) (OQ-42 (b), DEC-183)", "~ reading: a Z/2Z-ring is integral, as l.50 says and l.52 omits; without it ZMod 6 refutes the lemma (rhs_zmod6_not_injOn) (OQ-42 (a), DEC-183)", "~ notation: 'p_n strictly increasing' written p strictly increasing, p_0 < ... < p_{n-1} (p has no index n)"]
+check = "CHECK-lem_ring_maps_rhs_n_-1.json"
 
 [[entry]]
 label = "theo:rep"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "syracuse.tex:88-91"
 printed_sha256 = "8979bae62d366886879c805dae36f0c7f22cb4b829313577aed9bfbaeab85694"
-finding = "[strong: false as written] syracuse.tex:88–90 — false as printed on 2A_2+1 = 2Z_2+1: x0 = -1/3 is odd but not in the image of the printed inverse φ^{-1} (Syracuse.neg_inv3_not_mem_image), nor is any y_k = -(2^k+3)/9, k ≥ 1, which satisfies T(y_k) = -1/3 with ν_2(3"
+finding = "False as written on 2A_2+1 = 2Z_2+1: -1/3 is odd but not in the image of the printed phi^{-1}, nor is any point whose orbit reaches -1/3, where the p_n are undefined; no map phi on 2Z_2+1 has the printed phi^{-1} as a left inverse. It holds on the odd points whose orbit avoids -1/3."
+refutation = ["Syracuse.rep_printed_false", "Syracuse.neg_inv3_not_mem_image"]
+anchor = ["Syracuse.theo_rep"]
+basis = ["DEC-183"]
+rewritten = '''
+In $\ZZ_2$, let $D=\{x\in 2\ZZ_2+1~|~\forall k\in\NN,~3T^k(x)+1\neq 0\}$ be the set of odd $2$-adic integers whose orbit under $T=T_{\ZZ_2}$ avoids $-\frac13$; on $D$ the iterates $T^k$ and the $p_n$ of Definition~\ref{def:ring_define_2} are defined. The map $$\fonction{\phi}{D}{\{p\in \NN^\NN~|~ p_0=0 ~\wedge~ (p_n) \nearrow\nearrow\}}{x}{(p_n(x))_{n\in \NN}} $$
+is bijective and its inverse is:
+$$\fonction{\phi^{-1}}{\{p\in \NN^\NN~|~ p_0=0 ~\wedge~ (p_n) \nearrow\nearrow\}}{D}{p}{ -\frac{1}{3}\sum_{n = 0}^{\infty}\frac{2^{p_n}}{3^{n}}}.$$
+In particular the image of this formula is exactly $D$, which does not contain $-\frac13\in 2\ZZ_2+1$.
+'''
+changes = ["~ hypothesis: the domain 2A_2+1 is replaced by D, the odd points whose T-orbit avoids -1/3; on 2Z_2+1 the theorem is false (rep_printed_false, neg_inv3_not_mem_image) (OQ-42 (d), DEC-183)", "+ conclusion: the image of the printed phi^{-1} is exactly D (surjectivity, which the printed proof does not argue)", "~ notation: stated in Z_2; A_2 is identified with Z_2 for every Z/2Z-ring A with 2 != 0 by the remark of l.52, proved separately (completion_ringEquiv)"]
+check = "CHECK-theo_rep-1.json"
 
 [[entry]]
 label = "cor:ring_periodic_minimal_period"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "syracuse.tex:107-109"
 printed_sha256 = "8bb84be9bb63f4ea182cd3ed8b5859a10cc1ecf5dc97bc24d8a11d1a8c248cbd"
-finding = "[strong: false as written] syracuse.tex:108 — false as printed: '∀ i, j ∈ ⟦1, n⟧' includes i = j, where A_i^n(a(x)) - A_j^n(a(x)) = 0, on every cycle; e.g. the cycle (1) of Z, n = 1, i = j = 1 (Syracuse.cor_ring_periodic_minimal_period_printed_false). For i ≠ j"
+finding = "False as written: 'for all i, j in [[1, n]]' includes i = j, where A_i^n(a(x)) - A_j^n(a(x)) = 0 on every cycle (e.g. the cycle (1) of Z, n = 1, i = j = 1). It holds for i != j."
+refutation = ["Syracuse.cor_ring_periodic_minimal_period_printed_false"]
+anchor = ["Syracuse.Aun_sub_ne_zero"]
+basis = ["DEC-183"]
+rewritten = '''
+Let $A$ be a $\ZZ/2\ZZ$-ring (integral, as at the beginning of this section) and $x\in A$ such that the orbit $\left(T^k(x)\right)_{k\in\NN}$ is defined, that is $3T^k(x)+1\neq 0$ for every $k\in\NN$, and is $n$-periodic for some $n\in\NN^*$. Let $a\in\NN^\ZZ$ be any sequence with $a_k=a_k(x)$ for every $k\in\NN$ (for instance the $n$-periodic extension of $a(x)$). If $n$ is the minimal period then:
+$$\forall i,j\in \lsem 1,n\rsem,\quad i\neq j\ \Rightarrow\ A_i^n(a)-A_j^n(a) \neq 0.$$
+'''
+changes = ["+ hypothesis: i != j; at i = j the difference is 0 on every cycle (cor_ring_periodic_minimal_period_printed_false, the cycle (1) of Z) (OQ-53, DEC-183)", "~ reading: a Z/2Z-ring is integral, as l.50 says and l.52 omits (OQ-42 (a), DEC-183); no 2 != 0 is needed", "+ hypothesis: the orbit avoids -1/3, so that T^k(x) and a_k(x) are defined; this only matters when 3 is a unit (OQ-42 (d), DEC-183)", "~ notation: a(x), indexed by N, extended to Z in any way to enter A_u^n (only indices in [[1, 2n-1]] are used); A_u^n is the printed def:define_n__n_ (OQ-43, DEC-183); the statement also holds with the product to n-2-k (AunAlt_sub_ne_zero)"]
+check = "CHECK-cor_ring_periodic_minimal_period-1.json"
 
 [[entry]]
 label = "cor:bounds"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "syracuse.tex:142-143"
 printed_sha256 = "b41e8b703c7c02efb0ce518e3860c9459f41e2615fbac0799aeb508da9482f50"
-finding = "[strong: false as written] syracuse.tex:142 — false as printed: at x = 1, n = 1 (min = max = 1, p_1(1) = 2) it asks log_2 2 = 1 ≤ 2 − log_2 3 ≈ 0.415 (Syracuse.bounds_printed_false). More: its lower bound log_2(1 + 1/min) fails on every positive cycle (Syracuse."
+finding = "False as written: at x = 1, n = 1 (min = max = 1, p_1(1) = 2) it asks 1 <= 2 - log_2 3. Its two bounds are swapped and lack the factor 3; the printed lower bound fails on every positive cycle."
+refutation = ["Syracuse.bounds_printed_false", "Syracuse.bounds_printed_lower_false"]
+anchor = ["Syracuse.bounds", "Syracuse.cycle_mean"]
+basis = ["DEC-183"]
+rewritten = '''
+Let $x\in \ZZ$ such that $\exists n\in \NN^*,~ T^n(x) = x$, then for such a $n\in \NN^*$, $$\log_2\left(1+\frac{1}{3\max_{k\in \NN}(T^k(x))}\right)  \leq \frac{p_n(x)}{n}-\log_2(3)\leq  \log_2\left(1+\frac{1}{3\min_{k\in \NN}(T^k(x))}\right).$$
+More precisely, $$\frac{p_n(x)}{n}-\log_2(3)=\frac1n\sum_{k=0}^{n-1}\log_2\left(1+\frac{1}{3T^k(x)}\right).$$
+Here $T=T_\ZZ$ is given by $T(x)=\frac{3x+1}{2^{\nu_2(3x+1)}}$ on all of $\ZZ$ (where $3x+1\neq 0$ always).
+'''
+changes = ["~ conclusion: the two bounds are exchanged and carry the factor 3: log_2(1 + 1/(3 max)) <= p_n/n - log_2 3 <= log_2(1 + 1/(3 min)); the printed chain fails at x = 1, n = 1 (bounds_printed_false) and its lower bound on every positive cycle (bounds_printed_lower_false) (OQ-54 (c), DEC-183)", "~ hypothesis: x in Z instead of N, every cycle of Z of either sign (stronger, as the anchor)", "+ conclusion: the identity p_n/n - log_2 3 = (1/n) sum_{k<n} log_2(1 + 1/(3T^k(x)))"]
+check = "CHECK-cor_bounds-1.json"
 
 [[entry]]
 label = "prop:proposition"
@@ -48,11 +106,19 @@ finding = "[strong: false as written] syracuse.tex:201–204: two slips in the p
 
 [[entry]]
 label = "def:circuit"
-status = "found"
+status = "checked"
+kind = "underspecified"
 printed = "syracuse.tex:213-217"
 printed_sha256 = "60b4a42f389b40ea74a0105e6403b0901282a95290e368e1c532295fb9b507f9"
-finding = "[strong: refuting declaration] syracuse.tex:213 — '(x)_{n∈N}' is literally the constant sequence x, x, …, which is n-periodic for every n. Read so, every integer is an ε-circuit for every ε ≤ 1, with n = 1 and p = 0 (Syracuse.isCircuitLiteral_of_le_one); 3 is one, though its orbit 3, 5, 1, 1, … is not periodic (not_isCircuit_three). The orbit (T^n(x"
-refutation = ["Syracuse.not_isCircuit_three"]
+finding = "'(x)_{n in N}' is literally the constant sequence, n-periodic for every n: read so, every integer is an epsilon-circuit for every epsilon <= 1, including 3, whose orbit 3, 5, 1, 1, ... is not periodic. The orbit (T^k(x))_k is meant, as at l.98 and l.107."
+anchor = ["Syracuse.IsCircuit"]
+basis = ["DEC-183"]
+rewritten = '''
+Let $x\in \ZZ$ and $\varepsilon>0$. $x$ is an $\varepsilon$-circuit if its orbit $\left(T^k(x)\right)_{k\in\NN}$ is $n$-periodic for some $n\in\NN^*$, that is $T^n(x)=x$, and there exist a term $y=T^m(x)$, $m\in\NN$, of this orbit and an integer $p\in\NN$ with $p\geq \varepsilon n-1$ such that $$\forall i \in \lsem 1,p\rsem,~a_i(y)=1.$$
+Here $T=T_\ZZ$ is given by $T(x)=\frac{3x+1}{2^{\nu_2(3x+1)}}$ on all of $\ZZ$ (where $3x+1\neq 0$ always), and $a_i(y)=\nu_2(3T^i(y)+1)$ as in Definition~\ref{def:ring_define_2}.
+'''
+changes = ["~ reading: '(x)_{n in N}' read as the orbit (T^k(x))_{k in N} (OQ-63 (d), DEC-183); read literally every integer is an epsilon-circuit for epsilon <= 1 (isCircuitLiteral_of_le_one), e.g. 3, which is no circuit in the orbit reading (not_isCircuit_three)", "~ reading: the bound p >= epsilon n - 1 is kept as printed, the loop's taken reading (OQ-63 (d), DEC-183); the proof of theo:exists_no_circuit_other uses p >= epsilon n", "~ notation: the term y written T^m(x), p taken in N, T and a_i recalled (T_Z by its formula on all of Z, a_i indexed as in def:ring_define_2)"]
+check = "CHECK-def_circuit-1.json"
 
 [[entry]]
 label = "theo:exists_no_circuit_other"
@@ -70,19 +136,39 @@ finding = "[strong: false as written] syracuse.tex:277 — false as printed, for
 
 [[entry]]
 label = "lem:syracuse_cycle"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "syracuse.tex:283-287"
 printed_sha256 = "07b9ad0563cf76a0df59848d6b9d81e8865ea039c4d9855bd8fadc82931ea60d"
-finding = "[strong: false as written, refuting declaration] syracuse.tex:284 — 'm = GCD(A_i : i ∈ Z) = 2^{p_n} − 3^n' is false as printed. For the OQ-43 reading it holds up to sign on every cycle of Z: d divides every A'_u (u ∈ ℤ) iff d divides 2^{p_n(x)} − 3^n (Syracuse.dvd_iff_dvd_AunAlt_of_cycle). Normalized, the GCD over one period"
-refutation = ["Syracuse.not_dvd_iff_dvd_Aun_of_cycle"]
+finding = "The clause 'm = GCD(A_i : i in Z) = 2^{p_n} - 3^n' is false as written: for the printed A_u^n every A_u is even while 2^{p_n} - 3^n is odd, so it fails on every cycle of Z. The implication itself holds, for every n-periodic a, once ~_S (undefined in the paper) is read."
+refutation = ["Syracuse.gcd_Aun_ne_of_cycle", "Syracuse.not_dvd_iff_dvd_Aun_of_cycle"]
+anchor = ["Syracuse.syracuse_cycle"]
+basis = ["DEC-183"]
+rewritten = '''
+Let $n\in\NN^*$ and let $a\in\NN^\ZZ$ be $n$-periodic (for instance the sequence $a$ of a Syracuse cycle $(\Gamma,a)$ of period $n$). Write $A_u=A_u^n(a)$ as in Definition~\ref{def:define_n__n_} and $\Delta_u=A_{u+1}-A_u$ for $u\in\ZZ$, and for $u,v\in\mathbb{Q}$ write $u\sim_S v$ if $u=sv$ for some $s\in S$. Let $i\in\ZZ$, then:
+
+$$a_i=a_{i+1}=1 \quad\Rightarrow \quad\Delta_{i} \sim_S \Delta_{i+1}\quad\text{and more precisely}\quad \Delta_i=\frac{2}{3}\Delta_{i+1}.$$
+'''
+changes = ["- conclusion: the assertion 'm = GCD(A_i : i in Z) = 2^{p_n} - 3^n' is dropped; for the printed A_u^n it fails on every cycle of Z (gcd_Aun_ne_of_cycle, not_dvd_iff_dvd_Aun_of_cycle), and m does not enter the implication (OQ-68 (c), DEC-183)", "~ hypothesis: any n-periodic a in N^Z in place of a Syracuse cycle (stronger, as the anchor)", "~ reading: ~_S, undefined in the paper, read as u = s v for some s in S, in Q (OQ-68 (c), DEC-183)", "+ conclusion: Delta_i = (2/3) Delta_{i+1}", "~ notation: A_u^n is the printed def:define_n__n_ (OQ-43, DEC-183); the implication also holds with the product to n-2-k (syracuse_cycle_alt)"]
+check = "CHECK-lem_syracuse_cycle-1.json"
 
 [[entry]]
 label = "cor:intertwined_i_"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "syracuse.tex:289-292"
 printed_sha256 = "26bf23dc7d790c5db4cc09e60e02911b7806d6bc2b3be1c6528bfa49d61d5b49"
-finding = "[strong: false as written, refuting declaration] syracuse.tex:291 — false as printed with m = 2^{p_n} − 3^n, for both readings of OQ-43. For the OQ-43 reading, on every cycle of Z the corollary's GCD is |2^{p_n(x)} − 3^n| (Syracuse.corGcdAlt_of_cycle; universal property intertwined_a"
-refutation = ["Syracuse.not_three_dvd_AunAlt", "Syracuse.not_four_dvd_of_intertwined"]
+finding = "False as written with m = 2^{p_n} - 3^n, for both readings of A_u^n: on the cycle (-5, -7), where ascending and descending indices alternate, m = -1 while the corollary's GCD is 2 (printed A_u^n) or 1. 'Intertwined' is undefined and not needed."
+refutation = ["Syracuse.intertwined_printed_false"]
+anchor = ["Syracuse.corGcd_eq_gcd_Aun", "Syracuse.intertwined_aun"]
+basis = ["DEC-183"]
+rewritten = '''
+Let $n\in\NN^*$ and let $a\in(\NN^*)^\ZZ$ be $n$-periodic (for instance the sequence $a$ of a Syracuse cycle $(\Gamma,a)$ of period $n$). Write $A_u=A_u^n(a)$ as in Definition~\ref{def:define_n__n_}, $\Delta_u=A_{u+1}-A_u$ for $u\in\ZZ$, $\D=\{i\in\ZZ~|~a_i>1\}$, and let $m=\mathrm{GCD}(A_i~:~i\in\ZZ)\geq 0$. Then, $\wedge$ denoting the nonnegative GCD,
+$$ m = A_0\wedge\bigwedge_{i\in\D}\Delta_{i-1}. $$
+More precisely, for every $c\in\ZZ$ and $d\in\ZZ$, $d$ divides $A_c$ and every $\Delta_{i-1}$ with $i\in\D$ if and only if $d$ divides every $A_u$, $u\in\ZZ$.
+'''
+changes = ["- hypothesis: 'A and D are intertwined' dropped; it is undefined and the identity holds for every periodic a (OQ-68 (d), DEC-183)", "~ conclusion: m is GCD(A_i : i in Z), not 2^{p_n} - 3^n; with the latter the corollary is false for both readings of OQ-43, on the cycle (-5, -7) (intertwined_printed_false) (OQ-68 (d), DEC-183)", "~ hypothesis: any n-periodic a in (N*)^Z, n >= 1, in place of a Syracuse cycle (stronger, as the anchor)", "~ notation: the bigwedge over 'i = D' read as over i in D; A_u^n is the printed def:define_n__n_ (OQ-43, DEC-183)", "+ conclusion: the divisor form, at every base point A_c, c in Z"]
+check = "CHECK-cor_intertwined_i_-1.json"
 
 [[entry]]
 label = "theo:syracuse_cycle"

@@ -1,0 +1,50 @@
+{
+ "label": "cor:ring_periodic_minimal_period",
+ "round": 1,
+ "anchor": [
+  "Syracuse.Aun_sub_ne_zero"
+ ],
+ "rewritten_sha256": "ed6d86e1c314246b81e23086d423bb430fa89a5261f84bd7338a32cad55da7b9",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "[CommRing A] [IsZ2Ring A] (no 2 ≠ 0)",
+   "rewrite": "Z/2Z-ring, integral; no 2 ≠ 0",
+   "ok": true
+  },
+  {
+   "lean": "x : A, hper : IsPeriodicPt T n x, hn : 0 < n",
+   "rewrite": "x ∈ A with orbit n-periodic, n ∈ N*",
+   "ok": true
+  },
+  {
+   "lean": "(none: T total with junk T(−1/3) = 0)",
+   "rewrite": "orbit defined: 3T^k(x)+1 ≠ 0 for all k. Not a restriction: under the Lean T, T(−1/3) = divPow2 0 1 = 0, T 0 = 1, T 1 = 1, so −1/3 is never on a cycle and every Lean-periodic x satisfies this; it only makes the paper's partial T_A defined along the orbit",
+   "ok": true
+  },
+  {
+   "lean": "hmin : ∀ m, 0<m<n → ¬ IsPeriodicPt T m x",
+   "rewrite": "n the minimal period",
+   "ok": true
+  },
+  {
+   "lean": "α : ℤ → ℕ, hα : ∀ k : ℕ, α k = a k x",
+   "rewrite": "a ∈ N^Z with a_k = a_k(x) for k ∈ N",
+   "ok": true
+  },
+  {
+   "lean": "∀ i j, 1≤i≤n, 1≤j≤n, i ≠ j → Aun n i α − Aun n j α ≠ 0",
+   "rewrite": "∀ i,j ∈ ⟦1,n⟧, i ≠ j ⇒ A_i^n(a) − A_j^n(a) ≠ 0",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "(point 5) the change line '+ hypothesis: the orbit avoids -1/3 ... this only matters when 3 is a unit' presents the added condition as a new hypothesis; it is in fact implied by periodicity (−1/3 is never periodic: its orbit is −1/3, 0, 1, 1, … under the anchor's T), so the rewrite is not weaker than the anchor.",
+   "fix": "reword the change line: the condition makes T_A defined along the orbit and is automatic for a periodic x."
+  }
+ ]
+}

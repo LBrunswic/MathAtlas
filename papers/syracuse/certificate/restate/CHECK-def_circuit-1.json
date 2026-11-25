@@ -1,0 +1,44 @@
+{
+ "label": "def:circuit",
+ "round": 1,
+ "anchor": [
+  "Syracuse.IsCircuit"
+ ],
+ "rewritten_sha256": "2cdeb4aae59065704468a1b65d99d6836cbd4686cdfa5d812d443006b8f7a92e",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "ε : ℝ, x : ℤ",
+   "rewrite": "x ∈ Z, ε > 0 (the printed domain of the definition; the Lean def is total in ε)",
+   "ok": true
+  },
+  {
+   "lean": "∃ n, 0 < n ∧ IsPeriodicPt T n x",
+   "rewrite": "orbit n-periodic for some n ∈ N*, i.e. T^n(x)=x",
+   "ok": true
+  },
+  {
+   "lean": "∃ y ∈ range (m ↦ T^[m] x)",
+   "rewrite": "a term y = T^m(x), m ∈ N",
+   "ok": true
+  },
+  {
+   "lean": "∃ p : ℕ, ε n − 1 ≤ p",
+   "rewrite": "p ∈ N with p ≥ εn − 1 (printed bound, DEC-183 OQ-63 (d))",
+   "ok": true
+  },
+  {
+   "lean": "∀ i, 1 ≤ i ≤ p → a i y = 1, a i y = v2(3 T^[i] y + 1)",
+   "rewrite": "∀ i ∈ ⟦1,p⟧, a_i(y)=1 with a_i(y)=ν_2(3T^i(y)+1) as in def:ring_define_2",
+   "ok": true
+  },
+  {
+   "lean": "T = Syracuse.T on ℤ",
+   "rewrite": "T_Z by its formula on all of Z",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}

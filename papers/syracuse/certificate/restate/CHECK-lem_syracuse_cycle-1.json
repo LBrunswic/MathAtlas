@@ -1,0 +1,40 @@
+{
+ "label": "lem:syracuse_cycle",
+ "round": 1,
+ "anchor": [
+  "Syracuse.syracuse_cycle"
+ ],
+ "rewritten_sha256": "18e4a9550931303d67e4882cd691cb1051a7f90c0225a5fa5c8e3a9ad35e8202",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "α : ℤ → ℕ, n : ℕ, h : Periodic α n",
+   "rewrite": "n ∈ N*, a ∈ N^Z n-periodic (n ≥ 1 is the domain of def:define_n__n_, l.80: A_u^n is defined for n ∈ N* only; the anchor's n = 0 case is degenerate, Aun 0 = 0, outside the paper's notation)",
+   "ok": true
+  },
+  {
+   "lean": "i : ℤ, hi : α i = 1, hi1 : α (i+1) = 1",
+   "rewrite": "i ∈ Z, a_i = a_{i+1} = 1",
+   "ok": true
+  },
+  {
+   "lean": "Delta n α i = Aun n (i+1) α − Aun n i α, Aun the printed A_u^n",
+   "rewrite": "Δ_u = A_{u+1} − A_u, A_u = A_u^n(a) of def:define_n__n_",
+   "ok": true
+  },
+  {
+   "lean": "SEquiv x y := ∃ s ∈ S23, x = s y, S23 = {2^u 3^v : u,v ∈ ℤ} ⊂ ℚ",
+   "rewrite": "u ∼_S v iff u = s v for some s ∈ S (S of l.270), in Q (OQ-68 (c), DEC-183)",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "(point 5) the rewrite applies def:define_n__n_ to a ∈ N^Z while the definition (l.80) is printed for a ∈ (N*)^Z; the formula extends verbatim and the anchor allows it, but neither the statement nor the changes say the definition is used outside its printed domain.",
+   "fix": "say 'A_u^n(a) given by the formula of Definition def:define_n__n_', or restrict to a ∈ (N*)^Z (which loses nothing for Syracuse cycles)."
+  }
+ ]
+}

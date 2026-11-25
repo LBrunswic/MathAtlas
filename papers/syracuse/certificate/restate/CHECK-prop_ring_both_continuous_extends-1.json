@@ -1,0 +1,65 @@
+{
+ "label": "prop:ring_both_continuous_extends",
+ "round": 1,
+ "anchor": [
+  "Syracuse.ring_both_continuous_extends"
+ ],
+ "rewritten_sha256": "e2319a98b3f1c6e78af6df9280a90b0cfb6d81b969bb9e2ac1502fb4919df525",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "[CommRing A] [IsZ2Ring A] (IsDomain, IsNoetherianRing, A/2A ≃ ZMod 2)",
+   "rewrite": "A a Z/2Z-ring, integral as at l.50 (OQ-42 (a), DEC-183)",
+   "ok": true
+  },
+  {
+   "lean": "h2 : (2 : A) ≠ 0",
+   "rewrite": "with 2 ≠ 0",
+   "ok": true
+  },
+  {
+   "lean": "[UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A], hA : IsAdic (Ideal.span {2})",
+   "rewrite": "2-adic topology (2^kA a basis at 0) with the group uniform structure",
+   "ok": true
+  },
+  {
+   "lean": "Completion A = UniformSpace.Completion A, coercion A → Completion A",
+   "rewrite": "A_2 its completion, A mapped canonically",
+   "ok": true
+  },
+  {
+   "lean": "f: x/2 on 2A (divPow2 x 1), 3x+1 off 2A; T x = divPow2 (3x+1) (v2(3x+1)) (junk at 3x+1=0)",
+   "rewrite": "f_A halve-the-even; T_A by its formula where 3x+1 ≠ 0; same formulas on A_2",
+   "ok": true
+  },
+  {
+   "lean": "Continuous f ∧ ContinuousOn T {3x+1≠0}",
+   "rewrite": "item 1",
+   "ok": true
+  },
+  {
+   "lean": "f on Completion: continuous, extends f, unique continuous extension",
+   "rewrite": "item 2",
+   "ok": true
+  },
+  {
+   "lean": "T on Completion: ContinuousOn {3w+1≠0}; T(↑x)=↑(T x) for all x; uniqueness among g ContinuousOn {Odd w ∧ 3w+1≠0} agreeing on odd x with 3x+1≠0, EqOn on that set",
+   "rewrite": "item 3 (agreement stated for x with 3x+1≠0, the only x where the paper's T_A exists; Lean's remaining case is junk = junk)",
+   "ok": true
+  },
+  {
+   "lean": "∃ w₀ odd, 3w₀+1=0, no g agreeing with T_A on odd x (3x+1≠0) is ContinuousWithinAt {Odd} w₀",
+   "rewrite": "item 4",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "(point 5, informational) item 3 states T_{A_2}(x)=T_A(x) only for x with 3x+1≠0, whereas the anchor states it for every x ∈ A; the omitted case is the Lean junk value, where the paper's T_A is undefined, so nothing of the paper is lost; no change line needed beyond the existing OQ-42 (d) line.",
+   "fix": "none required"
+  }
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "label": "cor:intertwined_i_",
+ "round": 1,
+ "anchor": [
+  "Syracuse.corGcd_eq_gcd_Aun",
+  "Syracuse.intertwined_aun"
+ ],
+ "rewritten_sha256": "442ec4aaa154e8ed49fad7baa0a32b891ddf3cc08b7d576ddd990362a7dbc489",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "α : ℤ → ℕ, hpos : ∀ k, 1 ≤ α k",
+   "rewrite": "a ∈ (N*)^Z",
+   "ok": true
+  },
+  {
+   "lean": "n : ℕ, hn : 0 < n, hper : Periodic α n",
+   "rewrite": "n ∈ N*, a n-periodic",
+   "ok": true
+  },
+  {
+   "lean": "c d : ℤ (intertwined_aun)",
+   "rewrite": "for every c, d ∈ Z",
+   "ok": true
+  },
+  {
+   "lean": "corGcd n α = gcd(A_0, gcd_{i∈range n, α i>1} Δ_{i−1}) = (range n).gcd A_u",
+   "rewrite": "m = GCD(A_i : i ∈ Z) = A_0 ∧ ⋀_{i∈D} Δ_{i−1}: over all of Z this follows from intertwined_aun (divisor characterisation of the nonnegative GCD), consistently with the one-period form of corGcd_eq_gcd_Aun",
+   "ok": true
+  },
+  {
+   "lean": "descIdx α = {i | 1 < α i}",
+   "rewrite": "D = {i ∈ Z | a_i > 1}; ⋀ over 'i = D' read as i ∈ D (OQ-68 (d))",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}
