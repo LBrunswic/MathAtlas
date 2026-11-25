@@ -125,3 +125,16 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0115](entries/0115-the-two-components-of-p-i-i-at-p-ds-gx-c.md) | pattern | The two components of ℓ(p) ∖ (i⁺ ∪ i⁻) at p ∈ dS²: GX.components_compl_ds |
 | [0116](entries/0116-pitfall.md) | pitfall | Pitfall: |
 | [0117](entries/0117-pitfall.md) | pitfall | Pitfall: |
+| [0118](entries/0118-positivity-of-an-hs-singularity-or-singu.md) | pattern | Positivity of an HS-singularity or singular line: GX.GammaLinkCircle.IsPositive |
+| [0119](entries/0119-a-positive-singular-hs-surface-gx-singul.md) | pattern | A positive singular HS-surface: GX.SingularHSStructure.IsPositive |
+| [0120](entries/0120-the-cone-angle-of-a-p-p-circle-gx-gammal.md) | pattern | The cone angle of a (Γ_p, ℓ(p))-circle: GX.GammaLinkCircle.coneAngle |
+| [0121](entries/0121-restricting-a-singular-hs-structure-to-a.md) | pattern | Restricting a singular HS-structure to an open set: GX.SingularHSStructure.restrictTo |
+| [0122](entries/0122-pitfall.md) | pitfall | Pitfall: |
+| [0123](entries/0123-isomorphism-invariance-of-a-property-of.md) | pattern | Isomorphism invariance of a property of GammaLinkCircles |
+| [0124](entries/0124-p-at-a-non-time-like-p-is-a-one-paramete.md) | pattern | Γ_p at a non-time-like p is a one-parameter group |
+| [0125](entries/0125-the-k-fold-cover-of-a-p-p-circle-islifte.md) | pattern | The k-fold cover of a (Γ_p, ℓ(p))-circle: IsLiftedDev.exists_kfold_cover |
+| [0126](entries/0126-two-periodic-coverings-of-one-circle-dif.md) | pattern | Two periodic coverings of one circle differ by ψ with ψ(s+1) = ψ s ± 1 |
+| [0127](entries/0127-a-branched-covering-of-suspensions-gx-is.md) | pattern | A branched covering of suspensions: GX.isBranchedCovering_susp_map |
+| [0128](entries/0128-locpathconnectedspace-on-bisusp-l-from-i.md) | pattern | LocPathConnectedSpace on BiSusp L from IsTopologicalSurface |
+| [0129](entries/0129-pitfall.md) | pitfall | Pitfall: |
+| [0130](entries/0130-pitfall.md) | pitfall | Pitfall: |
