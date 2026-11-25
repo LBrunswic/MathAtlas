@@ -4,8 +4,10 @@ language from the rigorous Lean that replaced it. Kept by /restate (.claude/skil
 
     python3 tools/restate.py detect [SLUG...] [--all]     candidates the register does not hold yet
     python3 tools/restate.py seed SLUG... [--all]         append them as `found` entries
-    python3 tools/restate.py context SLUG LABEL           the dossier an agent works from
+    python3 tools/restate.py context SLUG LABEL [--full]  the dossier an agent works from
+    python3 tools/restate.py decl SLUG NAME...            one declaration: docstring, statement, variables in scope
     python3 tools/restate.py check [SLUG...] [--file F]   every rule below; exit 1 on a violation
+    python3 tools/restate.py check SLUG --label LABEL     the rules of one entry (an agent's own work)
     python3 tools/restate.py status [SLUG...]             counts per paper and status
     python3 tools/restate.py set SLUG LABEL STATUS [--check FILE] [--review TEXT] [--reason TEXT]
     python3 tools/restate.py render SLUG...               write papers/<slug>/certificate/RESTATED.md
@@ -25,6 +27,9 @@ The register is papers/<slug>/certificate/restatements.toml, one [[entry]] per l
     refutation       Lean declarations refuting the printed form
     anchor           Lean declarations the rewritten statement states (the rigorous form)
     basis            DEC/OQ rows behind the form; `correction` an EGF register id (papers/egf)
+    reading          a reading the rewrite takes that no DEC row rules (e.g. "tame knot = locally
+                     flat"): shown first to the author, who rules it (a DEC row in `basis`) before
+                     `reviewed`
     rewritten        the natural-language statement, LaTeX, saying exactly what `anchor` says
     changes          one line per change from the printed form ("+ hypothesis: …", "- conclusion: …",
                      "~ …")
@@ -59,7 +64,7 @@ STATUS = ("found", "drafted", "checked", "reviewed")
 OTHER = ("dismissed", "blocked")
 KINDS = ("false", "underspecified", "imprecise")
 FIELDS = ("label", "status", "kind", "printed", "printed_sha256", "finding", "refutation",
-          "refutation_note", "anchor", "basis", "correction", "oq", "rewritten", "changes",
+          "refutation_note", "anchor", "basis", "correction", "oq", "reading", "rewritten", "changes",
           "check", "review", "reason")
 LISTS = ("refutation", "anchor", "basis", "changes")
 HEADER = """# Restatements of papers/{slug}: statements false or imprecise as written, rewritten in natural
@@ -144,6 +149,19 @@ def texts(row):
     return [str(x) for x in (f if isinstance(f, list) else [f])] + [str(row.get("notes") or "")]
 
 
+def clip(t, a, b, before=160, after=320):
+    """The text around [a, b), cut at sentence or word boundaries."""
+    lo = max(0, a - before)
+    if lo:
+        k = max(t.rfind(". ", lo, a), t.rfind("; ", lo, a))
+        lo = k + 2 if k >= 0 else (t.find(" ", lo) + 1 or lo)
+    hi = min(len(t), b + after)
+    if hi < len(t):
+        k = max(t.rfind(". ", b, hi), t.rfind("; ", b, hi))
+        hi = k + 1 if k >= 0 else (t.rfind(" ", b, hi) if t.rfind(" ", b, hi) > b else hi)
+    return ("… " if lo else "") + t[lo:hi].strip() + (" …" if hi < len(t) else "")
+
+
 def signals(row):
     """(strength, reasons, excerpt, refuting declarations) of one ledger row."""
     reasons, excerpt = [], ""
@@ -153,15 +171,16 @@ def signals(row):
             m = rx.search(t)
             if m:
                 reasons.append(name)
-                excerpt = excerpt or t[max(0, m.start() - 120):m.end() + 200]
+                excerpt = excerpt or clip(t, m.start(), m.end())
     if neg:
         reasons.append("refuting declaration")
     if reasons:
-        return "strong", sorted(set(reasons)), excerpt or "; ".join(texts(row))[:320], neg
+        joined = "; ".join(x for x in texts(row) if x.strip())
+        return "strong", sorted(set(reasons)), excerpt or clip(joined, 0, 0, 0, 480), neg
     for t in texts(row):
         m = WEAK_TEXT.search(t)
         if m:
-            return "weak", [m.group(0).lower()], t[max(0, m.start() - 120):m.end() + 200], neg
+            return "weak", [m.group(0).lower()], clip(t, m.start(), m.end()), neg
     return None, [], "", neg
 
 
@@ -305,6 +324,12 @@ def entry_errors(slug, e, rows, decls, dec, oq, corr):
                 errs.append("%s: %s checked other anchors" % (tag, e["check"]))
     if st == "reviewed" and not str(e.get("review", "")).strip():
         errs.append("%s: reviewed without `review`" % tag)
+    if st == "reviewed" and str(e.get("reading", "")).strip() and not any(
+            b.startswith("DEC-") for b in e.get("basis", [])):
+        errs.append("%s: reviewed with an unruled `reading`: a DEC row in `basis` rules it first" % tag)
+    rw = str(e.get("rewritten", ""))
+    if rank(st) >= rank("drafted") and re.search(r"(?<![\\\w])[A-Z][A-Za-z]+\.[a-z][A-Za-z0-9_]*_[A-Za-z0-9_]+", rw):
+        errs.append("%s: rewritten names a Lean identifier; write the mathematics" % tag)
     return errs
 
 
@@ -382,6 +407,8 @@ def render(slug, entries=None, rows=None):
             if e.get(k):
                 lines.append("")
                 lines.append("%s: %s" % (title, ", ".join("`%s`" % x for x in e[k])))
+        if e.get("reading"):
+            lines += ["", "**Reading taken, unruled:** %s" % " ".join(str(e["reading"]).split())]
         if e.get("rewritten"):
             lines += ["", "Rewritten:", "", "```latex", e["rewritten"].rstrip(), "```"]
         if e.get("changes"):
@@ -392,46 +419,127 @@ def render(slug, entries=None, rows=None):
     return "\n".join(lines) + "\n"
 
 
-def decl_source(root, name):
-    """The source of declaration `name` (up to `:=`, at most 40 lines), found by its last component;
-    among several matches, the file opening the most of the name's namespaces wins."""
-    parts = name.split(".")
-    last = parts[-1]
-    rx = re.compile(r"^\s*(?:@\[[^\]]*\]\s*)?(?:(?:private|protected|noncomputable|public)\s+)*"
-                    r"(?:theorem|lemma|def|abbrev|structure|class|inductive|instance)\s+(?:\S+\.)?%s\b" % re.escape(last))
-    hits = []
-    for f in sorted(glob.glob(os.path.join(root, "**", "*.lean"), recursive=True)):
-        if "/.lake/" in f or "/scaffold/" in f:
-            continue
-        with open(f, encoding="utf-8") as fh:
-            text = fh.read()
-        if not any(rx.match(l) for l in text.split("\n")):
-            continue
-        score = sum(1 for p in parts[:-1] if re.search(r"^namespace\s+(\S+\.)?%s\b" % re.escape(p), text, re.M))
-        hits.append((-score, f, text.split("\n")))
-    for _, f, lines in sorted(hits, key=lambda h: h[:2]):
-        for i, l in enumerate(lines):
-            if rx.match(l):
-                is_thm = re.search(r"\b(?:theorem|lemma)\s", l) is not None
-                j = i
-                while j > 0 and (lines[j - 1].strip().startswith(("/--", "-", "*")) or lines[j - 1].strip().endswith("-/")):
-                    j -= 1
-                k, block = i, []
-                while k < len(lines) and k < i + 40:
-                    block.append(lines[k])
-                    # a theorem stops at its `:=`; a definition's body is its meaning, so it runs on to
-                    # the next blank line
-                    if is_thm and (":=" in lines[k] or lines[k].rstrip().endswith(" where")):
-                        break
-                    if k > i and not lines[k].strip():
-                        break
-                    k += 1
-                doc = lines[j:i] if i - j < 30 else []
-                return "%s:%d\n%s" % (os.path.relpath(f, ROOT), i + 1, "\n".join(doc + block))
-    return "(source not found)"
+_SRC = {}
 
 
-def context(slug, lab):
+def decl_index(slug):
+    """Full name -> (file, line index, the `variable` lines in scope) for the paper's strict Lean
+    libraries, read without Lean (comments blanked, namespaces and sections tracked, as
+    corrections.lean_decls reads them)."""
+    root = lean_root(slug)
+    libs = tuple(config(slug).get("lean", {}).get("strict", []))
+    if (root, libs) in _SRC:
+        return _SRC[(root, libs)]
+    idx = {}
+    for lib in libs:
+        for f in sorted(glob.glob(os.path.join(root, lib, "**", "*.lean"), recursive=True)):
+            with open(f, encoding="utf-8") as fh:
+                raw = fh.read()
+            code = corrections.ladder._code(raw).split("\n")
+            rawl = raw.split("\n")
+            stack = []   # (kind, name, [variable blocks opened in this scope])
+            top_vars = []
+            header = True
+            i = 0
+            while i < len(code):
+                s = code[i].strip()
+                if not s:
+                    i += 1
+                    continue
+                if header:
+                    if s in ("module", "prelude") or corrections.ladder.IMPORT.match(s):
+                        i += 1
+                        continue
+                    header = False
+                m = re.match(r"namespace\s+(\S+)", s)
+                if m:
+                    stack.extend(("namespace", x, []) for x in m.group(1).split("."))
+                    i += 1
+                    continue
+                m = re.match(r"(?:@\[.*\]\s*)?(?:(?:public|private|noncomputable)\s+)*section\b\s*(\S*)", s)
+                if m:
+                    stack.extend(("section", x, []) for x in (m.group(1).split(".") if m.group(1) else [""]))
+                    i += 1
+                    continue
+                m = re.match(r"end\b\s*(\S*)", s)
+                if m:
+                    for _ in (m.group(1).split(".") if m.group(1) else [""]):
+                        if stack:
+                            stack.pop()
+                    i += 1
+                    continue
+                if re.match(r"(?:omit\s.*\s)?variable\b", s) or re.match(r"include\b", s):
+                    j = i + 1
+                    while j < len(code) and code[j][:1] in (" ", "\t") and code[j].strip():
+                        j += 1
+                    # `variable … in` binds the next declaration only: not a scope's variable
+                    if not re.search(r"\bin\s*$", code[j - 1]):
+                        (stack[-1][2] if stack else top_vars).append("\n".join(rawl[i:j]))
+                    i = j
+                    continue
+                t = s
+                while t.startswith("@["):
+                    d, k = 0, 1
+                    for k in range(1, len(t)):
+                        d += t[k] == "["
+                        d -= t[k] == "]"
+                        if d == 0:
+                            break
+                    t = t[k + 1:].lstrip()
+                m = corrections.ladder.DECL_FQ.match(t)
+                if m:
+                    name = m.group(2)
+                    full = name[len("_root_."):] if name.startswith("_root_.") else \
+                        ".".join([x for k, x, _ in stack if k == "namespace"] + [name])
+                    idx.setdefault(full, (f, i, top_vars + [v for _, _, vs in stack for v in vs]))
+                i += 1
+    _SRC[(root, libs)] = idx
+    return idx
+
+
+def decl_source(slug, name, variables=True):
+    """The source of declaration `name`: its docstring, its statement (a theorem up to `:=`; a
+    definition's body too, up to the next blank line, since the body is its meaning), and the
+    `variable` lines in scope, which carry hypotheses its own signature does not show."""
+    hit = decl_index(slug).get(name)
+    if not hit:
+        return "(source not found in the strict library)"
+    f, i, vs = hit
+    with open(f, encoding="utf-8") as fh:
+        lines = fh.read().split("\n")
+    is_thm = re.search(r"\b(?:theorem|lemma)\s", lines[i]) is not None
+    j = i
+    while j > 0 and i - j < 30 and (lines[j - 1].strip().startswith(("/--", "-", "*", "`")) or
+                                    lines[j - 1].strip().endswith("-/") or
+                                    (lines[j - 1].strip() and not lines[j - 1].startswith(("theorem", "lemma", "def", "end", "namespace", "section", "variable", "@[", "open", "instance", "abbrev", "structure", "noncomputable", "private", "protected")))):
+        j -= 1
+    block, k = [], i
+    while k < len(lines) and k < i + 60:
+        block.append(lines[k])
+        if is_thm and (":=" in lines[k] or lines[k].rstrip().endswith(" where")):
+            break
+        if k > i and not lines[k].strip():
+            break
+        k += 1
+    out = "%s:%d" % (os.path.relpath(f, ROOT), i + 1)
+    if variables and vs:
+        out += "\n-- variables in scope:\n" + "\n".join(vs)
+    return out + "\n" + "\n".join(lines[j:i] + block)
+
+
+def cited_rows(text):
+    """The DEC/OQ rows of registers/DECISIONS.md that `text` cites, verbatim."""
+    ids = set(re.findall(r"\b(?:DEC|OQ)-\d+", text))
+    out = []
+    with open(os.path.join(ROOT, "registers", "DECISIONS.md"), encoding="utf-8") as fh:
+        for line in fh:
+            m = re.match(r"\|\s*((?:DEC|OQ)-\d+)\s*\|", line)
+            if m and m.group(1) in ids:
+                out.append(line.rstrip())
+    return out
+
+
+def context(slug, lab, full=False):
     rows = ledger(slug)
     row = rows[lab]
     cfg = config(slug)
@@ -449,10 +557,33 @@ def context(slug, lab):
             print("- " + t)
     if e:
         print("\n== register entry\n" + dump(slug, [e]).split("\n", 5)[-1])
-    root = lean_root(slug)
-    names = list(dict.fromkeys(list(row.get("decls", [])) + (e or {}).get("anchor", []) + (e or {}).get("refutation", [])))
-    for d in names:
-        print("\n== %s\n%s" % (d, decl_source(root, d) if root else "(no Lean root)"))
+    # the paper lines the findings cite (standing assumptions, definitions), two lines of context each
+    cited = sorted({int(x) for x in re.findall(r"\bl\.\s?(\d+)", " ".join(texts(row)) + json.dumps(e or {}))
+                    if not a <= int(x) <= b})[:15]
+    if cited:
+        with open(src, encoding="utf-8", errors="replace") as fh:
+            all_tex = fh.read().split("\n")
+        print("\n== paper lines cited (%s)" % row["file"])
+        for x in cited:
+            print("-- l.%d\n%s" % (x, "\n".join(all_tex[max(0, x - 2):x + 1])))
+    rules = cited_rows(" ".join(texts(row)) + " " + json.dumps(e or {}, ensure_ascii=False))
+    if rules:
+        print("== rulings and questions cited\n" + "\n".join(rules))
+    if not lean_root(slug):
+        return
+    first = list(dict.fromkeys((e or {}).get("anchor", []) + (e or {}).get("refutation", [])))
+    rest = [d for d in row.get("decls", []) if d not in first]
+    # the row's declarations a reader starts from: not_ theorems, iff and assembly forms (no helper
+    # of another declaration of the row is used by it, by name)
+    if not first:
+        first = [d for d in rest if any(NEG_PART.search(p) for p in d.split("."))
+                 or re.search(r"(?:_iff|Statement|_unconditional|_full)$", d)] or rest[:3]
+        rest = [d for d in rest if d not in first]
+    for d in first + (rest if full else []):
+        print("\n== %s\n%s" % (d, decl_source(slug, d)))
+    if rest and not full:
+        print("\n== other declarations of the row (by name; `restate.py decl %s NAME` prints one, "
+              "`context --full` prints all)\n%s" % (slug, "\n".join("- " + d for d in rest)))
 
 
 def set_status(slug, lab, status, check=None, review=None, reason=None):
@@ -484,7 +615,7 @@ def main(argv):
     every = "--all" in rest
     path = rest[rest.index("--file") + 1] if "--file" in rest else None
     opts = {}
-    for k in ("--check", "--review", "--reason", "--file"):
+    for k in ("--check", "--review", "--reason", "--file", "--label"):
         if k in rest:
             i = rest.index(k)
             opts[k] = rest[i + 1]
@@ -495,7 +626,11 @@ def main(argv):
             sys.exit(__doc__)
         return set_status(args[0], args[1], args[2], opts.get("--check"), opts.get("--review"), opts.get("--reason"))
     if cmd == "context":
-        return context(args[0], args[1])
+        return context(args[0], args[1], full=every or "--full" in argv)
+    if cmd == "decl":
+        for d in args[1:]:
+            print("== %s\n%s" % (d, decl_source(args[0], d)))
+        return
     slugs = args or slugs_all()
     if cmd == "detect":
         n = 0
@@ -532,6 +667,16 @@ def main(argv):
                 sys.exit("restate: --file needs exactly one SLUG")
             errs, k = errors(slugs[0], path)
             allerr, n = errs, k
+        elif opts.get("--label"):
+            if len(slugs) != 1:
+                sys.exit("restate: --label needs exactly one SLUG")
+            e = [x for x in load(slugs[0]) if x["label"] == opts["--label"]]
+            if not e:
+                sys.exit("restate: %s has no entry %s" % (slugs[0], opts["--label"]))
+            dec, oq = decisions()
+            allerr = entry_errors(slugs[0], e[0], ledger(slugs[0]), strict_decls(slugs[0]), dec, oq,
+                                  egf_corrections() if slugs[0] == "egf" else set())
+            n = 1
         else:
             for s in slugs:
                 errs, k = errors(s)

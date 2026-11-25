@@ -1,0 +1,65 @@
+{
+ "label": "theo:local_virt_tame",
+ "round": 1,
+ "anchor": [
+  "GX.local_virt_tame_descending"
+ ],
+ "rewritten_sha256": "1df06202431f7a9e9b4d79b12d5581298562ac31587a4e4ca47b25cf57fa7daa",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "X: LocallyConnectedSpace, T2Space, ContinuousConstSMul G X, IsRigidAction, FaithfulSMul",
+   "rewrite": "standing: (G,X) an analytical structure (l.341: connected, locally connected, Hausdorff X, faithful action by homeomorphisms, rigid), named in changes; X connected is extra and unused",
+   "ok": true
+  },
+  {
+   "lean": "hX : IsLocallyUnloopable X",
+   "rewrite": "standing assumption of the section (l.1660), named in changes",
+   "ok": true
+  },
+  {
+   "lean": "each Xα: T2Space, LocPathConnectedSpace, FirstCountableTopology, ConnectedSpace, SingularGXStructure",
+   "rewrite": "each X_alpha connected, locally path-connected, first countable (explicit); Hausdorff by def:singular_manifold_locally_connected (l.474)",
+   "ok": true
+  },
+  {
+   "lean": "hfam : IsAnalyticModelFamily G X Xα S",
+   "rewrite": "analytical family of model spaces (def:family_singular_manifolds_endowed)",
+   "ok": true
+  },
+  {
+   "lean": "hgal : ∀ a, IsLocallyGaloisian G X (Xα a)",
+   "rewrite": "locally Galoisian model spaces",
+   "ok": true
+  },
+  {
+   "lean": "htam : ∀ a, HasAutContinuousTamifying (∃ base point, tamifying T on MaxBranchedCover, every element of aeAutMapsMax T-continuous)",
+   "rewrite": "a tamifying topology T_alpha on the maximal covering of X_alpha on which Aut acts T_alpha-continuously",
+   "ok": true
+  },
+  {
+   "lean": "(i): ∀ N : Type u, T2, LocPathConnected, FirstCountable, Connected, singular (G,X), IsXAManifold (atlas + chart at every singular point, DEC-67 (e))",
+   "rewrite": "every connected, locally path-connected, first countable X_A-manifold M (Hausdorff and second countable by the paper's definition; DEC-67 (e) cited). Second countability narrows (i); harmless since (ii) follows from htam outright, and disclosed in changes",
+   "ok": true
+  },
+  {
+   "lean": "∀ y ∈ Sing N, ∃ a, ∃ c : XAChart a y (φ(y) ∈ S_a, V open connected, φ an a.e. isomorphism), IsDescendingChartMap c.φ",
+   "rewrite": "every x ∈ sing(M) is the centre of an X_A-chart descending from the maximal covering of its model; descent defined in the statement: for all base points, all e over U, all f over φ(p(e)), a map Ψ on the component of q^{-1}(V) containing f, continuous for the natural topologies, p∘Ψ in U, φ∘p∘Ψ = q, Ψ(f) = e — matches IsDescendingChartMap / IsChartDescent field by field (chartExt φ = φ on U; natural topology = SpreadEnd topology)",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "(point 6) 'the centre of an X_A-chart' is not the paper's vocabulary; def:atlas says 'an X_alpha-chart around x' (with phi(x) in S_alpha). The intended meaning (phi(x) in S_alpha, matching XAChart.mem_S) is recoverable but a reader could take 'centre' as merely x in U.",
+   "fix": "Write 'every x in sing(M) has an X_A-chart around x (def:atlas) which descends from the maximal covering of its model'."
+  },
+  {
+   "severity": "minor",
+   "what": "(point 5, informational) the rewrite inherits from the paper's notion of singular (G,X)-manifold second countability for M and X_alpha, which the anchor does not use; the changes line says the anchor does not use it, but does not say the rewrite is narrower in (i) because of it. Harmless: (ii) holds outright under the tamifying hypothesis, so the iff is unaffected.",
+   "fix": "None required; optionally note in changes that (i) is stated for second countable M only through the paper's definition."
+  }
+ ]
+}

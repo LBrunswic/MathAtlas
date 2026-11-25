@@ -53,6 +53,9 @@ def BREAKAGES(slug, entries):
         "checked-without-check": with_(**dict(draft, status="checked", check=None)),
         "checked-missing-file": with_(**dict(draft, status="checked", check="CHECK-none.json")),
         "reviewed-without-review": with_(**dict(draft, status="reviewed", check=None, review=None)),
+        "rewritten-with-lean-identifier": with_(**dict(draft, rewritten="By GX.not_isAEAtlas_iUnion_empty, $x$.")),
+        "reviewed-with-unruled-reading": with_(**dict(draft, status="reviewed", check=None, review="x",
+                                                      reading="tame = locally flat", basis=None)),
         "duplicate-entry": [first] + entries,
         "strong-candidate-dropped": rest,
     }

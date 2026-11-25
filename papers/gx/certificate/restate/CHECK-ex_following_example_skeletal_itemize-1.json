@@ -1,0 +1,48 @@
+{
+ "label": "ex:following_example_skeletal_itemize",
+ "round": 1,
+ "anchor": [
+  "GX.isSkeletal_of_finite_surface",
+  "GX.isSkeletal_of_tameKnot",
+  "GX.isSkeletal_skeletonSpace",
+  "GX.isSkeletal_of_isTotallyDisconnected"
+ ],
+ "rewritten_sha256": "1814978395854d5078129772c0174d021f2d032e3d0b2907446e9da405c2f982",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "item 1: ChartedSpace (EuclideanSpace ℝ (Fin 2)) X, T2Space X, S.Finite",
+   "rewrite": "S finite and X a Hausdorff surface (locally homeomorphic to R^2)",
+   "ok": true
+  },
+  {
+   "lean": "item 2: ChartedSpace R^3 X (no T2), IsClosed S, ∀ x ∈ S, ∃ e : OpenPartialHomeomorph X (ℝ × ℝ²), x ∈ e.source ∧ ∀ y ∈ e.source, (y ∈ S ↔ (e y).2 = 0)",
+   "rewrite": "S closed in a 3-manifold X, locally flat: neighbourhood W, homeomorphism h of W onto an open subset of R×R^2 with S∩W = h^{-1}(R×{0}); reading recorded in `reading`",
+   "ok": true
+  },
+  {
+   "lean": "item 3: K a SimplicialComplex in a finite-dimensional real normed space E, K.faces finite, IsPureOfDim K n, IsLocallyStronglyConnected K n, k + 2 ≤ n; X = K.space",
+   "rewrite": "finite pure n-dimensional simplicial complex realised in some R^N, locally strongly connected in codimension ≥ 2 (definition spelled out, matching the Lean: σ.card+1 ≤ n, chain of n-faces containing σ, consecutive intersections of card n), k ≤ n−2",
+   "ok": true
+  },
+  {
+   "lean": "item 4: E finite-dimensional, 2 ≤ finrank E, ChartedSpace E X (no T2), IsClosed S, IsTotallyDisconnected S",
+   "rewrite": "S closed totally disconnected in an n-manifold X, n ≥ 2",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "(point 5) 'skeletal' is applied in non-Hausdorff X (items 2 and 4, where the rewrite explicitly drops separation axioms), outside the Hausdorff locally connected ambient of def:portly_skeletal_subset; the changes line '~ notation' discloses it but `reading` (which lists only the item-2 tame-knot reading) does not, and no DEC rules it. Harmless for truth: under the restrictive reading the items are only narrower than the anchors.",
+   "fix": "Add it to `reading`, or restrict items 2 and 4 to Hausdorff manifolds (still covered by the anchors)."
+  },
+  {
+   "severity": "minor",
+   "what": "(point 5) item 1's 'surface = Hausdorff, locally homeomorphic to R^2' is labelled '~ reading' in changes but is absent from `reading`; it narrows the item to the anchor's T2Space hypothesis and matches the usual meaning of surface, so nothing is overclaimed.",
+   "fix": "Label it '+ hypothesis (item 1): X Hausdorff' rather than a reading, or add it to `reading`."
+  }
+ ]
+}

@@ -17,10 +17,14 @@ there.
 
 ## For each entry of the dispatch
 
-Read `python3 tools/restate.py context <slug> <label>`: the printed statement, the findings, the
-entry with its `rewritten`, `changes`, `anchor` and `refutation`, and the Lean sources. Open the
-Lean files for the full statements and the definitions they use, wherever the dossier cuts them.
-Then do these checks:
+Read `python3 tools/restate.py context <slug> <label>`. It prints:
+- the printed statement and the findings;
+- the entry, with its `rewritten`, `changes`, `anchor`, `refutation` and `reading`;
+- the cited rulings;
+- the Lean sources, each with the `variable` lines in scope.
+
+Print every definition the anchor mentions with `python3 tools/restate.py decl <slug> NAME...`,
+and open the Lean files wherever that is not enough. Then do these checks:
 
 1. **Hypotheses.**
    - Every hypothesis and binder of the anchor appears in the rewrite, explicitly or through a
@@ -36,8 +40,10 @@ Then do these checks:
 4. **The refutation is answered.** For `kind = "false"`, read the refuting instance (the
    `refutation` declarations or `refutation_note`) against the rewrite: some hypothesis of the
    rewrite must fail on it. If none fails, that is **major**.
-5. **Changes.** Each line of `changes` is true, and every substantive difference between the
-   printed statement and the rewrite is listed. A missing or false line is **minor**.
+5. **Changes and reading.** Each line of `changes` is true, and every substantive difference
+   between the printed statement and the rewrite is listed. A missing or false line is **minor**.
+   A reading the rewrite takes that no DEC row rules, missing from `reading`, is **major**: the
+   author would not see it.
 6. **Readable LaTeX.** It is a statement body: no proof and no `\label`, macros the paper defines,
    and no Lean identifiers in place of mathematics. A defect here is **minor**.
 

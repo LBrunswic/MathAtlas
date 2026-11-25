@@ -1,0 +1,45 @@
+{
+ "label": "lem:GX_atlas_union",
+ "round": 1,
+ "anchor": [
+  "GX.isAEAtlas_iUnion"
+ ],
+ "rewritten_sha256": "69a3e7428d918254867f66c1dbd165b1f62eb6c49a90c7ebaf1f72bbf848a60d",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "M : Type, TopologicalSpace M (no other assumption)",
+   "rewrite": "Let N be a topological space",
+   "ok": true
+  },
+  {
+   "lean": "X LocallyConnectedSpace, T2Space; G acts by homeomorphisms (ContinuousConstSMul); IsRigidAction",
+   "rewrite": "standing (G,X) analytical structure of l.341, named in changes",
+   "ok": true
+  },
+  {
+   "lean": "[Nonempty K]",
+   "rewrite": "a non-empty family (DEC-46 (a))",
+   "ok": true
+  },
+  {
+   "lean": "hB : ∀ k, IsAEAtlas G (B k)",
+   "rewrite": "(B_k) a family of a.e.(G,X)-atlases on N",
+   "ok": true
+  },
+  {
+   "lean": "hthin : ∀ k k', ∃ A, IsAEAtlas A ∧ IsThinner A (B k) ∧ IsThinner A (B k')",
+   "rewrite": "for all (k,k') in K^2 there is an a.e. (G,X)-atlas A thinner than both",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "(point 5) Dropping 'N locally connected' makes the rewrite use 'portly' (hence 'a.e. (G,X)-atlas') on spaces outside the Hausdorff locally connected ambient that def:portly_skeletal_subset fixes. This is a reading (the defining clause applied in any space, as Lean's IsPortly does), stated inside a '- hypothesis' changes line but not in `reading`, and no DEC rules it. It is harmless for truth: the paper's own def:almost_everywhere_atlas_topological (l.402) and the printed lemma (no Hausdorff) already apply 'portly' beyond that ambient, and under the restrictive reading the rewrite is only narrower than the anchor, never stronger.",
+   "fix": "Record it in `reading` (or as a '~ reading' changes line), or keep 'locally connected' and add nothing."
+  }
+ ]
+}

@@ -21,8 +21,14 @@ first.
    - the printed statement;
    - the ledger's findings and notes;
    - the entry;
-   - the source of every declaration involved: the row's `decls`, plus the entry's anchors and
-     refutations.
+   - the DEC/OQ rows cited;
+   - the source of the anchor and refutation candidates, each with the `variable` lines in scope.
+     These carry hypotheses the signature does not show: read them.
+
+   The row's other declarations are listed by name only. To print one, with its docstring and
+   variables, use `python3 tools/restate.py decl <slug> NAME...`; `context --full` prints all of
+   them. Use `decl` also for every definition the anchor's statement mentions, because you
+   translate the definition, not its name.
 
    Read the surrounding TeX when the statement leans on notation or a standing assumption
    (`papers/<slug>/legacy/labeled/`), and the rulings cited (`registers/DECISIONS.md`).
@@ -65,6 +71,10 @@ first.
      for it, or cite the definition by label (`Definition~\ref{…}`).
    - An iff stays an iff. A statement with parts keeps its parts.
    - A counterexample-driven correction must visibly exclude the refuting instance.
+   - No Lean identifier appears in `rewritten`. The gate refuses `Ns.name_with_underscores`.
+   - **An unruled reading.** Your rewrite may need a reading no DEC row rules, for example a
+     classical fact the Lean assumes in another form. Write it in `reading` (one or two lines).
+     The author sees it first and rules it before `reviewed`. Do not hide it in `changes`.
 5. **List `changes`**, one line each, from the printed form:
    - `+ hypothesis: …`
    - `- conclusion: …` or `~ conclusion: … (weaker: …)`
@@ -72,9 +82,17 @@ first.
    - `~ notation: …`
 
    Each line says what changed and why, citing the refutation or the DEC.
-6. **Set the status.** Set `status = "drafted"` and run `python3 tools/restate.py check <slug>`.
-   Fix every violation on your entries. (`RESTATED.md` freshness is the master's: ignore that
-   single line.)
+6. **Set the status.** Set `status = "drafted"`, then run
+   `python3 tools/restate.py check <slug> --label <label>` for each of your entries and fix every
+   violation.
+
+**Formatting.** The master's `restate.py set` re-serialises the whole register:
+- multi-line text goes in a TOML literal multi-line string (`'''` on its own line, then the text);
+- a one-line value with a backslash goes in a literal string `'…'`;
+- other values go in basic strings `"…"`;
+- fields go in the order of the schema.
+
+Edit in that style, or the first `set` makes a noisy diff.
 
 ## Never
 
