@@ -1,0 +1,92 @@
+# Restatements of papers/syracuse: statements false or imprecise as written, rewritten in natural
+# language from the rigorous Lean. Schema and rules: tools/restate.py. Written by /restate (the
+# statement-rewriter and statement-checker agents, the master's `restate.py set`); reviewed by the
+# author. Every strong candidate of `restate.py detect` has an entry here (the gate checks it).
+
+[[entry]]
+label = "prop:ring_both_continuous_extends"
+status = "found"
+printed = "syracuse.tex:58-59"
+printed_sha256 = "8ec702b731197e335cb592469fdca2e18f0f30b900c551df8ecaf05622c80432"
+finding = "[strong: refuting declaration] syracuse.tex:58 — 'T_A … extends continuously to A_2' is false. Take A = Z, where T_Z is the paper's map on all of 2Z+1 (3x+1 ≠ 0 always). No g : Z_2 → Z_2 is continuous on 2Z_2+1 and agrees with T_Z on the odd integers (Syracuse.T_int_not_extends). The printed statement, quantified over all Z/2Z-rings with 2 ≠ 0, is r"
+refutation = ["Syracuse.not_continuousWithinAt_extension_T", "Syracuse.not_exists_continuousWithinAt_extension_T", "Syracuse.not_exists_continuousWithinAt_extension_T_completion", "Syracuse.not_continuousWithinAt_T_padicInt"]
+
+[[entry]]
+label = "lem:ring_maps_rhs_n_"
+status = "found"
+printed = "syracuse.tex:84-87"
+printed_sha256 = "751597ed5c805b9d47875d7566d0e7b559dcd3c061c4d34ee9f8d6d4728127fc"
+finding = "[strong: false as written] syracuse.tex:84–86 — false as printed: in the Z/2Z-ring Z/2Z, RHS_2(0,1) = 3+2 = 1 = 3+4 = RHS_2(0,2) (Syracuse.ring_maps_rhs_printed_false); RHS_n is not injective for every n ≥ 2 (Syracuse.rhs_zmod2_not_injOn; it is in fact constant, ="
+
+[[entry]]
+label = "theo:rep"
+status = "found"
+printed = "syracuse.tex:88-91"
+printed_sha256 = "8979bae62d366886879c805dae36f0c7f22cb4b829313577aed9bfbaeab85694"
+finding = "[strong: false as written] syracuse.tex:88–90 — false as printed on 2A_2+1 = 2Z_2+1: x0 = -1/3 is odd but not in the image of the printed inverse φ^{-1} (Syracuse.neg_inv3_not_mem_image), nor is any y_k = -(2^k+3)/9, k ≥ 1, which satisfies T(y_k) = -1/3 with ν_2(3"
+
+[[entry]]
+label = "cor:ring_periodic_minimal_period"
+status = "found"
+printed = "syracuse.tex:107-109"
+printed_sha256 = "8bb84be9bb63f4ea182cd3ed8b5859a10cc1ecf5dc97bc24d8a11d1a8c248cbd"
+finding = "[strong: false as written] syracuse.tex:108 — false as printed: '∀ i, j ∈ ⟦1, n⟧' includes i = j, where A_i^n(a(x)) - A_j^n(a(x)) = 0, on every cycle; e.g. the cycle (1) of Z, n = 1, i = j = 1 (Syracuse.cor_ring_periodic_minimal_period_printed_false). For i ≠ j"
+
+[[entry]]
+label = "cor:bounds"
+status = "found"
+printed = "syracuse.tex:142-143"
+printed_sha256 = "b41e8b703c7c02efb0ce518e3860c9459f41e2615fbac0799aeb508da9482f50"
+finding = "[strong: false as written] syracuse.tex:142 — false as printed: at x = 1, n = 1 (min = max = 1, p_1(1) = 2) it asks log_2 2 = 1 ≤ 2 − log_2 3 ≈ 0.415 (Syracuse.bounds_printed_false). More: its lower bound log_2(1 + 1/min) fails on every positive cycle (Syracuse."
+
+[[entry]]
+label = "prop:proposition"
+status = "found"
+printed = "syracuse.tex:194-199"
+printed_sha256 = "9dd9366e2611ad229b8bd4b20f5dd214400ef1bfd6896e35e4c513bb34414fda"
+finding = "[strong: false as written] syracuse.tex:201–204: two slips in the proof, both harmless. First, it cites cor:bounds, which is false as printed (OQ-54 (c)). The true form gives #{a_i = 1} ≥ n(2 − log₂3 − log₂(1 + 1/(3 min))) on every cycle of ℤ* (prop_proposition_min). Second, l.202 and l.204 write log, which is the natural logarithm elsewhe"
+
+[[entry]]
+label = "def:circuit"
+status = "found"
+printed = "syracuse.tex:213-217"
+printed_sha256 = "60b4a42f389b40ea74a0105e6403b0901282a95290e368e1c532295fb9b507f9"
+finding = "[strong: refuting declaration] syracuse.tex:213 — '(x)_{n∈N}' is literally the constant sequence x, x, …, which is n-periodic for every n. Read so, every integer is an ε-circuit for every ε ≤ 1, with n = 1 and p = 0 (Syracuse.isCircuitLiteral_of_le_one); 3 is one, though its orbit 3, 5, 1, 1, … is not periodic (not_isCircuit_three). The orbit (T^n(x"
+refutation = ["Syracuse.not_isCircuit_three"]
+
+[[entry]]
+label = "theo:exists_no_circuit_other"
+status = "found"
+printed = "syracuse.tex:219-220"
+printed_sha256 = "61ecca8314dfb0965811ad2cb5ae26070a65947b68eccb139f2f8d2ba475c4e6"
+finding = "[strong: false as written] syracuse.tex:232–234 — the display is false as printed, in both index readings and both readings of OQ-43. The true identity, for n-periodic a with a_{i+k} = 1 on ⟦1, q⟧ and 1 ≤ q ≤ n, is A_{q+i} − A_{q+i+1} = 3^q Σ_{m=1}^{n−q} 3^{n−q−m} 2^{a_{q+i+1}+⋯+a"
+
+[[entry]]
+label = "lem:syracuse_cycle_n__n_"
+status = "found"
+printed = "syracuse.tex:275-281"
+printed_sha256 = "6bc8d4632070fc1829b0166c164957f81ce78b7eacb4faaa34ed8ff95ae8d755"
+finding = "[strong: false as written] syracuse.tex:277 — false as printed, for both readings of OQ-43. The exponent a_i + ⋯ + a_{i+k−1} has one term too many. For every a : ℤ → ℕ, A'_{i+1} − A'_i = Σ_{k=1}^{n−1} 3^{n−1−k} 2^{a_{i+1}+⋯+a_{i+k−1}} (2^{a_{i+k}} − 2^{a_i}) (Sy"
+
+[[entry]]
+label = "lem:syracuse_cycle"
+status = "found"
+printed = "syracuse.tex:283-287"
+printed_sha256 = "07b9ad0563cf76a0df59848d6b9d81e8865ea039c4d9855bd8fadc82931ea60d"
+finding = "[strong: false as written, refuting declaration] syracuse.tex:284 — 'm = GCD(A_i : i ∈ Z) = 2^{p_n} − 3^n' is false as printed. For the OQ-43 reading it holds up to sign on every cycle of Z: d divides every A'_u (u ∈ ℤ) iff d divides 2^{p_n(x)} − 3^n (Syracuse.dvd_iff_dvd_AunAlt_of_cycle). Normalized, the GCD over one period"
+refutation = ["Syracuse.not_dvd_iff_dvd_Aun_of_cycle"]
+
+[[entry]]
+label = "cor:intertwined_i_"
+status = "found"
+printed = "syracuse.tex:289-292"
+printed_sha256 = "26bf23dc7d790c5db4cc09e60e02911b7806d6bc2b3be1c6528bfa49d61d5b49"
+finding = "[strong: false as written, refuting declaration] syracuse.tex:291 — false as printed with m = 2^{p_n} − 3^n, for both readings of OQ-43. For the OQ-43 reading, on every cycle of Z the corollary's GCD is |2^{p_n(x)} − 3^n| (Syracuse.corGcdAlt_of_cycle; universal property intertwined_a"
+refutation = ["Syracuse.not_three_dvd_AunAlt", "Syracuse.not_four_dvd_of_intertwined"]
+
+[[entry]]
+label = "theo:syracuse_cycle"
+status = "found"
+printed = "syracuse.tex:306-307"
+printed_sha256 = "6ff36f9cee680a19b19c4a78bf6a98b6bc68370d79d476ff2f32992984f209ac"
+finding = "[strong: false as written] syracuse.tex:317–322 — both ∼_S forms are false as printed. The true forms at the positions of l.308 are as follows. For k₁ < i < k₂, Δ'_i = 3^{i−k₁−1} 2^{k₂−i} E(δ₂, α₂, α₁) and Δ_i = 3^{i−k₁} 2^{k₂−i} E(δ₂, α₂, α₁) (twoDesc_delta_i). For k₂ − n < j < k₁, Δ"

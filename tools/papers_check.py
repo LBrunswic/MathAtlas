@@ -4,7 +4,7 @@
     python3 tools/papers_check.py [--paper <slug>]   # exit 1 if any gate of any paper fails
 
 Per paper (a directory under papers/ with ledger/ledger.toml): legacy-frozen, ledger check,
-story lint, no-legacy-prose. A paper listed in hub.toml `[papers.blocked]` is skipped with a
+story lint, no-legacy-prose, restate. A paper listed in hub.toml `[papers.blocked]` is skipped with a
 loud BLOCKED line naming its open question (tools/registers.py checks that question is still
 OPEN). A paper directory with no ledger.toml is a failure: a paper nobody counts is worse than a
 red one.
@@ -56,6 +56,9 @@ def main():
         ok &= run("ledger", ["python3", os.path.join(TOOLS, "ledger.py"), "-c", cfg, "check"])
         ok &= run("story", ["python3", os.path.join(TOOLS, "story_lint.py"), "--paper", pdir])
         ok &= run("no-legacy-prose", ["python3", os.path.join(TOOLS, "no_legacy_prose.py"), "--paper", pdir])
+        # Every statement found false or imprecise as written is registered, and each rewrite is
+        # where its status says (tools/restate.py).
+        ok &= run("restate", ["python3", os.path.join(TOOLS, "restate.py"), "check", slug])
         # The double DAG, once the paper has one: its committed artifacts must be what a build
         # would write. A paper with no Lean yet has no doubledag/ and nothing to check.
         if os.path.isdir(os.path.join(ROOT, pdir, "doubledag")):

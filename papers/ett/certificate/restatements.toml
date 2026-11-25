@@ -1,0 +1,226 @@
+# Restatements of papers/ett: statements false or imprecise as written, rewritten in natural
+# language from the rigorous Lean. Schema and rules: tools/restate.py. Written by /restate (the
+# statement-rewriter and statement-checker agents, the master's `restate.py set`); reviewed by the
+# author. Every strong candidate of `restate.py detect` has an entry here (the gate checks it).
+
+[[entry]]
+label = "rem:relation_not_assumed_reflexive"
+status = "found"
+printed = "ETT.tex:235-236"
+printed_sha256 = "72da836fc162d4c0eedb24919fb2851cb7d2e3769bdb98f4311bac43dd635b91"
+finding = "[strong: refuting declaration] T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Minkowski space → carried (minkowski n, every n (existing Causal.Flat.minkowski_not_lt_self, reused)); a BTZ point (defi:causal_E0) → strengthened (a point of S₀ under BTZAx"
+refutation = ["Causal.Causality.BTZAxioms.not_lt_self", "Causal.E0.not_lt_self"]
+
+[[entry]]
+label = "ex:open_subset"
+status = "found"
+printed = "ETT.tex:259-263"
+printed_sha256 = "a973def526339fdc33072b619527fd757469a725cd398facecebe6e62b90932b"
+finding = "[strong: false as written] ETT.tex:260 uniqueness is false as written: the diagonal causality (≤_V equality on V, ≪_V empty) also makes the inclusion of any open W a strong morphism, since a strong morphism only asks the relations of W to imply those of M (openSubset_n"
+
+[[entry]]
+label = "rem:pas_plat"
+status = "found"
+printed = "ETT.tex:289-298"
+printed_sha256 = "a691b7d01183ce3d34351c9c7b667167a6665857a2af17d590b28e46f953825e"
+finding = "[strong: refuting declaration] ETT.tex:290 and 294-295: the BTZ defect of (ii) is not a violation of defi:causalement_plat. J^-(p) ⊂ sing_0 (lem:past_BTZ) and sing_0 has empty interior (prop:GX_sing_dec), so Int J^-(p) = ∅ ⊂ closure I^-(p); more generally Int J^-_U(A) = ∅ for every open U and every A ⊂ sing_0 (Lean: SingularFlatAxioms.interior_Jminu"
+refutation = ["Causal.Causality.IsCausalBubble.not_causallyPlain", "Causal.Causality.IsCausalBubble.not_causallyPlain_past"]
+
+[[entry]]
+label = "rem:causal_completeness_slightly_weaker"
+status = "found"
+printed = "ETT.tex:356-358"
+printed_sha256 = "f463c3e529928646378a06a92c77f601f3c7e85cd6c62b1123286471ba5fc282"
+finding = "[strong: refuting declaration] ETT.tex:357 'slightly weaker' asserts two things: (i) causally compact ⇒ causally complete, and (ii) not conversely. Half (ii) is CONFIRMED (not_causallyComplete_imp_causallyCompact): the fan, ℕ discrete with 0 below and 1 above every other event, is causal, T2, second countable, causally complete, and J(0,1) = ℕ is no"
+refutation = ["Causal.not_causallyCompact_imp_causallyComplete", "Causal.not_causallyComplete_imp_causallyCompact", "Causal.not_causallyCompleteOrder_imp_causallyCompact"]
+
+[[entry]]
+label = "prop:GX_espace_temps_topo"
+status = "found"
+printed = "ETT.tex:589-595"
+printed_sha256 = "e0660f6ef4768ad8ec6cebbad92d9b251505fe15e7b025ce060def4fdfd9891c"
+finding = "[strong: FALSE, false as written] ETT.tex:592-594, uniqueness, under DEC-16's maximal atlas: FALSE as stated in the library's reading, TRUE outright when some chart of the maximal atlas covers M. Counterexample (GX_maximal_not_unique): M = ℝ ⊔ ℝ, X = ℝ with the timelike line, G = translations. Every chart o"
+
+[[entry]]
+label = "rem:tarentin_exemples"
+status = "found"
+printed = "ETT.tex:688-692"
+printed_sha256 = "450d465d95d34c65382f6076bf59d1f2241ed7d238189f11707d6e40ba0a402f"
+finding = "[strong: refuting declaration] T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Lorentzian manifolds → strengthened (instance only: minkowski n (no Lorentzian manifolds in the library)); every E≥0-manifold (rem:sing_tarentin) → strengthened (the field t"
+refutation = ["Causal.Causality.not_tarentin_of_Jminus_eq"]
+
+[[entry]]
+label = "rem:K_borelien"
+status = "found"
+printed = "ETT.tex:829-835"
+printed_sha256 = "a6bed38a8be4019b5d77e51b1c110f6ff6868f117a5a79a3631b973c62b6713e"
+finding = "[strong: FALSE, false as written, refuting declaration] audited. T-ett-k-borelien (atlas-team, 2026-11-20), audit AUDIT-1 minor (the future form's locality, fixed in round 1): FALSE as printed — Minkowski space with spokes (Causal.spokes_counterexample, spokes_counterexample_future: absolutely minimal, causal, tarentin; K^∓(p) and J^∓(p) not Borel, from a non-Borel subset of ℝ, Causal.exis"
+refutation = ["Causal.not_kBorelienAsPrinted", "Causal.not_kBorelienPlusAsPrinted", "Causal.spokes_counterexample", "Causal.spokes_counterexample_future"]
+
+[[entry]]
+label = "rem:K_neq_I"
+status = "found"
+printed = "ETT.tex:871-882"
+printed_sha256 = "fb07eac24e2b4f52c5ec9f23156a5c0d0a173be14248775219ce9269b6321742"
+finding = "[strong: false as written, refuting declaration] ETT.tex:872–875 (T-ett-bubble-kplus): the bubble sentence is false as printed, under every hypothesis of prop:tarentin_fort_K (l.851–852) except causal plainness, which is the setting the remark places it in. Minkowski space with one spoke (spokesCausality (Ioi 0) on ℝ × ℝ at"
+refutation = ["Causal.not_bubbleKminusAsPrinted", "Causal.not_bubbleKplusAsPrinted", "Causal.not_bubbleKminusNeAsPrinted", "Causal.not_bubbleKplusNeAsPrinted"]
+
+[[entry]]
+label = "def:cauchy_surface"
+status = "found"
+printed = "ETT.tex:999-1001"
+printed_sha256 = "c94036f2cd50f6ba2c7d880411617493374123cd6f0b66a73f70c3f5c655ffc7"
+finding = "[strong: refuting declaration] Ruled by DEC-14 (2026-10-30): the definition is 'every inextensible causal curve meets S exactly once'.; ETT.tex:1000 read literally, def:cauchy_surface admits no Cauchy surface once some causal curve is non-constant: constant curves are causal curves (DEC-6), so S must contain every point, and a non-constant curve the"
+refutation = ["Causal.Causality.not_isCauchySurfaceLiteral"]
+
+[[entry]]
+label = "rem:mesure_unilaterale_ptr"
+status = "found"
+printed = "ETT.tex:1045-1052"
+printed_sha256 = "19d373d9a40b9196032775fca041a02f7f550062e4464155862a7b305af6ff71"
+finding = "[strong: refuting declaration] ETT.tex:1047-1049 is false in the generality stated: the lightlike line (ex:causalities_lines, item 2) is a causal chain along which every chronological past is empty, and the standard Gaussian measure on it is admissible in the past AND in the future (Lean: lightlikeLine_admissible_past_and_future; there K^-(p) = ]-∞,"
+refutation = ["Causal.Causality.not_admissiblePast_and_admissibleFuture", "Causal.Causality.not_admissiblePast_and_admissibleFuture_of_pushUp", "Causal.SingularRowsGeroch.not_admissible_both_of_chain"]
+
+[[entry]]
+label = "theo:geroch"
+status = "found"
+printed = "ETT.tex:1256-1267"
+printed_sha256 = "122c8d06211a31e12802f1b4ef87c4fe063c8f9e6425c9f7fa012d5b03affc43"
+finding = "[strong: FALSE, false as written] ETT.tex:1256–1267 with 1301–1306 (and the abstract, l.142–146): (iii)⇒(i) of theo:geroch is FALSE as printed. Lean, sorry-free: Causal.not_gerochIIIImpIAsPrinted. Witness: chronological Minkowski space ℝ^{1,n}, n ≥ 1 (Causal.chronoMinkowski n). Its causal relation is x ≤_U y iff x = y ∈ U or x ≪_U y, with ≪"
+
+[[entry]]
+label = "defi:causal_Ealpha"
+status = "found"
+printed = "ETT.tex:1335-1342"
+printed_sha256 = "06f39c1a9953196c6bff2efe62955677feb69fdfece6fb153d85f830c76617d6"
+finding = "[strong: refuting declaration] l.1327-1329 gives the metric -dt^2+dr^2+r^2 dtheta^2 for every alpha without saying that theta runs over R/alphaZ: the angle alpha enters only through the period of theta, which the sentence should state ('theta in R/alpha Z').; For alpha > 0, E_alpha = R x C_alpha with C_alpha the Euclidean cone over the circle of len"
+refutation = ["Causal.BPrimeEAlpha.not_isAEChart_conjE"]
+
+[[entry]]
+label = "defi:causal_E0"
+status = "found"
+printed = "ETT.tex:1344-1356"
+printed_sha256 = "20089a74bb237102ca02ee28febd01b881b768f08bb4ff43b659a502fdd01747"
+finding = '''
+[strong: FALSE, refuting declaration] DEC-64 (2026-11-02), the l.1351 'verify' answered: the sentence I^+(p) = J^+(p) \ sing_0 is FALSE in E_0 (gx review of the CBG geometry interface, C1; by hand, not formalized: the library has no E_0). For the metric −2dτdr + dr² + r²dθ² a future causal vector has r' ≥ 0 and 2τ'r' ≥ r'² + r²θ'², s
+'''
+refutation = ["Causal.E0.not_chronalCurveOn_axisLine", "Causal.E0.not_pastDistinguishing", "Causal.Causality.SingularFlatAxioms.not_pastDistinguishing", "Causal.E0.not_btzIplusAsPrinted"]
+
+[[entry]]
+label = "cexemple:misner_tarentin"
+status = "found"
+printed = "ETT.tex:1368-1372"
+printed_sha256 = "abe006a1076a15b42ac6006d8bfd507332f7ef86cff05f09749b5a0ce3476a39"
+finding = "[strong: refuting declaration] ETT.tex:1370-1371: 'a singular point has no past. Hence M is not tarentin' is not a valid inference by itself. Tarentin at x gives p ≤ x ≤ q near x with x ∈ Int J(p,q); with no past p = x, so only J^+(x) ∈ 𝓝 x follows, a contradiction only if the causal future of the Misner singular point is not a neighbourhood of it,"
+refutation = ["Causal.Causality.not_tarentin_of_no_past", "Causal.Causality.not_tarentin_of_Jminus_eq"]
+
+[[entry]]
+label = "rem:pushup"
+status = "found"
+printed = "ETT.tex:1374-1380"
+printed_sha256 = "6a3c8e7616044a217529dc01fa89a221332a5004cf0f257480ac57ec73976ed2"
+finding = "[strong: refuting declaration] The wording finding of WP-9 applies verbatim to E_alpha: the concatenation itself is not chronological; its end points are joined by a chronological curve in the same open set (Static.staticLt_of_staticLt_of_staticLe).; l.1375-1376 'the concatenation of a future causal curve with a future chronological one is future ch"
+refutation = ["Causal.ModelRowsE0.pushup_concat_counterexample"]
+
+[[entry]]
+label = "cor:massA_causalite"
+status = "found"
+printed = "ETT.tex:1396-1397"
+printed_sha256 = "8149fad01688c43e86625797b0fb95ffbeb5126326f91a09f1d69cbd4c022d21"
+finding = "[strong: refuting declaration] ETT.tex:1400-1405: the proof checks absolute minimality of the models (cor:model_minimal) and Baire, but prop:GX_sing_espace_temps_topo asks causal arc-connectedness of X and of each X_α ((a), (b)) — the premise of cor:model_minimal, not its conclusion — and the second half of (b) (the causality of X_α extends that of"
+refutation = ["Causal.BPrimeE0.not_isAEChart_conjE0"]
+
+[[entry]]
+label = "def:singular_spacetime"
+status = "found"
+printed = "ETT.tex:1500-1507"
+printed_sha256 = "75e249b6652c925ee81ef52253aaccc03fcf9af5a73006ea06edc37d1b3569e5"
+finding = "[strong: refuting declaration] ETT.tex:1331-1333 writes sing(E_alpha) for the singular line and reg(E_alpha) for its complement, an (Isom(E),E)-manifold. Read through DEC-25, sing(E_0) is the singular locus of the singular (G,X)-structure only if the (Isom(E),E)-structure does not extend across the line. That holds: the holonomy of a loop about the"
+refutation = ["Causal.AESupportCounterexample.counterexample"]
+
+[[entry]]
+label = "rem:singular_flat_spacetime_therefore"
+status = "found"
+printed = "ETT.tex:1508-1511"
+printed_sha256 = "a5bae71f99f5d5dcc303672f36108e9e41b50f514590f7b894ad05f7d7139e2f"
+finding = "[strong: refuting declaration] The reason for DEC-18. As printed (no strong causality), the remark overclaims: theo:geroch asks local causal convexity and a pair of admissible measures, and prop:mesure_admissible gives the measures only for strongly causal M; nothing in Section 3 makes a singular flat spacetime strongly causal (l.1216 reads 'locally"
+refutation = ["Causal.Causality.SingularFlatAxioms.not_open_subset_singleton"]
+
+[[entry]]
+label = "prop:K_calcul"
+status = "found"
+printed = "ETT.tex:1557-1563"
+printed_sha256 = "77e54f1085a097a49a5e8d196eb8d845cc80d810e877b157e5fc4f21adf46111"
+finding = '''
+[strong: false as written] ETT.tex:1571: '⊃ J^-(p_0)' is false as written: on the half-line J^-(p) the relative interior of J^-(p_0) is J^-(p_0) \ {p_0}. The conclusion survives because p_0 is arbitrary (x < p_0 gives x ∈ Int_{J^-(p)} J^-(p_0)).
+'''
+
+[[entry]]
+label = "rem:mesure_unilaterale"
+status = "found"
+printed = "ETT.tex:1713-1724"
+printed_sha256 = "9584364b75001cc58472f55ca975d5df0f8eeb83cf9ed1bd84b6e5e0ec65d445"
+finding = "[strong: refuting declaration] ETT.tex:1716, « Let M be a causal E≥0-manifold »: the conclusion does not need « causal ». Read property 3 of defi:mesure_dieckmann with p < q meaning p ≤ q and p ≠ q, as the paper uses it at l.1275. Then a causality carrying a measure admissible in the past, or in the future, is causal: for x ≤ y ≤ x with x ≠ y the se"
+refutation = ["Causal.Causality.SingularFlatAxioms.not_admissible_both_of_le", "Causal.SingularRowsGeroch.not_admissible_both_of_le"]
+
+[[entry]]
+label = "theo:geroch_sing"
+status = "found"
+printed = "ETT.tex:1771-1779"
+printed_sha256 = "f6e3967dadeb14a57a7c30138edfc3b77702cba27f91ad506199bfe15b65b87c"
+finding = "[strong: refuting declaration] See rem:singular_flat_spacetime_therefore: the proof's 'direct consequence of theo:geroch and prop:mesure_admissible' needs strong causality, which, without DEC-18, is available only in direction (i)=>(ii)/(iii). The E_alpha-modulo-a-translation example is the reason for DEC-18. The former paper-form geroch_sing and it"
+refutation = ["Causal.Causality.SingularFlatAxioms.not_isChronalFlow", "Causal.Causality.SingularFlatAxioms.not_hasChronalCausalFlow", "Causal.SingularRowsSplitting.not_hasChronalCausalFlow", "Causal.SingularRowsSplitting.not_lt_tauFlow", "Causal.SingularRowsSplitting.not_isChronalFlow_tauFlow"]
+
+[[entry]]
+label = "lem:cup_cap_BTZ"
+status = "found"
+printed = "ETT.tex:1825-1830"
+printed_sha256 = "65f669c3d0ca0ba1de511cd7760f6aeedd9e7bac613a49f38e3fcdd5079906ee"
+finding = "[strong: refuting declaration] The reason for DEC-19, formalized (Causal/Port/CupCapBTZCounterexample.lean): lem:cup_cap_BTZ as printed (M strongly causal, ETT.tex:1825–1829) is false. Witness: M = E_0 ∖ {w}, w = (0,0) on the BTZ line, with the structure pulled back along the inclusion (opensSingularGXStructure, DEC-25) and its natural causality C ("
+refutation = ["Causal.CupCapBTZCounterexample.not_cupCapBTZAsPrinted", "Causal.CupCapBTZCounterexample.exists_counterexample", "Causal.CupCapBTZCounterexample.not_forall_cupCapBTZAsPrinted", "Causal.CupCapBTZCounterexample.not_isClosed_Jplus_z", "Causal.CupCapBTZCounterexample.not_globallyHyperbolic"]
+
+[[entry]]
+label = "def:cauchy_embedding_cauchy_extension"
+status = "found"
+printed = "ETT.tex:1858-1863"
+printed_sha256 = "aebf5e649dee9d11f2220b9d1de77ebf599cbd8ab1a9c034a169f3217e0f407f"
+finding = "[strong: refuting declaration] Defined for globally hyperbolic topological spacetimes with IsEMorphism (DEC-17). (WP-12, audited) T-ett-cauchy-ext-e0 (atlas-team, 2026-11-22), audit AUDIT-1 minor (docstring: which witness is at the frontier; the past set makes each conclusion immediate, disclosed), Causal/Remarks/SingularRowsCauchyExt.lean, sorry-fr"
+refutation = ["Causal.not_isEMorphism_const", "Causal.not_isCauchyEmbedding_const", "Causal.not_timelikeLine_isCauchyInclusion_bot"]
+
+[[entry]]
+label = "lem:Cauchy_plongement_toutes"
+status = "found"
+printed = "ETT.tex:1865-1872"
+printed_sha256 = "eb1638ff7a9dabcad881a7a81fa2e756e7d4f034d1ac468ee0f7aaf1183c12ab"
+finding = "[strong: refuting declaration] ETT.tex:1874 (T-ett-sigma-separe): « Only (i)⇒(ii) requires an argument »: (ii)⇒(i) needs a Cauchy surface of M, which is theo:geroch_sing (i)⇒(iii) (l.1771–1777), M being globally hyperbolic; now proved at every globally hyperbolic, Hausdorff, second countable E≥0-manifold (Causal.SingularRowsGeroch.geroch_sing_i_imp_"
+refutation = ["Causal.Causality.not_futureExtensible_of_component"]
+
+[[entry]]
+label = "rem:CBG_analytique"
+status = "found"
+printed = "ETT.tex:1903-1910"
+printed_sha256 = "d13ea5d7f4b488ca5925b3ef2c93c20d520416ea19f821243fb21727831b9a29"
+finding = "[strong: refuting declaration] ETT.tex:1904-1907 says the Hausdorffness of the glued object follows from rigidity alone ('there is no unreasonable morphism'). The formal proof needs, besides rigidity (A1), the germ extension at corresponding boundary points (A3, Sbierski Lemma 3.8, used by cor:ext_continue) and the slice (A4, Sbierski Thm 3.6, used"
+refutation = ["Causal.CBG.not_isRigidFor_branchingLine", "Causal.CBG.not_exists_isUniversal_halfLineDev"]
+
+[[entry]]
+label = "prop:Cauchy_pgcd"
+status = "found"
+printed = "ETT.tex:1945-1949"
+printed_sha256 = "d6211d00db9c6ae67cd7ed933ea656469858a1161a2ba613d26f5de326d3dbbe"
+finding = "[strong: refuting declaration] ETT.tex:1953-1960 (confirms WP-4): ℰ's condition (b) does not ask φ_M injective, so the step '(∧, φ) ∈ ℰ, hence ∧ is a common sub-extension' does not show ∧ → M₂ injective. A gap in the argument, not a refutation: no counterexample is known, and injectivity is plausibly recoverable.; ETT.tex:1960-1961: 'Thus (∧, φ) ∈ ℰ"
+refutation = ["Causal.not_cauchyPgcdAbstract", "Causal.DensWitness.not_bigSub_equivalent_base", "Causal.DensWitness.not_absolutelyMinimalOn_witness", "Causal.cauchyPgcdAbstract_counterexample_symm", "Causal.DensWitness.not_isMorphism_wide_far2", "Causal.DensWitness.not_isMorphism_far2_wide"]
+
+[[entry]]
+label = "rem:non_separe_cas"
+status = "found"
+printed = "ETT.tex:2016-2022"
+printed_sha256 = "37edca20c225b48f4f91551fed1c5c938cca998a2d6ea387e49dab7ebc2557b4"
+finding = "[strong: false as written] ausdorff (Gluing.t2Space_and_C_nonempty). The last sentence of rem:non_separe_cas ('it is the case C ≠ ∅') is therefore false as written, and so is prop:Cauchy_point_min's hypothesis 'C ≠ ∅' in its literal reading. Every use of C (lem:corresponding_K, cor:model_corresponding, prop:C_connexe 'C is closed', prop:Cauchy_point_min, proof"
+
+[[entry]]
+label = "prop:Cauchy_non_max"
+status = "found"
+printed = "ETT.tex:2178-2181"
+printed_sha256 = "27449c0621bcf53e971220ee6bbb42013411a45401c315f40cab8041c6bd1cb4"
+finding = "[strong: FALSE, false as written] ETT.tex:2179-2180 is FALSE as printed with C as defined at l.2011-2012: a graph pair (j₁(x), j₂(x)) lies in C (Gluing.graph_subset_C) and satisfies J(Σ₁,p) ∖ {p} ⊂ j₁(N) (j₁(N) is causally convex in M₁), while N = pgcd is maximal. ett_ca"

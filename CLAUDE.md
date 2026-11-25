@@ -137,6 +137,20 @@ Adopted corrections are applied to the arXiv v2 working copy `~/Dropbox/ErgodicG
 experiments are reproduced in the private `LBrunswic/egf-reproduction` (`node1:~/egf-reproduction`),
 GPU work on node1 only. `/atlas-team` leaves `lean-egf` and `papers/egf` to this loop.
 
+## Restatements (`/restate`)
+
+Formalizing found many statements **false or imprecise as written**: the Lean is rigorous and the
+natural language is not. `tools/restate.py` detects them deterministically from the curated ledgers
+(a finding saying `FALSE` / "false as printed", or a `not_…`/`Cex` declaration) and keeps one
+register per paper, `papers/<slug>/certificate/restatements.toml`: status
+`found → drafted → checked → reviewed` (or `dismissed` with a reason, `blocked` on an OPEN OQ),
+the refutation, the Lean `anchor`, the `rewritten` LaTeX statement and its `changes`. The loop
+`.claude/skills/restate/SKILL.md` dispatches **statement-rewriter** (triage, then a rewrite saying
+exactly what the anchor says) and **statement-checker** (hypothesis by hypothesis against the Lean;
+a CHECK file pinned to the rewrite's sha256). The author reviews `certificate/RESTATED.md`
+(generated). The `restate` gate of papers-check requires every strong candidate to be registered, so a loop
+that rebuilds a ledger runs `restate.py seed <slug>` and commits the register with it.
+
 ## Governance (light, DEC-1)
 
 `registers/DECISIONS.md` is the authority for the author's rulings (append-only, `DEC-n`).

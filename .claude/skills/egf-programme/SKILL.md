@@ -174,6 +174,8 @@ reverted or stay in the scaffold.
 drop that sub-lease. Lease `registers/DECISIONS.md` the same way while you append an OQ row or set
 one `RULED`.
 
+**Restatements.** A rebuilt ledger may carry a new strong candidate: a finding saying `FALSE` or "false as printed/written", or a `not_…`/`Cex` declaration. The `restate` gate of papers-check then fails until it is registered. Take the lease of `papers/egf/certificate/restatements.toml` and `RESTATED.md`, run `python3 tools/restate.py seed egf`, and commit them with the ledger. `/restate` rewrites them; never write a rewrite yourself.
+
 In the hub, commit with `git commit --only $(python3 tools/lease.py mine egf) …`, never `-a`:
 1. One commit per target: its Lean, curation, corrections entries, registers.
 2. Then the ledger, and commit it.

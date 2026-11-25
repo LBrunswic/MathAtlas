@@ -159,6 +159,7 @@ Dispatch **atlas-builder** with the target block. Verify the result yourself:
    - the hypothesis checklist.
 
    A corrected form is marked only if a DEC row already rules it. Then run `make ledgers`.
+   **Restatements.** A rebuilt ledger may carry a new strong candidate: a finding saying `FALSE` or "false as printed/written", or a `not_…`/`Cex` declaration. The `restate` gate of papers-check then fails until it is registered. Take the lease of `papers/<paper>/certificate/restatements.toml` and `RESTATED.md`, run `python3 tools/restate.py seed <paper>`, and commit them with the ledger. `/restate` rewrites them; never write a rewrite yourself.
 6. **The REPORT's `kb_proposals`** go into the package's `kb/` as new entries, following its
    `INDEX.md` format.
 

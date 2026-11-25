@@ -1,0 +1,148 @@
+# Restatements of papers/barbot: statements false or imprecise as written, rewritten in natural
+# language from the rigorous Lean. Schema and rules: tools/restate.py. Written by /restate (the
+# statement-rewriter and statement-checker agents, the master's `restate.py set`); reviewed by the
+# author. Every strong candidate of `restate.py detect` has an entry here (the gate checks it).
+
+[[entry]]
+label = "bthm:caucomp"
+status = "found"
+printed = "GHFspace.tex:337-347"
+printed_sha256 = "55642918d6760c05a31535fdbee22c38595542a118faeba9e29cc91997a9336c"
+finding = "[strong: refuting declaration] F1, [11.i] l.3620: 'Misner spacetimes are absolutely maximal' is false when Gamma has no loxodromic element (Gamma trivial: the wedge {t > |x_1|} sits non-surjectively in M^n); the proof assumes one. The Misner family carries 'some gamma has nonzero boost parameter', and with it absolute maximality is proved for both w"
+refutation = ["Causal.Flat.not_isHyperbolic_zero"]
+
+[[entry]]
+label = "bthm:cauclo"
+status = "found"
+printed = "GHFspace.tex:352-360"
+printed_sha256 = "9b3b9e9b221c0d3c139cf06aa6b6f1dd248e9fb1d375c1fddf9f6620865cb1e2"
+finding = '''
+[strong: false as written] Rem 2.3 (l.571-579) is false as written: the slab Z^d\{0 < t < 1} is GH and Cauchy-compact and embeds isometrically, not onto, in the torus Z^d\M^n (DEC-44; proved in every d in Flat/Examples). The literal remark fails because M is not ass
+'''
+
+[[entry]]
+label = "bprop:laoucapulse"
+status = "found"
+printed = "GHFspace.tex:854-866"
+printed_sha256 = "452c84ad1b592c025189497d17467bb4e6a8ca14794ee48528d4dbf24415cb37"
+finding = "[strong: FALSE, false as written, refuting declaration] 'expanding' is undefined; in the metric reading (some l > 1 with l*dist <= dist of the images near x) the statement is FALSE, proved in Lean for n = 3 (boost with cosh = 5/4, sinh = 3/4, at the point (u_0, 4) of J^+). It holds for volume expansion (Jacobian a^d > 1 iff a > 1), the only reading the common-factor remark l.84"
+refutation = ["Causal.Flat.not_laoucapulseScaledReading_two", "Causal.Flat.not_laoucapulseScaledReading_one", "Causal.Flat.not_laoucapulseMetricReading_two", "Causal.Flat.not_laoucapulseVolumeReading_one", "Causal.Flat.not_expandsVolumeAt_lorentzSphere_one"]
+
+[[entry]]
+label = "bdef:omega_lambda"
+status = "found"
+printed = "GHFspace.tex:892-903"
+printed_sha256 = "d575d575603d406ccc930ebd03e62109e6a2cb2b2be93d9fd7ab4ce593c1c9b7"
+finding = "[strong: refuting declaration] (DEC-95: the closing sentence is read under the closed-Lambda convention of l.1001-1004, under which it is proved; the non-closed case is kept as a finding) Def 4.4, l.901-902: 'If Lambda contains at least 2 elements, then Omega^pm(Lambda), if nonempty, is regular' is false for non-closed Lambda: Lambda = {u_0} x ]0,in"
+refutation = ["Causal.Flat.not_futureRegular_ray"]
+
+[[entry]]
+label = "bprop:regular_iff_bounded"
+status = "found"
+printed = "GHFspace.tex:1007-1014"
+printed_sha256 = "e7258d3ff3b8fe85c4e7065723498bdc113a66ec0fd9f9a3ebb79b8b3eea8782"
+finding = "[strong: refuting declaration] (DEC-95: a typo; the corrected sign is the formalization of record) Prop 4.10 sign error (l.1011-1013): the statement says future regular iff s < C (past regular iff s > C); the proof (l.1017-1031), with P^+ = {<v|p> - s < 0} (l.887-890), shows that closed Lambda is future regular iff s is bounded BELOW, past regular i"
+refutation = ["Causal.Flat.not_regularIffBoundedAsPrinted"]
+
+[[entry]]
+label = "bprop:regular_cauchy_complete"
+status = "found"
+printed = "GHFspace.tex:1147-1152"
+printed_sha256 = "73ccea8491abb8d2ef581b3e47dc80a05d5c39d6c7e40af23dc8ecb994b3890f"
+finding = "[strong: refuting declaration] [4.CT] l.1049-1052, a wording issue, not an error (DEC-88): 'the proper times of all these curves are uniformly bounded' holds for the intended reading of Lambda, a regular domain (Bonsante's two non-parallel null support planes, Def 4.1, which l.921-922 calls 'completely equivalent'). Def 4.4's literal 'at least 2 ele"
+refutation = ["Causal.Flat.Cla.not_exists_sphereFix_of_not_hasGlobalFixedPoint", "Causal.Flat.Cla.not_exists_sphereFix_of_isNonelementary"]
+
+[[entry]]
+label = "bprop:agissons"
+status = "found"
+printed = "GHFspace.tex:1173-1181"
+printed_sha256 = "ba3065bbbe34e939bcdfe8af7a0d347de7e7084404c07f9a8d63e496075804e4"
+finding = "[strong: refuting declaration] MARKED (DEC-103, 2026-11-02): Flat/Semicomplete.lean carries **`bprop:agissons`**; bprop_agissons_full proves every clause of Prop 4.16, 'semicomplete' included, for CosmoRegular Lambda, Gamma discrete and preserving Omega+(Lambda): properly discontinuous, and if torsion-free a quotient M that is GH, Cauchy-complete (D"
+refutation = ["Causal.Flat.not_isFutureGeodesicallyComplete_halfSpace"]
+
+[[entry]]
+label = "bprop:admlox"
+status = "found"
+printed = "GHFspace.tex:1229-1238"
+printed_sha256 = "43c6b2fe127f0b3fd18d12e1d83b1f3e459dd655585ce153be7f2125cf3ff684"
+finding = "[strong: refuting declaration] (DEC-96: 'nonempty' is the evident intent) Prop 4.17 (l.1232-1238): 'contained in any closed rho(Gamma)-invariant subset' needs 'nonempty' (the empty set is closed and invariant); the same for the limit-set fact quoted at l.1248-1251.; l.1255-1266: the basin of repulsion of x_0 is all of J off the fibre over the attrac"
+refutation = ["Causal.Flat.not_limitSet_conclusion_stdBoostL"]
+
+[[entry]]
+label = "bthm:unip"
+status = "found"
+printed = "GHFspace.tex:1709-1718"
+printed_sha256 = "b163aeaf523e29e7e0c14fb4b8c0928da58031b457d8e51e46468bc57a15eef0"
+finding = "[strong: false as written, refuting declaration] [5.B] l.1732-1733: 'the kernel of the restriction morphism Gamma -> Isom(U) is a finite index subgroup of Gamma_nd' is false as written: that kernel is the pointwise stabiliser of U, finite for discrete Gamma. What the argument needs is that Gamma_nd acts on U by translations, plus an omitted step (finite-by-Z^j is virtually Z^j)."
+refutation = ["Causal.Flat.not_maxUnipotent_conclusion_top"]
+
+[[entry]]
+label = "blem:suspendre"
+status = "found"
+printed = "GHFspace.tex:1833-1845"
+printed_sha256 = "6786fbe7f3c165c38bfe5955aacb00c64bd5fd37cb58cf1f2389e97416a2af4a"
+finding = "[strong: false as written, refuting declaration] Lemma 5.5 (l.1836-1844) is false as written in dimension >= 3: in M^3 the glide gamma(t,x) = (t+1,-x) generates a free properly discontinuous Z on M^3, preserves the timelike plane U = {x_2 = 0}, and restricts to U with determinant -1, so Gamm"
+refutation = ["Causal.Flat.TwistedProduct.not_restrictsIn_glideGroup", "Causal.Flat.TwistedProduct.not_restricts_glide_of_range", "Causal.Flat.TwistedProduct.not_restrictsIn_glideGroup_of_range"]
+
+[[entry]]
+label = "blem:paranongh"
+status = "found"
+printed = "GHFspace.tex:2173-2180"
+printed_sha256 = "e87552403862fc6dfb234a5e656dc7220ead859270060ecefee3e708aae2055c"
+finding = "[strong: FALSE, false as written, refuting declaration] Lemma 7.1 (l.2173-2180) is FALSE as printed: with 'parabolic' admitting R = id (as Section 9's purely unipotent case l.2865 requires) it fails for n >= 4 (null rotation composed with a unit translation, x_0 = 0: nullRotShift_counterexample); w"
+refutation = ["Causal.Flat.not_paranongh", "Causal.Flat.not_paranonghPts", "Causal.Flat.not_paranonghStrict", "Causal.Flat.not_paranongh_tangent_normal", "Causal.Flat.nullRotShift_counterexample", "Causal.Flat.halfTurnShift_counterexample"]
+
+[[entry]]
+label = "bcor:abel"
+status = "found"
+printed = "GHFspace.tex:2292-2297"
+printed_sha256 = "4f1febd9d893e27d44a873f34d99413c60dd3bf6a6ecaa48bde3eb4ccc82c5e0"
+finding = "[strong: false as written, refuting declaration] Cor 8.4 false as printed (l.2295-2296): in M^4, Gamma = Gamma_0 x <z -> z+1>, Gamma_0 a cocompact Fuchsian group in SO_0(1,2), preserves the spacelike line {t = x = y = 0}, acts freely, properly and cocompactly on the (CC')"
+refutation = ["Causal.Flat.not_bcorAbelPrinted", "Causal.Flat.not_bcorAbelStepPrinted", "Causal.Flat.bcor_abel_counterexample", "Causal.Flat.not_isVirtuallyFreeAbelian_gamma4"]
+
+[[entry]]
+label = "blem:SdanU"
+status = "found"
+printed = "GHFspace.tex:2353-2358"
+printed_sha256 = "29b744c8ece404d18e1448a74a588b01d096b3408e2337efb3c2c1b74639077d"
+finding = "[strong: refuting declaration] Proof, l.2383-2389: 'the complement of U(gamma) is a union of lightlike geodesics' is false for loxodromic gamma (through a point with xy > 0 every null line leaves {xy >= 0}); repaired through D(Sigma) in U(Gamma) and Sigma in int D(Sigma).; The transverse parabolic case needs no Lemma 7.1 (false for n >= 4): Sigma li"
+refutation = ["Causal.Flat.CCAction.not_isNonspacelikeElliptic", "Causal.Flat.CCAction.not_isOfFinOrder"]
+
+[[entry]]
+label = "bprop:danom"
+status = "found"
+printed = "GHFspace.tex:2469-2473"
+printed_sha256 = "4b75925c902c9c450fcffae42807d9aaac39238ac0b2944ea31926b571255ebf"
+finding = "[strong: false as written, refuting declaration] W7, l.2489-2491: 'every nonspacelike line of M meets D(S~ x {t})' is false as written: for a strictly contracting entire graph it says the slice is a Cauchy surface of M^n, and the hyperboloid (Rem 2.2) is a counterexample (dependenceDomain_hyperboloid); repaired without slices (D(M~)"
+refutation = ["Causal.Flat.not_isCauchySurface_graph_hyperboloid_of_criterion"]
+
+[[entry]]
+label = "bprop:sanloxo"
+status = "found"
+printed = "GHFspace.tex:2572-2578"
+printed_sha256 = "db4bd0b1f6ff41d38d9ae7f37674f37506f658aa5b922a869561489f474e290f"
+finding = "[strong: refuting declaration] Prop 9.1 gap (Tits), l.2621-2622: 'up to finite index, L(Gamma) preserves an isotropic vector v_0 and Gamma contains a parabolic element gamma_1' does not follow from Prop 9.1: its proof (l.2585-2594) produces a parabolic element of the Zariski closure G_0, not of Gamma, and leaves a branch Section 9 never treats (L(Ga"
+refutation = ["Causal.Flat.not_benoist_conclusion_stdBoost", "Causal.Flat.not_fixesTimelikeOrNull_of_isLoxodromic"]
+
+[[entry]]
+label = "bprop:limites"
+status = "found"
+printed = "GHFspace.tex:2940-2956"
+printed_sha256 = "908d1050ca63846e299fd94368c4aee740ac8114009ab83209209c13529f0a87"
+finding = "[strong: false as written] [9.b] l.2776-2787 uses Lemma 7.1 (false as printed for n >= 4) and Cor 8.3; neither is needed for a purely unipotent gamma_1 (b_trivial_model); for gamma_1 = R U with R != id the analogue is not written."
+
+[[entry]]
+label = "blem:sanlox"
+status = "found"
+printed = "GHFspace.tex:3140-3145"
+printed_sha256 = "463151055350801d7c1f3d7857e15b5e449cbaee349700bfdf73101091536df6"
+finding = "[strong: refuting declaration] l.3136 and l.3157: Omega_lox(Gamma) is called 'the convex domain' but is not convex (for Gamma = <gamma> it is U^+(gamma) union U^-(gamma)); the proof l.3157-3165 is valid on each convex piece. The printed statement l.3143-3144 is nevertheless true, by an argument the paper does not give (not_mem_quadrantPlus_quadrantM"
+refutation = ["Causal.Flat.not_minkQ_neg_of_mem_UGammaLox", "Causal.Flat.not_mem_quadrantPlus_quadrantMinus"]
+
+[[entry]]
+label = "bprop:U_timelike"
+status = "found"
+printed = "GHFspace.tex:3346-3349"
+printed_sha256 = "d51b067a1be4df3f32cf3043821488d4b374c8b890de6d85cb3aeee8512392e8"
+finding = "[strong: false as written, refuting declaration] Its spacelike case (l.3355-3356) rests on Cor 8.4, false as printed (bcor:abel); the true route is through the fixed space of L(Gamma_nd), which lies in U's direction (IsMaxUnipotent.mem_direction_of_linFixed)."
+refutation = ["Causal.Flat.not_abelianPairAsPrinted", "Causal.Flat.not_isNonelementary_of_lightlike"]

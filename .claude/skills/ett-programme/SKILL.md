@@ -138,6 +138,8 @@ moment, rebuild with `python3 tools/ledger.py -c papers/<p>/ledger/ledger.toml b
 `--only` those files, and drop that lease. Lease `registers/DECISIONS.md` the same way while you
 append an OQ row.
 
+**Restatements.** A rebuilt ledger may carry a new strong candidate: a finding saying `FALSE` or "false as printed/written", or a `not_…`/`Cex` declaration. The `restate` gate of papers-check then fails until it is registered. Take the lease of `papers/<p>/certificate/restatements.toml` and `RESTATED.md`, run `python3 tools/restate.py seed <p>`, and commit them with the ledger. `/restate` rewrites them; never write a rewrite yourself.
+
 Commit with `git commit --only $(python3 tools/lease.py mine programme) …`, never `-a`. This keeps
 the other loop's staged work out of your commits.
 1. One commit per target: its Lean, curation, registers, ladder, binder, report or site.
