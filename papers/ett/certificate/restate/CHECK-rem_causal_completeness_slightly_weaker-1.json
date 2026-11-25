@@ -1,0 +1,46 @@
+{
+  "label": "rem:causal_completeness_slightly_weaker",
+  "round": 1,
+  "anchor": [
+    "Causal.Causality.causallyCompleteOrder_of_causallyCompact",
+    "Causal.not_causallyCompleteOrder_imp_causallyCompact"
+  ],
+  "rewritten_sha256": "ade46f92e6cd014647ce1c862071b7af254f36dcc6a9ab13753c520da9d7e6bc",
+  "verdict": "faithful",
+  "hypotheses": [
+    {
+      "lean": "causallyCompleteOrder_of_causallyCompact: [T2Space M]",
+      "rewrite": "(1): Hausdorff",
+      "ok": true
+    },
+    {
+      "lean": "hT : C.Tarentin",
+      "rewrite": "(1): tarentin",
+      "ok": true
+    },
+    {
+      "lean": "hcaus : C.IsCausal",
+      "rewrite": "(1): causal",
+      "ok": true
+    },
+    {
+      "lean": "hK : C.CausallyCompact ⊢ C.CausallyCompleteOrder (every IsMaxChain (C.le ⊤) S is DedekindComplete: non-empty bounded-above subsets of S have an LUB in S for ≤_M)",
+      "rewrite": "(1): causally compact ⇒ causally complete, with the explicit reading of maximal causal chain (maximal totally ordered subset) and Dedekind-complete (LUB in the chain) given in the opening sentence",
+      "ok": true
+    },
+    {
+      "lean": "not_causallyCompleteOrder_imp_causallyCompact: ∃ N : Type, [TopologicalSpace] [T2] [SecondCountable], D Tarentin, IsCausal, CausallyArcConnected, ∀p J⁻(p)≠{p}, ∀p J⁺(p)≠{p}, AbsolutelyMinimal, StronglyCausal, CausallyCompleteOrder, ¬CausallyCompact",
+      "rewrite": "(2): exactly this list",
+      "ok": true
+    }
+  ],
+  "conclusion_ok": true,
+  "refutation_answered": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "what": "Point 5: the `changes` line '+ hypothesis (1): M Hausdorff, tarentin and causal (DEC-22); without them the implication fails (Causal.not_causallyCompact_imp_causallyComplete, the bowtie, non-local)' is false. The bowtie is discrete, finite, Hausdorff, causal and tarentin (with p = q = x, J(x,x) = {x} is open), so it satisfies every hypothesis of (1). It refutes the old 'local causal chain' reading (CausallyComplete via IsMaximalChain/IsCausalChain), under which univ is a maximal chain. Under the DEC-21 reading the rewrite states, its maximal chains are the two-element sets {aᵢ, bⱼ}, which are Dedekind-complete. So the refutation is answered by the DEC-21 reading (stated explicitly in the rewrite), not by the added hypotheses.",
+      "fix": "Reword the line: the bowtie is answered by the DEC-21 reading of 'maximal chain' (it is causally complete in that reading); the hypotheses T2, tarentin, causal are those the proof of (1) uses (DEC-22), not ones the bowtie violates."
+    }
+  ]
+}

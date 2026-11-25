@@ -5,11 +5,12 @@
 
 [[entry]]
 label = "rem:relation_not_assumed_reflexive"
-status = "found"
+status = "dismissed"
 printed = "ETT.tex:235-236"
 printed_sha256 = "72da836fc162d4c0eedb24919fb2851cb7d2e3769bdb98f4311bac43dd635b91"
 finding = "[strong: refuting declaration] T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Minkowski space → carried (minkowski n, every n (existing Causal.Flat.minkowski_not_lt_self, reused)); a BTZ point (defi:causal_E0) → strengthened (a point of S₀ under BTZAx"
 refutation = ["Causal.Causality.BTZAxioms.not_lt_self", "Causal.E0.not_lt_self"]
+reason = "Detector false positive: the not_… declarations (BTZAxioms.not_lt_self, E0.not_lt_self) prove the remark's own negative claim (no point of Minkowski space, and no BTZ point, is ≪ itself; assembled in Causal.relation_not_assumed_reflexive and, at E₀, Causal.E0.relation_not_assumed_reflexive). The ledger records no defect of the printed sentence, only how its hypotheses are carried (E₀ read as DEC-150 rules OQ-34); at every E≥0-manifold I⁻(p) = ∅ at BTZ points is proved too (SingularRowsLocal.Iminus_eq_empty)."
 
 [[entry]]
 label = "ex:open_subset"
@@ -20,19 +21,53 @@ finding = "[strong: false as written] ETT.tex:260 uniqueness is false as written
 
 [[entry]]
 label = "rem:pas_plat"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "ETT.tex:289-298"
 printed_sha256 = "a691b7d01183ce3d34351c9c7b667167a6665857a2af17d590b28e46f953825e"
-finding = "[strong: refuting declaration] ETT.tex:290 and 294-295: the BTZ defect of (ii) is not a violation of defi:causalement_plat. J^-(p) ⊂ sing_0 (lem:past_BTZ) and sing_0 has empty interior (prop:GX_sing_dec), so Int J^-(p) = ∅ ⊂ closure I^-(p); more generally Int J^-_U(A) = ∅ for every open U and every A ⊂ sing_0 (Lean: SingularFlatAxioms.interior_Jminu"
-refutation = ["Causal.Causality.IsCausalBubble.not_causallyPlain", "Causal.Causality.IsCausalBubble.not_causallyPlain_past"]
+finding = "Item (ii) and the claim that causal plainness 'fails in the two families' are false: every E≥0-manifold (absolutely minimal, an isomorphic chart at each point) is causally plain, since J⁻ of a set of BTZ points has empty interior. Only (i), the causal bubble, violates Definition defi:causalement_plat."
+refutation = ["Causal.SingularRowsLocal.causallyPlain"]
+anchor = ["Causal.Causality.IsCausalBubble.not_causallyPlain", "Causal.Causality.IsCausalBubble.not_causallyPlain_past", "Causal.SingularRowsLocal.pas_plat_ii"]
+basis = ["DEC-25", "DEC-150", "DEC-151", "DEC-152", "DEC-167", "DEC-168"]
+rewritten = '''
+This is the topological form of push-up. It fails in low regularity; at the BTZ points of a $\mass{\geq0}$-manifold a degenerate relative of the defect appears, which causal plainness does not detect.
+
+\begin{enumerate}[label=(\roman*)]
+\item \emph{Low regularity.} Let $\U$ be an open subset of a topological spacetime $M$ and $A\subset M$. A \emph{causal bubble} of $J^+_\U(A)$ is a non-empty open subset of $J^+_\U(A)$ disjoint from $I^+_\U(A)$, and dually for $J^-_\U(A)$ and $I^-_\U(A)$. If some $J^+_\U(A)$ or some $J^-_\U(A)$ has a causal bubble, then $M$ is not causally plain (Definition \ref{defi:causalement_plat}). For the causal bubbles of metrics below Lipschitz regularity, see Chru\'sciel and Grant \cite{MR2949547}, S\"amann \cite{MR3500220} and the survey \cite{samann2024nonregular}.
+\item \emph{Singularities.} Let $M$ be a Hausdorff $\mass{\geq0}$-manifold endowed with an absolutely minimal causality such that every point of $M$ lies in the domain of a chart of its $\mass{\geq0}$-structure (a $(G,X)$-chart or a chart into a model space $\mass{\kappa}$) which is an isomorphism of topological spacetimes onto its image. Then:
+  \begin{enumerate}[label=(\alph*)]
+  \item $I^-(p)=\emptyset$ for every BTZ point $p\in\sing_0(M)$;
+  \item if $M$ is causal, then for every $p\in\sing_0(M)$ there is a closed embedding $\gamma:\RR\to M$ with $\gamma(0)=p$, whose image is the connected component of $\sing_0(M)$ containing $p$, such that $J^-(p)=\gamma(]-\infty,0])$, the singular half-line below $p$;
+  \item $\mathrm{Int}\left(J^-_\U(A)\right)=\emptyset$ for every open subset $\U$ of $M$ and every $A\subset \sing_0(M)$;
+  \item $M$ is causally plain.
+  \end{enumerate}
+  The defect at a BTZ point, causal past without chronological past, is therefore not a violation of Definition \ref{defi:causalement_plat}: the causal past has empty interior.
+\end{enumerate}
+
+Imposing causal plainness as an axiom would therefore exclude the spacetimes of (i) which have a causal bubble, but not the $\mass{\geq0}$-manifolds of (ii).
+'''
+changes = ["~ conclusion: 'This is the push-up property, and it fails in the two families … the same phenomenon' becomes 'the topological form of push-up; it fails in low regularity' (the relational push-up of defi:pushup holds on E≥0-manifolds, cor:pushup_sing); the singular family is refuted by Causal.SingularRowsLocal.causallyPlain", "~ conclusion (i): the causal bubble is defined for every open U and every A (and in the past), and the statement is the implication 'a bubble ⇒ not causally plain'; the bubbles of the cited C⁰ metrics are not built, so the citations are kept as pointers only and the Lipschitz-threshold sentence is dropped", "+ hypothesis (ii): M Hausdorff, its causality absolutely minimal (DEC-167) with an isomorphic chart at each point (the natural causality of cor:massA_causalite and prop:GX_sing_espace_temps_topo is of this kind); the E≥0-structure read as DEC-25 with Isom = SO₀(1,2) ⋉ ℝ³ (DEC-152), E₀ as DEC-150, BTZ point = point of sing₀(M) (DEC-151)", "+ hypothesis (ii)(b): M causal, needed for J⁻(p) to be the half-line (without it the anchor gives only γ(]−∞,0]) ⊆ J⁻(p) ⊆ range γ)", "+ conclusion (ii)(c),(d): Int J⁻_U(A) = ∅ for A ⊆ sing₀(M), and M is causally plain (DEC-168 keeps causal plainness and asks it proved for the models)", "- conclusion: 'This is the degenerate case of the same defect' and 'would exclude precisely the objects announced in the introduction', both refuted by (ii)(d)", "- exposition: the closing sentence on K± (agreement with I± under push-up, prop:tarentin_fort_K, and Geroch's Theorem) points to other statements and is not part of this remark's anchor; the abstract (l.131–134) and the introduction (l.214–216) repeat the refuted claim and need the same change"]
+check = "CHECK-rem_pas_plat-1.json"
 
 [[entry]]
 label = "rem:causal_completeness_slightly_weaker"
-status = "found"
+status = "checked"
+kind = "underspecified"
 printed = "ETT.tex:356-358"
 printed_sha256 = "f463c3e529928646378a06a92c77f601f3c7e85cd6c62b1123286471ba5fc282"
-finding = "[strong: refuting declaration] ETT.tex:357 'slightly weaker' asserts two things: (i) causally compact ⇒ causally complete, and (ii) not conversely. Half (ii) is CONFIRMED (not_causallyComplete_imp_causallyCompact): the fan, ℕ discrete with 0 below and 1 above every other event, is causal, T2, second countable, causally complete, and J(0,1) = ℕ is no"
-refutation = ["Causal.not_causallyCompact_imp_causallyComplete", "Causal.not_causallyComplete_imp_causallyCompact", "Causal.not_causallyCompleteOrder_imp_causallyCompact"]
+finding = "Without hypotheses 'causally compact ⇒ causally complete' fails: the bowtie (four discrete events, a non-local causality) is causal, Hausdorff, second countable, causally compact and not causally complete. The remark holds, in both halves, under the hypotheses DEC-22 adds and the reading of DEC-21."
+refutation = ["Causal.not_causallyCompact_imp_causallyComplete"]
+anchor = ["Causal.Causality.causallyCompleteOrder_of_causallyCompact", "Causal.not_causallyCompleteOrder_imp_causallyCompact"]
+basis = ["DEC-21", "DEC-22"]
+rewritten = '''
+Here a maximal causal chain of $M$ is a subset of $M$ totally ordered by $\leq_M$ and maximal for inclusion among such subsets, and it is Dedekind-complete if every non-empty subset of it which is bounded above in it has a least upper bound in it (for $\leq_M$).
+\begin{enumerate}
+\item Let $M$ be a Hausdorff, tarentin, causal topological spacetime. If $M$ is causally compact, then $M$ is causally complete.
+\item The converse fails: there is a second countable, Hausdorff, tarentin, causal, causally arc-connected, absolutely minimal and strongly causal topological spacetime $M$ with $J^+(p)\neq\{p\}$ and $J^-(p)\neq\{p\}$ for every $p\in M$, which is causally complete and not causally compact.
+\end{enumerate}
+'''
+changes = ["~ reading: a maximal causal chain is a maximal totally ordered subset of (M, ≤_M), and Dedekind-complete means every non-empty subset bounded above has a least upper bound in the chain (DEC-21)", "+ hypothesis (1): M Hausdorff, tarentin and causal (DEC-22); without them the implication fails (Causal.not_causallyCompact_imp_causallyComplete, the bowtie, non-local). DEC-22 lists also causal arc-connectedness and J±(p) ≠ {p}, which (1) does not use", "~ conclusion: 'slightly weaker' split into its two halves, the implication (1) and the strictness (2)", "+ conclusion (2): the strictness witness carries every hypothesis of DEC-22 and is moreover second countable, absolutely minimal and strongly causal (a static spacetime over C([0,1], ℝ); it is not locally compact)"]
+check = "CHECK-rem_causal_completeness_slightly_weaker-1.json"
 
 [[entry]]
 label = "prop:GX_espace_temps_topo"
@@ -43,43 +78,93 @@ finding = "[strong: FALSE, false as written] ETT.tex:592-594, uniqueness, under 
 
 [[entry]]
 label = "rem:tarentin_exemples"
-status = "found"
+status = "dismissed"
 printed = "ETT.tex:688-692"
 printed_sha256 = "450d465d95d34c65382f6076bf59d1f2241ed7d238189f11707d6e40ba0a402f"
 finding = "[strong: refuting declaration] T-ett-unanchored (atlas-team, 2026-11-20), audit AUDIT-1 minor (fixed in round 1). Stated and proved with no sorry; partial, unmarked. Hypotheses: Lorentzian manifolds → strengthened (instance only: minkowski n (no Lorentzian manifolds in the library)); every E≥0-manifold (rem:sing_tarentin) → strengthened (the field t"
 refutation = ["Causal.Causality.not_tarentin_of_Jminus_eq"]
+reason = "Detector false positive: not_tarentin_of_Jminus_eq proves the remark's own negative claim, the mechanism of cexemple:misner_tarentin (a point with J⁻(x) = {x} whose causal future is not a neighbourhood breaks tarentin). The E≥0 sentence is proved at every E≥0-manifold (SingularRowsLocal.tarentin, assembled in SingularRowsLocal.tarentin_exemples_local); the added hypothesis of the Misner counterexample is a finding on cexemple:misner_tarentin, which has its own entry; Lorentzian manifolds are formalized only for Minkowski space, a gap of the library, not a defect of the sentence."
 
 [[entry]]
 label = "rem:K_borelien"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "ETT.tex:829-835"
 printed_sha256 = "a6bed38a8be4019b5d77e51b1c110f6ff6868f117a5a79a3631b973c62b6713e"
-finding = "[strong: FALSE, false as written, refuting declaration] audited. T-ett-k-borelien (atlas-team, 2026-11-20), audit AUDIT-1 minor (the future form's locality, fixed in round 1): FALSE as printed — Minkowski space with spokes (Causal.spokes_counterexample, spokes_counterexample_future: absolutely minimal, causal, tarentin; K^∓(p) and J^∓(p) not Borel, from a non-Borel subset of ℝ, Causal.exis"
+finding = "'A countable union of sets open in J^±(p), hence a Borel subset of M' is false: a relatively open subset of a non-Borel J⁻(p) need not be Borel. Minkowski space with spokes is second countable, Hausdorff, tarentin, causal and absolutely minimal, and K⁻(p) is not Borel (K⁺ likewise by time reversal)."
 refutation = ["Causal.not_kBorelienAsPrinted", "Causal.not_kBorelienPlusAsPrinted", "Causal.spokes_counterexample", "Causal.spokes_counterexample_future"]
+anchor = ["Causal.Causality.exists_seq_mem_interior_Jplus", "Causal.Causality.Kminus_eq_inter_isOpen", "Causal.Causality.measurableSet_Kminus", "Causal.Causality.measurableSet_Kplus", "Causal.Causality.measurableSet_K_of_globallyHyperbolic", "Causal.not_kBorelienAsPrinted", "Causal.not_kBorelienPlusAsPrinted"]
+rewritten = '''
+Definition \ref{defi:futur_continue} presents $K^\pm(p)$ as an intersection over the \emph{uncountable}
+family of sequences converging to $p$, so its measurability is not immediate --- yet inner regularity
+is applied to it in Proposition \ref{prop:cont_ext_cont}. Let $M$ be a tarentin topological spacetime in which every point has a countable basis of neighbourhoods, and let $p\in M$. Then one may choose a single sequence $(p_n)$ converging to $p$ with $p\in \ring J^+(p_n)$ for every $n$, and Lemma \ref{lem:K_facile} shows that $K^-(p)=J^-(p)\cap O$ for some open subset $O$ of $M$. Hence:
+\begin{enumerate}
+\item $K^-(p)$ is a Borel subset of $M$ as soon as $J^-(p)$ is, and $K^+(p)$ is Borel as soon as $J^+(p)$ is;
+\item if moreover $M$ is Hausdorff and globally hyperbolic, as in Proposition \ref{prop:cont_ext_cont}, then $K^-(p)$ and $K^+(p)$ are Borel subsets of $M$.
+\end{enumerate}
+The hypothesis on $J^\pm(p)$ in (1) cannot be dropped: there is a second countable, Hausdorff, tarentin topological spacetime $M$ and a point $p\in M$ such that $K^-(p)$ is not a Borel subset of $M$, and likewise one, with a point $p$, such that $K^+(p)$ is not a Borel subset of $M$.
+'''
+changes = ["+ hypothesis: every point has a countable basis of neighbourhoods (used to pick the single sequence; the paper's Remark rem:suite_croissante uses it too)", "~ conclusion: 'a countable union of sets open in J^±(p), hence a Borel subset of M' becomes K⁻(p) = J⁻(p) ∩ O with O open, hence Borel as soon as J⁻(p) is (and dually for K⁺); refuted as printed by Causal.not_kBorelienAsPrinted and Causal.not_kBorelienPlusAsPrinted (Minkowski space with spokes, Causal.spokes_counterexample, which is moreover causal and absolutely minimal)", "+ conclusion (2): in the setting of prop:cont_ext_cont (Hausdorff, globally hyperbolic), the one place the remark is used, K±(p) is Borel", "~ notation: 'open in J^±(p)' read as open in J⁻(p) for K⁻(p)", "+ conclusion: the counterexample sentence, which excludes the refuting instance", "~ the further true forms (K⁻(p) Borel when M is causally plain or has push-up and p ∈ Z⁻(M); measurableSet_Kminus_of_causallyPlain, measurableSet_Kminus_of_pushUp) are not stated; they may be added as a third item"]
+check = "CHECK-rem_K_borelien-1.json"
 
 [[entry]]
 label = "rem:K_neq_I"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "ETT.tex:871-882"
 printed_sha256 = "fb07eac24e2b4f52c5ec9f23156a5c0d0a173be14248775219ce9269b6321742"
-finding = "[strong: false as written, refuting declaration] ETT.tex:872–875 (T-ett-bubble-kplus): the bubble sentence is false as printed, under every hypothesis of prop:tarentin_fort_K (l.851–852) except causal plainness, which is the setting the remark places it in. Minkowski space with one spoke (spokesCausality (Ioi 0) on ℝ × ℝ at"
-refutation = ["Causal.not_bubbleKminusAsPrinted", "Causal.not_bubbleKplusAsPrinted", "Causal.not_bubbleKminusNeAsPrinted", "Causal.not_bubbleKplusNeAsPrinted"]
+finding = "The bubble sentence is false: under every hypothesis of prop:tarentin_fort_K except causal plainness, a causal bubble B of J⁺(p) may miss K⁺(p), with K⁺(p) = I⁺(p) (Minkowski plane with one spoke). The BTZ point does not show again that causal plainness cannot be dropped: E₀ is causally plain, and what fails there is p ∈ Z⁻."
+refutation = ["Causal.not_bubbleKplusAsPrinted", "Causal.not_bubbleKplusNeAsPrinted"]
+anchor = ["Causal.E0.K_neq_I", "Causal.E0.Zminus_cannot_be_dropped", "Causal.Causality.inter_Kplus_nonempty_iff", "Causal.Causality.Kplus_ne_Iplus_of_bubble", "Causal.not_bubbleKplusNeAsPrinted"]
+basis = ["DEC-150", "DEC-151"]
+rewritten = '''
+Causal plainness cannot be dropped from Proposition \ref{prop:tarentin_fort_K}. Let $\RR$ carry the causal relation of the timelike line ($x\leq_\U y$ if and only if $x\leq y$ and $[x,y]\subset\U$) and the chronological relation $x\ll_\U y$ if and only if $-1<x<y$ and $[x,y]\subset \U$. This topological spacetime is tarentin, absolutely minimal and causal, $0$ is strongly tarentin in the past, it is not causally plain, and $K^-(0)\neq I^-(0)$.
+
+A causal bubble alone does not separate $K^\pm$ from $I^\pm$. Let $M$ be a topological spacetime, $p\in M$, $(p_n)$ a sequence converging to $p$ with $p\in \mathrm{Int}\left(J^-(p_n)\right)$ for every $n$, and $B$ an open subset of $M$ contained in $J^+(p)$. Then $B$ meets $K^+(p)$ if and only if there exist $N\in\N$ and a non-empty open set $W\subset B$ with $W\subset J^+(p_n)$ for every $n\geq N$. If $B$ meets $K^+(p)$ and $B\cap I^+(p)=\emptyset$, then $K^+(p)\neq I^+(p)$. A causal bubble that does not meet $K^+(p)$ does not force this: there is a second countable, Hausdorff, absolutely minimal, tarentin topological spacetime $M$, a point $p\in M$ strongly tarentin in the future, and a non-empty open set $B\subset J^+(p)$ disjoint from $I^+(p)$, with $K^+(p)=I^+(p)$.
+
+A separation of another kind occurs at a BTZ point. In $\mass{0}$ (Definition \ref{defi:causal_E0}) the singular line $\sing(\mass{0})$ is non-empty and every $p\in\sing(\mass{0})$ satisfies $I^-(p)=\emptyset$ and $K^-(p)=J^-(p)\setminus\{p\}\neq\emptyset$, so $K^-(p)\neq I^-(p)$. Here $\mass{0}$ is causally plain, absolutely minimal, tarentin, causal, Hausdorff and second countable, and the hypothesis of Proposition \ref{prop:tarentin_fort_K} which fails is that $p$ be strongly tarentin in the past: $p\notin Z^-(\mass{0})$.
+'''
+changes = ["~ conclusion: 'causal plainness cannot be dropped' is kept and given its witness, the half-chronological line", "- conclusion: 'if B is a causal bubble of J⁺(p) … then B meets K⁺(p), so K⁺(p) ≠ I⁺(p)' is false under the hypotheses of prop:tarentin_fort_K without causal plainness (Causal.not_bubbleKplusAsPrinted, Causal.not_bubbleKplusNeAsPrinted: Minkowski plane with one spoke)", "+ conclusion: the true form from lem:K_facile, a bubble meets K⁺(p) iff a non-empty open part of it lies in J⁺(pₙ) for all large n, and then K⁺(p) ≠ I⁺(p); stated in M (the anchor holds in every open U)", "~ conclusion: the BTZ sentence is stated at E₀ (DEC-150, DEC-151), which is causal as prop:K_calcul (c) requires, and placed as a failure of p ∈ Z⁻ rather than a second failure of causal plainness (E₀ is causally plain)", "- exposition: the closing paragraph (everything that follows is built on K±) is a forward pointer with no statement of its own and is not restated", "- citation: the low-regularity citations of the bubble sentence are dropped with the sentence they supported"]
+check = "CHECK-rem_K_neq_I-1.json"
 
 [[entry]]
 label = "def:cauchy_surface"
-status = "found"
+status = "checked"
+kind = "underspecified"
 printed = "ETT.tex:999-1001"
 printed_sha256 = "c94036f2cd50f6ba2c7d880411617493374123cd6f0b66a73f70c3f5c655ffc7"
-finding = "[strong: refuting declaration] Ruled by DEC-14 (2026-10-30): the definition is 'every inextensible causal curve meets S exactly once'.; ETT.tex:1000 read literally, def:cauchy_surface admits no Cauchy surface once some causal curve is non-constant: constant curves are causal curves (DEC-6), so S must contain every point, and a non-constant curve the"
+finding = "Read literally ('every causal curve'), the definition admits no Cauchy surface as soon as some causal curve is non-constant: constant curves are causal (DEC-6), forcing S = M, and a non-constant curve then meets S twice. DEC-14 rules 'every inextensible causal curve'."
 refutation = ["Causal.Causality.not_isCauchySurfaceLiteral"]
+anchor = ["Causal.Causality.IsCauchySurface", "Causal.Causality.IsCauchySurfaceOn"]
+basis = ["DEC-6", "DEC-14"]
+rewritten = '''
+Let $M$ be a topological spacetime. A Cauchy surface in $M$ is a subset
+$S\subset M$ such that every inextensible causal curve of $M$ meets $S$ exactly once: for every inextensible causal curve $c:I\to M$, there is exactly one point of $S$ in $c(I)$.
+'''
+changes = ["+ hypothesis: 'inextensible' (DEC-14); with every causal curve, constant curves included (DEC-6), no subset is a Cauchy surface once some causal curve is non-constant (Causal.Causality.not_isCauchySurfaceLiteral)", "~ notation: 'meets S exactly once' read on the image, one point of S in c(I) (a non-injective curve may pass through it at several parameters)"]
+check = "CHECK-def_cauchy_surface-1.json"
 
 [[entry]]
 label = "rem:mesure_unilaterale_ptr"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "ETT.tex:1045-1052"
 printed_sha256 = "19d373d9a40b9196032775fca041a02f7f550062e4464155862a7b305af6ff71"
-finding = "[strong: refuting declaration] ETT.tex:1047-1049 is false in the generality stated: the lightlike line (ex:causalities_lines, item 2) is a causal chain along which every chronological past is empty, and the standard Gaussian measure on it is admissible in the past AND in the future (Lean: lightlikeLine_admissible_past_and_future; there K^-(p) = ]-∞,"
-refutation = ["Causal.Causality.not_admissiblePast_and_admissibleFuture", "Causal.Causality.not_admissiblePast_and_admissibleFuture_of_pushUp", "Causal.SingularRowsGeroch.not_admissible_both_of_chain"]
+finding = "False in the generality stated: the lightlike line is a causal chain along which every chronological past is empty, and the standard Gaussian measure on it is admissible in the past and in the future. The obstruction needs K⁺(p) ⊆ I⁺(p) at the lower end, which holds at every point of an E≥0-manifold."
+refutation = ["Causal.lightlikeLine_admissible_past_and_future", "Causal.lightlikeLine_chain"]
+anchor = ["Causal.Causality.not_admissiblePast_and_admissibleFuture", "Causal.SingularRowsGeroch.not_admissible_both_of_chain", "Causal.SingularRowsGeroch.chain_subset_sing", "Causal.lightlikeLine_admissible_past_and_future", "Causal.lightlikeLine_chain"]
+basis = ["DEC-25", "DEC-150", "DEC-151", "DEC-152", "DEC-167"]
+rewritten = '''
+The one-sided formulation is not a stylistic choice. Let $M$ be a topological spacetime and let $p,q\in M$ with $p\leq q$ and $p\neq q$, such that $J^-(q)\setminus J^-(p)\subset J^+(p)$ and $I^-(r)=\emptyset$ for every $r\in J^-(q)\setminus J^-(p)$ (the analogue of a segment of a BTZ line).
+\begin{enumerate}
+\item If $K^+(p)\subset I^+(p)$, then no measure on $M$ is admissible in the past and in the future at once, property $4$ being the obstruction; the computation is carried out in Remark \ref{rem:mesure_unilaterale} of Section \ref{subsec:geroch_sing}.
+\item If $M$ is a $\mass{\geq0}$-manifold endowed with an absolutely minimal causality such that every point lies in the domain of a chart of its $\mass{\geq0}$-structure which is an isomorphism of topological spacetimes onto its image, then no measure on $M$ is admissible in the past and in the future at once, and $J^-(q)\setminus J^-(p)\subset \sing_0(M)$.
+\item The hypothesis $K^+(p)\subset I^+(p)$ of (1) cannot be dropped: on the lightlike line (Example \ref{ex:causalities_lines}, item 2), every $p<q$ satisfies $J^-(q)\setminus J^-(p)\subset J^+(p)$, every chronological past is empty, $K^+(p)\not\subset I^+(p)$, and the standard Gaussian measure is admissible in the past and in the future.
+\end{enumerate}
+Geroch's Theorem \ref{theo:geroch} is accordingly fed a \emph{pair} of measures.
+'''
+changes = ["~ hypothesis: 'carries the analogue of a BTZ line, a causal chain along which chronological pasts are empty' made explicit as p ≤ q, p ≠ q, J⁻(q) ∖ J⁻(p) ⊆ J⁺(p) and I⁻(r) = ∅ on J⁻(q) ∖ J⁻(p) (WP-3's reading of the chain)", "+ hypothesis (1): K⁺(p) ⊆ I⁺(p), which the computation of rem:mesure_unilaterale uses (prop:K_calcul (b)); without it the claim is refuted on the lightlike line (Causal.lightlikeLine_admissible_past_and_future, Causal.lightlikeLine_chain)", "+ conclusion (2): at E≥0-manifolds the extra hypothesis is discharged and the remark holds as printed, with no Hausdorff, countability or causality hypothesis; the natural causality of cor:massA_causalite is absolutely minimal (DEC-167) with every chart an isomorphism (prop:GX_sing_espace_temps_topo); E≥0-structure read as DEC-25, DEC-152, E₀ and BTZ point as DEC-150, DEC-151; such a chain lies in sing₀(M), so it is a segment of BTZ points", "+ conclusion (3): the counterexample, which excludes the refuting instance", "~ notation: a measure on M is admissible in the sense of defi:mesure_dieckmann; the anchor allows any σ-algebra"]
+check = "CHECK-rem_mesure_unilaterale_ptr-1.json"
 
 [[entry]]
 label = "theo:geroch"

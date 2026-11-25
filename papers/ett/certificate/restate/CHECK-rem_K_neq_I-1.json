@@ -1,0 +1,54 @@
+{
+  "label": "rem:K_neq_I",
+  "round": 1,
+  "anchor": [
+    "Causal.E0.K_neq_I",
+    "Causal.E0.Zminus_cannot_be_dropped",
+    "Causal.Causality.inter_Kplus_nonempty_iff",
+    "Causal.Causality.Kplus_ne_Iplus_of_bubble",
+    "Causal.not_bubbleKplusNeAsPrinted"
+  ],
+  "rewritten_sha256": "bc00c08c990bf9061a6357968d4552717874ae5fbf932cb5dd5897a40389aeb1",
+  "verdict": "faithful",
+  "hypotheses": [
+    {
+      "lean": "K_neq_I, first conjunct: halfChronoLine (le: x ≤ y ∧ Icc x y ⊆ U; lt: −1 < x ∧ x < y ∧ Icc x y ⊆ U) Tarentin, AbsolutelyMinimal, IsCausal, 0 ∈ Zminus, ¬CausallyPlain, K⁻(0) ≠ I⁻(0)",
+      "rewrite": "first paragraph: the same relations and the same six facts",
+      "ok": true
+    },
+    {
+      "lean": "inter_Kplus_nonempty_iff: u → p, ∀ n p ∈ interior (J⁻_U(u n)), B open, B ⊆ J⁺_U(p) ⊢ (B ∩ K⁺_U(p)).Nonempty ↔ ∃ N W, W open nonempty, W ⊆ B, W ⊆ ⋂_{n≥N} J⁺_U(u n)",
+      "rewrite": "second paragraph, with U = M (the anchor holds for every open U; noted in changes)",
+      "ok": true
+    },
+    {
+      "lean": "Kplus_ne_Iplus_of_bubble: B ∩ I⁺(p) = ∅, B meets K⁺(p) ⊢ K⁺(p) ≠ I⁺(p)",
+      "rewrite": "'If B meets K⁺(p) and B ∩ I⁺(p) = ∅, then K⁺(p) ≠ I⁺(p)'",
+      "ok": true
+    },
+    {
+      "lean": "not_bubbleKplusNeAsPrinted: ∃ M : Type, SecondCountable, T2, C AbsolutelyMinimal, Tarentin, p ∈ Zplus, B nonempty open ⊆ J⁺(p), B ∩ I⁺(p) = ∅, K⁺(p) = I⁺(p)",
+      "rewrite": "'there is a second countable, Hausdorff, absolutely minimal, tarentin M, p strongly tarentin in the future, a non-empty open B ⊂ J⁺(p) disjoint from I⁺(p), with K⁺(p) = I⁺(p)'",
+      "ok": true
+    },
+    {
+      "lean": "K_neq_I: axis.Nonempty ∧ ∀ p ∈ axis, I⁻(p) = ∅ ∧ K⁻(p) = J⁻(p)∖{p} ∧ J⁻(p)∖{p} ≠ ∅ ∧ K⁻(p) ≠ I⁻(p) (E0.causality, DEC-150/151 reading)",
+      "rewrite": "third paragraph: sing(E₀) non-empty and the four facts at each p",
+      "ok": true
+    },
+    {
+      "lean": "Zminus_cannot_be_dropped: E₀ CausallyPlain, AbsolutelyMinimal, Tarentin, IsCausal, T2, SecondCountable, ∀ p ∈ axis, p ∉ Zminus",
+      "rewrite": "'E₀ is causally plain, absolutely minimal, tarentin, causal, Hausdorff and second countable … p ∉ Z⁻(E₀)'",
+      "ok": true
+    }
+  ],
+  "conclusion_ok": true,
+  "refutation_answered": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "what": "Point 5 (note): the dispatch note lists this rewrite among those describing the E≥0 causality in words; it does not. The BTZ paragraph is stated at the model E₀ only (Causal.E0.causality under DEC-150/151), which is what the anchor proves. Nothing to fix.",
+      "fix": "none"
+    }
+  ]
+}

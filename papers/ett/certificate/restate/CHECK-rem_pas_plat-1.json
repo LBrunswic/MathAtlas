@@ -1,0 +1,62 @@
+{
+  "label": "rem:pas_plat",
+  "round": 1,
+  "anchor": [
+    "Causal.Causality.IsCausalBubble.not_causallyPlain",
+    "Causal.Causality.IsCausalBubble.not_causallyPlain_past",
+    "Causal.SingularRowsLocal.pas_plat_ii"
+  ],
+  "rewritten_sha256": "9268cb08b46ac00989af6e85c143fd16ceef9bab96e743ef13274ac836fda396",
+  "verdict": "faithful",
+  "hypotheses": [
+    {
+      "lean": "IsCausalBubble.not_causallyPlain: {U : Opens M} {A B} (h : C.IsCausalBubble U A B) — B open, nonempty, B ⊆ J⁺_U(A), Disjoint B (I⁺_U(A))",
+      "rewrite": "(i): causal bubble of J⁺_U(A) for any open U and any A ⊂ M, defined as a non-empty open subset of J⁺_U(A) disjoint from I⁺_U(A)",
+      "ok": true
+    },
+    {
+      "lean": "IsCausalBubble.not_causallyPlain_past: C.dual.IsCausalBubble U A B",
+      "rewrite": "(i): 'and dually for J⁻_U(A) and I⁻_U(A)'",
+      "ok": true
+    },
+    {
+      "lean": "pas_plat_ii: [SingularGXStructure (Flat.isom 2) (Minkowski 2) M] with X_A charts into MassAModel (E₀, E_κ κ>0)",
+      "rewrite": "(ii): M a E≥0-manifold (DEC-25, Isom = SO₀(1,2)⋉ℝ³ DEC-152); the paper's notion carries more (locally connected, second countable), harmless since Lean is more general",
+      "ok": true
+    },
+    {
+      "lean": "[T2Space M]",
+      "rewrite": "'Hausdorff' (already part of the paper's singular manifold; redundant, harmless)",
+      "ok": true
+    },
+    {
+      "lean": "hmin : C.AbsolutelyMinimal",
+      "rewrite": "'endowed with an absolutely minimal causality'",
+      "ok": true
+    },
+    {
+      "lean": "hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality — at each x, a chart of the maximal a.e. atlas or an X_A-chart with ChartIso for the model causality",
+      "rewrite": "'every point lies in the domain of a chart of its E≥0-structure ((G,X)-chart or chart into E_κ) which is an isomorphism of topological spacetimes onto its image' (model causalities implicit: Minkowski, E₀, E_κ)",
+      "ok": true
+    },
+    {
+      "lean": "C.IsCausal → … (second conjunct only)",
+      "rewrite": "(ii)(b): 'if M is causal'",
+      "ok": true
+    },
+    {
+      "lean": "A ⊆ SFALocal.sing M 0, U : Opens M (third conjunct)",
+      "rewrite": "(ii)(c): every open U and every A ⊂ sing₀(M)",
+      "ok": true
+    }
+  ],
+  "conclusion_ok": true,
+  "refutation_answered": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "what": "Point 5 (note, not a defect of the statement): the rewriter's dispatch note says the E≥0 causality is described 'resting on prop:GX_sing_espace_temps_topo and DEC-167 rather than the anchor'. In this rewrite the words 'absolutely minimal … isomorphic chart at each point' are exactly the anchor's hypotheses hmin and hC, stated as hypotheses, so the statement rests on the anchor. The parenthetical claim in `changes` that the natural causality is of this kind is supported in Lean by massA_dec25_models / IsAtlasCausalityDEC25.isoChartsCover (absolutely minimal, every chart ChartIso, given that singular points lie in X_A-charts, which an E≥0-manifold guarantees). No change needed.",
+      "fix": "none"
+    }
+  ]
+}

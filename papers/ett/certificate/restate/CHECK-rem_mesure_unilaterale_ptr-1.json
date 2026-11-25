@@ -1,0 +1,59 @@
+{
+  "label": "rem:mesure_unilaterale_ptr",
+  "round": 1,
+  "anchor": [
+    "Causal.Causality.not_admissiblePast_and_admissibleFuture",
+    "Causal.SingularRowsGeroch.not_admissible_both_of_chain",
+    "Causal.SingularRowsGeroch.chain_subset_sing",
+    "Causal.lightlikeLine_admissible_past_and_future",
+    "Causal.lightlikeLine_chain"
+  ],
+  "rewritten_sha256": "9cf42b45b5740584824509630d776e857db8522a70e6b15e91fcc16800d35bfc",
+  "verdict": "faithful",
+  "hypotheses": [
+    {
+      "lean": "not_admissiblePast_and_admissibleFuture: [MeasurableSpace M] μ, hpq : C.le ⊤ p q, hne : p ≠ q",
+      "rewrite": "'p ≤ q and p ≠ q', 'a measure on M' (any σ-algebra, noted in changes)",
+      "ok": true
+    },
+    {
+      "lean": "hline : J⁻(q) ∖ J⁻(p) ⊆ J⁺(p)",
+      "rewrite": "'J⁻(q) ∖ J⁻(p) ⊂ J⁺(p)'",
+      "ok": true
+    },
+    {
+      "lean": "hempty : ∀ r ∈ J⁻(q) ∖ J⁻(p), I⁻(r) = ∅",
+      "rewrite": "'I⁻(r) = ∅ for every r ∈ J⁻(q) ∖ J⁻(p)'",
+      "ok": true
+    },
+    {
+      "lean": "hK : K⁺(p) ⊆ I⁺(p)",
+      "rewrite": "(1): 'If K⁺(p) ⊂ I⁺(p)'",
+      "ok": true
+    },
+    {
+      "lean": "not_admissible_both_of_chain: [SingularGXStructure (Flat.isom 2) (Minkowski 2) M], hmin : C.AbsolutelyMinimal, hC : IsoChartsCoverDEC25 …",
+      "rewrite": "(2): 'M a E≥0-manifold endowed with an absolutely minimal causality such that every point lies in the domain of a chart … which is an isomorphism'; the paper's E≥0-manifold adds Hausdorff/countability, harmless",
+      "ok": true
+    },
+    {
+      "lean": "chain_subset_sing: hC, hempty ⊢ J⁻(q) ∖ J⁻(p) ⊆ sing₀(M)",
+      "rewrite": "(2): 'and J⁻(q) ∖ J⁻(p) ⊂ sing₀(M)'",
+      "ok": true
+    },
+    {
+      "lean": "lightlikeLine_chain (p < q): hline, ∀ r I⁻(r) = ∅, ¬ K⁺(p) ⊆ I⁺(p); lightlikeLine_admissible_past_and_future: gaussianReal 0 1 admissible both",
+      "rewrite": "(3): the same facts on the lightlike line",
+      "ok": true
+    }
+  ],
+  "conclusion_ok": true,
+  "refutation_answered": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "what": "Point 5: the `changes` line for (2) says the remark holds 'with no Hausdorff, countability or causality hypothesis'. That is true of the anchor, but the rewrite says 'E≥0-manifold', which in the paper (DEC-25, gx) is Hausdorff and second countable; the rewrite is therefore (harmlessly) weaker than the anchor on this point, not as general as the line suggests. Separately, the dispatch note's concern: the words 'absolutely minimal … isomorphic chart at each point' are the anchor's hypotheses hmin and hC, stated as hypotheses; the claim in `changes` that the natural causality of cor:massA_causalite satisfies them is supported by IsAtlasCausalityDEC25 (absolutely minimal, every chart ChartIso) and massA_dec25_models.",
+      "fix": "Say in the changes line that the rewrite keeps the paper's notion of E≥0-manifold, and that the anchor needs neither Hausdorff nor countability; or drop the words 'E≥0-manifold' for 'a space with a singular (Isom(E^{1,2}), E^{1,2})-structure modelled on the E_κ' to reach the anchor's generality."
+    }
+  ]
+}
