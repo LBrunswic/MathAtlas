@@ -1,0 +1,39 @@
+{
+ "label": "def:summably_mixing",
+ "round": 1,
+ "anchor": [
+  "EGF.IsSummablyL2Mixing"
+ ],
+ "rewritten_sha256": "bcea53f399a3b87068ec98a613f315f384546841e6ac236ae3adeb0c26fa62a3",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "π : Kernel S S, lam : Measure S",
+   "rewrite": "Markov kernel pi on (S, lambda)",
+   "ok": true
+  },
+  {
+   "lean": "∃ lamHat, lamHat.bind π = lamHat",
+   "rewrite": "invariant measure lambda-hat, lambda-hat pi = lambda-hat",
+   "ok": true
+  },
+  {
+   "lean": "lamHat ≪ lam ∧ lam ≪ lamHat",
+   "rewrite": "lambda-hat equivalent to lambda",
+   "ok": true
+  },
+  {
+   "lean": "mixingCoeff π lam lamHat n = ⨆_{φ ∈ unitMeanZero lam} ∫⁻ ofReal((transfer π lam n φ)^2) d lamHat; unitMeanZero = {φ ∈ L²(lam), ‖φ‖₂ = 1, ∫ φ dlam = 0}; transfer = rnDeriv(pushIter(φ⁺lam))/dlam − rnDeriv(pushIter(φ⁻lam))/dlam",
+   "rewrite": "gamma_n = sup_{φ∈H} ∫ (φ pi^n)^2 d lambda-hat ∈ [0,∞], H normalized in L²(lambda) with mean zero against lambda, φ pi^n via φ^±",
+   "ok": true
+  },
+  {
+   "lean": "∑' n, mixingCoeff ≠ ∞",
+   "rewrite": "Σ_n gamma_n < +∞",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}

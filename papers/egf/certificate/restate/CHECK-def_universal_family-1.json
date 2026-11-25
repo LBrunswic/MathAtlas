@@ -1,0 +1,34 @@
+{
+ "label": "def:universal_family",
+ "round": 1,
+ "anchor": [
+  "EGF.IsUniversalFamilyEps"
+ ],
+ "rewritten_sha256": "0323ed8693384704509f85b4975d958580da3423cce5498a9bc458e82e1fca5f",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "lam : Measure S, 𝓕 : Set (GenerativeFlow S)",
+   "rewrite": "state space (S, lambda), a family of generative flows",
+   "ok": true
+  },
+  {
+   "lean": "μ ν probability measures, μ ≪ lam, ν ≪ lam",
+   "rewrite": "two probability distributions mu, nu ≪ lambda",
+   "ok": true
+  },
+  {
+   "lean": "∃ C, rnDeriv ≤ C lam-a.e. (for each of μ, ν)",
+   "rewrite": "bounded density: dmu/dlambda ≤ C and dnu/dlambda ≤ C lambda-a.e.",
+   "ok": true
+  },
+  {
+   "lean": "∀ ε > 0 (in ℝ≥0∞), ∃ F ∈ 𝓕, initialError F.policy F.outflow ν μ univ + terminalError ... univ < ε",
+   "rewrite": "every ε>0 a flow in the family with δF_init(S)+δF_term(S) < ε for F_init = nu, F_term = mu (def:virtual_flows' errors: (F_init+F_in−F_term−F_out)^∓)",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}

@@ -1,0 +1,49 @@
+{
+ "label": "theo:backward_policy",
+ "round": 1,
+ "anchor": [
+  "EGF.backward_policy_rnDeriv"
+ ],
+ "rewritten_sha256": "9322f2c65092965b615d90101a59dbe8b759ab0cb291e9c51813fa17fa82913c",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "lam, [SigmaFinite lam]",
+   "rewrite": "lambda a σ-finite background measure",
+   "ok": true
+  },
+  {
+   "lean": "F : GenerativeFlow S",
+   "rewrite": "(pi*, F_out*) a generative flow",
+   "ok": true
+  },
+  {
+   "lean": "Φ : Fin p → S ≃ᵐ S, hac : ∀ i, lam.map (Φ i) ≪ lam",
+   "rewrite": "diffeomorphisms Phi_i with (Phi_i)_# lambda ≪ lambda (specialization of measurable equivalences)",
+   "ok": true
+  },
+  {
+   "lean": "hπ : IsEGFPolicy F.policy Φ α",
+   "rewrite": "pi*(s) = Σ αⁱ(s) δ_{Phi_i(s)} with α measurable into [0,1]^p, Σ αⁱ = 1",
+   "ok": true
+  },
+  {
+   "lean": "fout measurable S → ℝ≥0∞, F.outflow = lam.withDensity fout",
+   "rewrite": "F_out* = f_out* lambda, f_out* : S → [0,+∞] measurable",
+   "ok": true
+  },
+  {
+   "lean": "J_i = (lam.map (Φ i)).rnDeriv lam",
+   "rewrite": "|J_s Phi_i^{-1}| := d((Phi_i)_# lambda)/d lambda (s)",
+   "ok": true
+  },
+  {
+   "lean": "conclusions: inflow = lam.withDensity(inflowDensity); IsBackwardPolicy (∫_Y B y X dF_in = ∫_X π x Y dF_out) for backwardKernel (weights (term/f_in).toReal, i.e. 0 where f_in ∈ {0,∞}); Σ βⁱ = 1 F_in-a.e.; a.e. uniqueness against every backward policy B for every measurable X",
+   "rewrite": "items 1–4, with βⁱ = 0 where f_in(s) ∉ (0,∞) and the identity F_in ⊗ B(Y→X) = F_out ⊗ pi*(X→Y)",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}
