@@ -1,0 +1,10 @@
+
+## 2026-11-25 · gx, ett, barbot, egf, benzecri, syracuse
+- seeded 0; drafted 41; checked 41; dismissed 7; blocked 0
+- per paper: barbot found 10 checked 7 dismissed 1 · benzecri found 5 checked 7 dismissed 1 · egf found 2 checked 8 · ett found 20 checked 6 dismissed 2 · gx found 21 checked 8 dismissed 3 · syracuse found 4 checked 8 · bbs found 3 · perforated found 2 · yamabe found 3
+- dismissed: gx rem:though_may_tempted_include, cex:topology_chose_same_quotient, cex:openess; ett rem:relation_not_assumed_reflexive, rem:tarentin_exemples (refuting-looking declarations prove the paper's own claim); barbot bthm:unip (findings concern the following proof); benzecri bzprop:c2s2p5_ouvert_plein (r = 0 excluded by DEC-179)
+- fix round: gx ex:quotient_base minor → anchors completed (quotientBase, quotientBase_sing_subset, isAEAtlas_devAtlas, DInfty.isPortly_pos), reading recorded → faithful (CHECK-2)
+- unruled readings for the author (rule by DEC before `reviewed`): barbot bprop:laoucapulse (𝒮⁺ normalised as unit sphere; chart radius 1/√2); egf theo:universality_sphere (Riemannian volume = cone measure); benzecri bzdef:c1s2d3_homotheties_positives (variété = Hausdorff, second countable); gx ex:quotient_base (cylinder 𝔻_∞ × ℝ^{n-2})
+- minor checker notes (faithful verdicts): ett rem:causal_completeness_slightly_weaker (changes line wrongly says bowtie fails Hausdorff/tarentin/causal — DEC-21 reading answers it); ett rem:mesure_unilaterale_ptr (changes line overstates generality); syracuse cor:ring_periodic_minimal_period ("avoids −1/3" is automatic, not a hypothesis); syracuse lem:syracuse_cycle (ℕ^ℤ vs printed (ℕ*)^ℤ unlisted); barbot bthm:caucomp (anchor barbot_A_unconditional absent from curation.toml decls); gx rem:ordinary_locii_open_but (covering per DEC-40; ledger reading question has no OQ row)
+- waiting on the author: 41 newly checked + gx 3 earlier — review papers/{gx,ett,barbot,egf,benzecri,syracuse}/certificate/RESTATED.md
+- commits: 53fe816 8e2f77a ef75c22 c195c7b ab06358 8a31d4a
