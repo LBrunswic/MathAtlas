@@ -824,3 +824,20 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 07:44–08:25 UTC; agents: 1 closer, 1 audit
 - No new OQ: the findings are evidence for OQ-116 (a) and (b).
 - next: a lean-gx wave (T-bbs-p-p, T-bbs-positive-hs-surface, T-bbs-degk or T-bbs-hcausal, at most 3 per package; T-bbs-hs-graduate is exclusive and goes alone). A planning run is due soon (rule 2, five iterations since 05:55): T-hub-paper-attribute's split, and the lean-yamabe and lean-benzecri queues.
+
+## 2026-11-25 10:20 · wave of 4 (resumed) · T-ett-geroch-iii-i, T-bbs-p-p, T-bbs-positive-hs-surface, T-bbs-degk
+- Dispatched 2026-11-23 08:26. The author stopped three of its agents at 09:13 (the p_p and degk closers, the Geroch audit), and the loop stopped without integrating. This /atlas-team run resumed the active targets: it re-audited degk and Geroch, had a new closer finish p_p's draft, and integrated all four.
+- T-ett-geroch-iii-i (round 2, DEC-148/149): partial.
+  - Geroch (iii)⇒(i) needs no quasi-limits. The engine and the causally-open form are sorry-free; the ruled form (DEC-148 alone) rests on one sorry, open (OQ-130 (a)).
+  - theo:geroch_sing is sorry-free under DEC-149.
+  - Local causal closedness is shown necessary (chronological Minkowski space).
+  - AUDIT-2 minor; fixed: the « weakest reading » claim and wording.
+- T-bbs-positive-hs-surface: partial (scaffold). IsPositive, SingularHSStructure.IsPositive, coneAngle; a degree-4 circle separates l.915's positivity from l.908–913's. OQ-128. Audit minor.
+- T-bbs-degk: partial (scaffold). Degree 2k is the k-sheeted cover of degree 2, and a branched covering of the suspensions, branched at the apices; Γ_p is a one-parameter group. OQ-129. Audit minor.
+- T-bbs-p-p: partial (scaffold). The flip 𝔢(L) ≅ 𝔢(L⁻); finding: l.936–937 is false for Misner singularities (opposite chiralities; true under SO(1,2)). OQ-131. Audit minor.
+- Seeded for /restate: bbs bbsrem:p_p (its refutation); the restate gate requires the entry (f596d62).
+- Rulings applied: DEC-210, T-gfn-ledger → ready. DEC-208 (papers/btz) and DEC-209 (papers/alexandrov, lean-alexandrov) name targets not yet in the roadmap: for the planner. Promoted: T-bbs-classising-types → ready.
+- gates: lean-causal ✓, lean-gx ✓ (scaffold 3 tagged sorrys), roadmap ✓, registers ✓, atlas ✓, hub: make -k check rc 0 after the seed
+- commits: be0a76e 51f1107 65fbe21 d9791b6 49d0ddb 104b902 f596d62 [+ roadmap/atlas/journal]
+- New questions for the author: OQ-128 (positive HS-surfaces: « singularity », the apex, some or every link), OQ-129 (« k-branched cover »), OQ-130 (Geroch: does (iii)⇒(i) hold under DEC-148 alone?), OQ-131 (p_p: moved-p isomorphisms and SO₀(1,2), « the link determines the singularity »).
+- next: a planning run is due (rule 2, five iterations since 2026-11-23 05:55). It should create DEC-208's and DEC-209's targets (T-btz-ledger, T-btz-maximal-extension, T-alexandrov-package) and split T-hub-paper-attribute. Ready: T-bbs-classising-types, T-gfn-ledger (master), the BBS hcausal and remark-readings targets, T-bbs-hs-graduate.
