@@ -1046,3 +1046,64 @@ forms » is 't Hooft's own summary, for closed universes.**
 
 What would settle each: the two journal PDFs; a named phase-space source, or the author's
 decision that a derivation in the notes replaces it; an OCR pass, or a text copy of CQG 9 1335.
+
+## N11 (2026-11-25) — N5's 2+1 phase-space claim, derived (T-bbs-archive, DEC-205)
+
+*The planner's entry for roadmap target T-bbs-archive. DEC-205 (registers/DECISIONS.md) rules:
+« N5-4's unnamed « 2+1 phase-space reference » is replaced by a derivation marked [r]. » This is
+that derivation. The claim it replaces is N5's « Relativistic 3-body phase space in **2 spatial
+dimensions**, written in the sub-pair mass, is **uniform in M₄₅**. The reason: 2-body phase space
+in 2 spatial dimensions is ∝ dθ/√s, with no power of |p|, so dΦ₃ ∝ d(M₄₅²)/M₄₅ ∝ dM₄₅. *[standard,
+to verify against a reference]* » (N5, « The 2 → 3 outcome law »). Everything below is **[r]**.
+No earlier entry is edited.*
+
+**Conventions [r].** Special relativity in 2+1 dimensions, c = 1, no gravity (the G → 0 side of
+N5's comparison). The n-body phase-space element of total momentum P is the Lorentz-invariant
+measure with constant matrix element:
+
+  dΦₙ(P; p₁…pₙ) = δ³(P − Σ pᵢ) Πᵢ d²pᵢ / (2Eᵢ),   Eᵢ = √(|pᵢ|² + mᵢ²).
+
+Factors of 2π are dropped throughout; they do not affect a shape in M₄₅. Write s = P².
+
+**1. Two bodies: dΦ₂ = dθ / (4√s), with no power of |p| [r].**
+- In the CM frame P = (√s, 0). The spatial delta fixes p₂ = −p₁ =: −p. What remains is
+  d²p δ(√s − E₁ − E₂) / (4E₁E₂).
+- In polar coordinates d²p = p dp dθ, with p = |p|. The energy sum E₁ + E₂ is increasing in p,
+  with d(E₁ + E₂)/dp = p/E₁ + p/E₂ = p (E₁ + E₂) / (E₁E₂).
+- So the radial delta contributes E₁E₂ / (p (E₁ + E₂)) = E₁E₂ / (p √s), and the factors p and
+  E₁E₂ cancel: **dΦ₂ = dθ / (4√s)**, for √s > m₁ + m₂ (zero below).
+- Integrated: Φ₂ = π / (2√s). This depends on s alone, so it holds in every frame.
+- For contrast, in 3+1 the same steps give p² dp dΩ and leave dΦ₂ ∝ |p| dΩ / √s. The missing power
+  of |p| is the dimension count, exactly as N5 says.
+
+**2. Three bodies through the sub-pair {4, 5} [r].**
+- Insert the identity 1 = ∫ dM² ∫ d³q δ(q² − M²) θ(q⁰) δ³(q − p₄ − p₅), and use
+  ∫ dq⁰ δ(q² − M²) θ(q⁰) = 1 / (2E_q). This gives the standard factorization
+  dΦ₃(P; p₃, p₄, p₅) = dΦ₂(P; p₃, q) · dM₄₅² · dΦ₂(q; p₄, p₅), with q² = M₄₅².
+- By step 1: dΦ₃ = [dθ / (4√s)] · 2M₄₅ dM₄₅ · [dθ′ / (4M₄₅)] = **dθ dθ′ dM₄₅ / (8√s)**.
+- The two 2-body factors are non-zero exactly when M₄₅ > m₄ + m₅ and √s > m₃ + M₄₅. So the law of
+  M₄₅ is **uniform on [m₄ + m₅, √s − m₃]**. N5's claim holds, and so does its expected kinematic
+  interval « [m₄ + m₅, E_cm − m₃] in the CM frame » (N5).
+- Integrated: Φ₃ = π² (√s − m₃ − m₄ − m₅) / (2√s).
+
+**3. A numerical check, independent of the factorization [r].**
+- Sample p₃, p₄ uniformly in [−L, L]⁴ and set p₅ = −p₃ − p₄. Approximate the energy delta by a
+  window of width ε. Weight each kept sample by 1/(8E₃E₄E₅), and histogram M₄₅.
+- Parameters: m = (0.3, 0.5, 0.7), √s = 3, L = 2.6, ε = 0.01, 6·10⁷ samples. This was a pure
+  Python script, run on node1 on 2026-11-25. It is not archived, and its sha256 was
+  `524c81b5…f045f7e9e`. The method above is enough to rerun it.
+- Total: Monte Carlo 2.4727 against the formula 2.4674 (with the 2π's of step 2's θ-integrals
+  kept, (2π)² (√s − Σm) / (8√s)).
+- The density of M₄₅ in five equal bins on [1.2, 2.7] came out 1.658, 1.625, 1.659, 1.623, 1.677,
+  against the constant 1.645 of the formula. The bins agree to within 2%, which is the size of the
+  sampling noise, and the density shows no trend.
+
+**What this settles, and what it does not.**
+- It settles N5's *[standard, to verify against a reference]* in the sense DEC-205 allows: by a
+  derivation, not a citation. The uniformity is for the bare phase-space measure (a constant
+  matrix element), which is the measure N5's Liouville law is compared with.
+- It does not touch the gravitational side of N5: the factor Φ₄₅ dΦ₄₅, the Goldman normalisation
+  (N5-2) and the exact kinematic interval of Φ₄₅ (N5-3) stay open.
+- What would settle the entry beyond the derivation: the author's reading of steps 1–2, or any
+  textbook statement of 2-body phase space in 2+1 dimensions that is archived with a verbatim
+  quote.

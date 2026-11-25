@@ -1400,8 +1400,8 @@ kind = "package"
 paper = "benzecri"
 status = "ready"
 owner = "master"
-priority = 9
-evidence = "DEC-195: yes, transcribe and ledger Chapter 3 next, toward result C"
+priority = 7
+evidence = "DEC-195: yes, transcribe and ledger Chapter 3 next, toward result C. Priority raised from 9 to 7 by the planner on 2026-11-25: lean-benzecri's ledger is closed (65 rows in bucket A, 1 in T), so Chapter 3 is the package's only source of new rows"
 added = "2026-11-21"
 proposed_by = "roadmap-planner"
 
@@ -1500,10 +1500,10 @@ title = "Archive the physics literature the 3+1 notes cite (Gott; Carroll–Farh
 stream = "bbs"
 kind = "research"
 paper = "bbs"
-status = "ready"
+status = "planned"
 owner = "planner"
 priority = 7
-evidence = "DEC-191, DEC-205: the author supplies Gott PRL 66 (1991) and Carroll–Farhi–Guth PRL 68 (1992) with its erratum; N5-4's unnamed reference replaced by a derivation marked [r]"
+evidence = "DEC-191, DEC-205: the author supplies Gott PRL 66 (1991) and Carroll–Farhi–Guth PRL 68 (1992) with its erratum; N5-4's unnamed reference replaced by a derivation marked [r]. Progress: six sources archived with verbatim quotes in papers/bbs/references (cfgo1994, matschull1999, djh1984, djh1992, thooft1993; thooft1992 page images only), checked against N4/N5 in NOTES-3+1.md N10 (2026-11-22). N5-4's phase-space claim derived in N11 (2026-11-25, [r], with a Monte Carlo check), as DEC-205 rules. Left, and not the planner's to do: the journal copies of Gott 1991 and CFG 1992 + erratum from the author (references/README.md: « No free, legitimate copy was found »), and a text layer for thooft1992 (node1 has no OCR tool: no tesseract, no ocrmypdf). Moved from ready to planned so that the loop does not dispatch it before the copies arrive"
 added = "2026-11-20"
 proposed_by = "atlas-team seed"
 
@@ -2666,13 +2666,14 @@ proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team wa
 
 [[target]]
 id = "T-hub-paper-attribute"
-title = "Adopt LeanLink's @[paper \"label\"] attribute: new declarations carry it, the curation reads both it and certificate/*.toml"
+title = "Adopt LeanLink's @[paper \"label\"] attribute (DEC-201), step 1, the pilot in lean/ alone. Build GFNBounds/Paper/Attribute.lean as specified in tools/leanlink/docs/design/PAPER-ATTRIBUTE.md §3: the environment extension, the syntax, the attribute with its checks, the labels query and conjunctsOf. Add its §8 tests in a root-imported test module. Place no label yet. The curation (T-hub-paper-attr-curation) and the other packages (T-hub-paper-attr-rollout) are the next steps"
 stream = "hub"
 kind = "tooling"
+package = "lean"
 status = "ready"
 owner = "master"
 priority = 6
-evidence = "DEC-201 (OQ-2)"
+evidence = "DEC-201 (OQ-2): « adopt LeanLink's @[paper \"label\"] attribute going forward; new declarations carry it; the curation reads both ». Split 2026-11-25 by the planner (journal 2026-11-23 08:25: « left for the planner, because it adds a LeanLink dependency to every package »). The attribute has never been built: PAPER-ATTRIBUTE.md says « Nothing here has been built », and no .lean file in lean/ or lean-* uses `attribute [paper` or `@[paper`. The spec was written for GFNBoundsLean, now the in-tree lean/ (DEC-157): namespace GFNBounds.Paper, Lean v4.31.0, API names confirmed by QC-D11.4's scratch builds. It imports only Lean. Its checks use isProject/isNoise from lean/scripts/lean_facts.lean. A pilot in lean/ alone adds no dependency to any other package, because nothing imports lean/. Its gate is make -C lean check"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -3006,4 +3007,240 @@ priority = 6
 question = "Should the GFN Bounds draft be snapshotted and ledgered in the hub as papers/gfnbounds, with lean/ as its Lean root? The draft is ~/Dropbox/GFN Bounds: gfnbounds_iclr2027.tex at the draft's commit b83dd0f, 131 labelled statements in its own formalization-ledger.json. The public MathAtlas mirror (DEC-203, DEC-207 strip only third-party material) would then publish the snapshot before the ICLR 2027 decision of 16 Dec 2026, on a submission reviewed double-blind with arXiv posting permitted (SUBMISSION-ICLR2027.md)"
 evidence = "DEC-210: ledger GFN Bounds as papers/gfnbounds, Lean root the in-tree lean/, seeded by tools/regression_ledger.sh and fixtures/regression/gfnbounds.toml and paper-map.json; public with the mirror (not held back by DEC-203). Previous evidence: T-atlas-overlay-refresh (DEC-204): « papers/gfnbounds would let lean/ carry facts ». reports/atlas/hub.toml, [paper.gfnbounds]: « Its draft has no ledger in this hub, so the atlas shows its double DAG's counts and does not draw its rows ». lean/ is GFNBoundsLean in-tree (DEC-157, T-gfn-absorb 24f4c85). The draft keeps its own ledger and DAG (formalization-ledger.json, FORMALIZATION-LEDGER.md; « closure 96 of 96 » at ea1a2b8), and tools/doubledag_gfnbounds.sh reads them from outside the repository. A new paper in the hub is the author's to rule. DEC-202 defers OQ-5 (anchor sizes for the GFN pair) and OQ-6 (the nine reconciliation proposals) until after the absorption and T-gfn-doubledag-refresh. That refresh is independent of this target"
 added = "2026-11-22"
+proposed_by = "roadmap-planner"
+
+# ------------------------------------------------------------------ BTZ, Alexandrov, the @[paper] split, the architecture's prerequisites, Yamabe §§ 2–3 (planner, 2026-11-25)
+[[target]]
+id = "T-btz-ledger"
+title = "Ledger Brunswic, Cauchy-compact flat spacetimes with extreme BTZ (Geom. Dedicata; arXiv 2108.12631) as papers/btz, Lean root lean-gx (DEC-208): snapshot, labels, ledger, curation, and anchoring of lean-gx's existing B21 rows (GX/BTZ/{Spear,Surgery,MixedDiamond,AbsMax}). On landing, the planner writes DEC-208's close targets on its labels (T-btz-maximal-extension, T-btz-cauchy-conservation, and the headline later)"
+stream = "gx"
+kind = "package"
+package = "lean-gx"
+status = "ready"
+owner = "master"
+priority = 6
+evidence = "DEC-208: papers/btz, Lean root lean-gx, it supersedes arXiv 1605.05530 (an archived source only). The source is archived at papers/gx/sources/2108.12631/src/BTZ_1.tex (43 \\label, 33 statement environments). Its statements: theo:princ_intro l.291 (the headline), theo:BTZ_ext l.1528, prop:pgcd l.1341, prop:ppcm l.1415, prop:reg_complete l.1566, theo:BTZ_Cauchy-completness l.1582. lean-gx already carries B21 rows under the prefix brunswic2021cauchy: as cited results of gx (DEC-23). Closed: lem:tube and lem:add_BTZ_param (Spear.lean); lem:curve_extension, lem:surface_causal, lem:surface_complete, lem:intersect_number_compact/complete, cor:intersect, rem:curve_spear (Surgery.lean); Remark 1, lem:BTZext_caus_conv, Lemma 2.14, cor:GH_causal, prop:cauchy_abs_max (AbsMax.lean); prop:abs_max, cor:abs_max (MixedDiamond.lean). Partial: lem:extension_hausdorff (AbsMax.lean, only the case Prop 2.17 uses). All are E₀-only by DEC-116 (b) and DEC-125 (a)(e), which is T-btz-scope's question. tools/roadmap.py:51 already maps btz to lean-gx. The close targets cannot be written before the ledger: roadmap.py check refuses a close target without labels, and refuses labels without papers/btz/ledger. No paper field here for the same reason (papers/btz does not exist yet)"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-scope"
+title = "papers/btz's scope: are its BTZ-extension theorems formalized for E_{≥0}-manifolds as printed, or for E₀-manifolds only, as DEC-116 (b) and DEC-125 ruled for its lemmas when they were cited results of gx?"
+stream = "gx"
+kind = "author"
+status = "needs-ruling"
+owner = "author"
+priority = 6
+question = "DEC-208 makes 2108.12631 a paper of its own (papers/btz). Its BTZ-extension results are stated for E_{≥0}-manifolds, where massive particles are allowed: theo:BTZ_ext (l.1528), prop:pgcd (l.1341), prop:ppcm (l.1415), prop:reg_complete (l.1566) and theo:BTZ_Cauchy-completness (l.1582), whose (i) concerns Reg_{>0}(M). lean-gx builds the paper's lemmas for E₀-manifolds only (DEC-116 (b), DEC-125 (a)(e)). For an E₀-manifold, Reg_{>0}(M) = Reg M. Should papers/btz be formalized for E_{≥0}-manifolds as printed? Yes means bringing the E_α local models into lean-gx's singular (G,X) setting. No means E₀ only, with every E_{≥0} row partial."
+evidence = "BTZ_1.tex l.331, 1341, 1415, 1528, 1566, 1582 (« Let M be globally hyperbolic \\mass{\\geq 0}-manifolds »). DEC-116 (b): « brunswic2021cauchy Lemmas 2.3/2.4 are formalized for E₀-manifolds only (DEC-77 (c)) ». DEC-125 (a), (e): Def 2.1, Prop 2.16 and Prop 2.17 « for E₀ only (A = {0}) ». Those rulings were made while the lemmas were cited results of gx, whose § 4 is E₀ (DEC-77 (c)). The E_α models exist in lean-causal (Causal/Model/EAlphaGX.lean, MeasuresEAlpha.lean), but not at lean-gx's Causal pin ca2ad78 (git cat-file: EAlphaGX.lean is absent there). Lean ≥ paper: an E₀-only declaration is narrower than an E_{≥0} statement, so it cannot be that statement's anchor"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gx-causal-pin-bump"
+title = "Bump lean-gx's Causal requirement from ca2ad78 (2026-11-02) to a current lean-causal commit, so that lean-gx can import Causal.AbstractDev (the abstract maximal-extension theorem DEC-208 instantiates) and the E_α models; rebuild lean-gx and repair what the bump breaks, GX/BTZ/CBG.lean's discharge of Causal/CBG/FromModel.lean first"
+stream = "gx"
+kind = "tooling"
+package = "lean-gx"
+exclusive = true
+status = "ready"
+owner = "master"
+priority = 7
+evidence = "lean-gx/lakefile.toml: [[require]] Causal, rev = « ca2ad78f200537132392f83b47e25fcc5dee330c », subDir = « lean-causal ». git cat-file at ca2ad78: lean-causal/Causal/AbstractDev.lean and Causal/Model/EAlphaGX.lean are both absent. Both exist today: AbstractDev.lean:427 exists_isMaximal, :515 exists_isMaximal_of_uniqueMorphisms, :611 exists_isMaximal_of_chainsInherit. DEC-208 asks for T-btz-maximal-extension « as an instance of the ETT programme's abstract maximal-extension theorem — BTZ-embeddings as the morphism class ». GX/BTZ/CBG.lean: « discharges three CBG-interface obligations (lean-causal ca2ad78, Causal/CBG/FromModel.lean) ». ARCHITECTURE.md §4.3 names the failure mode: « This fixes the \"ledger predates a pinned commit\" failures seen in the journals ». Exclusive, because it rebuilds all of lean-gx. It only reads lean-causal, so /ett-programme's lease on lean-causal is not touched"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gx-uniformization-via-btz"
+title = "gx's BTZ uniformization (theo:globally_hyperbolic_cauchy_complete_cauchy_maximal) re-proved as Barbot's Theorem A on Reg M followed by the maximal BTZ-extension, replacing the hand-added singular rays (DEC-208); the current form of record kept until the new one is audited"
+stream = "gx"
+kind = "close"
+paper = "gx"
+labels = ["theo:globally_hyperbolic_cauchy_complete_cauchy_maximal"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-btz-ledger", "T-gx-causal-pin-bump"]
+evidence = "DEC-208: « T-gx-uniformization-via-btz (gx's BTZ uniformization rewritten as Barbot's Theorem A on Reg M followed by the maximal BTZ-extension, replacing the hand-added singular rays) ». The row is bucket A, closed, by GX.btz_uniformization (GX/BTZ/Uniformization.lean, DEC-28/DEC-129), with the BTZ half-line developed by hand (GX/BTZ/FutureRay.lean, GX.futureRay_null_supset). This target also waits on T-btz-maximal-extension, which the planner writes when T-btz-ledger lands (a close target needs papers/btz's labels); add it to depends then"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-alexandrov-ledger"
+title = "Snapshot and ledger Brunswic–Fillastre, Alexandrov Theorem for 2+1 flat radiant spacetimes, as papers/alexandrov from the ATGV2 revision (DEC-209): legacy/ snapshot and MANIFEST, labels, ledger, an empty curation. The Lean root is a placeholder (dyniso's precedent) until T-alexandrov-package is ruled"
+stream = "gx"
+kind = "package"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 7
+evidence = "DEC-209: « ledgered as a paper of its own, papers/alexandrov, snapshot from the ATGV2 revision (~/Dropbox/lectures/Articles/Alexandrov-Fillastre/ATGV2, 2023-06-05; earlier: 2020-11 draft, arXiv 2022-01) »; the Fuchsian polyhedra draft is not ledgered separately. On node1, ATGV2/alexandrov.tex is dated 2023-06-05, with 74 \\label and about 100 statement environments; answer.tex and report_X_on_v1.pdf (a referee exchange) sit beside it. papers/dyniso/ledger/ledger.toml is the precedent for a ledger whose Lean namespace is not built yet (« Phase 0: ledger and label audit only »). The snapshot and ledger write no Lean, so they do not depend on the package question that T-alexandrov-package asks"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-alexandrov-package"
+title = "The Lean home of papers/alexandrov until DEC-211's move: a new package lean-alexandrov requiring lean-gx (DEC-209), or modules in lean-gx beside GX/BTZ, with no new package (DEC-211 §2: « not a package of its own »)?"
+stream = "gx"
+kind = "package"
+status = "needs-ruling"
+owner = "master"
+priority = 7
+depends = ["T-alexandrov-ledger"]
+question = "DEC-209 (2026-11-23) creates a NEW package lean-alexandrov requiring lean-gx. DEC-211, ruled the same day, says « planned lean-alexandrov (DEC-209) goes into Lorentzian instead », and ARCHITECTURE.md §2 adds « Lorentzian (radiant spacetimes), not a package of its own ». Lorentzian will only exist after the migration window. Until then, should lean-alexandrov be created now as a package of its own, to be folded into Lorentzian at the window? The alternative is to write the Alexandrov Lean in lean-gx, beside GX/BTZ, which §2 also sends to Lorentzian, and create no package."
+evidence = "DEC-209; DEC-211 (« PLAN NOW, MOVE LATER … planned lean-alexandrov (DEC-209) goes into Lorentzian instead »); ARCHITECTURE.md §2, last row of the table; tools/roadmap.py:51 already maps alexandrov to lean-alexandrov. The two rulings disagree on whether the package should exist, and the loop does not rule"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-hub-paper-attr-curation"
+title = "The curation reads @[paper] placements beside certificate/curation.toml (DEC-201). tools/ledger.py takes the label-to-declaration placements from the compiled environment's export, and `ledger.py check` fails when a placement and a curation decl disagree. A fixture under tools/fixtures/, applied first to papers/gfnbounds"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "planned"
+owner = "master"
+priority = 7
+depends = ["T-hub-paper-attribute", "T-gfn-ledger"]
+evidence = "DEC-201: « new declarations carry it; the curation reads both ». tools/leanlink/docs/design/PAPER-ATTRIBUTE.md: §3 « A query. GFNBounds.Paper.labels (env : Environment) : Array (String × Name), used by the export »; §5, the exporter (lean/scripts/lean_facts.lean) closes the import-time duplicate gap. lean/ is the only package with a pilot (T-hub-paper-attribute), and papers/gfnbounds (T-gfn-ledger, DEC-210) is the only ledger rooted there. CLAUDE.md: « A gate must be able to fail. Every gate has a fixture under tools/fixtures/<gate>/ »"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-hub-paper-attr-rollout"
+title = "@[paper] beyond lean/: may every hub package require one new Lean-only package that holds the attribute?"
+stream = "hub"
+kind = "author"
+status = "needs-ruling"
+owner = "author"
+priority = 7
+depends = ["T-hub-paper-attribute"]
+question = "DEC-201 adopts @[paper \"label\"] for new declarations. The attribute registers a global attribute named paper, so two packages that each carry their own copy cannot both be imported. lean-gx imports Causal, so lean-causal and lean-gx cannot each have one. benzecri, yamabe, syracuse and egf import no common hub package. One home must therefore be required by all of them. Should every package require a new package, lean-paper, which imports only Lean, holds the attribute, and lies outside DEC-211's seven theory packages? It would be required by every hub package, and lean-egf's adoption would belong to /egf-programme. If not, the rollout waits for the migration window, and the attribute then lives in the general tier (ETT and GX), which leaves the packages outside the theory without it."
+evidence = "DEC-201; DEC-211 (seven packages; « GFN (lean/), EGF, Syracuse and Yamabe stay as they are »). PAPER-ATTRIBUTE.md §3: the attribute is registered with registerBuiltinAttribute { name := `paper … } at initialization, on its own environment extension, and it rejects a declaration outside its namespace. The namespace would need to be a parameter for the hub. lean-gx/lakefile.toml requires Causal, and lean-benzecri, lean-yamabe and lean-syracuse require mathlib only. Journal 2026-11-23 08:25: « T-hub-paper-attribute was left for the planner, because it adds a LeanLink dependency to every package »"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-arch-import-gate"
+title = "The import-tier gate of ARCHITECTURE.md §4.4 (DEC-212), built now in report mode. Each library declares its tier (general, local, global, orbit, outside). Imports go only down the tiers, orbits only as declared external inputs, and the graph is acyclic. A fixture under tools/fixtures/ must fail. It is not wired into make check before the migration window: today's violations are reported as the move's worklist"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 8
+evidence = "DEC-212: « Imports go only down the tiers; the import gate checks each library's declared tier ». ARCHITECTURE.md §4.4: « An import-graph gate. Each library declares its tier, imports go only down the tiers, and a library may import only what §1 allows, orbits only as declared external inputs, and the graph must be acyclic. It needs a fixture under tools/fixtures/ ». ARCHITECTURE.md §5: the move waits on §4's prerequisites. Today's packages mix tiers (§2: lean-causal holds ETT and Barbot, lean-gx holds GX, BTZ and BBS), so the gate in check mode would add a red gate. The CLAUDE.md rule « an iteration may not add a failure » is the reason for report mode"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-arch-multiroot-ledgers"
+title = "Multi-root ledgers (ARCHITECTURE.md §4.1). ledger.toml takes several [lean] roots per paper, and tools/ledger.py and tools/doubledag.py read them. Every existing ledger regenerates byte-identical with its single root, and a test covers a two-root paper. The atlas overlay follows in T-arch-multiroot-atlas"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 8
+evidence = "ARCHITECTURE.md §4.1: « Multi-root ledgers. tools/ledger.py and ledger.toml must take several Lean roots per paper (§2), and tools/doubledag.py and the atlas overlay must follow ». §2: « Papers then span packages. Their ledgers need several Lean roots » (ETT: ETT plus Lorentzian.Local; gx: GX plus Lorentzian; Barbot: Lorentzian plus the orbit; BBS: BBS plus BBS.Local). Needed before the move and useful before it: papers/btz (DEC-208) cites lean-gx's BTZ and, through T-btz-maximal-extension, lean-causal's AbstractDev. papers/*/ledger/ledger.toml has one [lean] table today (e.g. papers/syracuse)"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-arch-multiroot-atlas"
+title = "The atlas's Lean overlay (lean_edges.py facts) follows multi-root ledgers: a paper's overlay is read from each of its roots"
+stream = "hub"
+kind = "tooling"
+status = "planned"
+owner = "builder"
+priority = 9
+depends = ["T-arch-multiroot-ledgers"]
+evidence = "ARCHITECTURE.md §4.1 (« the atlas overlay must follow »). T-atlas-overlay-refresh (DEC-204) is the standing builder target that refreshes the overlay per package"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-arch-pin-bump-tool"
+title = "A pin-bump tool (ARCHITECTURE.md §4.3). It bumps one package's pin in every dependent's lakefile and lake-manifest, rebuilds in dependency order, and reports the first failure. It has a test and a fixture"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "planned"
+owner = "master"
+priority = 9
+depends = ["T-gx-causal-pin-bump"]
+evidence = "ARCHITECTURE.md §4.3: « A pin-bump tool for seven git-pinned packages. It bumps a package's pin in every dependent and rebuilds in dependency order. This fixes the \"ledger predates a pinned commit\" failures seen in the journals ». T-gx-causal-pin-bump is the first bump, done by hand. Its record is this tool's specification"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-closed-leaves"
+title = "Yamabe § 2, closed leaves, over the measured model with empty boundary. def:yamabe: EH, Y(Σ, [g]) and σ(Σ), from Yamabe.MeasuredModel.EH and Y and ClosedConformal.sigma. prop:csc-yamabe: the paper's own step, the first assertions of (a) and (b) as the closed case of lem:kobayashi (l.201–202). The uniqueness in (a) and Schoen's examples in (b) are carried as cited inputs, never axioms, and the row stays partial"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["def:yamabe", "prop:csc-yamabe"]
+status = "ready"
+owner = "closer"
+priority = 7
+evidence = "papers/yamabe ledger: def:yamabe (l.158) and prop:csc-yamabe (l.193, proof l.201–203) are untriaged, with no Lean and no target. DEC-184: « every step of the paper's own proofs formalized », with the Yamabe theorem, Akutagawa–Botvinnik, Gromov–Lawson and Escobar as named external Props. Proof l.201: « The first assertion of (a) and the first assertion of (b) are the closed case of Lemma lem:kobayashi … The uniqueness in (a) follows from the maximum principle … the examples in (b) are due to Schoen ». Built layers: Yamabe/Kobayashi.lean (EH l.182, Y l.207, lem:kobayashi part (a) sorry-free); Yamabe/External.lean (ClosedConformal l.127, sigma l.140); Yamabe/Negative.lean (toyClosed, a measured model with 0 boundary components). The precedent for carrying cited inputs is T-syr-cited-steps"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-gap-corollaries"
+title = "Yamabe § 2, the paper's own steps of cor:gap-nonneg (δ ≥ 0, and δ = 0 iff g attains σ, then Einstein when σ ≤ 0; (b) k is the FLRW curvature term) and of cor:volume (Vol(Σ, g) ≥ Vol(Σ, g_hyp) at equal negative scalar curvature). thm:extremal (a)/(b) and Mostow rigidity are carried as cited inputs, and the rows stay partial"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["cor:gap-nonneg", "cor:volume"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-yamabe-closed-leaves"]
+evidence = "papers/yamabe ledger: cor:gap-nonneg (l.234, proof l.242–244) and cor:volume (l.246, proof l.250–257) are untriaged, with no Lean; their deps are prop:csc-yamabe and thm:extremal. The proofs are inequality chains over Y ≤ σ (« EH(Σ_t, g_t) = Y(Σ, [g_t]) ≤ σ(Σ) by definition »; « Dividing by the negative constant R_g = R_{g_hyp} reverses the inequality »). The cited inputs are thm:extremal (Schoen, Obata, Bray–Neves, Anderson; l.207) and Mostow rigidity (l.256). DEC-184 does not name them as externals, so they are carried as hypotheses, as T-syr-cited-steps did, and no mark is claimed"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-boundary-gap"
+title = "Yamabe § 3, leaves with boundary, over the measured model. def:yamabe-bdry: S, EH, EHB, Y_[g], YB_[g], from Yamabe.MeasuredModel.EH, Y, EHB and YB. prop:gap-bdry-nonneg: δ ≥ 0 for constant R_g ≤ 0 and minimal boundary, from fact (iii) = lem:kobayashi and eq:sigma-bdry. prop:accel-bdry: Appendix A's computation, with the averaged acceleration law eq:accel (Buchert) carried as a hypothesis"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["def:yamabe-bdry", "prop:gap-bdry-nonneg", "prop:accel-bdry"]
+status = "ready"
+owner = "closer"
+priority = 7
+evidence = "papers/yamabe ledger: def:yamabe-bdry (l.301), prop:gap-bdry-nonneg (l.356, proof l.360–362: « By fact (iii) … EH(Σ, g) = Y_[g](Σ), and Y_[g](Σ) ≤ σ^∂(Σ) by eq:sigma-bdry ») and prop:accel-bdry (l.407; « The proof is a direct computation given in Appendix app:derivation », l.584–599) are untriaged, with no Lean and no target. Built layers: Yamabe/Kobayashi.lean (EH, Y, MinimalBoundary), Yamabe/Gluing.lean (EHB l.307, YB l.321), Yamabe/LowerBound.lean (gapBdry l.156), Yamabe/External.lean (EscobarLaw = eq:conformal-energy-bdry). eq:accel (l.142) is cited (Buchert_2007, brunswic2020gaussbonnetchern) and is not a ledger row. DEC-184: every step of the paper's own proofs formalized"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-brown-york"
+title = "Yamabe § 3, the mass of the excised regions. def:reference: the Euclidean reference embedding, with the Weyl–Nirenberg theorem carried as a cited input, and eq:mass-def. prop:brown-york: M = Σ_j m_BY(B_j)/(N − 1) from (N − 1)H = −k and (N − 1)H_ref = −k₀, and the minimal-round-sphere values (m_BY = (N − 1)ω_{N−1} r^{N−2}; 8πr for N = 3)"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["def:reference", "prop:brown-york"]
+status = "ready"
+owner = "closer"
+priority = 8
+evidence = "papers/yamabe ledger: def:reference (l.378, cites MR58265, Weyl–Nirenberg) and prop:brown-york (l.390, proof l.399–401) are untriaged, with no Lean and no target. The proof is algebra on the boundary integrals: « (N−1)H_g = tr II_ν = −k; likewise (N−1)H_ref = −k₀. Hence (N−1)(H_g − H_ref) = k₀ − k and eq:mass-BY follows by integration ». The measured model carries boundary measures (Yamabe.MeasuredModel.bvol) and H (Yamabe/Kobayashi.lean, MinimalBoundary l.196). The Schwarzschild arithmetic (r_s = 2Gm, 8πG = 1) is part of the statement and is checked as such"
+added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-link-remarks"
+title = "BBS § 3, two link remarks on the built HS layer. bbsrem:cuttachyon2 (l.1299–1311): cutting a disk U ⊂ dS² along a light-like ray from x and gluing back by a hyperbolic γ gives a space-like HS-singularity of degree 2, positive iff γy lies in the future of y for every y in r (future-oriented r; the past for a past-oriented r). bbsrem:however_no_positive_negative (l.1480–1481): BTZ-like and extreme BTZ-like singularities have no positive/negative dichotomy"
+stream = "bbs"
+kind = "close"
+paper = "bbs"
+labels = ["bbsrem:cuttachyon2", "bbsrem:however_no_positive_negative"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-bbs-remark-readings"]
+evidence = "papers/bbs ledger: both rows are blocked_on « no target yet (a § 3 link row, layer L2, in lean-gx by DEC-192) ». Built: HSSingularities.lean sorry-free (T-bbs-hs-link-types: the types by p and the degree), IsPositive (T-bbs-positive-hs-surface), and 𝔢(L) and the HS-surface off its apices (T-bbs-hs-suspension, strict). cuttachyon2's positivity criterion is l.908–913's repelling form, not l.915's. T-bbs-remark-readings proves the two equivalent (its SCOPE (f)), hence the dependency. cuttachyon2 is introduced as « a corollary » of the AdS construction at l.1287–1297 (T-bbs-q8's background). It is stated in dS² alone, so it is formalized there, and the AdS derivation is not claimed. Not in scope: bbsrem:masspositive, far_know_kind_singular, photon and now_allow_ourselves_qualify (physics terminology), and positive_negative2 (the AdS lightray picture of positive_negative, on T-bbs-q8)"
+added = "2026-11-25"
 proposed_by = "roadmap-planner"

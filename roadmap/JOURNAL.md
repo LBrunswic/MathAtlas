@@ -841,3 +841,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: be0a76e 51f1107 65fbe21 d9791b6 49d0ddb 104b902 f596d62 [+ roadmap/atlas/journal]
 - New questions for the author: OQ-128 (positive HS-surfaces: « singularity », the apex, some or every link), OQ-129 (« k-branched cover »), OQ-130 (Geroch: does (iii)⇒(i) hold under DEC-148 alone?), OQ-131 (p_p: moved-p isomorphisms and SO₀(1,2), « the link determines the singularity »).
 - next: a planning run is due (rule 2, five iterations since 2026-11-23 05:55). It should create DEC-208's and DEC-209's targets (T-btz-ledger, T-btz-maximal-extension, T-alexandrov-package) and split T-hub-paper-attribute. Ready: T-bbs-classising-types, T-gfn-ledger (master), the BBS hcausal and remark-readings targets, T-bbs-hs-graduate.
+
+## 2026-11-25 · plan · roadmap-planner (rule 2)
+- Added 17 targets, changed 3 (roadmap check: 209 targets, all rules hold).
+  - DEC-208: T-btz-ledger (master, ready), T-gx-causal-pin-bump (master, ready, exclusive; lean-gx's Causal pin ca2ad78 lacks AbstractDev), T-gx-uniformization-via-btz (planned), T-btz-scope (needs-ruling). The btz close targets wait for the ledger (labels must exist).
+  - DEC-209: T-alexandrov-ledger (master, ready), T-alexandrov-package (needs-ruling: DEC-209 vs DEC-211 on a package of its own).
+  - T-hub-paper-attribute narrowed to a pilot in lean/; T-hub-paper-attr-curation (planned), T-hub-paper-attr-rollout (needs-ruling).
+  - DEC-211/212: T-arch-import-gate, T-arch-multiroot-ledgers (master, ready); T-arch-multiroot-atlas, T-arch-pin-bump-tool (planned).
+  - lean-yamabe: T-yamabe-closed-leaves, T-yamabe-boundary-gap, T-yamabe-brown-york (ready), T-yamabe-gap-corollaries (planned). lean-gx: T-bbs-link-remarks (planned).
+  - T-bbs-archive → planned (N11 in papers/bbs/NOTES-3+1.md derives N5-4's phase-space claim, [r]; the rest needs journal PDFs from the author). T-bz-chapter3 p9 → p7.
+- gates: roadmap ✓, atlas ✓, hub: 2 failures in gate-tests, both papers/gx/certificate/RESTATED.md not rendered — a file held mid-wave by the live /restate lease, not this run's.
+- New questions for the author: T-btz-scope (E_{≥0} as printed, or E₀ only), T-alexandrov-package (create lean-alexandrov now, or put it in lean-gx), T-hub-paper-attr-rollout (a lean-paper package outside DEC-211's seven?).
+- next: a wave of T-yamabe-closed-leaves, T-yamabe-boundary-gap (lean-yamabe), T-bbs-classising-types, T-bbs-hcausal (lean-gx), with master set-ups T-btz-ledger / T-alexandrov-ledger.
