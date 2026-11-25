@@ -1,0 +1,40 @@
+{
+ "label": "bthm:caucomp",
+ "round": 1,
+ "anchor": [
+  "Causal.Flat.barbot_A_unconditional"
+ ],
+ "rewritten_sha256": "37b6480119e70d6b2add1401f4455e47dde6df507bbcce9e55523cd646492cd1",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "M : FlatSpacetime d (connected, Hausdorff (Isom(M^n),M^n)-manifold, n = d+1)",
+   "rewrite": "M a flat spacetime of dimension n (standing: connected, Hausdorff, Section 2)",
+   "ok": true
+  },
+  {
+   "lean": "hGH : GH M",
+   "rewrite": "M globally hyperbolic",
+   "ok": true
+  },
+  {
+   "lean": "hCC : IsCauchyComplete d M (DEC-35)",
+   "rewrite": "M Cauchy-complete",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "Point 5: the anchor Causal.Flat.barbot_A_unconditional is not among the row's mapped declarations in papers/barbot/certificate/curation.toml (decls of bthm:caucomp list barbot_A, barbot_A_min, ... but not it; it appears only in the notes). Its conclusion is verbatim barbot_A's and it has no hypothesis beyond GH and Cauchy-complete, so the rewrite is exact for it; the choice is disclosed in `changes`.",
+   "fix": "Add Causal.Flat.barbot_A_unconditional to the row's decls (curation), or anchor on barbot_A and keep the externals as a hypothesis."
+  },
+  {
+   "severity": "minor",
+   "what": "Point 6 (nit): the LTP bullet does not say that each element of Gamma' restricts to U as an element of Isom(M^{n_1}) (IsLTPData.restricts, orientation of U); it is implicit in M_1 being a flat spacetime quotient of U cap Omega' and in 'the form of Lemma blem:suspendre'. The conclusion is not stronger than the anchor's.",
+   "fix": "Optionally add 'every element of Gamma' restricting to U as an isometry of M^{n_1}'."
+  }
+ ]
+}

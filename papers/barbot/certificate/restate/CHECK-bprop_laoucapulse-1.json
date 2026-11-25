@@ -1,0 +1,45 @@
+{
+ "label": "bprop:laoucapulse",
+ "round": 1,
+ "anchor": [
+  "Causal.Flat.bprop_laoucapulse_two_case"
+ ],
+ "rewritten_sha256": "e97e418c63ca2ba8eda23784a2ff04741d98921e101e86fecf218ef32d871216",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "g : isom d",
+   "rewrite": "g an isometry of M^n",
+   "ok": true
+  },
+  {
+   "lean": "hg : g • 0 = 0",
+   "rewrite": "g linear (trivial translation part)",
+   "ok": true
+  },
+  {
+   "lean": "case 2 <= d: penroseVolume = roundMeasure (toSphere of Lebesgue on R^d) x Lebesgue; ExpandsVolumeAt = exists J > 1 with HasVolumeJacobianAt (two-sided epsilon bounds on measurable subsets of a neighbourhood)",
+   "rewrite": "n >= 3: round volume sigma of S^+ (unit sphere of R^{n-1}) times Lebesgue; volume-expanding defined with the same epsilon bounds on measurable A in V",
+   "ok": true
+  },
+  {
+   "lean": "case d < 2, forall lam > 0: penroseDist lam = max(chordal dist on S, lam|s-s'|); IsExpandingAtWrt = exists l > 1, l D(y,z) <= D(fy,fz) eventually near (x,x)",
+   "rewrite": "n <= 2, lambda > 0, distance max(|v-v'|, lambda|s-s'|); expanding at x as l dist(y,z) <= dist(f y, f z) for y,z near x",
+   "ok": true
+  },
+  {
+   "lean": "IsConformallyExpandingAt (linearPart g) u := 1 < penroseFactor = 1/c(L(g),u)",
+   "rewrite": "{v in S^+ | a(g,v) > 1}",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "Point 5 (disclosed, not a defect): the rewrite normalises S^+ as the unit sphere of R^{n-1} rather than the paper's radius-1/sqrt 2 chart (l.782-789); no DEC row rules it, but it is recorded in `reading`. Checked: the chart change (u,s) -> (u/sqrt2, s/sqrt2) is a homothety with constant Jacobian, and a(g,v) = 1/N(L(g)v) agrees with Lean's 1/(time component) because N is proportional to x_0 on the null cone, so neither case of the statement depends on it.",
+   "fix": "None needed; the author sees it in `reading`."
+  }
+ ]
+}

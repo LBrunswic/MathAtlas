@@ -1,0 +1,36 @@
+{
+ "label": "bprop:regular_cauchy_complete",
+ "round": 1,
+ "anchor": [
+  "Causal.Flat.regular_cauchy",
+  "Causal.Flat.Cla.isCauchyComplete_of_isQuotientOf_regular"
+ ],
+ "rewritten_sha256": "5b77534c62d80cae6418365a6dd1b4e93888c4fb00578292fa92136d3cfacaca",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "h : CosmoRegular Λ (FutureRegular Λ and two elements with distinct first components)",
+   "rewrite": "Λ future regular with two elements of distinct directions δ+ (DEC-88)",
+   "ok": true
+  },
+  {
+   "lean": "_hΩ, past branch: PastRegular Λ ∧ ∃ w₁ w₂ ∈ Λ, w₁.1 ≠ w₂.1 ∧ Ω = omegaMinus Λ",
+   "rewrite": "Λ past regular with two elements of distinct directions, Ω^-(Λ) in place of Ω",
+   "ok": true
+  },
+  {
+   "lean": "φ : isom d, Γ, IsQuotientOf M₁ (frameConj φ Γ) (isomImage φ Ω), M₁ : FlatSpacetime",
+   "rewrite": "M a flat spacetime, quotient of φ(Ω) by a group of isometries preserving φ(Ω), quotient map a covering local isometry with orbits as fibres (any such group is φΓφ^{-1} for Γ = φ^{-1}Gφ)",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": [
+  {
+   "severity": "minor",
+   "what": "Point 6 (nit): 'closed' for S_t is ambiguous (in Ω or in M^n); the anchor proves closed in M^n (IsClosed (cosmoLevel Λ t) in Minkowski d), which is the stronger reading, so either reading is implied.",
+   "fix": "Optionally write 'closed in M^n'."
+  }
+ ]
+}
