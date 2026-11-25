@@ -1,4 +1,5 @@
 import CausalScaffold.GerochEquiv
+import CausalScaffold.GerochIIIImpI
 import CausalScaffold.SingularGeroch
 import CausalScaffold.SubExtension
 import CausalScaffold.CompactCauchy
