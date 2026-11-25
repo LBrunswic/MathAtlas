@@ -1,0 +1,55 @@
+{
+ "label": "bzthm:c2s2_proprietes_pseudo_longueur",
+ "round": 1,
+ "anchor": [
+  "Benzecri.proprietes_pseudo_longueur",
+  "Benzecri.IsPocheProj.exists_ne_zero_iff_nonconstant"
+ ],
+ "rewritten_sha256": "e08b2bc83c2349ea818bf85d9f1a5031e4dcd9d400f77d3fa81e32459189ccf9",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "[NeZero n], [ChartedSpace (S n) V] [HasGroupoid V (projGroupoid n)]",
+   "rewrite": "V localement projective de dimension n ≥ 1",
+   "ok": true
+  },
+  {
+   "lean": "1°: 0 ≤ pseudoLength for all Sg M N; IsProjSegment Sg M M → pseudoLength = 0",
+   "rewrite": "1°",
+   "ok": true
+  },
+  {
+   "lean": "2°: g : GXAut (GSR n) (S n) V, pseudoLength of g(Sg) = pseudoLength Sg, for every Sg (no segment hypothesis)",
+   "rewrite": "2° for every segment, l_V(gM,gN) read on g(M,N); restricting to segments only narrows to where l_V is defined",
+   "ok": true
+  },
+  {
+   "lean": "3°: IsProjSegment Sg M N, Sg ⊆ Sg' (Sg' need not be a segment)",
+   "rewrite": "3° for two segments; narrower hypothesis-free form not needed",
+   "ok": true
+  },
+  {
+   "lean": "4°: W open, M N ∈ W, Sg ⊆ W",
+   "rewrite": "4°",
+   "ok": true
+  },
+  {
+   "lean": "5°: neighbourhood form (∀ k : EReal, l < k → ∃ U open ⊇ Sg, ∀ᶠ p in 𝓝(M,N), segments Sg' ⊆ U → l < k) and filter form (Ms → M, Ns → N, eventually in every open U ⊇ Sg, limsup ≤ l)",
+   "rewrite": "5° both forms, stated explicitly",
+   "ok": true
+  },
+  {
+   "lean": "6°: IsCorpsConvexeS n K, V = corpsInterior K (open subset, induced charts): segments ↔ Sg = closedSeg ∩ V, pseudoLength = hilbertLength, continuous, finite (toReal coe), = 0 ↔ M = N",
+   "rewrite": "6°: unique segment, finite, continuous, zero iff M = N",
+   "ok": true
+  },
+  {
+   "lean": "7°: IsPocheProj P l φ z, ∃ y, z y ≠ 0 (≡ non-constant, exists_ne_zero_iff_nonconstant), M ∈ P, K : ℝ arbitrary, z(φM) < 1/K, pseudoLength Sg M N < log K (Sg any)",
+   "rewrite": "7° with z not identically 0, (M,N) a segment, K > 1. K > 1 is not in the Lean, but it follows from the other hypotheses (z(φM) ≥ 0 on a pocket and l_V ≥ 0 by 1° force 1/K > 0 and log K > 0), so it does not narrow the statement",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}

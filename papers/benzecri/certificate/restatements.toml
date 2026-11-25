@@ -12,67 +12,229 @@ finding = "[strong: false as written] Sentence 3 of résumé B (benzecri1960_ch1
 
 [[entry]]
 label = "bzdef:c1s1d8_partie_convexe"
-status = "found"
+status = "checked"
+kind = "underspecified"
 printed = "benzecri1960_ch1.tex:246-253"
 printed_sha256 = "bf60f50eacac3eea7ef359dc052e8eb7d35ebcf0aa43a33f94a998a694ec01ec"
-finding = "[strong: refuting declaration] "
+finding = "« F(k)+{O} » is ambiguous. Read as a Minkowski sum it is F(k) itself, and the two sentences of Déf. 8 disagree (S(E) satisfies the segment form, F(S(E)) = E−{O} is not convex); read as the union F(k) ∪ {O} (DEC-120) they are equivalent."
 refutation = ["Benzecri.Sphere.not_isConvexPartMinkowski_univ", "Benzecri.Sphere.not_isConvexPartMinkowski_of_linearSubvariety_subset"]
+anchor = ["Benzecri.Sphere.IsConvexPart", "Benzecri.Sphere.isConvexPart_iff_isSegConvex"]
+basis = ["DEC-120"]
+rewritten = '''
+On appelle \textit{partie convexe} $k\subset S(E)$ une partie $k$ telle que $F(k)\cup\{O\}$ soit un
+convexe de $E$.
+
+De façon équivalente, une partie $k$ de $S(E)$ est convexe si et seulement si, quels que soient
+$m$ et $m'$ non diamétralement opposés dans $k$, le segment $(m, m')$ est inclus dans $k$.
+'''
+changes = ["~ reading: « F(k)+{O} » written F(k) ∪ {O}, the union (DEC-120); read as a Minkowski sum the first sentence contradicts the second (S(E) itself) and no part containing a nonzero linear subvariety would be convex (the refutation)", "~ conclusion: the second sentence, printed as a second definition of the same notion, is stated as a characterisation equivalent to the first; the equivalence holds for every real vector space E"]
+check = "CHECK-bzdef_c1s1d8_partie_convexe-1.json"
 
 [[entry]]
 label = "bzdef:c1s2d3_homotheties_positives"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "benzecri1960_ch1.tex:526-538"
 printed_sha256 = "081da4204ff33e5554d0ecd8972dfe024c63564e53d4abb093e594e00c8d68dc"
-finding = "[strong: refuting declaration] V = {z > 0, (x,y) ≠ 0} × ℝ^{n-3} / ⟨diag(4, 1/8, 2, 1, …, 1)⟩ is a Hausdorff, second-countable, paracompact affine conical manifold whose base V/ℝ₊* is not Hausdorff, for every n ≥ 3 (Benzecri.ConeCex.not_t2Space_coneBase_dim, not_properSMul_dim, not_exists_section_dim, isEmpty_homeomorph_dim); for n ≤ 2 the base is al"
+finding = "« cet espace fibré est topologiquement trivial » is false: for every n ≥ 3 some Hausdorff, second-countable, connected affine conical n-manifold V is ℝ⁺-equivariantly homeomorphic to B × ℝ⁺ by no homeomorphism over B (its base B = V/ℝ⁺ is not Hausdorff). It holds when ℝ⁺ acts properly on V (DEC-122)."
 refutation = ["Benzecri.ConeCex.not_def3TrivialAsPrinted_dim", "Benzecri.ConeCex.not_def3TrivialAsPrinted"]
+anchor = ["Benzecri.posSMul", "Benzecri.posSMul_eq", "Benzecri.coneMulAction", "Benzecri.continuous_posSMul", "Benzecri.eq_one_of_posSMul_eq", "Benzecri.ConeBase.coneTrivialization", "Benzecri.ConeBase.coneTrivialization_posSMul", "Benzecri.ConeBase.exists_trivialization_of_properSMul", "Benzecri.isGXMorphism_affine_smul", "Benzecri.not_isGXMorphism_cone_smul"]
+basis = ["DEC-122", "DEC-124"]
+reading = "V is taken séparé (Hausdorff) throughout, and à base dénombrable for the triviality: the paper's « variété » read as Hausdorff and second countable (plan F6). DEC-122 rules only the properness of the action."
+rewritten = '''
+Soit $V$ un cône affin séparé de dimension $n\geq 1$. Le groupe $\R^+$ des réels positifs opère sur
+$V$ de la façon suivante : soit $m\in V$; soit $U$ un voisinage de $m$ dont il existe une carte
+compatible $f$ sur un cône ouvert de $\R^n$; on pose $\lambda m=f^{-1}(\lambda f(m))$, où
+$\lambda\in\R^+$ opère sur $\R^n$ comme une homothétie de centre $O$ et de rapport $\lambda$. Cette
+définition est indépendante de la carte $f$ choisie, et définit une action continue et libre de
+$\R^+$ sur $V$.
+
+$V$ est ainsi munie d'une structure d'espace fibré $\R^+$-principal au-dessus du quotient
+$B=V/\R^+$, muni de la topologie quotient; soit $p$ la projection de $V$ sur $B$ : si $f$ est une
+carte compatible d'un ouvert $U$ de $V$ sur un cône ouvert de $\R^n$, $p(U)$ est un ouvert de $B$ et
+il existe un homéomorphisme de $p^{-1}(p(U))$ sur $p(U)\times\R^+$, de la forme
+$m\mapsto(p(m),\nu(m))$ avec $\nu(\lambda m)=\lambda\,\nu(m)$; ces ouverts $p(U)$ recouvrent $B$.
+Si de plus $V$ est à base dénombrable d'ouverts et si l'action de $\R^+$ sur $V$ est propre, cet
+espace fibré est topologiquement trivial : il existe un homéomorphisme $T$ de $V$ sur $B\times\R^+$
+tel que, pour tout $m\in V$ et tout $\lambda\in\R^+$, la première composante de $T(m)$ soit $p(m)$,
+et que $T(\lambda m)$ se déduise de $T(m)$ en multipliant sa seconde composante par $\lambda$.
+
+$\R^+$ opère sur $V$ comme un groupe d'automorphismes de sa structure localement affine; si $V$
+n'est pas vide, l'homothétie $m\mapsto\lambda m$ n'est, pour $\lambda\neq 1$, pas un automorphisme de
+sa structure conique affine. On appelle ce groupe le groupe des homothéties positives de $V$.
+'''
+changes = ["+ hypothesis: for the triviality, the action of ℝ⁺ on V is proper (DEC-122, DEC-124); without it the triviality fails in every dimension n ≥ 3 (the refutation: a Hausdorff, second-countable, connected, paracompact V whose base is not Hausdorff)", "+ hypothesis: V séparé (Hausdorff), which the independence of λm from the chart needs, and à base dénombrable for the triviality (reading: « variété », plan F6)", "+ hypothesis: n ≥ 1 (the base B and the locally affine structure need it; a cône affin of dimension 0 is empty)", "~ conclusion: « espace fibré ℝ⁺-principal » made explicit: continuous free action, and local trivialisations m ↦ (p(m), ν(m)) over the open sets p(U), ν homogeneous of degree 1", "~ conclusion: « topologiquement trivial » made explicit: an ℝ⁺-equivariant homeomorphism V → B × ℝ⁺ over B", "- conclusion: « et nous en construirons plus loin une section » and the justification « puisque ℝ⁺ est homéomorphe au segment ouvert » are dropped: the section is the p. 241 claim, closed separately in the same corrected form (DEC-124)", "~ conclusion: « (mais non de sa structure conique affine) » stated for V nonempty and λ ≠ 1"]
+check = "CHECK-bzdef_c1s2d3_homotheties_positives-1.json"
 
 [[entry]]
 label = "bzdef:c2s1d1_poche_affine"
-status = "found"
+status = "checked"
+kind = "imprecise"
 printed = "benzecri1960_ch2.tex:95-117"
 printed_sha256 = "15c0797e1a0fe1e449986564f24cfd8d108e32d26b79f9f3cc01f5a17b264c52"
-finding = "[strong: false as written, refuting declaration] ) as printed admit a constant cote z ≡ 0 (Benzecri.exists_isPocheProj_cote_zero), for which property 7° and Prop. 6 are false as printed (OQ-61). Correction, ruled by DEC-178: « z non-constant » is added to the definition; 7° and Prop. 6 then hold as printed (septieme_propriete_of_ne_zero, ligne_brisee_poche_of_ne_zero). The paper tac"
-refutation = ["Benzecri.not_isPocheAffNC_dim_zero", "Benzecri.not_isPocheAffNC_model"]
+finding = "Déf. 1/1′ as printed admit a constant cote z ≡ 0 (e.g. the pocket (ℝⁿ, id, 0)), for which property 7° and Prop. 6 are false as printed (OQ-61). The paper tacitly assumes z non-constant (l.158, 346–351); DEC-178 adds it to the definition."
+anchor = ["Benzecri.IsPocheAffNC"]
+basis = ["DEC-178"]
+rewritten = '''
+Soit $V$ une variété localement affine de dimension $n$ : on définit une \textit{poche} de $V$
+par la donnée :
+
+--- d'un ouvert connexe $P$ de $V$;
+
+--- d'une carte $\varphi$ de $P$ dans $\R^n$ compatible avec la structure affine de $P$;
+
+--- d'une fonction linéaire \emph{non constante} $z$ sur $\R^n$ appelée cote.
+
+Le triple $(P, \varphi, z)$ doit satisfaire aux deux conditions suivantes :
+
+\textit{a}. Sur l'image $\varphi(P)$ la cote $z$ a pour borne inférieure $0$ et est majorée par
+$1$;
+
+\textit{b}. Soit $(M, N)$ un segment de $V$ dont l'extrémité $M$ appartienne à $P$. Soit
+$\tilde{\varphi}$ une carte compatible d'un voisinage de $(M, N)$ dans $\R^n$ (\textit{cf.}
+chap. 1, \S\,1, déf. 14) ayant en $M$ même germe que $\varphi$ (\textit{cf.} chap. 1, \S\,1,
+prop. 1, 2\textsuperscript{o}). Alors, si $z(\tilde{\varphi}(N))$ est inférieur à $1$, $N$
+appartient à $P$.
+'''
+changes = ["+ hypothesis: the cote z is non-constant (DEC-178); as printed z ≡ 0 is allowed, and property 7° and Prop. 6 fail for it (OQ-61)", "~ note: « fonction linéaire » keeps the paper's own meaning, an affine function (chap. 1, Exemple after Déf. 2); on a pocket « z non-constant » is equivalent to z ≢ 0 and to z > 0 on φ(P)", "~ note: no pocket exists in dimension 0 under the corrected definition (every affine function on ℝ⁰ is constant), consistent with n ≥ 1 throughout chap. 2 (DEC-177)"]
+check = "CHECK-bzdef_c2s1d1_poche_affine-1.json"
 
 [[entry]]
 label = "bzdef:c2s1d1prime_poche_projective"
-status = "found"
+status = "checked"
+kind = "imprecise"
 printed = "benzecri1960_ch2.tex:119-145"
 printed_sha256 = "b6608d07c23b07e7c63fb8ec896dd93efe67be35f70d761ba72883870faf90b5"
-finding = "[strong: false as written, refuting declaration] ) as printed admit a constant cote z ≡ 0 (Benzecri.exists_isPocheProj_cote_zero), for which property 7° and Prop. 6 are false as printed (OQ-61). Correction, ruled by DEC-178: « z non-constant » is added to the definition; 7° and Prop. 6 then hold as printed (septieme_propriete_of_ne_zero, ligne_brisee_poche_of_ne_zero). The paper tac"
-refutation = ["Benzecri.not_isPocheProjNC_dim_zero"]
+finding = "Déf. 1/1′ as printed admit a constant cote z ≡ 0 (e.g. the pocket (ℝⁿ, id, 0)), for which property 7° and Prop. 6 are false as printed (OQ-61). The paper tacitly assumes z non-constant (l.158, 346–351); DEC-178 adds it to the definition."
+anchor = ["Benzecri.IsPocheProjNC"]
+basis = ["DEC-178"]
+rewritten = '''
+Soit $V$ une variété localement projective de dimension $n$ : on définit une \textit{poche} de
+$V$ par la donnée :
+
+--- d'un ouvert connexe $P$ de $V$;
+
+--- d'un hémisphère ouvert $\mathring{H}$ de $S(n)$;
+
+--- d'une carte $\varphi$ de $P$ dans $S(n)$ compatible avec la structure projective, et telle
+que
+\[ \varphi(P)\subset\mathring{H}; \]
+
+--- d'une fonction linéaire \emph{non constante} $z$, appelée cote, sur $\mathring{H}$ considéré
+comme espace affin (\textit{cf.} chap. 1, \S\,1, déf. 6).
+
+Le système $(P, \mathring{H}, \varphi, z)$ doit satisfaire aux deux conditions suivantes :
+
+\textit{a}. Sur l'image $\varphi(P)$, la cote $z$ a pour borne inférieure $0$ et est majorée par
+$1$;
+
+\textit{b}. Soit $(M, N)$ un segment de $V$ dont l'extrémité $M$ appartienne à $P$. Soit
+$\tilde{\varphi}$ une carte compatible d'un voisinage de $(M, N)$ dans $S(n)$ ayant en $M$ même
+germe que $\varphi$. Alors,
+\[ \tilde{\varphi}(M, N)\subset\mathring{H} \]
+et, si $z(\tilde{\varphi}(N))$ est inférieur à $1$, $N$ appartient à $P$.
+'''
+changes = ["+ hypothesis: the cote z is non-constant on H̊ (DEC-178); as printed z ≡ 0 is allowed (the pocket (ℝⁿ, H₀, j, 0)), and property 7° and Prop. 6 fail for it (OQ-61)", "~ notation: the misplaced parenthesis « (Le système P, H̊, φ, z) » written « Le système (P, H̊, φ, z) » (the transcription's [sic])", "~ note: on a pocket « z non-constant » is equivalent to z ≢ 0 and to z > 0 on φ(P); no pocket exists in dimension 0 under the corrected definition, consistent with n ≥ 1 throughout chap. 2 (DEC-177)"]
+check = "CHECK-bzdef_c2s1d1prime_poche_projective-1.json"
 
 [[entry]]
 label = "bzthm:c2s2_proprietes_pseudo_longueur"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "benzecri1960_ch2.tex:229-258"
 printed_sha256 = "c8e7717db9a4690f15645e6d0e643c3b2474ff8a592ef1459c48de03e82d59fc"
-finding = "[strong: refuting declaration] The enonce of the properties 1°–7° (l.229–258), with Déf. 1′ as printed, holds in no dimension: for n = 0 by 1° (OQ-45), for n ≥ 1 by 7° on a pocket of cote 0 (OQ-61); Lean Benzecri.not_proprietesPseudoLongueurPrinted. It holds in full under DEC-177 and DEC-178 (Benzecri.proprietes_pseudo_longueur).; T-bz-c2-proprietes"
+finding = "With Déf. 1′ as printed the properties 1°–7° hold in no dimension: for n = 0, 1° fails (l_V(M, M) = +∞, OQ-45); for n ≥ 1, 7° fails on a pocket of cote z ≡ 0, where its conclusion reads 0 < 0 (OQ-61)."
 refutation = ["Benzecri.not_proprietesPseudoLongueurPrinted"]
+anchor = ["Benzecri.proprietes_pseudo_longueur", "Benzecri.IsPocheProj.exists_ne_zero_iff_nonconstant"]
+basis = ["DEC-177", "DEC-178", "DEC-206"]
+rewritten = '''
+Soit $V$ une variété localement projective de dimension $n\geq 1$. La pseudo-longueur $l_V(M, N)$
+des segments de $V$ possède les propriétés suivantes :
+
+1\textsuperscript{o} \qquad $l_V(M, N)\geqq 0$; \qquad $l_V(M, M)=0$ pour tout segment $(M, M)$ de
+$V$;
+
+2\textsuperscript{o} Soit $g$ un automorphisme projectif de $V$, on a, pour tout segment $(M, N)$
+de $V$,
+\[ l_V(gM, gN)=l_V(M, N), \]
+où $l_V(gM, gN)$ désigne la pseudo-longueur du segment image $g(M, N)$;
+
+3\textsuperscript{o} Soient $(M, N)\subset(M', N')$ deux segments de $V$, on a
+\[ l_V(M, N)\leqq l_V(M', N'); \]
+
+4\textsuperscript{o} Soit $V'$ un ouvert de $V$ considéré comme variété localement projective, on
+a
+\[ l_V(M, N)\leqq l_{V'}(M, N) \]
+pour tout segment $(M, N)$ inclus dans $V'$;
+
+5\textsuperscript{o} La pseudo-longueur est une fonction semi-continue supérieurement du segment,
+au sens suivant. Soit $(M, N)$ un segment de $V$. Pour tout $k\in\overline{\R}$ tel que
+$l_V(M, N)<k$, il existe un ouvert $U$ contenant $(M, N)$ et un voisinage $W$ de $(M, N)$ dans
+$V\times V$ tels que tout segment $(M', N')$ inclus dans $U$ et dont le couple d'extrémités
+appartient à $W$ vérifie $l_V(M', N')<k$. De plus, si une famille de segments $(M_i, N_i)$ tend
+vers $(M, N)$ suivant un filtre, au sens où $M_i$ tend vers $M$, $N_i$ tend vers $N$ et où, pour
+tout ouvert $U$ contenant $(M, N)$, le segment $(M_i, N_i)$ est inclus dans $U$ pour $i$ assez grand
+suivant ce filtre, on a
+\[ \overline{\lim}\, l_V(M_i, N_i)\leqq l_V(M, N); \]
+
+6\textsuperscript{o} Si $V$ est l'intérieur $\mathring{K}$ d'un corps convexe $K$ de $S(n)$, muni
+de la structure induite par celle de $S(n)$, deux points $M$ et $N$ de $V$ sont les extrémités d'un
+seul segment de $V$, le segment $(M, N)$ de $S(n)$; $l_V(M, N)$ est finie, est une fonction continue
+en $M$ et $N$ sur le produit $V\times V$, et $l_V(M, N)$ est nulle si et seulement si $M=N$;
+
+7\textsuperscript{o} Soit $(P, \mathring{H}, \varphi, z)$ une poche de $V$ dont la cote $z$ n'est pas
+identiquement nulle (c'est-à-dire, sur une poche, non constante); soit $M\in P$ un point de $V$ tel
+que $z(\varphi(M))<\dfrac{1}{K}$ (où $K$ désigne un nombre réel supérieur à $1$); soit $(M, N)$ un
+segment de $V$ dont la pseudo-longueur $l_V(M, N)$ soit inférieure à $\log K$; alors, $N\in P$ et
+$z(\varphi(N))<K\,z(\varphi(M))$.
+'''
+changes = ["+ hypothesis: n ≥ 1 (DEC-177); for n = 0 no segment carries a cross-ratio and 1° fails, l_V(M, M) = +∞ (the refutation)", "+ hypothesis: in 7°, the cote is not identically 0, equivalently non-constant (DEC-178, the corrected Déf. 1′); for the pocket of cote 0 the conclusion of 7° reads 0 < 0 (the refutation)", "~ 1°: l_V(M, M) = 0 stated for every segment (M, M) of V", "~ 2°: l_V(gM, gN) read as the pseudo-length of the image segment g(M, N), the one reading in which both sides are defined", "~ 5°: the convergence of segments made explicit (endpoints converge, and the segments are eventually inside every open set containing (M, N)); every usual notion of convergence of segments implies it, and families along a filter include sequences; the neighbourhood form, proved with it, is stated too", "~ 6°: « V l'intérieur d'un corps convexe » read as the interior of a convex body of S(n) (chap. 1, déf. 11) with the induced structure, as the proof via Prop. 2 reads it; added that the segment joining M and N is unique and that l_V is finite", "~ notation: « z φ(N) » written z(φ(N)); 1°–7° are one statement (DEC-206)", "~ 7°: the hypothesis K > 1 is kept, although the Lean proves 7° for every real K"]
+check = "CHECK-bzthm_c2s2_proprietes_pseudo_longueur-1.json"
 
 [[entry]]
 label = "bzprop:c2s2p3_voisinage_majore"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "benzecri1960_ch2.tex:365-368"
 printed_sha256 = "73a7c33e901fd5f8aee72c45232b8be716e9fd5db5d2f08c2ca63d7a62a4bfbe"
-finding = "[strong: refuting declaration] Prop. 3 (l.365–368) fails as printed in dimension 0. On every V charted on S(0) every pseudo-length is +∞ (pseudoLength_eq_top_dim_zero), so no part containing a point is majorised (not_isMajorePart_dim_zero). The witness is already the one-point open set {x} of S(0), which is Hausdorff and connected. VoisinageMajorePr"
-refutation = ["Benzecri.not_isMajorePart_dim_zero"]
+finding = "False as printed in dimension 0: on a locally projective 0-manifold every pseudo-length is +∞, so no part containing a point is majorised (e.g. the one-point open set of S(0), Hausdorff and connected). It holds for every n ≥ 1 (DEC-177)."
+refutation = ["Benzecri.not_isMajorePart_dim_zero", "Benzecri.voisinageMajorePrinted_iff"]
+anchor = ["Benzecri.voisinage_majore"]
+basis = ["DEC-177"]
+rewritten = '''
+Soit $V$ une variété localement projective de dimension $n\geq 1$, $k$ un nombre réel strictement
+positif. Tout point $M$ de $V$ possède un voisinage qui est majoré par $k$.
+'''
+changes = ["+ hypothesis: n ≥ 1 (DEC-177); for n = 0 no part containing a point is majorised (the refutation)", "~ note: the neighbourhood can be taken open (proved alongside); V need not be Hausdorff, connected or second countable"]
+check = "CHECK-bzprop_c2s2p3_voisinage_majore-1.json"
 
 [[entry]]
 label = "bzprop:c2s2p4_ligne_brisee"
-status = "found"
+status = "checked"
+kind = "false"
 printed = "benzecri1960_ch2.tex:387-391"
 printed_sha256 = "8d2e50127176ef8896144ac0f3c43b16b48137f952d66079d6a15b74eb06fe87"
-finding = "[strong: refuting declaration] Proof of Prop. 4 (l.393–409), statement unaffected: the induction is « sur n(E, k) », but the induction hypothesis is applied to O_Q (l.400–402), a connected open set, not compact, for which Déf. 5 defines no n(O_Q, k). The induction has to be run on the number of open majorised sets covering a connected part, which ne"
-refutation = ["Benzecri.not_isLigneBrisee_dim_zero"]
+finding = "False as printed in dimension 0: no segment of a locally projective 0-manifold is majorised, so for E nonempty no broken line exists and n(E, k) is undefined (OQ-45, ruled by DEC-177). The detector's excerpt is about the proof (the induction on n(O_Q, k)), which does not affect the statement."
+refutation = ["Benzecri.not_isLigneBrisee_dim_zero", "Benzecri.ligneBriseePrinted_iff"]
+anchor = ["Benzecri.ligne_brisee"]
+basis = ["DEC-177"]
+rewritten = '''
+Soit $E$ une partie compacte connexe d'une variété localement projective $V$ de dimension
+$n\geq 1$, et soit $k$ un nombre réel strictement positif. Deux points $M$ et $N$ quelconques de
+$E$ peuvent être joints par une ligne brisée formée d'au plus $n(E, k)$ segments majorés par $k$
+dans $V$.
+'''
+changes = ["+ hypothesis: n ≥ 1 (DEC-177); for n = 0 no broken line of majorised segments exists (the refutation)", "+ hypothesis: k > 0 made explicit (it is Déf. 5's, which defines n(E, k))", "~ note: a ligne brisée of p segments majorised by k is a chain M = X₀, …, X_p = N, p ≥ 1, with a segment from X_i to X_{i+1} majorised by k in V for each i; V need not be Hausdorff, connected or second countable"]
+check = "CHECK-bzprop_c2s2p4_ligne_brisee-1.json"
 
 [[entry]]
 label = "bzprop:c2s2p5_ouvert_plein"
-status = "found"
+status = "dismissed"
 printed = "benzecri1960_ch2.tex:425-429"
 printed_sha256 = "97f298301fe5bb439757eebb64ffcd6cabd056486e40d2b69f784eaf6c5f2d97"
-finding = "[strong: refuting declaration] Once r > 0, the hypothesis « U ouvert » of Prop. 5 (l.426) is redundant. U contains the pseudo-ball of each of its points, and for n ≥ 1 a pseudo-ball of radius r > 0 is open and contains its centre (isOpen_of_forall_pseudoBoule_subset). In dimension 0 a connected V is a point (subsingleton_dim_zero). eq_univ_of_forall"
+finding = "The detector's refuting declaration is the case r = 0, which fails (S(n) minus a point); radius 0 is not a pseudo-boule radius (Déf. 6, « positif » read r > 0 by DEC-179). The other finding: « U ouvert » is redundant once r > 0."
 refutation = ["Benzecri.ouvert_plein_counterexample"]
+reason = "The refuting declaration concerns a radius r = 0, which is not a radius of a pseudo-boule: Déf. 6 takes r positif, read r > 0 by DEC-179, under which Prop. 5 is marked as printed in every dimension. The other finding (« U ouvert » redundant once r > 0) is a remark, not a defect of the statement."
 
 [[entry]]
 label = "bzprop:c2s2p6_ligne_brisee_poche"

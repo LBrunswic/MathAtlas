@@ -1,0 +1,58 @@
+{
+ "label": "bzdef:c1s2d3_homotheties_positives",
+ "round": 1,
+ "anchor": [
+  "Benzecri.posSMul",
+  "Benzecri.posSMul_eq",
+  "Benzecri.coneMulAction",
+  "Benzecri.continuous_posSMul",
+  "Benzecri.eq_one_of_posSMul_eq",
+  "Benzecri.ConeBase.coneTrivialization",
+  "Benzecri.ConeBase.coneTrivialization_posSMul",
+  "Benzecri.ConeBase.exists_trivialization_of_properSMul",
+  "Benzecri.isGXMorphism_affine_smul",
+  "Benzecri.not_isGXMorphism_cone_smul"
+ ],
+ "rewritten_sha256": "9416d295aca381e269018df2a7a8ff00af8f218ac86964280a7c690815aa2bee",
+ "verdict": "faithful",
+ "hypotheses": [
+  {
+   "lean": "[ChartedSpace (RnO n) V] [HasConeCharts n V] [HasGroupoid V (coneGroupoid n)] (cône affin)",
+   "rewrite": "V un cône affin de dimension n",
+   "ok": true
+  },
+  {
+   "lean": "[T2Space V] (posSMul_eq, coneMulAction, continuous_posSMul, eq_one_of_posSMul_eq, trivialisations)",
+   "rewrite": "V séparé (reading recorded)",
+   "ok": true
+  },
+  {
+   "lean": "dimension n+1 (coneTrivialization, exists_trivialization_of_properSMul), [NeZero n] (isGXMorphism_affine_smul)",
+   "rewrite": "n ≥ 1",
+   "ok": true
+  },
+  {
+   "lean": "IsConeChart e (compatible chart onto an open cone), m ∈ e.source; coneTrivialization: baseSet = p(e.source), source = p⁻¹(p(U)) = U (mk_mem_baseChart_source_iff), m ↦ (mk m, radius (e m)), equivariant",
+   "rewrite": "local trivialisation m ↦ (p(m), ν(m)) over p(U), ν(λm) = λν(m)",
+   "ok": true
+  },
+  {
+   "lean": "[SecondCountableTopology V], ProperSMul RPos V (coneMulAction)",
+   "rewrite": "V à base dénombrable et action de ℝ⁺ propre, for the triviality only",
+   "ok": true
+  },
+  {
+   "lean": "∃ T : V ≃ₜ ConeBase n V × RPos, (T m).1 = mk m ∧ T(c•m) = ((T m).1, c·(T m).2)",
+   "rewrite": "homéomorphisme T de V sur B × ℝ⁺ au-dessus de B, équivariant",
+   "ok": true
+  },
+  {
+   "lean": "not_isGXMorphism_cone_smul: [Nonempty V], c ≠ 1",
+   "rewrite": "V non vide, λ ≠ 1",
+   "ok": true
+  }
+ ],
+ "conclusion_ok": true,
+ "refutation_answered": true,
+ "findings": []
+}
