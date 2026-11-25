@@ -1,0 +1,157 @@
+{
+  "package": "T-bbs-p-p",
+  "target": "T-bbs-p-p",
+  "files": [
+    "scaffold/GXScaffold/BBS/HSAntipodal.lean"
+  ],
+  "module": "GXScaffold.BBS.HSAntipodal",
+  "imports": [
+    "GX.BBS.HSSuspension",
+    "GX.BBS.PhotonCircles",
+    "GXScaffold.BBS.HSSingularities"
+  ],
+  "builds": true,
+  "build_note": "taskset -c 0-11 lake build GXScaffold.BBS.HSAntipodal: only this module compiled (no GX.* or mathlib rebuild), no warning, no error. lake env lean on the file: no output.",
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "axioms_note": "#print axioms (from a scratch file outside the repository) on GX.GammaLinkCircle.bbsrem_p_p, …IsLiftedDev.isIsoVia_antipode_iff, …IsLiftedDev.exists_isIsoVia_antipode, GX.exists_misner_not_isIsoVia_antipode, GX.conj_eq_inv_of_neg, GX.mul_self_eq_one_of_apply_neg, …DevData.isIso_flip: standard axioms only.",
+  "labels": [
+    {
+      "label": "bbsrem:p_p",
+      "tex_lines": [
+        934,
+        942
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.GammaLinkCircle.bbsrem_p_p",
+        "GX.GammaLinkCircle.DevData.isIso_flip",
+        "GX.GammaLinkCircle.IsLiftedDev.isIsoVia_antipode_iff",
+        "GX.GammaLinkCircle.IsLiftedDev.exists_isIsoVia_antipode",
+        "GX.GammaLinkCircle.IsLiftedDev.not_isIsoVia_antipode",
+        "GX.exists_misner_not_isIsoVia_antipode",
+        "GX.GammaLinkCircle.IsLiftedDev.antipode_degree",
+        "GX.GammaLinkCircle.IsLiftedDev.antipode_cuspidal",
+        "GX.GammaLinkCircle.antipode",
+        "GX.GammaLinkCircle.IsIsoVia"
+      ],
+      "hypotheses": [
+        {
+          "paper": "L a (Γ_p, ℓ(p))-circle, any p (l.935)",
+          "here": "carried",
+          "note": "GX.GammaLinkCircle at any p ∈ HS²; 𝔢(L) = GX.BiSusp L for every developing data Δ (OQ-126 (c))."
+        },
+        {
+          "paper": "« two singular points p̄, −p̄ corresponding to p and −p » (l.935–936)",
+          "here": "carried",
+          "note": "the apices of GX.BiSusp L; the singularity at −p̄ is the apex of 𝔢(L⁻), L⁻ = GX.GammaLinkCircle.antipode L (Γ_{−p} = Γ_p, GX.gammaP_neg), through the flip [σ,t] ↦ [σ,π−t], an HS-isomorphism for every Δ (isIso_flip). « Singular » is not claimed: both apices are regular for L = ℓ(p) (HSSuspension's finding)."
+        },
+        {
+          "paper": "« as HS-singularities, isomorphic » (l.937)",
+          "here": "reading",
+          "note": "OQ-120 (a), moved p: the links are isomorphic through a B ∈ SO₀(1,2) with B • p = −p (GX.GammaLinkCircle.IsIsoVia, read through GX.linkMove); that the HS-singularity is determined by its link (l.850–852) is argued, not formalized."
+        },
+        {
+          "paper": "« when p is space-like … always isomorphic » (l.936–937)",
+          "here": "corrected",
+          "note": "proved exactly: for every move B, isomorphic through B iff L is not Misner (isIsoVia_antipode_iff, needs an oriented lifted developing pair, which every circle has); false for Misner links, which exist at every p ∈ dS² (exists_misner_not_isIsoVia_antipode)."
+        },
+        {
+          "paper": "« p time-like: one future time-like, the other past » (l.938–939)",
+          "here": "carried",
+          "note": "p ∈ ℍ²₊ ⇒ −p ∈ ℍ²₋ and conversely (antipode_timelike)."
+        },
+        {
+          "paper": "« future light-like singularity of degree k ≥ 1 » (l.939–940)",
+          "here": "weakened",
+          "note": "p ∈ ∂ℍ²₊ with an oriented lifted holonomy δᵏ g, g with a fixed point: k ≥ 1 is not used (every k); the degree at −p̄ is the same and well defined (antipode_degree, degree_unique); « vice versa » is the ∂ℍ²₋ → ∂ℍ²₊ half."
+        },
+        {
+          "paper": "« future cuspidal » ⇒ « past extreme BTZ-like » (l.941–942)",
+          "here": "reading",
+          "note": "the degree-0 cases of HSSingularities' bdPlus_degree_zero / bdMinus_degree_zero; the extreme BTZ-like image is i^± minus its two tangent directions (OQ-116 (b)); antipode_cuspidal."
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.936–937 « Observe that when p is space-like, p̄ and −p̄, as HS-singularities, are always isomorphic » is false as printed for Misner singularities (l.876–878), in the moved-p reading of « isomorphic » (OQ-120 (a)): the chirality vol3(p, π_p σ, e_t) of the developed space-like arc has a constant sign, ℓ(p) ≅ ℓ(−p) reverses it (GX.chirality_linkNeg), and every move B ∈ SO₀(1,2) with B p = −p, followed by Γ_{−p}, keeps it (GX.chirality_smul_linkMove_pos_iff). So the link of −p̄ is isomorphic to the link of p̄ through no move (GX.GammaLinkCircle.IsLiftedDev.not_isIsoVia_antipode); Misner links exist at every p ∈ dS² (GX.exists_misner, GX.exists_misner_not_isIsoVia_antipode). Both apices of a Misner 𝔢(L) are Misner, of opposite chiralities. The non-isomorphism of the HS-singularities themselves (not only of their links) is argued: an HS-isomorphism of punctured neighbourhoods develops to a move.",
+        "Strongest true form of l.936–937, proved: at p ∈ dS², for every move B with B • p = −p, the links of p̄ and −p̄ are isomorphic through B iff L is not a Misner link (GX.GammaLinkCircle.IsLiftedDev.isIsoVia_antipode_iff; the non-Misner half GX.GammaLinkCircle.IsLiftedDev.exists_isIsoVia_antipode covers BTZ-like past/future and every degree k ≠ 0). Suggested wording: « when p is space-like and L is not a Misner circle, p̄ and −p̄ are isomorphic; when L is a Misner circle they are both Misner, of opposite chiralities, and not isomorphic ».",
+        "Outside the label, l.850–852 (« the ℝP¹-structure and the additional data of i^±(L) determine the (Γ_p, ℓ(p))-structure on the link, hence the HS-singular point »): argued false for Misner links, from the same chirality lemmas. At a fixed p ∈ dS², let g be the lift with fixed points of some ρ ∈ Γ_p ∖ {1}. The two space-like components of {g ≠ id} in one turn of ℝP̃¹ are translates of each other by 1, so g − id has one sign on both, and they project to the two antipodal space-like arcs of ℓ(p), of opposite chiralities. Their quotients are two Misner circles with the same lifted holonomy (g or g⁻¹), hence isomorphic ℝP¹-circles (GX.rp1Iso_iff_conj), both with i^±(L) = ∅. They are not (Γ_p, ℓ(p))-isomorphic, since Γ_p keeps the chirality. So for each holonomy the Misner type of l.876–878 splits in two (left and right). This is not formalized as a same-p statement; the formal content is the move version above.",
+        "Precision (l.935–936, already HSSuspension's finding): the « two singular points » are regular for the regular link L = ℓ(p)."
+      ],
+      "questions": [
+        "OQ-120 (a), evidence requested: « isomorphic » for HS-singularities at p and −p cannot be read with the same p (p ≠ −p); the remark needs isomorphisms through a move. Reading taken: GX.GammaLinkCircle.IsIsoVia (a homeomorphism reading in the charts as B ∈ SO₀(1,2), B • p = −p, followed by an element of Γ_{−p}). Under it the space-like sentence holds exactly for non-Misner links and for every move (not only the half-turn); moves keep i^±, the orientation, and the chirality of space-like directions. The planner's [r] claim in the target's evidence (« it can be proved with the half-turn … needs no ruling ») is refuted for Misner links.",
+        "« as HS-singularities » (l.937): read through the links; that the HS-singularity is determined by its link (l.850–852) and conversely that an HS-isomorphism of the singularities induces a moved-p isomorphism of the links are argued, not formalized. Should either direction be a target (it would turn the link statements into statements about HS-singularities)?",
+        "OQ-126 (c), (d): 𝔢(L) built from developing data Δ (GX.BiSusp with GX.GammaLinkCircle.DevData.suspStructure); the flip 𝔢(L) ≅ 𝔢(L⁻) is proved for every Δ, Δ-independence is not formalized. OQ-104 rides along through SingularHSStructure.IsIso.",
+        "OQ-113 (c): orientations HS² outward normal first, θ oriented; at −p the oriented identification is GX.tangentNeg θ (T_p = T_{−p} reverses the orientation, complex conjugation restores it); the degree at −p̄ is read through it.",
+        "OQ-116 (a) (time-like i^± at dS²: the BTZ-like/Misner split of the space-like sentence uses it) and OQ-116 (b) (the past extreme BTZ-like image is i⁺(ℓ(−p)) minus its two tangent directions).",
+        "OQ-120 (c) / OQ-124: positive and negative read in the l.915 form (IsSpacelikePositive), for the side result that signs are kept across the apices (not stated in the paper).",
+        "« degree k ≥ 1 » (l.939–940): read as an oriented lifted holonomy δᵏ g with g having a fixed point; the hypothesis k ≥ 1 is not used (the degree is kept for every k)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.mul_self_eq_one_of_apply_neg",
+    "GX.conj_eq_inv_of_neg",
+    "GX.linkArea_comb",
+    "GX.minkB_comb_of_null",
+    "GX.linkReflect",
+    "GX.linkReflect_smul",
+    "GX.linkReflect_mem_dsFutureDirs",
+    "GX.linkReflect_mem_dsPastDirs",
+    "GX.minkQ_dsProj_linkReflect",
+    "GX.tangentMove",
+    "GX.isOrientedTangent_tangentMove",
+    "GX.linkMove_linkCover",
+    "GX.exists_linkReflect_linkCover",
+    "GX.Ioo_eq_of_ends",
+    "GX.coe_linkNeg_symm",
+    "GX.dsProj_tpMove_neg",
+    "GX.gammaMove_eq_gammaNeg_inv",
+    "GX.tpNeg",
+    "GX.linkNeg",
+    "GX.gammaP_neg",
+    "GX.gammaNeg",
+    "GX.linkNeg_smul",
+    "GX.BiSusp.flip",
+    "GX.arcPt_negPt",
+    "GX.GTilde.mirror",
+    "GX.tangentNeg",
+    "GX.isOrientedTangent_tangentNeg",
+    "GX.linkCover_tangentNeg",
+    "GX.GammaLinkCircle.IsLiftedDev.antipode",
+    "GX.GammaLinkCircle.IsLiftedDev.degree_unique",
+    "GX.tpMove",
+    "GX.linkMove",
+    "GX.gammaMove",
+    "GX.linkMove_smul",
+    "GX.lcross",
+    "GX.vol3_pos_iff_of_spacelike",
+    "GX.chirality",
+    "GX.chirality_linkNeg",
+    "GX.chirality_smul_linkMove_pos_iff",
+    "GX.exists_misner",
+    "GX.exists_smul_eq_neg",
+    "GX.regular_isIsoVia_antipode",
+    "GX.exists_vol3_eq_linkArea",
+    "GX.tpReflect",
+    "GX.linkArea_tpReflect",
+    "GX.dsProj_tpReflect"
+  ],
+  "kb_proposals": [
+    "At p ∈ dS² every N ∈ SO₀(1,2) with N p = −p is an involution (GX.mul_self_eq_one_of_apply_neg): on T_pHS², [N] = GX.tpReflect reverses linkArea and keeps Q∘π_p; write [N]n₁, [N]n₂ in the light-like basis by Cramer (eq_add_of_linkArea_ne_zero), a·c = 0 from nullity (GX.minkB_comb_of_null), and the area/form identities (GX.linkArea_comb) make it antidiagonal with product 1. Hence B ρ B⁻¹ = ρ⁻¹ for ρ ∈ Γ_p (GX.conj_eq_inv_of_neg: B and Bρ are both involutions).",
+    "To lift an orientation-reversing map of ℓ(p), e.g. GX.linkReflect B = ℓ(−p)⁻¹ ∘ B, to ℝP̃¹: θ_B = tangentNeg θ ∘ [B] (GX.tangentMove) is oriented, linkMove B ∘ linkCover θ_B = linkCover (tangentNeg θ) (GX.linkMove_linkCover), and exists_rayLift with A = 1 between θ and θ_B gives F ∈ G̃ with R̂(linkCover θ t) = linkCover θ (−F t) (GX.exists_linkReflect_linkCover).",
+    "Two lifts through linkCover of the same map differ by a constant 2n (linkCover_lift_eq); pin n at a light-like lift: the lifted holonomy f moves every light-like lift by the same 2m (δ^{−2m} f fixes one, hence all by fixed_iff_null, or is 1 when ρ = 1).",
+    "A (moved) isomorphism of (Γ_p, ℓ(p))-circles from a lifted developing pair: Φ = D⁻¹ ∘ K ∘ D by `choose` on K (D s) ∈ range D; an antitone Φ is continuous via Monotone.continuous_of_surjective on −Φ; descend through the periodic cover as in GX.exists_rp1Iso_of_conj (Classical.choose of hE.surjective, hE.fiber, IsQuotientMap.continuous_iff); the chart condition from hd s and hd (Φ s), pushed to L by isOpenMap.image_mem_nhds (GX.GammaLinkCircle.IsLiftedDev.exists_isIsoVia_antipode).",
+    "Two open intervals of ℝ whose ends satisfy P, with no P-point inside, and which meet, are equal (GX.Ioo_eq_of_ends): with P = « light-like lift » it identifies a developed degree-0 interval with its image up to δ^{2j}.",
+    "Pitfall: with A : GammaP C.antipode.pt expected, `gammaNeg C.pt X • linkMove B hB σ` fails instance search (HSMul (GammaP (−C.pt)) (Link C.antipode.pt)); bind `let A : GammaP C.antipode.pt := gammaNeg C.pt X` and close the rewrite chain with rfl.",
+    "Pitfall: `rw [← h2]` with h2 : f (y − 2m) = y rewrites every y in the goal, the right-hand side included; use `conv_lhs => rw [← h2]`.",
+    "GX.isFutureTimelike_timeUnit (HSAntipodal) restates Causal.Flat.isFutureTimelike_timeUnit (Causal.Flat.GromovBase), which lean-gx does not import; merge them when the packages merge."
+  ],
+  "notes": "Successor closer, 2026-11-25, resuming the stopped closer's draft. (1) The one sorry, GX.conj_eq_inv_of_neg, is proved through the new GX.mul_self_eq_one_of_apply_neg; its unused hypothesis h : B • p = −p was dropped (the declaration had no users). (2) SCOPE (b)'s « not formalized: p̄ ≅ −p̄ when L is not Misner » is now proved (GX.GammaLinkCircle.IsLiftedDev.exists_isIsoVia_antipode, ~270 lines), with the exact characterisation isIsoVia_antipode_iff, added to the assembly GX.GammaLinkCircle.bbsrem_p_p as its last conjunct (moves exist, and for each move: isomorphic iff not Misner). (3) Module docstring, hypothesis checklist and SCOPE updated; sections renumbered (11 = involution lemmas, 12 = the non-Misner isomorphism, 13 = assembly); the label is not bold anywhere. (4) The file is sorry-free (2161 lines, 173 declarations) but stays in the scaffold: it imports GXScaffold.BBS.HSSingularities. Graduating it needs HSSingularities (and FunnelGTilde, PSL2NormalForms) strict first. (5) Name check: no declaration name of the file clashes with GX/, scaffold/GXScaffold/ (HSPositive.lean and HSDegree.lean included) or lean-causal, except the namespaced restatement noted in kb_proposals. (6) Row status: partial, unmarked: the printed space-like sentence is false for Misner links, and the row rests on readings (OQ-120 (a), OQ-116, OQ-126, OQ-113). The roadmap evidence's [r] claim (« the half-turn proves it, no ruling ») is refuted for Misner links."
+}

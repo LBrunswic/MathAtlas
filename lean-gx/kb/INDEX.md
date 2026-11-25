@@ -138,3 +138,11 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0128](entries/0128-locpathconnectedspace-on-bisusp-l-from-i.md) | pattern | LocPathConnectedSpace on BiSusp L from IsTopologicalSurface |
 | [0129](entries/0129-pitfall.md) | pitfall | Pitfall: |
 | [0130](entries/0130-pitfall.md) | pitfall | Pitfall: |
+| [0131](entries/0131-at-p-ds-every-n-so-1-2-with-n-p-p-is-an.md) | pattern | At p ∈ dS² every N ∈ SO₀(1,2) with N p = −p is an involution |
+| [0132](entries/0132-lifting-an-orientation-reversing-map-of.md) | pattern | Lifting an orientation-reversing map of ℓ(p) to ℝP̃¹ |
+| [0133](entries/0133-two-lifts-through-linkcover-of-the-same.md) | pattern | Two lifts through linkCover of the same map differ by a constant 2n |
+| [0134](entries/0134-a-moved-isomorphism-of-p-p-circles-from.md) | pattern | A (moved) isomorphism of (Γ_p, ℓ(p))-circles from a lifted developing pair |
+| [0135](entries/0135-two-open-intervals-with-p-ends-no-p-poin.md) | pattern | Two open intervals with P-ends, no P-point inside, that meet are equal: GX.Ioo_eq_of_ends |
+| [0136](entries/0136-pitfall.md) | pitfall | Pitfall: |
+| [0137](entries/0137-pitfall.md) | pitfall | Pitfall: |
+| [0138](entries/0138-gx-isfuturetimelike-timeunit-restates-le.md) | convention | GX.isFutureTimelike_timeUnit restates lean-causal's, absent at lean-gx's pin |
