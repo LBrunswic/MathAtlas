@@ -966,7 +966,7 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - T-btz-ppcm-hausdorff: the Hausdorff half of btzprop:ppcm, sorry-free; the maximal domain is GH, so btzprop:pgcd's full form holds sorry-free with fewer hypotheses (T-btz-pgcd-dom-gh is closed in substance; only a file move remains, since PpcmHausdorff imports Pgcd). Findings: two typos (l.1430, l.1439), unproved steps bypassed, pgcd's maximality rests on ppcm's third bullet. Audit clean. OQ-148.
 - T-btz-reg-complete-cauchy: step (2) of Reg M's completeness, sorry-free, with infinitely many spears, needing only M GH and S Cauchy. Audit minor.
 - T-btz-blunt-infall-ray: the blunt-spear lemma sorry-free in the paper's form; GX.BTZ.BluntSpear graduated to strict. The unrestricted auxiliary was false for R ≤ 0 and is deleted (its refutation kept). Audit minor.
-- gates: lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check green, hub: make -k check rc 0, no new red
+- gates: lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check green; hub: make -k check rc 2, one new red, gate-tests' test_shipped_rules_and_tests_are_generated: lean-causal/Causal/Ladder/Test.lean is stale against programme/ladder.toml, both uncommitted /ett-programme work in progress under its live lease (lean-causal, programme). This wave touched neither path; the master's script pushed before reading the gate's verdict, and this line corrects the first version of the entry.
 - commits: e49f488 f4490bd [+ roadmap/atlas/journal]
 - wall time: 18:35–22:00 UTC; agents in parallel: 3 closers, 3 audits
 - New question for the author: OQ-148 (ppcm's readings; two typos and two unproved steps of the printed proof).
