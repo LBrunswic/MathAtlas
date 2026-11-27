@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-27 at 1ea283c (297a3491: bbs 37→42, btz 94→124 edges). Due: lean-gx after 52e2d48/c3c9863 (Admissible, HSCheminsing tidy)"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-27 at 8af81ae (btz 124→128, bbs 42, gx 970 unchanged). Due: lean-gx after the next wave that changes it"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -3909,12 +3909,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:holonomy_globally_hyperbolic_cauchy_compact"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "GX.BTZAdm.btzprop_holonomy_e0 (scaffold Admissible.lean, after l.795) carries both hnm : ¬IsMetabelianGroup (Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀)) and an injective marking μ : SurfaceGroup g s →* Deck with hμ : Function.Injective μ. The paper derives the first from the topology: l.1124 « Let Σ be a genus g closed surface, S ⊂ Σ be a marking of Σ with #S = s and 2g − 2 + s > 0 »; l.1149 « M* is ... with anabelian fundamental group ». Holonomy.lean's SCOPE (a) says the topological route is not built: « needs π₁(Reg M) ≅ π₁(Σ∖sing) (the splitting Reg M ≅ Σ* × ℝ) and that a non-abelian π₁ of a punctured surface is free of rank ≥ 2; neither is built here ». [r] (planner) The algebraic route needs neither. A subgroup of a metabelian group is metabelian (IsMetabelianGroup, Holonomy.lean:1323, is « any two commutators commute »). So with μ injective, ¬IsMetabelianGroup (SurfaceGroup g s) gives hnm. A quotient of a metabelian group is metabelian, so a surjection SurfaceGroup g s →* G onto a group G that is not metabelian suffices. One choice is G = S₄, which is 2-generated and of derived length 3: send the generators to elements whose relator product is 1 and that generate S₄, through PresentedGroup.toGroup. The cases of 2g − 2 + s > 0 are g = 0 with s ≥ 3, g = 1 with s ≥ 1, and g ≥ 2. In each case some generators go to two generators of S₄ and the rest are fixed by the relator, which the closer checks with decide. Pure algebra on mathlib's PresentedGroup, with no Lean dependency on the open targets. Write it in a new module importing GXScaffold.BTZ.Admissible, so that it does not collide with T-btz-linear-part-faithful, which edits that file's sorry. The row stays partial (T-btz-headline-repr, T-btz-scope)"
+evidence = "SurfaceGroup.not_isMetabelianGroup / isMetabelianGroup_iff (sharp at 2g−2+s > 0, surjections onto F₂); btzprop_holonomy_e0_of_euler; audit AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "e9a22339"
 
 [[target]]
 id = "T-btz-spear-union-gh"

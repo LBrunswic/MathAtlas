@@ -1056,3 +1056,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 726b3f7d 65748641 8af81aea 1a3fc171 (+ statuses)
 - wall time: 23:00–23:55; agents in parallel: 3 closers, 3 auditors
 - next: T-btz-reg-complete-graduate (master, exclusive), T-btz-surface-group-nonmetabelian, builder refresh
+
+## 2026-11-28 00:15 · wave of 2 · T-btz-surface-group-nonmetabelian, T-atlas-overlay-refresh
+- T-btz-surface-group-nonmetabelian: the marked surface group is not metabelian iff 2g−2+s > 0 (surjections onto F₂); btzprop_holonomy_e0_of_euler drops the non-metabelian hypothesis; row partial (E₀, marking); audit clean. The helper name SurfaceGroup.not_isMetabelianGroup made restate read the row as a refutation: kept out of the curated decls (08807ffb).
+- T-atlas-overlay-refresh (builder): lean-gx overlay at 8af81ae (btz 124→128 edges), 0 page errors (b5544ced); back to ready.
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red after rebuilding bbs and gx ledgers too (7dc94ad1; a lean-gx commit moves all three lean-gx ledgers — rebuild bbs, btz, gx every time)
+- commits: b5544ced e9a22339 4ef1fc95 08807ffb 7dc94ad1 (+ statuses)
+- wall time: 23:29–00:15; agents in parallel: closer + builder, 1 auditor
+- next: T-btz-reg-complete-graduate (master, exclusive in lean-gx) alone in lean-gx
