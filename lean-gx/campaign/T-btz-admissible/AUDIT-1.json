@@ -1,0 +1,57 @@
+{
+  "target": "T-btz-admissible",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzdef:tangent_translation_part",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IsTangentTranslation phi := for all v with linOf phi v = v, minkB (trOf phi) v = 0. The paper (BTZ_1.tex l.1135-1137) defines it only for phi with parabolic linear part, as normality of tau_phi to the direction of the line of fixed points of phi_L. Lean states the condition for every phi in isom 2 = SO0(1,2) x| R^3, which matches the paper's G = SO0(1,2) (\\def\\GG{\\SO_0(1,2)}, l.35). For phi_L parabolic, exists_fixedLine_of_isParabolic shows the fixed set is exactly a null line R u, and isTangentTranslation_iff_of_isParabolic reduces the condition to minkB (trOf phi) u = 0, which is the paper's definition word for word. The paper does not fix an origin; isTangentAt_iff proves the condition is the same at every origin O (B((phi_L - 1)v, u) = 0 for u fixed), so taking trOf = phi(0) involves no choice. isTangentTranslation_conj shows the condition is invariant under conjugation. On its domain the definition is exactly the paper's, so the mark is honest."
+    },
+    {
+      "label": "btzdef:admissible_representation",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "SurfaceGroup g s is mathlib's PresentedGroup on generators a_i, b_i (Fin g) and c_j (Fin s) with the single relator (prod_i [a_i,b_i]) * (prod_j c_j), in the paper's order (l.1140). The commutator is mathlib's a b a^-1 b^-1; the paper does not fix a convention. SurfaceGroup.rel checks that the relation holds. IsAdmissible rho has four fields. (1) linearPart.comp rho is injective (faithful). (2) Its range is DiscreteTopology. A probe confirmed the instance: the TopologicalSpace on lorentz 2 is definitionally Causal.Flat.lorentzTopology (rfl), the subspace topology of the operator-norm topology on Minkowski 2 ->L Minkowski 2, so 'discrete' means the image is a discrete subgroup of SO0(1,2), the standard meaning, and is not vacuous. (3) IsParabolic (linOf (rho c_j)), where lean-causal's IsParabolic is R*U with R elliptic, U unipotent and U != 1, commuting, both in SO0(1,2). In SO0(1,2) the centralizer of a nontrivial unipotent is its unipotent one-parameter group, so R = 1 and IsParabolic is exactly 'nontrivial unipotent', the classical notion; exists_fixedLine_of_isParabolic agrees with this. (4) IsTangentTranslation (rho c_j). Reading 'marked representation' as a homomorphism out of the presented group, with the generators as the marking, is the paper's notion and not a narrowing. Lean >= paper holds, and the mark is honest."
+    },
+    {
+      "label": "btzprop:holonomy_globally_hyperbolic_cauchy_compact",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The label is not marked. In the module docstring it appears as a plain `label` with '**partial, unmarked**'; REPORT has status partial and marked false. Only the two definition labels match the mark pattern in the first 4000 characters. The gaps are disclosed in the checklist, in SCOPE (a)-(d) and in REPORT. (a) The tagged sorry e0RegM_linearPart_faithful_discrete (l.783-791) states Barbot's 'rho_L discrete and faithful' and carries a SORRY tag naming the obstruction; btzprop_holonomy_e0 depends on sorryAx through it alone. (b) E0 only. (c) The section's standing hypotheses (Cauchy-maximal, DEC-107 Cauchy-compact, pi_1(Reg M) not metabelian) are carried as hypotheses. (d) The marking is a hypothesis: mu injective, each c_j sent to a BTZ loop. The local half is sorry-free with standard axioms: holonomy_circleLoop, holonomy_btzLoop, isParabolic_holonomy_btzLoop, isTangent_holonomy_btzLoop, exists_btzCircle and exists_isBTZLoop. It is not vacuous. Developing pairs of any flat manifold exist (Causal.Flat.exists_isDevelopingPair), and exists_isBTZLoop builds a BTZ loop from any base point around any point outside Reg M. Its circle is centred on the axis at x, with the closed disc inside the chart, so the loop really goes once around the BTZ line."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 1,
+    "axioms": "standard (propext, Classical.choice, Quot.sound) for every named declaration except e0RegM_linearPart_faithful_discrete (the tagged sorry) and btzprop_holonomy_e0 (sorryAx through it), as disclosed",
+    "notes": "`lake env lean scaffold/GXScaffold/BTZ/Admissible.lean` gives one warning: 'declaration uses sorry' at l.783. The file has a single sorry term, at l.791; grep -c sorry gives 5, the other four being docstring and comment text. The axiom probe imported the built olean (same mtime as the source), was written under the campaign directory and has been deleted. The only change to GXScaffold.lean is the one import line. The other modified files (BBS/HSCheminsing.lean, kb entries, registers) belong to other targets, as the dispatch says."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/Admissible.lean:48 (hypothesis checklist, first row)",
+      "what": "The docstring checklist marks 'phi an affine parabolic isometry' with ✓. REPORT.json marks the same hypothesis 'weakened': the definition is stated for every isometry, not only parabolic ones. The two records disagree. This does not affect faithfulness: on the paper's domain the definition coincides with the paper's (isTangentTranslation_iff_of_isParabolic).",
+      "fix": "Write '⚠ weakened (the definition is stated for every phi; for phi_L parabolic it is the paper's)' in the checklist, as REPORT does."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/Admissible.lean:231 (surfaceRel)",
+      "what": "The commutator convention [a,b] = a b a^-1 b^-1 (mathlib's) is a reading: the paper does not fix it. The group is a surface group under either convention, but the marked generators differ. The checklist states the convention without calling it a reading.",
+      "fix": "Add one sentence to SCOPE saying the commutator convention is mathlib's and the paper leaves it open."
+    }
+  ],
+  "findings_checked": [
+    {
+      "where": "REPORT finding 1 (BTZ_1.tex l.1150)",
+      "accurate": true,
+      "notes": "The finding is accurate. holonomy_circleLoop (sorry-free, standard axioms) proves that rho of [sigma.C.sigma^-1] equals g * btzHol 0 (2 pi) * g^-1 for every developing pair, and isTangentTranslation_btzHol plus conjugation invariance give tangency, so this proof does not need Barbot section 7.3 for the peripheral generators. The finding only claims the citation is replaceable here; it does not say Barbot's general statement (any parabolic loop) is wrong. It is a simplification, not an error charged to the paper."
+    },
+    {
+      "where": "REPORT finding 2 (BTZ_1.tex l.1154)",
+      "accurate": true,
+      "notes": "The finding is accurate. The sentence at l.1154 names only 'globally hyperbolic Cauchy-compact', yet 'admissible' (l.1140) presupposes a marked Gamma. Cauchy-maximality, the s BTZ lines and 2g-2+s>0 come from the standing notation at l.1127 and the section title at l.1120."
+    }
+  ]
+}

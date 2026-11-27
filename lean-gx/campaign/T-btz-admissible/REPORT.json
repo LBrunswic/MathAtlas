@@ -1,0 +1,130 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-admissible",
+  "files": [
+    "scaffold/GXScaffold/BTZ/Admissible.lean",
+    "scaffold/GXScaffold.lean (one import line: GXScaffold.BTZ.Admissible)"
+  ],
+  "builds": true,
+  "sorry_count": 1,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "axioms_note": "standard axioms for every declaration except GX.BTZAdm.e0RegM_linearPart_faithful_discrete (tagged sorry) and GX.BTZAdm.btzprop_holonomy_e0, which uses it (sorryAx)",
+  "labels": [
+    {
+      "label": "btzdef:tangent_translation_part",
+      "tex_lines": [1135, 1138],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.BTZAdm.IsTangentTranslation",
+        "GX.BTZAdm.IsTangentAt",
+        "GX.BTZAdm.isTangentTranslation_iff_isTangentAt_zero",
+        "GX.BTZAdm.isTangentAt_iff",
+        "GX.BTZAdm.exists_fixedLine_of_isParabolic",
+        "GX.BTZAdm.isTangentTranslation_iff_of_isParabolic",
+        "GX.BTZAdm.isTangentAt_conj",
+        "GX.BTZAdm.isTangentTranslation_conj",
+        "GX.BTZAdm.isTangentTranslation_btzHol"
+      ],
+      "hypotheses": [
+        {"paper": "phi an affine parabolic isometry of E^{1,2}", "here": "weakened", "note": "the definition is stated for every phi in Causal.Flat.isom 2; for phi_L parabolic it is the paper's (isTangentTranslation_iff_of_isParabolic)"},
+        {"paper": "the line of fixed points of phi_L", "here": "carried", "note": "proved to exist: a parabolic element of SO0(1,2) fixes exactly a null line R u (exists_fixedLine_of_isParabolic)"},
+        {"paper": "normal", "here": "carried", "note": "Minkowski-orthogonal, Causal.Flat.minkB"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "The translation part tau_phi depends on an origin; the paper does not say which. Reading taken: tau_phi = phi(0) (lean-causal's trOf), and the condition is proved independent of the origin for every isometry (isTangentAt_iff: B((phi_L - 1)v, u) = 0 for u fixed by phi_L), so no choice is involved."
+      ]
+    },
+    {
+      "label": "btzdef:admissible_representation",
+      "tex_lines": [1139, 1147],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "GX.BTZAdm.IsAdmissible",
+        "GX.BTZAdm.SurfaceGroup",
+        "GX.BTZAdm.SurfGen",
+        "GX.BTZAdm.surfaceRel",
+        "GX.BTZAdm.SurfaceGroup.a",
+        "GX.BTZAdm.SurfaceGroup.b",
+        "GX.BTZAdm.SurfaceGroup.c",
+        "GX.BTZAdm.SurfaceGroup.rel"
+      ],
+      "hypotheses": [
+        {"paper": "Gamma = <a_i, b_i, c_j | prod [a_i,b_i] prod c_j = 1>", "here": "carried", "note": "mathlib PresentedGroup of the single relator, commutator a b a^-1 b^-1; any g, s : N (the section's 2g-2+s>0 is not needed by the definition)"},
+        {"paper": "rho_L discrete and faithful", "here": "carried", "note": "linearPart.comp rho injective, its range a discrete subgroup of SO0(1,2) in Causal.Flat.lorentzTopology (operator norm)"},
+        {"paper": "rho_L(c_i) parabolic", "here": "carried", "note": "Causal.Flat.IsParabolic (lean-causal's D-1 reading: elliptic part commuting with a nontrivial unipotent part)"},
+        {"paper": "tau_rho(c_i) tangent", "here": "carried", "note": "IsTangentTranslation (rho (c i))"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'discrete' (l.1143) read as: the image subgroup rho_L(Gamma) is discrete in the topology of SO0(1,2) (Causal.Flat.lorentzTopology, the operator-norm topology), the usual meaning; 'marked representation' read as a homomorphism out of the presented group, the marking being the choice of generators."
+      ]
+    },
+    {
+      "label": "btzprop:holonomy_globally_hyperbolic_cauchy_compact",
+      "tex_lines": [1153, 1155],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZAdm.btzprop_holonomy_e0",
+        "GX.BTZAdm.holonomy_circleLoop",
+        "GX.BTZAdm.holonomy_btzLoop",
+        "GX.BTZAdm.isParabolic_holonomy_btzLoop",
+        "GX.BTZAdm.isTangent_holonomy_btzLoop",
+        "GX.BTZAdm.IsBTZLoop",
+        "GX.BTZAdm.BTZCircle",
+        "GX.BTZAdm.BTZCircle.loop",
+        "GX.BTZAdm.exists_btzCircle",
+        "GX.BTZAdm.exists_isBTZLoop",
+        "GX.BTZAdm.e0RegM_linearPart_faithful_discrete"
+      ],
+      "hypotheses": [
+        {"paper": "M a globally hyperbolic Cauchy-compact E_0-manifold (Cauchy-maximal by the section's standing notation, l.1127)", "here": "strengthened", "note": "E_0 only (T-btz-scope); Cauchy-compact read as DEC-107 (a compact C^1 spacelike Cauchy surface); Cauchy-maximal carried; [SecondCountableTopology M], as GX.E0AbsMax.cor_abs_max_C1"},
+        {"paper": "pi_1 anabelian, 2g-2+s>0 (l.1127, l.1148)", "here": "strengthened", "note": "pi_1(Reg M) not metabelian (the hypothesis of the strict GX.e0RegM_holonomy)"},
+        {"paper": "the marking Gamma = pi_1(Sigma*) = pi_1(Reg M), c_i peripheral (l.1131-1133, l.1150)", "here": "strengthened", "note": "a hypothesis: an injective mu from Gamma into the deck group of Reg M~, each mu(c_j) a BTZ loop (IsBTZLoop); that every marking has this form is T-btz-headline-repr's (needs-ruling)"},
+        {"paper": "the holonomy of the peripheral generators is parabolic, its translation part tangent (l.1150)", "here": "carried", "note": "proved with no hypothesis beyond a developing pair of Reg M: holonomy_circleLoop gives rho(class of sigma.C.sigma^-1) = g * btzHol 0 (2 pi) * g^-1 for every circle C around the axis in a chart; Barbot 7.3 is not used"},
+        {"paper": "rho_L discrete and faithful (Barbot, l.1148)", "here": "stated", "note": "tagged sorry in e0RegM_linearPart_faithful_discrete"}
+      ],
+      "sorries": [
+        {"decl": "GX.BTZAdm.e0RegM_linearPart_faithful_discrete", "obstruction": "Barbot's theorem that the linear part of the holonomy of a Cauchy-complete globally hyperbolic non-elementary flat spacetime is faithful and discrete (barbot_globally_2004) is not in the libraries: GX.e0RegM_holonomy proves rho faithful and discrete in Isom(M3) only (its SCOPE (c')), and lean-causal's classification gives L(Gamma) discrete only for its Cauchy-hyperbolic family and up to a finite cover. Faithfulness alone would follow from pi_1(Reg M) free of rank >= 2 (ker rho_L is a normal abelian subgroup: translations commute), which needs the splitting Reg M = Sigma* x R, not built."}
+      ],
+      "findings": [
+        "The proof's appeal to Barbot section 7.3 for tangency (BTZ_1.tex l.1150) is not needed: the holonomy of a loop once around a BTZ line is explicitly conjugate in Isom(E^{1,2}) to the model's parabolic btzHol 0 (2 pi) (GX.BTZAdm.holonomy_circleLoop), which fixes the singular line pointwise; its translation part read at a point of that line is 0, so it is tangent, and tangency is conjugation- and origin-invariant (isTangentTranslation_conj, isTangentAt_iff). The citation could be replaced by this computation.",
+        "The proposition (l.1154) states neither the marking nor the hypotheses 2g-2+s>0 and Cauchy-maximality; they come from the section's standing notation (l.1127). 'Admissible' is defined for a marked representation of Gamma (l.1140), so the proposition needs that notation to make sense."
+      ],
+      "questions": [
+        "'the holonomy of the peripheral generators is given by the holonomy around the BTZ lines' (l.1150): reading taken, a peripheral generator is sent by the marking to the class of sigma . C . sigma^-1, with C a circle once around the axis at a BTZ point x in the chart at x (closed disc in the chart, IsBTZLoop) and sigma any path from the base point. Another peripheral loop around the same line is freely homotopic to one of these, so its holonomy is conjugate, also parabolic and tangent. The marking itself is T-btz-headline-repr's.",
+        "Orientation: the loop of increasing theta (t -> (tau, r e^{2 pi i t})) has holonomy conjugate to btzHol 0 (2 pi); the reverse orientation gives btzHol 0 (-2 pi). Both are parabolic and tangent, so the proposition does not depend on it.",
+        "The proposition's hypothesis is read with the section's standing notation (Cauchy-maximal, exactly s BTZ lines, 2g-2+s>0); the last is carried as pi_1(Reg M) not metabelian, as the strict GX.e0RegM_holonomy does."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZAdm.isom_eq_of_eqOn",
+    "GX.BTZAdm.gShift_zero_inv",
+    "GX.BTZAdm.isOpen_image_btzPaperNull",
+    "GX.BTZAdm.isOpenMap_btzPaperDev_restrict",
+    "GX.BTZAdm.angle_paperPt",
+    "GX.BTZAdm.rad_paperPt",
+    "GX.BTZAdm.paperPt",
+    "GX.BTZAdm.paperPt_add_int_mul",
+    "GX.BTZAdm.BTZCircle.paperPt_add_two_pi",
+    "GX.BTZAdm.BTZCircle.exists_tube",
+    "GX.BTZAdm.mem_reg_of_mem",
+    "GX.BTZAdm.paperOfY_paperInY",
+    "GX.BTZAdm.continuous_paperInY",
+    "GX.BTZAdm.minkB_sub_fixed",
+    "GX.BTZAdm.BTZCircle.ptF"
+  ],
+  "kb_proposals": [
+    "The holonomy of Reg M around a BTZ point is GX.BTZAdm.holonomy_circleLoop (rho = g * btzHol 0 (2 pi) * g^-1): lift the convex tube {dist((tau',r'),(tau,r)) < eps} x R (BTZCircle.exists_tube) through the covering with IsCoveringMap.existsUnique_continuousMap_lifts, read D locally by dev_eventually_chartMap_sector + angle_paperPt + btzPaperDev_shift_angle, globalise with exists_isom_eq_of_locally, and identify the deck element of sigma.C.sigma^-1 by liftFrom + eq_of_comp_eq.",
+    "Points, paths and UniversalCover elements of Reg M must be typed e0RegMFlat M, not the subtype E0LM.e0RegM M: the two are defeq but not at instances transparency, so rw/simp fail on mixed terms (BTZCircle.ptF; regCoverBase unfolds by show (show E0LM.e0RegM M from proj w).1 = _).",
+    "btzPaperDev is an open map on any open subset of {r > 0}: GX.BTZAdm.isOpenMap_btzPaperDev_restrict (explicit inverse of btzPaperNull), and two isometries agreeing on a nonempty open set are equal: GX.BTZAdm.isom_eq_of_eqOn.",
+    "GX.BTZIsom.gShift 0 c is (btzHol 0 c)^-1 (GX.BTZAdm.gShift_zero_inv); tangency of translation parts is GX.BTZAdm.IsTangentTranslation, origin-free (isTangentAt_iff) and conjugation-invariant (isTangentTranslation_conj)."
+  ],
+  "notes": "The two definitions are marked: they are fully formalized and do not depend on T-btz-scope (no alpha involved); the auditor may prefer partial for btzdef:admissible_representation if lean-causal's IsParabolic (D-1 reading) or the operator-norm reading of 'discrete' counts as a reading. The proposition row stays partial: one tagged sorry (linear part faithful and discrete, Barbot), E0 only, and the marking taken as a hypothesis (T-btz-headline-repr). lake build GXScaffold.BTZ.Admissible built only this module (no GX.* rebuild). Imports: GX.BTZ.Uniformization, GX.BTZ.IsomE0 (strict)."
+}

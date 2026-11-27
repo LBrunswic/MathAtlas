@@ -236,3 +236,8 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0226](entries/0226-the-cone-angle-at-a-time-like-p-as-an-ex.md) | pattern | The cone angle at a time-like p as an explicit rotation angle |
 | [0227](entries/0227-curves-of-the-regular-part-of-l-lift-to.md) | pattern | Curves of the regular part of 𝔢(L) lift to ℝ × ]0, π[ through GX.BiSusp.base (continuous o |
 | [0228](entries/0228-continuous-angles-of-maps-into-0-or-circ.md) | pattern | Continuous angles of maps into ℂ ∖ 0 or Circle |
+| [0229](entries/0229-directions-from-a-time-like-point-separa.md) | pattern | Directions from a time-like point separate the boundary |
+| [0230](entries/0230-the-holonomy-of-reg-m-around-a-btz-point.md) | pattern | The holonomy of Reg M around a BTZ point is GX.BTZAdm.holonomy_circleLoop (rho = g * btzHo |
+| [0231](entries/0231-points-paths-and-universalcover-elements.md) | pattern | Points, paths and UniversalCover elements of Reg M must be typed e0RegMFlat M, not the sub |
+| [0232](entries/0232-btzpaperdev-is-an-open-map-on-any-open-s.md) | pattern | btzPaperDev is an open map on any open subset of {r > 0} |
+| [0233](entries/0233-gx-btzisom-gshift-0-c-is-btzhol-0-c-1-gx.md) | pattern | GX.BTZIsom.gShift 0 c is (btzHol 0 c)^-1 (GX.BTZAdm.gShift_zero_inv); tangency of translat |
