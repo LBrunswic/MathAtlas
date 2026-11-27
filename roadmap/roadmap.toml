@@ -3052,8 +3052,8 @@ package = "lean-gx"
 exclusive = true
 status = "ready"
 owner = "master"
-priority = 7
-evidence = "lean-gx/lakefile.toml: [[require]] Causal, rev = « ca2ad78f200537132392f83b47e25fcc5dee330c », subDir = « lean-causal ». git cat-file at ca2ad78: lean-causal/Causal/AbstractDev.lean and Causal/Model/EAlphaGX.lean are both absent. Both exist today: AbstractDev.lean:427 exists_isMaximal, :515 exists_isMaximal_of_uniqueMorphisms, :611 exists_isMaximal_of_chainsInherit. DEC-208 asks for T-btz-maximal-extension « as an instance of the ETT programme's abstract maximal-extension theorem — BTZ-embeddings as the morphism class ». GX/BTZ/CBG.lean: « discharges three CBG-interface obligations (lean-causal ca2ad78, Causal/CBG/FromModel.lean) ». ARCHITECTURE.md §4.3 names the failure mode: « This fixes the \"ledger predates a pinned commit\" failures seen in the journals ». Exclusive, because it rebuilds all of lean-gx. It only reads lean-causal, so /ett-programme's lease on lean-causal is not touched"
+priority = 8
+evidence = "lean-gx/lakefile.toml: [[require]] Causal, rev = « ca2ad78f200537132392f83b47e25fcc5dee330c », subDir = « lean-causal ». git cat-file at ca2ad78: lean-causal/Causal/AbstractDev.lean and Causal/Model/EAlphaGX.lean are both absent. Both exist today: AbstractDev.lean:427 exists_isMaximal, :515 exists_isMaximal_of_uniqueMorphisms, :611 exists_isMaximal_of_chainsInherit. DEC-208 asks for T-btz-maximal-extension « as an instance of the ETT programme's abstract maximal-extension theorem — BTZ-embeddings as the morphism class ». GX/BTZ/CBG.lean: « discharges three CBG-interface obligations (lean-causal ca2ad78, Causal/CBG/FromModel.lean) ». ARCHITECTURE.md §4.3 names the failure mode: « This fixes the \"ledger predates a pinned commit\" failures seen in the journals ». Exclusive, because it rebuilds all of lean-gx. It only reads lean-causal, so /ett-programme's lease on lean-causal is not touched. Priority 8 (2026-11-27 planner): its only consumer, T-btz-maximal-extension, also waits on T-btz-ppcm-hausdorff and T-btz-ppcm, so the bump (exclusive in lean-gx) need not take a wave from the p7 closers; it should run once T-btz-ppcm is active or done"
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
 
@@ -3312,11 +3312,11 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:ppcm"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-btz-pgcd"]
-evidence = "BTZ_1.tex l.1415–1500 (the first four bullets of prop:ppcm's proof): « Define C the set of p ∈ M₁ whose image in M₁ ∨ M₂ is unseparated. We shall prove that C is empty »; the chart step « Proposition prop:isom_strong applies thus α = 0 and ψ_{p'} ∘ φ ∘ ψ_p⁻¹ is the restriction of an isomorphism γ_p of 𝔼₀ »; « By analyticity, the 𝔼≥0-morphism φ̄ ... is well defined »; « By maximality of M₁ ∧ M₂, we have C = ∅ ». Built inputs: GX.e0_localUnique_sing (Rigid.lean:1699, prop:isom_strong at α = β = 0), GX.e0_eqOn_of_eqOn_open, the future distinguishing of M₂ (Manifolds.lean:251), lem:BTZext_caus_conv (GX.E0AbsMax.btzExt_causallyConvexIn_iff_e0, AbsMax.lean:1776). The quotient is the half of prop:ppcm that is new; its structure and global hyperbolicity are T-btz-ppcm. Split from prop:ppcm because the proof is two pages and these bullets are the part with no Lean precedent. E₀-scoped; partial"
+evidence = "BTZ_1.tex l.1415–1500 (the first four bullets of prop:ppcm's proof): « Define C the set of p ∈ M₁ whose image in M₁ ∨ M₂ is unseparated. We shall prove that C is empty »; the chart step « Proposition prop:isom_strong applies thus α = 0 and ψ_{p'} ∘ φ ∘ ψ_p⁻¹ is the restriction of an isomorphism γ_p of 𝔼₀ »; « By analyticity, the 𝔼≥0-morphism φ̄ ... is well defined »; « By maximality of M₁ ∧ M₂, we have C = ∅ ». Built inputs: GX.e0_localUnique_sing (Rigid.lean:1699, prop:isom_strong at α = β = 0), GX.e0_eqOn_of_eqOn_open, the future distinguishing of M₂ (Manifolds.lean:251), lem:BTZext_caus_conv (GX.E0AbsMax.btzExt_causallyConvexIn_iff_e0, AbsMax.lean:1776). The quotient is the half of prop:ppcm that is new; its structure and global hyperbolicity are T-btz-ppcm. Split from prop:ppcm because the proof is two pages and these bullets are the part with no Lean precedent. E₀-scoped; partial. Ready 2026-11-27: T-btz-pgcd is done (789fe25, AUDIT-1 clean). The closer works over the paper's M₁ ∧ M₂, GX.Pgcd.ghDom (the union of the globally hyperbolic extension domains), which is globally hyperbolic sorry-free (GX.Pgcd.globallyHyperbolicOn_ghDom): « the maximality of M₁ ∧ M₂ » in the last bullet is then le_sSup at the globally hyperbolic open ghDom ∪ C, and does not need Pgcd's one tagged sorry (globallyHyperbolicOn_dom). OQ-146 (b) leaves open which M₁ ∧ M₂ is of record; the two agree once T-btz-pgcd-dom-gh closes (ghDom_eq_dom_of_globallyHyperbolicOn). The chart step (φ extends over the chart of a point of C, from GX.e0_localUnique_sing) is to be written as a lemma of its own, which T-btz-pgcd-dom-gh reuses at the first missing point of a BTZ line"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3330,8 +3330,8 @@ labels = ["btzprop:ppcm"]
 status = "planned"
 owner = "closer"
 priority = 7
-depends = ["T-btz-ppcm-hausdorff"]
-evidence = "BTZ_1.tex l.1500–1525 (the last two bullets): « by Lemma lem:BTZext_caus_conv, π_i(M_i) is causally convex in M₁ ∨ M₂ and, by Corollary cor:GH_causal, M₁ ∨ M₂ is causal »; the diamond case analysis through q′ ∈ I⁺(q) ⊂ π₁(M₁). Built inputs: GX.E0AbsMax.cor_GH_causal_e0 and isCausal_of_twoOpens, isCompact_diamond_of_twoOpens, globallyHyperbolic_of_twoOpens (AbsMax.lean:835–908, « the two-open causality and diamond lemmas of Prop 2.17 »), and the push-out atlas E0Pushout (AbsMax.lean:2496, §4b), built for Lemma 2.12's gluing along Reg M and to be generalised or reused here. The paper does not prove minimality and uniqueness separately; they follow from the universal property of the gluing. E₀-scoped; partial"
+depends = ["T-btz-ppcm-hausdorff", "T-gx-btz-cleanup"]
+evidence = "BTZ_1.tex l.1500–1525 (the last two bullets): « by Lemma lem:BTZext_caus_conv, π_i(M_i) is causally convex in M₁ ∨ M₂ and, by Corollary cor:GH_causal, M₁ ∨ M₂ is causal »; the diamond case analysis through q′ ∈ I⁺(q) ⊂ π₁(M₁). Built inputs: GX.E0AbsMax.cor_GH_causal_e0 and isCausal_of_twoOpens, isCompact_diamond_of_twoOpens, globallyHyperbolic_of_twoOpens (AbsMax.lean:835–908, « the two-open causality and diamond lemmas of Prop 2.17 »), and the push-out atlas E0Pushout (AbsMax.lean:2496, §4b), built for Lemma 2.12's gluing along Reg M and to be generalised or reused here. The paper does not prove minimality and uniqueness separately; they follow from the universal property of the gluing. E₀-scoped; partial. Depends on T-gx-btz-cleanup (2026-11-27): its (a) gives E0Pushout the ι₂ E₀-morphism property that a reuse of the push-out atlas here needs, so that the gluing is not built on a third copy"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3624,11 +3624,11 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzlem:blunt_spear_neighborhood"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 8
 depends = ["T-btz-blunt-vertical-ray"]
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/BluntSpear.lean:695, « SORRY(btzlem:blunt_spear_neighborhood): parabolic holonomy at a regular limit point ». REPORT (T-btz-blunt-spear) labels[1].sorries[1]: « The developed ray CONVERGES (to the developed axis point (2a,0,0)), so unboundedness gives nothing: one must show that psi extends, through the Minkowski chart at the limit point, to a full punctured neighbourhood of the axis point, and then that the two sector charts around the axis (which differ by the parabolic holonomy hol(2 pi) on one overlap component, kb/0107, chartMap_eq_hol_smul) cannot both be one isometry times the chart at q. Not formalized. » lean-causal/kb/entries/0107-e0-holonomy.md: « Two sector charts of E0 differ by E0GX.hol s ... hol (2pi) is parabolic and on each overlap component they differ by hol(2pi)^k ». Depends on the vertical ray for the sector-chart brick. Closing both sorrys leaves lem_blunt_spear sorry-free; the row stays partial (E₀ scope, T-btz-scope; OQ-143)"
+evidence = "lean-gx/scaffold/GXScaffold/BTZ/BluntSpear.lean:771 (it was :695 before T-btz-blunt-vertical-ray), « SORRY(btzlem:blunt_spear_neighborhood): parabolic holonomy at a regular limit point ». REPORT (T-btz-blunt-spear) labels[1].sorries[1]: « The developed ray CONVERGES (to the developed axis point (2a,0,0)), so unboundedness gives nothing: one must show that psi extends, through the Minkowski chart at the limit point, to a full punctured neighbourhood of the axis point, and then that the two sector charts around the axis (which differ by the parabolic holonomy hol(2 pi) on one overlap component, kb/0107, chartMap_eq_hol_smul) cannot both be one isometry times the chart at q. Not formalized. » lean-causal/kb/entries/0107-e0-holonomy.md: « Two sector charts of E0 differ by E0GX.hol s ... hol (2pi) is parabolic and on each overlap component they differ by hol(2pi)^k ». Depends on the vertical ray for the sector-chart brick. Closing both sorrys leaves lem_blunt_spear sorry-free; the row stays partial (E₀ scope, T-btz-scope; OQ-143). Ready 2026-11-27: the dependency is done (789fe25, AUDIT-1 clean). Its REPORT kb_proposals give the two bricks: « Sector charts are in BTZE0's maximal a.e. atlas: GX.E0.sectorChartBTZ_mem_aeAtlas » (strict GX.BTZ.SectorAtlas) and « GX.E0.exists_eqOn_sectorSmulInl turns a local G-structomorphism f into the inl summand on a preconnected open subset of a slit sector into inl o (g .) o sectorChartY on the whole set (one g); the template is flat_vertical_noLimit ». The in-falling case needs two sector components around the axis, compared by kb/0107's chartMap_eq_hol_smul"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3654,11 +3654,11 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-btz-spear-family"]
-evidence = "RegComplete.lean:374's tagged sorry, owed step (2): « `Σ*` Cauchy in `Reg M` with infinitely many spears (cor:intersect in each, plus local finiteness for an inextensible curve meeting infinitely many spears) ». The finite case is SurgeryData.isCauchySurface_sigmaStar (strict GX/BTZ/Surgery.lean), from rem_curve_spear (G2) and cor:intersect (E₀, partial in papers/btz). T-btz-reg-complete AUDIT-1 finding 2: the printed proof « uses finitely many BTZ lines (l.1091); the case of infinitely many (discrete) BTZ points of S is not addressed ». E₀-scoped; partial"
+evidence = "RegComplete.lean:374's tagged sorry, owed step (2): « `Σ*` Cauchy in `Reg M` with infinitely many spears (cor:intersect in each, plus local finiteness for an inextensible curve meeting infinitely many spears) ». The finite case is SurgeryData.isCauchySurface_sigmaStar (strict GX/BTZ/Surgery.lean), from rem_curve_spear (G2) and cor:intersect (E₀, partial in papers/btz). T-btz-reg-complete AUDIT-1 finding 2: the printed proof « uses finitely many BTZ lines (l.1091); the case of infinitely many (discrete) BTZ points of S is not addressed ». E₀-scoped; partial. Ready 2026-11-27: T-btz-spear-family is done (789fe25, AUDIT-1 minor). Its REPORT notes: « T-btz-reg-complete-cauchy and T-btz-reg-complete-length consume LFSurgeryData (its locallyFinite field is the input step (2) needs) »; the datum is GX.E0SpearFamily.LFSurgeryData (scaffold SpearFamily.lean), with LFSurgeryData.toSurgeryData mapping a finite family onto the strict SurgeryData. Readings of the spear family: OQ-146 (c). Scheduled after T-gx-btz-cleanup (p6), whose (d) generalises the strict Surgery lemmas that SpearFamily.lean copies, so that step (2) is written over the strict ones"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3679,15 +3679,15 @@ proposed_by = "roadmap-planner"
 
 [[target]]
 id = "T-gx-btz-cleanup"
-title = "lean-gx graduation clean-up from the btz and BBS audits of 2026-11-27: (a) E0Pushout gains its ι₂ E₀-morphism property (a field, or exported by exists_e0Pushout) and the scaffold's ~110-line copy GX.E0RegComplete.exists_e0Pushout_mor goes; (b) one lemma for the continuity of an E₀-morphism, GX.continuous_of_isE0Mor' (GX/BTZ/Embeddings.lean:107) or GX.E0AbsMax.continuous_of_isE0Mor (GX/BTZ/AbsMax.lean:1932), the other deleted or an alias; (c) GX.CutGlue.hyp/IsCausalPast (HSLinkRemarks) replaced by HSCausal's GX.dsHat/GX.DSLe, or bridged by Iff.rfl"
+title = "lean-gx graduation clean-up from the btz and BBS audits of 2026-11-27: (a) E0Pushout gains its ι₂ E₀-morphism property (a field, or exported by exists_e0Pushout) and the scaffold's ~110-line copy GX.E0RegComplete.exists_e0Pushout_mor goes; (b) one lemma for the continuity of an E₀-morphism, GX.continuous_of_isE0Mor' (GX/BTZ/Embeddings.lean:107) or GX.E0AbsMax.continuous_of_isE0Mor (GX/BTZ/AbsMax.lean:1932), the other deleted or an alias; (c) GX.CutGlue.hyp/IsCausalPast (HSLinkRemarks) replaced by HSCausal's GX.dsHat/GX.DSLe, or bridged by Iff.rfl; (d) the strict GX.E0Surgery.exists_spearSurgeryDatum, exists_spearSurgeryDatum_cover and SpearSurgeryDatum.exists_shrink generalised to (IsCauchySurface S) (RimC1 M S), with RimC1 moved into GX/BTZ/Surgery.lean, and their scaffold copies in GXScaffold.BTZ.SpearFamily deleted"
 stream = "gx"
 kind = "tooling"
 package = "lean-gx"
 exclusive = true
 status = "ready"
 owner = "master"
-priority = 8
-evidence = "(a) T-btz-reg-complete AUDIT-1 finding 1: « exists_e0Pushout_mor duplicates about 110 lines of the strict GX.E0AbsMax.exists_e0Pushout proof ... At graduation, add the ι₂ E0-morphism property as a field of E0Pushout (or export hι from exists_e0Pushout) and delete the copy. Do not graduate the duplicate »; the copy is lean-gx/scaffold/GXScaffold/BTZ/RegComplete.lean:108, the structure strict GX/BTZ/AbsMax.lean:2496, exists_e0Pushout :2970. (b) T-btz-embeddings AUDIT-1 finding 3: « GX.continuous_of_isE0Mor' duplicates GX.E0AbsMax.continuous_of_isE0Mor. The primed version is strictly more general ... keep one lemma under a non-primed name ... and make AbsMax's version an alias of it or delete it »; both are strict now. (c) T-bbs-link-remarks AUDIT-2 finding 2: « these are still duplicates of HSCausal's dsHat/DSLe, and no lemma connects them ... replace them with GX.DSLe or add the Iff.rfl bridge » (HSLinkRemarks.lean:136, :143; HSCausal.lean:144, :148, both scaffold). Exclusive: (a) changes a strict structure that AbsMax, MixedDiamond and RegComplete use, and RegComplete.lean is also T-btz-spear-family's file. The precedent is T-gx-mtheta-dedupe (master). The CAMPAIGN.md kb pointer both audits mention is already fixed (lean-gx/docs/CAMPAIGN.md:51)"
+priority = 6
+evidence = "(a) T-btz-reg-complete AUDIT-1 finding 1: « exists_e0Pushout_mor duplicates about 110 lines of the strict GX.E0AbsMax.exists_e0Pushout proof ... At graduation, add the ι₂ E0-morphism property as a field of E0Pushout (or export hι from exists_e0Pushout) and delete the copy. Do not graduate the duplicate »; the copy is lean-gx/scaffold/GXScaffold/BTZ/RegComplete.lean:108, the structure strict GX/BTZ/AbsMax.lean:2496, exists_e0Pushout :2970. (b) T-btz-embeddings AUDIT-1 finding 3: « GX.continuous_of_isE0Mor' duplicates GX.E0AbsMax.continuous_of_isE0Mor. The primed version is strictly more general ... keep one lemma under a non-primed name ... and make AbsMax's version an alias of it or delete it »; both are strict now. (c) T-bbs-link-remarks AUDIT-2 finding 2: « these are still duplicates of HSCausal's dsHat/DSLe, and no lemma connects them ... replace them with GX.DSLe or add the Iff.rfl bridge » (HSLinkRemarks.lean:136, :143; HSCausal.lean:144, :148, both scaffold). Exclusive: (a) changes a strict structure that AbsMax, MixedDiamond and RegComplete use, and RegComplete.lean is also T-btz-spear-family's file. The precedent is T-gx-mtheta-dedupe (master). The CAMPAIGN.md kb pointer both audits mention is already fixed (lean-gx/docs/CAMPAIGN.md:51). (d) T-btz-spear-family AUDIT-1 finding 1: « exists_spearSurgeryDatum, exists_spearSurgeryDatum_cover and exists_shrink are near-verbatim copies of the strict GX.E0Surgery.exists_spearSurgeryDatum (Surgery.lean:2901), exists_spearSurgeryDatum_cover (:3178) and SpearSurgeryDatum.exists_shrink (:2920). The only change is the hypothesis »; fix: « generalise the strict lemmas to take (hS : IsCauchySurface S) (hrim : RimC1 M S), with RimC1 moved into GX.BTZ.Surgery. Re-derive the IsE0C1SpacelikeCauchy forms from them in one line and delete the copies here » (copies at SpearFamily.lean:102–172). Priority 6 (2026-11-27 planner): it goes before the lean-gx closers of p7, because three of them build on what it changes — T-btz-reg-complete-cauchy on SpearFamily.lean and RegComplete.lean ((a), (d)), T-btz-ppcm on E0Pushout ((a)), T-bbs-cheminsing on the cut-and-glue links ((c)) — and every wave they run first multiplies the copies to remove. Pgcd's open sorry (globallyHyperbolicOn_dom) is mathematics, not clean-up: T-btz-pgcd-dom-gh"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3732,5 +3732,62 @@ status = "ready"
 owner = "closer"
 priority = 9
 evidence = "papers/bbs ledger: both rows bucket D, blocked_on « no target yet (a § 3 link row, layer L2, in lean-gx by DEC-192) ». They need no AdS background (T-bbs-q8): the singularities are HS-singularities, read through their (Γ_p, ℓ(p))-circles. Built, scaffold: the cone angle of elliptic circles (T-bbs-hs-singularities, T-bbs-rp1-circles), cut-and-glue links GX.GammaLinkCircle.IsCutGlueLink and the sign lemmas of GXScaffold.BBS.HSLinkRemarks (T-bbs-link-remarks: « Cut-and-glue along a light-like ray of dS^2 is GX.GammaLinkCircle.IsCutGlueLink w gamma src ... The paper's worked examples use the inverse convention »), positivity GX.SingularHSStructure.IsPositive (T-bbs-positive-hs-surface). Two readings the closer records rather than takes: « continuous deformation » (read on the vertex x and the holonomy in PSL(2, ℝ), or its lift in G̃), and « the space-like singularities ... have positive mass » (l.1499), where the paper defines a mass only for elliptic singularities (l.1170; the tachyon mass at l.1327 is commented out). The positivity of the light-like ones depends on the sign convention, OQ-144, so it is proved under both. The physics sentences of masspositive (Gott, Carlip) are informal. Partial at best until OQ-144 rules"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+# ------------------------------------------------------------------ btz after the 2026-11-27 wave: pgcd's open sorry, prop:isom's global form; BBS § 4's positive mass; the informal BBS remarks (planner, 2026-11-27 night)
+[[target]]
+id = "T-btz-pgcd-dom-gh"
+title = "btz § 5.1, btzprop:pgcd's one tagged sorry, GX.Pgcd.globallyHyperbolicOn_dom: the union dom i j of all extension domains is globally hyperbolic, so that it is the paper's M₁ ∧ M₂ (ghDom = dom) and « by construction maximal » (l.1376) holds. Lemma 2.13 (a): along the BTZ line of M₁ above a BTZ point of dom i j, the image of the line below the first missing point z lies in a compact diamond of M₂ and converges to a BTZ point w; then φ extends across the axis at z by the chart step of T-btz-ppcm-hausdorff"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:pgcd"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-btz-ppcm-hausdorff"]
+evidence = "lean-gx/scaffold/GXScaffold/BTZ/Pgcd.lean:380, « SORRY(btzprop:pgcd): `dom i j` causally convex in `M₁` (then Remark 1), i.e. by Lemma 2.13 (a) the extension `φ` of `j ∘ i⁻¹` continues along the BTZ line of `M₁` above each BTZ point `x ∈ dom i j`: at the first point `z` of that line outside `dom i j`, the images under `φ` of the line below `z` lie in a compact diamond `J_{M₂}(φ x, φ q)` (`q ≫ z` regular, `M₂` globally hyperbolic) and must converge to a BTZ point `w` of `M₂`; one then needs that the isometry `φ`, defined on the regular part of a neighbourhood of `z`, extends across the axis to a chart isomorphism sending `z` to `w` ». T-btz-pgcd REPORT finding 3: « BTZ_1.tex l.1376: « By construction, M1∧M2 is maximal » is a gap. Common sub-BTZ-extensions (btzdef:common_sub_btz_extension, l.1306–1313) are not required globally hyperbolic ... ghDom = dom iff dom is GH (ghDom_eq_dom_of_globallyHyperbolicOn), and dom GH is the one sorry ». Closing it needs no ruling: it makes the two answers of OQ-146 (b) (ghDom or dom as M₁ ∧ M₂) the same object, and btz_pgcd_gh sorry-free. Built: GX.e0_localUnique_sing (strict Rigid.lean:1699, prop:isom_strong at α = β = 0, whose MapsTo hypothesis is what the convergence to w supplies), E0AbsMax.btzExt_causallyConvexIn_iff_e0 (Lemma 2.13 (a)), globallyHyperbolicOn_of_causallyConvexIn. Depends on T-btz-ppcm-hausdorff only so that the axis-extension lemma is written once, there. E₀-scoped; the row stays partial (T-btz-scope, OQ-146)"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-isom-e0"
+title = "btz § 2, btzprop:isom in its global form for E₀ (α = β = 0) and two of its corollaries: an a.e. E₀-morphism φ : U → E₀, U open connected and meeting the axis, that is a local homeomorphism, is the restriction of one (τ, r, θ) ↦ (τ + τ₀, r, θ + θ₀) of isom(E₀); isom(E₀) is the isometry group of E₀ (btzcor:indeed_group_isometries); an a.e. E₀-morphism between E₀-manifolds that is a local homeomorphism is an E₀-morphism (btzcor:morphism_two_manifolds_local)"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:isom", "btzcor:indeed_group_isometries", "btzcor:morphism_two_manifolds_local"]
+status = "ready"
+owner = "closer"
+priority = 9
+evidence = "papers/btz ledger: btzprop:isom partial, note « anchored ... E₀ only, and only near the axis: the local form of an E₀-loop (GX.E0AbsMax.e0Loop_localForm); the global description of the isometry groups is not formalized »; btzcor:indeed_group_isometries and btzcor:morphism_two_manifolds_local bucket D, blocked_on « no target yet (a corollary of btzprop:isom) ». BTZ_1.tex l.378–383: « If φ is a local homeomorphism then α = β and φ is the restriction of an element of isom(E^{1,2}_α) »; l.385–386: « isom(E_α) is indeed the group of isometries of E_α »; l.391–393: « If φ is a local homeomorphism, then φ is a local diffeomorphisms ». Built, strict: GX.e0_localUnique_sing (Rigid.lean:1699: an element e ∈ e0Groupoid with EqOn f e on the regular part of U), GX.E0AbsMax.e0Loop_localForm (AbsMax.lean:1326: near an axis point an element of e0Groupoid is u ↦ (u.1 + a, R u.2), R : ℂ ≃ₗᵢ[ℝ] ℂ), Liouville (btzlem:liouville, e0_eqOn_of_eqOn_open) to globalise on connected U. Two things the closer records rather than takes: (i) Rigid.lean:73 says « `k = −1` (a reflection `θ ↦ −θ`) is not excluded and need not be », while the paper's structure group is Isom₀, orientation and time-orientation preserving (l.203, l.261); if e0Groupoid contains the reflection, the global form and cor:indeed_group_isometries hold for its orientation-preserving elements and the difference is a finding; (ii) « local diffeomorphism » read as an E₀-morphism (charts to charts), the E₀ structure being the smooth one. α = β is vacuous at E₀. Not in scope: btzcor:manifold_exists_exactly_one (only α = 0 exists at E₀, so it waits on T-btz-scope) and btzcor:manifold_smooth_manifold_singular (a smooth-manifold structure lean-gx does not build). E₀-scoped; the rows stay partial until T-btz-scope rules"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-positive-mass"
+title = "BBS § 4.1, positive mass of an interaction, the link half. bbsdef:has_positive_mass_simple (l.1821–1824): a singular HS-structure σ on S² has positive mass if every simple closed space-like geodesic of its de Sitter part has length < 2π, with space-like geodesics and their length read through the developing map into dS². bbsrem:singular_ads_manifold_cone (l.1797–1810), its link computation: for an elliptic (Γ_p, ℓ(p))-circle L of angle θ, the de Sitter part of 𝔢(L) contains exactly one simple closed space-like geodesic, of length θ; so 𝔢(L) has positive mass iff θ < 2π"
+stream = "bbs"
+kind = "close"
+paper = "bbs"
+labels = ["bbsdef:has_positive_mass_simple", "bbsrem:singular_ads_manifold_cone"]
+status = "ready"
+owner = "closer"
+priority = 9
+evidence = "papers/bbs ledger: both rows bucket D, blocked_on « wave W4 not built »; triage note « REVIEW §A row 36; link (positive mass); layer L2; wave W4 ». REVIEW.md l.401: W4 needs W2 and W3; the W2 link layer is built (T-bbs-rp1-circles, T-bbs-hs-singularities, T-bbs-classising-types; strict GX.BBS.HSSuspension for 𝔢(L) and its regions, hsRegion .deSitter) and W3's causality is (T-bbs-hcausal, T-bbs-positive-hs-surface). The remark's proof (l.1804–1809): « An explicit description of L_x follows from the construction of the AdS metric in the neighborhood of a time-like singularity, as seen in Section 2. The de Sitter part of this link contains a unique simple closed geodesic, and its length is equal to the angle at the singularity. So it is less than 2π. » The first sentence is the AdS background, T-bbs-q8 (needs-ruling), so the remark is closed only in its link form and stays partial; the definition and the link computation need no AdS. The text after the definition (l.1826–1827): « This notion of positivity of mass for an interaction generalizes the natural notion of positivity for time-like singularities », which the iff states. New vocabulary, in the scaffold beside HSCausal: space-like geodesics of the de Sitter region of a singular HS-surface (developed into great-circle arcs of dS²) and their length; lean-gx has no geodesic notion on HS-surfaces today (grep: only HSModel's « geodesic rays »). The angle θ is the real angle of an elliptic circle (T-bbs-rp1-circles); its convention is not touched by OQ-144, which concerns space-like and light-like holonomies"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-informal-triage"
+title = "BBS curation: the three § 3 remarks that state no mathematics get bucket T with a terminal_reason — bbsrem:far_know_kind_singular (l.1323–1329: the physics literature and the name « tachyons »), bbsrem:photon (l.1457–1460: the name « photons » in physics), bbsrem:now_allow_ourselves_qualify (l.1485–1488: a naming convention for HS-singularities) — and bbsrem:positive_negative2 (l.1474–1477) is re-pointed at T-bbs-q8 beside its parent bbsrem:positive_negative"
+stream = "bbs"
+kind = "tooling"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 9
+evidence = "papers/bbs ledger: the four rows are bucket D with blocked_on « no target yet (a § 3 link row, layer L2, in lean-gx by DEC-192); wave W2 not built », although W2 is built. Their text: l.1324–1328 « As far as we know, this kind of singular lines is not considered in physics litterature. However, it is a very natural extension of the notion of massive particles. It sounds to us natural to call these singularities, representing particles faster than light, tachyons »; l.1458–1460 « light-like singularities of degree 2 appear very frequently in physics, where they are called wordlines, or cosmic strings, of massless particles, or even sometimes \"photons\" »; l.1486–1488 « From now on, we allow ourselves to qualify HS-singularities according to the nature of the associated AdS-singular lines: an elliptic HS-singularity is a (massive) particle, a space-like singularity is a tachyon, positive or negative, etc... ». bbsrem:positive_negative2 (« one observes that positive photons attract lightrays, whereas negative photons have a repelling behavior ») is mathematics, but its ledger deps are [bbsrem:positive_negative], which is blocked on T-bbs-q8 (the AdS construction); it is re-pointed, not made terminal. Precedent for bucket T on informal remarks: T-yamabe-perf-triage (48cf838: rem:old-reference, rem:positive-mass, rem:mv). Package none: it writes papers/bbs/certificate/curation.toml and rebuilds the bbs ledger only, so it waits for /restate to release papers/bbs (as T-restate-held-curation does); none of the four is a restatement candidate"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"

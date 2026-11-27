@@ -945,3 +945,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 17:08–19:30 UTC; agents in parallel: 4 closers + 1 builder, 4 audits
 - New questions for the author: OQ-146 (btz pgcd: which M₁ ∧ M₂ is of record), OQ-147 (perforated remarks' readings; rem:tight's third clause).
 - next: see `roadmap.py wave`.
+
+## 2026-11-27 19:50 · plan · roadmap-planner (rule 2)
+- Promoted: T-btz-blunt-infall-ray, T-btz-reg-complete-cauchy, T-btz-ppcm-hausdorff → ready. T-gx-btz-cleanup p8 → p6 (it gains the spear-family copies; three lean-gx closers build on what it changes, so it goes first); T-gx-causal-pin-bump p7 → p8; T-btz-ppcm depends on the cleanup.
+- Added: T-btz-pgcd-dom-gh (planned; closing it makes OQ-146 (b) moot), T-btz-isom-e0 (ready), T-bbs-positive-mass (ready), T-bbs-informal-triage (master, waits for /restate's bbs register). roadmap check: 245 targets.
+- Exhaustion: lean-yamabe and perforated are exhausted for /atlas-team (everything left waits on OQ-93, OQ-109, OQ-111, T-perf-scope, T-perf-dilute-limit); gx is essentially done; lean-gx continues on the btz chain, but every btz row stays partial until T-btz-scope rules.
+- Rulings that block the most rows: T-btz-scope (55 btz rows), T-bbs-q8 (34 bbs), ETT OQ-34/35/18/82 (30–37 each), T-gfn-appendix-scope (23), OQ-93 (21 yamabe/perforated), T-perf-scope (8), OQ-142 (7).
+- gates: roadmap ✓, atlas ✓
+- next: T-gx-btz-cleanup (exclusive in lean-gx) first, then the lean-gx closers (ppcm-hausdorff, reg-complete-cauchy, infall-ray, cheminsing, isom-e0, positive-mass).
