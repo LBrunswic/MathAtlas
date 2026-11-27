@@ -340,6 +340,7 @@ import Causal.DiamondConfinement
 import Causal.StrongCausalityLifts
 import Causal.ErsWitnesses
 import Causal.ErsSCWitnesses
+import Causal.Model.MinkowskiFutureOneConnected
 
 /-!
 # Causal — topological spacetimes

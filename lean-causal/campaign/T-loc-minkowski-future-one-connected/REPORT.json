@@ -1,0 +1,273 @@
+{
+ "target": "T-loc-minkowski-future-one-connected",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-loc-minkowski-future-one-connected/REPORT.json",
+  "campaign/T-loc-minkowski-future-one-connected/Probe.lean",
+  "campaign/T-loc-minkowski-future-one-connected/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.Model.MinkowskiFutureOneConnected",
+ "build_result": "Built CausalScaffold.Model.MinkowskiFutureOneConnected (1.3 s), 3106 jobs, no warning. The --no-build dry run (kb/0228), run before each build, listed only this module as out of date ([3106/3106]), so nothing upstream was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes with no output. campaign/T-loc-minkowski-future-one-connected/Probe.lean imports the module and runs #check and #print axioms on all 23 declarations (output in axioms.txt). Each depends on [propext, Classical.choice, Quot.sound] only. sorryAx appears nowhere, and the word `sorry` does not occur in the file.",
+ "sorry_count": 0,
+ "layer": {
+  "layer": 3,
+  "kind": "localisation",
+  "model": "minkowski",
+  "provides": [],
+  "provides_note": "provides stays [] because future_one_connected is not a ladder node yet (T-lad-future-one-connected-node). Once it is, this module is the node's Minkowski entry: Causal.minkowski_futureOneConnected.",
+  "ladder_definition": "Causal.Causality.FutureOneConnected (Causal/TimelikeHomotopy.lean:157), stated for the model as `(minkowski n).FutureOneConnected`, so the abstract theorems apply without restatement (witnesses: minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset, minkowski_Iplus_inter_Iminus_eq_inf_of_convex).",
+  "imports": [
+   "Causal.DiamondConfinement",
+   "Causal.Flat.Form"
+  ],
+  "classification": "Model layer, as a layer-3 module must be. tools/ladder.py imported in memory only (lean_index, model_path; emit-lean not run, kb/0252): model_path(Causal.Flat.Form) = ['Causal.Flat.Form'] (model), model_path(Causal.DiamondConfinement) = None (ETT layer), model_path(Causal.TimelikeHomotopy) = None. After graduation the module sits under Causal.Model, a MODEL_LAYER prefix. Not metric in the ETT sense: the norm of EuclideanSpace and the affine structure of ℝ × ℝⁿ are the model's coordinates; no Lorentzian metric, length or geodesic is defined."
+ },
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.minkowski_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:235",
+   "statement": "∀ {n : ℕ}, (minkowski n).FutureOneConnected",
+   "standing": "None: every n : ℕ (ℝ^{1,n}, n = 0 included), no instance argument, no hypothesis. The ETT definition Causality.FutureOneConnected instantiated at the model (the layer-3 rule). Proof: minkowski_futureOneConnectedOn at ⊤ (convex_univ).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:227",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)}, Convex ℝ ↑W → (minkowski n).FutureOneConnectedOn W",
+   "standing": "W convex (Convex ℝ (W : Set (Minkowski n))); nothing else. Route (a): two future chronal curves of W with the same endpoints are joined by their convex combination.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_dual_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:246",
+   "statement": "∀ {n : ℕ}, (minkowski n).dual.FutureOneConnected",
+   "standing": "None. Through Causality.dual_futureOneConnected (Causal/TimelikeHomotopy.lean:474).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_dual_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:241",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)}, Convex ℝ ↑W → (minkowski n).dual.FutureOneConnectedOn W",
+   "standing": "W convex. Through Causality.dual_futureOneConnectedOn.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_chronallyHomotopicOn_segment",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:252",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)}, Convex ℝ ↑W → ∀ {lam : ℝ → Minkowski n}, (minkowski n).ChronalCurveOn W lam 0 1 → (minkowski n).ChronallyHomotopicOn W lam fun s => lam 0 + s • (lam 1 - lam 0)",
+   "standing": "W convex. Sbierski Thm 3.1 Step 2.1 (InexSchwarzschild2.tex:567) as printed, in the chronal reading: λ is homotopic to the straight segment from λ(0) to λ(1), Sbierski's length maximising geodesic (:569). W = ⊤ is Sbierski's M_Mink. λ(0) = 0 is not assumed.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_chronalHomotopyOn_convexCombination",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:197",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)}, Convex ℝ ↑W → ∀ {γ₀ γ₁ : ℝ → Minkowski n}, (minkowski n).ChronalCurveOn W γ₀ 0 1 → (minkowski n).ChronalCurveOn W γ₁ 0 1 → γ₁ 0 = γ₀ 0 → γ₁ 1 = γ₀ 1 → (minkowski n).ChronalHomotopyOn W (fun t s => (1 - t) • γ₀ s + t • γ₁ s) γ₀ γ₁",
+   "standing": "W convex; γ₀, γ₁ future chronal curves of W over [0, 1] with γ₁ 0 = γ₀ 0 and γ₁ 1 = γ₀ 1. The homotopy itself: (t, s) ↦ (1 − t)·γ₀ s + t·γ₁ s.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_chronalCurveOn_iff",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:162",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)} {c : ℝ → Minkowski n} {a b : ℝ}, (minkowski n).ChronalCurveOn W c a b ↔ ContinuousOn c (Icc a b) ∧ MapsTo c (Icc a b) ↑W ∧ ∀ s ∈ Icc a b, ∀ s' ∈ Icc a b, s < s' → (minkowski n).lt ⊤ (c s) (c s')",
+   "standing": "Every open W, every segment [a, b]. The subtle point of the target: ChronalCurveOn asks ≪_N in every small open N; in Minkowski space this is the global cone condition, met inside a ball around c t (convex, so ≪_ball is the restriction of ≪ by Causal.Flat.lt_iff_of_convex, Causal/Flat/Form.lean:308) through the continuity of c.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_chronalCurveOn_segment",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:185",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)}, Convex ℝ ↑W → ∀ {p q : Minkowski n}, p ∈ W → q ∈ W → (minkowski n).lt ⊤ p q → (minkowski n).ChronalCurveOn W (fun s => p + s • (q - p)) 0 1",
+   "standing": "W convex, p q ∈ W, p ≪ q at ⊤.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_lt_top_convexCombination",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:125",
+   "statement": "∀ {n : ℕ} {x₀ y₀ x₁ y₁ : Minkowski n}, (minkowski n).lt ⊤ x₀ y₀ → (minkowski n).lt ⊤ x₁ y₁ → ∀ {t : ℝ}, t ∈ Icc 0 1 → (minkowski n).lt ⊤ ((1 - t) • x₀ + t • x₁) ((1 - t) • y₀ + t • y₁)",
+   "standing": "t ∈ [0, 1]. The convexity of the open future timelike cone, read on pairs of points.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_lt_top_segment",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:147",
+   "statement": "∀ {n : ℕ} {p q : Minkowski n}, (minkowski n).lt ⊤ p q → ∀ {s s' : ℝ}, s < s' → (minkowski n).lt ⊤ (p + s • (q - p)) (p + s' • (q - p))",
+   "standing": "p ≪ q at ⊤, s < s'.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.sbierskiPrintedHomotopy",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:268",
+   "statement": "{n : ℕ} → (ℝ → Minkowski n) → ℝ → ℝ → Minkowski n",
+   "standing": "A definition: Sbierski's printed Γ(t, s) = (σ_{λ(t)} * λ|[t,1])(s) (:577), σ_X(s) = s·X, λ|[t,1] rescaled linearly (:579): (2s)·λ(t) for s ≤ 1/2, λ(t + (2s − 1)(1 − t)) for s > 1/2.",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:274",
+   "statement": "∀ {n : ℕ} (lam : ℝ → Minkowski n), lam 0 = 0 → ∀ (W : Opens (Minkowski n)), ¬(minkowski n).ChronalCurveOn W (sbierskiPrintedHomotopy lam 0) 0 1",
+   "standing": "λ(0) = 0 (Sbierski's normalisation, :573); any open W, any n. The slice is 0 on [0, 1/2], and a chronal curve of a chronological open set is injective (ChronalCurveOn.injOn, Causal/TimelikeHomotopy.lean:172).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_one",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:288",
+   "statement": "∀ {n : ℕ} (lam : ℝ → Minkowski n) (W : Opens (Minkowski n)), ¬(minkowski n).ChronalCurveOn W (sbierskiPrintedHomotopy lam 1) 0 1",
+   "standing": "No hypothesis on λ; any open W, any n. The slice is λ(1) on [1/2, 1].",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_not_chronalHomotopyOn_sbierskiPrinted",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:302",
+   "statement": "∀ {n : ℕ} (lam : ℝ → Minkowski n), lam 0 = 0 → ∀ (W : Opens (Minkowski n)) (γ₀ γ₁ : ℝ → Minkowski n), ¬(minkowski n).ChronalHomotopyOn W (sbierskiPrintedHomotopy lam) γ₀ γ₁",
+   "standing": "λ(0) = 0; any open W, any curves γ₀ γ₁. The refutation of the printed homotopy (:577) in ℝ^{1,n}.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.sbierskiSplitHomotopy",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:315",
+   "statement": "{n : ℕ} → (ℝ → Minkowski n) → ℝ → ℝ → Minkowski n",
+   "standing": "A definition: route (b), Γ(t, s) = λ(0) + (s/t)·(λ(t) − λ(0)) for s ≤ t and λ(s) for s > t (at t = 0 only s = 0 is in the first piece, and 0/0 = 0 gives λ(0)).",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.sbierskiSplitHomotopy_of_le",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:319",
+   "statement": "∀ {n : ℕ} {lam : ℝ → Minkowski n} {t s : ℝ}, s ≤ t → sbierskiSplitHomotopy lam t s = lam 0 + (s / t) • (lam t - lam 0)",
+   "standing": "s ≤ t.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.sbierskiSplitHomotopy_of_lt",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:323",
+   "statement": "∀ {n : ℕ} {lam : ℝ → Minkowski n} {t s : ℝ}, t < s → sbierskiSplitHomotopy lam t s = lam s",
+   "standing": "t < s.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.sbierskiSplitHomotopy_self",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:327",
+   "statement": "∀ {n : ℕ} (lam : ℝ → Minkowski n) (t : ℝ), sbierskiSplitHomotopy lam t t = lam t",
+   "standing": "None: the two pieces agree on the diagonal.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.sbierskiSplitHomotopy_of_ge",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:335",
+   "statement": "∀ {n : ℕ} {lam : ℝ → Minkowski n} {t s : ℝ}, t ≤ s → sbierskiSplitHomotopy lam t s = lam s",
+   "standing": "t ≤ s.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.continuousOn_sbierskiSplitHomotopy",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:344",
+   "statement": "∀ {n : ℕ} {lam : ℝ → Minkowski n}, ContinuousOn lam (Icc 0 1) → ContinuousOn (uncurry (sbierskiSplitHomotopy lam)) (Icc 0 1 ×ˢ Icc 0 1)",
+   "standing": "λ continuous on [0, 1]. The target's 'check Γ's joint continuity on [0,1]²': the two closed pieces {s ≤ t} and {t ≤ s} glued by ContinuousOn.union_of_isClosed; at the corner (0, 0) by ‖(s/t)·(λ(t) − λ(0))‖ ≤ ‖λ(t) − λ(0)‖ for 0 ≤ s ≤ t.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_chronalHomotopyOn_sbierskiSplit",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:398",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)}, Convex ℝ ↑W → ∀ {lam : ℝ → Minkowski n}, (minkowski n).ChronalCurveOn W lam 0 1 → (minkowski n).ChronalHomotopyOn W (sbierskiSplitHomotopy lam) lam fun s => lam 0 + s • (lam 1 - lam 0)",
+   "standing": "W convex, λ a future chronal curve of W over [0, 1]. Step 2.1 by Sbierski's own construction, split at s = t instead of s = 1/2; λ(0) = 0 not assumed.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:447",
+   "statement": "∀ {n : ℕ} {x y : Minkowski n} {Ũ : Opens (Minkowski n)}, (minkowski n).lt ⊤ x y → (minkowski n).Jplus ⊤ {x} ∩ (minkowski n).Jminus ⊤ {y} ⊆ ↑Ũ → (minkowski n).Iplus ⊤ {x} ∩ (minkowski n).Iminus ⊤ {y} = (minkowski n).Iplus Ũ {x} ∩ (minkowski n).Iminus Ũ {y}",
+   "standing": "x ≪ y at ⊤, J⁺(x) ∩ J⁻(y) ⊆ Ũ. The layer-3 witness that the abstract theorem applies without restatement: Causality.Iplus_inter_Iminus_eq_of_futureOneConnected (Causal/DiamondConfinement.lean:357) with minkowski_causallyArcConnected and minkowski_futureOneConnected; the curve is the straight segment, the closure hypothesis follows from the closedness of J⁺(x) and J⁻(y) (staticCausality.isClosed_Jplus_top, isClosed_Jminus_top).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.minkowski_Iplus_inter_Iminus_eq_inf_of_convex",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:474",
+   "statement": "∀ {n : ℕ} {W Ũ : Opens (Minkowski n)}, Convex ℝ ↑W → ∀ {γ : ℝ → Minkowski n} {x y : Minkowski n}, (minkowski n).ChronalCurveOn W γ 0 1 → γ 0 = x → γ 1 = y → MapsTo γ (Icc 0 1) ↑Ũ → closure ((minkowski n).Iplus Ũ {x} ∩ (minkowski n).Iminus Ũ {y}) ⊆ ↑Ũ → (minkowski n).Iplus W {x} ∩ (minkowski n).Iminus W {y} = (minkowski n).Iplus (W ⊓ Ũ) {x} ∩ (minkowski n).Iminus (W ⊓ Ũ) {y}",
+   "standing": "W convex, a chronal curve of W from x to y in Ũ, closure of the Ũ-diamond in Ũ. The On form: Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn (Causal/DiamondConfinement.lean:318) with minkowski_causallyArcConnected.mono le_top and minkowski_futureOneConnectedOn.",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "name": "Causal.minkowski_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:235",
+   "statement": "∀ {n : ℕ}, (minkowski n).FutureOneConnected",
+   "standing": "None: every n : ℕ (ℝ^{1,n}, n = 0 included), no instance argument, no hypothesis. The ETT definition Causality.FutureOneConnected instantiated at the model (the layer-3 rule). Proof: minkowski_futureOneConnectedOn at ⊤ (convex_univ).",
+   "status": "proved",
+   "note": "The Minkowski entry of the node future_one_connected (T-lad-future-one-connected-node). Second model in Lean that has the property, after Causal.timelikeLine_futureOneConnected (Causal/TimelikeHomotopy.lean:731). It brings no separation: Minkowski space has every causality-sort node it had, and no model in Lean lacks future_one_connected yet."
+  },
+  {
+   "name": "Causal.minkowski_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:227",
+   "statement": "∀ {n : ℕ} {W : Opens (Minkowski n)}, Convex ℝ ↑W → (minkowski n).FutureOneConnectedOn W",
+   "standing": "W convex (Convex ℝ (W : Set (Minkowski n))); nothing else. Route (a): two future chronal curves of W with the same endpoints are joined by their convex combination.",
+   "status": "proved",
+   "note": "The On form, every convex open set (the analogue of timelikeLine_futureOneConnectedOn, which holds on every open set of ℝ). It is not every open set in ℝ^{1,n}, n ≥ 2: ℝ^{1,2} minus the time axis is not future one-connected (argued, not in Lean: the curves s ↦ (10s, (1, 0)) and s ↦ (10s, (cos 2πs, sin 2πs)) are chronal, with the same endpoints, and their spatial projections have winding numbers 0 and 1 about the origin, so no homotopy rel endpoints joins them in that open set). That is a candidate for T-abs-not-future-one-connected, if a winding number is cheap enough."
+  },
+  {
+   "name": "Causal.minkowski_dual_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:246",
+   "statement": "∀ {n : ℕ}, (minkowski n).dual.FutureOneConnected",
+   "standing": "None. Through Causality.dual_futureOneConnected (Causal/TimelikeHomotopy.lean:474).",
+   "status": "proved",
+   "note": "For the node's `dual` key (two-sided node, T-tac-ladder-dual-key)."
+  },
+  {
+   "name": "Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset",
+   "file_line": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:447",
+   "statement": "∀ {n : ℕ} {x y : Minkowski n} {Ũ : Opens (Minkowski n)}, (minkowski n).lt ⊤ x y → (minkowski n).Jplus ⊤ {x} ∩ (minkowski n).Jminus ⊤ {y} ⊆ ↑Ũ → (minkowski n).Iplus ⊤ {x} ∩ (minkowski n).Iminus ⊤ {y} = (minkowski n).Iplus Ũ {x} ∩ (minkowski n).Iminus Ũ {y}",
+   "standing": "x ≪ y at ⊤, J⁺(x) ∩ J⁻(y) ⊆ Ũ. The layer-3 witness that the abstract theorem applies without restatement: Causality.Iplus_inter_Iminus_eq_of_futureOneConnected (Causal/DiamondConfinement.lean:357) with minkowski_causallyArcConnected and minkowski_futureOneConnected; the curve is the straight segment, the closure hypothesis follows from the closedness of J⁺(x) and J⁻(y) (staticCausality.isClosed_Jplus_top, isClosed_Jminus_top).",
+   "status": "proved",
+   "note": "A consequence at [future_one_connected, causally_arc_connected] (T-lad-c0-extension-nodes' identification) applied to the model, with every hypothesis discharged."
+  }
+ ],
+ "keeper_entry": "For the node future_one_connected (T-lad-future-one-connected-node): name the Minkowski entry Causal.minkowski_futureOneConnected (every n, no hypothesis), with Causal.minkowski_futureOneConnectedOn for convex open sets and Causal.minkowski_dual_futureOneConnected for the time reversal. The witness that the abstract identification applies without restatement is Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset. The module graduates as Causal.Model.MinkowskiFutureOneConnected; tools/ladder.py resolves names in lean-causal/Causal only, so the names resolve after graduation.",
+ "binder_proposals": [
+  {
+   "row": "schwthm:MinkInex (Thm 3.1)",
+   "proposal": "[[bind.geometric]] model = \"minkowski\": `by` replaces \"T-loc-minkowski-future-one-connected\" with \"Causal.minkowski_futureOneConnected\" and \"Causal.minkowski_chronallyHomotopicOn_segment\" (Step 2.1 proper), after graduation. Once future_one_connected is a ladder node, `proves` gains \"future_one_connected\" for model minkowski; future_one_connected then moves from `open_localisation` to `localisation`, and open_reason keeps only locally_strongly_causal (of M̃)."
+  },
+  {
+   "row": "schwthm:MinkInex (Thm 3.1), findings",
+   "proposal": "Extend the existing finding on Step 2.1 (:572–579) with its Lean evidence. The refutation of the printed homotopy is now in ℝ^{1,n} for every n, so Sbierski's d ≥ 1 (:476) is covered. Before, it was on the timelike line only. The names are Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero (slice t = 0, λ(0) = 0), _one (slice t = 1) and minkowski_not_chronalHomotopyOn_sbierskiPrinted. The fix 'split at s = t' is proved: Causal.minkowski_chronalHomotopyOn_sbierskiSplit, in every convex open set, in the translated form Γ(t, s) = λ(0) + (s/t)(λ(t) − λ(0)) for s ≤ t, λ(s) for s ≥ t. The binder's σ_{λ(t)}(s/t) assumes λ(0) = 0."
+  },
+  {
+   "row": "schwthm:MinkInex (Thm 3.1), note",
+   "proposal": "In the note's sentence 'Step 2.1: Minkowski future one-connected (T-loc-minkowski-future-one-connected, in lean-causal; …)', the target id can become the Lean names above. Step 3's consumer of Step 2.1 is the identification of Causal.DiamondConfinement, and its Minkowski instance is Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset."
+  },
+  {
+   "row": "schwprop:ExtFutCon (Prop 4.12), note",
+   "proposal": "Optional. The note quotes :835 ('Minkowski's proof (Step 2.1) works whenever exp is a global chart'). In ETT the Minkowski proof is the convexity of the future timelike cone on a convex open set (Causal.minkowski_futureOneConnectedOn). The exterior's proof still needs the conformal reduction (T-loc-schw-exterior-one-connected)."
+  }
+ ],
+ "extra_decls": [
+  "Causal.minkowski_chronalCurveOn_iff",
+  "Causal.minkowski_chronalCurveOn_segment",
+  "Causal.minkowski_lt_top_convexCombination",
+  "Causal.minkowski_lt_top_segment",
+  "Causal.minkowski_chronalHomotopyOn_convexCombination",
+  "Causal.sbierskiSplitHomotopy and its four equations (_of_le, _of_lt, _self, _of_ge)",
+  "Causal.continuousOn_sbierskiSplitHomotopy",
+  "Causal.sbierskiPrintedHomotopy"
+ ],
+ "findings": [
+  "InexSchwarzschild2.tex:577–579 (Thm 3.1 Step 2.1). The printed homotopy Γ(t, s) = (σ_{λ(t)} * λ|[t,1])(s) is not a timelike homotopy. Its slice at t = 0 is σ_0 = 0 on [0, 1/2] (λ(0) = 0, :573). Its slice at t = 1 is λ|[1,1] = λ(1) on [1/2, 1]. A curve that pauses is not timelike under Sbierski's own Def 2.1 (:235): its derivative there is 0. It is not chronal either. This is now proved in Lean in ℝ^{1,n} for every n and every open set: Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero, _one, minkowski_not_chronalHomotopyOn_sbierskiPrinted. Before, the Lean witness was on the timelike line only (Causal.timelikeLine_not_chronalCurveOn_pause). The defect does not depend on the rescaling of :579 (argued): at t = 1 the interval [1, 1] is a point, and at t = 0 σ_{λ(0)} = σ_0 is constant whatever the rescaling. The interior slices are chronal and Γ is jointly continuous (argued, not in Lean). The fault is only at the two ends.",
+  "The correction 'split at s = t' (binder row schwthm:MinkInex, `findings`) is proved: Causal.minkowski_chronalHomotopyOn_sbierskiSplit. Its form is Γ(t, s) = λ(0) + (s/t)(λ(t) − λ(0)) for s ≤ t and λ(s) for s ≥ t, a chronal homotopy with fixed endpoints from λ to the straight segment. It holds in every convex open set of ℝ^{1,n} and needs no normalisation λ(0) = 0. Its joint continuity at the corner (0, 0), the one delicate point, is Causal.continuousOn_sbierskiSplitHomotopy. The shorter route, the convex combination (1 − t)λ₀ + tλ₁, proves Step 2.1 (:567) and the remark of :835 directly. So the step itself stands; only the printed homotopy is defective."
+ ],
+ "questions": [
+  "Timelike curves read as future chronal curves (Causal.TimelikeHomotopy's reading, kb/0273, not a new one). Under the C0 model the two classes are incomparable. For Sbierski's piecewise smooth timelike curves, route (a) also proves his form, because a convex combination of two piecewise smooth timelike curves is piecewise smooth and timelike (the future timelike cone is convex). That is argued, not in Lean: lean-causal has no smooth curves. Whether the binder row should say so is the keeper's or the author's choice.",
+  "'λ|[t,1] reparametrised to [0,1] (for example by a linear rescaling)' (:579). I took the linear rescaling u ↦ λ(t + u(1 − t)) to define the printed homotopy. The refutation does not depend on that choice (argued in findings), but the Lean statement is for the linear one.",
+  "Sbierski's normalisation 'without loss of generality λ(0) = 0' (:573). The positive results do not use it: the segment s ↦ λ(0) + s(λ(1) − λ(0)) and the split homotopy are translated forms. The refutation of the slice at t = 0 uses it, since the printed σ_X is written for it. Without it, the printed slice at t = 0 is the segment from the origin to λ(0), then λ, which is not even a curve from λ(0).",
+  "'The unique Lorentzian length maximising timelike geodesic' (:567, :569) I read as the straight segment, as :569 recalls. Its maximality is metric (T-loc-minkowski-timelike-diameter, DEC-147's package) and is not stated here."
+ ],
+ "kb_proposals": [
+  "In Minkowski space the chronal curves of any open W over [a, b] are exactly the continuous maps into W with c s ≪ c s' at ⊤ for s < s' (Causal.minkowski_chronalCurveOn_iff). The local condition of ChronalCurveOn is met inside a ball, where ≪ restricts (Causal.Flat.lt_iff_of_convex). It is the Minkowski cousin of timelikeLine_chronalCurveOn_iff and the quick way to build chronal curves and homotopies of ℝ^{1,n} (T-loc-minkowski-future-one-connected).",
+  "Minkowski space is future one-connected on every convex open set by the convex combination (Causal.minkowski_futureOneConnectedOn). Sbierski's printed Step 2.1 homotopy is refuted in ℝ^{1,n} (minkowski_not_chronalHomotopyOn_sbierskiPrinted), and its split-at-s = t correction is proved (minkowski_chronalHomotopyOn_sbierskiSplit). Joint continuity at the corner (0, 0) comes from ‖(s/t)(λ t − λ 0)‖ ≤ ‖λ t − λ 0‖ on {0 ≤ s ≤ t}, glued to λ ∘ snd by ContinuousOn.union_of_isClosed.",
+  "Pitfall when inserting docstrings by script: a section header `/-! … -/` also ends in `-/`. Looking back for `/--` with rfind and getting −1 duplicated the whole file here. Check that the block before a declaration opens with `/--`, and assert that each declaration occurs once."
+ ],
+ "notes": "One new file, 485 lines, 23 declarations (21 theorems, 2 definitions), 0 sorry, no label marked: no ETT label is concerned, and the Sbierski row schwthm:MinkInex is a C⁰ theorem of which Step 2.1 is one step. Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.Model.MinkowskiFutureOneConnected` to scaffold/CausalScaffold.lean; I did not edit it. The directory scaffold/CausalScaffold/Model/ did not exist and was created for this file. At graduation the file moves to Causal/Model/MinkowskiFutureOneConnected.lean, the module becomes Causal.Model.MinkowskiFutureOneConnected, its import goes into Causal.lean, and a README row is added. Its imports are already Causal.* only (Causal.DiamondConfinement, Causal.Flat.Form). Name clashes (kb/0082): grep -w over Causal/, scaffold/, ../lean-gx and ../lean-benzecri finds none of the 23 new full names outside this file. The two definitions, Causal.sbierskiPrintedHomotopy and Causal.sbierskiSplitHomotopy, sit in namespace Causal and are specific to Minkowski n; the master may prefer a sub-namespace. The file adds no instance. No existing file was edited. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean` in any form; tools/ladder.py was only imported in memory to call lean_index and model_path. While assembling the docstrings, a script of mine briefly wrote a duplicated copy of the file to disk. A `lake env lean` of that copy reported the duplicate and was stopped. The file was reassembled and checked before any `lake build`, and the module built only from the final file.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: TeX line references (:569 → :570, :573 → :575, :573–579 → :575–579, :476 → :477) in the module (the REPORT keeps the closer's); minkowski_not_chronalHomotopyOn_sbierskiPrinted drops its unneeded hypothesis lam 0 = 0 (derived from the t = 1 slice). Not applied: a minkowski_ prefix for sbierskiPrintedHomotopy / sbierskiSplitHomotopy (root Causal namespace, Minkowski-specific); a later Schwarzschild analogue should pick another name."
+}

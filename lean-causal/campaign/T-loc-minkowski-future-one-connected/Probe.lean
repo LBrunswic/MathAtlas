@@ -1,0 +1,50 @@
+import CausalScaffold.Model.MinkowskiFutureOneConnected
+
+/-! Probe for T-loc-minkowski-future-one-connected: the type and the axioms of each declaration. -/
+
+#check @Causal.minkowski_lt_top_convexCombination
+#print axioms Causal.minkowski_lt_top_convexCombination
+#check @Causal.minkowski_lt_top_segment
+#print axioms Causal.minkowski_lt_top_segment
+#check @Causal.minkowski_chronalCurveOn_iff
+#print axioms Causal.minkowski_chronalCurveOn_iff
+#check @Causal.minkowski_chronalCurveOn_segment
+#print axioms Causal.minkowski_chronalCurveOn_segment
+#check @Causal.minkowski_chronalHomotopyOn_convexCombination
+#print axioms Causal.minkowski_chronalHomotopyOn_convexCombination
+#check @Causal.minkowski_futureOneConnectedOn
+#print axioms Causal.minkowski_futureOneConnectedOn
+#check @Causal.minkowski_futureOneConnected
+#print axioms Causal.minkowski_futureOneConnected
+#check @Causal.minkowski_dual_futureOneConnectedOn
+#print axioms Causal.minkowski_dual_futureOneConnectedOn
+#check @Causal.minkowski_dual_futureOneConnected
+#print axioms Causal.minkowski_dual_futureOneConnected
+#check @Causal.minkowski_chronallyHomotopicOn_segment
+#print axioms Causal.minkowski_chronallyHomotopicOn_segment
+#check @Causal.sbierskiPrintedHomotopy
+#print axioms Causal.sbierskiPrintedHomotopy
+#check @Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero
+#print axioms Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero
+#check @Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_one
+#print axioms Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_one
+#check @Causal.minkowski_not_chronalHomotopyOn_sbierskiPrinted
+#print axioms Causal.minkowski_not_chronalHomotopyOn_sbierskiPrinted
+#check @Causal.sbierskiSplitHomotopy
+#print axioms Causal.sbierskiSplitHomotopy
+#check @Causal.sbierskiSplitHomotopy_of_le
+#print axioms Causal.sbierskiSplitHomotopy_of_le
+#check @Causal.sbierskiSplitHomotopy_of_lt
+#print axioms Causal.sbierskiSplitHomotopy_of_lt
+#check @Causal.sbierskiSplitHomotopy_self
+#print axioms Causal.sbierskiSplitHomotopy_self
+#check @Causal.sbierskiSplitHomotopy_of_ge
+#print axioms Causal.sbierskiSplitHomotopy_of_ge
+#check @Causal.continuousOn_sbierskiSplitHomotopy
+#print axioms Causal.continuousOn_sbierskiSplitHomotopy
+#check @Causal.minkowski_chronalHomotopyOn_sbierskiSplit
+#print axioms Causal.minkowski_chronalHomotopyOn_sbierskiSplit
+#check @Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset
+#print axioms Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset
+#check @Causal.minkowski_Iplus_inter_Iminus_eq_inf_of_convex
+#print axioms Causal.minkowski_Iplus_inter_Iminus_eq_inf_of_convex

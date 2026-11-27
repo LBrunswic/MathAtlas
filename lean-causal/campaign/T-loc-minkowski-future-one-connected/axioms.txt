@@ -1,0 +1,104 @@
+@Causal.minkowski_lt_top_convexCombination : ∀ {n : ℕ} {x₀ y₀ x₁ y₁ : Causal.Minkowski n},
+  (Causal.minkowski n).lt ⊤ x₀ y₀ →
+    (Causal.minkowski n).lt ⊤ x₁ y₁ →
+      ∀ {t : ℝ}, t ∈ Set.Icc 0 1 → (Causal.minkowski n).lt ⊤ ((1 - t) • x₀ + t • x₁) ((1 - t) • y₀ + t • y₁)
+'Causal.minkowski_lt_top_convexCombination' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_lt_top_segment : ∀ {n : ℕ} {p q : Causal.Minkowski n},
+  (Causal.minkowski n).lt ⊤ p q → ∀ {s s' : ℝ}, s < s' → (Causal.minkowski n).lt ⊤ (p + s • (q - p)) (p + s' • (q - p))
+'Causal.minkowski_lt_top_segment' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_chronalCurveOn_iff : ∀ {n : ℕ} {W : TopologicalSpace.Opens (Causal.Minkowski n)}
+  {c : ℝ → Causal.Minkowski n} {a b : ℝ},
+  (Causal.minkowski n).ChronalCurveOn W c a b ↔
+    ContinuousOn c (Set.Icc a b) ∧
+      Set.MapsTo c (Set.Icc a b) ↑W ∧
+        ∀ s ∈ Set.Icc a b, ∀ s' ∈ Set.Icc a b, s < s' → (Causal.minkowski n).lt ⊤ (c s) (c s')
+'Causal.minkowski_chronalCurveOn_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_chronalCurveOn_segment : ∀ {n : ℕ} {W : TopologicalSpace.Opens (Causal.Minkowski n)},
+  Convex ℝ ↑W →
+    ∀ {p q : Causal.Minkowski n},
+      p ∈ W →
+        q ∈ W → (Causal.minkowski n).lt ⊤ p q → (Causal.minkowski n).ChronalCurveOn W (fun s => p + s • (q - p)) 0 1
+'Causal.minkowski_chronalCurveOn_segment' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_chronalHomotopyOn_convexCombination : ∀ {n : ℕ} {W : TopologicalSpace.Opens (Causal.Minkowski n)},
+  Convex ℝ ↑W →
+    ∀ {γ₀ γ₁ : ℝ → Causal.Minkowski n},
+      (Causal.minkowski n).ChronalCurveOn W γ₀ 0 1 →
+        (Causal.minkowski n).ChronalCurveOn W γ₁ 0 1 →
+          γ₁ 0 = γ₀ 0 →
+            γ₁ 1 = γ₀ 1 → (Causal.minkowski n).ChronalHomotopyOn W (fun t s => (1 - t) • γ₀ s + t • γ₁ s) γ₀ γ₁
+'Causal.minkowski_chronalHomotopyOn_convexCombination' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_futureOneConnectedOn : ∀ {n : ℕ} {W : TopologicalSpace.Opens (Causal.Minkowski n)},
+  Convex ℝ ↑W → (Causal.minkowski n).FutureOneConnectedOn W
+'Causal.minkowski_futureOneConnectedOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_futureOneConnected : ∀ {n : ℕ}, (Causal.minkowski n).FutureOneConnected
+'Causal.minkowski_futureOneConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_dual_futureOneConnectedOn : ∀ {n : ℕ} {W : TopologicalSpace.Opens (Causal.Minkowski n)},
+  Convex ℝ ↑W → (Causal.minkowski n).dual.FutureOneConnectedOn W
+'Causal.minkowski_dual_futureOneConnectedOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_dual_futureOneConnected : ∀ {n : ℕ}, (Causal.minkowski n).dual.FutureOneConnected
+'Causal.minkowski_dual_futureOneConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_chronallyHomotopicOn_segment : ∀ {n : ℕ} {W : TopologicalSpace.Opens (Causal.Minkowski n)},
+  Convex ℝ ↑W →
+    ∀ {lam : ℝ → Causal.Minkowski n},
+      (Causal.minkowski n).ChronalCurveOn W lam 0 1 →
+        (Causal.minkowski n).ChronallyHomotopicOn W lam fun s => lam 0 + s • (lam 1 - lam 0)
+'Causal.minkowski_chronallyHomotopicOn_segment' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.sbierskiPrintedHomotopy : {n : ℕ} → (ℝ → Causal.Minkowski n) → ℝ → ℝ → Causal.Minkowski n
+'Causal.sbierskiPrintedHomotopy' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero : ∀ {n : ℕ} (lam : ℝ → Causal.Minkowski n),
+  lam 0 = 0 →
+    ∀ (W : TopologicalSpace.Opens (Causal.Minkowski n)),
+      ¬(Causal.minkowski n).ChronalCurveOn W (Causal.sbierskiPrintedHomotopy lam 0) 0 1
+'Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_one : ∀ {n : ℕ} (lam : ℝ → Causal.Minkowski n)
+  (W : TopologicalSpace.Opens (Causal.Minkowski n)),
+  ¬(Causal.minkowski n).ChronalCurveOn W (Causal.sbierskiPrintedHomotopy lam 1) 0 1
+'Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_not_chronalHomotopyOn_sbierskiPrinted : ∀ {n : ℕ} (lam : ℝ → Causal.Minkowski n),
+  lam 0 = 0 →
+    ∀ (W : TopologicalSpace.Opens (Causal.Minkowski n)) (γ₀ γ₁ : ℝ → Causal.Minkowski n),
+      ¬(Causal.minkowski n).ChronalHomotopyOn W (Causal.sbierskiPrintedHomotopy lam) γ₀ γ₁
+'Causal.minkowski_not_chronalHomotopyOn_sbierskiPrinted' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.sbierskiSplitHomotopy : {n : ℕ} → (ℝ → Causal.Minkowski n) → ℝ → ℝ → Causal.Minkowski n
+'Causal.sbierskiSplitHomotopy' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.sbierskiSplitHomotopy_of_le : ∀ {n : ℕ} {lam : ℝ → Causal.Minkowski n} {t s : ℝ},
+  s ≤ t → Causal.sbierskiSplitHomotopy lam t s = lam 0 + (s / t) • (lam t - lam 0)
+'Causal.sbierskiSplitHomotopy_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.sbierskiSplitHomotopy_of_lt : ∀ {n : ℕ} {lam : ℝ → Causal.Minkowski n} {t s : ℝ},
+  t < s → Causal.sbierskiSplitHomotopy lam t s = lam s
+'Causal.sbierskiSplitHomotopy_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.sbierskiSplitHomotopy_self : ∀ {n : ℕ} (lam : ℝ → Causal.Minkowski n) (t : ℝ),
+  Causal.sbierskiSplitHomotopy lam t t = lam t
+'Causal.sbierskiSplitHomotopy_self' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.sbierskiSplitHomotopy_of_ge : ∀ {n : ℕ} {lam : ℝ → Causal.Minkowski n} {t s : ℝ},
+  t ≤ s → Causal.sbierskiSplitHomotopy lam t s = lam s
+'Causal.sbierskiSplitHomotopy_of_ge' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.continuousOn_sbierskiSplitHomotopy : ∀ {n : ℕ} {lam : ℝ → Causal.Minkowski n},
+  ContinuousOn lam (Set.Icc 0 1) →
+    ContinuousOn (Function.uncurry (Causal.sbierskiSplitHomotopy lam)) (Set.Icc 0 1 ×ˢ Set.Icc 0 1)
+'Causal.continuousOn_sbierskiSplitHomotopy' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_chronalHomotopyOn_sbierskiSplit : ∀ {n : ℕ} {W : TopologicalSpace.Opens (Causal.Minkowski n)},
+  Convex ℝ ↑W →
+    ∀ {lam : ℝ → Causal.Minkowski n},
+      (Causal.minkowski n).ChronalCurveOn W lam 0 1 →
+        (Causal.minkowski n).ChronalHomotopyOn W (Causal.sbierskiSplitHomotopy lam) lam fun s =>
+          lam 0 + s • (lam 1 - lam 0)
+'Causal.minkowski_chronalHomotopyOn_sbierskiSplit' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset : ∀ {n : ℕ} {x y : Causal.Minkowski n}
+  {Ũ : TopologicalSpace.Opens (Causal.Minkowski n)},
+  (Causal.minkowski n).lt ⊤ x y →
+    (Causal.minkowski n).Jplus ⊤ {x} ∩ (Causal.minkowski n).Jminus ⊤ {y} ⊆ ↑Ũ →
+      (Causal.minkowski n).Iplus ⊤ {x} ∩ (Causal.minkowski n).Iminus ⊤ {y} =
+        (Causal.minkowski n).Iplus Ũ {x} ∩ (Causal.minkowski n).Iminus Ũ {y}
+'Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Causal.minkowski_Iplus_inter_Iminus_eq_inf_of_convex : ∀ {n : ℕ} {W Ũ : TopologicalSpace.Opens (Causal.Minkowski n)},
+  Convex ℝ ↑W →
+    ∀ {γ : ℝ → Causal.Minkowski n} {x y : Causal.Minkowski n},
+      (Causal.minkowski n).ChronalCurveOn W γ 0 1 →
+        γ 0 = x →
+          γ 1 = y →
+            Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+              closure ((Causal.minkowski n).Iplus Ũ {x} ∩ (Causal.minkowski n).Iminus Ũ {y}) ⊆ ↑Ũ →
+                (Causal.minkowski n).Iplus W {x} ∩ (Causal.minkowski n).Iminus W {y} =
+                  (Causal.minkowski n).Iplus (W ⊓ Ũ) {x} ∩ (Causal.minkowski n).Iminus (W ⊓ Ũ) {y}
+'Causal.minkowski_Iplus_inter_Iminus_eq_inf_of_convex' depends on axioms: [propext, Classical.choice, Quot.sound]

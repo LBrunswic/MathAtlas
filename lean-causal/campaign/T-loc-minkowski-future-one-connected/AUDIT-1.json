@@ -1,0 +1,108 @@
+{
+ "target": "T-loc-minkowski-future-one-connected",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "labels_note": "No label is concerned and none is marked. The REPORT's labels is [], the module docstring says 'No label is marked', and grep finds no **`label`** mark in the file. This is right for a layer-3 localisation target with provides = []. schwthm:MinkInex is a C0 theorem, curated 'Unmarked, partial', and Step 2.1 is one step of its proof.",
+ "declarations": [
+  {
+   "name": "Causal.minkowski_futureOneConnected",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Layer-3 rule met: the statement is literally (minkowski n).FutureOneConnected, i.e. Causal.Causality.FutureOneConnected (Causal/TimelikeHomotopy.lean:157) at Causal.minkowski n (Causal/Minkowski.lean:76). There is no restatement, no hypothesis, and every n is covered (n = 0 too, a weakening of Sbierski's d >= 1). Not vacuous: the time axis s |-> (s, 0) is a chronal curve of ⊤ (checked in the audit probe through minkowski_chronalCurveOn_iff)."
+  },
+  {
+   "name": "Causal.minkowski_futureOneConnectedOn",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Every convex open W, by route (a). The non-convex case is disclosed in SCOPE. The counterexample there (R^{1,2} minus the time axis; the curves s |-> (10s,(1,0)) and (10s,(cos 2πs, sin 2πs)), with speed 2π < 10, the same endpoints, and winding numbers 0 and 1) is correct as argued."
+  },
+  {
+   "name": "Causal.minkowski_chronalCurveOn_iff",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The subtle point, checked. Forward: CurveOn.continuousOn, .mem, and lt_of_lt (a subdivision gives ≪_W) followed by lt_mono le_top. Backward: for t, an open N ≤ W and c t ∈ N, a ball B ⊆ N about c t (convex in the sup norm). Continuity within Icc gives δ, and for s, s' within δ of t, ≪ at ⊤ becomes ≪_B by Flat.lt_iff_of_convex (Causal/Flat/Form.lean:308), then ≪_N by lt_mono. The local condition of CurveOn (Causal/Curves.lean:69-73, ChronalCurveOn at :234) is handled exactly, in every open W, convex or not. It is used correctly: every chronal-curve proof in the file (segment, convex-combination slices, split slices) goes through its backward direction."
+  },
+  {
+   "name": "Causal.minkowski_chronalHomotopyOn_convexCombination",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Joint continuity on [0,1]² from the continuity of γ₀ and γ₁ composed with snd. The slices map into W by convexity. Slice chronality comes from the convexity of the open future cone (minkowski_lt_top_convexCombination) and the iff. The fixed endpoints and eqOn_zero/eqOn_one hold."
+  },
+  {
+   "name": "Causal.minkowski_chronallyHomotopicOn_segment",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Step 2.1 (:567) in the chronal reading (kb/0273, the reading of Causal.TimelikeHomotopy, disclosed). Every chronal curve λ of a convex W over [0,1] is chronally homotopic in W to s |-> λ(0) + s(λ(1) − λ(0)), and W = ⊤ is M_Mink. Lean ≥ paper (any convex W, any n). λ(0) = 0 is indeed not assumed: there is no such hypothesis, and the segment is the translated σ_{λ(1)}. The maximality of the segment is not stated (metric) and is disclosed."
+  },
+  {
+   "name": "Causal.sbierskiPrintedHomotopy",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "This is the printed Γ (:577) with the concatenation of :572 (split at 1/2) and the linear rescaling of :579: (2s)·λ(t) for s ≤ 1/2, λ(t + (2s−1)(1−t)) for s > 1/2. The pieces agree at s = 1/2. σ_X(s) = s·X is untranslated, as printed under λ(0) = 0."
+  },
+  {
+   "name": "Causal.minkowski_not_chronalCurveOn_sbierskiPrinted_zero / _one / minkowski_not_chronalHomotopyOn_sbierskiPrinted",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "They say exactly that the end slices are not chronal curves. At t = 0, under λ(0) = 0, the values at s = 0 and s = 1/2 are both 0. At t = 1 the values at s = 1/2 and s = 1 are both λ(1). Injectivity is contradicted (ChronalCurveOn.injOn, Causal/TimelikeHomotopy.lean:172; irreflexivity from minkowski_lt_top_iff). Not vacuous: the statements are universal negations whose only hypothesis, λ 0 = 0, is satisfiable (the time axis, a chronal curve). They hold for every n, every open W and every γ₀, γ₁. The finding itself is correct: under Def 2.1 (:235) a constant piece has derivative 0, which is not timelike, so the printed Γ is not a timelike homotopy. The claim that the defect does not depend on the rescaling is correct, not just plausible. At t = 1, λ|[1,1] is a point under any reparametrisation, and at t = 0, σ_{λ(0)} = σ_0 is constant whatever rescales λ|[0,1]. The 1/2 split is fixed by :572. See finding 2 on the unnecessary hypothesis."
+  },
+  {
+   "name": "Causal.sbierskiSplitHomotopy / continuousOn_sbierskiSplitHomotopy / minkowski_chronalHomotopyOn_sbierskiSplit",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Route (b), the binder's fix Γ(t,s) = σ_{λ(t)}(s/t) for s ≤ t and λ(s) for s ≥ t, in translated form. It is equal to the binder's formula under λ(0) = 0. At t = 0, 0/0 = 0 gives λ(0). Joint continuity: the closed pieces {s ≤ t} and {t ≤ s} are glued, and at the corner the bound ‖(s/t)(λ t − λ 0)‖ ≤ ‖λ t − λ 0‖ holds. Slice chronality covers all three configurations of s < s' around t. Endpoints: Γ(0,·) = λ and Γ(1,·) = the segment."
+  },
+  {
+   "name": "Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset / _eq_inf_of_convex",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "These are the witnesses. They are direct applications of Causality.Iplus_inter_Iminus_eq_of_futureOneConnected (Causal/DiamondConfinement.lean:357) and Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn (:318), with no restatement, and every hypothesis is discharged or kept. Their hypotheses are satisfiable (Ũ = W = ⊤, the segment)."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "As instructed, lake build was not run. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean` exits 0 with no output. Audit probe: the current source plus #print axioms on all 23 declarations, elaborated from source rather than from the olean. Every declaration gives [propext, Classical.choice, Quot.sound], identical to axioms.txt, and each of axioms.txt's 23 lines matches a #print axioms line of Probe.lean. To confirm that the probe really elaborates, a deliberately false example was added and failed. The probe also checked that (minkowski 3).FutureOneConnected is Causality.FutureOneConnected (minkowski 3) by rfl, and that the time axis is a chronal curve. The probe was deleted afterwards. grep finds no sorry, admit, axiom, native_decide, unsafe, implemented_by, extern, opaque or set_option. Duplicates: one module header docstring (:4), one reading/checklist block (:65), five section headers, 23 declarations, all names unique, one namespace Causal ... end Causal, two imports. The olean (18:02:49) is newer than the source (18:02:33)."
+ },
+ "scope": {
+  "ok": true,
+  "details": "git status --short: the closer's paths are only the untracked lean-causal/scaffold/CausalScaffold/Model/ (one file) and campaign/T-loc-minkowski-future-one-connected/. scaffold/CausalScaffold.lean is not modified. The other entries are other loops' work. They are ErsWitnesses/ErsSCWitnesses and their campaign dirs, now being graduated into Causal/ by the master, together with Causal/Ers464WithoutArc.lean. There are also the lean-gx BTZ/BBS edits (the GX loop), the RESTATED.md/restatements.toml/CHECK-*.json files dated 2026-11-25, and the loop's own ready->active edits in programme/roadmap.toml and roadmap/roadmap.toml. None of them concerns this target: grep of the diffs finds no Minkowski or future-one-connected content. Name clashes: none of the 23 full names is declared anywhere else in lean, lean-causal, lean-gx, lean-benzecri, lean-egf, lean-yamabe or lean-syracuse. Causal/Model/MinkowskiFutureOneConnected.lean does not exist yet."
+ },
+ "docstring_contract": {
+  "ok": true,
+  "details": "kb/0006: the title, the 'no label is marked' statement, verbatim quotes (:567, :570, :575-579, :835; checked word for word), a hypothesis checklist with ⚠ weakened and reading rows, a SCOPE (disclosed) and the Provenance line are all present. The checklist and SCOPE sit in a second /-! block, as Causal/TimelikeHomotopy.lean does. They are true: the reading, the non-convex opens, the printed interior slices (argued, not in Lean), Sbierski's piecewise smooth curves (argued) and the other parameter segment of :606. Declaration docstrings say what is proved, except finding 2."
+ },
+ "finding_for_the_author": "Confirmed as a proof-level defect, not a false statement. The homotopy printed in Step 2.1's proof (:572-579) has end slices that pause, at t = 0 (constant 0 on [0, 1/2]) and at t = 1 (constant λ(1) on [1/2, 1]). So they are neither timelike (Def 2.1) nor chronal, whatever rescaling is chosen. Step 2.1's statement and Thm 3.1 stand: both a convex combination and the split at s = t prove it, in Lean in the chronal reading. The new Lean refutation agrees with the binder's schwthm:MinkInex `findings` entry and the curation's paper_findings, both of which state the same two degenerate slices and the same fix. It extends their Lean evidence from the timelike line to R^{1,n} for every n.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:31, :50, :59, :74, :87, :88, :251, :271 (and REPORT.json findings/questions/declarations)",
+   "what": "TeX line references are off. ':569' (the straight-line recall) is a blank line; the sentence is at :570. ':573' (the 'without loss of generality λ(0) = 0' normalisation) is '\\end{equation*}' of the concatenation; the sentence is at :575, so the quote at :59 is ':575–579', not ':573–579'. Also ':476' (checklist :84, REPORT) is '\\label{MinkInex}'; 'For every d ≥ 1' is at :477. Line numbers are identical in legacy/labeled and sources/1507.00601/eprint.",
+   "fix": "At graduation, replace :569 → :570, :573 → :575 (:573–579 → :575–579) and :476 → :477 (or :475–477) in the docstrings. Do the same in any binder text taken from the REPORT."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:300-307",
+   "what": "minkowski_not_chronalHomotopyOn_sbierskiPrinted assumes hlam : lam 0 = 0, which it does not need: the t = 1 slice (minkowski_not_chronalCurveOn_sbierskiPrinted_one, no hypothesis on λ) already refutes ChronalHomotopyOn for every λ. Its docstring ('in any open set of ℝ^{1,n}, between any two curves') also does not mention the hypothesis. The statement is still faithful to the printed normalisation and is not wrong.",
+   "fix": "Prove it from `_one` via h.chronalCurveOn 1 ⟨zero_le_one, le_rfl⟩ and drop hlam (weakest sufficient hypotheses, kb/0007). Otherwise keep hlam and say 'with λ(0) = 0' in the docstring."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Model/MinkowskiFutureOneConnected.lean:268, :315",
+   "what": "Causal.sbierskiPrintedHomotopy and Causal.sbierskiSplitHomotopy are generic names in the root namespace Causal, but they are specific to Minkowski n. A later Schwarzschild or other-model analogue (Props 4.12, 6.5) would clash. The closer flagged this. No clash exists today.",
+   "fix": "At graduation, consider prefixing (minkowski_sbierskiPrintedHomotopy, minkowski_sbierskiSplitHomotopy) or a sub-namespace, and update the four _of_le/_of_lt/_self/_of_ge lemmas and continuousOn_sbierskiSplitHomotopy accordingly."
+  }
+ ],
+ "checks_performed": [
+  "Read CLAUDE.md (hub), lean-causal/docs/CAMPAIGN.md, kb/0006, kb/0011, kb/0273, the target block in programme/roadmap.toml, REPORT.json, Probe.lean, axioms.txt and the whole new file.",
+  "Read the TeX at :226-247 (Defs 2.1, 2.2), :378-386 (Def 2.13), :470-480 (Thm 3.1), :555-612 (Steps 2, 2.1, 2.2) and :828-850 (:835), and confirmed the labeled and eprint copies agree line for line.",
+  "Read the library definitions: CurveOn (Causal/Curves.lean:69), ChronalCurveOn (:234), ChronalHomotopyOn/ChronallyHomotopicOn/FutureOneConnectedOn/FutureOneConnected (Causal/TimelikeHomotopy.lean:133-157), injOn (:172), minkowski and minkowski_lt_top_iff (Causal/Minkowski.lean:76, :83), Flat.lt_iff_of_convex (Causal/Flat/Form.lean:308), and the DiamondConfinement identification theorems (:295-364).",
+  "Compared the statements of all 23 declarations with Step 2.1, the printed Γ and the binder's fix.",
+  "Typechecked with lake env lean -DwarningAsError=true (exit 0). An audit probe elaborated from source ran #print axioms on all 23 declarations (standard) and passed the rfl and non-vacuity examples, and a false example in it failed as it should; deleted afterwards.",
+  "Grepped for sorry, admit, axiom, native_decide and similar escapes (none), and for duplicate declarations or docstrings (none).",
+  "Checked git status and file mtimes, and grepped the diffs; checked name clashes across all hub Lean packages.",
+  "Checked consistency with binder.toml schwthm:MinkInex (findings, note, bind.geometric minkowski) and with curation.toml paper_findings."
+ ]
+}
