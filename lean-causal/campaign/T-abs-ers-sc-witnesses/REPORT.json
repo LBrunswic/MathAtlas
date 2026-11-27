@@ -1,0 +1,286 @@
+{
+ "target": "T-abs-ers-sc-witnesses",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/ErsSCWitnesses.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-ers-sc-witnesses/REPORT.json",
+  "campaign/T-abs-ers-sc-witnesses/Probe.lean",
+  "campaign/T-abs-ers-sc-witnesses/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.ErsSCWitnesses",
+ "build_result": "The module built in 1.2 s (3142 jobs) with no warning. Before it, the --no-build dry run listed only CausalScaffold.ErsSCWitnesses as out of date ([3142/3142]); `lake build --no-build` of the seven direct imports printed 'All targets up-to-date (3141 jobs)'. So nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file exits 0. campaign/T-abs-ers-sc-witnesses/Probe.lean imports the module and runs #print axioms on all 22 theorems. Each depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx (axioms.txt). Its #uses scan confirms that each witness's proof term reaches the form it names (USES lines).",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). The direct imports are Causal.Ers464SecondCountable, Causal.Ers464WithoutArc (for the extra _noArc witness), Causal.ErsSecondCountable, Causal.ErsMughd, Causal.InextensibleNestedBasics, Causal.CBG.CausalConvex (timelikeLine_globallyHyperbolicOn) and Causal.CExtConnexeCauchy.Basic (isCauchySurfaceOn_inf_of_secondCountable). tools/ladder.py's model_path is None for each one, checked one at a time in memory (kb/0247), and None for the module itself with these imports. No Minkowski, Static, Flat, Model, Port or SingularFlat module is imported, directly or transitively. No metric notion appears: arctan and π occur only in the proof of isCauchySurfaceOn_Ioo_center, where they reparametrise ℝ onto an interval. causal_ladder supplies IsCausal from global hyperbolicity in mughdData.",
+ "labels": [],
+ "rows_touched": "No ledger label is marked or claimed. The witnessed forms are unmarked skeletons of papers/ers-predictability rows ersprop:PropLocUniqueness (ghd_02_19.tex:836), ersthm:ThmMUGHD (:1055), ersthm:consider_subluminal_quasilinear_wave (:1066) and the remark at :1053 ('any m-GHD is a UGHD').",
+ "declarations": [
+  {
+   "name": "Causal.timelikeLine_eq_of_mem_of_t1_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:222",
+   "statement": "timelikeLine.IsCauchySurfaceOn twoIntervals {0, 3} ∧ (∃ I c s t, timelikeLine.CausalCurveIn twoIntervals I c ∧ s ∈ I ∧ t ∈ I ∧ s ≠ t ∧ c s ∈ {0, 3} ∧ c t ∈ {0, 3} ∧ c s = c t) ∧ ∀ W ≤ twoIntervals, ∀ I c, timelikeLine.CausalCurveIn W I c → ∀ s ∈ I, ∀ t ∈ I, c s ∈ {0, 3} → c t ∈ {0, 3} → c s = c t",
+   "standing": "ℝ, no instance argument. The inhabitant is the constant curve 0 over [0, 1], s = 0, t = 1. Both the inhabitant's conclusion and the universal one are proved by the form.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_isCauchySurfaceOn_of_subset_of_t1_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:242",
+   "statement": "(timelikeLine.IsCauchySurfaceOn twoIntervals {0, 3} ∧ timelikeLine.IsCauchySurfaceOn ersWitnessIoo {0} ∧ {0} ⊂ {0, 3} ∧ ersWitnessIoo ≤ twoIntervals ∧ timelikeLine.IsCauchySurfaceOn ioo24 {3} ∧ {3} ⊂ {0, 3} ∧ ioo24 ≤ twoIntervals) ∧ timelikeLine.IsCauchySurfaceOn ersWitnessIoo {0, 3} ∧ timelikeLine.IsCauchySurfaceOn ioo24 {0, 3}",
+   "standing": "ℝ. Two instances, one per component of B. S' is a proper subset of S in each.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_isCauchySurfaceOn_sSup_of_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:272",
+   "statement": "((∀ ⦃x y⦄, timelikeLine.le twoIntervals x y → timelikeLine.le twoIntervals y x → x = y) ∧ timelikeLine.IsCauchySurfaceOn twoIntervals {0, 3} ∧ (∀ D ∈ pieces, D ≤ twoIntervals) ∧ (∀ D ∈ pieces, ∃ S' ⊆ {0, 3}, timelikeLine.IsCauchySurfaceOn D S') ∧ sSup pieces ∉ pieces) ∧ timelikeLine.IsCauchySurfaceOn (sSup pieces) {0, 3}",
+   "standing": "ℝ. pieces is infinite and its union is not a member.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_globallyHyperbolicOn_sSup_of_pieces_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:288",
+   "statement": "(timelikeLine.CausallyArcConnectedOn twoIntervals ∧ timelikeLine.GloballyHyperbolicOn twoIntervals ∧ timelikeLine.IsCauchySurfaceOn twoIntervals {0, 3} ∧ (∀ D ∈ pieces, D ≤ twoIntervals) ∧ (∀ D ∈ pieces, ∃ S' ⊆ {0, 3}, timelikeLine.IsCauchySurfaceOn D S') ∧ {0, 3} ⊆ sSup pieces ∧ sSup pieces ∉ pieces) ∧ timelikeLine.IsCauchySurfaceOn (sSup pieces) {0, 3} ∧ timelikeLine.CausallyConvexIn (sSup pieces) twoIntervals ∧ timelikeLine.GloballyHyperbolicOn (sSup pieces)",
+   "standing": "ℝ. B is disconnected; the form's causal convexity and global hyperbolicity hold there.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:447",
+   "statement": "(IsMDevelopment idSol (fun _ => timelikeLine) timelikeLine {0} ⊤ id ∧ IsMDevelopment idSol (fun _ => timelikeLine) timelikeLine {0} ersWitnessIoo clamp ∧ ersWitnessIoo ≠ ⊤) ∧ (∃ U u, IsMaximalUniqueDevelopment idSol (fun _ => timelikeLine) {0} U u) ∧ ∃ U u, IsMaximalMDevelopment idSol (fun _ => timelikeLine) timelikeLine {0} U u",
+   "standing": "ℝ. The 17 hypotheses come from ErsSCWitness.mughdData and are passed to ers_theorem_4_79_secondCountable and ers_theorem_4_80_secondCountable. The originals are not called directly (Probe USES lines).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_isUniqueDevelopment_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:464",
+   "statement": "IsMDevelopment idSol (fun _ => timelikeLine) timelikeLine {0} ersWitnessIoo clamp ∧ IsUniqueDevelopment idSol (fun _ => timelikeLine) {0} ersWitnessIoo clamp",
+   "standing": "ℝ. U₁ = ]-1, 1[ and u₁ = the clamp, not (ℝ, id). The hypotheses on U₁ come from mughdData.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_isUniqueDevelopment_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:476",
+   "statement": "the same statement as timelikeLine_isUniqueDevelopment_secondCountable, through IsMDevelopment.isUniqueDevelopment_secondCountable_noArc (Causal.Ers464WithoutArc)",
+   "standing": "ℝ. Not in the target's list: an extra that costs nothing. Causal.Ers464WithoutArc's SCOPE records this form as having no witness.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.isCauchySurfaceOn_Ioo_center",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:84",
+   "statement": "{a r : ℝ} (hr : 0 < r) {U : Opens ℝ} (hU : (U : Set ℝ) = Ioo (a - r) (a + r)) : timelikeLine.IsCauchySurfaceOn U {a}",
+   "standing": "none. It generalises timelikeLine_isCauchySurfaceOn_Ioo (a = 0) and timelikeLine_isCauchySurfaceOn_Ioo_zero_two (a = r = 1). The proof is the range of a + c·arctan (timelikeLine_isCauchySurfaceOn_range); arctan appears in the proof only.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.tarentinOn",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:107",
+   "statement": "(U : Opens ℝ) : timelikeLine.TarentinOn U",
+   "standing": "none. The library had TarentinOn only at ⊤ (tarentinOn_top). A twin, Causal.timelikeLine_tarentinOn, was written in parallel by T-abs-ers-witnesses (scaffold/CausalScaffold/ErsWitnesses.lean:112). See notes.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.twoIntervals",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:130",
+   "statement": "def : Opens ℝ := ⟨Ioo (-1) 1 ∪ Ioo 2 4, _⟩",
+   "standing": "definition",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.ioo24",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:133",
+   "statement": "def : Opens ℝ := ⟨Ioo 2 4, _⟩",
+   "standing": "definition",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.pieces",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:136",
+   "statement": "def : Set (Opens ℝ) := {D | ∃ a ∈ {0, 3}, ∃ r, 0 < r ∧ r < 1/2 ∧ (D : Set ℝ) = Ioo (a - r) (a + r)}",
+   "standing": "definition",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.antisymm_twoIntervals",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:140",
+   "statement": "∀ ⦃x y⦄, timelikeLine.le twoIntervals x y → timelikeLine.le twoIntervals y x → x = y",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.isAcausalOn_twoIntervals",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:145",
+   "statement": "timelikeLine.IsAcausalOn twoIntervals {0, 3}",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.isCauchySurfaceOn_twoIntervals",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:159",
+   "statement": "timelikeLine.IsCauchySurfaceOn twoIntervals {0, 3}",
+   "standing": "none. Proved by isCauchySurfaceOn_sSup_of_isAcausalOn (Causal/ErsUnions.lean:194), with twoIntervals itself as the ambient and the pieces ]-1, 1[ ({0}) and ]2, 4[ ({3}).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.pieces_le",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:178",
+   "statement": "∀ D ∈ pieces, D ≤ twoIntervals",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.pieces_cauchy",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:187",
+   "statement": "∀ D ∈ pieces, ∃ S' ⊆ {0, 3}, timelikeLine.IsCauchySurfaceOn D S'",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.subset_sSup_pieces",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:193",
+   "statement": "{0, 3} ⊆ sSup pieces",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.sSup_pieces_notMem",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:205",
+   "statement": "sSup pieces ∉ pieces",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.idSol",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:313",
+   "statement": "def : Opens ℝ → (ℝ → ℝ) → Prop := fun U u => EqOn u id U",
+   "standing": "definition. A solution on U is any u equal to id on U, for every open U.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.clamp",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:317",
+   "statement": "def : ℝ → ℝ := fun x => max (-1) (min x 1)",
+   "standing": "definition",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.isPreconnected_of_isDevelopment",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:322",
+   "statement": "IsDevelopment idSol (fun _ => timelikeLine) {0} U₁ u₁ → IsPreconnected (U₁ : Set ℝ)",
+   "standing": "none. Proved by isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable (Causal/Ers464SecondCountable.lean:509).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.isCommonDevelopment_inf",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:329",
+   "statement": "IsDevelopment … U₁ u₁ → IsDevelopment … U₂ u₂ → timelikeLine.IsCommonDevelopment {0} U₁ U₂ (EqOn u₁ u₂ ·) (U₁ ⊓ U₂)",
+   "standing": "none. The Cauchy property comes from isCauchySurfaceOn_inf_of_secondCountable (Causal/CExtConnexeCauchy/Basic.lean:455, kb/0245).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.frontierStaysIn",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:340",
+   "statement": "(U₁ : Opens ℝ) → IsDevelopment … U₂ u₂ → ∀ V, timelikeLine.FrontierStaysIn U₁ {0} V (U₁ ⊓ U₂)",
+   "standing": "none. Nothing is asked of U₁ or V.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.sliceRestart",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:358",
+   "statement": "IsDevelopment … U₁ u₁ → IsDevelopment … U₂ u₂ → ∀ V, IsCommonDevelopment … V → timelikeLine.SliceRestart U₁ {0} V (U₁ ⊓ U₂) (fun _ => ∃ V', IsCommonDevelopment … V' ∧ V < V')",
+   "standing": "none. The restart is V' = U₁ ⊓ U₂: a frontier point of the open V is not in V.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.mughdData",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:371",
+   "statement": "the 17 hypotheses of ers_theorem_4_79_secondCountable (equally ers_theorem_4_80_secondCountable) at sol = idSol, cau = fun _ => timelikeLine, Cm = timelikeLine, S = {0}",
+   "standing": "none. IsCausal is obtained by causal_ladder from timelikeLine_globallyHyperbolic. hsub is LeNested.refl, hinext is InextensibleNestedOn.refl (Causal/InextensibleNestedBasics.lean:100), and harc is timelikeLine_causallyArcConnected. hG is timelikeLine_globallyHyperbolicOn (Causal/CBG/CausalConvex.lean:1261), hT is tarentinOn, and hK is GloballyHyperbolicOn.compactSlabs_singleton. hlocal, hstay and hstep come from isCommonDevelopment_inf, frontierStaysIn and sliceRestart, for every pair.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsSCWitness.two_mDevelopments",
+   "file_line": "scaffold/CausalScaffold/ErsSCWitnesses.lean:424",
+   "statement": "IsMDevelopment idSol (fun _ => timelikeLine) timelikeLine {0} ⊤ id ∧ IsMDevelopment idSol (fun _ => timelikeLine) timelikeLine {0} ersWitnessIoo clamp ∧ ersWitnessIoo ≠ ⊤",
+   "standing": "none",
+   "status": "proved"
+  }
+ ],
+ "witness_table": [
+  {
+   "form": "Causal.Causality.eq_of_mem_of_t1_secondCountable",
+   "form_line": "Causal/Ers464SecondCountable.lean:178",
+   "witness": "Causal.timelikeLine_eq_of_mem_of_t1_secondCountable",
+   "data": "W ≤ B = ]-1,1[ ∪ ]2,4[, S = {0,3}; inhabitant: the constant curve 0 over [0,1], s = 0 ≠ t = 1; conclusion also for every causal curve of every W ≤ B",
+   "non_trivial": "S has two points, so c s ∈ S ∧ c t ∈ S does not by itself give c s = c t"
+  },
+  {
+   "form": "Causal.Causality.IsCauchySurfaceOn.of_subset_of_t1_secondCountable",
+   "form_line": "Causal/Ers464SecondCountable.lean:186",
+   "witness": "Causal.timelikeLine_isCauchySurfaceOn_of_subset_of_t1_secondCountable",
+   "data": "W = ]-1,1[, S' = {0}; and W = ]2,4[, S' = {3}; B, S as above",
+   "non_trivial": "S' ⊊ S in both instances"
+  },
+  {
+   "form": "Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable",
+   "form_line": "Causal/Ers464SecondCountable.lean:194",
+   "witness": "Causal.timelikeLine_isCauchySurfaceOn_sSup_of_secondCountable",
+   "data": "B, S as above; 𝒟 = pieces (]a-r, a+r[, a ∈ {0,3}, 0 < r < 1/2)",
+   "non_trivial": "𝒟 infinite, ⋃𝒟 ∉ 𝒟, pieces with different Cauchy surfaces {0} and {3}"
+  },
+  {
+   "form": "Causal.Causality.globallyHyperbolicOn_sSup_of_pieces_secondCountable",
+   "form_line": "Causal/Ers464SecondCountable.lean:205",
+   "witness": "Causal.timelikeLine_globallyHyperbolicOn_sSup_of_pieces_secondCountable",
+   "data": "as for the sSup form, with B causally arc-connected and GH and S ⊆ ⋃𝒟",
+   "non_trivial": "as for the sSup form; B disconnected"
+  },
+  {
+   "form": "Causal.ers_theorem_4_79_secondCountable",
+   "form_line": "Causal/ErsSecondCountable.lean:288",
+   "witness": "Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable (hypotheses: Causal.ErsSCWitness.mughdData)",
+   "data": "sol = idSol (u = id on U, every open U), cau u = Cm = timelikeLine, S = {0}",
+   "non_trivial": "at least two m-development domains (ℝ, ]-1,1[), unlike the degenerate timelikeLine_ers_theorem_4_79_4_80 (one domain); hlocal, hstay, hstep proved for every pair"
+  },
+  {
+   "form": "Causal.ers_theorem_4_80_secondCountable",
+   "form_line": "Causal/ErsSecondCountable.lean:322",
+   "witness": "Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable",
+   "data": "the same",
+   "non_trivial": "the same"
+  },
+  {
+   "form": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable",
+   "form_line": "Causal/ErsSecondCountable.lean:261",
+   "witness": "Causal.timelikeLine_isUniqueDevelopment_secondCountable",
+   "data": "U₁ = ]-1,1[, u₁ = clamp; the rest from mughdData",
+   "non_trivial": "U₁ ≠ ℝ and u₁ ≠ id off U₁"
+  },
+  {
+   "form": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable_noArc (extra, not in the target)",
+   "form_line": "Causal/Ers464WithoutArc.lean:393",
+   "witness": "Causal.timelikeLine_isUniqueDevelopment_secondCountable_noArc",
+   "data": "the same, harc not passed",
+   "non_trivial": "the same"
+  }
+ ],
+ "findings": [
+  "Library, not paper: all seven forms of the target now have a timelike-line witness (kb/0011). The extra _noArc m-GHD form has one too. Each witness states the form's hypotheses on concrete data, or takes them from one data theorem (mughdData), and states the form's conclusion on that data. Its proof term applies the form itself, not the original (Probe.lean USES lines).",
+  "Library, not paper: the planner's sketch for the union lemmas (B = ⊤, 𝒟 = {⊤}, S = {0}) is trivial for two of them. With S a singleton, eq_of_mem's conclusion c s = c t follows from c s, c t ∈ S alone. of_subset can then only take S' = S (S' = ∅ is Cauchy only in an open set with no inextensible curve). So the witnesses use B = ]-1, 1[ ∪ ]2, 4[ and S = {0, 3}, which is Cauchy in B and acausal there. No connected open set of the line containing both points has it as a Cauchy surface: the identity curve would meet it twice. 𝒟 is the infinite family of intervals ]a - r, a + r[ with a ∈ S and 0 < r < 1/2. Its union is not a member, and its pieces have different Cauchy surfaces, {0} and {3}.",
+  "Library, not paper: the 4.79/4.80 hypotheses hold for the problem whose solutions are the restrictions of id to every open set of the line, not only for the one-domain problem of timelikeLine_ers_theorem_4_79_4_80 (sol U u := U = ⊤ ∧ …). The reason: a development of {0} is preconnected (isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable), and two developments meet in a common development (kb/0245). So Cor 4.73's named inputs hlocal, hstay and hstep (local_uniqueness, frontier_stays_in, slice_restart) are theorems for every pair of developments of this problem. hG, hT and hK hold on every open set of the line: GH by timelikeLine_globallyHyperbolicOn, tarentin by the new ErsSCWitness.tarentinOn, compact slabs by compactSlabs_singleton.",
+  "Library, not paper: Causal.Ers464WithoutArc's SCOPE says 'Cor 4.68 and the m-GHD form have no witness'. The m-GHD half is now stale: timelikeLine_isUniqueDevelopment_secondCountable_noArc is a witness for IsMDevelopment.isUniqueDevelopment_secondCountable_noArc. Editing that docstring is the loop's job, not done here. Cor 4.68 is T-abs-ers-witnesses'.",
+  "Limitation, disclosed in SCOPE: every witness uses one causality, cau u = Cm = timelikeLine. None separates the PDE's causality from Minkowski's, so hsub and hinext hold by refl. The cheap separating candidate on ℝ fails. Take cau u the spacelike line inside Cm the timelike line. Its causal curves are constant and cannot strictly extend (the image cannot grow). So every constant curve is inextensible for it, which breaks hinext, and {0} is Cauchy in no open set. This is argued, not proved in Lean."
+ ],
+ "questions": [
+  "The configuration of the union witnesses. The target's sketch was B = ⊤, 𝒟 = {⊤}, S = {0}. The evidence asked for non-trivial witnesses 'where possible', so I took B = ]-1, 1[ ∪ ]2, 4[, S = {0, 3} and 𝒟 infinite. The singleton instance is not stated separately. If the loop wants it too, it is four one-line applications of the same forms to timelikeLine_globallyHyperbolic, timelikeLine_causallyArcConnected and timelikeLine_isCauchySurface_zero.",
+  "eq_of_mem's 'conclusion on that data'. Every inhabitant of its hypotheses has c s = c t, which is what the lemma says. On the inhabitant (the constant curve 0, s = 0 ≠ t = 1), that conclusion is 0 = 0. I also stated the conclusion for every causal curve of every W ≤ B, with S having two points, and took that as meeting kb/0011. This is a reading of the witness rule, not of the paper."
+ ],
+ "kb_proposals": [
+  "A non-trivial witness for the ERS union lemmas on the line: S = {0, 3} is Cauchy in ]-1, 1[ ∪ ]2, 4[ (Causal.ErsSCWitness.isCauchySurfaceOn_twoIntervals), proved by isCauchySurfaceOn_sSup_of_isAcausalOn with the union itself as ambient. The infinite family ErsSCWitness.pieces, whose union is not a member, serves all four second countable union lemmas. {a} is Cauchy in ]a - r, a + r[ by ErsSCWitness.isCauchySurfaceOn_Ioo_center (T-abs-ers-sc-witnesses).",
+  "On the timelike line, for the problem whose solutions are id on every open set (ErsSCWitness.idSol, S = {0}), every development is preconnected. Two developments meet in the common development U₁ ⊓ U₂. Cor 4.73's hlocal, hstay and hstep hold for every pair (isCommonDevelopment_inf, frontierStaysIn, sliceRestart; ErsSCWitness.mughdData). This gives a witness for 4.73, 4.79, 4.80 and the m-GHD forms with every open interval around 0 as a development domain, not one domain (T-abs-ers-sc-witnesses).",
+  "The timelike line is GH on every open set (timelikeLine_globallyHyperbolicOn, Causal.CBG.CausalConvex). It is tarentin on every open set (Causal.ErsSCWitness.tarentinOn; twin Causal.timelikeLine_tarentinOn in T-abs-ers-witnesses' file) and has compact slabs over a point (GloballyHyperbolicOn.compactSlabs_singleton). So hG, hT and hK of ERS §4 hold on every open set of the line."
+ ],
+ "notes": "Graduation: the file passes `lake env lean -DwarningAsError=true` with 0 sorry and imports only ETT-layer modules, so it can move as is to lean-causal/Causal/ErsSCWitnesses.lean (module Causal.ErsSCWitnesses), with `import Causal.ErsSCWitnesses` added to Causal.lean. If it stays in the scaffold instead, scaffold/CausalScaffold.lean needs `import CausalScaffold.ErsSCWitnesses`, so that scripts/AxiomSweep.lean sees it. Neither edit was made here. Names: the seven witnesses are Causal.timelikeLine_* (the library precedent); the helpers are in Causal.ErsSCWitness. No name clashes in lean-causal or lean-gx (grep). The file reuses Causal.ersWitnessIoo (Causal/ErsUnions.lean:813) for ]-1, 1[. It defines no 4.68, 4.69, 4.71 or 4.82 witness, so it does not overlap the forms of the sibling T-abs-ers-witnesses (scaffold/CausalScaffold/ErsWitnesses.lean). That file appeared on disk at 17:54, after this file's helpers were written. A name scan finds no clash between the two files. One statement is duplicated: the sibling's Causal.timelikeLine_tarentinOn (ErsWitnesses.lean:112) is Causal.ErsSCWitness.tarentinOn (ErsSCWitnesses.lean:107), word for word. Neither file may import the other while both are unfinished. At graduation, keep the sibling's name (the library's timelikeLine_* convention) and have this file cite it, or keep both and cross-cite. That is the loop's choice. Causal.Ers464WithoutArc's ErsNoArcWitness package covers 4.64–4.73 and is not duplicated: this file's only _noArc witness is the m-GHD form, which that package does not cover. No existing file was edited, and no git command was run.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the duplicate tarentinOn now cites Causal.timelikeLine_tarentinOn (Causal.ErsWitnesses, imported); the checklist gains the row for hloc, hglue, hfollow, hm, hmacausal, hS; 'each theorem below' narrowed to the timelikeLine_ witnesses; Ers464WithoutArc's two stale 'no witness' sentences (:107, :621) corrected; findings[4] should read '{0} is Cauchy in no open set containing 0'."
+}

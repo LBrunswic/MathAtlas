@@ -1,0 +1,72 @@
+{
+ "target": "T-abs-ers-sc-witnesses",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "ersprop:PropLocUniqueness",
+   "faithful": null,
+   "marked_correctly": true,
+   "notes": "Witnesses only: no Lean statement here claims the row, and nothing is marked (no **`label`** anywhere in the file; the module docstring names the row unmarked, ghd_02_19.tex:836, quote :843 checked verbatim). The ledger row's decls (ledger.json) list the four union forms; this file adds witnesses for them and changes no form. The four witnesses each restate the form's hypotheses on B = ]-1,1[ ∪ ]2,4[, S = {0,3}, prove them, and prove the form's conclusion by applying the second countable form directly (auditor's #direct scan of each proof term: eq_of_mem_of_t1_secondCountable, IsCauchySurfaceOn.of_subset_of_t1_secondCountable, isCauchySurfaceOn_sSup_of_secondCountable, globallyHyperbolicOn_sSup_of_pieces_secondCountable; none of the originals (…_of_curvesExtendOn, globallyHyperbolicOn_sSup_of_pieces) appears). The data is non-trivial as claimed: S has two points, B is disconnected, S' ⊊ S in both of_subset instances, sSup pieces ∉ pieces is proved (ErsSCWitnesses.lean:205), and pieces is infinite (not stated in the file; the auditor proved `ErsSCWitness.pieces.Infinite` in a stdin probe by injecting r ↦ ]-r, r[ from ]0, 1/2[)."
+  },
+  {
+   "label": "ersthm:ThmMUGHD",
+   "faithful": null,
+   "marked_correctly": true,
+   "notes": "Witnesses only, unmarked. timelikeLine_ers_theorem_4_79_4_80_secondCountable (:447) destructures ErsSCWitness.mughdData (:371), a closed theorem whose statement is the 17 hypotheses of ers_theorem_4_79_secondCountable at sol = idSol, cau = fun _ => timelikeLine, Cm = timelikeLine, S = {0}. The kernel accepts them as the form's arguments, so they match exactly. The conclusion ∃ U u, IsMaximalUniqueDevelopment … is the form's. The proof term calls ers_theorem_4_79_secondCountable and ers_theorem_4_80_secondCountable, not ers_theorem_4_79/4_80 (auditor's #direct and the closer's #uses agree). Non-triviality: two_mDevelopments (:424) proves (⊤, id) and (]-1,1[, clamp) are both m-developments, with ]-1,1[ ≠ ⊤. The m-GHD witnesses (:464, :476) apply IsMDevelopment.isUniqueDevelopment_secondCountable and its _noArc form (Ers464WithoutArc.lean:393) at U₁ = ]-1,1[, u₁ = clamp, every hypothesis from mughdData. Their conclusion IsUniqueDevelopment is the form's."
+  },
+  {
+   "label": "ersthm:consider_subluminal_quasilinear_wave",
+   "faithful": null,
+   "marked_correctly": true,
+   "notes": "Witnesses only, unmarked. Same data and theorem as for ThmMUGHD. The second conjunct ∃ U u, IsMaximalMDevelopment … is ers_theorem_4_80_secondCountable's conclusion, obtained by applying that form. Quote at :1068 checked."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "No lake build was run, per the dispatch. The olean of CausalScaffold.ErsSCWitnesses (17:54:44) is newer than the source (17:54:41). `cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsSCWitnesses.lean` exits 0 with no output, in 1.3 s. grep finds no sorry, admit, axiom, native_decide, decide, set_option, opaque, extern or implemented_by in the file. Re-running the closer's campaign/T-abs-ers-sc-witnesses/Probe.lean with lake env lean -DwarningAsError=true gives output identical to axioms.txt once the # header lines are removed (diff empty). Probe has 7 #uses, 7 #check and 22 #print axioms; the file has 22 theorems and 5 defs (twoIntervals, ioo24, pieces, idSol, clamp). The auditor's own probe, fed to `lake env lean --stdin` so that no file was written, printed axioms for all 22 theorems: [propext, Classical.choice, Quot.sound] for each. Its #direct listing of each witness's proof-term constants confirms that each witness calls the form it names directly and no original."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/ErsSCWitnesses.lean:107 (and scaffold/CausalScaffold/ErsWitnesses.lean:112)",
+   "what": "The duplicate exists and the REPORT discloses it. Causal.ErsSCWitness.tarentinOn (U : Opens ℝ) : timelikeLine.TarentinOn U and the sibling's Causal.timelikeLine_tarentinOn (U : Opens ℝ) : timelikeLine.TarentinOn U state the same thing (the proofs differ slightly). Their fully qualified names differ, so there is no clash: the auditor compared all 27 names of this file with the sibling's 45 and found none in common. The library has TarentinOn only at ⊤ (tarentinOn_top, ErsUniqueness.lean:268) and dual_tarentinOn. Once both files graduate, the library would carry one lemma twice.",
+   "fix": "At graduation, keep one lemma (the sibling's Causal.timelikeLine_tarentinOn fits the library's timelikeLine_* convention). Have ErsSCWitnesses import it, or move it to a shared ETT-layer module, and delete ErsSCWitness.tarentinOn. Do this in the loop, not in this target."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/Causal/Ers464WithoutArc.lean:107 and :621-622",
+   "what": "The REPORT's staleness finding is correct but incomplete. The SCOPE sentence 'Cor 4.68 and the m-GHD form have no witness' (:107) is stale for its m-GHD half: timelikeLine_isUniqueDevelopment_secondCountable_noArc (ErsSCWitnesses.lean:476) is a genuine witness of IsMDevelopment.isUniqueDevelopment_secondCountable_noArc. It supplies every hypothesis from mughdData, harc is not passed, and the form is called directly. The same claim is made a second time, which the REPORT does not name: in the docstring of densCausality_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc ('…and the m-GHD form has no witness', :621-622). Strictly, the sentences stay true of the library (Causal/) until this scaffold module graduates.",
+   "fix": "When ErsSCWitnesses graduates (or is imported by the scaffold root), the loop should edit both places in Causal/Ers464WithoutArc.lean to name the witness, e.g. 'the m-GHD form's witness is timelikeLine_isUniqueDevelopment_secondCountable_noArc (Causal.ErsSCWitnesses)'. That file is outside this dispatch."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold/ErsSCWitnesses.lean:44-55 and :13-14",
+   "what": "The docstring contract (kb/0006) is met: title, the rows named unmarked, verbatim quotes, checklist, SCOPE and provenance are all present and true. The checklist is incomplete, though. Six of the 17 hypotheses of the 4.79/4.80 forms have no row: hloc (SolutionLocal), hglue (SolutionsGlue), hfollow (CausalityFollows), hm (Cm causal, by causal_ladder), hmacausal ({0} acausal, trivial for a singleton) and hS ({0} preconnected). The sentence 'each theorem below inhabits every hypothesis of one second countable form' is also loose: 15 of the 22 theorems are helpers, not witnesses.",
+   "fix": "Add a checklist row 'hloc, hglue, hfollow, hm, hmacausal, hS | EqOn transport; agreementGlues_eqOn; Iff.rfl (one causality); causal_ladder from timelikeLine_globallyHyperbolic; singleton; isPreconnected_singleton', and write 'each witness below (§2, §3)' instead of 'each theorem below'."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/campaign/T-abs-ers-sc-witnesses/REPORT.json findings[4]",
+   "what": "The argued, unproved remark on the spacelike-line candidate says '{0} is Cauchy in no open set'. Under the library's definition (Cauchy.lean:70, which quantifies over the inextensible curves of W), {0} is vacuously Cauchy in the empty open set, where there is no causal curve. The correct claim, which is the one the argument needs, is 'in no open set containing 0', i.e. in no development domain. This is a library remark, not a paper finding, but it is phrased as a fact.",
+   "fix": "Write '{0} is Cauchy in no open set containing 0'."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-causal/scaffold/CausalScaffold.lean (no edit; disclosed in REPORT notes)",
+   "what": "Neither the scaffold root (scaffold/CausalScaffold.lean) nor Causal.lean imports CausalScaffold.ErsSCWitnesses, so scripts/AxiomSweep.lean and the package gate do not see it. The REPORT discloses this correctly, and the edit is outside the dispatch.",
+   "fix": "The loop should graduate the file to Causal/ErsSCWitnesses.lean, with an import in Causal.lean, or add `import CausalScaffold.ErsSCWitnesses` to scaffold/CausalScaffold.lean."
+  }
+ ],
+ "checks": {
+  "layer1": "The 7 direct imports (grep, lines 1-7) are Causal.Ers464SecondCountable, Causal.Ers464WithoutArc, Causal.ErsSecondCountable, Causal.ErsMughd, Causal.InextensibleNestedBasics, Causal.CBG.CausalConvex and Causal.CExtConnexeCauchy.Basic. The auditor ran tools/ladder.py (lean_index, model_path) in memory from the hub root. model_path is None for each import, and None for the module once its imports are inserted into the index. The transitive Causal closure is 67 modules, each with known imports, and is_model is false for all of them, so none of Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat appears. A case-insensitive grep for dist|metric|norm|‖|inner|lorentz|minkowski|arctan|π shows arctan and Real.pi only inside the proof of isCauchySurfaceOn_Ioo_center (:86-104) and its docstring (:83). Minkowski and metric appear only in the quoted paper text and in SCOPE prose. Every statement is order-topological: Ioo, Opens, timelikeLine and the ETT predicates.",
+  "non_vacuity": "For every witness, the auditor read the proof term and the #direct constants. (1) eq_of_mem: the existential conjunct inhabits all of the form's hypotheses (W = B by le_rfl, hB proved for the two-point S, the constant curve 0 over Icc 0 1, s = 0 ≠ t = 1, both images in S), and the universal conjunct is the form at B, S for every W ≤ B and every curve. (2) of_subset: two instances with S' = {0} ⊊ S in ]-1,1[ and S' = {3} ⊊ S in ]2,4[. The conclusion, S Cauchy in a component, is meaningful because IsCauchySurfaceOn does not require S ⊆ W. (3) sSup: hanti, hB, h𝒟B and h𝒟 are proved. 𝒟 is infinite (auditor's probe), ⋃𝒟 ∉ 𝒟, and the pieces have the Cauchy surfaces {0} and {3}. (4) GH sSup: the same, plus hC, hG and hS. (5) 4.79/4.80: mughdData is closed, all 17 hypotheses are proved and nothing is assumed, and there are two distinct m-development domains. (6, 7) m-GHD and its _noArc form at (]-1,1[, clamp). Each conclusion is the form's own on that data. The disclosed limitation stands: cau u = Cm = timelikeLine, so hsub (LeNested.refl) and hinext (InextensibleNestedOn.refl) hold by reflexivity, and no witness separates the two causalities. The SCOPE (:66-67) states this.",
+  "q2_eq_of_mem": "This is a reasonable witness under kb/0011, which asks for 'an example satisfying your hypotheses'. The existential conjunct is such an example, on a configuration where hsS ∧ htS does not by itself force c s = c t, because S has two points. Every inhabitant of the form satisfies its conclusion, so no witness can make that conclusion non-trivial at its own inhabitant. The universal conjunct carries the content: no causal curve of any W ≤ B meets both 0 and 3. One optional strengthening is a non-constant inhabitant, e.g. c t = max 0 t over [-1/2, 1/2] with s = -1/2 and t = 0. It would show the form is not only exercised by constant curves. This is not required.",
+  "report_findings": "(a) The planner's singleton sketch is trivial for eq_of_mem and of_subset. This is correct: with S = {0}, c s, c t ∈ S gives c s = c t, and S' ⊆ {0} is ∅ or {0}. The argument that no connected open set containing 0 and 3 has {0,3} as a Cauchy surface is right, since there the identity curve meets it twice. (b) The REPORT's third finding, the dispatch's 'finding 2' (idSol makes 4.73's hlocal, hstay and hstep theorems): correct. isCommonDevelopment_inf (:329), frontierStaysIn (:340) and sliceRestart (:358) take arbitrary developments, not only m-developments, and are closed theorems for every pair of developments of this problem. hG, hT and hK hold on every open set of the line (timelikeLine_globallyHyperbolicOn U, tarentinOn U, compactSlabs_singleton). (c) Ers464WithoutArc's SCOPE: stale for the m-GHD half, and a second occurrence at :621-622 (see findings). (d) hsub and hinext hold by refl in every witness: correct (:407, :409). The spacelike-line remark is argued, not proved; see the wording finding. No claim is made about an error in the paper.",
+  "scope": "git status --short: the closer's own paths are lean-causal/scaffold/CausalScaffold/ErsSCWitnesses.lean and lean-causal/campaign/T-abs-ers-sc-witnesses/, both untracked. The other untracked paths, ErsWitnesses.lean, scaffold/CausalScaffold/Model/, campaign/T-abs-ers-witnesses/ and campaign/T-loc-minkowski-future-one-connected/ (the last appeared during this audit), belong to the sibling closers, as the dispatch expects. The modified tracked files (lean-gx/*, papers/*/certificate/*, programme/roadmap.toml with ready→active flips, roadmap/roadmap.toml) were already in the session's opening snapshot and belong to other loops. No tracked lean-causal file is modified. The 7 witness names and the ErsSCWitness namespace occur in no other .lean file of any hub package (lean, lean-causal, lean-gx, lean-egf, lean-benzecri, lean-syracuse, lean-yamabe; .lake excluded), apart from Probe.lean.",
+  "docstrings": "Each declaration docstring says what its theorem proves; the auditor read them all against the statements. The module docstring has the contract items (kb/0006). The quotes at ghd_02_19.tex:843, :1053, :1057 and :1068 are verbatim. The row lines 836, 1055 and 1066 match ledger.json. There is no ``**`label`**`` mark. The checklist gaps are listed under findings.",
+  "auditor_writes": "Only this AUDIT-1.json. The auditor's probes were fed to lake env lean through stdin. Two scratch name lists were written to /tmp during the name comparison and deleted at once; nothing was written inside the repository."
+ }
+}

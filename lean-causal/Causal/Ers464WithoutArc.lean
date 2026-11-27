@@ -104,8 +104,9 @@ Against the paper. Rows not listed are the trade forms', carried unchanged (`hgl
   takes the non-local `densCausality` of `Causal.CBG.SubExtensionAbstract`. There `harc` fails,
   so the trade forms do not apply, while the `…_noArc` forms do. `S = {0}` is acausal there, so
   the originals of `Causal.ErsUniqueness` still apply: a configuration with `S` Cauchy and not
-  acausal is not given. Cor 4.68 and the m-GHD form have no witness (on the line the overlap is
-  an interval, so 4.68 cannot be met with a disagreement).
+  acausal is not given. Cor 4.68's forms (which do not ask `u₂` a development) and the m-GHD
+  form have their witnesses in `Causal.ErsWitnesses` and `Causal.ErsSCWitnesses`; in the paper's
+  reading 4.68 has no instance on ℝ (`Causal.real_ers_corollary_4_68_agree`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -619,7 +620,8 @@ of `]x, y]`) is not causally arc-connected on `ℝ` (it is not even absolutely m
 `Causal.Ers464SecondCountable` do not apply; it goes up and contains the timelike line's
 relations, so the hypotheses of the 4.64 (two forms), 4.67 and 4.69 `…_noArc` forms hold on the
 witness data, and they give their conclusions (4.71/4.73 follow from `corollaries`, not stated
-here; 4.68's `hdis` fails on this data, and the m-GHD form has no witness). (`{0}` is acausal there, so the originals of `Causal.ErsUniqueness` apply too.) -/
+here; 4.68's `hdis` fails on this data; the 4.68 and m-GHD forms are witnessed in
+`Causal.ErsWitnesses` and `Causal.ErsSCWitnesses`). (`{0}` is acausal there, so the originals of `Causal.ErsUniqueness` apply too.) -/
 theorem densCausality_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc :
     ¬ DensWitness.densCausality.CausallyArcConnectedOn ⊤ ∧
       clampAgree (⊤ ⊓ ersWitnessIoo) ∧

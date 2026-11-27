@@ -299,3 +299,4 @@ rediscover. One fact per entry.
 | [0291](entries/0291-diamond-confinement.md) | pattern | Sbierski's homotopy confinement and diamond identification, and LocallyStronglyCausal |
 | [0292](entries/0292-ers-no-arc.md) | pattern | ERS 4.64–4.73 need no causal arc-connectedness; a generic ℝ witness package |
 | [0293](entries/0293-lift-needs-curves.md) | pitfall | "Sends causal curves to causal curves" says nothing about ≤ unless ≤ is realised by curves |
+| [0294](entries/0294-ers-witnesses-line.md) | pattern | ERS witnesses on the line: 4.68's Lean forms allow a disconnected U₂; 4.82's hstep is never exercised |

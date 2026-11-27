@@ -1,0 +1,98 @@
+# T-abs-ers-sc-witnesses: output of
+#   cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true campaign/T-abs-ers-sc-witnesses/Probe.lean
+# (exit 0, 2026-11-27, node1). USES lines: does the witness's proof term reach the form (through
+# Causal.ErsSCWitness.* helpers only)? The two 'false' lines show the 4.79/4.80 witness calls the
+# second countable forms, not the originals ers_theorem_4_79/4_80, directly. No sorry axiom anywhere.
+
+USES Causal.timelikeLine_eq_of_mem_of_t1_secondCountable Causal.Causality.eq_of_mem_of_t1_secondCountable: true
+USES Causal.timelikeLine_isCauchySurfaceOn_of_subset_of_t1_secondCountable Causal.Causality.IsCauchySurfaceOn.of_subset_of_t1_secondCountable: true
+USES Causal.timelikeLine_isCauchySurfaceOn_sSup_of_secondCountable Causal.Causality.isCauchySurfaceOn_sSup_of_secondCountable: true
+USES Causal.timelikeLine_globallyHyperbolicOn_sSup_of_pieces_secondCountable Causal.Causality.globallyHyperbolicOn_sSup_of_pieces_secondCountable: true
+USES Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable Causal.ers_theorem_4_79_secondCountable: true
+USES Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable Causal.ers_theorem_4_80_secondCountable: true
+USES Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable Causal.ers_theorem_4_79: false
+USES Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable Causal.ers_theorem_4_80: false
+USES Causal.timelikeLine_isUniqueDevelopment_secondCountable Causal.IsMDevelopment.isUniqueDevelopment_secondCountable: true
+USES Causal.timelikeLine_isUniqueDevelopment_secondCountable_noArc Causal.IsMDevelopment.isUniqueDevelopment_secondCountable_noArc: true
+Causal.timelikeLine_eq_of_mem_of_t1_secondCountable : Causal.timelikeLine.IsCauchySurfaceOn
+    Causal.ErsSCWitness.twoIntervals {0, 3} ∧
+  (∃ I c s t,
+      Causal.timelikeLine.CausalCurveIn Causal.ErsSCWitness.twoIntervals I c ∧
+        s ∈ I ∧ t ∈ I ∧ s ≠ t ∧ c s ∈ {0, 3} ∧ c t ∈ {0, 3} ∧ c s = c t) ∧
+    ∀ W ≤ Causal.ErsSCWitness.twoIntervals,
+      ∀ (I : Set ℝ) (c : ℝ → ℝ),
+        Causal.timelikeLine.CausalCurveIn W I c → ∀ s ∈ I, ∀ t ∈ I, c s ∈ {0, 3} → c t ∈ {0, 3} → c s = c t
+Causal.timelikeLine_isCauchySurfaceOn_of_subset_of_t1_secondCountable : (Causal.timelikeLine.IsCauchySurfaceOn
+      Causal.ErsSCWitness.twoIntervals {0, 3} ∧
+    Causal.timelikeLine.IsCauchySurfaceOn Causal.ersWitnessIoo {0} ∧
+      {0} ⊂ {0, 3} ∧
+        Causal.ersWitnessIoo ≤ Causal.ErsSCWitness.twoIntervals ∧
+          Causal.timelikeLine.IsCauchySurfaceOn Causal.ErsSCWitness.ioo24 {3} ∧
+            {3} ⊂ {0, 3} ∧ Causal.ErsSCWitness.ioo24 ≤ Causal.ErsSCWitness.twoIntervals) ∧
+  Causal.timelikeLine.IsCauchySurfaceOn Causal.ersWitnessIoo {0, 3} ∧
+    Causal.timelikeLine.IsCauchySurfaceOn Causal.ErsSCWitness.ioo24 {0, 3}
+Causal.timelikeLine_isCauchySurfaceOn_sSup_of_secondCountable : ((∀ ⦃x y : ℝ⦄,
+      Causal.timelikeLine.le Causal.ErsSCWitness.twoIntervals x y →
+        Causal.timelikeLine.le Causal.ErsSCWitness.twoIntervals y x → x = y) ∧
+    Causal.timelikeLine.IsCauchySurfaceOn Causal.ErsSCWitness.twoIntervals {0, 3} ∧
+      (∀ D ∈ Causal.ErsSCWitness.pieces, D ≤ Causal.ErsSCWitness.twoIntervals) ∧
+        (∀ D ∈ Causal.ErsSCWitness.pieces, ∃ S' ⊆ {0, 3}, Causal.timelikeLine.IsCauchySurfaceOn D S') ∧
+          sSup Causal.ErsSCWitness.pieces ∉ Causal.ErsSCWitness.pieces) ∧
+  Causal.timelikeLine.IsCauchySurfaceOn (sSup Causal.ErsSCWitness.pieces) {0, 3}
+Causal.timelikeLine_globallyHyperbolicOn_sSup_of_pieces_secondCountable : (Causal.timelikeLine.CausallyArcConnectedOn
+      Causal.ErsSCWitness.twoIntervals ∧
+    Causal.timelikeLine.GloballyHyperbolicOn Causal.ErsSCWitness.twoIntervals ∧
+      Causal.timelikeLine.IsCauchySurfaceOn Causal.ErsSCWitness.twoIntervals {0, 3} ∧
+        (∀ D ∈ Causal.ErsSCWitness.pieces, D ≤ Causal.ErsSCWitness.twoIntervals) ∧
+          (∀ D ∈ Causal.ErsSCWitness.pieces, ∃ S' ⊆ {0, 3}, Causal.timelikeLine.IsCauchySurfaceOn D S') ∧
+            {0, 3} ⊆ ↑(sSup Causal.ErsSCWitness.pieces) ∧
+              sSup Causal.ErsSCWitness.pieces ∉ Causal.ErsSCWitness.pieces) ∧
+  Causal.timelikeLine.IsCauchySurfaceOn (sSup Causal.ErsSCWitness.pieces) {0, 3} ∧
+    Causal.timelikeLine.CausallyConvexIn (↑(sSup Causal.ErsSCWitness.pieces)) Causal.ErsSCWitness.twoIntervals ∧
+      Causal.timelikeLine.GloballyHyperbolicOn (sSup Causal.ErsSCWitness.pieces)
+Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable : (Causal.IsMDevelopment Causal.ErsSCWitness.idSol
+      (fun x => Causal.timelikeLine) Causal.timelikeLine {0} ⊤ id ∧
+    Causal.IsMDevelopment Causal.ErsSCWitness.idSol (fun x => Causal.timelikeLine) Causal.timelikeLine {0}
+        Causal.ersWitnessIoo Causal.ErsSCWitness.clamp ∧
+      Causal.ersWitnessIoo ≠ ⊤) ∧
+  (∃ U u, Causal.IsMaximalUniqueDevelopment Causal.ErsSCWitness.idSol (fun x => Causal.timelikeLine) {0} U u) ∧
+    ∃ U u,
+      Causal.IsMaximalMDevelopment Causal.ErsSCWitness.idSol (fun x => Causal.timelikeLine) Causal.timelikeLine {0} U u
+Causal.timelikeLine_isUniqueDevelopment_secondCountable : Causal.IsMDevelopment Causal.ErsSCWitness.idSol
+    (fun x => Causal.timelikeLine) Causal.timelikeLine {0} Causal.ersWitnessIoo Causal.ErsSCWitness.clamp ∧
+  Causal.IsUniqueDevelopment Causal.ErsSCWitness.idSol (fun x => Causal.timelikeLine) {0} Causal.ersWitnessIoo
+    Causal.ErsSCWitness.clamp
+Causal.timelikeLine_isUniqueDevelopment_secondCountable_noArc : Causal.IsMDevelopment Causal.ErsSCWitness.idSol
+    (fun x => Causal.timelikeLine) Causal.timelikeLine {0} Causal.ersWitnessIoo Causal.ErsSCWitness.clamp ∧
+  Causal.IsUniqueDevelopment Causal.ErsSCWitness.idSol (fun x => Causal.timelikeLine) {0} Causal.ersWitnessIoo
+    Causal.ErsSCWitness.clamp
+'Causal.timelikeLine_eq_of_mem_of_t1_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_of_subset_of_t1_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_isCauchySurfaceOn_sSup_of_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_globallyHyperbolicOn_sSup_of_pieces_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_ers_theorem_4_79_4_80_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isUniqueDevelopment_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_isUniqueDevelopment_secondCountable_noArc' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.ErsSCWitness.isCauchySurfaceOn_Ioo_center' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.tarentinOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.antisymm_twoIntervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.isAcausalOn_twoIntervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.isCauchySurfaceOn_twoIntervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.pieces_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.pieces_cauchy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.subset_sSup_pieces' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.sSup_pieces_notMem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.isPreconnected_of_isDevelopment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.isCommonDevelopment_inf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.frontierStaysIn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.sliceRestart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.mughdData' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsSCWitness.two_mDevelopments' depends on axioms: [propext, Classical.choice, Quot.sound]
