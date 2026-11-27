@@ -868,3 +868,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 2026-11-25 12:51–13:25 and 2026-11-27 14:17–15:20 UTC; agents in parallel: 4 closers, 4 audits (one fix round)
 - New questions for the author: OQ-132 (Yamabe § 2: Σ connected? σ(Σ), the uniqueness reading), OQ-133 (Yamabe § 3: the φ class, σ^∂, ∂Σ ≠ ∅ for EHB), OQ-134 (ex:open_subset under the M-only gluing form), OQ-135 (bbsprop:classising: the trivial-holonomy type, line types, occurrence, isomorphism notion).
 - next: a planning run should add the strict gluing refactor of lean-causal (after OQ-95/OQ-96). Ready: T-yamabe-brown-york, T-bbs-hcausal, T-bbs-remark-readings, T-ett-plainness-models; master T-btz-ledger, T-alexandrov-ledger, T-gx-causal-pin-bump; the builder T-atlas-overlay-refresh is due.
+
+## 2026-11-27 16:00 · wave of 5 · T-ett-plainness-models, T-yamabe-brown-york, T-bbs-remark-readings, T-bbs-hcausal, T-btz-ledger
+- T-ett-plainness-models: prop:K_calcul CERTIFIED (Causal.PlainnessModels.K_calcul, strict): the printed route through causal plainness (DEC-168), every reading ruled. cor:K_lorentzien proved over a new layer-3 model, locally Lipschitz Lorentzian metrics (push-up, plainness, absolute minimality), unmarked: OQ-136. Audit minor.
+- T-yamabe-brown-york: def:reference, prop:brown-york partial, strict. Finding: the Schwarzschild clause holds at N = 3 only (Tangherlini: 2m/(N−1)). Audit minor, one fix round: the reference embedding was trivially inhabited; strengthened with an area clause, and SCOPE says it carries area, not shape. OQ-137.
+- T-bbs-remark-readings: the remark under both readings of OQ-120 (a)/(c), scaffold, sorry-free; the two positivity forms agree in every degree in the hyperbolic setting (sharpens OQ-128). Audit minor. OQ-138.
+- T-bbs-hcausal: partial, scaffold, 3 tagged sorrys (tachyons, trivial holonomy, the degree of an apex link). The Misner CCC and the causal line types are sorry-free. Finding: the « in other words » fails read for non-compact surfaces; recorded as a scope imprecision (audit minor). OQ-139.
+- T-btz-ledger (master): papers/btz, 55 statements with btz-prefixed labels; lean-gx's 18 B21 rows anchored, all partial (E₀ only; T-btz-scope). tools/texgraph.py reads « Proofs of Lemmas … » (test added).
+- Held back for the restatement register (held by /restate): bbsdef:Hcausal's curation, with the three rows of the previous wave.
+- gates: lean-causal ✓, lean-yamabe ✓, lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check all green, hub: make -k check rc 0, no new red
+- commits: b3d3b7c 0b83ff2 5b76222 fe59a20 3270b2a [+ roadmap/atlas/journal]
+- wall time: 14:46–16:00 UTC; agents in parallel: 4 closers, 4 audits, one fix round
+- New questions for the author: OQ-136 (« Lorentzian manifold » = locally Lipschitz?), OQ-137 (Brown–York readings; Schwarzschild for N ≠ 3), OQ-138 (the remark's readings), OQ-139 (Hcausal readings, the scope of « in other words »).
+- next: the builder T-atlas-overlay-refresh (due); planner: DEC-208's btz close targets now that papers/btz exists, and the lean-causal gluing refactor. Ready master: T-alexandrov-ledger, T-gx-causal-pin-bump, T-arch-*.
