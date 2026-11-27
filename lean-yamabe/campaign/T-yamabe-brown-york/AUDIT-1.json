@@ -1,0 +1,34 @@
+{
+  "target": "T-yamabe-brown-york",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "def:reference",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row is partial and not marked, which is right. The Euclidean layer is real geometry: Ref.divergence = tr D nu, meanCurv = div/(N-1) (the l.299 normalisation), RefBody is a convex compact body with nonempty interior and a unit, normal (orthogonal to the tangent cone), inward, differentiable field. It is not vacuous: ballBody inhabits it, and ballBody_Href computes H_ref = -1/r from the definition, which matches l.380 and the caption l.457. eq:mass-def is RefEmbedding.mass, and integral_H_eq gives the 'i.e.' under disclosed finiteness and integrability. The weakness is in the Sigma-side structure. RefEmbedding reads 'isometric' only as iota_j(B_j) in frontier C_j a.e., so it is inhabited for every model at every N >= 1 (constant map to a point of a round sphere). I checked this with a probe that proved M.WeylNirenberg g for an arbitrary M and g, then deleted it. So WeylNirenberg is a theorem, not a cited input, and H_ref on B_j is not tied to B_j's geometry. The isometry reading is disclosed (REPORT hypotheses, docstring SCOPE) and the row is partial, so this is minor rather than major. But neither the REPORT nor the docstring says the structure is trivially inhabited; both present it as the DEC-184 cited input. The theorems that consume RefEmbedding quantify over every R, so none of them overclaims."
+    },
+    {
+      "label": "prop:brown-york",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row is partial and not marked, which is right. prop_brown_york quantifies over every RefEmbedding and every k with (N-1)H_g = -k a.e., and proves eq:mass-BY with no integrability hypothesis (integral_const_mul and integral_congr_ae are unconditional, so it is not a junk-integral artefact). hk is the paper's own first step at l.400, '(N-1)H_g = tr II_nu = -k'. It is carried rather than proved because the model's Sigma has no second fundamental form, and the SCOPE says so. Its geometric content, the oddness of tr II in the normal, is proved where II exists (divergence_neg), and (N-1)H_ref = -k_0 is proved (sub_one_mul_Href). So prop:brown-york is the paper's argument with one disclosed step taken as the definition of k: it is not trivialised beyond what the paper itself argues. The round clause (mBY_round, mBY_round_three, mass_round) carries RoundMinimal, which is satisfiable (toyRef_round). Its 'radial' field stands in for extension-independence of div nu, and the SCOPE discloses this. The Schwarzschild clause at N = 3 (prop_brown_york_schwarzschild) checks r_s = 2Gm = m/(4 pi), m_BY = 8 pi r_s = 2m, m_BY/2 = m and contribution = m, which is exactly l.400. Finding (1) is a fair reading, not a strawman. The paper's setting is general N >= 3 (l.120, l.299, l.470), and 'for N = 3' at l.397 grammatically attaches only to '8 pi r_j', while the proof uses the N = 3 horizon. tangherliniLapse is the standard ADM-normalised Tangherlini lapse (mu = 16 pi G m/((N-1) omega_{N-1})). Under it m_BY = 2m at every N, and the contribution is 2m/(N-1), which is m iff N = 3. This is an imprecision that depends on a normalisation, and the REPORT correctly leaves the normalisation as an open question; it is not a refutation of the N = 3 statement. Finding (2), that no isometric hypersurface embedding exists for a generic metric on S^{N-1} with N-1 >= 3 (Gauss equation overdetermined), is classical and correct. It has no Lean witness, and the REPORT says so."
+    }
+  ],
+  "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-yamabe/scaffold/YamabeScaffold/BrownYork.lean:362-370",
+      "what": "RefEmbedding is inhabited for every MeasuredModel and every N >= 1 (ballBody plus a constant map to a sphere point), so WeylNirenberg M g is provable outright and is not a cited input. The hW hypothesis of exists_mass_brown_york is redundant. Separately, REPORT finding (2)'s 'The Lean carries it at every N (RefEmbedding)' suggests a substantive hypothesis that the Lean does not have. The isometry reading behind this is disclosed and the row is partial, but the triviality is not stated.",
+      "fix": "Add to SCOPE and to the REPORT that RefEmbedding/WeylNirenberg is trivially inhabited under the iota(B_j) in frontier C_j reading, so that H_ref and M depend on an arbitrary choice of R and are pinned only by extra hypotheses such as RoundMinimal. Alternatively, strengthen RefEmbedding, for example with a pushforward-measure or area condition matching bvol_j, so that it carries Weyl-Nirenberg content."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-yamabe/campaign/T-yamabe-brown-york/REPORT.json (prop:brown-york findings[0])",
+      "what": "The Schwarzschild finding is correct but conditional on the ADM/Tangherlini normalisation of 'the Schwarzschild solution' in N+1 dimensions. When it goes to the author it should be phrased as an imprecision (the clause holds at N = 3, and at general N it holds as m_BY = 2m_j), not as an error.",
+      "fix": "Keep the open question in the REPORT next to the finding wherever it is reported, for example in restatements, and phrase it as 'true at N = 3; at N >= 4 under the Tangherlini normalisation the contribution is 2m_j/(N-1)'."
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "package": "T-yamabe-brown-york",
+  "target": "T-yamabe-brown-york",
+  "files": [
+    "scaffold/YamabeScaffold/BrownYork.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (checked by #print axioms on prop_brown_york, prop_brown_york_schwarzschild, mass_round, tangherlini_contribution, ballBody_Href, meanCurv_rigid, integral_H_eq, toy_mass, tangherlini_contribution_four)",
+  "labels": [
+    {
+      "label": "def:reference",
+      "tex_lines": [
+        378,
+        387
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.Ref.divergence",
+        "Yamabe.Ref.meanCurv",
+        "Yamabe.Ref.innerNormal",
+        "Yamabe.Ref.RefBody",
+        "Yamabe.Ref.RefBody.Href",
+        "Yamabe.Ref.RefBody.k₀",
+        "Yamabe.Ref.divergence_neg",
+        "Yamabe.Ref.divergence_rigid",
+        "Yamabe.Ref.meanCurv_rigid",
+        "Yamabe.Ref.hasFDerivAt_innerNormal",
+        "Yamabe.Ref.divergence_innerNormal",
+        "Yamabe.Ref.ballBody",
+        "Yamabe.Ref.ballBody_Href",
+        "Yamabe.MeasuredModel.RefEmbedding",
+        "Yamabe.MeasuredModel.WeylNirenberg",
+        "Yamabe.MeasuredModel.RefEmbedding.Href",
+        "Yamabe.MeasuredModel.RefEmbedding.mass",
+        "Yamabe.MeasuredModel.RefEmbedding.integral_H_eq",
+        "Yamabe.Ref.HasBdryArea",
+        "Yamabe.Ref.HasBdryArea.unique",
+        "Yamabe.Ref.hasBdryArea_closedBall",
+        "Yamabe.MeasuredModel.refEmbedding_of_area_pos",
+        "Yamabe.MeasuredModel.exists_mass_brown_york"
+      ],
+      "hypotheses": [
+        {
+          "paper": "N = 3",
+          "here": "read",
+          "note": "the Euclidean layer is at every N; WeylNirenberg is stated at N = 3"
+        },
+        {
+          "paper": "(B_j, g|B_j) a 2-sphere of positive Gauss curvature",
+          "here": "not expressible",
+          "note": "the model has no intrinsic curvature of B_j; it is the cited theorem's hypothesis, whose conclusion is carried as data (kb/0018)"
+        },
+        {
+          "paper": "Weyl–Nirenberg (MR58265): isometric embedding onto the boundary of a convex body C_j",
+          "here": "carried",
+          "note": "RefEmbedding / WeylNirenberg (never an axiom); C_j convex, compact, with interior; isometry read as ι_j(B_j) ⊆ ∂C_j bvol_j-a.e. plus Vol(B_j, g) = Area(∂C_j), the area being the Minkowski content (HasBdryArea). This reading carries the area of B_j, not its shape: refEmbedding_of_area_pos proves a reference embedding exists on every model whose B_j have positive finite area (round ball of matching radius, constant map), so WeylNirenberg is a theorem there, and H_ref, M depend on the choice of R unless pinned by RoundMinimal."
+        },
+        {
+          "paper": "unique up to rigid motions",
+          "here": "read",
+          "note": "used only through meanCurv_rigid: H_ref of the transported field at the moved point is unchanged"
+        },
+        {
+          "paper": "H_ref w.r.t. the normal into C_j",
+          "here": "defined",
+          "note": "div ν/(N−1) for a unit (near ∂C), differentiable, normal (⟂ tangent cone), inward field ν"
+        },
+        {
+          "paper": "round sphere: H_ref = −1/r_j",
+          "here": "proved",
+          "note": "ballBody_Href, computed from the definition (divergence of −(y−c)/|y−c|)"
+        },
+        {
+          "paper": "eq:mass-def and its « i.e. »",
+          "here": "defined / proved",
+          "note": "mass = Σ_j ∫_{B_j}(H_g − H_ref∘ι_j); integral_H_eq carries bvol_j finite and H_ref∘ι_j integrable"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.395 defines k₀ through « the isometric embedding of B_j into E³ » inside a proposition stated at general N (l.394–396), while def:reference (l.379–381) supplies that embedding only at N = 3 via Weyl–Nirenberg. For N ≥ 4 no analogue exists: a generic metric on S^{N−1}, N−1 ≥ 3, has no isometric embedding as a hypersurface of ℝ^N (the Gauss equation is overdetermined), so at N ≥ 4 eq:mass-def and eq:mass-BY need the reference embedding as an extra hypothesis. This is a classical remark with no Lean counterpart: on the model, RefEmbedding reads only the area of B_j and is inhabited at every N ≥ 2 whenever the areas are positive and finite (refEmbedding_of_area_pos), so the Lean neither carries nor refutes the obstruction."
+      ],
+      "questions": [
+        "The model reads « isometric » only as ι_j(B_j) ⊆ ∂C_j: B_j carries no intrinsic metric on the model and Mathlib's Hausdorff measure is not the normalised surface measure, so no area condition is imposed. Reading taken: H_ref is defined from any carried reference body; isometry and uniqueness are the cited input's business."
+      ]
+    },
+    {
+      "label": "prop:brown-york",
+      "tex_lines": [
+        390,
+        401
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.RefEmbedding.mBY",
+        "Yamabe.MeasuredModel.RefEmbedding.k₀",
+        "Yamabe.Ref.RefBody.sub_one_mul_Href",
+        "Yamabe.Ref.ballBody_k₀",
+        "Yamabe.MeasuredModel.RefEmbedding.prop_brown_york",
+        "Yamabe.MeasuredModel.RefEmbedding.RoundMinimal",
+        "Yamabe.MeasuredModel.RefEmbedding.mBY_round",
+        "Yamabe.MeasuredModel.RefEmbedding.mBY_round_three",
+        "Yamabe.MeasuredModel.RefEmbedding.mass_round",
+        "Yamabe.schwarzschildLapse",
+        "Yamabe.schwarzschild_horizon_iff",
+        "Yamabe.MeasuredModel.RefEmbedding.prop_brown_york_schwarzschild",
+        "Yamabe.MeasuredModel.exists_mass_brown_york",
+        "Yamabe.tangherliniLapse",
+        "Yamabe.tangherliniLapse_three",
+        "Yamabe.MeasuredModel.RefEmbedding.tangherlini_contribution",
+        "Yamabe.tangherlini_contribution_eq_iff",
+        "Yamabe.tangherlini_contribution_four",
+        "Yamabe.toyRef",
+        "Yamabe.toyRef_round",
+        "Yamabe.toy_mass",
+        "Yamabe.MeasuredModel.RefEmbedding.RoundMinimal.area"
+      ],
+      "hypotheses": [
+        {
+          "paper": "k = tr II of B_j ⊂ Σ w.r.t. the normal into the void",
+          "here": "read",
+          "note": "Σ carries H_g (CurvedMetric, free data) but no second fundamental form, so k is characterised by the paper's own step (N−1)H_g = tr II_ν = −k (hypothesis hk); the content of that step, tr II_{−ν} = −tr II_ν, is proved in 𝔼^N (divergence_neg)"
+        },
+        {
+          "paper": "k₀ for the embedding; (N−1)H_ref = −k₀",
+          "here": "proved",
+          "note": "RefBody.k₀ = div(−ν); sub_one_mul_Href, N ≥ 2"
+        },
+        {
+          "paper": "eq:mass-BY by integration",
+          "here": "proved",
+          "note": "prop_brown_york, no integrability needed (integral_const_mul is unconditional)"
+        },
+        {
+          "paper": "B_j a minimal round sphere of radius r_j",
+          "here": "read",
+          "note": "RoundMinimal: H_g = 0 bvol_j-a.e., the reference body is closedBall c r and its field is radial near the sphere (Weyl uniqueness, carried); bvol_j(B_j) = ω_{N−1} r^{N−1} is now derived (RoundMinimal.area) from RefEmbedding's area clause and hasBdryArea_closedBall"
+        },
+        {
+          "paper": "k = 0, k₀ = (N−1)/r_j, m_BY = (N−1)ω_{N−1}r_j^{N−2}, 8πr_j at N = 3",
+          "here": "proved",
+          "note": "mBY_round, mBY_round_three; mass_round gives l.467's M = ω_{N−1}Σ r_j^{N−2}"
+        },
+        {
+          "paper": "Schwarzschild horizon r_s = 2Gm = m/(4π), 8πG = 1; m_BY = 8πr_s = 2m, m_BY/2 = m",
+          "here": "proved",
+          "note": "r_s is the zero of the lapse 1 − 2Gm/r (schwarzschild_horizon_iff); prop_brown_york_schwarzschild at N = 3, also contribution m_BY/(N−1) = m"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Imprecision, depending on a normalisation (l.396–397, proof l.400): the clause « the contribution of B_j to M equals the mass parameter m_j of the Schwarzschild solution with horizon radius r_j » is true at N = 3 (prop_brown_york_schwarzschild). As printed it is not restricted to N = 3 (the « for N = 3 » of l.396 attaches to « 8π r_j »), while the proof uses the N = 3 horizon r_s = 2Gm. At N ≥ 4, under the ADM-normalised Schwarzschild–Tangherlini horizon r^{N−2} = 16πGm/((N−1)ω_{N−1}) (r_s = 2Gm at N = 3, tangherliniLapse_three), m_BY = 2m_j still holds at every N, but the contribution m_BY/(N−1) is 2m_j/(N−1), equal to m_j iff N = 3 (tangherlini_contribution, tangherlini_contribution_eq_iff); at N = 4 it is 2m_j/3 (tangherlini_contribution_four). Suggested wording: state the clause at N = 3, or as m_BY(B_j) = 2m_j at every N. The normalisation is the open question below and must travel with this finding.",
+        "Consistency check passed: l.467 (M = −∫H_ref = ω_{N−1}Σ r_j^{N−2}) and l.474 (m_j = 4πr_j, M = Σ m_j at N = 3) agree with eq:mass-BY and the round values (mass_round, prop_brown_york_schwarzschild); the sign conventions of l.380 and the caption l.457 (H_ref = −1/r_j w.r.t. the normal into C_j) are confirmed by computation (ballBody_Href)."
+      ],
+      "questions": [
+        "Reading of the Schwarzschild clause: taken at N = 3 (as the proof l.400), proved there in full; at general N under the Tangherlini (ADM) normalisation it is false (finding). Which normalisation of « the Schwarzschild solution » the author intends at N ≠ 3 is open.",
+        "Reading of k on Σ: the model carries no second fundamental form, so k is the function with (N−1)H_g = −k (hk). If the author wants k computed from a geometry of Σ, that needs a Riemannian layer with a Levi-Civita connection, absent from Mathlib at this pin."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.Ref.divergence_rigid",
+    "Yamabe.Ref.hasFDerivAt_innerNormal",
+    "Yamabe.Ref.divergence_innerNormal",
+    "Yamabe.Ref.ne_of_mem_frontier_closedBall",
+    "Yamabe.Ref.hasBdryArea_closedBall"
+  ],
+  "kb_proposals": [
+    "Euclidean mean curvature at this pin: Ref.divergence ν x = LinearMap.trace (fderiv ℝ ν x), computed through LinearMap.trace_eq_sum_inner with EuclideanSpace.basisFun and OrthonormalBasis.sum_inner_mul_inner; rigid invariance by LinearMap.trace_conj' (Yamabe.Ref, scaffold BrownYork).",
+    "A normal field is orthogonal to the tangent cone of a level set: HasFDerivWithinAt.unique_on of the defining function against hasFDerivWithinAt_const.congr (ballBody.normal).",
+    "Do not use μH[d] as a surface measure (Mathlib's Hausdorff measure is unnormalised); an area of ∂C can be read as the Minkowski content lim_{t→0+}(|cthickening t C| − |C|)/t, computed for a ball by cthickening_closedBall, Measure.addHaar_closedBall and HasDerivAt.tendsto_slope_zero_right (Ref.hasBdryArea_closedBall).",
+    "A data structure standing for a cited theorem's conclusion must be tested for trivial inhabitation: prove the inhabitation lemma explicitly (refEmbedding_of_area_pos) and disclose what the reading carries."
+  ],
+  "notes": "One new scaffold file plus its import line in scaffold/YamabeScaffold.lean. Imports Yamabe.Kobayashi only (which brings Yamabe.Quotient). Compiled as a /tmp copy against `import Yamabe` with -DwarningAsError=true: no warning, no name clash (kb/0082). `lake build YamabeScaffold.BrownYork` succeeded without rebuilding Yamabe.* or mathlib. Neither label is marked: both are partial for the model's readings (k characterised by hk; isometry read as ι_j(B_j) ⊆ ∂C_j; Gauss-curvature hypothesis not expressible) and, for prop:brown-york, the N-dependence of the Schwarzschild clause.",
+  "audit": "AUDIT-1 (minor), addressed: RefEmbedding strengthened by an area clause, Vol(B_j, g) = Area(∂C_j) as Minkowski content (Ref.HasBdryArea), which the paper's isometry implies. It is no longer inhabited on every model (a B_j of area 0 or ∞ admits none), but it is inhabited whenever every B_j has positive finite area. That is proved and disclosed (refEmbedding_of_area_pos, SCOPE): WeylNirenberg then carries the area of B_j only, so it is a theorem on such models. hW is kept in exists_mass_brown_york because it is not redundant in general. RoundMinimal drops its area field, which is now derived (RoundMinimal.area); toyRef satisfies the new clause. Finding (2) is reworded as having no Lean counterpart, and the Schwarzschild finding as an imprecision that depends on a normalisation, with the question attached. Re-typechecked; graduation copy clean under -DwarningAsError=true; 0 sorry; axioms standard."
+}

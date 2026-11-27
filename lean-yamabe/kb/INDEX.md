@@ -97,3 +97,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0089](entries/0089-the-cut-two-point-model-tests-whether-a.md) | pattern | The cut two-point model tests whether a statement needs Σ connected |
 | [0090](entries/0090-a-supremum-of-a-non-definable-invariant.md) | pattern | A supremum of a non-definable invariant as an EReal sup over a parameter set |
 | [0091](entries/0091-isup-singleton-does-not-exist-at-this-pi.md) | pitfall | iSup_singleton' does not exist at this pin |
+| [0092](entries/0092-euclidean-mean-curvature-as-the-trace-of.md) | pattern | Euclidean mean curvature as the trace of the normal's derivative |
+| [0093](entries/0093-a-normal-field-is-orthogonal-to-the-tang.md) | pattern | A normal field is orthogonal to the tangent cone of a level set |
+| [0094](entries/0094-never-use-the-hausdorff-measure-as-a-sur.md) | pitfall | Never use the Hausdorff measure as a surface area |
+| [0095](entries/0095-test-a-cited-theorem-s-data-structure-fo.md) | pattern | Test a cited theorem's data structure for trivial inhabitation |
