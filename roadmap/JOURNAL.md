@@ -931,3 +931,17 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - No new question for the author.
 - gates: roadmap ✓, atlas ✓
 - next: T-btz-pgcd, T-btz-blunt-vertical-ray, T-btz-spear-family (lean-gx), T-perf-capacity-remarks (lean-yamabe), masters T-yamabe-perf-triage; the builder for lean-gx after the wave.
+
+## 2026-11-27 19:30 · wave of 6 · T-btz-pgcd, T-btz-blunt-vertical-ray, T-btz-spear-family, T-perf-capacity-remarks, T-yamabe-perf-triage, T-atlas-overlay-refresh
+- T-btz-pgcd: a maximal common sub-BTZ-extension exists (sorry-free, no GH needed); the domain's GH is one tagged sorry. Findings: injectivity needs only Hausdorff; « by construction maximal » (l.1376) needs the open sorry. Audit clean. OQ-146.
+- T-btz-blunt-vertical-ray: GX.BTZ.SectorAtlas (strict: sector charts in the maximal a.e. atlas) closes the vertical ray; one blunt-spear sorry left. Audit clean.
+- T-btz-spear-family: step (1) of Reg M's completeness, sorry-free: a locally finite disjoint spear family. Finding: the paper asserts it from the compact case. Audit minor (copied strict lemmas, for T-gx-btz-cleanup).
+- T-perf-capacity-remarks: rem:connected, rem:tight, rem:dichotomy strict and partial. rem:tight's third clause (l.569–570) holds only when cap* = cap_D, refuted on a three-point model; rem:connected's title is imprecise. Audit minor. OQ-147. rem:connected and rem:tight wait for the perforated restatement register (/restate).
+- T-yamabe-perf-triage (master): every yamabe and perforated row bucketed.
+- T-atlas-overlay-refresh (builder): lean-gx refreshed, btz's first edges (34 of 55 labels with Lean).
+- OQ-145 was taken by /ett-programme during the wave; this wave's btz row is OQ-146.
+- gates: lean-gx ✓, lean-yamabe ✓, roadmap ✓, registers ✓, atlas ✓, papers-check green, hub: make -k check rc 0, no new red
+- commits: 48cf838 789fe25 f1f3b04 86be42e 98d4ea6 [+ roadmap/atlas/journal]
+- wall time: 17:08–19:30 UTC; agents in parallel: 4 closers + 1 builder, 4 audits
+- New questions for the author: OQ-146 (btz pgcd: which M₁ ∧ M₂ is of record), OQ-147 (perforated remarks' readings; rem:tight's third clause).
+- next: see `roadmap.py wave`.

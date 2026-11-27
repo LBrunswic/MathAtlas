@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs: 2026-11-27 lean-yamabe (df63ad2), and lean-causal, lean-benzecri, lean/ (f03ec37; gfnbounds' first edges). Due: lean-gx (gx, bbs, btz's first edges) when idle; lean-egf is /egf-programme's. Earlier: 2026-11-23 04:20. The template's texHTML is T-atlas-tex-text-macros"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-gx at 789fe25 (gx, bbs, btz's first edges; f1f3b04), lean-yamabe (df63ad2), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-yamabe and lean-causal when idle (lean-causal is /ett-programme's while it runs); lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -3296,13 +3296,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:pgcd"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-btz-embeddings"]
-evidence = "BTZ_1.tex l.1341–1378, the proof in three bullets: φ well defined by density of Reg (« the map φ_M is unique since it continuous and equal to j ∘ i⁻¹ on reg(M) which is dense »), injective by prop:FZenon_injectif (« Since M₁ is globally hyperbolic, it is strongly causal hence x = y »), and globally hyperbolic by diamonds (« J⁺_{M₁}(p) ∩ J⁻_{M₁}(q) is a possibly empty BTZ line segment, hence compact »). Built inputs: GX.e0_eqOn_of_eqOn_open (Rigid.lean:1619), Causal.Causality.Iplus_injOn_Zplus (via Manifolds.lean:251), GX.E0AbsMax.btzExt_causallyConvexIn_of_globallyHyperbolicOn_e0 (AbsMax.lean:1783), lem:past_BTZ's E₀ forms. E₀-scoped (T-btz-scope); partial. Promoted to ready 2026-11-27 (planner): T-btz-embeddings is done (749b441) and strict, GX/BTZ/Embeddings.lean, so the statement has its vocabulary: GX.IsBTZEmbedding (:93), GX.btzMor (:286), the common sub-extensions and GX.CommonSubBTZ.IsMaximal (btzdef:maximal_common_sub_btz_extension, l.15), IsBTZEmbedding.dense_range (:150) for « unique since ... dense », and GX.eq_of_isE0Mor_of_eqOn (:235, Liouville). The readings of the vocabulary are OQ-142's"
+evidence = "GXScaffold.BTZ.Pgcd: existence of a maximal common sub-BTZ-extension sorry-free with no GH; GH of the domain one tagged sorry; OQ-146; AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "789fe25"
 
 [[target]]
 id = "T-btz-ppcm-hausdorff"
@@ -3608,12 +3609,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzlem:blunt_spear_neighborhood"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/BluntSpear.lean:688, « SORRY(btzlem:blunt_spear_neighborhood): rigidity at a regular limit point ». lean-gx/campaign/T-btz-blunt-spear/REPORT.json labels[1].sorries[0]: « Needs rigidity at a REGULAR limit point q: kappa o psi, kappa the Minkowski chart at q, equals one isometry times the sector chart on the connected tube around the ray (e0_eqOn_of_eqOn_open needs a global element of e0Groupoid built from sectorChartBTZ, and the library has no lemma that sectorChartBTZ lies in BTZE0's maximal a.e. atlas); then the developed ray ... is unbounded. E0Spear.axis_noLimit's route (btzE0_localUnique_core) works only at a BTZ limit point »; kb_proposals[3]: « the missing brick is sectorChartBTZ in BTZE0's maximal a.e. atlas ». Built: GX.sectorChartBTZ and chartIso_sectorChartBTZ (strict GX/BTZ/Causality.lean:3894, :3898), GX.e0_eqOn_of_eqOn_open (GX/BTZ/Rigid.lean:1619), GX.E0BluntSpear.ce_flatE0_eq. The sorry-free core lem_blunt_spear_of_inextensible consumes it as hvert. The row stays partial (E₀ scope, T-btz-scope; OQ-143) and needs T-btz-blunt-infall-ray for its second sorry"
+evidence = "GX.BTZ.SectorAtlas (strict) and flat_vertical_noLimit proved; one blunt-spear sorry left (in-falling ray); AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "789fe25"
 
 [[target]]
 id = "T-btz-blunt-infall-ray"
@@ -3637,12 +3639,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/RegComplete.lean:374, the tagged sorry of regM_isCauchyComplete_of_complete: « `E0Surgery.SurgeryData` has finitely many spears (`finite`, from compactness: B21 l.1091) ... a complete `S` may carry countably many BTZ points (discrete and closed in `S`, kb/0217). Owed: (1) a countable, locally finite family of pairwise disjoint closed spears around `S ∩ sing₀ M`, each with `S`'s trace a C¹ circle in its shaft (Lemmas tube, add_BTZ_param); (2) `Σ*` Cauchy in `Reg M` with infinitely many spears ...; (3) `Σ*` complete for its induced length ». lean-causal/kb/entries/0217: « Sing(M) ∩ S is discrete in S; countable ... when S is second countable ». Built: E0Surgery.SurgeryData (strict GX/BTZ/Surgery.lean:2944, finite at :2946), exists_surgeryData, GX.E0Spear.lem_tube_e0 and the E₀ add_BTZ_param. Split from the sorry because it has three owed steps; this one is the data, T-btz-reg-complete-cauchy and T-btz-reg-complete-length consume it, and T-btz-cauchy-conservation's Step 2 (surgery in every spear of a complete Cauchy surface, BTZ_1.tex l.1609–1645) needs the same family. E₀-scoped (T-btz-scope); the hypothesis reading IsE0C1CompleteCauchy is the row's (OQ-142)"
+evidence = "GXScaffold.BTZ.SpearFamily: a countable locally finite disjoint spear family, step (1) of RegComplete's sorry, sorry-free; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "789fe25"
 
 [[target]]
 id = "T-btz-reg-complete-cauchy"
@@ -3696,7 +3699,7 @@ kind = "close"
 paper = "perforated"
 labels = ["rem:connected", "rem:tight", "rem:dichotomy"]
 package = "lean-yamabe"
-status = "ready"
+status = "active"
 owner = "closer"
 priority = 7
 evidence = "papers/perforated ledger: the three rows have no bucket, no Lean and no target. Built, strict: Yamabe.MeasuredModel.capStar (Yamabe/Perforated/Capacity.lean:189), capineq (:615), lem_capacitary (:931), lem_holder (:1012), and thm_main (Main.lean:767). Capacity.lean:57 already reads Σ connected as MeanPoincare « (« by Poincaré », l.394; rem:connected, l.413) », so rem:connected is the converse direction on that reading: the closer states what « disconnected » is on the measured model (an energy-zero v with ℓ(v) ≠ 0) and, if the toy model of lean-yamabe allows, a disconnected witness. rem:tight's third clause uses thm:upper's test function u = 1 − sψ (Upper.lean: upperTest, upperTest_sStar) at s = 1/(1+θ); the closer records whether it holds with θ or with θ_D (Upper.lean:61 weakens ψ to a competitor). rem:dichotomy's comparison is algebra: with τ² = A(1+θ)/B, (1+θ)(1 + τ/√(1+θ))² − (θ + (1+τ)²) = 2τ(√(1+θ) − 1) > 0 for θ, τ > 0 ([r], planner, to be checked in Lean); the « earlier form » of the theorem is not printed, so only the two bounds and their comparison are stated. The three rows are on thm:main's path and need no sharp Sobolev constant, unlike rem:hebey and rem:anisotropy (T-perf-scope's question)"
@@ -3709,12 +3712,13 @@ title = "Curation: give a bucket and a blocked_on to the rows of papers/yamabe (
 stream = "yamabe"
 kind = "tooling"
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 8
-evidence = "papers/yamabe/ledger/ledger.json, bucket empty: thm:yamabe, thm:extremal (cited, carried as named Props by T-yamabe-closed-leaves and T-yamabe-gap-corollaries), rem:old-reference, rem:positive-mass, rem:existence (informal), lem:gluing (its construction is carried, not formalized: lean-yamabe/Yamabe/External.lean:82, « carried: the family (`ABFamily`, A–B Thm 4.6's conclusion) and the fillings ... (`EscobarIV`) », needing smooth metrics the measured model lacks), thm:lower-bound and lem:positivity (strict partial). papers/perforated/ledger/ledger.json, bucket empty: 26 rows, among them thm:main, lem:capstar, lem:capacitary, thm:star3, prop:starN, cor:yamabe (strict partial, each with its OQ), thm:sharp and prop:theta-examples (T-perf-dilute-limit, needs-ruling), lem:csp-lower, prop:torus-B, cor:csp-torus, prop:extension, cor:unconditional (T-perf-scope, needs-ruling), rem:hebey, rem:passing_second_variation_test_necessary, rem:anisotropy (the sharp K(N,2), the same question), rem:connected, rem:tight, rem:dichotomy (T-perf-capacity-remarks), rem:capcomputable, rem:escobar-trap, rem:mv, rem:diameter (informal) and the two open questions q:*. Curation only (certificate/curation.toml, then the ledger rebuilt): no Lean, no row's status changed"
+evidence = "every untriaged yamabe and perforated row bucketed with a blocker"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "48cf838"
 
 [[target]]
 id = "T-bbs-cheminsing"
