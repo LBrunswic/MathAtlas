@@ -105,3 +105,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0097](entries/0097-a-cited-theorem-about-a-notion-the-model.md) | pattern | A cited theorem about a notion the model lacks: a predicate argument |
 | [0098](entries/0098-y-g-for-a-non-minimal-boundary-via-the-i.md) | pattern | Y_[g] > −∞ for a non-minimal boundary via the interpolation trace inequality |
 | [0099](entries/0099-a-final-nlinarith-timing-out-under-many.md) | pitfall | A final nlinarith timing out under many set abbreviations |
+| [0100](entries/0100-a-finite-model-kit-for-testing-the-measu.md) | pattern | A finite-model kit for testing the measured model |
+| [0101](entries/0101-a-vector-literal-pitfall-in-finite-model.md) | pitfall | A vector-literal pitfall in finite models |
+| [0102](entries/0102-a-finite-measure-instance-pitfall.md) | pitfall | A finite-measure instance pitfall |
+| [0103](entries/0103-test-the-paper-on-unequal-boundary-areas.md) | pattern | Test the paper on unequal boundary areas, where cap* < cap_D |

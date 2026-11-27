@@ -204,3 +204,25 @@ label = "q:does_admit_variational_characterisation"
 bucket = "T"
 terminal_reason = "an open question the paper asks, not a statement it makes"
 notes = "T-yamabe-perf-triage (atlas-team, 2026-11-27): triaged, no Lean change."
+
+[[row]]
+label = "rem:dichotomy"
+bucket = "D"
+lean_proved_override = "partial"
+blocked_on = "thm:main's model readings (OQ-111, OQ-112, OQ-93); the two asymptotic sentences are argued, not formalized"
+extra_lean_files = ["Yamabe/CapacityRemarks.lean"]
+decls = ["Yamabe.MeasuredModel.rem_dichotomy", "Yamabe.MeasuredModel.rankOne_bound", "Yamabe.MeasuredModel.sqrt_normSq_le_triangle", "Yamabe.dichotomy_eq", "Yamabe.dichotomy_lt_rankOne", "Yamabe.toy_rem_dichotomy"]
+notes = "T-perf-capacity-remarks (atlas-team, 2026-11-27), audit AUDIT-1 minor. Strict, sorry-free (Yamabe/CapacityRemarks.lean): the rank-one bound λ_∂ ≥ Fθ/(θ + (1+τ)²) for every Sobolev–Poincaré constant (rankOne_bound), the comparison τ² = A(1+θ)/B with the denominators differing by 2τ(√(1+θ) − 1), domination strict iff θ, F, C_SP > 0 (C_SP > 0 by lem:csp-lower in the paper's setting); assembly rem_dichotomy at C = C_SP, its hypotheses jointly satisfiable (toy_rem_dichotomy). Partial: thm:main's model facts carried, the « earlier form » unprinted, the asymptotic sentences argued."
+paper_findings = ["Model-side hypothesis, not a finding for the author (AUDIT-1 minor): lem:csp-lower gives C_SP > 0 in the paper's setting — rem:dichotomy (l.1030), minor: 'strictly dominates it for every geometry' needs C_SP > 0 (and theta > 0). At C_SP = 0, tau = 0 and the two bounds coincide (Yamabe.dichotomy_lt_rankOne: strict iff theta, F, C > 0). On a manifold with non-empty boundary C_SP >= 2^{1/N} K_sob > 0 by lem:csp-lower (l.333), so the sentence holds in the paper's setting. The planner's [r] identity is verified: the denominators differ by 2 tau (sqrt(1+theta) - 1), with tau^2 = A(1+theta)/B."]
+
+[[row]]
+label = "rem:connected"
+bucket = "D"
+blocked_on = "the model has no topology (« Σ = Σ₁ ⊔ Σ₂ ⇒ 1_{Σ₁} has zero gradient » not formalized); its Lean (Yamabe.CapacityRemarks, T-perf-capacity-remarks) is curated once the perforated restatement register, held by /restate, is free; OQ-147"
+notes = "T-perf-capacity-remarks (2026-11-27): proved over the model, curation held."
+
+[[row]]
+label = "rem:tight"
+bucket = "D"
+blocked_on = "its Lean (Yamabe.CapacityRemarks, T-perf-capacity-remarks) is curated once the perforated restatement register, held by /restate, is free; OQ-147"
+notes = "T-perf-capacity-remarks (2026-11-27): proved over the model with a finding on the third clause, curation held."

@@ -1,0 +1,177 @@
+{
+  "package": "T-perf-capacity-remarks",
+  "target": "T-perf-capacity-remarks",
+  "files": [
+    "scaffold/YamabeScaffold/CapacityRemarks.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "rem:connected",
+      "tex_lines": [
+        409,
+        415
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.rem_connected",
+        "Yamabe.MeasuredModel.capStar_eq_zero_of_energy_eq_zero",
+        "Yamabe.MeasuredModel.not_capineq_of_energy_eq_zero",
+        "Yamabe.MeasuredModel.not_meanPoincare_of_energy_eq_zero",
+        "Yamabe.CapRemarks.disc_rem_connected",
+        "Yamabe.CapRemarks.bal_witness"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Sigma = Sigma_1 disjoint union Sigma_2, so v = 1_{Sigma_1} in W^{1,2} with grad v = 0 (l.411-412)",
+          "here": "read",
+          "note": "the model has no topology: carried as some v with energy v = 0; the disconnected witness is discModel (Sigma = {0,1} u {2})"
+        },
+        {
+          "paper": "ell(v) != 0 in general (l.412)",
+          "here": "carried",
+          "note": "hypothesis ell v != 0; balModel shows the qualifier is load-bearing"
+        },
+        {
+          "paper": "the Poincare step (l.394, l.414)",
+          "here": "carried",
+          "note": "MeanPoincare is refuted under TraceBound, finite measures, V != 0 and some |B_j| > 0 (the standing hypotheses of lem:capstar)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Title imprecision, not an error (AUDIT-1 minor): the remark's body is proved and its « ℓ(v) ≠ 0 in general » (l.412) already concedes the balanced case; only the title « Connectedness is necessary » is literally false — rem:connected (l.409-415), the title 'Connectedness is necessary' overstates and 'in general' (l.412) carries the remark: on balModel, two components {0,1} and {2,3}, each an edge with one boundary point of equal area, v = 1_{{2,3}} has zero energy and the Poincare inequality fails, yet ell(v) = 0, cap* = 32 > 0 and eq:capineq holds for every u (Yamabe.CapRemarks.bal_witness). The condition eq:capineq needs is that no union of components Sigma_1 is balanced, |Sigma_1|/|Sigma| = sum over B_j in the boundary of Sigma_1 of w_j. That criterion is argued, not formalized."
+      ],
+      "questions": [
+        "What 'Sigma = Sigma_1 disjoint union Sigma_2' means on the measured model (l.411). Reading taken: there is v in D with energy v = 0 and ell(v) != 0. The remark itself derives exactly this from disconnectedness, and it is the only consequence the remark uses."
+      ]
+    },
+    {
+      "label": "rem:tight",
+      "tex_lines": [
+        563,
+        572
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.bdryAvg_eq_of_tr_const",
+        "Yamabe.MeasuredModel.bdryY_of_tr_const",
+        "Yamabe.MeasuredModel.capacitary_eq_of_minimiser",
+        "Yamabe.MeasuredModel.exists_capacitary_eq",
+        "Yamabe.cauchySchwarz_step",
+        "Yamabe.MeasuredModel.cauchySchwarz_step_eq_iff",
+        "Yamabe.MeasuredModel.bdryY_upperTest",
+        "Yamabe.MeasuredModel.ratio_upperTest",
+        "Yamabe.MeasuredModel.ratio_upperTest_thetaD",
+        "Yamabe.MeasuredModel.ratio_upperTest_theta_iff",
+        "Yamabe.CapRemarks.path_rem_tight_counterexample",
+        "Yamabe.CapRemarks.path_no_tight_profile"
+      ],
+      "hypotheses": [
+        {
+          "paper": "u constant on the boundary (l.566), u >= 0 (standing, l.460)",
+          "here": "carried",
+          "note": "tr u = c a.e. on every B_j, c >= 0; S != 0"
+        },
+        {
+          "paper": "u the equilibrium potential (l.567)",
+          "here": "carried",
+          "note": "ell v = 1, energy v = cap*, 0 < cap* < infinity; also every a v with a >= 0; existence under lem:capstar's hypotheses with DirectMethod (exists_capacitary_eq)"
+        },
+        {
+          "paper": "the Cauchy-Schwarz step (l.567-569)",
+          "here": "read",
+          "note": "(C1 X + C2 Y)^2 <= (C1^2/a_N + C2^2/c_N)(a_N X^2 + c_N Y^2), the A~ = 0 skeleton of the proof of thm:main (l.519-550)"
+        },
+        {
+          "paper": "psi and theta in u = 1 - s psi at s = 1/(1+theta) (l.569-570)",
+          "here": "read",
+          "note": "psi a competitor of cap_D (the thm:upper psi, l.862); both theta (printed) and theta_D tested"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "rem:tight, third clause (l.569-570), false as printed. With psi the classical equilibrium potential of l.862, u_s = 1 - s psi realises X/Y = sqrt(cap_D)/(t sqrt S) at s = 1/(1+t). At s = 1/(1+theta), as printed, this equals c_N sqrt(S)/(a_N sqrt(cap*)) iff cap_D = cap* (Yamabe.MeasuredModel.ratio_upperTest_theta_iff). At s = 1/(1+theta_D) it equals c_N sqrt(S)/(a_N sqrt(cap_D)) (ratio_upperTest_thetaD), the printed ratio with cap_D in place of cap*. Counterexample: pathModel, a connected path 0 - 1 - 2 with boundary areas 1 and 4 on which MeanPoincare and TraceBound hold, has cap* = 27 < 54 = cap_D. Neither choice of s realises the printed ratio there, so the Cauchy-Schwarz step is strict at both (Yamabe.CapRemarks.path_rem_tight_counterexample).",
+        "rem:tight, first sentence (l.565): 'each of the three inequalities used is an equality for the capacitary profile'. On pathModel the equalities in lem:holder, lem:capacitary and the Cauchy-Schwarz step hold together only at u = 0 (Yamabe.CapRemarks.path_no_tight_profile), so no single tight profile exists. The three clauses do hold one at a time (proved). All three hold together exactly when the eq:capstar minimiser is constant on the boundary, i.e. when cap* = cap_D (e.g. the two-point toy model, cap* = cap_D = 8)."
+      ],
+      "questions": [
+        "psi at l.570 appears before it is defined (l.862, section 'Optimality'). Reading taken: the classical equilibrium potential of thm:upper (psi = 1 on the boundary, integral of psi = 0). Under the other possible reading (psi a normalised eq:capstar minimiser), u_s is not constant on the boundary, so lem:holder's equality condition, clause (1), fails in general.",
+        "Which Cauchy-Schwarz step is meant (l.567). Reading taken: (C1 X + C2 Y)^2 <= (C1^2/a_N + C2^2/c_N)(a_N X^2 + c_N Y^2), whose equality ratio is exactly the printed X/Y. This is the A~ = 0 case of the 2x2 eigenvalue bound. For A~ > 0 the extremal direction of the full quadratic form differs."
+      ]
+    },
+    {
+      "label": "rem:dichotomy",
+      "tex_lines": [
+        1019,
+        1034
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.rem_dichotomy",
+        "Yamabe.MeasuredModel.rankOne_bound",
+        "Yamabe.MeasuredModel.sqrt_normSq_le_triangle",
+        "Yamabe.dichotomy_eq",
+        "Yamabe.dichotomy_lt_rankOne",
+        "Yamabe.toy_rem_dichotomy"
+      ],
+      "hypotheses": [
+        {
+          "paper": "Sigma compact connected with non-empty boundary, the trace theorem (via thm:main)",
+          "here": "carried",
+          "note": "MeanPoincare, TraceBound, InteriorBump (theta > 0), as in Main.thm_main"
+        },
+        {
+          "paper": "C_SP finite (def:constants, l.322)",
+          "here": "carried",
+          "note": "SobolevIneq, giving C_SP < infinity through exists_isSobolevPoincareConst"
+        },
+        {
+          "paper": "'for every geometry' (l.1030)",
+          "here": "carried",
+          "note": "C_SP > 0 for the strict domination; theta > 0 and F_g(1) > 0 are derived"
+        },
+        {
+          "paper": "the earlier form of thm:main (l.1021-1024)",
+          "here": "read",
+          "note": "not printed: only its resulting bound A/(1+sqrt(A/B))^2 is stated, and it is proved here from the rank-one bound by the comparison"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Model-side hypothesis, not a finding for the author (AUDIT-1 minor): lem:csp-lower gives C_SP > 0 in the paper's setting — rem:dichotomy (l.1030), minor: 'strictly dominates it for every geometry' needs C_SP > 0 (and theta > 0). At C_SP = 0, tau = 0 and the two bounds coincide (Yamabe.dichotomy_lt_rankOne: strict iff theta, F, C > 0). On a manifold with non-empty boundary C_SP >= 2^{1/N} K_sob > 0 by lem:csp-lower (l.333), so the sentence holds in the paper's setting. The planner's [r] identity is verified: the denominators differ by 2 tau (sqrt(1+theta) - 1), with tau^2 = A(1+theta)/B."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.cauchySchwarz_step",
+    "Yamabe.MeasuredModel.sqrt_normSq_le_triangle",
+    "Yamabe.MeasuredModel.bdryY_of_tr_const",
+    "Yamabe.MeasuredModel.ratio_upperTest",
+    "Yamabe.CapRemarks.finModel",
+    "Yamabe.CapRemarks.finMetric",
+    "Yamabe.CapRemarks.edgeMap",
+    "Yamabe.CapRemarks.normSq_count_two",
+    "Yamabe.CapRemarks.normSq_smul_dirac",
+    "Yamabe.CapRemarks.pathModel",
+    "Yamabe.CapRemarks.discModel",
+    "Yamabe.CapRemarks.balModel"
+  ],
+  "kb_proposals": [
+    "pattern: cheap graph models for the measured model live in Yamabe.CapRemarks (scaffold CapacityRemarks). finModel k n mub e (Fin k, counting measure, flat frame finMetric, val = tr = id, constant differential e) comes with vol, bvol, gradSq, energy, dirichlet and volMean lemmas. edgeMap i j i' j' gives two edges. normSq_count_two and normSq_smul_dirac compute the norms. Disconnected, balanced and asymmetric-boundary examples cost about 30 lines each.",
+    "pitfall: norm_num [Matrix.cons_val] does not evaluate ![a,b,c,d] 3 at this pin. simp only [Matrix.cons_val_three, Matrix.cons_val_two, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.tail_cons, Matrix.head_cons] does, and is packaged as CapRemarks.vecLit / vecLit3.",
+    "pitfall: IsFiniteMeasure (c • mu) for c : ENNReal has no instance; give it as by exact <by simp>.",
+    "pattern: on the measured model cap* < cap_D as soon as the boundary areas are unequal (pathModel: 27 < 54). Statements of the paper that silently identify the eq:capstar minimiser with the classical equilibrium potential psi should be tested there."
+  ],
+  "notes": "One new file, no sorry, no strict edit. The import line was appended to scaffold/YamabeScaffold.lean. lake build YamabeScaffold.CapacityRemarks built only this module. The file imports the strict Yamabe.Perforated.Poincare (for exists_isSobolevPoincareConst) and Yamabe.Perforated.Upper. The finite models are namespaced Yamabe.CapRemarks to avoid generic-name clashes on graduation. No label is marked: rem:connected rests on a reading, rem:tight's third clause and first sentence are refuted on pathModel, and rem:dichotomy carries thm:main's model facts and leaves two asymptotic sentences unformalized.",
+  "audit": "AUDIT-1 minor: rem:connected recorded as a title imprecision; rem:dichotomy's C_SP > 0 as a model-side hypothesis; rem:tight's refutation confirmed under both readings of ψ (master, at integration)."
+}
