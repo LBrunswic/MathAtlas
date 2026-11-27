@@ -5,6 +5,8 @@ import GXScaffold.BBS.HSPositive
 import GXScaffold.BBS.HSDegree
 import GXScaffold.BBS.HSAntipodal
 import GXScaffold.BBS.HSClassification
+import GXScaffold.BBS.HSRemarkReadings
+import GXScaffold.BBS.HSCausal
 import GXScaffold.Interaction.PuncturedSphere
 import GXScaffold.Interaction.TheoremM
 import GXScaffold.Interaction.TheoremMTheta

@@ -1,0 +1,27 @@
+{
+ "target": "T-bbs-remark-readings",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bbsrem:previous_section_observed_only",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Row partial and unmarked (docstring line 13 names the label without the bold mark; REPORT status partial, marked false); the remaining blockers OQ-120 (b), OQ-124, OQ-116 (a) are disclosed in the docstring, the checklist and SCOPE (a). Moved-p reading: IsIsoVia (HSAntipodal, pre-existing) with B in Causal.Flat.lorentz 2, which #print confirms is minkQ-preserving, future-causal-preserving and det 1, i.e. SO0(1,2) as l.616-623; IsIso.isIsoVia_one shows the same-p notion is the case B = 1, so the moved form is the stronger. Repelling-endpoint reading: IsSpacelikePositiveRep / IsSpacelikeNegativeAtt keep the existential frame of HSSingularities' IsSpacelikePositive verbatim (dS2 point, oriented theta, lifted pair, k >= 1, g with a fixed point, g hyperbolic, f = delta^k g) and replace only the last conjunct by 'for every t in I+ = D(E^-1 i+(L)), sInf (connectedComponentIn I+ t) is IsRepellingAt / IsAttractingAt g'. IsRepellingAt / IsAttractingAt are the pre-existing HSSingularities definitions (fixed and |y-x| < |gy-x| on a punctured neighbourhood), not new; sInf of the connected component is the left extremity of a bounded open interval component (connectedComponentIn_iUnion_Ioo_two, csInf_Ioo), the same points as the paper's x_{2i}. The guard 'g hyperbolic, k >= 1' is the paper's own (l.893-895). The equivalence is not definitional: forms_iff_of_consecutive does the sign analysis of g - id on both sides of consecutive fixed points. Not tailored. Assembly statement checked: (iii) in both forms, for IsIso and for every IsIsoVia; the forms equal for every C; at every p in dS2 a positive (both forms) and negative (both forms) pair with isomorphic RP1-circles and no IsIso / IsIsoVia between them. OQ-128: its recorded finding is that l.915 and l.908-913 differ at trivial holonomy and that the degree-4 example fails the hyperbolic guard; forms_iff_iff_ne_one sharpens this (unguarded, for one lifted pair at p in dS2 with k >= 1 and g with a fixed point, the forms agree iff g != 1) and exists_forms_differ is consistent with it. No contradiction."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSRemarkReadings.lean: exit 0, no output. The one grep hit for 'sorry' is docstring text (line 36). #print axioms (probe under the campaign directory, deleted afterwards) on the assembly, not_isIsoVia_of_positive_of_negative, IsIsoVia.isLiftedDev, linkMove_mem_iPlus_iff, isSpacelikePositive_iff_rep, isSpacelikeNegative_iff_att, forms_iff_iff_ne_one, rep_dichotomy, IsIso.isIsoVia_one, exists_forms_differ: all [propext, Classical.choice, Quot.sound]. Scope: lean-gx/scaffold/GXScaffold.lean diff is exactly the one import line; the new file and campaign dir are the only other paths of this target; the other dirty paths in git status belong to other loops (HSCausal.lean, lean-yamabe, restatement registers, atlas, roadmap) and predate this audit."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/campaign/T-bbs-remark-readings/REPORT.json (findings[2]); HSRemarkReadings.lean:90-92 (SCOPE (b))",
+   "what": "The REPORT says the forms part at trivial holonomy 'in every even degree, the regular link l(p) (degree 2) included'. forms_iff_iff_ne_one is universal over lifted pairs, but the only instance built is degree 4 (exists_forms_differ). That l(p) itself, or a circle in every even degree, has a lifted pair with f = delta^k and g = 1 is not formalized here. The claim is very likely true (linkCover has period 2), but it reaches the author as a fact.",
+   "fix": "Add '(instances argued; only degree 4 is formalized, GX.exists_forms_differ)' to the REPORT finding and to SCOPE (b), or build the degree-2 instance at l(p)."
+  }
+ ]
+}

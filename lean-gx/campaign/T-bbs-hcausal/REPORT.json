@@ -1,0 +1,135 @@
+{
+  "package": "T-bbs-hcausal",
+  "target": "T-bbs-hcausal",
+  "files": [
+    "scaffold/GXScaffold/BBS/HSCausal.lean",
+    "scaffold/GXScaffold.lean (one import line)"
+  ],
+  "builds": true,
+  "sorry_count": 3,
+  "axioms": "hasCCC_of_misner, not_hasCCC_of_timelike, not_hasCCC_of_null, not_hasCCC_of_btz, not_isCausal_of_isHighDegree, not_misner_of_isCausal, not_hasCCC_of_type, exists_isSingularHSSurface_sing_empty_hasCCC: [propext, Classical.choice, Quot.sound]; isCausalLine_iff (and isCausalLine_iff_exists, not_hasCCC): + sorryAx",
+  "labels": [
+    {
+      "label": "bbsdef:Hcausal",
+      "tex_lines": [
+        1114,
+        1125
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.SingularHSStructure.IsCausal",
+        "GX.GammaLinkCircle.IsCausalLine",
+        "GX.DSLe",
+        "GX.dsHat",
+        "GX.SingularHSStructure.IsFutureCausalCurve",
+        "GX.SingularHSStructure.IsClosedCausalCurve",
+        "GX.SingularHSStructure.HasCCC",
+        "GX.SingularHSStructure.HasHighDegreeAt",
+        "GX.LinkType.IsHighDegree",
+        "GX.GammaLinkCircle.isCausalLine_iff",
+        "GX.GammaLinkCircle.isCausalLine_iff_exists",
+        "GX.GammaLinkCircle.DevData.not_misner_of_isCausal",
+        "GX.GammaLinkCircle.DevData.hasCCC_of_misner",
+        "GX.GammaLinkCircle.DevData.not_isCausal_of_isHighDegree",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_type",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_timelike",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_null",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_btz",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_deSitter",
+        "GX.GammaLinkCircle.DevData.not_hasHighDegreeAt",
+        "GX.exists_isSingularHSSurface_sing_empty_hasCCC"
+      ],
+      "hypotheses": [
+        {
+          "paper": "a singular HS-surface (l.1116)",
+          "here": "kept",
+          "note": "any GX.SingularHSStructure; IsSingularHSSurface not needed"
+        },
+        {
+          "paper": "CCC (l.1116)",
+          "here": "reading",
+          "note": "a 1-periodic, non-constant, future causal curve of the regular de Sitter region; causal = locally in a chart, s1 <= s2 => yhat(s2) - yhat(s1) future causal or zero on the hyperboloid {Q = 1} (GX.DSLe); chart-independent (IsFutureCausalCurve.forall_chart); curves do not cross points of the singular set"
+        },
+        {
+          "paper": "singularity of degree >= 4 (l.1116)",
+          "here": "reading",
+          "note": "a point of the singular set with some link at the apex (IsApexLink) of type space-like/light-like of degree k >= 4, or trivial holonomy delta^k, k >= 4"
+        },
+        {
+          "paper": "the suspension e(L) of the associated circle (l.1117)",
+          "here": "reading",
+          "note": "IsCausalLine quantifies over all developing data; isCausalLine_iff_exists gives the same answer for some"
+        },
+        {
+          "paper": "in other words (l.1120-1125)",
+          "here": "corrected",
+          "note": "false for singular HS-surfaces (counterexample); proved in its 'only if' for singular lines, 'if' on 3 tagged sorrys"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "GX.GammaLinkCircle.DevData.not_hasCCC_of_deSitter (case spacelike)",
+          "obstruction": "space-like circles of degree k (tachyons): the developed image is all of l(p), so no Gamma_p-invariant function (B(., p), B(., n+)B(., n-)) is a time function on the region the charts reach; a time function must be built through the gluing by the hyperbolic holonomy; the paper gives no argument"
+        },
+        {
+          "decl": "GX.GammaLinkCircle.DevData.not_hasCCC_of_deSitter (case trivialHolonomy)",
+          "obstruction": "trivial holonomy delta^k at p in dS^2 (k = 2: e(l(p)) = HS^2): the time function of HS^2 is not Gamma_p-invariant; transporting it chart by chart (regular_susp, or the holonomy-1 developing map of e(L)) is not formalized"
+        },
+        {
+          "decl": "GX.GammaLinkCircle.DevData.not_hasHighDegreeAt",
+          "obstruction": "an apex link of a point of the singular set is determined only up to a moved-p isomorphism by the HS-isomorphism of the singularities, with the degree invariant: the developing argument on the punctured neighbourhood left open by HSAntipodal SCOPE (b) (l.850-852), not formalized"
+        }
+      ],
+      "findings": [
+        "Scope imprecision (AUDIT-1 minor, reworded): l.1120-1125 ('In other words, a singular HS-surface is causal if the following singularity types are excluded: space-like or light-like singularities of degree >= 4, Misner singularities') fails when read literally for every singular HS-surface (l.948–952 asks no compactness): the regular part e(L) minus its two apices, L Misner, is a singular HS-surface without any singular point that has a closed causal curve (GX.exists_isSingularHSSurface_sing_empty_hasCCC). Having no CCC is a global condition, not implied by the local types. The sentence is true in its 'only if' direction for singular lines (GX.GammaLinkCircle.DevData.not_misner_of_isCausal, proved) and is stated for them as GX.GammaLinkCircle.isCausalLine_iff. The example is the Misner neighbourhood with its singular point cut out; closed surfaces and HS-spheres are undecided, and the intended reading is the singular-line form (isCausalLine_iff).",
+        "l.1059-1063 (the CTC of a Misner bigon) is formalized for every developing data (GX.GammaLinkCircle.DevData.hasCCC_of_misner): the CCC is the 'equator' of the bigon, the points of e(L) developed onto p-perp, and its causality is the order of one coordinate on a branch of the unit hyperbola of p-perp.",
+        "l.1120-1125 assert, without an argument, that every non-Misner line of degree <= 2 has no CCC (the proof of bbslem:CTC, l.1066-1101, only reduces CCCs of e(Sigma) to those of the de Sitter region of Sigma). It is proved here for time-like lines (every cone angle), light-like ones (cuspidal, extreme BTZ-like, photons, and in fact every degree) and BTZ-like ones; for tachyons of degree 2 and the trivial holonomy delta^2 it remains open (two tagged sorrys). Light-like lines of degree >= 4 have no CCC: only the degree clause makes them non-causal."
+      ],
+      "questions": [
+        "Causal curves of a singular HS-surface: may they pass through points of the singular set (as l.1032-1033 lets AdS causal curves cross singular lines)? Read: no; they live in the regular de Sitter region.",
+        "CCC: causal or time-like (l.1059 speaks of CTCs)? Read: causal (future causal, 1-periodic, non-constant); the Misner curve constructed is in fact time-like, not stated.",
+        "'A singularity of degree >= 4': read through some link at the apex p-bar (IsApexLink); with 'every link' instead, the other direction of isCausalLine_iff would need the uniqueness of the link. Trivial holonomy delta^k, k >= 4 (outside the printed list) is counted as degree k.",
+        "'A singular line is causal if e(L) is causal': e(L) depends on developing data (OQ-126 (c)); read for every developing data, the 'for some' reading gives the same equivalence (isCausalLine_iff_exists).",
+        "'In other words' (l.1120): read for singular lines (the second sentence's e(L)); for general singular HS-surfaces it is false (finding); for HS-spheres of interactions it is not decided here."
+      ],
+      "extra_decls": [
+        "GX.monotone_of_local",
+        "GX.SingularHSStructure.not_hasCCC_of_timeFunctionOn",
+        "GX.SingularHSStructure.not_hasCCC_of_timeFunction",
+        "GX.SingularHSStructure.not_hasCCC_of_lexTime",
+        "GX.SingularHSStructure.IsFutureCausalCurve.forall_chart",
+        "GX.SingularHSStructure.IsFutureCausalCurve.notMem_sing",
+        "GX.SingularHSStructure.HasCCC.restrict_reg",
+        "GX.dsLe_smul_iff",
+        "GX.dsTime",
+        "GX.btzTime",
+        "GX.btzRegion",
+        "GX.btzTime_mono",
+        "GX.perp_decomp",
+        "GX.eq_zero_of_minkB_frame",
+        "GX.isFutureCausal_perpLin",
+        "GX.eq_smul_of_minkB_null",
+        "GX.hyperbola_sq_le",
+        "GX.exists_sign_strictMonoOn",
+        "GX.arg_add_lt",
+        "GX.arcAngle_rayNormalize",
+        "GX.rayNormalize_lorentz",
+        "GX.GammaLinkCircle.DevData.d_locally_injOn",
+        "GX.GammaLinkCircle.DevData.d_mem_of_image",
+        "GX.GammaLinkCircle.DevData.eventually_chart_bPt",
+        "GX.GammaLinkCircle.DevData.ht_step_null"
+      ],
+      "kb_proposals": [
+        "The causal relation of dS^2 in HS^2 is GX.DSLe (hyperboloid points GX.dsHat, difference future causal), SO0(1,2)-invariant (GX.dsLe_smul_iff); causal curves of a singular HS-surface are GX.SingularHSStructure.IsFutureCausalCurve, chart-independent by IsFutureCausalCurve.forall_chart.",
+        "To exclude CCCs use GX.SingularHSStructure.not_hasCCC_of_timeFunctionOn (a Gamma_p-invariant Phi on a region the charts reach) or not_hasCCC_of_lexTime (Phi weakly monotone, then a function on M); on e(L) chart invariance is suspAtlas_eventually_eq_smul plus Phi(g . sigma) = Phi sigma for g in Gamma_p.",
+        "A curve in e(L) given by heights along the covering: GX.GammaLinkCircle.DevData.bPt x = [E x, t x]; eventually_chart_bPt reads it in any cone chart as g . yPt x (the IsLiftOf + periodic.fiber + vlift_add_int argument of suspAtlas_eventually_eq_smul, packaged).",
+        "At p in dS^2, p-perp = span(GammaP.dsE0 p, jVec p) (GX.perp_decomp; dsE0 and dsFrame live in namespace GX.GammaP); GX.eq_zero_of_minkB_frame is the coordinate kernel.",
+        "Any property of the developed image of one lifted developing pair, invariant under Gamma_p, holds along every DevData: GX.GammaLinkCircle.DevData.d_mem_of_image (exists_rel + existsUnique_eq_smul).",
+        "A continuous locally injective f : R -> R is locally increasing everywhere up to a sign kappa = +-1: GX.exists_sign_strictMonoOn (clopen argument)."
+      ]
+    }
+  ],
+  "notes": "One new file, scaffold/GXScaffold/BBS/HSCausal.lean, importing only GXScaffold.BBS.HSClassification; one import line added to scaffold/GXScaffold.lean (after HSRemarkReadings). `lake build GXScaffold.BBS.HSCausal` succeeds (2 declarations with sorry: not_hasCCC_of_deSitter, 2 sorrys, and not_hasHighDegreeAt, 1). No Causal.* import. The label is unmarked: the in-other-words is imprecise in scope (it fails read for arbitrary non-compact surfaces), and the singular-line form rests on three tagged sorrys. The new not_hasCCC_of_null holds without any degree hypothesis.",
+  "audit": "AUDIT-1 minor: the l.1120–1125 finding reworded as a scope imprecision by the master at integration."
+}

@@ -146,3 +146,12 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0136](entries/0136-pitfall.md) | pitfall | Pitfall: |
 | [0137](entries/0137-pitfall.md) | pitfall | Pitfall: |
 | [0138](entries/0138-gx-isfuturetimelike-timeunit-restates-le.md) | convention | GX.isFutureTimelike_timeUnit restates lean-causal's, absent at lean-gx's pin |
+| [0139](entries/0139-a-moved-p-isomorphism-transports-a-lifte.md) | pattern | A moved-p isomorphism transports a lifted developing pair |
+| [0140](entries/0140-repelling-and-attracting-fixed-points-fr.md) | pattern | Repelling and attracting fixed points from the sign of g − id |
+| [0141](entries/0141-write-the-set-of-nhdswithin-mono-explici.md) | pitfall | Write the set of nhdsWithin_mono explicitly |
+| [0142](entries/0142-the-causal-relation-of-ds-2-in-hs-2-is-g.md) | pattern | The causal relation of dS² in HS² is GX.DSLe |
+| [0143](entries/0143-to-exclude-cccs-use-gx.md) | pattern | To exclude closed causal curves, use an invariant time function |
+| [0144](entries/0144-a-curve-in-e.md) | pattern | A curve in 𝔢(L) given by heights along the covering |
+| [0145](entries/0145-at-p-in-ds-2-p-perp-span.md) | pattern | At p ∈ dS², p^⊥ = span(dsE0 p, jVec p) |
+| [0146](entries/0146-any-property-of-the-developed-image-of-o.md) | pattern | Properties of one lifted pair's developed image are pair-independent |
+| [0147](entries/0147-a-continuous-locally-injective-f.md) | pattern | A continuous locally injective f : ℝ → ℝ is monotone up to a sign |

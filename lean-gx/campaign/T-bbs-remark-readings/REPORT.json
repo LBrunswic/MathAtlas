@@ -1,0 +1,110 @@
+{
+ "package": "T-bbs-remark-readings",
+ "target": "T-bbs-remark-readings",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSRemarkReadings.lean"
+ ],
+ "module": "GXScaffold.BBS.HSRemarkReadings",
+ "imports": [
+  "GXScaffold.BBS.HSAntipodal",
+  "GXScaffold.BBS.HSPositive"
+ ],
+ "root_edit": "one line added to scaffold/GXScaffold.lean: import GXScaffold.BBS.HSRemarkReadings (after HSClassification)",
+ "builds": true,
+ "build_note": "taskset -c 0-11 lake build GXScaffold.BBS.HSRemarkReadings: only this module rebuilt (8638 jobs, the rest up to date); no other lake build was running",
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "axioms_note": "#print axioms on the assembly, exists_forms_differ, forms_iff_iff_ne_one, IsIso.isIsoVia_one, rep_dichotomy",
+ "labels": [
+  {
+   "label": "bbsrem:previous_section_observed_only",
+   "tex_lines": [
+    926,
+    932
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.bbsrem_previous_section_observed_only_readings",
+    "GX.not_isIsoVia_of_positive_of_negative",
+    "GX.GammaLinkCircle.IsIsoVia.isSpacelikePositive",
+    "GX.GammaLinkCircle.IsIsoVia.isSpacelikeNegative",
+    "GX.GammaLinkCircle.IsIsoVia.isLiftedDev",
+    "GX.GammaLinkCircle.IsIso.isIsoVia_one",
+    "GX.GammaLinkCircle.IsSpacelikePositiveRep",
+    "GX.GammaLinkCircle.IsSpacelikeNegativeAtt",
+    "GX.GammaLinkCircle.iPlusTilde",
+    "GX.GammaLinkCircle.isSpacelikePositive_iff_rep",
+    "GX.GammaLinkCircle.isSpacelikeNegative_iff_att",
+    "GX.GammaLinkCircle.IsLiftedDev.forms_iff",
+    "GX.GammaLinkCircle.IsLiftedDev.rep_dichotomy",
+    "GX.GammaLinkCircle.IsLiftedDev.forms_iff_iff_ne_one",
+    "GX.exists_forms_differ"
+   ],
+   "hypotheses": [
+    {
+     "paper": "« isomorphic » (l.931)",
+     "here": "both readings",
+     "note": "same p (GX.GammaLinkCircle.IsIso) and through any move B ∈ SO₀(1,2) with B·p = p' (GX.GammaLinkCircle.IsIsoVia of HSAntipodal); IsIso is the case B = 1 (IsIso.isIsoVia_one)"
+    },
+    {
+     "paper": "positive / negative (l.908–915)",
+     "here": "both forms, proved equal",
+     "note": "l.915 form IsSpacelikePositive/Negative and l.908–913 form IsSpacelikePositiveRep/NegativeAtt: the left extremity sInf (connectedComponentIn I⁺ t) of every component of I⁺ = D(E⁻¹ i⁺(L)) is a repelling / attracting fixed point of g"
+    },
+    {
+     "paper": "hyperbolic circle of degree k ≥ 1 (l.893–895)",
+     "here": "as in HSSingularities' definitions",
+     "note": "g hyperbolic with a fixed point, f = δᵏ g, k ≥ 1, θ oriented; the equivalence of the forms uses the hyperbolic guard, which is the paper's own"
+    },
+    {
+     "paper": "holonomy ⟨g⟩ (l.927), time-like components (l.929–930), « does not extend » (l.928)",
+     "here": "unchanged readings",
+     "note": "OQ-120 (b), OQ-116 (a), OQ-124 are untouched by this file"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "OQ-120 (a), for this remark: (iii) l.930–931 holds for moved-p isomorphisms too. A move B ∈ SO₀(1,2), B·p = p', carries a lifted developing pair (θ, E, D, f) of L to (θ∘[B]⁻¹, φ∘E, D, f) of L' (same D, same lifted holonomy, θ∘[B]⁻¹ oriented since det B = 1) and keeps i⁺ (B orthochronous), so positivity and negativity are invariant and positive and negative circles are isomorphic through no move (GX.not_isIsoVia_of_positive_of_negative). The SCOPE (e) argument of HSSingularities.lean is now formalized. Either answer to (a) can be marked with no Lean change for this label.",
+    "OQ-120 (c): the repelling-endpoint definition of l.908–913 is equivalent to the l.915 form, for positive and for negative, in every degree k ≥ 1 (GX.GammaLinkCircle.isSpacelikePositive_iff_rep, isSpacelikeNegative_iff_att). It is not limited to degree 2: in the hyperbolic setting of l.893–895 the degree is even and the components of I⁺ are δ^{2i}]x₀, x₁[ in every degree. The SCOPE (f) argument of HSSingularities.lean is now formalized.",
+    "OQ-128's finding, sharpened at the level of one lifted pair: without the guard « g hyperbolic », at p ∈ dS² with f = δᵏ g, k ≥ 1 and g with a fixed point, l.915's inequality is equivalent to the repelling form if and only if g ≠ 1 (GX.GammaLinkCircle.IsLiftedDev.forms_iff_iff_ne_one; g ≠ 1 forces g hyperbolic there). At trivial Γ_p-holonomy (g = 1), l.915 holds and no fixed point is repelling, built in degree 4 (GX.exists_forms_differ); argued, not formalized, in every even degree, the regular link ℓ(p) (degree 2) included (AUDIT-1 minor). The two forms of l.915 and l.908–913 therefore part only outside the paper's « hyperbolic circle » setting."
+   ],
+   "questions": [
+    "None new. OQ-120 (a) and (c) remain the author's to answer; this file proves the remark under each answer. Reading taken for moves: B ∈ SO₀(1,2) (l.616–623), as in HSAntipodal's IsIsoVia; a time-reversing B ∈ SO(1,2) exchanges i⁺ and i⁻ (argued, not formalized) and is not covered.",
+    "Reading taken for « left extremities of the components of I⁺ » (l.909, l.912): I⁺ = D(E⁻¹ i⁺(L)) ⊆ ℝP̃¹ (= linkCover⁻¹ i⁺(ℓ(p)) in degree ≠ 0, IsLiftedDev.iPlusTilde_eq), the left extremity of the component of t being sInf (connectedComponentIn I⁺ t); « repelling » is GX.GTilde.IsRepellingAt of HSSingularities (g x = x and nearby points moved strictly away). The paper's indexing x_{2i} = δ^i x₀ is not used; it gives the same set of points (iPlus_components)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.smul_mem_deSitter_iff",
+  "GX.dsProj_tpMove",
+  "GX.linkMove_mem_iPlus_iff",
+  "GX.tangentAlong",
+  "GX.isOrientedTangent_tangentAlong",
+  "GX.linkMove_linkCover_along",
+  "GX.linkMove_one",
+  "GX.moveFactor_pos",
+  "GX.GammaLinkCircle.IsIsoVia.mem_iPlusL_iff",
+  "GX.GammaLinkCircle.not_positive_and_negative",
+  "GX.GTilde.apply_add_int_sub",
+  "GX.GTilde.isRepellingAt_of_dir",
+  "GX.GTilde.isAttractingAt_of_dir",
+  "GX.GTilde.not_isRepellingAt_of_lt",
+  "GX.GTilde.not_isAttractingAt_of_lt",
+  "GX.GTilde.not_isRepellingAt_one",
+  "GX.GTilde.forms_iff_of_consecutive",
+  "GX.GammaLinkCircle.forall_iPlusL_iff",
+  "GX.GammaLinkCircle.IsLiftedDev.range_eq_univ",
+  "GX.GammaLinkCircle.IsLiftedDev.iPlusTilde_eq"
+ ],
+ "kb_proposals": [
+  "A moved-p isomorphism (IsIsoVia C C' B h φ) transports a lifted developing pair (θ, E, D, f) to (GX.tangentAlong B h θ, φ ∘ E, D, f): GX.GammaLinkCircle.IsIsoVia.isLiftedDev (BBS/HSRemarkReadings); invariance of any property stated through lifted pairs and i⁺ then follows as for same-p IsIso.",
+  "Repelling / attracting fixed points of g ∈ G̃ from the sign of g − id on both sides: GX.GTilde.isRepellingAt_of_dir, isAttractingAt_of_dir; the left extremity of a component of ⋃ᵢ ]a+2i, b+2i[ is sInf via connectedComponentIn_iUnion_Ioo_two and csInf_Ioo.",
+  "Pitfall: in nhdsWithin_mono, write the set as (Ioi a) explicitly (show Ioi a ⊆ {a}ᶜ from …); a lambda binder (hy : a < y) elaborates the set as Real.lt a and NeBot of 𝓝[>] a is not found."
+ ],
+ "notes": "Sorry-free, standard axioms. Writes nothing outside the dispatch: the new file, one import line in scaffold/GXScaffold.lean, this report. Imports HSAntipodal (IsIsoVia, linkMove, gammaMove) and HSPositive (exists_isPositive_delta_four for GX.exists_forms_differ); both sorry-free scaffold files, so it graduates with them. Does not touch HSCausal.lean (T-bbs-hcausal). The label's row stays partial and unmarked: the mark still waits on OQ-120 (b), OQ-124 and OQ-116 (a); OQ-120 (a) and (c) no longer block it, since both answers are proved (the assembly GX.bbsrem_previous_section_observed_only_readings). Suggested ledger decls: add the assembly, not_isIsoVia_of_positive_of_negative, isSpacelikePositive_iff_rep, isSpacelikeNegative_iff_att, IsSpacelikePositiveRep, IsSpacelikeNegativeAtt."
+}

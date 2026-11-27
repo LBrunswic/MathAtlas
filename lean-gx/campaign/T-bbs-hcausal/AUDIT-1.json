@@ -1,0 +1,32 @@
+{
+  "target": "T-bbs-hcausal",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bbsdef:Hcausal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Partial and unmarked: the docstring writes `bbsdef:Hcausal` without the bold mark, and the REPORT row says partial. That matches the three tagged sorrys under isCausalLine_iff. (1) Causal curves: DSLe sigma tau requires both points in dS^2 and dsHat tau - dsHat sigma to be future causal in R^{1,2}. Here IsFutureCausal v is 0 <= v.1 and minkQ v <= 0, with minkQ = -x0^2 + |x|^2, and zero is allowed. On the one-sheeted hyperboloid {Q = 1}, minkQ(z - y) = 2 - 2B(y, z), so the relation is exactly the standard global causal relation of dS^2 (B(y, z) >= 1, z to the future), with the time orientation coming from the ambient space as at l.620-623. IsFutureCausalCurve asks for this monotonicity inside a chart window near every parameter, and forall_chart shows the result does not depend on the chart. A CCC is 1-periodic and non-constant. None of this is vacuous or tailored: hasCCC_of_misner produces a CCC, while not_hasCCC_of_timelike, _null and _btz exclude them by time functions, so the notion has instances on both sides. Two narrowings are disclosed in SCOPE (a)/(b) and as questions: curves avoid the singular set, and causal is used rather than time-like. They only affect the sorry'd 'if' direction. The 'only if' direction and the counterexample would survive any wider notion, because a CCC in the regular part is a CCC in any sense. (2) HasHighDegreeAt means 'some apex link of degree >= 4' and includes trivialHolonomy k, k >= 4, beyond the printed list. Both are disclosed in SCOPE (c). IsCausalLine quantifies over every DevData, and isCausalLine_iff_exists gives the 'some' reading (SCOPE (d)). IsCausal is the first sentence, read literally. The SingularHSStructure hypothesis is weaker than IsSingularHSSurface, which is acceptable. (3) The 'in other words' for singular lines is stated as isCausalLine_iff, which is the paper's equivalence with nothing added. Its 'only if' direction is sorry-free (not_misner_of_isCausal). Its 'if' direction rests on not_hasCCC_of_deSitter (tachyons, trivial holonomy) and not_hasHighDegreeAt (invariance of the apex-link degree). (4) The Misner bigon (l.1059-1063) is proved for every DevData as a CCC of the suspension of L. That the curve is time-like, and that every neighbourhood contains one, are disclosed as not formalized (SCOPE (f))."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 3,
+    "axioms": "standard for hasCCC_of_misner, not_hasCCC_of_timelike, not_hasCCC_of_null, not_hasCCC_of_btz, not_isCausal_of_isHighDegree, not_misner_of_isCausal, not_hasCCC_of_type, exists_isSingularHSSurface_sing_empty_hasCCC, IsFutureCausalCurve.forall_chart; sorryAx (as reported) for isCausalLine_iff, not_hasCCC_of_deSitter, not_hasHighDegreeAt. `taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSCausal.lean`: exactly 2 'declaration uses sorry' warnings (l.1383, l.1418), no errors. 3 sorry terms (l.1405, l.1407, l.1421), each tagged `SORRY(bbsdef:Hcausal): <obstruction>` as CAMPAIGN.md requires. The probe was written under campaign/T-bbs-hcausal/ and then deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-bbs-hcausal/REPORT.json findings[0]; HSCausal.lean:70-71, 104-109, 1503-1507",
+      "what": "The finding 'l.1120-1125 is false as printed for singular HS-surfaces' is correct when the sentence is read literally. The paper's definition (l.948-952) does not require compactness. The regular part of a Misner suspension, with its two apices removed, is an open annulus with an empty singular set and a CCC, and the Lean witness satisfies IsSingularHSSurface. So the finding is not false. It is, however, the weakest kind of counterexample, and the prose goes beyond what it shows. The surface is non-compact: it is the Misner neighbourhood with its singular point cut out. The paper's own gloss of the notion is local at singular points (l.566: 'singular points admitting a neighborhood containing no closed causal curve'; l.1111: 'corresponding to singular points'). The surfaces it later works with are closed (l.780 for the suspension of L, l.1862). The finding does not show that the sentence fails for a closed HS-surface or an HS-sphere; question 5 says this is undecided. The sentence 'having no CCC is a global condition, not implied by the local types' generalises beyond that evidence. As the author will receive it, through restate.py ('false as printed'), it reads as a mathematical error when it is a scope imprecision whose intended reading (singular lines) is the one stated as isCausalLine_iff.",
+      "fix": "In the REPORT finding and SCOPE (e), call it an imprecision of scope rather than a falsity of the intended statement. Say that the counterexample is non-compact (an open annulus), that the intended reading at l.566/l.1111 is the singular-line one (isCausalLine_iff), and that the closed and HS-sphere case is open. The restatement row should rewrite the sentence for singular lines (the suspension of L), not record it as refuted."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold.lean (working tree)",
+      "what": "The uncommitted diff of the root adds two import lines: HSRemarkReadings, which T-bbs-remark-readings claims in its own REPORT, and HSCausal, which is this target's. This is not a scope breach by this closer: git status shows nothing else touched outside the dispatched files and the campaign directory, apart from the paths of other loops' leases. It does mean the root line cannot be committed with `git commit --only` for one target without the other's import.",
+      "fix": "Graduate T-bbs-remark-readings with or before this target, or stage the root file's hunks separately."
+    }
+  ]
+}
