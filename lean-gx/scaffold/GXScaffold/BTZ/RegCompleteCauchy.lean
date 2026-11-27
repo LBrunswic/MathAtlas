@@ -62,8 +62,8 @@ along the curve and a neighbourhood meets finitely many spears (`eventually_othe
 ## SCOPE (disclosed)
 
 Step (2) only. That `Σ*` is complete for its induced length with infinitely many spears (step (3))
-is `GXScaffold.BTZ.RegCompleteLength`, which keeps one tagged `sorry`, so `btzprop:reg_complete`
-stays partial.
+is `GXScaffold.BTZ.RegCompleteLength` (sorry-free since T-btz-reg-complete-tail);
+`btzprop:reg_complete` stays partial for its `𝔼₀` scope.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

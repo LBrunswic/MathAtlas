@@ -223,3 +223,16 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0213](entries/0213-causal-flat-chartsys-2-t-t-reg-m-and-gx.md) | pattern | Causal.Flat.chartSys 2 T (T ⊆ Reg M) and GX.e0SliceSys S agree definitionally on common po |
 | [0214](entries/0214-a-spear-s-rim-is-spearsurgerydatum-rimpt.md) | pattern | A spear's rim is SpearSurgeryDatum.rimPt φ = ψ(τ_Σ(R e^{iφ}), R e^{iφ}) |
 | [0215](entries/0215-the-flat-chart-of-reg-m-along-the-rim-is.md) | pattern | The flat chart of Reg M along the rim is g • nullToMink (btzPaperNull (τ(φ), R, φ + k)) ne |
+| [0216](entries/0216-a-curve-of-a-length-space-through-a-clos.md) | pattern | A curve of a length space through a closed set |
+| [0217](entries/0217-path-surgery-without-concatenating-paths.md) | pattern | Path surgery without concatenating paths |
+| [0218](entries/0218-finset-stronginduction-with-induction-f.md) | pattern | Finset.strongInduction with `induction F using Finset.strongInduction with / H F ih` pays  |
+| [0219](entries/0219-to-break-an-import-cycle-state-the-downs.md) | pattern | To break an import cycle, state the downstream lemma with the upstream facts as hypotheses |
+| [0220](entries/0220-a-hausdorff-chartedspace-x-with-hasgroup.md) | pattern | A Hausdorff ChartedSpace ℝ X with HasGroupoid X (gxGroupoid (Multiplicative ℝ) ℝ) has Lind |
+| [0221](entries/0221-sing-of-any-e-manifold-is-a-chartedspace.md) | pattern | sing₀ of any E₀-manifold is a ChartedSpace ℝ with a translation structure |
+| [0222](entries/0222-gx-btzmax-richardsinput-gx-btzline-count.md) | pattern | GX.BTZMax.RichardsInput ↔ GX.BTZLine.CountableLinesInput (richardsInput_iff_countableLines |
+| [0223](entries/0223-translation-action.md) | pattern | Translation action |
+| [0224](entries/0224-space-like-geodesics-of-a-singular-hs-su.md) | pattern | Space-like geodesics of a singular HS-surface are GX.SingularHSStructure.IsSpacelikeGeodes |
+| [0225](entries/0225-a-time-like-frame-at-p.md) | pattern | A time-like frame at p ∈ ℍ²± |
+| [0226](entries/0226-the-cone-angle-at-a-time-like-p-as-an-ex.md) | pattern | The cone angle at a time-like p as an explicit rotation angle |
+| [0227](entries/0227-curves-of-the-regular-part-of-l-lift-to.md) | pattern | Curves of the regular part of 𝔢(L) lift to ℝ × ]0, π[ through GX.BiSusp.base (continuous o |
+| [0228](entries/0228-continuous-angles-of-maps-into-0-or-circ.md) | pattern | Continuous angles of maps into ℂ ∖ 0 or Circle |

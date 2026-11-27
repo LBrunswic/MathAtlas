@@ -1,0 +1,115 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-reg-complete-tail",
+  "files": [
+    "scaffold/GXScaffold/BTZ/RegCompleteTail.lean (new)",
+    "scaffold/GXScaffold/BTZ/RegCompleteLength.lean (edited: import RegCompleteTail, the tagged sorry of LFSurgeryData.exists_isCompact_of_cauchySeq closed, module docstring updated)",
+    "scaffold/GXScaffold.lean (one import line, GXScaffold.BTZ.RegCompleteTail, after GXScaffold.BTZ.LengthCompare)"
+  ],
+  "imports": "RegCompleteTail imports GXScaffold.BTZ.LengthCompare only; RegCompleteLength imports RegCompleteTail (no cycle). The facts of RegCompleteLength the tail argument needs (tendsto_of_cauchySeq_of_isCompact, ofReal_abs_logRad_sub_le_edist, continuity of Sigma* into M) are hypotheses of RegCompleteTail's theorems, discharged in RegCompleteLength.",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build GXScaffold.BTZ.RegComplete (8763 jobs, success; rebuilt RegCompleteTail, RegCompleteLength, RegComplete only)",
+  "sorry_count": 0,
+  "axioms": {
+    "GX.E0RegComplete.prop_reg_complete": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0RegComplete.prop_reg_complete'": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.regM_isCauchyComplete_of_lf": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq_of": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.edist_le_localLength_add": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "tex_lines": [
+        1566,
+        1576
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.E0RegComplete.prop_reg_complete",
+        "GX.E0RegComplete.prop_reg_complete'",
+        "GX.E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq",
+        "GX.E0SpearFamily.LFSurgeryData.completeSpace_sigmaStar",
+        "GX.E0SpearFamily.regM_isCauchyComplete_of_lf",
+        "GX.E0SpearFamily.LFSurgeryData.exists_tendsto_of_cauchySeq_of",
+        "GX.E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq_of",
+        "GX.E0SpearFamily.LFSurgeryData.edist_le_localLength_add",
+        "GX.E0SpearFamily.LFSurgeryData.edist_le_pathLength_add"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_{>=0}-manifold",
+          "here": "strengthened",
+          "note": "E0 only (T-btz-scope), unchanged by this target"
+        },
+        {
+          "paper": "Cauchy-complete (l.227)",
+          "here": "read",
+          "note": "IsE0C1CompleteCauchy (OQ-142), unchanged; the tail uses its fields complete and continuous, the compact part cauchy, G4 reg"
+        },
+        {
+          "paper": "(proof) disjoint spear neighbourhoods",
+          "here": "carried",
+          "note": "summable radii (hsum) is not a hypothesis of the proposition: LFSurgeryData.exists_summable thins any family to it"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.1571 (« the proof of Cauchy-completeness of Proposition prop:abs_max applies as is »): it does not apply as is when M has infinitely many BTZ lines, as already recorded (kb/0217). What closes it here: shrink the spears to summable radii; along a path of Sigma*, replace spear by spear (in order of first entry) the piece from the first entry to the last exit by a rim arc of S-length <= pi R_i (the rim arc length R|dtheta| is independent of tau_Sigma); then a Cauchy sequence of Sigma* either comes arbitrarily close, arbitrarily late, to one cusp (the log r estimate of Lemma 2.8 keeps it in a compact annulus graph), or is pushed off the cusp cores to a sequence Cauchy for the S-length, which converges by the completeness of S. The completeness of S for its own length, which B21's compact case never uses, is what the infinite case consumes.",
+        "No statement of the paper changes: prop_reg_complete and prop_reg_complete' are unchanged and now carry no sorry beneath them (standard axioms only); the row stays partial only for the E0 scope (T-btz-scope) and the readings of OQ-142 / DEC-31/35."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.cauchySeq_of_edist_tendsto_zero",
+    "GX.tendsto_of_edist_subseq",
+    "GX.E0SpearFamily.LFSurgeryData.sPt",
+    "GX.E0SpearFamily.LFSurgeryData.core",
+    "GX.E0SpearFamily.LFSurgeryData.spearSet_mem_nhds_of_core",
+    "GX.E0SpearFamily.LFSurgeryData.exists_rimPt_of_notMem_core",
+    "GX.E0SpearFamily.LFSurgeryData.mem_of_forall_notMem_core",
+    "GX.E0SpearFamily.LFSurgeryData.edist_le_localLength_of_mem",
+    "GX.E0SpearFamily.LFSurgeryData.exists_notMem_core_of_exit",
+    "GX.E0SpearFamily.LFSurgeryData.finite_core_of_path",
+    "GX.E0SpearFamily.LFSurgeryData.exists_path_lt",
+    "GX.E0SpearFamily.LFSurgeryData.edist_le_of_path"
+  ],
+  "findings": [
+    "see labels[0].findings"
+  ],
+  "questions": [],
+  "kb_proposals": [
+    "A curve of a length space through a closed set: take E = Icc a b ∩ f⁻¹' C (closed), t = sInf E / sSup E (IsClosed.csInf_mem / csSup_mem); a point with C as a neighbourhood cannot be first/last unless it is an endpoint (exists_lt_of_eventually' / exists_gt_of_eventually' in RegCompleteTail).",
+    "Path surgery without concatenating paths: bound edist by the triangle inequality between points of ONE curve, and the pieces by localLength over subintervals (localLength_add); a curve on [a,b] lowers to a Path by clamping with projIcc (1-Lipschitz, LocLipAt.comp_lipschitz) and an affine reparametrisation (localLength_comp_affine) — RegCompleteTail.edist_le_localLength_of_mem.",
+    "Finset.strongInduction with `induction F using Finset.strongInduction with | H F ih` pays each spear once in an order-of-first-entry surgery.",
+    "To break an import cycle, state the downstream lemma with the upstream facts as hypotheses (htend, hlog) and discharge them in the upstream file (RegCompleteTail / RegCompleteLength)."
+  ],
+  "notes": "Docstrings of files I do not own are now stale and should be updated by the loop: RegComplete.lean (l.39, l.58-65: « rests on ONE tagged sorry »), SpearFamily.lean l.61, RegCompleteCauchy.lean l.65, LengthCompare.lean l.8 and SCOPE l.55-56 (« does not close exists_isCompact_of_cauchySeq »). The GXScaffold.lean diff also contains `import GXScaffold.BTZ.LineStructure`, which is T-btz-line-structure's, not mine. Unblocks T-btz-cauchy-conservation (ii)⇒(i) and T-gx-uniformization-via-btz per the roadmap evidence."
+}

@@ -1,12 +1,14 @@
 import GXScaffold.BTZ.RegCompleteCauchy
+import GXScaffold.BTZ.RegCompleteTail
 
 /-!
-# `GXScaffold.BTZ.RegCompleteLength` — `Σ*` of a locally finite spear family: spacelike Lipschitz, Lemma 2.8's `log r` estimate, and completeness up to one tagged `sorry` (btz § 5.4)
+# `GXScaffold.BTZ.RegCompleteLength` — `Σ*` of a locally finite spear family: spacelike Lipschitz, Lemma 2.8's `log r` estimate, and completeness (btz § 5.4)
 
-Target T-btz-reg-complete-length. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`). Row
-(unmarked, partial; this file is step (3) of `btzprop:reg_complete`'s Cauchy-completeness, and
-`GX.E0RegComplete.regM_isCauchyComplete_of_complete` in `GXScaffold/BTZ/RegComplete.lean` is now
-`regM_isCauchyComplete_of_lf`, so its `sorry` is the one of this file):
+Targets T-btz-reg-complete-length and T-btz-reg-complete-tail. Paper `btz`
+(`papers/btz/legacy/labeled/BTZ_1.tex`). Row (unmarked, partial: `𝔼₀`-scoped and the readings
+below; this file is step (3) of `btzprop:reg_complete`'s Cauchy-completeness, and
+`GX.E0RegComplete.regM_isCauchyComplete_of_complete` in `GXScaffold/BTZ/RegComplete.lean` is
+`regM_isCauchyComplete_of_lf`):
 
 * `btzprop:reg_complete` — `BTZ_1.tex:1566–1569`, proof l.1570–1576: « the proof of
   Cauchy-completeness of Proposition prop:abs_max applies as is » (l.1571), which is B21 l.1093.
@@ -17,7 +19,7 @@ Target T-btz-reg-complete-length. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.
 > Global hyperbolicity follows from Remark \ref{rem:reg_GH} and the proof of Cauchy-complete\-ness
 > of Proposition \ref{prop:abs_max} applies as is. (l.1571)
 
-## What is proved (one tagged `sorry`, `LFSurgeryData.exists_isCompact_of_cauchySeq`)
+## What is proved (no `sorry`; standard axioms only)
 
 * `LFSurgeryData.isSpacelikeLipschitz_sigmaStar` (G4): `Σ*` of a locally finite family is
   spacelike Lipschitz in the flat charts of `Reg M`, from `S` spacelike Lipschitz only. The strict
@@ -31,9 +33,12 @@ Target T-btz-reg-complete-length. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.
   a compact set of `M` converges (the strict compact proof localised to the finitely many spears
   the compact set meets).
 * `LFSurgeryData.exists_summable`: the spears can be thinned to summable radii.
+* `LFSurgeryData.exists_isCompact_of_cauchySeq`: the tail of a Cauchy sequence of `Σ*` lies in a
+  compact set of `M`, for spears of summable radii (`GXScaffold.BTZ.RegCompleteTail`'s
+  `exists_isCompact_of_cauchySeq_of`, the rim-arc surgery, with this file's compact case and
+  `log r` estimate).
 * `LFSurgeryData.completeSpace_sigmaStar` (G5) and `regM_isCauchyComplete_of_lf`: `Σ*` is complete
-  and `Reg M` is Cauchy-complete (`Causal.Flat.IsCauchyComplete 2`), **modulo** the tagged
-  `sorry`.
+  and `Reg M` is Cauchy-complete (`Causal.Flat.IsCauchyComplete 2`).
 
 ## Hypothesis checklist
 
@@ -42,18 +47,16 @@ Target T-btz-reg-complete-length. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.
 | `𝔼_{≥0}`-manifold | ⚠ `𝔼₀` only (T-btz-scope): `ChartedSpace E0Y`, `HasGroupoid e0Groupoid`, T2, connected, second countable |
 | globally hyperbolic | ✓ `(CE M).GloballyHyperbolic` |
 | Cauchy-maximal | ✓ `E0Spear.IsE0CauchyMaximal M` (for the spear data, step (1)) |
-| Cauchy-complete | ⚠ read `E0RegComplete.IsE0C1CompleteCauchy M S` (OQ-142); G4 uses only `reg`, the compact part only that `S` is a closed Cauchy surface; `complete` and `continuous` are what the tagged `sorry` owes its use of |
+| Cauchy-complete | ⚠ read `E0RegComplete.IsE0C1CompleteCauchy M S` (OQ-142); G4 uses only `reg`, the compact part only that `S` is a closed Cauchy surface, the tail (`exists_isCompact_of_cauchySeq`) `complete` and `continuous` |
 | conclusion: Cauchy-complete | ⚠ read `Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M)` (DEC-31/35) |
 
 ## SCOPE (disclosed)
 
-One tagged `sorry`, `LFSurgeryData.exists_isCompact_of_cauchySeq`: the tail of a Cauchy sequence of
-`Σ*` lies in a compact set of `M`, for spears of summable radii. This is where the infinitely many
-spears and the completeness of `S` meet; the paper prints nothing for it (l.1571, « applies as
-is »: B21's proof of `prop:abs_max` has finitely many spears and a compact `S`). The argument we
-believe closes it is in the `sorry`'s comment; it needs the comparison of the induced length of
-`Σ*` with the DEC-31 length of `S` along paths of their common part, which the libraries do not
-have. `btzprop:reg_complete` stays partial (also: `𝔼₀`-scoped, and the readings above).
+No `sorry`. The paper prints nothing for the infinitely many spears (l.1571, « applies as is »:
+B21's proof of `prop:abs_max` has finitely many spears and a compact `S`); the tail is proved in
+`GXScaffold.BTZ.RegCompleteTail` by thinning the spears to summable radii and replacing, spear by
+spear, each excursion of a path of `Σ*` into a cusp by a rim arc of length `≤ π R`.
+`btzprop:reg_complete` stays partial: `𝔼₀`-scoped, and the readings above.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -1249,25 +1252,23 @@ theorem LFSurgeryData.tendsto_of_cauchySeq_of_isCompact {S : Set M} (hSc : IsClo
   exact ⟨_, tendsto_nhds_of_cauchySeq_of_subseq hu
     (Filter.tendsto_atTop_mono (fun k => Nat.le_add_left (φ k) N₀) hφ.tendsto_atTop) hlimX⟩
 
-/-- **(G5), the bounded part**. -/
+/-- **(G5), the bounded part**: the tail of a Cauchy sequence of `Σ*` lies in a compact set of `M`
+(`exists_isCompact_of_cauchySeq_of` of `GXScaffold.BTZ.RegCompleteTail`, its hypotheses discharged
+by the compact case `tendsto_of_cauchySeq_of_isCompact`, the `log r` estimate
+`ofReal_abs_logRad_sub_le_edist` and the continuity of `Σ*` into `M`). -/
 theorem LFSurgeryData.exists_isCompact_of_cauchySeq (hGH : (E0CBG.CE M).GloballyHyperbolic)
     {S : Set M} (hS : E0RegComplete.IsE0C1CompleteCauchy M S) (Dat : LFSurgeryData M S)
     (hsum : Summable fun i => (Dat.D i).R)
     {u : ℕ → Causal.Flat.InducedLengthSpace 2 Dat.sigmaStarReg} (hu : CauchySeq u) :
-    ∃ K : Set M, IsCompact K ∧ ∀ᶠ n in atTop, Dat.lenPt (u n) ∈ K :=
-  sorry -- SORRY(btzprop:reg_complete): a Cauchy sequence of `Σ*` crossing infinitely many spears.
-  -- Owed: the comparison, along a path of `Σ* ∩ S`, of the induced length of `Σ*` (chart system
-  -- of `Reg M`) with the DEC-31 length of `S` (`e0SliceSys S`); neither library has it. With it,
-  -- the argument is: pass to `edist (u n) (u (n+1)) < 2⁻ⁿ`, concatenate paths into a path `Γ` of
-  -- `Σ*` of finite length. (a) If some spear `j` is met by `Γ` at arbitrarily late times, the
-  -- `log r` estimate of spear `j` (`ofReal_abs_logRad_sub_le_edist`) keeps those points in a
-  -- compact annulus graph of the cusp `j`, a subsequence converges in `M`, hence in `Σ*`.
-  -- (b) Otherwise replace, spear by spear in order of first entry, the piece of `Γ` from its first
-  -- entry into spear `i` to its last exit by an arc of the rim circle of `i`, of `S`-length
-  -- `≤ π Rᵢ` (on `r = R` the printed metric `−2dτdr + dr² + r²dθ²` is `R² dθ²`, whatever `τ_Σ`):
-  -- an `S`-path of length `≤ ℓ(Γ) + π Σᵢ Rᵢ < ∞` (`hsum`), which converges in `S` (`hS.complete`)
-  -- and in `M` (`hS.continuous`) to a point of `S`, regular or on a rim; `Γ` agrees with it at
-  -- times tending to `∞`. In both cases `u` converges, and its tail lies in a compact set.
+    ∃ K : Set M, IsCompact K ∧ ∀ᶠ n in atTop, Dat.lenPt (u n) ∈ K := by
+  have hL := Dat.isSpacelikeLipschitz_sigmaStar hS.reg
+  exact Dat.exists_isCompact_of_cauchySeq_of hS.complete hS.continuous
+    (fun {_} hv {_} hK hKv => Dat.tendsto_of_cauchySeq_of_isCompact
+      (isClosed_of_isCauchySurface hGH hS.cauchy) hL hv hK hKv)
+    (continuous_regVal.comp (Causal.Flat.Cla.continuous_inducedLengthSpace_toSubtype hL))
+    (fun i => ⟨Dat.logRad i, fun z hz => by rw [LFSurgeryData.logRad, if_pos hz],
+      fun a b => Dat.ofReal_abs_logRad_sub_le_edist i (Dat.D i).delta a b⟩)
+    hsum hu
 
 /-- **(G5) `Σ*` is complete for its induced length.** -/
 theorem LFSurgeryData.completeSpace_sigmaStar (hGH : (E0CBG.CE M).GloballyHyperbolic)

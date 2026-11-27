@@ -58,8 +58,8 @@ partial; this file is step (1) of the Cauchy-completeness of `Reg M`,
 
 This is the data of the surgery only (step (1) of the Cauchy-completeness of `Reg M`). That `Σ*`
 is a Cauchy surface of `Reg M` with infinitely many spears (step (2), `RegCompleteCauchy`) and that
-it is complete (step (3), `RegCompleteLength`, one tagged `sorry`) are not proved here, so
-`btzprop:reg_complete` stays partial. The strict `E0Surgery.SurgeryData` (finite) is left as it
+it is complete (step (3), `RegCompleteLength`) are not proved here; `btzprop:reg_complete` stays partial for
+its `𝔼₀` scope. The strict `E0Surgery.SurgeryData` (finite) is left as it
 is. The reading `IsE0C1CompleteCauchy` is imported from `GXScaffold.BTZ.CompleteCauchy`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.

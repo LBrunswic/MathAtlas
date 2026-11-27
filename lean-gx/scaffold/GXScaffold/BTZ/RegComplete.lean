@@ -36,7 +36,7 @@ Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), 
   `E0SpearFamily.regM_isCauchyComplete_of_lf` (`GXScaffold.BTZ.RegCompleteLength`): the
   non-compact surgery with a countable locally finite family of spears (steps (1)–(2),
   `SpearFamily`, `RegCompleteCauchy`), `Σ*` spacelike Lipschitz and Lemma 2.8's `log r` estimate
-  on it; it rests on ONE tagged `sorry` there (SCOPE).
+  on it; sorry-free since T-btz-reg-complete-tail (`GXScaffold.BTZ.RegCompleteTail`).
 * The reading `IsE0C1CompleteCauchy` / `E0C1CauchyComplete` now lives in
   `GXScaffold.BTZ.CompleteCauchy` (same full names), so that the surgery files need not import
   this one.
@@ -55,14 +55,14 @@ Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), 
 
 ## SCOPE (disclosed)
 
-`prop_reg_complete` and `prop_reg_complete'` carry no `sorry` of this file, but rest on the one
-tagged `sorry` of `GXScaffold.BTZ.RegCompleteLength`
-(`E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq`): the tail of a Cauchy sequence of
-`Σ*` lies in a compact set of `M` when `Σ*` crosses infinitely many spears. B21's proof of
+`prop_reg_complete` and `prop_reg_complete'` have no `sorry` beneath them. The step that needed
+uniformity across infinitely many spears, `E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq`
+(the tail of a Cauchy sequence of `Σ*` lies in a compact set of `M`), is proved in
+`GXScaffold.BTZ.RegCompleteTail` (summable radii, spear-by-spear surgery). B21's proof of
 `prop:abs_max` uses that a Cauchy-compact `M` has **finitely many** BTZ lines (l.1091) and a
 compact `S`, so it does not apply « as is » to a Cauchy-complete `M`, which may have countably
-many (kb/0217); the uniformity across the spears is not printed. The row stays partial: that
-`sorry`, the `𝔼₀` scope and the readings of the checklist.
+many (kb/0217); the uniformity across the spears is not printed. The row stays partial: the
+`𝔼₀` scope and the readings of the checklist.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
