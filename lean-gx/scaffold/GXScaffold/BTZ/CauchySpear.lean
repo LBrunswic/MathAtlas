@@ -11,7 +11,8 @@ l.1598–1604. Row (unmarked, partial):
 * `btzthm:BTZ_Cauchy-completness` — `BTZ_1.tex:1582` (Step 1 of (i) ⇒ (iii), l.1598–1604) —
   `GX.BTZCauchySpear.cauchy_spear`, with `GX.BTZCauchySpear.exists_cauchyMaximalExt` (`M₂`),
   `GX.BTZCauchySpear.bluntSpear_subset_M0` (the analytic core), `GX.BTZCauchySpear.spearInt_subset_range`
-  (BTZ-maximality of `M₁`), `GX.BTZCauchySpear.globallyHyperbolicOn_union`,
+  (BTZ-maximality of `M₁`), `GX.BTZCauchySpear.globallyHyperbolicOn_union` (with
+  `GX.BTZCauchySpear.causallyConvexIn_union`, `GX.BTZCauchySpear.exists_axis_eq_of_le`),
   `GX.BTZCauchySpear.exists_spearNbhd_of_subset` and `GX.BTZCauchySpear.causallyConvexIn_range`.
   Step 2 (`M₁ = M₂` Cauchy-complete) is T-btz-cauchy-conservation; nothing of it is here.
 
@@ -40,7 +41,12 @@ l.1598–1604. Row (unmarked, partial):
 4. BTZ-maximality of `M₁` (l.1604): `spearInt_subset_range` — the corestriction of `M₁ → M₂` to
    `M₁ ∪ Int(S₁)` is a BTZ-embedding (the points of `Int(S₁)` outside `M₁` are on the axis), so
    by inextensibility of a maximal extension (`GX.BTZMax.isInextensible_of_isMaximal`) it is onto.
-   Closed, given `globallyHyperbolicOn_union`, **one tagged `sorry`** (SCOPE).
+   Closed, with `globallyHyperbolicOn_union` (T-btz-spear-union-gh): `M₁ ∪ Int(S₁)` is causally
+   convex in `M₂` (`causallyConvexIn_union`, §2b), hence globally hyperbolic (B21 Remark 1). The
+   convexity rests on the matching of a BTZ line with a spear chart's axis
+   (`exists_axis_eq_of_le`: a BTZ point above an axis point is on the axis, through
+   `IsFullFutureBTZRay.exists_eq_of_line`), and on regular points of the blunt spear (in `M₁`)
+   above every axis point and below every regular point above a non-vertex axis point.
 5. The spear of `M₁` (l.1604, « Therefore »): `exists_spearNbhd_of_subset` — a spear of vertex
    `(v' + 1, 0)` and radius `R'/2` inside `Int(S₁)`, pulled back to `M₁`; its vertex is on the BTZ
    line of `M₁` through `p` because the axis segment between them lies in `M₁`, the image of a
@@ -60,7 +66,8 @@ l.1598–1604. Row (unmarked, partial):
 
 ## SCOPE (disclosed)
 
-`cauchy_spear` rests on two tagged `sorry`s of this file, so the row is not marked.
+`cauchy_spear` rests on one tagged `sorry` of this file, `bluntSpear_subset_M0`, so the row is
+not marked. (`globallyHyperbolicOn_union`, formerly the second, is proved: §2b.)
 
 * `bluntSpear_subset_M0` (l.1601–1604): that the regular part of a sub-spear of the spear of `M₂`
   lies in `M₀`. The paper's route: `lem:add_BTZ_param` on `Σ₁`, `lem:blunt_spear_neighborhood` on
@@ -71,12 +78,11 @@ l.1598–1604. Row (unmarked, partial):
   in it are not printed, and the strict `GX.E0Surgery.lem_surface_complete_two` needs a `C¹`
   graph, which the Lipschitz reading of « Cauchy-complete » does not give.
 * `globallyHyperbolicOn_union` (l.1604, « Notice `M₁ ∪ Int(S₁)` is a globally hyperbolic
-  BTZ-extension of `M₁` », asserted): an open subset of the globally hyperbolic `M₂` need not be
-  globally hyperbolic. The natural proof is causal convexity of `M₁ ∪ Int(S₁)` in `M₂`, from that
-  of `M₁` (`causallyConvexIn_range`) and the fact that the causal past of a BTZ point of `Int(S₁)`
-  is the part of its BTZ line below it, matched with the axis of `S₁`'s chart; that matching of
-  the line's parametrization (`Causal.SingularFlatAxioms.Jminus_eq_image`) with the chart's axis is
-  not in the library.
+  BTZ-extension of `M₁` », asserted): **proved** (T-btz-spear-union-gh). An open subset of the
+  globally hyperbolic `M₂` need not be globally hyperbolic; the proof supplied here is causal
+  convexity of `M₁ ∪ Int(S₁)` in `M₂` (`causallyConvexIn_union`), from that of `M₁`
+  (`causallyConvexIn_range`, the Cauchy property of `M₁ → M₂`) and the regular part of `S₁` lying
+  in `M₁`; the hypothesis `IsE0Mor j univ` is carried but unused.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal as pinned
 in `lake-manifest.json`.
@@ -164,17 +170,246 @@ theorem bluntSpear_subset_M0 (hmax : Causal.Flat.MGH N) (hcc : Causal.Flat.IsCau
     ∃ v' R', v ≤ v' ∧ 0 < R' ∧ R' ≤ R ∧ φ '' bspearY v' R' ⊆ range (j ∘ E.ι) := by
   sorry -- SORRY(btzthm:BTZ_Cauchy-completness): l.1601–1604 unprinted: Σ₀ Cauchy in N := (M₀ ∖ J⁺(C′)) ∪ reg(Int S ∖ J⁻(C″)) (intersect_number_complete on Σ₀'s cusp in S, needing Σ₀ ∩ S a graph before reg S ⊂ M₀ is known, OQ-143 (e)), then N ⊂ M₀ by MGH; surface_complete needs a C¹ graph, the Lipschitz completeness gives none
 
-/-- **`M₁ ∪ Int(S₁)` is globally hyperbolic** (`BTZ_1.tex:1604`, asserted without justification). -/
+/-! ### §2b `M₁ ∪ Int(S₁)` is causally convex in `M₂` (`BTZ_1.tex:1604`)
+
+The axis of a spear chart is a full future BTZ ray; the BTZ points above an axis point are on the
+axis (`IsFullFutureBTZRay.exists_eq_of_line`, the matching of the BTZ line with the chart's axis);
+the axis points of the spear lie between regular points of its blunt part, in the causal sense
+that each has one in its future (`exists_nhds_diff_sing_subset_Iplus`) and each regular point
+above an axis point `ψ(v + t, 0)`, `t > 0`, has one in its past (push-up through the vertex). -/
+
+section UnionGH
+
+variable {Y : Type} [TopologicalSpace Y] [ChartedSpace E0Y Y] [HasGroupoid Y e0Groupoid]
+
+omit [HasGroupoid Y e0Groupoid] in
+/-- The axis of a spear chart, started at its point of parameter `t₁ ≥ 0`, is a full future BTZ
+ray. -/
+theorem isFullFutureBTZRay_axis_shift {v : ℝ} {W : Set E0Y} {φ : E0Y → Y} (hW : IsOpen W)
+    (hray : ∀ t, 0 ≤ t → yAxis v t ∈ W) (hφ : IsE0Mor φ W) (hinj : InjOn φ W) {t₁ : ℝ}
+    (ht₁ : 0 ≤ t₁) :
+    IsFullFutureBTZRay (φ (yAxis v t₁)) (fun t => φ (yAxis v (t₁ + t))) := by
+  have e : ∀ t, yAxis (v + t₁) t = yAxis v (t₁ + t) := fun t => by
+    simp only [yAxis, add_assoc]
+  refine ⟨v + t₁, W, φ, hW, fun t ht => ?_, hφ, hinj, ?_, fun t => by rw [e]⟩
+  · rw [e]; exact hray _ (by linarith)
+  · rw [← yAxis_zero, e, add_zero]
+
+/-- **The BTZ points above an axis point of a spear chart are on its axis** (the matching of the
+BTZ line, `SingularFlatAxioms.line`, with the chart's axis, `IsFullFutureBTZRay.exists_eq_of_line`;
+global hyperbolicity is used). -/
+theorem exists_axis_eq_of_le [T2Space Y] [ConnectedSpace Y] [SecondCountableTopology Y]
+    (hGY : (CE Y).GloballyHyperbolic) {v : ℝ} {W : Set E0Y} {φ : E0Y → Y} (hW : IsOpen W)
+    (hray : ∀ t, 0 ≤ t → yAxis v t ∈ W) (hφ : IsE0Mor φ W) (hinj : InjOn φ W) {t₁ : ℝ}
+    (ht₁ : 0 ≤ t₁) {y : Y} (hy : y ∈ S0 Y) (hle : (CE Y).le ⊤ (φ (yAxis v t₁)) y) :
+    ∃ t, t₁ ≤ t ∧ φ (yAxis v t) = y := by
+  have hr := isFullFutureBTZRay_axis_shift hW hray hφ hinj ht₁
+  have hq : φ (yAxis v t₁) ∈ S0 Y := by
+    have := hr.mem_S0 (le_refl (0 : ℝ))
+    simpa only [add_zero] using this
+  obtain ⟨γ, hγ0, hγe, hγi, hγr⟩ := (E0LM.e0_globalBTZ Y).line _ hq
+  have hγe' := hγe hGY.1
+  have hsfa := e0_sfa_of_globalBTZ Y
+  have hyc : y ∈ connectedComponentIn (S0 Y) (φ (yAxis v t₁)) := by
+    have h1 := hsfa.Jminus_subset_component hy hle
+    show y ∈ connectedComponentIn (Causal.CBG.chartedSing e0SingY Y 0) _
+    rw [← connectedComponentIn_eq h1]
+    exact mem_connectedComponentIn hy
+  rw [← hγr] at hyc
+  obtain ⟨s, rfl⟩ := hyc
+  have hs : 0 ≤ s := by
+    by_contra h
+    push Not at h
+    have h1 : (CE Y).le ⊤ (γ s) (γ 0) := hγi.1.le_of_le trivial trivial h.le
+    rw [hγ0] at h1
+    have h2 := hγe'.injective ((hGY.1 h1 hle).trans hγ0.symm)
+    linarith
+  obtain ⟨t, ht, hrt⟩ := hr.exists_eq_of_line hGY hγ0 hγe' hγi.1 hγr hs
+  exact ⟨t₁ + t, by linarith, hrt⟩
+
+omit [HasGroupoid Y e0Groupoid] in
+/-- A point of a spear chart off the axis is regular. -/
+theorem notMem_S0_of_ne_zero {W : Set E0Y} {φ : E0Y → Y} (hW : IsOpen W) (hφ : IsE0Mor φ W)
+    {e : E0} (he : paperInY e ∈ W) (h2 : e.2 ≠ 0) : φ (paperInY e) ∉ S0 Y := by
+  rw [← Causal.CBG.mem_chartedSing_iff_of_liftPropOn e0_sing_mem hW hφ he le_rfl]
+  show ¬ (chartAt E0Y (paperInY e) (paperInY e) ∈ e0SingY 0)
+  rw [chartAt_self_eq]
+  exact fun h => h2 ((e0Loop_paperInY_mem_sing_iff e).1 h)
+
+omit [HasGroupoid Y e0Groupoid] in
+/-- **Every neighbourhood of an axis point of a spear chart meets its blunt part in a regular
+point.** -/
+theorem exists_bspear_near_axis {v R : ℝ} {W : Set E0Y} {φ : E0Y → Y} (hR : 0 < R)
+    (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hφ : IsE0Mor φ W) {t : ℝ} (ht : 0 ≤ t)
+    {V : Set Y} (hV : V ∈ 𝓝 (φ (yAxis v t))) :
+    ∃ x ∈ φ '' bspearY v R, x ∈ V ∧ x ∉ S0 Y := by
+  set c : ℝ → E0Y := fun ε => paperInY ((v + t + ε, (ε : ℂ)) : E0) with hc
+  have hcc : Continuous c := continuous_paperInY.comp
+    ((continuous_const.add continuous_id).prodMk Complex.continuous_ofReal)
+  have hc0 : c 0 = yAxis v t := by simp [hc, yAxis]
+  have hW0 : yAxis v t ∈ W := hsub (yAxis_mem_spearY hR.le ht)
+  have hφc : ContinuousAt φ (yAxis v t) :=
+    (hφ _ hW0).continuousWithinAt.continuousAt (hW.mem_nhds hW0)
+  have hlim : Tendsto (φ ∘ c) (𝓝 0) (𝓝 (φ (yAxis v t))) := by
+    have := hφc.tendsto.comp (hc0 ▸ hcc.tendsto 0)
+    exact this
+  have hev : ∀ᶠ ε in 𝓝[>] (0 : ℝ), (φ (c ε) ∈ V ∧ c ε ∈ W) ∧ ε ∈ Ioo 0 R :=
+    ((hlim.eventually hV).and ((hc0 ▸ hcc.tendsto 0).eventually (hW.mem_nhds hW0))).filter_mono
+      nhdsWithin_le_nhds |>.and (Ioo_mem_nhdsGT hR)
+  obtain ⟨ε, ⟨hεV, hεW⟩, hε0, hεR⟩ := hev.exists
+  have hrad : rad ((v + t + ε, (ε : ℂ)) : E0) = ε := by
+    simp [rad, Complex.norm_real, abs_of_pos hε0]
+  refine ⟨φ (c ε), ⟨c ε, ⟨_, ⟨?_, ?_, ?_⟩, rfl⟩, rfl⟩, hεV, ?_⟩
+  · simp only [fcoord, hrad]; linarith
+  · rw [hrad]; exact hε0
+  · rw [hrad]; exact hεR.le
+  · exact notMem_S0_of_ne_zero hW hφ hεW (by simpa using hε0.ne')
+
+variable [T2Space Y] [ConnectedSpace Y] [SecondCountableTopology Y]
+
+/-- **Each axis point of a spear chart has a regular point of the blunt spear in its future**
+(`exists_nhds_diff_sing_subset_Iplus` at the axis point one parameter higher). -/
+theorem exists_bspear_above_axis {v R : ℝ} {W : Set E0Y}
+    {φ : E0Y → Y} (hR : 0 < R) (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hφ : IsE0Mor φ W)
+    (hinj : InjOn φ W) {t : ℝ} (ht : 0 ≤ t) :
+    ∃ w ∈ φ '' bspearY v R, (CE Y).le ⊤ (φ (yAxis v t)) w := by
+  have hray : IsFullFutureBTZRay (φ (yVertex v)) (fun t => φ (yAxis v t)) :=
+    ⟨v, W, φ, hW, fun t ht => hsub (yAxis_mem_spearY hR.le ht), hφ, hinj, rfl, fun _ => rfl⟩
+  have hsfa := e0_sfa_of_globalBTZ Y
+  have hne : φ (yAxis v t) ≠ φ (yAxis v (t + 1)) := fun h => by
+    have := hray.injOn (mem_Ici.2 ht) (mem_Ici.2 (by linarith : (0 : ℝ) ≤ t + 1)) h
+    linarith
+  obtain ⟨V, hV, hVI⟩ := exists_nhds_diff_sing_subset_Iplus hsfa (hray.mem_S0 ht)
+    (hray.mem_S0 (by linarith)) (hray.le ht (by linarith)) hne
+  obtain ⟨x, hx, hxV, hxs⟩ := exists_bspear_near_axis hR hW hsub hφ (by linarith : 0 ≤ t + 1) hV
+  have hlt := hVI ⟨hxV, hxs⟩
+  exact ⟨x, hx, (CE Y).le_of_lt (Causal.Precausality.mem_Iplus_singleton.1 hlt)⟩
+
+/-- **A regular point above an axis point `ψ(v + t₁, 0)`, `t₁ > 0`, of a spear chart has a regular
+point of the blunt spear in its past**: the vertex is in its chronological past
+(`lt_of_lt_of_le_of_not_mem`), which is open. -/
+theorem exists_bspear_below_of_le {v R : ℝ} {W : Set E0Y}
+    {φ : E0Y → Y} (hR : 0 < R) (hW : IsOpen W) (hsub : spearY v R ⊆ W) (hφ : IsE0Mor φ W)
+    (hinj : InjOn φ W) {t₁ : ℝ} (ht₁ : 0 < t₁) {y : Y} (hy : y ∉ S0 Y)
+    (hle : (CE Y).le ⊤ (φ (yAxis v t₁)) y) :
+    ∃ w ∈ φ '' bspearY v R, (CE Y).le ⊤ w y := by
+  have hray : IsFullFutureBTZRay (φ (yVertex v)) (fun t => φ (yAxis v t)) :=
+    ⟨v, W, φ, hW, fun t ht => hsub (yAxis_mem_spearY hR.le ht), hφ, hinj, rfl, fun _ => rfl⟩
+  have hsfa := e0_sfa_of_globalBTZ Y
+  have hne : φ (yAxis v 0) ≠ φ (yAxis v t₁) := fun h => by
+    have := hray.injOn (mem_Ici.2 le_rfl) (mem_Ici.2 ht₁.le) h
+    linarith
+  have hlt : (CE Y).lt ⊤ (φ (yAxis v 0)) y :=
+    hsfa.lt_of_lt_of_le_of_not_mem (hray.mem_S0 le_rfl) (hray.mem_S0 ht₁.le)
+      (hray.le le_rfl ht₁.le) hne hy hle
+  have hI : (CE Y).Iminus ⊤ {y} ∈ 𝓝 (φ (yAxis v 0)) :=
+    (CE Y).isOpen_Iminus.mem_nhds (Causal.Precausality.mem_Iminus_singleton.2 hlt)
+  obtain ⟨x, hx, hxI, -⟩ := exists_bspear_near_axis hR hW hsub hφ le_rfl hI
+  exact ⟨x, hx, (CE Y).le_of_lt (Causal.Precausality.mem_Iminus_singleton.1 hxI)⟩
+
+/-- **`M₁ ∪ Int(S₁)` is causally convex in `M₂`** (`BTZ_1.tex:1604`; the step the paper leaves
+implicit). For `a ≤ y ≤ b` with `a, b ∈ M₁ ∪ Int(S₁)` and `y ∉ M₁`: a point of `Int(S₁)` outside
+`M₁` is an axis point `ψ(v + t, 0)`, `t > 0`. If `y` is BTZ, it is on the axis — above `a` when
+`a` is an axis point (`exists_axis_eq_of_le`), and otherwise comparable with the vertex on the line
+below `b` (`SingularFlatAxioms.Jminus_eq_image`), not below it (the vertex precedes a point of
+`M₁`, `exists_bspear_above_axis`, and `M₁` is causally convex) and not equal to it. If `y` is
+regular, `b ∈ M₁` (BTZ points precede only BTZ points), so `a` is an axis point and a regular point
+of `M₁` precedes `y` (`exists_bspear_below_of_le`): `y ∈ M₁` by causal convexity of `M₁`. -/
+theorem causallyConvexIn_union {X : Type} [TopologicalSpace X] [ChartedSpace E0Y X] {j : X → Y}
+    (hj : Causal.IsCauchyEmbedding (CE X) (CE Y) j)
+    {v R : ℝ} {W : Set E0Y} {φ : E0Y → Y} (hR : 0 < R) (hW : IsOpen W) (hsub : spearY v R ⊆ W)
+    (hφ : IsE0Mor φ W) (hinj : InjOn φ W) (hreg : φ '' bspearY v R ⊆ range j) :
+    (CE Y).CausallyConvexIn (range j ∪ φ '' spearIntY v R) ⊤ := by
+  have hGY := hj.globallyHyperbolic_target
+  have hconv := causallyConvexIn_range hj
+  have hsfa := e0_sfa_of_globalBTZ Y
+  have hray0 : ∀ t, 0 ≤ t → yAxis v t ∈ W := fun t ht => hsub (yAxis_mem_spearY hR.le ht)
+  have hray : IsFullFutureBTZRay (φ (yVertex v)) (fun t => φ (yAxis v t)) :=
+    ⟨v, W, φ, hW, hray0, hφ, hinj, rfl, fun _ => rfl⟩
+  -- the axis points of the interior
+  have hAx : ∀ t, 0 < t → φ (yAxis v t) ∈ φ '' spearIntY v R := fun t ht =>
+    ⟨_, ⟨((v + t, 0) : E0), ⟨by simp [fcoord, rad, ht], by simp [rad, hR]⟩, rfl⟩, rfl⟩
+  -- a point of `M₁ ∪ Int(S₁)` is in `M₁` or an axis point of positive parameter
+  have hout : ∀ x ∈ range j ∪ φ '' spearIntY v R, x ∈ range j ∨ ∃ t, 0 < t ∧ φ (yAxis v t) = x := by
+    rintro x (hx | ⟨_, ⟨e, he, rfl⟩, rfl⟩)
+    · exact Or.inl hx
+    by_cases hr : rad e = 0
+    · have he2 : e.2 = 0 := rad_eq_zero.1 hr
+      refine Or.inr ⟨e.1 - v, ?_, ?_⟩
+      · have := he.1
+        simp only [fcoord, hr, zero_div, sub_zero] at this
+        linarith
+      · show φ (paperInY ((v + (e.1 - v), 0) : E0)) = φ (paperInY e)
+        congr 2
+        exact Prod.ext (by simp) he2.symm
+    · exact Or.inl (hreg ⟨paperInY e, ⟨e, ⟨he.1.le,
+        lt_of_le_of_ne (norm_nonneg _) (Ne.symm hr), he.2.le⟩, rfl⟩, rfl⟩)
+  refine ⟨subset_univ _, fun a ha b hb y hy => ?_⟩
+  obtain ⟨hay, hyb⟩ := Causal.Causality.mem_diamond.1 hy
+  by_cases hyj : y ∈ range j
+  · exact Or.inl hyj
+  have key : ∀ a' ∈ range j, ∀ b' ∈ range j, (CE Y).le ⊤ a' y → (CE Y).le ⊤ y b' → False :=
+    fun a' ha' b' hb' h1 h2 => hyj (hconv.2 a' ha' b' hb' (Causal.Causality.mem_diamond.2 ⟨h1, h2⟩))
+  -- the vertex precedes a point of `M₁`
+  obtain ⟨w₀, hw₀, hvw₀⟩ := exists_bspear_above_axis hR hW hsub hφ hinj (le_refl (0 : ℝ))
+  by_cases hys : y ∈ S0 Y
+  · rcases hout a ha with ha' | ⟨ta, hta, rfl⟩
+    · -- `a ∈ M₁`: `b` is an axis point
+      rcases hout b hb with hb' | ⟨tb, htb, rfl⟩
+      · exact (key a ha' b hb' hay hyb).elim
+      have hb0 : φ (yAxis v tb) ∈ S0 Y := hray.mem_S0 htb.le
+      obtain ⟨γ, hγ0, hγe, hγi, hγr⟩ := (E0LM.e0_globalBTZ Y).line _ hb0
+      have hγe' := hγe hGY.1
+      have hJ := hsfa.Jminus_eq_image hGY.1 hb0 hγ0 hγe' hγi.1 hγr
+      have hyJ : y ∈ (CE Y).Jminus ⊤ {φ (yAxis v tb)} :=
+        Causal.Precausality.mem_Jminus_singleton.2 hyb
+      have hvJ : φ (yAxis v 0) ∈ (CE Y).Jminus ⊤ {φ (yAxis v tb)} :=
+        Causal.Precausality.mem_Jminus_singleton.2 (hray.le le_rfl htb.le)
+      rw [hJ] at hyJ hvJ
+      obtain ⟨s, -, hs⟩ := hyJ
+      obtain ⟨s', -, hs'⟩ := hvJ
+      rcases le_total s s' with h | h
+      · -- `y` below the vertex: in `M₁`
+        have h1 : (CE Y).le ⊤ y (φ (yAxis v 0)) := by
+          rw [← hs, ← hs']; exact hγi.1.le_of_le trivial trivial h
+        exact (key a ha' w₀ (hreg hw₀) hay ((CE Y).le_trans h1 hvw₀)).elim
+      · -- `y` above the vertex: on the axis
+        have h1 : (CE Y).le ⊤ (φ (yAxis v 0)) y := by
+          rw [← hs, ← hs']; exact hγi.1.le_of_le trivial trivial h
+        obtain ⟨t, ht, hty⟩ := exists_axis_eq_of_le hGY hW hray0 hφ hinj le_rfl hys h1
+        rcases ht.lt_or_eq with ht | ht
+        · rw [← hty]; exact Or.inr (hAx t ht)
+        · subst ht
+          rw [hty] at hvw₀
+          exact (key a ha' w₀ (hreg hw₀) hay hvw₀).elim
+    · -- `a` an axis point: so is `y`
+      obtain ⟨t, ht, hty⟩ := exists_axis_eq_of_le hGY hW hray0 hφ hinj hta.le hys hay
+      rw [← hty]; exact Or.inr (hAx t (hta.trans_le ht))
+  · -- `y` regular: `b ∈ M₁`, `a` an axis point
+    rcases hout b hb with hb' | ⟨tb, htb, rfl⟩
+    · rcases hout a ha with ha' | ⟨ta, hta, rfl⟩
+      · exact (key a ha' b hb' hay hyb).elim
+      obtain ⟨w, hw, hwy⟩ := exists_bspear_below_of_le hR hW hsub hφ hinj hta hys hay
+      exact (key w (hreg hw) b hb' hwy hyb).elim
+    · exact (hys (hsfa.mem_sing_zero_of_le (hray.mem_S0 htb.le) hyb)).elim
+
+end UnionGH
+
+/-- **`M₁ ∪ Int(S₁)` is globally hyperbolic** (`BTZ_1.tex:1604`, asserted without justification):
+B21 Remark 1 (`E0AbsMax.globallyHyperbolicOn_of_causallyConvexIn`) on the causal convexity
+`causallyConvexIn_union`. The `𝔼₀`-morphism hypothesis on `j` is not used (the Cauchy embedding
+suffices). -/
 theorem globallyHyperbolicOn_union {X Y : Type} [TopologicalSpace X] [T2Space X]
     [ConnectedSpace X] [SecondCountableTopology X] [ChartedSpace E0Y X] [HasGroupoid X e0Groupoid]
     [TopologicalSpace Y] [T2Space Y] [ConnectedSpace Y] [SecondCountableTopology Y]
     [ChartedSpace E0Y Y] [HasGroupoid Y e0Groupoid] {j : X → Y}
-    (hj : Causal.IsCauchyEmbedding (CE X) (CE Y) j) (hjm : IsE0Mor j univ)
+    (hj : Causal.IsCauchyEmbedding (CE X) (CE Y) j) (_hjm : IsE0Mor j univ)
     {v R : ℝ} {W : Set E0Y} {φ : E0Y → Y} (hR : 0 < R) (hW : IsOpen W) (hsub : spearY v R ⊆ W)
     (hφ : IsE0Mor φ W) (hinj : InjOn φ W) (hreg : φ '' bspearY v R ⊆ range j)
     (hU : IsOpen (range j ∪ φ '' spearIntY v R)) :
     (CE Y).GloballyHyperbolicOn ⟨range j ∪ φ '' spearIntY v R, hU⟩ := by
-  sorry -- SORRY(btzthm:BTZ_Cauchy-completness): l.1604 asserts it; causal convexity of M₁ ∪ Int(S₁) in M₂ needs J⁻ of a BTZ point of Int(S₁) to be the chart's axis below it (SingularFlatAxioms.Jminus_eq_image matched with the axis parametrization), not in the library
+  exact globallyHyperbolicOn_of_causallyConvexIn hj.globallyHyperbolic_target
+    E0LM.e0_causallyArcConnected (causallyConvexIn_union hj hR hW hsub hφ hinj hreg)
 
 /-- **BTZ-maximality of `M₁`** (`BTZ_1.tex:1604`): the interior of the spear lies in `M₁`. -/
 theorem spearInt_subset_range (E : BTZMax.GHExt (FlatE0 N))

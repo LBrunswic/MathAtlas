@@ -1,0 +1,21 @@
+{
+  "target": "T-btz-spear-union-gh",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzthm:BTZ_Cauchy-completness",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row stays partial and unmarked (no bold label mark in the module docstring), which is honest: cauchy_spear still carries sorryAx through bluntSpear_subset_M0, and Step 2 is out of scope (T-btz-cauchy-conservation). git diff HEAD on CauchySpear.lean: the type of globallyHyperbolicOn_union is unchanged; only the binder hjm was renamed _hjm, and its type IsE0Mor j univ is kept. The sorry is replaced by globallyHyperbolicOn_of_causallyConvexIn (B21 Remark 1) applied to causallyConvexIn_union. bluntSpear_subset_M0's statement and its sorry are byte-identical to HEAD, and it is the only sorry left (l.171; grep counts 3 occurrences of 'sorry', the other two in docstring prose). The new section 2b lemmas (isFullFutureBTZRay_axis_shift, exists_axis_eq_of_le, notMem_S0_of_ne_zero, exists_bspear_near_axis, exists_bspear_above_axis, exists_bspear_below_of_le, causallyConvexIn_union) have no sorry and their hypotheses are not vacuous. causallyConvexIn_union takes exactly the spear and Cauchy-embedding hypotheses of globallyHyperbolicOn_union (minus _hjm and hU), and spearInt_subset_range instantiates them with the real data of Step 1. The extra hypotheses in the helpers (0 <= t1, 0 < t1, y in S0 or y not in S0, the le relations) are case splits, satisfied by axis points of parameter > 0. Paper l.1604 checked: 'Notice M_1 u Int(S_1) is a globally hyperbolic BTZ-extension of M_1' is asserted with no argument. The REPORT's finding (true, but an open subset of a globally hyperbolic M_2 need not be globally hyperbolic, and causal convexity is the missing step) is accurate and correctly called a gap, not an error. The docstring contract holds: the checklist is present and unchanged, and SCOPE has been updated to one sorry, with globallyHyperbolicOn_union disclosed as proved and the unused hypothesis noted. Note for the loop's curation step (not a closer file): papers/btz/certificate/curation.toml row btzthm:BTZ_Cauchy-completness still says 'two tagged sorrys ... (M_1 u Int(S_1) globally hyperbolic)' in blocked_on and its paper_findings entry says 'Left as a tagged sorry'. Both need updating at graduation, and causallyConvexIn_union / exists_axis_eq_of_le could be added to decls."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 1,
+    "axioms": "standard",
+    "details": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/CauchySpear.lean (run from lean-gx): only warning is 'declaration uses sorry' at l.164 (bluntSpear_subset_M0). One-shot #print axioms probe in lean-gx/campaign/T-btz-spear-union-gh/ (deleted afterwards): globallyHyperbolicOn_union, causallyConvexIn_union, exists_axis_eq_of_le, isFullFutureBTZRay_axis_shift, notMem_S0_of_ne_zero, exists_bspear_near_axis, exists_bspear_above_axis, exists_bspear_below_of_le, spearInt_subset_range all show [propext, Classical.choice, Quot.sound]. cauchy_spear and bluntSpear_subset_M0 show these plus sorryAx, as the REPORT discloses."
+  },
+  "scope": "git status --short: the only file this target touched is lean-gx/scaffold/GXScaffold/BTZ/CauchySpear.lean, plus the campaign directory. The other modified or untracked paths (MaxExtension.lean, GXScaffold.lean, RichardsSplit.lean, kb/INDEX.md and kb entry 0234 on btz_ext, campaign/T-btz-richards-split, papers/*/certificate restatement files, curation.toml, the roadmaps) were already in the session-start snapshot and belong to concurrent targets and loops.",
+  "findings": []
+}

@@ -1,0 +1,52 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-spear-union-gh",
+  "files": ["scaffold/GXScaffold/BTZ/CauchySpear.lean"],
+  "builds": true,
+  "sorry_count": 1,
+  "axioms": {
+    "GX.BTZCauchySpear.globallyHyperbolicOn_union": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.BTZCauchySpear.spearInt_subset_range": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.BTZCauchySpear.cauchy_spear": ["propext", "sorryAx", "Classical.choice", "Quot.sound"]
+  },
+  "labels": [
+    {
+      "label": "btzthm:BTZ_Cauchy-completness",
+      "tex_lines": [1582, 1637],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZCauchySpear.cauchy_spear",
+        "GX.BTZCauchySpear.globallyHyperbolicOn_union",
+        "GX.BTZCauchySpear.causallyConvexIn_union",
+        "GX.BTZCauchySpear.exists_axis_eq_of_le",
+        "GX.BTZCauchySpear.spearInt_subset_range",
+        "GX.BTZCauchySpear.bluntSpear_subset_M0"
+      ],
+      "hypotheses": [
+        {"paper": "M1 u Int(S1) globally hyperbolic (l.1604, asserted)", "here": "proved", "note": "globallyHyperbolicOn_union, statement unchanged; its hypothesis IsE0Mor j univ is unused (binder renamed _hjm, type identical)"}
+      ],
+      "sorries": [
+        {"decl": "GX.BTZCauchySpear.bluntSpear_subset_M0", "obstruction": "unchanged, T-btz-cauchy-spear-m0: l.1601-1604 unprinted (Sigma0 Cauchy in N, surface_complete needs a C1 graph)"}
+      ],
+      "findings": [
+        "BTZ_1.tex:1604: « Notice M1 ∪ Int(S1) is a globally hyperbolic BTZ-extension of M1 » is true but needs an argument the paper does not give: an open subset of the globally hyperbolic M2 need not be globally hyperbolic. Supplied here: M1 ∪ Int(S1) is causally convex in M2 (from causal convexity of the Cauchy image M1, the regular part of S1 lying in M1, and the fact that the BTZ points above an axis point of the spear chart are on its axis), hence globally hyperbolic by B21 Remark 1. No hypothesis is missing."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZCauchySpear.isFullFutureBTZRay_axis_shift",
+    "GX.BTZCauchySpear.exists_axis_eq_of_le",
+    "GX.BTZCauchySpear.notMem_S0_of_ne_zero",
+    "GX.BTZCauchySpear.exists_bspear_near_axis",
+    "GX.BTZCauchySpear.exists_bspear_above_axis",
+    "GX.BTZCauchySpear.exists_bspear_below_of_le",
+    "GX.BTZCauchySpear.causallyConvexIn_union"
+  ],
+  "kb_proposals": [
+    "Matching a BTZ line with a spear chart's axis is already in the strict library: IsFullFutureBTZRay.exists_eq_of_line (Spear.lean) plus E0LM.e0_globalBTZ.line gives 'every BTZ point above an axis point is on the axis' (exists_axis_eq_of_le in CauchySpear); no LineStructure/lineChart needed.",
+    "Causal convexity of an open set containing a causally convex A whose extra points are BTZ: split on y regular/BTZ; regular y above a non-vertex axis point gets a regular predecessor in A by push-up through the vertex (lt_of_lt_of_le_of_not_mem + isOpen_Iminus); axis points get regular successors by exists_nhds_diff_sing_subset_Iplus."
+  ],
+  "notes": "Only CauchySpear.lean edited: §2b section UnionGH inserted between bluntSpear_subset_M0 and globallyHyperbolicOn_union; the sorry of globallyHyperbolicOn_union closed (statement unchanged except the unused binder hjm renamed _hjm to silence the unused-variable linter); docstring step 4 and SCOPE updated. bluntSpear_subset_M0 untouched. spearInt_subset_range is now sorry-free; cauchy_spear rests on bluntSpear_subset_M0 alone. lake build GXScaffold.BTZ.CauchySpear succeeds (only the expected sorry warning); it rebuilt GXScaffold.BTZ.MaxExtension (scaffold, edited by T-btz-richards-split), no GX.* or mathlib module."
+}
