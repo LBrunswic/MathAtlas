@@ -3785,12 +3785,13 @@ stream = "bbs"
 kind = "close"
 paper = "bbs"
 labels = ["bbsdef:has_positive_mass_simple", "bbsrem:singular_ads_manifold_cone"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
-evidence = "papers/bbs ledger: both rows bucket D, blocked_on « wave W4 not built »; triage note « REVIEW §A row 36; link (positive mass); layer L2; wave W4 ». REVIEW.md l.401: W4 needs W2 and W3; the W2 link layer is built (T-bbs-rp1-circles, T-bbs-hs-singularities, T-bbs-classising-types; strict GX.BBS.HSSuspension for 𝔢(L) and its regions, hsRegion .deSitter) and W3's causality is (T-bbs-hcausal, T-bbs-positive-hs-surface). The remark's proof (l.1804–1809): « An explicit description of L_x follows from the construction of the AdS metric in the neighborhood of a time-like singularity, as seen in Section 2. The de Sitter part of this link contains a unique simple closed geodesic, and its length is equal to the angle at the singularity. So it is less than 2π. » The first sentence is the AdS background, T-bbs-q8 (needs-ruling), so the remark is closed only in its link form and stays partial; the definition and the link computation need no AdS. The text after the definition (l.1826–1827): « This notion of positivity of mass for an interaction generalizes the natural notion of positivity for time-like singularities », which the iff states. New vocabulary, in the scaffold beside HSCausal: space-like geodesics of the de Sitter region of a singular HS-surface (developed into great-circle arcs of dS²) and their length; lean-gx has no geodesic notion on HS-surfaces today (grep: only HSModel's « geodesic rays »). The angle θ is the real angle of an elliptic circle (T-bbs-rp1-circles); its convention is not touched by OQ-144, which concerns space-like and light-like holonomies"
+evidence = "GXScaffold.BBS.HSPositiveMass sorry-free: HasPositiveMass and its link computation for 𝔢(L) (unique simple closed space-like geodesic, length θ); rows partial on OQ-153 and T-bbs-q8; audit AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "1ea283c6"
 
 [[target]]
 id = "T-bbs-informal-triage"
@@ -3830,13 +3831,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-btz-length-compare"]
-evidence = "RegCompleteLength.lean:1258–1271, the argument written beside the sorry: « pass to edist (u n) (u (n+1)) < 2⁻ⁿ, concatenate paths into a path Γ of Σ* of finite length. (a) If some spear j is met by Γ at arbitrarily late times, the log r estimate of spear j (ofReal_abs_logRad_sub_le_edist) keeps those points in a compact annulus graph of the cusp j ... (b) Otherwise replace, spear by spear in order of first entry, the piece of Γ from its first entry into spear i to its last exit by an arc of the rim circle of i, of S-length ≤ π Rᵢ ... an S-path of length ≤ ℓ(Γ) + π Σᵢ Rᵢ < ∞ (hsum), which converges in S (hS.complete) and in M (hS.continuous) ». The rest is built and sorry-free: completeSpace_sigmaStar consumes this lemma through tendsto_of_cauchySeq_of_isCompact, and LFSurgeryData.exists_summable thins the family to summable radii. T-btz-reg-complete-length (c1e4234), AUDIT-1 minor. Closing it makes btzprop:reg_complete sorry-free for E₀ (still partial: T-btz-scope, OQ-142) and opens T-btz-cauchy-conservation's (ii) ⇒ (i) and T-gx-uniformization-via-btz"
+evidence = "LFSurgeryData.exists_isCompact_of_cauchySeq proved (GXScaffold.BTZ.RegCompleteTail, statement unchanged); prop_reg_complete(') sorry-free for E₀, standard axioms; row partial on T-btz-scope, OQ-142; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "75532db0"
 
 [[target]]
 id = "T-btz-reg-complete-graduate"
@@ -3860,12 +3862,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_ext", "btzcor:manifold_smooth_manifold_singular"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "BTZ_1.tex l.1545–1546: « The E≥0-structure of M̄ induces a (G, sing(E₀))-structure on Δ with G the image of isom(E₀) in the group of homeomorphisms of sing₀(E₀). Since the isometries of E₀ act by translation on sing₀(E₀), the singular line Δ is actually endowed with a (ℝ,ℝ)-structure (ℝ acting by translation on itself). Finally, Δ admits a Riemannian metric and is thus second countable. » This is one of the three ingredients that GX.BTZMax.RichardsInput packs (T-btz-maximal-extension AUDIT-1, finding 3: « list the three ingredients the input packs: line-to-puncture injectivity, Richards (countably many isolated planar ends), and second countability of each line ... Optionally split the input so that only the cited theorem stays unproved »). Built: btzprop:isom's global form GX.BTZIsom.btzprop_isom_e0 and btzcor_morphism_two_manifolds_local_e0 (strict GX/BTZ/IsomE0.lean:625, 835; T-btz-isom-e0), GX.E0Surgery.isClosed_S0 (Surgery.lean:3144). [r] The manifold structure alone does not give second countability: the long line is a connected Hausdorff 1-manifold any two points of which lie in a second countable open interval, so RichardsInput's own premise does not either; the translation structure is what is used. The route is the closer's: the translation length metric (the paper's), btzrem:other_ways_prove_btz's (l.1560: « every possibly non metrizable 1-manifolds are type I [MR3244277] ... every type I separable manifolds are metrizable »), or [r] a strictly increasing volume function along Δ from a finite measure of full support on the second countable ι(M). If none closes in the dispatch, the line's second countability becomes a second named input, recorded, and T-btz-richards-split carries it. btzcor:manifold_smooth_manifold_singular (l.395–396; ledger « no target yet ») gets the topological half of its second sentence at E₀ (sing = sing₀ there); its smooth 3-manifold structure is not attempted, so the row stays partial. E₀ only (T-btz-scope). A new scaffold module, imported by T-btz-richards-split"
+evidence = "GXScaffold.BTZ.LineStructure sorry-free: sing₀ closed, (ℝ,ℝ)-translation structure, each line Lindelöf and second countable without ambient second countability; RichardsInput ⇔ CountableLinesInput; rows partial (E₀, Richards cited, smooth half not attempted); audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "107b21c2"
 
 [[target]]
 id = "T-btz-richards-split"

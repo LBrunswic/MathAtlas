@@ -1024,3 +1024,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - New question for the author: OQ-152 (common_reg and Step 1 readings).
 - btz: 42 of 55 rows Lean-stated, all partial until T-btz-scope.
 - next: T-btz-reg-complete-tail, T-btz-line-structure, T-btz-admissible, T-bbs-positive-mass, T-bbs-cheminsing-tidy (lean-gx); the builder for lean-gx.
+
+## 2026-11-28 22:30 · wave of 3 · T-btz-reg-complete-tail, T-btz-line-structure, T-bbs-positive-mass
+- T-btz-reg-complete-tail: the last sorry of btzprop:reg_complete closed (RegCompleteTail; summable radii, spear-by-spear path surgery, completeness of S); prop_reg_complete(') sorry-free for E₀; row partial (T-btz-scope, OQ-142); audit minor (REPORT field, fixed). Stale docstrings in four BTZ scaffold files updated.
+- T-btz-line-structure: sing₀ closed with an (ℝ,ℝ)-translation structure, each BTZ line second countable without ambient second countability; RichardsInput ⇔ CountableLinesInput (only Richards and the line-to-puncture injectivity stay cited); btzthm:BTZ_ext and btzcor:manifold_smooth_manifold_singular partial; audit minor (REPORT fields fixed).
+- T-bbs-positive-mass: HasPositiveMass defined; for 𝔢(L) the unique simple closed space-like geodesic has length θ, positive mass iff θ < 2π; both rows partial on OQ-153 (new) and T-bbs-q8; audit clean.
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red; restate: 0 new candidates (btz, bbs)
+- commits: 75532db0 107b21c2 1ea283c6 6cbc6876 (+ statuses)
+- wall time: 21:25–22:30; agents in parallel: 3 closers + 3 auditors
+- next: T-atlas-overlay-refresh (builder), T-btz-admissible, T-bbs-cheminsing-tidy; T-btz-reg-complete-graduate now unblocked by the tail
