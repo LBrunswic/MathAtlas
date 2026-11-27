@@ -1,0 +1,47 @@
+{
+  "target": "T-btz-surface-group-nonmetabelian",
+  "package": "lean-gx",
+  "files": ["scaffold/GXScaffold/BTZ/SurfaceGroupNonMetabelian.lean", "scaffold/GXScaffold.lean (one import line)"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzprop:holonomy_globally_hyperbolic_cauchy_compact",
+      "tex_lines": [1124, 1148, 1153, 1155],
+      "status": "partial",
+      "marked": false,
+      "decls": ["GX.BTZAdm.btzprop_holonomy_e0_of_euler", "GX.BTZAdm.SurfaceGroup.not_isMetabelianGroup", "GX.BTZAdm.SurfaceGroup.isMetabelianGroup_iff"],
+      "hypotheses": [
+        {"paper": "2g - 2 + s > 0 (l.1124)", "here": "carried", "note": "0 < 2 * (g : Z) - 2 + s"},
+        {"paper": "M* has anabelian fundamental group (l.1148)", "here": "weakened", "note": "no longer assumed: hnm of btzprop_holonomy_e0 is derived from 2g-2+s>0 and the injective marking mu (subgroup of a metabelian group is metabelian)"},
+        {"paper": "E0 only, marking Gamma = pi1(Reg M) with each c_j a BTZ loop", "here": "as in btzprop_holonomy_e0", "note": "T-btz-scope, T-btz-headline-repr"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1124: the condition 2g - 2 + s > 0 is exactly the non-metabelian range of the marked surface group of l.1140: for 2g-2+s>0 it surjects onto the free group F2 (g>=2: a1,b1,a2,b2 -> x,y,y,x; g>=1,s>=1: a1,b1,c1 -> x,y,[x,y]^-1; g=0,s>=3: c1,c2,c3 -> x,y,(xy)^-1; every other generator -> 1), and for 2g-2+s<=0 ((g,s) in {(0,0),(0,1),(0,2),(1,0)}) it is abelian. Proved both ways (SurfaceGroup.isMetabelianGroup_iff). No defect in the paper here."
+      ],
+      "questions": [
+        "l.1148 'anabelian fundamental group': read as 'not metabelian', the hypothesis of the strict GX.e0RegM_holonomy (as Admissible.lean already does). Under 2g-2+s>0 the marked group maps onto F2, so it is non-abelian, non-metabelian and non-solvable, and each of the usual readings (non-abelian, non-metabelian, non-solvable) is implied by the algebra; the reading only matters for which hypothesis Barbot's input consumes."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZAdm.not_isMetabelianGroup_of_surjective",
+    "GX.BTZAdm.not_isMetabelianGroup_of_injective",
+    "GX.BTZAdm.isMetabelianGroup_of_comm",
+    "GX.BTZAdm.lift_surfaceRel",
+    "GX.BTZAdm.surjective_of_mem_range",
+    "GX.BTZAdm.of_mem_range_toGroup",
+    "GX.BTZAdm.surjA", "GX.BTZAdm.surjB", "GX.BTZAdm.surjC",
+    "GX.BTZAdm.genA", "GX.BTZAdm.genB", "GX.BTZAdm.genC",
+    "GX.BTZAdm.PresentedGroup.comm_of_gen",
+    "GX.BTZAdm.SurfaceGroup.comm_of_euler_nonpos",
+    "GX.BTZAdm.fin_succ_succ_ne_one", "GX.BTZAdm.fin_succ3_ne_two"
+  ],
+  "kb_proposals": [
+    "To refute metabelianity of a presented group, surject onto FreeGroup (Fin 2) via PresentedGroup.toGroup and use the strict GX.freeGroup_not_isMetabelianGroup; no finite group (S4) and no decide is needed. Surjectivity: MonoidHom.range_eq_top + FreeGroup.closure_range_of + Subgroup.closure_le, then fin_cases.",
+    "Relator checks under PresentedGroup.toGroup: rewrite FreeGroup.lift of the relator into List.ofFn products, simp [List.ofFn_succ, the generator map, Fin.succ_ne_zero, i.succ.succ != 1 lemmas], then simp only [commutatorElement_def]; group. Avoid Fin.ext_iff in that simp (it loops on the if-chain definitions)."
+  ],
+  "notes": "Pure algebra plus a one-line corollary of the sorry-free GX.BTZAdm.btzprop_holonomy_e0; Admissible.lean untouched. btzprop_holonomy_e0_of_euler is btzprop_holonomy_e0 with hnm replaced by 0 < 2g-2+s. The row stays unmarked on Admissible's SCOPE (b) E0 only (T-btz-scope) and (d) the marking is a hypothesis (T-btz-headline-repr). lake build of the module rebuilt nothing upstream."
+}

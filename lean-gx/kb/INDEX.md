@@ -248,3 +248,5 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0238](entries/0238-the-metabelian-criterion-gx-btzadm-ismet.md) | pattern | The metabelian criterion GX.BTZAdm.isMetabelianOn_of_sign |
 | [0239](entries/0239-stabilizer-of-a-spacelike-vector-in-so-0.md) | pattern | Stabilizer of a spacelike vector in SO_0(1,2) is abelian (GX.BTZAdm.frame_commute_of_fix); |
 | [0240](entries/0240-lean-gx-s-pinned-causal-did-not-have-acd.md) | pattern | lean-gx's pinned Causal did not have ACDProof / MaxUnipProof / BieberbachProof built; `lak |
+| [0241](entries/0241-to-refute-metabelianity-of-a-presented-g.md) | pattern | To refute metabelianity of a presented group, surject onto FreeGroup (Fin 2) via Presented |
+| [0242](entries/0242-relator-checks-under-presentedgroup-togr.md) | pattern | Relator checks under PresentedGroup.toGroup |
