@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Due 2026-11-28 (planner): lean-gx, not refreshed since the 2026-11-27 20:40 wave; since then e49f488, c1e4234, c1d9a45 (Causal pin 51cbb00) and dc54daa moved ExtChart → Pgcd → PpcmHausdorff → Ppcm and IsomE0 to strict and added MaxExtension, RegCompleteLength, CompleteCauchy and HSCheminsing to the scaffold"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-27 at 1ea283c (297a3491: bbs 37→42, btz 94→124 edges). Due: lean-gx after 52e2d48/c3c9863 (Admissible, HSCheminsing tidy)"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -3892,12 +3892,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzdef:tangent_translation_part", "btzdef:admissible_representation", "btzprop:holonomy_globally_hyperbolic_cauchy_compact"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
-evidence = "BTZ_1.tex l.1135–1151: « Let φ be an affine parabolic isometry of E, we note φ_L its linear part and τ_φ its translation part. We say τ_φ is tangent if τ_φ is normal to the direction of line of fixed points of φ_L »; « A marked representation ρ : Γ → isom(E^{1,2}) is admissible if its linear part ρ_L is discrete and faithful; ρ_L(c_i) is parabolic for all i; its translation part τ_ρ(c_i) is tangent for every i ». The proof of the proposition (l.1149–1152): « Since M admits exactly s BTZ lines, the holonomy of the peripheral generators is given by the holonomy around the BTZ lines which is parabolic. Furthermore, Barbot also shows (see [barbot_globally_2004] section 7.3) that if the holonomy of some loop is parabolic, then the translation part is tangent. » [r] Around a BTZ line the holonomy is explicit, conjugate to E₀'s btzHol (T-btz-isom-e0 REPORT: chartMap_paperIsom, « gShift = translation(2 tau0 u) * btzHol 0 (-c) »), so tangency is computed there and Barbot § 7.3 is not needed for it; and [r] tangency is invariant under a change of origin, since B((φ_L − 1)v, u) = 0 for u fixed by the isometry φ_L. Built: GX.e0RegM_holonomy (strict GX/BTZ/Holonomy.lean: faithful, discrete, torsion-free, with π₁(Reg M) not metabelian carried, gx SCOPE (a)); Reg M globally hyperbolic, Cauchy-complete and Cauchy-maximal for Cauchy-compact M (a compact C¹ spacelike Cauchy surface, DEC-107) from GX.E0AbsMax.cor_abs_max_C1 (strict GX/BTZ/AbsMax.lean:4128), sorry-free. The marked statement, with cᵢ the peripheral generators of a marking Γ ≅ π₁(Reg M), depends on how the marking is represented (T-btz-headline-repr) and is T-btz-hol-map's; this target states the holonomy of a loop around a line, so the row stays partial. Ledger rows bucket D, blocked_on « T-btz-headline; T-btz-scope ». E₀ only"
+evidence = "GXScaffold.BTZ.Admissible: btzdef:tangent_translation_part and btzdef:admissible_representation sorry-free and marked; holonomy around a BTZ line parabolic with tangent translation part (holonomy_circleLoop, sorry-free); btzprop row partial on one tagged sorry e0RegM_linearPart_faithful_discrete (Barbot), T-btz-headline-repr, T-btz-scope; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "52e2d485"
 
 [[target]]
 id = "T-btz-headline-repr"
@@ -3993,12 +3994,13 @@ stream = "bbs"
 kind = "close"
 paper = "bbs"
 labels = ["bbsrem:cheminsing", "bbsrem:masspositive"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
-evidence = "T-bbs-cheminsing AUDIT-1 (minor), finding 1 (HSCheminsing.lean:1165–1173, 1201–1212): « The exported statements of the two explicit instances leave out what makes them members of the paper's family: the ends condition hends ..., b < a + 2, and membership of the region ... a reader of the refutation's statement alone cannot see that the gluing map is the paper's isometry. Fix: Add hends ... and b < a + 2 to both statements. They are already available from arc_wedge »; finding 2 (l.947): « No Lean term shows that the hypotheses hW and hends hold at a time-like x ∈ ℍ²₊ ... Optional: give a time-like instance of arc_wedge, for example x = [(1,0,0)] over arcP ». The helpers sit directly in namespace GX (HSCheminsing.lean:133, 226, 239, 247, 279, 294, 331), with names generic enough to clash when the HS layer graduates (T-bbs-hs-graduate). The not_ names are kept: restate.py reads them, and the restatement is registered blocked on OQ-144 by the curation, which waits for /restate to release papers/bbs (AUDIT-1 finding 3). Scaffold only; nothing else imports HSCheminsing"
+evidence = "not_cheminsing_* instances state their family membership; arc_wedge_timelike / cheminsing_timelike_pole make the elliptic branch non-vacuous; helpers in GX.HSCheminsing; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "c3c98639"
 
 [[target]]
 id = "T-bbs-w4-externals"

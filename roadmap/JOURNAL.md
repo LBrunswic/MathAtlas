@@ -1025,7 +1025,7 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - btz: 42 of 55 rows Lean-stated, all partial until T-btz-scope.
 - next: T-btz-reg-complete-tail, T-btz-line-structure, T-btz-admissible, T-bbs-positive-mass, T-bbs-cheminsing-tidy (lean-gx); the builder for lean-gx.
 
-## 2026-11-28 22:30 · wave of 3 · T-btz-reg-complete-tail, T-btz-line-structure, T-bbs-positive-mass
+## 2026-11-27 22:15 · wave of 3 · T-btz-reg-complete-tail, T-btz-line-structure, T-bbs-positive-mass
 - T-btz-reg-complete-tail: the last sorry of btzprop:reg_complete closed (RegCompleteTail; summable radii, spear-by-spear path surgery, completeness of S); prop_reg_complete(') sorry-free for E₀; row partial (T-btz-scope, OQ-142); audit minor (REPORT field, fixed). Stale docstrings in four BTZ scaffold files updated.
 - T-btz-line-structure: sing₀ closed with an (ℝ,ℝ)-translation structure, each BTZ line second countable without ambient second countability; RichardsInput ⇔ CountableLinesInput (only Richards and the line-to-puncture injectivity stay cited); btzthm:BTZ_ext and btzcor:manifold_smooth_manifold_singular partial; audit minor (REPORT fields fixed).
 - T-bbs-positive-mass: HasPositiveMass defined; for 𝔢(L) the unique simple closed space-like geodesic has length θ, positive mass iff θ < 2π; both rows partial on OQ-153 (new) and T-bbs-q8; audit clean.
@@ -1033,3 +1033,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 75532db0 107b21c2 1ea283c6 6cbc6876 (+ statuses)
 - wall time: 21:25–22:30; agents in parallel: 3 closers + 3 auditors
 - next: T-atlas-overlay-refresh (builder), T-btz-admissible, T-bbs-cheminsing-tidy; T-btz-reg-complete-graduate now unblocked by the tail
+
+## 2026-11-27 23:05 · wave of 3 · T-btz-admissible, T-bbs-cheminsing-tidy, T-atlas-overlay-refresh
+- T-btz-admissible: btzdef:tangent_translation_part and btzdef:admissible_representation closed (sorry-free, marked); btzprop:holonomy_globally_hyperbolic_cauchy_compact partial — the holonomy around a BTZ line is parabolic and tangent (sorry-free), the marked form rests on one tagged sorry (Barbot's faithful-and-discrete linear part), T-btz-headline-repr, T-btz-scope; audit minor (2 docstring points, fixed).
+- T-bbs-cheminsing-tidy: refutation instances strengthened, elliptic branch inhabited, helpers namespaced; rows stay partial, curation waits on T-restate-held-curation; audit minor (kb names, header; fixed).
+- T-atlas-overlay-refresh (builder): lean-gx overlay at 1ea283c (btz 94→124, bbs 37→42 edges), 0 page errors; back to ready, lean-gx due again after this wave.
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: one NEW RED gate-tests (test_programme LadderEmit: lean-causal/Causal/Ladder/Test.lean stale against /ett-programme's uncommitted programme/ladder.toml, leased by programme pid 773086; not this wave's)
+- commits: 297a3491 52e2d485 c3c98639 ce02aa24 (+ statuses)
+- wall time: 22:17–23:05; agents in parallel: 2 closers + builder, 2 auditors
+- next: no ready closer target: plan (rule 2); T-btz-reg-complete-graduate (planned, exclusive) awaits the planner
