@@ -1,0 +1,136 @@
+{
+ "package": "T-ett-plainness-models",
+ "target": "T-ett-plainness-models",
+ "files": [
+  "scaffold/CausalScaffold/PlainnessModels/KCalcul.lean",
+  "scaffold/CausalScaffold/PlainnessModels/LorentzForm.lean",
+  "scaffold/CausalScaffold/PlainnessModels/LipschitzModel.lean",
+  "scaffold/CausalScaffold/PlainnessModels/LipschitzPushUp.lean",
+  "scaffold/CausalScaffold/PlainnessModels/Lorentzian.lean",
+  "scaffold/CausalScaffold/PlainnessModels.lean",
+  "scaffold/CausalScaffold.lean (one import line added)"
+ ],
+ "builds": true,
+ "build_command": "lake build CausalScaffold.PlainnessModels (8674 jobs, nothing upstream rebuilt)",
+ "sorry_count": 0,
+ "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on K_calcul, models_causallyPlain, IsLipschitzLorentzian.K_lorentzien, IsLipschitzLorentzian.causallyPlain, LipschitzMetric.causallyPlain, LipschitzMetric.absolutelyMinimal, minkowskiMetric_K_lorentzien, K_calcul_nonvacuous)",
+ "labels": [
+  {
+   "label": "prop:K_calcul",
+   "tex_lines": [
+    1557,
+    1574
+   ],
+   "status": "closed",
+   "marked": true,
+   "decls": [
+    "Causal.PlainnessModels.K_calcul",
+    "Causal.PlainnessModels.K_calcul_nonvacuous",
+    "Causal.PlainnessModels.models_causallyPlain"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M a E_{>=0}-manifold",
+     "here": "carried",
+     "note": "singular (SO0(1,2) ⋉ R^3, E^{1,2})-manifold (DEC-25, DEC-152), causality C absolutely minimal (DEC-167) with an isomorphic chart at each point onto E_0 or an E_κ (IsoChartsCoverDEC25 … massAModelCausality, OQ-18's reading), E_0 as DEC-150/151 read it"
+    },
+    {
+     "paper": "causally plain (through prop:tarentin_fort_K, l.1565)",
+     "here": "proved",
+     "note": "SFALocal.causallyPlain, not assumed"
+    },
+    {
+     "paper": "p ∉ sing_0 (a); p ∈ sing_0 (b),(c); M causal (c)",
+     "here": "carried",
+     "note": ""
+    },
+    {
+     "paper": "Hausdorff, second countable",
+     "here": "weakened",
+     "note": "not used; first countability from the charts"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:1565 (OQ-16, now DEC-168): the printed route is valid once causal plainness of E_{>=0}-manifolds is proved; the paper never proves it (l.303-305 offers push-up instead, and rem:pas_plat (ii), l.294-295, even claims BTZ points violate it, a recorded finding, kb/0029). It holds (SFALocal.causallyPlain: push-up plus local Z^± off sing_0, a set with empty interior). Suggested: a lemma « every E_{>=0}-manifold is causally plain » before prop:K_calcul, cited at l.1565.",
+    "The earlier findings on l.1567-1571 (⊃ J^-(p_0) false as written; lem:past_BTZ not needed; the sequence with p ∈ Int J^+(p_n)) stand unchanged; (c) is SFABTZ.K_calcul's."
+   ],
+   "questions": [],
+   "blockers_discharged": "OQ-16 (DEC-168): (a),(b) now go through causal plainness (SFALocal.causallyPlain fed to Causality.Kminus_eq_Iminus_of_mem_Zminus / Kplus_eq_Iplus_of_mem_Zplus with SFALocal.mem_Zplus, SFALocal.mem_Zminus_of_notMem), the printed proof, not push-up. OQ-18 (DEC-167): hmin : C.AbsolutelyMinimal is part of the notion. OQ-82 (DEC-152): Flat.isom 2 = SO0(1,2) ⋉ R^3. OQ-34, OQ-35 (DEC-150, DEC-151): E_0 is Causal.E0 as ported. No Lean hypothesis beyond the notion is left; non-vacuous at E_0 with a BTZ point."
+  },
+  {
+   "label": "cor:K_lorentzien",
+   "tex_lines": [
+    884,
+    892
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.IsLipschitzLorentzian",
+    "Causal.IsLipschitzLorentzian.K_lorentzien",
+    "Causal.IsLipschitzLorentzian.causallyPlain",
+    "Causal.IsLipschitzLorentzian.pushUp",
+    "Causal.IsLipschitzLorentzian.mem_Zplus",
+    "Causal.IsLipschitzLorentzian.mem_Zminus",
+    "Causal.LipschitzMetric",
+    "Causal.LipschitzMetric.causality",
+    "Causal.LipschitzMetric.pushUp",
+    "Causal.LipschitzMetric.causallyPlain",
+    "Causal.LipschitzMetric.absolutelyMinimal",
+    "Causal.isLipschitzLorentzian_causality",
+    "Causal.minkowskiMetric_K_lorentzien"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M a Lorentzian manifold",
+     "here": "reading (OQ-28, DEC-168)",
+     "note": "a time-oriented Lorentzian manifold with a LOCALLY LIPSCHITZ metric, through its causality: C absolutely minimal (DEC-167), every point in the source of a chart into R^{1+n} that is a causal isomorphism (ChartIso) onto the causality of a locally Lipschitz time-oriented Lorentzian metric (LipschitzMetric: causal = Lipschitz paths with a.e. future causal derivative, Chruściel–Grant; timelike = C^1 paths with future timelike derivative; ≤, ≪ their chains). No smooth compatibility of charts is asked (more general)."
+    },
+    {
+     "paper": "tarentin (named in the proof)",
+     "here": "weakened",
+     "note": "not used"
+    },
+    {
+     "paper": "strongly tarentin both ways (rem:lorentz_tarentin)",
+     "here": "proved",
+     "note": "IsLipschitzLorentzian.mem_Zplus / mem_Zminus, from segments along T in charts"
+    },
+    {
+     "paper": "causally plain (needed by prop:tarentin_fort_K, omitted by the proof)",
+     "here": "proved",
+     "note": "LipschitzMetric.pushUp (the shift-and-polygon argument, written out in full), local in charts, global by AbsolutelyMinimal.pushUp_of_locallyPushUp, then causallyPlain_of_locZ"
+    },
+    {
+     "paper": "Hausdorff",
+     "here": "weakened",
+     "note": "T1 only; first countability from the charts"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "ETT.tex:889-891 (recorded, now discharged): the proof omits causal plainness, which prop:tarentin_fort_K needs (l.851). It is now PROVED for every locally Lipschitz time-oriented Lorentzian metric (Causal.LipschitzMetric.causallyPlain, via push-up, Causal.LipschitzMetric.pushUp) and hence for every Lipschitz Lorentzian manifold (IsLipschitzLorentzian.causallyPlain); the corollary follows by the printed proof (IsLipschitzLorentzian.K_lorentzien). The paper should state the regularity ('locally Lipschitz', consistent with rem:pas_plat (i), l.293, which places the threshold there) and cite plainness for it.",
+    "ETT.tex:889: 'tarentin' is not used (as recorded); absolute minimality is the gluing reading (DEC-167); strong tarentinity both ways (rem:lorentz_tarentin, l.784) is proved at Lipschitz Lorentzian manifolds by the same charts."
+   ],
+   "questions": [
+    "OQ-28 under DEC-168: is 'Lorentzian manifold' in cor:K_lorentzien (and ex:causalities_lines item 5, rem:lorentz_tarentin) to be read as a time-oriented Lorentzian manifold with a locally Lipschitz metric? Reading taken: yes; the statement is proved in that reading, with no sorry and no added hypothesis beyond the reading. If the author accepts it, the row can be marked at Causal.IsLipschitzLorentzian.K_lorentzien.",
+    "The causality-level notion of manifold (charts that are causal isomorphisms onto coordinate models, the metric extended from a ball to R^{1+n} by the nearest-point retraction, timelike curves C^1): acceptable as the formal notion of a Lipschitz Lorentzian manifold? Taken: yes (it is implied by any Lipschitz Lorentzian manifold with Chruściel–Grant's causal curves; the extension and that implication are argued in SCOPE, not formalized)."
+   ],
+   "blockers_discharged": "OQ-28's carried hypothesis 'causally plain (K_lorentzien) or push-up (K_eq_I_of_pushUp)' is discharged for Lipschitz metrics: hP := IsLipschitzLorentzian.causallyPlain (from LipschitzMetric.pushUp through ChartIso.pushUpOn and AbsolutelyMinimal.pushUp_of_locallyPushUp); hI (I^±(p) ≠ ∅) := IsLipschitzLorentzian.mem_Zplus / mem_Zminus; FirstCountable from the charts; hA is the notion's field (DEC-167). 'Lorentzian manifolds are not in the library' is addressed by LipschitzMetric / IsLipschitzLorentzian. What remains is the author's acceptance of the Lipschitz reading."
+  }
+ ],
+ "extra_decls": [
+  "Causal.Lorentz.IsLorentzian, Causal.Lorentz.FC, Causal.Lorentz.FT, Causal.Lorentz.exists_futureFrame, Causal.Lorentz.FC.pairing_nonpos, Causal.Lorentz.FC.pairing_neg, Causal.Lorentz.fc_of_forall_pairing_nonpos (self-duality), Causal.Lorentz.FC.add_ft, Causal.Lorentz.ft_of_pairing_neg, Causal.Lorentz.isFutureCausal_of_forall, Causal.Lorentz.add_isFutureTimelike",
+  "Causal.LipschitzMetric.IsCausalPath, IsTimelikePath, IsTimelikePath.perturb, IsTimelikePath.causalStep, locZplus, locZminus",
+  "Causal.LipschitzMetric.GoodBall, exists_goodBall, GoodBall.shift (the shift lemma), GoodBall.chord, GoodBall.polygon, GoodBall.push_past, GoodBall.push_future, causalStep_push",
+  "Causal.LipschitzMetric.minkBL, minkowskiMetric"
+ ],
+ "kb_proposals": [
+  "Lipschitz Lorentzian metrics are in the scaffold: Causal.LipschitzMetric n (locally Lipschitz Lorentzian field on Minkowski n, continuous time orientation), its causality (Lipschitz a.e.-causal paths, C^1 timelike paths), push-up, causal plainness and absolute minimality, all sorry-free (CausalScaffold.PlainnessModels.*); manifolds through charts: Causal.IsLipschitzLorentzian, with K^± = I^± (cor:K_lorentzien in the Lipschitz reading).",
+  "The shift lemma pattern (GoodBall.shift): FC at x plus μ·e is FT at y once Lg‖x−y‖‖v‖ ≤ c₁μ; with self-duality of the Lorentz cone (Lorentz.fc_of_forall_pairing_nonpos) and real FTC for Lipschitz functions (AbsolutelyContinuousOnInterval.integral_deriv_eq_sub) it turns a.e. derivative bounds into chord bounds without a vector-valued FTC.",
+  "prop:K_calcul now goes through plainness (PlainnessModels.K_calcul); all its blockers are ruled (DEC-25, 150, 151, 152, 167, 168).",
+  "Defining a curve causality as ReflTransGen/TransGen of single paths avoids concatenation lemmas entirely; Lipschitz paths taken Lipschitz on all of ℝ (γ ∘ projIcc) make restriction to subintervals literal."
+ ],
+ "notes": "All five modules are sorry-free and warning-free (lake env lean on each, lake build CausalScaffold.PlainnessModels). KCalcul marks **prop:K_calcul** in its docstring (all readings ruled); Lorentzian cites cor:K_lorentzien and rem:lorentz_tarentin unmarked pending the Lipschitz reading (OQ-28/DEC-168). rem:lorentz_tarentin (not dispatched) is proved in the same reading (IsLipschitzLorentzian.mem_Zplus, mem_Zminus). Imports: Causal.Port.SFABTZ, Causal.Port.E0ModelRows, Causal.Model.EAlphaPlain (KCalcul); Causal.Flat.Form, Causal.CausallyPlainLocZ, Causal.Subdivision, Causal.SFATransfer, Causal.PushUpOfMinimalLocal, Causal.Remarks.MassiveManifold, Causal.Remarks.Tarentin (the Lipschitz chain). Nothing in Causal/ was edited. Layering: LorentzForm, LipschitzModel and LipschitzPushUp import only the ETT layer and Causal.Flat.Form (no Causal.Port.*, no Causal.Model.*); Lorentzian imports Causal.Remarks.MassiveManifold and Causal.Remarks.Tarentin (both import Causal.Model.Massive) for ChartIso.pushUpOn and Causality.K_lorentzien; KCalcul imports Causal.Port.SFABTZ."
+}

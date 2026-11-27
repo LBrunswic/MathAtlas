@@ -1,0 +1,45 @@
+{
+  "target": "T-ett-plainness-models",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "prop:K_calcul",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Causal.PlainnessModels.K_calcul (KCalcul.lean:73) concludes the paper's three assertions verbatim (ETT.tex:1557-1563), with sing_0(M) = SFALocal.sing M 0: (a) for every p not in sing_0, K+ = I+ and K- = I-; (b) for every p in sing_0, K+ = I+; (c) if C.IsCausal, then for every p in sing_0, K- = J- minus {p}. K is taken in the open set top, so it is K_M. The statement is the one SFABTZ.K_calcul has, which T-ett-sfa-btz-e0 AUDIT-1 found faithful under the readings. That earlier row was partial only because of OQ-16/18/82/34/35. Each of these is now RULED in registers/DECISIONS.md, and each DEC covers the reading used here. DEC-168 keeps causal plainness and asks for it to be proved for the models. Plainness is proved here (SFALocal.causallyPlain), and (a) and (b) follow the printed route through prop:tarentin_fort_K (Kminus_eq_Iminus_of_mem_Zminus, Kplus_eq_Iplus_of_mem_Zplus), not push-up. DEC-167 gives absolute minimality, which hmin carries. DEC-152 fixes Flat.isom 2 = SO0(1,2) semidirect R^3. DEC-150 and DEC-151 fix E_0. DEC-25 fixes the atlas. On the hypothesis: under DEC-167 the paper's E_{>=0}-manifold carries its natural causality, and that causality satisfies hmin and hC (IsAtlasCausalityDEC25.isoChartsCover with MassACovered, Causal/Remarks/MassADEC25.lean:143). It is also the unique such causality (massA_causalite_models). So quantifying over every absolutely minimal C with an isomorphic chart at each point onto E_0 or E_kappa (kappa > 0) is at least the paper's hypothesis. Hausdorff and second countability are dropped, a weakening. Nothing is added. The hypotheses are satisfied at E_0, which has a BTZ point (K_calcul_nonvacuous). The mark at KCalcul.lean:9, inside the first 4000 characters, is justified. The REPORT's new finding was checked against ETT.tex:294-295: rem:pas_plat (ii) presents the BTZ point as a plainness failure. That is wrong, because J^-(p) is a half-line with empty interior in the 3-manifold, so Int J^- is contained in the closure of I^- trivially, and SFALocal.causallyPlain proves plainness. The finding is true."
+    },
+    {
+      "label": "cor:K_lorentzien",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and partial, as disclosed. Causal.IsLipschitzLorentzian.K_lorentzien (Lorentzian.lean:129) gives K+ = I+ and K- = I- at every p of every T1 space whose causality is IsLipschitzLorentzian. The regularity is a reading, put to the author as a new question (the REPORT's questions[0] and [1]), so leaving the label unmarked is correct. The SCOPE also discloses that the causal-level notion is only argued, not formalized, to follow from a Lipschitz Lorentzian manifold. The notion is not tailored. LipschitzMetric n is a general field: g is a continuous bilinear form at each point, congruent to minkB (Sylvester, signature (1,n)), LocallyLipschitz as a map into operator norm, with a continuous T such that g(T,T) < 0. Causal paths follow Chrusciel-Grant: Lipschitz on R, mapping [a,b] into U, with derivative a.e. on (a,b) future causal (g(v,v) <= 0, g(v,T) <= 0). Timelike paths are C^1 with future timelike derivative. <=_U is ReflTransGen and <<_U is TransGen. Plainness is not built into the structure. It is a theorem, LipschitzMetric.pushUp then causallyPlain_of_locZ, and the kernel checks that proof. IsLipschitzLorentzian carries only absolute minimality (DEC-167) and charts that are ChartIso onto some LipschitzMetric's causality. It is non-vacuous well beyond Minkowski: isLipschitzLorentzian_causality makes every LipschitzMetric n, any locally Lipschitz Lorentzian field on R^{1+n}, a witness with the identity chart. minkowskiMetric is only the explicit instance. In the paper's proof, tarentin is weakened away, strongly tarentin both ways is proved (mem_Zplus, mem_Zminus), and causal plainness, which the printed proof omits, is proved. The finding at ETT.tex:889-891 is true: prop:tarentin_fort_K (l.851) assumes plainness and the corollary's proof never checks it."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "I ran `taskset -c 0-11 lake env lean` on LorentzForm, LipschitzModel, LipschitzPushUp, Lorentzian, KCalcul and the umbrella PlainnessModels.lean, in import order. All six produced no output: no errors or warnings. The oleans are newer than their sources. `sorry` appears in the files only as prose ('no `sorry`'), never as a term. There is no axiom, admit, native_decide or extern. A #print axioms probe (written in the campaign directory and deleted) covered K_calcul, K_calcul_nonvacuous, models_causallyPlain, IsLipschitzLorentzian.{K_lorentzien, causallyPlain, pushUp, mem_Zplus, mem_Zminus}, LipschitzMetric.{causality, pushUp, causallyPlain, absolutelyMinimal}, isLipschitzLorentzian_causality and minkowskiMetric_K_lorentzien. Every one depends only on propext, Classical.choice and Quot.sound. Scope: in lean-causal and lean, git status shows only the dispatched new files, the campaign directory and the one import line in scaffold/CausalScaffold.lean. The other dirty paths in the tree (lean-gx, lean-yamabe, papers/*/certificate restatements, roadmap, atlas) belong to concurrent targets and loops."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/PlainnessModels.lean:12",
+      "what": "The umbrella module docstring writes **`prop:K_calcul`** in mark form inside its first 4000 characters. The ledger (tools/ledger.py lean_index) will therefore read the umbrella as a file certifying the label. But the umbrella has none of kb 0006's contract: no quoted paper sentence, no hypothesis checklist, no SCOPE block. It is the only umbrella in CausalScaffold/ that marks a label.",
+      "fix": "In the umbrella, write `prop:K_calcul` without the bold, so that KCalcul.lean alone carries the mark. Alternatively, give the umbrella a checklist and a SCOPE."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/PlainnessModels/Lorentzian.lean:115,121,127",
+      "what": "Declaration docstrings write **`rem:lorentz_tarentin`** (twice) and **`cor:K_lorentzien`** in mark form, although both labels are unmarked and in a reading. They sit beyond the 4000-character head, so the ledger does not read them, and the module docstring says 'unmarked'. A human reader still sees mark syntax on partial labels. rem:lorentz_tarentin was not dispatched either.",
+      "fix": "Write `cor:K_lorentzien` and `rem:lorentz_tarentin` without the bold in the three declaration docstrings, for example 'cor:K_lorentzien in the Lipschitz reading'."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/ett/certificate/curation.toml:568-576 (prop:K_calcul), 1282-1289 (cor:K_lorentzien)",
+      "what": "This is not the closer's defect (curation was outside its files). For the mark to take effect, the prop:K_calcul row still needs work. It has lean_proved_override = 'partial', bucket D, a blocked_on that lists OQ-16/18/82/34/35 as if open, and paper_findings[0] that still proposes the push-up repair. Its decls lack Causal.PlainnessModels.K_calcul and its extra files lack scaffold/CausalScaffold/PlainnessModels/KCalcul.lean. The cor:K_lorentzien row's blocked_on says 'Lorentzian manifolds are not in the library'. That no longer holds: the remaining blocker is the author's acceptance of the Lipschitz reading, a new question because OQ-28 itself is RULED by DEC-168.",
+      "fix": "At graduation: point prop:K_calcul at PlainnessModels.K_calcul and KCalcul.lean, drop the override and the blocked_on, reword finding [0] as 'plainness is never proved in the paper; it holds (SFALocal.causallyPlain); cite a lemma at l.1565', and add the rem:pas_plat (ii) finding. Open a new OQ row for the REPORT's two cor:K_lorentzien questions, and re-point that row's blocked_on to it."
+    }
+  ]
+}

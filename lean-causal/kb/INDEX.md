@@ -292,3 +292,7 @@ rediscover. One fact per entry.
 | [0284](entries/0284-pitfall.md) | pitfall | Pitfall: |
 | [0285](entries/0285-the-hereditary-gluing-field-is-the-per-o.md) | pattern | The hereditary gluing field is the per-open-set gluing axiom |
 | [0286](entries/0286-what-dec-167-gluing-changes-in-the-ett-r.md) | pattern | What DEC-167 gluing changes in the ETT rows |
+| [0287](entries/0287-lipschitz-lorentzian-metrics-causal-lips.md) | pattern | Lipschitz Lorentzian metrics: Causal.LipschitzMetric |
+| [0288](entries/0288-the-shift-lemma-for-push-up-in-a-lipschi.md) | pattern | The shift lemma for push-up in a Lipschitz metric |
+| [0289](entries/0289-prop-k-calcul-goes-through-plainness-eve.md) | pattern | prop:K_calcul goes through plainness, every blocker ruled |
+| [0290](entries/0290-a-curve-causality-as-refltransgen-of-sin.md) | pattern | A curve causality as ReflTransGen of single paths |
