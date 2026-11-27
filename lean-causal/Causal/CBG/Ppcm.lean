@@ -1,5 +1,6 @@
 import Causal.CBG.NoCorresponding
 import Causal.CBG.CausalConvex
+import Causal.CauchySeparation
 
 /-!
 # Two developments embed in a common one: the gluing along the MCGHD (Sbierski Thm 2.7)
@@ -38,7 +39,9 @@ Cited, unmarked: `prop:ppcm_Cauchy` — `ETT.tex:1994`, `defi:ppcm` — `ETT.tex
 
 * **Model-free** (namespace `Causal.Causality`): `exists_mem_cauchy_between` (a relation from
   `J⁻(S)` to `J⁺(S)` crosses the Cauchy surface `S`), `isClosed_Jminus_of_dense`,
-  `Jplus_inter_Jminus_eq`; `CauchySide` (the facts of a GH piece the argument consumes);
+  `Jplus_inter_Jminus_eq` (citing `IsAcausal.Jplus_inter_Jminus`, `Causal.CauchySeparation`,
+  ETT-layer; T-abs-merge-stranded-duplicates); `CauchySide` (the facts of a GH piece the
+  argument consumes);
   **`TwoPiece`** — a spacetime covered by two open pieces with causally convex overlap and
   agreeing relations, absolutely minimal: `le_top_iff` (`≤_P` is a one- or two-step chain),
   `le_of_le_top`, `mem_of_le_top` (**each piece is causally convex in `P`: the exit/re-entry
@@ -180,14 +183,11 @@ theorem isClosed_Jminus_of_dense [T2Space M] [FirstCountableTopology M] {S : Set
   exact ((hcpt x).isClosed.closure_subset hz').1
 
 /-- In a causal `M`, an acausal set `S` is `J⁺(S) ∩ J⁻(S)` (no covering of `M` by the two sides
-of `S` is assumed). -/
+of `S` is assumed). The twin of `IsAcausal.Jplus_inter_Jminus` (`Causal.CauchySeparation`,
+ETT-layer), which it cites (T-abs-merge-stranded-duplicates; both names are cited, kb/0256). -/
 theorem Jplus_inter_Jminus_eq (hcaus : C.IsCausal) {S : Set M} (hac : C.IsAcausal S) :
-    C.Jplus ⊤ S ∩ C.Jminus ⊤ S = S := by
-  refine Subset.antisymm ?_ fun x hx => ⟨⟨x, hx, C.le_refl trivial⟩, ⟨x, hx, C.le_refl trivial⟩⟩
-  rintro x ⟨⟨σ, hσ, hσx⟩, ⟨σ', hσ', hxσ'⟩⟩
-  have e : σ = σ' := hac σ hσ σ' hσ' (C.le_trans hσx hxσ')
-  subst e
-  rw [hcaus hxσ' hσx]; exact hσ
+    C.Jplus ⊤ S ∩ C.Jminus ⊤ S = S :=
+  hac.Jplus_inter_Jminus hcaus
 
 end Crossing
 

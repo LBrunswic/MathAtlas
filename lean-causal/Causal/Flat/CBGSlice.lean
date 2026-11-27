@@ -144,15 +144,13 @@ variable {y ε}
 theorem mem_sliceDiamond {r : Minkowski d} :
     r ∈ sliceDiamond y ε ↔ ‖r.2 - y.2‖ < r.1 - (y.1 - ε) ∧ ‖r.2 - y.2‖ < y.1 + ε - r.1 := Iff.rfl
 
-/-- A Cauchy surface of `W` may be changed outside `W`. -/
+/-- A Cauchy surface of `W` may be changed outside `W`: the pointwise form of
+`Causality.IsCauchySurfaceOn.of_inter_eq` (`Causal.Cauchy`), which it cites
+(T-abs-merge-stranded-duplicates; before, the same proof was repeated here). -/
 theorem isCauchySurfaceOn_congr' {M : Type*} [TopologicalSpace M] {C : Causality M}
     {W : Opens M} {S S' : Set M} (h : C.IsCauchySurfaceOn W S) (hS : ∀ x ∈ W, x ∈ S ↔ x ∈ S') :
-    C.IsCauchySurfaceOn W S' := by
-  intro I c hc
-  obtain ⟨x, ⟨hxI, hxS⟩, hu⟩ := h I c hc
-  have hW : ∀ y ∈ c '' I, y ∈ W := by rintro _ ⟨t, ht, rfl⟩; exact hc.1.mem ht
-  exact ⟨x, ⟨hxI, (hS x (hW x hxI)).1 hxS⟩,
-    fun y ⟨hyI, hyS⟩ => hu y ⟨hyI, (hS y (hW y hyI)).2 hyS⟩⟩
+    C.IsCauchySurfaceOn W S' :=
+  h.of_inter_eq (Set.ext fun _ => and_congr_left fun hx => (hS _ hx).symm)
 
 /-- **The equatorial slice `t = c` is a Cauchy surface of the diamond centred at time `c`**
 (`isCauchySurfaceOn_graph_of_saturated`, `Flat/LipschitzGraph`, for the constant graph). -/

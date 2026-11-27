@@ -17,7 +17,8 @@ no model; no metric notion in a statement). Source: Eperon–Reall–Sbierski, a
   `maxDevelopmentIn_eq_of_isCauchySurfaceOn_secondCountable` and
   `isDevelopmentIn_maxDevelopmentIn_of_isCauchySurfaceOn_secondCountable`; the patches are
   `IsCauchyLocalDevelopment` (`IsLocalDevelopment` less `acausal` and `split`), supplied through
-  `IsCauchySurfaceOn.of_inter_eq` (ERS's `S_p` to `S`, no acausality).
+  `IsCauchySurfaceOn.of_inter_eq` (ERS's `S_p` to `S`, no acausality; in `Causal.Cauchy` since
+  T-abs-merge-stranded-duplicates, same full name).
 * `ersprop:PropLocUniqueness` — `ghd_02_19.tex:836` (proof 840–844):
   `ers_prop_4_63_of_isCauchySurfaceOn_secondCountable`, through
   `isDevelopmentIn_localDevelopmentUnion_of_isCauchySurfaceOn_secondCountable`.
@@ -110,24 +111,6 @@ namespace Causality
 variable {C : Causality M} {S : Set M}
 
 /-! ## 1. A local development read "`S` Cauchy" -/
-
-/-- **A Cauchy surface may be changed outside the open set**: if `S'` is a Cauchy surface of `W`
-and `S ∩ W = S' ∩ W`, then `S` is one. No acausality: an inextensible curve of `W` stays in `W`.
-ERS Thm 4.75's `S_p` (Cauchy in `DS_p`) and `S`, when `S ∩ DS_p = S_p` (the integral curves of
-`N`); the original's supplier route (`IsCauchySurfaceOn.of_subset_of_isAcausalOn`) needs `S`
-acausal in `DS_p`. -/
-theorem IsCauchySurfaceOn.of_inter_eq {W : Opens M} {S' : Set M}
-    (h : C.IsCauchySurfaceOn W S') (hS : S ∩ W = S' ∩ W) : C.IsCauchySurfaceOn W S := by
-  intro I c hc
-  obtain ⟨x, ⟨hxI, hxS⟩, hu⟩ := h I c hc
-  have hW : ∀ y ∈ c '' I, y ∈ (W : Set M) := by
-    rintro _ ⟨t, ht, rfl⟩
-    exact hc.1.mem ht
-  have key : ∀ y ∈ c '' I, y ∈ S ↔ y ∈ S' := fun y hy => by
-    have := Set.ext_iff.1 hS y
-    simp only [mem_inter_iff] at this
-    exact ⟨fun hyS => (this.1 ⟨hyS, hW y hy⟩).1, fun hyS' => (this.2 ⟨hyS', hW y hy⟩).1⟩
-  exact ⟨x, ⟨hxI, (key x hxI).2 hxS⟩, fun y ⟨hyI, hyS⟩ => hu y ⟨hyI, (key y hyI).1 hyS⟩⟩
 
 variable (C) in
 /-- **A local development, read "`S` Cauchy"** (ERS Thm 4.75: `u_p : DS_p → ℝ`, a GHD of the data

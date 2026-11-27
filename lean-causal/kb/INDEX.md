@@ -253,7 +253,7 @@ rediscover. One fact per entry.
 | [0245](entries/0245-cauchy-inf.md) | pattern | A Cauchy surface Cauchy in A and in B is Cauchy in A ∩ B |
 | [0246](entries/0246-lemma-k-ett-layer.md) | pattern | The Lemma K family is ETT-layer; its model corollaries are in Causal.Model.LemmaKModels |
 | [0247](entries/0247-model-path-shortest.md) | pitfall | model_path shows one shortest chain: check each direct import before a hoist |
-| [0248](entries/0248-model-stranded-duplicates.md) | pattern | Two ETT-layer re-proofs can now cite their originals |
+| [0248](entries/0248-model-stranded-duplicates.md) | pattern | Two ETT-layer re-proofs now cite their originals (merged, T-abs-merge-stranded-duplicates) |
 | [0249](entries/0249-one-sided-future-base.md) | convention | The one-sided chronal and endpoint notions have the future as base |
 | [0250](entries/0250-rw-chronal-neighbours.md) | pitfall | rw [ChronalNeighbours, foo_iff (C := C.dual)] no longer finds the future side |
 | [0251](entries/0251-definition-body-refactor-check.md) | pattern | Checking a definition-body refactor that keeps every statement |
@@ -261,7 +261,7 @@ rediscover. One fact per entry.
 | [0253](entries/0253-cauchy-separation.md) | pattern | lem:Sigma_separe's model-free steps are in Causal.CauchySeparation |
 | [0254](entries/0254-hoist-check-ledger-files.md) | pitfall | Before a hoist, check the ledger rows listing the moved declarations' file |
 | [0255](entries/0255-hoist-universe-variable.md) | pitfall | A hoisted declaration under variable {M : Type*} must keep its universe parameter |
-| [0256](entries/0256-cited-twins.md) | convention | Twins under different names, kept because both are cited |
+| [0256](entries/0256-cited-twins.md) | convention | Twins under different names, kept because both are cited (Jplus_inter_Jminus_eq now cites its twin) |
 | [0257](entries/0257-sc-open-without-tarentin.md) | pattern | Strong causality gives its open form under causal openness, without tarentin |
 | [0258](entries/0258-isolated-line-strongly-causal.md) | pattern | The isolated line is strongly causal: a cheap non-tarentin witness |
 | [0259](entries/0259-curve-binder-scan.md) | pitfall | A grep for CurvesExtend binders misses inline curve hypotheses |

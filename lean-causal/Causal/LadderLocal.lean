@@ -25,9 +25,9 @@ dual and its global ⇒ local lemma, and each witness is restated with it as pre
   (the same, DEC-8 reading).
 * **`T-abs-ladder-local-defs/chronal-neighbours`** — `ChronalFutureNeighbours` (the base),
   `ChronalPastNeighbours` (its `C.dual`), `ChronalNeighbours`;
-  `PushUp.causallyOpen_of_chronalNeighbours`, a re-proof of
-  `Causal.Causality.causallyOpen_of_pushUp` (`Causal.LemmaK`, ETT-layer since T-abs-hoist-lemma-k; the re-proof
-  predates it).
+  `PushUp.causallyOpen_of_chronalNeighbours`, the one proof of
+  `Causal.Causality.causallyOpen_of_pushUp` (`Causal.LemmaK`), which cites it since
+  T-abs-merge-stranded-duplicates.
 * **`T-abs-ladder-local-defs/no-causal-endpoint`** — `NoFutureEndpoint` (the base),
   `NoPastEndpoint` (its `C.dual`), `NoCausalEndpoint` (`J^±(x) ≠ {x}`, `theo:geroch`,
   `ETT.tex:1259`);
@@ -109,9 +109,13 @@ the named property, which is that hypothesis (definitionally, or up to `choose` 
   T-abs-hoist-time-function, which moved `Causal.Causality.HasTimeFunction` there out of the
   model-importing `Causal.CBG.Pgcd`.
 * **Not restated: the witnesses of the model-importing `Causal.ChainsCurves`** —
-  `Inextensible.not_forall_le_of_causallyCompact`, whose `hJm`, `hJp` are `NoCausalEndpoint`. Lemma K
-  (`Causal.LemmaK`) is ETT-layer since T-abs-hoist-lemma-k; `causallyOpen_of_pushUp` was re-proved
-  here before that (four lines, the same proof), a duplicate that can now cite the original.
+  `Inextensible.not_forall_le_of_causallyCompact`, whose `hJm`, `hJp` are `NoCausalEndpoint`.
+* **`causallyOpen_of_pushUp` is proved here, once.** It was re-proved here while Lemma K
+  (`Causal.LemmaK`) was model-stranded; since T-abs-merge-stranded-duplicates the leaf
+  `Causal.LemmaK` imports this module and its `causallyOpen_of_pushUp` and
+  `causallyOpenFuture_of_pushUp` cite `PushUp.causallyOpen_of_chronalNeighbours` and
+  `PushUp.causallyOpenFuture_of_chronalPastNeighbours` (both names kept; this module, upstream
+  of the ladder's rules, gains no import).
 * **Non-vacuity and separations**: the timelike line has every new property
   (`timelikeLine_locallyPushUp`, `timelikeLine_chronalNeighbours`,
   `timelikeLine_locallyCausallyOpen`, `timelikeLine_noCausalEndpoint`) and the restated witnesses
@@ -389,9 +393,9 @@ theorem AbsolutelyMinimal.chronalFutureNeighbours_iff [T1Space M] (h : C.Absolut
   AbsolutelyMinimal.chronalPastNeighbours_iff (C := C.dual) (dual_absolutelyMinimal.2 h)
 
 /-- **Causal openness in the future from push-up and chronal past neighbours** (`push_up ∧
-chronal_past_neighbours ⇒ causally_open_future`). The proof of `causallyOpenFuture_of_pushUp`
-(`Causal.LemmaK`, ETT-layer since T-abs-hoist-lemma-k): `J^+_U(V)` contains `I^+_U(p)`, an open neighbourhood of
-each of its points `x`, where `p ≪_V v ≤_U x`. -/
+chronal_past_neighbours ⇒ causally_open_future`): `J^+_U(V)` contains `I^+_U(p)`, an open
+neighbourhood of each of its points `x`, where `p ≪_V v ≤_U x`. The one proof:
+`causallyOpenFuture_of_pushUp` (`Causal.LemmaK`) cites it (T-abs-merge-stranded-duplicates). -/
 theorem PushUp.causallyOpenFuture_of_chronalPastNeighbours (h : C.PushUp)
     (hN : C.ChronalPastNeighbours) : C.CausallyOpenFuture := by
   intro U V hVU
@@ -402,8 +406,8 @@ theorem PushUp.causallyOpenFuture_of_chronalPastNeighbours (h : C.PushUp)
     (h.lt_of_lt_of_le (C.lt_mono hVU hpv) hvx)) fun w hw => ⟨p, hpV, C.le_of_lt hw⟩
 
 /-- **Causal openness from push-up, the side condition named** (`push_up ∧ chronal_neighbours ⇒
-causally_open`). Re-proof of `causallyOpen_of_pushUp` (`Causal.LemmaK`, not importable in layer 1)
-with `ChronalNeighbours` for `hZm`, `hZp`. -/
+causally_open`). The one proof: `causallyOpen_of_pushUp` (`Causal.LemmaK`), with `hZm`, `hZp`
+for `ChronalNeighbours`, cites it (T-abs-merge-stranded-duplicates). -/
 theorem PushUp.causallyOpen_of_chronalNeighbours (h : C.PushUp) (hN : C.ChronalNeighbours) :
     C.CausallyOpen :=
   ⟨PushUp.causallyOpenFuture_of_chronalPastNeighbours h hN.1,

@@ -101,7 +101,8 @@ rows stay partial until the singular instance discharges the model »). Cited, u
   and `flat_cbg_ett`, `flat_cbg_ett_flatSpacetime` (sorry-free): an ETT-maximal development exists and is unique up to unique isomorphism —
   the « unique up to isomorphism » half of `theo:CBG`, from `Dev.IsUniversal.existsUnique_iso`.
 * General: `exists_smul_eqOn_of_eventually` (rigid actions), `eventually_smul_of_mem_gxGroupoid`,
-  `isomChart_mem_gxGroupoid`, `isCauchySurfaceOn_congr`, the Minkowski diamonds `mdiamond`
+  `isomChart_mem_gxGroupoid`, `isCauchySurfaceOn_congr` (citing `Causal.Cauchy`'s
+  `IsCauchySurfaceOn.of_inter_eq`), the Minkowski diamonds `mdiamond`
   (causally convex, GH, sliced by `t = c` into Cauchy surfaces).
 
 ## Hypothesis checklist
@@ -520,15 +521,13 @@ theorem flat_isCompact_Jminus_inter_Jplus : FlatCompactJminusJplus d := by
 
 section Slices
 
-/-- A Cauchy surface of `W` may be changed outside `W`. -/
+/-- A Cauchy surface of `W` may be changed outside `W`: the pointwise form of
+`Causality.IsCauchySurfaceOn.of_inter_eq` (`Causal.Cauchy`), which it cites
+(T-abs-merge-stranded-duplicates; before, the same proof was repeated here). -/
 theorem isCauchySurfaceOn_congr {M : Type*} [TopologicalSpace M] {C : Causality M} {W : Opens M}
     {S S' : Set M} (h : C.IsCauchySurfaceOn W S) (hS : ∀ x ∈ W, x ∈ S ↔ x ∈ S') :
-    C.IsCauchySurfaceOn W S' := by
-  intro I c hc
-  obtain ⟨x, ⟨hxI, hxS⟩, hu⟩ := h I c hc
-  have hW : ∀ y ∈ c '' I, y ∈ W := by rintro _ ⟨t, ht, rfl⟩; exact hc.1.mem ht
-  exact ⟨x, ⟨hxI, (hS x (hW x hxI)).1 hxS⟩,
-    fun y ⟨hyI, hyS⟩ => hu y ⟨hyI, (hS y (hW y hyI)).2 hyS⟩⟩
+    C.IsCauchySurfaceOn W S' :=
+  h.of_inter_eq (Set.ext fun _ => and_congr_left fun hx => (hS _ hx).symm)
 
 variable (y : Minkowski d) (ε : ℝ)
 

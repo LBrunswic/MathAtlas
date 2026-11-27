@@ -1,0 +1,151 @@
+{
+ "target": "T-abs-merge-stranded-duplicates",
+ "package": "lean-causal",
+ "files": [
+  "Causal/Cauchy.lean",
+  "Causal/Ers475CauchyForm.lean",
+  "Causal/Flat/CBG.lean",
+  "Causal/Flat/CBGSlice.lean",
+  "Causal/LadderLocal.lean",
+  "Causal/LemmaK.lean",
+  "Causal/CBG/Ppcm.lean",
+  "Causal/CauchySeparation.lean",
+  "README.md",
+  "kb/entries/0248-model-stranded-duplicates.md",
+  "kb/entries/0256-cited-twins.md",
+  "kb/entries/0061-stranded-model-free-lemmas.md",
+  "campaign/T-abs-merge-stranded-duplicates/REPORT.json",
+  "campaign/T-abs-merge-stranded-duplicates/Probe.lean",
+  "campaign/T-abs-merge-stranded-duplicates/axioms.txt",
+  "campaign/T-abs-merge-stranded-duplicates/scratch/"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [],
+ "merges": [
+  {
+   "pair": "push-up, two-sided (kb/0248)",
+   "cites": "Causal.Causality.causallyOpen_of_pushUp -> Causal.Causality.PushUp.causallyOpen_of_chronalNeighbours",
+   "citing": "Causal/LemmaK.lean:98 -> :102, proof now `hpush.causallyOpen_of_chronalNeighbours ⟨hZm, hZp⟩`",
+   "cited": "Causal/LadderLocal.lean:407 -> :411, proof unchanged (docstring only)",
+   "import_added": "Causal.LemmaK imports Causal.LadderLocal"
+  },
+  {
+   "pair": "push-up, one-sided (the same pair's future half, the same four-line proof twice)",
+   "cites": "Causal.Causality.causallyOpenFuture_of_pushUp -> Causal.Causality.PushUp.causallyOpenFuture_of_chronalPastNeighbours",
+   "citing": "Causal/LemmaK.lean:87 -> :94, proof now `hpush.causallyOpenFuture_of_chronalPastNeighbours hZ`",
+   "cited": "Causal/LadderLocal.lean:395 -> :399, proof unchanged",
+   "import_added": "(the same)"
+  },
+  {
+   "pair": "kb/0256 first pair",
+   "cites": "Causal.Causality.Jplus_inter_Jminus_eq -> Causal.Causality.IsAcausal.Jplus_inter_Jminus",
+   "citing": "Causal/CBG/Ppcm.lean:184 -> :188, proof now `hac.Jplus_inter_Jminus hcaus`",
+   "cited": "Causal/CauchySeparation.lean:112 -> :113, proof unchanged (module docstring only)",
+   "import_added": "Causal.CBG.Ppcm imports Causal.CauchySeparation"
+  },
+  {
+   "pair": "Cauchy-surface congruence (kb/0061), the one proof",
+   "moved": "Causal.Causality.IsCauchySurfaceOn.of_inter_eq: Causal/Ers475CauchyForm.lean:119 -> Causal/Cauchy.lean:126, verbatim, same full name, same type and value hash (module only); the pointwise form was not added (no new name)",
+   "import_added": "none (Causal.Ers475CauchyForm, Causal.Flat.CBG and Causal.Flat.CBGSlice already reach Causal.Cauchy)"
+  },
+  {
+   "pair": "Cauchy-surface congruence, first twin",
+   "cites": "Causal.CBG.isCauchySurfaceOn_congr -> Causal.Causality.IsCauchySurfaceOn.of_inter_eq",
+   "citing": "Causal/Flat/CBG.lean:524 -> :527, proof now `h.of_inter_eq (Set.ext fun _ => and_congr_left fun hx => (hS _ hx).symm)`"
+  },
+  {
+   "pair": "Cauchy-surface congruence, second twin",
+   "cites": "Causal.CBG.isCauchySurfaceOn_congr' -> Causal.Causality.IsCauchySurfaceOn.of_inter_eq",
+   "citing": "Causal/Flat/CBGSlice.lean:148 -> :150, the same one-line proof (the two twins' value hashes are now equal, 2539726639)"
+  }
+ ],
+ "declined": [
+  "None for a cycle or a layer: both new imports are acyclic and add no model to an ETT-layer module.",
+  "Not attempted, as the dispatch says: kb/0256's second pair (CExtConnexeCauchy.SubArc vs Remarks/SingularRowsCauchyExt, kb/0244); Ladder.Dual's curvesExtend_dual_iff; the ChartIso twin Causal.Flat.curveOn_chart_symm (T-abs-hoist-stranded-homes); Causal.ErsSCWitness.tarentinOn (already cites Causal.timelikeLine_tarentinOn)."
+ ],
+ "dump": {
+  "method": "kb/0063: scratch/Dump.lean (reused from T-abs-dependence-domain-home) on `import Causal; import CausalScaffold`, before (package up to date by `lake build --no-build`, lean-causal tree clean) and after; scratch/dump_cmp.py; result in scratch/dump_result.txt, the touched rows in scratch/dump_rows.txt",
+  "constants": "18166 -> 18164",
+  "added": [],
+  "removed": [
+   "Causal.CBG.isCauchySurfaceOn_congr.match_1_1",
+   "Causal.CBG.isCauchySurfaceOn_congr'.match_1_1"
+  ],
+  "removed_note": "internal matchers of the two old pattern-matching proofs; no declared name is removed",
+  "moved_module_only": [
+   "Causal.Causality.IsCauchySurfaceOn.of_inter_eq",
+   "Causal.Causality.IsCauchySurfaceOn.of_inter_eq._simp_1_1",
+   "Causal.Causality.IsCauchySurfaceOn.of_inter_eq.match_1_2"
+  ],
+  "moved_from_to": "Causal.Ers475CauchyForm -> Causal.Cauchy",
+  "value_hash_changed": [
+   "Causal.CBG.isCauchySurfaceOn_congr",
+   "Causal.CBG.isCauchySurfaceOn_congr'",
+   "Causal.Causality.Jplus_inter_Jminus_eq",
+   "Causal.Causality.causallyOpenFuture_of_pushUp",
+   "Causal.Causality.causallyOpen_of_pushUp"
+  ],
+  "type_changes": 0,
+  "other_field_changes": 0,
+  "verdict": "no statement changes; only the five citing proofs change, and one constant (with its two auxiliaries) moves module"
+ },
+ "cycle_checks": {
+  "method": "tools/ladder.py lean_index() / import_chain / model_path in memory from the hub root (scratch/imports_probe.py), before the edit; then the edges simulated in the graph",
+  "Causal.LemmaK -> Causal.LadderLocal": "no cycle (LadderLocal does not reach LemmaK; LemmaK has no downstream module); neither reaches a model; neither reaches Causal.Ladder.Rules; LemmaK is not in Rules' closure (LadderLocal is, unchanged)",
+  "Causal.CBG.Ppcm -> Causal.CauchySeparation": "no cycle; CauchySeparation reaches no model and not Rules; neither module is in Rules' closure",
+  "simulated graph": "acyclic; Causal.Ladder.Rules' import closure 49 -> 49 modules, none new, so kb/0221's constraint holds (the only causal_ladder mentions in that closure are docstrings of Causal.ChronalTarentin and Causal.CurvesExtend, pre-existing)",
+  "layer rule": "model_path is None for Causal.Cauchy, Causal.LadderLocal, Causal.LemmaK, Causal.CauchySeparation after the edit",
+  "lake": "the full rebuild of Causal (Rules, Test, DualTest included) succeeded, which Lake refuses on an import cycle"
+ },
+ "build_commands": [
+  {
+   "cmd": "taskset -c 0-11 lake build --no-build Causal CausalScaffold (before)",
+   "result": "All targets up-to-date (8919 jobs)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake env lean Causal/Cauchy.lean; Causal/LemmaK.lean; Causal/CBG/Ppcm.lean",
+   "result": "no output"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal",
+   "result": "Build completed successfully (8908 jobs), 296 modules rebuilt, 0 warnings, 5:41 wall; log scratch/build_causal.log"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build CausalScaffold",
+   "result": "Build completed successfully (8778 jobs), 10 scaffold modules rebuilt; the 7 warnings are the scaffold's pre-existing tagged sorries (CompactCauchy:79, GerochCauchy:783, GerochEquiv:757, :809, LemmaKSCOpen:72, SingularRowsGerochEquiv:50, SubExtension:83); no new warning; log scratch/build_scaffold.log"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake env lean campaign/T-abs-merge-stranded-duplicates/Probe.lean",
+   "result": "every full name resolves; each touched constant depends on [propext, Classical.choice, Quot.sound] only (axioms.txt)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal; taskset -c 0-11 lake build CausalScaffold (again, after a docstring reflow in Causal/CBG/Ppcm.lean)",
+   "result": "both green: 8908 jobs (12 modules rebuilt, 0 warnings) and 8778 jobs (only the pre-existing sorry warnings); the after dump redone is byte-identical to the first (scratch/dump_result.txt)"
+  }
+ ],
+ "hub_checks": {
+  "python3 tools/ladder.py check": "pass (26 properties, 27 implications, 83 counterexamples, 100 consequences; 392 of 392 pairs classified)",
+  "python3 tools/binder.py check": "pass (3 binders, all links resolve)",
+  "python3 tools/ledger.py -c papers/<p>/ledger/ledger.toml check": "pass for ett (137 statements), barbot (44), ers-predictability (32), sbierski-mghd (19), sbierski-schwarzschild (30): all links resolve",
+  "ledger drift": "ledger.build(write=False) for the five papers equals each ledger.json on disk: no row and no field differ (scratch/ledger_drift.py)"
+ },
+ "lean_gx": {
+  "pin": "lean-gx requires Causal at ca2ad78 (git), so nothing in lean-gx changes until the pin is bumped. Its uses of Causal.Causality.Jplus_inter_Jminus_eq (GX/BTZ/Spear.lean:3748, :3787; scaffold BTZ/BluntSpear.lean:426, :485, :518) keep the same name and type.",
+  "at_a_bump": "21 lean-gx modules (through GX.BTZ.LocalModel and GX.BTZ.CBG, which reach Causal.CBG.Ppcm) gain 9 Causal modules (AbstractDev, CauchySeparation, ChronalNeighbourBridge, CurvesExtendSecondCountable, DependenceDomain, LadderLocal, LocateExtension, NestedCausalities, OmegaOneConstant; 357 declarations). No full-name clash with a lean-gx declaration (scratch/gx_clash_probe.py). A textual scan (scratch/gx_ambiguity_scan.py) finds no token that would newly resolve through an enclosing namespace or become ambiguous through an `open`. It flags only field-notation tokens (.mono, .trans, .refl, .isCausal, .mem_Zplus, ...) that share a name with a new declaration in a type namespace; most of those types are themselves new, so the risk is low. Only building lean-gx at the bump settles it."
+ },
+ "extra_decls": [],
+ "findings": [],
+ "questions": [
+  "Home of the congruence: the dispatch allowed moving of_inter_eq to Causal.Cauchy or adding the pointwise form beside it. I moved of_inter_eq verbatim (same full name, same value hash) and added no new name; the two CBG pointwise names cite it through a one-line Set.ext conversion. If a pointwise lemma under Causal.Causality is wanted as well, it would be a third name for the same fact.",
+  "Scope of the push-up merge: the target names the two-sided pair. I also merged the one-sided pair (LemmaK's causallyOpenFuture_of_pushUp now cites LadderLocal's PushUp.causallyOpenFuture_of_chronalPastNeighbours), because it is the same four-line proof twice and the two-sided theorems are built from it. Both names stay."
+ ],
+ "kb_proposals": [
+  "kb/INDEX.md's one-line entries for 0248, 0256 and 0061 may want 'merged' (T-abs-merge-stranded-duplicates); the entries themselves now say so.",
+  "programme/ladder.toml has stale line numbers in comments: :3388 'IsCauchySurfaceOn.of_inter_eq, :119' (now Causal/Cauchy.lean:126); :3694 'Causal/CauchySeparation.lean:112' (now :113); :3696 'Causal/CBG/Ppcm.lean:184' (now :188); and Ers475CauchyForm references shifted by -17: :3173 (:198 -> :181), :3375 (:318 -> :301), :3385 (:263 -> :246), :3386 (:233 -> :216), :3390 (:286 -> :269). These are for the ladder keeper; this target may not edit ladder.toml.",
+  "A one-line citation of a set-equation lemma from a pointwise form: `h.of_inter_eq (Set.ext fun _ => and_congr_left fun hx => (hS _ hx).symm)`.",
+  "Ppcm now imports Causal.CauchySeparation: a model-layer module can cite ETT-layer twins directly. Any further kb/0256-style twin in Causal.CBG.* can cite the same way, after an import_chain check."
+ ],
+ "notes": "Exclusive target, done under the master's lease. No git command that writes, no make check, no emit-lean. The in-memory ladder.emit_lean dry run (kb/0252) was not run: the permission system refused it twice, and the dispatch forbids emit-lean in any form. Rules.lean and Test.lean are untouched and rebuilt green. Rules' import closure is unchanged (49 modules). The two new imports, LemmaK -> LadderLocal and Ppcm -> CauchySeparation, are the only import changes. The /tmp/msd/orig backups and the full dumps /tmp/msd/{before,after}.txt (2.5 MB each) are outside the repository.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: kb/0266 and the kb INDEX lines of 0248, 0256 updated. Left, unchecked by any gate, for the keeper and the next tidy: programme/ladder.toml line references (LadderLocal +4 at :352, :362, :383, :1046, :2992, :3003; Ers475CauchyForm at :3173, :3375, :3379, :3382, :3385, :3386, :3388, :3390; CauchySeparation +1 at :3549, :3694, :3707, :3723; Ppcm at :3696; the 're-proof' prose at :1234–1236); Causal/ChronalNeighbourBridge.lean:11 (LadderLocal.lean:178 → 182), Causal/CurvesExtend.lean:515 (Cauchy.lean:83 → 86); papers/sbierski-schwarzschild/certificate/binder.toml:287 (Cauchy.lean:67–74 → 70–77)."
+}

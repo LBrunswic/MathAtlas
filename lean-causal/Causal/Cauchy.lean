@@ -43,7 +43,10 @@ curve; the literal "every causal curve" admits no Cauchy surface.
   (`#(c ∩ Σ)`); in a causal spacetime `c⁻¹(x)` is an interval, one dwell at one point.
 * A Cauchy surface is defined for the open subset `W` seen as a spacetime (`IsCauchySurfaceOn`),
   as `ETT.tex:2175` needs (`S` is a Cauchy surface of `Int D(S)`); the Cauchy time function only
-  for `M`, as a time function is.
+  for `M`, as a time function is. It depends on `S ∩ W` only (`IsCauchySurfaceOn.of_inter_eq`, no
+  paper label; moved here from `Causal.Ers475CauchyForm` by T-abs-merge-stranded-duplicates, so
+  that the model modules' twins `Causal.CBG.isCauchySurfaceOn_congr` and
+  `isCauchySurfaceOn_congr'` cite it instead of repeating its proof).
 * `Inextensible.reparam`: in a causally arc-connected causal spacetime with `J^±(p) ≠ {p}`, every
   inextensible curve is, after a strictly increasing reparametrisation, an inextensible curve
   over `ℝ`. This is what lets `def:cauchy_time_function` (curves over `ℝ`) speak of the curves of
@@ -112,6 +115,26 @@ theorem _root_.Causal.timelikeLine_not_isCauchySurfaceLiteral (S : Set ℝ) :
 
 theorem isCauchySurfaceOn_top {S : Set M} : C.IsCauchySurfaceOn ⊤ S ↔ C.IsCauchySurface S :=
   Iff.rfl
+
+/-- **A Cauchy surface may be changed outside the open set**: if `S'` is a Cauchy surface of `W`
+and `S ∩ W = S' ∩ W`, then `S` is one. No acausality: an inextensible curve of `W` stays in `W`.
+The one proof of the fact in the library (T-abs-merge-stranded-duplicates, moved here verbatim
+from `Causal.Ers475CauchyForm`, same full name): the pointwise forms
+`Causal.CBG.isCauchySurfaceOn_congr` (`Causal.Flat.CBG`) and `isCauchySurfaceOn_congr'`
+(`Causal.Flat.CBGSlice`) cite it. Used for ERS Thm 4.75's `S_p` (Cauchy in `DS_p`) and `S`, when
+`S ∩ DS_p = S_p ∩ DS_p` (`Causal.Ers475CauchyForm`). -/
+theorem IsCauchySurfaceOn.of_inter_eq {S : Set M} {W : Opens M} {S' : Set M}
+    (h : C.IsCauchySurfaceOn W S') (hS : S ∩ W = S' ∩ W) : C.IsCauchySurfaceOn W S := by
+  intro I c hc
+  obtain ⟨x, ⟨hxI, hxS⟩, hu⟩ := h I c hc
+  have hW : ∀ y ∈ c '' I, y ∈ (W : Set M) := by
+    rintro _ ⟨t, ht, rfl⟩
+    exact hc.1.mem ht
+  have key : ∀ y ∈ c '' I, y ∈ S ↔ y ∈ S' := fun y hy => by
+    have := Set.ext_iff.1 hS y
+    simp only [mem_inter_iff] at this
+    exact ⟨fun hyS => (this.1 ⟨hyS, hW y hy⟩).1, fun hyS' => (this.2 ⟨hyS', hW y hy⟩).1⟩
+  exact ⟨x, ⟨hxI, (key x hxI).2 hxS⟩, fun y ⟨hyI, hyS⟩ => hu y ⟨hyI, (key y hyI).1 hyS⟩⟩
 
 end Causality
 

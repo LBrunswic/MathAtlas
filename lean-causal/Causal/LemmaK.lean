@@ -1,4 +1,5 @@
 import Causal.LemmaKSCLocal
+import Causal.LadderLocal
 
 /-!
 # Lemma K in ETT's setting — a compact connected locally Cauchy set of a causally open, second countable globally hyperbolic spacetime is a Cauchy surface
@@ -45,7 +46,10 @@ the spacetime — and this module is **the lemma of record**:
 * `Causality.isCauchySurface_of_isLocallyCauchy_of_causallyOpen_of_curvesExtend`: the
   second-countability-free form, `CurvesExtend` assumed in its place.
 * `Causality.causallyOpen_of_pushUp`: push-up plus "every point of an open `V` has a
-  chronological past and future point in `V`, chronology taken in `V`" gives causal openness.
+  chronological past and future point in `V`, chronology taken in `V`" gives causal openness;
+  with `causallyOpenFuture_of_pushUp`, it cites `Causal.LadderLocal`'s
+  `PushUp.causallyOpen_of_chronalNeighbours` (and `…Future_of_chronalPastNeighbours`), whose
+  hypotheses are these definitionally (T-abs-merge-stranded-duplicates: one proof, both names).
 * Non-vacuity: `timelikeLine_causallyOpen`, and `timelikeLine_isCauchySurface_zero_of_causallyOpen`
   (every hypothesis of the main theorem, causal openness included, holds on the timelike line
   `ℝ` with `Σ = {0}`, and it applies).
@@ -63,8 +67,9 @@ the spacetime — and this module is **the lemma of record**:
   not owed (DEC-93).
 * **ETT layer** (T-abs-hoist-lemma-k, 2026-11-22): this module and its whole import closure
   (`Causal.LemmaKSCLocal`, `Causal.LemmaKLocal`, `Causal.LemmaKSC`, `Causal.LemmaKReduction`,
-  `Causal.LemmaKBare`, `Causal.LevinUtility`, `Causal.LevinTimeFunction`) import no model, so a
-  layer-1 module may import Lemma K and `causallyOpen_of_pushUp`. The model corollaries of the
+  `Causal.LemmaKBare`, `Causal.LevinUtility`, `Causal.LevinTimeFunction`, and, since
+  T-abs-merge-stranded-duplicates, `Causal.LadderLocal`) import no model, so a layer-1 module may
+  import Lemma K and `causallyOpen_of_pushUp`. The model corollaries of the
   family are in `Causal.Model.LemmaKModels`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
@@ -83,23 +88,21 @@ namespace Causality
 variable {C : Causality M}
 
 /-- Push-up, and a chronological past point inside every open `V` (chronology in `V`), give
-causal openness in the future. -/
+causal openness in the future. `PushUp.causallyOpenFuture_of_chronalPastNeighbours`
+(`Causal.LadderLocal`), whose hypothesis `ChronalPastNeighbours` is `hZ` definitionally
+(`chronalPastNeighbours_def`); cited, not re-proved (T-abs-merge-stranded-duplicates). -/
 theorem causallyOpenFuture_of_pushUp (hpush : C.PushUp)
-    (hZ : ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V p v) : C.CausallyOpenFuture := by
-  intro U V hVU
-  rw [isOpen_iff_mem_nhds]
-  rintro x ⟨v, hv, hvx⟩
-  obtain ⟨p, hpV, hpv⟩ := hZ V v hv
-  exact mem_of_superset ((C.isOpen_lt_right U p).mem_nhds
-    (hpush.lt_of_lt_of_le (C.lt_mono hVU hpv) hvx)) fun w hw => ⟨p, hpV, C.le_of_lt hw⟩
+    (hZ : ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V p v) : C.CausallyOpenFuture :=
+  hpush.causallyOpenFuture_of_chronalPastNeighbours hZ
 
 /-- **Causal openness from push-up** and chronological past and future points inside every
-open `V`, chronology taken in `V`. -/
+open `V`, chronology taken in `V`. `PushUp.causallyOpen_of_chronalNeighbours`
+(`Causal.LadderLocal`), whose hypothesis `ChronalNeighbours` is `⟨hZm, hZp⟩` definitionally;
+cited, not re-proved (T-abs-merge-stranded-duplicates). -/
 theorem causallyOpen_of_pushUp (hpush : C.PushUp)
     (hZm : ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V p v)
     (hZp : ∀ (V : Opens M), ∀ v ∈ V, ∃ p ∈ V, C.lt V v p) : C.CausallyOpen :=
-  ⟨causallyOpenFuture_of_pushUp hpush hZm,
-    causallyOpenFuture_of_pushUp (C := C.dual) (dual_pushUp.2 hpush) hZp⟩
+  hpush.causallyOpen_of_chronalNeighbours ⟨hZm, hZp⟩
 
 /-- **Lemma K in ETT's setting (DEC-93), the lemma of record.** In a connected, Hausdorff,
 second countable, causally open spacetime with a tarentin globally hyperbolic causally

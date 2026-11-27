@@ -67,7 +67,8 @@ Steps numbered as in `Causal.SingularCauchy`.
   (`Causal.CExtConnexeSecondCountable`), the cover on the source of a Cauchy embedding, now cites
   step (1). `Causality.mem_Jplus_union_Jminus_of_isCauchySurface` (`Causal.CorrespondingPoints`)
   is step (1) under a named `CurvesExtend`. `Causality.Jplus_inter_Jminus_eq` (`Causal.CBG.Ppcm`,
-  which imports a model) states step (2).
+  which imports a model) states step (2), and cites it since T-abs-merge-stranded-duplicates
+  (`Causal.CBG.Ppcm` imports this module).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
