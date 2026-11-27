@@ -1,0 +1,231 @@
+{
+ "target": "T-abs-not-future-one-connected",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-not-future-one-connected/REPORT.json",
+  "campaign/T-abs-not-future-one-connected/Probe.lean",
+  "campaign/T-abs-not-future-one-connected/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.Model.FlatSpaceCylinder",
+ "build_result": "Build completed successfully (3682 jobs), no warning, 4.2 s for the module. The --no-build dry run (kb/0228), run before each of the two real builds, listed only CausalScaffold.Model.FlatSpaceCylinder as out of date, so nothing upstream (Causal.*, mathlib, the other closers' modules) was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes (exit 0, no output). Probe.lean imports the module and runs #check on 8 declarations and #print axioms on 20 (the output is axioms.txt). It also has 5 examples: the dispatch's 11-conjunct projection, the 19 [[open]] entries' from ∧ ¬ future_one_connected, the time-reversed cylinder not future one-connected (Causality.dual_futureOneConnected), winding numbers −2 and 2 not homotopic in any W, and the evidence's two curves chronal. It passes under -DwarningAsError=true (exit 0). Every declaration depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": {
+  "layer": 3,
+  "kind": "localisation",
+  "model": "flat-gx",
+  "provides": {
+   "globally_hyperbolic": "Causal.Flat.spaceCylinder_globallyHyperbolic",
+   "push_up": "Causal.Flat.spaceCylinder_pushUp",
+   "causally_open": "Causal.Flat.spaceCylinder_causallyOpen",
+   "absolutely_minimal": "Causal.Flat.spaceCylinder_absolutelyMinimal",
+   "causally_arc_connected": "Causal.Flat.spaceCylinder_causallyArcConnected",
+   "causally_plain": "Causal.Flat.spaceCylinder_causallyPlain",
+   "chronal_neighbours": "Causal.Flat.spaceCylinder_chronalNeighbours"
+  },
+  "note": "A model module: direct imports Causal.Flat.CBG, Causal.Flat.Examples, Causal.Flat.SecondCountable, Causal.Model.MinkowskiFutureOneConnected, Causal.ChronalNeighbourBridge, Causal.CausallyPlainLocZ, Causal.TimelikeHomotopy, Causal.Ladder.Rules (Causal.Flat.* and Causal.Model.* as the layer-3 rule allows). Its transitive closure (tools/ladder.py's lean_index imports, in memory) has 167 Causal modules. The Causal.Port.* among them are only Causal.Port.GXBasic, .UniversalCover and .Developing (kb/0078), with no Causal.Port.E0*. Causal.Model.* in the closure: CurvesExtendModels and MinkowskiFutureOneConnected. Rules does not reach Causal.Model.MinkowskiFutureOneConnected (import_chain None), and nothing imports the new module, so it is a leaf and creates no cycle. Each of the seven provides is stated as the ladder's own definition (Causal.Causality.GloballyHyperbolic, .PushUp, .CausallyOpen, Causal.Precausality.AbsolutelyMinimal, .CausallyArcConnected, .CausallyPlain, .ChronalNeighbours) at spaceCylinder, so the abstract theorems apply without restatement. future_one_connected is not provided: its negation is the separation."
+ },
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.Flat.SpaceCylinder",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:158",
+   "statement": "abbrev SpaceCylinder : Type := FlatQuotient (FlatQuotient.spaceGroup 0) ⊤ (ℤe₁\\𝐌^{1+1}, Minkowski 1 modulo the spacelike translations by e₁ = (0, single 0 1), a circle of length 1)",
+   "standing": "definition (the model). New.",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:162",
+   "statement": "noncomputable abbrev spaceCylinder : Causality SpaceCylinder := flatCausality 1 SpaceCylinder",
+   "standing": "definition (its flat causality, as Causal.Flat.timeCylinder). New.",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_t2Space, Causal.Flat.SpaceCylinder.instConnectedSpace, Causal.Flat.SpaceCylinder.instSecondCountableTopology",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:167, :170, :174",
+   "statement": "T2Space SpaceCylinder; ConnectedSpace SpaceCylinder (instance); SecondCountableTopology SpaceCylinder (instance)",
+   "standing": "FlatQuotient.t2Space, FlatQuotient.connectedSpace with isConnected_top, flat_secondCountableTopology_spaceGroup. T2 is a theorem (mathlib's instance already applies), the other two instances, as for the time cylinder.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.finite_le_spaceGroup",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:182",
+   "statement": "∀ x y : (⊤ : Opens (Minkowski 1)), {γ : spaceGroup 0 | (flatCausality 1 ⊤).le ⊤ x (γ • y)}.Finite",
+   "standing": "the hypothesis hfin of FlatQuotient.globallyHyperbolic_quotient, proved here as the evidence says: x ≤ y + n e₁ gives |n + y₁ − x₁| ≤ ‖(y + n e₁)₂ − x₂‖ ≤ y₀ − x₀ (PiLp.norm_apply_le), so |n| ≤ ⌈|y₁ − x₁| + (y₀ − x₀)⌉ and the set lies in the image of the finite Icc (−N) N.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_globallyHyperbolic",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:217",
+   "statement": "spaceCylinder.GloballyHyperbolic",
+   "standing": "provides globally_hyperbolic. globallyHyperbolic_quotient (spaceGroup 0) ⊤ actsAcausally_spaceGroup (globallyHyperbolic_subtype ⊤ (minkowski_globallyHyperbolic on ⊤)) finite_le_spaceGroup. Causality comes inside it by isCausal_of_actsAcausally.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_pushUp",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:232",
+   "statement": "spaceCylinder.PushUp",
+   "standing": "provides push_up. CBG.flat_singularFlatAxioms (spaceCylinder_singularFlatAxioms, :226).pushUp, as for the time cylinder.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_causallyOpen",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:268",
+   "statement": "spaceCylinder.CausallyOpen",
+   "standing": "provides causally_open (two-sided). causal_ladder from push-up and chronal neighbours (PushUp.causallyOpen_of_chronalNeighbours).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_absolutelyMinimal",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:235",
+   "statement": "spaceCylinder.AbsolutelyMinimal",
+   "standing": "provides absolutely_minimal. flatCausality_absolutelyMinimal. Beside it spaceCylinder_absolutelyMinimalOn (:240): ∀ W, AbsolutelyMinimalOn W (flatCausality_absolutelyMinimalOn), the gluing reading.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_causallyArcConnected",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:245",
+   "statement": "spaceCylinder.CausallyArcConnected",
+   "standing": "provides causally_arc_connected. spaceCylinder_singularFlatAxioms.causallyArcConnected.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_causallyPlain",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:275",
+   "statement": "spaceCylinder.CausallyPlain",
+   "standing": "provides causally_plain. PushUp.causallyPlain_of_chronalNeighbours (kb/0077).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_chronalNeighbours",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:262",
+   "statement": "spaceCylinder.ChronalNeighbours",
+   "standing": "provides chronal_neighbours. AbsolutelyMinimal.chronalNeighbours_iff_Z with Z⁺ = Z⁻ = univ (spaceCylinder_Zplus :253, spaceCylinder_Zminus :257, from the SFA bundle with empty singular set).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_tarentin, Causal.Flat.spaceCylinder_curvesExtend, Causal.Flat.spaceCylinder_hasTimeFunction",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:249, :280, :284",
+   "statement": "spaceCylinder.Tarentin; spaceCylinder.CurvesExtend; spaceCylinder.HasTimeFunction",
+   "standing": "beyond provides. SFA bundle's tarentin; CBG.flat_curvesExtend; causal_ladder (globally_hyperbolic ∧ tarentin ⇒ time_function, T2, second countable).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsEMorphismOn.chronalCurveOn_comp",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:104",
+   "statement": "IsEMorphismOn C D W φ → V ≤ W → MapsTo φ V U → C.ChronalCurveOn V c a b → D.ChronalCurveOn U (φ ∘ c) a b",
+   "standing": "model-free (ETT layer) lemma, the ≪ twin of IsEMorphismOn.causalCurveOn_comp (Causal/CauchyExtension.lean:252), copied with map_lt. Stranded in a model module: a hoist candidate.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.homotopicRel",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:123",
+   "statement": "C.ChronalHomotopyOn W Γ γ₀ γ₁ → ∀ f₀ f₁ : C(unitInterval, M), (∀ s, f₀ s = γ₀ s) → (∀ s, f₁ s = γ₁ s) → f₀.HomotopicRel f₁ {0, 1}",
+   "standing": "the bridge the dispatch asks for, model-free (Mathlib homotopies only). The HomotopyRel is (t, s) ↦ Γ t s on I × I, continuous by ContinuousOn.comp_continuous from the joint continuity on [0,1]²; map_zero_left/map_one_left from eqOn_zero/eqOn_one, prop' from fix_zero/fix_one. Chronality of the slices is not read. Its home would be Causal/TimelikeHomotopy.lean: a hoist candidate.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.isLocalIsometry_mk_top, Causal.Flat.spaceCylinderMk, Causal.Flat.isEMorphism_spaceCylinderMk, Causal.Flat.spaceCylinderMk_add_int",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:292, :298, :302, :310",
+   "statement": "IsLocalIsometry d (fun p : Minkowski d => (⟨p, trivial⟩ : (⊤ : Opens (Minkowski d)))); spaceCylinderMk p := proj (spaceGroup 0) ⊤ ⟨p, trivial⟩; IsEMorphism (minkowski 1) spaceCylinder spaceCylinderMk; spaceCylinderMk (p + (0, n • single 0 1)) = spaceCylinderMk p for n : ℤ",
+   "standing": "helpers. The local isometry is the identity in charts (g = 1, rfl); composed with isLocalIsometry_proj it is an IsEMorphism of flatCausality 1 (Minkowski 1) = minkowski 1 (flatCausality_self).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.windLift, Causal.Flat.windCurve, Causal.Flat.windCurve_chronalCurveOn",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:323, :327, :350",
+   "statement": "windLift k s := s • (3, k • single 0 1); windCurve k s := [windLift k s]; |k| < 3 → spaceCylinder.ChronalCurveOn ⊤ (windCurve k) 0 1",
+   "standing": "the evidence's γ_k(s) = [(3s, ks)]. The lift is a timelike segment (windLift_lt :335 via minkowski_lt_top_iff and PiLp.norm_single; minkowski_chronalCurveOn_iff), pushed forward by chronalCurveOn_comp. windCurve_zero (:358): every γ_k starts at [(0,0)]; windCurve_one_int (:362): for k ∈ ℤ it ends at [(3,0)].",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.windCurve_not_chronallyHomotopicOn",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:372",
+   "statement": "∀ {m n : ℤ}, m ≠ n → ∀ W : Opens SpaceCylinder, ¬ spaceCylinder.ChronallyHomotopicOn W (windCurve m) (windCurve n)",
+   "standing": "beyond the evidence (any two winding numbers, any open set). homotopicRel turns the chronal homotopy into a HomotopicRel of the two paths; IsCoveringMap.liftPath_apply_one_eq_of_homotopicRel (isCoveringMap_proj) equates the endpoints of the lifts from ⟨0, trivial⟩; eq_liftPath_iff' identifies the lifts with s ↦ ⟨windLift k s, trivial⟩, which end at (3, m e₁) and (3, n e₁); the e₁-coordinate gives m = n.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_not_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:398",
+   "statement": "¬ spaceCylinder.FutureOneConnected",
+   "standing": "the ladder node's negation, the ETT definition Causality.FutureOneConnected. γ₀ = windCurve 0 and γ₁ = windCurve 1 are future chronal curves of ⊤ from [(0,0)] to [(3,0)]; windCurve_not_chronallyHomotopicOn (0 ≠ 1) at W = ⊤.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.spaceCylinder_separates",
+   "file_line": "scaffold/CausalScaffold/Model/FlatSpaceCylinder.lean:418",
+   "statement": "(T2Space ∧ SecondCountableTopology ∧ ConnectedSpace of SpaceCylinder) ∧ GloballyHyperbolic ∧ PushUp ∧ CausallyOpen ∧ AbsolutelyMinimal ∧ CausallyArcConnected ∧ CausallyPlain ∧ ChronalNeighbours ∧ CausallyCompact ∧ CausallyOpenFuture ∧ CurvesExtend ∧ HasChronalNeighbourEverywhere ∧ IsCausal ∧ LocallyCausallyOpen ∧ LocallyCausallyOpenFuture ∧ LocallyPushUp ∧ StronglyCausal ∧ StronglyCausalOpen ∧ Tarentin ∧ HasTimeFunction ∧ (∀ W : Opens SpaceCylinder, AbsolutelyMinimalOn W) ∧ ¬ FutureOneConnected (all of spaceCylinder)",
+   "standing": "closed statement, no instance argument, no hypothesis. The dispatch's conjuncts (topology, the seven provides, ¬ FutureOneConnected) are all here, in the dispatch's order for the seven; the twelve nodes of their ladder closure are conjuncts too, each by one causal_ladder call (kb/0225), so every one of the 19 causality-sort nodes the cylinder has is a conjunct; ∀ W, AbsolutelyMinimalOn W carries the gluing reading. Probe.lean projects the dispatch's 11-conjunct form and each [[open]] entry's from ∧ ¬ to.",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "ladder_entry": "programme/ladder.toml, the 19 [[open]] entries with to = \"future_one_connected\" (their section opens with the comment '# ---- future_one_connected (T-lad-future-one-connected-node, 2026-11-27): its 37 pairs …', at :4911 as read at 20:57 UTC; the entries then ran :4956–5038. The dispatch's ≈ :4869–4962 has moved by about +87 lines. Other sessions rewrote the file at least three times during this run, last at 20:57:07 UTC, so anchor by text)",
+   "current_witness": "none ('False, argued'; each note ends 'wants its conjoined separation (T-abs-not-future-one-connected)')",
+   "replace_with": "one [[fails]] entry:\n[[fails]]\nfrom = [\"globally_hyperbolic\", \"push_up\", \"causally_open\", \"absolutely_minimal\", \"causally_arc_connected\", \"causally_plain\", \"chronal_neighbours\"]\nto = \"future_one_connected\"\nwitness = \"Causal.Flat.spaceCylinder_separates\"\nstatus = \"checked\"\nand the 19 [[open]] X → future_one_connected removed (kept, they are reported as 'already settled; remove it', simulation C).",
+   "required": true,
+   "note": "Every id of `from` is a conjunct (2–8 of spaceCylinder_separates), and ¬ FutureOneConnected is the last conjunct. The from of the 19 [[open]]s (absolutely_minimal, causally_arc_connected, causally_compact, causally_open, causally_open_future, causally_plain, chronal_neighbours, curves_extend, globally_hyperbolic, has_chronal_neighbour, is_causal, locally_causally_open, locally_causally_open_future, locally_push_up, push_up, strongly_causal, strongly_causal_open, tarentin, time_function) are all conjuncts as well, so `from` may equally be the 19 (simulation B, identical matrix). No `space` key: the topology conjuncts make it one of ETT's spacetimes (as for the time cylinder entry). Reading: either (absolutely minimal on every open set, a conjunct). The re-pointing waits for graduation: tools/ladder.py resolves witnesses in Causal/ only (check() without the name: 'witness not found in lean-causal (a full name)')."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:265–279 as read at 20:57 UTC (header, the T-lad-future-one-connected-node paragraph: '37 are [[open]] entries, none refuted: no model in Lean lacks the node … All 37 are false, argued … the 19 X → future_one_connected by the spatially compact flat cylinder … (T-abs-not-future-one-connected)'; counts '309 refuted (306 causality-sort), 45 [[open]] (40 causality-sort …)')",
+   "current_witness": "none",
+   "replace_with": "comment update: 19 of the 37 now refuted by Causal.Flat.spaceCylinder_separates; after the entry the matrix reads fails 328, open 26 (from 309 / 45), implied 38, ill-typed 258 unchanged.",
+   "required": false,
+   "note": "comment only"
+  },
+  {
+   "ladder_entry": "programme/ladder.toml, the future_one_connected [[property]] comment (:933–939 as read at 20:57 UTC: 'No model in Lean lacks it (Causal/TimelikeHomotopy.lean SCOPE) … So no [[fails]] entry joins it … its 37 other pairs are [[open]] entries … 19 X → future_one_connected by the spatially compact flat cylinder (T-abs-not-future-one-connected)'))",
+   "current_witness": "none",
+   "replace_with": "comment update naming Causal.Flat.spaceCylinder_separates as the model in Lean that lacks the node (and windCurve_not_chronallyHomotopicOn for the curve form).",
+   "required": false,
+   "note": "comment only"
+  },
+  {
+   "ladder_entry": "programme/ladder.toml, the [[open]] section comment ('* X → future_one_connected (19 …) … (T-abs-not-future-one-connected, planned)', :4918–4935 as read at 20:57 UTC)",
+   "current_witness": "none",
+   "replace_with": "comment update: L for all the 'A' items (every causality-sort node but this one, causal, causally compact, GH through globallyHyperbolic_quotient with its finiteness hypothesis proved, strongly causal in both forms, a time function; not future one-connected by winding).",
+   "required": false,
+   "note": "comment only. One A item stays argued: 'the time coordinate a time function' — the Lean time function is Geroch's (causal_ladder), not the time coordinate."
+  },
+  {
+   "ladder_entry": "lean-causal/Causal/TimelikeHomotopy.lean:111 (SCOPE: 'No space that is not future one-connected is in Lean (the keeper's separation).')",
+   "current_witness": "none",
+   "replace_with": "Causal.Flat.spaceCylinder_not_futureOneConnected (after graduation)",
+   "required": false,
+   "note": "a strict-library docstring; the master's edit at graduation, not mine (I edit no existing file)."
+  }
+ ],
+ "ladder_simulation": "In memory only (no file written), with tools/ladder.py imported under python3 -I (kb/0276): d = load(); copy.deepcopy(d) for each variant; ladder.matrix, ladder._contradictions, ladder.counterexample, and ladder.check(d, lean_names() | {'Causal.Flat.spaceCylinder_separates'}) to resolve the new name as graduation would. Run three times, after each of the rewrites of programme/ladder.toml by other sessions during this run (last mtime 2026-11-27 20:57:07 UTC), with identical results. Baseline: 309 fails, 38 implied, 45 open, 258 ill-typed; 0 contradictions, 0 check errors; 19 [[open]] with to = future_one_connected. (A) add the [[fails]] from = the seven provides, to = future_one_connected, witness = Causal.Flat.spaceCylinder_separates, and remove the 19 [[open]]: 328 fails, 38 implied, 26 open, 258 ill-typed; 0 contradictions, 0 check errors; exactly 19 pairs move, all open → fails, all X → future_one_connected for the 19 X above; no other pair moves. counterexample() gives has = the 19 causality-sort nodes other than future_one_connected, lacks = {future_one_connected}: every has id is a conjunct of the witness, and so is the lack's negation. Without the new name in the index check() reports 'fails Causal.Flat.spaceCylinder_separates: witness not found in lean-causal (a full name)', so the entry waits for graduation. (B) the same with from = all 19 positive ids: identical matrix, 0 contradictions, 0 check errors. (C) the entry added but the 19 [[open]] kept: 19 errors 'open X→future_one_connected is already settled; remove it', so the [[open]]s must go with the entry. The ladder's closure from the seven (ambient T0, T1, T2, first countable, second countable, separable) is the 19 nodes, as the planner said.",
+ "extra_decls": [
+  "Causal.IsEMorphismOn.chronalCurveOn_comp",
+  "Causal.Causality.ChronalHomotopyOn.homotopicRel",
+  "Causal.Flat.isLocalIsometry_mk_top",
+  "Causal.Flat.finite_le_spaceGroup",
+  "Causal.Flat.windCurve_not_chronallyHomotopicOn"
+ ],
+ "findings": [
+  "The ladder's argument is correct as printed (programme/ladder.toml, the comment opening the future_one_connected [[open]] section, :4927–4930 as read at 20:57 UTC): γ_k(s) = [(3s, ks)], k = 0, 1, are future chronal curves (|k| < 3) from [(0, 0)] to [(3, 0)], and no chronal homotopy with fixed endpoints joins them. It is proved stronger: the obstruction is topological. A chronal homotopy is a homotopy of paths rel {0, 1} that never uses chronality (Causal.Causality.ChronalHomotopyOn.homotopicRel), so windCurve m and windCurve n, m ≠ n integers, are not chronally homotopic in any open set W (Causal.Flat.windCurve_not_chronallyHomotopicOn). With slope 3 this gives five pairwise non-homotopic chronal curves from [(0, 0)] to [(3, 0)], k = −2, …, 2 (Probe.lean).",
+  "Every 'A' (argued) item of that comment for the cylinder is now a Lean conjunct, with one exception: causal, causally compact, globally hyperbolic (ETT's, through FlatQuotient.globallyHyperbolic_quotient, whose hfin is now proved for ℤe₁: Causal.Flat.finite_le_spaceGroup, with the evidence's bound |n| ≤ |Δx| + Δt), strongly causal in both forms, a time function, and every local node. The exception is 'the time coordinate a time function': the Lean time function is Geroch's, from globally_hyperbolic ∧ tarentin (causal_ladder), and the time coordinate is not stated.",
+  "The same spacetime has a second presentation already in the library: FlatQuotient (horizGroup (intLattice 1)) ⊤ (Causal/Flat/Examples.lean, [3.T] translation spacetimes), whose ETT global hyperbolicity is gh_translation (intLattice 1) through finite_le_horiz with BallFinite. The target fixed spaceGroup 0 (Causal/Flat/Quotient.lean), so finite_le_spaceGroup proves hfin directly (about 30 lines). The two Subgroup terms are not identified in Lean; a future merge of Quotient.lean's spaceGroup and Examples.lean's horizGroup would make one of them redundant.",
+  "Stale after graduation and the keeper's entry: lean-causal/Causal/TimelikeHomotopy.lean:111 ('No space that is not future one-connected is in Lean'), programme/ladder.toml:265–279 ('none refuted: no model in Lean lacks the node'), :933–939 ('No model in Lean lacks it … So no [[fails]] entry joins it') and the [[open]] section comment ('T-abs-not-future-one-connected, planned'). Line numbers as read at 20:57 UTC. Other sessions rewrote the ladder at least three times during this run, moving it by up to about +87 lines from the dispatch's numbers, so anchor by text."
+ ],
+ "questions": [
+  "The conjuncts. The dispatch lists the topology, the seven provides and ¬ FutureOneConnected. I read the list as a lower bound, as the isolated-line precedent did (kb/0296): spaceCylinder_separates states those, in the dispatch's order, and adds the twelve nodes of their ladder closure (causally_compact, causally_open_future, curves_extend, has_chronal_neighbour, is_causal, locally_causally_open, locally_causally_open_future, locally_push_up, strongly_causal, strongly_causal_open, tarentin, time_function) and ∀ W, AbsolutelyMinimalOn W, so the witness decides all 20 causality-sort nodes in either reading. If the keeper wants the 11-conjunct form, it is a projection (Probe.lean's first example).",
+  "Which `from` for the keeper's [[fails]]: the planner's seven, or all 19 positive ids. The matrix is identical either way (simulations A and B). I propose the seven, as the roadmap and the ladder comment say, and did not choose for the keeper.",
+  "The naming. I followed the time cylinder: namespace Causal.Flat, SpaceCylinder for the type, spaceCylinder for the causality, spaceCylinder_* for the facts; the module is the dispatch's CausalScaffold.Model.FlatSpaceCylinder. 'The circle of length 1' is read as the generator e₁ = (0, single 0 1) of spaceGroup 0, of Euclidean length 1."
+ ],
+ "kb_proposals": [
+  "A chronal homotopy is a homotopy of paths rel {0, 1}: Causal.Causality.ChronalHomotopyOn.homotopicRel (CausalScaffold.Model.FlatSpaceCylinder) turns ChronalHomotopyOn W Γ γ₀ γ₁ into f₀.HomotopicRel f₁ {0, 1} for any C(unitInterval, M) agreeing with γ₀, γ₁, reading only the joint continuity and the fixed endpoints. With a covering map's liftPath_apply_one_eq_of_homotopicRel and eq_liftPath_iff' it refutes future one-connectedness by winding (T-abs-not-future-one-connected).",
+  "The spatially compact flat cylinder ℤe₁\\𝐌^{1+1} is Causal.Flat.SpaceCylinder = FlatQuotient (spaceGroup 0) ⊤ with spaceCylinder = flatCausality 1 _. It decides every causality node: 19 hold and FutureOneConnected fails (Causal.Flat.spaceCylinder_separates). It is ETT-GH through globallyHyperbolic_quotient with finite_le_spaceGroup. The same spacetime is also FlatQuotient (horizGroup (intLattice 1)) ⊤, GH by gh_translation (T-abs-not-future-one-connected).",
+  "Pushing a chronal curve of minkowski n into a quotient FlatQuotient Γ ⊤: p ↦ proj ⟨p, trivial⟩ is a local isometry (isLocalIsometry_mk_top, g = 1 by rfl, composed with isLocalIsometry_proj). After rw [flatCausality_self] it is an IsEMorphism from minkowski n, and IsEMorphismOn.chronalCurveOn_comp, the ≪ twin of causalCurveOn_comp, pushes the curve forward. Build the curve with minkowski_chronalCurveOn_iff (T-abs-not-future-one-connected).",
+  "Pitfall: in term mode, `let ⟨a, b, …⟩ := thm; ⟨…⟩` on a 20-conjunct theorem times out at isDefEq (200000 heartbeats). In tactic mode, `obtain ⟨…⟩ := thm; exact ⟨…⟩` is instant (T-abs-not-future-one-connected's Probe.lean)."
+ ],
+ "notes": "One new file, 448 lines, 0 sorry; the new directory scaffold/CausalScaffold/Model/ was created for it. No ETT label (the docstring marks only the target's own sub-ids, as Causal/Model/FlatTimeCylinder.lean does). Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.Model.FlatSpaceCylinder` to scaffold/CausalScaffold.lean now, so the axiom sweep sees it. I did not edit that file. At graduation the file moves to Causal/Model/FlatSpaceCylinder.lean (module Causal.Model.FlatSpaceCylinder) and its import goes into Causal.lean, beside Causal.Model.FlatTimeCylinder. Its imports are already Causal.* only, and it passes -DwarningAsError=true. Probe.lean's import then changes to Causal.Model.FlatSpaceCylinder. Then the keeper records the [[fails]] and removes the 19 [[open]]s. The ladder resolves witness names in Causal/ only, so this waits for graduation. Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri, lean and lean-egf finds none of the new names outside this file. The other two closers' modules (C0ExtensionSkeleton, FutureOneConnectedVacuous) were not touched or built. The file adds two instances on SpaceCylinder (ConnectedSpace, SecondCountableTopology), as the time cylinder does. Model-free lemmas stranded here, hoist candidates (kb/0061): Causal.IsEMorphismOn.chronalCurveOn_comp (home Causal/CauchyExtension.lean, beside causalCurveOn_comp) and Causal.Causality.ChronalHomotopyOn.homotopicRel (home Causal/TimelikeHomotopy.lean, which already imports what it needs). No existing file was edited, the ladder included. I ran no git command, no `make check`, no `lake build` without a module, and no tools/ladder.py emit-lean. tools/ladder.py was only imported in memory, for load, sort_of, counterexample, matrix, _contradictions, check, lean_names, resolves, lean_index and import_chain. Scratch files are in /tmp/foc_sim, outside the repository.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: REPORT file_line values are one line short (cite by name: spaceCylinder_separates is at FlatSpaceCylinder.lean:419); the stale comments in TimelikeHomotopy.lean:111 and MinkowskiFutureOneConnected.lean:98–102 corrected at graduation. For the keeper: one [[fails]] (from the seven, to future_one_connected, witness Causal.Flat.spaceCylinder_separates), the 19 [[open]] X → future_one_connected removed in the same edit, and the ladder's header (:265–279), node comment (:933–939) and section comment (:4911–4934) refreshed."
+}

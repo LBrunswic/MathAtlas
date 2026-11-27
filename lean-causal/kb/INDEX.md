@@ -302,4 +302,5 @@ rediscover. One fact per entry.
 | [0294](entries/0294-ers-witnesses-line.md) | pattern | ERS witnesses on the line: 4.68's Lean forms allow a disconnected U₂; 4.82's hstep is never exercised |
 | [0295](entries/0295-minkowski-future-one-connected.md) | pattern | Minkowski space is future one-connected; its chronal curves are the continuous ≪-increasing maps |
 | [0296](entries/0296-full-form-witness.md) | pattern | A witness's full form: let the ladder list what it has and lacks |
+| [0297](entries/0297-future-one-connected-separations.md) | pattern | future_one_connected is separated both ways: no chronology gives it vacuously; winding takes it away |
 | [0298](entries/0298-c0-extension-skeleton.md) | pattern | Sbierski's C⁰-inextendibility in ETT: locate, leave, confine; the metric half is left |

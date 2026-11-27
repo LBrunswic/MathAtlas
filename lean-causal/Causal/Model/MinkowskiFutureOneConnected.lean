@@ -98,8 +98,8 @@ imports it.
 * **Non-convex open sets are not treated.** Future one-connectedness is not hereditary, and some
   open sets of Minkowski space lack it: `ℝ^{1,2}` minus the time axis carries two timelike curves
   between the same points whose spatial projections wind differently around the origin, so no
-  homotopy, chronal or not, joins them in it (argued, not in Lean: no winding number here;
-  `T-abs-not-future-one-connected`).
+  homotopy, chronal or not, joins them in it (argued, not in Lean; the same winding argument is in
+  Lean for the flat cylinder ℤe₁\𝐌^{1+1}, `Causal.Flat.windCurve_not_chronallyHomotopicOn`).
 * **The printed homotopy's interior slices** (`0 < t < 1`) are chronal and the map is jointly
   continuous; only the two end slices fail. That is argued, not in Lean: what is in Lean is that
   the end slices fail, which refutes the printed `Γ` as a timelike homotopy.

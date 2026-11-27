@@ -108,7 +108,8 @@ Sbierski's timelike curves are chronal curves of the `C⁰` causality is the `C0
   form is now the `C.lt` case.
 * Homotopies over a segment other than `[0, 1]` (Thm 4.11 uses `[0,1] × [y₀⁻, s]`, `:1623`) are
   the `[0, 1]` notion after an affine change of the curve parameter: not stated here.
-* No space that is not future one-connected is in Lean (the keeper's separation).
+* Spaces that are not future one-connected: the flat cylinder ℤe₁\𝐌^{1+1}
+  (`Causal.Flat.spaceCylinder_separates`, by winding; T-abs-not-future-one-connected).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

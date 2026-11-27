@@ -344,6 +344,7 @@ import Causal.Model.MinkowskiFutureOneConnected
 import Causal.IsolatedLineConjoined
 import Causal.C0ExtensionSkeleton
 import Causal.FutureOneConnectedVacuous
+import Causal.Model.FlatSpaceCylinder
 
 /-!
 # Causal — topological spacetimes
