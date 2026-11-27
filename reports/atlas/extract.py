@@ -25,10 +25,49 @@ def title_of(cmd):
         out+=ch
     out=re.sub(r"\\label\{[^}]*\}","",out)
     out=re.sub(r"~?\\ref\{[^}]*\}","",out)
-    out=out.replace("$\\BTZ$","BTZ").replace("$(G,X)$","(G,X)").replace("$","")
+    out=out.replace("$\\BTZ$","BTZ").replace("$(G,X)$","(G,X)")
     out=re.sub(r"\\(AdS|dS|HS)\b",r"\1",out)   # BBS's text macros in section titles
     out=re.sub(r"\s+"," ",out)
     return out.strip()
+# A block title is drawn as SVG text, where MathJax never runs: plain_title makes it plain text with the
+# paper's own macros. Text macros are expanded as for a statement (textmode.expand: gfnbounds' appendix
+# titles are \appendixHtitle and the like); a math span has the paper's macros expanded and is written
+# with Unicode where a character has a form (\mathbb, sub- and superscripts), its TeX source otherwise.
+BB={c:chr(0x1D538+i) for i,c in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ")}
+BB.update({"C":"\u2102","H":"\u210D","N":"\u2115","P":"\u2119","Q":"\u211A","R":"\u211D","Z":"\u2124"})
+SUP=dict(zip("0123456789+-=()n","\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079\u207a\u207b\u207c\u207d\u207e\u207f"))
+SUB=dict(zip("0123456789+-=()","\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089\u208a\u208b\u208c\u208d\u208e"))
+def math_macros(s,mac,limit=200):
+    while limit>0:
+        hit=None
+        for m in re.finditer(r"\\([A-Za-z]+)",s):
+            if m[1] in mac: hit=m; break
+        if not hit: return s
+        body,n=mac[hit[1]] if isinstance(mac[hit[1]],list) else (mac[hit[1]],0)
+        j=hit.end(); args=[]
+        for _ in range(n):
+            a=textmode._arg(s,j)
+            if a is None: break
+            args.append(a[0]); j=a[1]
+        for k,a in enumerate(args): body=body.replace("#%d"%(k+1),a)
+        s=s[:hit.start()]+body+s[j:]; limit-=1
+    return s
+def math_plain(s,mac):
+    s=math_macros(s,mac)
+    s=re.sub(r"\\mathbb\s*(?:\{\s*([A-Z])\s*\}|([A-Z]))",lambda m:BB[m[1] or m[2]],s)
+    s=re.sub(r"(?<![\^_])\{([^{}]*)\}",r"\1",s)   # grouping braces; a script's braces stay for script()
+    def script(m):
+        tab=SUP if m[1]=="^" else SUB; t=m[2] if m[2] is not None else m[3]
+        return "".join(tab[c] for c in t) if all(c in tab for c in t) else m[1]+("("+t+")" if len(t)>1 else t)
+    return re.sub(r"([\^_])(?:\{([^{}]*)\}|(\S))",script,s)
+def plain_title(t,mac):
+    t=re.sub(r"\\texorpdfstring\s*\{(?:[^{}]|\{[^{}]*\})*\}\s*\{([^{}]*)\}",r"\1",t)
+    t=textmode.expand(t,mac).replace("\\-","")
+    out,i=[],0
+    for a,b in textmode.spans(t):
+        out.append(t[i:a]); out.append(math_plain(t[a:b].strip("$"),mac)); i=b
+    out.append(t[i:])
+    return re.sub(r"\s+"," ","".join(out).replace("$","")).strip()
 # paper macros, for MathJax and for the text-mode expansion (textmode.py): \newcommand / \renewcommand / \def / \DeclareMathOperator from every legacy file
 def braced(s,i):
     assert s[i]=="{"; d=0
@@ -72,7 +111,7 @@ for p in PAPERS:
     srcs={}; heads={}
     for f in L["paper"]["files"]:
         t=open(os.path.join(root,f),encoding="utf-8",errors="replace").read().split("\n"); srcs[f]=t
-        heads[f]=[(i+1,("sec" if re.match(r"\s*\\(section|chapter)",l) else "sub"),title_of(l)) for i,l in enumerate(t) if re.match(r"\s*\\(section|subsection|chapter)\*?\{",l)]
+        heads[f]=[(i+1,("sec" if re.match(r"\s*\\(section|chapter)",l) else "sub"),plain_title(title_of(l),mac)) for i,l in enumerate(t) if re.match(r"\s*\\(section|subsection|chapter)\*?\{",l)]
     enddoc={f:next((i+1 for i,l in enumerate(t) if l.strip().startswith("\\end{document}")),10**9) for f,t in srcs.items()}
     def sec_of(r):
         if r["line"]>enddoc[r["file"]]:
@@ -104,7 +143,8 @@ for p in PAPERS:
             "findings":r.get("paper_findings") or [],"notes":(r.get("notes") or "")[:600],"twin":r.get("twin_of") or "","tex":tex})
     ids={n["id"] for n in nodes}
     for n in nodes: n["deps"]=[d for d in n["deps"] if d in ids]
-    bl=sorted(blocks.values(),key=lambda b:(PAPERS and str(b["order"][0]),b["order"][1],b["order"][2]))
+    fidx={f:i for i,f in enumerate(L["paper"]["files"])}   # the paper's own file order, not the file names
+    bl=sorted(blocks.values(),key=lambda b:(fidx[b["order"][0]],b["order"][1],b["order"][2]))
     for b in bl: del b["order"]
     md=open(f"{ROOT}/papers/{p}/ledger/LEDGER.md",encoding="utf-8").read()
     c=re.search(r"\*\*Closure: (\d+) of (\d+)\.\*\*",md)
