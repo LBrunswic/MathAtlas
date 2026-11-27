@@ -1,0 +1,136 @@
+{
+ "package": "T-bbs-classising-types",
+ "target": "T-bbs-classising-types",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSClassification.lean"
+ ],
+ "module": "GXScaffold.BBS.HSClassification",
+ "imports_added": [
+  "GXScaffold.BBS.HSClassification in scaffold/GXScaffold.lean (one import line, after GXScaffold.BBS.HSAntipodal)"
+ ],
+ "builds": true,
+ "build_note": "lake env lean on the file: no output, also with -DwarningAsError=true. taskset -c 0-11 lake build GXScaffold.BBS.HSClassification at the end: 8639/8639, only this module rebuilt (8.3 s), no GX.* or mathlib module rebuilt.",
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "axioms_note": "campaign/T-bbs-classising-types/Axioms.lean sweeps all 182 non-internal constants of the module with Lean.collectAxioms: none uses an axiom beyond the three (no sorryAx). The word sorry appears only in the docstring.",
+ "labels": [
+  {
+   "label": "bbsprop:classising",
+   "tex_lines": [
+    531,
+    546
+   ],
+   "status": "partial",
+   "marked": false,
+   "marked_note": "Unmarked. The causal clauses (no future, no past, CTCs near Misner lines, non-connected future in degree >= 4) are not stated, as the dispatch says (T-bbs-layer-home / T-bbs-q8). The printed list of l.855-922 is not exhaustive (finding 1). The link half rests on the readings OQ-116 (a)/(b), OQ-120 (a)/(c) and on the reading of 'type of a singular line' (question 1).",
+   "decls": [
+    "GX.GammaLinkCircle.bbsprop_classising_types",
+    "GX.LinkType",
+    "GX.PairType",
+    "GX.GammaLinkCircle.HasType",
+    "GX.GammaLinkCircle.existsUnique_hasType",
+    "GX.GammaLinkCircle.linkType",
+    "GX.GammaLinkCircle.HasType.pairType",
+    "GX.GammaLinkCircle.IsLiftedDev.pairType_unique",
+    "GX.GammaLinkCircle.IsIso.hasType",
+    "GX.GammaLinkCircle.not_isIso_of_hasType",
+    "GX.LinkType.antipode",
+    "GX.GammaLinkCircle.HasType.antipode",
+    "GX.LineType",
+    "GX.LinkType.toLine",
+    "GX.LinkType.toLine_antipode",
+    "GX.LinkType.toLine_cuspidal",
+    "GX.GammaLinkCircle.HasType.degree_even",
+    "GX.GammaLinkCircle.HasType.iPlusL_iMinusL",
+    "GX.exists_hasType_trivialHolonomy_four",
+    "GX.exists_hasType_listed"
+   ],
+   "hypotheses": [
+    {
+     "paper": "the list of types of l.855-922 (every circle has one)",
+     "here": "strengthened",
+     "note": "a ninth constructor trivialHolonomy k (non-time-like p, trivial Gamma_p-holonomy) is added: without it exhaustion is false (GX.exists_hasType_trivialHolonomy_four)"
+    },
+    {
+     "paper": "singular lines and their types (l.533, l.983-986)",
+     "here": "reading",
+     "note": "the type of a line is the type of the (Gamma_p, l(p))-circle at one apex, taken modulo LinkType.antipode (bbsrem:p_p); AdS singular lines themselves are not formalized"
+    },
+    {
+     "paper": "Misner: I a component of l(p) minus (i+ u i-) (l.877)",
+     "here": "reading",
+     "note": "image a space-like arc, HSSingularities' strongest true form under OQ-116 (a)"
+    },
+    {
+     "paper": "extreme BTZ-like: I = i-(l(p)) at bdH+ (l.887–888), i+ at bdH- (l.889-891)",
+     "here": "reading",
+     "note": "i-/+ minus the tangent directions (OQ-116 (b))"
+    },
+    {
+     "paper": "positive / negative (l.908-922)",
+     "here": "reading",
+     "note": "the l.915 form (OQ-120 (c)); bridged to IsSpacelikePositive etc."
+    },
+    {
+     "paper": "isomorphic, mutually non isomorphic (l.785)",
+     "here": "reading",
+     "note": "same p, GX.GammaLinkCircle.IsIso (OQ-120 (a)); moved-p isomorphisms not treated"
+    },
+    {
+     "paper": "time-like: characterized by cone angle and future/past (l.856-858)",
+     "here": "weakened",
+     "note": "only that both are invariants (they are part of the type); the converse (they determine the circle) is not formalized"
+    },
+    {
+     "paper": "causal clauses of l.537-545",
+     "here": "not stated",
+     "note": "T-bbs-layer-home / T-bbs-q8"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "colI_v1.tex l.855-922 (the enumeration behind l.531-546 and l.999-1009) is not exhaustive: a (Gamma_p, l(p))-circle at a non-time-like p with trivial Gamma_p-holonomy (lifted holonomy delta^k, k even) is in none of the printed cases, which assume L hyperbolic (l.794-795) or parabolic (l.797-800). k = 2 is the regular link l(p) (GX.hasType_regular), not a singularity; but k = 4 already gives a singular circle at every p in dS^2 (the 2-fold cover of l(p)) whose unique type is none of the printed ones (GX.exists_hasType_trivialHolonomy_four, from GX.exists_isPositive_delta_four). This is the classification-level form of OQ-128's finding on l.794-795. Smallest correction: exclude trivial Gamma_p-holonomy explicitly ('a singular line of degree k >= 4 with trivial holonomy is a k/2-fold cover of a regular line'), or add the case. Causality (l.1059-1060, degree 0 or 2) excludes them later, so nothing downstream of § 3.6 is affected.",
+    "l.1008 ('Recall that the degree is necessarily even') and the proposition's 'degree 2' / 'degree k >= 4': proved that every space-like or light-like type of degree k >= 1 has k even, hence k = 2 or k >= 4 (GX.GammaLinkCircle.HasType.degree_even).",
+    "l.1011-1012 ('a cuspidal singular line is actually included in an extreme BTZ-like singular line'), proved in the form: the type at -p of a future cuspidal circle is past extreme BTZ-like and conversely, and LinkType.toLine (sending future cuspidal to the past extreme BTZ-like line, past cuspidal to the future one) is constant on {t, t.antipode} (GX.LinkType.toLine_antipode, GX.GammaLinkCircle.HasType.antipode). Side fact: the time-like future/past and light-like future/past are exchanged, the cone angle, every space-like type, the sign and the degree are kept (the real angle of mirror f^-1 equals that of f, GX.GTilde.angle_mirror_inv)."
+   ],
+   "questions": [
+    "What is 'the type of a singular line' when its two apices carry different link types (time-like future/past, light-like future/past, cuspidal/extreme BTZ-like)? Reading taken: the line type is LinkType.toLine of either apex's link type, toLine being constant on the antipodal pair; it forgets future/past for time-like and light-like lines, the sign and the cone angle, as the printed list does, and keeps past/future for BTZ-like and extreme BTZ-like lines (the extreme BTZ-like end names the line). l.983-986 say the type is 'the type of the (Gamma_p, l(p))-circle', which is ambiguous at exactly these lines.",
+    "Should the trivial-holonomy circles of degree >= 4 be a type of record (they are singular and satisfy the definitions of l.948-953), or should l.948-953 / l.794-800 exclude them? Reading taken: a separate type trivialHolonomy k, outside the printed list.",
+    "'The various types are' (l.533): read as a classification (every line has one type, and one only), not as an existence claim. Existence proved only for Misner and for space-like/light-like of every degree 2k with both signs (GX.exists_hasType_listed); that BTZ-like, cuspidal and extreme BTZ-like circles occur is not formalized here. Is existence part of the statement of record?",
+    "Misner is one type here; under moved-p isomorphisms it splits in two by chirality (OQ-131 (b)). With the same-p IsIso of OQ-120 (a) the type is an invariant either way. Which notion of isomorphism is of record for 'mutually non isomorphic' (l.785)?"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.GTilde.angle_mirror_inv",
+  "GX.GTilde.translationNumber_mirror",
+  "GX.GTilde.isHyperbolic_conj_iff",
+  "GX.GTilde.isParabolic_conj_iff",
+  "GX.GTilde.conj_delta_mul",
+  "GX.GTilde.conj_delta_zpow",
+  "GX.GTilde.conj_apply_le",
+  "GX.GTilde.delta_zpow_injective",
+  "GX.GTilde.exists_eq_delta_zpow",
+  "GX.GTilde.mirror_inv_delta_zpow",
+  "GX.HS.region_neg",
+  "GX.HSPiece.swap",
+  "GX.GammaLinkCircle.IsLiftedDev.mem_iPlusL_iff",
+  "GX.GammaLinkCircle.IsLiftedDev.deSitter_degree_zero_iff",
+  "GX.GammaLinkCircle.IsLiftedDev.bdPlus_degree_zero_iff",
+  "GX.GammaLinkCircle.IsLiftedDev.bdMinus_degree_zero_iff",
+  "GX.GammaLinkCircle.IsLiftedDev.degree_cases",
+  "GX.GammaLinkCircle.IsLiftedDev.exists_pairType"
+ ],
+ "kb_proposals": [
+  "The type of a (Gamma_p, l(p))-circle is GX.GammaLinkCircle.linkType : GX.LinkType (BBS/HSClassification): read on one oriented lifted pair (GX.PairType), independent of the pair (HasType.pairType), unique (existsUnique_hasType), IsIso-invariant (IsIso.linkType_eq), and at -p it is LinkType.antipode (linkType_antipode).",
+  "To compare a statement across lifted developing pairs, read the degree-0 images on i+-(L) (IsLiftedDev.deSitter_degree_zero_iff, bdPlus_/bdMinus_degree_zero_iff): i+-(L) is chart-free, the image is only defined up to Gamma_p.",
+  "A 256-case 'two constructors clash' proof: rcases both with Bool patterns (_ | _), dsimp only [the def] at both, then one `first` battery; a branch that rewrites must end in `done`, otherwise it 'succeeds' with the goal open and consumes the hypotheses (seen in pairType_unique).",
+  "Inside `first | (obtain … := e h1; …) | skip`, an elaboration error in `e h1` is logged, not caught: guard such alternatives with a helper lemma or an explicit by_cases instead.",
+  "angle (mirror f⁻¹) = angle f is GX.GTilde.angle_mirror_inv (through CircleDeg1Lift.tendsto_translation_number₀ and translationNumber_units_inv)."
+ ],
+ "notes": "All new; one existing file touched only by the import line the dispatch allows (scaffold/GXScaffold.lean). The file is sorry-free and strict-clean (-DwarningAsError=true) but stays in the scaffold: it imports GXScaffold.BBS.HSAntipodal, HSPositive and HSDegree, which import HSSingularities (and through it FunnelGTilde/PSL2NormalForms), so it graduates after them. Name check: no declaration of the file clashes with GX/, scaffold/GXScaffold/ or lean-causal (GammaLinkCircle.IsRegular.factor_eq of HSPositive is a different name from GX.factor_eq). The roadmap's 'every circle has exactly one of the types of l.855-922' is false as printed (finding 1): proved with the ninth type trivialHolonomy. The ledger row stays partial: the causal half waits on T-bbs-q8."
+}
