@@ -347,6 +347,8 @@ import Causal.FutureOneConnectedVacuous
 import Causal.Model.FlatSpaceCylinder
 import Causal.StrongCausalityLiftsCurves
 import Causal.DensSeparates
+import Causal.StronglyCausalTransport
+import Causal.Model.TimeCylinderLSC
 
 /-!
 # Causal — topological spacetimes

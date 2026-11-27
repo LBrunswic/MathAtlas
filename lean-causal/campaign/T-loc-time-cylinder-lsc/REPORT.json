@@ -1,0 +1,198 @@
+{
+ "target": "T-loc-time-cylinder-lsc",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/StronglyCausalTransport.lean",
+  "scaffold/CausalScaffold/Model/TimeCylinderLSC.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-loc-time-cylinder-lsc/REPORT.json",
+  "campaign/T-loc-time-cylinder-lsc/Probe.lean",
+  "campaign/T-loc-time-cylinder-lsc/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.StronglyCausalTransport CausalScaffold.Model.TimeCylinderLSC",
+ "build_result": "Build completed successfully (3683 jobs), no warning. Last run: CausalScaffold.Model.TimeCylinderLSC 1.2 s; CausalScaffold.StronglyCausalTransport 0.95 s at its first build. Before each of the three real builds I ran the same command with --no-build (kb/0228). It listed only my own modules as out of date. `lake build Causal.Model.FlatTimeCylinder Causal.DiamondConfinement --no-build` said 'All targets up-to-date (3681 jobs)', so nothing upstream rebuilt: no Causal.*, no mathlib, neither of the other closers' modules (LscSeparations, GalileoCurveForm). `taskset -c 0-11 lake env lean -DwarningAsError=true` passes on both files (exit 0, no output). While I worked, the model module was typechecked against a /tmp olean of the transport module (kb/0034), with nothing written in .lake. Probe.lean imports the model module. It runs #check on 11 declarations, #print axioms on 16 (the output is axioms.txt) and 7 examples. It passes under -DwarningAsError=true (exit 0). Every declaration depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": {
+  "transport_module": {
+   "module": "CausalScaffold.StronglyCausalTransport",
+   "layer": "ETT",
+   "note": "One import, Causal.DiamondConfinement, which reaches Causal.GXStructure (ChartIso) and Causal.CausalIsoInvariance (IsCausalIso) through Causal.TimelikeHomotopy. I checked it in memory with tools/ladder.py (kb/0247), the module added to lean_index()['imports']. model_path is None. The transitive closure has 32 modules, with no Causal.Minkowski, Static, SingularFlat, Flat.*, Model.* or Port.*. import_chain to Causal.Ladder.Rules is None, so a future [[implies]] or [[fact]] whose witness lives here could become a causal_ladder rule without a cycle (kb/0221)."
+  },
+  "model_module": {
+   "module": "CausalScaffold.Model.TimeCylinderLSC",
+   "layer": 3,
+   "kind": "localisation",
+   "model": "flat-gx",
+   "note": "Direct imports: Causal.Model.FlatTimeCylinder and CausalScaffold.StronglyCausalTransport. The closure has 169 modules. Its Causal.Port.* are only GXBasic, UniversalCover and Developing (kb/0078), with no Causal.Port.E0*. Its Causal.Model.* are CurvesExtendModels and FlatTimeCylinder. Nothing imports the new module, so it is a leaf and creates no cycle. Causal.Model.FlatTimeCylinder is itself imported by Causal.GluingModels.ModelStatic, so it is not a leaf, contrary to the roadmap's evidence; this is harmless."
+  },
+  "provides": {
+   "locally_strongly_causal": "Causal.Flat.timeCylinder_locallyStronglyCausal : (timeCylinder d).LocallyStronglyCausal (new; every d); for every flat spacetime Causal.Flat.flatCausality_locallyStronglyCausal",
+   "curves_extend": "Causal.Flat.timeCylinder_curvesExtend (Causal.Model.FlatTimeCylinder, cited)",
+   "absolutely_minimal": "Causal.Flat.timeCylinder_absolutelyMinimal (cited)",
+   "causally_arc_connected": "Causal.Flat.timeCylinder_causallyArcConnected (cited)",
+   "push_up": "Causal.Flat.timeCylinder_pushUp (cited)",
+   "tarentin": "Causal.Flat.timeCylinder_tarentin (cited)",
+   "chronal_neighbours": "Causal.Flat.timeCylinder_chronalNeighbours (cited)",
+   "causally_open": "Causal.Flat.timeCylinder_causallyOpen (cited)",
+   "causally_plain": "Causal.Flat.timeCylinder_causallyPlain (cited)"
+  },
+  "rule": "Each provided property is stated as the ladder's own definition at timeCylinder d: Causal.Causality.LocallyStronglyCausal, .CurvesExtend, Causal.Precausality.AbsolutelyMinimal, .CausallyArcConnected, Causal.Causality.PushUp, .Tarentin, .ChronalNeighbours, .CausallyOpen, .CausallyPlain. The new one is in this module. The other eight were already in Causal.Model.FlatTimeCylinder, and both separations carry them as conjuncts."
+ },
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.ChartIso.causallyConvexIn_image_iff",
+   "file_line": "scaffold/CausalScaffold/StronglyCausalTransport.lean:70",
+   "statement": "ChartIso C D e → W ≤ chartSource e → V ⊆ W → (C.CausallyConvexIn V W ↔ D.CausallyConvexIn (e '' V) (chartImage e W))",
+   "standing": "model-free core (1): 'a ChartIso transports causal convexity in W ≤ chartSource'. The relations of W are read through the chart; injectivity on the source gives the converse.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.stronglyCausalOn_iff",
+   "file_line": "scaffold/CausalScaffold/StronglyCausalTransport.lean:93",
+   "statement": "ChartIso C D e → W ≤ chartSource e → (C.StronglyCausalOn W ↔ D.StronglyCausalOn (chartImage e W))",
+   "standing": "(1) 'a Causal.ChartIso carries StronglyCausalOn', both directions, for every open W in the source. Neighbourhoods move by OpenPartialHomeomorph.image_mem_nhds and continuousAt(_symm); convexity moves by the lemma above.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.stronglyCausalOn_of_le, Causal.ChartIso.stronglyCausalOn_chartSource",
+   "file_line": "scaffold/CausalScaffold/StronglyCausalTransport.lean:128, :134",
+   "statement": "ChartIso C D e → W ≤ chartSource e → D.StronglyCausalOn (chartImage e W) → C.StronglyCausalOn W; ChartIso C D e → D.StronglyCausal → C.StronglyCausalOn (chartSource e)",
+   "standing": "corollaries. The second goes through stronglyCausalOn_top and StronglyCausalOn.mono.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.locallyStronglyCausal_of_chartIso",
+   "file_line": "scaffold/CausalScaffold/StronglyCausalTransport.lean:147",
+   "statement": "(∀ p : M, ∃ (X : Type v) (_ : TopologicalSpace X) (D : Causality X) (e : OpenPartialHomeomorph M X), p ∈ e.source ∧ ChartIso C D e ∧ D.LocallyStronglyCausal) → C.LocallyStronglyCausal",
+   "standing": "(1) 'a causality chart-isomorphic near each point to strongly causal ones is locally strongly causal', with a model for each point. ⚠ weakened: the models need only be locally strongly causal. W = e.source ∩ e⁻¹(W') for a strongly causal W' ∋ e p of the model.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.locallyStronglyCausal_of_forall_chartIso, Causal.Causality.locallyStronglyCausal_of_forall_chartIso_of_stronglyCausal",
+   "file_line": "scaffold/CausalScaffold/StronglyCausalTransport.lean:161, :170",
+   "statement": "D.LocallyStronglyCausal → (∀ p, ∃ e, p ∈ e.source ∧ ChartIso C D e) → C.LocallyStronglyCausal; D.StronglyCausal → (same) → C.LocallyStronglyCausal",
+   "standing": "the one-model forms; the second is what the flat instance uses.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsCausalIso.stronglyCausalOn_iff, Causal.IsCausalIso.locallyStronglyCausal_iff",
+   "file_line": "scaffold/CausalScaffold/StronglyCausalTransport.lean:183, :189",
+   "statement": "IsCausalIso C D e → (C.StronglyCausalOn W ↔ D.StronglyCausalOn (e.opensCongr W)); IsCausalIso C D e → (C.LocallyStronglyCausal ↔ D.LocallyStronglyCausal)",
+   "standing": "beyond the target. The new node is invariant under causal isomorphisms, like every other causality-sort node (Causal.CausalIsoInvariance), through isCausalIso_iff_chartIso. Its home would be Causal/CausalIsoInvariance.lean, but that module is upstream of DiamondConfinement, so the lemma stays here.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.locallyStronglyCausal_of_chartIso_chartAt",
+   "file_line": "scaffold/CausalScaffold/Model/TimeCylinderLSC.lean:88",
+   "statement": "∀ {M} [TopologicalSpace M] [ChartedSpace (Minkowski d) M] {C : Causality M}, (∀ x, ChartIso C (minkowski d) (chartAt (Minkowski d) x)) → C.LocallyStronglyCausal",
+   "standing": "beyond the target, ⚠ weakened. It holds for any causality whose chart at each point is an isomorphism onto 𝐌ⁿ: no HasGroupoid and no absolute minimality, so it covers the non-minimal causalities of GX_maximal_not_unique's kind as well.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.flatCausality_stronglyCausalOn_chartSource, Causal.Flat.flatCausality_stronglyCausalOn_of_le",
+   "file_line": "scaffold/CausalScaffold/Model/TimeCylinderLSC.lean:101, :108",
+   "statement": "e ∈ (gxGroupoid (isom d) (Minkowski d)).maximalAtlas M → (flatCausality d M).StronglyCausalOn (chartSource e); and the same for every open W ≤ chartSource e",
+   "standing": "(2) 'every chart of the maximal atlas onto 𝐌ⁿ, strongly causal': its source is strongly causal as a spacetime (flatCausality_chartIso, minkowski_stronglyCausal, ChartIso.stronglyCausalOn_chartSource).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.flatCausality_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/Model/TimeCylinderLSC.lean:116",
+   "statement": "∀ {d} {M} [TopologicalSpace M] [ChartedSpace (Minkowski d) M] [HasGroupoid M (gxGroupoid (isom d) (Minkowski d))], (flatCausality d M).LocallyStronglyCausal",
+   "standing": "(2), the instance by its dispatched name. Every flat spacetime, every d (d = 0 included), no separation axiom. Proved as locallyStronglyCausal_of_chartIso_chartAt flatCausality_chartIso_chartAt.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.timeCylinder_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/Model/TimeCylinderLSC.lean:124",
+   "statement": "(timeCylinder d).LocallyStronglyCausal",
+   "standing": "provides locally_strongly_causal (every d).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.timeCylinder_separates_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/Model/TimeCylinderLSC.lean:133",
+   "statement": "1 ≤ d → (T2Space ∧ SecondCountableTopology ∧ ConnectedSpace of TimeCylinder d) ∧ CurvesExtend ∧ AbsolutelyMinimal ∧ CausallyArcConnected ∧ PushUp ∧ Tarentin ∧ ChronalNeighbours ∧ CausallyOpen ∧ CausallyPlain ∧ ¬ IsCausal ∧ ¬ CausallyCompact ∧ LocallyStronglyCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen (all at timeCylinder d)",
+   "standing": "(3). It has the conjuncts of timeCylinder_separates, verbatim and in their order, then the three of the dispatch. Proof: obtain on timeCylinder_separates hd (kb/0276), then timeCylinder_locallyStronglyCausal, timeCylinder_not_stronglyCausal, timeCylinder_not_stronglyCausalOpen.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/Model/TimeCylinderLSC.lean:150",
+   "statement": "(T2Space ∧ SecondCountableTopology ∧ ConnectedSpace ∧ CompactSpace of TimeCylinder 0) ∧ CurvesExtend ∧ AbsolutelyMinimal ∧ CausallyArcConnected ∧ PushUp ∧ Tarentin ∧ ChronalNeighbours ∧ CausallyOpen ∧ CausallyPlain ∧ CausallyCompact ∧ ¬ IsCausal ∧ LocallyStronglyCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen (all at timeCylinder 0)",
+   "standing": "(3), the timelike circle. It has the conjuncts of timeCylinder_zero_separates, verbatim and in their order, then the same three. See questions[0] for the naming.",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "ladder_entry": "programme/ladder.toml, [[fails]] from = [curves_extend, absolutely_minimal, causally_arc_connected, push_up, tarentin, chronal_neighbours, causally_open, causally_plain], to = \"is_causal\", witness = \"Causal.Flat.timeCylinder_separates\" (:2544–2548 as read at 22:41 UTC; anchor by text, other sessions rewrite the file)",
+   "current_witness": "Causal.Flat.timeCylinder_separates",
+   "replace_with": "from = the same eight + \"locally_strongly_causal\"; witness = \"Causal.Flat.timeCylinder_separates_locallyStronglyCausal\"",
+   "required": true,
+   "note": "This one re-pointing settles all three [[open]] pairs (simulation E). The cylinder lacks is_causal. By the ladder's backward reading it then lacks strongly_causal and strongly_causal_open, and both are now literal conjuncts of the witness as well."
+  },
+  {
+   "ladder_entry": "the [[fails]] with the same from, to = \"causally_compact\", witness = \"Causal.Flat.timeCylinder_separates\" (:2551–2555)",
+   "current_witness": "Causal.Flat.timeCylinder_separates",
+   "replace_with": "from + \"locally_strongly_causal\"; witness = \"Causal.Flat.timeCylinder_separates_locallyStronglyCausal\"",
+   "required": false,
+   "note": "Settles nothing new (locally_strongly_causal → causally_compact is already 'fails'); it records the stronger witness."
+  },
+  {
+   "ladder_entry": "the [[fails]] from = [causally_compact, curves_extend, …, causally_plain], to = \"is_causal\", witness = \"Causal.Flat.timeCylinder_zero_separates\" (:2568–2572)",
+   "current_witness": "Causal.Flat.timeCylinder_zero_separates",
+   "replace_with": "from + \"locally_strongly_causal\"; witness = \"Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal\"",
+   "required": false,
+   "note": "A second witness of the same three pairs, compact and causally compact. It settles no further pair."
+  },
+  {
+   "ladder_entry": "the three [[open]] from = \"locally_strongly_causal\", to = \"is_causal\", \"strongly_causal\", \"strongly_causal_open\" (:5772–5785, as read at 22:41 UTC)",
+   "current_witness": "none ('False, argued')",
+   "replace_with": "removed in the same edit, as the three [[fails]] above now settle them. Kept, they are three 'open … is already settled; remove it' errors (simulation C).",
+   "required": true,
+   "note": "→ is_causal: the cylinder is the only witness in either reading (roadmap evidence). → strongly_causal, → strongly_causal_open: the loop fan's too (T-abs-lsc-separations, Causal.loopFan_separates_locallyStronglyCausal in the other closer's LscSeparations.lean). Either witness, or both, settles them. The keeper chooses."
+  },
+  {
+   "ladder_entry": "the comments: the node's (its comment above id = \"locally_strongly_causal\" at :1073, 'none is stated to have it without being strongly causal'; '21 are [[open]] entries') and the section comment of the locally_strongly_causal [[open]] block (:5606 onwards, the item '* locally_strongly_causal → X (3 …)', whose cylinder bullet says 'A: locally strongly causal')",
+   "current_witness": "—",
+   "replace_with": "the cylinder's local strong causality is now L (Causal.Flat.timeCylinder_locallyStronglyCausal; every flat spacetime, Causal.Flat.flatCausality_locallyStronglyCausal). The count becomes 3 implied, 19 refuted, 18 open of the 40 pairs.",
+   "required": false,
+   "note": "Bookkeeping only."
+  }
+ ],
+ "ladder_simulation": "In memory only; no file written. tools/ladder.py was imported under python3 -I from a script in /tmp (kb/0276). I took d = load() and a copy.deepcopy(d) for each variant, then compared ladder.matrix, ladder._contradictions and ladder.counterexample. ladder.check(d, names=lean_names() | {the two new witnesses}) resolves the new names as graduation would. I ran it twice: before and after the rewrite of programme/ladder.toml by another session (mtime 22:38:07 UTC), with identical results. Baseline: 363 fails, 41 implied, 28 open, 270 ill-typed; 0 contradictions; 3 [[open]] from locally_strongly_causal. (A) The three cylinder [[fails]] re-pointed (from + locally_strongly_causal, the new witnesses) and the three [[open]] removed: 366 fails, 41 implied, 25 open, 270 ill-typed; 0 contradictions. Exactly 3 pairs move, open → fails: locally_strongly_causal → is_causal, → strongly_causal, → strongly_causal_open. No other pair moves. check gives 0 errors with the names resolved. On today's tree it gives 3 'witness not found in lean-causal (a full name)', so the edit waits for graduation. For the d ≥ 1 witness to is_causal, counterexample() gives has = {absolutely_minimal, causally_arc_connected, causally_open, causally_open_future, causally_plain, chronal_neighbours, curves_extend, has_chronal_neighbour, locally_causally_open, locally_causally_open_future, locally_push_up, locally_strongly_causal, push_up, tarentin} and lacks = {globally_hyperbolic, is_causal, strongly_causal, strongly_causal_open, time_function}. For the d = 0 witness it is the same with causally_compact in has. (B) A plus two new [[fails]] (the nine ids → strongly_causal, → strongly_causal_open): identical matrix, 0 contradictions, so they are redundant. (C) A but the three [[open]] kept: 3 errors 'open locally_strongly_causal→X is already settled; remove it'. (D) The old entries kept beside the re-pointed ones: identical to A. (E) Only the d ≥ 1 to = is_causal entry re-pointed, and the three [[open]] removed: identical to A (366/41/25/270, 0 contradictions, the same 3 pairs moved). So that one entry is the minimal edit.",
+ "extra_decls": [
+  "Causal.ChartIso.causallyConvexIn_image_iff",
+  "Causal.ChartIso.stronglyCausalOn_iff",
+  "Causal.ChartIso.stronglyCausalOn_of_le",
+  "Causal.ChartIso.stronglyCausalOn_chartSource",
+  "Causal.Causality.locallyStronglyCausal_of_chartIso",
+  "Causal.Causality.locallyStronglyCausal_of_forall_chartIso",
+  "Causal.Causality.locallyStronglyCausal_of_forall_chartIso_of_stronglyCausal",
+  "Causal.IsCausalIso.stronglyCausalOn_iff",
+  "Causal.IsCausalIso.locallyStronglyCausal_iff",
+  "Causal.Flat.locallyStronglyCausal_of_chartIso_chartAt"
+ ],
+ "findings": [
+  "The ladder's argued claim is true and now proved (programme/ladder.toml: the cylinder bullet of the locally_strongly_causal [[open]] section comment, :5660–5668 as read at 22:41 UTC, and the note of [[open]] locally_strongly_causal → is_causal, :5772–5775). The flat time cylinder, and the timelike circle at d = 0, are locally strongly causal. The proof is shorter than the note's and needs neither the covering map nor a small Minkowski ball. The chart at a point is a ChartIso onto minkowski d, minkowski d is strongly causal for every d (so d = 0 needs no separate timelike-line argument), and a ChartIso carries StronglyCausalOn. The chart's whole source is strongly causal as a spacetime.",
+  "Stronger than the target in three places. (a) The transport needs only locally strongly causal models, a model per point (Causality.locallyStronglyCausal_of_chartIso). (b) Every causality whose chart at each point is a ChartIso onto minkowski d is locally strongly causal (Flat.locallyStronglyCausal_of_chartIso_chartAt). That needs no HasGroupoid and no absolute minimality, so it holds in the no-gluing reading for the non-minimal causalities with the chart condition as well. (c) locally_strongly_causal is invariant under causal isomorphisms (IsCausalIso.locallyStronglyCausal_iff), which the node lacked.",
+  "Argued, not formalized: chart sources can be large. On ℤe₀\\𝐌ⁿ the inverse of the projection on the slab {0 < t < 1} should be a chart of the maximal atlas, since its transitions are time translations. If so, the cylinder minus one slice, a dense open set, is strongly causal as a spacetime while the cylinder is not. The membership of that chart in the maximal atlas is not proved here.",
+  "No finding against ETT.tex: the target has no paper label."
+ ],
+ "questions": [
+  "One declaration or two. The dispatch names one, Causal.Flat.timeCylinder_separates_locallyStronglyCausal, 'the conjuncts of timeCylinder_separates (d ≥ 1) and timeCylinder_zero_separates (the timelike circle) with …'. I read it as two separations, one per existing witness, as the ladder has: the dispatched name for d ≥ 1 and Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal for d = 0. A single conjunction of both would be a projection of these two.",
+  "Where the three conjuncts go. I appended them after the old conjuncts, in the dispatch's order (LocallyStronglyCausal, ¬ StronglyCausal, ¬ StronglyCausalOpen). That keeps every old conjunct at its old position, so a projection of the old theorem reads the same on the new one. If the keeper prefers the positives before the negatives, that is a reordering.",
+  "Which `from` and which witness for → strongly_causal and → strongly_causal_open. The cylinder (this target) and the loop fan (T-abs-lsc-separations) both settle them. The matrix is identical whichever is recorded (simulations A, B, D, E). I propose only the re-pointing of the existing cylinder entry, and did not choose for the keeper."
+ ],
+ "kb_proposals": [
+  "Strong causality through charts: Causal.ChartIso.stronglyCausalOn_iff (CausalScaffold.StronglyCausalTransport, ETT layer) says W ≤ chartSource e is strongly causal as a spacetime iff chartImage e W is. Causality.locallyStronglyCausal_of_chartIso: chart-isomorphic near each point to locally strongly causal models ⇒ LocallyStronglyCausal. For a model chart use …_of_forall_chartIso_of_stronglyCausal with the model's StronglyCausal. Every flat spacetime is locally strongly causal (Causal.Flat.flatCausality_locallyStronglyCausal), so the flat time cylinder is locally strongly causal and not strongly causal (T-loc-time-cylinder-lsc).",
+  "Pitfall: destructuring a long conjunction in term mode (`let ⟨h₀, …, h₁₀⟩ := thm; ⟨…⟩`, kb/0276's pattern) compiles to an auxiliary `match_1_1` whose kernel check took 6.2 s at timeCylinder 0 (trace.profiler: '[Kernel] typechecking declarations [….match_1_1]'). `by obtain ⟨…⟩ := thm; exact ⟨…⟩` took 1.2 s for the whole module. Prefer obtain when re-conjoining a separation (T-loc-time-cylinder-lsc).",
+  "Per-declaration timings: `lake env lean -Dtrace.profiler=true -Dtrace.profiler.threshold=300 <file>` names the slow declaration and phase (elaboration or kernel). Plain -Dprofiler=true gives only the cumulative times."
+ ],
+ "notes": "Two new files, 198 + 166 lines, 0 sorry. The directory scaffold/CausalScaffold/Model/ was created; it held no file before. No ETT label: the docstrings mark only the target's sub-ids. Graduation (kb/0015, kb/0025): add `import CausalScaffold.StronglyCausalTransport` and `import CausalScaffold.Model.TimeCylinderLSC` to scaffold/CausalScaffold.lean now, so that the axiom sweep sees them; I did not edit that file. At graduation the files move to Causal/StronglyCausalTransport.lean (module Causal.StronglyCausalTransport, ETT layer) and Causal/Model/TimeCylinderLSC.lean (module Causal.Model.TimeCylinderLSC), their imports go into Causal.lean, and the model module's second import becomes Causal.StronglyCausalTransport. Both pass -DwarningAsError=true. Probe.lean's import then becomes Causal.Model.TimeCylinderLSC. The keeper's re-pointing waits for graduation: the ladder resolves witness names in Causal/ only. Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold (the other closers' LscSeparations.lean and GalileoCurveForm.lean included), lean-gx, lean-benzecri, lean and lean-egf finds none of the new full names. ChartIso.causallyConvexIn_image_iff has namesakes only under Causal.LeTopIso and Causal.IsCausalIso, which are different full names. Hoist candidates (kb/0061): none. The transport module's natural home is beside StronglyCausalOn in Causal/DiamondConfinement.lean, a one-file merge if the master wants one. The IsCausalIso lemmas cannot go into Causal/CausalIsoInvariance.lean, which is upstream of DiamondConfinement. The /tmp olean used while typechecking (kb/0034) is left at /tmp/tclsc, because my rm was refused by the permission system; it is outside the repository. No git command was run.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: locallyStronglyCausal_of_chartIso_chartAt's docstring no longer says it covers GX_maximal_not_unique's non-minimal causalities (that theorem is on ℝ ⊕ ℝ, not 𝐌ⁿ); the 𝐌ⁿ analogue is marked argued, and the proved case named (locallyStronglyCausal_of_forall_chartIso_of_stronglyCausal with timelikeLine_stronglyCausal). declarations[6].standing's 'covers' reads the same way."
+}
