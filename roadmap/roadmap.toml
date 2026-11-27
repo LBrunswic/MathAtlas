@@ -3877,13 +3877,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_ext", "btzthm:maximal_btz_extension", "btzthm:globally_hyperbolic_manifolds_exists"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
 depends = ["T-btz-line-structure"]
-evidence = "BTZ_1.tex l.1544: « Let Σ be a Cauchy surface of M. Each BTZ line of M̄∖M is associated to a puncture of Σ ie an end which admits a disc neighborhood. By Richards Theorem [MR143186], a surface can only have countably many such ends. Therefore, sing₀(M̄) has at most countably many connected components. » GX.BTZMax.RichardsInput (scaffold MaxExtension.lean:189) concludes IsLindelof (S0 C). [r] With each component of sing₀ C open in sing₀ C (a 1-manifold is locally connected) and second countable (T-btz-line-structure), countably many components give a countable union of Lindelöf sets, hence Lindelöf: the input shrinks to the countability of the lines. The line-to-puncture association is not proved: mathlib has neither ends of a non-compact surface nor Richards' classification (its only ends are SimpleGraph's, Mathlib/Combinatorics/SimpleGraph/Ends), so it stays inside the cited input, now stated as the countability the proof uses. Universality and uniqueness do not use the input (REPORT notes), so only existence changes hypotheses; the curation updates the three rows' blocked_on. AUDIT-1's two docstring findings go with it: SCOPE (l.66) cites `globallyHyperbolic_of_directedCover`, which does not exist (it is globallyHyperbolic_of_iCover, with no directedness), and the checklist row (l.52) misdescribes the premise. E₀ only; the rows stay partial (T-btz-scope; OQ-150 (c) asks how a row on a named cited input is reported) Re-scoped 2026-11-27 (planner), after T-btz-line-structure (107b21c2). Most of the original scope is done: LineStructure.lean proves each line Lindelöf and second countable with no ambient second countability, and GX.BTZLine.richardsInput_iff_countableLines (LineStructure.lean:657) shows « nothing is lost »; its REPORT notes: « For T-btz-richards-split: RichardsInput M can be replaced by CountableLinesInput M through richardsInput_of_countableLines, with nothing lost (the iff) ». AUDIT-1's SCOPE finding is already fixed: MaxExtension.lean's SCOPE now cites globallyHyperbolic_of_iCover (l.66). What is left. (1) The three existence statements restated on CountableLinesInput. LineStructure imports MaxExtension, so the restated forms go in LineStructure.lean or a new module below it, never in MaxExtension (an import cycle). (2) MaxExtension's checklist row (l.52) still describes RichardsInput as packing three ingredients, the line second countability among them; it should point at the iff and at CountableLinesInput as the form of record. (3) The curation: btzthm:maximal_btz_extension and btzthm:globally_hyperbolic_manifolds_exists still name GX.BTZMax.RichardsInput in blocked_on (papers/btz ledger), while btzthm:BTZ_ext already names CountableLinesInput. Small: priority 9, one closer. The rows stay partial (T-btz-scope; OQ-150 (c))."
+evidence = "btz_ext_of_countableLines / chainsInherit_of_countableLines on CountableLinesInput (GXScaffold.BTZ.RichardsSplit); MaxExtension docstring aligned; three rows re-pointed; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "8af81aea"
 
 
 [[target]]
@@ -3893,12 +3894,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:holonomy_globally_hyperbolic_cauchy_compact"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/Admissible.lean:793 « SORRY(btzprop:holonomy_globally_hyperbolic_cauchy_compact): Barbot's theorem that the linear part of the holonomy of a Cauchy-complete GH non-elementary flat spacetime is faithful and discrete (barbot_globally_2004); the libraries prove rho faithful and discrete in Isom(M3) only (GX.e0RegM_holonomy, its SCOPE (c')) ». BTZ_1.tex l.1149: « M* is a globally hyperbolic Cauchy-complete 𝔼-maximal 𝔼-manifold with anabelian fundamental group; Barbot [barbot_globally_2004] proved that the linear part ρ_L of the holonomy of such a manifold is discrete and faithful ». No ruling is needed. DEC-34: Barbot is formalized in lean-causal and « gx's wave 5 ... consumes the result rather than re-proving it ». The papers/barbot row bthm:caucomp is closed (barbot_A, barbot_A_unconditional, Causal/Flat/BarbotUnconditional.lean:67), and lean-gx's pinned Causal (51cbb00) has the module. What is built. Strict GX/BTZ/Holonomy.lean imports Causal.Flat.Classification and proves, for Reg M's developing pair, ρ faithful (holonomy_injective), discrete in isomTopology (holonomy_discrete), torsion-free, with a loxodromic element (exists_isLoxodromic_of_parabolic_of_not_metabelian, l.1021). Causal.Flat.Loxodromic.loxo_generic_centralExtension (l.3393) takes the same developing pair (IsDevelopingPair x₀ D ρ, DevelopsCC) in the nonelementary loxodromic case. It returns a finite-index Γ' ≤ ρ.range and a family-(b) spacetime. Family (b) is IsCHCentralExtensionOf (l.2267): E = span kerTranslations Γ is spacelike and fixed pointwise by every linOf γ, and DiscreteTopology (linearImage Γ). [r] (planner; route, unchecked in Lean) This follows Barbot's own l.3405–3440 (« L might be noninjective! Let 𝒩 be its kernel: its elements are translations, and the translation vectors form a lattice in some spacelike linear space E »). In 𝐌³, a nonzero spacelike E fixed pointwise by L(Γ') puts L(Γ') in the stabilizer of a spacelike vector, which is abelian. Then Γ' is metabelian (abelian kernel, abelian image), which contradicts the loxodromic, non-metabelian holonomy on a finite-index subgroup (the closer checks which of Holonomy.lean's lemmas gives that contradiction). So E = 0 and L is injective on Γ'. ker L ∩ ρ.range is then a finite group of translations, hence trivial, and discreteness passes from L(Γ') to L(ρ.range) by finite index. The closer must check one step first: whether loxo_generic_centralExtension's group is Γ' itself or its restriction Γ'_U to the maximal unipotent subspace U of Prop 10.4 (its docstring: « The family-(b) group of M₁ is the restriction Γ'_U »). If it is Γ'_U, U = 𝐌³ has to be shown for d = 2, or exists_generic_reduction's discreteness hdisc and exists_finiteIndex_restrict_trivial_on_span have to be used directly. If neither closes in one dispatch, the closer reports the missing lemma and the target is split. E₀ only; the row stays partial on the marking (T-btz-headline-repr) and T-btz-scope. Edits Admissible.lean only, or a new module it imports"
+evidence = "e0RegM_linearPart_faithful_discrete proved (GXScaffold.BTZ.AdmissibleLinear, from lean-causal's Barbot + π₁ not metabelian; U = 𝐌³ for d = 2, no split needed); btzprop_holonomy_e0 sorry-free; row partial (E₀, marking a hypothesis); audit AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "726b3f7d"
 
 [[target]]
 id = "T-btz-surface-group-nonmetabelian"
@@ -3921,12 +3923,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_Cauchy-completness"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/CauchySpear.lean:177 « SORRY(btzthm:BTZ_Cauchy-completness): l.1604 asserts it; causal convexity of M₁ ∪ Int(S₁) in M₂ needs J⁻ of a BTZ point of Int(S₁) to be the chart's axis below it (SingularFlatAxioms.Jminus_eq_image matched with the axis parametrization), not in the library ». BTZ_1.tex l.1604: « Notice M₁ ∪ Int(S₁) is a globally hyperbolic BTZ-extension of M₁, by BTZ-maximality of M₁, we deduce that Int(S₁) ⊂ M₁ ». OQ-152 (c) records the assertion as unjustified; the proof is mathematics, not a reading. The file's SCOPE (l.73–79) gives the route: « The natural proof is causal convexity of M₁ ∪ Int(S₁) in M₂, from that of M₁ (causallyConvexIn_range) and the fact that the causal past of a BTZ point of Int(S₁) is the part of its BTZ line below it, matched with the axis of S₁'s chart ». What is built. CauchySpear.causallyConvexIn_range (l.136). lean-causal Causal/SingularFlat.lean:368 Jminus_eq_image: « In a causal E_{≥0}-manifold, the past of a BTZ point p is the half-line below p of its BTZ line: J^-(γ 0) = γ(]-∞, 0]) », for γ a closed embedding, causal, with range the component of sing₀. GX.E0AbsMax.e0_sfa_of_globalBTZ supplies SingularFlatAxioms for E₀-manifolds. GX.BTZLine (LineStructure.lean) has lineChart x, the τ of the paper chart, with paperChart_mem_axis_iff (sing₀ is the axis in every paper chart). Remark 1 (GX.E0AbsMax.globallyHyperbolicOn_of_causallyConvexIn) turns causal convexity into global hyperbolicity on an open set. With this, spearInt_subset_range and cauchy_spear rest on bluntSpear_subset_M0 alone. Edits CauchySpear.lean below l.168 only. The other sorry, at l.165, is T-btz-cauchy-spear-m0 (planned), so the two do not collide"
+evidence = "globallyHyperbolicOn_union proved by causal convexity of M₁ ∪ Int(S₁) and B21 Remark 1; cauchy_spear rests on bluntSpear_subset_M0 only; audit AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "65748641"
 
 [[target]]
 id = "T-btz-cauchy-spear-m0"

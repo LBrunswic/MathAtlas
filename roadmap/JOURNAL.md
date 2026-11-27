@@ -1047,3 +1047,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - added 6 (T-btz-linear-part-faithful, T-btz-surface-group-nonmetabelian, T-btz-spear-union-gh ready; T-btz-cauchy-spear-m0, T-btz-cauchy-step2-surface, T-btz-cauchy-step2-max planned); promoted T-btz-richards-split (re-scoped) and T-btz-reg-complete-graduate (master, exclusive) to ready; refined T-btz-cauchy-conservation (only (ii)⇒(i) unblocked by the tail). No new needs-ruling question.
 - gates: roadmap ✓ (265 targets), atlas ✓
 - next: T-btz-linear-part-faithful, T-btz-spear-union-gh, T-btz-richards-split (lean-gx)
+
+## 2026-11-27 23:55 · wave of 3 · T-btz-linear-part-faithful, T-btz-spear-union-gh, T-btz-richards-split
+- T-btz-linear-part-faithful: Admissible's last sorry closed (AdmissibleLinear: Barbot via lean-causal + π₁ not metabelian; U = 𝐌³ for d = 2); btzprop_holonomy_e0 sorry-free; row partial (E₀, marking a hypothesis); audit minor (2 docstring cells, fixed). The closer built three missing Causal oleans inside lean-gx/.lake/packages/Causal (untracked build products only).
+- T-btz-spear-union-gh: globallyHyperbolicOn_union proved (causal convexity + B21 Remark 1); CauchySpear keeps one tagged sorry (bluntSpear_subset_M0, T-btz-cauchy-spear-m0); audit clean.
+- T-btz-richards-split: existence form on CountableLinesInput (RichardsSplit); three rows re-pointed; audit minor (docstring, fixed).
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red; restate: 0 new candidates
+- commits: 726b3f7d 65748641 8af81aea 1a3fc171 (+ statuses)
+- wall time: 23:00–23:55; agents in parallel: 3 closers, 3 auditors
+- next: T-btz-reg-complete-graduate (master, exclusive), T-btz-surface-group-nonmetabelian, builder refresh
