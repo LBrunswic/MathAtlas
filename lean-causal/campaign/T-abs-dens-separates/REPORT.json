@@ -1,0 +1,111 @@
+{
+ "target": "T-abs-dens-separates",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/DensSeparates.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-dens-separates/REPORT.json",
+  "campaign/T-abs-dens-separates/Probe.lean",
+  "campaign/T-abs-dens-separates/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.DensSeparates",
+ "build_result": "Build completed successfully (3153 jobs), no warning. Before each real build I ran the --no-build dry run (kb/0228). It listed only CausalScaffold.DensSeparates as out of date, so nothing upstream (Causal.*, mathlib) was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes (exit 0, no output). campaign/.../Probe.lean imports the module and runs #check and #print axioms on all 6 declarations; the output is in axioms.txt. It also has 5 `example`s that project, from the one witness, the proposed entry, the three pieces the ladder comment cites (in their On ⊤ forms), the target's nine assertions, and the two conjunctions that settle the three [[open]] pairs. It passes under -DwarningAsError=true (exit 0). Each declaration depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.Ers464WithoutArc, Causal.GluingModels.NonMinimal, Causal.TimelikeHomotopy, Causal.Ladder.Rules. tools/ladder.py's model_path is None for each, checked one at a time in memory on lean_index()['imports'] (kb/0247). It is also None for every direct import of each of them, and None for the new module with its four imports added to the index in memory. Its transitive closure holds 69 Causal modules and no module of MODEL_LAYER (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). Causal.Ers464WithoutArc and Causal.GluingModels.NonMinimal are ETT-layer, as the dispatch asked to check. Cycle check (kb/0221): Causal.Ers464WithoutArc reaches Causal.Ladder.Rules through Ers475CauchyForm → ErsSecondCountable → ErsMughd, and GluingModels.NonMinimal through PushUpNotOpen (import_chain). Nothing imports the new module, so it is a leaf and adds no cycle. It is a [[fails]] witness only, which emit-lean never imports. No statement mentions a metric, a curve length or a geodesic. The Lebesgue measure appears only inside the definition of densCausality (Causal.CBG.SubExtensionAbstract), not in any statement of this file.",
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.DensWitness.densCausality_lt_of_timelike",
+   "file_line": "scaffold/CausalScaffold/DensSeparates.lean:93",
+   "statement": "timelikeLine.lt U x y → densCausality.lt U x y",
+   "standing": "New. The chronal twin of Causal.DensWitness.densCausality_le_of_timelike (SubExtensionAbstract.lean:321): dens_of_subset gives dens = y − x, and y − x < 2(y − x).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.DensWitness.densCausality_pushUp",
+   "file_line": "scaffold/CausalScaffold/DensSeparates.lean:102",
+   "statement": "densCausality.PushUp",
+   "standing": "New. Through Causality.pushUp_iff: x ≪_U y ≤_U z, or x ≤_U y ≪_U z, gives x ≪_U z by dens_add (≤ plus < is <).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.DensWitness.chronalNeighbours_of_timelike",
+   "file_line": "scaffold/CausalScaffold/DensSeparates.lean:117",
+   "statement": "(∀ {U x y}, timelikeLine.lt U x y → D.lt U x y) → D.ChronalNeighbours, for any D : Causality ℝ",
+   "standing": "New, generic. Transported from timelikeLine_chronalNeighbours (LadderLocal.lean:547).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.DensWitness.chronalCurveOn_iff_timelike",
+   "file_line": "scaffold/CausalScaffold/DensSeparates.lean:131",
+   "statement": "(∀ {U x y}, D.lt U x y → x < y) → (∀ {U x y}, timelikeLine.lt U x y → D.lt U x y) → (D.ChronalCurveOn W c a b ↔ timelikeLine.ChronalCurveOn W c a b)",
+   "standing": "New, generic. The chronal form of Causal.DensWitness.causalCurveOn_iff_timelike (SubExtensionAbstract.lean:360), with the same proof: a relation of a small open interval around a point of the curve is the timelike line's.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.DensWitness.futureOneConnectedOn_of_timelike",
+   "file_line": "scaffold/CausalScaffold/DensSeparates.lean:156",
+   "statement": "(∀ {U x y}, D.lt U x y → x < y) → (∀ {U x y}, timelikeLine.lt U x y → D.lt U x y) → ∀ W : Opens ℝ, D.FutureOneConnectedOn W",
+   "standing": "New, generic. The curves move to the timelike line by chronalCurveOn_iff_timelike. The homotopy comes from Causal.timelikeLine_futureOneConnectedOn W (TimelikeHomotopy.lean:647), and each of its curves moves back.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.densCausality_separates",
+   "file_line": "scaffold/CausalScaffold/DensSeparates.lean:190",
+   "statement": "densCausality.GloballyHyperbolic ∧ Tarentin ∧ IsCausal ∧ CausallyCompact ∧ StronglyCausal ∧ HasTimeFunction ∧ CurvesExtend ∧ StronglyCausalOpen ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpen ∧ CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ LocallyCausallyOpen ∧ CausallyPlain ∧ ChronalNeighbours ∧ HasChronalNeighbourEverywhere ∧ FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ ¬ CausallyArcConnected ∧ ¬ AbsolutelyMinimal ∧ ¬ (∀ W : Opens ℝ, AbsolutelyMinimalOn W) (all of densCausality)",
+   "standing": "Closed statement on ℝ, no instance argument, 22 conjuncts. Every one of the target's nine assertions is here, and together the conjuncts decide all 20 causality-sort nodes of the ladder: 18 hold, and causally_arc_connected and absolutely_minimal fail. Pieces, as the dispatch named them: GloballyHyperbolic is Causal.DensWitness.densCausality_globallyHyperbolic (SubExtensionAbstract.lean:338). Tarentin is Causality.tarentinOn_top.1 of the second conjunct of Causal.ErsNoArcWitness.data (Ers464WithoutArc.lean:460) at D = densCausality, with hup from densCausality_le (:241) and hsub = densCausality_le_of_timelike (:321). ¬ CausallyArcConnected is the first conjunct of Causal.densCausality_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc (Ers464WithoutArc.lean:625), stated as the ladder's node CausallyArcConnected (= CausallyArcConnectedOn ⊤ by definition, ArcConnected.lean:133). ¬ AbsolutelyMinimal is Causal.GluingModels.densCausality_not_minimal (NonMinimal.lean:88), and its hereditary form is GluingModels.not_forall_of_not_absolutelyMinimal of it. The three new facts are PushUp, ChronalNeighbours and FutureOneConnected (also on every W). causal_ladder gives the other 13 on ℝ (T2, second countable): is_causal and causally_compact (GH); strongly_causal (GH ∧ tarentin, T2); time_function (GH ∧ tarentin, T2 + second countable); curves_extend; causally_open and causally_plain (push_up ∧ chronal_neighbours); strongly_causal_open (strongly_causal ∧ causally_open); locally_push_up; causally_open_future; locally_causally_open; locally_causally_open_future; has_chronal_neighbour.",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "ladder_entry": "NEW [[fails]] (required, the target): from = [\"globally_hyperbolic\", \"tarentin\"], to = \"causally_arc_connected\", witness = \"Causal.densCausality_separates\", status = \"checked\", no `space` (ℝ is the ambient). Comment: 'Reading: no-gluing only (kb/0014, OQ-18, DEC-167): the density causality is not absolutely minimal (conjuncts ¬ AbsolutelyMinimal and ¬ ∀ W, AbsolutelyMinimalOn W), so it is not one of ETT's spacetimes under a gluing reading of defi:causalite.' Place: beside the other → causally_arc_connected entries of the counterexamples section (e.g. after the rational-jump plane's main entry, programme/ladder.toml:2744–2748, to = causally_arc_connected), or at the end of the section, before :2973.",
+   "current_witness": "none: the separation is named only in the comment programme/ladder.toml:243–251 (T-lad-record-ers-cauchy-forms), 'not recorded'",
+   "replace_with": "Causal.densCausality_separates",
+   "required": true,
+   "note": "The pair is not an [[open]] entry. An [[open]] has one `from` id, and no [[open]] or [[fails]] has from [globally_hyperbolic, tarentin]. The ladder does not record it at all, only in the comment at :243–251. The comment's 'has no conjoined Lean witness … so it is not recorded' becomes stale at graduation. ladder.counterexample of the entry (in memory) gives has = {causally_compact, curves_extend, globally_hyperbolic, is_causal, strongly_causal, tarentin, time_function} and lacks = {causally_arc_connected}, exactly the dispatch's lists. Every one of these is a conjunct. The entry moves no pair (simulation A). The single pairs are refuted already. globally_hyperbolic → causally_arc_connected is refuted by the gated and jump lines, both no-gluing. tarentin → causally_arc_connected is refuted by the rational-jump plane (either reading) and the global line."
+  },
+  {
+   "ladder_entry": "OPTIONAL second [[fails]] (or the same entry with a fuller `from`): from = the 18 positive nodes [globally_hyperbolic, tarentin, is_causal, causally_compact, strongly_causal, time_function, curves_extend, strongly_causal_open, push_up, locally_push_up, causally_open, causally_open_future, locally_causally_open_future, locally_causally_open, causally_plain, chronal_neighbours, has_chronal_neighbour, future_one_connected], to = \"absolutely_minimal\", witness = \"Causal.densCausality_separates\", same reading comment.",
+   "current_witness": "none",
+   "replace_with": "Causal.densCausality_separates",
+   "required": false,
+   "note": "Simulation B'/D: three [[open]] pairs become fails, all in the no-gluing reading. The [[open]] entries then have to go, because _contradictions reports 'open … is already settled; remove it' until they do. (1) chronal_neighbours → absolutely_minimal ([[open]] at programme/ladder.toml:4882–4885). densCausality is its FIRST Lean witness. The note's argued Galileo and timelikeLineTop routes want lemmas that are not in Lean. Its sentence 'The ladder's Lean models with chronal neighbours are all absolutely minimal' becomes false at graduation. The note itself says the pair holds in the gluing reading, so a no-gluing witness is all there can be. (2) future_one_connected → absolutely_minimal (:5051). Causal.jumpLine_separates_futureOneConnected (Causal/FutureOneConnectedVacuous.lean:303, no-gluing) already refutes it in Lean and awaits recording. (3) future_one_connected → causally_arc_connected (:5056). Causal.rationalLine_separates_futureOneConnected (:219) refutes it in either reading, a stronger witness, and also awaits recording. So once T-abs-future-one-connected-vacuous is recorded, this entry adds only (1). With to = absolutely_minimal, the lacks are {absolutely_minimal, causally_arc_connected}, since causally_arc_connected ⇒ absolutely_minimal. With to = causally_arc_connected and the same from (simulation B), only (3) moves."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:243–251 (comment of T-lad-record-ers-cauchy-forms)",
+   "current_witness": "three declarations, named in the comment, none conjoining",
+   "replace_with": "Causal.densCausality_separates (comment only)",
+   "required": false,
+   "note": "Historical record of that run. The keeper may append that the proposal is now a conjoined witness, or leave the comment as it stands."
+  }
+ ],
+ "ladder_simulation": "In memory only (no file written), on programme/ladder.toml as of mtime 2026-11-27 20:57:07 UTC, run twice with identical results. I imported tools/ladder.py with python3 -I from a script outside the tree and took d = load(), then copy.deepcopy(d) for each variant (kb/0276). I compared matrix() pair by pair and ran _contradictions() and check(v, lean_names() | {'Causal.densCausality_separates'}). Baseline: 309 fails (306 causality-sort), 38 implied, 45 open, 258 ill-typed, 0 contradictions, 0 check errors. (A) The keeper's entry, from [globally_hyperbolic, tarentin] to causally_arc_connected: no pair moves, 0 contradictions, 0 check errors. Without the new name in the index, check() reports 'fails Causal.densCausality_separates: witness not found in lean-causal (a full name)', so the recording waits for graduation (the ladder resolves names in Causal/ only). counterexample(): has {causally_compact, curves_extend, globally_hyperbolic, is_causal, strongly_causal, tarentin, time_function}, lacks {causally_arc_connected}. (A') The same with to = absolutely_minimal: no pair moves, 0 contradictions, lacks {absolutely_minimal, causally_arc_connected}. (B) from = the 18 positive nodes, to = causally_arc_connected: 1 pair moves, future_one_connected → causally_arc_connected, open → fails. (B') from = the 18, to = absolutely_minimal: 3 pairs move open → fails (chronal_neighbours → absolutely_minimal, future_one_connected → absolutely_minimal, future_one_connected → causally_arc_connected). The only 'contradictions' are the three 'open … is already settled; remove it'. (D) B' with those three [[open]] entries removed: 312 fails (309 causality-sort), 38 implied, 42 open (37 causality-sort), 0 contradictions, 0 check errors. (E) A + B' with the three removed: the same as D. I also checked that no existing [[fails]] entry has both globally_hyperbolic and tarentin in its has while lacking causally_arc_connected or absolutely_minimal. Five entries have both (the lightlike line ×3, the half-chronological line ×2), and none lacks either. That confirms the comment: no recorded counterexample gives the conjunction.",
+ "extra_decls": [
+  "Causal.DensWitness.densCausality_lt_of_timelike",
+  "Causal.DensWitness.densCausality_pushUp",
+  "Causal.DensWitness.chronalNeighbours_of_timelike",
+  "Causal.DensWitness.chronalCurveOn_iff_timelike",
+  "Causal.DensWitness.futureOneConnectedOn_of_timelike"
+ ],
+ "findings": [
+  "No paper is involved (layer 1, no ETT label). About the ladder: the density causality decides all 20 causality-sort nodes. Everything holds except causally_arc_connected and absolutely_minimal: it has push-up (dens is additive), chronal neighbours (it contains the timelike line's chronology), and is future one-connected on every open set (its chronal curves are the timelike line's). So it is a Lean model, no-gluing only, of every causality-sort node but those two, the first such model in the library. Through the ladder it is causally open, causally plain and strongly causal with open neighbourhoods. The ladder's comment at programme/ladder.toml:243–251 credits it with three properties only.",
+  "The [[open]] chronal_neighbours → absolutely_minimal (programme/ladder.toml:4882–4885) is refuted in Lean, in the no-gluing reading, by Causal.densCausality_separates (conjuncts ChronalNeighbours and ¬ AbsolutelyMinimal). Until now it was only argued, through Galileo's spacetime and timelikeLineTop, whose lemmas are not in Lean. Its note's sentence 'The ladder's Lean models with chronal neighbours are all absolutely minimal' becomes false once the module graduates.",
+  "Tarentin also follows from chronal_neighbours (ladder edge chronal_neighbours ⇒ tarentin, Causal.Causality.ChronalNeighbours.tarentin), so the ErsNoArcWitness.data route the dispatch named is one of two. I used that route, as dispatched.",
+  "The dispatch's line numbers hold: SubExtensionAbstract.lean:213, :241, :321, :338; Ers464WithoutArc.lean:460, :625; GluingModels/NonMinimal.lean:88; the ladder comment at programme/ladder.toml:243–251 (the dispatch's 243–252, the last line being 'or [[fact]] entry changes.')."
+ ],
+ "questions": [
+  "The `to` of the new entry. The keeper's proposal and the target read [globally_hyperbolic, tarentin] ⇏ causally_arc_connected, and I propose that entry as required. The witness also refutes [globally_hyperbolic, tarentin] ⇏ absolutely_minimal, which is stronger, since causally_arc_connected ⇒ absolutely_minimal. With to = absolutely_minimal the entry lacks both and still moves no pair (A'). But in the gluing reading that pair holds trivially, and the target names causally_arc_connected. I kept the target's `to` and put absolutely_minimal in the optional full entry. Which `to` is recorded is the keeper's call.",
+  "Whether the 18 positive nodes become the `from` (simulation B'/D). That settles three [[open]] pairs, all no-gluing. Two of them are already refuted in Lean by the unrecorded witnesses of T-abs-future-one-connected-vacuous, one of those in either reading. Only chronal_neighbours → absolutely_minimal is new to Lean. I propose it as optional and did not assume it.",
+  "The extra conjuncts. The target lists nine assertions, and the dispatch says 'decide every causality-sort node you can'. I read the nine as a lower bound and decided all 20 nodes. I added FutureOneConnectedOn W for every W beside the node, as Causal.rationalLine_separates_futureOneConnected and jumpLine_separates_futureOneConnected state it, and the hereditary ¬ ∀ W, AbsolutelyMinimalOn W beside ¬ AbsolutelyMinimal, as isolatedLine_separates states the positive form. If the keeper wants the nine-conjunct form, it is a projection (Probe.lean shows it).",
+  "Open in the gluing reading, not addressed here: [globally_hyperbolic, tarentin] ⇏ causally_arc_connected still has no absolutely minimal witness in Lean. densCausality cannot serve, and the rational-jump plane, which is tarentin, absolutely minimal and not causally arc-connected, is not recorded as globally hyperbolic. Whether the separation holds among absolutely minimal spacetimes is a question for the planner, not for this target."
+ ],
+ "kb_proposals": [
+  "The density causality decides every causality node: Causal.densCausality_separates (CausalScaffold.DensSeparates) proves 18 positive conjuncts and fails only causally_arc_connected and absolutely_minimal. The new facts are push-up (by dens_add), chronal neighbours and future one-connectedness. It is a no-gluing witness of [globally_hyperbolic, tarentin] ⇏ causally_arc_connected and the first Lean witness of chronal_neighbours ⇏ absolutely_minimal (T-abs-dens-separates).",
+  "A causality on ℝ whose ≪ goes up and contains the timelike line's has the timelike line's chronal curves (Causal.DensWitness.chronalCurveOn_iff_timelike), so it is future one-connected on every open set (futureOneConnectedOn_of_timelike) and has chronal neighbours (chronalNeighbours_of_timelike). These are the chronal twins of causalCurveOn_iff_timelike, and they apply to bigCausality and every IsMid D as well (T-abs-dens-separates)."
+ ],
+ "notes": "One new file of 223 lines, 0 sorry, no ETT label: the docstring marks nothing with **. The docstring is 5091 characters, which does not matter since no label is marked. Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.DensSeparates` to scaffold/CausalScaffold.lean. That root imports every scaffold module so that the axiom sweep sees it; I did not edit it. At graduation the file moves to Causal/DensSeparates.lean and its import goes into Causal.lean. Its imports are already Causal.* only. The keeper then adds the [[fails]] entry, which waits for graduation because tools/ladder.py resolves witness names in lean-causal/Causal only. The names live in namespace Causal.DensWitness, beside the existing causalCurveOn_iff_timelike. Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri and lean finds none of the 6 new names outside this file. The file adds no instance. No existing file was edited, the ladder included. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`. tools/ladder.py was only imported in memory (lean_index, model_path, import_chain, is_model, load, counterexample, on_ambient, matrix, _contradictions, check, lean_names), from scripts in /tmp/dens-sim outside the tree. The other closer working in lean-causal (StrongCausalityLiftsCurves.lean) was not touched: every dry run listed only this module.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the SCOPE dates the three-pair simulation (ladder of 2026-11-27 20:57 UTC) and says that once future_one_connected's separations are recorded only chronal_neighbours → absolutely_minimal is new (densCausality its first Lean witness, no-gluing reading)."
+}

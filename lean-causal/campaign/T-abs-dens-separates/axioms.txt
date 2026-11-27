@@ -1,0 +1,46 @@
+# T-abs-dens-separates — #check and #print axioms of every declaration of CausalScaffold.DensSeparates
+# produced 2026-11-27 on node1 by: cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true campaign/T-abs-dens-separates/Probe.lean (exit 0)
+# after: taskset -c 0-11 lake build CausalScaffold.DensSeparates (Build completed successfully, 3153 jobs)
+
+@densCausality_lt_of_timelike : ∀ {U : TopologicalSpace.Opens ℝ} {x y : ℝ},
+  timelikeLine.lt U x y → densCausality.lt U x y
+densCausality_pushUp : densCausality.PushUp
+@chronalNeighbours_of_timelike : ∀ {D : Causality ℝ},
+  (∀ {U : TopologicalSpace.Opens ℝ} {x y : ℝ}, timelikeLine.lt U x y → D.lt U x y) → D.ChronalNeighbours
+@chronalCurveOn_iff_timelike : ∀ {D : Causality ℝ},
+  (∀ {U : TopologicalSpace.Opens ℝ} {x y : ℝ}, D.lt U x y → x < y) →
+    (∀ {U : TopologicalSpace.Opens ℝ} {x y : ℝ}, timelikeLine.lt U x y → D.lt U x y) →
+      ∀ {W : TopologicalSpace.Opens ℝ} {c : ℝ → ℝ} {a b : ℝ},
+        D.ChronalCurveOn W c a b ↔ timelikeLine.ChronalCurveOn W c a b
+@futureOneConnectedOn_of_timelike : ∀ {D : Causality ℝ},
+  (∀ {U : TopologicalSpace.Opens ℝ} {x y : ℝ}, D.lt U x y → x < y) →
+    (∀ {U : TopologicalSpace.Opens ℝ} {x y : ℝ}, timelikeLine.lt U x y → D.lt U x y) →
+      ∀ (W : TopologicalSpace.Opens ℝ), D.FutureOneConnectedOn W
+densCausality_separates : densCausality.GloballyHyperbolic ∧
+  densCausality.Tarentin ∧
+    densCausality.IsCausal ∧
+      densCausality.CausallyCompact ∧
+        densCausality.StronglyCausal ∧
+          densCausality.HasTimeFunction ∧
+            densCausality.CurvesExtend ∧
+              densCausality.StronglyCausalOpen ∧
+                densCausality.PushUp ∧
+                  densCausality.LocallyPushUp ∧
+                    densCausality.CausallyOpen ∧
+                      densCausality.CausallyOpenFuture ∧
+                        densCausality.LocallyCausallyOpenFuture ∧
+                          densCausality.LocallyCausallyOpen ∧
+                            densCausality.CausallyPlain ∧
+                              densCausality.ChronalNeighbours ∧
+                                densCausality.HasChronalNeighbourEverywhere ∧
+                                  densCausality.FutureOneConnected ∧
+                                    (∀ (W : TopologicalSpace.Opens ℝ), densCausality.FutureOneConnectedOn W) ∧
+                                      ¬densCausality.CausallyArcConnected ∧
+                                        ¬densCausality.AbsolutelyMinimal ∧
+                                          ¬∀ (W : TopologicalSpace.Opens ℝ), densCausality.AbsolutelyMinimalOn W
+'Causal.DensWitness.densCausality_lt_of_timelike' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.DensWitness.densCausality_pushUp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.DensWitness.chronalNeighbours_of_timelike' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.DensWitness.chronalCurveOn_iff_timelike' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.DensWitness.futureOneConnectedOn_of_timelike' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.densCausality_separates' depends on axioms: [propext, Classical.choice, Quot.sound]
