@@ -1,0 +1,260 @@
+{
+ "target": "T-abs-strong-causality-lifts",
+ "package": "lean-causal",
+ "status": "partial",
+ "status_why": "The target's statement as printed is false: Causal.not_stronglyCausal_lift_of_curves refutes it in either reading of gluing. Its strongest true form proved here adds one hypothesis, that N is causally arc-connected (Causal.Causality.stronglyCausal_lift, with alexandrovTopology_eq_lift for the tarentin conclusion). A more general form needs only monotone maps and the connectedness hypothesis hdiam (Causal.Causality.stronglyCausal_of_lift). Nothing is marked; the target has no ETT label.",
+ "files": [
+  "scaffold/CausalScaffold/StrongCausalityLifts.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-strong-causality-lifts/REPORT.json",
+  "campaign/T-abs-strong-causality-lifts/Probe.lean",
+  "campaign/T-abs-strong-causality-lifts/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.StrongCausalityLifts",
+ "build_result": "Built CausalScaffold.StrongCausalityLifts (3.9 s), 3124 jobs, no warning. The --no-build dry run listed only this module as out of date ([3124/3124]), so nothing upstream was rebuilt. The file also passes `lake env lean -DwarningAsError=true`. campaign/.../Probe.lean imports the module and runs #check and #print axioms on all 35 declarations (output in axioms.txt). Each depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). The direct imports are Causal.StrongCausality, Causal.Morphism, Causal.LinesCurves, Causal.RationalLineExtras, Mathlib.Topology.Connected.LocallyConnected and Mathlib.NumberTheory.Real.Irrational. tools/ladder.py model_path is None for each Causal import, checked one at a time in memory (kb/0247). No metric, curve length or geodesic appears; the maps are abstract and so are the causalities. Causal.RationalLineExtras reaches Causal.Ladder.Rules, which gives causal_ladder (used twice). If any declaration here ever becomes the witness of a ladder [[fact]], kb/0221 applies: split the witnesses off first.",
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.Causality.stronglyCausal_lift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:332",
+   "statement": "(τc) (hτ : ‹TopologicalSpace N› ≤ τc) (hC : C.CausallyArcConnected) (∀ c : ℝ → N, C.CausalCurveOn ⊤ c 0 1 → CM.CausalCurveOn ⊤ (p ∘ c) 0 1) → (∀ c, C.CausalCurveOn ⊤ c 0 1 → CX.CausalCurveOn ⊤ (D ∘ c) 0 1) → CM.StronglyCausal → CX.StronglyCausal → (∀ x : N, (𝓝 x).HasBasis (fun WV : Set M × Set X => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) (fun WV => @connectedComponentIn N τc (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2)) → C.StronglyCausal",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. This is the target's form, with C.CausallyArcConnected added (finding F1).",
+   "status": "proved; partial for the target (an added hypothesis)"
+  },
+  {
+   "name": "Causal.Causality.alexandrovTopology_eq_lift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:347",
+   "statement": "the hypotheses of stronglyCausal_lift and hT : C.Tarentin → C.alexandrovTopology = ‹TopologicalSpace N›",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. It goes through Causal.Causality.StronglyCausal.alexandrovTopology_eq (Causal/StrongCausality.lean:137).",
+   "status": "proved; partial for the target (an added hypothesis)"
+  },
+  {
+   "name": "Causal.Causality.stronglyCausalOpen_lift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:360",
+   "statement": "the hypotheses of stronglyCausal_lift, with CM.StronglyCausalOpen and CX.StronglyCausalOpen in place of StronglyCausal → C.StronglyCausalOpen",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. The open form adds no hypothesis: isOpen_connectedComponentIn_inter_preimage.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.stronglyCausal_lift_of_weakMorphism",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:375",
+   "statement": "(τc) (hτ) (hC : C.CausallyArcConnected) (hp : WeakMorphism C CM p) (hD : WeakMorphism C CX D) → CM.StronglyCausal → CX.StronglyCausal → (∀ x : N, (𝓝 x).HasBasis (fun WV : Set M × Set X => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) (fun WV => @connectedComponentIn N τc (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2)) → C.StronglyCausal",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. The maps are the library's weak morphisms (Causal/Morphism.lean:161).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.stronglyCausal_lift_self",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:390",
+   "statement": "the hypotheses of stronglyCausal_lift, with the basis taken with connectedComponentIn in the topology of N itself (τc := the instance) → C.StronglyCausal",
+   "standing": "{N} [TopologicalSpace N]",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.stronglyCausal_of_lift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:220",
+   "statement": "(τc) (hdiam : ∀ a z : N, C.le ⊤ a z → z ∈ @connectedComponentIn N τc (C.diamond ⊤ a z) a) (∀ a b, C.le ⊤ a b → CM.le ⊤ (p a) (p b)) → (∀ a b, C.le ⊤ a b → CX.le ⊤ (D a) (D b)) → CM.StronglyCausal → CX.StronglyCausal → (∀ x : N, (𝓝 x).HasBasis (fun WV : Set M × Set X => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) (fun WV => @connectedComponentIn N τc (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2)) → C.StronglyCausal",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. This is the general form. It assumes no curve, no comparison of τc with the topology of N, and no continuity.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.stronglyCausalOpen_of_lift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:249",
+   "statement": "(τc) (hdiam) (monotone p, D) → CM.StronglyCausalOpen → CX.StronglyCausalOpen → (basis) → C.StronglyCausalOpen",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.causallyConvexIn_connectedComponentIn_inter_preimage",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:166",
+   "statement": "(τc) (hdiam) (monotone p, D) {W : Set M} {V : Set X} → CM.CausallyConvexIn W ⊤ → CX.CausallyConvexIn V ⊤ → ∀ x, C.CausallyConvexIn (@connectedComponentIn N τc (p ⁻¹' W) x ∩ D ⁻¹' V) ⊤",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. This is the core: the convexity step of the author's proof, read on diamonds.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.isOpen_connectedComponentIn_inter_preimage",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:197",
+   "statement": "(τc) (∀ x : N, (𝓝 x).HasBasis (fun WV : Set M × Set X => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) (fun WV => @connectedComponentIn N τc (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2)) → IsOpen W → IsOpen V → ∀ x, IsOpen (@connectedComponentIn N τc (p ⁻¹' W) x ∩ D ⁻¹' V)",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. Each point y of the set has the same component (connectedComponentIn_eq), so the set is y's basis set.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.mem_connectedComponentIn_diamond_of_curves",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:282",
+   "statement": "(τc) (hτ : ‹TopologicalSpace N› ≤ τc) (harc : ∀ a z, C.le ⊤ a z → ∃ c, C.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z) → ∀ a z : N, C.le ⊤ a z → z ∈ @connectedComponentIn N τc (C.diamond ⊤ a z) a",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. harc is the ≤, U = M part of causal arc-connectedness.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.le_top_map_of_curves",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:301",
+   "statement": "(harc) (hp : ∀ c, C.CausalCurveOn ⊤ c 0 1 → CM.CausalCurveOn ⊤ (p ∘ c) 0 1) → ∀ a b, C.le ⊤ a b → CM.le ⊤ (p a) (p b)",
+   "standing": "{N} [TopologicalSpace N]",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.CausallyArcConnected.exists_causalCurveOn_top",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:274",
+   "statement": "C.CausallyArcConnected → ∀ a z, C.le ⊤ a z → ∃ c, C.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.stronglyCausal_of_lift_of_weakMorphism",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:312",
+   "statement": "(τc) (hdiam) (hC : C.AbsolutelyMinimal) (hp : WeakMorphism C CM p) (hD : WeakMorphism C CX D) → CM.StronglyCausal → CX.StronglyCausal → (basis) → C.StronglyCausal",
+   "standing": "{N : Type u} (τc : TopologicalSpace N) [TopologicalSpace N], M, X any topological spaces. There is no separation, countability or continuity assumption. τc is bound before the instance, so the instance is the topology of N everywhere except inside @connectedComponentIn N τc. #check prints connectedComponentIn without showing its instance; rationalLine_strongCausalityLift_top, which applies the theorem with τc = ⊤, confirms that the instance is τc. Under gluing (DEC-167) with weak morphisms, hdiam is the only hypothesis left beside strong causality and the basis.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.WeakMorphism.causalCurveOn_comp",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:122",
+   "statement": "WeakMorphism C D φ → MapsTo φ V U → C.CausalCurveOn V c a b → D.CausalCurveOn U (φ ∘ c) a b",
+   "standing": "{N M} topological spaces; any opens V, U, any segment",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.WeakMorphism.le_top_of_absolutelyMinimal",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:134",
+   "statement": "WeakMorphism C D φ → C.AbsolutelyMinimal → C.le ⊤ a b → D.le ⊤ (φ a) (φ b)",
+   "standing": "none beyond the topologies",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_strongCausalityLift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:421",
+   "statement": "timelikeLine.CausallyArcConnected ∧ timelikeLine.Tarentin ∧ (curves of ⊤ to curves for id) ∧ timelikeLine.StronglyCausal ∧ timelikeLine.StronglyCausalOpen ∧ (the basis for p = D = id, components in ℝ) ∧ timelikeLine.StronglyCausal ∧ timelikeLine.alexandrovTopology = the topology of ℝ",
+   "standing": "ℝ. The kb/0011 witness for the target's form. The last two conjuncts apply stronglyCausal_lift_self and alexandrovTopology_eq_lift. StronglyCausalOpen comes from causal_ladder (strongly_causal ∧ causally_open).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.rationalLine_strongCausalityLift_top",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:481",
+   "statement": "the topology of ℝ ≤ ⊤ ∧ ¬ rationalLine.CausallyArcConnected ∧ hdiam (τc = ⊤) ∧ id monotone into timelikeLine ∧ the basis (τc = ⊤) ∧ rationalLine.StronglyCausal ∧ rationalLine.StronglyCausalOpen",
+   "standing": "ℝ, τc indiscrete. The witness that the general form reaches past causal arc-connectedness: the last two conjuncts apply stronglyCausal_of_lift and stronglyCausalOpen_of_lift.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.not_stronglyCausal_lift_of_curves",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:647",
+   "statement": "¬ ∀ (N M X : Type) (τc) [TopologicalSpace N] [TopologicalSpace M] [TopologicalSpace X] C CM CX p D, ‹_› ≤ τc → (∀ (U : Opens N) (U' : Opens M), MapsTo p U U' → ∀ c a b, C.CausalCurveOn U c a b → CM.CausalCurveOn U' (p ∘ c) a b) → (the same for D) → CM.StronglyCausal → CX.StronglyCausal → (basis) → C.StronglyCausal",
+   "standing": "The refutation of the printed form. The curve hypothesis is taken in its strongest reading (any open U, any open U' ⊇ p(U), any segment), so every weaker reading is refuted too. The witness is symmRationalLine, absolutely minimal on every open set, so the refutation holds in either reading of gluing.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.symmRationalLine_separates_lift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:629",
+   "statement": "(∀ W, symmRationalLine.AbsolutelyMinimalOn W) ∧ (id sends causal curves of every U to causal curves of timelikeLine in every U' ⊇ U) ∧ timelikeLine.StronglyCausal ∧ (the basis, components in ℝ) ∧ ¬ symmRationalLine.StronglyCausal ∧ ¬ symmRationalLine.CausallyArcConnected",
+   "standing": "ℝ. This is the conjoined witness of F1.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.symmRationalLine",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:512",
+   "statement": "def: x ≤_U y iff (x = y ∧ x ∈ U) ∨ (x, y rational ∧ uIcc x y ⊆ U); ≪ empty",
+   "standing": "ℝ. It is not causal and not tarentin.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.symmRationalLine_absolutelyMinimalOn",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:541",
+   "statement": "∀ W, symmRationalLine.AbsolutelyMinimalOn W",
+   "standing": "Proved through rationalLine_absolutelyMinimalOn, with each chain reversed when x > y (TransGen.swap).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.symmRationalLine_causalCurveOn_eq",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:575",
+   "statement": "symmRationalLine.CausalCurveOn W c a b → s, t ∈ [a, b] → c s = c t",
+   "standing": "By the intermediate value theorem and exists_irrational_btwn.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.symmRationalLine_not_stronglyCausal",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:600",
+   "statement": "¬ symmRationalLine.StronglyCausal",
+   "standing": "J(0, 0) contains 2",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.symmRationalLine_not_causallyArcConnected",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:613",
+   "statement": "¬ symmRationalLine.CausallyArcConnected",
+   "standing": "0 ≤ 1, and every causal curve is constant",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.not_alexandrovTopology_eq_lift_of_weakMorphism",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:723",
+   "statement": "¬ ∀ (N M X : Type) (τc) [..] C CM CX p D, ‹_› ≤ τc → WeakMorphism C CM p → WeakMorphism C CX D → C.Tarentin → CM.StronglyCausal → CX.StronglyCausal → (basis) → C.StronglyCausal ∨ C.alexandrovTopology = ‹_›",
+   "standing": "The witness is timelikeLineTop, so the refutation holds without gluing only (kb/0014). Both conclusions fail at once.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLineTop_separates_lift",
+   "file_line": "scaffold/CausalScaffold/StrongCausalityLifts.lean:745",
+   "statement": "WeakMorphism timelikeLineTop timelikeLine id ∧ timelikeLineTop.Tarentin ∧ timelikeLine.StronglyCausal ∧ (the basis) ∧ ¬ timelikeLineTop.StronglyCausal ∧ timelikeLineTop.alexandrovTopology ≠ the topology of ℝ ∧ ¬ timelikeLineTop.IsCausal ∧ ¬ timelikeLineTop.AbsolutelyMinimal",
+   "standing": "ℝ. This is the conjoined witness of F2.",
+   "status": "proved"
+  }
+ ],
+ "readings": [
+  {
+   "what": "the coarser topology",
+   "reading": "A second topology τc : TopologicalSpace N, with ‹TopologicalSpace N› ≤ τc in mathlib's order, i.e. τc coarser, τc = τ allowed. C(W) is @connectedComponentIn N τc (p ⁻¹' W) x; the neighbourhood basis is in the topology of N. The general form drops τ ≤ τc and asks only hdiam. The component in N's own topology is the special case stronglyCausal_lift_self. In the intended instance M̃ is the maximal branched covering and τ = T_D = natural ∨ D*τ_X, which is mathlib's natural ⊓ TopologicalSpace.induced D τ_X. τc is the natural topology and hτ is inf_le_left.",
+   "why": "Components in a coarser topology are larger, so neither choice of τc implies the other's basis hypothesis. Taking τc as a parameter covers both."
+  },
+  {
+   "what": "strongly causal",
+   "reading": "Causal.Causality.StronglyCausal (DEC-7, neighbourhoods not necessarily open) for M, X and N. Checked both ways: with M and X StronglyCausalOpen, N is StronglyCausalOpen under the same hypotheses (stronglyCausalOpen_lift, stronglyCausalOpen_of_lift).",
+   "why": "the library's definition and its documented reading"
+  },
+  {
+   "what": "send causal curves to causal curves",
+   "reading": "The library has no such notion. Causal.WeakMorphism (Causal/Morphism.lean:161) is stronger: continuous, and locally monotone for ≤ and ≪. IsEMorphismOn.causalCurveOn_comp is stronger still. The theorems take the weakest form the proof uses: a causal curve of N (at U = ⊤) over [0, 1] goes to a causal curve of M (of X) at ⊤ over [0, 1]. Every other reading implies it. The refutation takes the strongest reading: any open U, any open U' ⊇ p(U), any segment. Weak morphisms enter through the new Causal.WeakMorphism.causalCurveOn_comp. The general form needs only monotonicity at M, ≤_N ⇒ ≤_M.",
+   "why": "dispatch: pick the weakest form the proof needs"
+  },
+  {
+   "what": "how ≤ of M̃ relates to its causal curves",
+   "reading": "Added: C.CausallyArcConnected, a ladder node. Of it the proof uses only the ≤ part at U = M, which is the hypothesis harc of mem_connectedComponentIn_diamond_of_curves and le_top_map_of_curves. The general form uses only its consequence hdiam.",
+   "why": "The proof's first step treats the diamond J(a, b) as swept by causal curves. In ETT, ≤ is an abstract relation (defi:causalite), and without this hypothesis the statement is false (F1)."
+  },
+  {
+   "what": "neighbourhood basis",
+   "reading": "Filter.HasBasis (𝓝 x), indexed by the pairs (W, V) of open sets with p x ∈ W and D x ∈ V; the basis sets are C(W) ∩ D⁻¹(V).",
+   "why": "the target's words"
+  }
+ ],
+ "findings": [
+  "F1, the printed form is false, in either reading of gluing (DEC-167). The hypothesis 'p and D send causal curves to causal curves' constrains ≤_M̃ only where ≤_M̃ is realised by causal curves, and the proof's first step ('a causal curve with ends in C(W) ∩ D⁻¹(V)', programme/roadmap.toml:1953) assumes that it is. Refutation: Causal.not_stronglyCausal_lift_of_curves (StrongCausalityLifts.lean:647), with the curve hypothesis in its strongest reading. The witness is Causal.symmRationalLine (:512) on ℝ: x ≤_U y iff x = y ∈ U, or x and y are rational with the segment between them in U; ≪ is empty. It is absolutely minimal on every open set. Its causal curves are constant, so id into the timelike line sends each causal curve of any U to one in any U' ⊇ U. The timelike line is strongly causal, and the basis holds with the components in ℝ. Yet J(0, 0) ⊇ ℚ, so the space is not strongly causal; it is also not causally arc-connected (symmRationalLine_separates_lift, :629). The witness is not causal and not tarentin. Argued, not in Lean: an antisymmetric variant also works, so causality of M̃ does not rescue the statement. In it, x ≤_U y iff x = y ∈ U, or x and y are rational with φ x < φ y and the segment in U, for some φ : ℚ → ℝ that takes values in every open interval on every open interval.",
+  "F2: without gluing, weak morphisms and tarentin do not rescue either conclusion. Causal.not_alexandrovTopology_eq_lift_of_weakMorphism (:723), on timelikeLineTop with id, refutes 'C.StronglyCausal ∨ C.alexandrovTopology = τ'. timelikeLineTop is tarentin and id is a weak morphism; timelikeLineTop is not causal and not absolutely minimal (kb/0014, timelikeLineTop_separates_lift, :745). Under gluing, the tarentin half of the printed form is neither proved nor refuted without causal arc-connectedness.",
+  "F3 (positive), the strongest true form proved. With N causally arc-connected, the target holds as stated: Causal.Causality.stronglyCausal_lift (:332), and alexandrovTopology_eq_lift (:347) for the tarentin conclusion. More generally, stronglyCausal_of_lift (:220) needs neither curves nor τ ≤ τc nor continuity. It asks that p and D be monotone for ≤ at M, and hdiam: every diamond J_N(a, z) has a τc-preconnected subset through a and z. rationalLine_strongCausalityLift_top (:481) applies it to the rational line, which is not causally arc-connected, with the indiscrete τc.",
+  "F4 (positive): the open form costs nothing more. With M and X StronglyCausalOpen, N is StronglyCausalOpen under the same hypotheses (stronglyCausalOpen_lift, :360). Under the basis hypothesis every C(W) ∩ D⁻¹(V) with W and V open is open, because it is the basis set of each of its points (isOpen_connectedComponentIn_inter_preimage, :197).",
+  "F5: under gluing, weak morphisms are automatically monotone at M (Causal.WeakMorphism.le_top_of_absolutelyMinimal, :134), so stronglyCausal_of_lift_of_weakMorphism (:312) reduces the remaining gap to hdiam alone."
+ ],
+ "questions": [
+  "Q1: is M̃'s causality meant to be the causality of its causal curves (causally arc-connected)? It is in the intended instance: ETT's causality from curves on (M̃, T_D), DEC-33. Reading taken: yes. It is added as C.CausallyArcConnected in the target's form; the general form asks only hdiam. Without some such hypothesis the statement is false (F1).",
+  "Q2 (open): under gluing (DEC-167), with p and D weak morphisms rather than maps that only send curves to curves, is hdiam, or causal arc-connectedness, still needed? Without gluing it is (F2). Under gluing I found neither a proof nor a counterexample. Absolute minimality gives monotone maps (F5), but chains of local links can jump between components of p⁻¹(W) near its boundary.",
+  "Q3: 'the coarser topology' was read as any τc coarser than M̃'s topology, τc = τ allowed (stronglyCausal_lift_self). The intended τc is the natural topology of the branched covering.",
+  "Q4, for the instantiating closers (T-loc-btz-tamifying-initial, T-loc-ealpha-tamifying-alexandrov): grep found no proof of CausallyArcConnected for lean-gx's GX.btzCylCausality. The instance needs either that, or the weaker harc (≤_⊤ realised by causal curves of ⊤ over [0, 1]), which is what mem_connectedComponentIn_diamond_of_curves takes. GX.btzCylCausality_le_top_iff (globally ≤ is the order of the developments) may give it. Alternatively, it needs hdiam directly."
+ ],
+ "extra_decls": [
+  "Causal.isPreconnected_top (scaffold/CausalScaffold/StrongCausalityLifts.lean:444): in the indiscrete topology every set is preconnected",
+  "Causal.connectedComponentIn_top (:455): in the indiscrete topology the component of F through x ∈ F is F",
+  "Causal.real_hasBasis_connectedComponentIn_inter (:408), Causal.real_hasBasis_connectedComponentIn_top_inter (:463): the basis hypothesis on ℝ for p = D = id, with the components in ℝ and in the indiscrete topology",
+  "Causal.symmRationalLine_le (:535)",
+  "Causal.weakMorphism_timelikeLineTop_id (:674), Causal.timelikeLineTop_not_stronglyCausal (:687), Causal.timelikeLineTop_tarentin (:696), Causal.timelikeLineTop_alexandrovTopology_ne (:704): the indiscrete Alexandrov topology"
+ ],
+ "kb_proposals": [
+  "Two topologies on one type in a statement: an explicit binder (τc : TopologicalSpace N) is still a local instance, and the most recent one wins. Bind it BEFORE [TopologicalSpace N] so that the causality's ⊤, diamonds and curves use the ambient topology. Pass τc only through @ (@connectedComponentIn N τc …). In @ mode the binder ⦃a⦄ of a ⊆ conclusion is explicit: write (@lemma … h₁ h₂) hmem. #check prints connectedComponentIn without its instance (T-abs-strong-causality-lifts).",
+  "Causal.symmRationalLine: on ℝ, two rationals are related both ways when their segment lies in U. It is absolutely minimal on every open set (from rationalLine_absolutelyMinimalOn and TransGen.swap), its causal curves are constant, and it is not strongly causal. It refutes, in either gluing reading, any statement whose hypotheses read only causal curves but whose conclusion reads ≤ (T-abs-strong-causality-lifts).",
+  "A weak morphism out of an absolutely minimal causality is monotone at M (Causal.WeakMorphism.le_top_of_absolutelyMinimal). Weak morphisms send causal curves of V to causal curves of every open U ⊇ φ(V) (Causal.WeakMorphism.causalCurveOn_comp).",
+  "In the indiscrete topology every set is preconnected and connectedComponentIn F x = F (Causal.isPreconnected_top, Causal.connectedComponentIn_top). It is a free coarse topology for statements about components.",
+  "`MapsTo id U U'` with U U' : Opens ℝ fails to elaborate, because the coercion to Set needs id's type. Write (id : ℝ → ℝ)."
+ ],
+ "notes": "One new file, 759 lines, 0 sorry, no ETT label, nothing marked (no **`…`** in the file). Graduation: the master adds `import CausalScaffold.StrongCausalityLifts` to scaffold/CausalScaffold.lean. The file's imports are Causal.* strict modules and Mathlib only. Name clashes (kb/0082): grep -w over lean-causal Causal/ and scaffold/, lean-gx GX/ and scaffold/, and mathlib found none. The one hit, causalCurveOn_comp, is Causal.IsEMorphismOn.causalCurveOn_comp, a different namespace. The file adds no instance. No existing file was edited. I ran no git command, no make check, no lake build without a module, and no tools/ladder.py emit-lean. tools/ladder.py was only imported in memory, for lean_index, model_path and import_chain.",
+ "corrected_after_audit": "AUDIT-1 (minor; F1 holds), applied by the master: the docstring states that stronglyCausalOpen_lift, _of_weakMorphism and _self carry the same added causal arc-connectedness (REPORT's plain 'proved' for them means 'proved with that hypothesis'); the basis read as all open pairs (W, V), the weaker 'some sets' reading not treated. Not applied, proposed for a follow-up: harc forms (the order at ⊤ realised by causal curves over [0,1], all the proof uses, weaker than CausallyArcConnected), and one declaration conjoining gluing and continuity inside the negated statement, with symmRationalLine's non-causality and non-tarentin in Lean. The finding and the amended statement go to the author as an OQ row."
+}
