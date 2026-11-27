@@ -301,3 +301,4 @@ rediscover. One fact per entry.
 | [0293](entries/0293-lift-needs-curves.md) | pitfall | "Sends causal curves to causal curves" says nothing about ≤ unless ≤ is realised by curves |
 | [0294](entries/0294-ers-witnesses-line.md) | pattern | ERS witnesses on the line: 4.68's Lean forms allow a disconnected U₂; 4.82's hstep is never exercised |
 | [0295](entries/0295-minkowski-future-one-connected.md) | pattern | Minkowski space is future one-connected; its chronal curves are the continuous ≪-increasing maps |
+| [0296](entries/0296-full-form-witness.md) | pattern | A witness's full form: let the ladder list what it has and lacks |

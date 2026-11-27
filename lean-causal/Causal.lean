@@ -341,6 +341,7 @@ import Causal.StrongCausalityLifts
 import Causal.ErsWitnesses
 import Causal.ErsSCWitnesses
 import Causal.Model.MinkowskiFutureOneConnected
+import Causal.IsolatedLineConjoined
 
 /-!
 # Causal — topological spacetimes

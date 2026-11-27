@@ -1,0 +1,108 @@
+{
+ "target": "T-abs-isolated-line-conjoined",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/IsolatedLineConjoined.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-isolated-line-conjoined/REPORT.json",
+  "campaign/T-abs-isolated-line-conjoined/Probe.lean",
+  "campaign/T-abs-isolated-line-conjoined/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.IsolatedLineConjoined",
+ "build_result": "Build completed successfully (3141 jobs), no warning. The --no-build dry run (kb/0228), run before each real build, listed only CausalScaffold.IsolatedLineConjoined as out of date, so nothing upstream (Causal.*, mathlib) was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes (exit 0, no output). campaign/.../Probe.lean imports the module. It runs #check and #print axioms on all 5 declarations (the output is in axioms.txt) and has 4 `example`s that project, from the one witness, each entry's `from` with its negated `to`, and each of the two split witnesses it replaces. It passes under -DwarningAsError=true (exit 0). Every declaration depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.SCOpenWithoutTarentin, Causal.ChronalTarentin, Causal.GluingModels.Minimal, Causal.Ladder.Rules. tools/ladder.py's model_path is None for each, checked one at a time in memory on lean_index()['imports'] (kb/0247). It is also None for each of GluingModels.Minimal's 24 direct imports (Causal.Galileo, NotchedPlane, RationalJumpPlane and the others), and None for the new module with its four imports added to the index in memory. Its transitive closure holds 64 Causal modules and no module of MODEL_LAYER (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). Cycle check (kb/0221): Causal.Ladder.Rules imports Causal.SCOpenWithoutTarentin and Causal.ChronalTarentin. Causal.GluingModels.Minimal reaches Rules through Causal.HalfLitDual (import_chain). The new module imports all of them and nothing imports it, so it is a leaf and creates no cycle. It is a [[fails]] witness only, which emit-lean never imports. No statement mentions a metric, a curve length or a geodesic. Every statement is closed, on ℝ.",
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.isolatedLine_causallyCompact",
+   "file_line": "scaffold/CausalScaffold/IsolatedLineConjoined.lean:85",
+   "statement": "isolatedLine.CausallyCompact",
+   "standing": "closed statement on ℝ. New to the library. If Icc p q ⊆ {0}ᶜ the diamond ⊤ p q is Icc p q (⊆ by isolatedLine_le_top, ⊇ by the definition), so isCompact_Icc applies. Otherwise it lies in {p}, which is subsingleton, so compact.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.isolatedLine_isCausal",
+   "file_line": "scaffold/CausalScaffold/IsolatedLineConjoined.lean:113",
+   "statement": "isolatedLine.IsCausal",
+   "standing": "closed statement. New as a named lemma: le_antisymm of isolatedLine_le_top twice. The ladder also derives it (strongly_causal ⇒ is_causal, T1). The main theorem takes it that way, by causal_ladder.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.isolatedLine_globallyHyperbolic",
+   "file_line": "scaffold/CausalScaffold/IsolatedLineConjoined.lean:117",
+   "statement": "isolatedLine.GloballyHyperbolic",
+   "standing": "closed statement. New. ⟨isolatedLine_isCausal, isolatedLine_causallyCompact⟩.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.isolatedLine_hasTimeFunction",
+   "file_line": "scaffold/CausalScaffold/IsolatedLineConjoined.lean:121",
+   "statement": "isolatedLine.HasTimeFunction",
+   "standing": "closed statement. New. T = id: continuous_id, and lt_of_le_of_ne (isolatedLine_le_top h) hne.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.isolatedLine_separates",
+   "file_line": "scaffold/CausalScaffold/IsolatedLineConjoined.lean:134",
+   "statement": "isolatedLine.CausallyArcConnected ∧ CausallyOpen ∧ CausallyPlain ∧ StronglyCausal ∧ StronglyCausalOpen ∧ AbsolutelyMinimal ∧ (∀ W : Opens ℝ, isolatedLine.AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ LocallyCausallyOpen ∧ IsCausal ∧ CurvesExtend ∧ CausallyCompact ∧ GloballyHyperbolic ∧ HasTimeFunction ∧ ¬ Tarentin ∧ ¬ HasChronalNeighbourEverywhere ∧ ¬ ChronalNeighbours (all of isolatedLine)",
+   "standing": "closed statement on ℝ, no instance argument. 20 conjuncts. Every one of the target's 9 is here. Conjuncts 1–3 and the last two come from Causal.isolatedLine_separates_chronalNeighbours. StronglyCausal, StronglyCausalOpen and ¬ Tarentin come from Causal.isolatedLine_scOpen_without_tarentin (whose ¬ Tarentin is tarentin_and_plain_needed's). AbsolutelyMinimal is Causal.GluingModels.isolatedLine_minimal, and ∀ W, AbsolutelyMinimalOn W is Causal.GluingModels.isolatedLine_hereditary (DEC-167, either reading). Seven ladder-closure nodes come by causal_ladder: PushUp (absolutely_minimal ∧ causally_plain ⇒ push_up, T1), LocallyPushUp, CausallyOpenFuture, LocallyCausallyOpenFuture, LocallyCausallyOpen, IsCausal (strongly_causal ⇒ is_causal, T1) and CurvesExtend (the fact, T1 + second countable). The three new facts are CausallyCompact, GloballyHyperbolic and HasTimeFunction. Together they decide each of the ladder's 19 causality-sort nodes.",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "ladder_entry": "programme/ladder.toml:1805 ([[fails]] from [causally_arc_connected, causally_plain, strongly_causal, strongly_causal_open, causally_open] to tarentin; comment 1790–1804). The dispatch's ≈ :1626 has moved to :1805.",
+   "current_witness": "Causal.tarentin_and_plain_needed (the half with causally_arc_connected and causally_plain); strongly_causal, strongly_causal_open, causally_open from Causal.isolatedLine_scOpen_without_tarentin (Causal/SCOpenWithoutTarentin.lean:282)",
+   "replace_with": "Causal.isolatedLine_separates",
+   "required": true,
+   "note": "Every id of `from` is a conjunct (1–5), and ¬ Tarentin is conjunct 18. The comment's sentence 'The witness stays the half carrying causally_arc_connected and causally_plain' (1799–1800) can go, and the comment's reading sentence (1803–1804) is now a conjunct, ∀ W, AbsolutelyMinimalOn W. Optional: globally_hyperbolic, causally_compact, time_function (and the eight closure ids) can join `from`. That moves no pair (simulation B/C), but it makes this entry the Lean counterexample to causally_plain ∧ globally_hyperbolic ⇒ tarentin and its like, which the comment at 2530–2534 says the isolated line refutes only 'argued … none of which is in Lean'."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:2029 ([[fails]] from [causally_arc_connected, causally_open, causally_plain, strongly_causal, strongly_causal_open] to has_chronal_neighbour; comment 2000–2028). The dispatch's ≈ :1850 has moved to :2029.",
+   "current_witness": "Causal.isolatedLine_separates_chronalNeighbours; strongly_causal and strongly_causal_open from Causal.isolatedLine_scOpen_without_tarentin (:282)",
+   "replace_with": "Causal.isolatedLine_separates",
+   "required": true,
+   "note": "Every id of `from` is a conjunct (1–5), and ¬ HasChronalNeighbourEverywhere is conjunct 19 (¬ ChronalNeighbours is 20). The comment's split sentences can go: 2017–2020 (the second way, isolatedLine_separates_chronalNeighbours_tarentin, 'not recorded') and 2021–2026 (strong causality from :282). The witness's conjunct ¬ Tarentin now carries that second way. The reading (2027–2028) is a conjunct."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:2530–2534 (comment in the T-lad-classify-core block, the notched plane's ¬ Tarentin)",
+   "current_witness": "none (comment: 'the isolated line refutes too, argued: it is causal, a time function is the identity, and its diamonds are compact, empty across 0 …, none of which is in Lean')",
+   "replace_with": "Causal.isolatedLine_isCausal, Causal.isolatedLine_hasTimeFunction, Causal.isolatedLine_causallyCompact, Causal.isolatedLine_globallyHyperbolic (all conjuncts of Causal.isolatedLine_separates)",
+   "required": false,
+   "note": "Comment only. 'none of which is in Lean' becomes stale once the module graduates. A precision: the diamond across 0 is empty for p < q, but J_M(0, 0) = {0}. Compactness holds either way."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:220–221 and :1052–1053 (header comments of T-lad-record-sc-open-edge naming Causal.isolatedLine_scOpen_without_tarentin as the source of the isolated line's new `from` ids)",
+   "current_witness": "Causal.isolatedLine_scOpen_without_tarentin",
+   "replace_with": "Causal.isolatedLine_separates (optional, comment only)",
+   "required": false,
+   "note": "Historical record of that run. The keeper may leave it as is."
+  }
+ ],
+ "ladder_simulation": "In memory only (no file written). Run twice: before and after another session rewrote programme/ladder.toml at 18:30:09 UTC, with identical results. tools/ladder.py imported with python3 -I. I took d = load(), then copy.deepcopy(d) for each variant (kb/0276), and compared matrix() and _contradictions(). I also ran check(d, lean_names() | {'Causal.isolatedLine_separates'}) to resolve the new name as graduation would. Baseline: 309 fails, 37 implied, 8 open, 246 ill-typed, 0 contradictions, 0 check errors. (A) Both entries (fails[36] → tarentin, fails[51] → has_chronal_neighbour) re-pointed to Causal.isolatedLine_separates, from unchanged: no pair changes, 0 contradictions, 0 check errors. Without the new name in the index, check() reports 'fails Causal.isolatedLine_separates: witness not found in lean-causal (a full name)' twice, so the re-pointing waits for graduation (the ladder resolves names in Causal/ only). (B) A plus globally_hyperbolic, causally_compact and time_function in both `from`: no pair changes, 0 contradictions. counterexample() then gives each entry 16 has (every positive conjunct). (C) A with `from` set to all 16 positive conjuncts: no pair changes, 0 contradictions. (D) C plus a third entry with the same from and to = chronal_neighbours: no pair changes, 0 contradictions. In A, counterexample() gives each entry the 13 has absolutely_minimal, causally_arc_connected, causally_open, causally_open_future, causally_plain, curves_extend, is_causal, locally_causally_open, locally_causally_open_future, locally_push_up, push_up, strongly_causal, strongly_causal_open. The lacks are {chronal_neighbours, tarentin} and {chronal_neighbours, has_chronal_neighbour}. Every one of these is a conjunct of the witness. So the re-pointing is safe and refutes nothing new. The point is the single-declaration witness. The generated comments of Causal/Ladder/Test.lean and DualTest.lean that cite the two old witnesses change only at the master's next emit-lean.",
+ "extra_decls": [
+  "Causal.isolatedLine_causallyCompact",
+  "Causal.isolatedLine_isCausal",
+  "Causal.isolatedLine_globallyHyperbolic",
+  "Causal.isolatedLine_hasTimeFunction"
+ ],
+ "findings": [
+  "No paper is involved (layer 1, no ETT label). About the ladder: the isolated line is causal, causally compact, globally hyperbolic and has a time function (the identity). The ladder comment at programme/ladder.toml:2530–2534 argued these in words, 'none of which is in Lean'. They are now Lean theorems and conjuncts of Causal.isolatedLine_separates. So the isolated line decides every one of the 19 causality-sort nodes: 16 hold and 3 fail (tarentin, has_chronal_neighbour, chronal_neighbours). A precision on that comment: it says the diamonds are 'empty across 0', which holds for p < q with 0 ∈ [p, q]. J_M(0, 0) = {0}, and the Lean proof covers the case through diamond ⊆ {p}.",
+  "The isolated line is a model-free (ETT-layer, on ℝ) Lean witness that globally hyperbolic ∧ strongly causal (both forms) ∧ time_function ∧ causally open ∧ causally plain ∧ causally arc-connected does not give tarentin. Before, the notched plane was the only Lean witness that conjoined causally_plain with globally_hyperbolic and ¬ Tarentin (ladder.toml:2527–2532), and it is not causally open. The simulation shows this moves no pair of the matrix, which reads single premises only.",
+  "The dispatch's line numbers have moved: the → tarentin entry is at programme/ladder.toml:1805 (not ≈ 1626) and the → has_chronal_neighbour entry at :2029 (not ≈ 1850). programme/ladder.toml was rewritten by another session during this run (mtime 2026-11-27 18:30:09 UTC; the entries moved by +73 lines, their text unchanged). Every ladder line number in this report and in the module docstring was re-read after that edit, and the simulation was rerun on it with the same result. Anchor by witness name if the file moves again. Causal/SCOpenWithoutTarentin.lean:273 and :282 and Causal/GluingModels/Minimal.lean:77 are as stated."
+ ],
+ "questions": [
+  "The extra conjuncts. The title asks for nine, 'with every ladder fact the library proves of it', and the dispatch adds 'any further ladder fact … that is cheap'. I read the list as a lower bound and kept its nine. I added the eight nodes the ladder's closure gives the entries' `from` on ℝ (absolutely_minimal, push_up, locally_push_up, causally_open_future, locally_causally_open_future, locally_causally_open, is_causal, curves_extend), seven of them by causal_ladder. I also added three facts the library did not prove, each a few lines from isolatedLine_le_top: causally_compact, globally_hyperbolic, time_function. With them the witness decides all 19 nodes. If the keeper wants the nine-conjunct form, it is a projection (Probe.lean shows the projections).",
+  "'Absolutely minimal on every open set': I state it as ∀ W : Opens ℝ, isolatedLine.AbsolutelyMinimalOn W (the hereditary gluing form, DEC-167, Causal.GluingModels.isolatedLine_hereditary), and beside it the node absolutely_minimal itself, isolatedLine.AbsolutelyMinimal (the `uses` lists absolutely_minimal). Both are conjuncts, so the witness carries either reading.",
+  "Whether globally_hyperbolic, causally_compact and time_function (or every positive conjunct) should join the two entries' `from` is the keeper's call. It moves no pair. I propose it as optional and did not assume it."
+ ],
+ "kb_proposals": [
+  "The isolated line decides every causality node: Causal.isolatedLine_separates (CausalScaffold.IsolatedLineConjoined) has 16 positive conjuncts, including causally_compact, globally_hyperbolic and time_function (new: isolatedLine_causallyCompact, _globallyHyperbolic, _hasTimeFunction, _isCausal, all from isolatedLine_le_top). Its negative conjuncts are ¬ Tarentin, ¬ HasChronalNeighbourEverywhere and ¬ ChronalNeighbours. It also has ∀ W, AbsolutelyMinimalOn W. So it is an either-reading witness that GH, strong causality and causal openness give no tarentin (T-abs-isolated-line-conjoined).",
+  "To write a [[fails]] witness's full form, run ladder.counterexample(d, f) in memory: its `has` is the list of positive conjuncts to state, and its `lacks` the negative ones. Given `have`s of the `from` ids, causal_ladder closes every `has` id on a concrete causality on ℝ, in one call each (T-abs-isolated-line-conjoined)."
+ ],
+ "notes": "One new file, 156 lines, 0 sorry, no ETT label (the docstring marks nothing with **). The docstring is 5130 characters, which does not matter here since no label is marked. Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.IsolatedLineConjoined` to scaffold/CausalScaffold.lean. I did not edit it. At graduation the file moves to Causal/IsolatedLineConjoined.lean and its import goes into Causal.lean. Its imports are already Causal.* only. Then the keeper re-points the two entries: tools/ladder.py resolves witness names in lean-causal/Causal only, so this waits for graduation (simulation A). Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri and lean finds none of the 5 new names outside this file. The file adds no instance. No existing file was edited, the ladder included. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`. tools/ladder.py was only imported in memory, for lean_index, model_path, import_chain, load, counterexample, matrix, _contradictions and check.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the docstring's '¬ HasChronalNeighbourEverywhere' no longer reads 'no chronal neighbour at 0' (the theorem says only that some point lacks one; isolatedLine_not_hasChronalNeighbour_zero names 0). For the keeper: the comment at ladder.toml:2530–2534 was already partly stale (strong causality and causality on T1 in Lean since 364ec2d3, 791b0aa4); only causally_compact, globally_hyperbolic and time_function are new with this module."
+}
