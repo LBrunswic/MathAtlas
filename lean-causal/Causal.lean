@@ -333,6 +333,7 @@ import Causal.CauchySeparation
 import Causal.TimelikeHomotopy
 import Causal.ChronalNeighbourConjoined
 import Causal.Model.E0ChronalNeighbour
+import Causal.GluingCausality
 
 /-!
 # Causal — topological spacetimes

@@ -290,3 +290,5 @@ rediscover. One fact per entry.
 | [0282](entries/0282-theo-geroch-sing-s-equivalence-is-sorry.md) | pattern | theo:geroch_sing's equivalence is sorry-free under SingularFlatAxioms + SC + local causal closedness |
 | [0283](entries/0283-typechecking-a-new-scaffold-module-again.md) | pattern | Typechecking a new scaffold module against a rewritten scaffold module (refines kb/0034) |
 | [0284](entries/0284-pitfall.md) | pitfall | Pitfall: |
+| [0285](entries/0285-the-hereditary-gluing-field-is-the-per-o.md) | pattern | The hereditary gluing field is the per-open-set gluing axiom |
+| [0286](entries/0286-what-dec-167-gluing-changes-in-the-ett-r.md) | pattern | What DEC-167 gluing changes in the ETT rows |

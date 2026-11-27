@@ -1,0 +1,51 @@
+{
+ "target": "T-ett-gluing-causality",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "prop:GX_espace_temps_topo",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "existsUnique_gluedCausality_GX: exists-unique among GluedCausality, every chart of the maximal atlas a ChartIso. Under DEC-167 every causality is glued, so uniqueness among glued causalities is the printed uniqueness. Baire, analyticity and second countable Hausdorff are dropped (weakened, so Lean >= paper). The maximal atlas is DEC-16 and strong morphisms for the G-action are DEC-12, the same as the strict anchor's GXStructure checklist. Uniqueness only uses C'.absolutelyMinimal (on M), so the claim 'holds in both forms of the field' is backed. Unmarked because GluedCausality is not yet the library's Causality. That is disclosed in SCOPE and in the REPORT note. REPORT status 'closed' with no mark is consistent with that disclosure."
+  },
+  {
+   "label": "ex:open_subset",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Second sentence: existsUnique_gluedCausality_localIsomorphism is the printed claim under the hereditary reading. First sentence: not_openSubset_unique refutes the printed sentence and is no strawman. StrongMorphism (Morphism.lean:152) is the paper's 'open map inducing a sheaf morphism' with morphisms of C preserving both relations (DEC-12). The direction (relations of W imply those of M) is the one a sheaf morphism W -> M gives. The diagonal causality (x <= y iff x = y, << empty) is a legitimate causality, glues trivially on every open set, and makes the inclusion strong. So the counterexample satisfies DEC-167's reading, and the refutation would also survive the weaker 'preserve <= only' reading. Witness W = top (all of R) is an open subset. This was already recorded as OQ-107 (open), with the strict lemma openSubset_not_unique_of_absolutelyMinimal. The three corrected forms (greatest, reflecting, local isomorphism) are proved. Row partial, unmarked: correct."
+  },
+  {
+   "label": "rem:deux_pushup",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The refutation is genuine. deux_pushup_glued gives plain => push-up for every glued causality on every T1 space, and T1 is weaker than the paper's Hausdorff. It rests on the strict Causality.pushUp_of_causallyPlain_of_absolutelyMinimal (DeuxPushup.lean:217), which needs absolute minimality on M only, so the claim 'in either form' is backed. CausallyPlain and PushUp (Properties.lean:55,69) match defi:causalement_plat and defi:pushup verbatim. The lightlike line glues, has push-up and is not plain, so the first half of the remark stands. not_deux_pushup_neither on its own only negates the independence over R. The universal refutation is deux_pushup_glued. DEC-167 itself already says the converse half is false under gluing, so this agrees with the ruling and does not contradict it."
+  },
+  {
+   "label": "cexemple:point_transparent",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "transparentLine_not_glues and not_exists_gluedCausality_transparentLine follow from the strict transparentLine_not_absolutelyMinimalOn realMinusZero. In the hereditary reading 'This is a topological spacetime' (ETT.tex:478) is false. In the M-only reading the example stands, and transparentLine_onOpen_not_absolutelyMinimal shows the restriction is no causality there. Both readings are disclosed under OQ-95 (open). point_transparent_glued's third conjunct is true by definition of the hereditary field, and the file says so. Row partial, unmarked: correct."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "lake env lean scaffold/CausalScaffold/GluingCausality.lean: no output, exit 0. The token 'sorry' does not occur in the file. #print axioms on 22 declarations (every REPORT decl tied to a label, plus glues_iff_coverGluing, onOpen, pullback): all [propext, Classical.choice, Quot.sound]. The probe was written under the campaign directory and then deleted. git status in lean-causal shows only the scaffold import line, the new module and the campaign directory. CausalScaffold.lean's diff is the single import line. No strict file was touched."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[ex:open_subset].findings[0]; GluingCausality.lean:85-86 (SCOPE)",
+   "what": "The REPORT says the second sentence of ex:open_subset 'holds AS PRINTED under gluing, in either form of the field'. Uniqueness is backed in both forms, because LocalIsomorphism.unique only needs AbsolutelyMinimal on M. Existence in the M-only form is not proved. The only existence route is pullback_absolutelyMinimalOn_all_of_isLocalHomeomorph, which needs the hereditary hypothesis (forall U, AbsolutelyMinimalOn U). The pull-back can also fail to be minimal in the M-only form: the transparent line pulled back along the inclusion of R minus {0}.",
+   "fix": "Restrict the claim to the hereditary form. For the M-only form, either prove existence by another causality, for example the one generated from the pulled-back relations, or call it unproved."
+  },
+  {
+   "severity": "minor",
+   "where": "GluingCausality.lean:14-19 (module docstring)",
+   "what": "kb 0006 item 3 asks for the paper's own sentences in a quote block. The docstring quotes only defi:causalite and def:topological_space_causality_absolutely. It does not quote the four re-read labels (ETT.tex:260/262, 316/319-320, 478/470, 592-594), although it cites their line numbers.",
+   "fix": "Add verbatim > quotes of the four labels' load-bearing sentences."
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+import CausalScaffold.GluingCausality
+open Causal
+#print axioms Causal.Precausality.glues_iff_coverGluing
+#print axioms Causal.GluedCausality.absolutelyMinimal
+#print axioms Causal.existsUnique_gluedCausality_GX
+#print axioms Causal.existsUnique_gluedCausality_localIsomorphism
+#print axioms Causal.GluedCausality.existsUnique_onOpen_localIsomorphism
+#print axioms Causal.GluedCausality.eq_onOpen_of_reflects
+#print axioms Causal.not_openSubset_unique
+#print axioms Causal.not_deux_pushup_neither
+#print axioms Causal.deux_pushup_glued
+#print axioms Causal.point_transparent_glued
+#print axioms Causal.not_exists_gluedCausality_transparentLine
