@@ -159,7 +159,7 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0149](entries/0149-liouville-for-e-morphisms-of-manifolds-i.md) | pattern | Liouville for E₀-morphisms of manifolds in one line |
 | [0150](entries/0150-ise0mor-is-an-abbrev-that-blocks-rw.md) | pitfall | IsE0Mor is an abbrev that blocks rw |
 | [0151](entries/0151-the-inverse-of-a-bijective-e-morphism-is.md) | pattern | The inverse of a bijective E₀-morphism is an E₀-morphism |
-| [0152](entries/0152-e0pushout-forgets-that-is-an-e-morphism.md) | pitfall | E0Pushout forgets that ι₂ is an E₀-morphism |
+| [0152](entries/0152-e0pushout-forgets-that-is-an-e-morphism.md) | pattern | E0Pushout records that ι₂ is an E₀-morphism |
 | [0153](entries/0153-cauchy-maximality-of-reg-m-needs-no-surg.md) | pattern | Cauchy-maximality of Reg M needs no surgery |
 | [0154](entries/0154-the-image-of-a-flat-cauchy-embedding-is.md) | pattern | The image of a flat Cauchy embedding is causally convex |
 | [0155](entries/0155-an-e-comparison-without-angles-le-of-sma.md) | pattern | An E₀ comparison without angles: le_of_small_rad |
@@ -180,3 +180,5 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0170](entries/0170-rigidity-at-a-regular-limit-point-in-a-f.md) | pattern | Rigidity at a regular limit point in a flat target |
 | [0171](entries/0171-the-strict-e0surgery-exists-spearsurgery.md) | pattern | The strict spear-surgery lemmas need only Cauchy plus the C¹ rim |
 | [0172](entries/0172-locally-finite-spears-from-a-compact-exh.md) | pattern | Locally finite spears from a compact exhaustion |
+| [0173](entries/0173-the-spear-data-need-only-iscauchysurface.md) | pattern | The spear data need only IsCauchySurface and RimC1 |
+| [0174](entries/0174-one-continuity-lemma-for-an-e-morphism-w.md) | pattern | One continuity lemma for an E₀-morphism, with no HasGroupoid |

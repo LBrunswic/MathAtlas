@@ -22,9 +22,9 @@ Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), 
   hyperbolic Cauchy-maximal `𝔼₀`-manifold with a Cauchy surface — neither Cauchy-completeness nor
   smoothness is used, and neither is the surgery `Σ*` (`lem:curve_extension` (ii),
   `cor:intersect`) the paper invokes. A flat Cauchy embedding `f : Reg M → N` gives the push-out
-  `M̄ = (M ⊔ N)/Reg M` of `lem:extension_hausdorff` (`exists_e0Pushout_mor`: the construction of
-  `E0AbsMax.exists_e0Pushout`, the case `M₂ = N` flat GH, recording that `ι₂` is an
-  `𝔼₀`-morphism); `M̄` is GH (`E0MixedDiamond.globallyHyperbolic_pushout`, which does not use
+  `M̄ = (M ⊔ N)/Reg M` of `lem:extension_hausdorff` (`exists_e0Pushout_mor`:
+  `E0AbsMax.exists_e0Pushout`, the case `M₂ = N` flat GH, with `ι₂` an `𝔼₀`-morphism,
+  `E0Pushout.isE0Mor_ι₂`); `M̄` is GH (`E0MixedDiamond.globallyHyperbolic_pushout`, which does not use
   compactness); `ι₁(M)` is causally convex in `M̄` (`causallyConvexIn_range_ι₁`, the step the
   paper leaves implicit), so the image of a Cauchy surface of `M` is a Cauchy surface of `M̄`
   (`isCauchySurface_pushout`, Sbierski's union argument
@@ -102,123 +102,13 @@ theorem gh_regM (hGH : (CE M).GloballyHyperbolic) : Causal.Flat.GH (e0RegMFlat M
   gh_e0RegMFlat_e0 hGH
 
 /-- **The push-out of `lem:extension_hausdorff`, with its second leg an `𝔼₀`-morphism**: the
-construction of `E0AbsMax.exists_e0Pushout` (verbatim), recording what the structure
-`E0Pushout` forgets, that `ι₂ : FlatE0 N → M̄` is an `𝔼₀`-morphism (a chart of the glued atlas
-on `N` is a chart of `N` followed by `inl`). -/
+strict `E0AbsMax.exists_e0Pushout`, whose structure `E0Pushout` records that
+`ι₂ : FlatE0 N → M̄` is an `𝔼₀`-morphism (`E0Pushout.isE0Mor_ι₂`, T-gx-btz-cleanup). -/
 theorem exists_e0Pushout_mor {N : Causal.Flat.FlatSpacetime.{0} 2}
     (hN : Causal.Flat.GH N) {f : e0RegMFlat M → N} (hf : Causal.Flat.IsIsometricEmbedding 2 f) :
-    ∃ P : E0Pushout M N f, IsE0Mor (fun y : FlatE0 N => P.ι₂ y) univ := by
-  haveI hT2 := lem_extension_hausdorff hN hf
-  have hj₁ : IsOpenEmbedding (Subtype.val : E0LM.e0RegM M → M) :=
-    (E0LM.e0RegM M).isOpen.isOpenEmbedding_subtypeVal
-  have hj₂ := hf.isOpenEmbedding
-  have hinj₁ : Injective (Subtype.val : E0LM.e0RegM M → M) := Subtype.val_injective
-  have he : ∀ b, IsOpenEmbedding (pushEmb f b) := by
-    intro b; cases b
-    · exact Causal.Gluing.isOpenEmbedding_ι₂ hj₁ hj₂
-    · exact Causal.Gluing.isOpenEmbedding_ι₁ hj₁ hj₂
-  have hcov : ∀ z, ∃ b, z ∈ range (pushEmb f b) := by
-    intro z
-    rcases Causal.Gluing.exists_ι z with ⟨x, hx⟩ | ⟨y, hy⟩
-    · exact ⟨true, x, hx⟩
-    · exact ⟨false, y, hy⟩
-  have hsymm : ∀ b (x : pushPiece M N b),
-      (Causal.CBG.glueEmb he b).symm (pushEmb f b x) = x := fun b x =>
-    Causal.CBG.glueEmb_symm_apply he b x
-  have htrans : ∀ i j, ChartedSpace.LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt
-      (Causal.CBG.glueTransition he i j) (pushEmb f i ⁻¹' range (pushEmb f j)) := by
-    have hWo : ∀ i j, IsOpen (pushEmb f i ⁻¹' range (pushEmb f j)) := fun i j =>
-      (he j).isOpen_range.preimage (he i).continuous
-    intro i j
-    cases i <;> cases j
-    · refine Causal.CBG.liftPropOn_congr_of_eqOn (hWo false false)
-        (Causal.CBG.liftPropOn_id (hWo false false)) fun x _ => ?_
-      exact (hsymm false x).symm
-    · -- `N → M`: `f⁻¹` on `range f`
-      have hW : pushEmb f false ⁻¹' range (pushEmb f true) = (range f : Set N) := by
-        ext y
-        constructor
-        · rintro ⟨x, hx⟩
-          obtain ⟨w, -, rfl⟩ := (Causal.Gluing.ι₁_eq_ι₂_iff hinj₁ hf.2).1 hx
-          exact ⟨w, rfl⟩
-        · rintro ⟨w, rfl⟩
-          exact ⟨(toRegM w : M), Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M))
-            (j₂ := f) (toRegM w)⟩
-      show ChartedSpace.LiftPropOn _ _ (pushEmb f false ⁻¹' range (pushEmb f true))
-      rw [hW]
-      refine Causal.CBG.liftPropOn_congr_of_eqOn hj₂.isOpen_range (isE0Mor_regInv hf) ?_
-      rintro _ ⟨w, rfl⟩
-      show regInv hf (f w) = (Causal.CBG.glueEmb he true).symm (pushEmb f false (f w))
-      have h1 : pushEmb f false (f w) = pushEmb f true (toRegM w : M) :=
-        (Causal.Gluing.ι₁_j₁ (toRegM w)).symm
-      rw [regInv_apply, h1, hsymm]
-    · -- `M → N`: `f` on `Reg M`
-      have hW : pushEmb f true ⁻¹' range (pushEmb f false) = (E0LM.e0RegM M : Set M) := by
-        ext x
-        constructor
-        · rintro ⟨y, hy⟩
-          obtain ⟨w, rfl, -⟩ := (Causal.Gluing.ι₁_eq_ι₂_iff hinj₁ hf.2).1 hy.symm
-          exact w.2
-        · intro hx
-          exact ⟨f ⟨x, hx⟩, (Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M))
-            (j₂ := f) (⟨x, hx⟩ : E0LM.e0RegM M)).symm⟩
-      show ChartedSpace.LiftPropOn _ _ (pushEmb f true ⁻¹' range (pushEmb f false))
-      rw [hW]
-      refine Causal.CBG.liftPropOn_congr_of_eqOn (E0LM.e0RegM M).isOpen
-        (isE0Mor_regExt hf (Classical.arbitrary N)) ?_
-      intro x hx
-      show regExt f _ x = (Causal.CBG.glueEmb he false).symm (pushEmb f true x)
-      have h1 : pushEmb f true x = pushEmb f false (f ⟨x, hx⟩) :=
-        Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M)) (j₂ := f)
-          (⟨x, hx⟩ : E0LM.e0RegM M)
-      rw [regExt_apply f _ x hx, h1, hsymm]
-    · refine Causal.CBG.liftPropOn_congr_of_eqOn (hWo true true)
-        (Causal.CBG.liftPropOn_id (hWo true true)) fun x _ => ?_
-      exact (hsymm true x).symm
-  letI cs : ChartedSpace E0Y (Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f) :=
-    Causal.CBG.gluedChartedSpace E0Y he hcov
-  haveI gx : HasGroupoid (Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f) e0Groupoid :=
-    Causal.CBG.gluedChartedSpace_hasGroupoid he hcov htrans
-  have hι : ∀ b, IsE0Mor (pushEmb f b) univ := Causal.CBG.liftPropOn_glue he hcov htrans
-  obtain ⟨x₀, hx₀⟩ := (E0LM.dense_e0RegM (M := M)).nonempty
-  haveI hconn : ConnectedSpace (Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f) := by
-    have h1 := isPreconnected_range
-      (Causal.Gluing.continuous_ι₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M)) (j₂ := f))
-    have h2 := isPreconnected_range
-      (Causal.Gluing.continuous_ι₂ (j₁ := (Subtype.val : E0LM.e0RegM M → M)) (j₂ := f))
-    have h12 := IsPreconnected.union
-      (s := range (Causal.Gluing.ι₁ (Subtype.val : E0LM.e0RegM M → M) f))
-      (t := range (Causal.Gluing.ι₂ (Subtype.val : E0LM.e0RegM M → M) f))
-      (Causal.Gluing.ι₁ _ f x₀) ⟨x₀, rfl⟩
-      ⟨f ⟨x₀, hx₀⟩, (Causal.Gluing.ι₁_j₁ (j₁ := (Subtype.val : E0LM.e0RegM M → M)) (j₂ := f)
-        (⟨x₀, hx₀⟩ : E0LM.e0RegM M)).symm⟩ h1 h2
-    have hU : (univ : Set (Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f)) ⊆
-        range (Causal.Gluing.ι₁ (Subtype.val : E0LM.e0RegM M → M) f) ∪
-          range (Causal.Gluing.ι₂ (Subtype.val : E0LM.e0RegM M → M) f) := fun z _ =>
-      (Causal.Gluing.exists_ι z).imp (fun ⟨x, hx⟩ => ⟨x, hx⟩) (fun ⟨y, hy⟩ => ⟨y, hy⟩)
-    refine { isPreconnected_univ := ?_, toNonempty := ⟨Causal.Gluing.ι₁ _ f x₀⟩ }
-    rw [← Set.eq_univ_of_univ_subset hU]
-    exact h12
-  haveI hsc : SecondCountableTopology (Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f) :=
-    isQuotientMap_quot_mk.secondCountableTopology (Causal.Gluing.isOpenMap_mk hj₁ hj₂)
-  refine ⟨{ carrier := Causal.Gluing (Subtype.val : E0LM.e0RegM M → M) f
-            ι₁ := Causal.Gluing.ι₁ _ f
-            ι₂ := Causal.Gluing.ι₂ (Subtype.val : E0LM.e0RegM M → M) f
-            isE0Mor_ι₁ := hι true
-            injective_ι₁ := Causal.Gluing.injective_ι₁ hinj₁ hf.2
-            isOpenEmbedding_ι₂ := Causal.Gluing.isOpenEmbedding_ι₂ hj₁ hj₂
-            comm := fun w => Causal.Gluing.ι₁_j₁ w
-            cover := Causal.Gluing.exists_ι
-            glue := fun x y h => (Causal.Gluing.ι₁_eq_ι₂_iff hinj₁ hf.2).1 h
-            sing_ι₁ := fun x => (Causal.CBG.mem_chartedSing_iff_of_liftPropOn e0_sing_mem
-              isOpen_univ (hι true) (mem_univ x) le_rfl).symm
-            sing_ι₂ := fun y h => ?_
-            le_ι₂ := fun U hU y y' => ?_ }, hι false⟩
-  · have h' := (Causal.CBG.mem_chartedSing_iff_of_liftPropOn e0_sing_mem isOpen_univ (hι false)
-      (mem_univ (show FlatE0 N from y)) le_rfl).2 h
-    exact h'.2 (inl_mem_e0Reg _)
-  · exact (le_iff_of_isE0Mor (hι false)
-      (Causal.Gluing.injective_ι₂ hinj₁ hf.2) hU y y').trans (flatE0_rel_iff N ⊤ y y').1
+    ∃ P : E0Pushout M N f, IsE0Mor (fun y : FlatE0 N => P.ι₂ y) univ :=
+  let ⟨P⟩ := exists_e0Pushout hN hf
+  ⟨P, P.isE0Mor_ι₂⟩
 
 omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
 /-- **The image of a flat Cauchy embedding is causally convex**

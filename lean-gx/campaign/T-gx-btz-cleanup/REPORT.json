@@ -1,0 +1,78 @@
+{
+  "package": "T-gx-btz-cleanup",
+  "target": "T-gx-btz-cleanup",
+  "files": [
+    "GX/BTZ/AbsMax.lean",
+    "GX/BTZ/Embeddings.lean",
+    "GX/BTZ/Surgery.lean",
+    "scaffold/GXScaffold/BTZ/RegComplete.lean",
+    "scaffold/GXScaffold/BTZ/SpearFamily.lean",
+    "scaffold/GXScaffold/BBS/HSCausal.lean",
+    "scaffold/GXScaffold/BBS/HSLinkRemarks.lean"
+  ],
+  "builds": true,
+  "sorry_count": 7,
+  "labels": [],
+  "items": {
+    "a": {
+      "status": "done",
+      "changed": [
+        "GX/BTZ/AbsMax.lean: structure GX.E0AbsMax.E0Pushout gains the field isE0Mor_ι₂ : IsE0Mor (fun y : FlatE0 N => ι₂ y) univ (after isOpenEmbedding_ι₂). The structure block (docstring, structure, attribute [instance] line) moved down from before lem_extension_hausdorff to just before exists_e0Pushout, because the field's type needs FlatE0 N and its ChartedSpace/HasGroupoid instances, defined in between; nothing between the old and the new position used E0Pushout. exists_e0Pushout fills the field with `hι false` (already computed in its proof). Docstring of the structure extended to mention the field.",
+        "scaffold/GXScaffold/BTZ/RegComplete.lean: GX.E0RegComplete.exists_e0Pushout_mor kept under its name and statement (kb/0152 and the atlas witness name it) but its ~110-line copy of the construction replaced by a 3-line term from exists_e0Pushout and P.isE0Mor_ι₂; module docstring updated."
+      ],
+      "removed": [],
+      "added": ["GX.E0AbsMax.E0Pushout.isE0Mor_ι₂ (field)"],
+      "aliases_kept": ["GX.E0RegComplete.exists_e0Pushout_mor (same statement, re-derived)"],
+      "lines": "RegComplete.lean: -118 +8 (net -110); AbsMax.lean: +3 for the field and its docstring, the rest of its diff is the 33-line move"
+    },
+    "b": {
+      "status": "done",
+      "changed": [
+        "GX/BTZ/AbsMax.lean: GX.E0AbsMax.continuous_of_isE0Mor generalised to the primed lemma's hypotheses (drops [HasGroupoid N e0Groupoid] and, by omit, [HasGroupoid M e0Groupoid]); proof replaced by the primed one (2 lines). Strictly stronger statement; every caller (AbsMax, MixedDiamond, Uniformization) unchanged.",
+        "GX/BTZ/Embeddings.lean: GX.continuous_of_isE0Mor' deleted; its two uses (isBTZEmbedding_iff_injective, CommonOverBTZ.IsMorphism.unique) call E0AbsMax.continuous_of_isE0Mor."
+      ],
+      "removed": ["GX.continuous_of_isE0Mor' (no use outside Embeddings.lean, named in no ledger, curation or kb)"],
+      "added": [],
+      "aliases_kept": [],
+      "lines": "Embeddings.lean: -8 +4; AbsMax.lean: about +3 (docstring)"
+    },
+    "c": {
+      "status": "done (bridge, not replacement)",
+      "changed": [
+        "scaffold/GXScaffold/BBS/HSCausal.lean: imports GXScaffold.BBS.HSLinkRemarks and states the bridges right after DSLe: GX.CutGlue.hyp_eq_dsHat : CutGlue.hyp = dsHat := rfl; GX.CutGlue.isCausalPast_iff_dsLe τ σ : CutGlue.IsCausalPast τ σ ↔ DSLe τ σ := Iff.rfl; GX.CutGlue.isCausalFuture_iff_dsLe τ σ : CutGlue.IsCausalFuture τ σ ↔ DSLe σ τ := Iff.rfl. Module docstring import line updated.",
+        "scaffold/GXScaffold/BBS/HSLinkRemarks.lean: docstring of CutGlue.IsCausalPast now points to the three bridges (it said 'not stated here, to be replaced by GX.DSLe at graduation')."
+      ],
+      "removed": [],
+      "added": ["GX.CutGlue.hyp_eq_dsHat", "GX.CutGlue.isCausalPast_iff_dsLe", "GX.CutGlue.isCausalFuture_iff_dsLe"],
+      "aliases_kept": ["GX.CutGlue.hyp", "GX.CutGlue.IsCausalPast", "GX.CutGlue.IsCausalFuture (unchanged)"],
+      "why_bridge": "Replacing would make the sorry-free HSLinkRemarks import HSCausal, which rests on a tagged sorry (GX.GammaLinkCircle.DevData.not_hasHighDegreeAt), so HSLinkRemarks could no longer graduate before HSCausal does. The bridge goes the other way (HSCausal imports HSLinkRemarks; no cycle, and the only name both files share, dirOf_dsE₀_mem, sits in different namespaces). Moving dsHat/DSLe into HSLinkRemarks would be the real single definition, but it changes the file that holds the bbsdef:Hcausal vocabulary, so it is left to graduation.",
+      "lines": "HSCausal.lean +17 -1; HSLinkRemarks.lean +4 -3"
+    },
+    "d": {
+      "status": "done",
+      "changed": [
+        "GX/BTZ/Surgery.lean: new def GX.E0Surgery.RimC1 (M) (S) (the scaffold's E0SpearFamily.RimC1, verbatim, = the field rim of IsE0C1SpacelikeCauchy) and theorem GX.E0Surgery.IsE0C1SpacelikeCauchy.rimC1, in section SurgeryData after the structure.",
+        "GX.E0Surgery.exists_spearSurgeryDatum and exists_spearSurgeryDatum_cover now take (hS : (E0CBG.CE M).IsCauchySurface S) (hrim : RimC1 M S) where they took (hS : IsE0C1SpacelikeCauchy M S); GX.E0Surgery.SpearSurgeryDatum.exists_shrink takes (hrim : RimC1 M S) and no longer needs [T2Space] [ConnectedSpace] [HasGroupoid] (omit). Same names, strictly stronger statements, docstrings say so.",
+        "The three strict callers in Surgery.lean (finite_inter_S0, exists_surgeryData x2) pass hS.cauchy hS.rimC1 / hS.rimC1; these are the one-line IsE0C1SpacelikeCauchy forms. No separate IsE0C1SpacelikeCauchy-form lemma was added: nothing outside Surgery.lean ever called the old signatures.",
+        "scaffold/GXScaffold/BTZ/SpearFamily.lean: deleted E0SpearFamily.RimC1, rimC1_of_isE0C1SpacelikeCauchy, exists_spearSurgeryDatum, exists_spearSurgeryDatum_cover, exists_shrink; kept rimC1_of_isE0C1CompleteCauchy (now into the strict RimC1); the calls resolve to the strict lemmas through `open E0Surgery` (exists_shrink as dot notation (D₀ i).exists_shrink hrim …)."
+      ],
+      "removed": ["GX.E0SpearFamily.RimC1", "GX.E0SpearFamily.rimC1_of_isE0C1SpacelikeCauchy", "GX.E0SpearFamily.exists_spearSurgeryDatum", "GX.E0SpearFamily.exists_spearSurgeryDatum_cover", "GX.E0SpearFamily.exists_shrink"],
+      "removed_note": "all five were used only inside SpearFamily.lean; no ledger, curation or kb names them (only the generated reports/atlas/lean/{edges-btz,facts-lean-gx}.json, which the master regenerates)",
+      "added": ["GX.E0Surgery.RimC1", "GX.E0Surgery.IsE0C1SpacelikeCauchy.rimC1"],
+      "aliases_kept": [],
+      "lines": "SpearFamily.lean: -93 +6 (net -87); Surgery.lean: +43 -17"
+    }
+  },
+  "gate": {
+    "make -C lean-gx check": "green: GX 8770 jobs, GXScaffold 8784 jobs, causal_import_gate ok, sorry 0 strict / 7 scaffold in the same files as before (BluntSpear 1, Pgcd 1, RegComplete 1, ThurstonSuspension 1, TroyanovAngles 2, HSCausal 1), axiom sweep: 15717 strict declarations within propext/Classical.choice/Quot.sound, 18 scaffold declarations resting on a sorry (as before)",
+    "ledgers": "gx 162 statements / 149 Lean-stated, bbs 71 / 12, btz 55 / 34: all links resolve; ledger.json unchanged, only dag.pdf regenerated, restored with git checkout -- papers/{gx,bbs,btz}/ledger",
+    "docstring_marks": "none added or removed"
+  },
+  "extra_decls": ["GX.E0Surgery.RimC1", "GX.E0Surgery.IsE0C1SpacelikeCauchy.rimC1", "GX.E0AbsMax.E0Pushout.isE0Mor_ι₂", "GX.CutGlue.hyp_eq_dsHat", "GX.CutGlue.isCausalPast_iff_dsLe", "GX.CutGlue.isCausalFuture_iff_dsLe"],
+  "kb_proposals": [
+    "kb/0152 is out of date: E0Pushout now has the field isE0Mor_ι₂, so every P : E0Pushout M N f gives P.isE0Mor_ι₂. E0RegComplete.exists_e0Pushout_mor is a 3-line corollary of it.",
+    "The surgery's spear data need only (IsCauchySurface S) and E0Surgery.RimC1 M S: E0Surgery.exists_spearSurgeryDatum(_cover) and SpearSurgeryDatum.exists_shrink take those; from an IsE0C1SpacelikeCauchy hS pass hS.cauchy hS.rimC1.",
+    "There is one continuity lemma for an E0-morphism, E0AbsMax.continuous_of_isE0Mor, and it needs no HasGroupoid on either side; continuous_of_isE0Mor' is gone."
+  ],
+  "notes": "Behaviour-preserving: every changed strict statement is stronger (fewer hypotheses), and the one structure change adds a field. The only constructor of E0Pushout is exists_e0Pushout. Every removed name was used only in its own file. The kb entry 0152 and the generated atlas jsons still mention the old state: I could not edit them (outside the dispatch). (c) is a bridge, not a replacement; the reason is under items.c.why_bridge. lean-causal/scaffold/CausalScaffold/Model/ (untracked) is not mine."
+}

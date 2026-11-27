@@ -1927,12 +1927,14 @@ theorem cor_GH_causal_e0 {A : Opens M} (hA : (A : Set M)ᶜ ⊆ S0 M)
       (stronglyCausalOn_of_globallyHyperbolicOn (e0_sfa_of_globalBTZ M) hA hG) (hA hx) (hA hy)
       hxy hyx
 
-omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] in
-/-- An `𝔼₀`-morphism on `univ` is continuous. -/
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- An `𝔼₀`-morphism on `univ` is continuous (no groupoid hypothesis on either side: a local
+structomorphism is continuous within its domain at every point). The one continuity lemma of an
+`𝔼₀`-morphism (T-gx-btz-cleanup: `GX.continuous_of_isE0Mor'` of `GX.BTZ.Embeddings` is this). -/
 theorem continuous_of_isE0Mor {N : Type} [TopologicalSpace N] [ChartedSpace E0Y N]
-    [HasGroupoid N e0Groupoid] {f : M → N} (hf : IsE0Mor f univ) : Continuous f := by
-  have := (isEMorphismOn_of_isE0Mor (W := ⊤) hf).continuousOn
-  rwa [Opens.coe_top, continuousOn_univ] at this
+    {f : M → N} (hf : IsE0Mor f univ) : Continuous f := by
+  refine continuous_iff_continuousAt.2 fun x => ?_
+  exact (continuousWithinAt_univ f x).1 (hf x (mem_univ x)).1
 
 /-- **A compact acausal Cauchy surface of a connected globally hyperbolic `𝔼₀`-manifold is
 connected** (implicit in B21 Prop 2.16, whose Cauchy surface is "a closed surface of genus g",
@@ -2488,40 +2490,6 @@ theorem exists_nhds_not_mapsTo {N : Causal.Flat.FlatSpacetime.{0} 2} [T2Space M]
 
 /-! ### §4 The push-out of B21 Prop 2.17 and absolute maximality of `Reg M` -/
 
-/-- **The push-out of B21 Prop 2.17's proof** (`BTZ_1.tex:1094–1096`, via Lemma 2.12
-`lem:extension_hausdorff`): for an isometric embedding `f : Reg M → N` into a flat spacetime, an
-`𝔼₀`-manifold `M̄` (Hausdorff, connected, second countable) with an injective `𝔼₀`-morphism
-`ι₁ : M → M̄` and an open embedding `ι₂ : N → M̄` agreeing on `Reg M`, jointly onto, identifying
-only along `f`, with `sing₀(M̄) = ι₁(sing₀ M)` and the flat causality of `N` read through `ι₂`. -/
-structure E0Pushout (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
-    [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid] (N : Causal.Flat.FlatSpacetime.{0} 2)
-    (f : e0RegMFlat M → N) where
-  /-- The push-out `M̄ = (M ⊔ N)/Reg M`. -/
-  carrier : Type
-  [top : TopologicalSpace carrier]
-  [t2 : T2Space carrier]
-  [conn : ConnectedSpace carrier]
-  [sc : SecondCountableTopology carrier]
-  [cs : ChartedSpace E0Y carrier]
-  [gx : HasGroupoid carrier e0Groupoid]
-  /-- `π₁ : M → M̄`. -/
-  ι₁ : M → carrier
-  /-- `π₂ : N → M̄`. -/
-  ι₂ : N → carrier
-  isE0Mor_ι₁ : IsE0Mor ι₁ univ
-  injective_ι₁ : Injective ι₁
-  isOpenEmbedding_ι₂ : IsOpenEmbedding ι₂
-  comm : ∀ w : E0LM.e0RegM M, ι₁ w = ι₂ (f w)
-  cover : ∀ z, (∃ x, ι₁ x = z) ∨ ∃ y, ι₂ y = z
-  glue : ∀ x y, ι₁ x = ι₂ y → ∃ w : E0LM.e0RegM M, (w : M) = x ∧ f w = y
-  sing_ι₁ : ∀ x, ι₁ x ∈ S0 carrier ↔ x ∈ S0 M
-  sing_ι₂ : ∀ y, ι₂ y ∉ S0 carrier
-  le_ι₂ : ∀ U : Opens carrier, (U : Set carrier) = range ι₂ → ∀ y y',
-    (CE carrier).le U (ι₂ y) (ι₂ y') ↔ (Causal.Flat.flatCausality 2 N).le ⊤ y y'
-
-attribute [instance] E0Pushout.top E0Pushout.t2 E0Pushout.conn E0Pushout.sc E0Pushout.cs
-  E0Pushout.gx
-
 /-- **B21 Lemma 2.12** (`lem:extension_hausdorff`, `BTZ_1.tex:941–991`), in the case Prop 2.17
 uses: `M₀ = Reg M`, `M₁ = M` (`Reg M ↪ M` is a BTZ-extension), `M₂ = N` a globally hyperbolic flat
 spacetime (`sing₀ N = ∅ = j(sing₀ Reg M)`), `j = f`: the topological push-out
@@ -2962,6 +2930,45 @@ noncomputable def pushEmb {M : Type} [TopologicalSpace M] [ChartedSpace E0Y M]
   | true => Causal.Gluing.ι₁ _ f
   | false => Causal.Gluing.ι₂ (Subtype.val : E0LM.e0RegM M → M) f
 
+/-- **The push-out of B21 Prop 2.17's proof** (`BTZ_1.tex:1094–1096`, via Lemma 2.12
+`lem:extension_hausdorff`): for an isometric embedding `f : Reg M → N` into a flat spacetime, an
+`𝔼₀`-manifold `M̄` (Hausdorff, connected, second countable) with an injective `𝔼₀`-morphism
+`ι₁ : M → M̄` and an open embedding `ι₂ : N → M̄` (itself an `𝔼₀`-morphism on `FlatE0 N`,
+`isE0Mor_ι₂`, T-gx-btz-cleanup) agreeing on `Reg M`, jointly onto, identifying only along `f`,
+with `sing₀(M̄) = ι₁(sing₀ M)` and the flat causality of `N` read through `ι₂`.
+
+The structure stands after `FlatE0`, whose `𝔼₀`-atlas `isE0Mor_ι₂` is read in. -/
+structure E0Pushout (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M]
+    [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid] (N : Causal.Flat.FlatSpacetime.{0} 2)
+    (f : e0RegMFlat M → N) where
+  /-- The push-out `M̄ = (M ⊔ N)/Reg M`. -/
+  carrier : Type
+  [top : TopologicalSpace carrier]
+  [t2 : T2Space carrier]
+  [conn : ConnectedSpace carrier]
+  [sc : SecondCountableTopology carrier]
+  [cs : ChartedSpace E0Y carrier]
+  [gx : HasGroupoid carrier e0Groupoid]
+  /-- `π₁ : M → M̄`. -/
+  ι₁ : M → carrier
+  /-- `π₂ : N → M̄`. -/
+  ι₂ : N → carrier
+  isE0Mor_ι₁ : IsE0Mor ι₁ univ
+  injective_ι₁ : Injective ι₁
+  isOpenEmbedding_ι₂ : IsOpenEmbedding ι₂
+  /-- `ι₂` read on `FlatE0 N` (the atlas of `N` through `inl`) is an `𝔼₀`-morphism. -/
+  isE0Mor_ι₂ : IsE0Mor (fun y : FlatE0 N => ι₂ y) univ
+  comm : ∀ w : E0LM.e0RegM M, ι₁ w = ι₂ (f w)
+  cover : ∀ z, (∃ x, ι₁ x = z) ∨ ∃ y, ι₂ y = z
+  glue : ∀ x y, ι₁ x = ι₂ y → ∃ w : E0LM.e0RegM M, (w : M) = x ∧ f w = y
+  sing_ι₁ : ∀ x, ι₁ x ∈ S0 carrier ↔ x ∈ S0 M
+  sing_ι₂ : ∀ y, ι₂ y ∉ S0 carrier
+  le_ι₂ : ∀ U : Opens carrier, (U : Set carrier) = range ι₂ → ∀ y y',
+    (CE carrier).le U (ι₂ y) (ι₂ y') ↔ (Causal.Flat.flatCausality 2 N).le ⊤ y y'
+
+attribute [instance] E0Pushout.top E0Pushout.t2 E0Pushout.conn E0Pushout.sc E0Pushout.cs
+  E0Pushout.gx
+
 
 /-- **The push-out exists** (B21 Prop 2.17, l.1094–1096): Lemma 2.12 makes `(M ⊔ N)/Reg M`
 Hausdorff, and the atlases of `M` and of `N` (read in `Y = 𝕄 ⊕ 𝔼₀` through `inl`, `FlatE0`)
@@ -3069,6 +3076,7 @@ theorem exists_e0Pushout {N : Causal.Flat.FlatSpacetime.{0} 2}
             isE0Mor_ι₁ := hι true
             injective_ι₁ := Causal.Gluing.injective_ι₁ hinj₁ hf.2
             isOpenEmbedding_ι₂ := Causal.Gluing.isOpenEmbedding_ι₂ hj₁ hj₂
+            isE0Mor_ι₂ := hι false
             comm := fun w => Causal.Gluing.ι₁_j₁ w
             cover := Causal.Gluing.exists_ι
             glue := fun x y h => (Causal.Gluing.ι₁_eq_ι₂_iff hinj₁ hf.2).1 h

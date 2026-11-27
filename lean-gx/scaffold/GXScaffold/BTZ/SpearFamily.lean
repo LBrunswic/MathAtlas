@@ -75,101 +75,14 @@ open E0 E0Spear E0Surgery E0RegComplete
 variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
   [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
 
-variable (M) in
-/-- **The `C¹` rim condition** on a surface `S` (the field `rim` of both
-`E0Surgery.IsE0C1SpacelikeCauchy` and `E0RegComplete.IsE0C1CompleteCauchy`, verbatim): the trace of
-`S` on the shaft of every spear chart meeting it along a continuous graph is a `C¹` circle. -/
-def RimC1 (S : Set M) : Prop :=
-  ∀ (R v : ℝ) (W : Set E0Y) (ψ : E0Y → M) (τS : ℂ → ℝ), 0 < R → IsOpen W →
-    E0Spear.spearY v R ⊆ W → E0Spear.IsE0Mor ψ W → InjOn ψ W →
-    ContinuousOn τS (Metric.closedBall 0 R) →
-    (∀ z : ℂ, ‖z‖ ≤ R → v + R / 2 < τS z) →
-    (∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2)) →
-    ContDiff ℝ 1 (rimFun τS R)
-
 omit [SecondCountableTopology M] in
+/-- A `C¹` spacelike complete Cauchy surface satisfies the strict `E0Surgery.RimC1` (its field
+`rim`, verbatim). The rim condition, the spear data from it (`E0Surgery.exists_spearSurgeryDatum`,
+`E0Surgery.exists_spearSurgeryDatum_cover`) and their thinning
+(`E0Surgery.SpearSurgeryDatum.exists_shrink`) are the strict library's (T-gx-btz-cleanup). -/
 theorem rimC1_of_isE0C1CompleteCauchy {S : Set M} (hS : IsE0C1CompleteCauchy M S) :
     RimC1 M S :=
   hS.rim
-
-omit [SecondCountableTopology M] in
-theorem rimC1_of_isE0C1SpacelikeCauchy {S : Set M} (hS : IsE0C1SpacelikeCauchy M S) :
-    RimC1 M S :=
-  hS.rim
-
-/-- **One spear of the surgery at every BTZ point in the past of `S`** (`exists_spearSurgeryDatum`
-of the strict library, whose proof uses of `S` only its Cauchy property and its rim condition). -/
-theorem exists_spearSurgeryDatum (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
-    (hS : (E0CBG.CE M).IsCauchySurface S) (hrim : RimC1 M S)
-    (hmax : E0Spear.IsE0CauchyMaximal M) {p : M}
-    (hp : p ∈ E0CBG.S0 M) (hpS : p ∈ (E0CBG.CE M).Iminus ⊤ S) :
-    ∃ D : SpearSurgeryDatum M S, D.p = p := by
-  obtain ⟨R, v, W, ψ, hR, hW, hsub, hψ, hinj, hpv, τS, h0, h1, h2⟩ :=
-    E0Spear.lem_add_BTZ_param_of_cauchyMaximal E0LM.e0_globalBTZ
-      (fun {_} _ _ _ _ _ => E0LM.e0_secondCountable_of_cauchy) hGH hS hmax hp hpS
-  have hC1 := hrim R v W ψ τS hR hW hsub hψ hinj h0 h1 h2
-  obtain ⟨G, hrim', hsl, habove, hC, hcomp, hlim, hδ⟩ :=
-    lem_curve_extension_ii_shift (n := 1) le_rfl hC1 (rimFun_periodic τS R) (c₀ := v + R / 2)
-      (fun θ => h1 _ (norm_rimPoint hR.le θ).le) hR
-  exact ⟨⟨p, R, v, W, ψ, τS, G, hp, hpS, hR, hW, hsub, hψ, hinj, hpv, h0, h1, h2, hrim', hsl,
-    habove, hC, hcomp, hlim, hδ⟩, rfl⟩
-
-/-- **A spear datum whose ray passes through a given BTZ point of `S`**. -/
-theorem exists_spearSurgeryDatum_cover (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
-    (hS : (E0CBG.CE M).IsCauchySurface S) (hrim : RimC1 M S)
-    (hmax : E0Spear.IsE0CauchyMaximal M) {q : M} (hq : q ∈ S) (hq0 : q ∈ E0CBG.S0 M) :
-    ∃ D : SpearSurgeryDatum M S, q ∈ connectedComponentIn (E0CBG.S0 M) D.p ∧
-      ∃ t, 0 < t ∧ q = D.ψ (E0Spear.yAxis D.v t) := by
-  obtain ⟨γ, hγ0, hγe, hγi, hγr⟩ := (E0LM.e0_globalBTZ M).line q hq0
-  have hγe' := hγe hGH.1
-  have hpq : (E0CBG.CE M).le ⊤ (γ (-1)) q := by
-    rw [← hγ0]; exact hγi.1.le_of_le trivial trivial (by norm_num)
-  have hne : γ (-1) ≠ q := fun h => by
-    have := hγe'.injective (h.trans hγ0.symm); norm_num at this
-  have hpcomp : γ (-1) ∈ connectedComponentIn (E0CBG.S0 M) q := hγr ▸ mem_range_self _
-  have hp0 : γ (-1) ∈ E0CBG.S0 M := connectedComponentIn_subset _ _ hpcomp
-  have hpS := mem_Iminus_of_le_of_mem hGH hS hq hpq hne
-  obtain ⟨D, hDp⟩ := exists_spearSurgeryDatum hGH hS hrim hmax hp0 hpS
-  have hqcomp : q ∈ connectedComponentIn (E0CBG.S0 M) D.p := by
-    rw [hDp, ← connectedComponentIn_eq hpcomp]; exact mem_connectedComponentIn hq0
-  refine ⟨D, hqcomp, ?_⟩
-  obtain ⟨γ', hγ'0, hγ'e, hγ'i, hγ'r⟩ := (E0LM.e0_globalBTZ M).line D.p D.p_mem
-  obtain ⟨s, hs⟩ : q ∈ range γ' := hγ'r ▸ hqcomp
-  have hs0 : 0 ≤ s := by
-    by_contra hneg
-    push Not at hneg
-    have h1 : (E0CBG.CE M).le ⊤ q D.p := by
-      rw [← hs, ← hγ'0]; exact hγ'i.1.le_of_le trivial trivial hneg.le
-    rw [hDp] at h1
-    exact hne (hGH.1 hpq h1)
-  obtain ⟨t, ht, hts⟩ := D.ray.exists_eq_of_line hGH hγ'0 (hγ'e hGH.1) hγ'i.1 hγ'r hs0
-  refine ⟨t, lt_of_le_of_ne ht fun h0 => ?_, by rw [← hs, ← hts]⟩
-  subst h0
-  have : D.ψ (E0Spear.yAxis D.v 0) = D.p := D.ray.zero
-  rw [hts, hs, hDp] at this
-  exact hne this.symm
-
-omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
-/-- **A spear can be thinned** (`SpearSurgeryDatum.exists_shrink`, from the rim condition). -/
-theorem exists_shrink {S : Set M} (hrim : RimC1 M S)
-    (D : SpearSurgeryDatum M S) {R' : ℝ} (hR' : 0 < R') (hle : R' ≤ D.R) :
-    ∃ D' : SpearSurgeryDatum M S, D'.p = D.p ∧ D'.ψ = D.ψ ∧ D'.v = D.v ∧ D'.R = R' := by
-  have hsub : E0Spear.spear D.v R' ⊆ E0Spear.spear D.v D.R :=
-    E0Spear.spear_mono le_rfl hle
-  have hsubY : E0Spear.spearY D.v R' ⊆ D.W :=
-    (image_mono hsub).trans D.spear_sub
-  have hgraph : ∀ x ∈ E0Spear.spear D.v R', (D.ψ (paperInY x) ∈ S ↔ x.1 = D.τS x.2) :=
-    fun x hx => D.graph x (hsub hx)
-  have hshaft : ∀ z : ℂ, ‖z‖ ≤ R' → D.v + R' / 2 < D.τS z := fun z hz => by
-    have := D.shaft z (hz.trans hle); linarith
-  have hC1 := hrim R' D.v D.W D.ψ D.τS hR' D.isOpen hsubY D.mor D.inj
-    (D.continuousOn.mono (Metric.closedBall_subset_closedBall hle)) hshaft hgraph
-  obtain ⟨G, hrim', hsl, habove, hC, hcomp, hlim, hδ⟩ :=
-    lem_curve_extension_ii_shift (n := 1) le_rfl hC1 (rimFun_periodic D.τS R')
-      (c₀ := D.v + R' / 2) (fun θ => hshaft _ (norm_rimPoint hR'.le θ).le) hR'
-  exact ⟨⟨D.p, R', D.v, D.W, D.ψ, D.τS, G, D.p_mem, D.p_past, hR', D.isOpen, hsubY, D.mor, D.inj,
-    D.vertex, D.continuousOn.mono (Metric.closedBall_subset_closedBall hle), hshaft, hgraph, hrim',
-    hsl, habove, hC, hcomp, hlim, hδ⟩, rfl, rfl, rfl, rfl⟩
 
 /-- **A thin enough spear misses a compact set its ray misses**: the spears `ψ(spear(v, R'))`,
 `R' → 0`, are closed and decrease to the ray. -/
@@ -353,7 +266,7 @@ theorem exists_lfSurgeryData_of_rimC1 (hGH : (E0CBG.CE M).GloballyHyperbolic) {S
     exact (min_le_left _ _).trans (hρle _)
   choose R₁ hR₁pos hR₁le hR₁dis using hR₁
   have hshr₁ : ∀ i, ∃ D' : SpearSurgeryDatum M S, D'.p = (D₀ i).p ∧ D'.ψ = (D₀ i).ψ ∧
-      D'.v = (D₀ i).v ∧ D'.R = R₁ i := fun i => exists_shrink hrim (D₀ i) (hR₁pos i) (hR₁le i)
+      D'.v = (D₀ i).v ∧ D'.R = R₁ i := fun i => (D₀ i).exists_shrink hrim (hR₁pos i) (hR₁le i)
   choose D₁ hD₁p hD₁ψ hD₁v hD₁R using hshr₁
   have hD₁set : ∀ i, (D₁ i).spearSet = (D₀ i).ψ '' E0Spear.spearY (D₀ i).v (R₁ i) := fun i => by
     show (D₁ i).ψ '' E0Spear.spearY (D₁ i).v (D₁ i).R = _
@@ -402,7 +315,7 @@ theorem exists_lfSurgeryData_of_rimC1 (hGH : (E0CBG.CE M).GloballyHyperbolic) {S
   choose ρ hρpos hρ using hρ
   have hshr : ∀ j, ∃ D' : SpearSurgeryDatum M S, D'.p = (D₁ j).p ∧ D'.ψ = (D₁ j).ψ ∧
       D'.v = (D₁ j).v ∧ D'.R = min (ρ j) (D₁ j).R := fun j =>
-    exists_shrink hrim (D₁ j) (lt_min (hρpos j) (D₁ j).pos) (min_le_right _ _)
+    (D₁ j).exists_shrink hrim (lt_min (hρpos j) (D₁ j).pos) (min_le_right _ _)
   choose D hDp hDψ hDv hDR using hshr
   have hsub : ∀ j, (D j).spearSet ⊆ (D₁ j).spearSet := fun j => by
     show (D j).ψ '' E0Spear.spearY (D j).v (D j).R ⊆ _

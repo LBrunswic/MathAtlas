@@ -1,0 +1,36 @@
+{
+  "target": "T-gx-btz-cleanup",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [],
+  "label_notes": "Clean-up target with no labels (REPORT labels: []). I audited it against the dispatch's refactor rules, not against paper rows.",
+  "checks": {
+    "a_E0Pushout": "Checked. The structure block moved verbatim, from before lem_extension_hausdorff to after pushEmb/FlatE0. The only additions are the field isE0Mor_ι₂ : IsE0Mor (fun y : FlatE0 N => ι₂ y) univ and its docstring. No other field, binder or instance attribute changed. exists_e0Pushout (the only constructor) fills the field with `hι false`. The whole of GX and GXScaffold builds, so no other construction of E0Pushout exists or broke. GX.E0RegComplete.exists_e0Pushout_mor keeps its name and statement exactly; its proof is now `let ⟨P⟩ := exists_e0Pushout hN hf; ⟨P, P.isE0Mor_ι₂⟩`.",
+    "b_continuity": "Checked. GX.E0AbsMax.continuous_of_isE0Mor now omits [HasGroupoid M e0Groupoid] and drops [HasGroupoid N e0Groupoid], so its hypotheses are strictly weaker and its conclusion is unchanged. The proof is the one from the deleted primed lemma. GX.continuous_of_isE0Mor' is gone. Across the hub (all *.lean files, papers/*/certificate/curation.toml, reports/atlas/hub.toml, lean-gx/kb, lean-gx/docs) its only remaining mention is a historical note in the AbsMax docstring. Campaign REPORTs and the roadmap prose also mention it.",
+    "c_bridge": "Checked. GX.CutGlue.hyp_eq_dsHat (rfl) and isCausalPast_iff_dsLe / isCausalFuture_iff_dsLe (Iff.rfl) are added in HSCausal, which now imports HSLinkRemarks. The definitions in HSLinkRemarks are unchanged; only their docstring changed. The bridge direction is justified: HSLinkRemarks stays sorry-free and independent of HSCausal.",
+    "d_surgery": "Checked. GX.E0Surgery.RimC1 is the deleted scaffold GX.E0SpearFamily.RimC1 verbatim, and it is definitionally the field rim of IsE0C1SpacelikeCauchy (IsE0C1SpacelikeCauchy.rimC1 := hS.rim compiles). exists_spearSurgeryDatum and exists_spearSurgeryDatum_cover replace (hS : IsE0C1SpacelikeCauchy M S) with (hS : IsCauchySurface S) (hrim : RimC1 M S). Both are projections of the old hypothesis (hS.cauchy, hS.rimC1), so the hypotheses are weaker and the conclusions are character-for-character unchanged. SpearSurgeryDatum.exists_shrink takes only hrim and omits T2/Connected/HasGroupoid, which is also weaker; its conclusion is unchanged. The deleted scaffold names (E0SpearFamily.RimC1, rimC1_of_isE0C1SpacelikeCauchy, exists_spearSurgeryDatum, exists_spearSurgeryDatum_cover, exists_shrink) appear in no .lean file, no curation.toml (papers/btz curation lists only LFSurgeryData / exists_lfSurgeryData* / rimC1_of_isE0C1CompleteCauchy-adjacent names, all still present), hub.toml or kb. They remain only in campaign REPORTs and the generated reports/atlas/lean jsons, which the master regenerates.",
+    "marks": "`git diff -- lean-gx | grep '^[-+]' | grep -F '**`'` finds nothing, so no mark was added or removed.",
+    "sorry": "The tactic sorrys are unchanged: scripts/sorry_count.py gives strict 0, scaffold 7 (BluntSpear 1, Pgcd 1, RegComplete 1, ThurstonSuspension 1, TroyanovAngles 2, HSCausal 1), matching the REPORT. Raw `grep -w sorry` goes up by 1 in HSCausal.lean and in HSLinkRemarks.lean; both added occurrences are docstring prose ('sorry-free', 'a tagged `sorry`').",
+    "scope": "In git status, the only lean-gx changes are the seven dispatched files plus the campaign directory. The other modified paths come from other loops and are not this closer's: roadmap/roadmap.toml and programme/roadmap.toml (status/evidence of the loop itself), the restatements/RESTATED/CHECK files (the restate loop), and the untracked lean-causal IsolatedLineConjoined.lean."
+  },
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "No lake build was running in lean-gx. I ran `taskset -c 0-11 lake build` on the seven modules: 8770 jobs, success. `lake build GX GXScaffold`: 8792 jobs, success; the only warnings are the two known scaffold sorrys touched here (RegComplete:261, HSCausal:1922). An #print axioms probe in the campaign directory (deleted afterwards) covered 18 declarations: continuous_of_isE0Mor, exists_e0Pushout, E0Pushout.isE0Mor_ι₂, isBTZEmbedding_iff_injective, RimC1, IsE0C1SpacelikeCauchy.rimC1, exists_spearSurgeryDatum(_cover), SpearSurgeryDatum.exists_shrink, finite_inter_S0, exists_surgeryData, exists_e0Pushout_mor, the three CutGlue bridges, exists_lfSurgeryData(_of_rimC1), rimC1_of_isE0C1CompleteCauchy. Every one depends only on [propext, Classical.choice, Quot.sound]. I did not rerun the full `make -C lean-gx check`, because it regenerates tracked files; the build and axiom checks above stand in for it."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/kb/entries/0152-e0pushout-forgets-that-is-an-e-morphism.md",
+      "what": "kb entry 0152 ('E0Pushout forgets that ι₂ is an E₀-morphism') no longer holds now that E0Pushout has the field isE0Mor_ι₂. The file is outside the dispatch, and the REPORT discloses the staleness as a kb_proposal.",
+      "fix": "Master: apply the REPORT's kb_proposal. Mark 0152 superseded, or rewrite it to point at E0Pushout.isE0Mor_ι₂."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/GX/BTZ/AbsMax.lean:1933",
+      "what": "The docstring of continuous_of_isE0Mor names the deleted declaration `GX.continuous_of_isE0Mor'` as a historical pointer. It is harmless, but a doc-link checker or a reader may look for a declaration that no longer exists.",
+      "fix": "Optional: reword it as '(formerly `continuous_of_isE0Mor'` of `GX.BTZ.Embeddings`, merged here)', or drop the pointer."
+    }
+  ]
+}

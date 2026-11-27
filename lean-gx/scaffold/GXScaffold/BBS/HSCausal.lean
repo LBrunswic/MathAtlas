@@ -1,11 +1,14 @@
 import GXScaffold.BBS.HSClassification
+import GXScaffold.BBS.HSLinkRemarks
 
 /-!
 # BBS `bbsdef:Hcausal`: causal singular HS-surfaces and causal singular lines; a Misner `𝔢(L)` has a closed causal curve, a time-like one has none
 
 Targets `T-bbs-hcausal` and `T-bbs-hcausal-tachyons` (`roadmap/roadmap.toml`; BBS layer L2 in
 lean-gx). `papers/bbs/legacy/labeled/colI_v1.tex`. 1 `sorry` in 1 declaration (tagged, below). Imports
-`GXScaffold.BBS.HSClassification` (the types of `(Γ_p, ℓ(p))`-circles: Misner, the degree), over
+`GXScaffold.BBS.HSClassification` (the types of `(Γ_p, ℓ(p))`-circles: Misner, the degree) and
+`GXScaffold.BBS.HSLinkRemarks` (sorry-free; only for the `Iff.rfl` bridge of its
+`CutGlue.hyp`/`CutGlue.IsCausalPast` to `dsHat`/`DSLe`, T-gx-btz-cleanup), over
 the strict `GX.BBS.HSSuspension` (`𝔢(L)`, singular HS-structures) and the scaffold
 `GXScaffold.BBS.{HSSingularities, HSDegree, HSAntipodal, HSPositive}` (sorry-free).
 
@@ -148,6 +151,19 @@ their points on the hyperboloid is future causal (or zero) in `ℝ^{1,2}`. -/
 def DSLe (σ τ : HS 2) : Prop :=
   σ ∈ HS.piece 2 .deSitter ∧ τ ∈ HS.piece 2 .deSitter ∧
     Causal.Flat.IsFutureCausal (dsHat τ - dsHat σ)
+
+/-- **The bridge to `GXScaffold.BBS.HSLinkRemarks`** (T-gx-btz-cleanup): its point of the
+hyperboloid `GX.CutGlue.hyp` is `dsHat`. -/
+theorem CutGlue.hyp_eq_dsHat : CutGlue.hyp = dsHat := rfl
+
+/-- **The bridge to `GXScaffold.BBS.HSLinkRemarks`** (T-gx-btz-cleanup): its causal past in `dS²`,
+`GX.CutGlue.IsCausalPast τ σ`, is `DSLe τ σ`, by definition. -/
+theorem CutGlue.isCausalPast_iff_dsLe (τ σ : HS 2) : CutGlue.IsCausalPast τ σ ↔ DSLe τ σ :=
+  Iff.rfl
+
+/-- Its causal future in `dS²`, `GX.CutGlue.IsCausalFuture τ σ`, is `DSLe σ τ`, by definition. -/
+theorem CutGlue.isCausalFuture_iff_dsLe (τ σ : HS 2) : CutGlue.IsCausalFuture τ σ ↔ DSLe σ τ :=
+  Iff.rfl
 
 theorem dsHat_smul (A : Causal.Flat.lorentz 2) {σ : HS 2} (hσ : σ ∈ HS.piece 2 .deSitter) :
     dsHat (A • σ) = (A : 𝕄 ≃ₗ[ℝ] 𝕄) (dsHat σ) := by

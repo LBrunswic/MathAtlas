@@ -2751,6 +2751,27 @@ structure IsE0C1SpacelikeCauchy (S : Set M) : Prop where
     (∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2)) →
     ContDiff ℝ 1 (rimFun τS R)
 
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
+/-- **The `C¹` rim condition** on a surface `S` (the field `rim` of `IsE0C1SpacelikeCauchy`,
+verbatim; T-gx-btz-cleanup, moved here from `GXScaffold.BTZ.SpearFamily`): the trace of `S` on the
+shaft of every spear chart meeting it along a continuous graph is a `C¹` circle. With the Cauchy
+property it is all the spear data of the surgery use of `S` (`exists_spearSurgeryDatum`,
+`exists_spearSurgeryDatum_cover`, `SpearSurgeryDatum.exists_shrink`); neither compactness nor the
+spacelike Lipschitz condition is used there. -/
+def RimC1 (S : Set M) : Prop :=
+  ∀ (R v : ℝ) (W : Set E0Y) (ψ : E0Y → M) (τS : ℂ → ℝ), 0 < R → IsOpen W →
+    E0Spear.spearY v R ⊆ W → E0Spear.IsE0Mor ψ W → InjOn ψ W →
+    ContinuousOn τS (Metric.closedBall 0 R) →
+    (∀ z : ℂ, ‖z‖ ≤ R → v + R / 2 < τS z) →
+    (∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2)) →
+    ContDiff ℝ 1 (rimFun τS R)
+
+omit [SecondCountableTopology M] in
+variable {M} in
+/-- A `C¹` spacelike compact Cauchy surface satisfies the rim condition. -/
+theorem IsE0C1SpacelikeCauchy.rimC1 {S : Set M} (hS : IsE0C1SpacelikeCauchy M S) : RimC1 M S :=
+  hS.rim
+
 omit [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
   [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid] in
 /-- **Well-posedness of `IsE0C1SpacelikeCauchy.rim`** (the round-2 repair): two graph functions
@@ -2896,16 +2917,19 @@ proof, l.1090: « Lemma 2.3 … Lemma 2.4 … and finally the point (ii) of Lemm
 (`E0Spear.lem_tube`) and Lemma 2.4 (`E0Spear.lem_add_BTZ_param_of_cauchyMaximal`), with their CBG
 inputs `hLine`/`hSC` discharged by `E0LM.e0_globalBTZ` ((O2)) and
 `E0LM.e0_secondCountable_of_cauchy` ((O4′)), give a spear chart of vertex `p` meeting `S` along
-the graph of `τ_Σ` in the shaft; its rim is `C¹` (`IsE0C1SpacelikeCauchy.rim`), and Lemma 2.6(ii)
-(`lem_curve_extension_ii_shift`, with Lemma 2.8(1)) extends it to a complete spacelike graph. -/
+the graph of `τ_Σ` in the shaft; its rim is `C¹` (`RimC1`, e.g. `IsE0C1SpacelikeCauchy.rimC1`),
+and Lemma 2.6(ii) (`lem_curve_extension_ii_shift`, with Lemma 2.8(1)) extends it to a complete
+spacelike graph. Of `S` only its Cauchy property and its rim condition are used
+(T-gx-btz-cleanup: for `hS : IsE0C1SpacelikeCauchy M S`, pass `hS.cauchy hS.rimC1`). -/
 theorem exists_spearSurgeryDatum (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
-    (hS : IsE0C1SpacelikeCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M) {p : M}
+    (hS : (E0CBG.CE M).IsCauchySurface S) (hrim : RimC1 M S)
+    (hmax : E0Spear.IsE0CauchyMaximal M) {p : M}
     (hp : p ∈ E0CBG.S0 M) (hpS : p ∈ (E0CBG.CE M).Iminus ⊤ S) :
     ∃ D : SpearSurgeryDatum M S, D.p = p := by
   obtain ⟨R, v, W, ψ, hR, hW, hsub, hψ, hinj, hpv, τS, h0, h1, h2⟩ :=
     E0Spear.lem_add_BTZ_param_of_cauchyMaximal E0LM.e0_globalBTZ
-      (fun {_} _ _ _ _ _ => E0LM.e0_secondCountable_of_cauchy) hGH hS.cauchy hmax hp hpS
-  have hC1 := hS.rim R v W ψ τS hR hW hsub hψ hinj h0 h1 h2
+      (fun {_} _ _ _ _ _ => E0LM.e0_secondCountable_of_cauchy) hGH hS hmax hp hpS
+  have hC1 := hrim R v W ψ τS hR hW hsub hψ hinj h0 h1 h2
   obtain ⟨G, hrim, hsl, habove, hC, hcomp, hlim, hδ⟩ :=
     lem_curve_extension_ii_shift (n := 1) le_rfl hC1 (rimFun_periodic τS R) (c₀ := v + R / 2)
       (fun θ => h1 _ (norm_rimPoint hR.le θ).le) hR
@@ -2913,11 +2937,12 @@ theorem exists_spearSurgeryDatum (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Se
     habove, hC, hcomp, hlim, hδ⟩, rfl⟩
 
 
-omit [SecondCountableTopology M] in
+omit [T2Space M] [ConnectedSpace M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] in
 /-- **A spear of the surgery can be thinned** (the tool of B21's « one can take the spear
 neighbourhoods disjoint », l.1091): for every `0 < R' ≤ R` the same chart, restricted to the spear
-of radius `R'`, carries a datum (the rim at `R'` is again `C¹`, and Lemma 2.6(ii) is re-applied). -/
-theorem SpearSurgeryDatum.exists_shrink {S : Set M} (hS : IsE0C1SpacelikeCauchy M S)
+of radius `R'`, carries a datum (the rim at `R'` is again `C¹`, and Lemma 2.6(ii) is re-applied).
+Of `S` only the rim condition is used (T-gx-btz-cleanup). -/
+theorem SpearSurgeryDatum.exists_shrink {S : Set M} (hrim : RimC1 M S)
     (D : SpearSurgeryDatum M S) {R' : ℝ} (hR' : 0 < R') (hle : R' ≤ D.R) :
     ∃ D' : SpearSurgeryDatum M S, D'.p = D.p ∧ D'.ψ = D.ψ ∧ D'.v = D.v ∧ D'.R = R' := by
   have hsub : E0Spear.spear D.v R' ⊆ E0Spear.spear D.v D.R :=
@@ -2928,7 +2953,7 @@ theorem SpearSurgeryDatum.exists_shrink {S : Set M} (hS : IsE0C1SpacelikeCauchy 
     fun x hx => D.graph x (hsub hx)
   have hshaft : ∀ z : ℂ, ‖z‖ ≤ R' → D.v + R' / 2 < D.τS z := fun z hz => by
     have := D.shaft z (hz.trans hle); linarith
-  have hC1 := hS.rim R' D.v D.W D.ψ D.τS hR' D.isOpen hsubY D.mor D.inj
+  have hC1 := hrim R' D.v D.W D.ψ D.τS hR' D.isOpen hsubY D.mor D.inj
     (D.continuousOn.mono (Metric.closedBall_subset_closedBall hle)) hshaft hgraph
   obtain ⟨G, hrim, hsl, habove, hC, hcomp, hlim, hδ⟩ :=
     lem_curve_extension_ii_shift (n := 1) le_rfl hC1 (rimFun_periodic D.τS R')
@@ -3174,10 +3199,11 @@ end SpearSurgeryDatum
 
 /-- **A spear datum whose ray passes through a given BTZ point of `S`** (B21 l.1090–1091: the
 vertex is taken on the BTZ line below the point, in `I⁻(Σ)` by `mem_Iminus_of_le_of_mem`; the ray
-then covers the future half of the line, `IsFullFutureBTZRay.exists_eq_of_line`). -/
+then covers the future half of the line, `IsFullFutureBTZRay.exists_eq_of_line`). Of `S` only its
+Cauchy property and its rim condition are used (T-gx-btz-cleanup). -/
 theorem exists_spearSurgeryDatum_cover (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
-    (hS : IsE0C1SpacelikeCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M) {q : M} (hq : q ∈ S)
-    (hq0 : q ∈ E0CBG.S0 M) :
+    (hS : (E0CBG.CE M).IsCauchySurface S) (hrim : RimC1 M S)
+    (hmax : E0Spear.IsE0CauchyMaximal M) {q : M} (hq : q ∈ S) (hq0 : q ∈ E0CBG.S0 M) :
     ∃ D : SpearSurgeryDatum M S, q ∈ connectedComponentIn (E0CBG.S0 M) D.p ∧
       ∃ t, 0 < t ∧ q = D.ψ (E0Spear.yAxis D.v t) := by
   obtain ⟨γ, hγ0, hγe, hγi, hγr⟩ := (E0LM.e0_globalBTZ M).line q hq0
@@ -3188,8 +3214,8 @@ theorem exists_spearSurgeryDatum_cover (hGH : (E0CBG.CE M).GloballyHyperbolic) {
     have := hγe'.injective (h.trans hγ0.symm); norm_num at this
   have hpcomp : γ (-1) ∈ connectedComponentIn (E0CBG.S0 M) q := hγr ▸ mem_range_self _
   have hp0 : γ (-1) ∈ E0CBG.S0 M := connectedComponentIn_subset _ _ hpcomp
-  have hpS := mem_Iminus_of_le_of_mem hGH hS.cauchy hq hpq hne
-  obtain ⟨D, hDp⟩ := exists_spearSurgeryDatum hGH hS hmax hp0 hpS
+  have hpS := mem_Iminus_of_le_of_mem hGH hS hq hpq hne
+  obtain ⟨D, hDp⟩ := exists_spearSurgeryDatum hGH hS hrim hmax hp0 hpS
   have hqcomp : q ∈ connectedComponentIn (E0CBG.S0 M) D.p := by
     rw [hDp, ← connectedComponentIn_eq hpcomp]; exact mem_connectedComponentIn hq0
   refine ⟨D, hqcomp, ?_⟩
@@ -3220,7 +3246,7 @@ theorem finite_inter_S0 (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
   have hD : ∀ q : ↥(S ∩ E0CBG.S0 M), ∃ D : SpearSurgeryDatum M S,
       q.1 ∈ connectedComponentIn (E0CBG.S0 M) D.p ∧
         ∃ t, 0 < t ∧ q.1 = D.ψ (E0Spear.yAxis D.v t) := fun q =>
-    exists_spearSurgeryDatum_cover hGH hS hmax q.2.1 q.2.2
+    exists_spearSurgeryDatum_cover hGH hS.cauchy hS.rimC1 hmax q.2.1 q.2.2
   choose D hDc t ht hqt using hD
   set A : ℝ → ℝ → Set E0 := fun v R => {x | v < fcoord x ∧ rad x < R}
   have hAo : ∀ v R, IsOpen (A v R) := fun v R =>
@@ -3509,7 +3535,7 @@ theorem exists_surgeryData (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
   have hD : ∀ q : ι, ∃ D : SpearSurgeryDatum M S,
       q.1 ∈ connectedComponentIn (E0CBG.S0 M) D.p ∧
         ∃ t, 0 < t ∧ q.1 = D.ψ (E0Spear.yAxis D.v t) := fun q =>
-    exists_spearSurgeryDatum_cover hGH hS hmax q.2.1 q.2.2
+    exists_spearSurgeryDatum_cover hGH hS.cauchy hS.rimC1 hmax q.2.1 q.2.2
   choose D₀ hDc t ht hqt using hD
   -- distinct points are on distinct lines
   have hsep : ∀ i j : ι, ∀ a : M, a ∈ connectedComponentIn (E0CBG.S0 M) (D₀ i).p →
@@ -3542,7 +3568,7 @@ theorem exists_surgeryData (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
   choose R' hR'pos hR'le hR'ρ using hR
   have hshr : ∀ j : ι, ∃ D' : SpearSurgeryDatum M S, D'.p = (D₀ j).p ∧ D'.ψ = (D₀ j).ψ ∧
       D'.v = (D₀ j).v ∧ D'.R = R' j := fun j =>
-    (D₀ j).exists_shrink hS (hR'pos j) (hR'le j)
+    (D₀ j).exists_shrink hS.rimC1 (hR'pos j) (hR'le j)
   choose D hDp hDψ hDv hDR using hshr
   have hsub : ∀ j, (D j).spearSet ⊆ (D₀ j).spearSet := fun j => by
     show (D j).ψ '' E0Spear.spearY (D j).v (D j).R ⊆ _

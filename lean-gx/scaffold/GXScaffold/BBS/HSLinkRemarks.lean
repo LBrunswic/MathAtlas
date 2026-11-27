@@ -137,9 +137,10 @@ def hyp (σ : HS 2) : 𝕄 := (Real.sqrt (Causal.Flat.minkQ (σ : 𝕄)))⁻¹ �
 
 /-- **`τ` lies in the causal past of `σ` in `dS²`**: both in `dS²`, and the difference of their
 points on the hyperboloid is future causal (or zero). This is `GX.DSLe τ σ` of
-`GXScaffold.BBS.HSCausal`, restated so that this module does not depend on it (HSCausal was in
-flight). The identity `IsCausalPast τ σ ↔ DSLe τ σ` (and `hyp = dsHat`) holds by `Iff.rfl`; it is
-not stated here, to be replaced by `GX.DSLe` at graduation. -/
+`GXScaffold.BBS.HSCausal`, restated so that this module does not depend on it (HSCausal rests on
+a tagged `sorry`, so an import would hold this sorry-free module back from graduating). The
+identities are stated there, by `rfl`/`Iff.rfl`: `GX.CutGlue.isCausalPast_iff_dsLe`,
+`GX.CutGlue.isCausalFuture_iff_dsLe`, `GX.CutGlue.hyp_eq_dsHat` (T-gx-btz-cleanup). -/
 def IsCausalPast (τ σ : HS 2) : Prop :=
   τ ∈ HS.piece 2 .deSitter ∧ σ ∈ HS.piece 2 .deSitter ∧ Causal.Flat.IsFutureCausal (hyp σ - hyp τ)
 

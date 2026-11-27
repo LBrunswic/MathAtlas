@@ -103,11 +103,6 @@ theorem isOpenMap_of_isE0Mor {f : M → N} (hf : IsE0Mor f univ) : IsOpenMap f :
   exact mem_of_superset (hO'.isOpen_image.mem_nhds (mem_image_of_mem f ⟨hxO, hxV⟩))
     (image_mono inter_subset_right)
 
-/-- An `𝔼₀`-morphism on `univ` is continuous. -/
-theorem continuous_of_isE0Mor' {f : M → N} (hf : IsE0Mor f univ) : Continuous f := by
-  refine continuous_iff_continuousAt.2 fun x => ?_
-  exact (continuousWithinAt_univ f x).1 (hf x (mem_univ x)).1
-
 /-- **An `𝔼₀`-morphism preserves and reflects the BTZ points** (`cor:model_corresponding`). -/
 theorem mem_S0_iff_of_isE0Mor {f : M → N} (hf : IsE0Mor f univ) (x : M) :
     f x ∈ S0 N ↔ x ∈ S0 M := by
@@ -121,8 +116,8 @@ theorem isBTZEmbedding_iff_injective {ι : M → N} :
   · rintro ⟨h1, h2, h3⟩
     exact ⟨h1.injective, h2, h3⟩
   · rintro ⟨h1, h2, h3⟩
-    exact ⟨(IsOpenEmbedding.of_continuous_injective_isOpenMap (continuous_of_isE0Mor' h2) h1
-      (isOpenMap_of_isE0Mor h2)).isEmbedding, h2, h3⟩
+    exact ⟨(IsOpenEmbedding.of_continuous_injective_isOpenMap
+      (E0AbsMax.continuous_of_isE0Mor h2) h1 (isOpenMap_of_isE0Mor h2)).isEmbedding, h2, h3⟩
 
 namespace IsBTZEmbedding
 
@@ -535,7 +530,8 @@ theorem IsMorphism.comp {X Y Z : CommonOverBTZ i j} {φ : X.X → Y.X} {ψ : Y.X
 `M₁`. -/
 theorem IsMorphism.unique {X Y : CommonOverBTZ i j} {φ ψ : X.X → Y.X} (hφ : X.IsMorphism Y φ)
     (hψ : X.IsMorphism Y ψ) : φ = ψ := by
-  refine X.ha.ext (continuous_of_isE0Mor' hφ.1) (continuous_of_isE0Mor' hψ.1) ?_
+  refine X.ha.ext (E0AbsMax.continuous_of_isE0Mor hφ.1)
+    (E0AbsMax.continuous_of_isE0Mor hψ.1) ?_
   rw [hφ.2.1, hψ.2.1]
 
 theorem Equivalent.refl (X : CommonOverBTZ i j) : X.Equivalent X :=
