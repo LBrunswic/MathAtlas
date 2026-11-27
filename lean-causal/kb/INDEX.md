@@ -304,3 +304,4 @@ rediscover. One fact per entry.
 | [0296](entries/0296-full-form-witness.md) | pattern | A witness's full form: let the ladder list what it has and lacks |
 | [0297](entries/0297-future-one-connected-separations.md) | pattern | future_one_connected is separated both ways: no chronology gives it vacuously; winding takes it away |
 | [0298](entries/0298-c0-extension-skeleton.md) | pattern | Sbierski's C⁰-inextendibility in ETT: locate, leave, confine; the metric half is left |
+| [0299](entries/0299-harc.md) | pattern | harc, the order realised by curves: what the lifting of strong causality uses |

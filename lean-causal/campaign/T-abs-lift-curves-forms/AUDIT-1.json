@@ -1,0 +1,71 @@
+{
+ "target": "T-abs-lift-curves-forms",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "(none: abstract layer-1 target, no ETT label)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The module docstring says no label is certified and none is marked. The ledger mark regex (tools/ledger.py:254, **`prefix:name`**) matches nothing in the file. The bold phrases at :219, :231 and :285 are declaration docstrings, not label marks. The target block is programme/roadmap.toml:2018, and the docstring quotes its title verbatim (:16-20)."
+  },
+  {
+   "label": "item (1): harc forms",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Structural binder diff, done by me in a deleted probe under the campaign directory. Each original's type was instantiated with the new form's telescope fvars and level params ([u, v, w] on both sides). Each type and binder info was compared by Expr equality, and so was the conclusion. stronglyCausal_lift: 19 binders, 1 difference, #13 hC : C.CausallyArcConnected -> harc. alexandrovTopology_eq_lift: 20 binders, 1 difference at #13. stronglyCausalOpen_lift: 19 binders, 1 difference at #13. stronglyCausal_lift_of_weakMorphism: 19 binders, 1 difference at #13. stronglyCausal_lift_self: 17 binders, 1 difference at #11. Conclusions are identical. Under pp.explicit, harc's type equals the harc binder of mem_connectedComponentIn_diamond_of_curves (Causal/StrongCausalityLifts.lean:284) and of le_top_map_of_curves (:303). The originals use hC only through CausallyArcConnected.exists_causalCurveOn_top (:276; see :345, :371), so harc is exactly what their proofs consume. The five examples (:167-190) are typed by type_of% of the originals. Each proves its original from the new form plus exists_causalCurveOn_top, never from the original itself, so they are non-trivial and kernel-checked at elaboration. harc is the target's hypothesis (≤ at ⊤ realised by causal curves of ⊤ over [0, 1])."
+  },
+  {
+   "label": "item (2): not_stronglyCausal_lift_of_curves_glued (:330)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Read through forallTelescope on type.appArg! with pp.explicit, tracking which of the two topologies on N each binder mentions (binder #3 = τc, #4 = the anonymous instance). C : @Causality N inst. The three ∀ W, AbsolutelyMinimalOn W (for C, CM and CX, binders #12-14) and Continuous p, Continuous D (#15, #16) all sit inside the negated ∀ and use the instances. τc occurs only in #17 (inst ≤ τc) and #22 (@connectedComponentIn N τc). The conclusion @StronglyCausal N inst C does not mention τc. Pretty-printed binder diff against not_stronglyCausal_lift_of_curves (StrongCausalityLifts.lean:649): exactly the five added binders, nothing removed or altered. Adding hypotheses inside a negated ∀ strengthens the refutation, so this refutes the printed form a fortiori, with the curve hypothesis in its strongest reading (every U, U', every segment). Universe 0, like the parent. Witness: symmRationalLine is absolutely minimal on every open set (symmRationalLine_absolutelyMinimalOn). The timelike line is too, via CausallyArcConnected.absolutelyMinimalOn_all (GXStructure.lean:496) on timelikeLine_causallyArcConnected. id is continuous (continuous_id in ℝ's topology), and τc = ℝ's topology with le_rfl. F1's sentence 'the refutation says nothing about a causal or tarentin M̃' is accurate: the witness is ¬IsCausal (:274) and ¬Tarentin (:280), proved and conjoined at :305. It also fails harc (:287), the one hypothesis of the harc form it misses. The glued refutation covers the strong-causality conclusion only. The with-tarentin (Alexandrov) conclusion is not refuted under gluing, which the SCOPE's 'says nothing about a ... tarentin N' implicitly discloses."
+  },
+  {
+   "label": "item (3): symmRationalLine_not_isCausal (:274), symmRationalLine_not_tarentin (:280)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Conjuncts 8 and 19 of symmRationalLine_separates_futureOneConnected (Causal/FutureOneConnectedVacuous.lean:330), counted by hand and enforced by `exact h` against the stated type. The names occur nowhere else: grep -w over lean-causal, lean-gx, lean, lean-benzecri and lean-egf, .lake excluded. FutureOneConnectedVacuous proves both facts inline, as `have`s (:359, :386), so these are not kb/0082 duplicates. The docstring's reason for not-tarentin matches the inline proof."
+  },
+  {
+   "label": "extra: orderLine_strongCausalityLift_of_le_realised (:252)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "orderLine is Causal/Morphism.lean:804 (x ≤_U y iff x ≤ y ∧ x ∈ U ∧ y ∈ U). It is not causally arc-connected: 0 ≤ 2 in U = ℝ∖{1}, and a curve of U would take the value 1 by the intermediate value theorem (:233). That is correct: the relation does not require [x, y] ⊆ U. harc holds by the segment (:221). 'Not absolutely minimal' is true: GluingModels.orderLine_not_minimal (NonMinimal.lean:191). It is disclosed in three places: as a conjunct of the statement itself, in its docstring ('a witness of the no-gluing reading only'), and in the module docstring and SCOPE (:37, :59-60). The module's 'Strictly weaker than arc-connectedness' (:35) holds over all causalities (CAC ⇒ harc via :276, and orderLine shows the converse fails) and is qualified for gluing at :37 and :59."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "detail": "I ran no lake build, as instructed. `lake build --no-build CausalScaffold.StrongCausalityLiftsCurves` reports all targets up to date (3160 jobs), and the olean (21:39:32) is newer than the source (21:38:20). `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/StrongCausalityLiftsCurves.lean` exits 0 with no output. grep -w finds no sorry, admit, axiom, native_decide, unsafe, implemented_by, extern, instance or def in the file. Probe.lean rerun: its output is byte-identical to axioms.txt. My own probe (#print axioms on all 15 declarations) gives [propext, Classical.choice, Quot.sound] for each. Layer 1: tools/ladder.py model_path, run in memory from the hub root on lean_index('lean-causal'), is None for each of the four imports and for the module once its import list is added. MODEL_LAYER = Minkowski, Static, SingularFlat, Flat, Model, Port. The module reaches Causal.Ladder.Rules through FutureOneConnectedVacuous, which REPORT discloses (kb/0221). No metric, length or geodesic notion appears (the grep hits are 'symmetric'). Scope: git status in lean-causal shows only untracked files. Two are this closer's (scaffold/CausalScaffold/StrongCausalityLiftsCurves.lean, campaign/T-abs-lift-curves-forms/), two the other closer's (DensSeparates.lean, campaign/T-abs-dens-separates/). No tracked file in lean-causal is modified, and scaffold/CausalScaffold.lean is not edited. The changes outside lean-causal belong to other loops: lean-gx BTZ files from 21:40 on, papers/*/certificate restatements of 2026-11-25, and the roadmap status flips ready→active by the loop master. The cited line numbers (Morphism.lean:804, NonMinimal.lean:191, GXStructure.lean:496, FutureOneConnectedVacuous.lean:330, StrongCausalityLifts.lean:124/251/276/284/303/334/349/362/377/392/577/631/649, StrongCausality.lean:137, roadmap.toml:2018) all check. The docstring contract (kb/0006) is met: title, no-label statement, quote, hypothesis checklist, SCOPE, Provenance (fabf563a matches lake-manifest.json), docstring under 4000 characters. On OQ-145 the module says 'decides nothing' (:13) and REPORT Q1 leaves it for the author. Probe deleted after the run."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/StrongCausalityLiftsCurves.lean:39-40, :328 (and REPORT readings[1])",
+   "what": "'it implies the `M`-only form' uses OQ-95's term, gluing as AbsolutelyMinimal on the whole space. In this file, though, M names the codomain of p, so the phrase reads as 'gluing of M alone'. The mathematics is right: GluingModels.absolutelyMinimal_of_forall turns hereditary gluing into whole-space absolute minimality, so the refutation covers that reading too.",
+   "fix": "Write 'it implies the whole-space form `AbsolutelyMinimal` (OQ-95's \"on M only\")' or similar, at :40 and :328."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/StrongCausalityLiftsCurves.lean:50",
+   "what": "The hypothesis-checklist row for harc says '⚠ strengthened against the printed form (its F1)'. 'its F1' has no referent in the module: it is the REPORT's F1, or the parent's finding not_stronglyCausal_lift_of_curves. A reader of the graduated file cannot follow it.",
+   "fix": "Replace '(its F1)' with '(`not_stronglyCausal_lift_of_curves`, here `not_stronglyCausal_lift_of_curves_glued`)'."
+  }
+ ],
+ "checks_performed": [
+  "Layer-1: imports grepped. tools/ladder.py model_path in memory is None for each import and for the module. No metric notion.",
+  "Structural Expr binder diff of all five harc forms against their originals: exactly hC→harc at the same position, everything else identical.",
+  "harc's type is identical under pp.explicit to the bridges' harc. The originals use hC only via exists_causalCurveOn_top.",
+  "Five type_of% examples read: they go through the new forms and are non-trivial.",
+  "Glued refutation read with pp.explicit and fvar tracking: gluing for N, M, X and continuity of p, D inside the ∀, with N's instance. τc only in hτ and connectedComponentIn. Diff against the parent refutation: exactly 5 added binders.",
+  "Witness satisfies gluing, continuity and τc = τ. F1 is accurate.",
+  "orderLine: definition read. Not CAC, harc, not absolutely minimal: true and disclosed.",
+  "lake env lean -DwarningAsError=true: exit 0, no output. No lake build was run. --no-build: up to date.",
+  "sorry, admit, axiom, native_decide: none. Probe.lean rerun reproduces axioms.txt byte for byte. #print axioms on all 15 is standard.",
+  "Name clashes: none across all hub Lean packages, FutureOneConnectedVacuous.lean and StrongCausalityLifts.lean included.",
+  "git status: nothing in lean-causal outside the dispatch and the other closer's DensSeparates. No tracked lean-causal file modified.",
+  "Docstring contract (kb/0006) present and true. OQ-145 not claimed settled."
+ ]
+}

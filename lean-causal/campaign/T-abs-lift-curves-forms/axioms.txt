@@ -1,0 +1,134 @@
+@Causality.stronglyCausal_lift_of_le_realised : ∀ {M : Type u_2} {X : Type u_3} [inst : TopologicalSpace M]
+  [inst_1 : TopologicalSpace X] {CM : Causality M} {CX : Causality X} {N : Type u_1} (τc : TopologicalSpace N)
+  [inst_2 : TopologicalSpace N] {C : Causality N} {p : N → M} {D : N → X},
+  inst_2 ≤ τc →
+    (∀ (a z : N), C.le ⊤ a z → ∃ c, C.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z) →
+      (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CM.CausalCurveOn ⊤ (p ∘ c) 0 1) →
+        (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CX.CausalCurveOn ⊤ (D ∘ c) 0 1) →
+          CM.StronglyCausal →
+            CX.StronglyCausal →
+              (∀ (x : N),
+                  (nhds x).HasBasis (fun WV => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) fun WV =>
+                    connectedComponentIn (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2) →
+                C.StronglyCausal
+@Causality.alexandrovTopology_eq_lift_of_le_realised : ∀ {M : Type u_2} {X : Type u_3} [inst : TopologicalSpace M]
+  [inst_1 : TopologicalSpace X] {CM : Causality M} {CX : Causality X} {N : Type u_1} (τc : TopologicalSpace N)
+  [inst_2 : TopologicalSpace N] {C : Causality N} {p : N → M} {D : N → X},
+  inst_2 ≤ τc →
+    (∀ (a z : N), C.le ⊤ a z → ∃ c, C.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z) →
+      C.Tarentin →
+        (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CM.CausalCurveOn ⊤ (p ∘ c) 0 1) →
+          (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CX.CausalCurveOn ⊤ (D ∘ c) 0 1) →
+            CM.StronglyCausal →
+              CX.StronglyCausal →
+                (∀ (x : N),
+                    (nhds x).HasBasis (fun WV => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) fun WV =>
+                      connectedComponentIn (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2) →
+                  C.alexandrovTopology = inst_2
+@Causality.stronglyCausalOpen_lift_of_le_realised : ∀ {M : Type u_2} {X : Type u_3} [inst : TopologicalSpace M]
+  [inst_1 : TopologicalSpace X] {CM : Causality M} {CX : Causality X} {N : Type u_1} (τc : TopologicalSpace N)
+  [inst_2 : TopologicalSpace N] {C : Causality N} {p : N → M} {D : N → X},
+  inst_2 ≤ τc →
+    (∀ (a z : N), C.le ⊤ a z → ∃ c, C.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z) →
+      (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CM.CausalCurveOn ⊤ (p ∘ c) 0 1) →
+        (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CX.CausalCurveOn ⊤ (D ∘ c) 0 1) →
+          CM.StronglyCausalOpen →
+            CX.StronglyCausalOpen →
+              (∀ (x : N),
+                  (nhds x).HasBasis (fun WV => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) fun WV =>
+                    connectedComponentIn (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2) →
+                C.StronglyCausalOpen
+@Causality.stronglyCausal_lift_of_weakMorphism_of_le_realised : ∀ {M : Type u_2} {X : Type u_3}
+  [inst : TopologicalSpace M] [inst_1 : TopologicalSpace X] {CM : Causality M} {CX : Causality X} {N : Type u_1}
+  (τc : TopologicalSpace N) [inst_2 : TopologicalSpace N] {C : Causality N} {p : N → M} {D : N → X},
+  inst_2 ≤ τc →
+    (∀ (a z : N), C.le ⊤ a z → ∃ c, C.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z) →
+      WeakMorphism C CM p →
+        WeakMorphism C CX D →
+          CM.StronglyCausal →
+            CX.StronglyCausal →
+              (∀ (x : N),
+                  (nhds x).HasBasis (fun WV => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) fun WV =>
+                    connectedComponentIn (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2) →
+                C.StronglyCausal
+@Causality.stronglyCausal_lift_self_of_le_realised : ∀ {M : Type u_2} {X : Type u_3} [inst : TopologicalSpace M]
+  [inst_1 : TopologicalSpace X] {CM : Causality M} {CX : Causality X} {N : Type u_1} [inst_2 : TopologicalSpace N]
+  {C : Causality N} {p : N → M} {D : N → X},
+  (∀ (a z : N), C.le ⊤ a z → ∃ c, C.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z) →
+    (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CM.CausalCurveOn ⊤ (p ∘ c) 0 1) →
+      (∀ (c : ℝ → N), C.CausalCurveOn ⊤ c 0 1 → CX.CausalCurveOn ⊤ (D ∘ c) 0 1) →
+        CM.StronglyCausal →
+          CX.StronglyCausal →
+            (∀ (x : N),
+                (nhds x).HasBasis (fun WV => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) fun WV =>
+                  connectedComponentIn (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2) →
+              C.StronglyCausal
+@orderLine_causalCurveOn_of_timelikeLine : ∀ {W : TopologicalSpace.Opens ℝ} {c : ℝ → ℝ} {a b : ℝ},
+  timelikeLine.CausalCurveOn W c a b → orderLine.CausalCurveOn W c a b
+@timelikeLine_causalCurveOn_of_orderLine : ∀ {c : ℝ → ℝ} {a b : ℝ},
+  orderLine.CausalCurveOn ⊤ c a b → timelikeLine.CausalCurveOn ⊤ c a b
+orderLine_le_realised : ∀ (a z : ℝ), orderLine.le ⊤ a z → ∃ c, orderLine.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z
+orderLine_not_causallyArcConnected : ¬orderLine.CausallyArcConnected
+orderLine_strongCausalityLift_of_le_realised : ¬orderLine.CausallyArcConnected ∧
+  (∀ (a z : ℝ), orderLine.le ⊤ a z → ∃ c, orderLine.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z) ∧
+    (∀ (c : ℝ → ℝ), orderLine.CausalCurveOn ⊤ c 0 1 → timelikeLine.CausalCurveOn ⊤ (id ∘ c) 0 1) ∧
+      ¬orderLine.AbsolutelyMinimal ∧ orderLine.StronglyCausal ∧ orderLine.StronglyCausalOpen
+symmRationalLine_not_isCausal : ¬symmRationalLine.IsCausal
+symmRationalLine_not_tarentin : ¬symmRationalLine.Tarentin
+symmRationalLine_not_le_realised : ¬∀ (a z : ℝ),
+    symmRationalLine.le ⊤ a z → ∃ c, symmRationalLine.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z
+symmRationalLine_separates_lift_glued : (∀ (W : TopologicalSpace.Opens ℝ), symmRationalLine.AbsolutelyMinimalOn W) ∧
+  (∀ (W : TopologicalSpace.Opens ℝ), timelikeLine.AbsolutelyMinimalOn W) ∧
+    Continuous id ∧
+      (∀ (U U' : TopologicalSpace.Opens ℝ),
+          Set.MapsTo id ↑U ↑U' →
+            ∀ (c : ℝ → ℝ) (a b : ℝ),
+              symmRationalLine.CausalCurveOn U c a b → timelikeLine.CausalCurveOn U' (id ∘ c) a b) ∧
+        timelikeLine.StronglyCausal ∧
+          (∀ (x : ℝ),
+              (nhds x).HasBasis (fun WV => IsOpen WV.1 ∧ id x ∈ WV.1 ∧ IsOpen WV.2 ∧ id x ∈ WV.2) fun WV =>
+                connectedComponentIn (id ⁻¹' WV.1) x ∩ id ⁻¹' WV.2) ∧
+            ¬symmRationalLine.StronglyCausal ∧
+              ¬symmRationalLine.CausallyArcConnected ∧
+                ¬symmRationalLine.IsCausal ∧
+                  ¬symmRationalLine.Tarentin ∧
+                    ¬∀ (a z : ℝ),
+                        symmRationalLine.le ⊤ a z → ∃ c, symmRationalLine.CausalCurveOn ⊤ c 0 1 ∧ c 0 = a ∧ c 1 = z
+not_stronglyCausal_lift_of_curves_glued : ¬∀ (N M X : Type) (τc : TopologicalSpace N) [inst : TopologicalSpace N]
+    [inst_1 : TopologicalSpace M] [inst_2 : TopologicalSpace X] (C : Causality N) (CM : Causality M) (CX : Causality X)
+    (p : N → M) (D : N → X),
+    (∀ (W : TopologicalSpace.Opens N), C.AbsolutelyMinimalOn W) →
+      (∀ (W : TopologicalSpace.Opens M), CM.AbsolutelyMinimalOn W) →
+        (∀ (W : TopologicalSpace.Opens X), CX.AbsolutelyMinimalOn W) →
+          Continuous p →
+            Continuous D →
+              inst ≤ τc →
+                (∀ (U : TopologicalSpace.Opens N) (U' : TopologicalSpace.Opens M),
+                    Set.MapsTo p ↑U ↑U' →
+                      ∀ (c : ℝ → N) (a b : ℝ), C.CausalCurveOn U c a b → CM.CausalCurveOn U' (p ∘ c) a b) →
+                  (∀ (U : TopologicalSpace.Opens N) (U' : TopologicalSpace.Opens X),
+                      Set.MapsTo D ↑U ↑U' →
+                        ∀ (c : ℝ → N) (a b : ℝ), C.CausalCurveOn U c a b → CX.CausalCurveOn U' (D ∘ c) a b) →
+                    CM.StronglyCausal →
+                      CX.StronglyCausal →
+                        (∀ (x : N),
+                            (nhds x).HasBasis (fun WV => IsOpen WV.1 ∧ p x ∈ WV.1 ∧ IsOpen WV.2 ∧ D x ∈ WV.2) fun WV =>
+                              connectedComponentIn (p ⁻¹' WV.1) x ∩ D ⁻¹' WV.2) →
+                          C.StronglyCausal
+'Causal.Causality.stronglyCausal_lift_of_le_realised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.alexandrovTopology_eq_lift_of_le_realised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.stronglyCausalOpen_lift_of_le_realised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.stronglyCausal_lift_of_weakMorphism_of_le_realised' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.stronglyCausal_lift_self_of_le_realised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.orderLine_causalCurveOn_of_timelikeLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_causalCurveOn_of_orderLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.orderLine_le_realised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.orderLine_not_causallyArcConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.orderLine_strongCausalityLift_of_le_realised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.symmRationalLine_not_isCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.symmRationalLine_not_tarentin' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.symmRationalLine_not_le_realised' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.symmRationalLine_separates_lift_glued' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.not_stronglyCausal_lift_of_curves_glued' depends on axioms: [propext, Classical.choice, Quot.sound]
