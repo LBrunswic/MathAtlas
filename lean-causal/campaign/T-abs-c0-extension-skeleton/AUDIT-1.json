@@ -1,0 +1,113 @@
+{
+ "target": "T-abs-c0-extension-skeleton",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "the assembly: Causal.Causality.exists_c0_extension_skeleton (:221), _of_frontier (:194), _of_hasChronalNeighbourEverywhere (:232)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "I compared each hypothesis with the target title. Title 'M connected, locally compact, Hausdorff' is [PreconnectedSpace M] [LocallyCompactSpace M] [T2Space M]; M is non-empty because W is. 'causally arc-connected' is hC. 'locally strongly causal' is hlsc, the named hypothesis Causal.Causality.LocallyStronglyCausal (DiamondConfinement.lean:378, node pending T-lad-c0-extension-nodes). 'W ⊊ M open' is W : Opens M with hproper. 'chronal neighbours at ∂W' is hchr, the declared edge hypothesis chronal_neighbour_at_boundary (ladder.toml:1099). 'W causally arc-connected and future one-connected' is hcac, hfoc. The one addition, hne : W non-empty, is necessary: for W = ∅ the conclusion's ∀ t ∈ [0,1), γ t ∈ W is false. It is implicit in Sbierski: the proof of Lemma 2.17 (:431) needs ∂ι(M) ≠ ∅, which fails for ι(M) = ∅, and so does footnote :406. It is disclosed (checklist :54, question 4). The conclusion matches the title term by term: D = C ∨ D = C.dual; a chronal curve of D over [0,1] with γ([0,1)) ⊆ W and γ 1 ∉ W, plus γ 1 ∈ frontier W (extra); D.FutureInextensible W (Ico 0 1) γ; and D.ExitDiamonds W γ. Taking N = univ in ExitDiamonds gives the title's Ũ, s₀ < 1 (also s₀ ≥ 0), the inclusion for s ∈ (s₀,1), and the compact closure inside Ũ. So the Lean statement is at least the target. The _of_frontier form asks strong causality only near ∂W, which is weaker. The _of_hasChronalNeighbourEverywhere form takes the node has_chronal_neighbour. Every hypothesis is a ladder property, a declared edge hypothesis, the named LocallyStronglyCausal/StronglyCausalOn, or a topological instance. No metric notion appears in any statement: Metric.mem_nhds_iff is used only inside a proof, on ℝ. Nothing is marked."
+  },
+  {
+   "label": "the setting: Causal.Causality.ExitDiamonds (:115)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The 'stronger than the target' claim is true and correctly stated (#print of the definition). For every N ∈ 𝓝(γ 1) there are an open Ũ ∋ γ 1 with Ũ ⊆ N, an s₀ ∈ [0,1) and γ([s₀,1]) ⊆ Ũ such that: (a) for every r ∈ [s₀,1) and s ∈ (r,1], closure(I⁺(γ r,Ũ) ∩ I⁻(γ s,Ũ)) is compact and ⊆ Ũ; (b) for every r ∈ [s₀,1) and s ∈ (r,1), γ((r,s)) lies in the W-diamond, the W-diamond equals the W ⊓ Ũ-diamond, and it is contained in the Ũ-diamond. The target's conclusion is the special case N = univ, r = s₀, s < 1 of (a) and (b). (a) at s = 1 is Step 1.2's printed diamond (:528). The ⊆ of (b) is (1.2)'s ⊇ (:155–158). Conjunct (b)(i) makes the identified diamonds non-empty, so the setting is not vacuous. Every diamond is that of the causality D that the theorem chooses, so in the reversed case it is C's I⁻ ∩ I⁺. This is disclosed as question 2."
+  },
+  {
+   "label": "the given-curve form: Causal.Causality.exitDiamonds_of_stronglyCausalOn (:131), exitDiamonds_of_curve (:182), IsSpacetimeExtension.exitDiamonds_of_curve (:405)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "This is the hypothesis shape of Thms 4.10 and 4.11 (:785–793): a timelike γ of M_ext (or M_int) such that ι∘γ extends as a timelike curve to [−1,0]. In ETT that is a chronal curve of M̃ over [0,1] lying in W = ι(N) on [0,1), after the affine change of parameter disclosed in SCOPE. The forms ask only R₁ and local compactness, and strong causality at γ 1 only. They need neither γ 1 ∉ W nor v* → ∞. As REPORT finding 5 says, v* → ∞ implies γ̃(0) ∉ ι(M_ext) anyway: a limit inside ι(M_ext) would make v*∘γ converge. Lean ≥ the causal content. The metric divergence (Prop 4.14) and future one-connectedness (Prop 4.12, a hypothesis here) are layer 3, as disclosed."
+  },
+  {
+   "label": "schwdef:extension via Causal.IsSpacetimeExtension (:281)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Def 2.15 (:403–411; :401 all manifolds connected; :228 Hausdorff, second countable, dim ≥ 2) read causally. IsOpenEmbedding is what a smooth isometric embedding between equidimensional manifolds gives (an immersion is a local diffeomorphism, hence open). range ι ≠ univ is 'into a proper subset'. ChartIso CN C along ι is Rem 2.3 (:249) for an isometric embedding that preserves the time orientation. '[Nonempty N], no connectedness' is accurate. Non-emptiness is implicit in Sbierski: Lemma 2.17's proof (:431) and footnote :406 both need ι(M) ≠ ∅. Dropping N's connectedness makes the notion more general, not narrower; M̃'s connectedness is asked separately as [PreconnectedSpace M]. One point is undisclosed (minor finding 1). The notion presupposes a causality C on M̃, i.e. M̃ globally time-oriented, with ι time-orientation preserving. Def 2.15 does not ask this, and Rem 2.16 (2) (:417) says explicitly that M̃ need not be time-orientable. That is the binder's reading R3 and the OPEN OQ-115. The closer's file and REPORT do not cite it, although SchwCausalLemmas.lean:81–84 does. The row is partial and unmarked, as it must be."
+  },
+  {
+   "label": "the corollary for an extension: Causal.IsSpacetimeExtension.exists_c0_skeleton (:457), _of_hasChronalNeighbourEverywhere (:498), preimage_curve (:417)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "It follows: the kernel checks it, with standard axioms. Its hypotheses are hι, hC, hlsc, hchr at frontier(range ι), CN causally arc-connected and CN future one-connected; they match the target's 'with the corollary for one'. Its conclusion gives the time-reversed pair (D, DN) with IsSpacetimeExtension DN D ι. It also gives γ chronal in M̃ leaving ι(N) at a frontier point, and γ = ι∘δ on [0,1) with δ chronal on every [0,s] and future-inextensible in N (Thm 3.1 Step 1, :485). Finally it gives ExitDiamonds on ι(N) and the identification of N's diamonds with ι(N)'s through ι. The transports ι(N) ← N (causallyArcConnectedOn, futureOneConnectedOn, dual) are needed, because the existing ChartIso.causallyArcConnectedOn (Causal/Remarks/MassiveManifold.lean:114, which reaches Causal.Model.Massive) and ChartIso.dual (Causal/MeasureTransfer.lean:95, which reaches Causal.SingularFlat) are model-layer by tools/ladder.py model_path. The new IsSpacetimeExtension.causallyArcConnectedOn is the converse direction of MassiveManifold's, not a duplicate. ChartIso.dual is re-proved inline in a single line. The stranding note is accurate."
+  },
+  {
+   "label": "witnesses: timelikeLine_exists_c0_extension_skeleton (:527), exp_isSpacetimeExtension (:565), timelikeLine_exp_c0_skeleton (:575)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Neither witness is vacuous. W = (−∞,0) in the timelike line discharges every hypothesis of exists_c0_extension_skeleton by existing ETT-layer lemmas. exp : ℝ → ℝ is an open embedding with range (0,∞) ≠ univ. It is a ChartIso by timelikeLine_chartIso_of_strictMono, proved by the intermediate value theorem and injectivity. It satisfies every hypothesis of IsSpacetimeExtension.exists_c0_skeleton: ℝ is preconnected, locally compact and T2; the timelike line is causally arc-connected and locally strongly causal; the only frontier point, 0, has a chronal neighbour; and N = ℝ is causally arc-connected and future one-connected. So the hypotheses of both theorems are jointly satisfiable, and ExitDiamonds(b)(i) makes the identified diamonds non-empty."
+  },
+  {
+   "label": "paper_rows (anchor proposals): schwthm:MinkInex, schwthm:Exterior, schwthm:Inex, schwdef:extension, schwdef:lorentzian_distance_function, schwprop:LengthToInfty, schwthm:DiamFinite",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "All rows are proposed as partial with marked false, and the docstring marks nothing (no **`prefix:label`**; the bold at :80 is in the second docstring, beyond 4000 characters, and does not match ledger.py's mark regex). MinkInex: N = Minkowski is future one-connected (Causal.minkowski_futureOneConnected, model layer, layer 3), so the corollary is Thm 3.1's layer 1 (Steps 1, 1.2, causal half of 3). Exterior: N = M_ext is future one-connected by Prop 4.12; the given-curve form fits. Inex: an 'optional addition', reasonable; I did not check that Sbierski's vertex γ(y₀⁻) can be taken ≥ s₀. Metric rows (Def 2.9, Prop 4.14, Thm 5.3): the proposals follow the binder's convention for metric rows (the layer-1 consumer), and the Thm 5.3 note correctly flags its placeholder as doubtful. For schwthm:MainThm and its twin, see minor finding 2."
+  },
+  {
+   "label": "schwthm:MainThm and schwthm:dimensional_maximal_analytic_schwarzschild (paper_rows[1], [2])",
+   "faithful": false,
+   "marked_correctly": true,
+   "notes": "Partial and unmarked, as proposed. But two of the three proposed declarations, Causality.exists_c0_extension_skeleton and IsSpacetimeExtension.exists_c0_skeleton, applied to Thm 4.9 with W = ι(M_max), ask future one-connectedness of all of M_max. Sbierski neither states nor proves that. Thm 4.9's proof (:797–813) first splits into cases and then applies Props 4.12 and 6.5 to region I ≅ M_ext and region II ≅ M_int. The REPORT's own note names the right route: exitDiamonds_of_curve on W = ι(region I), together with the binder's existing exists_leaving_futureInextensible_of_isOpenEmbedding. See minor finding 2."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "I did not run lake build, as the dispatch says. `cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/C0ExtensionSkeleton.lean` exits 0 with no output. I also elaborated a fresh copy of the module (it imports only Causal.DiamondConfinement and Causal.SchwCausalLemmas, not the built olean) with #print axioms on all 27 declarations. The probe was written under the campaign directory and deleted afterwards. Every declaration depends on [propext, Classical.choice, Quot.sound] and none on sorryAx. The output is identical to axioms.txt, and Probe.lean covers the same 27 names. grep -w finds no sorry, admit, axiom, native_decide, sorryAx, unsafe, implemented_by, extern or opaque in the file. The file has 27 declarations. The olean (21:02:57) is newer than the source (21:02:54)."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:53, :66–67, :276–280; REPORT.json questions[0] and paper_rows schwdef:extension",
+   "what": "IsSpacetimeExtension, 'the ETT notion of Def 2.15', presupposes a causality C on M̃, i.e. M̃ globally time-oriented, with ι time-orientation preserving (ChartIso CN C, not CN C.dual). Def 2.15 asks neither, and Rem 2.16 (2) (:417) says M̃ need not be time-orientable: the double-cover reduction is mentioned there but 'not used'. That is the binder's reading R3, OQ-115, still OPEN (registers/DECISIONS.md:343). Causal/SchwCausalLemmas.lean:81–84 discloses it, but this file does not. Its checklist row ':228, :401 | ⚠ weakened: any causality' hides the reading. The SCOPE sentence 'that a C⁰ extension is an IsSpacetimeExtension is T-loc-c0-metric-causality' holds only under R3, after a choice of orientation of M̃ (or C.dual). The row is partial and unmarked, so this is a disclosure gap, not an over-claim.",
+   "fix": "In the IsSpacetimeExtension docstring, the checklist row for M̃ and REPORT question 1, add: 'M̃ read as time-oriented, with ι orientation-preserving (binder reading R3, OQ-115; Rem 2.16 (2), :417)'. Qualify the SCOPE sentence 'a C⁰ extension is an IsSpacetimeExtension' by R3."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json paper_rows[1] (schwthm:MainThm) and paper_rows[2] (schwthm:dimensional_maximal_analytic_schwarzschild), proposed_ett",
+   "what": "These rows propose Causal.Causality.exists_c0_extension_skeleton and Causal.IsSpacetimeExtension.exists_c0_skeleton as anchors of Thm 4.9 and its twin. For the paper's extension (W = ι(M_max), N = M_max) both ask FutureOneConnected of the whole of M_max. Sbierski neither states nor proves this. He establishes future one-connectedness only for the exterior and the interior (Props 4.12, 6.5) and applies it after the case split (:802–811). So these two declarations are not Thm 4.9's layer-1 content: their hypotheses cannot be discharged from the paper. The note's own route is the correct one: the leaving curve and its inextensibility (already in the binder), then exitDiamonds_of_curve on ι(region I).",
+   "fix": "Propose for these two rows only Causal.Causality.exitDiamonds_of_curve (W = ι(region I)), beside the binder's existing exists_leaving_futureInextensible_of_isOpenEmbedding. Alternatively, keep the two assembly theorems with a note that they apply to M_max only given its future one-connectedness, which neither the paper nor Lean has."
+  }
+ ],
+ "paper_findings_verified": [
+  {
+   "finding": "(1) Thm 4.9, :798/:800: after 'otherwise reverse the time orientation of M_max', the next sentence uses '∂_u and ∂_v are future directed'",
+   "verdict": "correct observation; an IMPLICIT STEP, not an error of the argument",
+   "notes": "Verified. The orientation is fixed by ∂_u + ∂_v future (:706, :752). ∂_u and ∂_v are null and g(∂_u,∂_v) < 0 (:704, :750), so both are future null, and a future timelike X has X^u, X^v > 0. :800 is therefore true in the original orientation. After a reversal, ∂_u and ∂_v are past directed, so :800 does not hold literally for the reversed spacetime. The 'without loss of generality' is still valid, but only through a time-orientation-reversing isometry of M_max, and the paper does not state one. (u,v,ω) ↦ (−u,−v,ω) works: it preserves uv, hence H (:671, :748) and r, and du⊗dv + dv⊗du, and sends ∂_u + ∂_v to its negative. (u,v,ω) ↦ (−v,−u,ω) also works and preserves region I. The REPORT's own wording ('This step is not stated; it is harmless') is accurate. If this goes to the author it should be phrased as an unstated symmetry or imprecise wording, not as 'wrong'. The same implicit step occurs at :485 (Thm 3.1, Minkowski), where x₀ ↦ −x₀ is needed for Step 2.2's λ₀ → ∞ (:588–592); the REPORT does not mention it, and nothing depends on it."
+  },
+  {
+   "finding": "(2) Kruskal model, :721: the maps (u,v,ω) ↦ (t_A, r, ω) are called time-orientation-preserving isometries for all four regions",
+   "verdict": "correct; a REAL SLIP (a false sentence), harmless where it is used",
+   "notes": "Verified region by region. Along a future timelike curve u and v increase. I = {u<0,v>0}: −v/u increases, so t_I increases, and ∂_t is future on M_ext (:654): preserving. IV = {u>0,v<0} (:676): −v/u = |v|/u decreases, so t_IV (:718) decreases: REVERSING. II = {u>0,v>0}: uv increases, so r = F̃⁻¹(−uv) (:698, F̃ increasing) decreases, and −∂_r is future on M_int (:664): preserving. III = {u<0,v<0} (:675): uv = |u||v| decreases, so r increases: REVERSING. So only I and II preserve the orientation, as the closer says. The only use is :809 ('since both regions are isometric'). The swap (u,v,ω) ↦ (v,u,ω) is a time-orientation-preserving isometry of M_max taking IV onto I: it preserves uv and the symmetric du⊗dv + dv⊗du and fixes ∂_u + ∂_v. With it the reduction holds. With :721's map for IV it would not: v* = t_IV + r* = 4m log|v| stays bounded or tends to −∞. The d > 3 sentence (:752) makes no orientation claim, as the closer says."
+  },
+  {
+   "finding": "(3) §1 (:153–158): the 'i.e.' from future one-connectedness of the exterior to 'any future timelike curve in M_max from γ̃(s₀) to γ̃(s)' needs region I to be causally convex in M_max",
+   "verdict": "correct; an IMPLICIT STEP (true, unstated), in the sketch only",
+   "notes": "A future timelike curve between two points of I has u ≤ u_end < 0 and v ≥ v_start > 0 (u and v increase), so it stays in I = {u<0,v>0} (:673). The formal proofs (Thm 4.10 on M_ext, Thm 4.9's reduction at :809) do not need it."
+  },
+  {
+   "finding": "(4) opposite sign conventions for s₀ between §1 and Thm 3.1",
+   "verdict": "correct; NOTATIONAL",
+   "notes": "§1 (:146, :153) uses the vertex γ̃(s₀) with s₀ < s < 0. Thm 3.1 Step 1.2 takes s₀ ∈ (0, ε) and the vertex (−s₀,0,…,0) = φ̃(γ̃(−s₀)) (:528), and Step 3 (:619–621) uses γ̃(−s₀)."
+  },
+  {
+   "finding": "auditor observation, outside the dispatch",
+   "verdict": "typo, for the planner",
+   "notes": "Thm 3.1 Step 2.2 (:589) writes 'such that γ(1) = (Δ, 0, …, 0)' where λ(1) is meant: the curve of Step 2.2 is λ. This typo is not recorded in the binder's findings."
+  }
+ ],
+ "checks": [
+  "Read CLAUDE.md (hub), lean-causal/docs/CAMPAIGN.md, kb/entries/0006, the target block (programme/roadmap.toml), REPORT.json, Probe.lean, axioms.txt and the whole of scaffold/CausalScaffold/C0ExtensionSkeleton.lean.",
+  "TeX read: :90–170 (§1), :220–260, :395–475 (Def 2.15, Rem 2.16, Lemma 2.17), :475–624 (Thm 3.1), :630–813 (Kruskal model, Thms 4.9–4.11 and the proof of 4.9), :1559–1626 (Thm 4.11 Step 1 and FuturePastPreserving). Every TeX line the REPORT and the docstring cite was spot-checked.",
+  "Layer 1: the imports are Causal.DiamondConfinement and Causal.SchwCausalLemmas. tools/ladder.py model_path, run in memory with the module added, is None for the module and for both imports. Its closure is 35 Causal modules plus the module, none in MODEL_LAYER. import_chain to Causal.Ladder.Rules is None. model_path for Causal.Remarks.MassiveManifold is [.., Causal.Model.Massive] and for Causal.MeasureTransfer [.., Causal.SingularGeroch, Causal.SingularFlat], which confirms the stranding note.",
+  "Hypotheses: chronal_neighbour_at_boundary is a declared [[edge_hypothesis]] (programme/ladder.toml:1099). LocallyStronglyCausal and StronglyCausalOn are Causal.DiamondConfinement definitions (:371, :378), named pending T-lad-c0-extension-nodes. The dual lemmas cited in REPORT finding 1 exist (dual_locallyStronglyCausal, dual_hasChronalNeighbour, dual_causallyArcConnectedOn, dual_futureOneConnectedOn). Causal.minkowski_futureOneConnected exists (model layer).",
+  "Elaboration and axioms as in build.notes. The probe was deleted, and the campaign directory again holds only Probe.lean, REPORT.json, axioms.txt and this file.",
+  "Every REPORT file_line was compared with the source: all 27 match.",
+  "Scope: git status --short at the end of the audit is identical to the snapshot at its start. Under lean-causal/ the untracked files are this target's file and campaign directory plus the expected FutureOneConnectedVacuous.lean, Model/FlatSpaceCylinder.lean and their campaign directories. No tracked lean-causal file is modified. The programme/roadmap.toml diff is the loop's status flips. The binder was not edited.",
+  "Name clashes: grep for definitions of the 23 short names over lean-causal/Causal and lean-causal/scaffold finds none outside this file. rangeOpens exists only in another namespace (CExtConnexeSecondCountable's hφ.rangeOpens).",
+  "Docstring contract (kb/0006): it has a title, no certified label (no **`prefix:label`**), > quotes checked verbatim against :146, :485, :785–788 and :1078, a hypothesis checklist and a SCOPE, and Provenance at :74. Both sections are true, apart from the undisclosed time-orientation reading (finding 1)."
+ ]
+}

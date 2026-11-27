@@ -1,0 +1,455 @@
+{
+ "target": "T-abs-c0-extension-skeleton",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/C0ExtensionSkeleton.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-c0-extension-skeleton/REPORT.json",
+  "campaign/T-abs-c0-extension-skeleton/Probe.lean",
+  "campaign/T-abs-c0-extension-skeleton/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.C0ExtensionSkeleton",
+ "build_result": "Built CausalScaffold.C0ExtensionSkeleton (1.3 s), 3108 jobs, no warning. The --no-build dry run (kb/0228), run before each real build, listed only this module as out of date ([3108/3108]), so nothing upstream (Causal.*, mathlib) was rebuilt. `lake env lean -DwarningAsError=true` on the file exits 0 with no output. campaign/T-abs-c0-extension-skeleton/Probe.lean imports the module and runs #check and #print axioms on all 27 declarations (axioms.txt): each depends on [propext, Classical.choice, Quot.sound], none on sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Two direct imports: Causal.DiamondConfinement and Causal.SchwCausalLemmas. tools/ladder.py model_path, taken in memory for the module and for each direct import (kb/0247), is None; the 36-module Causal closure contains no Causal.Minkowski, Causal.Static, Causal.Flat.*, Causal.Model.*, Causal.Port.* or Causal.SingularFlat; import_chain to Causal.Ladder.Rules is None. No metric, length or geodesic in any statement; Metric.mem_nhds_iff is used inside one proof, for a ball of ℝ (the parameter interval). causal_ladder was not called: no ladder step is needed, every ladder property (causally_arc_connected of M and of W/N, future_one_connected of W/N, has_chronal_neighbour or its boundary form) enters as a hypothesis, and LocallyStronglyCausal is a named hypothesis (node T-lad-c0-extension-nodes, not in the ladder). The reused ChartIso transports that live in model-layer modules (ChartIso.causallyArcConnectedOn in Causal.Remarks.MassiveManifold, ChartIso.dual in Causal.MeasureTransfer) were not imported: the needed directions are reproved here.",
+ "labels": [],
+ "parts": [
+  {
+   "part": "the setting",
+   "status": "done",
+   "decls": [
+    "Causal.Causality.ExitDiamonds"
+   ],
+   "note": "The target's conclusion after the leaving curve: an open Ũ ∋ γ(1) and s₀ < 1 with, for s ∈ (s₀, 1), I⁺(γ s₀, W) ∩ I⁻(γ s, W) ⊆ I⁺(γ s₀, Ũ) ∩ I⁻(γ s, Ũ) of compact closure in Ũ. Strengthened in three ways (Lean ≥ target): Ũ inside every neighbourhood of γ 1 (the metric step needs Ũ inside Lemma 2.4's chart); every first vertex r ∈ [s₀, 1), not only s₀ (Thm 4.11 picks its vertex γ(y₀⁻) from its chart); and the equality with the W ⊓ Ũ diamond, the curve segment γ((r, s)) inside the identified diamond (non-emptiness), the closure also at the vertex γ 1 (Step 1.2's printed form)."
+  },
+  {
+   "part": "the given-curve form (Thms 4.10, 4.11)",
+   "status": "done",
+   "decls": [
+    "Causal.Causality.exitDiamonds_of_stronglyCausalOn",
+    "Causal.Causality.exitDiamonds_of_curve",
+    "Causal.IsSpacetimeExtension.exitDiamonds_of_curve"
+   ],
+   "note": "Any chronal curve of M over [0, 1] lying in W on [0, 1): StronglyCausalOn.exists_isCompact_closure at γ 1 gives Ũ and V; continuity of γ at 1 (CurveOn.continuousOn) puts γ([s₀, 1]) in V ∩ Ũ; the segment [r, s] reparametrised over [0, 1] (CurveOn.restrict, CurveOn.comp_affine) is a chronal curve of W in Ũ, which Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn asks. Needs neither γ 1 ∉ W nor Hausdorffness (R₁ suffices)."
+  },
+  {
+   "part": "the assembly (leaving form)",
+   "status": "done",
+   "decls": [
+    "Causal.Causality.exists_c0_extension_skeleton",
+    "Causal.Causality.exists_c0_extension_skeleton_of_frontier",
+    "Causal.Causality.exists_c0_extension_skeleton_of_hasChronalNeighbourEverywhere"
+   ],
+   "note": "exists_leaving (Lemma 2.17) gives γ, future or past; ChronalCurveOn.futureInextensible_of_leaving (T2) its inextensibility in W; the given-curve form, applied to D = C or C.dual (dual_causallyArcConnectedOn, dual_futureOneConnectedOn, dual_stronglyCausalOn), the setting. The target's form is exists_c0_extension_skeleton."
+  },
+  {
+   "part": "the ETT notion of an extension and its corollary",
+   "status": "done",
+   "decls": [
+    "Causal.IsSpacetimeExtension",
+    "Causal.IsSpacetimeExtension.rel_top_iff",
+    "Causal.IsSpacetimeExtension.image_Iplus_inter_Iminus",
+    "Causal.IsSpacetimeExtension.causallyArcConnectedOn",
+    "Causal.IsSpacetimeExtension.futureOneConnectedOn",
+    "Causal.IsSpacetimeExtension.dual",
+    "Causal.IsSpacetimeExtension.preimage_curve",
+    "Causal.IsSpacetimeExtension.exists_c0_skeleton",
+    "Causal.IsSpacetimeExtension.exists_c0_skeleton_of_hasChronalNeighbourEverywhere"
+   ],
+   "note": "IsSpacetimeExtension CN C ι: IsOpenEmbedding ι, range ι ≠ univ, ChartIso CN C (toOpenPartialHomeomorph ι) (chartSource = ⊤, chartImage U = ι '' U). The hypotheses on N (causally arc-connected, future one-connected: nodes) pass to W = ι(N); exists_leaving_futureInextensible_of_isOpenEmbedding locates the extension; δ = ι⁻¹ ∘ γ is chronal in N on every [0, s] (ChartIso.chronalCurveOn_symm_image) and future-inextensible in N (futureInextensible_of_forall_not_tendsto: a limit n of δ at 1⁻ would make γ 1 = ι n, T2)."
+  },
+  {
+   "part": "witnesses (kb/0011)",
+   "status": "done",
+   "decls": [
+    "Causal.timelikeLine_exists_c0_extension_skeleton",
+    "Causal.timelikeLine_chartIso_of_strictMono",
+    "Causal.exp_isSpacetimeExtension",
+    "Causal.timelikeLine_exp_c0_skeleton"
+   ],
+   "note": "The timelike line with W = (−∞, 0) satisfies every hypothesis of the assembly; exp : ℝ → ℝ is an extension of the timelike line into itself onto (0, ∞) (a strictly increasing open embedding is a ChartIso, by intermediate_value_Icc) and satisfies every hypothesis of the corollary. ExitDiamonds puts the curve segment in the identified diamond, so the identification is between non-empty sets."
+  }
+ ],
+ "declarations": [
+  {
+   "name": "Causal.Causality.ExitDiamonds",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:115",
+   "statement": "def ExitDiamonds (W : Opens M) (γ : ℝ → M) : Prop := ∀ N ∈ 𝓝 (γ 1), ∃ Ũ : Opens M, γ 1 ∈ Ũ ∧ (Ũ : Set M) ⊆ N ∧ ∃ s₀ ∈ Ico 0 1, MapsTo γ (Icc s₀ 1) Ũ ∧ (∀ r ∈ Ico s₀ 1, ∀ s ∈ Ioc r 1, IsCompact (closure (C.Iplus Ũ {γ r} ∩ C.Iminus Ũ {γ s})) ∧ closure (…) ⊆ Ũ) ∧ ∀ r ∈ Ico s₀ 1, ∀ s ∈ Ioo r 1, (∀ t ∈ Ioo r s, γ t ∈ C.Iplus W {γ r} ∩ C.Iminus W {γ s}) ∧ C.Iplus W {γ r} ∩ C.Iminus W {γ s} = C.Iplus (W ⊓ Ũ) {γ r} ∩ C.Iminus (W ⊓ Ũ) {γ s} ∧ C.Iplus W {γ r} ∩ C.Iminus W {γ s} ⊆ C.Iplus Ũ {γ r} ∩ C.Iminus Ũ {γ s}",
+   "standing": "any causality, any open W, any map γ",
+   "part": "the conclusion's setting: the chart diamonds at the exit point and the identification (1.2)'s ⊇",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.exitDiamonds_of_stronglyCausalOn",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:131",
+   "statement": "[LocallyCompactSpace M] [R1Space M] (hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W) (hγ : C.ChronalCurveOn ⊤ γ 0 1) (hmem : ∀ t ∈ Ico 0 1, γ t ∈ W) (hU : C.StronglyCausalOn U) (h1U : γ 1 ∈ U) : C.ExitDiamonds W γ",
+   "standing": "locally compact R₁ space; strong causality at γ 1 only; γ 1 need not leave W",
+   "part": "given-curve form, weakest localisation",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.exitDiamonds_of_curve",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:182",
+   "statement": "[LocallyCompactSpace M] [R1Space M] (hlsc : C.LocallyStronglyCausal) (hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W) (hγ : C.ChronalCurveOn ⊤ γ 0 1) (hmem : ∀ t ∈ Ico 0 1, γ t ∈ W) : C.ExitDiamonds W γ",
+   "standing": "locally compact R₁ space",
+   "part": "the given-curve form (the hypothesis of Thms 4.10, 4.11)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.exists_c0_extension_skeleton_of_frontier",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:194",
+   "statement": "[PreconnectedSpace M] [LocallyCompactSpace M] [T2Space M] (hC : C.CausallyArcConnected) (hne : (W : Set M).Nonempty) (hproper : (W : Set M) ≠ univ) (hchr : ∀ p ∈ frontier W, C.HasChronalNeighbour p) (hsc : ∀ p ∈ frontier W, ∃ U : Opens M, p ∈ U ∧ C.StronglyCausalOn U) (hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W) : ∃ D, (D = C ∨ D = C.dual) ∧ ∃ γ, D.ChronalCurveOn ⊤ γ 0 1 ∧ (∀ t ∈ Ico 0 1, γ t ∈ W) ∧ γ 1 ∉ W ∧ γ 1 ∈ frontier W ∧ D.FutureInextensible W (Ico 0 1) γ ∧ D.ExitDiamonds W γ",
+   "standing": "preconnected, locally compact, Hausdorff",
+   "part": "the assembly with strong causality near ∂W only (strictly weaker than LocallyStronglyCausal)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.exists_c0_extension_skeleton",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:221",
+   "statement": "[PreconnectedSpace M] [LocallyCompactSpace M] [T2Space M] (hC : C.CausallyArcConnected) (hlsc : C.LocallyStronglyCausal) (hne : (W : Set M).Nonempty) (hproper : (W : Set M) ≠ univ) (hchr : ∀ p ∈ frontier W, C.HasChronalNeighbour p) (hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W) : ∃ D, (D = C ∨ D = C.dual) ∧ ∃ γ, D.ChronalCurveOn ⊤ γ 0 1 ∧ (∀ t ∈ Ico 0 1, γ t ∈ W) ∧ γ 1 ∉ W ∧ γ 1 ∈ frontier W ∧ D.FutureInextensible W (Ico 0 1) γ ∧ D.ExitDiamonds W γ",
+   "standing": "preconnected, locally compact, Hausdorff",
+   "part": "THE TARGET'S STATEMENT (the assembly theorem, story-sized anchor)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.exists_c0_extension_skeleton_of_hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:232",
+   "statement": "same with (hE : C.HasChronalNeighbourEverywhere) in place of hchr",
+   "standing": "preconnected, locally compact, Hausdorff",
+   "part": "the assembly with the node has_chronal_neighbour",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ChartIso.causalCurveOn_image",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:253",
+   "statement": "(h : ChartIso C D e) (hW : W ≤ chartSource e) (hc : C.CausalCurveOn W c a b) : D.CausalCurveOn (chartImage e W) (e ∘ c) a b",
+   "standing": "none",
+   "part": "helper: the ≤ twin of ChartIso.chronalCurveOn_image (Causal.GXStructure)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:281",
+   "statement": "structure IsSpacetimeExtension [Nonempty N] (CN : Causality N) (C : Causality M) (ι : N → M) : Prop where isOpenEmbedding : IsOpenEmbedding ι; range_ne_univ : range ι ≠ univ; chartIso : ChartIso CN C (isOpenEmbedding.toOpenPartialHomeomorph ι)",
+   "standing": "[Nonempty N]",
+   "part": "the ETT notion of an extension (Def 2.15 read causally)",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.rangeOpens",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:291",
+   "statement": "(hι) : Opens M := ⟨range ι, _⟩",
+   "standing": "none",
+   "part": "helper",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.coe_rangeOpens",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:294",
+   "statement": "(hι.rangeOpens : Set M) = range ι",
+   "standing": "none",
+   "part": "helper",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.le_chartSource",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:298",
+   "statement": "U ≤ chartSource (hι.isOpenEmbedding.toOpenPartialHomeomorph ι)",
+   "standing": "none",
+   "part": "helper",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.coe_chartImage_eq",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:303",
+   "statement": "(chartImage e U : Set M) = ι '' U",
+   "standing": "none",
+   "part": "helper",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.chartImage_top",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:308",
+   "statement": "chartImage e ⊤ = hι.rangeOpens",
+   "standing": "none",
+   "part": "helper",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.rel_top_iff",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:314",
+   "statement": "(CN.le ⊤ x y ↔ C.le hι.rangeOpens (ι x) (ι y)) ∧ (CN.lt ⊤ x y ↔ C.lt hι.rangeOpens (ι x) (ι y))",
+   "standing": "none",
+   "part": "Rem 2.3 through the extension",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.dual",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:322",
+   "statement": "IsSpacetimeExtension CN.dual C.dual ι",
+   "standing": "none",
+   "part": "time reversal",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.image_Iplus_inter_Iminus",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:328",
+   "statement": "ι '' (CN.Iplus ⊤ {x} ∩ CN.Iminus ⊤ {y}) = C.Iplus hι.rangeOpens {ι x} ∩ C.Iminus hι.rangeOpens {ι y}",
+   "standing": "none",
+   "part": "N's diamonds are ι(N)'s (the identification of M with ι(M) in (1.2))",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.causallyArcConnectedOn",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:349",
+   "statement": "(hN : CN.CausallyArcConnected) : C.CausallyArcConnectedOn hι.rangeOpens",
+   "standing": "none",
+   "part": "transport N → ι(N)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:395",
+   "statement": "(hN : CN.FutureOneConnected) : C.FutureOneConnectedOn hι.rangeOpens",
+   "standing": "none",
+   "part": "transport N → ι(N)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.exitDiamonds_of_curve",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:405",
+   "statement": "[LocallyCompactSpace M] [R1Space M] (hι) (hlsc : C.LocallyStronglyCausal) (hcac : CN.CausallyArcConnected) (hfoc : CN.FutureOneConnected) (hγ : C.ChronalCurveOn ⊤ γ 0 1) (hmem : ∀ t ∈ Ico 0 1, γ t ∈ range ι) : C.ExitDiamonds hι.rangeOpens γ",
+   "standing": "locally compact R₁ M",
+   "part": "the given-curve form for an extension: Thm 4.10's (and 4.11's) hypothesis",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.preimage_curve",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:417",
+   "statement": "[T2Space M] (hι) (hγ : C.ChronalCurveOn ⊤ γ 0 1) (hmem : ∀ t ∈ Ico 0 1, γ t ∈ range ι) (h1 : γ 1 ∉ range ι) : ∃ δ : ℝ → N, (∀ t ∈ Ico 0 1, ι (δ t) = γ t) ∧ (∀ s ∈ Ico 0 1, CN.ChronalCurveOn ⊤ δ 0 s) ∧ CN.FutureInextensible ⊤ (Ico 0 1) δ",
+   "standing": "Hausdorff M",
+   "part": "Thm 3.1 Step 1 in N: ι⁻¹ ∘ γ̃ is a chronal curve of N, future inextendible in N",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.exists_c0_skeleton",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:457",
+   "statement": "[PreconnectedSpace M] [LocallyCompactSpace M] [T2Space M] (hι) (hC : C.CausallyArcConnected) (hlsc : C.LocallyStronglyCausal) (hchr : ∀ p ∈ frontier (range ι), C.HasChronalNeighbour p) (hcac : CN.CausallyArcConnected) (hfoc : CN.FutureOneConnected) : ∃ D DN, ((D = C ∧ DN = CN) ∨ (D = C.dual ∧ DN = CN.dual)) ∧ IsSpacetimeExtension DN D ι ∧ ∃ γ δ, D.ChronalCurveOn ⊤ γ 0 1 ∧ (∀ t ∈ Ico 0 1, ι (δ t) = γ t) ∧ γ 1 ∉ range ι ∧ γ 1 ∈ frontier (range ι) ∧ (∀ s ∈ Ico 0 1, DN.ChronalCurveOn ⊤ δ 0 s) ∧ DN.FutureInextensible ⊤ (Ico 0 1) δ ∧ D.ExitDiamonds hι.rangeOpens γ ∧ ∀ s₀ ∈ Ico 0 1, ∀ s ∈ Ico 0 1, ι '' (DN.Iplus ⊤ {δ s₀} ∩ DN.Iminus ⊤ {δ s}) = D.Iplus hι.rangeOpens {γ s₀} ∩ D.Iminus hι.rangeOpens {γ s}",
+   "standing": "[Nonempty N]; preconnected, locally compact, Hausdorff M",
+   "part": "THE COROLLARY FOR AN EXTENSION (Thm 3.1, Thm 4.9 layer 1)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.IsSpacetimeExtension.exists_c0_skeleton_of_hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:498",
+   "statement": "same with (hE : C.HasChronalNeighbourEverywhere) in place of hchr",
+   "standing": "as exists_c0_skeleton",
+   "part": "the corollary with the node has_chronal_neighbour",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.negHalfLine",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:521",
+   "statement": "def negHalfLine : Opens ℝ := ⟨Iio 0, isOpen_Iio⟩",
+   "standing": "none",
+   "part": "witness helper",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.timelikeLine_exists_c0_extension_skeleton",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:527",
+   "statement": "∃ D, (D = timelikeLine ∨ D = timelikeLine.dual) ∧ ∃ γ, D.ChronalCurveOn ⊤ γ 0 1 ∧ (∀ t ∈ Ico 0 1, γ t ∈ negHalfLine) ∧ γ 1 ∉ negHalfLine ∧ γ 1 ∈ frontier negHalfLine ∧ D.FutureInextensible negHalfLine (Ico 0 1) γ ∧ D.ExitDiamonds negHalfLine γ",
+   "standing": "none",
+   "part": "non-vacuity witness of the assembly (kb/0011), W = (−∞, 0) in the timelike line",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_chartIso_of_strictMono",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:541",
+   "statement": "{ι : ℝ → ℝ} (hι : IsOpenEmbedding ι) (hmono : StrictMono ι) : ChartIso timelikeLine timelikeLine (hι.toOpenPartialHomeomorph ι)",
+   "standing": "none",
+   "part": "witness helper",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.exp_isSpacetimeExtension",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:565",
+   "statement": "IsSpacetimeExtension timelikeLine timelikeLine Real.exp",
+   "standing": "none",
+   "part": "witness: an extension, onto (0, ∞)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_exp_c0_skeleton",
+   "file_line": "scaffold/CausalScaffold/C0ExtensionSkeleton.lean:575",
+   "statement": "the conclusion of IsSpacetimeExtension.exists_c0_skeleton for ι = Real.exp, CN = C = timelikeLine",
+   "standing": "none",
+   "part": "non-vacuity witness of the extension corollary",
+   "status": "proved"
+  }
+ ],
+ "paper_rows": [
+  {
+   "label": "schwthm:MinkInex",
+   "tex_lines": [
+    475,
+    624
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.exists_c0_extension_skeleton",
+    "Causal.IsSpacetimeExtension.exists_c0_skeleton",
+    "Causal.IsSpacetimeExtension.preimage_curve"
+   ],
+   "note": "Replaces the placeholder 'T-abs-c0-extension-skeleton' in the binder's `ett`. Steps 1 (:485, Lemma 2.17 and the inextensibility), 1.2 (the chart diamond of compact closure, :528, from LocallyStronglyCausal) and the causal half of Step 3 (:619–621, the confinement and (1.2)'s ⊇) assemble here; Steps 1.3, 2.2 and the contradiction are metric (T-loc-c0-chart-diameter, T-loc-minkowski-timelike-diameter), Step 2.1 is Minkowski's future one-connectedness (in Lean, Causal.minkowski_futureOneConnected). Partial and unmarked: Lean < paper (no metric), the C0 layer 3 is not built."
+  },
+  {
+   "label": "schwthm:MainThm",
+   "tex_lines": [
+    778,
+    813
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.exists_c0_extension_skeleton",
+    "Causal.IsSpacetimeExtension.exists_c0_skeleton",
+    "Causal.Causality.exitDiamonds_of_curve"
+   ],
+   "note": "Replaces the placeholder. The proof's reduction to Thm 4.10 (:809, 'the extension M̃ clearly furnishes a C⁰-extension of M_ext') needs no restriction of ι to a subtype: exitDiamonds_of_curve on W = ι(region I), an open set, causally arc-connected and future one-connected once M_ext is (kb/0001). The Kruskal case split and both obstructions are layer 3. See findings 1 and 4."
+  },
+  {
+   "label": "schwthm:dimensional_maximal_analytic_schwarzschild",
+   "tex_lines": [
+    96,
+    98
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.exists_c0_extension_skeleton",
+    "Causal.IsSpacetimeExtension.exists_c0_skeleton",
+    "Causal.Causality.exitDiamonds_of_curve"
+   ],
+   "note": "Twin of Thm 4.9: as schwthm:MainThm."
+  },
+  {
+   "label": "schwthm:Exterior",
+   "tex_lines": [
+    785,
+    788
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.IsSpacetimeExtension.exitDiamonds_of_curve",
+    "Causal.Causality.exitDiamonds_of_curve",
+    "Causal.IsSpacetimeExtension.image_Iplus_inter_Iminus"
+   ],
+   "note": "Replaces the placeholder. Thm 4.10's hypothesis (a timelike curve of M_ext whose image extends as a timelike curve to [−1, 0]) is the given-curve form's: a chronal curve of M̃ over [0, 1] in ι(M_ext) on [0, 1); neither v* → ∞ nor γ̃(0) ∉ ι(M_ext) is used. Steps 1.1–1.3 'repeated literally' (:1078) are the setting (ExitDiamonds), Step 3 its identification; Props 4.12 (future one-connectedness, a hypothesis) and 4.14 (divergence, metric) are layer 3."
+  },
+  {
+   "label": "schwthm:Inex",
+   "tex_lines": [
+    790,
+    793
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.IsSpacetimeExtension.exitDiamonds_of_curve"
+   ],
+   "note": "Optional addition beside the binder's current anchors. Thm 4.11's hypothesis has the same shape as Thm 4.10's; the '⊇' of (FuturePastPreserving) at :1623 is ExitDiamonds' identification for W = ι(M_int) (future one-connected by Prop 6.5), with the first vertex γ(y₀⁻) any r ≥ s₀ and Ũ inside its chart Õ. The rest of Thm 4.11 (PastPreserving, timelike separation, flow charts) is not this target's."
+  },
+  {
+   "label": "schwdef:extension",
+   "tex_lines": [
+    403,
+    411
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.IsSpacetimeExtension",
+    "Causal.IsSpacetimeExtension.rel_top_iff",
+    "Causal.IsSpacetimeExtension.image_Iplus_inter_Iminus",
+    "Causal.IsSpacetimeExtension.dual"
+   ],
+   "note": "Replaces the placeholder; the binder's 'T-abs-c0-extension-skeleton fixes the notion' is now Causal.IsSpacetimeExtension: an open embedding with proper range which is a ChartIso onto ι(N) (Rem 2.3). Partial: Def 2.15's smoothness, isometry and dimension enter only through openness of ι(M) (invariance of domain) and the causality, layer 3 (T-loc-c0-metric-causality); [Nonempty N] is asked (a manifold is non-empty). Question 1."
+  },
+  {
+   "label": "schwdef:lorentzian_distance_function",
+   "tex_lines": [
+    349,
+    359
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.ExitDiamonds",
+    "Causal.Causality.exists_c0_extension_skeleton"
+   ],
+   "note": "Metric row (Def 2.9, timelike diameter): its layer-1 consumer is the setting whose diamonds' timelike diameters are compared (bounded in Ũ, unbounded in W). Replaces the placeholder under the binder's convention for metric rows."
+  },
+  {
+   "label": "schwprop:LengthToInfty",
+   "tex_lines": [
+    1000,
+    1003
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.IsSpacetimeExtension.exitDiamonds_of_curve"
+   ],
+   "note": "Metric row (Prop 4.14): consumed by Thm 4.10's given-curve form. Replaces the placeholder."
+  },
+  {
+   "label": "schwthm:DiamFinite",
+   "tex_lines": [
+    1136,
+    1141
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.IsSpacetimeExtension.exitDiamonds_of_curve"
+   ],
+   "note": "Reading for the planner: Thm 5.3 is consumed by Thm 4.11, not by the leaving skeleton (Thm 4.11 does not use Lemma 2.17). The placeholder 'T-abs-c0-extension-skeleton' in this row and in schwthm:connected_globally_hyperbolic_lorentzian, schwdef:spacelike_diameter, schwdef:DefRegFlowChart can become the given-curve form (Thm 4.11's setting), or be dropped."
+  }
+ ],
+ "extra_decls": [
+  "Causal.ChartIso.causalCurveOn_image",
+  "Causal.timelikeLine_chartIso_of_strictMono",
+  "Causal.IsSpacetimeExtension.rel_top_iff",
+  "Causal.IsSpacetimeExtension.image_Iplus_inter_Iminus",
+  "Causal.IsSpacetimeExtension.causallyArcConnectedOn",
+  "Causal.IsSpacetimeExtension.futureOneConnectedOn"
+ ],
+ "findings": [
+  "Thm 4.9's proof (:798) writes 'Without loss of generality we can assume that γ is future directed (otherwise reverse the time orientation of M_max)', and the next sentence (:800) uses 'Since ∂_u and ∂_v are future directed'. After a reversal of the time orientation, fixed by ∂_u + ∂_v future directed (:706, :752), ∂_u and ∂_v are past directed. The reduction needs a time-orientation-reversing isometry of M_max, for instance (u, v, ω) ↦ (−u, −v, ω). It preserves H (uv < const, :671, :748) and g_max, which depends on uv and on du⊗dv + dv⊗du (:704, :750), and it sends ∂_u + ∂_v to its negative. This step is not stated; it is harmless. In ETT the reversal is C.dual, and every hypothesis of the skeleton is two-sided (dual_causallyArcConnectedOn, dual_futureOneConnectedOn, dual_locallyStronglyCausal, dual_hasChronalNeighbour), so layer 1 has no gap.",
+  "Outside this target's rows (§4.1, the Kruskal model; T-loc-schwarzschild-model): :721 (d = 3) states that (u, v, ω) ↦ (t_A, r, ω) is a time-orientation-preserving isometry onto M_ext for A ∈ {I, IV} and onto M_int for A ∈ {II, III}. Along a future-directed curve u and v increase (∂_u + ∂_v future, :706). On IV = {u > 0, v < 0} (:676), t_IV = 2m log(−v/u) (:718) then decreases, while ∂_t is future directed on M_ext (:654). On III = {u < 0, v < 0} (:675), uv decreases, so r = F̃⁻¹(−uv) (:698) increases, while −∂_r is future directed on M_int (:664). So the maps are time-orientation reversing for A = IV and A = III, and preserving for I and II only. It is harmless where it is used (:809, 'since both regions are isometric'): the swap (u, v) ↦ (v, u) maps IV onto I, preserving uv, du⊗dv + dv⊗du and ∂_u + ∂_v. The d > 3 sentence (:752) makes no orientation claim.",
+  "§1 (:153–158) states the identification (1.2) with I^±(·, M_max). It justifies it by 'the exterior of the Schwarzschild black hole is future one-connected, i.e., in particular, any future directed timelike curve in M_max from γ̃(s₀) to γ̃(s) is homotopic to γ̃|[s₀,s]'. The 'i.e.' needs every future timelike curve of M_max between two points of region I to stay in region I. That holds, since u and v increase along it (:800) and I = {u < 0, v > 0} (:673), but it is not said. In ETT the identification is stated on any open W (here ι(region I)), so it is not needed; this is the same remark as for Thm 4.9's reduction to Thm 4.10 (:809).",
+  "§1 and Thm 3.1 use opposite sign conventions for s₀. §1 writes the vertex γ̃(s₀) with s₀ < s < 0 (:146, :153). Thm 3.1 Step 1.2 takes s₀ ∈ (0, ε) with the vertex (−s₀, 0, …, 0) = γ̃(−s₀) (:528, :621). This is notational and harmless.",
+  "No defect in the causal skeleton itself. Steps (1)–(3) of Thm 3.1 (:485, :528, :619–621) and of Thm 4.10 (:1078) assemble with no hypothesis beyond those named here. The localisation used of M̃ is needed at the exit point γ̃(0) only (exitDiamonds_of_stronglyCausalOn), as Step 1.1 uses Lemma 2.4 only there. Thm 4.10's hypothesis (:785–788) need not include γ̃(0) ∉ ι(M_ext): the given-curve form does not use it, and it follows from v* → ∞ anyway."
+ ],
+ "questions": [
+  "The ETT notion of an extension (Def 2.15). Reading taken: IsSpacetimeExtension CN C ι, i.e. an open embedding ι : N → M with range ι ≠ univ and ChartIso CN C along ι (so N's relations on every open U are those of ι(U) in M, Rem 2.3), with [Nonempty N]. Smoothness, the isometry and 'same dimension' enter only through these. Connectedness of N (Sbierski's tacit convention, :401) is not asked: only M preconnected is used, by Lemma 2.17. Whether the author wants more in the notion, for instance an IsEMorphism or a connectedness field, is left open.",
+  "The time-reversed alternative. Reading taken: the conclusion is for (D, DN) = (C, CN) or (C.dual, CN.dual). 'Future-inextensible' and the diamonds are read for D, so in the reversed case they are past-inextensibility and I⁻(γ s₀) ∩ I⁺(γ s) for C. This is Sbierski's 'otherwise reverse the time orientation' (:485, :798) taken literally.",
+  "The localisation at the exit point. Reading taken: the target's form uses LocallyStronglyCausal of M (the proposed node). exists_c0_extension_skeleton_of_frontier asks a strongly causal open neighbourhood of each frontier point only, and exitDiamonds_of_stronglyCausalOn asks it of γ 1 only. Which one the node and the binder's locally_strongly_causal should cite is the keeper's choice (T-lad-c0-extension-nodes).",
+  "The target text (and the binder's scheme) says 'W ⊊ M open' without non-emptiness. Reading taken: W is non-empty (hne). It is necessary, since for W = ∅ no curve starts in W, and it is implied by Sbierski's W = ι(M) for a manifold M (Def 2.15's footnote, :406). For the extension it is [Nonempty N]."
+ ],
+ "kb_proposals": [
+  "Sbierski 1507.00601's C⁰-extension skeleton (Thm 3.1, Thm 4.9, Thm 4.10, layer 1) is CausalScaffold.C0ExtensionSkeleton (T-abs-c0-extension-skeleton). Causality.ExitDiamonds W γ is the causal setting at the exit point: chart diamonds of compact closure and the identification, uniform over vertices r < s in [s₀, 1). exitDiamonds_of_curve is the given-curve form, exists_c0_extension_skeleton the leaving form. IsSpacetimeExtension (open embedding, proper range, ChartIso) is the ETT Def 2.15, and exists_c0_skeleton is its corollary.",
+  "To reparametrise a segment [r, s] of a curve over [0, 1]: CurveOn.restrict to [r, s], then CurveOn.comp_affine (k := s - r) (m := r) (a' := 0) (b' := 1), after rewriting (s - r) * 0 + r = r and (s - r) * 1 + r = s by ring. To get the tail γ([s₀, 1]) inside a neighbourhood: ContinuousWithinAt.preimage_mem_nhdsWithin, then mem_nhdsWithin_iff_exists_mem_nhds_inter and Metric.mem_nhds_iff, with s₀ = max 0 (1 - ε/2).",
+  "IsOpenEmbedding.toOpenPartialHomeomorph needs [Nonempty N]. Its simp lemma toOpenPartialHomeomorph_apply is a function equality (-fullyApplied): after rw [chartImage_top] at h, use simpa only [IsOpenEmbedding.toOpenPartialHomeomorph_apply] using h. Its source is univ (toOpenPartialHomeomorph_source), so every open set lies in chartSource.",
+  "ChartIso transports at the ETT layer: Causal.GXStructure has only the ≪ image (chronalCurveOn_image) and the inverse (curveOn_symm). The ≤ image is ChartIso.causalCurveOn_image (CausalScaffold.C0ExtensionSkeleton). ChartIso.causallyArcConnectedOn (model to source) is in Causal.Remarks.MassiveManifold and ChartIso.dual in Causal.MeasureTransfer, both model-layer, so an ETT-layer module cannot import them. Reprove the one-line dual, or use IsSpacetimeExtension.causallyArcConnectedOn (source to image).",
+  "A strictly increasing open embedding ℝ → ℝ is a ChartIso of the timelike line (timelikeLine_chartIso_of_strictMono, via intermediate_value_Icc). This gives a cheap extension witness: Real.exp onto (0, ∞) (Real.isOpenEmbedding_exp, Real.range_exp), exp_isSpacetimeExtension.",
+  "Future-inextensibility of ι⁻¹ ∘ γ in N needs no transport of extensions through the chart. Apply futureInextensible_of_forall_not_tendsto in N: a limit n at 1⁻ gives γ → ι n, so γ 1 = ι n by tendsto_nhds_unique (T2 on M) (IsSpacetimeExtension.preimage_curve)."
+ ],
+ "notes": "One new file, 591 lines, 0 sorry, 27 declarations. No ETT label; the docstring marks nothing with **, and the Sbierski rows are cited unmarked. Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.C0ExtensionSkeleton` to scaffold/CausalScaffold.lean, which I did not edit. At graduation the file can move to Causal/: both its imports, Causal.DiamondConfinement and Causal.SchwCausalLemmas, are strict. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the 27 names outside this file; `rangeOpens` exists only in other namespaces (IsCauchyEmbedding.rangeOpens, …). ChartIso.causalCurveOn_image belongs beside ChartIso.chronalCurveOn_image in Causal.GXStructure; it is here because that module is strict upstream. The binder's placeholder 'T-abs-c0-extension-skeleton' appears in the `ett` of 11 rows; paper_rows proposes replacements for all of them, and the binder was not edited. I edited no existing file. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`; tools/ladder.py was only imported in memory (lean_index, model_path, import_chain). The probe's scratch output was in /tmp and has been deleted.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the time orientation of M̃ is disclosed as the binder's reading R3 (OQ-115, open) in the checklist, SCOPE and IsSpacetimeExtension's docstring. For the planner: the anchors proposed for schwthm:MainThm and its twin should be exitDiamonds_of_curve on ι(region I), not exists_c0_extension_skeleton (which needs all of M_max future one-connected; Sbierski proves it for the exterior and interior only, Props 4.12, 6.5). Paper findings, as the audit grades them: (1) Thm 4.9 :798/:800 an implicit step (an unstated time-reversing isometry; the same at :485); (2) the Kruskal model :721 a real slip (regions IV and III reverse the time orientation; harmless at :809 through the swap (u,v,ω) ↦ (v,u,ω)); (3) §1 :153–158 an implicit step (region I causally convex in M_max); (4) notational; extra: :589 writes γ(1) for λ(1)."
+}
