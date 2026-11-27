@@ -1,0 +1,67 @@
+{
+ "package": "T-btz-blunt-infall-ray",
+ "target": "T-btz-blunt-infall-ray",
+ "files": [
+  "scaffold/GXScaffold/BTZ/BluntSpear.lean (edited: flat_infall_noLimit_of_pos and five helpers added, flat_infall_noLimit split on the sign of R, lem_blunt_spear now uses flat_infall_noLimit_of_pos, docstrings)"
+ ],
+ "builds": true,
+ "sorry_count": 1,
+ "axioms": {
+  "GX.E0BluntSpear.lem_blunt_spear": "propext, Classical.choice, Quot.sound (sorry-free)",
+  "GX.E0BluntSpear.flat_infall_noLimit_of_pos": "propext, Classical.choice, Quot.sound",
+  "GX.E0BluntSpear.not_flat_infall_noLimit": "propext, Classical.choice, Quot.sound",
+  "GX.E0BluntSpear.flat_infall_noLimit": "propext, sorryAx, Classical.choice, Quot.sound (sorryAx only in the R <= 0 branch, which is false)"
+ },
+ "labels": [
+  {
+   "label": "btzlem:blunt_spear_neighborhood",
+   "tex_lines": [
+    693,
+    701
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.E0BluntSpear.lem_blunt_spear",
+    "GX.E0BluntSpear.lem_blunt_spear_of_inextensible",
+    "GX.E0BluntSpear.flat_vertical_noLimit",
+    "GX.E0BluntSpear.flat_infall_noLimit_of_pos"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(implicit at l.738) the in-falling regular null rays of S0 are past-inextensible in M",
+     "here": "proved (flat case)",
+     "note": "flat_infall_noLimit_of_pos, with 0 < R, which lem_blunt_spear has (hR) and every blunt spear neighbourhood has (IsBluntSpearNbhd.pos); its InjOn hypothesis is not needed and not taken"
+    },
+    {
+     "paper": "M an E_{>0}-manifold",
+     "here": "E0 scope (flat N)",
+     "note": "unchanged: T-btz-scope, OQ-143; the only reason the row is partial"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.E0BluntSpear.flat_infall_noLimit",
+     "obstruction": "the R <= 0 branch only, and that branch is FALSE: bspearY v R is empty, so W = empty and a constant psi satisfy every hypothesis and the ray converges (not_flat_infall_noLimit). The R > 0 branch is flat_infall_noLimit_of_pos. lem_blunt_spear no longer uses this declaration."
+    }
+   ],
+   "findings": [
+    "Lean-side, not the paper: the auxiliary GX.E0BluntSpear.flat_infall_noLimit (BluntSpear.lean:1045, introduced by T-btz-blunt-spear) is false as stated, since it omits 0 < R; refuted by GX.E0BluntSpear.not_flat_infall_noLimit (R = 0, W = empty, psi constant). Its strongest true form is flat_infall_noLimit_of_pos (adds 0 < R, drops InjOn). The paper is not affected: btz l.621-629 has R > 0."
+   ],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "GX.E0BluntSpear.continuous_btzPaperDev",
+  "GX.E0BluntSpear.btzPaperDev_add_pi_ne",
+  "GX.E0BluntSpear.infall_mem_sector_angle",
+  "GX.E0BluntSpear.rad_infallPt",
+  "GX.E0BluntSpear.flat_infall_noLimit_of_pos",
+  "GX.E0BluntSpear.not_flat_infall_noLimit"
+ ],
+ "kb_proposals": [
+  "Parabolic holonomy at a regular limit point without comparing two sector charts: one slit sector is enough. Spread the rigidity formula kappa o psi = g . D o sectorChartY by connectedness (IsPreconnected.subset_of_closure_inter_subset, with T2 limit uniqueness for the closure step and a compactness radius from IsCompact.eventually_forall_of_forall_eventually over theta in [arg u - pi, arg u + pi]) to the whole punctured slit neighbourhood, then take psi at a slit point as the limit from both sides: D(tau, r, theta + pi) != D(tau, r, theta - pi) (btzPaperDev_add_pi_ne, third coordinate -r theta) contradicts injectivity of kappa^-1 on its target. Template: GX.E0BluntSpear.flat_infall_noLimit_of_pos.",
+  "Before stating an auxiliary in-extensibility lemma over a blunt spear chart, carry 0 < R: with R <= 0 bspearY v R is empty and any map on W = empty is an E0-morphism (not_flat_infall_noLimit)."
+ ],
+ "notes": "lem_blunt_spear (paper form, flat case) is now sorry-free; the row stays partial for the E0 scope only (T-btz-scope, OQ-143). The ledger decls should replace flat_infall_noLimit by flat_infall_noLimit_of_pos (flat_infall_noLimit is no longer in lem_blunt_spear's closure). No SectorHolonomy.lean was created and GXScaffold.lean is untouched: the proof needed no new file. No existing statement changed: flat_infall_noLimit has the same type (its unused binder hinj renamed _hinj). lake build GXScaffold.BTZ.BluntSpear rebuilt only BluntSpear (no GX.* or mathlib module); one 'declaration uses sorry' warning (flat_infall_noLimit, the false branch), no other warning."
+}

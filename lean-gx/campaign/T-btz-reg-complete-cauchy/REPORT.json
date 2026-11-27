@@ -1,0 +1,65 @@
+{
+  "package": "T-btz-reg-complete-cauchy",
+  "target": "T-btz-reg-complete-cauchy",
+  "files": ["scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean"],
+  "edited": ["scaffold/GXScaffold.lean (one import line, GXScaffold.BTZ.RegCompleteCauchy, after GXScaffold.BTZ.SpearFamily)"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "tex_lines": [1566, 1576],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.E0SpearFamily.LFSurgeryData.sigmaStar",
+        "GX.E0SpearFamily.LFSurgeryData.sigmaStarReg",
+        "GX.E0SpearFamily.LFSurgeryData.isCauchySurface_sigmaStar",
+        "GX.E0SpearFamily.LFSurgeryData.sigmaStar_subset_regM",
+        "GX.E0SpearFamily.LFSurgeryData.sigmaStar_toSurgeryData",
+        "GX.E0SpearFamily.exists_lfSurgeryData_isCauchySurface_sigmaStar",
+        "GX.E0SpearFamily.exists_lfSurgeryData_isCauchySurface_sigmaStar_of_complete"
+      ],
+      "hypotheses": [
+        {"paper": "E_{>=0}-manifold", "here": "strengthened", "note": "E0 only (T-btz-scope), as the row"},
+        {"paper": "globally hyperbolic", "here": "carried", "note": "(CE M).GloballyHyperbolic"},
+        {"paper": "Sigma a Cauchy surface of M (smooth spacelike complete)", "here": "weakened", "note": "LFSurgeryData.isCauchySurface_sigmaStar needs only (CE M).IsCauchySurface S: no compactness, no completeness, no Lipschitz condition; smoothness enters only through the spear data (RimC1, step (1))"},
+        {"paper": "disjoint spear neighbourhoods of sing_0(M)", "here": "carried", "note": "an LFSurgeryData (disjoint, closed, locally finite; T-btz-spear-family)"},
+        {"paper": "Cauchy-maximal", "here": "weakened", "note": "not used by step (2); used only by step (1) (exists_lfSurgeryData_of_rimC1) in the combined exists_lfSurgeryData_isCauchySurface_sigmaStar"}
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.1574-1575 (« Using Corollary cor:intersect we deduce that Sigma* is a Cauchy surface of M* »), and l.1093 for the compact case. The paper gives no argument for infinitely many spears. The argument goes through, and is proved here (GX.E0SpearFamily.LFSurgeryData.isCauchySurface_sigmaStar), once the spear family is LOCALLY FINITE, a property the paper does not state (it says only « disjoint », l.1574). Local finiteness is used in three places: the union of the spears is closed; the closure of the union of the cusp half-spears is the union of their closures, which makes the two sides of Sigma* closed in Reg M; and near a point of a spear no other spear is met. This fills a gap. It is not a counterexample: I did not show that disjointness alone fails.",
+        "The compact proof (B21 l.1093; strict E0Surgery.SurgeryData.isCauchySurface_sigmaStar) uses the compactness of S twice: J^±(S) closed, and a limit point in S of points of S below a past- or future-trapped curve. A Cauchy surface of a globally hyperbolic E0-manifold needs neither. J^±(S) is closed (E0LM.sfa_isClosed_Jplus_cauchy / _Jminus_cauchy). J^-(p) ∩ S and J^+(p) ∩ S are compact (Causal.Causality.GloballyHyperbolic.isCompact_Jminus_inter_of_isCauchySurface, with the time function E0LM.e0_timeFunction), and the points of S below e(-n) all lie in J^-(e 0) ∩ S. So step (2) holds for every Cauchy surface S, compact or not, with no completeness and no smoothness beyond what the spear data carry.",
+        "« Corollary cor:intersect applied in each spear »: the Lean proof, like the strict one, does not invoke the intersection number (lem_intersect_number_complete) directly. It uses the monotone height of the cusp along ≼ in each spear chart (Lemma 2.7) together with Remark 2.12 (rem:curve_spear, the strict SpearSurgeryDatum.isSpearArc_of_inextensible, applied spear by spear). Remark 2.12 is therefore discharged here, not assumed: the strict theorem carries it as a hypothesis hrem."
+      ],
+      "questions": [
+        "« Sigma* is a Cauchy surface of M* » (l.1574): read as in the strict compact case, i.e. (Causal.Flat.flatCausality 2 (e0RegMFlat M)).IsCauchySurface Dat.sigmaStarReg, with Sigma* = (S minus the spears) union the cusps, and Sigma* contained in Reg M (sigmaStar_subset_regM). The spear family carries the readings of T-btz-spear-family (OQ-146 (c)): an index type equivalent to S ∩ sing_0(M), S's trace on each spear the graph of tau_Sigma in the shaft, with a C¹ rim."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.E0SpearFamily.cauchy_facts_lf",
+    "GX.E0SpearFamily.LFSurgeryData.finite_spears_of_isCompact",
+    "GX.E0SpearFamily.LFSurgeryData.isClosed_iUnion_spearSet",
+    "GX.E0SpearFamily.LFSurgeryData.eventually_other",
+    "GX.E0SpearFamily.LFSurgeryData.exists_open_of_BTZ",
+    "GX.E0SpearFamily.LFSurgeryData.exists_pastSide",
+    "GX.E0SpearFamily.LFSurgeryData.exists_futSide",
+    "GX.E0SpearFamily.LFSurgeryData.futSide",
+    "GX.E0SpearFamily.LFSurgeryData.pastSide",
+    "GX.E0SpearFamily.LFSurgeryData.cuspUp",
+    "GX.E0SpearFamily.LFSurgeryData.cuspDown",
+    "GX.E0SpearFamily.LFSurgeryData.closure_futSide_subset",
+    "GX.E0SpearFamily.LFSurgeryData.closure_pastSide_subset",
+    "GX.E0SpearFamily.LFSurgeryData.futSide_of_le",
+    "GX.E0SpearFamily.LFSurgeryData.pastSide_of_le",
+    "GX.E0SpearFamily.LFSurgeryData.eq_of_forall_mem_sigmaStar"
+  ],
+  "kb_proposals": [
+    "Sigma* Cauchy in Reg M needs neither compactness nor finiteness: GX.E0SpearFamily.LFSurgeryData.isCauchySurface_sigmaStar takes (IsCauchySurface S) and a locally finite family. Finiteness is replaced by LocallyFinite.closure_iUnion / isClosed_iUnion and eventually_all_finite. Compactness of S is replaced by cauchy_facts_lf: J^±(S) closed (E0LM.sfa_isClosed_*_cauchy) and J^∓(p) ∩ S compact (GloballyHyperbolic.isCompact_J*_inter_of_isCauchySurface with E0LM.e0_timeFunction).",
+    "The strict E0Surgery.SurgeryData.isCauchySurface_sigmaStar's hS : IsE0C1SpacelikeCauchy and hrem are both stronger than needed: IsCauchySurface S suffices, and hrem is SpearSurgeryDatum.isSpearArc_of_inextensible applied spear by spear. A strict cleanup could restate it over LFSurgeryData, of which the finite SurgeryData is a case (sigmaStar_toSurgeryData is rfl)."
+  ],
+  "notes": "Sorry-free, standard axioms only (#print axioms on isCauchySurface_sigmaStar and on both exists_ forms). lake build GXScaffold.BTZ.RegCompleteCauchy succeeds and rebuilds nothing in GX.* or mathlib. The file imports GXScaffold.BTZ.SpearFamily, which imports GXScaffold.BTZ.RegComplete for the structure IsE0C1CompleteCauchy only; the sorry of regM_isCauchyComplete_of_complete (RegComplete.lean:261 in the build log, the tagged sorry the dispatch calls :374) is never reached. That sorry stays until T-btz-reg-complete-length (step (3), completeness of Sigma* across infinitely many spears), so the row stays partial. On graduation, SpearFamily and IsE0C1CompleteCauchy must graduate first or together with this file."
+}

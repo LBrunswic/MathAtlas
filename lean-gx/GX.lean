@@ -45,6 +45,7 @@ import GX.BTZ.Uniformization
 import GX.BTZ.TildeStructure
 import GX.BTZ.Embeddings
 import GX.BTZ.SectorAtlas
+import GX.BTZ.BluntSpear
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface

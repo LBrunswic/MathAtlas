@@ -4,7 +4,7 @@ import GX.BTZ.Causality
 # `GX.BTZ.SectorAtlas` — the sector charts of `𝔼₀` lie in its maximal a.e. atlas
 
 Target T-btz-blunt-vertical-ray. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), § 3.1: the
-brick used by `GXScaffold.BTZ.BluntSpear` for `btzlem:blunt_spear_neighborhood` (unmarked here:
+brick used by `GX.BTZ.BluntSpear` for `btzlem:blunt_spear_neighborhood` (unmarked here:
 this file certifies no label, it supplies a lemma of the model).
 
 * `GX.E0.sectorChartBTZ_mem_aeAtlas`: the sector chart `sectorChartBTZ y hy` of `𝔼₀` (the

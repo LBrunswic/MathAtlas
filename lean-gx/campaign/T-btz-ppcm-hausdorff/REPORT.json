@@ -1,0 +1,81 @@
+{
+  "package": "T-btz-ppcm-hausdorff",
+  "target": "T-btz-ppcm-hausdorff",
+  "files": ["scaffold/GXScaffold/BTZ/PpcmHausdorff.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzprop:ppcm",
+      "tex_lines": [1415, 1520],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.PpcmHausdorff.t2Space_ghGlue",
+        "GX.PpcmHausdorff.paperC_eq_empty",
+        "GX.PpcmHausdorff.cdist_ghGlue_eq_empty",
+        "GX.PpcmHausdorff.GhGlue",
+        "GX.PpcmHausdorff.ghMap",
+        "GX.PpcmHausdorff.paperC",
+        "GX.PpcmHausdorff.t2Space_glue",
+        "GX.PpcmHausdorff.Glue",
+        "GX.PpcmHausdorff.exists_ext_of_graphCluster",
+        "GX.PpcmHausdorff.mem_dom_of_graphCluster",
+        "GX.PpcmHausdorff.mem_graph_of_mem_closure",
+        "GX.PpcmHausdorff.globallyHyperbolicOn_maxDom",
+        "GX.PpcmHausdorff.ghDom_eq_dom_of_t2Space"
+      ],
+      "hypotheses": [
+        {"paper": "E_{>=0}-manifolds", "here": "strengthened", "note": "E0-manifolds only (T-btz-scope, needs-ruling)"},
+        {"paper": "M0 globally hyperbolic", "here": "weakened", "note": "not used anywhere in the Hausdorff half"},
+        {"paper": "M1 globally hyperbolic", "here": "carried", "note": "used only by the third bullet (globallyHyperbolicOn_maxDom); the gluing along the maximal domain is Hausdorff without it (t2Space_glue)"},
+        {"paper": "M2 globally hyperbolic", "here": "carried", "note": "compact diamonds and closed J- in the chart step"},
+        {"paper": "M1 Hausdorff, second countable; M2 Hausdorff (l.261)", "here": "carried", "note": "M2 second countable not used"},
+        {"paper": "(none)", "here": "strengthened", "note": "M1 connected: E0AbsMax.e0_sfa_of_globalBTZ needs it (same added hypothesis as GX.Pgcd's second bullet); a library limitation, not a defect of the paper"}
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.1430: « the maximality of M1∧M2 will then implies that C ≠ ∅ » is a typo for C = ∅ (l.1511 concludes C = ∅).",
+        "BTZ_1.tex l.1439: « I⁺(p_n) ⊂ j(M0) » should read i(M0) (p_n ∈ M1); the companion « φ(I⁺(p_n)) = I⁺(φ(p_n)) » needs causal convexity of the domain and image, which the text does not invoke. Neither is used by the formalization.",
+        "BTZ_1.tex l.1442–1448: the identity I⁺(p') = Int ∩_N ∪_{n≥N} I⁺(φ(p_n)) for an arbitrary sequence and the « without loss of generality » φ(I⁺(p)∩U_p) = I⁺(p')∩U_{p'} are unproved in the text. Not refuted; the formalization replaces both by B21 Lemma 2.12's shrinking diamonds (GX.PpcmHausdorff.exists_graphCluster_shrink): the decreasing images of a chronological sequence b_n ↘ p cluster at some q', and φ(I⁺(p)∩I⁻(b)) lies in any neighbourhood of q' for suitable b ≫ p. The partner p' is then shown to be φ̄(p) by continuity.",
+        "BTZ_1.tex l.1456–1493: the family of charts over all of C, the connectedness of (M1∧M2) ∪ U_p and of pairwise intersections, and « (M1∧M2) ∪ C = (M1∧M2) ∪ ⋃ U_p » are not needed: one point of C at a time suffices, the extension over one chart neighbourhood making M1∧M2 ∪ U_p an extension domain (GX.PpcmHausdorff.mem_dom_of_graphCluster).",
+        "BTZ_1.tex l.1495 (second bullet): future distinguishing of M2 (prop:FZenon_injectif) is not needed: once p is in the domain of φ̄, an unseparated partner q equals φ̄(p) by continuity of φ̄ and Hausdorffness of M2 (GX.PpcmHausdorff.mem_graph_of_mem_closure).",
+        "BTZ_1.tex l.1415–1416: the Hausdorff half holds without M0 globally hyperbolic, and along the maximal domain (the union of all extension domains) with only M2 globally hyperbolic (GX.PpcmHausdorff.t2Space_glue). M1 globally hyperbolic is used only to identify the paper's M1∧M2 with the maximal domain.",
+        "BTZ_1.tex l.1497–1504 (third bullet), run on the maximal domain dom i j instead of M1∧M2 ∪ C, proves that dom i j is globally hyperbolic when M1 and M2 are (GX.PpcmHausdorff.globallyHyperbolicOn_maxDom). This is exactly the missing argument of btzprop:pgcd l.1376 (« by construction, M1∧M2 is maximal », GX.Pgcd.globallyHyperbolicOn_dom's tagged sorry), with weaker hypotheses than that statement (no M0 globally hyperbolic, M2 neither connected nor second countable): GX.PpcmHausdorff.btz_pgcd_gh_of_gh is GX.Pgcd.btz_pgcd_gh with no sorry. The paper's proof of prop:pgcd (l.1376) needs prop:ppcm's third bullet.",
+        "The paper's gluing along its M1∧M2 is Hausdorff if and only if M1∧M2 is the maximal domain, as soon as M1∧M2 ⊇ i(M0) (GX.PpcmHausdorff.ghDom_eq_dom_of_t2Space with t2Space_ghGlue): the Hausdorff property of prop:ppcm and the maximality of prop:pgcd are one fact."
+      ],
+      "questions": [
+        "OQ-146 (b), which M1∧M2 is of record: read as the paper's union of globally hyperbolic domains (GX.Pgcd.ghDom). Under prop:ppcm's hypotheses (M1, M2 globally hyperbolic) it equals the maximal domain GX.Pgcd.dom (globallyHyperbolicOn_maxDom + Pgcd.ghDom_eq_dom_of_globallyHyperbolicOn), so for this row the two readings give the same gluing.",
+        "« x ∼ y if φ(x) = y or φ(y) = x » (l.1424) is not reflexive: read as the quotient by the equivalence it generates (Causal.Gluing, as in lean-causal's Pushout.lean); φ injective makes it « equal or ∼ ».",
+        "« A point p is unseparated if there exists q ≠ p such that p, q are unseparated » (l.1428–1429): read with q ranging over the whole gluing and « unseparated » as ¬Disjoint (𝓝 ·) (𝓝 ·) (GX.PpcmHausdorff.paperC); its emptiness is also given in lean-causal's Cdist reading (cdist_ghGlue_eq_empty)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.PpcmHausdorff.btz_pgcd_gh_of_gh",
+    "GX.PpcmHausdorff.exists_ext_of_graphCluster",
+    "GX.PpcmHausdorff.exists_graphCluster_shrink",
+    "GX.PpcmHausdorff.le_image_of_graphCluster",
+    "GX.PpcmHausdorff.lt_image_of_lt",
+    "GX.PpcmHausdorff.lt_in_of_lt",
+    "GX.PpcmHausdorff.exists_ball_chart",
+    "GX.PpcmHausdorff.exists_chart_inr",
+    "GX.PpcmHausdorff.exists_mem_e0Groupoid_target_inr",
+    "GX.PpcmHausdorff.trans_mem_maximalAtlas",
+    "GX.PpcmHausdorff.lt_of_isE0Mor_paper",
+    "GX.PpcmHausdorff.D_lt_of_lt",
+    "GX.PpcmHausdorff.ceY_lt_iff",
+    "GX.PpcmHausdorff.exists_ext_pgcdMap",
+    "GX.PpcmHausdorff.isOpenEmbedding_ghMap",
+    "GX.PpcmHausdorff.GraphCluster"
+  ],
+  "kb_proposals": [
+    "The chart step of btz §5 is GX.PpcmHausdorff.exists_ext_of_graphCluster: an injective E0-morphism f on an open D with BTZ complement, into a globally hyperbolic M2, extends as an E0-morphism over a neighbourhood of any p with (p, r) in the closure of its graph over D (shrinking diamonds, prop:isom_strong on {τ − r/2 > v} of a chart ball, Liouville on the regular part of a smaller ball). Reuse it at the first missing point of a BTZ line.",
+    "T-btz-pgcd-dom-gh is closed in substance by GX.PpcmHausdorff.globallyHyperbolicOn_maxDom (dom i j GH when M1, M2 GH; no M0 GH, M2 neither connected nor second countable) and GX.PpcmHausdorff.btz_pgcd_gh_of_gh (Pgcd.btz_pgcd_gh with no sorry); Pgcd.globallyHyperbolicOn_dom's stronger-hypothesis statement follows in one line.",
+    "Every point of an E0-manifold has a chart of the maximal atlas landing in 𝔼₀ (GX.PpcmHausdorff.exists_chart_inr; at a point of 𝕄, a translation into a regular chart of 𝔼₀): what e0_localUnique_sing's MapsTo hypothesis needs when the target point may be regular.",
+    "lt twins of Spear.lean's transfer lemmas: GX.PpcmHausdorff.ceY_lt_iff, D_lt_of_lt, lt_of_isE0Mor_paper (ChartIso's second component); with E0.Iplus_ball_axis they put the region {r > 0, τ − r/2 > v} of a chart ball at a BTZ point p into I⁺(p) (exists_ball_chart).",
+    "A chart of the maximal atlas followed by an element of G is in the maximal atlas: GX.PpcmHausdorff.trans_mem_maximalAtlas (mathlib has restr_mem_maximalAtlas but no trans form)."
+  ],
+  "notes": "One new file, sorry-free, standard axioms; one import line added to scaffold/GXScaffold.lean after GXScaffold.BTZ.Pgcd. The row btzprop:ppcm stays partial and unmarked: only the Hausdorff half is proved (the E0-structure of the gluing, its causality, global hyperbolicity, minimality and uniqueness are T-btz-ppcm), E0 only (T-btz-scope), with M1 connected added. The file also supplies the content of GX.Pgcd.globallyHyperbolicOn_dom's tagged sorry (see findings); Pgcd.lean was not edited. Names GX.PpcmHausdorff.* do not clash with GX.Pgcd.*."
+}

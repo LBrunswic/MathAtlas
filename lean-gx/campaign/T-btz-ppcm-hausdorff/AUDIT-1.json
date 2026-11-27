@@ -1,0 +1,29 @@
+{
+  "target": "T-btz-ppcm-hausdorff",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzprop:ppcm",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row partial, label written unmarked (`btzprop:ppcm`, no ** mark) in the module docstring, which is correct: only the Hausdorff half is proved, for E0 only, with M1 connected added. (1) t2Space_ghGlue states T2Space (GhGlue i j), where GhGlue = Causal.Gluing (Subtype.val : Pgcd.ghDom i j -> M1) (ghMap i j). Causal.Gluing is Quot (GlueRel j1 j2) on X ⊕ Y with the quotient topology, and GlueRel is exactly the paper's x ~ y iff phi(x) = y or phi(y) = x (l.1424). Quot by a relation is the quotient by the equivalence relation it generates, so this is the paper's own space (M1 ⊔ M2)/~, glued along the paper's M1 ∧ M2 (Pgcd.ghDom = sSup of the IsGHExtDomain sets, the union of GH open sets containing i(M0) with a BTZ-embedding restricting to j∘i⁻¹, l.1352). ghMap is pgcdMap restricted to ghDom, i.e. the paper's phi. It is not a weaker space. Hypotheses: IsBTZEmbedding i, j, M1 and M2 GH, M1 T2, second countable, connected, M2 T2. M0 GH is dropped (a weakening), and M1 connected is added and disclosed in the checklist and in REPORT.hypotheses. paperC follows l.1428–1429 literally (p in M1 such that some z ≠ ι₁ p in the gluing has ¬Disjoint (𝓝 (ι₁ p)) (𝓝 z)), and paperC_eq_empty is a faithful 'C is empty'. (2) btz_pgcd_gh_of_gh's conclusion is character for character Pgcd.btz_pgcd_gh's (∃ X : CommonSubBTZ i j, X.IsMaximal ∧ range X.b = Pgcd.ghDom i j ∧ (CE X.X).GloballyHyperbolic). Its hypotheses are a strict subset of Pgcd.btz_pgcd_gh's: the section variables are the same (M1 T2, second countable, HasGroupoid; M2 T2, HasGroupoid), M1 connected is kept (Pgcd has it too), and hG0, M2 connected and M2 second countable are dropped. ghDom_eq_dom_of_t2Space takes range i ⊆ ghDom as an explicit hypothesis and is stated as a converse, so no claim is hidden."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/PpcmHausdorff.lean: exit 0, no output. The 4 textual occurrences of 'sorry' are all in docstrings (l.7, 22, 833–834); there are no sorry terms. A probe (a copy of the file plus #print axioms, under the campaign directory, now deleted) gave [propext, Classical.choice, Quot.sound] for t2Space_ghGlue, paperC_eq_empty, cdist_ghGlue_eq_empty, t2Space_glue, exists_ext_of_graphCluster, mem_dom_of_graphCluster, mem_graph_of_mem_closure, globallyHyperbolicOn_maxDom, btz_pgcd_gh_of_gh, ghDom_eq_dom_of_t2Space, exists_graphCluster_shrink and isOpenEmbedding_ghMap. As a control, GX.Pgcd.btz_pgcd_gh in the same probe shows sorryAx, so the probe does detect it, and none of the new theorems goes through Pgcd.globallyHyperbolicOn_dom."
+  },
+  "scope": "git status --short lean-gx shows the dispatched new file, the campaign directory, and one added line `import GXScaffold.BTZ.PpcmHausdorff` in scaffold/GXScaffold.lean. The other lines of that diff (the RegCompleteCauchy import) and the modification of BTZ/BluntSpear.lean belong to the concurrent dispatches T-btz-reg-complete-cauchy and T-btz-blunt-infall-ray, which have their own campaign directories. This file does not import them: it imports only GXScaffold.BTZ.Pgcd, which imports GX.BTZ.Embeddings. Pgcd.lean is unmodified.",
+  "findings_check": "l.1430 reads « the maximality of $\\pgcd$ will then implies that $C\\neq \\emptyset$ », and l.1511 concludes C = ∅: the typo finding is correct. l.1439 reads « I^+(p_n)\\subset j(M_0) » with p_n ∈ reg(M1), so I⁺(p_n) ⊆ M1 and the set should be i(M0): correct. The unproved-step remarks (l.1442–1448, l.1456–1493, l.1495) are stated as 'not refuted, replaced by another route' and claim no error, which is accurate. The pgcd/ppcm-third-bullet finding is sound: the definition of a common sub-BTZ-extension (l.1304) does not require global hyperbolicity, so « by construction, M1∧M2 is maximal » (l.1377) for the union of GH domains needs dom = ghDom, i.e. dom GH. That is what globallyHyperbolicOn_maxDom supplies, and it is consistent with Pgcd.lean's own tagged sorry. There is no circularity: ppcm uses pgcd only through its construction.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-btz-ppcm-hausdorff/REPORT.json:labels[0].tex_lines",
+      "what": "tex_lines [1415, 1520] differ from the dispatch's l.1381–1504. The file's own line references (statement l.1415, proof l.1422–1520, C at l.1428–1429, typo at l.1430) match BTZ_1.tex as it is on disk, so it is the dispatch's numbering that is off. Informational.",
+      "fix": "none needed in the deliverable; the loop may correct the roadmap scope's line range"
+    }
+  ]
+}

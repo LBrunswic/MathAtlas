@@ -1,0 +1,27 @@
+{
+  "target": "T-btz-reg-complete-cauchy",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row partial, unmarked; the file claims step (2) only, and its SCOPE says the tagged sorry of regM_isCauchyComplete_of_complete stays (step (3)). (1) Conclusion: LFSurgeryData.isCauchySurface_sigmaStar concludes (Causal.Flat.flatCausality 2 (e0RegMFlat M)).IsCauchySurface Dat.sigmaStarReg. That is the same predicate on the same kind of set (regSet M of Σ* = (S \\ ⋃ spears) ∪ ⋃ cusps) as the strict E0Surgery.SurgeryData.isCauchySurface_sigmaStar (GX/BTZ/Surgery.lean:7425–7432), and sigmaStar_toSurgeryData is rfl, so the conclusion is not weaker. (2) Hypotheses: (CE M).GloballyHyperbolic, (CE M).IsCauchySurface S and an LFSurgeryData M S. The LFSurgeryData fields (SpearFamily.lean:152–161: countable ι, D, pt : ι ≃ S ∩ S0, pt_ray, disjoint, isClosed, locallyFinite, rimC1) and the SpearSurgeryDatum fields (Surgery.lean:2805–2833) are local chart and cusp data only: no finiteness, no Cauchy or acausality property of Σ*, no IsSpearArc hypothesis. Nothing the target has to prove is assumed. Local finiteness is an added structure field beyond the paper's « disjoint » (l.1574), but it is disclosed in the findings, and exists_lfSurgeryData_of_rimC1 (step (1), already audited) proves it exists under the paper's hypotheses, plus RimC1, which the _of_complete form discharges. The strict theorem's hrem (rem:curve_spear) is really discharged here by SpearSurgeryDatum.isSpearArc_of_inextensible (Surgery.lean:4160), whose hypotheses are GH and inextensibility only. E0-only, and Σ Cauchy weakened from smooth spacelike complete: both are disclosed in the checklist. (4) The l.1574–1575 finding is faithful and correctly hedged: the paper says only « disjoint spear neighborhoods » and gives no argument for infinitely many spears. The REPORT says local finiteness is sufficient and explicitly does not claim it is necessary (« not a counterexample »), so nothing false would go to the author. The finding that cor:intersect is not invoked directly (monotone height, Lemma 2.7, together with rem:curve_spear) is accurate."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean: no output, exit clean. A copy with a trailing #print axioms elaborated to the end. The 3 occurrences of the word 'sorry' are all in the module docstring. #print axioms (probe under the campaign dir, deleted) on isCauchySurface_sigmaStar, exists_lfSurgeryData_isCauchySurface_sigmaStar, its _of_complete form, sigmaStar_toSurgeryData, sigmaStar_subset_regM and cauchy_facts_lf: all [propext, Classical.choice, Quot.sound], no sorryAx. RegComplete's sorry is not reached. Scope: the only changes are the new file, the one import line in GXScaffold.lean (diff checked) and the campaign directory. RegComplete.lean is untouched. BluntSpear.lean, roadmap.toml and the restatement registers are modified by other actors, outside this target."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean:8",
+      "what": "The docstring places the tagged sorry at `GXScaffold/BTZ/RegComplete.lean:374`, but RegComplete.lean has 295 lines and its SORRY(btzprop:reg_complete) is at line 264. The stale ':374' comes from the roadmap evidence of T-btz-reg-complete-cauchy and T-btz-reg-complete-length. The REPORT's notes half-acknowledge it ('RegComplete.lean:261 in the build log'), which is also not the current line.",
+      "fix": "Cite the sorry by declaration name (GX.E0RegComplete.regM_isCauchyComplete_of_complete), or correct the line to RegComplete.lean:264. Update the two roadmap evidence strings at the next curation."
+    }
+  ]
+}

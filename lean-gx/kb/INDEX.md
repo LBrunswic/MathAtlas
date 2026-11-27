@@ -182,3 +182,12 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0172](entries/0172-locally-finite-spears-from-a-compact-exh.md) | pattern | Locally finite spears from a compact exhaustion |
 | [0173](entries/0173-the-spear-data-need-only-iscauchysurface.md) | pattern | The spear data need only IsCauchySurface and RimC1 |
 | [0174](entries/0174-one-continuity-lemma-for-an-e-morphism-w.md) | pattern | One continuity lemma for an E₀-morphism, with no HasGroupoid |
+| [0175](entries/0175-the-chart-step-of-btz-5-is-gx-ppcmhausdo.md) | pattern | The chart step of btz §5 is GX.PpcmHausdorff.exists_ext_of_graphCluster |
+| [0176](entries/0176-t-btz-pgcd-dom-gh-is-closed-in-substance.md) | pattern | T-btz-pgcd-dom-gh is closed in substance by PpcmHausdorff.globallyHyperbolicOn_maxDom |
+| [0177](entries/0177-every-point-of-an-e0-manifold-has-a-char.md) | pattern | Every point of an E₀-manifold has a maximal-atlas chart landing in 𝔼₀ |
+| [0178](entries/0178-lt-twins-of-spear-lean-s-transfer-lemmas.md) | pattern | lt twins of Spear.lean's transfer lemmas |
+| [0179](entries/0179-a-chart-of-the-maximal-atlas-followed-by.md) | pattern | A chart of the maximal atlas followed by an element of G is in the maximal atlas |
+| [0180](entries/0180-sigma-cauchy-in-reg-m-needs-neither-comp.md) | pattern | Sigma* Cauchy in Reg M needs neither compactness nor finiteness |
+| [0181](entries/0181-the-strict-e0surgery-surgerydata-iscauch.md) | pattern | The strict isCauchySurface_sigmaStar asks for more than it needs |
+| [0182](entries/0182-parabolic-holonomy-at-a-regular-limit-po.md) | pattern | Parabolic holonomy at a regular limit point without comparing two sector charts |
+| [0183](entries/0183-before-stating-an-auxiliary-in-extensibi.md) | pattern | Carry 0 < R in auxiliary lemmas over a blunt spear chart |

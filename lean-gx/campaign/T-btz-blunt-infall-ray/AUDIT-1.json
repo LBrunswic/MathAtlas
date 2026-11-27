@@ -1,0 +1,39 @@
+{
+ "target": "T-btz-blunt-infall-ray",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "btzlem:blunt_spear_neighborhood",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "lem_blunt_spear's statement is byte-identical to HEAD; only its proof changed (the in-falling hypothesis is now discharged by flat_infall_noLimit_of_pos hR ...). Its hR : 0 < R matches the paper's radius R > 0 (BTZ_1.tex l.623) and IsBluntSpearNbhd.pos. #print axioms lem_blunt_spear = [propext, Classical.choice, Quot.sound], so it carries no sorryAx. flat_infall_noLimit_of_pos has the same hypotheses as the old auxiliary plus 0 < R, minus InjOn. It is a true strengthening of the R > 0 case. The row stays partial only for the E0 scope (T-btz-scope, OQ-143), which the header checklist and SCOPE disclose. The label is unmarked (no **`btzlem:...`** in the docstring), which is correct for a partial row."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 1,
+  "axioms": "standard for lem_blunt_spear, flat_infall_noLimit_of_pos, not_flat_infall_noLimit and btzPaperDev_add_pi_ne. flat_infall_noLimit has sorryAx, from its disclosed R <= 0 branch at BluntSpear.lean:1051."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/BluntSpear.lean:1045",
+   "what": "The auxiliary flat_infall_noLimit is provably false as stated and is kept with a sorry in its R <= 0 branch. The refutation is real. R is an unconstrained implicit binder. For R = 0, bspear v 0 needs 0 < rad x <= 0, so bspearY v 0 is empty. Then W = empty set, a constant psi, IsE0Mor on the empty set and InjOn on the empty set all hold vacuously, and the ray converges to q (not_flat_infall_noLimit, standard axioms; its type, checked, negates exactly the universal closure of the old statement). The closer followed the dispatch rule ('keep its sorry and prove the refutation'). No Lean file other than BluntSpear.lean references flat_infall_noLimit, and lem_blunt_spear's closure no longer contains it. It is still listed in papers/btz/certificate/curation.toml (decls of the row, and blocked_on at l.10), in the generated papers/btz/ledger/ledger.json, in roadmap/roadmap.toml and in the atlas facts. The listed decl carries sorryAx, so it can taint the computed badge.",
+   "fix": "Master, preferred: delete flat_infall_noLimit, because flat_infall_noLimit_of_pos is its corrected form and nothing uses it. Keep not_flat_infall_noLimit as the record of the refutation, stated inline, which it already is. That leaves the file with 0 sorry. In papers/btz/certificate/curation.toml, replace GX.E0BluntSpear.flat_infall_noLimit with GX.E0BluntSpear.flat_infall_noLimit_of_pos in decls. Rewrite blocked_on so that only T-btz-scope / OQ-143 remains. Then regenerate the btz ledger. Restating it with 0 < R would only duplicate flat_infall_noLimit_of_pos, apart from the unused InjOn hypothesis. Deleting it is cleaner."
+  },
+  {
+   "severity": "minor",
+   "where": "papers/btz/certificate/curation.toml:10,14",
+   "what": "blocked_on and notes still describe flat_infall_noLimit as an open sorry ('the parabolic holonomy across the two sector charts'). After this target they are stale. This is curation, the master's job, and outside the closer's scope.",
+   "fix": "Update them when graduating: lem_blunt_spear is sorry-free, and the row is partial for the E0 scope only."
+  }
+ ],
+ "checks": {
+  "paper_finding": "None needed. The paper's blunt spear has radius R > 0 (BTZ_1.tex l.623), so the falsity of the R <= 0 case is Lean-side only. The REPORT says exactly this.",
+  "diff": "git diff HEAD of BluntSpear.lean: docstring updates; new continuous_btzPaperDev, btzPaperDev_add_pi_ne, infall_mem_sector_angle, rad_infallPt, flat_infall_noLimit_of_pos and not_flat_infall_noLimit; flat_infall_noLimit's binder hinj renamed _hinj with its type unchanged; lem_blunt_spear's proof line changed. No statement was removed or weakened.",
+  "scope": "Of the lean-gx changes in git status, only BluntSpear.lean and this campaign directory belong to this target. The GXScaffold.lean modification is the import of GXScaffold.BTZ.RegCompleteCauchy, from the other closer (T-btz-reg-complete-cauchy), not this one. The roadmap edits are the loop's own. SectorHolonomy.lean was not created.",
+  "docstring": "The header has the hypothesis checklist and a SCOPE section. Both are accurate after the change: 0 sorry in lem_blunt_spear, and the false auxiliary is disclosed.",
+  "probe": "A #print axioms probe was written under lean-gx/campaign/T-btz-blunt-infall-ray/ and deleted afterwards. The lake build of GXScaffold.BTZ.BluntSpear succeeded with one 'declaration uses sorry' warning, at line 1045."
+ }
+}
