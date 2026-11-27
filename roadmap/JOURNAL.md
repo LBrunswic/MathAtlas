@@ -961,3 +961,13 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: lean-gx ✓, roadmap ✓, atlas ✓, papers-check green, hub: make -k check rc 0, no new red
 - commits: be9a077 8dc8637 b25dd0d [+ roadmap/atlas/journal]
 - next: the lean-gx closers (T-btz-ppcm-hausdorff, T-btz-reg-complete-cauchy, T-btz-blunt-infall-ray, T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass; three per wave).
+
+## 2026-11-27 22:00 · wave of 3 · T-btz-ppcm-hausdorff, T-btz-reg-complete-cauchy, T-btz-blunt-infall-ray
+- T-btz-ppcm-hausdorff: the Hausdorff half of btzprop:ppcm, sorry-free; the maximal domain is GH, so btzprop:pgcd's full form holds sorry-free with fewer hypotheses (T-btz-pgcd-dom-gh is closed in substance; only a file move remains, since PpcmHausdorff imports Pgcd). Findings: two typos (l.1430, l.1439), unproved steps bypassed, pgcd's maximality rests on ppcm's third bullet. Audit clean. OQ-148.
+- T-btz-reg-complete-cauchy: step (2) of Reg M's completeness, sorry-free, with infinitely many spears, needing only M GH and S Cauchy. Audit minor.
+- T-btz-blunt-infall-ray: the blunt-spear lemma sorry-free in the paper's form; GX.BTZ.BluntSpear graduated to strict. The unrestricted auxiliary was false for R ≤ 0 and is deleted (its refutation kept). Audit minor.
+- gates: lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check green, hub: make -k check rc 0, no new red
+- commits: e49f488 f4490bd [+ roadmap/atlas/journal]
+- wall time: 18:35–22:00 UTC; agents in parallel: 3 closers, 3 audits
+- New question for the author: OQ-148 (ppcm's readings; two typos and two unproved steps of the printed proof).
+- next: T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass (lean-gx), T-btz-reg-complete-length, T-btz-ppcm; T-btz-pgcd-dom-gh can be closed by moving globallyHyperbolicOn_maxDom below Pgcd.

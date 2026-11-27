@@ -3312,13 +3312,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:ppcm"]
-status = "active"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-btz-pgcd"]
-evidence = "BTZ_1.tex l.1415–1500 (the first four bullets of prop:ppcm's proof): « Define C the set of p ∈ M₁ whose image in M₁ ∨ M₂ is unseparated. We shall prove that C is empty »; the chart step « Proposition prop:isom_strong applies thus α = 0 and ψ_{p'} ∘ φ ∘ ψ_p⁻¹ is the restriction of an isomorphism γ_p of 𝔼₀ »; « By analyticity, the 𝔼≥0-morphism φ̄ ... is well defined »; « By maximality of M₁ ∧ M₂, we have C = ∅ ». Built inputs: GX.e0_localUnique_sing (Rigid.lean:1699, prop:isom_strong at α = β = 0), GX.e0_eqOn_of_eqOn_open, the future distinguishing of M₂ (Manifolds.lean:251), lem:BTZext_caus_conv (GX.E0AbsMax.btzExt_causallyConvexIn_iff_e0, AbsMax.lean:1776). The quotient is the half of prop:ppcm that is new; its structure and global hyperbolicity are T-btz-ppcm. Split from prop:ppcm because the proof is two pages and these bullets are the part with no Lean precedent. E₀-scoped; partial. Ready 2026-11-27: T-btz-pgcd is done (789fe25, AUDIT-1 clean). The closer works over the paper's M₁ ∧ M₂, GX.Pgcd.ghDom (the union of the globally hyperbolic extension domains), which is globally hyperbolic sorry-free (GX.Pgcd.globallyHyperbolicOn_ghDom): « the maximality of M₁ ∧ M₂ » in the last bullet is then le_sSup at the globally hyperbolic open ghDom ∪ C, and does not need Pgcd's one tagged sorry (globallyHyperbolicOn_dom). OQ-146 (b) leaves open which M₁ ∧ M₂ is of record; the two agree once T-btz-pgcd-dom-gh closes (ghDom_eq_dom_of_globallyHyperbolicOn). The chart step (φ extends over the chart of a point of C, from GX.e0_localUnique_sing) is to be written as a lemma of its own, which T-btz-pgcd-dom-gh reuses at the first missing point of a BTZ line"
+evidence = "GXScaffold.BTZ.PpcmHausdorff: the paper's gluing Hausdorff, sorry-free; the maximal domain GH (pgcd's full form sorry-free); OQ-148; AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "e49f488"
 
 [[target]]
 id = "T-btz-ppcm"
@@ -3624,13 +3625,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzlem:blunt_spear_neighborhood"]
-status = "active"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-btz-blunt-vertical-ray"]
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/BluntSpear.lean:771 (it was :695 before T-btz-blunt-vertical-ray), « SORRY(btzlem:blunt_spear_neighborhood): parabolic holonomy at a regular limit point ». REPORT (T-btz-blunt-spear) labels[1].sorries[1]: « The developed ray CONVERGES (to the developed axis point (2a,0,0)), so unboundedness gives nothing: one must show that psi extends, through the Minkowski chart at the limit point, to a full punctured neighbourhood of the axis point, and then that the two sector charts around the axis (which differ by the parabolic holonomy hol(2 pi) on one overlap component, kb/0107, chartMap_eq_hol_smul) cannot both be one isometry times the chart at q. Not formalized. » lean-causal/kb/entries/0107-e0-holonomy.md: « Two sector charts of E0 differ by E0GX.hol s ... hol (2pi) is parabolic and on each overlap component they differ by hol(2pi)^k ». Depends on the vertical ray for the sector-chart brick. Closing both sorrys leaves lem_blunt_spear sorry-free; the row stays partial (E₀ scope, T-btz-scope; OQ-143). Ready 2026-11-27: the dependency is done (789fe25, AUDIT-1 clean). Its REPORT kb_proposals give the two bricks: « Sector charts are in BTZE0's maximal a.e. atlas: GX.E0.sectorChartBTZ_mem_aeAtlas » (strict GX.BTZ.SectorAtlas) and « GX.E0.exists_eqOn_sectorSmulInl turns a local G-structomorphism f into the inl summand on a preconnected open subset of a slit sector into inl o (g .) o sectorChartY on the whole set (one g); the template is flat_vertical_noLimit ». The in-falling case needs two sector components around the axis, compared by kb/0107's chartMap_eq_hol_smul"
+evidence = "GX.BTZ.BluntSpear strict and sorry-free: lem_blunt_spear (paper form) proved; the false unrestricted auxiliary deleted; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "e49f488"
 
 [[target]]
 id = "T-btz-spear-family"
@@ -3654,13 +3656,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "active"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-btz-spear-family"]
-evidence = "RegComplete.lean (regM_isCauchyComplete_of_complete)'s tagged sorry, owed step (2): « `Σ*` Cauchy in `Reg M` with infinitely many spears (cor:intersect in each, plus local finiteness for an inextensible curve meeting infinitely many spears) ». The finite case is SurgeryData.isCauchySurface_sigmaStar (strict GX/BTZ/Surgery.lean), from rem_curve_spear (G2) and cor:intersect (E₀, partial in papers/btz). T-btz-reg-complete AUDIT-1 finding 2: the printed proof « uses finitely many BTZ lines (l.1091); the case of infinitely many (discrete) BTZ points of S is not addressed ». E₀-scoped; partial. Ready 2026-11-27: T-btz-spear-family is done (789fe25, AUDIT-1 minor). Its REPORT notes: « T-btz-reg-complete-cauchy and T-btz-reg-complete-length consume LFSurgeryData (its locallyFinite field is the input step (2) needs) »; the datum is GX.E0SpearFamily.LFSurgeryData (scaffold SpearFamily.lean), with LFSurgeryData.toSurgeryData mapping a finite family onto the strict SurgeryData. Readings of the spear family: OQ-146 (c). Scheduled after T-gx-btz-cleanup (p6), whose (d) generalises the strict Surgery lemmas that SpearFamily.lean copies, so that step (2) is written over the strict ones"
+evidence = "GXScaffold.BTZ.RegCompleteCauchy: Σ* Cauchy in Reg M for a locally finite spear family, sorry-free; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "e49f488"
 
 [[target]]
 id = "T-btz-reg-complete-length"
