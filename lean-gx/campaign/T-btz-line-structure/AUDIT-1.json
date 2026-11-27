@@ -1,0 +1,45 @@
+{
+  "target": "T-btz-line-structure",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzthm:BTZ_ext",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, REPORT status partial: honest. The theorem (existence and uniqueness of the maximal BTZ-extension) is not what this file proves. It proves one ingredient of the proof's second bullet (l.1545-1546), and does it at least as strongly as the paper states it. (1) Translation structure: instHasGroupoidS0 is HasGroupoid (S0 M) (gxGroupoid (Multiplicative R) R). A gxGroupoid transition is, near every point, the action of a group element (GX/Structure/Basic.lean:191, mem_gxGroupoid_iff), and the action reduces by rfl to ofAdd a . y = a + y (lineChart_trans l.552-555; an independent rfl probe confirms it). So chart changes are exactly local translations, with no reflections or affine maps. The atlas is range lineChart, with lineChart x the tau-coordinate of paperChart x restricted to sing0 in the subspace topology. lineChart_trans derives the translation from E0AbsMax.e0Loop_localForm, with R z = 0 on the axis. (2) General second countability (secondCountable_connectedComponent, secondCountable_of_connectedSpace): the hypotheses are only TopologicalSpace X, ChartedSpace R X, HasGroupoid X transGroupoid, T2Space X. There is no second countability, paracompactness or metric. T2 is genuinely needed (the line with uncountably many branchings is a counterexample), and so is the translation structure (the long line is a counterexample). SCOPE (d) states both counterexamples correctly and discloses that they are not formalized. secondCountable_line and isLindelof_line apply this to connectedComponentIn (S0 M) x of any Hausdorff E0-manifold, as a subspace of M, with M not assumed second countable. That is exactly what l.1546 needs for M-bar. (3) CountableLinesInput is RichardsInput (MaxExtension.lean:189) with the conclusion IsLindelof (S0 C) replaced by 'range of connected components of S0 C is countable'. The binders and premises are identical, token for token. The iff is a real two-way proof: Lindelof follows from countably many Lindelof lines, and the converse uses that the lines are open in the locally connected 1-manifold S0. Neither side is vacuous: the premise is RichardsInput's own, and the conclusion is not trivially true or false. The iff therefore does discharge exactly the line-second-countability ingredient and nothing more."
+    },
+    {
+      "label": "btzcor:manifold_smooth_manifold_singular",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: honest. btz_line_structure proves, for a Hausdorff E0-manifold, four things: (a) sing0 is closed; (b) at each x in sing0 the paper chart at x contains x and maps sing0 exactly onto the axis within its source (local flatness, topological); (c) the (R,R)-structure; (d) each component is second countable and Lindelof. Disclosed gaps: the smooth 3-manifold structure, the smooth reading of 1-submanifold, E_{>=0} beyond E0, and sing_alpha for alpha > 0. T2Space M is an added hypothesis on (b) and (c) only because they sit in a conjunction with (d), and the paper assumes Hausdorff (l.261) anyway. Note: paperChart_mem_axis_iff holds for every x, not only for x in sing0."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`lake env lean scaffold/GXScaffold/BTZ/LineStructure.lean` exits 0 with no output. A one-shot probe (written under the campaign directory, then deleted) ran #print axioms on 16 declarations, including all 12 that the REPORT names for BTZ_ext plus btz_line_structure, paperChart_mem_axis_iff, secondCountable_connectedComponent and secondCountable_of_connectedSpace. All give [propext, Classical.choice, Quot.sound]. The only grep hit for 'sorry' is the docstring text '0 `sorry`' (l.18). lake build was not rerun, per the dispatch."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-btz-line-structure/REPORT.json:4",
+      "what": "\"files\" lists only scaffold/GXScaffold/BTZ/LineStructure.lean. The one-line import edit to scaffold/GXScaffold.lean appears only in \"notes\". The \"package\" field holds the target id instead of \"lean-gx\". The edit itself is the dispatched one: git diff shows only `import GXScaffold.BTZ.LineStructure`.",
+      "fix": "Add scaffold/GXScaffold.lean to \"files\" and set \"package\": \"lean-gx\"."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/LineStructure.lean:499,558",
+      "what": "Global instances ChartedSpace R (S0 M) and HasGroupoid (S0 M) transGroupoid are declared on the subtype of a Set. This is harmless today: S0 is closed, not open, so no Opens instance competes. But every importer inherits them, and a later charted-space instance on a subtype of M could create a diamond. The REPORT discloses this.",
+      "fix": "Optional: make them scoped or local instances, or keep them and note the convention in kb when the file graduates."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-btz-line-structure/REPORT.json (finding on l.1545)",
+      "what": "The finding says « sing0(M) should read sing0(M-bar) ». This is a reading, not an error: it is the natural one, since the bullet concerns the lines of M-bar \\ M and the second countability of M-bar. Because the Lean covers every E0-manifold, either reading is certified. The finding on l.1546 (that the claim is correct for connected Hausdorff (R,R)-manifolds and is proved without a metric) is accurate.",
+      "fix": "When sending it to the author, word it as « reads sing0(M-bar) » (a probable typo), not as a mathematical error."
+    }
+  ]
+}

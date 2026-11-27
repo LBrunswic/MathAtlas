@@ -1,0 +1,158 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-line-structure",
+  "files": [
+    "scaffold/GXScaffold/BTZ/LineStructure.lean",
+    "scaffold/GXScaffold.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "btzthm:BTZ_ext",
+      "tex_lines": [
+        1528,
+        1554
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZLine.secondCountable_line",
+        "GX.BTZLine.isLindelof_line",
+        "GX.BTZLine.instChartedSpaceS0",
+        "GX.BTZLine.instHasGroupoidS0",
+        "GX.BTZLine.lineChart",
+        "GX.BTZLine.lineChart_trans",
+        "GX.BTZLine.isLindelof_S0_of_countable",
+        "GX.BTZLine.countable_lines_of_isLindelof_S0",
+        "GX.BTZLine.isLindelof_S0_iff_countable",
+        "GX.BTZLine.CountableLinesInput",
+        "GX.BTZLine.richardsInput_of_countableLines",
+        "GX.BTZLine.richardsInput_iff_countableLines"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_{>=0}-manifold",
+          "here": "strengthened",
+          "note": "E₀ only (T-btz-scope): ChartedSpace E0Y M, HasGroupoid M e0Groupoid"
+        },
+        {
+          "paper": "M Hausdorff (l.261)",
+          "here": "carried",
+          "note": "T2Space M; used for the uniqueness of unit-speed paths"
+        },
+        {
+          "paper": "M second countable (l.261)",
+          "here": "weakened",
+          "note": "not assumed: the line results hold in any Hausdorff E₀-manifold, which is what l.1546 needs for the not-yet-second-countable limit M̄"
+        },
+        {
+          "paper": "Richards' theorem MR143186 and the line-to-puncture injectivity (l.1544)",
+          "here": "named input",
+          "note": "GX.BTZLine.CountableLinesInput (countably many lines in RichardsInput's setting); proved equivalent to GX.BTZMax.RichardsInput, so RichardsInput's third ingredient (second countability of each line) is discharged"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.1546: « Δ admits a Riemannian metric and is thus second countable » is correct for a connected Hausdorff (ℝ,ℝ)-manifold, and is proved without a metric: unit-speed paths are unique (Hausdorff) and extend along every chart, so a component is the image of an open subset of ℝ under a continuous flow (GX.BTZLine.isLindelof_connectedComponent, secondCountable_connectedComponent, secondCountable_of_connectedSpace). Hausdorffness is used. It holds for every E₀-manifold, with no second countability of the ambient manifold assumed.",
+        "BTZ_1.tex l.1545: « a connected component Δ of sing₀(M) » should read sing₀(M̄): the sentence speaks of the E≥0-structure of M̄ and the previous one of the lines of M̄ ∖ M. The Lean statement covers any E₀-manifold, so it covers both readings.",
+        "BTZ_1.tex l.1545–1546: the (G, sing(E₀))-structure is read off GX.E0AbsMax.e0Loop_localForm. Every element of the model groupoid is (τ, z) ↦ (τ + a, R z) near an axis point, so the line charts (the height τ of the paper chart) change by translations. The orientation question of OQ-150 (d) (whether R may be a reflection) does not matter here: R fixes 0.",
+        "BTZ_1.tex l.1544–1546: GX.BTZMax.RichardsInput (« sing₀ is Lindelöf ») is equivalent to « countably many lines » (GX.BTZLine.richardsInput_iff_countableLines, through isLindelof_S0_iff_countable). The only unproved content left in the second bullet is therefore Richards' theorem together with the line-to-puncture injectivity.",
+        "BTZ_1.tex l.395–396 (btzcor:manifold_smooth_manifold_singular), at E₀ where sing = sing₀: the topological half of the second sentence is proved (GX.BTZLine.btz_line_structure). sing₀ is closed. It is locally flat: in the paper chart at each of its points it is exactly the axis. It is a topological 1-manifold with an (ℝ,ℝ)-structure, and each component is second countable. The smooth 3-manifold structure is not attempted, and neither is sing_α for α > 0."
+      ],
+      "questions": [
+        "« closed 1-submanifold » (l.395) is read topologically: closed, and the axis in a chart of the E₀-atlas (local flatness), carrying a 1-manifold atlas. The smooth reading is not formalized (no smooth structure on M exists in the library).",
+        "« (ℝ,ℝ)-structure » (l.1546) is read as a (G,X)-structure in the sense of GX.gxGroupoid, with G = Multiplicative ℝ acting on X = ℝ by translation. This is the library's DEC-16 form."
+      ]
+    },
+    {
+      "label": "btzcor:manifold_smooth_manifold_singular",
+      "tex_lines": [
+        395,
+        396
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZLine.btz_line_structure",
+        "GX.BTZLine.paperChart_mem_axis_iff",
+        "GX.BTZLine.instChartedSpaceS0",
+        "GX.BTZLine.instHasGroupoidS0"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_{>=0}-manifold",
+          "here": "strengthened",
+          "note": "E₀ only (T-btz-scope)"
+        },
+        {
+          "paper": "M Hausdorff (l.261)",
+          "here": "carried",
+          "note": "only for the second countability and Lindelöf conjuncts"
+        },
+        {
+          "paper": "M second countable (l.261)",
+          "here": "weakened",
+          "note": "not assumed"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Only the topological half of the second sentence, at E₀, is proved (see btzthm:BTZ_ext's last finding). « M is a smooth 3-manifold » and the smooth « 1-submanifold » are not attempted, so the row stays partial."
+      ],
+      "questions": [
+        "Same reading of « closed 1-submanifold » as above (topological, locally flat in the paper charts)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZLine.transGroupoid",
+    "GX.BTZLine.exists_add_eq",
+    "GX.BTZLine.IsUnitPathOn",
+    "GX.BTZLine.tendsto_of_chart",
+    "GX.BTZLine.isUnitPathOn_of_exists",
+    "GX.BTZLine.IsUnitPathOn.mono",
+    "GX.BTZLine.IsUnitPathOn.continuousOn",
+    "GX.BTZLine.IsUnitPathOn.eqOn",
+    "GX.BTZLine.IsUnitPathOn.union",
+    "GX.BTZLine.isUnitPathOn_segment",
+    "GX.BTZLine.reachD",
+    "GX.BTZLine.flow",
+    "GX.BTZLine.flow_eq",
+    "GX.BTZLine.mem_uIcc_add",
+    "GX.BTZLine.flow_extend",
+    "GX.BTZLine.flow_local",
+    "GX.BTZLine.zero_mem_reachD",
+    "GX.BTZLine.flow_zero",
+    "GX.BTZLine.isOpen_reachD",
+    "GX.BTZLine.continuousOn_flow",
+    "GX.BTZLine.isOpen_range_flow",
+    "GX.BTZLine.isClosed_range_flow",
+    "GX.BTZLine.isLindelof_connectedComponent",
+    "GX.BTZLine.secondCountable_of_isLindelof",
+    "GX.BTZLine.secondCountable_chart_source",
+    "GX.BTZLine.secondCountable_connectedComponent",
+    "GX.BTZLine.secondCountable_of_connectedSpace",
+    "GX.BTZLine.paperChart_apply",
+    "GX.BTZLine.mem_chart_source_of_mem_paperChart_source",
+    "GX.BTZLine.paperOfY_paperInY",
+    "GX.BTZLine.paperChart_eq_pair",
+    "GX.BTZLine.symm_mem_S0",
+    "GX.BTZLine.lineInv",
+    "GX.BTZLine.val_lineInv",
+    "GX.BTZLine.lineChart_apply",
+    "GX.BTZLine.mem_lineChart_source"
+  ],
+  "kb_proposals": [
+    "A Hausdorff ChartedSpace ℝ X with HasGroupoid X (gxGroupoid (Multiplicative ℝ) ℝ) has Lindelöf, second countable components: GX.BTZLine.isLindelof_connectedComponent / secondCountable_connectedComponent (unit-speed flow, no metric).",
+    "sing₀ of any E₀-manifold is a ChartedSpace ℝ with a translation structure: instances GX.BTZLine.instChartedSpaceS0 and instHasGroupoidS0, with chart lineChart x = the τ of E0CBG.paperChart x; and paperChart_mem_axis_iff says sing₀ is the axis in every paper chart.",
+    "GX.BTZMax.RichardsInput ↔ GX.BTZLine.CountableLinesInput (richardsInput_iff_countableLines): the line second countability is discharged, and only « countably many lines » remains cited.",
+    "Translation action: for g : Multiplicative ℝ, g • y = Multiplicative.toAdd g + y holds by rfl (mathlib's Multiplicative.mulAction from AddAction ℝ ℝ); ContinuousConstSMul (Multiplicative ℝ) ℝ is found by inferInstance."
+  ],
+  "notes": "One new module, scaffold/GXScaffold/BTZ/LineStructure.lean, 0 sorry, standard axioms only. It imports GX.BTZ.Surgery, GX.BTZ.IsomE0 and GXScaffold.BTZ.MaxExtension; the last is for RichardsInput, so the file graduates after or with MaxExtension. One import line was added to scaffold/GXScaffold.lean, after CauchySpear. `lake build GXScaffold.BTZ.LineStructure` succeeded and rebuilt nothing upstream. The module defines global instances ChartedSpace ℝ ↥(E0CBG.S0 M) and HasGroupoid ↥(E0CBG.S0 M) transGroupoid. No existing file was edited. For T-btz-richards-split: RichardsInput M can be replaced by CountableLinesInput M through richardsInput_of_countableLines, with nothing lost (the iff)."
+}
