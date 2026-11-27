@@ -808,3 +808,36 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: 989f789f
 - next: T-lad-record-stale-refs (keeper), with T-abs-c0-extension-skeleton, T-abs-future-one-connected-vacuous and T-abs-not-future-one-connected (closers, lean-causal)
+
+## 2026-11-27 21:24 · wave of 4 · T-lad-record-stale-refs, T-abs-c0-extension-skeleton, T-abs-future-one-connected-vacuous, T-abs-not-future-one-connected
+- T-lad-record-stale-refs (ladder): the isolated line's two [[fails]] cite isolatedLine_separates, their `from` gaining causally_compact, globally_hyperbolic and time_function. The isolated line is now a Lean counterexample to causally_plain ∧ GH ⇒ tarentin and ⇒ has_chronal_neighbour.
+  - Stale comments rewritten; 153 line references swept.
+  - A note on 4.82: no form of its restart is both exercisable and not equivalent to the conclusion.
+  - Matrix byte-identical (aa3af230).
+- T-abs-c0-extension-skeleton (abstract, layer 1): the causal skeleton of Sbierski's C⁰-inextendibility proofs:
+  - ExitDiamonds, and the given-curve form exitDiamonds_of_curve;
+  - the assembly exists_c0_extension_skeleton;
+  - IsSpacetimeExtension (Def 2.15 read causally; M̃ time-oriented, OQ-115), with its corollaries.
+  - Paper (graded by the audit): Thm 4.9 :798/:800 uses an unstated time-reversing isometry (also :485); the Kruskal model's :721 says regions IV and III preserve the time orientation, which they reverse (harmless at :809); :153–158 leaves region I's causal convexity implicit; :589 writes γ(1) for λ(1).
+  - Audit minor, applied (1faaa160); kb 0298.
+- T-abs-future-one-connected-vacuous (abstract, layer 1): a causality with no chronology is future one-connected on every open set (and push-up, not plain).
+  - Five conjoined separations decide all 20 nodes; the 18 pairs future_one_connected → X are refuted, 17 in either reading.
+  - Audit minor, applied (04727ec4).
+- T-abs-not-future-one-connected (localisation, layer 3, flat-gx): the flat cylinder ℤe₁\𝐌^{1+1} has every causality node but future one-connectedness, by winding: a chronal homotopy is a homotopy of paths rel {0,1}, and the covering-map lifting separates the curves.
+  - The 19 pairs X → future_one_connected are refuted.
+  - Audit minor, applied (bdce0bdd); kb 0297.
+- For the keeper, master's addition to the next keeper dispatch:
+  - the 37 [[open]] entries of future_one_connected become [[fails]]: 18 with the five FutureOneConnectedVacuous witnesses, 19 with Causal.Flat.spaceCylinder_separates;
+  - the node comment, the header and the section comment are refreshed;
+  - simulated: 0 contradictions, 392/392 with 0 open for the node.
+- For the planner:
+  - the Schwarzschild binder's placeholder 'T-abs-c0-extension-skeleton' in 11 rows (anchor proposals in its REPORT paper_rows; for MainThm and its twin use exitDiamonds_of_curve on ι(region I));
+  - the paper's orientation slips into the binder's findings;
+  - hoist candidates IsEMorphismOn.chronalCurveOn_comp and ChronalHomotopyOn.homotopicRel (from FlatSpaceCylinder);
+  - T-abs-ers-4-82-solution-form and T-lad-record-prop-4-63-forms (the keeper's proposals);
+  - two stale Lean docstrings (ChronalNeighbourBridge.lean:11, CurvesExtend.lean:515).
+- ladder: 26 properties, 27 implications, 83 counterexamples, 100 consequences, 5 edge hypotheses; 392/392 within a sort: 38 implied, 309 fails, 45 open (the 37 future_one_connected opens wait for the keeper)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 19, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: aa3af230 1faaa160 04727ec4 bdce0bdd a7464580
+- next: T-lad-c0-extension-nodes (keeper, with the 37 recordings added), T-abs-lift-curves-forms and T-abs-dens-separates (closers)
