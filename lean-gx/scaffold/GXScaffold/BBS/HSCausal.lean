@@ -3,15 +3,15 @@ import GXScaffold.BBS.HSClassification
 /-!
 # BBS `bbsdef:Hcausal`: causal singular HS-surfaces and causal singular lines; a Misner `𝔢(L)` has a closed causal curve, a time-like one has none
 
-Target `T-bbs-hcausal` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx).
-`papers/bbs/legacy/labeled/colI_v1.tex`. 3 `sorry` in 2 declarations (tagged, below). Imports
+Targets `T-bbs-hcausal` and `T-bbs-hcausal-tachyons` (`roadmap/roadmap.toml`; BBS layer L2 in
+lean-gx). `papers/bbs/legacy/labeled/colI_v1.tex`. 1 `sorry` in 1 declaration (tagged, below). Imports
 `GXScaffold.BBS.HSClassification` (the types of `(Γ_p, ℓ(p))`-circles: Misner, the degree), over
 the strict `GX.BBS.HSSuspension` (`𝔢(L)`, singular HS-structures) and the scaffold
 `GXScaffold.BBS.{HSSingularities, HSDegree, HSAntipodal, HSPositive}` (sorry-free).
 
 * `bbsdef:Hcausal` — `colI_v1.tex:1114` — partial (unmarked: the « in other words » is imprecise in
   scope — read for arbitrary, non-compact singular HS-surfaces it fails — and the « if » of its form for singular lines rests
-  on three tagged `sorry`s; readings (a)–(d) of SCOPE): the definitions
+  on one tagged `sorry`, the degree of an apex link; readings (a)–(d) of SCOPE): the definitions
   `GX.SingularHSStructure.IsCausal` (first sentence) and `GX.GammaLinkCircle.IsCausalLine` (second
   sentence), through `GX.DSLe`, `GX.SingularHSStructure.IsFutureCausalCurve`, `…HasCCC`,
   `…HasHighDegreeAt`, `GX.LinkType.IsHighDegree`; the « in other words » for singular lines
@@ -61,11 +61,17 @@ the strict `GX.BBS.HSSuspension` (`𝔢(L)`, singular HS-structures) and the sca
   BTZ-like, `GX.btzTime`, the oriented square of the time-like distance to `±p` on the region
   where `π_p ŷ` is future (past) time-like (`…not_hasCCC_of_btz`, `…chart_mem_btzRegion`,
   `GX.btzTime_mono`).
+* **No CCC, proved, for the tachyons and the trivial holonomies** at `p ∈ dS²`, at every degree
+  (`GX.GammaLinkCircle.DevData.not_hasCCC_of_spacelike`, `…not_hasCCC_of_trivialHolonomy`), where
+  no `Γ_p`-invariant time function exists: through the lift of a CCC to the covering
+  (`…exists_lift_curve_periodic`, `…eventually_chart_lift`, `GX.BiSusp.regHomeo`) and the null
+  eigenvector `e₀ + j` of `Γ_p` (`GX.exists_pos_smul_dsNull`); the general form
+  `…not_hasCCC_of_future_past` (a developed image containing a future and a past time-like direction).
+  Hence **`𝔢(L)` has a CCC iff `L` is Misner** (`…hasCCC_iff_misner`), sorry-free.
 * **Degree `≥ 4` (proved)**: `GX.GammaLinkCircle.DevData.not_isCausal_of_isHighDegree`.
 * **The « in other words » for singular lines**: `GX.GammaLinkCircle.isCausalLine_iff`; its « only
-  if » is sorry-free (`GX.GammaLinkCircle.DevData.not_misner_of_isCausal`), its « if » rests on three
-  tagged `sorry`s: in `…not_hasCCC_of_deSitter`, no CCC for the space-like circles of degree `2`
-  (tachyons) and of trivial holonomy `δ²` (the paper's claim, without an argument), and
+  if » is sorry-free (`GX.GammaLinkCircle.DevData.not_misner_of_isCausal`); of its « if », the no-CCC
+  half is sorry-free (`…not_hasCCC`), the degree half rests on one tagged `sorry`,
   `…not_hasHighDegreeAt` (the degree of an apex link of `𝔢(L)` is the degree of `L`).
 * **Finding**: `GX.exists_isSingularHSSurface_sing_empty_hasCCC`, a singular HS-surface without
   singular points with a CCC (`𝔢(L) ∖ {p̄, −p̄}`, `L` Misner; `…HasCCC.restrict_reg`).
@@ -78,7 +84,7 @@ the strict `GX.BBS.HSSuspension` (`𝔢(L)`, singular HS-structures) and the sca
 | « CCC » (l.1116) | ⚠ reading (SCOPE (a), (b)): a closed future causal curve of the regular de Sitter region, causal in the hyperboloid model of `dS²` |
 | « a singularity of degree `≥ 4` » (l.1116) | ⚠ reading (SCOPE (c)): a point of `𝒮` with some link at `p̄` of degree `≥ 4` (space-like, light-like, or trivial holonomy `δᵏ`) |
 | « the suspension `𝔢(L)` of the associated circle » (l.1117) | ⚠ for every developing data `Δ` (SCOPE (d)); for some: `isCausalLine_iff_exists` |
-| « in other words » (l.1120–1125) | ✗ fails read for arbitrary non-compact singular HS-surfaces (`exists_isSingularHSSurface_sing_empty_hasCCC`; closed surfaces undecided); for `𝔢(L)`: `isCausalLine_iff`, « only if » proved, « if » on three tagged `sorry`s (tachyons, trivial holonomy, the apex degree) |
+| « in other words » (l.1120–1125) | ✗ fails read for arbitrary non-compact singular HS-surfaces (`exists_isSingularHSSurface_sing_empty_hasCCC`; closed surfaces undecided); for `𝔢(L)`: `isCausalLine_iff`, « only if » proved, « if » on one tagged `sorry` (the apex degree; the no-CCC half, tachyons and trivial holonomy included, is proved) |
 | « Misner singularities » (l.1124) | ✓ `C.linkType = .misner` (HSClassification) |
 | the CTC of a Misner bigon (l.1059–1063) | ✓ `hasCCC_of_misner` (a CCC; that it is time-like is not stated) |
 
@@ -108,9 +114,10 @@ the strict `GX.BBS.HSSuspension` (`𝔢(L)`, singular HS-structures) and the sca
   singular point cut out; whether the sentence holds for closed surfaces or HS-spheres (l.780,
   l.1862) is not decided here. The intended reading is the singular-line form. Read for singular lines (the definition's second sentence, the
   context of l.1109–1112), it is `isCausalLine_iff`, whose « only if » is proved and whose « if »
-  rests on `not_hasCCC_of_deSitter` (tachyons and trivial holonomy only) and `not_hasHighDegreeAt`.
-  Light-like circles of degree `≥ 4` have no CCC either (`not_hasCCC_of_null` holds at every
-  degree): for them only the degree clause makes `𝔢(L)` non-causal.
+  rests on `not_hasHighDegreeAt` only (`not_hasCCC_of_deSitter` is proved, T-bbs-hcausal-tachyons).
+  Space-like and light-like circles of degree `≥ 4` and trivial holonomies `δᵏ`, `k ≥ 4`, have no
+  CCC either (`hasCCC_iff_misner`: only Misner `𝔢(L)` have one): for them only the degree clause
+  makes `𝔢(L)` non-causal.
 * **(f) Not formalized:** that the Misner curve is time-like; that a Misner singular point of a
   general `Σ` has CCCs in every neighbourhood (l.1059–1060; it needs the curves at heights
   `→ 0`, `cos τ p̂ + sin τ û(s)`); the AdS side (`bbslem:CTC`, `e(Σ)`, l.1066–1101).
@@ -1175,6 +1182,468 @@ theorem not_hasCCC_of_btz (hp : C.pt ∈ HS.piece 2 .deSitter) {ε : ℝ} (hε :
 
 end GammaLinkCircle.DevData
 
+/-! ## 7b. Tachyons and trivial holonomies: no CCC through the lifted curve
+
+No `Γ_p`-invariant time function exists on the de Sitter region of these `𝔢(L)` (their developed
+image is all of `ℓ(p)`); the argument runs on the covering instead. A CCC lifts to
+`r ↦ (ŝ r, τ r)` with `ŝ (r + 1) = ŝ r + n` (`GX.GammaLinkCircle.DevData.exists_lift_curve_periodic`),
+its developed points `X r = [cos τ p + sin τ w(ŝ r)]` move causally in `dS²`
+(`…eventually_chart_lift`) and satisfy `X (r + 1) = ρⁿ X r`. For `n = 0`, `dsTime e₀ ∘ X` is
+monotone and periodic; for `n ≠ 0`, the pairing with the null eigenvector `e₀ + j` of `Γ_p` is
+monotone and scaled by `c > 0` at each turn, so of one sign, while it is positive over a future
+direction and negative over a past one, both reached since `ŝ` is onto. -/
+
+namespace BiSusp
+
+variable {S : Type*} [TopologicalSpace S]
+
+/-- `mk'` on the regular set, as a map into the complement of the poles. -/
+def regMap (q : regSet (univ : Set S)) : ((poles S)ᶜ : Set (BiSusp S)) :=
+  ⟨mk' q.1, by rw [← image_mk'_regSet_univ]; exact ⟨q.1, q.2, rfl⟩⟩
+
+theorem regMap_bijective : Function.Bijective (regMap (S := S)) := by
+  refine ⟨fun a b h => Subtype.ext (mk'_injOn_regSet a.2 b.2 (congrArg Subtype.val h)), fun x => ?_⟩
+  have hx : (x : BiSusp S) ∈ mk' '' regSet (univ : Set S) := by
+    rw [image_mk'_regSet_univ]; exact x.2
+  obtain ⟨q, hq, hqx⟩ := hx
+  exact ⟨⟨q, hq⟩, Subtype.ext hqx⟩
+
+theorem continuous_regMap : Continuous (regMap (S := S)) :=
+  (continuous_mk'.comp continuous_subtype_val).subtype_mk _
+
+theorem isOpenMap_regMap : IsOpenMap (regMap (S := S)) := by
+  intro U hU
+  obtain ⟨V, hV, rfl⟩ := isOpen_induced_iff.1 hU
+  have hO : IsOpen (mk' '' (V ∩ regSet (univ : Set S))) :=
+    isOpen_image_mk' (hV.inter (isOpen_regSet isOpen_univ)) inter_subset_right
+  have e : regMap '' (Subtype.val ⁻¹' V) =
+      Subtype.val ⁻¹' (mk' '' (V ∩ regSet (univ : Set S))) := by
+    ext x
+    constructor
+    · rintro ⟨q, hq, rfl⟩
+      exact ⟨q.1, ⟨hq, q.2⟩, rfl⟩
+    · rintro ⟨q, ⟨hqV, hq⟩, hqx⟩
+      exact ⟨⟨q, hq⟩, hqV, Subtype.ext hqx⟩
+  rw [e]
+  exact hO.preimage continuous_subtype_val
+
+/-- **The regular part of `BiSusp S` is `S × ]0, π[`**: `mk'` restricted to `regSet univ` is a
+homeomorphism onto the complement of the poles. -/
+def regHomeo : regSet (univ : Set S) ≃ₜ ((poles S)ᶜ : Set (BiSusp S)) :=
+  (Equiv.ofBijective _ regMap_bijective).toHomeomorphOfContinuousOpen continuous_regMap
+    isOpenMap_regMap
+
+theorem coe_regHomeo (q : regSet (univ : Set S)) : (regHomeo q : BiSusp S) = mk' q.1 := rfl
+
+end BiSusp
+
+namespace GammaLinkCircle.DevData
+
+variable {L : Type} [TopologicalSpace L] {C : GammaLinkCircle L} (Δ : C.DevData)
+
+/-- **A curve of `𝔢(L) ∖ {±p̄}` lifts to the covering**: `γ r = [E (ŝ r), τ r]`. -/
+theorem exists_lift_curve {γ : ℝ → BiSusp L} (hc : Continuous γ)
+    (hγ : ∀ r, γ r ∉ BiSusp.poles L) :
+    ∃ (ŝ : ℝ → ℝ) (τ : ℝ → Icc (0 : ℝ) Real.pi), Continuous ŝ ∧ Continuous τ ∧
+      (∀ r, 0 < (τ r : ℝ) ∧ (τ r : ℝ) < Real.pi) ∧ ∀ r, γ r = BiSusp.mk (Δ.E (ŝ r)) (τ r) := by
+  set γ' : ℝ → ((BiSusp.poles L)ᶜ : Set (BiSusp L)) := fun r => ⟨γ r, hγ r⟩
+  have hγ' : Continuous γ' := hc.subtype_mk _
+  set q : ℝ → BiSusp.regSet (univ : Set L) := fun r => BiSusp.regHomeo.symm (γ' r)
+  have hq : Continuous q := BiSusp.regHomeo.symm.continuous.comp hγ'
+  have hσ : Continuous fun r => (q r).1.1 := continuous_fst.comp (continuous_subtype_val.comp hq)
+  have hτ : Continuous fun r => (q r).1.2 := continuous_snd.comp (continuous_subtype_val.comp hq)
+  obtain ⟨e₀, he₀⟩ := Δ.periodic.surjective (q 0).1.1
+  obtain ⟨ŝ, ⟨-, hŝ⟩, -⟩ := Δ.periodic.isCoveringMap.existsUnique_continuousMap_lifts
+    ⟨fun r => (q r).1.1, hσ⟩ 0 e₀ he₀
+  refine ⟨ŝ, fun r => (q r).1.2, ŝ.continuous, hτ, fun r => ⟨(q r).2.2.1, (q r).2.2.2⟩,
+    fun r => ?_⟩
+  have h1 : Δ.E (ŝ r) = (q r).1.1 := congrFun hŝ r
+  have h2 : (γ r) = BiSusp.mk' (q r).1 := by
+    rw [← BiSusp.coe_regHomeo, Homeomorph.apply_symm_apply]
+  rw [h2, BiSusp.mk'_eq_mk, h1]
+
+variable {Δ}
+
+/-- **A closed curve of `𝔢(L) ∖ {±p̄}` lifts to a curve of the covering moving by a deck
+translation**: `ŝ (r + 1) = ŝ r + n`. -/
+theorem exists_lift_curve_periodic {γ : ℝ → BiSusp L} (hc : Continuous γ)
+    (hγ : ∀ r, γ r ∉ BiSusp.poles L) (hper : Function.Periodic γ 1) :
+    ∃ (ŝ : ℝ → ℝ) (τ : ℝ → Icc (0 : ℝ) Real.pi), Continuous ŝ ∧ Continuous τ ∧
+      (∀ r, 0 < (τ r : ℝ) ∧ (τ r : ℝ) < Real.pi) ∧ (∀ r, γ r = BiSusp.mk (Δ.E (ŝ r)) (τ r)) ∧
+      ∃ n : ℤ, ∀ r, ŝ (r + 1) = ŝ r + n ∧ τ (r + 1) = τ r := by
+  obtain ⟨ŝ, τ, hŝ, hτc, hτ, hγe⟩ := Δ.exists_lift_curve hc hγ
+  have hpair : ∀ r, ((Δ.E (ŝ (r + 1)), τ (r + 1)) : L × Icc (0 : ℝ) Real.pi) =
+      (Δ.E (ŝ r), τ r) := fun r =>
+    BiSusp.mk'_injOn_regSet ⟨trivial, hτ (r + 1)⟩ ⟨trivial, hτ r⟩
+      ((hγe (r + 1)).symm.trans ((hper r).trans (hγe r)))
+  have hE : ∀ r, Δ.E (ŝ (r + 1)) = Δ.E (ŝ r) := fun r => congrArg Prod.fst (hpair r)
+  obtain ⟨n, hn⟩ := Δ.periodic.fiber (ŝ 0) (ŝ (0 + 1)) (hE 0).symm
+  have heq := Δ.periodic.isCoveringMap.eq_of_comp_eq (g₁ := fun r => ŝ (r + 1))
+    (g₂ := fun r => ŝ r + n) (hŝ.comp (continuous_add_const 1)) (hŝ.add continuous_const)
+    (funext fun r => by
+      simp only [Function.comp_apply]
+      rw [hE, Δ.periodic.add_int]) 0 hn
+  refine ⟨ŝ, τ, hŝ, hτc, hτ, hγe, n, fun r => ⟨congrFun heq r, congrArg Prod.snd (hpair r)⟩⟩
+
+/-- **A cone chart of `𝔢(L)` along a lifted curve**: near every parameter it sends
+`[E (ŝ r), τ r]` to `g · [cos τ p + sin τ w(ŝ r)]` for one `g ∈ Γ_p`. -/
+theorem eventually_chart_lift {e : OpenPartialHomeomorph (BiSusp L) (HS 2)} (he : e ∈ Δ.suspAtlas)
+    {ŝ : ℝ → ℝ} (hŝ : Continuous ŝ) {τ : ℝ → Icc (0 : ℝ) Real.pi} {r₀ : ℝ}
+    (hτ0 : 0 < (τ r₀ : ℝ)) (hτπ : (τ r₀ : ℝ) < Real.pi)
+    (h : BiSusp.mk (Δ.E (ŝ r₀)) (τ r₀) ∈ e.source) :
+    ∃ g : GammaP C.pt, ∀ᶠ r in 𝓝 r₀, e (BiSusp.mk (Δ.E (ŝ r)) (τ r)) =
+      (g : Causal.Flat.lorentz 2) • arcPt C.pt (Δ.vlift (ŝ r)) (τ r) := by
+  obtain ⟨c, W, hW, hl, rfl⟩ := he
+  obtain ⟨q, hq, hqx⟩ := h
+  have hqe := BiSusp.mk'_injOn_regSet ⟨trivial, hq.2⟩ ⟨trivial, hτ0, hτπ⟩ hqx
+  have hEx : Δ.E (ŝ r₀) ∈ c.source := by
+    have := hq.1; rw [hqe] at this; exact this
+  obtain ⟨s₀, hs₀, A, hA⟩ := hl _ hEx
+  obtain ⟨n, hn⟩ := Δ.periodic.fiber s₀ (ŝ r₀) hs₀
+  refine ⟨A * Δ.hol ^ (-n), ?_⟩
+  have ht : Tendsto (fun r => ŝ r + ((-n : ℤ) : ℝ)) (𝓝 r₀) (𝓝 s₀) := by
+    have : ŝ r₀ + ((-n : ℤ) : ℝ) = s₀ := by rw [hn]; push_cast; ring
+    rw [← this]
+    exact ((hŝ.add continuous_const).tendsto r₀)
+  filter_upwards [ht.eventually hA] with r h2
+  have hW' : W (Δ.E (ŝ r)) = (((A * Δ.hol ^ (-n) : GammaP C.pt) : Causal.Flat.lorentz 2) :
+      𝕄 ≃ₗ[ℝ] 𝕄) (Δ.vlift (ŝ r)) := by
+    rw [← Δ.periodic.add_int (ŝ r) (-n), h2, Δ.vlift_add_int, gammaP_coe_mul_apply]
+  show arcPt C.pt (W (Δ.E (ŝ r))) (τ r : ℝ) = _
+  rw [hW', ← smul_arcPt _ _ (Δ.tpMk_vlift_ne _)]
+
+end GammaLinkCircle.DevData
+
+/-! ### Elementary lemmas -/
+
+/-- A monotone function of period `1` is constant. -/
+theorem eq_of_monotone_periodic {F : ℝ → ℝ} (hm : Monotone F) (hp : Function.Periodic F 1)
+    (s : ℝ) : F s = F 0 := by
+  have h1 : F (s - ⌊s⌋) = F s := by
+    have := hp.sub_int_mul_eq ⌊s⌋ (x := s)
+    simpa using this
+  have h0 : F 0 ≤ F (s - ⌊s⌋) := hm (by linarith [Int.floor_le s])
+  have h2 : F (s - ⌊s⌋) ≤ F 1 := hm (by linarith [Int.lt_floor_add_one s])
+  have h3 : F 1 = F 0 := by have := hp 0; simpa using this
+  linarith
+
+/-- A monotone `F` with `F (r + 1) = c F r`, `c > 0`, does not change sign. -/
+theorem not_pos_neg_of_monotone_mul {F : ℝ → ℝ} (hm : Monotone F) {c : ℝ} (hc : 0 < c)
+    (hF : ∀ r, F (r + 1) = c * F r) {a b : ℝ} (ha : 0 < F a) (hb : F b < 0) : False := by
+  have hk : ∀ k : ℕ, F (b + k) = c ^ k * F b := fun k => by
+    induction k with
+    | zero => simp
+    | succ m ih => rw [Nat.cast_succ, ← add_assoc, hF, ih, pow_succ]; ring
+  have hab : a ≤ b + (⌈a - b⌉₊ : ℕ) := by linarith [Nat.le_ceil (a - b)]
+  have := hm hab
+  rw [hk] at this
+  nlinarith [pow_pos hc ⌈a - b⌉₊]
+
+/-- A continuous `ŝ` with `ŝ (r + 1) = ŝ r + n`, `n ≠ 0`, is onto. -/
+theorem surjective_of_add_int {ŝ : ℝ → ℝ} (hc : Continuous ŝ) {n : ℤ} (hn0 : n ≠ 0)
+    (hn : ∀ r, ŝ (r + 1) = ŝ r + n) : Function.Surjective ŝ := by
+  have hk : ∀ k : ℕ, ŝ (k : ℝ) = ŝ 0 + k * n ∧ ŝ (-(k : ℝ)) = ŝ 0 - k * n := fun k => by
+    induction k with
+    | zero => simp
+    | succ m ih =>
+      refine ⟨?_, ?_⟩
+      · rw [Nat.cast_succ, hn, ih.1]; ring
+      · have := hn (-((m + 1 : ℕ) : ℝ))
+        rw [show -((m + 1 : ℕ) : ℝ) + 1 = -(m : ℝ) by push_cast; ring, ih.2] at this
+        push_cast at this ⊢; linarith
+  intro y
+  set N : ℕ := ⌈|y - ŝ 0|⌉₊
+  have hN : |y - ŝ 0| ≤ N := Nat.le_ceil _
+  have hn1 : (1 : ℝ) ≤ |(n : ℝ)| := by
+    rw [← Int.cast_abs]; exact_mod_cast Int.one_le_abs hn0
+  have hmem : y ∈ uIcc (ŝ (-(N : ℝ))) (ŝ (N : ℝ)) := by
+    rw [(hk N).1, (hk N).2]
+    have hNn : |y - ŝ 0| ≤ N * |(n : ℝ)| := by nlinarith [abs_nonneg (y - ŝ 0), (N.cast_nonneg : (0 : ℝ) ≤ N)]
+    rcases abs_cases (n : ℝ) with ⟨h1, -⟩ | ⟨h1, -⟩ <;> rcases abs_le.1 (h1 ▸ hNn) with ⟨h2, h3⟩
+    · exact Set.mem_uIcc.2 (Or.inl ⟨by linarith, by linarith⟩)
+    · exact Set.mem_uIcc.2 (Or.inr ⟨by linarith, by linarith⟩)
+  obtain ⟨r, -, hr⟩ := intermediate_value_uIcc hc.continuousOn hmem
+  exact ⟨r, hr⟩
+
+/-- The future null vector `e₀ + j` of `p^⊥`, at `p ∈ dS²`. -/
+theorem isFutureCausal_dsNull {p : HS 2} (hp : p ∈ HS.piece 2 .deSitter) :
+    Causal.Flat.IsFutureCausal (GammaP.dsE₀ p + jVec p) ∧ GammaP.dsE₀ p + jVec p ≠ 0 ∧
+      Causal.Flat.minkB (p : 𝕄) (GammaP.dsE₀ p + jVec p) = 0 := by
+  obtain ⟨h0, h1, h01, hp0, hp1, hf⟩ := GammaP.dsFrame hp
+  have hfst : (GammaP.dsE₀ p + jVec p).1 = (GammaP.dsE₀ p).1 := by
+    simp only [Prod.fst_add, jVec, add_zero]
+  refine ⟨⟨by rw [hfst]; exact hf.1.le, ?_⟩, fun h => ?_, ?_⟩
+  · rw [Causal.Flat.minkQ_add, h0, h1, h01]; norm_num
+  · have := congrArg Prod.fst h
+    rw [hfst, Prod.fst_zero] at this
+    exact lt_irrefl _ (this ▸ hf.1)
+  · rw [Causal.Flat.minkB_add_right, hp0, hp1, add_zero]
+
+/-- **Every element of `Γ_p` scales the null vector `e₀ + j` by a positive factor**, at `p ∈ dS²`. -/
+theorem exists_pos_smul_dsNull {p : HS 2} (hp : p ∈ HS.piece 2 .deSitter) (A : GammaP p) :
+    ∃ c : ℝ, 0 < c ∧ ((A : Causal.Flat.lorentz 2) : 𝕄 ≃ₗ[ℝ] 𝕄) (GammaP.dsE₀ p + jVec p) =
+      c • (GammaP.dsE₀ p + jVec p) := by
+  obtain ⟨h0, h1, h01, -, -, -⟩ := GammaP.dsFrame hp
+  have h0' : Causal.Flat.minkB (GammaP.dsE₀ p) (GammaP.dsE₀ p) = -1 := by
+    rw [← Causal.Flat.minkQ_eq_minkB, h0]
+  have h1' : Causal.Flat.minkB (jVec p) (jVec p) = 1 := by rw [← Causal.Flat.minkQ_eq_minkB, h1]
+  have h10 : Causal.Flat.minkB (jVec p) (GammaP.dsE₀ p) = 0 := by rw [Causal.Flat.minkB_comm, h01]
+  obtain ⟨ζ, rfl⟩ := GammaP.exists_eq_dsBoost hp A
+  refine ⟨Real.exp ζ, Real.exp_pos ζ, ?_⟩
+  rw [GammaP.dsBoost_apply, Causal.Flat.boostLin_apply]
+  simp only [Causal.Flat.minkB_add_left, h0', h1', h01, h10]
+  rw [← Real.cosh_add_sinh]; module
+
+/-- The pairing of a de Sitter point of the segment `𝔢(w)` with a vector `q ⊥ p` is a positive
+multiple of the pairing of `w`. -/
+theorem exists_minkB_dsHat_arcPt {p : HS 2} {w q : 𝕄} (hw : tpMk p w ≠ 0) {t : ℝ} (ht0 : 0 < t)
+    (htπ : t < Real.pi) (hd : arcPt p w t ∈ HS.piece 2 .deSitter)
+    (hq : Causal.Flat.minkB (p : 𝕄) q = 0) :
+    ∃ κ : ℝ, 0 < κ ∧ Causal.Flat.minkB (dsHat (arcPt p w t)) q = κ * Causal.Flat.minkB w q := by
+  set V := arcVec p w t
+  have hV : V ≠ 0 := arcVec_ne_zero p hw t
+  have hxc : ((arcPt p w t : HS 2) : 𝕄) = ‖V‖⁻¹ • V := coe_rayNormalize _ hV
+  have hQV : 0 < Causal.Flat.minkQ V := by
+    have h := (show 0 < Causal.Flat.minkQ ((arcPt p w t : HS 2) : 𝕄) from hd)
+    rw [hxc, Causal.Flat.minkQ_smul] at h
+    exact pos_of_mul_pos_right h (sq_nonneg _)
+  have hk : 0 < (Real.sqrt (Causal.Flat.minkQ V))⁻¹ := inv_pos.2 (Real.sqrt_pos.2 hQV)
+  have hxh : dsHat (arcPt p w t) = (Real.sqrt (Causal.Flat.minkQ V))⁻¹ • V :=
+    dsHat_of_coe_eq (inv_pos.2 (norm_pos_iff.2 hV)) hxc
+  refine ⟨(Real.sqrt (Causal.Flat.minkQ V))⁻¹ * Real.sin t,
+    mul_pos hk (Real.sin_pos_of_pos_of_lt_pi ht0 htπ), ?_⟩
+  rw [hxh, Causal.Flat.minkB_smul_left]
+  simp only [V, arcVec, Causal.Flat.minkB_add_left, Causal.Flat.minkB_smul_left, hq]
+  ring
+
+/-- The pairing of `dsProj p (dirOf p w)` with a vector `q ⊥ p` is a positive multiple of the
+pairing of `w`, at `p ∈ dS²`. -/
+theorem exists_minkB_dsProj_dirOf {p : HS 2} (hp : p ∈ HS.piece 2 .deSitter) {w q : 𝕄}
+    (hw : tpMk p w ≠ 0) (hq : Causal.Flat.minkB (p : 𝕄) q = 0) :
+    ∃ κ : ℝ, 0 < κ ∧ Causal.Flat.minkB (dsProj p (dirOf p w)) q = κ * Causal.Flat.minkB w q := by
+  have hQ : 0 < Causal.Flat.minkQ (p : 𝕄) := hp
+  refine ⟨‖tpMk p w‖⁻¹ * Causal.Flat.minkQ (p : 𝕄), mul_pos (inv_pos.2 (norm_pos_iff.2 hw)) hQ, ?_⟩
+  rw [dsProj_dirOf p hw, Causal.Flat.minkB_smul_left, perpLin_apply, Causal.Flat.minkB_sub_left,
+    Causal.Flat.minkB_smul_left, Causal.Flat.minkB_smul_left, hq]
+  ring
+
+/-- `ℓ(p)` has future and past time-like directions, at `p ∈ dS²`. -/
+theorem dirOf_dsE₀_mem {p : HS 2} (hp : p ∈ HS.piece 2 .deSitter) :
+    dirOf p (GammaP.dsE₀ p) ∈ dsFutureDirs p ∧ dirOf p (-GammaP.dsE₀ p) ∈ dsPastDirs p := by
+  obtain ⟨h0, -, -, hp0, -, hf⟩ := GammaP.dsFrame hp
+  have hQ : 0 < Causal.Flat.minkQ (p : 𝕄) := hp
+  have hne : ∀ v : 𝕄, Causal.Flat.minkB v v ≠ 0 → Causal.Flat.minkB (p : 𝕄) v = 0 →
+      tpMk p v ≠ 0 := fun v hv hpv h => by
+    obtain ⟨c, hc⟩ := (tpMk_eq_zero_iff p).1 h
+    apply hv
+    rw [hc, Causal.Flat.minkB_smul_left, Causal.Flat.minkB_smul_right, ← Causal.Flat.minkQ_eq_minkB]
+    have : Causal.Flat.minkB (p : 𝕄) (c • (p : 𝕄)) = 0 := hc ▸ hpv
+    rw [Causal.Flat.minkB_smul_right, ← Causal.Flat.minkQ_eq_minkB] at this
+    rcases mul_eq_zero.1 this with h | h
+    · rw [h]; ring
+    · exact absurd h hQ.ne'
+  have hB0 : Causal.Flat.minkB (GammaP.dsE₀ p) (GammaP.dsE₀ p) ≠ 0 := by
+    rw [← Causal.Flat.minkQ_eq_minkB, h0]; norm_num
+  have hw : tpMk p (GammaP.dsE₀ p) ≠ 0 := hne _ hB0 hp0
+  have hw' : tpMk p (-GammaP.dsE₀ p) ≠ 0 := hne _
+    (by rwa [Causal.Flat.minkB_neg_left, Causal.Flat.minkB_neg_right, neg_neg])
+    (by rw [Causal.Flat.minkB_neg_right, hp0, neg_zero])
+  have hperp : perpLin p (GammaP.dsE₀ p) = Causal.Flat.minkQ (p : 𝕄) • GammaP.dsE₀ p := by
+    rw [perpLin_apply, hp0, zero_smul, sub_zero]
+  refine ⟨?_, ?_⟩
+  · show Causal.Flat.IsFutureTimelike (dsProj p (dirOf p (GammaP.dsE₀ p)))
+    rw [dsProj_dirOf p hw, hperp, smul_smul]
+    exact isFutureTimelike_smul (mul_pos (inv_pos.2 (norm_pos_iff.2 hw)) hQ) hf
+  · show Causal.Flat.IsFutureTimelike (-dsProj p (dirOf p (-GammaP.dsE₀ p)))
+    rw [dsProj_dirOf p hw', map_neg, hperp, smul_neg, neg_neg, smul_smul]
+    exact isFutureTimelike_smul (mul_pos (inv_pos.2 (norm_pos_iff.2 hw')) hQ) hf
+
+namespace GammaLinkCircle.DevData
+
+variable {L : Type} [TopologicalSpace L] {C : GammaLinkCircle L} {Δ : C.DevData}
+
+/-- **No CCC in `𝔢(L)` when its developed image contains a future and a past time-like
+direction**, at `p ∈ dS²`. A CCC `γ` lifts to `r ↦ (ŝ r, τ r)` with `ŝ (r + 1) = ŝ r + n`, and its
+developed points `X r = [cos τ p + sin τ w(ŝ r)]` satisfy `X (r + 1) = ρⁿ X r` and move causally in
+`dS²`. If `n = 0`, `dsTime e₀ ∘ X` is monotone and periodic, so `X` and then `γ` are constant. If
+`n ≠ 0`, `ŝ` is onto; `F = −B(X̂, e₀ + j)` is monotone with `F (r + 1) = c F r`, `c > 0`, so it has
+one sign, while its sign is that of `−B(w(ŝ r), e₀ + j)`, positive at a future direction and
+negative at a past one. -/
+theorem not_hasCCC_of_future_past (hp : C.pt ∈ HS.piece 2 .deSitter)
+    (hfut : ∃ s, Δ.d s ∈ dsFutureDirs C.pt) (hpast : ∃ s, Δ.d s ∈ dsPastDirs C.pt) :
+    ¬ Δ.suspStructure.HasCCC := by
+  rintro ⟨γ, ⟨hγc, hγ⟩, hper, r₁, r₂, hne⟩
+  have hreg : ∀ r, γ r ∉ BiSusp.poles L := fun r => by
+    obtain ⟨e, he, ε, hε, h'⟩ := hγ r
+    have : γ r ∈ support Δ.suspAtlas :=
+      mem_support.2 ⟨e, he, (h' r ⟨by linarith, by linarith⟩).1⟩
+    rwa [Δ.support_suspAtlas] at this
+  obtain ⟨ŝ, τ, hŝc, -, hτ, hγe, n, hn⟩ := exists_lift_curve_periodic (Δ := Δ) hγc hreg hper
+  set X : ℝ → HS 2 := fun r => arcPt C.pt (Δ.vlift (ŝ r)) (τ r) with hXdef
+  -- the developed points move causally, chart by chart
+  have hloc : ∀ r, ∃ e ∈ Δ.suspAtlas, ∃ g : GammaP C.pt, ∃ ε > 0, ∀ a ∈ Ioo (r - ε) (r + ε),
+      γ a ∈ e.source ∧ e (γ a) = (g : Causal.Flat.lorentz 2) • X a ∧
+      ∀ b ∈ Ioo (r - ε) (r + ε), a ≤ b → DSLe (X a) (X b) := by
+    intro r
+    obtain ⟨e, he, ε, hε, h'⟩ := hγ r
+    have hr : γ r ∈ e.source := (h' r ⟨by linarith, by linarith⟩).1
+    rw [hγe r] at hr
+    obtain ⟨g, hg⟩ := eventually_chart_lift he hŝc (hτ r).1 (hτ r).2 hr
+    obtain ⟨ε₀, hε₀, hball⟩ := Metric.mem_nhds_iff.1 hg
+    have hmem : ∀ a ∈ Ioo (r - min ε ε₀) (r + min ε ε₀), a ∈ Ioo (r - ε) (r + ε) ∧
+        e (γ a) = (g : Causal.Flat.lorentz 2) • X a := fun a ha => by
+      have hb : a ∈ Metric.ball r ε₀ := by
+        rw [Real.ball_eq_Ioo]
+        exact ⟨by linarith [ha.1, min_le_right ε ε₀], by linarith [ha.2, min_le_right ε ε₀]⟩
+      refine ⟨⟨by linarith [ha.1, min_le_left ε ε₀], by linarith [ha.2, min_le_left ε ε₀]⟩, ?_⟩
+      rw [hγe a]; exact hball hb
+    refine ⟨e, he, g, min ε ε₀, lt_min hε hε₀, fun a ha => ⟨(h' a (hmem a ha).1).1, (hmem a ha).2,
+      fun b hb hab => ?_⟩⟩
+    have := (h' a (hmem a ha).1).2 b (hmem b hb).1 hab
+    rwa [(hmem a ha).2, (hmem b hb).2, dsLe_smul_iff] at this
+  have hXd : ∀ r, X r ∈ HS.piece 2 .deSitter := fun r => by
+    obtain ⟨e, he, g, ε, hε, h⟩ := hloc r
+    have hr : r ∈ Ioo (r - ε) (r + ε) := ⟨by linarith, by linarith⟩
+    exact ((h r hr).2.2 r hr le_rfl).1
+  have hXper : ∀ r, X (r + 1) = ((Δ.hol ^ n : GammaP C.pt) : Causal.Flat.lorentz 2) • X r :=
+    fun r => by
+      show arcPt C.pt (Δ.vlift (ŝ (r + 1))) (τ (r + 1)) = _
+      rw [(hn r).1, (hn r).2, Δ.vlift_add_int, ← smul_arcPt _ _ (Δ.tpMk_vlift_ne _)]
+  have hmono : ∀ q : 𝕄, Causal.Flat.IsFutureCausal q →
+      Monotone fun r => -Causal.Flat.minkB (dsHat (X r)) q := fun q hq =>
+    monotone_of_local fun r => by
+      obtain ⟨e, he, g, ε, hε, h⟩ := hloc r
+      refine ⟨ε, hε, fun a ha b hb hab => ?_⟩
+      have hB := Causal.Flat.minkB_le_zero_of_isFutureCausal ((h a ha).2.2 b hb hab).2.2 hq
+      rw [Causal.Flat.minkB_sub_left] at hB
+      linarith
+  rcases eq_or_ne n 0 with rfl | hn0
+  · -- `n = 0`: the developed curve is periodic, `dsTime e₀` makes it constant
+    have hXp : Function.Periodic X 1 := fun r => by rw [hXper r, zpow_zero]; exact one_smul _ _
+    obtain ⟨-, -, -, -, -, hf⟩ := GammaP.dsFrame hp
+    have hF := hmono _ ⟨hf.1.le, hf.2.le⟩
+    have hFc := eq_of_monotone_periodic hF (fun r => by
+      show -Causal.Flat.minkB (dsHat (X (r + 1))) _ = -Causal.Flat.minkB (dsHat (X r)) _
+      rw [hXp r])
+    have hlc : IsLocallyConstant γ := by
+      refine (IsLocallyConstant.iff_eventually_eq γ).2 fun r => ?_
+      obtain ⟨e, he, g, ε, hε, h⟩ := hloc r
+      have hr : r ∈ Ioo (r - ε) (r + ε) := ⟨by linarith, by linarith⟩
+      filter_upwards [isOpen_Ioo.mem_nhds hr] with a ha
+      have ht : ∀ a b, dsTime (GammaP.dsE₀ C.pt) (X a) = dsTime (GammaP.dsE₀ C.pt) (X b) :=
+        fun a b => (hFc a).trans (hFc b).symm
+      have hXa : X a = X r := by
+        rcases le_total a r with har | har
+        · exact (dsTime_mono hf ((h a ha).2.2 r hr har)).2 (ht a r)
+        · exact ((dsTime_mono hf ((h r hr).2.2 a ha har)).2 (ht r a)).symm
+      apply e.injOn (h a ha).1 (h r hr).1
+      rw [(h a ha).2.1, (h r hr).2.1, hXa]
+    exact hne (hlc.apply_eq_of_preconnectedSpace r₁ r₂)
+  · -- `n ≠ 0`: `ŝ` is onto, and `−B(X̂, e₀ + j)` would change sign
+    have hsurj := surjective_of_add_int hŝc hn0 (fun r => (hn r).1)
+    obtain ⟨hq, hq0, hpq⟩ := isFutureCausal_dsNull hp
+    set q := GammaP.dsE₀ C.pt + jVec C.pt
+    obtain ⟨c, hc, hcq⟩ := exists_pos_smul_dsNull hp (Δ.hol ^ n)⁻¹
+    have hF := hmono q hq
+    have hFr : ∀ r, -Causal.Flat.minkB (dsHat (X (r + 1))) q =
+        c * -Causal.Flat.minkB (dsHat (X r)) q := fun r => by
+      rw [hXper r, dsHat_smul _ (hXd r)]
+      have e1 : q = (((Δ.hol ^ n : GammaP C.pt) : Causal.Flat.lorentz 2) : 𝕄 ≃ₗ[ℝ] 𝕄)
+          (((((Δ.hol ^ n)⁻¹ : GammaP C.pt) : Causal.Flat.lorentz 2) : 𝕄 ≃ₗ[ℝ] 𝕄) q) :=
+        (gammaP_coe_apply_inv _ q).symm
+      conv_lhs => rw [e1]
+      rw [Causal.Flat.lorentz.minkB_apply ((Δ.hol ^ n : GammaP C.pt) : Causal.Flat.lorentz 2).2,
+        hcq, Causal.Flat.minkB_smul_right]
+      ring
+    have hval : ∀ r, ∃ κ : ℝ, 0 < κ ∧ -Causal.Flat.minkB (dsHat (X r)) q =
+        κ * -Causal.Flat.minkB (dsProj C.pt (Δ.d (ŝ r))) q := fun r => by
+      obtain ⟨κ₁, hκ₁, h₁⟩ := exists_minkB_dsHat_arcPt (Δ.tpMk_vlift_ne (ŝ r)) (hτ r).1 (hτ r).2
+        (hXd r) hpq
+      obtain ⟨κ₂, hκ₂, h₂⟩ := exists_minkB_dsProj_dirOf hp (Δ.tpMk_vlift_ne (ŝ r)) hpq
+      rw [Δ.dirOf_vlift] at h₂
+      refine ⟨κ₁ / κ₂, div_pos hκ₁ hκ₂, ?_⟩
+      rw [h₁, h₂]
+      field_simp
+    obtain ⟨sF, hsF⟩ := hfut
+    obtain ⟨sP, hsP⟩ := hpast
+    obtain ⟨rF, hrF⟩ := hsurj sF
+    obtain ⟨rP, hrP⟩ := hsurj sP
+    obtain ⟨κF, hκF, hF'⟩ := hval rF
+    obtain ⟨κP, hκP, hP'⟩ := hval rP
+    rw [hrF] at hF'
+    rw [hrP] at hP'
+    have h1 : Causal.Flat.minkB (dsProj C.pt (Δ.d sF)) q < 0 := by
+      rw [Causal.Flat.minkB_comm]; exact Causal.Flat.minkB_neg_of_future hq hq0 hsF
+    have h2 : 0 < Causal.Flat.minkB (dsProj C.pt (Δ.d sP)) q := by
+      have := Causal.Flat.minkB_neg_of_future hq hq0 hsP
+      rw [Causal.Flat.minkB_comm, Causal.Flat.minkB_neg_left] at this
+      linarith
+    exact not_pos_neg_of_monotone_mul hF hc hFr (a := rF) (b := rP)
+      (by rw [hF']; nlinarith) (by rw [hP']; nlinarith)
+
+/-- **The developing map of `Δ` is onto `ℓ(p)` when the lifted developing map of one pair is onto
+`ℝP̃¹`.** -/
+theorem surjective_d_of_range {θ : TpHS C.pt ≃ₗ[ℝ] ℂ} {E' : ℝ → L} {D' : ℝ → ℝ} {f : GTilde}
+    (hl : C.IsLiftedDev θ E' D' f) (hD : range D' = univ) : Function.Surjective Δ.d := by
+  obtain ⟨ψ, -, -, -, hψ⟩ := Δ.periodic.exists_rel hl.1
+  have hEψ : Δ.E ∘ ψ = E' := funext fun s => (hψ s).symm
+  have dev1 : C.IsDevAlong E' (Δ.d ∘ ψ) := by
+    have := Δ.dev.comp_reparam ψ.continuous
+    rwa [hEψ] at this
+  obtain ⟨A, hA, -⟩ := GammaLinkCircle.IsDevAlong.existsUnique_eq_smul
+    hl.1.isCoveringMap.isLocalHomeomorph hl.2.2.2.1 dev1
+  intro σ
+  obtain ⟨t, ht⟩ := linkCover_surjective C.pt θ (A⁻¹ • σ)
+  obtain ⟨x, hx⟩ : t ∈ range D' := hD ▸ mem_univ t
+  refine ⟨ψ x, ?_⟩
+  have := hA x
+  simp only [Function.comp_apply] at this
+  rw [this, hx, ht, smul_inv_smul]
+
+/-- **No CCC in `𝔢(L)` when the developing map is onto `ℓ(p)`**, at `p ∈ dS²`: the space-like
+circles of degree `k ≥ 1` (tachyons) and the trivial holonomies `δᵏ`. -/
+theorem not_hasCCC_of_surjective (hp : C.pt ∈ HS.piece 2 .deSitter)
+    (hd : Function.Surjective Δ.d) : ¬ Δ.suspStructure.HasCCC := by
+  obtain ⟨sF, hsF⟩ := hd (dirOf C.pt (GammaP.dsE₀ C.pt))
+  obtain ⟨sP, hsP⟩ := hd (dirOf C.pt (-GammaP.dsE₀ C.pt))
+  exact not_hasCCC_of_future_past hp ⟨sF, hsF ▸ (dirOf_dsE₀_mem hp).1⟩
+    ⟨sP, hsP ▸ (dirOf_dsE₀_mem hp).2⟩
+
+/-- **A tachyon `𝔢(L)` has no CCC**: a space-like circle of degree `k ≥ 1` at `p ∈ dS²` (the
+paper's tachyons are `k = 2`, l.1120–1125); its lifted developing map is onto `ℝP̃¹`. -/
+theorem not_hasCCC_of_spacelike (hp : C.pt ∈ HS.piece 2 .deSitter) {b : Bool} {k : ℤ}
+    (h : C.HasType (.spacelike b k)) : ¬ Δ.suspStructure.HasCCC := by
+  obtain ⟨θ, -, E', D', f, hl, hpt⟩ := h
+  obtain ⟨hk, g, hg, hfg⟩ : 1 ≤ k ∧ ∃ g : GTilde, (∃ x, g x = x) ∧ f = GTilde.delta ^ k * g := by
+    cases b
+    · obtain ⟨-, hk, g, hg, -, hfg, -⟩ := hpt; exact ⟨hk, g, hg, hfg⟩
+    · obtain ⟨-, hk, g, hg, -, hfg, -⟩ := hpt; exact ⟨hk, g, hg, hfg⟩
+  have hD : range D' = univ := by
+    letI := C.rp1ChartedSpace θ
+    haveI := C.rp1_hasGroupoid θ
+    exact hl.isLiftedDevPair.isComp.eq_univ
+      (GTilde.apply_ne_of_degree_ne_zero (by omega) hg hfg)
+  exact not_hasCCC_of_surjective hp (surjective_d_of_range hl hD)
+
+/-- **A trivial holonomy `δᵏ` at `p ∈ dS²` gives an `𝔢(L)` without CCC** (for `k = 2`,
+`𝔢(L) ≅ HS²`); its lifted developing map is onto `ℝP̃¹`. -/
+theorem not_hasCCC_of_trivialHolonomy (hp : C.pt ∈ HS.piece 2 .deSitter) {k : ℤ}
+    (h : C.HasType (.trivialHolonomy k)) : ¬ Δ.suspStructure.HasCCC := by
+  obtain ⟨θ, -, E', D', f, hl, -, -, hf⟩ := h
+  have hk : k ≠ 0 := by
+    rintro rfl
+    have h1 := hl.2.2.2.2 0
+    rw [hf, zpow_zero, zero_add] at h1
+    exact (hl.2.2.1 (show (0 : ℝ) < 1 by norm_num)).ne' h1
+  have hD : range D' = univ := by
+    letI := C.rp1ChartedSpace θ
+    haveI := C.rp1_hasGroupoid θ
+    exact hl.isLiftedDevPair.isComp.eq_univ
+      (GTilde.apply_ne_of_degree_ne_zero hk ⟨0, rfl⟩ (by rw [hf, mul_one]))
+  exact not_hasCCC_of_surjective hp (surjective_d_of_range hl hD)
+
+end GammaLinkCircle.DevData
+
 /-! ## 8. Main statements -/
 
 section Main
@@ -1379,15 +1848,16 @@ theorem GammaLinkCircle.DevData.not_hasCCC_of_null (Δ : C.DevData)
     rw [Causal.Flat.minkB_sub_left] at hB
     unfold dsTime; linarith
 
-/-- **A space-like `𝔢(L)` other than Misner, of degree `< 4`, has no CCC** (the paper's claim,
-l.1120–1125): proved for the BTZ-like types (`not_hasCCC_of_btz`); for tachyons of degree `2` and
-for the trivial holonomy `δ²` it rests on two tagged `sorry`s. -/
-theorem GammaLinkCircle.DevData.not_hasCCC_of_deSitter (Δ : C.DevData)
-    (hp : C.pt ∈ HS.piece 2 .deSitter) (h₁ : C.linkType ≠ .misner)
-    (h₂ : ¬ C.linkType.IsHighDegree) : ¬ Δ.suspStructure.HasCCC := by
+/-- **A space-like `𝔢(L)` other than Misner has no CCC, at every degree**: the BTZ-like types
+through `not_hasCCC_of_btz`, the space-like circles of degree `k ≥ 1` (tachyons for `k = 2`)
+through `not_hasCCC_of_spacelike`, the trivial holonomies `δᵏ` through
+`not_hasCCC_of_trivialHolonomy`. -/
+theorem GammaLinkCircle.DevData.not_hasCCC_of_deSitter_of_ne_misner (Δ : C.DevData)
+    (hp : C.pt ∈ HS.piece 2 .deSitter) (h₁ : C.linkType ≠ .misner) :
+    ¬ Δ.suspStructure.HasCCC := by
   have hreg : HS.region C.pt = .deSitter := HS.region_eq_of_mem hp
   have ht := C.hasType_linkType
-  generalize hT : C.linkType = T at ht h₁ h₂
+  generalize hT : C.linkType = T at ht h₁
   obtain ⟨θ, -, E', D', f, hl, hpt⟩ := ht
   rcases T with ⟨b, a⟩ | _ | _ | _ | b | b | ⟨b, k⟩ | ⟨b, b', k⟩ | k
   · cases b <;> (have := hpt.1; rw [hreg] at this; cases this)
@@ -1404,9 +1874,16 @@ theorem GammaLinkCircle.DevData.not_hasCCC_of_deSitter (Δ : C.DevData)
   · exact absurd rfl h₁
   · cases b <;> (have := hpt.1; rw [hreg] at this; cases this)
   · cases b <;> (have := hpt.1; rw [hreg] at this; cases this)
-  · sorry -- SORRY(bbsdef:Hcausal): space-like circles of degree k (tachyons, k = 2: the case of the paper): the developed image is all of ℓ(p) (range D = ℝP̃¹), so no region of dS² carries a Γ_p-invariant time function (Γ_p is the boost group of the Lorentzian plane p^⊥; its invariants B(·, p) and B(·, n₊)B(·, n₋) are time functions only on the regions I^±(p), used here for the BTZ-like types); a time function on the de Sitter region of 𝔢(L) must be built through the gluing by the hyperbolic holonomy; the paper gives no argument (l.1120–1125 assert the equivalence; the proof of bbslem:CTC only reduces CCCs of e(Σ) to CCCs of the de Sitter region of Σ), and none is formalized
+  · exact Δ.not_hasCCC_of_spacelike hp (hT ▸ C.hasType_linkType)
   · cases b <;> cases b' <;> (have := hpt.1; rw [hreg] at this; cases this)
-  · sorry -- SORRY(bbsdef:Hcausal): trivial holonomy δᵏ at p ∈ dS² (k = 2: 𝔢(ℓ(p)) ≅ HS², whose de Sitter region has the time function of HS² itself, not Γ_p-invariant; transporting it needs regular_susp's identification chart by chart); the developed image is all of ℓ(p) and the same obstruction as for tachyons applies; not formalized
+  · exact Δ.not_hasCCC_of_trivialHolonomy hp (hT ▸ C.hasType_linkType)
+
+/-- **A space-like `𝔢(L)` other than Misner, of degree `< 4`, has no CCC** (the paper's claim,
+l.1120–1125); the degree bound is not needed (`not_hasCCC_of_deSitter_of_ne_misner`). -/
+theorem GammaLinkCircle.DevData.not_hasCCC_of_deSitter (Δ : C.DevData)
+    (hp : C.pt ∈ HS.piece 2 .deSitter) (h₁ : C.linkType ≠ .misner)
+    (_h₂ : ¬ C.linkType.IsHighDegree) : ¬ Δ.suspStructure.HasCCC :=
+  Δ.not_hasCCC_of_deSitter_of_ne_misner hp h₁
 
 /-- No CCC in `𝔢(L)` unless `L` is Misner or of degree `≥ 4`. -/
 theorem GammaLinkCircle.DevData.not_hasCCC (Δ : C.DevData) (h₁ : C.linkType ≠ .misner)
@@ -1415,6 +1892,15 @@ theorem GammaLinkCircle.DevData.not_hasCCC (Δ : C.DevData) (h₁ : C.linkType �
   · exact Δ.not_hasCCC_of_timelike h
   · exact Δ.not_hasCCC_of_null h
   · exact Δ.not_hasCCC_of_deSitter h h₁ h₂
+
+/-- **`𝔢(L)` has a CCC iff `L` is Misner**, for every developing data and every degree. -/
+theorem GammaLinkCircle.DevData.hasCCC_iff_misner (Δ : C.DevData) :
+    Δ.suspStructure.HasCCC ↔ C.linkType = .misner := by
+  refine ⟨fun h => by_contra fun h₁ => ?_, Δ.hasCCC_of_misner⟩
+  rcases lt_trichotomy (Causal.Flat.minkQ (C.pt : 𝕄)) 0 with hq | hq | hq
+  · exact Δ.not_hasCCC_of_timelike hq h
+  · exact Δ.not_hasCCC_of_null hq h
+  · exact Δ.not_hasCCC_of_deSitter_of_ne_misner hq h₁ h
 
 /-- The apices of `𝔢(L)` are of degree `< 4` when `L` is. -/
 theorem GammaLinkCircle.DevData.not_hasHighDegreeAt (Δ : C.DevData)

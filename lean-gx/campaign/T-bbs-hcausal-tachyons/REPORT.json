@@ -1,0 +1,67 @@
+{
+  "package": "lean-gx",
+  "target": "T-bbs-hcausal-tachyons",
+  "files": ["scaffold/GXScaffold/BBS/HSCausal.lean"],
+  "builds": true,
+  "sorry_count": 1,
+  "axioms": "standard only (propext, Classical.choice, Quot.sound) for every new declaration and for GX.GammaLinkCircle.DevData.not_hasCCC_of_deSitter, not_hasCCC, hasCCC_iff_misner; GX.GammaLinkCircle.isCausalLine_iff still carries sorryAx through the third sorry (not_hasHighDegreeAt, T-bbs-hcausal-apex-degree)",
+  "labels": [
+    {
+      "label": "bbsdef:Hcausal",
+      "tex_lines": [1114, 1125],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_spacelike",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_trivialHolonomy",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_future_past",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_surjective",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_deSitter_of_ne_misner",
+        "GX.GammaLinkCircle.DevData.not_hasCCC_of_deSitter",
+        "GX.GammaLinkCircle.DevData.hasCCC_iff_misner",
+        "GX.GammaLinkCircle.isCausalLine_iff"
+      ],
+      "hypotheses": [
+        {"paper": "tachyons: space-like lines of degree 2 (l.1120-1125, l.533-545)", "here": "weakened", "note": "proved for every space-like type of degree k >= 1, both signs"},
+        {"paper": "trivial holonomy (not in the printed list; HSClassification SCOPE (b))", "here": "weakened", "note": "proved for every delta^k at p in dS^2 (k = 0 is impossible for a lifted developing pair)"},
+        {"paper": "degree < 4 (the definition's first clause)", "here": "weakened", "note": "not used for the no-CCC half: not_hasCCC_of_deSitter keeps its signature, its degree hypothesis is now unused (_h2)"}
+      ],
+      "sorries": [
+        {"decl": "GX.GammaLinkCircle.DevData.not_hasHighDegreeAt", "obstruction": "unchanged, owned by T-bbs-hcausal-apex-degree: the degree of an apex link of a point of the singular set of e(L) is the degree of L (moved-p isomorphism of links, HSAntipodal SCOPE (b))"}
+      ],
+      "findings": [
+        "l.1120-1125 assert without argument that tachyons (space-like, degree 2) are causal. The claim is true. A proof needs an argument the paper does not hint at, because the developed image of such a circle is all of l(p), so no Gamma_p-invariant time function exists on the de Sitter region of e(L). The argument here lifts a CCC to the covering, r -> (s(r), t(r)) with s(r+1) = s(r) + n. If n = 0, dsTime e0 of the developed curve is periodic and monotone, so the curve is constant. If n != 0, the pairing with the null eigenvector e0 + j of Gamma_p is monotone and rescaled by a positive factor at each turn, so it keeps one sign. It is positive above a future time-like direction and negative above a past one, and the developed image contains both. The same argument covers trivial holonomy delta^k and every degree k >= 1.",
+        "Stronger than the paper, sorry-free: for every (Gamma_p, l(p))-circle L and every developing data, e(L) has a CCC iff L is Misner (hasCCC_iff_misner). So the two clauses of bbsdef:Hcausal (l.1116) are independent on singular lines. Lines of degree >= 4 (space-like, light-like, trivial holonomy) have no CCC and are excluded only by the degree clause. The « in other words » list (l.1120-1125) is then exactly 'Misner, or degree >= 4' on the CCC side and on the degree side respectively."
+      ],
+      "questions": [
+        "No new question. OQ-139 (a)-(e) stays OPEN and the row stays unmarked: (e) asks which scope the « in other words » has, and the « if » of isCausalLine_iff still rests on not_hasHighDegreeAt. The causal-curve reading of OQ-139 (a), (b) is the one used: a future causal curve of the regular de Sitter region in the finite-difference sense of DSLe."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BiSusp.regMap",
+    "GX.BiSusp.regMap_bijective",
+    "GX.BiSusp.continuous_regMap",
+    "GX.BiSusp.isOpenMap_regMap",
+    "GX.BiSusp.regHomeo",
+    "GX.BiSusp.coe_regHomeo",
+    "GX.GammaLinkCircle.DevData.exists_lift_curve",
+    "GX.GammaLinkCircle.DevData.exists_lift_curve_periodic",
+    "GX.GammaLinkCircle.DevData.eventually_chart_lift",
+    "GX.GammaLinkCircle.DevData.surjective_d_of_range",
+    "GX.eq_of_monotone_periodic",
+    "GX.not_pos_neg_of_monotone_mul",
+    "GX.surjective_of_add_int",
+    "GX.isFutureCausal_dsNull",
+    "GX.exists_pos_smul_dsNull",
+    "GX.exists_minkB_dsHat_arcPt",
+    "GX.exists_minkB_dsProj_dirOf",
+    "GX.dirOf_dsE₀_mem"
+  ],
+  "kb_proposals": [
+    "To exclude CCCs where no Gamma_p-invariant time function exists, lift the curve to the covering. GX.GammaLinkCircle.DevData.exists_lift_curve_periodic gives (s, t) with s(r+1) = s(r) + n, and eventually_chart_lift reads every cone chart along it as g . arcPt p (vlift s) t. Then use GX.GammaLinkCircle.DevData.not_hasCCC_of_future_past, which needs only a future and a past time-like direction in the developed image.",
+    "The regular part of BiSusp S is homeomorphic to S x ]0, pi[ through GX.BiSusp.regHomeo (mk' on regSet univ). It gives continuous coordinates (sigma, t) of any curve that avoids the poles.",
+    "On a single e(L) the CCC question is settled: GX.GammaLinkCircle.DevData.hasCCC_iff_misner, sorry-free."
+  ],
+  "notes": "No new file and no change to GXScaffold.lean. The proofs sit in HSCausal.lean, in a new section 7b placed before section 8 because they use DSLe, dsTime and monotone_of_local. In not_hasCCC_of_deSitter both tagged sorrys are replaced by not_hasCCC_of_spacelike / not_hasCCC_of_trivialHolonomy. Its body moved, without the degree hypothesis, to not_hasCCC_of_deSitter_of_ne_misner. The original declaration keeps its statement, and its degree binder is renamed _h2 because it is now unused. The module docstring is updated: 1 sorry in 1 declaration, the main-declarations bullet, the checklist row, SCOPE (e). The third sorry (not_hasHighDegreeAt) is untouched and keeps its tag. lake build GXScaffold.BBS.HSCausal succeeded and rebuilt only that module. The temporary scratch file under campaign/ is deleted."
+}

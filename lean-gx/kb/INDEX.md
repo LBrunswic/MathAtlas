@@ -162,3 +162,14 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0152](entries/0152-e0pushout-forgets-that-is-an-e-morphism.md) | pitfall | E0Pushout forgets that ι₂ is an E₀-morphism |
 | [0153](entries/0153-cauchy-maximality-of-reg-m-needs-no-surg.md) | pattern | Cauchy-maximality of Reg M needs no surgery |
 | [0154](entries/0154-the-image-of-a-flat-cauchy-embedding-is.md) | pattern | The image of a flat Cauchy embedding is causally convex |
+| [0155](entries/0155-an-e-comparison-without-angles-le-of-sma.md) | pattern | An E₀ comparison without angles: le_of_small_rad |
+| [0156](entries/0156-ce-flate0-n-is-the-flat-causality.md) | pattern | CE (FlatE0 N) is the flat causality |
+| [0157](entries/0157-a-blunt-spear-avoids-the-axis-along-caus.md) | pattern | A blunt spear avoids the axis along causal relations |
+| [0158](entries/0158-inextensibility-of-regular-null-rays-in.md) | pattern | Inextensibility of regular null rays in a flat N is open |
+| [0159](entries/0159-lift-a-closed-causal-curve-to-the-coveri.md) | pattern | Lift a closed causal curve to the covering when no invariant time function exists |
+| [0160](entries/0160-the-regular-part-of-a-bi-suspension-is-s.md) | pattern | The regular part of a bi-suspension is S × ]0, π[ |
+| [0161](entries/0161-on-a-single-l-a-ccc-exists-iff-l-is-misn.md) | pattern | On a single 𝔢(L), a CCC exists iff L is Misner |
+| [0162](entries/0162-the-positive-sense-of-linkcover-is-vol3.md) | pattern | The positive sense of linkCover is vol3 x |
+| [0163](entries/0163-a-boost-moves-the-future-time-like-direc.md) | pattern | A boost moves the future time-like directions up by the sign of ζ |
+| [0164](entries/0164-cut-and-glue-along-a-light-like-ray-of-d.md) | pattern | Cut-and-glue along a light-like ray of dS² is IsCutGlueLink |
+| [0165](entries/0165-cutglue-iscausalpast-is-gx-dsle-by-defin.md) | pattern | CutGlue.IsCausalPast is GX.DSLe by definition |

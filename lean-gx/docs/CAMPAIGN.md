@@ -48,7 +48,7 @@ survives, and a successor resumes from it.
 
 ## What you write
 
-Every file follows the docstring contract (`kb/entries/0006`). Namespace `GX`, the
+Every file follows the docstring contract (`lean-causal/kb/entries/0006-docstring-contract.md`; lean-gx's own kb/0006 is about spherical models). Namespace `GX`, the
 conventions of `README.md`: everything indexed by an open set (`kb/0001`), past from future by
 `dual` (`kb/0002`), weakest sufficient hypotheses (`kb/0007`).
 

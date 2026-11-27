@@ -1,0 +1,163 @@
+{
+ "package": "T-btz-blunt-spear",
+ "target": "T-btz-blunt-spear",
+ "files": [
+  "scaffold/GXScaffold/BTZ/BluntSpear.lean",
+  "scaffold/GXScaffold.lean (one import line)"
+ ],
+ "builds": true,
+ "sorry_count": 2,
+ "axioms": {
+  "GX.E0BluntSpear.lem_blunt_spear_of_inextensible": "propext, Classical.choice, Quot.sound",
+  "GX.E0BluntSpear.lem_blunt_spear": "propext, sorryAx, Classical.choice, Quot.sound (sorryAx only through flat_vertical_noLimit, flat_infall_noLimit)",
+  "every other declaration of the file": "standard axioms only"
+ },
+ "labels": [
+  {
+   "label": "btzdef:blunt_spear_neighborhood",
+   "tex_lines": [
+    621,
+    629
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.E0BluntSpear.IsBluntSpearNbhd",
+    "GX.E0BluntSpear.bspear",
+    "GX.E0BluntSpear.bspearY",
+    "GX.E0BluntSpear.bspearHead",
+    "GX.E0BluntSpear.bspearShaft",
+    "GX.E0BluntSpear.bspear_eq_spear_diff_axis",
+    "GX.E0BluntSpear.bspear_eq_iff",
+    "GX.E0BluntSpear.IsBluntSpearNbhd.subset_closure_interior",
+    "GX.E0BluntSpear.IsBluntSpearNbhd.locallyConnectedSpace_interior",
+    "GX.E0BluntSpear.isBluntSpearNbhd_model"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M* an E_{>0}-manifold",
+     "here": "strengthened (scope)",
+     "note": "E0 scope (T-btz-scope): stated in any E0-manifold X (ChartedSpace E0Y, HasGroupoid e0Groupoid); the flat case M* = Reg M is FlatE0 N for a flat spacetime N (e.g. e0RegMFlat M). No massive particle."
+    },
+    {
+     "paper": "singular E-isomorphism phi : U* -> V*",
+     "here": "read",
+     "note": "as for spears (DEC-116 (c)): psi = phi^-1 an injective E0-morphism on an open W containing V* in Y, U = psi(V*); U* = U since M* has no BTZ point"
+    },
+    {
+     "paper": "interior dense and locally connected in U",
+     "here": "carried (proved)",
+     "note": "a consequence of the chart reading: subset_closure_interior, locallyConnectedSpace_interior"
+    },
+    {
+     "paper": "V* the regular part of a unique spear; head, shaft",
+     "here": "carried (proved)",
+     "note": "bspear_eq_spear_diff_axis, bspear_eq_iff; bspearHead, bspearShaft defined as the regular parts of spearHead/spearShaft (the corrected head/shaft of GX.E0Spear)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "U* (l.625) is not defined in the paper; in the E0 scope M* has no singular point, and I read U* = U. For E_{>0} it presumably means U minus the massive lines; open under T-btz-scope.",
+    "The definition fixes no relation between the chart and the closedness/boundary of U (unlike Def 2.1, whose boundary sentence DEC-125 (a) reads as the field IsSpearNbhd.isClosed). No closedness field was added here: the printed definition has no boundary sentence."
+   ]
+  },
+  {
+   "label": "btzlem:blunt_spear_neighborhood",
+   "tex_lines": [
+    693,
+    701
+   ],
+   "status": "stated",
+   "marked": false,
+   "decls": [
+    "GX.E0BluntSpear.lem_blunt_spear",
+    "GX.E0BluntSpear.lem_blunt_spear_of_inextensible",
+    "GX.E0BluntSpear.bvertical_meets",
+    "GX.E0BluntSpear.binfall_meets",
+    "GX.E0BluntSpear.continuousOn_tauS_blunt",
+    "GX.E0BluntSpear.lowerBounds_bspear_iff",
+    "GX.E0BluntSpear.isLowerBound_vertex",
+    "GX.E0BluntSpear.le_vertex_of_lowerBound",
+    "GX.E0BluntSpear.le_of_small_rad",
+    "GX.E0BluntSpear.le_infall",
+    "GX.E0BluntSpear.le_of_mem_bspear",
+    "GX.E0BluntSpear.le_of_le_top_of_mem_bspear",
+    "GX.E0BluntSpear.exists_tendsto_of_antitone",
+    "GX.E0BluntSpear.ce_flatE0_eq",
+    "GX.E0BluntSpear.flat_vertical_noLimit",
+    "GX.E0BluntSpear.flat_infall_noLimit"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M a globally hyperbolic E_{>0}-manifold",
+     "here": "strengthened (scope)",
+     "note": "E0 scope: M flat, a Causal.Flat.FlatSpacetime 2 N with Causal.Flat.GH N, read as the E0-manifold FlatE0 N (ce_flatE0_eq: same causality). The core is stated for any GH E0-manifold (T2, second countable, connected)."
+    },
+    {
+     "paper": "Sigma a Cauchy surface of M",
+     "here": "carried",
+     "note": "(flatCausality 2 N).IsCauchySurface Sigma; topological, as everywhere in btz"
+    },
+    {
+     "paper": "S subset S0, phi = phi0|S, inf phi(S) = inf phi(S0)",
+     "here": "carried",
+     "note": "the given chart (v, W, psi) of S0 is a hypothesis of lem_blunt_spear (AUDIT-1); S = psi(bspearY v R') with the same psi, R' <= R, S subset S0; the infimum read as the causal one in E0: both sets have exactly the lower bounds of the vertex (lowerBounds_bspear_iff)"
+    },
+    {
+     "paper": "Sigma cap S lies in the shaft of S",
+     "here": "read",
+     "note": "as for lem:add_BTZ_param (DEC-116 (c)): Sigma cap S in {tau > v + R'/2}"
+    },
+    {
+     "paper": "tau_Sigma smooth on D*_R, values in R_+^*",
+     "here": "weakened (read)",
+     "note": "continuous on the punctured closed disc {0 < |z| <= R'}, values > v + R'/2: DEC-125 (c)'s reading of the twin lem:add_BTZ_param (Sigma is a topological Cauchy surface; smoothness is not claimed, for the same reason as there; no counterexample formalized for the blunt case)"
+    },
+    {
+     "paper": "(implicit in 'essentially the same' proof) the regular null rays of S0 are inextensible in M",
+     "here": "tagged sorry",
+     "note": "flat_vertical_noLimit, flat_infall_noLimit; the core takes them as hypotheses hvert, hfall"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.E0BluntSpear.flat_vertical_noLimit",
+     "obstruction": "a vertical null ray t -> psi(t, z), z != 0, of a blunt spear chart into a flat N has no future endpoint. Needs rigidity at a REGULAR limit point q: kappa o psi, kappa the Minkowski chart at q, equals one isometry times the sector chart on the connected tube around the ray (e0_eqOn_of_eqOn_open needs a global element of e0Groupoid built from sectorChartBTZ, and the library has no lemma that sectorChartBTZ lies in BTZE0's maximal a.e. atlas); then the developed ray (2t + r theta^2 - r, r, -r theta) is unbounded. E0Spear.axis_noLimit's route (btzE0_localUnique_core) works only at a BTZ limit point."
+    },
+    {
+     "decl": "GX.E0BluntSpear.flat_infall_noLimit",
+     "obstruction": "an in-falling null ray s -> psi(a + s/2, s u), s -> 0+, a > v, has no past endpoint in a flat N. The developed ray CONVERGES (to the developed axis point (2a,0,0)), so unboundedness gives nothing: one must show that psi extends, through the Minkowski chart at the limit point, to a full punctured neighbourhood of the axis point, and then that the two sector charts around the axis (which differ by the parabolic holonomy hol(2 pi) on one overlap component, kb/0107, chartMap_eq_hol_smul) cannot both be one isometry times the chart at q. Not formalized."
+    }
+   ],
+   "findings": [
+    "BTZ_1.tex:721 (« the proof of Lemma lem:blunt_spear_neighborhood is essentially the same ») — it is not: the proof of lem:add_BTZ_param (l.722–741) starts from the vertex p in I^-(Sigma) (« there exists U a neighborhood of w on which inf(tau o Phi(U cap Sigma)) > tau o Phi(p) ») and from the BTZ ray through p, neither of which exists in M* (the vertex is not a point of M*, and the lemma has no hypothesis placing anything below Sigma). A proof is in GX.E0BluntSpear.lem_blunt_spear_of_inextensible: compare in E0 (le_of_small_rad: a point of radius r1 <= r2/2 is below every point of radius r2 whose f-level is 4 pi^2 r1 higher) with ONE point of Sigma found on a far in-falling null ray or above it (binfall_meets / bvertical_meets); it needs that the vertical and in-falling regular null rays of S0 are inextensible in M, which the paper does not state and which is a rigidity/holonomy fact (two tagged sorrys).",
+    "BTZ_1.tex:1601–1604 (theo:BTZ_Cauchy-completness, Step 1): the lemma is applied to Sigma_0, a Cauchy surface of M_0, with S the spear of M_2 given by lem:tube; reg(S) is a blunt spear of M_2^* but is shown to lie in M_0 only afterwards (l.1604, « we deduce that N subset M_0 »), so at l.1601 the lemma's hypothesis « a blunt spear neighborhood in M » (M = M_0) is not yet available. Not formalized; recorded as a possible ordering gap for the author.",
+    "BTZ_1.tex:698: « phi : S -> Reg(E_0) » versus « phi_0 : S_0 -> E_0 »; and l.699 « graph of a smooth function tau_Sigma : D_R^* -> R_+^* » with R the radius of S (not of S_0), which the statement leaves implicit; read so."
+   ],
+   "questions": [
+    "« inf(phi(S)) = inf(phi(S0)) » (l.698) is not defined; read as the infimum for the causal order of E0 (the vertex), formalized as equality of the sets of lower bounds (lowerBounds_bspear_iff). The other natural reading, the infimum of the tau-coordinate, is also preserved (it is v for every radius), but only the causal reading is in the Lean statement.",
+    "« Sigma cap S lie in the shaft of S » read as {tau > v + R'/2}, the reading DEC-116 (c) ruled for lem:add_BTZ_param.",
+    "Smoothness of tau_Sigma read as continuity (DEC-125 (c), ruled for the twin lemma, not for this one)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.E0BluntSpear.exists_tendsto_of_antitone",
+  "GX.E0BluntSpear.le_of_small_rad",
+  "GX.E0BluntSpear.le_infall",
+  "GX.E0BluntSpear.le_of_le_top_of_mem_bspear",
+  "GX.E0BluntSpear.ce_flatE0_eq",
+  "GX.E0BluntSpear.bvertical_meets",
+  "GX.E0BluntSpear.binfall_meets",
+  "GX.E0BluntSpear.continuousOn_tauS_blunt"
+ ],
+ "kb_proposals": [
+  "E0 comparison without angles: GX.E0BluntSpear.le_of_small_rad — rad x <= rad y / 2 and 4 pi^2 rad x <= fcoord y - fcoord x give Le x y (from le_iff_closed, |arg - arg| <= 2 pi).",
+  "CE (FlatE0 N) = Causal.Flat.flatCausality 2 N as Causality structures (GX.E0BluntSpear.ce_flatE0_eq, Causality.ext + flatE0_rel_iff): rewrite GH and Cauchy hypotheses across with rw [<- h] at hyp.",
+  "A blunt spear avoids the axis along causal relations (rad is monotone, J^+ of a regular point of E0 misses the axis): GX.E0BluntSpear.le_of_le_top_of_mem_bspear is the blunt le_of_le_top_of_mem_spear.",
+  "Inextensibility of regular null rays in a flat N (vertical: unbounded development; in-falling: needs the parabolic holonomy across two sector charts) is open; the missing brick is sectorChartBTZ in BTZE0's maximal a.e. atlas."
+ ],
+ "notes": "Labels written unbolded (kb/0024 for btz; nothing marked). The core lem_blunt_spear_of_inextensible is sorry-free and standard-axiom; lem_blunt_spear (the paper form, flat N) is sorry-free modulo the two tagged helper sorrys flat_vertical_noLimit and flat_infall_noLimit. The core's hfall is assumed only for levels a > v (weaker than all a >= v). Built with lake build GXScaffold.BTZ.BluntSpear (no GX.* or mathlib rebuild). Readings open on btz: T-btz-scope (E_{>=0} vs E0), OQ-142 untouched.",
+ "audit": "AUDIT-1 (minor) addressed: lem_blunt_spear now takes the given chart (v, W, psi) of S0 = psi(bspearY v R) as hypotheses, so phi = phi0|S is about the given phi0 (conclusion: same psi, radius R' <= R); docstring and checklist say so. References fixed: SCOPE names lem_blunt_spear_of_inextensible / binfall_meets / bvertical_meets instead of the nonexistent exists_far_point; bvertical_meets cites l.738; the quoted sentence is l.721. Typechecked and rebuilt; sorry count unchanged (2)."
+}

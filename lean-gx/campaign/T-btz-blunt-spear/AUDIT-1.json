@@ -1,0 +1,46 @@
+{
+  "target": "T-btz-blunt-spear",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzdef:blunt_spear_neighborhood",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "IsBluntSpearNbhd R U = 0 < R and a chart: v free, psi an injective E0-morphism on an open W of E0Y containing bspearY v R, U = psi '' bspearY v R. bspear v R = {v <= f, 0 < r <= R} is reg(J+((v,0)) cap {r <= R}), since fcoord = tau - r/2 and le_axis_iff gives J+ of the vertex = {f >= v} (bspear_eq_spear_diff_axis). Nothing printed is dropped: 'interior dense and locally connected in U' is a consequence of the chart and is proved (subset_closure_interior; locallyConnectedSpace_interior, which is true in any manifold), 'regular part of a unique spear' is bspear_eq_spear_diff_axis + bspear_eq_iff, head/shaft are spearHead/spearShaft minus the axis, i.e. the corrected head/shaft of the twin (DEC-116 (c)). Nothing silently added: the open extension W is the same chart reading as IsSpearNbhd.chart (DEC-116 (c)); unlike IsSpearNbhd there is no isClosed field, correctly, because l.621-629 has no boundary sentence (raised as a question). U* = U is right in the E0 scope: an E_{>0}-manifold carries no BTZ point, and with no massive particle (T-btz-scope) M* is flat, so U has no singular point to remove. Non-vacuous: isBluntSpearNbhd_model (psi = id in E0Y). Written unbolded, row partial (E0 scope + chart reading): correct."
+    },
+    {
+      "label": "btzlem:blunt_spear_neighborhood",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Not certified, and not claimed to be: unbolded; REPORT status 'stated' (the paper form rests on two tagged sorrys; the sorry-free core carries two added hypotheses), consistent with the dispatch's 'partial' row. Paper form lem_blunt_spear (flat N, Causal.Flat.GH N, Sigma a flatCausality Cauchy surface, S0 a blunt spear nbhd) concludes: same psi and vertex v, radius R' <= R, S = psi '' bspearY v R' is a blunt spear nbhd contained in S0, the lower-bound sets for the E0 order of bspear v R' and bspear v R coincide, Sigma cap S lies in {tau > v + R'/2}, and psi^-1(Sigma cap S) is the graph of tauS, continuous on {0 < |z| <= R'}, tauS > v + R'/2. Every paper conclusion is present. The readings are disclosed: E0 scope; 'in the shaft' = tau > v + R'/2 (DEC-116 (c), as for the twin); smooth read as continuous (DEC-125 (c), ruled for the twin, extended here and said so); inf read causally, equality of lower bounds plus the vertex as the greatest lower bound (isLowerBound_vertex, le_vertex_of_lowerBound), which is a correct formalization of 'inf phi(S) = inf phi(S0)'. The tau-infimum reading also holds: it is v for every radius. hvert/hfall (core only) are disclosed as added hypotheses in the checklist (row 54) and SCOPE. I find no evidence that they are false. The vertical one follows from rigidity at a regular limit point: the tail of the ray is connected and lies in one Minkowski ball, on which kappa o psi is an isometry composed with the development, and the development is unbounded. The in-falling one is the holonomy fact the closer describes. In the paper both are implicit in l.738's 'these curves cover Phi(S'); therefore ... exactly the graph', which needs every ray to meet Sigma. hfall is required only for a > v, as stated. One undisclosed quantifier weakening, minor: see findings[0]."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 2,
+    "axioms": "standard everywhere except sorryAx in exactly GX.E0BluntSpear.flat_vertical_noLimit, flat_infall_noLimit and lem_blunt_spear; lem_blunt_spear_of_inextensible and the other 18 probed declarations use only [propext, Classical.choice, Quot.sound]"
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/BluntSpear.lean:703-713",
+      "what": "The paper fixes the chart phi_0 : S_0 -> E_0 and concludes that phi = phi_0|S. lem_blunt_spear instead takes only the Prop IsBluntSpearNbhd R S0 and concludes that there exist (v, W, psi) with S0 = psi '' bspearY v R, for which the conclusions hold. That is 'for some chart of S0', not 'for the given phi_0'. The docstring's 'the same chart' does not disclose this. The sorry-free core lem_blunt_spear_of_inextensible takes the chart explicitly, so the stronger content exists there, but only under hvert/hfall. The twin lem_add_BTZ_param uses the same existential pattern, which is why this is minor.",
+      "fix": "State lem_blunt_spear with an explicit chart (v, W, psi, hW, hsub, hpsi, hinj), as the core does, and derive the current IsBluntSpearNbhd form from it; or disclose the existential in the docstring and checklist."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/BluntSpear.lean:65, :378, :38",
+      "what": "The SCOPE cites a declaration `exists_far_point` that exists nowhere in lean-gx. The step is done inline in lem_blunt_spear_of_inextensible (the xi_2 obtain, l.570-584). The bvertical_meets docstring cites 'l.756-757' for 'Phi(Sigma cap S') is exactly the graph of tau_Sigma', which is BTZ_1.tex:738 in legacy/labeled. The quoted 'essentially the same' sentence is dated (l.720); it is l.721, which the REPORT gets right.",
+      "fix": "Replace `exists_far_point` with a pointer to the inline step in lem_blunt_spear_of_inextensible; correct the line references to l.738 and l.721."
+    }
+  ],
+  "checks": {
+    "scope": "git status --short: this closer's only changes are the untracked scaffold/GXScaffold/BTZ/BluntSpear.lean, campaign/T-btz-blunt-spear/ and the line `import GXScaffold.BTZ.BluntSpear` in GXScaffold.lean. The other added import (HSLinkRemarks) belongs to T-bbs-link-remarks. The remaining modified and untracked paths (HSCausal.lean, programme/, roadmap/, lean-causal scaffold files, restatement registers) are other loops' and predate or lie outside this target.",
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/BluntSpear.lean: no errors, two 'declaration uses sorry' warnings (l.684, l.691). The olean is current (same mtime as the source). Two `sorry` terms (l.688, l.695), each tagged `sorry -- SORRY(btzlem:blunt_spear_neighborhood): <obstruction>` per CAMPAIGN.md, with the full obstructions in REPORT.json. The axiom probe was written under the campaign directory and deleted afterwards.",
+    "docstring_contract": "Title, unbolded labels with BTZ_1.tex lines in the first 4000 characters, a quoted paper block, a hypothesis checklist, SCOPE and provenance are all present. The checklist and SCOPE are true, apart from the dangling `exists_far_point` reference (findings[1]).",
+    "finding_l721": "Faithful. The proof printed for lem:add_BTZ_param (l.723-738) starts from p in Delta cap I^-(Sigma) and from w := Sigma cap Delta with w > p, and it uses the bound inf(tau o Phi(U cap Sigma)) > tau o Phi(p) near w. lem:blunt_spear_neighborhood has neither: no hypothesis places anything below Sigma, and the vertex and the axis are not in M*. So the proof does not carry over verbatim. The closer's replacement (le_of_small_rad against one point of Sigma found on an in-falling or vertical ray) is kernel-checked. The finding is a gap in the proof sketch, not a claim that the lemma is false, and it is worded that way.",
+    "finding_l1601": "Reasonable and correctly hedged as 'possible'. At l.1601 the lemma is applied with M = M_0 and Sigma_0, to a spear S of M_2. reg(S) is shown to lie in M_0 only at l.1604 ('we deduce that N subset M_0'), so the hypothesis 'a blunt spear neighbourhood in M' is not yet available at l.1601.",
+    "finding_l698": "The notational looseness (phi : S -> Reg(E_0) against phi_0 : S_0 -> E_0, and an R left implicit) is accurate and minor."
+  }
+}

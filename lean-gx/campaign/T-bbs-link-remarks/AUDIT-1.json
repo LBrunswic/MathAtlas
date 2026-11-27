@@ -1,0 +1,59 @@
+{
+ "target": "T-bbs-link-remarks",
+ "auditor_round": 1,
+ "verdict": "major",
+ "labels": [
+  {
+   "label": "bbsrem:cuttachyon2",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial, and disclosed (link-level reading, SCOPE (a); homeomorphic-to-disk not stated, SCOPE (b)). Hypothesis by hypothesis: x in dS^2, w a non-zero null vector of x^perp, ray s in (0, eps), gamma in Gamma_x minus {1} (read: it must fix x; every such element is a boost, GammaP.exists_eq_dsBoost). Positivity is given in both forms (IsPositive, IsSpacelikePositiveRep), and space-like of degree 2 is hasType. cutGlueHol is derived correctly from the gluing chart under IsLiftedDev's convention D(s+1) = f(D s). I checked it by hand: with rule 'future-side y ~ past-side gamma y', crossing from the past side into the future side continues the developing map by gamma, the other way by gamma^-1. SourceFirst correctly picks the side crossed first in the vol3 sense. isPositive_iff_past, isPositive_iff_future and the time-reversal incompatibility (no single side-of-line rule makes both printed clauses true, bbsrem_cuttachyon2_reading) are correct statements and do not depend on the convention. On the questions in the dispatch: (1) src = true is a literal reading of l.1303-1304, but the sentence is ambiguous without the figure: 'the isometry [drawn] gluing the future copy into the past copy; hence gamma is the inverse of the holonomy' also reads as gamma = the inverse of the drawn map. More importantly, which printed clause is 'the wrong one' depends on the holonomy sign convention, not only on the rule; see finding 1. (2) cutGlueHol is gamma^-1 or gamma depending on the crossing direction. It does not establish the paper's 'gamma is the inverse of the holonomy'; it replaces it (finding 2). (3) The AdS sentence l.1290-1296 does NOT support the refutation; it contradicts it (finding 1). (4) See the second label."
+  },
+  {
+   "label": "bbsrem:however_no_positive_negative",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, partial, the reading disclosed in SCOPE (d) and put as a question. The assembly is correct, but most of it holds by definition. The IsPositive conjunct holds vacuously: the clauses of IsPositive need a time-like point or degree k >= 2. The four 'not signed' conjuncts come only from the degree clash (the signed notions need k >= 1). The one conjunct with content, D s < f (D s), is IsLiftedDev.lt_apply from HSSingularities. The reading is not vacuous in the sense of unsatisfiable hypotheses: BTZ-like types are inhabited in principle. But the occurrence of BTZ-like circles is not formalized (OQ-135 (c)), so it does not show that a dichotomy is absent in any stronger sense. The likely intended content, by contrast with l.926-932, is that BTZ-like circles of holonomy g and g^-1 are isomorphic. That is not proved and is only asked. This is acceptable as an unmarked partial (finding 3)."
+  }
+ ],
+ "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+ "findings": [
+  {
+   "severity": "major",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSLinkRemarks.lean:92-102 (SCOPE (c)), :961-963 (not_cuttachyon2_future_printed docstring); REPORT.json labels[0].findings[0..1]",
+   "what": "Two problems. First, the REPORT claims that 'the AdS statement (l.1295-1296) agrees with the printed rule's answer « past »'. That claim is false. In l.1290-1294, a future time-like curve reaching L_1^+ at x (necessarily from the past side of the null plane L_1) continues from gamma x on the future side. So the AdS gamma glues the PAST copy into the FUTURE copy: src = false for gamma, or src = true for gamma^-1. For that rule this module proves positive iff gamma pushes r into its FUTURE (isPositive_iff_future), and l.1296 says PAST. So the module's convention contradicts the AdS sentence. Second, the paper's own worked examples use the opposite holonomy convention to IsLiftedDev's D(s+1) = f(D s). In T_m (l.1229-1233), 'the holonomy sends Q_1 onto Q_2' is the gluing map phi. The developing holonomy is phi^-1 (its fixed-point lift sends Q_2 to Q_1 and moves I+ down), so under HSPositive's IsPositive the line c of T_m comes out negative, where the paper says positive. Remark bbsrem:positive_negative (l.1239-1246) likewise applies 'the holonomy' to the curve in original coordinates. Under the paper's convention (holonomy = gluing map, the inverse of the formal one), the AdS sentence and the printed future-oriented clause agree: gamma_dS = gamma_AdS^-1 for the same surgery. The clause that is reversed is then the PAST-oriented one. So 'the future-oriented clause (l.1307-1309) is reversed' is a fact only relative to HSPositive's literal reading of l.908-915. The paper's examples contradict that reading, and the statement must not go to the author as a fact. The finding that holds in either convention is that no single gluing rule makes both clauses true, because positivity does not depend on the orientation of r (proved).",
+   "fix": "Restate the finding as convention-free: under any side-of-line rule positivity does not depend on the orientation of r, so the two printed clauses are mutually incompatible. Under IsLiftedDev's D(s+1) = f(D s) the future clause fails. Under the convention of the paper's examples (T_m l.1229-1233, l.1239-1246, l.1295-1296) the past clause fails. Delete the AdS-agreement sentence from SCOPE (c) and from the REPORT. Open an OQ on the holonomy sign convention (extending OQ-120 (c)): l.908-915 read with the developing holonomy against the gluing-map holonomy of the worked examples. It may also affect prior signs (exists_positive_negative, HSPositive). Reword the docstring of not_cuttachyon2_future_printed so its claim is relative to that convention. Do not file a restatement until the OQ is ruled."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSLinkRemarks.lean:70 (checklist row « γ is the inverse of the holonomy »); REPORT hypotheses[4] 'carried'",
+   "what": "The row is ticked as carried or proved. cutGlueHol is the holonomy derived from the gluing. It is gamma^-1 only when the positive sense crosses from the glued copy into the other, and gamma otherwise. The paper's assertion that gamma is always the inverse of the holonomy is replaced, not proved, and under the module's convention it holds for one crossing direction only.",
+   "fix": "Mark the row ⚠ read: the holonomy is derived (cutGlueHol), and the paper's 'inverse of the holonomy' is a convention statement tied to the figure's orientation and to the holonomy convention of finding 1."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSLinkRemarks.lean:1055-1072 (bbsrem_however_no_positive_negative)",
+   "what": "In degree 0, five of the six conjuncts hold by definition: IsPositive vacuously, and the four not-signed notions by the degree clash. Only D s < f (D s) has content, and it is inherited (lt_apply). The probable intended content, that circles of holonomy g and g^-1 are isomorphic (no sign splits a BTZ-like type, in contrast with l.926-932), is not proved. The label is partial and the reading is put as a question, so this is disclosed, not a false claim.",
+   "fix": "Record in the OQ (or a new one) that the isomorphism reading is the likely intent. Either prove it (an orientation-preserving conjugacy between the g and g^-1 BTZ-like circles at the same p) or keep the row partial."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSLinkRemarks.lean:131-140",
+   "what": "CutGlue.hyp and CutGlue.IsCausalPast are verbatim copies of HSCausal's dsHat and DSLe (IsCausalPast τ σ is DSLe τ σ, the same order). There is no name clash: no other CutGlue namespace or these names exist in lean-gx, and both modules are imported side by side in GXScaffold.lean. No lemma connects the two, so the REPORT's 'CutGlue.IsCausalPast = GX.DSLe by definition' is argued, not checked.",
+   "fix": "At graduation, replace IsCausalPast with GX.DSLe (an Iff.rfl lemma meanwhile), as the closer's kb proposal says."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/docs/CAMPAIGN.md:51",
+   "what": "Pre-existing, not this closer's work: CAMPAIGN.md points the docstring contract to kb/entries/0006, which in lean-gx is 'The spherical models and the Thurston suspension'. The module's docstring itself has the checklist and the SCOPE, and no ** mark, which matches the contract as stated in CAMPAIGN.md.",
+   "fix": "Point CAMPAIGN.md to the right kb entry (curation)."
+  }
+ ],
+ "checks": {
+  "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSLinkRemarks.lean: no output (no errors, no warnings), 7.6 s",
+  "sorry": "0 (the three 'sorry' matches are docstring text)",
+  "axioms": "20 declarations probed (all those the REPORT names in the two labels plus push_iff, future_up_iff, sign_of_lift, futureSide_iff): every one [propext, Classical.choice, Quot.sound]. Probe written under campaign/T-bbs-link-remarks/ and deleted",
+  "scope": "This target touches only the untracked HSLinkRemarks.lean, its campaign directory, and one import line in GXScaffold.lean. The other GXScaffold.lean line (BTZ.BluntSpear), the HSCausal.lean diff, and the other modified files belong to concurrent targets (T-btz-blunt-spear, T-bbs-hcausal-tachyons, the restate loop) and are not attributed to this closer. The module does not import HSCausal",
+  "marks": "no ** mark in the module docstring, and both labels are partial in the REPORT"
+ }
+}

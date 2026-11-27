@@ -1,0 +1,171 @@
+{
+ "package": "T-bbs-link-remarks",
+ "target": "T-bbs-link-remarks",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSLinkRemarks.lean",
+  "scaffold/GXScaffold.lean (one import line)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "bbsrem:cuttachyon2",
+   "tex_lines": [
+    1299,
+    1321
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.GammaLinkCircle.IsCutGlueLink",
+    "GX.exists_isCutGlueLink",
+    "GX.cutGlueHol",
+    "GX.SourceFirst",
+    "GX.FutureSide",
+    "GX.IsNullTangent",
+    "GX.rayPt",
+    "GX.CutGlue.IsCausalPast",
+    "GX.CutGlue.IsCausalFuture",
+    "GX.GammaLinkCircle.IsCutGlueLink.core",
+    "GX.GammaLinkCircle.IsCutGlueLink.hasType",
+    "GX.GammaLinkCircle.IsCutGlueLink.isPositive_iff_past",
+    "GX.GammaLinkCircle.IsCutGlueLink.isPositive_iff_future",
+    "GX.GammaLinkCircle.IsCutGlueLink.bbsrem_cuttachyon2_reading",
+    "GX.not_cuttachyon2_future_printed"
+   ],
+   "hypotheses": [
+    {
+     "paper": "x in a small disk U of dS^2, r a light-like ray from x in U",
+     "here": "carried",
+     "note": "x = C.pt in dS^2; r = {[x + s w] : 0 < s < eps}, w a non-zero null vector of x^perp (GX.IsNullTangent), every eps > 0"
+    },
+    {
+     "paper": "a hyperbolic dS^2-isometry gamma",
+     "here": "read",
+     "note": "gamma in Gamma_x minus {1}: gamma must fix x for the result to be a cone point at x; every such gamma is a boost, hence hyperbolic"
+    },
+    {
+     "paper": "cut along r and glue back by gamma (figure fig.tachyon)",
+     "here": "read",
+     "note": "read on the link: l(x) cut at the direction of r, holonomy of the positive loop gamma^-1 if the positive sense crosses the cut from the glued copy into the other one, gamma otherwise (GX.cutGlueHol); the identification of the surgered disk with an open set of e(L) is argued, not formalized"
+    },
+    {
+     "paper": "the future copy of r glued into the past copy (l.1303-1304)",
+     "here": "read",
+     "note": "future copy = the copy bounding the side of r in the future of the line of r (GX.FutureSide); the rule is the parameter src (true = printed)"
+    },
+    {
+     "paper": "gamma is the inverse of the holonomy (l.1304)",
+     "here": "read",
+     "note": "replaced by the derived holonomy GX.cutGlueHol (library convention D(s+1) = f(D s): gamma^-1 when the positive sense crosses from the glued copy into the other, gamma otherwise); the paper's sentence is a convention statement tied to the figure and to the holonomy convention"
+    },
+    {
+     "paper": "space-like, of degree 2",
+     "here": "carried",
+     "note": "GX.GammaLinkCircle.IsCutGlueLink.hasType: not regular, HasType (spacelike b 2)"
+    },
+    {
+     "paper": "positive",
+     "here": "carried",
+     "note": "both the l.915 form (IsPositive) and the l.908-913 repelling form (IsSpacelikePositiveRep)"
+    },
+    {
+     "paper": "gamma y lies in the future/past of y",
+     "here": "carried",
+     "note": "the causal order of dS^2 (CutGlue.IsCausalPast = GX.DSLe by definition)"
+    },
+    {
+     "paper": "the resulting space is homeomorphic to the disk",
+     "here": "not stated",
+     "note": "SCOPE (b)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Convention-free: for any single side-of-line gluing rule, positivity of the surgery link does not depend on the orientation of r, only on the rule and on the direction gamma pushes r (isPositive_iff_past, isPositive_iff_future). Hence the two printed clauses (l.1307-1311: future-oriented r -> « future », past-oriented r -> « past ») cannot both hold under one rule; they hold together exactly when the copy glued by gamma is the one facing the space-like quadrant at x (bbsrem_cuttachyon2_reading).",
+    "Which clause fails depends on the holonomy sign convention. In the library's convention (IsLiftedDev: D(s+1) = f(D s), developing holonomy = gluing map^-1, positivity of l.908-915 read with it as in HSPositive), under the rule l.1303-1304 read literally, the future-oriented clause fails (GX.not_cuttachyon2_future_printed) and the past-oriented one holds. In the convention of the paper's worked examples (holonomy = gluing map: T_m l.1229-1233, bbsrem:positive_negative l.1239-1246, the AdS sentence l.1290-1296) every sign flips and the past-oriented clause fails. Not to be filed as a restatement before the convention is ruled.",
+    "l.1301 « a hyperbolic dS^2-isometry gamma » omits that gamma fixes x (needed for a cone point at x); every non-trivial element of Gamma_x is hyperbolic (GX.GammaP.exists_eq_dsBoost)."
+   ],
+   "questions": [
+    "The figure fig.tachyon (Chirtachyon.pstex_t) is not in the source. « Future copy of r » is read as the copy of r bounding the side of r lying in the future of the light-like line of r (for a future ray: the side of the time-like cone I+(x)). Is that the figure's convention?",
+    "Which holonomy sign convention is of record (extends OQ-120 (c)): l.908-915 read with the developing holonomy of IsLiftedDev (D(s+1) = f(D s), = gluing map^-1, the library's), or with the gluing-map holonomy of the paper's worked examples (T_m l.1229-1233, l.1239-1246, l.1290-1296)? The answer decides which printed clause of cuttachyon2 fails, and may bear on earlier signs (HSPositive, GX.exists_positive_negative). The master opens the OQ row.",
+    "Which correction is of record, once the convention is ruled: change the failing clause (in the library's convention, « future » -> « past » at l.1308; in the paper's, « past » -> « future » at l.1310), or keep both clauses and change the rule to « the copy facing the space-like quadrant is glued into the copy facing the time-like cone »? All three are proved (isPositive_iff_past, isPositive_iff_future, bbsrem_cuttachyon2_reading).",
+    "The surgery is formalized on its link (the circle l(x) cut at the direction of r and glued, with the holonomy rule of l.1304); that the surgered disk is HS-isomorphic near x to an open set of e(L) is argued (the suspension of the cut direction is the light-like geodesic through r), not formalized. Accept the link-level reading?"
+   ]
+  },
+  {
+   "label": "bbsrem:however_no_positive_negative",
+   "tex_lines": [
+    1480,
+    1482
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.GammaLinkCircle.bbsrem_however_no_positive_negative",
+    "GX.GammaLinkCircle.isPositive_of_fixed",
+    "GX.GammaLinkCircle.not_signed_of_fixed",
+    "GX.GammaLinkCircle.IsLiftedDev.fixed_of_fixed",
+    "GX.LinkType.IsBTZLike",
+    "GX.LinkType.IsBTZLike.pairType",
+    "GX.GammaLinkCircle.IsLiftedDev.lt_apply (existing, HSSingularities)"
+   ],
+   "hypotheses": [
+    {
+     "paper": "BTZ-like singularities, extreme or not",
+     "here": "carried",
+     "note": "the types btzPast, btzFuture, extremeBTZ b of GX.LinkType (HasType); the general lemmas hold for every degree-0 circle (Misner and cuspidal too)"
+    },
+    {
+     "paper": "no positive/negative dichotomy",
+     "here": "read",
+     "note": "see questions"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "« No positive/negative dichotomy » (l.1481) is read as: every BTZ-like circle, extreme or not, is positive in the sense of GX.GammaLinkCircle.IsPositive (its clauses concern time-like points and degrees >= 2, so they are vacuous at degree 0); none is positive or negative in any of the four signed senses of l.906-922 (IsSpacelikePositive/Negative, IsLightlikePositive/Negative, which need a degree k >= 1); and for every oriented lifted pair the holonomy has a fixed point and the inequality of l.915 read at degree 0 (D s < f (D s)) holds, its reverse holding on I+ only when I+ is empty (BTZ-like future). So no sign splits a type. Is that the intended content, or is an isomorphism statement meant (e.g. the circles of holonomy g and g^-1 on the same interval coincide)? The reading rests on the types of OQ-116 (b) and OQ-135, and occurrence of these types is not formalized (OQ-135 (c)). The likely intended content (by contrast with l.926-932) is that BTZ-like circles of holonomy g and g^-1 at the same p are isomorphic; that is not proved, so the row stays partial."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.futureSide_iff",
+  "GX.CutGlue.vol3_linkCover_pos",
+  "GX.CutGlue.exists_tpMk_linkCover",
+  "GX.CutGlue.GTilde.sub_lt_one_of_fixed",
+  "GX.CutGlue.sign_of_lift",
+  "GX.CutGlue.future_up_iff",
+  "GX.CutGlue.frame",
+  "GX.CutGlue.vol3_frame_ne",
+  "GX.CutGlue.exists_frame_comb",
+  "GX.CutGlue.IsNullTangent.decomp",
+  "GX.CutGlue.dsBoost_dsE₀",
+  "GX.CutGlue.dsBoost_comb",
+  "GX.CutGlue.dsBoost_ne_one",
+  "GX.CutGlue.dsBoost_neg",
+  "GX.CutGlue.sourceFirst_iff",
+  "GX.CutGlue.cutGlueHol_dsBoost",
+  "GX.CutGlue.push_iff",
+  "GX.CutGlue.push_sign",
+  "GX.CutGlue.hyp_of_coe",
+  "GX.CutGlue.sign_rule",
+  "GX.CutGlue.vol3_smul_right",
+  "GX.CutGlue.vol3_add_right",
+  "GX.CutGlue.vol3_self",
+  "GX.CutGlue.vol3_swap"
+ ],
+ "kb_proposals": [
+  "The positive sense of linkCover is vol3 x's (GX.CutGlue.vol3_linkCover_pos: t < t' < t+1 gives vol3 x (lift t) (lift t') > 0); a lift g with a fixed point of A in Gamma_x moves t up iff the lifts of (linkCover t, A . linkCover t) are a direct pair (GX.CutGlue.sign_of_lift).",
+  "At x in dS^2 the lift with a fixed point of GammaP.dsBoost hx zeta moves the future time-like directions up iff 0 < zeta * vol3 x (dsE₀ x) (jVec x) (GX.CutGlue.future_up_iff); every vector of x^perp is a e₀ + b j (GX.CutGlue.exists_frame_comb).",
+  "Cut-and-glue along a light-like ray of dS^2 is GX.GammaLinkCircle.IsCutGlueLink w gamma src; in the library's holonomy convention (D(s+1) = f(D s)) and src = true it is positive iff gamma pushes the ray into its own past, for both orientations of the ray (…isPositive_iff_past). The paper's worked examples use the inverse convention.",
+  "GX.CutGlue.IsCausalPast tau sigma is GX.DSLe tau sigma of HSCausal by definition (hyp = dsHat), restated to avoid importing a module in flight; unify at graduation."
+ ],
+ "notes": "New module scaffold/GXScaffold/BBS/HSLinkRemarks.lean (0 sorry, no warnings, standard axioms); imports HSClassification and HSRemarkReadings only (not HSCausal, owned by T-bbs-hcausal-tachyons). One import line added to scaffold/GXScaffold.lean right after `import GXScaffold.BBS.HSCausal`. `lake build GXScaffold.BBS.HSLinkRemarks` succeeded without rebuilding GX.* or mathlib. In not_cuttachyon2_future_printed the hypothesis `_hwf` (w future) is unused by the proof (positivity under the printed rule does not depend on the orientation of r) and kept because it is the clause refuted. The existing GX.GammaLinkCircle.IsLiftedDev.lt_apply (HSSingularities) is reused, not redeclared. CutGlue.hyp / CutGlue.IsCausalPast are verbatim copies of HSCausal's dsHat / DSLe (IsCausalPast tau sigma is DSLe tau sigma, Iff.rfl); no bridging lemma is stated because the module must not import HSCausal; replace by GX.DSLe at graduation.",
+ "audit": "AUDIT-1 (major) addressed, files HSLinkRemarks.lean and campaign dir only: (1) the sign finding restated convention-free (no single side-of-line rule satisfies both printed clauses), with which clause fails under each convention; (2) the claim that l.1295-1296 (AdS) supports « past » deleted from SCOPE (c) and the REPORT; (3) not_cuttachyon2_future_printed's docstring and the module header made relative to the library's convention (holonomy = gluing map^-1, D(s+1) = f(D s)), no « false as printed » wording; (4) checklist row « gamma is the inverse of the holonomy » now ⚠ read; (5) question on the holonomy sign convention added (extends OQ-120 (c)); (6) DSLe bridge not stated (would import HSCausal), noted for graduation. No Lean statement changed; 0 sorry; builds."
+}

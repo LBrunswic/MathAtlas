@@ -1,0 +1,48 @@
+{
+ "target": "T-bbs-link-remarks",
+ "auditor_round": 2,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bbsrem:cuttachyon2",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Still unmarked and partial. AUDIT-1 major (finding 1) is resolved. SCOPE (c) (HSLinkRemarks.lean:94-108), the module header (:12-22), the checklist row for the two clauses (:76), and the REPORT findings[0..1] now state the convention-free fact: under one side-of-line rule, positivity does not depend on the orientation of r, so the two printed clauses cannot both hold (isPositive_iff_past, isPositive_iff_future, bbsrem_cuttachyon2_reading). Which clause fails is stated per convention. Under the library's convention (IsLiftedDev D(s+1) = f(D s)) with src = true, the future clause fails. Under the gluing-map convention of the paper's examples, the past clause fails. I re-derived the second case: flipping the sign turns isPositive_iff_past into 'positive iff gamma pushes r into its future' for both orientations, so the future clause holds and the past one fails. The text explicitly says no restatement should follow before the convention is ruled. The claim that l.1295-1296 (AdS) agrees with « past » is gone from SCOPE and from the REPORT. The AdS sentence now appears only in the list of passages consistent with the gluing-map convention, which matches AUDIT-1's analysis. The paper's l.1290-1296 makes no claim about 'the holonomy', so 'consistent with' is the accurate wording. not_cuttachyon2_future_printed's docstring (:966-973) now says 'Relative to the library's holonomy convention ... and to the rule l.1303-1304 read literally', and it states the flip. No 'false as printed' or 'reversed' wording remains (grep for false/wrong/reversed/error/refut: only code tokens). The « γ is the inverse of the holonomy » row (:71) is now ⚠ read, as AUDIT-1's minor asked. The REPORT hypotheses[4] is now 'read'. The new question on the holonomy convention of record (extends OQ-120 (c), names HSPositive and exists_positive_negative as possibly affected) is present in REPORT questions[1]. No cuttachyon2 entry exists in papers/bbs/certificate/restatements.toml. Statements: the signatures of IsCutGlueLink, exists_isCutGlueLink, cutGlueHol, SourceFirst, core, hasType, isPositive_iff_past, isPositive_iff_future, bbsrem_cuttachyon2_reading and not_cuttachyon2_future_printed match AUDIT-1's description: the src parameter, Gamma_x minus {1}, both positivity forms, the ray Ioo 0 eps, and not_cuttachyon2 with src = true and the unused _hwf. AUDIT-1 kept no copy of the file, so this check compares against AUDIT-1's description, not a byte diff."
+  },
+  {
+   "label": "bbsrem:however_no_positive_negative",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked and partial. The statement is unchanged from AUDIT-1: six conjuncts, and the degree-0 content of five of them is still by definition. AUDIT-1's minor 3 is addressed by the fix it allowed: the likely intended isomorphism reading (holonomy g against g^-1 at the same p) is recorded in the REPORT question as unproved, and the row stays partial. SCOPE (d) is accurate."
+  }
+ ],
+ "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSLinkRemarks.lean:172-175 (cutGlueHol docstring)",
+   "what": "The docstring still glosses the definition as '(l.1304, « γ is the inverse of the holonomy »)' and does not mention the convention. The checklist row and SCOPE now say that this sentence is a convention statement which cutGlueHol replaces rather than formalizes, but a reader of the definition alone would take it as the formal content of l.1304.",
+   "fix": "Write, for example: 'in the library's convention D(s+1) = f(D s); replaces l.1304's « γ is the inverse of the holonomy », see SCOPE (a), (c)'."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSLinkRemarks.lean:131-140 (CutGlue.hyp, CutGlue.IsCausalPast)",
+   "what": "Carried from AUDIT-1 minor 4 and deferred as that fix allowed: these are still duplicates of HSCausal's dsHat/DSLe, and no lemma connects them. The docstring now states that the Iff.rfl identity is not stated here and that GX.DSLe replaces them at graduation.",
+   "fix": "At graduation, replace them with GX.DSLe or add the Iff.rfl bridge."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/docs/CAMPAIGN.md:51",
+   "what": "Carried from AUDIT-1 minor 5. This is pre-existing and not the closer's work: CAMPAIGN.md points the docstring contract to kb/entries/0006, which in lean-gx is a different entry. The module itself has a checklist and a SCOPE, both of which I found true.",
+   "fix": "Curation: point CAMPAIGN.md to the correct kb entry."
+  }
+ ],
+ "checks": {
+  "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSLinkRemarks.lean: no output, exit 0, 7.8 s. The olean (16:51) is as new as the source (16:51).",
+  "sorry": "0. The 3 grep matches are docstring text (lines 8, 10, 46).",
+  "axioms": "19 declarations probed: IsCutGlueLink, exists_isCutGlueLink, cutGlueHol, SourceFirst, FutureSide, core, hasType, isPositive_iff_past, isPositive_iff_future, bbsrem_cuttachyon2_reading, not_cuttachyon2_future_printed, bbsrem_however_no_positive_negative, isPositive_of_fixed, not_signed_of_fixed, fixed_of_fixed, IsBTZLike.pairType, push_iff, sign_rule, future_up_iff. Every one depends on [propext, Classical.choice, Quot.sound]. The probe was written under campaign/T-bbs-link-remarks/ and deleted.",
+  "scope": "This target touches the untracked HSLinkRemarks.lean, its campaign directory, and one import line in GXScaffold.lean. The other modified files (HSCausal.lean, BTZ.BluntSpear import, restatements, btz ledger, DECISIONS.md, roadmaps) belong to concurrent loops and targets and are not attributed to this closer.",
+  "marks": "The module docstring carries no ** mark, and both labels are partial and unmarked in the REPORT.",
+  "wording": "No remaining text presents the convention-dependent sign as a paper error. The only claim stated as a fact about the paper is the convention-free incompatibility of the two clauses."
+ }
+}
