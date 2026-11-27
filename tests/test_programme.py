@@ -358,6 +358,17 @@ class LadderStanding(unittest.TestCase):
         self.assertEqual(chk(d), [])
         self.assertEqual(ld.matrix(d)[("a", "b")], "implied")
 
+    def test_r1_is_in_the_ambient(self):
+        # T-tool-ladder-r1-standing: Mathlib's T2Space.r1Space and RegularSpace's R1Space instance
+        self.assertIn("R1", ld.vocab_closure(ld.AMBIENT))
+        self.assertIn("R1", ld.vocab_closure(["regular"]))
+        self.assertNotIn("R1", ld.vocab_closure(["T1"]))
+        d = lad(implies=[imp(["a"], "b", standing=["R1", "locally_compact"])])
+        self.assertEqual(chk(d), [])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "implied-standing")   # locally_compact is not ambient
+        d = lad(implies=[imp(["a"], "b", standing=["R1"])])
+        self.assertEqual(ld.matrix(d)[("a", "b")], "implied")            # R1 follows from the ambient T2
+
     def test_unknown_standing_word_fails(self):
         self.assertTrue(has(chk(lad(implies=[imp(["a"], "b", standing=["Hausdorff"])])),
                             "unknown standing word 'Hausdorff'"))
@@ -464,7 +475,7 @@ class LadderStanding(unittest.TestCase):
         self.assertEqual(ld.needed_standing(("a",), "b", es), ["T1"])
         self.assertEqual(ld.needed_standing(("a",), "c", es), ["T2", "second_countable"])
         self.assertEqual(ld.vocab_closure(["T2", "second_countable"]),
-                         {"T0", "T1", "T2", "second_countable", "first_countable", "separable"})
+                         {"T0", "T1", "R1", "T2", "second_countable", "first_countable", "separable"})
 
 
 class LadderNames(unittest.TestCase):

@@ -54,6 +54,7 @@ Standing hypotheses. `standing` lists hypotheses on the topological space M that
 nodes; each word is a Mathlib class on M, which the witness takes as an instance argument:
 
     T0 T1 T2 T3 regular normal   T0Space T1Space T2Space T3Space RegularSpace NormalSpace
+    R1                           R1Space
     first_countable              FirstCountableTopology
     second_countable             SecondCountableTopology
     separable                    TopologicalSpace.SeparableSpace
@@ -65,10 +66,10 @@ nodes; each word is a Mathlib class on M, which the witness takes as an instance
     paracompact                  ParacompactSpace
     metrizable                   TopologicalSpace.MetrizableSpace
 
-with the implications T3 → T2, regular; T2 → T1 → T0; second_countable → first_countable,
+with the implications T3 → T2, regular; T2 → T1 → T0; T2 → R1; regular → R1; second_countable → first_countable,
 separable; connected → preconnected, nonempty; compact → sigma_compact; metrizable → T2 (each a
 Mathlib instance, so a context with the stronger class gives the weaker). A set of words is read
-closed under them: the ambient {T2, second_countable} is {T0, T1, T2, second_countable,
+closed under them: the ambient {T2, second_countable} is {T0, T1, R1, T2, second_countable,
 first_countable, separable}.
 
 Classification. An edge is valid on a space S (a closed set of words) when its `standing` is in S.
@@ -142,8 +143,9 @@ CLASSIFIED = ("implied", "fails", "open")
 STANDING = {
     "T0": ("T0Space", ()),
     "T1": ("T1Space", ("T0",)),
-    "T2": ("T2Space", ("T1",)),
-    "regular": ("RegularSpace", ()),
+    "T2": ("T2Space", ("T1", "R1")),
+    "R1": ("R1Space", ()),
+    "regular": ("RegularSpace", ("R1",)),
     "T3": ("T3Space", ("T2", "regular")),
     "normal": ("NormalSpace", ()),
     "first_countable": ("FirstCountableTopology", ()),

@@ -57,6 +57,8 @@ def _consequence(at, witness, extra=""):
 BREAKAGES = {
     "standing-word": ("unknown standing word 'Hausdorff'",
                       lambda p: _implies(p["edge"], 'standing = ["Hausdorff"]\n')),
+    "standing-word-r1": ("unknown standing word 'R_1'",
+                         lambda p: _implies(p["edge"], 'standing = ["R_1"]\n')),
     "standing-not-a-list": ("standing must be a list of words",
                             lambda p: _implies(p["edge"], 'standing = "T1"\n')),
     "unknown-key": ("unknown key 'standnig'",
