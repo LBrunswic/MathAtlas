@@ -93,3 +93,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0085](entries/0085-a-printed-needing-a-non-definable-invari.md) | pattern | A printed « = δ » needing a non-definable invariant's value: carry hYb : σb = 0 |
 | [0086](entries/0086-a-1-o-f-factor-from-an-explicit-o-f-rema.md) | pattern | A « (1 + O(F)) » factor from an explicit O(F²) remainder: corRem and its uniform bound |
 | [0087](entries/0087-pitfall.md) | pitfall | Pitfall: |
+| [0088](entries/0088-a-closed-leaf-is-the-measured-model-with.md) | pattern | A closed leaf is the measured model with n = 0 |
+| [0089](entries/0089-the-cut-two-point-model-tests-whether-a.md) | pattern | The cut two-point model tests whether a statement needs Σ connected |
+| [0090](entries/0090-a-supremum-of-a-non-definable-invariant.md) | pattern | A supremum of a non-definable invariant as an EReal sup over a parameter set |
+| [0091](entries/0091-isup-singleton-does-not-exist-at-this-pi.md) | pitfall | iSup_singleton' does not exist at this pin |

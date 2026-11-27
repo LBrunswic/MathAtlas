@@ -1,0 +1,138 @@
+{
+ "package": "T-yamabe-closed-leaves",
+ "target": "T-yamabe-closed-leaves",
+ "files": [
+  "scaffold/YamabeScaffold/ClosedLeaves.lean",
+  "scaffold/YamabeScaffold.lean (one import line added)"
+ ],
+ "builds": true,
+ "build_command": "taskset -c 0-11 lake build YamabeScaffold.ClosedLeaves (8573 jobs, no Yamabe.* or mathlib rebuild)",
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "def:yamabe",
+   "tex_lines": [
+    158,
+    172
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.MeasuredModel.closed_minimal",
+    "Yamabe.MeasuredModel.closed_action",
+    "Yamabe.MeasuredModel.closedEH_eq_printed",
+    "Yamabe.MeasuredModel.avgR",
+    "Yamabe.MeasuredModel.closedEH_eq_avg",
+    "Yamabe.MeasuredModel.closed_confEnergy",
+    "Yamabe.MeasuredModel.closed_EH_eq_confEnergy_one",
+    "Yamabe.MeasuredModel.yamabeClasses",
+    "Yamabe.MeasuredModel.sigma_yamabeClasses",
+    "Yamabe.MeasuredModel.Y_le_sigma",
+    "Yamabe.MeasuredModel.EH",
+    "Yamabe.MeasuredModel.Y",
+    "Yamabe.ClosedConformal.sigma"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(Σ,g) closed, N ≥ 3",
+     "here": "carried",
+     "note": "measured model with n = 0 boundary components (DEC-186); N ≥ 3 where used"
+    },
+    {
+     "paper": "EH(Σ, φ^{4/(N-2)} g) for φ > 0",
+     "here": "read",
+     "note": "through the conformal law eq:conformal-energy (confEnergy), as Yamabe.Kobayashi; closed_confEnergy shows it is the printed right side l.177–179 when n = 0"
+    },
+    {
+     "paper": "sup over all conformal classes",
+     "here": "read",
+     "note": "over a supplied family rep : Cls → CurvedMetric X N, packaged as a ClosedConformal (kb/0083: the sup over all CurvedMetrics is unbounded, Real.sSup junk 0)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "eq:yamabe-energy's second equality EH = ⟨R_g⟩ Vol^{2/N} (l.163) holds for every volume, both sides 0 when Vol = 0 (closedEH_eq_avg); nothing wrong in the paper."
+   ],
+   "questions": [
+    "σ(Σ) (l.170): 'all conformal classes of Riemannian metrics' has no counterpart in the model. Reading taken: σ over a supplied family of class representatives (yamabeClasses); Y_le_sigma needs the family bounded above (Aubin's bound, thm:yamabe (a), not formalized)."
+   ]
+  },
+  {
+   "label": "prop:csc-yamabe",
+   "tex_lines": [
+    193,
+    203
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Yamabe.MeasuredModel.csc_yamabe_a",
+    "Yamabe.MeasuredModel.csc_yamabe_b",
+    "Yamabe.MeasuredModel.prop_csc_yamabe",
+    "Yamabe.Mfd.Reads.csc_yamabe_b",
+    "Yamabe.Mfd.Reads.prop_csc_yamabe",
+    "Yamabe.MeasuredModel.dirichletBil",
+    "Yamabe.MeasuredModel.YamabeEq",
+    "Yamabe.MeasuredModel.CSCUnique",
+    "Yamabe.toyClosedCut",
+    "Yamabe.toyClosed_csc_not_yamabe",
+    "Yamabe.toyClosed_cscUnique",
+    "Yamabe.toyClosedCut_not_cscUnique",
+    "Yamabe.toyClosed_integral",
+    "Yamabe.toyClosed_dirichlet",
+    "Yamabe.toyClosed_normSq",
+    "Yamabe.six_fifths_le_two_rpow"
+   ],
+   "hypotheses": [
+    {
+     "paper": "R_g constant",
+     "here": "carried",
+     "note": "∀ x, R x = c in (b) and the assembly; weakened to vol-a.e. in csc_yamabe_a"
+    },
+    {
+     "paper": "Σ nonempty (implicit: a manifold of dimension N)",
+     "here": "carried",
+     "note": "vol_g ≠ 0 (μ ≠ 0 on a manifold) in (b); without it Y = sInf ∅ = 0"
+    },
+    {
+     "paper": "Sobolev embedding (lem:kobayashi (b), Hebey1996)",
+     "here": "carried",
+     "note": "SobolevIneq on a bare model; discharged sorry-free on a model reading a compact manifold (Mfd.Reads.csc_yamabe_b, prop_csc_yamabe via Mfd.Reads.sobolevIneq)"
+    },
+    {
+     "paper": "uniqueness up to homotheties (LeeParker1987, Schoen1989, maximum principle)",
+     "here": "carried",
+     "note": "named Prop CSCUnique (constant scalar curvature metric read as a positive weak solution of the Yamabe equation, YamabeEq; homothety as u constant), a hypothesis hU, never an axiom"
+    },
+    {
+     "paper": "Schoen's S¹(L)×S^{N-1} examples (Schoen1989)",
+     "here": "not formalized",
+     "note": "no counterpart in the model; 'the inequality may be strict' is witnessed on the connected closed two-point model with R ≡ 100 (toyClosed_csc_not_yamabe: Y ≤ 114 < 120 ≤ EH), a model fact, not Schoen's example"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "prop:csc-yamabe (a), l.195, uniqueness: as printed it does not hold when R_g ≡ 0 and Σ is disconnected. 'Closed' at l.161 is 'compact, without boundary', with no connectedness. Example: flat T³ ⊔ T³ with u = 1 on one torus and u = 2 on the other. The metric u^4 g is flat, so it has constant scalar curvature, lies in [g], and is not homothetic to g (argued on manifolds). In Lean: toyClosedCut_not_cscUnique, the closed two-point model with d = 0 and R ≡ 0, u = (2,1), c' = 0. On the connected closed two-point model it holds (toyClosed_cscUnique). For R_g ≡ c < 0 disconnectedness does no harm. Suggested fix: add 'connected' to the hypotheses of prop:csc-yamabe or to the convention at l.161. The first assertions of (a) and (b) need no connectedness."
+   ],
+   "questions": [
+    "Is Σ assumed connected throughout § 2 (l.161)? Reading taken: no, as printed. The uniqueness is carried as stated by the paper, and its failure in the disconnected case is recorded as a finding.",
+    "The uniqueness in (a): reading of 'constant scalar curvature metric in [g]' on the model as a positive weak solution of -a_N Δu + R_g u = c' u^{p*-1} against every v ∈ D, with ⟨∇u,∇v⟩ by polarisation of the Dirichlet energy (the model cannot compute the curvature of u^{4/(N-2)} g, kb/0018)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "Yamabe.MeasuredModel.closed_minimal",
+  "Yamabe.MeasuredModel.dirichletBil",
+  "Yamabe.six_fifths_le_two_rpow"
+ ],
+ "kb_proposals": [
+  "A closed leaf is a MeasuredModel with n = 0. closed_minimal (fun j => j.elim0) supplies MinimalBoundary, so every lem:kobayashi result applies verbatim, and Mfd.Reads with σ : Fin 0 → Measure discharges the Sobolev inequality (YamabeScaffold.ClosedLeaves).",
+  "The cut closed two-point model (toyClosed with d := 0) tests whether a statement needs Σ connected. With R ≡ 0 every positive u solves the weak Yamabe equation with c' = 0, so the uniqueness of prop:csc-yamabe (a) fails there (toyClosedCut_not_cscUnique)."
+ ],
+ "notes": "No strict file edited. The module imports only strict modules (Yamabe.External, Yamabe.ManifoldTheorems, Yamabe.Negative), so it can graduate as a file move. Both rows stay partial and unmarked. def:yamabe is partial because of the σ reading and the conformal-law reading of Y. prop:csc-yamabe is partial because the uniqueness is a carried cited input and Schoen's examples are not formalized. The first assertions of (a) and (b) are proved, sorry-free, on a model reading a compact manifold. Downstream T-yamabe-gap-corollaries can use Y_le_sigma ('Y ≤ σ by definition') and csc_yamabe_a. The axioms of the 12 principal declarations were checked through a /tmp copy: standard only."
+}

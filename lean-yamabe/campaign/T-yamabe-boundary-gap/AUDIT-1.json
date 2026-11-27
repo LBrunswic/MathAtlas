@@ -1,0 +1,52 @@
+{
+  "target": "T-yamabe-boundary-gap",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "def:yamabe-bdry",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "action_def, EH_def, EHB_def are rfl against the strict action/EH/EHB and match eq:EH-action, eq:yamabe-energy-bdry, eq:yamabe-energy-bdry-norm (Vol(dSigma) = sum_j Vol(B_j)). Y_eq_inf_EH / YB_eq_inf_EHB identify the strict Y, YB (infima of confEnergy, confEnergyB over Pos and Adm/AdmB) with the printed infima of EH, EHB of the conformal metrics, given a family h with IsConformal and the cited ConformalLaw/ConformalLawB at each competitor. That is a reading (phi class Pos + Adm/AdmB; conformal law cited, not proved in the model). It is disclosed in the checklist and SCOPE, and the row is partial and unmarked. Correct."
+    },
+    {
+      "label": "prop:gap-bdry-nonneg",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop_gap_bdry_nonneg: N >= 3 (global in the paper), R_g = c a.e. with c <= 0 (constant scalar curvature, R <= 0, weakened to a.e.), MinimalBoundary (H = 0 bvol-a.e.), IsFiniteMeasure vol_g (compactness) and AEStronglyMeasurable of val u (the model's reading of D). Conclusion 0 <= sigma^d - EH in EReal, with sigma^d = sup of Y over a parameter set C containing g, so no finiteness is needed. prop_gap_bdry_nonneg_real covers every real sigma_b >= Y_[g], which is all the proof of l.361 uses. The proof is the paper's, through the strict EH_eq_Y (lem:kobayashi (a)). Every added hypothesis is a model reading of an ambient assumption. It is disclosed, and the row is partial."
+    },
+    {
+      "label": "prop:accel-bdry",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop_accel_bdry carries eq:accel as the Prop AccelLaw at t (dispatch-allowed, cited Buchert_2007), Vol(Sigma_t), Vol(Sigma_ti) > 0, and N >= 3. It proves all three assertions: the minimal form for every real sigma_b, the torus form under sigma_b = 0 (eq:sigma-torus is not this target's label, and SCOPE says so), and the non-minimal form with +2(N-1) int H / (V_i a^N). I re-derived the sign by hand: <R> = EH/V^{2/N} - 2(N-1)/V int H and V = V_i a^N, so it is correct. a(t), <R>, and deriv(deriv) for d_tt match l.137 and l.141-144. Partial (readings), unmarked."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "taskset -c 0-11 lake env lean scaffold/YamabeScaffold/BoundaryGap.lean exits 0 with no output. The only 'sorry' token in the file is the docstring phrase '(no `sorry`)'. #print axioms on all 21 declarations defined in the file gives [propext, Classical.choice, Quot.sound]. The probe was written under the campaign directory and deleted."
+  },
+  "scope": "git status --short in lean-yamabe/ shows only scaffold/YamabeScaffold.lean (+1 line, import YamabeScaffold.BoundaryGap), the new BoundaryGap.lean and this campaign directory, plus the concurrent T-yamabe-closed-leaves files, which are outside this audit. No strict Yamabe/ edit. The other modified paths in the hub belong to other loops.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-yamabe/scaffold/YamabeScaffold/BoundaryGap.lean:84",
+      "what": "The 'What is proved' paragraph lists `avgR_eq_gap` (Appendix A's second display), but no declaration of that name exists in the file. Its content is absorbed into the proof of prop_accel_bdry (hmain).",
+      "fix": "Remove `avgR_eq_gap` from the docstring, or add the lemma <R> = (sigma_b - gapBdry sigma_b g)/(V_i^{2/N} a^2) for a minimal boundary."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-yamabe/scaffold/YamabeScaffold/BoundaryGap.lean:213, :316",
+      "what": "The declaration docstrings open with **prop:gap-bdry-nonneg** and **prop:accel-bdry** in bold. They have no backticks, sit outside the module docstring and are past the first 4000 characters, so the ledger regex does not count them as marks. To a human reader they still look like certification marks on partial rows.",
+      "fix": "Write `prop:gap-bdry-nonneg` and `prop:accel-bdry` without the bold."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-yamabe/campaign/T-yamabe-boundary-gap/REPORT.json, prop:gap-bdry-nonneg findings (l.352/358)",
+      "what": "The finding is true as stated: the paper never asserts that sigma^d(Sigma) is finite. Before it goes to the author it should add that finiteness is standard: Akutagawa-Botvinnik (MR1957657, the paper's own citation) bound the relative Yamabe invariant above by the hemisphere's value. This is a presentational omission, not a gap in the argument.",
+      "fix": "Reword the finding to say that the finiteness of sigma^d is known (MR1957657) but not stated at l.346-352."
+    }
+  ]
+}

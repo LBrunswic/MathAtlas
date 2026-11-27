@@ -24,3 +24,5 @@ import Yamabe.Perforated.Poincare
 import Yamabe.Perforated.StarN
 import Yamabe.LowerBound
 import Yamabe.Perforated.CorYamabe
+import Yamabe.BoundaryGap
+import Yamabe.ClosedLeaves

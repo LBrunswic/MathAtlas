@@ -1,0 +1,76 @@
+{
+  "package": "T-yamabe-boundary-gap",
+  "target": "T-yamabe-boundary-gap",
+  "files": ["scaffold/YamabeScaffold/BoundaryGap.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "def:yamabe-bdry",
+      "tex_lines": [301, 322],
+      "status": "partial",
+      "marked": false,
+      "decls": ["Yamabe.MeasuredModel.action_def", "Yamabe.MeasuredModel.EH_def", "Yamabe.MeasuredModel.EHB_def", "Yamabe.MeasuredModel.EH_mul_vol_eq_action", "Yamabe.MeasuredModel.EHB_mul_bdryVol_eq_action", "Yamabe.MeasuredModel.Y_eq_inf_EH", "Yamabe.MeasuredModel.YB_eq_inf_EHB", "Yamabe.MeasuredModel.action", "Yamabe.MeasuredModel.EH", "Yamabe.MeasuredModel.EHB", "Yamabe.MeasuredModel.Y", "Yamabe.MeasuredModel.YB"],
+      "hypotheses": [
+        {"paper": "(Sigma, g) compact Riemannian with boundary, N >= 3", "here": "read", "note": "the measured model (DEC-139, OQ-44); R_g, H_g are free bounded measurable data of CurvedMetric"},
+        {"paper": "EH(Sigma, phi^{4/(N-2)} g) inside the infima eq:relative-yamabe, eq:boundary-yamabe", "here": "carried", "note": "Y_eq_inf_EH / YB_eq_inf_EHB take a family phi -> h phi of metrics with IsConformal and the conformal law (ConformalLaw / ConformalLawB, cited MR1152225, MR1173925) at each competitor; then the strict Y, YB equal the printed infima of EH, EHB"},
+        {"paper": "phi > 0", "here": "read", "note": "Pos phi and 0 < ||phi||_{L^{p*}} < oo (Adm), resp. on the boundary (AdmB), as in the strict library"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.312-313: EHB divides by Vol(dSigma)^{(N-2)/(N-1)}, so it is undefined for dSigma empty, although l.298 and lem:kobayashi (l.615, 'or dSigma = empty') admit that case; in Lean x/0 = 0. Not a falsity, an unstated n >= 1 for EHB and YB."
+      ],
+      "questions": [
+        "l.317-320: the class of conformal factors phi > 0 over which the infima run (smooth, W^{1,2}, positive a.e.?) is not printed. Reading taken: the strict library's Pos (everywhere positive) and Adm/AdmB (finite nonzero L^{p*}, resp. L^{p#}(dSigma), norm)."
+      ]
+    },
+    {
+      "label": "prop:gap-bdry-nonneg",
+      "tex_lines": [356, 362],
+      "status": "partial",
+      "marked": false,
+      "decls": ["Yamabe.MeasuredModel.prop_gap_bdry_nonneg", "Yamabe.MeasuredModel.prop_gap_bdry_nonneg_real", "Yamabe.MeasuredModel.Y_le_sigmaBdry", "Yamabe.MeasuredModel.sigmaBdry", "Yamabe.MeasuredModel.gapBdryE", "Yamabe.toy_prop_gap_bdry_nonneg"],
+      "hypotheses": [
+        {"paper": "g of constant scalar curvature R_g <= 0", "here": "carried", "note": "weakened to R_g = c vol_g-a.e., c <= 0"},
+        {"paper": "minimal boundary H_g = 0", "here": "carried", "note": "MinimalBoundary, bvol-a.e."},
+        {"paper": "sigma^d(Sigma) = sup over conformal classes of Y_[g] (eq:sigma-bdry, l.346-348)", "here": "read", "note": "sup in EReal of Y over a parameter set C of metrics with g in C (kb/0083); no finiteness needed. Real form: any sigma_b >= Y_[g]"},
+        {"paper": "fact (iii) = lem:kobayashi (a)", "here": "proved", "note": "strict Yamabe.MeasuredModel.EH_eq_Y, no external"},
+        {"paper": "D a space of measurable functions, Sigma compact", "here": "read", "note": "forall u, AEStronglyMeasurable (val u); IsFiniteMeasure vol_g (as lem_kobayashi_a)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.358, l.352: sigma^d(Sigma) is a supremum and the paper never states it is finite; prop:gap-bdry-nonneg holds in the extended reals regardless (prop_gap_bdry_nonneg, EReal), but delta is real-valued, as l.352 and eq:accel-bdry treat it, only when sigma^d(Sigma) < +oo."
+      ],
+      "questions": [
+        "l.346-348: 'sup over [g]' ranges over the conformal classes of metrics on Sigma; the model cannot define them (R, H free data). Reading taken: a set C of metrics as a parameter, with g in C."
+      ]
+    },
+    {
+      "label": "prop:accel-bdry",
+      "tex_lines": [407, 415],
+      "status": "partial",
+      "marked": false,
+      "decls": ["Yamabe.MeasuredModel.prop_accel_bdry", "Yamabe.MeasuredModel.avgR_eq", "Yamabe.MeasuredModel.avgR_of_minimal", "Yamabe.MeasuredModel.vol_rpow_eq", "Yamabe.MeasuredModel.sum_H_of_minimal", "Yamabe.MeasuredModel.AccelLaw", "Yamabe.MeasuredModel.avgR", "Yamabe.MeasuredModel.scale"],
+      "hypotheses": [
+        {"paper": "eq:accel (l.141-144; Buchert_2007, brunswic2020gaussbonnetchern)", "here": "carried", "note": "AccelLaw at the time t considered, as the dispatch allows; satisfiable (it is linear in rho_i with nonzero coefficient)"},
+        {"paper": "Sigma_t, g_t a comoving family", "here": "read", "note": "one model M, a family g : R -> CurvedMetric X N; a(t) = (Vol(g t)/Vol(g t_i))^{1/N} (l.137); d_tt is deriv (deriv _), the conclusion holds whatever its value"},
+        {"paper": "Vol(Sigma_t), Vol(Sigma_{t_i}) > 0", "here": "carried", "note": "implicit in the paper (a and averages are quotients)"},
+        {"paper": "H_{g_t} = 0", "here": "carried", "note": "at t only; the non-minimal form needs none"},
+        {"paper": "sigma^d(Sigma) finite", "here": "read", "note": "a real sigma_b; the identity holds for every value (kb/0085); the torus form carries sigma_b = 0 (eq:sigma-torus is not this target's label)"},
+        {"paper": "rho_i, Lambda", "here": "read", "note": "real parameters; the matter is not in the model"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.411-414 and Appendix A l.588-594: checked as printed, including the sign of the non-minimal term +2(N-1) int_{dSigma} H bvol/(V_i a^N). The identity is independent of sigma^d: (delta - sigma^d) = -EH, so eq:accel-bdry is eq:accel with <R> = EH/V^{2/N} - 2(N-1)/V int H; it needs sigma^d finite only to be written with delta."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": ["Yamabe.MeasuredModel.sum_H_of_minimal", "Yamabe.MeasuredModel.vol_rpow_eq", "Yamabe.MeasuredModel.avgR_eq"],
+  "kb_proposals": [
+    "A supremum of a non-definable invariant (sigma^d) can be stated in EReal over a parameter set C with g in C: the sign statement then needs no boundedness hypothesis (Yamabe.MeasuredModel.sigmaBdry, prop_gap_bdry_nonneg).",
+    "Pitfall: iSup_singleton' does not exist at this pin; for (⨆ g ∈ {a}, f g) use simp only [Set.mem_singleton_iff, iSup_iSup_eq_left]."
+  ],
+  "notes": "Only YamabeScaffold.BoundaryGap rebuilt (nothing upstream moved). The one-line import was appended to scaffold/YamabeScaffold.lean. No new axiom or named external: the conformal law enters as the strict ConformalLaw/ConformalLawB hypotheses, eq:accel as the Prop AccelLaw. Rows are partial only for the model's readings (as lem:kobayashi); no statement is weakened and no row is false as printed."
+}

@@ -1,0 +1,27 @@
+{
+ "target": "T-yamabe-closed-leaves",
+ "auditor_round": 1,
+ "verdict": "clean",
+ "labels": [
+  {
+   "label": "def:yamabe",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, row partial: correct. EH in both printed forms of eq:yamabe-energy (l.163) proved: closedEH_eq_printed is the first form, closedEH_eq_avg is the second form for every volume (both sides 0 at Vol = 0, so the paper is not wrong there). Y is read through the conformal law (closed_confEnergy matches l.177-179 when n = 0). sigma is taken over a supplied family rep : Cls -> CurvedMetric (yamabeClasses). This follows kb/0083 and is disclosed in SCOPE and in the REPORT question. Y_le_sigma needs BddAbove (Aubin's bound, not formalized), also disclosed. Being partial is justified by the sigma reading and the conformal-law reading of Y. The docstring lists the label in the unmarked form CAMPAIGN.md prescribes, with the paper block quoted, a Hypothesis checklist, SCOPE and a provenance line. Each checklist row matches the code. Cosmetic: the REPORT gives tex_lines 158-172, the ledger span is 158-173."
+  },
+  {
+   "label": "prop:csc-yamabe",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked, row partial: correct. csc_yamabe_a: R_g = c <= 0 (weakened to a.e.) gives EH = Y = c Vol^{2/N}, which is at least the paper's first assertion of (a). csc_yamabe_b: R_g = c > 0 and vol != 0 (nonemptiness, implicit in the paper) give 0 < Y <= EH. The Sobolev inequality is carried on a bare model and discharged sorry-free on a model reading a compact manifold (Mfd.Reads.csc_yamabe_b and prop_csc_yamabe). The uniqueness in (a) is a named Prop, CSCUnique: every positive weak solution of -a_N Lap u + R u = c' u^{p*-1} is a positive constant. It is a hypothesis hU, never an axiom, and the assembly only passes it through. That is disclosed, and toyClosed_cscUnique shows it is satisfiable, and not vacuously so: it is a real proof on the connected two-point model with R = 0. 'May be strict' is witnessed on the toy model (EH = 100*2^{2/3} >= 120 > 114 >= Y). I checked the arithmetic: dirichlet 1.62, a_3 = 8, R term 101, total 113.96, denominator >= 1. It is disclosed as a model fact; Schoen's S^1(L) x S^{N-1} is not formalized. FINDING CHECKED, correct. Line 161 defines closed as 'compact, without boundary', with no connectedness. On flat T^3 disjoint-union T^3, take u = 1 on one torus and u = 2 on the other. Then u^4 g is flat, has constant scalar curvature 0, lies in [g], and is not lambda*g for any single lambda. So the uniqueness as printed fails when R_g = 0 and Sigma is disconnected. For c < 0 every constant-curvature conformal factor is forced to the same constant on every component, so connectedness is not needed there. The REPORT says this correctly. toyClosedCut sets d := 0, so every function has zero gradient and zero Dirichlet energy. That is, each of the two points is its own component: a faithful model of a two-component closed Sigma. There u = (2,1), c' = 0 solves YamabeEq and is not constant. The REPORT phrases the finding 'as printed (no connectedness)' and asks whether Sigma is connected throughout section 2. That is the right framing, because many authors take manifolds to be connected by convention."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "lake env lean scaffold/YamabeScaffold/ClosedLeaves.lean exits 0 with no output. The 4 grep hits for 'sorry' are all docstring prose ('no `sorry`', 'sorry-free'). #print axioms was run on all 20 principal declarations named in the REPORT, through a probe under the campaign directory, deleted afterwards: each depends only on [propext, Classical.choice, Quot.sound]."
+ },
+ "scope": "git status --short is identical to the session-start snapshot. In lean-yamabe the only changes are ClosedLeaves.lean, the campaign directory, and the import line in YamabeScaffold.lean. The BoundaryGap import line and file belong to T-yamabe-boundary-gap, audited separately. No strict Yamabe/ file is modified. The other modified paths (restatements, lean-causal, lean-gx, atlas, roadmap) were present before this audit and belong to other loops.",
+ "findings": []
+}
