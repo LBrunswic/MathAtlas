@@ -853,3 +853,18 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: roadmap ✓, atlas ✓, hub: 2 failures in gate-tests, both papers/gx/certificate/RESTATED.md not rendered — a file held mid-wave by the live /restate lease, not this run's.
 - New questions for the author: T-btz-scope (E_{≥0} as printed, or E₀ only), T-alexandrov-package (create lean-alexandrov now, or put it in lean-gx), T-hub-paper-attr-rollout (a lean-paper package outside DEC-211's seven?).
 - next: a wave of T-yamabe-closed-leaves, T-yamabe-boundary-gap (lean-yamabe), T-bbs-classising-types, T-bbs-hcausal (lean-gx), with master set-ups T-btz-ledger / T-alexandrov-ledger.
+
+## 2026-11-27 15:20 · wave of 5 · T-ett-gluing-causality, T-yamabe-closed-leaves, T-yamabe-boundary-gap, T-bbs-classising-types, T-gfn-ledger
+- Dispatched 2026-11-25 12:52; every closer stopped at the weekly usage limit the same afternoon and was resumed on 2026-11-27 after the reset.
+- T-ett-gluing-causality: closed in substance, strict (Causal/GluingCausality.lean), no row marked. DEC-167's GluedCausality = Causality + the hereditary gluing field (OQ-95's reading). prop:GX_espace_temps_topo's uniqueness holds under gluing. Two refutations of the ruling's expectations, audited as faithful: ex:open_subset's first uniqueness is false even under gluing (OQ-107); rem:deux_pushup's « neither implies the other » is false (plain ⇒ push-up on T1). The REPORT carries the strict-refactor plan (for the planner). Audit minor (round 1).
+- T-yamabe-closed-leaves: def:yamabe, prop:csc-yamabe partial, strict. Finding: (a)'s uniqueness is false for R ≡ 0 on a disconnected Σ. Audit clean.
+- T-yamabe-boundary-gap: def:yamabe-bdry, prop:gap-bdry-nonneg, prop:accel-bdry partial, strict. Findings: EHB undefined for ∂Σ = ∅; σ^∂'s finiteness unstated (standard). Audit minor. Both files defined avgR identically; ClosedLeaves now imports BoundaryGap's.
+- T-bbs-classising-types: the link half, sorry-free, scaffold (graduates with HSSingularities). Finding: the printed list of types needs a trivial-holonomy type (degree ≥ 4). Audit minor (line citations).
+- T-gfn-ledger (master): papers/gfnbounds, the draft at b83dd0f, 131 statements, closure 96 of 96; curation seeded from the draft's ledger; nine stale decl names in lean/paper-map.json updated.
+- Held back: the curation of ett rem:deux_pushup, cexemple:point_transparent and bbs bbsprop:classising. Each becomes a strong restatement candidate, and the ett and bbs registers are held by the live /restate loop. Their Lean is committed; curate them when the registers are free.
+- Tooling: the repository crossed git's auto-abbreviation threshold, so every ledger's git_commit grew to 8 digits; tools/ledger.py pins core.abbrev=7 (6e6a83c).
+- gates: lean-causal ✓, lean-yamabe ✓, lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check all green, hub: make -k check rc 0, no new red
+- commits: 3f0815d 502be84 3a8e7df 9348fb6 6e6a83c [+ bbs blocker, roadmap/atlas/journal]
+- wall time: 2026-11-25 12:51–13:25 and 2026-11-27 14:17–15:20 UTC; agents in parallel: 4 closers, 4 audits (one fix round)
+- New questions for the author: OQ-132 (Yamabe § 2: Σ connected? σ(Σ), the uniqueness reading), OQ-133 (Yamabe § 3: the φ class, σ^∂, ∂Σ ≠ ∅ for EHB), OQ-134 (ex:open_subset under the M-only gluing form), OQ-135 (bbsprop:classising: the trivial-holonomy type, line types, occurrence, isomorphism notion).
+- next: a planning run should add the strict gluing refactor of lean-causal (after OQ-95/OQ-96). Ready: T-yamabe-brown-york, T-bbs-hcausal, T-bbs-remark-readings, T-ett-plainness-models; master T-btz-ledger, T-alexandrov-ledger, T-gx-causal-pin-bump; the builder T-atlas-overlay-refresh is due.

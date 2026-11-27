@@ -1830,13 +1830,14 @@ kind = "close"
 paper = "bbs"
 labels = ["bbsprop:classising"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bbs-hs-link-types", "T-bbs-p-p"]
-evidence = "bbsprop:classising's proof is the whole of § 3 (« The proof of Proposition pro:classising is now complete », l.1105). § 3.5 (l.999) says the classification of lines, « i.e. of (Γ_p, ℓ(p))-circles, follows from the classification of singularities of singular HS-surfaces ». REVIEW §A row 1: « link (types), flat (causal behaviour) ». The types are T-bbs-hs-link-types', the pairing is T-bbs-p-p's, and the branched-cover description of degree k ≥ 4 is T-bbs-degk's. The causal clauses need the local future of e(Σ) (§ 3.6, l.1019–1062), an AdS statement that waits on T-bbs-q8, so the row stays partial. An assembly theorem (the iceberg rule)."
+evidence = "GXScaffold.BBS.HSClassification (scaffold, sorry-free; graduates with HSSingularities): exactly one type per circle, an isomorphism invariant; the printed list needs a trivialHolonomy type; AUDIT-1 minor; OQ-135. Curation waits on the bbs restate register (held by /restate)"
 added = "2026-11-23"
 proposed_by = "roadmap-planner, 2026-11-23"
+commit = "3a8e7df"
 
 [[target]]
 id = "T-bbs-degk"
@@ -2522,12 +2523,13 @@ paper = "ett"
 labels = ["prop:GX_espace_temps_topo", "ex:open_subset", "rem:deux_pushup", "cexemple:point_transparent"]
 package = "lean-causal"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 2
-evidence = "DEC-167 (OQ-18, OQ-13, OQ-39); a definitional refactor of lean-causal's core, so exclusive in the package"
+evidence = "Causal.GluingCausality (strict, sorry-free): GluedCausality = Causality + hereditary gluing; prop:GX_espace_temps_topo's uniqueness holds under gluing; ex:open_subset first uniqueness and rem:deux_pushup independence false even under gluing; AUDIT-1 minor. Unmarked until the strict refactor (plan in REPORT). Curation of rem:deux_pushup and cexemple:point_transparent waits on the ett restate register (held by /restate). OQ-134"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
+commit = "3f0815d"
 
 [[target]]
 id = "T-ett-plainness-models"
@@ -3001,13 +3003,14 @@ id = "T-gfn-ledger"
 title = "Ledger the GFN Bounds draft as papers/gfnbounds, rooted at lean/ (GFNBoundsLean, in-tree since DEC-157), so that lean/ gets the atlas's Lean overlay and the hub's own double DAG"
 stream = "gfn"
 kind = "package"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 6
 question = "Should the GFN Bounds draft be snapshotted and ledgered in the hub as papers/gfnbounds, with lean/ as its Lean root? The draft is ~/Dropbox/GFN Bounds: gfnbounds_iclr2027.tex at the draft's commit b83dd0f, 131 labelled statements in its own formalization-ledger.json. The public MathAtlas mirror (DEC-203, DEC-207 strip only third-party material) would then publish the snapshot before the ICLR 2027 decision of 16 Dec 2026, on a submission reviewed double-blind with arXiv posting permitted (SUBMISSION-ICLR2027.md)"
-evidence = "DEC-210: ledger GFN Bounds as papers/gfnbounds, Lean root the in-tree lean/, seeded by tools/regression_ledger.sh and fixtures/regression/gfnbounds.toml and paper-map.json; public with the mirror (not held back by DEC-203). Previous evidence: T-atlas-overlay-refresh (DEC-204): « papers/gfnbounds would let lean/ carry facts ». reports/atlas/hub.toml, [paper.gfnbounds]: « Its draft has no ledger in this hub, so the atlas shows its double DAG's counts and does not draw its rows ». lean/ is GFNBoundsLean in-tree (DEC-157, T-gfn-absorb 24f4c85). The draft keeps its own ledger and DAG (formalization-ledger.json, FORMALIZATION-LEDGER.md; « closure 96 of 96 » at ea1a2b8), and tools/doubledag_gfnbounds.sh reads them from outside the repository. A new paper in the hub is the author's to rule. DEC-202 defers OQ-5 (anchor sizes for the GFN pair) and OQ-6 (the nine reconciliation proposals) until after the absorption and T-gfn-doubledag-refresh. That refresh is independent of this target"
+evidence = "papers/gfnbounds: snapshot of the draft at b83dd0f, 131 statements, closure 96 of 96, curation seeded from the draft's ledger; lean/paper-map.json nine stale decl names updated"
 added = "2026-11-22"
 proposed_by = "roadmap-planner"
+commit = "9348fb6"
 
 # ------------------------------------------------------------------ BTZ, Alexandrov, the @[paper] split, the architecture's prerequisites, Yamabe §§ 2–3 (planner, 2026-11-25)
 [[target]]
@@ -3180,12 +3183,13 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["def:yamabe", "prop:csc-yamabe"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
-evidence = "papers/yamabe ledger: def:yamabe (l.158) and prop:csc-yamabe (l.193, proof l.201–203) are untriaged, with no Lean and no target. DEC-184: « every step of the paper's own proofs formalized », with the Yamabe theorem, Akutagawa–Botvinnik, Gromov–Lawson and Escobar as named external Props. Proof l.201: « The first assertion of (a) and the first assertion of (b) are the closed case of Lemma lem:kobayashi … The uniqueness in (a) follows from the maximum principle … the examples in (b) are due to Schoen ». Built layers: Yamabe/Kobayashi.lean (EH l.182, Y l.207, lem:kobayashi part (a) sorry-free); Yamabe/External.lean (ClosedConformal l.127, sigma l.140); Yamabe/Negative.lean (toyClosed, a measured model with 0 boundary components). The precedent for carrying cited inputs is T-syr-cited-steps"
+evidence = "Yamabe.ClosedLeaves (strict, sorry-free): def:yamabe, prop:csc-yamabe partial; uniqueness of (a) false on disconnected Σ for R ≡ 0; AUDIT-1 clean; OQ-132"
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
+commit = "502be84"
 
 [[target]]
 id = "T-yamabe-gap-corollaries"
@@ -3209,12 +3213,13 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["def:yamabe-bdry", "prop:gap-bdry-nonneg", "prop:accel-bdry"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
-evidence = "papers/yamabe ledger: def:yamabe-bdry (l.301), prop:gap-bdry-nonneg (l.356, proof l.360–362: « By fact (iii) … EH(Σ, g) = Y_[g](Σ), and Y_[g](Σ) ≤ σ^∂(Σ) by eq:sigma-bdry ») and prop:accel-bdry (l.407; « The proof is a direct computation given in Appendix app:derivation », l.584–599) are untriaged, with no Lean and no target. Built layers: Yamabe/Kobayashi.lean (EH, Y, MinimalBoundary), Yamabe/Gluing.lean (EHB l.307, YB l.321), Yamabe/LowerBound.lean (gapBdry l.156), Yamabe/External.lean (EscobarLaw = eq:conformal-energy-bdry). eq:accel (l.142) is cited (Buchert_2007, brunswic2020gaussbonnetchern) and is not a ledger row. DEC-184: every step of the paper's own proofs formalized"
+evidence = "Yamabe.BoundaryGap (strict, sorry-free): def:yamabe-bdry, prop:gap-bdry-nonneg, prop:accel-bdry partial; AUDIT-1 minor; OQ-133"
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
+commit = "502be84"
 
 [[target]]
 id = "T-yamabe-brown-york"
