@@ -103,10 +103,9 @@ Sbierski's timelike curves are chronal curves of the `C⁰` causality is the `C0
   dimension is `d + 1 ≥ 2` (`:228`): a finding in the report (against Defs 2.1, 2.13), with the
   corrected formula.
 * `ChartIso.chronalCurveOn_image`, `ChartIso.chronalCurveOn_symm_image` and
-  `chartImage_subset_target` belong in `Causal.GXStructure` (kb/0047); they are here because that
-  module is strict upstream. The `symm` form is the `C.lt` case of the model-layer
-  `ChartIso.curveOn_symm` (`Causal/Remarks/MassiveManifold.lean:113`) and duplicates
-  `Causal.Flat.curveOn_chart_symm` (`Causal/Flat/CauchyComplete.lean:2516`).
+  `chartImage_subset_target`, written here first, are in `Causal.GXStructure` with the same full
+  names (T-abs-hoist-stranded-homes, kb/0047), beside `ChartIso.curveOn_symm`, of which the `symm`
+  form is now the `C.lt` case.
 * Homotopies over a segment other than `[0, 1]` (Thm 4.11 uses `[0,1] × [y₀⁻, s]`, `:1623`) are
   the `[0, 1]` notion after an affine change of the curve parameter: not stated here.
 * No space that is not future one-connected is in Lean (the keeper's separation).
@@ -550,59 +549,16 @@ theorem futureOneConnected_iff (h : IsCausalIso C D e) :
 
 end IsCausalIso
 
-/-! ### Charts which are isomorphisms -/
+/-! ### Charts which are isomorphisms
 
-/-- The image of the source part of an open set lies in the chart's target. -/
-theorem chartImage_subset_target {X : Type v} [TopologicalSpace X] {e : OpenPartialHomeomorph M X}
-    (U : Opens M) : (chartImage e U : Set X) ⊆ e.target := by
-  rintro _ ⟨z, ⟨hz, _⟩, rfl⟩
-  exact e.map_source hz
+The curve transport `ChartIso.chronalCurveOn_image`, `ChartIso.chronalCurveOn_symm_image` and
+`chartImage_subset_target` are in `Causal.GXStructure` (moved by T-abs-hoist-stranded-homes). -/
 
 namespace ChartIso
 
 variable {X : Type v} [TopologicalSpace X] {C : Causality M} {D : Causality X}
   {e : OpenPartialHomeomorph M X} {W : Opens M} {Γ : ℝ → ℝ → M} {Δ : ℝ → ℝ → X}
   {γ₀ γ₁ c : ℝ → M} {δ₀ δ₁ d : ℝ → X} {a b : ℝ}
-
-/-- A chart which is an isomorphism carries the future chronal curves of an open `W` of its
-source to those of `e(W)`. -/
-theorem chronalCurveOn_image (h : ChartIso C D e) (hW : W ≤ chartSource e)
-    (hc : C.ChronalCurveOn W c a b) : D.ChronalCurveOn (chartImage e W) (e ∘ c) a b := by
-  refine ⟨fun t ht => mem_chartImage_of_mem (hW (hc.mem t ht)) (hc.mem t ht),
-    fun t ht N' _ htN' => ?_⟩
-  let N : Opens M := W ⊓ ⟨e.source ∩ e ⁻¹' N', e.isOpen_inter_preimage N'.isOpen⟩
-  have htN : c t ∈ N := ⟨hc.mem t ht, hW (hc.mem t ht), htN'⟩
-  obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel t ht N inf_le_left htN
-  refine ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => ?_⟩
-  have hr := hrel s hs s' hs' h1 h2 h3
-  have hNW : N ≤ chartSource e := inf_le_left.trans hW
-  have hD := ((h N hNW _ (C.lt_mem_left hr) _ (C.lt_mem_right hr)).2).1 hr
-  refine D.lt_mono ?_ hD
-  rintro _ ⟨z, ⟨_, hzN⟩, rfl⟩
-  exact hzN.2.2
-
-/-- … and back, through the inverse of the chart. -/
-theorem chronalCurveOn_symm_image (h : ChartIso C D e) (hW : W ≤ chartSource e)
-    (hd : D.ChronalCurveOn (chartImage e W) d a b) : C.ChronalCurveOn W (e.symm ∘ d) a b := by
-  refine ⟨fun t ht => ?_, fun t ht N hN htN => ?_⟩
-  · obtain ⟨z, -, hzW, -, hsz⟩ := exists_of_mem_chartImage (hd.mem t ht)
-    show e.symm (d t) ∈ W
-    rw [hsz]; exact hzW
-  · obtain ⟨z, hzs, -, hez, hsz⟩ := exists_of_mem_chartImage (hd.mem t ht)
-    have hzN : z ∈ N := by
-      have htN' : e.symm (d t) ∈ N := htN
-      rwa [hsz] at htN'
-    have hdN : d t ∈ chartImage e N := by
-      rw [← hez]; exact mem_chartImage_of_mem hzs hzN
-    obtain ⟨l, u, hl, hu, hrel⟩ := hd.rel t ht (chartImage e N) (chartImage_mono hN) hdN
-    refine ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => ?_⟩
-    have hr := hrel s hs s' hs' h1 h2 h3
-    obtain ⟨z₁, -, hz₁N, hez₁, hsz₁⟩ := exists_of_mem_chartImage (D.lt_mem_left hr)
-    obtain ⟨z₂, -, hz₂N, hez₂, hsz₂⟩ := exists_of_mem_chartImage (D.lt_mem_right hr)
-    show C.lt N (e.symm (d s)) (e.symm (d s'))
-    rw [hsz₁, hsz₂]
-    rw [← hez₁, ← hez₂] at hr
-    exact ((h N (hN.trans hW) z₁ hz₁N z₂ hz₂N).2).2 hr
 
 theorem chronalHomotopyOn (h : ChartIso C D e) (hW : W ≤ chartSource e)
     (hΓ : C.ChronalHomotopyOn W Γ γ₀ γ₁) :

@@ -1,0 +1,215 @@
+{
+ "target": "T-abs-hoist-stranded-homes",
+ "package": "lean-causal",
+ "files": [
+  "Causal/GXStructure.lean",
+  "Causal/TimelikeHomotopy.lean",
+  "Causal/Remarks/MassiveManifold.lean",
+  "Causal/Flat/CauchyComplete.lean",
+  "Causal/ChronalNeighbourBridge.lean",
+  "Causal/CausallyPlainLocZ.lean",
+  "Causal/Model/E0ChronalNeighbour.lean",
+  "README.md",
+  "kb/entries/0047-model-free-lemmas-stranded.md",
+  "kb/entries/0273-timelike-homotopy.md",
+  "kb/entries/0275-chronal-neighbour-one-sided.md"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-hoist-stranded-homes/REPORT.json",
+  "campaign/T-abs-hoist-stranded-homes/Probe.lean",
+  "campaign/T-abs-hoist-stranded-homes/axioms.txt",
+  "campaign/T-abs-hoist-stranded-homes/scratch/ (Dump.lean, dump_cmp.py, dump_before.txt, dump_after.txt, dump_result.txt, imports_probe.py, imports_before.txt, imports_after.txt, ledger_check.txt, ledger_drift.py, ledger_drift.txt, ledger_fix_sim.py, build_causal.log, build_causal2.log, build_scaffold.log)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "labels": [],
+ "moves": [
+  {
+   "name": "Causal.ChartIso.curveOn_symm",
+   "from": "Causal/Remarks/MassiveManifold.lean:113 (model layer)",
+   "to": "Causal/GXStructure.lean:1178",
+   "value": "verbatim (same value hash)",
+   "note": "the optional hoist the dispatch allowed; MassiveManifold no longer defines it, its two users there (ChartIso.causallyArcConnectedOn, ChartIso.pushUpOn) resolve it unchanged (same value hashes)"
+  },
+  {
+   "name": "Causal.chartImage_subset_target",
+   "from": "Causal/TimelikeHomotopy.lean:556",
+   "to": "Causal/GXStructure.lean:1208",
+   "value": "verbatim (same value hash)"
+  },
+  {
+   "name": "Causal.ChartIso.chronalCurveOn_image",
+   "from": "Causal/TimelikeHomotopy.lean:569",
+   "to": "Causal/GXStructure.lean:1220",
+   "value": "verbatim (same value hash)"
+  },
+  {
+   "name": "Causal.ChartIso.chronalCurveOn_symm_image",
+   "from": "Causal/TimelikeHomotopy.lean:585",
+   "to": "Causal/GXStructure.lean:1236",
+   "value": "re-proved as a citation: curveOn_symm (fun N hN x hx y hy => (h N hN x hx y hy).2) D.isRelFamily_lt hW hd (the ≪ case); type unchanged"
+  }
+ ],
+ "placement": "The four declarations sit in a block at the end of Causal/GXStructure.lean that reopens `namespace Causal` with `universe u v` and `variable {M : Type u} [TopologicalSpace M]`, then the source modules' own `namespace ChartIso` variable lines. GXStructure's file-level `variable {M : Type u} {X : Type v} [TopologicalSpace M] [TopologicalSpace X]` would have reordered the implicit binders ({M} {X} [_] [_] instead of {M} [_] {X} [_]), i.e. changed the types; the reopened block keeps every binder telescope and type hash identical (dump).",
+ "citations": [
+  {
+   "citer": "Causal.Flat.curveOn_chart_symm",
+   "where": "Causal/Flat/CauchyComplete.lean:2518",
+   "cites": "Causal.ChartIso.curveOn_symm",
+   "proof": "ChartIso.curveOn_symm hiso hrD hU hc (the same statement, arguments reordered; the `where` structure proof is gone)",
+   "statement_allows": "yes: identical statement up to argument order, any relation families; the ≪-only chronalCurveOn_symm_image would not have covered it"
+  },
+  {
+   "citer": "Causal.ChartIso.chronalCurveOn_symm_image",
+   "where": "Causal/GXStructure.lean:1236",
+   "cites": "Causal.ChartIso.curveOn_symm"
+  },
+  {
+   "citer": "Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere",
+   "where": "Causal/Model/E0ChronalNeighbour.lean:109",
+   "cites": "Causal.Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus",
+   "proof": "hasChronalNeighbourEverywhere_of_forall_mem_Zplus h.mem_Zplus"
+  },
+  {
+   "citer": "Causal.SFALocal.hasChronalNeighbourEverywhere",
+   "where": "Causal/Model/E0ChronalNeighbour.lean:217",
+   "cites": "Causal.Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus",
+   "proof": "… (mem_Zplus hC)"
+  },
+  {
+   "citer": "Causal.SFALocalE0.hasChronalNeighbourEverywhere",
+   "where": "Causal/Model/E0ChronalNeighbour.lean:290",
+   "cites": "Causal.Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus",
+   "proof": "… (mem_Zplus hcov hC)"
+  },
+  {
+   "citer": "Causal.E0.chronalFutureNeighbours",
+   "where": "Causal/Model/E0ChronalNeighbour.lean:159",
+   "cites": "Causal.E0LM.LocZplus.chronalFutureNeighbours",
+   "proof": "E0LM.e0_locZplus.chronalFutureNeighbours"
+  },
+  {
+   "citer": "Causal.SFALocal.chronalFutureNeighbours",
+   "where": "Causal/Model/E0ChronalNeighbour.lean:230",
+   "cites": "Causal.E0LM.LocZplus.chronalFutureNeighbours",
+   "proof": "(locZplus hC).chronalFutureNeighbours"
+  },
+  {
+   "citer": "Causal.SFALocalE0.chronalFutureNeighbours",
+   "where": "Causal/Model/E0ChronalNeighbour.lean:296",
+   "cites": "Causal.E0LM.LocZplus.chronalFutureNeighbours",
+   "proof": "(locZplus hcov hC).chronalFutureNeighbours"
+  }
+ ],
+ "new_lemmas": [
+  {
+   "name": "Causal.Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus",
+   "where": "Causal/ChronalNeighbourBridge.lean:141",
+   "statement": "∀ {M : Type u} [TopologicalSpace M] {C : Causality M}, (∀ p, p ∈ C.Zplus) → C.HasChronalNeighbourEverywhere",
+   "proof": "fun p => Or.inl (Iplus_nonempty_of_mem_Zplus (h p))",
+   "axioms": "propext, Classical.choice, Quot.sound"
+  },
+  {
+   "name": "Causal.E0LM.LocZplus.chronalFutureNeighbours",
+   "where": "Causal/CausallyPlainLocZ.lean:159",
+   "statement": "∀ {X : Type u_1} [TopologicalSpace X] {D : Causality X}, E0LM.LocZplus D → D.ChronalFutureNeighbours",
+   "proof": "fun V v hv => h V v hv V (V.isOpen.mem_nhds hv)",
+   "axioms": "propext, Quot.sound",
+   "placement": "after `end Local`, so the hoisted section of CausallyPlainLocZ stays byte-identical to its source as its SCOPE says"
+  }
+ ],
+ "name_clash_check": "kb/0082: grep of lean-causal/Causal, scaffold, lean-gx (GX, scaffold), lean-benzecri, programme/, papers/*/certificate for both new names and for the four moved names: no other declaration; the dump has 0 duplicate names before and after.",
+ "dump": {
+  "method": "kb/0063: scratch/Dump.lean (reused from T-abs-merge-stranded-duplicates, output path changed) on `import Causal; import CausalScaffold`; before: package up to date (`lake build --no-build Causal CausalScaffold`: All targets up-to-date, 8919 jobs) with a clean lean-causal tree; after: both libraries rebuilt; scratch/dump_cmp.py.",
+  "entries": "18164 before, 18166 after; 0 duplicates; 0 removed",
+  "added": [
+   "Causal.Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus",
+   "Causal.E0LM.LocZplus.chronalFutureNeighbours"
+  ],
+  "moved_module_only": [
+   "Causal.ChartIso.curveOn_symm: Causal.Remarks.MassiveManifold -> Causal.GXStructure",
+   "Causal.chartImage_subset_target: Causal.TimelikeHomotopy -> Causal.GXStructure",
+   "Causal.ChartIso.chronalCurveOn_image: Causal.TimelikeHomotopy -> Causal.GXStructure",
+   "Causal.ChartIso.chronalCurveOn_symm_image: Causal.TimelikeHomotopy -> Causal.GXStructure (value changed too, below)"
+  ],
+  "value_hash_changed": [
+   "Causal.ChartIso.chronalCurveOn_symm_image",
+   "Causal.Flat.curveOn_chart_symm",
+   "Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere",
+   "Causal.E0.chronalFutureNeighbours",
+   "Causal.SFALocal.hasChronalNeighbourEverywhere",
+   "Causal.SFALocal.chronalFutureNeighbours",
+   "Causal.SFALocalE0.hasChronalNeighbourEverywhere",
+   "Causal.SFALocalE0.chronalFutureNeighbours"
+  ],
+  "type_changes": "none: no type hash, binder telescope, universe list, kind, reducibility, protected or noncomputable flag differs for any constant",
+  "result_file": "scratch/dump_result.txt"
+ },
+ "cycle_and_layer_checks": {
+  "method": "tools/ladder.py lean_index(), import_chain, model_path, _code in memory from the hub root (scratch/imports_probe.py), before and after; the outputs are identical (scratch/imports_before.txt, imports_after.txt)",
+  "imports_changed": "none: every citer already imported the new home (TimelikeHomotopy -> GXStructure directly; MassiveManifold via GXSingular; Flat.CauchyComplete via Flat.InducedLength; Port.SFALine and Port.SFAMassiveLine via SFATransfer; Model.E0ChronalNeighbour -> ChronalNeighbourBridge directly and -> CausallyPlainLocZ via Port.E0SingularFlat)",
+  "cycle": "none in the import graph",
+  "layer": "model_path is None for Causal.GXStructure, Causal.ChronalNeighbourBridge, Causal.CausallyPlainLocZ (and Causal.TimelikeHomotopy): no model import",
+  "kb_0221": "none of the seven edited modules mentions causal_ladder in code; ChronalNeighbourBridge and CausallyPlainLocZ are in Causal.Ladder.Rules' closure (49 modules) and reach no Rules module; none of the edited modules is in Causal.CurvesExtendSecondCountable's closure (31 modules)"
+ },
+ "build_commands": [
+  {
+   "cmd": "taskset -c 0-11 lake build --no-build Causal CausalScaffold (before)",
+   "result": "All targets up-to-date (8919 jobs)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake env lean Causal/GXStructure.lean; Causal/ChronalNeighbourBridge.lean; Causal/CausallyPlainLocZ.lean",
+   "result": "no output"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal",
+   "result": "Build completed successfully (8908 jobs), 6:17, no warning (scratch/build_causal.log)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build Causal (again: a docstring bullet was added to GXStructure after it had compiled)",
+   "result": "Build completed successfully (8908 jobs), 6:54, no warning (scratch/build_causal2.log)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake build CausalScaffold",
+   "result": "Build completed successfully (8778 jobs); the same 7 `declaration uses sorry` warnings as before (CompactCauchy, GerochCauchy, GerochEquiv ×2, LemmaKSCOpen, SingularRowsGerochEquiv, SubExtension), none new (scratch/build_scaffold.log)"
+  },
+  {
+   "cmd": "taskset -c 0-11 lake env lean campaign/T-abs-hoist-stranded-homes/Probe.lean",
+   "result": "axioms.txt: every moved, new and citing declaration is in the expected module and depends on propext, Classical.choice, Quot.sound at most"
+  }
+ ],
+ "hub_checks": {
+  "python3 tools/ladder.py check": "pass (26 properties, 27 implications, 83 counterexamples, 100 consequences; 392 of 392 pairs classified)",
+  "python3 tools/binder.py check": "pass (3 binders, all links resolve)",
+  "python3 tools/ledger.py -c papers/<p>/ledger/ledger.toml check": {
+   "barbot": "pass (44 statements, 39 Lean-stated)",
+   "ers-predictability": "pass (32 statements, 22 Lean-stated)",
+   "sbierski-mghd": "pass (19 statements, 19 Lean-stated)",
+   "sbierski-schwarzschild": "pass (30 statements, 12 Lean-stated)",
+   "ett": "FAIL: `cor:massA_cac: declaration Causal.ChartIso.curveOn_symm not found in its listed files`. The row's decls (papers/ett/certificate/curation.toml, [[row]] cor:massA_cac) name Causal.ChartIso.curveOn_symm, and its listed files are the docstring-anchored files plus the curated extra_lean_files (MassiveManifold, MassADEC25, MassAModelsInstance, EModelsBPrime), which no longer contain it. Fix (curation, the master's): add \"Causal/GXStructure.lean\" to that row's extra_lean_files (or drop the decl). Simulated in memory (scratch/ledger_fix_sim.py, ledger.load_ledger patched, nothing written): the decl failure disappears and only `ledger.json is not what build would write` remains, the regeneration of that row's lean_files."
+  },
+  "ledger_drift": "scratch/ledger_drift.py (ledger.build(write=False)): 0 rows differ in any of the five ledgers; no stamp difference"
+ },
+ "lean_gx": "lean-gx requires Causal by a git pin, so nothing in lean-gx changes until a bump; no lean-gx file (GX/, scaffold/) names any moved or new declaration, and no full name changed.",
+ "extra_decls": [
+  "Causal.Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus",
+  "Causal.E0LM.LocZplus.chronalFutureNeighbours"
+ ],
+ "findings": [
+  "Library, not paper: one transport had three proofs. Causal.ChartIso.curveOn_symm (MassiveManifold:113), Causal.Flat.curveOn_chart_symm (CauchyComplete:2516, the same statement with its arguments reordered) and Causal.ChartIso.chronalCurveOn_symm_image (TimelikeHomotopy:585, its ≪ case). There is now one proof (GXStructure:1178), and the other two cite it.",
+  "The ETT ledger check is red until one curation line is added: cor:massA_cac's extra_lean_files must list Causal/GXStructure.lean (see hub_checks.ett). The decl still resolves in Lean; the ledger finds a row's decls only in that row's listed files.",
+  "Stale line references in comments, which no gate checks, for the keeper: programme/ladder.toml:858 'E0ChronalNeighbour.lean:147' is now :149; programme/ladder.toml:883 'TimelikeHomotopy.lean:157' is now :156; programme/ladder.toml:3898 'TimelikeHomotopy.lean:474' is now :473; papers/sbierski-schwarzschild/certificate/binder.toml:30 and :326 'ChronalNeighbourBridge.lean:257' are now :269; binder.toml:310 'GXStructure.lean:82' (def ChartIso) is now :86."
+ ],
+ "questions": [
+  "The namespace of the second lemma. The dispatch names it Causal.E0LM.LocZplus.chronalFutureNeighbours, the namespace of the hoisted E0LM.LocZplus, so it sits in the ETT-layer module under a model-named namespace. I took the dispatched name, which also makes `h.chronalFutureNeighbours` work for `h : E0LM.LocZplus D`. A rename of the E0LM family is the separate question CausallyPlainLocZ's SCOPE already records.",
+  "The optional hoist of curveOn_symm. I took it, because it is the only way Flat.curveOn_chart_symm can cite: its statement covers any relation family, which the ≪-only chronalCurveOn_symm_image does not. Its cost is the curation line for cor:massA_cac. Without it, MassiveManifold and CauchyComplete would each keep a proof of the same statement."
+ ],
+ "kb_proposals": [
+  "kb/0027 (chart-iso transport) names ChartIso.curveOn_symm without its module: it is now in Causal.GXStructure (ETT layer, T-abs-hoist-stranded-homes), so a layer-1 module may cite it. Its forward ≪ form is ChartIso.chronalCurveOn_image, also there. No forward form for an arbitrary relation family exists.",
+  "Hoisting into a module whose file-level `variable` line orders the binders differently changes the types: GXStructure's `{M} {X} [TopologicalSpace M] [TopologicalSpace X]` would give {M} {X} [_] [_] instead of {M} [_] {X} [_]. Reopen `namespace Causal` in a trailing block with the source's `universe` and `variable` lines, then confirm with the kb/0063 dump (telescope and type hash).",
+  "Before moving a declaration, grep papers/*/certificate/curation.toml for it. `ledger.py check` looks a row's decls up only in the row's listed files (docstring-anchored plus curated extra_lean_files), so a move out of those files fails the ETT gate until the curation names the new file. A `ledger.build(write=False)` drift check does not see this; only `check` does.",
+  "kb/INDEX.md's line for 0047 could mention the ChartIso transport and the two E₀ steps (the entry itself now does)."
+ ],
+ "notes": "Exclusive target, done under the master's lease. No git command that writes, no make check, no emit-lean in any form: tools/ladder.py was run with `check`, once with a top-level `--help` (it printed the usage; git status shows Causal/Ladder/* unchanged), and through its in-memory lean_index/import_chain/model_path. Causal/Ladder/*, tools/, programme/, papers/ and lakefile.toml are untouched. No statement changes (dump). Before committing, the master adds the one curation entry for cor:massA_cac (findings 2) and rebuilds the ETT ledger.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: papers/ett/certificate/curation.toml row cor:massA_cac lists Causal/GXStructure.lean (the moved curveOn_symm); Causal/CausalIsoInvariance.lean's SCOPE re-pointed to GXStructure; kb/0027 updated. Left for the keeper and the planner: programme/ladder.toml:858, :883, :3898 and papers/sbierski-schwarzschild/certificate/binder.toml:30, :310, :326 line references."
+}

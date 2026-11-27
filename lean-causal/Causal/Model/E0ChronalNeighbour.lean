@@ -65,9 +65,11 @@ instance of it or says which of its two disjuncts holds. Cited, unmarked: `rem:b
   neither non-empty chronal cones nor chronal past neighbours nor chronal neighbours:
   `E₀` separates `has_chronal_neighbour` from `chronal_neighbours` in a model with push-up, global
   hyperbolicity, tarentin and causal plainness, beside the model-free closed half-line.
-* **Inline step.** `Z⁺(M) = M ⇒` a chronal neighbour everywhere is model-free and one line
-  (`Causality.Iplus_nonempty_of_mem_Zplus`); it is written inline in each proof, not as a lemma
-  here (kb/0047). Likewise `LocZplus ⇒ ChronalFutureNeighbours` (`N = V` in the definition).
+* **The model-free steps are cited, not written here** (kb/0047): `Z⁺(M) = M ⇒` a chronal
+  neighbour everywhere is `Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus`
+  (`Causal.ChronalNeighbourBridge`), and `LocZplus ⇒ ChronalFutureNeighbours` (`N = V` in the
+  definition) is `E0LM.LocZplus.chronalFutureNeighbours` (`Causal.CausallyPlainLocZ`), both
+  written inline here first and hoisted by T-abs-hoist-stranded-homes.
 * **No new mathematics**: every input was in Lean (`mem_Zplus`, `Iminus_eq_empty`,
   `mem_Zminus_iff`, `E0LM.e0_locZplus`, `SFALocal.mem_Zplus`, `SFALocal.locZplus`). The readings of
   `E₀` (OQ-34, OQ-35) and of `E_{≥0}`-manifolds (DEC-25, OQ-18) are those of the modules imported.
@@ -106,7 +108,7 @@ included: every point has a chronal neighbour in `M`, on the future side
 (`HasChronalNeighbour`'s left disjunct). -/
 theorem SingularFlatAxioms.hasChronalNeighbourEverywhere (h : C.SingularFlatAxioms sing) :
     C.HasChronalNeighbourEverywhere :=
-  fun p => Or.inl (h.Iplus_nonempty p)
+  hasChronalNeighbourEverywhere_of_forall_mem_Zplus h.mem_Zplus
 
 /-- With a BTZ point, the chronological cones are not all non-empty: the property is one-sided. -/
 theorem SingularFlatAxioms.not_nonemptyChronalCones (h : C.SingularFlatAxioms sing)
@@ -155,7 +157,7 @@ theorem Iminus_nonempty_iff (p : E0) : (causality.Iminus ⊤ {p}).Nonempty ↔ p
 /-- **The future side in every open set**: every point `v` of every open `V ⊆ E₀` has a point
 `p ∈ V` with `v ≪_V p` (`Z⁺` in every open set, `E0LM.e0_locZplus`, read with `N = V`). -/
 theorem chronalFutureNeighbours : causality.ChronalFutureNeighbours :=
-  fun V v hv => E0LM.e0_locZplus V v hv V (V.isOpen.mem_nhds hv)
+  E0LM.e0_locZplus.chronalFutureNeighbours
 
 /-- `E₀` does not have non-empty chronological cones: `I⁻ = ∅` on the axis. -/
 theorem not_nonemptyChronalCones : ¬ causality.NonemptyChronalCones :=
@@ -215,7 +217,7 @@ separation or countability is asked. -/
 theorem hasChronalNeighbourEverywhere
     (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) :
     C.HasChronalNeighbourEverywhere :=
-  fun p => Or.inl (Causality.Iplus_nonempty_of_mem_Zplus (mem_Zplus hC p))
+  Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus (mem_Zplus hC)
 
 /-- The same for the natural causality of an `E_{≥0}`-manifold (`IsAtlasCausalityDEC25`). -/
 theorem hasChronalNeighbourEverywhere_of_isAtlasCausalityDEC25 (hcov : MassACovered M)
@@ -228,7 +230,7 @@ with `N = V`), for every causality with an isomorphic chart at each point. -/
 theorem chronalFutureNeighbours
     (hC : IsoChartsCoverDEC25 (Flat.isom 2) C (minkowski 2) massAModelCausality) :
     C.ChronalFutureNeighbours :=
-  fun V v hv => locZplus hC V v hv V (V.isOpen.mem_nhds hv)
+  (locZplus hC).chronalFutureNeighbours
 
 /-- At an `E_{≥0}`-manifold with an absolutely minimal causality, a point has a chronological past
 iff it is not a BTZ point. -/
@@ -287,13 +289,13 @@ variable {M : Type u} [TopologicalSpace M] [SingularGXStructure (Flat.isom 2) (M
 (`SFALocalE0.mem_Zplus`). -/
 theorem hasChronalNeighbourEverywhere (hcov : E0Covered M) (hC : IsE0Natural C) :
     C.HasChronalNeighbourEverywhere :=
-  fun p => Or.inl (Causality.Iplus_nonempty_of_mem_Zplus (mem_Zplus hcov hC p))
+  Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus (mem_Zplus hcov hC)
 
 /-- Chronal future neighbours at every `E₀`-manifold with its natural causality
 (`SFALocalE0.locZplus`). -/
 theorem chronalFutureNeighbours (hcov : E0Covered M) (hC : IsE0Natural C) :
     C.ChronalFutureNeighbours :=
-  fun V v hv => locZplus hcov hC V v hv V (V.isOpen.mem_nhds hv)
+  (locZplus hcov hC).chronalFutureNeighbours
 
 /-- At an `E₀`-manifold with its natural causality, a point has a chronological past iff it is not
 a BTZ point. -/

@@ -108,7 +108,8 @@ group; 3.29's causality is `Causality.isCausal_of_timeFunction` for `x⁰` on `(
   defined on all of `M` (`isCausalIso_iff_chartIso`), and `Causality.transport e` is
   `Causality.chartTransport` along `e⁻¹` (`chartTransport_toOpenPartialHomeomorph`). The transports
   here are proved directly; `curveOn_comp` overlaps `ChartIso.curveOn_symm`
-  (`Causal.Remarks.MassiveManifold`, which reaches a model). 3.39's Cauchy surfaces "of constant
+  (`Causal.GXStructure` since T-abs-hoist-stranded-homes; it was in the model-reaching
+  `Causal.Remarks.MassiveManifold`). 3.39's Cauchy surfaces "of constant
   `x⁰`" need a *Cauchy* time function (`IsCauchyTimeFunction.isCauchySurface`, `Causal.Geroch`);
   `isCauchyTimeFunction_comp_iff` carries one across `Ψ`.
 * **Non-vacuity.** Translations of the timelike line are causal isomorphisms

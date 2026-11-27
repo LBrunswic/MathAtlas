@@ -34,6 +34,9 @@ point, both sides).
 * **`T-abs-chronal-neighbour-bridge/3-converse`** — `not_chronalNeighbours_of_hasChronalNeighbourEverywhere_bare`:
   the converse fails. The closed half-line is `T1`, preconnected, causally arc-connected and every
   point has a chronal neighbour, but `I⁻(0) = ∅` (`closedHalfLine_separates_chronalNeighbours`).
+* `hasChronalNeighbourEverywhere_of_forall_mem_Zplus`: `Z⁺(M) = M` gives a chronal neighbour at
+  every point, on the future side (T-abs-hoist-stranded-homes: the step the `E₀` closer wrote
+  inline in `Causal.Model.E0ChronalNeighbour`, which now cites it).
 
 > Bridge between LocateExtension's HasChronalNeighbour (one point, one side, chronology in M) and
 > LadderLocal's ChronalNeighbours (every point, both sides, chronology in every open V):
@@ -129,6 +132,15 @@ theorem dual_nonemptyChronalCones : C.dual.NonemptyChronalCones ↔ C.NonemptyCh
 theorem NonemptyChronalCones.hasChronalNeighbourEverywhere (h : C.NonemptyChronalCones) :
     C.HasChronalNeighbourEverywhere :=
   fun x => Or.inl (h x).1
+
+/-- **Every point strongly tarentin in the future gives a chronal neighbour at every point**
+(`Z⁺(M) = M ⇒ has_chronal_neighbour`), on the future side: a point of `Z⁺` has a non-empty
+chronological future (`Iplus_nonempty_of_mem_Zplus`). The step of the singular flat spacetimes,
+where `Z⁺(M) = M` is the field `SingularFlatAxioms.mem_Zplus` (`Causal.Model.E0ChronalNeighbour`
+cites it). -/
+theorem hasChronalNeighbourEverywhere_of_forall_mem_Zplus (h : ∀ p, p ∈ C.Zplus) :
+    C.HasChronalNeighbourEverywhere :=
+  fun p => Or.inl (Iplus_nonempty_of_mem_Zplus (h p))
 
 /-! ## `ChronalNeighbours` gives a chronal neighbour at every point -/
 

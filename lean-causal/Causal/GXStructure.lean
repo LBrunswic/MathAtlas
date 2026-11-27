@@ -55,6 +55,10 @@ in the library's gluing-free reading (SCOPE (d)), proved among absolutely minima
 * (B) uses the minimality of the model on every open subset (`compatible_of_agree_locally`): a
   transition is an element of `G` only locally.
 * Sanity: `X` with its own atlas gets back its causality (`causality_GX_self`).
+* Also here, for no label: the transport of curves through a chart which is an isomorphism
+  (`ChartIso.curveOn_symm`, `ChartIso.chronalCurveOn_image`, `ChartIso.chronalCurveOn_symm_image`,
+  `chartImage_subset_target`), at the end of the file, hoisted by T-abs-hoist-stranded-homes from
+  `Causal.Remarks.MassiveManifold` and `Causal.TimelikeHomotopy` with the same full names.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -1144,5 +1148,95 @@ theorem chartIso_iff_strongMorphism :
       rwa [hUU] at this
 
 end Bridge
+
+end Causal
+
+/-! ## Transport of curves through a chart which is an isomorphism
+
+Model-free, hoisted here by T-abs-hoist-stranded-homes (same full names, same statements, kb/0047,
+kb/0063): `ChartIso.curveOn_symm` from `Causal.Remarks.MassiveManifold`, and
+`chartImage_subset_target`, `ChartIso.chronalCurveOn_image`, `ChartIso.chronalCurveOn_symm_image`
+from `Causal.TimelikeHomotopy`. The block reopens the namespace so that each declaration has the
+binder telescope of its source module. `chronalCurveOn_symm_image` is now the `≪` case of
+`curveOn_symm`, and `Causal.Flat.curveOn_chart_symm` cites `curveOn_symm`. -/
+
+namespace Causal
+
+open Set TopologicalSpace Topology Function
+
+universe u v
+
+variable {M : Type u} [TopologicalSpace M]
+
+namespace ChartIso
+
+variable {X : Type v} [TopologicalSpace X] {C : Causality M} {D : Causality X}
+  {e : OpenPartialHomeomorph M X}
+
+/-- A curve of the model inside the image of an open set `U` of the chart source, read back through
+the chart, is a curve of `U`, for any two relation families matched by the chart. -/
+theorem curveOn_symm {rC : Opens M → M → M → Prop} {rD : Opens X → X → X → Prop}
+    (hiso : ∀ N : Opens M, N ≤ chartSource e → ∀ x ∈ N, ∀ y ∈ N,
+      (rC N x y ↔ rD (chartImage e N) (e x) (e y)))
+    (hrD : IsRelFamily rD) {U : Opens M} (hU : U ≤ chartSource e) {c : ℝ → X} {a b : ℝ}
+    (hc : CurveOn rD (chartImage e U) c a b) : CurveOn rC U (fun t => e.symm (c t)) a b := by
+  refine ⟨fun t ht => ?_, fun t ht N hN htN => ?_⟩
+  · obtain ⟨z, -, hzU, -, hsz⟩ := exists_of_mem_chartImage (hc.mem t ht)
+    show e.symm (c t) ∈ U
+    rw [hsz]
+    exact hzU
+  · obtain ⟨z, hzs, -, hez, hsz⟩ := exists_of_mem_chartImage (hc.mem t ht)
+    have hzN : z ∈ N := by
+      have htN' : e.symm (c t) ∈ N := htN
+      rwa [hsz] at htN'
+    have hctN : c t ∈ chartImage e N := by
+      rw [← hez]
+      exact mem_chartImage_of_mem hzs hzN
+    obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel t ht (chartImage e N) (chartImage_mono hN) hctN
+    refine ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => ?_⟩
+    have hr := hrel s hs s' hs' h1 h2 h3
+    obtain ⟨z₁, -, hz₁N, hez₁, hsz₁⟩ := exists_of_mem_chartImage (hrD.mem_left hr)
+    obtain ⟨z₂, -, hz₂N, hez₂, hsz₂⟩ := exists_of_mem_chartImage (hrD.mem_right hr)
+    show rC N (e.symm (c s)) (e.symm (c s'))
+    rw [hsz₁, hsz₂]
+    rw [← hez₁, ← hez₂] at hr
+    exact (hiso N (hN.trans hU) z₁ hz₁N z₂ hz₂N).2 hr
+
+end ChartIso
+
+/-- The image of the source part of an open set lies in the chart's target. -/
+theorem chartImage_subset_target {X : Type v} [TopologicalSpace X] {e : OpenPartialHomeomorph M X}
+    (U : Opens M) : (chartImage e U : Set X) ⊆ e.target := by
+  rintro _ ⟨z, ⟨hz, _⟩, rfl⟩
+  exact e.map_source hz
+
+namespace ChartIso
+
+variable {X : Type v} [TopologicalSpace X] {C : Causality M} {D : Causality X}
+  {e : OpenPartialHomeomorph M X} {W : Opens M} {c : ℝ → M} {d : ℝ → X} {a b : ℝ}
+
+/-- A chart which is an isomorphism carries the future chronal curves of an open `W` of its
+source to those of `e(W)`. -/
+theorem chronalCurveOn_image (h : ChartIso C D e) (hW : W ≤ chartSource e)
+    (hc : C.ChronalCurveOn W c a b) : D.ChronalCurveOn (chartImage e W) (e ∘ c) a b := by
+  refine ⟨fun t ht => mem_chartImage_of_mem (hW (hc.mem t ht)) (hc.mem t ht),
+    fun t ht N' _ htN' => ?_⟩
+  let N : Opens M := W ⊓ ⟨e.source ∩ e ⁻¹' N', e.isOpen_inter_preimage N'.isOpen⟩
+  have htN : c t ∈ N := ⟨hc.mem t ht, hW (hc.mem t ht), htN'⟩
+  obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel t ht N inf_le_left htN
+  refine ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => ?_⟩
+  have hr := hrel s hs s' hs' h1 h2 h3
+  have hNW : N ≤ chartSource e := inf_le_left.trans hW
+  have hD := ((h N hNW _ (C.lt_mem_left hr) _ (C.lt_mem_right hr)).2).1 hr
+  refine D.lt_mono ?_ hD
+  rintro _ ⟨z, ⟨_, hzN⟩, rfl⟩
+  exact hzN.2.2
+
+/-- … and back, through the inverse of the chart: the `≪` case of `curveOn_symm`. -/
+theorem chronalCurveOn_symm_image (h : ChartIso C D e) (hW : W ≤ chartSource e)
+    (hd : D.ChronalCurveOn (chartImage e W) d a b) : C.ChronalCurveOn W (e.symm ∘ d) a b :=
+  curveOn_symm (fun N hN x hx y hy => (h N hN x hx y hy).2) D.isRelFamily_lt hW hd
+
+end ChartIso
 
 end Causal

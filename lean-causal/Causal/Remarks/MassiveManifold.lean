@@ -41,8 +41,10 @@ unmarked: `cor:massA_causalite` — `ETT.tex:1396`, `cor:massA_cac` — `ETT.tex
 
 ## What is proved (no `sorry` in this file)
 
-* Transport through a chart which is an isomorphism (`ChartIso`): curves (`ChartIso.curveOn_symm`),
-  causal arc-connectedness (`ChartIso.causallyArcConnectedOn`), push-up (`ChartIso.pushUpOn`).
+* Transport through a chart which is an isomorphism (`ChartIso`): causal arc-connectedness
+  (`ChartIso.causallyArcConnectedOn`), push-up (`ChartIso.pushUpOn`), from the transport of curves
+  `ChartIso.curveOn_symm`, written here first and now in `Causal.GXStructure` (same full name,
+  T-abs-hoist-stranded-homes).
 * `IsAtlasCausality`: every chart an isomorphism, absolutely minimal — the causality of
   `prop:GX_sing_espace_temps_topo`.
 * `cor:massA_causalite`: `massA_causalite`. `cor:massA_cac`: `massA_cac`. `cor:pushup_sing`:
@@ -107,35 +109,6 @@ namespace ChartIso
 
 variable {X : Type v} [TopologicalSpace X] {C : Causality M} {D : Causality X}
   {e : OpenPartialHomeomorph M X}
-
-/-- A curve of the model inside the image of an open set `U` of the chart source, read back through
-the chart, is a curve of `U`, for any two relation families matched by the chart. -/
-theorem curveOn_symm {rC : Opens M → M → M → Prop} {rD : Opens X → X → X → Prop}
-    (hiso : ∀ N : Opens M, N ≤ chartSource e → ∀ x ∈ N, ∀ y ∈ N,
-      (rC N x y ↔ rD (chartImage e N) (e x) (e y)))
-    (hrD : IsRelFamily rD) {U : Opens M} (hU : U ≤ chartSource e) {c : ℝ → X} {a b : ℝ}
-    (hc : CurveOn rD (chartImage e U) c a b) : CurveOn rC U (fun t => e.symm (c t)) a b := by
-  refine ⟨fun t ht => ?_, fun t ht N hN htN => ?_⟩
-  · obtain ⟨z, -, hzU, -, hsz⟩ := exists_of_mem_chartImage (hc.mem t ht)
-    show e.symm (c t) ∈ U
-    rw [hsz]
-    exact hzU
-  · obtain ⟨z, hzs, -, hez, hsz⟩ := exists_of_mem_chartImage (hc.mem t ht)
-    have hzN : z ∈ N := by
-      have htN' : e.symm (c t) ∈ N := htN
-      rwa [hsz] at htN'
-    have hctN : c t ∈ chartImage e N := by
-      rw [← hez]
-      exact mem_chartImage_of_mem hzs hzN
-    obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel t ht (chartImage e N) (chartImage_mono hN) hctN
-    refine ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => ?_⟩
-    have hr := hrel s hs s' hs' h1 h2 h3
-    obtain ⟨z₁, -, hz₁N, hez₁, hsz₁⟩ := exists_of_mem_chartImage (hrD.mem_left hr)
-    obtain ⟨z₂, -, hz₂N, hez₂, hsz₂⟩ := exists_of_mem_chartImage (hrD.mem_right hr)
-    show rC N (e.symm (c s)) (e.symm (c s'))
-    rw [hsz₁, hsz₂]
-    rw [← hez₁, ← hez₂] at hr
-    exact (hiso N (hN.trans hU) z₁ hz₁N z₂ hz₂N).2 hr
 
 /-- Causal arc-connectedness passes from the model to the chart source. -/
 theorem causallyArcConnectedOn (h : ChartIso C D e)

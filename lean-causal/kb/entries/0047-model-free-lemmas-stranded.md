@@ -16,3 +16,14 @@ T-abs-dependence-domain-home; the `Flat` names are deprecated aliases) is in `Ca
 and unification see through it; `rw` with a `Causality.dependenceDomain` lemma does not match
 `C.dependenceDomainOn W S` at the head: use the `dependenceDomainOn_*` lemmas or `simp only`. Before writing a layer-1 lemma,
 grep the model-importing modules too: a model-free result may still sit behind a model import.
+
+T-abs-hoist-stranded-homes (same full names, same statements): the transport of curves through a
+`ChartIso` is in `Causal.GXStructure`, where `ChartIso` is defined, in a block at the end of the
+file that reopens `namespace Causal` so that each declaration keeps its source's binder telescope:
+`ChartIso.curveOn_symm` (any two relation families; from the model-layer
+`Causal.Remarks.MassiveManifold`), and `chartImage_subset_target`, `ChartIso.chronalCurveOn_image`,
+`ChartIso.chronalCurveOn_symm_image` (from `Causal.TimelikeHomotopy`, ETT-layer but not their home).
+`chronalCurveOn_symm_image` is now the `≪` case of `curveOn_symm`, and `Causal.Flat.curveOn_chart_symm`
+(the same statement, arguments reordered) cites it. Two steps the E₀ closer wrote inline got
+homes: `Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus` (`Causal.ChronalNeighbourBridge`)
+and `E0LM.LocZplus.chronalFutureNeighbours` (`Causal.CausallyPlainLocZ`).

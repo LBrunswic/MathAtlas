@@ -2512,31 +2512,17 @@ theorem curvesExtend_of_isCausalFlow [T2Space X] {C : Causality X} {φ : Flow �
   · simp only [γ, g, ht.2, h, if_true, if_false]
 
 /-- The inverse of a chart isomorphism carries curves of the image of `U` to curves of `U`, for
-any pair of relation families that the chart matches on the open subsets of its source. -/
+any pair of relation families that the chart matches on the open subsets of its source: the
+ETT-layer `ChartIso.curveOn_symm` (`Causal.GXStructure`), its arguments in another order
+(T-abs-hoist-stranded-homes). -/
 theorem curveOn_chart_symm {Y : Type*} [TopologicalSpace Y] {e : OpenPartialHomeomorph X Y}
     {rC : Opens X → X → X → Prop} {rD : Opens Y → Y → Y → Prop} (hrD : IsRelFamily rD)
     {U : Opens X} (hU : U ≤ chartSource e)
     (hiso : ∀ N : Opens X, N ≤ chartSource e → ∀ x ∈ N, ∀ y ∈ N,
       (rC N x y ↔ rD (chartImage e N) (e x) (e y)))
     {c : ℝ → Y} {a b : ℝ} (hc : CurveOn rD (chartImage e U) c a b) :
-    CurveOn rC U (fun t => e.symm (c t)) a b where
-  mem t ht := by
-    obtain ⟨z, -, hzU, -, hz⟩ := exists_of_mem_chartImage (hc.mem t ht)
-    show e.symm (c t) ∈ U
-    rw [hz]; exact hzU
-  rel t ht N hN htN := by
-    obtain ⟨z, hzs, -, hze, hz⟩ := exists_of_mem_chartImage (hc.mem t ht)
-    have hzN : z ∈ N := by rw [← hz]; exact htN
-    have hcN : c t ∈ chartImage e N := ⟨z, ⟨hzs, hzN⟩, hze⟩
-    obtain ⟨l, u, hl, hu, hrel⟩ := hc.rel t ht (chartImage e N) (chartImage_mono hN) hcN
-    refine ⟨l, u, hl, hu, fun s hs s' hs' h1 h2 h3 => ?_⟩
-    have hr := hrel s hs s' hs' h1 h2 h3
-    obtain ⟨w, -, hwN, hwe, hw⟩ := exists_of_mem_chartImage (hrD.mem_left hr)
-    obtain ⟨w', -, hwN', hwe', hw'⟩ := exists_of_mem_chartImage (hrD.mem_right hr)
-    show rC N (e.symm (c s)) (e.symm (c s'))
-    rw [hw, hw']
-    refine (hiso N (hN.trans hU) w hwN w' hwN').2 ?_
-    rw [hwe, hwe']; exact hr
+    CurveOn rC U (fun t => e.symm (c t)) a b :=
+  ChartIso.curveOn_symm hiso hrD hU hc
 
 /-- **A chart isomorphism onto a causally arc-connected model makes every open subset of its
 source causally arc-connected**: a relation of `U` is one of the image, realised there by a curve

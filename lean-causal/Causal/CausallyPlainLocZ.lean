@@ -28,6 +28,9 @@ and this module proves criteria for it.
     `Jplus_subset_closure_Iplus_of_locZplus`, `Jminus_diff_subset_closure_Iminus_of_locZminus` and
     **`causallyPlain_of_locZ`**: push-up, `Z⁺` in every open set and `Z⁻` in every open set off a set
     with empty interior give causal plainness.
+* **New (T-abs-hoist-stranded-homes): `E0LM.LocZplus.chronalFutureNeighbours`**, `LocZplus D ⇒
+  D.ChronalFutureNeighbours` (`N = V` in the definition), written after the hoisted section, which
+  stays verbatim; `Causal.Model.E0ChronalNeighbour` cites it at `E₀`, `E_{≥0}`- and `E₀`-manifolds.
 * **New: `Causality.PushUp.causallyPlain_of_chronalNeighbours`**, the ladder edge
   `push_up ∧ chronal_neighbours ⇒ causally_plain`, beside
   `PushUp.causallyOpen_of_chronalNeighbours` (`Causal.LadderLocal`). Chronal neighbours give
@@ -146,6 +149,16 @@ theorem locTarentin_of (hD : D.CausallyArcConnected) (hSC : D.StronglyCausal)
       (rel_of_causallyConvex hD hVc (fun w hw => (hVsub hw).2) hwV hq).1 h2⟩
 
 end Local
+
+/-! ### `Z⁺` in every open set gives chronal future neighbours -/
+
+/-- **`Z⁺` in every open set gives chronal future neighbours** (`LocZplus D ⇒
+D.ChronalFutureNeighbours`): `LocZplus` read with the neighbourhood `N = V` of `v`
+(T-abs-hoist-stranded-homes: the step the `E₀` closer wrote inline three times in
+`Causal.Model.E0ChronalNeighbour`, which now cites it). -/
+theorem LocZplus.chronalFutureNeighbours {X : Type*} [TopologicalSpace X]
+    {D : Causal.Causality X} (h : LocZplus D) : D.ChronalFutureNeighbours :=
+  fun V v hv => h V v hv V (V.isOpen.mem_nhds hv)
 
 end E0LM
 
