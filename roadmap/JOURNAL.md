@@ -982,3 +982,9 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - New question for the author: OQ-149 (ppcm's « minimal » and « unique »: which reading is of record).
 - btz now: pgcd and ppcm proved for E₀; maximal-extension waits on T-gx-causal-pin-bump; every row partial until T-btz-scope.
 - next: T-gx-causal-pin-bump (master, exclusive), then T-btz-maximal-extension; T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass.
+
+## 2026-11-28 00:10 · wave of 1 · T-gx-causal-pin-bump
+- T-gx-causal-pin-bump (master, exclusive, executed by a closer): lean-gx's Causal requirement moved from ca2ad78 to 51cbb00 (the last committed lean-causal). Nothing broke; Causal.AbstractDev and the E_α models now import in lean-gx, which opens DEC-208's route for T-btz-maximal-extension.
+- gates: lean-gx ✓, roadmap ✓, atlas ✓; hub: the first make -k check failed test_no_model_in_gates because papers/ett was mid-edit by /ett-programme; rerun rc 0, no new red (verdict read before the push).
+- commits: c1d9a45 da1354c [+ roadmap/atlas/journal]
+- next: T-btz-maximal-extension, then T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass (lean-gx).
