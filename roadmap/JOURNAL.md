@@ -906,3 +906,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 15:45–17:20 UTC; agents in parallel: 4 closers + 1 builder, 4 audits
 - New questions for the author: OQ-140 (gap corollaries' readings), OQ-141 (rem:conformal-gap's scope), OQ-142 (btz § 5: a.e. morphisms, connected carriers, over-extension morphisms, Cauchy-complete).
 - next: T-btz-blunt-spear, T-bbs-hcausal-tachyons, T-bbs-link-remarks (lean-gx) and the builder for lean-gx/lean-yamabe; lean-yamabe's queue is empty again, so a planning run follows soon.
+
+## 2026-11-27 18:30 · wave of 4 · T-btz-blunt-spear, T-bbs-hcausal-tachyons, T-bbs-link-remarks, T-atlas-overlay-refresh
+- T-btz-blunt-spear: btzdef:blunt_spear_neighborhood sorry-free; the lemma's core sorry-free with two facts the paper uses implicitly (null rays without endpoints), its paper form on two tagged sorrys. Finding: l.721's « essentially the same » does not transfer. Audit minor, one fix round (the chart quantifier). OQ-143.
+- T-bbs-hcausal-tachyons: the two HSCausal sorrys closed, both statements true: no CCC for tachyons (every degree) or trivial holonomy, proved on the covering; 𝔢(L) has a CCC iff L is Misner. One sorry left (apex-link degree). Audit clean.
+- T-bbs-link-remarks: both remarks sorry-free. AUDIT-1 major: the cuttachyon2 « error » depended on the holonomy sign convention, and an AdS support claim was wrong. After one round the finding is convention-free (the two printed clauses cannot both hold under any single gluing rule); AUDIT-2 minor. OQ-144.
+- T-atlas-overlay-refresh (builder): lean-yamabe's overlay (yamabe 31 → 45 edges, perforated 25 → 30). Back to ready for lean-gx.
+- Held for the restatement register (/restate): the bbs rows bbsdef:Hcausal, bbsrem:cuttachyon2, bbsrem:however_no_positive_negative (blockers updated); btz's rows curated.
+- gates: lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check all green, hub: make -k check rc 0, no new red
+- commits: df63ad2 a1c3971 eb5a115 [+ roadmap/atlas/journal]
+- wall time: 16:15–18:30 UTC; agents in parallel: 3 closers + 1 builder, 5 audits, two fix rounds
+- New questions for the author: OQ-143 (the blunt-spear readings; an ordering at l.1601–1604), OQ-144 (which holonomy sign convention is of record; it decides cuttachyon2 and may bear on HSPositive's signs).
+- next: no ready closer target is left besides the builder: a planning run (rule 2).
