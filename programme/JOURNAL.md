@@ -787,3 +787,24 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: 0aae399d 07391dcc
 - next: a PLANNING RUN (rule 2: one ready abstract target left, T-abs-sc-open-hoist). It folds in waves 39–43's proposals (journal 17:14, 18:17, 18:42, 19:22, 20:08).
+
+## 2026-11-27 20:38 · planning run · waves 39–43's proposals folded in; 185 → 190 targets
+- New targets:
+  - ready: T-lad-record-stale-refs (keeper: isolatedLine_separates re-pointings, the stale comments and line references after the merges and hoists), T-abs-future-one-connected-vacuous (chronology-free causalities have the node vacuously; separations on ETT-layer lines, symmRationalLine for the causal side), T-abs-lift-curves-forms (OQ-145's harc forms and the refutation with gluing and continuity inside), T-abs-dens-separates;
+  - ready, exclusive: T-tac-dual-future-one-connected.
+- Rescoped:
+  - T-abs-not-future-one-connected is now localisation (model flat-gx, ℤe₁\𝐌^{1+1}, the winding argument via mathlib's covering-map lifting), and ready.
+  - T-abs-c0-extension-skeleton (`uses` + future_one_connected) is ready.
+  - T-lad-c0-extension-nodes is reduced to locally_strongly_causal, and ready.
+  - T-lad-development-nodes' node is renamed data_local_uniqueness (the id clash with the edge hypothesis).
+  - The tamifying targets carry Q4 (≤ realised by curves for btzCylCausality and Ẽ_α) and wait on lean-gx.
+- Planner targets applied (989f789f, set done): T-bind-schw-future-one-connected and T-bind-edge-hypotheses.
+  - Schwarzschild: future_one_connected is a node in localisation for Thm 3.1, 4.9–4.11, 4.12, 6.5. The minkowski entry proves it. The DiamondConfinement anchors and line references are fixed. Layer 1 in Lean 14 → 19.
+  - ERS: rows 4.64–4.73 name the `_noArc` forms. causally_arc_connected leaves 4.68, 4.69, 4.71, 4.73. The edge ids move to localisation.
+  - sbierski-mghd: data_local_uniqueness.
+- The planner ran one read-only `git diff --stat`, against its rule; it changed nothing.
+- registers: no new OQ (OQ-145, OQ-127 cover the open readings)
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 19, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: 989f789f
+- next: T-lad-record-stale-refs (keeper), with T-abs-c0-extension-skeleton, T-abs-future-one-connected-vacuous and T-abs-not-future-one-connected (closers, lean-causal)
