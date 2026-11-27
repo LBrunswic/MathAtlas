@@ -841,3 +841,35 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: aa3af230 1faaa160 04727ec4 bdce0bdd a7464580
 - next: T-lad-c0-extension-nodes (keeper, with the 37 recordings added), T-abs-lift-curves-forms and T-abs-dens-separates (closers)
+
+## 2026-11-27 21:57 · wave of 3 · T-lad-c0-extension-nodes, T-abs-lift-curves-forms, T-abs-dens-separates
+- T-lad-c0-extension-nodes (ladder): the node locally_strongly_causal (Causal.Causality.LocallyStronglyCausal), two-sided and hereditary.
+  - The edge strongly_causal ⇒ locally_strongly_causal (checked).
+  - Nine consequences: the precompact diamonds, the identification, and the C⁰ skeleton and its forms.
+  - 16 of its pairs are refuted by existing witnesses; 21 are [[open]] with argued models (the symmetric rational line, the loop fan at every scale, Galileo's curve form, the flat time cylinder).
+  - Master's addition: the 37 [[open]] pairs of future_one_connected are now [[fails]], so that node is fully separated.
+  - 432/432 classified: 41 implied, 362 fails, 29 open.
+  - emit-lean (master): Rules.lean imports Causal.DiamondConfinement (no cycle) and gains the edge rule; Test.lean has 77 derived and 432 not derived; mutate.py OK (e9adc425).
+  - The loop fan's module imports Rules, so its separation witness must sit in a leaf away from Rules.
+- T-abs-lift-curves-forms (abstract, layer 1; OQ-145 open): the lifting of strong causality with harc (≤ realised by curves), the originals following.
+  - harc is strictly weaker without gluing (orderLine).
+  - The printed form is refuted with gluing and continuous maps inside the statement.
+  - Audit minor, applied (cf27c3fc); kb 0299.
+- T-abs-dens-separates (abstract, layer 1): densCausality decides all 20 causality nodes on ℝ: globally hyperbolic, tarentin, push-up, with chronal neighbours, future one-connected (not vacuously), and the rest of the closure, but not causally arc-connected and not absolutely minimal.
+  - It witnesses [GH, tarentin] ⇏ causally_arc_connected, and is the first witness of chronal_neighbours ⇏ absolutely_minimal (both no-gluing).
+  - Audit minor, applied (82a2f330).
+- For the keeper: record densCausality_separates (the [[fails]] [GH, tarentin] → causally_arc_connected, and the 18-node entry to absolutely_minimal, which settles chronal_neighbours → absolutely_minimal).
+- For the planner, the keeper's proposals:
+  - T-abs-lsc-separations (symmRationalLine and loop-fan separations of locally_strongly_causal, in a leaf);
+  - T-abs-loop-fan-every-scale;
+  - T-abs-galileo-curve-form;
+  - T-loc-time-cylinder-lsc;
+  - the Schwarzschild binder to cite locally_strongly_causal in `localisation`;
+  - a dual rule pair for dual_locallyStronglyCausal (with T-tac-dual-future-one-connected);
+  - an R1 standing word in tools/ladder.py's vocabulary;
+  - and the earlier backlog: the binder's c0-skeleton placeholders, the paper's orientation slips, the FlatSpaceCylinder hoist candidates, T-abs-ers-4-82-solution-form, T-lad-record-prop-4-63-forms, two stale Lean docstrings.
+- ladder: 27 properties, 28 implications, 102 counterexamples, 109 consequences, 5 edge hypotheses; 432/432 within a sort: 41 implied, 362 fails, 29 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 19, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: e9adc425 cf27c3fc 82a2f330 97c1abfe
+- next: a PLANNING RUN (rule 2: one ready abstract target left, T-abs-sc-open-hoist)
