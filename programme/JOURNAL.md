@@ -684,3 +684,38 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: d89f204c 552aa09f 959b867b db0e8e7f df08a2b5 042cbeb8
 - next: T-lad-record-ers-cauchy-forms (keeper), T-loc-minkowski-future-one-connected, T-abs-ers-witnesses, T-abs-ers-sc-witnesses (closers, lean-causal)
+
+## 2026-11-27 18:17 · wave of 4 · T-lad-record-ers-cauchy-forms, T-loc-minkowski-future-one-connected, T-abs-ers-witnesses, T-abs-ers-sc-witnesses
+- 17:17: one iteration stopped at its preconditions. lean-gx/scaffold/GXScaffold/BTZ/SectorAtlas.lean (/atlas-team's T-btz-blunt-vertical-ray) was outside every lease. It was committed by 17:38.
+- T-lad-record-ers-cauchy-forms (ladder): three consequences added, with no causally_arc_connected: ERS Prop 4.63 and Thm 4.75 in the S Cauchy reading, and Rem 4.67's first sentence without harc.
+  - Thm 4.64 and Cors 4.68, 4.69, 4.71, 4.73 are re-pointed to the stronger `_noArc` witnesses (4.64/4.68/4.69 at [GH, tarentin], no longer with causally_arc_connected).
+  - The densCausality separation [GH, tarentin] ⇏ causally_arc_connected is noted, not recorded: no declaration conjoins it.
+  - Matrix identical (b315ee6b).
+- T-loc-minkowski-future-one-connected (localisation, layer 3, minkowski): minkowski_futureOneConnected for every n, on every convex open, and time-reversed.
+  - Chronal curves of an open set of ℝ^{1,n} are exactly the continuous ≪-increasing maps.
+  - Step 2.1 is proved, and so is the split at s = t.
+  - The printed homotopy (:575–579) is refuted for every λ in ℝ^{1,n}. This is a proof-level defect; Step 2.1 stands.
+  - Audit minor, applied (3247324f); kb 0295.
+- T-abs-ers-witnesses (abstract, layer 1): every form of Cors 4.68, 4.69, 4.71 and Thm 4.82 has a timelike-line witness.
+  - 4.68's Lean forms do not ask u₂ a development, so a disconnected U₂ gives a line witness. In the paper's reading 4.68 has no instance on ℝ (proved), nor with one flat causality on 1+1 Minkowski (argued).
+  - 4.82's hstep is never exercised by a witness, and given the rest it is equivalent to the conclusion.
+  - Audit minor, applied (913bbbf2).
+- T-abs-ers-sc-witnesses (abstract, layer 1): the four union lemmas on a two-point S in a disconnected B with an infinite family of pieces; 4.79, 4.80 and the m-GHD's uniqueness (and its `_noArc` form).
+  - The duplicate tarentinOn now cites ErsWitnesses'.
+  - Audit minor, applied (77f00e76); kb 0294.
+- For the keeper:
+  - ladder.toml:2982–2985 says the 4.68 and 4.82 forms have no witness;
+  - future_one_connected's node (T-lad-future-one-connected-node) can name minkowski_futureOneConnected;
+  - 4.82's hstep shape (a form whose restart ranges over every region, so that a witness can exercise it?);
+  - T-abs-dens-separates as a Lean target, for the densCausality [[fails]].
+- For the planner:
+  - binder papers/ers-predictability:308 (4.68 "no line witness") is stale;
+  - the roadmap evidence of T-abs-ers-witnesses at :1724 suggests "Minkowski 1+1", which cannot work;
+  - a paper-faithful 4.68 witness needs a non-flat causality or two causalities (layer 3);
+  - the Schwarzschild binder's minkowski entry of Thm 3.1 can name minkowski_futureOneConnected and minkowski_chronallyHomotopicOn_segment;
+  - non-convex opens of Minkowski (ℝ^{1,2} minus the time axis, argued not future one-connected) are a candidate for T-abs-not-future-one-connected.
+- ladder: 25 properties, 27 implications, 83 counterexamples, 92 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 14, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: b315ee6b 913bbbf2 77f00e76 3247324f f17577d4
+- next: T-lad-edge-hypotheses (keeper) and T-abs-isolated-line-conjoined (closer); then the three exclusive hoists, one at a time
