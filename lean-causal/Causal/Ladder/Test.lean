@@ -1475,7 +1475,7 @@ example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
   trivial
--- chronal_neighbours ⇏ absolutely_minimal (matrix: an open pair)
+-- chronal_neighbours ⇏ absolutely_minimal (matrix: refuted by a counterexample)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.toPrecausality := by causal_ladder
   trivial
