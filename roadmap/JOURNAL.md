@@ -918,3 +918,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 16:15–18:30 UTC; agents in parallel: 3 closers + 1 builder, 5 audits, two fix rounds
 - New questions for the author: OQ-143 (the blunt-spear readings; an ordering at l.1601–1604), OQ-144 (which holonomy sign convention is of record; it decides cuttachyon2 and may bear on HSPositive's signs).
 - next: no ready closer target is left besides the builder: a planning run (rule 2).
+
+## 2026-11-27 18:45 · plan · roadmap-planner (rule 2)
+- 9 targets added, 1 promoted, 2 refined (roadmap check: 241 targets, all rules hold).
+  - Promoted: T-btz-pgcd → ready (T-btz-embeddings done).
+  - From today's tagged sorrys (btz, lean-gx, E₀): T-btz-blunt-vertical-ray (ready; sectorChartBTZ in the a.e. atlas first), T-btz-blunt-infall-ray (planned); T-btz-spear-family (ready) → T-btz-reg-complete-cauchy → T-btz-reg-complete-length (planned), the three steps of RegComplete's sorry.
+  - T-gx-btz-cleanup (master, exclusive, p8): E0Pushout's ι₂ field (drop the copied block), one continuous_of_isE0Mor, CutGlue onto DSLe.
+  - T-perf-capacity-remarks (lean-yamabe, ready): perforated rem:connected, rem:tight, rem:dichotomy. T-yamabe-perf-triage (master): bucket and blocker for the untriaged yamabe/perforated rows.
+  - T-bbs-cheminsing (lean-gx, ready): bbsrem:masspositive, bbsrem:cheminsing, under both holonomy conventions (OQ-144 open).
+  - Refined: T-btz-cauchy-conservation now depends on T-btz-reg-complete-length; T-3p1-theorem-g stays planned (OQ-113, wave W4).
+- /ett-programme holds lean-causal; nothing here needs it.
+- No new question for the author.
+- gates: roadmap ✓, atlas ✓
+- next: T-btz-pgcd, T-btz-blunt-vertical-ray, T-btz-spear-family (lean-gx), T-perf-capacity-remarks (lean-yamabe), masters T-yamabe-perf-triage; the builder for lean-gx after the wave.
