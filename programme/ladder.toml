@@ -261,6 +261,23 @@
 # the target of the node for data. The 3 of Lemma 2.17's boundary form now name
 # chronal_neighbour_at_boundary.
 # No [[implies]] or [[fact]] entry changes.
+# After T-lad-future-one-connected-node (2026-11-27) 392 of 392: the causality-sort node
+# future_one_connected (Causal.Causality.FutureOneConnected, Sbierski 1507.00601 Def 2.13) brings 38
+# pairs to classify (380 causality-sort pairs; 258 ill-typed). Of the 38, 1 is implied
+# (future_one_connected → curves_extend, the [[fact]]) and 37 are [[open]] entries, none refuted: no
+# model in Lean lacks the node, and the two that have it in Lean, the timelike line and Minkowski
+# space, have every causality-sort node. All 37 are false, argued (their section at the end of the
+# file): the 19 X → future_one_connected by the spatially compact flat cylinder (𝐌^{1+1} modulo ℤe₁,
+# in either reading; T-abs-not-future-one-connected), the 18 future_one_connected → X by models with
+# no chronology, future one-connected vacuously (the rational line 9, the flat time cylinder without
+# chronology 5, the lightlike line 1, all in either reading; the jump line 1, → absolutely_minimal, in
+# the no-gluing reading only), and the half-chronological line (2, → push_up, locally_push_up, either
+# reading). In all: 38 implied (34 causality-sort), 309 refuted (306 causality-sort), 45 [[open]] (40
+# causality-sort, 4 geometry-sort, 1 pair-sort); the matrix compared line by line before and after,
+# no other pair moved. It adds 8 consequences: time reversal, causal isomorphisms, ≪ only, the
+# equivalence relation, the curve confinement at the node, and three forms of the diamond
+# identification at future_one_connected ∧ causally_arc_connected (Causal.DiamondConfinement). No
+# [[implies]], [[fails]] or [[fact]] entry changes.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -750,6 +767,9 @@ note = "every causality on a T1, second countable space has curves_extend (Zorn 
 # notions"). The fifth localisation node, has_chronal_neighbour (DEC-159, T-lad-has-chronal-neighbour,
 # 2026-11-23), is one-sided in another sense, at one point and on either side, chronology in M; its
 # entry follows chronal_neighbours' below, its Lean definition is in Causal/ChronalNeighbourBridge.lean.
+# The sixth, future_one_connected (T-lad-future-one-connected-node, 2026-11-27; Sbierski 1507.00601
+# Def 2.13), is a property of M as a whole, with no local form (it is not hereditary); its entry
+# follows has_chronal_neighbour's, its Lean definition is in Causal/TimelikeHomotopy.lean.
 # OneSidedBoundary, OQ-52's other notion, is an edge hypothesis only (DEC-166 (b)): no node, named in
 # the `under` of its consequences (ERS Thm 4.82, at is_causal and at globally_hyperbolic ∧ tarentin);
 # its [[edge_hypothesis]] entry is one_sided_boundary.
@@ -856,6 +876,56 @@ what = "in every open V, every v ∈ V has p, p' ∈ V with p ≪_V v ≪_V p' (
 id = "has_chronal_neighbour"
 lean = "Causal.Causality.HasChronalNeighbourEverywhere"
 what = "every point p has a chronal neighbour in M, on one side at least: I⁺(p) or I⁻(p) non-empty, chronology taken in M (Causal.Causality.HasChronalNeighbour at every point; the endpoint of the closed half-line, I⁻ = ∅ ≠ I⁺, qualifies)"
+
+# ---- future_one_connected (T-lad-future-one-connected-node, 2026-11-27): Sbierski 1507.00601 Def 2.13
+# (InexSchwarzschild2.tex:380–386), the localisation property of his C⁰-inextendibility proofs that
+# is a property of the embedded spacetime ι(M) (Thm 3.1, Thms 4.9–4.11, Props 4.12, 6.5); no ETT
+# label. Causal.Causality.FutureOneConnected (Causal/TimelikeHomotopy.lean:157, T-abs-timelike-homotopy,
+# 9448424; ETT layer: it imports Causal.CausalIsoInvariance, Causal.GXStructure, Causal.LinesCurves and
+# Causal.Inextensible, no model) is C.FutureOneConnectedOn ⊤, and FutureOneConnectedOn W (:150) says:
+# for all p, q, any two future chronal curves of the open W over [0, 1] from p to q are chronally
+# homotopic with fixed endpoints in W (Causal.Causality.ChronallyHomotopicOn W γ₀ γ₁, :144, some Γ with
+# Causal.Causality.ChronalHomotopyOn W Γ γ₀ γ₁, :133: Γ jointly continuous on [0, 1]², every slice Γ t
+# a future chronal curve of W over [0, 1] from γ₀ 0 to γ₀ 1, Γ 0 = γ₀ and Γ 1 = γ₁ on [0, 1]). A
+# predicate on one causality: the causality sort. The form, the keeper's choice:
+# * At M, and no local or hereditary form. FutureOneConnectedOn W is a property of W seen as a
+#   spacetime and does not pass to smaller opens: Minkowski space has it, and ℝ^{1,2} minus the time
+#   axis, one of its open sets, is argued not to (chronal curves winding differently around the
+#   axis; Causal/Model/MinkowskiFutureOneConnected.lean SCOPE, not in Lean). So the node is the
+#   property at W = M; a consequence whose witness is an On form is read at W = M, where
+#   FutureOneConnectedOn ⊤ is the node and CausallyArcConnectedOn ⊤ is causally_arc_connected, both by
+#   definition (its `under` says so).
+# * Future only, and two-sided all the same: Def 2.13 says "future directed", and the node is
+#   invariant under time reversal (Causal.Causality.dual_futureOneConnected, an iff, a consequence
+#   below), so it needs no past form. The schema has no `dual` key; that is T-lad-dual-keys'.
+# * It reads ≪ only (Causal.Causality.futureOneConnectedOn_congr_lt, a consequence): no clause asks ≤.
+# Layer 3 per model. The timelike line has it on every open set (Causal.timelikeLine_futureOneConnectedOn,
+# :690; at M Causal.timelikeLine_futureOneConnected, :731; time-reversed
+# Causal.timelikeLine_dual_futureOneConnected), and there the relation is not equality
+# (Causal.timelikeLine_chronallyHomotopicOn_sq). Minkowski space ℝ^{1,n}, every n, has it
+# (Causal.minkowski_futureOneConnected, Causal/Model/MinkowskiFutureOneConnected.lean:235,
+# T-loc-minkowski-future-one-connected, 3247324f), on every convex open set too
+# (Causal.minkowski_futureOneConnectedOn, :227), and time-reversed
+# (Causal.minkowski_dual_futureOneConnected, minkowski_dual_futureOneConnectedOn). Sbierski's Step 2.1,
+# every chronal curve homotopic to the straight segment, is Causal.minkowski_chronallyHomotopicOn_segment,
+# and the diamond identification applies there without restatement
+# (Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset, minkowski_Iplus_inter_Iminus_eq_inf_of_convex;
+# the consequences at future_one_connected ∧ causally_arc_connected below). A chart that is an
+# isomorphism carries it for an open W in its source (Causal.ChartIso.futureOneConnectedOn_iff), which
+# is how a C⁰ layer 3 would read it. The Schwarzschild exterior and interior are
+# T-loc-schw-exterior-one-connected and T-loc-schw-interior-one-connected (planned).
+# No model in Lean lacks it (Causal/TimelikeHomotopy.lean SCOPE), and the two in Lean that have it,
+# the timelike line and Minkowski space, have every causality-sort node. So no [[fails]] entry joins
+# it and no [[implies]] is provable: it implies curves_extend through the [[fact]] only, and its 37
+# other pairs are [[open]] entries (its section at the end of the file), all false, argued: 19
+# X → future_one_connected by the spatially compact flat cylinder (T-abs-not-future-one-connected),
+# 18 future_one_connected → X by models without chronology, future one-connected vacuously, and the
+# half-chronological line. The binder papers/sbierski-schwarzschild names it as a [[proposed]] id
+# until T-bind-schw-future-one-connected.
+[[property]]
+id = "future_one_connected"
+lean = "Causal.Causality.FutureOneConnected"
+what = "any two future chronal curves of M over [0, 1] with the same endpoints are chronally homotopic with fixed endpoints: some Γ continuous on [0, 1]², every slice a future chronal curve between the two endpoints (Sbierski 1507.00601 Def 2.13; FutureOneConnectedOn ⊤)"
 
 # ------------------------------------------------------------------ properties of a geometry
 # Sort `geometry` (header): Sbierski 1309.7591's A1, A3, A4 in lean-causal's CBG interface, the fields
@@ -3818,6 +3888,107 @@ statement = "the node is invariant under time reversal: C.dual has a chronal nei
 witness = "Causal.Causality.dual_hasChronalNeighbourEverywhere"
 status = "checked"
 
+# ---- consequences at future_one_connected (T-lad-future-one-connected-node, 2026-11-27). Read from
+# the sources, with no build: Causal/TimelikeHomotopy.lean (T-abs-timelike-homotopy, 9448424) and
+# Causal/DiamondConfinement.lean (T-abs-diamond-confinement, db0e8e7f), both ETT layer, no model; each
+# signature is quoted in its comment, and each name was resolved by tools/ladder.py's index. Every
+# binder is {M : Type u} [TopologicalSpace M] with the causalities, opens, curves and points: no
+# instance, so no `standing`. An On-form witness is read at W = M (the node's comment).
+
+# Time reversal (TimelikeHomotopy.lean:474): C.dual.FutureOneConnected ↔ C.FutureOneConnected, through
+# Causal.Causality.FutureOneConnectedOn.dual (the curve parameter reversed, s ↦ 1 − s); the On form is
+# Causal.Causality.dual_futureOneConnectedOn. The node's `dual` lemma for T-lad-dual-keys.
+[[consequence]]
+at = "future_one_connected"
+statement = "future one-connectedness is invariant under time reversal: C.dual is future one-connected iff C is"
+witness = "Causal.Causality.dual_futureOneConnected"
+status = "checked"
+
+# Causal isomorphisms (:546): {N : Type v} [TopologicalSpace N] {C : Causality M} {D : Causality N}
+# {e : M ≃ₜ N} (h : IsCausalIso C D e) ⊢ C.FutureOneConnected ↔ D.FutureOneConnected. The On form,
+# Causal.IsCausalIso.futureOneConnectedOn_iff (:540), carries W to e.opensCongr W.
+[[consequence]]
+at = "future_one_connected"
+statement = "future one-connectedness is transported by a causal isomorphism e : M ≃ₜ N: C is future one-connected iff D is"
+witness = "Causal.IsCausalIso.futureOneConnected_iff"
+under = "the homeomorphism e with Causal.IsCausalIso C D e"
+status = "checked"
+
+# It reads ≪ only (:480): {D : Causality M} (hCD : ∀ (U : Opens M) (x y : M), C.lt U x y ↔ D.lt U x y)
+# ⊢ C.FutureOneConnectedOn W ↔ D.FutureOneConnectedOn W, for every open W. The layer-1 content of
+# Sbierski's remark that the notion depends only on the conformal class (InexSchwarzschild2.tex:845).
+[[consequence]]
+at = "future_one_connected"
+statement = "future one-connectedness reads ≪ only: a causality D on M with the same relations ≪_U as C on every open U is future one-connected iff C is (Sbierski's conformal invariance, :845, at layer 1)"
+witness = "Causal.Causality.futureOneConnectedOn_congr_lt"
+under = "D a causality on M with C.lt U x y ↔ D.lt U x y for every open U and all x, y; the witness is the On form, read at W = M (it holds at every open W)"
+status = "checked"
+
+# The relation of the definition (:438): Equivalence (fun γ γ' : {γ : ℝ → M // C.ChronalCurveOn W γ 0 1}
+# => C.ChronallyHomotopicOn W γ.1 γ'.1), for every causality C and open W (the transitivity glues two
+# homotopies in t); Causal.Causality.chronalHomotopySetoid (:445) is its setoid. Listed at the node as
+# the reflexivity of inextensible nesting is at inextensible_nested: it asks nothing, and the node says
+# that at W = M its classes are the sets of curves with given endpoints.
+[[consequence]]
+at = "future_one_connected"
+statement = "chronal homotopy with fixed endpoints is an equivalence relation on the future chronal curves of an open W over [0, 1]; the node says that at W = M two curves with the same endpoints lie in one class"
+witness = "Causal.Causality.chronallyHomotopicOn_equivalence"
+under = "nothing (no instance, no hypothesis): the relation is an equivalence for every causality and every open W; the node reads it at W = M"
+status = "checked"
+
+# Confinement, the curve form (DiamondConfinement.lean:282; Sbierski Thm 4.11, :1623):
+# (hfoc : C.FutureOneConnectedOn W) (hγ : C.ChronalCurveOn W γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y)
+# (hγŨ : MapsTo γ (Icc 0 1) Ũ) (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ)
+# (hσ : C.ChronalCurveOn W σ 0 1) (hσx : σ 0 = x) (hσy : σ 1 = y) ⊢ C.ChronalCurveOn (W ⊓ Ũ) σ 0 1.
+# No arc-connectedness: the homotopy that the node gives from γ to σ stays in Ũ
+# (Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset, which asks no node).
+[[consequence]]
+at = "future_one_connected"
+statement = "curve confinement (Sbierski 1507.00601 Thm 4.11, Thm 3.1 Step 3): if one chronal curve of M from x to y over [0, 1] lies in an open Ũ whose diamond I⁺(x, Ũ) ∩ I⁻(y, Ũ) has its closure in Ũ, then every chronal curve of M from x to y over [0, 1] is a chronal curve of Ũ"
+witness = "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset"
+under = "read at W = M (the On form: W any open set future one-connected as a spacetime, σ then a chronal curve of W ⊓ Ũ); γ a chronal curve of M over [0, 1] from x to y with γ([0, 1]) ⊆ Ũ; closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ, the closure taken in M (hcl)"
+status = "checked"
+
+# The identification at M, (1.2) with equality (:357): (hcac : C.CausallyArcConnected)
+# (hfoc : C.FutureOneConnected) (hγ : C.ChronalCurveOn ⊤ γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y)
+# (hγŨ : MapsTo γ (Icc 0 1) Ũ) (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ) ⊢
+# C.Iplus ⊤ {x} ∩ C.Iminus ⊤ {y} = C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}. A point of the diamond of M lies on
+# a chronal curve from x to y (two curves through it, concatenated: causal arc-connectedness), which
+# the curve form puts in Ũ. In Minkowski space, every open Ũ containing J⁺(x) ∩ J⁻(y):
+# Causal.minkowski_Iplus_inter_Iminus_eq_of_Jdiamond_subset.
+[[consequence]]
+at = ["future_one_connected", "causally_arc_connected"]
+statement = "the diamond identification, Sbierski 1507.00601 (1.2) with equality: if one chronal curve of M from x to y over [0, 1] lies in an open Ũ with closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ, then I⁺(x) ∩ I⁻(y) = I⁺(x, Ũ) ∩ I⁻(y, Ũ)"
+witness = "Causal.Causality.Iplus_inter_Iminus_eq_of_futureOneConnected"
+under = "γ a chronal curve of M over [0, 1] from x to y with γ([0, 1]) ⊆ Ũ; closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ, the closure taken in M (hcl)"
+status = "checked"
+
+# The target's form, On W (:332): (hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W)
+# (hγ : C.ChronalCurveOn W γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y) (hγŨ : MapsTo γ (Icc 0 1) Ũ)
+# (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ) ⊢ C.Iplus W {x} ∩ C.Iminus W {y} ⊆
+# C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}. At W = M a corollary of the equality above; the On form is for
+# Sbierski's embedded spacetime ι(M), an open set of the extension (Rem 2.3), causally arc-connected
+# and future one-connected as a spacetime. With equality for W ⊓ Ũ:
+# Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn (:318). On the timelike line
+# (W = ℝ, Ũ = (−1, 2), x = 0, y = 1): Causal.timelikeLine_diamond_identification; on a convex open W
+# of Minkowski space: Causal.minkowski_Iplus_inter_Iminus_eq_inf_of_convex.
+[[consequence]]
+at = ["future_one_connected", "causally_arc_connected"]
+statement = "the diamond identification, Sbierski (1.2)'s ⊇, On form: for an open W causally arc-connected and future one-connected as a spacetime, I⁺(x, W) ∩ I⁻(y, W) ⊆ I⁺(x, Ũ) ∩ I⁻(y, Ũ) as soon as one chronal curve of W from x to y over [0, 1] lies in Ũ and closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ"
+witness = "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn"
+under = "the nodes read at W = M (the witness takes CausallyArcConnectedOn W and FutureOneConnectedOn W for any open W, Sbierski's ι(M)); γ a chronal curve of W over [0, 1] from x to y with γ([0, 1]) ⊆ Ũ; closure (I⁺(x, Ũ) ∩ I⁻(y, Ũ)) ⊆ Ũ, the closure taken in M (hcl)"
+status = "checked"
+
+# (1.2)'s ⊇ as printed (:347; InexSchwarzschild2.tex:153–158): the closure hypothesis on the diamond up
+# to y' with y ≪_Ũ y', (hyy' : C.lt Ũ y y') (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ Ũ),
+# through Causal.Causality.closure_Iplus_inter_Iminus_subset_of_lt; the other hypotheses as above.
+[[consequence]]
+at = ["future_one_connected", "causally_arc_connected"]
+statement = "Sbierski 1507.00601 (1.2)'s ⊇ as printed: I⁺(x, W) ∩ I⁻(y, W) ⊆ I⁺(x, Ũ) ∩ I⁻(y, Ũ) when one chronal curve of W from x to y over [0, 1] lies in Ũ, y ≪_Ũ y' and closure (I⁺(x, Ũ) ∩ I⁻(y', Ũ)) ⊆ Ũ"
+witness = "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt"
+under = "the nodes read at W = M (On form: W any open set causally arc-connected and future one-connected as a spacetime); γ a chronal curve of W over [0, 1] from x to y with γ([0, 1]) ⊆ Ũ; y ≪_Ũ y'; closure (I⁺(x, Ũ) ∩ I⁻(y', Ũ)) ⊆ Ũ, the closure taken in M"
+status = "checked"
+
 # ---- consequences at geometry properties: theorems over a Causal.CBG.Geometry 𝔊 (header).
 # The A2 field curvesExtend of Causal.CBG.Geometry (CurvesExtend on every globally hyperbolic
 # Hausdorff, connected, second countable M) and LocalModel's B3 field are dischargeable since
@@ -4648,3 +4819,234 @@ note = "Open, in the no-gluing reading only: the Lean models without local push-
 from = "strongly_causal"
 to = "strongly_causal_open"
 note = "Open: with causally_open it holds, no tarentin asked (the edge, Causal.Causality.StronglyCausal.stronglyCausalOpen_of_causallyOpen, T-lad-record-sc-open-edge); no Lean model is strongly causal without an open causally convex basis (the fork is strongly causal in both forms, the loop fan in neither: Causal.fork_separates, Causal.loopFan_separates). A counterexample is not causally open, not even at M: J⁺_M(O) or J⁻_M(O) is not open for some open O (Causal.Causality.StronglyCausal.not_causallyOpen_of_not_stronglyCausalOpen). More, it has a point p and a neighbourhood N of p such that some open O ∋ p has its hull J⁺_M(O) ∩ J⁻_M(O) inside N, the hull of every such O is not open, and no open W ∋ p inside N contains its own hull (Causal.Causality.StronglyCausal.exists_not_isOpen_hull). The future half alone does not open the hull: the one-way membrane, causally open in the future, strongly causal and not causally open, has a neighbourhood of (0, 1) causally convex in M whose interior has a hull that is not open (Causal.oneWayMembrane_hull_not_isOpen); it is strongly causal in the open form all the same (Causal.oneWayMembrane_stronglyCausalOpen), so this refutes the hull argument, not the pair, and whether strongly_causal ∧ causally_open_future ⇒ strongly_causal_open holds is open as well (a counterexample to it would settle this pair). Among the Lean models without two-sided causal openness, the notched plane and its time reversal (not tarentin either) and the one-way membrane and its reversal are strongly causal in both forms (Causal.notchedCausality_separates, Causal.notchedCausality_dual_separates, Causal.oneWayMembrane_separates, Causal.oneWayMembrane_dual_separates). Under DEC-167 (defi:causalite read with gluing) a counterexample must be absolutely minimal besides"
+
+
+# ---- future_one_connected (T-lad-future-one-connected-node, 2026-11-27): its 37 pairs that are
+# neither implied nor refuted (the 38th, future_one_connected → curves_extend, is implied by the
+# [[fact]]). No model in Lean lacks the node, the two in Lean that have it (the timelike line,
+# Minkowski space) have every causality-sort node, and no [[implies]] is provable: each pair is
+# "False, argued", and wants a conjoined Lean statement (the model, the node or its negation, and the
+# properties the entry needs) to be a [[fails]] entry. The models, with what the Lean states (L) and
+# what is argued (A):
+# * X → future_one_connected (19, every X, in either reading): the spatially compact flat cylinder
+#   ℤe₁\𝐌^{1+1}, the quotient of Minkowski 1+1 by the spacelike translations (Causal.Flat.FlatQuotient.spaceGroup 0,
+#   Causal/Flat/Quotient.lean:830, acting on ⊤), with its flat causality, absolutely minimal. L: the
+#   action is free, properly discontinuous and acausal (Causal.Flat.FlatQuotient.actsAcausally_spaceGroup),
+#   the quotient second countable (Causal.Flat.flat_secondCountableTopology_spaceGroup) and globally
+#   hyperbolic in Barbot's sense (Causal.Flat.FlatQuotient.barbotGH_spaceGroup). A: every
+#   causality-sort node but this one (the local ones as for the flat time cylinder,
+#   Causal.Flat.timeCylinder_separates, whose proofs read a flat chart; causal, causally compact,
+#   globally hyperbolic through Causal.Flat.FlatQuotient.globallyHyperbolic_quotient, strongly causal
+#   in both forms, the time coordinate a time function), and not future one-connected: with the
+#   circle of length 1, γ_k(s) = [(3s, ks)], k = 0, 1, are future chronal curves (timelike segments,
+#   |k| < 3) from [(0, 0)] to [(3, 0)]; a homotopy with fixed endpoints would lift to 𝐌^{1+1} from
+#   (0, 0), and its end point, a path in the discrete fibre over [(3, 0)], would join (3, 0) to (3, 1).
+#   The closure of globally_hyperbolic, push_up, causally_open, absolutely_minimal,
+#   causally_arc_connected, causally_plain and chronal_neighbours is the 19 nodes, so a conjoined
+#   witness with these seven and ¬ FutureOneConnected settles all 19 pairs
+#   (T-abs-not-future-one-connected, planned). Its other candidate, ℝ^{1,2} minus the time axis
+#   (causal and strongly causal, not globally hyperbolic), would settle the pairs from the nodes it has.
+# * future_one_connected → X (18, every X but curves_extend): a causality with no chronology is future
+#   one-connected vacuously, a future chronal curve γ of W over [0, 1] having γ 0 ≪_W γ 1
+#   (Causal.Causality.ChronalCurveOn.lt_of_lt); so are the half-chronological line's, by the timelike
+#   line's convex combination (Causal.timelikeLine_futureOneConnectedOn's proof, with −1 < p). The
+#   models: the rational line (A the node; L absolutely minimal, Causal.rationalLine_separates: 9
+#   pairs, either reading), the lightlike line (A the node; L Causal.lightlikeLine_separates_hasChronalNeighbour:
+#   → has_chronal_neighbour, either reading), the half-chronological line (A the node; L
+#   Causal.halfChronoLine_separates_pushUp: → push_up, locally_push_up, either reading), the flat time
+#   cylinder without chronology ((Causal.Flat.timeCylinder d).withoutChronology, A the node,
+#   absolutely minimal through Causal.GluingModels.withoutChronology_absolutelyMinimalOn, not causal
+#   because Causal.Causality.IsCausal reads ≤ only and Causal.Flat.timeCylinder_not_isCausal: → is_causal,
+#   strongly_causal, strongly_causal_open, globally_hyperbolic, time_function, either reading; the
+#   doubled line Causal.doubledLine, L not causal, A not absolutely minimal, the same in the no-gluing
+#   reading only), the jump line (A the node; L not absolutely minimal,
+#   Causal.jumpLine_separates_causallyOpenFuture: → absolutely_minimal, no-gluing only, true in any
+#   gluing reading). Wanted (proposed: T-abs-future-one-connected-vacuous): the layer-1 lemmas
+#   Causal.Causality.futureOneConnectedOn_of_forall_not_lt ((∀ x y, ¬ C.lt W x y) →
+#   C.FutureOneConnectedOn W) and Causal.Causality.withoutChronology_futureOneConnected, and the
+#   conjoined separations each note names.
+
+[[open]]
+from = "absolutely_minimal"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is absolutely minimal (a flat causality, as the time cylinder's, Causal.Flat.timeCylinder_absolutelyMinimal), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "causally_arc_connected"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is causally arc-connected (as the time cylinder, Causal.Flat.timeCylinder_causallyArcConnected), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "causally_compact"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is causally compact (a diamond of the cylinder is the image of finitely many diamonds of 𝐌^{1+1}), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "causally_open"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is causally open, two-sided (a flat causality, as the time cylinder's), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "causally_open_future"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is causally open in the future (a flat causality, as the time cylinder's), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "causally_plain"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is causally plain (a flat causality, as the time cylinder's, Causal.Flat.timeCylinder_causallyPlain), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "chronal_neighbours"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) has chronal neighbours (a flat causality, as the time cylinder's), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "curves_extend"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) has curves_extend (the [[fact]]: it is Hausdorff and second countable, Causal.Flat.flat_secondCountableTopology_spaceGroup), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "globally_hyperbolic"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is globally hyperbolic (in Barbot's sense in Lean, Causal.Flat.FlatQuotient.barbotGH_spaceGroup; in ETT's through Causal.Flat.FlatQuotient.globallyHyperbolic_quotient, its finiteness hypothesis argued), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "has_chronal_neighbour"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) has a chronal neighbour at every point (it has chronal neighbours), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "is_causal"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is causal (the action is acausal, Causal.Flat.FlatQuotient.actsAcausally_spaceGroup); so is ℝ^{1,2} minus the time axis, not globally hyperbolic and not future one-connected either (argued, by winding), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "locally_causally_open"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is locally causally open, two-sided (it is causally open), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "locally_causally_open_future"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is locally causally open in the future (it is causally open), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "locally_push_up"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is locally push-up (it has push-up), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "push_up"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) has push-up (a flat causality, as the time cylinder's, Causal.Flat.timeCylinder_pushUp), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "strongly_causal"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is strongly causal (globally hyperbolic and tarentin); so is ℝ^{1,2} minus the time axis (argued), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "strongly_causal_open"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is strongly causal in the open form (strongly causal and causally open), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "tarentin"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) is tarentin (a flat causality, as the time cylinder's, Causal.Flat.timeCylinder_tarentin), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "time_function"
+to = "future_one_connected"
+note = "False, argued, in either reading: the spatially compact flat cylinder, 𝐌^{1+1} modulo the spacelike translations ℤe₁ (Causal.Flat.FlatQuotient.spaceGroup 0 acting on ⊤, its flat causality) has a time function (the time coordinate, invariant under ℤe₁), and is not future one-connected: two chronal curves from one point to another winding differently around the circle are not homotopic with fixed endpoints (lift a homotopy to 𝐌^{1+1}; the section's comment); wants its conjoined separation (T-abs-not-future-one-connected)"
+
+[[open]]
+from = "future_one_connected"
+to = "absolutely_minimal"
+note = "False, argued, in the no-gluing reading only (true in any gluing reading, DEC-167, as every X → absolutely_minimal): the jump line Causal.jumpLine has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not absolutely minimal (Causal.jumpLine_separates_causallyOpenFuture); wants Causal.jumpLine_separates_futureOneConnected (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "causally_arc_connected"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not causally arc-connected (Causal.rationalLine_separates; its causal curves are constant); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "causally_compact"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not causally compact (Causal.rationalLine_separates); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "causally_open"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not causally open (Causal.rationalLine_separates); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "causally_open_future"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not causally open in the future (Causal.rationalLine_separates); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "causally_plain"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not causally plain (Causal.rationalLine_separates; the lightlike line too, Causal.lightlikeLine_not_causallyPlain); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "chronal_neighbours"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is without chronal neighbours (Causal.rationalLine_separates; the lightlike line too, Causal.lightlikeLine_not_chronalNeighbours); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "globally_hyperbolic"
+note = "False, argued, in either reading: the flat time cylinder without chronology, (Causal.Flat.timeCylinder d).withoutChronology (Causal.Causality.withoutChronology: the cylinder's ≤), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), is absolutely minimal (Causal.GluingModels.withoutChronology_absolutelyMinimalOn, from the cylinder's absolute minimality) and is not causal, hence not globally hyperbolic (IsCausal reads ≤ only, Causal.Flat.timeCylinder_not_isCausal); in the no-gluing reading also the doubled line Causal.doubledLine (no chronology, Causal.doubledLine_not_isCausal); wants Causal.Flat.timeCylinder_withoutChronology_separates (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "has_chronal_neighbour"
+note = "False, argued, in either reading: the lightlike line Causal.lightlikeLine, absolutely minimal (Causal.lightlikeLine_absolutelyMinimal), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and has a chronal neighbour at no point (Causal.lightlikeLine_separates_hasChronalNeighbour); wants Causal.lightlikeLine_separates_futureOneConnected (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "is_causal"
+note = "False, argued, in either reading: the flat time cylinder without chronology, (Causal.Flat.timeCylinder d).withoutChronology (Causal.Causality.withoutChronology: the cylinder's ≤), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), is absolutely minimal (Causal.GluingModels.withoutChronology_absolutelyMinimalOn, from the cylinder's absolute minimality) and is not causal (IsCausal reads ≤ only, Causal.Flat.timeCylinder_not_isCausal); in the no-gluing reading also the doubled line Causal.doubledLine (no chronology, Causal.doubledLine_not_isCausal); wants Causal.Flat.timeCylinder_withoutChronology_separates (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "locally_causally_open"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not locally causally open (Causal.rationalLine_separates); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "locally_causally_open_future"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not locally causally open in the future (Causal.rationalLine_separates); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "locally_push_up"
+note = "False, argued, in either reading: the half-chronological line Causal.halfChronoLine (≪_U x y iff −1 < x < y and [x, y] ⊆ U), absolutely minimal, is future one-connected on every open set by the timelike line's convex combination (its chronal curves of W over [0, 1] are the continuous strictly increasing maps into W ∩ (−1, ∞), and a convex combination of two from p to q stays in [p, q] ⊆ W ∩ (−1, ∞)), and has no local push-up (Causal.halfChronoLine_separates_pushUp); wants Causal.halfChronoLine_separates_futureOneConnected (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "push_up"
+note = "False, argued, in either reading: the half-chronological line Causal.halfChronoLine (≪_U x y iff −1 < x < y and [x, y] ⊆ U), absolutely minimal, is future one-connected on every open set by the timelike line's convex combination (its chronal curves of W over [0, 1] are the continuous strictly increasing maps into W ∩ (−1, ∞), and a convex combination of two from p to q stays in [p, q] ⊆ W ∩ (−1, ∞)), and has no push-up (Causal.halfChronoLine_separates_pushUp); wants Causal.halfChronoLine_separates_futureOneConnected (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "strongly_causal"
+note = "False, argued, in either reading: the flat time cylinder without chronology, (Causal.Flat.timeCylinder d).withoutChronology (Causal.Causality.withoutChronology: the cylinder's ≤), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), is absolutely minimal (Causal.GluingModels.withoutChronology_absolutelyMinimalOn, from the cylinder's absolute minimality) and is not causal, hence not strongly causal (strongly_causal ⇒ is_causal) (IsCausal reads ≤ only, Causal.Flat.timeCylinder_not_isCausal); in the no-gluing reading also the doubled line Causal.doubledLine (no chronology, Causal.doubledLine_not_isCausal); wants Causal.Flat.timeCylinder_withoutChronology_separates (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "strongly_causal_open"
+note = "False, argued, in either reading: the flat time cylinder without chronology, (Causal.Flat.timeCylinder d).withoutChronology (Causal.Causality.withoutChronology: the cylinder's ≤), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), is absolutely minimal (Causal.GluingModels.withoutChronology_absolutelyMinimalOn, from the cylinder's absolute minimality) and is not causal, hence not strongly causal in the open form (IsCausal reads ≤ only, Causal.Flat.timeCylinder_not_isCausal); in the no-gluing reading also the doubled line Causal.doubledLine (no chronology, Causal.doubledLine_not_isCausal); wants Causal.Flat.timeCylinder_withoutChronology_separates (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "tarentin"
+note = "False, argued, in either reading: the rational line Causal.rationalLine, absolutely minimal (Causal.rationalLine_absolutelyMinimalOn), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), and is not tarentin (Causal.rationalLine_separates; the spacelike line too, Causal.spacelikeLine_separates_tarentin_full); wants Causal.rationalLine_separates_futureOneConnected, its conjuncts and the node (proposed: T-abs-future-one-connected-vacuous)"
+
+[[open]]
+from = "future_one_connected"
+to = "time_function"
+note = "False, argued, in either reading: the flat time cylinder without chronology, (Causal.Flat.timeCylinder d).withoutChronology (Causal.Causality.withoutChronology: the cylinder's ≤), has no chronology, so it is future one-connected vacuously (a future chronal curve γ over [0, 1] has γ 0 ≪ γ 1, Causal.Causality.ChronalCurveOn.lt_of_lt, and there is none), is absolutely minimal (Causal.GluingModels.withoutChronology_absolutelyMinimalOn, from the cylinder's absolute minimality) and is not causal, hence without a time function (time_function ⇒ is_causal) (IsCausal reads ≤ only, Causal.Flat.timeCylinder_not_isCausal); in the no-gluing reading also the doubled line Causal.doubledLine (no chronology, Causal.doubledLine_not_isCausal); wants Causal.Flat.timeCylinder_withoutChronology_separates (proposed: T-abs-future-one-connected-vacuous)"
