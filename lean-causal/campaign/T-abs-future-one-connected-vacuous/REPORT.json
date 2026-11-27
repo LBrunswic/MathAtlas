@@ -1,0 +1,315 @@
+{
+ "target": "T-abs-future-one-connected-vacuous",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-future-one-connected-vacuous/REPORT.json",
+  "campaign/T-abs-future-one-connected-vacuous/Probe.lean",
+  "campaign/T-abs-future-one-connected-vacuous/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.FutureOneConnectedVacuous",
+ "build_result": "Build completed successfully (3154 jobs), no warning, run three times (the last after the final docstring edit). Before each real build the dry run `taskset -c 0-11 lake build CausalScaffold.FutureOneConnectedVacuous --no-build` (kb/0228) exited 3 and listed only CausalScaffold.FutureOneConnectedVacuous as out of date, so nothing upstream (Causal.*, mathlib) was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes (exit 0, no output). The campaign's Probe.lean imports the module. It runs #check and #print axioms on all 16 declarations (the output is in axioms.txt), proves each of the 18 pairs as a closed statement on ℝ, `¬ ∀ C : Causality ℝ, C.FutureOneConnected → C.X`, projected from its witness, and proves the 4 projections FutureOneConnected ∧ ∀ W, AbsolutelyMinimalOn W and the jump line's FutureOneConnected ∧ ¬ AbsolutelyMinimal. It passes under -DwarningAsError=true (exit 0). Every declaration depends on [propext, Classical.choice, Quot.sound] or fewer (pushUp_of_forall_not_lt: [propext, Quot.sound]). There is no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.TimelikeHomotopy, Causal.LemmaKObstruction, Causal.RationalLineExtras, Causal.ChronalNeighbourBridge, Causal.PushUpOfMinimalLocal, Causal.PushUpNotOpen, Causal.StrongCausalityLifts, Causal.DeuxPushup, Causal.GluingModels.Minimal, Causal.Ladder.Rules. tools/ladder.py's model_path is None for each, checked one at a time in memory on lean_index()['imports'] (kb/0247), and None for the module itself (as Causal.FutureOneConnectedVacuous, with these ten imports added to the index in memory). Its transitive closure holds 72 Causal modules and no module of MODEL_LAYER (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). Cycle check (kb/0221): Causal.Ladder.Rules is in the closure (directly, and through RationalLineExtras, PushUpNotOpen, StrongCausalityLifts, GluingModels.Minimal). import_chain(Rules → the new module) is None, and no module imports it, so it is a leaf. It is a [[fails]] witness only, which emit-lean never imports. No statement mentions a metric, a curve length or a geodesic. Each of the five separations is a closed statement on ℝ with no instance argument. The general lemmas are stated for any causality on any topological space. Two of them carry [Nonempty M]. Not the flat time cylinder: the planner's choice, the symmetric rational line, keeps the whole target in the ETT layer.",
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.Causality.not_chronalCurveOn_of_forall_not_lt",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:98",
+   "statement": "(∀ x y, ¬ C.lt W x y) → a < b → ¬ C.ChronalCurveOn W c a b  (any causality C on any topological space, any open W)",
+   "standing": "New. ChronalCurveOn.lt_of_lt gives c a ≪_W c b.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.futureOneConnectedOn_of_forall_not_lt",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:105",
+   "statement": "(∀ x y, ¬ C.lt W x y) → C.FutureOneConnectedOn W",
+   "standing": "New, the target's first lemma, as worded (W any open, no instance). Vacuous: there is no chronal curve of W over [0, 1].",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.withoutChronology_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:111",
+   "statement": "∀ (C : Causality M) (W : Opens M), C.withoutChronology.FutureOneConnectedOn W",
+   "standing": "New, the target's second lemma (On form), every open W.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.withoutChronology_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:116",
+   "statement": "∀ C : Causality M, C.withoutChronology.FutureOneConnected",
+   "standing": "New, the target's second lemma at M.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.pushUp_of_forall_not_lt",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:121",
+   "statement": "(∀ (U : Opens M) x y, ¬ C.lt U x y) → C.PushUp",
+   "standing": "New, general (beyond the target): push-up is vacuous without chronology (pushUp_iff). Used for the symmetric rational line, so that no global name about that line is added.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.not_hasChronalNeighbourEverywhere_of_forall_not_lt",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:125",
+   "statement": "[Nonempty M] → (∀ x y, ¬ C.lt ⊤ x y) → ¬ C.HasChronalNeighbourEverywhere",
+   "standing": "New, general (beyond the target). Used for the rational, jump and symmetric rational lines.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.not_causallyPlain_of_forall_not_lt",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:135",
+   "statement": "[Nonempty M] → (∀ x y, ¬ C.lt ⊤ x y) → ¬ C.CausallyPlain",
+   "standing": "New, general (beyond the target): Int J⁺_M(M) = M and I⁺_M(M) = ∅. Used for the symmetric rational line.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.halfChronoLine_chronalCurveOn_iff",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:151",
+   "statement": "a < b → (halfChronoLine.ChronalCurveOn W c a b ↔ timelikeLine.ChronalCurveOn W c a b ∧ -1 < c a)",
+   "standing": "New. (→) drop the clause −1 < x of each local ≪; −1 < c a by lt_of_lt. (←) c s ≥ c a > −1 on [a, b] by timelikeLine_chronalCurveOn_iff's monotonicity.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.halfChronoLine_chronalCurveOn_iff_strictMonoOn",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:170",
+   "statement": "a < b → (halfChronoLine.ChronalCurveOn W c a b ↔ StrictMonoOn c (Icc a b) ∧ ContinuousOn c (Icc a b) ∧ MapsTo c (Icc a b) (W ∩ Ioi (-1)))",
+   "standing": "New: the evidence's characterisation verbatim ('the continuous strictly increasing maps into W ∩ (−1, ∞)').",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.halfChronoLine_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:187",
+   "statement": "∀ W : Opens ℝ, halfChronoLine.FutureOneConnectedOn W",
+   "standing": "New, not vacuous. The two curves are timelike-line chronal curves; timelikeLine_futureOneConnectedOn W gives the convex-combination homotopy Γ; each slice Γ t starts at Γ t 0 = γ₀ 0 = p > −1, so it is a half-chronological chronal curve (halfChronoLine_chronalCurveOn_iff). The other five fields of ChronalHomotopyOn do not mention the causality and are Γ's.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.halfChronoLine_not_hasChronalNeighbourEverywhere",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:200",
+   "statement": "¬ halfChronoLine.HasChronalNeighbourEverywhere",
+   "standing": "New: −1 has no chronal neighbour (−1 ≪ y asks −1 < −1; y ≪ −1 asks −1 < y < −1).",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.rationalLine_separates_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:217",
+   "statement": "rationalLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ IsCausal ∧ PushUp ∧ LocallyPushUp ∧ HasTimeFunction ∧ CurvesExtend ∧ StronglyCausalOpen ∧ StronglyCausal ∧ ¬ CausallyArcConnected ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpenFuture ∧ ¬ LocallyCausallyOpen ∧ ¬ Tarentin ∧ ¬ CausallyPlain ∧ ¬ ChronalNeighbours ∧ ¬ HasChronalNeighbourEverywhere ∧ ¬ CausallyCompact ∧ ¬ GloballyHyperbolic (all of rationalLine)",
+   "standing": "Closed statement on ℝ, 22 conjuncts, decides all 20 causality nodes (9 has, 11 lacks: exactly ladder.counterexample's lists). All of rationalLine_separates's 18 conjuncts, plus the node (vacuous), ∀ W FutureOneConnectedOn W, ∀ W AbsolutelyMinimalOn W (rationalLine_absolutelyMinimalOn) and ¬ HasChronalNeighbourEverywhere (new, generic lemma). Either reading.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.lightlikeLine_separates_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:245",
+   "statement": "lightlikeLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpen ∧ CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ LocallyCausallyOpen ∧ GloballyHyperbolic ∧ CausallyCompact ∧ IsCausal ∧ CausallyArcConnected ∧ Tarentin ∧ StronglyCausal ∧ StronglyCausalOpen ∧ HasTimeFunction ∧ CurvesExtend ∧ ¬ HasChronalNeighbourEverywhere ∧ ¬ ChronalNeighbours ∧ ¬ CausallyPlain (all of lightlikeLine)",
+   "standing": "Closed statement on ℝ, 22 conjuncts, decides all 20 nodes (17 has, 3 lacks). From lightlikeLine_separates_hasChronalNeighbour, lightlikeLine_absolutelyMinimal(On), lightlikeLine_not_chronalNeighbours, lightlikeLine_not_causallyPlain; nine closure nodes by causal_ladder (strongly_causal from globally_hyperbolic ∧ tarentin, T2; strongly_causal_open from strongly_causal ∧ causally_open; time_function from globally_hyperbolic ∧ tarentin, T2 + second countable; the fact curves_extend; the rest unconditional). Either reading.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.halfChronoLine_separates_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:274",
+   "statement": "halfChronoLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ CausallyArcConnected ∧ GloballyHyperbolic ∧ CausallyCompact ∧ IsCausal ∧ StronglyCausal ∧ StronglyCausalOpen ∧ CausallyOpen ∧ CausallyOpenFuture ∧ LocallyCausallyOpenFuture ∧ LocallyCausallyOpen ∧ Tarentin ∧ HasTimeFunction ∧ CurvesExtend ∧ ¬ LocallyPushUp ∧ ¬ PushUp ∧ ¬ CausallyPlain ∧ ¬ ChronalNeighbours ∧ ¬ HasChronalNeighbourEverywhere (all of halfChronoLine)",
+   "standing": "Closed statement on ℝ, 22 conjuncts, decides all 20 nodes (15 has, 5 lacks). The node by halfChronoLine_futureOneConnectedOn (not vacuous); ∀ W AbsolutelyMinimalOn W is Causal.GluingModels.halfChronoLine_hereditary; halfChronoLine_separates_pushUp's 12 conjuncts; four closure nodes by causal_ladder; halfChronoLine_not_causallyPlain, halfChronoLine_not_chronalNeighbours, and the new halfChronoLine_not_hasChronalNeighbourEverywhere. Either reading.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.jumpLine_separates_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:301",
+   "statement": "jumpLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ PushUp ∧ LocallyPushUp ∧ LocallyCausallyOpen ∧ LocallyCausallyOpenFuture ∧ GloballyHyperbolic ∧ CausallyCompact ∧ IsCausal ∧ StronglyCausal ∧ StronglyCausalOpen ∧ HasTimeFunction ∧ CurvesExtend ∧ ¬ AbsolutelyMinimal ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ CausallyArcConnected ∧ ¬ ChronalNeighbours ∧ ¬ Tarentin ∧ ¬ CausallyPlain ∧ ¬ HasChronalNeighbourEverywhere (all of jumpLine)",
+   "standing": "Closed statement on ℝ, 21 conjuncts, decides all 20 nodes (12 has, 8 lacks). jumpLine_separates_causallyOpenFuture's 12 conjuncts, the node (vacuous), six closure nodes by causal_ladder, ¬ HasChronalNeighbourEverywhere (generic). No-gluing reading only: ¬ AbsolutelyMinimal is a conjunct, so there is no hereditary minimality to state.",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.symmRationalLine_separates_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/FutureOneConnectedVacuous.lean:328",
+   "statement": "symmRationalLine.FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CurvesExtend ∧ ¬ IsCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen ∧ ¬ GloballyHyperbolic ∧ ¬ HasTimeFunction ∧ ¬ CausallyCompact ∧ ¬ CausallyArcConnected ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpenFuture ∧ ¬ LocallyCausallyOpen ∧ ¬ Tarentin ∧ ¬ CausallyPlain ∧ ¬ ChronalNeighbours ∧ ¬ HasChronalNeighbourEverywhere (all of symmRationalLine)",
+   "standing": "Closed statement on ℝ, 22 conjuncts, decides all 20 nodes (5 has, 15 lacks). Library: symmRationalLine_absolutelyMinimalOn, symmRationalLine_not_stronglyCausal, symmRationalLine_not_causallyArcConnected. Proved inline as `have`s (coordination with T-abs-lift-curves-forms, which owns symmRationalLine_not_isCausal and symmRationalLine_not_tarentin): ¬ IsCausal (0 ≤_M 1 ≤_M 0), ¬ CausallyCompact (J_M(0, 0) holds every natural number, so it is not bounded above), ¬ CausallyOpenFuture (J⁺_M((0, 1)) holds 1 and no irrational above 1), ¬ Tarentin (an irrational point of J_M(p, q) is p, so no diamond has interior). The rest: generic lemmas of this file (node, push-up, ¬ plain, ¬ HasChronalNeighbourEverywhere) and causal_ladder (locally_push_up, curves_extend, and read backwards: ¬ StronglyCausalOpen, ¬ HasTimeFunction, ¬ CausallyOpen, ¬ LocallyCausallyOpenFuture with absolute minimality, ¬ LocallyCausallyOpen; ¬ ChronalNeighbours via ChronalNeighbours.hasChronalNeighbourEverywhere). Either reading. No new global name about the line but this theorem's.",
+   "status": "proved"
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "ladder_entry": "programme/ladder.toml:5051 ([[open]] from = \"future_one_connected\", to = \"absolutely_minimal\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"push_up\", \"locally_push_up\", \"locally_causally_open\", \"locally_causally_open_future\", \"globally_hyperbolic\", \"causally_compact\", \"is_causal\", \"strongly_causal\", \"strongly_causal_open\", \"time_function\", \"curves_extend\"], to = \"absolutely_minimal\", witness = \"Causal.jumpLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ AbsolutelyMinimal is a conjunct",
+   "reading": "no-gluing only (¬ AbsolutelyMinimal is a conjunct; future_one_connected → absolutely_minimal is true in any gluing reading, DEC-167; kb/0014)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5056 ([[open]] from = \"future_one_connected\", to = \"causally_arc_connected\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"causally_arc_connected\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ CausallyArcConnected is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5061 ([[open]] from = \"future_one_connected\", to = \"causally_compact\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"causally_compact\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ CausallyCompact is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5066 ([[open]] from = \"future_one_connected\", to = \"causally_open\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"causally_open\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ CausallyOpen is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5071 ([[open]] from = \"future_one_connected\", to = \"causally_open_future\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"causally_open_future\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ CausallyOpenFuture is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5076 ([[open]] from = \"future_one_connected\", to = \"causally_plain\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"causally_plain\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ CausallyPlain is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5081 ([[open]] from = \"future_one_connected\", to = \"chronal_neighbours\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"chronal_neighbours\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ ChronalNeighbours is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5086 ([[open]] from = \"future_one_connected\", to = \"globally_hyperbolic\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"curves_extend\"], to = \"globally_hyperbolic\", witness = \"Causal.symmRationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ GloballyHyperbolic is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.symmRationalLine_absolutelyMinimalOn)",
+   "required": true,
+   "note": "Also refuted by Causal.rationalLine_separates_futureOneConnected (¬ GloballyHyperbolic and ¬ CausallyCompact are conjuncts); the dispatch's (1) lists it '(and globally_hyperbolic)', its (5) gives it to the symmetric rational line. I assign the latter, as the [[open]] note's model (the cylinder) is replaced by it; either witness gives the same matrix. Keeper's call.",
+   "note_model": "The [[open]] note wants Causal.Flat.timeCylinder_withoutChronology_separates (a model, layer 3). The planner's choice, the symmetric rational line, keeps the witness in the ETT layer. The note's sentence about the cylinder and the doubled line can stay as an argued second witness or go."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5091 ([[open]] from = \"future_one_connected\", to = \"has_chronal_neighbour\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"causally_open\", \"causally_open_future\", \"locally_causally_open_future\", \"locally_causally_open\", \"globally_hyperbolic\", \"causally_compact\", \"is_causal\", \"causally_arc_connected\", \"tarentin\", \"strongly_causal\", \"strongly_causal_open\", \"time_function\", \"curves_extend\"], to = \"has_chronal_neighbour\", witness = \"Causal.lightlikeLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ HasChronalNeighbourEverywhere is a conjunct",
+   "reading": "either (absolutely minimal on every open set: a conjunct, Causal.lightlikeLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5096 ([[open]] from = \"future_one_connected\", to = \"is_causal\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"curves_extend\"], to = \"is_causal\", witness = \"Causal.symmRationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ IsCausal is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.symmRationalLine_absolutelyMinimalOn)",
+   "required": true,
+   "note_model": "The [[open]] note wants Causal.Flat.timeCylinder_withoutChronology_separates (a model, layer 3). The planner's choice, the symmetric rational line, keeps the witness in the ETT layer. The note's sentence about the cylinder and the doubled line can stay as an argued second witness or go."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5101 ([[open]] from = \"future_one_connected\", to = \"locally_causally_open\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"locally_causally_open\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ LocallyCausallyOpen is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5106 ([[open]] from = \"future_one_connected\", to = \"locally_causally_open_future\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"locally_causally_open_future\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ LocallyCausallyOpenFuture is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5111 ([[open]] from = \"future_one_connected\", to = \"locally_push_up\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"causally_arc_connected\", \"globally_hyperbolic\", \"causally_compact\", \"is_causal\", \"strongly_causal\", \"strongly_causal_open\", \"causally_open\", \"causally_open_future\", \"locally_causally_open_future\", \"locally_causally_open\", \"tarentin\", \"time_function\", \"curves_extend\"], to = \"locally_push_up\", witness = \"Causal.halfChronoLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ LocallyPushUp is a conjunct",
+   "reading": "either (causally arc-connected, absolutely minimal on every open set: a conjunct, Causal.GluingModels.halfChronoLine_hereditary)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5116 ([[open]] from = \"future_one_connected\", to = \"push_up\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"causally_arc_connected\", \"globally_hyperbolic\", \"causally_compact\", \"is_causal\", \"strongly_causal\", \"strongly_causal_open\", \"causally_open\", \"causally_open_future\", \"locally_causally_open_future\", \"locally_causally_open\", \"tarentin\", \"time_function\", \"curves_extend\"], to = \"push_up\", witness = \"Causal.halfChronoLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ PushUp is a conjunct",
+   "reading": "either (causally arc-connected, absolutely minimal on every open set: a conjunct, Causal.GluingModels.halfChronoLine_hereditary)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5121 ([[open]] from = \"future_one_connected\", to = \"strongly_causal\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"curves_extend\"], to = \"strongly_causal\", witness = \"Causal.symmRationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ StronglyCausal is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.symmRationalLine_absolutelyMinimalOn)",
+   "required": true,
+   "note_model": "The [[open]] note wants Causal.Flat.timeCylinder_withoutChronology_separates (a model, layer 3). The planner's choice, the symmetric rational line, keeps the witness in the ETT layer. The note's sentence about the cylinder and the doubled line can stay as an argued second witness or go."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5126 ([[open]] from = \"future_one_connected\", to = \"strongly_causal_open\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"curves_extend\"], to = \"strongly_causal_open\", witness = \"Causal.symmRationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ StronglyCausalOpen is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.symmRationalLine_absolutelyMinimalOn)",
+   "required": true,
+   "note_model": "The [[open]] note wants Causal.Flat.timeCylinder_withoutChronology_separates (a model, layer 3). The planner's choice, the symmetric rational line, keeps the witness in the ETT layer. The note's sentence about the cylinder and the doubled line can stay as an argued second witness or go."
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5131 ([[open]] from = \"future_one_connected\", to = \"tarentin\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"is_causal\", \"push_up\", \"locally_push_up\", \"time_function\", \"curves_extend\", \"strongly_causal_open\", \"strongly_causal\"], to = \"tarentin\", witness = \"Causal.rationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ Tarentin is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.rationalLine_absolutelyMinimalOn)",
+   "required": true
+  },
+  {
+   "ladder_entry": "programme/ladder.toml:5136 ([[open]] from = \"future_one_connected\", to = \"time_function\"; line as of the file's mtime 2026-11-27 20:57:07 UTC, the dispatch's ≈ :4964–5052 having moved; anchor by (from, to))",
+   "current": "[[open]], 'False, argued'",
+   "replace_with": "[[fails]] from = [\"future_one_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"curves_extend\"], to = \"time_function\", witness = \"Causal.symmRationalLine_separates_futureOneConnected\", status = \"checked\"",
+   "witness_conjuncts": "FutureOneConnected is conjunct 1; ¬ HasTimeFunction is a conjunct",
+   "reading": "either (absolutely minimal on every open set for every cover: a conjunct, Causal.symmRationalLine_absolutelyMinimalOn)",
+   "required": true,
+   "note_model": "The [[open]] note wants Causal.Flat.timeCylinder_withoutChronology_separates (a model, layer 3). The planner's choice, the symmetric rational line, keeps the witness in the ETT layer. The note's sentence about the cylinder and the doubled line can stay as an argued second witness or go."
+  }
+ ],
+ "lemmas_for_the_keeper_summary": "All 18 [[open]] entries from = future_one_connected become [[fails]]. 9 go to Causal.rationalLine_separates_futureOneConnected: → causally_arc_connected, causally_compact, causally_open, causally_open_future, causally_plain, chronal_neighbours, locally_causally_open, locally_causally_open_future, tarentin. 1 goes to Causal.lightlikeLine_separates_futureOneConnected: → has_chronal_neighbour. 2 go to Causal.halfChronoLine_separates_futureOneConnected: → push_up, locally_push_up. 1 goes to Causal.jumpLine_separates_futureOneConnected: → absolutely_minimal, no-gluing only. 5 go to Causal.symmRationalLine_separates_futureOneConnected: → is_causal, strongly_causal, strongly_causal_open, globally_hyperbolic, time_function. The 18 [[open]] entries must be removed in the same edit: kept, _contradictions reports each 'open … is already settled; remove it' (simulation C). The section comment 'future_one_connected → X (18 …)' (programme/ladder.toml:4936 at 20:57:07 UTC), the node's comment ('So no [[fails]] entry joins it', :934, in the [[property]] future_one_connected block) and the header's count (:265) become stale. The re-pointing waits for graduation (simulation: without the new names in the index check() reports 18 'witness not found').",
+ "ladder_simulation": "In memory only (no file written), with tools/ladder.py imported under python3 -I. I took d = load(), then copy.deepcopy(d) for each variant (kb/0276), and compared matrix() and _contradictions(). I also ran check(d, lean_names() | {the five new names}) to resolve the new names as graduation would. Run on programme/ladder.toml at mtimes 20:52:19, 20:54:50 and 20:57:07 UTC: another session edited the file during this run, and the results were identical. Baseline: 309 fails, 38 implied, 45 open, 258 ill-typed, 0 contradictions, 0 check errors. Full forms: for each witness, the union over its negated ids t of ladder.counterexample(d, {from: its positive ids, to: t}) gives a has equal to its positive conjuncts and a lacks equal to its negated conjuncts, exactly. has ∩ lacks = ∅ and no node is undecided, for all five (rational 9/11, lightlike 17/3, half-chronological 15/5, jump 12/8, symmetric rational 5/15). (A) The 18 [[open]] are removed and 18 [[fails]] added, one per pair (from = the witness's positive ids, the witnesses above). Result: 327 fails, 38 implied, 27 open, 258 ill-typed, 0 contradictions, 0 check errors. Exactly 18 pairs move, all (future_one_connected, X): open → fails. No other pair moves. (B) A plus one entry per further negated conjunct of each witness (42 entries in all): the same matrix, 0 contradictions, 0 check errors. (C) A with the 18 [[open]] kept: 18 errors 'open future_one_connected→X is already settled; remove it'. (D) A with from = [\"future_one_connected\"] only: the same matrix as A (327/38/27/258, 18 moved), 0 contradictions. So the wider `from` refutes nothing new; it records what the witness states. (E) A without the new names in the index: check() reports 18 'fails Causal.…_separates_futureOneConnected: witness not found in lean-causal (a full name)'. The ladder resolves names in Causal/ only, so the re-pointing waits for graduation.",
+ "extra_decls": [
+  "Causal.Causality.not_chronalCurveOn_of_forall_not_lt",
+  "Causal.Causality.pushUp_of_forall_not_lt",
+  "Causal.Causality.not_hasChronalNeighbourEverywhere_of_forall_not_lt",
+  "Causal.Causality.not_causallyPlain_of_forall_not_lt",
+  "Causal.halfChronoLine_chronalCurveOn_iff",
+  "Causal.halfChronoLine_chronalCurveOn_iff_strictMonoOn",
+  "Causal.halfChronoLine_futureOneConnectedOn",
+  "Causal.halfChronoLine_not_hasChronalNeighbourEverywhere"
+ ],
+ "findings": [
+  "No paper is involved (layer 1, no ETT label). About the ladder: every one of the 18 pairs future_one_connected → X, 'False, argued', is now refuted by a Lean conjunction in the ETT layer. 17 hold in either reading. → absolutely_minimal holds in the no-gluing reading only, as the ladder argued. The node gives no causality node without chronology: the symmetric rational line is future one-connected, absolutely minimal, push-up and curves extend, and lacks all 15 others.",
+  "The half-chronological line is future one-connected on every open set, not vacuously (Causal.halfChronoLine_futureOneConnectedOn), as the [[open]] notes for → push_up, locally_push_up argued. Its chronal curves over [a, b], a < b, are the continuous strictly increasing maps into W ∩ (−1, ∞) (Causal.halfChronoLine_chronalCurveOn_iff_strictMonoOn), as the target's evidence says.",
+  "New as Lean statements: the rational, jump, half-chronological and symmetric rational lines each have a point without a chronal neighbour (¬ HasChronalNeighbourEverywhere; −1 for the half-chronological line). Also new: the symmetric rational line is push-up and not causally compact, not causally open in the future, not tarentin, not causally plain. These are inline conjuncts, with no global name. With them, each of the five witnesses decides all 20 causality-sort nodes.",
+  "The [[open]] notes for → is_causal, strongly_causal, strongly_causal_open, globally_hyperbolic, time_function want Causal.Flat.timeCylinder_withoutChronology_separates (a model). They are settled instead in the ETT layer by Causal.symmRationalLine_separates_futureOneConnected (the planner's choice). The cylinder is a model follow-up. Its node is now Causal.Causality.withoutChronology_futureOneConnected, but its absolute minimality, Causal.GluingModels.withoutChronology_absolutelyMinimalOn, sits in Causal.GluingModels.ModelSingular, which reaches Causal.SingularFlat.",
+  "The dispatch's line numbers have moved. Another session rewrote programme/ladder.toml three times during this run (mtimes 20:52:19, 20:54:50, 20:57:07 UTC). At 20:57:07 the 18 [[open]] entries are at :5051–5136 (the dispatch's ≈ :4964–5052), and the section comment at :4936. Every ladder line number in this report is as of 20:57:07, and the simulation was rerun on that version with the same result. The module docstring cites the section by its text, not its line. Anchor by (from, to) if the file moves again."
+ ],
+ "questions": [
+  "The witness of → globally_hyperbolic. Both the rational line (¬ CausallyCompact, ¬ GloballyHyperbolic) and the symmetric rational line (¬ IsCausal) refute it, in either reading. The dispatch's (1) lists it '(and globally_hyperbolic)' and its (5) gives it to the symmetric rational line. I took (5), so the five pairs of the replaced cylinder note share one witness. The matrix is the same either way.",
+  "The `from` of the new entries. I propose each witness's full positive list (its `has`), as the existing entries of these models do. With from = [future_one_connected] alone the matrix is identical (simulation D). One entry per [[open]] (18), as precedent keeps one per negated node the witness states. The full form (42 entries) moves nothing more (simulation B). Both are the keeper's call.",
+  "The node and its hereditary form. The ladder node is FutureOneConnected (at M), so it is conjunct 1 of each witness. I added ∀ W, FutureOneConnectedOn W as conjunct 2, because it holds for all five models and the node is not hereditary in general (the node's comment). It is a projection away if unwanted. Likewise ∀ W, AbsolutelyMinimalOn W stands beside AbsolutelyMinimal in the four witnesses where it holds (the dispatch's requirement)."
+ ],
+ "kb_proposals": [
+  "A causality without chronology is future one-connected on every open set: Causal.Causality.futureOneConnectedOn_of_forall_not_lt, withoutChronology_futureOneConnected(On). With pushUp_of_forall_not_lt, not_hasChronalNeighbourEverywhere_of_forall_not_lt and not_causallyPlain_of_forall_not_lt, the ≪-only facts of any line with empty ≪ are one-liners (`fun _ _ h => h` discharges the hypothesis on a concrete line) (CausalScaffold.FutureOneConnectedVacuous, T-abs-future-one-connected-vacuous).",
+  "The half-chronological line's chronal curves over [a, b], a < b, are the timelike line's that start after −1 (halfChronoLine_chronalCurveOn_iff). So a timelike-line chronal homotopy whose slices start at p > −1 is one of the half-chronological line, field for field except chronalCurveOn (halfChronoLine_futureOneConnectedOn) (T-abs-future-one-connected-vacuous).",
+  "In a probe, `have w := X_separates; tauto` projects any conjunct or closes `¬ ∀ C : Causality ℝ, C.P → C.Q` from a 22-conjunct full-form witness in about a second (campaign/T-abs-future-one-connected-vacuous/Probe.lean)."
+ ],
+ "notes": "One new file, 406 lines, 0 sorry, no ETT label (the docstring marks nothing with **). The docstring is 5348 characters, which does not matter here since no label is marked. Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.FutureOneConnectedVacuous` to scaffold/CausalScaffold.lean. I did not edit it. At graduation the file moves to Causal/FutureOneConnectedVacuous.lean, its import goes into Causal.lean, and the stale .lake/build/lib/lean/CausalScaffold/FutureOneConnectedVacuous.* is deleted. Its imports are already Causal.* only. Then the keeper records the 18 [[fails]] and removes the 18 [[open]] (lemmas_for_the_keeper). Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri, lean and lean-egf finds none of the 16 new names outside this file. Coordination: the only new global name about symmRationalLine is Causal.symmRationalLine_separates_futureOneConnected. ¬ IsCausal and ¬ Tarentin of that line are `have`s inside it, so T-abs-lift-curves-forms keeps symmRationalLine_not_isCausal and symmRationalLine_not_tarentin. That closer may want the general lemmas Causal.Causality.pushUp_of_forall_not_lt and not_causallyPlain_of_forall_not_lt. The file adds no instance. No existing file was edited, the ladder included. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`. tools/ladder.py was only imported in memory, for load, counterexample, matrix, _contradictions, check, lean_names, lean_index, model_path, import_chain and is_model, from scripts in /tmp/fococ_probe.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: three docstring readings (the rational line's hereditary minimality is rationalLine_absolutelyMinimalOn's; the lightlike line's ¬HasChronalNeighbourEverywhere says some point, not every point; non-heredity of FutureOneConnectedOn is argued, not in Lean). For the keeper: the 18 [[open]] future_one_connected → X become [[fails]] with these five witnesses (removed in the same edit), and the node comment, header counts and section comment are refreshed."
+}

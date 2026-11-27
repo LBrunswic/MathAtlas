@@ -343,6 +343,7 @@ import Causal.ErsSCWitnesses
 import Causal.Model.MinkowskiFutureOneConnected
 import Causal.IsolatedLineConjoined
 import Causal.C0ExtensionSkeleton
+import Causal.FutureOneConnectedVacuous
 
 /-!
 # Causal — topological spacetimes
