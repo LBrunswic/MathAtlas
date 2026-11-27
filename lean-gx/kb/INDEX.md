@@ -173,3 +173,10 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0163](entries/0163-a-boost-moves-the-future-time-like-direc.md) | pattern | A boost moves the future time-like directions up by the sign of ζ |
 | [0164](entries/0164-cut-and-glue-along-a-light-like-ray-of-d.md) | pattern | Cut-and-glue along a light-like ray of dS² is IsCutGlueLink |
 | [0165](entries/0165-cutglue-iscausalpast-is-gx-dsle-by-defin.md) | pattern | CutGlue.IsCausalPast is GX.DSLe by definition |
+| [0166](entries/0166-an-injective-on-reg-e0-morphism-out-of-a.md) | pattern | Injectivity of a BTZ-embedding from Hausdorffness alone |
+| [0167](entries/0167-the-codomain-restriction-of-an-e0-morphi.md) | pattern | isE0Mor_of_subtype, the converse of E0Spear.isE0Mor_corestrict_iff |
+| [0168](entries/0168-c-b-for-a-btz-embedding-b-is-gx-pgcd-exi.md) | pattern | c ∘ b⁻¹ for a BTZ-embedding b is GX.Pgcd.exists_ext |
+| [0169](entries/0169-sector-charts-are-in-btze0-s-maximal-a-e.md) | pattern | Sector charts lie in BTZE0's maximal a.e. atlas |
+| [0170](entries/0170-rigidity-at-a-regular-limit-point-in-a-f.md) | pattern | Rigidity at a regular limit point in a flat target |
+| [0171](entries/0171-the-strict-e0surgery-exists-spearsurgery.md) | pattern | The strict spear-surgery lemmas need only Cauchy plus the C¹ rim |
+| [0172](entries/0172-locally-finite-spears-from-a-compact-exh.md) | pattern | Locally finite spears from a compact exhaustion |

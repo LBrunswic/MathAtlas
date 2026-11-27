@@ -1,0 +1,79 @@
+{
+  "package": "T-btz-pgcd",
+  "target": "T-btz-pgcd",
+  "files": ["scaffold/GXScaffold/BTZ/Pgcd.lean", "scaffold/GXScaffold.lean (one import line)"],
+  "builds": true,
+  "sorry_count": 1,
+  "axioms": {
+    "GX.Pgcd.btz_pgcd": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.Pgcd.pgcdSub_isMaximal": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.Pgcd.globallyHyperbolicOn_ghDom": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.Pgcd.ghDom_eq_dom_of_globallyHyperbolicOn": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.Pgcd.btz_pgcd_gh": ["propext", "sorryAx", "Classical.choice", "Quot.sound"]
+  },
+  "labels": [
+    {
+      "label": "btzprop:pgcd",
+      "tex_lines": [1341, 1378],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.Pgcd.btz_pgcd",
+        "GX.Pgcd.pgcdSub",
+        "GX.Pgcd.pgcdSub_isMaximal",
+        "GX.Pgcd.range_pgcdSub_b",
+        "GX.Pgcd.dom",
+        "GX.Pgcd.pgcdMap",
+        "GX.Pgcd.isBTZEmbedding_pgcdMap",
+        "GX.Pgcd.pgcdMap_injective",
+        "GX.Pgcd.ghDom",
+        "GX.Pgcd.IsGHExtDomain",
+        "GX.Pgcd.ghDom_le_dom",
+        "GX.Pgcd.globallyHyperbolicOn_ghDom",
+        "GX.Pgcd.ghDom_eq_dom_of_globallyHyperbolicOn",
+        "GX.Pgcd.globallyHyperbolicOn_dom",
+        "GX.Pgcd.btz_pgcd_gh"
+      ],
+      "hypotheses": [
+        {"paper": "E_{>=0}-manifolds", "here": "strengthened", "note": "E0 only (T-btz-scope, needs-ruling); the vocabulary of GX.BTZ.Embeddings"},
+        {"paper": "i, j BTZ-extensions", "here": "carried", "note": "IsBTZEmbedding i, IsBTZEmbedding j"},
+        {"paper": "M0 globally hyperbolic", "here": "weakened", "note": "not used by btz_pgcd; carried only by the sorry'd globallyHyperbolicOn_dom and btz_pgcd_gh"},
+        {"paper": "M1 globally hyperbolic", "here": "weakened", "note": "not used by btz_pgcd; used by globallyHyperbolicOn_ghDom (second bullet)"},
+        {"paper": "M2 globally hyperbolic", "here": "weakened", "note": "not used by btz_pgcd; carried by globallyHyperbolicOn_dom / btz_pgcd_gh"},
+        {"paper": "M1 Hausdorff, second countable; M2 Hausdorff (l.261)", "here": "carried", "note": "instances; M0 needs neither"},
+        {"paper": "(none)", "here": "strengthened", "note": "M1 connected for the second bullet (globallyHyperbolicOn_ghDom; e0_sfa_of_globalBTZ needs it); M2 connected and second countable on the sorry'd globallyHyperbolicOn_dom / btz_pgcd_gh"}
+      ],
+      "sorries": [
+        {"decl": "GX.Pgcd.globallyHyperbolicOn_dom", "obstruction": "dom i j (the union of ALL open A ⊇ i(M0) over which j∘i⁻¹ extends to an E0-morphism) causally convex in M1, i.e. by B21 Lemma 2.13 (a) the extension φ continues along the BTZ line of M1 above each BTZ point of dom i j. Needs (1) that φ of the BTZ line below the first missing point z converges in M2 (it lies in a compact diamond J_{M2}(φ x, φ q), q ≫ z regular, M2 GH) to a BTZ point w, and (2) that the E0-isometry φ, defined on the regular part of a neighbourhood of z, extends across the axis to a chart isomorphism z ↦ w (rigidity of E0 near the axis, τ-translation/holonomy as in lean-causal kb/0176). Neither is in the strict libraries."}
+      ],
+      "findings": [
+        "BTZ_1.tex l.1341–1346: the existence of a maximal common sub-BTZ-extension needs NO global hyperbolicity (for E0-manifolds; the argument does not look E0-specific): GX.Pgcd.btz_pgcd proves it for any two BTZ-extensions with M1 Hausdorff second countable and M2 Hausdorff, by taking the union of ALL extension domains instead of the globally hyperbolic ones. The GH hypotheses are needed only for the global hyperbolicity of M1∧M2, which the later gluing (btzprop:ppcm) uses.",
+        "BTZ_1.tex l.1359–1366: injectivity of φ needs only that M1 is Hausdorff, not strong causality nor prop:FZenon_injectif (GX.Pgcd.pgcdMap_injective): two points with one image have disjoint neighbourhoods whose open images share a regular point of M2, and φ = j∘i⁻¹ is injective on the regular points. The step « I⁺(p) = φ(I⁺(x)) » at l.1363 is itself unproved in the text (it requires lifting timelike curves through φ).",
+        "BTZ_1.tex l.1376: « By construction, M1∧M2 is maximal » is a gap. Common sub-BTZ-extensions (btzdef:common_sub_btz_extension, l.1306–1313) are not required globally hyperbolic, so the image b(X) of an arbitrary one need not lie in a globally hyperbolic domain, and the union over GH domains (the paper's M1∧M2, GX.Pgcd.ghDom) contains it only if the union of all extension domains is itself GH. Here: ghDom ≤ dom always (ghDom_le_dom), ghDom = dom iff dom is GH (ghDom_eq_dom_of_globallyHyperbolicOn), and dom GH is the one sorry (globallyHyperbolicOn_dom). Not refuted: I believe it holds under the paper's hypotheses, by an extension of φ along BTZ lines that the proof does not give.",
+        "BTZ_1.tex l.1368–1374 (second bullet): proved for E0 with M1 GH and connected (GX.Pgcd.globallyHyperbolicOn_ghDom), but by a different route: each GH domain with BTZ complement is causally convex (B21 Lemma 2.13 (b)), so their union is (Lemma 2.13 (a)), and Remark 1. The paper's case split « either q ∈ sing0(M1) and J⁺(p) ∩ J⁻(q) is a BTZ segment, or q ∈ i(M0) » does not show the segment lies in M1∧M2, and q may be a BTZ point inside i(M0)."
+      ],
+      "questions": [
+        "« there exists a BTZ-embedding M → M2 which restriction to i(M0) is j∘i⁻¹ » (l.1353): read as IsBTZEmbedding (fun x : A => f x) ∧ ∀ x, f (i x) = j x for some f : M1 → M2 (a map on the subtype A written as the restriction of a total map).",
+        "« globally hyperbolic open subset M ⊂ M1 » (l.1352): read in the open-set form (CE M1).GloballyHyperbolicOn A (kb/0001), equivalent to the subtype form through E0AbsMax.ce_opens_eq.",
+        "Which object is « the » M1∧M2 used by btzprop:ppcm: the paper's union over GH domains (ghDom) or the union over all extension domains (dom, which is maximal unconditionally)? They coincide iff dom is GH (the open sorry). I took dom for the existence statement and kept ghDom as the paper's construction."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.Pgcd.exists_ext",
+    "GX.Pgcd.isE0Mor_of_subtype",
+    "GX.Pgcd.continuousOn_of_isE0Mor",
+    "GX.Pgcd.eqOn_of_ext",
+    "GX.Pgcd.isE0Mor_pgcdMap",
+    "GX.Pgcd.isExtDomain_range",
+    "GX.Pgcd.range_subset_dom",
+    "GX.Pgcd.compl_dom_subset",
+    "GX.Pgcd.IsExtDomain"
+  ],
+  "kb_proposals": [
+    "An injective-on-Reg E0-morphism out of a Hausdorff E0-manifold, whose regular points come from a BTZ-embedded i(M0) where it is j∘i⁻¹, is injective: no causality needed (GX.Pgcd.pgcdMap_injective: t2_separation, isOpenMap_of_isE0Mor, E0LM.dense_e0RegM, mem_S0_iff_of_isE0Mor).",
+    "The codomain restriction of an E0-morphism to an open set is E0Spear.isE0Mor_corestrict_iff; the converse direction (an E0-morphism read on a subtype ↥A is one on A) is GX.Pgcd.isE0Mor_of_subtype, through liftPropOn_invFunOn of Subtype.val.",
+    "c ∘ b⁻¹ for a BTZ-embedding b is GX.Pgcd.exists_ext; its empty case uses that an E0-manifold whose points are all BTZ is empty (dense_e0RegM)."
+  ],
+  "notes": "Only new files: scaffold/GXScaffold/BTZ/Pgcd.lean and one import line in scaffold/GXScaffold.lean (after BluntSpear). lake build GXScaffold.BTZ.Pgcd succeeded without rebuilding GX.* or mathlib. One tagged sorry (GX.Pgcd.globallyHyperbolicOn_dom); btz_pgcd, pgcdSub_isMaximal, globallyHyperbolicOn_ghDom and ghDom_eq_dom_of_globallyHyperbolicOn are sorry-free with standard axioms; btz_pgcd_gh rests on the sorry. Row stays partial (E0 scope, T-btz-scope); label written unbolded (kb/0024)."
+}

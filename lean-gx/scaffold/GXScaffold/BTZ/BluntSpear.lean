@@ -1,4 +1,5 @@
 import GX.BTZ.AbsMax
+import GX.BTZ.SectorAtlas
 
 /-!
 # `GXScaffold.BTZ.BluntSpear` — blunt spear neighbourhoods in the flat case (btz § 3.1)
@@ -12,8 +13,9 @@ Target T-btz-blunt-spear. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), �
   `IsBluntSpearNbhd.locallyConnectedSpace_interior`), « the regular part of a unique spear »
   (`bspear_eq_iff`, `bspear_eq_spear_diff_axis`), non-vacuity `isBluntSpearNbhd_model`.
 * `btzlem:blunt_spear_neighborhood` — `BTZ_1.tex:693–701`, proof « essentially the same » as
-  l.719–742's: `GX.E0BluntSpear.lem_blunt_spear` (flat `M`, paper form; rests on two tagged
-  `sorry`s, the inextensibility of the regular null rays) and the core
+  l.719–742's: `GX.E0BluntSpear.lem_blunt_spear` (flat `M`, paper form; rests on one tagged
+  `sorry`, the inextensibility of the in-falling regular null rays, `flat_infall_noLimit`; the
+  vertical rays are done, `flat_vertical_noLimit`, T-btz-blunt-vertical-ray) and the core
   `GX.E0BluntSpear.lem_blunt_spear_of_inextensible` (any GH `𝔼₀`-manifold, the two
   inextensibility facts as hypotheses, 0 `sorry`).
 
@@ -51,7 +53,7 @@ Target T-btz-blunt-spear. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), �
 | `inf φ(𝒮) = inf φ(𝒮₀)` | ✓ read as the causal infimum in `𝔼₀`: both are the vertex (`isLowerBound_vertex`, `le_vertex_of_lowerBound`); the two sets have the same lower bounds (`lowerBounds_bspear_iff`, in the conclusion) |
 | « `Σ ∩ 𝒮` in the shaft » | ✓ read as for `lem:add_BTZ_param` (DEC-116 (c)): `Σ ∩ 𝒮 ⊆ {τ > v + R′/2}` |
 | `τ_Σ` « smooth » `𝔻*_R → ℝ₊*` | ⚠ `C⁰` on the punctured closed disc (DEC-125 (c)'s reading of the twin `lem:add_BTZ_param`; `Σ` is a topological Cauchy surface), « positive » = `> v + R′/2` |
-| (core only) the regular null rays of `𝒮₀` are inextensible in `M` | ⚠ **added** as hypotheses of the core: `hvert` (every vertical ray `t ↦ ψ(t, z)`, `0 < ‖z‖ ≤ R`, has no future endpoint) and `hfall` (every in-falling ray `s ↦ ψ(a + s/2, s u)`, `a > v`, has no past endpoint as `s → 0⁺`); in the flat case they are the two tagged `sorry`s `flat_vertical_noLimit`, `flat_infall_noLimit` (SCOPE) |
+| (core only) the regular null rays of `𝒮₀` are inextensible in `M` | ⚠ **added** as hypotheses of the core: `hvert` (every vertical ray `t ↦ ψ(t, z)`, `0 < ‖z‖ ≤ R`, has no future endpoint) and `hfall` (every in-falling ray `s ↦ ψ(a + s/2, s u)`, `a > v`, has no past endpoint as `s → 0⁺`); in the flat case `hvert` is **proved** (`flat_vertical_noLimit`) and `hfall` is the tagged `sorry` `flat_infall_noLimit` (SCOPE) |
 
 ## SCOPE (disclosed)
 
@@ -64,13 +66,13 @@ Target T-btz-blunt-spear. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), �
   `f`-level is `4π²r₁` higher) against one point of `Σ` found on a far in-falling null ray or
   above it (inside `lem_blunt_spear_of_inextensible`, by `binfall_meets` or `bvertical_meets`); every point of the shrunk spear below the level `v + R′/2` is
   then in `J⁻(Σ) ∖ Σ`.
-* The two inputs it needs are tagged `sorry`s in the flat case: a vertical null ray
-  `t ↦ φ⁻¹(t, z)` has no future endpoint in `N` (`flat_vertical_noLimit`), and an in-falling null
-  ray `s ↦ φ⁻¹(a + s/2, s u)`, `s → 0⁺`, has no past endpoint in `N` (`flat_infall_noLimit`). Both
-  are rigidity facts at regular points: the analogue of `E0Spear.axis_noLimit`, whose proof goes
-  through `btzE0_localUnique_core` at a BTZ point, is not available at a regular limit point
-  (the second needs that the parabolic holonomy around the missing axis cannot be killed by a
-  Minkowski chart at the limit point).
+* Of the two inputs it needs in the flat case, the first is proved: a vertical null ray
+  `t ↦ φ⁻¹(t, z)` has no future endpoint in `N` (`flat_vertical_noLimit`: rigidity at a regular
+  limit point, `E0.exists_eqOn_sectorSmulInl` of `GX.BTZ.SectorAtlas`, then the developed
+  ray is unbounded). The second is a tagged `sorry`: an in-falling null ray
+  `s ↦ φ⁻¹(a + s/2, s u)`, `s → 0⁺`, has no past endpoint in `N` (`flat_infall_noLimit`); its
+  developed ray converges, so it needs that the parabolic holonomy around the missing axis cannot
+  be killed by a Minkowski chart at the limit point.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal (imports
 `Causal.*` through `GX.BTZ.AbsMax`, DEC-33).
@@ -680,12 +682,86 @@ theorem ce_flatE0_eq (N : Causal.Flat.FlatSpacetime.{0} 2) :
   · funext V x y; exact propext (flatE0_rel_iff N V x y).1
   · funext V x y; exact propext (flatE0_rel_iff N V x y).2
 
-/-- **The vertical null rays of a blunt spear chart have no future endpoint** in a flat `N`. -/
+/-- **The vertical null rays of a blunt spear chart have no future endpoint** in a flat `N`.
+At a limit point `q`, `f = κ ∘ ψ` (`κ` the chart of `N` at `q`, followed by `inl`) is a local
+`G`-structomorphism on the connected component `U`, around the tail of the ray, of
+`W ∩ ψ⁻¹(dom κ) ∩` the slit sector of the ray; by rigidity (`E0.exists_eqOn_sectorSmulInl`, built on
+`E0.sectorChartBTZ_mem_aeAtlas` and `e0_eqOn_of_eqOn_open`) it is `inl ∘ (g • ·) ∘` the sector chart
+on all of `U`. So along the tail `κ(ψ(t, z)) = g • D(t, ‖z‖, θ)`, whose time component
+`t + ½‖z‖θ²` (after `g⁻¹`) tends to `+∞`, against its convergence to `g⁻¹ • κ q`. Injectivity of
+`ψ` is not used. -/
 theorem flat_vertical_noLimit {v R : ℝ} {W : Set E0Y} {ψ : E0Y → FlatE0 N} (hW : IsOpen W)
-    (hsub : bspearY v R ⊆ W) (hψ : IsE0Mor ψ W) (hinj : InjOn ψ W) {z : ℂ} (hz0 : 0 < ‖z‖)
+    (hsub : bspearY v R ⊆ W) (hψ : IsE0Mor ψ W) (_hinj : InjOn ψ W) {z : ℂ} (hz0 : 0 < ‖z‖)
     (hz : ‖z‖ ≤ R) (q : FlatE0 N) :
     ¬ Tendsto (fun t : ℝ => ψ (paperInY (t, z))) atTop (𝓝 q) := by
-  sorry -- SORRY(btzlem:blunt_spear_neighborhood): rigidity at a regular limit point
+  intro hlim
+  have hz' : z ≠ 0 := norm_pos_iff.1 hz0
+  set y : E0 := (0, z) with hydef
+  have hy : y.2 ≠ 0 := hz'
+  set ray : ℝ → E0Y := fun t => paperInY ((t, z) : E0) with hray
+  have hrayc : Continuous ray := continuous_paperInY.comp (continuous_id.prodMk continuous_const)
+  have hsec : ∀ t : ℝ, ((t, z) : E0) ∈ sector y := fun t => by
+    show z / z ∈ Complex.slitPlane
+    rw [div_self hz']; exact Complex.one_mem_slitPlane
+  set κ := chartAt E0Y q with hκ
+  have hψc : ContinuousOn ψ W := fun x hx => (hψ x hx).continuousWithinAt
+  set P : Set E0Y := paperInY '' sector y with hP
+  have hPo : IsOpen P := isOpen_paperInY_image (isOpen_sector y)
+  set V : Set E0Y := (W ∩ P) ∩ ψ ⁻¹' κ.source with hV
+  have hVo : IsOpen V :=
+    (hψc.mono inter_subset_left).isOpen_inter_preimage (hW.inter hPo) κ.open_source
+  obtain ⟨T, hT⟩ := eventually_atTop.1
+    (hlim.eventually (κ.open_source.mem_nhds (mem_chart_source E0Y q)))
+  set T' := max T (v + ‖z‖ / 2) with hT'
+  have htail : ∀ t, T' ≤ t → ray t ∈ V := fun t ht =>
+    ⟨⟨hsub ⟨_, mem_bspear_vertical hz0 hz ((le_max_right _ _).trans ht), rfl⟩, ⟨_, hsec t, rfl⟩⟩,
+      hT t ((le_max_left _ _).trans ht)⟩
+  set U := connectedComponentIn V (ray T') with hU
+  have hUo : IsOpen U := hVo.connectedComponentIn
+  have hUV : U ⊆ V := connectedComponentIn_subset _ _
+  have hUc : IsPreconnected U := isPreconnected_connectedComponentIn
+  have htailU : ∀ t, T' ≤ t → ray t ∈ U := by
+    have hpre : IsPreconnected (ray '' Ici T') := isPreconnected_Ici.image _ hrayc.continuousOn
+    have hsub' := hpre.subset_connectedComponentIn (x := ray T') ⟨T', self_mem_Ici, rfl⟩
+      (by rintro _ ⟨t, ht, rfl⟩; exact htail t ht)
+    exact fun t ht => hsub' ⟨t, ht, rfl⟩
+  set f : E0Y → E0Y := κ ∘ ψ with hf
+  have hQ : ∀ y : E0Y, e0Groupoid.IsLocalStructomorphWithinAt id univ y := fun y _ =>
+    ⟨OpenPartialHomeomorph.refl E0Y, e0Groupoid.id_mem, fun _ _ => rfl, trivial⟩
+  have hψU : IsE0Mor ψ U :=
+    Causal.CBG.liftPropOn_mono_of_le hW hUo hψ (fun y hy => (hUV hy).1.1)
+  have hfU : IsE0Mor f U :=
+    Causal.CBG.liftPropOn_comp hUo κ.open_source
+      (e0Groupoid.isLocalStructomorphWithinAt_localInvariantProp.liftPropOn_chart hQ) hψU
+      (fun y hy => (hUV hy).2)
+  have hfS : ∀ x ∈ U, e0Groupoid.IsLocalStructomorphWithinAt f U x := by
+    intro x hx
+    have h := (hfU x hx).2
+    simp only [chartAt_self_eq, OpenPartialHomeomorph.refl_symm, OpenPartialHomeomorph.refl_apply,
+      preimage_id_eq] at h
+    exact h
+  have hfinl : ∀ x ∈ U, f x ∈ range Sum.inl := fun x _ => ⟨_, rfl⟩
+  obtain ⟨g, hg⟩ := exists_eqOn_sectorSmulInl hy hUo hUc ⟨ray T', htailU T' le_rfl⟩
+    (fun x hx => (hUV hx).1.2) hfS hfinl
+  set κN := chartAt (Causal.Minkowski 2) (show N from q) with hκN
+  have hval : ∀ t, T' ≤ t →
+      κN (ψ (ray t)) = g • btzPaperDev (t, ‖z‖, angle y ((0, z) : E0)) := by
+    intro t ht
+    have h := hg (htailU t ht)
+    rw [sectorSmulInl_apply, sectorChartY_paperInY] at h
+    exact Sum.inl_injective h
+  have hconv : Tendsto (fun t => κN (ψ (ray t))) atTop (𝓝 (κN q)) :=
+    ((chartAt (Causal.Minkowski 2) (show N from q)).continuousAt
+      (mem_chart_source _ (show N from q))).tendsto.comp hlim
+  have h2 : Tendsto (fun t => (g⁻¹ • κN (ψ (ray t))).1) atTop (𝓝 ((g⁻¹ • κN q).1)) :=
+    (continuous_fst.tendsto _).comp (((continuous_const_smul g⁻¹).tendsto _).comp hconv)
+  have h3 : Tendsto (fun t => (g⁻¹ • κN (ψ (ray t))).1) atTop atTop := by
+    refine (tendsto_atTop_add_const_right _ (1 / 2 * ‖z‖ * (angle y ((0, z) : E0)) ^ 2)
+      tendsto_id).congr' ?_
+    filter_upwards [eventually_ge_atTop T'] with t ht
+    rw [hval t ht, inv_smul_smul]
+    rfl
+  exact not_tendsto_nhds_of_tendsto_atTop h3 _ h2
 
 /-- **The in-falling null rays of a blunt spear chart have no past endpoint** in a flat `N`. -/
 theorem flat_infall_noLimit {v R : ℝ} {W : Set E0Y} {ψ : E0Y → FlatE0 N} (hW : IsOpen W)

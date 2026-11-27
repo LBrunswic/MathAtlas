@@ -1,0 +1,54 @@
+{
+  "package": "T-btz-spear-family",
+  "target": "T-btz-spear-family",
+  "files": ["scaffold/GXScaffold/BTZ/SpearFamily.lean"],
+  "edited": ["scaffold/GXScaffold.lean (one import line, GXScaffold.BTZ.SpearFamily, after GXScaffold.BTZ.RegComplete)"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "tex_lines": [1566, 1576],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.E0SpearFamily.LFSurgeryData",
+        "GX.E0SpearFamily.exists_lfSurgeryData",
+        "GX.E0SpearFamily.exists_lfSurgeryData_of_rimC1",
+        "GX.E0SpearFamily.LFSurgeryData.covers",
+        "GX.E0SpearFamily.LFSurgeryData.pt_mem",
+        "GX.E0SpearFamily.LFSurgeryData.countable_inter_S0",
+        "GX.E0SpearFamily.LFSurgeryData.toSurgeryData"
+      ],
+      "hypotheses": [
+        {"paper": "E_{>=0}-manifold", "here": "strengthened", "note": "E0 only (T-btz-scope), as the row"},
+        {"paper": "globally hyperbolic", "here": "carried", "note": "(CE M).GloballyHyperbolic"},
+        {"paper": "Cauchy-maximal", "here": "carried", "note": "E0Spear.IsE0CauchyMaximal M (lem:tube's hypothesis)"},
+        {"paper": "Cauchy-complete (S smooth spacelike complete)", "here": "weakened", "note": "stated with the row's reading IsE0C1CompleteCauchy (OQ-142); only its fields cauchy and rim are used (exists_lfSurgeryData_of_rimC1): completeness and the Lipschitz condition are not needed for step (1)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.1091 / l.1574: for a Cauchy-complete M the paper takes « disjoint spear neighborhoods of sing₀(M) » without argument; its only printed justification (l.1091, « Since M is Cauchy-compact, it admits finitely many BTZ-lines and one can take the spear neighborhoods disjoint ») is the finite case. With countably many BTZ points on S, disjointness alone is not what the later steps need: local finiteness of the family is (for an inextensible curve meeting infinitely many spears, and for the closedness of the union of the other spears used in the head argument). Proved here (GX.E0SpearFamily.exists_lfSurgeryData): the family can be chosen countable, locally finite, pairwise disjoint and closed. The argument: the BTZ rays are locally finite (E0LM.e0_sing_nhds_component, distinct points of S on distinct lines); along a compact exhaustion each spear is thinned to miss every K n below the first its ray meets (spears of radius R' -> 0 are closed and decrease to the ray); then each head is thinned to avoid the closed union of the others. This fills a gap; it is not a counterexample.",
+        "Step (1) does not use the completeness of S: a Cauchy surface with the C¹ rim condition suffices (exists_lfSurgeryData_of_rimC1); the compact case is the special case where the family is finite (LFSurgeryData.toSurgeryData)."
+      ],
+      "questions": [
+        "« one around each point of S ∩ sing₀ M »: read as an index type ι with an equivalence pt : ι ≃ S ∩ sing₀(M), the point pt i on the ray of the i-th spear at a positive parameter (so strictly above its vertex, which lies in I⁻(S)); « S's trace a C¹ circle in each shaft » read as SpearSurgeryDatum's graph/shaft/continuousOn fields (S ∩ spear is the graph of τ_Σ over the closed disc, in the shaft) plus the field rimC1 (the rim circle rimFun τ_Σ R is C¹), as the strict SurgeryData reads it in the compact case."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.E0SpearFamily.RimC1",
+    "GX.E0SpearFamily.rimC1_of_isE0C1CompleteCauchy",
+    "GX.E0SpearFamily.rimC1_of_isE0C1SpacelikeCauchy",
+    "GX.E0SpearFamily.exists_spearSurgeryDatum",
+    "GX.E0SpearFamily.exists_spearSurgeryDatum_cover",
+    "GX.E0SpearFamily.exists_shrink",
+    "GX.E0SpearFamily.exists_radius_disjoint"
+  ],
+  "kb_proposals": [
+    "The strict E0Surgery.exists_spearSurgeryDatum / _cover / SpearSurgeryDatum.exists_shrink use of S only its Cauchy property and its rim condition: GX.E0SpearFamily.{exists_spearSurgeryDatum, exists_spearSurgeryDatum_cover, exists_shrink} take (hS : IsCauchySurface S) (hrim : RimC1 M S), so they serve complete as well as compact surfaces.",
+    "Locally finite spears from a compact exhaustion: GX.E0SpearFamily.exists_radius_disjoint (a thin enough spear misses a compact set its ray misses), applied below Nat.find of the first K n the ray meets; the BTZ rays are locally finite by E0LM.e0_sing_nhds_component."
+  ],
+  "notes": "Sorry-free, standard axioms; lake build GXScaffold.BTZ.SpearFamily succeeds (no rebuild of GX.* or mathlib). Imports GXScaffold.BTZ.RegComplete only for IsE0C1CompleteCauchy (a structure; the axiom check confirms the sorry of regM_isCauchyComplete_of_complete is not reached). On graduation, IsE0C1CompleteCauchy must graduate first or with it. RegComplete.lean's sorry is untouched; T-btz-reg-complete-cauchy and T-btz-reg-complete-length consume LFSurgeryData (its locallyFinite field is the input step (2) needs). The row stays partial."
+}

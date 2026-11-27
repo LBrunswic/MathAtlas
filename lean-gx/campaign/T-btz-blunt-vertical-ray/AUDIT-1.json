@@ -1,0 +1,19 @@
+{
+ "target": "T-btz-blunt-vertical-ray",
+ "auditor_round": 1,
+ "verdict": "clean",
+ "labels": [
+  {
+   "label": "btzlem:blunt_spear_neighborhood",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Row stays partial (lean_proved_override partial; E0 scope T-btz-scope / OQ-143 and the in-falling sorry), disclosed in REPORT and in the BluntSpear checklist/SCOPE. git diff vs HEAD of BluntSpear.lean: the only change to a statement is the binder rename hinj -> _hinj in flat_vertical_noLimit (#check shows the type still carries Set.InjOn ψ W, so it is unchanged, not weakened); the sorry is replaced by a proof; flat_infall_noLimit is untouched and still tagged (l.771); lem_blunt_spear and the core are unchanged; docstring updated in the module header, checklist row and SCOPE, with no stale 'two sorrys' left. No bold mark of the label in BluntSpear.lean or SectorAtlas.lean, which is right for a partial row. SectorAtlas.lean certifies no label and has its checklist and SCOPE. sectorChartBTZ_mem_aeAtlas states the real membership `sectorChartBTZ y hy ∈ aeAtlas (Causal.Flat.isom 2) (Causal.Minkowski 2) BTZE0`, proved through IsMaximalAEAtlas.mem_of_compatible, not a weaker predicate. None of the new GX.E0.* names (sectorChartBTZ_mem_aeAtlas, sectorChartY*, sectorSmulInl*, exists_eqOn_sectorSmulInl, image_sector_subset_source, paperInY_mem_sectorChartY_source) appears in strict GX/, the rest of the scaffold or lean-causal, so there is no clash. For the curator: the ledger row's notes/scope_notes/blocked_on still say 'two tagged sorrys' and list the sectorChartBTZ atlas membership as a blocker. Both are now out of date and need refreshing when the ledger is rebuilt. This is ledger curation, not a defect in the closer's work."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 1,
+  "axioms": "standard for flat_vertical_noLimit, lem_blunt_spear_of_inextensible and every SectorAtlas declaration probed (sectorChartBTZ_mem_aeAtlas, sectorChartY_mem_e0Atlas, sectorSmulInl_mem, exists_eqOn_sectorSmulInl, sectorChartY_paperInY); lem_blunt_spear has sorryAx, and so does flat_infall_noLimit, which is the only declaration with a sorry (BluntSpear.lean:767, the sole 'declaration uses sorry' warning). Ran lake env lean on SectorAtlas.lean (0 warnings) and BluntSpear.lean (1 sorry warning). The axiom probe was written under the campaign directory and has been deleted."
+ },
+ "findings": []
+}

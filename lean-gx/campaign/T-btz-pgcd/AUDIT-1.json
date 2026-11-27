@@ -1,0 +1,19 @@
+{
+  "target": "T-btz-pgcd",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzprop:pgcd",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row partial (E0 scope, T-btz-scope), label written unbolded at Pgcd.lean:11; correct. GX.Pgcd.btz_pgcd : IsBTZEmbedding i -> IsBTZEmbedding j -> exists X : CommonSubBTZ i j, X.IsMaximal, with instances T2+SC on M1, T2 on M2, e0Groupoid on M1, M2 (all implied by the paper's E>=0-manifolds, l.261), and no GH hypothesis: Lean >= paper at E0. (1) IsMaximal is the strict GX.CommonSubBTZ.IsMaximal (Embeddings.lean:349: every Y has an injective morphism into X, i.e. btzdef:maximal_common_sub_btz_extension l.1332-1337), not a local weaker notion; the proof goes through the strict isMaximal_iff (morphisms are automatically injective). dom i j being the union of domains over which j o i^-1 extends only to an E0-morphism does not trivialise anything: the witness pgcdSub is a genuine CommonSubBTZ whose c-field requires IsBTZEmbedding (pgcdMap i j), proved via pgcdMap_injective (Hausdorff separation + density of Reg M2 + injectivity of j) and isBTZEmbedding_iff_injective; maximality is proved by showing b(Y) is an extension domain with extension c o b^-1 (exists_ext) and that pgcdMap agrees with it (density uniqueness eqOn_of_ext). The structure is not vacuous (CommonSubBTZ.base inhabits it). (2) The l.1376 gap finding is faithful: btzdef:common_sub_btz_extension (l.1306-1313) asks only for a BTZ-extension M0 -> M with two BTZ-embeddings, no global hyperbolicity, so b(Y) need not be one of the GH domains the paper unions; the finding is phrased as a gap, not a refutation, and ghDom_le_dom / ghDom_eq_dom_of_globallyHyperbolicOn reduce it exactly to the sorry. Findings on injectivity (Hausdorff suffices; kernel-checked) and on the second bullet's case split (q may be a BTZ point of i(M0), since M0 may have BTZ points) are accurate. IsGHExtDomain reads l.1352-1353 faithfully. btz_pgcd_gh: extra [ConnectedSpace M1] [ConnectedSpace M2] [SecondCountableTopology M2] are disclosed in the checklist (lines 41-42) and REPORT hypotheses; it rests only on the sorry'd globallyHyperbolicOn_dom, disclosed."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 1,
+    "axioms": "standard for btz_pgcd, pgcdSub, pgcdSub_isMaximal, range_pgcdSub_b, pgcdMap, pgcdMap_injective, isBTZEmbedding_pgcdMap, ghDom_le_dom, globallyHyperbolicOn_ghDom, ghDom_eq_dom_of_globallyHyperbolicOn, exists_ext, isE0Mor_of_subtype; sorryAx only in globallyHyperbolicOn_dom and btz_pgcd_gh (which uses it), as reported. REPORT's axioms table omits globallyHyperbolicOn_dom itself, but names it under sorries: nothing hidden."
+  },
+  "findings": []
+}

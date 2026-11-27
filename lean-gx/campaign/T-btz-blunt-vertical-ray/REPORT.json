@@ -1,0 +1,71 @@
+{
+ "package": "T-btz-blunt-vertical-ray",
+ "target": "T-btz-blunt-vertical-ray",
+ "files": [
+  "scaffold/GXScaffold/BTZ/SectorAtlas.lean (new)",
+  "scaffold/GXScaffold/BTZ/BluntSpear.lean (edited: import, flat_vertical_noLimit proved, docstring)",
+  "scaffold/GXScaffold.lean (one import line)"
+ ],
+ "builds": true,
+ "sorry_count": 1,
+ "axioms": {
+  "GX.E0BluntSpear.flat_vertical_noLimit": "propext, Classical.choice, Quot.sound",
+  "GX.E0.sectorChartBTZ_mem_aeAtlas, GX.E0.sectorSmulInl_mem, GX.E0.exists_eqOn_sectorSmulInl": "propext, Classical.choice, Quot.sound",
+  "GX.E0BluntSpear.lem_blunt_spear": "propext, sorryAx, Classical.choice, Quot.sound (sorryAx only through flat_infall_noLimit)"
+ },
+ "labels": [
+  {
+   "label": "btzlem:blunt_spear_neighborhood",
+   "tex_lines": [
+    693,
+    701
+   ],
+   "status": "stated",
+   "marked": false,
+   "decls": [
+    "GX.E0BluntSpear.lem_blunt_spear",
+    "GX.E0BluntSpear.lem_blunt_spear_of_inextensible",
+    "GX.E0BluntSpear.flat_vertical_noLimit",
+    "GX.E0BluntSpear.flat_infall_noLimit"
+   ],
+   "hypotheses": [
+    {
+     "paper": "(implicit in 'essentially the same' proof) the vertical regular null rays of S0 are future-inextensible in M",
+     "here": "proved (flat case)",
+     "note": "flat_vertical_noLimit is now sorry-free; its InjOn hypothesis is unused (renamed _hinj, statement unchanged)"
+    },
+    {
+     "paper": "(implicit) the in-falling regular null rays of S0 are past-inextensible in M",
+     "here": "tagged sorry",
+     "note": "flat_infall_noLimit, unchanged; target T-btz-blunt-infall-ray"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.E0BluntSpear.flat_infall_noLimit",
+     "obstruction": "unchanged from T-btz-blunt-spear: the developed in-falling ray converges (to the developed axis point), so unboundedness gives nothing; one needs that psi extends through the Minkowski chart at the limit point to a punctured neighbourhood of the axis and that the parabolic holonomy hol(2 pi) between two sector charts cannot be one isometry times the chart at q."
+    }
+   ],
+   "findings": [],
+   "questions": []
+  }
+ ],
+ "extra_decls": [
+  "GX.E0.sectorChartBTZ_mem_aeAtlas",
+  "GX.E0.sectorChartY",
+  "GX.E0.sectorChartY_mem_e0Atlas",
+  "GX.E0.paperInY_mem_sectorChartY_source",
+  "GX.E0.image_sector_subset_source",
+  "GX.E0.sectorChartY_paperInY",
+  "GX.E0.sectorSmulInl",
+  "GX.E0.sectorSmulInl_source",
+  "GX.E0.sectorSmulInl_apply",
+  "GX.E0.sectorSmulInl_mem",
+  "GX.E0.exists_eqOn_sectorSmulInl"
+ ],
+ "kb_proposals": [
+  "Sector charts are in BTZE0's maximal a.e. atlas: GX.E0.sectorChartBTZ_mem_aeAtlas (IsMaximalAEAtlas.mem_of_compatible + btz_chart_eq_smul_btzPaperDev, the argument of chartIso_aeAtlas with an arbitrary sector centre); on Y it is GX.E0.sectorChartY, in e0Atlas.",
+  "Rigidity at a regular limit point in a flat target: GX.E0.exists_eqOn_sectorSmulInl turns a local G-structomorphism f into the inl summand on a preconnected open subset of a slit sector into inl o (g .) o sectorChartY on the whole set (one g); the template is flat_vertical_noLimit (component of W cap sector cap psi^-1(dom kappa) around the ray tail, then the time coordinate of g^-1 . kappa(psi(ray t)) is t + const)."
+ ],
+ "notes": "Only flat_vertical_noLimit changed in BluntSpear.lean (its sorry replaced by a proof; binder hinj renamed _hinj since unused, statement unchanged); flat_infall_noLimit left tagged as is. The row stays partial/stated (E0 scope T-btz-scope, OQ-143, and the in-falling sorry, T-btz-blunt-infall-ray). SectorAtlas.lean certifies no label (no bold mark), imports only GX.BTZ.Causality and is sorry-free; BluntSpear imports it. Built with lake build GXScaffold.BTZ.BluntSpear: only SectorAtlas and BluntSpear rebuilt, no GX.* or mathlib module; one 'declaration uses sorry' warning (flat_infall_noLimit), no other warning."
+}
