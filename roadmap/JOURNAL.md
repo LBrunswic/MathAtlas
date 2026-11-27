@@ -1042,3 +1042,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 297a3491 52e2d485 c3c98639 ce02aa24 (+ statuses)
 - wall time: 22:17–23:05; agents in parallel: 2 closers + builder, 2 auditors
 - next: no ready closer target: plan (rule 2); T-btz-reg-complete-graduate (planned, exclusive) awaits the planner
+
+## 2026-11-27 23:20 · plan · roadmap-planner (rule 2)
+- added 6 (T-btz-linear-part-faithful, T-btz-surface-group-nonmetabelian, T-btz-spear-union-gh ready; T-btz-cauchy-spear-m0, T-btz-cauchy-step2-surface, T-btz-cauchy-step2-max planned); promoted T-btz-richards-split (re-scoped) and T-btz-reg-complete-graduate (master, exclusive) to ready; refined T-btz-cauchy-conservation (only (ii)⇒(i) unblocked by the tail). No new needs-ruling question.
+- gates: roadmap ✓ (265 targets), atlas ✓
+- next: T-btz-linear-part-faithful, T-btz-spear-union-gh, T-btz-richards-split (lean-gx)
