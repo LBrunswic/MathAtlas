@@ -742,3 +742,34 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: 1b8e26a1 166420a2 120d93a8
 - next: T-lad-future-one-connected-node (keeper) with T-abs-merge-stranded-duplicates (closer, exclusive in lean-causal). After those, only two exclusive hoists remain ready, and the proposals of waves 39–41 wait for a planning run.
+
+## 2026-11-27 19:22 · wave of 2 · T-lad-future-one-connected-node, T-abs-merge-stranded-duplicates
+- T-lad-future-one-connected-node (ladder): the node future_one_connected (Causal.Causality.FutureOneConnected), causality sort, two-sided.
+  - Eight consequences: time reversal, causal isomorphisms, reads ≪ only, the equivalence on chronal curves, the curve confinement, and at [future_one_connected, causally_arc_connected] the diamond identifications.
+  - Layer 3 in the comment: the timelike line, Minkowski for every n, charts.
+  - No model in Lean lacks the node, so its 37 new pairs are [[open]], each argued with a model. The spatially compact flat cylinder covers X → future_one_connected; chronology-free causalities, which have the node vacuously, cover the converse. One new pair is implied (→ curves_extend, through the fact).
+  - emit-lean (by the master): Test.lean regenerated (72 derived, 393 not derived), Rules.lean unchanged (f92836fe).
+  - dual_closure.py now refuses: Dual.lean lacks futureOneConnected_of_dual / futureOneConnected_dual. DualTest.lean is unchanged and no gate runs the script; the rule pair is a tactician's follow-up, like T-tac-dual-has-chronal-neighbour.
+- T-abs-merge-stranded-duplicates (abstract, exclusive with the whole lean-causal package leased): three merges, every full name kept, no statement changed.
+  - LemmaK's causallyOpen(_Future)_of_pushUp cite LadderLocal's.
+  - Ppcm's Jplus_inter_Jminus_eq cites CauchySeparation's.
+  - IsCauchySurfaceOn.of_inter_eq moved to Causal.Cauchy, and the CBG twins cite it.
+  - Constant dump: two matchers gone, three module moves, five proof terms changed.
+  - Audit minor (kb/0266 and the index), applied (51cbb004).
+- For the keeper: stale ladder line references after the merges (LadderLocal +4; Ers475CauchyForm −17; CauchySeparation +1; Ppcm; the "re-proof" prose at ≈ :1234–1236), listed in lean-causal/campaign/T-abs-merge-stranded-duplicates/REPORT.json; and isolatedLine_separates' re-pointing (:1805, :2029).
+- For the planner (backlog of waves 39–42):
+  - T-tac-dual-future-one-connected;
+  - T-abs-future-one-connected-vacuous: the chronology-free lemma and five conjoined separations, settling the 18 pairs future_one_connected → X;
+  - T-abs-not-future-one-connected's conjuncts on ℤe₁\𝐌^{1+1};
+  - T-lad-c0-extension-nodes reduced to locally_strongly_causal;
+  - T-loc-minkowski-future-one-connected's provides → ["future_one_connected"];
+  - T-bind-schw-future-one-connected unblocked;
+  - T-abs-dens-separates;
+  - the OQ-145 harc forms;
+  - the stale binder texts (ers :308, schwarzschild :287, NormalForm's "(3.3)");
+  - the local_uniqueness id clash with T-lad-development-nodes.
+- ladder: 26 properties, 27 implications, 83 counterexamples, 100 consequences, 5 edge hypotheses; 392/392 within a sort: 38 implied, 309 fails, 45 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 14, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/btz only, and gate-tests red through it. It is /atlas-team's in-flight lean-gx refactor (it holds lean-gx): GX.PpcmHausdorff declarations moved into its untracked BTZ/Ppcm.lean, so btzprop:ppcm's listed files lag. Not this loop's.
+- commits: f92836fe 51cbb004 8a31de14
+- next: rule 3 gives T-abs-hoist-stranded-homes alone (exclusive). A planning run is due for the backlog above.
