@@ -1,0 +1,53 @@
+{
+  "package": "T-btz-common-reg",
+  "target": "T-btz-common-reg",
+  "files": ["scaffold/GXScaffold/BTZ/CommonReg.lean", "scaffold/GXScaffold.lean (one import line)"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzcor:common_reg",
+      "tex_lines": [1274, 1279],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZCommonReg.common_reg",
+        "GX.BTZCommonReg.equiv_of_isE0Maximal",
+        "GX.BTZCommonReg.isMaximal_regExt",
+        "GX.BTZCommonReg.isMaximal_of_isE0Maximal",
+        "GX.BTZCommonReg.regExt",
+        "GX.BTZCommonReg.connectedSpace_regM"
+      ],
+      "hypotheses": [
+        {"paper": "M, N E0-manifolds (Hausdorff, second countable, l.261)", "here": "carried", "note": "E0 is the paper's own case here; the inputs (prop_cauchy_abs_max, BTZ_ext) are E0-scoped (T-btz-scope)"},
+        {"paper": "(none; l.261 does not require connected)", "here": "strengthened", "note": "M, N connected added: prop_cauchy_abs_max_of_cauchyCompact_e0 is for connected M (DEC-125 (e)) and GX.BTZMax.equivalent_of_isMaximal needs Reg M connected (OQ-150 (b))"},
+        {"paper": "globally hyperbolic", "here": "carried", "note": ""},
+        {"paper": "Cauchy-maximal", "here": "carried", "note": "IsE0CauchyMaximal"},
+        {"paper": "Cauchy-compact", "here": "carried", "note": "E0AbsMax.E0CauchyCompact (compact acausal Cauchy surface)"},
+        {"paper": "reg(M) ≃ reg(N)", "here": "weakened", "note": "a bijective E0-morphism Reg M → Reg N (open-set structure E0LM.e0RegM); its inverse is then an E0-morphism"},
+        {"paper": "conclusion M ≃ N", "here": "carried, strengthened", "note": "a homeomorphism F, E0-morphism both ways, with F ∘ val = val ∘ φ (extends the given isomorphism)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.1278: the proof goes through the existence of BTZext(reg(M)) (Theorem theo:BTZ_ext), whose Lean form rests on the named cited input RichardsInput (Richards' theorem, l.1544–1546). Existence is not needed: M (with Reg M ↪ M) and N (with Reg M ≃ Reg N ↪ N) are already two maximal globally hyperbolic BTZ-extensions of Reg M, and the uniqueness half of theo:BTZ_ext alone (GX.BTZMax.equivalent_of_isMaximal, RichardsInput-free) identifies them. The corollary is therefore proved with no cited input.",
+        "BTZ_1.tex l.1278: « by Remark rem:reg_GH, reg(M) and reg(N) are globally hyperbolic » is not used by the Lean proof: GX.BTZMax.GHExt asks the extension, not the extended manifold, to be globally hyperbolic. It is only needed if one wants BTZext(reg(M)) to exist (the theorem's hypothesis l.1269).",
+        "BTZ_1.tex l.1278 « In particular, M and N are BTZ-maximal » is a one-line consequence of E_{≥0}-maximality (GX.BTZCommonReg.isMaximal_of_isE0Maximal) but uses that every globally hyperbolic BTZ-extension of a connected Reg M is connected (density of the image), so that the connected-target maximality of DEC-125 (e) applies.",
+        "The Lean conclusion is stronger than printed: the isomorphism M ≃ N extends the given isomorphism reg(M) ≃ reg(N) (it is the unique such extension, by density). This is what the headline btzthm:princ (l.1650–1655) needs for the injectivity of Reg."
+      ],
+      "questions": [
+        "Connectedness (OQ-150 (b), OQ-142 (b)): l.261 does not require E0-manifolds connected; the corollary is proved for connected M, N. Reading taken: connected, as prop_cauchy_abs_max is in Lean (DEC-125 (e)). A componentwise form is not attempted.",
+        "« reg(M) ≃ reg(N) » (l.1275): read as an isomorphism of E0-manifolds (a bijective IsE0Mor between the open sets e0RegM, OQ-142 (a)), not as an isometry of the flat spacetimes e0RegMFlat; the two should agree but the bridge is not formalized here. In the E0 scope reg = reg_{>0}."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZCommonReg.isMaximal_of_isE0Maximal",
+    "GX.BTZCommonReg.connectedSpace_regM"
+  ],
+  "kb_proposals": [
+    "btzcor:common_reg needs no RichardsInput: an E0-maximal M is itself a maximal GHExt of Reg M (GX.BTZCommonReg.isMaximal_regExt), and GX.BTZMax.equivalent_of_isMaximal does the rest; bridge E0AbsMax.IsE0Maximal → AbstractDev.IsMaximal is GX.BTZCommonReg.isMaximal_of_isE0Maximal.",
+    "A bijective IsE0Mor F is a homeomorphism via (Equiv.ofBijective F hb).toHomeomorphOfContinuousOpen with isOpenMap_of_isE0Mor; its inverse is IsE0Mor by GX.isE0Mor_inv_of_bijective (mathlib has no Homeomorph.homeomorphOfContinuousOpen, despite its docstring)."
+  ],
+  "notes": "Sorry-free, axioms standard. lake build GXScaffold.BTZ.CommonReg built only this module (8754 jobs, nothing upstream rebuilt). The module imports the scaffold MaxExtension, so it is a scaffold module and graduates with it. Unmarked: M, N connected added and the E0 inputs are partial (T-btz-scope); the dispatch's expected outcome (row partial) holds."
+}

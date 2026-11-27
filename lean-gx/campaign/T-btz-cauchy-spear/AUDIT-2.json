@@ -1,0 +1,21 @@
+{
+ "target": "T-btz-cauchy-spear",
+ "auditor_round": 2,
+ "verdict": "clean",
+ "labels": [
+  {
+   "label": "btzthm:BTZ_Cauchy-completness",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Row still partial and unmarked (no **`label`** in the module docstring), which is correct: two tagged sorrys, E0 scope, Step 1 of (i) => (iii) only. The Lean statements match what AUDIT-1 describes. cauchy_spear takes Causal.Flat.MGH N, Causal.Flat.IsCauchyComplete 2 N, E : BTZMax.GHExt (FlatE0 N) with IsMaximal, and p in S0 E.N, and concludes there is a q in connectedComponentIn (S0 E.N) p with R U and IsSpearNbhd q R U. bluntSpear_subset_M0 returns v' R' with v <= v', 0 < R' <= R and phi '' bspearY v' R' ⊆ range (j ∘ E.ι). spearInt_subset_range, globallyHyperbolicOn_union, exists_spearNbhd_of_subset, causallyConvexIn_range and exists_cauchyMaximalExt have the hypotheses and conclusions AUDIT-1 analysed, with no added hypothesis. All three AUDIT-1 points are resolved. (1) REPORT findings[3] is now a harmless notational slip, with the correct reason: every BTZ line of M2 meets Sigma_1 ⊂ M1 and M1 is causally convex in M2. The old questions[0] is gone; the two remaining questions are the Lipschitz reading and the IsMaximal reading, both legitimate. The bluntSpear_subset_M0 docstring (l.152-157) gives the same correct explanation. (2) REPORT findings[0] and the globallyHyperbolicOn_union docstring and SCOPE now call l.1604 a missing justification. (3) The three docstrings cite BTZ_1.tex:1604. No 1605 or 1606 citation remains, and the l.1604 sentences are on that line. No wording left in the file or the REPORT states a false finding."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 2,
+  "axioms": "standard plus sorryAx through the two tagged sorrys only. Re-run on 2026-11-27: cauchy_spear, bluntSpear_subset_M0, spearInt_subset_range and globallyHyperbolicOn_union use [propext, sorryAx, Classical.choice, Quot.sound]. exists_cauchyMaximalExt, exists_spearNbhd_of_subset, causallyConvexIn_range and spearIntY use [propext, Classical.choice, Quot.sound]. This is unchanged from AUDIT-1. `taskset -c 0-11 lake build GXScaffold.BTZ.CauchySpear` succeeded. `lake env lean scaffold/GXScaffold/BTZ/CauchySpear.lean` gives only the two 'declaration uses sorry' warnings, at l.158 (bluntSpear_subset_M0) and l.168 (globallyHyperbolicOn_union), both tagged SORRY(btzthm:BTZ_Cauchy-completness). There are 5 textual 'sorry' occurrences: 2 tactics and 3 in docstring prose. The probe was written under the campaign directory and then deleted."
+ },
+ "findings": [],
+ "scope": "git status --short lean-gx: the only paths are this target's CauchySpear.lean and its campaign directory, plus the concurrent CommonReg and LengthCompare lanes and the shared GXScaffold.lean import file, as at AUDIT-1. Nothing new is out of scope.",
+ "docstring_contract": "The header quote, the step-by-step proof, the hypothesis checklist (E0 and Lipschitz readings flagged with a warning sign), SCOPE (both sorrys and their obstructions, l.1604 called a missing justification) and provenance are all present and true. Nit, no finding: the REPORT 'axioms' field lists sorryAx only for cauchy_spear and spearInt_subset_range and leaves out the two sorry-bearing declarations themselves. That is incomplete but not false."
+}

@@ -1,0 +1,21 @@
+{
+  "target": "T-btz-common-reg",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzcor:common_reg",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against BTZ_1.tex l.1274-1279. GX.BTZCommonReg.common_reg assumes M, N T2, second countable, E0-charted with the e0Groupoid (the paper's E0-manifold, l.261), globally hyperbolic, IsE0CauchyMaximal, E0CauchyCompact (compact acausal Cauchy surface), and a bijective IsE0Mor phi : e0RegM M -> e0RegM N. It concludes a homeomorphism F : M ≃ₜ N that is an E0-morphism both ways and satisfies F ∘ val = val ∘ phi, which is stronger than 'M ≃ N'. The one added hypothesis, ConnectedSpace M and N, is in the checklist (⚠ strengthened) and in REPORT (OQ-150 (b), DEC-125 (e)), and the row is partial and unmarked. Reading 'reg(M) ≃ reg(N)' as a bijective IsE0Mor is no narrower than an isomorphism, because the inverse is automatically an E0-morphism (isE0Mor_inv_of_bijective). The open-set versus e0RegMFlat reading is disclosed (OQ-142 (a)). The module docstring names the label without the ** mark, inside the first 4000 chars; the bold in the declaration docstring at l.144 is followed by '(unmarked: ...)', the same pattern MaxExtension.lean uses, so it is not a module-docstring mark. The bridge isMaximal_of_isE0Maximal is sound and not a tautology. IsE0Maximal (AbsMax.lean:1738) quantifies over T2, connected, second-countable, GH targets with the e0Groupoid. Y.N, an E0Mfd, supplies T2, second countability and the groupoid; connectedness comes from BTZMax.connectedSpace_N (dense image of a connected A); GH comes from Y.gh. So f is bijective, its inverse is an E0-morphism, hence a BTZ-embedding over A, and that is IsMaximal (AbstractDev.lean:173). The [ConnectedSpace E.N] argument is redundant given [ConnectedSpace A] and connectedSpace_N, but harmless; both call sites supply it. RichardsInput appears nowhere upstream. equivalent_of_isMaximal (MaxExtension.lean:503) takes only [ConnectedSpace M] and two IsMaximal hypotheses and goes through isUniversal_of_isMaximal / Ppcm.btz_ppcm / uniqueMorphisms, not btz_ext. RichardsInput is a Prop def, not an axiom, so it could only enter as a hypothesis, and the elaborated type of common_reg (#check) has none. Findings: (1) BTZext existence at l.1278 is unnecessary. This is true: M with Reg M ↪ M, and N with Reg M ≃ Reg N ↪ N, are two maximal GHExt of Reg M, and uniqueness identifies them. It is a proof-economy remark, not a claimed error. (2) rem:reg_GH is unused. This is true: GHExt asks only the extension to be GH. (3) E0-max ⇒ BTZ-max needs connectedness of extensions. Accurate. (4) The conclusion extends phi. Accurate, by the hFc component of extMor."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/CommonReg.lean: no output, no errors. grep -c sorry = 0. #print axioms on common_reg, equiv_of_isE0Maximal, isMaximal_of_isE0Maximal, isMaximal_regExt, connectedSpace_regM: [propext, Classical.choice, Quot.sound] each. The probe campaign/T-btz-common-reg/Probe_audit.lean was written and then deleted."
+  },
+  "scope": "git status --short: the target's own changes are the one import line in lean-gx/scaffold/GXScaffold.lean, the new lean-gx/scaffold/GXScaffold/BTZ/CommonReg.lean and lean-gx/campaign/T-btz-common-reg/. Every other modified or untracked path (lean-causal campaigns and scaffold files, BTZ/LengthCompare.lean, GXScaffold.lean, roadmap files, restatement registers) was already in the session's starting snapshot and belongs to other loops or closers.",
+  "findings": []
+}

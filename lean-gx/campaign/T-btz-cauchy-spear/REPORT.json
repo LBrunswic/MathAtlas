@@ -1,0 +1,91 @@
+{
+ "target": "T-btz-cauchy-spear",
+ "package": "T-btz-cauchy-spear",
+ "files": [
+  "scaffold/GXScaffold/BTZ/CauchySpear.lean"
+ ],
+ "builds": true,
+ "sorry_count": 2,
+ "axioms": "cauchy_spear, spearInt_subset_range: propext, Classical.choice, Quot.sound, sorryAx (through the two tagged sorrys); exists_cauchyMaximalExt, exists_spearNbhd_of_subset, causallyConvexIn_range: standard axioms only",
+ "labels": [
+  {
+   "label": "btzthm:BTZ_Cauchy-completness",
+   "tex_lines": [
+    1582,
+    1637
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.BTZCauchySpear.cauchy_spear",
+    "GX.BTZCauchySpear.exists_cauchyMaximalExt",
+    "GX.BTZCauchySpear.bluntSpear_subset_M0",
+    "GX.BTZCauchySpear.spearInt_subset_range",
+    "GX.BTZCauchySpear.globallyHyperbolicOn_union",
+    "GX.BTZCauchySpear.exists_spearNbhd_of_subset",
+    "GX.BTZCauchySpear.causallyConvexIn_range",
+    "GX.BTZCauchySpear.spearIntY"
+   ],
+   "scope": "Step 1 of (i) => (iii) only (l.1598-1604), for E0-manifolds; Step 2 is T-btz-cauchy-conservation.",
+   "hypotheses": [
+    {
+     "paper": "E_{>=0}-manifolds",
+     "here": "strengthened",
+     "note": "E0 only (T-btz-scope)"
+    },
+    {
+     "paper": "M0 = Reg_{>0}(M) a GH Cauchy-maximal E_{>0}-manifold (l.1595)",
+     "here": "carried",
+     "note": "N : Causal.Flat.FlatSpacetime 2 with Causal.Flat.MGH N, as an E0-manifold through GX.FlatE0 (OQ-142 (f)); the form prop_reg_complete proves"
+    },
+    {
+     "paper": "M0 Cauchy-complete (l.1595)",
+     "here": "carried",
+     "note": "read Causal.Flat.IsCauchyComplete 2 N (DEC-31/35, spacelike Lipschitz), the form prop_reg_complete proves; not the 'smooth' one of l.227 (OQ-142 (e))"
+    },
+    {
+     "paper": "M1 the maximal BTZ-extension of M0 (l.1596)",
+     "here": "carried",
+     "note": "any Causal.AbstractDev.IsMaximal GX.BTZMax.GHExt of M0 (OQ-150 (a)); no RichardsInput"
+    },
+    {
+     "paper": "M2 the Cauchy-maximal extension of M1 (l.1596)",
+     "here": "carried",
+     "note": "constructed by CBG (exists_cauchyMaximalExt), IsE0CauchyMaximal proved"
+    }
+   ],
+   "sorries": [
+    {
+     "decl": "GX.BTZCauchySpear.bluntSpear_subset_M0",
+     "obstruction": "l.1601-1604: that the regular part of a sub-spear of M2's spear at a BTZ point of M1 lies in M0. The printed route (Sigma_0 is a Cauchy surface of N := (M0 \\ J+(C')) u reg(Int S \\ J-_S(C'')) by 'a simple analysis using lem:intersect_number_complete', then N subset M0 by Cauchy-maximality) is not printed in detail; it applies lem:blunt_spear_neighborhood to Sigma_0 before reg(S) subset M0 is known (OQ-143 (e)); and the strict lem_surface_complete_two needs a C1 graph, which the Lipschitz reading of Cauchy-complete does not supply"
+    },
+    {
+     "decl": "GX.BTZCauchySpear.globallyHyperbolicOn_union",
+     "obstruction": "l.1604 asserts 'M1 u Int(S1) is a globally hyperbolic BTZ-extension of M1' without proof; an open subset of the GH M2 need not be GH. Causal convexity of M1 u Int(S1) in M2 needs that the causal past of a BTZ point of Int(S1) is the part of the chart's axis below it (Causal.SingularFlatAxioms.Jminus_eq_image matched with the axis parametrization of S1's chart), not in the library"
+    }
+   ],
+   "findings": [
+    "BTZ_1.tex:1604 ('Notice M_1 u Int(S_1) is a globally hyperbolic BTZ-extension of M_1'): a missing justification, not an error. Global hyperbolicity is asserted without proof. An open subset of the globally hyperbolic M_2 is globally hyperbolic when it is causally convex, and causal convexity here needs the causal past of the BTZ points of Int(S_1) to stay on S_1's axis. Left as a tagged sorry.",
+    "BTZ_1.tex:1604 ('Therefore, every BTZ-line of M_1 admits a spear neighborhood'): Int(S_1) subset M_1 does not by itself give a spear of M_1, since the vertex p' of S_1 is on the boundary of Int(S_1). One shrinks to a spear of higher vertex and smaller radius inside Int(S_1), and checks it is around the same BTZ line of M_1 as p. That last point uses the causal convexity of M_1 in M_2, which the paper does not mention. Proved (exists_spearNbhd_of_subset, causallyConvexIn_range).",
+    "BTZ_1.tex:1601 (with OQ-143 (e), already recorded): lem:blunt_spear_neighborhood is applied to Sigma_0 in M_0 with the spear of M_2 from lem:tube before reg(S) subset M_0 is established (l.1604). Not formalized.",
+    "BTZ_1.tex:1600 vs l.1598, a harmless notational slip: the proof's 'Delta a BTZ-line of M_2' is a line of M_1 read in M_2. Every BTZ line of M_2 meets Sigma_1 (a Cauchy surface of M_1, hence of its Cauchy extension M_2), and M_1 is causally convex in M_2, so the BTZ lines of M_1 and M_2 correspond one to one."
+   ],
+   "questions": [
+    "'Cauchy-complete' for M_0 (l.1595): the Lipschitz form of DEC-31/35 (what prop_reg_complete proves for Reg M) or the smooth form of l.227 (what lem:surface_complete needs at l.1601)? Reading taken: the Lipschitz form Causal.Flat.IsCauchyComplete 2, so that (ii) => (i) and Step 1 compose; it makes the core's use of lem_surface_complete_two unavailable as formalized.",
+    "'M_1 the maximal BTZ-extension' (l.1596): read as any IsMaximal GHExt (OQ-150 (a)), so no RichardsInput is needed for Step 1."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.BTZCauchySpear.exists_cauchyMaximalExt",
+  "GX.BTZCauchySpear.causallyConvexIn_range",
+  "GX.BTZCauchySpear.exists_spearNbhd_of_subset"
+ ],
+ "kb_proposals": [
+  "The Cauchy-maximal extension of a GH E0-manifold as a bundled E0Mfd with IsE0CauchyMaximal is GX.BTZCauchySpear.exists_cauchyMaximalExt (e0_cbg_isETTMaximal plus composition of Cauchy embeddings); reuse it rather than unpacking Causal.CBG.Dev.",
+  "The image of a Cauchy embedding of E0-manifolds is causally convex: GX.BTZCauchySpear.causallyConvexIn_range (causallyConvexIn_of_isCauchySurfaceOn with e0_sfa_of_globalBTZ and e0_curvesExtend).",
+  "BTZ-maximality as surjectivity: corestrict j : M1 -> M2 to an open Z with Z \\ range j in sing_0, it is a BTZ-embedding (isE0Mor_corestrict_iff, mem_S0_iff_of_isE0Mor (isE0Mor_val Z)); a GH Z makes it an extMor and BTZMax.isInextensible_of_isMaximal makes it onto (spearInt_subset_range). Only GH of Z is the work."
+ ],
+ "notes": "Only new files: scaffold/GXScaffold/BTZ/CauchySpear.lean and campaign/T-btz-cauchy-spear/REPORT.json; one import line appended to scaffold/GXScaffold.lean after the CommonReg line. lake build GXScaffold.BTZ.CauchySpear succeeded with nothing upstream rebuilt. The row stays partial: two tagged sorrys, E0 scope, readings OQ-142 (e)(f), OQ-143 (e), OQ-150 (a).",
+ "audit": "AUDIT-1 (MAJOR, wording only) addressed. (1) The l.1598/l.1600 finding is rewritten as a harmless notational slip, and the question about it is dropped. (2) The l.1604 global-hyperbolicity finding is labelled a missing justification. (3) The docstrings of globallyHyperbolicOn_union, spearInt_subset_range and exists_spearNbhd_of_subset now cite l.1604 instead of l.1605/l.1606; cauchy_spear's range is now l.1595-1604. No Lean statement changed; lake env lean is clean apart from the two tagged sorrys."
+}

@@ -1,0 +1,40 @@
+{
+ "target": "T-btz-cauchy-spear",
+ "auditor_round": 1,
+ "verdict": "major",
+ "labels": [
+  {
+   "label": "btzthm:BTZ_Cauchy-completness",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Row partial, unmarked (no **`label`** in the docstring); correct, since there are two tagged sorrys, the scope is E0 and only Step 1 of (i) => (iii) (l.1598-1604) is covered. cauchy_spear's hypotheses are an arbitrary flat N with Causal.Flat.MGH N and Causal.Flat.IsCauchyComplete 2 N (the DEC-31/35 Lipschitz reading, disclosed as OQ-142 (e)), and E any IsMaximal GHExt of FlatE0 N (OQ-150 (a)). There is no RichardsInput, and M2 is constructed, not assumed. That is at least as general as M0 = Reg M. The conclusion is that every p in sing0(E.N) gets a library IsSpearNbhd q R U (a non-vacuous structure: closed image of spearY under an injective E0-morphism chart), with q in connectedComponentIn (S0 E.N) p, i.e. on p's BTZ line of M1. That is the heading of Step 1 (l.1598). Faithful under the disclosed E0 and Lipschitz readings. Both sorrys are tagged SORRY(btzthm:BTZ_Cauchy-completness) with a specific obstruction, per CAMPAIGN.md l.56-59. bluntSpear_subset_M0 is plausibly true. The paper's N ⊂ M0 argument uses only the Cauchy-maximality of M0 and a spear of M2, and neither BTZ-maximality of M1 nor Cauchy-maximality of M2 is needed. Fixing the chart phi rather than re-choosing it by lem:add_BTZ_param is harmless, because the shrink v' >= v, R' <= R is existential and E0 transition maps preserve the axis and r. globallyHyperbolicOn_union is plausibly true. It has no hypothesis that the vertex lies in range j, but range j contains a Cauchy surface of Y, which meets the BTZ line, and range j is causally convex; I found no counterexample."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 2,
+  "axioms": "cauchy_spear, spearInt_subset_range, bluntSpear_subset_M0 and globallyHyperbolicOn_union use propext, Classical.choice, Quot.sound and sorryAx. exists_cauchyMaximalExt, exists_spearNbhd_of_subset and causallyConvexIn_range are standard. The imported decls used (BTZMax.isInextensible_of_isMaximal, E0Spear.lem_tube_e0, BTZMax.connectedSpace_N) are standard, so the only sources of sorryAx are the two tagged sorrys. `lake env lean scaffold/GXScaffold/BTZ/CauchySpear.lean`: only the two 'declaration uses sorry' warnings. 5 textual occurrences of 'sorry' in the file: 2 are the tactics, 3 are docstring prose."
+ },
+ "findings": [
+  {
+   "severity": "major",
+   "where": "lean-gx/campaign/T-btz-cauchy-spear/REPORT.json findings[3] and questions[0] (BTZ_1.tex:1598 vs 1600)",
+   "what": "False finding. It says the argument 'yields the M1 statement only' because 'for a line of M2 that does not meet M1, nothing in the argument places Sigma_0 near the spear'. No such line exists. M2 is a Cauchy extension of M1, so the Cauchy surface Sigma_1 of M1 is a Cauchy surface of M2. A BTZ line of M2 is an inextendible causal curve: sing0 is closed and is locally an axis segment continuing both ways. So every BTZ line Delta of M2 meets Sigma_1 ⊂ M1, and the proof uses exactly this when it takes 'p in Delta in the past of Sigma_1' (l.1600). Because M1 is causally convex in M2, Delta ∩ M1 is a single BTZ line of M1. So lines of M2 and of M1 correspond, and the l.1598/l.1600 wording is a harmless notational slip, not a gap. The finding would reach the author as a fact.",
+   "fix": "Rewrite finding[3] as a notational remark: l.1600 says 'BTZ-line of M2', the heading says M1; harmless, since every BTZ line of M2 meets Sigma_1 ⊂ M1 and M1 is causally convex in M2. Drop or rephrase question[0] the same way."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/CauchySpear.lean:166,178,239",
+   "what": "Wrong line citations. The docstrings of globallyHyperbolicOn_union ('BTZ_1.tex:1605'), spearInt_subset_range ('1605–1606') and exists_spearNbhd_of_subset ('1606') point at a blank line (l.1605) and at the Step 2 heading (l.1606). The quoted sentences ('Notice M_1 ∪ Int(S_1) …', 'by BTZ-maximality …', 'Therefore …') are all on l.1604, as the module header itself says.",
+   "fix": "Cite BTZ_1.tex:1604 in the three docstrings."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json findings[0] (BTZ_1.tex:1604)",
+   "what": "Accurate but a gap of detail, not an error. GH of M1 ∪ Int(S1) is asserted ('Notice') with no argument, and an open subset of a GH spacetime need not be GH. The closer's route (causal convexity, from that of M1 and J^- of a BTZ point being its axis below) is the natural proof. The finding should say this is a missing justification, not a false claim, so the author does not read it as a refutation.",
+   "fix": "Label it as an unproved step (gap), not an error."
+  }
+ ],
+ "scope": "git status --short: the target's new files are scaffold/GXScaffold/BTZ/CauchySpear.lean and campaign/T-btz-cauchy-spear/. In lean-gx/scaffold/GXScaffold.lean the CauchySpear import is one line; the CommonReg and LengthCompare lines belong to the other closers. The other modified and untracked paths belong to concurrent lanes and loops (lean-causal, restate registers, roadmaps). Nothing out of scope is attributable to this closer.",
+ "docstring_contract": "Header quote, step-by-step proof, a hypothesis checklist table (E0 and Lipschitz readings flagged with ⚠), SCOPE naming both sorrys and their obstructions, and provenance are all present and true, apart from the minor line citations above."
+}

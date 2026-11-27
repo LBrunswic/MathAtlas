@@ -215,3 +215,11 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0205](entries/0205-inside-namespace-gx-a-bare-minkq-resolve.md) | pitfall | inside namespace GX a bare minkQ resolves to GX.minkQ (on ℝ × ℂ), not Causal.Flat.minkQ; w |
 | [0206](entries/0206-gammalinkcircle-coneangle-eq-h-hd-on-a-c.md) | pitfall | GammaLinkCircle.coneAngle_eq hθ hD on a circle GammaLinkCircle.mk p cs hcs hL times out at |
 | [0207](entries/0207-the-causal-pin-of-lean-gx-is-51cbb00-202.md) | pattern | The Causal pin of lean-gx is 51cbb00 (2026-11-27) |
+| [0208](entries/0208-btzcor-common-reg-needs-no-richardsinput.md) | pattern | btzcor:common_reg needs no RichardsInput |
+| [0209](entries/0209-a-bijective-ise0mor-f-is-a-homeomorphism.md) | pattern | A bijective IsE0Mor F is a homeomorphism via (Equiv.ofBijective F hb).toHomeomorphOfContin |
+| [0210](entries/0210-the-cauchy-maximal-extension-of-a-gh-e0.md) | pattern | The Cauchy-maximal extension of a GH E0-manifold as a bundled E0Mfd with IsE0CauchyMaximal |
+| [0211](entries/0211-the-image-of-a-cauchy-embedding-of-e0-ma.md) | pattern | The image of a Cauchy embedding of E0-manifolds is causally convex |
+| [0212](entries/0212-btz-maximality-as-surjectivity.md) | pattern | BTZ-maximality as surjectivity |
+| [0213](entries/0213-causal-flat-chartsys-2-t-t-reg-m-and-gx.md) | pattern | Causal.Flat.chartSys 2 T (T ⊆ Reg M) and GX.e0SliceSys S agree definitionally on common po |
+| [0214](entries/0214-a-spear-s-rim-is-spearsurgerydatum-rimpt.md) | pattern | A spear's rim is SpearSurgeryDatum.rimPt φ = ψ(τ_Σ(R e^{iφ}), R e^{iφ}) |
+| [0215](entries/0215-the-flat-chart-of-reg-m-along-the-rim-is.md) | pattern | The flat chart of Reg M along the rim is g • nullToMink (btzPaperNull (τ(φ), R, φ + k)) ne |

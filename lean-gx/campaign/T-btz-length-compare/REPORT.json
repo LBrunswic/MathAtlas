@@ -1,0 +1,129 @@
+{
+  "package": "T-btz-length-compare",
+  "target": "T-btz-length-compare",
+  "files": [
+    "scaffold/GXScaffold/BTZ/LengthCompare.lean",
+    "scaffold/GXScaffold.lean (one import line, after GXScaffold.BTZ.RegCompleteCauchy)"
+  ],
+  "imports": "GXScaffold.BTZ.RegCompleteCauchy only (not RegCompleteLength), so T-btz-reg-complete-tail can import this module",
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build GXScaffold.BTZ.LengthCompare (8760 jobs, success; only LengthCompare rebuilt, no warning)",
+  "sorry_count": 0,
+  "axioms": {
+    "GX.pathLength_chartSys_eq_e0SliceSys": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.edist_inducedLength_le_pathLength_e0SliceSys": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.edist_e0SliceSys_le_pathLength_chartSys": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.edist_le_pathLength": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.SpearSurgeryDatum.eq_rimPt": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.SpearSurgeryDatum.pathLength_rimArc": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0Surgery.SpearSurgeryDatum.exists_rimPath": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.edist_rimPt_le": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "tex_lines": [
+        1566,
+        1576
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.chartSys_eq_e0SliceSys",
+        "GX.localDensity_chartSys_eq_e0SliceSys",
+        "GX.locLipAt_chartSys_iff_e0SliceSys",
+        "GX.localLength_chartSys_eq_e0SliceSys",
+        "GX.pathLength_chartSys_eq_e0SliceSys",
+        "GX.exists_liftPath",
+        "GX.exists_lowerPath",
+        "GX.edist_inducedLength_le_pathLength_e0SliceSys",
+        "GX.edist_e0SliceSys_le_pathLength_chartSys",
+        "GX.E0SpearFamily.LFSurgeryData.edist_le_pathLength",
+        "GX.E0Surgery.SpearSurgeryDatum.rimE0",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt",
+        "GX.E0Surgery.SpearSurgeryDatum.rimS",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt_mem",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt_mem_cusp",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt_mem_regM",
+        "GX.E0Surgery.SpearSurgeryDatum.eq_rimPt",
+        "GX.E0Surgery.SpearSurgeryDatum.eventually_regChart_rim",
+        "GX.E0Surgery.SpearSurgeryDatum.localDensity_rim",
+        "GX.E0Surgery.SpearSurgeryDatum.isLocLip_rim",
+        "GX.E0Surgery.SpearSurgeryDatum.rimArc",
+        "GX.E0Surgery.SpearSurgeryDatum.pathLength_rimArc",
+        "GX.E0Surgery.SpearSurgeryDatum.exists_rimPath",
+        "GX.E0Surgery.SpearSurgeryDatum.edist_rimPt_le",
+        "GX.E0SpearFamily.LFSurgeryData.edist_rimPt_le"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_{>=0}-manifold",
+          "here": "strengthened",
+          "note": "E_0 only (T-btz-scope), as in the rest of the row; T2 + connected for the length systems; no second countability needed"
+        },
+        {
+          "paper": "spear neighbourhoods with Sigma's trace a smooth spacelike circle in the shaft (B21 l.1090)",
+          "here": "carried",
+          "note": "E0Surgery.SpearSurgeryDatum; the rim part uses only psi an E0-morphism on W, S's trace the graph of tau_Sigma, the rim G(R,.) = tau_Sigma(R e^{i.}) and G C^1 on {r>0}"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The tool is not printed in the paper: l.1571 says only that the proof of prop:abs_max « applies as is », and B21 l.1093 asserts Sigma* is metrically complete without comparing the induced length of Sigma* with that of Sigma along their common part. Proved here: on points of Sigma* ∩ S (both in Reg M) the two chart systems are literally the same chart of Reg M, so densities, chart-Lipschitz, lengths and path lengths coincide.",
+        "On the rim r = R of a spear the S-length of the arc from angle phi1 to phi2 is exactly R|phi2 - phi1|, whatever tau_Sigma (the flat-chart velocity of phi -> D(tau(phi), R, phi + k) has Minkowski square R^2); so two rim points are at S-distance and at Sigma*-distance <= pi R. This is the estimate step (b) of the comment of LFSurgeryData.exists_isCompact_of_cauchySeq asks for."
+      ],
+      "questions": [
+        "« The length of S » is read as DEC-31's LocalLengthSpace (e0SliceSys S) (BTZ points contribute 0), and « the length of Sigma* » as Causal.Flat.InducedLengthSpace 2 Sigma* in the flat charts of Reg M, as in RegCompleteLength; the comparison is stated for curves with the same points of M (pointwise, near a time, or on an open interval), which is what the tail argument uses."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.continuous_regVal",
+    "GX.E0Surgery.SpearSurgeryDatum.rad_rimE0",
+    "GX.E0Surgery.SpearSurgeryDatum.rimE0_periodic",
+    "GX.E0Surgery.SpearSurgeryDatum.rimE0_mem_spear",
+    "GX.E0Surgery.SpearSurgeryDatum.rimE0_mem_graphSet",
+    "GX.E0Surgery.SpearSurgeryDatum.contDiff_rimFun",
+    "GX.E0Surgery.SpearSurgeryDatum.continuous_rimE0",
+    "GX.E0Surgery.SpearSurgeryDatum.continuous_rimPt",
+    "GX.E0Surgery.SpearSurgeryDatum.rimArc_apply"
+  ],
+  "kb_proposals": [
+    "Causal.Flat.chartSys 2 T (T ⊆ Reg M) and GX.e0SliceSys S agree definitionally on common points (GX.chartSys_eq_e0SliceSys): compare Sigma*- and S-lengths by GX.pathLength_chartSys_eq_e0SliceSys / edist_inducedLength_le_pathLength_e0SliceSys (GXScaffold.BTZ.LengthCompare), never by re-deriving densities.",
+    "A spear's rim is SpearSurgeryDatum.rimPt φ = ψ(τ_Σ(R e^{iφ}), R e^{iφ}); the arc rimArc φ₁ φ₂ has S-length exactly R|φ₂ − φ₁| (pathLength_rimArc), any two rim points are joined in S ∩ cusp by a path of length ≤ π R (exists_rimPath), and LFSurgeryData.edist_rimPt_le gives the Σ*-distance bound.",
+    "The flat chart of Reg M along the rim is g • nullToMink (btzPaperNull (τ(φ), R, φ + k)) near φ₀ (SpearSurgeryDatum.eventually_regChart_rim, from eventually_regChart and arg(e^{i(φ−φ₀)}) = φ − φ₀ via Complex.arg_exp + toIocMod_eq_self)."
+  ],
+  "notes": "No sorry; standard axioms only. The one sorry of GXScaffold.BTZ.RegCompleteLength (LFSurgeryData.exists_isCompact_of_cauchySeq) is NOT closed here (T-btz-reg-complete-tail). No existing file edited except the one import line in scaffold/GXScaffold.lean (the CommonReg/CauchySpear lines there are the sibling closers')."
+}
