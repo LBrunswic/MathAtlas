@@ -3067,8 +3067,8 @@ labels = ["theo:globally_hyperbolic_cauchy_complete_cauchy_maximal"]
 status = "planned"
 owner = "closer"
 priority = 8
-depends = ["T-btz-ledger", "T-gx-causal-pin-bump"]
-evidence = "DEC-208: « T-gx-uniformization-via-btz (gx's BTZ uniformization rewritten as Barbot's Theorem A on Reg M followed by the maximal BTZ-extension, replacing the hand-added singular rays) ». The row is bucket A, closed, by GX.btz_uniformization (GX/BTZ/Uniformization.lean, DEC-28/DEC-129), with the BTZ half-line developed by hand (GX/BTZ/FutureRay.lean, GX.futureRay_null_supset). This target also waits on T-btz-maximal-extension, which the planner writes when T-btz-ledger lands (a close target needs papers/btz's labels); add it to depends then"
+depends = ["T-btz-ledger", "T-gx-causal-pin-bump", "T-btz-maximal-extension", "T-btz-reg-complete"]
+evidence = "DEC-208: « T-gx-uniformization-via-btz (gx's BTZ uniformization rewritten as Barbot's Theorem A on Reg M followed by the maximal BTZ-extension, replacing the hand-added singular rays) ». The row is bucket A, closed, by GX.btz_uniformization (GX/BTZ/Uniformization.lean, DEC-28/DEC-129), with the BTZ half-line developed by hand (GX/BTZ/FutureRay.lean, GX.futureRay_null_supset). This target also waits on T-btz-maximal-extension, which the planner writes when T-btz-ledger lands (a close target needs papers/btz's labels); add it to depends then. Refined 2026-11-27 by the planner, after T-btz-ledger (b3d3b7c): T-btz-maximal-extension and T-btz-reg-complete are added to depends. The gx proof starts « From Theorem 3 of brunswic2021cauchy, the regular part of M is globally hyperbolic, Cauchy-maximal and Cauchy-complete » (RamcovGX.tex l.2378), which is btzprop:reg_complete in the E₀ case. Barbot (GX.e0RegM_holonomy, GX/BTZ/Holonomy.lean) then describes Reg M. M is recovered as BTZext(Reg M), M being BTZ-maximal by prop:cauchy_abs_max as in btzcor:common_reg's proof (BTZ_1.tex l.1277–1280)"
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
 
@@ -3202,11 +3202,11 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["cor:gap-nonneg", "cor:volume"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 8
 depends = ["T-yamabe-closed-leaves"]
-evidence = "papers/yamabe ledger: cor:gap-nonneg (l.234, proof l.242–244) and cor:volume (l.246, proof l.250–257) are untriaged, with no Lean; their deps are prop:csc-yamabe and thm:extremal. The proofs are inequality chains over Y ≤ σ (« EH(Σ_t, g_t) = Y(Σ, [g_t]) ≤ σ(Σ) by definition »; « Dividing by the negative constant R_g = R_{g_hyp} reverses the inequality »). The cited inputs are thm:extremal (Schoen, Obata, Bray–Neves, Anderson; l.207) and Mostow rigidity (l.256). DEC-184 does not name them as externals, so they are carried as hypotheses, as T-syr-cited-steps did, and no mark is claimed"
+evidence = "papers/yamabe ledger: cor:gap-nonneg (l.234, proof l.242–244) and cor:volume (l.246, proof l.250–257) are untriaged, with no Lean; their deps are prop:csc-yamabe and thm:extremal. The proofs are inequality chains over Y ≤ σ (« EH(Σ_t, g_t) = Y(Σ, [g_t]) ≤ σ(Σ) by definition »; « Dividing by the negative constant R_g = R_{g_hyp} reverses the inequality »). The cited inputs are thm:extremal (Schoen, Obata, Bray–Neves, Anderson; l.207) and Mostow rigidity (l.256). DEC-184 does not name them as externals, so they are carried as hypotheses, as T-syr-cited-steps did, and no mark is claimed. Promoted to ready 2026-11-27 by the planner: T-yamabe-closed-leaves is done (502be84; Yamabe.ClosedLeaves, def:yamabe and prop:csc-yamabe partial). The closer takes its readings (OQ-132: Σ connected or not, σ(Σ) over a supplied family) and states the corollaries under them; a corollary that needs Σ connected takes it as a hypothesis and says so"
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
 
@@ -3247,10 +3247,346 @@ stream = "bbs"
 kind = "close"
 paper = "bbs"
 labels = ["bbsrem:cuttachyon2", "bbsrem:however_no_positive_negative"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 9
 depends = ["T-bbs-remark-readings"]
-evidence = "papers/bbs ledger: both rows are blocked_on « no target yet (a § 3 link row, layer L2, in lean-gx by DEC-192) ». Built: HSSingularities.lean sorry-free (T-bbs-hs-link-types: the types by p and the degree), IsPositive (T-bbs-positive-hs-surface), and 𝔢(L) and the HS-surface off its apices (T-bbs-hs-suspension, strict). cuttachyon2's positivity criterion is l.908–913's repelling form, not l.915's. T-bbs-remark-readings proves the two equivalent (its SCOPE (f)), hence the dependency. cuttachyon2 is introduced as « a corollary » of the AdS construction at l.1287–1297 (T-bbs-q8's background). It is stated in dS² alone, so it is formalized there, and the AdS derivation is not claimed. Not in scope: bbsrem:masspositive, far_know_kind_singular, photon and now_allow_ourselves_qualify (physics terminology), and positive_negative2 (the AdS lightray picture of positive_negative, on T-bbs-q8)"
+evidence = "papers/bbs ledger: both rows are blocked_on « no target yet (a § 3 link row, layer L2, in lean-gx by DEC-192) ». Built: HSSingularities.lean sorry-free (T-bbs-hs-link-types: the types by p and the degree), IsPositive (T-bbs-positive-hs-surface), and 𝔢(L) and the HS-surface off its apices (T-bbs-hs-suspension, strict). cuttachyon2's positivity criterion is l.908–913's repelling form, not l.915's. T-bbs-remark-readings proves the two equivalent (its SCOPE (f)), hence the dependency. cuttachyon2 is introduced as « a corollary » of the AdS construction at l.1287–1297 (T-bbs-q8's background). It is stated in dS² alone, so it is formalized there, and the AdS derivation is not claimed. Not in scope: bbsrem:masspositive, far_know_kind_singular, photon and now_allow_ourselves_qualify (physics terminology), and positive_negative2 (the AdS lightray picture of positive_negative, on T-bbs-q8). Promoted to ready 2026-11-27 by the planner: T-bbs-remark-readings is done (fe59a20; the two positivity forms agree in every degree in the hyperbolic setting, OQ-138 (b)). bbsrem:cheminsing (l.1493–1500, a continuous family of singularities from elliptic to light-like to space-like) is not added: « continuous deformation » needs a topology on links that the paper does not give"
 added = "2026-11-25"
+proposed_by = "roadmap-planner"
+
+# ------------------------------------------------------------------ BTZ close targets (DEC-208), the gluing refactor's hub side, HSCausal, Yamabe, the architecture window, GFN appendices (planner, 2026-11-27)
+[[target]]
+id = "T-btz-curation-existing"
+title = "papers/btz curation (no Lean): anchor the untriaged btz rows whose E₀ or model-level Lean already exists in lean-gx (btzlem:liouville, btzprop:isom, btzprop:isom_strong, btzlem:past_BTZ, btzrem:reg_GH, btzprop:FZenon_injectif), each partial with its gap named; give every other untriaged row the btz target that now blocks it"
+stream = "gx"
+kind = "tooling"
+paper = "btz"
+labels = ["btzlem:liouville", "btzprop:isom", "btzprop:isom_strong", "btzlem:past_BTZ", "btzrem:reg_GH", "btzprop:FZenon_injectif"]
+package = "none"
+status = "ready"
+owner = "master"
+priority = 6
+evidence = "papers/btz ledger (b3d3b7c): 36 of 55 rows untriaged, decls 0, though lean-gx has Lean for six of them under gx's names, marked there only as cited B21 results. GX/BTZ/Rigid.lean header: « Cited, unmarked: B21 lem:liouville (BTZ_1.tex:361), B21 prop:isom_strong (BTZ_1.tex:468–475) »; GX.e0_rigid (Rigid.lean:1565), GX.e0_eqOn_of_eqOn_open (:1619), GX.e0_localUnique_sing (:1699, « B21 prop:isom_strong at α = β = 0 »). GX/BTZ/AbsMax.lean:58: « prop:isom near the axis (e0Loop_localForm) ». lem:past_BTZ (a): GX.E0LM.e0_globalBTZ (GX/BTZ/LocalModel.lean:4881, « lem:past_BTZ (a) »); (b) the SingularFlatAxioms lemmas GX.E0AbsMax.notMem_sing_of_lt, lt_reg_of_lt (AbsMax.lean:624, 942). rem:reg_GH: GX.E0AbsMax.globallyHyperbolicOn_reg (AbsMax.lean:917). prop:FZenon_injectif: Causal.Causality.Iplus_injOn_Zplus through GX.isFutureDistinguishing_of_globallyHyperbolic (GX/BTZ/Manifolds.lean:251–255; the printed form is for strongly causal M and both maps, the Lean for GH and I⁺ on Z⁺: the curator records the gap). Every anchor is E₀ or model-level (Y = 𝕄 ⊕ 𝔼₀), narrower than the E_{≥0} statements, so every row is partial and blocked_on T-btz-scope or its own gap (Lean ≥ paper). The rows with no Lean get blocked_on the new targets (T-btz-embeddings, T-btz-pgcd, T-btz-ppcm, T-btz-maximal-extension, T-btz-common-reg, T-btz-reg-complete, T-btz-blunt-spear, T-btz-cauchy-conservation, T-btz-headline). Curation only: papers/btz/certificate/curation.toml and the ledger rebuild"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-embeddings"
+title = "btz § 5, the vocabulary of BTZ-extensions, for E₀-manifolds. BTZ-extensions and BTZ-embeddings (btzdef:btz_extension_btz_embedding): an open embedding of charted E₀-manifolds that is an a.e. E₀-morphism with complement in sing₀. Common sub- and over-BTZ-extensions with their morphisms and the maximal common sub-extension (the five definitions of l.1302–1397). Their API: identity, composition, density of the image, the bridge to AbsMax's open-set form (an open A with Aᶜ ⊆ sing₀), and uniqueness of a BTZ-embedding fixed on the image (Liouville)"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzdef:btz_extension_btz_embedding", "btzdef:common_sub_btz_extension", "btzdef:morphism_common_sub_extension", "btzdef:maximal_common_sub_btz_extension", "btzdef:common_over_btz_extension", "btzdef:morphism_common_over_btz_extension"]
+status = "ready"
+owner = "closer"
+priority = 7
+evidence = "DEC-208 asks for « the maximal BTZ-extension, existence and uniqueness, as an instance of the ETT programme's abstract maximal-extension theorem — BTZ-embeddings as the morphism class ». This target builds that class. BTZ_1.tex l.323–327 (« an embedding ... ι an a.e 𝔼-morphism and such that the complement of the image of ι only contains singular points of type 𝔼₀ ») and l.1288 (« since any 𝔼≥0-manifold is a 3-manifold, an a.e 𝔼-morphism is an embedding if and only if it is injective »; read as an open embedding, the invariance-of-domain step argued, not formalized). lean-gx has BTZ-extensions only in open-set form (GX/BTZ/AbsMax.lean checklist: « BTZ-extension in open-set form (kb/0001) »), with E₀-manifolds as ChartedSpace E0Y, HasGroupoid e0Groupoid, T2, connected, second countable (DEC-66). Uniqueness: GX.e0_eqOn_of_eqOn_open (Rigid.lean:1619). No Lean change is needed in lean-causal: the AbstractDev instance is T-btz-maximal-extension's, after T-gx-causal-pin-bump, so the definitions only keep its shape (a type of developments with carriers and a morphism predicate, Causal/AbstractDev.lean:133–177). E₀-scoped as DEC-116 (b) and DEC-125 (a)(e): every row stays partial and unmarked until T-btz-scope rules; E₀ is the case the headline btzthm:princ needs under either answer. A reading the paper leaves open becomes an OQ row"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-pgcd"
+title = "btz § 5.1, btzprop:pgcd for E₀-manifolds: two globally hyperbolic BTZ-extensions M₀ → M₁, M₀ → M₂ of a globally hyperbolic M₀ have a maximal common sub-BTZ-extension M₁ ∧ M₂, the union of the globally hyperbolic opens of M₁ over which j ∘ i⁻¹ extends to a BTZ-embedding, itself globally hyperbolic"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:pgcd"]
+status = "planned"
+owner = "closer"
+priority = 7
+depends = ["T-btz-embeddings"]
+evidence = "BTZ_1.tex l.1341–1378, the proof in three bullets: φ well defined by density of Reg (« the map φ_M is unique since it continuous and equal to j ∘ i⁻¹ on reg(M) which is dense »), injective by prop:FZenon_injectif (« Since M₁ is globally hyperbolic, it is strongly causal hence x = y »), and globally hyperbolic by diamonds (« J⁺_{M₁}(p) ∩ J⁻_{M₁}(q) is a possibly empty BTZ line segment, hence compact »). Built inputs: GX.e0_eqOn_of_eqOn_open (Rigid.lean:1619), Causal.Causality.Iplus_injOn_Zplus (via Manifolds.lean:251), GX.E0AbsMax.btzExt_causallyConvexIn_of_globallyHyperbolicOn_e0 (AbsMax.lean:1783), lem:past_BTZ's E₀ forms. E₀-scoped (T-btz-scope); partial"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-ppcm-hausdorff"
+title = "btz § 5.2, the Hausdorff half of btzprop:ppcm for E₀-manifolds: the gluing (M₁ ⊔ M₂)/∼ along M₁ ∧ M₂ is Hausdorff. The unseparated set C ⊆ sing₀(M₁) is empty: φ extends over the chart of each point of C by prop:isom_strong and analyticity, M₁ ∧ M₂ ∪ C is open and globally hyperbolic, and the maximality of M₁ ∧ M₂ concludes"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:ppcm"]
+status = "planned"
+owner = "closer"
+priority = 7
+depends = ["T-btz-pgcd"]
+evidence = "BTZ_1.tex l.1415–1500 (the first four bullets of prop:ppcm's proof): « Define C the set of p ∈ M₁ whose image in M₁ ∨ M₂ is unseparated. We shall prove that C is empty »; the chart step « Proposition prop:isom_strong applies thus α = 0 and ψ_{p'} ∘ φ ∘ ψ_p⁻¹ is the restriction of an isomorphism γ_p of 𝔼₀ »; « By analyticity, the 𝔼≥0-morphism φ̄ ... is well defined »; « By maximality of M₁ ∧ M₂, we have C = ∅ ». Built inputs: GX.e0_localUnique_sing (Rigid.lean:1699, prop:isom_strong at α = β = 0), GX.e0_eqOn_of_eqOn_open, the future distinguishing of M₂ (Manifolds.lean:251), lem:BTZext_caus_conv (GX.E0AbsMax.btzExt_causallyConvexIn_iff_e0, AbsMax.lean:1776). The quotient is the half of prop:ppcm that is new; its structure and global hyperbolicity are T-btz-ppcm. Split from prop:ppcm because the proof is two pages and these bullets are the part with no Lean precedent. E₀-scoped; partial"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-ppcm"
+title = "btz § 5.2, btzprop:ppcm for E₀-manifolds, assembled: the Hausdorff gluing M₁ ∨ M₂ carries the E₀-structure of its two pieces, π₁ and π₂ are BTZ-embeddings, M₁ ∨ M₂ is causal and globally hyperbolic, minimal among common over-BTZ-extensions and unique up to equivalence"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:ppcm"]
+status = "planned"
+owner = "closer"
+priority = 7
+depends = ["T-btz-ppcm-hausdorff"]
+evidence = "BTZ_1.tex l.1500–1525 (the last two bullets): « by Lemma lem:BTZext_caus_conv, π_i(M_i) is causally convex in M₁ ∨ M₂ and, by Corollary cor:GH_causal, M₁ ∨ M₂ is causal »; the diamond case analysis through q′ ∈ I⁺(q) ⊂ π₁(M₁). Built inputs: GX.E0AbsMax.cor_GH_causal_e0 and isCausal_of_twoOpens, isCompact_diamond_of_twoOpens, globallyHyperbolic_of_twoOpens (AbsMax.lean:835–908, « the two-open causality and diamond lemmas of Prop 2.17 »), and the push-out atlas E0Pushout (AbsMax.lean:2496, §4b), built for Lemma 2.12's gluing along Reg M and to be generalised or reused here. The paper does not prove minimality and uniqueness separately; they follow from the universal property of the gluing. E₀-scoped; partial"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-maximal-extension"
+title = "btz § 5.3, the maximal BTZ-extension for E₀-manifolds (btzthm:BTZ_ext, its statement of § 5 btzthm:maximal_btz_extension and of the introduction btzthm:globally_hyperbolic_manifolds_exists), as an instance of Causal.AbstractDev: developments the globally hyperbolic BTZ-extensions of M, morphisms the BTZ-embeddings over M. Unique morphisms (Liouville), chains inherit (the union of a coherent chain is a Hausdorff, second countable, globally hyperbolic E₀-manifold), then exists_isMaximal_of_uniqueMorphisms, and uniqueness up to equivalence from btzprop:ppcm"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzthm:BTZ_ext", "btzthm:maximal_btz_extension", "btzthm:globally_hyperbolic_manifolds_exists"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-btz-ppcm", "T-gx-causal-pin-bump"]
+evidence = "DEC-208: « T-btz-maximal-extension (the maximal BTZ-extension, existence and uniqueness, as an instance of the ETT programme's abstract maximal-extension theorem — BTZ-embeddings as the morphism class; a programme binder) ». Causal/AbstractDev.lean: exists_isMaximal (:427), exists_isMaximal_of_uniqueMorphisms (:515), exists_isMaximal_of_chainsInherit (:611), sizeBound_self (:605, the size bound free in the universe of D). It imports Mathlib only, but lean-gx's pin ca2ad78 lacks it, hence T-gx-causal-pin-bump. The paper's route differs: an inductive limit over all BTZ-extensions, right filtered by prop:ppcm (BTZ_1.tex l.1531–1550); AbstractDev goes through Zorn on towers, with the same conclusion. Its two bullets are the inputs of ChainsInherit: global hyperbolicity of a limit (« by Corollary cor:GH_causal, N is causal ... J⁺_N(p) ∩ J⁻_N(q) = J⁺_{M₁}(p) ∩ J⁻_{M₁}(q) which is compact ») and its second countability through Richards' theorem (« By Richards Theorem [MR143186], a surface can only have countably many such ends »). Richards' classification is not in mathlib: the closer carries it as a named cited input, as T-syr-cited-steps did, unless a direct argument is found (btzrem:other_ways_prove_btz names a second route, MR3244277). E₀-scoped as DEC-116 (b)/DEC-125 (e); partial and unmarked until T-btz-scope rules. The programme binder DEC-208 mentions is /ett-programme's, informed by the master"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-common-reg"
+title = "btz § 5, btzcor:common_reg: two globally hyperbolic Cauchy-maximal Cauchy-compact E₀-manifolds with isomorphic regular parts are isomorphic, M ≃ BTZext(Reg M) ≃ BTZext(Reg N) ≃ N"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzcor:common_reg"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-btz-maximal-extension"]
+evidence = "BTZ_1.tex l.1274–1281, a four-line proof: « by Proposition prop:cauchy_abs_max, they are 𝔼≥0-maximal. In particular, M and N are BTZ-maximal. Furthermore, by Remark rem:reg_GH, reg(M) and reg(N) are globally hyperbolic ». Built: GX.E0AbsMax.prop_cauchy_abs_max_e0 (DEC-125 (e): maximality among connected targets, a finding of the gx campaign that the curation carries over) and GX.E0AbsMax.globallyHyperbolicOn_reg (AbsMax.lean:917). This is the injectivity of Reg in the headline's proof (btzthm:princ, l.1650–1655). E₀ is the paper's own case here, but the row's inputs are partial (T-btz-scope), so it stays partial until they close"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-reg-complete"
+title = "btz § 5.4, btzprop:reg_complete for E₀-manifolds: if M is a globally hyperbolic, Cauchy-complete, Cauchy-maximal E₀-manifold, then Reg M is globally hyperbolic, Cauchy-maximal and Cauchy-complete. It generalises lean-gx's Cauchy-compact prop:abs_max, whose proof the paper says « applies as is »"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:reg_complete"]
+status = "ready"
+owner = "closer"
+priority = 7
+evidence = "BTZ_1.tex l.1566–1578: « Global hyperbolicity follows from Remark rem:reg_GH and the proof of Cauchy-completeness of Proposition prop:abs_max applies as is »; Cauchy-maximality by gluing a Cauchy-extension N of M* to M « using Lemma lem:extension_hausdorff », and the Cauchy surface Σ* from lem:curve_extension (ii) and cor:intersect. Built: the compact case GX.E0AbsMax.prop_abs_max_C1 (closed, DEC-125 (e), DEC-107/117), GX.E0Surgery.regM_isCauchyComplete_of_C1 (GX/BTZ/MixedDiamond.lean:969), and lem_extension_hausdorff in exactly the case used here (« M₀ = Reg M, M₂ = N flat GH (sing₀ = ∅) », AbsMax.lean checklist). New: a Cauchy-complete E₀-manifold (l.227: « a smooth spacelike Cauchy-surface Σ ... metrically complete »). The precedents are DEC-31's induced length and DEC-107's C¹ spacelike Cauchy surfaces; any reading beyond them becomes an OQ row. For an E₀-manifold Reg_{>0} M = Reg M (T-btz-scope's question). E₀-scoped; partial. In lean-gx; no dependency on the pin bump"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-blunt-spear"
+title = "btz § 3.1, blunt spear neighbourhoods in the flat case M* = Reg M of an E₀-manifold: btzdef:blunt_spear_neighborhood (an a.e. isomorphism of U* onto reg(J⁺(p) ∩ {r ≤ R}) ⊂ reg(𝔼₀)) and btzlem:blunt_spear_neighborhood (a blunt spear can be shrunk, with the same infimum, so that a Cauchy surface Σ crosses it in its shaft as the graph of a smooth τ_Σ over the punctured disc 𝔻*_R)"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzdef:blunt_spear_neighborhood", "btzlem:blunt_spear_neighborhood"]
+status = "ready"
+owner = "closer"
+priority = 8
+evidence = "papers/btz ledger: btzlem:blunt_spear_neighborhood « T-btz-ledger (2026-11-27): no Lean yet », proved jointly with btzlem:add_BTZ_param (curation: « Proofs of Lemmas lem:add_BTZ_param and lem:blunt_spear_neighborhood (l.719) »), whose Lean exists (btzlem:add_BTZ_param, 2 decls, GX/BTZ/Spear.lean). The blunt form is the same argument on the regular part: BTZ_1.tex l.621–631 (the definition) and l.693–701 (the lemma). It is an input of theo:BTZ_Cauchy-completness Step 1 (« By Lemma lem:blunt_spear_neighborhood, one can reduce the size of S in such a way φ(Σ₀ ∩ S) is the graph of a some function τ₀ : 𝔻*_R → ℝ », l.1600). The definition's « interior dense and locally connected in U » is printed; for E₀, M* is a flat spacetime (no massive particle). E₀-scoped; partial"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-cauchy-spear"
+title = "btz § 5.4, theo:BTZ_Cauchy-completness Step 1 for E₀-manifolds: if M₀ = Reg M is globally hyperbolic, Cauchy-complete and Cauchy-maximal, every BTZ line of M₁ = BTZext(M₀) has a spear neighbourhood. Through the Cauchy-maximal extension M₂ of M₁, lem:tube in M₂, a blunt spear of M₀ by Cauchy-maximality of M₀, and BTZ-maximality of M₁"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzthm:BTZ_Cauchy-completness"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-btz-maximal-extension", "T-btz-blunt-spear", "T-btz-reg-complete"]
+evidence = "BTZ_1.tex l.1596–1606, Step 1: « by Lemma lem:tube there exists S → 𝔼₀ a spear neighborhood of vertex p »; « By Cauchy-maximality of M₀, we deduce that N ⊂ M₀ »; « Notice M₁ ∪ Int(S₁) is a globally hyperbolic BTZ-extension of M₁, by BTZ-maximality of M₁, we deduce that Int(S₁) ⊂ M₁ ». Built: GX.E0Spear.lem_tube_e0, the E₀ forms of add_BTZ_param, surface_complete and intersect_number_complete (papers/btz curation), and the Cauchy-maximal extension of an E₀-manifold through gx's CBG geometry GX.E0CBG.e0Geometry with e0_cbg (GX/BTZ/CBG.lean). Split from the theorem: Step 1 builds the spears and Step 2 (T-btz-cauchy-conservation) uses them. E₀-scoped; partial"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-cauchy-conservation"
+title = "btz § 5.4, theo:BTZ_Cauchy-completness for E₀-manifolds, assembled (and its statement in the introduction): for M globally hyperbolic, (i) Reg M Cauchy-complete and Cauchy-maximal, (ii) some BTZ-extension of M Cauchy-complete and Cauchy-maximal, (iii) BTZext(M) Cauchy-complete and Cauchy-maximal are equivalent. (iii) ⇒ (ii) trivial, (ii) ⇒ (i) by btzprop:reg_complete, (i) ⇒ (iii) by Step 2: a Cauchy surface of M₁ by surgery in the spears of Step 1, then M₂ = M₁"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzthm:BTZ_Cauchy-completness", "btzthm:BTZ_Cauchy-completness_intro"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-btz-cauchy-spear", "T-btz-reg-complete"]
+evidence = "DEC-208: « T-btz-cauchy-conservation (Cauchy-completeness and Cauchy-maximality conserved by BTZ-extension, its three-way equivalence) ». BTZ_1.tex l.1582–1645: « (iii) ⇒ (ii) is trivial and (ii) ⇒ (i) is a consequence of Proposition prop:reg_complete »; Step 2: « Lemmas lem:add_BTZ_param, lem:blunt_spear_neighborhood and lem:curve_extension allow to construct a Cauchy-surface Σ₁ of M₁ by replacing pieces of a complete Cauchy-surface of M₀ inside each spear neighborhood by a compact piece cutting the BTZ line ... Since M₀ is Cauchy-maximal, then M₂* = M₀ ». Built: lem:curve_extension and cor:intersect (E₀, lean-gx, partial). E₀-scoped (for E₀, (i)'s Reg_{>0} is Reg); partial until T-btz-scope rules"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-headline"
+title = "btz's headline btzthm:princ (and its introduction twin): the deformation space of globally hyperbolic Cauchy-maximal E₀-manifolds homeomorphic to Σ × ℝ with s marked singular lines is the tangent bundle of the Teichmüller space of Σ*. Through § 4: admissible representations, the holonomy map (btzprop:holonomy_globally_hyperbolic_cauchy_compact, btzprop:hol_map), its surjectivity by polyhedron gluing (btzprop:surjective), and its injectivity (btzcor:common_reg with Barbot). A campaign, to be scoped and split before any dispatch"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzthm:princ", "btzthm:princ_intro", "btzdef:tangent_translation_part", "btzdef:admissible_representation", "btzprop:holonomy_globally_hyperbolic_cauchy_compact", "btzprop:mr_mr", "btzprop:hol_map", "btzprop:surjective"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-btz-common-reg"]
+evidence = "DEC-208: « the paper's headline (the deformation space of Cauchy-maximal E₀-manifolds with s singular lines ≅ the tangent bundle of the Teichmüller space of Σ*) as a later target ». BTZ_1.tex l.1648–1655: injective by « Corollary cor:common_reg » and « Remark 4.19 of [barbot_globally_2004] », surjective by « Proposition prop:surjective ». Built: Barbot's step for Reg M, GX.e0RegM_holonomy (GX/BTZ/Holonomy.lean: faithful, discrete, torsion-free, a loxodromic element), and the bridge GX.E0Bridge (GX/BTZ/HeadlineBridge.lean). Not built: Teichmüller space and its tangent bundle (not in mathlib); btzprop:mr_mr is a cited identification (Goldman MR762512, Troyanov–Hulin MR1166122); deformation spaces; the polyhedron construction of l.1205–1248. Its scoping will need a ruling on how T T_{g,s} and the deformation space are represented (for instance through admissible representations up to conjugacy, with btzprop:mr_mr as a named cited input). That question is asked when the scoping pass writes it out"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-hcausal-tachyons"
+title = "bbsdef:Hcausal, two of HSCausal's three tagged sorrys: the de Sitter region of 𝔢(L) has no closed causal curve for a space-like circle of degree k (tachyons, k = 2 the paper's case) and for trivial holonomy δᵏ at p ∈ dS². A time function is built on the de Sitter region through the gluing by the holonomy, since no Γ_p-invariant one exists on the developed image ℓ(p)"
+stream = "bbs"
+kind = "close"
+paper = "bbs"
+labels = ["bbsdef:Hcausal"]
+status = "ready"
+owner = "closer"
+priority = 8
+evidence = "lean-gx/scaffold/GXScaffold/BBS/HSCausal.lean:1407 « SORRY(bbsdef:Hcausal): space-like circles of degree k (tachyons ...): the developed image is all of ℓ(p) (range D = ℝP̃¹), so no region of dS² carries a Γ_p-invariant time function ...; a time function on the de Sitter region of 𝔢(L) must be built through the gluing by the hyperbolic holonomy; the paper gives no argument (l.1120–1125 assert the equivalence ...) » and :1409 « trivial holonomy δᵏ at p ∈ dS² ... the same obstruction as for tachyons applies ». T-bbs-hcausal (fe59a20) left them: « 3 tagged sorrys (tachyons, trivial holonomy, the degree of an apex link). The Misner CCC and the causal line types are sorry-free ». bbsdef:Hcausal is blocked_on these sorrys and OQ-139. They are the « if » of isCausalLine_iff, the form proved for singular lines (OQ-139 (e)), so they serve either answer to OQ-139 (e). The paper gives no proof, so the closer may find either statement false; that is then a finding with its refutation in Lean. The third sorry (:1423) is T-bbs-hcausal-apex-degree. The curation of the row is held for the /restate register (T-restate-held-curation)"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-hcausal-apex-degree"
+title = "bbsdef:Hcausal, HSCausal's third tagged sorry: the degree of an apex link is invariant under moved-p HS-isomorphisms (an apex link C′ of a point is isomorphic to L or its antipodal circle through a move q ↦ C.pt), the developing argument left open by HSAntipodal SCOPE (b)"
+stream = "bbs"
+kind = "close"
+paper = "bbs"
+labels = ["bbsdef:Hcausal"]
+status = "blocked"
+owner = "closer"
+priority = 9
+oq = "OQ-139"
+evidence = "lean-gx/scaffold/GXScaffold/BBS/HSCausal.lean:1423 « SORRY(bbsdef:Hcausal): an apex link of a point of 𝒮 is any (Γ_q, ℓ(q))-circle C′ whose 𝔢(C′) is HS-isomorphic near p̄′ to a neighbourhood of the point; that C′ is then isomorphic to L (at p̄) or to its antipodal circle (at −p̄) through a move q ↦ C.pt, and that the degree is invariant under moved isomorphisms, is the developing argument on the punctured neighbourhood left open by HSAntipodal SCOPE (b) ». OQ-139 (c): « Singularity of degree ≥ 4 »: some link at p̄ has degree ≥ 4 ...; an « every link » reading needs the link to be unique up to a moved-p isomorphism (HSAntipodal SCOPE (b)) ». So the sorry is needed only under the « every link » reading. Blocked on OQ-139 until (c) is ruled; OQ-131 (moved-p isomorphisms) bears on it"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-yamabe-conformal-gap"
+title = "Yamabe § 3, rem:conformal-gap over the measured model: δ(Σ) ≤ δ_conf(Σ) := σ^∂(Σ) − Y_[g](Σ), from EH(Σ, g) ≥ Y_[g](Σ) (eq:relative-yamabe), with equality when g has constant scalar curvature, minimal boundary and R_g ≤ 0 (fact (iii))"
+stream = "yamabe"
+kind = "close"
+paper = "yamabe"
+labels = ["rem:conformal-gap"]
+status = "ready"
+owner = "closer"
+priority = 8
+evidence = "papers/yamabe ledger: rem:conformal-gap (Yamabegap.tex l.421–424) untriaged, no Lean. The remark is a two-line inequality: « By eq:relative-yamabe, EH(Σ, g) ≥ Y_[g](Σ), so that δ(Σ) ≤ δ_conf(Σ) := σ^∂(Σ) − Y_[g](Σ), with equality when g has constant scalar curvature, minimal boundary and R_g ≤ 0 (fact (iii) above) ». Built: Yamabe.BoundaryGap (502be84, strict): EH, EHB, Y_[g], YB_[g], σ^∂ and prop:gap-bdry-nonneg's use of fact (iii) = lem:kobayashi. The readings are T-yamabe-boundary-gap's (OQ-133 (a)/(b): the φ class, σ^∂ as an EReal supremum over a supplied parameter set), so the row stays partial with OQ-133 and OQ-93"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-restate-held-curation"
+title = "Curation held for the restatement registers: ett rem:deux_pushup and cexemple:point_transparent (T-ett-gluing-causality, 3f0815d), bbs bbsprop:classising's link half (T-bbs-classising-types, 3a8e7df) and bbsdef:Hcausal (T-bbs-hcausal, fe59a20). Each becomes a strong restatement candidate, so the curation, `restate.py seed` and the register are committed together once /restate releases papers/ett and papers/bbs's registers"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 5
+evidence = "roadmap/JOURNAL.md 2026-11-27 15:20: « Held back: the curation of ett rem:deux_pushup, cexemple:point_transparent and bbs bbsprop:classising. Each becomes a strong restatement candidate, and the ett and bbs registers are held by the live /restate loop. Their Lean is committed; curate them when the registers are free ». 16:00: « Held back for the restatement register (held by /restate): bbsdef:Hcausal's curation, with the three rows of the previous wave ». CLAUDE.md: « a loop that rebuilds a ledger runs restate.py seed <slug> and commits the register with it ». The findings to record: rem:deux_pushup's « neither implies the other » is false (plain ⇒ push-up on T1, REPORT of T-ett-gluing-causality); cexemple:point_transparent per OQ-95's two forms; classising's missing trivial-holonomy type (OQ-135 (a)); Hcausal's « in other words » on non-compact surfaces (OQ-139 (e)). No Lean. Dispatch when `lease.py show` has no live lease on those registers"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-ett-gluing-curation"
+title = "After /ett-programme's strict gluing refactor of lean-causal (DEC-167; programme T-abs-gluing-retype, T-abs-gluing-field): rebuild the ett ledger and curate the rows the refactor changes. prop:GX_espace_temps_topo and the uniqueness of prop:GX_sing_espace_temps_topo, ex:open_subset's second sentence, rem:deux_pushup's refutation, cexemple:point_transparent, defi:causalite, rem:minimalite_non_hereditaire and lem:precausalite_restriction_minimale (DEC-172), and the rows whose witnesses move to the no-gluing notion"
+stream = "ett"
+kind = "tooling"
+paper = "ett"
+labels = ["prop:GX_espace_temps_topo", "prop:GX_sing_espace_temps_topo", "ex:open_subset", "rem:deux_pushup", "cexemple:point_transparent", "defi:causalite", "rem:minimalite_non_hereditaire", "lem:precausalite_restriction_minimale"]
+package = "none"
+status = "blocked"
+owner = "master"
+priority = 6
+oq = "OQ-95"
+evidence = "lean-causal/campaign/T-ett-gluing-causality/REPORT.json, refactor_plan.downstream_rows_that_change: « prop:GX_espace_temps_topo: partial → closed (uniqueness as printed) »; « ex:open_subset: second sentence closed; first sentence stays partial (uniqueness refuted, OQ-107) »; « rem:deux_pushup: ... finding changes ... 'false: plainness implies push-up' »; « cexemple:point_transparent: closed → partial (ETT.tex:478 false in the hereditary reading) or unchanged (M-only) »; « rem:minimalite_non_hereditaire, lem:precausalite_restriction_minimale: about precausalities (DEC-172) ». The refactor's split (design, retype, field) is in programme/roadmap.toml (T-abs-gluing-design, T-abs-gluing-retype, T-abs-gluing-field, all planned, behind OQ-95 and OQ-96), the /ett-programme's package. `depends` cannot name them, since it reads this roadmap only, so this target is blocked on OQ-95, the field's form, and moves when the field lands. ARCHITECTURE.md §5 puts the migration window after this refactor (DEC-211). The ladder and binders are /ett-programme's (T-lad-gluing-reading, T-bind-gluing)"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gx-causal-gluing-bump"
+title = "After lean-causal's gluing field lands (DEC-167; programme T-abs-gluing-field): bump lean-gx's Causal pin past it and supply the gluing field at lean-gx's Causal.Causality construction sites, about nine strict ones (GX/BTZ/Causality.lean's causality, sumCausality, causalityY; GX/BTZ/Manifolds.lean's chartAtlasCausality, e0ManifoldCausality, BTZTildeData.causality; GX/BTZ/Topology.lean's btzJCausality, btzCylCausality; GX/BTZ/CBG.lean's causality) and the scaffold's"
+stream = "gx"
+kind = "tooling"
+package = "lean-gx"
+exclusive = true
+status = "blocked"
+owner = "master"
+priority = 7
+oq = "OQ-95"
+depends = ["T-gx-causal-pin-bump"]
+evidence = "REPORT.json of T-ett-gluing-causality, refactor_plan.downstream_rows_that_change: « ladder / binders / lean-gx: T-lad-gluing-reading, T-bind-gluing; lean-gx pins Causal and must bump after the field lands ». programme/roadmap.toml T-abs-gluing-design (5): « lean-gx (pinned ...) constructs causalities in its BTZ and Lorentz modules; at its next bump they need the field. That is /atlas-team's ». Sites counted by grep of `def ... : Causal.Causality` in lean-gx/GX (2026-11-27): Causality.lean:1114, 1678, 1801; Manifolds.lean:894, 1006, 1563; Topology.lean:2057, 2149; CBG.lean:1914. Proofs of the field come from Causal.GluingGeneric (sums, transport, charted causalities) and Causal.GluingModels, or from causal arc-connectedness. Blocked on OQ-95 (the field's form); it waits on the programme's T-abs-gluing-field, which `depends` cannot name. Exclusive: it rebuilds all of lean-gx"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-arch-rename-tool"
+title = "The mechanical rename tool of ARCHITECTURE.md §4.2: from a map old module/namespace → new, rewrite Lean sources and imports, every curation.toml, binder, ladder witness, roadmap evidence, kb entry and atlas overlay, then check that every name still resolves. A test and a fixture"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 9
+evidence = "ARCHITECTURE.md §4.2: « A mechanical rename tool. It takes a map old module/namespace → new and rewrites Lean sources, imports, every curation.toml, binder, ladder witness, roadmap evidence, kb entry and atlas overlay. It also checks that each name still resolves ». DEC-211: « PLAN NOW, MOVE LATER: the move is one stop-the-world window after the §4 prerequisites (multi-root ledgers, rename tool, pin-bump tool, import-graph gate, per-package leases) ». The other prerequisites have targets (T-arch-multiroot-ledgers, T-arch-pin-bump-tool, T-arch-import-gate); this one had none. CLAUDE.md: « A gate must be able to fail »: the resolution check gets a fixture with a dangling name. It is run on a scratch copy before the window, never on the live tree"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-arch-package-leases"
+title = "Leases per package and sub-package directory (ARCHITECTURE.md §4.5): tools/lease.py takes sub-package paths and refuses overlaps between a package and its sub-packages, and the three loop skills take their leases at that grain"
+stream = "hub"
+kind = "tooling"
+package = "none"
+status = "ready"
+owner = "master"
+priority = 9
+evidence = "ARCHITECTURE.md §4.5: « Leases per package and sub-package directory in tools/lease.py and both loop skills ». DEC-211 lists « per-package leases » among the window's prerequisites. tools/lease.py today: « Paths are repository-relative prefixes; lean-causal holds everything under it ». The skills are .claude/skills/atlas-team, ett-programme and egf-programme. tests/ gets a case for an overlapping sub-package claim"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-arch-move-window"
+title = "The migration window of ARCHITECTURE.md §5, on the author's go-ahead: stop the three loops, create the seven packages and the orbit by git mv in tier order, run the rename tool, switch the ledgers to multi-root with every closure unchanged, re-arm the loops with the new package map"
+stream = "hub"
+kind = "tooling"
+package = "none"
+exclusive = true
+status = "planned"
+owner = "master"
+priority = 10
+depends = ["T-arch-multiroot-ledgers", "T-arch-multiroot-atlas", "T-arch-rename-tool", "T-arch-pin-bump-tool", "T-arch-import-gate", "T-arch-package-leases"]
+evidence = "ARCHITECTURE.md §5: « The trigger is the author's go-ahead, once §4 exists and ETT's gluing refactor (DEC-167) has landed, since that refactor rewrites the same ETT core ». DEC-211, DEC-212. The gluing refactor is programme/roadmap.toml's T-abs-gluing-field, which `depends` cannot name; on this side its follow-ups are T-ett-gluing-curation and T-gx-causal-gluing-bump. When the dependencies are done, the planner moves this target to needs-ruling, with the go-ahead as its question, never to ready. ARCHITECTURE.md §6 lists the author's open questions on names and placement (Causal → ETT?, smooth Lorentzian manifolds, Benzécri's Theorem A, further orbits), to be answered before the window"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gfn-appendix-scope"
+title = "papers/gfnbounds: are its 23 bucket-B rows (appendices C–F: finite chains, replay, PB training, SGD), outside the draft's Lean scope, to be formalized in lean/?"
+stream = "gfn"
+kind = "author"
+status = "needs-ruling"
+owner = "author"
+priority = 8
+question = "papers/gfnbounds (DEC-210) has 23 bucket-B rows, all with in_lean_scope = false in the draft's own ledger, i.e. outside the scope the draft's formalization claims: in app_finit.tex (prop:dual_floor, prop:floor_exact, cor:separation, prop:z_bound, prop:overshoot, prop:blur_vs_drop, prop:shape_cost), app_replay.tex (def:buffer, lem:coverage, prop:backward_replay, prop:stable_uniform, lem:transfer), app_pbtrain.tex (8 rows) and app_sgd.tex (prop:interpolation, prop:additive_floor, prop:buffer_robust). Their scope notes give a route on lean/'s existing layers for each (e.g. prop:overshoot « formalizable today, ~120 lines »). Should /atlas-team formalize them in lean/ (they would then appear certified or partial on the public atlas), or do they stay out of scope as the draft has them?"
+evidence = "papers/gfnbounds/ledger/ledger.json: bucket B 23 rows (app_pbtrain 8, app_finit 7, app_replay 5, app_sgd 3), every one in_lean_scope = false, none with Lean; scope_notes per row, for example prop:z_bound « Steps 0-3 of theo:RL_CV_bound_full with z kept ... ~100 lines, low risk », lem:eq10_occupation « Assembly on Graph/Morozov.lean ... ~60-100 lines ». DEC-210 ledgered the draft « so the atlas shows its statements, Lean status and dependencies like every other paper »; it did not rule its scope. The draft is under ICLR review (decision 16 Dec 2026, T-gfn-ledger's question), and lean/ is the hub package whose gate regenerates lean/docs/ and lean/paper-map.json (CLAUDE.md)"
+added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-gfn-finit-elementary"
+title = "GFN Bounds appendix C, the three low-risk rows on lean/'s built layers, if T-gfn-appendix-scope says yes: prop:z_bound (theo:RL_CV_bound_full's steps 0–3 with z kept, a (1/z + 1/t) variant of Core.tv_le_two_fmL1), prop:overshoot (one-dimensional real analysis) and lem:eq10_occupation (an assembly on Graph/Morozov.lean)"
+stream = "gfn"
+kind = "close"
+paper = "gfnbounds"
+labels = ["prop:z_bound", "prop:overshoot", "lem:eq10_occupation"]
+package = "lean"
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-gfn-appendix-scope"]
+evidence = "papers/gfnbounds ledger scope notes: prop:z_bound « Steps 0-3 of theo:RL_CV_bound_full with z kept: Core.tv_le_two_fmL1 closes at 2Delta/t, so a (1/z + 1/t) variant is needed; general-space wiring as in stable_bound_general. ~100 lines, low risk »; prop:overshoot « Level 0, one-dimensional real analysis (StrictAntiOn/StrictMonoOn and the asymmetry); formalizable today, ~120 lines »; lem:eq10_occupation « Assembly on Graph/Morozov.lean: eq_smul_invProb, lam_eq_visits_div, IsGreen.sum_visits, IsGreen.sum_eq_sigmaBar, IsGreen.snk; ~60-100 lines ». lem:eq10_occupation is in app_pbtrain.tex, the other two in app_finit.tex; they are grouped as the three rows with the shortest routes. A first dispatch to calibrate the rest. lean/'s gate regenerates lean/docs/ and lean/paper-map.json (CLAUDE.md: restore them unless that is the commit's purpose)"
+added = "2026-11-27"
 proposed_by = "roadmap-planner"

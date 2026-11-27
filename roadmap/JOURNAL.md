@@ -881,3 +881,15 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 14:46–16:00 UTC; agents in parallel: 4 closers, 4 audits, one fix round
 - New questions for the author: OQ-136 (« Lorentzian manifold » = locally Lipschitz?), OQ-137 (Brown–York readings; Schwarzschild for N ≠ 3), OQ-138 (the remark's readings), OQ-139 (Hcausal readings, the scope of « in other words »).
 - next: the builder T-atlas-overlay-refresh (due); planner: DEC-208's btz close targets now that papers/btz exists, and the lean-causal gluing refactor. Ready master: T-alexandrov-ledger, T-gx-causal-pin-bump, T-arch-*.
+
+## 2026-11-27 16:20 · plan · roadmap-planner (rule 2: no ready closer left)
+- 22 targets added, 2 promoted, 1 refined (roadmap check: 232 targets, all rules hold).
+  - papers/btz (DEC-208), all E₀-scoped: T-btz-curation-existing (master, ready), T-btz-embeddings, T-btz-reg-complete, T-btz-blunt-spear (closers, ready); T-btz-pgcd → T-btz-ppcm-hausdorff → T-btz-ppcm → T-btz-maximal-extension (with T-gx-causal-pin-bump) → T-btz-common-reg, T-btz-cauchy-spear → T-btz-cauchy-conservation, T-btz-headline (planned). T-gx-uniformization-via-btz now depends on T-btz-maximal-extension and T-btz-reg-complete.
+  - Gluing refactor: its split lives in programme/roadmap.toml (T-abs-gluing-*, /ett-programme's, behind OQ-95/OQ-96); hub follow-ups T-ett-gluing-curation and T-gx-causal-gluing-bump (blocked on OQ-95).
+  - lean-gx: T-bbs-hcausal-tachyons (ready), T-bbs-hcausal-apex-degree (blocked, OQ-139). lean-yamabe: T-yamabe-conformal-gap (ready). Promoted: T-yamabe-gap-corollaries, T-bbs-link-remarks.
+  - T-restate-held-curation (master): the four held rows, once /restate frees the ett and bbs registers.
+  - Architecture: T-arch-rename-tool, T-arch-package-leases (ready), T-arch-move-window (planned). GFN: T-gfn-appendix-scope (needs-ruling), T-gfn-finit-elementary (planned).
+- lean-causal has no ready /atlas-team target: every remaining ETT row waits on an OQ, on the programme's CBG port, or on smooth Lorentzian manifolds.
+- New question for the author: T-gfn-appendix-scope (formalize the 23 bucket-B appendix rows of GFN Bounds in lean/, or keep them out of scope as the draft does?).
+- gates: roadmap ✓, atlas ✓
+- next: a wave of T-btz-embeddings, T-btz-reg-complete, T-bbs-hcausal-tachyons (lean-gx, 3) and T-yamabe-gap-corollaries, T-yamabe-conformal-gap (lean-yamabe), with T-btz-curation-existing (master); the builder T-atlas-overlay-refresh is due.
