@@ -3361,13 +3361,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzcor:common_reg"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-btz-maximal-extension"]
-evidence = "BTZ_1.tex l.1274–1281, a four-line proof: « by Proposition prop:cauchy_abs_max, they are 𝔼≥0-maximal. In particular, M and N are BTZ-maximal. Furthermore, by Remark rem:reg_GH, reg(M) and reg(N) are globally hyperbolic ». Built: GX.E0AbsMax.prop_cauchy_abs_max_e0 (DEC-125 (e): maximality among connected targets, a finding of the gx campaign that the curation carries over) and GX.E0AbsMax.globallyHyperbolicOn_reg (AbsMax.lean:917). This is the injectivity of Reg in the headline's proof (btzthm:princ, l.1650–1655). E₀ is the paper's own case here, but the row's inputs are partial (T-btz-scope), so it stays partial until they close. Promoted 2026-11-28 (planner): T-btz-maximal-extension is done (dc54daa). The corollary needs no RichardsInput: M and N are each a maximal globally hyperbolic BTZ-extension of Reg M ≅ Reg N (prop_cauchy_abs_max_e0 gives their BTZ-maximality, to be bridged to Causal.AbstractDev.IsMaximal over GX.BTZMax.GHExt), and GX.BTZMax.equivalent_of_isMaximal (scaffold MaxExtension.lean:503) makes them equivalent; the T-btz-maximal-extension REPORT notes: « Universality and uniqueness of a maximal extension (isUniversal_of_isMaximal, equivalent_of_isMaximal) do not use RichardsInput; only existence (chainsInherit) does ». Reg M connected, which the uniqueness needs: E0LM.isPreconnected_e0RegM (GX/BTZ/LocalModel.lean:2873). It imports MaxExtension, so it is a scaffold module"
+evidence = "GXScaffold.BTZ.CommonReg: btzcor:common_reg sorry-free without RichardsInput; OQ-152; AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "f48fe4f"
 
 [[target]]
 id = "T-btz-reg-complete"
@@ -3406,13 +3407,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_Cauchy-completness"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-btz-maximal-extension", "T-btz-blunt-spear", "T-btz-reg-complete"]
-evidence = "BTZ_1.tex l.1596–1606, Step 1: « by Lemma lem:tube there exists S → 𝔼₀ a spear neighborhood of vertex p »; « By Cauchy-maximality of M₀, we deduce that N ⊂ M₀ »; « Notice M₁ ∪ Int(S₁) is a globally hyperbolic BTZ-extension of M₁, by BTZ-maximality of M₁, we deduce that Int(S₁) ⊂ M₁ ». Built: GX.E0Spear.lem_tube_e0, the E₀ forms of add_BTZ_param, surface_complete and intersect_number_complete (papers/btz curation), and the Cauchy-maximal extension of an E₀-manifold through gx's CBG geometry GX.E0CBG.e0Geometry with e0_cbg (GX/BTZ/CBG.lean). Split from the theorem: Step 1 builds the spears and Step 2 (T-btz-cauchy-conservation) uses them. E₀-scoped; partial. Promoted 2026-11-28 (planner): its three dependencies are done. M₁ is « the maximal BTZ-extension of M₀ » (l.1594), and Step 1 uses only its BTZ-maximality (« by BTZ-maximality of M₁, we deduce that Int(S₁) ⊂ M₁ », l.1606), so it is stated for any Causal.AbstractDev.IsMaximal GX.BTZMax.GHExt of M₀, with no RichardsInput; btz_ext supplies one under RichardsInput. Located: lem_tube_e0 (GX/BTZ/Spear.lean:4975, needs IsE0CauchyMaximal, applied in M₂), e0_cbg (GX/BTZ/CBG.lean:3495), the strict blunt spear (GX.BTZ.BluntSpear)"
+evidence = "GXScaffold.BTZ.CauchySpear: Step 1 assembled, two tagged sorrys; OQ-152; AUDIT-1 major (wording) fixed, AUDIT-2 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "f48fe4f"
 
 [[target]]
 id = "T-btz-cauchy-conservation"
@@ -3813,12 +3815,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/RegCompleteLength.lean:1258, the comment of the tagged sorry of LFSurgeryData.exists_isCompact_of_cauchySeq: « Owed: the comparison, along a path of Σ* ∩ S, of the induced length of Σ* (chart system of Reg M) with the DEC-31 length of S (e0SliceSys S); neither library has it ». The T-btz-reg-complete-length REPORT (kb_proposals): « the missing tool is the comparison of chartSys lengths on Reg M with e0SliceSys lengths on S along common paths » and « On the rim r = R of a spear the printed E0 metric -2dtau dr + dr^2 + r^2 dtheta^2 is R^2 dtheta^2, whatever the surface: rim arcs have length <= pi R ». Both systems read a regular point in the flat chart of Reg M at a regular point (GX.e0SliceSys_of_mem, GX/BTZ/Uniformization.lean:4016; Causal.Flat.chartSys, lean-causal Causal/Flat/CauchyComplete.lean:511), so the comparison is a congruence of local densities along the path, proved in lean-gx: lean-causal is held by /ett-programme and is not edited. A new scaffold module below RegCompleteLength (it needs SpearFamily's LFSurgeryData and e0SliceSys), so that T-btz-reg-complete-tail imports it. Step 2 of btzthm:BTZ_Cauchy-completness (« This operation preserve metric completeness », l.1625) uses the same comparison. E₀ only; partial (T-btz-scope)"
+evidence = "GXScaffold.BTZ.LengthCompare: length systems agree at common points; rim arcs R|Δφ|; AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "f48fe4f"
 
 [[target]]
 id = "T-btz-reg-complete-tail"
@@ -3827,7 +3830,7 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-btz-length-compare"]

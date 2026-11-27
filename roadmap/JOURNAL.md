@@ -1013,3 +1013,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - New questions for the author: T-btz-headline-repr (the Teichmüller and moduli readings of btzthm:princ, with Goldman–Troyanov–Hulin a named cited input), T-bbs-w4-externals (Poincaré–Hopf, Poincaré–Bendixson and the classification of compact surfaces with boundary as named cited inputs for BBS § 5).
 - gates: roadmap ✓, atlas ✓
 - next: T-btz-length-compare, T-btz-common-reg, T-btz-cauchy-spear (lean-gx), with the builder for lean-gx after the wave.
+
+## 2026-11-28 04:00 · wave of 3 · T-btz-length-compare, T-btz-common-reg, T-btz-cauchy-spear
+- T-btz-length-compare: the tool for Reg M's last sorry, sorry-free: the two length systems are the same chart at common points; rim arcs have length exactly R|Δφ|. Audit minor (docstrings). T-btz-reg-complete-tail promoted to ready.
+- T-btz-common-reg: btzcor:common_reg sorry-free with no RichardsInput (uniqueness of the maximal extension), stronger than printed. Audit clean.
+- T-btz-cauchy-spear: Step 1 of btzthm:BTZ_Cauchy-completness assembled, two tagged sorrys. AUDIT-1 major: a finding (lines of M₁ vs M₂) was wrong; reworded as a notational slip in one round; AUDIT-2 clean. OQ-152.
+- gates: lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check green, hub: make -k check rc 0, no new red (verdict read before the push)
+- commits: f48fe4f c50d506 [+ roadmap/atlas/journal]
+- wall time: 21:00–04:00 UTC; agents in parallel: 3 closers, 4 audits, one fix round
+- New question for the author: OQ-152 (common_reg and Step 1 readings).
+- btz: 42 of 55 rows Lean-stated, all partial until T-btz-scope.
+- next: T-btz-reg-complete-tail, T-btz-line-structure, T-btz-admissible, T-bbs-positive-mass, T-bbs-cheminsing-tidy (lean-gx); the builder for lean-gx.
