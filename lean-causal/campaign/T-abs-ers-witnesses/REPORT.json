@@ -1,0 +1,416 @@
+{
+ "target": "T-abs-ers-witnesses",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/ErsWitnesses.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-ers-witnesses/REPORT.json",
+  "campaign/T-abs-ers-witnesses/Probe.lean",
+  "campaign/T-abs-ers-witnesses/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.ErsWitnesses",
+ "build_result": "Built CausalScaffold.ErsWitnesses (1.3 s), 3135 jobs, no warning. The --no-build dry run (kb/0228) listed only this module as out of date ([3135/3135]), so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes. campaign/T-abs-ers-witnesses/Probe.lean imports the module and runs #check and #print axioms on 29 declarations (output in axioms.txt). Each depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.Ers464WithoutArc, Causal.Ers464SecondCountable, Causal.ErsSecondCountable, Causal.ErsUniqueness, Causal.ErsUnions, Causal.LadderLocal, Causal.NestedCausalities, Causal.InextensibleNestedBasics, Causal.CBG.CausalConvex, Causal.Ladder.Rules. tools/ladder.py model_path is None for each, checked one at a time in memory (kb/0247). No import of Causal.Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat. No metric notion: Metric.ball and Real.ball_eq_Ioo appear only in the proof of oneSidedBoundary_of_ordConnected, as neighbourhoods of a point of ℝ. causal_ladder closes one ladder step (globally_hyperbolic ⇒ is_causal, for Cτ in the three 4.71 witnesses). The optional plane module scaffold/CausalScaffold/Model/ErsWitnessesPlane.lean was not written (not needed: see findings 1 and 2).",
+ "labels": [],
+ "labels_touched": [
+  {
+   "label": "erscor:CorDisCon",
+   "tex_lines": [
+    921,
+    923
+   ],
+   "certifies": "nothing; witnesses only, unmarked"
+  },
+  {
+   "label": "erscor:globally_defined_globally_hyperbolic",
+   "tex_lines": [
+    926,
+    928
+   ],
+   "certifies": "nothing; witnesses only, unmarked"
+  },
+  {
+   "label": "erscor:CorSupLum",
+   "tex_lines": [
+    959,
+    967
+   ],
+   "certifies": "nothing; witnesses only, unmarked"
+  },
+  {
+   "label": "ersthm:ThmNotBlocking",
+   "tex_lines": [
+    1100,
+    1139
+   ],
+   "certifies": "nothing; witnesses only, unmarked"
+  }
+ ],
+ "declarations": [
+  {
+   "name": "Causal.timelikeLine_tarentinOn",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:112",
+   "statement": "(U : Opens ℝ) : timelikeLine.TarentinOn U",
+   "standing": "ℝ, any open set. Helper. The same statement as the sibling's Causal.ErsSCWitness.tarentinOn (scaffold/CausalScaffold/ErsSCWitnesses.lean:107), see notes",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.oneSidedBoundary_of_ordConnected",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:127",
+   "statement": "{U : Opens ℝ} (hU : OrdConnected (U : Set ℝ)) (B : Set ℝ) : Causality.OneSidedBoundary U B",
+   "standing": "ℝ. Helper: a ball around a frontier point meets an order-connected open in an interval",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.real_isPreconnected_inf_of_isCauchySurfaceOn",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:142",
+   "statement": "{C₁ C₂ : Causality ℝ} {U₁ U₂ : Opens ℝ} {S : Set ℝ} : IsPreconnected S → S ⊆ U₁ → S ⊆ U₂ → C₁.IsCauchySurfaceOn U₁ S → C₂.IsCauchySurfaceOn U₂ S → IsPreconnected (U₁ ⊓ U₂ : Set ℝ)",
+   "standing": "ℝ, any two causalities. Finding: two developments of a preconnected S on ℝ meet in a preconnected set",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.real_ers_corollary_4_68_agree",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:157",
+   "statement": "{C C₂ : Causality ℝ} …: the binders of ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc less hdis (hglue, hG, hT, hC₁, hK, hlocal, hstay, hstep), plus hS : IsPreconnected S and hC₂ : C₂.IsCauchySurfaceOn U₂ S ⊢ agree (U₁ ⊓ U₂)",
+   "standing": "ℝ. Finding: in the paper's reading (u₂ a development) 4.68's disagreement is impossible on ℝ",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.sliceRestart_connectedComponentIn_of_le",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:179",
+   "statement": "{M : Type u} [TopologicalSpace M] {D : Causality M} {U₁ U W : Opens M} {S : Set M} {s₀ : M} {Q : M → Prop} : U ≤ U₁ → IsPreconnected (U : Set M) → s₀ ∈ U → D.SliceRestart W S (connectedComponentIn (U₁ ∩ U) s₀) U Q",
+   "standing": "any topological space, no instance",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ers_theorem_4_82_hstep_of_le",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:191",
+   "statement": "(dom : ι → Opens M) (cau : ι → Causality M) (hs₀ : s₀ ∈ S) (i₁ : ι) (hSU : ∀ i, S ⊆ dom i) (hconn : ∀ i, IsPreconnected (dom i)) (hle : ∀ i, dom i ≤ dom i₁) ⊢ the hstep of ers_theorem_4_82_of_sliceRestart",
+   "standing": "any topological space, no instance. Finding: 4.82's conclusion gives its hstep",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ers_theorem_4_82_hstep_iff",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:205",
+   "statement": "the binders of ers_theorem_4_82_of_sliceRestart less hstep ⊢ (hstep) ↔ ∀ i, dom i ≤ dom i₁",
+   "standing": "[T2Space M] [LocallyConnectedSpace M], as the original. Finding: given the other binders, 4.82's hstep is equivalent to its conclusion",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsWitness.data_4_68",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:302",
+   "statement": "the hypotheses of the six 4.68 forms on ℝ, S = {0}, U₁ = ⊤, U₂ = disU₂ = ]-1,1[ ∪ ]2,3[, agree = disAgree (u₁ = 0, u₂ = disSol₂ = 1 on ]2,∞[): GloballyHyperbolicOn ⊤ ∧ TarentinOn ⊤ ∧ IsAcausalOn ⊤ {0} ∧ SplitBy ⊤ {0} ∧ CompactSlabs ⊤ {0} ∧ IsCauchySurfaceOn ⊤ {0} ∧ CausallyArcConnectedOn ⊤ ∧ hlocal ∧ hstay ∧ hstep ∧ ¬ disAgree (⊤ ⊓ disU₂) ∧ ∃ x ∈ ⊤ ⊓ disU₂, 0 ≠ disSol₂ x",
+   "standing": "ℝ, timelike line",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsWitness.restart_premise_4_68",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:357",
+   "statement": "]-1/2,1/2[ is a common development ∧ 1/2 ∈ frontier ]-1/2,1/2[ ∩ (⊤ ⊓ disU₂) ∧ 1/2 ∈ J⁺_ℝ({0}) ∧ IsSpacelikeBoundaryPoint ⊤ {0} (frontier ]-1/2,1/2[) (1/2)",
+   "standing": "ℝ. Shows hstay's and hstep's premises are met (non-vacuity)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsWitness.not_isCauchySurfaceOn_disU₂",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:383",
+   "statement": "(C₂ : Causality ℝ) : ¬ C₂.IsCauchySurfaceOn disU₂ {0}",
+   "standing": "ℝ. Discloses that the 4.68 witness's U₂ is a development for no causality",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_68",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:401",
+   "statement": "¬ IsPreconnected (⊤ ⊓ disU₂ : Set ℝ)",
+   "standing": "witness of ers_corollary_4_68",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_68_eqOn",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:407",
+   "statement": "¬ IsPreconnected (⊤ ⊓ disU₂ : Set ℝ)",
+   "standing": "witness of ers_corollary_4_68_eqOn (u₁ = 0, u₂ = disSol₂)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:415",
+   "statement": "¬ IsPreconnected (⊤ ⊓ disU₂ : Set ℝ)",
+   "standing": "witness of the trade form",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:423",
+   "statement": "¬ IsPreconnected (⊤ ⊓ disU₂ : Set ℝ)",
+   "standing": "witness of the trade form, two functions",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:431",
+   "statement": "¬ IsPreconnected (⊤ ⊓ disU₂ : Set ℝ)",
+   "standing": "witness of the noArc form",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:439",
+   "statement": "¬ IsPreconnected (⊤ ⊓ disU₂ : Set ℝ)",
+   "standing": "witness of the noArc form, two functions",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_69",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:452",
+   "statement": "ErsNoArcWitness.clampAgree ersWitnessIoo",
+   "standing": "witness of ers_corollary_4_69 on ErsNoArcWitness.data (D = timelikeLine), C₂ = timelikeLine, hthrough₂ by inextensibleThrough_of_t1_secondCountable",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_69_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:461",
+   "statement": "ErsNoArcWitness.clampAgree ersWitnessIoo",
+   "standing": "witness of ers_corollary_4_69_secondCountable",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:470",
+   "statement": "ErsNoArcWitness.clampAgree ersWitnessIoo",
+   "standing": "witness of the trade form (harc = timelikeLine_causallyArcConnected)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_71",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:484",
+   "statement": "ErsNoArcWitness.clampAgree (⊤ ⊓ ersWitnessIoo)",
+   "standing": "witness of ers_corollary_4_71: Cτ = C₂ = timelikeLine, hτ by causal_ladder from GloballyHyperbolic, hthroughτ by the curve id (timelikeLine_inextensible_id), honce on {0}, hn₁ hn₂ by InextensibleNestedOn.refl",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_71_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:499",
+   "statement": "ErsNoArcWitness.clampAgree (⊤ ⊓ ersWitnessIoo)",
+   "standing": "witness of ers_corollary_4_71_secondCountable",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:513",
+   "statement": "ErsNoArcWitness.clampAgree (⊤ ⊓ ersWitnessIoo)",
+   "standing": "witness of the trade form",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsWitness.data_4_82",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:563",
+   "statement": "the hypotheses of the five 4.82 forms on ι = Bool, dom82 (true ↦ ]-1,1[, false ↦ ]-1/2,1/2[), cau = timelikeLine, S = {0}, s₀ = 0, i₁ = true: dom82 false < dom82 true ∧ hSU ∧ hmax ∧ hconn ∧ hG ∧ hT ∧ hcauchy ∧ hsplit ∧ hK ∧ hJm ∧ hJp ∧ hSclosed ∧ honesided ∧ hstep",
+   "standing": "ℝ, timelike line",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.ErsWitness.frontier_dom82_true_diff",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:620",
+   "statement": "frontier (dom82 true) \\ closure {0} = {-1, 1}",
+   "standing": "ℝ. Shows honesided's premise is met (non-vacuity)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_theorem_4_82",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:633",
+   "statement": "∀ i, dom82 i ≤ dom82 true",
+   "standing": "witness of ers_theorem_4_82 (the strict original)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_theorem_4_82_of_oneSidedBoundary",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:642",
+   "statement": "∀ i, dom82 i ≤ dom82 true",
+   "standing": "witness of ers_theorem_4_82_of_oneSidedBoundary",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_theorem_4_82_of_sliceRestart",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:650",
+   "statement": "∀ i, dom82 i ≤ dom82 true",
+   "standing": "witness of ers_theorem_4_82_of_sliceRestart",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_theorem_4_82_of_globallyHyperbolicOn",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:658",
+   "statement": "∀ i, dom82 i ≤ dom82 true",
+   "standing": "witness of ers_theorem_4_82_of_globallyHyperbolicOn",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable",
+   "file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:666",
+   "statement": "∀ i, dom82 i ≤ dom82 true",
+   "standing": "witness of the DEC-162 form",
+   "status": "proved"
+  }
+ ],
+ "witness_table": [
+  {
+   "form": "Causal.Causality.ers_corollary_4_68",
+   "form_file_line": "Causal/ErsUniqueness.lean:594",
+   "witness": "Causal.timelikeLine_ers_corollary_4_68",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:401",
+   "data": "ErsWitness.data_4_68: ℝ, timelike line, S = {0}, U₁ = ℝ, U₂ = ]-1,1[ ∪ ]2,3[, u₁ = 0, u₂ = 1 on ]2,∞[ and 0 elsewhere; disagreement at 5/2"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_68_eqOn",
+   "form_file_line": "Causal/ErsUniqueness.lean:610",
+   "witness": "Causal.timelikeLine_ers_corollary_4_68_eqOn",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:407",
+   "data": "ErsWitness.data_4_68: ℝ, timelike line, S = {0}, U₁ = ℝ, U₂ = ]-1,1[ ∪ ]2,3[, u₁ = 0, u₂ = 1 on ]2,∞[ and 0 elsewhere; disagreement at 5/2"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable",
+   "form_file_line": "Causal/Ers464SecondCountable.lean:351",
+   "witness": "Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:415",
+   "data": "ErsWitness.data_4_68: ℝ, timelike line, S = {0}, U₁ = ℝ, U₂ = ]-1,1[ ∪ ]2,3[, u₁ = 0, u₂ = 1 on ]2,∞[ and 0 elsewhere; disagreement at 5/2"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable",
+   "form_file_line": "Causal/Ers464SecondCountable.lean:370",
+   "witness": "Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:423",
+   "data": "ErsWitness.data_4_68: ℝ, timelike line, S = {0}, U₁ = ℝ, U₂ = ]-1,1[ ∪ ]2,3[, u₁ = 0, u₂ = 1 on ]2,∞[ and 0 elsewhere; disagreement at 5/2"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc",
+   "form_file_line": "Causal/Ers464WithoutArc.lean:253",
+   "witness": "Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:431",
+   "data": "ErsWitness.data_4_68: ℝ, timelike line, S = {0}, U₁ = ℝ, U₂ = ]-1,1[ ∪ ]2,3[, u₁ = 0, u₂ = 1 on ]2,∞[ and 0 elsewhere; disagreement at 5/2"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc",
+   "form_file_line": "Causal/Ers464WithoutArc.lean:272",
+   "witness": "Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:439",
+   "data": "ErsWitness.data_4_68: ℝ, timelike line, S = {0}, U₁ = ℝ, U₂ = ]-1,1[ ∪ ]2,3[, u₁ = 0, u₂ = 1 on ]2,∞[ and 0 elsewhere; disagreement at 5/2"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_69",
+   "form_file_line": "Causal/ErsUniqueness.lean:633",
+   "witness": "Causal.timelikeLine_ers_corollary_4_69",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:452",
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_69_secondCountable",
+   "form_file_line": "Causal/Ers464SecondCountable.lean:519",
+   "witness": "Causal.timelikeLine_ers_corollary_4_69_secondCountable",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:461",
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable",
+   "form_file_line": "Causal/Ers464SecondCountable.lean:537",
+   "witness": "Causal.timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:470",
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable_noArc",
+   "form_file_line": "Causal/Ers464WithoutArc.lean:294",
+   "witness": "Causal.ErsNoArcWitness.conclusions (4th conjunct; Causal/Ers464WithoutArc.lean:549) and Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc (:605). Already in the library, not restated",
+   "witness_file_line": null,
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_71",
+   "form_file_line": "Causal/ErsUniqueness.lean:662",
+   "witness": "Causal.timelikeLine_ers_corollary_4_71",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:484",
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine; Cτ = C₂ = timelikeLine, nestings by InextensibleNestedOn.refl"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_71_secondCountable",
+   "form_file_line": "Causal/Ers464SecondCountable.lean:586",
+   "witness": "Causal.timelikeLine_ers_corollary_4_71_secondCountable",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:499",
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine; Cτ = C₂ = timelikeLine, nestings by InextensibleNestedOn.refl"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable",
+   "form_file_line": "Causal/Ers464SecondCountable.lean:610",
+   "witness": "Causal.timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:513",
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine; Cτ = C₂ = timelikeLine, nestings by InextensibleNestedOn.refl"
+  },
+  {
+   "form": "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable_noArc",
+   "form_file_line": "Causal/Ers464WithoutArc.lean:322",
+   "witness": "Causal.ErsNoArcWitness.corollaries (2nd conjunct; Causal/Ers464WithoutArc.lean:576), for every D going up, the timelike line included. Already in the library, not restated",
+   "witness_file_line": null,
+   "data": "ErsNoArcWitness.data (D = timelikeLine): S = {0}, U₁ = ℝ, U₂ = ]-1,1[, u₁ = id, u₂ the clamp, C₂ = timelikeLine; Cτ = C₂ = timelikeLine, nestings by InextensibleNestedOn.refl"
+  },
+  {
+   "form": "Causal.Causality.ers_theorem_4_82",
+   "form_file_line": "Causal/NestedCausalities.lean:1305",
+   "witness": "Causal.timelikeLine_ers_theorem_4_82",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:633",
+   "data": "ErsWitness.data_4_82: ι = Bool, dom true = ]-1,1[ (i₁, maximal), dom false = ]-1/2,1/2[, cau = timelikeLine, S = {0}, s₀ = 0"
+  },
+  {
+   "form": "Causal.Causality.ers_theorem_4_82_of_oneSidedBoundary",
+   "form_file_line": "Causal/LadderLocal.lean:478",
+   "witness": "Causal.timelikeLine_ers_theorem_4_82_of_oneSidedBoundary",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:642",
+   "data": "ErsWitness.data_4_82: ι = Bool, dom true = ]-1,1[ (i₁, maximal), dom false = ]-1/2,1/2[, cau = timelikeLine, S = {0}, s₀ = 0"
+  },
+  {
+   "form": "Causal.Causality.ers_theorem_4_82_of_sliceRestart",
+   "form_file_line": "Causal/ErsUniqueness.lean:722",
+   "witness": "Causal.timelikeLine_ers_theorem_4_82_of_sliceRestart",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:650",
+   "data": "ErsWitness.data_4_82: ι = Bool, dom true = ]-1,1[ (i₁, maximal), dom false = ]-1/2,1/2[, cau = timelikeLine, S = {0}, s₀ = 0"
+  },
+  {
+   "form": "Causal.Causality.ers_theorem_4_82_of_globallyHyperbolicOn",
+   "form_file_line": "Causal/ErsUniqueness.lean:749",
+   "witness": "Causal.timelikeLine_ers_theorem_4_82_of_globallyHyperbolicOn",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:658",
+   "data": "ErsWitness.data_4_82: ι = Bool, dom true = ]-1,1[ (i₁, maximal), dom false = ]-1/2,1/2[, cau = timelikeLine, S = {0}, s₀ = 0"
+  },
+  {
+   "form": "Causal.Causality.ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable",
+   "form_file_line": "Causal/Ers464SecondCountable.lean:636",
+   "witness": "Causal.timelikeLine_ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable",
+   "witness_file_line": "scaffold/CausalScaffold/ErsWitnesses.lean:666",
+   "data": "ErsWitness.data_4_82: ι = Bool, dom true = ]-1,1[ (i₁, maximal), dom false = ]-1/2,1/2[, cau = timelikeLine, S = {0}, s₀ = 0"
+  }
+ ],
+ "excluded": [],
+ "findings": [
+  "1 (about the Lean statements and two texts that describe them, not about the paper). The six Lean forms of ERS Cor 4.68 do not have the paper's hypothesis 'u₂ a GHD' (S Cauchy in U₂). U₂ enters them only through hlocal, hstay and hstep. So a disconnected U₂ is allowed, and the timelike line witnesses all six forms with U₂ = ]-1,1[ ∪ ]2,3[ and a disagreement at 5/2 (Causal.ErsWitness.data_4_68). The premises of hstay and hstep are met, at p = 1/2 for the common development ]-1/2,1/2[ (restart_premise_4_68). This U₂ is a development for no causality (not_isCauchySurfaceOn_disU₂). Two texts say that 4.68 has no line witness: the binder note (papers/ers-predictability/certificate/binder.toml:308, 'on the timelike line with S = {0} every development is an interval, so the overlap is connected') and the SCOPE of Causal/Ers464WithoutArc.lean (lines 107–108, 'on the line the overlap is an interval, so 4.68 cannot be met with a disagreement'). Both are true in the paper's reading and false of the Lean forms as stated. Their owners may want to correct them. Lean ≥ paper is not affected: the forms assume less than the paper.",
+  "2 (about the paper's hypothesis set on ℝ^{d+1} with d = 0). In the paper's reading, u₁ and u₂ GHDs with S Cauchy in each (for any two causalities) and S connected (ghd_02_19.tex:922), Cor 4.68 has no instance on ℝ. Two developments of a preconnected S on ℝ meet in a preconnected set (Causal.Causality.real_isPreconnected_inf_of_isCauchySurfaceOn). So the solutions agree on U₁ ∩ U₂ and the disagreement cannot hold (Causal.Causality.real_ers_corollary_4_68_agree, through ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc). This is not a defect of the paper. Its own example of a disconnected overlap (ghd_02_19.tex:930: a spacelike, non-achronal hypersurface that winds around the x⁰-axis in ℝ × (B₂^d ∖ B₁^d)) needs d ≥ 2. A witness in the paper's reading needs a model of dimension ≥ 2 and is not given. The optional plane module was not written.",
+  "3 (about the Lean statement of Thm 4.82). Every 4.82 form takes the same hstep, the restart located at Aᵢ (the component of dom i₁ ∩ dom i through s₀). That hstep is vacuous in every instance. If dom i ≤ dom i₁, then Aᵢ = dom i, which is open, so no frontier point of Aᵢ lies in dom i (Causal.Causality.ers_theorem_4_82_hstep_of_le). Given the other binders, hstep is therefore equivalent to the conclusion (Causal.Causality.ers_theorem_4_82_hstep_iff). So no witness can exercise it. The 4.82 witness exercises hmax (]-1/2,1/2[ < ]-1,1[), honesided (frontier off closure S = {-1, 1}, frontier_dom82_true_diff) and the rest. The supplier of hstep must prove it in the counterfactual case dom i ⊄ dom i₁, where the paper's proof sits (ghd_02_19.tex:1114–1139, by contradiction from U₂ ⊄ U₁). 4.64's hstep is different: it ranges over every common development and is exercised by the 4.64 and 4.68 witnesses."
+ ],
+ "questions": [
+  "Cor 4.68's forms leave out 'u₂ a GHD' (S Cauchy in U₂ for C₂). My reading: they stand as stated, since they assume less than the paper. The line witness is a witness of the forms as stated, not of the paper's hypothesis set, which has none on ℝ (finding 2). Should a paper-faithful 4.68 witness (a model of dimension ≥ 2, layer 3, e.g. scaffold/CausalScaffold/Model/ErsWitnessesPlane.lean) become a target? Or does the finding close the non-vacuity question for 4.68?",
+  "Thm 4.82's hstep is equivalent to the conclusion given the other binders (finding 3). My reading: the forms are left unchanged and the fact is reported. Does the keeper want a form whose restart, like 4.64's, ranges over every region it can occur at (e.g. every open A ⊆ dom i₁ ∩ dom i with S Cauchy in A), so that a witness can exercise it? That is a design question for the forms, not for this target."
+ ],
+ "extra_decls": [
+  "Causal.timelikeLine_tarentinOn",
+  "Causal.oneSidedBoundary_of_ordConnected",
+  "Causal.Causality.sliceRestart_connectedComponentIn_of_le",
+  "Causal.ErsWitness.disU₂, disSol₂, disAgree, coe_top_inf_disU₂, not_lt_of_disAgree, disAgree_of_subset, subset_Ioo_of_isCommonDevelopment, mem_Ioo_of_mem_frontier, isCommonDevelopment_Ioo",
+  "Causal.ErsWitness.halfIoo, dom82, coe_dom82_true, coe_dom82_false, dom82_le, three_quarters_mem_dom82_true, three_quarters_not_mem_dom82_false"
+ ],
+ "kb_proposals": [
+  "ERS Cor 4.68's forms ask nothing of U₂ but hlocal, hstay and hstep, so the timelike line witnesses all six with a disconnected U₂ = ]-1,1[ ∪ ]2,3[ (Causal.ErsWitness.data_4_68). In the paper's reading (S Cauchy in U₂) ℝ has none: Causal.Causality.real_isPreconnected_inf_of_isCauchySurfaceOn, real_ers_corollary_4_68_agree (T-abs-ers-witnesses).",
+  "ERS Thm 4.82's hstep is vacuous in every instance. Given the other binders it is equivalent to the conclusion (Causal.Causality.ers_theorem_4_82_hstep_iff). A 4.82 witness exercises hmax and honesided instead (Causal.ErsWitness.dom82: ]-1/2,1/2[ < ]-1,1[) (T-abs-ers-witnesses).",
+  "On ℝ: the timelike line is tarentin on every open set (Causal.timelikeLine_tarentinOn), and an order-connected open set has a one-sided boundary off any set (Causal.oneSidedBoundary_of_ordConnected). Two developments of a preconnected S meet in an interval, for any causalities (T-abs-ers-witnesses)."
+ ],
+ "notes": "One new file, 673 lines, 0 sorry, no label marked (the docstring marks nothing with **; the four labels sit in the first 1600 characters). Graduation: the master adds `import CausalScaffold.ErsWitnesses` to scaffold/CausalScaffold.lean. At the move to Causal/, the import goes into Causal.lean. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the new names outside this file. The only hit was an unrelated Causal.ChainsCurves `bump` (ℕ →ᵇ ℝ); my function is named disSol₂ to avoid it. Duplicate with the sibling closer: scaffold/CausalScaffold/ErsSCWitnesses.lean:107 (T-abs-ers-sc-witnesses') proves Causal.ErsSCWitness.tarentinOn, the same statement as my Causal.timelikeLine_tarentinOn. At graduation one should cite the other (kb/0248), and the library naming favours timelikeLine_tarentinOn. Nothing else is shared: its 4.79/4.80 and union-lemma witnesses do not overlap the 4.68/4.69/4.71/4.82 forms here. No existing file was edited. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`. tools/ladder.py was only imported in memory to call lean_index and model_path. I touched none of the other closers' files (ErsSCWitnesses.lean, Model/MinkowskiFutureOneConnected.lean). Line numbers of the witnessed forms are as of this run and agree with the dispatch.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: the SCOPE no longer says a plane model suffices (one flat causality on 1+1 Minkowski gives no 4.68 witness either, argued; a non-flat causality or two causalities are needed); finding (1) cites Causal/ErsUniqueness.lean:64, where the weakening is disclosed; the duplicate tarentinOn resolved (ErsSCWitnesses cites this file's). Stale elsewhere, for their owners: papers/ers-predictability/certificate/binder.toml:308 (planner), programme/ladder.toml:2982–2985 (keeper), the roadmap evidence at :1724 (planner)."
+}

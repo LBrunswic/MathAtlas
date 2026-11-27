@@ -338,6 +338,7 @@ import Causal.PlainnessModels
 import Causal.Ers464WithoutArc
 import Causal.DiamondConfinement
 import Causal.StrongCausalityLifts
+import Causal.ErsWitnesses
 
 /-!
 # Causal — topological spacetimes

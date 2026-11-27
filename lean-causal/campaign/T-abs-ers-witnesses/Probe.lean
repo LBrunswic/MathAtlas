@@ -1,0 +1,63 @@
+import CausalScaffold.ErsWitnesses
+
+open Causal
+
+#check @Causal.timelikeLine_tarentinOn
+#check @Causal.oneSidedBoundary_of_ordConnected
+#check @Causal.Causality.real_isPreconnected_inf_of_isCauchySurfaceOn
+#check @Causal.Causality.real_ers_corollary_4_68_agree
+#check @Causal.Causality.sliceRestart_connectedComponentIn_of_le
+#check @Causal.Causality.ers_theorem_4_82_hstep_of_le
+#check @Causal.Causality.ers_theorem_4_82_hstep_iff
+#check @Causal.ErsWitness.data_4_68
+#check @Causal.ErsWitness.restart_premise_4_68
+#check @Causal.ErsWitness.not_isCauchySurfaceOn_disU₂
+#check @Causal.timelikeLine_ers_corollary_4_68
+#check @Causal.timelikeLine_ers_corollary_4_68_eqOn
+#check @Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable
+#check @Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable
+#check @Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc
+#check @Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc
+#check @Causal.timelikeLine_ers_corollary_4_69
+#check @Causal.timelikeLine_ers_corollary_4_69_secondCountable
+#check @Causal.timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable
+#check @Causal.timelikeLine_ers_corollary_4_71
+#check @Causal.timelikeLine_ers_corollary_4_71_secondCountable
+#check @Causal.timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable
+#check @Causal.ErsWitness.data_4_82
+#check @Causal.ErsWitness.frontier_dom82_true_diff
+#check @Causal.timelikeLine_ers_theorem_4_82
+#check @Causal.timelikeLine_ers_theorem_4_82_of_oneSidedBoundary
+#check @Causal.timelikeLine_ers_theorem_4_82_of_sliceRestart
+#check @Causal.timelikeLine_ers_theorem_4_82_of_globallyHyperbolicOn
+#check @Causal.timelikeLine_ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable
+
+#print axioms Causal.timelikeLine_tarentinOn
+#print axioms Causal.oneSidedBoundary_of_ordConnected
+#print axioms Causal.Causality.real_isPreconnected_inf_of_isCauchySurfaceOn
+#print axioms Causal.Causality.real_ers_corollary_4_68_agree
+#print axioms Causal.Causality.sliceRestart_connectedComponentIn_of_le
+#print axioms Causal.Causality.ers_theorem_4_82_hstep_of_le
+#print axioms Causal.Causality.ers_theorem_4_82_hstep_iff
+#print axioms Causal.ErsWitness.data_4_68
+#print axioms Causal.ErsWitness.restart_premise_4_68
+#print axioms Causal.ErsWitness.not_isCauchySurfaceOn_disU₂
+#print axioms Causal.timelikeLine_ers_corollary_4_68
+#print axioms Causal.timelikeLine_ers_corollary_4_68_eqOn
+#print axioms Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable
+#print axioms Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable
+#print axioms Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc
+#print axioms Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc
+#print axioms Causal.timelikeLine_ers_corollary_4_69
+#print axioms Causal.timelikeLine_ers_corollary_4_69_secondCountable
+#print axioms Causal.timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable
+#print axioms Causal.timelikeLine_ers_corollary_4_71
+#print axioms Causal.timelikeLine_ers_corollary_4_71_secondCountable
+#print axioms Causal.timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable
+#print axioms Causal.ErsWitness.data_4_82
+#print axioms Causal.ErsWitness.frontier_dom82_true_diff
+#print axioms Causal.timelikeLine_ers_theorem_4_82
+#print axioms Causal.timelikeLine_ers_theorem_4_82_of_oneSidedBoundary
+#print axioms Causal.timelikeLine_ers_theorem_4_82_of_sliceRestart
+#print axioms Causal.timelikeLine_ers_theorem_4_82_of_globallyHyperbolicOn
+#print axioms Causal.timelikeLine_ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable

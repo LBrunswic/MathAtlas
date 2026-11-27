@@ -1,0 +1,177 @@
+timelikeLine_tarentinOn : ∀ (U : TopologicalSpace.Opens ℝ), timelikeLine.TarentinOn U
+@oneSidedBoundary_of_ordConnected : ∀ {U : TopologicalSpace.Opens ℝ},
+  (↑U).OrdConnected → ∀ (B : Set ℝ), Causality.OneSidedBoundary U B
+@Causality.real_isPreconnected_inf_of_isCauchySurfaceOn : ∀ {C₁ C₂ : Causality ℝ} {U₁ U₂ : TopologicalSpace.Opens ℝ}
+  {S : Set ℝ},
+  IsPreconnected S →
+    S ⊆ ↑U₁ → S ⊆ ↑U₂ → C₁.IsCauchySurfaceOn U₁ S → C₂.IsCauchySurfaceOn U₂ S → IsPreconnected ↑(U₁ ⊓ U₂)
+@Causality.real_ers_corollary_4_68_agree : ∀ {C C₂ : Causality ℝ} {U₁ U₂ : TopologicalSpace.Opens ℝ} {S : Set ℝ}
+  {agree : TopologicalSpace.Opens ℝ → Prop},
+  AgreementGlues agree →
+    C.GloballyHyperbolicOn U₁ →
+      C.TarentinOn U₁ →
+        C.IsCauchySurfaceOn U₁ S →
+          C.CompactSlabs U₁ S →
+            (∃ V, C.IsCommonDevelopment S U₁ U₂ agree V) →
+              (∀ (V : TopologicalSpace.Opens ℝ),
+                  C.IsCommonDevelopment S U₁ U₂ agree V → C.FrontierStaysIn U₁ S ↑V ↑(U₁ ⊓ U₂)) →
+                (∀ (V : TopologicalSpace.Opens ℝ),
+                    C.IsCommonDevelopment S U₁ U₂ agree V →
+                      C.SliceRestart U₁ S ↑V ↑(U₁ ⊓ U₂) fun x =>
+                        ∃ V', C.IsCommonDevelopment S U₁ U₂ agree V' ∧ V < V') →
+                  IsPreconnected S → C₂.IsCauchySurfaceOn U₂ S → agree (U₁ ⊓ U₂)
+@Causality.sliceRestart_connectedComponentIn_of_le : ∀ {M : Type u_1} [inst : TopologicalSpace M] {D : Causality M}
+  {U₁ U W : TopologicalSpace.Opens M} {S : Set M} {s₀ : M} {Q : M → Prop},
+  U ≤ U₁ → IsPreconnected ↑U → s₀ ∈ U → D.SliceRestart W S (connectedComponentIn (↑U₁ ∩ ↑U) s₀) (↑U) Q
+@Causality.ers_theorem_4_82_hstep_of_le : ∀ {M : Type u_1} [inst : TopologicalSpace M] {ι : Type u_2}
+  (dom : ι → TopologicalSpace.Opens M) (cau : ι → Causality M) {S : Set M} {s₀ : M},
+  s₀ ∈ S →
+    ∀ (i₁ : ι),
+      (∀ (i : ι), S ⊆ ↑(dom i)) →
+        (∀ (i : ι), IsPreconnected ↑(dom i)) →
+          (∀ (i : ι), dom i ≤ dom i₁) →
+            ∀ (i : ι),
+              (cau i).SliceRestart (dom i) S (connectedComponentIn (↑(dom i₁) ∩ ↑(dom i)) s₀) ↑(dom i) fun p =>
+                (∃ V ∈ nhds p, V ⊆ ↑(dom i) ∧ V ∩ ↑(dom i₁) ⊆ connectedComponentIn (↑(dom i₁) ∩ ↑(dom i)) s₀) →
+                  ∃ j, dom i₁ < dom j
+@Causality.ers_theorem_4_82_hstep_iff : ∀ {M : Type u_1} [inst : TopologicalSpace M] [T2Space M]
+  [LocallyConnectedSpace M] {ι : Type u_2} (dom : ι → TopologicalSpace.Opens M) (cau : ι → Causality M) {S : Set M}
+  {s₀ : M},
+  s₀ ∈ S →
+    ∀ (i₁ : ι),
+      (∀ (i : ι), S ⊆ ↑(dom i)) →
+        (∀ (i : ι), dom i₁ ≤ dom i → dom i = dom i₁) →
+          (∀ (i : ι), IsPreconnected ↑(dom i)) →
+            (∀ (i : ι) ⦃x y : M⦄, (cau i).le (dom i) x y → (cau i).le (dom i) y x → x = y) →
+              (∀ (i : ι), (cau i).SplitBy (dom i) S) →
+                (∀ (i : ι), ∀ x ∈ dom i, closure ((cau i).Jminus (dom i) {x}) ∩ ↑(dom i) ⊆ (cau i).Jminus (dom i) {x}) →
+                  (∀ (i : ι), ∀ x ∈ dom i, closure ((cau i).Jplus (dom i) {x}) ∩ ↑(dom i) ⊆ (cau i).Jplus (dom i) {x}) →
+                    (∀ (i : ι), (cau i).CompactSlabs (dom i) S) →
+                      (∀ (i : ι), closure S ∩ ↑(dom i) ⊆ S) →
+                        Causality.OneSidedBoundary (dom i₁) (closure S) →
+                          ((∀ (i : ι),
+                              (cau i).SliceRestart (dom i) S (connectedComponentIn (↑(dom i₁) ∩ ↑(dom i)) s₀) ↑(dom i)
+                                fun p =>
+                                (∃ V ∈ nhds p,
+                                    V ⊆ ↑(dom i) ∧ V ∩ ↑(dom i₁) ⊆ connectedComponentIn (↑(dom i₁) ∩ ↑(dom i)) s₀) →
+                                  ∃ j, dom i₁ < dom j) ↔
+                            ∀ (i : ι), dom i ≤ dom i₁)
+ErsWitness.data_4_68 : timelikeLine.GloballyHyperbolicOn ⊤ ∧
+  timelikeLine.TarentinOn ⊤ ∧
+    timelikeLine.IsAcausalOn ⊤ {0} ∧
+      timelikeLine.SplitBy ⊤ {0} ∧
+        timelikeLine.CompactSlabs ⊤ {0} ∧
+          timelikeLine.IsCauchySurfaceOn ⊤ {0} ∧
+            timelikeLine.CausallyArcConnectedOn ⊤ ∧
+              (∃ V, timelikeLine.IsCommonDevelopment {0} ⊤ ErsWitness.disU₂ ErsWitness.disAgree V) ∧
+                (∀ (V : TopologicalSpace.Opens ℝ),
+                    timelikeLine.IsCommonDevelopment {0} ⊤ ErsWitness.disU₂ ErsWitness.disAgree V →
+                      timelikeLine.FrontierStaysIn ⊤ {0} ↑V ↑(⊤ ⊓ ErsWitness.disU₂)) ∧
+                  (∀ (V : TopologicalSpace.Opens ℝ),
+                      timelikeLine.IsCommonDevelopment {0} ⊤ ErsWitness.disU₂ ErsWitness.disAgree V →
+                        timelikeLine.SliceRestart ⊤ {0} ↑V ↑(⊤ ⊓ ErsWitness.disU₂) fun x =>
+                          ∃ V',
+                            timelikeLine.IsCommonDevelopment {0} ⊤ ErsWitness.disU₂ ErsWitness.disAgree V' ∧ V < V') ∧
+                    ¬ErsWitness.disAgree (⊤ ⊓ ErsWitness.disU₂) ∧
+                      ∃ x ∈ ⊤ ⊓ ErsWitness.disU₂, (fun x => 0) x ≠ ErsWitness.disSol₂ x
+ErsWitness.restart_premise_4_68 : timelikeLine.IsCommonDevelopment {0} ⊤ ErsWitness.disU₂ ErsWitness.disAgree
+    { carrier := Set.Ioo (-(1 / 2)) (1 / 2), is_open' := ⋯ } ∧
+  1 / 2 ∈ frontier (Set.Ioo (-(1 / 2)) (1 / 2)) ∩ ↑(⊤ ⊓ ErsWitness.disU₂) ∧
+    1 / 2 ∈ timelikeLine.Jplus ⊤ {0} ∧
+      timelikeLine.IsSpacelikeBoundaryPoint ⊤ {0} (frontier (Set.Ioo (-(1 / 2)) (1 / 2))) (1 / 2)
+ErsWitness.not_isCauchySurfaceOn_disU₂ : ∀ (C₂ : Causality ℝ), ¬C₂.IsCauchySurfaceOn ErsWitness.disU₂ {0}
+timelikeLine_ers_corollary_4_68 : ¬IsPreconnected ↑(⊤ ⊓ ErsWitness.disU₂)
+timelikeLine_ers_corollary_4_68_eqOn : ¬IsPreconnected ↑(⊤ ⊓ ErsWitness.disU₂)
+timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable : ¬IsPreconnected ↑(⊤ ⊓ ErsWitness.disU₂)
+timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable : ¬IsPreconnected ↑(⊤ ⊓ ErsWitness.disU₂)
+timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc : ¬IsPreconnected ↑(⊤ ⊓ ErsWitness.disU₂)
+timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc : ¬IsPreconnected
+    ↑(⊤ ⊓ ErsWitness.disU₂)
+timelikeLine_ers_corollary_4_69 : ErsNoArcWitness.clampAgree ersWitnessIoo
+timelikeLine_ers_corollary_4_69_secondCountable : ErsNoArcWitness.clampAgree ersWitnessIoo
+timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable : ErsNoArcWitness.clampAgree ersWitnessIoo
+timelikeLine_ers_corollary_4_71 : ErsNoArcWitness.clampAgree (⊤ ⊓ ersWitnessIoo)
+timelikeLine_ers_corollary_4_71_secondCountable : ErsNoArcWitness.clampAgree (⊤ ⊓ ersWitnessIoo)
+timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable : ErsNoArcWitness.clampAgree (⊤ ⊓ ersWitnessIoo)
+ErsWitness.data_4_82 : ErsWitness.dom82 false < ErsWitness.dom82 true ∧
+  (∀ (i : Bool), {0} ⊆ ↑(ErsWitness.dom82 i)) ∧
+    (∀ (i : Bool), ErsWitness.dom82 true ≤ ErsWitness.dom82 i → ErsWitness.dom82 i = ErsWitness.dom82 true) ∧
+      (∀ (i : Bool), IsPreconnected ↑(ErsWitness.dom82 i)) ∧
+        (∀ (i : Bool), timelikeLine.GloballyHyperbolicOn (ErsWitness.dom82 i)) ∧
+          (∀ (i : Bool), timelikeLine.TarentinOn (ErsWitness.dom82 i)) ∧
+            (∀ (i : Bool), timelikeLine.IsCauchySurfaceOn (ErsWitness.dom82 i) {0}) ∧
+              (∀ (i : Bool), timelikeLine.SplitBy (ErsWitness.dom82 i) {0}) ∧
+                (∀ (i : Bool), timelikeLine.CompactSlabs (ErsWitness.dom82 i) {0}) ∧
+                  (∀ (i : Bool),
+                      ∀ x ∈ ErsWitness.dom82 i,
+                        closure (timelikeLine.Jminus (ErsWitness.dom82 i) {x}) ∩ ↑(ErsWitness.dom82 i) ⊆
+                          timelikeLine.Jminus (ErsWitness.dom82 i) {x}) ∧
+                    (∀ (i : Bool),
+                        ∀ x ∈ ErsWitness.dom82 i,
+                          closure (timelikeLine.Jplus (ErsWitness.dom82 i) {x}) ∩ ↑(ErsWitness.dom82 i) ⊆
+                            timelikeLine.Jplus (ErsWitness.dom82 i) {x}) ∧
+                      (∀ (i : Bool), closure {0} ∩ ↑(ErsWitness.dom82 i) ⊆ {0}) ∧
+                        Causality.OneSidedBoundary (ErsWitness.dom82 true) (closure {0}) ∧
+                          ∀ (i : Bool),
+                            timelikeLine.SliceRestart (ErsWitness.dom82 i) {0}
+                              (connectedComponentIn (↑(ErsWitness.dom82 true) ∩ ↑(ErsWitness.dom82 i)) 0)
+                              ↑(ErsWitness.dom82 i) fun p =>
+                              (∃ V ∈ nhds p,
+                                  V ⊆ ↑(ErsWitness.dom82 i) ∧
+                                    V ∩ ↑(ErsWitness.dom82 true) ⊆
+                                      connectedComponentIn (↑(ErsWitness.dom82 true) ∩ ↑(ErsWitness.dom82 i)) 0) →
+                                ∃ j, ErsWitness.dom82 true < ErsWitness.dom82 j
+ErsWitness.frontier_dom82_true_diff : frontier ↑(ErsWitness.dom82 true) \ closure {0} = {-1, 1}
+timelikeLine_ers_theorem_4_82 : ∀ (i : Bool), ErsWitness.dom82 i ≤ ErsWitness.dom82 true
+timelikeLine_ers_theorem_4_82_of_oneSidedBoundary : ∀ (i : Bool), ErsWitness.dom82 i ≤ ErsWitness.dom82 true
+timelikeLine_ers_theorem_4_82_of_sliceRestart : ∀ (i : Bool), ErsWitness.dom82 i ≤ ErsWitness.dom82 true
+timelikeLine_ers_theorem_4_82_of_globallyHyperbolicOn : ∀ (i : Bool), ErsWitness.dom82 i ≤ ErsWitness.dom82 true
+timelikeLine_ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable : ∀ (i : Bool),
+  ErsWitness.dom82 i ≤ ErsWitness.dom82 true
+'Causal.timelikeLine_tarentinOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.oneSidedBoundary_of_ordConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.real_isPreconnected_inf_of_isCauchySurfaceOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.real_ers_corollary_4_68_agree' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.sliceRestart_connectedComponentIn_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ers_theorem_4_82_hstep_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ers_theorem_4_82_hstep_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsWitness.data_4_68' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsWitness.restart_premise_4_68' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsWitness.not_isCauchySurfaceOn_disU₂' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_68' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_68_eqOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_69' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_69_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_69_of_isCauchySurface_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_71' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_71_secondCountable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.ErsWitness.data_4_82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ErsWitness.frontier_dom82_true_diff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_theorem_4_82' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_theorem_4_82_of_oneSidedBoundary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_theorem_4_82_of_sliceRestart' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_ers_theorem_4_82_of_globallyHyperbolicOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_ers_theorem_4_82_of_isCauchySurfaceOn_secondCountable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

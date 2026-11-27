@@ -1,0 +1,67 @@
+{
+  "target": "T-abs-ers-witnesses",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "erscor:CorDisCon",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked; witnesses only, no certification claimed (ledger row stays partial). The six witnesses timelikeLine_ers_corollary_4_68{,_eqOn,_of_isCauchySurfaceOn_secondCountable,_eqOn_of_isCauchySurfaceOn_secondCountable,_of_isCauchySurfaceOn_secondCountable_noArc,_eqOn_of_isCauchySurfaceOn_secondCountable_noArc} (ErsWitnesses.lean:401-443) have no binders. Each applies the named form (ErsUniqueness.lean:594, :610; Ers464SecondCountable.lean:351, :370; Ers464WithoutArc.lean:253, :272) to the conjuncts of data_4_68, and states that form's conclusion ¬IsPreconnected (⊤ ⊓ disU₂). The disagreement is exhibited at x = 5/2 (hdis = fun h => hne (h hmem); hx = ⟨5/2, hmem, hne⟩), and the conclusion is derived through the form, not stated independently. Restart premise: restart_premise_4_68 (:357) proves that ]-1/2,1/2[ is a common development, that 1/2 ∈ frontier V ∩ (U₁ ⊓ U₂), that 1/2 ∈ J⁺_⊤({0}), and that 1/2 is an IsSpacelikeBoundaryPoint ⊤ {0} (frontier V). That is exactly the premise of SliceRestart ⊤ {0} V (U₁ ⊓ U₂) Q (ErsUniqueness.lean:211) and of FrontierStaysIn's future clause (:226). hstep's conclusion is met non-trivially by V' = ]-1,1[. Finding (1) verified. In all six forms U₂ enters only through hlocal, hstay, hstep and the disagreement and conclusion, never as 'S Cauchy in U₂'. IsCommonDevelopment (:235) asks only V ≤ U₁ ⊓ U₂ of U₂. The library already discloses this as '`u₂` a GHD | ⚠ weakened' (ErsUniqueness.lean:64). 'Lean ≥ paper' is right on this point: dropping a hypothesis is a weakening. The conclusion's meaning does not depend on U₂ being a development, since it is a topological statement about the open U₁ ⊓ U₂. The row's partial status comes from the named hlocal/hstay/hstep and is unchanged. The witness inhabits the Lean form, not the paper's hypothesis set, and says so (not_isCauchySurfaceOn_disU₂, :383, SCOPE :80-89). Both texts named in finding (1) are false of the Lean forms as stated: binder.toml:308 ('the hypotheses cannot be met with a disagreement') and Ers464WithoutArc.lean:107-108 ('4.68 cannot be met with a disagreement'). Finding (2) verified: real_isPreconnected_inf_of_isCauchySurfaceOn (:142) and real_ers_corollary_4_68_agree (:157) state what the REPORT says, for arbitrary C, C₂. The :930 note is accurate: B₂^d∖B₁^d admits winding only for d ≥ 2. Quotes match ghd_02_19.tex:922, :930."
+    },
+    {
+      "label": "erscor:globally_defined_globally_hyperbolic",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked. timelikeLine_ers_corollary_4_69, _secondCountable and _of_isCauchySurface_secondCountable (:452, :461, :470) have no binders. They apply ers_corollary_4_69 (ErsUniqueness.lean:633), ers_corollary_4_69_secondCountable (Ers464SecondCountable.lean:519) and ers_corollary_4_69_of_isCauchySurface_secondCountable (:537) to ErsNoArcWitness.data (D := timelikeLine), with C₂ = timelikeLine and U₂ = ]-1,1[. The supporting proofs: hacausal by timelikeLine_isAcausal_zero, hsplit by splitBy_of_t1_secondCountable, hthrough₂ by inextensibleThrough_of_t1_secondCountable C₂ U₂ (a proved lemma, ErsSecondCountable.lean:149), and harc by timelikeLine_causallyArcConnected. Conclusion clampAgree ersWitnessIoo = agree U₂. Nothing is assumed. The _noArc form is witnessed in the library by ErsNoArcWitness.conclusions' 4th conjunct (Ers464WithoutArc.lean:549-569), as claimed. Quote matches :927."
+    },
+    {
+      "label": "erscor:CorSupLum",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked. timelikeLine_ers_corollary_4_71, _secondCountable and _of_isCauchySurfaceOn_secondCountable (:484, :499, :513) apply the three named forms (ErsUniqueness.lean:662; Ers464SecondCountable.lean:586, :610) with Cτ = C₂ = timelikeLine. The supporting proofs: hτ by causal_ladder from GloballyHyperbolic, hthroughτ by the curve id on univ (timelikeLine_inextensible_id), honce on S = {0}, and hn₁, hn₂ by InextensibleNestedOn.refl. Conclusion clampAgree (⊤ ⊓ ersWitnessIoo) = agree (U₁ ⊓ U₂). honce and the nestings hold trivially on this data (S a singleton, Cτ = C), which the dispatch and the target's evidence anticipate. The other hypotheses (hlocal, hstay, hstep) are exercised by the library's data. The _noArc form is witnessed by ErsNoArcWitness.corollaries' 2nd conjunct (Ers464WithoutArc.lean:576), as claimed. Quote matches :962."
+    },
+    {
+      "label": "ersthm:ThmNotBlocking",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked. The five witnesses (:633-671) apply ers_theorem_4_82 (NestedCausalities.lean:1305), _of_oneSidedBoundary (LadderLocal.lean:478), _of_sliceRestart (ErsUniqueness.lean:722), _of_globallyHyperbolicOn (:749) and _of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:636). They use data_4_82: ι = Bool, dom true = ]-1,1[, dom false = ]-1/2,1/2[, cau = timelikeLine, s₀ = 0, i₁ = true. All five accept the same hstep term, so the kernel confirms the shapes coincide. hmax and honesided are exercised: 3/4 separates the domains, and frontier (dom true) ∖ closure {0} = {-1,1} (frontier_dom82_true_diff, :620). Finding (3) verified. ers_theorem_4_82_hstep_of_le (:191) and _iff (:205) are proved as stated. The binders of _iff are exactly those of ers_theorem_4_82_of_sliceRestart less hstep, with the same instances. The argument holds: if dom i ≤ dom i₁, then Aᵢ = connectedComponentIn (dom i) s₀ = dom i, which is open, so frontier Aᵢ ∩ dom i = ∅. 'hstep is equivalent to the conclusion' is a fair summary when qualified, as the REPORT does, by 'given the other binders'. It is not a circularity. The theorem's content is hstep → conclusion. hstep's layer-3 supplier still does real work (building the extension U₃ of the paper's proof, ghd_02_19.tex:1114-1139), but only in the counterfactual case, so no witness can exercise it. It is worth recording as a question to the ladder keeper, not the author. It concerns the shape of the Lean forms (a restart fixed at Aᵢ, where 4.64's ranges over every candidate region), not the paper's mathematics. Quotes match :1101, :1106."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "lake build was not rerun, per the dispatch (another closer may be building). `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/ErsWitnesses.lean` exits 0 with no output (olean 17:54:35 is newer than the source 17:54:15). An independent probe compiled a copy of the current source with #print axioms appended, written under the campaign directory and deleted afterwards. It covered the 29 REPORT declarations plus subset_Ioo_of_isCommonDevelopment, mem_Ioo_of_mem_frontier, isCommonDevelopment_Ioo and dom82_le. All 33 depend on [propext, Classical.choice, Quot.sound] only, which agrees with axioms.txt and Probe.lean (29 #check, 29 #print axioms, the same names). /usr/bin/grep -c on the file finds 0 for each of sorry, admit, axiom, native_decide, decide, implemented_by, extern, set_option, unsafe and **`."
+  },
+  "checks": [
+    "Layer 1: the 10 direct imports (Causal.Ers464WithoutArc, Ers464SecondCountable, ErsSecondCountable, ErsUniqueness, ErsUnions, LadderLocal, NestedCausalities, InextensibleNestedBasics, CBG.CausalConvex, Ladder.Rules) are all in tools/ladder.py's lean_index, and model_path is None for each. The same holds for CausalScaffold.ErsWitnesses, added to the import map in memory, run from the hub root. Metric.ball and Real.ball_eq_Ioo are used only in the proof of oneSidedBoundary_of_ordConnected (:130-132), as neighbourhoods of a point of ℝ. That usage has precedent in Causal/ (LadderLocal, NestedCausalities, LemmaK, ...). No Lorentzian or metric notion appears in any statement.",
+    "Non-vacuity: every timelikeLine_<form> has no binders and ends in `exact <form> …`. The stated type is the form's conclusion with U₁, U₂, agree (or dom, i₁) fixed by the data. Every hypothesis comes from data_4_68, ErsNoArcWitness.data, data_4_82 or a named lemma. None is assumed.",
+    "Forms read: ErsUniqueness.lean:594, :610, :633, :662, :722, :749; Ers464SecondCountable.lean:351, :370, :519, :537, :586, :610, :636; Ers464WithoutArc.lean:253, :272; LadderLocal.lean:478; NestedCausalities.lean:1305. Every form_file_line in the REPORT's witness_table matches the current sources, and every declaration file_line matches ErsWitnesses.lean.",
+    "Definitions read: IsCommonDevelopment (ErsUniqueness.lean:235), SliceRestart (:211), FrontierStaysIn (:226), IsSpacelikeBoundaryPoint (:196), OneSidedBoundary (LadderLocal.lean:212).",
+    "Paper read: ghd_02_19.tex:858-930 (Thm 4.64 with proof, Rem 4.67, Cors 4.68 and 4.69, the annulus paragraph), :959-967 (Cor 4.71), :1098-1139 (Thm 4.82 with proof). Ledger rows LEDGER.md:60, 61, 63, 73 are all partial, and nothing here changes them.",
+    "Docstring (kb/0006): title, the four labels within the first 4000 characters with no ** mark, verbatim quotes with correct line numbers, a hypothesis checklist adapted to a witness module, a SCOPE that is true as stated (but see the minor finding on 'plane model'), and the provenance line.",
+    "Scope: git status --short --untracked-files=all over lean-causal, papers/ers-predictability and programme shows the dispatched file and the campaign directory, the expected sibling files (ErsSCWitnesses.lean, Model/MinkowskiFutureOneConnected.lean and their campaign directories), and programme/roadmap.toml, where the loop moved four targets from ready to active. No tracked file in lean-causal or papers/ers-predictability is modified. binder.toml and Ers464WithoutArc.lean are untouched.",
+    "Names: no declaration of ErsWitnesses.lean (45 parsed) clashes with ErsSCWitnesses.lean (27) or with any other file under Causal/ or scaffold/. There is one statement duplicate (below)."
+  ],
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/ErsWitnesses.lean:112",
+      "what": "Causal.timelikeLine_tarentinOn (U : Opens ℝ) : timelikeLine.TarentinOn U states the same thing as the sibling's Causal.ErsSCWitness.tarentinOn (scaffold/CausalScaffold/ErsSCWitnesses.lean:107). Their names differ, so there is no clash, but two proofs of one fact will land in the scaffold. The REPORT's notes disclose it.",
+      "fix": "At graduation keep one, timelikeLine_tarentinOn per the library's naming, and have the other file use or cite it (kb/0248)."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/ErsWitnesses.lean:89 (SCOPE); REPORT.json findings[1], questions[0]",
+      "what": "'A witness in the paper's reading needs a plane model' (REPORT: 'a model of dimension ≥ 2') is proved only as a necessary condition, since ℝ is excluded. It is not shown that a plane suffices. With one flat causality for both developments, 1+1 Minkowski gives none either: a connected spacelike curve of ℝ^{1,1} is a graph t = f(x) with |f'| < 1, hence acausal, and Lemma 4.70's argument with T = ∂_t then makes U₁ ∩ U₂ connected. So the roadmap evidence's suggestion (programme/roadmap.toml:1724, 'Minkowski 1+1 with two developments of a slice whose overlap is disconnected') cannot give a paper-reading witness. A plane witness would need a non-flat causality (cones turning along S) or C₂ ≠ C. The paper's own example needs d ≥ 2, i.e. dimension 3. This matters for the closer's question 1 (a plane-model target).",
+      "fix": "In SCOPE and in question 1, write 'needs a model of dimension ≥ 2 (ℝ is excluded); with one flat causality in 1+1 none exists either, so a plane witness needs a non-flat causality or two causalities; the paper's example is 2+1'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-ers-witnesses/REPORT.json findings[0]",
+      "what": "Finding (1) is correct, but it does not cite that the library already discloses the weakening ('`u₂` a GHD | ⚠ weakened: not used in layer 1; consumed by the suppliers of `hlocal`, `hstay`, `hstep`', Causal/ErsUniqueness.lean:64). The new content is only that two later texts contradict that disclosure. It also lists two stale texts where there are more. programme/ladder.toml:2982-2985 ('The 4.68 and 4.82 forms, the 4.69 and 4.71 forms with S acausal … have no witness of their own') and the target's own evidence (programme/roadmap.toml:1724, 'Argued … its hypotheses cannot hold with a disagreement') are stale too once this lands.",
+      "fix": "Cite ErsUniqueness.lean:64 in finding (1). Add ladder.toml:2982-2985 and the roadmap evidence to the texts the keeper and planner update, beside binder.toml:308 and Ers464WithoutArc.lean:107-108 (not the closer's to edit)."
+    }
+  ]
+}
