@@ -873,3 +873,23 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: e9adc425 cf27c3fc 82a2f330 97c1abfe
 - next: a PLANNING RUN (rule 2: one ready abstract target left, T-abs-sc-open-hoist)
+
+## 2026-11-27 22:26 · planning run · waves 44–45's proposals folded in; 190 → 199 targets
+- New targets:
+  - ready: T-lad-record-dens-prop-4-63 (keeper: densCausality_separates' [[fails]], and the 18-node entry settling chronal_neighbours → absolutely_minimal; Prop 4.63's three forms as consequences), T-tool-ladder-r1-standing (master: the standing word R1), T-abs-lsc-separations, T-abs-galileo-curve-form, T-abs-loop-fan-every-scale, T-abs-ers-4-82-solution-form, T-loc-time-cylinder-lsc;
+  - planned: T-lad-record-lsc-separations (keeper, after the four LSC witnesses and R1).
+- Rescoped:
+  - T-abs-sc-open-hoist also takes the FlatSpaceCylinder hoist candidates and the two stale docstring line references.
+  - T-tac-dual-future-one-connected also takes dual_locallyStronglyCausal's rule pair.
+  - T-loc-c0-chart-diameter provides locally_strongly_causal.
+  - T-abs-minimal-not-arc-connected notes that the [GH, tarentin] separation is no-gluing only.
+- T-bind-schw-c0-skeleton (planner, applied; a314fcc4, set done):
+  - the Schwarzschild binder cites locally_strongly_causal in `localisation`;
+  - the 11 C⁰-skeleton placeholders now name Causal.C0ExtensionSkeleton's declarations (MainThm and its twin: exitDiamonds_of_curve on ι(region I));
+  - the paper's orientation slips are in `findings`;
+  - layer 1 in Lean 19 → 30 (all rows).
+- registers: OQ-154 (Def 2.15 read as IsSpacetimeExtension: the notion of extension of record?) (dbcc44d5). An addendum to OQ-108 (a) on Galileo's curve form waits for T-abs-galileo-curve-form.
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: dbcc44d5 a314fcc4
+- next: T-lad-record-dens-prop-4-63 (keeper), T-tool-ladder-r1-standing (master), T-abs-lsc-separations, T-abs-galileo-curve-form, T-loc-time-cylinder-lsc (closers, lean-causal)
