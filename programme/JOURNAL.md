@@ -719,3 +719,26 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: b315ee6b 913bbbf2 77f00e76 3247324f f17577d4
 - next: T-lad-edge-hypotheses (keeper) and T-abs-isolated-line-conjoined (closer); then the three exclusive hoists, one at a time
+
+## 2026-11-27 18:42 · wave of 2 · T-lad-edge-hypotheses, T-abs-isolated-line-conjoined
+- T-lad-edge-hypotheses (ladder): the [[edge_hypothesis]] table has its five entries, each with its Lean body in `what`:
+  - slice_restart (SliceRestart), frontier_stays_in (FrontierStaysIn), local_uniqueness (LocalUniqueness, fixed background; the CBG shape noted), one_sided_boundary (OneSidedBoundary);
+  - chronal_neighbour_at_boundary (HasChronalNeighbour at every frontier point, DEC-159; not the node).
+  - The first four match the ERS binder's [[proposed]] ids.
+  - 26 consequences name them in `under` (23 ERS §4, 3 Lemma 2.17). Matrix identical (1b8e26a1).
+  - Flagged: T-lad-development-nodes' planned node local_uniqueness (data form) would clash with this id. sbierski-mghd's binder lists local_uniqueness (data form) in open_localisation, which now resolves to the fixed-background edge hypothesis.
+  - The keeper ran one read-only `git diff --stat`, against its rule; it changed nothing.
+- T-abs-isolated-line-conjoined (abstract, layer 1): isolatedLine_separates decides all 19 causality-sort nodes on ℝ with no hypothesis.
+  - New to the library: the isolated line is causally compact and globally hyperbolic, with a time function. Every diamond is [p, q], ∅ or {0}. It is still not tarentin: an either-reading witness of GH ∧ plain ∧ causally open ⇏ tarentin.
+  - One witness for its two [[fails]] entries; re-pointing simulated, no pair moves.
+  - Audit minor, applied (166420a2); kb 0296.
+- For the keeper:
+  - re-point ladder.toml:1805 (→ tarentin) and :2029 (→ has_chronal_neighbour) to Causal.isolatedLine_separates;
+  - the comment at ≈ :2530–2534 credits nothing new for strong causality (in Lean since 364ec2d3, 791b0aa4); only causally_compact, globally_hyperbolic and time_function are new;
+  - future_one_connected's node can name minkowski_futureOneConnected (T-lad-future-one-connected-node, next);
+  - the stale "4.68 and 4.82 forms have no witness" at ≈ :2982–2985.
+- ladder: 25 properties, 27 implications, 83 counterexamples, 92 consequences, 5 edge hypotheses; 354/354 within a sort: 37 implied, 309 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 14, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: 1b8e26a1 166420a2 120d93a8
+- next: T-lad-future-one-connected-node (keeper) with T-abs-merge-stranded-duplicates (closer, exclusive in lean-causal). After those, only two exclusive hoists remain ready, and the proposals of waves 39–41 wait for a planning run.
