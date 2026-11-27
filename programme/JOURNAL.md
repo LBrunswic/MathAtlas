@@ -648,3 +648,39 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
 - commits: 79145f8 886c471
 - next: T-lad-record-direct-witnesses (keeper) and T-cur-schw-layer1 (master), with lean-causal closers from T-abs-diamond-confinement, T-abs-ers-4-64-without-arc and T-loc-minkowski-future-one-connected. /atlas-team has a closer in lean-causal (T-ett-geroch-iii-i), so at most two of the three fit under MAX_PER_PACKAGE.
+
+## 2026-11-27 17:14 · wave of 5 · T-abs-strong-causality-lifts, T-lad-record-direct-witnesses, T-abs-diamond-confinement, T-abs-ers-4-64-without-arc, T-cur-schw-layer1
+- 2026-11-23 09:14 and 09:35: two iterations stopped at their preconditions. lean-causal/scaffold/CausalScaffold/GerochIIIImpI.lean (/atlas-team's T-ett-geroch-iii-i) was outside every lease, so the loop stopped (two iterations without a commit). The author restarted it on 2026-11-27, on a clean tree. Since then: DEC-208–212, of which DEC-211/212 set the seven-package architecture, "plan now, move later", so nothing moves yet. The author's commit be6ff7f added 4 targets on the tamifying topology (171 + 10 → 185).
+- T-abs-strong-causality-lifts (abstract, layer 1): the author's lifting statement of 2026-11-24.
+  - Proved with M̃ causally arc-connected (stronglyCausal_lift; with tarentin, topology = Alexandrov), with the open form, the weak-morphism variant and the general form (stronglyCausal_of_lift: monotone maps and connected diamonds).
+  - The printed form (curves to curves only) does not hold in either reading of DEC-167: not_stronglyCausal_lift_of_curves on symmRationalLine. That causality is absolutely minimal on every open set, its causal curves are constant, and it is not strongly causal.
+  - The proof's step assumes ≤ of M̃ realised by causal curves. The intended instance satisfies this (DEC-33): a misprint of the hypothesis, not a gap. → OQ-145.
+  - Audit minor (the refutation holds), applied (df08a2b5); kb 0293.
+- T-abs-diamond-confinement (abstract, layer 1): Sbierski's homotopy confinement (i), diamond identification (ii) and the localisation LocallyStronglyCausal (iii), for any causality and with no separation axiom in (i).
+  - The compact closures need only a locally compact R₁ space.
+  - Paper: implicit steps only (:621 needs γ̃(−s₁) ≪ γ̃(0), from :491; Hausdorffness from :228; the tube lemma).
+  - Audit minor (the equation is (3.2); the quote is at :1625), applied (db0e8e7f); kb 0291.
+- T-abs-ers-4-64-without-arc (abstract, layer 1): ten `…_noArc` forms, each a trade form less harc with an identical conclusion: 4.64 ×3, 4.67, 4.68 ×2, 4.69, 4.71, 4.73, m-GHD.
+  - No step uses the acausality of S in U₁. No paper finding.
+  - Witnesses include densCausality, which is not causally arc-connected.
+  - Audit minor, applied (959b867b); kb 0292; kb/0265's follow-up closed.
+- T-lad-record-direct-witnesses (ladder): 16 [[fails]] re-pointed (cut line, notched plane ×3, global line ×3, half-plane ×9), and four consequences at inextensible_nested.
+  - Non-monotonicity in the open set is recorded as a note: it joins a node to itself, so no pair can carry it.
+  - E₀ is added to has_chronal_neighbour's layer 3, and the stale comments are rewritten.
+  - Matrix identical, emit-lean not needed (552aa09f).
+- T-cur-schw-layer1 (master): the Schwarzschild curation. 11 rows carry their layer-1 Lean, partial and unmarked: bucket D, or B for Def 2.12 (OQ-114). Thm 3.1 carries the Step 2.1 finding.
+  - not_continuousExtension_preimage is kept out of decls: restate would read it as a refutation.
+  - The intro's theorem* (MainThm's twin) is curated with its twin's Lean, so that build and curation agree. This paper is the only one with twins; tools/ledger_curate.py resets a twin's copied fields, and a tool fix would be the better cure.
+  - Ledger: 12 of 30 statements Lean-stated (d89f204c).
+- For the planner:
+  - add harc forms of the lifting theorems and one refutation with gluing and continuity inside (the lifting audit);
+  - Q4: T-loc-btz-tamifying-initial and T-loc-ealpha-tamifying-alexandrov must prove that ≤ is realised by curves for btzCylCausality and Ẽ_α;
+  - locally_strongly_causal now has its Lean (T-lad-c0-extension-nodes can be made ready), with separation candidates the loop fan (in a module away from Rules) and the flat time cylinder;
+  - binder rows 4.64, 4.68, 4.69, 4.71, 4.73 can drop causally_arc_connected once the trade forms' fate is decided (kb/0226);
+  - the binder's schwlem:NormalForm note cites "(3.3)" for (3.2);
+  - the DiamondConfinement anchors for the Schwarzschild rows (REPORT paper_rows).
+- ladder: 25 properties, 27 implications, 83 counterexamples, 89 consequences; 354/354 within a sort: 37 implied, 309 fails, 8 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 14, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: d89f204c 552aa09f 959b867b db0e8e7f df08a2b5 042cbeb8
+- next: T-lad-record-ers-cauchy-forms (keeper), T-loc-minkowski-future-one-connected, T-abs-ers-witnesses, T-abs-ers-sc-witnesses (closers, lean-causal)
