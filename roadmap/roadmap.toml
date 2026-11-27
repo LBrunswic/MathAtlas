@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last run: 2026-11-23 04:20 (lean-gx, lean-yamabe refreshed; lean-causal, lean-egf other loops'); the template's texHTML is T-atlas-tex-text-macros"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last run: 2026-11-27 (lean-causal, lean-benzecri, lean/ refreshed, gfnbounds' first edges; lean-gx, lean-yamabe busy; lean-egf another loop's; f03ec37). Earlier: 2026-11-23 04:20 (lean-gx, lean-yamabe). The template's texHTML is T-atlas-tex-text-macros"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -3202,13 +3202,14 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["cor:gap-nonneg", "cor:volume"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-yamabe-closed-leaves"]
-evidence = "papers/yamabe ledger: cor:gap-nonneg (l.234, proof l.242–244) and cor:volume (l.246, proof l.250–257) are untriaged, with no Lean; their deps are prop:csc-yamabe and thm:extremal. The proofs are inequality chains over Y ≤ σ (« EH(Σ_t, g_t) = Y(Σ, [g_t]) ≤ σ(Σ) by definition »; « Dividing by the negative constant R_g = R_{g_hyp} reverses the inequality »). The cited inputs are thm:extremal (Schoen, Obata, Bray–Neves, Anderson; l.207) and Mostow rigidity (l.256). DEC-184 does not name them as externals, so they are carried as hypotheses, as T-syr-cited-steps did, and no mark is claimed. Promoted to ready 2026-11-27 by the planner: T-yamabe-closed-leaves is done (502be84; Yamabe.ClosedLeaves, def:yamabe and prop:csc-yamabe partial). The closer takes its readings (OQ-132: Σ connected or not, σ(Σ) over a supplied family) and states the corollaries under them; a corollary that needs Σ connected takes it as a hypothesis and says so"
+evidence = "Yamabe.GapCorollaries (strict): cor:gap-nonneg, cor:volume partial, cited inputs carried; OQ-140; AUDIT-1 minor"
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
+commit = "749b441"
 
 [[target]]
 id = "T-yamabe-boundary-gap"
@@ -3264,12 +3265,13 @@ kind = "tooling"
 paper = "btz"
 labels = ["btzlem:liouville", "btzprop:isom", "btzprop:isom_strong", "btzlem:past_BTZ", "btzrem:reg_GH", "btzprop:FZenon_injectif"]
 package = "none"
-status = "ready"
+status = "done"
 owner = "master"
 priority = 6
-evidence = "papers/btz ledger (b3d3b7c): 36 of 55 rows untriaged, decls 0, though lean-gx has Lean for six of them under gx's names, marked there only as cited B21 results. GX/BTZ/Rigid.lean header: « Cited, unmarked: B21 lem:liouville (BTZ_1.tex:361), B21 prop:isom_strong (BTZ_1.tex:468–475) »; GX.e0_rigid (Rigid.lean:1565), GX.e0_eqOn_of_eqOn_open (:1619), GX.e0_localUnique_sing (:1699, « B21 prop:isom_strong at α = β = 0 »). GX/BTZ/AbsMax.lean:58: « prop:isom near the axis (e0Loop_localForm) ». lem:past_BTZ (a): GX.E0LM.e0_globalBTZ (GX/BTZ/LocalModel.lean:4881, « lem:past_BTZ (a) »); (b) the SingularFlatAxioms lemmas GX.E0AbsMax.notMem_sing_of_lt, lt_reg_of_lt (AbsMax.lean:624, 942). rem:reg_GH: GX.E0AbsMax.globallyHyperbolicOn_reg (AbsMax.lean:917). prop:FZenon_injectif: Causal.Causality.Iplus_injOn_Zplus through GX.isFutureDistinguishing_of_globallyHyperbolic (GX/BTZ/Manifolds.lean:251–255; the printed form is for strongly causal M and both maps, the Lean for GH and I⁺ on Z⁺: the curator records the gap). Every anchor is E₀ or model-level (Y = 𝕄 ⊕ 𝔼₀), narrower than the E_{≥0} statements, so every row is partial and blocked_on T-btz-scope or its own gap (Lean ≥ paper). The rows with no Lean get blocked_on the new targets (T-btz-embeddings, T-btz-pgcd, T-btz-ppcm, T-btz-maximal-extension, T-btz-common-reg, T-btz-reg-complete, T-btz-blunt-spear, T-btz-cauchy-conservation, T-btz-headline). Curation only: papers/btz/certificate/curation.toml and the ledger rebuild"
+evidence = "six btz rows anchored on lean-gx's E₀ Lean (partial); the other rows point at their btz targets"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "2e601b3"
 
 [[target]]
 id = "T-btz-embeddings"
@@ -3278,12 +3280,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzdef:btz_extension_btz_embedding", "btzdef:common_sub_btz_extension", "btzdef:morphism_common_sub_extension", "btzdef:maximal_common_sub_btz_extension", "btzdef:common_over_btz_extension", "btzdef:morphism_common_over_btz_extension"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
-evidence = "DEC-208 asks for « the maximal BTZ-extension, existence and uniqueness, as an instance of the ETT programme's abstract maximal-extension theorem — BTZ-embeddings as the morphism class ». This target builds that class. BTZ_1.tex l.323–327 (« an embedding ... ι an a.e 𝔼-morphism and such that the complement of the image of ι only contains singular points of type 𝔼₀ ») and l.1288 (« since any 𝔼≥0-manifold is a 3-manifold, an a.e 𝔼-morphism is an embedding if and only if it is injective »; read as an open embedding, the invariance-of-domain step argued, not formalized). lean-gx has BTZ-extensions only in open-set form (GX/BTZ/AbsMax.lean checklist: « BTZ-extension in open-set form (kb/0001) »), with E₀-manifolds as ChartedSpace E0Y, HasGroupoid e0Groupoid, T2, connected, second countable (DEC-66). Uniqueness: GX.e0_eqOn_of_eqOn_open (Rigid.lean:1619). No Lean change is needed in lean-causal: the AbstractDev instance is T-btz-maximal-extension's, after T-gx-causal-pin-bump, so the definitions only keep its shape (a type of developments with carriers and a morphism predicate, Causal/AbstractDev.lean:133–177). E₀-scoped as DEC-116 (b) and DEC-125 (a)(e): every row stays partial and unmarked until T-btz-scope rules; E₀ is the case the headline btzthm:princ needs under either answer. A reading the paper leaves open becomes an OQ row"
+evidence = "GX.BTZ.Embeddings (strict, sorry-free): BTZ-embeddings, BTZ-extensions, btzMor in AbstractDev's shape, common sub/over-extensions; six rows partial (E₀, OQ-142); AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "1fac0f5"
 
 [[target]]
 id = "T-btz-pgcd"
@@ -3367,12 +3370,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
-evidence = "BTZ_1.tex l.1566–1578: « Global hyperbolicity follows from Remark rem:reg_GH and the proof of Cauchy-completeness of Proposition prop:abs_max applies as is »; Cauchy-maximality by gluing a Cauchy-extension N of M* to M « using Lemma lem:extension_hausdorff », and the Cauchy surface Σ* from lem:curve_extension (ii) and cor:intersect. Built: the compact case GX.E0AbsMax.prop_abs_max_C1 (closed, DEC-125 (e), DEC-107/117), GX.E0Surgery.regM_isCauchyComplete_of_C1 (GX/BTZ/MixedDiamond.lean:969), and lem_extension_hausdorff in exactly the case used here (« M₀ = Reg M, M₂ = N flat GH (sing₀ = ∅) », AbsMax.lean checklist). New: a Cauchy-complete E₀-manifold (l.227: « a smooth spacelike Cauchy-surface Σ ... metrically complete »). The precedents are DEC-31's induced length and DEC-107's C¹ spacelike Cauchy surfaces; any reading beyond them becomes an OQ row. For an E₀-manifold Reg_{>0} M = Reg M (T-btz-scope's question). E₀-scoped; partial. In lean-gx; no dependency on the pin bump"
+evidence = "GXScaffold.BTZ.RegComplete: Reg M GH and Cauchy-maximal sorry-free; completeness one tagged sorry (infinitely many spears); partial; OQ-142; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "1fac0f5"
 
 [[target]]
 id = "T-btz-blunt-spear"
@@ -3469,12 +3473,13 @@ stream = "yamabe"
 kind = "close"
 paper = "yamabe"
 labels = ["rem:conformal-gap"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "papers/yamabe ledger: rem:conformal-gap (Yamabegap.tex l.421–424) untriaged, no Lean. The remark is a two-line inequality: « By eq:relative-yamabe, EH(Σ, g) ≥ Y_[g](Σ), so that δ(Σ) ≤ δ_conf(Σ) := σ^∂(Σ) − Y_[g](Σ), with equality when g has constant scalar curvature, minimal boundary and R_g ≤ 0 (fact (iii) above) ». Built: Yamabe.BoundaryGap (502be84, strict): EH, EHB, Y_[g], YB_[g], σ^∂ and prop:gap-bdry-nonneg's use of fact (iii) = lem:kobayashi. The readings are T-yamabe-boundary-gap's (OQ-133 (a)/(b): the φ class, σ^∂ as an EReal supremum over a supplied parameter set), so the row stays partial with OQ-133 and OQ-93"
+evidence = "Yamabe.ConformalGap (strict): rem:conformal-gap partial, hypothesis-free on the manifold reading; OQ-141; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "749b441"
 
 [[target]]
 id = "T-restate-held-curation"

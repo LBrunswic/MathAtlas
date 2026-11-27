@@ -893,3 +893,16 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - New question for the author: T-gfn-appendix-scope (formalize the 23 bucket-B appendix rows of GFN Bounds in lean/, or keep them out of scope as the draft does?).
 - gates: roadmap ✓, atlas ✓
 - next: a wave of T-btz-embeddings, T-btz-reg-complete, T-bbs-hcausal-tachyons (lean-gx, 3) and T-yamabe-gap-corollaries, T-yamabe-conformal-gap (lean-yamabe), with T-btz-curation-existing (master); the builder T-atlas-overlay-refresh is due.
+
+## 2026-11-27 17:20 · wave of 6 · T-btz-embeddings, T-btz-reg-complete, T-yamabe-gap-corollaries, T-yamabe-conformal-gap, T-atlas-overlay-refresh, T-btz-curation-existing
+- T-btz-embeddings: btz § 5's vocabulary, strict and sorry-free (GX.BTZ.Embeddings): BTZ-embeddings and -extensions, the morphism class btzMor in AbstractDev's shape, common sub/over-extensions. Six rows partial (E₀ only). Audit minor (marks, citations; fixed).
+- T-btz-reg-complete: Reg M is GH and Cauchy-maximal, sorry-free, without completeness; its Cauchy-completeness is one tagged sorry (infinitely many spears), scaffold. Findings: « applies as is » (l.1571) does not (the compact proof uses finitely many BTZ lines); Σ's acausality in M̄ is not argued. Audit minor.
+- T-yamabe-gap-corollaries: cor:gap-nonneg, cor:volume partial, strict; the paper's own chains proved, cited inputs carried. Audit minor (checklist row; fixed). OQ-140.
+- T-yamabe-conformal-gap: rem:conformal-gap partial, strict; hypothesis-free on the manifold reading. Its l.423 « finding » is imprecise wording, true in context (audit minor). OQ-141.
+- T-atlas-overlay-refresh (builder): overlay refreshed for lean-causal, lean-benzecri and lean/ (gfnbounds' first edges); block titles without raw TeX; blocks in ledger order. Back to ready: lean-gx and lean-yamabe still to refresh.
+- T-btz-curation-existing (master): six btz rows anchored on lean-gx's E₀ Lean; the btz ledger now has 31 of 55 rows Lean-stated.
+- gates: lean-yamabe ✓, lean-gx ✓, roadmap ✓, registers ✓, atlas ✓ (twice, identical), papers-check all green, hub: make -k check rc 0, no new red
+- commits: 2e601b3 f03ec37 749b441 1fac0f5 4c3a0d8 [+ roadmap/atlas/journal]
+- wall time: 15:45–17:20 UTC; agents in parallel: 4 closers + 1 builder, 4 audits
+- New questions for the author: OQ-140 (gap corollaries' readings), OQ-141 (rem:conformal-gap's scope), OQ-142 (btz § 5: a.e. morphisms, connected carriers, over-extension morphisms, Cauchy-complete).
+- next: T-btz-blunt-spear, T-bbs-hcausal-tachyons, T-bbs-link-remarks (lean-gx) and the builder for lean-gx/lean-yamabe; lean-yamabe's queue is empty again, so a planning run follows soon.
