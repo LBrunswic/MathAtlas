@@ -1,0 +1,43 @@
+{
+  "target": "T-btz-reg-complete-length",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row stays partial, unmarked (no **`btz...`** mark in any of the five files, none at HEAD either). Statements unchanged: the git diff of RegComplete.lean, SpearFamily.lean and RegCompleteCauchy.lean against HEAD touches only imports, docstrings and the body of regM_isCauchyComplete_of_complete (sorry -> E0SpearFamily.regM_isCauchyComplete_of_lf hGH hS hmax); its signature (GH -> IsE0C1CompleteCauchy M S -> IsE0CauchyMaximal M -> Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M)) is the same as before, and so are prop_reg_complete and prop_reg_complete'. /tmp/rcl/RegComplete.orig.lean is identical to HEAD. The three moved declarations (IsE0C1CompleteCauchy, E0C1CauchyComplete, IsE0C1CompleteCauchy.isE0CauchyComplete) are character-for-character the HEAD text, with the same namespace GX.E0RegComplete, the same `open` lines and the same `variable` block, so their full names and types are unchanged. No hypothesis is added to the paper's statement: the summable-radii hypothesis `hsum` appears only on internal lemmas, and regM_isCauchyComplete_of_lf discharges it itself via LFSurgeryData.exists_summable (proved, standard axioms). The readings (E0 scope, IsE0C1CompleteCauchy OQ-142, IsCauchyComplete 2 DEC-31/35) are unchanged and disclosed. The one remaining sorry, LFSurgeryData.exists_isCompact_of_cauchySeq (RegCompleteLength.lean:1253), is tagged `sorry -- SORRY(btzprop:reg_complete): <obstruction>` as CAMPAIGN.md requires. It is plausibly true, not a false statement. Its hypotheses are GH, the full IsE0C1CompleteCauchy (including complete and continuous), an LFSurgeryData (countable, disjoint, closed, locally finite spears in bijection with S ∩ S0 M, so Σ* ⊆ Reg M) and summable radii. Given tendsto_of_cauchySeq_of_isCompact, it is equivalent to completeness of Σ* for those radii. The sketched path-surgery argument is sound in outline: on r = R the printed metric −2dτdr + dr² + r²dθ² (BTZ_1.tex l.268) restricts to R²dθ², so the shorter rim arc has length ≤ πR; with Σ R_i < ∞ the modified S-path has finite S-length; and local finiteness rules out a limit inside a spear interior in case (b). It leaves some details unstated (how first-entry/last-exit pieces nest when spears interleave, and why convergence of Γ along late rim times gives convergence of u), but none of these suggests the statement is false."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 1,
+    "axioms": "standard except sorryAx, and sorryAx comes only through LFSurgeryData.exists_isCompact_of_cauchySeq: it appears in exists_isCompact_of_cauchySeq, completeSpace_sigmaStar, regM_isCauchyComplete_of_lf, regM_isCauchyComplete_of_complete, prop_reg_complete and prop_reg_complete'. Standard only (propext, Classical.choice, Quot.sound) for gh_mgh_regM, IsE0C1CompleteCauchy.isE0CauchyComplete, isSpacelikeLipschitz_sigmaStar, ofReal_abs_logRad_sub_le_edist, tendsto_of_cauchySeq_of_isCompact, exists_summable, isClosed_of_isCauchySurface, exists_lfSurgeryData and isCauchySurface_sigmaStar. `lake env lean` on CompleteCauchy, SpearFamily, RegCompleteCauchy, RegCompleteLength and RegComplete is clean apart from the single `declaration uses sorry` warning at RegCompleteLength.lean:1253. Sorry per file: CompleteCauchy 0, SpearFamily 0, RegCompleteCauchy 0, RegCompleteLength 1, RegComplete 0. The oleans were newer than the sources. The probe was written under the campaign directory and has been deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/RegCompleteLength.lean:80-1077",
+      "what": "About 950 lines are verbatim copies of strict GX/BTZ/Surgery.lean (from l.5293 on: isSpacelikeLipschitzAt_cusp_interior/_rim and the logRad stack), retyped from SurgeryData to LFSurgeryData. There is no name clash: the copies are GX.E0SpearFamily.LFSurgeryData.* and the originals are GX.E0Surgery.SurgeryData.*. Spot diff: the only change is the type and the removal of one `omit [SecondCountableTopology M] in`. This is duplicated proof, not a defect.",
+      "fix": "Cleanup item for graduation, as the closer's kb_proposal says: state the cusp G4 lemmas and the logRad stack once over LFSurgeryData in the strict library and derive the finite SurgeryData case from them."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/RegCompleteLength.lean:1083",
+      "what": "GX.E0SpearFamily.isClosed_of_isCauchySurface is a general fact (a Cauchy surface of a GH E0-manifold is closed) placed in a target-specific namespace. It does not clash with anything in GX/ or the scaffold today.",
+      "fix": "When graduating, move it to the strict causal/E0 library under a general name, after checking it is not already there under another name."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-btz-reg-complete-length/REPORT.json",
+      "what": "Two bookkeeping slips. The `package` field holds the target id, not the package. The label's tex_lines is [1566,1576], while the dispatch and proof block run to l.1578. Separately, the ledger row (papers/btz/ledger/LEDGER.md l.172) still lists only RegComplete, SpearFamily and RegCompleteCauchy; that is curation work for the master session, not a fault of the closer.",
+      "fix": "When curating, add CompleteCauchy.lean and RegCompleteLength.lean to the btzprop:reg_complete row's map."
+    }
+  ],
+  "checks": {
+    "scope": "The closer's paths are clean. git status shows five owned scaffold files (RegComplete, SpearFamily and RegCompleteCauchy modified; CompleteCauchy and RegCompleteLength new), the two import lines CompleteCauchy and RegCompleteLength in GXScaffold.lean, and the campaign directory. Pgcd.lean, PpcmHausdorff.lean, ExtChart.lean and the ExtChart import line belong to T-btz-pgcd-dom-gh; Ppcm.lean and its import line belong to T-btz-ppcm; the papers/*/certificate, programme and roadmap edits belong to other loops. None is attributable to this closer.",
+    "findings_of_report": "Faithful. The claim that it is « not as is » holds: B21's proof of prop:abs_max relies on finitely many BTZ lines from Cauchy-compactness (BTZ_1.tex l.1091) and states Σ*'s completeness without proof (l.1093), while prop:reg_complete's proof (l.1571, l.1574) cites it « as is » for a Cauchy-complete M, which may carry countably many spears. The rim-arc bound ≤ πR follows from the printed metric at l.268. The summable-radii remark is hedged (« may not suffice ») and is not stated as a refutation, so it is a gap, not a false error claim.",
+    "docstring_contract": "Each of the five files has a module docstring with a statement quote, a hypothesis checklist (CompleteCauchy, RegComplete and RegCompleteLength; SpearFamily and RegCompleteCauchy as at HEAD), a SCOPE section and provenance. Each SCOPE now names the single remaining sorry and where it lives, and the statements in them are true."
+  }
+}

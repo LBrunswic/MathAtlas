@@ -1,0 +1,23 @@
+{
+  "target": "T-btz-pgcd-dom-gh",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "btzprop:pgcd",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row correctly stays partial and unmarked: E0 only (T-btz-scope), disclosed in Pgcd.lean's checklist. No mark (**`label`**) added or removed in Pgcd.lean, PpcmHausdorff.lean, or the new ExtChart.lean, which carries none. Statements compared at the elaborated-type level: old Pgcd.lean (HEAD = /tmp/Pgcd.orig.lean) concatenated with old PpcmHausdorff.lean, then elaborated, against the new ExtChart+Pgcd+PpcmHausdorff environment. The same 60 non-internal declarations, with the same full names and identical `Expr` types once hygienic instance-binder names are normalised. That covers the 16 moved declarations, GX.Pgcd.globallyHyperbolicOn_dom and GX.Pgcd.btz_pgcd_gh. The binder rename hG0 -> _hG0 is a non-dependent arrow, so the type is unchanged. The section GH' variable block is textually the old section GH block, and the GraphCluster def body is verbatim. globallyHyperbolicOn_dom is now the term PpcmHausdorff.globallyHyperbolicOn_maxDom hi hj hG1 hG2 and no longer has a sorry. The REPORT's two findings were checked against BTZ_1.tex l.1341-1378 and are correct. (a) l.1351 takes the union over globally hyperbolic domains only, so 'by construction maximal' (l.1376) needs dom i j to be globally hyperbolic, and that is the content of the ppcm third bullet. (b) btz_pgcd_gh_of_gh has no M0-globally-hyperbolic hypothesis and no M2 connected / second-countable hypotheses. Hypotheses carried but unused (M0 globally hyperbolic, M2 connected and second countable) and the added hypothesis (M1 connected) are all disclosed in the checklist."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "`lake env lean` on ExtChart.lean, Pgcd.lean and PpcmHausdorff.lean gives no errors and no warnings. Each file has 0 `sorry` tokens outside docstrings; the grep hits are prose only. #print axioms gives [propext, Classical.choice, Quot.sound] for GX.Pgcd.globallyHyperbolicOn_dom, GX.Pgcd.btz_pgcd_gh, GX.Pgcd.btz_pgcd, GX.PpcmHausdorff.t2Space_ghGlue, GX.PpcmHausdorff.exists_ext_of_graphCluster, GX.PpcmHausdorff.globallyHyperbolicOn_maxDom and GX.PpcmHausdorff.btz_pgcd_gh_of_gh. The probes were written under the campaign directory and deleted. The concurrent target's BTZ/Ppcm.lean, which imports PpcmHausdorff, still elaborates against the new modules; it raised only an unused-section-variable linter warning, which is that target's own file. `lake build` was not rerun, as the dispatch restricted the check to `lake env lean`."
+  },
+  "scope": "git status --short inside lean-gx shows only scaffold/GXScaffold.lean (the one import line GXScaffold.BTZ.ExtChart, placed before BTZ.Pgcd), BTZ/Pgcd.lean, BTZ/PpcmHausdorff.lean, the new BTZ/ExtChart.lean and this campaign directory. The other dirty paths (lean-causal/**, programme/roadmap.toml, roadmap/roadmap.toml, papers/*/certificate/restat*) belong to other loops.",
+  "references": "The moved declarations keep namespace GX.PpcmHausdorff, and every name in papers/btz/certificate/curation.toml rows btzprop:pgcd and btzprop:ppcm still resolves. The import chain is GX.BTZ.Embeddings <- ExtChart <- Pgcd <- PpcmHausdorff, with no cycle.",
+  "curation_followup": "Not a closer defect; the loop's curate step should do this. curation.toml: add scaffold/GXScaffold/BTZ/ExtChart.lean to extra_lean_files of btzprop:ppcm and btzprop:pgcd, since exists_ext_of_graphCluster is now there and globallyHyperbolicOn_maxDom / mem_dom_of_graphCluster are now in Pgcd.lean. Also refresh the btzprop:pgcd notes / scope_notes that still describe globallyHyperbolicOn_dom as a tagged sorry.",
+  "findings": []
+}

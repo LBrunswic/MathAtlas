@@ -1,12 +1,13 @@
 import GX.BTZ.Surgery
-import GXScaffold.BTZ.RegComplete
+import GXScaffold.BTZ.CompleteCauchy
 
 /-!
 # `GXScaffold.BTZ.SpearFamily` — a locally finite family of disjoint spears around the BTZ points of a Cauchy surface (btz § 5.4)
 
 Target T-btz-spear-family. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`). Row (unmarked,
-partial; this file is step (1) of the tagged `sorry` of
-`GX.E0RegComplete.regM_isCauchyComplete_of_complete`, `GXScaffold/BTZ/RegComplete.lean:374`):
+partial; this file is step (1) of the Cauchy-completeness of `Reg M`,
+`GX.E0RegComplete.regM_isCauchyComplete_of_complete`, assembled in
+`GXScaffold/BTZ/RegCompleteLength.lean`):
 
 * `btzprop:reg_complete` — `BTZ_1.tex:1566–1569`, proof l.1570–1576, which cites the surgery of
   `prop:abs_max`'s proof (l.1090–1091) « in disjoint spear neighborhoods of `sing₀(M)` » (l.1574).
@@ -55,11 +56,11 @@ partial; this file is step (1) of the tagged `sorry` of
 
 ## SCOPE (disclosed)
 
-This is the data of the surgery only (step (1) of the sorry of `regM_isCauchyComplete_of_complete`).
-That `Σ*` is a Cauchy surface of `Reg M` with infinitely many spears (step (2),
-T-btz-reg-complete-cauchy) and that it is complete (step (3), T-btz-reg-complete-length) are not
-proved here, so `btzprop:reg_complete` stays partial. The strict `E0Surgery.SurgeryData` (finite) is
-left as it is.
+This is the data of the surgery only (step (1) of the Cauchy-completeness of `Reg M`). That `Σ*`
+is a Cauchy surface of `Reg M` with infinitely many spears (step (2), `RegCompleteCauchy`) and that
+it is complete (step (3), `RegCompleteLength`, one tagged `sorry`) are not proved here, so
+`btzprop:reg_complete` stays partial. The strict `E0Surgery.SurgeryData` (finite) is left as it
+is. The reading `IsE0C1CompleteCauchy` is imported from `GXScaffold.BTZ.CompleteCauchy`.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
@@ -347,7 +348,7 @@ theorem exists_lfSurgeryData_of_rimC1 (hGH : (E0CBG.CE M).GloballyHyperbolic) {S
     rw [← hDψ]
     exact hmemG i j hij (hsub i hmem)
 
-/-- **The surgery data of a `C¹` spacelike complete Cauchy surface** (step (1) of the sorry of
+/-- **The surgery data of a `C¹` spacelike complete Cauchy surface** (step (1) of
 `E0RegComplete.regM_isCauchyComplete_of_complete`). -/
 theorem exists_lfSurgeryData (hGH : (E0CBG.CE M).GloballyHyperbolic) {S : Set M}
     (hS : IsE0C1CompleteCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M) :

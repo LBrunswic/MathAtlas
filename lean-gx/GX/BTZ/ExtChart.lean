@@ -1,77 +1,42 @@
-import GXScaffold.BTZ.Pgcd
+import GX.BTZ.Embeddings
 
 /-!
-# btz § 5.2: the gluing `(M₁ ⊔ M₂)/∼` along `M₁ ∧ M₂` is Hausdorff, for `𝔼₀`-manifolds
+# The chart step for BTZ-extensions: an injective `𝔼₀`-morphism off BTZ points extends over a cluster point of its graph
 
-Target `T-btz-ppcm-hausdorff` (`roadmap/roadmap.toml`). `papers/btz/legacy/labeled/BTZ_1.tex`.
-**0 `sorry`, standard axioms only.** The row is not marked: this file proves the Hausdorff half of
-the proof (its first four bullets, l.1432–1511), for `𝔼₀`-manifolds only (T-btz-scope); the
-`𝔼₀`-structure, causality and global hyperbolicity of the gluing, its minimality and uniqueness
-are T-btz-ppcm.
+Target `T-btz-pgcd-dom-gh` (`roadmap/roadmap.toml`). `papers/btz/legacy/labeled/BTZ_1.tex`.
+**0 `sorry`, standard axioms only.** No label is marked here: this file is the base shared by
+`GX.BTZ.Pgcd` (`btzprop:pgcd`, l.1376) and `GX.BTZ.PpcmHausdorff`
+(`btzprop:ppcm`, the chart step of its first bullet, l.1432–1493). Its declarations were written
+for T-btz-ppcm-hausdorff and moved here unchanged (same full names, namespace
+`GX.PpcmHausdorff`) so that `Pgcd` can use them without an import cycle.
 
-* `btzprop:ppcm` — `BTZ_1.tex:1415` (proof l.1422–1520), the Hausdorff half —
-  `GX.PpcmHausdorff.t2Space_ghGlue` (the paper's gluing `GhGlue` along the paper's `M₁ ∧ M₂`,
-  `Pgcd.ghDom`, is Hausdorff), `GX.PpcmHausdorff.paperC_eq_empty` (« `C` is empty », the paper's
-  `C` literally), `GX.PpcmHausdorff.cdist_ghGlue_eq_empty`; on the maximal domain
-  `GX.PpcmHausdorff.t2Space_glue` (only `M₂` globally hyperbolic). The chart step:
-  `GX.PpcmHausdorff.exists_ext_of_graphCluster`, `GX.PpcmHausdorff.mem_dom_of_graphCluster`,
-  `GX.PpcmHausdorff.mem_graph_of_mem_closure`. The third bullet:
-  `GX.PpcmHausdorff.globallyHyperbolicOn_maxDom`.
-* `btzprop:pgcd` — `BTZ_1.tex:1341` (l.1376, « by construction, `M₁ ∧ M₂` is maximal ») — not
-  marked here (its row is T-btz-pgcd's): `GX.PpcmHausdorff.btz_pgcd_gh_of_gh`, the statement of
-  `GX.Pgcd.btz_pgcd_gh` with no `sorry` (the third bullet of ppcm, run on the maximal domain, is
-  `GX.Pgcd.globallyHyperbolicOn_dom`'s missing argument).
+* `btzprop:ppcm` — `BTZ_1.tex:1415` (the chart step, l.1432–1493) —
+  `GX.PpcmHausdorff.exists_ext_of_graphCluster`, with `GX.PpcmHausdorff.GraphCluster`,
+  `GX.PpcmHausdorff.exists_graphCluster_shrink`, `GX.PpcmHausdorff.le_image_of_graphCluster`,
+  `GX.PpcmHausdorff.lt_image_of_lt`, `GX.PpcmHausdorff.exists_ball_chart`.
+* helpers: `GX.PpcmHausdorff.lt_in_of_lt`, `GX.PpcmHausdorff.ceY_lt_iff`,
+  `GX.PpcmHausdorff.D_lt_of_lt`, `GX.PpcmHausdorff.lt_of_isE0Mor_paper`,
+  `GX.PpcmHausdorff.exists_mem_e0Groupoid_target_inr`,
+  `GX.PpcmHausdorff.trans_mem_maximalAtlas`, `GX.PpcmHausdorff.exists_chart_inr`.
 
-> Define $C$ the set of $p\in M_1$ whose image in $\ppcm$ is unseparated. We shall prove that $C$
-> is empty (l.1429)
->
-> Let $p\in C$ and $p' \in M_2$ such that $p$ and $p'$ are unseparated in $\ppcm$. […] Without
-> loss of generality, we can assume $\U_p$ connected and
-> $\phi(I^+(p)\cap \U_p) = I^+(p')\cap \U_{p'}$ […] The future of a BTZ point in $\V_p$ is in the
-> regular part of a neighborhood of some BTZ point of $\V_p$; Proposition
-> $\ref{prop:isom_strong}$ applies thus $\alpha=0$ and $\psi_{p'} \circ \phi \circ \psi_p^{-1}$ is
-> the restriction of an isomorphism $\gamma_p$ of $\mass{0}$. (l.1433, 1447–1454) […] By
-> analyticity, the $\mass{\geq0}$-morphism $\overline \phi$ […] is well defined. (l.1475–1486)
->
-> In order to prove that $(\pgcd) \cup C$ is globally hyperbolic, in view of Lemma
-> \ref{lem:BTZext_caus_conv}, it suffices to prove that
-> $\forall x\in C,\, \sing_0(J^+_{M_1}(x)) \subset (\pgcd) \cup C$. (l.1497) […] By maximality of
-> $\pgcd$, we have $C=\emptyset$ and $\ppcm$ is thus Hausdorff. (l.1511)
+> The future of a BTZ point in $\V_p$ is in the regular part of a neighborhood of some BTZ point
+> of $\V_p$; Proposition $\ref{prop:isom_strong}$ applies thus $\alpha=0$ and
+> $\psi_{p'} \circ \phi \circ \psi_p^{-1}$ is the restriction of an isomorphism $\gamma_p$ of
+> $\mass{0}$. (l.1452–1454)
 
-## Hypothesis checklist (`t2Space_ghGlue`)
+## Hypothesis checklist (`exists_ext_of_graphCluster`)
 
 | paper hypothesis | here |
 |---|---|
 | `𝔼_{≥0}`-manifolds | ⚠ `𝔼₀` only (T-btz-scope) |
-| `i`, `j` BTZ-extensions | ✓ carried: `IsBTZEmbedding i`, `IsBTZEmbedding j` |
-| `M₀` globally hyperbolic | ⚠ weakened: not used |
-| `M₁` globally hyperbolic | ✓ carried; used by the third bullet only (`t2Space_glue` does not need it) |
-| `M₂` globally hyperbolic | ✓ carried (the compact diamonds of the chart step) |
-| `M₁` Hausdorff, second countable; `M₂` Hausdorff (l.261) | ✓ carried; `M₂` second countable not used |
-| (none) | ⚠ strengthened: `M₁` connected (`E0AbsMax.e0_sfa_of_globalBTZ`, as in `GX.Pgcd`) |
+| `M₂` globally hyperbolic | ✓ carried (the compact diamonds) |
+| `M₁` Hausdorff, second countable; `M₂` Hausdorff (l.261) | ✓ carried |
+| (none) | ⚠ strengthened: `M₁` connected (`E0AbsMax.e0_sfa_of_globalBTZ`) |
 
 ## SCOPE (disclosed)
 
-* **Readings.** The gluing is `Causal.Gluing` (the quotient by the equivalence generated by `∼`,
-  l.1424, which is not reflexive; `Causal.Pushout`'s SCOPE). « unseparated » is
-  `¬ Disjoint (𝓝 ·) (𝓝 ·)` (l.1428). `M₁ ∧ M₂` is the paper's `Pgcd.ghDom` (OQ-146 (b)); under the
-  proposition's hypotheses it equals the maximal domain `Pgcd.dom` (`globallyHyperbolicOn_maxDom`,
-  `Pgcd.ghDom_eq_dom_of_globallyHyperbolicOn`), and the paper's gluing is Hausdorff only if it does
-  (`ghDom_eq_dom_of_t2Space`), so the two readings agree here.
-* **The chart step by another route.** The paper's `I⁺(p') = φ(I⁺(p))` (l.1442–1445) and its
-  « without loss of generality » (l.1447–1448) are replaced by B21 Lemma 2.12's shrinking diamonds
-  (`exists_graphCluster_shrink`): the decreasing images of `bₙ ↘ p` cluster at `q'`, and
-  `φ(I⁺(p) ∩ I⁻(b))` lies in any neighbourhood of `q'` for some `b ≫ p`. In the chart `κ` at `p`
-  (`κ p = (v, 0)`) the region `{τ − r/2 > v}` of a ball is in `I⁺(p)` (`exists_ball_chart`);
-  `prop:isom_strong` (`GX.e0_localUnique_sing`) on it gives `e ∈ G`, `e (κ p) = c' q'` along
-  `t ↦ (v + t, t)`, and Liouville on the connected regular part of a smaller ball
-  (`Causal.CBG.eqOn_of_liftPropOn`) glues `c'⁻¹ ∘ e ∘ κ` to `φ`. One point at a time: the
-  paper's family of charts over all of `C` and its connectedness claims (l.1456–1493) are not
-  needed. The partner `p'` is recovered as `φ̄ p` by continuity (the second bullet's future
-  distinguishing, l.1495, is not used).
-* **The third bullet** is run on the maximal domain, with the curve's own earlier points (bounded
-  in the compact `J(φ x, φ q')`, `q' ≫ c t` regular, push-up) in place of l.1501's decreasing
-  sequence.
+The chart step is proved one point at a time, by B21 Lemma 2.12's shrinking diamonds in place of
+the paper's `I⁺(p') = φ(I⁺(p))` (l.1442–1448); see `GX.BTZ.PpcmHausdorff`'s SCOPE.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal as pinned
 in `lake-manifest.json`.
@@ -662,296 +627,6 @@ theorem exists_ext_of_graphCluster (hG₂ : (CE M₂).GloballyHyperbolic) {D : O
     · rw [hG]; simp only [if_neg hwD]
 
 end ChartStep
-
-/-! ### §3 The gluing along the maximal domain is Hausdorff -/
-
-section Glue
-
-variable {M₀ M₁ M₂ : Type} [TopologicalSpace M₀] [TopologicalSpace M₁] [TopologicalSpace M₂]
-  [ChartedSpace E0Y M₀] [ChartedSpace E0Y M₁] [ChartedSpace E0Y M₂]
-  [T2Space M₁] [ConnectedSpace M₁] [SecondCountableTopology M₁] [HasGroupoid M₁ e0Groupoid]
-  [T2Space M₂] [HasGroupoid M₂ e0Groupoid] {i : M₀ → M₁} {j : M₀ → M₂}
-
-variable (i j) in
-/-- **The gluing `(M₁ ⊔ M₂)/∼` along the maximal domain** `dom i j`, identifying `x ∈ dom i j`
-with `φ x`. -/
-abbrev Glue : Type := Causal.Gluing (Subtype.val : Pgcd.dom i j → M₁) (Pgcd.pgcdMap i j)
-
-omit [ConnectedSpace M₁] [SecondCountableTopology M₁] in
-/-- **`φ` read on `M₁`**: an `𝔼₀`-morphism `F` on `dom i j`, injective there, equal to `φ`. -/
-theorem exists_ext_pgcdMap (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j) :
-    ∃ F : M₁ → M₂, IsE0Mor F (Pgcd.dom i j) ∧ InjOn F (Pgcd.dom i j) ∧
-      ∀ x : Pgcd.dom i j, F x = Pgcd.pgcdMap i j x := by
-  obtain ⟨F, hF, hFφ⟩ := Pgcd.exists_ext ((isBTZEmbedding_subtypeVal_iff (Pgcd.dom i j)).2
-    (Pgcd.compl_dom_subset hi hj)) (Pgcd.isE0Mor_pgcdMap (j := j) hi)
-  rw [Subtype.range_coe] at hF
-  refine ⟨F, hF, fun x hx y hy hxy => ?_, hFφ⟩
-  have h1 := hFφ ⟨x, hx⟩
-  have h2 := hFφ ⟨y, hy⟩
-  have := Pgcd.pgcdMap_injective hi hj (h1.symm.trans (hxy.trans h2))
-  exact congrArg Subtype.val this
-
-/-- **A point of `M₁` unseparated from a point of `M₂` lies in `M₁ ∧ M₂`** (`BTZ_1.tex:1432–1493`,
-the chart step, with « the maximality of `M₁ ∧ M₂` » read on the maximal domain): the chart step
-extends `φ` over a neighbourhood `V` of `p`, so `dom i j ∪ V` is an extension domain. -/
-theorem mem_dom_of_graphCluster (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₂ : (CE M₂).GloballyHyperbolic) {F : M₁ → M₂} (hF : IsE0Mor F (Pgcd.dom i j))
-    (hFinj : InjOn F (Pgcd.dom i j)) (hFφ : ∀ x : Pgcd.dom i j, F x = Pgcd.pgcdMap i j x)
-    {p : M₁} {r : M₂} (hcl : GraphCluster (Pgcd.dom i j : Set M₁) F p r) : p ∈ Pgcd.dom i j := by
-  obtain ⟨V, hpV, g, hg, hgF⟩ := exists_ext_of_graphCluster hG₂ (Pgcd.compl_dom_subset hi hj)
-    hF hFinj hcl
-  have hext : Pgcd.IsExtDomain i j (Pgcd.dom i j ⊔ V) := by
-    refine ⟨(Pgcd.range_subset_dom hi hj).trans (le_sup_left (a := Pgcd.dom i j) (b := V)),
-      g, hg, fun m => ?_⟩
-    have hm : i m ∈ Pgcd.dom i j := Pgcd.range_subset_dom hi hj ⟨m, rfl⟩
-    rw [hgF hm, hFφ ⟨i m, hm⟩, Pgcd.pgcdMap_of_eq _ m rfl]
-  exact Pgcd.le_dom hext (le_sup_right (a := Pgcd.dom i j) (b := V) hpV)
-
-/-- **The graph of `φ` is closed in `M₁ × M₂`** (`BTZ_1.tex:1432–1511`, « `C = ∅` »): a pair in its
-closure has its first point in `dom i j` (`mem_dom_of_graphCluster`), and then its second point
-is `φ` of it, by continuity of `φ` and Hausdorffness of `M₂`. -/
-theorem mem_graph_of_mem_closure (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₂ : (CE M₂).GloballyHyperbolic) {p : M₁} {q : M₂}
-    (hpq : (p, q) ∈ closure (Causal.Gluing.graph (Subtype.val : Pgcd.dom i j → M₁)
-      (Pgcd.pgcdMap i j))) :
-    ∃ hp : p ∈ Pgcd.dom i j, Pgcd.pgcdMap i j ⟨p, hp⟩ = q := by
-  have hj₁ : IsOpenEmbedding (Subtype.val : Pgcd.dom i j → M₁) :=
-    (Pgcd.dom i j).isOpen.isOpenEmbedding_subtypeVal
-  have hφ := Pgcd.isBTZEmbedding_pgcdMap hi hj
-  obtain ⟨F, hF, hFinj, hFφ⟩ := exists_ext_pgcdMap hi hj
-  have hcl : GraphCluster (Pgcd.dom i j : Set M₁) F p q := by
-    intro U hU V hV
-    obtain ⟨_, ⟨hxU, hxV⟩, w, rfl⟩ := mem_closure_iff_nhds.1 hpq _ (prod_mem_nhds hU hV)
-    exact ⟨w.1, w.2, hxU, by rw [hFφ w]; exact hxV⟩
-  have hp := mem_dom_of_graphCluster hi hj hG₂ hF hFinj hFφ hcl
-  refine ⟨hp, ?_⟩
-  by_contra hne
-  obtain ⟨V₁, V₂, hV₁, hV₂, h1, h2, hdis⟩ := t2_separation hne
-  have hU : Subtype.val '' (Pgcd.pgcdMap i j ⁻¹' V₁) ∈ 𝓝 p :=
-    (hj₁.isOpenMap _ (hV₁.preimage hφ.continuous)).mem_nhds ⟨⟨p, hp⟩, h1, rfl⟩
-  obtain ⟨_, ⟨⟨w, hw, hww⟩, hwV⟩, w', rfl⟩ :=
-    mem_closure_iff_nhds.1 hpq _ (prod_mem_nhds hU (hV₂.mem_nhds h2))
-  have : w = w' := Subtype.ext hww
-  subst this
-  exact Set.disjoint_left.1 hdis hw hwV
-
-/-- **The gluing along `dom i j` is Hausdorff** (`BTZ_1.tex:1432–1511`). Only `M₂` needs to be
-globally hyperbolic. -/
-theorem t2Space_glue (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₂ : (CE M₂).GloballyHyperbolic) : T2Space (Glue i j) := by
-  have hj₁ : IsOpenEmbedding (Subtype.val : Pgcd.dom i j → M₁) :=
-    (Pgcd.dom i j).isOpen.isOpenEmbedding_subtypeVal
-  have hφ := Pgcd.isBTZEmbedding_pgcdMap hi hj
-  rw [Causal.Gluing.t2Space_iff hj₁ hφ.isOpenEmbedding]
-  refine ⟨inferInstance, inferInstance, ?_⟩
-  rw [← closure_subset_iff_isClosed]
-  rintro ⟨p, q⟩ hpq
-  obtain ⟨hp, hpq'⟩ := mem_graph_of_mem_closure hi hj hG₂ hpq
-  exact ⟨⟨p, hp⟩, Prod.ext rfl hpq'⟩
-
-/-- **The third bullet** (`BTZ_1.tex:1497–1504`): the maximal domain is globally hyperbolic when
-`M₁` and `M₂` are. By Lemma 2.13 (a) (`btzExt_causallyConvexIn_iff_e0`) it suffices that the BTZ
-future of a BTZ point `x` of `dom i j` stays in `dom i j`; along a causal curve from `x`, at the
-first parameter `t` leaving `dom i j`, the images under `φ` of the earlier points lie in a compact
-diamond of `M₂`, so cluster at some `r`, and `(c t, r)` is in the closure of the graph: then
-`c t ∈ dom i j` (`mem_dom_of_graphCluster`). -/
-theorem globallyHyperbolicOn_maxDom (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₁ : (CE M₁).GloballyHyperbolic) (hG₂ : (CE M₂).GloballyHyperbolic) :
-    (CE M₁).GloballyHyperbolicOn (Pgcd.dom i j) := by
-  have h := E0AbsMax.e0_sfa_of_globalBTZ M₁
-  set A := Pgcd.dom i j with hAdef
-  have hAc : (A : Set M₁)ᶜ ⊆ S0 M₁ := Pgcd.compl_dom_subset hi hj
-  have hAreg : ∀ z, z ∉ S0 M₁ → z ∈ A := fun z hz => by_contra fun h' => hz (hAc h')
-  obtain ⟨F, hF, hFinj, hFφ⟩ := exists_ext_pgcdMap hi hj
-  have hE := isEMorphismOn_of_isE0Mor (W := A) hF
-  refine E0AbsMax.globallyHyperbolicOn_of_causallyConvexIn hG₁ E0LM.e0_causallyArcConnected
-    ((E0AbsMax.btzExt_causallyConvexIn_iff_e0 hAc).2 fun p _ hp z _ hpz => ?_)
-  obtain ⟨c, hc, hc0, hc1⟩ := (h.causallyArcConnected ⊤ le_rfl p z).1.1 hpz
-  have hcont : ContinuousOn c (Icc 0 1) := hc.continuousOn (CE M₁).isRelFamily_le
-  -- the closing step: a point all of whose predecessors on the curve are in `A` is in `A`
-  have key : ∀ t ∈ Icc (0 : ℝ) 1, (∀ s ∈ Ico (0 : ℝ) t, c s ∈ A) → c t ∈ A := by
-    intro t ht hlow
-    rcases ht.1.eq_or_lt with h0 | h0
-    · rw [← h0, hc0]; exact hp
-    obtain ⟨q', hq', hq'reg⟩ := E0AbsMax.exists_lt_notMem_sing h (c t)
-    have hmem : ∀ s ∈ Ico (0 : ℝ) t, F (c s) ∈ (CE M₂).diamond ⊤ (F p) (F q') := by
-      intro s hs
-      have hsA := hlow s hs
-      have hcs : (CE M₁).CausalCurveOn A c 0 s :=
-        Causal.CurveOn.restrict hc le_rfl (hs.2.le.trans ht.2) le_top
-          fun σ hσ => hlow σ ⟨hσ.1, hσ.2.trans_lt hs.2⟩
-      have h1 : (CE M₁).le A p (c s) := by
-        have := hcs.le_of_le le_rfl hs.1 le_rfl
-        rwa [hc0] at this
-      have hst : (CE M₁).le ⊤ (c s) (c t) := hc.le_of_le hs.1 hs.2.le ht.2
-      have hlt : (CE M₁).lt ⊤ (c s) q' := h.pushUp.lt_of_le_of_lt hst hq'
-      exact Causal.Causality.mem_diamond.2
-        ⟨hE.map_le A ⊤ le_rfl (fun _ _ => trivial) h1,
-          (CE M₂).le_of_lt (lt_image_of_lt hAc hF hsA hlt)⟩
-    -- a cluster value `r` of `F ∘ c` as `s ↗ t`
-    have hne : (𝓝[Ico 0 t] t).NeBot := by
-      rw [← mem_closure_iff_nhdsWithin_neBot, closure_Ico h0.ne]
-      exact right_mem_Icc.2 h0.le
-    obtain ⟨r, -, hr⟩ := (hG₂.2 (F p) (F q')).exists_mapClusterPt (f := 𝓝[Ico 0 t] t)
-      (u := F ∘ c) (by
-        rw [le_principal_iff, mem_map]
-        exact mem_of_superset self_mem_nhdsWithin fun s hs => hmem s hs)
-    have hcw : Tendsto c (𝓝[Ico 0 t] t) (𝓝 (c t)) :=
-      ((hcont t ht).mono fun s hs => ⟨hs.1, hs.2.le.trans ht.2⟩).tendsto
-    have hcl : GraphCluster (A : Set M₁) F (c t) r := by
-      intro U hU V hV
-      obtain ⟨s, ⟨hsV, hsU⟩, hs⟩ := (((mapClusterPt_iff_frequently.1 hr V hV).and_eventually
-        (hcw.eventually hU)).and_eventually self_mem_nhdsWithin).exists
-      exact ⟨c s, hlow s hs, hsU, hsV⟩
-    exact mem_dom_of_graphCluster hi hj hG₂ hF hFinj hFφ hcl
-  -- the first exit time
-  by_contra hzA
-  set S : Set ℝ := {t | t ∈ Icc (0 : ℝ) 1 ∧ c t ∉ A} with hSdef
-  have h1S : (1 : ℝ) ∈ S := ⟨right_mem_Icc.2 zero_le_one, by rw [hc1]; exact hzA⟩
-  have hSne : S.Nonempty := ⟨1, h1S⟩
-  have hSbdd : BddBelow S := ⟨0, fun t ht => ht.1.1⟩
-  have ht₀ : sInf S ∈ Icc (0 : ℝ) 1 :=
-    ⟨le_csInf hSne fun t ht => ht.1.1, csInf_le hSbdd h1S⟩
-  have hlow : ∀ s ∈ Ico (0 : ℝ) (sInf S), c s ∈ A := fun s hs => by
-    by_contra hsA
-    have : sInf S ≤ s := csInf_le hSbdd ⟨⟨hs.1, hs.2.le.trans ht₀.2⟩, hsA⟩
-    exact absurd hs.2 (not_lt.2 this)
-  have hct₀ := key _ ht₀ hlow
-  have hpre : c ⁻¹' A ∈ 𝓝[Icc 0 1] (sInf S) :=
-    (hcont _ ht₀).preimage_mem_nhdsWithin (A.isOpen.mem_nhds hct₀)
-  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
-  have hge : sInf S + ε ≤ sInf S := by
-    refine le_csInf hSne fun s hs => ?_
-    by_contra hlt
-    push Not at hlt
-    have hs0 : sInf S ≤ s := csInf_le hSbdd hs
-    refine hs.2 (hball ⟨?_, hs.1⟩)
-    rw [Metric.mem_ball, Real.dist_eq, abs_lt]
-    constructor <;> linarith
-  linarith
-
-/-- **`btzprop:pgcd` in the form of its proof, sorry-free** (`BTZ_1.tex:1341–1378`; the statement of
-`GX.Pgcd.btz_pgcd_gh`, whose one `sorry` is `GX.Pgcd.globallyHyperbolicOn_dom`): the paper's
-`M₁ ∧ M₂` carries a maximal common sub-BTZ-extension and is globally hyperbolic, with `M₀`
-not assumed globally hyperbolic and `M₂` not assumed connected or second countable. -/
-theorem btz_pgcd_gh_of_gh (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₁ : (CE M₁).GloballyHyperbolic) (hG₂ : (CE M₂).GloballyHyperbolic) :
-    ∃ X : CommonSubBTZ i j, X.IsMaximal ∧ range X.b = Pgcd.ghDom i j ∧
-      (CE X.X).GloballyHyperbolic := by
-  have hGH := globallyHyperbolicOn_maxDom hi hj hG₁ hG₂
-  refine ⟨Pgcd.pgcdSub hi hj, Pgcd.pgcdSub_isMaximal hi hj, ?_, ?_⟩
-  · rw [Pgcd.range_pgcdSub_b, Pgcd.ghDom_eq_dom_of_globallyHyperbolicOn hi hj hGH]
-  · show (CE (Pgcd.dom i j)).GloballyHyperbolic
-    rw [E0AbsMax.ce_opens_eq]
-    exact Causal.Causality.globallyHyperbolic_toSubtype hGH
-
-/-! ### §4 The paper's gluing, along `M₁ ∧ M₂ = ghDom i j` -/
-
-variable (i j) in
-/-- `φ` on the paper's `M₁ ∧ M₂` (the union of the globally hyperbolic domains). -/
-noncomputable def ghMap (x : Pgcd.ghDom i j) : M₂ :=
-  Pgcd.pgcdMap i j (Set.inclusion (Pgcd.ghDom_le_dom (i := i) (j := j)) x)
-
-variable (i j) in
-/-- **The paper's gluing** `M₁ ∨ M₂ = (M₁ ⊔ M₂)/∼` (`BTZ_1.tex:1424`), along the paper's
-`M₁ ∧ M₂`, `x ∼ φ(x)`. -/
-abbrev GhGlue : Type := Causal.Gluing (Subtype.val : Pgcd.ghDom i j → M₁) (ghMap i j)
-
-omit [ConnectedSpace M₁] [SecondCountableTopology M₁] in
-theorem isOpenEmbedding_ghMap (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j) :
-    IsOpenEmbedding (ghMap i j) :=
-  (Pgcd.isBTZEmbedding_pgcdMap hi hj).isOpenEmbedding.comp
-    (Opens.isOpenEmbedding_of_le Pgcd.ghDom_le_dom)
-
-/-- **`btzprop:ppcm`, the Hausdorff half** (`BTZ_1.tex:1424–1511`, for `𝔼₀`-manifolds): the paper's
-gluing `(M₁ ⊔ M₂)/∼` along `M₁ ∧ M₂` is Hausdorff when `M₁` and `M₂` are globally hyperbolic. The
-third bullet makes `M₁ ∧ M₂` the maximal domain (`globallyHyperbolicOn_maxDom`), along which the
-graph of `φ` is closed (`mem_graph_of_mem_closure`). -/
-theorem t2Space_ghGlue (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₁ : (CE M₁).GloballyHyperbolic) (hG₂ : (CE M₂).GloballyHyperbolic) :
-    T2Space (GhGlue i j) := by
-  have hj₁ : IsOpenEmbedding (Subtype.val : Pgcd.ghDom i j → M₁) :=
-    (Pgcd.ghDom i j).isOpen.isOpenEmbedding_subtypeVal
-  have heq : Pgcd.ghDom i j = Pgcd.dom i j :=
-    Pgcd.ghDom_eq_dom_of_globallyHyperbolicOn hi hj (globallyHyperbolicOn_maxDom hi hj hG₁ hG₂)
-  rw [Causal.Gluing.t2Space_iff hj₁ (isOpenEmbedding_ghMap hi hj)]
-  refine ⟨inferInstance, inferInstance, ?_⟩
-  rw [← closure_subset_iff_isClosed]
-  rintro ⟨p, q⟩ hpq
-  have hsub : Causal.Gluing.graph (Subtype.val : Pgcd.ghDom i j → M₁) (ghMap i j) ⊆
-      Causal.Gluing.graph (Subtype.val : Pgcd.dom i j → M₁) (Pgcd.pgcdMap i j) := by
-    rintro _ ⟨w, rfl⟩
-    exact ⟨Set.inclusion Pgcd.ghDom_le_dom w, rfl⟩
-  obtain ⟨hp, hpq'⟩ := mem_graph_of_mem_closure hi hj hG₂ (closure_mono hsub hpq)
-  have hp' : p ∈ Pgcd.ghDom i j := by rw [heq]; exact hp
-  exact ⟨⟨p, hp'⟩, Prod.ext rfl hpq'⟩
-
-/-- **« `C = ∅` »** (`BTZ_1.tex:1429, 1511`), with the paper's `C` read as the pairs of
-`M₁ × M₂` with distinct unseparated images (`Causal.Gluing.Cdist`; two points of the same `Mᵢ`
-are always separated, `Causal.Gluing.disjoint_nhds_ι₁_ι₁`). -/
-theorem cdist_ghGlue_eq_empty (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₁ : (CE M₁).GloballyHyperbolic) (hG₂ : (CE M₂).GloballyHyperbolic) :
-    Causal.Gluing.Cdist (Subtype.val : Pgcd.ghDom i j → M₁) (ghMap i j) = ∅ :=
-  (Causal.Gluing.t2Space_iff_Cdist_eq_empty (Pgcd.ghDom i j).isOpen.isOpenEmbedding_subtypeVal
-    (isOpenEmbedding_ghMap hi hj)).1 (t2Space_ghGlue hi hj hG₁ hG₂)
-
-variable (i j) in
-/-- **The paper's `C`, literally** (`BTZ_1.tex:1428–1429`): the points `p ∈ M₁` whose image in the
-gluing is unseparated, i.e. not separated from some other point of the gluing. -/
-def paperC : Set M₁ :=
-  {p | ∃ z : GhGlue i j, z ≠ Causal.Gluing.ι₁ _ _ p ∧
-    ¬ Disjoint (𝓝 (Causal.Gluing.ι₁ (Subtype.val : Pgcd.ghDom i j → M₁) (ghMap i j) p)) (𝓝 z)}
-
-/-- **`C = ∅`** (`BTZ_1.tex:1429`, « We shall prove that `C` is empty »; l.1511), for the
-paper's `C` as defined. -/
-theorem paperC_eq_empty (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₁ : (CE M₁).GloballyHyperbolic) (hG₂ : (CE M₂).GloballyHyperbolic) :
-    paperC i j = ∅ := by
-  haveI := t2Space_ghGlue hi hj hG₁ hG₂
-  refine eq_empty_iff_forall_notMem.2 fun p ⟨z, hz, hnd⟩ => hnd ?_
-  exact disjoint_nhds_nhds.2 (Ne.symm hz)
-
-omit [ConnectedSpace M₁] [SecondCountableTopology M₁] in
-/-- **The paper's gluing is Hausdorff only if its `M₁ ∧ M₂` is the maximal domain** (when it
-contains `i(M₀)`, as it does for `M₀` globally hyperbolic, l.1353): a point `x` of
-`dom i j ∖ ghDom i j` is unseparated from `φ x`, since `i(M₀) ⊆ ghDom i j` is dense. So the
-Hausdorff property of the gluing is exactly the content of the third bullet. -/
-theorem ghDom_eq_dom_of_t2Space (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hgh : range i ⊆ Pgcd.ghDom i j) [T2Space (GhGlue i j)] :
-    Pgcd.ghDom i j = Pgcd.dom i j := by
-  have hj₁ : IsOpenEmbedding (Subtype.val : Pgcd.ghDom i j → M₁) :=
-    (Pgcd.ghDom i j).isOpen.isOpenEmbedding_subtypeVal
-  have hG := ((Causal.Gluing.t2Space_iff hj₁ (isOpenEmbedding_ghMap hi hj)).1 ‹_›).2.2
-  refine le_antisymm Pgcd.ghDom_le_dom fun x hx => ?_
-  have hφ := Pgcd.isBTZEmbedding_pgcdMap hi hj
-  have hdj : IsOpenEmbedding (Subtype.val : Pgcd.dom i j → M₁) :=
-    (Pgcd.dom i j).isOpen.isOpenEmbedding_subtypeVal
-  have hmem : (x, Pgcd.pgcdMap i j ⟨x, hx⟩) ∈
-      closure (Causal.Gluing.graph (Subtype.val : Pgcd.ghDom i j → M₁) (ghMap i j)) := by
-    rw [mem_closure_iff_nhds]
-    intro W hW
-    obtain ⟨U, hU, V, hV, hUV⟩ := mem_nhds_prod_iff.1 hW
-    -- a point of `i(M₀)` near `x` whose image is near `φ x`
-    have hO : IsOpen (Subtype.val '' (Pgcd.pgcdMap i j ⁻¹' interior V) ∩ interior U) :=
-      (hdj.isOpenMap _ (isOpen_interior.preimage hφ.continuous)).inter isOpen_interior
-    have hxO : x ∈ Subtype.val '' (Pgcd.pgcdMap i j ⁻¹' interior V) ∩ interior U :=
-      ⟨⟨⟨x, hx⟩, mem_interior_iff_mem_nhds.2 hV, rfl⟩, mem_interior_iff_mem_nhds.2 hU⟩
-    obtain ⟨_, ⟨⟨w, hwV, rfl⟩, hwU⟩, m, hm⟩ :=
-      hi.dense_range.inter_open_nonempty _ hO ⟨x, hxO⟩
-    have hwgh : (w : M₁) ∈ Pgcd.ghDom i j := hgh ⟨m, hm⟩
-    refine ⟨((w : M₁), ghMap i j ⟨w, hwgh⟩), hUV ⟨interior_subset hwU, ?_⟩,
-      ⟨⟨w, hwgh⟩, rfl⟩⟩
-    have : ghMap i j ⟨w, hwgh⟩ = Pgcd.pgcdMap i j w := rfl
-    rw [this]
-    exact interior_subset hwV
-  rw [hG.closure_eq] at hmem
-  obtain ⟨y, hy⟩ := hmem
-  have := congrArg Prod.fst hy
-  simp only at this
-  rw [← this]
-  exact y.2
-
-end Glue
 
 end PpcmHausdorff
 

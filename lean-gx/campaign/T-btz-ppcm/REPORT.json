@@ -1,0 +1,128 @@
+{
+  "package": "T-btz-ppcm",
+  "target": "T-btz-ppcm",
+  "files": [
+    "scaffold/GXScaffold/BTZ/Ppcm.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "btzprop:ppcm",
+      "tex_lines": [
+        1415,
+        1520
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.Ppcm.btz_ppcm",
+        "GX.Ppcm.ppcm",
+        "GX.Ppcm.ppcm_carrier",
+        "GX.Ppcm.ppcm_a_b",
+        "GX.Ppcm.globallyHyperbolic_ppcm",
+        "GX.Ppcm.ppcm_isMinimal",
+        "GX.Ppcm.equivalent_ppcm",
+        "GX.Ppcm.IsMinimal",
+        "GX.Ppcm.IsMinimalGH",
+        "GX.Ppcm.equivalent_of_isMinimalGH",
+        "GX.Ppcm.glueMfd",
+        "GX.Ppcm.glueCS",
+        "GX.Ppcm.trans_emb",
+        "GX.Ppcm.isBTZEmbedding_π₁",
+        "GX.Ppcm.isBTZEmbedding_π₂",
+        "GX.Ppcm.globallyHyperbolic_of_cover",
+        "GX.Ppcm.isBTZEmbedding_ghMap",
+        "GX.Ppcm.equivalent_ppcm_of_isOrderMinimalGH",
+        "GX.Ppcm.IsOrderMinimalGH"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_{>=0}-manifolds",
+          "here": "strengthened",
+          "note": "E0-manifolds only (T-btz-scope, needs-ruling)"
+        },
+        {
+          "paper": "i, j BTZ-extensions",
+          "here": "carried",
+          "note": "IsBTZEmbedding i, IsBTZEmbedding j"
+        },
+        {
+          "paper": "M0 globally hyperbolic",
+          "here": "weakened",
+          "note": "not used anywhere in the row (neither here nor in GX.PpcmHausdorff)"
+        },
+        {
+          "paper": "M1, M2 globally hyperbolic",
+          "here": "carried",
+          "note": "M1 GH: M1∧M2 is the maximal domain (via PpcmHausdorff.globallyHyperbolicOn_maxDom) and pi1(M1) is GH in the gluing; M2 GH: Hausdorffness and pi2(M2) GH. Minimality uses neither beyond ghDom = dom"
+        },
+        {
+          "paper": "M1, M2 Hausdorff, second countable (l.261)",
+          "here": "carried",
+          "note": "M2 second countable is what makes the gluing second countable (an E0Mfd)"
+        },
+        {
+          "paper": "(none)",
+          "here": "strengthened",
+          "note": "M1 connected: inherited from GX.PpcmHausdorff (E0AbsMax.e0_sfa_of_globalBTZ), and used here to make the gluing connected (pi1(M1) is dense) so that SFA, Lemma 2.13 (b) and Cor 2.15 apply to it; a library limitation, not a defect of the paper. M2 connected is not needed"
+        },
+        {
+          "paper": "minimal among such (globally hyperbolic) extensions",
+          "here": "carried",
+          "note": "conclusion strengthened: minimal among ALL common over-BTZ-extensions (IsMinimal), GH or not"
+        },
+        {
+          "paper": "unique up to equivalence",
+          "here": "carried",
+          "note": "proved under both readings of « minimal »: universal (equivalent_ppcm, IsMinimalGH) and order-minimal, no proper sub-object (equivalent_ppcm_of_isOrderMinimalGH, IsOrderMinimalGH)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.1417–1419: minimality and uniqueness are asserted but the proof (l.1422–1520) never addresses them; « minimal » is not defined for over-extensions (only « maximal » for sub-extensions, btzdef:maximal_common_sub_btz_extension l.1332–1337). They follow from the universal property of the gluing: a common over-extension (Y, a, b) gives a ∘ π₁⁻¹ and b ∘ π₂⁻¹ agreeing on π₁(M₁∧M₂) by density of i(M₀), the descended map is an E0-morphism, and it is injective because a⁻¹(b(M₂)) is an extension domain of j ∘ i⁻¹ and hence lies in M₁∧M₂ (maximality of the maximal domain, Pgcd.le_dom) with b⁻¹ ∘ a = φ there (GX.Ppcm.ppcm_isMinimal). Uniqueness: two minimal ones are equivalent because morphisms of common over-extensions are unique (GX.Ppcm.equivalent_of_isMinimalGH).",
+        "BTZ_1.tex l.1417: minimality holds among ALL common over-BTZ-extensions, not only the globally hyperbolic ones: the target Y needs neither global hyperbolicity nor connectedness (GX.Ppcm.ppcm_isMinimal).",
+        "BTZ_1.tex l.1512–1518: the last bullet holds for any E0-manifold covered by the images of two BTZ-embeddings of globally hyperbolic manifolds (GX.Ppcm.globallyHyperbolic_of_cover). The case split « if either of p, q is in reg … we thus assume p, q both in sing0 » (l.1516) is not needed: the paper's own step q' ∈ I⁺(q) ⊂ π₁(M₁) shows that each image πᵢ(Mᵢ) is a future set (GX.Ppcm.mem_range_of_le), so any non-empty diamond J(p, q) has both tips in the image containing p.",
+        "BTZ_1.tex l.1415: M₀ globally hyperbolic is not used by any part of the proposition (this file and GX.PpcmHausdorff).",
+        "BTZ_1.tex l.1424–1426 (the E≥0-structure of M₁ ∨ M₂): correct as written; formalized as lean-causal's gluing of atlases (Causal.CBG.gluedChartedSpace) with transitions φ on M₁∧M₂ and φ⁻¹ on φ(M₁∧M₂) (GX.Ppcm.trans_emb)."
+      ],
+      "questions": [
+        "« minimal among such extensions » (l.1417): not defined in the paper. Both readings are covered. Universal reading, dual to btzdef:maximal_common_sub_btz_extension (l.1336): an injective morphism into every globally hyperbolic common over-extension (GX.Ppcm.IsMinimalGH; the unrestricted GX.Ppcm.IsMinimal is what is proved). Order reading, « no proper sub-object »: every injective morphism into it from a GH common over-extension is bijective (GX.Ppcm.IsOrderMinimalGH). M₁ ∨ M₂ is minimal in the universal sense, and uniqueness is proved under both readings (equivalent_ppcm, equivalent_ppcm_of_isOrderMinimalGH).",
+        "« unique up to equivalence » (l.1419): proved under both readings: every GH common over-BTZ-extension that is IsMinimalGH (equivalent_ppcm) or IsOrderMinimalGH (equivalent_ppcm_of_isOrderMinimalGH) is equivalent (a bijective morphism, l.1411) to M₁ ∨ M₂.",
+        "OQ-148 carried over from T-btz-ppcm-hausdorff: ∼ (l.1424) read as the generated equivalence (Causal.Gluing); M₁ ∧ M₂ is the paper's Pgcd.ghDom (equal to the maximal domain under the hypotheses, GX.Ppcm.ghDom_eq_dom); M₁ connected added."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.Ppcm.globallyHyperbolicOn_range",
+    "GX.Ppcm.mem_range_of_le",
+    "GX.Ppcm.piece",
+    "GX.Ppcm.emb",
+    "GX.Ppcm.isOpenEmbedding_emb",
+    "GX.Ppcm.emb_cover",
+    "GX.Ppcm.glueCS_hasGroupoid",
+    "GX.Ppcm.π₁",
+    "GX.Ppcm.π₂",
+    "GX.Ppcm.π₁_val",
+    "GX.Ppcm.isE0Mor_π₁",
+    "GX.Ppcm.isE0Mor_π₂",
+    "GX.Ppcm.cover_π",
+    "GX.Ppcm.connectedSpace_glueMfd",
+    "GX.Ppcm.IsMinimal.isMinimalGH",
+    "GX.Ppcm.ghDom_eq_dom",
+    "GX.Ppcm.nonempty_M₂",
+    "GX.Ppcm.compl_ghDom_subset",
+    "GX.Ppcm.range_subset_ghDom"
+  ],
+  "kb_proposals": [
+    "Gluing two E0-manifolds along a BTZ-embedding φ : D → M₂ of an open D ⊆ M₁ with BTZ complement is GX.Ppcm.glueMfd (any Hausdorff Causal.Gluing val φ becomes an E0Mfd; π₁, π₂ BTZ-embeddings: GX.Ppcm.isBTZEmbedding_π₁/π₂). Reuse it for the inductive limit of btzthm:BTZ_ext rather than E0AbsMax.E0Pushout, whose second piece is a flat spacetime.",
+    "An E0-manifold covered by the images of two BTZ-embeddings of globally hyperbolic manifolds is globally hyperbolic (GX.Ppcm.globallyHyperbolic_of_cover); the image of a BTZ-embedding of a GH manifold is GH as an open set (GX.Ppcm.globallyHyperbolicOn_range) and a future set (GX.Ppcm.mem_range_of_le).",
+    "Minimality of a common over-BTZ-extension built as a gluing is the universal property Causal.Gluing.desc plus Pgcd.le_dom on the extension domain a⁻¹(range b) (GX.Ppcm.ppcm_isMinimal); morphisms of common over-extensions are unique, so minimal ones are equivalent (GX.Ppcm.equivalent_of_isMinimalGH)."
+  ],
+  "notes": "One new file, sorry-free, standard axioms, no warnings; one import line added to scaffold/GXScaffold.lean after GXScaffold.BTZ.PpcmHausdorff. lake build GXScaffold.BTZ.Ppcm succeeded against the current state of ExtChart.lean / Pgcd.lean / PpcmHausdorff.lean (as moved by T-btz-pgcd-dom-gh at 19:14). Dependencies on the concurrently moved files: PpcmHausdorff.{ghMap, GhGlue, t2Space_ghGlue, globallyHyperbolicOn_maxDom} and Pgcd.{dom, ghDom, IsExtDomain, le_dom, exists_ext, pgcdMap, pgcdMap_eq, pgcdMap_of_eq, pgcdMap_injective, isE0Mor_pgcdMap, range_subset_dom, compl_dom_subset, ghDom_le_dom, ghDom_eq_dom_of_globallyHyperbolicOn}; globallyHyperbolicOn_maxDom is used once, in GX.Ppcm.ghDom_eq_dom (now located in Pgcd.lean, same name). Not used: btz_pgcd_gh, Pgcd.globallyHyperbolicOn_dom, btz_pgcd_gh_of_gh. The row stays partial and unmarked: E0 only (T-btz-scope) and M1 connected added; every assertion of the statement (existence, GH, minimality, uniqueness) is otherwise proved. E0Pushout was not reused (its second piece is FlatE0 N, not an E0-manifold); the generic lean-causal gluing of atlases it rests on is used instead, so there is no third copy of the atlas machinery, but there is a second instance of the four-case transition proof (GX.Ppcm.trans_emb mirrors exists_e0Pushout's htrans). AUDIT-1 (minor) addressed: the order-minimal uniqueness corollary GX.Ppcm.equivalent_ppcm_of_isOrderMinimalGH was added; trans_emb was left as is (its duplication with exists_e0Pushout is noted for graduation)."
+}

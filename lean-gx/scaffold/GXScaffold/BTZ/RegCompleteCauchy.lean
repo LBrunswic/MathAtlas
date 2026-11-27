@@ -4,8 +4,9 @@ import GXScaffold.BTZ.SpearFamily
 # `GXScaffold.BTZ.RegCompleteCauchy` — the surgered surface `Σ*` of a locally finite spear family is a Cauchy surface of `Reg M` (btz § 5.4)
 
 Target T-btz-reg-complete-cauchy. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`). Row
-(unmarked, partial; this file is step (2) of the tagged `sorry` of
-`GX.E0RegComplete.regM_isCauchyComplete_of_complete`, in `GXScaffold/BTZ/RegComplete.lean`):
+(unmarked, partial; this file is step (2) of the Cauchy-completeness of `Reg M`,
+`GX.E0RegComplete.regM_isCauchyComplete_of_complete`, assembled in
+`GXScaffold/BTZ/RegCompleteLength.lean`):
 
 * `btzprop:reg_complete` — `BTZ_1.tex:1566–1569`, proof l.1570–1576, which cites the surgery of
   `prop:abs_max`'s proof (l.1090–1093) with possibly infinitely many spears.
@@ -60,9 +61,9 @@ along the curve and a neighbourhood meets finitely many spears (`eventually_othe
 
 ## SCOPE (disclosed)
 
-Step (2) only. That `Σ*` is complete for its induced length with infinitely many spears (step (3),
-T-btz-reg-complete-length) is not proved here, so `regM_isCauchyComplete_of_complete` keeps its
-tagged `sorry` and `btzprop:reg_complete` stays partial.
+Step (2) only. That `Σ*` is complete for its induced length with infinitely many spears (step (3))
+is `GXScaffold.BTZ.RegCompleteLength`, which keeps one tagged `sorry`, so `btzprop:reg_complete`
+stays partial.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/

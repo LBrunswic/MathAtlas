@@ -191,3 +191,10 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0181](entries/0181-the-strict-e0surgery-surgerydata-iscauch.md) | pattern | The strict isCauchySurface_sigmaStar asks for more than it needs |
 | [0182](entries/0182-parabolic-holonomy-at-a-regular-limit-po.md) | pattern | Parabolic holonomy at a regular limit point without comparing two sector charts |
 | [0183](entries/0183-before-stating-an-auxiliary-in-extensibi.md) | pattern | Carry 0 < R in auxiliary lemmas over a blunt spear chart |
+| [0184](entries/0184-gluing-two-e0-manifolds-along-a-btz-embe.md) | pattern | Gluing two E0-manifolds along a BTZ-embedding φ : D → M₂ of an open D ⊆ M₁ with BTZ comple |
+| [0185](entries/0185-an-e0-manifold-covered-by-the-images-of.md) | pattern | An E0-manifold covered by the images of two BTZ-embeddings of globally hyperbolic manifold |
+| [0186](entries/0186-minimality-of-a-common-over-btz-extensio.md) | pattern | Minimality of a common over-BTZ-extension built as a gluing is the universal property Caus |
+| [0187](entries/0187-to-break-an-import-cycle-without-renamin.md) | pattern | To break an import cycle without renaming, move declarations into a base file while keepin |
+| [0188](entries/0188-the-strict-surgerydata-isspacelikelipsch.md) | pattern | The strict SurgeryData.isSpacelikeLipschitzAt_cusp_interior/_rim and the logRad stack (abs |
+| [0189](entries/0189-on-the-rim-r-r-of-a-spear-the-printed-e0.md) | pattern | On the rim r = R of a spear the printed E0 metric -2dtau dr + dr^2 + r^2 dtheta^2 is R^2 d |
+| [0190](entries/0190-completeness-of-sigma-reduces-to-cauchy.md) | pattern | Completeness of Sigma* reduces to « Cauchy tail in a compact of M » (LFSurgeryData.tendsto |

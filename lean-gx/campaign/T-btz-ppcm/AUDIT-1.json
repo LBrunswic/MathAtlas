@@ -1,0 +1,36 @@
+{
+  "target": "T-btz-ppcm",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzprop:ppcm",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row partial and unmarked. The module docstring (first 4000 chars, the ledger's scan window) carries no **`label`** mark. The bold label in the btz_ppcm declaration docstring (l.587) says '(unmarked ...)', sits outside the scan window, and follows the convention of PpcmHausdorff.lean:178. Statement checked against BTZ_1.tex l.1415-1420. (a) Hypotheses: i and j are IsBTZEmbedding. M1 and M2 are GH, T2 and second countable (l.261). M1 connected is added and disclosed (inherited from PpcmHausdorff, OQ-148(d)). M0 needs only TopologicalSpace and ChartedSpace: neither GH nor E0Mfd, which weakens the paper and is disclosed. E0 only (T-btz-scope), disclosed. (b) Vocabulary in strict GX/BTZ/Embeddings.lean. CommonOverBTZ is an E0Mfd with BTZ-embeddings a, b and a∘i = b∘j (l.1385). IsMorphism is IsE0Mor on univ, commuting with a and b (l.1401). Equivalent is a bijective morphism (l.1411). All are faithful. (c) IsMinimal is 'an injective morphism of common over-extensions into every common over-extension'. This is the exact dual of btzdef:maximal_common_sub_btz_extension (l.1336: an injective morphism from every M' to M). It is not vacuous: Φ must be an E0-morphism on all of X and commute with both embeddings. It is proved through Gluing.desc plus Pgcd.le_dom on the extension domain a⁻¹(range b), and its injectivity really uses the maximality of M1∧M2. It is proved for all Y, not only GH ones, so it implies IsMinimalGH (the paper's 'among such'). It also implies the order-theoretic reading ('every injective morphism into X is an equivalence'), because morphisms are unique (IsMorphism.unique). (d) Uniqueness: every GH common over-extension that is IsMinimalGH is Equivalent to ppcm. This is faithful under the universal reading. (e) The E0-structure is genuine. glueCS is Causal.CBG.gluedChartedSpace over the two pieces. glueCS_hasGroupoid gives HasGroupoid e0Groupoid from trans_emb: id, φ on D and φ⁻¹ on φ(D) are each the restriction of an E0-morphism F or G from Pgcd.exists_ext. T2 comes from PpcmHausdorff.t2Space_ghGlue. Second countability comes from the open quotient map (isQuotientMap_quot_mk.secondCountableTopology with Gluing.isOpenMap_mk). glueMfd is E0Mfd.of the gluing, so π₁ and π₂ are IsBTZEmbedding in the strict sense: injective, IsE0Mor on univ, and complement of the image in S0 through mem_S0_iff_of_isE0Mor. ppcm_carrier and ppcm_a_b check by rfl that the carrier and maps are the paper's gluing GhGlue i j along Pgcd.ghDom. (f) GH: globallyHyperbolic_of_cover is applied with the connectedness of the gluing (π₁(M1) is dense). Under Cor 2.15 (cor_GH_causal_e0) and B21 Lemma 2.13(b), this matches l.1512-1518."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "taskset -c 0-11 lake build GXScaffold.BTZ.Ppcm: 'Build completed successfully (8738 jobs)'. grep -c sorry Ppcm.lean = 0. #print axioms gives exactly [propext, Classical.choice, Quot.sound] for btz_ppcm, ppcm, globallyHyperbolic_ppcm, ppcm_isMinimal, equivalent_ppcm, equivalent_of_isMinimalGH, glueMfd, trans_emb, isBTZEmbedding_π₁, isBTZEmbedding_π₂, globallyHyperbolic_of_cover, isBTZEmbedding_ghMap, ppcm_carrier and ppcm_a_b. There is no sorryAx, so the transitive dependencies in Pgcd and PpcmHausdorff are also sorry-free. The probe was written under campaign/T-btz-ppcm/ and deleted."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/Ppcm.lean:578-596",
+      "what": "Uniqueness is stated only under the universal reading of 'minimal' (Y IsMinimalGH). The REPORT discloses the other reading, order-minimal ('no proper sub-object': every injective morphism from a GH common over-extension into Y is an equivalence), as not taken. Under that reading the paper's uniqueness ranges over a larger class of Y, and the Lean does not cover it. It does hold: ppcm_isMinimal gives an injective morphism ppcm → Y, and order-minimality of Y then makes it an equivalence. It is just not stated.",
+      "fix": "Optionally add a corollary: if Y is GH and every injective morphism from a GH common over-extension into Y is bijective, then ppcm.Equivalent Y (two lines from ppcm_isMinimal). Lean would then be ≥ paper under both readings. Otherwise leave it to the author through the OQ row."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/Ppcm.lean:232-287",
+      "what": "trans_emb repeats the four-case transition proof of E0AbsMax.exists_e0Pushout's htrans (GX/BTZ/AbsMax.lean:2977): cases id, φ, φ⁻¹, id through liftPropOn_congr_of_eqOn and an E0 extension. The REPORT discloses this and its kb proposal says to reuse glueMfd for the btzthm:BTZ_ext inductive limit. This is a maintenance risk, not a correctness risk.",
+      "fix": "Leave as is. When GX graduates, consider stating a generic 'gluing along an open embedding whose transitions extend to E0-morphisms' lemma once and deriving both glueMfd and E0Pushout from it."
+    }
+  ],
+  "findings_review": "Findings for the author were checked against BTZ_1.tex. (1) l.1417-1419 is unproved: true. The proof (l.1422-1520) builds the gluing and proves it Hausdorff and GH, but never mentions minimality or uniqueness. 'minimal' is used only in the statement and in the overview at l.1284, and is defined nowhere for over-extensions (only 'maximal' for sub-extensions, l.1332-1337). (2) The case split at l.1516 is unneeded: correct, and it is an observation, not an error claim. The paper's own step (q' ∈ I⁺(q) ⊂ Reg ⊂ π₁(M₁), plus causal convexity) does not use that q is singular, so πᵢ(Mᵢ) is a future set (mem_range_of_le). (3) M0 GH is unused: correct. M0 carries only TopologicalSpace and ChartedSpace in the Lean. (4) l.1424-1426 is correct as written: consistent with trans_emb. (5) Minimality holds among all common over-extensions: proved (ppcm_isMinimal takes an arbitrary Y). No finding is false.",
+  "scope": "git status --short: Ppcm.lean is new and GXScaffold.lean gains '+import GXScaffold.BTZ.Ppcm'. The other '+import GXScaffold.BTZ.ExtChart' line in that diff belongs to T-btz-pgcd-dom-gh, whose REPORT names it. The other modified or untracked files (Pgcd, PpcmHausdorff, ExtChart, RegComplete*, SpearFamily, CompleteCauchy, restatements, roadmap) belong to concurrent targets and loops, and the REPORT claims none of them. No out-of-scope edit is attributable to this closer.",
+  "docstring_contract": "Module docstring present: label line with BTZ_1.tex lines and declarations, verbatim quotes, hypothesis checklist (with ⚠ strengthened/weakened rows), SCOPE (readings, E0-structure, GH, minimality and uniqueness), provenance. Each claim was checked against the code and is true."
+}

@@ -1,19 +1,22 @@
-import GX.BTZ.Embeddings
+import GX.BTZ.ExtChart
 
 /-!
 # btz § 5.1: the maximal common sub-BTZ-extension `M₁ ∧ M₂` of two BTZ-extensions, for `𝔼₀`-manifolds
 
 Target `T-btz-pgcd` (`roadmap/roadmap.toml`). `papers/btz/legacy/labeled/BTZ_1.tex`. The row is
-not marked: it is stated for `𝔼₀`-manifolds only (T-btz-scope), and the paper's construction
-(the union of the *globally hyperbolic* extension domains) is shown maximal here only through
-one tagged `sorry` (below).
+not marked: it is stated for `𝔼₀`-manifolds only (T-btz-scope). **0 `sorry`** (T-btz-pgcd-dom-gh
+closed the one `globallyHyperbolicOn_dom` carried, by the third bullet of `btzprop:ppcm` on the
+maximal domain, moved here from `GX.BTZ.PpcmHausdorff`; the chart step it uses is in
+`GX.BTZ.ExtChart`).
 
 * `btzprop:pgcd` — `BTZ_1.tex:1341` (proof l.1350–1378) — `GX.Pgcd.btz_pgcd` (existence of a
   maximal common sub-BTZ-extension, **no** global hyperbolicity needed: proved, 0 `sorry`),
   `GX.Pgcd.pgcdSub`, `GX.Pgcd.pgcdSub_isMaximal`, `GX.Pgcd.range_pgcdSub_b`; the paper's
   construction `GX.Pgcd.ghDom`, its global hyperbolicity `GX.Pgcd.globallyHyperbolicOn_ghDom`
   (the second bullet, proved), and `GX.Pgcd.btz_pgcd_gh` (the paper's `M₁ ∧ M₂` is maximal and
-  globally hyperbolic; rests on `GX.Pgcd.globallyHyperbolicOn_dom`, one tagged `sorry`).
+  globally hyperbolic), `GX.Pgcd.globallyHyperbolicOn_dom` (the maximal domain is globally
+  hyperbolic: `ghDom = dom`), through `GX.PpcmHausdorff.globallyHyperbolicOn_maxDom`,
+  `GX.PpcmHausdorff.mem_dom_of_graphCluster`, `GX.PpcmHausdorff.exists_ext_pgcdMap`.
 
 > Let $M_0$ be a $\mass{\geq0}$-manifold and let $M_0\xrightarrow{i} M_1$ and
 > $M_0 \xrightarrow{j} M_2$ two BTZ-extensions of $M_0$. If $M_0,M_1$ and $M_2$ are globally
@@ -35,15 +38,15 @@ one tagged `sorry` (below).
 | `𝔼_{≥0}`-manifolds | ⚠ `𝔼₀` only (T-btz-scope; `GX.BTZ.Embeddings`' vocabulary) |
 | `i`, `j` BTZ-extensions | ✓ carried: `IsBTZEmbedding i`, `IsBTZEmbedding j` |
 | `M₁`, `M₂` Hausdorff, `M₁` second countable (l.261) | ✓ carried (instances; `M₀` needs neither) |
-| `M₀` globally hyperbolic | ⚠ weakened: not used by `btz_pgcd`; carried by `globallyHyperbolicOn_dom` (the `sorry`) and `btz_pgcd_gh` |
+| `M₀` globally hyperbolic | ⚠ weakened: not used; carried (unused) by `globallyHyperbolicOn_dom` and `btz_pgcd_gh` |
 | `M₁` globally hyperbolic | ⚠ weakened: not used by `btz_pgcd`; used by the second bullet (`globallyHyperbolicOn_ghDom`) |
-| `M₂` globally hyperbolic | ⚠ weakened: not used by `btz_pgcd`; carried by `globallyHyperbolicOn_dom` (the `sorry`) and `btz_pgcd_gh` |
-| (none) | ⚠ strengthened, for the `sorry`'d `globallyHyperbolicOn_dom` / `btz_pgcd_gh` only: `M₂` connected and second countable |
-| `M₁` connected | ⚠ strengthened, for the second bullet only (`e0_sfa_of_globalBTZ`, Lemma 2.13 at `𝔼₀`): l.261 does not require it |
+| `M₂` globally hyperbolic | ⚠ weakened: not used by `btz_pgcd`; used by `globallyHyperbolicOn_dom` and `btz_pgcd_gh` (the compact diamonds of the chart step) |
+| (none) | ⚠ strengthened in the statement only, for `globallyHyperbolicOn_dom` / `btz_pgcd_gh`: `M₂` connected and second countable, carried but not used (`PpcmHausdorff.btz_pgcd_gh_of_gh` drops them, and `M₀` globally hyperbolic) |
+| `M₁` connected | ⚠ strengthened, for the second bullet, `globallyHyperbolicOn_dom` and `btz_pgcd_gh` (`e0_sfa_of_globalBTZ`, Lemma 2.13 at `𝔼₀`): l.261 does not require it |
 
 ## SCOPE (disclosed)
 
-**Proved (0 `sorry` beneath `btz_pgcd`, `pgcdSub_isMaximal`, `globallyHyperbolicOn_ghDom`).**
+**Proved (0 `sorry` in the file).**
 `dom i j` is the union of **all** open `A ⊇ i(M₀)` of `M₁` over which `j ∘ i⁻¹` extends to an
 `𝔼₀`-morphism (`IsExtDomain`); the extensions glue by density of `i(M₀)` (l.1354,
 `eqOn_of_isExtDomain`), the glued map is an `𝔼₀`-morphism of `dom i j` which is **injective by
@@ -55,11 +58,15 @@ The paper's union over the *globally hyperbolic* domains, `ghDom i j ≤ dom i j
 hyperbolic when `M₁` is (`globallyHyperbolicOn_ghDom`: each such domain is causally convex by
 B21 Lemma 2.13 (b), hence so is the union by Lemma 2.13 (a)).
 
-**Not proved (one `sorry`, `globallyHyperbolicOn_dom`).** The paper's « by construction,
-`M₁ ∧ M₂` is maximal » needs every common sub-extension to sit in a *globally hyperbolic*
-domain, but common sub-extensions are not required globally hyperbolic (l.1306–1313). This holds
-iff `dom i j` is globally hyperbolic (`ghDom_eq_dom_of_globallyHyperbolicOn`), i.e. iff the
-extension of `j ∘ i⁻¹` continues along the BTZ line above each BTZ point of `dom i j`.
+**The paper's « by construction, `M₁ ∧ M₂` is maximal »** (l.1376) needs every common
+sub-extension to sit in a *globally hyperbolic* domain, but common sub-extensions are not
+required globally hyperbolic (l.1306–1313). This holds iff `dom i j` is globally hyperbolic
+(`ghDom_eq_dom_of_globallyHyperbolicOn`), which is `globallyHyperbolicOn_dom`: by Lemma 2.13 (a)
+it suffices that the BTZ future of a BTZ point of `dom i j` stays in `dom i j`; along a causal
+curve, at the first exit time the images of the earlier points lie in a compact diamond of `M₂`,
+cluster, and the chart step (`PpcmHausdorff.exists_ext_of_graphCluster`, `prop:isom_strong`)
+extends `φ` across. The paper gives no argument for this step at l.1376; the argument is the third
+bullet of its own `btzprop:ppcm` (l.1497–1504).
 
 Readings: « a BTZ-embedding `M → M₂` whose restriction to `i(M₀)` is `j ∘ i⁻¹` » is
 `IsBTZEmbedding (fun x : A => f x) ∧ ∀ x, f (i x) = j x` for some `f : M₁ → M₂`;
@@ -371,21 +378,162 @@ theorem ghDom_eq_dom_of_globallyHyperbolicOn (hi : IsBTZEmbedding i) (hj : IsBTZ
     fun m => ?_⟩
   exact (hfc ⟨i m, range_subset_dom hi hj ⟨m, rfl⟩⟩).trans (pgcdMap_of_eq _ m rfl)
 
+end GH
+
+end Pgcd
+
+/-! ### §4 The third bullet of `btzprop:ppcm`, run on the maximal domain
+
+Moved here from `GX.BTZ.PpcmHausdorff` (same full names), so that
+`Pgcd.globallyHyperbolicOn_dom` uses it with no import cycle. -/
+
+namespace PpcmHausdorff
+
+section MaxDom
+
+variable {M₀ M₁ M₂ : Type} [TopologicalSpace M₀] [TopologicalSpace M₁] [TopologicalSpace M₂]
+  [ChartedSpace E0Y M₀] [ChartedSpace E0Y M₁] [ChartedSpace E0Y M₂]
+  [T2Space M₁] [ConnectedSpace M₁] [SecondCountableTopology M₁] [HasGroupoid M₁ e0Groupoid]
+  [T2Space M₂] [HasGroupoid M₂ e0Groupoid] {i : M₀ → M₁} {j : M₀ → M₂}
+
+
+omit [ConnectedSpace M₁] [SecondCountableTopology M₁] in
+/-- **`φ` read on `M₁`**: an `𝔼₀`-morphism `F` on `dom i j`, injective there, equal to `φ`. -/
+theorem exists_ext_pgcdMap (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j) :
+    ∃ F : M₁ → M₂, IsE0Mor F (Pgcd.dom i j) ∧ InjOn F (Pgcd.dom i j) ∧
+      ∀ x : Pgcd.dom i j, F x = Pgcd.pgcdMap i j x := by
+  obtain ⟨F, hF, hFφ⟩ := Pgcd.exists_ext ((isBTZEmbedding_subtypeVal_iff (Pgcd.dom i j)).2
+    (Pgcd.compl_dom_subset hi hj)) (Pgcd.isE0Mor_pgcdMap (j := j) hi)
+  rw [Subtype.range_coe] at hF
+  refine ⟨F, hF, fun x hx y hy hxy => ?_, hFφ⟩
+  have h1 := hFφ ⟨x, hx⟩
+  have h2 := hFφ ⟨y, hy⟩
+  have := Pgcd.pgcdMap_injective hi hj (h1.symm.trans (hxy.trans h2))
+  exact congrArg Subtype.val this
+
+/-- **A point of `M₁` unseparated from a point of `M₂` lies in `M₁ ∧ M₂`** (`BTZ_1.tex:1432–1493`,
+the chart step, with « the maximality of `M₁ ∧ M₂` » read on the maximal domain): the chart step
+extends `φ` over a neighbourhood `V` of `p`, so `dom i j ∪ V` is an extension domain. -/
+theorem mem_dom_of_graphCluster (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
+    (hG₂ : (CE M₂).GloballyHyperbolic) {F : M₁ → M₂} (hF : IsE0Mor F (Pgcd.dom i j))
+    (hFinj : InjOn F (Pgcd.dom i j)) (hFφ : ∀ x : Pgcd.dom i j, F x = Pgcd.pgcdMap i j x)
+    {p : M₁} {r : M₂} (hcl : GraphCluster (Pgcd.dom i j : Set M₁) F p r) : p ∈ Pgcd.dom i j := by
+  obtain ⟨V, hpV, g, hg, hgF⟩ := exists_ext_of_graphCluster hG₂ (Pgcd.compl_dom_subset hi hj)
+    hF hFinj hcl
+  have hext : Pgcd.IsExtDomain i j (Pgcd.dom i j ⊔ V) := by
+    refine ⟨(Pgcd.range_subset_dom hi hj).trans (le_sup_left (a := Pgcd.dom i j) (b := V)),
+      g, hg, fun m => ?_⟩
+    have hm : i m ∈ Pgcd.dom i j := Pgcd.range_subset_dom hi hj ⟨m, rfl⟩
+    rw [hgF hm, hFφ ⟨i m, hm⟩, Pgcd.pgcdMap_of_eq _ m rfl]
+  exact Pgcd.le_dom hext (le_sup_right (a := Pgcd.dom i j) (b := V) hpV)
+
+/-- **The third bullet** (`BTZ_1.tex:1497–1504`): the maximal domain is globally hyperbolic when
+`M₁` and `M₂` are. By Lemma 2.13 (a) (`btzExt_causallyConvexIn_iff_e0`) it suffices that the BTZ
+future of a BTZ point `x` of `dom i j` stays in `dom i j`; along a causal curve from `x`, at the
+first parameter `t` leaving `dom i j`, the images under `φ` of the earlier points lie in a compact
+diamond of `M₂`, so cluster at some `r`, and `(c t, r)` is in the closure of the graph: then
+`c t ∈ dom i j` (`mem_dom_of_graphCluster`). -/
+theorem globallyHyperbolicOn_maxDom (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
+    (hG₁ : (CE M₁).GloballyHyperbolic) (hG₂ : (CE M₂).GloballyHyperbolic) :
+    (CE M₁).GloballyHyperbolicOn (Pgcd.dom i j) := by
+  have h := E0AbsMax.e0_sfa_of_globalBTZ M₁
+  set A := Pgcd.dom i j with hAdef
+  have hAc : (A : Set M₁)ᶜ ⊆ S0 M₁ := Pgcd.compl_dom_subset hi hj
+  have hAreg : ∀ z, z ∉ S0 M₁ → z ∈ A := fun z hz => by_contra fun h' => hz (hAc h')
+  obtain ⟨F, hF, hFinj, hFφ⟩ := exists_ext_pgcdMap hi hj
+  have hE := isEMorphismOn_of_isE0Mor (W := A) hF
+  refine E0AbsMax.globallyHyperbolicOn_of_causallyConvexIn hG₁ E0LM.e0_causallyArcConnected
+    ((E0AbsMax.btzExt_causallyConvexIn_iff_e0 hAc).2 fun p _ hp z _ hpz => ?_)
+  obtain ⟨c, hc, hc0, hc1⟩ := (h.causallyArcConnected ⊤ le_rfl p z).1.1 hpz
+  have hcont : ContinuousOn c (Icc 0 1) := hc.continuousOn (CE M₁).isRelFamily_le
+  -- the closing step: a point all of whose predecessors on the curve are in `A` is in `A`
+  have key : ∀ t ∈ Icc (0 : ℝ) 1, (∀ s ∈ Ico (0 : ℝ) t, c s ∈ A) → c t ∈ A := by
+    intro t ht hlow
+    rcases ht.1.eq_or_lt with h0 | h0
+    · rw [← h0, hc0]; exact hp
+    obtain ⟨q', hq', hq'reg⟩ := E0AbsMax.exists_lt_notMem_sing h (c t)
+    have hmem : ∀ s ∈ Ico (0 : ℝ) t, F (c s) ∈ (CE M₂).diamond ⊤ (F p) (F q') := by
+      intro s hs
+      have hsA := hlow s hs
+      have hcs : (CE M₁).CausalCurveOn A c 0 s :=
+        Causal.CurveOn.restrict hc le_rfl (hs.2.le.trans ht.2) le_top
+          fun σ hσ => hlow σ ⟨hσ.1, hσ.2.trans_lt hs.2⟩
+      have h1 : (CE M₁).le A p (c s) := by
+        have := hcs.le_of_le le_rfl hs.1 le_rfl
+        rwa [hc0] at this
+      have hst : (CE M₁).le ⊤ (c s) (c t) := hc.le_of_le hs.1 hs.2.le ht.2
+      have hlt : (CE M₁).lt ⊤ (c s) q' := h.pushUp.lt_of_le_of_lt hst hq'
+      exact Causal.Causality.mem_diamond.2
+        ⟨hE.map_le A ⊤ le_rfl (fun _ _ => trivial) h1,
+          (CE M₂).le_of_lt (lt_image_of_lt hAc hF hsA hlt)⟩
+    -- a cluster value `r` of `F ∘ c` as `s ↗ t`
+    have hne : (𝓝[Ico 0 t] t).NeBot := by
+      rw [← mem_closure_iff_nhdsWithin_neBot, closure_Ico h0.ne]
+      exact right_mem_Icc.2 h0.le
+    obtain ⟨r, -, hr⟩ := (hG₂.2 (F p) (F q')).exists_mapClusterPt (f := 𝓝[Ico 0 t] t)
+      (u := F ∘ c) (by
+        rw [le_principal_iff, mem_map]
+        exact mem_of_superset self_mem_nhdsWithin fun s hs => hmem s hs)
+    have hcw : Tendsto c (𝓝[Ico 0 t] t) (𝓝 (c t)) :=
+      ((hcont t ht).mono fun s hs => ⟨hs.1, hs.2.le.trans ht.2⟩).tendsto
+    have hcl : GraphCluster (A : Set M₁) F (c t) r := by
+      intro U hU V hV
+      obtain ⟨s, ⟨hsV, hsU⟩, hs⟩ := (((mapClusterPt_iff_frequently.1 hr V hV).and_eventually
+        (hcw.eventually hU)).and_eventually self_mem_nhdsWithin).exists
+      exact ⟨c s, hlow s hs, hsU, hsV⟩
+    exact mem_dom_of_graphCluster hi hj hG₂ hF hFinj hFφ hcl
+  -- the first exit time
+  by_contra hzA
+  set S : Set ℝ := {t | t ∈ Icc (0 : ℝ) 1 ∧ c t ∉ A} with hSdef
+  have h1S : (1 : ℝ) ∈ S := ⟨right_mem_Icc.2 zero_le_one, by rw [hc1]; exact hzA⟩
+  have hSne : S.Nonempty := ⟨1, h1S⟩
+  have hSbdd : BddBelow S := ⟨0, fun t ht => ht.1.1⟩
+  have ht₀ : sInf S ∈ Icc (0 : ℝ) 1 :=
+    ⟨le_csInf hSne fun t ht => ht.1.1, csInf_le hSbdd h1S⟩
+  have hlow : ∀ s ∈ Ico (0 : ℝ) (sInf S), c s ∈ A := fun s hs => by
+    by_contra hsA
+    have : sInf S ≤ s := csInf_le hSbdd ⟨⟨hs.1, hs.2.le.trans ht₀.2⟩, hsA⟩
+    exact absurd hs.2 (not_lt.2 this)
+  have hct₀ := key _ ht₀ hlow
+  have hpre : c ⁻¹' A ∈ 𝓝[Icc 0 1] (sInf S) :=
+    (hcont _ ht₀).preimage_mem_nhdsWithin (A.isOpen.mem_nhds hct₀)
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhdsWithin_iff.1 hpre
+  have hge : sInf S + ε ≤ sInf S := by
+    refine le_csInf hSne fun s hs => ?_
+    by_contra hlt
+    push Not at hlt
+    have hs0 : sInf S ≤ s := csInf_le hSbdd hs
+    refine hs.2 (hball ⟨?_, hs.1⟩)
+    rw [Metric.mem_ball, Real.dist_eq, abs_lt]
+    constructor <;> linarith
+  linarith
+
+
+end MaxDom
+
+end PpcmHausdorff
+
+namespace Pgcd
+
+section GH'
+
+variable {M₀ M₁ M₂ : Type} [TopologicalSpace M₀] [TopologicalSpace M₁] [TopologicalSpace M₂]
+  [ChartedSpace E0Y M₀] [ChartedSpace E0Y M₁] [ChartedSpace E0Y M₂]
+  [T2Space M₁] [SecondCountableTopology M₁] [HasGroupoid M₁ e0Groupoid]
+  [T2Space M₂] [HasGroupoid M₂ e0Groupoid] {i : M₀ → M₁} {j : M₀ → M₂}
+
 /-- **The maximal domain is globally hyperbolic** (the content of « by construction, `M₁ ∧ M₂` is
-maximal », `BTZ_1.tex:1376`, for common sub-extensions which are not globally hyperbolic). -/
+maximal », `BTZ_1.tex:1376`, for common sub-extensions which are not globally hyperbolic): the
+third bullet of `btzprop:ppcm` on the maximal domain (`PpcmHausdorff.globallyHyperbolicOn_maxDom`:
+along a causal curve from a BTZ point of `dom i j`, at the first exit time `t` the images of the
+earlier points lie in a compact diamond of `M₂`, cluster at some `r`, and the chart step extends
+`φ` over a neighbourhood of `c t`). `M₀` globally hyperbolic and `M₂` connected and second
+countable are carried but not used. -/
 theorem globallyHyperbolicOn_dom [ConnectedSpace M₁] [ConnectedSpace M₂]
     [SecondCountableTopology M₂] (hi : IsBTZEmbedding i) (hj : IsBTZEmbedding j)
-    (hG₀ : (CE M₀).GloballyHyperbolic) (hG₁ : (CE M₁).GloballyHyperbolic)
-    (hG₂ : (CE M₂).GloballyHyperbolic) : (CE M₁).GloballyHyperbolicOn (dom i j) := by
-  sorry -- SORRY(btzprop:pgcd): `dom i j` causally convex in `M₁` (then Remark 1), i.e. by
-  -- Lemma 2.13 (a) the extension `φ` of `j ∘ i⁻¹` continues along the BTZ line of `M₁` above each
-  -- BTZ point `x ∈ dom i j`: at the first point `z` of that line outside `dom i j`, the images
-  -- under `φ` of the line below `z` lie in a compact diamond `J_{M₂}(φ x, φ q)` (`q ≫ z` regular,
-  -- `M₂` globally hyperbolic) and must converge to a BTZ point `w` of `M₂`; one then needs that the
-  -- isometry `φ`, defined on the regular part of a neighbourhood of `z`, extends across the axis
-  -- to a chart isomorphism sending `z` to `w` (rigidity of `𝔼₀` near the axis, a
-  -- τ-translation/holonomy argument as in lean-causal kb/0176). Neither the convergence along BTZ
-  -- causal curves nor this axis-extension of an `𝔼₀`-isometry is in the strict libraries.
+    (_hG₀ : (CE M₀).GloballyHyperbolic) (hG₁ : (CE M₁).GloballyHyperbolic)
+    (hG₂ : (CE M₂).GloballyHyperbolic) : (CE M₁).GloballyHyperbolicOn (dom i j) :=
+  PpcmHausdorff.globallyHyperbolicOn_maxDom hi hj hG₁ hG₂
 
 /-- `btzprop:pgcd` in the form of its proof (unmarked) (`BTZ_1.tex:1341–1378`): the paper's
 `M₁ ∧ M₂`, the union of the globally hyperbolic domains, carries a maximal common
@@ -402,7 +550,7 @@ theorem btz_pgcd_gh [ConnectedSpace M₁] [ConnectedSpace M₂] [SecondCountable
     rw [E0AbsMax.ce_opens_eq]
     exact Causal.Causality.globallyHyperbolic_toSubtype hGH
 
-end GH
+end GH'
 
 end Pgcd
 

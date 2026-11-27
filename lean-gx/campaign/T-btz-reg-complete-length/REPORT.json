@@ -1,0 +1,170 @@
+{
+  "package": "T-btz-reg-complete-length",
+  "target": "T-btz-reg-complete-length",
+  "files": [
+    "scaffold/GXScaffold/BTZ/CompleteCauchy.lean",
+    "scaffold/GXScaffold/BTZ/RegCompleteLength.lean",
+    "scaffold/GXScaffold/BTZ/RegComplete.lean",
+    "scaffold/GXScaffold/BTZ/SpearFamily.lean",
+    "scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean",
+    "scaffold/GXScaffold.lean (two import lines)"
+  ],
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build GXScaffold.BTZ.RegComplete GXScaffold.BTZ.RegCompleteCauchy (8747 jobs, success; CompleteCauchy, SpearFamily, RegCompleteCauchy, RegCompleteLength, RegComplete rebuilt)",
+  "sorry_count": 1,
+  "axioms": {
+    "GX.E0RegComplete.prop_reg_complete": [
+      "propext",
+      "sorryAx",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0RegComplete.gh_mgh_regM": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitz_sigmaStar": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.ofReal_abs_logRad_sub_le_edist": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.tendsto_of_cauchySeq_of_isCompact": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.exists_summable": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0SpearFamily.LFSurgeryData.completeSpace_sigmaStar": [
+      "propext",
+      "sorryAx",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "GX.E0RegComplete.IsE0C1CompleteCauchy.isE0CauchyComplete": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "tex_lines": [
+        1566,
+        1576
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.E0RegComplete.prop_reg_complete",
+        "GX.E0RegComplete.prop_reg_complete'",
+        "GX.E0RegComplete.regM_isCauchyComplete_of_complete",
+        "GX.E0SpearFamily.regM_isCauchyComplete_of_lf",
+        "GX.E0SpearFamily.LFSurgeryData.completeSpace_sigmaStar",
+        "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitz_sigmaStar"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E_{>=0}-manifold",
+          "here": "strengthened",
+          "note": "E0 only (T-btz-scope), unchanged"
+        },
+        {
+          "paper": "Cauchy-complete (l.227)",
+          "here": "read",
+          "note": "E0RegComplete.IsE0C1CompleteCauchy (OQ-142), unchanged; G4 uses only its field reg, the compact part only that S is a closed Cauchy surface"
+        },
+        {
+          "paper": "conclusion Cauchy-complete",
+          "here": "read",
+          "note": "Causal.Flat.IsCauchyComplete 2 (DEC-31/35), unchanged"
+        }
+      ],
+      "sorries": [
+        {
+          "decl": "GX.E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq",
+          "file": "scaffold/GXScaffold/BTZ/RegCompleteLength.lean:1253",
+          "obstruction": "the tail of a Cauchy sequence of Sigma* (locally finite spears, summable radii) lies in a compact set of M. Owed: a comparison, along paths of Sigma* ∩ S, of the induced length of Sigma* (chart system of Reg M) with the DEC-31 length of S (e0SliceSys S), which neither library has. With it the argument is: concatenate a fast Cauchy sequence into a finite-length path Gamma; (a) if a spear is met at arbitrarily late times, its log r estimate gives a compact annulus graph and a convergent subsequence; (b) otherwise replace, spear by spear, first entry to last exit by a rim arc of S-length <= pi R_i (on r = R the printed metric -2dtau dr + dr^2 + r^2 dtheta^2 is R^2 dtheta^2), giving an S-path of length <= l(Gamma) + pi sum R_i, which converges by hS.complete and hS.continuous."
+        }
+      ],
+      "proved_this_wave": [
+        "Sigma* of a locally finite family is spacelike Lipschitz in Reg M (G4), from S spacelike Lipschitz only",
+        "Lemma 2.8's log r estimate on Sigma*, spear by spear",
+        "a Cauchy sequence of Sigma* with a tail in a compact set converges (the strict compact proof localised)",
+        "the spears can be thinned to summable radii",
+        "Reg M is Cauchy-complete modulo the one sorry above; regM_isCauchyComplete_of_complete, prop_reg_complete, prop_reg_complete' now rest on it and on nothing else"
+      ],
+      "findings": [
+        "BTZ_1.tex l.1571 (« the proof of Cauchy-completeness of Proposition prop:abs_max applies as is »): B21's completeness of Sigma* (l.1093, no proof printed) uses finitely many spears (l.1091) and a compact Sigma; with countably many spears the part that is not « as is » is exactly the Cauchy sequences crossing infinitely many spears. The multiplicative comparison between the cusp metric and S's (AUDIT-1's « uniform across spears ») is not needed: on the rim r = R the printed metric -2dtau dr + dr^2 + r^2 dtheta^2 restricts to R^2 dtheta^2 whatever tau_Sigma is, so a rim arc has length <= pi R, and choosing spears of summable radii (always possible, LFSurgeryData.exists_summable) turns the comparison into an additive, summable error. The proof should choose the spears' radii; « disjoint spear neighborhoods » (l.1574) alone may not suffice.",
+        "The Hopf–Rinow route of T-btz-reg-complete AUDIT-1 finding 2 was not taken: it needs the DEC-31 length topology of S to equal M's near S (hS.continuous gives one direction only) and a Hopf–Rinow–Cohn-Vossen theorem, neither available; the path-surgery route above needs only completeness of S along one path."
+      ],
+      "questions": [
+        "None new. Readings unchanged: Cauchy-complete as IsE0C1CompleteCauchy (OQ-142), conclusion as Causal.Flat.IsCauchyComplete 2 (DEC-31/35), E0 scope (T-btz-scope)."
+      ]
+    }
+  ],
+  "moved_declarations": [
+    {
+      "decl": "GX.E0RegComplete.IsE0C1CompleteCauchy",
+      "from": "scaffold/GXScaffold/BTZ/RegComplete.lean",
+      "to": "scaffold/GXScaffold/BTZ/CompleteCauchy.lean",
+      "statement": "unchanged (verbatim)"
+    },
+    {
+      "decl": "GX.E0RegComplete.E0C1CauchyComplete",
+      "from": "scaffold/GXScaffold/BTZ/RegComplete.lean",
+      "to": "scaffold/GXScaffold/BTZ/CompleteCauchy.lean",
+      "statement": "unchanged (verbatim)"
+    },
+    {
+      "decl": "GX.E0RegComplete.IsE0C1CompleteCauchy.isE0CauchyComplete",
+      "from": "scaffold/GXScaffold/BTZ/RegComplete.lean",
+      "to": "scaffold/GXScaffold/BTZ/CompleteCauchy.lean",
+      "statement": "unchanged (verbatim)"
+    }
+  ],
+  "import_changes": [
+    "SpearFamily: import GXScaffold.BTZ.RegComplete -> import GXScaffold.BTZ.CompleteCauchy",
+    "RegComplete: + import GXScaffold.BTZ.RegCompleteLength (which imports RegCompleteCauchy -> SpearFamily -> CompleteCauchy)",
+    "GXScaffold.lean: + import GXScaffold.BTZ.CompleteCauchy, + import GXScaffold.BTZ.RegCompleteLength"
+  ],
+  "statement_changes": [
+    "GX.E0RegComplete.regM_isCauchyComplete_of_complete: statement unchanged; body sorry -> E0SpearFamily.regM_isCauchyComplete_of_lf hGH hS hmax"
+  ],
+  "extra_decls": [
+    "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitzAt_cusp_interior",
+    "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitzAt_cusp_rim",
+    "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitzAt_cusp",
+    "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitz_sigmaStar",
+    "GX.E0SpearFamily.LFSurgeryData.logRad",
+    "GX.E0SpearFamily.LFSurgeryData.logRad_le",
+    "GX.E0SpearFamily.LFSurgeryData.abs_deriv_logRad_le",
+    "GX.E0SpearFamily.LFSurgeryData.eventually_logRad_const",
+    "GX.E0SpearFamily.LFSurgeryData.eventually_logRad_formula",
+    "GX.E0SpearFamily.LFSurgeryData.exists_lipschitzOnWith_logRad",
+    "GX.E0SpearFamily.LFSurgeryData.ofReal_abs_logRad_sub_le_edist",
+    "GX.E0SpearFamily.LFSurgeryData.lenPt",
+    "GX.E0SpearFamily.isClosed_of_isCauchySurface",
+    "GX.E0SpearFamily.LFSurgeryData.tendsto_of_cauchySeq_of_isCompact",
+    "GX.E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq (sorry)",
+    "GX.E0SpearFamily.LFSurgeryData.completeSpace_sigmaStar",
+    "GX.E0SpearFamily.LFSurgeryData.exists_summable",
+    "GX.E0SpearFamily.regM_isCauchyComplete_of_lf"
+  ],
+  "kb_proposals": [
+    "The strict SurgeryData.isSpacelikeLipschitzAt_cusp_interior/_rim and the logRad stack (abs_deriv_logRad_le ... ofReal_abs_logRad_sub_le_edist) need neither finiteness nor compactness: copied verbatim over LFSurgeryData they compile with one change (the union of the other spears is closed by LocallyFinite.comp_injective ... isClosed_iUnion) and hS.reg in place of IsE0C1SpacelikeCauchy; a strict clean-up could state them once over LFSurgeryData (finite SurgeryData is a case, sigmaStar_toSurgeryData is rfl).",
+    "On the rim r = R of a spear the printed E0 metric -2dtau dr + dr^2 + r^2 dtheta^2 is R^2 dtheta^2, whatever the surface: rim arcs have length <= pi R. Thinning spears to summable radii (LFSurgeryData.exists_summable, from posSumOfEncodable) makes errors across infinitely many spears additive and summable.",
+    "Completeness of Sigma* reduces to « Cauchy tail in a compact of M » (LFSurgeryData.tendsto_of_cauchySeq_of_isCompact); the missing tool is the comparison of chartSys lengths on Reg M with e0SliceSys lengths on S along common paths."
+  ],
+  "notes": "Restructuring done to break the import cycle: IsE0C1CompleteCauchy (and E0C1CauchyComplete, isE0CauchyComplete) moved verbatim to the new CompleteCauchy.lean, same full names. Docstrings of RegComplete, SpearFamily, RegCompleteCauchy updated to point at RegCompleteLength. The one sorry of the chain moved from RegComplete.lean (regM_isCauchyComplete_of_complete) to RegCompleteLength.lean (LFSurgeryData.exists_isCompact_of_cauchySeq), sharper: it now owes only the Cauchy-tail compactness for summable radii. RegComplete.lean, SpearFamily.lean, RegCompleteCauchy.lean, CompleteCauchy.lean carry no sorry of their own. ~950 lines of RegCompleteLength are verbatim copies of strict Surgery.lean proofs (5293-5809, 5840-6283) re-typed over LFSurgeryData. Backups of the pre-edit owned files were kept at /tmp/rcl/*.orig.lean (outside the repo)."
+}

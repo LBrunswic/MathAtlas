@@ -46,6 +46,10 @@ import GX.BTZ.TildeStructure
 import GX.BTZ.Embeddings
 import GX.BTZ.SectorAtlas
 import GX.BTZ.BluntSpear
+import GX.BTZ.ExtChart
+import GX.BTZ.Pgcd
+import GX.BTZ.PpcmHausdorff
+import GX.BTZ.Ppcm
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface

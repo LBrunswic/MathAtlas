@@ -1,5 +1,6 @@
 import GX.BTZ.MixedDiamond
 import GX.BTZ.Uniformization
+import GXScaffold.BTZ.RegCompleteLength
 
 /-!
 # `GXScaffold.BTZ.RegComplete` — `Reg M` of a Cauchy-complete `𝔼₀`-manifold (btz § 5.4)
@@ -31,7 +32,14 @@ Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), 
   `Causal.CBG.isCauchySurfaceOn_sup_of_slice`); then `ι₁` is a Cauchy embedding, onto by
   Cauchy-maximality of `M`, and `f` is onto.
 * **Cauchy-completeness** of `Reg M` (l.1571, « the proof of Cauchy-completeness of Proposition
-  prop:abs_max applies as is »): `regM_isCauchyComplete_of_complete`, tagged `sorry` (SCOPE).
+  prop:abs_max applies as is »): `regM_isCauchyComplete_of_complete`, which is
+  `E0SpearFamily.regM_isCauchyComplete_of_lf` (`GXScaffold.BTZ.RegCompleteLength`): the
+  non-compact surgery with a countable locally finite family of spears (steps (1)–(2),
+  `SpearFamily`, `RegCompleteCauchy`), `Σ*` spacelike Lipschitz and Lemma 2.8's `log r` estimate
+  on it; it rests on ONE tagged `sorry` there (SCOPE).
+* The reading `IsE0C1CompleteCauchy` / `E0C1CauchyComplete` now lives in
+  `GXScaffold.BTZ.CompleteCauchy` (same full names), so that the surgery files need not import
+  this one.
 
 ## Hypothesis checklist
 
@@ -47,13 +55,17 @@ Target T-btz-reg-complete. Paper `btz` (`papers/btz/legacy/labeled/BTZ_1.tex`), 
 
 ## SCOPE (disclosed)
 
-One tagged `sorry`, the non-compact surgery: B21's proof of `prop:abs_max` uses that a
-Cauchy-compact `M` has **finitely many** BTZ lines (l.1091, « Since M is Cauchy-compact, it admits
-finitely many BTZ-lines »; `E0Surgery.SurgeryData.finite`), so it does not apply « as is » to a
-Cauchy-complete `M`, which may have countably many (the BTZ points of a Cauchy surface are only
-discrete, kb/0217). What is missing is a locally finite countable `SurgeryData`, the Cauchy
-property of `Σ*` with infinitely many spears, and the completeness of `Σ*`, for which no uniform
-estimate across the spears is printed. -/
+`prop_reg_complete` and `prop_reg_complete'` carry no `sorry` of this file, but rest on the one
+tagged `sorry` of `GXScaffold.BTZ.RegCompleteLength`
+(`E0SpearFamily.LFSurgeryData.exists_isCompact_of_cauchySeq`): the tail of a Cauchy sequence of
+`Σ*` lies in a compact set of `M` when `Σ*` crosses infinitely many spears. B21's proof of
+`prop:abs_max` uses that a Cauchy-compact `M` has **finitely many** BTZ lines (l.1091) and a
+compact `S`, so it does not apply « as is » to a Cauchy-complete `M`, which may have countably
+many (kb/0217); the uniformity across the spears is not printed. The row stays partial: that
+`sorry`, the `𝔼₀` scope and the readings of the checklist.
+
+Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
+-/
 
 namespace GX
 
@@ -66,36 +78,7 @@ open E0 E0CBG E0Spear E0AbsMax
 variable (M : Type) [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondCountableTopology M]
   [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
 
-/-- **A `C¹` spacelike complete Cauchy surface of an `𝔼₀`-manifold** (B21/btz l.227's
-« Cauchy-complete »: « a smooth spacelike Cauchy-surface which is … metrically complete »): DEC-31/119's
-`GX.IsE0CauchyComplete` data on `S` (spacelike Lipschitz in the flat charts of `Reg M`, complete
-for the induced length extended across the BTZ lines, with metric topology finer than `M`'s),
-and « smooth » read as DEC-107 reads it for Cauchy-compact: the trace of `S` on the shaft of every
-spear chart meeting it along a continuous graph is a `C¹` circle
-(`E0Surgery.IsE0C1SpacelikeCauchy.rim`, verbatim). -/
-structure IsE0C1CompleteCauchy (S : Set M) : Prop where
-  cauchy : (CE M).IsCauchySurface S
-  reg : Causal.Flat.IsSpacelikeLipschitz 2 (E0Surgery.regSet M S)
-  complete : CompleteSpace (Causal.Flat.LocalLengthSpace (e0SliceSys S))
-  continuous : Continuous fun x : Causal.Flat.LocalLengthSpace (e0SliceSys S) =>
-    ((Causal.Flat.LocalLengthSpace.toSpace x : S) : M)
-  rim : ∀ (R v : ℝ) (W : Set E0Y) (ψ : E0Y → M) (τS : ℂ → ℝ), 0 < R → IsOpen W →
-    E0Spear.spearY v R ⊆ W → E0Spear.IsE0Mor ψ W → InjOn ψ W →
-    ContinuousOn τS (Metric.closedBall 0 R) →
-    (∀ z : ℂ, ‖z‖ ≤ R → v + R / 2 < τS z) →
-    (∀ x ∈ E0Spear.spear v R, (ψ (paperInY x) ∈ S ↔ x.1 = τS x.2)) →
-    ContDiff ℝ 1 (E0Surgery.rimFun τS R)
-
-/-- **Cauchy-complete `𝔼₀`-manifold** (btz l.227, read as `IsE0C1CompleteCauchy`). -/
-def E0C1CauchyComplete : Prop := ∃ S : Set M, IsE0C1CompleteCauchy M S
-
 variable {M}
-
-omit [SecondCountableTopology M] in
-/-- The reading is at least DEC-31/119's `GX.IsE0CauchyComplete`. -/
-theorem IsE0C1CompleteCauchy.isE0CauchyComplete {S : Set M} (hS : IsE0C1CompleteCauchy M S) :
-    IsE0CauchyComplete M :=
-  ⟨S, hS.cauchy, hS.reg, hS.complete, hS.continuous⟩
 
 /-- **`Reg M` is globally hyperbolic** (btz `rem:reg_GH`, l.594; l.1571). -/
 theorem gh_regM (hGH : (CE M).GloballyHyperbolic) : Causal.Flat.GH (e0RegMFlat M) :=
@@ -261,17 +244,7 @@ theorem gh_mgh_regM (hGH : (CE M).GloballyHyperbolic) {S : Set M}
 theorem regM_isCauchyComplete_of_complete (hGH : (CE M).GloballyHyperbolic) {S : Set M}
     (hS : IsE0C1CompleteCauchy M S) (hmax : IsE0CauchyMaximal M) :
     Causal.Flat.IsCauchyComplete 2 (e0RegMFlat M) :=
-  sorry -- SORRY(btzprop:reg_complete): the non-compact surgery. `E0Surgery.SurgeryData` has
-  -- finitely many spears (`finite`, from compactness: B21 l.1091) and `exists_surgeryData`,
-  -- `SurgeryData.isCauchySurface_sigmaStar`, `completeSpace_sigmaStar` take a compact
-  -- `IsE0C1SpacelikeCauchy` surface; a complete `S` may carry countably many BTZ points (discrete
-  -- and closed in `S`, kb/0217). Owed: (1) a countable, locally finite family of pairwise disjoint
-  -- closed spears around `S ∩ sing₀ M`, each with `S`'s trace a C¹ circle in its shaft (Lemmas
-  -- tube, add_BTZ_param); (2) `Σ*` Cauchy in `Reg M` with infinitely many spears (cor:intersect in
-  -- each, plus local finiteness for an inextensible curve meeting infinitely many spears);
-  -- (3) `Σ*` complete for its induced length: Lemma 2.8's `log r` estimate inside each spear and
-  -- a comparison, uniform across infinitely many spears, with the DEC-31 length of `S` outside —
-  -- not printed in the paper (« applies as is »).
+  E0SpearFamily.regM_isCauchyComplete_of_lf hGH hS hmax
 
 /-- **btz `prop:reg_complete`** (`BTZ_1.tex:1566–1569`), `𝔼₀` form: for `M` a globally
 hyperbolic, Cauchy-maximal `𝔼₀`-manifold with a `C¹` spacelike complete Cauchy surface `S`,

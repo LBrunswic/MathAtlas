@@ -1,0 +1,71 @@
+{
+  "package": "T-btz-pgcd-dom-gh",
+  "target": "T-btz-pgcd-dom-gh",
+  "files": [
+    "scaffold/GXScaffold/BTZ/ExtChart.lean",
+    "scaffold/GXScaffold/BTZ/Pgcd.lean",
+    "scaffold/GXScaffold/BTZ/PpcmHausdorff.lean",
+    "scaffold/GXScaffold.lean (one import line: GXScaffold.BTZ.ExtChart, before BTZ.Pgcd)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "btzprop:pgcd",
+      "tex_lines": [1341, 1378],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.Pgcd.btz_pgcd",
+        "GX.Pgcd.pgcdSub",
+        "GX.Pgcd.pgcdSub_isMaximal",
+        "GX.Pgcd.ghDom",
+        "GX.Pgcd.globallyHyperbolicOn_ghDom",
+        "GX.Pgcd.globallyHyperbolicOn_dom",
+        "GX.Pgcd.btz_pgcd_gh",
+        "GX.PpcmHausdorff.btz_pgcd_gh_of_gh"
+      ],
+      "hypotheses": [
+        {"paper": "E_{>=0}-manifolds", "here": "strengthened", "note": "E_0 only (T-btz-scope); the only reason the row stays partial/unmarked"},
+        {"paper": "M_0 globally hyperbolic", "here": "weakened", "note": "carried by globallyHyperbolicOn_dom / btz_pgcd_gh (binder now _hG₀), not used"},
+        {"paper": "M_1 globally hyperbolic", "here": "carried", "note": "used (causal convexity -> GH, Remark 1)"},
+        {"paper": "M_2 globally hyperbolic", "here": "carried", "note": "used: compact diamonds in the chart step and at the first exit time"},
+        {"paper": "(none)", "here": "strengthened", "note": "M_1 connected (e0_sfa_of_globalBTZ), as before; M_2 connected and second countable are in the existing statements of globallyHyperbolicOn_dom / btz_pgcd_gh but unused; btz_pgcd_gh_of_gh drops them"}
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex:1376 « By construction, M1 ∧ M2 is maximal » is not by construction: the union is over globally hyperbolic domains (l.1352) while common sub-BTZ-extensions are not required globally hyperbolic (l.1306-1313), so maximality needs the maximal extension domain to be globally hyperbolic. That holds, but its proof is the chart step plus first-exit argument of the paper's own btzprop:ppcm third bullet (l.1497-1504), i.e. it is a forward dependency on § 5.2. Now proved: GX.Pgcd.globallyHyperbolicOn_dom, hence ghDom = dom.",
+        "M_0 globally hyperbolic (l.1343) is not needed for btzprop:pgcd's conclusions in the E_0 setting (GX.PpcmHausdorff.btz_pgcd_gh_of_gh)."
+      ],
+      "questions": []
+    }
+  ],
+  "moved_decls": {
+    "from scaffold/GXScaffold/BTZ/PpcmHausdorff.lean to scaffold/GXScaffold/BTZ/ExtChart.lean (verbatim, same full names, namespace GX.PpcmHausdorff)": [
+      "GX.PpcmHausdorff.lt_in_of_lt",
+      "GX.PpcmHausdorff.ceY_lt_iff",
+      "GX.PpcmHausdorff.D_lt_of_lt",
+      "GX.PpcmHausdorff.lt_of_isE0Mor_paper",
+      "GX.PpcmHausdorff.exists_mem_e0Groupoid_target_inr",
+      "GX.PpcmHausdorff.trans_mem_maximalAtlas",
+      "GX.PpcmHausdorff.exists_chart_inr",
+      "GX.PpcmHausdorff.GraphCluster",
+      "GX.PpcmHausdorff.lt_image_of_lt",
+      "GX.PpcmHausdorff.le_image_of_graphCluster",
+      "GX.PpcmHausdorff.exists_graphCluster_shrink",
+      "GX.PpcmHausdorff.exists_ball_chart",
+      "GX.PpcmHausdorff.exists_ext_of_graphCluster"
+    ],
+    "from scaffold/GXScaffold/BTZ/PpcmHausdorff.lean to scaffold/GXScaffold/BTZ/Pgcd.lean (verbatim, same full names, namespace GX.PpcmHausdorff, section MaxDom)": [
+      "GX.PpcmHausdorff.exists_ext_pgcdMap",
+      "GX.PpcmHausdorff.mem_dom_of_graphCluster",
+      "GX.PpcmHausdorff.globallyHyperbolicOn_maxDom"
+    ]
+  },
+  "extra_decls": [],
+  "kb_proposals": [
+    "To break an import cycle without renaming, move declarations into a base file while keeping their `namespace` (several files may open GX.PpcmHausdorff); every full name and every downstream import keeps working (T-btz-pgcd-dom-gh: ExtChart.lean)."
+  ],
+  "notes": "Import chain now GX.BTZ.Embeddings <- BTZ.ExtChart <- BTZ.Pgcd <- BTZ.PpcmHausdorff; T-btz-ppcm (imports PpcmHausdorff) still sees t2Space_ghGlue, ghDom, ghMap, GhGlue, Glue, exists_ext_of_graphCluster, mem_dom_of_graphCluster, globallyHyperbolicOn_maxDom under unchanged names. No statement changed; the only signature edit is the binder name hG₀ -> _hG₀ in GX.Pgcd.globallyHyperbolicOn_dom (unused; no caller passes it by name). globallyHyperbolicOn_dom is now a one-line term: PpcmHausdorff.globallyHyperbolicOn_maxDom hi hj hG₁ hG₂. Built: lake build GXScaffold.BTZ.ExtChart GXScaffold.BTZ.Pgcd GXScaffold.BTZ.PpcmHausdorff, success, no GX.*/mathlib rebuild (ExtChart built once earlier to typecheck Pgcd against it, after a pgrep check). Docstrings of Pgcd and PpcmHausdorff updated (sorry removed, hypothesis checklist, moved names). Originals saved at /tmp/Pgcd.orig.lean, /tmp/PpcmHausdorff.orig.lean."
+}
