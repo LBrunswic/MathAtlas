@@ -1,0 +1,658 @@
+{
+ "target": "T-abs-ers-4-64-without-arc",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/Ers464WithoutArc.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-ers-4-64-without-arc/REPORT.json",
+  "campaign/T-abs-ers-4-64-without-arc/Probe.lean",
+  "campaign/T-abs-ers-4-64-without-arc/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.Ers464WithoutArc",
+ "build_result": "Built CausalScaffold.Ers464WithoutArc (1.5 s), 3130 jobs, no warning. Before each build the --no-build dry run listed only this module as out of date ([3130/3130]); after the build it reports 'All targets up-to-date (3130 jobs)', so nothing upstream was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers464WithoutArc.lean` exits 0 with no output. campaign/T-abs-ers-4-64-without-arc/Probe.lean imports the module and runs #check and #print axioms on 21 declarations (output in axioms.txt). Each depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx. The file has no sorry, admit, axiom or native_decide.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). Direct imports: Causal.Ers475CauchyForm (the target's) and Causal.CBG.SubExtensionAbstract (for the witnesses only: DensWitness.densCausality, DensWitness.isCauchySurfaceOn_iff_timelike, DensWitness.not_absolutelyMinimalOn_witness). tools/ladder.py model_path is None for each, checked one at a time in memory with lean_index (kb/0247). The compiled closure of `import CausalScaffold.Ers464WithoutArc` has 5373 modules and none under Causal.Minkowski/Static/SingularFlat/Flat/Model/Port (Probe.lean's #modelModules). No statement mentions a metric, a curve length or a geodesic: below the docstring, grep finds none of metric, dist, length, geodesic. The hypotheses are ladder properties read on U₁ (globally_hyperbolic, tarentin; is_causal, inextensible_nested, curve_nested in 4.71/4.73) or the trade forms' named localisation hypotheses (local_uniqueness's existential or LocalUniqueness, FrontierStaysIn, SliceRestart, CompactSlabs, AgreementGlues). The one ladder step in the file, causally_arc_connected ⇒ absolutely_minimal, is done by `causal_ladder`.",
+ "labels": [
+  {
+   "label": "ersthm:ThmUnique",
+   "tex_lines": [
+    858,
+    912
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc",
+    "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable_noArc",
+    "Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable_noArc",
+    "Causal.Causality.isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable",
+    "Causal.ErsNoArcWitness.data",
+    "Causal.ErsNoArcWitness.conclusions",
+    "Causal.ErsNoArcWitness.corollaries",
+    "Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc",
+    "Causal.densCausality_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc"
+   ],
+   "hypotheses": [
+    {
+     "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+     "here": "carried",
+     "note": "[T2Space M] [SecondCountableTopology M] on an abstract M, as in the trade forms; both hold on R^{d+1}"
+    },
+    {
+     "paper": "u₁ a GHD with Cauchy hypersurface S (:814)",
+     "here": "read",
+     "note": "DEC-162: hC₁ : C.IsCauchySurfaceOn U₁ S, with GloballyHyperbolicOn U₁, TarentinOn U₁ and CompactSlabs U₁ S named, as in the trade forms. The trade forms' harc : C.CausallyArcConnectedOn U₁ is NOT asked (weakened against the trade forms); no IsAcausalOn, no SplitBy"
+    },
+    {
+     "paper": "u₂ a GHD",
+     "here": "weakened",
+     "note": "as in the original: not used in layer 1; consumed by the suppliers of hlocal/hloc, hstay, hstep"
+    },
+    {
+     "paper": "the same initial data",
+     "here": "named",
+     "note": "as in the original: agree with AgreementGlues; Prop 4.63 as hlocal (∃ a common development) or hloc (LocalUniqueness)"
+    },
+    {
+     "paper": "S a connected hypersurface",
+     "here": "weakened",
+     "note": "not used by 4.64/4.67/4.68 (as in the original); IsPreconnected S in 4.69, 4.71, 4.73"
+    },
+    {
+     "paper": "U₁ ∩ U₂ connected",
+     "here": "weakened",
+     "note": "IsPreconnected, as in the original"
+    },
+    {
+     "paper": "Step 1: 'v₀ : V₀ → R is a common globally hyperbolic development', 'immediate' (:868)",
+     "here": "carried",
+     "note": "proved: S is Cauchy in V₀ from S Cauchy in the ambient U₁ (isCauchySurfaceOn_sSup_of_secondCountable), no acausality; GH of V₀ not concluded, as in the original (OQ-57 (c))"
+    },
+    {
+     "paper": "Step 2: 'without loss of generality q ∈ J⁺(S, U₁)' (:870); γ([0,1]) ⊆ U₂",
+     "here": "named",
+     "note": "SplitBy U₁ S proved from hC₁ (splitBy_of_t1_secondCountable); the U₂ half named (hstay : FrontierStaysIn), as in the original"
+    },
+    {
+     "paper": "Steps 3–5 with Prop 4.63",
+     "here": "named",
+     "note": "hstep : SliceRestart, as in the original"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "ersrem:RemTime",
+   "tex_lines": [
+    914,
+    916
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable_noArc"
+   ],
+   "hypotheses": [
+    {
+     "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+     "here": "carried",
+     "note": "[T2Space M] [SecondCountableTopology M] on an abstract M, as in the trade forms; both hold on R^{d+1}"
+    },
+    {
+     "paper": "u₁ a GHD with Cauchy hypersurface S (:814)",
+     "here": "read",
+     "note": "DEC-162: hC₁ : C.IsCauchySurfaceOn U₁ S, with GloballyHyperbolicOn U₁, TarentinOn U₁ and CompactSlabs U₁ S named, as in the trade forms. The trade forms' harc : C.CausallyArcConnectedOn U₁ is NOT asked (weakened against the trade forms); no IsAcausalOn, no SplitBy"
+    },
+    {
+     "paper": "u₂ a GHD",
+     "here": "weakened",
+     "note": "as in the original: not used in layer 1; consumed by the suppliers of hlocal/hloc, hstay, hstep"
+    },
+    {
+     "paper": "the same initial data",
+     "here": "named",
+     "note": "as in the original: agree with AgreementGlues; Prop 4.63 as hlocal (∃ a common development) or hloc (LocalUniqueness)"
+    },
+    {
+     "paper": "S a connected hypersurface",
+     "here": "weakened",
+     "note": "not used by 4.64/4.67/4.68 (as in the original); IsPreconnected S in 4.69, 4.71, 4.73"
+    },
+    {
+     "paper": "first sentence: U₁ ∩ U₂ 'the maximal common globally hyperbolic development' (:915)",
+     "here": "read",
+     "note": "as in the original (OQ-57 (c)): the greatest common development with S Cauchy; GH of U₁ ∩ U₂ not concluded here (the GH form ers_remark_4_67_globallyHyperbolicOn_secondCountable keeps harc)"
+    },
+    {
+     "paper": "second and third sentences (future/past of S in U₁ and U₂)",
+     "here": "not-attempted",
+     "note": "out of scope: the trade forms ers_remark_4_67_future/past_of_isCauchySurfaceOn_secondCountable use the acausality of S between two points related by ≤_{U₁} (Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable, Causal/Ers464SecondCountable.lean:391, the step at :401), so they keep harc"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "erscor:CorDisCon",
+   "tex_lines": [
+    921,
+    923
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc",
+    "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc"
+   ],
+   "hypotheses": [
+    {
+     "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+     "here": "carried",
+     "note": "[T2Space M] [SecondCountableTopology M] on an abstract M, as in the trade forms; both hold on R^{d+1}"
+    },
+    {
+     "paper": "u₁ a GHD with Cauchy hypersurface S (:814)",
+     "here": "read",
+     "note": "DEC-162: hC₁ : C.IsCauchySurfaceOn U₁ S, with GloballyHyperbolicOn U₁, TarentinOn U₁ and CompactSlabs U₁ S named, as in the trade forms. The trade forms' harc : C.CausallyArcConnectedOn U₁ is NOT asked (weakened against the trade forms); no IsAcausalOn, no SplitBy"
+    },
+    {
+     "paper": "u₂ a GHD",
+     "here": "weakened",
+     "note": "as in the original: not used in layer 1; consumed by the suppliers of hlocal/hloc, hstay, hstep"
+    },
+    {
+     "paper": "the same initial data",
+     "here": "named",
+     "note": "as in the original: agree with AgreementGlues; Prop 4.63 as hlocal (∃ a common development) or hloc (LocalUniqueness)"
+    },
+    {
+     "paper": "S a connected hypersurface",
+     "here": "weakened",
+     "note": "not used by 4.64/4.67/4.68 (as in the original); IsPreconnected S in 4.69, 4.71, 4.73"
+    },
+    {
+     "paper": "U₁ ∩ U₂ not connected",
+     "here": "carried",
+     "note": "¬ IsPreconnected, which is stronger than ¬ IsConnected, as in the original"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "witness": "none (as for the trade forms: on the timelike line every development is an interval, so the overlap is connected and a disagreement cannot be met)"
+  },
+  {
+   "label": "erscor:globally_defined_globally_hyperbolic",
+   "tex_lines": [
+    926,
+    928
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable_noArc",
+    "Causal.ErsNoArcWitness.conclusions"
+   ],
+   "hypotheses": [
+    {
+     "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+     "here": "carried",
+     "note": "[T2Space M] [SecondCountableTopology M] on an abstract M, as in the trade forms; both hold on R^{d+1}"
+    },
+    {
+     "paper": "u₁ : R^{d+1} → R a GHD",
+     "here": "read",
+     "note": "DEC-162: C.IsCauchySurface S with C.GloballyHyperbolic, C.Tarentin, CompactSlabs ⊤ S; the trade form's harc : C.CausallyArcConnected is NOT asked"
+    },
+    {
+     "paper": "U₂ connected (not printed; Cor 4.69 has no proof)",
+     "here": "carried",
+     "note": "proved from S preconnected and Cauchy in U₂, as in the trade form"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "beyond the target's title, by the same route"
+  },
+  {
+   "label": "erscor:CorSupLum",
+   "tex_lines": [
+    959,
+    967
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable_noArc",
+    "Causal.ErsNoArcWitness.corollaries"
+   ],
+   "hypotheses": [
+    {
+     "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+     "here": "carried",
+     "note": "[T2Space M] [SecondCountableTopology M] on an abstract M, as in the trade forms; both hold on R^{d+1}"
+    },
+    {
+     "paper": "u₁ a GHD with Cauchy hypersurface S (:814)",
+     "here": "read",
+     "note": "DEC-162: hC₁ : C.IsCauchySurfaceOn U₁ S, with GloballyHyperbolicOn U₁, TarentinOn U₁ and CompactSlabs U₁ S named, as in the trade forms. The trade forms' harc : C.CausallyArcConnectedOn U₁ is NOT asked (weakened against the trade forms); no IsAcausalOn, no SplitBy"
+    },
+    {
+     "paper": "u₂ a GHD",
+     "here": "weakened",
+     "note": "as in the original: not used in layer 1; consumed by the suppliers of hlocal/hloc, hstay, hstep"
+    },
+    {
+     "paper": "the same initial data",
+     "here": "named",
+     "note": "as in the original: agree with AgreementGlues; Prop 4.63 as hlocal (∃ a common development) or hloc (LocalUniqueness)"
+    },
+    {
+     "paper": "S a connected hypersurface",
+     "here": "weakened",
+     "note": "not used by 4.64/4.67/4.68 (as in the original); IsPreconnected S in 4.69, 4.71, 4.73"
+    },
+    {
+     "paper": "'This follows directly from Lemma 4.70 and Theorem 4.64' (:966)",
+     "here": "carried",
+     "note": "ers_lemma_4_70_secondCountable composed with ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc; 4.70's named hypotheses (Cτ causal, honce, inextensible nesting) carried from the trade form"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "erscor:CorUniqueSub",
+   "tex_lines": [
+    988,
+    991
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "Causal.Causality.ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable_noArc",
+    "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable_noArc",
+    "Causal.ErsNoArcWitness.corollaries"
+   ],
+   "hypotheses": [
+    {
+     "paper": "background R^{d+1}, U ⊆ R^{d+1} open (ghd_02_19.tex:812, 814)",
+     "here": "carried",
+     "note": "[T2Space M] [SecondCountableTopology M] on an abstract M, as in the trade forms; both hold on R^{d+1}"
+    },
+    {
+     "paper": "u₁ a GHD with Cauchy hypersurface S (:814)",
+     "here": "read",
+     "note": "DEC-162: hC₁ : C.IsCauchySurfaceOn U₁ S, with GloballyHyperbolicOn U₁, TarentinOn U₁ and CompactSlabs U₁ S named, as in the trade forms. The trade forms' harc : C.CausallyArcConnectedOn U₁ is NOT asked (weakened against the trade forms); no IsAcausalOn, no SplitBy"
+    },
+    {
+     "paper": "u₂ a GHD",
+     "here": "weakened",
+     "note": "as in the original: not used in layer 1; consumed by the suppliers of hlocal/hloc, hstay, hstep"
+    },
+    {
+     "paper": "the same initial data",
+     "here": "named",
+     "note": "as in the original: agree with AgreementGlues; Prop 4.63 as hlocal (∃ a common development) or hloc (LocalUniqueness)"
+    },
+    {
+     "paper": "S a connected hypersurface",
+     "here": "weakened",
+     "note": "not used by 4.64/4.67/4.68 (as in the original); IsPreconnected S in 4.69, 4.71, 4.73"
+    },
+    {
+     "paper": "Lemma 4.72 and Theorem 4.64 (:986); 'any m-GHD is a UGHD by Corollary 4.73' (:1053)",
+     "here": "carried",
+     "note": "ers_lemma_4_72_secondCountable composed with the 4.64 _noArc form; its named hypotheses (Cm causal, S Cm-acausal, Cm-Cauchy in U₁, curve nesting) carried from the trade form. The m-GHD form drops its harc (each cau u causally arc-connected), which served only 4.73's hacausal"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [],
+   "note": "beyond the target's title, by the same route"
+  }
+ ],
+ "declarations": [
+  {
+   "name": "Causal.Causality.isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:130",
+   "statement": "AgreementGlues agree → (∀ ⦃x y⦄, C.le U₁ x y → C.le U₁ y x → x = y) → C.IsCauchySurfaceOn U₁ S → (∃ V, C.IsCommonDevelopment S U₁ U₂ agree V) → C.IsCommonDevelopment S U₁ U₂ agree (C.maxCommonDevelopment S U₁ U₂ agree)",
+   "standing": "[T2Space M] [SecondCountableTopology M]",
+   "status": "proved",
+   "role": "ERS Thm 4.64 Step 1 with S Cauchy in U₁ in place of S acausal in U₁ (the 4.75 audit's 3-line probe, now in the module)"
+  },
+  {
+   "name": "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:149",
+   "statement": "the binders of ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:272) less harc; conclusion C.maxCommonDevelopment S U₁ U₂ agree = U₁ ⊓ U₂",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "ersthm:ThmUnique; the body of ers_theorem_4_64_maxCommonDevelopment (Causal/ErsUniqueness.lean:433) re-run with the new Step 1 and hsplit := splitBy_of_t1_secondCountable hC₁"
+  },
+  {
+   "name": "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:186",
+   "statement": "the binders of ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:293) less harc; conclusion agree (U₁ ⊓ U₂)",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "ersthm:ThmUnique"
+  },
+  {
+   "name": "Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:209",
+   "statement": "the binders of ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:312) less harc; conclusion agree (U₁ ⊓ U₂)",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "ersthm:ThmUnique; the common development is ers_prop_4_63_of_isCauchySurfaceOn_secondCountable's union (Causal.Ers475CauchyForm, no harc either)"
+  },
+  {
+   "name": "Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:228",
+   "statement": "the binders of ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:332) less harc; conclusion IsGreatest {V | C.IsCommonDevelopment S U₁ U₂ agree V} (U₁ ⊓ U₂)",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "ersrem:RemTime, first sentence"
+  },
+  {
+   "name": "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:252",
+   "statement": "the binders of ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:351) less harc; conclusion ¬ IsPreconnected (U₁ ⊓ U₂)",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "erscor:CorDisCon"
+  },
+  {
+   "name": "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:271",
+   "statement": "the binders of ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:370) less harc; conclusion ¬ IsPreconnected (U₁ ⊓ U₂)",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "erscor:CorDisCon, two functions as printed"
+  },
+  {
+   "name": "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:293",
+   "statement": "the binders of ers_corollary_4_69_of_isCauchySurface_secondCountable (Ers464SecondCountable.lean:537) less harc : C.CausallyArcConnected; conclusion agree U₂",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "erscor:globally_defined_globally_hyperbolic (beyond the target's title, same route)"
+  },
+  {
+   "name": "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:321",
+   "statement": "the binders of ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:610) less harc; conclusion agree (U₁ ⊓ U₂)",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "erscor:CorSupLum: ers_lemma_4_70_secondCountable composed with the 4.64 _noArc form (the target's 'if the same route applies': it does)"
+  },
+  {
+   "name": "Causal.Causality.ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:356",
+   "statement": "the binders of ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable (Causal/ErsSecondCountable.lean:230) less harc; conclusion agree (U₁ ⊓ U₂)",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "erscor:CorUniqueSub (beyond the title, same route): ers_lemma_4_72_secondCountable composed with the 4.64 _noArc form"
+  },
+  {
+   "name": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:392",
+   "statement": "the binders of IsMDevelopment.isUniqueDevelopment_secondCountable (ErsSecondCountable.lean:261) less harc : ∀ U u, sol U u → (cau u).CausallyArcConnectedOn U; conclusion IsUniqueDevelopment sol cau S U₁ u₁",
+   "standing": "[T2Space M] [SecondCountableTopology M], as in the trade form",
+   "status": "proved",
+   "role": "erscor:CorUniqueSub's use at ghd_02_19.tex:1053 ('any m-GHD is a UGHD'); its harc served only 4.73's hacausal (isAcausalOn_of_curveNestedOn); S Cauchy in U₁ for cau u₁ is IsDevelopment.cauchy"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.clampAgree",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:427",
+   "statement": "def: fun V : Opens ℝ => EqOn id (fun x => max (-1) (min x 1)) V",
+   "standing": "none",
+   "status": "definition",
+   "role": "witness data"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.agreementGlues_clampAgree",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:429",
+   "statement": "AgreementGlues clampAgree",
+   "standing": "none",
+   "status": "proved",
+   "role": "witness"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.clampAgree_of_subset",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:432",
+   "statement": "(V : Set ℝ) ⊆ Ioo (-1) 1 → clampAgree V",
+   "standing": "none",
+   "status": "proved",
+   "role": "witness"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.coe_top_inf_ersWitnessIoo",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:437",
+   "statement": "(((⊤ : Opens ℝ) ⊓ ersWitnessIoo : Opens ℝ) : Set ℝ) = Ioo (-1) 1",
+   "standing": "none",
+   "status": "proved",
+   "role": "witness"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.le_top_iff",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:449",
+   "statement": "(hup : ∀ {U x y}, D.le U x y → x ≤ y) (hsub : ∀ {U x y}, timelikeLine.le U x y → D.le U x y) : D.le ⊤ x y ↔ x ≤ y",
+   "standing": "D : Causality ℝ",
+   "status": "proved",
+   "role": "witness"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.data",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:458",
+   "statement": "(hup) (hsub) : D.GloballyHyperbolicOn ⊤ ∧ D.TarentinOn ⊤ ∧ D.IsCauchySurfaceOn ⊤ {0} ∧ D.IsCauchySurfaceOn ersWitnessIoo {0} ∧ D.CompactSlabs ⊤ {0} ∧ D.LocalUniqueness {0} (⊤ ⊓ ersWitnessIoo) clampAgree ∧ (∃ V, D.IsCommonDevelopment {0} ⊤ ersWitnessIoo clampAgree V) ∧ (∀ V, common development → D.FrontierStaysIn ⊤ {0} V (⊤ ⊓ ersWitnessIoo)) ∧ (∀ V, common development → D.SliceRestart ⊤ {0} V (⊤ ⊓ ersWitnessIoo) (a strictly larger common development))",
+   "standing": "D : Causality ℝ going up and containing the timelike line's relations",
+   "status": "proved",
+   "role": "the data of Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable (Ers464SecondCountable.lean:694), for every such D: curves through DensWitness.isCauchySurfaceOn_iff_timelike, GH/tarentin/slabs through D.le ⊤ = ≤"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.conclusions",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:548",
+   "statement": "(hup) (hsub) : clampAgree (⊤ ⊓ ersWitnessIoo) ∧ D.maxCommonDevelopment {0} ⊤ ersWitnessIoo clampAgree = ⊤ ⊓ ersWitnessIoo ∧ IsGreatest {V | D.IsCommonDevelopment {0} ⊤ ersWitnessIoo clampAgree V} (⊤ ⊓ ersWitnessIoo) ∧ clampAgree ersWitnessIoo",
+   "standing": "as data",
+   "status": "proved",
+   "role": "runs the 4.64, its _maxCommonDevelopment_, 4.67 and 4.69 _noArc forms on data"
+  },
+  {
+   "name": "Causal.ErsNoArcWitness.corollaries",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:575",
+   "statement": "(hup) (hsub) : clampAgree (⊤ ⊓ ersWitnessIoo) ∧ clampAgree (⊤ ⊓ ersWitnessIoo) ∧ clampAgree (⊤ ⊓ ersWitnessIoo)",
+   "standing": "as data",
+   "status": "proved",
+   "role": "one conclusion three times, by the _of_localUniqueness_ form, by 4.71 (Cτ = C₂ = D) and by 4.73 (Cm = C₂ = D): each conjunct witnesses one form's hypotheses"
+  },
+  {
+   "name": "Causal.timelikeLine_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:604",
+   "statement": "clampAgree (⊤ ⊓ ersWitnessIoo) ∧ timelikeLine.maxCommonDevelopment {0} ⊤ ersWitnessIoo clampAgree = ⊤ ⊓ ersWitnessIoo ∧ IsGreatest {V | timelikeLine.IsCommonDevelopment {0} ⊤ ersWitnessIoo clampAgree V} (⊤ ⊓ ersWitnessIoo) ∧ clampAgree ersWitnessIoo",
+   "standing": "ℝ",
+   "status": "proved",
+   "role": "kb/0011 proper instance on the dispatch's witness data (U₁ = ℝ, U₂ = ]-1, 1[, u₂ the clamp)"
+  },
+  {
+   "name": "Causal.densCausality_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc",
+   "file_line": "scaffold/CausalScaffold/Ers464WithoutArc.lean:621",
+   "statement": "¬ DensWitness.densCausality.CausallyArcConnectedOn ⊤ ∧ (the four conclusions of ErsNoArcWitness.conclusions for densCausality)",
+   "standing": "ℝ",
+   "status": "proved",
+   "role": "harc fails (by causal_ladder: causally_arc_connected ⇒ absolutely_minimal, against DensWitness.not_absolutelyMinimalOn_witness), every other hypothesis holds: the trade forms do not apply, the _noArc forms do"
+  }
+ ],
+ "binder_diffs": [
+  {
+   "trade_form": "Causal.Causality.isCommonDevelopment_maxCommonDevelopment (Causal/ErsUniqueness.lean:361)",
+   "new": "Causal.Causality.isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable",
+   "removed": [
+    "hacausal : C.IsAcausalOn U₁ S"
+   ],
+   "added": [
+    "_inst : SecondCountableTopology M",
+    "hC₁ : C.IsCauchySurfaceOn U₁ S"
+   ],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "traded (sibling: the original needs neither hC₁ nor second countability; hacausal and hC₁ are incomparable without harc)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:272)",
+   "new": "Causal.Causality.ers_theorem_4_64_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:293)",
+   "new": "Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:312)",
+   "new": "Causal.Causality.ers_theorem_4_64_of_localUniqueness_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:332)",
+   "new": "Causal.Causality.ers_remark_4_67_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:351)",
+   "new": "Causal.Causality.ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:370)",
+   "new": "Causal.Causality.ers_corollary_4_68_eqOn_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable (Causal/Ers464SecondCountable.lean:537)",
+   "new": "Causal.Causality.ers_corollary_4_69_of_isCauchySurface_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnected"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable (Causal/Ers464SecondCountable.lean:610)",
+   "new": "Causal.Causality.ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.Causality.ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable (Causal/ErsSecondCountable.lean:230)",
+   "new": "Causal.Causality.ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable_noArc",
+   "removed": [
+    "harc : C.CausallyArcConnectedOn U₁"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  },
+  {
+   "trade_form": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable (Causal/ErsSecondCountable.lean:261)",
+   "new": "Causal.IsMDevelopment.isUniqueDevelopment_secondCountable_noArc",
+   "removed": [
+    "harc : ∀ (U : TopologicalSpace.Opens M) (u : M → β), sol U u → (cau u).CausallyArcConnectedOn U"
+   ],
+   "added": [],
+   "conclusion": "identical",
+   "universe_levels": "identical",
+   "kind": "harc removed: at least as strong as the trade form (the trade form follows by forgetting harc, checked by `intros; apply … <;> assumption` in a /tmp probe)"
+  }
+ ],
+ "binder_diff_method": "kb/0227: a /tmp file importing the built module defines `#binders` (forallTelescope on each constant's type: binder info, user name, ppExpr type, and the body). The 11 pairs were diffed with difflib.SequenceMatcher on the (binderinfo, name, type) lists, with format.width 100000 and pp.fullNames. The universe parameters were compared as well. A second /tmp probe proves each of the 10 trade forms from its _noArc form by `intros; apply <noArc form> <;> assumption`. It also proves Step 1 from hG.1 and hC₁ with the instances, and checks that hlocal gives LocalUniqueness (D := V, Sp := S). Scratch files: /tmp/noarc/Binders.lean, diff.py, Stronger.lean, Route.lean (outside the repository).",
+ "findings": [
+  "No step of Theorem 4.64 (all three forms), Remark 4.67's first sentence, Corollary 4.68 (both forms), 4.69, 4.71, 4.73 or the m-GHD's uniqueness needs the acausality of S, on a T2, second countable background with S Cauchy in U₁. Re-reading ers_theorem_4_64_maxCommonDevelopment (Causal/ErsUniqueness.lean:433–464) confirms this for U₁ ∩ U₂. hacausal enters only through isCommonDevelopment_maxCommonDevelopment (Step 1, called at :445, defined at :361, where two points of S on one inextensible curve of V₀ must coincide). The _of_localUniqueness_ form also uses it through ers_prop_4_63's union (isCauchySurfaceOn_sSup_of_isAcausalOn), and 4.68/4.69/4.71/4.73 only by calling 4.64. hsplit enters at V₀ ∩ U₁ ∩ U₂ ≠ ∅ (:450–452) and at exists_isSpacelikeBoundaryPoint (:457). Step 1 holds with S Cauchy in U₁ in place of S acausal in U₁ (isCauchySurfaceOn_sSup_of_secondCountable, ambient U₁), Prop 4.63's union is Causal.Ers475CauchyForm's, and SplitBy is splitBy_of_t1_secondCountable. So harc leaves every one of these forms. This is a finding about the library's trade forms, which over-assume, and not about the paper: ERS's Step 1 (ghd_02_19.tex:868, 'It is immediate') uses no acausality either.",
+  "Where the acausality (so harc) is still needed is located, out of scope, and was not attempted. (a) Remark 4.67's second and third sentences, at Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable (Causal/Ers464SecondCountable.lean:391, the step hσσ' : σ = σ' from σ ≤_{U₁} x ≤_{U₁} σ' at :401) and its past form. Whether those sentences fail without harc is not settled here: no counterexample was tried. (b) The GH forms (V₀ or U₁ ∩ U₂ globally hyperbolic, causally convex in U₁, through causallyConvexIn_of_isCauchySurfaceOn, Causal/CBG/CausalConvex.lean:212, which takes CausallyArcConnectedOn). (c) Theorems 4.79/4.80, where harc also gives antisymmetry through curve nesting (a different route).",
+  "The removal is not vacuous. densCausality (Causal.CBG.SubExtensionAbstract, a non-local causality of ℝ) is not causally arc-connected on ℝ, yet every hypothesis of the _noArc forms holds on the standard data (U₁ = ℝ, U₂ = ]-1, 1[, S = {0}, the clamp). There the trade forms do not apply and the _noArc forms do (densCausality_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc). S = {0} is acausal there, so the originals of Causal.ErsUniqueness also apply: the _noArc forms are not shown to reach beyond the originals."
+ ],
+ "questions": [
+  "Not a paper reading (the readings used are DEC-162's 'GHD read S Cauchy' and OQ-57 (c)'s 'maximal common GHD read greatest common development with S Cauchy', unchanged): the names. kb/0226 leaves the suffix to the closer. I took `…_noArc`, with the trade forms untouched beside them as the dispatch asks. Each _noArc form implies its trade form (checked in /tmp), so the trade forms are now redundant. Whether they are retired, e.g. as deprecated wrappers (kb/0278), or the _noArc forms take their names at graduation, is the master's or the author's choice. I did not decide it.",
+  "Not a paper reading: scope. The title names 4.64, 4.67 (first sentence), 4.68 and, if the route applies, 4.71. The same route also gives 4.69 (ers_corollary_4_69_of_isCauchySurface_secondCountable less harc : C.CausallyArcConnected), 4.73 (ErsSecondCountable's trade form less harc) and IsMDevelopment.isUniqueDevelopment_secondCountable less its harc. I included all three, flagged as beyond the title, and the master may leave them out of graduation."
+ ],
+ "binder_proposals": [
+  "ersthm:ThmUnique (papers/ers-predictability/certificate/binder.toml): add the three _noArc forms and the Step 1 lemma to `ett` as the forms of record. causally_arc_connected can leave `localisation` = [globally_hyperbolic, tarentin], since the printed conclusion (u₁ = u₂ on U₁ ∩ U₂) and V₀ = U₁ ∩ U₂ need no arc-connectedness. It stays only if the row keeps IsCommonDevelopment.globallyHyperbolicOn_secondCountable (V₀ GH, a proof-step strengthening, not the printed statement) in `ett`. The note's 'Whether the trade forms need harc at all is T-abs-ers-4-64-without-arc's question' is answered: they do not.",
+  "ersrem:RemTime: add ers_remark_4_67_of_isCauchySurfaceOn_secondCountable_noArc to `ett` for the first sentence. causally_arc_connected stays in `localisation` for the row: the second and third sentences (future/past of S, Jplus_/Jminus_inter_subset_…) use the acausality between two points of S, and the GH reading of the first sentence (ers_remark_4_67_globallyHyperbolicOn_secondCountable) uses it for causal convexity. The note's 'the first sentence's may not (T-abs-ers-4-64-without-arc)' becomes 'does not'.",
+  "erscor:CorDisCon: causally_arc_connected leaves `localisation` = [globally_hyperbolic, tarentin]. `ett` gets ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc and its _eqOn_ form as the forms of record, and the note's 'which adds causally_arc_connected to the row' is withdrawn.",
+  "erscor:globally_defined_globally_hyperbolic, erscor:CorSupLum, erscor:CorUniqueSub (same route; beyond the title): causally_arc_connected can leave each row's `localisation` through ers_corollary_4_69_of_isCauchySurface_secondCountable_noArc, ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable_noArc, and ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable_noArc with IsMDevelopment.isUniqueDevelopment_secondCountable_noArc. For CorUniqueSub the note's 'causally_arc_connected … with curve_nested and C_m's acausality of S gives 4.73's IsAcausalOn U₁ S' and the `ett` entry IsCauchySurfaceOn.isAcausalOn_of_t1_secondCountable become unnecessary. The rows' `geometric` entries would drop causally_arc_connected from `proves` accordingly.",
+  "All of the above names live in the scaffold until graduation. The binder should cite them only after the master moves the module into Causal/."
+ ],
+ "keeper_proposals": [
+  "T-lad-record-ers-cauchy-forms (programme/ladder.toml, the ERS §4 block): its evidence says 'If T-abs-ers-4-64-without-arc lands first, its forms join (same `at`, no harc)'. After graduation, record [[consequence]] entries at [globally_hyperbolic, tarentin] with standing [T2, second_countable] and status checked for these witnesses: Causal.Causality.ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc, with its _maxCommonDevelopment_ and _of_localUniqueness_ forms named in `under`; ers_remark_4_67_of_isCauchySurfaceOn_secondCountable_noArc; ers_corollary_4_68_of_isCauchySurfaceOn_secondCountable_noArc; ers_corollary_4_69_of_isCauchySurface_secondCountable_noArc (at the nodes at M); ers_corollary_4_71_of_isCauchySurfaceOn_secondCountable_noArc (at inextensible_nested, as the existing 4.71 entry); and ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable_noArc. Each `under` is the existing trade-form entry's less 'causally_arc_connected of C read on U₁ (harc)'. The existing trade-form entries, whose `at` includes causally_arc_connected, are implied by the new ones. Keeping or retiring them is the keeper's call. No pair moves: these are consequences, not edges.",
+  "A ladder fact the keeper may want (not an edge): globally_hyperbolic ∧ tarentin with a Cauchy surface does not give causally_arc_connected, by densCausality (DensWitness.densCausality_globallyHyperbolic and its tarentin at ℝ, proved inside ErsNoArcWitness.data, with ¬ CausallyArcConnectedOn ⊤ in densCausality_ers_theorem_4_64_of_isCauchySurfaceOn_secondCountable_noArc). That separation [globally_hyperbolic, tarentin] ⇏ causally_arc_connected is not in the ladder's [[fails]] today. None of the four entries into causally_arc_connected (rationalLine_separates, gateLine_separates_pushUp, jumpLine_separates_causallyOpenFuture, rationalJumpPlane_separates) has both globally_hyperbolic and tarentin in its `from`. A bare form for it would need densCausality's GH and tarentin stated at M (Tarentin) as one conjoined witness. That is not done here."
+ ],
+ "extra_decls": [
+  "Causal.Causality.isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable",
+  "Causal.ErsNoArcWitness.clampAgree",
+  "Causal.ErsNoArcWitness.agreementGlues_clampAgree",
+  "Causal.ErsNoArcWitness.clampAgree_of_subset",
+  "Causal.ErsNoArcWitness.coe_top_inf_ersWitnessIoo",
+  "Causal.ErsNoArcWitness.le_top_iff",
+  "Causal.ErsNoArcWitness.data",
+  "Causal.ErsNoArcWitness.conclusions",
+  "Causal.ErsNoArcWitness.corollaries"
+ ],
+ "kb_proposals": [
+  "kb/0265's follow-up is closed. Theorem 4.64's Step 1 needs no acausality on a T2, second countable M: isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable (S Cauchy in U₁ suffices, through isCauchySurfaceOn_sSup_of_secondCountable). Every trade form whose harc served only Theorem 4.64 now has a `…_noArc` form, the trade form less harc with an identical conclusion: 4.64 ×3, 4.67's first sentence, 4.68 ×2, 4.69, 4.71, 4.73 and IsMDevelopment.isUniqueDevelopment (CausalScaffold.Ers464WithoutArc). harc remains needed only in 4.67's time-orientation sentences, the GH forms (V₀ causally convex) and 4.79/4.80 (T-abs-ers-4-64-without-arc).",
+  "ERS witnesses on ℝ for any causality going up and containing the timelike line's relations: ErsNoArcWitness.data (S = {0}, U₁ = ℝ, U₂ = ]-1, 1[, the clamp). The curves are the timelike line's (DensWitness.isCauchySurfaceOn_iff_timelike), and GH, tarentin, CompactSlabs, FrontierStaysIn and SliceRestart at ℝ read ≤_ℝ = ≤ only (tarentin's openDiamond is the interior of the ≤-diamond). With D = densCausality this gives a cheap configuration with every ERS 4.64 hypothesis and ¬ CausallyArcConnectedOn ⊤.",
+  "¬ densCausality.CausallyArcConnected comes from DensWitness.not_absolutelyMinimalOn_witness by `causal_ladder` (the rule causally_arc_connected ⇒ absolutely_minimal), then Precausality.absolutelyMinimal_iff. causal_ladder is available through Causal.Ers475CauchyForm's imports.",
+  "In ERS 4.64, `hlocal : ∃ V, C.IsCommonDevelopment S U₁ U₂ agree V` gives `C.LocalUniqueness S (U₁ ⊓ U₂) agree` (D := V, Sp := S). Conversely, with ≤_{U₁} antisymmetric and S Cauchy in U₁ on a T2, second countable M, ers_prop_4_63_of_isCauchySurfaceOn_secondCountable gives hlocal back. So the hlocal and _of_localUniqueness_ forms have equivalent inputs there, and Ers475CauchyForm's region form (W = U₁, L = U₁ ⊓ U₂) would also serve the hlocal forms once hSL is split off for S = ∅."
+ ],
+ "notes": "(1) Route. Of the two routes the evidence offers, I took the second, re-running ers_theorem_4_64_maxCommonDevelopment's body with the new Step 1. The body is the original's verbatim except for one call, which makes the binder diffs exactly 'harc removed'. The first route goes through ers_theorem_4_64_in_of_isCauchySurfaceOn_secondCountable with W = U₁ and L = U₁ ⊓ U₂, and it applies as well. IsDevelopmentIn S L agree V ↔ IsCommonDevelopment S U₁ U₂ agree V when S ⊆ L (isCommonDevelopment_iff_isDevelopmentIn), so hstay and hstep transfer. hloc comes from hlocal (D := V, Sp := S; checked in /tmp). hSL needs S ≠ ∅, and S = ∅ forces U₁ = ∅ through SplitBy. That route needs a case split; the second needs none. (2) Graduation. The master adds `import CausalScaffold.Ers464WithoutArc` to scaffold/CausalScaffold.lean. When the module moves to Causal/ (Causal.Ers464WithoutArc), its import goes into Causal.lean. Its imports are Causal.* only. Causal.CBG.SubExtensionAbstract (Lebesgue measure) serves only the witnesses. If a lighter import is wanted, the densCausality witness can be split off and the rest imports Causal.Ers475CauchyForm alone. (3) Name clashes (kb/0082). grep -w over Causal/ and scaffold/ finds none of the new names outside this file. The witnesses sit in the new namespace Causal.ErsNoArcWitness, whose short names (le_top_iff, data, conclusions, corollaries) are qualified by it. (4) No label is marked: grep for tools/ledger.py's mark regex finds no match. (5) Hygiene. No existing file was edited. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean` in any form. tools/ladder.py was imported in memory for lean_index and model_path, and `python3 tools/ladder.py --help` was run once with no subcommand: it prints usage and writes nothing, and Causal/Ladder/Rules.lean and Test.lean keep their mtime of 2026-11-23 07:03. The scratch probes are in /tmp/noarc/, outside the repository. The other closers' files were not touched.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: 'no step uses the acausality of S' narrowed to 'of S in U₁ for C' (the 4.73 and m-GHD forms keep hmacausal, a paper hypothesis); the witness claim narrowed (densCausality runs the 4.64 (two forms), 4.67 and 4.69 forms; 4.71/4.73 follow from `corollaries`, unstated; 4.68's hdis fails on the data; the m-GHD form has no witness); notes (2) is wrong: splitting off the densCausality witness alone would not drop the SubExtensionAbstract import, since `data` (:472) uses it; #print axioms covers 20 declarations (clampAgree not printed), all standard."
+}

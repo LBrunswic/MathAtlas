@@ -1,0 +1,80 @@
+{
+ "target": "T-abs-ers-4-64-without-arc",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "ersthm:ThmUnique",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Three _noArc forms: plain, _maxCommonDevelopment_ and _of_localUniqueness_. Mechanically, each is its trade form (Causal/Ers464SecondCountable.lean:272, :293, :312) with exactly the binder harc removed. Auditor's probe: forallTelescope on the trade form, drop `harc`, check that nothing depends on it, mkForallFVars; the result is Expr.eqv (alpha-equivalent) and isDefEq to the _noArc type, with the same binder names once macro scopes are erased (only the hygienic instance names differ) and the same number of universe parameters. So each form is at least as strong as the trade form, with an identical conclusion. Against the paper (ghd_02_19.tex:859) in DEC-162's reading, the row stays partial and unmarked, with the trade forms' named inputs (hlocal/hloc, hstay, hstep, hK, GH and tarentin of U₁). The Step 1 lemma isCommonDevelopment_maxCommonDevelopment_of_isCauchySurfaceOn_secondCountable (Ers464WithoutArc.lean:130) is correct. It is the original (ErsUniqueness.lean:361) with hacausal replaced by hC₁ : IsCauchySurfaceOn U₁ S and [SecondCountableTopology M] added; the conclusion is identical (the #check of both was compared). The docstring and REPORT call it a trade/sibling, not a strengthening, which is right: hacausal and hC₁ are incomparable without harc. It matches ERS Step 1 (:868), with V₀ = sSup and GH not concluded (OQ-57 (c))."
+  },
+  {
+   "label": "ersrem:RemTime",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "First sentence only (:915), as the dispatch asks. ers_remark_4_67_of_isCauchySurfaceOn_secondCountable_noArc is the trade form (:332) less harc, checked to be alpha-equivalent. The conclusion is IsGreatest of the common developments, OQ-57 (c)'s reading. The future/past sentences and the GH form keep harc and are disclosed as out of scope. The location of the needed acausality, Jplus_inter_subset_of_isCauchySurfaceOn_of_t1_secondCountable at Ers464SecondCountable.lean:391 with the step at :401 (hσσ' from hacausal), is verified. Unmarked, partial."
+  },
+  {
+   "label": "erscor:CorDisCon",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The plain and _eqOn_ forms are the trade forms (:351, :370) less harc, checked to be alpha-equivalent. The conclusion ¬IsPreconnected is stronger than the paper's 'not connected' (:922). The hypothesis ∃ x ∈ U₁ ⊓ U₂, u₁ x ≠ u₂ x is as printed. There is no witness (on the line the overlap is an interval), and this is disclosed. Unmarked, partial."
+  },
+  {
+   "label": "erscor:globally_defined_globally_hyperbolic",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Beyond the title, flagged in both the docstring and the REPORT. It is the trade form (:537) less harc : C.CausallyArcConnected, checked to be alpha-equivalent. The conclusion is agree U₂ (u₁|U₂ = u₂, :927). It is witnessed on ℝ through ErsNoArcWitness.conclusions. Unmarked, partial."
+  },
+  {
+   "label": "erscor:CorSupLum",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "It is the trade form (:610) less harc, checked to be alpha-equivalent. It is ers_lemma_4_70_secondCountable composed with the 4.64 _noArc form, as in the paper ('This follows directly from Lemma 4.70 and Theorem 4.64', :966). It is witnessed by ErsNoArcWitness.corollaries (Cτ = C₂ = D). Unmarked, partial."
+  },
+  {
+   "label": "erscor:CorUniqueSub",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Beyond the title, flagged. ers_corollary_4_73_of_isCauchySurfaceOn_secondCountable_noArc is the trade form (ErsSecondCountable.lean:230) less harc. IsMDevelopment.isUniqueDevelopment_secondCountable_noArc is the trade form (:261) less harc : ∀ U u, sol U u → (cau u).CausallyArcConnectedOn U. Both are checked to be alpha-equivalent. The original's harc served only isAcausalOn_of_curveNestedOn (ErsMughd.lean:350), as claimed. 4.73 is witnessed by `corollaries` (Cm = C₂ = D). The m-GHD form has no witness, and this is disclosed. The :1053 quote is verbatim. Unmarked, partial."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "`cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/Ers464WithoutArc.lean` exits 0 with no output. No lake build was run, per the dispatch. grep finds no sorry, admit, axiom or native_decide in the file. Re-running campaign/T-abs-ers-4-64-without-arc/Probe.lean reproduces axioms.txt byte for byte. The probe has 21 #check but 20 #print axioms: clampAgree is a def, and the REPORT's '21' is a miscount. The auditor's own #print axioms on all 21 declarations, clampAgree included, gives [propext, Classical.choice, Quot.sound] only. The probe was written under the campaign directory and deleted."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Ers464WithoutArc.lean:37 (also REPORT.json findings[0])",
+   "what": "'No step of these proofs uses the acausality of `S`' says too much. The 4.73 form (:376-377) and the m-GHD form (:413, through 4.73) pass hmacausal : Cm.IsAcausal S to ers_lemma_4_72_secondCountable: S's acausality for Minkowski's Cm, a paper hypothesis ('achronal with respect to m', :990). 4.71 also uses honce, a per-curve form of it for Cτ. What no proof uses is the acausality of S in U₁ for C (IsAcausalOn U₁ S), the thing harc supplied.",
+   "fix": "Write 'No step of these proofs uses the acausality of `S` in `U₁` for `C` (`IsAcausalOn U₁ S`)', and use the same wording in REPORT findings[0]."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json notes (2); Ers464WithoutArc.lean:472",
+   "what": "The note says the lighter import could be had by splitting off only the densCausality witness. That is not enough. ErsNoArcWitness.data, which serves `conclusions`, `corollaries` and the timelikeLine instance too, uses DensWitness.isCauchySurfaceOn_iff_timelike (:472) from Causal.CBG.SubExtensionAbstract. The import itself is justified and ETT-layer: tools/ladder.py model_path is None for both imports and for the module (run in memory), and the compiled closure has 0 modules under a model prefix. Its marginal cost is one Causal module (SubExtensionAbstract itself: its Causal imports SubExtension and Geroch are already in Ers475CauchyForm's closure) plus Mathlib.MeasureTheory.Measure.Lebesgue.Basic.",
+   "fix": "Correct the note. To import Causal.Ers475CauchyForm alone, the whole witness section would have to move to a separate module, or `data` would have to be restated for timelikeLine only. The densCausality witness needs SubExtensionAbstract in any case."
+  },
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/Ers464WithoutArc.lean:618-620 (also REPORT.json findings[2])",
+   "what": "The densCausality docstring says 'every hypothesis of the `…_noArc` forms holds on the witness data, and they give their conclusions'. The theorem runs only the 4.64 (plain and _maxCommonDevelopment_), 4.67 and 4.69 forms on densCausality. The localUniqueness, 4.71 and 4.73 instance follows by instantiating `corollaries` at densCausality (the auditor checked that it elaborates) but is not stated. On this data the 4.68 forms' hdis is false (clampAgree holds), and the m-GHD form has no witness at all, so the sentence is literally false for those forms.",
+   "fix": "Restrict the sentence to the hypotheses of the 4.64, 4.67 and 4.69 forms (and, through `corollaries`, 4.71 and 4.73), or add `corollaries (D := densCausality) …` as a conjunct."
+  }
+ ],
+ "checks": {
+  "layer1": "The imports are Causal.Ers475CauchyForm and Causal.CBG.SubExtensionAbstract (grep). tools/ladder.py lean_index/model_path, run in memory from the hub root, gives None for both imports and for the module. The auditor's #modelModules gives a closure of 5373 modules, 58 Causal*, 0 under Causal.Minkowski/Static/SingularFlat/Flat/Model/Port. densCausality, isCauchySurfaceOn_iff_timelike, not_absolutelyMinimalOn_witness, densCausality_le and densCausality_le_of_timelike all live in Causal.CBG.SubExtensionAbstract, which is ETT-layer. Below the docstring, grep finds no metric, dist, length, geodesic, Lorentz, volume or Minkowski. No hypothesis is new: all are the trade forms' (ladder properties GH, tarentin, is_causal, inextensible_nested, curve_nested, or the named local_uniqueness, frontier_stays_in, slice_restart, CompactSlabs, AgreementGlues).",
+  "faithfulness": "All 10 pairs were checked by an elaborated binder-drop comparison (alpha-equivalent, isDefEq, identical binder names modulo hygiene, same universe arity). This is stronger than the closer's difflib diff and the /tmp 'apply <;> assumption' probe, which it subsumes. The paper statements 4.64 (:858-860), 4.67 (:914-916), 4.68 (:921-923), 4.69 (:926-928), 4.71 (:959-963) and 4.73 (:988-991) were read, along with the :1053 sentence. The docstring quotes are verbatim. Every row is partial and unmarked, in DEC-162's reading.",
+  "witnesses": "data is non-vacuous: its hypotheses hup and hsub are discharged for timelikeLine (:611) and densCausality (:630). ¬densCausality.CausallyArcConnectedOn ⊤ is proved (causal_ladder, then not_absolutelyMinimalOn_witness). The docstring's description of densCausality (U fills at least half of ]x, y]; 0 ≤ 1 in gapSet) matches the definition. The auditor checked that {0} is IsAcausalOn ⊤ for densCausality, so the claim that the originals of Causal.ErsUniqueness also apply is accurate, and the closer says honestly that the _noArc forms are not shown to reach beyond the originals.",
+  "line_references": "ErsUniqueness.lean:361 (Step 1), :433 (4.64 body), :445 (hV₀ := isCommonDevelopment_maxCommonDevelopment … hacausal), :450-452 (hne via hsplit), :457 (exists_isSpacelikeBoundaryPoint … hsplit): all correct. Ers464SecondCountable.lean:391/:401, :272, :293, :312, :332, :351, :370, :537, :610 and :694; ErsSecondCountable.lean:230 and :261; CBG/CausalConvex.lean:212; ghd_02_19.tex:868: all correct. The new file's declaration lines in REPORT match.",
+  "no_paper_finding": "Agreed. ERS's Step 1 (:868) argues from u₁ a GHD with Cauchy hypersurface S, and the Lean Step 1 uses exactly S Cauchy in the ambient U₁ (isCauchySurfaceOn_sSup_of_secondCountable). The excess was in the library's trade forms, not in the paper.",
+  "binder_proposals": "Checked against papers/ers-predictability/certificate/binder.toml rows ersthm:ThmUnique (:278), ersrem:RemTime (:290), erscor:CorDisCon (:302), erscor:globally_defined_globally_hyperbolic (:314), erscor:CorSupLum (:337) and erscor:CorUniqueSub (:363). The proposals are accurate. ThmUnique keeps causally_arc_connected only if IsCommonDevelopment.globallyHyperbolicOn_secondCountable (V₀ GH) stays in `ett`, as stated. RemTime keeps it, for the future/past sentences and the GH form. 4.68, 4.69, 4.71 and 4.73 can drop it. Caveat for the curator: each row's `ett` also lists the harc trade forms, and tools/binder.py does not tie `localisation` to the `ett` hypotheses, so dropping the node is a curation choice to make together with retiring or keeping the trade forms. The keeper note that no [[fails]] entry into causally_arc_connected has both globally_hyperbolic and tarentin in its `from` was checked against programme/ladder.toml and is true.",
+  "scope": "`git status --short lean-causal` shows only untracked files: this target's file and campaign directory, and the other two closers' (StrongCausalityLifts.lean, DiamondConfinement.lean and their campaign directories). No tracked lean-causal file is modified. The tracked modifications elsewhere predate this closer: the papers/*/certificate files date from 12:5x and programme/roadmap.toml from 16:27, against the closer's 16:41-16:50. Causal/Ladder/Rules.lean and Test.lean keep their 2026-11-23 07:03 mtime.",
+  "names": "None of the 15 new names (or the namespace ErsNoArcWitness) appears in Causal/ or scaffold/ outside this file, including the two other new files. Mathlib has no root le_top_iff, so ErsNoArcWitness.le_top_iff shadows nothing.",
+  "docstring_contract": "kb/0006 is followed: title; labels with tex lines, unmarked (ledger mark regex: no match); quoted paper sentences; a Hypothesis checklist with ✓/⚠; SCOPE (disclosed); Provenance. The checklist and SCOPE are true, apart from minor findings 1 and 3."
+ }
+}

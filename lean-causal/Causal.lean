@@ -335,6 +335,7 @@ import Causal.ChronalNeighbourConjoined
 import Causal.Model.E0ChronalNeighbour
 import Causal.GluingCausality
 import Causal.PlainnessModels
+import Causal.Ers464WithoutArc
 
 /-!
 # Causal — topological spacetimes
