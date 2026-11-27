@@ -1,0 +1,41 @@
+{
+  "target": "T-btz-richards-split",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzthm:BTZ_ext",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "GX.BTZMax.btz_ext_of_countableLines (RichardsSplit.lean:88) has the conclusion of GX.BTZMax.btz_ext (MaxExtension.lean:522) token for token: IsMaximal, IsInextensible, universal, every maximal one Equivalent. The instance binders are the same. The only change is the input: hR : RichardsInput M becomes hL : CountableLinesInput M, and the proof is btz_ext hG (richardsInput_of_countableLines hL). CountableLinesInput (LineStructure.lean:641) has RichardsInput's setting and concludes that the set of components of S0 C is countable. That matches l.1544's « sing₀(M̄) has at most countably many connected components ». It is equivalent to RichardsInput (richardsInput_iff_countableLines, LineStructure.lean:657), so this is the same strength. Lean < paper is fully disclosed in the checklist and SCOPE, and the row stays partial: E0 only (T-btz-scope), M connected added, named cited input (OQ-150 (c)). Unmarked. chainsInherit_of_countableLines is chainsInherit on the narrowed input. The claim that universality and uniqueness use no cited input checks out: isUniversal_of_isMaximal (MaxExtension.lean:491) and equivalent_of_isMaximal (l.505) take no RichardsInput."
+    },
+    {
+      "label": "btzthm:maximal_btz_extension",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "BTZ_1.tex l.1269-1271 states the same theorem, with « unique up to isomorphism ». Equivalence over M is at least as strong. The same disclosures apply, and the row stays partial and unmarked. The proposed blocked_on, which replaces GX.BTZMax.RichardsInput with GX.BTZLine.CountableLinesInput, names the iff and btz_ext_of_countableLines, and keeps T-btz-scope and OQ-150, is accurate. Both T-btz-scope (roadmap) and OQ-150 (DECISIONS.md:378, OPEN) exist."
+    },
+    {
+      "label": "btzthm:globally_hyperbolic_manifolds_exists",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "BTZ_1.tex l.331-334 is verbatim the statement at l.1529-1532. The same declaration, disclosures and partial status apply, and the row is unmarked. The proposed blocked_on is accurate."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "Ran `taskset -c 0-11 lake env lean` on RichardsSplit.lean and MaxExtension.lean: both OK, with 0 occurrences of `sorry` in each file. A one-shot #print axioms probe (campaign dir, deleted afterwards) gives [propext, Classical.choice, Quot.sound] for btz_ext_of_countableLines, chainsInherit_of_countableLines and richardsInput_iff_countableLines. Per the dispatch, lake build was not run."
+  },
+  "scope_check": "Running `git status --short` under lean-gx shows only scaffold/GXScaffold.lean (one import line added), scaffold/GXScaffold/BTZ/MaxExtension.lean, the new RichardsSplit.lean and the campaign directory. `git diff HEAD` on MaxExtension.lean touches only the module docstring: the checklist row at l.52 and the SCOPE bullet « The cited input » (6+/4-), with no Lean code. The new text is true: RichardsInput concludes IsLindelof (S0 C), it is equivalent to CountableLinesInput, and secondCountable_line is proved in LineStructure. The other modified paths in the hub (lean-causal, papers/*/restatements, programme, roadmap) belong to other loops.",
+  "docstring_contract": "RichardsSplit.lean follows lean-causal kb/0006: a title, the unmarked labels with BTZ_1.tex lines (all within the first 4000 characters), the paper quoted verbatim (l.1529-1530, l.1544), the hypothesis checklist, SCOPE and Provenance. The checklist and SCOPE are true.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/MaxExtension.lean:8-11",
+      "what": "The module docstring's opening paragraph still says that the input carried as RichardsInput is « Richards' theorem MR143186 and the `(ℝ,ℝ)`-structure of a BTZ line ». This is the misdescription the closer corrected in the checklist row (l.52) and in the SCOPE bullet. The (ℝ,ℝ)-structure, that is, the second countability of the line (l.1546), is now proved (GX.BTZLine.secondCountable_line) and is not part of what is cited. So this paragraph is stale and contradicts the corrected row two blocks below it.",
+      "fix": "Align it with the rewritten row: « the second bullet of the proof (Richards' theorem MR143186 with the line-to-puncture association, l.1544) is carried as the named cited input `GX.BTZMax.RichardsInput`, equivalent to `GX.BTZLine.CountableLinesInput` ». This is a docstring-only edit within this target's allowance."
+    }
+  ]
+}

@@ -6,9 +6,10 @@ import Causal.AbstractDev
 
 Target `T-btz-maximal-extension` (`roadmap/roadmap.toml`, DEC-208). `papers/btz/legacy/labeled/BTZ_1.tex`.
 None of the three rows is marked: `𝔼₀`-manifolds only (T-btz-scope), `M` connected is added (as
-in `GX.Ppcm.btz_ppcm`, which the uniqueness uses), and the second bullet of the proof (Richards'
-theorem MR143186 and the `(ℝ,ℝ)`-structure of a BTZ line) is carried as the named cited input
-`GX.BTZMax.RichardsInput`.
+in `GX.Ppcm.btz_ppcm`, which the uniqueness uses), and the second bullet of the proof is carried
+as the named cited input `GX.BTZMax.RichardsInput`, equivalent to « countably many BTZ lines »
+(`GX.BTZLine.CountableLinesInput`, Richards' theorem MR143186; each line's second countability is
+proved, `GX.BTZLine.secondCountable_line`).
 
 * `btzthm:BTZ_ext` — `BTZ_1.tex:1528` (proof l.1535–1554) — `GX.BTZMax.btz_ext` (existence of a
   globally hyperbolic BTZ-extension maximal among such, inextensible, universal, unique up to
@@ -49,7 +50,7 @@ theorem MR143186 and the `(ℝ,ℝ)`-structure of a BTZ line) is carried as the 
 | `M` globally hyperbolic | ✓ carried |
 | `M` Hausdorff, second countable (l.261) | ✓ carried |
 | (none) | ⚠ strengthened: `M` connected (`E0AbsMax.e0_sfa_of_globalBTZ` on the union, and `GX.Ppcm.btz_ppcm` for uniqueness) |
-| Richards' theorem MR143186 and the second countability of a BTZ line (l.1544–1546) | ⚠ named cited input `RichardsInput M`: in a Hausdorff connected `𝔼₀`-manifold any two points of which lie in one open, second countable, globally hyperbolic BTZ-extension of `M`, `sing₀` is Lindelöf. It packs three ingredients: Richards' theorem (countably many ends), that each BTZ line matches a distinct end, and that each line is second countable (the last two cite nothing in the paper) |
+| Richards' theorem MR143186 and the line-to-puncture association (l.1544) | ⚠ named cited input `RichardsInput M`: in a Hausdorff connected `𝔼₀`-manifold any two points of which lie in one open, second countable, globally hyperbolic BTZ-extension of `M`, `sing₀` is Lindelöf. It is equivalent (`GX.BTZLine.richardsInput_iff_countableLines`, `GXScaffold.BTZ.LineStructure`) to `GX.BTZLine.CountableLinesInput M`, « countably many BTZ lines », the form of record: the second countability of each line (l.1546) is proved there (`GX.BTZLine.secondCountable_line`), not cited. The theorems restated on `CountableLinesInput` are in `GXScaffold.BTZ.RichardsSplit` (`GX.BTZMax.btz_ext_of_countableLines`) |
 | « maximal among such extensions » | ✓ carried as `AbstractDev.IsMaximal`, strengthened: inextensible (`IsInextensible`) and universal (every globally hyperbolic BTZ-extension maps into it) |
 | « unique up to equivalence » | ✓ carried: every maximal one is equivalent to it (a bijective BTZ-embedding over `M`) |
 
@@ -67,9 +68,11 @@ theorem MR143186 and the `(ℝ,ℝ)`-structure of a BTZ line) is carried as the 
   Proposition ppcm » becomes, after Zorn, the universality of the maximal extension
   (`isUniversal_of_isMaximal`, through `GX.Ppcm.btz_ppcm`), whence uniqueness.
 * **The cited input** is not Richards' classification itself, which is not in mathlib: it is the
-  consequence the proof draws from it (countably many BTZ lines) together with the second
-  countability of each line, in the form « `sing₀` is Lindelöf ». It is a hypothesis of
-  `btz_ext`, never an axiom.
+  consequence the proof draws from it, in the form « `sing₀` is Lindelöf ». It is a hypothesis of
+  `btz_ext`, never an axiom. The second countability of each line is not part of what is cited:
+  it is proved in `GXScaffold.BTZ.LineStructure`, where `RichardsInput` is shown equivalent to
+  `GX.BTZLine.CountableLinesInput` (« countably many lines », the form of record); `btz_ext` on that
+  input is `GX.BTZMax.btz_ext_of_countableLines` (`GXScaffold.BTZ.RichardsSplit`).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; lean-causal as pinned
 in `lake-manifest.json`.
