@@ -988,3 +988,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - gates: lean-gx ✓, roadmap ✓, atlas ✓; hub: the first make -k check failed test_no_model_in_gates because papers/ett was mid-edit by /ett-programme; rerun rc 0, no new red (verdict read before the push).
 - commits: c1d9a45 da1354c [+ roadmap/atlas/journal]
 - next: T-btz-maximal-extension, then T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass (lean-gx).
+
+## 2026-11-28 02:00 · wave of 3 · T-btz-maximal-extension, T-btz-isom-e0, T-bbs-cheminsing
+- T-btz-maximal-extension: the maximal BTZ-extension for E₀ (btzthm:BTZ_ext and its two restatements), as an instance of Causal.AbstractDev (DEC-208), sorry-free given the named cited input RichardsInput (Richards' theorem and two uncited steps). Maximal, inextensible, universal, unique up to equivalence over M. Audit minor. OQ-150.
+- T-btz-isom-e0: btzprop:isom's global form and two corollaries at E₀, strict; e0Groupoid excludes the reflection. The « isometries » and l.459 findings reworded as an imprecise wording and a terse mutatis mutandis (audit minor).
+- T-bbs-cheminsing: masspositive and the cheminsing deformation, scaffold; the light-like and space-like members are positive only in the gluing-map convention — evidence for OQ-144 (OQ-151). Curation waits on the bbs register (/restate).
+- gates: lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check green, hub: make -k check rc 0, no new red (verdict read before the push)
+- commits: dc54daa a3a3e53 [+ roadmap/atlas/journal]
+- wall time: 20:02–02:00 UTC; agents in parallel: 3 closers, 3 audits
+- New questions for the author: OQ-150 (btz § 5.3 and § 2 readings: connected M; how to report a row on a named cited input; « isometries »), OQ-151 (bbs: the cheminsing evidence for OQ-144).
+- btz now: every row anchored in Lean through § 5 (pgcd, ppcm, the maximal extension), all partial until T-btz-scope.
+- next: T-bbs-positive-mass (lean-gx); a planning run for the btz Cauchy-conservation chain and the remaining queues.

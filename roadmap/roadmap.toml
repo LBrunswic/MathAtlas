@@ -3345,13 +3345,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_ext", "btzthm:maximal_btz_extension", "btzthm:globally_hyperbolic_manifolds_exists"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-btz-ppcm", "T-gx-causal-pin-bump"]
-evidence = "DEC-208: « T-btz-maximal-extension (the maximal BTZ-extension, existence and uniqueness, as an instance of the ETT programme's abstract maximal-extension theorem — BTZ-embeddings as the morphism class; a programme binder) ». Causal/AbstractDev.lean: exists_isMaximal (:427), exists_isMaximal_of_uniqueMorphisms (:515), exists_isMaximal_of_chainsInherit (:611), sizeBound_self (:605, the size bound free in the universe of D). It imports Mathlib only, but lean-gx's pin ca2ad78 lacks it, hence T-gx-causal-pin-bump. The paper's route differs: an inductive limit over all BTZ-extensions, right filtered by prop:ppcm (BTZ_1.tex l.1531–1550); AbstractDev goes through Zorn on towers, with the same conclusion. Its two bullets are the inputs of ChainsInherit: global hyperbolicity of a limit (« by Corollary cor:GH_causal, N is causal ... J⁺_N(p) ∩ J⁻_N(q) = J⁺_{M₁}(p) ∩ J⁻_{M₁}(q) which is compact ») and its second countability through Richards' theorem (« By Richards Theorem [MR143186], a surface can only have countably many such ends »). Richards' classification is not in mathlib: the closer carries it as a named cited input, as T-syr-cited-steps did, unless a direct argument is found (btzrem:other_ways_prove_btz names a second route, MR3244277). E₀-scoped as DEC-116 (b)/DEC-125 (e); partial and unmarked until T-btz-scope rules. The programme binder DEC-208 mentions is /ett-programme's, informed by the master"
+evidence = "GXScaffold.BTZ.MaxExtension: btz_ext (maximal, inextensible, universal, unique over M) for E₀ given RichardsInput; OQ-150; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "dc54daa"
 
 [[target]]
 id = "T-btz-common-reg"
@@ -3735,12 +3736,13 @@ stream = "bbs"
 kind = "close"
 paper = "bbs"
 labels = ["bbsrem:masspositive", "bbsrem:cheminsing"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
-evidence = "papers/bbs ledger: both rows bucket D, blocked_on « no target yet (a § 3 link row, layer L2, in lean-gx by DEC-192) ». They need no AdS background (T-bbs-q8): the singularities are HS-singularities, read through their (Γ_p, ℓ(p))-circles. Built, scaffold: the cone angle of elliptic circles (T-bbs-hs-singularities, T-bbs-rp1-circles), cut-and-glue links GX.GammaLinkCircle.IsCutGlueLink and the sign lemmas of GXScaffold.BBS.HSLinkRemarks (T-bbs-link-remarks: « Cut-and-glue along a light-like ray of dS^2 is GX.GammaLinkCircle.IsCutGlueLink w gamma src ... The paper's worked examples use the inverse convention »), positivity GX.SingularHSStructure.IsPositive (T-bbs-positive-hs-surface). Two readings the closer records rather than takes: « continuous deformation » (read on the vertex x and the holonomy in PSL(2, ℝ), or its lift in G̃), and « the space-like singularities ... have positive mass » (l.1499), where the paper defines a mass only for elliptic singularities (l.1170; the tachyon mass at l.1327 is commented out). The positivity of the light-like ones depends on the sign convention, OQ-144, so it is proved under both. The physics sentences of masspositive (Gott, Carlip) are informal. Partial at best until OQ-144 rules"
+evidence = "GXScaffold.BBS.HSCheminsing: masspositive and cheminsing under both holonomy conventions; OQ-151; AUDIT-1 minor; curation waits on the bbs restate register"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "dc54daa"
 
 # ------------------------------------------------------------------ btz after the 2026-11-27 wave: pgcd's open sorry, prop:isom's global form; BBS § 4's positive mass; the informal BBS remarks (planner, 2026-11-27 night)
 [[target]]
@@ -3766,12 +3768,13 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:isom", "btzcor:indeed_group_isometries", "btzcor:morphism_two_manifolds_local"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 9
-evidence = "papers/btz ledger: btzprop:isom partial, note « anchored ... E₀ only, and only near the axis: the local form of an E₀-loop (GX.E0AbsMax.e0Loop_localForm); the global description of the isometry groups is not formalized »; btzcor:indeed_group_isometries and btzcor:morphism_two_manifolds_local bucket D, blocked_on « no target yet (a corollary of btzprop:isom) ». BTZ_1.tex l.378–383: « If φ is a local homeomorphism then α = β and φ is the restriction of an element of isom(E^{1,2}_α) »; l.385–386: « isom(E_α) is indeed the group of isometries of E_α »; l.391–393: « If φ is a local homeomorphism, then φ is a local diffeomorphisms ». Built, strict: GX.e0_localUnique_sing (Rigid.lean:1699: an element e ∈ e0Groupoid with EqOn f e on the regular part of U), GX.E0AbsMax.e0Loop_localForm (AbsMax.lean:1326: near an axis point an element of e0Groupoid is u ↦ (u.1 + a, R u.2), R : ℂ ≃ₗᵢ[ℝ] ℂ), Liouville (btzlem:liouville, e0_eqOn_of_eqOn_open) to globalise on connected U. Two things the closer records rather than takes: (i) Rigid.lean:73 says « `k = −1` (a reflection `θ ↦ −θ`) is not excluded and need not be », while the paper's structure group is Isom₀, orientation and time-orientation preserving (l.203, l.261); if e0Groupoid contains the reflection, the global form and cor:indeed_group_isometries hold for its orientation-preserving elements and the difference is a finding; (ii) « local diffeomorphism » read as an E₀-morphism (charts to charts), the E₀ structure being the smooth one. α = β is vacuous at E₀. Not in scope: btzcor:manifold_exists_exactly_one (only α = 0 exists at E₀, so it waits on T-btz-scope) and btzcor:manifold_smooth_manifold_singular (a smooth-manifold structure lean-gx does not build). E₀-scoped; the rows stay partial until T-btz-scope rules"
+evidence = "GX.BTZ.IsomE0 (strict): btzprop:isom and two corollaries at α = β = 0; OQ-150; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "dc54daa"
 
 [[target]]
 id = "T-bbs-positive-mass"
