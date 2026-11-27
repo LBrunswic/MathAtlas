@@ -187,6 +187,13 @@ def digest(text):
     return hashlib.sha256(" ".join(text.split()).encode("utf-8")).hexdigest()
 
 
+#: Commit ids in a ledger are abbreviated to at least 7 hex digits, pinned rather than left to git's
+#: automatic length, which grows with the object count: the 2026-11-27 crossing turned every
+#: committed `git_commit` from 7 to 8 digits at once, so no ledger agreed with `build` any more.
+#: Git still lengthens an id that would be ambiguous.
+ABBREV = ["-c", "core.abbrev=7"]
+
+
 def git_commit(path):
     if not path:
         return "unknown"
@@ -199,12 +206,12 @@ def git_commit(path):
             # A directory inside a larger repository (lean-causal/ in the hub): the last commit that
             # touched it. HEAD would name the commit that records this very ledger, which moves
             # with every commit and could never be committed in agreement with `build`.
-            sha = subprocess.check_output(["git", "-C", path, "log", "-1", "--format=%h", "--", "."],
+            sha = subprocess.check_output(["git", *ABBREV, "-C", path, "log", "-1", "--format=%h", "--", "."],
                                           text=True, stderr=subprocess.DEVNULL).strip()
             if sha:
                 return sha
         return subprocess.check_output(
-            ["git", "-C", path, "rev-parse", "--short", "HEAD"],
+            ["git", *ABBREV, "-C", path, "rev-parse", "--short", "HEAD"],
             text=True, stderr=subprocess.DEVNULL).strip()
     except Exception:
         return "unknown"
