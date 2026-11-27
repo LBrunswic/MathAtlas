@@ -9,7 +9,12 @@
 # loop's (T-cur-schw-layer1). Rebound 2026-11-23 (planning run after wave 38) to the Lean of
 # T-abs-schw-causal-lemmas (Causal.SchwCausalLemmas, 873469e), T-abs-timelike-homotopy
 # (Causal.TimelikeHomotopy, 9448424) and T-loc-e0-has-chronal-neighbour (Causal.Model.E0ChronalNeighbour,
-# 524cc76); the audits' findings on the paper recorded (below, and per row in `findings`).
+# 524cc76); the audits' findings on the paper recorded (below, and per row in `findings`). Rebound
+# 2026-11-27 (planning run after wave 43): T-bind-schw-future-one-connected (future_one_connected is a
+# ladder node, T-lad-future-one-connected-node, f92836fe; Minkowski's layer 3 in Lean,
+# T-loc-minkowski-future-one-connected, 3247324f), the Lean anchors of T-abs-diamond-confinement
+# (Causal.DiamondConfinement, db0e8e7f; its REPORT's paper_rows) in place of that target's id, and
+# T-bind-edge-hypotheses (Lemma 2.17 cites the edge hypothesis chronal_neighbour_at_boundary).
 #
 # How the paper factors (SYNTHESIS Q2; KB note (i)–(iii)). Every C⁰-inextendibility proof here has one
 # scheme (§1, :145–160; Thm 3.1, :480–624):
@@ -27,27 +32,33 @@
 # (Causal/LocateExtension.lean:418), with the localisation hypothesis HasChronalNeighbour at the
 # frontier points (DEC-159; without it the lemma is false in ETT, Causal.not_exists_leaving_bare, the
 # isolated line), and its every-point form exists_leaving_of_hasChronalNeighbourEverywhere
-# (Causal/ChronalNeighbourBridge.lean:257) through the node has_chronal_neighbour; the leaving curve
+# (Causal/ChronalNeighbourBridge.lean:269) through the node has_chronal_neighbour; the leaving curve
 # is future-inextensible in ι(M) on a Hausdorff M̃ (Causal.Causality.futureInextensible_of_leaving,
 # exists_leaving_futureInextensible_of_isOpenEmbedding; Causal.SchwCausalLemmas). (3)'s vocabulary is
 # in Lean: chronal homotopies and future one-connectedness (Causal.TimelikeHomotopy: ChronalHomotopyOn,
 # FutureOneConnectedOn, an equivalence, invariant under time reversal, causal isomorphisms and charts),
 # Prop 2.7 and Def 2.14 (Causal.SchwCausalLemmas: schw_prop_2_7, ChronallySeparatedOn,
-# schw_def_2_14_iff). What is left of (3) is the confinement and the identification
-# (T-abs-diamond-confinement) and the assembly T-abs-c0-extension-skeleton (Thm 3.1's and Thm 4.10's
-# causal skeleton, the KB note's candidates (a) + (b)). (2) and (4) are layer 3, metric (DEC-147's
+# schw_def_2_14_iff). The confinement and the identification are in Lean since
+# T-abs-diamond-confinement (Causal.DiamondConfinement, ETT layer: ChronalHomotopyOn.mapsTo_of_closure_subset
+# and its _of_lt form, Step 3 as printed; FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset, Thm
+# 4.11's curve form; Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn, (1.2)'s identification;
+# LocallyStronglyCausal and the assembly LocallyStronglyCausal.exists_diamond_identification). What is
+# left of (1)–(3) is the assembly T-abs-c0-extension-skeleton (Thm 3.1's and Thm 4.10's causal
+# skeleton, the KB note's candidates (a) + (b)). (2) and (4) are layer 3, metric (DEC-147's
 # package): no layer-1 statement.
 #
 # Which spacetime each localisation property is of. Two spacetimes enter every proof, and the
 # binder's `localisation` lists both kinds:
 #   * the EXTENSION M̃ (Sbierski: any C^k metric, k ∈ ℕ, so C⁰ is the general case): connected,
 #     causally_arc_connected (Sbierski's ≪ is defined by timelike curves, Def 2.2), has_chronal_neighbour
-#     at ∂ι(M) (Lemma 2.17's proof, :431: 'Let q̃ ∈ I⁻(p̃, Ũ)'), and the precompact chart diamonds of
-#     step (2), proposed below as locally_strongly_causal. Its entries are model C0
+#     at ∂ι(M) (Lemma 2.17's proof, :431: 'Let q̃ ∈ I⁻(p̃, Ũ)'; the edge hypothesis
+#     chronal_neighbour_at_boundary, which the node gives at every frontier point), and the precompact
+#     chart diamonds of step (2), proposed below as locally_strongly_causal (Lean:
+#     Causal.Causality.LocallyStronglyCausal; the node is T-lad-c0-extension-nodes'). Its entries are model C0
 #     (T-loc-c0-metric-causality, needs-ruling: where C⁰ metrics live, as T-loc-lipschitz-plain asks for
 #     C^{0,1}) and, for Lemma 2.17 alone, the hub's models as ambient spacetimes;
 #   * the EMBEDDED spacetime N = ι⁻¹(…) (Minkowski, the Schwarzschild exterior, interior, maximal):
-#     causally_arc_connected (for the identification, (3)) and future one-connectedness (proposed
+#     causally_arc_connected (for the identification, (3)) and future one-connectedness (the node
 #     future_one_connected). Its entries are model minkowski and model schwarzschild.
 # Models. `C0`: Sbierski's class of C⁰ time-oriented Lorentzian manifolds (the extensions M̃).
 # `minkowski`: Causal.minkowski n (Causal/Minkowski.lean), in Lean, = Causal.staticCausality on
@@ -68,9 +79,10 @@
 #     rows whose layer-1 content is in Lean; its note says 'metric'. The one exception is a row whose
 #     causal steps are exactly ETT axioms or notions used verbatim (Prop 2.8 (ii), Thm 5.7): those name
 #     them.
-#   * A layer-3 lemma for a property that is not yet a ladder node (Props 4.12, 6.5 for
-#     future_one_connected) lists the property in `open_localisation` and points its entry at the
-#     target that proves it, as papers/sbierski-mghd does for local_uniqueness.
+#   * A layer-3 lemma for a property that is not yet a ladder node lists the property in
+#     `open_localisation` and points its entry at the target that proves it, as papers/sbierski-mghd
+#     does for data_local_uniqueness. Since 2026-11-27 that is locally_strongly_causal only;
+#     future_one_connected is a node, and Props 4.12, 6.5 prove it in `localisation`.
 #   * Twins: the two theorem* of the introduction (:96, :167) are bound as their numbered twins.
 #
 # Findings of this binder (reported to the master):
@@ -89,10 +101,16 @@
 #   ETT's point.
 # * The diamond identification (1.2) needs no metric: with the closure of the chart diamond inside the
 #   chart and N future one-connected and causally arc-connected, it is an open–closed argument on the
-#   homotopy parameter (T-abs-diamond-confinement). The closure hypothesis is a localisation property
-#   of M̃, proposed as locally_strongly_causal: M̃ need not be strongly causal, but on a locally
-#   compact Hausdorff space a strongly causal open neighbourhood of the exit point gives it (the cone
-#   sandwich of Lemma 2.4's chart, C⁰).
+#   homotopy parameter (Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset, no separation
+#   axiom; the identification Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn). The closure
+#   hypothesis is a localisation property of M̃, proposed as locally_strongly_causal
+#   (Causal.Causality.LocallyStronglyCausal): M̃ need not be strongly causal, but on a locally compact
+#   R₁ space a strongly causal open neighbourhood of the exit point gives it
+#   (LocallyStronglyCausal.exists_isCompact_closure; the cone sandwich of Lemma 2.4's chart, C⁰).
+# * Lemma 2.17's hypothesis is not replaced by any global causality condition of the ladder: the
+#   isolated line, which refutes the bare lemma (Causal.not_exists_leaving_bare), is globally
+#   hyperbolic, causally compact, strongly causal and has a time function (Causal.isolatedLine_separates,
+#   T-abs-isolated-line-conjoined, 166420a2), and lacks has_chronal_neighbour.
 # * Readings, not taken (OQ rows): (R1) where C⁰ metrics live (T-loc-c0-metric-causality's question);
 #   (R2) Def 2.12's Cauchy hypersurfaces count inextendible TIMELIKE curves of a smooth embedded
 #   hypersurface, ETT's IsCauchySurface inextensible CAUSAL curves (DEC-14): for a spacelike C¹ Σ every
@@ -110,7 +128,8 @@
 # Findings on the paper (the audits of T-abs-timelike-homotopy and T-abs-schw-causal-lemmas, journal
 # 2026-11-23 05:22 and 06:01; each also on its row, in `findings`; none is in a register):
 # * Thm 3.1 Step 2.1 (:572–579): the printed homotopy Γ(t, s) = (σ_{λ(t)} * λ|[t,1])(s) splits at
-#   s = 1/2. Its slices at t = 0 (σ_{λ(0)} is constant, λ(0) = 0) and at t = 1 (λ|[1,1] is a point) are
+#   s = 1/2 (refuted in Lean for every λ in ℝ^{1,n}: Causal.minkowski_not_chronalHomotopyOn_sbierskiPrinted;
+#   the fixed split, Causal.minkowski_chronalHomotopyOn_sbierskiSplit). Its slices at t = 0 (σ_{λ(0)} is constant, λ(0) = 0) and at t = 1 (λ|[1,1] is a point) are
 #   constant on half of [0, 1], so they are not timelike curves (Defs 2.1, 2.13), and Γ(0, ·), Γ(1, ·)
 #   are λ and σ_{λ(1)} with a pause, not the curves themselves. The interior slices are timelike. Fix:
 #   split at s = t, Γ(t, s) = σ_{λ(t)}(s/t) = (s/t)·λ(t) for s ≤ t and λ(s) for s ≥ t, with
@@ -124,25 +143,20 @@
 # * Prop 6.5 prints (M_ext, g_ext) for the interior (its row's note).
 
 # ------------------------------------------------------------------ proposed localisation ids
-# Not yet ladder nodes; each row lists the ones it needs in `open_localisation`.
-[[proposed]]
-id = "future_one_connected"
-lean = "Causal.Causality.FutureOneConnected"
-target = "T-lad-future-one-connected-node"
-what = "Sbierski Def 2.13 (:380–386): any two future chronal curves of M (or of an open W) with the same endpoints are homotopic through future chronal curves with fixed endpoints; a property of the embedded spacetime (Minkowski, Thm 3.1 Step 2.1; the Schwarzschild exterior, Prop 4.12; the interior near r = 0, Prop 6.5); invariant under time reversal and conformally invariant (:845), automatically in ETT. Lean since T-abs-timelike-homotopy (9448424): Causal.Causality.FutureOneConnectedOn W (FutureOneConnected = On ⊤), dual_futureOneConnected, IsCausalIso.futureOneConnected_iff, futureOneConnectedOn_congr_lt (it reads ≪ only); the timelike line has it (Causal.timelikeLine_futureOneConnected)"
-
+# Not yet ladder nodes; each row lists the ones it needs in `open_localisation`. future_one_connected,
+# proposed here until 2026-11-27, is a node (T-lad-future-one-connected-node, f92836fe).
 [[proposed]]
 id = "locally_strongly_causal"
-lean = "none yet: T-abs-diamond-confinement defines Causal.Causality.LocallyStronglyCausal (every point has an open neighbourhood W strongly causal as a spacetime, CausallyConvexIn _ W)"
+lean = "Causal.Causality.LocallyStronglyCausal (Causal/DiamondConfinement.lean:378, T-abs-diamond-confinement, db0e8e7f: every point has an open neighbourhood W strongly causal as a spacetime, StronglyCausalOn W; the edge StronglyCausal.locallyStronglyCausal, two-sided by dual_locallyStronglyCausal, the timelike line has it)"
 target = "T-lad-c0-extension-nodes"
 what = "the precompact chart diamonds of Thm 3.1 Step 1.2 (:528: 'we can choose s₀ … such that the closure of I⁻(0, (−ε, ε)^{d+1}) ∩ I⁺((−s₀, 0, …, 0), (−ε, ε)^{d+1}) … is compact') and Thm 4.11 Step 1.1, the confinement hypothesis of step (3): on a locally compact Hausdorff space, every point has arbitrarily small opens Ũ whose diamonds between points near it have compact closure in Ũ; strongly_causal implies it; a property of the extension M̃, which need not be strongly causal (C⁰: the cone sandwich of Lemma 2.4's chart)"
 
 # ------------------------------------------------------------------ §1 the introduction's theorem*
 [[bind]]
 label = "schwthm:dimensional_maximal_analytic_schwarzschild"
-ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding", "Causal.Causality.futureInextensible_of_leaving", "Causal.Causality.not_continuousExtension_preimage", "T-abs-c0-extension-skeleton", "T-abs-diamond-confinement"]
-localisation = ["has_chronal_neighbour", "causally_arc_connected"]
-open_localisation = ["future_one_connected", "locally_strongly_causal"]
+ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding", "Causal.Causality.futureInextensible_of_leaving", "Causal.Causality.not_continuousExtension_preimage", "T-abs-c0-extension-skeleton", "Causal.Causality.LocallyStronglyCausal.exists_diamond_identification"]
+localisation = ["has_chronal_neighbour", "causally_arc_connected", "future_one_connected"]
+open_localisation = ["locally_strongly_causal"]
 open_reason = "As schwthm:MainThm, of which this is the twin."
 note = "The introduction's theorem* (InexSchwarzschild2.tex:96–98), twin of Thm 4.9 (schwthm:MainThm, ledger twin); bound as it is."
 [[bind.geometric]]
@@ -151,12 +165,12 @@ proves = ["has_chronal_neighbour", "causally_arc_connected"]
 by = ["T-loc-c0-metric-causality", "T-loc-c0-chart-diameter"]
 [[bind.geometric]]
 model = "schwarzschild"
-proves = ["causally_arc_connected"]
+proves = ["causally_arc_connected", "future_one_connected"]
 by = ["T-loc-schwarzschild-model", "T-loc-schw-exterior-one-connected", "T-loc-schw-exterior-divergence", "T-loc-schw-interior-one-connected", "T-loc-schw-interior-spacelike-diameter"]
 
 [[bind]]
 label = "schwthm:connected_globally_hyperbolic_lorentzian"
-ett = ["Causal.Causality.IsCauchySurface", "T-abs-diamond-confinement"]
+ett = ["Causal.Causality.IsCauchySurface", "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset", "T-abs-c0-extension-skeleton"]
 localisation = []
 note = "The introduction's theorem* (:167–171), twin of Thm 5.3 (schwthm:DiamFinite, ledger twin); bound as it is: metric."
 [[bind.geometric]]
@@ -209,15 +223,15 @@ by = ["T-loc-smooth-causal-ladder"]
 label = "schwrem:setting_above_definition_time_oriented"
 ett = ["Causal.Causality", "Causal.Causality.CausallyArcConnectedOn", "Causal.Causality.restrict"]
 localisation = []
-note = "Rem 2.3 (:248–250): for U ⊆ M open, I⁺(p, U) is computed in the spacetime U, not in M, and may be smaller than I⁺(p, M) ∩ U. That is ETT's definition of a causality, a family ≪_U, ≤_U over the open sets, monotone in U (Causal.Causality, Causal/Causality.lean:55–83; ex:open_subset, Causal.Causality.restrict); the KB note's (ii) makes the same point. The remark is why (1.2)'s identification is not free (:158) and why step (3) needs future one-connectedness (T-abs-diamond-confinement)."
+note = "Rem 2.3 (:248–250): for U ⊆ M open, I⁺(p, U) is computed in the spacetime U, not in M, and may be smaller than I⁺(p, M) ∩ U. That is ETT's definition of a causality, a family ≪_U, ≤_U over the open sets, monotone in U (Causal.Causality, Causal/Causality.lean:55–83; ex:open_subset, Causal.Causality.restrict); the KB note's (ii) makes the same point. The remark is why (1.2)'s identification is not free (:158) and why step (3) needs future one-connectedness (Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn, Causal.DiamondConfinement)."
 
 [[bind]]
 label = "schwlem:NormalForm"
-ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "T-abs-diamond-confinement"]
+ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure"]
 localisation = ["has_chronal_neighbour"]
 open_localisation = ["locally_strongly_causal"]
-open_reason = "locally_strongly_causal is not a ladder node: T-abs-diamond-confinement defines it, T-lad-c0-extension-nodes adds it. Its C0 proof is the cone sandwich in this lemma's chart (T-loc-c0-chart-diameter)."
-note = "Lemma 2.4 (:258–288): a near-Minkowskian chart along a timelike curve. Metric: no layer-1 statement. Its ETT role is to supply the localisation properties of the extension M̃ at a point: the coordinate line ∂/∂x⁰ gives both chronal neighbours (Prop 2.6's proof, :296–306; Lemma 2.17's 'Let q̃ ∈ I⁻(p̃, Ũ)', :431), i.e. has_chronal_neighbour, consumed by exists_leaving_of_isOpenEmbedding; with δ small the cone sandwich C⁺_{5/6} ⊆ I⁺ ⊆ C⁺_{5/8} (Thm 3.1 Step 1.2, (3.3)) makes the chart diamonds precompact in the chart, the confinement hypothesis of T-abs-diamond-confinement (locally_strongly_causal, proposed)."
+open_reason = "locally_strongly_causal is not a ladder node: Causal.Causality.LocallyStronglyCausal is its Lean (Causal/DiamondConfinement.lean:378, T-abs-diamond-confinement), T-lad-c0-extension-nodes adds the node. Its C0 proof is the cone sandwich in this lemma's chart (T-loc-c0-chart-diameter)."
+note = "Lemma 2.4 (:258–288): a near-Minkowskian chart along a timelike curve. Metric: no layer-1 statement. Its ETT role is to supply the localisation properties of the extension M̃ at a point: the coordinate line ∂/∂x⁰ gives both chronal neighbours (Prop 2.6's proof, :296–306; Lemma 2.17's 'Let q̃ ∈ I⁻(p̃, Ũ)', :431), i.e. has_chronal_neighbour, consumed by exists_leaving_of_isOpenEmbedding; with δ small the cone sandwich C⁺_{5/6} ⊆ I⁺ ⊆ C⁺_{5/8} (Thm 3.1 Steps 1.1–1.2, :504 and (3.2), :508–513) makes the chart strongly causal as a spacetime and its diamonds precompact in the chart: locally_strongly_causal (proposed), whose layer-1 consumer is Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure (precompact chronological diamonds in small opens, on a locally compact R₁ space), the confinement hypothesis of Step 3."
 [[bind.geometric]]
 model = "C0"
 proves = ["has_chronal_neighbour"]
@@ -284,13 +298,13 @@ note = "Rem 2.11 (:365–367): a timelike curve may be future extendible as a co
 label = "schwdef:cauchy_hypersurface"
 ett = ["Causal.Causality.IsCauchySurface", "Causal.Causality.IsCauchySurfaceOn", "Causal.Causality.GloballyHyperbolic"]
 localisation = []
-note = "Def 2.12 (:369–377): a smooth embedded hypersurface met exactly once by every inextendible TIMELIKE curve; GH := one exists. ETT: IsCauchySurface counts inextensible CAUSAL curves (DEC-14, Causal/Cauchy.lean:67–74) and GloballyHyperbolic is causal + compact diamonds (Causal/Properties.lean:144), linked by Geroch's theorem (Causal.Causality.geroch_ii_imp_iii, IsCauchyTimeFunction.isCauchySurface). Reading R2 (header), not taken: for a spacelike C¹ Σ every ETT Cauchy surface is a Sbierski one, so a sup over ETT's class (Def 5.1) is at most Sbierski's; the layer-3 targets (§5–6) use Sbierski's notion verbatim, and for smooth metrics the two agree on spacelike hypersurfaces. Sbierski's uses: the hypersurfaces {r = r₀} of M_int (§6, :1453) and the Cauchy hypersurfaces of Def 5.1."
+note = "Def 2.12 (:369–377): a smooth embedded hypersurface met exactly once by every inextendible TIMELIKE curve; GH := one exists. ETT: IsCauchySurface counts inextensible CAUSAL curves (DEC-14, Causal/Cauchy.lean:70–77) and GloballyHyperbolic is causal + compact diamonds (Causal/Properties.lean:144), linked by Geroch's theorem (Causal.Causality.geroch_ii_imp_iii, IsCauchyTimeFunction.isCauchySurface). Reading R2 (header), not taken: for a spacelike C¹ Σ every ETT Cauchy surface is a Sbierski one, so a sup over ETT's class (Def 5.1) is at most Sbierski's; the layer-3 targets (§5–6) use Sbierski's notion verbatim, and for smooth metrics the two agree on spacelike hypersurfaces. Sbierski's uses: the hypersurfaces {r = r₀} of M_int (§6, :1453) and the Cauchy hypersurfaces of Def 5.1."
 
 [[bind]]
 label = "schwdef:timelike_homotopic_fixed_endpoints"
 ett = ["Causal.Causality.ChronalHomotopyOn", "Causal.Causality.ChronallyHomotopicOn", "Causal.Causality.FutureOneConnectedOn", "Causal.Causality.FutureOneConnected", "Causal.Causality.chronallyHomotopicOn_equivalence", "Causal.Causality.dual_futureOneConnectedOn", "Causal.IsCausalIso.futureOneConnectedOn_iff", "Causal.ChartIso.futureOneConnectedOn_iff", "Causal.Causality.futureOneConnectedOn_congr_lt"]
 localisation = []
-note = "Def 2.13 (:380–386): timelike homotopy with fixed endpoints; future one-connected. In Lean, sorry-free, ETT layer (Causal.TimelikeHomotopy, T-abs-timelike-homotopy, 9448424), timelike curves read as chronal curves: Causal.Causality.ChronalHomotopyOn W Γ γ₀ γ₁ (Γ continuous on [0, 1]², each Γ(t, ·) a future chronal curve of the open W over [0, 1] with fixed endpoints), ChronallyHomotopicOn, FutureOneConnectedOn W and FutureOneConnected (W = ⊤). An equivalence on chronal curves (chronallyHomotopicOn_equivalence); two-sided (dual_futureOneConnectedOn); invariant under causal isomorphisms and charts (IsCausalIso.futureOneConnectedOn_iff, ChartIso.futureOneConnectedOn_iff); it reads ≪ only (futureOneConnectedOn_congr_lt), the layer-1 content of the conformal invariance Sbierski notes (:845). Witness: the timelike line, future one-connected on every open set, non-trivially (Causal.timelikeLine_futureOneConnectedOn, timelikeLine_chronallyHomotopicOn_sq). Proposed anchor for the curation (T-cur-schw-layer1): FutureOneConnectedOn, partial, unmarked: under the C0 model the chronal curves contain Sbierski's piecewise smooth timelike curves, so the two notions of future one-connectedness are incomparable without a layer-3 comparison (header; the module's SCOPE). The node future_one_connected is T-lad-future-one-connected-node's ([[proposed]] above). Consumed by step (3) (T-abs-diamond-confinement); proved of Minkowski (Thm 3.1 Step 2.1, T-loc-minkowski-future-one-connected), the Schwarzschild exterior (Prop 4.12) and interior (Prop 6.5)."
+note = "Def 2.13 (:380–386): timelike homotopy with fixed endpoints; future one-connected. In Lean, sorry-free, ETT layer (Causal.TimelikeHomotopy, T-abs-timelike-homotopy, 9448424), timelike curves read as chronal curves: Causal.Causality.ChronalHomotopyOn W Γ γ₀ γ₁ (Γ continuous on [0, 1]², each Γ(t, ·) a future chronal curve of the open W over [0, 1] with fixed endpoints), ChronallyHomotopicOn, FutureOneConnectedOn W and FutureOneConnected (W = ⊤). An equivalence on chronal curves (chronallyHomotopicOn_equivalence); two-sided (dual_futureOneConnectedOn); invariant under causal isomorphisms and charts (IsCausalIso.futureOneConnectedOn_iff, ChartIso.futureOneConnectedOn_iff); it reads ≪ only (futureOneConnectedOn_congr_lt), the layer-1 content of the conformal invariance Sbierski notes (:845). Witness: the timelike line, future one-connected on every open set, non-trivially (Causal.timelikeLine_futureOneConnectedOn, timelikeLine_chronallyHomotopicOn_sq). Proposed anchor for the curation (T-cur-schw-layer1): FutureOneConnectedOn, partial, unmarked: under the C0 model the chronal curves contain Sbierski's piecewise smooth timelike curves, so the two notions of future one-connectedness are incomparable without a layer-3 comparison (header; the module's SCOPE). The node future_one_connected is its ⊤ form (T-lad-future-one-connected-node, f92836fe). Consumed by step (3): Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn and FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset (Causal.DiamondConfinement, T-abs-diamond-confinement); proved of Minkowski (Thm 3.1 Step 2.1: Causal.minkowski_futureOneConnected, for every n and on every convex open, T-loc-minkowski-future-one-connected, 3247324f), the Schwarzschild exterior (Prop 4.12) and interior (Prop 6.5)."
 
 [[bind]]
 label = "schwdef:timelike_separated_set"
@@ -307,7 +321,7 @@ by = ["T-loc-schwarzschild-model"]
 label = "schwdef:extension"
 ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.ChartIso", "T-abs-c0-extension-skeleton"]
 localisation = []
-note = "Def 2.15 (:403–411): a C^k-extension is a smooth isometric embedding ι : M ↪ M̃ of the same dimension onto a proper subset (connected manifolds, so ∂ι(M) ≠ ∅, footnote :406). ETT: an open embedding with proper range (all Lemma 2.17 uses of ι: IsOpenEmbedding, range ι ≠ univ; same dimension ⇒ open image is invariance of domain, layer 3) which is causally an isomorphism onto the open ι(M) (the isometry: Causal.ChartIso along ι, Causal/GXStructure.lean:82), so that M's causality is the restriction of M̃'s to ι(M) (Rem 2.3). T-abs-c0-extension-skeleton fixes the notion. Proving that a C⁰ isometric embedding is such a map is the C0 model's."
+note = "Def 2.15 (:403–411): a C^k-extension is a smooth isometric embedding ι : M ↪ M̃ of the same dimension onto a proper subset (connected manifolds, so ∂ι(M) ≠ ∅, footnote :406). ETT: an open embedding with proper range (all Lemma 2.17 uses of ι: IsOpenEmbedding, range ι ≠ univ; same dimension ⇒ open image is invariance of domain, layer 3) which is causally an isomorphism onto the open ι(M) (the isometry: Causal.ChartIso along ι, Causal/GXStructure.lean:86), so that M's causality is the restriction of M̃'s to ι(M) (Rem 2.3). T-abs-c0-extension-skeleton fixes the notion. Proving that a C⁰ isometric embedding is such a map is the C0 model's."
 [[bind.geometric]]
 model = "C0"
 proves = []
@@ -322,117 +336,115 @@ note = "Rem 2.16 (:413–421). (1) Extendibility matters for non-smooth M too: t
 [[bind]]
 label = "schwlem:ExtensionLemma"
 ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.exists_leaving_of_hasChronalNeighbourEverywhere", "Causal.Causality.exists_leaving_of_isOpenEmbedding_of_chronalNeighbours", "Causal.Causality.futureBoundary_union_pastBoundary_nonempty_iff"]
-localisation = ["has_chronal_neighbour", "causally_arc_connected"]
-note = "Lemma 2.17 (:425–440), locating the extension; DEC-159 (OQ-51). Layer 1 in Lean, ETT layer, sorry-free: Causal.Causality.exists_leaving_of_isOpenEmbedding (Causal/LocateExtension.lean:418; the ladder's consequence at causally_arc_connected, programme/ladder.toml, the boundary form) takes M̃ connected ([PreconnectedSpace M]) and causally arc-connected, ι an open embedding of a non-empty space with range ι ≠ M̃, and HasChronalNeighbour at every frontier point of ι(N) (an edge hypothesis, DEC-159), and gives a chronal curve of C or C.dual in ι(N) on [0, 1) ending on ∂ι(N), chronal in the spacetime ι(N) on every [0, s], s < 1. The node has_chronal_neighbour (Causal.Causality.HasChronalNeighbourEverywhere) gives the edge hypothesis at every point: exists_leaving_of_hasChronalNeighbourEverywhere (Causal/ChronalNeighbourBridge.lean:257, the ladder's consequence at has_chronal_neighbour ∧ causally_arc_connected); with chronal_neighbours, exists_leaving_of_isOpenEmbedding_of_chronalNeighbours (:281). Sharp: one frontier point with a chronal neighbour is necessary and sufficient (futureBoundary_union_pastBoundary_nonempty_iff, LocateExtension.lean:354), and without it the lemma is false (Causal.not_exists_leaving_bare, :648: the isolated line, causally arc-connected, causally open and plain). Both localisation properties are of the EXTENSION M̃ (header): Sbierski's proof uses connectedness of M̃, openness of ι(M) and of I^± (an ETT axiom), and 'Let q̃ ∈ I⁻(p̃, Ũ)' (:431), i.e. a chronal neighbour at p̃, on one side. ETT is more general (header, findings): one-sided (BTZ points, Causal.closedHalfLine_oneSided, exists_leaving_of_frontier_subset_Zplus), local (exists_leaving_of_local), only ι(M) open used. Layer 3 per ambient class: C0 is Sbierski's (any C^k, k ∈ ℕ); smooth-vacuum the C^∞ case, and schwarzschild as an ambient of its own regions (M_ext ↪ M_max, M_int ↪ M_max, the classical extensions; T-loc-schwarzschild-model); minkowski and E_alpha in Lean; E_0 and flat-gx through T-loc-e0-has-chronal-neighbour's lemma for every SingularFlatAxioms causality (Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere, from the field mem_Zplus; the E₀ instance Causal.E0.hasChronalNeighbourEverywhere; Causal.Model.E0ChronalNeighbour, 524cc76; at a BTZ point the future disjunct only). The inextensibility of the leaving curve in ι(N), which the lemma does not address, is Causal.Causality.futureInextensible_of_leaving on a Hausdorff M̃ (T-abs-schw-causal-lemmas)."
+localisation = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
+note = "Lemma 2.17 (:425–440), locating the extension; DEC-159 (OQ-51). Layer 1 in Lean, ETT layer, sorry-free: Causal.Causality.exists_leaving_of_isOpenEmbedding (Causal/LocateExtension.lean:418; the ladder's consequence at causally_arc_connected, programme/ladder.toml, the boundary form) takes M̃ connected ([PreconnectedSpace M]) and causally arc-connected, ι an open embedding of a non-empty space with range ι ≠ M̃, and HasChronalNeighbour at every frontier point of ι(N) (an edge hypothesis, DEC-159), and gives a chronal curve of C or C.dual in ι(N) on [0, 1) ending on ∂ι(N), chronal in the spacetime ι(N) on every [0, s], s < 1. That edge hypothesis is the ladder's [[edge_hypothesis]] chronal_neighbour_at_boundary (T-lad-edge-hypotheses; the row cites it beside the node since T-bind-edge-hypotheses, 2026-11-27). The node has_chronal_neighbour (Causal.Causality.HasChronalNeighbourEverywhere) gives it at every point, which is how each model entry proves it: exists_leaving_of_hasChronalNeighbourEverywhere (Causal/ChronalNeighbourBridge.lean:269, the ladder's consequence at has_chronal_neighbour ∧ causally_arc_connected); with chronal_neighbours, exists_leaving_of_isOpenEmbedding_of_chronalNeighbours (:293). Sharp: one frontier point with a chronal neighbour is necessary and sufficient (futureBoundary_union_pastBoundary_nonempty_iff, LocateExtension.lean:354), and without it the lemma is false (Causal.not_exists_leaving_bare, :648: the isolated line, causally arc-connected, causally open and plain; by Causal.isolatedLine_separates also globally hyperbolic, causally compact and strongly causal, so no global causality condition replaces the hypothesis). Both localisation properties are of the EXTENSION M̃ (header): Sbierski's proof uses connectedness of M̃, openness of ι(M) and of I^± (an ETT axiom), and 'Let q̃ ∈ I⁻(p̃, Ũ)' (:431), i.e. a chronal neighbour at p̃, on one side. ETT is more general (header, findings): one-sided (BTZ points, Causal.closedHalfLine_oneSided, exists_leaving_of_frontier_subset_Zplus), local (exists_leaving_of_local), only ι(M) open used. Layer 3 per ambient class: C0 is Sbierski's (any C^k, k ∈ ℕ); smooth-vacuum the C^∞ case, and schwarzschild as an ambient of its own regions (M_ext ↪ M_max, M_int ↪ M_max, the classical extensions; T-loc-schwarzschild-model); minkowski and E_alpha in Lean; E_0 and flat-gx through T-loc-e0-has-chronal-neighbour's lemma for every SingularFlatAxioms causality (Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere, from the field mem_Zplus; the E₀ instance Causal.E0.hasChronalNeighbourEverywhere; Causal.Model.E0ChronalNeighbour, 524cc76; at a BTZ point the future disjunct only). The inextensibility of the leaving curve in ι(N), which the lemma does not address, is Causal.Causality.futureInextensible_of_leaving on a Hausdorff M̃ (T-abs-schw-causal-lemmas)."
 [[bind.geometric]]
 model = "C0"
-proves = ["has_chronal_neighbour", "causally_arc_connected"]
+proves = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
 by = ["T-loc-c0-metric-causality"]
 [[bind.geometric]]
 model = "smooth-vacuum"
-proves = ["has_chronal_neighbour", "causally_arc_connected"]
+proves = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
 by = ["T-loc-smooth-causal-ladder", "Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere"]
 [[bind.geometric]]
 model = "schwarzschild"
-proves = ["has_chronal_neighbour", "causally_arc_connected"]
+proves = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
 by = ["T-loc-schwarzschild-model", "Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere"]
 [[bind.geometric]]
 model = "minkowski"
-proves = ["has_chronal_neighbour", "causally_arc_connected"]
+proves = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
 by = ["Causal.minkowski_causallyArcConnected", "Causal.staticCausality.chronalNeighbours", "Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere"]
 [[bind.geometric]]
 model = "E_alpha"
-proves = ["has_chronal_neighbour", "causally_arc_connected"]
+proves = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
 by = ["Causal.cosmicString_causallyArcConnected", "Causal.cosmicString_chronalNeighbours", "Causal.Causality.ChronalNeighbours.hasChronalNeighbourEverywhere"]
 [[bind.geometric]]
 model = "E_0"
-proves = ["has_chronal_neighbour", "causally_arc_connected"]
+proves = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
 by = ["Causal.E0.hasChronalNeighbourEverywhere", "Causal.E0.causallyArcConnected"]
 [[bind.geometric]]
 model = "flat-gx"
-proves = ["has_chronal_neighbour", "causally_arc_connected"]
+proves = ["has_chronal_neighbour", "chronal_neighbour_at_boundary", "causally_arc_connected"]
 by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere"]
 
 # ------------------------------------------------------------------ §3 Minkowski
 [[bind]]
 label = "schwthm:MinkInex"
-ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding", "Causal.Causality.futureInextensible_of_leaving", "Causal.Causality.not_continuousExtension_preimage", "T-abs-diamond-confinement", "T-abs-c0-extension-skeleton"]
-localisation = ["has_chronal_neighbour", "causally_arc_connected"]
-open_localisation = ["future_one_connected", "locally_strongly_causal"]
-open_reason = "future_one_connected (of N = Minkowski; defined in Lean, Causal.Causality.FutureOneConnected, T-abs-timelike-homotopy; T-lad-future-one-connected-node adds the node) and locally_strongly_causal (of M̃ at the exit point; T-abs-diamond-confinement defines it, T-lad-c0-extension-nodes adds the node) are not ladder nodes. The timelike diameter is no localisation property: it is the metric obstruction (layer 3)."
+ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding", "Causal.Causality.futureInextensible_of_leaving", "Causal.Causality.not_continuousExtension_preimage", "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt", "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset", "Causal.Causality.ChronalHomotopyOn.inf_of_closure_subset", "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure", "T-abs-c0-extension-skeleton"]
+localisation = ["has_chronal_neighbour", "causally_arc_connected", "future_one_connected"]
+open_localisation = ["locally_strongly_causal"]
+open_reason = "locally_strongly_causal (of M̃ at the exit point; Causal.Causality.LocallyStronglyCausal, T-abs-diamond-confinement; T-lad-c0-extension-nodes adds the node) is not a ladder node. future_one_connected (of N = Minkowski) is a node since T-lad-future-one-connected-node and is proved in Lean (the minkowski entry). The timelike diameter is no localisation property: it is the metric obstruction (layer 3)."
 findings = ["Step 2.1 (:572–579): the printed homotopy Γ(t, s) = (σ_{λ(t)} * λ|[t,1])(s) splits at s = 1/2, so its slices at t = 0 and t = 1 are constant on half of [0, 1] and are not timelike (Defs 2.1, 2.13); the interior slices are. Fix: split at s = t, Γ(t, s) = σ_{λ(t)}(s/t) for s ≤ t and λ(s) for s ≥ t, Γ(0, ·) = λ (audit of T-abs-timelike-homotopy, journal 2026-11-23 06:01)."]
-note = "Thm 3.1 (:475–624). Step 1: Lemma 2.17 (exists_leaving_of_isOpenEmbedding, localisation of M̃) and γ future inextendible in M_Mink (:485), in Lean on a Hausdorff M̃ (Causal.SchwCausalLemmas, T-abs-schw-causal-lemmas: futureInextensible_of_leaving, exists_leaving_futureInextensible_of_isOpenEmbedding, the curve future-inextensible in ι(M), T2 needed, Causal.forkPoint_leaving_futureExtensible; Sbierski's own Def 2.10 in M, not_continuousExtension_preimage). Steps 1.1–1.3: Lemma 2.4's chart, the cone sandwich, the chart diamond precompact with timelike diameter ≤ C_td (C0, T-loc-c0-chart-diameter). Step 2.1: Minkowski future one-connected (T-loc-minkowski-future-one-connected, in lean-causal; the printed homotopy degenerates at t = 0, 1, `findings`). Step 2.2: d(λ(0), λ(s)) → ∞ (T-loc-minkowski-timelike-diameter). Step 3: the homotopy cannot escape the chart diamond, the open–closed argument (:619–621; T-abs-diamond-confinement), contradicting C_td. The causal steps assemble as T-abs-c0-extension-skeleton (the KB note's (a) + (b)); the contradiction is metric. causally_arc_connected is asked of both spacetimes (M̃ for Lemma 2.17, Minkowski for the identification)."
+note = "Thm 3.1 (:475–624). Step 1: Lemma 2.17 (exists_leaving_of_isOpenEmbedding, localisation of M̃) and γ future inextendible in M_Mink (:485), in Lean on a Hausdorff M̃ (Causal.SchwCausalLemmas, T-abs-schw-causal-lemmas: futureInextensible_of_leaving, exists_leaving_futureInextensible_of_isOpenEmbedding, the curve future-inextensible in ι(M), T2 needed, Causal.forkPoint_leaving_futureExtensible; Sbierski's own Def 2.10 in M, not_continuousExtension_preimage). Steps 1.1–1.3: Lemma 2.4's chart, the cone sandwich, the chart diamond precompact with timelike diameter ≤ C_td (C0, T-loc-c0-chart-diameter). Step 2.1: Minkowski future one-connected, in Lean: Causal.minkowski_futureOneConnected and Sbierski's 'every chronal curve is homotopic to the segment', Causal.minkowski_chronallyHomotopicOn_segment (Causal/Model/MinkowskiFutureOneConnected.lean:235, :252; T-loc-minkowski-future-one-connected, 3247324f; the printed homotopy degenerates at t = 0, 1, `findings`). Step 2.2: d(λ(0), λ(s)) → ∞ (T-loc-minkowski-timelike-diameter). Step 3: the homotopy cannot escape the chart diamond, the open–closed argument (:619–621), in Lean as printed: Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt (homotopy from γ̃(−s₀) to γ̃(−s₁), closure hypothesis at γ̃(0); the step γ̃(−s₁) ≪_Ũ γ̃(0) is implicit in the paper, from :491), contradicting C_td; Step 1.2's precompact chart diamond is LocallyStronglyCausal.exists_isCompact_closure once the chart is strongly causal as a spacetime (C0 layer 3). The causal steps assemble as T-abs-c0-extension-skeleton (the KB note's (a) + (b)); the contradiction is metric. causally_arc_connected is asked of both spacetimes (M̃ for Lemma 2.17, Minkowski for the identification)."
 [[bind.geometric]]
 model = "C0"
 proves = ["has_chronal_neighbour", "causally_arc_connected"]
 by = ["T-loc-c0-metric-causality", "T-loc-c0-chart-diameter"]
 [[bind.geometric]]
 model = "minkowski"
-proves = ["causally_arc_connected"]
-by = ["Causal.minkowski_causallyArcConnected", "T-loc-minkowski-future-one-connected", "T-loc-minkowski-timelike-diameter"]
+proves = ["causally_arc_connected", "future_one_connected"]
+by = ["Causal.minkowski_causallyArcConnected", "Causal.minkowski_futureOneConnected", "Causal.minkowski_chronallyHomotopicOn_segment", "T-loc-minkowski-timelike-diameter"]
 
 # ------------------------------------------------------------------ §4 Schwarzschild
 [[bind]]
 label = "schwthm:MainThm"
-ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding", "Causal.Causality.futureInextensible_of_leaving", "Causal.Causality.not_continuousExtension_preimage", "T-abs-c0-extension-skeleton", "T-abs-diamond-confinement"]
-localisation = ["has_chronal_neighbour", "causally_arc_connected"]
-open_localisation = ["future_one_connected", "locally_strongly_causal"]
-open_reason = "As Thm 3.1: future_one_connected (of the Schwarzschild exterior and interior, Props 4.12, 6.5; T-lad-future-one-connected-node) and locally_strongly_causal (of M̃; T-lad-c0-extension-nodes) are not ladder nodes."
+ett = ["Causal.Causality.exists_leaving_of_isOpenEmbedding", "Causal.Causality.exists_leaving_futureInextensible_of_isOpenEmbedding", "Causal.Causality.futureInextensible_of_leaving", "Causal.Causality.not_continuousExtension_preimage", "T-abs-c0-extension-skeleton", "Causal.Causality.LocallyStronglyCausal.exists_diamond_identification"]
+localisation = ["has_chronal_neighbour", "causally_arc_connected", "future_one_connected"]
+open_localisation = ["locally_strongly_causal"]
+open_reason = "As Thm 3.1: locally_strongly_causal (of M̃; T-lad-c0-extension-nodes) is not a ladder node. future_one_connected (of the Schwarzschild exterior and interior, Props 4.12, 6.5) is a node, provided by the schwarzschild entry's targets."
 findings = ["The sentence 'and thus it is future inextendible in M_max' is at :798; :799, cited by the roadmap and by Causal.SchwCausalLemmas' docstring, is blank (audit of T-abs-schw-causal-lemmas, journal 2026-11-23 05:22)."]
-note = "Thm 4.9 (:778–781, proof from Thms 4.10, 4.11 at :797–813). Lemma 2.17 locates the extension of M_max (exists_leaving_of_isOpenEmbedding; localisation of M̃); γ is future inextendible in M_max (:798; Causal.Causality.futureInextensible_of_leaving, exists_leaving_futureInextensible_of_isOpenEmbedding on a Hausdorff M̃, in ι(M); Sbierski's Def 2.10 in M, not_continuousExtension_preimage); Kruskal coordinates put its end in region I or IV with v* → ∞ or in region II with r → 0 (Schwarzschild geometry, T-loc-schwarzschild-model), and Thms 4.10, 4.11 exclude both. The causal skeleton is T-abs-c0-extension-skeleton; the case split and the two obstructions are layer 3."
+note = "Thm 4.9 (:778–781, proof from Thms 4.10, 4.11 at :797–813). Lemma 2.17 locates the extension of M_max (exists_leaving_of_isOpenEmbedding; localisation of M̃); γ is future inextendible in M_max (:798; Causal.Causality.futureInextensible_of_leaving, exists_leaving_futureInextensible_of_isOpenEmbedding on a Hausdorff M̃, in ι(M); Sbierski's Def 2.10 in M, not_continuousExtension_preimage); Kruskal coordinates put its end in region I or IV with v* → ∞ or in region II with r → 0 (Schwarzschild geometry, T-loc-schwarzschild-model), and Thms 4.10, 4.11 exclude both. Its causal step (3) is the assembly Causal.Causality.LocallyStronglyCausal.exists_diamond_identification (Causal.DiamondConfinement); the full skeleton is T-abs-c0-extension-skeleton; the case split and the two obstructions are layer 3."
 [[bind.geometric]]
 model = "C0"
 proves = ["has_chronal_neighbour", "causally_arc_connected"]
 by = ["T-loc-c0-metric-causality", "T-loc-c0-chart-diameter"]
 [[bind.geometric]]
 model = "schwarzschild"
-proves = ["causally_arc_connected"]
+proves = ["causally_arc_connected", "future_one_connected"]
 by = ["T-loc-schwarzschild-model", "T-loc-schw-exterior-one-connected", "T-loc-schw-exterior-divergence", "T-loc-schw-interior-one-connected", "T-loc-schw-interior-spacelike-diameter"]
 
 [[bind]]
 label = "schwthm:Exterior"
-ett = ["T-abs-c0-extension-skeleton", "T-abs-diamond-confinement"]
-localisation = ["causally_arc_connected"]
-open_localisation = ["future_one_connected", "locally_strongly_causal"]
-open_reason = "future_one_connected of M_ext (Prop 4.12; T-lad-future-one-connected-node) and locally_strongly_causal of M̃ (T-lad-c0-extension-nodes) are not ladder nodes."
-note = "Thm 4.10 (:785–788, proof :1077–1079 'analogous to the proof of Theorem 3.1'): no C⁰-extension of M_ext in which a timelike curve with v* → ∞ extends as a timelike curve. The leaving curve is GIVEN (no Lemma 2.17), so its ETT skeleton is T-abs-c0-extension-skeleton's given-curve form: Steps 1.1–1.3 verbatim (C0 chart), Step 2.1 replaced by Prop 4.12, Step 2.2 by Prop 4.14, Step 3 the confinement (T-abs-diamond-confinement). Causal.SchwCausalLemmas is not used (rebound 2026-11-23, the audit of T-abs-schw-causal-lemmas): the curve is given and its divergence is Prop 4.14's (no inextensibility step), there is no timelike separation (Def 2.14 is used in Thm 4.11 only, :1772, :1813), and Prop 2.7 is used at :1628 only. The closer's proposal to cite the separation declarations here was not applied."
+ett = ["T-abs-c0-extension-skeleton", "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt", "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt"]
+localisation = ["causally_arc_connected", "future_one_connected"]
+open_localisation = ["locally_strongly_causal"]
+open_reason = "locally_strongly_causal of M̃ (T-lad-c0-extension-nodes) is not a ladder node. future_one_connected of M_ext (Prop 4.12) is a node, provided by T-loc-schw-exterior-one-connected."
+note = "Thm 4.10 (:785–788, proof :1077–1079 'analogous to the proof of Theorem 3.1'): no C⁰-extension of M_ext in which a timelike curve with v* → ∞ extends as a timelike curve. The leaving curve is GIVEN (no Lemma 2.17), so its ETT skeleton is T-abs-c0-extension-skeleton's given-curve form: Steps 1.1–1.3 verbatim (C0 chart), Step 2.1 replaced by Prop 4.12, Step 2.2 by Prop 4.14, Step 3 the confinement (Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt) and (1.2)'s '⊇' for the future one-connected M_ext (Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt; Causal.DiamondConfinement, T-abs-diamond-confinement). Causal.SchwCausalLemmas is not used (rebound 2026-11-23, the audit of T-abs-schw-causal-lemmas): the curve is given and its divergence is Prop 4.14's (no inextensibility step), there is no timelike separation (Def 2.14 is used in Thm 4.11 only, :1772, :1813), and Prop 2.7 is used at :1628 only. The closer's proposal to cite the separation declarations here was not applied."
 [[bind.geometric]]
 model = "C0"
 proves = []
 by = ["T-loc-c0-chart-diameter"]
 [[bind.geometric]]
 model = "schwarzschild"
-proves = ["causally_arc_connected"]
+proves = ["causally_arc_connected", "future_one_connected"]
 by = ["T-loc-schwarzschild-model", "T-loc-schw-exterior-one-connected", "T-loc-schw-exterior-divergence"]
 
 [[bind]]
 label = "schwthm:Inex"
 findings = [":1623 writes γ(x₀⁻) where γ(y₀⁻) is meant (audit of T-abs-timelike-homotopy, journal 2026-11-23 06:01)."]
-ett = ["T-abs-diamond-confinement", "Causal.Causality.schw_prop_2_7", "Causal.Causality.ChronallySeparatedOn", "Causal.Causality.schw_def_2_14_iff", "Causal.Causality.ChronallySeparatedOn.mono"]
-localisation = ["causally_arc_connected"]
-open_localisation = ["future_one_connected", "locally_strongly_causal"]
-open_reason = "future_one_connected of M_int near r = 0 (Prop 6.5; T-lad-future-one-connected-node) and locally_strongly_causal of M̃ (Step 1.1's chart; T-lad-c0-extension-nodes) are not ladder nodes."
-note = "Thm 4.11 (:790–793, proof :1559–1993): no C⁰-extension of M_int in which a timelike curve with r → 0 extends as a timelike curve. Its causal steps: the confinement of a homotopy from Prop 6.5 into the chart Õ (:1623, the interval J, T-abs-diamond-confinement), Prop 2.7 with (FuturePastPreserving) (:1628, Causal.Causality.schw_prop_2_7) and timelike separation (Def 2.14; Steps 1.3.1, 1.5, :1647, :1772, :1813; Causal.Causality.ChronallySeparatedOn, its reformulation schw_def_2_14_iff on the causally arc-connected M_int, and ChronallySeparatedOn.mono from K to U ⊇ closure K; Causal.SchwCausalLemmas, T-abs-schw-causal-lemmas). The rest is coordinate geometry of M_int and the chart: (PastPreserving) (:1593) through S_aux, the chart properties (1)–(4) of Step 1, a connected GH N ⊆ M_int with diam_s(N) = ∞ (Step 2, :1864), and N covered by finitely many regular flow charts (Step 3, :1923), contradicting Thm 5.3 (T-loc-schw-interior-spacelike-diameter, T-loc-spacelike-diameter-finite). Lemma 2.17 is not used inside (the curve is given)."
+ett = ["Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset", "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn", "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure", "Causal.Causality.schw_prop_2_7", "Causal.Causality.ChronallySeparatedOn", "Causal.Causality.schw_def_2_14_iff", "Causal.Causality.ChronallySeparatedOn.mono"]
+localisation = ["causally_arc_connected", "future_one_connected"]
+open_localisation = ["locally_strongly_causal"]
+open_reason = "locally_strongly_causal of M̃ (Step 1.1's chart; T-lad-c0-extension-nodes) is not a ladder node. future_one_connected of M_int near r = 0 (Prop 6.5) is a node, provided by T-loc-schw-interior-one-connected."
+note = "Thm 4.11 (:790–793, proof :1559–1993): no C⁰-extension of M_int in which a timelike curve with r → 0 extends as a timelike curve. Its causal steps: the confinement of a homotopy from Prop 6.5 into the chart Õ (:1623, the interval J): every future timelike σ of M_int from γ(y₀⁻) to γ(s) maps into Õ, Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset after the affine change of parameter [y₀⁻, s] → [0, 1], the set inclusion Iplus_inter_Iminus_subset_of_futureOneConnectedOn, the precompact chart diamond LocallyStronglyCausal.exists_isCompact_closure (Causal.DiamondConfinement, T-abs-diamond-confinement), Prop 2.7 with (FuturePastPreserving) (:1628, Causal.Causality.schw_prop_2_7) and timelike separation (Def 2.14; Steps 1.3.1, 1.5, :1647, :1772, :1813; Causal.Causality.ChronallySeparatedOn, its reformulation schw_def_2_14_iff on the causally arc-connected M_int, and ChronallySeparatedOn.mono from K to U ⊇ closure K; Causal.SchwCausalLemmas, T-abs-schw-causal-lemmas). The rest is coordinate geometry of M_int and the chart: (PastPreserving) (:1593) through S_aux, the chart properties (1)–(4) of Step 1, a connected GH N ⊆ M_int with diam_s(N) = ∞ (Step 2, :1864), and N covered by finitely many regular flow charts (Step 3, :1923), contradicting Thm 5.3 (T-loc-schw-interior-spacelike-diameter, T-loc-spacelike-diameter-finite). Lemma 2.17 is not used inside (the curve is given)."
 [[bind.geometric]]
 model = "C0"
 proves = []
 by = ["T-loc-c0-chart-diameter"]
 [[bind.geometric]]
 model = "schwarzschild"
-proves = ["causally_arc_connected"]
+proves = ["causally_arc_connected", "future_one_connected"]
 by = ["T-loc-schwarzschild-model", "T-loc-schw-interior-one-connected", "T-loc-schw-interior-spacelike-diameter", "T-loc-spacelike-diameter-finite"]
 
 [[bind]]
 label = "schwprop:ExtFutCon"
 findings = [":876 writes γ₀(0) = γ₁(0) and γ₀(1) = γ₁(1) for curves γᵢ over [t₀, t₁]: γᵢ(t₀), γᵢ(t₁) are meant, and the homotopy is over [0, 1] × [t₀, t₁] (audit of T-abs-timelike-homotopy, journal 2026-11-23 06:01)."]
-ett = ["Causal.Causality.FutureOneConnectedOn", "Causal.Causality.FutureOneConnected", "T-abs-diamond-confinement"]
-localisation = []
-open_localisation = ["future_one_connected"]
-open_reason = "future_one_connected is defined in Lean (Causal.Causality.FutureOneConnected, T-abs-timelike-homotopy) but not yet a ladder node (T-lad-future-one-connected-node adds it); this row is its layer-3 proof for the Schwarzschild exterior (T-loc-schw-exterior-one-connected)."
-note = "Prop 4.12 (:830–997): M_ext is future one-connected. Layer 3: conformal reduction to the optical metric (:845, future one-connectedness depends only on the conformal class, automatic in ETT), Sard's theorem, exponential maps on S^{d−1}, Cartan–Hadamard on a negatively curved surface. Its ETT role: the localisation future_one_connected of the embedded spacetime, consumed by the identification (T-abs-diamond-confinement). Sbierski notes Minkowski's proof (Step 2.1) works whenever exp is a global chart, which fails here (:835)."
+ett = ["Causal.Causality.FutureOneConnectedOn", "Causal.Causality.FutureOneConnected", "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt"]
+localisation = ["future_one_connected"]
+note = "Prop 4.12 (:830–997): M_ext is future one-connected. Layer 3: conformal reduction to the optical metric (:845, future one-connectedness depends only on the conformal class, automatic in ETT), Sard's theorem, exponential maps on S^{d−1}, Cartan–Hadamard on a negatively curved surface. Its ETT role: the localisation future_one_connected of the embedded spacetime (the node, T-lad-future-one-connected-node), consumed by the identification (1.2)'s '⊇', Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt (Causal.DiamondConfinement). Sbierski notes Minkowski's proof (Step 2.1) works whenever exp is a global chart, which fails here (:835)."
 [[bind.geometric]]
 model = "schwarzschild"
-proves = []
+proves = ["future_one_connected"]
 by = ["T-loc-schw-exterior-one-connected"]
 
 [[bind]]
@@ -448,9 +460,9 @@ by = ["T-loc-schw-exterior-divergence"]
 # ------------------------------------------------------------------ §5 the spacelike diameter
 [[bind]]
 label = "schwdef:spacelike_diameter"
-ett = ["Causal.Causality.IsCauchySurface", "T-abs-diamond-confinement"]
+ett = ["Causal.Causality.IsCauchySurface", "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset", "T-abs-c0-extension-skeleton"]
 localisation = []
-note = "Def 5.1 (:1114–1120): diam_s(N) = sup over Cauchy hypersurfaces of their intrinsic diameter. Metric (the induced Riemannian length), with no synthetic analogue known (KB note, open questions; shortest spacelike curves fail, :1122). Its ETT vocabulary is Cauchy surfaces (reading R2 in Def 2.12's row); its role: the interior obstruction, contradicting the regular flow charts that Thm 4.11's causal steps produce (T-abs-diamond-confinement)."
+note = "Def 5.1 (:1114–1120): diam_s(N) = sup over Cauchy hypersurfaces of their intrinsic diameter. Metric (the induced Riemannian length), with no synthetic analogue known (KB note, open questions; shortest spacelike curves fail, :1122). Its ETT vocabulary is Cauchy surfaces (reading R2 in Def 2.12's row); its role: the interior obstruction, contradicting the regular flow charts that Thm 4.11's causal steps produce (their confinement, Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset; the skeleton T-abs-c0-extension-skeleton)."
 [[bind.geometric]]
 model = "smooth-lorentz"
 proves = []
@@ -458,7 +470,7 @@ by = ["T-loc-spacelike-diameter-finite"]
 
 [[bind]]
 label = "schwdef:DefRegFlowChart"
-ett = ["Causal.Causality.Inextensible", "T-abs-diamond-confinement"]
+ett = ["Causal.Causality.Inextensible", "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset", "T-abs-c0-extension-skeleton"]
 localisation = []
 note = "Def 5.2 (:1124–1132): regular flow charts (|g_μν| ≤ C, g_00 ≤ c < 0, a domain fibred by open intervals over a base of finite coordinate diameter, flow lines inextendible in N). Metric but for (3), the inextensibility of the flow lines (Sbierski's continuous notion, Def 2.10, which gives ETT's). Role as Def 5.1."
 [[bind.geometric]]
@@ -468,7 +480,7 @@ by = ["T-loc-spacelike-diameter-finite"]
 
 [[bind]]
 label = "schwthm:DiamFinite"
-ett = ["Causal.Causality.IsCauchySurface", "T-abs-diamond-confinement"]
+ett = ["Causal.Causality.IsCauchySurface", "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset", "T-abs-c0-extension-skeleton"]
 localisation = []
 note = "Thm 5.3 (:1136–1235): N connected GH (C⁰ metric) covered by finitely many regular flow charts ⇒ diam_s(N) < ∞. Metric. Its one causal step: each flow line, inextendible, meets Σ exactly once (Step 2), the Cauchy property. Stated by Sbierski for C⁰ metrics; its use in Thm 4.11 is on N ⊆ M_int, which is smooth (the charts ψ̃ ∘ ι are smooth charts of N, :1926–1937), so the smooth case suffices for the main theorem (T-loc-spacelike-diameter-finite, model smooth-lorentz) and the C⁰ statement is T-loc-c0-spacelike-diameter's."
 [[bind.geometric]]
@@ -493,9 +505,9 @@ by = ["T-loc-c0-spacelike-diameter"]
 # ------------------------------------------------------------------ §6 the interior
 [[bind]]
 label = "schwlem:BoundsOnReach"
-ett = ["T-abs-diamond-confinement", "Causal.Causality.ChronallySeparatedOn", "Causal.Causality.schw_def_2_14_iff"]
+ett = ["Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset", "Causal.Causality.ChronallySeparatedOn", "Causal.Causality.schw_def_2_14_iff"]
 localisation = []
-note = "Lemma 6.2 (:1457–1496): near r = 0, a future timelike curve of M_int moves little in t and on S^{d−1} (integrable bounds, d ≥ 3). Metric (coordinate estimates). Its roles: Prop 6.5's assumption (:1517, consumed by the identification, T-abs-diamond-confinement) and Thm 4.11 Step 1.5's timelike separation (:1808; Causal.Causality.ChronallySeparatedOn and its reformulation schw_def_2_14_iff, Causal.SchwCausalLemmas)."
+note = "Lemma 6.2 (:1457–1496): near r = 0, a future timelike curve of M_int moves little in t and on S^{d−1} (integrable bounds, d ≥ 3). Metric (coordinate estimates). Its roles: Prop 6.5's assumption (:1517), consumed by Thm 4.11's confinement in its curve form (Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset, no arc-connectedness needed there), and Thm 4.11 Step 1.5's timelike separation (:1808; Causal.Causality.ChronallySeparatedOn and its reformulation schw_def_2_14_iff, Causal.SchwCausalLemmas)."
 [[bind.geometric]]
 model = "schwarzschild"
 proves = []
@@ -504,12 +516,10 @@ by = ["T-loc-schw-interior-one-connected"]
 [[bind]]
 label = "schwprop:IntFutCon"
 findings = ["The statement prints (M_ext, g_ext) where M_int is meant (the proof and its use at :1623 are about M_int)."]
-ett = ["Causal.Causality.FutureOneConnectedOn", "T-abs-diamond-confinement"]
-localisation = []
-open_localisation = ["future_one_connected"]
-open_reason = "future_one_connected is defined in Lean (Causal.Causality.FutureOneConnectedOn, on the open M_int ∩ {r < r̃}) but not yet a ladder node (T-lad-future-one-connected-node); this row is its layer-3 proof for M_int near r = 0 (T-loc-schw-interior-one-connected)."
-note = "Prop 6.5 (:1500–1555): the interior is future one-connected (the statement prints (M_ext, g_ext), a misprint for M_int; the proof and its use at :1623 are about M_int, and only M_int ∩ {r < r̃} for some r̃ > 0 is needed, :1517). Layer 3: exponential map on S^{d−1}, then a convex combination in a 2+1 submanifold. Its ETT role: the localisation future_one_connected of the embedded M_int ∩ {r < r̃}, consumed by Thm 4.11's confinement (T-abs-diamond-confinement)."
+ett = ["Causal.Causality.FutureOneConnectedOn", "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset"]
+localisation = ["future_one_connected"]
+note = "Prop 6.5 (:1500–1555): the interior is future one-connected (the statement prints (M_ext, g_ext), a misprint for M_int; the proof and its use at :1623 are about M_int, and only M_int ∩ {r < r̃} for some r̃ > 0 is needed, :1517). Layer 3: exponential map on S^{d−1}, then a convex combination in a 2+1 submanifold. Its ETT role: the localisation future_one_connected of the embedded M_int ∩ {r < r̃} (the node read on that spacetime: FutureOneConnectedOn of the open set is the node of the open set as a spacetime), consumed by Thm 4.11's confinement at :1623 in its curve form, Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset (Causal.DiamondConfinement)."
 [[bind.geometric]]
 model = "schwarzschild"
-proves = []
+proves = ["future_one_connected"]
 by = ["T-loc-schw-interior-one-connected"]

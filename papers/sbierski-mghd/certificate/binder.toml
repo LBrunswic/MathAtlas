@@ -12,7 +12,10 @@
 # 3.7's setting after DEC-165 (T-bind-sbierski-rulings). Line ranges of Causal/Model/EAlphaCauchy.lean
 # refreshed 2026-11-23 (planning run after wave 38) after T-loc-ealpha-tidy (6d471fa) moved the static
 # ℝ × X block to Causal.Model.StaticCauchy; no full name changed. It records how Sbierski's argument
-# factors, not what Lean has closed: the ledger's curation stays the loop's.
+# factors, not what Lean has closed: the ledger's curation stays the loop's. Rebound 2026-11-27
+# (planning run after wave 43; T-bind-edge-hypotheses): the data form of local uniqueness is the
+# proposed id data_local_uniqueness, because the ladder's [[edge_hypothesis]] local_uniqueness
+# (T-lad-edge-hypotheses, 1b8e26a1) is the fixed-background form (ERS Prop 4.63, Causal.Causality.LocalUniqueness).
 #
 # curves_extend, a [[fact]] of the ladder since T-lad-record-curves-fact (71b5cc7): every causality on
 # a T1, second countable space has CurvesExtend (Causal.Causality.curvesExtend_of_t1_secondCountable)
@@ -51,11 +54,11 @@
 #   A4 `cauchy_slice`   a local Cauchy slice through a spacelike boundary point (Thm 3.6's τ_q level set,
 #                       restarted by local well-posedness, Thm 2.6)
 # plus, for Sbierski's "initial data" (a Riemannian (M̄, ḡ, k̄), not a spacetime M₀),
-#      `local_uniqueness` any two developments of the same data have a common Cauchy sub-development
+#      `data_local_uniqueness` any two developments of the same data have a common Cauchy sub-development
 #                       (Thm 2.6, second half).
 # Since T-lad-cbg-geometry-nodes (9f5cfce) `rigid`, `germ_extension`, `cauchy_slice` (sort `geometry`),
 # `curves_extend` and `time_function` are ladder nodes and sit in `localisation`; only
-# `local_uniqueness` is still in `open_localisation` (T-lad-development-nodes, behind
+# `data_local_uniqueness` is still in `open_localisation` (T-lad-development-nodes, behind
 # T-abs-cbg-initial-data, which defines it).
 #
 # Models. `smooth-vacuum` is Sbierski's own class (smooth vacuum Einstein): nothing of it is in Lean
@@ -132,12 +135,15 @@
 #   not timelike curves; the cocycle (3.15) through the ppcm, not through an intersection of CGHDs.
 
 # ------------------------------------------------------------------ proposed localisation ids
-# Not yet ladder nodes; each row lists the ones it needs in `open_localisation`.
+# Not yet ladder nodes; each row lists the ones it needs in `open_localisation`. The id is not
+# local_uniqueness: that is the ladder's fixed-background [[edge_hypothesis]] (Causal.Causality.LocalUniqueness,
+# ERS Prop 4.63's form; programme/ladder.toml, T-lad-edge-hypotheses), which papers/ers-predictability
+# cites. A row listing it here would read the edge hypothesis (tools/binder.py resolves both tables).
 [[proposed]]
-id = "local_uniqueness"
-lean = "none yet for data (T-abs-cbg-initial-data defines it); on a fixed background the existential `∃ V, C.IsCommonDevelopment S U₁ U₂ agree V` (Causal.Causality.IsCommonDevelopment, the `hlocal` of Causal.Causality.ers_theorem_4_64)"
+id = "data_local_uniqueness"
+lean = "none yet for data (T-abs-cbg-initial-data defines it). Its fixed-background counterpart is the ladder's edge hypothesis local_uniqueness (Causal.Causality.LocalUniqueness); in the CBG setting a common Cauchy development of two developments of one GH datum M₀ exists with no hypothesis (Causal.CBG.isCGHD_range)"
 target = "T-lad-development-nodes"
-what = "two developments of the same initial data have a common Cauchy sub-development (Sbierski Thm 2.6, second half; ERS Prop 4.63)"
+what = "two developments of the same initial data have a common Cauchy sub-development (Sbierski Thm 2.6, second half)"
 
 # ------------------------------------------------------------------ §2 the setting
 [[bind]]
@@ -186,8 +192,8 @@ note = "Remark 2.5 (Maximal_GHD2.tex:388). (1) Isometry classes are proper class
 label = "mghdthm:LocalTheory"
 ett = ["T-abs-cbg-initial-data", "Causal.CBG.Dev.self"]
 localisation = []
-open_localisation = ["local_uniqueness"]
-open_reason = "local_uniqueness is not a ladder node and has no Lean definition for data (T-abs-cbg-initial-data defines it, T-lad-development-nodes adds it). Smooth-vacuum: Choquet-Bruhat 1952, cited PDE. Flat-gx: the datum is the GH spacetime M₀ itself (Dev.self), local existence and uniqueness are built in."
+open_localisation = ["data_local_uniqueness"]
+open_reason = "data_local_uniqueness is not a ladder node and has no Lean definition for data (T-abs-cbg-initial-data defines it, T-lad-development-nodes adds it). Smooth-vacuum: Choquet-Bruhat 1952, cited PDE. Flat-gx: the datum is the GH spacetime M₀ itself (Dev.self), local existence and uniqueness are built in."
 note = "Thm 2.6 (Maximal_GHD2.tex:403), cited. It is pure layer 3 for Einstein (local well-posedness); its ETT role is the hypothesis that makes 'developments of the same data' a directed family (T-abs-cbg-initial-data)."
 [[bind.geometric]]
 model = "smooth-vacuum"
@@ -198,8 +204,8 @@ by = ["T-loc-vacuum-slice"]
 label = "mghdthm:CommonExtension"
 ett = ["Causal.CBG.exists_common_extension", "Causal.CBG.exists_ppcm", "Causal.CBG.t2Space_gluing_mcghd", "Causal.Gluing.t2Space_iff_forall_not_isCorrespondingBoundaryPair", "Causal.Causality.TwoPiece.globallyHyperbolic", "T-abs-cbg-initial-data"]
 localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
-open_localisation = ["local_uniqueness"]
-open_reason = "local_uniqueness: T-lad-development-nodes, behind T-abs-cbg-initial-data. Every other localisation property is a ladder node (rigid, germ_extension, cauchy_slice of sort geometry since T-lad-cbg-geometry-nodes); flat-gx proves them in Lean, smooth-vacuum owes them."
+open_localisation = ["data_local_uniqueness"]
+open_reason = "data_local_uniqueness: T-lad-development-nodes, behind T-abs-cbg-initial-data. Every other localisation property is a ladder node (rigid, germ_extension, cauchy_slice of sort geometry since T-lad-cbg-geometry-nodes); flat-gx proves them in Lean, smooth-vacuum owes them."
 note = "Thm 2.7 (Maximal_GHD2.tex:411, proof 723–775). Gluing along the MCGHD (Thm 3.4) is Hausdorff because it has no corresponding boundary points (Thm 3.13 + the topological criterion of Causal.GluingHausdorff, T-abs-gluing-hausdorff); its GH is proved by chains (TwoPiece, model-free, in Causal.CBG.Ppcm until T-abs-hoist-cbg-gluing), not Sbierski's timelike curves. For two GHDs of the same DATA, take the datum M₀ := their CGHD (Thm 2.6): T-abs-cbg-initial-data."
 [[bind.geometric]]
 model = "smooth-vacuum"
@@ -214,7 +220,7 @@ by = ["Causal.CBG.flat_singularFlatAxioms", "Causal.CBG.flat_rigid", "Causal.CBG
 label = "mghdthm:MGHD"
 ett = ["Causal.CBG.cbg", "Causal.CBG.maxDev_isUniversal", "Causal.CBG.Dev.IsUniversal.existsUnique_iso", "Causal.CBG.mcghd_cocycle", "Causal.CBG.maxSpace_t2", "Causal.Causality.ManyPiece.globallyHyperbolic", "Causal.CBG.FamilyGlueData.t2Space_iff_forall_not_isCorrespondingBoundaryPair", "Causal.CBG.Dev.isUniversal_of_small", "T-abs-cbg-initial-data"]
 localisation = ["absolutely_minimal", "causally_arc_connected", "push_up", "tarentin", "rigid", "germ_extension", "cauchy_slice", "curves_extend", "time_function"]
-open_localisation = ["local_uniqueness"]
+open_localisation = ["data_local_uniqueness"]
 open_reason = "As Thm 2.7. Also used and not a ladder property: second countability of a GH spacetime with a second-countable Cauchy surface (Geroch 1968, Sbierski item 5; the Geometry field secondCountable_of_cauchy), owed by smooth-vacuum in T-loc-vacuum-geometry."
 note = "Thm 2.8 (Maximal_GHD2.tex:417, proof 780–840). Glue the small developments along their pairwise MCGHDs (FamilyGlueData; Hausdorff by the family criterion of Causal.GluingHausdorff), cocycle, T2 from the pairs, GH by chains BEFORE second countability (design §6), universality, uniqueness up to unique isomorphism. Sbierski's size bound (GHDs inside M̄ × ℝ, via a timelike flow) is replaced by SmallDev. Universality over all developments of the DATA, not of one M₀, is T-abs-cbg-initial-data."
 [[bind.geometric]]
@@ -281,8 +287,8 @@ by = ["Causal.cosmicString_causallyArcConnected", "Causal.cosmicString_hasTimeFu
 label = "mghdthm:ExMCGHD"
 ett = ["Causal.CBG.exists_mcghd", "Causal.CBG.mcghd_unique", "Causal.CBG.cauchy_pgcd_geometry", "Causal.isCauchyInclusion_iSup_of_secondCountable", "Causal.isCauchyInclusion_sSup_of_secondCountable", "Causal.IsCauchyInclusion.causallyConvexIn_of_secondCountable", "Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable", "Causal.Causality.inextensible_ordConnectedComponent_of_le"]
 localisation = ["causally_arc_connected", "absolutely_minimal", "rigid", "time_function"]
-open_localisation = ["local_uniqueness"]
-open_reason = "Non-emptiness of the family of CGHDs is Thm 2.6 (local_uniqueness, T-lad-development-nodes), automatic for ETT's datum M₀."
+open_localisation = ["data_local_uniqueness"]
+open_reason = "Non-emptiness of the family of CGHDs is Thm 2.6 (data_local_uniqueness, T-lad-development-nodes), automatic for ETT's datum M₀."
 note = "Thm 3.4 (Maximal_GHD2.tex:485). The union of all CGHDs: a union of Cauchy inclusions is a Cauchy inclusion (no Zorn), well defined by A1 (Cor 3.2), injective by Lemma 3.3. The proof's 'the corresponding curve segment in U_α is inextendible in U_α' is inextensible_ordConnectedComponent_of_le, ETT-layer since T-abs-hoist-model-free (Causal.CurveComponents), no curve hypothesis. Rebound 2026-11-23 (T-bind-curves-corollaries, DEC-190): the union and its convexity are Causal.isCauchyInclusion_iSup_of_secondCountable, isCauchyInclusion_sSup_of_secondCountable, IsCauchyInclusion.causallyConvexIn_of_secondCountable and Causality.causallyConvexIn_of_isCauchySurfaceOn_of_secondCountable (Causal.CExtConnexeSecondCountable, T-abs-c-ext-connexe-second-countable), the originals (isCauchyInclusion_iSup, causallyConvexIn_of_isCauchySurfaceOn, ETT-layer in Causal.CBG.CausalConvex) less `hext : CurvesExtendOn B`, so curves_extend leaves the row and its entries. The rest of the row (exists_mcghd, mcghd_unique, cauchy_pgcd_geometry in Causal.CBG.Pgcd) is over a CBG geometry, behind Causal.SingularFlat (T-abs-hoist-cbg-geometry), and still reads CurvesExtend from the A2 field (T-bind-cbg-hoist). No E_alpha entry: rigid has no E_α instance in Lean."
 [[bind.geometric]]
 model = "smooth-vacuum"
