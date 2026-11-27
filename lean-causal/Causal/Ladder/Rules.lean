@@ -8,6 +8,7 @@ import Causal.ChronalTarentin
 import Causal.CurvesExtend
 import Causal.CurvesExtendSecondCountable
 import Causal.DeuxPushup
+import Causal.DiamondConfinement
 import Causal.GlobalHyperbolicity
 import Causal.LadderLocal
 import Causal.LevinTimeFunction
@@ -89,6 +90,8 @@ attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.Ca
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.CausallyOpen.locallyCausallyOpen
 -- locally_causally_open ⇒ locally_causally_open_future
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.LocallyCausallyOpen.future
+-- strongly_causal ⇒ locally_strongly_causal
+attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.StronglyCausal.locallyStronglyCausal
 -- time_function ⇒ curves_extend
 attribute [aesop safe forward (rule_sets := [CausalLadder])] Causal.Causality.HasTimeFunction.curvesExtend
 -- time_function ⇒ is_causal
