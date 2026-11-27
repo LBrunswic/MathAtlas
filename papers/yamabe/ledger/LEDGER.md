@@ -6,7 +6,7 @@ Paper `Yamabegap.tex` at `6c57c10`; Lean `/home/maxbrain/Dropbox/LeanArticles/le
 
 **25 statements.** Natural language: 17 proved or definitional. Lean: **19 stated**, of which **2 closed** and 17 partial.
 
-**Closure: 2 of 25.** The target is the 25 in-scope statements less the 0 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
+**Closure: 2 of 20.** The target is the 25 in-scope statements less the 5 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
 
 ## How to read a row
 
@@ -137,7 +137,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 
 **In scope: 25 statements**, of which 2 are closed in Lean and 17 partial. Out of scope: 0.
 
-### Behind an obstruction — 15 statements, in scope
+### Behind an obstruction — 18 statements, in scope
 
 `C` is attempted-and-blocked, `D` is deferred; each row's `notes` field in `ledger.json` names the obstruction.
 
@@ -152,30 +152,30 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 | lvl | statement | natural language | Lean stated | Lean proved | bucket |
 |---:|---|---|---|---|---|
 | 0 | **Definition** — Yamabe energy, Yamabe constant, Yamabe invariant<br>`def:yamabe` — [`Yamabegap.tex:158`](Yamabegap.tex#L158) | def | strict (BoundaryGap.lean, ClosedLeaves.lean, External.lean) +1 | partial | D |
-| 0 | **Theorem** — Yamabe, Trudinger, Aubin, Schoen [MR125546]<br>`thm:yamabe` — [`Yamabegap.tex:182`](Yamabegap.tex#L182) | cited — `MR125546` | — | — | — |
+| 0 | **Theorem** — Yamabe, Trudinger, Aubin, Schoen [MR125546]<br>`thm:yamabe` — [`Yamabegap.tex:182`](Yamabegap.tex#L182) | cited — `MR125546` | — | — | T |
 | 0 | **Lemma** — Lower bound of Kobayashi type<br>`lem:kobayashi` — [`Yamabegap.tex:613`](Yamabegap.tex#L613) | proved — [`Yamabegap.tex:626`](Yamabegap.tex#L626) | strict (Quotient.lean, Kobayashi.lean, Sobolev.lean) +7 | partial | D |
 | 1 | **Proposition** — Constant scalar curvature versus Yamabe metrics<br>`prop:csc-yamabe` — [`Yamabegap.tex:193`](Yamabegap.tex#L193) | proved — [`Yamabegap.tex:201`](Yamabegap.tex#L201) | strict (BoundaryGap.lean, ClosedLeaves.lean) | partial | D |
-| 0 | **Theorem** — Realizations of the Yamabe invariant<br>`thm:extremal` — [`Yamabegap.tex:207`](Yamabegap.tex#L207) | cited — `Schoen1989` | — | — | — |
+| 0 | **Theorem** — Realizations of the Yamabe invariant<br>`thm:extremal` — [`Yamabegap.tex:207`](Yamabegap.tex#L207) | cited — `Schoen1989` | — | — | T |
 | 2 | **Corollary** — Non-negativity and rigidity of the Yamabe gap<br>`cor:gap-nonneg` — [`Yamabegap.tex:234`](Yamabegap.tex#L234) | proved — [`Yamabegap.tex:242`](Yamabegap.tex#L242) | strict (GapCorollaries.lean, ClosedLeaves.lean) | partial | D |
 | 2 | **Corollary** — Volume comparison<br>`cor:volume` — [`Yamabegap.tex:246`](Yamabegap.tex#L246) | proved — [`Yamabegap.tex:250`](Yamabegap.tex#L250) | strict (GapCorollaries.lean, ClosedLeaves.lean) | partial | D |
 | 0 | **Definition** — Yamabe energy and relative Yamabe constant with boundary<br>`def:yamabe-bdry` — [`Yamabegap.tex:301`](Yamabegap.tex#L301) | def | strict (BoundaryGap.lean, ClosedLeaves.lean, Gluing.lean) +1 | partial | D |
 | 0 | **Proposition** — Non-negativity of the gap with boundary<br>`prop:gap-bdry-nonneg` — [`Yamabegap.tex:356`](Yamabegap.tex#L356) | proved — [`Yamabegap.tex:360`](Yamabegap.tex#L360) | strict (BoundaryGap.lean, ClosedLeaves.lean) | partial | D |
-| 0 | **Remark** — What this replaces<br>`rem:old-reference` — [`Yamabegap.tex:371`](Yamabegap.tex#L371) | informal | — | — | — |
+| 0 | **Remark** — What this replaces<br>`rem:old-reference` — [`Yamabegap.tex:371`](Yamabegap.tex#L371) | informal | — | — | T |
 | 0 | **Definition** — Euclidean reference embedding<br>`def:reference` — [`Yamabegap.tex:378`](Yamabegap.tex#L378) | def | strict (BrownYork.lean, Kobayashi.lean) | partial | D |
 | 0 | **Proposition** — Relation to the Brown--York mass<br>`prop:brown-york` — [`Yamabegap.tex:390`](Yamabegap.tex#L390) | proved — [`Yamabegap.tex:399`](Yamabegap.tex#L399) | strict (BrownYork.lean, Kobayashi.lean) | partial | D |
 | 0 | **Proposition** — Acceleration law for the void<br>`prop:accel-bdry` — [`Yamabegap.tex:407`](Yamabegap.tex#L407) | open | strict (BoundaryGap.lean, ClosedLeaves.lean) | partial | D |
 | 0 | **Remark** — Gap and conformal gap<br>`rem:conformal-gap` — [`Yamabegap.tex:421`](Yamabegap.tex#L421) | informal | strict (ConformalGap.lean, BoundaryGap.lean) | partial | D |
-| 0 | **Remark** — Positive mass and Penrose inequalities<br>`rem:positive-mass` — [`Yamabegap.tex:426`](Yamabegap.tex#L426) | informal | — | — | — |
+| 0 | **Remark** — Positive mass and Penrose inequalities<br>`rem:positive-mass` — [`Yamabegap.tex:426`](Yamabegap.tex#L426) | informal | — | — | T |
 | 1 | **Proposition** — Non-positive type<br>`prop:nonpositive` — [`Yamabegap.tex:476`](Yamabegap.tex#L476) | proved — [`Yamabegap.tex:640`](Yamabegap.tex#L640) | strict (Negative.lean, Sobolev.lean, Trace.lean) +6 | partial | D |
 | 1 | **Corollary** — Strict negativity<br>`cor:negative` — [`Yamabegap.tex:502`](Yamabegap.tex#L502) | proved — proved together with thm:upper-bound in the proof titled « Proof of Theorem~\ref{thm:upper-bound} » (l.723): « We prove the theorem together with Corollary~\ref{cor:negative} » (l.724) | strict (Negative.lean, Sobolev.lean, Trace.lean) +6 | partial | D |
 | 1 | **Lemma** — Gluing estimate<br>`lem:gluing-estimate` — [`Yamabegap.tex:648`](Yamabegap.tex#L648) | proved — [`Yamabegap.tex:657`](Yamabegap.tex#L657) | strict (Quotient.lean, Stability.lean, Kobayashi.lean) +9 | partial | D |
-| 1 | **Lemma** — Gluing a flat-class filling<br>`lem:gluing` — [`Yamabegap.tex:685`](Yamabegap.tex#L685) | proved — [`Yamabegap.tex:689`](Yamabegap.tex#L689) | — | — | — |
+| 1 | **Lemma** — Gluing a flat-class filling<br>`lem:gluing` — [`Yamabegap.tex:685`](Yamabegap.tex#L685) | proved — [`Yamabegap.tex:689`](Yamabegap.tex#L689) | — | — | D |
 | 0 | **Lemma** — Stability of the trace-Sobolev quotient<br>`lem:stability` — [`Yamabegap.tex:697`](Yamabegap.tex#L697) | proved — [`Yamabegap.tex:705`](Yamabegap.tex#L705) | strict (Stability.lean, Quotient.lean) | **yes** | A |
-| 0 | **Lemma** — Positivity of the trace-Sobolev quotient<br>`lem:positivity` — [`Yamabegap.tex:715`](Yamabegap.tex#L715) | proved — [`Yamabegap.tex:719`](Yamabegap.tex#L719) | strict (Sobolev.lean, Trace.lean, Rellich.lean) +9 | partial | — |
+| 0 | **Lemma** — Positivity of the trace-Sobolev quotient<br>`lem:positivity` — [`Yamabegap.tex:715`](Yamabegap.tex#L715) | proved — [`Yamabegap.tex:719`](Yamabegap.tex#L719) | strict (Sobolev.lean, Trace.lean, Rellich.lean) +9 | partial | D |
 | 2 | **Theorem** — Upper bound on the relative Yamabe constant<br>`thm:upper-bound` — [`Yamabegap.tex:493`](Yamabegap.tex#L493) | proved — [`Yamabegap.tex:723`](Yamabegap.tex#L723) | strict (Quotient.lean, Stability.lean, Kobayashi.lean) +9 | partial | D |
-| 3 | **Remark** — Existence<br>`rem:existence` — [`Yamabegap.tex:481`](Yamabegap.tex#L481) | informal | — | — | — |
+| 3 | **Remark** — Existence<br>`rem:existence` — [`Yamabegap.tex:481`](Yamabegap.tex#L481) | informal | — | — | T |
 | 3 | **Remark** — What Theorem~thm:upper-bound does and does not say<br>`rem:sign` — [`Yamabegap.tex:507`](Yamabegap.tex#L507) | proved — [`Yamabegap.tex:731`](Yamabegap.tex#L731) | strict (Quotient.lean, Stability.lean) | **yes** | A |
-| 3 | **Theorem** — Quantitative lower bound on the gap<br>`thm:lower-bound` — [`Yamabegap.tex:512`](Yamabegap.tex#L512) | open | strict (LowerBound.lean, Main.lean, Star3.lean) +5 | partial | — |
+| 3 | **Theorem** — Quantitative lower bound on the gap<br>`thm:lower-bound` — [`Yamabegap.tex:512`](Yamabegap.tex#L512) | open | strict (LowerBound.lean, Main.lean, Star3.lean) +5 | partial | D |
 
 <details><summary>dependency graph — P</summary>
 

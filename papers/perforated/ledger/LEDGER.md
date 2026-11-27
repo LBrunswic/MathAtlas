@@ -6,7 +6,7 @@ Paper `perforated.tex` at `6c57c10`; Lean `/home/maxbrain/Dropbox/LeanArticles/l
 
 **31 statements.** Natural language: 13 proved or definitional. Lean: **12 stated**, of which **5 closed** and 7 partial.
 
-**Closure: 5 of 31.** The target is the 31 in-scope statements less the 0 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
+**Closure: 5 of 25.** The target is the 31 in-scope statements less the 6 terminal ones (bucket `T`, each with its reason); a row counts as done only when it is closed in Lean **in bucket A**.
 
 ## How to read a row
 
@@ -92,7 +92,7 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 
 **In scope: 31 statements**, of which 5 are closed in Lean and 7 partial. Out of scope: 0.
 
-### Behind an obstruction — 0 statements, in scope
+### Behind an obstruction — 17 statements, in scope
 
 `C` is attempted-and-blocked, `D` is deferred; each row's `notes` field in `ledger.json` names the obstruction.
 
@@ -107,36 +107,36 @@ Formalizing is a proof-reading pass with a machine holding the pen. These are th
 | lvl | statement | natural language | Lean stated | Lean proved | bucket |
 |---:|---|---|---|---|---|
 | 0 | **Definition**<br>`def:capstar` — [`perforated.tex:163`](perforated.tex#L163) | def | strict (Capacity.lean) | **yes** | A |
-| 0 | **Theorem** — Main theorem<br>`thm:main` — [`perforated.tex:179`](perforated.tex#L179) | proved — [`perforated.tex:518`](perforated.tex#L518) | strict (Main.lean, Capacity.lean, Quotient.lean) +2 | partial | — |
-| 0 | **Theorem** — Optimality<br>`thm:sharp` — [`perforated.tex:210`](perforated.tex#L210) | open | — | — | — |
-| 0 | **Proposition**<br>`prop:theta-examples` — [`perforated.tex:225`](perforated.tex#L225) | proved — [`perforated.tex:426`](perforated.tex#L426) | — | — | — |
-| 0 | **Definition**<br>`def:constants` — [`perforated.tex:316`](perforated.tex#L316) | def | strict (Star3.lean, Poincare.lean) | partial | — |
-| 0 | **Lemma**<br>`lem:csp-lower` — [`perforated.tex:332`](perforated.tex#L332) | proved — [`perforated.tex:342`](perforated.tex#L342) | — | — | — |
+| 0 | **Theorem** — Main theorem<br>`thm:main` — [`perforated.tex:179`](perforated.tex#L179) | proved — [`perforated.tex:518`](perforated.tex#L518) | strict (Main.lean, Capacity.lean, Quotient.lean) +2 | partial | D |
+| 0 | **Theorem** — Optimality<br>`thm:sharp` — [`perforated.tex:210`](perforated.tex#L210) | open | — | — | D |
+| 0 | **Proposition**<br>`prop:theta-examples` — [`perforated.tex:225`](perforated.tex#L225) | proved — [`perforated.tex:426`](perforated.tex#L426) | — | — | D |
+| 0 | **Definition**<br>`def:constants` — [`perforated.tex:316`](perforated.tex#L316) | def | strict (Star3.lean, Poincare.lean) | partial | D |
+| 0 | **Lemma**<br>`lem:csp-lower` — [`perforated.tex:332`](perforated.tex#L332) | proved — [`perforated.tex:342`](perforated.tex#L342) | — | — | D |
 | 0 | **Remark**<br>`rem:notF1` — [`perforated.tex:359`](perforated.tex#L359) | informal | strict (Upper.lean, Capacity.lean, Quotient.lean) +2 | **yes** | A |
-| 0 | **Lemma** — Well-posedness<br>`lem:capstar` — [`perforated.tex:376`](perforated.tex#L376) | proved — [`perforated.tex:392`](perforated.tex#L392) | strict (Capacity.lean) | partial | — |
+| 0 | **Lemma** — Well-posedness<br>`lem:capstar` — [`perforated.tex:376`](perforated.tex#L376) | proved — [`perforated.tex:392`](perforated.tex#L392) | strict (Capacity.lean) | partial | D |
 | 0 | **Remark** — Connectedness is necessary<br>`rem:connected` — [`perforated.tex:409`](perforated.tex#L409) | informal | — | — | — |
-| 0 | **Remark** — operatornamecap_* is computable, not closed-form<br>`rem:capcomputable` — [`perforated.tex:417`](perforated.tex#L417) | informal | — | — | — |
-| 0 | **Remark**<br>`rem:escobar-trap` — [`perforated.tex:448`](perforated.tex#L448) | informal | — | — | — |
-| 0 | **Lemma** — Capacitary trace-Poincaré<br>`lem:capacitary` — [`perforated.tex:468`](perforated.tex#L468) | proved — [`perforated.tex:474`](perforated.tex#L474) | strict (Capacity.lean) | partial | — |
+| 0 | **Remark** — operatornamecap_* is computable, not closed-form<br>`rem:capcomputable` — [`perforated.tex:417`](perforated.tex#L417) | informal | — | — | T |
+| 0 | **Remark**<br>`rem:escobar-trap` — [`perforated.tex:448`](perforated.tex#L448) | informal | — | — | T |
+| 0 | **Lemma** — Capacitary trace-Poincaré<br>`lem:capacitary` — [`perforated.tex:468`](perforated.tex#L468) | proved — [`perforated.tex:474`](perforated.tex#L474) | strict (Capacity.lean) | partial | D |
 | 0 | **Lemma** — Optimally weighted Hölder<br>`lem:holder` — [`perforated.tex:478`](perforated.tex#L478) | proved — [`perforated.tex:485`](perforated.tex#L485) | strict (Capacity.lean) | **yes** | A |
 | 1 | **Remark** — Where the argument is tight<br>`rem:tight` — [`perforated.tex:563`](perforated.tex#L563) | informal | — | — | — |
-| 0 | **Theorem**<br>`thm:star3` — [`perforated.tex:601`](perforated.tex#L601) | proved — [`perforated.tex:620`](perforated.tex#L620) | strict (Star3.lean) | partial | — |
+| 0 | **Theorem**<br>`thm:star3` — [`perforated.tex:601`](perforated.tex#L601) | proved — [`perforated.tex:620`](perforated.tex#L620) | strict (Star3.lean) | partial | D |
 | 0 | **Lemma**<br>`lem:elem` — [`perforated.tex:673`](perforated.tex#L673) | open | strict (StarN.lean) | **yes** | A |
-| 1 | **Proposition**<br>`prop:starN` — [`perforated.tex:679`](perforated.tex#L679) | proved — [`perforated.tex:691`](perforated.tex#L691) | strict (StarN.lean, Star3.lean, Main.lean) | partial | — |
-| 0 | **Remark**<br>`rem:hebey` — [`perforated.tex:706`](perforated.tex#L706) | informal | — | — | — |
-| 0 | **Remark**<br>`rem:passing_second_variation_test_necessary` — [`perforated.tex:723`](perforated.tex#L723) | informal | — | — | — |
-| 0 | **Proposition** — Sobolev inequality on a flat torus with an explicit second constant<br>`prop:torus-B` — [`perforated.tex:742`](perforated.tex#L742) | proved — [`perforated.tex:754`](perforated.tex#L754) | — | — | — |
-| 1 | **Corollary**<br>`cor:csp-torus` — [`perforated.tex:786`](perforated.tex#L786) | open | — | — | — |
-| 0 | **Proposition** — Extension across the punctures<br>`prop:extension` — [`perforated.tex:794`](perforated.tex#L794) | proved — [`perforated.tex:813`](perforated.tex#L813) | — | — | — |
-| 1 | **Corollary** — The bound is unconditional<br>`cor:unconditional` — [`perforated.tex:829`](perforated.tex#L829) | open | — | — | — |
-| 0 | **Remark** — Anisotropy destroys total optimality<br>`rem:anisotropy` — [`perforated.tex:845`](perforated.tex#L845) | informal | — | — | — |
+| 1 | **Proposition**<br>`prop:starN` — [`perforated.tex:679`](perforated.tex#L679) | proved — [`perforated.tex:691`](perforated.tex#L691) | strict (StarN.lean, Star3.lean, Main.lean) | partial | D |
+| 0 | **Remark**<br>`rem:hebey` — [`perforated.tex:706`](perforated.tex#L706) | informal | — | — | D |
+| 0 | **Remark**<br>`rem:passing_second_variation_test_necessary` — [`perforated.tex:723`](perforated.tex#L723) | informal | — | — | D |
+| 0 | **Proposition** — Sobolev inequality on a flat torus with an explicit second constant<br>`prop:torus-B` — [`perforated.tex:742`](perforated.tex#L742) | proved — [`perforated.tex:754`](perforated.tex#L754) | — | — | D |
+| 1 | **Corollary**<br>`cor:csp-torus` — [`perforated.tex:786`](perforated.tex#L786) | open | — | — | D |
+| 0 | **Proposition** — Extension across the punctures<br>`prop:extension` — [`perforated.tex:794`](perforated.tex#L794) | proved — [`perforated.tex:813`](perforated.tex#L813) | — | — | D |
+| 1 | **Corollary** — The bound is unconditional<br>`cor:unconditional` — [`perforated.tex:829`](perforated.tex#L829) | open | — | — | D |
+| 0 | **Remark** — Anisotropy destroys total optimality<br>`rem:anisotropy` — [`perforated.tex:845`](perforated.tex#L845) | informal | — | — | D |
 | 0 | **Theorem**<br>`thm:upper` — [`perforated.tex:871`](perforated.tex#L871) | proved — [`perforated.tex:881`](perforated.tex#L881) | strict (Upper.lean, Capacity.lean, Quotient.lean) +2 | **yes** | A |
-| 0 | **Corollary**<br>`cor:yamabe` — [`perforated.tex:929`](perforated.tex#L929) | open | strict (CorYamabe.lean, LowerBound.lean, Main.lean) +6 | partial | — |
-| 1 | **Remark** — Why a capacity and not a perimeter<br>`rem:mv` — [`perforated.tex:981`](perforated.tex#L981) | informal | — | — | — |
-| 1 | **Remark** — A diameter is the wrong quantity<br>`rem:diameter` — [`perforated.tex:1002`](perforated.tex#L1002) | informal | — | — | — |
+| 0 | **Corollary**<br>`cor:yamabe` — [`perforated.tex:929`](perforated.tex#L929) | open | strict (CorYamabe.lean, LowerBound.lean, Main.lean) +6 | partial | D |
+| 1 | **Remark** — Why a capacity and not a perimeter<br>`rem:mv` — [`perforated.tex:981`](perforated.tex#L981) | informal | — | — | T |
+| 1 | **Remark** — A diameter is the wrong quantity<br>`rem:diameter` — [`perforated.tex:1002`](perforated.tex#L1002) | informal | — | — | T |
 | 1 | **Remark** — A dichotomy is wasteful<br>`rem:dichotomy` — [`perforated.tex:1019`](perforated.tex#L1019) | informal | — | — | — |
-| 1 | **Question**<br>`q:what_sharp_our_value` — [`perforated.tex:1036`](perforated.tex#L1036) | open | — | — | — |
-| 0 | **Question**<br>`q:does_admit_variational_characterisation` — [`perforated.tex:1047`](perforated.tex#L1047) | open | — | — | — |
+| 1 | **Question**<br>`q:what_sharp_our_value` — [`perforated.tex:1036`](perforated.tex#L1036) | open | — | — | T |
+| 0 | **Question**<br>`q:does_admit_variational_characterisation` — [`perforated.tex:1047`](perforated.tex#L1047) | open | — | — | T |
 
 <details><summary>dependency graph — P</summary>
 
