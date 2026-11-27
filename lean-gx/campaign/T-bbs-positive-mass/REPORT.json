@@ -1,0 +1,102 @@
+{
+  "package": "T-bbs-positive-mass",
+  "target": "T-bbs-positive-mass",
+  "files": ["scaffold/GXScaffold/BBS/HSPositiveMass.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bbsdef:has_positive_mass_simple",
+      "tex_lines": [1821, 1824],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.SingularHSStructure.HasPositiveMass",
+        "GX.SingularHSStructure.IsSimpleClosedSpacelikeGeodesic",
+        "GX.SingularHSStructure.IsSpacelikeGeodesic",
+        "GX.SingularHSStructure.IsSpacelikeGeodesic.forall_chart",
+        "GX.SingularHSStructure.IsSpacelikeGeodesic.mem_deSitter",
+        "GX.IsDSFrame",
+        "GX.dsGeo",
+        "GX.GammaLinkCircle.DevData.hasPositiveMass_iff",
+        "GX.GammaLinkCircle.DevData.hasPositiveMass_iff_mass_pos",
+        "GX.GammaLinkCircle.DevData.hasPositiveMass_iff_isPositive"
+      ],
+      "hypotheses": [
+        {"paper": "sigma a singular HS-structure on S^2, link of an interaction of massive particles and tachyons: positive, causal, two hyperbolic components, time-like lines from D- to D+ (l.1812-1819)", "here": "weakened", "note": "the definition is stated for every GX.SingularHSStructure on any space"},
+        {"paper": "simple closed space-like geodesic in the de Sitter part", "here": "reading", "note": "an arc-length parametrised curve of regular points which in a chart is s -> [cos s x + sin s v], Q x = Q v = 1, B(x,v) = 0; chart-free (forall_chart) and in dS^2 (mem_deSitter); simple closed = l-periodic and injective on [0,l)"},
+        {"paper": "length", "here": "carried", "note": "the period of the arc-length parametrisation"},
+        {"paper": "(l.1826-1827) generalizes positivity of time-like singularities", "here": "carried", "note": "for 𝔢(L) at a time-like p: positive mass iff cone angle < 2π iff mass > 0 iff IsPositive (non-regular link), every cone angle"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "l.1822: may a simple closed space-like geodesic of the de Sitter part pass through a singular point lying in the de Sitter region (a tachyon)? Reading taken: no, geodesics are curves of regular points (IsSpacelikeGeodesic requires γ s ∉ 𝒮). Immaterial for 𝔢(L) at a time-like p, whose apices are hyperbolic.",
+        "l.1822: 'space-like geodesic' and its 'length' are read through the charts (equivalently the developing map) in the hyperboloid model Q = 1 of dS^2, as unit-speed great-circle arcs of space-like planes, the length of a closed one being its period. A standard reading, recorded because the mark waits on it."
+      ]
+    },
+    {
+      "label": "bbsrem:singular_ads_manifold_cone",
+      "tex_lines": [1797, 1810],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.GammaLinkCircle.DevData.link_simpleClosed_geodesic",
+        "GX.GammaLinkCircle.DevData.exists_simpleClosed_equator",
+        "GX.GammaLinkCircle.DevData.length_eq_coneAngle",
+        "GX.GammaLinkCircle.DevData.range_eq_equator",
+        "GX.GammaLinkCircle.DevData.equator",
+        "GX.GammaLinkCircle.DevData.hasPositiveMass_iff"
+      ],
+      "hypotheses": [
+        {"paper": "M a singular AdS manifold, c a cone singularity along a time-like curve, x ∈ c, L_x the link of M at x (l.1798-1800)", "here": "reading", "note": "link form only: L_x is read as 𝔢(L) (GX.BiSusp L with Δ.suspStructure) for a (Γ_p, ℓ(p))-circle L at a time-like p (minkQ p < 0, future or past), for every developing data Δ; the identification of the AdS link with 𝔢(L) is the AdS background of T-bbs-q8, not formalized"},
+        {"paper": "positive mass (angle less than 2π)", "here": "carried", "note": "C.coneAngle < 2π (GX.GammaLinkCircle.coneAngle, OQ-113 normalisation: 2π at a regular point)"},
+        {"paper": "γ a simple closed space-like geodesic in the de Sitter part of L_x", "here": "carried", "note": "Δ.suspStructure.IsSimpleClosedSpacelikeGeodesic γ ℓ, in the reading of bbsdef:has_positive_mass_simple"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "l.1798-1805: the link L_x of a point of a time-like cone singularity of angle θ is read as 𝔢(L) for the elliptic (Γ_p, ℓ(p))-circle of cone angle θ (the 'explicit description of L_x' of the proof, l.1805-1806, is the AdS side, T-bbs-q8; the row stays partial until it is built)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.exists_dsGeo_of_local",
+    "GX.dsFrame_eq_of_eventuallyEq",
+    "GX.smul_dsGeo",
+    "GX.IsDSFrame.lorentz",
+    "GX.dsGeo_mem_deSitter",
+    "GX.rayNormalize_eq_rayNormalize_iff",
+    "GX.smul_rayNormalize",
+    "GX.add_int_mul_of_add",
+    "GX.exists_int_of_exp_eq",
+    "GX.exists_angle_lift",
+    "GX.exists_shift_eq",
+    "GX.strictMono_surjective_of_add",
+    "GX.TFrame",
+    "GX.exists_tFrame",
+    "GX.TFrame.exists_rot",
+    "GX.TFrame.exists_theta",
+    "GX.TFrame.great_circle",
+    "GX.TFrame.angle_of_equator",
+    "GX.TFrame.mu_arcVec_inj",
+    "GX.BiSusp.base",
+    "GX.BiSusp.base_mk",
+    "GX.BiSusp.eq_mk_base",
+    "GX.BiSusp.continuousAt_base",
+    "GX.GammaLinkCircle.DevData.exists_angle",
+    "GX.GammaLinkCircle.DevData.chart_eq",
+    "GX.GammaLinkCircle.DevData.geodesic_lift",
+    "GX.GammaLinkCircle.DevData.mem_equator_iff",
+    "GX.GammaLinkCircle.DevData.simpleClosed_analysis"
+  ],
+  "kb_proposals": [
+    "Space-like geodesics of a singular HS-surface are GX.SingularHSStructure.IsSpacelikeGeodesic (unit-speed great circles GX.dsGeo x v of dS^2 in a chart; chart-free by IsSpacelikeGeodesic.forall_chart); simple closed ones are IsSimpleClosedSpacelikeGeodesic γ ℓ (length = period); positive mass is HasPositiveMass (T-bbs-positive-mass).",
+    "A time-like frame at p ∈ ℍ²±: GX.TFrame (A ∈ SO₀(1,2), p = κ · A e₀), coordinates ta : 𝕄 → ℝ and cz : 𝕄 → ℂ with minkQ = -ta² + ‖cz‖²; Γ_p acts by a unit complex number on cz (TFrame.exists_rot); an oriented θ with linkCover read on cz is TFrame.exists_theta.",
+    "The cone angle at a time-like p as an explicit rotation angle: GammaLinkCircle.DevData.exists_angle gives a continuous angle Φ of cz ∘ vlift with Φ (s + 1) = Φ s + c, Φ injective and C.coneAngle = |c| (via GTilde.rot and coneAngle_eq).",
+    "Curves of the regular part of 𝔢(L) lift to ℝ × ]0, π[ through GX.BiSusp.base (continuous off the poles) and the covering Δ.E; near a regular point every chart of Δ.suspAtlas is g • arcPt p (Δ.vlift σ) t (GammaLinkCircle.DevData.chart_eq).",
+    "Continuous angles of maps into ℂ ∖ 0 or Circle: GX.exists_angle_lift, GX.exists_int_of_exp_eq (lifting through Circle.isCoveringMap_exp)."
+  ],
+  "notes": "One new module, scaffold/GXScaffold/BBS/HSPositiveMass.lean (about 1990 lines, 0 sorry, no warnings, standard axioms only for every main theorem). Its import line goes in scaffold/GXScaffold.lean right after GXScaffold.BBS.HSCheminsing. It imports the strict GX.BBS.HSSuspension and the sorry-free scaffold modules GXScaffold.BBS.HSCheminsing (cone angle, mass, IsPositive) and GXScaffold.Interaction.FunnelGTilde (GTilde.rot), so it graduates after them. `lake build GXScaffold.BBS.HSPositiveMass` succeeded without rebuilding any GX.* or mathlib module. Mathematics: at every time-like p, every simple closed space-like geodesic of the de Sitter part of 𝔢(L) has length the cone angle θ (length_eq_coneAngle), the equator is one (exists_simpleClosed_equator), and when θ ∉ 2πℤ every one is the equator (range_eq_equator). Hence 𝔢(L) has positive mass iff θ < 2π, for every θ. Argued but not formalized: when θ ∈ 2πℤ uniqueness fails (at θ = 2π every great circle of dS² is a simple closed geodesic); the remark excludes this case. The two rows stay partial. The definition is unmarked because of readings (questions). The remark is partial because the AdS link L_x ≅ 𝔢(L) is T-bbs-q8 (needs-ruling)."
+}

@@ -1,0 +1,29 @@
+{
+  "target": "T-bbs-positive-mass",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "bbsdef:has_positive_mass_simple",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, row partial. IsSpacelikeGeodesic (HSPositiveMass.lean:252): continuous, through regular points, and in an atlas chart near each parameter equal to dsGeo x v s' = [cos s' x + sin s' v] with Q x = Q v = 1, B(x,v) = 0. That is a unit-speed parametrisation of a positive-definite plane section of the hyperboloid Q = 1, the dS^2 piece of HS^2 (positive rays correspond one to one to Q = 1 vectors). Lorentzian planes cut out time-like hyperbolas and degenerate planes cut out null lines, so these are exactly the space-like geodesics of dS^2, and unit speed holds because Q(-sin x + cos v) = 1. The global parameter s' in the local form loses nothing, because a shift is absorbed by rotating (x, v). The notion is not vacuous: exists_simpleClosed_equator builds one on every 𝔢(L) at a time-like p, and GammaLinkCircle.nonempty_devData gives developing data for every C. It does not depend on the chart: forall_chart transports it to every atlas chart through the SO0(1,2) chart changes. It lies in the de Sitter part (mem_deSitter). IsSimpleClosedSpacelikeGeodesic (l.258) is: ℓ-periodic, injective on [0, ℓ), ℓ > 0. Injectivity forces ℓ to be the least period, and periodicity of a unit-speed geodesic is smooth closure, so length = period. Every simple closed geodesic has such an arc-length parametrisation, so HasPositiveMass (∀ γ ℓ, ... → ℓ < 2π) is the paper's sentence. It is stated for every SingularHSStructure on every space, which drops the standing hypotheses of l.1812-1819 (S^2, positive, causal, two hyperbolic components, the time-like line condition). This is a definition of wider scope that agrees on the paper's σ, so Lean ≥ paper, correctly marked '⚠ weakened' in the contract's sense. Reading (c), that geodesics avoid singular points such as tachyons in the de Sitter region, shrinks the quantified class and so weakens the property for structures with de Sitter singularities. It is disclosed in SCOPE and in REPORT questions, the row is partial, and the reading is legitimate: a curve through a cone point is not a geodesic in the smooth sense, and the paper does not settle this. Readings (a) and (b), arc length and charts versus developing map, are standard and equivalent. l.1826-1827 is carried by hasPositiveMass_iff, hasPositiveMass_iff_mass_pos (mass = 1 - θ/2π) and hasPositiveMass_iff_isPositive (needs ¬IsRegular, disclosed in its docstring)."
+    },
+    {
+      "label": "bbsrem:singular_ads_manifold_cone",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, row partial: only the link form is proved. L_x is read as 𝔢(L) = (BiSusp L, Δ.suspStructure) for a (Γ_p, ℓ(p))-circle at a time-like p (minkQ p < 0, both sheets), for every developing data Δ. Identifying the AdS link with 𝔢(L) is the AdS background of T-bbs-q8 (needs-ruling), so 'partial' is honest. link_simpleClosed_geodesic (l.1961) takes coneAngle < 2π and gives three things: a simple closed space-like geodesic of length coneAngle exists; any two have the same range, which is uniqueness up to reparametrisation, the right reading of 'unique'; every one has length coneAngle < 2π. This covers the remark's conclusion and the three claims of its proof. Two of its inputs hold for every cone angle and are stronger than the remark: length_eq_coneAngle, and exists_simpleClosed_equator with range = equator. range_eq_equator (θ ∉ 2πℤ) is the uniqueness; failure of uniqueness at θ ∈ 2πℤ is argued, not formalized, and disclosed in SCOPE (g). The remark excludes that case. The cone-angle convention, coneAngle = GTilde.angle / 2 (OQ-113 OPEN), does not weaken the statement. length_eq_coneAngle shows that coneAngle is the geometric length of the de Sitter equator of 𝔢(L), the angle the remark means, so 'positive mass (angle < 2π)' = 'coneAngle < 2π' is grounded independently of how OQ-113 is ruled."
+    }
+  ],
+  "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+  "findings": [],
+  "checks": {
+    "build": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSPositiveMass.lean: exit 0, no output (no warnings). The .olean (22:06:59) is newer than the source (22:06:30).",
+    "sorry": "The only 2 matches of 'sorry' are docstring text ('0 `sorry`', 'sorry-free'), l.9-10; there are no sorry terms.",
+    "axioms": "A one-shot probe under the campaign dir (deleted afterwards) ran #print axioms on 18 declarations: every REPORT decl of both labels, plus great_circle, simpleClosed_analysis and exists_dsGeo_of_local. Each depends on [propext, Classical.choice, Quot.sound] only.",
+    "scope": "Of this target, git status shows only the untracked HSPositiveMass.lean, the campaign dir, and the import line 'import GXScaffold.BBS.HSPositiveMass' after HSCheminsing in GXScaffold.lean. The other two import lines (RegCompleteTail, LineStructure) and the BTZ/restatement edits belong to other targets, as the dispatch states.",
+    "docstring": "Contract 0006 is met. There is a title, and both labels appear unmarked with their colI_v1.tex lines inside the first 4000 characters. The quote block is verbatim (l.1797-1802, 1805-1808, 1822-1823, 1826-1827). The Hypothesis checklist and SCOPE (a)-(g) are present and accurate. The Provenance line names mathlib fabf563a / v4.31.0.",
+    "findings_of_paper": "The REPORT claims no error in the paper; its two questions (geodesics through tachyons; the chart/developing-map reading) are framed as questions, not findings."
+  }
+}
