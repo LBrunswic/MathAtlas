@@ -1,0 +1,166 @@
+# T-abs-galileo-curve-form — #check and #print axioms of every declaration of CausalScaffold.GalileoCurveForm (47)
+# produced 2026-11-27 on node1 by: cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true campaign/T-abs-galileo-curve-form/Probe.lean (exit 0)
+# after: taskset -c 0-11 lake build CausalScaffold.GalileoCurveForm (Build completed successfully, 3147 jobs)
+# every declaration: [propext, Classical.choice, Quot.sound], no sorryAx
+
+galileoGraphLt : (n : ℕ) → TopologicalSpace.Opens (ℝ × (Fin n → ℝ)) → ℝ × (Fin n → ℝ) → ℝ × (Fin n → ℝ) → Prop
+@galileoGraphLt.mem_left : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  galileoGraphLt n U p q → p ∈ U
+@galileoGraphLt.mem_right : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  galileoGraphLt n U p q → q ∈ U
+@galileoGraphLt.trans : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q r : ℝ × (Fin n → ℝ)},
+  galileoGraphLt n U p q → galileoGraphLt n U q r → galileoGraphLt n U p r
+@galileoGraphLt.mono : ∀ {n : ℕ} {U V : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))},
+  V ≤ U → ∀ {p q : ℝ × (Fin n → ℝ)}, galileoGraphLt n V p q → galileoGraphLt n U p q
+@isRelFamily_galileoGraphLt : ∀ {n : ℕ}, IsRelFamily (galileoGraphLt n)
+@galileoGraphLt_of_segment_subset : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {a b : ℝ × (Fin n → ℝ)},
+  a.1 < b.1 → segment ℝ a b ⊆ ↑U → galileoGraphLt n U a b
+@isOpen_galileoGraphLt_right : ∀ {n : ℕ} (U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))) (x : ℝ × (Fin n → ℝ)),
+  IsOpen {y | galileoGraphLt n U x y}
+@isOpen_galileoGraphLt_left : ∀ {n : ℕ} (U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))) (y : ℝ × (Fin n → ℝ)),
+  IsOpen {x | galileoGraphLt n U x y}
+galileoCurveLt : (n : ℕ) → TopologicalSpace.Opens (ℝ × (Fin n → ℝ)) → ℝ × (Fin n → ℝ) → ℝ × (Fin n → ℝ) → Prop
+@galileoCurveLt_of_continuousOn : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {c : ℝ → ℝ × (Fin n → ℝ)}
+  {s s' : ℝ},
+  s < s' →
+    ContinuousOn c (Set.Icc s s') →
+      Set.MapsTo c (Set.Icc s s') ↑U → StrictMonoOn (fun σ => (c σ).1) (Set.Icc s s') → galileoCurveLt n U (c s) (c s')
+@galileoCurveLt_iff_graphLt : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  galileoCurveLt n U p q ↔ galileoGraphLt n U p q
+galileoCurve : (n : ℕ) → Causality (ℝ × (Fin n → ℝ))
+@galileoCurve_lt : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).lt U p q ↔ galileoCurveLt n U p q
+@galileoCurve_le : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).le U p q ↔ galileoCurveLt n U p q ∨ p = q ∧ p ∈ U
+@galileoCurve_lt_iff_graphLt : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).lt U p q ↔ galileoGraphLt n U p q
+@galileoCurve_lt_fst : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).lt U p q → p.1 < q.1
+@galileoCurve_le_fst : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).le U p q → p.1 ≤ q.1
+@galileoCurve_lt_of_segment_subset : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  p.1 < q.1 → segment ℝ p q ⊆ ↑U → (galileoCurve n).lt U p q
+@galileoCurve_lt_top : ∀ {n : ℕ} {p q : ℝ × (Fin n → ℝ)}, (galileoCurve n).lt ⊤ p q ↔ p.1 < q.1
+@galileoCurve_chronalCurveOn_iff : ∀ {n : ℕ} {W : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {c : ℝ → ℝ × (Fin n → ℝ)}
+  {a b : ℝ},
+  (galileoCurve n).ChronalCurveOn W c a b ↔
+    ContinuousOn c (Set.Icc a b) ∧ Set.MapsTo c (Set.Icc a b) ↑W ∧ StrictMonoOn (fun s => (c s).1) (Set.Icc a b)
+@galileoCurve_causallyArcConnected : ∀ {n : ℕ}, (galileoCurve n).CausallyArcConnected
+@galileoCurve_lt_of_le_of_lt : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q r : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).le U p q → (galileoCurve n).lt U q r → (galileoCurve n).lt U p r
+@galileoCurve_lt_of_lt_of_le : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q r : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).lt U p q → (galileoCurve n).le U q r → (galileoCurve n).lt U p r
+@galileoCurve_pushUp : ∀ {n : ℕ}, (galileoCurve n).PushUp
+@galileoCurve_lt_vertical : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {a b : ℝ} {x : Fin n → ℝ},
+  a < b → (∀ t ∈ Set.Icc a b, (t, x) ∈ U) → (galileoCurve n).lt U (a, x) (b, x)
+@galileo_exists_vertical_subset : ∀ {n : ℕ} {W : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {v : ℝ × (Fin n → ℝ)},
+  v ∈ W → ∃ δ > 0, ∀ t ∈ Set.Icc (v.1 - δ) (v.1 + δ), (t, v.2) ∈ W
+@galileoCurve_chronalNeighbours : ∀ {n : ℕ}, (galileoCurve n).ChronalNeighbours
+@galileoCurve_isCausal : ∀ {n : ℕ}, (galileoCurve n).IsCausal
+@galileoCurve_hasTimeFunction : ∀ {n : ℕ}, (galileoCurve n).HasTimeFunction
+@galileoCurve_isTimeFunction_fst : ∀ {n : ℕ}, (galileoCurve n).IsTimeFunction Prod.fst
+@galileoCurve_chronalHomotopyOn_convexCombination : ∀ {n : ℕ} {W : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))},
+  Convex ℝ ↑W →
+    ∀ {γ₀ γ₁ : ℝ → ℝ × (Fin n → ℝ)},
+      (galileoCurve n).ChronalCurveOn W γ₀ 0 1 →
+        (galileoCurve n).ChronalCurveOn W γ₁ 0 1 →
+          γ₁ 0 = γ₀ 0 → γ₁ 1 = γ₀ 1 → (galileoCurve n).ChronalHomotopyOn W (fun t s => (1 - t) • γ₀ s + t • γ₁ s) γ₀ γ₁
+@galileoCurve_futureOneConnectedOn : ∀ {n : ℕ} {W : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))},
+  Convex ℝ ↑W → (galileoCurve n).FutureOneConnectedOn W
+@galileoCurve_futureOneConnected : ∀ {n : ℕ}, (galileoCurve n).FutureOneConnected
+@galileoCurve_diamond_top : ∀ {n : ℕ} {p q : ℝ × (Fin n → ℝ)},
+  p.1 < q.1 → (galileoCurve n).diamond ⊤ p q = {r | p.1 < r.1 ∧ r.1 < q.1} ∪ {p, q}
+@galileoCurve_slab_subset_of_convex : ∀ {n : ℕ} {W : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  Convex ℝ ↑W →
+    ∀ {V : Set (ℝ × (Fin n → ℝ))},
+      (galileoCurve n).CausallyConvexIn V W → p ∈ V → q ∈ V → {r | r ∈ W ∧ p.1 < r.1 ∧ r.1 < q.1} ⊆ V
+@galileoCurve_not_causallyCompact : ∀ {n : ℕ}, 1 ≤ n → ¬(galileoCurve n).CausallyCompact
+@galileoCurve_not_stronglyCausalOn : ∀ {n : ℕ} {W : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))},
+  1 ≤ n → (↑W).Nonempty → ¬(galileoCurve n).StronglyCausalOn W
+@galileoCurve_not_locallyStronglyCausal : ∀ {n : ℕ}, 1 ≤ n → ¬(galileoCurve n).LocallyStronglyCausal
+@galileoCurve_lt_imp_galileo : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).lt U p q → (galileo n).lt U p q
+@galileoCurve_le_imp_galileo : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)},
+  (galileoCurve n).le U p q → (galileo n).le U p q
+@galileoCurve_lt_iff_galileo_of_convex : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))}
+  {p q : ℝ × (Fin n → ℝ)}, Convex ℝ ↑U → ((galileoCurve n).lt U p q ↔ (galileo n).lt U p q)
+@galileoCurve_le_iff_galileo_of_convex : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))}
+  {p q : ℝ × (Fin n → ℝ)}, Convex ℝ ↑U → ((galileoCurve n).le U p q ↔ (galileo n).le U p q)
+@galileoCurve_lt_iff_transGen_convex : ∀ {n : ℕ} {U : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))} {p q : ℝ × (Fin n → ℝ)}
+  (S : Set (TopologicalSpace.Opens (ℝ × (Fin n → ℝ)))),
+  (∀ (x : ℝ × (Fin n → ℝ)), ∃ O ∈ S, x ∈ O) →
+    ((galileoCurve n).lt U p q ↔
+      Relation.TransGen (fun a b => ∃ B, ∃ O ∈ S, B ≤ U ⊓ O ∧ Convex ℝ ↑B ∧ (galileo n).lt B a b) p q)
+@galileoCurve_ne_galileo : ∀ {n : ℕ}, 1 ≤ n → galileoCurve n ≠ galileo n
+@exists_galileo_lt_not_galileoCurve_lt : ∀ {n : ℕ}, 1 ≤ n → ∃ U p q, (galileo n).lt U p q ∧ ¬(galileoCurve n).lt U p q
+@galileoCurve_separates : ∀ {n : ℕ},
+  1 ≤ n →
+    (galileoCurve n).CausallyArcConnected ∧
+      (galileoCurve n).AbsolutelyMinimal ∧
+        (∀ (W : TopologicalSpace.Opens (ℝ × (Fin n → ℝ))), (galileoCurve n).AbsolutelyMinimalOn W) ∧
+          (galileoCurve n).PushUp ∧
+            (galileoCurve n).LocallyPushUp ∧
+              (galileoCurve n).CausallyOpen ∧
+                (galileoCurve n).CausallyOpenFuture ∧
+                  (galileoCurve n).LocallyCausallyOpen ∧
+                    (galileoCurve n).LocallyCausallyOpenFuture ∧
+                      (galileoCurve n).Tarentin ∧
+                        (galileoCurve n).ChronalNeighbours ∧
+                          (galileoCurve n).HasChronalNeighbourEverywhere ∧
+                            (galileoCurve n).CausallyPlain ∧
+                              (galileoCurve n).IsCausal ∧
+                                (galileoCurve n).HasTimeFunction ∧
+                                  (galileoCurve n).IsTimeFunction Prod.fst ∧
+                                    (galileoCurve n).FutureOneConnected ∧
+                                      (galileoCurve n).CurvesExtend ∧
+                                        ¬(galileoCurve n).LocallyStronglyCausal ∧
+                                          ¬(galileoCurve n).StronglyCausal ∧
+                                            ¬(galileoCurve n).StronglyCausalOpen ∧
+                                              ¬(galileoCurve n).CausallyCompact ∧ ¬(galileoCurve n).GloballyHyperbolic
+'Causal.galileoGraphLt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoGraphLt.mem_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoGraphLt.mem_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoGraphLt.trans' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoGraphLt.mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.isRelFamily_galileoGraphLt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoGraphLt_of_segment_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.isOpen_galileoGraphLt_right' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.isOpen_galileoGraphLt_left' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurveLt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurveLt_of_continuousOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurveLt_iff_graphLt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_iff_graphLt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_fst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_le_fst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_of_segment_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_chronalCurveOn_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_causallyArcConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_of_le_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_of_lt_of_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_pushUp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_vertical' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileo_exists_vertical_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_chronalNeighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_isCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_hasTimeFunction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_isTimeFunction_fst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_chronalHomotopyOn_convexCombination' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_futureOneConnectedOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_futureOneConnected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_diamond_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_slab_subset_of_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_not_causallyCompact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_not_stronglyCausalOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_not_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_imp_galileo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_le_imp_galileo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_iff_galileo_of_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_le_iff_galileo_of_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_lt_iff_transGen_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_ne_galileo' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.exists_galileo_lt_not_galileoCurve_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.galileoCurve_separates' depends on axioms: [propext, Classical.choice, Quot.sound]

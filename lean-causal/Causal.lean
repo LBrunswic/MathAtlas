@@ -350,6 +350,7 @@ import Causal.DensSeparates
 import Causal.StronglyCausalTransport
 import Causal.Model.TimeCylinderLSC
 import Causal.LscSeparations
+import Causal.GalileoCurveForm
 
 /-!
 # Causal — topological spacetimes

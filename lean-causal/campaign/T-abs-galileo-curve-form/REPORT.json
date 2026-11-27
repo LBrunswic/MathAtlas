@@ -1,0 +1,352 @@
+{
+  "target": "T-abs-galileo-curve-form",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/GalileoCurveForm.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-galileo-curve-form/REPORT.json",
+    "campaign/T-abs-galileo-curve-form/Probe.lean",
+    "campaign/T-abs-galileo-curve-form/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.GalileoCurveForm",
+  "build_result": "Build completed successfully (3147 jobs), no warning. Before each real build I ran the --no-build dry run (kb/0228). It listed only CausalScaffold.GalileoCurveForm as out of date, so nothing upstream (Causal.*, mathlib) was rebuilt. `taskset -c 0-11 lake env lean -DwarningAsError=true` on the file passes (exit 0, no output). campaign/T-abs-galileo-curve-form/Probe.lean imports the module and runs #check and #print axioms on all 47 declarations (output in axioms.txt). Its 19 examples project, for n = 1, each of the 16 settled pairs, the proposed entry's 16-id from with ¬ LocallyStronglyCausal, the agreement on convex opens and galileoCurve 1 ≠ galileo 1. It passes under -DwarningAsError=true (exit 0). Every declaration depends on [propext, Classical.choice, Quot.sound] only, with no sorryAx.",
+  "sorry_count": 0,
+  "layer": "ETT layer (layer 1). Direct imports: Causal.Ladder.Rules, Causal.Galileo and Causal.GluingModels.NonMinimal. tools/ladder.py's model_path is None for each, checked one at a time in memory on lean_index()['imports'] (kb/0247). It is also None for the new module with its three imports added to the index in memory. Its transitive closure holds 63 Causal modules and none of MODEL_LAYER (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). Causal.GluingModels.NonMinimal reaches Causal.Ladder.Rules through Causal.PushUpNotOpen. Nothing imports the new module, so it is a leaf with no cycle (kb/0221). It is a [[fails]] witness only, which emit-lean does not import. No statement mentions a metric (segment and Convex are affine). Sup-norm balls appear inside proofs only. The space is ℝ × (Fin n → ℝ) with its product topology.",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.galileoCurveLt",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:213",
+      "statement": "def: galileoCurveLt n U p q := ∃ γ : ℝ → ℝ × (Fin n → ℝ), ContinuousOn γ (Icc 0 1) ∧ γ 0 = p ∧ γ 1 = q ∧ MapsTo γ (Icc 0 1) U ∧ StrictMonoOn (fun s => (γ s).1) (Icc 0 1)",
+      "standing": "The target's chronological relation, verbatim: a continuous curve of U with strictly increasing time runs from p to q.",
+      "status": "definition"
+    },
+    {
+      "name": "Causal.galileoCurve",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:264",
+      "statement": "def galileoCurve (n : ℕ) : Causality (ℝ × (Fin n → ℝ)); le U p q := galileoCurveLt n U p q ∨ (p = q ∧ p ∈ U), lt := galileoCurveLt n",
+      "standing": "The model. Every field is proved: transitivity by concatenation of graphs; I^±_U(x) open (isOpen_galileoGraphLt_right/_left: a point of the curve just before y, then straight segments in a small ball). No sorry in any field.",
+      "status": "definition"
+    },
+    {
+      "name": "Causal.galileoCurveLt_iff_graphLt",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:232",
+      "statement": "galileoCurveLt n U p q ↔ galileoGraphLt n U p q (p.1 < q.1 ∧ ∃ f continuous, f p.1 = p.2, f q.1 = q.2, ∀ t ∈ Icc p.1 q.1, (t, f t) ∈ U)",
+      "standing": "The curve form reparametrised by time. Curve to graph: the curve is a CurveOn of the graph relations (straight segments in small balls), then CurveOn.rel_of_lt; no inverse of the time function needed. Graph to curve: s ↦ (p.1 + s(q.1 − p.1), f(…)).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_chronalCurveOn_iff",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:332",
+      "statement": "(galileoCurve n).ChronalCurveOn W c a b ↔ ContinuousOn c (Icc a b) ∧ MapsTo c (Icc a b) W ∧ StrictMonoOn (fun s => (c s).1) (Icc a b)",
+      "standing": "Every W. The chronal curves are the continuous time-increasing maps.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_causallyArcConnected",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:354",
+      "statement": "(galileoCurve n).CausallyArcConnected",
+      "standing": "Every n.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_pushUp",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:386",
+      "statement": "(galileoCurve n).PushUp",
+      "standing": "Every n. ≤ is = or ≪.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_chronalNeighbours",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:420",
+      "statement": "(galileoCurve n).ChronalNeighbours",
+      "standing": "Every n. The points of V just before and just after v on its vertical.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_isCausal",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:434",
+      "statement": "(galileoCurve n).IsCausal",
+      "standing": "Every n.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_hasTimeFunction",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:441",
+      "statement": "(galileoCurve n).HasTimeFunction",
+      "standing": "Every n; T = Prod.fst.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_isTimeFunction_fst",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:450",
+      "statement": "(galileoCurve n).IsTimeFunction (Prod.fst : ℝ × (Fin n → ℝ) → ℝ)",
+      "standing": "Every n. defi:fonction_temps (DEC-10): a strong morphism to timelikeLine (continuous, open, and a curve of fst⁻¹ U passes every time between its ends).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_futureOneConnectedOn",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:508",
+      "statement": "Convex ℝ (W : Set _) → (galileoCurve n).FutureOneConnectedOn W",
+      "standing": "Every n, every convex open W: the convex combination (1 − t)γ₀ + tγ₁ is a chronal homotopy (galileoCurve_chronalHomotopyOn_convexCombination, :474). galileoCurve_futureOneConnected (:515) is W = ⊤.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_diamond_top",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:522",
+      "statement": "p.1 < q.1 → (galileoCurve n).diamond ⊤ p q = {r | p.1 < r.1 ∧ r.1 < q.1} ∪ {p, q}",
+      "standing": "Every n; as galileoOn_diamond_top for the printed causality.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_slab_subset_of_convex",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:543",
+      "statement": "Convex ℝ (W : Set _) → (galileoCurve n).CausallyConvexIn V W → p ∈ V → q ∈ V → {r | r ∈ W ∧ p.1 < r.1 ∧ r.1 < q.1} ⊆ V",
+      "standing": "Every n. The ladder note's slab argument in a convex open W, verbatim.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_not_causallyCompact",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:553",
+      "statement": "1 ≤ n → ¬ (galileoCurve n).CausallyCompact",
+      "standing": "J((0,0),(2,0)) holds (1, (B+1, …)) for every B: its first spatial coordinate is unbounded.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_not_stronglyCausalOn",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:571",
+      "statement": "1 ≤ n → (W : Set _).Nonempty → ¬ (galileoCurve n).StronglyCausalOn W",
+      "standing": "Stronger than the target: no non-empty open set is strongly causal as a spacetime. The slab argument in a ball B ⊆ W about p.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_not_locallyStronglyCausal",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:597",
+      "statement": "1 ≤ n → ¬ (galileoCurve n).LocallyStronglyCausal",
+      "standing": "From galileoCurve_not_stronglyCausalOn at the origin.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_lt_imp_galileo",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:607",
+      "statement": "(galileoCurve n).lt U p q → (galileo n).lt U p q",
+      "standing": "Every open U: the curve form is finer than the printed causality (a curve lies in one component). galileoCurve_le_imp_galileo (:615) for ≤.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_lt_iff_galileo_of_convex",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:620",
+      "statement": "Convex ℝ (U : Set _) → ((galileoCurve n).lt U p q ↔ (galileo n).lt U p q)",
+      "standing": "The agreement on convex opens the dispatch allows (the straight segment). galileoCurve_le_iff_galileo_of_convex (:627) for ≤.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_lt_iff_transGen_convex",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:634",
+      "statement": "∀ S open cover, (galileoCurve n).lt U p q ↔ TransGen (fun a b => ∃ B, ∃ O ∈ S, B ≤ U ⊓ O ∧ Convex ℝ B ∧ (galileo n).lt B a b) p q",
+      "standing": "The curve form is generated, by chains, by the printed relations of the convex open subsets of the members of any open cover. Information for OQ-108 (a); decides nothing.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_ne_galileo",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:680",
+      "statement": "1 ≤ n → galileoCurve n ≠ galileo n",
+      "standing": "One is absolutely minimal, the other is not (Causal.GluingModels.galileo_not_minimal). exists_galileo_lt_not_galileoCurve_lt (:689): some U, p, q with (galileo n).lt U p q and ¬ (galileoCurve n).lt U p q.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.galileoCurve_separates",
+      "file_line": "scaffold/CausalScaffold/GalileoCurveForm.lean:718",
+      "statement": "1 ≤ n → (galileoCurve n).CausallyArcConnected ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CausallyOpen ∧ CausallyOpenFuture ∧ LocallyCausallyOpen ∧ LocallyCausallyOpenFuture ∧ Tarentin ∧ ChronalNeighbours ∧ HasChronalNeighbourEverywhere ∧ CausallyPlain ∧ IsCausal ∧ HasTimeFunction ∧ IsTimeFunction Prod.fst ∧ FutureOneConnected ∧ CurvesExtend ∧ ¬ LocallyStronglyCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen ∧ ¬ CausallyCompact ∧ ¬ GloballyHyperbolic (all of galileoCurve n)",
+      "standing": "The conjoined theorem. 23 conjuncts; it decides all 21 causality-sort nodes (16 hold, 5 fail). The only hypothesis is 1 ≤ n, used only by the negative conjuncts. Proved directly: arc-connectedness, push-up, chronal neighbours, the two time-function conjuncts, future one-connectedness, ¬ LocallyStronglyCausal, ¬ CausallyCompact, and ∀ W, AbsolutelyMinimalOn W (CausallyArcConnectedOn.absolutelyMinimalOn). Everything else comes by causal_ladder: absolutely_minimal, causally_open (push_up ∧ chronal_neighbours), causally_open_future, both local forms, tarentin, has_chronal_neighbour, causally_plain, locally_push_up, is_causal, curves_extend. The negations ¬ StronglyCausal, ¬ StronglyCausalOpen and ¬ GloballyHyperbolic are causal_ladder under a negation.",
+      "status": "proved"
+    }
+  ],
+  "proved": "Everything the target asks for, in one conjoined theorem, with 0 sorry and no named hypothesis. The model is a causality (I^± open). It is causally arc-connected, absolutely minimal (and on every open set), push-up, causally open (two-sided, in the future, both local forms), tarentin, with chronal neighbours (and a chronal neighbour everywhere), causally plain, and not locally strongly causal. Beside these: causal, the time coordinate a time function (both HasTimeFunction and IsTimeFunction Prod.fst), future one-connected (every convex open), curves extend, not causally compact. Also ¬ StronglyCausal, ¬ StronglyCausalOpen, ¬ GloballyHyperbolic, locally push-up. Against the printed Galileo causality: agreement on convex opens, finer everywhere, different for n ≥ 1, and the generation characterisation.",
+  "remains": "Nothing of the target. No conjunct was left out. Not attempted, beyond the target: the claim that Precausality.generated of the printed causality differs from the curve form (argued in the questions), and any statement for n = 0.",
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "new [[fails]] entry (one): from = [\"causally_arc_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"causally_open\", \"causally_open_future\", \"locally_causally_open\", \"locally_causally_open_future\", \"tarentin\", \"chronal_neighbours\", \"has_chronal_neighbour\", \"causally_plain\", \"is_causal\", \"time_function\", \"future_one_connected\", \"curves_extend\"], to = \"locally_strongly_causal\", witness = \"Causal.galileoCurve_separates\", status = \"checked\" (space: the ambient; ℝ × (Fin n → ℝ) is T2 and second countable)",
+      "current_witness": "none (the 16 pairs are [[open]], 'False, argued')",
+      "replace_with": "Causal.galileoCurve_separates",
+      "required": true,
+      "note": "Each id of `from` is a positive conjunct of the witness (conjuncts 1, 2, 4–15, 17, 18) and ¬ LocallyStronglyCausal is conjunct 19; Probe.lean derives each pair separately and all together for n = 1. The 16 [[open]] entries below then become settled and must be removed (the ladder's check reports a settled [[open]] as an error). The witness name resolves only once the module graduates into Causal/ (tools/ladder.py reads Causal/ only)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5727 ([[open]] from = \"causally_arc_connected\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"causally_arc_connected\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the loop fan at every scale (T-abs-loop-fan-every-scale)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5682 ([[open]] from = \"absolutely_minimal\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"absolutely_minimal\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the symmetric rational line (T-abs-lsc-separations)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5687 ([[open]] from = \"push_up\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"push_up\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the symmetric rational line (T-abs-lsc-separations)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5692 ([[open]] from = \"locally_push_up\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"locally_push_up\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the symmetric rational line (T-abs-lsc-separations)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5732 ([[open]] from = \"causally_open\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"causally_open\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5737 ([[open]] from = \"causally_open_future\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"causally_open_future\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5742 ([[open]] from = \"locally_causally_open\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"locally_causally_open\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5747 ([[open]] from = \"locally_causally_open_future\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"locally_causally_open_future\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5752 ([[open]] from = \"tarentin\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"tarentin\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5757 ([[open]] from = \"chronal_neighbours\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"chronal_neighbours\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5762 ([[open]] from = \"has_chronal_neighbour\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"has_chronal_neighbour\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5767 ([[open]] from = \"causally_plain\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"causally_plain\")",
+      "required": true,
+      "note": "Becomes [[fails]]; only this model (the 8 of the dispatch)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5707 ([[open]] from = \"is_causal\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"is_causal\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the loop fan at every scale (T-abs-loop-fan-every-scale)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5712 ([[open]] from = \"time_function\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"time_function\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the loop fan at every scale (T-abs-loop-fan-every-scale)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5702 ([[open]] from = \"future_one_connected\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"future_one_connected\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the symmetric rational line (T-abs-lsc-separations)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5697 ([[open]] from = \"curves_extend\", to = \"locally_strongly_causal\")",
+      "current_witness": "none ([[open]], 'False, argued')",
+      "replace_with": "[[fails]] with witness Causal.galileoCurve_separates (the one new entry above, or one entry per pair with from = \"curves_extend\")",
+      "required": true,
+      "note": "Becomes [[fails]]; also argued for the symmetric rational line (T-abs-lsc-separations)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5641–5658 (the section comment's bullet 'Galileo's spacetime in its curve form (not in Lean)')",
+      "current_witness": "none",
+      "replace_with": "Causal.galileoCurve_separates (and the lemmas of CausalScaffold.GalileoCurveForm)",
+      "required": false,
+      "note": "Comment only. '(not in Lean)' and 'A:' become 'L:' at graduation. Three places are stale already. The bullet says Galileo's printed causality 'is argued not absolutely minimal' (:5653); the [[open]] notes at :5735–5770 and the comment at :2096 say the same. Causal.GluingModels.galileo_not_minimal (Causal/GluingModels/NonMinimal.lean:431; galileoOn_not_minimal, :327) proves it in Lean."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:5717 and :5722 ([[open]] globally_hyperbolic → locally_strongly_causal, causally_compact → locally_strongly_causal)",
+      "current_witness": "none",
+      "replace_with": "not this model",
+      "required": false,
+      "note": "Not settled here: the curve form is neither causally compact nor globally hyperbolic (conjuncts 22, 23). After the new entry these are the only two X → locally_strongly_causal pairs left open; the loop fan at every scale is what the note proposes for them."
+    }
+  ],
+  "ladder_simulation": "In memory only (no file written; /tmp/gcf/sim/sim.py imports tools/ladder.py with python3 -I). Read on programme/ladder.toml as of mtime 2026-11-27 22:38:07 UTC. I took d = load(), copy.deepcopy(d) for each variant (kb/0276), and compared matrix() and _contradictions() before and after. I ran check(d, lean_names() | {'Causal.galileoCurve_separates'}) to resolve the new name as graduation would. Baseline: fails 363, implied 41, open 28, ill-typed 270; 0 contradictions, 0 check errors. (A) One [[fails]] entry with from = the 16 positive ids, to = locally_strongly_causal, witness Causal.galileoCurve_separates. The 16 [[open]] entries it settles were removed. Result: fails 379, open 12, implied 41, ill-typed 270. Exactly 16 pairs move, open → fails: X → locally_strongly_causal for X in absolutely_minimal, causally_arc_connected, causally_open, causally_open_future, causally_plain, chronal_neighbours, curves_extend, future_one_connected, has_chronal_neighbour, is_causal, locally_causally_open, locally_causally_open_future, locally_push_up, push_up, tarentin, time_function. There are 0 contradictions and 0 check errors with the name resolved. Without the name, check() reports 'fails Causal.galileoCurve_separates: witness not found in lean-causal (a full name)' once, so the entry waits for graduation. counterexample() gives the entry has = exactly the 16 positive ids and lacks = {locally_strongly_causal, strongly_causal, strongly_causal_open, causally_compact, globally_hyperbolic}, exactly the witness's 5 negative conjuncts. (B) from = the dispatch's 8 ids only: 9 pairs move (the 8 and curves_extend, by the fact), 0 contradictions. The full from is needed for the other 7. (C) Five entries, full from, to = each of the five lacks: the same 16 pairs move, 0 contradictions. The other four negations refute no new pair. Open entries left after A: the 5 geometry/pair-sort ones, causally_plain → locally_push_up, strongly_causal → strongly_causal_open, globally_hyperbolic → locally_strongly_causal, causally_compact → locally_strongly_causal, and locally_strongly_causal → is_causal, strongly_causal, strongly_causal_open.",
+  "extra_decls": [
+    "Causal.galileoGraphLt",
+    "Causal.galileoGraphLt.mem_left",
+    "Causal.galileoGraphLt.mem_right",
+    "Causal.galileoGraphLt.trans",
+    "Causal.galileoGraphLt.mono",
+    "Causal.isRelFamily_galileoGraphLt",
+    "Causal.galileoGraphLt_of_segment_subset",
+    "Causal.isOpen_galileoGraphLt_right",
+    "Causal.isOpen_galileoGraphLt_left",
+    "Causal.galileoCurveLt_of_continuousOn",
+    "Causal.galileoCurve_lt",
+    "Causal.galileoCurve_le",
+    "Causal.galileoCurve_lt_iff_graphLt",
+    "Causal.galileoCurve_lt_fst",
+    "Causal.galileoCurve_le_fst",
+    "Causal.galileoCurve_lt_of_segment_subset",
+    "Causal.galileoCurve_lt_top",
+    "Causal.galileoCurve_lt_of_le_of_lt",
+    "Causal.galileoCurve_lt_of_lt_of_le",
+    "Causal.galileoCurve_lt_vertical",
+    "Causal.galileo_exists_vertical_subset",
+    "Causal.galileoCurve_chronalHomotopyOn_convexCombination",
+    "Causal.galileoCurve_futureOneConnected",
+    "Causal.galileoCurve_le_imp_galileo",
+    "Causal.galileoCurve_le_iff_galileo_of_convex",
+    "Causal.exists_galileo_lt_not_galileoCurve_lt"
+  ],
+  "findings": [
+    "No paper label is involved (layer 1, a ladder witness). Galileo's spacetime in its curve form is now in Lean (Causal.galileoCurve, on ℝ × (Fin n → ℝ)) with every property the ladder note (programme/ladder.toml:5641–5658) argued. All 21 causality-sort nodes are decided: 16 hold and 5 fail. Locally strongly causal, strongly causal in either form, causally compact and globally hyperbolic fail for every n ≥ 1. The positive facts hold for every n.",
+    "It settles 16 of the 18 [[open]] pairs X → locally_strongly_causal in either reading of defi:causalite (absolutely minimal on every open set). That is more than the 8 the dispatch names. The other 8 are absolutely_minimal, push_up, locally_push_up, curves_extend and future_one_connected, which the notes assign to the symmetric rational line (T-abs-lsc-separations), and is_causal, time_function and causally_arc_connected, which they assign to the scaled loop fan (T-abs-loop-fan-every-scale). With this witness, the loop fan at every scale is needed only for globally_hyperbolic → locally_strongly_causal and causally_compact → locally_strongly_causal. The planner may want to narrow T-abs-loop-fan-every-scale.",
+    "Stronger than the ladder's ¬ LocallyStronglyCausal: no non-empty open set W is strongly causal as a spacetime (galileoCurve_not_stronglyCausalOn). The slab argument of the note holds verbatim in any convex open W (galileoCurve_slab_subset_of_convex).",
+    "Against the printed causality (ETT.tex:273–274, Causal.galileo n): the curve form is finer on every open set and equal on convex ones. It differs for n ≥ 1 (galileoCurve_ne_galileo, exists_galileo_lt_not_galileoCurve_lt, through Causal.GluingModels.galileo_not_minimal). rem:galileo_spacetime_not_strongly's argument (ETT.tex:670–673) holds verbatim for the curve form (galileoCurve_diamond_top, ¬ StronglyCausal), so the remark would stand under OQ-108 (a) with this causality.",
+    "Stale words in the ladder (for the keeper, comments and notes only). Three places say the printed Galileo causality is 'argued not absolutely minimal': the bullet at programme/ladder.toml:5653, the notes at :5735–5770 (the 8 entries at :5732–5767), and the comment at :2096. It is proved: Causal.GluingModels.galileo_not_minimal (Causal/GluingModels/NonMinimal.lean:431). The bullet's '(not in Lean)' at :5641 becomes stale at graduation."
+  ],
+  "questions": [
+    "OQ-108 (OPEN). I decided no reading and marked no label. Here is what the file adds for the author. Read 'the causality its small open sets generate' as chains of printed relations inside small convex open sets. Then reading (a) is exactly this curve form: galileoCurve_lt_iff_transGen_convex proves it, for the convex open subsets of the members of any open cover. Read 'generate' as the library's Precausality.generated over a cover (relations in V ⊓ O). Then the result is argued to be a different causality: on every open V inside a member of the cover, generation returns the printed relation of V itself. A cup-shaped V, as in galileoOn_not_minimal, scaled into one member, relates across the bend, which the curve form does not. This is argued, not in Lean. So reading (a) needs the word 'generate' fixed before the curve form can be its formalization.",
+    "The reading of 'continuous curve' in the target. I took γ : ℝ → ℝ × ℝⁿ continuous on [0, 1], with γ 0 = x, γ 1 = y, γ([0, 1]) ⊆ U and strictly increasing time. The choice does not matter. The same relation comes from curves over any segment (galileoCurveLt_of_continuousOn), from graphs of continuous functions of time (galileoCurveLt_iff_graphLt), and from polygonal paths (galileoCurve_lt_iff_transGen_convex: chains of straight segments).",
+    "The dimension. The target says n ≥ 1 (n = 1 suffices). I state every result for all n ≥ 1, the positive ones for every n. Probe.lean instantiates n = 1. For n = 0 the negative conjuncts are not claimed.",
+    "The `from` of the new [[fails]] entry is the keeper's call. The simulation shows the full 16-id from settles all 16 pairs. The dispatch's 8 ids alone settle 9 (B). One entry per pair would also work."
+  ],
+  "kb_proposals": [
+    "Galileo's spacetime in its curve form, Causal.galileoCurve n (CausalScaffold.GalileoCurveForm). It is an ETT-layer causality on ℝ × (Fin n → ℝ): ≪_U is along continuous curves of U with strictly increasing time. It is causally arc-connected, absolutely minimal on every open set, push-up, causally open, tarentin, plain, with chronal neighbours, a time function and future one-connected. It is not locally strongly causal; for n ≥ 1 no non-empty open set is strongly causal. galileoCurve_separates decides all 21 causality nodes. It is the printed galileo n on convex opens and differs from it elsewhere (T-abs-galileo-curve-form).",
+    "To show that a relation defined by curves holds between a curve's ends without inverting a time function: show that the relation family is an IsRelFamily, show that the curve is a CurveOn of it (locally, straight segments in small balls), then apply CurveOn.rel_of_lt. This is galileoCurveLt_iff_graphLt and galileoCurve_lt_iff_transGen_convex, with no Lebesgue number and no inverse function (T-abs-galileo-curve-form)."
+  ],
+  "notes": "One new file, 749 lines, 0 sorry (the word does not occur), no ETT label, nothing marked with **. The docstring is 6083 characters, which does not matter since no label is marked. Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.GalileoCurveForm` to scaffold/CausalScaffold.lean; I did not edit it. At graduation the file moves to Causal/GalileoCurveForm.lean and its import goes into Causal.lean. Its imports are already Causal.* only. Then the keeper adds the [[fails]] entry and removes the 16 [[open]] entries. tools/ladder.py resolves witness names in lean-causal/Causal only, so this waits for graduation. Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri and lean finds none of the new names outside this file. The file adds no instance and no simp lemma beyond galileoCurve_lt and galileoCurve_le (Iff.rfl). No existing file was edited, the ladder included. I ran no git command, no make check, no lake build without a module and no tools/ladder.py emit-lean. tools/ladder.py was only imported in memory (lean_index, model_path, import_chain, load, counterexample, refuted, closure, matrix, _contradictions, check). Scratch files are under /tmp/gcf only.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) the module's SCOPE no longer calls Precausality.generated 'the library's sense' of generation: it formalizes the paper's own def:precausality_generated_notation_lemma (ETT.tex:393), in which absolute minimality is phrased, so OQ-108's choice is between the paper's generation and chains in convex opens; that the precausality generated over a cover of small sets depends on the cover and is not absolutely minimal is marked argued, not formalized (findings' 'a different causality' reads the same way). (2) The module and full-form docstrings list ∀ W, AbsolutelyMinimalOn W among the facts proved directly (through CausallyArcConnectedOn.absolutelyMinimalOn), not by causal_ladder. Statements unchanged."
+}

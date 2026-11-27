@@ -308,3 +308,5 @@ rediscover. One fact per entry.
 | [0300](entries/0300-strong-causality-through-charts.md) | pattern | Strong causality through charts: ChartIso carries StronglyCausalOn |
 | [0301](entries/0301-obtain-not-let-destructure.md) | pitfall | Re-conjoining a separation: obtain, not a term-mode let-destructure |
 | [0302](entries/0302-lsc-separations.md) | pattern | locally_strongly_causal is separated both ways on ETT-layer models |
+| [0303](entries/0303-galileo-curve-form.md) | pattern | Galileo's spacetime in its curve form: everything but local strong causality |
+| [0304](entries/0304-curve-relation.md) | pattern | A relation defined by curves holds between a curve's ends: IsRelFamily, CurveOn, rel_of_lt |
