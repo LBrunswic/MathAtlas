@@ -1,0 +1,139 @@
+%%%% ICLR 2027 submission -- Universality and Convergence of Generative Flows
+%%%% Ported from gfnbounds_aaai.tex (AAAI 2026 template) on 2026-08-21.
+%%%% The AAAI draft was dropped on 2026-09-13; gfnbounds_aaai.tex survives in git at b735e87.
+\documentclass{article}
+\usepackage{iclr2027_conference,times}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[all]{xy}          % xymatrix is used in cv_divergence, introduction, universality
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{listings}
+\lstdefinestyle{lean}{basicstyle=\ttfamily\footnotesize,columns=fullflexible,keepspaces=true,
+  showstringspaces=false,breaklines=true,breakatwhitespace=true,breakindent=2em,numbers=none,
+  breakautoindent=true,postbreak=\mbox{\ensuremath{\hookrightarrow}\space},
+  literate={¬}{{\ensuremath{\neg}}}1 {ν}{{\ensuremath{\nu}}}1 {ϑ}{{\ensuremath{\vartheta}}}1 {ᗮ}{{\ensuremath{^{\perp}}}}1 {ᵐ}{{\ensuremath{^{m}}}}1 {‖}{{\ensuremath{\|}}}1 {₀}{{\ensuremath{_0}}}1 {₁}{{\ensuremath{_1}}}1 {₂}{{\ensuremath{_2}}}1 {₆}{{\ensuremath{_6}}}1 {₈}{{\ensuremath{_8}}}1 {ₗ}{{\ensuremath{_l}}}1 {ℕ}{{\ensuremath{\mathbb{N}}}}1 {ℝ}{{\ensuremath{\mathbb{R}}}}1 {→}{{\ensuremath{\rightarrow}}}1 {∀}{{\ensuremath{\forall}}}1 {∂}{{\ensuremath{\partial}}}1 {∃}{{\ensuremath{\exists}}}1 {∈}{{\ensuremath{\in}}}1 {∑}{{\ensuremath{\sum}}}1 {∙}{{\ensuremath{\bullet}}}1 {∧}{{\ensuremath{\wedge}}}1 {≠}{{\ensuremath{\neq}}}1 {≤}{{\ensuremath{\leq}}}1 {≥}{{\ensuremath{\geq}}}1 {⟨}{{\ensuremath{\langle}}}1 {⟩}{{\ensuremath{\rangle}}}1 {⦃}{{\ensuremath{\{\!\{}}}1 {⦄}{{\ensuremath{\}\!\}}}}1 {⨆}{{\ensuremath{\bigsqcup}}}1 {𝓝}{{\ensuremath{\mathcal{N}}}}1 {λ}{{\ensuremath{\lambda}}}1 {ε}{{\ensuremath{\varepsilon}}}1 {Π}{{\ensuremath{\Pi}}}1 {σ}{{\ensuremath{\sigma}}}1 {⋆}{{\ensuremath{\star}}}1 {−}{{\ensuremath{-}}}1 {∞}{{\ensuremath{\infty}}}1 {∫}{{\ensuremath{\int}}}1 {·}{{\ensuremath{\cdot}}}1 {…}{{\ensuremath{\dots}}}1 {≥}{{\ensuremath{\geq}}}1}
+
+%%%% ---------------------------------------------------------------------
+%%%% AUTHOR BLOCK -- DECISION POINT, see README-editorial-pass.txt
+%%%% The AAAI draft carried five authors (Brunswic, Clemente, Yang, Rasouli,
+%%%% Zhou -- Huawei).  The ICLR 2027 plan records "sole author, independent
+%%%% affiliation".  The sole-author block is used below per that decision;
+%%%% the original five-author block is in gfnbounds_aaai.tex at git b735e87.
+%%%% NOTE: the author list LOCKS at the ICLR abstract deadline (18 Sep 2026) --
+%%%% "new authors cannot be added" afterwards.  Settle this before then.
+%%%% ---------------------------------------------------------------------
+\title{Universality and Convergence of Generative Flows}
+
+\author{Leo Maxime Brunswic \\
+Independent Researcher \\
+\texttt{leo@brunswic.fr}}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+%\iclrfinalcopy % Uncomment for camera-ready, NOT for submission (double blind).
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\input{notation}
+\newcommand{\appendixAtitle}{Proofs}
+\newcommand{\appendixBtitle}{Comparison with the Convergence Bounds of Silva et al.}
+\newcommand{\appendixCtitle}{The Initial Flow: Mass, Shape, and the Constant of the Stable Bound}
+\newcommand{\appendixDtitle}{The Replay Buffer and the Training Measure}
+\newcommand{\appendixEtitle}{Trained Backward Policies: Flow Regularization in Spectral Variables}
+\newcommand{\appendixFtitle}{Stochastic Gradients: Noise, Floors, and the Buffer}
+\newcommand{\appendixGtitle}{Experimental Program}
+\newcommand{\appendixHtitle}{The Doubling Graph: an Unbounded Diffusion Operator at Finite Backward Length}
+\newcommand{\appendixItitle}{The Doubling Graph, Certified: a Machine-Checked Theorem and the Ideas Behind It}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Generative Flows sample from a target distribution by training a flow to satisfy a
+flow-matching constraint, yet little is known about how the resulting sampling error relates
+to the value of the training loss, or how fast gradient descent reduces it. We introduce a
+notion of $L^p$-universality for parameterized generative flows, establish it for ergodic
+parameterizations with summable mixing, and prove convergence bounds controlling the sampling
+error in total variation by the stable-FM and KL-weak-FM losses. For divergence-based losses
+(FM, DB, TB) we prove a minimax theorem: no such bound exists on general state graphs, and the
+bounds available in the finite acyclic case necessarily carry constants that degenerate with
+the state space. With a frozen backward policy we then compute the gradients of the FM, DB and
+TB losses in a unified operator form and show that gradient descent \emph{diffuses} the
+current flow through the backward policy, so that the mixing of that policy governs both
+universality and the speed of training. Convergence is all one gets: freezing does not restore
+the $0$-flow monotonicity whose failure makes these losses unstable, and generators of
+vanishing mobility can freeze the diffusion outright --- an obstruction that strictly unimodal
+generators such as $(\log x)^2$ escape. Finally, we test the bounds numerically on state spaces
+small enough that the sampling error is computed rather than estimated: the stable bound holds
+across $21{,}168$ flows and its measured tightness is essentially flat in the state space at
+$q=1$, the constant hidden in the KL-weak-FM bound is below $1$ on every instance where the
+bound is non-vacuous, and the training rate predicted from the exact coercivity constant
+matches the observed one to within $10\%$.
+\end{abstract}
+
+\input{introduction}
+\input{universality}
+\input{cv_stable}
+\input{cv_divergence}
+\input{experiments}
+\input{conclusion}
+%\input{empirical_training}   % A6 cut -- see SUBMISSION-ICLR2027.md
+
+%%%% ---------------------------------------------------------------------
+%%%% Required / recommended ICLR 2027 statements.
+%%%% Neither counts toward the 9-page limit.  Placed at the end of the main
+%%%% text, before references, per the ICLR 2027 author guidelines.
+%%%% ---------------------------------------------------------------------
+\section*{AI use statement}
+% REQUIRED by ICLR 2027.  Author to confirm wording before submission.
+Large language models were used substantially in the production of this paper, under
+the author's direction and review: they drafted the text of
+Appendices~\ref{app:finit}--\ref{app:doubling} from the author's research program and
+results; they wrote and tested the numerical audit scripts and figure-generation code
+that constitute the experimental evidence of those appendices; they performed
+adversarial verification passes over the proofs and the empirical claims, several of
+whose findings led to corrections incorporated in this version; and they assisted with
+copy-editing, \LaTeX{} and bibliography maintenance, and the implementation and
+testing of the experiment library. The research questions, the theorems and their
+proof strategies, and the final verification of every mathematical claim are the
+author's; every numerical claim is additionally backed by a released audit script
+whose exit status re-derives it.
+
+\section*{Reproducibility statement}
+% RECOMMENDED by ICLR 2027.
+All experiments use enumerable state spaces so that the sampling error
+$\TV(s_\tau \| \target)$ is computed exactly rather than estimated; this is
+necessary for the figures to test the bounds rather than Monte-Carlo noise.
+Anonymized code, configurations and seeds are provided as supplementary material,
+including the audit scripts that re-derive every number quoted in the appendices.
+Complete proofs of all statements appear in the appendix.
+
+\bibliography{note}
+\bibliographystyle{iclr2027_conference}
+
+\input{proofs}   % proofs.tex issues \appendix itself
+\input{silva_comparison}
+\input{app_finit}
+\input{app_replay}
+\input{app_pbtrain}
+\input{app_sgd}
+\input{app_program}
+\input{app_doubling}
+%\input{app_lean}
+
+
+\end{document}

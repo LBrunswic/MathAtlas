@@ -1,0 +1,2668 @@
+% Appendix H -- the doubling graph: an unbounded diffusion operator at finite backward length.
+\section{\appendixHtitle}\label{app:doubling}
+
+This appendix studies in depth the counter-example graph
+\eqref{eq:counterexample_graph} and the limit cases of the universality and convergence
+theorems for families of backward policies, see \eqref{eq:doubling_family} below, and prices
+what it finds. In particular, some positive recurrent members of that family have an unbounded
+diffusion operator while the expected backward-trajectory length of
+\citet{morozov2025revisiting} is finite. Theorem~\ref{theo:doubling_main} collects our
+theoretical results, \S\ref{sec:doubling_family} proves them, and
+\S\ref{sec:doubling_measured} and \S\ref{sec:doubling_cost} measure them on truncations.
+
+\begin{definition}[standing notation and hypotheses of this appendix]\label{def:doubling_setting}
+The graph is \eqref{eq:counterexample_graph}, carrying the source $s_0$, the ladder
+$1,2,3,\dots$, the sink $s_f$ and the forward edges $s_0\rightarrow1$, $j\rightarrow j+1$,
+$2j\rightarrow j$ and $j\rightarrow s_f$; the predecessors of a ladder state $j$ are $j-1$ and
+$2j$, so the backward chain at $j$ either \emph{decrements} to $j-1$ or \emph{doubles} to $2j$,
+and the loop closure of Definition~\ref{def:loop_closure} adds the wrap $s_f\rightarrow s_0$.
+The backward policy is
+\begin{equation}\label{eq:doubling_policy}
+    \BackwardPolicy(j\rightarrow2j)=\varepsilon(j),\qquad
+    \BackwardPolicy(j\rightarrow j-1)=1-\varepsilon(j)\quad(j\geq1),\qquad
+    \BackwardPolicy(s_0\rightarrow s_f)=1,
+\end{equation}
+with $j-1=0$ read as $s_0$. The \emph{target row} $\widehat\BackwardPolicy(s_f\rightarrow\cdot)$
+is a probability supported in $\{1,\dots,d\}$ of mean $\bar\jmath$, the integer $d\geq1$ and the
+real $\bar\jmath$ being parameters of the setting. The family studied throughout is
+\begin{equation}\label{eq:doubling_family}
+    \varepsilon_{c,s}(j):=\frac{c}{(j+1)^s},
+\end{equation}
+and its \emph{standing range} is $s\geq0$, $0<c<2^s$: there $\varepsilon_{c,s}$ takes its values
+in $(0,1)$ and the decrement edge out of state $1$ carries positive probability
+(Lemma~\ref{lem:doubling_range}), and the loop closure is irreducible
+(Lemma~\ref{lem:doubling_irreducible}). Write $\varepsilon_{\max}:=\sup_{j\geq1}\varepsilon(j)$,
+which on the standing range is $\varepsilon(1)=c\,2^{-s}<1$
+(Lemma~\ref{lem:doubling_range}). The statements below that name
+$(c,s)$ are confined to that range unless they widen it explicitly, as
+Proposition~\ref{prop:doubling_exponent} does; those that hypothesize $\varepsilon$ directly
+are not confined to it.
+
+Write $(X_n)_{n\geq0}$ for the backward chain of the loop closure, $\mathbb P(\,\cdot\mid X_0=x)$
+and $\mathbb E(\,\cdot\mid X_0=x)$ for the law of the chain in play started at the state $x$ and
+its expectation --- that chain being $(X_n)$ wherever no other is named --- $\sigma$ for the hitting time of $s_0$,
+and $\sigma_*$ and $\bar\sigma$ for the two functionals \eqref{eq:morozov_variables},
+$\bar\sigma$ being the expected backward-trajectory length of \citet{morozov2025revisiting}.
+When the loop-closed chain is positive recurrent, $\lambda$ denotes its invariant probability,
+$\lambda_j:=\lambda(\{j\})$ the mass of a ladder state,
+$L(m):=\lambda([m,+\infty))=\sum_{j\geq m}\lambda_j$ the tail, and
+$f_m:=\mathbf 1_{[m,+\infty)}-L(m)$, for $m>d$, the \emph{centred tail indicator} at the cut $m$.
+
+The background measure is $\nuB=\lambda$ throughout, and the conventions of
+\S\ref{app:notation} apply: $T$ is the backward kernel of the loop closure, $P$ its density
+action on $L^2(\lambda)$, $\Pi$ the $\lambda$-mean projection
+$f\mapsto\bigl(\int f\,d\lambda\bigr)\mathbf 1$ and
+$\widehat\beta_n:=\|P^n-\Pi\|_{L^2(\lambda)}$. The forward policy of the balanced flow is the
+$\lambda$-reversal of $T$ (Lemma~\ref{lem:adjoint}\emph{(4)}), and its density action $P_\star$
+--- the operator written $P^\dagger$ in \S\ref{app:divergence} --- is the \emph{function} action
+of $T$ on $L^2(\lambda)$ (Lemma~\ref{lem:adjoint}\emph{(3)}), so that
+$(P_\star f)(x)=\mathbb E(f(X_1)\mid X_0=x)$ for $f\in L^2(\lambda)$, and, by
+Lemma~\ref{lem:doubling_operator}\emph{(1)}, a contraction of $L^p(\lambda)$ for every
+$p\in[1,+\infty]$, on which it acts by the same formula. The orientation is
+$\theta:=\fterm-\finit$, and
+\begin{equation}\label{eq:doubling_Bhat}
+    S:=\left(\mathrm{Id}-P_\star+\Pi\right)^{-1}-\Pi,\qquad
+    \widehat B:=\|S\|_{L^2(\lambda)} .
+\end{equation}
+On the infinite chain the convention is $\widehat B:=+\infty$ when no bounded operator $S$ on
+$L^2(\lambda)$ satisfies $S(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$.
+
+The \emph{Cram\'er equation} of the family is
+\begin{equation}\label{eq:doubling_cramer}
+    c\left(2^p-1\right)\;=\;p ,
+\end{equation}
+and $p_*=p_*(c)$ denotes its non-zero real root, which exists and is unique for every $c>0$
+with $c\neq1/\ln2$, is $>1$ exactly when $c<1$ and is $>0$ exactly when $c<1/\ln2$
+(Lemma~\ref{lem:doubling_cramer_root}).
+
+For an even integer $K\geq d$, the \emph{truncation at $K$} is the chain obtained from the loop
+closure by deleting every doubling edge $j\rightarrow2j$ with $2j>K$, the decrement edge out of
+such a state carrying probability $1$; it is a finite irreducible chain on the $K+2$ states
+$\{s_0,1,\dots,K,s_f\}$ (Lemma~\ref{lem:doubling_truncation_irreducible}), $\lambda^K$ denotes its
+unique invariant probability, $L_K(m):=\lambda^K([m,K])$ its tail and $\widehat B_K$ its
+constant \eqref{eq:doubling_Bhat}.
+\end{definition}
+
+\begin{lemma}[the standing range]\label{lem:doubling_range}
+In the setting of Definition~\ref{def:doubling_setting}, let $s\geq0$ and $0<c<2^s$. Then
+$j\mapsto\varepsilon_{c,s}(j)$ is non-increasing on $\{1,2,3,\dots\}$ with values in $(0,1)$,
+its supremum is $\varepsilon_{c,s}(1)=c\,2^{-s}<1$, and the decrement edge out of the state $1$
+carries the probability $1-c\,2^{-s}>0$.
+\end{lemma}
+
+\begin{proof}
+For $j\geq1$, $\varepsilon_{c,s}(j)=c\,(j+1)^{-s}$ is positive, $c$ being positive, and
+$j\mapsto(j+1)^{-s}$ is non-increasing, $s$ being non-negative: the supremum over $j\geq1$ is
+attained at $j=1$ and equals $c\,2^{-s}$, which is $<1$ by $c<2^s$. Hence
+$\varepsilon_{c,s}(j)\in(0,1)$ at every $j\geq1$, and by \eqref{eq:doubling_policy} the
+decrement edge out of the state $1$ carries $1-\varepsilon_{c,s}(1)=1-c\,2^{-s}>0$.
+\end{proof}
+
+\begin{lemma}[positive edges make the loop closure irreducible]\label{lem:doubling_irreducible}
+In the setting of Definition~\ref{def:doubling_setting}, let $\varepsilon(j)\in(0,1)$ for every
+$j\geq1$. Then the loop-closed backward chain $X$ of \eqref{eq:counterexample_graph} under the
+policy \eqref{eq:doubling_policy} is irreducible, and every invariant probability of $X$ is
+positive at every state.
+\end{lemma}
+
+\begin{proof}
+By \eqref{eq:doubling_policy} the doubling edge out of a ladder state $j$ carries the
+probability $\varepsilon(j)>0$ and the decrement edge out of it the probability
+$1-\varepsilon(j)>0$; the wrap $s_0\rightarrow s_f$ carries probability $1$; and the target
+row, a probability supported in $\{1,\dots,d\}$, is positive at some $j_0\in\{1,\dots,d\}$.
+\begin{itemize}
+    \item \emph{Every state leads to the state $1$.} Indeed, from a ladder state $j$ the $j$
+    consecutive decrements reach $s_0$, from $s_0$ the wrap reaches $s_f$, from $s_f$ the target
+    row reaches $j_0$, and from $j_0$ the $j_0-1$ consecutive decrements reach $1$.
+    \item \emph{The state $1$ leads to every state.} Indeed, every ladder state is reached from
+    $1$ by induction: from a ladder state $n\geq1$ the doubling edge $n\rightarrow2n$ followed
+    by $n-1$ decrements reaches $n+1$, and $2n\geq n+1$. From the state $1$ the decrement
+    reaches $s_0$, and the wrap then reaches $s_f$.
+\end{itemize}
+Concatenating a path from an arbitrary state to the state $1$ with a path from $1$ to an
+arbitrary state, every state leads to every other, so $X$ is irreducible. Let $\lambda$ be an
+invariant probability and $y$ a state: $\lambda$ is positive at some state $x$, being a
+probability, and irreducibility gives an integer $n\geq0$ with
+$\mathbb P(X_n=y\mid X_0=x)>0$, so $\lambda T^n=\lambda$ gives
+$\lambda(\{y\})\geq\lambda(\{x\})\,\mathbb P(X_n=y\mid X_0=x)>0$.
+\end{proof}
+
+\begin{lemma}[the fixed points of the function action are the constants]\label{lem:doubling_fixed_points}
+Let $T$ be an irreducible Markov kernel on a countable state space carrying an invariant
+probability $\lambda$ positive at every state, let $P$ be its density action
+$Pu:=\frac{d\left((u\lambda)T\right)}{d\lambda}$ and $P_\star$ its function action
+$(P_\star v)(x):=\int v\,dT(x,\cdot)$. Then
+\begin{equation}\label{eq:doubling_fixed}
+    \ker\left(\mathrm{Id}-P_\star\right)\cap L^2(\lambda)
+    \;=\;\ker\left(\mathrm{Id}-P\right)\cap L^2(\lambda)
+    \;=\;\mathbb R\mathbf 1 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The constants are fixed by $P_\star$, each $T(x,\cdot)$ being a probability, and by $P$,
+$\lambda$ being $T$-invariant.
+\begin{itemize}
+    \item \emph{A fixed point of $P_\star$ in $L^2(\lambda)$ is constant.} Indeed, let
+    $f\in L^2(\lambda)$ with $P_\star f=f$. Jensen's inequality for the probability $T(x,\cdot)$
+    and the strictly convex $t\mapsto t^2$ gives $(P_\star f)^2\leq P_\star(f^2)$ at every
+    state, and $\lambda T=\lambda$ gives
+    $\int P_\star(f^2)\,d\lambda=\int f^2\,d\lambda=\int(P_\star f)^2\,d\lambda$; $\lambda$
+    being positive at every state, $P_\star(f^2)=(P_\star f)^2$ at every state. Equality in
+    Jensen for a strictly convex function makes $f$ constant on $T(x,\cdot)$, of value
+    $(P_\star f)(x)=f(x)$: at every state $x$, $f(y)=f(x)$ whenever $T(x,y)>0$, and $f$ is
+    constant by irreducibility.
+    \item \emph{A fixed point of $P$ in $L^2(\lambda)$ is constant.} Indeed, $P_\star=P^*$ and
+    both are contractions of $L^2(\lambda)$ (Lemma~\ref{lem:doubling_operator}\emph{(1)}), and
+    a contraction $Q$ of a Hilbert space has
+    $\ker(\mathrm{Id}-Q^*)\subseteq\ker(\mathrm{Id}-Q)$ --- if $Q^*g=g$ then
+    $\langle Qg,g\rangle=\|g\|^2$ and $\|Qg-g\|^2=\|Qg\|^2-\|g\|^2\leq0$ --- so $Pg=g$ forces
+    $P_\star g=g$, and a fixed point of $P_\star$ in $L^2(\lambda)$ is constant.
+\end{itemize}
+Both kernels are therefore contained in $\mathbb R\mathbf 1$, which is
+\eqref{eq:doubling_fixed}.
+\end{proof}
+
+\begin{lemma}[the diffusion operator]\label{lem:doubling_operator}
+Let $T$ be a Markov kernel on a measurable space carrying an invariant probability $\lambda$,
+let $P$ be its density action $Pu:=\frac{d\left((u\lambda)T\right)}{d\lambda}$ and $P_\star$
+its function action $(P_\star v)(x):=\int v\,dT(x,\cdot)$, let $\Pi$ be the $\lambda$-mean
+projection, let $\widehat\beta_n:=\|P^n-\Pi\|_{L^2(\lambda)}$ and, whenever
+$\mathrm{Id}-P_\star+\Pi$ is invertible on $L^2(\lambda)$, put
+$S:=\left(\mathrm{Id}-P_\star+\Pi\right)^{-1}-\Pi$ and $\widehat B:=\|S\|_{L^2(\lambda)}$.
+Then:
+\begin{enumerate}
+    \item $P_\star$ is a contraction of $L^p(\lambda)$ for every $p\in[1,+\infty]$ and is the
+    $L^2(\lambda)$-adjoint of $P$, so that $\|P_\star^n-\Pi\|_{L^2(\lambda)}=\widehat\beta_n$
+    for every $n\geq0$;
+    \item if moreover the chain is finite and irreducible then $P_\star$ fixes only the
+    constant functions, the operator $\mathrm{Id}-P_\star+\Pi$ is invertible, and
+    \begin{equation}\label{eq:doubling_resolvent}
+        S(\mathrm{Id}-P_\star)=(\mathrm{Id}-P_\star)S=\mathrm{Id}-\Pi,
+        \qquad \Pi S=S\Pi=0 ;
+    \end{equation}
+    \item if $U:=\sum_{n\geq0}(P_\star^n-\Pi)$ converges in operator norm on $L^2(\lambda)$,
+    then $\mathrm{Id}-P_\star+\Pi$ is invertible with inverse $\Pi+U$, the operator $S$ equals
+    $U$ and satisfies \eqref{eq:doubling_resolvent}, and
+    $\widehat B\leq\sum_{n\geq0}\widehat\beta_n$; in particular, on a finite irreducible chain
+    $\widehat B\leq\sum_{n\geq0}\widehat\beta_n$, the inequality being vacuous when its right
+    side is $+\infty$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Both actions are well defined on $\lambda$-classes: a $\lambda$-null set $Z$ satisfies
+$\int T(x,Z)\,\lambda(dx)=(\lambda T)(Z)=\lambda(Z)=0$, so $T(x,Z)=0$ for $\lambda$-almost
+every $x$, and $\left((u\lambda)T\right)(Z)=\int T(x,Z)\,u(x)\,\lambda(dx)=0$ for
+$u\in L^1(\lambda)$.
+
+\emph{(1)} Let $v\in L^p(\lambda)$ with $p<+\infty$. Jensen's inequality for the probability
+$T(x,\cdot)$ and the convex $t\mapsto|t|^p$ gives
+$|(P_\star v)(x)|^p\leq\bigl(P_\star\left(|v|^p\right)\bigr)(x)$ for $\lambda$-almost every
+$x$, and $\lambda T=\lambda$ gives
+$\int P_\star\left(|v|^p\right)d\lambda=\int|v|^p\,d(\lambda T)=\|v\|^p_{L^p(\lambda)}$: hence
+$\|P_\star v\|_{L^p(\lambda)}\leq\|v\|_{L^p(\lambda)}$. For $p=+\infty$ the set
+$Z:=\{|v|>\|v\|_{L^\infty(\lambda)}\}$ is $\lambda$-null, so $T(x,Z)=0$ and
+$|(P_\star v)(x)|\leq\|v\|_{L^\infty(\lambda)}$ for $\lambda$-almost every $x$. In particular
+$P_\star$ is bounded on $L^2(\lambda)$, so for $u,v\in L^2(\lambda)$ the function
+$(x,y)\mapsto u(x)v(y)$ is $T(x,dy)\lambda(dx)$-integrable ---
+$\int|u|\,P_\star|v|\,d\lambda\leq\|u\|_{L^2(\lambda)}\|v\|_{L^2(\lambda)}$ by Cauchy--Schwarz
+--- and Fubini gives
+\begin{equation}
+\begin{aligned}
+    \int v\,d\left((u\lambda)T\right)\;&=\;\iint v(y)\,T(x,dy)\,u(x)\,\lambda(dx)\\
+    &=\;\langle u,P_\star v\rangle_\lambda .
+\end{aligned}
+\end{equation}
+The same bound makes $v\mapsto\int v\,d\left((u\lambda)T\right)$ a bounded linear functional
+on $L^2(\lambda)$ of norm at most $\|u\|_{L^2(\lambda)}$, so it is
+$\langle w,\cdot\rangle_\lambda$ for a unique $w\in L^2(\lambda)$ by the Riesz representation
+theorem \citep{brezis2011functional}, and taking $v=\mathbf 1_A$ at a measurable $A$ identifies
+$w$ with $Pu$: the density action is bounded on $L^2(\lambda)$, and the display reads
+$\langle Pu,v\rangle_\lambda=\langle u,P_\star v\rangle_\lambda$, that is $P_\star=P^*$. Since
+$\lambda$ is a probability, $\Pi$ is self-adjoint, so $P_\star^n-\Pi=(P^n-\Pi)^*$ and the two
+operators have the same norm.
+
+\emph{(2)} An irreducible Markov kernel on a finite state space carries a unique invariant
+probability, positive at every state \citep{levin2017markov}, so $\lambda$ is that probability
+and $P_\star$ fixes only the constant functions
+(Lemma~\ref{lem:doubling_fixed_points}). The space $L^2(\lambda)$ is finite-dimensional and
+$\mathrm{Id}-P_\star+\Pi$ is injective on it: $\lambda T=\lambda$ gives $\Pi P_\star=\Pi$ and
+$\Pi^2=\Pi$, $\lambda$ being a probability, so $(\mathrm{Id}-P_\star+\Pi)f=0$ forces
+$\Pi f=0$ and then $P_\star f=f$, whence $f$ is a constant of zero mean, that is $0$. That
+operator is therefore invertible, and $R:=(\mathrm{Id}-P_\star+\Pi)^{-1}$ and $S=R-\Pi$ are
+defined. Since $P_\star\mathbf 1=\mathbf 1$ and $\lambda$ is $T$-invariant,
+$\Pi P_\star=P_\star\Pi=\Pi$, so $\Pi(\mathrm{Id}-P_\star+\Pi)=(\mathrm{Id}-P_\star+\Pi)\Pi=\Pi$
+by $\Pi^2=\Pi$; multiplying the first identity on the right by $R$ and the second on the left by
+$R$ gives $\Pi R=R\Pi=\Pi$, whence $\Pi S=\Pi R-\Pi^2=0$ and $S\Pi=R\Pi-\Pi^2=0$. Finally
+$\Pi(\mathrm{Id}-P_\star)=(\mathrm{Id}-P_\star)\Pi=0$ and $R(\mathrm{Id}-P_\star+\Pi)=(\mathrm{Id}-P_\star+\Pi)R=\mathrm{Id}$
+give $S(\mathrm{Id}-P_\star)=R(\mathrm{Id}-P_\star)=\mathrm{Id}-R\Pi=\mathrm{Id}-\Pi$ and
+$(\mathrm{Id}-P_\star)S=(\mathrm{Id}-P_\star)R=\mathrm{Id}-\Pi R=\mathrm{Id}-\Pi$, which is
+\eqref{eq:doubling_resolvent}.
+
+\emph{(3)} Suppose the series converges in operator norm, so that
+$P_\star^n-\Pi\rightarrow0$ in norm, and put $M:=\mathrm{Id}-P_\star+\Pi$. From
+$P_\star\mathbf 1=\mathbf 1$ and $\lambda T=\lambda$ come $P_\star\Pi=\Pi P_\star=\Pi$, and
+$\Pi^2=\Pi$, $\lambda$ being a probability; hence $M\Pi=\Pi M=\Pi$ and
+$(\mathrm{Id}-P_\star)\Pi=\Pi(\mathrm{Id}-P_\star)=0$. Each term of the series satisfies
+$\Pi(P_\star^n-\Pi)=(P_\star^n-\Pi)\Pi=0$, so $\Pi U=U\Pi=0$; and
+$(\mathrm{Id}-P_\star)(P_\star^n-\Pi)=(P_\star^n-\Pi)(\mathrm{Id}-P_\star)=P_\star^n-P_\star^{n+1}$,
+so both partial sums telescope to $\mathrm{Id}-P_\star^{N+1}\rightarrow\mathrm{Id}-\Pi$ and
+$(\mathrm{Id}-P_\star)U=U(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$. Therefore
+$M(\Pi+U)=\Pi+(\mathrm{Id}-P_\star)U+\Pi U=\mathrm{Id}$ and
+$(\Pi+U)M=\Pi+U(\mathrm{Id}-P_\star)+U\Pi=\mathrm{Id}$: the operator $M$ is invertible with
+inverse $\Pi+U$, and $S=M^{-1}-\Pi=U$, which with
+$(\mathrm{Id}-P_\star)U=U(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$ and $\Pi U=U\Pi=0$ is
+\eqref{eq:doubling_resolvent}. Then
+$\widehat B=\|U\|\leq\sum_n\|P_\star^n-\Pi\|=\sum_n\widehat\beta_n$ by \emph{(1)}. On a finite
+irreducible chain $S$ is defined by \emph{(2)}: when $\sum_{n\geq0}\widehat\beta_n=+\infty$ the
+bound $\widehat B\leq\sum_{n\geq0}\widehat\beta_n$ holds with an infinite right side, and when
+that sum is finite the series $\sum_{n\geq0}(P_\star^n-\Pi)$ converges absolutely in operator
+norm by \emph{(1)}, so $S=U$ and the bound is the one just proved.
+\end{proof}
+
+\begin{remark}[the two constants written $\widehat B$, and the trajectory reading]\label{rem:doubling_two_constants}
+The constant \eqref{eq:doubling_Bhat} is the norm of the diffusion operator, not the mixing sum
+$\sum_n\widehat\beta_n$ that Lemma~\ref{lem:sigma_mixing} also writes $\widehat B$, and item
+\emph{(3)} of Lemma~\ref{lem:doubling_operator} orders the two on any finite irreducible chain.
+They need not coincide: on the two-state chain that flips with probability $3/4$, whose
+invariant probability is uniform and whose centred functions are eigenfunctions of its
+transition operator at the eigenvalue $-1/2$, $\widehat B=2/3$ while $\widehat\beta_n=2^{-n}$
+for every $n\geq0$ and $\sum_n\widehat\beta_n=2$; at the flip probability $1/2$ both equal $1$. Numerically they
+also differ on the truncation at which \S\ref{sec:doubling_measured} measures both. On a finite
+irreducible chain, wherever the series of that item converges,
+$(S\theta)(x)=\sum_{n\geq0}\bigl(\mathbb E(\theta(X_n)\mid X_0=x)-\lambda(\theta)\bigr)$ --- the
+operator is read along backward trajectories,
+$(P_\star f)(x)=\mathbb E(f(X_1)\mid X_0=x)$ for $f\in L^2(\lambda)$.
+\end{remark}
+
+\begin{theorem}[the doubling graph in one statement]\label{theo:doubling_main}
+In the setting of Definition~\ref{def:doubling_setting}, with $(c,s)$ in the standing range:
+\begin{enumerate}
+    \item \emph{(the phase diagram)} the loop-closed backward chain $X$ is irreducible, and its
+    recurrence class is
+    \begin{center}
+    \normalfont
+    \begin{tabular}{l@{\quad}l|p{0.38\linewidth}}
+        (a) & $s<1$, every $0<c<2^s$   & transient \\
+        (b) & $s=1$, $0<c<1$           & positive recurrent \\
+        (c) & $s=1$, $1\leq c<1/\ln2$  & null recurrent \\
+        (d) & $s=1$, $c=1/\ln2$        & not positive recurrent; null recurrence or
+                                         transience not decided \\
+        (e) & $s=1$, $1/\ln2<c<2$      & transient \\
+        (f) & $s>1$, every $0<c<2^s$   & positive recurrent
+    \end{tabular}
+    \end{center}
+    \item \emph{(the invariant measure at $s=1$)} at $s=1$ and $0<c<1$, with $p_*>1$ the root
+    of \eqref{eq:doubling_cramer} and $\lambda$ the invariant probability of $X$, there is a
+    constant $C>0$, determined by $c$, $d$ and $\lambda_1,\dots,\lambda_d$, with
+    $L(m)=\frac{C}{p_*-1}\,m^{1-p_*}\bigl(1+o(1)\bigr)$;
+    \item \emph{(the diffusion operator, on the whole positive recurrent phase)} at every
+    $(c,s)$ of the standing range at which $X$ is positive recurrent --- rows \emph{(b)} and
+    \emph{(f)} of the table --- with $\lambda$ its invariant probability, and for every
+    $p\in[1,+\infty]$,
+    $\inf\bigl\{\|(\mathrm{Id}-P_\star)f\|_{L^p(\lambda)}:\Pi f=0,\ \|f\|_{L^p(\lambda)}=1\bigr\}=0$
+    and no bounded operator $S$ on $L^p(\lambda)$ satisfies
+    $S(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$. At $p=2$ this gives $\widehat B=+\infty$ by the
+    convention of Definition~\ref{def:doubling_setting}, the series
+    $\sum_{n\geq0}(P_\star^n-\Pi)$ does not converge in operator norm, and
+    $\sum_{n\geq0}\widehat\beta_n=+\infty$. At $s=1$ and $0<c<1$ the expected
+    backward-trajectory length is finite, $\bar\sigma=\bar\jmath/(1-c)$, and there are
+    moreover $c_7>0$, depending only on $c$, $d$ and $\lambda_1,\dots,\lambda_{2m_0}$ with
+    $m_0$ the integer of Theorem~\ref{theo:doubling_decay}, and an integer $m_2>d$ with
+    $\|f_m\|_{L^2(\lambda)}\geq c_7\sqrt m\,\|(\mathrm{Id}-P_\star)f_m\|_{L^2(\lambda)}$ for
+    every $m\geq m_2$;
+    \item \emph{(an unsolvable flow-matching problem)} at every $(c,s)$ of the standing range
+    at which $X$ is positive recurrent, with $\lambda$ its invariant probability, there are
+    probability densities $\finit,\fterm\in L^2(\lambda)$ such that no $f\in L^2(\lambda)$
+    satisfies the flow-matching equation
+    $\left(\mathrm{Id}-P_\star\right)f=\finit-\fterm$ of the loop closure;
+    \item \emph{(the truncation)} at $s=1$ and $0<c<1$, the truncation at $K$ is a finite
+    irreducible chain on $K+2$ states and $\widehat B_K<+\infty$ for every even integer
+    $K\geq d$, and there are $c_8>0$ and an integer $K_0\geq d$, depending only on $c$, $d$
+    and $\bar\jmath$, with $\widehat B_K\geq c_8\sqrt K$ for every even $K\geq K_0$.
+\end{enumerate}
+\end{theorem}
+
+The two conditions come apart on this graph. That of \citet{morozov2025revisiting} is repaired
+by any member with $s=1$ and $c<1$, which is what $\bar\sigma=\bar\jmath/(1-c)$ says
+(Proposition~\ref{prop:doubling_length}); the summable-mixing hypothesis of
+Theorem~\ref{theo:universality_L2} is repaired by no positive recurrent member of
+\eqref{eq:doubling_family} --- item \emph{(3)} read at $p=2$ --- and neither is the
+coercivity hypothesis \eqref{eq:coercivity} of Theorem~\ref{theo:db_stable_frozen_full}: by
+item \emph{(4)} $\mathrm{Id}-P_\star$ does not map $L^2(\lambda)$ onto $\ker\Pi$
+(Proposition~\ref{prop:doubling_unsolvable}\emph{(1)}), so its adjoint $\mathrm{Id}-P$
+(Lemma~\ref{lem:doubling_operator}\emph{(1)}) is not bounded below on $\ker\Pi$, in the
+flow-matching instance and hence in the detailed-balance one --- and at the null
+recurrent and transient members there is no invariant probability, hence no $\lambda$, no
+$\Pi$, no $\widehat\beta_n$, no $\widehat B$, and no summable mixing or coercivity that could
+fail: both hypotheses fail there for want of the objects they quantify over. What item \emph{(4)}
+refutes is \emph{exact} $L^2$ flow matching on the infinite chain --- a pair of $L^2$
+densities the loop closure cannot balance at all --- and not the weak universality of
+Theorem~\ref{theo:universality_L2_full}, whose conclusion is a defect infimum of zero; the
+range of $\mathrm{Id}-P_\star$ in $\ker\Pi$ is what
+Proposition~\ref{prop:doubling_unsolvable}\emph{(1)} settles, and whether the weak form fails
+as well is not decided here. The sufficient condition of
+Theorem~\ref{theo:db_stable_frozen_full} supplies no coercivity constant here either: its
+summable mixing is, in both instances, $\sum_n\widehat\beta_n<+\infty$, which item \emph{(3)}
+refutes at every positive recurrent member. The $c_7\sqrt m$ of \emph{(3)} is not a lower bound on
+$\widehat B$, which is $+\infty$ there; it is a
+rate along the trial functions $f_m$, and it is the truncation of \emph{(5)} that carries a
+lower bound on a finite constant. The boundary of all this is
+Remark~\ref{rem:doubling_geometric}: for a geometrically decaying doubling probability the
+growth condition \eqref{eq:doubling_star} fails, and no boundedness is claimed for any policy on
+this graph.
+
+\subsection{The policy family and its diffusion operator}\label{sec:doubling_family}
+
+This subsection proves the five items of Theorem~\ref{theo:doubling_main}, in six blocks. The
+first classifies the family by its drift and gives the expected backward length in closed form
+(Propositions~\ref{prop:doubling_drift}, \ref{prop:doubling_length}
+and~\ref{prop:doubling_phase}). The second reads stationarity as a balance across a cut of the
+ladder and names the exponent at which the invariant measure decays
+(Propositions~\ref{prop:doubling_cut} and~\ref{prop:doubling_exponent},
+Lemma~\ref{lem:doubling_cramer_root}). The third proves that decay two-sidedly and with no
+asymptotic hypothesis (Theorem~\ref{theo:doubling_decay}), and the fourth replaces its two
+constants by one, with a rate, and identifies it (Theorem~\ref{theo:doubling_sharp},
+Proposition~\ref{prop:doubling_constant}). The fifth proves the diffusion operator unbounded on
+every $L^p$ at every positive recurrent member of the family
+(Theorem~\ref{theo:doubling_unbounded}, Lemma~\ref{lem:doubling_ramp},
+Corollary~\ref{cor:doubling_family}) and exhibits a pair of $L^2$ densities the loop closure
+cannot balance (Proposition~\ref{prop:doubling_unsolvable}), and the sixth restores a finite
+constant on the
+truncation, with a growth in the cap (Corollary~\ref{cor:doubling_truncation}), and assembles
+the whole into Theorem~\ref{theo:doubling_main}.
+
+\subsubsection{Drift, excursion length and the phase diagram}
+
+This block proves item \emph{(1)} of Theorem~\ref{theo:doubling_main} and the closed form of the
+expected backward-trajectory length at $s=1$. Proposition~\ref{prop:doubling_drift} computes the drift of the
+backward chain and finds it independent of the state exactly at $s=1$: there a single constant
+separates positive recurrence, null recurrence and transience, while off that exponent
+$s>1$ and $s<1$ each carry a single phase. Proposition~\ref{prop:doubling_length} gives the expected backward length
+in closed form at $s=1$ and $c<1$, with Lemma~\ref{lem:doubling_excursion} and
+Lemma~\ref{lem:doubling_supersolution} --- an excursion bound and a linear supersolution --- as
+the two milestones before it. Proposition~\ref{prop:doubling_phase} is the phase diagram.
+
+\begin{proposition}[the drift, and when it is constant]\label{prop:doubling_drift}
+In the setting of Definition~\ref{def:doubling_setting}, let $(c,s)$ lie in the standing
+range. Then for every $n\geq0$ and every ladder state $j\geq1$,
+\begin{equation}\label{eq:doubling_drift}
+    \mathbb E\left[X_{n+1}-X_n\mid X_n=j\right]\;=\;c\,(j+1)^{1-s}-1 ,
+\end{equation}
+and this quantity is independent of $j$ if and only if $s=1$, where it equals $c-1$.
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:doubling_policy} the chain moves from $j$ to $2j$ with probability
+$\varepsilon(j)$ and to $j-1$ with probability $1-\varepsilon(j)$, so
+$\mathbb E\left[X_{n+1}-X_n\mid X_n=j\right]=\varepsilon(j)\,(2j-j)+\bigl(1-\varepsilon(j)\bigr)(-1)=\varepsilon(j)(j+1)-1$;
+substituting $\varepsilon(j)=c\,(j+1)^{-s}$ from \eqref{eq:doubling_family} gives
+$c\,(j+1)^{1-s}-1$, which is \eqref{eq:doubling_drift}. At $s=1$ this equals $c-1$ for every
+$j$; if $s\neq1$ then $j\mapsto c\,(j+1)^{1-s}$ is strictly monotone and $c>0$ on the standing
+range, so its values at $j=1$ and at $j=2$ differ.
+\end{proof}
+
+\begin{lemma}[the excursion maximum is bounded by the hitting time]\label{lem:doubling_excursion}
+In the setting of Definition~\ref{def:doubling_setting}, let $(X_n)_{n\geq0}$ be either the
+backward chain of the loop closure or, for an integer $K\geq d$, the backward chain of the
+truncation at $K$ --- the loop closure with every doubling edge $j\rightarrow2j$ such that
+$2j>K$ deleted, the decrement edge out of such a state carrying probability $1$ --- and let
+$\sigma$ be its hitting time of $s_0$. Then $X_{n+1}\geq X_n-1$ at every step issued from a
+ladder state, and for every ladder state $j$,
+\begin{equation}\label{eq:doubling_excursion}
+    \max_{0\leq n\leq\sigma}X_n\;\leq\;\sigma\qquad\mathbb P(\,\cdot\mid X_0=j)\text{-almost surely},
+\end{equation}
+the left-hand side being read as $\sup_{n\geq0}X_n$ on $\{\sigma=+\infty\}$.
+\end{lemma}
+
+\begin{proof}
+From a ladder state $j$ the chain moves to $2j\geq j$ or to $j-1$ by
+\eqref{eq:doubling_policy}, the doubling edge being absent on the truncation when $2j>K$ and
+the decrement then carrying probability $1$; in both chains $X_{n+1}\geq X_n-1$ at every step
+issued from a ladder state. Started at a ladder state the chain visits only ladder states
+before $\sigma$, the state $s_f$ being entered from $s_0$ alone, so that inequality holds at
+every $n<\sigma$.
+
+On $\{\sigma=+\infty\}$ the asserted inequality reads $\sup_{n\geq0}X_n\leq+\infty$. On
+$\{\sigma<+\infty\}$ let $n_*\leq\sigma$ attain $\max_{0\leq n\leq\sigma}X_n$. Each of the
+$\sigma-n_*$ steps from $n_*$ to $\sigma$ lowers the chain by at most $1$ and
+$X_\sigma=s_0$, read as $0$, so $\sigma-n_*\geq\max_{0\leq n\leq\sigma}X_n$ and
+$\sigma\geq\max_{0\leq n\leq\sigma}X_n$.
+\end{proof}
+
+\begin{lemma}[the linear supersolution]\label{lem:doubling_supersolution}
+In the setting of Definition~\ref{def:doubling_setting}, let $s=1$ and $0<c<1$, and put
+$h(j):=j/(1-c)$ at every ladder state $j\geq1$ and $h(s_0):=0$. Let $K\geq d$ be an integer
+and let the truncation at $K$ be as in Lemma~\ref{lem:doubling_excursion}, with $\bar\sigma_K$
+denoting the functional $\bar\sigma$ of \eqref{eq:morozov_variables} formed on it. Then
+\begin{equation}\label{eq:doubling_super}
+    h(j)\;=\;1+\varepsilon(j)\,h(2j)+\bigl(1-\varepsilon(j)\bigr)\,h(j-1)
+    \qquad(j\geq1)
+\end{equation}
+on the loop closure; on the truncation at $K$, $h(j)\geq1+\mathbb E(h(X_1)\mid X_0=j)$ for every
+$1\leq j\leq K$, with equality for $2j\leq K$. Consequently, on both chains,
+$\mathbb E(\sigma\mid X_0=j)\leq j/(1-c)<+\infty$ at every ladder state $j$, so that $\sigma<+\infty$
+$\mathbb P(\,\cdot\mid X_0=j)$-almost surely, and $\bar\sigma\leq\bar\jmath/(1-c)$ and
+$\bar\sigma_K\leq\bar\jmath/(1-c)$.
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1 (the identity on the loop closure).} Substituting $\varepsilon(j)=c/(j+1)$ from
+\eqref{eq:doubling_family} at $s=1$,
+\begin{equation}\label{eq:doubling_superstep}
+    \varepsilon(j)\,2j+\bigl(1-\varepsilon(j)\bigr)(j-1)
+    \;=\;\frac{2cj-c(j-1)}{j+1}+(j-1)\;=\;\frac{cj+c}{j+1}+j-1\;=\;c+j-1 .
+\end{equation}
+Since $h$ is the linear function $x\mapsto x/(1-c)$ on $\{0,1,2,\dots\}$, with $h(s_0)=0$ read
+as $h(0)$, \eqref{eq:doubling_superstep} gives
+$1+\varepsilon(j)h(2j)+(1-\varepsilon(j))h(j-1)=1+\frac{c+j-1}{1-c}=\frac j{1-c}=h(j)$, which
+is \eqref{eq:doubling_super}.
+
+\emph{Step 2 (the inequality on the truncation).} Let $1\leq j\leq K$. If $2j\leq K$, the
+doubling edge out of $j$ is present and the transitions at $j$ are those of the loop closure,
+so $1+\mathbb E(h(X_1)\mid X_0=j)=h(j)$ by Step 1. If $2j>K$, the doubling edge has been deleted and
+the decrement carries probability $1$, so
+$1+\mathbb E(h(X_1)\mid X_0=j)=1+\frac{j-1}{1-c}\leq\frac j{1-c}=h(j)$, the inequality being
+$1\leq1/(1-c)$.
+
+\emph{Step 3 (a non-negative supersolution dominates the expected hitting time).} Fix either
+chain and put $u_n(x):=\mathbb E(\sigma\wedge n\mid X_0=x)$ at $s_0$ and at every ladder state $x$ of
+that chain. Then $u_0=0$ and $u_n(s_0)=0$ for every $n$, and conditioning on the first step
+gives $u_{n+1}(j)=1+\mathbb E(u_n(X_1)\mid X_0=j)$ at every ladder state $j$, the chain moving from
+$j$ either to a ladder state or to $s_0$. Now $u_0\leq h$, and if $u_n\leq h$ then
+$u_{n+1}(j)\leq1+\mathbb E(h(X_1)\mid X_0=j)\leq h(j)$ by Steps 1 and 2 while $u_{n+1}(s_0)=0=h(s_0)$:
+by induction $u_n\leq h$ for every $n$. Since $\sigma\wedge n\uparrow\sigma$, monotone
+convergence gives $\mathbb E(\sigma\mid X_0=j)=\lim_nu_n(j)\leq h(j)=j/(1-c)<+\infty$ at every ladder
+state $j$, and a finite expectation gives $\sigma<+\infty$ $\mathbb P(\,\cdot\mid X_0=j)$-almost surely. The
+target row is a probability supported in $\{1,\dots,d\}\subseteq\{1,\dots,K\}$ with mean
+$\bar\jmath$ and $h$ is linear there, so averaging $\mathbb E(\sigma\mid X_0=j)\leq h(j)$ over it
+gives $\bar\sigma\leq\bar\jmath/(1-c)$ on the loop closure and
+$\bar\sigma_K\leq\bar\jmath/(1-c)$ on the truncation at $K$.
+\end{proof}
+
+\begin{proposition}[closed-form backward length]\label{prop:doubling_length}
+In the setting of Definition~\ref{def:doubling_setting}, let $s=1$ and $0<c<1$. Then
+$\mathbb E(\sigma\mid X_0=j)=j/(1-c)$ for every ladder state $j\geq1$, and
+$\bar\sigma=\bar\jmath/(1-c)$.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1 (the upper bound).} By Lemma~\ref{lem:doubling_supersolution},
+$\mathbb E(\sigma\mid X_0=j)\leq j/(1-c)<+\infty$ at every ladder state $j$ and $\sigma<+\infty$
+$\mathbb P(\,\cdot\mid X_0=j)$-almost surely.
+
+\emph{Step 2 (the excursion maximum is integrable).} By Lemma~\ref{lem:doubling_excursion},
+$\max_{0\leq n\leq\sigma}X_n\leq\sigma$ $\mathbb P(\,\cdot\mid X_0=j)$-almost surely, so
+$\mathbb E\bigl(\max_{0\leq n\leq\sigma}X_n\mid X_0=j\bigr)\leq\mathbb E(\sigma\mid X_0=j)<+\infty$ by
+Step 1.
+
+\emph{Step 3 (optional stopping).} By Proposition~\ref{prop:doubling_drift} at $s=1$ the
+drift is $c-1$ at every ladder state, so $X_{n\wedge\sigma}+(1-c)(n\wedge\sigma)$ is a
+martingale and $\mathbb E(X_{n\wedge\sigma}\mid X_0=j)=j-(1-c)\,\mathbb E(n\wedge\sigma\mid X_0=j)$. As
+$\sigma<+\infty$ almost surely by Step 1, $X_{n\wedge\sigma}\rightarrow X_\sigma=0$
+pointwise, dominated by the integrable $\max_{0\leq n\leq\sigma}X_n$ of Step 2, so the left
+side tends to $0$ by dominated convergence, while
+$\mathbb E(n\wedge\sigma\mid X_0=j)\rightarrow\mathbb E(\sigma\mid X_0=j)$ by monotone convergence. Hence
+$0=j-(1-c)\mathbb E(\sigma\mid X_0=j)$, that is $\mathbb E(\sigma\mid X_0=j)=j/(1-c)$. Averaging over the
+target row gives $\bar\sigma=\bar\jmath/(1-c)$.
+\end{proof}
+
+The policy exhibited after \eqref{eq:counterexample_graph} in
+Section~\ref{sec:cv_divergence}, $\BackwardPolicy(j\rightarrow2j)=\frac1{2(j+1)}$, is the
+member $c=\tfrac12$, $s=1$ of the family \eqref{eq:doubling_family}, and
+Proposition~\ref{prop:doubling_length} gives its expected backward length as
+$\bar\jmath/(1-c)=2\bar\jmath$, which is the $\bar\sigma=9$ stated there exactly when the target
+row has mean $\bar\jmath=4.5$ --- the mean every measurement of \S\ref{sec:doubling_measured}
+uses.
+Theorem~\ref{theo:doubling_unbounded} below gives $\widehat B=+\infty$ for that same policy.
+
+\begin{proposition}[the phase diagram of the family]\label{prop:doubling_phase}
+In the setting of Definition~\ref{def:doubling_setting}, let $(c,s)$ lie in the standing
+range and let $X$ be the loop-closed backward chain on the infinite graph
+\eqref{eq:counterexample_graph}. Then $X$ is irreducible, and:
+\begin{enumerate}
+    \item if $s>1$, then $X$ is positive recurrent;
+    \item if $s<1$, then $X$ is transient;
+    \item if $s=1$, then $X$ is positive recurrent for $0<c<1$, with
+    $\mathbb E(\sigma\mid X_0=j)=j/(1-c)$ at every ladder state $j\geq1$; for every
+    $1\leq c<2$, $\mathbb E(\sigma\mid X_0=j)=+\infty$ at every ladder state $j\geq1$ and $X$
+    is not positive recurrent; and $X$ is null recurrent for $1\leq c<1/\ln2$ and transient
+    for $1/\ln2<c<2$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1 (irreducibility).} On the standing range $\varepsilon_{c,s}$ takes its values in
+$(0,1)$ (Lemma~\ref{lem:doubling_range}), so $X$ is irreducible
+(Lemma~\ref{lem:doubling_irreducible}).
+
+\emph{Step 2 (the Lyapunov expansion).} For $t>0$ define $W_t$ on the whole loop closure by
+$W_t(j):=(j+1)^{-t}$ at a ladder state $j$ and $W_t(s_0)=W_t(s_f):=1$. There is a constant
+$\Xi_t<+\infty$ depending on $t$ alone such that, at every ladder state $j\geq1$,
+\begin{equation}\label{eq:doubling_Wdrift}
+\begin{aligned}
+    \mathbb E\left(W_t(X_1)\mid X_0=j\right)-W_t(j)
+    &\;=\;(j+1)^{-t-1}\Bigl[\,t-c\left(1-2^{-t}\right)(j+1)^{1-s}\Bigr]\;+\;\Upsilon_t(j),\\
+    |\Upsilon_t(j)|&\;\leq\;\Xi_t\Bigl((j+1)^{-t-2}+\varepsilon(j)(j+1)^{-t-1}\Bigr).
+\end{aligned}
+\end{equation}
+By \eqref{eq:doubling_policy},
+$\mathbb E(W_t(X_1)\mid X_0=j)-W_t(j)=\varepsilon(j)\bigl((2j+1)^{-t}-(j+1)^{-t}\bigr)+\bigl(1-\varepsilon(j)\bigr)\bigl(j^{-t}-(j+1)^{-t}\bigr)$.
+From $2j+1=2(j+1)\bigl(1-\tfrac1{2(j+1)}\bigr)$ and $j=(j+1)\bigl(1-\tfrac1{j+1}\bigr)$,
+\begin{equation*}
+\begin{aligned}
+    (2j+1)^{-t}&\;=\;2^{-t}(j+1)^{-t}\Bigl(1+\tfrac t{2(j+1)}+O(j^{-2})\Bigr),\\
+    j^{-t}&\;=\;(j+1)^{-t}\Bigl(1+\tfrac t{j+1}+O(j^{-2})\Bigr),
+\end{aligned}
+\end{equation*}
+with remainders bounded in terms of $t$ alone. The first product therefore contributes
+$\varepsilon(j)(j+1)^{-t}\bigl(2^{-t}-1\bigr)=-c\left(1-2^{-t}\right)(j+1)^{-t-1}(j+1)^{1-s}$
+by $\varepsilon(j)=c(j+1)^{-s}$, plus a term $O\bigl(\varepsilon(j)(j+1)^{-t-1}\bigr)$; the
+second contributes $t\,(j+1)^{-t-1}$, plus terms $O\bigl((j+1)^{-t-2}\bigr)$ and
+$O\bigl(\varepsilon(j)(j+1)^{-t-1}\bigr)$. Collecting the two leading terms into the bracket
+and the rest into $\Upsilon_t$ gives \eqref{eq:doubling_Wdrift}.
+
+\emph{Step 3 (positive recurrence for $s>1$).} Define $V_1$ on the whole loop closure by
+$V_1(j):=j$ at a ladder state $j$ and $V_1(s_0)=V_1(s_f):=0$. By
+Proposition~\ref{prop:doubling_drift} the drift of $V_1$ at a ladder state $j$ is
+$c(j+1)^{1-s}-1$, which tends to $-1$ as $j\rightarrow\infty$ because $s>1$; fix $j_0$ with
+$c(j+1)^{1-s}-1\leq-\tfrac12$ for $j>j_0$. Then $V_1\geq0$ has finite sublevel sets,
+$\mathbb E(V_1(X_1)\mid X_0=x)<+\infty$ for every $x$, and the drift is at most $-\tfrac12$ off the
+finite set $\{s_0,s_f,1,\dots,j_0\}$: Foster's criterion for positive recurrence applies, and
+$X$ is positive recurrent.
+
+\emph{Step 4 (transience for $s<1$).} Fix $t:=1$ in Step 2. Since $s<1$, the bracket in
+\eqref{eq:doubling_Wdrift} is $1-c\left(1-2^{-1}\right)(j+1)^{1-s}\rightarrow-\infty$, so the
+displayed term is of order $-(j+1)^{-1-s}$, while
+$\Upsilon_1(j)=O\bigl((j+1)^{-3}\bigr)+O\bigl((j+1)^{-2-s}\bigr)$ is smaller by a factor $(j+1)^{-1}$
+at least; fix $j_0$ with $\mathbb E(W_1(X_1)\mid X_0=j)\leq W_1(j)$ for $j>j_0$. The function $W_1$ is
+non-negative and bounded by $1$, and $W_1(j)\rightarrow0$, so some $x_0>j_0$ has
+$W_1(x_0)<(j_0+1)^{-1}$, the infimum of $W_1$ on the finite set $\{s_0,s_f,1,\dots,j_0\}$ off
+which $W_1$ is a supermartingale: the standard transience criterion --- a bounded
+non-negative supermartingale off a finite set, taking somewhere off that set a value below
+its infimum on it --- applies, and $X$ is transient.
+
+\emph{Step 5 ($s=1$ and $c<1$: positive recurrence).} By
+Proposition~\ref{prop:doubling_length}, $\mathbb E(\sigma\mid X_0=j)=j/(1-c)$ at every ladder state
+$j$ and $\bar\sigma=\bar\jmath/(1-c)$. The return time of $X$ to $s_0$ is one step to $s_f$,
+one step into $\{1,\dots,d\}$ and then $\sigma$, so its expectation is
+$2+\bar\sigma<+\infty$; with Step 1, $X$ is positive recurrent.
+
+\emph{Step 6 ($s=1$ and $c<1/\ln2$: recurrence).} Define $V_2$ on the whole loop closure by
+$V_2(j):=\log(j+1)$ at a ladder state $j$ and $V_2(s_0)=V_2(s_f):=0$. From
+$\log(2j+1)-\log(j+1)=\ln2-\tfrac1{2(j+1)}+O(j^{-2})$,
+$\log j-\log(j+1)=-\tfrac1{j+1}+O(j^{-2})$ and $\varepsilon(j)=c/(j+1)$, the drift of $V_2$ at
+$j$ is $\frac{c\ln2-1}{j+1}+O(j^{-2})$, which is $\leq0$ for $j\geq j_0$ when $c\ln2<1$; fix
+such a $j_0$. Since $V_2\geq0$ has finite sublevel sets and its drift is $\leq0$ off the finite
+set $\{s_0,s_f,1,\dots,j_0\}$, Foster's criterion for recurrence applies, and $X$ is
+recurrent.
+
+\emph{Step 7 ($s=1$ and $1\leq c<2$: $\mathbb E(\sigma\mid X_0=j)=+\infty$, and null recurrence below
+$1/\ln2$).} By Proposition~\ref{prop:doubling_drift} the drift is $c-1\geq0$, so
+$(X_{n\wedge\sigma})_n$ is a submartingale. Fix an integer $r>1$ and let $\varsigma_r$ be the
+exit time of $[1,r)$; the stopped chain takes values in $\{0,1,\dots,2r-2\}$, and from any
+state of $[1,r)$ at most $r-1$ consecutive decrements reach $0$, an event of probability at
+least $\prod_{i=1}^{r-1}(1-\varepsilon(i))>0$ since $c<2$ makes every $\varepsilon(i)<1$, so
+$\varsigma_r<+\infty$ almost surely. Optional stopping for the bounded stopped submartingale
+gives $\mathbb E(X_{\varsigma_r}\mid X_0=1)\geq1$. Exiting below means $X_{\varsigma_r}=0$ and exiting
+above means $r\leq X_{\varsigma_r}\leq2r-2$, so
+$\mathbb E(X_{\varsigma_r}\mid X_0=1)\leq(2r-2)\,\mathbb P(X_{\varsigma_r}\geq r\mid X_0=1)$ and
+$\mathbb P(X_{\varsigma_r}\geq r\mid X_0=1)\geq1/(2r)$. Exiting below is $\sigma$ itself, so
+$\varsigma_r\leq\sigma$ and $\max_{0\leq n\leq\sigma}X_n\geq X_{\varsigma_r}$, whence
+$\mathbb P\bigl(\max_{0\leq n\leq\sigma}X_n\geq r\mid X_0=1\bigr)\geq1/(2r)$; summing over $r\geq2$,
+$\mathbb E\bigl(\max_{0\leq n\leq\sigma}X_n\mid X_0=1\bigr)\geq\sum_{r\geq2}\frac1{2r}=+\infty$, and
+$\max_{0\leq n\leq\sigma}X_n\leq\sigma$ by Lemma~\ref{lem:doubling_excursion} gives
+$\mathbb E(\sigma\mid X_0=1)=+\infty$. For $j\geq2$ the chain reaches $1$ before $0$ --- decrements
+are by one --- with probability at least $\prod_{i=2}^{j}(1-\varepsilon(i))>0$, so the strong
+Markov property at that hitting time gives $\mathbb E(\sigma\mid X_0=j)=+\infty$ as well. The return
+time of $X$ to $s_0$ has expectation
+$2+\bar\sigma=2+\sum_{j=1}^{d}\widehat\BackwardPolicy(s_f\rightarrow j)\,\mathbb E(\sigma\mid X_0=j)=+\infty$,
+the target row being a probability supported in $\{1,\dots,d\}$ and every
+$\mathbb E(\sigma\mid X_0=j)$ being infinite. An irreducible chain whose expected return time
+at one state is infinite is not positive recurrent \citep{levin2017markov}: $X$ is not
+positive recurrent at any $1\leq c<2$. For $1\leq c<1/\ln2$ the chain is recurrent by Step 6,
+and an irreducible recurrent chain whose expected return time at one state is infinite is
+null recurrent \citep{levin2017markov}: $X$ is null recurrent there.
+
+\emph{Step 8 ($s=1$ and $c>1/\ln2$: transience).} Put $\phi(t):=c(1-2^{-t})-t$, so that
+$\phi(0)=0$ and $\phi'(0)=c\ln2-1>0$; fix $t>0$ with $\phi(t)>0$. At $s=1$ the bracket in
+\eqref{eq:doubling_Wdrift} is the constant $-\phi(t)$ and
+$\Upsilon_t(j)=O\bigl((j+1)^{-t-2}\bigr)$ by $\varepsilon(j)=c/(j+1)$, so
+$\mathbb E(W_t(X_1)\mid X_0=j)-W_t(j)<0$ for $j$ large, and the transience criterion applies as in
+Step 4: $X$ is transient.
+\end{proof}
+
+At $s=1$ and $c=1/\ln2$ the chain is not positive recurrent, and null recurrence and
+transience are left open.
+
+\subsubsection{The cut balance and the Cram\'er root}
+
+This block states the balance that stationarity imposes across a cut of the ladder, and names
+the exponent that balance forces on the invariant measure. Proposition~\ref{prop:doubling_cut}
+equates the two fluxes across such a cut, on the loop closure and on the truncation alike, and
+adds two one-sided ratios. Proposition~\ref{prop:doubling_exponent} identifies the exponent of
+any polynomially decaying solution of that balance as a non-zero root of the Cram\'er equation
+of Definition~\ref{def:doubling_setting} --- a Cram\'er equation in the exponential variable,
+which is what names $p_*$. Lemma~\ref{lem:doubling_cramer_root} collects what is used of that
+root: its existence and its uniqueness away from a single value of $c$, and its two crossings,
+at $1$ and at $0$, which are the two thresholds of the phase diagram.
+
+\begin{proposition}[cut balance]\label{prop:doubling_cut}
+In the setting of Definition~\ref{def:doubling_setting}, let $\varepsilon(j)\in(0,1)$ for
+every $j\geq1$ and let $\lambda$ be an invariant probability of the loop-closed chain. Then
+for every $m>d$
+\begin{equation}\label{eq:doubling_cut}
+    \lambda_m\bigl(1-\varepsilon(m)\bigr)\;=\;\sum_{j=\lceil m/2\rceil}^{m-1}\lambda_j\,\varepsilon(j),
+\end{equation}
+and, for every $j\geq1$ with $2j$ a state of the chain and every $m\geq2$,
+\begin{equation}\label{eq:doubling_ratios}
+    \lambda_{2j}\;\geq\;\lambda_j\,\varepsilon(j),
+    \qquad
+    \lambda_m\;\leq\;\frac{\lambda_{m-1}}{1-\varepsilon(m)} .
+\end{equation}
+On the truncation at an even integer $K\geq d$, with $\lambda^K$ in place of $\lambda$,
+\eqref{eq:doubling_cut} holds for every integer $m$ with $d<m\leq K/2$, and
+\eqref{eq:doubling_ratios} for every $j\geq1$ with $2j\leq K$ and every integer $m$ with
+$2\leq m\leq K$.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1 (the identities on the loop closure).} Let $m>d$ and put $A:=[m,+\infty)$.
+Stationarity equates the fluxes across $A$.
+A state $x\in A$ leaves $A$ only through $x\rightarrow x-1$ with $x-1<m$, that is $x=m$,
+with probability $1-\varepsilon(m)$. A state $x\notin A$ enters $A$ only through
+$x\rightarrow2x$ with $2x\geq m$, that is $\lceil m/2\rceil\leq x\leq m-1$, with probability
+$\varepsilon(x)$. The remaining
+transitions into $A$ would come from $s_0$, whose only image is $s_f$, and from $s_f$, whose
+image lies in $\{1,\dots,d\}$ with $d<m$. This is \eqref{eq:doubling_cut}. For
+\eqref{eq:doubling_ratios}, stationarity at the state $2j$ writes $\lambda_{2j}$ as a sum of
+non-negative terms one of which is $\lambda_j\varepsilon(j)$, the doubling edge $j\rightarrow2j$
+being present by hypothesis, and stationarity at $m-1$ writes $\lambda_{m-1}$ as a sum of
+non-negative terms one of which is $\lambda_m(1-\varepsilon(m))$; dropping the others gives
+the two inequalities.
+
+\emph{Step 2 (the identities on the truncation).} Let $K\geq d$ be even, let $d<m\leq K/2$ and
+put $A:=[m,K]$. A state $x\in A$ with $x>m$ decrements to $x-1\geq m$ and, when its doubling
+edge is present, doubles to $2x\leq K$ with $2x\geq x\geq m$: both images lie in $A$, the top
+state $K$ decrementing to $K-1\geq2m-1\geq m$. The doubling edge out of $m$ is present because
+$2m\leq K$, so $A$ is left from $m$ alone and with probability $1-\varepsilon(m)$. A state
+$x\notin A$ enters $A$ only through $x\rightarrow2x$ with $2x\geq m$, that is
+$\lceil m/2\rceil\leq x\leq m-1$, and every such edge is present because $2x\leq2m-2<K$; the
+images of $s_0$ and $s_f$ are those of the loop closure and lie outside $A$. Equating the
+fluxes across $A$ is \eqref{eq:doubling_cut} for $\lambda^K$. For \eqref{eq:doubling_ratios},
+let $j\geq1$ with $2j\leq K$ and let $2\leq m\leq K$: the doubling edge $j\rightarrow2j$ is
+present, so stationarity at $2j$ writes $\lambda^K_{2j}$ as a sum of non-negative terms one of
+which is $\lambda^K_j\varepsilon(j)$; and stationarity at $m-1$ writes $\lambda^K_{m-1}$ as a
+sum of non-negative terms one of which is the flux from $m$ by decrement, equal to
+$\lambda^K_m\bigl(1-\varepsilon(m)\bigr)$ when $2m\leq K$ and to $\lambda^K_m$ when $2m>K$, in
+either case at least $\lambda^K_m(1-\varepsilon(m))$; dropping the others gives the two
+inequalities.
+\end{proof}
+
+\begin{proposition}[the decay exponent is a Cram\'er root]\label{prop:doubling_exponent}
+In the setting of Definition~\ref{def:doubling_setting}, let $s=1$ and let $c>0$ --- inside the
+standing range or not --- so that $\varepsilon(j)=c/(j+1)$, and let $(\lambda_j)_{j\geq1}$ be a
+positive sequence satisfying \eqref{eq:doubling_cut} for every $m>d$. If $\lambda_j=Aj^{-p}(1+o(1))$ as
+$j\rightarrow\infty$ for some $A>0$ and some $p\neq0$, then $p$ satisfies the Cram\'er
+equation \eqref{eq:doubling_cramer}.
+\end{proposition}
+
+\begin{proof}
+The left side of \eqref{eq:doubling_cut} is $\lambda_m(1-\varepsilon(m))=Am^{-p}(1+o(1))$,
+since $\varepsilon(m)\rightarrow0$. On the right,
+$\lambda_j\varepsilon(j)=cAj^{-p-1}(1+o(1))$ uniformly for $\lceil m/2\rceil\leq j\leq m-1$,
+and the summand $u\mapsto u^{-p-1}$ is monotone with consecutive ratio $1+O(1/m)$ on that
+range, so the sum equals $\int_{m/2}^{m}u^{-p-1}du$ up to a relative $O(1/m)$; as $p\neq0$
+that integral is $\frac{m^{-p}}{p}\left(2^p-1\right)$. Equating the two sides and dividing by
+$Am^{-p}>0$ gives \eqref{eq:doubling_cramer}.
+\end{proof}
+
+\begin{lemma}[the Cram\'er root]\label{lem:doubling_cramer_root}
+Let $c>0$ and put $\psi(t):=c\bigl(2^{t}-1\bigr)-t$ for $t\in\mathbb R$, so that
+\eqref{eq:doubling_cramer} reads $\psi(p)=0$. Then $\psi$ is strictly convex and $\psi(0)=0$;
+$\psi$ has exactly one root other than $0$ when $c\neq1/\ln2$, and none when $c=1/\ln2$.
+Write $p_*$ for that root and $\tau:=2^{p_*}$ when $c\neq1/\ln2$. Then:
+\begin{enumerate}
+    \item $p_*>0$ if and only if $c<1/\ln2$, and $p_*>1$ if and only if $c<1$;
+    \item the Cram\'er equation reads
+    \begin{equation}\label{eq:doubling_cramer_form}
+        c\,\frac{\tau-1}{p_*}\;=\;1 ,
+    \end{equation}
+    and the function $k(v):=c\ln2\cdot2^{p_*v}$ on $[0,1]$ has $\int_0^1k(v)\,dv=1$;
+    \item if $0<c<1$, then
+    \begin{equation}\label{eq:doubling_cramer_ineq}
+    \begin{aligned}
+        \tau\;&>\;2,\qquad \tau\;>\;p_*+1,\\
+        2\tau\;&>\;p_*+2,\qquad 4\tau\;>\;p_*+3 .
+    \end{aligned}
+    \end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The function $t\mapsto2^{t}$ is strictly convex and $t\mapsto-t$ is affine, so $\psi$ is
+strictly convex; $\psi(0)=c(1-1)-0=0$; and a strictly convex function has at most two roots,
+so $\psi$ has at most one root other than $0$. Its derivative is
+$\psi'(t)=c\ln2\cdot2^{t}-1$, so $\psi'(0)=c\ln2-1$. Since $c>0$,
+$\psi(t)\rightarrow+\infty$ as $t\rightarrow+\infty$, and $\psi(t)=-t-c+c2^{t}$ gives
+$\psi(t)\rightarrow+\infty$ as $t\rightarrow-\infty$.
+
+If $c<1/\ln2$ then $\psi'(0)<0$, so $\psi<0$ immediately to the right of $0$, and continuity
+with $\psi(t)\rightarrow+\infty$ as $t\rightarrow+\infty$ gives a root $p_*>0$. If
+$c>1/\ln2$ then $\psi'(0)>0$, so $\psi<0$ immediately to the left of $0$, and
+$\psi(t)\rightarrow+\infty$ as $t\rightarrow-\infty$ gives a root $p_*<0$. If $c=1/\ln2$ then
+$\psi'(0)=0$, and strict convexity makes $0$ the strict minimum of $\psi$, so $\psi(t)>0$ for
+$t\neq0$ and $0$ is the only root. This proves the existence and uniqueness assertions and the
+first equivalence of \emph{(1)}.
+
+In the remainder $c\neq1/\ln2$, so that $p_*$ and $\tau$ are defined.
+
+\emph{(1), second equivalence.} Strict convexity with the two roots $0$ and $p_*$ makes $\psi<0$ strictly
+between them and $\psi>0$ outside their closed interval, and $\psi(1)=c-1$. If $c<1$ then
+$\psi(1)<0$, so $1$ lies strictly between $0$ and $p_*$, and $p_*>0$ by the first
+equivalence: hence $p_*>1$. If $c=1$ then $\psi(1)=0$ and $p_*=1$. If $c>1$ then
+$\psi(1)>0$, so $1$ lies outside the closed interval with endpoints $0$ and $p_*$, and
+$p_*<1$.
+
+\emph{(2)} $\psi(p_*)=0$ reads $c(\tau-1)=p_*$, and $p_*\neq0$: dividing by $p_*$ gives
+\eqref{eq:doubling_cramer_form}. Again by $p_*\neq0$,
+$\int_0^1c\ln2\cdot2^{p_*v}\,dv=c\ln2\left[\frac{2^{p_*v}}{p_*\ln2}\right]_0^1=c\,\frac{\tau-1}{p_*}$,
+which is $1$ by \eqref{eq:doubling_cramer_form}.
+
+\emph{(3)} By \emph{(1)}, $0<c<1$ gives $p_*>1$, hence $\tau=2^{p_*}>2$. The function
+$t\mapsto2^{t}-t-1$ is strictly convex and vanishes at $t=0$ and at $t=1$, so it is positive
+at every $t>1$; applying this at $t=p_*$, at $t=p_*+1$ and at $t=p_*+2$, each greater than
+$1$, gives $\tau>p_*+1$, $2\tau=2^{p_*+1}>p_*+2$ and $4\tau=2^{p_*+2}>p_*+3$.
+\end{proof}
+
+\subsubsection{Two-sided decay of the invariant measure}
+
+This block proves that the invariant measure decays at the Cram\'er exponent with no asymptotic
+hypothesis, which is the two-sided form of item \emph{(2)} of
+Theorem~\ref{theo:doubling_main}. Definition~\ref{def:doubling_decay_notation} fixes the
+notation the estimates run in. Lemma~\ref{lem:doubling_averaging} reads the balance across a
+cut as an average of the measure over a window of indices below that cut, and
+Lemma~\ref{lem:doubling_expansion} expands the total weight of that average to first order in
+the reciprocal of the cut, Remark~\ref{rem:doubling_parity} recording what the parity of the
+window costs a pure power. Lemma~\ref{lem:doubling_descent} builds a Markov chain descending
+the ladder and gives the measure at one index as an expectation along its paths,
+Lemma~\ref{lem:doubling_escape} bounds the time that chain spends in a dyadic block, and
+Lemma~\ref{lem:doubling_product} bounds the weight a descent accumulates, in expectation.
+Theorem~\ref{theo:doubling_decay} carries the two-sided bound: its first item controls the
+measure at every index above a block of indices by the measure on that block alone, its second
+bounds the measure above and below by the pure power at the Cram\'er exponent.
+Corollary~\ref{cor:doubling_tail} reads that bound on the tail and on the ratio of the tail to
+the mass at the cut.
+
+\begin{definition}[notation for the decay estimates]\label{def:doubling_decay_notation}
+In the setting of Definition~\ref{def:doubling_setting}, let $s=1$ and $0<c<1$, so that
+$\varepsilon(j)=c/(j+1)$, and, with $p_*$ the root of Lemma~\ref{lem:doubling_cramer_root},
+write $p:=p_*$ and $\tau:=2^{p}$, so that $p>1$ and $\tau>2$ by items \emph{(1)} and
+\emph{(3)} of that lemma. For an
+integer $m>d$, the \emph{window}, the \emph{parity} and the \emph{cut weights} at $m$ are
+\begin{equation}\label{eq:doubling_window}
+\begin{aligned}
+    W(m)\;&:=\;\{\lceil m/2\rceil,\dots,m-1\},\\
+    \delta(m)\;&:=\;m-2\lfloor m/2\rfloor,\\
+    q_m(j)\;&:=\;\frac{c}{(j+1)\bigl(1-\varepsilon(m)\bigr)}\quad\bigl(j\in W(m)\bigr).
+\end{aligned}
+\end{equation}
+For $\alpha\in\mathbb R$ and $j\geq1$ put $\Phi_\alpha(j):=j^{-p-1}(j+\alpha)=j^{-p}(1+\alpha/j)$,
+and for an integer $m>\max(d,2|\alpha|)$
+\begin{equation}\label{eq:doubling_R}
+    R_\alpha(m)\;:=\;\frac{1}{\Phi_\alpha(m)}\sum_{j\in W(m)}q_m(j)\,\Phi_\alpha(j),
+\end{equation}
+and $w_m(j):=q_m(j)\,(m/j)^{p}$ for $j\in W(m)$. For a positive sequence
+$(\lambda_j)_{j\geq1}$ --- in particular for the invariant probability of
+Definition~\ref{def:doubling_setting} at these parameters --- the
+\emph{rescaled profile} is $u_m:=\lambda_m\,m^{p}$. For integers $\ell\geq1$ and $i\geq0$,
+$I_i(\ell):=[2^{i}\ell,2^{i+1}\ell)$.
+\end{definition}
+
+\begin{lemma}[the averaging form of the cut balance]\label{lem:doubling_averaging}
+In the setting of Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation},
+let $(\lambda_j)_{j\geq1}$ be a positive sequence and let $m>d$ be an integer. Then $q_m>0$ on
+$W(m)$, and:
+\begin{enumerate}
+    \item if $(\lambda_j)_{j\geq1}$ satisfies \eqref{eq:doubling_cut} at $m$, then
+    \begin{equation}\label{eq:doubling_avg}
+        \lambda_m\;=\;\sum_{j\in W(m)}q_m(j)\,\lambda_j ;
+    \end{equation}
+    \item if $(\lambda_j)_{j\geq1}$ satisfies \eqref{eq:doubling_avg} at $m$, then $w_m>0$ on
+    $W(m)$ and
+    \begin{equation}\label{eq:doubling_uavg}
+    \begin{aligned}
+        u_m\;&=\;\sum_{j\in W(m)}w_m(j)\,u_j,\\
+        \sum_{j\in W(m)}w_m(j)\;&=\;R_0(m) .
+    \end{aligned}
+    \end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Since $m\geq1$, $\varepsilon(m)=c/(m+1)\leq c/2<1$, so $1-\varepsilon(m)>0$ and $q_m(j)>0$ on
+$W(m)$, $c$ being positive.
+
+\emph{(1)} Substituting $\varepsilon(j)=c/(j+1)$ in \eqref{eq:doubling_cut} and dividing by
+$1-\varepsilon(m)>0$ gives \eqref{eq:doubling_avg}, the indices of $W(m)$ running from
+$\lceil m/2\rceil$ to $m-1$.
+
+\emph{(2)} Every $j\in W(m)$ satisfies $j\geq1$, so $w_m(j)=q_m(j)(m/j)^{p}>0$. Multiplying
+\eqref{eq:doubling_avg} by $m^{p}>0$ and writing $\lambda_j=u_j\,j^{-p}$ gives
+$u_m=\sum_{j\in W(m)}q_m(j)(m/j)^{p}u_j$, which is the first line of \eqref{eq:doubling_uavg}.
+The second line is \eqref{eq:doubling_R} at $\alpha=0$, where $\Phi_0(j)=j^{-p}$.
+\end{proof}
+
+\begin{lemma}[the expansion of $R_\alpha$]\label{lem:doubling_expansion}
+In the setting of Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation},
+put
+\begin{equation}\label{eq:doubling_AB}
+\begin{aligned}
+    A_0\;&:=\;\frac{p\bigl(p+3+2\tau(p-1)\bigr)}{2(p+1)(\tau-1)},\qquad
+    A_1\;:=\;A_0-c\,\tau,\\
+    \Gamma\;&:=\;\frac{\tau(p-1)+1}{(\tau-1)(p+1)} .
+\end{aligned}
+\end{equation}
+Then $A_1=p\bigl(p+3-4\tau\bigr)\big/\bigl(2(p+1)(\tau-1)\bigr)$,
+\begin{equation}\label{eq:doubling_signs}
+    0<\Gamma<1,\qquad A_0>0>A_1 ,
+\end{equation}
+and for every $\alpha\in\mathbb R$, as $m\rightarrow\infty$,
+\begin{equation}\label{eq:doubling_Rexp}
+    R_\alpha(m)\;=\;1+\frac{A_{\delta(m)}+\Gamma\alpha}{m}+O\bigl(m^{-2}\bigr),
+\end{equation}
+with an implied constant depending on $c$ and $\alpha$ alone.
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1 (partial fractions).} For $j\geq1$ and $\alpha\in\mathbb R$,
+$(j+\alpha)/\bigl(j(j+1)\bigr)=\alpha/j+(1-\alpha)/(j+1)$ and
+$j^{-p}/(j+1)=j^{-p-1}-j^{-p-2}+j^{-p-2}/(j+1)$, so
+\begin{equation}\label{eq:doubling_pf}
+\begin{aligned}
+    \frac{\Phi_\alpha(j)}{j+1}\;&=\;j^{-p-1}+(\alpha-1)\,j^{-p-2}+e_\alpha(j),\\
+    e_\alpha(j)\;&:=\;(1-\alpha)\frac{j^{-p-2}}{j+1},\\
+    |e_\alpha(j)|\;&\leq\;|1-\alpha|\,j^{-p-3} .
+\end{aligned}
+\end{equation}
+
+\emph{Step 2 (a window sum).} Let $r>1$ and let $1\leq a<b$ be integers. Euler--Maclaurin for
+$f(t)=t^{-r}$ on $[a,b]$, truncated before its first Bernoulli term, gives
+\begin{equation}\label{eq:doubling_em}
+\begin{aligned}
+    \sum_{j=a}^{b-1}j^{-r}\;&=\;\frac{a^{1-r}-b^{1-r}}{r-1}+\frac{a^{-r}-b^{-r}}{2}+E,\\
+    |E|\;&\leq\;\frac{r}{12}\bigl(a^{-r-1}+b^{-r-1}\bigr),
+\end{aligned}
+\end{equation}
+the bound on $E$ because $t\mapsto t^{-r}$ is completely monotone on $(0,+\infty)$, so that the
+remainder of the expansion after any number of terms is bounded in modulus by the first
+omitted term, here $\tfrac1{12}|f'(b)-f'(a)|=\tfrac{r}{12}\bigl(a^{-r-1}-b^{-r-1}\bigr)$.
+
+\emph{Step 3 (the ratio, and its parity).} Fix $\alpha\in\mathbb R$, let
+$m>\max(d,2|\alpha|)$, and put $a:=\lceil m/2\rceil=(m+\delta)/2$ with $\delta:=\delta(m)$.
+Summing \eqref{eq:doubling_pf} over $W(m)=\{a,\dots,m-1\}$, applying \eqref{eq:doubling_em}
+with the endpoints $a$ and $b:=m$ at $r=p+1$ and at $r=p+2$ and bounding
+$\sum_{j=a}^{m-1}|e_\alpha(j)|\leq|1-\alpha|\,m\,a^{-p-3}$,
+\begin{equation}
+\begin{aligned}
+    \sum_{j\in W(m)}\frac{\Phi_\alpha(j)}{j+1}
+    \;=\;&\frac{a^{-p}-m^{-p}}{p}+\frac{a^{-p-1}-m^{-p-1}}{2}\\
+    &+(\alpha-1)\,\frac{a^{-p-1}-m^{-p-1}}{p+1}\\
+    &+O\bigl(m^{-p-2}\bigr),
+\end{aligned}
+\end{equation}
+the implied constants depending on $c$ and $\alpha$ alone in this proof. The ceiling enters
+only through $a^{-p}=\tau m^{-p}\bigl(1-p\delta/m+O(m^{-2})\bigr)$ and
+$a^{-p-1}=2\tau m^{-p-1}\bigl(1+O(m^{-1})\bigr)$, which turn the display into
+$\frac{\tau-1}{p}m^{-p}+\Theta_\alpha(\delta)\,m^{-p-1}+O(m^{-p-2})$ with
+$\Theta_\alpha(\delta):=\frac{2\tau-1}{2}-\tau\delta+(\alpha-1)\frac{2\tau-1}{p+1}$.
+Multiplying by $c/(1-\varepsilon(m))=c\bigl(1+c/m+O(m^{-2})\bigr)$ and dividing by
+$\Phi_\alpha(m)=m^{-p}(1+\alpha/m)$, whose reciprocal is
+$m^{p}\bigl(1-\alpha/m+O(m^{-2})\bigr)$, gives by \eqref{eq:doubling_R}
+\begin{equation}\label{eq:doubling_Rraw}
+\begin{aligned}
+    R_\alpha(m)\;=\;&c\,\frac{\tau-1}{p}\\
+    &+\frac{1}{m}\left[c\,\Theta_\alpha(\delta)+c\,\frac{\tau-1}{p}\,(c-\alpha)\right]\\
+    &+O\bigl(m^{-2}\bigr) .
+\end{aligned}
+\end{equation}
+The leading coefficient of \eqref{eq:doubling_Rraw} is $c(\tau-1)/p$, which equals $1$ by
+\eqref{eq:doubling_cramer_form}; the same relation applied to the second term leaves
+$c\,\Theta_\alpha(\delta)+c-\alpha$ for the coefficient of $1/m$. Its part in $\alpha$ is
+$\bigl(c\frac{2\tau-1}{p+1}-1\bigr)\alpha$, and substituting $c=p/(\tau-1)$,
+\begin{equation}
+\begin{aligned}
+    c\,\frac{2\tau-1}{p+1}-1
+    \;&=\;\frac{p(2\tau-1)-(\tau-1)(p+1)}{(\tau-1)(p+1)}\\
+    \;&=\;\frac{\tau(p-1)+1}{(\tau-1)(p+1)}\;=\;\Gamma .
+\end{aligned}
+\end{equation}
+Its part free of $\alpha$ is
+$c\bigl(\frac{2\tau-1}{2}-\frac{2\tau-1}{p+1}+1\bigr)-c\tau\delta$, and the same substitution,
+with $(2\tau-1)(p-1)+2(p+1)=2\tau(p-1)+p+3$, gives
+\begin{equation}
+\begin{aligned}
+    c\left(\frac{2\tau-1}{2}-\frac{2\tau-1}{p+1}+1\right)
+    \;&=\;\frac{p}{\tau-1}\cdot\frac{2\tau(p-1)+p+3}{2(p+1)}\\
+    \;&=\;A_0 ,
+\end{aligned}
+\end{equation}
+so that part is $A_0$ at $\delta=0$ and $A_0-c\tau=A_1$ at $\delta=1$: this is
+\eqref{eq:doubling_Rexp} with the coefficients \eqref{eq:doubling_AB}.
+
+\emph{Step 4 (the closed form of $A_1$, and the signs).} By \eqref{eq:doubling_cramer_form},
+$c\tau=p\tau/(\tau-1)=2p\tau(p+1)\big/\bigl(2(p+1)(\tau-1)\bigr)$, and
+$p\bigl(p+3+2\tau(p-1)\bigr)-2p\tau(p+1)=p\bigl(p+3-4\tau\bigr)$, so
+$A_1=A_0-c\tau=p(p+3-4\tau)\big/\bigl(2(p+1)(\tau-1)\bigr)$. By
+Lemma~\ref{lem:doubling_cramer_root}\emph{(3)}, $\tau>2$, $\tau>p+1$, $2\tau>p+2$ and
+$4\tau>p+3$, and $p>1$. Hence $(\tau-1)(p+1)>0$ and $\tau(p-1)+1>0$, so $\Gamma>0$;
+$(\tau-1)(p+1)-\bigl(\tau(p-1)+1\bigr)=2\tau-p-2>0$, so $\Gamma<1$; $p+3+2\tau(p-1)>0$, so
+$A_0>0$; and $p+3-4\tau<0$, so $A_1<0$. This is \eqref{eq:doubling_signs}.
+\end{proof}
+
+\begin{remark}[the parity of the window]\label{rem:doubling_parity}
+In the notation of Definition~\ref{def:doubling_decay_notation}, and with the coefficients
+$A_0$, $A_1$ of Lemma~\ref{lem:doubling_expansion}, the two parities of
+\eqref{eq:doubling_Rexp} differ at order $1/m$ by $(A_0-A_1)/m=c\tau/m$, which is half of the
+heaviest summand $2c\tau/m+O(m^{-2})$ of \eqref{eq:doubling_R} relative to $\Phi_0(m)$.
+Heuristically, the window at odd $m$ starts half a step later than $m/2$, at $(m+1)/2$, and in
+a continuum reading of the window sum that half step removes half of that summand. Call a
+positive sequence $(x_j)_{j\geq1}$ a \emph{supersolution} of \eqref{eq:doubling_avg} if
+$x_m\geq\sum_{j\in W(m)}q_m(j)\,x_j$ for every large enough integer $m$, and a
+\emph{subsolution} of it if the reverse inequality holds for every large enough integer $m$.
+By \eqref{eq:doubling_Rexp} at $\alpha=0$ and \eqref{eq:doubling_signs}, the pure power
+$\Phi_0(j)=j^{-p}$ has $R_0(m)>1$ at every large even $m$ and $R_0(m)<1$ at every large odd
+$m$, so it is neither a supersolution nor a subsolution of \eqref{eq:doubling_avg}.
+\end{remark}
+
+\begin{lemma}[the descent chain]\label{lem:doubling_descent}
+Let $s=1$ and $0<c<1$, in the notation of Definitions~\ref{def:doubling_setting}
+and~\ref{def:doubling_decay_notation}. Then there are
+$c_4>0$ and an integer $\ell_1>d$, depending on $c$ and $d$ alone, with the following
+property. The bounds
+\begin{equation}\label{eq:doubling_R0}
+    \tfrac12\;\leq\;R_0(m)\;\leq\;2
+    \qquad\text{and}\qquad
+    \bigl|R_0(m)-1\bigr|\;\leq\;\frac{c_4}{m}
+\end{equation}
+hold for every $m\geq\ell_1$; and for every integer $\ell\geq\ell_1$, with $(Y_n)_{n\geq0}$ the
+Markov chain on the integers $\geq\ell$ with, for every state $y\geq\ell$,
+$\mathbb P(Y_{n+1}=j\mid Y_n=y)=w_y(j)/R_0(y)$ for every $j\in W(y)$ when $y\geq2\ell$ --- a
+probability on $W(y)$, since $w_y>0$ there and $\sum_{j\in W(y)}w_y(j)=R_0(y)>0$ by
+\eqref{eq:doubling_R} at $\alpha=0$ and \eqref{eq:doubling_R0} --- and $Y_{n+1}=Y_n$ when
+$y<2\ell$, and with $N_\ell:=\inf\{n\geq0:Y_n<2\ell\}$, the following hold for every starting
+state $m\geq2\ell$:
+\begin{enumerate}
+    \item $\lceil Y_n/2\rceil\leq Y_{n+1}\leq Y_n-1$ for every $n<N_\ell$, and $N_\ell\leq m$;
+    \item $Y_{N_\ell}\in[\ell,2\ell)$ almost surely;
+    \item if $M_1\in\{2\ell,2\ell+1,\dots\}\cup\{+\infty\}$, if $(\lambda_j)_{j\geq1}$ is a
+    positive sequence satisfying \eqref{eq:doubling_cut} at every integer $y$ with
+    $d<y\leq M_1$, and if $2\ell\leq m\leq M_1$, then, with
+    $Z_\ell:=\prod_{n<N_\ell}R_0(Y_n)$, which is positive,
+    \begin{equation}\label{eq:doubling_pathid}
+        u_m\;=\;\mathbb E\bigl(\,Z_\ell\,u_{Y_{N_\ell}}\,\mid Y_0=m\bigr) .
+    \end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\eqref{eq:doubling_Rexp} at $\alpha=0$, with the coefficients \eqref{eq:doubling_AB}, reads
+$R_0(m)=1+A_{\delta(m)}/m+O(m^{-2})$ with an implied constant depending on $c$ alone, which
+gives the second half of \eqref{eq:doubling_R0} with $c_4$ and $\ell_1$ depending only on $c$
+and $d$; enlarging $\ell_1$ past $2c_4$ gives the first half. Every state $y\geq2\ell$ that the
+chain leaves satisfies $y\geq2\ell_1>d$ and $\varepsilon(y)=c/(y+1)\leq c/2<1$, so $q_y>0$ on
+$W(y)$, $c$ being positive, and $w_y(j)=q_y(j)(y/j)^{p}>0$ there; and
+$\sum_{j\in W(y)}w_y(j)=R_0(y)\geq\tfrac12$ by \eqref{eq:doubling_R} at $\alpha=0$ and
+\eqref{eq:doubling_R0}: the transition law of the statement is a probability on $W(y)$.
+
+\emph{(1)} $j\in W(y)$ means $\lceil y/2\rceil\leq j\leq y-1$. Hence $Y_n\leq m-n$ for
+$n\leq N_\ell$, and $Y_{N_\ell-1}\geq2\ell$ forces $N_\ell\leq m-2\ell+1\leq m$.
+
+\emph{(2)} $N_\ell\geq1$ because $Y_0=m\geq2\ell$, and $Y_{N_\ell}<2\ell$ by definition while
+$Y_{N_\ell}\geq\lceil Y_{N_\ell-1}/2\rceil\geq\ell$ by \emph{(1)}.
+
+\emph{(3)} By \emph{(1)} every path is finite and \eqref{eq:doubling_pathid} is a finite sum.
+We prove $\mathbb E(Z_\ell u_{Y_{N_\ell}}\mid Y_0=y)=u_y$ for every $y$ with $\ell\leq y\leq m$
+by induction on $y$. For $y<2\ell$, $N_\ell=0$, the product is empty and $Y_{N_\ell}=y$. Let
+$2\ell\leq y\leq m$. Then $y\geq2\ell_1>d$ and $y\leq m\leq M_1$, so $(\lambda_j)_{j\geq1}$
+satisfies \eqref{eq:doubling_cut} at $y$ and Lemma~\ref{lem:doubling_averaging}\emph{(1)} then
+\emph{(2)} give \eqref{eq:doubling_uavg} at $y$. Every $j\in W(y)$ satisfies
+$\ell\leq\lceil y/2\rceil\leq j<y$, so the induction hypothesis and the Markov property give
+\begin{equation}
+    \mathbb E\bigl(Z_\ell\,u_{Y_{N_\ell}}\mid Y_0=y\bigr)
+    \;=\;\sum_{j\in W(y)}\frac{w_y(j)}{R_0(y)}\,R_0(y)\,u_j
+    \;=\;u_y
+\end{equation}
+by \eqref{eq:doubling_uavg}. Positivity of $Z_\ell$ is the first half of \eqref{eq:doubling_R0}.
+\end{proof}
+
+\begin{lemma}[the descent halves at a uniform rate]\label{lem:doubling_escape}
+Let $s=1$ and $0<c<1$, in the notation of Definitions~\ref{def:doubling_setting}
+and~\ref{def:doubling_decay_notation}, with the integer
+$\ell_1$ of Lemma~\ref{lem:doubling_descent}. Put
+$\gamma:=\sqrt\tau\big/\bigl(2(\sqrt\tau+1)\bigr)$, so that $0<\gamma<\tfrac12$, and
+$c_5:=6/\gamma^2$. Then there is an integer $\ell_2\geq2\ell_1$,
+depending on $c$ and $d$ alone, such that for every $\ell\geq\ell_2$ the descent chain
+$(Y_n)_{n\geq0}$ of Lemma~\ref{lem:doubling_descent} at the level $\ell$ satisfies
+\begin{equation}\label{eq:doubling_escape}
+    \mathbb P\bigl(Y_1\leq y/\sqrt2\mid Y_0=y\bigr)\;\geq\;\gamma\qquad\text{for every }y\geq2\ell,
+\end{equation}
+and, for every $i\geq1$ and every $y\in I_i(\ell)$, the exit time
+$\varsigma:=\inf\{n\geq0:Y_n\notin I_i(\ell)\}$ obeys
+\begin{equation}\label{eq:doubling_sojourn}
+\begin{aligned}
+    \mathbb P(\varsigma>2r\mid Y_0=y)\;&\leq\;\bigl(1-\gamma^2\bigr)^{r}\quad(r\geq0),\\
+    \mathbb E(\varsigma\mid Y_0=y)\;&\leq\;2/\gamma^2,\\
+    \mathbb E\bigl(\zeta^{\varsigma}\mid Y_0=y\bigr)\;&\leq\;1+c_5(\zeta-1)
+    \quad\bigl(1\leq\zeta\leq1+\gamma^2/6\bigr).
+\end{aligned}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1 (one step halves with probability $\gamma$).} Put $a:=\lceil y/2\rceil$ and
+$b:=\lfloor y/\sqrt2\rfloor$. Since $w_y(j)\geq c\,y^{p}/\bigl((j+1)j^{p}\bigr)\geq
+c\,y^{p}(j+1)^{-p-1}$ and $t\mapsto t^{-p-1}$ is decreasing,
+\begin{equation}
+\begin{aligned}
+    \sum_{j=a}^{b}w_y(j)\;&\geq\;c\,y^{p}\int_{a+1}^{b+2}t^{-p-1}\,dt\\
+    &=\;\frac{c\,y^{p}}{p}\Bigl[(a+1)^{-p}-(b+2)^{-p}\Bigr].
+\end{aligned}
+\end{equation}
+Here $a+1\leq(y/2)(1+4/y)$ and $(1+x)^{-p}\geq1-px$ for $x\geq0$, so
+$(a+1)^{-p}\geq\tau y^{-p}(1-4p/y)$, while $b+2\geq y/\sqrt2$ gives
+$(b+2)^{-p}\leq\sqrt\tau\,y^{-p}$. With $c(\tau-1)/p=1$, that is
+\eqref{eq:doubling_cramer_form},
+\begin{equation}
+    \sum_{j=a}^{b}w_y(j)\;\geq\;\frac{c(\tau-\sqrt\tau)}{p}-\frac{4c\tau}{y}
+    \;=\;2\gamma-\frac{4c\tau}{y} .
+\end{equation}
+With the constant $c_4$ of Lemma~\ref{lem:doubling_descent}, choose $\ell_2$ so that
+$y\geq2\ell_2$ forces $a\leq b\leq y-1$, $4c\tau/y\leq\gamma/2$ and $c_4/y\leq\tfrac12$;
+dividing by $R_0(y)\leq1+c_4/y$, which is \eqref{eq:doubling_R0}, leaves at least
+$(2\gamma-\gamma/2)/(3/2)=\gamma$, which is \eqref{eq:doubling_escape}.
+
+\emph{Step 2 (the three sojourn bounds).} Fix $i\geq1$, $y\in I_i(\ell)$ and $n\geq0$ with
+$Y_n\in I_i(\ell)$, and put $G_n:=\{Y_{n+1}\leq Y_n/\sqrt2\}$. On $G_n\cap G_{n+1}$ one has
+$Y_{n+2}\leq Y_n/2<2^i\ell$, and on $G_n\setminus\{Y_{n+1}\in I_i(\ell)\}$ one has
+$Y_{n+2}\leq Y_{n+1}<2^i\ell$; since $(Y_n)_n$ is non-increasing, $Y_{n+2}\notin I_i(\ell)$ in both
+cases, so
+\begin{equation}
+    \{Y_{n+2}\in I_i(\ell)\}\;\subseteq\;\complement G_n\cup\bigl(G_n\cap\{Y_{n+1}\in I_i(\ell)\}\cap\complement G_{n+1}\bigr).
+\end{equation}
+Every state of $I_i(\ell)$ is $\geq2^i\ell\geq2\ell$, so \eqref{eq:doubling_escape} applies at
+$Y_{n+1}$ on $\{Y_{n+1}\in I_i(\ell)\}$ and at $Y_n$, and conditioning first on $Y_0,\dots,Y_{n+1}$
+and then on $Y_0,\dots,Y_n$,
+\begin{equation}
+\begin{aligned}
+    &\mathbb P\bigl(Y_{n+2}\in I_i(\ell)\mid Y_0,\dots,Y_n\bigr)\\
+    &\qquad\leq\;1-\gamma\,\mathbb P\bigl(G_n\mid Y_0,\dots,Y_n\bigr)\\
+    &\qquad\leq\;1-\gamma^2 .
+\end{aligned}
+\end{equation}
+The times at which a non-increasing chain lies in $I_i(\ell)$ form an interval, so
+$\{\varsigma>2r\}=\{Y_{2r}\in I_i(\ell)\}$ under $\mathbb P(\,\cdot\mid Y_0=y)$, and iterating the last display at
+$n=0,2,\dots,2r-2$ gives the first line of \eqref{eq:doubling_sojourn}. The second follows from
+$\mathbb E(\varsigma\mid Y_0=y)=\sum_{n\geq0}\mathbb P(\varsigma>n\mid Y_0=y)\leq2\sum_{r\geq0}(1-\gamma^2)^{r}$.
+For the third, put $\bar\zeta:=\zeta^2$ and $\widetilde\varsigma:=\lceil\varsigma/2\rceil$, so
+that $\zeta^{\varsigma}\leq\bar\zeta^{\,\widetilde\varsigma}$ and
+$\mathbb P(\widetilde\varsigma>r\mid Y_0=y)\leq(1-\gamma^2)^{r}$. From
+$\bar\zeta^{\,\widetilde\varsigma}=1+(\bar\zeta-1)\sum_{r<\widetilde\varsigma}\bar\zeta^{\,r}$,
+\begin{equation}
+\begin{aligned}
+    \mathbb E\bigl(\bar\zeta^{\,\widetilde\varsigma}\mid Y_0=y\bigr)
+    \;&=\;1+(\bar\zeta-1)\sum_{r\geq0}\bar\zeta^{\,r}\,\mathbb P(\widetilde\varsigma>r\mid Y_0=y)\\
+    \;&\leq\;1+\frac{\bar\zeta-1}{1-\bar\zeta(1-\gamma^2)} ,
+\end{aligned}
+\end{equation}
+and $\zeta-1\leq\gamma^2/6$ with $\gamma<\tfrac12$ gives
+$\bar\zeta\leq1+3(\zeta-1)\leq1+\gamma^2/2$, hence $\bar\zeta(1-\gamma^2)\leq1-\gamma^2/2$ and
+$\bar\zeta-1\leq3(\zeta-1)$; the ratio is at most $6(\zeta-1)/\gamma^2$.
+\end{proof}
+
+\begin{lemma}[the weight of a descent is $1+O(1/\ell)$ in expectation]\label{lem:doubling_product}
+Let $s=1$ and $0<c<1$, in the notation of Definitions~\ref{def:doubling_setting}
+and~\ref{def:doubling_decay_notation}, with the
+constants $\gamma$, $c_5$ and $\ell_2$ of Lemma~\ref{lem:doubling_escape}. Let
+$\ell\geq\ell_2$, let $(Y_n)_{n\geq0}$ and $N_\ell$ be the descent chain of
+Lemma~\ref{lem:doubling_descent} at the level $\ell$ and its exit time,
+let $m\geq2\ell$, let $H$ be a number with $0\leq H\leq\gamma^2\ell/6$, and let $b$ be a
+function on the integers $\geq\ell$ with $|b(y)|\leq H/y$ for every integer $y\geq\ell$. Then
+\begin{equation}\label{eq:doubling_product}
+    e^{-c_5H/\ell}\;\leq\;
+    \mathbb E\Bigl(\prod_{n<N_\ell}\bigl(1+b(Y_n)\bigr)\mid Y_0=m\Bigr)\;\leq\;e^{c_5H/\ell} .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Every $Y_n$ with $n<N_\ell$ satisfies $Y_n\geq2\ell$, so $|b(Y_n)|\leq H/(2\ell)\leq\gamma^2/12$
+and every factor lies in $[\tfrac12,\tfrac32]$. Write
+$\Psi(z):=\mathbb E\bigl(\prod_{n<N_\ell}(1+b(Y_n))\mid Y_0=z\bigr)$, $\varphi_i:=\sup_{z\in I_i(\ell)}\Psi(z)$
+and $\underline\varphi_i:=\inf_{z\in I_i(\ell)}\Psi(z)$, so that
+$\varphi_0=\underline\varphi_0=1$, the product being empty on $I_0(\ell)=[\ell,2\ell)$.
+
+Fix $i\geq1$ and $z\in I_i(\ell)$, and let $\varsigma$ be the exit time from $I_i(\ell)$ of
+Lemma~\ref{lem:doubling_escape}. By Lemma~\ref{lem:doubling_descent}\emph{(1)},
+$Y_\varsigma\geq\lceil Y_{\varsigma-1}/2\rceil\geq2^{i-1}\ell$ and $Y_\varsigma<2^{i}\ell$, so
+$Y_\varsigma\in I_{i-1}(\ell)$; and $\varsigma\leq N_\ell$, every state of $I_i(\ell)$ being $\geq2\ell$. The
+factors being positive, the strong Markov property at $\varsigma$ gives
+\begin{equation}
+    \Psi(z)\;=\;\mathbb E\Bigl(\prod_{n<\varsigma}\bigl(1+b(Y_n)\bigr)\;\Psi(Y_\varsigma)\mid Y_0=z\Bigr),
+\end{equation}
+and $|b|\leq H2^{-i}/\ell$ on $I_i(\ell)$, so with $\zeta_i:=1+H2^{-i}/\ell\leq1+\gamma^2/6$,
+\begin{equation}
+    \varphi_i\;\leq\;\varphi_{i-1}\,\mathbb E\bigl(\zeta_i^{\,\varsigma}\mid Y_0=z\bigr)
+    \;\leq\;\varphi_{i-1}\Bigl(1+\frac{c_5H2^{-i}}{\ell}\Bigr)
+\end{equation}
+by \eqref{eq:doubling_sojourn}. Hence $\varphi_i\leq\exp\bigl(c_5H\ell^{-1}\sum_{r\geq1}2^{-r}\bigr)
+=e^{c_5H/\ell}$ for every $i$. In the other direction, $(1-x)^{\varsigma}\geq1-\varsigma x$
+for $x\in[0,1]$ and \eqref{eq:doubling_sojourn} give
+$\mathbb E\bigl((1-H2^{-i}/\ell)^{\varsigma}\mid Y_0=z\bigr)\geq1-2H2^{-i}/(\gamma^2\ell)\geq\tfrac56$,
+so $\underline\varphi_i\geq\underline\varphi_{i-1}\bigl(1-2H2^{-i}/(\gamma^2\ell)\bigr)$ and,
+by $1-x\geq e^{-2x}$ on $[0,\tfrac12]$, $\underline\varphi_i\geq e^{-4H/(\gamma^2\ell)}\geq
+e^{-c_5H/\ell}$. The starting state $m\geq2\ell$ lies in $I_i(\ell)$ for some $i\geq1$, so
+$\mathbb E\bigl(\prod_{n<N_\ell}(1+b(Y_n))\mid Y_0=m\bigr)=\Psi(m)$ lies between $\underline\varphi_i$
+and $\varphi_i$: this is \eqref{eq:doubling_product}.
+\end{proof}
+
+\begin{theorem}[the invariant measure decays at the Cram\'er exponent]\label{theo:doubling_decay}
+In the setting of Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation},
+with the constants $c_4$ and $\ell_1$ of Lemma~\ref{lem:doubling_descent} and $\gamma$, $c_5$
+and $\ell_2$ of Lemma~\ref{lem:doubling_escape}, put
+$m_0:=\max\bigl(\ell_2,\lceil6c_4/\gamma^2\rceil\bigr)$, an integer depending on $c$ and $d$
+alone and larger than $d$, since $\ell_2\geq2\ell_1$ and $\ell_1>d$. Then:
+\begin{enumerate}
+    \item for every integer $\ell\geq m_0$, every
+    $M_1\in\{2\ell,2\ell+1,\dots\}\cup\{+\infty\}$, every positive sequence
+    $(\lambda_j)_{j\geq1}$ satisfying \eqref{eq:doubling_cut} at every integer $y$ with
+    $d<y\leq M_1$, and every integer $m$ with $2\ell\leq m\leq M_1$,
+    \begin{equation}\label{eq:doubling_block}
+        e^{-c_5c_4/\ell}\,\min_{\ell\leq j<2\ell}u_j\;\leq\;u_m\;\leq\;
+        e^{c_5c_4/\ell}\,\max_{\ell\leq j<2\ell}u_j ,
+    \end{equation}
+    where $u_j=\lambda_j\,j^{p}$ is the rescaled profile of
+    Definition~\ref{def:doubling_decay_notation};
+    \item for every positive sequence $(\lambda_j)_{j\geq1}$ satisfying \eqref{eq:doubling_cut}
+    at every integer $m>d$ there are constants $0<c_1\leq c_2<+\infty$, depending on $c$, $d$
+    and $\lambda_1,\dots,\lambda_{2m_0}$ alone, with
+    \begin{equation}\label{eq:doubling_decay}
+        c_1\,j^{-p_*}\;\leq\;\lambda_j\;\leq\;c_2\,j^{-p_*}\qquad\text{for every }j\geq1 .
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{itemize}
+    \item \emph{One block of the profile bounds every index above it, within
+    $e^{\pm c_5c_4/\ell}$.} Let $\ell$, $M_1$, $(\lambda_j)_{j\geq1}$ and $m$ be as in
+    \emph{(1)}. Since $\ell\geq m_0\geq\ell_2\geq\ell_1$, the descent chain $(Y_n)_{n\geq0}$ of
+    Lemma~\ref{lem:doubling_descent} at the level $\ell$ and its exit time $N_\ell$ are
+    defined, and item \emph{(3)} of that lemma applies at the range $M_1$ and the starting
+    state $m$: it gives \eqref{eq:doubling_pathid},
+    $u_m=\mathbb E\bigl(Z_\ell\,u_{Y_{N_\ell}}\mid Y_0=m\bigr)$ with
+    $Z_\ell=\prod_{n<N_\ell}R_0(Y_n)$ positive, while item \emph{(2)} of that lemma gives
+    $Y_{N_\ell}\in[\ell,2\ell)$ almost surely. The extrema of $u$ over the finite set
+    $\{\ell,\dots,2\ell-1\}$ are attained and strictly positive, every $\lambda_j$ being
+    positive, so
+    \begin{multline}
+        \Bigl(\min_{\ell\leq j<2\ell}u_j\Bigr)\,\mathbb E\bigl(Z_\ell\mid Y_0=m\bigr)
+        \;\leq\;u_m\\
+        \;\leq\;\Bigl(\max_{\ell\leq j<2\ell}u_j\Bigr)\,
+        \mathbb E\bigl(Z_\ell\mid Y_0=m\bigr).
+    \end{multline}
+    Apply Lemma~\ref{lem:doubling_product} at $b:=R_0-1$ and $H:=c_4$. Its hypotheses hold:
+    $\ell\geq\ell_2$; $\bigl|R_0(y)-1\bigr|\leq c_4/y$ at every integer $y\geq\ell\geq\ell_1$
+    by \eqref{eq:doubling_R0}; $0\leq c_4\leq\gamma^2\ell/6$ by
+    $\ell\geq m_0\geq6c_4/\gamma^2$; and $m\geq2\ell$. Its product
+    $\prod_{n<N_\ell}\bigl(1+b(Y_n)\bigr)$ is $Z_\ell$, so \eqref{eq:doubling_product} reads
+    $e^{-c_5c_4/\ell}\leq\mathbb E\bigl(Z_\ell\mid Y_0=m\bigr)\leq e^{c_5c_4/\ell}$. The
+    extrema being positive, the last display then gives \eqref{eq:doubling_block}.
+    \item \emph{The rescaled profile is bounded above and below by positive constants.} Let
+    $(\lambda_j)_{j\geq1}$ be as in \emph{(2)} and apply \emph{(1)} at $\ell=m_0$ and
+    $M_1=+\infty$: every integer $m\geq2m_0$ satisfies
+    \begin{equation}
+    \begin{aligned}
+        e^{-c_5c_4/m_0}\min_{m_0\leq j<2m_0}u_j\;&\leq\;u_m\\
+        \;&\leq\;e^{c_5c_4/m_0}\max_{m_0\leq j<2m_0}u_j .
+    \end{aligned}
+    \end{equation}
+    Put $c_1:=e^{-c_5c_4/m_0}\min_{1\leq j<2m_0}u_j$ and
+    $c_2:=e^{c_5c_4/m_0}\max_{1\leq j<2m_0}u_j$, attained over a finite set of indices and
+    finite and strictly positive, every $\lambda_j$ being positive. The extrema of the last
+    display run over a subset of $\{1,\dots,2m_0-1\}$, so $c_1\leq u_m\leq c_2$ at every
+    integer $m\geq2m_0$; and $e^{-c_5c_4/m_0}\leq1\leq e^{c_5c_4/m_0}$ gives
+    $c_1\leq u_j\leq c_2$ at every $j$ with $1\leq j<2m_0$. Since $u_j=\lambda_j\,j^{p}$ and
+    $p=p_*$, this is \eqref{eq:doubling_decay}; and $c_1\leq c_2$, both bounding $u_1$. The
+    integer $m_0$ depends on $c$ and $d$ alone, $\ell_2$, $c_4$ and $\gamma$ depending on $c$
+    and $d$ alone by Lemmas~\ref{lem:doubling_descent} and~\ref{lem:doubling_escape}, and
+    $c_1$ and $c_2$ depend on $c$, $d$ and $\lambda_1,\dots,\lambda_{2m_0-1}$, hence on $c$,
+    $d$ and $\lambda_1,\dots,\lambda_{2m_0}$.
+\end{itemize}
+\end{proof}
+
+\begin{corollary}[the tail, and its ratio to the mass at the cut]\label{cor:doubling_tail}
+Let $s=1$ and $0<c<1$, let $(\lambda_j)_{j\geq1}$ be a positive sequence satisfying
+\eqref{eq:doubling_cut} for every $m>d$, in the notation of
+Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation}, let
+$0<c_1\leq c_2$ be constants with \eqref{eq:doubling_decay} and let $L$ be the tail of
+Definition~\ref{def:doubling_setting}. Then there are numbers $\xi_m$, $m\geq1$, with
+\begin{equation}\label{eq:doubling_powertail}
+    \sum_{j\geq m}j^{-p_*}\;=\;\frac{m^{1-p_*}}{p_*-1}\,\bigl(1+\xi_m\bigr),
+    \qquad 0\;\leq\;\xi_m\;\leq\;\frac{p_*-1}{m} ,
+\end{equation}
+and for every $m\geq1$
+\begin{equation}\label{eq:doubling_tailratio}
+\begin{aligned}
+    \frac{c_1}{p_*-1}\,m^{1-p_*}\;&\leq\;L(m)\;\leq\;\frac{c_2\,p_*}{p_*-1}\,m^{1-p_*},\\
+    \frac{c_1}{c_2(p_*-1)}\,m\;&\leq\;\frac{L(m)}{\lambda_m}\;\leq\;\frac{c_2\,p_*}{c_1(p_*-1)}\,m ;
+\end{aligned}
+\end{equation}
+in particular $L(m)\rightarrow0$ and $L(m)/\lambda_m\rightarrow+\infty$.
+\end{corollary}
+
+\begin{proof}
+Since $p=p_*>1$ (Definition~\ref{def:doubling_decay_notation}), $t\mapsto t^{-p}$
+is decreasing and integrable at $+\infty$ with $\int_m^{+\infty}t^{-p}\,dt=m^{1-p}/(p-1)$, and
+comparing the sum with that integral,
+\begin{equation}
+\begin{aligned}
+    \frac{m^{1-p}}{p-1}\;\leq\;\sum_{j\geq m}j^{-p}
+    \;&\leq\;m^{-p}+\frac{m^{1-p}}{p-1}\\
+    \;&=\;\frac{m^{1-p}}{p-1}\left(1+\frac{p-1}{m}\right) ,
+\end{aligned}
+\end{equation}
+which is \eqref{eq:doubling_powertail} with
+$\xi_m:=(p-1)\,m^{p-1}\sum_{j\geq m}j^{-p}-1$; and $m\geq1$ gives $(p-1)/m\leq p-1$, hence
+$1\leq1+\xi_m\leq p$. Summing \eqref{eq:doubling_decay} over $j\geq m$ and inserting
+\eqref{eq:doubling_powertail} with those two bounds on $1+\xi_m$ gives the first pair of
+\eqref{eq:doubling_tailratio}, and dividing it by \eqref{eq:doubling_decay} at $j=m$ gives the
+second. Finally $p>1$ sends the upper bound $c_2\,p\,m^{1-p}/(p_*-1)$ of $L(m)$ to $0$ and the
+lower bound $c_1m/\bigl(c_2(p_*-1)\bigr)$ of $L(m)/\lambda_m$ to $+\infty$.
+\end{proof}
+
+\subsubsection{The sharp asymptotic and its constant}
+
+This block proves that the constant Theorem~\ref{theo:doubling_decay} leaves anywhere between
+its two bounds exists, that the convergence to it carries a rate, and that it is a linear
+functional of the boundary data; its existence and its determination by that data are item
+\emph{(2)} of Theorem~\ref{theo:doubling_main}. Theorem~\ref{theo:doubling_sharp} is the sharp
+asymptotic, with the rate. Lemma~\ref{lem:doubling_weight} bounds in mean the deviation from
+$1$ of the weight a descent accumulates. Lemma~\ref{lem:doubling_doeblin} bounds below the law
+in which a descent leaves a dyadic block, by a fixed fraction of one reference law on the block
+beneath it, and Lemma~\ref{lem:doubling_coupling} bounds the total variation between the laws
+in which two descents started in one block reach the base block, geometrically in the index of
+that block. Remark~\ref{rem:doubling_no_logperiodic} records that the decay carries no
+log-periodic term, Corollary~\ref{cor:doubling_tail_sharp} restates the tail and the ratio of
+the tail to the mass at the cut with that constant, in place of the two-sided bounds of
+Corollary~\ref{cor:doubling_tail}, Proposition~\ref{prop:doubling_constant} identifies the
+constant as a non-negative linear functional of the boundary data, and
+Remark~\ref{rem:doubling_second_order} records a second-order expansion that is formal and is
+not proved here.
+
+\begin{theorem}[the sharp asymptotic]\label{theo:doubling_sharp}
+Let $s=1$ and $0<c<1$, in the notation of Definitions~\ref{def:doubling_setting}
+and~\ref{def:doubling_decay_notation}, with the integer $m_0$ of
+Theorem~\ref{theo:doubling_decay}, and let $(\lambda_j)_{j\geq1}$ be any positive sequence
+satisfying \eqref{eq:doubling_cut} for every $m>d$. Then
+$\lim_{j\rightarrow\infty}\lambda_j\,j^{p_*}$ exists and lies in $[c_1',c_2']$ for every pair
+of constants $0<c_1'\leq c_2'$ for which \eqref{eq:doubling_decay} holds with $c_1'$ and $c_2'$
+in place of $c_1$ and $c_2$; writing $C$ for that limit,
+\begin{equation}\label{eq:doubling_sharp}
+    \lambda_j\;=\;C\,j^{-p_*}\bigl(1+o(1)\bigr)\qquad(j\rightarrow\infty),
+\end{equation}
+$C$ is determined by $c$, $d$ and $\lambda_1,\dots,\lambda_d$, and there are
+$\vartheta\in(0,1)$, depending on $c$ alone, and $c_6>0$, depending on $c$, $d$ and
+$\lambda_1,\dots,\lambda_{2m_0}$ alone, with
+\begin{equation}\label{eq:doubling_rate}
+    \bigl|\lambda_j\,j^{p_*}-C\bigr|\;\leq\;c_6\,j^{-\vartheta}
+    \qquad\text{for every }j\geq1 .
+\end{equation}
+\end{theorem}
+
+\begin{lemma}[the weight of a descent deviates from $1$ by $O(1/\ell)$ in mean]\label{lem:doubling_weight}
+In the setting of Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation},
+with the constant $c_4$ of Lemma~\ref{lem:doubling_descent} and $\gamma$, $c_5$ and $\ell_2$
+of Lemma~\ref{lem:doubling_escape}, put $c_3:=8c_5c_4$ and
+$\ell_3:=\max\bigl(\ell_2,\lceil2c_4\rceil,\lceil24c_4/\gamma^2\rceil,\lceil4c_4c_5\rceil\bigr)$,
+which depend on $c$ and $d$ alone. Let $\ell\geq\ell_3$ be an integer, let $(Y_n)_{n\geq0}$ and
+$N_\ell$ be the descent chain of Lemma~\ref{lem:doubling_descent} at the level $\ell$ and its
+exit time, and let $Z_\ell:=\prod_{n<N_\ell}R_0(Y_n)$ be the weight of
+Lemma~\ref{lem:doubling_descent}\emph{(3)}. Then, for every integer $m\geq2\ell$,
+\begin{equation}\label{eq:doubling_weight}
+    \mathbb E\bigl(|Z_\ell-1|\mid Y_0=m\bigr)\;\leq\;\frac{c_3}{\ell} .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Put $\widetilde b(y):=e^{2c_4/y}-1$ for an integer $y\geq\ell$. By
+Lemma~\ref{lem:doubling_descent}\emph{(1)}, $N_\ell\leq m$, so the sums and products below are
+finite.
+
+Every state $Y_n$ with $n<N_\ell$ satisfies $Y_n\geq2\ell$ by the definition of $N_\ell$, and
+$2\ell\geq\ell\geq\ell_2\geq2\ell_1$, with $\ell_1$ of Lemma~\ref{lem:doubling_descent}, so
+\eqref{eq:doubling_R0} gives $1-c_4/Y_n\leq R_0(Y_n)\leq1+c_4/Y_n$, with
+$c_4/Y_n\leq c_4/(2\ell)\leq\tfrac14$ because
+$\ell\geq2c_4$. Since $1-x\geq e^{-2x}$ on $[0,\tfrac12]$ and $1+x\leq e^{x}$,
+\begin{equation}
+    \exp\Bigl(-2\sum_{n<N_\ell}\frac{c_4}{Y_n}\Bigr)\;\leq\;Z_\ell\;\leq\;
+    \exp\Bigl(\sum_{n<N_\ell}\frac{c_4}{Y_n}\Bigr),
+\end{equation}
+hence $|Z_\ell-1|\leq\exp\bigl(2\sum_{n<N_\ell}c_4/Y_n\bigr)-1$, both $e^{x}-1$ and $1-e^{-2x}$
+being at most $e^{2x}-1$ for $x\geq0$.
+
+That last bound is $\prod_{n<N_\ell}\bigl(1+\widetilde b(Y_n)\bigr)-1$, and
+$0\leq\widetilde b(y)\leq4c_4/y$ at every integer $y\geq\ell$: there $2c_4/y\leq2c_4/\ell\leq1$
+because $\ell\geq2c_4$, and $e^{x}-1\leq2x$ on $[0,1]$. Lemma~\ref{lem:doubling_product}
+applies at $b:=\widetilde b$ and $H:=4c_4$ --- $\ell\geq\ell_2$ and $m\geq2\ell$,
+$|\widetilde b(y)|\leq H/y$ at every integer $y\geq\ell$, and $H\leq\gamma^2\ell/6$ because
+$\ell\geq24c_4/\gamma^2$ --- and \eqref{eq:doubling_product} bounds
+$\mathbb E\bigl(\prod_{n<N_\ell}(1+\widetilde b(Y_n))\mid Y_0=m\bigr)$ by $e^{4c_5c_4/\ell}$.
+Finally $4c_5c_4/\ell\leq1$ because $\ell\geq4c_4c_5$, so $e^{4c_5c_4/\ell}-1\leq8c_5c_4/\ell$
+by $e^{x}-1\leq2x$ on $[0,1]$ once more: this is \eqref{eq:doubling_weight}.
+\end{proof}
+
+\begin{lemma}[the exit from a block charges a fixed fraction of one reference law]\label{lem:doubling_doeblin}
+In the setting of Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation},
+with the integer $\ell_3$ of Lemma~\ref{lem:doubling_weight}, put
+$\omega:=\tfrac{c^2}{16}\ln(5/4)\ln(8/5)$, which lies in $(0,1)$ and depends on $c$ alone. Then
+there is an integer $\ell_4\geq\ell_3$, depending on $c$ and $d$ alone, with the following
+property. Let $\ell\geq\ell_4$ and $i\geq1$ be integers, write $a:=2^{i-1}\ell$, so that
+$I_{i-1}(\ell)=[a,2a)$ and $I_i(\ell)=[2a,4a)$, and let $\varpi_i$ be the probability on the
+integers of $[\lceil5a/4\rceil,2a)$ proportional to $j\mapsto1/(j+1)$. Let $(Y_n)_{n\geq0}$ be
+the descent chain of Lemma~\ref{lem:doubling_descent} at the level $\ell$ and let
+$\varsigma:=\inf\{n\geq0:Y_n\notin I_i(\ell)\}$ be its exit time from $I_i(\ell)$, the exit time
+of Lemma~\ref{lem:doubling_escape}. Then, for every state $y\in I_i(\ell)$, $\varsigma\leq y$
+and $Y_\varsigma\in I_{i-1}(\ell)$ almost surely under $\mathbb P(\,\cdot\mid Y_0=y)$, and
+\begin{equation}\label{eq:doubling_doeblin}
+    \mathbb P\bigl(Y_\varsigma=j\mid Y_0=y\bigr)\;\geq\;\omega\,\varpi_i(j)
+    \qquad\text{for every integer }j .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Put $\ell_4:=\max\bigl(\ell_3,\lceil4/\ln(5/4)\rceil\bigr)$, an integer at least $\ell_3$ and,
+$\ell_3$ being one, depending on $c$ and $d$ alone. Fix integers $\ell\geq\ell_4$ and $i\geq1$,
+put $a:=2^{i-1}\ell$, so that $a\geq\ell\geq\ell_4\geq4/\ln(5/4)>4$, $\ln(5/4)$ being
+less than $1$, and hence $a\geq3$ and
+$2/a\leq\tfrac12\ln(5/4)\leq\tfrac12\ln(8/5)$, and write
+$J:=\{\lceil5a/4\rceil,\dots,2a-1\}$ for the range carrying $\varpi_i$ and
+$J':=\{2a,\dots,\lceil5a/2\rceil-1\}$. Both ranges are non-empty, since
+$\lceil5a/4\rceil\leq5a/4+1\leq2a-1$ and $2a+1\leq5a/2\leq\lceil5a/2\rceil$ at $a\geq3$;
+$J\subseteq[a,2a)=I_{i-1}(\ell)$, and $J'\subseteq[2a,4a)=I_i(\ell)$ because
+$\lceil5a/2\rceil-1\leq(5a-1)/2<4a$. Comparing each sum with an integral of $dt/t$ over the
+matching interval, and using $\lceil5a/4\rceil+1\leq5a/4+2$ and $\lceil5a/2\rceil\geq5a/2$,
+\begin{equation}\label{eq:doubling_windowsums}
+\begin{aligned}
+    \sum_{j\in J}\frac1{j+1}\;&\geq\;\int_{\lceil5a/4\rceil+1}^{2a+1}\frac{dt}t
+    \;\geq\;\ln\frac{2a}{5a/4+2}\\
+    \;&=\;\ln\tfrac85-\ln\Bigl(1+\frac8{5a}\Bigr)\;\geq\;\ln\tfrac85-\frac2a,\\
+    \sum_{j\in J'}\frac1{j+1}\;&\geq\;\int_{2a+1}^{\lceil5a/2\rceil+1}\frac{dt}t
+    \;\geq\;\ln\frac{5a/2}{2a+1}\\
+    \;&=\;\ln\tfrac54-\ln\Bigl(1+\frac1{2a}\Bigr)\;\geq\;\ln\tfrac54-\frac2a,
+\end{aligned}
+\end{equation}
+so the two sums are at least $\tfrac12\ln\tfrac85$ and $\tfrac12\ln\tfrac54$.
+\begin{itemize}
+    \item \emph{The exit is into $I_{i-1}(\ell)$, and $\varsigma\leq y$.} Every state of
+    $I_i(\ell)$ is $\geq2^{i}\ell\geq2\ell$, so $n<N_\ell$ for every $n<\varsigma$, whence
+    $\varsigma\leq N_\ell\leq y$ by Lemma~\ref{lem:doubling_descent}\emph{(1)}; and
+    $\varsigma\geq1$ because $Y_0=y\in I_i(\ell)$. Lemma~\ref{lem:doubling_descent}\emph{(1)}
+    at $n=\varsigma-1$ gives $Y_\varsigma\geq\lceil Y_{\varsigma-1}/2\rceil\geq a$, the state
+    $Y_{\varsigma-1}$ lying in $I_i(\ell)$ and being therefore $\geq2a$, while
+    $Y_\varsigma\leq Y_0<4a$ and $Y_\varsigma\notin[2a,4a)$ force $Y_\varsigma<2a$.
+    \item \emph{One step from a state $z\geq2\ell$ gives every $j\in W(z)$ mass at least
+    $c/\bigl(2(j+1)\bigr)$.} By Lemma~\ref{lem:doubling_descent} that mass is $w_z(j)/R_0(z)$,
+    where $w_z(j)=q_z(j)(z/j)^{p}$ with $(z/j)^{p}\geq1$ because $j\leq z-1$,
+    $q_z(j)=c/\bigl((j+1)(1-\varepsilon(z))\bigr)\geq c/(j+1)$ because $0<\varepsilon(z)<1$,
+    and $R_0(z)\leq2$ by \eqref{eq:doubling_R0}, $z$ being $\geq2\ell\geq\ell_2\geq\ell_1$,
+    with $\ell_1$ of Lemma~\ref{lem:doubling_descent} and $\ell_2$ of
+    Lemma~\ref{lem:doubling_escape}.
+    \item \emph{Every $y\in I_i(\ell)$ with $y<\lceil5a/2\rceil$ satisfies
+    $\mathbb P(Y_\varsigma=j\mid Y_0=y)\geq\tfrac c4\ln\tfrac85\,\varpi_i(j)$ for every integer
+    $j$.} Such a $y$ has $J\subseteq W(y)$: $y\leq\lceil5a/2\rceil-1\leq(5a-1)/2$ gives
+    $y/2\leq(5a-1)/4$ and hence $\lceil y/2\rceil\leq\lceil5a/4\rceil$, while $2a-1\leq y-1$
+    because $y\geq2a$. Since $J\subseteq I_{i-1}(\ell)$, a first step into $J$ is the exit, so
+    $\varsigma=1$ and $Y_\varsigma=Y_1$ on $\{Y_1\in J\}$, and the one-step bound gives
+    $\mathbb P(Y_\varsigma=j\mid Y_0=y)\geq c/\bigl(2(j+1)\bigr)$ for $j\in J$. On $J$,
+    $1/(j+1)=\varpi_i(j)\sum_{j'\in J}1/(j'+1)\geq\tfrac12\ln\tfrac85\,\varpi_i(j)$ by
+    \eqref{eq:doubling_windowsums}; off $J$, $\varpi_i(j)=0$.
+    \item \emph{Every $y\in I_i(\ell)$ with $y\geq\lceil5a/2\rceil$ satisfies
+    $\mathbb P(Y_\varsigma=j\mid Y_0=y)\geq\omega\,\varpi_i(j)$ for every integer $j$.} Such a
+    $y$ has $J'\subseteq W(y)$: the largest element $\lceil5a/2\rceil-1$ of $J'$ is at most
+    $y-1$, and $\lceil y/2\rceil\leq2a$ because $y\leq4a-1$. The one-step bound and
+    \eqref{eq:doubling_windowsums} give
+    $\mathbb P(Y_1\in J'\mid Y_0=y)\geq\tfrac c2\sum_{j\in J'}1/(j+1)\geq\tfrac c4\ln\tfrac54$.
+    Every state $z$ of $J'$ lies in $I_i(\ell)$ and is $<\lceil5a/2\rceil$, so $\varsigma>1$ on
+    $\{Y_1\in J'\}$, the exit time from $I_i(\ell)$ of the chain restarted at time $1$ is
+    $\varsigma-1$, and the case of a starting state below $\lceil5a/2\rceil$ applies at $z$; by
+    the Markov property at time $1$,
+    \begin{equation}
+    \begin{aligned}
+        \mathbb P\bigl(Y_\varsigma=j\mid Y_0=y\bigr)
+        \;&\geq\;\sum_{z\in J'}\mathbb P\bigl(Y_1=z\mid Y_0=y\bigr)\\
+        &\qquad\times\;\mathbb P\bigl(Y_\varsigma=j\mid Y_0=z\bigr)\\
+        \;&\geq\;\tfrac c4\ln\tfrac54\cdot\tfrac c4\ln\tfrac85\,\varpi_i(j)\\
+        \;&=\;\omega\,\varpi_i(j).
+    \end{aligned}
+    \end{equation}
+\end{itemize}
+The two cases cover $I_i(\ell)$, and $\tfrac c4\ln\tfrac85\geq\omega$ because
+$\tfrac c4\ln\tfrac54\leq1$: this is \eqref{eq:doubling_doeblin}. Finally $\omega>0$, and
+$\omega<1$ because $c<1$ and $\ln\tfrac54\ln\tfrac85<1$; $\omega$ depends on $c$ alone.
+\end{proof}
+
+\begin{lemma}[two descents from one block reach the base block with nearly the same law]\label{lem:doubling_coupling}
+In the setting of Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation},
+with $\omega$ and the integer $\ell_4$ of Lemma~\ref{lem:doubling_doeblin}, let
+$\ell\geq\ell_4$ be an integer and let $(Y_n)_{n\geq0}$ and $N_\ell$ be the descent chain of
+Lemma~\ref{lem:doubling_descent} at the level $\ell$ and its exit time. Then, for every integer
+$i\geq0$ and every pair of states $y,y'\in I_i(\ell)$,
+\begin{equation}\label{eq:doubling_coupling}
+\begin{split}
+    \TV\Bigl(&\mathbb P\bigl(Y_{N_\ell}\in\cdot\mid Y_0=y\bigr)\,\Big\|\,
+    \mathbb P\bigl(Y_{N_\ell}\in\cdot\mid Y_0=y'\bigr)\Bigr)\\
+    &\qquad\leq\;(1-\omega)^{i},
+\end{split}
+\end{equation}
+the total variation carrying the $\tfrac12$-convention of \S\ref{app:notation}.
+\end{lemma}
+
+\begin{proof}
+For a state $z\geq\ell$ put $\pi_z:=\mathbb P(Y_{N_\ell}\in\cdot\mid Y_0=z)$; for an integer
+$i\geq1$ let $\varpi_i$ be the reference law of Lemma~\ref{lem:doubling_doeblin} at the level
+$\ell$ and $\varsigma$ the exit time from $I_i(\ell)$ of that lemma, and for a state
+$y\in I_i(\ell)$ put $\mu_y:=\mathbb P(Y_\varsigma\in\cdot\mid Y_0=y)$ and
+$\widetilde\mu_y:=(\mu_y-\omega\varpi_i)/(1-\omega)$, which is legitimate since $\omega<1$. The
+proof is by induction on $i$, the claim at $i$ being that
+$\TV(\pi_y\|\pi_{y'})\leq(1-\omega)^{i}$ for every pair $y,y'\in I_i(\ell)$.
+\begin{itemize}
+    \item \emph{The claim holds at $i=0$.} A state $y\in I_0(\ell)=[\ell,2\ell)$ has
+    $N_\ell=0$ and $Y_{N_\ell}=y$, so $\pi_y$ and $\pi_{y'}$ are the Dirac masses at $y$ and
+    at $y'$, whose total variation is $0$ when $y=y'$ and $1$ when $y\neq y'$: in both cases
+    at most $1=(1-\omega)^{0}$.
+    \item \emph{At $i\geq1$, $\widetilde\mu_y$ is a probability on $I_{i-1}(\ell)$ and
+    $\mu_y=\omega\varpi_i+(1-\omega)\widetilde\mu_y$.} By
+    Lemma~\ref{lem:doubling_doeblin}, $\mu_y$ is a probability carried by $I_{i-1}(\ell)$ with
+    $\mu_y\geq\omega\varpi_i$, so $\widetilde\mu_y$ is non-negative by
+    \eqref{eq:doubling_doeblin}, is carried by $I_{i-1}(\ell)$, $\varpi_i$ being carried by
+    that block too, and has total mass $(1-\omega)/(1-\omega)=1$; the identity is the
+    definition of $\widetilde\mu_y$.
+    \item \emph{At $i\geq1$, $\pi_y=\sum_{z\in I_{i-1}(\ell)}\mu_y(z)\,\pi_z$.} The exit time
+    $\varsigma$ is a stopping time with $\varsigma\leq N_\ell$, every state of $I_i(\ell)$
+    being $\geq2\ell$, and $Y_\varsigma\in I_{i-1}(\ell)$ by
+    Lemma~\ref{lem:doubling_doeblin}; the descent chain at the level $\ell$ is
+    time-homogeneous, so the strong Markov property at $\varsigma$ gives the identity.
+    \item \emph{The claim at $i-1$ implies the claim at $i$, for $i\geq1$.} Subtracting the
+    two mixture identities $\pi_y=\sum_{z\in I_{i-1}(\ell)}\mu_y(z)\,\pi_z$ and
+    $\pi_{y'}=\sum_{z\in I_{i-1}(\ell)}\mu_{y'}(z)\,\pi_z$ and cancelling their common part
+    $\omega\sum_z\varpi_i(z)\pi_z$ leaves
+    $\pi_y-\pi_{y'}=(1-\omega)\bigl(\sum_z\widetilde\mu_y(z)\pi_z
+    -\sum_z\widetilde\mu_{y'}(z)\pi_z\bigr)$, and writing both sums against the product
+    probability $\widetilde\mu_y\otimes\widetilde\mu_{y'}$ on $I_{i-1}(\ell)^2$,
+    \begin{equation}
+        \pi_y-\pi_{y'}\;=\;(1-\omega)\!\!\sum_{z,z'\in I_{i-1}(\ell)}\!\!
+        \widetilde\mu_y(z)\,\widetilde\mu_{y'}(z')\,\bigl(\pi_z-\pi_{z'}\bigr) .
+    \end{equation}
+    The block $I_{i-1}(\ell)$ is finite and the coefficients sum to $1$, so the triangle
+    inequality for the total-variation norm bounds $\TV(\pi_y\|\pi_{y'})$ by
+    $(1-\omega)\max_{z,z'\in I_{i-1}(\ell)}\TV(\pi_z\|\pi_{z'})$, which the claim at $i-1$
+    bounds by $(1-\omega)^{i}$.
+\end{itemize}
+This is \eqref{eq:doubling_coupling}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{theo:doubling_sharp}]
+Let $0<c_1\leq c_2$ be the constants of Theorem~\ref{theo:doubling_decay}\emph{(2)}, so that
+$c_1\leq u_m\leq c_2$ at every integer $m\geq1$, $u_m=\lambda_m\,m^{p}$ being the rescaled
+profile of Definition~\ref{def:doubling_decay_notation} and $p$ being $p_*$; let $c_3$ and
+$\ell_3$ be the constants of Lemma~\ref{lem:doubling_weight}, and $\omega$ and $\ell_4$ those
+of Lemma~\ref{lem:doubling_doeblin}. For an integer level $\ell$ at least the $\ell_1$ of
+Lemma~\ref{lem:doubling_descent}, write $(Y_n)_{n\geq0}$, $N_\ell$ and
+$Z_\ell:=\prod_{n<N_\ell}R_0(Y_n)$ for the descent chain of that lemma at the level $\ell$, its
+exit time and its weight. Every use of Lemma~\ref{lem:doubling_descent}\emph{(3)} below is at
+the range $M_1=+\infty$, whose hypotheses hold: $(\lambda_j)_{j\geq1}$ satisfies
+\eqref{eq:doubling_cut} at every integer $y>d$, and every level used is at least
+$\ell_4\geq\ell_3\geq\ell_2\geq2\ell_1$, the three inequalities being those of
+Lemmas~\ref{lem:doubling_doeblin}, \ref{lem:doubling_weight} and~\ref{lem:doubling_escape}.
+\begin{itemize}
+    \item \emph{Two states of one dyadic block have profiles differing by at most
+    $c_2(1-\omega)^{i}+2c_2c_3/\ell$.} Let $\ell\geq\ell_4$ and $i\geq0$ be integers and let
+    $y,y'\in I_i(\ell)$. At $i=0$ both $u_y$ and $u_{y'}$ lie in $(0,c_2]$, so
+    $|u_y-u_{y'}|\leq c_2=c_2(1-\omega)^{0}$, which is at most the announced bound,
+    $2c_2c_3/\ell$ being non-negative. Let $i\geq1$, so that $y,y'\geq2^{i}\ell\geq2\ell$,
+    and run the descent chain at the level $\ell$: splitting
+    $Z_\ell\,u_{Y_{N_\ell}}=u_{Y_{N_\ell}}+(Z_\ell-1)\,u_{Y_{N_\ell}}$ in
+    \eqref{eq:doubling_pathid} at the starting state $y$ gives
+    \begin{equation}
+        u_y\;=\;\mathbb E\bigl(u_{Y_{N_\ell}}\mid Y_0=y\bigr)
+        \;+\;\mathbb E\bigl((Z_\ell-1)\,u_{Y_{N_\ell}}\mid Y_0=y\bigr),
+    \end{equation}
+    and the same at $y'$. Since $0<u_j\leq c_2$ at every $j\geq1$, the second term has modulus
+    at most $c_2\,\mathbb E(|Z_\ell-1|\mid Y_0=y)\leq c_2c_3/\ell$ by
+    \eqref{eq:doubling_weight}, which applies at the level $\ell\geq\ell_3$ and the starting
+    state $y\geq2\ell$, and the same at $y'$. Write
+    $\pi_z:=\mathbb P(Y_{N_\ell}\in\cdot\mid Y_0=z)$ for the law of the exit state from a
+    starting state $z$, so that the two first terms are $\int u\,d\pi_y$ and
+    $\int u\,d\pi_{y'}$, both bearing on the restriction of $u$ to $[\ell,2\ell)$, where
+    $Y_{N_\ell}$ lives by Lemma~\ref{lem:doubling_descent}\emph{(2)}. Two probabilities $\pi$,
+    $\pi'$ on the integers and a bounded function $f$ satisfy
+    $\bigl|\int f\,d(\pi-\pi')\bigr|\leq(\sup f-\inf f)\,\TV(\pi\|\pi')$: the signed measure
+    $\pi-\pi'$ has total mass $0$, so
+    $\int f\,d(\pi-\pi')=\int\bigl(f-\tfrac12(\sup f+\inf f)\bigr)\,d(\pi-\pi')$, the
+    integrand of the right side has modulus at most $\tfrac12(\sup f-\inf f)$, and
+    $\sum_j|\pi(j)-\pi'(j)|=2\,\TV(\pi\|\pi')$ in the $\tfrac12$-convention in force
+    (Definition~\ref{def:doubling_setting}). Apply this at $f=u$ on $[\ell,2\ell)$, whose
+    supremum minus infimum there is at most $c_2-c_1\leq c_2$, and at $\pi=\pi_y$,
+    $\pi'=\pi_{y'}$, whose total variation is at most $(1-\omega)^{i}$ by
+    \eqref{eq:doubling_coupling}, whose hypotheses
+    $\ell\geq\ell_4$ and $y,y'\in I_i(\ell)$ hold: the two first terms differ by at most
+    $c_2(1-\omega)^{i}$.
+    \item \emph{Two states above $2^{i}\ell$ have profiles differing by at most
+    $c_2(1-\omega)^{i}+3c_2c_3/\ell$.} Let $\ell\geq\ell_4$ and $i\geq0$ be integers and let
+    $m,m'$ be integers with $m,m'\geq2^{i}\ell$. The blocks $I_j(\ell)$, $j\geq0$, partition
+    the integers $\geq\ell$, so $m\in I_j(\ell)$ and $m'\in I_{j'}(\ell)$ for unique integers
+    $j$ and $j'$, both $\geq i$ because $m,m'\geq2^{i}\ell$, and $j\leq j'$ after exchanging
+    $m$ and $m'$ if need be, the claim being symmetric in the two. If $j'=j$, then $m$ and
+    $m'$ are two states of the block $I_j(\ell)$, so
+    $|u_m-u_{m'}|\leq c_2(1-\omega)^{j}+2c_2c_3/\ell$, which is at most the announced bound
+    because $0<1-\omega<1$ and $j\geq i$. Let $j'>j$ and put $\ell':=2^{j}\ell$, so that
+    $I_j(\ell)=[\ell',2\ell')$, $\ell'\geq\ell\geq\ell_4$ and $m'\geq2^{j'}\ell\geq2\ell'$.
+    Run the descent chain at the level $\ell'$ from the starting state $m'$:
+    \eqref{eq:doubling_pathid} gives
+    $u_{m'}=\mathbb E\bigl(Z_{\ell'}u_{Y_{N_{\ell'}}}\mid Y_0=m'\bigr)$ with
+    $Y_{N_{\ell'}}\in[\ell',2\ell')=I_j(\ell)$ by Lemma~\ref{lem:doubling_descent}\emph{(2)},
+    so splitting $Z_{\ell'}u_{Y_{N_{\ell'}}}-u_m=\bigl(u_{Y_{N_{\ell'}}}-u_m\bigr)
+    +(Z_{\ell'}-1)\,u_{Y_{N_{\ell'}}}$ and using $0<u_j\leq c_2$ at every $j\geq1$,
+    \begin{equation}
+    \begin{aligned}
+        \bigl|u_{m'}-u_m\bigr|\;\leq\;&
+        \mathbb E\bigl(\bigl|u_{Y_{N_{\ell'}}}-u_m\bigr|\bigm| Y_0=m'\bigr)\\
+        &+\;c_2\,\mathbb E\bigl(|Z_{\ell'}-1|\mid Y_0=m'\bigr) .
+    \end{aligned}
+    \end{equation}
+    Both $Y_{N_{\ell'}}$ and $m$ are states of the block $I_j(\ell)$, so the first term is at
+    most $c_2(1-\omega)^{j}+2c_2c_3/\ell$; and \eqref{eq:doubling_weight} at the level
+    $\ell'\geq\ell_3$ and the starting state $m'\geq2\ell'$ bounds the second by
+    $c_2c_3/\ell'$. With $(1-\omega)^{j}\leq(1-\omega)^{i}$ and $\ell'\geq\ell$, this is the
+    announced bound.
+    \item \emph{The rescaled profile converges, and its limit lies in $[c_1',c_2']$ for every
+    pair $0<c_1'\leq c_2'$ satisfying \eqref{eq:doubling_decay}.} Let $t>0$, choose an integer
+    $\ell\geq\ell_4$ with $3c_2c_3/\ell\leq t/2$ and then an integer $i\geq0$ with
+    $c_2(1-\omega)^{i}\leq t/2$, which $0<1-\omega<1$ permits. Two integers
+    $m,m'\geq2^{i}\ell$ then have $|u_m-u_{m'}|\leq c_2(1-\omega)^{i}+3c_2c_3/\ell\leq t$, so
+    $(u_m)_{m\geq1}$ is a Cauchy sequence and converges to a limit $C$. If
+    $0<c_1'\leq c_2'$ satisfy \eqref{eq:doubling_decay}, then $c_1'\leq u_m\leq c_2'$ at every
+    $m\geq1$, so $C\in[c_1',c_2']$; and $u_m=\lambda_m\,m^{p_*}$, so $u_m\rightarrow C$ is
+    \eqref{eq:doubling_sharp}.
+    \item \emph{The convergence carries the rate \eqref{eq:doubling_rate}.} Put
+    $\alpha:=\log_2\bigl(1/(1-\omega)\bigr)$ and $\vartheta:=\alpha/(1+\alpha)$, so that
+    $\alpha>0$ and $\vartheta\in(0,1)$, $\omega$ lying in $(0,1)$; both depend on $c$ alone,
+    $\omega$ doing so by Lemma~\ref{lem:doubling_doeblin}. Put
+    $m_3:=\max\bigl(\lceil\ell_4^{1/\vartheta}\rceil,\lceil2^{1/(1-\vartheta)}\rceil\bigr)$,
+    an integer depending on $c$ and $d$ alone, and, for an integer $m\geq1$,
+    $\ell:=\lceil m^{\vartheta}\rceil$ and $i:=\lfloor\log_2(m/\ell)\rfloor$. At $m\geq m_3$
+    these satisfy $\ell\geq\ell_4$ and $i\geq0$: $m\geq\ell_4^{1/\vartheta}$ gives
+    $m^{\vartheta}\geq\ell_4$ and hence $\ell\geq\ell_4$; and $m^{\vartheta}\geq1$ gives
+    $\ell\leq m^{\vartheta}+1\leq2m^{\vartheta}$, which $m^{1-\vartheta}\geq2$ makes at most
+    $m$, so that $i\geq0$. There $2^{i}\ell\leq m$, so $m$ and every integer
+    $m'\geq2^{i}\ell$ are two states above $2^{i}\ell$ and satisfy
+    $|u_m-u_{m'}|\leq c_2(1-\omega)^{i}+3c_2c_3/\ell$; letting $m'\rightarrow\infty$ gives
+    $|u_m-C|\leq c_2(1-\omega)^{i}+3c_2c_3/\ell$. Here $\ell\geq m^{\vartheta}$ gives
+    $1/\ell\leq m^{-\vartheta}$, while $2^{i+1}>m/\ell$ and $1-\omega=2^{-\alpha}$ give
+    \begin{equation}
+    \begin{aligned}
+        (1-\omega)^{i}\;&=\;2^{-\alpha i}\;<\;\Bigl(\frac{2\ell}{m}\Bigr)^{\alpha}
+        \;\leq\;\Bigl(\frac{4m^{\vartheta}}{m}\Bigr)^{\alpha}\\
+        \;&=\;4^{\alpha}\,m^{-\alpha(1-\vartheta)}\;=\;4^{\alpha}\,m^{-\vartheta},
+    \end{aligned}
+    \end{equation}
+    by $\ell\leq2m^{\vartheta}$ and $\alpha(1-\vartheta)=\alpha/(1+\alpha)=\vartheta$. Hence
+    $|u_m-C|\leq c_2\bigl(4^{\alpha}+3c_3\bigr)m^{-\vartheta}$ at every integer $m\geq m_3$;
+    and at $1\leq m<m_3$, both $u_m$ and $C$ lying in $[c_1,c_2]$,
+    $|u_m-C|\leq c_2\leq c_2\,m_3^{\vartheta}\,m^{-\vartheta}$. So
+    $c_6:=c_2\max\bigl(4^{\alpha}+3c_3,\,m_3^{\vartheta}\bigr)$ satisfies
+    \eqref{eq:doubling_rate}, $u_j$ being $\lambda_j\,j^{p_*}$. It depends on $c$, $d$ and
+    $\lambda_1,\dots,\lambda_{2m_0}$ alone: $\alpha$ and $\vartheta$ on $c$; $c_3$, $\ell_4$
+    and with them $m_3$ on $c$ and $d$, by Lemmas~\ref{lem:doubling_weight}
+    and~\ref{lem:doubling_doeblin}; and $c_2$ on $c$, $d$ and $\lambda_1,\dots,\lambda_{2m_0}$
+    by Theorem~\ref{theo:doubling_decay}\emph{(2)}.
+    \item \emph{The limit is determined by $c$, $d$ and $\lambda_1,\dots,\lambda_d$.} By
+    Lemma~\ref{lem:doubling_averaging}\emph{(1)}, \eqref{eq:doubling_avg} holds at every
+    integer $m>d$, and it determines $\lambda_m$ from $c$ and
+    $\lambda_{\lceil m/2\rceil},\dots,\lambda_{m-1}$, whose indices lie in $\{1,\dots,m-1\}$;
+    by induction it determines the whole sequence, and with it $C$, from $c$, $d$ and
+    $\lambda_1,\dots,\lambda_d$.
+\end{itemize}
+\end{proof}
+
+\begin{remark}[no log-periodic term]\label{rem:doubling_no_logperiodic}
+The limit in \eqref{eq:doubling_sharp} exists, so the decay carries no log-periodic term, the
+usual failure mode of dyadic recursions. What excludes it is the window of
+Definition~\ref{def:doubling_decay_notation}. A descent that halved deterministically would
+leave each block $I_i(\ell)$ at a single state, fixed by the dyadic position of the state it
+started from; two starts of one block would then share no reference law, the best constant in
+\eqref{eq:doubling_doeblin} would be $0$, and every $1$-periodic function of $\log_2m$ would be
+compatible with the recursion such a descent would represent, to leading order. The window spreads
+the exit law over the integers of $[\lceil5a/4\rceil,2a)$, where $a=2^{i-1}\ell$ is the foot of
+the block below, with mass bounded below at every one of them, and
+Lemma~\ref{lem:doubling_coupling} leaves only the constants.
+\end{remark}
+
+\begin{corollary}[the tail, with the constant]\label{cor:doubling_tail_sharp}
+Let $s=1$ and $0<c<1$, let $(\lambda_j)_{j\geq1}$ be a positive sequence satisfying
+\eqref{eq:doubling_cut} for every $m>d$, in the notation of
+Definitions~\ref{def:doubling_setting} and~\ref{def:doubling_decay_notation}, let $C$ be the
+constant of \eqref{eq:doubling_sharp} and let $L$ be the tail of
+Definition~\ref{def:doubling_setting}.
+Then
+\begin{equation}\label{eq:doubling_tail_sharp}
+\begin{aligned}
+    L(m)\;&=\;\frac{C}{p_*-1}\,m^{1-p_*}\bigl(1+o(1)\bigr),\\
+    \frac{L(m)}{\lambda_m}\;&=\;\frac{m}{p_*-1}\bigl(1+o(1)\bigr).
+\end{aligned}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+By \eqref{eq:doubling_powertail},
+$\sum_{j\geq m}j^{-p}=\frac{m^{1-p}}{p-1}(1+\xi_m)$ with
+$0\leq\xi_m\leq(p-1)/m$. Let $t>0$ and let $m_t$ be such that
+$|u_j-C|\leq t$ for $j\geq m_t$, which
+Theorem~\ref{theo:doubling_sharp} provides. For $m\geq m_t$,
+\begin{equation}
+    (C-t)\sum_{j\geq m}j^{-p}\;\leq\;L(m)\;\leq\;(C+t)\sum_{j\geq m}j^{-p},
+\end{equation}
+so $(p-1)m^{p-1}L(m)$ has all its limit points in $[C-t,C+t]$; as
+$t$ is arbitrary, $(p-1)m^{p-1}L(m)\rightarrow C$, which is the first half of
+\eqref{eq:doubling_tail_sharp}. Dividing it by $u_m=\lambda_mm^{p}\rightarrow C>0$ gives the
+second.
+\end{proof}
+
+\begin{proposition}[the constant is a linear functional of the boundary data]\label{prop:doubling_constant}
+Let $s=1$ and $0<c<1$, in the notation of Definitions~\ref{def:doubling_setting}
+and~\ref{def:doubling_decay_notation}, and let $C$ be the limit of \eqref{eq:doubling_sharp},
+which Theorem~\ref{theo:doubling_sharp}
+attaches to every positive sequence satisfying \eqref{eq:doubling_cut} at every integer $m>d$.
+Then the real sequences $(\lambda_j)_{j\geq1}$ satisfying \eqref{eq:doubling_cut} at every
+integer $m>d$ form a real vector space, the map
+$(\lambda_j)_{j\geq1}\mapsto(\lambda_1,\dots,\lambda_d)$ is a linear isomorphism of it onto
+$\mathbb R^{d}$, and such a sequence is positive if and only if $\lambda_1,\dots,\lambda_d$
+are. There are reals $\nu_1,\dots,\nu_d$ with
+\begin{equation}\label{eq:doubling_constant}
+    C\;=\;\sum_{j=1}^{d}\nu_j\,\lambda_j
+\end{equation}
+at every positive such sequence, and they satisfy $\nu_j\geq0$ for every $j$,
+$\sum_{j=1}^{d}\nu_j>0$, and $\nu_j=0$ whenever $2j\leq d$.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1 (the space, its coordinates and its positive cone).} Let $m>d$ be an integer. Then
+$\varepsilon(m)=c/(m+1)\leq c/2<1$, so dividing \eqref{eq:doubling_cut} at $m$ by
+$1-\varepsilon(m)>0$ and substituting $\varepsilon(j)=c/(j+1)$ turns it into
+$\lambda_m=\sum_{j\in W(m)}q_m(j)\lambda_j$, with $q_m>0$ on $W(m)$ by
+\eqref{eq:doubling_window}, and every $j\in W(m)$ satisfies $1\leq\lceil m/2\rceil\leq j\leq
+m-1$. That identity is linear in $(\lambda_j)_{j\geq1}$, so the sequences satisfying it at
+every $m>d$ form a real vector space; and by induction on $m$ it determines $\lambda_m$ for
+$m>d$ from $\lambda_1,\dots,\lambda_d$, and produces exactly one sequence of the space for each
+prescribed $(\lambda_1,\dots,\lambda_d)\in\mathbb R^{d}$: the restriction to the first $d$
+coordinates is a linear isomorphism onto $\mathbb R^{d}$. If $\lambda_1,\dots,\lambda_d>0$, the
+same induction with $q_m>0$ gives $\lambda_m>0$ at every $m>d$; conversely a positive sequence
+has $\lambda_1,\dots,\lambda_d>0$.
+
+\emph{Step 2 ($C$ is linear on the positive cone).} By Step 1, $\lambda\mapsto\lambda_m$ is a
+linear functional of $(\lambda_1,\dots,\lambda_d)$ at every $m\geq1$, hence so is
+$\lambda\mapsto\lambda_m\,m^{p_*}$; and by Step 1 the positive sequences are the preimage of
+the open positive orthant of $\mathbb R^{d}$ under the isomorphism of that step, hence a
+non-empty convex cone, open for the topology that isomorphism transports. On that cone
+Theorem~\ref{theo:doubling_sharp} makes $C=\lim_m\lambda_m\,m^{p_*}$ exist, so $C$ is additive
+and positively homogeneous there, both properties passing from the functionals
+$\lambda\mapsto\lambda_m\,m^{p_*}$ to their limit wherever it exists. Every element
+$\lambda''$ of the space is a difference of two elements of the cone: taking $\lambda$ in the
+cone and $x>0$ small enough that $\lambda+x\lambda''$ lies in it, which openness allows,
+$\lambda''=x^{-1}(\lambda+x\lambda'')-x^{-1}\lambda$ and the cone is stable under
+multiplication by $x^{-1}>0$. Setting $C(\lambda-\lambda'):=C(\lambda)-C(\lambda')$ is
+unambiguous by additivity and extends $C$ to an additive and $\mathbb R$-homogeneous, that is
+linear, functional on the space. Hence
+$C=\sum_{j=1}^{d}\nu_j\lambda_j$ with $\nu_j$ the value of that extension at the sequence whose
+first $d$ coordinates are the $j$-th vector of the canonical basis of $\mathbb R^{d}$: this is
+\eqref{eq:doubling_constant}.
+
+\emph{Step 3 (the signs, and the indices carrying no weight).} At
+$\lambda_1=\dots=\lambda_d=1$, \eqref{eq:doubling_constant} reads $\sum_{j=1}^{d}\nu_j=C$,
+which is positive: Theorem~\ref{theo:doubling_decay} supplies a pair $0<c_1\leq c_2$ with
+\eqref{eq:doubling_decay} and Theorem~\ref{theo:doubling_sharp} puts $C$ in $[c_1,c_2]$. Fix
+$j\leq d$, take $\lambda_i=1$ for $i\neq j$ and $\lambda_j=t$: then
+$C=\nu_jt+\sum_{i\neq j}\nu_i$ is an affine function of $t$, positive at every $t>0$ by those
+same two theorems, whereas an affine function of negative slope is
+negative for $t$ large; hence $\nu_j\geq0$. Finally let $2j\leq d$ and let $m>d$. Every
+$i\in W(m)$ satisfies $i\geq\lceil m/2\rceil\geq(d+1)/2>d/2\geq j$, so the induction of Step 1
+expresses $\lambda_m$ as a linear combination of the $\lambda_i$ with $d/2<i\leq d$ alone;
+hence neither $\lambda_m$ for $m>d$ nor $C=\lim_m\lambda_m\,m^{p_*}$ depends on $\lambda_j$,
+and $\nu_j=0$.
+\end{proof}
+
+The constant is therefore not explicit, and not a function of $c$ alone: it is a linear
+functional of the boundary data, and \eqref{eq:doubling_constant} leaves its coefficients
+unevaluated.
+
+\begin{remark}[the second order, and the parity wobble --- a formal expansion]\label{rem:doubling_second_order}
+In the notation of Definition~\ref{def:doubling_decay_notation}, with $C$ the constant of
+Theorem~\ref{theo:doubling_sharp} and with the coefficients $A_0$, $A_1$ and $\Gamma$ of
+Lemma~\ref{lem:doubling_expansion}, substituting the ansatz
+$u_m=C\bigl(1+\alpha_{\delta(m)}/m+o(1/m)\bigr)$, with coefficients $\alpha_0$ and $\alpha_1$
+to be determined and $\alpha_\delta$ standing for $\alpha_{\delta(m)}$, into
+\eqref{eq:doubling_uavg}, and using $\sum_{j\in W(m)}q_m(j)\Phi_{\bar\alpha}(j)=R_{\bar\alpha}(m)\Phi_{\bar\alpha}(m)$ from
+\eqref{eq:doubling_R} at the constant $\bar\alpha:=(\alpha_0+\alpha_1)/2$ --- the alternating
+part of $j\mapsto\alpha_{\delta(j)}$ contributing only at order $m^{-p_*-2}$ --- expansion
+\eqref{eq:doubling_Rexp} matches the coefficient of $1/m$ at each parity to $\alpha_\delta=A_\delta+(\Gamma+1)\bar\alpha$. Averaging over $\delta$ gives
+$\bar\alpha=-(A_0+A_1)/(2\Gamma)$, and subtracting gives $\alpha_0-\alpha_1=A_0-A_1=c\tau$: the
+amplitude of the parity wobble is fixed by \eqref{eq:doubling_AB} with no free constant. This
+is a formal matching computation and is not proved here. Proving it needs $|u_m-C|=O(1/m)$,
+whereas Theorem~\ref{theo:doubling_sharp} gives \eqref{eq:doubling_rate} with an exponent
+$\vartheta<1$ depending on $c$ alone, and the $\lceil m/2\rceil$ of \eqref{eq:doubling_cut}
+closes the Mellin route to the exponent $1$.
+\end{remark}
+
+\subsubsection{Unboundedness of the diffusion operator}
+
+This block proves items \emph{(3)} and \emph{(4)} of Theorem~\ref{theo:doubling_main}: across
+the whole standing range of the family, and against the condition of
+\citet{morozov2025revisiting}, the diffusion operator is unbounded on every $L^p(\lambda)$ at
+every positive recurrent member, and some pairs of $L^2$ densities cannot be balanced there at
+all. Lemma~\ref{lem:doubling_truncation_irreducible} makes the truncation at an even cap a
+finite irreducible chain, and Lemma~\ref{lem:doubling_percut} bounds, at one cut of the ladder
+and on the loop closure and the truncation alike, the Rayleigh ratio of the centred tail
+indicator at that cut. Theorem~\ref{theo:doubling_unbounded} is the general statement at the
+finite exponents --- it asks of the doubling probability only a growth condition ---
+Lemma~\ref{lem:doubling_ramp} reaches the exponent $+\infty$ along a second family of trial
+functions, and Corollary~\ref{cor:doubling_family} makes the finite exponents explicit at
+$s=1$ and $c<1$, with a rate and along a family named in advance.
+Proposition~\ref{prop:doubling_unsolvable} turns the unboundedness into a pair of $L^2$
+densities admitting no exact outflow. Remark~\ref{rem:doubling_geometric} shows that growth
+condition is not vacuous: a geometrically decaying doubling probability fails it.
+
+\begin{lemma}[the truncation is a finite irreducible chain]\label{lem:doubling_truncation_irreducible}
+In the setting of Definition~\ref{def:doubling_setting}, let $\varepsilon(j)\in(0,1)$ for every
+$j\geq1$ and let $K\geq d$ be an even integer. Then the truncation at $K$ is an irreducible
+Markov chain on the $K+2$ states $\{s_0,1,\dots,K,s_f\}$; it carries a unique invariant
+probability $\lambda^K$, which is positive at every state; and the operator $S$ of
+\eqref{eq:doubling_Bhat} formed on it satisfies \eqref{eq:doubling_resolvent}, with
+$\widehat B_K<+\infty$.
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1 (the state set is closed and every retained transition is positive).} A ladder
+state $j\leq K$ decrements to $j-1$, read as $s_0$ at $j=1$, and doubles to $2j$ only when that
+edge is present, that is when $2j\leq K$; $s_0$ maps to $s_f$, and $s_f$ into $\{1,\dots,d\}$,
+which is contained in $\{1,\dots,K\}$ because $d\leq K$. So $\{s_0,1,\dots,K,s_f\}$ is closed
+and carries the truncation as a Markov chain on $K+2$ states. The decrement out of a ladder
+state $j$ has probability $1-\varepsilon(j)>0$ when $2j\leq K$ and probability $1$ when
+$2j>K$; the doubling edge out of a ladder state $j$ with $2j\leq K$ has probability
+$\varepsilon(j)>0$; the wrap $s_0\rightarrow s_f$ has probability $1$; and the target row, a
+probability supported in $\{1,\dots,d\}$, is positive at some $j_0\in\{1,\dots,d\}$.
+
+\emph{Step 2 (every state leads to the state $1$).} From a ladder state $j$ the $j$ consecutive
+decrements reach $s_0$, from $s_0$ the wrap reaches $s_f$, from $s_f$ the target row reaches
+$j_0$, and from $j_0$ the $j_0-1$ consecutive decrements reach $1$; each of these transitions
+is positive by Step 1.
+
+\emph{Step 3 (the state $1$ leads to every state).} Let $2^r$ be the largest power of two with
+$2^r\leq K$, so that $K<2^{r+1}$ and $K/2<2^r$. The doubling edges
+$2^i\rightarrow2^{i+1}$ are present for $0\leq i<r$, so $1$ leads to $2^r$, and the decrements
+out of $2^r$ lead to every ladder state $n<2^r$: the state $1$ leads to every ladder state
+$n\leq2^r$. Let $2^r<n\leq K$. If $n$ is even, then $n/2\leq K/2<2^r$, so $1$ leads to $n/2$,
+and the doubling edge $n/2\rightarrow n$ is present because $n\leq K$. If $n$ is odd, then
+$n\neq K$, $K$ being even, so $n+1$ is even with $2^r<n+1\leq K$ and $1$ leads to $n+1$ by the
+previous case, and the decrement $n+1\rightarrow n$ is present. Hence $1$ leads to every ladder
+state $n\leq K$, and to $s_0$ and $s_f$ by Step 2.
+
+\emph{Step 4 (the invariant probability and the diffusion operator).} By Steps 2 and 3 every
+state leads to every other, so the truncation is an irreducible chain on a finite state space
+and carries a unique invariant probability $\lambda^K$, positive at every state
+\citep{levin2017markov}. Lemma~\ref{lem:doubling_operator}\emph{(2)}, applied to that chain,
+gives $S$ and \eqref{eq:doubling_resolvent}; $S$ acts on the finite-dimensional space
+$L^2(\lambda^K)$, so $\widehat B_K=\|S\|_{L^2(\lambda^K)}<+\infty$.
+\end{proof}
+
+\begin{lemma}[the per-cut inequality]\label{lem:doubling_percut}
+In the setting of Definition~\ref{def:doubling_setting}, let the backward policy be
+\eqref{eq:doubling_policy} with $\varepsilon(j)>0$ for every $j\geq1$ and
+$\varepsilon_{\max}=\sup_{j\geq1}\varepsilon(j)<1$, and let $m$ be an integer. Assume that one
+of the following holds:
+\begin{enumerate}
+    \item the loop-closed chain is positive recurrent with invariant probability $\lambda$ and
+    $m>d$; put $A:=[m,+\infty)$ and $L:=L(m)$;
+    \item $K\geq d$ is an even integer, $\lambda$ is the invariant probability $\lambda^K$ of
+    the truncation at $K$, and $d<m\leq K/2$; put $A:=[m,K]$ and $L:=L_K(m)$.
+\end{enumerate}
+Let $P_\star$ be the function action of the backward kernel of that chain,
+let $\Pi$ be the $\lambda$-mean projection and put $f_m:=\mathbf 1_A-L$. Then
+\begin{equation}\label{eq:doubling_step1}
+    \left(\mathrm{Id}-P_\star\right)\mathbf 1_A
+    \;=\;\bigl(1-\varepsilon(m)\bigr)\,\mathbf 1_{\{m\}}
+    \;-\;\sum_{x=\lceil m/2\rceil}^{m-1}\varepsilon(x)\,\mathbf 1_{\{x\}} ,
+\end{equation}
+\begin{equation}\label{eq:doubling_step2}
+    \left\|\left(\mathrm{Id}-P_\star\right)\mathbf 1_A\right\|^2_{L^2(\lambda)}
+    \;\leq\;\lambda_m\bigl(1-\varepsilon(m)\bigr)\bigl(1-\varepsilon(m)+\varepsilon_{\max}\bigr)
+    \;\leq\;2\lambda_m ,
+\end{equation}
+and $\Pi f_m=0$, $\|f_m\|^2_{L^2(\lambda)}=L\,(1-L)>0$ and
+\begin{equation}\label{eq:doubling_step3}
+    \frac{\left\|\left(\mathrm{Id}-P_\star\right)f_m\right\|_{L^2(\lambda)}}{\|f_m\|_{L^2(\lambda)}}
+    \;\leq\;\sqrt{\frac{2\lambda_m}{L\bigl(1-L\bigr)}} .
+\end{equation}
+Moreover, for every $p\in[1,+\infty)$,
+\begin{equation}\label{eq:doubling_stepp}
+\begin{gathered}
+    \left\|\left(\mathrm{Id}-P_\star\right)f_m\right\|^p_{L^p(\lambda)}
+    \;\leq\;\lambda_m\left(1+\varepsilon_{\max}^{\,p-1}\right)\;\leq\;2\lambda_m,\\
+    \|f_m\|^p_{L^p(\lambda)}\;=\;L\,(1-L)^p+(1-L)\,L^p\;\geq\;L\,(1-L)^p .
+\end{gathered}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1 (the invariant measure is positive and the tail is not degenerate).} In case
+\emph{(1)} $\varepsilon$ satisfies $0<\varepsilon(j)\leq\varepsilon_{\max}<1$ at every
+$j\geq1$, so the loop closure is irreducible and $\lambda$ is positive at every state
+(Lemma~\ref{lem:doubling_irreducible}); in case
+\emph{(2)} $\lambda$ is positive at every state by
+Lemma~\ref{lem:doubling_truncation_irreducible}. Since $m>d\geq1$, the state $1$ lies outside
+$A$ and the state $m$ lies in $A$, so $0<\lambda_m\leq L\leq1-\lambda_1<1$.
+
+\emph{Step 2 (an exact identity).} $P_\star$ is the function action of the backward kernel
+(Lemma~\ref{lem:adjoint}\emph{(3)}), so
+$\bigl((\mathrm{Id}-P_\star)\mathbf 1_A\bigr)(x)=\mathbf 1_A(x)-\mathbb P(X_1\in A\mid X_0=x)$, and the
+transitions \eqref{eq:doubling_policy} give six cases. For $x\geq m+1$ in $A$ both images lie
+in $A$: the decrement because $x-1\geq m$, and the doubling, when its edge is present, because
+$2x\geq x\geq m$ and, in case \emph{(2)}, $2x\leq K$. A state $x>K/2$ of case \emph{(2)} falls
+here with the decrement as its only image, which lies in $A$; in either case the value is
+$1-1=0$. For $x=m$ the doubling edge is present, in case \emph{(2)} because $2m\leq K$, and
+the value is
+$1-\varepsilon(m)$. For $\lceil m/2\rceil\leq x\leq m-1$ only the doubling edge enters $A$, and
+it is present, in case \emph{(2)} because $2x\leq2m-2<K$, so the value is $-\varepsilon(x)$.
+For $1\leq x<\lceil m/2\rceil$ both $2x<m$ and $x-1<m$, so the value is $0$. At $s_0$ the image
+is $s_f\notin A$, and at $s_f$ the image lies in $\{1,\dots,d\}$ with $d<m$, so both values are
+$0$. This is \eqref{eq:doubling_step1}.
+
+\emph{Step 3 (its norm).} The indicators in \eqref{eq:doubling_step1} have disjoint supports,
+so for every $p\in[1,+\infty)$
+\begin{equation}
+\begin{aligned}
+    \left\|\left(\mathrm{Id}-P_\star\right)\mathbf 1_A\right\|^p_{L^p(\lambda)}
+    \;&=\;\lambda_m\bigl(1-\varepsilon(m)\bigr)^p\\
+    &\quad+\sum_{x=\lceil m/2\rceil}^{m-1}\lambda_x\,\varepsilon(x)^p .
+\end{aligned}
+\end{equation}
+The cut balance \eqref{eq:doubling_cut} holds at $m$ by Proposition~\ref{prop:doubling_cut} ---
+in case \emph{(1)} because $m>d$, in case \emph{(2)} because $K$ is even and $d<m\leq K/2$ ---
+so bounding $\varepsilon(x)^p\leq\varepsilon_{\max}^{\,p-1}\varepsilon(x)$ on the sum gives
+$\sum_x\lambda_x\varepsilon(x)^p\leq\varepsilon_{\max}^{\,p-1}\sum_x\lambda_x\varepsilon(x)=\varepsilon_{\max}^{\,p-1}\lambda_m(1-\varepsilon(m))$
+and
+\begin{equation}
+\begin{gathered}
+    \left\|\left(\mathrm{Id}-P_\star\right)\mathbf 1_A\right\|^p_{L^p(\lambda)}\\
+    \leq\;\lambda_m\bigl(1-\varepsilon(m)\bigr)
+    \Bigl(\bigl(1-\varepsilon(m)\bigr)^{p-1}+\varepsilon_{\max}^{\,p-1}\Bigr).
+\end{gathered}
+\end{equation}
+At $p=2$, with $1-\varepsilon(m)\leq1$ and $1-\varepsilon(m)+\varepsilon_{\max}\leq2$, this is
+\eqref{eq:doubling_step2}; at a general $p$, with $1-\varepsilon(m)\leq1$ and
+$\varepsilon_{\max}<1$, it is the first pair of \eqref{eq:doubling_stepp}.
+
+\emph{Step 4 (the ratio at the cut).} $P_\star\mathbf 1=\mathbf 1$, so
+$(\mathrm{Id}-P_\star)f_m=(\mathrm{Id}-P_\star)\mathbf 1_A$. Since $\lambda(A)=L$, the integral
+$\int f_m\,d\lambda$ vanishes, so $\Pi f_m=0$; and $f_m$ takes the value $1-L$ on $A$, of
+$\lambda$-mass $L$, and $-L$ off $A$, so
+$\|f_m\|^p_{L^p(\lambda)}=L(1-L)^p+(1-L)L^p$ for every $p\in[1,+\infty)$, which is the second
+pair of \eqref{eq:doubling_stepp} and, at $p=2$, is $L(1-L)$, positive by Step 1.
+Dividing \eqref{eq:doubling_step2} by it and taking square roots gives
+\eqref{eq:doubling_step3}.
+\end{proof}
+
+\begin{theorem}[the diffusion operator is unbounded]\label{theo:doubling_unbounded}
+In the setting of Definition~\ref{def:doubling_setting}, let the backward policy be
+\eqref{eq:doubling_policy} with $\varepsilon(j)>0$ for every $j\geq1$ and
+$\varepsilon_{\max}=\sup_{j\geq1}\varepsilon(j)<1$, and consider the growth condition
+\begin{equation}\label{eq:doubling_star}
+    \sum_{i=0}^{D-1}\log\frac{1}{\varepsilon(2^i)}\;=\;o\left(2^D\right)\qquad(D\rightarrow\infty).
+\end{equation}
+Then:
+\begin{enumerate}
+    \item at $\varepsilon=\varepsilon_{c,s}$ with $s\geq0$ and $0<c<2^s$, the left side of
+    \eqref{eq:doubling_star} is $O\left(D^2\right)$ and \eqref{eq:doubling_star} holds;
+    \item if the loop-closed chain is positive recurrent with invariant probability $\lambda$
+    and \eqref{eq:doubling_star} holds, then for every $p\in[1,+\infty)$
+    \begin{equation}\label{eq:doubling_inf}
+        \inf\bigl\{\|(\mathrm{Id}-P_\star)f\|_{L^p(\lambda)}:\Pi f=0,\
+        \|f\|_{L^p(\lambda)}=1\bigr\}=0
+    \end{equation}
+    and no bounded operator $S$ on $L^p(\lambda)$ satisfies
+    $S(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$; at $p=2$ the series
+    $\sum_{n\geq0}(P_\star^n-\Pi)$ does not converge in operator norm and
+    $\sum_{n\geq0}\widehat\beta_n=+\infty$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\emph{(1)} At $\varepsilon=\varepsilon_{c,s}$ with $s\geq0$ and $0<c<2^s$,
+$\sum_{i<D}\log(1/\varepsilon(2^i))=\sum_{i<D}\bigl(s\log(2^i+1)-\log c\bigr)=O(D^2)=o(2^D)$.
+
+\emph{(2)} Let the loop-closed chain be positive recurrent with invariant probability
+$\lambda$ and let \eqref{eq:doubling_star} hold. Since
+$0<\varepsilon(j)\leq\varepsilon_{\max}<1$ at every $j\geq1$, the loop closure is
+irreducible and $\lambda_x>0$ for every state $x$ (Lemma~\ref{lem:doubling_irreducible}); in
+particular $\lambda_1>0$ and
+$0<L(m)<1$ for every $m>1$, and $L(m)\rightarrow0$, $\lambda$ being a probability.
+
+\emph{Step 1 (the ratio $L/\lambda$ is unbounded).} Suppose $\sup_{m>d}L(m)/\lambda_m<+\infty$
+and put $Q:=\sup_{m>d}L(m)/\lambda_m$, so that $Q\geq1$ because $L(m)\geq\lambda_m$. Since
+$\lambda_m=L(m)-L(m+1)$, the bound $L(m)\leq Q\lambda_m$ gives
+$L(m+1)\leq L(m)(1-1/Q)\leq L(m)e^{-1/Q}$ at every $m>d$, hence
+$L(m)\leq L(d+1)\,e^{-(m-d-1)/Q}$ for every $m\geq d+1$. Iterating the first inequality of
+\eqref{eq:doubling_ratios}, which Proposition~\ref{prop:doubling_cut} gives at every ladder
+state, along the powers of two yields
+$L(2^D)\geq\lambda_{2^D}\geq\lambda_1\prod_{i=0}^{D-1}\varepsilon(2^i)$. Taking logarithms of
+the two bounds at $m=2^D$, for every integer $D$ with $2^D\geq d+1$,
+\begin{equation}
+    \frac{2^D-d-1}{Q}\;\leq\;\log\frac{L(d+1)}{\lambda_1}+\sum_{i=0}^{D-1}\log\frac1{\varepsilon(2^i)},
+\end{equation}
+whose right side is $o(2^D)$ by \eqref{eq:doubling_star} while the left side is of order
+$2^D$: a contradiction for $D$ large. Hence $\sup_{m>d}L(m)/\lambda_m=+\infty$.
+
+\emph{Step 2 (the infimum, along the centred tail indicators).} Since $\lambda_m>0$ at every
+ladder state, dropping finitely many cuts from the supremum of Step 1 leaves it infinite:
+$\sup_{m\geq m_1}L(m)/\lambda_m=+\infty$ for every integer $m_1>d$. Fix an integer $m_1>d$
+with $1-L(m)\geq\tfrac12$ for every $m\geq m_1$, which is possible because
+$L(m)\rightarrow0$. Let $p\in[1,+\infty)$, let $t>0$ and choose $m\geq m_1$ with
+$\lambda_m/L(m)\leq\tfrac12(t/2)^p$. Case \emph{(1)} of Lemma~\ref{lem:doubling_percut} holds
+at that cut, so $\Pi f_m=0$ and, by \eqref{eq:doubling_stepp} with $1-L(m)\geq\tfrac12$,
+$\|(\mathrm{Id}-P_\star)f_m\|_{L^p(\lambda)}\leq(2\lambda_m)^{1/p}$ and
+$\|f_m\|_{L^p(\lambda)}\geq\tfrac12L(m)^{1/p}>0$, whence
+\begin{equation}
+    \frac{\left\|\left(\mathrm{Id}-P_\star\right)f_m\right\|_{L^p(\lambda)}}{\|f_m\|_{L^p(\lambda)}}
+    \;\leq\;2\left(\frac{2\lambda_m}{L(m)}\right)^{1/p}\;\leq\;t .
+\end{equation}
+The function $f_m/\|f_m\|_{L^p(\lambda)}$ is mean-zero of unit $L^p(\lambda)$-norm and $t>0$
+was arbitrary, which is \eqref{eq:doubling_inf}.
+
+\emph{Step 3 (the consequences).} Let $p\in[1,+\infty)$. If a bounded $S$ on $L^p(\lambda)$
+satisfied $S(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$, then
+$\|f\|_{L^p(\lambda)}=\|(\mathrm{Id}-\Pi)f\|_{L^p(\lambda)}\leq\|S\|\,\|(\mathrm{Id}-P_\star)f\|_{L^p(\lambda)}$
+for every mean-zero $f$, contradicting \eqref{eq:doubling_inf}. At $p=2$, norm convergence of
+$\sum_{n\geq0}(P_\star^n-\Pi)$ would produce such an $S$ by
+Lemma~\ref{lem:doubling_operator}\emph{(3)}, and $\sum_n\widehat\beta_n<+\infty$ would make
+that series absolutely convergent, $\|P_\star^n-\Pi\|_{L^2(\lambda)}=\widehat\beta_n$ by
+Lemma~\ref{lem:doubling_operator}\emph{(1)}; both are therefore excluded.
+\end{proof}
+
+\begin{lemma}[the clipped ramp]\label{lem:doubling_ramp}
+In the setting of Definition~\ref{def:doubling_setting}, let the backward policy be
+\eqref{eq:doubling_policy} with $\varepsilon(j)>0$ for every $j\geq1$ and
+$\varepsilon_{\max}=\sup_{j\geq1}\varepsilon(j)<1$, let
+$\gamma:=\sup_{j\geq1}(j+1)\,\varepsilon(j)$ be finite, and let the loop-closed chain be
+positive recurrent with invariant probability $\lambda$. Write $V$ for the ladder height,
+$V(j):=j$ at a ladder state $j\geq1$ and $V(s_0)=V(s_f):=0$, and, for an integer $N\geq d$,
+put $r_N:=\min(V,N)$ and $\tilde r_N:=r_N-\Pi r_N$. Then $\tilde r_N\in L^\infty(\lambda)$
+with $\Pi\tilde r_N=0$,
+\begin{equation}\label{eq:doubling_ramp}
+\begin{aligned}
+    \|\tilde r_N\|_{L^\infty(\lambda)}\;&\geq\;\frac N2,\\
+    \left\|\left(\mathrm{Id}-P_\star\right)\tilde r_N\right\|_{L^\infty(\lambda)}
+    \;&\leq\;\max\left(1,\gamma,\bar\jmath\right),
+\end{aligned}
+\end{equation}
+and consequently
+$\inf\bigl\{\|(\mathrm{Id}-P_\star)f\|_{L^\infty(\lambda)}:\Pi f=0,\ \|f\|_{L^\infty(\lambda)}=1\bigr\}=0$
+and no bounded operator $S$ on $L^\infty(\lambda)$ satisfies
+$S(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$. For the family \eqref{eq:doubling_family} in the
+standing range, $\gamma=c\,2^{1-s}$ is finite exactly when $s\geq1$.
+\end{lemma}
+
+\begin{proof}
+\begin{itemize}
+    \item \emph{The image of the clipped ramp is bounded uniformly in $N$.} Indeed, $r_N$ is
+    bounded, so $(P_\star r_N)(x)=\mathbb E(r_N(X_1)\mid X_0=x)$ at every state, and the
+    transitions \eqref{eq:doubling_policy} give five cases. At a ladder state $j$ with
+    $2j\leq N$ the two images $2j$ and $j-1$ --- the latter read as $s_0$ at $j=1$, where
+    $r_N(s_0)=0=j-1$ --- are at most $N$, so
+    $(P_\star r_N)(j)=\varepsilon(j)\,2j+\bigl(1-\varepsilon(j)\bigr)(j-1)=j-1+\varepsilon(j)(j+1)$
+    and $\bigl((\mathrm{Id}-P_\star)r_N\bigr)(j)=1-\varepsilon(j)(j+1)$, which lies in
+    $[1-\gamma,1]$. At a ladder state $j$ with $2j>N\geq j$ the images carry $r_N(2j)=N$ and
+    $r_N(j-1)=j-1$, so $(P_\star r_N)(j)=j-1+\varepsilon(j)(N-j+1)$ and the value is
+    $1-\varepsilon(j)(N-j+1)$, again in $[1-\gamma,1]$ because $2j>N$ gives
+    $N-j+1\leq j+1$. At a ladder state $j>N$ every image carries the value $N=r_N(j)$, so the
+    value is $0$. At $s_0$ the only image is $s_f$ and $r_N(s_0)=r_N(s_f)=0$, so the value is
+    $0$. At $s_f$ the target row is a probability supported in $\{1,\dots,d\}$ of mean
+    $\bar\jmath$, on which $r_N=V$ because $N\geq d$, so the value is $-\bar\jmath$. Hence
+    $(\mathrm{Id}-P_\star)r_N$ takes its values in $\bigl[-\max(\gamma-1,\bar\jmath),1\bigr]$
+    and $\|(\mathrm{Id}-P_\star)r_N\|_{L^\infty(\lambda)}\leq\max(1,\gamma,\bar\jmath)$.
+    \item \emph{Centring leaves the image unchanged and half of the clip.} Indeed,
+    $0\leq r_N\leq N$ and $\lambda$ is a probability, so $\Pi r_N$ is the constant
+    $\lambda(r_N)\in[0,N]$; $P_\star\mathbf 1=\mathbf 1$ gives
+    $(\mathrm{Id}-P_\star)\tilde r_N=(\mathrm{Id}-P_\star)r_N$, and $\Pi^2=\Pi$ gives
+    $\Pi\tilde r_N=0$. Since $0<\varepsilon(j)\leq\varepsilon_{\max}<1$ at every $j\geq1$, the
+    chain is irreducible and $\lambda$ is positive at every state
+    (Lemma~\ref{lem:doubling_irreducible}): an $L^\infty(\lambda)$-norm is a
+    supremum over states. The values $r_N(s_0)=0$ and $r_N(N)=N$ are both attained, so
+    $\tilde r_N$ takes the values $-\lambda(r_N)$ and $N-\lambda(r_N)$ and
+    $\|\tilde r_N\|_{L^\infty(\lambda)}\geq\max\bigl(\lambda(r_N),N-\lambda(r_N)\bigr)\geq N/2$,
+    which with the uniform bound on the image of the clipped ramp is \eqref{eq:doubling_ramp}.
+    \item \emph{The infimum vanishes, and no bounded inverse exists.} Indeed,
+    $\|\tilde r_N\|_{L^\infty(\lambda)}\geq N/2>0$, so
+    $h_N:=\tilde r_N/\|\tilde r_N\|_{L^\infty(\lambda)}$ satisfies $\Pi h_N=0$,
+    $\|h_N\|_{L^\infty(\lambda)}=1$ and, by \eqref{eq:doubling_ramp},
+    $\|(\mathrm{Id}-P_\star)h_N\|_{L^\infty(\lambda)}\leq2\max(1,\gamma,\bar\jmath)/N$, which
+    tends to $0$ as $N\rightarrow\infty$. If a bounded $S$ on $L^\infty(\lambda)$ satisfied
+    $S(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$, then
+    $1=\|h_N\|_{L^\infty(\lambda)}\leq\|S\|\,\|(\mathrm{Id}-P_\star)h_N\|_{L^\infty(\lambda)}$
+    for every $N$, which that limit forbids.
+\end{itemize}
+Finally $(j+1)\,\varepsilon_{c,s}(j)=c\,(j+1)^{1-s}$ is non-increasing in $j$ for $s\geq1$,
+with supremum $c\,2^{1-s}$ at $j=1$, and is unbounded for $s<1$, $c$ being positive.
+\end{proof}
+
+\begin{corollary}[an explicit divergent family]\label{cor:doubling_family}
+In the setting of Definition~\ref{def:doubling_setting}, let $s=1$ and $0<c<1$, so that the
+loop-closed chain is positive recurrent (Proposition~\ref{prop:doubling_phase}\emph{(3)}) and
+its invariant probability $\lambda$, its tail $L$ and its centred tail indicators $f_m$,
+$m>d$, are those of that definition. Then there are $c_7>0$, depending only on $c$, $d$ and
+$\lambda_1,\dots,\lambda_{2m_0}$ with $m_0$ the integer of
+Theorem~\ref{theo:doubling_decay}, and an integer $m_2>d$ with
+\begin{equation}\label{eq:doubling_explicit}
+    \frac{\|f_m\|_{L^2(\lambda)}}
+         {\bigl\|\left(\mathrm{Id}-P_\star\right)f_m\bigr\|_{L^2(\lambda)}}
+    \;\geq\;c_7\sqrt m\qquad\text{for every }m\geq m_2 .
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+The loop closure is irreducible and positive recurrent by
+Proposition~\ref{prop:doubling_phase}\emph{(3)}, so $\lambda$ exists and is positive at every
+state. Since $\varepsilon_{c,1}(j)=c/(j+1)\in(0,c/2]$ for every $j\geq1$ and $c/2<1$,
+Proposition~\ref{prop:doubling_cut} gives \eqref{eq:doubling_cut} at every $m>d$, so
+Theorem~\ref{theo:doubling_decay} supplies constants $0<c_1\leq c_2$ with
+\eqref{eq:doubling_decay} and Corollary~\ref{cor:doubling_tail} the bounds
+\eqref{eq:doubling_tailratio} and the limit $L(m)\rightarrow0$; and
+Lemma~\ref{lem:doubling_percut} applies in its case \emph{(1)} at every cut $m>d$, its
+$\varepsilon_{\max}$ being $\varepsilon_{c,1}(1)=c/2$. The denominator of
+\eqref{eq:doubling_explicit} is positive by \eqref{eq:doubling_step1}, whose right side has
+$L^2(\lambda)$-norm at least $\sqrt{\lambda_m}\,\bigl(1-\varepsilon(m)\bigr)>0$. Fix an
+integer $m_2>d$ with $1-L(m)\geq\tfrac12$ for every $m\geq m_2$, possible because
+$L(m)\rightarrow0$. For $m\geq m_2$, \eqref{eq:doubling_step3} and the second pair of
+\eqref{eq:doubling_tailratio} give
+\begin{equation}
+    \frac{\left\|\left(\mathrm{Id}-P_\star\right)f_m\right\|_{L^2(\lambda)}}{\|f_m\|_{L^2(\lambda)}}
+    \;\leq\;\sqrt{\frac{4\lambda_m}{L(m)}}
+    \;\leq\;\frac{2}{\sqrt m}\sqrt{\frac{c_2(p_*-1)}{c_1}} ,
+\end{equation}
+which is \eqref{eq:doubling_explicit} with $c_7:=\tfrac12\sqrt{c_1/\bigl(c_2(p_*-1)\bigr)}$:
+$c_1$ and $c_2$ depend on $c$, $d$ and $\lambda_1,\dots,\lambda_{2m_0}$ alone by
+Theorem~\ref{theo:doubling_decay}, and $p_*$ on $c$ alone.
+\end{proof}
+
+\begin{proposition}[an $L^2$ pair with no exact $L^2$ outflow]\label{prop:doubling_unsolvable}
+In the setting of Definition~\ref{def:doubling_setting}, let the backward policy be
+\eqref{eq:doubling_policy} with $\varepsilon(j)>0$ for every $j\geq1$ and
+$\varepsilon_{\max}=\sup_{j\geq1}\varepsilon(j)<1$, let the loop-closed chain be positive
+recurrent with invariant probability $\lambda$, and assume \eqref{eq:doubling_star}. Then:
+\begin{enumerate}
+    \item $\left(\mathrm{Id}-P_\star\right)L^2(\lambda)$ is a dense proper linear subspace of
+    $\ker\Pi$;
+    \item there are probability densities $\finit,\fterm\in L^2(\lambda)$ such that no
+    $f\in L^2(\lambda)$ satisfies $\left(\mathrm{Id}-P_\star\right)f=\finit-\fterm$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Write $A$ for the restriction of $\mathrm{Id}-P_\star$ to $\ker\Pi$. It is a bounded operator
+of the Hilbert space $\ker\Pi$ into itself: $P_\star$ is a contraction of $L^2(\lambda)$ and
+$P_\star=P^*$ by Lemma~\ref{lem:doubling_operator}\emph{(1)}, and $\Pi P_\star=\Pi$ gives
+$\Pi(\mathrm{Id}-P_\star)=0$. Since $P_\star\mathbf 1=\mathbf 1$ gives
+$(\mathrm{Id}-P_\star)\Pi=0$, the range of $A$ is
+$\left(\mathrm{Id}-P_\star\right)L^2(\lambda)$.
+\begin{itemize}
+    \item \emph{The only fixed points of $P_\star$ and of $P$ in $L^2(\lambda)$ are the
+    constants.} Indeed, $0<\varepsilon(j)\leq\varepsilon_{\max}<1$ at every $j\geq1$, so the
+    loop closure is irreducible and $\lambda$ is positive at every state
+    (Lemma~\ref{lem:doubling_irreducible}), and Lemma~\ref{lem:doubling_fixed_points} gives
+    \eqref{eq:doubling_fixed}.
+    \item \emph{$A$ is injective with dense range.} Indeed, $\ker A=\{f\in\ker\Pi:P_\star f=f\}$
+    is $\{0\}$ since the only fixed points of $P_\star$ in $L^2(\lambda)$ are the constants
+    (Lemma~\ref{lem:doubling_fixed_points}), a constant of zero mean being $0$. For
+    $f,g\in\ker\Pi$,
+    $\langle Af,g\rangle_\lambda=\langle f,(\mathrm{Id}-P)g\rangle_\lambda$ by $P_\star=P^*$,
+    and $\int Pg\,d\lambda=\langle g,P_\star\mathbf 1\rangle_\lambda=\int g\,d\lambda=0$ puts
+    $(\mathrm{Id}-P)g$ in $\ker\Pi$: the adjoint of $A$ in $\ker\Pi$ is the restriction of
+    $\mathrm{Id}-P$, so $\ker A^*=\{g\in\ker\Pi:Pg=g\}=\{0\}$ by
+    Lemma~\ref{lem:doubling_fixed_points} and the closure of the range of
+    $A$ is $(\ker A^*)^\perp=\ker\Pi$, the orthogonal complement taken in $\ker\Pi$.
+    \item \emph{$A$ is not surjective.} Indeed, \eqref{eq:doubling_inf} at $p=2$
+    (Theorem~\ref{theo:doubling_unbounded}\emph{(2)}, whose hypotheses are those of this
+    statement) gives
+    $\inf\{\|Af\|_{L^2(\lambda)}:f\in\ker\Pi,\ \|f\|_{L^2(\lambda)}=1\}=0$. Were $A$
+    surjective it would be a bounded bijection of the Hilbert space $\ker\Pi$ onto itself, hence
+    with a bounded inverse by the open mapping theorem \citep{brezis2011functional}, and
+    $\|f\|_{L^2(\lambda)}\leq\|A^{-1}\|\,\|Af\|_{L^2(\lambda)}$ on $\ker\Pi$ would contradict
+    that infimum. With the density of the range of $A$ this is \emph{(1)}.
+    \item \emph{A pair of probability densities has its difference outside the range of $A$.}
+    Indeed, fix $\psi\in\ker\Pi$ outside the range of $A$, which exists since $A$ is not
+    surjective, and put $Z:=1+\lambda(\psi^+)$, which equals $1+\lambda(\psi^-)$
+    because $\lambda(\psi)=0$. The functions $\finit:=(\mathbf 1+\psi^-)/Z$ and
+    $\fterm:=(\mathbf 1+\psi^+)/Z$ are non-negative, lie in $L^2(\lambda)$ --- $\psi^\pm$ being
+    dominated by $|\psi|$ and $\lambda$ a probability --- and have integral $1$: they are
+    probability densities, and $\finit-\fterm=-\psi/Z$. If some $f\in L^2(\lambda)$ satisfied
+    $(\mathrm{Id}-P_\star)f=\finit-\fterm$, then $(\mathrm{Id}-P_\star)\Pi f=0$ would give
+    $A(f-\Pi f)=-\psi/Z$ with $f-\Pi f\in\ker\Pi$, putting $\psi=-Z\,A(f-\Pi f)$ in the range of
+    $A$; no such $f$ exists, which is \emph{(2)}.
+\end{itemize}
+\end{proof}
+
+\begin{remark}[the condition \eqref{eq:doubling_star} indicts the family, not the graph]\label{rem:doubling_geometric}
+Condition \eqref{eq:doubling_star} is not vacuous. For a geometrically decaying doubling
+probability $\varepsilon(j)=a\rho^j$ with $\rho\in(0,1)$, the left side is
+$D\log(1/a)+(2^D-1)\log(1/\rho)$, of order $2^D$, and \eqref{eq:doubling_star} fails. The
+contrast is measured in \S\ref{sec:doubling_measured}, with a stated ceiling on it: no proof
+of boundedness is claimed for any policy on this graph.
+\end{remark}
+
+\subsubsection{The truncation, and the proof of the main theorem}
+
+This block proves item \emph{(5)} of Theorem~\ref{theo:doubling_main} and then assembles the
+five items. Corollary~\ref{cor:doubling_truncation} restores a finite constant on the
+truncation at an even cap, bounds the invariant measure there by two constants whose ratio does
+not move with the cap, and turns the per-cut inequality into a growth of that constant in the
+cap.
+
+\begin{corollary}[the truncation, and a proved $\sqrt K$]\label{cor:doubling_truncation}
+In the setting of Definition~\ref{def:doubling_setting}, let $s=1$ and $0<c<1$, and for an even
+integer $K\geq d$ let $\lambda^K$, $L_K$ and $\widehat B_K$ be the invariant probability, the
+tail and the constant \eqref{eq:doubling_Bhat} of the truncation at $K$. Then:
+\begin{enumerate}
+    \item for every even integer $K\geq d$ and every integer $m$ with $d<m\leq K/2$,
+    \begin{equation}\label{eq:doubling_percut_K}
+        \widehat B_K\;\geq\;\sqrt{\frac{L_K(m)\bigl(1-L_K(m)\bigr)}{2\,\lambda^K_m}} ;
+    \end{equation}
+    \item there are integers $m_0$ and $K_0\geq d$ and a constant $c_9\geq1$, depending only
+    on $c$ and $d$, such that for every even integer $K\geq K_0$ there are constants
+    $0<C^K_-\leq C^K_+$ with $C^K_+/C^K_-\leq c_9$ and, for every integer $m$ with
+    $m_0\leq m\leq K/2$,
+    \begin{equation}\label{eq:doubling_decayK}
+        C^K_-\,m^{-p_*}\;\leq\;\lambda^K_m\;\leq\;C^K_+\,m^{-p_*} ;
+    \end{equation}
+    \item there is $c_8>0$, depending only on $c$, $d$ and $\bar\jmath$, with
+    \begin{equation}\label{eq:doubling_sqrtK}
+        \widehat B_K\;\geq\;c_8\sqrt K\qquad\text{for every even integer }K\geq K_0 ,
+    \end{equation}
+    $K_0$ being the integer of \emph{(2)}.
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+\emph{Step 1 (the truncation and its diffusion operator).} Let $K\geq d$ be even. Since
+$\varepsilon_{c,1}(j)=c/(j+1)\in(0,c/2]$ for every $j\geq1$ and $c/2<1$,
+Lemma~\ref{lem:doubling_truncation_irreducible} makes the truncation at $K$ a finite
+irreducible chain with a unique invariant probability $\lambda^K$, positive at every state,
+and gives $S$ with \eqref{eq:doubling_resolvent} and $\widehat B_K<+\infty$.
+
+\emph{Step 2 (the identities below the cut).} By the truncation clause of
+Proposition~\ref{prop:doubling_cut}, $\lambda^K$ satisfies \eqref{eq:doubling_cut} at every
+integer $m$ with $d<m\leq K/2$ and \eqref{eq:doubling_ratios} at every $j\geq1$ with $2j\leq K$
+and every integer $m$ with $2\leq m\leq K$.
+
+\emph{Step 3 (the per-cut inequality).} Let $d<m\leq K/2$. Case \emph{(2)} of
+Lemma~\ref{lem:doubling_percut} holds at that cut, its $\varepsilon_{\max}$ being
+$\varepsilon_{c,1}(1)=c/2$, so the function $f_m=\mathbf 1_{[m,K]}-L_K(m)$ has $\Pi f_m=0$ and
+$\|f_m\|^2_{L^2(\lambda^K)}=L_K(m)\bigl(1-L_K(m)\bigr)>0$, and \eqref{eq:doubling_step3}
+bounds its Rayleigh ratio. By \eqref{eq:doubling_resolvent},
+$\|f_m\|=\|(\mathrm{Id}-\Pi)f_m\|=\|S(\mathrm{Id}-P_\star)f_m\|\leq\widehat B_K\|(\mathrm{Id}-P_\star)f_m\|$,
+which with \eqref{eq:doubling_step3} is \eqref{eq:doubling_percut_K} and proves \emph{(1)}.
+
+\emph{Step 4 (the decay of $\lambda^K$, with constants uniform in $K$).} Let $m_0$ be the
+integer of Theorem~\ref{theo:doubling_decay}, which depends on $c$ and $d$ alone and exceeds
+$d$, and put $J_0:=\{m_0,\dots,2m_0-1\}$ and $K_0:=8m_0+2$. Let $K\geq K_0$ be even, so that
+$K/2$ is an integer with $K/2\geq4m_0+1\geq2m_0$, and let $(\lambda_j)_{j\geq1}$ be the
+sequence with $\lambda_j:=\lambda^K_j$ for $1\leq j\leq K$ and $\lambda_j:=1$ for $j>K$,
+positive because $\lambda^K$ is positive at every state
+(Lemma~\ref{lem:doubling_truncation_irreducible}). By the truncation clause of
+Proposition~\ref{prop:doubling_cut} it satisfies \eqref{eq:doubling_cut} at every integer $y$
+with $d<y\leq K/2$, that identity at such a $y$ carrying the indices
+$\lceil y/2\rceil,\dots,y$ alone, all of them at most $K$. Hence
+Theorem~\ref{theo:doubling_decay}\emph{(1)} applies at $\ell=m_0$ and $M_1=K/2$ --- its
+hypotheses being $\ell\geq m_0$, $M_1$ an integer at least $2\ell$, and the cut balance at
+every integer $y$ with $d<y\leq M_1$ --- and gives, for every integer $m$ with
+$2m_0\leq m\leq K/2$,
+\begin{equation}
+\begin{aligned}
+    e^{-c_5c_4/m_0}\,\min_{j\in J_0}\lambda^K_j\,j^{p_*}\;&\leq\;\lambda^K_m\,m^{p_*}\\
+    \;&\leq\;e^{c_5c_4/m_0}\,\max_{j\in J_0}\lambda^K_j\,j^{p_*},
+\end{aligned}
+\end{equation}
+where $c_4$ is the constant of Lemma~\ref{lem:doubling_descent} and $c_5$ that of
+Lemma~\ref{lem:doubling_escape}, the rescaled profile of
+Definition~\ref{def:doubling_decay_notation} being $u_j=\lambda_j\,j^{p}$ with $p=p_*$ and
+$\lambda_j=\lambda^K_j$ at every $j\leq K$. Put
+$C^K_-:=e^{-c_5c_4/m_0}\min_{j\in J_0}\lambda^K_j\,j^{p_*}$ and
+$C^K_+:=e^{c_5c_4/m_0}\max_{j\in J_0}\lambda^K_j\,j^{p_*}$, attained over the finite set $J_0$,
+finite and strictly positive; $C^K_-\leq C^K_+$, the minimum being at most the maximum and
+$c_4$ and $c_5$ positive. Then \eqref{eq:doubling_decayK} holds at every integer $m$ with
+$m_0\leq m\leq K/2$: at $m\in J_0$ because $e^{-c_5c_4/m_0}\leq1\leq e^{c_5c_4/m_0}$, and at
+$2m_0\leq m\leq K/2$ by the last display. Since $p_*>0$ and $m_0\leq j<2m_0$ on $J_0$, one has
+$\max_{j\in J_0}\lambda^K_j\,j^{p_*}\leq(2m_0)^{p_*}\max_{j\in J_0}\lambda^K_j$ and
+$\min_{j\in J_0}\lambda^K_j\,j^{p_*}\geq m_0^{p_*}\min_{j\in J_0}\lambda^K_j$, so
+\begin{equation}
+\begin{aligned}
+    \frac{C^K_+}{C^K_-}\;&=\;e^{2c_5c_4/m_0}\,
+    \frac{\max_{j\in J_0}\lambda^K_j\,j^{p_*}}{\min_{j\in J_0}\lambda^K_j\,j^{p_*}}\\
+    \;&\leq\;e^{2c_5c_4/m_0}\,2^{p_*}\,
+    \frac{\max_{j\in J_0}\lambda^K_j}{\min_{j\in J_0}\lambda^K_j} .
+\end{aligned}
+\end{equation}
+Chaining the second inequality of \eqref{eq:doubling_ratios} across $J_0$ bounds
+$\lambda^K_{j'}$ by $\lambda^K_j\prod_{i=j+1}^{j'}(1-\varepsilon(i))^{-1}$ for $j<j'$ in $J_0$,
+and dropping all but the term $j=i-1$ of \eqref{eq:doubling_cut} at
+$i\in\{m_0+1,\dots,2m_0-1\}$, legitimate because $d<m_0<i\leq2m_0-1\leq K/2$, gives
+$\lambda^K_i\geq\lambda^K_i(1-\varepsilon(i))\geq\lambda^K_{i-1}\varepsilon(i-1)$, hence
+$\lambda^K_{j'}\geq\lambda^K_j\prod_{i=j}^{j'-1}\varepsilon(i)$: the ratio
+$\max_{j\in J_0}\lambda^K_j/\min_{j\in J_0}\lambda^K_j$ is bounded by a constant depending only
+on $c$ and $m_0$. Since $m_0$ depends on $c$ and $d$ alone, $p_*$ on $c$ alone, and $c_4$ and
+$c_5$ on $c$ and $d$ alone by Lemmas~\ref{lem:doubling_descent}
+and~\ref{lem:doubling_escape}, there is $c_9\geq1$ depending only on $c$ and $d$ with
+$C^K_+/C^K_-\leq c_9$ for every even $K\geq K_0$; and $K_0=8m_0+2$ exceeds $d$ and depends on
+$c$ and $d$ alone, $m_0$ doing so. This proves \emph{(2)}.
+
+\emph{Step 5 (the ratio at a cut of order $K$).} Let $K\geq K_0$ be even and
+$m:=\lfloor K/4\rfloor$, so that $m\geq2m_0>d$ and $2m\leq K/2$. By \eqref{eq:doubling_decayK}
+on $\{m,\dots,2m\}$,
+\begin{equation}
+\begin{aligned}
+    L_K(m)\;&\geq\;\sum_{j=m}^{2m}\lambda^K_j\;\geq\;C^K_-\,(m+1)\,(2m)^{-p_*}\\
+    &\geq\;C^K_-\,2^{-p_*}m^{1-p_*},
+\end{aligned}
+\end{equation}
+while $\lambda^K_m\leq C^K_+m^{-p_*}$, so $L_K(m)/\lambda^K_m\geq2^{-p_*}c_9^{-1}m$.
+
+\emph{Step 6 (the mass below the cut).} By Step 1 the truncation is a finite irreducible
+chain, so $\lambda^K(s_0)$ is the reciprocal of the expected return time of that chain to
+$s_0$ \citep{levin2017markov}. A return from $s_0$ is the wrap $s_0\rightarrow s_f$, the step
+from $s_f$ to a state of the target row, and the run from that state to $s_0$, so its expected
+length is $2+\bar\sigma_K$ with $\bar\sigma_K$ the functional of
+Lemma~\ref{lem:doubling_supersolution}. Stationarity at $s_0$ writes $\lambda^K(s_0)$ as the
+flux into $s_0$, which comes from the state $1$ alone and equals
+$\lambda^K_1\bigl(1-\varepsilon(1)\bigr)$, the doubling edge out of $1$ being present because
+$2\leq K$. Hence $\lambda^K_1\geq\lambda^K(s_0)=1/(2+\bar\sigma_K)$, and
+$\bar\sigma_K\leq\bar\jmath/(1-c)$ by Lemma~\ref{lem:doubling_supersolution}, so for every
+$m\geq2$
+\begin{equation}
+    1-L_K(m)\;\geq\;\lambda^K_1\;\geq\;\Bigl(2+\frac{\bar\jmath}{1-c}\Bigr)^{-1},
+\end{equation}
+a bound free of $K$.
+
+\emph{Step 7 (assembly).} Let $K\geq K_0$ be even and $m:=\lfloor K/4\rfloor$, so that
+$m\geq K/8$, $K$ being at least $8$. Then $d<m\leq K/2$, and \eqref{eq:doubling_percut_K} with
+Steps 5 and 6 gives
+\begin{equation}
+\begin{aligned}
+    \widehat B_K\;&\geq\;\sqrt{\frac{2^{-p_*}c_9^{-1}m}{2\bigl(2+\bar\jmath/(1-c)\bigr)}}
+    \;\geq\;c_8\sqrt K,\\
+    c_8\;&:=\;\Bigl(2^{\,p_*+4}\,c_9\,\bigl(2+\bar\jmath/(1-c)\bigr)\Bigr)^{-1/2} ,
+\end{aligned}
+\end{equation}
+which is \eqref{eq:doubling_sqrtK} and proves \emph{(3)}: $p_*$ depends on $c$ alone and
+$m_0$ and $c_9$ on $c$ and $d$ alone, so $c_8$ depends only on $c$, $d$ and $\bar\jmath$, with
+$K_0$ the integer of \emph{(2)}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{theo:doubling_main}]
+\emph{(1)} Irreducibility of the loop closure on the whole standing range is
+Proposition~\ref{prop:doubling_phase}. Row \emph{(a)} of the table is
+Proposition~\ref{prop:doubling_phase}\emph{(2)}; rows \emph{(b)}, \emph{(c)}, \emph{(d)} and
+\emph{(e)} are Proposition~\ref{prop:doubling_phase}\emph{(3)}, which classifies every
+$c\in(0,2)$ but $1/\ln2$ and denies positive recurrence at every $1\leq c<2$; and row
+\emph{(f)} is Proposition~\ref{prop:doubling_phase}\emph{(1)}. Rows \emph{(b)} and \emph{(f)}
+are therefore exactly the positive recurrent members of the standing range.
+
+\emph{(2)} The chain is positive recurrent by
+Proposition~\ref{prop:doubling_phase}\emph{(3)}, so $\lambda$ exists, and $\lambda>0$ at every
+state by irreducibility; $p_*>1$ because $c<1$ (Lemma~\ref{lem:doubling_cramer_root}). Since
+$\varepsilon_{c,1}(j)\in(0,1)$ for every $j\geq1$, Proposition~\ref{prop:doubling_cut} gives
+\eqref{eq:doubling_cut} for every $m>d$, so the positive sequence $(\lambda_j)_{j\geq1}$
+satisfies the hypotheses of Theorem~\ref{theo:doubling_sharp}, which supplies the limit $C$ of
+\eqref{eq:doubling_sharp} and its dependence on $c$, $d$ and $\lambda_1,\dots,\lambda_d$, and
+of Corollary~\ref{cor:doubling_tail_sharp}, which gives the first line of
+\eqref{eq:doubling_tail_sharp}. That limit is positive: Theorem~\ref{theo:doubling_decay}
+supplies a pair $0<c_1\leq c_2$ with \eqref{eq:doubling_decay} and
+Theorem~\ref{theo:doubling_sharp} puts $C$ in $[c_1,c_2]$;
+Proposition~\ref{prop:doubling_constant} identifies it as
+\eqref{eq:doubling_constant}.
+
+\emph{(3)} On the standing range $\varepsilon=\varepsilon_{c,s}$ takes its values in
+$(0,\varepsilon_{\max}]$ with $\varepsilon_{\max}<1$ (Lemma~\ref{lem:doubling_range}),
+and \eqref{eq:doubling_star} holds by
+Theorem~\ref{theo:doubling_unbounded}\emph{(1)}; at a positive recurrent member the remaining
+hypothesis of Theorem~\ref{theo:doubling_unbounded}\emph{(2)} holds as well, so
+\eqref{eq:doubling_inf} and the exclusion of a bounded $S$
+hold at every $p\in[1,+\infty)$, the operator $\mathrm{Id}-P_\star$ acting on each
+$L^p(\lambda)$ by Lemma~\ref{lem:doubling_operator}\emph{(1)}. Rows \emph{(b)} and \emph{(f)}
+have $s\geq1$, so $\gamma=\sup_{j\geq1}(j+1)\varepsilon_{c,s}(j)=c\,2^{1-s}$ is
+finite and Lemma~\ref{lem:doubling_ramp} gives the same two conclusions at $p=+\infty$. At
+$p=2$ the excluded operator is the $S$ of \eqref{eq:doubling_Bhat}, so $\widehat B=+\infty$ by
+the convention of Definition~\ref{def:doubling_setting}, and the two remaining consequences are
+those of Theorem~\ref{theo:doubling_unbounded}\emph{(2)}. Finiteness of $\bar\sigma$ at $s=1$,
+$c<1$ is
+Proposition~\ref{prop:doubling_length}, and the inequality with $c_7$ and $m_2$ is
+\eqref{eq:doubling_explicit} of Corollary~\ref{cor:doubling_family}.
+
+\emph{(4)} At a positive recurrent member of the standing range the hypotheses of
+Proposition~\ref{prop:doubling_unsolvable} hold: $\varepsilon=\varepsilon_{c,s}$ takes its
+values in $(0,\varepsilon_{\max}]$ with $\varepsilon_{\max}<1$
+(Lemma~\ref{lem:doubling_range}), and \eqref{eq:doubling_star} holds by
+Theorem~\ref{theo:doubling_unbounded}\emph{(1)}. Item \emph{(2)} of
+Proposition~\ref{prop:doubling_unsolvable} is the claim.
+
+\emph{(5)} Since $\varepsilon_{c,1}(j)=c/(j+1)\in(0,1)$ for every $j\geq1$,
+Lemma~\ref{lem:doubling_truncation_irreducible} makes the truncation at an even $K\geq d$ a
+finite irreducible chain on $K+2$ states with a unique invariant probability $\lambda^K$ and
+$\widehat B_K<+\infty$. The constants $c_8$ and $K_0$ are those of \eqref{eq:doubling_sqrtK} in
+Corollary~\ref{cor:doubling_truncation}\emph{(3)}.
+\end{proof}
+
+Corollary~\ref{cor:doubling_truncation} is the bridge to the measurements, and it is loose in
+its exponent: what \eqref{eq:doubling_sqrtK} proves is a growth $\sqrt K$, and what
+\S\ref{sec:doubling_cost} measures is $K$.
+
+\subsection{The transition, and the two bounds}\label{sec:doubling_measured}
+
+This subsection measures on the doubling graph what is predicted for it and what is claimed
+of every finite chain: the closed form for the expected backward length of
+Proposition~\ref{prop:doubling_length}, the decay exponent of
+Proposition~\ref{prop:doubling_exponent}, the stable bound of
+Theorem~\ref{theo:RL_CV_bound_full}, and the universality certificate of
+Theorem~\ref{theo:universality_L2_full} with the self-entropy of
+Theorem~\ref{theo:IL_CV_bound} that prices it. An infinite matrix has no singular values, so
+every constant below is computed on the truncation at $K$ of
+Definition~\ref{def:doubling_setting}, which
+Lemma~\ref{lem:doubling_truncation_irreducible} makes a finite irreducible chain on $K+2$
+states carrying the invariant probability $\lambda^K$, the tail $L_K$ and the constant
+$\widehat B_K$. Every measurement below uses $d=8$, a target row of mean $\bar\jmath=4.5$,
+and a cap $K$ that is a power of two, hence even as that definition requires. A quantity that
+settles as $K$ grows is
+finite on the infinite graph; one that grows with $K$ is a divergence the truncation was
+hiding. Everything below is exact linear algebra on that chain --- linear solves, a singular
+value, and the exact terminal law of the inference chain --- with no training, no sampling and
+no estimator.
+
+Two scope limits attach to the numbers. The evidence code caps $\varepsilon$ at $0.9$; the cap
+binds at $c=2.5$, $s=1$, and there only at $j=1$, where it replaces the value $1.25$ --- not a
+probability --- by $0.9$ and the drift $c-1=1.5$ of Proposition~\ref{prop:doubling_drift} by
+$0.800$, so that column is a measurement on the capped chain, outside the standing range
+$0<c<2^s$ of Definition~\ref{def:doubling_setting} and hence outside every statement of this
+appendix that assumes that range --- Proposition~\ref{prop:doubling_drift} and
+Theorem~\ref{theo:doubling_main} among them. It is legitimate evidence for the decay exponent
+all the same. Proposition~\ref{prop:doubling_exponent} reads \eqref{eq:doubling_cut} as an
+identity between numbers and puts no upper bound on $c$, so it reaches the capped chain; and
+the cap does not touch that identity, since at $d=8$ every window of \eqref{eq:doubling_cut}
+with $m>d$ starts at $\lceil9/2\rceil=5$ and $\varepsilon(1)$ --- the only value the cap moves
+--- enters it nowhere, the capped chain satisfying it with $\varepsilon_{2.5,1}$ unchanged.
+What the cap moves is the boundary data $\lambda_1,\dots,\lambda_d$, hence the constant and
+not the exponent. And the two constants written $\widehat B$, the operator norm
+\eqref{eq:doubling_Bhat} and the mixing sum of Lemma~\ref{lem:sigma_mixing}, are numerically
+distinct --- $17.23$ against $18.39$ at $c=1/4$, $K=64$, in the order
+Lemma~\ref{lem:doubling_operator}\emph{(3)} fixes --- the tables below reporting the first.
+
+\paragraph{The closed form is exact, and what is left is truncation.}
+Proposition~\ref{prop:doubling_length} predicts $\bar\sigma=\bar\jmath/(1-c)=4.5/(1-c)$, and
+Table~\ref{tab:doubling_length} measures it at $K=4096$. The residual at $c=0.75$ and $c=0.90$
+is truncation, not error: the deficit decays like $K^{-(p_*-1)}$, and at $c=0.9$ it is $7.735$
+at $K=2048$ and $6.420$ at $K=4096$, a ratio of $1.205$ against $2^{p_*-1}=2^{0.2691}=1.205$ ---
+and past $1/\ln2$, where $p_*$ turns negative, the same exponent is a growth, $\bar\sigma$ rising
+over $K=64$ to $4096$ with fitted exponent $1.018$ against $1-p_*=1.0146$ at $c=1.45$ and $2.76$
+against $2.7638$ at $c=2.5$.
+
+\begin{table}[tb]
+\centering
+\small
+\begin{tabular}{@{}lccc@{}}
+\hline
+$c$ & closed form & measured & relative error \\
+\hline
+$0.25$ & $6$  & $6.000000$ & $5.8\cdot10^{-10}$ \\
+$0.50$ & $9$  & $8.99991$  & $9.7\cdot10^{-6}$ \\
+$0.75$ & $18$ & $17.8927$  & $6.0\cdot10^{-3}$ \\
+$0.90$ & $45$ & $38.5808$  & $1.4\cdot10^{-1}$ \\
+\hline
+\end{tabular}
+\caption{Expected backward length on the truncation at $K=4096$, against the closed form
+$\bar\jmath/(1-c)$ of Proposition~\ref{prop:doubling_length}.}
+\label{tab:doubling_length}
+\end{table}
+
+\paragraph{The decay exponent is the Cram\'er root, and the growth of $\widehat B_K$ ignores
+the transition.}
+The exponent the theory identifies is the non-zero root $p_*$ of \eqref{eq:doubling_cramer},
+and the fit below is empirical: Proposition~\ref{prop:doubling_exponent} is a statement about
+an infinite sequence with a polynomial asymptotic, and $\lambda^K$ is a finite vector with no
+$j\rightarrow\infty$ behaviour to have. What transfers to $\lambda^K$ is
+Corollary~\ref{cor:doubling_truncation}\emph{(2)}: at $c<1$ and past its threshold $K_0$ it
+gives the two-sided bound \eqref{eq:doubling_decayK}, whose two constants have a ratio bounded
+uniformly in $K$ --- enough to pin the exponent, not to read it to three decimals. Fitted on the dyadic
+band $[K/16,K/2]$ at $K=4096$, the decay exponent of $\lambda^K$ matches $p_*$ to three
+decimals at all eight values of $c$, negative roots included
+(Table~\ref{tab:doubling_exponents}). Over the same
+range $\widehat B_K$ doubles with every doubling of the truncation, at every $c$, on both
+sides of both thresholds of
+Proposition~\ref{prop:doubling_phase}\emph{(3)}. The $c=0.25$ row is the one that separates
+the two conditions: there the expected backward length is $6.000$ and the condition of
+\citet{morozov2025revisiting} holds comfortably, and $\widehat B_K$ grows all the same. The
+contrast Remark~\ref{rem:doubling_geometric} predicts appears where \eqref{eq:doubling_star}
+fails: for the geometric $\varepsilon(j)=a\rho^j$ at $a=0.5$ and $\rho=0.9$, $\widehat B_K$ is
+$12.74$, $20.74$, $27.12$, $27.75$ at $K=32$, $64$, $128$, $256$ --- saturating, and not
+resolved past $K=256$, where the invariant mass of the high states falls below what the
+stationary solve separates from zero.
+
+\begin{table}[tb]
+\centering
+\small
+\begin{tabular}{@{}lccccccc@{}}
+\hline
+ & \multicolumn{2}{c}{decay exponent} & \multicolumn{4}{c}{$\widehat B_K$} & \\
+\cline{2-3}\cline{4-7}
+$c$ & predicted $p_*$ & fitted & $K=64$ & $K=256$ & $K=1024$ & $K=4096$ & fitted exponent \\
+\hline
+$0.25$ & $4.1314$  & $4.130$  & $17.23$ & $66.4$  & $262.7$ & $1048$ & $0.989$ \\
+$0.50$ & $2.6599$  & $2.659$  & $26.52$ & $110.8$ & $444.0$ & $1774$ & $1.008$ \\
+$0.75$ & $1.7189$  & $1.719$  & $35.71$ & $170.9$ & $735.3$ & $3026$ & $1.064$ \\
+$0.90$ & $1.2691$  & $1.269$  & $39.33$ & $199.5$ & $910.5$ & $3936$ & $1.104$ \\
+$1.00$ & $1.0000$  & $1.000$  & $40.32$ & $205.8$ & $951.1$ & $4172$ & $1.113$ \\
+$1.20$ & $0.5161$  & $0.516$  & $38.76$ & $186.2$ & $815.2$ & $3412$ & $1.074$ \\
+$1.45$ & $-0.0146$ & $-0.015$ & $32.75$ & $141.1$ & $576.9$ & $2321$ & $1.022$ \\
+$2.50$ & $-1.7638$ & $-1.765$ & $14.78$ & $59.27$ & $237.2$ & $949.2$ & $1.001$ \\
+\hline
+\end{tabular}
+\caption{The decay exponent of $\lambda^K$, fitted on the dyadic band $[K/16,K/2]$ at
+$K=4096$, against the non-zero root $p_*$ of \eqref{eq:doubling_cramer}; and $\widehat B_K$
+over six octaves, with its fitted exponent in $K$.}
+\label{tab:doubling_exponents}
+\end{table}
+
+\paragraph{The stable bound holds in every row, and its tightness does not see the truncation.}
+Theorem~\ref{theo:RL_CV_bound_full} was checked on $9{,}216$ rows: eight values of $c$, four
+truncations ($K=64$ to $512$), four targets crossed with three initial flows, eight
+perturbation scales and three exponents $q$. The bound holds in every one of them, and it is
+non-vacuous --- right-hand side below $1$, the only way it says anything, since $\TV\leq1$
+always --- in $2{,}115$, at the smaller perturbations. Its measured tightness at $q=1$ --- the
+right-hand side of \eqref{equ:stable_bound}, whose constant is \eqref{equ:stable_constants},
+divided by $\TV$ --- moves by less than $10\%$ over the truncation:
+$6.33$, $6.00$, $6.59$, $6.47$ at $K=64$, $128$, $256$, $512$, with a best ratio over the
+whole sweep of $6.00$. That is the band measured in
+Section~\ref{sec:experiments} across six orders of magnitude of state space, here on a graph
+whose every mixing constant is infinite. At $q=2$ and $q=+\infty$ the tightness degrades like
+$N^{1-1/q}$ in the number of states $N=K+2$, from $22.5$ to $64.2$ and from $120$ to $1024$
+over the same range.
+
+\paragraph{The certificate closes exactly; its bill is set by how far up the ladder the
+discrepancy reaches.}
+For every pair $(\Finit,\target)$ of the sweep, the certificate
+$\foutstareta=(\eta-S\theta)^+$ of Theorem~\ref{theo:universality_L2_full} at
+$\eta:=\|S\theta\|_{L^\infty(\lambda)}$ closes flow matching to machine precision --- largest
+residual over the sweep $6.0\cdot10^{-8}$, on the cell whose outflow is $1.3\cdot10^9$, a
+relative $5\cdot10^{-17}$ --- and its $\LossWKLFM$ loss equals the self-entropy $\mathcal H$
+of Theorem~\ref{theo:IL_CV_bound} computed against $\nuB=\lambda$. Its outflow bill is
+$\int\foutstareta\,d\lambda=\eta$ exactly in every row, as $\Pi S=0$ requires, and
+Table~\ref{tab:doubling_bill} gives its growth in the cap at $c=0.5$
+(Figure~\ref{fig:doubling}, right). The unbounded operator charges nothing at all when
+$\theta$ is supported at the foot of the ladder, and $K^{2.9}$ as soon as it reaches into it
+--- faster than $\widehat B_K$ itself, because $\eta$ is an $L^\infty$ norm and the states
+attaining it carry $\lambda\sim K^{-p_*}$. These natural pairs do not saturate the operator:
+their amplification $\|S\theta\|/\|\theta\|$ reaches $0.53$ of $\widehat B_K$ at $K=64$ and
+$0.38$ at $K=512$. Saturating it is what the critical direction of \S\ref{sec:doubling_cost}
+does.
+
+\begin{table}[tb]
+\centering
+\small
+\begin{tabular}{@{}p{0.30\linewidth}ccccc@{}}
+\hline
+initial flow $\rightarrow$ target & $K=64$ & $K=128$ & $K=256$ & $K=512$ & slope \\
+\hline
+$\delta_{s_0}\rightarrow$ target row (foot of the ladder) & $11.35$ & $11.35$ & $11.35$ & $11.35$ & $\mathbf{0.00}$ \\
+$\delta_{s_0}\rightarrow\lambda$ & $78.7$ & $167$ & $343$ & $697$ & $1.05$ \\
+$\delta_{s_0}\rightarrow$ uniform on the ladder & $7641$ & $5.76\cdot10^4$ & $4.25\cdot10^5$ & $3.09\cdot10^6$ & $2.89$ \\
+$\delta_{s_0}\rightarrow$ top half of the ladder & $1.44\cdot10^4$ & $1.10\cdot10^5$ & $8.24\cdot10^5$ & $6.03\cdot10^6$ & $2.90$ \\
+\hline
+\end{tabular}
+\caption{The certificate's outflow bill $\eta=\|S\theta\|_{L^\infty(\lambda)}$ at $c=0.5$, by
+$(\Finit,\target)$ pair and truncation, $\delta_{s_0}$ being the Dirac mass at the source,
+with the slope fitted over $K=64$ to $512$.}
+\label{tab:doubling_bill}
+\end{table}
+
+\subsection{An unbounded diffusion operator}\label{sec:doubling_cost}
+
+The extremal direction of $S$, the lower bound \eqref{eq:doubling_percut_K} at its best cut and
+the price of both are measured on $40$ cells: eight values of $c$ crossed with five
+truncations, $K=64$ to $K=1024$. The extremal direction is a unit vector $\theta_*$ of
+$L^2(\lambda^K)$ with $\|S\theta_*\|_{L^2(\lambda^K)}=\widehat B_K$, attained because the
+truncation is finite (Lemma~\ref{lem:doubling_truncation_irreducible}).
+
+\paragraph{The proved bound holds everywhere, and is loose by exactly the factor it drops.}
+Inequality \eqref{eq:doubling_percut_K} holds in every one of the $40$ cells. Its fitted
+exponent in $K$ is $0.473$ to $0.510$ --- $0.498$, $0.509$, $0.500$, $0.500$ at $c=0.25$,
+$1.0$, $1.45$, $2.5$ --- against a measured exponent of $\widehat B_K$ between $0.983$ and
+$1.139$. The best cut therefore realizes the exponent \eqref{eq:doubling_sqrtK} proves and no
+more: Corollary~\ref{cor:doubling_truncation} is tight in its own exponent and loose against
+the measured $\widehat B_K\sim K$ by a factor $\sqrt K$, the ratio of $\widehat B_K$ to its
+certified lower bound running from $7.79$ at $K=64$ to $87.38$ at $K=1024$ and growing like
+$K^{0.51}$ (Figure~\ref{fig:doubling}, left).
+
+\paragraph{The critical direction is a centred tail indicator.}
+The cut $m_*$ maximizing \eqref{eq:doubling_percut_K} sits at $m_*/K=0.32$ to $0.49$, stable
+across six octaves, and the overlap between the measured $\theta_*$ and the centred
+indicator $\mathbf 1_{[m_*,K]}-\lambda^K([m_*,K])$ --- the trial function $f_{m_*}$ of
+Lemma~\ref{lem:doubling_percut} --- is
+$0.71$ to $0.84$, stable in $K$ ($0.719$ and $0.719$ at $c=0.25$ for $K=512$ and $1024$;
+$0.826$ at $c=0.9$), and clears the registered $0.8$ at four of the eight values of $c$. The
+sharp indicator captures three quarters of the critical direction, and the true maximizer is
+that indicator smoothed over a band.
+
+\paragraph{Nothing diverges at finite $K$; the cost does.}
+Table~\ref{tab:doubling_cost} fits, in $K$ over $K=64$ to $1024$, the exponents of
+$\widehat B_K$, of its lower bound \eqref{eq:doubling_percut_K}, of the certificate level
+$\eta_*:=\|S\theta_*\|_{L^\infty(\lambda)}$ along the critical direction, and of the training
+rate $\varrho=g''(1)w_{\min}/\widehat B_K^{\,2}$ of
+Theorem~\ref{theo:db_stable_frozen_full} in its flow-matching instance, at its divergence
+generator $g=(\log x)^2$ and its training weight $w\geq w_{\min}$ taken to be $1$. That
+theorem holds at every constant $\widehat B\geq1$ satisfying \eqref{eq:coercivity}, and the
+operator norm \eqref{eq:doubling_Bhat} of the truncation is one. Taking adjoints in
+\eqref{eq:doubling_resolvent} (Lemma~\ref{lem:doubling_operator}\emph{(2)}), with
+$P_\star=P^*$ by Lemma~\ref{lem:adjoint}\emph{(3)} and $\Pi$ self-adjoint, gives
+$S^*(\mathrm{Id}-P)=\mathrm{Id}-\Pi$ with $\|S^*\|=\|S\|=\widehat B_K$, so
+$\|h-\Pi h\|_{L^2(\lambda^K)}\leq\widehat B_K\,\|(\mathrm{Id}-P)h\|_{L^2(\lambda^K)}$ for every
+$h\in L^2(\lambda^K)$ --- \eqref{eq:coercivity} on the truncation --- and $\widehat B_K\geq14.78$
+in all $40$ cells, the smallest value at $c=2.5$, $K=64$. For the detailed-balance loss,
+Lemma~\ref{lem:lift_coercivity} supplies the constant $1+\widehat B_K$ instead. The operator
+norm never exceeds the mixing sum, $\|S\|\leq\sum_n\widehat\beta_n$
+(Lemma~\ref{lem:doubling_operator}\emph{(3)}), so the rate read at $\widehat B_K$ is at least
+the one summable mixing supplies through Lemma~\ref{lem:sigma_mixing}.
+
+\begin{table}[tb]
+\centering
+\small
+\begin{tabular}{@{}lcccc@{}}
+\hline
+$c$ & $\widehat B_K$ & lower bound & $\eta_*$ & $\varrho$ \\
+\hline
+$0.25$ & $0.983$ & $0.473$ & $2.545$ & $-1.966$ \\
+$0.50$ & $1.015$ & $0.481$ & $1.821$ & $-2.030$ \\
+$0.75$ & $1.089$ & $0.495$ & $1.413$ & $-2.179$ \\
+$0.90$ & $1.132$ & $0.507$ & $1.265$ & $-2.264$ \\
+$1.00$ & $1.139$ & $0.510$ & $1.190$ & $-2.278$ \\
+$1.20$ & $1.097$ & $0.504$ & $1.077$ & $-2.195$ \\
+$1.45$ & $1.034$ & $0.497$ & $1.076$ & $-2.067$ \\
+$2.50$ & $1.001$ & $0.503$ & $1.008$ & $-2.002$ \\
+\hline
+\end{tabular}
+\caption{Exponents in $K$, fitted over $K=64$ to $1024$: the constant $\widehat B_K$, its
+certified lower bound \eqref{eq:doubling_percut_K} at the best cut, the certificate level
+$\eta_*$ along the critical direction, and the training rate $\varrho$ of
+Theorem~\ref{theo:db_stable_frozen_full} in its flow-matching instance, read at $\widehat B_K$.}
+\label{tab:doubling_cost}
+\end{table}
+
+Let $G_K$ be the finite marked graph with source $s_0$, ladder $\{1,\dots,K\}$, sink $s_f$,
+the forward edges $s_0\rightarrow1$, $j\rightarrow j+1$ for $j<K$ and $2j\rightarrow j$ for
+$2j\leq K$, and a terminating edge $j\rightarrow s_f$ from each state $j\leq d$ at which the
+target row is positive. It is path-connected in the sense of
+Definition~\ref{def:path_connected}: the increments carry $s_0$ to every ladder state, every
+ladder state halves down to $1$ --- after one increment when it is odd, the top state $K$
+carrying the edge $K\rightarrow K/2$ because $K$ is even --- and the increments carry $1$ to a
+state of the target row's support, which terminates. The backward policy of the truncation at
+$K$ --- \eqref{eq:doubling_policy} at the states $j$ with $2j\leq K$, the decrement with
+probability $1$ above them --- is positive on every edge of the loop closure of $G_K$, whose
+backward chain is that truncation, so Theorem~\ref{theo:universality_graphs} supplies an
+exactly balanced flow whatever the mixing, and the measurement finds it: the certificate's
+flow-matching residual and the total variation of its terminal law are at machine precision
+at every cap --- $\TV\leq1.2\cdot10^{-8}$ at worst, on the cell whose outflow is $10^9$, a
+relative $10^{-16}$, and $5\cdot10^{-15}$ at $K=1024$ for the foot-loaded target. What
+degrades is the bill and the clock: $\eta_*$ grows like $K^{1.0}$ to $K^{2.5}$ and $\varrho$
+collapses like $K^{-2}$. The hitting-time envelope degrades with it and for a different
+reason. At every ladder state $\sigma\geq\max_{0\leq n\leq\sigma}X_n$
+(Lemma~\ref{lem:doubling_excursion}), and $\sigma_*$ maximizes $\mathbb E(\sigma\mid X_0=x)$ over the
+states, the top state $K$ among them, so $\sigma_*\geq K$ on the truncation at $K$. The
+envelope $\widehat B_\sigma=\sigma_*\lambda_{\min}^{-1/2}$ of
+Proposition~\ref{prop:morozov_rate}, read on $G_K$ with
+$\lambda_{\min}=\min_x\lambda^K(x)$ the smallest invariant mass \eqref{eq:occupation}, is
+then at least $K$ as well --- $\lambda_{\min}\leq1$ --- and diverges with the cap even at
+$c<1$, where $\bar\sigma$ converges to $\bar\jmath/(1-c)$. Theorem~\ref{theo:RL_CV_bound_full},
+which carries no mixing hypothesis, is untouched throughout: it holds in all $9{,}216$ rows
+of \S\ref{sec:doubling_measured} at every cap.
+
+Divergence is therefore not observable on this graph. Universality holds at every finite cap,
+and in the limit what fails is the hypothesis of Theorem~\ref{theo:universality_L2};
+convergence does not stop but slows quadratically in the cap; and the certificate
+of Theorem~\ref{theo:IL_CV_bound} stays exact while its outflow bill runs away. What the study
+does not reach is the infinite chain itself --- every number above is a truncation, and the
+statements about the limit are Theorem~\ref{theo:doubling_unbounded} and
+Proposition~\ref{prop:doubling_unsolvable}. What the second of them settles is that
+\emph{exact} $L^2$ flow matching fails there, for a pair of $L^2$ densities the loop closure
+cannot balance at all; whether the \emph{weak} form fails --- a defect infimum of zero, which
+the range of $\mathrm{Id}-P_\star$ being dense in $\ker\Pi$ leaves open --- this appendix does
+not decide.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=\linewidth]{figures/fig8_diffusion.pdf}
+\caption{\textbf{Left:} $\widehat B_K$ against the truncation $K$, log-log, one curve per
+$c$, with the proved lower bound \eqref{eq:doubling_percut_K} at its best cut as a dashed line.
+The bound holds in all $40$ cells and its measured slope is half that of $\widehat B_K$
+itself --- $K^{0.47}$ to $K^{0.51}$ against $K^{0.98}$ to $K^{1.14}$ ---
+so the gap between the proved and the measured growth is itself a $\sqrt K$.
+\textbf{Right:} the certificate bill
+$\eta=\|S\theta\|_{L^\infty(\lambda)}$ against $K$ for four $(\Finit,\target)$ pairs at
+$c=0.5$: flat at $11.35$ for the target row at the foot of the ladder, and $K^{2.9}$ for the
+two ladder-loaded targets. The unbounded operator charges nothing where $\theta$ does not
+reach up the ladder.}
+\label{fig:doubling}
+\end{figure}

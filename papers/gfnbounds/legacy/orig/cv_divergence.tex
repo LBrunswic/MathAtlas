@@ -1,0 +1,235 @@
+\section{Convergence Bounds of Divergence losses}\label{sec:cv_divergence}
+
+Training losses for Generative flows based on divergence and generalized divergences were introduced in \cite{brunswic2024theory} to show that this wide family of losses is generically unstable.
+Further exploration was then conducted \cite{hu2024beyond,silva2024divergence} in the acyclic case. 
+Instability of these losses implies that analogues of Theorem \ref{theo:RL_CV_bound} for these losses \textbf{cannot exist}; the following theorem makes this precise.
+
+\begin{theorem}\label{theo:no_bound_divergence}
+    Let $\mathcal L(F)$ be a divergence-based FM-loss on a directed graph $\mathcal G$, with
+    generator continuous at $1$, depending on a target $\target$ and on a training distribution $\nutrain$; the supremum below ranges over the pairs $(\mathcal G,\target)$ with $\#\mathcal G = N$.
+\begin{align*}
+    &\forall\, N\geq 2,\quad \forall\, \varepsilon > 0, \\
+    &\hspace{1cm}
+    \inf_{\nutrain}\; \sup_{\#\mathcal G = N}\; \sup_{\substack{
+      F \\ \mathcal L(F) \leq \varepsilon
+    }} \; \TV\bigl(s_\tau \| \target\bigr) = 1
+\end{align*}
+\end{theorem}
+
+To go beyond this limitation one must restrict the setting. Proposition 4.2 of
+\citet{silvageneralization} bounds the total variation by an idealized trajectory-balance
+residual on finite acyclic graphs of bounded horizon, with constants depending on the state
+space and the training distribution --- bounded independently of the trained model on each
+graph, but not uniformly in its depth; Appendix
+\ref{sec:silva_comparison} restates it with explicit constants and compares it with ours. Such
+restrictions fit autoregressive LLM finetuning
+\cite{bartoldson2025trajectory,yu2024flow,wang2025gflowgr,ho2024proof,takase2024gflownet},
+but a growing trend goes beyond autoregressive generation
+\cite{zhu2025llada,nie2025large,sahoo2024simple,cetin2025large,von2025generalized}, where it
+does not apply.
+
+\citet{morozov2025revisiting} show that the detailed-balance loss is stable in a weaker sense
+on finite graphs when the flow is parameterized with a fixed backward policy. Theorem
+\ref{theo:db_stable_frozen} generalizes this quantitatively, from the summable $L^2$-mixing
+hypothesis of our universality Theorem \ref{theo:universality_L2}. Before developing the
+framework we record a counter-example to the naive generalization. Consider the graph
+
+\begin{equation}\label{eq:counterexample_graph}
+\xymatrix{
+s_0 \ar[r]& 1  \ar[drrr]\ar[r]& 2  \ar[drr] \ar `ur^l[l]`^d[l] [l]  \ar[r] & \cdots \ar[r]& n \ar[d]\ar[r]& \cdots \ar[r] & 2^n \ar `ur^l[ll]`^d[ll] [ll]  \ar[r] \ar[dll] & \cdots  \\ &&&& s_f&&
+}
+\end{equation}
+on which the uniform backward policy sends backward trajectories to $+\infty$, so the bound of
+\citet{morozov2025revisiting}, resting on their expected length, says nothing. A policy that
+damps the doubling edge repairs their condition and not ours:
+$\BackwardPolicy(j\rightarrow 2j)=\frac{1}{2(j+1)}$ is positive on every edge and, when
+backward trajectories enter the graph at states of mean $4.5$, gives $\bar\sigma=9$ exactly,
+whereas \emph{every} constant doubling probability diverges --- and
+its own mixing sum is infinite all the same.\footnote{Appendix \ref{app:doubling} proves both
+halves for the family $\varepsilon(j)=c/(j+1)^s$, of which this policy is the member
+$c=\tfrac12$, $s=1$: the $9$ is its closed-form backward length
+(Proposition \ref{prop:doubling_length}), and $\widehat B=+\infty$ wherever the family is
+positive recurrent (Theorem \ref{theo:doubling_unbounded}). The divergence is priced there on
+truncations to $2^{12}$ states.}
+
+\subsection{From Existence to Speed: the Backward Policy Sets the Clock}\label{sub:speed}
+
+Theorem \ref{theo:universality_L2} and, on graphs, Theorem \ref{theo:universality_graphs}
+settle \emph{existence}: an ergodic backward policy with summable mixing makes the
+parameterization universal, and on a finite graph the frozen-backward family contains an
+exactly balanced flow, unique up to scale. They say nothing about how long training takes to
+find it. That is what the rest of this section answers, and the answer has a single currency.
+
+Let $G$ be a finite path-connected marked graph, let the frozen backward policy be positive on the edges of the loop closure $\widehat G$ (Definition \ref{def:loop_closure}), and for a state $x$ let $\sigma(x)$ be the time the backward trajectory issued from $x$ spends in the graph, that is, its hitting time of $s_0$. Put
+\begin{equation}\label{eq:morozov_variables}
+    \sigma_*:=\max_x\mathbb E(\sigma\mid X_0=x),\qquad \bar\sigma:=\mathbb E_{x\sim\widehat\BackwardPolicy(s_f\rightarrow\cdot)}\mathbb E(\sigma\mid X_0=x),
+\end{equation}
+$\bar\sigma$ being the expected backward-trajectory length of \citet{morozov2025revisiting} (the maximum in $\sigma_*$ running over every state of the loop closure, $s_f$ included), and let $N(x)$ be the expected number of visits to $x$ made by one backward trajectory drawn from the target row $\widehat\BackwardPolicy(s_f\rightarrow\cdot)$, with $N_{\min}:=\min_xN(x)$.
+
+\begin{theorem}[training speed under a frozen backward policy]\label{theo:training_speed}
+On a finite marked graph with a frozen backward policy positive on the edges of its loop
+closure, and for a training measure of uniformly positive density, gradient training of the
+state-space balance loss generated by $(\log x)^2$ --- the generator of the practical DB and
+TB losses --- converges to a balanced flow from
+\emph{every} positive initialization, first at a universal \L ojasiewicz rate, then
+exponentially at a rate fixed by the time backward trajectories spend in the graph. Both
+phases hold for the gradient flow and for discrete gradient descent, the latter with a step
+size chosen from the initialization --- no step size fixed in advance works from every
+initialization. No mixing, spectral-gap or
+aperiodicity hypothesis is used for this state-space loss; the DB instance inherits a local
+rate through the edge lift wherever the lifted mixing sum is finite (Theorems
+\ref{theo:db_stable_frozen} and \ref{theo:local_convergence}).
+\end{theorem}
+Here $\lambda$ is the backward chain's invariant measure, which is its visit ratio,
+\begin{equation}\label{eq:occupation}
+    \lambda(x)=\frac{N(x)}{2+\bar\sigma},\qquad\text{so}\qquad \lambda_{\min}=\frac{N_{\min}}{2+\bar\sigma},
+\end{equation}
+and $\varrho_\sigma$ is the second-phase rate, per unit mass at the crossover:
+\begin{equation}\label{eq:morozov_rate}
+    \varrho_\sigma\;=\;\frac{g''(1)\,w_{\min}\,\lambda_{\min}}{\sigma_*^{\,2}}\;=\;\frac{2\,w_{\min}\,N_{\min}}{\sigma_*^{\,2}\,(2+\bar\sigma)} ,
+\end{equation}
+Its dependence on the graph and the policy runs through $\sigma_*$, $\bar\sigma$ and
+$N_{\min}$ alone. Full statement, with the
+\L ojasiewicz envelope and the explicit crossover time, and proof: Theorem
+\ref{theo:training_speed_full}, Appendix \ref{app:divergence}.
+
+The last sentence is the point of the reformulation. What governs training is not how long
+the backward chain takes to forget its starting point but how long it takes to \emph{leave the
+graph}, and \eqref{eq:occupation} converts one into the other. Three consequences: aperiodicity
+leaves the hypotheses, which matters because a leveled --- autoregressive --- graph is periodic
+and has infinite mixing sum; the hypothesis becomes checkable, since $\bar\sigma$ and the
+$N(x)$ are expectations over backward trajectories of the model one is already training; and
+the rate degenerates on the graph
+\eqref{eq:counterexample_graph} at every doubling probability --- $\sigma_*$ is a maximum over
+states --- and not only in the window where Morozov's bound fails (\S\ref{sec:doubling_cost}). The price is that
+$\widehat B_\sigma$ is a conservative envelope: \eqref{eq:morozov_rate} is a guarantee, not a
+prediction, and Section \ref{sec:experiments} measures how conservative. Remark
+\ref{rem:visit_ratio} separates the regime each constant governs.
+
+\subsection{First Variation of Balance Losses}
+
+Everything rests on the first variation of the $g$-divergence balance loss
+$\mathcal L_{g,\nu}(\mu) := \int g\left(\frac{d(\mu T)}{d\mu}\right)d\nu$, for an
+\emph{arbitrary} Markov kernel $T$. Four measures meet in its gradient: the background
+measure $\nuB$, which carries the parameterization; the weighting measure $\nu$, which is
+the training measure $\nutrain$ in practice --- we keep the generic letter because the
+statements below hold for any $\nu$ with the positivity each one names and a bounded density,
+the latter automatic on a finite state space and not on a continuous one; an invariant measure
+$\lambda$ of $T$, the one of the four that the practitioner neither chooses nor samples; and
+$\nuG$, any finite reference measure equivalent to $\lambda$, which fixes the geometry the
+gradient is read in rather than the objective.
+
+\begin{theorem}\label{theo:first_variation}
+For a continuously differentiable generator, the $g$-divergence balance loss of an arbitrary
+Markov kernel is differentiable at every flow whose balance ratio is bounded away from $0$ and
+$\infty$, and --- as soon as the kernel admits a non-zero finite invariant measure equivalent
+to that flow --- its gradient is the reversal of the kernel, minus the ratio, applied to $g'$
+of that ratio.
+\end{theorem}
+The reversal here is conjugation in $L^2(\lambda)$ against the kernel's invariant measure: an
+involution sending $T$ to the kernel $T^\lambda$ with $\lambda\otimes T^\lambda = T\otimes\lambda$,
+and exchanging a backward policy with the forward policy of the \emph{balanced} flow (Lemma
+\ref{lem:adjoint}) --- the forward/backward duality of generative flows. Explicitly,
+$\nabla_{\mu}^{\nuG}\mathcal L_{g,\nu} = \frac{d\nuG}{d\lambda}\cdot(T^\lambda-r)\left[g'(r)\frac{d\nu}{d\mu}\lambda\right]$
+with $r=\frac{d(\mu T)}{d\mu}$. Full statement and proof: Theorem
+\ref{theo:first_variation_full}, Appendix \ref{app:divergence}; the rates below are read at
+the invariant measure of the chain in play.
+
+FM, DB and TB are all specializations of it. The DB and TB ratios live on edges and trajectories rather than
+states, but they are the same balance loss for the same frozen backward policy lifted to a
+power of the state space, so every convergence statement below transfers to them with explicit
+constants (Appendix \ref{app:divergence}).
+
+\subsection{Gradient Descent Diffuses the Flow by the Backward Policy}\label{sub:gd_diffusion}
+
+We now linearize the gradient flow of these losses at the balanced solution and read off the convergence speed of training from the mixing of $\BackwardPolicy$. Throughout, $(\Statespace',\lambda',T)$ denotes a chain together with its invariant measure: either $(\Statespace,\lambda,\BackwardPolicy)$ for the FM loss, or its edge lift $(\Statespace^2,\lambda_2,K_2)$ for the DB loss. Then $P$ is the density action of $T$ on $L^2(\lambda')$, $P^\dagger$ its adjoint --- the density action of the reversal $T^{\lambda'}$, by Lemma \ref{lem:adjoint} --- $A := P - I$, and $M_w$ multiplication by $w=\frac{d\nutrain}{d\lambda'}$.
+
+\begin{theorem}[gradient descent as backward diffusion]\label{theo:gd_diffusion}
+Near the balanced flow, and for any generator of class $C^3$ near $1$ with non-degenerate curvature there, the
+gradient field of a balance loss linearizes to the backward policy's diffusion applied twice, so that training relaxes the current flow guess by diffusing
+it through the frozen backward policy --- and for the FM loss with a reversible policy and
+uniform training weight ($w\equiv1$) it is exactly the square
+of that policy's heat flow, each of its eigenmodes decaying at $g''(1)(1-\beta)^2$.
+\end{theorem}
+Full statement and proof: Theorem \ref{theo:gd_diffusion_full}, Appendix
+\ref{app:divergence}.
+
+The convergence speed of training is therefore a property of the spectrum of that policy.
+
+\begin{theorem}[convergence speed under frozen backward policy]\label{theo:db_stable_frozen}
+For a training measure of uniformly positive density, a backward policy with summable
+mixing makes gradient descent on the \emph{linearized} FM and DB losses with frozen backward
+policy converge to the balanced ray at an explicit exponential rate, provided the step size
+stays below an explicit cap; the linearization conserves the total flow normalization along
+the way. At vanishing training weight the rate is vacuous.
+\end{theorem}
+The rate is $\varrho = g''(1)w_{\min}/\widehat B^{\,2}$ with $\widehat B$ the mixing sum,
+which for the FM loss is $B$ itself and for DB is $1+B$. Full statement and proof:
+Theorem \ref{theo:db_stable_frozen_full}, Appendix \ref{app:divergence}.
+
+\begin{theorem}[local exponential convergence]\label{theo:local_convergence}
+On a finite state space, and from an explicit neighbourhood of the unit-mass balanced flow,
+the rate above upgrades to the full nonlinear dynamics: halved for the gradient flow, and
+quartered for gradient descent below an explicit step.
+\end{theorem}
+Full statement and proof: Theorem \ref{theo:local_convergence_full}, Appendix
+\ref{app:divergence}.
+
+These are statements about the \emph{dynamics}: the balanced ray attracts, exponentially and
+at an explicit rate. They are not statements about the loss landscape in the sense of
+\citet{brunswic2024theory}, whose Definition 3 calls a loss \emph{stable} when adding a
+$0$-flow never decreases it,
+
+\begin{equation}\label{eq:def_stability}
+    \mathcal L(F+F_0)\;\geq\;\mathcal L(F) \qquad \text{for every $0$-flow $F_0$ that is a subflow of } F,
+\end{equation}
+and whose Theorem 3 declares the FM, DB and TB losses unstable. One might hope that freezing
+the backward policy repairs \eqref{eq:def_stability}, since it collapses the balanced set to a
+single ray. It does not, and the obstruction is the very mechanism that makes training work.
+
+\begin{proposition}[freezing does not restore stability]\label{prop:frozen_unstable}
+On every finite path-connected graph carrying a directed cycle that avoids both the source
+and the sink, for every admissible generator ($g$ continuous, vanishing at $1$ and positive
+elsewhere) and every training measure of positive density, the FM and DB losses with an
+everywhere-positive frozen backward policy remain unstable in the sense of
+\eqref{eq:def_stability}:
+some flow is strictly improved by \emph{adding} a $0$-flow.
+\end{proposition}
+Full statement and proof: Proposition \ref{prop:frozen_unstable_full}, Appendix
+\ref{app:divergence}.
+
+What freezing buys is not
+\eqref{eq:def_stability} but the weaker property invoked by \citet{morozov2025revisiting}: the
+loss vanishes only on the balanced ray, is coercive transverse to it, and gradient descent
+converges there. The three notions --- stability, weak stability, convergence --- are distinct,
+and only the last two survive a frozen backward policy.
+
+On trajectories of $\ell$ transitions the TB Hessian at balance is at most that of DB times
+$\ell$ and a mixing factor, so a DB step cap divided by both remains valid for TB; no rate is
+proved for TB (Proposition \ref{prop:tb_hessian}). Summable mixing, sufficient for the FM
+and DB rates, is
+the hypothesis of Theorem~\ref{theo:universality_L2} at $p=2$: \emph{the same ergodicity of the backward
+policy provides both the universality of the parameterization and the convergence speed of its
+training}. Practice, however, often trains the backward policy rather than freezing it
+\citep{morozov2025revisiting}; Appendix \ref{app:pbtrain} translates that objective into the
+spectral variables used here, where flow regularization becomes a slow drift along the
+balanced manifold toward an optimal-transport endpoint, every constant above pays a computable
+price along the way, and an entropic term repairs it. Remark \ref{rem:visit_ratio} resolves the speed state by state.
+
+Whether convergence extends beyond the neighbourhood of Theorem \ref{theo:local_convergence} depends on the generator, and the next theorem separates two classes of it: the strictly unimodal generators, and those whose $g'$ vanishes on bands on either side of $1$ --- bands of zero mobility $g''$, on which the diffusion of Theorem \ref{theo:gd_diffusion} freezes. The two classes do not exhaust the generators: bands on one side of $1$ only fall under neither, and within the first, global convergence is proved for $(\log x)^2$ and $(x-1)^2$ only, a bounded strictly unimodal generator not being covered. For $g=(\log x)^2$, the generator of the practical DB and TB losses, one may fear a milder failure on cyclic graphs: a flow stuck in a \emph{distant equilibrium} between the frozen-policy constraint and the circulation-inflating force of Theorem \ref{theo:no_bound_divergence}. The following dichotomy rules this out.
+
+\begin{theorem}[global dichotomy for frozen-backward training]\label{theo:global_dichotomy}
+If $g$ is strictly unimodal --- as $(\log x)^2$ and $(x-1)^2$ are --- then every critical point
+of the loss is balanced, on every graph and for every training measure with positive density,
+and --- for $(\log x)^2$ and $(x-1)^2$ --- on a finite state space the gradient flow
+converges globally from every positive initialization. If instead
+$g'$ vanishes on bands on either side of $1$, then every flow whose ratios lie in those bands
+is frozen, for every training measure; and some such generators freeze an open set of flows
+at a definite distance from balance, already on the two-state chain with maximal mixing, so
+that global convergence fails for them.
+\end{theorem}
+Full statement and proof: Theorem \ref{theo:global_dichotomy_full}, Appendix
+\ref{app:divergence}.
+
+Convex or real-analytic generators exclude this freezing altogether (Remark
+\ref{rem:freezing}).

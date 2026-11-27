@@ -1,0 +1,125 @@
+
+\section{Introduction}
+
+Generative Flows (GFlowNets), introduced in \citet{bengio2021flow, bengio2023gflownet}, were initially defined on Directed Acyclic Graphs to sample vertices proportionally to a reward.
+The approach was then motivated by comparison to Monte-Carlo Markov Chains (MCMC) and Reinforcement Learning (RL) methods.
+The former shares the same objective but suffers from long mixing hence sampling time, while the latter is prone to mode collapse and lacks diversity.
+Theoretical improvement of the framework has been very active with introductions of new training losses \cite{malkin2022trajectory,pan2023better,brunswic2024theory, silva2024divergence,hu2024beyond},
+extensions beyond graph environments \cite{li2023cflownets, lahlou2023theory} and removing acyclicity constraint \cite{brunswic2024theory,morozov2025revisiting}.
+
+So far, however, universality and convergence of generative flows are an incompletely addressed corner of the Theory of Generative Flows. More precisely, we lack control of the form
+\begin{equation}
+    \mathrm{dist}(\mu_{\mathrm{target}}, \mu_{\mathrm{sampler}}) \leq F(\mathcal L), \quad F(\min \mathcal L)=0
+\end{equation}
+where $\mathrm{dist}$ is distance-like in the space of probability distributions and $F$ is an increasing continuous function.
+Previous quantitative attempts are restricted to finite acyclic state spaces: \citet{silvageneralization} bound the total variation by an idealized trajectory-balance residual, and \citet{silva2025gflownets} bound the total variation under flow perturbations of an exactly balanced model (see Appendix B for a detailed comparison).
+In fact, the instability result of \citet{brunswic2024theory}  implies that \textbf{no convergence bound exists in general for FM, DB and TB}, and more generally for divergence-like losses with a generator continuous at $1$.
+Indeed, the instability states that any loop in the state graph implies these losses may be minimized without satisfying the flow-matching objective; we sharpen this observation into a minimax theorem (Theorem \ref{theo:no_bound_divergence}).
+
+The present work aims at filling this gap in the literature by combining three recent advances. First,  \citet{brunswicEGF} proved a general quantitative
+control of the total variation between the target and sampling distributions of the generative flows (i.e.\ the $L^1$ sampling error) by the flow-matching $L^1$-error.
+The so-called stable FM \cite{brunswic2024theory} and KL-weak-FM \cite{brunswicEGF} losses being essentially estimators of some $L^p$ flow-matching error, they are natural candidates to provide straightforward convergence bounds.
+Second, recent results on backward-policy control \cite{gritsaev2024optimizing,morozov2025revisiting} showed that some divergence-like losses are stable in a weak sense if applied only to the stateflow and forward policy
+while the backward policy is frozen or trained using a different loss. This suggests that convergence bounds of the type $\mathrm{dist}(\mu_{\mathrm{target}}, \mu_{\mathrm{sampler}}) \leq F(\mathcal L, \BackwardPolicy)$
+may exist for such losses. Third, the dependency on the backward policy in such convergence bounds is likely to depend on its exploration properties that ensure the flow does not get stuck in loops.
+The Markov Chain perspective \cite{deleu2023generative} together with the universality theorem of \citet{brunswicEGF} allow us to concretize this idea.
+
+
+\subsection{Positioning}\label{sub:positioning}
+
+A convergence bound is an operational object: it converts a number the practitioner already
+logs --- the training loss --- into a certificate on the object they actually care about, the
+sampling error, and it names the knobs that move that certificate. That is the standard we
+place ourselves against. Compared with other samplers the comparison is one of guarantees
+rather than of benchmarks: MCMC pays for exactness with a mixing time that is rarely known,
+while annealed importance sampling and sequential Monte-Carlo buy unbiasedness and variance
+control but say nothing about the error of a \emph{learned} proposal. Within generative flows,
+quantitative guarantees have so far been confined to finite acyclic state spaces
+\cite{silvageneralization,silva2025gflownets}; what we ask is what survives when both
+restrictions are lifted --- an $L^p$ bound in the measurable setting for the stable losses,
+and a proof that \emph{nothing} survives for the divergence losses.
+
+\textbf{Main Contributions}
+\begin{enumerate}
+    \item an ergodicity-based theory of $L^p$-universality for generative flows, valid on
+    Polish state spaces and specializing to graphs;
+    \item convergence bounds controlling the sampling error in total variation by the
+    stable-FM and KL-weak-FM losses, with explicit constants;
+    \item a minimax theorem showing that no such bound exists for divergence-based losses (FM,
+    DB, TB) on general state graphs, with an explicit-constant analysis of what is available in
+    the finite acyclic case (Appendix \ref{sec:silva_comparison});
+    \item a unified first variation of the FM, DB and TB losses under a frozen backward
+    policy, exhibiting gradient descent as a diffusion of the flow by that policy;
+    \item a training-speed theorem in which the same ergodicity governs both universality and
+    convergence rate, with two negative results delimiting it: freezing does \emph{not} restore
+    stability in the sense of \citet{brunswic2024theory} (Proposition
+    \ref{prop:frozen_unstable}), and global convergence can fail for admissible generators, an
+    obstruction that strictly unimodal generators such as $(\log x)^2$ provably escape;
+    \item an empirical study on enumerable state spaces where the sampling error is computed
+    rather than estimated --- the stable bound on $21{,}168$ flows, the KL-weak-FM bound on
+    $3{,}472$, rate constants on $20$ chains --- including a family on which the mixing
+    hypothesis provably holds \emph{uniformly} in the state space, via property (T) for
+    $\mathrm{Aut}(F_k)$ (Section \ref{sec:experiments});
+    \item four appendices carrying the theory into the two objects a practitioner chooses ---
+    the initial flow (Appendix \ref{app:finit}) and the training measure (Appendix
+    \ref{app:replay}) --- and into two regimes this paper's dynamics do not cover: a trained
+    backward policy (Appendix \ref{app:pbtrain}) and sampled gradients (Appendix
+    \ref{app:sgd}).
+\end{enumerate}
+\subsection{Training Objectives of Generative Flows}
+    
+    
+    
+    We work in the measurable setting: the state space $\Statespace$ is a Polish space --- a
+    vector space or a Riemannian manifold \cite{lee2018introduction, gemici2016normalizing}
+    --- carrying a finite background measure $\nuB$. Measure-theoretic notation
+    ($\ll$, Radon--Nikodym derivatives, Markov kernels, image measures and $L^p$ spaces) is
+    standard and collected in Appendix \ref{app:notation}.
+
+    We adopt the formulation of generative flows used in \cite{brunswicEGF}.  Let $(\Statespace,\nuB)$ be a Polish space with a finite background measure. A generative flow on $\Statespace$ is the data of a star forward policy, i.e. a Markov kernel $\ForwardPolicyStar:\Statespace\rightarrow \Statespace$, and a star outflow, i.e. a finite non-negative measure $\Foutstar$ on $\Statespace$.
+
+    With unnormalized initial and terminal distributions $\Finit$ and $\Fterm$,  it induces a Markov chain $(\underline s_t)_{t\geq 1}$ defined by $\underline s_{1}\sim \Finit$ and $\underline s_{t+1} = \ForwardPolicyStar(\underline s_t)$.
+    Define the sampling time $\tau \in \mathbb N_{\geq 1}$ as the random variable given by\footnote{Clearly $\Fterm \ll \Fterm+\Foutstar$ so the Radon-Nikodym derivative is well-defined.} $\mathbb P(\tau\geq 1)=1$ and $\mathbb P(\tau = t|\tau\geq t) = \frac{d\Fterm}{d(\Fterm+\Foutstar)}(\underline s_t)$.
+    The sampler associated with a generative flow is obtained by emulating the Markov chain $(\underline s_t)_{t\geq1}$ and sampling $\underline s_\tau$.
+    By extending the sampling Markov chain with a source $s_0$ and sink $s_f$ state, we can summarize the flow as follows:
+    \begin{equation}
+        \xymatrix{
+        s_0 \ar[r]^\Finit&\Statespace \ar@(ur,ul)_{\Foutstar\otimes\ForwardPolicyStar}\ar[r]^\Fterm& s_f
+        }.
+    \end{equation}
+    The interest of the formalization is to separate the ``internal'' flow $\Statespace\rightarrow \Statespace$ from the initial and terminal flows which may be twisted for the purpose of a theoretical reasoning and because the terminal flow differs from the target which we assumed to be inaccessible during inference.
+
+
+
+
+
+    % The fundamental result of generative flows is the sampling Theorem:
+  Two results from prior work anchor everything below. First, if the flow-matching constraint
+\begin{equation}
+\label{equ:FM_const}
+    \Finit + \Foutstar\ForwardPolicyStar = \Fterm + \Foutstar
+\end{equation}
+holds, then $\Finit(\Statespace)=\Fterm(\Statespace)$, the expected sampling time is at most
+$\Foutstar(\Statespace)/\Finit(\Statespace)+1$, and the sampler is exact:
+$\underline s_\tau\sim\Fterm$ \cite{bengio2021flow, brunswic2024theory}. Second, a flow that
+does \emph{not} satisfy \eqref{equ:FM_const} can be made to, by twisting the initial and
+terminal distributions: writing $\Finstar := \Foutstar\ForwardPolicyStar$ and
+$\delta\Fterm := (\Finit+\Finstar-\Foutstar-\Fterm)^+$,
+$\delta\Finit := (\Finit+\Finstar-\Foutstar-\Fterm)^-$, the flow is flow-matching from
+$\Finithat := \Finit+\delta\Finit$ to $\Ftermhat := \Fterm+\delta\Fterm$, and its sampling
+error is controlled by the initial defect alone,
+$\TV\bigl(s_\tau\,\|\,\Ftermhat/\Ftermhat(\Statespace)\bigr)\leq\delta\Finit(\Statespace)/\Ftermhat(\Statespace)$
+\cite{brunswicEGF}. Both are restated formally as Theorems \ref{theo:sampling_theorem} and
+\ref{theo:negative_control} in Appendix \ref{app:notation}.
+
+The pair $(\Foutstar, \ForwardPolicyStar)$ is trained using gradient descent to minimize a loss function that enforces the flow-matching constraint in equation \eqref{equ:FM_const}. Once convergence is achieved, the generative flow sampler yields samples of the random variable $s_\tau$. Hence, by Theorem \ref{theo:sampling_theorem},  the generative flow sampler samples from $\Fterm$. For example, we can use the most straightforward stable $L^q$ FM-loss:
+    \begin{equation}\label{equ:FMloss}
+        \LFMstableq := \left(\mathbb E_{s\sim \nutrain}\left[ \left|\finit + \finstar - \fterm - \foutstar\right|^q(s) \right]\right)^{1/q}
+    \end{equation}
+    where $\finit = \frac{d\Finit}{d\nuB}$, $\fterm=\frac{d\Fterm}{d\nuB}$ and $\finstar=\frac{d\Finstar}{d\nuB} = \frac{d(\Foutstar\ForwardPolicyStar)}{d\nuB} $.
+This loss is suitable when the target distribution $\target$ has accessible density.
+If $\target$ is only accessible via samples, \cite{brunswicEGF} introduced a so-called KL-weak-FM loss which may be put in a generalized $L^q$ form:
+\begin{equation}\label{equ:weakFM}
+     \LossWKLFM^q (\theta) := b \|\deltafinit(s)\|_{L^q(\nutrain)}-  \mathbb E_{s\sim \target}\log \ftermhat(s)
+\end{equation}
+

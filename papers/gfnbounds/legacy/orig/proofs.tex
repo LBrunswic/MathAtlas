@@ -1,0 +1,1183 @@
+\appendix
+\section{\appendixAtitle}
+
+Proofs of statements from the main text are given as named proofs, in order of appearance: universality first, then the two convergence bounds for stable losses, then the divergence section. One statement is proved here in a form narrower than the one advertised in the main text, and is labelled accordingly: Theorem \ref{theo:universality_L2_body} is the $L^2$ strengthening of Theorem \ref{theo:universality_L2} for EGF parameterizations. Theorem \ref{theo:IL_CV_bound}, the full form of Theorem \ref{theo:IL_CV_bound_body}, constrains neither the parameterization nor the exponent, holding for every $q\in[1,+\infty]$ and every forward policy whose star inflow is dominated by $\nuB$; its floor is reached under a hypothesis of approximate domination of the target by the family, exact flow matching being the borderline case. The final subsection is dedicated to the universality theorem on finite graphs (Theorem \ref{theo:universality_graphs}): statement, complete proof, and a discussion of the loop-closure mechanism.
+
+\subsection{Notation}\label{app:notation}
+
+In this work, we consider generative flows in the measurable setting, encompassing scenarios where the state space $\Statespace$ is either a vector space, $\Statespace = \mathbb R^d$, or potentially a Riemannian manifold \cite{lee2018introduction, gemici2016normalizing}. Both are instances of Polish\footnote{A topological measurable space is Polish if its topology is completely metrizable and it is endowed with its Borel $\sigma$-algebra.} spaces that admit a natural finite background measure $\nuB$ (usually the Lebesgue, Haar \cite{halmos2013measureHaar} or Riemannian volume measures).
+
+    A measure $\mu$ is dominated by $\nu$, denoted $\mu\ll \nu$, if $\nu(A)=0 \Rightarrow \mu(A)=0$ for any measurable $A\subset \Statespace$; the Radon-Nikodym derivative of $\mu$ with respect to $\nu$, denoted $\frac{d\mu}{d\nu}\in L^1(\nu)$, is then the unique $\nu$-integrable function $\varphi$ such that $\varphi \nu = \mu$. A
+    Markov kernel $\pi:\mathcal X\rightarrow \mathcal Y$ is a stochastic map denoted $\pi(x)$. The image measure of $\mu$ by $\pi$ denoted $\mu \pi$ is defined by $\mu\pi(A) = \int_{x\in \mathcal X} \mathbb P(\pi(x)\in A) d\mu(x)$ for any measurable $A\subset \mathcal Y$. Their tensor product is the kernel  $\mu\otimes \pi(A\rightarrow B):=\int_{x\in A}\mathbb P(\pi(x)\in B)d\mu(x)$.
+    Even when $\mu$ is an unnormalized distribution, we write $x\sim \mu$ for ``the law of $x$ is $\frac{1}{\mu(\Statespace)}\mu$".
+
+    Recall that the Lebesgue space $L^p(\Statespace,\mu)$ for a measure $\mu$ on $\Statespace$  and $p\in [1,+\infty]$ is defined as the set of measurable functions $f:\Statespace \rightarrow \mathbb R$ such that $\int_{s\in \Statespace}|f|^pd\mu(s)<+\infty$. The conjugate exponent of $p\in[1,+\infty]$ is written $p^*$ and is defined by $\frac1p+\frac1{p^*}=1$: $p^*=\frac{p}{p-1}$ on $]1,+\infty[$, $p^*=+\infty$ at $p=1$ and $p^*=1$ at $p=+\infty$, so that H\"older's inequality $\int|fg|d\mu\leq\|f\|_{L^p(\mu)}\|g\|_{L^{p^*}(\mu)}$ holds at both endpoints. The same convention applies to the exponent $q$ of the losses below, whose conjugate exponent is written $q^*$.
+
+A family of generative flows on $(\Statespace,\nuB)$ is a set $\Theta$ whose elements are couples $(\ForwardPolicyStar,\foutstar)$ where $\foutstar : \Statespace \rightarrow \mathbb R_+$  is an integrable scalar field on $\Statespace$, $\foutstar\in L^1(\nuB)$ --- equivalently the star outflow $\Foutstar:=\foutstar\nuB$ is a finite measure, $\Foutstar(\Statespace)<+\infty$ --- and $\ForwardPolicyStar:\Statespace\rightarrow \Statespace$ is a Markov kernel.
+For a given $p\in [1,+\infty]$, a family $\Theta$ is metrized by the $L^p(\nuB)$ norm for $\foutstar$ and the operator norm $L^p(\nuB)\rightarrow L^p(\nuB)$ for $\ForwardPolicyStar$:
+\begin{eqnarray}
+    \|\foutstar\|_{L^p(\nuB)} &:=& \left(\int_{s\in \Statespace} |\foutstar(s)|^pd\nuB(s)\right)^{1/p} \\
+    \|\ForwardPolicyStar\|_{L^p(\nuB)} &:=& \sup_{0\neq f\in L^p(\nuB)} \frac{\|f\ForwardPolicyStar\|_{L^p(\nuB)}}{\|f\|_{L^p(\nuB)}}.
+\end{eqnarray}
+\emph{Four measures, and the conventions they carry.} The \emph{background} measure $\nuB$ is the one flow densities and kernels are parameterized against: $\mathcal M^+(\Statespace,\nuB)$ denotes the non-negative measures dominated by $\nuB$, and $\mathcal M^2(\nuB)$ those with square-integrable density, with inner product $\langle\mu\mid\nu\rangle_{\nuB}:=\int\frac{d\mu}{d\nuB}\frac{d\nu}{d\nuB}\,d\nuB$; in the first-variation theorem it fixes the coordinates and nothing else. The letter $\lambda$ is reserved for an \emph{invariant} measure --- of whichever kernel is in play, and a probability on the loop closure --- assumed to exist, non-zero and finite, and unique up to a positive scalar when that kernel is ergodic, the normalization as a probability on the loop closure pinning that scalar --- the visit-ratio identity \eqref{eq:occupation} is not scale-invariant, and neither is the rate $\varrho=g''(1)w_{\min}/\widehat B^{\,2}$ of Theorem \ref{theo:db_stable_frozen_full}, whose $w_{\min}=\min\frac{d\nu}{d\lambda}$ becomes $w_{\min}/c$ under $\lambda\mapsto c\lambda$ at fixed weighting measure while $\widehat B$ itself does not move, nor the constant $C_\infty=(\min\lambda)^{-1/2}$ of Theorem \ref{theo:local_convergence_full}; it is the measure the reversal $T^\lambda$ and the mixing sum $\widehat B$ are defined against, and the only one of the four that the practitioner neither chooses nor samples. The two coincide in \S\ref{app:universality} and \S\ref{app:stable}, where the star policy is assumed $\nuB$-invariant so that $\nuB$ plays both roles; they part company in \S\ref{app:divergence}, where $\lambda$ is the invariant measure of the backward chain while $\nuB$ remains ambient. The \emph{training} measure is $\nutrain$: the law the replay buffer and the sampling strategy make available, and what the generic weighting measure $\nu$ of a balance loss is in practice --- the letter stays generic because the statements below are quantified over every $\nu$, and Theorem \ref{theo:first_variation_full} asks of it only $\frac{d\nu}{d\mu}\in L^\infty(\mu)$, domination by the current flow guess, which is a constraint on $\nutrain$ and not a property a replay buffer supplies. The fourth measure, $\nuG$, fixes the geometry rather than the objective: writing a flow by its density against $\nuG$ and measuring in $L^2(\nuG)$, $\nabla^{\nuG}_\mu\mathcal L_{g,\nu}$ is the representative of the differential of $\mathcal L_{g,\nu}$ in that inner product. The differential does not depend on $\nuG$; the gradient does, and with it the trajectory of gradient descent --- $\nuG$ is a preconditioner, free up to finiteness and $\nuG\sim\lambda$. The choice matching the parameterization is $\nuG=\nuB$, flows being carried as densities against the background measure, and it is available where $\nuB$ is itself an invariant measure equivalent to $\lambda$: in \S\ref{app:universality}, whose ergodicity hypothesis leaves no other invariant measure dominated by $\nuB$, and in \S\ref{app:doubling}, where $\nuB=\lambda$ outright. Invariance alone does not suffice, Lemma \ref{lem:adjoint} giving $\lambda\ll\nuB$ and not the converse. The choice made throughout this appendix is $\nuG=\lambda$, which sets the prefactor $\frac{d\nuG}{d\lambda}$ to $1$ and puts the gradient in the space where the mixing of $\BackwardPolicy$ acts. That freedom belongs to Theorem \ref{theo:first_variation_full} alone: Proposition \ref{prop:no_distant_equilibrium} and every rate in Theorems \ref{theo:gd_diffusion_full}, \ref{theo:db_stable_frozen_full} and \ref{theo:local_convergence_full} are statements about the gradient read at the invariant measure of the chain in play --- $\nabla^\lambda$ for the state-space loss, $\nabla^{\lambda_2}$ for its edge lift. For a Markov kernel or a bounded operator $\mathcal K$ on measures --- the instances below are $T^\lambda-r$ and $K_2^{\lambda_2}-\widehat r$ --- and a measure $m$, $\mathcal K[m]:=m\mathcal K$ denotes the density action of $\mathcal K$, not its function action on $\frac{dm}{d\lambda}$. The operators $P$, $P^\dagger$, $A$ and $A^\dagger$ act on densities rather than on measures, $[\,\cdot\,]$ marking application there as well. $\Pi$ denotes the mean projection onto the invariant functions of the kernel in play, $f\mapsto\frac{\int f\,d\rho}{\rho(\Statespace)}\mathbf 1$ against that kernel's invariant measure $\rho$. Total variation carries the $\tfrac12$-convention, $\TV(\mu\|\nu):=\tfrac12\int|\frac{d\mu}{d\rho}-\frac{d\nu}{d\rho}|d\rho$ for a common dominating $\rho$; hatted mixing coefficients $\widehat\beta_n:=\|P^n-\Pi\|_{L^2(\lambda)}$ refer to the lifted or backward chain under consideration. Two symbols resemble a measure and are not: $\lamreg$ is the flow-regularization weight of \citet{morozov2025revisiting} (Appendix~\ref{app:pbtrain}), and $\Lambda$ in Appendix~\ref{app:sgd} is a local smoothness constant.
+
+Finiteness of $\|\foutstar\|_{L^1(\nuB)}$ is part of what a generative flow is; the higher $L^p$ norms are not, and most parameterizations of $\foutstar$ yield bounded $\foutstar$ on a compact domain so that they too are easily ensured. However, the definitions above do not guarantee that $\|\ForwardPolicyStar\|_{L^p(\nuB)}$ is finite; the parameterization of the star forward policy should ensure the finiteness of the operator norm of interest.
+
+The following theorem  provides theoretical guarantees on the sampler associated with a generative flow.
+
+    \begin{theorem}
+        [\cite{bengio2021flow, brunswic2024theory}] \label{theo:sampling_theorem}
+        Let $\Finit$, and $\Fterm$ be unnormalized distributions with $\Fterm\neq0$ and let $(\ForwardPolicyStar, \Foutstar)$ be a generative flow. If the flow-matching constraint
+        \begin{equation}
+            \Finit + \Foutstar\ForwardPolicyStar = \Fterm + \Foutstar
+        \end{equation}
+        is satisfied then $\Finit(\Statespace)=\Fterm(\Statespace)$ and:
+        \begin{equation}
+            \mathbb E(\tau)\leq \frac{\Foutstar(\Statespace)}{\Finit(\Statespace)}+1,\quad \quad \underline s_\tau \sim \Fterm. \nonumber
+        \end{equation}
+
+    \end{theorem}
+
+
+
+
+A quantitative version controls the total variation of sampling from target distribution.
+    The fundamental remark is that a generative flow $(\ForwardPolicyStar,\foutstar,\Finit,\Fterm)$ may be forced to be flow-matching by replacing $\Finit$ and $\Fterm$: denoting $\Finstar := \Foutstar\ForwardPolicyStar$ the star inflow, the flow $(\ForwardPolicyStar,\foutstar,\Finithat,\Ftermhat)$ is flow-matching where
+    \begin{eqnarray}
+        \Ftermhat &=& \Fterm +\delta\Fterm \\
+        \Finithat &=& \Finit +\delta\Finit \\
+        \delta\Fterm &=& \left(\Finit+\Finstar - \Foutstar-\Fterm\right)^+ \\
+        \delta\Finit &=& \left(\Finit+\Finstar - \Foutstar-\Fterm\right)^-
+    \end{eqnarray}
+\begin{theorem}[\cite{brunswicEGF}]
+
+
+\label{theo:negative_control}
+  Let $(\ForwardPolicyStar, \foutstar)$ be a generative flow and let $\Finit$ and $\Fterm$ initial and terminal distributions. Assume that $\Finit\neq 0$, and consider the sample $s_\tau$ of the generative flow Markov chain from $\Finit$ to $\Ftermhat$ then:
+    \begin{equation}
+        \TV\left(s_\tau \left\| \frac{1}{\Ftermhat(\Statespace )} \Ftermhat\right.\right) \leq  \frac{\delta\Finit(\Statespace)}{\Ftermhat(\Statespace)}
+    \end{equation}
+    with $\TV$  the total variation.
+\end{theorem}
+
+\subsection{Universality}\label{app:universality}
+
+\begin{theorem}[full form of Theorem \ref{theo:universality_L2}]
+\label{theo:universality_L2_full}
+     Let $(\Statespace,\nuB)$ be a measured Polish space with $\nuB$ finite and let $\ForwardPolicyStar$ be a Markov kernel on $\Statespace$ with finite $L^p(\nuB)\rightarrow L^p(\nuB)$ operator norm. If $\ForwardPolicyStar$ is ergodic on $(\Statespace,\nuB)$ with summable $L^p$-mixing coefficients, then the family $\Theta := \{\ForwardPolicyStar\}\times L^p_+(\Statespace,\nuB)$ is weakly $L^p$-universal.
+
+     More precisely, let $\Finit,\Fterm\ll\nuB$ be distributions with densities in $L^p(\nuB)$, put $\theta := \fterm-\finit$ and let $S:=\sum_{n\geq0}\left(P_\star^n-\Pi\right)$, so that $\|S\theta\|_{L^p(\nuB)}\leq B_p\|\theta\|_{L^p(\nuB)}$. Then for every $\eta>0$ the outflow density $\foutstareta := \left(\eta - S\theta\right)^+$ belongs to $\Theta$ and satisfies
+     \begin{equation}\label{equ:universality_quantitative}
+         \|\deltafinit\|_{L^p(\nuB)}+\|\delta\fterm\|_{L^p(\nuB)} \;\leq\; 2\left(1+\|\ForwardPolicyStar\|_{L^p(\nuB)}\right)\left\|\left(S\theta-\eta\right)^+\right\|_{L^p(\nuB)} \xrightarrow[\eta\rightarrow+\infty]{} 0 .
+     \end{equation}
+     Furthermore, if $p=+\infty$ then $\Theta$ is strongly universal: taking $\eta := \|S\theta\|_{L^\infty(\nuB)}$ gives $\deltafinit = \delta\fterm = 0$, and the flow-matching constraint \eqref{equ:FM_const} holds exactly.
+\end{theorem}
+
+\begin{proof}
+Fix distributions $\Finit,\Fterm\ll\nuB$ with densities in $L^p(\nuB)$ and write $\theta := \fterm-\finit\in L^p(\nuB)$. For a candidate outflow $\Foutstar = \foutstar\nuB$ the flow-matching defect is the signed measure
+\begin{equation}
+    D := \Finit + \Foutstar\ForwardPolicyStar-\Foutstar-\Fterm, \qquad \frac{dD}{d\nuB} = \left(P_\star-\mathrm{Id}\right)\foutstar-\theta,
+\end{equation}
+and $\delta\Fterm = D^+$, $\delta\Finit = D^-$ by definition. The positive and negative parts of $D$ having disjoint supports,
+\begin{equation}\label{equ:defect_equivalence}
+    \|D\|_{L^p(\nuB)}\;\leq\;\|\deltafinit\|_{L^p(\nuB)}+\|\delta\fterm\|_{L^p(\nuB)}\;\leq\;2\|D\|_{L^p(\nuB)},
+\end{equation}
+so weak $L^p$-universality amounts to showing that $\theta$ lies in the $L^p(\nuB)$-closure of the image of the non-negative cone of $L^p(\nuB)$ under $P_\star-\mathrm{Id}$. (The restriction to densities in $L^p(\nuB)$ is not cosmetic: the residuals differ from $\finit-\fterm$ by a term in the range of $\ForwardPolicyStar-\mathrm{Id}$, so for $\finit-\fterm\notin L^p(\nuB)$ the infimum is $+\infty$ for trivial reasons.) We exhibit an explicit approximating family.
+
+\emph{Step 1: summable mixing inverts $\mathrm{Id}-P_\star$ on mean-zero densities.} Since $\sum_n\beta^{(p)}_n = B_p<+\infty$, the series $S:=\sum_{n\geq0}\left(P^n_\star-\Pi\right)$ converges absolutely in operator norm on $L^p(\nuB)$, with $\|S\|\leq B_p$. Using $\Pi P_\star = P_\star\Pi = \Pi$, its partial sums telescope,
+\begin{equation}
+    \sum_{n=0}^N\left(P^n_\star-\Pi\right)\left(\mathrm{Id}-P_\star\right) = \sum_{n=0}^N\left(P^n_\star-P^{n+1}_\star\right) = \mathrm{Id}-P^{N+1}_\star,
+\end{equation}
+and $\left\|P^{N+1}_\star-\Pi\right\| = \beta^{(p)}_{N+1}\rightarrow0$, so that
+\begin{equation}\label{equ:poisson}
+    S\left(\mathrm{Id}-P_\star\right) = \left(\mathrm{Id}-P_\star\right)S = \mathrm{Id}-\Pi .
+\end{equation}
+For $p=2$, and with $\ForwardPolicyStar$ replaced by the backward policy, this is Lemma \ref{lem:sigma_mixing}. Now $\Finit$ and $\Fterm$ are both probability distributions, so $\int\theta d\nuB = 0$, that is $\Pi\theta=0$, and \eqref{equ:poisson} solves the Poisson equation \emph{exactly}:
+\begin{equation}\label{equ:poisson_solved}
+    \left(\mathrm{Id}-P_\star\right)S\theta = \theta,\qquad \|S\theta\|_{L^p(\nuB)}\leq B_p\|\theta\|_{L^p(\nuB)} .
+\end{equation}
+
+\emph{Step 2: a $0$-flow restores non-negativity.} Equation \eqref{equ:poisson_solved} says that the \emph{signed} measure $-\left(S\theta\right)\nuB$ satisfies the flow-matching constraint \eqref{equ:FM_const} for the pair $(\Finit,\Fterm)$; it is not an admissible outflow, since $S\theta$ need not have a sign. Invariance supplies the missing freedom: $\nuB\ForwardPolicyStar = \nuB$ gives $\left(\mathrm{Id}-P_\star\right)\mathbf 1 = 0$ --- the constants are $0$-flows in the sense of \citet{brunswic2024theory} --- and $\mathbf 1\in L^p(\nuB)$ because $\nuB$ is finite. For $\eta>0$ set
+\begin{equation}
+    \nu^\eta_\infty := \left(\eta-S\theta\right)\nuB,\quad \foutstareta := \frac{d\left(\nu^\eta_\infty\right)^+}{d\nuB} = \left(\eta-S\theta\right)^+,\quad \psi_\eta := \frac{d\left(\nu^\eta_\infty\right)^-}{d\nuB} = \left(S\theta-\eta\right)^+,
+\end{equation}
+(the signed intermediate measure $\nu^\eta_\infty$ of this construction is neither a background nor a training measure; the letter is reused only here) so that $\foutstareta\geq0$ lies in $L^p(\nuB)$ and $\foutstareta\nuB-\nu^\eta_\infty = \psi_\eta\nuB$. By \eqref{equ:poisson_solved} and $\left(\mathrm{Id}-P_\star\right)\eta\mathbf 1 = 0$, the density of $\nu^\eta_\infty\ForwardPolicyStar-\nu^\eta_\infty$ is $-\left(\mathrm{Id}-P_\star\right)\left(\eta\mathbf 1-S\theta\right) = \theta$, that is
+\begin{equation}
+    \nu^\eta_\infty\ForwardPolicyStar-\nu^\eta_\infty = \Fterm-\Finit .
+\end{equation}
+Choosing $\Foutstar := \foutstareta\nuB = \nu^\eta_\infty+\psi_\eta\nuB$, the exact part cancels in the defect and only the truncation survives:
+\begin{equation}\label{equ:defect_is_truncation}
+    D = \left(\Finit-\Fterm\right)+\left(\nu^\eta_\infty\ForwardPolicyStar-\nu^\eta_\infty\right)+\left(\left(\psi_\eta\nuB\right)\ForwardPolicyStar-\psi_\eta\nuB\right) = \left(\psi_\eta\nuB\right)\ForwardPolicyStar-\psi_\eta\nuB .
+\end{equation}
+Hence $\|D\|_{L^p(\nuB)}\leq\left(1+\|\ForwardPolicyStar\|_{L^p(\nuB)}\right)\|\psi_\eta\|_{L^p(\nuB)}$, which together with \eqref{equ:defect_equivalence} is the quantitative bound \eqref{equ:universality_quantitative}.
+
+\emph{Step 3: the truncation vanishes.} Let $p<+\infty$. Then $0\leq\psi_\eta\leq\left(S\theta\right)^+$ with $\left(S\theta\right)^+\in L^p(\nuB)$, and $\psi_\eta\rightarrow0$ pointwise as $\eta\rightarrow+\infty$; dominated convergence gives $\|\psi_\eta\|_{L^p(\nuB)}\rightarrow0$, so $\Theta$ is weakly $L^p$-universal. Let now $p=+\infty$. For $\eta\geq\|S\theta\|_{L^\infty(\nuB)}$ we have $\psi_\eta = 0$, hence $D=0$ by \eqref{equ:defect_is_truncation}: the infimum is attained and the flow-matching constraint \eqref{equ:FM_const} holds exactly. Since $\nuB$ is finite, $\foutstareta\in L^\infty(\nuB)\subset L^r(\nuB)$ for every $r\in[1,+\infty]$, so the infimum is attained in every $L^r(\nuB)$ and $\Theta$ is strongly universal.
+\end{proof}
+
+The $L^2$ strengthening of Theorem \ref{theo:universality_L2_full} used below is the following. Only Step 2 above is revisited: for an EGF the star forward policy is a finite mixture of pushforwards by diffeomorphisms, and the $L^2$ norm of $\left(\psi_\eta\nuB\right)\ForwardPolicyStar$ is then controlled by a change of variables rather than by the operator norm, which yields an explicit constant and a control of the two residuals separately.
+
+\begin{theorem}\label{theo:universality_L2_body}
+    Under the same hypotheses as in Theorem \ref{theo:universality_L2_full}, if in addition $\Statespace$ is a differential manifold, if $\nuB$ is finite and comes from a differential volume form and if $\ForwardPolicyStar$ is the policy of an EGF then
+    \begin{equation}
+        \inf_{\foutstar\in L^2(\nuB)} \left[\|\deltafinit\|_{L^2(\nuB)} + \|\delta\fterm\|_{L^2(\nuB)}\right]= 0
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Continuing where we left at the end of the proof of Theorem \ref{theo:universality_L2_full} --- writing $m$ for the EGF's mixture size, $\forwardalpha^i\leq1$ for its mixture weights, $\Phi_i$ for its diffeomorphisms and $\#$ for pushforward --- for any $\eta$ we have
+    \begin{eqnarray}
+        \delta\Finit &:=&  \left[(\foutstar \nuB- \nu_\infty^\eta)\ForwardPolicyStar  -  (\foutstar \nuB- \nu_\infty^\eta)\right]^-\\
+        \delta\Fterm &:=&  \left[(\foutstar \nuB- \nu_\infty^\eta)\ForwardPolicyStar  -  (\foutstar \nuB- \nu_\infty^\eta)\right]^+
+    \end{eqnarray}
+    By abuse of notation, for any measure $\mu\ll \nuB$ we write $\|\mu\|_{L^2(\nuB)}$ as a shorthand for $\left\|\frac{d\mu}{d\nuB}\right\|_{L^2(\nuB)}$. Now, write $\psi:= \frac{d(\nu_{\infty}^\eta)^-}{d\nuB}$ so that $\foutstar\nuB - \nu_\infty^\eta = \psi \nuB$ by definition of $\foutstar$. Then
+    \begin{eqnarray}
+         \frac{1}{2}\left(\|\delta\Finit\|_{L^2(\nuB)} +\|\delta\Fterm\|_{L^2(\nuB)}\right) &\leq& \left\|(\psi \nuB)\ForwardPolicyStar\right\|_{L^2(\nuB)} + \| \psi\|_{L^2(\nuB)}  \\
+         &\leq&  \sum_{i=1}^m\|\forwardalpha^i\|_{L^\infty}\left\|\Phi_i\#(\psi \nuB)\right\|_{L^2(\nuB)} + \| \psi\|_{L^2(\nuB)} \\
+         &\leq & \left(1+\sum_{i=1}^m\left\| |J\Phi_i^{-1}|^{1/2}\right\|_{L^\infty}\right)\|\psi\|_{L^2(\nuB)} \\
+    \end{eqnarray}
+    Where we used the manifold $L^p$ bound for change of variable one may find in \citet{stern2010p} Theorem 1. The constant in the right-hand side only depends on $\ForwardPolicyStar$, also we have $\|\psi\|_{L^2(\nuB)} \xrightarrow{\eta\rightarrow +\infty} 0$, we may thus conclude that
+    \begin{equation}
+        \|\delta\Finit\|_{L^2(\nuB)}+\|\delta\Fterm\|_{L^2(\nuB)}  \xrightarrow{\eta\rightarrow +\infty} 0.
+    \end{equation}
+    The result follows.
+
+\end{proof}
+
+\subsection{Convergence Bounds for Stable Losses}\label{app:stable}
+
+\begin{theorem}[full form of Theorem \ref{theo:RL_CV_bound}]
+\label{theo:RL_CV_bound_full} Let $(\Statespace,\nuB)$ be a Polish space endowed with a non-negative finite background measure, let $\Finit\ll\nuB$ be a non-zero initial flow and let $\target\ll \nuB$ be a non-zero, possibly unnormalized target with known density with respect to $\nuB$. Let $q\in[1,+\infty]$ and let $\nutrain$ be a probability measure with $\nuB \ll \nutrain$ and $\dln\in L^\infty(\nutrain)$.
+
+Write
+\begin{equation}\label{equ:stable_constants}
+    C_0:=\nuB(\Statespace)^{1-1/q}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)},
+    \qquad
+    C:=\frac{2C_0}{\target(\Statespace)} .
+\end{equation}
+Let $(\ForwardPolicyStar,\foutstar)$ be a generative flow trained on the target $\Fterm=\target$ with loss $\LFMstableq$, but using $\Fterm=\widehat\target := E^+$ during inference, where $E:=\Finit+\Finstar-\Foutstar$. Write $t:=\target(\Statespace)$. Then:
+\begin{enumerate}
+    \item the loss controls the sampling error and the initial-mass defect together,
+    \begin{equation}\label{equ:stable_bound}
+      \TV\left(s_\tau \left\| \frac{\target}{t} \right.\right)\;\leq\;C\LFMstableq ,
+    \end{equation}
+    and
+\begin{equation}\label{equ:mass_floor}
+    \left|\Finit(\Statespace)-\target(\Statespace)\right|\;\leq\;C_0\LFMstableq ;
+\end{equation}
+    \item the infimum of the loss is $0$ at an initial flow carrying the target's total mass. If $\Theta$ is a $L^p$-universal family of generative flows with $q\leq p$, if $\finit$ and $\frac{d\target}{d\nuB}$ lie in $L^p(\nuB)$, if the masses match, $\target(\Statespace)=\Finit(\Statespace)$, and if $\nutrain\ll\nuB$ with $\frac{d\nutrain}{d\nuB}\in L^{q'}(\nuB)$, $q'=\frac{p}{p-q}$ with $q'=1$ when $p=+\infty$ --- only the domination being required when $q=p=+\infty$ --- then
+\begin{equation}
+    \inf_{(\ForwardPolicyStar,\foutstar)\in \Theta} \LFMstableq = 0 ;
+\end{equation}
+    \item the mass is the only obstruction over a trainable initial family. Call \emph{initial family} a set $\mathcal I$ of non-zero initial flows $\Finit\ll\nuB$ and write, closures being taken in $\mathbb R$,
+\begin{equation}\label{equ:initial_masses}
+\begin{aligned}
+    Z(\mathcal I)&:=\left\{\Finit(\Statespace)\ :\ \Finit\in\mathcal I\right\}, \\
+    Z^p(\mathcal I)&:=\left\{\Finit(\Statespace)\ :\ \Finit\in\mathcal I,\ \finit\in L^p(\nuB)\right\} .
+\end{aligned}
+\end{equation}
+Under the hypotheses of \emph{(2)} on $\Theta$, on $\frac{d\target}{d\nuB}$ and on $\nutrain$,
+\begin{equation}\label{equ:joint_infimum}
+    t\in\overline{Z^p(\mathcal I)}\ \Longrightarrow\ \inf_{\mathcal I\times\Theta}\LFMstableq = 0\ \Longrightarrow\ t\in\overline{Z(\mathcal I)} ,
+\end{equation}
+the two conditions coinciding when every member of $\mathcal I$ has its density in $L^p(\nuB)$.
+\end{enumerate}
+\end{theorem}
+
+The total mass of the target is unknown in practice, so the equality $\target(\Statespace)=\Finit(\Statespace)$ of \emph{(2)} cannot be imposed. Item \emph{(3)} replaces it by a condition on the initial family alone, and that condition is necessary as well as sufficient: by \eqref{equ:mass_floor}, $\Finit(\Statespace)$ converges to $\target(\Statespace)$ along any sequence driving the loss to $0$. The mass defect is then not a floor but a quantity the loss removes, which is the measure-theoretic form of the requirement that a GFlowNet learn the partition function $Z=\target(\Statespace)$. Item \emph{(2)} does not follow from \emph{(3)}: the masses $\left\{\target(\Statespace)+2^{-j}\right\}_{j\geq1}$ satisfy the left-hand condition of \eqref{equ:joint_infimum} with no member of mass $\target(\Statespace)$, and masses bounded away from $\target(\Statespace)$ leave the infimum positive.
+
+\begin{proof}
+With $t$ and $E$ as in the statement, and with $z:=\Finit(\Statespace)$, $k:=\frac{d\target}{d\nuB}$ and $e:=\frac{dE}{d\nuB}$,
+\begin{equation}
+    e \;=\; \finit+\finstar-\foutstar,
+\end{equation}
+so that $\widehat\target = E^+$ has density $e^+$ and, the flow being trained against $\Fterm=\target$ and $\nutrain$ being a probability measure, the loss \eqref{equ:FMloss} reads $\LFMstableq = \|e-k\|_{L^q(\nutrain)}$.
+
+\emph{Step 0: at inference the terminal flow is its own correction.} Running the sampler with $\Fterm := \widehat\target$ gives
+\begin{equation}\label{equ:inference_defect}
+    \delta\Fterm  = 0,\qquad \delta\Finit  = E^-,\qquad \Ftermhat = \widehat\target+\delta\Fterm = \widehat\target .
+\end{equation}
+ Moreover $\Finstar(\Statespace) = \Foutstar\ForwardPolicyStar(\Statespace) = \Foutstar(\Statespace)$, so $E(\Statespace) = z$ and, $E^+$ and $E^-$ having disjoint supports,
+\begin{equation}\label{equ:mass_identity}
+    \widehat\target(\Statespace) = E^+(\Statespace) = \Finit(\Statespace)+E^-(\Statespace)\;\geq\;  \Finit(\Statespace).
+\end{equation}
+
+\emph{Step 1: both error sources are dominated by the $L^1(\nuB)$ flow-matching error.} Write $\Delta:=\|e-k\|_{L^1(\nuB)}$. As $k\geq0$, on $\{e<0\}$ we have $|e-k| = k-e\geq -e$, hence $e^-\leq|e-k|$ pointwise; and $x\mapsto x^+$ being $1$-Lipschitz with $k^+=k$, $|e^+-k|\leq|e-k|$ pointwise. Integrating against $\nuB$,
+\begin{equation}\label{equ:two_dominations}
+    \delta\Finit(\Statespace) = E^-(\Statespace)\;\leq\;\Delta,\qquad \left\|\widehat\target-\target\right\|_{L^1(\nuB)}\;\leq\;\Delta .
+\end{equation}
+
+\emph{Step 2: two total variations.} By the triangular inequality for total variation,
+\begin{equation}
+    \TV\left(s_\tau\left\|\frac{\target}{\target(\Statespace)}\right.\right)\;\leq\;\underbrace{\TV\left(s_\tau\left\|\frac{\widehat\target}{\widehat\target(\Statespace)}\right.\right)}_{(i)}+\underbrace{\TV\left(\left.\frac{\widehat\target}{\widehat\target(\Statespace)}\right\|\frac{\target}{\target(\Statespace)}\right)}_{(ii)} .
+\end{equation}
+Term $(i)$ is the sampling error of the corrected flow: $\Finit\neq0$, so Theorem \ref{theo:negative_control} with \eqref{equ:inference_defect}, \eqref{equ:mass_identity} and \eqref{equ:two_dominations} gives
+\begin{equation}\label{equ:term_i}
+    (i)\;\leq\;\frac{\delta\Finit(\Statespace)}{\Ftermhat(\Statespace)} = \frac{\delta\Finit(\Statespace)}{\Finit(\Statespace)+\delta\Finit(\Statespace)}\;\leq\;\min\left(1,\frac{\Delta}{\Finit(\Statespace)}\right).
+\end{equation}
+Term $(ii)$ only compares the normalizations of two non-negative finite measures. For $\alpha,\beta$ non-negative and finite, $b:=\beta(\Statespace)>0$ and any $a>0$, writing $\frac{\beta}{b}-\frac{\alpha}{a} = \frac{\beta-\alpha}{a}+\beta\left(\frac1b-\frac1a\right)$ and using $\|\beta\|_{L^1}=b$,
+\begin{equation}\label{equ:normalization_lemma}
+    \TV\left(\left.\frac{\alpha}{a}\right\|\frac{\beta}{b}\right) = \frac12\left\|\frac{\alpha}{a}-\frac{\beta}{b}\right\|_{L^1}\;\leq\;\frac{\|\alpha-\beta\|_{L^1}+|a-b|}{2a}\;\leq\;\frac{\|\alpha-\beta\|_{L^1}}{a},
+\end{equation}
+the second inequality under the further hypothesis $a=\alpha(\Statespace)$, by $|a-b|\leq\|\alpha-\beta\|_{L^1}$; so with $\alpha=\target$, $a=t$, $\beta=\widehat\target$ and \eqref{equ:two_dominations}, $(ii)\leq\frac{\Delta}{t}$. For term $(i)$, put $u:=\delta\Finit(\Statespace)=E^-(\Statespace)$, so that $u\leq\Delta$ by \eqref{equ:two_dominations}; as $z>0$, the map $x\mapsto\frac{x}{z+x}$ is non-decreasing on $[0,+\infty[$, so the middle expression of \eqref{equ:term_i} gives $(i)\leq\frac{u}{z+u}\leq\frac{\Delta}{z+\Delta}\leq\frac{\Delta}{z}$, whence
+\begin{equation}\label{equ:tv_chain}
+    \TV\left(s_\tau\left\|\frac{\target}{t}\right.\right)\;\leq\;\frac{\Delta}{z+\Delta}+\frac{\Delta}{t}\;\leq\;\left(\frac1z+\frac1t\right)\Delta .
+\end{equation}
+By \eqref{equ:mass_identity}, $\int(e-k)\,d\nuB = E(\Statespace)-t = z-t$, so that
+\begin{equation}\label{equ:mass_defect}
+    |z-t|\;=\;\left|\int(e-k)\,d\nuB\right|\;\leq\;\Delta ,
+\end{equation}
+hence $z+\Delta\geq z+|z-t|\geq\max(z,t)\geq t$ and, $\Delta$ being non-negative,
+\begin{equation*}
+    \TV\left(s_\tau\left\|\frac{\target}{t}\right.\right)\;\leq\;\frac{2\Delta}{t} .
+\end{equation*}
+
+\emph{Step 3: from $L^1(\nuB)$ to the training loss.} H\"older's inequality with the conjugate exponents $q$ and $q^*$ against $\nuB$ --- an equality at $q=1$, where $\nuB(\Statespace)^{1-1/q}=1$ --- and an $L^\infty(\nutrain)$ bound absorbing the change of measure,
+\begin{eqnarray}
+    \Delta &=& \int_{s\in\Statespace}|e-k|(s)d\nuB(s)\;\leq\;\nuB(\Statespace)^{1-1/q}\|e-k\|_{L^q(\nuB)},\\
+    \|e-k\|^q_{L^q(\nuB)} &=& \int_{s\in\Statespace}|e-k|^q(s)\dln(s)d\nutrain(s)\;\leq\;\left\|\dln\right\|_{L^\infty(\nutrain)}\left(\LFMstableq\right)^q,
+\end{eqnarray}
+give $\Delta\leq\nuB(\Statespace)^{1-1/q}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)}\LFMstableq = C_0\LFMstableq$. For $q=+\infty$ the same two lines read $\Delta\leq\nuB(\Statespace)\|e-k\|_{L^\infty(\nuB)}$ and $\|e-k\|_{L^\infty(\nuB)}\leq\|e-k\|_{L^\infty(\nutrain)}$, a $\nutrain$-null set being $\nuB$-null, which is again $\Delta\leq C_0\LFMstableq$. That bound with \eqref{equ:mass_defect} is \eqref{equ:mass_floor}.
+
+\emph{Step 3b: the initial mass in the constant.} The map $x\mapsto\frac{x}{z+x}$ being non-decreasing on $[0,+\infty[$ as in Step 2, $\Delta\leq C_0\LFMstableq$ applied to the first member of \eqref{equ:tv_chain} gives
+\begin{equation}
+    \TV\left(s_\tau\left\|\frac{\target}{t}\right.\right)\;\leq\;\frac{\Delta}{z+\Delta}+\frac{\Delta}{t}\;\leq\;\frac{C_0\LFMstableq}{z+C_0\LFMstableq}+\frac{C_0\LFMstableq}{t} .
+\end{equation}
+By $z+\Delta\geq t$ of Step 2 and $\Delta\leq C_0\LFMstableq$, $z+C_0\LFMstableq\geq t$, so the right-hand side is at most $\frac{2C_0}{t}\LFMstableq$, which is $C\LFMstableq$ by \eqref{equ:stable_constants}. This is \eqref{equ:stable_bound}.
+
+\emph{Step 4: the infimum of the loss at a matched initial mass.} During training the terminal flow is $\target$, so the defect is $E-\target$, of density $e-k$; the pair $(\Finit,\target)$ has equal total mass by hypothesis, so \eqref{equ:defect_equivalence} and the $L^p$-universality of $\Theta$ in the sense of Definition \ref{def:universality} give $\inf_\Theta\|e-k\|_{L^p(\nuB)} = 0$. For $q\leq p$ with $q<+\infty$, H\"older with the conjugate exponents $\frac pq$ and $q'$ transfers this to the training measure,
+\begin{equation}
+    \left(\LFMstableq\right)^q = \int_{s\in\Statespace}|e-k|^q(s)\frac{d\nutrain}{d\nuB}(s)d\nuB(s)\;\leq\;\|e-k\|^q_{L^p(\nuB)}\left\|\frac{d\nutrain}{d\nuB}\right\|_{L^{q'}(\nuB)},
+\end{equation}
+so that $\inf_\Theta\LFMstableq = 0$. For $q=p=+\infty$, $\nutrain\ll\nuB$ gives $\|e-k\|_{L^\infty(\nutrain)}\leq\|e-k\|_{L^\infty(\nuB)}$, a $\nuB$-null set being $\nutrain$-null, and the same conclusion.
+
+\emph{Step 5: the infimum of the loss over an initial family.} Assume $t\in\overline{Z^p(\mathcal I)}$ and fix $\Finit\in\mathcal I$ with $\finit\in L^p(\nuB)$, of mass $z>0$. The distributions $\Finit$ and $\frac zt\target$ are dominated by $\nuB$, have equal total mass $z$ and have their densities in $L^p(\nuB)$, so Definition \ref{def:universality} applies to that pair; the defect of the flow for it is $E-\frac zt\target$, of density $e-\frac ztk$, so \eqref{equ:defect_equivalence} gives $\inf_\Theta\left\|e-\frac ztk\right\|_{L^p(\nuB)} = 0$. As $k\in L^p(\nuB)$, the triangle inequality gives
+\begin{equation}
+    \inf_\Theta\|e-k\|_{L^p(\nuB)}\;\leq\;\inf_\Theta\left\|e-\frac ztk\right\|_{L^p(\nuB)}+\frac{|z-t|}{t}\left\|k\right\|_{L^p(\nuB)}\;=\;\frac{|z-t|}{t}\left\|k\right\|_{L^p(\nuB)} ,
+\end{equation}
+and the infimum of $|z-t|$ over $z\in Z^p(\mathcal I)$ is $0$ by hypothesis, so $\inf_{\mathcal I\times\Theta}\|e-k\|_{L^p(\nuB)} = 0$. The H\"older transfer of Step 4 holds at each member of $\mathcal I\times\Theta$ with the same constant, whence $\inf_{\mathcal I\times\Theta}\LFMstableq = 0$. Conversely, let $\inf_{\mathcal I\times\Theta}\LFMstableq = 0$ and let $\left(\Finit^{(n)},\theta_n\right)$ be a minimizing sequence; \eqref{equ:mass_floor} gives $\left|\Finit^{(n)}(\Statespace)-t\right|\leq C_0\LFMstableq\left(\Finit^{(n)},\theta_n\right)\rightarrow0$, and $\Finit^{(n)}(\Statespace)\in Z(\mathcal I)$, so $t\in\overline{Z(\mathcal I)}$. This is \eqref{equ:joint_infimum}, and $Z(\mathcal I)=Z^p(\mathcal I)$ when every member of $\mathcal I$ has its density in $L^p(\nuB)$.
+\end{proof}
+
+
+The floor of the loss \eqref{equ:weakFM} in Theorem \ref{theo:IL_CV_bound} is the \emph{self-entropy} of
+the target, taken against the background measure: for a probability $\target\ll\nuB$ of
+density $k$,
+\begin{equation}
+    \mathcal H \;:=\; -\int_{s\in\Statespace}k(s)\log k(s)\,d\nuB(s) .
+\end{equation}
+This is not a Shannon entropy. Replacing $\nuB$ by $c\nuB$ shifts $\mathcal H$ by $\log c$,
+and $\mathcal H<0$ whenever $k>1$ holds $\target$-almost everywhere: the floor is of either
+sign.
+
+\begin{theorem} \label{theo:IL_CV_bound} Let $(\Statespace,\nuB)$ be a measured Polish space with $\nuB$ finite and let $\Finit,\target$ be probability distributions absolutely continuous with respect to $\nuB$, with densities $\finit,k$ and with finite self-entropy $\mathcal H$. Let $q\in[1,+\infty]$ and assume $\nuB\sim\nutrain$ with $\dln\in L^{q^*}(\nutrain)$ and $b\geq1+\left\|\dln\right\|_{L^{q^*}(\nutrain)}$. For a generative flow $(\ForwardPolicyStar,\foutstar)$ whose star inflow satisfies $\Finstar\ll\nuB$, define $\LossWKLFM^q(\ForwardPolicyStar,\foutstar)$ as in Equation \eqref{equ:weakFM} and use $\Fterm=\widehat\target:=  \left(\Finit+\Finstar-\Foutstar\right)^+$ during inference. Then:
+ \begin{itemize}
+     \item for every Markov kernel $\ForwardPolicyStar$ on $\Statespace$ and every $\foutstar\in L^1_+(\Statespace,\nuB)$ with $\Finstar\ll\nuB$, $\LossWKLFM^q(\ForwardPolicyStar,\foutstar)\geq\mathcal H$ and
+\begin{multline}\label{equ:il_tv_explicit}
+   \TV\left(s_\tau \left\| \target \right.\right) \;\leq\; \frac{1}{\sqrt 2}\sqrt{\LossWKLFM^q-\mathcal H} \\ +\;\min\left(1,\left\|\dln\right\|_{L^{q^*}(\nutrain)}\left(\LossWKLFM^q-\mathcal H\right)\right) ;
+\end{multline}
+     \item let $\Theta$ be a family of generative flows on $(\Statespace,\nuB)$ whose outflows lie in $L^1_+(\Statespace,\nuB)$ and whose star inflows are dominated by $\nuB$. If $(\ForwardPolicyStar,\foutstar)\in\Theta$ and $\varepsilon\in[0,1)$ satisfy
+\begin{equation}\label{equ:il_domination}
+    \Finit+\Foutstar\ForwardPolicyStar-\Foutstar\;\geq\;(1-\varepsilon)\target\qquad\text{as measures,}
+\end{equation}
+then $\LossWKLFM^q(\ForwardPolicyStar,\foutstar)\leq\mathcal H+\log\frac{1}{1-\varepsilon}$. Consequently, if for every $\varepsilon>0$ some member of $\Theta$ satisfies \eqref{equ:il_domination}, then
+\begin{equation}
+    \inf_{(\ForwardPolicyStar,\foutstar)\in\Theta}\LossWKLFM^q(\ForwardPolicyStar,\foutstar) = \mathcal H ,
+\end{equation}
+and if some member satisfies \eqref{equ:il_domination} with $\varepsilon=0$ --- equivalently, if $\Theta$ contains a flow satisfying the flow-matching constraint \eqref{equ:FM_const} exactly for the pair $(\Finit,\target)$, in particular if $\finit,k\in L^p(\nuB)$ for some $p\in[1,+\infty]$ and $\Theta$ is strongly $L^p$-universal in the sense of Definition \ref{def:universality} --- the infimum is attained at that flow.
+ \end{itemize}
+\end{theorem}
+
+\begin{proof}
+    Let $\foutstar\in L^1_+(\Statespace,\nuB)$, put $E:=\Finit+\Finstar-\Foutstar$, so that $\widehat\target = E^+$, and write $\delta := \int_{s\in\Statespace }\deltafinit(s)d\nuB(s) = \delta\Finit(\Statespace)$. The density $\deltafinit$ is defined $\nuB$-a.e. and $\nutrain\ll\nuB$, so $\left\|\deltafinit\right\|_{L^{q}(\nutrain)}$ is well defined.
+
+    Running the sampler with $\Fterm := \widehat\target$ gives $\delta\Fterm = 0$, $\delta\Finit = E^-$ and $\Ftermhat = \widehat\target$, as in \eqref{equ:inference_defect}. The measure $\Foutstar$ is finite, so $\Finstar(\Statespace) = \Foutstar(\Statespace)$ and $E(\Statespace) = \Finit(\Statespace) = 1$; the parts $E^+$ and $E^-$ having disjoint supports,
+    \begin{eqnarray}
+        \widehat\target(\Statespace)\;=\;E^+(\Statespace) &=& \Finit(\Statespace)+E^-(\Statespace) \nonumber \\
+        &=&1+\delta \nonumber \\ &=& \int_{s\in \Statespace}\ftermhat(s)d\nuB(s) \label{equ:il_mass_identity}
+    \end{eqnarray}
+    and in particular $\widehat\target\neq0$ and $\widehat\target(\Statespace)\geq1$.
+
+    From the triangular inequality for total variations, Theorem \ref{theo:negative_control} applied to the generative flow $(\ForwardPolicyStar,\foutstar)$ with $\Finit\neq0$, Pinsker's inequality, $\widehat \target = \Ftermhat$ and $\frac{\delta}{\widehat\target(\Statespace)} = \frac{\delta}{1+\delta}\leq\min(1,\delta)$ by \eqref{equ:il_mass_identity}:
+    \begin{eqnarray}
+        \TV\left(s_\tau \left\| \target \right.\right)  &\leq&  \TV\left(s_\tau \left\| \frac{\widehat\target}{\widehat\target(\Statespace)} \right.\right)  +  \TV\left(\target\left\| \frac{\widehat\target}{\widehat\target(\Statespace)} \right.\right)   \nonumber\\
+        &\leq & \frac{\delta}{\widehat \target(\Statespace)} +  \frac{1}{\sqrt{2}}\sqrt{\KL\left(\target\left\|  \frac{\widehat\target}{\widehat\target(\Statespace)}\right. \right)} \nonumber\\
+        &\leq & \min(1,\delta) +  \frac{1}{\sqrt{2}}\sqrt{\KL\left(\target\left\|  \frac{\widehat\target}{\widehat\target(\Statespace)}\right. \right)}. \label{equ:il_tv_split}
+    \end{eqnarray}
+    Furthermore $\nuB\ll\nutrain$, so $\dln$ is defined, and by H\"older's inequality with the conjugate exponents $q^*$ and $q$:
+    \begin{eqnarray}
+        \delta &=& \int_{s\in \Statespace }\deltafinit(s)\dln(s)d\nutrain(s)\nonumber\\
+        &\leq& \left\|\dln\right\|_{L^{q^*}(\nutrain)}\left\|\deltafinit\right\|_{L^{q}(\nutrain)} \nonumber\\
+        &\leq& (b-1)\left\|\deltafinit\right\|_{L^{q}(\nutrain)}. \label{equ:il_holder}
+    \end{eqnarray}
+    Decomposing the cross-entropy of the target against $\ftermhat$ as the forward Kullback--Leibler divergence plus self-entropy plus normalization ($-\mathbb E_{s\sim\target}\log\ftermhat = \KL\left(\target\left\|\frac{\widehat\target}{\widehat\target(\Statespace)}\right.\right) + \mathcal H - \log\widehat\target(\Statespace)$) and using $\widehat\target(\Statespace) = 1+\delta$ from \eqref{equ:il_mass_identity},
+        \begin{eqnarray}
+        \LossWKLFM^q  &=&\KL\left(\target\left\| \frac{\widehat\target}{\widehat\target(\Statespace)}\right. \right)  + b\left\|\deltafinit\right\|_{L^{q}(\nutrain)} \nonumber\\ && \quad - \log(1+\delta)+ \mathcal H\label{eq:wFM_strong_bound}
+    \end{eqnarray}
+ but since, by $\log(1+\delta)\leq\delta$ and \eqref{equ:il_holder},
+ \begin{eqnarray}
+ b\left\|\deltafinit\right\|_{L^{q}(\nutrain)} - \log(1+\delta) &\geq& b\left\|\deltafinit\right\|_{L^{q}(\nutrain)} -\delta \nonumber\\ &\geq& \left\|\deltafinit\right\|_{L^{q}(\nutrain)} \nonumber\\&\geq& 0   \label{eq:lp_delta}
+ \end{eqnarray}
+
+   we deduce that
+    \begin{equation}
+\LossWKLFM^q -\mathcal H \geq \KL\left(\target\left\| \frac{\widehat\target}{\widehat\target(\Statespace)}\right. \right) \geq 0
+    \end{equation}
+    so that
+    $ \LossWKLFM^q \geq   \mathcal H $ and, by \eqref{equ:il_tv_split},
+
+    \begin{eqnarray}
+         \TV\left(s_\tau \left\| \target \right.\right) &\leq& \min(1,\delta) +  \frac{1}{\sqrt{2}}\sqrt{ \LossWKLFM^q  - \mathcal H}.
+    \end{eqnarray}
+   Furthermore, from equations \eqref{eq:wFM_strong_bound} and \eqref{eq:lp_delta}
+
+   \begin{equation}
+       \LossWKLFM^q  -\mathcal H \geq \left\|\deltafinit\right\|_{L^{q}(\nutrain)}
+   \end{equation}
+   So finally, by \eqref{equ:il_holder} and the monotonicity of $x\mapsto\min(1,x)$:
+   \begin{multline}
+         \TV\left(s_\tau \left\| \target \right.\right) \;\leq\; \frac{1}{\sqrt{2}}\sqrt{ \LossWKLFM^q  - \mathcal H} \\ +\;\min\left(1,\left\|\dln\right\|_{L^{q^*}(\nutrain)}\left(\LossWKLFM^q  - \mathcal H\right)\right),
+    \end{multline}
+    which is \eqref{equ:il_tv_explicit} and the first item, the coefficient $\left\|\dln\right\|_{L^{q^*}(\nutrain)}$ depending on neither $\ForwardPolicyStar$ nor $\foutstar$.
+
+It remains to prove the second. Every member of $\Theta$ has its outflow in
+$L^1_+(\Statespace,\nuB)$ and its star inflow dominated by $\nuB$, so the first item applies
+to each of them and $\inf_\Theta\LossWKLFM^q\geq\mathcal H$. Let
+$(\ForwardPolicyStar,\foutstar)\in\Theta$ and $\varepsilon\in[0,1)$ satisfy
+\eqref{equ:il_domination} and write $e := \finit+\finstar-\foutstar$ for the density of
+$E = \Finit+\Finstar-\Foutstar$: then $e\geq(1-\varepsilon)k\geq0$ $\nuB$-almost everywhere,
+so $\deltafinit = e^- = 0$, $\ftermhat = e^+ = e$, and the loss of that flow is
+\begin{eqnarray}
+    \LossWKLFM^q &=& -\int_{s\in\Statespace} k(s)\log e(s)\,d\nuB(s) \nonumber\\
+    &\leq& -\int_{s\in\Statespace} k(s)\log\left((1-\varepsilon)k(s)\right)d\nuB(s) \nonumber\\
+    &=& \mathcal H+\log\frac{1}{1-\varepsilon} ,
+\end{eqnarray}
+the inequality by monotonicity of the logarithm on $\{k>0\}$ and both integrands vanishing
+on $\{k=0\}$, the last equality by $\int k\,d\nuB = 1$. The term
+$b\left\|\deltafinit\right\|_{L^{q}(\nutrain)}$ vanishes there for every $q$, every
+admissible $b$ and every $\nutrain$. If for every $\varepsilon>0$ some member of $\Theta$
+satisfies \eqref{equ:il_domination}, then
+$\mathcal H\leq\inf_\Theta\LossWKLFM^q\leq\mathcal H+\log\frac{1}{1-\varepsilon}$ for every
+$\varepsilon>0$, so $\inf_\Theta\LossWKLFM^q = \mathcal H$. At $\varepsilon = 0$ the measure
+$E-\target$ is non-negative and
+$E(\Statespace) = \Finit(\Statespace) = 1 = \target(\Statespace)$, so $E = \target$, which is
+the flow-matching constraint \eqref{equ:FM_const} for the pair $(\Finit,\target)$;
+conversely that constraint gives $E = \target$, hence \eqref{equ:il_domination} with
+$\varepsilon = 0$. The display above gives $\LossWKLFM^q\leq\mathcal H$ there, hence
+$\LossWKLFM^q = \mathcal H$ by the first item, and the infimum is attained at that flow.
+Such a member exists when $\finit,k\in L^p(\nuB)$ and $\Theta$ is strongly
+$L^p$-universal: $\Finit$ and $\target$ are distributions dominated by $\nuB$, of equal
+total mass and with densities in $L^p(\nuB)$, so Definition \ref{def:universality} applies
+to the pair $(\Finit,\target)$ and the element of $\Theta$ realizing the infimum has
+$\deltafinit = \delta\fterm = 0$, which by \eqref{equ:defect_equivalence} is
+\eqref{equ:FM_const} for that pair.
+\end{proof}
+
+\subsection{Convergence Bounds of Divergence Losses}\label{app:divergence}
+
+\emph{The doubling graph of \eqref{eq:counterexample_graph}.} With doubling probability
+$c/(j+1)$, the thresholds sit at $c=1$ for finite expected backward length and $c=1/\ln 2$ for
+recurrence (Proposition \ref{prop:doubling_phase}), so there is a window in which the condition
+of \citet{morozov2025revisiting} fails although the chain remains recurrent.
+
+For a strictly unimodal generator (Theorem \ref{theo:global_dichotomy_full}\emph{(1)}), at fixed $\nu$ the gradient flow preserves $\|\frac{d\mu}{d\lambda}\|_{L^2(\lambda)}$ while the total mass increases strictly off balance: \emph{the inflation is the algorithm} --- the circulation-inflating force is the mass component of the gradient, extinguished exactly at flow-matching, so no stalemate with the constraint can form. Convex or real-analytic generators exclude the freezing of Theorem \ref{theo:global_dichotomy_full}\emph{(2)} altogether (Remark \ref{rem:freezing}). Remark \ref{rem:cycle_no_stalemate} works out a five-vertex graph with a cycle and an over-inflated initialization: its expected backward length is finite, which by Proposition 3.12 of \citet{morozov2025revisiting} bounds the circulation of the balanced flow; the mass identity prevents the stalemate; and the transient cost of a distant initialization is, numerically, quadratic in the overload.
+
+Under the same frozen backward policy, the Hessian at balance of the trajectory-balance loss on trajectories of $\ell$ transitions is positive semi-definite and at most $\ell(1+2\widehat B')$ times that of the detailed-balance loss, $\widehat B'$ the edge-lifted mixing sum without its $n=0$ term (Proposition \ref{prop:tb_hessian}): a step cap derived from the detailed-balance Hessian remains sufficient for trajectory balance once divided by that factor, and no trajectory-balance rate is claimed. The detailed-balance rates rest on a coercivity inequality that summable mixing, the hypothesis of Theorem \ref{theo:universality_L2} at $p=2$, supplies, so \emph{the same ergodicity of the backward policy provides both universality and the training rate}, quantifying the observation of \citet{morozov2025revisiting}, whose variables Theorem \ref{theo:training_speed} restores in place of the mixing constant. Remark \ref{rem:visit_ratio} then resolves the speed by state: heuristically, far from balance an out-of-equilibrium state is corrected at a rate proportional to its visit ratio, the mixing constant taking over near balance.
+
+\begin{lemma}\label{lem:cycle_counterexample}
+Let $N\geq2$ and let $\mathcal C_N$ be the graph with states $x_1,\dots,x_N$, cycle edges $x_i\rightarrow x_{i+1 \bmod N}$, an initial edge $s_0\rightarrow x_1$ and a terminal edge $x_i\rightarrow s_f$ for every $i$. Let $\widehat F$ be the unit-mass flow routed $s_0\rightarrow x_1\rightarrow x_2\rightarrow s_f$, let $\gamma$ be the unit circulation on the cycle, equal to $1$ on each edge $x_i\rightarrow x_{i+1\bmod N}$ and to $0$ elsewhere, and set $F_k:=\widehat F+k\gamma$ for every integer $k\geq0$. Then:
+\begin{enumerate}
+    \item every $F_k$ satisfies the flow-matching constraint \eqref{equ:FM_const} with terminal flow $\delta_{x_2}$, and its sampler satisfies $s_\tau(F_k)\sim\delta_{x_2}$; hence $\TV\bigl(s_\tau(F_k)\,\|\,\target\bigr)=1-\target(x_2)$ for every $k$ and every probability measure $\target$ on $\{x_1,\dots,x_N\}$;
+    \item let $\target$ be a probability measure and $\nutrain$ a finite measure on $\{x_1,\dots,x_N\}$, and let $\mathcal L(F):=\int g(\rho_F)\,d\nutrain$ be a divergence-based FM loss in the sense of \citet[\S4.1]{brunswic2024theory}: $\rho_F:=(\finit+f_\leftarrow)/(\target+f_\rightarrow)$ is the ratio of the inflow side to the outflow side of \eqref{equ:FM_const}, $\finit$ being the initial flow and $f_\leftarrow$, $f_\rightarrow$ the flows of $F$ into and out of each state along the cycle edges, and $g:\mathbb R_+\rightarrow\mathbb R_+$ vanishes exactly at $1$. If $g$ is continuous at $1$, then $\mathcal L(F_k)$ is defined for $k\geq1$ and tends to $0$ as $k\rightarrow\infty$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{(1)} The flow $\widehat F$ carries mass $1$ on the edges $s_0\rightarrow x_1$, $x_1\rightarrow x_2$ and $x_2\rightarrow s_f$ and nothing elsewhere: at $x_1$ its initial flow $1$ equals its outflow $1$ to $x_2$, at $x_2$ its inflow $1$ from $x_1$ equals its terminal flow $1$, and every other state carries nothing, so $\widehat F$ satisfies \eqref{equ:FM_const} with terminal flow $\delta_{x_2}$. The circulation $\gamma$ brings mass $1$ into each $x_i$, takes mass $1$ out of it, and carries no initial or terminal flow, so it is a $0$-flow in the sense of \citet{brunswic2024theory}, and $F_k=\widehat F+k\gamma$ satisfies \eqref{equ:FM_const} with the same initial and terminal flows. By Theorem \ref{theo:sampling_theorem}, $s_\tau(F_k)\sim\delta_{x_2}$, whence, $\target$ being a probability,
+\begin{equation*}
+    \TV\bigl(s_\tau(F_k)\,\|\,\target\bigr)=\tfrac12\Bigl(1-\target(x_2)+\sum_{i\neq2}\target(x_i)\Bigr)=1-\target(x_2).
+\end{equation*}
+
+\emph{(2)} Write $\widehat f_\leftarrow$, $\widehat f_\rightarrow$ for the flows of $\widehat F$ into and out of each state along the cycle edges, and $a_i:=(\finit+\widehat f_\leftarrow)(x_i)\geq0$, $b_i:=(\target+\widehat f_\rightarrow)(x_i)\geq0$, which do not depend on $k$. The circulation adds $k$ to both the inflow and the outflow of every $x_i$, so for $k\geq1$
+\begin{equation*}
+    \rho_{F_k}(x_i)=\frac{a_i+k}{b_i+k},\qquad |\rho_{F_k}(x_i)-1|=\frac{|a_i-b_i|}{b_i+k}\leq\frac{\max_j|a_j-b_j|}{k},
+\end{equation*}
+and $\max_i|\rho_{F_k}(x_i)-1|\rightarrow0$ as $k\rightarrow\infty$. As $g$ is continuous at $1$ with $g(1)=0$, $\max_ig(\rho_{F_k}(x_i))\rightarrow0$, and $0\leq\mathcal L(F_k)\leq\nutrain(\{x_1,\dots,x_N\})\max_ig(\rho_{F_k}(x_i))\rightarrow0$, $\nutrain$ being finite.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{theo:no_bound_divergence}]
+Fix $N\geq2$, $\varepsilon>0$ and a training distribution $\nutrain$; the supremum over graphs of size $N$ ranges over the data $(\mathcal G,\target)$ of the loss. Take $\mathcal G:=\mathcal C_N$, which has $\#\mathcal G=N$, $\#\mathcal G$ counting the states other than $s_0$ and $s_f$, and the flows $F_k$ of Lemma \ref{lem:cycle_counterexample}, and, for $\delta\in(0,1)$, let $\target(x_1)=1-\delta$ and $\target(x_i)=\delta/(N-1)$ otherwise. By that lemma, $\TV\bigl(s_\tau(F_k)\,\|\,\target\bigr)=1-\target(x_2)=1-\frac{\delta}{N-1}$ for every $k$, and $\mathcal L(F_k)\leq\varepsilon$ for $k$ large.
+
+Therefore $\sup_{\#\mathcal G=N}\sup_{\mathcal L\leq\varepsilon}\TV \geq 1-\frac{\delta}{N-1}$ for every $\delta\in(0,1)$, so it equals $1$; the construction being independent of $\nutrain$, the infimum over $\nutrain$ is also $1$. Theorem 3 of \citet{brunswic2024theory} establishes the instability of the DB and TB losses through the same scale invariance along $0$-flows; the total-variation statement is proved here for FM only.
+\end{proof}
+
+\begin{lemma}[$L^2(\lambda)$-conjugation and the $\lambda$-reversal]\label{lem:adjoint}
+Let $\Statespace$ be Polish, let $\nuB \in \mathcal M^+(\Statespace)$, let $T$ be a Markov kernel on $\Statespace$, and let $\lambda\in \mathcal M^+(\Statespace,\nuB)$ be non-zero, finite and $T$-invariant. Then:
+\begin{enumerate}
+    \item the measure $T\otimes\lambda$ on $\Statespace^2$ disintegrates over its first marginal --- which is $\lambda T=\lambda$ --- into a $\lambda$-almost everywhere unique Markov kernel $T^\lambda$, the \emph{$\lambda$-reversal} of $T$, characterized by $\lambda\otimes T^\lambda= T\otimes \lambda$;
+    \item $\lambda$ is $T^\lambda$-invariant and $T^\lambda\otimes\lambda = \lambda\otimes T$, so that $T$ is in turn the $\lambda$-reversal of $T^\lambda$: reversal is an involution, $\lambda$-almost everywhere, on the Markov kernels leaving $\lambda$ invariant;
+    \item the density actions $\mu\mapsto \mu T$ and $\mu\mapsto \mu T^\lambda$ are mutually adjoint contractions of $\mathcal M^2(\lambda)$, each of operator norm $1$: $\langle \mu T\mid \nu\rangle_\lambda = \langle \mu \mid \nu T^\lambda\rangle_\lambda$ for all $\mu,\nu\in\mathcal M^2(\lambda)$; under $\mu\mapsto\frac{d\mu}{d\lambda}$ the density action of each of $T$ and $T^\lambda$ on $\mathcal M^2(\lambda)$ is the function action of the other on $L^2(\lambda)$;
+    \item when $T=\BackwardPolicy$ is a backward policy --- a Markov kernel on $\Statespace$ leaving $\lambda$ invariant, which on a finite marked graph is the loop closure $\widehat\BackwardPolicy$ of Definition \ref{def:loop_closure} and not $\BackwardPolicy$ itself --- its reversal, written $\ForwardPolicy^\lambda:=\BackwardPolicy^\lambda$, is the forward policy that the \emph{balanced} flow of inflow $\lambda$ pairs with $\BackwardPolicy$, and $(\ForwardPolicy^\lambda)^\lambda=\BackwardPolicy$: $L^2(\lambda)$-conjugation carries the backward policy to that forward policy and the forward policy back to the backward one, which is the forward/backward duality of generative flows (Proposition 1 in Appendix B of \citet{brunswic2024theory}). On a finite marked graph with $\lambda>0$ everywhere, $\ForwardPolicy^\lambda(s\rightarrow s')=\lambda(s')\widehat\BackwardPolicy(s'\rightarrow s)/\lambda(s)$ is supported on the edges of the loop closure $\widehat G$, wrap edge included, so $\ForwardPolicy^\lambda(s_f\rightarrow s_0)=1$ and $s_f$ is not terminal for it.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof} Throughout, $(\lambda\otimes A)(dx\,dy)=\lambda(dx)A(x\rightarrow dy)$ and $(A\otimes\lambda)(dx\,dy)=A(y\rightarrow dx)\lambda(dy)$ for a Markov kernel $A$, so that $A\otimes\lambda=\mathrm{fl}_*(\lambda\otimes A)$, where $\mathrm{fl}(x,y):=(y,x)$ is the coordinate flip of $\Statespace^2$ and $\mathrm{fl}_*$ the image measure it induces.
+
+\emph{(1)} The first marginal of $T\otimes\lambda$ is $X\mapsto \int_{y\in\Statespace}T(y\rightarrow X)\lambda(dy)=\lambda T(X)=\lambda(X)$ by $T$-invariance, and its second marginal is $\lambda$. Since $\Statespace$ is Polish and $\lambda$ is finite, $T\otimes\lambda$ is a finite measure on a standard Borel space, so it disintegrates over its first marginal into a Markov kernel, unique up to a $\lambda$-negligible set \cite{halmos2013measureHaar}; that disintegration is the identity $\lambda\otimes T^\lambda = T\otimes\lambda$.
+
+\emph{(2)} $\lambda T^\lambda$ is the second marginal of $\lambda\otimes T^\lambda=T\otimes\lambda$, which is $\lambda$. Applying the flip identity to $T^\lambda$ and then to $T$,
+\begin{equation}\label{eq:reversal_flip}
+    T^\lambda\otimes\lambda \;=\; \mathrm{fl}_*(\lambda\otimes T^\lambda) \;=\; \mathrm{fl}_*(T\otimes\lambda) \;=\; \lambda\otimes T,
+\end{equation}
+so $\lambda\otimes T$ is a disintegration of $T^\lambda\otimes\lambda$ over its first marginal $\lambda$; the disintegration of a finite measure on $\Statespace^2$ over its first marginal being unique up to a $\lambda$-negligible set, $T$ is the $\lambda$-reversal of $T^\lambda$.
+
+\emph{(3)} Let $\mu\in\mathcal M^2(\lambda)$ and let $X\subset\Statespace$ be measurable with $\lambda(X)=0$. Then $\int T(y\rightarrow X)\lambda(dy)=\lambda T(X)=0$, so $T(y\rightarrow X)=0$ for $\lambda$-almost every $y$, and $\mu T(X)=\int T(y\rightarrow X)\mu(dy)=0$ since $\mu\ll\lambda$: hence $\mu T\ll\lambda$, and likewise $\mu T^\lambda\ll\lambda$ using $\lambda T^\lambda=\lambda$ from \emph{(2)}. Write $u:=\frac{d\mu}{d\lambda}$ and $v:=\frac{d\nu}{d\lambda}$ for $\mu,\nu\in\mathcal M^2(\lambda)$, and $Af$ for the function action $x\mapsto\int f(y)A(x\rightarrow dy)$ of a Markov kernel $A$. By Jensen's inequality applied to the probability measures $T^\lambda(x\rightarrow\cdot)$, and then by $\lambda T^\lambda=\lambda$,
+\begin{eqnarray}
+    \int (T^\lambda u)^2\,d\lambda &\leq& \int T^\lambda(u^2)\,d\lambda\nonumber\\
+    &=& \int u^2\,d(\lambda T^\lambda) = \|u\|_{L^2(\lambda)}^2, \label{eq:reversal_contraction}
+\end{eqnarray}
+and the same bound holds for $T$ by $\lambda T=\lambda$. Consequently
+\begin{eqnarray}
+    \iint |v(x)|\,|u(y)|\,(\lambda\otimes T^\lambda)(dx\,dy) &=& \int |v|\cdot T^\lambda|u|\,d\lambda\nonumber\\
+    &\leq& \|v\|_{L^2(\lambda)}\|u\|_{L^2(\lambda)}
+\end{eqnarray}
+by Cauchy--Schwarz and \eqref{eq:reversal_contraction}: Fubini's theorem therefore applies to the signed integrand $(x,y)\mapsto v(x)u(y)$ in
+\begin{eqnarray}
+    \langle \mu T\mid \nu\rangle_\lambda &=& \int v\,d(\mu T)\nonumber\\
+    &=& \int\left[\int v(x)\,T(y\rightarrow dx)\right]u(y)\,\lambda(dy)\nonumber\\
+    &=& \iint v(x)u(y)\,(T\otimes\lambda)(dx\,dy)\nonumber\\
+    &=& \iint v(x)u(y)\,(\lambda\otimes T^\lambda)(dx\,dy)\nonumber\\
+    &=& \int v(x)\left[\int u(y)\,T^\lambda(x\rightarrow dy)\right]\lambda(dx)\nonumber\\
+    &=& \int v\cdot T^\lambda u\,d\lambda\nonumber\\
+    &=& \int u\,d(\nu T^\lambda) \;=\; \langle \mu\mid \nu T^\lambda\rangle_\lambda,
+\end{eqnarray}
+the last two equalities by the definition of the image measure $\nu T^\lambda$ and by $\nu T^\lambda\ll\lambda$. The map $\mu\mapsto\frac{d\mu}{d\lambda}$ is an isometry of $\mathcal M^2(\lambda)$ into $L^2(\lambda)$ carrying $\langle\cdot\mid\cdot\rangle_\lambda$ to the $L^2(\lambda)$ inner product, which is non-degenerate, so $\mu\mapsto\mu T^\lambda$ is the only map satisfying this identity: it is the adjoint of $\mu\mapsto\mu T$ \cite{brezis2011functional}. Taking $\nu$ arbitrary in $\langle\mu T\mid\nu\rangle_\lambda=\int v\cdot T^\lambda u\,d\lambda$ gives $\frac{d(\mu T)}{d\lambda}=T^\lambda u$ in $L^2(\lambda)$; exchanging the roles of $T$ and $T^\lambda$, legitimate by \eqref{eq:reversal_flip}, gives $\frac{d(\mu T^\lambda)}{d\lambda}=Tu$. With \eqref{eq:reversal_contraction} both density actions are therefore contractions of $\mathcal M^2(\lambda)$, and $\lambda\in\mathcal M^2(\lambda)$ --- non-zero since $\lambda\neq0$, of finite norm since $\lambda$ is finite --- satisfies $\lambda T=\lambda T^\lambda=\lambda$, so both operator norms equal $1$.
+
+\emph{(4)} At $T=\BackwardPolicy$ the characterization of \emph{(1)} reads $\lambda\otimes\ForwardPolicy^\lambda=\BackwardPolicy\otimes\lambda$, which is the balance constraint of the pair $(\lambda,\ForwardPolicy^\lambda)$ with $\BackwardPolicy$ frozen, and \emph{(1)} states that $\ForwardPolicy^\lambda$ is the only Markov kernel satisfying it up to a $\lambda$-negligible set; $(\ForwardPolicy^\lambda)^\lambda=\BackwardPolicy$ is \emph{(2)}. On a finite marked graph the loop closure $\widehat\BackwardPolicy$ is a Markov kernel on $\mathcal V$ (Definition \ref{def:loop_closure}), and where $\lambda>0$ the disintegration of \emph{(1)} is $\ForwardPolicy^\lambda(s\rightarrow s')=\lambda(s')\widehat\BackwardPolicy(s'\rightarrow s)/\lambda(s)$: it is non-negative, sums to $1$ over $s'$ by $\lambda\widehat\BackwardPolicy=\lambda$, and satisfies $\lambda(s)\ForwardPolicy^\lambda(s\rightarrow s')=\widehat\BackwardPolicy(s'\rightarrow s)\lambda(s')$, which is the characterizing identity read at $(s,s')$. It is positive only where $\widehat\BackwardPolicy(s'\rightarrow s)>0$, hence only on edges $s\rightarrow s'$ of $\widehat G$; the wrap edge being the only edge out of $s_f$ in $\widehat G$, the probability measure $\ForwardPolicy^\lambda(s_f\rightarrow\cdot)$ is supported on $\{s_0\}$.
+\end{proof}
+
+\begin{theorem}\label{theo:first_variation_full}
+ Under the hypotheses of Lemma \ref{lem:adjoint}, let $\mu\in \mathcal M^+(\Statespace,\nuB)$ with $\mu\sim\lambda$, $\frac{d\mu}{d\lambda}\in L^2(\lambda)$, $\mu T\ll\mu$, and let $r:=\frac{d(\mu T)}{d\mu}$ be essentially bounded away from $0$ and $\infty$. For any finite measure $\nu$ with $\frac{d\nu}{d\mu}\in L^\infty(\mu)$, define the associated $g$-divergence balance loss $\mathcal L_{g,\nu}(\mu) := \int_{\Statespace} g(r)\, d\nu$. Then, for any $g:\mathbb R_+^*\rightarrow \mathbb R$ continuously differentiable with locally Lipschitz derivative, and any finite $\nuG\in \mathcal M^+(\Statespace,\nuB)$ with $\nuG\sim\lambda$, the derivative of $\mathcal L_{g,\nu}$ --- taken along directions $\delta\ll\mu$ with $\|\frac{d\delta}{d\mu}\|_{L^\infty(\mu)}<1$ and $\frac{d(\delta T)}{d\mu}\in L^\infty(\mu)$ --- is represented by
+ \begin{equation}
+      \nabla_{\mu}^{\nuG} \mathcal L_{g,\nu} = \frac{d\nuG}{d\lambda}\cdot\left(T^\lambda-r\right)\left[g'\left(r\right)\frac{d\nu}{d\mu}\lambda \right].
+     \end{equation}
+
+\end{theorem}
+
+\begin{proof}
+ To begin with,
+     \begin{eqnarray}
+         \mathcal L_{g,\nu} = \int_{x\in \Statespace} g\left(\frac{d(\mu T)}{d\mu}\right) d\nu(x)
+     \end{eqnarray}
+
+     Let $r(x,\mu) := \frac{d(\mu T)}{d\mu}(x)$ and, for an admissible direction $\delta$, write $u := \frac{d\delta}{d\mu}$ and $v := \frac{d(\delta T)}{d\mu}$. Then
+\[
+r(x,\mu+\delta) \;=\; \frac{r+v}{1+u} \;=\; r \;+\; v\;-\; r\,u+\Delta(x,\delta),
+\qquad \Delta = \frac{u\,(ru-v)}{1+u},
+\]
+so for $\|u\|_{L^\infty(\mu)}\leq\frac12$, $|\Delta|\leq2|u|\,(r|u|+|v|)$: the remainder is second order in $(u,v)$, uniformly; $r$ being essentially bounded and $g'$ locally Lipschitz on the essential range of $r$, the corresponding remainder of $\mathcal L_{g,\nu}$ is second order in $(u,v)$, hence negligible against the linear functional as $\delta\rightarrow0$ within the stated class. Since $\mu\sim\lambda$ and $u\in L^\infty(\mu)$, $\frac{d\delta}{d\lambda}=u\frac{d\mu}{d\lambda}$ with $\frac{d\mu}{d\lambda}\in L^2(\lambda)$ by hypothesis, so $\delta\in\mathcal M^2(\lambda)$; and $g'(r)\frac{d\nu}{d\mu}$ is bounded $\lambda$-almost everywhere --- $r$ is essentially valued in a compact subset of $(0,\infty)$, on which $g'$ is continuous, and $\frac{d\nu}{d\mu}\in L^\infty(\mu)=L^\infty(\lambda)$ --- so $g'(r)\frac{d\nu}{d\mu}\lambda\in\mathcal M^2(\lambda)$, $\lambda$ being finite. Lemma \ref{lem:adjoint}\emph{(3)} applies to that pair and, by the symmetry of $\langle\cdot\mid\cdot\rangle_\lambda$, gives $\left\langle g'(r)\frac{d\nu}{d\mu}\lambda \mid \delta T\right\rangle_\lambda = \left\langle \left[g'(r)\frac{d\nu}{d\mu}\lambda\right]T^\lambda \mid \delta\right\rangle_\lambda$. Hence the first variation of $\mathcal L_{g,\nu}$ is
+\begin{eqnarray}
+\delta \mathcal L_{g,\nu}
+&=& \int_{\Statespace} g'(r(x))\,\delta r(x)\, d\nu(x)\nonumber\\
+&=& \int_{\Statespace} g'(r)\!\left[\frac{d\,(\delta T)}{d\mu}- r\frac{d\,\delta}{d\mu}\right] d\nu\nonumber\\
+&=&\left\langle g'(r)\frac{d\nu}{d\mu}\lambda \mid \delta T\right\rangle_\lambda \nonumber\\
+&&\quad \quad - \left\langle rg'(r)\frac{d\nu}{d\mu}\lambda \mid \delta\right\rangle_\lambda\nonumber\\
+&=& \left\langle \left[g'(r)\frac{d\nu}{d\mu}\lambda\right]T^\lambda \mid \delta\right\rangle_\lambda \nonumber\\
+&&\quad \quad - \left\langle r g'(r)\frac{d\nu}{d\mu}\lambda \mid \delta\right\rangle_\lambda\nonumber\\
+&=&\left\langle \left[g'(r)\frac{d\nu}{d\mu}\lambda\right](T^\lambda-r) \mid \delta\right\rangle_\lambda.
+\end{eqnarray}
+
+Write $\psi:=g'(r)\frac{d\nu}{d\mu}$ and $\Phi:=\left[\psi\lambda\right](T^\lambda-r)$, so that $\delta\mathcal L_{g,\nu}=\langle\Phi\mid\delta\rangle_\lambda$, and $\varpi:=\frac{d\nuG}{d\lambda}$, which exists since $\nuG\ll\lambda$ and satisfies $\frac{d\lambda}{d\nuG}=\frac1\varpi$ since $\lambda\ll\nuG$. By Lemma \ref{lem:adjoint}\emph{(3)}, $\frac{d\Phi}{d\lambda}=T\psi-r\psi$, which is bounded $\lambda$-almost everywhere, $T$ being Markov, $\psi$ bounded $\lambda$-almost everywhere and $r$ essentially bounded. Let $G:=\varpi\,\frac{d\Phi}{d\lambda}\,\lambda$, so that $\frac{dG}{d\nuG}=\frac{d\Phi}{d\lambda}$ and, $\nuG$ being finite, $G\in\mathcal M^2(\nuG)$. For an admissible $\delta$, $\frac{d\delta}{d\nuG}=\frac1\varpi\frac{d\delta}{d\lambda}$ and
+\begin{equation}
+    \int\frac{dG}{d\nuG}\frac{d\delta}{d\nuG}\,d\nuG \;=\; \int\frac{d\Phi}{d\lambda}\frac{d\delta}{d\lambda}\,d\lambda \;=\; \delta\mathcal L_{g,\nu},
+\end{equation}
+both integrals converging absolutely, $\frac{d\Phi}{d\lambda}$ being bounded and $\frac{d\delta}{d\lambda}$ lying in $L^2(\lambda)\subset L^1(\lambda)$, $\lambda$ being finite. Hence $G=\frac{d\nuG}{d\lambda}\Phi$ represents the derivative of $\mathcal L_{g,\nu}$ in $\langle\cdot\mid\cdot\rangle_{\nuG}$.
+\end{proof}
+
+\begin{corollary}[FM gradients]\label{cor:gradient_formulas} Under the assumptions of Theorem \ref{theo:first_variation_full} with $T=\BackwardPolicy$ and $\mu = \Fin$:
+
+ \begin{equation}
+      \nabla_{\Fin}^{\lambda} \mathcal L_{g,\Fin} = \left(\ForwardPolicy^\lambda-r\right)\left[g'\left(r\right)\lambda \right].
+     \end{equation}
+
+     For $g(x)=(x-1)^2$
+      \begin{equation}
+      \nabla_{\Fin}^{\lambda} \mathcal L_{g,\Fin} = 2\left(\ForwardPolicy^\lambda-r\right)
+      \left[\left(r-1\right)\lambda \right] = 2 \left(\ForwardPolicy^\lambda (r\lambda)- \lambda-r^2\lambda+r\lambda\right).
+     \end{equation}
+
+     The case $g(x)=|x-1|$ is analogous when $r$ is moreover essentially bounded away from $1$, with $g'(r)$ replaced by $\mathrm{sign}(r-1)$; $|x-1|$ is not differentiable at $1$, and the hypothesis excludes every flow whose ratio comes arbitrarily close to $1$ on a set of positive measure --- in particular the balanced flow $r\equiv1$, at which $\mathcal L_{g,\Fin}$ vanishes.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem \ref{theo:first_variation_full} to $T=\BackwardPolicy$, $\mu=\Fin$, with $\nuG=\lambda$ and $\nu=\Fin$, so that $\frac{d\nuG}{d\lambda}=\frac{d\nu}{d\Fin}=1$; this gives the first display. For $g(x)=(x-1)^2$, $g'(r)=2(r-1)$ and the second display follows by expanding and using $\lambda\ForwardPolicy^\lambda=\lambda$, which holds since $\lambda\ForwardPolicy^\lambda$ is the second marginal of $\lambda \otimes \ForwardPolicy^\lambda = \BackwardPolicy\otimes\lambda$. For $g(x)=|x-1|$, let $a>0$ with $|r-1|\geq a$ $\Fin$-almost everywhere, and let $\widetilde g(x):=|x-1|$ for $|x-1|\geq\frac a2$ and $\widetilde g(x):=\frac{(x-1)^2}a+\frac a4$ elsewhere, which is $C^1$ with Lipschitz derivative; $r$ being essentially bounded, admissible directions with $\left\|\frac{d\delta}{d\Fin}\right\|_{L^\infty(\Fin)}$ and $\left\|\frac{d(\delta\BackwardPolicy)}{d\Fin}\right\|_{L^\infty(\Fin)}$ small enough keep the ratio of $\Fin+\delta$ within $\frac a2$ of $r$, so $\mathcal L_{g,\Fin}$ and $\mathcal L_{\widetilde g,\Fin}$ agree near $\Fin$ and have the same derivative there, and $\widetilde g'(r)=\mathrm{sign}(r-1)$ $\Fin$-almost everywhere.
+\end{proof}
+
+\begin{definition}[edge lift]\label{def:edge_lift}
+Let $\BackwardPolicy$ be a backward policy on $(\Statespace,\lambda)$ with $\lambda$ $\BackwardPolicy$-invariant. The \emph{edge lift} of $\BackwardPolicy$ is the Markov kernel $K_2$ on $\Statespace^2$ given by
+\begin{equation}
+    K_2 : (s,s') \longmapsto (\BackwardPolicy(s),\, s),
+\end{equation}
+i.e. the current edge is shifted one $\BackwardPolicy$-step backward along the trajectory. The \emph{edge measure} is $\lambda_2(ds\,ds') := \BackwardPolicy(s'\rightarrow ds)\,\lambda(ds')$.
+\end{definition}
+
+\begin{lemma}\label{lem:lift_wellposed}
+$\lambda_2$ is $K_2$-invariant, $K_2$ is a contraction of $\mathcal M^2(\lambda_2)$, and the $\mathcal M^2(\lambda_2)$-dual of $K_2$ is the edge lift $(s,s')\mapsto (s', \ForwardPolicy^\lambda(s'))$ of the dual forward policy $\ForwardPolicy^\lambda = \BackwardPolicy^\lambda$.
+\end{lemma}
+
+\begin{proof}
+For $\mu\in\mathcal M^2(\lambda_2)$, writing $m_1\mu$ for its first marginal, a direct computation gives $\mu K_2(ds\,ds') = \BackwardPolicy(s'\rightarrow ds)(m_1\mu)(ds')$, so that
+\begin{equation}\label{eq:muK2_density}
+    \frac{d(\mu K_2)}{d\lambda_2}(s,s') = \frac{d(m_1\mu)}{d\lambda}(s').
+\end{equation}
+Taking $\mu=\lambda_2$, whose first marginal is $\lambda\BackwardPolicy=\lambda$, yields invariance. By the defining identity $\lambda\otimes\ForwardPolicy^\lambda = \BackwardPolicy\otimes\lambda$, under $\lambda_2$ the conditional law of $s'$ given $s$ is $\ForwardPolicy^\lambda(s\rightarrow\cdot)$, so that $\frac{d(m_1\mu)}{d\lambda}(s) = \int\frac{d\mu}{d\lambda_2}(s,s')\,\ForwardPolicy^\lambda(s\rightarrow ds')$: the map $\frac{d\mu}{d\lambda_2}\mapsto \frac{d(m_1\mu)}{d\lambda}$ is the conditional expectation given the first coordinate, hence an $L^2$ contraction; both marginals of $\lambda_2$ equal $\lambda$, so \eqref{eq:muK2_density} gives $\|\mu K_2\|_{\mathcal M^2(\lambda_2)}\leq \|\mu\|_{\mathcal M^2(\lambda_2)}$. Finally, the duality identity $\lambda_2\otimes K_2^* = K_2 \otimes \lambda_2$ for $K_2^*(s,s') := (s',\ForwardPolicy^\lambda(s'))$ follows by writing both sides as the law of three consecutive states of the stationary backward chain; by Lemma \ref{lem:adjoint}\emph{(1)}, applied to $K_2$ and its invariant measure $\lambda_2$ on $\Statespace^2$, $K_2^*$ is therefore the $\lambda_2$-reversal of $K_2$, and by Lemma \ref{lem:adjoint}\emph{(3)} its density action is the $\mathcal M^2(\lambda_2)$-adjoint of that of $K_2$.
+\end{proof}
+
+\begin{proposition}[DB as a lifted balance loss]\label{prop:db_lift}
+Let $\mu\in \mathcal M^2(\lambda_2)$ be an edge flow, let $F:=m_1\mu$ and let $\ForwardPolicy^\mu$ be the disintegration $\mu = F\otimes \ForwardPolicy^\mu$. Then for any $g$ and any training distribution $\widehat\nu$ on $\Statespace^2$,
+\begin{equation}
+    \int_{\Statespace^2} g\left(\frac{d(\mu K_2)}{d\mu}\right)d\widehat\nu
+    = \int g\left(\frac{F(ds')\BackwardPolicy(s'\rightarrow ds)}{F(ds)\ForwardPolicy^\mu(s\rightarrow ds')}\right)d\widehat\nu,
+\end{equation}
+the $g$-divergence detailed-balance loss with frozen backward policy (the usual orientation of the ratio corresponds to replacing $g$ by $x \mapsto g(1/x)$, which is immaterial for $g$ symmetric such as $(\log x)^2$ and exchanges the two branches of $(x-1)^2$ up to second order at $1$). In particular $\mu K_2=\mu$ if and only if $(F,\ForwardPolicy^\mu)$ satisfies detailed balance with respect to $\BackwardPolicy$.
+\end{proposition}
+
+\begin{proof}
+By Equation \eqref{eq:muK2_density}, $\frac{d(\mu K_2)}{d\lambda_2}(s,s') = \frac{dF}{d\lambda}(s')$ while $\frac{d\mu}{d\lambda_2}(s,s') = \frac{F(ds)\ForwardPolicy^\mu(s\rightarrow ds')}{\lambda(ds')\BackwardPolicy(s'\rightarrow ds)}$; their ratio is the announced edge ratio, and it equals $1$ $\mu$-almost everywhere exactly when $F\otimes\ForwardPolicy^\mu$ coincides with the backward edge flow.
+\end{proof}
+
+\begin{corollary}[DB gradient]\label{cor:db_gradient}
+Under the hypotheses of Theorem \ref{theo:first_variation_full} applied on $(\Statespace^2,\lambda_2, K_2)$, the DB loss with frozen backward policy satisfies, with $\widehat r := \frac{d(\mu K_2)}{d\mu}$,
+\begin{equation}
+    \nabla^{\lambda_2}_{\mu} \mathcal L_{\mathrm{DB},g,\widehat\nu}
+    = \left(K_2^{\lambda_2} - \widehat r\right)\left[ g'(\widehat r)\, \frac{d\widehat\nu}{d\mu}\,\lambda_2 \right]
+\end{equation}
+where $K_2^{\lambda_2}$ is the forward edge kernel of Lemma \ref{lem:lift_wellposed}.
+\end{corollary}
+
+\begin{proof}
+By Lemma \ref{lem:lift_wellposed}, $(\Statespace^2,\lambda_2,K_2)$ satisfies the hypotheses of Theorem \ref{theo:first_variation_full}; the formula is its specialization $T=K_2$, applied to the DB loss of Proposition \ref{prop:db_lift}.
+\end{proof}
+
+\begin{lemma}[mixing transfer]\label{lem:lift_mixing}
+In the setting of Definition \ref{def:edge_lift}, let $\beta_n:=\|\BackwardPolicy^n-\Pi\|_{L^2(\lambda)}$ and $\widehat\beta_n:=\|K_2^n-\Pi_2\|_{L^2(\lambda_2)}$ be the $L^2$-mixing coefficients of the density actions of $\BackwardPolicy$ and of its edge lift $K_2$, where $\Pi$ and $\Pi_2$ are the mean projections against $\lambda$ and $\lambda_2$. Then $\widehat\beta_n = \beta_{n-1}$ for every $n\geq 1$.
+\end{lemma}
+
+\begin{proof}
+By Lemma \ref{lem:lift_wellposed} and Lemma \ref{lem:adjoint}\emph{(3)}, the density actions of $\BackwardPolicy$ on $\mathcal M^2(\lambda)$ and of $K_2$ on $\mathcal M^2(\lambda_2)$ are the $L^2$-adjoints of their function actions; $\Pi$ and $\Pi_2$ being orthogonal projections, $\beta_n$ and $\widehat\beta_n$ are also the norms of $\BackwardPolicy^n-\Pi$ and $K_2^n-\Pi_2$ acting on functions, and we work with the function actions. For $f\in L^2(\lambda_2)$ set $g_f(s') := \int f(z,s')\BackwardPolicy(s'\rightarrow dz)$, and write $\mathrm{pr}_1(s,s'):=s$. By construction of $K_2$, $(K_2f)(s,s')=\int f(z,s)\BackwardPolicy(s\rightarrow dz)=g_f(s)$ and $K_2(\varphi\circ\mathrm{pr}_1)=(\BackwardPolicy\varphi)\circ\mathrm{pr}_1$ for $\varphi\in L^2(\lambda)$, so that $K_2^n f = (\BackwardPolicy^{n-1} g_f)\circ\mathrm{pr}_1$ for $n\geq1$; and $\int f\,d\lambda_2=\int g_f\,d\lambda$ with $\lambda_2(\Statespace^2)=\lambda(\Statespace)$, so that $\Pi_2 f = \Pi g_f$. Since the first marginal of $\lambda_2$ is $\lambda\BackwardPolicy=\lambda$,
+\begin{equation}\label{eq:lift_mixing_identity}
+    \|K_2^nf - \Pi_2 f\|_{L^2(\lambda_2)} = \|(\BackwardPolicy^{n-1}-\Pi)g_f\|_{L^2(\lambda)}\qquad(n\geq1).
+\end{equation}
+We prove the two inequalities separately. Jensen's inequality applied to the probability measures $\BackwardPolicy(s'\rightarrow\cdot)$ gives $\int g_f^2\,d\lambda\leq\iint f(z,s')^2\,\BackwardPolicy(s'\rightarrow dz)\,\lambda(ds')=\|f\|^2_{L^2(\lambda_2)}$, so \eqref{eq:lift_mixing_identity} gives $\|K_2^nf - \Pi_2 f\|_{L^2(\lambda_2)}\leq\beta_{n-1}\|f\|_{L^2(\lambda_2)}$, that is $\widehat\beta_n\leq\beta_{n-1}$. Conversely, let $\varphi\in L^2(\lambda)$ and $f(z,s'):=\varphi(s')$. Then $g_f=\varphi$, $\BackwardPolicy(s'\rightarrow\cdot)$ being a probability, and $\|f\|_{L^2(\lambda_2)}=\|\varphi\|_{L^2(\lambda)}$, the second marginal of $\lambda_2$ being $\lambda$; so \eqref{eq:lift_mixing_identity} gives $\|(\BackwardPolicy^{n-1}-\Pi)\varphi\|_{L^2(\lambda)}\leq\widehat\beta_n\|\varphi\|_{L^2(\lambda)}$, and the supremum over $\varphi$ gives $\beta_{n-1}\leq\widehat\beta_n$.
+\end{proof}
+
+\begin{lemma}[coercivity transfer]\label{lem:lift_coercivity}
+In the setting of Definition \ref{def:edge_lift}, let $P$ and $P_2$ be the density actions $\varphi\mapsto\frac{d((\varphi\lambda)\BackwardPolicy)}{d\lambda}$ of $\BackwardPolicy$ on $L^2(\lambda)$ and $h\mapsto\frac{d((h\lambda_2)K_2)}{d\lambda_2}$ of its edge lift $K_2$ on $L^2(\lambda_2)$, and let $\Pi$ and $\Pi_2$ be the mean projections against $\lambda$ and $\lambda_2$. If $C\geq0$ satisfies $\|\varphi-\Pi\varphi\|_{L^2(\lambda)}\leq C\,\|(I-P)\varphi\|_{L^2(\lambda)}$ for every $\varphi\in L^2(\lambda)$, then
+\begin{equation*}
+    \|h-\Pi_2h\|_{L^2(\lambda_2)}\;\leq\;(1+C)\,\|(I-P_2)h\|_{L^2(\lambda_2)}\qquad\text{for every }h\in L^2(\lambda_2).
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+Norms of functions on $\Statespace$ are taken in $L^2(\lambda)$, and norms of functions on $\Statespace^2$ in $L^2(\lambda_2)$. Write $\mathrm{pr}_2(s,s'):=s'$ and, for $h\in L^2(\lambda_2)$, $k_h(s):=\int h(s,z)\,\ForwardPolicy^\lambda(s\rightarrow dz)$, where $\ForwardPolicy^\lambda$ is the dual forward policy of Lemma \ref{lem:lift_wellposed}. By Definition \ref{def:edge_lift} and Lemma \ref{lem:adjoint}\emph{(1)}, $\lambda_2(ds\,dz)=\lambda(ds)\,\ForwardPolicy^\lambda(s\rightarrow dz)$, so $k_h$ is the density against $\lambda$ of the first marginal of $h\lambda_2$, and \eqref{eq:muK2_density} gives $P_2h=k_h\circ\mathrm{pr}_2$. The same identity gives $\int k_h\,d\lambda=\int h\,d\lambda_2$ and $\lambda_2(\Statespace^2)=\lambda(\Statespace)$, so $\Pi_2h=\Pi k_h$; and, with Jensen's inequality applied to the probability measures $\ForwardPolicy^\lambda(s\rightarrow\cdot)$, $\|k_h\|^2\leq\iint h(s,z)^2\,\ForwardPolicy^\lambda(s\rightarrow dz)\,\lambda(ds)=\|h\|^2$. By Lemma \ref{lem:adjoint}\emph{(3)}, $P$ is the function action of $\ForwardPolicy^\lambda$: $(P\varphi)(s)=\int\varphi(z)\,\ForwardPolicy^\lambda(s\rightarrow dz)$.
+
+Let $h\in L^2(\lambda_2)$ and $v:=(I-P_2)h=h-k_h\circ\mathrm{pr}_2$. Then $k_v=k_h-Pk_h=(I-P)k_h$, and
+\begin{equation*}
+    h-\Pi_2h\;=\;v+\bigl(k_h-\Pi k_h\bigr)\circ\mathrm{pr}_2 .
+\end{equation*}
+The second marginal of $\lambda_2$ being $\lambda$, $\|(k_h-\Pi k_h)\circ\mathrm{pr}_2\|=\|k_h-\Pi k_h\|\leq C\|(I-P)k_h\|=C\|k_v\|\leq C\|v\|$, and the triangle inequality gives $\|h-\Pi_2h\|\leq(1+C)\|v\|=(1+C)\|(I-P_2)h\|$.
+\end{proof}
+
+Under summable mixing of the backward policy, the constant $C=\sum_{n\geq0}\beta_n$ that Lemma \ref{lem:sigma_mixing} provides, $\beta_n$ as in Lemma \ref{lem:lift_mixing}, lifts to $1+C$, which is also the value of the edge-lifted mixing sum in Theorem \ref{theo:db_stable_frozen_full}.
+
+\begin{theorem}[full form of Theorem \ref{theo:gd_diffusion}]\label{theo:gd_diffusion_full}
+Under the hypotheses of Lemma \ref{lem:adjoint}, let $T$ be ergodic; write $P$ for the density action $h\mapsto\frac{d((h\lambda)T)}{d\lambda}$ of $T$ on $L^2(\lambda)$, $P^\dagger$ for its adjoint, $A:=P-I$, and $M_w$ for the multiplication by a non-negative $w\in L^\infty(\lambda)$, and let $\nu:=w\lambda$. Let $a\in(0,1)$ and let $g:\mathbb R_+^*\rightarrow\mathbb R$ be $C^3$ on $[1-a,1+a]$ with $g(1)=g'(1)=0<g''(1)$; set
+\begin{gather*}
+    \Gamma_3:=\sup_{[1-a,1+a]}|g'''|,\qquad C_g:=g''(1)+\frac{a\Gamma_3}2,\\
+    C_4:=\|w\|_{L^\infty}\bigl(4g''(1)+3\Gamma_3\bigr),\qquad C_5:=\frac{16}3\,C_g\|w\|_{L^\infty},\qquad K:=2C_4+C_5.
+\end{gather*}
+Then for every $\varepsilon\in(0,a/4]$ and every $h\in L^\infty(\lambda)$ with $\|h\|_{L^\infty(\lambda)}\leq\varepsilon$, the ratio $r:=\frac{d(\mu T)}{d\mu}$ of $\mu:=(1+h)\lambda$ is $r=\frac{1+Ph}{1+h}$ and satisfies, $\lambda$-almost everywhere,
+\begin{equation}\label{eq:gd_ratio_bounds}
+    |r-1|\leq\tfrac43\,|Ah|,\qquad |r-1|\leq\tfrac{2a}3,\qquad |g'(r)|\leq C_g\,|r-1|;
+\end{equation}
+$\mathcal L_{g,\nu}$ has at $\mu$ a gradient $\nabla^{\lambda}\mathcal L_{g,\nu}(\mu)$ in the sense of Theorem \ref{theo:first_variation_full}, with density $P^\dagger\psi-r\psi$ against $\lambda$, where $\psi:=g'(r)\frac{w}{1+h}$; and
+\begin{equation}\label{eq:linearized_flow}
+\begin{aligned}
+    \nabla^{\lambda}\mathcal L_{g,\nu}(\mu) &= g''(1)\, \left(P^\dagger - I\right)\!\left[\,w\,(P-I)h\,\right]\lambda + \mathrm{err}(h),\\
+    \|\mathrm{err}(h)\|_{\mathcal M^2(\lambda)}&\leq K\varepsilon\,\|(P-I)h\|_{L^2(\lambda)}\leq 2K\varepsilon\,\|h\|_{L^2(\lambda)}.
+\end{aligned}
+\end{equation}
+The linearization of the gradient flow $\dot\mu_t = -\nabla^{\lambda}\mathcal L_{g,\nu}(\mu_t)$ at $\lambda$ is therefore
+\begin{equation}
+    \dot h = -\,g''(1)\, A^\dagger M_w A\, h .
+\end{equation}
+In particular for $w\equiv1$ and $T$ reversible with respect to $\lambda$,
+$\dot h = -g''(1)(I-P)^2 h$: training is the \emph{square} of the backward-policy heat flow $\dot h = -(I-P)h$, and each eigenmode $P\varphi = \beta\varphi$ of the backward policy decays at rate $g''(1)(1-\beta)^2$.
+\end{theorem}
+
+\begin{proof}
+All norms without index are $L^2(\lambda)$ norms. By Lemma \ref{lem:adjoint}\emph{(3)}, $P$ is the function action of the Markov kernel $T^\lambda$ and $P^\dagger$ that of $T$; hence $P\mathbf 1=\mathbf 1$, $\|Pf\|_{L^\infty(\lambda)}\leq\|f\|_{L^\infty(\lambda)}$, $P^\dagger$ preserves $\lambda$-integrals, and by \eqref{eq:reversal_contraction} $\|P\|\leq1$, $\|P^\dagger\|\leq1$, $\|A\|\leq2$ and $\|A^\dagger\|\leq2$. Fix $\varepsilon\in(0,a/4]$ and $h$ with $\|h\|_{L^\infty(\lambda)}\leq\varepsilon$, and set $R(x):=g'(x)-g''(1)(x-1)$ for $x\in[1-a,1+a]$.
+\begin{itemize}
+    \item \emph{The ratio is $r=\frac{1+Ph}{1+h}$; it satisfies \eqref{eq:gd_ratio_bounds}, $|r-1|\leq\frac{8\varepsilon}3$ and $(r-1)^2\leq4\varepsilon|Ah|$, and $|R(r)|\leq\frac{\Gamma_3}2(r-1)^2$.} Indeed, $\varepsilon\leq\frac a4<\frac14$ gives $\frac34\leq1+h\leq\frac54$, so $\mu\sim\lambda$; by Lemma \ref{lem:adjoint}\emph{(3)}, $\frac{d(\mu T)}{d\lambda}=P(1+h)=1+Ph$, hence $r=\frac{1+Ph}{1+h}$ and $r-1=\frac{Ah}{1+h}$. Therefore $|r-1|\leq\frac43|Ah|$ and, as $|Ah|\leq|Ph|+|h|\leq2\varepsilon$, $|r-1|\leq\frac{2\varepsilon}{1-\varepsilon}\leq\frac{8\varepsilon}3\leq\frac{2a}3$, and $(r-1)^2\leq\frac43|Ah|\cdot\frac{8\varepsilon}3\leq4\varepsilon|Ah|$. As $r$ takes its values in $[1-a,1+a]$, on which $g$ is $C^3$, Taylor's formula at $1$ with $g'(1)=0$ gives $g'(r)=g''(1)(r-1)+R(r)$ with $|R(r)|\leq\frac{\Gamma_3}2(r-1)^2$; hence $|g'(r)|\leq\bigl(g''(1)+\frac{\Gamma_3}2|r-1|\bigr)|r-1|\leq C_g|r-1|$.
+    \item \emph{The gradient $\nabla^\lambda\mathcal L_{g,\nu}(\mu)$ is defined and its density against $\lambda$ is $D:=P^\dagger\psi-r\psi$.} Indeed, let $\widetilde g:\mathbb R_+^*\rightarrow\mathbb R$ be equal to $g$ on $[1-a,1+a]$, to $g(1-a)+g'(1-a)(x-1+a)$ at $x<1-a$ and to $g(1+a)+g'(1+a)(x-1-a)$ at $x>1+a$. Its derivative is $g'$ on $[1-a,1+a]$, where $g'$ is $C^2$, and constant on either side, so $\widetilde g$ is continuously differentiable with Lipschitz derivative on $\mathbb R_+^*$, and $\widetilde g'(r)=g'(r)$, $r$ taking its values in $[1-a,1+a]$ by \eqref{eq:gd_ratio_bounds}. Next, $\mu\in\mathcal M^+(\Statespace,\nuB)$ since $\mu\ll\lambda\ll\nuB$; $\mu\sim\lambda$ and $\frac{d\mu}{d\lambda}=1+h\in L^2(\lambda)$, $\lambda$ being finite; $\mu T\ll\lambda\sim\mu$ by Lemma \ref{lem:adjoint}\emph{(3)}; $r$ takes its values in $[1-\frac{2a}3,1+\frac{2a}3]\subset(0,+\infty)$; and $\nu$ is finite with $\frac{d\nu}{d\mu}=\frac w{1+h}\in L^\infty(\mu)$. Theorem \ref{theo:first_variation_full} applied to $\widetilde g$ with $\nuG=\lambda$ gives $\nabla^\lambda\mathcal L_{\widetilde g,\nu}(\mu)=\bigl(T^\lambda-r\bigr)[\psi\lambda]$. For a direction $\delta$ admissible in that theorem, write $u$ and $v$ for the densities of $\delta$ and $\delta T$ against $\mu$; the ratio of $\mu+\delta$ is $\frac{r+v}{1+u}$, and if $\|u\|_{L^\infty(\mu)}+\|v\|_{L^\infty(\mu)}\leq\frac a6$ then, by $|r-1|\leq\frac{2a}3$ and $a<1$, $\bigl|\frac{r+v}{1+u}-1\bigr|\leq\frac{2a/3+a/6}{1-a/6}\leq a$. Hence $\mathcal L_{g,\nu}(\mu+\delta)=\mathcal L_{\widetilde g,\nu}(\mu+\delta)$ for all such $\delta$, the two losses have the same derivative at $\mu$, and $\nabla^\lambda\mathcal L_{g,\nu}(\mu)=\bigl(T^\lambda-r\bigr)[\psi\lambda]$. By Lemma \ref{lem:adjoint}\emph{(3)} the density of $(\psi\lambda)T^\lambda$ against $\lambda$ is the function action of $T$ on $\psi$, which is $P^\dagger\psi$.
+    \item \emph{$\psi=g''(1)\,w\,Ah+e$ with $|e|\leq C_4\varepsilon|Ah|$ pointwise.} Indeed, $\psi=g''(1)\,w\,\frac{r-1}{1+h}+\frac{R(r)w}{1+h}$ and $\frac{r-1}{1+h}=\frac{Ah}{(1+h)^2}=Ah+Ah\bigl(\frac1{(1+h)^2}-1\bigr)$. As $|h|\leq\varepsilon\leq\frac14$, $\bigl|\frac1{(1+h)^2}-1\bigr|=\frac{|h|\,|2+h|}{(1+h)^2}\leq\frac{9\varepsilon/4}{9/16}=4\varepsilon$; and $|R(r)|\leq\frac{\Gamma_3}2(r-1)^2$ with $(r-1)^2\leq4\varepsilon|Ah|$. Hence $|e|\leq4g''(1)\|w\|_{L^\infty}\varepsilon|Ah|+\frac43\cdot\frac{\Gamma_3}2\cdot4\varepsilon|Ah|\,\|w\|_{L^\infty}\leq C_4\varepsilon|Ah|$.
+    \item \emph{$|(r-1)\psi|\leq C_5\varepsilon|Ah|$ pointwise.} Indeed, by \eqref{eq:gd_ratio_bounds} and $\frac1{1+h}\leq\frac43$, $|(r-1)\psi|\leq\frac43C_g\|w\|_{L^\infty}(r-1)^2$, and $(r-1)^2\leq4\varepsilon|Ah|$.
+    \item \emph{The expansion \eqref{eq:linearized_flow} holds.} Indeed, $D=A^\dagger\psi-(r-1)\psi=A^\dagger\bigl[g''(1)\,w\,Ah\bigr]+E$ with $E:=A^\dagger e-(r-1)\psi$, and the bounds $|e|\leq C_4\varepsilon|Ah|$ and $|(r-1)\psi|\leq C_5\varepsilon|Ah|$ give $\|E\|\leq\|A^\dagger\|\,\|e\|+\|(r-1)\psi\|\leq(2C_4+C_5)\,\varepsilon\,\|Ah\|=K\varepsilon\|Ah\|\leq2K\varepsilon\|h\|$. The measure $\mathrm{err}(h):=E\lambda$ satisfies \eqref{eq:linearized_flow}.
+    \item \emph{The linearization is $\dot h=-g''(1)A^\dagger M_wAh$, and in the reversible case with $w\equiv1$ each eigenmode $P\varphi=\beta\varphi$ decays at rate $g''(1)(1-\beta)^2$.} Indeed, along $\mu_t=(1+h_t)\lambda$ the flow reads $\dot h_t=-D$, and \eqref{eq:linearized_flow} at every $\varepsilon\in(0,a/4]$ with $\varepsilon\geq\|h_t\|_{L^\infty(\lambda)}$ bounds the remainder by $2K\|h_t\|_{L^\infty(\lambda)}\|h_t\|$, so the part of $-D$ linear in $h$ is $-g''(1)A^\dagger M_wAh$. If $T$ is reversible with respect to $\lambda$, that is $\lambda\otimes T=T\otimes\lambda$, the uniqueness in Lemma \ref{lem:adjoint}\emph{(1)} gives $T^\lambda=T$, hence $P=P^\dagger$ and $A^\dagger A=(I-P)^2$; for $P\varphi=\beta\varphi$, $(I-P)^2\varphi=(1-\beta)^2\varphi$, so $h_t=e^{-g''(1)(1-\beta)^2t}\varphi$ solves $\dot h=-g''(1)(I-P)^2h$.
+\end{itemize}
+\end{proof}
+
+\begin{lemma}[mixing controls coercivity]\label{lem:sigma_mixing}
+Let $T$ be a Markov kernel on a Polish space $\Statespace$ leaving a non-zero finite measure $\lambda$ invariant, $P$ its density action $h\mapsto\frac{d((h\lambda)T)}{d\lambda}$ on $L^2(\lambda)$, $\Pi$ the $\lambda$-mean projection $h\mapsto\lambda(\Statespace)^{-1}\int h\,d\lambda$, and $\widehat\beta_n:=\|P^n-\Pi\|_{L^2(\lambda)}$. Assume $\widehat B := \sum_{n\geq0}\widehat\beta_n < +\infty$ (summable $L^2$-mixing). Then $S := \sum_{n\geq0}(P^n - \Pi)$ converges in operator norm, $S(I-P) = I - \Pi$, and consequently
+\begin{equation}
+    \forall h\in L^2(\lambda),\quad \|h - \Pi h\|_{L^2(\lambda)} \;\leq\; \widehat B\,\|(I-P)h\|_{L^2(\lambda)}.
+\end{equation}
+If moreover $\lambda$ is not a multiple of a Dirac mass --- in particular if $\Statespace$ is finite with $\#\Statespace\geq2$ and $\lambda>0$ everywhere --- then $\widehat\beta_0=1$ and $\widehat B\geq1$.
+\end{lemma}
+
+\begin{proof}[Proof of Lemma \ref{lem:sigma_mixing}]
+$\|P^n - \Pi\| = \widehat\beta_n$ is summable so $S$ converges absolutely. Since $P$ preserves $\lambda$-integrals and fixes constants, $\Pi P = P \Pi = \Pi$, whence $(P^n-\Pi)(I-P) = P^n - P^{n+1}$ and the partial sums telescope to $I - P^{N+1} \rightarrow I-\Pi$. Then $\|h-\Pi h\| = \|S(I-P)h\| \leq \widehat B\|(I-P)h\|$. If $\lambda$ is not a multiple of a Dirac mass, then, $\lambda$ being a finite measure on the Polish space $\Statespace$, it charges a Borel set $X$ with $0<\lambda(X)<\lambda(\Statespace)$, so $\mathbf 1_X-\Pi\mathbf 1_X\neq0$; hence $I-\Pi$ is a non-zero orthogonal projection, $\widehat\beta_0=\|I-\Pi\|=1$, and $\widehat B\geq\widehat\beta_0=1$.
+\end{proof}
+
+\begin{theorem}[full form of Theorem \ref{theo:db_stable_frozen}]\label{theo:db_stable_frozen_full}
+Let $T$, $\lambda$, $P$, $A$, $w$, $M_w$ and $\nu$ be as in Theorem \ref{theo:gd_diffusion_full}, and let $g$ be twice differentiable at $1$ with $g''(1)>0$. Assume moreover that $w \geq w_{\min} > 0$ and that $\widehat B\geq1$ is a \emph{coercivity constant} of $T$, $\Pi$ denoting the $\lambda$-mean projection $h\mapsto\lambda(\Statespace)^{-1}\int h\,d\lambda$:
+\begin{equation}\label{eq:coercivity}
+    \|h-\Pi h\|_{L^2(\lambda)}\;\leq\;\widehat B\,\|(I-P)h\|_{L^2(\lambda)}\qquad\text{for every }h\in L^2(\lambda).
+\end{equation}
+Set
+\begin{equation}
+    \varrho := \frac{g''(1)\, w_{\min}}{\widehat B^{\,2}},\qquad H:=g''(1)\,A^\dagger M_wA.
+\end{equation}
+Then along the linearized gradient flow $\dot h_t=-Hh_t$ of $\mathcal L_{g,\nu}$ at the balanced solution: the component $\Pi h_t$ (the total flow normalization) is conserved, and
+\begin{equation}
+    \|h_t - \Pi h_t\|_{L^2(\lambda)} \leq e^{-\varrho\, t}\, \|h_0 - \Pi h_0\|_{L^2(\lambda)}.
+\end{equation}
+For the linearized gradient descent $h_{k+1}=h_k-\varepsilon Hh_k$ with step $\varepsilon \leq \left(4 g''(1)\|w\|_{L^\infty}\right)^{-1}$, the contraction factor per step is $1-\varepsilon\varrho$. For the FM loss $T=\BackwardPolicy$, and for the DB loss $T=K_2$ with $\lambda_2$ in place of $\lambda$ (Definition \ref{def:edge_lift}). When $\BackwardPolicy$ has summable $L^2$-mixing, $B:=\sum_{n\geq0}\beta_n<\infty$ with $\beta_n$ as in Lemma \ref{lem:lift_mixing}, and its invariant measure $\lambda$ is not a multiple of a Dirac mass, $\widehat B:=\sum_{n\geq0}\widehat\beta_n$, where $\widehat\beta_n:=\|P^n-\Pi\|_{L^2(\lambda)}$, is a coercivity constant of $T$ with $\widehat B\geq1$, equal to $B$ for the FM loss and to $1+B$ for the DB loss: \emph{a backward policy with summable mixing makes the linearized gradient descent on the FM and DB losses with frozen backward policy converge to the balanced ray, at rate at least $g''(1)w_{\min}/(1+B)^2$} (the nonlinear upgrade, at half the rate for the gradient flow and from an explicit neighbourhood, is Theorem \ref{theo:local_convergence_full}).
+\end{theorem}
+
+\begin{proof}
+Note that $H\succeq 0$, $M_w$ being non-negative. $\Pi H = 0$ since $P^\dagger$ preserves integrals, so $\Pi h_t$ is conserved; and for $h_\perp := h - \Pi h$, using $Ah = Ah_\perp$ and \eqref{eq:coercivity},
+\begin{equation}
+    \langle h, Hh\rangle \geq g''(1) w_{\min}\|Ah_\perp\|^2 \geq \varrho\, \|h_\perp\|^2,
+\end{equation}
+whence $\frac{d}{dt}\|h_\perp\|^2 = -2\langle h,Hh\rangle \leq -2\varrho\|h_\perp\|^2$ and Gr\"onwall concludes. For the discrete case, $\|A\|\leq 2$ gives $\|H\| \leq 4g''(1)\|w\|_{L^\infty}$, so $\varepsilon\|H\|\leq1$ and $\|(I-\varepsilon H)h_\perp\| \leq (1-\varepsilon\varrho)\|h_\perp\|$.
+
+It remains to prove the assertion on summable mixing. Assume $B<\infty$ and that $\lambda$ is not a multiple of a Dirac mass; $\lambda$ being a finite measure on the Polish space $\Statespace$, it charges a Borel set $X$ with $0<\lambda(X)<\lambda(\Statespace)$. For the FM loss, $T=\BackwardPolicy$, so $\widehat\beta_n=\beta_n$ and $\widehat B=B$; and $\widehat\beta_0=\|I-\Pi\|_{L^2(\lambda)}=1$, $I-\Pi$ being an orthogonal projection that is non-zero, since $\mathbf 1_X$ is not $\lambda$-almost everywhere constant. For the DB loss, $T=K_2$ on $(\Statespace^2,\lambda_2)$, and Lemma \ref{lem:lift_mixing} gives $\widehat B=\widehat\beta_0+\sum_{n\geq1}\beta_{n-1}=\widehat\beta_0+B$, where $\widehat\beta_0=\|I-\Pi_2\|_{L^2(\lambda_2)}=1$: $I-\Pi_2$ is an orthogonal projection, and it is non-zero, since $f(s,s'):=\mathbf 1_X(s')$ is not $\lambda_2$-almost everywhere constant, the second marginal of $\lambda_2$ being $\lambda$. In both cases $\widehat B<\infty$ and $\widehat\beta_0=1$, so Lemma \ref{lem:sigma_mixing} applied to $T$ gives \eqref{eq:coercivity}, and $\widehat B\geq\widehat\beta_0=1$; finally $\widehat B\leq1+B$, so $\varrho\geq g''(1)w_{\min}/(1+B)^2$.
+\end{proof}
+
+\begin{theorem}[full form of Theorem \ref{theo:local_convergence}]\label{theo:local_convergence_full}
+In the setting of Theorem \ref{theo:db_stable_frozen_full}, assume moreover that $g(1)=g'(1)=0$, that $g$ is $C^3$ on $[1-a,1+a]$ for some $a\in(0,1)$, and that the state space $\Statespace$ is finite, with $\lambda$ a probability and $\lambda(x)>0$ for every $x\in\Statespace$; set $\lambda_{\min}:=\min_{x\in\Statespace}\lambda(x)$ and $C_\infty:=\lambda_{\min}^{-1/2}$, so that $C_\infty\geq1$. For the DB loss, $T=K_2$ (Definition \ref{def:edge_lift}) is taken on the set $E$ of pairs $(s,s')\in\Statespace^2$ with $\BackwardPolicy(s'\rightarrow s)>0$, which is finite when $\Statespace$ is, which $K_2$ maps into itself, and on which $\lambda_2(s,s')=\BackwardPolicy(s'\rightarrow s)\lambda(s')>0$ when $\lambda>0$; $E$ plays the role of $\Statespace$ and the probability $\lambda_2$ that of $\lambda$ --- in particular $\lambda_{\min}:=\min_{e\in E}\lambda_2(e)$ and $C_\infty:=\lambda_{\min}^{-1/2}$. Then there are explicit $\varepsilon_0\in\bigl(0,a/(16C_\infty)\bigr]$ and $C\geq1$, depending only on $g''(1)$, $\sup_{[1-a,1+a]}|g'''|$, $a$, $w_{\min}$, $\|w\|_{L^\infty}$, $\widehat B$ and $C_\infty$, such that for every initialization $\mu_0=(1+h_0)\lambda$ with $\|h_0\|_{L^2(\lambda)}\leq\varepsilon_0$, the \emph{nonlinear} gradient flow $\dot\mu_t=-\nabla^{\lambda}\mathcal L_{g,\nu}(\mu_t)$ converges to a balanced flow $c_\infty\lambda$ with $|c_\infty-1-\Pi h_0|\leq C\|h_0-\Pi h_0\|^2$ and
+\begin{equation}
+    \|h_t-(c_\infty-1)\|_{L^2(\lambda)} \;\leq\; 2\,e^{-\varrho t/2}\,\|h_0-\Pi h_0\|_{L^2(\lambda)}.
+\end{equation}
+There is moreover an explicit $\gamma_0>0$, depending only on the same quantities, such that for every such $h_0$ and every step $0<\gamma\leq\gamma_0$ the gradient descent $h_{k+1}:=h_k-\gamma D_k$, $D_k$ the density against $\lambda$ of $\nabla^{\lambda}\mathcal L_{g,\nu}\bigl((1+h_k)\lambda\bigr)$, is well defined and satisfies $\|h_{k+1}-\Pi h_{k+1}\|_{L^2(\lambda)}\leq(1-\gamma\varrho/4)\|h_k-\Pi h_k\|_{L^2(\lambda)}$ for every $k\geq0$.
+\end{theorem}
+
+\begin{proof}
+All norms are $L^2(\lambda)$; set $\Gamma_3:=\sup_{[1-a,1+a]}|g'''|$, $C_g:=g''(1)+\frac{a\Gamma_3}2$, $m_t:=\Pi h_t$ (a scalar, $T$ being ergodic), $h^\perp:=h-m$, and recall $Ah=Ah^\perp$, $\|P\|\leq1$, $\|A\|\leq2$, $\|A^\dagger\|\leq2$. Since $\Statespace$ is finite, $\lambda_{\min}f(x)^2\leq\lambda(x)f(x)^2\leq\|f\|^2$ for every function $f$ and every $x\in\Statespace$, so that $\|f\|_{L^\infty(\lambda)}\leq C_\infty\|f\|$; and $C_\infty\geq1$ because $\lambda_{\min}\leq\lambda(\Statespace)=1$. For the DB loss the same holds on $E$ with $\lambda_2$, which is a probability, its second marginal being $\lambda$.
+
+\emph{Step 1 (expansion of the gradient field).} Assume $\|h\|_{L^\infty}\leq\varepsilon\leq a/4$, and let $K$ be the constant of Theorem \ref{theo:gd_diffusion_full} for $g$ and $w$. By that theorem, the ratio at $(1+h)\lambda$ is $r=\frac{1+Ph}{1+h}$; \eqref{eq:gd_ratio_bounds} gives, pointwise, $|r-1|\leq\frac43|Ah^\perp|$, $|r-1|\leq\frac{2a}3$ and $|g'(r)|\leq C_g|r-1|$; the gradient density at $(1+h)\lambda$ is $D=P^\dagger\psi-r\psi$ with $\psi:=g'(r)\frac w{1+h}$; and \eqref{eq:linearized_flow} reads
+\begin{eqnarray}
+    D &=& A^\dagger\bigl[g''(1)\,w\,Ah^\perp\bigr]+E,\label{eq:gradient_expansion}\\
+    \|E\|&\leq& K\varepsilon\|Ah^\perp\|.\nonumber
+\end{eqnarray}
+
+\emph{Step 2 (energy estimate).} Using $\langle h^\perp, A^\dagger[g''(1)wAh^\perp]\rangle=g''(1)\langle Ah^\perp,wAh^\perp\rangle\geq g''(1)w_{\min}\|Ah^\perp\|^2$ and $\|h^\perp\|\leq\widehat B\|Ah^\perp\|$, which is \eqref{eq:coercivity}, for $\varepsilon\leq\varepsilon_1:=\frac{g''(1)w_{\min}}{2K\widehat B}$,
+\begin{eqnarray*}
+    \frac{d}{dt}\frac12\|h^\perp\|^2=-\langle h^\perp,D\rangle&\leq&-\frac{g''(1)w_{\min}}2\|Ah^\perp\|^2\\
+    &\leq&-\frac\varrho2\|h^\perp\|^2,
+\end{eqnarray*}
+whence $\|h_t^\perp\|\leq e^{-\varrho t/2}\|h_0^\perp\|$ and $\int_0^\infty\|Ah_s^\perp\|^2ds\leq\|h_0^\perp\|^2/(g''(1)w_{\min})$.
+
+\emph{Step 3 (drift of the mass).} Since $P^\dagger$ preserves $\lambda$-integrals, $\dot m=-\int D\,d\lambda=\int(r-1)\psi\,d\lambda$; by the pointwise bounds of Step 1 and $\frac1{1+h}\leq\frac43$, $|(r-1)\psi|\leq\frac43C_g\|w\|_{L^\infty}(r-1)^2\leq\frac{64}{27}C_g\|w\|_{L^\infty}|Ah^\perp|^2$, so $|\dot m|\leq C_6\|Ah^\perp\|^2$ with $C_6:=4C_g\|w\|_{L^\infty}$. By Step 2, $m_t$ converges to some $m_\infty$ with $|m_\infty-m_t|\leq\frac{4C_6}\varrho e^{-\varrho t}\|h_0^\perp\|^2$ and $|m_t-m_0|\leq C_7\|h_0^\perp\|^2$, $C_7:=C_6/(g''(1)w_{\min})$.
+
+\emph{Step 4 (the flow from $h_0$ exists for all times, is unique, and stays in $\{\|h\|_{L^\infty}\leq\frac\varepsilon2\}$).} Set $\varepsilon:=\min\bigl(\tfrac a4,\varepsilon_1\bigr)$ and $\varepsilon_0:=\min\bigl(\tfrac\varepsilon{2C_\infty(2+C_7)},\tfrac\varrho{4C_6},1\bigr)$; since $C_7\geq0$ and $\varepsilon\leq a/4$, $\varepsilon_0\leq\frac\varepsilon{4C_\infty}\leq\frac a{16C_\infty}$. Write $\mathcal O:=\{h\in\mathbb R^{\Statespace}:\|h\|_{L^\infty}<\frac a4\}$, an open set. For $h\in\mathcal O$, Theorem \ref{theo:gd_diffusion_full}, applied at the same $a$ with $\frac a4$ in the role of its $\varepsilon$, gives the gradient density $D(h)=P^\dagger\psi-r\psi$ at $(1+h)\lambda$, with $r=\frac{1+Ph}{1+h}$ taking its values in $[1-\frac{2a}3,1+\frac{2a}3]\subset(1-a,1+a)$, on which $g'$ is $C^2$, and $1+h>\frac34$; hence $D$ is a $C^1$ function of $h\in\mathcal O$, and by the Cauchy--Lipschitz theorem the equation $\dot h=-D(h)$, which is the gradient flow in densities, has from every $h_0\in\mathcal O$ a unique maximal solution $(h_t)_{t\in[0,t_{\max})}$ in $\mathcal O$. If $\|h_0\|\leq\varepsilon_0$, then $\|h_0\|_{L^\infty}\leq C_\infty\varepsilon_0\leq\frac\varepsilon4$, so $h_0\in\mathcal O$, and on any interval $[0,t]\subset[0,t_{\max})$ where $\|h_s\|_{L^\infty}\leq\varepsilon$ the estimates above give $\|h_t\|_{L^\infty}\leq C_\infty(|m_t|+\|h_t^\perp\|)\leq C_\infty\varepsilon_0(2+C_7)\leq\varepsilon/2$: by continuity this holds on all of $[0,t_{\max})$, so the solution remains in $\{h:\|h\|_{L^\infty}\leq\frac\varepsilon2\}$, a compact subset of $\mathcal O$ since $\frac\varepsilon2\leq\frac a8$. A maximal solution of a locally Lipschitz equation that remains in a compact subset of its open domain is defined for all times, so $t_{\max}=+\infty$, and Steps 1--3 hold globally in time. Finally, let $(h'_t)_{t\in[0,T)}$, $T\in(0,+\infty]$, be a solution of the gradient flow from $h_0$, and $t'$ the supremum of the $t\in[0,T)$ with $h'_s\in\mathcal O$ for every $s\in[0,t]$. By uniqueness $h'_t=h_t$ for $t<t'$. If $t'<T$, continuity at $t'$ gives $\|h'_{t'}\|_{L^\infty}\leq\frac\varepsilon2<\frac a4$, so $h'$ remains in $\mathcal O$ on a neighbourhood of $t'$, against the definition of $t'$. Hence $t'=T$, and $h'_t=h_t$ for every $t\in[0,T)$.
+
+\emph{Step 5 (conclusion).} With $c_\infty:=1+m_\infty$ and $C:=\max(1,C_7)$, $|c_\infty-1-\Pi h_0|\leq C_7\|h_0^\perp\|^2\leq C\|h_0^\perp\|^2$ and
+\begin{eqnarray*}
+    \|h_t-(c_\infty-1)\|&\leq&|m_\infty-m_t|+\|h_t^\perp\|\\
+    &\leq& e^{-\varrho t/2}\|h_0^\perp\|\Bigl(1+\frac{4C_6}\varrho\varepsilon_0\Bigr)\\
+    &\leq&2e^{-\varrho t/2}\|h_0^\perp\|.
+\end{eqnarray*}
+
+\emph{Step 6 (gradient descent).} Set $L:=2g''(1)\|w\|_{L^\infty}+K\varepsilon$ and $\gamma_0:=\frac{g''(1)w_{\min}}{2L^2}$, which depend only on the quantities listed in the statement, let $0<\gamma\leq\gamma_0$, and write $m_k:=\Pi h_k$. Since $L\geq2g''(1)\|w\|_{L^\infty}\geq2g''(1)w_{\min}$, $\gamma\leq(8g''(1)w_{\min})^{-1}$; since $\widehat B\geq1$, $\varrho\leq g''(1)w_{\min}$; hence
+\begin{equation}\label{eq:gd_step_cap}
+    \gamma L^2\leq\frac{g''(1)w_{\min}}2,\qquad\frac{\gamma\varrho}2\leq\frac1{16}.
+\end{equation}
+We first prove that if $\|h_k\|_{L^\infty}\leq\varepsilon$, then $D_k$ is defined and
+\begin{align}
+    \|h^\perp_{k+1}\|^2+\gamma\,\frac{g''(1)w_{\min}}2\,\|Ah^\perp_k\|^2&\leq\|h^\perp_k\|^2,\label{eq:gd_energy}\\
+    \|h^\perp_{k+1}\|&\leq\Bigl(1-\frac{\gamma\varrho}4\Bigr)\|h^\perp_k\|,\label{eq:gd_contraction}\\
+    |m_{k+1}-m_k|&\leq2C_7\bigl(\|h^\perp_k\|^2-\|h^\perp_{k+1}\|^2\bigr).\label{eq:gd_drift}
+\end{align}
+By Step 1, $D_k$ is defined, and \eqref{eq:gradient_expansion} with $\|A^\dagger\|\leq2$ gives $\|D_k\|\leq L\|Ah^\perp_k\|$. As $\Pi h^\perp_k=0$, $h^\perp_{k+1}=h^\perp_k-\gamma D_k^\perp$ with $\langle h^\perp_k,D_k^\perp\rangle=\langle h^\perp_k,D_k\rangle$ and $\|D^\perp_k\|\leq\|D_k\|$; the inequality $\langle h^\perp,D\rangle\geq\frac{g''(1)w_{\min}}2\|Ah^\perp\|^2$ of Step 2 and \eqref{eq:gd_step_cap} then give
+\begin{eqnarray*}
+    \|h^\perp_{k+1}\|^2&\leq&\|h^\perp_k\|^2-\gamma\bigl(g''(1)w_{\min}-\gamma L^2\bigr)\|Ah^\perp_k\|^2\\
+    &\leq&\|h^\perp_k\|^2-\gamma\,\frac{g''(1)w_{\min}}2\,\|Ah^\perp_k\|^2,
+\end{eqnarray*}
+which is \eqref{eq:gd_energy}. By \eqref{eq:coercivity}, $\frac{g''(1)w_{\min}}2\|Ah^\perp_k\|^2\geq\frac\varrho2\|h^\perp_k\|^2$, so \eqref{eq:gd_energy} gives $\|h^\perp_{k+1}\|^2\leq(1-\frac{\gamma\varrho}2)\|h^\perp_k\|^2$; as $\sqrt{1-x}\leq1-\frac x2$ for $x\in[0,1]$ and $x=\frac{\gamma\varrho}2\leq\frac1{16}$ by \eqref{eq:gd_step_cap}, this is \eqref{eq:gd_contraction}. Finally $m_{k+1}-m_k=-\gamma\int D_k\,d\lambda$, and the bound $|\int D\,d\lambda|\leq C_6\|Ah^\perp\|^2$ of Step 3 together with \eqref{eq:gd_energy} gives $|m_{k+1}-m_k|\leq\gamma C_6\|Ah^\perp_k\|^2\leq\frac{2C_6}{g''(1)w_{\min}}\bigl(\|h^\perp_k\|^2-\|h^\perp_{k+1}\|^2\bigr)$, which is \eqref{eq:gd_drift}.
+
+It remains to prove, by induction on $k$, that every $k\geq0$ satisfies
+\begin{equation}\label{eq:gd_invariant}
+    \|h_k\|_{L^\infty}\leq\varepsilon,\qquad \|h^\perp_k\|\leq\|h^\perp_0\|,\qquad |m_k-m_0|\leq2C_7\bigl(\|h^\perp_0\|^2-\|h^\perp_k\|^2\bigr).
+\end{equation}
+Note that $|m_0|\leq\|h_0\|$ by the Cauchy--Schwarz inequality, $\lambda$ being a probability, and that $\|h^\perp_0\|\leq\|h_0\|\leq\varepsilon_0\leq1$. At $k=0$, $\|h_0\|_{L^\infty}\leq C_\infty\varepsilon_0\leq\varepsilon$ by Step 4, and the other two conditions hold with equality. If \eqref{eq:gd_invariant} holds at $k$, then \eqref{eq:gd_contraction} and \eqref{eq:gd_drift} hold at $k$: the first gives $\|h^\perp_{k+1}\|\leq\|h^\perp_k\|\leq\|h^\perp_0\|$, and the second, added to the third condition of \eqref{eq:gd_invariant}, gives $|m_{k+1}-m_0|\leq2C_7(\|h^\perp_0\|^2-\|h^\perp_{k+1}\|^2)\leq2C_7\varepsilon_0$. Hence, pointwise,
+\begin{equation*}
+    |h_{k+1}|\leq|m_{k+1}|+C_\infty\|h^\perp_{k+1}\|\leq C_\infty\bigl(\varepsilon_0+2C_7\varepsilon_0+\varepsilon_0\bigr)\leq2C_\infty\varepsilon_0(2+C_7)\leq\varepsilon,
+\end{equation*}
+the last inequality by the definition of $\varepsilon_0$ in Step 4. This closes the induction: $h_k$ is well defined and \eqref{eq:gd_contraction} holds at every $k\geq0$.
+\end{proof}
+
+\begin{proposition}[full form of Proposition \ref{prop:frozen_unstable}]\label{prop:frozen_unstable_full}
+Let $\mathcal G$ be a finite path-connected marked graph carrying a directed cycle $\gamma$ disjoint from $\{s_0,s_f\}$, let $\widehat\BackwardPolicy$ be an everywhere-positive frozen backward policy on its loop closure $\widehat G$ (Definition \ref{def:loop_closure}), let $\lambda$ be the associated balanced flow and let $g$ be continuous with $g(1)=0$ and $g>0$ elsewhere. Write $F^\star(u\rightarrow v):=\lambda(v)\widehat\BackwardPolicy(v\rightarrow u)$ for the balanced edgeflow, $\mathbf 1_\gamma$ for the unit circulation along $\gamma$, $\mathcal L_{g,\nu}(F):=\mathcal L_{g,\nu}(\mu_F)=\int g\bigl(\frac{d(\mu_F\widehat\BackwardPolicy)}{d\mu_F}\bigr)d\nu$ for the flow-matching loss of an edgeflow $F$ with frozen backward policy $\widehat\BackwardPolicy$, where $\mu_F(v):=\sum_uF(u\rightarrow v)$ is the inflow of $F$, and $\mathcal L_{\mathrm{DB},g,\widehat\nu}$ for the detailed-balance loss of Proposition \ref{prop:db_lift} with frozen backward policy $\widehat\BackwardPolicy$. Then for every training measure $\nu$ of positive density, every edge training measure $\widehat\nu$ with positive density against the edge measure $\lambda_2$ of $\widehat\BackwardPolicy$ --- which is positive exactly on the edges of $\widehat G$ --- and every
+\begin{equation}
+    0<\varepsilon\leq\tfrac12\min_{(u\rightarrow v)\in\gamma}F^\star(u\rightarrow v),
+\end{equation}
+the edgeflow $F:=F^\star-\varepsilon\mathbf 1_\gamma$ and the $0$-flow $F_0:=\varepsilon\mathbf 1_\gamma$ satisfy $0\leq F_0\leq F$ and
+\begin{equation}
+    \mathcal L_{g,\nu}(F+F_0)=0<\mathcal L_{g,\nu}(F),\qquad \mathcal L_{\mathrm{DB},g,\widehat\nu}(F+F_0)=0<\mathcal L_{\mathrm{DB},g,\widehat\nu}(F).
+\end{equation}
+Hence the FM and DB losses with frozen backward policy remain \emph{unstable} in the sense of \eqref{eq:def_stability}, on every such graph and for every such generator and training measures.
+\end{proposition}
+
+\begin{proof}
+Write $r$ for the ratio $\frac{d(\mu\widehat\BackwardPolicy)}{d\mu}$ of a state flow $\mu$, so that $\mathcal L_{g,\nu}(F)=\int g(r)\,d\nu$ at $\mu=\mu_F$. Since the rows of $\widehat\BackwardPolicy$ sum to $1$, $\mu_{F^\star}=\lambda$, and $\mu_{\mathbf 1_\gamma}=\partial\gamma:=\sum_{v\in\gamma}\delta_v$.
+
+\emph{Admissibility.} $\lambda>0$ and $\widehat\BackwardPolicy>0$ give $F^\star>0$ on every edge, so $\varepsilon$ is well defined and positive, and $2\varepsilon\mathbf 1_\gamma\leq F^\star$ edgewise; hence $F=F^\star-\varepsilon\mathbf 1_\gamma\geq\varepsilon\mathbf 1_\gamma=F_0\geq0$, and $F\geq\frac12F^\star>0$ on every edge of $\widehat G$. The outflow of $F^\star$ at $u$ is $\sum_v\lambda(v)\widehat\BackwardPolicy(v\rightarrow u)=\lambda(u)$, by $\lambda\widehat\BackwardPolicy=\lambda$, which is its inflow $\mu_{F^\star}(u)$; so $F^\star$ is a circulation on $\widehat G$, and so is $\mathbf 1_\gamma$, $\gamma$ being a directed cycle. Hence $F$ is a non-negative circulation on $\widehat G$ whose restriction to the edges of $\mathcal G$ is a flow in the sense of Definition 1 of \citet{brunswic2024theory}; $F_0=\varepsilon\mathbf 1_\gamma$ is a flow carrying no flow into $s_f$, since $\gamma$ avoids $s_f$, i.e. a $0$-flow in the sense of Definition 2 of \citet{brunswic2024theory}; and $F_0\leq F$.
+
+\emph{$\mathcal L_{g,\nu}(F)>0$.} We have $\mu_F=\lambda-\varepsilon\,\partial\gamma$, and $\varepsilon\,\partial\gamma(v)=\sum_u\varepsilon\mathbf 1_\gamma(u\rightarrow v)\leq\frac12\sum_uF^\star(u\rightarrow v)=\frac12\lambda(v)$, so $\mu_F\geq\frac12\lambda>0$ and the ratio $r$ at $\mu_F$ is defined. As $\gamma$ avoids $s_f$, $\partial\gamma(s_f)=0<\lambda(s_f)$ while $\partial\gamma\neq0$, so $\partial\gamma$ is not proportional to $\lambda$ and neither is $\mu_F$. The loop-closed chain being ergodic, its invariant measures are exactly the multiples of $\lambda$, so $\mu_F\widehat\BackwardPolicy\neq\mu_F$: the ratio $r$ differs from $1$ on a set of positive $\nu$-measure, and $g>0$ off $1$ gives $\mathcal L_{g,\nu}(F)>0$.
+
+\emph{$\mathcal L_{g,\nu}(F+F_0)=0$.} $F+F_0=F^\star$, whose state flow $\lambda$ is $\widehat\BackwardPolicy$-invariant, so $r\equiv1$ and $g(1)=0$.
+
+\emph{The DB case.} Let $F'$ be an edgeflow positive on every edge of $\widehat G$, and $\mu^{\mathrm{out}}_{F'}(v):=\sum_wF'(v\rightarrow w)$ its outflow, which is the first marginal of Proposition \ref{prop:db_lift}. By that proposition $\mathcal L_{\mathrm{DB},g,\widehat\nu}(F')$ integrates against $\widehat\nu$ the function $g$ of the edge ratio $\frac{\mu^{\mathrm{out}}_{F'}(v)\widehat\BackwardPolicy(v\rightarrow u)}{F'(u\rightarrow v)}$; as $\lambda_2(u,v)=\widehat\BackwardPolicy(v\rightarrow u)\lambda(v)$ is positive exactly when $u\rightarrow v$ is an edge of $\widehat G$ --- $\widehat\BackwardPolicy$ being positive on the edges of $\widehat G$ and supported on in-neighbours, and $\lambda>0$ --- $\widehat\nu$ is positive on every edge of $\widehat G$ and null off them; with $g(1)=0$ and $g>0$ off $1$, the loss vanishes if every edge satisfies $F'(u\rightarrow v)=\mu^{\mathrm{out}}_{F'}(v)\widehat\BackwardPolicy(v\rightarrow u)$, and is positive otherwise. Both $F^\star$ and $F$ are positive on every edge and are circulations, so their outflows equal their inflows: $\mu^{\mathrm{out}}_{F^\star}=\lambda$ and $\mu^{\mathrm{out}}_F=\mu_F$. At $F+F_0=F^\star$ every edge satisfies the balance by construction, so the DB loss is $0$ there. At $F$ some edge does not: balance on every edge would give, summing over $v$ at each $u$, $\mu_F(u)=\sum_v\mu_F(v)\widehat\BackwardPolicy(v\rightarrow u)$, that is $\mu_F\widehat\BackwardPolicy=\mu_F$, contradicting $\mu_F\widehat\BackwardPolicy\neq\mu_F$. Hence $\mathcal L_{\mathrm{DB},g,\widehat\nu}(F)>0$, and the same pair $(F,F_0)$ witnesses DB instability.
+
+Hence \eqref{eq:def_stability} fails at the pair $(F,F_0)$ for both losses. In state-flow coordinates the same computation reads: $t\mapsto\mathcal L_{g,\nu}(\lambda-\varepsilon\partial\gamma+t\,\partial\gamma)$ drops from a positive value at $t=0$ to $0$ at $t=\varepsilon$, $\partial\gamma$ being the state-flow signature of the circulation.
+\end{proof}
+
+\begin{proposition}[TB gradient]\label{prop:tb_gradient}
+Let $\widehat{\Statespace}$ be a finite set, $\BackwardPolicy$ a Markov kernel on $\widehat{\Statespace}$ and $\lambda$ a $\BackwardPolicy$-invariant probability with $\lambda(s)>0$ for every $s\in\widehat{\Statespace}$, and let $E:=\{(s,s')\in\widehat{\Statespace}^2:\BackwardPolicy(s'\rightarrow s)>0\}$, which the edge lift $K_2$ of Definition \ref{def:edge_lift} maps into itself and on which the edge measure $\lambda_2$ is positive; write $K_2^{\lambda_2}$ for the $\lambda_2$-reversal of $K_2$ (Lemma \ref{lem:lift_wellposed}). Identify a measure on $E$ with its vector of weights and write $\langle\mu\mid\delta\rangle_{\lambda_2}:=\sum_{e\in E}\mu(e)\delta(e)/\lambda_2(e)$. For an edge flow $\mu\in(0,+\infty)^E$ write $F(s):=\sum_{s':(s,s')\in E}\mu(s,s')$ for its first marginal, $\ForwardPolicy^\mu(s\rightarrow s'):=\mu(s,s')/F(s)$, and $\widehat r(e):=(\mu K_2)(e)/\mu(e)$ for $e\in E$. Let $\ell\geq1$, let $\widehat\nu$ be a finite measure on $\widehat{\Statespace}^{\ell+1}$ charging only trajectories $\tau=(x_0,\dots,x_\ell)$ whose edges $e_k:=(x_{k-1},x_k)$ all lie in $E$, let $\widehat\nu_k$ be the law of $e_k$ under $\widehat\nu$, let $g:\mathbb R_+^*\rightarrow\mathbb R$ be continuously differentiable, and define the TB loss with frozen backward policy
+\begin{equation}
+    \mathcal L_{\mathrm{TB},g,\widehat\nu}(\mu) := \int g\left(\rho(\tau)\right) d\widehat\nu(\tau),
+    \qquad \rho(\tau) := \prod_{k=1}^{\ell} \widehat r(e_k).
+\end{equation}
+Then $F>0$ on $\widehat{\Statespace}$, $\widehat r$ takes its values in $(0,+\infty)$, and the telescoping identity
+$\rho(\tau) = \frac{F(x_\ell)\prod_{k=1}^\ell\BackwardPolicy(x_k\rightarrow x_{k-1})}{F(x_0)\prod_{k=1}^\ell\ForwardPolicy^\mu(x_{k-1}\rightarrow x_k)}$
+holds, which identifies $\rho$ with the (inverted) trajectory balance ratio; on the loop closure of a marked graph (Theorem \ref{theo:universality_graphs}), $F(x_0)$ plays the role of $Z$ when $x_0=s_0$, $Z$ being the target mass of Theorem \ref{theo:universality_graphs}\emph{(3)}, and the target enters through the frozen row at the sink, $\widehat\BackwardPolicy(s_f\rightarrow\cdot)=\target/Z$. Moreover $\mathcal L_{\mathrm{TB},g,\widehat\nu}$ is $C^1$ on $(0,+\infty)^E$, and its gradient in $\langle\cdot\mid\cdot\rangle_{\lambda_2}$ is
+\begin{equation}\label{eq:tb_gradient}
+    \nabla^{\lambda_2}_{\mu} \mathcal L_{\mathrm{TB},g,\widehat\nu}
+    = \sum_{k=1}^{\ell} \left(K_2^{\lambda_2} - \widehat r\right)\left[\psi_k\, \lambda_2\right],
+\end{equation}
+\begin{equation}
+    \psi_k := \frac{1}{\widehat r}\,\mathbb E_{\tau\sim\widehat\nu}\bigl( g'(\rho)\rho \mid e_k \bigr)\frac{d\widehat\nu_k}{d\mu}\quad\text{where }\widehat\nu_k>0,\qquad \psi_k:=0\quad\text{where }\widehat\nu_k=0.
+\end{equation}
+For $\ell = 1$ this is the formula of Corollary \ref{cor:db_gradient}.
+\end{proposition}
+
+\begin{proof}
+By Definition \ref{def:edge_lift}, $K_2$ moves $(s,s')$ to $(z,s)$ with probability $\BackwardPolicy(s\rightarrow z)$, and $(z,s)\in E$ exactly when that probability is positive, so $K_2$ maps $E$ into itself; $\lambda_2(s,s')=\BackwardPolicy(s'\rightarrow s)\lambda(s')$ is positive on $E$, $\lambda$ being positive. For $e=(s,s')\in E$ and $\mu\in(0,+\infty)^E$, $(\mu K_2)(e)=\sum_{z:(s',z)\in E}\mu(s',z)\,\BackwardPolicy(s'\rightarrow s)=F(s')\BackwardPolicy(s'\rightarrow s)$.
+\begin{itemize}
+    \item \emph{$F>0$, $\widehat r>0$, and the telescoping identity holds.} Indeed, for $s\in\widehat{\Statespace}$, $\lambda(s)=\sum_z\lambda(z)\BackwardPolicy(z\rightarrow s)>0$ provides a $z$ with $(s,z)\in E$, so $F(s)\geq\mu(s,z)>0$. Hence, for $e=(s,s')\in E$, $\widehat r(e)=\frac{F(s')\BackwardPolicy(s'\rightarrow s)}{F(s)\ForwardPolicy^\mu(s\rightarrow s')}>0$, using $\mu(s,s')=F(s)\ForwardPolicy^\mu(s\rightarrow s')$. In the product over the edges $e_k=(x_{k-1},x_k)$ of $\tau$ the factors $F(x_1),\dots,F(x_{\ell-1})$ cancel, which is the telescoping identity.
+    \item \emph{$\mathcal L_{\mathrm{TB},g,\widehat\nu}$ is $C^1$ on $(0,+\infty)^E$.} Indeed, each $F(s)$ is a linear form in $\mu$, positive on $(0,+\infty)^E$ since $F>0$ there, so each $\widehat r(e)$ and each $\rho(\tau)$ is a $C^\infty$ function of $\mu$ with values in $(0,+\infty)$; $g$ being $C^1$ there, each $g(\rho(\tau))$ is $C^1$, and $\mathcal L_{\mathrm{TB},g,\widehat\nu}$ is a finite sum of them.
+    \item \emph{The gradient is \eqref{eq:tb_gradient}.} Indeed, let $\delta\in\mathbb R^E$. As $\mu\mapsto\mu K_2$ is linear, the derivative of $\log\widehat r(e)$ along $\delta$ is $\frac{(\delta K_2)(e)}{(\mu K_2)(e)}-\frac{\delta(e)}{\mu(e)}$, and that of $\rho(\tau)$ is $\rho(\tau)$ times the sum of these over the edges of $\tau$. Set $a_k(e):=\sum_{\tau:e_k=e}\widehat\nu(\tau)\,g'(\rho(\tau))\rho(\tau)$, which vanishes where $\widehat\nu_k$ does and equals $\mathbb E_{\tau\sim\widehat\nu}\bigl(g'(\rho)\rho\mid e_k=e\bigr)\widehat\nu_k(e)$ elsewhere, so that $\psi_k=\frac{a_k}{\widehat r\mu}=\frac{a_k}{\mu K_2}$ on $E$. The derivative of $\mathcal L_{\mathrm{TB},g,\widehat\nu}$ along $\delta$ is therefore
+\begin{eqnarray}
+    \sum_{k=1}^\ell\sum_{e\in E}a_k(e)\left[\frac{(\delta K_2)(e)}{(\mu K_2)(e)}-\frac{\delta(e)}{\mu(e)}\right]
+    &=& \sum_{k=1}^\ell \left\langle \psi_k\lambda_2 \,\middle|\, \delta K_2\right\rangle_{\lambda_2} - \left\langle \widehat r\psi_k\lambda_2 \,\middle|\, \delta\right\rangle_{\lambda_2} \nonumber \\
+    &=& \sum_{k=1}^\ell \left\langle \left(\psi_k\lambda_2\right) K_2^{\lambda_2} - \widehat r\psi_k\lambda_2 \,\middle|\, \delta\right\rangle_{\lambda_2},\nonumber
+\end{eqnarray}
+the second equality by Lemma \ref{lem:lift_wellposed} and Lemma \ref{lem:adjoint}\emph{(3)}, applied to $K_2$ and its invariant measure $\lambda_2$; this is \eqref{eq:tb_gradient}.
+    \item \emph{For $\ell=1$ the formula is that of Corollary \ref{cor:db_gradient}.} Indeed, at $\ell=1$, $\rho(\tau)=\widehat r(e_1)$, so $\psi_1=g'(\widehat r)\frac{d\widehat\nu_1}{d\mu}$ and \eqref{eq:tb_gradient} is the display of that corollary for the training distribution $\widehat\nu_1$.
+\end{itemize}
+\end{proof}
+
+\begin{proposition}[TB Hessian]\label{prop:tb_hessian}
+In the setting of Proposition \ref{prop:tb_gradient}, let $g(x) = (\log x)^2$ and let $\widehat\nu$ be the window measure
+\begin{equation*}
+    \widehat\nu(x_0,\dots,x_\ell):=\lambda(x_\ell)\prod_{k=1}^{\ell}\BackwardPolicy(x_k\rightarrow x_{k-1}).
+\end{equation*}
+Write $P$ for the density action $h\mapsto\frac{d((h\lambda_2)K_2)}{d\lambda_2}$ of $K_2$ on $L^2(\lambda_2)$, $Q:=P^\dagger$, $A:=P-I$, $\Pi_2$ for the $\lambda_2$-mean projection, $\widehat\beta_m:=\|K_2^m-\Pi_2\|_{L^2(\lambda_2)}$ as in Lemma \ref{lem:lift_mixing}, $\widehat B' := \sum_{m\geq1}\widehat\beta_m$, and
+\begin{equation*}
+    \Theta_\ell := I + \sum_{m=1}^{\ell-1}\left(1-\tfrac m\ell\right)\left(Q^m + (Q^\dagger)^m\right),\qquad
+    H_{\mathrm{TB}} := \ell\, g''(1)\, A^\dagger\, \Theta_\ell\, A,\qquad H_{\mathrm{DB}}:=g''(1)\,A^\dagger A .
+\end{equation*}
+Then every edge marginal $\widehat\nu_k$ is $\lambda_2$, and for every norm $\|\cdot\|$ on $\mathbb R^E$, as $h\rightarrow0$ in $\mathbb R^E$,
+\begin{equation}
+    \mathcal L_{\mathrm{TB},g,\widehat\nu}\bigl((1+h)\lambda_2\bigr) = \tfrac12\langle h, H_{\mathrm{TB}}h\rangle_{L^2(\lambda_2)} + O\bigl(\|h\|^3\bigr).
+\end{equation}
+The operator $\Theta_\ell$ is self-adjoint and positive semi-definite on $L^2(\lambda_2)$, and $\Theta_\ell\preceq(1+2\widehat B')\,I$ on the mean-zero functions; consequently
+\begin{equation}
+    0\;\preceq\; H_{\mathrm{TB}} \;\preceq\; \ell\,(1 + 2\widehat B')\, H_{\mathrm{DB}},
+\end{equation}
+where $H_{\mathrm{DB}}$ is $H_{\mathrm{TB}}$ at $\ell=1$, at which $\mathcal L_{\mathrm{TB},g,\widehat\nu}$ is the DB loss $\mathcal L_{\mathrm{DB},g,\lambda_2}$ of Proposition \ref{prop:db_lift}. If $\widehat{\Statespace}$ has at least two states, $\widehat B'\geq1$.
+\end{proposition}
+
+\begin{proof}
+All inner products and norms without index are those of $L^2(\lambda_2)$. The measure $\lambda_2$ is a probability, its second marginal being $\lambda$. By Lemma \ref{lem:lift_wellposed} and Lemma \ref{lem:adjoint}\emph{(3)}, $Q$ is the function action of $K_2$ and $P$ that of $K_2^{\lambda_2}$, both Markov kernels; hence $P\mathbf 1=\mathbf 1$, $|Ph|\leq\|h\|_{L^\infty}$, $\|P\|=\|Q\|\leq1$, and $\int Ph\,d\lambda_2=\langle h,Q\mathbf 1\rangle=\int h\,d\lambda_2$.
+\begin{itemize}
+    \item \emph{Every $\widehat\nu_k$ is $\lambda_2$, and under $\widehat\nu$ the edges $e_\ell,e_{\ell-1},\dots,e_1$ form a Markov chain with kernel $K_2$ started from $\lambda_2$.} Indeed, $\widehat\nu$ is the law of $(x_0,\dots,x_\ell)$ when $x_\ell\sim\lambda$ and, for $k=\ell,\dots,1$, $x_{k-1}$ is drawn from $\BackwardPolicy(x_k\rightarrow\cdot)$ given $(x_k,\dots,x_\ell)$. By the invariance of $\lambda$ every $x_k$ has law $\lambda$, so $e_k=(x_{k-1},x_k)$ has law $\BackwardPolicy(x_k\rightarrow x_{k-1})\lambda(x_k)=\lambda_2(e_k)$; and given $(e_k,\dots,e_\ell)$ the edge $e_{k-1}=(x_{k-2},x_{k-1})$ has $x_{k-2}$ drawn from $\BackwardPolicy(x_{k-1}\rightarrow\cdot)$, which is the law $K_2(e_k\rightarrow\cdot)$ of Definition \ref{def:edge_lift}.
+    \item \emph{For every $u\in L^2(\lambda_2)$, $\mathbb E_{\tau\sim\widehat\nu}\bigl(\sum_{k=1}^\ell u(e_k)\bigr)^2=\ell\langle u,\Theta_\ell u\rangle$; hence $\Theta_\ell\succeq0$.} Indeed, the edges forming a stationary $K_2$-chain, $\mathbb E_{\tau\sim\widehat\nu}\bigl(u(e_k)^2\bigr)=\|u\|^2$ and, for $j<k$, $e_j$ is the state at time $k-j$ of the $K_2$-chain started from $e_k\sim\lambda_2$, so $\mathbb E_{\tau\sim\widehat\nu}\bigl(u(e_j)u(e_k)\bigr)=\langle Q^{k-j}u,u\rangle$. The difference $m=k-j\in\{1,\dots,\ell-1\}$ occurs for $\ell-m$ pairs, and $\langle Q^mu,u\rangle=\langle u,Q^mu\rangle=\frac12\langle u,(Q^m+(Q^\dagger)^m)u\rangle$, so
+    \begin{equation}\label{eq:tb_window_variance}
+        \mathbb E_{\tau\sim\widehat\nu}\Bigl(\sum_{k=1}^\ell u(e_k)\Bigr)^2=\ell\|u\|^2+\sum_{m=1}^{\ell-1}(\ell-m)\langle u,(Q^m+(Q^\dagger)^m)u\rangle=\ell\langle u,\Theta_\ell u\rangle .
+    \end{equation}
+    The operator $\Theta_\ell$ is self-adjoint by construction, and the left-hand side is non-negative.
+    \item \emph{$\Theta_\ell\preceq(1+2\widehat B')\,I$ on the mean-zero functions.} Indeed, $\Pi_2$ is self-adjoint and $Q^m-\Pi_2=(P^m-\Pi_2)^\dagger$, so $\|Q^m-\Pi_2\|=\widehat\beta_m$. For $\Pi_2u=0$, $|\langle Q^mu,u\rangle|=|\langle(Q^m-\Pi_2)u,u\rangle|\leq\widehat\beta_m\|u\|^2$, and likewise for $(Q^\dagger)^m$, so
+    \begin{equation}\label{eq:tb_theta_bound}
+        \langle u,\Theta_\ell u\rangle\leq\Bigl(1+2\sum_{m=1}^{\ell-1}\bigl(1-\tfrac m\ell\bigr)\widehat\beta_m\Bigr)\|u\|^2\leq(1+2\widehat B')\|u\|^2\qquad\text{whenever }\Pi_2u=0.
+    \end{equation}
+    \item \emph{The expansion holds.} Indeed, let $\|h\|_{L^\infty}\leq\frac12$ and $\mu:=(1+h)\lambda_2\in(0,+\infty)^E$. By Lemma \ref{lem:adjoint}\emph{(3)}, $\frac{d(\mu K_2)}{d\lambda_2}=P(1+h)=1+Ph$, so $\widehat r=\frac{1+Ph}{1+h}$ and $u:=\log\widehat r=Ah+R$ with $R:=\bigl[\log(1+Ph)-Ph\bigr]-\bigl[\log(1+h)-h\bigr]$; as $|\log(1+t)-t|\leq\sum_{n\geq2}\frac{|t|^n}n\leq\frac{t^2}{2(1-|t|)}\leq t^2$ for $|t|\leq\frac12$, $|R|\leq2\|h\|_{L^\infty}^2$. For $g=(\log x)^2$, $g(\rho(\tau))=\bigl(\sum_ku(e_k)\bigr)^2$, so by \eqref{eq:tb_window_variance}
+\begin{equation*}
+    \mathcal L_{\mathrm{TB},g,\widehat\nu}(\mu)=\ell\langle u,\Theta_\ell u\rangle=\ell\langle Ah,\Theta_\ell Ah\rangle+\ell\langle 2Ah+R,\Theta_\ell R\rangle .
+\end{equation*}
+As $\|\Theta_\ell\|\leq1+2\sum_{m=1}^{\ell-1}(1-\frac m\ell)=\ell$, $\|Ah\|\leq2\|h\|_{L^\infty}$ and $\|R\|\leq2\|h\|^2_{L^\infty}\leq\|h\|_{L^\infty}$, the last term is at most $\ell^2\cdot5\|h\|_{L^\infty}\cdot2\|h\|_{L^\infty}^2=10\ell^2\|h\|^3_{L^\infty}$. Since $g''(1)=2$, $\ell\langle Ah,\Theta_\ell Ah\rangle=\frac12\langle h,H_{\mathrm{TB}}h\rangle$; all norms on $\mathbb R^E$ being equivalent, the remainder is $O(\|h\|^3)$ for each of them.
+    \item \emph{$0\preceq H_{\mathrm{TB}}\preceq\ell(1+2\widehat B')H_{\mathrm{DB}}$, and at $\ell=1$ the operator $H_{\mathrm{TB}}$ is $H_{\mathrm{DB}}$ and the loss is $\mathcal L_{\mathrm{DB},g,\lambda_2}$.} Indeed, $\langle h,H_{\mathrm{TB}}h\rangle=\ell g''(1)\langle Ah,\Theta_\ell Ah\rangle\geq0$ by \eqref{eq:tb_window_variance}; $Ah$ is mean-zero, $P$ preserving $\lambda_2$-integrals, so \eqref{eq:tb_theta_bound} gives $\langle h,H_{\mathrm{TB}}h\rangle\leq\ell(1+2\widehat B')g''(1)\|Ah\|^2=\ell(1+2\widehat B')\langle h,H_{\mathrm{DB}}h\rangle$. At $\ell=1$, $\Theta_1=I$, $\widehat\nu(x_0,x_1)=\lambda(x_1)\BackwardPolicy(x_1\rightarrow x_0)=\lambda_2(x_0,x_1)$ and $\rho(\tau)=\widehat r(e_1)$, so $\mathcal L_{\mathrm{TB},g,\widehat\nu}(\mu)=\int g(\widehat r)\,d\lambda_2$, which is the loss of Proposition \ref{prop:db_lift} for the training distribution $\lambda_2$.
+    \item \emph{If $\widehat{\Statespace}$ has at least two states, $\widehat B'\geq1$.} Indeed, by Lemma \ref{lem:lift_mixing}, $\widehat\beta_1=\beta_0=\|I-\Pi\|_{L^2(\lambda)}$, and $I-\Pi$ is an orthogonal projection, non-zero since the indicator of one state is not $\lambda$-almost everywhere constant, $\lambda$ being positive at every state; so $\widehat B'\geq\widehat\beta_1=1$.
+\end{itemize}
+\end{proof}
+
+\begin{remark}\label{rem:tb_vs_db}
+Proposition \ref{prop:tb_hessian} compares TB and DB under the same frozen backward policy and the stationary window measure. Heuristically, one trajectory performs $\ell$ detailed-balance updates at once; what is proved is one-sided, $0\preceq H_{\mathrm{TB}}\preceq\ell(1+2\widehat B')H_{\mathrm{DB}}$, so a step cap derived from the norm of $H_{\mathrm{DB}}$ remains sufficient for TB once divided by $\ell(1+2\widehat B')$, and no TB rate is claimed. On an eigenfunction of $Q$ with eigenvalue $e^{i\theta}$ the Rayleigh quotient of $\Theta_\ell$ is the Fej\'er kernel $\sum_{|m|<\ell}(1-\frac{|m|}\ell)e^{im\theta}$: it vanishes at $\theta=\pi$ for $\ell$ even, equals $\frac1\ell$ there for $\ell$ odd, and tends to $\ell$ as $\theta\rightarrow0$. On the counter-example graph \eqref{eq:counterexample_graph} with the damping $\BackwardPolicy(j\rightarrow2j)=c/(j+1)$, the condition of \citet{morozov2025revisiting} and summable mixing fail on different sets: backward trajectories have infinite expected length exactly for $1\leq c<2$, whereas the state-space mixing sum $\widehat B$ is $+\infty$ at every $c$ for which the loop-closed chain is positive recurrent (Theorem \ref{theo:doubling_unbounded}). At $c=\frac14$, where $\bar\sigma=\bar\jmath/(1-c)=6$ for a target row of mean $\bar\jmath=\frac92$ (Proposition \ref{prop:doubling_length}), the rate of Theorem \ref{theo:db_stable_frozen_full} on the truncation at an even $K\geq K_0$ satisfies $\varrho_K\leq g''(1)w_{\min}/(c_8^2K)\rightarrow0$, with $c_8$ and $K_0$ the constants of Theorem \ref{theo:doubling_main}\emph{(5)}: in the flow-matching instance at every coercivity constant \eqref{eq:coercivity} of the truncation, $\widehat B_K=\|S\|\geq c_8\sqrt K$ being the smallest of them, and the mixing sum $\sum_n\widehat\beta_n$ of the truncated state chain, when finite, being one of them (Lemma \ref{lem:sigma_mixing}) and at least $\widehat B_K$ (Lemma \ref{lem:doubling_operator}\emph{(3)}); in the detailed-balance instance at the constant $1+\widehat B_K$ that Lemma \ref{lem:lift_coercivity} supplies. Summable $L^2$-mixing, which supplies the coercivity hypothesis \eqref{eq:coercivity} of these rates (Lemma \ref{lem:sigma_mixing}), is exactly the hypothesis of Theorem \ref{theo:universality_L2} at $p=2$: heuristically, \emph{the same ergodicity property of the backward policy provides both the universality of the parameterization and the speed of its training}, and the expected-backward-length condition of \citet{morozov2025revisiting} is the $L^1$ shadow of $\widehat B<\infty$. Proposition \ref{prop:morozov_rate} replaces $\widehat B$ by the hitting-time constant $\widehat B_\sigma$ in Theorems \ref{theo:db_stable_frozen_full} and \ref{theo:local_convergence_full} and in Proposition \ref{prop:no_distant_equilibrium}\emph{(3)}, in their flow-matching instance, and by $1+\widehat B_\sigma$ in the detailed-balance instance of the two theorems.
+\end{remark}
+
+The next two propositions carry the detailed content of Theorem \ref{theo:global_dichotomy}; Remark \ref{rem:freezing} records which generators cannot freeze and Remark \ref{rem:cycle_no_stalemate} works an example.
+
+\begin{proposition}[nonlinear freezing: local stability is sharp]\label{prop:nonlinear_freezing}
+Let $0<a<b<1<c<d$, $U^-:=(a,b)$ and $U^+:=(c,d)$. Let $\chi(t):=e^{-1/t}$ for $t>0$ and $\chi(t):=0$ for $t\leq0$, let $\phi_{p,q}(t):=\chi(p-t)+\chi(t-q)$ for $p<q$, and set
+\begin{equation*}
+    m(t):=\frac{2\,\phi_{a,b}(t)\,\phi_{c,d}(t)}{\phi_{a,b}(1)\,\phi_{c,d}(1)}\quad(t\in\mathbb R),\qquad g(x):=\int_1^x m(t)(t-1)\,dt\quad(x>0).
+\end{equation*}
+Then $m$ is $C^\infty$, $0\leq m\leq C:=\frac8{\phi_{a,b}(1)\phi_{c,d}(1)}$, $m(1)=2$, and $m$ vanishes exactly on $[a,b]\cup[c,d]$; $g$ is a $C^\infty$ admissible generator --- $g(1)=0$, $g>0$ elsewhere, $g''(1)=2$, $|g(x)|\leq C(1+x^2)$ --- with $g'\equiv0$ on $[a,b]\cup[c,d]$; and:
+\begin{enumerate}
+    \item for every $\tilde g:\mathbb R_+^*\rightarrow\mathbb R$ continuously differentiable with locally Lipschitz derivative, positive on $U^-\cup U^+$ and with $\tilde g'\equiv0$ there, $g$ included, and every ergodic $(\widehat{\Statespace},\lambda,T)$, every $\mu$ whose ratio $r=\frac{d(\mu T)}{d\mu}$ takes values in $U^-\cup U^+$ $\lambda$-almost everywhere is a critical point of $\mathcal L_{\tilde g,\nu}$ for \emph{every} training measure $\nu$; on a finite state space the set of such $\mu$ is open, and $\mathcal L_{\tilde g,\nu}$ is locally constant on it, and positive when $\nu\neq0$;
+    \item on the two-state chain $T(i\rightarrow j)=\frac12$, $\lambda=(\frac12,\frac12)$ --- for which $\widehat\beta_n=0$ for all $n\geq1$, $\widehat B=1$, and the rate $\varrho=2w_{\min}$ of Theorem \ref{theo:db_stable_frozen_full} is maximal --- the choice $(a,b,c,d)=(\frac58,\frac78,\frac{11}8,\frac{13}8)$ yields a nonempty open set of flows, on which every ratio deviates from $1$ by at least $\frac18$, where gradient flow and gradient descent (any step, any $\nu$) are stationary;
+    \item let $\varepsilon>0$, let $\tilde g:\mathbb R_+^*\rightarrow\mathbb R$ be continuously differentiable with locally Lipschitz derivative and $|\tilde g'|\leq\varepsilon$ on $U^-\cup U^+$, let $(\widehat{\Statespace},\lambda,T)$ be ergodic with $\lambda$ a probability, let $\nu=w\lambda$ with $w\in L^\infty(\lambda)$ non-negative, and set $C':=2(1+d)\|w\|_{L^\infty(\lambda)}$; then on the set of flows $\mu=(1+h)\lambda$ with $\|h\|_{L^\infty(\lambda)}\leq\frac12$ whose ratio takes values in $U^-\cup U^+$ $\lambda$-almost everywhere, the gradient $\nabla^\lambda\mathcal L_{\tilde g,\nu}$ has norm at most $C'\varepsilon$ in $\mathcal M^2(\lambda)$, so a trajectory of the gradient flow moves a distance $\eta$ in $\mathcal M^2(\lambda)$ in a time at least $\eta/(C'\varepsilon)$ while it remains in that set.
+\end{enumerate}
+In particular, no bound on the time the gradient flow takes to bring the loss below a given positive level, finite and depending only on that level, on $g''(1)$, on the mixing coefficients and on $w$, holds for every admissible generator.
+\end{proposition}
+
+\begin{proof}
+\emph{The properties of $m$ and $g$.} The function $\chi$ is $C^\infty$ on $\mathbb R$, and $0\leq\chi\leq1$, since $-1/t<0$ for $t>0$. Hence $\phi_{p,q}$ is $C^\infty$ with values in $[0,2]$; its two terms being non-negative, $\phi_{p,q}(t)=0$ if and only if $\chi(p-t)=\chi(t-q)=0$, that is $p\leq t\leq q$. As $1\notin[a,b]\cup[c,d]$, $\phi_{a,b}(1)\phi_{c,d}(1)>0$, so $m$ is $C^\infty$ with $0\leq m\leq C$ and $m(1)=2$, and $m(t)=0$ if and only if $\phi_{a,b}(t)=0$ or $\phi_{c,d}(t)=0$, that is $t\in[a,b]\cup[c,d]$. The integrand $t\mapsto m(t)(t-1)$ being $C^\infty$, $g$ is $C^\infty$ on $\mathbb R_+^*$ with $g'(x)=m(x)(x-1)$, which vanishes on $[a,b]\cup[c,d]$; $g(1)=0$ and $g''(1)=m'(1)\cdot0+m(1)=2$. For $x>1$, $g(x)>0$: the integrand is continuous and non-negative on $[1,x]$ and positive on $(1,\min(x,c))$, where $m>0$. For $x<1$, $g(x)=\int_x^1m(t)(1-t)\,dt>0$: the integrand is continuous and non-negative on $[x,1]$ and positive on $(\max(x,b),1)$. Finally $0\leq m\leq C$ gives $|g(x)|\leq C\bigl|\int_1^x|t-1|\,dt\bigr|=\frac C2(x-1)^2\leq C(1+x^2)$.
+
+\emph{(1)} For a direction $\delta$ admissible in Theorem \ref{theo:first_variation_full}, the expansion $r(x,\mu+s\delta)=r(x)+s\bigl[\frac{d(\delta T)}{d\mu}-r\frac{d\delta}{d\mu}\bigr](x)+o(s)$ and dominated convergence give
+\begin{equation*}
+    \frac d{ds}\mathcal L_{\tilde g,\nu}(\mu+s\delta)\Big|_{s=0}=\int \tilde g'(r)\Bigl[\frac{d(\delta T)}{d\mu}-r\frac{d\delta}{d\mu}\Bigr]d\nu=0,
+\end{equation*}
+since $\tilde g'(r)=0$ $\nu$-almost everywhere ($\nu\ll\mu\sim\lambda$): $\mu$ is critical for every $\nu$. On a finite state space, $\mu\mapsto r(\mu)$ is continuous on $\{\mu>0\}$, so band-valued ratios persist under small perturbations and the set is open; $\tilde g'$ vanishing identically on each band makes $\tilde g$ constant on each of the two intervals, so every $\tilde g(r(x))$, hence $\mathcal L_{\tilde g,\nu}$, is locally constant --- and positive when $\nu\neq0$, since $\tilde g>0$ on the bands, so that $\tilde g(r)>0$ $\nu$-almost everywhere.
+
+\emph{(2)} On the two-state chain, the density action is $Ph=\bigl(\int h\,d\lambda\bigr)\mathbf 1=\Pi h$, so $P^n-\Pi=0$ for every $n\geq1$: $\widehat\beta_n=0$, $\widehat B=\widehat\beta_0=1$ and $\varrho=g''(1)w_{\min}=2w_{\min}$. For $\mu^*=(1,\frac12)$: $\mu^*T=(\frac34,\frac34)$, so $r=(\frac34,\frac32)\in U^-\times U^+$ for $U^-=(\frac58,\frac78)$ and $U^+=(\frac{11}8,\frac{13}8)$. By continuity, a whole neighbourhood of $\mu^*$ has band-valued ratios, and \emph{(1)} applies: the gradient of $\mathcal L_{g,\nu}$ vanishes there for every $\nu$, so the gradient flow is constant and gradient descent is fixed for every step. Every ratio in $(\frac58,\frac78)\cup(\frac{11}8,\frac{13}8)$ deviates from $1$ by at least $\frac18$.
+
+\emph{(3)} Let $\mu=(1+h)\lambda$ be in the set. Then $\frac12\leq1+h\leq\frac32$, so $\mu\sim\lambda$ and $\frac{d\nu}{d\mu}=\frac w{1+h}\in L^\infty(\mu)$, and $r$ takes its values in $(a,d)$; by Theorem \ref{theo:first_variation_full} with $\nuG=\lambda$ and Lemma \ref{lem:adjoint}\emph{(3)}, the density of $\nabla^\lambda\mathcal L_{\tilde g,\nu}(\mu)$ against $\lambda$ is $D=P^\dagger\psi-r\psi$ with $\psi:=\tilde g'(r)\frac w{1+h}$. Pointwise $|\psi|\leq2\|w\|_{L^\infty(\lambda)}\varepsilon$, so $\|\psi\|_{L^2(\lambda)}\leq2\|w\|_{L^\infty(\lambda)}\varepsilon$, $\lambda$ being a probability; as $\|P^\dagger\|\leq1$ and $0<r<d$, $\|D\|_{L^2(\lambda)}\leq(1+d)\|\psi\|_{L^2(\lambda)}\leq C'\varepsilon$. Hence $\|\mu_t-\mu_0\|_{\mathcal M^2(\lambda)}\leq C'\varepsilon\,t$ as long as the trajectory remains in the set, and moving a distance $\eta$ within it takes a time at least $\eta/(C'\varepsilon)$.
+
+\emph{The last assertion.} On the instance of \emph{(2)}, where $g''(1)=2$ and $\widehat\beta_n=0$ for $n\geq1$, let $\mu^*:=(1,\frac12)$, whose ratio $(\frac34,\frac32)$ is band-valued, and let $\nu\neq0$; the gradient flow of $\mathcal L_{g,\nu}$ started at $\mu^*$ is constant, so its loss is $\mathcal L_{g,\nu}(\mu^*)>0$ at every time by \emph{(1)}, and it never falls below any level in $\bigl(0,\mathcal L_{g,\nu}(\mu^*)\bigr)$.
+\end{proof}
+
+\begin{remark}\label{rem:freezing}
+\emph{(i)} Convexity excludes the mechanism: if $g$ is convex, $g'$ is nondecreasing, and $g'\equiv0$ on $[\alpha,\beta]\subset(0,1)$ would make $g$ nondecreasing on $[\beta,1]$, contradicting $g(\beta)>0=g(1)$ (symmetrically above $1$). Moreover, a convex differentiable $g$ has $g'\leq0$ on $(0,1)$, so $|g'(x_0)|\leq\varepsilon$ at a single $x_0<1$ forces $|g'|\leq\varepsilon$ on $[x_0,1]$, hence $g\leq\varepsilon(1-x_0)$ there. Real-analytic generators exclude exact freezing too, by the identity theorem: $g'\equiv0$ on an interval would make $g$ constant on $(0,+\infty)$. Heuristically, the obstruction lives between $C^\infty$ and analytic, and outside convexity. The generators admitted by \citet{brunswic2024theory} are not required to be convex, and $(\log x)^2$ is not convex, $g''(x)=2(1-\log x)/x^2$ being negative for $x>e$; it saturates one-sidedly only ($g'\rightarrow0$ at $+\infty$ but $|g'|\rightarrow\infty$ at $0^+$), and it is strictly unimodal, so it has no spurious critical point (Proposition \ref{prop:no_distant_equilibrium}\emph{(1)}). \emph{(ii)} For $\delta\in(0,\frac14)$, take $(a,b,c,d)=(1-2\delta,1-\delta,1+\delta,1+2\delta)$ in Proposition \ref{prop:nonlinear_freezing}. On the two-state chain of its item \emph{(2)}, every flow $\mu=(1,1-\eta)$ with $2\delta<\eta<\frac{4\delta}{1+4\delta}$ has ratios $r=\bigl(1-\frac\eta2,\frac{1-\eta/2}{1-\eta}\bigr)\in U^-\times U^+$, so it is frozen by item \emph{(1)}, at distance $O(\delta)$ from the balanced ray; at $\delta=\frac1{10}$, $\eta=\frac14$ gives $r=(0.875,1.1667)$. Every admissible generator $C^3$ on $[1,1+\delta]$ with $g''(1)=2$ and $g'\equiv0$ on $[1+\delta,1+2\delta]$ has $g'(1)=g'(1+\delta)=0$, so $\int_1^{1+\delta}g''=0$ with $g''(1)=2$; as $g''(x)\geq2-(x-1)\sup_{[1,1+\delta]}|g'''|$ on $[1,1+\delta]$, integrating gives $0\geq2\delta-\frac{\delta^2}2\sup_{[1,1+\delta]}|g'''|$, whence $\sup_{[1,1+\delta]}|g'''|\geq4/\delta$; and since the frozen flows above do not converge, the radius $\varepsilon_0$ of Theorem \ref{theo:local_convergence_full} must depend on $g$ beyond $g''(1)$. \emph{(iii)} The freezing configurations are invisible to the linearization at balance. With $\phi_{p,q}$ as in Proposition \ref{prop:nonlinear_freezing} and $0<\theta<\min(1-b,c-1)$, the functions $\zeta:=\phi_{a,b}\phi_{c,d}$ and $\xi:=\phi_{1-\theta,1+\theta}$ are $C^\infty$ and non-negative, with the disjoint zero sets $[a,b]\cup[c,d]$ and $[1-\theta,1+\theta]$, so $m:=2\zeta/(\zeta+\xi)$ is $C^\infty$ with values in $[0,2]$, equals $2$ on $[1-\theta,1+\theta]$ and vanishes exactly on $[a,b]\cup[c,d]$. The generator $g(x):=\int_1^xm(t)(t-1)\,dt$ is then admissible, with $g''(1)=2$ and $g'\equiv0$ on the bands, so item \emph{(1)} of that proposition applies to it, and it equals $(x-1)^2$ on $[1-\theta,1+\theta]$ --- which the generator constructed in the proposition does on no neighbourhood of $1$. \emph{(iv)} For every admissible differentiable strictly unimodal generator, every critical point of $\mathcal L_{g,\nu}$ is balanced when $\nu$ has positive density (Proposition \ref{prop:no_distant_equilibrium}\emph{(1)}); global convergence is proved, on finite state spaces, for $(\log x)^2$ and $(x-1)^2$ only (Proposition \ref{prop:no_distant_equilibrium}\emph{(3)}), a bounded strictly unimodal generator not being covered; infinite state spaces are not addressed.
+\end{remark}
+
+\begin{proposition}[strictly unimodal generators admit no distant equilibrium]\label{prop:no_distant_equilibrium}
+Let $g$ be admissible and differentiable with $\mathrm{sign}\,g'(x)=\mathrm{sign}(x-1)$ for $x\neq1$ (\emph{strictly unimodal}; e.g. $(\log x)^2$ and $(x-1)^2$), let $(\widehat{\Statespace},\lambda,T)$ be ergodic, and write $u:=\frac{d\mu}{d\lambda}$ and $r:=\frac{d(\mu T)}{d\mu}$.
+\begin{enumerate}
+    \item \emph{Mass identity.} For any $\nu$ with $\frac{d\nu}{d\mu}>0$ $\mu$-a.e., the total mass of $\nabla^{\lambda}\mathcal L_{g,\nu}(\mu)$ is $\int g'(r)(1-r)\frac{d\nu}{d\mu}d\lambda\leq0$, with equality if and only if $\mu$ is balanced. Every critical point of $\mathcal L_{g,\nu}$ is therefore balanced: combined with Proposition \ref{prop:nonlinear_freezing}, spurious equilibria can arise when $g'$ vanishes on bands on either side of $1$, and strict unimodality excludes them.
+    \item \emph{The inflation is the algorithm.} For fixed $\nu=w\lambda$ the loss is scale-invariant, so the gradient flow preserves $\|u_t\|_{L^2(\lambda)}$, while by \emph{(1)} the total mass $\mu_t(\widehat{\Statespace})$ strictly increases off balance: training is a monotone ascent of the mass on a sphere of $\mathcal M^2(\lambda)$, whose unique maximizer (Cauchy--Schwarz) is the balanced flow. The circulation-inflating force is the mass component of the gradient, and it is extinguished exactly at flow-matching: no stalemate with the frozen-policy constraint can occur.
+    \item \emph{Global convergence, quantitatively.} Let $\widehat{\Statespace}$ be finite, let $\lambda$ be a probability with $\lambda_{\min}:=\min_{x}\lambda(x)>0$, let $g=(\log x)^2$ or $g=(x-1)^2$, and let $\nu=w\lambda$ with $w\geq w_{\min}>0$. Then $|g'(x)(1-x)|\geq\frac{\delta^2}2$ whenever $\delta\in(0,\frac12]$ and $|x-1|\geq\delta$, whence, for every $\delta\in(0,\frac12]$ and every $\mu\sim\lambda$,
+    \begin{equation*}
+        \bigl\|\nabla^{\lambda}\mathcal L_{g,\nu}(\mu)\bigr\|_{\mathcal M^2(\lambda)}\;\geq\;\frac{w_{\min}\lambda_{\min}^{1/2}}{\|u\|_{L^2(\lambda)}}\,\frac{\delta^2}2\;\lambda\bigl(|r-1|\geq\delta\bigr);
+    \end{equation*}
+    the gradient flow $\dot\mu_t=-\nabla^{\lambda}\mathcal L_{g,\nu}(\mu_t)$ from any $\mu_0\sim\lambda$, with $u_0:=\frac{d\mu_0}{d\lambda}$, has a unique solution $(\mu_t)_{t\geq0}$ with $\mu_t\sim\lambda$, which converges to the balanced flow of the sphere $\{\|u\|_{L^2(\lambda)}=\|u_0\|_{L^2(\lambda)}\}$, and whose ratios approach $1$ in explicit time: for every $\delta\in(0,\frac12]$ some $t\leq\mathcal L_{g,\nu}(\mu_0)/c(\delta)^2$, with $c(\delta):=w_{\min}\lambda_{\min}^{3/2}\delta^2/(2\|u_0\|_{L^2(\lambda)})$, has $|r_t-1|<\delta$ at every state, $r_t$ being the ratio of $\mu_t$. If moreover $\widehat B\geq1$ satisfies \eqref{eq:coercivity}, $\varepsilon_0\in(0,\frac12]$, $m_0:=\mu_0(\widehat{\Statespace})$ and $\delta=\delta_0:=\varepsilon_0m_0/(\widehat B\|u_0\|_{L^2(\lambda)})$, then at that time $\mu_t=m_t(1+h)\lambda$ with $m_t:=\mu_t(\widehat{\Statespace})$, $\Pi h=0$ and $\|h\|_{L^2(\lambda)}\leq\varepsilon_0$. Along the flow, $\|u_t\|_{L^2(\lambda)}=\|u_0\|_{L^2(\lambda)}$ and $\mu_t(\widehat{\Statespace})$ is non-decreasing.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\emph{(1)} The gradient density is $D=P^\dagger\varphi-r\varphi$ with $\varphi:=g'(r)\frac{d\nu}{d\mu}$. Since $P\mathbf1=\mathbf1$ ($\lambda$ is $T$-invariant), $\int P^\dagger\varphi\,d\lambda=\langle\varphi,P\mathbf1\rangle=\int\varphi\,d\lambda$, so
+\begin{equation*}
+    \int D\,d\lambda=\int\varphi(1-r)\,d\lambda=\int g'(r)(1-r)\tfrac{d\nu}{d\mu}\,d\lambda .
+\end{equation*}
+Strict unimodality makes $g'(r)(1-r)<0$ wherever $r\neq1$, so the integrand is nonpositive and the integral vanishes if and only if $r=1$ holds $\frac{d\nu}{d\mu}\lambda$-a.e., i.e.\ $\mu$-a.e., i.e.\ $\mu T=\mu$. At a critical point $D=0$, so the mass vanishes and $\mu$ is balanced.
+
+\emph{(2)} For fixed $\nu$, $r(c\mu)=r(\mu)$ gives $\mathcal L_{g,\nu}(c\mu)=\mathcal L_{g,\nu}(\mu)$, whence $0=\frac{d}{dc}\mathcal L(c\mu)|_{c=1}=\langle\nabla\mathcal L,\mu\rangle_{\mathcal M^2(\lambda)}=\int Du\,d\lambda$: the gradient is orthogonal to the radial direction, so $\frac d{dt}\|u_t\|^2_{L^2(\lambda)}=-2\int Du\,d\lambda=0$. Meanwhile $\frac d{dt}\mu_t(\widehat{\Statespace})=-\int D\,d\lambda>0$ off balance by \emph{(1)}. On the sphere $\|u\|=\|u_0\|$, Cauchy--Schwarz gives $\int u\,d\lambda\leq\|u\|_{L^2(\lambda)}$ with equality if and only if $u$ is constant, i.e.\ $\mu$ is balanced: the mass is a strict Lyapunov function whose unique maximizer on the sphere is the balanced flow.
+
+\emph{(3)} For $g=(\log x)^2$, $|g'(x)(1-x)|=2|\log x|\frac{|x-1|}x$. For $x\leq1-\delta$: $|\log x|\geq\delta$ and $\frac{1-x}x\geq\delta$, so the product is $\geq2\delta^2$. For $x\geq1+\delta$: $\log x\geq\frac\delta{1+\delta}$ and $\frac{x-1}x\geq\frac\delta{1+\delta}$, so the product is $\geq\frac{2\delta^2}{(1+\delta)^2}\geq\frac{\delta^2}2$ for $\delta\leq\frac12$. For $g=(x-1)^2$, $|g'(x)(1-x)|=2(x-1)^2\geq2\delta^2\geq\frac{\delta^2}2$ whenever $|x-1|\geq\delta$. For $\mu\sim\lambda$, $u(x)^2\lambda(x)\leq\|u\|^2$ gives $u\leq\|u\|\lambda_{\min}^{-1/2}$ pointwise, so $\frac{d\nu}{d\mu}=\frac wu\geq w_{\min}\lambda_{\min}^{1/2}/\|u\|$, and since $\lambda$ is a probability measure, the Cauchy--Schwarz inequality and \emph{(1)} give
+\begin{equation}\label{eq:unimodal_gradient_lower}
+    \|D\|_{L^2(\lambda)}\;\geq\;\Bigl|\int D\,d\lambda\Bigr|\;\geq\;\frac{w_{\min}\lambda_{\min}^{1/2}}{\|u\|}\,\frac{\delta^2}2\,\lambda\bigl(|r-1|\geq\delta\bigr).
+\end{equation}
+Existence: write $\mathcal U:=\{u\in\mathbb R^{\widehat{\Statespace}}:u>0\}$, identify a flow $\mu\sim\lambda$ with its density $u\in\mathcal U$, and set $\mathcal L(u):=\mathcal L_{g,\nu}(u\lambda)$, $\mathcal L_0:=\mathcal L(u_0)$, $m_0:=\Pi u_0=\mu_0(\widehat{\Statespace})>0$ and $p_{\min}:=\min\{T(y\rightarrow z):T(y\rightarrow z)>0\}$. The chain $T$ is irreducible: if the set $C$ of states accessible from some state were a proper subset of $\widehat{\Statespace}$, then $T(x\rightarrow C)=1$ for $x\in C$, so $\lambda(C)=\sum_x\lambda(x)T(x\rightarrow C)$ would give $T(x\rightarrow C)=0$ for every $x\notin C$, $\lambda$ being positive, and $\mathbf 1_C\lambda$ would be a $T$-invariant measure that is not a multiple of $\lambda$ --- at $z\in C$, $(\mathbf 1_C\lambda)T(z)=(\lambda T)(z)=\lambda(z)$, no state outside $C$ leading into $C$, and at $z\notin C$ it vanishes, $C$ being closed under accessibility --- against ergodicity. For $u\in\mathcal U$ and $z\in\widehat{\Statespace}$, $(Pu)(z)=\sum_y\lambda(y)u(y)T(y\rightarrow z)/\lambda(z)>0$, since $\lambda(z)=\sum_y\lambda(y)T(y\rightarrow z)>0$ provides a $y$ with $T(y\rightarrow z)>0$; hence $r(u)=Pu/u$ takes its values in $(0,+\infty)$, and $r(u)$, $\mathcal L(u)$ and the gradient density $D(u)=P^\dagger\varphi-r\varphi$, $\varphi=g'(r)\frac wu$, are $C^\infty$ functions of $u\in\mathcal U$. By the Cauchy--Lipschitz theorem the equation $\dot u=-D(u)$, which is the gradient flow in densities, has a unique maximal solution $(u_t)_{t\in[0,t_{\max})}$ in $\mathcal U$. Along it:
+\begin{itemize}
+    \item \emph{$\|u_t\|=\|u_0\|$.} Indeed, $\langle D(u),u\rangle=\langle\varphi,Pu\rangle-\langle\varphi,r(u)u\rangle=0$ since $r(u)u=Pu$, so $\frac d{dt}\|u_t\|^2=-2\langle D(u_t),u_t\rangle=0$.
+    \item \emph{$\mathcal L(u_t)\leq\mathcal L_0$ and $\Pi u_t\geq m_0$.} Indeed, $D(u)$ being the density of the gradient of $\mathcal L$ (Theorem \ref{theo:first_variation_full} with $\nuG=\lambda$), $\frac d{dt}\mathcal L(u_t)=-\|D(u_t)\|^2\leq0$; and $\frac d{dt}\Pi u_t=-\int D(u_t)\,d\lambda\geq0$ by \emph{(1)}.
+    \item \emph{$r(u_t)\leq R_{\max}$}, where $R_{\max}:=e^{M}$ with $M:=\max\bigl(1,\sqrt{\mathcal L_0/(w_{\min}\lambda_{\min})}\bigr)$ for $g=(\log x)^2$, and $R_{\max}:=1+\sqrt{\mathcal L_0/(w_{\min}\lambda_{\min})}$ for $g=(x-1)^2$. Indeed, $\mathcal L(u_t)=\sum_x w(x)\lambda(x)g(r(u_t)(x))$ is a sum of non-negative terms, so $g(r(u_t)(x))\leq\mathcal L_0/(w_{\min}\lambda_{\min})$ at every $x$ since $\mathcal L(u_t)\leq\mathcal L_0$; for $(\log x)^2$ this gives $\log r(u_t)(x)\leq M$, and for $(x-1)^2$ it gives $r(u_t)(x)-1\leq\sqrt{\mathcal L_0/(w_{\min}\lambda_{\min})}$.
+    \item \emph{$u_t\geq u_{\min}:=m_0\bigl(\lambda_{\min}p_{\min}/R_{\max}\bigr)^{\#\widehat{\Statespace}-1}$ at every state.} Indeed, if $T(y\rightarrow z)>0$, then $R_{\max}u_t(z)\geq r(u_t)(z)u_t(z)=(Pu_t)(z)\geq\lambda(y)u_t(y)T(y\rightarrow z)/\lambda(z)\geq\lambda_{\min}p_{\min}u_t(y)$, $\lambda(z)$ being at most $1$. Some state $y_0$ has $u_t(y_0)\geq\Pi u_t\geq m_0$, $\lambda$ being a probability; by irreducibility every state is reached from $y_0$ along at most $\#\widehat{\Statespace}-1$ transitions of positive probability; and $\lambda_{\min}p_{\min}/R_{\max}\leq1$.
+\end{itemize}
+Hence the solution never leaves $\mathcal K:=\{u\in\mathbb R^{\widehat{\Statespace}}:\|u\|=\|u_0\|,\ u\geq u_{\min}\}$, a compact subset of $\mathcal U$; a maximal solution of a locally Lipschitz equation that remains in a compact subset of its open domain is defined for all times, so $t_{\max}=+\infty$. Convergence: by LaSalle's principle, the trajectory staying in $\mathcal K$, its $\omega$-limit is contained in $\{\frac d{dt}\mathrm{mass}=0\}$, which by \emph{(1)} and \emph{(2)} is the single balanced point of the sphere: the flow converges to it. Quantitatively, let $\delta\in(0,\frac12]$. At a time $t$ with $\max|r_t-1|\geq\delta$ one has $\lambda(|r_t-1|\geq\delta)\geq\lambda_{\min}$, so \eqref{eq:unimodal_gradient_lower} with $\|u_t\|=\|u_0\|$ gives $\frac{d}{dt}\mathcal L(u_t)=-\|D(u_t)\|^2\leq-c(\delta)^2$. If $\max|r_t-1|\geq\delta$ held at every $t\leq t^*:=\mathcal L_0/c(\delta)^2$, then $\mathcal L(u_{t^*})\leq0$, hence $\mathcal L(u_{t^*})=0$ and $r_{t^*}\equiv1$, $w\lambda$ being positive at every state and $g$ vanishing only at $1$, a contradiction; so some $t\leq t^*$ has $|r_t-1|<\delta$ at every state. Let now $\widehat B$, $\varepsilon_0$ and $\delta_0$ be as in the statement. Then $m_0=\Pi u_0\leq\|u_0\|$ by the Cauchy--Schwarz inequality, $\lambda$ being a probability, so $\delta_0\leq\varepsilon_0\leq\frac12$; let $t$ have $|r_t-1|<\delta_0$ at every state and write $u:=u_t$. As $(P-I)u=(r_t-1)u$, $\|(I-P)u\|\leq\delta_0\|u\|=\delta_0\|u_0\|$, and \eqref{eq:coercivity} gives $\|u-\Pi u\|\leq\widehat B\delta_0\|u_0\|=\varepsilon_0m_0$. The mass $m_t=\Pi u_t$ satisfies $m_t\geq m_0>0$, so $h:=u/m_t-1$ satisfies $\mu_t=m_t(1+h)\lambda$, $\Pi h=0$ and $\|h\|=\|u-\Pi u\|/m_t\leq\varepsilon_0$. Finally, $\|u_t\|=\|u_0\|$ holds along the solution, and $\frac d{dt}\mu_t(\widehat{\Statespace})=\frac d{dt}\Pi u_t=-\int D(u_t)\,d\lambda\geq0$ by \emph{(1)}.
+\end{proof}
+
+\begin{remark}[a five-vertex cycle: no stalemate between constraint and inflation]\label{rem:cycle_no_stalemate}
+Take the marked graph with vertices $\{s_0,x_1,x_2,x_3,s_f\}$, edges $s_0\rightarrow x_1$, the cycle $x_1\rightarrow x_2\rightarrow x_3\rightarrow x_1$, and $x_3\rightarrow s_f$, loop-closed as in Definition \ref{def:loop_closure}; freeze the backward policy $\BackwardPolicy(x_1\rightarrow x_3)=p$, $\BackwardPolicy(x_1\rightarrow s_0)=1-p$ with $p\in(0,1)$, all other rows being deterministic --- at $p=1$ the edge $s_0\rightarrow x_1$ carries no backward probability, at $p=0$ the edge $x_3\rightarrow x_1$ carries none, and in either case the mixing sum $\sum_n\widehat\beta_n$ is $+\infty$. The expected backward-trajectory length is $\frac3{1-p}<\infty$: the condition of \citet{morozov2025revisiting} holds; by their Proposition 3.12 the flow induced by the frozen backward policy has total flow through the internal states $F(s_f)\cdot\frac3{1-p}$, $F(s_f)$ its flow into the sink, so the balanced flow carries no exploding circulation. The invariant measure gives equal mass $q$ to the three cycle states and $(1-p)q$ to $s_0$ and $s_f$. Over-inflate the cycle: $u:=\frac{d\mu}{d\lambda}$ equals $M>1$ on $\{x_1,x_2,x_3\}$ and $1$ elsewhere. The ratios are then $r(x_1)=r(x_2)=r(s_f)=1$, $r(x_3)=p+\frac{1-p}M$ and $r(s_0)=M$; as $M\rightarrow\infty$, $r(x_3)\rightarrow p$, and heuristically the frozen-policy constraint appears as a persistent leak ratio $p$ at the junction $x_3$. For $g=(\log x)^2$ the inflation force $|g'(r)r|=2|\log r|$ equals $2\log M$ at the starved source $s_0$, is largest there over the states for every $M>1$, and increases with $M$. The configuration is not a critical point of $\mathcal L_{g,\nu}$ for any $\nu$ of positive density (Proposition \ref{prop:no_distant_equilibrium}\emph{(1)}, $r(x_3)$ being different from $1$). At fixed $\nu$ the gradient field is homogeneous of degree $-1$, so, for a flow $\mu_0\sim\lambda$ with gradient flow $(\mu_t)_{t\geq0}$ and for $\alpha>0$, the gradient flow from $\alpha\mu_0$, which exists by Proposition \ref{prop:no_distant_equilibrium}\emph{(3)}, is $t\mapsto\alpha\,\mu_{t/\alpha^2}$: a trajectory started at norm $\Theta(M)$ runs $\Theta(M^2)$ times slower than the normalized one. Numerically, the transient is of order $M^2$ --- its duration $t_M$, the first time every ratio lies within $\frac1{10}$ of $1$, has $t_M/M^2\approx0.720$ for $M=10,\dots,320$ at $p=\frac12$ and $w\equiv1$ --- after which the exponential phase of Theorem \ref{theo:local_convergence} takes over. As $p\rightarrow1$, the expected backward-trajectory length, the mixing sum $\sum_n\widehat\beta_n$ --- with $P$ the density action of the loop-closed backward chain on $L^2(\lambda)$ and $\Pi$ its $\lambda$-mean projection, the test density $v=\mathbf 1_{x_1}-\mathbf 1_{x_2}$ has $\Pi v=0$ and, for $p<1$, $\|P^3v-v\|_{L^2(\lambda)}^2\leq2(1-p)\|v\|_{L^2(\lambda)}^2$, so, $P$ being an $L^2(\lambda)$-contraction and $P^{3k}v-v=\sum_{j<k}P^{3j}(P^3v-v)$, $\widehat\beta_{3k}\geq\|P^{3k}v\|_{L^2(\lambda)}/\|v\|_{L^2(\lambda)}\geq1-k\sqrt{2(1-p)}\geq\frac12$ for $0\leq k\leq K_p:=\lfloor(8(1-p))^{-1/2}\rfloor$, whence $\sum_{n\geq0}\widehat\beta_n\geq\frac12K_p$ --- and the constant $\widehat B_\sigma$ of Proposition \ref{prop:morozov_rate} tend to $+\infty$, while the rate $\varrho$ of Theorem \ref{theo:db_stable_frozen_full} read at the mixing sum $\widehat B=\sum_n\widehat\beta_n$, the rate $\varrho_\sigma$ of Proposition \ref{prop:morozov_rate} and the constant of Corollary \ref{cor:global_lojasiewicz} tend to $0$; numerically, the smallest constant satisfying \eqref{eq:coercivity} stays below $1.62$.
+\end{remark}
+
+\begin{theorem}[full form of Theorem \ref{theo:global_dichotomy}]\label{theo:global_dichotomy_full}
+Let $(\widehat{\Statespace},\lambda,T)$ be ergodic and write $r=\frac{d(\mu T)}{d\mu}$.
+\begin{enumerate}
+    \item If $g$ is \emph{strictly unimodal} --- $\mathrm{sign}\,g'(x)=\mathrm{sign}(x-1)$ for $x\neq1$, as for $(\log x)^2$ and $(x-1)^2$ --- then the total mass of $\nabla^{\lambda}\mathcal L_{g,\nu}$ equals $\int g'(r)(1-r)\frac{d\nu}{d\mu}d\lambda\leq0$, with equality only at balance: \emph{every critical point of $\mathcal L_{g,\nu}$ is balanced}, for every training measure with positive density, on every graph, cycles included. On a finite state space with $\nu=w\lambda$, $w\geq w_{\min}>0$, and for $g=(\log x)^2$ or $g=(x-1)^2$, the gradient flow converges to a balanced flow from \emph{every} initialization $\mu_0\sim\lambda$ (an explicit off-balance gradient lower bound).
+    \item If instead $g'$ vanishes on bands on either side of $1$, then every flow with band-valued ratios is a critical point of $\mathcal L_{g,\nu}$ for \emph{every} $\nu$; admissible $C^\infty$ generators of this kind with $g''(1)=2$ exist --- the generator constructed in Proposition \ref{prop:nonlinear_freezing} is one --- and some of them freeze, already on the two-state chain with maximal mixing, an open set of flows whose every ratio deviates from $1$ by at least $\frac18$: global convergence fails for those (Proposition \ref{prop:nonlinear_freezing}\emph{(2)}).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Item \emph{1} is Proposition \ref{prop:no_distant_equilibrium}, items \emph{(1)} and \emph{(3)}; item \emph{2} is Proposition \ref{prop:nonlinear_freezing}, items \emph{(1)} and \emph{(2)}.
+\end{proof}
+
+Heuristically, a bounded strictly unimodal generator can stall toward $r=\infty$; item \emph{1} of Theorem \ref{theo:global_dichotomy_full} does not cover it.
+
+The constant $\widehat B$ of Lemma \ref{lem:sigma_mixing} is an operator quantity; on graphs, \citet{morozov2025revisiting} control training through a probabilistic one, the expected time spent in the graph by backward trajectories. The next proposition rewrites every flow-matching and detailed-balance rate of the main text in those variables, and is the engine of Theorem \ref{theo:training_speed}. The route is the Poisson equation at the regeneration state $s_0$: it supplies the coercivity of Lemma \ref{lem:sigma_mixing} directly from hitting times, and --- unlike the mixing route --- needs no aperiodicity.
+
+\begin{proposition}[the training rate in the variables of Morozov et al.]\label{prop:morozov_rate}
+Let $(\widehat G,\widehat\BackwardPolicy)$ be the loop closure (Definition \ref{def:loop_closure}) of a finite path-connected marked graph with a backward policy positive on its edges, $\lambda$ its invariant probability and $P$ the density action of the backward chain. For $x\in\mathcal V$ let $\sigma(x)$ be the hitting time of $s_0$ by the backward chain started at $x$ --- \emph{the time spent in the graph by the backward trajectory of $x$} --- and set
+\begin{equation*}
+    \sigma_*:=\max_{x}\mathbb E(\sigma\mid X_0=x),\qquad
+    \bar\sigma:=\mathbb E_{x\sim\widehat\BackwardPolicy(s_f\rightarrow\cdot)}\,\mathbb E(\sigma\mid X_0=x),
+\end{equation*}
+$\bar\sigma$ being the expected backward-trajectory length of \citet{morozov2025revisiting}, and let $N(x)$ be the expected number of visits to $x$ of one backward trajectory drawn from the target row $\widehat\BackwardPolicy(s_f\rightarrow\cdot)$, counted from $s_f$ and stopped on reaching $s_0$ --- which it cannot leave, and which is the only state from which the backward chain enters $s_f$, the wrap being the only edge out of $s_f$ in $\widehat G$ --- so that $N(s_0)=N(s_f)=1$. Then:
+\begin{enumerate}
+    \item $\displaystyle\lambda(x)=\frac{N(x)}{2+\bar\sigma}$ for every $x\in\mathcal V$; in particular $\lambda(s_0)=\lambda(s_f)=\frac1{2+\bar\sigma}$;
+    \item for every $h\in L^2(\lambda)$,
+    \begin{equation*}
+        \|h-\Pi h\|_{L^2(\lambda)}\;\leq\;\widehat B_\sigma\,\|(I-P)h\|_{L^2(\lambda)},
+    \end{equation*}
+    \begin{equation*}
+        \widehat B_\sigma:=\sigma_*\sqrt{\frac{2+\bar\sigma}{\min_{x}N(x)}}\;;
+    \end{equation*}
+    \item $\widehat B_\sigma\geq1$; hence, for the flow-matching loss on $\widehat G$, $\widehat B:=\widehat B_\sigma$ meets the hypothesis of Theorems \ref{theo:db_stable_frozen_full} and \ref{theo:local_convergence_full} and of Proposition \ref{prop:no_distant_equilibrium}\emph{(3)} --- a constant $\widehat B\geq1$ satisfying \eqref{eq:coercivity} for the backward chain --- and the rate $\varrho$ of those theorems is then
+    \begin{equation*}
+        \varrho_\sigma\;=\;\frac{g''(1)\,w_{\min}\,\min_x N(x)}{\sigma_*^2\,\bigl(2+\bar\sigma\bigr)}.
+    \end{equation*}
+    For the detailed-balance loss, $\widehat B:=1+\widehat B_\sigma$ meets the hypothesis of the same two theorems for $T=K_2$, the edge lift of $\widehat\BackwardPolicy$ (Definition \ref{def:edge_lift}), with $\lambda_2$ in place of $\lambda$, and their rate is then $g''(1)w_{\min}/(1+\widehat B_\sigma)^2$; the radius and the step of Theorem \ref{theo:local_convergence_full} still depend on $\min_E\lambda_2$, through $C_\infty$.
+\end{enumerate}
+The constant $\widehat B_\sigma$ is finite without any aperiodicity assumption: on a leveled graph, where every trajectory has the same length $t_m$ (the autoregressive case), the loop-closed chain is periodic and the mixing sum $\sum_{n\geq0}\|P^n-\Pi\|_{L^2(\lambda)}$ is $+\infty$, while $\widehat B_\sigma\leq (t_m+1)\sqrt{(2+t_m)/\min_xN(x)}$.
+\end{proposition}
+
+\begin{proof}
+\emph{(1)} The state $s_0$ is a regeneration state: an excursion of the backward chain from $s_0$ visits $s_0$, then $s_f$, then a sample $x$ of the target row, then runs the backward trajectory of $x$ until it hits $s_0$; its length is $\tau^{\mathrm{ret}}=2+\sigma(x)$, so $\mathbb E(\tau^{\mathrm{ret}}\mid X_0=s_0)=2+\bar\sigma$, and its expected number of visits to a state $y$ is $N(y)$. The occupation identity for positive recurrent irreducible chains \cite{levin2017markov} gives $\lambda(y)=\mathbb E(\#\{0\leq n<\tau^{\mathrm{ret}}:X_n=y\}\mid X_0=s_0)/\mathbb E(\tau^{\mathrm{ret}}\mid X_0=s_0)=N(y)/(2+\bar\sigma)$.
+
+\emph{(2)} Let $Q$ be the function action of the backward chain, the $L^2(\lambda)$-adjoint of $P$. Fix $h$ and set $f:=(I-Q)h$; then $\int f\,d\lambda=0$ by invariance. Define $u(s_0):=0$ and, for $x\neq s_0$,
+\begin{equation*}
+    u(x):=\mathbb E\Bigl(\sum_{n=0}^{\sigma(x)-1}f(X_n)\,\Bigm|\,X_0=x\Bigr).
+\end{equation*}
+For $x\neq s_0$, conditioning on the first step gives $u(x)=f(x)+\mathbb E(u(X_1)\mid X_0=x)$, i.e.\ $(I-Q)u=f$ at $x$; at $s_0$, the occupation identity of \emph{(1)} applied to $f$ yields $\mathbb E\bigl(\sum_{n=0}^{\tau^{\mathrm{ret}}-1}f(X_n)\bigm| X_0=s_0\bigr)=(2+\bar\sigma)\int f\,d\lambda=0$, whence $\mathbb E(u(X_1)\mid X_0=s_0)=-f(s_0)$ and $(I-Q)u=f$ at $s_0$ as well. Since the chain is irreducible on a finite space, $h-u$ is $Q$-harmonic, hence constant, so $h-\Pi h=u-\Pi u$ and
+\begin{eqnarray*}
+    \|h-\Pi h\|_{L^2(\lambda)}&\leq&\|u\|_{L^2(\lambda)}\leq\|u\|_{L^\infty}\\
+    &\leq&\sigma_*\|f\|_{L^\infty}\leq\frac{\sigma_*}{\sqrt{\lambda_{\min}}}\,\|f\|_{L^2(\lambda)},
+\end{eqnarray*}
+and $\lambda_{\min}=\min_xN(x)/(2+\bar\sigma)$ by \emph{(1)}. This proves the coercivity bound for $I-Q$; both $I-P$ and $I-Q$ preserve the mean-zero subspace and are adjoint to each other on it, so their restricted inverses have the same norm, and the bound holds for $I-P$.
+
+\emph{(3)} By \emph{(1)}, $\widehat B_\sigma=\sigma_*\lambda_{\min}^{-1/2}$; $\lambda_{\min}\leq1$, $\lambda$ being a probability, and $\sigma_*\geq\mathbb E(\sigma\mid X_0=s_f)\geq1$, $s_f$ being distinct from $s_0$; hence $\widehat B_\sigma\geq1$. By \emph{(2)}, $\widehat B_\sigma$ satisfies \eqref{eq:coercivity} for the backward chain, and $g''(1)w_{\min}/\widehat B_\sigma^{\,2}=\varrho_\sigma$ by the definition of $\widehat B_\sigma$. For the detailed-balance loss, Lemma \ref{lem:lift_coercivity} with $C:=\widehat B_\sigma$, whose hypothesis for $\widehat\BackwardPolicy$ is \emph{(2)}, shows that $1+\widehat B_\sigma$, which is at least $1$, satisfies \eqref{eq:coercivity} for $K_2$ on $L^2(\lambda_2)$, and $g''(1)w_{\min}/(1+\widehat B_\sigma)^2$ is the corresponding rate by definition.
+
+\emph{The last assertion.} On a leveled graph all excursions have length exactly $t_m+2$, so the chain is periodic of period $t_m+2$ and $\|P^{n}-\Pi\|$ does not tend to $0$, whence the mixing sum is $+\infty$; while $\sigma\leq t_m$ deterministically on the graph's states and $\sigma(s_f)\leq t_m+1$, so $\sigma_*\leq t_m+1$ and $\bar\sigma\leq t_m$.
+\end{proof}
+
+\begin{corollary}[global \L ojasiewicz inequality for $(\log x)^2$]\label{cor:global_lojasiewicz}
+In the setting of Proposition \ref{prop:no_distant_equilibrium}\emph{(3)} --- $g=(\log x)^2$, finite state space, $\nu=w\lambda$ with $w_{\min}\leq w\leq\|w\|_{L^\infty}$ --- set $M:=\max\bigl(1,\sqrt{\mathcal L(\mu_0)/(w_{\min}\lambda_{\min})}\bigr)$ and
+\begin{equation*}
+\kappa:=\frac{w_{\min}\,\lambda_{\min}^{1/2}}{\|u_0\|_{L^2(\lambda)}\,\|w\|_{L^\infty}\,M}.
+\end{equation*}
+Then, along the gradient flow,
+\begin{equation*}
+    -\frac{d\mathcal L}{dt}\;\geq\;\kappa^2\,\mathcal L^2,
+    \quad\text{hence}\quad
+    \mathcal L(\mu_t)\leq\bigl(\mathcal L(\mu_0)^{-1}+\kappa^2 t\bigr)^{-1}.
+\end{equation*}
+\end{corollary}
+\begin{proof}
+For $x\in(0,e^{M}]$ with $M\geq1$ one has $2M|x-1|\geq x|\log x|$: for $x\leq1$ this is $x\log\frac1x\leq1-x$; for $x\in[1,2]$, $x\log x\leq x(x-1)\leq2M(x-1)$; for $x\geq2$, $x\log x\leq Mx\leq2M(x-1)$. Hence
+\begin{equation*}
+|g'(x)(1-x)|=2|\log x|\tfrac{|x-1|}x\geq\tfrac{g(x)}M \;\text{ on }(0,e^M].
+\end{equation*}
+Along the flow $g(r_t(x))\leq\mathcal L(\mu_t)/(w_{\min}\lambda_{\min})\leq M^2$, so $r_t\leq e^{M}$ everywhere, and the mass identity of Proposition \ref{prop:no_distant_equilibrium}\emph{(1)} gives
+\begin{eqnarray*}
+    \|\nabla\mathcal L\|\geq\Bigl|\int D\,d\lambda\Bigr|&\geq&\frac{w_{\min}}{u_{\max}}\,\frac1M\int g(r)\,d\lambda\\
+    &\geq&\frac{w_{\min}}{u_{\max}\|w\|_{L^\infty}M}\,\mathcal L,
+\end{eqnarray*}
+with $u_{\max}\leq\|u_0\|\lambda_{\min}^{-1/2}$ on the invariant sphere; conclude with $-\mathcal L'=\|\nabla\mathcal L\|^2$.
+\end{proof}
+
+\begin{theorem}[full form of Theorem \ref{theo:training_speed}]\label{theo:training_speed_full}
+In the setting above, let $g=(\log x)^2$ --- the generator of the practical DB and TB losses --- let $\nu=w\lambda$ with $w\geq w_{\min}>0$, and let $p_{\min}$ be the smallest positive transition probability of $\widehat\BackwardPolicy$. Then the invariant measure of the backward chain is the visit ratio,
+\begin{equation}
+    \lambda(x)=\frac{N(x)}{2+\bar\sigma},\qquad\text{so}\qquad \lambda_{\min}=\frac{N_{\min}}{2+\bar\sigma},
+\end{equation}
+and, from \emph{every} initialization $\mu_0\sim\lambda$ --- with $u_0:=\frac{d\mu_0}{d\lambda}$, $m_0:=\mu_0(\mathcal V)$, and $\mathcal L(\mu_0)^{-1}:=+\infty$ if $\mu_0$ is balanced --- the gradient flow of $\mathcal L_{g,\nu}$ converges to the balanced flow of its sphere in the two phases \emph{1} and \emph{2}, and gradient descent with a step chosen from the initialization converges to a balanced flow as \emph{3} states:
+\begin{enumerate}
+    \item \emph{global phase} --- the loss obeys a \L ojasiewicz inequality $-\dot{\mathcal L}\geq\kappa^2\mathcal L^2$, hence decays at the universal rate
+    \begin{equation}\label{eq:global_phase}
+        \mathcal L(\mu_t)\;\leq\;\bigl(\mathcal L(\mu_0)^{-1}+\kappa^2t\bigr)^{-1},
+        \qquad
+        \kappa:=\frac{w_{\min}\,\lambda_{\min}^{1/2}}{\|u_0\|_{L^2(\lambda)}\,\|w\|_{L^\infty}\,M},
+    \end{equation}
+    with $M:=\max\bigl(1,\sqrt{\mathcal L(\mu_0)/(w_{\min}\lambda_{\min})}\bigr)$;
+    \item \emph{local phase} --- let $\varepsilon_0$ be the radius of Theorem \ref{theo:local_convergence_full} for $g=(\log x)^2$ at $a=\frac12$, with $\widehat B_\sigma$ in place of $\widehat B$ and $C_\infty=\lambda_{\min}^{-1/2}$; at some time
+    \begin{equation*}
+        t_1\;\leq\;T_0:=\frac{4\,\mathcal L(\mu_0)\,\|u_0\|_{L^2(\lambda)}^6\,\sigma_*^{\,4}}{w_{\min}^2\,\varepsilon_0^4\,m_0^4\,\lambda_{\min}^{5}},
+    \end{equation*}
+    the flow rescaled to unit mass enters the neighbourhood of Theorem \ref{theo:local_convergence_full}, and from $t_1$ on the flow converges exponentially at rate $\varrho_\sigma/(2m_1^2)$ --- $m_1\in[m_0,\|u_0\|_{L^2(\lambda)}]$ the flow's mass at $t_1$, so exactly $\varrho_\sigma/2$ once the entry point is rescaled to unit mass --- where
+    \begin{equation}
+        \varrho_\sigma\;=\;\frac{g''(1)\,w_{\min}\,\lambda_{\min}}{\sigma_*^{\,2}}\;=\;\frac{2\,w_{\min}\,N_{\min}}{\sigma_*^{\,2}\,(2+\bar\sigma)} ;
+    \end{equation}
+    \item \emph{gradient descent} --- write $\|\cdot\|:=\|\cdot\|_{L^2(\lambda)}$, write $D(u)$ for the density against $\lambda$ of $\nabla^\lambda\mathcal L_{g,\nu}(u\lambda)$ when $u>0$, and set $u_{\min}:=m_0\bigl(\lambda_{\min}\,p_{\min}\,e^{-M}\bigr)^{\#\mathcal V-1}$. There is an explicit $\gamma_*>0$ such that, for every step $0<\gamma\leq\gamma_*$, there is an explicit integer $k_0(\gamma)$ and the gradient descent $u_{k+1}:=u_k-\gamma D(u_k)$ is well defined and satisfies:
+    \begin{enumerate}
+        \item for every $k\geq0$, $u_k\geq u_{\min}$ pointwise, $\mathcal L(u_{k+1}\lambda)\leq\mathcal L(u_k\lambda)-\frac\gamma2\|D(u_k)\|^2$, $\Pi u_{k+1}\geq\Pi u_k$ and $\|u_{k+1}\|^2=\|u_k\|^2+\gamma^2\|D(u_k)\|^2\leq2\|u_0\|^2$;
+        \item for every $k\geq0$, $\mathcal L(u_k\lambda)\leq\bigl(\mathcal L(\mu_0)^{-1}+k\gamma\kappa^2/4\bigr)^{-1}$;
+        \item for every $k\geq k_0(\gamma)$, $\|u_k/\Pi u_k-1\|\leq\varepsilon_0$, with $\varepsilon_0$ as in \emph{2}, and
+        \begin{equation*}
+            \|u_{k+1}-\Pi u_{k+1}\|\;\leq\;\Bigl(1-\frac{\gamma\,\varrho_\sigma}{4\,(\Pi u_{k_0(\gamma)})^2}\Bigr)\|u_k-\Pi u_k\|,
+        \end{equation*}
+        where $m_0\leq\Pi u_{k_0(\gamma)}\leq\sqrt2\,\|u_0\|$;
+        \item $\Pi u_k$ increases to some $m_\infty\leq\sqrt2\|u_0\|$, $m_\infty\lambda$ is balanced, and for every $k\geq k_0(\gamma)$, $m_\infty-\Pi u_k\leq\|u_k-\Pi u_k\|^2/\Pi u_{k_0(\gamma)}$ and $\|u_k-m_\infty\|\leq\frac98\|u_k-\Pi u_k\|$.
+    \end{enumerate}
+    No step bound independent of the initialization exists: for every $\gamma>0$ and every $\mu_0\sim\lambda$ that is not balanced, $su_0-\gamma D(su_0)$ takes a negative value for every small enough $s>0$.
+\end{enumerate}
+Every constant's dependence on the graph and the backward policy runs through $\sigma_*$, $\bar\sigma$ and $N_{\min}$ alone, except that $u_{\min}$ and $\gamma_*$ depend in addition on $p_{\min}$ and on $\#\mathcal V$; the initialization enters through $\|u_0\|$, $m_0$ and $\mathcal L(\mu_0)$, and the training measure through $w_{\min}$ and $\|w\|_{L^\infty}$. No mixing, spectral-gap or aperiodicity hypothesis is used.
+\end{theorem}
+
+\begin{proof}
+The three ingredients are in place and the proof is their assembly. The backward chain of a finite path-connected marked graph with a backward policy positive on the edges of its loop closure is irreducible with a positive invariant probability $\lambda$, and the balanced flow exists and is unique up to scale, by Theorem \ref{theo:universality_graphs}\emph{(1)--(2)}; \eqref{eq:occupation} is Proposition \ref{prop:morozov_rate}\emph{(1)}, which also turns $\lambda_{\min}$ into $N_{\min}/(2+\bar\sigma)$ wherever it occurs below.
+
+\emph{Global phase.} The generator $g=(\log x)^2$ is strictly unimodal, so Proposition \ref{prop:no_distant_equilibrium}\emph{(3)} applies: the gradient flow from any $\mu_0\sim\lambda$ exists for all times and converges to the balanced flow of its sphere. Inequality \eqref{eq:global_phase}, with the stated $M$ and $\kappa$, is Corollary \ref{cor:global_lojasiewicz}.
+
+\emph{Local phase.} By Proposition \ref{prop:morozov_rate}\emph{(3)}, $\widehat B_\sigma\geq1$ satisfies \eqref{eq:coercivity} for the backward chain, the rate of Theorem \ref{theo:local_convergence_full} with $\widehat B_\sigma$ in place of $\widehat B$ is $\varrho_\sigma$, which is \eqref{eq:morozov_rate} since $g''(1)=2$ for $g=(\log x)^2$, and $\widehat B_\sigma=\sigma_*\lambda_{\min}^{-1/2}$ by \emph{(1)} of that proposition; and $\varepsilon_0\leq\lambda_{\min}^{1/2}/32\leq\frac12$ by Theorem \ref{theo:local_convergence_full} at $a=\frac12$ and $C_\infty=\lambda_{\min}^{-1/2}$. Proposition \ref{prop:no_distant_equilibrium}\emph{(3)} with $\widehat B=\widehat B_\sigma$ and $\delta=\delta_0:=\varepsilon_0m_0/(\widehat B_\sigma\|u_0\|)$ provides a time $t_1\leq\mathcal L(\mu_0)/c(\delta_0)^2$ at which $\mu_{t_1}=m_1(1+h)\lambda$, with $m_1:=\mu_{t_1}(\mathcal V)$, $\Pi h=0$ and $\|h\|\leq\varepsilon_0$; and
+\begin{equation*}
+    \frac{\mathcal L(\mu_0)}{c(\delta_0)^2}\;=\;\frac{4\,\mathcal L(\mu_0)\,\|u_0\|^2}{w_{\min}^2\,\lambda_{\min}^3\,\delta_0^4}\;=\;T_0,
+\end{equation*}
+the last equality by $\widehat B_\sigma=\sigma_*\lambda_{\min}^{-1/2}$. The same proposition gives $m_1\geq m_0$, the mass being non-decreasing, and $m_1=\Pi u_{t_1}\leq\|u_{t_1}\|=\|u_0\|$ by the Cauchy--Schwarz inequality, $\lambda$ being a probability. By its uniqueness clause the trajectory after $t_1$ is the gradient flow started at $\mu_{t_1}$. For $s>0$ the ratio of $s\mu$ is that of $\mu$, so by Theorem \ref{theo:first_variation_full} with $\nuG=\lambda$, $\nabla^\lambda\mathcal L_{g,\nu}(s\mu)=\nabla^\lambda\mathcal L_{g,\nu}(\mu)/s$, $\frac{d\nu}{d(s\mu)}$ being $\frac1s\frac{d\nu}{d\mu}$; hence $\theta\mapsto\mu_{t_1+m_1^2\theta}/m_1$ is the gradient flow started at $(1+h)\lambda$. Theorem \ref{theo:local_convergence_full} gives the exponential convergence of that flow at rate $\varrho_\sigma/2$ in $\theta$, that is at rate $\varrho_\sigma/(2m_1^2)$ in $t=t_1+m_1^2\theta$.
+
+\emph{Gradient descent.} For $u>0$ write $r(u):=Pu/u$, where $(Pu)(z)=\sum_y\lambda(y)u(y)\widehat\BackwardPolicy(y\rightarrow z)/\lambda(z)$, write $\mathcal L(u):=\mathcal L_{g,\nu}(u\lambda)$ and $\psi(u):=g'(r(u))\,w/u$, and let $P^\dagger$ be the $L^2(\lambda)$-adjoint of $P$, the function action $(P^\dagger f)(y)=\sum_z\widehat\BackwardPolicy(y\rightarrow z)f(z)$ (Lemma \ref{lem:adjoint}\emph{(3)}); by Theorem \ref{theo:first_variation_full} with $\nuG=\lambda$, $D(u)=P^\dagger\psi(u)-r(u)\psi(u)$. The generator $g=(\log x)^2$ is $C^\infty$ on $(0,\infty)$ with $g(1)=g'(1)=0$ and $g''(1)=2$; let $\varepsilon_0$ and $\gamma_0$ be the constants of Theorem \ref{theo:local_convergence_full} for this $g$ at $a=\frac12$, with $\widehat B_\sigma$ in place of $\widehat B$ (Proposition \ref{prop:morozov_rate}\emph{(3)}) and $C_\infty=\lambda_{\min}^{-1/2}$, so that $\varepsilon_0\leq\lambda_{\min}^{1/2}/32\leq\frac1{32}$ and the rate of that theorem is $\varrho_\sigma$. Set $\theta:=\lambda_{\min}p_{\min}e^{-M}$, $M':=M+\ln3$, $b_1:=2M'e^{M'}$, $b_2:=2(1+M')e^{2M'}$,
+\begin{equation*}
+    b_3:=\frac{4\|w\|_{L^\infty}}{u_{\min}^2}\bigl(1+e^{M'}\bigr)\bigl(b_2(1+e^{M'})+2b_1\bigr),\qquad
+    \gamma_*:=\min\Bigl(\frac1{b_3},\ \frac{\|u_0\|^2}2\,\mathcal L(\mu_0)^{-1},\ \gamma_0\,m_0^2\Bigr),
+\end{equation*}
+\begin{equation*}
+    \delta_1:=\frac{\varepsilon_0\,m_0}{\sqrt2\,\widehat B_\sigma\|u_0\|},\qquad
+    k_0(\gamma):=\Bigl\lceil\frac{16}{\gamma\,\kappa^2\,\lambda_{\min}\,w_{\min}\,\delta_1^2}\Bigr\rceil
+    =\Bigl\lceil\frac{32\,\|u_0\|^4\,\|w\|_{L^\infty}^2\,M^2\,\sigma_*^{\,2}}{\gamma\,w_{\min}^3\,\lambda_{\min}^3\,\varepsilon_0^2\,m_0^2}\Bigr\rceil,
+\end{equation*}
+the last equality by $\widehat B_\sigma=\sigma_*\lambda_{\min}^{-1/2}$, which is Proposition \ref{prop:morozov_rate}\emph{(1)}. Note that $\theta\leq1$, hence $u_{\min}\leq m_0$; that $m_0=\Pi u_0\leq\|u_0\|$; that $\widehat B_\sigma\geq1$, since $\lambda_{\min}\leq1$ and $\sigma_*\geq\mathbb E(\sigma\mid X_0=s_f)\geq1$, $s_f$ being distinct from $s_0$; and that $b_3\geq32\|w\|_{L^\infty}/u_{\min}^2$, since $b_2\geq2$ and $1+e^{M'}\geq2$. If $\mu_0$ is balanced, then $r(u_0)\equiv1$ and $g'(1)=0$ give $D(u_0)=0$, so $u_k=u_0=m_0\geq u_{\min}$ for every $k$, and \emph{(a)}--\emph{(d)} hold with $\Pi u_{k_0(\gamma)}=m_\infty=m_0$. Assume from now on that $\mu_0$ is not balanced, and fix $0<\gamma\leq\gamma_*$.
+\begin{itemize}
+    \item \emph{Every $u>0$ satisfies $\langle D(u),u\rangle=0$, $\Pi D(u)\leq0$ and $D(su)=D(u)/s$ for every $s>0$, and $u^+:=u-\gamma D(u)$ satisfies $\|u^+\|^2=\|u\|^2+\gamma^2\|D(u)\|^2$ and $\Pi u^+\geq\Pi u$.} Indeed, $r(u)u=Pu$ gives $\langle D(u),u\rangle=\langle\psi(u),Pu\rangle-\langle\psi(u),r(u)u\rangle=0$; $\Pi D(u)\leq0$ is Proposition \ref{prop:no_distant_equilibrium}\emph{(1)}; $r(su)=r(u)$ and $\psi(su)=\psi(u)/s$ give $D(su)=D(u)/s$; and the last two claims follow by expanding the square and by linearity of $\Pi$.
+    \item \emph{Every $u>0$ with $\mathcal L(u)\leq\mathcal L(\mu_0)$ and $\Pi u\geq m_0$ satisfies $e^{-M}\leq r(u)\leq e^M$ and $u\geq u_{\min}$.} Indeed, $\lambda(y)w(y)\bigl(\log r(u)(y)\bigr)^2\leq\mathcal L(u)$ at every state $y$ gives $(\log r(u))^2\leq\mathcal L(\mu_0)/(w_{\min}\lambda_{\min})\leq M^2$. If $\widehat\BackwardPolicy(y\rightarrow z)>0$, then $\widehat\BackwardPolicy(y\rightarrow z)\geq p_{\min}$ and $\lambda(z)\leq1$ give $r(u)(z)\,u(z)=(Pu)(z)\geq\lambda(y)u(y)\widehat\BackwardPolicy(y\rightarrow z)\geq\lambda_{\min}p_{\min}u(y)$, hence $u(z)\geq\theta u(y)$. Let $y^*$ maximize $u$, so that $u(y^*)\geq\Pi u\geq m_0$. The backward chain being irreducible (Theorem \ref{theo:universality_graphs}\emph{(1)}), every state $z$ is reached from $y^*$ along at most $\#\mathcal V-1$ transitions of positive probability, and $\theta\leq1$ gives $u(z)\geq\theta^{\#\mathcal V-1}u(y^*)\geq u_{\min}$.
+    \item \emph{Every $u>0$ with $\mathcal L(u)\leq\mathcal L(\mu_0)$ and $\Pi u\geq m_0$ satisfies $u^+\geq u/2$ and $\mathcal L(u^+)\leq\mathcal L(u)-\frac\gamma2\|D(u)\|^2$.} Indeed, such a $u$ satisfies $u\geq u_{\min}$ and $e^{-M}\leq r(u)\leq e^M$ by the positivity floor, and $|g'(x)|=2|\log x|/x\leq2Me^M$ for $x\in[e^{-M},e^M]$; so $|P^\dagger\psi(u)|\leq\max|\psi(u)|\leq2M\|w\|_{L^\infty}e^M/u_{\min}$ and $|r(u)\psi(u)|=2|\log r(u)|\,w/u\leq2M\|w\|_{L^\infty}/u$, whence $\gamma|D(u)|/u\leq2\gamma M\|w\|_{L^\infty}(e^M+1)/u_{\min}^2\leq\frac12$, because $\gamma\leq1/b_3$ and $b_3u_{\min}^2/(4\|w\|_{L^\infty})\geq2b_1(1+e^{M'})\geq M(e^M+1)$. For $s\in[0,\gamma]$, $u_s:=u-sD(u)$ therefore satisfies $u/2\leq u_s\leq3u/2$; $P$ being positive, $r_s:=r(u_s)$ lies in $[r(u)/3,3r(u)]\subset[e^{-M'},e^{M'}]$, where $|g'|\leq b_1$ and $|g''(x)|=2|1-\log x|/x^2\leq b_2$; and $u_s\geq u_{\min}/2$. Hence $f(s):=\mathcal L(u_s)$ is twice differentiable on $[0,\gamma]$. With $v:=-D(u)$ and $\chi_s:=(Pv-r_sv)/u_s$, one has $\frac{d}{ds}r_s=\chi_s$ and $\frac{d^2}{ds^2}r_s=-2\chi_sv/u_s$, so that
+    \begin{equation*}
+        f'(s)=\int w\,g'(r_s)\,\chi_s\,d\lambda,\qquad f''(s)=\int w\Bigl(g''(r_s)\,\chi_s^2-2g'(r_s)\,\frac{\chi_s\,v}{u_s}\Bigr)d\lambda,
+    \end{equation*}
+    and $f'(0)=\langle\psi(u),Pv-r(u)v\rangle=\langle D(u),v\rangle=-\|D(u)\|^2$. Now $|\chi_s|\leq2(P|v|+e^{M'}|v|)/u_{\min}$ pointwise and $\|P|v|\|\leq\|v\|$ by Lemma \ref{lem:adjoint}\emph{(3)}, so the triangle inequality gives $\|P|v|+e^{M'}|v|\|\leq(1+e^{M'})\|v\|$ and the Cauchy--Schwarz inequality gives $\int(P|v|+e^{M'}|v|)|v|\,d\lambda\leq(1+e^{M'})\|v\|^2$; therefore $|f''|\leq b_3\|D(u)\|^2$ on $[0,\gamma]$. Taylor's formula and $\gamma b_3\leq1$ give $\mathcal L(u^+)=f(\gamma)\leq\mathcal L(u)-\gamma\|D(u)\|^2+\frac{\gamma^2b_3}2\|D(u)\|^2\leq\mathcal L(u)-\frac\gamma2\|D(u)\|^2$, and $u^+=u_\gamma\geq u/2$.
+    \item \emph{Every $u_k$ is well defined and lies in $\mathcal U_\gamma:=\bigl\{u>0:\ \mathcal L(u)\leq\mathcal L(\mu_0),\ \Pi u\geq m_0,\ \|u\|^2+2\gamma\mathcal L(u)\leq\|u_0\|^2+2\gamma\mathcal L(\mu_0)\bigr\}$, and \emph{(a)} holds.} Indeed, $u_0\in\mathcal U_\gamma$. If $u_k\in\mathcal U_\gamma$, the positivity floor and the descent inequality at $u=u_k$ give $u_k\geq u_{\min}$, $u_{k+1}\geq u_k/2>0$ and $\mathcal L(u_{k+1})\leq\mathcal L(u_k)-\frac\gamma2\|D(u_k)\|^2$, and the identities for $D$ give $\Pi u_{k+1}\geq\Pi u_k$ and
+    \begin{equation*}
+        \|u_{k+1}\|^2+2\gamma\mathcal L(u_{k+1})\leq\|u_k\|^2+\gamma^2\|D(u_k)\|^2+2\gamma\mathcal L(u_k)-\gamma^2\|D(u_k)\|^2,
+    \end{equation*}
+    so $u_{k+1}\in\mathcal U_\gamma$. Finally $\gamma\leq\frac{\|u_0\|^2}2\mathcal L(\mu_0)^{-1}$ gives $\|u_k\|^2\leq\|u_0\|^2+2\gamma\mathcal L(\mu_0)\leq2\|u_0\|^2$.
+    \item \emph{Assertion \emph{(b)} holds.} Indeed, for $x\in(0,e^M]$, $x|\log x|\leq2M|x-1|$: for $x\leq1$ this is $x\log\frac1x\leq1-x$; for $1\leq x\leq2$, $x\log x\leq x(x-1)\leq2M(x-1)$; for $x\geq2$, $x\log x\leq Mx\leq2M(x-1)$. Hence $|g'(x)(1-x)|=2|\log x|\,|x-1|/x\geq g(x)/M$ on $(0,e^M]$, which contains the values of $r(u_k)$ by the positivity floor, $u_k$ lying in $\mathcal U_\gamma$. By Proposition \ref{prop:no_distant_equilibrium}\emph{(1)}, the Cauchy--Schwarz inequality, $\max u_k\leq\lambda_{\min}^{-1/2}\|u_k\|\leq\sqrt2\,\lambda_{\min}^{-1/2}\|u_0\|$ and $\mathcal L(u_k)\leq\|w\|_{L^\infty}\int g(r(u_k))\,d\lambda$,
+    \begin{eqnarray*}
+        \|D(u_k)\|\;\geq\;|\Pi D(u_k)|&=&\int\bigl|g'(r(u_k))\bigl(1-r(u_k)\bigr)\bigr|\,\frac w{u_k}\,d\lambda\\
+        &\geq&\frac{w_{\min}}{M\max u_k}\int g(r(u_k))\,d\lambda\;\geq\;\frac\kappa{\sqrt2}\,\mathcal L(u_k).
+    \end{eqnarray*}
+    With \emph{(a)}, $\mathcal L(u_{k+1})\leq\mathcal L(u_k)\bigl(1-\frac{\gamma\kappa^2}4\mathcal L(u_k)\bigr)$. If $\mathcal L(u_{k+1})>0$, then $\frac{\gamma\kappa^2}4\mathcal L(u_k)<1$ and $\mathcal L(u_{k+1})^{-1}\geq\mathcal L(u_k)^{-1}\bigl(1-\frac{\gamma\kappa^2}4\mathcal L(u_k)\bigr)^{-1}\geq\mathcal L(u_k)^{-1}+\frac{\gamma\kappa^2}4$; if $\mathcal L(u_j)=0$, then $\mathcal L(u_k)=0$ for every $k\geq j$ by \emph{(a)}. Induction on $k$ gives \emph{(b)}.
+    \item \emph{For every $k\geq k_0(\gamma)$, $|r(u_k)-1|\leq\delta_1\leq\frac1{32}$ pointwise and $\|u_k-\Pi u_k\|\leq\varepsilon_0m_0\leq\varepsilon_0\Pi u_k$; in particular the first claim of \emph{(c)} holds.} Indeed, $\delta_1\leq\varepsilon_0\leq\frac1{32}$ since $\widehat B_\sigma\geq1$ and $m_0\leq\|u_0\|$. By \emph{(b)} and the choice of $k_0(\gamma)$, $\mathcal L(u_k)\leq4/(k\gamma\kappa^2)\leq\lambda_{\min}w_{\min}\delta_1^2/4$, so $|\log r(u_k)|\leq\delta_1/2$ at every state, and $|r(u_k)-1|\leq e^{\delta_1/2}-1\leq\delta_1$ since $e^x-1\leq2x$ on $[0,1]$. As $u_k>0$, $(P-I)u_k=(r(u_k)-1)u_k$, whence $\|(P-I)u_k\|\leq\delta_1\|u_k\|\leq\sqrt2\,\delta_1\|u_0\|$ by \emph{(a)}; Proposition \ref{prop:morozov_rate}\emph{(2)} gives $\|u_k-\Pi u_k\|\leq\sqrt2\,\widehat B_\sigma\delta_1\|u_0\|=\varepsilon_0m_0$, and $m_0\leq\Pi u_k$ by \emph{(a)}.
+    \item \emph{Assertion \emph{(c)} holds.} Indeed, put $m:=\Pi u_{k_0(\gamma)}$; by \emph{(a)} and the Cauchy--Schwarz inequality, $m_0\leq m\leq\|u_{k_0(\gamma)}\|\leq\sqrt2\|u_0\|$. Let $h_j:=u_{k_0(\gamma)+j}/m-1$ for $j\geq0$. As $D(u)=D(u/m)/m$ for $u>0$, $h_{j+1}=h_j-\frac\gamma{m^2}D(1+h_j)$, where $\frac\gamma{m^2}\leq\frac{\gamma_*}{m_0^2}\leq\gamma_0$; and $\|h_0\|=\|u_{k_0(\gamma)}-\Pi u_{k_0(\gamma)}\|/m\leq\varepsilon_0$ by the entry bound. The gradient-descent clause of Theorem \ref{theo:local_convergence_full}, whose hypotheses hold with $\widehat B_\sigma$ in place of $\widehat B$ by Proposition \ref{prop:morozov_rate}\emph{(3)}, gives $\|h_{j+1}-\Pi h_{j+1}\|\leq\bigl(1-\frac{\gamma\varrho_\sigma}{4m^2}\bigr)\|h_j-\Pi h_j\|$ for every $j\geq0$; multiplying by $m$ gives the contraction of \emph{(c)}.
+    \item \emph{Assertion \emph{(d)} holds.} Indeed, put $m:=\Pi u_{k_0(\gamma)}$, so that $m_0\leq m\leq\sqrt2\|u_0\|$ by \emph{(c)}, write $\xi_k:=u_k-\Pi u_k$, and let $k\geq k_0(\gamma)$. By \emph{(c)}, $\|\xi_{k+1}\|\leq\|\xi_k\|$; moreover $\frac{\gamma\varrho_\sigma}{4m^2}\leq\frac1{64}$, since $\gamma\leq1/b_3\leq u_{\min}^2/(32\|w\|_{L^\infty})\leq m^2/(32\|w\|_{L^\infty})$ and $\varrho_\sigma\leq2w_{\min}\leq2\|w\|_{L^\infty}$; with $m^2\leq2\|u_0\|^2$, this gives $\|\xi_k\|\leq\bigl(1-\frac{\gamma\varrho_\sigma}{8\|u_0\|^2}\bigr)^{k-k_0(\gamma)}\|\xi_{k_0(\gamma)}\|\rightarrow0$. By the entry bound $\|\xi_{k_0(\gamma)}\|\leq\varepsilon_0m_0$, $\|\xi_k\|\leq\varepsilon_0m$, so $|\xi_k|\leq\lambda_{\min}^{-1/2}\varepsilon_0m\leq m/32$ pointwise and, $\Pi u_k\geq m$ by \emph{(a)}, $u_k\geq\frac{31}{32}m$. By \emph{(a)} the mass $\Pi u_k$ is nondecreasing, and it is bounded by $\|u_k\|\leq\sqrt2\|u_0\|$, so it converges to some $m_\infty\leq\sqrt2\|u_0\|$; with $\|\xi_k\|\rightarrow0$, $u_k\rightarrow m_\infty$ in $L^2(\lambda)$, and $m_\infty\lambda$ is balanced, $\lambda$ being invariant. Next, $r(u_k)\geq\frac{31}{32}$ by the entry bound $|r(u_k)-1|\leq\frac1{32}$, so $|\log r(u_k)|\leq\frac{32}{31}|r(u_k)-1|$; and $(P-I)\Pi u_k=0$ gives $r(u_k)-1=(P-I)\xi_k/u_k$. Hence $|\log r(u_k)|\leq(\frac{32}{31})^2|(P-I)\xi_k|/m$ and, as $\|P-I\|\leq2$ by Lemma \ref{lem:adjoint}\emph{(3)} and $(\frac{32}{31})^4\leq\frac65$,
+    \begin{equation*}
+        \mathcal L(u_k)\;\leq\;\|w\|_{L^\infty}\Bigl(\frac{32}{31}\Bigr)^4\frac{\|(P-I)\xi_k\|^2}{m^2}\;\leq\;\frac{24}5\,\|w\|_{L^\infty}\,\frac{\|\xi_k\|^2}{m^2}.
+    \end{equation*}
+    Summing $\|u_{i+1}\|^2=\|u_i\|^2+\gamma^2\|D(u_i)\|^2$ over $k\leq i<j$ and letting $j\rightarrow\infty$, with $\|u_j\|^2=(\Pi u_j)^2+\|\xi_j\|^2\rightarrow m_\infty^2$, gives $m_\infty^2=(\Pi u_k)^2+\|\xi_k\|^2+\gamma^2\sum_{i\geq k}\|D(u_i)\|^2$; summing the descent inequality of \emph{(a)} gives $\gamma^2\sum_{i\geq k}\|D(u_i)\|^2\leq2\gamma\mathcal L(u_k)$. With $\gamma\leq m^2/(32\|w\|_{L^\infty})$, therefore,
+    \begin{equation*}
+        m_\infty^2-(\Pi u_k)^2\;\leq\;2\gamma\mathcal L(u_k)+\|\xi_k\|^2\;\leq\;\Bigl(\frac3{10}+1\Bigr)\|\xi_k\|^2,
+    \end{equation*}
+    and $m_\infty+\Pi u_k\geq2m$ gives $m_\infty-\Pi u_k\leq\frac{13}{20}\|\xi_k\|^2/m\leq\|\xi_k\|^2/m$. Finally $\|u_k-m_\infty\|\leq\|\xi_k\|+m_\infty-\Pi u_k\leq(1+\frac{13}{20}\varepsilon_0)\|\xi_k\|\leq\frac98\|\xi_k\|$, since $\|\xi_k\|\leq\varepsilon_0m$ and $\varepsilon_0\leq\frac1{32}$.
+\end{itemize}
+It remains to prove the last claim of \emph{3}. Let $\gamma'>0$ and let $\mu_0\sim\lambda$ be not balanced. By Proposition \ref{prop:no_distant_equilibrium}\emph{(1)}, $\Pi D(u_0)<0$, so $D(u_0)\neq0$; as $\langle D(u_0),u_0\rangle=0$ and $u_0>0$, there is a state $y$ with $D(u_0)(y)>0$. As $D(su_0)=D(u_0)/s$, $su_0(y)-\gamma'D(su_0)(y)=su_0(y)-\gamma'D(u_0)(y)/s<0$ for every $s>0$ with $s^2<\gamma'D(u_0)(y)/u_0(y)$.
+
+No step invoked summable mixing, a spectral gap or aperiodicity: Proposition \ref{prop:morozov_rate} derives the coercivity from hitting times at the regeneration state $s_0$, which a finite irreducible chain possesses whether or not it is aperiodic.
+\end{proof}
+
+\begin{remark}[the speed is carried by visit ratios, then by mixing]\label{rem:visit_ratio}
+Convergence itself uses no mixing constant (Theorem \ref{theo:training_speed_full}). Heuristically, the finiteness of $\widehat B_\sigma$ on a periodic loop closure (Proposition \ref{prop:morozov_rate}) is a convenience rather than a gain --- periodicity is removable by lazification or by an aperiodic perturbation of the wrap, each of which changes the loss, after which some finite mixing constant yields convergence --- and the constants matter for the \emph{speed}, the two phases of the dynamics reading them in two different places. \emph{Far from balance}, the mass identity gives a lower bound state by state: in the setting of Theorem \ref{theo:training_speed_full}, with $u_{\max}:=\max_x\frac{d\mu}{d\lambda}(x)$, for a region $U$ on which $|r-1|\geq\delta$ with $\delta\in(0,\frac12]$, the contribution of $U$ to the gradient mass is
+\begin{equation*}
+    \int_U|g'(r)(1-r)|\tfrac{d\nu}{d\mu}\,d\lambda\;\geq\;\frac{w_{\min}}{u_{\max}}\cdot\frac{\delta^2}2\cdot\frac{\sum_{x\in U}N(x)}{2+\bar\sigma}\,:
+\end{equation*}
+\emph{the contribution of an out-of-equilibrium state to this lower bound is proportional to its visit ratio $N(x)/(2+\bar\sigma)$}. Rarely visited unbalanced states are the slow modes of the global phase in the sense of this lower bound, which suggests, heuristically, equilibration on times of order $(2+\bar\sigma)/N(x)$ --- a lower bound on the gradient mass bounds that time from neither side; Corollary \ref{cor:global_lojasiewicz} aggregates the mass identity into the global $\mathcal L^{-1}$-decay in time. \emph{Near balance} the mixing constant takes over: the exponential rate is $\varrho=g''(1)w_{\min}/\widehat B^2$ for the linearized gradient flow (Theorem \ref{theo:db_stable_frozen_full}) and $\varrho/2$ for the nonlinear one (Theorem \ref{theo:local_convergence_full}). Heuristically, the visitation measure no longer discriminates there, all ratios being close to $1$, while the rate is spectral, sensitive to the \emph{shape} of the residual perturbation, which $\widehat B$ measures and visit counts do not. The constant $\widehat B_\sigma$ of Proposition \ref{prop:morozov_rate}, built from times spent in the graph and visit counts, bounds the coercivity constant --- $\widehat B_\sigma\geq\|S\|$ wherever the operator $S$ of Lemma \ref{lem:sigma_mixing} is defined --- and not the mixing sum $\widehat B$, which is $+\infty$ on a leveled graph where $\widehat B_\sigma$ is finite.
+\end{remark}
+
+
+\subsection{Universality on Finite Graphs: the Frozen-Backward Family}\label{app:universality_graphs}
+
+This subsection specializes the universality theory to the discrete setting in which generative flows were introduced \cite{bengio2021flow}, and makes precise the statement announced in the main text: on a finite path-connected state graph, the parameterization of generative flows by a state flow with a frozen backward policy \cite{morozov2025revisiting} attains \emph{exact} flow matching, and the balanced flow is unique up to scale.
+
+Throughout, a \emph{marked graph} $G=(\mathcal V,\mathcal E)$ is a finite directed graph with two distinguished vertices: a source $s_0$ with no incoming edge and a sink $s_f$ with no outgoing edge. Its internal states are $\Statespace:=\mathcal V\setminus\{s_0,s_f\}$, and an internal state $x$ is \emph{terminating} if $x\rightarrow s_f\in\mathcal E$, the edge $x\rightarrow s_f$ being then a \emph{terminating edge}. A \emph{backward policy} on $G$ is a collection of probability distributions $\BackwardPolicy(s\rightarrow\cdot)$, one for each $s\in\mathcal V\setminus\{s_0\}$, supported on the in-neighbours of $s$: $\BackwardPolicy(s\rightarrow s')>0$ only if $s'\rightarrow s\in \mathcal E$.
+
+\begin{definition}[path-connectedness]\label{def:path_connected}
+A marked graph $G$ is \emph{path-connected} if for any $s\in \mathcal V$ there exists a path $$s_0\rightarrow s_1 \rightarrow \cdots \rightarrow s\rightarrow \cdots \rightarrow s_f$$ from $s_0$ to $s_f$ via $s$.
+\end{definition}
+
+\begin{definition}[loop closure]\label{def:loop_closure}
+The \emph{loop closure} of a marked graph $G$ is $\widehat G := (\mathcal V,\ \mathcal E\cup\{s_f\rightarrow s_0\})$. A backward policy $\BackwardPolicy$ on $G$ extends uniquely to a backward policy $\widehat\BackwardPolicy$ on $\widehat G$ by $\widehat\BackwardPolicy(s_0\rightarrow s_f):=1$, the wrap edge $s_f\rightarrow s_0$ being the only incoming edge of $s_0$ in $\widehat G$. The \emph{backward chain} of $(G,\BackwardPolicy)$ is the Markov chain on $\mathcal V$ with kernel $\widehat\BackwardPolicy$.
+\end{definition}
+
+\begin{equation}\label{eq:loop_closure}
+        \xymatrix{
+        s_0 \ar[r]&\Statespace \ar@(ur,ul)\ar[r] & s_f &&
+        s_0 \ar[r]&\Statespace \ar@(ur,ul)\ar[r]& s_f \ar `dr_l[ll]`_u[ll]_{\mathrm{wrap}} [ll]
+        }
+\end{equation}
+
+\begin{theorem}[universality on finite graphs with frozen backward policy]\label{theo:universality_graphs}
+Let $G=(\mathcal V,\mathcal E)$ be a finite path-connected marked graph endowed with the counting measure $\mu$, let $\BackwardPolicy$ be a backward policy on $G$ such that $\BackwardPolicy(s\rightarrow s')>0$ for every edge $s'\rightarrow s$ of $G$, and let $\widehat\BackwardPolicy$ be its loop closure. Fix a total mass $Z>0$. Then:
+\begin{enumerate}
+    \item the backward chain $\widehat\BackwardPolicy$ is irreducible on $\mathcal V$ and admits a unique invariant probability measure $\lambda$; moreover $\lambda>0$ everywhere and $\lambda(s_0)=\lambda(s_f)$;
+    \item the frozen-backward family on the loop closure,
+    \begin{equation*}
+        \Theta_{\BackwardPolicy}:=\left\{(\ForwardPolicy,\fout)\ :\ (\fout\mu)\otimes \ForwardPolicy = \widehat\BackwardPolicy\otimes(\fout\mu)\right\},
+    \end{equation*}
+    is, apart from the trivial element $\fout\equiv0$, exactly the ray $\fout\mu = c\,\lambda$, $c>0$, with $\ForwardPolicy=\widehat\BackwardPolicy^{\lambda}$ the $\lambda$-reversal of $\widehat\BackwardPolicy$ (Lemma \ref{lem:adjoint}), given on edges by $\ForwardPolicy(s\rightarrow s') = \lambda(s')\widehat\BackwardPolicy(s'\rightarrow s)/\lambda(s)$;
+    \item for $c=Z/\lambda(s_0)$, cutting the wrap edge turns this element into a generative flow on $G$ satisfying the flow-matching constraint \eqref{equ:FM_const} \emph{exactly}, with initial flow of total mass $Z$ carried by the edges out of $s_0$ and terminal flow
+    \begin{equation*}
+        \Fterm = \target := Z\, \BackwardPolicy(s_f\rightarrow\cdot),
+    \end{equation*}
+    positive on every terminating state; in particular its sampler satisfies $s_\tau\sim \target/Z$ by Theorem \ref{theo:sampling_theorem}.
+\end{enumerate}
+Consequently, for every target $\target$ of mass $Z$ carried by the terminating states of $G$ and positive at each of them, freezing the sink row $\BackwardPolicy(s_f\rightarrow\cdot):=\target/Z$ of a backward policy $\BackwardPolicy$ positive on the edges of $G$ produces a frozen-backward family whose unique balanced flow samples $\target/Z$ exactly: the universality infimum vanishes and is attained, simultaneously for every $p\in[1,+\infty]$ --- the family is strongly universal over terminal targets.
+\end{theorem}
+
+\begin{proof}
+\emph{(1)} Every vertex of $\widehat G$ has an incoming edge: internal vertices and $s_f$ lie on source-to-sink paths, and the wrap edge feeds $s_0$; so $\widehat\BackwardPolicy$ is a genuine Markov kernel on $\mathcal V$. Note that a path of $G$ uses the edge $s_0\rightarrow s_f$ only if it is that edge alone, $s_0$ having no incoming edge and $s_f$ no outgoing one. For irreducibility, let $s,s'\in\mathcal V$. Choose a path $p: s_0\rightarrow\cdots\rightarrow s$ in $G$ as follows: for $s\neq s_f$, the initial segment ending at $s$ of a path from $s_0$ to $s_f$ via $s$ (path-connectedness), which does not use the edge $s_0\rightarrow s_f$ since it does not end at $s_f$; for $s=s_f$ and $\Statespace\neq\emptyset$, a path from $s_0$ to $s_f$ via some $y\in\Statespace$ (path-connectedness), which does not use the edge $s_0\rightarrow s_f$ since it visits $y$; for $s=s_f$ and $\Statespace=\emptyset$, the edge $s_0\rightarrow s_f$. If $s'\neq s_0$, choose a path $p': s'\rightarrow\cdots\rightarrow s_f$ in $G$ (path-connectedness), which does not use the edge $s_0\rightarrow s_f$ since it does not start at $s_0$. The backward chain started at $s$ realizes the reversal of $p$ (from $s$ down to $s_0$) with positive probability, each reversed edge carrying $\BackwardPolicy>0$ by hypothesis, which settles $s'=s_0$; if $s'\neq s_0$, it then moves $s_0\rightarrow s_f$ with probability $1$, and realizes the reversal of $p'$ (from $s_f$ down to $s'$) with positive probability. Hence $s'$ is accessible from $s$: the chain is irreducible, and this argument consumes the positivity of $\BackwardPolicy$ on the edge $s_0\rightarrow s_f$ only if $\Statespace=\emptyset$. A finite irreducible Markov chain admits a unique invariant probability measure, which is everywhere positive \cite{levin2017markov}; note that aperiodicity is not needed. Finally, the only backward transition into $s_f$ is from $s_0$ (the wrap edge is the only edge out of $s_f$ in $\widehat G$) and it has probability $1$, so stationarity at $s_f$ reads $\lambda(s_f)=\lambda(s_0)\widehat\BackwardPolicy(s_0\rightarrow s_f)=\lambda(s_0)$.
+
+\emph{(2)} The constraint is an equality of measures on $\mathcal V^2$: in coordinates $(u,v)$ standing for a transition $u\rightarrow v$, it reads $\fout(u)\ForwardPolicy(u\rightarrow v) = \widehat\BackwardPolicy(v\rightarrow u)\fout(v)$. Summing over $v$ gives, at every $u\in \mathcal V$,
+\begin{equation*}
+\fout(u) = \sum_{v\in\mathcal V}\fout(v)\,\widehat\BackwardPolicy(v\rightarrow u),
+\end{equation*}
+i.e. $\fout\mu$ is invariant under the backward chain, whence $\fout\mu = c\,\lambda$ for some $c>0$ by \emph{(1)}. The constraint then becomes $(c\lambda)\otimes\ForwardPolicy = \widehat\BackwardPolicy\otimes(c\lambda)$, whose unique solution is the $\lambda$-reversal of Lemma \ref{lem:adjoint}; on a finite space the disintegration is the elementary formula displayed in the statement, well-defined since $\lambda>0$. Conversely this pair satisfies the constraint by definition of the reversal.
+
+\emph{(3)} Define the edge flow $e(u\rightarrow v):= c\,\lambda(v)\,\widehat\BackwardPolicy(v\rightarrow u)$ for every edge $u\rightarrow v$ of $\widehat G$: it is the edge measure of the flow of \emph{(2)}. At every vertex,
+\begin{eqnarray}
+\sum_{v} e(u\rightarrow v) &=& c\sum_v \lambda(v)\widehat\BackwardPolicy(v\rightarrow u) = c\,\lambda(u),\nonumber\\
+\sum_{u} e(u\rightarrow v) &=& c\,\lambda(v)\sum_u\widehat\BackwardPolicy(v\rightarrow u) = c\,\lambda(v),\nonumber
+\end{eqnarray}
+the first by stationarity of $\lambda$, the second because $\widehat\BackwardPolicy(v\rightarrow\cdot)$ is a probability: $e$ is a circulation, with throughput $c\lambda(u)$ at every vertex $u$. The wrap edge carries $e(s_f\rightarrow s_0) = c\,\lambda(s_0)\,\widehat\BackwardPolicy(s_0\rightarrow s_f) = c\,\lambda(s_0) = Z$. Cut it, declaring its flow to be an initial flow $Z$ injected at $s_0$ and a terminal flow $Z$ collected at $s_f$; conservation at every vertex is untouched. In the source--sink reading of $G$, the initial flow is $\Finit(v) = e(s_0\rightarrow v) = c\lambda(v)\BackwardPolicy(v\rightarrow s_0)$, of total mass $c\lambda(s_0)=Z$, and the terminal flow is, at every $x\in\Statespace$,
+\begin{eqnarray*}
+\Fterm(x) \;=\; e(x\rightarrow s_f) &=& c\,\lambda(s_f)\,\BackwardPolicy(s_f\rightarrow x)\\
+&=& Z\,\BackwardPolicy(s_f\rightarrow x) \;=\; \target(x),
+\end{eqnarray*}
+using $\lambda(s_f)=\lambda(s_0)$; it is positive on every terminating state since $\BackwardPolicy$ is positive on every terminating edge $x\rightarrow s_f$. Explicitly, on the internal state space $\Statespace$ the generative flow has star outflow $\foutstar(u)= c\lambda(u) - e(u\rightarrow s_f)$ and star forward policy $\ForwardPolicyStar(u\rightarrow v) := e(u\rightarrow v)/\foutstar(u)$ (at states where $\foutstar$ vanishes the trajectory terminates almost surely and the policy is immaterial), so that $\foutstar(u)\ForwardPolicyStar(u\rightarrow v)=e(u\rightarrow v)$ and, at every $v\in\Statespace$,
+\begin{eqnarray*}
+\lefteqn{\Finit(v) + \bigl((\foutstar\mu)\ForwardPolicyStar\bigr)(v)}\\
+&=& \Finit(v) + \sum_{u \in \Statespace} e(u\rightarrow v)\\
+&=& c\,\lambda(v) \;=\; \Fterm(v) + \foutstar(v),
+\end{eqnarray*}
+which is the flow-matching constraint \eqref{equ:FM_const}. By Theorem \ref{theo:sampling_theorem}, the sampler terminates almost surely with $s_\tau \sim \Fterm/Z = \target/Z$.
+
+For the final statement, let $\target$ be a target of mass $Z$ carried by the terminating states and positive at each of them; a terminating state then exists, so $\Statespace\neq\emptyset$. The row $\BackwardPolicy(s_f\rightarrow\cdot):=\target/Z$ is a probability supported on the in-neighbours of $s_f$, so the frozen policy is a backward policy on $G$; it is positive on every edge of $G$ except on the edge $s_0\rightarrow s_f$, where it vanishes, if that edge is in $\mathcal E$. The proofs of \emph{(1)}--\emph{(3)} consume positivity on no other edge: that of \emph{(1)} consumes it on $s_0\rightarrow s_f$ only if $\Statespace=\emptyset$, that of \emph{(2)} consumes only \emph{(1)}, and that of \emph{(3)} consumes only \emph{(1)}, \emph{(2)}, the value $\widehat\BackwardPolicy(s_0\rightarrow s_f)=1$ and the positivity of the sink row on the terminating edges. Hence \emph{(1)}--\emph{(3)} hold for the frozen policy, with terminal flow $Z\cdot\target/Z=\target$: the balanced flow matches the target exactly, every reasonable loss vanishes on it, and all residuals $\delta\Finit$, $\delta\Fterm$ are zero --- in every $L^p$ norm at once, the state space being finite.
+\end{proof}
+
+\begin{remark}[the loop closure is necessary]\label{rem:loop_closure_necessary}
+On $G$ itself, i.e. without the wrap edge, the frozen-backward family --- with $\ForwardPolicy$ a probability row at every state of $\mathcal V$, $s_f$ included, each row a distribution on $\mathcal V$ and not required to be supported on $\mathcal E$ --- is trivial. Indeed the marginal argument of \emph{(2)}, which sums that row at each state, forces $\fout(s_0)=0$ ($\BackwardPolicy$ being undefined at $s_0$) and $\fout\mu$ to be invariant under the backward kernel restricted to $\mathcal V\setminus\{s_0\}$, which is substochastic: from every vertex, the backward chain leaks to $s_0$ within $\#\mathcal V$ steps with probability bounded below, by reversing a source-to-vertex path as in the proof of \emph{(1)}. Iterating the invariance identity gives $\fout = 0$. The loop closure is therefore not a convenience of the proof: it is the mechanism that makes the frozen-backward parameterization nonempty, and it is where the target enters --- the reward is the backward-policy row at the sink, $\target = Z\BackwardPolicy(s_f\rightarrow\cdot)$, consistently with the wrap-transition reading of the trajectory-balance loss in Proposition \ref{prop:tb_gradient}.
+\end{remark}
+
+\begin{remark}[relation to Theorem \ref{theo:universality_L2} and to training]\label{rem:graphs_vs_L2}
+Theorem \ref{theo:universality_graphs} is more precise than Theorem \ref{theo:universality_L2} applied to the loop-closed chain --- exactness, and uniqueness of the balanced flow --- and less demanding: it needs only the irreducibility of a finite chain, whereas the summable-mixing hypothesis of Theorem \ref{theo:universality_L2} fails when the loop closure is periodic (the loop closure of a single directed path is a directed cycle). When $\widehat\BackwardPolicy$ is moreover aperiodic, the finite irreducible chain is geometrically ergodic, its $L^2$-mixing coefficients are summable, and Theorem \ref{theo:db_stable_frozen_full} gives the rate $g''(1)w_{\min}/\widehat B^2$ of the linearized gradient descent toward the balanced ray of item \emph{(2)}. Proposition \ref{prop:morozov_rate} removes the aperiodicity hypothesis, replacing $\widehat B$ by the hitting-time constant $\widehat B_\sigma$. Heuristically, the uniqueness up to scale in \emph{(2)} is the static counterpart of the conservation of $\Pi h_t$ in Theorem \ref{theo:db_stable_frozen_full}: the balanced locus is one-dimensional, and the linearized training moves transversally to it, whereas along the nonlinear gradient flow of a strictly unimodal generator the total mass increases (Proposition \ref{prop:no_distant_equilibrium}\emph{(2)}).
+\end{remark}
+
+\begin{remark}[targets vanishing at a terminating state]\label{rem:partial_support}
+If the target $\target$ vanishes on some terminating states, let $G'$ be the marked subgraph of $G$ induced on $s_0$, $s_f$ and the states from which a directed path of $G$ reaches $\mathrm{supp}\,\target$, $\mathrm{supp}\,\target$ included, with the terminating edges $y\rightarrow s_f$, $\target(y)=0$, deleted. It is again path-connected, and a backward policy on $G$ positive on its edges restricts to one on $G'$ with only its sink row renormalized. Theorem \ref{theo:universality_graphs} applied to $G'$ gives a flow which, extended by zero, satisfies the flow-matching constraint \eqref{equ:FM_const} on $G$ exactly, with terminal flow $\target$; it belongs to the frozen-backward family of $G'$, not to that of $G$. Alternatively, if $\target$ has mass $Z$ and $\mathrm{unif}$ is the uniform probability on the terminating states, the targets $(1-\varepsilon)\target+\varepsilon Z\,\mathrm{unif}$, positive at every terminating state, realize $\target$ as a limit of exactly matched flows: the universality infimum over the union of the frozen-backward families of $G$, one for each backward policy positive on its edges, still vanishes, and it is not attained, every element of that union being either the trivial element or a flow whose terminal flow $Z'\BackwardPolicy(s_f\rightarrow\cdot)$, $Z'>0$, is positive on every terminating state.
+\end{remark}

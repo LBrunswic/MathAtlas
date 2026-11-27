@@ -1,0 +1,53 @@
+\section{$L^p$-universality of Generative Flows}\label{sec:universality}
+A key implicit assumption while training Generative Flows is their universality. The notion is rarely stated formally, so we define a universality property for generative flows that suits our purpose. Universality of Generative Flows then depends on architecture choices of the flow as well as corresponding universality statement on the parameterizing neural networks.
+
+A family of generative flows is a set $\Theta$ of pairs $(\ForwardPolicyStar,\foutstar)$,
+metrized by the $L^p(\nuB)$ norm on the outflow and the $L^p(\nuB)$ operator norm on the
+policy (Appendix \ref{app:notation}). The second is a genuine requirement on the
+parameterization: boundedness of $\foutstar$ is easy, finiteness of
+$\|\ForwardPolicyStar\|_{L^p(\nuB)}$ is not automatic.
+
+\begin{definition}\label{def:universality} Let $\Theta$ be a family of generative flows on a statespace $(\Statespace,\nuB)$ with $\nuB$ finite and let $p\in [1,\infty]$. The family $\Theta$ is weakly $L^p$-universal if its $\ForwardPolicyStar$ component is bounded as an operator from $L^p(\nuB)$ to $L^p(\nuB)$  and for any distributions $\Finit,\Fterm \ll \nuB$ of equal total mass whose densities lie in $L^p(\nuB)$ (equal masses are forced: the defect integrates to $\Finit(\Statespace)-\Fterm(\Statespace)$, so unequal masses floor the infimum away from $0$)
+
+\begin{equation}
+    \inf_{(\ForwardPolicyStar, \foutstar) \in \Theta }\left(\|\deltafinit\|_{L^p(\nuB)} + \|\deltafterm\|_{L^p(\nuB)} \right)=0
+\end{equation}
+for $(\ForwardPolicyStar, \foutstar)$ as a generative flow from $\Finit$ to $\Fterm$.
+
+The family $\Theta$ is strongly universal if the zero infimum is realized (a flow realizing it for $(\Finit,\Fterm)$ has almost-everywhere-zero residuals, so realizes it for that pair at every $r\in[1,p]$).
+
+\end{definition}
+
+
+Universality is a statement about the \emph{ergodic theory} of the star forward policy:
+$\ForwardPolicyStar$ is \emph{$\nuB$-ergodic} if $\nuB\ForwardPolicyStar=\nuB$ and the
+only $\mu\ll\nuB$ it fixes are the multiples of $\nuB$. Here, then, the background measure is also the invariant one; the two part company only in Section~\ref{sec:cv_divergence}, where the invariant measure of the backward chain is written $\lambda$. Invariance makes the density
+action $P_\star f := \frac{d((f\nuB)\ForwardPolicyStar)}{d\nuB}$ well defined on
+$L^1(\nuB)$, and boundedness of $\|\ForwardPolicyStar\|_{L^p(\nuB)}$ says exactly that
+it restricts to a bounded operator of $L^p(\nuB)$ --- automatic for $p=1$, a genuine
+hypothesis beyond. Writing $\Pi$ for the projection onto the invariant densities, the
+\emph{$L^p$-mixing coefficients} and their sum are
+\begin{equation}\label{equ:mixing_coefficients}
+    \beta^{(p)}_n := \left\|P_\star^n - \Pi\right\|_{L^p(\nuB)\rightarrow L^p(\nuB)},\qquad B_p := \sum_{n\geq 0}\beta^{(p)}_n .
+\end{equation}
+Summable $L^p$-mixing means $B_p<+\infty$; for $p=2$ these are the coefficients $\beta_n$ used in Section \ref{sec:cv_divergence} to control the speed of training.
+
+The universality Theorem for Ergodic Generative Flows \cite{brunswicEGF} states $L^1$-universality of EGFs. Its proof may be improved to yield $L^p$-universality, in a quantitative form in which $B_p$ is the only property of the policy that enters.
+\begin{theorem}\label{theo:universality_L2}
+A generative flow family with a fixed forward policy and a free outflow is weakly
+$L^p$-universal provided the policy is ergodic with summable $L^p$-mixing, and is strongly
+universal when $p=+\infty$.
+\end{theorem}
+The summable-mixing hypothesis informally asks that iterating the policy averages functions
+out fast enough for the errors to sum; ergodicity alone gives only the weaker Ces\`aro
+convergence. It holds in particular whenever the density action has a spectral gap, and the
+mixing sum $B_p$ of \eqref{equ:mixing_coefficients} is then finite. What the proof delivers is quantitative. Full
+statement and proof: Theorem \ref{theo:universality_L2_full}, Appendix
+\ref{app:universality}.
+
+The two regimes part on attainment: at $p=+\infty$ the infimum is reached exactly, while for
+$p<\infty$ it is only approached.
+
+Universality is an \emph{existence} statement: mixing produces a minimizer. What it costs to reach that minimizer is a separate question, governed by the same ergodicity of the backward policy read as a speed rather than as a limit --- this is Theorem \ref{theo:training_speed}, and it is the through-line of Section \ref{sec:cv_divergence}.
+
+Interestingly, Theorem \ref{theo:universality_L2} includes the case of graphs and is thus a far-reaching generalization of the classical universality statement for Generative Flows. On a finite path-connected state graph, the parameterization of generative flows by a state flow with a frozen, everywhere-positive backward policy \cite{morozov2025revisiting} attains \emph{exact} flow matching, and its balanced flow is unique up to scale; the target enters as the backward-policy row at the sink. The precise statement (Theorem \ref{theo:universality_graphs}), its complete proof and a discussion of the loop-closure mechanism it rests on are given in Appendix A.

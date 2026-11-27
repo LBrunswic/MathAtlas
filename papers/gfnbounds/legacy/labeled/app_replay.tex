@@ -1,0 +1,372 @@
+% Appendix D -- the replay buffer and the training measure.
+\section{\appendixDtitle}\label{app:replay}
+
+The training measure $\nutrain$ enters the theory twice, against two \emph{different}
+reference measures. In the stable bound \eqref{equ:paper_bound} it enters against the
+background $\nuB$, through $A_q(\nutrain):=\|\dln\|^{1/q}_{L^\infty(\nutrain)}$.
+In the training-speed theory of Section~\ref{sec:cv_divergence} it enters against the
+backward-chain occupation probability $\lambda$, through $w:=\frac{d\nutrain}{d\lambda}$:
+the exponential rate is $\varrho_\sigma=g''(1)w_{\min}\lambda_{\min}/\sigma_*^2$
+(Theorem~\ref{theo:training_speed_full}), the \L ojasiewicz constant is
+$\kappa=w_{\min}\lambda_{\min}^{1/2}/(\|u_0\|\,\|w\|_{L^\infty}M)$
+(Corollary~\ref{cor:global_lojasiewicz}), and the gradient-descent step cap is
+$\varepsilon\leq(4g''(1)\|w\|_{L^\infty})^{-1}$
+(Theorem~\ref{theo:db_stable_frozen_full}).
+A replay buffer is precisely a device that shapes the empirical $\nutrain$; the question
+is what it should shape it \emph{into}, and the answer splits by which pipeline carries
+the guarantee.
+
+\subsection{The buffer as a $\nutrain$-shaping operator, and coverage}\label{sec:buffer_def}
+
+\begin{definition}\label{def:buffer}
+A \emph{replay schedule} is a family of probability measures
+$\nutrain = \alpha\,\mu_{\mathrm{on}} + (1-\alpha)\,\rho_{\mathrm{buf}}$, $\alpha\in[0,1]$,
+where $\mu_{\mathrm{on}}$ is the on-policy visitation measure of the current sampler and
+$\rho_{\mathrm{buf}}$ is the replay measure of a buffer --- e.g.\ uniform over stored
+states, importance-reweighted (\emph{inverse-frequency}) replay, or
+\emph{backward replay}: draw a stored terminal state and replay the states of a frozen
+backward trajectory from it, with multiplicity.
+\end{definition}
+
+Coverage is the zeroth-order requirement, and for an empirical buffer on a finite state
+space it is a coupon-collector statement: the certificate is infinite until every state
+has been trained on at least once.
+
+\begin{lemma}[coverage, and its clock]\label{lem:coverage}
+If $\nutrain$ fails to dominate $\nuB$ --- some set of positive $\nuB$-measure is
+never trained on --- then $A_q(\nutrain)=+\infty$ and the bound \eqref{equ:paper_bound}
+is vacuous; likewise $w_{\min}=0$ and every rate of Section~\ref{sec:cv_divergence}
+degenerates. Under backward replay in the setting of Proposition~\ref{prop:morozov_rate},
+with its $N$ and $\bar\sigma$, the mean recurrence time of a state $x$ in the concatenated
+excursion process is exactly $(2+\bar\sigma)/N(x)$, and the reciprocal of the smallest
+visit ratio, $\max_x(2+\bar\sigma)/N(x)$, is a \emph{lower} bound on the expected number
+of replayed steps until every state has been replayed, excursions entering the buffer
+whole.
+\end{lemma}
+
+\begin{proof}
+If $\nuB(A)>0=\nutrain(A)$ then $\nuB\not\ll\nutrain$: no density
+$\dln$ exists and the essential supremum defining $A_q$ is
+$+\infty$ under the usual convention, while any flow whose residual sits inside $A$ is
+invisible to $\LFMstableq$, so no finite constant can hold in \eqref{equ:paper_bound}.
+On the training side, $\lambda$ is everywhere positive on the loop closure, so
+$w=\frac{d\nutrain}{d\lambda}$ has essential infimum $0$ on $A$, and every constant in
+the display above vanishes with $w_{\min}$. For the clock: concatenating the i.i.d.\
+excursions reproduces the loop-closed chain regenerating at $s_0$ --- the structure
+behind the occupation identity, Proposition~\ref{prop:morozov_rate}(1) --- an
+irreducible positive-recurrent chain with invariant probability $\lambda$; Kac's
+recurrence formula gives mean return time $\mathbb E(\tau_x^+\mid X_0=x)=1/\lambda(x)$, and the
+occupation identity turns it into $(2+\bar\sigma)/N(x)$. For coverage, an excursion
+replays $s_0$, $s_f$, then the states visited by the backward trajectory of a draw from
+$\widehat\BackwardPolicy(s_f\rightarrow\cdot)$ before it hits $s_0$, so by definition of $N$
+its expected number of visits to $x$ is $N(x)$. Let $L_i$ be the number of states the
+$i$-th excursion replays, $K_x$ the index of the first excursion visiting $x$, and
+$p_x:=\mathbb P(\text{an excursion visits }x)$. Then
+$\mathbb E(L_i)=\sum_xN(x)=2+\bar\sigma=1/\lambda(s_0)<\infty$, the first equality by
+linearity and the others by Proposition~\ref{prop:morozov_rate}(1), $\lambda$ being a
+probability; and $0<p_x\leq N(x)$, the upper bound by Markov's inequality and the lower bound since
+$N(x)=(2+\bar\sigma)\lambda(x)>0$. The excursions being i.i.d., $K_x$ is a stopping time
+for them, geometric with $\mathbb E(K_x)=1/p_x$, and Wald's identity gives
+\begin{equation*}
+    \mathbb E\Bigl(\sum_{i\leq K_x}L_i\Bigr)=\mathbb E(K_x)\,\mathbb E(L_1)
+    =\frac{2+\bar\sigma}{p_x}\geq\frac{2+\bar\sigma}{N(x)}.
+\end{equation*}
+Excursions entering the buffer whole, the number of replayed steps until every state has
+been replayed is $\sum_{i\leq\max_yK_y}L_i$, which is at least $\sum_{i\leq K_x}L_i$ for
+every $x$, the $L_i$ being non-negative; taking expectations, then the maximum over $x$,
+gives the lower bound.
+\end{proof}
+
+Heuristically, the reciprocal visit ratio $(2+\bar\sigma)/N(x)$ is also the time scale of
+the slow modes of the global phase of training, which Remark~\ref{rem:visit_ratio} locates
+on the rarely visited states.
+
+\subsection{Backward replay realizes the rate-optimal measure}\label{sec:backward_replay}
+
+\begin{proposition}[$\lambda$ is the guarantee-optimal training measure, and backward
+replay samples it]\label{prop:backward_replay}
+Let $(\widehat G,\widehat\BackwardPolicy)$ be the loop closure of a finite path-connected
+marked graph with backward policy positive on its edges, $\lambda$ its invariant
+probability. Over probability measures $\nutrain=w\lambda$:
+\begin{enumerate}
+    \item $w_{\min}\leq1\leq\|w\|_{L^\infty}$, each with equality iff $\nutrain=\lambda$.
+    \item Consequently each of the three training-speed constants --- the
+    exponential rate $\varrho_\sigma$ (equivalently $\varrho=g''(1)w_{\min}/\widehat B^2$),
+    the \L ojasiewicz constant $\kappa$, and the step cap
+    $(4g''(1)\|w\|_{L^\infty})^{-1}$ --- is maximized at $\nutrain=\lambda$, uniquely
+    among $\lambda$-a.c.\ probabilities.
+    \item Backward replay from the target row samples $\lambda$ \emph{exactly}: the
+    long-run (renewal) state-frequency of excursions (one visit each to $s_0$ and $s_f$,
+    then the backward trajectory of a draw from
+    $\widehat\BackwardPolicy(s_f\rightarrow\cdot)$ until it hits $s_0$) is
+    $N(x)/(2+\bar\sigma)=\lambda(x)$, by Proposition~\ref{prop:morozov_rate}(1). If the
+    buffer's marginal over terminal states is
+    $\mu_{\mathrm{buf}}\neq\widehat\BackwardPolicy(s_f\rightarrow\cdot)$,
+    the realized measure is the normalized expected-visit vector of the chain killed at
+    $s_0$ started from $\mu_{\mathrm{buf}}$ --- computable by one fundamental-matrix
+    solve, so the bias of a stale or reward-filtered buffer is a quantity, not a worry.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\int w\,d\lambda=\nutrain(\Statespace)=1$, so $\operatorname*{ess\,inf}w\leq1\leq
+\operatorname*{ess\,sup}w$, with equality on either side iff $w=1$ $\lambda$-a.e.
+(2) $\varrho_\sigma$ and $\varrho$ are increasing in $w_{\min}$; the step cap is
+decreasing in $\|w\|_{L^\infty}$; and $\kappa$ is increasing in $w_{\min}$ (both directly
+and through $M=\max(1,\sqrt{\mathcal L(\mu_0)/(w_{\min}\lambda_{\min})})$) and decreasing
+in $\|w\|_{L^\infty}$. Apply (1).
+(3) The first claim is the occupation identity read as a sampling algorithm; the second
+is linearity of expected visits in the starting law.
+\end{proof}
+
+An honesty clause: $\varrho_\sigma$ is \emph{a guarantee, not a
+prediction} (the measured gap is $187$--$10^9\times$, Section~\ref{sec:experiments}), so
+Proposition~\ref{prop:backward_replay} optimizes the guarantee. The exact linearized rate
+is the smallest positive eigenvalue of $H_\nu=g''(1)A^\dagger M_wA$, and
+\S\ref{sec:num_replay} measures where \emph{it} peaks on the $\alpha$-mixtures beside
+where the guarantee says; the gap is reported, not hidden.
+
+\subsection{Constant against rate: two pipelines, two verdicts}\label{sec:tension}
+
+\begin{proposition}[stable pipeline: uniform reweighting is bound-optimal, with no
+tension]\label{prop:stable_uniform}
+Let $q\in[1,\infty]$ and let $\nutrain$ range over probability measures with
+$\nuB\ll\nutrain$.
+\begin{enumerate}
+    \item $\left\|\dln\right\|_{L^\infty(\nutrain)}\geq\nuB(\Statespace)$,
+    with equality iff $\nutrain=\nuB/\nuB(\Statespace)$; hence
+    $A_q(\nutrain)\geq\nuB(\Statespace)^{1/q}$ with the same equality case, and the
+    constant of \eqref{equ:paper_bound} is minimized by uniform-in-$\nuB$ training.
+    \item At $q=2$ with free non-negative outflow and $P_\star$ summably $L^2$-mixing
+    (so that $B_2<\infty$, Lemma~\ref{lem:sigma_mixing}), gradient descent on
+    $\foutstar\mapsto\|(\finit-k)+(P_\star-\mathrm{Id})\foutstar\|^2_{L^2(\nutrain)}$
+    contracts the transverse component at rate at least
+    $2\inf_\Statespace\frac{d\nutrain}{d\nuB}\big/B_2^2$, and
+    $\inf\frac{d\nutrain}{d\nuB}\leq1/\nuB(\Statespace)$ with equality iff
+    $\nutrain=\nuB/\nuB(\Statespace)$.
+\end{enumerate}
+Both the certificate constant and the rate guarantee of the stable pipeline are therefore
+optimized by the \emph{same} training measure, the uniform one: for the stable loss a
+replay buffer should simply flatten the empirical measure against $\nuB$
+(inverse-frequency replay over the visited support), and there is nothing to trade.
+\end{proposition}
+
+\begin{proof}
+(1) $\int\dln{}d\nutrain=\nuB(\Statespace)$, so the essential sup
+is $\geq$ the mean, with equality iff the density is constant.
+(2) The loss is quadratic with Hessian $2(P_\star-\mathrm{Id})^\dagger
+M_{d\nutrain/d\nuB}(P_\star-\mathrm{Id})$;
+$\langle f,Hf\rangle_{L^2(\nuB)}\geq2\inf(\tfrac{d\nutrain}{d\nuB})\|(P_\star-\mathrm{Id})f\|^2_{L^2(\nuB)}
+\geq\frac{2\inf(d\nutrain/d\nuB)}{B_2^2}\|f-\Pi f\|^2$ by the coercivity of
+Lemma~\ref{lem:sigma_mixing} applied to $P_\star$; and the mean of
+$\frac{d\nutrain}{d\nuB}$ against $\nuB/\nuB(\Statespace)$ is
+$1/\nuB(\Statespace)$.
+\end{proof}
+
+For the \emph{practical} pipeline --- the DB/TB balance losses with frozen backward
+policy, $g=(\log x)^2$ --- the two guarantees genuinely pull apart: the rate wants
+$\nutrain=\lambda$ (Proposition~\ref{prop:backward_replay}), the certificate wants
+$\nutrain\propto\nuB$ (Proposition~\ref{prop:stable_uniform}(1)), and $\lambda$ is
+uniform in $\nuB$ only when every state has the same visit ratio. The bridge between
+the two loss families is the following lemma, which is where the sink-normalization
+subtlety lives.
+
+\begin{lemma}[transfer: balance loss to stable loss, exactly]\label{lem:transfer}
+On the loop closure above, let $\mu$ be a positive state flow, $r:=\frac{d(\mu\widehat\BackwardPolicy)}{d\mu}$,
+and let the cut generative flow of $\mu$ be defined edge-wise by
+$F(u\rightarrow v)=\mu(v)\widehat\BackwardPolicy(v\rightarrow u)$, with
+$\Finit:=F(s_0\rightarrow\cdot)$ and terminal flow $F(\cdot\rightarrow s_f)$
+(Theorem~\ref{theo:universality_graphs}). Normalize by the sink:
+$\widetilde\mu:=\frac{t}{\mu(s_f)}\mu$, $\widetilde u:=\frac{d\widetilde\mu}{d\lambda}$,
+where $t:=\target(\Statespace)$ is the target mass.
+Then the flow-matching residual of the cut flow of $\widetilde\mu$ against the target
+$\target$ is, at every interior state,
+\begin{equation}\label{equ:transfer_identity}
+    e-k \;=\; -\,(r-1)\,\widetilde u\,\frac{d\lambda}{d\nuB}
+\end{equation}
+($r$ is scale-invariant, so it may be read on $\mu$). Consequently, for any training
+measure $\nutrain$ and any $a\in(0,1)$ with $r$ valued in $[1-a,1+a]$,
+\begin{equation}\label{equ:transfer_bound}
+    \LFMstableq\;\leq\;\|\widetilde u\|_{L^\infty}
+    \left\|\frac{d\lambda}{d\nuB}\right\|_{L^\infty}\|r-1\|_{L^q(\nutrain)},
+    \qquad
+    \|r-1\|_{L^2(\nutrain)}\leq\sqrt{\frac{\mathcal L_{g,\nutrain}(\mu)}{c_g(a)}},
+\end{equation}
+with $c_g(a):=\inf_{|x-1|\leq a}g(x)/(x-1)^2>0$ (for $g=(\log x)^2$ and $a=\frac12$,
+$c_g=(2\log\frac32)^2\approx0.657$).
+\end{lemma}
+
+\begin{proof}
+At an interior state $v$, every in-edge of $v$ in $\widehat G$ lies in $G$, so the total
+inflow of the cut flow is $\sum_uF(u\rightarrow v)=\mu(v)\sum_u\widehat\BackwardPolicy(v\rightarrow u)=\mu(v)$,
+while the outflow through interior edges plus the sink edge is
+$\sum_{v'}\mu(v')\widehat\BackwardPolicy(v'\rightarrow v)=(\mu\widehat\BackwardPolicy)(v)=r(v)\mu(v)$.
+Hence, splitting off the sink edge $F(v\rightarrow s_f)=\mu(s_f)\widehat\BackwardPolicy(s_f\rightarrow v)
+=\mu(s_f)\frac{\target(v)}{t}$ (the frozen sink row is the normalized target,
+Proposition~\ref{prop:tb_gradient}),
+\begin{equation*}
+    E(v)=\mu(v)\bigl(1-r(v)\bigr)+\frac{\mu(s_f)}{t}\,\target(v),
+    \qquad
+    E-\target=-(r-1)\mu+\Bigl(\frac{\mu(s_f)}{t}-1\Bigr)\target .
+\end{equation*}
+The second term is killed exactly by the sink normalization $\mu\mapsto\widetilde\mu$,
+which leaves $r$ unchanged; \eqref{equ:transfer_identity} is this identity in
+$\nuB$-densities. The first inequality of \eqref{equ:transfer_bound} is H\"older with
+$L^\infty$ factors; the second is $g(x)\geq c_g(a)(x-1)^2$ on the band, integrated
+against $\nutrain$.
+\end{proof}
+
+The mass term $\bigl(\frac{\mu(s_f)}{t}-1\bigr)\target$ that the normalization removes is
+the initial-flow question of Appendix~\ref{app:finit} arriving from the other side:
+$\mu(s_f)$, the terminal mass of the cut flow, \emph{is} its implied partition function
+--- at a balanced $\mu$ it equals $\mu(s_0)=F(s_0)$, which plays the role of $Z$ in
+Proposition~\ref{prop:tb_gradient}, and off balance $F(s_0)=r(s_0)\,r(s_f)\,\mu(s_f)$ ---
+and an unnormalized read-out pays exactly the mass floor of \S\ref{sec:mass}. The balance loss
+is scale-invariant, so it can never learn this scale --- normalizing by the sink at
+read-out, as \eqref{equ:transfer_identity} prescribes, is the frozen-backward analogue of
+learning $Z$, and it is free.
+
+\begin{proposition}[the certificate-optimal mixture: uniform mixed into backward replay
+at weight $\sim1/T$]\label{prop:alpha_star}
+On the mixture family $\nu_\alpha:=(1-\alpha)\lambda+\alpha\,\nuB/\nuB(\Statespace)$,
+$\alpha\in(0,1]$:
+\begin{equation*}
+    \left\|\frac{d\nuB}{d\nu_\alpha}\right\|_{L^\infty}\leq\frac{\nuB(\Statespace)}{\alpha},
+    \qquad w_{\min}(\nu_\alpha)\geq1-\alpha ,
+\end{equation*}
+so, chaining Theorem~\ref{theo:training_speed_full} (local phase at rate
+$\varrho_\sigma(\nu_\alpha)/2\geq(1-\alpha)\widehat\varrho/2$,
+$\widehat\varrho:=\varrho_\sigma(\lambda)$), Lemma~\ref{lem:transfer} at $q=2$ and the
+$z$-carried bound of Proposition~\ref{prop:z_bound}, the certified error after training
+time $T$ has the envelope
+\begin{equation}\label{equ:JT}
+    J_T(\alpha)\;=\;K\left(\frac{\nuB(\Statespace)}{\alpha}\right)^{1/q}
+    e^{-c\,(1-\alpha)\,T},
+\end{equation}
+with $c$ the realized exponential rate of $\sqrt{\mathcal L_{g,\nu}}$ per unit
+$w_{\min}$ and $K$ collecting the $T$- and $\alpha$-independent factors. $J_T$ is
+log-convex in $\alpha$ with unique minimizer
+\begin{equation}\label{equ:alpha_star}
+    \alpha^*(T)\;=\;\min\left(1,\;\frac{1}{q\,c\,T}\right):
+\end{equation}
+the certificate-optimal buffer replays backward trajectories, tempered by
+uniform-in-$\nuB$ reweighting whose weight decays like $1/T$ --- early training buys
+coverage for the constant, late training buys rate.
+\end{proposition}
+
+\begin{proof}
+$\nu_\alpha\geq\alpha\nuB/\nuB(\Statespace)$ gives the density bound;
+$\nu_\alpha\geq(1-\alpha)\lambda$ gives $w_{\min}\geq1-\alpha$. For \eqref{equ:JT}, the
+local phase contracts $\mathcal L_{g,\nu_\alpha}$ at rate $\varrho_\sigma(\nu_\alpha)/2$
+and enters the TV bound under a square root through \eqref{equ:transfer_bound};
+absorbing the halvings into $c$ leaves the stated $\alpha$-dependence. Then
+$\log J_T(\alpha)=\mathrm{const}+\frac1q\log\frac1\alpha+c T\alpha$ is strictly convex
+with critical point $\frac{1}{qcT}$, clipped at $1$.
+\end{proof}
+
+Three honest caveats. \emph{(i)} \eqref{equ:JT} chains \emph{guarantees}; the true error
+of a trained flow can sit far below it, and the numerics measure the exact-rate optimum
+beside the certified one. \emph{(ii)} The rate factor $(1-\alpha)$ uses
+$w_{\min}(\nu_\alpha)\geq1-\alpha$, which discards the uniform component's own
+contribution to $w$; on graphs where $\nuB/\nuB(\Statespace)$ and $\lambda$ are
+close the true rate barely degrades with $\alpha$ and the optimal $\alpha$ is larger.
+\emph{(iii)} The crossover $T_0$ of the global phase also depends on $\nu$ through
+$w_{\min}$ and $\|w\|_{L^\infty}$, in the same direction --- so the $\alpha$-schedule
+\eqref{equ:alpha_star} is conservative about, not contradicted by, the early phase.
+
+\subsection{Positioning}\label{sec:positioning}
+
+\citet{bartoldson2025trajectory} decouple exploration from learning for LLM post-training
+--- searcher processes fill a replay buffer, a trainer consumes it off-policy with TB ---
+and report large wall-clock speedups; the graphs are autoregressive, hence acyclic and
+leveled, and the buffer policy (what to store, what to replay) is an engineering
+surface tuned empirically. The statements above are the theory-side complement on
+possibly-cyclic graphs: at the level of the guarantees of this paper, the question
+``which measure should replay realize?'' has an exact answer --- the backward occupation
+measure $\lambda$ for the training rate (and backward replay from terminal draws samples
+it with no estimation step, by the occupation identity), tempered toward
+uniform-in-$\nuB$ with weight $\sim1/T$ when a total-variation certificate is wanted
+at read-out. The inverse-frequency heuristic of prioritized replay appears here with a
+proof and a scope: it is exactly right for the \emph{stable} pipeline
+(Proposition~\ref{prop:stable_uniform}), and exactly the $\alpha$-component for the
+practical one. \citet{morozov2025revisiting}'s on-policy forward sampling, read in this
+frame, trains on $\mu_{\mathrm{on}}$ --- and at balance the sampler's visit measure is
+the total through-flow $r\mu=c\lambda$, i.e.\ exactly $\lambda$ on the interior states
+--- so the frame also explains why on-policy training of a frozen-backward flow behaves
+well near convergence and poorly before coverage.
+
+\emph{Against the minimum-flow/OT reading of the same quantity.} The outflow mass that
+Appendix~\ref{app:finit} prices is the object \citet{maksimov2026ot} characterize
+from the other end: Proposition~3.12 of \citet{morozov2025revisiting} makes
+expected trajectory length \emph{equal} to normalized total flow, and
+\citet{maksimov2026ot} show that minimizing total flow \emph{over the policy as well},
+with $\Finit$ fixed, is a Kantorovich optimal-transport problem with graph shortest-path
+costs --- the free-policy endpoint of the question. Proposition~\ref{prop:shape_cost} is
+the \emph{fixed-policy} endpoint: with the star policy prescribed and ergodic, the
+minimal flow is not a geodesic quantity but a potential-theoretic one,
+$\nuB(\Statespace)\max_xS(k-\finit)$, weighted $\frac1{1-\beta}$ on the policy's slow
+modes. The ratio of the two --- fixed-policy minimal flow over OT minimal flow --- is
+the price of routing transport through a prescribed mixing kernel rather than along
+graph geodesics, and it is finite exactly when the policy mixes; making that ratio's
+spectral control precise is an open question this comparison surfaces.
+Appendix~\ref{app:pbtrain} works out what happens when the policy itself is trained
+toward the OT endpoint.
+
+\subsection{Numerical evidence}\label{sec:num_replay}
+
+The script \texttt{audit\_replay.py}, released with the code, computes everything below
+exactly (the one simulated quantity is compared to its exact prediction).
+
+\paragraph{$\lambda$ is never beaten on any guarantee.}
+Over $10$ random loop-closed marked graphs $\times$ $1{,}000$ random probability
+$\nutrain$ each: the occupation identity holds to $4.2\cdot10^{-16}$, and none of the
+$10{,}000$ draws beats $\lambda$ on $w_{\min}$, on the \L ojasiewicz factor, or on the
+step cap --- nor the uniform measure on the certificate factor
+(Proposition~\ref{prop:stable_uniform}(1)).
+
+\paragraph{The guarantee peaks at $\lambda$; the exact rate peaks at an interior
+mixture.}
+The smallest positive eigenvalue of $H_\nu=g''(1)A^\dagger M_wA$ dominates
+$\varrho_\sigma(\nu)$ on every graph and every mixture $\nu_\alpha$ tested (worst margin
+positive). On the instance reported in Figure~\ref{fig:app_replay}: the \emph{guarantee}
+peaks at $\alpha=0$ ($\nu=\lambda$), as proved --- and the \emph{exact} linearized rate
+peaks at $\alpha=0.45$, with conservatism $1588\times$ at $\alpha=0$. The mechanism is
+visible in $w=\frac{d\nu_\alpha}{d\lambda}$: uniform tempering makes $w$ large exactly on
+rarely-visited states, lifting the slow modes that live there, which a $w_{\min}$-only
+bound cannot see. Two scope notes keep the reading honest: the interior optimum is
+\emph{shallow} on the shown instance --- the exact rate at $\alpha=0.45$ exceeds the
+$\alpha=0$ value by $3.7\%$, so the decisive fact is that tempering costs nothing in
+exact rate while buying the certificate, not that it buys much rate --- and on other
+graphs of the family the exact-rate optimum can sit at the uniform endpoint
+($\alpha=1$) rather than in the interior. Read on the exact rate, the finding is still
+\emph{stronger} than Proposition~\ref{prop:alpha_star}, not weaker: tempering backward
+replay toward uniform helps the certificate without hurting the exact rate.
+
+\paragraph{Transfer and certificate hold on the exact chain.}
+Over $40$ random unbalanced sink-normalized cut flows: the identity
+\eqref{equ:transfer_identity} holds to $1.3\cdot10^{-15}$;
+$\TV(s_\tau\|\target)\leq C\,\LFMstable$ holds on the exact chain of every instance; the
+linearized flow decays at least at $\varrho_\sigma(\nu_\alpha)$ for every tested
+$(\alpha,T)$; and the grid argmin of $J_T$ matches \eqref{equ:alpha_star} to
+$2.5\cdot10^{-6}$ across four $(q,c,T)$ triples.
+
+\paragraph{Backward replay does sample $\lambda$, and buffer bias is a computable
+quantity.}
+$20{,}000$ simulated excursions give $\TV(\widehat\nu,\lambda)=0.0013$ (and
+$\widehat\nu$ is $\lambda$, not uniform); a reward-squared-biased buffer marginal lands
+within $0.0006$ of its fundamental-matrix prediction
+(Proposition~\ref{prop:backward_replay}(3)); inverse-frequency reweighting improves
+$\sup\frac{d\nuB}{d\nu}$ from $29.6$ to $12.0$ at full coverage.
+
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=0.9\linewidth]{figures/figA3_replay.pdf}
+\caption{\textbf{Left:} certified rate $\varrho_\sigma(\nu_\alpha)$ against the exact
+smallest positive Hessian eigenvalue over the mixture family
+$\nu_\alpha=(1-\alpha)\lambda+\alpha\,\mathrm{unif}$ (log scale): the guarantee peaks at
+$\alpha=0$ as Proposition~\ref{prop:backward_replay} proves, the exact rate peaks at an
+interior $\alpha=0.45$, and the vertical gap is the $1588\times$ conservatism the
+guarantee admits. \textbf{Right:} the grid argmin of the envelope $J_T$ against the
+closed form $\alpha^*(T)=\min(1,1/(qcT))$ of Proposition~\ref{prop:alpha_star}.}
+\label{fig:app_replay}
+\end{figure*}

@@ -1,0 +1,55 @@
+\section{Convergence Bounds for Stable Losses}
+
+ \begin{theorem}\label{theo:RL_CV_bound}
+For a generative flow trained on a target of known density with the stable $L^q$
+flow-matching loss over a training probability measure that covers the background measure,
+$\nuB\ll\nutrain$ with $\dln\in L^\infty(\nutrain)$, and run at inference with the corrected
+terminal flow $\widehat\target := (\Finit+\Finstar-\Foutstar)^+$, the loss bounds two things
+at once: the sampling error in total variation, and the defect between the total mass of the
+initial flow and that of the target. That loss can be driven to zero over an $L^p$-universal
+family with $q\leq p$ at an initial flow carrying the target's total mass, and over a family
+whose initial mass is itself trained exactly when the target's total mass is a limit of the
+masses that family realizes, under technical integrability assumptions.
+\end{theorem}
+The target's total mass is unknown in practice, so the mass clause is met by training rather
+than imposed: an initial flow whose total mass is itself a parameter has that mass driven to
+$\target(\Statespace)$ by the same loss that drives the residual --- the measure-theoretic
+form of a GFlowNet learning the partition function $Z$ --- and the condition for it, that the
+family realize masses approaching $\target(\Statespace)$, is necessary as well as sufficient.
+
+The constant in the sampling-error bound is
+$C=\frac{2}{\target(\Statespace)}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)}\nuB(\Statespace)^{1-1/q}$,
+and the mass defect carries its own; three things about $C$ are worth stating plainly. It
+needs no normalization of $\target$, which may be an unnormalized reward as is standard. It
+is scale-consistent: replacing
+$\nuB$ by $c\nuB$ divides the loss by $c$ and multiplies $C$ by $c$, as it must, since
+the left-hand side does not see $\nuB$. And it is \emph{not} free of the size of the state
+space --- on a finite space with counting measure and uniform $\nutrain$ it reads
+$2N/\target(\Statespace)$, so the effective bound carries a factor
+$N^{1-1/q}$, which is a H\"older step and is attained when the residual is spread evenly.
+At $q=1$ that factor is absent and the bound is dimension-free; Section \ref{sec:experiments}
+measures both regimes. Full statement and proof: Theorem \ref{theo:RL_CV_bound_full},
+Appendix \ref{app:stable}.
+
+Two objects the practitioner chooses rather than inherits sit inside this bound: the
+initial flow and the training measure. Appendix \ref{app:finit} works out the first --- the
+certificate-optimal mass overshoots the partition function, undershoot is the dearer error,
+and the optimal shape solves a one-sided Chebyshev problem --- and Appendix \ref{app:replay}
+the second, where a replay buffer is read as a device shaping $\nutrain$ and the two pipelines
+return opposite verdicts: uniform reweighting is optimal for the certificate's constant,
+backward replay for the training rate.
+
+\begin{theorem} \label{theo:IL_CV_bound_body}
+For a probability initial flow, a normalized target and a forward policy whose star inflow
+has a density, trained with the KL-weak-FM loss at any $q\in[1,+\infty]$ and an admissible
+weight $b\geq1+\|\dln\|_{L^{q^*}(\nutrain)}$, the loss is bounded below by the self-entropy
+$\mathcal H$ of the target --- with equality as soon as the family contains flows dominating
+the target up to a factor $1-\varepsilon$ for every $\varepsilon>0$, attained at exact
+matching, which strong $L^p$-universality supplies when the initial flow and the target have
+densities in $L^p(\nuB)$ --- and the sampling error is
+$O\bigl(\sqrt{\LossWKLFM^q-\mathcal H}\bigr)$ as the loss approaches $\mathcal H$.
+\end{theorem}
+This is the target-by-samples counterpart of Theorem \ref{theo:RL_CV_bound}: the loss never
+uses the density of $\target$, only samples from it. Reaching the self-entropy may require a large $0$-flow component --- expected, since
+reaching some regions of the state space can take arbitrarily many moves. Full
+statement and proof: Theorem \ref{theo:IL_CV_bound}, Appendix \ref{app:stable}.

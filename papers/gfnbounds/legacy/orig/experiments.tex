@@ -1,0 +1,145 @@
+\section{Experiments}\label{sec:experiments}
+
+The bounds above are only as informative as their constants, so we measure them. Every
+experiment runs on an \emph{enumerable} state space, which is a design choice rather than a
+limitation: the sampling error $\TV(s_\tau\|\target)$ is then a linear solve rather than an
+estimate, and a figure testing a bound must not be dominated by Monte-Carlo noise of the same
+order as the quantity under test. Flows are tabular elements of $\mathcal M^2(\lambda)$
+--- the object Theorems \ref{theo:first_variation}--\ref{theo:local_convergence} actually
+describe --- so no network is involved anywhere and the gradient flow measured below is the
+one the theory predicts. The parameterized case is correspondingly \emph{not} tested here.
+Code, configurations and seeds accompany the paper.
+
+\paragraph{The stable bound holds, and at $q=1$ it does not see the state space.}
+Starting from the exactly balanced flow produced by the construction in the proof of Theorem
+\ref{theo:universality_L2} --- whose residual and sampling error are both zero to machine
+precision, itself a check on that construction --- we perturb multiplicatively over four
+orders of magnitude and compare the two sides of Theorem \ref{theo:RL_CV_bound}. Across
+$21{,}168$ flows spanning seven environment classes (nine environment--policy families)
+and state spaces from $N=6$ to
+$N=386{,}880$ there is \textbf{no violation} (Figure \ref{fig:bound}, left). Testing a family
+of flows rather than a training trajectory is the stronger test, since the theorem quantifies
+over every flow and not only those gradient descent visits.
+
+The tightness is the more interesting half. At $q=1$ the median ratio
+$C\mathcal L/\TV$ is $6.0$ at $N=6$ and, at fixed near-balance perturbation size, stays
+between $6.0$ and $6.6$ all the way to $N=386{,}880$: the bound sits within one
+order of magnitude of the truth and \emph{does not degrade} over a $64{,}000$-fold range of
+state-space size. (Pooled over all perturbation sizes the per-$N$ median rises to $32$ at
+the largest $N$ --- growth carried by the far-from-balance rows, not by the constant.)
+For $q>1$ it grows, with fitted exponents $N^{0.20}$ at $q=2$ and $N^{0.60}$
+at $q=\infty$ against the worst case $N^{1-1/q}$ of the H\"older step (Figure \ref{fig:bound},
+right). So the $N$-dependence discussed after Theorem \ref{theo:RL_CV_bound} is real but is a
+consequence of the choice of $q$, and vanishes at $q=1$.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.45\textwidth]{figures/fig1_bound.pdf}\hfill
+\includegraphics[width=0.45\textwidth]{figures/fig2_scaling.pdf}
+\caption{\textbf{Left:} exactly computed $\TV$ against the right-hand side of Theorem
+\ref{theo:RL_CV_bound}, one point per flow; everything lies on or below the diagonal.
+\textbf{Right:} the tightness ratio against state-space size, with the fitted exponent per
+$q$. At $q=1$ the constant is flat over two decades of $N$.}
+\label{fig:bound}
+\end{figure}
+
+\paragraph{The KL-weak-FM constant is below $1$ wherever the bound is non-vacuous.}
+Theorem \ref{theo:IL_CV_bound_body} gives $\TV = O(\sqrt{\mathcal L - \mathcal H})$, and
+its full form names the constant --- $\tfrac1{\sqrt2}$ on the square root, beside a capped
+term linear in the gap that puts the guaranteed ratio above $\tfrac1{\sqrt2}$ --- so what
+we measure is the constant realized: over $3{,}472$ (flow, $q$) instances on toroidal EGF,
+Cayley, hypergrid and product-replacement families ($N$ from $24$ to $336$), the floor
+$\mathcal L\geq\mathcal H$ holds on \emph{every} instance, and the measured constant
+$\TV/\sqrt{\mathcal L-\mathcal H}$ never exceeds $0.612$. Two disclosures keep this
+honest. First, the constant is defined on the $1{,}572$ instances where the loss is
+finite; on the other $1{,}900$ it is $+\infty$ because the inferred terminal flow
+vanishes on part of the target's support --- the forward-KL mechanism, observed rather
+than hypothesized (the bound holds there vacuously). Second, the constant is not one number: the
+full-support EGF arm gives $\leq0.163$, a support-restricted EGF variant $0.324$, and the
+arms at $q\in\{2,4,\infty\}$ and on non-EGF families $\leq0.612$. Theorem
+\ref{theo:IL_CV_bound} restricts neither the exponent nor the parameterization, so that
+spread measures the constant rather than the boundary of the proof.
+
+\paragraph{The diffusion picture predicts the training rate; the hitting-time constant does not.}
+Running the exact gradient flow of $\mathcal L_{g,\nu}$ in $\mathcal M^2(\lambda)$ and
+fitting its exponential rate near balance, the prediction
+$\varrho_{\mathrm{true}} := g''(1)w_{\min}/B_{\mathrm{true}}^2$ --- Theorem
+\ref{theo:db_stable_frozen} with the exact coercivity constant in place of the mixing sum ---
+matches the measured rate to within $1$--$10\%$ on all $20$ distinct chains tested
+($23$ runs; three leveled cases are carried in both sweeps), across Cayley
+graphs of $\mathfrak S_n$, leveled graphs and product-replacement graphs (Figure
+\ref{fig:rates}). The linearization of Theorem \ref{theo:gd_diffusion} is therefore not merely
+qualitative.
+
+The guarantee $\varrho_\sigma$ of Theorem \ref{theo:training_speed} is a different matter: valid
+everywhere, and between $187$ and $10^{9}$ times too small, the gap widening with $N$. On
+leveled graphs, where the mixing sum genuinely diverges and $\varrho_\sigma$ is the only rate
+available, the exact coercivity constant is nonetheless $B_{\mathrm{true}}\approx1$ --- the
+smallest in the study, with the fastest observed convergence. The mixing route fails precisely
+where the underlying coercivity is best. Theorems \ref{theo:db_stable_frozen_full} and
+\ref{theo:local_convergence_full} are stated accordingly, for any coercivity constant
+\eqref{eq:coercivity} --- a bound $\geq1$ on $\|(I-P)^{-1}\|$ over mean-zero functions ---
+which summable mixing and hitting times (Proposition \ref{prop:morozov_rate}) each supply.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.72\textwidth]{figures/fig4_rates.pdf}
+\caption{Guaranteed against achieved local convergence rate on the $11$ chains of the
+Cayley/leveled sweep. The exact
+coercivity constant (crosses) lands on the measured rate (circles) everywhere; the
+hitting-time guarantee of Theorem \ref{theo:training_speed} (squares) is two and a half to
+six orders
+of magnitude below. The three rightmost are leveled graphs, where the mixing sum is infinite.}
+\label{fig:rates}
+\end{figure}
+
+\paragraph{The minimax obstruction, made visible.}
+Theorem \ref{theo:no_bound_divergence} is a statement about a construction, and the
+construction is small enough to evaluate exactly. On the cyclic graph $\mathcal C_8$ of its
+proof, adding circulation $k$ to the base flow leaves the sampler --- and hence the sampling
+error --- exactly where it was, at $\TV=0.9857$, while the squared divergence losses fall
+thirteen orders of magnitude --- $(\log x)^2$ and $(x-1)^2$ reach $2\cdot10^{-13}$ at
+$k=10^6$, and $|x-1|$ falls seven. The stable
+loss of Theorem \ref{theo:RL_CV_bound}, being a norm of the \emph{difference} of the two sides
+rather than of their ratio, is flat in $k$ (Figure \ref{fig:minimax}). The contrast is in the
+shape: one family of losses reports the error and the other does not.
+
+\paragraph{A family where the mixing hypothesis provably holds, uniformly.}
+Every graph considered so far has constants that grow with $N$, which leaves open whether the
+summable-mixing hypothesis is ever satisfied with a constant independent of the state space.
+It is. By the theorem of \citet{lubotzky2001product}, property (T) for $\mathrm{Aut}(F_k)$ ---
+known for $k\geq4$ \citep{nitsche2020computer,kaluba2019aut,kaluba2021property} --- gives
+the product-replacement graphs $\Gamma_k(G)$ a spectral gap
+bounded below uniformly over all finite groups $G$. On the ten groups carried at every $k$
+($|G|\leq12$, $N\leq246{,}840$; further groups reach $|G|=60$ and $N=386{,}880$ at
+individual $k$), the spread of $B$ across groups is $3.92\times$ at
+$k=3$, $2.40\times$ at $k=4$ and $1.93\times$ at $k=5$: it tightens as $k$ crosses the
+threshold (Figure \ref{fig:minimax}, centre). At $k=2$, where property (T) fails, five of ten groups
+give spectral gap exactly zero.
+
+They also make $B$ a controlled variable rather than a property of the environment: for a
+\emph{reversible} backward policy the coercivity constant is exactly the reciprocal spectral
+gap, since $I-P$ then has eigenvalues $1-\zeta_i$, an identity confirmed against the
+loop-closed constant to within $2\%$ and improving with $N$. Reweighting the moves so as to
+keep reversibility, or interpolating with a lazy or restart step, then moves $B$ over a range
+of $1154$ in closed form (Figure \ref{fig:minimax}, right). This also answers a practical
+objection to the coercivity formulation: for a reversible policy the hypothesis is a single
+eigenvalue, computable at $N=4\cdot10^5$ in seconds.
+
+\paragraph{What this study does not reach.}
+One gap is taken up in the appendix: Appendix \ref{app:sgd} supplies the
+stochastic-gradient term absent from the dynamics above, where balance losses turn out to
+be noise-free at their optimum while imitation terms are not. Appendix \ref{app:program}
+states, for each result of the paper, the experiment that would ground or refute it best.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.33\textwidth]{figures/fig3_minimax.pdf}\hfill
+\includegraphics[width=0.63\textwidth]{figures/fig7_pra_scale.pdf}
+\caption{\textbf{Left:} on the graph of Theorem \ref{theo:no_bound_divergence}, divergence
+losses $\mathcal L_{g,\nu}$ --- $\nu$ the training measure --- vanish along $F_k=\widehat F+k\gamma$ while the sampling error stays pinned at
+$0.9857$; the stable loss does not move. \textbf{Centre and right:} $B=1/\mathrm{gap}$ of
+$\Gamma_k(G)$ against group order, the spread across groups tightening as $k$ crosses the
+property (T) threshold, and the range of $B$ each backward-policy family reaches.}
+\label{fig:minimax}
+\end{figure}

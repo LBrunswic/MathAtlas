@@ -1,0 +1,237 @@
+% Appendix F -- stochastic gradients: noise, floors, and the buffer.
+\section{\appendixFtitle}\label{app:sgd}
+
+The training theory of Section~\ref{sec:cv_divergence} is exact gradient flow and
+full-batch descent; nothing in it analyzes sampled gradients. Yet the one empirical
+scaling left open by the trefoil architecture sweep
+(\texttt{exp15\_trefoil\_arch\_sweep.py}, released with the code) is a \emph{noise}
+scaling: the sub-square-root batch exponent. This appendix sets up the missing term and
+gets three things from it: a structural dichotomy (balance losses are noise-free at
+their optimum; imitation terms are not), a floor formula with the slow-mode weighting
+in exactly one of its two guises, and an honest account of a batch-scaling model that
+was registered in advance and then refuted by a longer control run --- with the
+protocol that would test it properly (Appendix~\ref{app:program}).
+
+\subsection{The deformation}\label{sec:deformation}
+
+SGD with training measure $\nutrain$, batch $b$ and step $\varepsilon$ on a loss
+$\mathcal L$ is $\theta_{k+1} = \theta_k - \varepsilon(\nabla\mathcal L(\theta_k)+\xi_k)$
+with $\mathrm{Cov}(\xi_k) = \Sigma_{\nutrain}(\theta_k)/b$, where
+$\Sigma_{\nutrain}(\theta) = \mathrm{Cov}_{x\sim\nutrain}(G_x(\theta))$ is the
+per-sample gradient covariance. Its diffusion presentation \citep{li2019sme} is
+\begin{equation}\label{equ:sme}
+    d\theta \;=\; -\nabla\mathcal L(\theta)\,dt
+    \;+\; \sqrt{\tfrac{\varepsilon}{b}}\,\Sigma_{\nutrain}(\theta)^{1/2}\,dW .
+\end{equation}
+The training measure now enters the limiting dynamics \emph{twice}: through the drift
+preconditioner $M_w$ of Theorem~\ref{theo:gd_diffusion} ($w = d\nutrain/d\lambda$, the
+object all of Appendix~\ref{app:replay} optimizes) and through the diffusion tensor
+$\Sigma_{\nutrain}$ --- the deformation the buffer applies to the gradient flow the
+theory analyzes. The noise scale is the ratio $\varepsilon/b$ (halving the step buys a
+doubled batch), with the caveat that the step cap of
+Theorem~\ref{theo:db_stable_frozen} bounds $\varepsilon$ independently of $b$.
+
+\subsection{The dichotomy: balance noise is multiplicative}\label{sec:dichotomy}
+
+\begin{proposition}[balance losses are at interpolation]\label{prop:interpolation}
+For any balance loss $\mathcal L_{g,\nu}(\mu)=\int g(r)\,d\nu$ with $g\geq0$,
+$g(1)=g'(1)=0$, sampled per state (or per edge, through the lift) --- per-sample loss
+$g(r_x)$, $x\sim\nu$:
+\begin{enumerate}
+    \item at balance every per-sample loss is at its own \emph{global} minimum, so
+    $G_x(\theta^*)=0$ for every $x$ --- the exact interpolation regime --- and
+    $\Sigma_\nu(\theta^*)=0$ identically, \emph{for every training measure};
+    \item near balance the noise is multiplicative with the strong-growth constant
+    explicit: $\operatorname{tr}\Sigma_\nu(\theta)\;\leq\;
+    2g''(1)\,\max_x\|\nabla r_x\|^2\;\mathcal L(\theta)\,(1+o(1))$;
+    \item consequently SGD on a pure balance loss has \emph{no noise floor}: under the
+    local PL inequality of Lemma~\ref{lem:local_pl}, the expected loss contracts
+    linearly to zero at a rate degraded by at most the strong-growth factor
+    \citep[the mechanism of][]{vaswani2019fast} --- batch size rescales the rate, never
+    the limit;
+    \item in log coordinates ($\mu = e^\theta$ against counting measure) the balance
+    Hessian at balance is exactly $g''(1)(P-I)^\top\!\operatorname{diag}(\nu)(P-I)$ with
+    $P$ the density action --- the Gauss--Newton face of
+    Theorem~\ref{theo:gd_diffusion}'s $H = g''(1)A^\dagger M_wA$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1): $g(r_x)\geq0$ vanishes at $r_x=1$. (2): $\|G_x\|^2 = g'(r_x)^2\|\nabla r_x\|^2$
+with $g'(r)^2 = g''(1)^2(r-1)^2(1+o(1))$ and $\mathcal L =
+\tfrac{g''(1)}2\int(r-1)^2d\nu\,(1+o(1))$; take $\mathbb E_\nu$ and compare.
+(3): one expected-descent line, with $\Lambda$ a local smoothness constant (an upper
+bound on $\|\nabla^2\mathcal L\|$ on the neighborhood): $\mathbb E[\mathcal L^+]\leq\mathcal L
+-\varepsilon\|\nabla\mathcal L\|^2 + \tfrac{\varepsilon^2\Lambda}2
+(\|\nabla\mathcal L\|^2 + \operatorname{tr}\Sigma/b)$, then (2) and PL. (4): expand
+$r = 1 + (P-I)h + O(h^2)$ as in Theorem~\ref{theo:gd_diffusion} and apply
+Lemma~\ref{lem:balanced_min}'s Gauss--Newton form.
+\end{proof}
+
+The training loss of the trefoil architecture sweep is \emph{not} pure
+balance: its defect penalty is an exact enumerated sum, and its only sampled term is the
+imitation cross-entropy $-\mathbb E_{x\sim\target}\log\fterm(x)$, whose per-sample
+gradient at the optimum is nonzero (only its mean vanishes) --- $\Sigma(\theta^*)$ is
+the Fisher information of the categorical target, an \emph{additive} noise source. The
+dichotomy is the structural content of the batch scaling: the part of the loss this
+paper's theory speaks about contributes no floor at all; any floor comes entirely from
+the imitation term, and it obeys an Ornstein--Uhlenbeck law.
+
+\subsection{The floor, in two guises}\label{sec:floor}
+
+\begin{proposition}[additive floor]\label{prop:additive_floor}
+Linearize \eqref{equ:sme} at an optimum $\theta^*$ with Hessian $H$ and constant noise
+$\Sigma = \Sigma(\theta^*)$: $dh = -Hh\,dt + \sqrt{\varepsilon/b}\,\Sigma^{1/2}dW$,
+restricted to the complement of $\ker H$, with $\Sigma_\perp$ denoting the restriction
+of $\Sigma$ to $(\ker H)^\perp$. The stationary covariance $S$ solves
+$HS+SH = \tfrac{\varepsilon}{b}\Sigma_\perp$, and:
+\begin{enumerate}
+    \item \emph{(loss floor --- no spectral weighting)}\;
+    $\mathbb E[\mathcal L-\mathcal L^*] \;\to\; \tfrac12\operatorname{tr}(HS)
+    \;=\; \frac{\varepsilon}{4b}\operatorname{tr}\Sigma_\perp$: the stationary excess
+    loss does not see the spectrum of $H$ at all;
+    \item \emph{(parameter floor --- the slow modes)}\;
+    $\operatorname{tr} S = \frac{\varepsilon}{2b}\sum_i
+    \frac{\widetilde\Sigma_{ii}}{\zeta_i}$ in $H$'s eigenbasis: parameter (and hence
+    TV) error weights each noise mode by the \emph{inverse} eigenvalue --- the
+    $\frac1{1-\beta}$ slow-mode weighting of Proposition~\ref{prop:shape_cost}(4),
+    reappearing on the noise side. Locally
+    $\mathbb E[\TV] \lesssim C_{\mathrm{lip}}\,(\operatorname{tr}S)^{1/2}$ by
+    Lipschitz-ness of the exact chain law, not through any $\mathcal L^{1/q}$ route;
+    \item \emph{(gauge)} at the mixed balance$+$imitation optimum, $\ker H$ is exactly
+    the scale direction, along which the terminal law is invariant --- so the
+    restriction in (1)--(2) discards nothing the certificate sees;
+    \item \emph{(discrete ground truth)} the discrete stationary equation is
+    $S_d = (I-\varepsilon H)S_d(I-\varepsilon H) + \tfrac{\varepsilon^2}b\Sigma_\perp$;
+    $S_d = S + O(\varepsilon)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1): trace the Lyapunov equation: $2\operatorname{tr}(HS) =
+\tfrac{\varepsilon}b\operatorname{tr}\Sigma_\perp$; the excess loss is
+$\tfrac12\mathbb E[h^\top Hh] = \tfrac12\operatorname{tr}(HS)$. (2): solve the Lyapunov
+equation in the eigenbasis, $S_{ij} = \tfrac{\varepsilon}b
+\widetilde\Sigma_{ij}/(\zeta_i+\zeta_j)$, and take the trace. (3): both loss terms
+are invariant under $\theta\mapsto\theta+c\mathbf 1$, and the exact chain law is
+unchanged by a global rescaling of the flow; \S\ref{sec:num_sgd} verifies the kernel is
+one-dimensional at the mixed optimum. (4) is direct algebra on the two stationary
+equations.
+\end{proof}
+
+\subsection{The buffer under noise}\label{sec:buffer_noise}
+
+\begin{proposition}[the replay answer is noise-robust]\label{prop:buffer_robust}
+For pure balance losses, the balanced set is $\nutrain$-independent and
+$\Sigma_{\nutrain}(\theta^*)=0$ for \emph{every} $\nutrain$: the noise term creates no
+new trade-off, and $\nutrain=\lambda$ retains the guarantee-optimality of
+Proposition~\ref{prop:backward_replay} unchanged under sampling.
+\end{proposition}
+
+\begin{proof}
+Immediate from Proposition~\ref{prop:interpolation}(1): the balanced set and the
+vanishing of every per-sample gradient there do not depend on the training measure, so
+sampling adds no $\nutrain$-dependent term at the optimum, and
+Proposition~\ref{prop:backward_replay} applies unchanged.
+\end{proof}
+
+For the \emph{mixed} loss the picture genuinely deforms, and the exact curve of
+\S\ref{sec:num_sgd} is worth recording: along $\nu_t = (1-t)\lambda + t\,\mathrm{unif}$
+on the audit instance, the exact transverse rate \emph{rises}
+($5.8\cdot10^{-3}\to4.7\cdot10^{-2}$) and the parameter floor \emph{falls}
+($3.1\cdot10^{-7}\to1.6\cdot10^{-7}$) --- both axes prefer tempering toward uniform once
+an imitation term is present [computed exactly on one instance; no general theorem
+claimed]. This is the third appearance of the same moral: the pure-balance
+\emph{guarantees} prefer $\lambda$ (Proposition~\ref{prop:backward_replay}), the exact
+rate prefers an interior mixture (\S\ref{sec:num_replay}), the stable pipeline prefers
+uniform (Proposition~\ref{prop:stable_uniform}) --- and noise, when it exists at the
+optimum, votes with the tempered end. The importance-sampling intuition
+``$\nu^*\propto$ root second moment of the per-sample gradient'' is deliberately
+\emph{not} used: it belongs to the reweighted-estimator regime (fixed objective),
+whereas the buffer here changes the objective itself.
+
+\subsection{The batch model: registered, and refuted by a control}\label{sec:batch_model}
+
+By Propositions~\ref{prop:interpolation} and~\ref{prop:additive_floor}, the sweep's
+final TV should decompose as noise floor plus $b$-independent bias,
+\begin{equation}\label{equ:batch_model}
+    \TV(b) \;\approx\; \sqrt{a\,/\,b + c},
+\end{equation}
+with $a$ the imitation-noise coefficient
+($\propto\varepsilon\cdot$Fisher-along-slow-modes) and $c$ collecting the
+finite-$\varepsilon$ floor, model-class and finite-time bias --- inseparable at fixed
+learning rate. The sweep's two batch points ($b=512$: TV $0.0345$; $b=4096$: $0.0159$)
+determine $(a,c)$ \emph{exactly} --- zero degrees of freedom, so their consistency with
+the observed $2.17\times$ improvement against $\sqrt8=2.83$ is a reading, not a
+confirmation. The fit gives $a=0.5485$, $c=1.189\cdot10^{-4}$, hence predicted final TVs
+$0.0197$ at $b=2048$, $0.0136$ at $8192$, $0.0116$ at $32768$, and an asymptote
+$\sqrt c=0.0109$; these were registered before any further run was examined. (The fit
+uses the recorded three-significant-figure TVs; full-precision values give $a=0.5471$,
+$\sqrt c=0.0107$ --- immaterial, and the registered numbers are kept as registered.)
+
+The refutation arrived through a control rather than the sweep: the long-run control
+(\texttt{exp16\_best\_recipe.py}) trains the \emph{same} batch $4096$ for $20{,}000$
+steps and reaches TV $0.00574$, still falling --- $1.9\times$ \emph{below} the fitted
+asymptote at the same $b$, so no noise-scaling reading survives. The cause is visible in
+the fit's inputs: both batch points came from wall-clock-truncated runs still descending
+at their last checkpoint (with an $8\%$ step-count mismatch between them), so ``final
+TV'' in \eqref{equ:batch_model} was never a stationary quantity, and $c$ absorbed where
+training happened to stop. The structural theory of
+\S\ref{sec:dichotomy}--\S\ref{sec:floor} is untouched --- it is verified at $0.03\%$
+where stationarity actually holds (\S\ref{sec:num_sgd}) --- but a valid test of
+\eqref{equ:batch_model} needs arms run to a fixed large step count, not a wall-clock
+budget, with truncated points excluded from the fit; experiments (F1) and (F2) of
+Appendix~\ref{app:program} specify it, and the sharper first test is the
+half-learning-rate arm at fixed $b$ and fixed steps, which isolates the
+$\varepsilon$-dependent part of the floor and is immune to the stopping artifact. The
+episode is the mass-floor lesson of \S\ref{sec:mass} arriving on the noise side: a floor
+fitted from a trajectory that never reached it measures the trajectory, not the floor.
+
+\subsection{Numerical evidence}\label{sec:num_sgd}
+
+The script \texttt{audit\_sgd.py}, released with the code, is fully deterministic by
+default (covariances and Lyapunov solves are finite sums and linear solves); an optional
+flag adds the seeded stochastic check reported last.
+
+\paragraph{Interpolation, measured.}
+Over $5$ random loop-closed graphs: per-sample gradients at balance vanish to
+$7.1\cdot10^{-15}$, state by state, by automatic differentiation; the Gauss--Newton
+identity of Proposition~\ref{prop:interpolation}(4) holds against the autograd Hessian
+to $9.4\cdot10^{-16}$; $\Sigma_\nu$ is PSD; and
+$\operatorname{tr}\Sigma/\mathcal L$ is constant over a $4\times$ range of distances to
+balance (drift $<10^{-4}$) --- the noise is multiplicative, measured.
+
+\paragraph{The floor algebra is exact.}
+At a mixed balance$+$imitation optimum (Newton to $10^{-14}$): $\ker H$ is
+one-dimensional and aligned with the scale direction to $10^{-12}$; the exact chain law
+is invariant under doubling the flow to $10^{-12}$;
+$\operatorname{tr}(HS)=(\varepsilon/2b)\operatorname{tr}\Sigma_\perp$ and the eigenbasis
+identity for $\operatorname{tr}S$ both hold at $10^{-11}$; the discrete--continuous
+Lyapunov gap halves when $\varepsilon$ halves (ratio $2.000$).
+
+\paragraph{The buffer's two entrances.}
+Pure-balance $\Sigma_\nu(\theta^*)$ vanishes at $10^{-13}$ for every $\nu$ in a spiky
+random grid; $\varrho_\sigma(\lambda)\geq\varrho_\sigma(\nu)$ on $200$ draws; the
+mixed-loss (exact rate, parameter floor) curve of \S\ref{sec:buffer_noise} is printed by
+the script, not asserted.
+
+\paragraph{The diffusion presentation is the observed stationary law.}
+$64$ tabular SGD chains on the mixed loss ($b=8$, $\varepsilon=0.2/\zeta_{\max}$,
+$16{,}000$ steps after burn-in): empirical stationary excess loss $3.130\cdot10^{-5}$
+against the predicted $\tfrac12\operatorname{tr}(HS_d)=3.131\cdot10^{-5}$ --- agreement
+to $0.03\%$, far inside the statistical tolerance
+(Figure~\ref{fig:app_sgdfloor}, right). On these instances \eqref{equ:sme} is not an
+analogy; it is the measured stationary law.
+
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=0.9\linewidth]{figures/figA7_sgdfloor.pdf}
+\caption{\textbf{Left:} the batch-model refutation of \S\ref{sec:batch_model}: TV
+against steps for the wall-clock-truncated batch-$4096$ sweep arm and for the long-run
+control at the same batch, which walks through the fitted asymptote $\sqrt c$ (dashed)
+--- the fitted floor was a stopping artifact. \textbf{Right:} where stationarity does
+hold, the theory is exact: predicted stationary excess loss
+$\tfrac12\operatorname{tr}(HS_d)$ against the empirical mean of $64$ tabular SGD chains
+(agreement $0.03\%$; Proposition~\ref{prop:additive_floor}).}
+\label{fig:app_sgdfloor}
+\end{figure*}

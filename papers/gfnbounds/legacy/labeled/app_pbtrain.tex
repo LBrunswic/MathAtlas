@@ -1,0 +1,459 @@
+% Appendix E -- trained backward policies: flow regularization in spectral variables.
+\section{\appendixEtitle}\label{app:pbtrain}
+
+Everything in Section~\ref{sec:cv_divergence} freezes the backward policy; the practice
+recommended by \citet{morozov2025revisiting} trains it. Their objective is the log-scale
+detailed-balance loss (their Eq.~4) with a learnable $\mathcal P_B$, plus state-flow
+regularization (their Eq.~12),
+\begin{equation}\label{equ:hse_objective}
+    \mathcal L_{\lamreg}(\mathcal F, \mathcal P_B)
+    \;=\; \sum_{s\to s'} \widehat\nu(s\to s')
+    \Bigl(\log\tfrac{\mathcal F(s)\mathcal P_F(s'|s)}{\mathcal F(s')\mathcal P_B(s|s')}\Bigr)^2
+    \;+\; \lamreg\sum_{s}\mathcal F(s)
+\end{equation}
+(their regularizer is written per transition; summed over a batch it is the total state
+flow, which is the form every statement below uses), with reward matching enforced by
+the substitution
+$\mathcal F(s_f)\mathcal P_B(x|s_f)=\mathcal R(x)$. That substitution does two things at
+once in the loop-closure frame of this paper: it pins the total scale ($\mathcal F(s_f) =
+\sum_x\mathcal R(x) = Z$ on the balanced set, so the scale ray of the frozen-backward
+family --- Theorem~\ref{theo:universality_graphs}(2), the ray whose uniqueness-up-to-scale
+Proposition~\ref{prop:frozen_unstable} exploits --- is removed by a boundary condition,
+not by a constraint one must add), and it pins the \emph{sink row} of the backward chain to the
+normalized target --- exactly the convention
+$\widehat{\mathcal P}_B(s_f\to\cdot)=\target/t$ under which
+Proposition~\ref{prop:morozov_rate} defines $N$, $\bar\sigma$, $\sigma_*$. Their
+Proposition~3.7 then parameterizes the balanced set by the \emph{interior rows of
+$\mathcal P_B$ alone}. This appendix translates \eqref{equ:hse_objective} into the
+spectral variables of Section~\ref{sec:cv_divergence}: what the $\mathcal P_B$-training
+does (a slow drift along the balanced manifold, descending expected trajectory length),
+where it goes (the optimal-transport endpoint of \citet{maksimov2026ot}), and what it
+costs (every constant of the training-speed theory, at a computable exchange rate).
+
+\subsection{The joint landscape, and the dictionary}\label{sec:joint}
+
+\begin{lemma}[balanced points are critical in all variables]\label{lem:balanced_min}
+Let $\mathcal L\geq0$ be $C^1$ in $(\mathcal F,\mathcal P_B)$ and vanish exactly on the
+balanced set. Then every balanced point is a global minimum, so
+$\nabla_{(\mathcal F,\mathcal P_B)}\mathcal L=0$ there --- including the
+$\mathcal P_B$-gradient. If moreover $\mathcal L=\sum\widehat\nu\, g(r)$ with
+$g(1)=g'(1)=0$, $g''(1)>0$, the joint Hessian at a balanced point is Gauss--Newton,
+$H_{\mathrm{full}} = g''(1)\, J^\dagger M_{\widehat\nu} J$ with $J$ the joint Jacobian of
+the residual $r$, and $\ker H_{\mathrm{full}}$ is the tangent space of the balanced
+manifold.
+\end{lemma}
+
+\begin{proof}
+The first claim is the definition of a global minimum of a nonnegative function. For the
+second, $\nabla^2[g(r)] = g''(r)\nabla r\otimes\nabla r + g'(r)\nabla^2 r$; at $r\equiv1$
+the second term dies with $g'(1)=0$.
+\end{proof}
+
+So at balance the only surviving force in \eqref{equ:hse_objective} is the regularizer:
+$\mathcal P_B$-training near the balanced manifold is not ``the loss adjusting the
+backward policy'' --- the loss is indifferent there --- it is the regularizer
+transporting the flow \emph{along} the manifold. What the regularizer descends is
+identified exactly by the following dictionary entry.
+
+\begin{lemma}[their Eq.~10 is the occupation identity, summed]\label{lem:eq10_occupation}
+On the loop closure with sink row $\target/t$, let $\mathcal F$ be the balanced flow of an
+interior-positive $\mathcal P_B$ with $\mathcal F(s_f)=Z$. Then $\mathcal F(s) = Z\,N(s)$
+for every state, hence
+\begin{equation}\label{equ:eq10}
+    \sum_{s\notin\{s_0,s_f\}}\frac{\mathcal F(s)}{\mathcal F(s_f)} \;=\; \bar\sigma,
+    \qquad
+    \sum_{s}\frac{\mathcal F(s)}{\mathcal F(s_f)} \;=\; 2+\bar\sigma,
+    \qquad
+    \mathcal F(\Statespace) \;=\; (2+\bar\sigma)\,Z .
+\end{equation}
+The first display is Eq.~(10) of \citet{morozov2025revisiting} (expected trajectory
+length $=$ normalized total interior flow) re-derived in the variables of
+Proposition~\ref{prop:morozov_rate}; in particular the state-flow regularizer of
+\eqref{equ:hse_objective} equals, on the balanced manifold,
+$\lamreg{}Z\,(2+\bar\sigma(\mathcal P_B))$ --- up to an additive constant,
+$\lamreg{}Z\,\bar\sigma(\mathcal P_B)$, so \textbf{flow regularization is
+gradient descent on the expected backward-trajectory length}.
+\end{lemma}
+
+\begin{proof}
+The balanced flow of a frozen backward policy is the invariant-measure ray
+(Theorem~\ref{theo:universality_graphs}, part (2)): $\mathcal F = c\,\lambda$. The
+occupation identity $\lambda = N/(2+\bar\sigma)$
+(Proposition~\ref{prop:morozov_rate}(1)) with $\lambda(s_f)=1/(2+\bar\sigma)$ gives
+$c = Z(2+\bar\sigma)$ from $\mathcal F(s_f)=Z$, hence $\mathcal F = Z N$. Sum, using
+$N(s_0)=N(s_f)=1$.
+\end{proof}
+
+The paper's training-speed theorem is stated as a two-phase convergence result, not as
+a gradient-domination inequality; the drift analysis below needs the latter, so we
+record it as a lemma. It is the coercivity of Proposition~\ref{prop:morozov_rate} read
+on the Hessian.
+
+\begin{lemma}[local Polyak--{\L}ojasiewicz inequality]\label{lem:local_pl}
+Fix an interior backward policy $p$ with occupation measure $\lambda(p)$ and training
+density $w\geq w_{\min}>0$, and consider the frozen-$p$ loss at its quadratic
+approximation around the balanced ray, $\mathcal L=\tfrac12\langle h,Hh\rangle$ with
+$H=g''(1)A^\dagger M_wA$ on $L^2(\lambda(p))$ (Theorem~\ref{theo:gd_diffusion}). Then,
+on the orthogonal complement of $\ker H$,
+\begin{equation*}
+    \|\nabla\mathcal L\|^2_{L^2(\lambda(p))}\;\geq\;2\,\varrho_\sigma(p)\,\mathcal L .
+\end{equation*}
+The constant lives in the $L^2(\lambda(p))$ metric, which moves with $p$: along the
+drift studied below it degenerates exactly as $\lambda_{\min}(p)\to0$
+(Proposition~\ref{prop:constants_path}).
+\end{lemma}
+
+\begin{proof}
+$\nabla\mathcal L=Hh$ and, $H$ being positive semi-definite,
+$\|Hh\|^2\geq\zeta^+_{\min}(H)\,\langle h,Hh\rangle=2\zeta^+_{\min}(H)\,\mathcal L$
+on $(\ker H)^\perp$. The coercivity of Proposition~\ref{prop:morozov_rate}(2) bounds the
+gap: $\langle h,Hh\rangle=g''(1)\langle Ah,wAh\rangle\geq
+g''(1)w_{\min}\|Ah\|^2\geq g''(1)w_{\min}\|h-\Pi h\|^2/\widehat B_\sigma^{\,2}$, so
+$\zeta^+_{\min}(H)\geq g''(1)w_{\min}/\widehat B_\sigma^{\,2}=\varrho_\sigma(p)$.
+\end{proof}
+
+\begin{proposition}[quasi-static tracking, and the shadow drift]\label{prop:two_timescale}
+Consider the gradient flow of $\mathcal L + \lamreg R$, $R := \sum_s
+\mathcal F(s)$, on a region where (i) the frozen-$\mathcal P_B$ loss satisfies the local
+Polyak--{\L}ojasiewicz inequality of Lemma~\ref{lem:local_pl} with constant
+$2\varrho(p)\geq2\varrho_{\min}>0$ at every backward policy $p$ visited, and (ii)
+$C_R:=\sup\|\nabla R\|<\infty$. Then
+\begin{equation}\label{equ:tracking}
+    \mathcal L_t \;\leq\; e^{-\varrho_{\min} t}\,\mathcal L_0
+    \;+\; \frac{\lamreg^2\,C_R^2}{2\,\varrho_{\min}} ,
+\end{equation}
+i.e.\ the trajectory tracks the balanced manifold at distance $O(\lamreg^2)$
+in loss. Its slow component follows, to $O(\lamreg^2)$, the shadow ODE
+$\dot p = -\lamreg\,P_{\mathrm{tan}}\nabla R = -\lamreg Z\,
+P_{\mathrm{tan}}\nabla\bar\sigma(p)$: projected gradient descent on the expected
+trajectory length.
+\end{proposition}
+
+\begin{proof}
+Enlarging the variable space only adds nonnegative terms to the gradient norm, so
+pointwise in $p_t$, $\|\nabla_{(\mathcal F,p)}\mathcal L\|^2 \geq
+\|\nabla_{\mathcal F}\mathcal L\|^2 \geq 2\varrho(p_t)\mathcal L$ --- the frozen
+inequality applied at the instantaneous kernel; no transverse-Hessian decomposition is
+needed and the cross-terms of the joint Hessian never enter. Then
+$\dot{\mathcal L} = -\langle\nabla\mathcal L, \nabla\mathcal L +
+\lamreg\nabla R\rangle \leq -\tfrac12\|\nabla\mathcal L\|^2 +
+\tfrac12\lamreg^2\|\nabla R\|^2 \leq -\varrho_{\min}\mathcal L +
+\tfrac12\lamreg^2C_R^2$ by Young; Gr\"onwall gives \eqref{equ:tracking}.
+The shadow statement is standard singular perturbation for gradient flows on a compact
+interior region (the fast variable is slaved at rate $\varrho_{\min}$, the slow one moves
+at $O(\lamreg)$); it is used at the level of gradient flow only ---
+discrete GD adds the usual $O(\varepsilon)$ terms and is not re-derived here. The
+identification $P_{\mathrm{tan}}\nabla R = Z P_{\mathrm{tan}}\nabla\bar\sigma$ is
+Lemma~\ref{lem:eq10_occupation} restricted to the manifold.
+\end{proof}
+
+\subsection{Where the drift goes: the OT endpoint}\label{sec:drift_target}
+
+\begin{lemma}[normalization reconciliation]\label{lem:normalization}
+With reward-pinned terminal flows and total scale $Z$ fixed, minimizing total interior
+flow over balanced flows at a \emph{fixed} initial row $\mathcal F(s_0\to u)=L(u)$ is the
+linear program of \citet[Eq.~10]{maksimov2026ot}, hence by their Theorem~3.2 a Kantorovich
+optimal-transport problem between $L$ and $\mathcal R$ with graph shortest-path costs.
+When the initial row is learned (the setting of \eqref{equ:hse_objective}), the relevant
+relaxation is $\inf_{L:\,\sum L=Z}\mathrm{OT}(L,\mathcal R)$ --- transport with a free
+source marginal, still an LP, in which each reward unit is routed from its nearest
+admissible entry.
+\end{lemma}
+
+\begin{proof}
+A balanced flow with reward-pinned terminal edges and initial row $L$ satisfies exactly
+the constraint set of \citet[Eq.~10]{maksimov2026ot}: conservation at interior states,
+$\mathcal F(x\to s_f)=\mathcal R(x)$, $\mathcal F(s_0\to u)=L(u)$, non-negative edge
+flows; conversely, a feasible point with everywhere-positive throughput is such a flow,
+and a general feasible point lies in the \emph{closure} of the family (zero-throughput
+states have no defined backward row) --- so the LP's minimum is the infimum over the
+closure, the object Proposition~\ref{prop:drift_target}(ii) speaks about. The objective
+--- total interior flow --- is the same on both sides, so the optimization problems
+coincide and their Theorem~3.2 applies (stated through their reduced problem, Eq.~11,
+under their Assumption~3.1). Freeing $L$ at fixed total $\sum L=Z$ replaces the value
+by its infimum over source marginals, an LP in $(L,\Pi)$ jointly.
+\end{proof}
+
+\begin{proposition}[the drift target]\label{prop:drift_target}
+(i) Along the shadow ODE of Proposition~\ref{prop:two_timescale}, $\bar\sigma(p_t)$ is
+non-increasing. (ii) The global minimizers of total flow over the closure of the balanced
+family are the minimum-flow solutions, supported on the tight (shortest-path) subgraph of
+the optimal potentials \citep[Thms~3.2--3.3]{maksimov2026ot}. (iii) Whether the drift
+\emph{converges} to a global minimizer is open --- $\bar\sigma(p)$ is a
+stochastic-shortest-path policy-optimization landscape, and no claim is made about its
+critical points beyond (i).
+\end{proposition}
+
+\begin{proof}
+(i) is the definition of (projected) gradient descent on $Z\bar\sigma$. (ii) is
+Lemma~\ref{lem:normalization} together with the cited theorems; \S\ref{sec:num_pb}
+verifies the identification on enumerated instances with an independent transport LP and
+a zero-reduced-cost dual certificate.
+\end{proof}
+
+\subsection{The spectral price}\label{sec:price}
+
+The endpoint of the drift is a boundary point of the policy polytope: the min-flow
+support is generically a strict subgraph, and a backward policy supported on it is
+(partly) deterministic. Every constant of Section~\ref{sec:cv_divergence} is a functional
+of $\mathcal P_B$; here is what each does along the way. Write $p_t$ for an interior path
+with $p_t\to p_1$, $t\to1$.
+
+\begin{proposition}[the constants along the path to minimum flow]\label{prop:constants_path}
+Suppose $p_1$'s flow has a support omitting at least one \emph{state}, while every state
+still reaches $s_0$ under $p_1$ (no trap). Then, as $t\to1$:
+\begin{enumerate}
+    \item $N_{\min}(p_t)\to0$ and $\lambda_{\min}(p_t)\to0$: the occupation of every
+    off-support state vanishes;
+    \item consequently $\widehat B_\sigma = \sigma_*/\lambda_{\min}^{1/2}\to\infty$ and
+    $\varrho_\sigma = g''(1)w_{\min}\lambda_{\min}/\sigma_*^2\to0$: \emph{the certified
+    rate dies with the off-support occupation};
+    \item for any fixed full-support $\nutrain$, $\|w\|_{L^\infty} =
+    \|d\nutrain/d\lambda\|_{L^\infty}\to\infty$, so the step cap
+    $\varepsilon\leq(4g''(1)\|w\|_{L^\infty})^{-1}$ of
+    Theorem~\ref{theo:db_stable_frozen} collapses as well;
+    \item $\sigma_*$ and $\bar\sigma$ stay \emph{bounded}, converging to the hitting
+    times of the limit policy. The divergence is an occupation phenomenon, not a
+    hitting-time one.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $N$ is the expected-visit vector of the chain killed at $s_0$, started from the sink
+row: the solve $(I-Q_p)^\top N = \widehat{\mathcal P}_B(s_f\to\cdot)$ on
+$\Statespace\setminus\{s_0\}$. Under the no-trap hypothesis $I-Q_{p_1}$ is invertible
+(every state reaches $s_0$), so $N$ is continuous in $p$ on a neighborhood of $p_1$.
+Under $p_1$ an excursion starts on the support (the sink row is reward-pinned) and moves
+only along the support, so $N(p_1)(x)=0$ for every off-support state; by hypothesis at
+least one such state exists, and continuity gives $N_{\min}(p_t)\to0$. Then
+$\lambda_{\min}=N_{\min}/(2+\bar\sigma)\to0$ using (4). (2) is substitution into the
+definitions of $\widehat B_\sigma$ and $\varrho_\sigma$. (3) At an off-support state
+$\nutrain\geq\nu_{\min}>0$ while $\lambda\to0$, so
+$\|w\|_{L^\infty}\geq\nu_{\min}/\lambda_{\min}\to\infty$. (4) The hitting times solve
+$(I-Q^{s_0}_p)h=\mathbf 1$, again invertible at $p_1$ by the no-trap hypothesis; by
+continuity $\sigma_*(p_t)$ and $\bar\sigma(p_t)$ converge to the finite hitting times of
+$p_1$.
+\end{proof}
+
+\begin{remark}[replay repairs the cap, not the rate]\label{rem:replay_rescue}
+The adaptive buffer $\nutrain = \lambda(p_t)$ of Appendix~\ref{app:replay} keeps
+$w\equiv1$, so the step cap survives the whole path. The rate does not:
+$\varrho_\sigma = g''(1)\lambda_{\min}/\sigma_*^2\to0$ regardless. The speed loss under
+flow regularization is intrinsic --- it \emph{is} the occupation mass leaving the
+off-geodesic states --- and no training measure can buy it back within the guarantees of
+Section~\ref{sec:cv_divergence}. (Do not read this as ``the exact rate dies too'':
+$\varrho_\sigma$ is a guarantee, not a prediction. The exact transverse gap is the
+subject of the next proposition, and \emph{it} can die for a different reason.)
+\end{remark}
+
+\begin{proposition}[gap collapse at a two-component limit]\label{prop:gap_collapse}
+Suppose instead $p_t\to p_1$ where the limit chain has $m\geq2$ recurrent classes, and
+the invariant measures converge, $\lambda(p_t)\to\lambda_1$ with $\lambda_1>0$
+everywhere. Then the exact transverse Hessian gap vanishes:
+$\zeta^{\perp}_{\min}\bigl(H(p_t)\bigr)\to0$ for
+$H = g''(1)A^\dagger M_wA$, any fixed $w>0$.
+\end{proposition}
+
+\begin{proof}
+With $m\geq2$ recurrent classes each charged by $\lambda_1$, the per-class invariant
+densities $h_j = d\lambda^{(j)}/d\lambda_1$ span an $m$-dimensional kernel of $A_1 = P_1-I$
+(density action), and some mean-zero combination $h\neq0$ has
+$\langle h, H_1h\rangle=0$ with $\|h\|_{L^2(\lambda_1)}>0$. Since $\lambda_1$ is
+everywhere positive, the quadratic forms $H(p_t)$ converge to $H_1$ on a
+non-degenerating space, and the smallest transverse eigenvalue converges to $0$.
+\end{proof}
+
+\begin{remark}[the positivity hypothesis is necessary, measured]\label{rem:one_leak}
+The hypothesis $\lambda_1>0$ everywhere requires the two leak rates --- into and out of
+the would-be second class --- to close at comparable speeds, so that the limit measure is
+a genuine mixture over both classes. A one-leak degeneration shows the hypothesis is
+necessary: closing only the escape route drains the invariant measure onto the trap, the
+limit operator \emph{on its own support} has no extra kernel, and the measured gap
+stalls ($0.28\to0.014$ and no further on the one-leak path) --- while the two-leak path
+takes it to $2.1\cdot10^{-9}$ (Figure~\ref{fig:app_path}, right; both paths are computed
+by the released figure script). The distinction is exactly the
+difference between ``the chain traps'' (hitting times diverge, $\varrho_\sigma$ dies
+through $\sigma_*$) and ``the chain disconnects'' (the exact gap itself dies).
+\end{remark}
+
+\begin{remark}[minimum flow is adjacent to collapse]\label{rem:lp_degeneracy}
+At a minimum-flow solution the LP leaves the backward rows of \emph{zero-flow states}
+completely unconstrained: the min-flow face of the polytope contains kernels whose
+unconstrained rows form traps. Flow regularization therefore steers toward a boundary
+region where that trapping geometry is not a far-away pathology but a neighboring face.
+The released architecture sweep reached it through a collapsed planner; a
+flow-regularized trained $\mathcal P_B$ can reach it through the prices above ---
+$\lamreg$ is the dial that chooses how close.
+\end{remark}
+
+\subsection{The entropic repair}\label{sec:entropic}
+
+\begin{lemma}[trajectory-likelihood regularization]\label{lem:traj_entropy}
+For interior-positive $\mathcal P_B$,
+\begin{equation*}
+    \sum_{s'} N(s')\,H\bigl(\mathcal P_B(\cdot\,|\,s')\bigr)
+    \;=\; \mathbb E\bigl[-\log \mathcal P_B(\tau)\bigr],
+\end{equation*}
+the expected negative log-likelihood of the backward excursion --- so $N$-weighted
+conditional entropy is \emph{path} entropy, exactly. (The $\lambda$-weighted variant
+differs by the factor $2+\bar\sigma$; and neither is the edge-flow entropy
+$\sum_e f_e\log f_e$ of entropic optimal transport, which differs further by the state
+marginal term --- the relation to Sinkhorn is precise but not an identity, see
+Remark~\ref{rem:entropic_ot}.)
+\end{lemma}
+
+\begin{proof}
+Both sides are $\sum_{s'}\sum_u (\text{expected visits to } s')\,
+\mathcal P_B(u|s')\allowbreak\,(-\log\mathcal P_B(u|s'))$, by Wald / the occupation
+decomposition of the excursion.
+\end{proof}
+
+\begin{proposition}[soft-SSP keeps the constants alive]\label{prop:soft_ssp}
+Regularize the slow objective with the relative entropy of the policy to the uniform
+backward proposal, at temperature $\mu$:
+\begin{equation*}
+    \min_p\ \bar\sigma(p)\;+\;\mu\,\mathbb E_p\Bigl[\textstyle\sum_t
+    \log\bigl(d_{x_t}\,p(u_t|x_t)\bigr)\Bigr]
+\end{equation*}
+(a pure path-entropy bonus --- the object of Lemma~\ref{lem:traj_entropy} --- differs
+from this penalty by the trajectory's accumulated log-degrees; the KL-to-uniform form
+is the one whose fixed point is stated below). Its optimizer is the soft-Bellman policy
+$\pi_\mu(u|x)\propto e^{-V_\mu(u)/\mu}$ over parents, where $V_\mu$
+solves $V_\mu(x) = 1-\mu\log\bigl(\tfrac1{d_x}\sum_{u\in\mathrm{pa}(x)}
+e^{-V_\mu(u)/\mu}\bigr)$, $V_\mu(s_0)=0$. Then:
+\begin{enumerate}
+    \item \emph{(fixed point)} on any finite graph where $s_0$ is reachable from every
+    state, value iteration from $0$ converges monotonically to a fixed point $V_\mu$
+    with $V_\mu\leq(1+\mu\log d_{\max})\,V_{\mathrm{hard}}$;
+    \item \emph{(policy floor)} $\pi_\mu(u|x)\geq e^{-\Delta_V/\mu}/d_{\max}$ with
+    $\Delta_V$ the largest parent-value spread;
+    \item \emph{(the certified floor)} wherever the minimal-occupation state is one soft
+    choice off the hard path,
+    \begin{equation*}
+        \varrho_\sigma(\mu)\;\geq\;
+        \frac{g''(1)\,e^{-\Delta_V/\mu}}{d_{\max}\,(2+\bar\sigma(\mu))\,\sigma_*(\mu)^2}
+        \;>\;0 ;
+    \end{equation*}
+    in general $N(x)\geq r_{\min}\,(e^{-\Delta_V/\mu}/d_{\max})^{D}$ for $D$ the
+    backward diameter and $r_{\min}$ the smallest positive sink-row mass, giving the
+    same shape with a cruder exponent;
+    \item \emph{(the price of the repair)} $\bar\sigma(\mu)-\bar\sigma_{\min} \leq
+    \mu\,\log d_{\max}\,\bar\sigma(\mu)$.
+\end{enumerate}
+So the dial is explicit: the excess trajectory length is \emph{linear} in $\mu$ while
+$\log\varrho_\sigma(\mu)$ is $\Theta(-1/\mu)$ --- the repair converts the deterministic
+limit's exact zero (a void certificate) into a positive floor, at a cost in $\bar\sigma$
+one can read off before training.
+\end{proposition}
+
+\begin{proof}
+(1) The soft-Bellman operator $\mathsf T$ is monotone, and $\mathsf T0=\mathbf 1\geq0$,
+so the iterates $V_n$ increase. The bound $V\leq c\,V_{\mathrm{hard}}$ with
+$c:=1+\mu\log d_{\max}$ is invariant: using
+$-\mu\log\bigl(\tfrac1d\sum e^{-V(u)/\mu}\bigr)\leq\min_uV(u)+\mu\log d$,
+\begin{equation*}
+    (\mathsf TV)(x)\;\leq\;1+c\min_{\mathrm{pa}(x)}V_{\mathrm{hard}}+\mu\log d_{\max}
+    \;\leq\;c\,\bigl(1+\min_{\mathrm{pa}(x)}V_{\mathrm{hard}}\bigr)\;=\;c\,V_{\mathrm{hard}}(x),
+\end{equation*}
+since $c-1-\mu\log d_{\max}=0$ and $(c-1)\min V_{\mathrm{hard}}\geq0$; $V_{\mathrm{hard}}$
+is finite by reachability. Monotone and bounded, $V_n$ converges pointwise; continuity of
+$\mathsf T$ makes the limit a fixed point. (2) is immediate from the softmax form.
+(4) $V_\mu$ is the optimal value of steps plus a \emph{non-negative} penalty (a
+relative entropy per step), so $\mathbb E_{\pi_\mu}[\mathrm{steps}]\leq V_\mu$; and
+$V_\mu\leq(1+\mu\log d_{\max})V_{\mathrm{hard}}$ by (1). Taking the sink-row
+expectation, $\bar\sigma(\mu)\leq(1+\mu\log d_{\max})\bar\sigma_{\min}$, and
+$\bar\sigma(\mu)-\bar\sigma_{\min}\leq\mu\log d_{\max}\,\bar\sigma_{\min}\leq
+\mu\log d_{\max}\,\bar\sigma(\mu)$. (3) chains (2) through
+$N_{\min}\geq\pi_\mu$-floor at the pivotal choice and
+$\lambda_{\min}=N_{\min}/(2+\bar\sigma)$ into Proposition~\ref{prop:morozov_rate}(3);
+the general form iterates the floor along a backward path of length at most $D$ from a
+sink-row state of mass $\geq r_{\min}$.
+\end{proof}
+
+\begin{remark}[relation to entropic OT]\label{rem:entropic_ot}
+Path-entropy regularization of a minimum-cost flow is the Schr\"odinger-bridge /
+maximum-entropy-RL side of the entropic-OT family, not Sinkhorn itself: Sinkhorn
+penalizes the coupling's entropy (edge flows), soft-SSP penalizes the \emph{policy}'s
+path measure, and on graphs the two differ by the state-marginal entropy. What matters
+here is not the taxonomy but the direction of the exchange: \emph{the certificate
+constants of Section~\ref{sec:cv_divergence} are a quantitative reason to prefer the
+entropic version of the flow regularizer} --- they are finite on the soft solution and
+zero on the hard one, with the exchange rate of Proposition~\ref{prop:soft_ssp}.
+\end{remark}
+
+\emph{Summary of the bridge.} In the paper's variables, \eqref{equ:hse_objective}
+reads: the loss holds the flow on the balanced manifold at $O(\lamreg^2)$
+(Proposition~\ref{prop:two_timescale}); the regularizer walks the manifold by gradient
+descent on $\bar\sigma$ (Lemma~\ref{lem:eq10_occupation}); the walk heads toward the
+minimum-flow/OT boundary (Proposition~\ref{prop:drift_target}), where the certified
+rate, the step cap and (at a disconnecting limit) the exact gap die at computable
+speeds (Propositions~\ref{prop:constants_path} and~\ref{prop:gap_collapse}), next to
+the min-flow face whose unconstrained backward rows form traps
+(Remark~\ref{rem:lp_degeneracy}); and a path-entropy term restores every constant at a
+price linear in the temperature (Proposition~\ref{prop:soft_ssp}).
+
+\subsection{Numerical evidence}\label{sec:num_pb}
+
+The script \texttt{audit\_pb\_spectral.py}, released with the code, computes everything
+below exactly and exits nonzero on any violation.
+
+\paragraph{The dictionary holds to machine precision.}
+Over $12$ random loop-closed marked graphs: the occupation identity to
+$4.3\cdot10^{-16}$; $\lambda(s_0)=\lambda(s_f)=1/(2+\bar\sigma)$ to $2.7\cdot10^{-16}$;
+the interior sum $\sum\mathcal F/\mathcal F(s_f)=\bar\sigma$ and the full sum
+$2+\bar\sigma$ of Lemma~\ref{lem:eq10_occupation} to $1.3\cdot10^{-13}$.
+
+\paragraph{Minimum flow equals optimal transport, with a dual certificate.}
+On a two-route instance and a four-terminal diamond: the minimum-interior-flow LP value
+equals an independent transport-LP value (cost $=$ interior states on a shortest path)
+to $10^{-10}$; complementary slackness against the solver's own dual potentials holds
+with zero reduced cost on the support --- the tight-subgraph statement of
+\citet[Thm~3.3]{maksimov2026ot} with the \emph{correct} potentials. (A fixed initial row
+can force flow down a long route; tightness is relative to the optimal Kantorovich
+potentials, not to naive minimum distances --- a naive min-distance version of this
+check fails on exactly that instance.)
+
+\paragraph{The spectral price is exact on the two-route instance.}
+Along $\mathcal P_B(t)=(1-t)P_{\mathrm{unif}}+tP_{\mathrm{det}}$
+(Figure~\ref{fig:app_path}, left): $N_{\min}=(1-t)/2$ \emph{exactly} ($10^{-12}$ at
+every $t$); $\widehat B_\sigma$ grows as $(1-t)^{-1/2}$, from $12.65$ to $848.57$ at
+$t=0.9999$; $\varrho_\sigma$ dies linearly, $1.25\cdot10^{-2}\to2.78\cdot10^{-6}$;
+$\sigma_*$ \emph{decreases}, $4.000\to3.000$; $\|w\|_{L^\infty}$ grows to $1.1\cdot10^4$ for
+uniform $\nutrain$ while $w\equiv1$ holds to $10^{-14}$ under adaptive replay
+(Remark~\ref{rem:replay_rescue}). On the trap path with both leaks closing together
+(Figure~\ref{fig:app_path}, right): the exact transverse gap falls
+$2.84\cdot10^{-1}\to2.11\cdot10^{-9}$ and the limit kernel has exactly $2$ weak
+invariant components, validating Proposition~\ref{prop:gap_collapse}; the certificate
+ordering $\varrho_\sigma\leq\zeta^\perp_{\min}(H)$ holds at every point of both paths.
+
+\paragraph{The soft-SSP floor is exactly tight.}
+Fixed-point residual $<10^{-14}$ at every $\mu\in\{0.5,0.2,0.1,0.05,0.02\}$; the policy
+floor and the certified $\varrho_\sigma$ floor of Proposition~\ref{prop:soft_ssp}(3)
+hold at every $\mu$ --- and the floor is \emph{exactly tight} on this instance
+($\varrho_\sigma$ equals it to three digits at every $\mu$, e.g.\ $9.670\cdot10^{-4}$ at
+$\mu=0.5$ and $2.07\cdot10^{-45}$ at $\mu=0.02$); $\bar\sigma(\mu)$ decreases to the
+hard value $2$ with excess inside the $\mu\log d_{\max}\,\bar\sigma$ bound at every
+$\mu$ (Figure~\ref{fig:app_softssp}).
+
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=0.9\linewidth]{figures/figA5_path.pdf}
+\caption{\textbf{Left:} the constants along the interpolation toward the minimum-flow
+support (log scales): $\varrho_\sigma$ dies linearly with $N_{\min}=(1-t)/2$,
+$\widehat B_\sigma$ diverges as $(1-t)^{-1/2}$, $\sigma_*$ stays bounded
+(Proposition~\ref{prop:constants_path}). \textbf{Right:} the exact transverse gap on the
+two-leak trap path against the one-leak stall (Proposition~\ref{prop:gap_collapse} and
+Remark~\ref{rem:one_leak}).}
+\label{fig:app_path}
+\end{figure*}
+
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=0.9\linewidth]{figures/figA6_softssp.pdf}
+\caption{The entropic repair's dial (Proposition~\ref{prop:soft_ssp}).
+\textbf{Left:} $\varrho_\sigma(\mu)$ against its certified floor
+$g''(1)e^{-\Delta_V/\mu}/(d_{\max}(2+\bar\sigma)\sigma_*^2)$ --- exactly tight on this
+instance at every temperature. \textbf{Right:} $\bar\sigma(\mu)$'s excess over the hard
+value against the linear bound $\mu\log d_{\max}\,\bar\sigma(\mu)$.}
+\label{fig:app_softssp}
+\end{figure*}

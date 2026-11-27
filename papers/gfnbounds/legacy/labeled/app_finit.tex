@@ -1,0 +1,439 @@
+% Appendix C -- the initial flow: mass, shape, and the constant of the stable bound.
+\section{\appendixCtitle}\label{app:finit}
+
+The constant of Theorem~\ref{theo:RL_CV_bound} ties the guarantee to two objects the
+practitioner chooses rather than inherits: the initial flow $\Finit$ and the training
+measure $\nutrain$. This appendix works out the first; Appendix~\ref{app:replay} the
+second. Throughout, $\Finit\ll\nuB$ has mass $z:=\Finit(\Statespace)$ and density
+$\finit$, the target $\target\ll\nuB$ has density $k$ and mass
+$t:=\target(\Statespace)$, the trained residual is $E:=\Finit+\Finstar-\Foutstar$ with
+density $e$ and $L^1(\nuB)$ error $\Delta:=\|e-k\|_{L^1(\nuB)}$, and the stable loss is
+$\LFMstableq=\|e-k\|_{L^q(\nutrain)}$. In this notation Theorem~\ref{theo:RL_CV_bound}
+reads, for the inference-time terminal flow $\widehat\target=E^+$,
+\begin{equation}\label{equ:paper_bound}
+    \TV\left(s_\tau\left\|\frac{\target}{t}\right.\right)\;\leq\;C\,\LFMstableq,\qquad
+    C=\frac{2}{t}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)}\nuB(\Statespace)^{1-1/q},
+\end{equation}
+and Theorem~\ref{theo:RL_CV_bound_full} gives the model-free floor
+$\LFMstableq\geq|z-t|\big/\bigl(\nuB(\Statespace)^{1-1/q}\|\dln\|^{1/q}_{L^\infty(\nutrain)}\bigr)$.
+Write
+\begin{equation}\label{equ:dual_norm}
+    \Dq \;:=\; \left\|\dln\right\|_{L^{q^*}(\nutrain)} .
+\end{equation}
+
+\subsection{The dual mass floor}
+
+\begin{proposition}[dual mass floor]\label{prop:dual_floor}
+Assume $\nuB\ll\nutrain$ and $\dln\in L^{q^*}(\nutrain)$. Then for every generative flow
+and every initial flow of mass $z$,
+\begin{equation}\label{equ:dual_floor}
+    \LFMstableq\;\geq\;\frac{|z-t|}{\Dq},
+\end{equation}
+and
+\begin{equation}\label{equ:norm_comparison}
+    \Dq\;\leq\;\nuB(\Statespace)^{1-1/q}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)},
+\end{equation}
+so \eqref{equ:dual_floor} sharpens the floor \eqref{equ:mass_floor}. The two floors
+agree at $q=1$; for $q>1$ the inequality \eqref{equ:norm_comparison} is strict unless
+$\dln$ takes, $\nutrain$-essentially, only the values $0$ and
+$\|\dln\|_{L^\infty(\nutrain)}$ --- in particular they agree when $\nutrain$ is
+proportional to $\nuB$.
+\end{proposition}
+
+\begin{proof}
+As in the proof of Theorem~\ref{theo:RL_CV_bound_full}, $\int(e-k)\,d\nuB=E(\Statespace)-t=z-t$. Writing the
+integral against $\nutrain$ and applying H\"older with exponents $(q,q^*)$,
+\begin{equation*}
+    |z-t| \;=\; \left|\int(e-k)\,\dln\,d\nutrain\right|
+    \;\leq\;\|e-k\|_{L^q(\nutrain)}\left\|\dln\right\|_{L^{q^*}(\nutrain)}
+    \;=\;\LFMstableq\cdot\Dq ,
+\end{equation*}
+which is \eqref{equ:dual_floor}. For \eqref{equ:norm_comparison}, put $g:=\dln\geq0$ and
+note $\int g\,d\nutrain=\nuB(\Statespace)$; then
+\begin{equation*}
+    \Dq^{q^*}=\int g^{q^*}d\nutrain=\int g^{q^*-1}\cdot g\,d\nutrain
+    \;\leq\;\|g\|_{L^\infty(\nutrain)}^{q^*-1}\,\nuB(\Statespace),
+\end{equation*}
+and $\frac{q^*-1}{q^*}=\frac1q$, $\frac{1}{q^*}=1-\frac1q$ give
+\eqref{equ:norm_comparison}. Equality in the middle step forces $g\in\{0,\|g\|_{L^\infty(\nutrain)}\}$
+$\nutrain$-a.e.; at $q=1$, $q^*=\infty$ and both sides are $\|g\|_{L^\infty(\nutrain)}$.
+\end{proof}
+
+The floor \eqref{equ:mass_floor} is the composition of \eqref{equ:dual_floor} with
+\eqref{equ:norm_comparison}; keeping the dual norm $\Dq$ undoes the lossy step. The same
+quantity $1+\Dq$ already appears as the admissible weight $b$ of
+Theorem~\ref{theo:IL_CV_bound}, so no new hypothesis is introduced.
+
+On finite state spaces the floor is not merely a bound --- it is the exact minimum, and it
+does not see the shape of $\Finit$ at all.
+
+\begin{proposition}[exactness; the minimal loss sees only the mass]\label{prop:floor_exact}
+Let $\Statespace$ be finite, let $\nuB$ be everywhere positive and invariant under a
+$\nuB$-ergodic star policy $\ForwardPolicyStar$, and let $\nutrain$ be everywhere
+positive. Fix any initial flow $\Finit$ of mass $z$. Then, minimizing over non-negative
+outflows,
+\begin{equation}\label{equ:floor_attained}
+    \min_{\foutstar\geq0}\;\LFMstableq\left(\ForwardPolicyStar,\foutstar\right)
+    \;=\;\frac{|z-t|}{\Dq}\,.
+\end{equation}
+For $q\in(1,\infty)$ a minimizer is explicit: with $g=\dln$, the extremal residual profile
+\begin{equation}\label{equ:extremal_profile}
+    e-k \;=\; \varphi_q\;:=\;\frac{z-t}{\int g^{q^*}d\nutrain}\;g^{q^*-1},
+\end{equation}
+is realized by $\foutstar=\eta\mathbf 1-S\rho$ with $\rho:=\varphi_q-(\finit-k)$,
+$S:=(\mathrm{Id}-P_\star+\Pi)^{-1}-\Pi$ (which agrees with
+$\sum_{n\geq0}(P_\star^n-\Pi)$ of \eqref{equ:poisson_solved} whenever the mixing is
+summable, but exists for every finite $\nuB$-ergodic chain, periodic included), and
+any $\eta\geq\max_x S\rho(x)$. At $q=\infty$ the extremal profile is the constant
+$\varphi_\infty=(z-t)/\nuB(\Statespace)$; at $q=1$ it is a point mass at any state
+maximizing $g$, and the minimum is still \eqref{equ:floor_attained}.
+\end{proposition}
+
+\begin{proof}
+\emph{Lower bound:} Proposition~\ref{prop:dual_floor}. \emph{Realizability:} on a finite
+state space, $\nuB$-ergodicity makes $1$ a simple eigenvalue of $P_\star$, so every
+eigenvalue of $\mathrm{Id}-P_\star+\Pi$ is either $1$ (on constants) or $1-\beta\neq0$
+(on the complement), the resolvent $S=(\mathrm{Id}-P_\star+\Pi)^{-1}-\Pi$ is defined ---
+no aperiodicity is needed, unlike for the series form --- and
+$(\mathrm{Id}-P_\star)S=\mathrm{Id}-\Pi$ by direct algebra ($\Pi P_\star=P_\star\Pi=\Pi$).
+The residual
+of a flow is $e-k=(\finit-k)+(P_\star-\mathrm{Id})\foutstar$. Given any target profile
+$\varphi$ with $\int\varphi\,d\nuB=z-t$, the function $\rho=\varphi-(\finit-k)$ is
+mean-zero ($\int\rho\,d\nuB=(z-t)-(z-t)=0$, so $\Pi\rho=0$), and
+$\foutstar=\eta\mathbf 1-S\rho$ satisfies
+$(P_\star-\mathrm{Id})\foutstar=-(P_\star-\mathrm{Id})S\rho=\rho$, hence $e-k=\varphi$;
+choosing $\eta\geq\max_xS\rho(x)$ makes $\foutstar\geq0$. Thus \emph{every} profile of the
+correct mean is reachable, and the minimization of $\LFMstableq=\|\varphi\|_{L^q(\nutrain)}$
+over $\{\int\varphi\,d\nuB=z-t\}$ is the norm of the linear functional
+$\varphi\mapsto\int\varphi g\,d\nutrain$ on $L^q(\nutrain)$: its value is
+$|z-t|/\|g\|_{L^{q^*}(\nutrain)}$, attained by the H\"older extremizer, which is
+\eqref{equ:extremal_profile} for $q\in(1,\infty)$ (one checks
+$\int\varphi_q\,d\nuB=z-t$ directly), the stated constant for $q=\infty$, and the point
+mass at an argmax of $g$ for $q=1$ (finite space, so the sup is attained).
+\end{proof}
+
+\begin{corollary}[separation of roles]\label{cor:separation}
+On a finite state space with a $\nuB$-ergodic star policy and unrestricted non-negative
+outflow, the infimum of the stable loss is a function of $\Finit(\Statespace)$ alone. The
+shape of $\Finit$ is invisible to the loss; its entire footprint is on the \emph{outflow
+mass} a minimizer requires, hence on the length of sampling trajectories
+(\S\ref{sec:shape}) --- and, for restricted families $\Theta$, on whether the minimizer is
+representable at all.
+\end{corollary}
+
+\begin{proof}
+The value \eqref{equ:floor_attained} depends on the pair $(\Finit,\target)$ only through
+the masses $z$ and $t$, which is the first claim, and with it the invisibility of the
+shape. The outflow-mass footprint is Proposition~\ref{prop:shape_cost}(1) below ---
+proved there at $z=t$ for exactly matching flows, which is the regime the footprint
+claim refers to --- whose
+minimal mass $\nuB(\Statespace)\max_xS(k-\finit)$ does depend on the shape; the
+representability footprint is immediate, since restricting $\foutstar$ to a family
+$\Theta$ can only remove the explicit minimizer of
+Proposition~\ref{prop:floor_exact}.
+\end{proof}
+
+\subsection{The mass of the initial flow: the certificate overshoots $Z$}\label{sec:mass}
+
+The proof of Theorem~\ref{theo:RL_CV_bound_full} passes from the first member of
+\eqref{equ:tv_chain}, $\frac{\Delta}{z+\Delta}+\frac{\Delta}{t}$, to the envelope $\frac2t$
+of \eqref{equ:stable_bound}; keeping $z$ visible in that same member, in the currency of the
+residual rather than of the loss, gives a $z$-dependent constant instead, and that constant
+has a preferred $z$.
+
+\begin{proposition}[$z$-carried bound]\label{prop:z_bound}
+Under the hypotheses of Theorem~\ref{theo:RL_CV_bound_full}, with the mass
+$z:=\Finit(\Statespace)>0$ kept visible and with $\Delta:=\|e-k\|_{L^1(\nuB)}$,
+\begin{equation}\label{equ:z_bound}
+    \TV\left(s_\tau\left\|\frac{\target}{t}\right.\right)\;\leq\;
+    \left(\frac1z+\frac1t\right)\Delta\;\leq\;
+    \left(\frac1z+\frac1t\right)
+    \nuB(\Statespace)^{1-1/q}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)}\LFMstableq .
+\end{equation}
+At $z=1$ (normalized initial flow, normalized target) this is $\frac1z+\frac1t=1+\frac1t$;
+at $z=t$ (the GFlowNet convention $\Finit=Z\mu_0$) it is $\frac2t$, the constant $C$ of
+\eqref{equ:paper_bound}, which \eqref{equ:z_bound} exceeds for $z<t$ and undercuts for
+$z>t$.
+\end{proposition}
+
+\begin{proof}
+Steps 0--3 of the proof of Theorem~\ref{theo:RL_CV_bound_full} verbatim: term $(i)$ of
+Step~2 is $\leq\Delta/z$ by \eqref{equ:term_i} (which is stated for general $z$), term
+$(ii)\leq\Delta/t$ by \eqref{equ:normalization_lemma}, and Step~3 bounds $\Delta$ by
+$\nuB(\Statespace)^{1-1/q}\|\dln\|^{1/q}_{L^\infty(\nutrain)}\LFMstableq$.
+\end{proof}
+
+Where the initial mass is trained it is an output of the descent rather than a setting, and
+Theorem~\ref{theo:RL_CV_bound_full}\emph{(3)} says when the descent can remove its defect;
+what is left to the practitioner is which side of $t$ to err on --- in the initialization of
+$Z$, or in a one-sided regularizer --- and that is a question about the certificate at a mass
+the descent has not yet reached. By \eqref{equ:mass_defect} in the proof of
+Theorem~\ref{theo:RL_CV_bound_full} the achievable $L^1(\nuB)$ error is itself floored:
+$\Delta\geq|\int(e-k)d\nuB|=|z-t|$, for every flow. Suppose training is able to reach
+any $\Delta$ down to a residual budget $\delta\geq0$ but no further --- $\delta$ collects
+whatever the family, the optimizer and the finite run leave on the table --- so that the
+best certified error at mass $z$ is
+\begin{equation}\label{equ:envelope}
+    B_\delta(z)\;:=\;\left(\frac1z+\frac1t\right)\max\left(\delta,\;|z-t|\right).
+\end{equation}
+
+\begin{proposition}[the certificate-optimal mass overshoots, and undershoot is dearer]
+\label{prop:overshoot}
+For every $\delta>0$ the map $z\mapsto B_\delta(z)$ is strictly decreasing on
+$(0,\,t+\delta]$ and strictly increasing on $[t+\delta,\,\infty)$; its unique minimizer is
+\begin{equation}\label{equ:zstar}
+    z^*\;=\;t+\delta ,
+\end{equation}
+the mass that \emph{overshoots} the partition function by exactly the residual budget.
+Moreover the penalty is asymmetric: for every $0<s<t$,
+\begin{equation}\label{equ:asymmetry}
+    B_\delta(t+s)\;<\;B_\delta(t-s):
+\end{equation}
+undershooting $Z$ by $s$ always certifies strictly worse than overshooting by the same
+$s$. In loss currency the same holds with the dual floor: with achievable loss
+$\max(\varepsilon,|z-t|/\Dq)$ the kink sits at $z^*=t+\varepsilon\Dq$.
+\end{proposition}
+
+\begin{proof}
+On $(0,t+\delta]$ where the max is not yet driven by the floor on all of the interval:
+for $z\leq t$, $\max(\delta,|z-t|)=\max(\delta,t-z)$ is non-increasing and $\frac1z+\frac1t$
+strictly decreasing, so $B_\delta$ strictly decreases; for $t\leq z\leq t+\delta$ the max
+equals $\delta$ and the first factor still strictly decreases. On $[t+\delta,\infty)$,
+$B_\delta(z)=\left(\frac1z+\frac1t\right)(z-t)=\frac zt-\frac tz$, with derivative
+$\frac1t+\frac t{z^2}>0$. The two monotonicities meet at $z^*=t+\delta$. For
+\eqref{equ:asymmetry}: if $s\leq\delta$ both maxima equal $\delta$ and
+$\frac1{t+s}<\frac1{t-s}$; if $s>\delta$ both maxima equal $s$ and the same comparison of
+the first factors applies.
+\end{proof}
+
+Two remarks keep this honest. First, the gain over the default $z=t$ is second order:
+$B_\delta(t)-B_\delta(z^*)=\delta\left(\frac1t-\frac1{t+\delta}\right)
+=\frac{\delta^2}{t(t+\delta)}$, so \eqref{equ:zstar} is a statement about the
+\emph{mechanism} --- the certificate is indifferent to overshoot up to the budget, because
+extra initial mass enlarges the denominator of term $(i)$ of
+\eqref{equ:term_i} --- rather than a large constant saving. Second, and asymmetrically,
+the \emph{undershoot} penalty is first order and is not an artifact of the certificate:
+the next proposition computes exactly what each regime does to the sampled law.
+
+\begin{proposition}[at the floor: overshoot blurs, undershoot truncates]
+\label{prop:blur_vs_drop}
+In the setting of Proposition~\ref{prop:floor_exact} with $\nutrain=\nuB/\nuB(\Statespace)$
+and $q\in(1,\infty)$, the minimal-loss residual profile is the constant
+$\varphi=(z-t)/\nuB(\Statespace)$, and the inference-time terminal flow is
+\begin{equation*}
+    \widehat\target \;=\;\Bigl(k+\tfrac{z-t}{\nuB(\Statespace)}\Bigr)^{+}\nuB .
+\end{equation*}
+\begin{itemize}
+    \item If $z\geq t$: $\widehat\target=\target+(z-t)\frac{\nuB}{\nuB(\Statespace)}$,
+    the flow-matching constraint holds \emph{exactly} for $\widehat\target$, so
+    $s_\tau\sim\widehat\target$ by Theorem~\ref{theo:sampling_theorem}, $\deltafinit=0$, and
+    \begin{equation}\label{equ:blur}
+        \TV\left(s_\tau\left\|\frac\target t\right.\right)
+        \;=\;\frac{z-t}{z}\;\TV\left(\frac{\nuB}{\nuB(\Statespace)}
+        \left\|\frac\target t\right.\right):
+    \end{equation}
+    the overshoot mass leaves as a uniform blur, in proportion $\frac{z-t}{z}$.
+    \item If $z<t$: $\widehat\target=\bigl(k-\tfrac{t-z}{\nuB(\Statespace)}\bigr)^+\nuB$
+    --- a soft-threshold of the target at the water level
+    $\ell:=\frac{t-z}{\nuB(\Statespace)}$. Whenever the level exceeds the bottom of
+    the target density --- $\ell>\operatorname*{ess\,inf}_{\nuB} k$, i.e.\ as soon as
+    the undershoot $t-z$ exceeds $\nuB(\Statespace)\operatorname*{ess\,inf}_{\nuB} k$,
+    which for a non-constant target happens throughout an interval of $z$ ---
+    every state below the level receives \emph{zero} terminal mass: the missing mass is
+    paid first by the lowest-density part of the target (mode drop), and additionally
+    $\deltafinit=E^->0$, so the sampler incurs the term-$(i)$ error of
+    \eqref{equ:term_i} on top of the truncation. (For a uniform target the threshold is
+    never crossed and undershoot only rescales --- the asymmetry of
+    Proposition~\ref{prop:overshoot} is then purely the certificate's.)
+\end{itemize}
+\end{proposition}
+
+\begin{proof}
+For uniform $\nutrain$, $g=\dln$ is constant, so the extremizer
+\eqref{equ:extremal_profile} is constant, and for $q\in(1,\infty)$ it is the unique
+minimal-loss profile (strict convexity of the $L^q$ ball). If $z\geq t$ then
+$e=k+\frac{z-t}{\nuB(\Statespace)}\geq0$, so $E^-=0$, $E=E^+=\widehat\target$ and the
+corrected flow is flow-matching with terminal flow $\widehat\target$ of mass $z$;
+Theorem~\ref{theo:sampling_theorem} gives $s_\tau\sim\widehat\target$ exactly. Then
+$\frac{\widehat\target}{z}=\frac tz\cdot\frac\target t+\frac{z-t}{z}\cdot
+\frac{\nuB}{\nuB(\Statespace)}$ and
+$\TV(\alpha P+(1-\alpha)Q\,\|\,P)=(1-\alpha)\TV(Q\|P)$ yields \eqref{equ:blur}. If $z<t$
+the formula for $\widehat\target=E^+$ is the definition of the positive part, and
+$E^-=\bigl(\ell-k\bigr)^+\nuB\neq0$ exactly when $\nuB(\{k<\ell\})>0$, i.e.\ when
+the level exceeds $\operatorname*{ess\,inf}_{\nuB} k$ --- the stated threshold. The
+threshold is not removable: for the uniform target $k\equiv t/\nuB(\Statespace)$ and
+any $0<t-z<t$, $e=k-\ell=z/\nuB(\Statespace)>0$ everywhere, so $E^-=0$ and nothing
+truncates.
+\end{proof}
+
+Read together, Propositions~\ref{prop:overshoot} and \ref{prop:blur_vs_drop} answer the
+mass question: \emph{at the certificate level the optimal initial mass overshoots $Z$ by
+exactly the residual budget, and the preference for overshoot is not a bound artifact ---
+undershoot truncates the target from the bottom while overshoot only dilutes it.} Exactly
+at the floor ($\delta=0$) the optimum is $z^*=t$, i.e.\ the GFlowNet convention
+$\Finit=Z\mu_0$ with $Z$ learned exactly; the overshoot rule is the first-order correction
+when the training residual is not zero.
+
+\subsection{The shape of the initial flow: a one-sided Chebyshev problem}\label{sec:shape}
+
+By Corollary~\ref{cor:separation} the loss cannot see the shape of $\Finit$. What the shape
+buys --- or costs --- is \emph{inference}: how much outflow, hence how many sampling steps,
+the matching flow must carry. On finite spaces this cost has a closed form.
+
+\begin{proposition}[exact inference cost of a shape mismatch]\label{prop:shape_cost}
+In the setting of Proposition~\ref{prop:floor_exact}, let $z=t$ and
+$\theta:=k-\finit$ (so $\int\theta\,d\nuB=0$). Consider the flows achieving
+\emph{exact} flow matching for the pair $(\Finit,\target)$ with the given star policy.
+\begin{enumerate}
+    \item The set of exact non-negative outflows is exactly the ray
+    $\{\foutstar=\eta\mathbf 1-S\theta:\ \eta\geq\max_xS\theta(x)\}$, and the minimal
+    outflow mass is
+    \begin{equation}\label{equ:min_outflow}
+        \Foutmin(\Statespace)\;=\;\nuB(\Statespace)\,
+        \max_{x\in\Statespace}\,S\bigl(k-\finit\bigr)(x)\;\geq\;0,
+    \end{equation}
+    with equality to $0$ iff $\finit=k$.
+    \item For any exact flow, the visit measure of the sampler is
+    $\mu=\Fterm+\Foutstar$, so the expected number of visits per trajectory is
+    \emph{exactly} $1+\Foutstar(\Statespace)/t$ --- the inequality of
+    Theorem~\ref{theo:sampling_theorem} is an identity here; credit where due: this
+    equality is Proposition~3.12 of \citet{morozov2025revisiting} (expected trajectory
+    length $=$ normalized total flow), independently re-derived here through the cut
+    construction --- and its minimum over exact flows is
+    $1+\nuB(\Statespace)\max_xS\theta(x)/t$.
+    \item Over an admissible class $\mathcal F\subseteq\{\text{densities of mass }t\}$,
+    the optimal shape solves the \emph{one-sided Chebyshev problem}
+    \begin{equation}\label{equ:chebyshev}
+        \min_{\finit\in\mathcal F}\ \max_{x\in\Statespace}\,S\bigl(k-\finit\bigr)(x),
+    \end{equation}
+    a convex program whenever $\mathcal F$ is convex ($S$ is linear and the max of linear
+    functionals convex).
+    \item ($L^2$ relaxation and the slow modes.) If $\ForwardPolicyStar$ is reversible
+    with spectrum $1=\beta_0>\beta_1\geq\dots$, then $S$ acts on the $\beta$-eigenmode as
+    multiplication by $\frac1{1-\beta}$, so
+    $\|S\theta\|^2_{L^2(\nuB)}=\sum_{i\geq1}\frac{\langle\theta,v_i\rangle^2_{L^2(\nuB)}}{(1-\beta_i)^2}$:
+    mismatch along the \emph{slow} modes of the star policy is what costs outflow and
+    trajectory length; fast-mode mismatch is nearly free. Over an affine class the
+    relaxed optimum is the $\mathcal F$-projection of $k$ in the seminorm $\|S\cdot\|_{L^2(\nuB)}$,
+    which is a genuine seminorm equivalent to $L^2$ on mean-zero functions
+    ($\tfrac12\|\varphi\|\leq\|S\varphi\|\leq(1-\beta_1)^{-1}\|\varphi\|$ with $\beta_1$
+    the largest sub-unit eigenvalue --- finite by ergodicity alone, since a reversible
+    spectrum lies in $[-1,1)$ off the constants).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Exactness means $(P_\star-\mathrm{Id})\foutstar=\theta$. A particular solution is
+$-S\theta$ by the identity $(\mathrm{Id}-P_\star)S=\mathrm{Id}-\Pi$ established in the
+proof of Proposition~\ref{prop:floor_exact}; the homogeneous solutions are the fixed
+functions of $P_\star$, which by $\nuB$-ergodicity are the constants (a fixed function
+$f$ of the density action makes $f\nuB$ a fixed measure $\ll\nuB$, hence a multiple
+of $\nuB$). Non-negativity of $\eta\mathbf 1-S\theta$ is $\eta\geq\max S\theta$, and
+$\int S\theta\,d\nuB=0$ ($\Pi S=0$) gives the mass formula. The max is $\geq0$ because
+$S\theta$ is mean-zero, with equality iff $S\theta=0$ iff $\theta=0$.
+(2) The through-flow at each state of a matching flow is
+$\Finit+\Finstar=\Fterm+\Foutstar$, and the visit measure solves
+$\mu=\Finit+(\mu\odot(1-p_{\mathrm{stop}}))\ForwardPolicyStar$ with
+$p_{\mathrm{stop}}=\frac{d\Fterm}{d(\Fterm+\Foutstar)}$; the candidate
+$\mu=\Fterm+\Foutstar$ satisfies it --- the continuing measure is then exactly
+$\Foutstar$, and $\Finit+\Foutstar\ForwardPolicyStar=\Finit+\Finstar=\mu$ --- and the
+absorbing-chain solve is unique. Hence $\mu(\Statespace)=t+\Foutstar(\Statespace)$.
+(3) Immediate. (4) For a mean-zero eigenmode, $(\mathrm{Id}-P_\star+\Pi)v_i=(1-\beta_i)v_i$
+and $\Pi v_i=0$, so $Sv_i=\frac{v_i}{1-\beta_i}$ for
+$i\geq1$; the lower seminorm bound is $\|\varphi\|=\|(\mathrm{Id}-P_\star)S\varphi\|\leq
+2\|S\varphi\|$.
+\end{proof}
+
+The degenerate optimum of \eqref{equ:chebyshev} --- $\finit=k$, zero outflow, trajectories
+of length zero: sample the target directly --- is precisely why the class $\mathcal F$
+carries all the content: $\Finit$ must remain \emph{samplable}, and
+\eqref{equ:chebyshev} prices the distance between what is samplable and the target
+\emph{in the geometry of the star policy}, slow modes first. A warm-started initial
+distribution that matches the target's mass across the slow modes (e.g.\ across the
+clusters of a two-cluster state space) removes almost the entire inference cost, while
+matching the fast detail buys almost nothing --- the numeric instance of
+\S\ref{sec:num_finit} makes the two costs differ by a factor $30$ at equal mismatch
+amplitude.
+
+\begin{remark}[training does not see a frozen $\Finit$]\label{rem:training}
+Two channels one might expect are absent, and the absence is worth recording.
+(1)~In the frozen-backward parameterization of Section~\ref{sec:cv_divergence} the initial
+flow is an \emph{output} of the construction, not an input: the balanced flow of
+Theorem~\ref{theo:universality_graphs} carries
+$\Finit(v)=c\,\lambda(v)\,\BackwardPolicy(v\rightarrow s_0)$, so within that family there
+is no $\Finit$ to optimize --- the backward policy already chose it.
+(2)~For the free-outflow stable pipeline at $q=2$ and a \emph{fixed} initial flow, the loss
+$\foutstar\mapsto\|(\finit-k)+(P_\star-\mathrm{Id})\foutstar\|^2_{L^2(\nutrain)}$ is a
+linear least-squares problem whose Hessian $2(P_\star-\mathrm{Id})^\dagger
+M_{d\nutrain/d\nuB}(P_\star-\mathrm{Id})$ does not involve $\finit$: the convergence
+\emph{rate} of gradient descent is $\Finit$-independent, and $\Finit$ enters only through
+the distance of the initialization to the solution set (a warm start moves the constant
+$\log\|f_0-f^*\|$, not the rate). Likewise Theorem~\ref{theo:IL_CV_bound} fixes $\Finit$ to
+a probability, so no mass freedom exists there. The levers of a frozen initial flow are
+therefore exactly the two of \S\ref{sec:mass} and \S\ref{sec:shape}: mass (loss floor and
+certificate) and shape (inference cost); training dynamics are indifferent.
+
+The second claim is about a frozen $\Finit$ and does not survive a trained mass. With
+$\Finit=z\mu_0$, $\mu_0$ a fixed probability and $z$ a parameter --- the setting of
+Theorem~\ref{theo:RL_CV_bound_full}\emph{(3)} --- the residual
+$zm_0-k+(P_\star-\mathrm{Id})\foutstar$, with $m_0:=\frac{d\mu_0}{d\nuB}$, is jointly linear
+in $(z,\foutstar)$, and the $q=2$ Hessian becomes the Gram matrix of
+$\{m_0\}\cup\operatorname{range}(P_\star-\mathrm{Id})$ in $L^2(\nutrain)$, whose conditioning
+turns on the angle between $m_0$ and that range. The rate is $\Finit$-dependent there,
+through the shape $\mu_0$ and not through the mass; what \S\ref{sec:mass} and
+\S\ref{sec:shape} price is the certificate at a given mass, not the descent that reaches
+it.
+\end{remark}
+
+\subsection{Numerical evidence}\label{sec:num_finit}
+
+All computations follow the doctrine of Section~\ref{sec:experiments}: enumerable state
+spaces, every quantity computed rather than estimated (the sampled law of $s_\tau$ is a
+linear solve). The script \texttt{audit\_finit.py}, released with the code, re-derives
+every number below and exits nonzero on any violation.
+
+\paragraph{The dual floor is attained, and dominates the $L^\infty$ floor.}
+Over $2{,}000$ random instances (state size in $[6,50)$, random ergodic star policy with
+its scaled invariant measure, random $\nutrain$, $q\in\{1,\frac32,2,3,\infty\}$,
+$z,t\in[0.3,3]$): the explicit extremal flow of Proposition~\ref{prop:floor_exact} attains
+$\LFMstableq=|z-t|/\Dq$ with worst relative error $4.4\cdot10^{-14}$; the dual floor
+dominates the floor \eqref{equ:mass_floor} on every instance to machine
+precision (worst signed gap $-9\cdot10^{-16}$); $2{,}000$ random
+competitor flows never went below it.
+
+\paragraph{The mass envelope has its kink at $t+\delta$, and the asymmetry is real.}
+On a $40$-state instance swept over $121$ values of $z$
+(Figure~\ref{fig:app_mass}, left): for $z>t$ the corrected flow is exactly flow-matching
+and its \emph{exact chain law} equals $\widehat\target/z$ to $4.6\cdot10^{-16}$; the
+mixture identity \eqref{equ:blur} holds to $4.9\cdot10^{-17}$. For $z<t$ the terminal
+flow is the water-level truncation --- up to $11$ of $40$ states receive zero terminal
+mass at the lowest $z$ tested --- and the term-$(i)$ bound of \eqref{equ:term_i} holds on
+the exact chain at every $z$. The envelope $B_\delta$ has its argmin at $t+\delta$ to
+grid resolution ($2\cdot10^{-4}$), and $B_\delta(t+s)<B_\delta(t-s)$ at all $500$ tested
+$s$.
+
+\paragraph{Slow-mode mismatch costs $30\times$ the outflow of fast-mode mismatch.}
+On a two-cluster reversible instance (bridge conductance $0.02$;
+Figure~\ref{fig:app_mass}, right): the eigen-relation $Sv=v/(1-\beta)$ and the identities
+$\Foutmin(\Statespace)=\nuB(\Statespace)\max S\theta$ and
+$\mu(\Statespace)/z=1+\Foutstar(\Statespace)/\Finit(\Statespace)$ all hold to
+$10^{-9}$ or better. At \emph{equal mismatch amplitude}: mismatch along the slow mode
+($\beta=+0.9601$) costs outflow mass $1.1593$ and $2.159$ visits per trajectory; along a
+fast mode ($\beta=-0.1857$) it costs $0.0390$ and $1.039$ --- a factor $29.7$ in outflow
+for the same size of initialization error, placed differently. Both the Chebyshev and the
+$L^2$ objectives were verified convex along $400$ random segments of a mixture class.
+
+\begin{figure*}[tb]
+\centering
+\includegraphics[width=0.45\linewidth]{figures/figA1_mass.pdf}\hfill
+\includegraphics[width=0.45\linewidth]{figures/figA2_shape.pdf}
+\caption{\textbf{Left:} the certified-error envelope $B_\delta(z)$ and the exactly
+computed $\TV$ of the minimal-loss flow against the initial mass $z$, with the kink at
+$z^*=t+\delta$ and the truncation fraction rising only on the undershoot side
+(Propositions~\ref{prop:overshoot} and~\ref{prop:blur_vs_drop}).
+\textbf{Right:} minimal outflow mass of an exact flow against the mode of the mismatch,
+one point per eigenmode of the two-cluster star policy, against the predicted
+$1/(1-\beta)$ weighting (Proposition~\ref{prop:shape_cost}(4)); the slow mode costs
+$29.7\times$ the fast one at equal amplitude.}
+\label{fig:app_mass}
+\end{figure*}

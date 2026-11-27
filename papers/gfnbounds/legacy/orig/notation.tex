@@ -1,0 +1,84 @@
+%%%% ---------------------------------------------------------------------
+%%%% notation.tex --- the paper's notation, defined once.
+%%%%
+%%%% This file is the single source of the macros below.  It is \input by
+%%%% gfnbounds_iclr2027.tex (canonical) and notes_finit_replay.tex (the lab
+%%%% record).  Until 2026-09-03 each mainfile, and the since-dropped AAAI draft,
+%%%% carried its own copy of the block; the 31 Aug notation pass therefore had to run
+%%%% three times, and the copy that went wrong produced \def\lamreg{\lamreg} and a
+%%%% build that never terminated.  A macro defined here is never hand-expanded at a
+%%%% call site: the notation passes are mechanical substitutions, and a spelled-out
+%%%% expansion is what the next one misses.
+%%%%
+%%%% What deliberately stays in the mainfiles: \appendixAtitle..\appendixHtitle; the
+%%%% \newtheorem blocks; and ICLR's editorial \fix / \new marks.
+%%%% ---------------------------------------------------------------------
+
+%%%% The primitive \lambda, captured before anything can redefine it.
+%%%% notes_finit_replay.tex reads \lambda as its empirical background measure and
+%%%% redefines it accordingly.  Because \def bodies expand lazily, \lamreg --- which
+%%%% is not a measure --- inherited that redefinition, and the notes rendered
+%%%% Morozov et al.'s regularization weight as $\widehat\nu_{\mathrm B}$-reg where
+%%%% the paper rendered $\lambda_{\mathrm{reg}}$.  Binding \lamreg to the captured
+%%%% primitive settles that without disturbing the notes' own convention.
+\let\GFNlambda\lambda
+
+%%%% Measure convention (2026-08-31, extended 2026-09-04).  \lambda is the INVARIANT
+%%%% measure of the chain in play; \nuB is the BACKGROUND measure, the one densities and
+%%%% kernels are parameterized against; \nutrain is the TRAINING measure; \nuG is the
+%%%% GEOMETRY measure of the first-variation theorem, the reference the gradient is read
+%%%% against, which fixes the preconditioner and not the objective.  The letter \eta is
+%%%% not a measure: it is the scalar lifting level of \foutstareta.  Two further symbols
+%%%% resemble a measure and are not: \lamreg is Morozov et al.'s flow-regularization
+%%%% weight, and \Lambda in Appendix G is a local smoothness constant.
+
+%%%% --- state space -----------------------------------------------------
+\def\Statespace{\mathcal S}
+
+%%%% --- policies --------------------------------------------------------
+\def\ForwardPolicy{\pi_{\rightarrow}}
+\def\ForwardPolicyStar{\pi_{\rightarrow}^*}
+\def\BackwardPolicy{\pi_{\leftarrow}}
+
+%%%% --- flows, and the densities against \nuB ---------------------------
+\def\Foutstar{F^*_{\rightarrow}}
+\def\Foutmin{F^{*,\min}_{\rightarrow}}
+\def\Fin{F_{\leftarrow}}
+\def\Finstar{F^*_{\leftarrow}}
+\def\Finit{F_{\mathrm{init}}}
+\def\Fterm{F_{\mathrm{term}}}
+\def\foutstar{f^*_{\rightarrow}}
+\def\foutstareta{f^{*,\eta}_{\rightarrow}}
+\def\fout{f_{\rightarrow}}
+\def\finstar{f^*_{\leftarrow}}
+\def\finit{f_{\mathrm{init}}}
+\def\fterm{f_{\mathrm{term}}}
+
+%%%% --- the twisted flow that forces flow matching, and its defects -----
+\def\Finithat{\widehat {F}_{\mathrm{init}}}
+\def\Ftermhat{\widehat{F}_{\mathrm{term}}}
+\def\ftermhat{\widehat{f}_{\mathrm{term}}}
+\def\deltafinit{\delta f_{\mathrm{init}}}
+\def\deltafterm{\delta f_{\mathrm{term}}}
+
+%%%% --- measures --------------------------------------------------------
+\def\nuB{\nu_{\mathrm{B}}}
+\def\nutrain{\nu_{\mathrm{T}}}
+\def\nuG{\nu_{\mathrm{G}}}
+\def\target{\kappa}
+\def\dln{\frac{d\nuB}{d\nutrain}}
+\def\Dq{D_{q}}
+
+%%%% --- losses and divergences ------------------------------------------
+\def\LFMstable{\mathcal L_{\mathrm{FM},2}^{\mathrm{stable}}}
+\def\LFMstableq{\mathcal L_{\mathrm{FM},q}^{\mathrm{stable}}}
+\def\LossWKLFM{\mathcal L_{\mathrm{KL-wFM}}}
+\def\TV{\mathrm{TV}}
+\def\KL{\mathrm{KL}}
+
+%%%% --- replay mixture weights ------------------------------------------
+\def\forwardalpha{\alpha_{\rightarrow} }
+
+%%%% --- constants that are not measures ---------------------------------
+\def\lamreg{\GFNlambda_{\mathrm{reg}}}
+

@@ -1,0 +1,182 @@
+% Appendix G -- the experimental program: what grounds each result, run or specified.
+\section{\appendixGtitle}\label{app:program}
+
+Appendices~\ref{app:finit}--\ref{app:sgd} each close with the evidence already in hand:
+exact audits (released scripts, every identity computed, exit status as the pass/fail
+record) and, where available, trained-system data from the released trefoil
+architecture sweep (\texttt{exp15\_trefoil\_arch\_sweep.py}) and its control runs.
+This appendix completes the picture in the other direction: for each result, the
+experiment that would ground or refute it \emph{best}, whether or not it has been run.
+Experiments not yet run are specified here with the same discipline the run ones
+followed: enumerable state spaces wherever possible, so every comparison is against an
+exactly computed law; \emph{fixed step counts, never wall-clock budgets} (the lesson of
+\S\ref{sec:batch_model}: a truncated run measures the trajectory, not the property);
+and success \emph{and} refutation criteria stated before the run. Experiments tagged
+[exact] need no training and run in CPU minutes on the released audit machinery; those
+tagged [trained] train that sweep's network family and carry a rough GPU cost.
+Priority order among those not yet run: F2, F1, D1, C1, E1, E2, F3, C2.
+Items H1, H2 and H3 have been run; \S\ref{sec:program_doubling} reports their outcomes,
+including the two registered criteria they did not meet as written.
+
+\subsection{For Appendix \ref{app:finit} (the initial flow)}
+
+\paragraph{(C1) Trained mass sweep [trained].}
+Grounds Propositions~\ref{prop:overshoot} and~\ref{prop:blur_vs_drop} beyond the trivial
+point, on a trained system. Protocol: $\Finit=(z/t)\,Z\cdot\mathrm{unif}$ with
+$z/t\in\{0.25, 0.5, 0.8, 1, 1.25, 2, 4\}$, fixed $10{,}000$ steps, two seeds, on a
+mid-size enumerable environment. Primary quantities: final TV; the truncation signature
+(fraction of support states with near-zero terminal mass, and terminal mass in the
+bottom decile of target density); the blur signature on the overshoot side. Success: the
+asymmetry $\TV(t-s)>\TV(t+s)$ with truncation appearing only under undershoot.
+Refutation: a symmetric or reversed penalty --- the overshoot preference would then be a
+certificate artifact, and \S\ref{sec:mass} would say so. Cost: $\sim$14 runs,
+$\sim$7 GPU-h.
+
+\paragraph{(C2) Warm-start shape [trained, exploratory].}
+Grounds Proposition~\ref{prop:shape_cost}(3--4) under training; the open warm-start
+question of \S\ref{sec:shape}. Arms: $\Finit\in\{$uniform; a slow-mode-matched coarse
+approximation of $\target$ (cluster masses); a fast-detail-matched profile at equal
+mismatch amplitude; $\target$ itself as control$\}$, fixed steps. Primary: final outflow
+mass, mean trajectory length, TV. Success: the slow-mode warm start cuts outflow and
+length at equal accuracy, per the $1/(1-\beta)$ weighting. Refutation: no placement
+dependence --- planner adaptation then dominates the initialization, a scope limit worth
+knowing. Cost: $\sim$8 runs.
+
+\subsection{For Appendix \ref{app:replay} (the training measure)}
+
+\paragraph{(D1) Replay-schedule sweep on a trained frozen-backward system [trained or
+exact].}
+Grounds Propositions~\ref{prop:backward_replay} and~\ref{prop:alpha_star}, and the
+interior-exact-rate finding of \S\ref{sec:num_replay}, under real training. Protocol: DB
+loss, frozen backward policy, enumerable environment ($N\sim10^3$--$10^4$); arms
+$\nutrain\in\{$on-policy; backward replay ($\alpha=0$); fixed mixtures
+$\alpha\in\{0.2, 0.45, 0.7\}$; uniform ($\alpha=1$); the schedule
+$\alpha^*(T)=\min(1,1/(qcT))\}$; fixed $20{,}000$ steps; two seeds; TV computed exactly
+per checkpoint. Success: backward replay dominates on-policy in the late phase and
+trails it before coverage (Lemma~\ref{lem:coverage}); some interior mixture beats both
+endpoints; the schedule matches the best fixed $\alpha$. Refutation: an endpoint
+dominating throughout --- the mixture story would then be a guarantee-level artifact.
+Cost: $\sim$14 runs (tabular version: CPU hours).
+
+\subsection{For Appendix \ref{app:pbtrain} (trained backward policies)}
+
+\paragraph{(E1) Flow-regularization drift, exact [exact].}
+Grounds Proposition~\ref{prop:two_timescale} and Proposition~\ref{prop:drift_target}(i)
+under live dynamics --- the only wave with no dynamical evidence yet. Protocol: tabular
+gradient descent on $(\mathcal F,\mathcal P_B)$ jointly for
+$\mathcal L+\lamreg{}R$ on the two-route instance and one random
+$20$--$40$-state loop-closed graph, $\lamreg\in\{10^{-1},3\cdot10^{-2},
+10^{-2},3\cdot10^{-3}\}$. Primary: the stationary loss plateau against
+$\lamreg$ (predicted log-log slope $2$, from \eqref{equ:tracking});
+monotone $\bar\sigma$ descent; the endpoint $\bar\sigma$ against the minimum-flow LP
+value. Success: slope $2.0\pm0.2$; $\bar\sigma$ within $5\%$ of the LP value or a
+documented interior stall (consistent with Proposition~\ref{prop:drift_target}(iii)).
+Refutation: a robustly non-quadratic plateau scaling. Cost: CPU minutes to hours.
+
+\paragraph{(E2) Entropic repair, live [exact].}
+Grounds Proposition~\ref{prop:soft_ssp} under training rather than at the fixed point.
+Protocol: the (E1) setup plus $\mu\cdot$path-entropy,
+$\mu\in\{0.5,0.2,0.1,0.05\}$; measure the trained endpoints' $\varrho_\sigma(\mu)$
+against the certified floor, and the $\bar\sigma$ excess against
+$\mu\log d_{\max}\,\bar\sigma$. Success: floors hold live, excess linear in $\mu$.
+Refutation: an endpoint below its floor --- diagnose non-convergence and report. Cost:
+CPU minutes.
+
+\subsection{For Appendix \ref{app:sgd} (stochastic gradients)}
+
+\paragraph{(F1) Fixed-step batch sweep [trained].}
+Replaces the refuted fit of \S\ref{sec:batch_model}; grounds
+Propositions~\ref{prop:interpolation} and~\ref{prop:additive_floor} jointly. Protocol:
+$b\in\{512, 2048, 4096, 8192, 32768\}$, same learning rate, \emph{fixed} $20{,}000$
+steps, two seeds, with a stationarity gate (mean $|\Delta\TV|$ over the last $2{,}000$
+steps below threshold; extend the run rather than fit through a failing gate); fit
+\eqref{equ:batch_model} with all truncated points excluded. Success: monotone $\TV(b)$,
+small fit residuals, and the largest-$b$ arm consistent with the fitted $c$. Refutation:
+$\TV(32768)$ materially below the small-$b$ fit's floor, or non-monotonicity outside
+seed spread. Cost: $\sim$10 runs, $\sim$15--25 GPU-h (the largest batches dominate).
+
+\paragraph{(F2) Half-learning-rate discriminator [trained] --- the first test to run.}
+Grounds Proposition~\ref{prop:additive_floor}'s $\varepsilon$-dependence and is immune
+to the stopping artifact. Protocol: the control configuration at fixed $b=4096$,
+learning rate $\in\{\varepsilon_0,\varepsilon_0/2\}$, fixed $20{,}000$ steps (extend to
+$40{,}000$ if the stationarity gate fails), seeds $\{0,1\}$. Primary: stationary final
+TV. Success: floors scaling $\approx\sqrt2$ in the learning rate (noise-bound, per the
+additive floor $\propto\varepsilon$). Refutation: a ratio $\approx1$ --- the floor is
+then bias-bound at these settings and every floor claim gets scoped accordingly; or
+persistent non-stationarity, reported as such. Cost: 4--6 runs, $\sim$6 GPU-h.
+
+\paragraph{(F3) Two-guise floor discriminator [exact].}
+Separates Proposition~\ref{prop:additive_floor}(1) from (2) --- the unweighted loss
+floor against the slow-mode-weighted parameter floor. Protocol: construct two instances
+with \emph{equal} $\operatorname{tr}\Sigma_\perp$ but noise aligned with slow versus
+fast Hessian modes; run $64$ tabular SGD chains on each. Prediction: \emph{equal} loss
+floors (the trace law sees no spectrum), \emph{unequal} parameter/TV floors by the
+computed eigenbasis ratio. Success: loss floors within $\sim5\%$, TV ratio within
+$\sim15\%$ of the computed value. Refutation: materially different loss floors ---
+spectral weighting where the theory says there is none. Cost: CPU minutes.
+
+\subsection{For Appendix \ref{app:doubling} (the doubling graph)}\label{sec:program_doubling}
+
+The three items below were registered in the docstring of
+\texttt{exp20\_doubling\_diffusion.py} before the run, and have been run. Each reports what was
+found rather than what would be found, and two of the registered criteria are not met as
+written; both are recorded here as such.
+
+\paragraph{(H1) The closed forms and the two exponents [exact], run.}
+Grounds Propositions~\ref{prop:doubling_drift}, \ref{prop:doubling_length} and
+\ref{prop:doubling_exponent} on the family $\varepsilon_{c,s}(j)=c/(j+1)^s$ of
+\eqref{eq:doubling_family}. Protocol: expected backward lengths by linear solve, and the decay
+exponent of the truncated invariant measure fitted on the dyadic band $[K/16,K/2]$, at eight
+values of $c$ from $0.25$ to $2.5$ and truncations to $K=4096$. Success: $\bar\sigma$ matching
+the closed form $\bar\jmath/(1-c)$ --- $\bar\jmath$ the mean of the target row --- to a
+relative $10^{-6}$ at the largest converged cap; the fitted decay exponent matching the
+Cram\'er root $p_*$ of \eqref{eq:doubling_cramer} to $5\%$; and the earlier fitted truncation
+exponent of $\bar\sigma$ matching $1-p_*$ to $0.05$ absolute. Refutation: any of the three
+outside tolerance --- the closed form is an identity, so a single mismatch kills it.
+\emph{Outcome:} confirmed. The closed form holds to a relative $5.8\cdot10^{-10}$ at $c=0.25$
+and $9.7\cdot10^{-6}$ at $c=0.5$; at $c=0.75$ and $0.9$ the cap is not converged, and the
+residual is identified as truncation by its own decay, $K^{-(p_*-1)}$ to three digits. The
+fitted exponents match $p_*$ to three decimals at all eight values of $c$
+(\S\ref{sec:doubling_measured}), including the two where $p_*$ is negative and the earlier fit
+had clamped it.
+
+\paragraph{(H2) The two bounds on a graph of infinite mixing [exact], run.}
+Grounds Theorems~\ref{theo:RL_CV_bound_full} and \ref{theo:IL_CV_bound} where the mixing
+hypothesis of the second fails outright. Protocol: $9{,}216$ rows --- eight values of $c$, four
+truncations ($K=64$ to $512$), four targets crossed with three initial flows, eight
+perturbation scales, three exponents $q$ --- with the sampling error computed exactly at every
+row. Success: zero violations of the stable bound; its constant flat in $K$ at fixed
+$\nutrain$; the certificate level $\eta$ growing with $K$ on at least the ladder-loaded pairs;
+the certificate closing flow matching to $10^{-8}$ and its loss equal to the self-entropy.
+Refutation: a violation, which would indict the theorem or the harness and either matters; or
+$\eta$ flat in $K$, which would mean the unbounded diffusion operator costs nothing.
+\emph{Outcome:} confirmed but for one criterion, which was mis-stated. Zero violations in
+$9{,}216$ rows, non-vacuous in $2{,}115$; the certificate closes to $6.0\cdot10^{-8}$ at worst,
+a relative $5\cdot10^{-17}$, with its loss equal to the self-entropy; $\eta$ is flat at $11.35$
+for the target row at the foot of the ladder and grows like $K^{2.9}$ for the ladder-loaded
+targets. The registered ``constant flat in $K$'' criterion cannot be met: with counting
+background measure and uniform training measure \eqref{equ:stable_constants} gives $C=3N$ by
+construction, measured at $198$, $390$, $774$, $1{,}542$ over that range. The quantity that
+carries the meaning is the measured tightness, which is what Section~\ref{sec:experiments}
+reports and what is flat here --- $6.33$, $6.00$, $6.59$, $6.47$ at $q=1$.
+
+\paragraph{(H3) The critical direction and the price of unboundedness [exact], run.}
+Grounds Theorem~\ref{theo:doubling_unbounded} and Corollary~\ref{cor:doubling_truncation}, and the
+reading of the extremal direction as a tail indicator. Protocol: $40$ cells --- eight values of
+$c$ crossed with five truncations, $K=64$ to $1024$ --- computing $\widehat B_K$ as a singular
+value, the best cut of \eqref{eq:doubling_percut_K}, the extremal direction of $S$, the
+certificate level along it, and the exact terminal law of the certificate flow. Success:
+$\widehat B_K\sim K^\alpha$ with $\alpha\geq0.9$ at every $c$; the lower bound holding at every
+admissible cut; an overlap above $0.8$ between the measured extremal direction and the best
+centred tail indicator; the certificate's total variation at machine precision at every cap.
+Refutation: $\widehat B_K$ saturating in $K$ for some member of the polynomial family, which
+would refute the unboundedness theorem; an overlap near zero, which would refute the mechanism
+reading but not the theorem; a total variation growing with $K$, which would contradict
+Theorem~\ref{theo:universality_graphs}. \emph{Outcome:} confirmed but for the overlap
+threshold. The fitted exponent runs from $0.983$ to $1.139$ over the eight values of $c$; the
+lower bound holds in all $40$ cells and its own fitted exponent is $0.473$ to $0.510$, so the
+proved growth is $\sqrt K$ against a measured $K$; and the certificate's total variation is
+$1.2\cdot10^{-8}$ at worst. The overlap is $0.71$ to $0.84$, above the registered $0.8$ at four
+of the eight values of $c$ and below it at the rest (\S\ref{sec:doubling_cost}). The refutation
+criterion was an overlap near zero, so the mechanism reading stands; the threshold does not
+hold uniformly in $c$, and the appendix says so where it uses the reading.

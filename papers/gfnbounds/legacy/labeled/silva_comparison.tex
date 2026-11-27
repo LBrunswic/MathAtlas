@@ -1,0 +1,141 @@
+\section{\appendixBtitle}\label{sec:silva_comparison}
+
+Three works of Silva and coauthors are related to the bounds of the present paper.
+\citet{silvageneralization} prove a bound on the total variation of the terminal distribution by a trajectory-balance residual (their Proposition 4.2), which is, to our knowledge, the only loss-to-distance bound in this line of work; we analyze it in detail below.
+\citet{silva2025gflownets} bound the total variation induced by a \emph{flow perturbation} of an exactly balanced model (their Theorem 1) --- a sensitivity analysis at the balanced manifold rather than a bound by the value of a training loss.
+\citet{silva2024divergence} prove an equality of expected on-policy gradients between the TB loss and the reverse Kullback--Leibler divergence (their Proposition 1), with no value bound.
+None of the three addresses the behaviour of a minimizing \emph{sequence} of models --- the question addressed by Theorems \ref{theo:gd_diffusion} and \ref{theo:db_stable_frozen}, which describe where gradient descent goes, and how fast, near the balanced flow, and by Proposition \ref{prop:frozen_unstable}, which delimits what that convergence does \emph{not} give.
+
+\subsection{Setting}
+
+All three works operate on a finite state space carrying a pointed directed acyclic state graph in which every trajectory terminates within a fixed horizon $t_m$ (the ``finitely absorbing'' axiom of \citet{silvageneralization}, Definition A.1, from which acyclicity is derived), with total variation taken between distributions on the set $\mathcal X$ of terminal states; in \citet{silvageneralization} the backward policy $p_B$ is moreover \emph{fixed to the uniform policy} throughout.
+In the notation of the present paper: $\Statespace$ finite, $\BackwardPolicy$ frozen, and the trajectory expectations of their losses are taken over \emph{backward} trajectories $\tau\sim p_B(\cdot\mid x)$ --- the same frozen-backward-policy structure as in Theorem \ref{theo:first_variation} and its specializations.
+When the loop-closed backward policy is moreover aperiodic it has summable $L^2$-mixing, and for a training measure of positive density Theorem \ref{theo:db_stable_frozen} applies to the FM and DB losses on such a graph and supplies what the static bounds below do not: a convergence rate for the linearized training dynamics.
+
+\subsection{The bound of \citet{silvageneralization} with explicit constants}
+
+Proposition 4.2 of \citet{silvageneralization} states, for $q_{E,T}$ the uniform distribution on $\mathcal X$ and $p_{E,T}$ a training distribution on $\mathcal X$,
+\begin{eqnarray}
+&&\TV(p_T,\pi) \nonumber \\ && \quad \lesssim\;
+\Bigl[\bigl(1+\chi^2(q_{E,T}\|p_{E,T})\bigr) \, \mathcal E(p_F)\Bigr]^{1/2},
+\label{eq:silva_bound}
+\end{eqnarray}
+where $\pi = R/Z$ is the \emph{normalized} target, $p_T$ the terminal marginal of the model, and
+\begin{equation}
+\mathcal E(p_F) := \mathbb E_{x\sim p_{E,T}}\,\mathbb E_{\tau\sim p_B(\cdot|x)}\left[\left(\log \frac{p_F(\tau)}{\pi(x)\,p_B(\tau\mid x)}\right)^{\!2}\right].
+\end{equation}
+The following restatement makes the constant absorbed in $\lesssim$ explicit; the proof follows their scheme (H\"older, Jensen over backward trajectories, a log-Lipschitz step).
+
+\begin{proposition}[explicit-constant form of Prop.\ 4.2 of \citet{silvageneralization}]\label{prop:silva_explicit}
+Let $\mathcal X$ be finite, let $p_{E,T}$ and $\pi$ have full support on $\mathcal X$, assume $p_F(\tau)>0$ for every trajectory $\tau$ with $p_B(\tau\mid x)>0$, and assume $p_B(\cdot\mid x)$ dominates the forward trajectory distribution into each $x$. Set
+\begin{equation}
+    M := \max_{\tau,x:\,p_B(\tau\mid x)>0} \frac{p_F(\tau)}{p_B(\tau\mid x)}, \qquad M' := \max\left(M,\ \|\pi\|_{\infty}\right).
+\end{equation}
+Then
+\begin{eqnarray}
+&&\TV(p_T,\pi) \nonumber\\ &&\;\; \leq\; \frac{|\mathcal X|}{2}\, M'\,
+\Bigl[\bigl(1+\chi^2(q_{E,T}\|p_{E,T})\bigr)\,\mathcal E(p_F)\Bigr]^{1/2}.
+\end{eqnarray}
+\end{proposition}
+\begin{proof}
+Write $\phi(x) := |\pi(x)-p_T(x)|$, so $\TV(p_T,\pi) = \frac{|\mathcal X|}{2}\,\mathbb E_{x\sim q_{E,T}}[\phi(x)]$. Since $p_{E,T}$ has full support, the Cauchy--Schwarz inequality with the change of measure $q_{E,T} = \frac{q_{E,T}}{p_{E,T}}\,p_{E,T}$ gives
+\begin{equation}
+    \mathbb E_{q_{E,T}}[\phi] \leq \left(\mathbb E_{p_{E,T}}[\phi^2]\right)^{1/2}\bigl(1+\chi^2(q_{E,T}\|p_{E,T})\bigr)^{1/2}.
+\end{equation}
+By the domination assumption, $p_T(x) = \mathbb E_{\tau\sim p_B(\cdot|x)}\bigl[p_F(\tau)/p_B(\tau\mid x)\bigr]$, so Jensen's inequality yields
+\begin{equation}
+    \phi(x)^2 \leq \mathbb E_{\tau\sim p_B(\cdot|x)}\left[\left(\frac{p_F(\tau)}{p_B(\tau\mid x)} - \pi(x)\right)^{\!2}\right].
+\end{equation}
+Finally, for $a := p_F(\tau)/p_B(\tau\mid x) \in (0, M]$ and $b := \pi(x)\in(0,\|\pi\|_\infty]$, the mean value theorem applied to $\exp$ on $(-\infty, \log M']$ gives $|a-b| \leq M'\,|\log a - \log b|$, whence $(a-b)^2 \leq M'^2\bigl(\log\frac{p_F(\tau)}{\pi(x)p_B(\tau|x)}\bigr)^2$. Combining the three displays proves the claim.
+\end{proof}
+
+\begin{remark}[hypotheses used by the bound]\label{rem:silva_hypotheses}
+The proof above isolates the hypotheses under which Equation \eqref{eq:silva_bound} operates; they are used, but not all stated, in \citet{silvageneralization}.
+\begin{enumerate}
+    \item \emph{Full support of $p_{E,T}$.} The change-of-measure step divides by $p_{E,T}$ under a uniformly weighted sum; off full support, $\chi^2(q_{E,T}\|p_{E,T}) = +\infty$ and the right side of Proposition \ref{prop:silva_explicit} is $+\infty$, or $\infty\cdot0$ when $\mathcal E(p_F)=0$. Heuristically, $\chi^2$ plays here, in $L^2$ form, the role of the factor $\|\dln\|_{L^\infty}$ in Theorem \ref{theo:RL_CV_bound}.
+    \item \emph{Full support of the trained $p_F$.} If $p_F(\tau)=0$ for a trajectory $\tau$ into a terminal state $x$ with $p_{E,T}(x)>0$ and $p_B(\tau\mid x)>0$, then $\mathcal E(p_F)=+\infty$: the bound holds but carries no information. \citet{silvageneralization} remove this with the $\alpha$-mixture realizability device of their Lemma B.1, which they invoke only for their Theorem 5.2.
+    \item \emph{Domination by the backward policy.} The identity $p_T(x)=\mathbb E_{p_B(\cdot|x)}[p_F/p_B]$ requires $p_B(\cdot\mid x)$ to dominate forward trajectories into $x$ --- automatic for the uniform $p_B$ that \citet{silvageneralization} fix throughout, an assumption under the extension to learnable $p_B$ they mention.
+    \item \emph{The constant depends on the trained model, boundedly on each fixed graph.} $M=\max_{\tau,x} p_F(\tau)/p_B(\tau\mid x)$ is a maximum over the \emph{learned} forward policy; it is quantified in Remark \ref{rem:silva_model_constant} below.
+    \item \emph{Constant of the log-Lipschitz step.} The step $(a-b)^2\lesssim (\log a - \log b)^2$ is justified in Lemma D.1 of \citet{silvageneralization} for arguments in $(0,1]$ after rescaling by $M$; since $\pi(x) \leq M$ is not implied by the definition of $M$ (on a star, $s_o$ with $K\geq3$ terminal children, the uniform forward policy has $M=1/K$, while a target with $\pi(x)=\tfrac12$ at one child has $\|\pi\|_\infty=\tfrac12>M$), a sufficient rescaling constant is $M'=\max(M,\|\pi\|_\infty)$, as in Proposition \ref{prop:silva_explicit}.
+    \item \emph{Structural axioms.} Finiteness of $\mathcal X$, the uniform horizon $t_m$, and acyclicity (derived from the finitely-absorbing axiom) are standing hypotheses of their framework; the prefactor $\frac{|\mathcal X|}{2}$ is absorbed into $\lesssim$ in their statement.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[the constant is not uniform in the depth]\label{rem:silva_model_constant}
+Heuristically, the reading of Proposition \ref{prop:silva_explicit} hinges on its constant: the proposition is a statement about a \emph{fixed} model, while a convergence guarantee for training must hold uniformly along a minimizing sequence --- and $M'$ is a maximum over the very policy being trained. On a fixed graph that dependence is bounded: since $p_F(\tau)\leq1$ and $\|\pi\|_\infty\leq1$, every forward policy has
+\begin{equation}
+    M' \;\leq\; \max\Bigl(1,\ \max_{\tau,x:\,p_B(\tau\mid x)>0}\frac{1}{p_B(\tau\mid x)}\Bigr).
+\end{equation}
+On a tree, $p_B(\tau\mid x)=1$ and $M\leq1$; on a state graph with several backward paths into a terminal state, $M$ can exceed $1$ but stays at most that bound. Consider the ladder graph of depth $n$: $n+1$ states in a row, two parallel edges at each of the $n$ stages, and the last state $x$ as the only terminal state, so that $\pi(x)=p_{E,T}(x)=1$, $x$ has $2^{n}$ incoming trajectories, the uniform backward policy gives $p_B(\tau\mid x)=2^{-n}$ for each, and $M'\leq 2^{n}$. At the balanced solution, $p_F(\tau)=\pi(x)p_B(\tau\mid x)$ and $M=\|\pi\|_\infty=1$. But already at the level of trajectory distributions (before imposing Markov realizability of $p_F$), a distribution placing mass $c$ on a single trajectory $\tau_0$ has $M \geq c\,2^{n}$, while the corresponding term of the residual $\mathcal E(p_F)$ is
+\begin{equation}
+    2^{-n}\left(\log\bigl(c\,2^{n}\bigr)\right)^{2} \xrightarrow[n\rightarrow\infty]{} 0:
+\end{equation}
+the residual weights the trajectory on which the constant is large by $p_B(\tau_0\mid x)=2^{-n}$. With $c:=1-e^{-\sqrt{\varepsilon/2}}$ and the remaining mass $1-c$ spread uniformly over the other trajectories, $\mathcal E(p_F)\rightarrow\varepsilon/2$ as $n\rightarrow\infty$; consequently, over trajectory distributions,
+\begin{equation}
+    \sup\{M'(p_F) : \mathcal E(p_F)\leq\varepsilon\} \;\geq\; \bigl(1-e^{-\sqrt{\varepsilon/2}}\bigr)\,2^{n}
+\end{equation}
+for every $\varepsilon>0$ and every $n$ large enough: on $\{\mathcal E\leq\varepsilon\}$ the constant reaches the order of its fixed-graph bound, and no constant is uniform in the depth. This computation does not quantify the growth of the same supremum over Markov forward policies. On a directed cycle entered at one state and terminal at every state, Lemma \ref{lem:cycle_counterexample} rules out any model-free bound tending to $0$ with the loss for the divergence-based FM losses of \citet{brunswic2024theory} with a generator continuous at $1$ (Remark \ref{rem:path_space}), a class that does not contain the idealized residual $\mathcal E(p_F)$.
+\end{remark}
+
+Remark \ref{rem:silva_model_constant} bounds $M'$ on each fixed graph independently of the model, by a quantity that can grow with the depth. Whether a model-free bound can be independent of the state space is settled by the following proposition, on a sequence of DAGs: a per-graph model-free bound always exists (item \emph{(i)}), but its constant necessarily degenerates with the state space (item \emph{(ii)}), even when every degeneracy channel of Proposition \ref{prop:silva_explicit} other than $|\mathcal X|$ is switched off.
+
+\begin{proposition}[the state-space dependence is unavoidable]\label{prop:silva_no_uniform}
+Let $w_{\min} := \min\{\,p_{E,T}(x)\,p_B(\tau\mid x) : p_B(\tau\mid x)>0\,\}$.
+\begin{enumerate}
+    \item On every finite pointed DAG, for every full-support forward policy,
+    \begin{equation}
+        \TV(p_T,\pi) \;\leq\; \tfrac12\left(e^{\sqrt{\mathcal E(p_F)/w_{\min}}}-1\right).
+    \end{equation}
+    \item For every $\varepsilon>0$ there exist a finite pointed DAG with uniform $p_B$, a target $\pi$, the \emph{uniform} training distribution $p_{E,T}$ (so $\chi^2(q_{E,T}\|p_{E,T})=0$) and a full-support forward policy $p_F$ with $M'\leq 1$ such that
+    \begin{equation}
+        \mathcal E(p_F)\leq\varepsilon \qquad\text{and}\qquad \TV(p_T,\pi)=\tfrac18 .
+    \end{equation}
+\end{enumerate}
+In particular, no bound $\TV\leq F\bigl(\mathcal E,\chi^2,M'\bigr)$ with $F$ independent of the state space, non-decreasing in its third argument and $F(\mathcal E,0,1)\rightarrow0$ as $\mathcal E\rightarrow0$ can hold: the factor $1/w_{\min}$ in \emph{(i)} --- of order $|\mathcal X|\,e^{c\,t_m}$ in general --- is not an artifact of the proof.
+\end{proposition}
+\begin{proof}
+\emph{(i)} Every trajectory term of $\mathcal E$ is bounded below by $w_{\min}\,\ell(\tau)^2$ with $\ell(\tau) := \log\frac{p_F(\tau)}{\pi(x)p_B(\tau|x)}$, so $|\ell(\tau)|\leq s := \sqrt{\mathcal E/w_{\min}}$ for every $\tau$ with $p_B(\tau\mid x)>0$. Since $p_T(x) = \pi(x)\,\mathbb E_{\tau\sim p_B(\cdot|x)}[e^{\ell(\tau)}]$, every ratio $p_T(x)/\pi(x)$ lies in $[e^{-s},e^{s}]$ and $\TV = \frac12\sum_x \pi(x)\bigl|\tfrac{p_T(x)}{\pi(x)}-1\bigr| \leq \frac12(e^{s}-1)$.
+
+\emph{(ii)} Take the star DAG: $s_o$ with children $\mathcal X = \{x^*, x'\} \cup \{b_1,\dots,b_K\}$, each terminal linked to $s_f$; each $x\in\mathcal X$ has the single parent $s_o$, so $p_B(\tau\mid x)=1$ and the unique trajectory into $x$ is $(s_o,x)$. Set $\pi(x^*)=\pi(x')=\frac14$ and $\pi(b_i)=\frac1{2K}$, and take the forward policy $p_F(s_o\rightarrow x^*)=\frac38$, $p_F(s_o\rightarrow x')=\frac18$, $p_F(s_o\rightarrow b_i)=\frac1{2K}$. Then $\TV(p_T,\pi) = \frac12(\frac18+\frac18)=\frac18$ for every $K$, while the log-ratios vanish on the $b_i$ and
+\begin{equation}
+    \mathcal E(p_F) = \frac{\left(\log\frac32\right)^2 + \left(\log 2\right)^2}{K+2} \;\leq\; \frac{1}{K+2},
+\end{equation}
+which is $\leq\varepsilon$ for $K$ large. Here $M = \max_x p_F(s_o\rightarrow x) = \frac38$ and $\|\pi\|_\infty=\frac14$ for $K\geq2$, the filler weight $\frac1{2K}=\frac12$ being the largest of both at $K=1$, so $M'\leq 1$ for every $K$, and $p_{E,T}=q_{E,T}$ gives $\chi^2=0$.
+\end{proof}
+
+\begin{remark}[the two degeneracy channels]\label{rem:silva_two_channels}
+The two degeneracy channels are distinct. In the star family of \emph{(ii)} the failure is pure $|\mathcal X|$-averaging: a $\Theta(1)$ misallocation on two terminals is diluted by the uniform training distribution over $K+2$ terminals, with $M'\leq1$ and $\chi^2=0$. The corridor of Remark \ref{rem:silva_model_constant} is the complementary channel, through $M'$, on deep graphs. Conversely, when $\mathcal X$ is small and $p_{E,T}$ covers it, item \emph{(i)} is a genuine model-free bound: the depleted side of any misrouting is then visible in the residual. It is the averaging over a large terminal space --- the regime GFlowNets are designed for --- that hides it.
+\end{remark}
+
+\begin{remark}[the hidden size is the path space]\label{rem:path_space}
+Heuristically, the graph-dependence of all these bounds is measured by the size of the \emph{path space}. In Proposition \ref{prop:silva_no_uniform}\emph{(i)}, since for a backward policy of full support $p_B(\cdot\mid x)$ is a probability charging each of the $P(x)$ trajectories into $x$, one has $\min_\tau p_B(\tau\mid x)\leq 1/P(x)$ and therefore
+\begin{equation}
+    \frac{1}{w_{\min}} \;\geq\; \max_{x\in\mathcal X}\ \frac{P(x)}{p_{E,T}(x)} ,
+\end{equation}
+and the constant $M'$ of Proposition \ref{prop:silva_explicit} satisfies $\sup_{p_F}M'\geq\max_{x\in\mathcal X}P(x)$, the supremum running over full-support forward policies. When a cycle lies on the trajectories into a state $x$, these are infinitely many, and, for a backward policy of full support, both $\inf_\tau p_B(\tau\mid x)=0$ and $\sup_{p_F}M'=+\infty$ follow from that. The infimum vanishes because $p_B(\cdot\mid x)$ is a probability charging each of them. The supremum is infinite because $p_B(\cdot\mid x)$ is summable: along the trajectories $\tau_n$ that wind $n$ times around the cycle, $\liminf_{n\rightarrow\infty} n\,p_B(\tau_n\mid x)=0$, while for each $n$ some full-support forward policy, leaving the cycle with probability $1/(n+2)$ at the state where $\tau_n$ leaves it, has $p_F(\tau_n)\geq c/(n+2)$, with $c>0$ depending on the graph, the cycle and $x$ but not on $n$ --- $M'$ being read with the formula of Proposition \ref{prop:silva_explicit}. The infimum alone would not give the supremum, since every forward policy has $p_F(\tau_n)\leq 1/(n+1)$. Let $\mathcal C_N$ be the directed cycle on states $x_1,\dots,x_N$ of Lemma \ref{lem:cycle_counterexample}, entered at $x_1$ and terminal at every state: on $\mathcal C_N$ with a fixed training distribution, $|\mathcal X|=N$ and $\chi^2(q_{E,T}\|p_{E,T})$ do not depend on the flow, while on the counter-example graph \eqref{eq:counterexample_graph}, whose terminal set is infinite, $|\mathcal X|=\infty$ and $\chi^2(q_{E,T}\|p_{E,T})$ is undefined, there being no uniform distribution on an infinite set. For the divergence-based FM losses of \citet{brunswic2024theory} with a generator continuous at $1$, acyclicity cannot be dropped: on $\mathcal C_N$, for a target $\target\neq\delta_{x_2}$, Lemma \ref{lem:cycle_counterexample} supplies flows whose loss tends to $0$ for every training distribution while their terminal law stays $\delta_{x_2}$, at total variation $1-\target(x_2)>0$ from $\target$, so no model-free bound tending to $0$ with the loss holds. The idealized residual $\mathcal E(p_F)$ lies outside that class, and whether the acyclicity hypothesis of \citet{silvageneralization} can be dropped from their bound the lemma does not decide; what this remark establishes for that bound is the graph-dependence of its constants through the path space.
+\end{remark}
+
+\begin{remark}[relation to the bounds of this paper]\label{rem:silva_vs_ours}
+Two further points of comparison. \emph{(i)} The residual $\mathcal E(p_F)$ of \citet{silvageneralization} involves the normalized target $\pi = R/Z$ with the true partition function: it is an idealized form of the TB objective, distinct from the trained TB loss, in which the normalization $Z_\theta = F(s_o)$ is learned; one expects relating the two to require a control of $|\log Z_\theta - \log Z|$, which \citet{silvageneralization} do not provide. \emph{(ii)} Theorem \ref{theo:no_bound_divergence} asserts that, for the divergence-based losses of \citet{brunswic2024theory} with a generator continuous at $1$, no bound $\TV\leq F(\mathcal L)$ with a model-free $F$ tending to $0$ at $0$ holds on the graphs of a given size, whatever the training distribution. On the directed cycle $\mathcal C_N$ of Lemma \ref{lem:cycle_counterexample}, the constants $M'$ and $1/w_{\min}$ lie outside the acyclic setting of Propositions \ref{prop:silva_explicit} and \ref{prop:silva_no_uniform}; read with the same formulas, $\sup_{p_F}M'=+\infty$ (Remark \ref{rem:path_space}), while $|\mathcal X|$ and $\chi^2$ stay fixed with the graph and the training distribution; on the counter-example graph \eqref{eq:counterexample_graph}, cyclic as well and with no finite horizon, the terminal set is infinite and $\chi^2$ is undefined too. Their bound thus quantifies the finite acyclic bounded-horizon regime; Lemma \ref{lem:cycle_counterexample} shows that on $\mathcal C_N$ no model-free bound tending to $0$ with the loss survives for the divergence-based FM losses --- whether one survives for the idealized residual $\mathcal E(p_F)$, which lies outside that class, it does not decide --- and Theorems \ref{theo:gd_diffusion} and \ref{theo:db_stable_frozen} supply the dynamic statement missing from their bound, namely the convergence rate of the linearized training under a mixing backward policy.
+\end{remark}
+
+\subsection{The two companion papers}
+
+\citet{silva2024divergence} prove (their Proposition 1) that on a finitely absorbing acyclic space, the expected \emph{on-policy} TB gradient equals twice the gradient of the reverse KL divergence, $\nabla_\theta\,\mathbb E_{\tau\sim P_F}[\mathcal L_{TB}] = 2\nabla_\theta\,\KL(P_F\|P_B)$, by the score-function identity. This is a gradient identity, not a value bound, and is therefore compatible with Theorem \ref{theo:no_bound_divergence}. It is the on-policy, trajectory-space counterpart of Theorem \ref{theo:first_variation}, which computes the gradient in operator form $(T^\lambda - r)[\,\cdot\,]$ for an arbitrary training measure and frozen backward policy; the two agree at the balanced flow.
+
+\citet{silva2025gflownets} prove (their Theorem 1) that perturbing the flow of a single node of an \emph{exactly balanced} model by $\delta$ and propagating the excess forward moves the terminal distribution by at most $\frac{\delta}{Z+\delta}(1-\min_{x\in D}\pi(x))$, where $D$ is the set of terminal descendants of the perturbed node; the bound is linear in $\delta$ and tight on trees. This prices a perturbation of the balanced solution in total variation; it is complementary to Theorem \ref{theo:gd_diffusion}, which quantifies the \emph{decay} of such perturbations under gradient descent. Their Proposition 1 --- forward-looking losses with unrestricted terminal flows vanish on models with $p_T \propto R\tilde F$, so that a zero loss does not imply correctness --- is a further instance, at zero loss, of the uniqueness and stability failures that Theorem \ref{theo:no_bound_divergence} formalizes at small loss.
+
+\subsection{Summary}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.21\columnwidth}p{0.33\columnwidth}p{0.34\columnwidth}@{}}
+\hline
+ & bounds what & constants; dynamics \\
+\hline
+\citet{silvageneralization} Prop.\ 4.2 & TV by an idealized TB residual (true $Z$), backward-sampled & $\frac{|\mathcal X|}{2}M'\sqrt{1+\chi^2}$, depth-dependent via $M'$; static \\[2pt]
+\citet{silva2025gflownets} Thm.\ 1 & TV under a one-node flow perturbation of a balanced model & linear in $\delta/(Z+\delta)$; static, at the balanced manifold \\[2pt]
+This paper & TV by the trained stable / KL-wFM losses (Thms.\ \ref{theo:RL_CV_bound}, \ref{theo:IL_CV_bound_body}); no bound for divergence losses in general (Thm.\ \ref{theo:no_bound_divergence}) & model-free constants; dynamic: linearized training rate from the mixing of $\BackwardPolicy$ (Thm.\ \ref{theo:db_stable_frozen}) \\
+\hline
+\end{tabular}
+\end{center}

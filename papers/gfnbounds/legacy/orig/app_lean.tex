@@ -1,0 +1,703 @@
+% Appendix I -- the doubling graph, certified: a machine-checked theorem and the ideas behind it.
+\section{\appendixItitle}\label{app:lean}
+
+This appendix carries the mathematics of Appendix~\ref{app:doubling} --- the doubling graph
+\eqref{eq:counterexample_graph} and the family of backward policies it carries --- with the
+proofs delegated to a machine-checked certificate rather than written out in natural language,
+and it is meant to replace that appendix rather than to stand beside it.
+Theorem~\ref{theo:lean_main} is the certified statement; it is narrower than
+Theorem~\ref{theo:doubling_main} in six places, which \S\ref{sec:lean_scope} names, with
+where each is proved instead when it is proved at all. \S\ref{sec:lean_model} quotes the formal model the
+theorem quantifies over, \S\ref{sec:lean_certificate} the fifteen Lean theorems that carry it
+and the axioms they rest on, and \S\ref{sec:lean_ideas} says, in prose and without proving
+anything, how each is proved. The numbers measured on truncations are not repeated here: they
+stay in \S\ref{sec:doubling_measured} and \S\ref{sec:doubling_cost}, which this appendix does
+not replace.
+
+\begin{definition}[standing notation and hypotheses of this appendix]\label{def:lean_setting}
+The graph is \eqref{eq:counterexample_graph}, carrying the source $s_0$, the ladder
+$1,2,3,\dots$, the sink $s_f$ and the forward edges $s_0\rightarrow1$, $j\rightarrow j+1$,
+$2j\rightarrow j$ and $j\rightarrow s_f$; the predecessors of a ladder state $j$ are $j-1$ and
+$2j$, so the backward chain at $j$ either \emph{decrements} to $j-1$ or \emph{doubles} to $2j$,
+and the \emph{loop closure} adds the wrap $s_f\rightarrow s_0$. The backward policy is
+\begin{equation}\label{eq:lean_policy}
+    \BackwardPolicy(j\rightarrow2j)=\varepsilon(j),\qquad
+    \BackwardPolicy(j\rightarrow j-1)=1-\varepsilon(j)\quad(j\geq1),\qquad
+    \BackwardPolicy(s_0\rightarrow s_f)=1,
+\end{equation}
+with $j-1=0$ read as $s_0$, and the \emph{target row}
+$\widehat\BackwardPolicy(s_f\rightarrow\cdot)$ is a probability supported in $\{1,\dots,d\}$ of
+mean $\bar\jmath$, the integer $d\geq1$ being a parameter of the setting and $\bar\jmath$
+the mean of its row. The family studied throughout is
+\begin{equation}\label{eq:lean_family}
+    \varepsilon_{c,s}(j):=\frac{c}{(j+1)^s},
+\end{equation}
+and its \emph{standing range} is $s\geq0$, $0<c<2^s$, on which $\varepsilon_{c,s}$ takes its
+values in $(0,1)$ with supremum $\varepsilon_{\max}=c\,2^{-s}<1$.
+
+Write $(X_n)_{n\geq0}$ for the backward chain of the loop closure, $\sigma$ for its hitting
+time of $s_0$, and $\bar\sigma$ for the expected backward-trajectory length of
+\citet{morozov2025revisiting}, the average of $\mathbb E(\sigma\mid X_0=j)$ over the target
+row. When the loop closure carries an invariant probability, $\lambda$ denotes one,
+$\lambda_j:=\lambda(\{j\})$ the mass of a ladder state, $L(m):=\lambda([m,+\infty))$ the tail,
+and $f_m:=\mathbf 1_{[m,+\infty)}-L(m)$, for $m>d$, the \emph{centred tail indicator} at the
+cut $m$. The operator $P_\star$ is the \emph{function action} of the backward kernel,
+$(P_\star f)(x)=\mathbb E(f(X_1)\mid X_0=x)$, defined at every function on the states and a
+contraction of $L^p(\lambda)$ for every $p\in[1,+\infty]$; $P$ is the density action of that
+kernel on $L^2(\lambda)$; $\Pi$ is the $\lambda$-mean projection
+$f\mapsto\bigl(\int f\,d\lambda\bigr)\mathbf 1$ and $\ker\Pi$ the functions of zero
+$\lambda$-mean in $L^2(\lambda)$; $\widehat\beta_n:=\|P^n-\Pi\|_{L^2(\lambda)}$; and
+\begin{equation}\label{eq:lean_Bhat}
+    S:=\left(\mathrm{Id}-P_\star+\Pi\right)^{-1}-\Pi,\qquad
+    \widehat B:=\|S\|_{L^2(\lambda)},
+\end{equation}
+with the convention $\widehat B:=+\infty$ when no bounded operator $R$ on $L^2(\lambda)$
+satisfies $R(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$. The \emph{Cram\'er equation} of the family
+is
+\begin{equation}\label{eq:lean_cramer}
+    c\left(2^p-1\right)\;=\;p ,
+\end{equation}
+and $p_*=p_*(c)$ denotes its non-zero real root. For an even integer $K\geq d$, the
+\emph{truncation at $K$} is the chain obtained from the loop closure by deleting every doubling
+edge $j\rightarrow2j$ with $2j>K$, the decrement out of such a state carrying probability $1$;
+$\lambda^K$ denotes an invariant probability of it and $\widehat B_K$ its constant
+\eqref{eq:lean_Bhat}. Definition~\ref{def:doubling_setting} carries the same objects
+at length.
+\end{definition}
+
+\begin{theorem}[the doubling graph, in the form the certificate carries]\label{theo:lean_main}
+In the setting of Definition~\ref{def:lean_setting}, with $(c,s)$ in the standing range:
+\begin{enumerate}
+    \item \emph{(irreducibility and the phase diagram)} the loop closure is irreducible and
+    every invariant probability of it is positive at every state; and, for $c>0$, it carries no
+    invariant probability at $s<1$, at least one at $s=1$ and $0<c<1$, none at $s=1$ and
+    $1\leq c$, and at least one at $s>1$;
+    \item \emph{(the invariant measure at $s=1$)} at $s=1$ and $0<c<1$, with $\lambda$ an
+    invariant probability and $p_*>1$ the root of \eqref{eq:lean_cramer}, there is $C>0$ with
+    $\lambda_m m^{p_*}\rightarrow C$ and $(p_*-1)m^{p_*-1}L(m)\rightarrow C$ --- that is
+    $L(m)=\frac C{p_*-1}m^{1-p_*}\bigl(1+o(1)\bigr)$ --- and there are $\vartheta\in(0,1)$ and
+    $c_6>0$ with $\left|\lambda_m m^{p_*}-C\right|\leq c_6m^{-\vartheta}$ for every $m\geq1$;
+    the constant is determined by the boundary data in two senses: two invariant probabilities
+    of the loop closure that agree at the ladder states $1,\dots,d$ agree along the whole
+    ladder; and there are $\nu_1,\dots,\nu_d\geq0$ with $\sum_j\nu_j>0$ and $\nu_j=0$
+    whenever $2j\leq d$ such that every invariant probability $\lambda'$ of the loop closure
+    has $\lambda'_m m^{p_*}\rightarrow\sum_{j\leq d}\nu_j\lambda'_j$;
+    \item \emph{(the diffusion operator)} at every $(c,s)$ of the standing range and every
+    invariant probability $\lambda$: for every $p\in[1,+\infty)$ the centred tail indicators
+    drive the $L^p(\lambda)$ Rayleigh quotient to zero --- for every $t>0$ some $m>d$ has
+    $\|(\mathrm{Id}-P_\star)f_m\|^p_{L^p(\lambda)}\leq t\|f_m\|^p_{L^p(\lambda)}$ --- and no
+    constant $B$ satisfies $\|f\|^p_{L^p(\lambda)}\leq B\|(\mathrm{Id}-P_\star)f\|^p_{L^p(\lambda)}$
+    for every bounded $f$ of zero $\lambda$-mean; at $p=+\infty$, no constant $B$ satisfies
+    $M\leq B\,D$ whenever a bounded $f$ of zero mean attains $|f|\geq M$ somewhere and has
+    $|(\mathrm{Id}-P_\star)f|\leq D$ everywhere; and at $p=2$, no bounded operator $R$ on
+    $L^2(\lambda)$ satisfies $R(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$, so $\widehat B=+\infty$,
+    the partial sums of $\sum_{n\geq0}(P_\star^n-\Pi)$ do not converge in operator norm, and
+    $\sum_{n\geq0}\widehat\beta_n=+\infty$. At $s=1$ and $0<c<1$ the expected
+    backward-trajectory length is finite, $\bar\sigma=\bar\jmath/(1-c)$, and there are
+    $0<c_1\leq c_2$ and an integer $m_2>d$ with
+    \begin{equation}\label{eq:lean_rate}
+        c_1\,m\,\left\|\left(\mathrm{Id}-P_\star\right)f_m\right\|^2_{L^2(\lambda)}
+        \;\leq\;4\,c_2\left(p_*-1\right)\left\|f_m\right\|^2_{L^2(\lambda)}
+    \end{equation}
+    for every $m\geq m_2$ --- a $\sqrt m$ rate along the trial functions, and not a bound on
+    $\widehat B$, which is $+\infty$ there;
+    \item \emph{(an unsolvable flow-matching problem)} at every $(c,s)$ of the standing range
+    and every invariant probability $\lambda$, the subspace
+    $\left(\mathrm{Id}-P_\star\right)L^2(\lambda)$ is a dense proper subspace of $\ker\Pi$, and
+    there are probability densities $\finit,\fterm\in L^2(\lambda)$ such that no
+    $f\in L^2(\lambda)$ satisfies $\left(\mathrm{Id}-P_\star\right)f=\finit-\fterm$;
+    \item \emph{(the truncation)} for every even $K\geq d$ the truncation at $K$ is irreducible
+    on its states and every invariant probability of it is positive at every one of them; it
+    carries exactly one such probability $\lambda^K$, and admits a bounded operator $R$ on
+    $L^2(\lambda^K)$ with
+    $R(\mathrm{Id}-P_\star)=(\mathrm{Id}-P_\star)R=\mathrm{Id}-\Pi$ and $\Pi R=R\Pi=0$, so
+    that $\widehat B_K<+\infty$; and at $s=1$ and $0<c<1$ there are $c_8>0$ and an integer $K_0$
+    such that $c_8K\leq\|R\|^2$ for every even $K\geq K_0$ and every bounded $R$ on
+    $L^2(\lambda^K)$ with $R(\mathrm{Id}-P_\star)=\mathrm{Id}-\Pi$ --- that is
+    $\widehat B_K\geq\sqrt{c_8}\sqrt K$.
+\end{enumerate}
+\end{theorem}
+
+The two conditions come apart on this graph. That of \citet{morozov2025revisiting} is repaired
+by every member with $s=1$ and $c<1$, which is what $\bar\sigma=\bar\jmath/(1-c)$ says; the
+summable-mixing hypothesis of Theorem~\ref{theo:universality_L2} is repaired by no positive
+recurrent member, which is item \emph{(3)} read at $p=2$. What item \emph{(4)} refutes is
+\emph{exact} $L^2$ flow matching --- a pair of $L^2$ densities the loop closure cannot balance
+at all --- and not the weak universality of Theorem~\ref{theo:universality_L2_full}, whose
+conclusion is a defect infimum of zero: the range of $\mathrm{Id}-P_\star$ in $\ker\Pi$ being
+dense is exactly why the weak form is untouched.
+
+\subsection{The model}\label{sec:lean_model}
+
+A machine-checked proof certifies that each proof proves its statement; what it cannot certify
+is that the statement is the paper's. Four modelling decisions carry that burden here, and each
+is legible off the source below.
+
+Three names collide with the paper's, and a reader checking a quotation needs the dictionary
+before the first of them. In the Lean, $\texttt{S}$ is a $\texttt{Setting}$ --- the data of the
+graph and the policy --- where the paper's $S$ is the diffusion operator \eqref{eq:lean_Bhat},
+which appears there under the name $\texttt{Sop}$; $\texttt{L}$ is an invariant probability and
+$\texttt{L.lam}$ is the paper's $\lambda$, where the paper's $L(m)$ is the tail, which is
+$\texttt{L.tailMass}$; and $\texttt{p}$ is the exponent the paper writes $p_*$.
+
+The states are a ladder indexed by $\mathbb N$ and a sink, and \emph{the source $s_0$ is the
+ladder index $0$}, which is Definition~\ref{def:lean_setting}'s own convention --- so the
+decrement is uniformly $\texttt{lad}\ (j+1)\rightarrow\texttt{lad}\ j$ with no case at the foot
+of the ladder. A single parameter $\texttt{cap}$ of type $\texttt{Option}\ \mathbb N$ carries
+both chains: $\texttt{none}$ is the loop closure, where every doubling edge is present, and
+$\texttt{some}\ K$ the truncation at $K$, where $\texttt{HasDouble}$ deletes the edge out of $j$
+as soon as $2j>K$. The predicate $\texttt{OnChain}$ names the states the truncation lives on.
+\begin{lstlisting}[style=lean]
+inductive St where
+  | lad : ℕ → St
+  | sink : St
+  deriving DecidableEq, Repr
+
+def HasDouble : Option ℕ → ℕ → Prop
+  | none, _ => True
+  | some K, j => 2 * j ≤ K
+
+def OnChain : Option ℕ → St → Prop
+  | none, _ => True
+  | some K, .lad j => j ≤ K
+  | some _, .sink => True
+\end{lstlisting}
+
+The standing hypotheses of Definition~\ref{def:lean_setting}, minus the family, are one
+structure. The target row is finitely supported by hypothesis, so every expression involving it
+is a finite sum; $\varepsilon_{\max}$ is a field rather than a supremum, because only
+$\varepsilon(j)\leq\varepsilon_{\max}<1$ is ever used; and $\bar\jmath$ is not a field at all
+but is derived from the row, $\texttt{Setting.jbar}$. The family \eqref{eq:lean_family} and the
+Cram\'er equation \eqref{eq:lean_cramer} are two functions. The structure is quoted with its
+field docstrings elided, which is the one place a quotation below is not the whole block.
+\begin{lstlisting}[style=lean]
+structure Setting where
+  d : ℕ
+  d_pos : 1 ≤ d
+  eps : ℕ → ℝ
+  eps_pos : ∀ ⦃j⦄, 1 ≤ j → 0 < eps j
+  epsMax : ℝ
+  eps_le : ∀ ⦃j⦄, 1 ≤ j → eps j ≤ epsMax
+  epsMax_lt_one : epsMax < 1
+  row : ℕ → ℝ
+  row_nonneg : ∀ j, 0 ≤ row j
+  row_supp : ∀ ⦃j⦄, row j ≠ 0 → 1 ≤ j ∧ j ≤ d
+  row_sum : ∑ j ∈ Finset.Icc 1 d, row j = 1
+
+noncomputable def epsCS (c s : ℝ) (j : ℕ) : ℝ := c / ((j : ℝ) + 1) ^ s
+
+noncomputable def psi (c t : ℝ) : ℝ := c * ((2 : ℝ) ^ t - 1) - t
+\end{lstlisting}
+
+The kernel enters chiefly through $P_\star$, and $P_\star$ is given \emph{in closed form as a
+total function} on all of $\texttt{St}\rightarrow\mathbb R$ --- three cases for the three kinds
+of state, and no integrability side condition anywhere. That is the second decision, and it is
+what lets every statement at the finite exponents, and at $p=+\infty$, be an inequality between
+real numbers rather than a statement about a measure. It does not carry everything: the density
+action enters as well, in $\widehat\beta_n$, and the support of the kernel is encoded separately
+by $\texttt{Edge}$, which is what the irreducibility statements read.
+\begin{lstlisting}[style=lean]
+noncomputable def pstar (S : Setting) (cap : Option ℕ) (f : St → ℝ) : St → ℝ
+  | .lad 0 => f .sink
+  | .lad (j + 1) =>
+      if HasDouble cap (j + 1) then
+        S.eps (j + 1) * f (.lad (2 * (j + 1))) + (1 - S.eps (j + 1)) * f (.lad j)
+      else
+        f (.lad j)
+  | .sink => ∑ k ∈ Finset.Icc 1 S.d, S.row k * f (.lad k)
+\end{lstlisting}
+
+The third decision is that ``an invariant probability'' is a structure and not a theorem.
+Invariance is carried in the integral form $\int P_\star f\,d\lambda=\int f\,d\lambda$ against
+bounded test functions, which is the form every use consumes; positivity is carried on chain,
+because one state type serves two chains and the truncation genuinely does not live on all of
+it. Every statement of Theorem~\ref{theo:lean_main} that names $\lambda$ therefore quantifies
+over such a structure rather than asserting that one exists --- existence is
+$\texttt{main\_phase}$, and it is the hard half of item \emph{(1)}. Irreducibility is the
+reflexive-transitive closure of the positive transitions of \eqref{eq:lean_policy}, and
+$\texttt{PreStat}$ is $\texttt{Stat}$ without positivity, which is what makes ``irreducible
+implies positive everywhere'' a theorem rather than an assumption.
+\begin{lstlisting}[style=lean]
+inductive Edge (S : Setting) (cap : Option ℕ) : St → St → Prop
+  | wrap : Edge S cap (.lad 0) .sink
+  | dec (j : ℕ) : Edge S cap (.lad (j + 1)) (.lad j)
+  | dbl (j : ℕ) (h : HasDouble cap (j + 1)) : Edge S cap (.lad (j + 1)) (.lad (2 * (j + 1)))
+  | row (k : ℕ) (hk : k ∈ Finset.Icc 1 S.d) (hpos : 0 < S.row k) : Edge S cap .sink (.lad k)
+
+abbrev Reach (S : Setting) (cap : Option ℕ) : St → St → Prop :=
+  Relation.ReflTransGen (Edge S cap)
+
+structure Stat (S : Setting) (cap : Option ℕ) where
+  lam : St → ℝ
+  nonneg : ∀ x, 0 ≤ lam x
+  pos : ∀ ⦃x⦄, OnChain cap x → 0 < lam x
+  vanish : ∀ ⦃x⦄, ¬ OnChain cap x → lam x = 0
+  summable : Summable lam
+  total : ∑' x, lam x = 1
+  inv : ∀ f : St → ℝ, (∃ C, ∀ x, |f x| ≤ C) →
+          ∑' x, lam x * pstar S cap f x = ∑' x, lam x * f x
+
+structure PreStat (S : Setting) (cap : Option ℕ) where
+  lam : St → ℝ
+  nonneg : ∀ x, 0 ≤ lam x
+  vanish : ∀ ⦃x⦄, ¬ OnChain cap x → lam x = 0
+  summable : Summable lam
+  total : ∑' x, lam x = 1
+  inv : ∀ f : St → ℝ, (∃ C, ∀ x, |f x| ≤ C) →
+          ∑' x, lam x * pstar S cap f x = ∑' x, lam x * f x
+\end{lstlisting}
+
+The fourth decision is where the norms live. At finite $p$ the statements are in a real
+\emph{mass} layer, $\texttt{L.mass}\ p\ f=\|f\|^p_{L^p(\lambda)}$, a plain sum of non-negative
+reals; the tail $L(m)$ and the centred tail indicator $f_m$ are functions of the same kind, and
+so are the growth condition on $\varepsilon$ along the powers of two, the recursion for
+$\mathbb E(\sigma\wedge n\mid X_0=\cdot)$ and the truncated averages whose supremum is
+$\bar\sigma$.
+\begin{lstlisting}[style=lean]
+noncomputable def Stat.mass (L : Stat S cap) (p : ℝ) (f : St → ℝ) : ℝ :=
+  ∑' x, |f x| ^ p * L.lam x
+
+noncomputable def Stat.tailMass (L : Stat S cap) (m : ℕ) : ℝ := ∑' x, L.lam x * tailInd cap m x
+
+noncomputable def Stat.centredTail (L : Stat S cap) (m : ℕ) : St → ℝ :=
+  fun x => tailInd cap m x - L.tailMass m
+
+def GrowthCond (S : Setting) : Prop :=
+  Tendsto (fun D : ℕ => (∑ i ∈ Finset.range D, Real.log (1 / S.eps (2 ^ i))) / 2 ^ D)
+    atTop (𝓝 0)
+
+noncomputable def hitExp (S : Setting) (cap : Option ℕ) : ℕ → St → ℝ
+  | 0 => fun _ => 0
+  | n + 1 => fun x =>
+      match x with
+      | .lad 0 => 0
+      | .sink => 0
+      | .lad (j + 1) => 1 + pstar S cap (hitExp S cap n) (.lad (j + 1))
+
+noncomputable def sbar (S : Setting) (cap : Option ℕ) (n : ℕ) : ℝ :=
+  ∑ k ∈ Finset.Icc 1 S.d, S.row k * hitExp S cap n (.lad k)
+\end{lstlisting}
+
+Only the $L^2$ operator statements --- items \emph{(3)} at $p=2$, \emph{(4)} and \emph{(5)} ---
+need a genuine Hilbert space, and there they run on Mathlib's $L^p$ spaces over the measure
+$\lambda$ read as a counting measure with density, with $P_\star$ and $\Pi$ continuous linear
+maps on it, $\widehat\beta_n$ the norm of $P^n-\Pi$ for the density action, and $\ker\Pi$ the
+orthogonal complement of the constants. That $P_\star$ is the $L^2(\lambda)$-adjoint of $P$ is a
+theorem of the library, $\texttt{Stat.adjoint\_pstarL2}$, and not a convention; it is not among
+the fifteen quoted below, and item \emph{(3)}'s clause on $\sum_n\widehat\beta_n$ is where the
+theorem is consumed.
+\begin{lstlisting}[style=lean]
+noncomputable def mu : Measure St :=
+  Measure.count.withDensity (fun x => ENNReal.ofReal (L.lam x))
+
+noncomputable def pstarL2 (hrow : RowOnChain S cap) : Lp ℝ 2 L.mu →L[ℝ] Lp ℝ 2 L.mu :=
+  LinearMap.mkContinuous
+    { toFun := L.pstarLp
+      map_add' := L.pstarLp_add hrow
+      map_smul' := fun c F => L.pstarLp_smul hrow c F } 1
+    fun F => by simpa using L.norm_pstarLp_le F
+
+noncomputable def piL2 : Lp ℝ 2 L.mu →L[ℝ] Lp ℝ 2 L.mu :=
+  (innerSL ℝ L.oneLp).smulRight L.oneLp
+
+noncomputable def betaHat (hrow : RowOnChain S cap) (n : ℕ) : ℝ :=
+  ‖(L.densL2 hrow) ^ n - L.piL2‖
+
+noncomputable def partialSum (P Pi : E →L[ℝ] E) (N : ℕ) : E →L[ℝ] E := ∑ n ∈ Finset.range N, (P ^ n - Pi)
+
+noncomputable def defect : Lp ℝ 2 L.mu →L[ℝ] Lp ℝ 2 L.mu := 1 - L.pstarL2 (rowOnChain_none S)
+
+noncomputable def kerPi : Submodule ℝ (Lp ℝ 2 L.mu) := (ℝ ∙ L.oneLp)ᗮ
+
+noncomputable def defectRange : Submodule ℝ (Lp ℝ 2 L.mu) :=
+  LinearMap.range (L.defect : Lp ℝ 2 L.mu →ₗ[ℝ] Lp ℝ 2 L.mu)
+\end{lstlisting}
+
+\subsection{The certificate, and its axioms}\label{sec:lean_certificate}
+
+Fifteen theorems carry Theorem~\ref{theo:lean_main}, all of them in the module
+$\texttt{GFNBounds/Doubling/Main.lean}$ of the supplementary library, and each is quoted below
+in full, statement only. Item \emph{(1)} is two: irreducibility with positivity, and the phase
+diagram, each of whose four rows is the existence or the non-existence of an invariant
+probability.
+\begin{lstlisting}[style=lean]
+theorem main_irreducible (P : PreStat S none) :
+    (∀ x y : St, Reach S none x y) ∧ (∀ y : St, 0 < P.lam y) :=
+
+theorem main_phase {c s : ℝ} (hc : 0 < c) (heps : ∀ j, S.eps j = epsCS c s j) :
+    (s < 1 → IsEmpty (Stat S none)) ∧
+      (s = 1 → c < 1 → Nonempty (Stat S none)) ∧
+      (s = 1 → 1 ≤ c → IsEmpty (Stat S none)) ∧
+      (1 < s → Nonempty (Stat S none)) := by
+\end{lstlisting}
+
+Item \emph{(2)} is three: the limit $C$, the tail asymptotic and the polynomial rate in one
+statement; then the two senses in which the boundary data determine $C$ --- that they determine
+the whole ladder, and that $C$ is a non-negative linear combination of them, with coefficients
+the statement asserts to exist rather than exhibits.
+\begin{lstlisting}[style=lean]
+theorem main_invariant_measure {c : ℝ} (hc0 : 0 < c) (hc1 : c < 1)
+    (heps : ∀ j, S.eps j = epsCS c 1 j) (L : Stat S none) :
+    ∃ p : ℝ, psi c p = 0 ∧ 1 < p ∧ ∃ C : ℝ, 0 < C ∧
+      Tendsto (fun m : ℕ => L.lam (.lad m) * (m : ℝ) ^ p) atTop (𝓝 C) ∧
+      Tendsto (fun m : ℕ => (p - 1) * (m : ℝ) ^ (p - 1) * L.tailMass m) atTop (𝓝 C) ∧
+      ∃ ϑ c₆ : ℝ, 0 < ϑ ∧ ϑ < 1 ∧ 0 < c₆ ∧
+        ∀ m : ℕ, 1 ≤ m → |L.lam (.lad m) * (m : ℝ) ^ p - C| ≤ c₆ * (m : ℝ) ^ (-ϑ) := by
+\end{lstlisting}
+\begin{lstlisting}[style=lean]
+theorem main_constant_determined {c : ℝ} (hc0 : 0 < c) (hc1 : c < 1)
+    (heps : ∀ j, S.eps j = epsCS c 1 j) (L L' : Stat S none)
+    (hagree : ∀ j : ℕ, 1 ≤ j → j ≤ S.d → L.lam (.lad j) = L'.lam (.lad j)) :
+    ∀ m : ℕ, 1 ≤ m → L.lam (.lad m) = L'.lam (.lad m) := by
+
+theorem main_constant_functional {c : ℝ} (hc0 : 0 < c) (hc1 : c < 1)
+    (heps : ∀ j, S.eps j = epsCS c 1 j) :
+    ∃ p : ℝ, psi c p = 0 ∧ 1 < p ∧ ∃ ν : ℕ → ℝ, (∀ j, 0 ≤ ν j) ∧
+      0 < ∑ j ∈ Finset.Icc 1 S.d, ν j ∧ (∀ j, 1 ≤ j → 2 * j ≤ S.d → ν j = 0) ∧
+      ∀ L : Stat S none,
+        Tendsto (fun m : ℕ => L.lam (.lad m) * (m : ℝ) ^ p) atTop
+          (𝓝 (∑ j ∈ Finset.Icc 1 S.d, ν j * L.lam (.lad j))) := by
+\end{lstlisting}
+
+Item \emph{(3)} is six. The first three are the unboundedness, at the finite exponents, at
+$p=+\infty$, and at $p=2$ where it becomes $\widehat B=+\infty$, a divergent operator series
+and a divergent mixing sum.
+\begin{lstlisting}[style=lean]
+theorem main_unbounded {c s : ℝ} (hc : 0 < c) (hs : 0 ≤ s)
+    (heps : ∀ j, S.eps j = epsCS c s j) (L : Stat S none) {p : ℝ} (hp : 1 ≤ p) :
+    (∀ t : ℝ, 0 < t → ∃ m, S.d < m ∧
+        L.mass p (fun x => L.centredTail m x - pstar S none (L.centredTail m) x)
+          ≤ t * L.mass p (L.centredTail m)) ∧
+      ¬ ∃ B : ℝ, ∀ f : St → ℝ, (∃ C, ∀ x, |f x| ≤ C) → (∑' x, L.lam x * f x = 0) →
+          L.mass p f ≤ B * L.mass p (fun x => f x - pstar S none f x) := by
+
+theorem main_unbounded_infty {c s : ℝ} (hc : 0 < c)
+    (heps : ∀ j, S.eps j = epsCS c s j) (L : Stat S none) :
+    ¬ ∃ B : ℝ, ∀ (f : St → ℝ) (M Dd : ℝ),
+        (∃ C, ∀ x, |f x| ≤ C) → (∑' x, L.lam x * f x = 0) → (∃ x, M ≤ |f x|) →
+        (∀ x, |f x - pstar S none f x| ≤ Dd) → M ≤ B * Dd := by
+\end{lstlisting}
+\begin{lstlisting}[style=lean]
+theorem main_unbounded_two {c s : ℝ} (hc : 0 < c) (hs : 0 ≤ s)
+    (heps : ∀ j, S.eps j = epsCS c s j) (L : Stat S none) :
+    (¬ ∃ Sop : Lp ℝ 2 L.mu →L[ℝ] Lp ℝ 2 L.mu,
+        Sop * (1 - L.pstarL2 (rowOnChain_none S)) = 1 - L.piL2) ∧
+      (¬ ∃ U : Lp ℝ 2 L.mu →L[ℝ] Lp ℝ 2 L.mu,
+        Tendsto (partialSum (L.pstarL2 (rowOnChain_none S)) L.piL2) atTop (𝓝 U)) ∧
+      ¬ Summable (L.betaHat (rowOnChain_none S)) := by
+\end{lstlisting}
+
+The other three are the backward length and the rate. $\texttt{main\_sigmaBar\_eq}$ gives the
+closed form of item \emph{(3)}; $\texttt{main\_sigmaBar\_le}$ read at
+$\texttt{cap}=\texttt{none}$ is what makes that length finite in the first place, and its other
+half --- the same bound uniformly over every truncation --- is more than the theorem states; and
+$\texttt{main\_rate}$ is the $\sqrt m$ rate \eqref{eq:lean_rate} along the trial functions.
+\begin{lstlisting}[style=lean]
+theorem main_sigmaBar_eq {c : ℝ} (hc0 : 0 < c) (hc1 : c < 1)
+    (heps : ∀ j, S.eps j = epsCS c 1 j) :
+    ⨆ n, sbar S none n = S.jbar / (1 - c) :=
+
+theorem main_sigmaBar_le {c : ℝ} (hc0 : 0 < c) (hc1 : c < 1) {cap : Option ℕ}
+    (heps : ∀ j, S.eps j = epsCS c 1 j) (n : ℕ) :
+    sbar S cap n ≤ S.jbar / (1 - c) :=
+
+theorem main_rate {c : ℝ} (hc0 : 0 < c) (hc1 : c < 1)
+    (heps : ∀ j, S.eps j = epsCS c 1 j) (L : Stat S none) :
+    ∃ p : ℝ, psi c p = 0 ∧ 1 < p ∧ ∃ c₁ c₂ : ℝ, 0 < c₁ ∧ c₁ ≤ c₂ ∧
+      ∃ m₂ : ℕ, S.d < m₂ ∧ ∀ m : ℕ, m₂ ≤ m →
+        c₁ * (m : ℝ) * L.mass 2 (fun x => L.centredTail m x - pstar S none (L.centredTail m) x)
+          ≤ 4 * c₂ * (p - 1) * L.mass 2 (L.centredTail m) := by
+\end{lstlisting}
+
+Item \emph{(4)} is one statement, carrying both halves: the range is dense and proper, and a
+pair of probability densities lies outside it.
+\begin{lstlisting}[style=lean]
+theorem main_unsolvable {c s : ℝ} (hc : 0 < c) (hs : 0 ≤ s)
+    (heps : ∀ j, S.eps j = epsCS c s j) (L : Stat S none) :
+    (L.defectRange ≤ L.kerPi ∧ L.defectRange.topologicalClosure = L.kerPi ∧
+        L.defectRange ≠ L.kerPi) ∧
+      ∃ fi fe : St → ℝ,
+        (∀ x, 0 ≤ fi x) ∧ (∀ x, 0 ≤ fe x) ∧
+        MemLp fi 2 L.mu ∧ MemLp fe 2 L.mu ∧
+        ∑' x, L.lam x * fi x = 1 ∧ ∑' x, L.lam x * fe x = 1 ∧
+        ¬ ∃ f : St → ℝ, MemLp f 2 L.mu ∧
+            ∀ᵐ x ∂L.mu, f x - pstar S none f x = fi x - fe x :=
+\end{lstlisting}
+
+Item \emph{(5)} is three: the truncation is irreducible, it carries exactly one invariant
+probability and a bounded diffusion operator, and that operator's norm grows at least like
+$\sqrt K$.
+\begin{lstlisting}[style=lean]
+theorem main_truncation_irreducible {K : ℕ} (hK : Even K) (hdK : S.d ≤ K)
+    (P : PreStat S (some K)) :
+    (∀ x y : St, OnChain (some K) y → Reach S (some K) x y) ∧
+      (∀ ⦃y : St⦄, OnChain (some K) y → 0 < P.lam y) :=
+
+theorem main_truncation_bhat {K : ℕ} (hK : Even K) (hdK : S.d ≤ K) :
+    Nonempty (Stat S (some K)) ∧
+      (∀ L L' : Stat S (some K), L.lam = L'.lam) ∧
+      ∀ L : Stat S (some K), ∃ Sop : Lp ℝ 2 L.mu →L[ℝ] Lp ℝ 2 L.mu,
+        (1 - L.pstarL2 (rowOnChain_some hdK)) * Sop = 1 - L.piL2 ∧
+        Sop * (1 - L.pstarL2 (rowOnChain_some hdK)) = 1 - L.piL2 ∧
+        L.piL2 * Sop = 0 ∧ Sop * L.piL2 = 0 :=
+\end{lstlisting}
+\begin{lstlisting}[style=lean]
+theorem main_truncation_sqrtK {c : ℝ} (hc0 : 0 < c) (hc1 : c < 1)
+    (heps : ∀ j, S.eps j = epsCS c 1 j) :
+    ∃ c₈ : ℝ, 0 < c₈ ∧ ∃ K₀ : ℕ, ∀ K : ℕ, K₀ ≤ K →
+      ∀ (L : Stat S (some K)) (hrow : RowOnChain S (some K))
+        (Sop : Lp ℝ 2 L.mu →L[ℝ] Lp ℝ 2 L.mu),
+        Sop * (1 - L.pstarL2 hrow) = 1 - L.piL2 → c₈ * (K : ℝ) ≤ ‖Sop‖ ^ 2 := by
+\end{lstlisting}
+
+\begin{table*}[t]
+\centering
+\caption{Each item of Theorem~\ref{theo:lean_main}, the declarations of
+$\texttt{GFNBounds/Doubling/Main.lean}$ that carry it, and the modules of
+$\texttt{GFNBounds/Doubling/}$ in which the mathematics is proved.}
+\label{tab:lean_map}
+\small
+\begin{tabular}{@{}c p{0.40\linewidth} p{0.36\linewidth}@{}}
+\hline
+item & declarations & modules \\
+\hline
+\emph{(1)} & \texttt{main\_irreducible}, \texttt{main\_phase} &
+\texttt{Irreducible}, \texttt{PhaseEmpty}, \texttt{PhaseExists}, \texttt{StatExists} \\
+\emph{(2)} & \texttt{main\_invariant\_measure}, \texttt{main\_constant\_determined},
+\texttt{main\_constant\_functional} &
+\texttt{DecayNotation}, \texttt{Product}, \texttt{Sharp}, \texttt{SharpFull},
+\texttt{ConstantFunctional} \\
+\emph{(3)} & \texttt{main\_unbounded}, \texttt{main\_unbounded\_infty},
+\texttt{main\_unbounded\_two}, \texttt{main\_sigmaBar\_eq}, \texttt{main\_sigmaBar\_le},
+\texttt{main\_rate} &
+\texttt{Unbounded}, \texttt{Ramp}, \texttt{UnboundedL2}, \texttt{Family}, \texttt{Product},
+\texttt{Supersolution}, \texttt{Length} \\
+\emph{(4)} & \texttt{main\_unsolvable} & \texttt{Unsolvable} \\
+\emph{(5)} & \texttt{main\_truncation\_irreducible}, \texttt{main\_truncation\_bhat},
+\texttt{main\_truncation\_sqrtK} &
+\texttt{Irreducible}, \texttt{TruncationStat}, \texttt{OperatorL2}, \texttt{Truncation},
+\texttt{Product}, \texttt{RayleighBridge} \\
+\hline
+\end{tabular}
+\end{table*}
+
+The library is Lean 4 with Mathlib pinned at the tag \texttt{v4.31.0}, revision
+\texttt{fabf563a7c95}. It compiles with $\texttt{warningAsError}:=\texttt{true}$, which turns
+Lean's own ``declaration uses \texttt{sorry}'' warning into a compile error, so
+$\texttt{sorry}$-freeness is enforced by the compiler rather than by discipline; a permissive
+scaffold library exists for work in progress and is never imported by the strict one, so
+graduating a result is a file move. An axiom sweep over the strict library reports
+$4{,}006$ declarations in $99$ modules, each depending only on $\texttt{propext}$,
+$\texttt{Classical.choice}$ and $\texttt{Quot.sound}$ --- Lean's three standard axioms, and
+nothing else --- and a second audit parses $\texttt{\#print axioms}$ for the $245$ declarations
+of an explicit audit file and fails on $\texttt{sorryAx}$ or on any axiom outside that set. A
+kernel replay then re-checks every declaration of the strict library from the compiled
+\texttt{.olean} files, with Mathlib imported and trusted, so that the certificate rests on the
+kernel and not on the elaborator that produced the environment. A traceability check maps each
+statement of the three appendices the library covers --- the $41$ of
+Appendix~\ref{app:doubling}, the $37$ of the appendix of proofs and the $6$ of
+Appendix~\ref{sec:silva_comparison} --- to its Lean declarations and to a \texttt{sha256} of
+that statement's own \LaTeX{} block, so that editing a statement marks it stale until the map
+is re-affirmed; it reports $84$ statements mapped and every digest current. Coverage of the
+long-form appendix this one replaces is $29$ statements closed, $9$ partial and $3$ open.
+\emph{Partial} means that some items of a multi-part statement are proved and others are not:
+Lemma~\ref{lem:doubling_operator} is carried in its doubling-graph instance alone,
+Lemma~\ref{lem:doubling_expansion} and Remark~\ref{rem:doubling_parity} are blocked on an
+Euler--Maclaurin estimate Mathlib does not have, and Lemma~\ref{lem:doubling_weight} is carried
+in a consequence form; none of the nine touches a clause of Theorem~\ref{theo:lean_main}. The
+open three are remarks that appendix does not prove either, and
+\texttt{docs/COVERAGE.md} gives the per-statement account. The whole gate is one command,
+\texttt{make check}, last run green on 2026-09-13.
+
+What this buys is one half of the reading and not both. The compiler certifies that each proof
+proves its statement; what is left to the reader is whether the statement is the paper's, and
+that is a question about \S\ref{sec:lean_model} and about \S\ref{sec:lean_scope} --- which is
+why the model is quoted in full above, and why the scope below is part of the claim rather than
+an apology attached to it.
+
+\subsection{The ideas}\label{sec:lean_ideas}
+
+This subsection says what the proofs do. It proves nothing, and nothing below is used anywhere
+else in the paper.
+
+\paragraph{One identity carries the invariant measure.}
+Stationarity across the cut $A=[m,+\infty)$, at any $m>d$, has exactly two terms. The only way
+out of $A$ is the decrement from $m$, which carries the probability $1-\varepsilon(m)$; the
+only way in is a doubling from the window $W(m):=\{\lceil m/2\rceil,\dots,m-1\}$, since $s_0$
+goes only to $s_f$ and $s_f$ lands in $\{1,\dots,d\}$ with $d<m$. Equating the two fluxes,
+\begin{equation}\label{eq:lean_cut}
+    \lambda_m\bigl(1-\varepsilon(m)\bigr)\;=\;\sum_{j\in W(m)}\lambda_j\,\varepsilon(j) ,
+\end{equation}
+and everything the certificate proves about the invariant measure is this one identity. The
+certificate takes \eqref{eq:lean_cut}, and not the chain, as its hypothesis: the decay results
+are stated for an arbitrary positive sequence satisfying the balance, with no invariance, no
+normalization and no recurrence. That is why they apply verbatim to $\lambda^K$ below the cap,
+where the same two-term count holds for every $d<m\leq K/2$, and it is why the library needs no
+Markov-chain theory at all to prove them.
+
+\paragraph{Why the exponent solves $c(2^p-1)=p$.}
+Doubling multiplies the index, so the natural variable on the ladder is $\log_2$ of the state
+and \eqref{eq:lean_cut} is a Laplace transform of one dyadic step. Feed the power ansatz
+$\lambda_j\approx A j^{-p}$ into the balance at $s=1$, where $\varepsilon(j)=c/(j+1)$: the left
+side is $Am^{-p}(1+o(1))$, the window sum is a Riemann sum for
+$cA\int_{m/2}^mu^{-p-1}\,du=cAm^{-p}(2^p-1)/p$, and dividing out $Am^{-p}$ leaves the
+Cram\'er equation \eqref{eq:lean_cramer} and nothing else. Its non-zero root is $>1$ exactly
+when $c<1$ and $>0$ exactly when $c<1/\ln2$, so the two thresholds of the phase diagram are the
+two crossings of a single root.
+
+\paragraph{From ansatz to theorem: a chain that descends the ladder.}
+An ansatz is not a theorem, and what turns it into one is a change of variable. Rescale to
+$u_j:=\lambda_j j^{p_*}$; then \eqref{eq:lean_cut} says that $u$ at a level is a weighted average
+of its values on the window below, the weights summing not to $1$ but to $R_0(m)=1+O(1/m)$.
+Read the normalized weights as the transition law of a Markov chain descending the ladder. One
+of its steps falls by at least one and by at most half --- from $y$ it lands in
+$\{\lceil y/2\rceil,\dots,y-1\}$ --- so the descent from $m$ reaches a fixed base block
+$[\ell,2\ell)$ without overshooting it, in at most $m$ steps. That count is linear and carries
+nothing; what makes the descent fast is that the halving holds \emph{in probability}. From $y$
+the chain lands at or below $y/\sqrt2$ with probability at least a fixed $\gamma$, so the time
+it spends in any one dyadic block has expectation at most $2/\gamma^2$, and there are only
+$\log_2(m/\ell)$ blocks between the start and the base block. The profile at an index is the
+expectation of the accumulated weight times the value of $u$ where the descent lands, and it is
+that bounded expected sojourn per block --- not a bounded number of steps --- which lets the
+$1+O(1/m)$ deviations telescope over a whole descent into a single bounded factor
+$e^{\pm O(1/\ell)}$, the constant depending on $c$ alone. The profile at every index above the
+base block is then squeezed between the extremes of the profile on that one finite block, which
+is the two-sided decay $c_1 j^{-p_*}\leq\lambda_j\leq c_2 j^{-p_*}$ --- with the same pair
+$0<c_1\leq c_2$ that \eqref{eq:lean_rate} binds --- and no asymptotic hypothesis anywhere.
+
+\paragraph{From two constants to one: a coupling.}
+The sandwich leaves the constant anywhere between $c_1$ and $c_2$, and closing that gap is a
+mixing statement about the descent. Two descents started in one dyadic block leave it with laws
+that overlap: the exit law charges at least a fixed fraction $\omega$ of one reference law on
+the block beneath --- a Doeblin minorization --- so the two descents can be coupled, and the
+total variation between their landing laws falls geometrically in the number of blocks crossed.
+The sandwich becomes a limit: $\lambda_j j^{p_*}\rightarrow C$ for some $C>0$, with a
+polynomial rate $\left|\lambda_j j^{p_*}-C\right|\leq c_6 j^{-\vartheta}$ for some $c_6>0$ and
+the exponent $\vartheta=\ln\bigl(1/(1-\omega)\bigr)/\ln\bigl(2/(1-\omega)\bigr)$ that the
+minorization produces.
+
+Two flags belong in the text beside it. The exponent is explicit and \textbf{not effective}: at
+$c=1/2$ the proved $\omega$ is $0.0016$ against a block-exit minorization measured at $0.18$ on
+exact exit laws, so the proved $\vartheta$ is $0.0024$ against $0.22$, while the observed rate
+is $O(1/m)$. And $C$ is a non-negative linear functional of the boundary data and no more:
+\eqref{eq:lean_cut} is homogeneous, so no equation in $c$ alone can determine it.
+
+\paragraph{One trial function makes the operator unbounded.}
+Apply $\mathrm{Id}-P_\star$ to the indicator of a tail and almost everything cancels: what
+survives is supported on $\{m\}\cup W(m)$ --- the mass leaving at $m$, the mass entering over
+the window --- so $\|(\mathrm{Id}-P_\star)f_m\|^2_{L^2(\lambda)}\leq2\lambda_m$, while
+$\|f_m\|^2_{L^2(\lambda)}=L(m)\bigl(1-L(m)\bigr)$ because $f_m$ is a centred indicator. The
+Rayleigh ratio at the cut $m$ is therefore at most
+$\sqrt{2\lambda_m/\bigl(L(m)(1-L(m))\bigr)}$, and the operator is unbounded as soon as
+$L(m)/\lambda_m$ is unbounded --- as soon as the tail fails to be comparable to its own last
+term.
+
+It cannot be comparable. Were $L(m)/\lambda_m$ bounded by $Q$, the tail would fall geometrically
+at the rate $e^{-1/Q}$; but iterating the doubling edges along the powers of two gives
+$L(2^D)\geq\lambda_1\prod_{i<D}\varepsilon(2^i)$ at every integer $D\geq1$, and the growth
+condition --- that $\sum_{i<D}\log\bigl(1/\varepsilon(2^i)\bigr)$ is $o(2^D)$ as
+$D\rightarrow\infty$ --- makes that far too large. The mechanism is
+geometric and not spectral: the doubling edges plant mass exponentially far out along the
+ladder, and no policy whose doubling probability decays subexponentially can keep the tail
+comparable to its last term. The condition indicts the family and not the graph --- a
+geometrically decaying $\varepsilon(j)=a\rho^j$ fails it, and no boundedness is claimed for any
+policy here. At $p=+\infty$ the sharp indicator gives nothing and clipped ramps take its place:
+their height grows with the clipping level while their defect stays bounded by a constant.
+
+\paragraph{From unbounded to unsolvable.}
+Restricted to $\ker\Pi$, the operator $\mathrm{Id}-P_\star$ is injective with dense range ---
+only the constants are fixed by $P_\star$, only the constants are fixed by $P$, and the two
+facts are adjoint to each other --- but its Rayleigh infimum is zero, so it cannot also be
+surjective: the open mapping theorem would hand back the bounded inverse that the infimum
+forbids. Any $\psi$ of zero mean outside the range then splits into two probability densities
+$\finit,\fterm$ whose difference is a multiple of $\psi$, and that pair cannot be balanced in
+$L^2(\lambda)$ at all. Two flags again. The pair comes from non-surjectivity and is
+\textbf{not explicit}; and because the range is \emph{dense}, weak universality --- a defect
+infimum of zero --- is untouched, and remains open on the infinite chain.
+
+\paragraph{The truncation restores a finite constant, and prices it.}
+Deleting the doubling edges above an even cap leaves a finite irreducible chain, so $\lambda^K$
+exists, is unique and is positive, and $\widehat B_K$ is finite. Finiteness becomes growth by
+reading the same per-cut inequality at a cut near $K/4$ and feeding it the two-sided decay,
+which \eqref{eq:lean_cut} transfers to $\lambda^K$ unchanged, and $\widehat B_K$ grows at
+least like $\sqrt K$.
+This is loose, and by exactly one factor of $\sqrt K$ --- what \S\ref{sec:doubling_cost}
+measures is $K$.
+
+\paragraph{And the backward length stays finite.}
+At $s=1$ the drift of the backward chain is $c-1$ at every ladder state, independent of the
+state --- $s=1$ is the only exponent at which it is --- so the linear function $j\mapsto j/(1-c)$
+solves the hitting-time recursion exactly, which bounds $\mathbb E(\sigma\mid X_0=j)$ above. The
+matching lower bound is the one place where formalizing changed the proof.
+Appendix~\ref{app:doubling} reaches it by optional stopping on a martingale, dominated by the
+integrable excursion maximum; the certificate builds no martingale and never consumes the
+excursion bound. It iterates the ladder operator on the identity $x\mapsto x$ instead --- that
+operator sends the identity to $x\mapsto x-(1-c)$, so the martingale identity becomes an
+induction on the iterate --- and it replaces dominated convergence by one explicit
+supersolution, $W(m)=\sum_{i\leq m}\bigl(\lfloor\log_2i\rfloor+1\bigr)$, which the ladder
+operator raises by at most $2$ and which grows like $m\log_2m$, so that the identity is
+dominated by an arbitrarily small multiple of it plus a constant. The iterates of the identity therefore vanish, which is
+$\mathbb E(\sigma\mid X_0=j)=j/(1-c)$; averaging over the target row gives
+$\bar\sigma=\bar\jmath/(1-c)$. This is the divorce the appendix exists for: the condition of
+\citet{morozov2025revisiting} is repaired at every $c<1$, and $\widehat B=+\infty$ at every one
+of them.
+
+\subsection{What the certificate does not carry}\label{sec:lean_scope}
+
+Six clauses and conventions of Theorem~\ref{theo:doubling_main} are absent from
+Theorem~\ref{theo:lean_main}, and they are the price of the rest being certified.
+
+The first is uniqueness of the invariant probability on the loop closure. Positive recurrence
+in Theorem~\ref{theo:doubling_main}\emph{(1)} carries it; $\texttt{main\_phase}$ delivers
+existence alone, and the library discloses that it does not prove uniqueness there. At a finite
+cap uniqueness is proved --- it is half of item \emph{(5)} --- by an argument that does not
+transfer to the infinite chain.
+
+The words \emph{transient} and \emph{null recurrent} of the phase diagram, and the clause
+$\mathbb E(\sigma\mid X_0=j)=+\infty$ at $1\leq c<2$, are not stated. Mathlib \texttt{v4.31.0}
+carries no discrete-time Markov chain theory and the library builds none, so each row of item
+\emph{(1)} reads instead as the existence or the non-existence of an invariant probability,
+which is what the rest of the appendix uses it for; Proposition~\ref{prop:doubling_phase}
+carries the labels. The count of $K+2$ states of the truncation is not stated either: the Lean
+state type is infinite and the truncation is carried by a predicate on it. The functional
+$\bar\sigma$ is the supremum of the truncated hitting expectations, defined by the paper's own
+recursion, rather than an expectation over a chain. And Appendix~\ref{app:doubling}'s three
+unproved remarks --- the renewal reading of the balance, the absence of a log-periodic term,
+and the second-order expansion --- are not formalized, that appendix not proving them either.
+
+Four dependence clauses of constants go the same way. Theorem~\ref{theo:doubling_main}\emph{(3)}
+says that its $c_7$ depends only on $c$, $d$ and an initial block of the invariant measure, and
+Theorem~\ref{theo:doubling_sharp} says as much of its $c_6$; item \emph{(2)} above binds the
+$\nu_j$ existentially, where they are in fact determined by $c$ and $d$ alone; and item
+\emph{(5)} binds $c_8$ and $K_0$ the same way, where
+Theorem~\ref{theo:doubling_main}\emph{(5)} names what they depend on. None of the four is
+carried by the quoted existentials. They are carried instead, as explicit
+formulas in $c$, $d$ and the initial block of the profile, by the library's explicit-constant
+lemmas $\texttt{Decay.decay\_two\_sided\_explicit}$ and $\texttt{Decay.sharp\_explicit}$, and
+for the $\nu_j$ by $\texttt{Decay.constant\_functional}$, whose coefficients depend on $c$ and
+$d$ alone.
+
+Two constants also change shape between the two statements, which is worth naming because a
+reader comparing them will trip on it: Theorem~\ref{theo:doubling_main}\emph{(3)} writes its
+rate as $\|f_m\|\geq c_7\sqrt m\,\|(\mathrm{Id}-P_\star)f_m\|$ where \eqref{eq:lean_rate}
+carries the pair $0<c_1\leq c_2$ from which that $c_7$ is assembled, and it writes
+$\widehat B_K\geq c_8\sqrt K$ where item \emph{(5)} states the same bound squared, so that the
+$c_8$ of item \emph{(5)} is the square of the $c_8$ of
+Theorem~\ref{theo:doubling_main}\emph{(5)}.
+
+One clause of the certificate drops a hypothesis: the $\sqrt K$ lower bound is stated for every
+$K\geq K_0$, even or not. The drop is empty. At an odd $K\geq K_0$ the truncation carries no
+invariant probability at all, so the statement quantifies over nothing --- the state $K$ is on
+chain and would have to carry positive mass, while its only sources are a decrement from $K+1$,
+which is off chain, a doubling from $K/2$, which is not an integer, and the target row, which is
+supported in $\{1,\dots,d\}$ while $K\geq K_0>d$. So this is a vacuous generalization and not a
+strengthening, and item \emph{(5)} states the even case, which is the one the setting defines.
+
+Where Appendix~\ref{app:doubling} says a thing is open, formal or non-explicit, the certificate
+says so too, rather than laundering it.
+
+The library is included as anonymized supplementary material together with its audit scripts;
+\texttt{make check} builds it, runs the axiom sweep and the axiom audit, and re-derives the
+per-statement map that ties each of the $84$ statements of the three appendices the library
+covers to the declarations certifying it.
+

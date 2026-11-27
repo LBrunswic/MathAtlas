@@ -1,0 +1,1562 @@
+%%%% Research notes -- companion to the ICLR 2027 draft
+%%%% "Universality and Convergence of Generative Flows" (gfnbounds_iclr2027.tex).
+%%%%
+%%%% Subject: the link between the constant of the stable convergence bound and the open
+%%%% parameters of problem construction. Two questions from the 2026-08-30 session:
+%%%%   Q1 -- impact of the choice of F_init; is there an optimal one?
+%%%%   Q2 -- can a replay buffer be built that optimizes the nu_train / lambda ratio?
+%%%%
+%%%% Added 2026-08-31 (after the HSE literature comparison), two more directions:
+%%%%   D1 -- their trained-P_B loss translated into the spectral variables (Sec. 4)
+%%%%   D2 -- stochastic gradients: the buffer as a deformation of the diffusion (Sec. 5)
+%%%%
+%%%% STATUS: scratch notes. Nothing here is part of the submission. Promotion to the paper
+%%%% (appendix + at most one body sentence) is decided at Phase 4 (14-18 Sep), not before.
+%%%% Numeric evidence: audit_finit.py, audit_replay.py, audit_pb_spectral.py, audit_sgd.py
+%%%% and audit_e15.py beside this file.
+%%%% Build: pdflatex notes_finit_replay  (NOT build.sh -- that is the submission build).
+\documentclass[11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{natbib}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\input{notation}
+
+%%%% Local overrides -- this file only, and deliberate.
+%%%% These notes read \lambda as the empirical background measure, the object the
+%%%% appendices call \widehat\nuB; the paper reserves \lambda for the invariant
+%%%% measure of the chain in play.  \lamreg is bound to the captured primitive in
+%%%% notation.tex, so it is not caught by the redefinition below.  Text moving
+%%%% between these notes and Appendices C--G crosses that convention: check every
+%%%% \lambda that travels.
+\def\lambda{\widehat\nuB}
+%%%% Label convention -- this file only.  Every label these notes define ends in
+%%%% `_notes'; Appendices C--G define the same names without that suffix, so the suffix
+%%%% is what keeps the two label sets disjoint should these notes ever be \input into a
+%%%% mainfile.  A pointer at a label of [P] goes through \paperref, never \ref.
+\newcommand{\paperref}[1]{[P,\,\texttt{#1}]}   % a label in the ICLR draft, quoted verbatim
+
+\title{Notes: the constant of the stable convergence bound\\
+and the open parameters of problem construction}
+\author{L.~M.~Brunswic}
+\date{2026-08-30, working notes; \S\ref{sec:pbtrain_notes}--\ref{sec:sgd_notes} added 2026-08-31}
+
+\begin{document}
+\maketitle
+
+\section{Setting and the two questions}\label{sec:setting_notes}
+
+These notes are read against the ICLR 2027 draft, cited as [P]; labels from [P] are quoted
+verbatim, e.g.\ \paperref{theo:RL\_CV\_bound\_full}. Throughout, $(\Statespace,\nuB)$ is a
+Polish space with a finite non-negative background measure, $\Finit\ll\nuB$ an initial
+distribution of mass $z:=\Finit(\Statespace)$ and density $\finit$, and
+$\target\ll\nuB$ a possibly unnormalized target of density $k:=\frac{d\target}{d\nuB}$
+and mass $t:=\target(\Statespace)$. A generative flow $(\ForwardPolicyStar,\foutstar)$ has
+star inflow $\Finstar=\Foutstar\ForwardPolicyStar$; the trained residual is
+\begin{equation*}
+    E:=\Finit+\Finstar-\Foutstar,\qquad e:=\frac{dE}{d\nuB},
+\end{equation*}
+and the stable loss is $\LFMstableq=\|e-k\|_{L^q(\nutrain)}$ for a training measure
+$\nutrain$ with $\nuB\ll\nutrain$. \paperref{theo:RL\_CV\_bound\_full} proves, for the
+inference-time terminal flow $\widehat\target=E^+$,
+\begin{equation}\label{equ:paper_bound_notes}
+    \TV\left(s_\tau\left\|\frac{\target}{t}\right.\right)\;\leq\;C\,\LFMstableq,\qquad
+    C=\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)}\nuB(\Statespace)^{1-1/q}
+      \left(1+\frac{2}{t}\right),
+\end{equation}
+and \paperref{rem:mass\_floor} gives the model-free floor
+$\LFMstableq\geq|z-t|\big/\bigl(\nuB(\Statespace)^{1-1/q}\|\dln\|^{1/q}_{L^\infty(\nutrain)}\bigr)$.
+
+The constant \eqref{equ:paper_bound_notes} ties the guarantee to two objects the practitioner
+chooses rather than inherits: the initial flow $\Finit$ (through the floor and through the
+normalization envelope $1+2/t$) and the training measure $\nutrain$ (through the density
+ratio). The two questions worked here:
+
+\begin{itemize}
+    \item[\textbf{Q1}] How does the choice of $\Finit$ enter the bound, and is there an
+    optimal choice? (\S\ref{sec:finit_notes})
+    \item[\textbf{Q2}] A replay buffer shapes the empirical $\nutrain$. Is there a buffer
+    that optimizes the $\nutrain/\nuB$ ratio the constant depends on --- and does the
+    answer survive the training-speed theory of [P,~\S4], whose rate constants depend on
+    $\nutrain$ through a \emph{different} reference measure? (\S\ref{sec:replay_notes})
+\end{itemize}
+
+Numeric conventions follow the paper's experiments: state spaces small enough that every
+quantity is computed, not estimated; scripts \texttt{audit\_finit.py} and
+\texttt{audit\_replay.py} print the tables quoted in \S\ref{sec:numerics_notes}.
+
+\section{Q1 --- the initial flow}\label{sec:finit_notes}
+
+Write $q^*:=\frac{q}{q-1}$ for the conjugate exponent (as in
+\paperref{theo:IL\_CV\_bound}) and
+\begin{equation}\label{equ:dual_norm_notes}
+    \Dq \;:=\; \left\|\dln\right\|_{L^{q^*}(\nutrain)} .
+\end{equation}
+
+\subsection{The dual mass floor}
+
+\begin{proposition}[dual mass floor]\label{prop:dual_floor_notes}
+Assume $\nuB\ll\nutrain$ and $\dln\in L^{q^*}(\nutrain)$. Then for every generative flow
+and every initial flow of mass $z$,
+\begin{equation}\label{equ:dual_floor_notes}
+    \LFMstableq\;\geq\;\frac{|z-t|}{\Dq},
+\end{equation}
+and
+\begin{equation}\label{equ:norm_comparison_notes}
+    \Dq\;\leq\;\nuB(\Statespace)^{1-1/q}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)},
+\end{equation}
+so \eqref{equ:dual_floor_notes} sharpens the floor of \paperref{rem:mass\_floor}. The two floors
+agree at $q=1$; for $q>1$ the inequality \eqref{equ:norm_comparison_notes} is strict unless
+$\dln$ takes, $\nutrain$-essentially, only the values $0$ and
+$\|\dln\|_{L^\infty(\nutrain)}$ --- in particular they agree when $\nutrain$ is
+proportional to $\nuB$.
+\end{proposition}
+
+\begin{proof}
+As in \paperref{rem:mass\_floor}, $\int(e-k)\,d\nuB=E(\Statespace)-t=z-t$. Writing the
+integral against $\nutrain$ and applying H\"older with exponents $(q,q^*)$,
+\begin{equation*}
+    |z-t| \;=\; \left|\int(e-k)\,\dln\,d\nutrain\right|
+    \;\leq\;\|e-k\|_{L^q(\nutrain)}\left\|\dln\right\|_{L^{q^*}(\nutrain)}
+    \;=\;\LFMstableq\cdot\Dq ,
+\end{equation*}
+which is \eqref{equ:dual_floor_notes}. For \eqref{equ:norm_comparison_notes}, put $g:=\dln\geq0$ and
+note $\int g\,d\nutrain=\nuB(\Statespace)$; then
+\begin{equation*}
+    \Dq^{q^*}=\int g^{q^*}d\nutrain=\int g^{q^*-1}\cdot g\,d\nutrain
+    \;\leq\;\|g\|_{L^\infty(\nutrain)}^{q^*-1}\,\nuB(\Statespace),
+\end{equation*}
+and $\frac{q^*-1}{q^*}=\frac1q$, $\frac{1}{q^*}=1-\frac1q$ give
+\eqref{equ:norm_comparison_notes}. Equality in the middle step forces $g\in\{0,\|g\|_{L^\infty(\nutrain)}\}$
+$\nutrain$-a.e.; at $q=1$, $q^*=\infty$ and both sides are $\|g\|_{L^\infty(\nutrain)}$.
+\end{proof}
+
+The paper's floor is the composition of \eqref{equ:dual_floor_notes} with
+\eqref{equ:norm_comparison_notes}; keeping the dual norm $\Dq$ undoes the lossy step. The same
+quantity $1+\Dq$ already appears in [P] as the admissible weight $b$ of
+\paperref{theo:IL\_CV\_bound}, so no new hypothesis is introduced.
+
+On finite state spaces the floor is not merely a bound --- it is the exact minimum, and it
+does not see the shape of $\Finit$ at all.
+
+\begin{proposition}[exactness; the minimal loss sees only the mass]\label{prop:floor_exact_notes}
+Let $\Statespace$ be finite, let $\nuB$ be everywhere positive and invariant under a
+$\nuB$-ergodic star policy $\ForwardPolicyStar$, and let $\nutrain$ be everywhere
+positive. Fix any initial flow $\Finit$ of mass $z$. Then, minimizing over non-negative
+outflows,
+\begin{equation}\label{equ:floor_attained_notes}
+    \min_{\foutstar\geq0}\;\LFMstableq\left(\ForwardPolicyStar,\foutstar\right)
+    \;=\;\frac{|z-t|}{\Dq}\,.
+\end{equation}
+For $q\in(1,\infty)$ a minimizer is explicit: with $g=\dln$, the extremal residual profile
+\begin{equation}\label{equ:extremal_profile_notes}
+    e-k \;=\; \varphi_q\;:=\;\frac{z-t}{\int g^{q^*}d\nutrain}\;g^{q^*-1},
+\end{equation}
+is realized by $\foutstar=\eta\mathbf 1-S\rho$ with $\rho:=\varphi_q-(\finit-k)$,
+$S=\sum_{n\geq0}(P_\star^n-\Pi)$ as in \paperref{equ:poisson\_solved}, and any
+$\eta\geq\max_x S\rho(x)$. At $q=\infty$ the extremal profile is the constant
+$\varphi_\infty=(z-t)/\nuB(\Statespace)$; at $q=1$ it is a point mass at any state
+maximizing $g$, and the minimum is still \eqref{equ:floor_attained_notes}.
+\end{proposition}
+
+\begin{proof}
+\emph{Lower bound:} Proposition~\ref{prop:dual_floor_notes}. \emph{Realizability:} on a finite
+state space a $\nuB$-ergodic kernel has summable mixing, so $S$ is defined and
+$(\mathrm{Id}-P_\star)S=\mathrm{Id}-\Pi$ exactly as in \paperref{equ:poisson}. The residual
+of a flow is $e-k=(\finit-k)+(P_\star-\mathrm{Id})\foutstar$. Given any target profile
+$\varphi$ with $\int\varphi\,d\nuB=z-t$, the function $\rho=\varphi-(\finit-k)$ is
+mean-zero ($\int\rho\,d\nuB=(z-t)-(z-t)=0$, so $\Pi\rho=0$), and
+$\foutstar=\eta\mathbf 1-S\rho$ satisfies
+$(P_\star-\mathrm{Id})\foutstar=-(P_\star-\mathrm{Id})S\rho=\rho$, hence $e-k=\varphi$;
+choosing $\eta\geq\max_xS\rho(x)$ makes $\foutstar\geq0$. Thus \emph{every} profile of the
+correct mean is reachable, and the minimization of $\LFMstableq=\|\varphi\|_{L^q(\nutrain)}$
+over $\{\int\varphi\,d\nuB=z-t\}$ is the norm of the linear functional
+$\varphi\mapsto\int\varphi g\,d\nutrain$ on $L^q(\nutrain)$: its value is
+$|z-t|/\|g\|_{L^{q^*}(\nutrain)}$, attained by the H\"older extremizer, which is
+\eqref{equ:extremal_profile_notes} for $q\in(1,\infty)$ (one checks
+$\int\varphi_q\,d\nuB=z-t$ directly), the stated constant for $q=\infty$, and the point
+mass at an argmax of $g$ for $q=1$ (finite space, so the sup is attained).
+\end{proof}
+
+\begin{corollary}[separation of roles]\label{cor:separation_notes}
+On a finite state space with a $\nuB$-ergodic star policy and unrestricted non-negative
+outflow, the infimum of the stable loss is a function of $\Finit(\Statespace)$ alone. The
+shape of $\Finit$ is invisible to the loss; its entire footprint is on the \emph{outflow
+mass} a minimizer requires, hence on the length of sampling trajectories
+(\S\ref{sec:shape_notes}) --- and, for restricted families $\Theta$, on whether the minimizer is
+representable at all.
+\end{corollary}
+
+\subsection{The mass of the initial flow: the certificate overshoots $Z$}\label{sec:mass_notes}
+
+The proof of \paperref{theo:RL\_CV\_bound\_full} carries $z$ silently; keeping it visible
+gives a $z$-dependent constant, and the constant has a preferred $z$.
+
+\begin{proposition}[$z$-carried bound]\label{prop:z_bound_notes}
+Under the hypotheses of \paperref{theo:RL\_CV\_bound\_full}, but with $\Finit$ of arbitrary
+mass $z>0$, with $\Delta:=\|e-k\|_{L^1(\nuB)}$,
+\begin{equation}\label{equ:z_bound_notes}
+    \TV\left(s_\tau\left\|\frac{\target}{t}\right.\right)\;\leq\;
+    \left(\frac1z+\frac1t\right)\Delta\;\leq\;
+    \left(\frac1z+\frac1t\right)
+    \nuB(\Statespace)^{1-1/q}\left\|\dln\right\|^{1/q}_{L^\infty(\nutrain)}\LFMstableq .
+\end{equation}
+At $z=1$ (normalized initial flow, normalized target) this is the constant
+$1+\frac1t$ of \paperref{rem:mass\_floor}; at $z=t$ (the GFlowNet convention
+$\Finit=Z\mu_0$) it is $\frac2t$; the envelope $1+\frac2t$ of \eqref{equ:paper_bound_notes}
+dominates both.
+\end{proposition}
+
+\begin{proof}
+Steps 0--3 of the proof of \paperref{theo:RL\_CV\_bound\_full} verbatim: term $(i)$ of
+Step~2 is $\leq\Delta/z$ by \paperref{equ:term\_i} (which is stated for general $z$), term
+$(ii)\leq\Delta/t$ by \paperref{equ:normalization\_lemma}, and Step~3 is unchanged.
+\end{proof}
+
+Now treat $z$ as the design parameter it is. By \paperref{rem:mass\_floor} (or
+Proposition~\ref{prop:dual_floor_notes}) the achievable $L^1(\nuB)$ error is itself floored:
+$\Delta\geq|\int(e-k)d\nuB|=|z-t|$, for every flow. Suppose training is able to reach
+any $\Delta$ down to a residual budget $\delta\geq0$ but no further --- $\delta$ collects
+whatever the family, the optimizer and the finite run leave on the table --- so that the
+best certified error at mass $z$ is
+\begin{equation}\label{equ:envelope_notes}
+    B_\delta(z)\;:=\;\left(\frac1z+\frac1t\right)\max\left(\delta,\;|z-t|\right).
+\end{equation}
+
+\begin{proposition}[the certificate-optimal mass overshoots, and undershoot is dearer]
+\label{prop:overshoot_notes}
+For every $\delta>0$ the map $z\mapsto B_\delta(z)$ is strictly decreasing on
+$(0,\,t+\delta]$ and strictly increasing on $[t+\delta,\,\infty)$; its unique minimizer is
+\begin{equation}\label{equ:zstar_notes}
+    z^*\;=\;t+\delta ,
+\end{equation}
+the mass that \emph{overshoots} the partition function by exactly the residual budget.
+Moreover the penalty is asymmetric: for every $0<s<t$,
+\begin{equation}\label{equ:asymmetry_notes}
+    B_\delta(t+s)\;<\;B_\delta(t-s):
+\end{equation}
+undershooting $Z$ by $s$ always certifies strictly worse than overshooting by the same
+$s$. In loss currency the same holds with the dual floor: with achievable loss
+$\max(\varepsilon,|z-t|/\Dq)$ the kink sits at $z^*=t+\varepsilon\Dq$.
+\end{proposition}
+
+\begin{proof}
+On $(0,t+\delta]$ where the max is not yet driven by the floor on all of the interval:
+for $z\leq t$, $\max(\delta,|z-t|)=\max(\delta,t-z)$ is non-increasing and $\frac1z+\frac1t$
+strictly decreasing, so $B_\delta$ strictly decreases; for $t\leq z\leq t+\delta$ the max
+equals $\delta$ and the first factor still strictly decreases. On $[t+\delta,\infty)$,
+$B_\delta(z)=\left(\frac1z+\frac1t\right)(z-t)=\frac zt-\frac tz$, with derivative
+$\frac1t+\frac t{z^2}>0$. The two monotonicities meet at $z^*=t+\delta$. For
+\eqref{equ:asymmetry_notes}: if $s\leq\delta$ both maxima equal $\delta$ and
+$\frac1{t+s}<\frac1{t-s}$; if $s>\delta$ both maxima equal $s$ and the same comparison of
+the first factors applies.
+\end{proof}
+
+Two remarks keep this honest. First, the gain over the default $z=t$ is second order:
+$B_\delta(t)-B_\delta(z^*)=\delta\left(\frac1t-\frac1{t+\delta}\right)
+=\frac{\delta^2}{t(t+\delta)}$, so \eqref{equ:zstar_notes} is a statement about the
+\emph{mechanism} --- the certificate is indifferent to overshoot up to the budget, because
+extra initial mass enlarges the denominator of term $(i)$ of
+\paperref{equ:term\_i} --- rather than a large constant saving. Second, and asymmetrically,
+the \emph{undershoot} penalty is first order and is not an artifact of the certificate:
+Proposition~\ref{prop:blur_vs_drop_notes} computes exactly what each regime does to the sampled
+law.
+
+\begin{proposition}[at the floor: overshoot blurs, undershoot truncates]
+\label{prop:blur_vs_drop_notes}
+In the setting of Proposition~\ref{prop:floor_exact_notes} with $\nutrain=\nuB/\nuB(\Statespace)$
+and $q\in(1,\infty)$, the minimal-loss residual profile is the constant
+$\varphi=(z-t)/\nuB(\Statespace)$, and the inference-time terminal flow is
+\begin{equation*}
+    \widehat\target \;=\;\Bigl(k+\tfrac{z-t}{\nuB(\Statespace)}\Bigr)^{+}\nuB .
+\end{equation*}
+\begin{itemize}
+    \item If $z\geq t$: $\widehat\target=\target+(z-t)\frac{\nuB}{\nuB(\Statespace)}$,
+    the flow-matching constraint holds \emph{exactly} for $\widehat\target$, so
+    $s_\tau\sim\widehat\target$ by \paperref{theo:sampling\_theorem}, $\delta\Finit=0$, and
+    \begin{equation}\label{equ:blur_notes}
+        \TV\left(s_\tau\left\|\frac\target t\right.\right)
+        \;=\;\frac{z-t}{z}\;\TV\left(\frac{\nuB}{\nuB(\Statespace)}
+        \left\|\frac\target t\right.\right):
+    \end{equation}
+    the overshoot mass leaves as a uniform blur, in proportion $\frac{z-t}{z}$.
+    \item If $z<t$: $\widehat\target=\bigl(k-\tfrac{t-z}{\nuB(\Statespace)}\bigr)^+\nuB$
+    --- a soft-threshold of the target at the water level
+    $\ell:=\frac{t-z}{\nuB(\Statespace)}$. Whenever the level exceeds the bottom of
+    the target density ($\ell>\operatorname*{ess\,inf}_{\nuB} k$, i.e.\ as soon as
+    $t-z>\nuB(\Statespace)\operatorname*{ess\,inf}_{\nuB} k$), every state below
+    the level receives \emph{zero} terminal mass: the missing mass is paid first by the
+    lowest-density part of the target (mode drop), and additionally
+    $\delta\Finit=E^->0$, so the sampler incurs the term-$(i)$ error of
+    \paperref{equ:term\_i} on top of the truncation. (For a uniform target the
+    threshold is never crossed; the CORRECTION of 2026-08-31's review pass --- the
+    original unconditional claim was false, and its supporting integral computed
+    $z-t$ where the true value is $z>0$.)
+\end{itemize}
+\end{proposition}
+
+\begin{proof}
+For uniform $\nutrain$, $g=\dln$ is constant, so the extremizer
+\eqref{equ:extremal_profile_notes} is constant, and for $q\in(1,\infty)$ it is the unique
+minimal-loss profile (strict convexity of the $L^q$ ball). If $z\geq t$ then
+$e=k+\frac{z-t}{\nuB(\Statespace)}\geq0$, so $E^-=0$, $E=E^+=\widehat\target$ and the
+corrected flow is flow-matching with terminal flow $\widehat\target$ of mass $z$;
+\paperref{theo:sampling\_theorem} gives $s_\tau\sim\widehat\target$ exactly. Then
+$\frac{\widehat\target}{z}=\frac tz\cdot\frac\target t+\frac{z-t}{z}\cdot
+\frac{\nuB}{\nuB(\Statespace)}$ and
+$\TV(\alpha P+(1-\alpha)Q\,\|\,P)=(1-\alpha)\TV(Q\|P)$ yields \eqref{equ:blur_notes}. If $z<t$
+the formula for $\widehat\target=E^+$ is the definition of the positive part, and
+$E^-=\bigl(\ell-k\bigr)^+\nuB\neq0$ exactly when $\nuB(\{k<\ell\})>0$, i.e.\
+when $\ell>\operatorname*{ess\,inf}_{\nuB} k$ (note $\int(k-\ell)d\nuB=z>0$, so
+the dip is NOT automatic: the uniform target never truncates).
+\end{proof}
+
+Read together, Propositions~\ref{prop:overshoot_notes} and \ref{prop:blur_vs_drop_notes} answer the
+mass half of Q1: \emph{at the certificate level the optimal initial mass overshoots $Z$ by
+exactly the residual budget, and the preference for overshoot is not a bound artifact ---
+undershoot truncates the target from the bottom while overshoot only dilutes it.} Exactly
+at the floor ($\delta=0$) the optimum is $z^*=t$, i.e.\ the GFlowNet convention
+$\Finit=Z\mu_0$ with $Z$ learned exactly; the overshoot rule is the first-order correction
+when the training residual is not zero.
+
+\subsection{The shape of the initial flow: a one-sided Chebyshev problem}\label{sec:shape_notes}
+
+By Corollary~\ref{cor:separation_notes} the loss cannot see the shape of $\Finit$. What the shape
+buys --- or costs --- is \emph{inference}: how much outflow, hence how many sampling steps,
+the matching flow must carry. On finite spaces this cost has a closed form.
+
+\begin{proposition}[exact inference cost of a shape mismatch]\label{prop:shape_cost_notes}
+In the setting of Proposition~\ref{prop:floor_exact_notes}, let $z=t$ and
+$\theta:=k-\finit$ (so $\int\theta\,d\nuB=0$). Consider the flows achieving
+\emph{exact} flow matching for the pair $(\Finit,\target)$ with the given star policy.
+\begin{enumerate}
+    \item The set of exact non-negative outflows is exactly the ray
+    $\{\foutstar=\eta\mathbf 1-S\theta:\ \eta\geq\max_xS\theta(x)\}$, and the minimal
+    outflow mass is
+    \begin{equation}\label{equ:min_outflow_notes}
+        \Foutmin(\Statespace)\;=\;\nuB(\Statespace)\,
+        \max_{x\in\Statespace}\,S\bigl(k-\finit\bigr)(x)\;\geq\;0,
+    \end{equation}
+    with equality to $0$ iff $\finit=k$.
+    \item For any exact flow, the visit measure of the sampler is
+    $\mu=\Fterm+\Foutstar$, so the expected number of visits per trajectory is
+    \emph{exactly} $1+\Foutstar(\Statespace)/t$ --- the inequality of
+    \paperref{theo:sampling\_theorem} is an identity here; credit where due: this
+    equality is Proposition~3.12 of \citet{morozov2025revisiting} (expected trajectory
+    length $=$ normalized total flow), independently re-derived here through the cut
+    construction --- and its minimum over exact flows is
+    $1+\nuB(\Statespace)\max_xS\theta(x)/t$.
+    \item Over an admissible class $\mathcal F\subseteq\{\text{densities of mass }t\}$,
+    the optimal shape solves the \emph{one-sided Chebyshev problem}
+    \begin{equation}\label{equ:chebyshev_notes}
+        \min_{\finit\in\mathcal F}\ \max_{x\in\Statespace}\,S\bigl(k-\finit\bigr)(x),
+    \end{equation}
+    a convex program whenever $\mathcal F$ is convex ($S$ is linear and the max of linear
+    functionals convex).
+    \item ($L^2$ relaxation and the slow modes.) If $\ForwardPolicyStar$ is reversible
+    with spectrum $1=\beta_0>\beta_1\geq\dots$, then $S$ acts on the $\beta$-eigenmode as
+    multiplication by $\frac1{1-\beta}$, so
+    $\|S\theta\|^2_{L^2(\nuB)}=\sum_{i\geq1}\frac{\langle\theta,v_i\rangle^2_{L^2(\nuB)}}{(1-\beta_i)^2}$:
+    mismatch along the \emph{slow} modes of the star policy is what costs outflow and
+    trajectory length; fast-mode mismatch is nearly free. Over an affine class the
+    relaxed optimum is the $\mathcal F$-projection of $k$ in the seminorm $\|S\cdot\|_{L^2(\nuB)}$,
+    which is a genuine seminorm equivalent to $L^2$ on mean-zero functions
+    ($\tfrac12\|\varphi\|\leq\|S\varphi\|\leq B_2\|\varphi\|$, from
+    \paperref{equ:poisson\_solved} and $\|P_\star\|_{L^2(\nuB)}\le1$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) Exactness means $(P_\star-\mathrm{Id})\foutstar=\theta$. A particular solution is
+$-S\theta$ by \paperref{equ:poisson\_solved}; the homogeneous solutions are the fixed
+functions of $P_\star$, which by $\nuB$-ergodicity are the constants (a fixed function
+$f$ of the density action makes $f\nuB$ a fixed measure $\ll\nuB$, hence a multiple
+of $\nuB$). Non-negativity of $\eta\mathbf 1-S\theta$ is $\eta\geq\max S\theta$, and
+$\int S\theta\,d\nuB=0$ ($\Pi S=0$) gives the mass formula. The max is $\geq0$ because
+$S\theta$ is mean-zero, with equality iff $S\theta=0$ iff $\theta=0$.
+(2) The through-flow at each state of a matching flow is
+$\Finit+\Finstar=\Fterm+\Foutstar$, and the visit measure solves
+$\mu=\Finit+(\mu\odot(1-p_{\mathrm{stop}}))\ForwardPolicyStar$ with
+$p_{\mathrm{stop}}=\frac{d\Fterm}{d(\Fterm+\Foutstar)}$; the candidate
+$\mu=\Fterm+\Foutstar$ satisfies it --- the continuing measure is then exactly
+$\Foutstar$, and $\Finit+\Foutstar\ForwardPolicyStar=\Finit+\Finstar=\mu$ --- and the
+absorbing-chain solve is unique. Hence $\mu(\Statespace)=t+\Foutstar(\Statespace)$.
+(3) Immediate. (4) $Sv_i=\sum_{n\geq0}(\beta_i^n-0)v_i=\frac{v_i}{1-\beta_i}$ for
+$i\geq1$; the lower seminorm bound is $\|\varphi\|=\|(\mathrm{Id}-P_\star)S\varphi\|\leq
+2\|S\varphi\|$.
+\end{proof}
+
+The degenerate optimum of \eqref{equ:chebyshev_notes} --- $\finit=k$, zero outflow, trajectories
+of length zero: sample the target directly --- is precisely why the class $\mathcal F$
+carries all the content: $\Finit$ must remain \emph{samplable}, and
+\eqref{equ:chebyshev_notes} prices the distance between what is samplable and the target
+\emph{in the geometry of the star policy}, slow modes first. A warm-started initial
+distribution that matches the target's mass across the slow modes (e.g.\ across the
+clusters of a two-cluster state space) removes almost the entire inference cost, while
+matching the fast detail buys almost nothing --- the numeric instance of
+\S\ref{sec:numerics_notes} makes the two costs differ by a factor $30$ at equal mismatch
+amplitude.
+
+\subsection{Training does not see $\Finit$; a reading note}\label{sec:training_remark_notes}
+
+\begin{remark}\label{rem:training_notes}
+Two channels one might expect are absent, and the absence is worth recording.
+(1)~In the frozen-backward parameterization of [P,~\S4] the initial flow is an
+\emph{output} of the construction, not an input: the balanced flow of
+\paperref{theo:universality\_graphs} carries
+$\Finit(v)=c\,\lambda(v)\,\BackwardPolicy(v\rightarrow s_0)$, so within that family there
+is no $\Finit$ to optimize --- the backward policy already chose it.
+(2)~For the free-outflow stable pipeline at $q=2$ the loss
+$\foutstar\mapsto\|(\finit-k)+(P_\star-\mathrm{Id})\foutstar\|^2_{L^2(\nutrain)}$ is a
+linear least-squares problem whose Hessian $2(P_\star-\mathrm{Id})^\dagger
+M_{d\nutrain/d\nuB}(P_\star-\mathrm{Id})$ does not involve $\finit$: the convergence
+\emph{rate} of gradient descent is $\Finit$-independent, and $\Finit$ enters only through
+the distance of the initialization to the solution set (a warm start moves the constant
+$\log\|f_0-f^*\|$, not the rate). Likewise \paperref{theo:IL\_CV\_bound} fixes $\Finit$ to
+a probability, so no mass freedom exists there. The levers of Q1 are therefore exactly the
+two of \S\ref{sec:mass_notes} and \S\ref{sec:shape_notes}: mass (loss floor and certificate) and shape
+(inference cost); training dynamics are indifferent.
+\end{remark}
+
+\section{Q2 --- the replay buffer and the training measure}\label{sec:replay_notes}
+
+The training measure $\nutrain$ enters the theory twice, against two \emph{different}
+reference measures. In the stable bound \eqref{equ:paper_bound_notes} it enters against the
+background $\nuB$, through $A_q(\nutrain):=\|\frac{d\nuB}{d\nutrain}\|^{1/q}_{L^\infty(\nutrain)}$.
+In the training-speed theory of [P,~\S4] it enters against the backward-chain occupation
+probability $\lambda$, through $w:=\frac{d\nutrain}{d\lambda}$: the exponential rate is
+$\varrho_\sigma=g''(1)w_{\min}\lambda_{\min}/\sigma_*^2$
+\paperref{theo:training\_speed\_full}, the \L ojasiewicz constant is
+$\kappa=w_{\min}\lambda_{\min}^{1/2}/(\|u_0\|\,\|w\|_{L^\infty}M)$
+\paperref{cor:global\_lojasiewicz}, and the gradient-descent step cap is
+$\varepsilon\leq(4g''(1)\|w\|_{L^\infty})^{-1}$ \paperref{theo:db\_stable\_frozen\_full}.
+A replay buffer is precisely a device that shapes the empirical $\nutrain$; the question
+is what it should shape it \emph{into}, and the answer splits by which pipeline carries
+the guarantee.
+
+\subsection{The buffer as a $\nutrain$-shaping operator, and coverage}\label{sec:buffer_def_notes}
+
+\begin{definition}\label{def:buffer_notes}
+A \emph{replay schedule} is a family of probability measures
+$\nutrain = \alpha\,\mu_{\mathrm{on}} + (1-\alpha)\,\rho_{\mathrm{buf}}$, $\alpha\in[0,1]$,
+where $\mu_{\mathrm{on}}$ is the on-policy visitation measure of the current sampler and
+$\rho_{\mathrm{buf}}$ is the replay measure of a buffer --- e.g.\ uniform over stored
+states, importance-reweighted (\emph{inverse-frequency}) replay, or
+\emph{backward replay}: draw a stored terminal state and replay the states of a frozen
+backward trajectory from it, with multiplicity.
+\end{definition}
+
+\begin{lemma}[coverage is the zeroth-order requirement]\label{lem:coverage_notes}
+If $\nutrain$ fails to dominate $\nuB$ --- some set of positive $\nuB$-measure is
+never trained on --- then $A_q(\nutrain)=+\infty$ and the bound \eqref{equ:paper_bound_notes}
+is vacuous; likewise $w_{\min}=0$ and every rate of [P,~\S4] degenerates. For an empirical
+buffer on a finite state space this is a coupon-collector statement: the certificate is
+infinite until every state has been visited, and the expected time to coverage under
+backward replay is controlled by $\max_x(2+\bar\sigma)/N(x)$, the reciprocal of the
+smallest visit ratio --- the same quantity \paperref{rem:visit\_ratio} identifies as the
+slow mode of the global phase.
+\end{lemma}
+
+\subsection{Backward replay realizes the rate-optimal measure}\label{sec:backward_replay_notes}
+
+\begin{proposition}[$\lambda$ is the guarantee-optimal training measure, and backward
+replay samples it]\label{prop:backward_replay_notes}
+Let $(\widehat G,\widehat\BackwardPolicy)$ be the loop closure of a finite path-connected
+marked graph with backward policy positive on its edges, $\lambda$ its invariant
+probability. Over probability measures $\nutrain=w\lambda$:
+\begin{enumerate}
+    \item $w_{\min}\leq1\leq\|w\|_{L^\infty}$, each with equality iff $\nutrain=\lambda$.
+    \item Consequently each of the three training-speed constants of [P] --- the
+    exponential rate $\varrho_\sigma$ (equivalently $\varrho=g''(1)w_{\min}/\widehat B^2$),
+    the \L ojasiewicz constant $\kappa$, and the step cap
+    $(4g''(1)\|w\|_{L^\infty})^{-1}$ --- is maximized at $\nutrain=\lambda$, uniquely
+    among $\lambda$-a.c.\ probabilities.
+    \item Backward replay from the target row samples $\lambda$ \emph{exactly}: the
+    expected empirical state-frequency of excursions (one visit each to $s_0$ and $s_f$,
+    then the backward trajectory of a draw from
+    $\widehat\BackwardPolicy(s_f\rightarrow\cdot)$ until it hits $s_0$) is
+    $N(x)/(2+\bar\sigma)=\lambda(x)$, by \paperref{prop:morozov\_rate}(1). If the buffer's
+    marginal over terminal states is $\mu_{\mathrm{buf}}\neq\widehat\BackwardPolicy(s_f\rightarrow\cdot)$,
+    the realized measure is the normalized expected-visit vector of the chain killed at
+    $s_0$ started from $\mu_{\mathrm{buf}}$ --- computable by one fundamental-matrix
+    solve, so the bias of a stale or reward-filtered buffer is a quantity, not a worry.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1) $\int w\,d\lambda=\nutrain(\Statespace)=1$, so $\operatorname*{ess\,inf}w\leq1\leq
+\operatorname*{ess\,sup}w$, with equality on either side iff $w=1$ $\lambda$-a.e.
+(2) $\varrho_\sigma$ and $\varrho$ are increasing in $w_{\min}$; the step cap is
+decreasing in $\|w\|_{L^\infty}$; and $\kappa$ is increasing in $w_{\min}$ (both directly
+and through $M=\max(1,\sqrt{\mathcal L(\mu_0)/(w_{\min}\lambda_{\min})})$) and decreasing
+in $\|w\|_{L^\infty}$. Apply (1).
+(3) The first claim is the occupation identity read as a sampling algorithm; the second
+is linearity of expected visits in the starting law.
+\end{proof}
+
+Honesty clause, in the paper's own words: $\varrho_\sigma$ is \emph{a guarantee, not a
+prediction} (the measured gap is $187$--$10^9\times$ over the full chain set, [P,~\S5]), so
+Proposition~\ref{prop:backward_replay_notes} optimizes the guarantee. The exact linearized rate
+is the smallest positive eigenvalue of $H_\nu=g''(1)A^\dagger M_wA$, and
+\texttt{audit\_replay.py} measures where \emph{it} peaks on the $\alpha$-mixtures beside
+where the guarantee says; the gap is reported, not hidden.
+
+\subsection{Constant against rate: two pipelines, two verdicts}\label{sec:tension_notes}
+
+\begin{proposition}[stable pipeline: uniform reweighting is bound-optimal, with no
+tension]\label{prop:stable_uniform_notes}
+Let $q\in[1,\infty]$ and let $\nutrain$ range over probability measures with
+$\nuB\ll\nutrain$.
+\begin{enumerate}
+    \item $\left\|\frac{d\nuB}{d\nutrain}\right\|_{L^\infty(\nutrain)}\geq\nuB(\Statespace)$,
+    with equality iff $\nutrain=\nuB/\nuB(\Statespace)$; hence
+    $A_q(\nutrain)\geq\nuB(\Statespace)^{1/q}$ with the same equality case, and the
+    constant of \eqref{equ:paper_bound_notes} is minimized by uniform-in-$\nuB$ training.
+    \item At $q=2$ with free non-negative outflow, gradient descent on
+    $\foutstar\mapsto\|(\finit-k)+(P_\star-\mathrm{Id})\foutstar\|^2_{L^2(\nutrain)}$
+    contracts the transverse component at rate at least
+    $2\inf_\Statespace\frac{d\nutrain}{d\nuB}\big/B_2^2$, and
+    $\inf\frac{d\nutrain}{d\nuB}\leq1/\nuB(\Statespace)$ with equality iff
+    $\nutrain=\nuB/\nuB(\Statespace)$.
+\end{enumerate}
+Both the certificate constant and the rate guarantee of the stable pipeline are therefore
+optimized by the \emph{same} training measure, the uniform one: for the stable loss a
+replay buffer should simply flatten the empirical measure against $\nuB$
+(inverse-frequency replay over the visited support), and there is nothing to trade.
+\end{proposition}
+
+\begin{proof}
+(1) $\int\frac{d\nuB}{d\nutrain}d\nutrain=\nuB(\Statespace)$, so the essential sup
+is $\geq$ the mean, with equality iff the density is constant.
+(2) The loss is quadratic with Hessian $2(P_\star-\mathrm{Id})^\dagger
+M_{d\nutrain/d\nuB}(P_\star-\mathrm{Id})$;
+$\langle f,Hf\rangle_{L^2(\nuB)}\geq2\inf(\tfrac{d\nutrain}{d\nuB})\|(P_\star-\mathrm{Id})f\|^2_{L^2(\nuB)}
+\geq\frac{2\inf(d\nutrain/d\nuB)}{B_2^2}\|f-\Pi f\|^2$ by the coercivity of
+\paperref{lem:sigma\_mixing} applied to $P_\star$; and the mean of
+$\frac{d\nutrain}{d\nuB}$ against $\nuB/\nuB(\Statespace)$ is
+$1/\nuB(\Statespace)$.
+\end{proof}
+
+For the \emph{practical} pipeline --- the DB/TB balance losses with frozen backward
+policy, $g=(\log x)^2$ --- the two guarantees genuinely pull apart: the rate wants
+$\nutrain=\lambda$ (Proposition~\ref{prop:backward_replay_notes}), the certificate wants
+$\nutrain\propto\nuB$ (Proposition~\ref{prop:stable_uniform_notes}(1)), and $\lambda$ is
+uniform in $\nuB$ only when every state has the same visit ratio. The bridge between
+the two loss families is the following lemma, which is where the sink-normalization
+subtlety lives.
+
+\begin{lemma}[transfer: balance loss to stable loss, exactly]\label{lem:transfer_notes}
+On the loop closure above, let $\mu$ be a positive state flow, $r:=\frac{d(\mu\widehat\BackwardPolicy)}{d\mu}$,
+and let the cut generative flow of $\mu$ be defined edge-wise by
+$F(u\rightarrow v)=\mu(v)\widehat\BackwardPolicy(v\rightarrow u)$, with
+$\Finit:=F(s_0\rightarrow\cdot)$ and terminal flow $F(\cdot\rightarrow s_f)$
+(\paperref{theo:universality\_graphs}). Normalize by the sink:
+$\widetilde\mu:=\frac{t}{\mu(s_f)}\mu$, $\widetilde u:=\frac{d\widetilde\mu}{d\lambda}$.
+Then the flow-matching residual of the cut flow of $\widetilde\mu$ against the target
+$\target$ is, at every interior state,
+\begin{equation}\label{equ:transfer_identity_notes}
+    e-k \;=\; -\,(r-1)\,\widetilde u\,\frac{d\lambda}{d\nuB}
+\end{equation}
+($r$ is scale-invariant, so it may be read on $\mu$). Consequently, for any training
+measure $\nutrain$ and any $a\in(0,1)$ with $r$ valued in $[1-a,1+a]$,
+\begin{equation}\label{equ:transfer_bound_notes}
+    \LFMstableq\;\leq\;\|\widetilde u\|_{L^\infty}
+    \left\|\frac{d\lambda}{d\nuB}\right\|_{L^\infty}\|r-1\|_{L^q(\nutrain)},
+    \qquad
+    \|r-1\|_{L^2(\nutrain)}\leq\sqrt{\frac{\mathcal L_{g,\nutrain}(\mu)}{c_g(a)}},
+\end{equation}
+with $c_g(a):=\inf_{|x-1|\leq a}g(x)/(x-1)^2>0$ (for $g=(\log x)^2$ and $a=\frac12$,
+$c_g=(2\log\frac32)^2\approx0.657$).
+\end{lemma}
+
+\begin{proof}
+At an interior state $v$, every in-edge of $v$ in $\widehat G$ lies in $G$, so the total
+inflow of the cut flow is $\sum_uF(u\rightarrow v)=\mu(v)\sum_u\widehat\BackwardPolicy(v\rightarrow u)=\mu(v)$,
+while the outflow through interior edges plus the sink edge is
+$\sum_{v'}\mu(v')\widehat\BackwardPolicy(v'\rightarrow v)=(\mu\widehat\BackwardPolicy)(v)=r(v)\mu(v)$.
+Hence, splitting off the sink edge $F(v\rightarrow s_f)=\mu(s_f)\widehat\BackwardPolicy(s_f\rightarrow v)
+=\mu(s_f)\frac{\target(v)}{t}$ (the frozen sink row is the normalized target,
+\paperref{prop:tb\_gradient}),
+\begin{equation*}
+    E(v)=\mu(v)\bigl(1-r(v)\bigr)+\frac{\mu(s_f)}{t}\,\target(v),
+    \qquad
+    E-\target=-(r-1)\mu+\Bigl(\frac{\mu(s_f)}{t}-1\Bigr)\target .
+\end{equation*}
+The second term is killed exactly by the sink normalization $\mu\mapsto\widetilde\mu$,
+which leaves $r$ unchanged; \eqref{equ:transfer_identity_notes} is this identity in
+$\nuB$-densities. The first inequality of \eqref{equ:transfer_bound_notes} is H\"older with
+$L^\infty$ factors; the second is $g(x)\geq c_g(a)(x-1)^2$ on the band, integrated
+against $\nutrain$.
+\end{proof}
+
+The mass term $\bigl(\frac{\mu(s_f)}{t}-1\bigr)\target$ that the normalization removes is
+Q1 arriving from the other side: $\mu(s_f)$ \emph{is} the flow's implied partition
+function (\paperref{prop:tb\_gradient}: ``$F(s_0)$ playing the role of $Z$''), and an
+unnormalized read-out pays exactly the mass floor of \S\ref{sec:mass_notes}. The balance loss
+is scale-invariant, so it can never learn this scale --- normalizing by the sink at
+read-out, as \eqref{equ:transfer_identity_notes} prescribes, is the frozen-backward analogue of
+learning $Z$, and it is free.
+
+\begin{proposition}[the certificate-optimal mixture: uniform mixed into backward replay
+at weight $\sim1/T$]\label{prop:alpha_star_notes}
+On the mixture family $\nu_\alpha:=(1-\alpha)\lambda+\alpha\,\nuB/\nuB(\Statespace)$,
+$\alpha\in(0,1]$:
+\begin{equation*}
+    \left\|\frac{d\nuB}{d\nu_\alpha}\right\|_{L^\infty}\leq\frac{\nuB(\Statespace)}{\alpha},
+    \qquad w_{\min}(\nu_\alpha)\geq1-\alpha ,
+\end{equation*}
+so, chaining \paperref{theo:training\_speed\_full} (local phase at rate
+$\varrho_\sigma(\nu_\alpha)/2\geq(1-\alpha)\widehat\varrho/2$,
+$\widehat\varrho:=\varrho_\sigma(\lambda)$), Lemma~\ref{lem:transfer_notes} at $q=2$ and the
+$z$-carried bound of Proposition~\ref{prop:z_bound_notes}, the certified error after training
+time $T$ has the envelope
+\begin{equation}\label{equ:JT_notes}
+    J_T(\alpha)\;=\;K\left(\frac{\nuB(\Statespace)}{\alpha}\right)^{1/q}
+    e^{-c\,(1-\alpha)\,T},
+\end{equation}
+with $c$ the realized exponential rate of $\sqrt{\mathcal L_{g,\nu}}$ per unit
+$w_{\min}$ and $K$ collecting the $T$- and $\alpha$-independent factors. $J_T$ is
+log-convex in $\alpha$ with unique minimizer
+\begin{equation}\label{equ:alpha_star_notes}
+    \alpha^*(T)\;=\;\min\left(1,\;\frac{1}{q\,c\,T}\right):
+\end{equation}
+the certificate-optimal buffer replays backward trajectories, tempered by
+uniform-in-$\nuB$ reweighting whose weight decays like $1/T$ --- early training buys
+coverage for the constant, late training buys rate.
+\end{proposition}
+
+\begin{proof}
+$\nu_\alpha\geq\alpha\nuB/\nuB(\Statespace)$ gives the density bound;
+$\nu_\alpha\geq(1-\alpha)\lambda$ gives $w_{\min}\geq1-\alpha$. For \eqref{equ:JT_notes}, the
+local phase contracts $\mathcal L_{g,\nu_\alpha}$ at rate $\varrho_\sigma(\nu_\alpha)/2$
+and enters the TV bound under a square root through \eqref{equ:transfer_bound_notes};
+absorbing the halvings into $c$ leaves the stated $\alpha$-dependence. Then
+$\log J_T(\alpha)=\mathrm{const}+\frac1q\log\frac1\alpha+c T\alpha$ is strictly convex
+with critical point $\frac{1}{qcT}$, clipped at $1$.
+\end{proof}
+
+Three honest caveats. \emph{(i)} \eqref{equ:JT_notes} chains \emph{guarantees}; the true error
+of a trained flow can sit far below it, and the numerics measure the exact-rate optimum
+beside the certified one. \emph{(ii)} The rate factor $(1-\alpha)$ uses
+$w_{\min}(\nu_\alpha)\geq1-\alpha$, which discards the uniform component's own
+contribution to $w$; on graphs where $\nuB/\nuB(\Statespace)$ and $\lambda$ are
+close the true rate barely degrades with $\alpha$ and the optimal $\alpha$ is larger.
+\emph{(iii)} The crossover $T_0$ of the global phase also depends on $\nu$ through
+$w_{\min}$ and $\|w\|_{L^\infty}$, in the same direction --- so the $\alpha$-schedule
+\eqref{equ:alpha_star_notes} is conservative about, not contradicted by, the early phase.
+
+\subsection{Positioning}\label{sec:positioning_notes}
+
+\citet{bartoldson2025trajectory} decouple exploration from learning for LLM post-training
+--- searcher processes fill a replay buffer, a trainer consumes it off-policy with TB ---
+and report large wall-clock speedups; the graphs are autoregressive, hence acyclic and
+leveled, and the buffer policy (what to store, what to replay) is an engineering
+surface tuned empirically. The statements above are the theory-side complement on
+possibly-cyclic graphs: at the level of the guarantees in [P], the question ``which
+measure should replay realize?'' has an exact answer --- the backward occupation measure
+$\lambda$ for the training rate (and backward replay from terminal draws samples it with
+no estimation step, by the occupation identity), tempered toward uniform-in-$\nuB$
+with weight $\sim1/T$ when a total-variation certificate is wanted at read-out. The
+inverse-frequency heuristic of prioritized replay appears here with a proof and a scope:
+it is exactly right for the \emph{stable} pipeline (Proposition~\ref{prop:stable_uniform_notes}),
+and exactly the $\alpha$-component for the practical one. \citet{morozov2025revisiting}'s
+on-policy forward sampling, read in this frame, trains on $\mu_{\mathrm{on}}$ --- and at
+balance the sampler's visit measure is the total through-flow $r\mu=c\lambda$, i.e.\
+exactly $\lambda$ on the interior states --- so the frame also explains why on-policy
+training of a frozen-backward flow behaves well near convergence and poorly before
+coverage.
+
+\emph{Against the minimum-flow/OT reading of the same quantity.} The outflow mass this
+section and \S\ref{sec:shape_notes} price is the object \citet{maksimov2026ot} characterize
+from the other end: their Proposition~3.12 of \citet{morozov2025revisiting} makes
+expected trajectory length \emph{equal} to normalized total flow, and
+\citet{maksimov2026ot} show that minimizing total flow \emph{over the policy as well},
+with $\Finit$ fixed, is a Kantorovich optimal-transport problem with graph shortest-path
+costs --- the free-policy endpoint of the question. Proposition~\ref{prop:shape_cost_notes} is
+the \emph{fixed-policy} endpoint: with the star policy prescribed and ergodic, the
+minimal flow is not a geodesic quantity but a potential-theoretic one,
+$\nuB(\Statespace)\max_xS(k-\finit)$, weighted $\frac1{1-\beta}$ on the policy's slow
+modes. The ratio of the two --- fixed-policy minimal flow over OT minimal flow --- is
+the price of routing transport through a prescribed mixing kernel rather than along
+graph geodesics, and it is finite exactly when the policy mixes; making that ratio's
+spectral control precise is an open question this comparison surfaces.
+
+\section{The trained backward policy: a spectral account of flow
+regularization}\label{sec:pbtrain_notes}
+
+Written 2026-08-31. Everything in [P,~\S4] freezes the backward policy; everything in
+\citet{morozov2025revisiting}'s recommended practice trains it. Their objective is the
+log-scale detailed-balance loss (their Eq.~4) with a learnable $\mathcal P_B$, plus state-flow
+regularization (their Eq.~12),
+\begin{equation}\label{equ:hse_objective_notes}
+    \mathcal L_{\lamreg}(\mathcal F, \mathcal P_B)
+    \;=\; \sum_{s\to s'} \widehat\nu(s\to s')
+    \Bigl(\log\tfrac{\mathcal F(s)\mathcal P_F(s'|s)}{\mathcal F(s')\mathcal P_B(s|s')}\Bigr)^2
+    \;+\; \lamreg\,\mathcal F(s),
+\end{equation}
+with reward matching enforced by the substitution
+$\mathcal F(s_f)\mathcal P_B(x|s_f)=\mathcal R(x)$. That substitution does two things at
+once in the loop-closure frame of [P]: it pins the total scale ($\mathcal F(s_f) =
+\sum_x\mathcal R(x) = Z$ on the balanced set, so the scale ray of
+\paperref{prop:frozen\_unstable} is removed by a boundary condition, not by a constraint we
+must add), and it pins the \emph{sink row} of the backward chain to the normalized target
+--- exactly the convention $\widehat{\mathcal P}_B(s_f\to\cdot)=\target/t$ under which
+\paperref{prop:morozov\_rate} defines $N$, $\bar\sigma$, $\sigma_*$. Their Proposition~3.7
+then parameterizes the balanced set by the \emph{interior rows of $\mathcal P_B$ alone}.
+This section translates \eqref{equ:hse_objective_notes} into the spectral variables of
+[P,~\S4]: what the $\mathcal P_B$-training does (a slow drift along the balanced manifold,
+descending expected trajectory length), where it goes (their own optimal-transport
+endpoint), and what it costs (every constant of the training-speed theory, at a computable
+exchange rate). Numeric evidence: \texttt{audit\_pb\_spectral.py}
+(\S\ref{sec:num_pb_notes}).
+
+\subsection{The joint landscape, and the dictionary}\label{sec:joint_notes}
+
+\begin{lemma}[balanced points are critical in all variables]\label{lem:balanced_min_notes}
+Let $\mathcal L\geq0$ be $C^1$ in $(\mathcal F,\mathcal P_B)$ and vanish exactly on the
+balanced set. Then every balanced point is a global minimum, so
+$\nabla_{(\mathcal F,\mathcal P_B)}\mathcal L=0$ there --- including the
+$\mathcal P_B$-gradient. If moreover $\mathcal L=\sum\widehat\nu\, g(r)$ with
+$g(1)=g'(1)=0$, $g''(1)>0$, the joint Hessian at a balanced point is Gauss--Newton,
+$H_{\mathrm{full}} = g''(1)\, J^\dagger M_{\widehat\nu} J$ with $J$ the joint Jacobian of
+the residual $r$, and $\ker H_{\mathrm{full}}$ is the tangent space of the balanced
+manifold.
+\end{lemma}
+
+\begin{proof}
+The first claim is the definition of a global minimum of a nonnegative function. For the
+second, $\nabla^2[g(r)] = g''(r)\nabla r\otimes\nabla r + g'(r)\nabla^2 r$; at $r\equiv1$
+the second term dies with $g'(1)=0$.
+\end{proof}
+
+So at balance the only surviving force in \eqref{equ:hse_objective_notes} is the regularizer:
+$\mathcal P_B$-training near the balanced manifold is not ``the loss adjusting the
+backward policy'' --- the loss is indifferent there --- it is the regularizer
+transporting the flow \emph{along} the manifold. What the regularizer descends is
+identified exactly by the following dictionary entry.
+
+\begin{lemma}[their Eq.~10 is the occupation identity, summed]\label{lem:eq10_occupation_notes}
+On the loop closure with sink row $\target/t$, let $\mathcal F$ be the balanced flow of an
+interior-positive $\mathcal P_B$ with $\mathcal F(s_f)=Z$. Then $\mathcal F(s) = Z\,N(s)$
+for every state, hence
+\begin{equation}\label{equ:eq10_notes}
+    \sum_{s\notin\{s_0,s_f\}}\frac{\mathcal F(s)}{\mathcal F(s_f)} \;=\; \bar\sigma,
+    \qquad
+    \sum_{s}\frac{\mathcal F(s)}{\mathcal F(s_f)} \;=\; 2+\bar\sigma,
+    \qquad
+    \mathcal F(\Statespace) \;=\; (2+\bar\sigma)\,Z .
+\end{equation}
+The first display is Eq.~(10) of \citet{morozov2025revisiting} (expected trajectory
+length $=$ normalized total interior flow) re-derived in the variables of
+\paperref{prop:morozov\_rate}; in particular the state-flow regularizer of
+\eqref{equ:hse_objective_notes} is, on the balanced manifold, the function
+$\lamreg{}Z\,\bar\sigma(\mathcal P_B)$ --- \textbf{flow regularization is
+gradient descent on the expected backward-trajectory length}.
+\end{lemma}
+
+\begin{proof}
+The balanced flow of a frozen backward policy is the invariant-measure ray
+(\paperref{theo:universality\_graphs}, part (2)): $\mathcal F = c\,\lambda$. The occupation
+identity $\lambda = N/(2+\bar\sigma)$ (\paperref{prop:morozov\_rate}(1)) with
+$\lambda(s_f)=1/(2+\bar\sigma)$ gives $c = Z(2+\bar\sigma)$ from $\mathcal F(s_f)=Z$,
+hence $\mathcal F = Z N$. Sum, using $N(s_0)=N(s_f)=1$. Verified to $1.3\cdot10^{-13}$
+over $12$ random loop-closed graphs (\S\ref{sec:num_pb_notes}A).
+\end{proof}
+
+\begin{proposition}[quasi-static tracking, and the shadow drift]\label{prop:two_timescale_notes}
+Consider the gradient flow of $\mathcal L + \lamreg R$, $R := \sum_s
+\mathcal F(s)$, on a region where (i) the frozen-$\mathcal P_B$ loss satisfies the local
+Polyak--{\L}ojasiewicz inequality of \paperref{theo:training\_speed} with constant
+$2\varrho(p)\geq2\varrho_{\min}>0$ at every backward policy $p$ visited, and (ii)
+$C_R:=\sup\|\nabla R\|<\infty$. Then
+\begin{equation}\label{equ:tracking_notes}
+    \mathcal L_t \;\leq\; e^{-\varrho_{\min} t}\,\mathcal L_0
+    \;+\; \frac{\lamreg^2\,C_R^2}{2\,\varrho_{\min}} ,
+\end{equation}
+i.e.\ the trajectory tracks the balanced manifold at distance $O(\lamreg^2)$
+in loss. Its slow component follows, to $O(\lamreg^2)$, the shadow ODE
+$\dot p = -\lamreg\,P_{\mathrm{tan}}\nabla R = -\lamreg Z\,
+P_{\mathrm{tan}}\nabla\bar\sigma(p)$: projected gradient descent on the expected
+trajectory length.
+\end{proposition}
+
+\begin{proof}
+Enlarging the variable space only adds nonnegative terms to the gradient norm, so
+pointwise in $p_t$, $\|\nabla_{(\mathcal F,p)}\mathcal L\|^2 \geq
+\|\nabla_{\mathcal F}\mathcal L\|^2 \geq 2\varrho(p_t)\mathcal L$ --- the frozen
+inequality applied at the instantaneous kernel; no transverse-Hessian decomposition is
+needed and the cross-terms of the joint Hessian never enter. Then
+$\dot{\mathcal L} = -\langle\nabla\mathcal L, \nabla\mathcal L +
+\lamreg\nabla R\rangle \leq -\tfrac12\|\nabla\mathcal L\|^2 +
+\tfrac12\lamreg^2\|\nabla R\|^2 \leq -\varrho_{\min}\mathcal L +
+\tfrac12\lamreg^2C_R^2$ by Young; Gr\"onwall gives \eqref{equ:tracking_notes}.
+The shadow statement is standard singular perturbation for gradient flows on a compact
+interior region (the fast variable is slaved at rate $\varrho_{\min}$, the slow one moves
+at $O(\lamreg)$); we use it at the level of gradient flow only ---
+discrete GD adds the usual $O(\varepsilon)$ terms and is not re-derived here. The
+identification $P_{\mathrm{tan}}\nabla R = Z P_{\mathrm{tan}}\nabla\bar\sigma$ is
+Lemma~\ref{lem:eq10_occupation_notes} restricted to the manifold.
+\end{proof}
+
+\subsection{Where the drift goes: the OT endpoint}\label{sec:drift_target_notes}
+
+\begin{lemma}[normalization reconciliation]\label{lem:normalization_notes}
+With reward-pinned terminal flows and total scale $Z$ fixed, minimizing total interior
+flow over balanced flows at a \emph{fixed} initial row $\mathcal F(s_0\to u)=L(u)$ is the
+linear program of \citet[Eq.~10]{maksimov2026ot}, hence by their Theorem~3.2 a Kantorovich
+optimal-transport problem between $L$ and $\mathcal R$ with graph shortest-path costs.
+When the initial row is learned (the setting of \eqref{equ:hse_objective_notes}), the relevant
+relaxation is $\inf_{L:\,\sum L=Z}\mathrm{OT}(L,\mathcal R)$ --- transport with a free
+source marginal, still an LP, in which each reward unit is routed from its nearest
+admissible entry.
+\end{lemma}
+
+\begin{proposition}[the drift target]\label{prop:drift_target_notes}
+(i) Along the shadow ODE of Proposition~\ref{prop:two_timescale_notes}, $\bar\sigma(p_t)$ is
+non-increasing. (ii) The global minimizers of total flow over the closure of the balanced
+family are the minimum-flow solutions, supported on the tight (shortest-path) subgraph of
+the optimal potentials \citep[Thm~3.2--3.3]{maksimov2026ot}; verified on enumerated
+instances with an independent transport LP and a zero-reduced-cost certificate
+(\S\ref{sec:num_pb_notes}B). (iii) Whether the drift \emph{converges} to a global minimizer is
+open --- $\bar\sigma(p)$ is a stochastic-shortest-path policy-optimization landscape,
+and we make no claim about its critical points beyond (i).
+\end{proposition}
+
+\begin{proof}
+(i) is the definition of (projected) gradient descent on $Z\bar\sigma$. (ii) is
+Lemma~\ref{lem:normalization_notes} plus the cited theorem; the audit checks the LP value
+against the transport value at $10^{-8}$ and complementary slackness at $10^{-8}$ on the
+support.
+\end{proof}
+
+\subsection{The spectral price}\label{sec:price_notes}
+
+The endpoint of the drift is a boundary point of the policy polytope: the min-flow
+support is generically a strict subgraph, and a backward policy supported on it is
+(partly) deterministic. Every constant of [P,~\S4] is a functional of $\mathcal P_B$;
+here is what each does along the way. Write $p_t$ for an interior path with
+$p_t\to p_1$, $t\to1$.
+
+\begin{proposition}[the constants along the path to minimum flow]\label{prop:constants_path_notes}
+Suppose $p_1$'s flow has a support omitting at least one \emph{state}, while every state still reaches
+$s_0$ under $p_1$ (no trap). Then, as $t\to1$:
+\begin{enumerate}
+    \item $N_{\min}(p_t)\to0$ and $\lambda_{\min}(p_t)\to0$: the occupation of every
+    off-support state vanishes (continuity of the fundamental matrix, and excursions
+    under $p_1$ never leave the support);
+    \item consequently $\widehat B_\sigma = \sigma_*/\lambda_{\min}^{1/2}\to\infty$ and
+    $\varrho_\sigma = g''(1)w_{\min}\lambda_{\min}/\sigma_*^2\to0$: \emph{the certified
+    rate dies linearly in the off-support occupation};
+    \item for any fixed full-support $\nutrain$, $\|w\|_{L^\infty} =
+    \|d\nutrain/d\lambda\|_{L^\infty}\to\infty$, so the step cap
+    $\varepsilon\leq(4g''(1)\|w\|_{L^\infty})^{-1}$ of \paperref{theo:db\_stable\_frozen}
+    collapses as well;
+    \item $\sigma_*$ and $\bar\sigma$ stay \emph{bounded} --- indeed they decrease toward
+    their shortest-path values (hitting times are continuous and finite at $p_1$ since
+    nothing traps). The divergence is an occupation phenomenon, not a hitting-time one.
+\end{enumerate}
+On the two-route instance the laws are exact: $N_{\min}=(1-t)/2$ to $10^{-12}$,
+$\widehat B_\sigma$ grows like $(1-t)^{-1/2}$, $\varrho_\sigma$ dies linearly, and
+$\sigma_*$ decreases $4\to3$ (\S\ref{sec:num_pb_notes}C).
+\end{proposition}
+
+\begin{remark}[replay repairs the cap, not the rate]\label{rem:replay_rescue_notes}
+The adaptive buffer $\nutrain = \lambda(p_t)$ of \S\ref{sec:backward_replay_notes} keeps
+$w\equiv1$, so the step cap survives the whole path. The rate does not:
+$\varrho_\sigma = g''(1)\lambda_{\min}/\sigma_*^2\to0$ regardless. The speed loss under
+flow regularization is intrinsic --- it \emph{is} the occupation mass leaving the
+off-geodesic states --- and no training measure can buy it back within the guarantees of
+[P,~\S4]. (Do not read this as ``the exact rate dies too'': [P] is explicit that
+$\varrho_\sigma$ is a guarantee, not a prediction. The exact transverse gap is the
+subject of the next proposition, and \emph{it} can die for a different reason.)
+\end{remark}
+
+\begin{proposition}[gap collapse at a two-component limit]\label{prop:gap_collapse_notes}
+Suppose instead $p_t\to p_1$ where the limit chain has $m\geq2$ recurrent classes, and
+the invariant measures converge, $\lambda(p_t)\to\lambda_1$ with $\lambda_1>0$
+everywhere. Then the exact transverse Hessian gap vanishes:
+$\zeta^{\perp}_{\min}\bigl(H(p_t)\bigr)\to0$ for
+$H = g''(1)A^\dagger M_wA$, any fixed $w>0$. The limit is the setting of
+Proposition~\ref{prop:collapse_floor_notes}: the invariant components whose masses the floor
+pins are exactly the recurrent classes the gap dies against.
+\end{proposition}
+
+\begin{proof}
+With $m\geq2$ recurrent classes each charged by $\lambda_1$, the per-class invariant
+densities $h_j = d\nuB^{(j)}/d\lambda_1$ span an $m$-dimensional kernel of $A_1 = P_1-I$
+(density action), and some mean-zero combination $h\neq0$ has
+$\langle h, H_1h\rangle=0$ with $\|h\|_{L^2(\lambda_1)}>0$. Since $\lambda_1$ is
+everywhere positive, the quadratic forms $H(p_t)$ converge to $H_1$ on a
+non-degenerating space, and the smallest transverse eigenvalue converges to $0$.
+\end{proof}
+
+\begin{remark}[the positivity hypothesis is necessary, measured]\label{rem:one_leak_notes}
+The hypothesis $\lambda_1>0$ everywhere is equivalent, on the audit family, to the two
+leak rates (into and out of the would-be second class) closing at comparable speeds, so
+that the limit measure is a genuine mixture over both classes. Closing only one leak
+drains the measure onto the trap: the limit operator \emph{on its own support} has no
+extra kernel, and the measured gap stalls ($0.28\to0.014$ and no further on the one-leak
+path) --- while the two-leak path takes it to $2.1\cdot10^{-9}$
+(\S\ref{sec:num_pb_notes}C). The first version of the audit used the one-leak path and its
+failure is what surfaced the hypothesis; recorded here because the distinction is
+exactly the difference between ``the chain traps'' (hitting times diverge,
+$\varrho_\sigma$ dies through $\sigma_*$) and ``the chain disconnects'' (the gap itself
+dies).
+\end{remark}
+
+\begin{remark}[minimum flow is adjacent to collapse]\label{rem:lp_degeneracy_notes}
+At a minimum-flow solution the LP leaves the backward rows of \emph{zero-flow states}
+completely unconstrained: the min-flow face of the polytope contains kernels whose
+unconstrained rows form traps. Flow regularization therefore steers toward a boundary
+region where the collapse geometry of \S\ref{sec:e15_notes} is not a far-away pathology but a
+neighboring face. The E15 sweep's trapped arms reached it through the planner; a
+flow-regularized trained $\mathcal P_B$ can reach it through the prices above ---
+$\lamreg$ is the dial that chooses how close.
+\end{remark}
+
+\subsection{The entropic repair}\label{sec:entropic_notes}
+
+\begin{lemma}[trajectory-likelihood regularization]\label{lem:traj_entropy_notes}
+For interior-positive $\mathcal P_B$,
+\begin{equation*}
+    \sum_{s'} N(s')\,H\bigl(\mathcal P_B(\cdot\,|\,s')\bigr)
+    \;=\; \mathbb E\bigl[-\log \mathcal P_B(\tau)\bigr],
+\end{equation*}
+the expected negative log-likelihood of the backward excursion --- so $N$-weighted
+conditional entropy is \emph{path} entropy, exactly. (The $\lambda$-weighted variant
+differs by the factor $2+\bar\sigma$; and neither is the edge-flow entropy
+$\sum_e f_e\log f_e$ of entropic optimal transport, which differs further by the state
+marginal term --- the relation to Sinkhorn is precise but not an identity, see
+Remark~\ref{rem:entropic_ot_notes}.)
+\end{lemma}
+
+\begin{proof}
+Both sides are $\sum_{s'}\sum_u (\text{expected visits to } s')\,
+\mathcal P_B(u|s')\allowbreak\,(-\log\mathcal P_B(u|s'))$, by Wald / the occupation
+decomposition of the excursion.
+\end{proof}
+
+\begin{proposition}[soft-SSP keeps the constants alive]\label{prop:soft_ssp_notes}
+Regularize the slow objective with the relative entropy of the policy to the uniform
+backward proposal at temperature $\mu$:
+$\min_p\,\bar\sigma(p) + \mu\,\mathbb E_p[\sum_t\log(d_{x_t}p(u_t|x_t))]$
+(CORRECTED 2026-08-31: the pure path-entropy form first written here has a
+$1/d$-free Bellman equation and the opposite $V_\mu$-vs-$V_{\mathrm{hard}}$
+comparison; the KL-to-uniform form is the one matching the stated fixed point).
+Its optimizer is the
+soft-Bellman policy $\pi_\mu(u|x)\propto e^{-V_\mu(u)/\mu}$ over parents, where $V_\mu$
+solves $V_\mu(x) = 1-\mu\log\bigl(\tfrac1{d_x}\sum_{u\in\mathrm{pa}(x)}
+e^{-V_\mu(u)/\mu}\bigr)$, $V_\mu(s_0)=0$. Then:
+\begin{enumerate}
+    \item \emph{(fixed point)} on any finite graph where $s_0$ is reachable from
+    every state, value iteration from $0$ is monotone with the invariant bound
+    $V\leq(1+\mu\log d_{\max})V_{\mathrm{hard}}$, hence converges (no temperature
+    condition needed); on the audit instance the residual is $<10^{-14}$ at every
+    tested $\mu$;
+    \item \emph{(policy floor)} $\pi_\mu(u|x)\geq e^{-\Delta_V/\mu}/d_{\max}$ with
+    $\Delta_V$ the largest parent-value spread --- one line from the softmax form;
+    \item \emph{(the certified floor)} wherever the minimal-occupation state is one soft
+    choice off the hard path (as on the audit instance, where the bound is
+    \emph{exactly tight}),
+    \begin{equation*}
+        \varrho_\sigma(\mu)\;\geq\;
+        \frac{g''(1)\,e^{-\Delta_V/\mu}}{d_{\max}\,(2+\bar\sigma(\mu))\,\sigma_*(\mu)^2}
+        \;>\;0 ;
+    \end{equation*}
+    in general $N(x)\geq r_{\min}\,(e^{-\Delta_V/\mu}/d_{\max})^{D}$ for $D$ the
+    backward diameter and $r_{\min}$ the smallest positive sink-row mass, giving the
+    same shape with a cruder exponent;
+    \item \emph{(the price of the repair)} $\bar\sigma(\mu)-\bar\sigma_{\min} \leq
+    \mu\,\log d_{\max}\,\bar\sigma(\mu)$.
+\end{enumerate}
+So the dial is explicit: the excess trajectory length is \emph{linear} in $\mu$ while
+$\log\varrho_\sigma(\mu)$ is $\Theta(-1/\mu)$ --- the repair converts the deterministic
+limit's exact zero (a void certificate) into a positive floor, at a cost in $\bar\sigma$
+one can read off before training.
+\end{proposition}
+
+\begin{proof}
+(2) is immediate. (4): $V_\mu$ is the optimal value of steps plus a non-negative
+per-step relative entropy, so $\mathbb E_{\pi_\mu}[\text{steps}]\leq V_\mu$; and
+$V_\mu\leq(1+\mu\log d_{\max})V_{\mathrm{hard}}$ by the invariant of (1); taking the
+sink-row expectation gives
+$\bar\sigma(\mu)-\bar\sigma_{\min}\leq\mu\log d_{\max}\,\bar\sigma_{\min}
+\leq\mu\log d_{\max}\,\bar\sigma(\mu)$. (CORRECTED 2026-08-31: the earlier argument
+used the path-entropy convention, under which the $V_\mu\leq V_{\mathrm{hard}}$
+comparison it invoked is reversed.) (3) chains (2) through
+$\lambda_{\min} = N_{\min}/(2+\bar\sigma)$ into
+\paperref{prop:morozov\_rate}(3). All four are checked exactly, per $\mu$, in
+\S\ref{sec:num_pb_notes}D.
+\end{proof}
+
+\begin{remark}[relation to entropic OT]\label{rem:entropic_ot_notes}
+Path-entropy regularization of a minimum-cost flow is the Schr\"odinger-bridge /
+max-entropy-RL side of the entropic-OT family, not Sinkhorn itself: Sinkhorn penalizes
+the coupling's entropy (edge flows), soft-SSP penalizes the \emph{policy}'s path
+measure, and on graphs the two differ by the state-marginal entropy. What matters here
+is not the taxonomy but the direction of the exchange: \emph{the certificate constants
+of [P,~\S4] are a quantitative reason to prefer the entropic version of the HSE
+regularizer} --- they are finite on the soft solution and zero on the hard one, with
+the exchange rate of Proposition~\ref{prop:soft_ssp_notes}.
+\end{remark}
+
+\emph{Summary of the bridge.} In [P]'s variables, \eqref{equ:hse_objective_notes} reads: the
+loss holds the flow on the balanced manifold at $O(\lamreg^2)$
+(Proposition~\ref{prop:two_timescale_notes}); the regularizer walks the manifold by gradient
+descent on $\bar\sigma$ (Lemma~\ref{lem:eq10_occupation_notes}); the walk heads toward the
+minimum-flow/OT boundary (Proposition~\ref{prop:drift_target_notes}), where the certified rate,
+the step cap and (at a disconnecting limit) the exact gap die at computable speeds
+(Propositions~\ref{prop:constants_path_notes} and~\ref{prop:gap_collapse_notes}), next to the
+collapse-floor face of \S\ref{sec:e15_notes} (Remark~\ref{rem:lp_degeneracy_notes}); and a
+path-entropy term restores every constant at a price linear in the temperature
+(Proposition~\ref{prop:soft_ssp_notes}).
+
+\section{Stochastic gradients: the buffer enters twice}\label{sec:sgd_notes}
+
+Written 2026-08-31. Neither [P] nor the HSE line analyzes sampled gradients: [P]'s
+training theory is exact gradient flow and full-batch descent, and
+\citet{morozov2025revisiting} prove no rates at all. Yet the one empirical scaling E15
+left open is a \emph{noise} scaling (\S\ref{sec:e15_remarks_notes}, the sub-square-root batch
+exponent). This section sets up the missing term and gets three things from it: a
+structural dichotomy (balance losses are noise-free at their optimum; imitation terms are
+not), a floor formula with the slow-mode weighting in exactly one of its two guises, and
+pre-registered predictions for the E15 batch mini-sweep. Numeric evidence:
+\texttt{audit\_sgd.py} (\S\ref{sec:num_sgd_notes}), including a tabular SGD run matching the
+predicted stationary excess loss to $0.03\%$.
+
+\subsection{The deformation}\label{sec:deformation_notes}
+
+SGD with training measure $\nutrain$, batch $b$ and step $\varepsilon$ on a loss
+$\mathcal L$ is $\theta_{k+1} = \theta_k - \varepsilon(\nabla\mathcal L(\theta_k)+\xi_k)$
+with $\mathrm{Cov}(\xi_k) = \Sigma_{\nutrain}(\theta_k)/b$, where
+$\Sigma_{\nutrain}(\theta) = \mathrm{Cov}_{x\sim\nutrain}(G_x(\theta))$ is the
+per-sample gradient covariance. Its diffusion presentation \citep{li2019sme} is
+\begin{equation}\label{equ:sme_notes}
+    d\theta \;=\; -\nabla\mathcal L(\theta)\,dt
+    \;+\; \sqrt{\tfrac{\varepsilon}{b}}\,\Sigma_{\nutrain}(\theta)^{1/2}\,dW .
+\end{equation}
+The training measure now enters the limiting dynamics \emph{twice}: through the drift
+preconditioner $M_w$ of \paperref{theo:gd\_diffusion} ($w = d\nutrain/d\lambda$, the
+object all of \S\ref{sec:replay_notes} optimizes) and through the diffusion tensor
+$\Sigma_{\nutrain}$ --- the deformation the buffer applies to the gradient flow [P]
+analyzes. The noise scale is the ratio $\varepsilon/b$ (halving the step buys a doubled
+batch), with the caveat that the step cap of \paperref{theo:db\_stable\_frozen} bounds
+$\varepsilon$ independently of $b$.
+
+\subsection{The dichotomy: balance noise is multiplicative}\label{sec:dichotomy_notes}
+
+\begin{proposition}[balance losses are at interpolation]\label{prop:interpolation_notes}
+For any balance loss $\mathcal L_{g,\nu}(\mu)=\int g(r)\,d\nu$ with $g\geq0$,
+$g(1)=g'(1)=0$, sampled per state (or per edge, through the lift) --- per-sample loss
+$g(r_x)$, $x\sim\nu$:
+\begin{enumerate}
+    \item at balance every per-sample loss is at its own \emph{global} minimum, so
+    $G_x(\theta^*)=0$ for every $x$ --- the exact interpolation regime --- and
+    $\Sigma_\nu(\theta^*)=0$ identically, \emph{for every training measure};
+    \item near balance the noise is multiplicative with the strong-growth constant
+    explicit: $\operatorname{tr}\Sigma_\nu(\theta)\;\leq\;
+    2g''(1)\,\max_x\|\nabla r_x\|^2\;\mathcal L(\theta)\,(1+o(1))$;
+    \item consequently SGD on a pure balance loss has \emph{no noise floor}: under the
+    local PL inequality of \paperref{theo:training\_speed}, the expected loss contracts
+    linearly to zero at a rate degraded by at most the strong-growth factor
+    \citep[the mechanism of][]{vaswani2019fast} --- batch size rescales the rate, never
+    the limit;
+    \item in log coordinates ($\mu = e^\theta$ against counting measure) the balance
+    Hessian at balance is exactly $g''(1)(P-I)^\top\!\operatorname{diag}(\nu)(P-I)$ with
+    $P$ the density action --- the Gauss--Newton face of
+    \paperref{theo:gd\_diffusion}'s $H = g''(1)A^\dagger M_wA$, checked against autograd
+    at $10^{-15}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1): $g(r_x)\geq0$ vanishes at $r_x=1$. (2): $\|G_x\|^2 = g'(r_x)^2\|\nabla r_x\|^2$
+with $g'(r)^2 = g''(1)^2(r-1)^2(1+o(1))$ and $\mathcal L =
+\tfrac{g''(1)}2\int(r-1)^2d\nu\,(1+o(1))$; take $\mathbb E_\nu$ and compare.
+(3): one expected-descent line: $\mathbb E[\mathcal L^+]\leq\mathcal L
+-\varepsilon\|\nabla\mathcal L\|^2 + \tfrac{\varepsilon^2\Lambda}2
+(\|\nabla\mathcal L\|^2 + \operatorname{tr}\Sigma/b)$, then (2) and PL. (4): expand
+$r = 1 + (P-I)h + O(h^2)$ as in \paperref{theo:gd\_diffusion} and apply
+Lemma~\ref{lem:balanced_min_notes}'s Gauss--Newton form.
+\end{proof}
+
+The E15 loss is \emph{not} pure balance: its defect penalty is an exact enumerated sum,
+and its only sampled term is the imitation cross-entropy $-\mathbb
+E_{x\sim\target}\log\fterm(x)$, whose per-sample gradient at the optimum is nonzero
+(only its mean vanishes) --- $\Sigma(\theta^*)$ is the Fisher information of the
+categorical target, an \emph{additive} noise source. The dichotomy is the structural
+content of the sub-square-root batch scaling: the part of the E15 loss that [P]'s theory
+speaks about contributes no floor at all; the floor comes entirely from the imitation
+term, and it obeys an Ornstein--Uhlenbeck law.
+
+\subsection{The floor, in two guises}\label{sec:floor_notes}
+
+\begin{proposition}[additive floor]\label{prop:additive_floor_notes}
+Linearize \eqref{equ:sme_notes} at an optimum $\theta^*$ with Hessian $H$ and constant noise
+$\Sigma = \Sigma(\theta^*)$: $dh = -Hh\,dt + \sqrt{\varepsilon/b}\,\Sigma^{1/2}dW$,
+restricted to the complement of $\ker H$. The stationary covariance $S$ solves
+$HS+SH = \tfrac{\varepsilon}{b}\Sigma_\perp$, and:
+\begin{enumerate}
+    \item \emph{(loss floor --- no spectral weighting)}\;
+    $\mathbb E[\mathcal L-\mathcal L^*] \;\to\; \tfrac12\operatorname{tr}(HS)
+    \;=\; \frac{\varepsilon}{4b}\operatorname{tr}\Sigma_\perp$: the stationary excess
+    loss does not see the spectrum of $H$ at all;
+    \item \emph{(parameter floor --- the slow modes)}\;
+    $\operatorname{tr} S = \frac{\varepsilon}{2b}\sum_i
+    \frac{\widetilde\Sigma_{ii}}{\zeta_i}$ in $H$'s eigenbasis: parameter (and hence
+    TV) error weights each noise mode by the \emph{inverse} eigenvalue --- the
+    $\frac1{1-\beta}$ slow-mode weighting of Proposition~\ref{prop:shape_cost_notes}(3),
+    reappearing on the noise side. Locally
+    $\mathbb E[\TV] \lesssim C_{\mathrm{lip}}\,(\operatorname{tr}S)^{1/2}$ by
+    Lipschitz-ness of the exact chain law, not through any $\mathcal L^{1/q}$ route;
+    \item \emph{(gauge)} at the mixed balance+imitation optimum, $\ker H$ is exactly the
+    scale direction, along which the terminal law is invariant --- so the restriction
+    in (1)--(2) discards nothing the certificate sees;
+    \item \emph{(discrete ground truth)} the discrete stationary equation is
+    $S_d = (I-\varepsilon H)S_d(I-\varepsilon H) + \tfrac{\varepsilon^2}b\Sigma_\perp$;
+    $S_d = S + O(\varepsilon)$, and the audit confirms the gap halves when
+    $\varepsilon$ halves (ratio $2.000$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1): trace the Lyapunov equation: $2\operatorname{tr}(HS) =
+\tfrac{\varepsilon}b\operatorname{tr}\Sigma_\perp$; the excess loss is
+$\tfrac12\mathbb E[h^\top Hh] = \tfrac12\operatorname{tr}(HS)$. (2): solve the Lyapunov
+equation in the eigenbasis, $S_{ij} = \tfrac{\varepsilon}b
+\widetilde\Sigma_{ij}/(\zeta_i+\zeta_j)$, and take the trace. (3): both loss terms
+are invariant under $\theta\mapsto\theta+c\mathbf 1$; the audit verifies the kernel is
+one-dimensional and aligned with $\mathbf 1$ at $10^{-10}$, and the exact chain law
+unchanged under doubling the flow at $10^{-12}$. (4) is direct algebra. Everything is
+checked to $10^{-11}$ in \S\ref{sec:num_sgd_notes}B, and the prediction
+$\tfrac12\operatorname{tr}(HS_d)$ matches an actual $64$-chain tabular SGD run to
+$0.03\%$ (\S\ref{sec:num_sgd_notes}D).
+\end{proof}
+
+\subsection{The buffer under noise}\label{sec:buffer_noise_notes}
+
+\begin{proposition}[Q2's answer is noise-robust]\label{prop:buffer_robust_notes}
+For pure balance losses, the balanced set is $\nutrain$-independent and
+$\Sigma_{\nutrain}(\theta^*)=0$ for \emph{every} $\nutrain$
+(Proposition~\ref{prop:interpolation_notes}(1)): the noise term creates no new trade-off, and
+$\nutrain=\lambda$ retains the guarantee-optimality of
+Proposition~\ref{prop:backward_replay_notes} unchanged under sampling.
+\end{proposition}
+
+For the \emph{mixed} loss the picture genuinely deforms, and the audit's exact curve is
+worth recording: along $\nu_t = (1-t)\lambda + t\,\mathrm{unif}$ on the audit instance,
+the exact transverse rate \emph{rises} ($5.8\cdot10^{-3}\to4.7\cdot10^{-2}$) and the
+parameter floor \emph{falls} ($3.1\cdot10^{-7}\to1.6\cdot10^{-7}$) --- both axes prefer
+tempering toward uniform once an imitation term is present [computed-exactly; no general
+theorem claimed]. This is the third appearance of the same moral: the pure-balance
+\emph{guarantees} prefer $\lambda$ (Proposition~\ref{prop:backward_replay_notes}), the exact
+rate prefers an interior mixture (\S\ref{sec:num_replay_notes}), the stable pipeline prefers
+uniform (Proposition~\ref{prop:stable_uniform_notes}) --- and noise, when it exists at the
+optimum, votes with the tempered end. The earlier importance-sampling intuition
+``$\nu^*\propto$ root second moment of the per-sample gradient'' is deliberately
+\emph{not} used: it belongs to the reweighted-estimator regime (fixed objective), whereas
+the buffer here changes the objective itself.
+
+\subsection{The E15 batch read, pre-registered}\label{sec:e15_batch_notes}
+
+By Propositions~\ref{prop:interpolation_notes} and~\ref{prop:additive_floor_notes}, the E15 final
+TV should decompose as noise floor plus $b$-independent bias,
+\begin{equation}\label{equ:batch_model_notes}
+    \TV(b) \;\approx\; \sqrt{a\,/\,b + c},
+\end{equation}
+with $a$ the imitation-noise coefficient ($\propto\varepsilon\cdot$Fisher-along-slow-modes)
+and $c$ collecting the finite-$\varepsilon$ floor, model-class and finite-time bias ---
+inseparable at fixed learning rate, and no claim is made about $c$'s composition. The two
+measured points ($b=512$: $0.0345$; $b=4096$: $0.0159$) determine $(a,c)$ \emph{exactly}
+--- zero degrees of freedom, so their consistency with the observed $2.17\times$ against
+$\sqrt8=2.83$ is a reading, not a confirmation. The test is the requested mini-sweep,
+and the predictions are registered here before it runs (2026-08-31):
+\begin{center}
+\begin{tabular}{lcccc}
+$b$ & $2048$ & $8192$ & $32768$ & $\infty$\\
+predicted final TV & $0.0197$ & $0.0136$ & $0.0116$ & $0.0109$\\
+\end{tabular}
+\end{center}
+($a=0.5485$, $c=1.189\cdot10^{-4}$.) What would refute the model: a measured
+$\TV(32768)$ materially below $0.011$ at the same learning rate (the floor is then not
+$b$-independent), or non-monotone behavior outside error bars (the noise is then not the
+binding constraint at these $b$).
+
+\emph{Addendum, same day: the refutation criterion fired --- through a control point,
+before any sweep ran.} The experiment session, cross-checking the fit (its arithmetic
+reproduces exactly), supplied the control the two-point fit could not: E16's
+\texttt{best} arm runs the \emph{same} batch $4096$ for $20{,}000$ steps and reaches
+$\TV=0.00574$, still falling --- $1.9\times$ \emph{below} the fitted asymptote
+$\sqrt c=0.0109$ [verified against
+\texttt{results/exp16\_best\_recipe.csv} directly]. Same $b$, so no noise-scaling
+reading survives: the fitted $c$ is a \emph{stopping artifact}. Both E15 fit points were
+wall-clock-truncated at $900$\,s while still descending ($8{,}300$ and $7{,}700$ steps
+--- an $8\%$ step-count mismatch that additionally straddles a thermal-throttling
+boundary), so ``final TV'' in \eqref{equ:batch_model_notes} was never a stationary quantity
+for these arms, and $c$ absorbed where training happened to stop. \textbf{Standing}: the
+predictions above remain the pre-registration record, but the model-as-fitted is refuted
+as stated; the structural theory of \S\ref{sec:dichotomy_notes}--\S\ref{sec:floor_notes} is
+untouched (it was verified on instances where stationarity \emph{holds}, at $0.03\%$).
+A valid test of \eqref{equ:batch_model_notes} needs arms run to a fixed large step count ---
+convergence, not a wall-clock budget --- with the E15 points dropped from the fit; the
+half-learning-rate discriminator at fixed $b$ and fixed steps survives the criticism
+intact and is now the better first experiment. This addendum is the mass-floor lesson of
+\S\ref{sec:mass_notes} arriving on the noise side: a floor fitted from a trajectory that never
+reached it measures the trajectory, not the floor.
+
+\section{Numeric evidence}\label{sec:numerics_notes}
+
+All scripts follow the experimental doctrine of [P,~\S5]: state spaces small enough that
+every quantity is \emph{computed} --- the sampled law of $s_\tau$ comes from a linear
+solve (\texttt{nonacyclic\_gfn.bounds.exact.terminal\_law}), never from sampling.
+Four scripts beside this file (a fifth, \texttt{audit\_e15.py}, is documented in
+\S\ref{sec:e15_notes}); all exit $0$; runtimes $3.9$\,s, $10$\,s, $3.5$\,s and $1.2$\,s
+($18$\,s with \texttt{--sgd}).
+
+\subsection{\texttt{audit\_finit.py} (Q1)}
+
+\emph{Dual floor.} Over $2{,}000$ random instances (state size in $[6,50)$, random
+ergodic star policy with its scaled invariant measure, random $\nutrain$,
+$q\in\{1,\frac32,2,3,\infty\}$, $z,t\in[0.3,3]$): the explicit extremal flow of
+Proposition~\ref{prop:floor_exact_notes} attains $\LFMstableq=|z-t|/\Dq$ with worst relative
+error $4.4\cdot10^{-14}$; the dual floor dominates the floor of \paperref{rem:mass\_floor}
+on every instance; $2{,}000$ random competitor flows never went below it.
+
+\emph{Mass sweep} (Proposition~\ref{prop:blur_vs_drop_notes}, $40$ states, $121$ values of
+$z$). For $z>t$ the corrected flow is exactly flow-matching and its \emph{exact chain
+law} equals $\widehat\target/z$ to $4.6\cdot10^{-16}$; the mixture identity
+\eqref{equ:blur_notes} holds to $4.9\cdot10^{-17}$. For $z<t$ the terminal flow is the
+water-level truncation --- up to $11/40$ states receive zero terminal mass at the lowest
+$z$ tested --- and the term-$(i)$ bound of \paperref{equ:term\_i} holds on the exact
+chain at every $z$. The envelope $B_\delta$ has its argmin at $t+\delta$ to grid
+resolution ($2\cdot10^{-4}$), and $B_\delta(t+s)<B_\delta(t-s)$ at all $500$ tested $s$.
+
+\emph{Shape} (Proposition~\ref{prop:shape_cost_notes}, two-cluster reversible graph, bridge
+conductance $0.02$). Eigen-relation $Sv=v/(1-\beta)$ and the identities
+$\Foutmin(\Statespace)=\nuB(\Statespace)\max S\theta$ and
+$\mu(\Statespace)/z=1+\Foutstar(\Statespace)/\Finit(\Statespace)$ all hold to
+$10^{-9}$ or better. At \emph{equal mismatch amplitude}: slow mode
+($\beta=+0.9601$) costs outflow mass $1.1593$ and $2.159$ visits per trajectory; fast
+mode ($\beta=-0.1857$) costs $0.0390$ and $1.039$ --- a factor $29.7$ in outflow for the
+same size of initialization error, placed differently. Both Chebyshev and $L^2$
+objectives verified convex along $400$ random segments of a mixture class.
+
+\subsection{\texttt{audit\_replay.py} (Q2)}\label{sec:num_replay_notes}
+
+\emph{Optimality of $\lambda$} (Proposition~\ref{prop:backward_replay_notes}). Over $10$
+random loop-closed marked graphs $\times$ $1{,}000$ random probability $\nutrain$ each:
+the occupation identity holds to $4.2\cdot10^{-16}$, and none of the $10{,}000$ draws
+beats $\lambda$ on $w_{\min}$, on the \L ojasiewicz factor, or on the step cap --- nor
+the uniform measure on the certificate factor (Proposition~\ref{prop:stable_uniform_notes}(1)).
+
+\emph{Operator inequality and the guarantee/exact gap.} The smallest positive eigenvalue
+of $H_\nu=g''(1)A^\dagger M_wA$ dominates $\varrho_\sigma(\nu)$ on every graph and every
+mixture $\nu_\alpha$ tested (worst margin positive). On the instance reported in detail:
+the \emph{guarantee} peaks at $\alpha=0$ ($\nu=\lambda$), as proved --- and the
+\emph{exact} linearized rate peaks at $\alpha=0.45$, with conservatism $1588\times$ at
+$\alpha=0$. The mechanism is visible in $w=\frac{d\nu_\alpha}{d\lambda}$: uniform
+tempering makes $w$ large exactly on rarely-visited states, lifting the slow modes that
+live there, which a $w_{\min}$-only bound cannot see. \textbf{Read on the exact rate,
+the finding is stronger than Proposition~\ref{prop:alpha_star_notes}, not weaker: on this
+family, tempering backward replay toward uniform helps the certificate \emph{and} the
+exact rate, and the exact-rate-optimal mixture is interior.}
+
+\emph{Transfer and certificate} (Lemma~\ref{lem:transfer_notes}). Over $40$ random unbalanced
+sink-normalized cut flows: the identity \eqref{equ:transfer_identity_notes} holds to
+$1.3\cdot10^{-15}$; $\TV(s_\tau\|\target)\leq C\,\LFMstable$ holds on the exact chain of
+every instance; the linearized flow decays at least at $\varrho_\sigma(\nu_\alpha)$ for
+every tested $(\alpha,T)$; and the grid argmin of $J_T$ matches
+\eqref{equ:alpha_star_notes} to $2.5\cdot10^{-6}$ across four $(q,c,T)$ triples.
+
+\emph{Empirical replay.} $20{,}000$ simulated excursions: $\TV(\widehat\nu,\lambda)=0.0013$
+(and $\widehat\nu$ is $\lambda$, not uniform); a reward-squared-biased buffer marginal
+lands within $0.0006$ of its fundamental-matrix prediction --- the bias of a filtered
+buffer is computable, as claimed; inverse-frequency reweighting improves
+$\sup\frac{d\nuB}{d\nu}$ from $29.6$ to $12.0$ (full coverage).
+
+\subsection{\texttt{audit\_pb\_spectral.py} (\S\ref{sec:pbtrain_notes})}\label{sec:num_pb_notes}
+
+\emph{[A] The dictionary} (Lemma~\ref{lem:eq10_occupation_notes}). Over $12$ random
+loop-closed marked graphs: occupation identity to $4.3\cdot10^{-16}$;
+$\lambda(s_0)=\lambda(s_f)=1/(2+\bar\sigma)$ to $2.7\cdot10^{-16}$; the interior sum
+$\sum\mathcal F/\mathcal F(s_f)=\bar\sigma$ and full sum $2+\bar\sigma$ to
+$1.3\cdot10^{-13}$.
+
+\emph{[B] Minimum flow $=$ OT} (Proposition~\ref{prop:drift_target_notes}(ii)). On the
+two-route instance and a $4$-terminal diamond: the min-interior-flow LP value equals the
+independent transport-LP value (cost $=$ interior states on a shortest path) to
+$10^{-10}$ ($2.800000$ and $2.000000$); complementary slackness against the solver's own
+dual potentials holds with worst reduced cost $0$ on the support --- the tight-subgraph
+statement with the \emph{correct} potentials (a fixed initial row can force flow down a
+long route; tightness is relative to the optimal potentials, not to naive
+min-distances, which is how the first version of this check failed).
+
+\emph{[C] The two paths} (Propositions~\ref{prop:constants_path_notes}
+and~\ref{prop:gap_collapse_notes}). Min-flow path: $N_{\min}=(1-t)/2$ \emph{exactly}
+($10^{-12}$) at every $t$; $\widehat B_\sigma\,12.65\to848.57$ at $t=0.9999$
+(the $(1-t)^{-1/2}$ law); $\varrho_\sigma\,1.25\cdot10^{-2}\to2.78\cdot10^{-6}$
+(linear); $\sigma_*$ \emph{decreases} $4.000\to3.000$; $\|w\|_{L^\infty}\,1.4\to1.1\cdot10^4$
+for uniform $\nutrain$, and $w\equiv1$ at $10^{-14}$ under adaptive replay. Trap path
+(two leaks closing together): exact transverse gap $2.84\cdot10^{-1}\to2.11\cdot10^{-9}$,
+limit component count $2$; the certificate ordering
+$\varrho_\sigma\leq\zeta^\perp_{\min}(H)$ holds at every point of both paths.
+
+\emph{[D] Soft-SSP} (Proposition~\ref{prop:soft_ssp_notes}). Fixed-point residual
+$<10^{-14}$ at every $\mu\in\{0.5,0.2,0.1,0.05,0.02\}$ (all below
+$1/\log d_{\max}=1.44$); the policy floor and the certified $\varrho_\sigma$ floor hold
+at every $\mu$ --- and the floor is \emph{exactly tight} on this instance
+($\varrho_\sigma=$ floor to three digits at every $\mu$, e.g.\
+$9.670\cdot10^{-4}$ at $\mu=0.5$, $2.07\cdot10^{-45}$ at $\mu=0.02$);
+$\bar\sigma(\mu)\downarrow2$ (the hard value) with excess within the
+$\mu\log d_{\max}\,\bar\sigma$ bound at every $\mu$.
+
+\subsection{\texttt{audit\_sgd.py} (\S\ref{sec:sgd_notes})}\label{sec:num_sgd_notes}
+
+\emph{[A] Interpolation} (Proposition~\ref{prop:interpolation_notes}). Over $5$ random graphs:
+per-sample gradients at balance $<7.1\cdot10^{-15}$ by autograd, state by state; the
+Gauss--Newton identity $H=g''(1)(P-I)^\top\operatorname{diag}(\nu)(P-I)$ against the autograd
+Hessian to $9.4\cdot10^{-16}$; $\Sigma_\nu$ PSD; $\operatorname{tr}\Sigma/\mathcal L$
+constant over a $4\times$ range of distances to balance (drift $<10^{-4}$) --- the noise
+is multiplicative, measured.
+
+\emph{[B] Floor algebra} (Proposition~\ref{prop:additive_floor_notes}). At the mixed
+balance$+$CE optimum (Newton to $10^{-14}$): $\ker H$ one-dimensional and aligned with
+the scale direction to $10^{-12}$; exact chain law invariant under doubling the flow to
+$10^{-12}$; $\operatorname{tr}(HS)=(\varepsilon/2b)\operatorname{tr}\Sigma_\perp$ and the
+eigenbasis identity for $\operatorname{tr}S$ both at $10^{-11}$; the discrete--continuous
+Lyapunov gap ratio under $\varepsilon\to\varepsilon/2$ is $2.000$.
+
+\emph{[C] Buffer and the E15 fit.} Pure-balance $\Sigma_\nu(\theta^*)$ vanishes at
+$10^{-13}$ for every $\nu$ in a spiky random grid; $\varrho_\sigma(\lambda)\geq
+\varrho_\sigma(\nu)$ on $200$ draws; the mixed-loss $(\text{exact rate},
+\operatorname{tr}S)$ curve of \S\ref{sec:buffer_noise_notes} printed; the two-point fit
+reproduces its inputs at $10^{-12}$ and emits the \S\ref{sec:e15_batch_notes} predictions.
+
+\emph{[D] (\texttt{--sgd})} $64$ tabular SGD chains, $b=8$, $\varepsilon=0.166$
+($0.2/\zeta_{\max}$), $16{,}000$ steps after burn-in: empirical stationary excess loss
+$3.130\cdot10^{-5}$ against the predicted $\tfrac12\operatorname{tr}(HS_d)=
+3.131\cdot10^{-5}$ --- $0.03\%$, far inside the $\pm25\%$ statistical tolerance. The
+diffusion presentation \eqref{equ:sme_notes} is not an analogy on these instances; it is the
+observed stationary law.
+
+\section{The E15 sweep against the theory}\label{sec:e15_notes}
+
+Written 2026-08-30, after the 16-arm architecture/hyperparameter sweep on the
+\texttt{trefoil\_fat} target ($N=13{,}824$ states on the $24^3$ torus lattice, $p=18$
+maps, support $42.7\%$, uniform $\Finit$) landed in
+\texttt{NonAcyclicGFN/results/exp15\_arch\_sweep.csv}. Numeric evidence for this section:
+\texttt{audit\_e15.py}, all exact, $\sim$3\,s.
+
+\subsection{What the sweep found}\label{sec:e15_facts_notes}
+
+Ten arms carrying the Poisson-scale initialization converged (TV $0.016$--$0.070$; best
+\texttt{+batch-4096} at $0.0159$); the un-fixed control reproduced the trivial plateau at
+TV $0.6231$, $L-H=1.1488$ --- which are $\TV(\mathrm{unif},\target)=0.623083$ and
+$\KL(\target\|\mathrm{unif})=1.148802$ on the real lattice, i.e.\ the trivial endpoint of
+Proposition~\ref{prop:blur_vs_drop_notes} observed in a trained system. The decisive new fact
+is in the \emph{trajectories}: four trapped arms (\texttt{+no-decay}, \texttt{+lr-1e-2},
+\texttt{+width512}, \texttt{+harm8}) collapsed their planner entropy to
+$H(\alpha)\leq0.01$ by the first checkpoint and then sat at trivial-level TV
+($0.62$--$0.65$) \emph{with nonzero, fluctuating outflow} (mass $0.5$--$6.4$), while
+every arm that kept $H(\alpha)\geq1.5$ converged. So for these arms the trap is not
+``$\foutstar\rightarrow0$''; it is the planner.
+
+\subsection{The collapsed-planner floor}\label{sec:collapse_floor_notes}
+
+In the EGF parameterization the planner $\alpha$ mixes deterministic maps: the star
+policy is $\Pi_\alpha(x\rightarrow\cdot)=\sum_i\alpha_i(x)\,\delta_{T_i(x)}$. A collapsed
+planner --- $\alpha_{i(x)}(x)=1$ for one $i(x)$ per state --- makes the kernel a single
+\emph{deterministic} map $T(x):=T_{i(x)}(x)$, and determinism creates conserved
+quantities.
+
+\begin{proposition}[collapsed-planner floor]\label{prop:collapse_floor_notes}
+Let $T:\Statespace\rightarrow\Statespace$ be a deterministic star policy on a finite
+state space, and let $A_1,\dots,A_k$ be the weak components of its functional graph ---
+equivalently, the atoms of the invariant algebra $\{\varphi:\varphi\circ T=\varphi\}$.
+Then for \emph{every} initial flow of mass $z$, every non-negative outflow and every
+target $\target$ of mass $t$:
+\begin{enumerate}
+    \item \emph{(flow identity)} $E(A_j)=\Finit(A_j)$ for every $j$, where
+    $E=\Finit+\Foutstar\Pi_T-\Foutstar$;
+    \item \emph{(chain law, unconditional)} whenever the sampler terminates almost
+    surely, the exact law of $s_\tau$ satisfies
+    $\mathbb P(s_\tau\in A_j)=\Finit(A_j)/z$ --- at \emph{any} coverage, with no
+    correction for $E^-$;
+    \item \emph{(floor)} consequently
+    \begin{equation}\label{equ:collapse_floor_notes}
+        \TV\left(s_\tau\left\|\frac\target t\right.\right)\;\geq\;
+        \frac12\sum_{j=1}^k\left|\frac{\Finit(A_j)}{z}-\frac{\target(A_j)}{t}\right|
+        \;=:\;\mathrm{floor}(T;\Finit,\target).
+    \end{equation}
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Each $A_j$ satisfies $x\in A_j\Leftrightarrow T(x)\in A_j$ (a state and its image are in
+the same weak component by definition, and components partition the space), so
+$(\Foutstar\Pi_T)(A_j)=\sum_{x:T(x)\in A_j}\Foutstar(x)=\Foutstar(A_j)$, which is (1).
+For (2): the sampler at $x$ either stops or moves to $T(x)$, so the trajectory never
+leaves the component of its initial state; terminating almost surely, it stops inside it,
+and $\mathbb P(s_\tau\in A_j)=\mathbb P(s_0\in A_j)=\Finit(A_j)/z$. (3) is the
+data-processing inequality for TV under the map $x\mapsto j(x)$.
+\end{proof}
+
+Measured on the E15 family (\texttt{audit\_e15.py} \S B--C): every one of the $18$ maps
+is a lattice bijection with its inverse in the family; single-map floors run
+$\mathbf{0.2672}$ to $\mathbf{0.3775}$ (map/inverse pairs agree exactly, a consistency
+check); ten random state-dependent collapses give floors $0.17$--$0.20$; the flow
+identity holds to $8\cdot10^{-14}$ at $N=13{,}824$ and the chain-law identity to
+$8\cdot10^{-17}$ on the $m=8$ instance, \emph{including draws with
+$E^-\neq0$}. Against the sweep: every collapsed floor exceeds the worst healthy arm's
+$0.0697$ (margin $2.5\times$; $3.8\times$ for single-map collapse), so
+\textbf{a collapsed planner provably cannot reach the healthy arms' accuracy} --- an
+exact impossibility result for the four trapped arms.
+
+\begin{remark}[the two-layer reading, stated honestly]\label{rem:two_layer_notes}
+The floor does \emph{not} explain the observed trap level: the trapped arms sit at
+$0.62$--$0.65$, i.e.\ at $\TV(\Finit,\target)$ itself, well above the largest floor
+$0.3775$. So two mechanisms stack: the collapse pins every invariant-atom mass
+(Proposition~\ref{prop:collapse_floor_notes} --- fatal on its own), and the dead multiplicative
+Jacobian (\S\ref{sec:e15_facts_notes}; every gradient carries $e^{\log\mathrm{scale}}$)
+prevents even the \emph{within-atom} transport the floor would still permit. Which maps
+the trapped arms collapsed onto was not logged, so whether they sit at their own
+$\mathrm{floor}(T)$ plus dead-network residue, or purely at the trivial point, is
+undecidable from the landed data --- the argmax-$\alpha$ histogram requested from the
+experiment session decides it. A related observable: the experiment code's
+$\gamma$-certificate returns no TV when the occupation solve refuses --- for a collapsed
+planner the chain can genuinely fail to terminate (a cycle with no stopping mass), which
+is the same never-leaves-the-component mechanism as the floor.
+\end{remark}
+
+\begin{corollary}[planner support is a universality certificate]\label{cor:planner_support_notes}
+For a planner with state-wise support contained in $I(x)\subseteq\{1..p\}$, every
+functional invariant under \emph{all} selectable maps is conserved, and
+\eqref{equ:collapse_floor_notes} holds with the atoms of the corresponding invariant algebra;
+the floor is monotone: shrinking the support coarsens nothing and can only refine the
+conserved algebra, raising the floor. Full support with a family generating an ergodic
+action leaves only the constants --- which is exactly the ergodicity hypothesis of
+\paperref{theo:universality\_L2}. Planner-entropy collapse is therefore the
+\emph{quantitative failure mode of the universality hypothesis}, and $H(\alpha)$ (with
+the argmax histogram) is a real-time lower-bound certificate on achievable TV.
+\end{corollary}
+
+\subsection{Further readings from the sweep}\label{sec:e15_remarks_notes}
+
+\begin{remark}[band-projection reference, not a bound]\label{rem:band_reference_notes}
+The feature map is axis-aligned Fourier modes with no cross terms; the \emph{linear}
+span (plus constants) captures only $10.6$--$10.9\%$ of the TV mass of
+$\target-\mathrm{unif}$ at every band $h\in\{4,8,12\}$ (\texttt{audit\_e15.py} \S D) ---
+yet the healthy arms reach TV $0.016$, so the network's nonlinearity synthesizes
+essentially all of the structure. These are reachability references for the linear
+class, explicitly \emph{not} bounds for the trained model; the honest per-architecture
+ceiling question stays open.
+\end{remark}
+
+\begin{remark}[the CE sample budget, and a scaling question]\label{rem:batch_notes}
+The winning arm is the one that raised eightfold the $\target$-sample batch of the
+cross-entropy term ($512\rightarrow4096$: TV $0.0345\rightarrow0.0159$, a factor $2.17$
+against $\sqrt8=2.83$). The imitation term's Monte-Carlo noise appears to set the final
+floor, at a sub-square-root rate; the batch mini-sweep requested from the experiment
+session measures the exponent.
+\end{remark}
+
+\begin{remark}[the minimal outflow mass is planner-dependent]\label{rem:planner_mass_notes}
+Winners' final outflow masses ($2.8$--$11.9$) all undercut the uniform-planner Poisson
+reference $14.345$: the minimal-mass formula
+$\Foutmin(\Statespace)=\nuB(\Statespace)\max_xS\theta(x)$ of
+Proposition~\ref{prop:shape_cost_notes} is per-planner (through $P_\star$), and training the
+planner buys shorter trajectories at equal accuracy --- a second, distinct benefit of
+keeping $\alpha$ alive beyond avoiding the floor.
+\end{remark}
+
+\subsection{Standing of the earlier sections after E15}\label{sec:e15_standing_notes}
+
+\begin{itemize}
+    \item \textbf{Confirmed}: the trivial-point coordinates of
+    Proposition~\ref{prop:blur_vs_drop_notes} on a real trained system (four decimals); the
+    dead-Jacobian trap mechanism (adopted by the experiment session, its commit
+    \texttt{4b3a9cb}, which credits the exchange and adds both halves: descent into the
+    trap and inability to leave); the $\gamma$-tempered read-out of \S\ref{sec:replay_notes}
+    (implemented as \texttt{gamma\_certificate()}); the Poisson-scale initialization as
+    the practical face of Proposition~\ref{prop:shape_cost_notes}(1).
+    \item \textbf{Narrowed}: my claim that the finite-loss summary column would rank the
+    trivial point above every escaping arm --- coverage recovered for most arms and the
+    ranking sorts on raw TV; the failure is real only for an arm whose coverage never
+    recovers (\texttt{+tau-1} is the lone exhibit), which the $\gamma$-certificate now
+    covers. Recorded as superseded in that stronger form.
+    \item \textbf{Open, with experiments requested}: warm-$\Finit$ vs the band
+    (\S\ref{sec:shape_notes} --- does a representable coarse approximation of $\target$ help,
+    or does concentrating $\theta$ in the hard band hurt more?); the collapse
+    \emph{cause} (the floor is about its consequence; entropy-regularized and
+    frozen-$\alpha$ arms probe causality); seed-dependence of the collapse dichotomy
+    (every E15 arm is seed $0$); the batch-noise exponent; the per-architecture ceiling.
+\end{itemize}
+
+\section{Promotion candidates}\label{sec:promotion_notes}
+
+Decided at Phase 4 (14--18 Sep); the body is $\sim$3pp over, so anything promoted goes to
+Appendix~A plus at most one body sentence. Ranked:
+
+\begin{enumerate}
+    \item \textbf{Lemma~\ref{lem:transfer_notes} + Proposition~\ref{prop:alpha_star_notes}} --- the
+    bridge the paper currently lacks between its two halves: \S4 proves the balance loss
+    \emph{converges}, \S3 certifies TV \emph{for the stable loss}; the transfer lemma
+    composes them into an end-to-end TV certificate for DB/TB-trained frozen-backward
+    flows, with the sink normalization playing $Z$. Six lines of statement; proof is one
+    computation. The $\alpha^*(T)$ schedule is the applied corollary.
+    \item \textbf{Proposition~\ref{prop:dual_floor_notes}} --- a strict sharpening of
+    \paperref{rem:mass\_floor} in one H\"older line, with attainment; the dual norm
+    $1+\Dq$ is already the $b$ of \paperref{theo:IL\_CV\_bound}, so zero new notation.
+    \item \textbf{Proposition~\ref{prop:backward_replay_notes}(1--2)} as a remark after
+    \paperref{rem:visit\_ratio}: the training measure every guarantee of \S4 prefers is
+    $\lambda$, and backward replay from the target row samples it exactly --- the
+    occupation identity read as an algorithm. Three lines.
+    \item \textbf{Proposition~\ref{prop:blur_vs_drop_notes}} as a remark beside
+    \paperref{rem:mass\_floor}: undershooting $Z$ truncates the target from the bottom,
+    overshooting only dilutes --- the asymmetry is quotable and the proof is two lines
+    given the floor. (Proposition~\ref{prop:overshoot_notes}'s $z^*=t+\delta$ is a second-order
+    curiosity; keep in the notes.)
+    \item Proposition~\ref{prop:shape_cost_notes} stays here: correct and complete, but its
+    natural home is a follow-up on initialization design, not this paper's page budget.
+    \item \emph{(added after E15)} \textbf{Proposition~\ref{prop:collapse_floor_notes} +
+    Corollary~\ref{cor:planner_support_notes}} — a candidate remark beside
+    \paperref{theo:universality\_L2}: when the ergodicity hypothesis fails by planner
+    collapse, the failure is not merely qualitative — determinism creates an invariant
+    algebra whose atom masses are pinned to $\Finit$, giving an exact, measured TV floor
+    ($0.27$--$0.38$ on the experimental family, against trained arms at $0.016$). Four
+    lines of statement, three of proof, and it gives the paper's ergodicity hypothesis a
+    quantitative converse.
+    \item \emph{(added 2026-08-31)} \textbf{The \S\ref{sec:pbtrain_notes} bridge package}
+    (Lemma~\ref{lem:eq10_occupation_notes} + Propositions~\ref{prop:two_timescale_notes},
+    \ref{prop:constants_path_notes}, \ref{prop:gap_collapse_notes}): flow regularization with a
+    trained backward policy \emph{is} gradient descent on $\bar\sigma$ along the balanced
+    manifold, its endpoint is the OT solution of \citet{maksimov2026ot}, and the walk is
+    priced by exactly the constants of [P,~\S4], ending at the collapse-floor face. This
+    is a paper-scale contribution rather than an appendix remark --- likely a follow-up
+    with \S\ref{sec:shape_notes}, not a Phase-4 promotion; recorded here so the decision is
+    conscious. Lemma~\ref{lem:eq10_occupation_notes} alone, though, is three lines and
+    immediately quotable against \citet{morozov2025revisiting}'s Eq.~10.
+    \item \emph{(added 2026-08-31)} \textbf{Proposition~\ref{prop:interpolation_notes} +
+    the two-guise floor of Proposition~\ref{prop:additive_floor_notes}} --- balance losses are
+    noise-free at their optimum for every training measure (so [P,~\S4]'s deterministic
+    analysis is closer to SGD reality than it appears: the missing noise term vanishes
+    exactly where the theory works), while imitation terms pay
+    $(\varepsilon/4b)\operatorname{tr}\Sigma$ in loss and the $1/\zeta_i$-weighted
+    version in TV. One proposition each, proofs of a few lines, verified to $0.03\%$
+    against live SGD. A candidate remark beside \paperref{theo:training\_speed}.
+\end{enumerate}
+
+\bibliographystyle{plainnat}
+\bibliography{note}
+
+\end{document}
