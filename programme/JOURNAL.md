@@ -773,3 +773,17 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓. Hub: papers-check red on papers/btz only, and gate-tests red through it. It is /atlas-team's in-flight lean-gx refactor (it holds lean-gx): GX.PpcmHausdorff declarations moved into its untracked BTZ/Ppcm.lean, so btzprop:ppcm's listed files lag. Not this loop's.
 - commits: f92836fe 51cbb004 8a31de14
 - next: rule 3 gives T-abs-hoist-stranded-homes alone (exclusive). A planning run is due for the backlog above.
+
+## 2026-11-27 20:08 · wave of 1 · T-abs-hoist-stranded-homes (exclusive)
+- T-abs-hoist-stranded-homes (abstract, exclusive with the whole lean-causal package leased): model-free lemmas moved to their ETT-layer homes, with full names kept and no statement changed.
+  - ChartIso.curveOn_symm (from the model-reaching Remarks.MassiveManifold), chartImage_subset_target and ChartIso.chronalCurveOn_image/_symm_image (from TimelikeHomotopy) are now in Causal.GXStructure. The chart transport is proved once instead of three times: Flat.curveOn_chart_symm cites it.
+  - New: Causality.hasChronalNeighbourEverywhere_of_forall_mem_Zplus and E0LM.LocZplus.chronalFutureNeighbours. E₀'s six inline proofs cite them.
+  - Constant dump: +2, four module moves, eight proof terms changed.
+  - papers/ett's cor:massA_cac now lists Causal/GXStructure.lean; the moved curveOn_symm had turned its ledger check red.
+  - Audit minor (CausalIsoInvariance's SCOPE, kb/0027), applied (0aae399d).
+- For the keeper and planner: line references at ladder.toml:858, :883, :3898 and the Schwarzschild binder :30, :310, :326 (the REPORT lists them).
+- ladder: 26 properties, 27 implications, 83 counterexamples, 100 consequences, 5 edge hypotheses; 392/392 within a sort: 38 implied, 309 fails, 45 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 14, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓, hub: all gates green, no new red
+- commits: 0aae399d 07391dcc
+- next: a PLANNING RUN (rule 2: one ready abstract target left, T-abs-sc-open-hoist). It folds in waves 39–43's proposals (journal 17:14, 18:17, 18:42, 19:22, 20:08).
