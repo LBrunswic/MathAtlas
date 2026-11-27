@@ -349,6 +349,7 @@ import Causal.StrongCausalityLiftsCurves
 import Causal.DensSeparates
 import Causal.StronglyCausalTransport
 import Causal.Model.TimeCylinderLSC
+import Causal.LscSeparations
 
 /-!
 # Causal — topological spacetimes

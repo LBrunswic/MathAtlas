@@ -1,0 +1,146 @@
+{
+  "target": "T-abs-lsc-separations",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/LscSeparations.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-lsc-separations/REPORT.json",
+    "campaign/T-abs-lsc-separations/Probe.lean",
+    "campaign/T-abs-lsc-separations/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.LscSeparations",
+  "build_result": "Build completed successfully (3156 jobs), no warning. The --no-build dry run (kb/0228) before the build listed only CausalScaffold.LscSeparations as out of date (exit 3), so nothing upstream (Causal.*, mathlib) was rebuilt; after the build the dry run reports all 3156 targets up to date (exit 0). `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/LscSeparations.lean` exits 0 with no output. campaign/T-abs-lsc-separations/Probe.lean imports the module, runs #check and #print axioms on all 22 theorems (output in axioms.txt), and has 5 examples: the projections onto the 7 settled pairs, the edge strongly_causal ⇒ locally_strongly_causal read backwards by causal_ladder on the symmetric rational line, the ladder's ball of radius 1/2 about a by heredity from loopLow, and the old witness read off the new one. It passes under -DwarningAsError=true (exit 0). Every theorem depends on [propext, Classical.choice, Quot.sound] only; no sorryAx.",
+  "sorry_count": 0,
+  "layer": "ETT layer (layer 1). Direct imports: Causal.FutureOneConnectedVacuous, Causal.GHWithoutTarentin, Causal.DiamondConfinement, Causal.Ladder.Rules (the last three are already reached through the first; they are listed so the file says what it uses). tools/ladder.py's model_path, run in memory on lean_index()['imports'], is None for each direct import and None for the new module with its four imports added to the index in memory; model_path is a breadth-first search over all imports, so None is exhaustive (kb/0247). The closure holds 74 Causal modules and no MODEL_LAYER module (Causal.Minkowski, Static, SingularFlat, Flat, Model, Port). Cycle check (kb/0221): Causal.FutureOneConnectedVacuous and Causal.GHWithoutTarentin import Causal.Ladder.Rules directly; import_chain(Rules, ·, CausalScaffold.LscSeparations) is None. Nothing imports the new module, so it is a leaf. No statement mentions a metric: the loop fan's sets are given by coordinates (loopBox, loopLow, loopSide, loopCap). Metric.mem_nhds_iff appears inside one proof only (loopFan_stronglyCausalOn_of_boxes, as in Causal.fork_stronglyCausalOpen). causal_ladder was not needed in the module: every node either comes from the two old witnesses or is new and proved directly. The Probe uses it once.",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.symmRationalLine_separates_locallyStronglyCausal",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:167",
+      "statement": "the 22 conjuncts of Causal.symmRationalLine_separates_futureOneConnected in its order (FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ PushUp ∧ LocallyPushUp ∧ CurvesExtend ∧ ¬ IsCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen ∧ ¬ GloballyHyperbolic ∧ ¬ HasTimeFunction ∧ ¬ CausallyCompact ∧ ¬ CausallyArcConnected ∧ ¬ CausallyOpenFuture ∧ ¬ CausallyOpen ∧ ¬ LocallyCausallyOpenFuture ∧ ¬ LocallyCausallyOpen ∧ ¬ Tarentin ∧ ¬ CausallyPlain ∧ ¬ ChronalNeighbours ∧ ¬ HasChronalNeighbourEverywhere), then 23: ¬ symmRationalLine.LocallyStronglyCausal, and 24: ∀ (W : Opens ℝ) (p : ℝ), p ∈ W → ¬ symmRationalLine.StronglyCausalOn W",
+      "standing": "closed statement on ℝ, no instance argument. Conjuncts 1–22 are a destructuring of the old witness (kb/0276). 23 is symmRationalLine_not_locallyStronglyCausal; 24 is symmRationalLine_not_stronglyCausalOn, the form 'no point has a strongly causal open neighbourhood'. Decides all 21 causality-sort nodes of the ladder: 5 held, 16 lacked. Either reading (conjunct 4).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.symmRationalLine_not_stronglyCausalOn",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:135",
+      "statement": "∀ {W : Opens ℝ} {p : ℝ}, p ∈ W → ¬ symmRationalLine.StronglyCausalOn W",
+      "standing": "the ladder's argument, with (l, u) ⊆ W about p for (p − ε, p + ε) and m = (p + u)/2. A neighbourhood V ⊆ (l, m) of p holds a rational r; a rational r' ∈ (m, u) has uIcc r r' ⊆ W, so r' ∈ J_W(r, r), and r' ∉ V.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.symmRationalLine_not_locallyStronglyCausal",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:156",
+      "statement": "¬ symmRationalLine.LocallyStronglyCausal",
+      "standing": "from the previous theorem at 0.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.loopFan_separates_locallyStronglyCausal",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:449",
+      "statement": "T2Space loopSet ∧ SecondCountableTopology loopSet ∧ AbsolutelyMinimal ∧ (∀ W, AbsolutelyMinimalOn W) ∧ CausallyArcConnected ∧ PushUp ∧ LocallyPushUp ∧ IsCausal ∧ CausallyCompact ∧ GloballyHyperbolic ∧ HasTimeFunction ∧ CurvesExtend ∧ FutureOneConnected ∧ (∀ W, FutureOneConnectedOn W) ∧ LocallyStronglyCausal ∧ ¬ StronglyCausal ∧ ¬ StronglyCausalOpen ∧ ¬ Tarentin ∧ ¬ ChronalNeighbours ∧ ¬ CausallyPlain ∧ ¬ HasChronalNeighbourEverywhere (all of loopFan)",
+      "standing": "closed statement, no instance argument. 21 conjuncts. The 15 conjuncts of Causal.loopFan_separates keep their order, at positions 1–3, 5–12 and 16–19. New: 4 (loopFan_absolutelyMinimalOn), 13–14 (futureOneConnectedOn_of_forall_not_lt, since ≪ is empty), 15 (loopFan_locallyStronglyCausal), and 20–21 (not_causallyPlain_of_forall_not_lt, not_hasChronalNeighbourEverywhere_of_forall_not_lt). Decides 17 of the 21 causality-sort nodes: 11 held, 6 lacked. The four causally-open forms are not decided (SCOPE). Either reading (conjunct 4).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.loopFan_locallyStronglyCausal",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:425",
+      "statement": "loopFan.LocallyStronglyCausal",
+      "standing": "a lies in loopLow (height < 1). A point with x ≠ 0 lies in loopSide. A point with x = 0 other than a is the top of some γ_n (eq_half_of_loopγ_fst) and lies in loopCap n. Each of the three is StronglyCausalOn (below).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.loopFan_stronglyCausalOn_low / _side / _cap",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:350, :362, :379",
+      "statement": "loopFan.StronglyCausalOn loopLow; loopFan.StronglyCausalOn loopSide; ∀ n, loopFan.StronglyCausalOn (loopCap n)",
+      "standing": "Each uses loopFan_stronglyCausalOn_of_boxes (:262): small centred boxes, convex in W, give StronglyCausalOn W. Convexity comes from loopFan_causallyConvexIn_box (:223): a box inside W is causally convex in W once every tent piece inside W that passes its tent's top, with both ends in the box, has that top below the box's ceiling. loopLow and loopSide hold no top, so this holds vacuously. In loopCap n the only top is γ_n's (loopPeak_mem_cap_iff, :332). A box about that top is above it. A box about another point is narrower than |x| and so holds no two points on either side of a top.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.loopFan_stronglyCausalOn_low_not_at",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:437",
+      "statement": "loopA ∈ loopLow ∧ loopFan.StronglyCausalOn loopLow ∧ ∃ U ∈ 𝓝 loopA, ∀ V ∈ 𝓝 loopA, V ⊆ U → ¬ loopFan.CausallyConvexIn V ⊤",
+      "standing": "the title's 'strongly causal in [a neighbourhood] about a, though not at a in M', with loopFan_not_stronglyCausalAt. The Probe derives the ladder's ball of radius 1/2 by StronglyCausalOn.mono.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.ArcCoherent.mem_diamond_on, Causal.ArcCoherent.causallyConvexIn_on",
+      "file_line": "scaffold/CausalScaffold/LscSeparations.lean:99, :118",
+      "statement": "for coherent arcs, a point of the diamond of U is the first end or a point of one arc piece inside U between the ends; a subset of U convex along every arc piece inside U is causally convex in U",
+      "standing": "general (any space, any index type). These are the U-forms of Causal.ArcCoherent.mem_diamond and ArcCoherent.causallyConvexIn (Causal/GHWithoutTarentin.lean), which are stated for ⊤ only.",
+      "status": "proved"
+    }
+  ],
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "programme/ladder.toml [[open]] absolutely_minimal, push_up, locally_push_up, curves_extend, future_one_connected → locally_strongly_causal (now :5682, :5687, :5692, :5697, :5702; the file moved during this run, so anchor by from/to)",
+      "becomes": "one [[fails]] (or five), from = [\"future_one_connected\", \"absolutely_minimal\", \"push_up\", \"locally_push_up\", \"curves_extend\"], to = \"locally_strongly_causal\", witness = \"Causal.symmRationalLine_separates_locallyStronglyCausal\", status checked. Reading: either (∀ W, AbsolutelyMinimalOn W is conjunct 4).",
+      "required": true,
+      "note": "Each from id is a conjunct (1, 3, 5, 6, 7), and the negated to is conjunct 23. counterexample() gives has = those 5 and lacks = {locally_strongly_causal, strongly_causal, strongly_causal_open}. Each is a conjunct (9, 10, 23)."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml [[open]] locally_strongly_causal → strongly_causal, → strongly_causal_open (now :5777, :5782)",
+      "becomes": "a [[fails]] to = \"strongly_causal\" with witness \"Causal.loopFan_separates_locallyStronglyCausal\" and from = the existing loop-fan entry's 9 ids plus \"locally_strongly_causal\" (and optionally \"future_one_connected\"). Two shapes simulate to the same matrix. (B) Re-point the existing entry in place: programme/ladder.toml:2758, witness Causal.loopFan_separates, to = strongly_causal. Its new witness's conjuncts cover the old from, so nothing is lost. (A) Add a new entry beside it. Reading: either (conjunct 4).",
+      "required": true,
+      "note": "→ strongly_causal_open comes for free (strongly_causal_open ⇒ strongly_causal backwards), as in the old entry. counterexample() gives has = {absolutely_minimal, causally_arc_connected, causally_compact, curves_extend, future_one_connected, globally_hyperbolic, is_causal, locally_push_up, locally_strongly_causal, push_up, time_function} and lacks = {chronal_neighbours, strongly_causal, strongly_causal_open, tarentin}. Each is a conjunct. Optional entries to = causally_plain and to = has_chronal_neighbour (conjuncts 20, 21) move no pair."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml:3200–3228 (the five symmetric-rational-line [[fails]], witness Causal.symmRationalLine_separates_futureOneConnected)",
+      "becomes": "optionally re-pointed to Causal.symmRationalLine_separates_locallyStronglyCausal (conjuncts 1–22 are the old witness's, in order)",
+      "required": false,
+      "note": "Moves no pair. One witness per model."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, the locally_strongly_causal node comment (:1061–1062 at 22:38 UTC: 'No model in Lean lacks the node … and none is stated to have it without being strongly causal') and the [[implies]] strongly_causal ⇒ locally_strongly_causal comment (:1560–1562: 'Strict, argued, not in Lean')",
+      "becomes": "stale once the module graduates: the symmetric rational line lacks the node in Lean, and the loop fan has it without strong causality in Lean, so the edge is strict in Lean",
+      "required": false,
+      "note": "Comment only."
+    }
+  ],
+  "ladder_simulation": "In memory only (python3 -I, tools/ladder.py imported; no file written; kb/0276). Run on programme/ladder.toml as of mtime 2026-11-27 22:38:07 UTC (another session edited it during this run; the section moved from :5425 to :5606), last run at 22:46 UTC. Baseline: 363 fails, 41 implied, 28 open, 270 ill-typed, 0 contradictions, 0 check errors. (A) copy.deepcopy(load()) plus two entries: the symmetric rational line (from the 5 ids, to locally_strongly_causal) and the loop fan (from the old 9 ids plus locally_strongly_causal and future_one_connected, to strongly_causal). Exactly 7 pairs change, all open → fails: absolutely_minimal, push_up, locally_push_up, curves_extend, future_one_connected → locally_strongly_causal, and locally_strongly_causal → strongly_causal, strongly_causal_open. With the 7 settled [[open]] entries removed: 0 contradictions. check(d, lean_names() | {the two new names}) gives 0 errors. The result is 370 fails, 41 implied, 21 open. Without the new names, check() reports 'witness not found in lean-causal' for each, so the recording waits for graduation (the ladder resolves Causal/ only). If the 7 opens are kept, _contradictions reports each as 'already settled; remove it'. (B) The existing loop-fan entry (:2758) re-pointed in place instead of a new one: the same 7 pairs, 0 contradictions, 0 check errors. (C) Separate entries to strongly_causal and to strongly_causal_open: the same. (D) The loop fan's from with the four causally-open ids added (argued, not proved): no further pair moves, 0 contradictions. Loop-fan entries to causally_plain and to has_chronal_neighbour also move no pair. 0 contradictions in every variant.",
+  "extra_decls": [
+    "Causal.ArcCoherent.mem_diamond_on",
+    "Causal.ArcCoherent.causallyConvexIn_on",
+    "Causal.symmRationalLine_not_stronglyCausalOn",
+    "Causal.symmRationalLine_not_locallyStronglyCausal",
+    "Causal.loopBox",
+    "Causal.isOpen_loopBox",
+    "Causal.loopγ_val_of_mem",
+    "Causal.loopHeight_le",
+    "Causal.loopHeight_le_top",
+    "Causal.loopFan_causallyConvexIn_box",
+    "Causal.loopFan_stronglyCausalOn_of_boxes",
+    "Causal.loopLow",
+    "Causal.loopSide",
+    "Causal.loopCap",
+    "Causal.loopA_mem_loopLow",
+    "Causal.loopSet_cases",
+    "Causal.eq_half_of_loopγ_fst",
+    "Causal.combEps_two_mul_sub_le",
+    "Causal.loopPeak_mem_cap_iff",
+    "Causal.loopFan_stronglyCausalOn_low",
+    "Causal.loopFan_stronglyCausalOn_side",
+    "Causal.loopFan_stronglyCausalOn_cap",
+    "Causal.loopFan_locallyStronglyCausal",
+    "Causal.loopFan_stronglyCausalOn_low_not_at"
+  ],
+  "findings": [
+    "No paper is involved (layer 1, no ETT label). Both [[open]] arguments are correct, and both are now Lean theorems. The 7 [[open]] pairs become [[fails]] with 0 contradictions (simulation).",
+    "Prop:GH_fortement_causal's tarentin cannot be traded for local strong causality. The loop fan is T2, second countable, globally hyperbolic, causally arc-connected, absolutely minimal on every open set, locally strongly causal, with a time function, and is strongly causal in neither form. The ladder matrix reads single premises only, so it does not show this conjunctive fact (globally_hyperbolic ∧ locally_strongly_causal ∧ time_function ⇏ strongly_causal). It is a conjunct-level reading of the witness.",
+    "On the ladder's loop-fan argument (the [[open]] section comment, the loop fan's bullet, and the two [[open]] notes → strongly_causal, → strongly_causal_open): 'the ball W of radius 1/2 about a meets each tent in two arcs near its feet' is imprecise but harmless. The ball misses γ_0 entirely: ε_0 = 1, and its points with |x| < 1/2 are above height 1. It also does not contain γ_1's feet (±1/2, 0), which lie at distance exactly 1/2. The Lean proof uses the larger open set loopLow (height < 1), which contains the ball. The 'every other point has a neighbourhood meeting one arc only' step is not needed. Off the vertical through a, the set x ≠ 0 holds no tent top. At the top of γ_n, the band of heights (1 + ε_{n+1}, 1 + 2ε_n − ε_{n+1}) holds no other top. In both cases a box is convex by monotonicity alone.",
+    "The loop fan is causally open in all four forms (causally_open, causally_open_future and their local forms). This is argued, not in Lean: every point of a tent has a neighbourhood meeting that tent only, and on one tent J^±_U(V) is a set of parameters open in [0, 1]. It moves no pair (simulation D), so it is not stated. With it, and with conjuncts 20–21, the loop fan would decide all 21 causality-sort nodes."
+  ],
+  "questions": [
+    "Conjunct placement. In the symmetric rational line's form, ¬ LocallyStronglyCausal and the strong form '∀ W p, p ∈ W → ¬ StronglyCausalOn W' are appended (positions 23–24) after the old witness's 22, in their order. In the loop fan's form, ∀ W, AbsolutelyMinimalOn W is inserted right after AbsolutelyMinimal (position 4), as the symmetric rational line's full form does. This shifts the old 15 conjuncts to positions 1–3, 5–12, 16–19. FutureOneConnected, ∀ W FutureOneConnectedOn W and LocallyStronglyCausal sit after CurvesExtend (13–15). ¬ CausallyPlain and ¬ HasChronalNeighbourEverywhere are appended (20–21). I read the target's 'every conjunct of X, plus …' as a lower bound with the order free. If the keeper wants X's conjuncts as a prefix, the change is a reordering.",
+    "'No point has a strongly causal open neighbourhood' is stated as conjunct 24 (∀ W : Opens ℝ, ∀ p ∈ W, ¬ StronglyCausalOn W), beside the node's negation (23), which is weaker. Both are proved.",
+    "Whether the loop fan's existing [[fails]] (ladder.toml:2758, witness Causal.loopFan_separates) is re-pointed in place or a new entry is added beside it is the keeper's choice. Both simulate to the same 7 pairs and 0 contradictions."
+  ],
+  "kb_proposals": [
+    "Local strong causality is separated both ways on ETT-layer models. The symmetric rational line lacks it at every point: no open set holding a point is StronglyCausalOn, Causal.symmRationalLine_not_stronglyCausalOn. The loop fan has it and is strongly causal in neither form: Causal.loopFan_locallyStronglyCausal. The full forms are Causal.symmRationalLine_separates_locallyStronglyCausal and Causal.loopFan_separates_locallyStronglyCausal (CausalScaffold.LscSeparations; T-abs-lsc-separations).",
+    "StronglyCausalOn W for an arc causality in the plane: the centred boxes are causally convex in W once no tent piece inside W passes a top it does not stay below (Causal.loopFan_causallyConvexIn_box). Choose W to hold no top (loopLow, loopSide) or a single top (loopCap n). No 'neighbourhood meeting one arc only' is needed. ArcCoherent.mem_diamond_on and causallyConvexIn_on are the U-forms of the ⊤-only lemmas of Causal.GHWithoutTarentin."
+  ],
+  "notes": "One new file, 471 lines, 0 sorry, no ETT label (nothing marked **). The docstring is about 5.7k characters, which does not matter since no label is marked. Graduation: the master adds `import CausalScaffold.LscSeparations` to scaffold/CausalScaffold.lean. I did not edit it. Or the file moves to Causal/LscSeparations.lean with its import in Causal.lean; its imports are Causal.* only. Then the keeper records the [[fails]] (T-lad-record-lsc-separations), because tools/ladder.py resolves witness names in Causal/ only. Name clashes (kb/0082): grep -w over lean-causal/Causal, lean-causal/scaffold, lean-gx, lean-benzecri, lean, lean-egf, lean-syracuse and lean-yamabe finds none of the new names outside this file. The other closers' files (StronglyCausalTransport.lean, Model/TimeCylinderLSC.lean) use other names and namespaces. The file adds no instance or attribute. No existing file was edited, the ladder included. I ran no git command, no make check, no lake build without a module, and no tools/ladder.py emit-lean. tools/ladder.py was only imported in memory (lean_index, model_path, import_chain, is_model, load, counterexample, matrix, _contradictions, check, lean_names). Causal/DiamondConfinement.lean's SCOPE (':112–115': 'No space locally strongly causal and not strongly causal is in this file: the candidates (the loop fan …) live in modules this one must not import') stays true: the witness is in this leaf, as it foresees.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: loopFan_causallyConvexIn_box's docstring and the module docstring's summary of it now state the hypothesis as proved: the tent's top lies in W (not the whole piece between), and the tent meets the box on both sides of that top. The statement is unchanged; the three uses satisfy it."
+}

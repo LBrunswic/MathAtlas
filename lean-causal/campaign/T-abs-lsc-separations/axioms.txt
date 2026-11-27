@@ -1,0 +1,119 @@
+# T-abs-lsc-separations — #check and #print axioms of every theorem of CausalScaffold.LscSeparations
+# produced 2026-11-27 on node1 by: cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true campaign/T-abs-lsc-separations/Probe.lean (exit 0)
+# after: taskset -c 0-11 lake build CausalScaffold.LscSeparations (Build completed successfully, 3156 jobs)
+
+@ArcCoherent.mem_diamond_on : ∀ {M : Type u_1} [inst : TopologicalSpace M] {ι : Type u_2} {γ : ι → ℝ → M} {U : Opens M}
+  {p q z : M},
+  ArcCoherent γ →
+    z ∈ (arcCausality γ).diamond U p q →
+      z = p ∨
+        ∃ i s r t, 0 ≤ s ∧ s ≤ r ∧ r ≤ t ∧ t ≤ 1 ∧ γ i s = p ∧ γ i r = z ∧ γ i t = q ∧ ∀ ρ ∈ Set.Icc s t, γ i ρ ∈ U
+@ArcCoherent.causallyConvexIn_on : ∀ {M : Type u_1} [inst : TopologicalSpace M] {ι : Type u_2} {γ : ι → ℝ → M}
+  {U : Opens M},
+  ArcCoherent γ →
+    ∀ {V : Set M},
+      V ⊆ ↑U →
+        (∀ (i : ι) (s r t : ℝ),
+            0 ≤ s → s ≤ r → r ≤ t → t ≤ 1 → (∀ ρ ∈ Set.Icc s t, γ i ρ ∈ U) → γ i s ∈ V → γ i t ∈ V → γ i r ∈ V) →
+          (arcCausality γ).CausallyConvexIn V U
+@symmRationalLine_not_stronglyCausalOn : ∀ {W : Opens ℝ} {p : ℝ}, p ∈ W → ¬symmRationalLine.StronglyCausalOn W
+symmRationalLine_not_locallyStronglyCausal : ¬symmRationalLine.LocallyStronglyCausal
+symmRationalLine_separates_locallyStronglyCausal : symmRationalLine.FutureOneConnected ∧
+  (∀ (W : Opens ℝ), symmRationalLine.FutureOneConnectedOn W) ∧
+    symmRationalLine.AbsolutelyMinimal ∧
+      (∀ (W : Opens ℝ), symmRationalLine.AbsolutelyMinimalOn W) ∧
+        symmRationalLine.PushUp ∧
+          symmRationalLine.LocallyPushUp ∧
+            symmRationalLine.CurvesExtend ∧
+              ¬symmRationalLine.IsCausal ∧
+                ¬symmRationalLine.StronglyCausal ∧
+                  ¬symmRationalLine.StronglyCausalOpen ∧
+                    ¬symmRationalLine.GloballyHyperbolic ∧
+                      ¬symmRationalLine.HasTimeFunction ∧
+                        ¬symmRationalLine.CausallyCompact ∧
+                          ¬symmRationalLine.CausallyArcConnected ∧
+                            ¬symmRationalLine.CausallyOpenFuture ∧
+                              ¬symmRationalLine.CausallyOpen ∧
+                                ¬symmRationalLine.LocallyCausallyOpenFuture ∧
+                                  ¬symmRationalLine.LocallyCausallyOpen ∧
+                                    ¬symmRationalLine.Tarentin ∧
+                                      ¬symmRationalLine.CausallyPlain ∧
+                                        ¬symmRationalLine.ChronalNeighbours ∧
+                                          ¬symmRationalLine.HasChronalNeighbourEverywhere ∧
+                                            ¬symmRationalLine.LocallyStronglyCausal ∧
+                                              ∀ (W : Opens ℝ), ∀ p ∈ W, ¬symmRationalLine.StronglyCausalOn W
+@loopFan_causallyConvexIn_box : ∀ {W : Opens ↑loopSet} {a b c d : ℝ},
+  loopBox a b c d ⊆ ↑W →
+    (∀ (n : ℕ) (s t : ℝ),
+        0 ≤ s →
+          s < 1 / 2 →
+            1 / 2 < t →
+              t ≤ 1 →
+                loopγ n (1 / 2) ∈ W → loopγ n s ∈ loopBox a b c d → loopγ n t ∈ loopBox a b c d → 1 + combEps n < d) →
+      loopFan.CausallyConvexIn (loopBox a b c d) W
+@loopFan_stronglyCausalOn_of_boxes : ∀ {W : Opens ↑loopSet},
+  (∀ q ∈ W,
+      ∃ κ > 0,
+        ∀ (δ : ℝ),
+          0 < δ → δ ≤ κ → loopFan.CausallyConvexIn (loopBox ((↑q).1 - δ) ((↑q).1 + δ) ((↑q).2 - δ) ((↑q).2 + δ)) W) →
+    loopFan.StronglyCausalOn W
+loopFan_stronglyCausalOn_low : loopFan.StronglyCausalOn loopLow
+loopFan_stronglyCausalOn_side : loopFan.StronglyCausalOn loopSide
+loopFan_stronglyCausalOn_cap : ∀ (n : ℕ), loopFan.StronglyCausalOn (loopCap n)
+@loopPeak_mem_cap_iff : ∀ {m n : ℕ}, loopγ m (1 / 2) ∈ loopCap n ↔ m = n
+loopFan_locallyStronglyCausal : loopFan.LocallyStronglyCausal
+loopFan_stronglyCausalOn_low_not_at : loopA ∈ loopLow ∧
+  loopFan.StronglyCausalOn loopLow ∧ ∃ U ∈ nhds loopA, ∀ V ∈ nhds loopA, V ⊆ U → ¬loopFan.CausallyConvexIn V ⊤
+loopFan_separates_locallyStronglyCausal : T2Space ↑loopSet ∧
+  SecondCountableTopology ↑loopSet ∧
+    loopFan.AbsolutelyMinimal ∧
+      (∀ (W : Opens ↑loopSet), loopFan.AbsolutelyMinimalOn W) ∧
+        loopFan.CausallyArcConnected ∧
+          loopFan.PushUp ∧
+            loopFan.LocallyPushUp ∧
+              loopFan.IsCausal ∧
+                loopFan.CausallyCompact ∧
+                  loopFan.GloballyHyperbolic ∧
+                    loopFan.HasTimeFunction ∧
+                      loopFan.CurvesExtend ∧
+                        loopFan.FutureOneConnected ∧
+                          (∀ (W : Opens ↑loopSet), loopFan.FutureOneConnectedOn W) ∧
+                            loopFan.LocallyStronglyCausal ∧
+                              ¬loopFan.StronglyCausal ∧
+                                ¬loopFan.StronglyCausalOpen ∧
+                                  ¬loopFan.Tarentin ∧
+                                    ¬loopFan.ChronalNeighbours ∧
+                                      ¬loopFan.CausallyPlain ∧ ¬loopFan.HasChronalNeighbourEverywhere
+isOpen_loopBox : ∀ (a b c d : ℝ), IsOpen (loopBox a b c d)
+@loopγ_val_of_mem : ∀ {n : ℕ} {t : ℝ},
+  t ∈ Set.Icc 0 1 → ↑(loopγ n t) = (combEps n * (1 - 2 * t), 1 + combEps n - (↑n + 2) * (combEps n * |1 - 2 * t|))
+@loopHeight_le : ∀ {n : ℕ} {r t : ℝ},
+  |1 - 2 * t| ≤ |1 - 2 * r| →
+    1 + combEps n - (↑n + 2) * (combEps n * |1 - 2 * r|) ≤ 1 + combEps n - (↑n + 2) * (combEps n * |1 - 2 * t|)
+@loopHeight_le_top : ∀ {n : ℕ} {r : ℝ}, 1 + combEps n - (↑n + 2) * (combEps n * |1 - 2 * r|) ≤ 1 + combEps n
+loopA_mem_loopLow : loopA ∈ loopLow
+loopSet_cases : ∀ (z : ↑loopSet), z = loopA ∨ ∃ n, ∃ t ∈ Set.Icc 0 1, z = loopγ n t
+@eq_half_of_loopγ_fst : ∀ {n : ℕ} {t : ℝ}, t ∈ Set.Icc 0 1 → (↑(loopγ n t)).1 = 0 → t = 1 / 2
+@combEps_two_mul_sub_le : ∀ {m n : ℕ}, m < n → 2 * combEps n - combEps (n + 1) ≤ combEps m
+'Causal.ArcCoherent.mem_diamond_on' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.ArcCoherent.causallyConvexIn_on' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.symmRationalLine_not_stronglyCausalOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.symmRationalLine_not_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.symmRationalLine_separates_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_causallyConvexIn_box' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_stronglyCausalOn_of_boxes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_stronglyCausalOn_low' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_stronglyCausalOn_side' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_stronglyCausalOn_cap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopPeak_mem_cap_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_stronglyCausalOn_low_not_at' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopFan_separates_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.isOpen_loopBox' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopγ_val_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopHeight_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopHeight_le_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopA_mem_loopLow' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.loopSet_cases' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.eq_half_of_loopγ_fst' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.combEps_two_mul_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]

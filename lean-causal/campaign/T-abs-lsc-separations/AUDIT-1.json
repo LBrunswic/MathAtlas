@@ -1,0 +1,61 @@
+{
+ "target": "T-abs-lsc-separations",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "declarations": [
+  {
+   "name": "Causal.symmRationalLine_separates_locallyStronglyCausal",
+   "where": "scaffold/CausalScaffold/LscSeparations.lean:167",
+   "faithful": true,
+   "notes": "Conjuncts 1-22 are, in order and verbatim, those of Causal.symmRationalLine_separates_futureOneConnected (Causal/FutureOneConnectedVacuous.lean:330-343), rebuilt from it by destructuring (kb/0276). Conjunct 23 is the negation of the ladder node itself (locally_strongly_causal -> Causal.Causality.LocallyStronglyCausal, the only definition, Causal/DiamondConfinement.lean:378). Conjunct 24, 'forall W p, p in W -> not StronglyCausalOn W', is the target's 'no point has a strongly causal open neighbourhood', and is stronger than 23. Every conjunct is a ladder node's own Lean definition (checked against the 21 causality-sort [[property]] lean fields). Closed statement, no instance argument, no metric."
+  },
+  {
+   "name": "Causal.symmRationalLine_not_stronglyCausalOn",
+   "where": "scaffold/CausalScaffold/LscSeparations.lean:135",
+   "faithful": true,
+   "notes": "Correct and not vacuous: p in W rules out W = bottom, where StronglyCausalOn holds vacuously, and the proof uses DiamondConfinement's definition (:371) directly. With Ioo l u inside W about p and m = (p+u)/2, it asks for a V in nhds p inside Ioo l m, causally convex in W. It takes a rational r in V and a rational r' in (m, u). Then uIcc r r' lies in Ioo l u, which lies in W, so r <=_W r' <=_W r, r' is in diamond W r r, and so r' is in V, which is inside Ioo l m: a contradiction. This is the ladder's argument, run with (l, u) for (p - eps, p + eps)."
+  },
+  {
+   "name": "Causal.loopFan_separates_locallyStronglyCausal",
+   "where": "scaffold/CausalScaffold/LscSeparations.lean:449",
+   "faithful": true,
+   "notes": "All 15 conjuncts of Causal.loopFan_separates (Causal/GHWithoutTarentin.lean:921-928) are carried in their relative order, at positions 1-3, 5-12 and 16-19. The new conjuncts are: forall W AbsolutelyMinimalOn W at position 4, the 'may join' of the target; FutureOneConnected and forall W FutureOneConnectedOn W (13-14, since lt is empty); LocallyStronglyCausal (15); not CausallyPlain and not HasChronalNeighbourEverywhere (20-21, lt empty, on a non-empty space). The order is free under 'every conjunct of X, plus ...'. tools/ladder.py's emit-test does not decode witnesses by position, so the inserted conjunct breaks nothing. It decides 17 of the 21 nodes (11 held, 6 lacked). The 4 causally-open forms are disclosed as undecided in SCOPE."
+  },
+  {
+   "name": "Causal.loopFan_locallyStronglyCausal",
+   "where": "scaffold/CausalScaffold/LscSeparations.lean:425",
+   "faithful": true,
+   "notes": "Sound. Box lemma (:223): along a tent, x = eps_n(1 - 2t) is decreasing, so a parameter between two parameters with x in (a, b) has x in (a, b). The height is unimodal, so it is at least the smaller end height, which is > c. It is at most the larger end height on one side of the top. Across the top (s < 1/2 < t), the piece in W puts the top in W, and hcross gives top < d. Applications: (1) loopLow (height < 1, kappa = 1 - q.2): no top is in it, since a top has height 1 + eps_n > 1, so hcross is vacuous. (2) loopSide (x != 0, kappa = |q.1|): no top is in it, since a top has x = 0. (3) loopCap n, the band (1 + eps_{n+1}, 1 + 2eps_n - eps_{n+1}): the only top in it is gamma_n's (loopPeak_mem_cap_iff, with combEps_two_mul_sub_le for m < n and strict antitonicity for m > n; checked by hand: (n+3)n <= (n+1)(n+2)). A box about that top has ceiling 1 + eps_n + delta. A box about a point with x != 0 of half-width at most |x| lies on one side of x = 0 and cannot hold gamma_m(s) and gamma_m(t) with s < 1/2 < t (x > 0 at one, < 0 at the other), so hcross holds by exfalso. The cover is complete: a point with x = 0 is a (in loopLow; loopSet_cases) or a top (eq_half_of_loopGamma_fst), and every other point is in loopSide. loopFan_stronglyCausalOn_of_boxes (:262) turns 'small centred boxes convex in W' into StronglyCausalOn W through the subtype sup metric. Not vacuous: StronglyCausalOn top <-> StronglyCausal fails for loopFan (conjunct 16), and the module shows loopLow, a neighbourhood of a, is strongly causal as a spacetime although M is not strongly causal at a (:437)."
+  },
+  {
+   "name": "Causal.ArcCoherent.mem_diamond_on / ArcCoherent.causallyConvexIn_on",
+   "where": "scaffold/CausalScaffold/LscSeparations.lean:99, :118",
+   "faithful": true,
+   "notes": "The U-forms of ArcCoherent.mem_diamond / causallyConvexIn (Causal/GHWithoutTarentin.lean:288, :355). The proof is the same, with the 'piece inside U' clause of arcStep kept. They are general: any space, any index type."
+  }
+ ],
+ "checks": {
+  "layer_1": "Imports (lines 1-4) are Causal.FutureOneConnectedVacuous, Causal.GHWithoutTarentin, Causal.DiamondConfinement and Causal.Ladder.Rules only. tools/ladder.py's model_path, run in memory on lean_index()['imports'], is None for each, and None for CausalScaffold.LscSeparations with those four imports added in memory. Its closure is 74 Causal modules, none is_model. import_chain(Causal.Ladder.Rules, ., CausalScaffold.LscSeparations) is None, and no module imports the new one, so it is a leaf (kb/0221). No metric notion appears in any statement: boxes, loopLow, loopSide and loopCap are given by coordinates. Metric.mem_nhds_iff appears in one proof only (:268).",
+  "ladder_simulation": "Re-run in memory (python3 -I, copy.deepcopy(load()), nothing written) on programme/ladder.toml as the keeper left it. Baseline: 363 fails, 41 implied, 28 open, 270 ill-typed, 0 contradictions. Two entries were added. The symmetric line: from [future_one_connected, absolutely_minimal, push_up, locally_push_up, curves_extend], to locally_strongly_causal. The loop fan: from the old 9 ids plus locally_strongly_causal and future_one_connected, to strongly_causal. Exactly 7 pairs move open -> fails, anchored by (from, to): (absolutely_minimal, locally_strongly_causal), (push_up, locally_strongly_causal), (locally_push_up, locally_strongly_causal), (curves_extend, locally_strongly_causal), (future_one_connected, locally_strongly_causal), (locally_strongly_causal, strongly_causal), (locally_strongly_causal, strongly_causal_open). Keeping the 7 [[open]] gives 7 'already settled' errors. After removing them: 0 contradictions, and 370 fails / 41 implied / 21 open. The counterexample has/lacks sets are each conjuncts of the witnesses. check(d, lean_names() | {two new names}) gives 0 errors. Without the new names, check gives 2 'witness not found' errors, so recording waits for graduation, as the REPORT says.",
+  "finding_prop_GH_fortement_causal": "Follows from the conjuncts: T2Space, GloballyHyperbolic, HasTimeFunction, CausallyArcConnected, AbsolutelyMinimalOn every W, LocallyStronglyCausal, not StronglyCausal, not StronglyCausalOpen. Read against ETT.tex:1199-1200 ('Let M be a tarentin topological spacetime. If M is globally hyperbolic, then M is strongly causal'): with tarentin replaced by local strong causality the statement is false on the loop fan, in either gluing reading. Calling this 'tarentin cannot be replaced by local strong causality' is fair. It strengthens the existing T-abs-gh-without-tarentin finding and claims no new error in the paper.",
+  "other_report_findings": "Finding 3 (the ladder's 'ball of radius 1/2 meets each tent in two arcs near its feet' is imprecise) is true. On gamma_0 (eps_0 = 1), |x| < 1/2 forces height > 1, so the ball misses it. gamma_1's feet (+-1/2, 0) are at distance exactly 1/2 in the sup metric, and also the Euclidean one. Finding 4 (causally open in all four forms) is labelled argued, not in Lean, and moves no pair. My own sketch agrees: every point other than a has a neighbourhood meeting one tent only, and a lies on no arc.",
+  "scope": "git status --short: the closer's paths are lean-causal/scaffold/CausalScaffold/LscSeparations.lean and lean-causal/campaign/T-abs-lsc-separations/ (untracked). There is no tracked diff under lean-causal, and scaffold/CausalScaffold.lean is unchanged. The other untracked and modified paths are the other closers' files named in the dispatch, programme/ladder.toml (the keeper) and programme/roadmap.toml, plus papers/*/certificate/* changes that were already present when this audit started.",
+  "name_clashes": "grep -w of each of the 26 new short names over lean-causal/Causal, lean-causal/scaffold (including GalileoCurveForm.lean, StronglyCausalTransport.lean and Model/TimeCylinderLSC.lean), lean, lean-gx, lean-egf, lean-benzecri, lean-syracuse and lean-yamabe, excluding .lake: no hit outside this file.",
+  "docstring_contract": "Title, the 'no label certified' line, the ladder's arguments quoted verbatim in > blocks (checked against programme/ladder.toml's section comment, now at :5618-5621 and :5671-5676), Hypothesis checklist, SCOPE (disclosed) and Provenance are all present. The checklist rows and SCOPE are true, including the disclosed substitution of loopLow for the ladder's ball. The bold declaration names do not match tools/ledger.py's label regex, which needs a prefix with a colon, so nothing is marked. That matches the house style of Causal/FutureOneConnectedVacuous.lean."
+ },
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "Not run: lake build (as instructed). `taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/LscSeparations.lean` exits 0 with no output. A self-contained probe (a copy of the current source plus #print axioms of all 22 theorems and 4 defs, written under the campaign directory, compiled with -DwarningAsError=true, then deleted) gives [propext, Classical.choice, Quot.sound] for every declaration, with no sorryAx. This does not depend on the olean being current. The closer's Probe.lean rerun with -DwarningAsError=true exits 0, its 5 examples pass, and its output is byte-identical to axioms.txt (22 axiom lines). Note: axioms.txt (22:46:08 UTC) predates the source's last modification (22:48:27); the olean (22:48:40) is newer. The rerun shows nothing changed. grep -w finds no sorry, admit, axiom, native_decide, set_option, opaque, implemented_by or extern in the file."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "scaffold/CausalScaffold/LscSeparations.lean:220-222 (also the module docstring :42-44 and REPORT.json's standing for loopFan_stronglyCausalOn_low/_side/_cap)",
+   "what": "The docstring of loopFan_causallyConvexIn_box states its hypothesis for 'every piece of a tent inside W that passes the top of its tent, with both ends in the box'. The Lean hypothesis hcross (:225-226) is stronger. It quantifies over every n and every s < 1/2 < t with only the top loopγ n (1/2) in W and both ends in the box, without asking the piece γ_n[s, t] to lie in W. So the docstring describes a stronger lemma than the one proved. The three applications satisfy the stronger hypothesis, so no main result is affected.",
+   "fix": "Either reword the docstrings ('once every tent whose top lies in W, with a point on each side of its top in the box, has that top below the box's ceiling'), or weaken hcross to take (∀ ρ ∈ Icc s t, loopγ n ρ ∈ W) instead of loopγ n (1 / 2) ∈ W and pass hW at :258. The three applications then derive the top's membership from it."
+  }
+ ]
+}

@@ -307,3 +307,4 @@ rediscover. One fact per entry.
 | [0299](entries/0299-harc.md) | pattern | harc, the order realised by curves: what the lifting of strong causality uses |
 | [0300](entries/0300-strong-causality-through-charts.md) | pattern | Strong causality through charts: ChartIso carries StronglyCausalOn |
 | [0301](entries/0301-obtain-not-let-destructure.md) | pitfall | Re-conjoining a separation: obtain, not a term-mode let-destructure |
+| [0302](entries/0302-lsc-separations.md) | pattern | locally_strongly_causal is separated both ways on ETT-layer models |
