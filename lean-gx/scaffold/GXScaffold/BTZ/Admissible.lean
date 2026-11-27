@@ -1,5 +1,6 @@
 import GX.BTZ.Uniformization
 import GX.BTZ.IsomE0
+import GXScaffold.BTZ.AdmissibleLinear
 
 /-!
 # btz § 4.1: tangent translation parts, admissible representations, and the holonomy of `Reg M` around a BTZ line
@@ -20,9 +21,11 @@ Target `T-btz-admissible` (`roadmap/roadmap.toml`). `papers/btz/legacy/labeled/B
   `GX.BTZAdm.holonomy_btzLoop`), hence parabolic (`GX.BTZAdm.isParabolic_holonomy_btzLoop`) with
   tangent translation part (`GX.BTZAdm.isTangent_holonomy_btzLoop`), and such loops exist around
   every BTZ point (`GX.BTZAdm.exists_btzCircle`, `GX.BTZAdm.exists_isBTZLoop`). The marked
-  conclusion `GX.BTZAdm.btzprop_holonomy_e0` (`ρ ∘ μ` admissible for a marking `μ`) rests on one
-  tagged `sorry`, the faithfulness and discreteness of the linear part
-  (`GX.BTZAdm.e0RegM_linearPart_faithful_discrete`, SCOPE (a)).
+  conclusion `GX.BTZAdm.btzprop_holonomy_e0` (`ρ ∘ μ` admissible for a marking `μ`) is sorry-free:
+  its Barbot input, the faithfulness and discreteness of the linear part
+  (`GX.BTZAdm.e0RegM_linearPart_faithful_discrete`, l.1148–1149), is proved from lean-causal's
+  Barbot (DEC-34) in `GXScaffold/BTZ/AdmissibleLinear.lean` (SCOPE (a)). The row stays unmarked
+  on SCOPE (b) (`𝔼₀` only) and (d) (the marking is a hypothesis).
 
 > Let $\phi$ be an affine parabolic isometry of $\mass{}$, we note $\phi_L$ its linear part and
 > $\tau_\phi$ its translation part. We say $\tau_\phi$ is tangent if $\tau_\phi$ is normal to the
@@ -56,16 +59,22 @@ Target `T-btz-admissible` (`roadmap/roadmap.toml`). `papers/btz/legacy/labeled/B
 | the proposition: `M` GH Cauchy-compact (and Cauchy-maximal, the section's standing notation l.1127) | ⚠ `𝔼₀` only (T-btz-scope); Cauchy-compact read as DEC-107 (a compact `C¹` spacelike Cauchy surface); `π₁(Reg M)` not metabelian carried, as in `GX.e0RegM_holonomy` (the paper's `2g − 2 + s > 0` with anabelian `π₁`) |
 | "the holonomy of the peripheral generators" (l.1150) | ⚠ read through loops: a peripheral generator is sent to the class of `σ · C · σ⁻¹`, `C` a small circle around a BTZ point in a chart (`IsBTZLoop`); the marking `Γ ≅ π₁(Reg M)` itself is T-btz-headline-repr's (needs-ruling), so the marked statement takes a homomorphism `μ` from `Γ` into the deck group sending each `cⱼ` to such a loop |
 | Barbot § 7.3, parabolic ⇒ tangent (l.1150) | ✓ not used: around a BTZ line the holonomy is explicit (`holonomy_btzLoop`), conjugate to `btzHol 0 (2π)`, which fixes the origin of `𝐌³` |
-| Barbot: `ρ_L` discrete and faithful (l.1148) | ✗ **not proved** (`sorry`, SCOPE (a)) |
+| Barbot: `ρ_L` discrete and faithful (l.1148) | ✓ proved (`e0RegM_linearPart_faithful_discrete`, from `GX.BTZAdm.linearPart_comp_faithful_discrete`), SCOPE (a) |
 
 ## SCOPE (disclosed)
 
-* (a) `e0RegM_linearPart_faithful_discrete` is a tagged `sorry`: the strict
-  `GX.e0RegM_holonomy` proves `ρ` faithful and discrete in `Isom(𝐌³)`, not `linearPart ∘ ρ`
-  (its SCOPE (c')). Barbot's argument (the linear part of the holonomy of a Cauchy-complete
-  globally hyperbolic non-elementary flat spacetime is Fuchsian) is not in the libraries;
-  lean-causal's classification gives it only for its Cauchy-hyperbolic family, up to a finite
-  cover.
+* (a) (closed) `e0RegM_linearPart_faithful_discrete` is proved (T-btz-linear-part-faithful), not by
+  Barbot's route: Barbot reads the faithfulness off his classification (« `L` might be
+  noninjective! », `barbot_globally_2004` l.3405–3440), whose family-(b) group in lean-causal is the
+  restriction `Γ'_U` to the maximal unipotent subspace `U`, not `Γ'`. Here (`AdmissibleLinear`):
+  the kernel of `L` on `ρ(π₁)` is trivial because otherwise every `L(γ)` maps a unit spacelike `e`
+  to `± e` and `ρ(π₁)` is metabelian; the same argument shows `ρ(π₁)` nonelementary
+  (`Causal.Flat.Lox.fix_second_null`) and `U = 𝐌³` (a `Γ`-invariant timelike line or plane is
+  excluded); then `Causal.Flat.bprop_LU_discrete` (Prop 10.5, with the proved
+  `auslanderCarriereDalbo`, `maxUnipotentSubspace`) gives `L(ρ(π₁))` discrete up to conjugation by
+  an isometry of `𝐌³`. Inputs from the strict library: `GX.e0RegM_holonomy` (`ρ` faithful,
+  `ρ(π₁)` torsion-free with a loxodromic element) and `GX.E0AbsMax.cor_abs_max_C1` (`Reg M` GH and
+  Cauchy-complete). Cauchy-maximality enters only through the latter.
 * (b) `𝔼₀` only: the rows wait on T-btz-scope; the definitions do not depend on it.
 * (c) "parabolic" is lean-causal's `Causal.Flat.IsParabolic` (an elliptic part commuting with a
   non-trivial unipotent part, its D-1 reading); in `SO₀(1, 2)` such an element fixes exactly a null
@@ -781,7 +790,8 @@ variable {M : Type} [TopologicalSpace M] [T2Space M] [ConnectedSpace M] [SecondC
   [ChartedSpace E0Y M] [HasGroupoid M e0Groupoid]
 
 /-- **Barbot's input** (l.1148): the linear part of the holonomy of `Reg M` is faithful and
-discrete. -/
+discrete. Proved from `GX.BTZAdm.linearPart_comp_faithful_discrete` (`AdmissibleLinear`, lean-causal's
+Barbot, DEC-34), fed by the strict `GX.e0RegM_holonomy` and `GX.E0AbsMax.cor_abs_max_C1`. -/
 theorem e0RegM_linearPart_faithful_discrete (hGH : (E0CBG.CE M).GloballyHyperbolic)
     (hCC : ∃ S : Set M, E0Surgery.IsE0C1SpacelikeCauchy M S) (hmax : E0Spear.IsE0CauchyMaximal M)
     (x₀ : e0RegMFlat M)
@@ -790,7 +800,14 @@ theorem e0RegM_linearPart_faithful_discrete (hGH : (E0CBG.CE M).GloballyHyperbol
     (ρ : Causal.Deck (Causal.UniversalCover.proj (e0RegMFlat M) x₀) →* isom 2)
     (hpair : IsDevelopingPair x₀ D ρ) :
     Function.Injective (linearPart.comp ρ) ∧ DiscreteTopology (linearPart.comp ρ).range := by
-  sorry -- SORRY(btzprop:holonomy_globally_hyperbolic_cauchy_compact): Barbot's theorem that the linear part of the holonomy of a Cauchy-complete GH non-elementary flat spacetime is faithful and discrete (barbot_globally_2004); the libraries prove rho faithful and discrete in Isom(M3) only (GX.e0RegM_holonomy, its SCOPE (c'))
+  -- `Reg M` is GH and Cauchy-complete (`E0AbsMax.cor_abs_max_C1`, DEC-107/117)
+  obtain ⟨hGH', hCC', -⟩ := E0AbsMax.cor_abs_max_C1 hGH hCC hmax
+  -- the strict holonomy package: `ρ` faithful, `ρ(π₁)` torsion-free with a loxodromic element
+  obtain ⟨hlox, -, hρ, -, htf, -⟩ := e0RegM_holonomy M hGH' hCC' x₀ hnm D ρ hpair
+  -- §8's data for `ρ(π₁)`
+  obtain ⟨S, hS⟩ := Causal.Flat.exists_developsCC_of_isCauchyComplete' (e0RegMFlat M) hGH' hCC' hpair
+  exact linearPart_comp_faithful_discrete (Causal.Flat.ccAction_of_developsCC hpair hS) hρ hlox
+    (not_isMetabelianOn_range hρ hnm) htf
 
 /-- **`btzprop:holonomy_globally_hyperbolic_cauchy_compact`, marked form, for `𝔼₀`**: for `M` a
 globally hyperbolic, Cauchy-compact, Cauchy-maximal `𝔼₀`-manifold with `π₁(Reg M)` not

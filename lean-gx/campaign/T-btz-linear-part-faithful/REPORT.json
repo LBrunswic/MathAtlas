@@ -1,0 +1,73 @@
+{
+ "package": "lean-gx",
+ "target": "T-btz-linear-part-faithful",
+ "files": [
+  "scaffold/GXScaffold/BTZ/AdmissibleLinear.lean",
+  "scaffold/GXScaffold/BTZ/Admissible.lean",
+  "scaffold/GXScaffold.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "btzprop:holonomy_globally_hyperbolic_cauchy_compact",
+   "tex_lines": [
+    1148,
+    1155
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.BTZAdm.e0RegM_linearPart_faithful_discrete",
+    "GX.BTZAdm.btzprop_holonomy_e0",
+    "GX.BTZAdm.linearPart_comp_faithful_discrete",
+    "GX.BTZAdm.linOf_eq_one_imp_of_ccAction",
+    "GX.BTZAdm.isNonelementary_of_ccAction",
+    "GX.BTZAdm.discreteTopology_linearImage_of_ccAction"
+   ],
+   "hypotheses": [
+    {
+     "paper": "M* globally hyperbolic Cauchy-complete E-maximal, anabelian pi_1 (l.1149)",
+     "here": "carried",
+     "note": "through GX.E0AbsMax.cor_abs_max_C1 (Reg M GH + Cauchy-complete), GX.e0RegM_holonomy (rho faithful, torsion-free, loxodromic) and Causal.Flat.ccAction_of_developsCC; anabelian read as pi_1(Reg M) not metabelian, as before"
+    },
+    {
+     "paper": "Barbot: rho_L discrete and faithful (l.1149)",
+     "here": "proved",
+     "note": "formerly the one tagged sorry; now proved from lean-causal's Barbot (DEC-34), no new external, no axiom"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "BTZ_1.tex l.1149 cites Barbot for « rho_L discrete and faithful ». In lean-causal, Barbot's route goes through family (b) (loxo_generic_centralExtension). Its group is the restriction Gamma'_U to the maximal unipotent subspace U, not Gamma' (its docstring: « The family-(b) group of M1 is the restriction Gamma'_U »). So that route does not give the statement directly. It is proved here by a different route, which uses that pi_1 is not metabelian in place of the classification: (i) ker L on rho(pi_1) is trivial, since otherwise E = span(ker L translations) is a spacelike line R e fixed by a power of a loxodromic, every L(gamma) maps e to ±e, and rho(pi_1) is metabelian; (ii) the same argument with Causal.Flat.Lox.fix_second_null shows rho(pi_1) nonelementary; (iii) U = M^3, since a Gamma-invariant timelike line contradicts the loxodromic and a timelike plane makes Gamma metabelian; then bprop_LU_discrete applied to Gamma itself gives L(Gamma) discrete up to conjugation by an isometry of M^3.",
+    "No correction to the paper's statement: l.1149 is true as cited, under the section's standing hypotheses (E_0, pi_1 not metabelian standing for 2g-2+s>0). The row stays partial only on the pre-existing SCOPE items of Admissible.lean: (b) E_0 only (T-btz-scope) and (d) the marking is a hypothesis (T-btz-headline-repr)."
+   ],
+   "questions": [
+    "None new. The reading « anabelian fundamental group » = « pi_1(Reg M) not metabelian » (hnm) is the one Admissible.lean and the strict GX.e0RegM_holonomy already took; this proof uses exactly that hypothesis (and needs no more: nonelementarity is derived, not assumed)."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.BTZAdm.exists_isNullFrame2_of_null_pair",
+  "GX.BTZAdm.frame_eq_smul_e_of_orth",
+  "GX.BTZAdm.frame_diag_of_fix",
+  "GX.BTZAdm.frame_commute_of_fix",
+  "GX.BTZAdm.frame_pm_of_orth",
+  "GX.BTZAdm.frame_fix_or_neg_of_null_eigen",
+  "GX.BTZAdm.isom_eq_one_of_linOf_trOf",
+  "GX.BTZAdm.minkB_trOf_commutator",
+  "GX.BTZAdm.isMetabelianOn_of_sign"
+ ],
+ "kb_proposals": [
+  "Barbot in 2+1 for a holonomy group: GX.BTZAdm.linearPart_comp_faithful_discrete (CCAction + loxodromic + not metabelian + torsion-free => L∘rho faithful with discrete image); do not route through loxo_generic_centralExtension, whose family-(b) group is Gamma'_U.",
+  "The metabelian criterion GX.BTZAdm.isMetabelianOn_of_sign: if every L(gamma) maps the unit spacelike vector e of a null frame to ±e (and translations orthogonal to e are trivial), Gamma <= Isom(M^3) is metabelian. It kills the kernel of L, the elementary case, and a Gamma-invariant timelike plane alike.",
+  "Stabilizer of a spacelike vector in SO_0(1,2) is abelian (GX.BTZAdm.frame_commute_of_fix); the swap of the two null lines is excluded by a det computation in the null-frame basis (rw [<- LinearMap.det_toMatrix F.basis, Matrix.det_fin_three]; simp only [F.toMatrix_apply, frameCoord, Matrix.cons_val_*]).",
+  "lean-gx's pinned Causal did not have ACDProof / MaxUnipProof / BieberbachProof built; `lake build Causal.Flat.ACDProof Causal.Flat.MaxUnipProof Causal.Flat.BieberbachProof` from lean-gx builds them (a few minutes) before any module importing them typechecks."
+ ],
+ "notes": "Admissible.lean now has 0 sorry; btzprop_holonomy_e0 and e0RegM_linearPart_faithful_discrete depend on standard axioms only. Statement of e0RegM_linearPart_faithful_discrete unchanged. Edits to Admissible.lean: the import of GXScaffold.BTZ.AdmissibleLinear, the proof of that sorry, its docstring, the module-docstring bullet, the checklist row and SCOPE (a). Imports of the new module: GX.BTZ.Uniformization, Causal.Flat.ACDProof, Causal.Flat.MaxUnipProof, Causal.Flat.BieberbachProof, Causal.Flat.Lox.SecondNullFix (all within DEC-33's gate, causal_import_gate ok). To typecheck, the closer built the Causal modules ACDProof, MaxUnipProof, BieberbachProof (with their Gromov/ACD*/MaxUnip*/Bieberbach* dependencies) inside lean-gx/.lake/packages/Causal; no GX.* or mathlib module was rebuilt. Graduation to the strict library would need these Causal oleans in the strict build too."
+}

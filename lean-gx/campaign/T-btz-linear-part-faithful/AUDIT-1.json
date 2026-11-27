@@ -1,0 +1,41 @@
+{
+  "target": "T-btz-linear-part-faithful",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzprop:holonomy_globally_hyperbolic_cauchy_compact",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "git diff HEAD of Admissible.lean: the statements of GX.BTZAdm.e0RegM_linearPart_faithful_discrete and GX.BTZAdm.btzprop_holonomy_e0 are byte-identical to HEAD. The only changes are the new import, the proof that replaces the sorry, its docstring, the module-docstring bullet, the checklist row and SCOPE (a). No other declaration's statement changed. The proof gets its inputs from the existing hypotheses (hGH, hCC, hmax, hnm, hpair). It goes through the strict E0AbsMax.cor_abs_max_C1 (Reg M GH and Cauchy-complete), the strict e0RegM_holonomy (loxodromic, rho injective, torsion-free), Causal.Flat.exists_developsCC_of_isCauchyComplete' with ccAction_of_developsCC (CCAction data), and not_isMetabelianOn_range (from hnm and injectivity). No new hypothesis was added to the exported theorem. The group-level lemmas in AdmissibleLinear.lean (CCAction, loxodromic, not metabelian, torsion-free) are fully discharged at the holonomy level. The row stays partial and unmarked for disclosed reasons: E0 only (T-btz-scope), the marking mu taken as a hypothesis (T-btz-headline-repr), and 'anabelian' read as 'pi_1(Reg M) not metabelian', which was already the reading before this target. The module docstring writes the label without the bold mark and says 'partial, unmarked'. AdmissibleLinear.lean marks no label. Paper l.1149 (Barbot: rho_L discrete and faithful) is matched in substance: injectivity of linearPart.comp rho and DiscreteTopology of its range in lorentz 2."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`lake env lean` exits 0 with no output on scaffold/GXScaffold/BTZ/AdmissibleLinear.lean and on scaffold/GXScaffold/BTZ/Admissible.lean. Neither file contains a `sorry` token: the two grep hits in Admissible.lean are the prose words '0 `sorry`' and 'sorry-free' in the docstring. The oleans are newer than the sources. A one-shot #print axioms probe (written to the campaign dir, then deleted) gives [propext, Classical.choice, Quot.sound] for every declaration checked. In lean-gx: e0RegM_linearPart_faithful_discrete, btzprop_holonomy_e0, linearPart_comp_faithful_discrete, linOf_eq_one_imp_of_ccAction, isNonelementary_of_ccAction, discreteTopology_linearImage_of_ccAction, isMetabelianOn_of_sign. In lean-causal: span_kerTranslations_spacelike, Lox.fix_second_null, bieberbachI, bprop_U_timelike, auslanderCarriereDalbo, maxUnipotentSubspace, bprop_LU_discrete, exists_finiteIndex_linOf_eq_on_span_kerTranslations. auslanderCarriereDalbo : forall d, AuslanderCarriereDalbo d and maxUnipotentSubspace : forall d, MaxUnipotentSubspace d are proved theorems, not named inputs. bprop_U_timelike and bprop_LU_discrete take them as arguments, and here they are discharged by those proofs."
+  },
+  "scope_check": "git status --short: nothing under lean-causal/ changed. git -C lean-gx/.lake/packages/Causal status is clean at 51cbb00: the closer's olean build left no tracked change. The changed files that belong to this target are Admissible.lean, the new AdmissibleLinear.lean, the AdmissibleLinear import line in GXScaffold.lean, and the campaign dir. The other changes belong to concurrent targets, as the dispatch says: the RichardsSplit import line in GXScaffold.lean, CauchySpear.lean, MaxExtension.lean, RichardsSplit.lean, kb entries 0234-0236 and INDEX.md, the papers/btz curation rows for btzthm:BTZ_ext and friends, and the restate registers.",
+  "paper_findings_checked": "The REPORT asserts no error in the paper. It makes one factual claim about lean-causal: loxo_generic_centralExtension's family-(b) group is the restriction Gamma'_U. This is verified at lean-causal/Causal/Flat/Loxodromic.lean:3392 ('The family-(b) group of `M₁` is the restriction `Γ'_U`.').",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/AdmissibleLinear.lean:43 (hypothesis checklist)",
+      "what": "The row '(silent) a loxodromic element, torsion-freeness' says '✓ not assumed' and in the same cell 'carried here as hypotheses of the group-level lemmas'. The two halves contradict each other. They are hypotheses of the group-level lemmas, discharged only at the holonomy level in Admissible.lean.",
+      "fix": "Reword it, e.g. 'hypotheses of the group-level lemmas here; discharged for rho(pi_1) by the strict GX.e0RegM_holonomy in Admissible.lean'."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/Admissible.lean SCOPE (a)",
+      "what": "SCOPE (a) no longer discloses a restriction: it now records the proof route. It is still listed among the SCOPE items, while the docstring head says the row stays unmarked on (b) and (d) only. This is consistent, but a reader may count (a) as an open scope item.",
+      "fix": "Optionally start (a) with '(closed)', or move the route note out of SCOPE."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/btz/certificate/curation.toml:337 (row btzprop:holonomy_globally_hyperbolic_cauchy_compact)",
+      "what": "blocked_on still reads 'one tagged sorry e0RegM_linearPart_faithful_discrete ...', and the notes say the marked form 'rests on one tagged sorry'. Both are stale now. The file is outside the closer's dispatch, so this is for the loop's curation step, not a closer fault.",
+      "fix": "When graduating: remove the sorry from blocked_on (leave T-btz-headline-repr and T-btz-scope), note T-btz-linear-part-faithful in notes, and add AdmissibleLinear.lean to extra_lean_files and linearPart_comp_faithful_discrete to decls."
+    }
+  ]
+}

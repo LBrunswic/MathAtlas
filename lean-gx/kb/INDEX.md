@@ -241,3 +241,10 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0231](entries/0231-points-paths-and-universalcover-elements.md) | pattern | Points, paths and UniversalCover elements of Reg M must be typed e0RegMFlat M, not the sub |
 | [0232](entries/0232-btzpaperdev-is-an-open-map-on-any-open-s.md) | pattern | btzPaperDev is an open map on any open subset of {r > 0} |
 | [0233](entries/0233-gx-btzisom-gshift-0-c-is-btzhol-0-c-1-gx.md) | pattern | GX.BTZIsom.gShift 0 c is (btzHol 0 c)^-1 (GX.BTZAdm.gShift_zero_inv); tangency of translat |
+| [0234](entries/0234-the-existence-of-the-maximal-btz-extensi.md) | pattern | The existence of the maximal BTZ-extension on the narrowed input is GX.BTZMax.btz_ext_of_c |
+| [0235](entries/0235-matching-a-btz-line-with-a-spear-chart-s.md) | pattern | Matching a BTZ line with a spear chart's axis is already in the strict library |
+| [0236](entries/0236-causal-convexity-of-an-open-set-containi.md) | pattern | Causal convexity of an open set containing a causally convex A whose extra points are BTZ |
+| [0237](entries/0237-barbot-in-2-1-for-a-holonomy-group.md) | pattern | Barbot in 2+1 for a holonomy group |
+| [0238](entries/0238-the-metabelian-criterion-gx-btzadm-ismet.md) | pattern | The metabelian criterion GX.BTZAdm.isMetabelianOn_of_sign |
+| [0239](entries/0239-stabilizer-of-a-spacelike-vector-in-so-0.md) | pattern | Stabilizer of a spacelike vector in SO_0(1,2) is abelian (GX.BTZAdm.frame_commute_of_fix); |
+| [0240](entries/0240-lean-gx-s-pinned-causal-did-not-have-acd.md) | pattern | lean-gx's pinned Causal did not have ACDProof / MaxUnipProof / BieberbachProof built; `lak |
