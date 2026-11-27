@@ -3328,13 +3328,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:ppcm"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-btz-ppcm-hausdorff", "T-gx-btz-cleanup"]
-evidence = "BTZ_1.tex l.1500–1525 (the last two bullets): « by Lemma lem:BTZext_caus_conv, π_i(M_i) is causally convex in M₁ ∨ M₂ and, by Corollary cor:GH_causal, M₁ ∨ M₂ is causal »; the diamond case analysis through q′ ∈ I⁺(q) ⊂ π₁(M₁). Built inputs: GX.E0AbsMax.cor_GH_causal_e0 and isCausal_of_twoOpens, isCompact_diamond_of_twoOpens, globallyHyperbolic_of_twoOpens (AbsMax.lean:835–908, « the two-open causality and diamond lemmas of Prop 2.17 »), and the push-out atlas E0Pushout (AbsMax.lean:2496, §4b), built for Lemma 2.12's gluing along Reg M and to be generalised or reused here. The paper does not prove minimality and uniqueness separately; they follow from the universal property of the gluing. E₀-scoped; partial. Depends on T-gx-btz-cleanup (2026-11-27): its (a) gives E0Pushout the ι₂ E₀-morphism property that a reuse of the push-out atlas here needs, so that the gluing is not built on a third copy"
+evidence = "GX.BTZ.Ppcm (strict): btzprop:ppcm proved for E₀ (btz_ppcm), uniqueness under both readings; OQ-149; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "c1e4234"
 
 [[target]]
 id = "T-btz-maximal-extension"
@@ -3672,13 +3673,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:reg_complete"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-btz-reg-complete-cauchy"]
-evidence = "RegComplete.lean (regM_isCauchyComplete_of_complete)'s tagged sorry, owed step (3): « `Σ*` complete for its induced length: Lemma 2.8's `log r` estimate inside each spear and a comparison, uniform across infinitely many spears, with the DEC-31 length of `S` outside — not printed in the paper (« applies as is ») ». T-btz-reg-complete AUDIT-1 finding 2 qualifies it: « With locally finite spears and S a complete length surface, a bounded set may meet only finitely many spears (Hopf–Rinow-type argument), so uniformity may not be needed »; the closer tries that route first. The finite case is SurgeryData.completeSpace_sigmaStar (strict GX/BTZ/Surgery.lean, with the log r estimate near l.630). The conclusion Causal.Flat.IsCauchyComplete 2 is read as DEC-31/35 (AUDIT-1 finding 3). E₀-scoped; partial until T-btz-scope rules"
+evidence = "import cycle broken (CompleteCauchy); RegCompleteLength: all but one tagged sorry (exists_isCompact_of_cauchySeq); AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "c1e4234"
 
 [[target]]
 id = "T-gx-btz-cleanup"
@@ -3747,13 +3749,14 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzprop:pgcd"]
-status = "planned"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-btz-ppcm-hausdorff"]
-evidence = "lean-gx/scaffold/GXScaffold/BTZ/Pgcd.lean:380, « SORRY(btzprop:pgcd): `dom i j` causally convex in `M₁` (then Remark 1), i.e. by Lemma 2.13 (a) the extension `φ` of `j ∘ i⁻¹` continues along the BTZ line of `M₁` above each BTZ point `x ∈ dom i j`: at the first point `z` of that line outside `dom i j`, the images under `φ` of the line below `z` lie in a compact diamond `J_{M₂}(φ x, φ q)` (`q ≫ z` regular, `M₂` globally hyperbolic) and must converge to a BTZ point `w` of `M₂`; one then needs that the isometry `φ`, defined on the regular part of a neighbourhood of `z`, extends across the axis to a chart isomorphism sending `z` to `w` ». T-btz-pgcd REPORT finding 3: « BTZ_1.tex l.1376: « By construction, M1∧M2 is maximal » is a gap. Common sub-BTZ-extensions (btzdef:common_sub_btz_extension, l.1306–1313) are not required globally hyperbolic ... ghDom = dom iff dom is GH (ghDom_eq_dom_of_globallyHyperbolicOn), and dom GH is the one sorry ». Closing it needs no ruling: it makes the two answers of OQ-146 (b) (ghDom or dom as M₁ ∧ M₂) the same object, and btz_pgcd_gh sorry-free. Built: GX.e0_localUnique_sing (strict Rigid.lean:1699, prop:isom_strong at α = β = 0, whose MapsTo hypothesis is what the convergence to w supplies), E0AbsMax.btzExt_causallyConvexIn_iff_e0 (Lemma 2.13 (a)), globallyHyperbolicOn_of_causallyConvexIn. Depends on T-btz-ppcm-hausdorff only so that the axis-extension lemma is written once, there. E₀-scoped; the row stays partial (T-btz-scope, OQ-146)"
+evidence = "Pgcd's sorry removed (chart step in GX.BTZ.ExtChart); btz_pgcd_gh sorry-free; chain graduated; AUDIT-1 clean"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "c1e4234"
 
 [[target]]
 id = "T-btz-isom-e0"

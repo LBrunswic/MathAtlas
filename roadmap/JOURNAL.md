@@ -971,3 +971,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - wall time: 18:35–22:00 UTC; agents in parallel: 3 closers, 3 audits
 - New question for the author: OQ-148 (ppcm's readings; two typos and two unproved steps of the printed proof).
 - next: T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass (lean-gx), T-btz-reg-complete-length, T-btz-ppcm; T-btz-pgcd-dom-gh can be closed by moving globallyHyperbolicOn_maxDom below Pgcd.
+
+## 2026-11-27 23:30 · wave of 3 · T-btz-ppcm, T-btz-pgcd-dom-gh, T-btz-reg-complete-length
+- T-btz-ppcm: btzprop:ppcm proved for E₀-manifolds, sorry-free (GX.BTZ.Ppcm): the glued M₁ ∨ M₂ is an E₀-manifold, globally hyperbolic, minimal among all common over-extensions and unique under both readings of « minimal ». Findings: l.1417–1419 unproved, « minimal » undefined; a needless case split; M₀ GH unused. Audit minor (one round). OQ-149.
+- T-btz-pgcd-dom-gh: Pgcd's sorry gone (the chart step moved to GX.BTZ.ExtChart; every declaration keeps name and type). The chain ExtChart → Pgcd → PpcmHausdorff → Ppcm graduated to strict. Audit clean.
+- T-btz-reg-complete-length: the import cycle broken; Reg M's completeness down to one sharper sorry (a tail of a Cauchy sequence of Σ* in a compact of M). Findings: « as is » fails exactly across infinitely many spears; summable radii avoid a uniform constant. Audit minor (~950 copied lines to clean up).
+- gates: lean-gx ✓, roadmap ✓, registers ✓, atlas ✓, papers-check btz green; hub: make -k check rc 2, new red papers-check papers/ett (cor:massA_cac: Causal.ChartIso.curveOn_symm not found) — lean-causal is held and being edited by /ett-programme (uncommitted), and this wave touched no lean-causal or ett path. Verdict read before the push.
+- commits: c1e4234 d6d607c [+ roadmap/atlas/journal]
+- wall time: 19:13–23:30 UTC; agents in parallel: 3 closers, 3 audits, one fix round
+- New question for the author: OQ-149 (ppcm's « minimal » and « unique »: which reading is of record).
+- btz now: pgcd and ppcm proved for E₀; maximal-extension waits on T-gx-causal-pin-bump; every row partial until T-btz-scope.
+- next: T-gx-causal-pin-bump (master, exclusive), then T-btz-maximal-extension; T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass.
