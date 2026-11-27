@@ -9,7 +9,7 @@
   },
   "lean": {
     "root": "/home/maxbrain/Dropbox/LeanArticles/lean-gx",
-    "git_commit": "dc54daa"
+    "git_commit": "f48fe4f"
   },
   "statements": [
     {
@@ -1927,14 +1927,35 @@
       "nl_status_auto": "proved",
       "statement_sha256": "17f350f65cdb76451cb4a68843fa37b60eed2368d699352726ffb1a1e9728d37",
       "statement_sha256_current": "17f350f65cdb76451cb4a68843fa37b60eed2368d699352726ffb1a1e9728d37",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
-      "lean_proved": "none",
+      "lean_files": [
+        "scaffold/GXScaffold/BTZ/CommonReg.lean",
+        "scaffold/GXScaffold/BTZ/MaxExtension.lean"
+      ],
+      "decls": [
+        "GX.BTZCommonReg.common_reg",
+        "GX.BTZCommonReg.equiv_of_isE0Maximal",
+        "GX.BTZCommonReg.isMaximal_regExt",
+        "GX.BTZCommonReg.isMaximal_of_isE0Maximal",
+        "GX.BTZCommonReg.regExt",
+        "GX.BTZCommonReg.connectedSpace_regM"
+      ],
+      "lean_stated": "scaffold",
+      "lean_proved": "partial",
       "bucket": "D",
-      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet.",
-      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet.",
-      "blocked_on": "T-btz-common-reg; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling)",
+      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-common-reg (atlas-team, 2026-11-28), audit AUDIT-1 clean. Scaffold (GXScaffold.BTZ.CommonReg), sorry-free, no RichardsInput: GX.BTZCommonReg.common_reg — the isomorphism of the regular parts extends to M ≃ₜ N, an E₀-morphism both ways (stronger than printed), through the uniqueness of the maximal BTZ-extension. M and N connected added.",
+      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-common-reg (atlas-team, 2026-11-28), audit AUDIT-1 clean. Scaffold (GXScaffold.BTZ.CommonReg), sorry-free, no RichardsInput: GX.BTZCommonReg.common_reg — the isomorphism of the regular parts extends to M ≃ₜ N, an E₀-morphism both ways (stronger than printed), through the uniqueness of the maximal BTZ-extension. M and N connected added.",
+      "blocked_on": "T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-152",
+      "lean_proved_override": "partial",
+      "paper_findings": [
+        "BTZ_1.tex l.1278: the proof goes through the existence of BTZext(reg(M)) (Theorem theo:BTZ_ext), whose Lean form rests on the named cited input RichardsInput (Richards' theorem, l.1544–1546). Existence is not needed: M (with Reg M ↪ M) and N (with Reg M ≃ Reg N ↪ N) are already two maximal globally hyperbolic BTZ-extensions of Reg M, and the uniqueness half of theo:BTZ_ext alone (GX.BTZMax.equivalent_of_isMaximal, RichardsInput-free) identifies them. The corollary is therefore proved with no cited input.",
+        "BTZ_1.tex l.1278: « by Remark rem:reg_GH, reg(M) and reg(N) are globally hyperbolic » is not used by the Lean proof: GX.BTZMax.GHExt asks the extension, not the extended manifold, to be globally hyperbolic. It is only needed if one wants BTZext(reg(M)) to exist (the theorem's hypothesis l.1269).",
+        "BTZ_1.tex l.1278 « In particular, M and N are BTZ-maximal » is a one-line consequence of E_{≥0}-maximality (GX.BTZCommonReg.isMaximal_of_isE0Maximal) but uses that every globally hyperbolic BTZ-extension of a connected Reg M is connected (density of the image), so that the connected-target maximality of DEC-125 (e) applies.",
+        "The Lean conclusion is stronger than printed: the isomorphism M ≃ N extends the given isomorphism reg(M) ≃ reg(N) (it is the unique such extension, by density). This is what the headline btzthm:princ (l.1650–1655) needs for the injectivity of Reg."
+      ],
+      "extra_lean_files": [
+        "scaffold/GXScaffold/BTZ/CommonReg.lean",
+        "scaffold/GXScaffold/BTZ/MaxExtension.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
@@ -2496,7 +2517,8 @@
         "scaffold/GXScaffold/BTZ/SpearFamily.lean",
         "scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean",
         "scaffold/GXScaffold/BTZ/RegCompleteLength.lean",
-        "scaffold/GXScaffold/BTZ/CompleteCauchy.lean"
+        "scaffold/GXScaffold/BTZ/CompleteCauchy.lean",
+        "scaffold/GXScaffold/BTZ/LengthCompare.lean"
       ],
       "decls": [
         "GX.E0RegComplete.prop_reg_complete",
@@ -2523,14 +2545,39 @@
         "GX.E0SpearFamily.exists_lfSurgeryData_isCauchySurface_sigmaStar_of_complete",
         "GX.E0SpearFamily.regM_isCauchyComplete_of_lf",
         "GX.E0SpearFamily.LFSurgeryData.completeSpace_sigmaStar",
-        "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitz_sigmaStar"
+        "GX.E0SpearFamily.LFSurgeryData.isSpacelikeLipschitz_sigmaStar",
+        "GX.chartSys_eq_e0SliceSys",
+        "GX.localDensity_chartSys_eq_e0SliceSys",
+        "GX.locLipAt_chartSys_iff_e0SliceSys",
+        "GX.localLength_chartSys_eq_e0SliceSys",
+        "GX.pathLength_chartSys_eq_e0SliceSys",
+        "GX.exists_liftPath",
+        "GX.exists_lowerPath",
+        "GX.edist_inducedLength_le_pathLength_e0SliceSys",
+        "GX.edist_e0SliceSys_le_pathLength_chartSys",
+        "GX.E0SpearFamily.LFSurgeryData.edist_le_pathLength",
+        "GX.E0Surgery.SpearSurgeryDatum.rimE0",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt",
+        "GX.E0Surgery.SpearSurgeryDatum.rimS",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt_mem",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt_mem_cusp",
+        "GX.E0Surgery.SpearSurgeryDatum.rimPt_mem_regM",
+        "GX.E0Surgery.SpearSurgeryDatum.eq_rimPt",
+        "GX.E0Surgery.SpearSurgeryDatum.eventually_regChart_rim",
+        "GX.E0Surgery.SpearSurgeryDatum.localDensity_rim",
+        "GX.E0Surgery.SpearSurgeryDatum.isLocLip_rim",
+        "GX.E0Surgery.SpearSurgeryDatum.rimArc",
+        "GX.E0Surgery.SpearSurgeryDatum.pathLength_rimArc",
+        "GX.E0Surgery.SpearSurgeryDatum.exists_rimPath",
+        "GX.E0Surgery.SpearSurgeryDatum.edist_rimPt_le",
+        "GX.E0SpearFamily.LFSurgeryData.edist_rimPt_le"
       ],
       "lean_stated": "scaffold",
       "lean_proved": "partial",
       "bucket": "C",
-      "scope_notes": "T-btz-reg-complete (atlas-team, 2026-11-27), audit AUDIT-1 minor (a checklist row and an overstated finding; fixed at integration). For E₀-manifolds, in the scaffold (GXScaffold.BTZ.RegComplete): Reg M is globally hyperbolic (gh_regM) and Cauchy-maximal (mgh_regM, as Causal.Flat.MGH, for every GH Cauchy-maximal E₀-manifold with a Cauchy surface, completeness not needed), sorry-free; Cauchy-completeness of Reg M (regM_isCauchyComplete_of_complete) is one tagged sorry, so prop_reg_complete is partial. Findings: « applies as is » (l.1571) does not — the compact proof uses finitely many BTZ lines (l.1091); the printed Cauchy-extension argument (l.1573–1575) never shows Σ acausal in M̄. T-btz-spear-family (atlas-team, 2026-11-27), audit AUDIT-1 minor (three strict lemmas copied with weaker hypotheses; for T-gx-btz-cleanup). Step (1) of the sorry, sorry-free (GXScaffold.BTZ.SpearFamily): a countable, locally finite family of pairwise disjoint closed spears around S ∩ sing₀ M (GX.E0SpearFamily.exists_lfSurgeryData), needing only S Cauchy with the C¹ rim condition. Steps (2) and (3) remain (T-btz-reg-complete-cauchy, T-btz-reg-complete-length). T-btz-reg-complete-cauchy (atlas-team, 2026-11-27), audit AUDIT-1 minor (a stale line reference). Step (2), sorry-free (GXScaffold.BTZ.RegCompleteCauchy): Σ* of a locally finite spear family is a Cauchy surface of Reg M (LFSurgeryData.isCauchySurface_sigmaStar), needing only M GH and S Cauchy; rem:curve_spear proved there rather than carried. Step (3) remains (T-btz-reg-complete-length). T-btz-reg-complete-length (atlas-team, 2026-11-27), audit AUDIT-1 minor (~950 lines copied from strict Surgery.lean, for a cleanup). The import cycle broken (IsE0C1CompleteCauchy moved to GXScaffold.BTZ.CompleteCauchy); in GXScaffold.BTZ.RegCompleteLength, G4, the log r estimate, a compact-tail reduction, summable radii (exists_summable) and the completeness assembly are sorry-free; prop_reg_complete(') rest on one tagged sorry, exists_isCompact_of_cauchySeq.",
-      "notes": "T-btz-reg-complete (atlas-team, 2026-11-27), audit AUDIT-1 minor (a checklist row and an overstated finding; fixed at integration). For E₀-manifolds, in the scaffold (GXScaffold.BTZ.RegComplete): Reg M is globally hyperbolic (gh_regM) and Cauchy-maximal (mgh_regM, as Causal.Flat.MGH, for every GH Cauchy-maximal E₀-manifold with a Cauchy surface, completeness not needed), sorry-free; Cauchy-completeness of Reg M (regM_isCauchyComplete_of_complete) is one tagged sorry, so prop_reg_complete is partial. Findings: « applies as is » (l.1571) does not — the compact proof uses finitely many BTZ lines (l.1091); the printed Cauchy-extension argument (l.1573–1575) never shows Σ acausal in M̄. T-btz-spear-family (atlas-team, 2026-11-27), audit AUDIT-1 minor (three strict lemmas copied with weaker hypotheses; for T-gx-btz-cleanup). Step (1) of the sorry, sorry-free (GXScaffold.BTZ.SpearFamily): a countable, locally finite family of pairwise disjoint closed spears around S ∩ sing₀ M (GX.E0SpearFamily.exists_lfSurgeryData), needing only S Cauchy with the C¹ rim condition. Steps (2) and (3) remain (T-btz-reg-complete-cauchy, T-btz-reg-complete-length). T-btz-reg-complete-cauchy (atlas-team, 2026-11-27), audit AUDIT-1 minor (a stale line reference). Step (2), sorry-free (GXScaffold.BTZ.RegCompleteCauchy): Σ* of a locally finite spear family is a Cauchy surface of Reg M (LFSurgeryData.isCauchySurface_sigmaStar), needing only M GH and S Cauchy; rem:curve_spear proved there rather than carried. Step (3) remains (T-btz-reg-complete-length). T-btz-reg-complete-length (atlas-team, 2026-11-27), audit AUDIT-1 minor (~950 lines copied from strict Surgery.lean, for a cleanup). The import cycle broken (IsE0C1CompleteCauchy moved to GXScaffold.BTZ.CompleteCauchy); in GXScaffold.BTZ.RegCompleteLength, G4, the log r estimate, a compact-tail reduction, summable radii (exists_summable) and the completeness assembly are sorry-free; prop_reg_complete(') rest on one tagged sorry, exists_isCompact_of_cauchySeq.",
-      "blocked_on": "one tagged sorry of GXScaffold.BTZ.RegCompleteLength (exists_isCompact_of_cauchySeq: a comparison of Σ*'s induced length with S's DEC-31 length along shared paths); T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-142",
+      "scope_notes": "T-btz-reg-complete (atlas-team, 2026-11-27), audit AUDIT-1 minor (a checklist row and an overstated finding; fixed at integration). For E₀-manifolds, in the scaffold (GXScaffold.BTZ.RegComplete): Reg M is globally hyperbolic (gh_regM) and Cauchy-maximal (mgh_regM, as Causal.Flat.MGH, for every GH Cauchy-maximal E₀-manifold with a Cauchy surface, completeness not needed), sorry-free; Cauchy-completeness of Reg M (regM_isCauchyComplete_of_complete) is one tagged sorry, so prop_reg_complete is partial. Findings: « applies as is » (l.1571) does not — the compact proof uses finitely many BTZ lines (l.1091); the printed Cauchy-extension argument (l.1573–1575) never shows Σ acausal in M̄. T-btz-spear-family (atlas-team, 2026-11-27), audit AUDIT-1 minor (three strict lemmas copied with weaker hypotheses; for T-gx-btz-cleanup). Step (1) of the sorry, sorry-free (GXScaffold.BTZ.SpearFamily): a countable, locally finite family of pairwise disjoint closed spears around S ∩ sing₀ M (GX.E0SpearFamily.exists_lfSurgeryData), needing only S Cauchy with the C¹ rim condition. Steps (2) and (3) remain (T-btz-reg-complete-cauchy, T-btz-reg-complete-length). T-btz-reg-complete-cauchy (atlas-team, 2026-11-27), audit AUDIT-1 minor (a stale line reference). Step (2), sorry-free (GXScaffold.BTZ.RegCompleteCauchy): Σ* of a locally finite spear family is a Cauchy surface of Reg M (LFSurgeryData.isCauchySurface_sigmaStar), needing only M GH and S Cauchy; rem:curve_spear proved there rather than carried. Step (3) remains (T-btz-reg-complete-length). T-btz-reg-complete-length (atlas-team, 2026-11-27), audit AUDIT-1 minor (~950 lines copied from strict Surgery.lean, for a cleanup). The import cycle broken (IsE0C1CompleteCauchy moved to GXScaffold.BTZ.CompleteCauchy); in GXScaffold.BTZ.RegCompleteLength, G4, the log r estimate, a compact-tail reduction, summable radii (exists_summable) and the completeness assembly are sorry-free; prop_reg_complete(') rest on one tagged sorry, exists_isCompact_of_cauchySeq. T-btz-length-compare (atlas-team, 2026-11-28), audit AUDIT-1 minor (two docstring slips, fixed): the tool the last sorry needs, sorry-free — the two length systems are the same chart at common points of Σ* and S (chartSys_eq_e0SliceSys), so lengths agree; a rim arc has S-length exactly R|Δφ| (pathLength_rimArc), any two rim points within πR.",
+      "notes": "T-btz-reg-complete (atlas-team, 2026-11-27), audit AUDIT-1 minor (a checklist row and an overstated finding; fixed at integration). For E₀-manifolds, in the scaffold (GXScaffold.BTZ.RegComplete): Reg M is globally hyperbolic (gh_regM) and Cauchy-maximal (mgh_regM, as Causal.Flat.MGH, for every GH Cauchy-maximal E₀-manifold with a Cauchy surface, completeness not needed), sorry-free; Cauchy-completeness of Reg M (regM_isCauchyComplete_of_complete) is one tagged sorry, so prop_reg_complete is partial. Findings: « applies as is » (l.1571) does not — the compact proof uses finitely many BTZ lines (l.1091); the printed Cauchy-extension argument (l.1573–1575) never shows Σ acausal in M̄. T-btz-spear-family (atlas-team, 2026-11-27), audit AUDIT-1 minor (three strict lemmas copied with weaker hypotheses; for T-gx-btz-cleanup). Step (1) of the sorry, sorry-free (GXScaffold.BTZ.SpearFamily): a countable, locally finite family of pairwise disjoint closed spears around S ∩ sing₀ M (GX.E0SpearFamily.exists_lfSurgeryData), needing only S Cauchy with the C¹ rim condition. Steps (2) and (3) remain (T-btz-reg-complete-cauchy, T-btz-reg-complete-length). T-btz-reg-complete-cauchy (atlas-team, 2026-11-27), audit AUDIT-1 minor (a stale line reference). Step (2), sorry-free (GXScaffold.BTZ.RegCompleteCauchy): Σ* of a locally finite spear family is a Cauchy surface of Reg M (LFSurgeryData.isCauchySurface_sigmaStar), needing only M GH and S Cauchy; rem:curve_spear proved there rather than carried. Step (3) remains (T-btz-reg-complete-length). T-btz-reg-complete-length (atlas-team, 2026-11-27), audit AUDIT-1 minor (~950 lines copied from strict Surgery.lean, for a cleanup). The import cycle broken (IsE0C1CompleteCauchy moved to GXScaffold.BTZ.CompleteCauchy); in GXScaffold.BTZ.RegCompleteLength, G4, the log r estimate, a compact-tail reduction, summable radii (exists_summable) and the completeness assembly are sorry-free; prop_reg_complete(') rest on one tagged sorry, exists_isCompact_of_cauchySeq. T-btz-length-compare (atlas-team, 2026-11-28), audit AUDIT-1 minor (two docstring slips, fixed): the tool the last sorry needs, sorry-free — the two length systems are the same chart at common points of Σ* and S (chartSys_eq_e0SliceSys), so lengths agree; a rim arc has S-length exactly R|Δφ| (pathLength_rimArc), any two rim points within πR.",
+      "blocked_on": "one tagged sorry of GXScaffold.BTZ.RegCompleteLength (exists_isCompact_of_cauchySeq; its tool now proved, GXScaffold.BTZ.LengthCompare): T-btz-reg-complete-tail; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-142",
       "lean_proved_override": "partial",
       "paper_findings": [
         "l.1571 ('the proof of Cauchy-completeness of Proposition prop:abs_max applies as is'): it does not apply as is. That proof (l.1091) uses that a Cauchy-compact M has finitely many BTZ lines, so finitely many disjoint spears and one surgery each. A Cauchy-complete M may have countably many BTZ lines, and then the completeness of Sigma* with infinitely many spears is not addressed by the paper (a uniform estimate is one route; with locally finite spears a Hopf–Rinow-type argument may avoid it — AUDIT-1). This is a gap in the proof, not a counterexample: I found no counterexample and expect the statement to hold.",
@@ -2542,14 +2589,17 @@
         "The compact proof (B21 l.1093; strict E0Surgery.SurgeryData.isCauchySurface_sigmaStar) uses the compactness of S twice: J^±(S) closed, and a limit point in S of points of S below a past- or future-trapped curve. A Cauchy surface of a globally hyperbolic E0-manifold needs neither. J^±(S) is closed (E0LM.sfa_isClosed_Jplus_cauchy / _Jminus_cauchy). J^-(p) ∩ S and J^+(p) ∩ S are compact (Causal.Causality.GloballyHyperbolic.isCompact_Jminus_inter_of_isCauchySurface, with the time function E0LM.e0_timeFunction), and the points of S below e(-n) all lie in J^-(e 0) ∩ S. So step (2) holds for every Cauchy surface S, compact or not, with no completeness and no smoothness beyond what the spear data carry.",
         "« Corollary cor:intersect applied in each spear »: the Lean proof, like the strict one, does not invoke the intersection number (lem_intersect_number_complete) directly. It uses the monotone height of the cusp along ≼ in each spear chart (Lemma 2.7) together with Remark 2.12 (rem:curve_spear, the strict SpearSurgeryDatum.isSpearArc_of_inextensible, applied spear by spear). Remark 2.12 is therefore discharged here, not assumed: the strict theorem carries it as a hypothesis hrem.",
         "BTZ_1.tex l.1571 (« the proof of Cauchy-completeness of Proposition prop:abs_max applies as is »): B21's completeness of Sigma* (l.1093, no proof printed) uses finitely many spears (l.1091) and a compact Sigma; with countably many spears the part that is not « as is » is exactly the Cauchy sequences crossing infinitely many spears. The multiplicative comparison between the cusp metric and S's (AUDIT-1's « uniform across spears ») is not needed: on the rim r = R the printed metric -2dtau dr + dr^2 + r^2 dtheta^2 restricts to R^2 dtheta^2 whatever tau_Sigma is, so a rim arc has length <= pi R, and choosing spears of summable radii (always possible, LFSurgeryData.exists_summable) turns the comparison into an additive, summable error. The proof should choose the spears' radii; « disjoint spear neighborhoods » (l.1574) alone may not suffice.",
-        "The Hopf–Rinow route of T-btz-reg-complete AUDIT-1 finding 2 was not taken: it needs the DEC-31 length topology of S to equal M's near S (hS.continuous gives one direction only) and a Hopf–Rinow–Cohn-Vossen theorem, neither available; the path-surgery route above needs only completeness of S along one path."
+        "The Hopf–Rinow route of T-btz-reg-complete AUDIT-1 finding 2 was not taken: it needs the DEC-31 length topology of S to equal M's near S (hS.continuous gives one direction only) and a Hopf–Rinow–Cohn-Vossen theorem, neither available; the path-surgery route above needs only completeness of S along one path.",
+        "The tool is not printed in the paper: l.1571 says only that the proof of prop:abs_max « applies as is », and B21 l.1093 asserts Sigma* is metrically complete without comparing the induced length of Sigma* with that of Sigma along their common part. Proved here: on points of Sigma* ∩ S (both in Reg M) the two chart systems are literally the same chart of Reg M, so densities, chart-Lipschitz, lengths and path lengths coincide.",
+        "On the rim r = R of a spear the S-length of the arc from angle phi1 to phi2 is exactly R|phi2 - phi1|, whatever tau_Sigma (the flat-chart velocity of phi -> D(tau(phi), R, phi + k) has Minkowski square R^2); so two rim points are at S-distance and at Sigma*-distance <= pi R. This is the estimate step (b) of the comment of LFSurgeryData.exists_isCompact_of_cauchySeq asks for."
       ],
       "extra_lean_files": [
         "scaffold/GXScaffold/BTZ/RegComplete.lean",
         "scaffold/GXScaffold/BTZ/SpearFamily.lean",
         "scaffold/GXScaffold/BTZ/RegCompleteCauchy.lean",
         "scaffold/GXScaffold/BTZ/RegCompleteLength.lean",
-        "scaffold/GXScaffold/BTZ/CompleteCauchy.lean"
+        "scaffold/GXScaffold/BTZ/CompleteCauchy.lean",
+        "scaffold/GXScaffold/BTZ/LengthCompare.lean"
       ],
       "in_lean_scope": true,
       "stale": false
@@ -2589,14 +2639,34 @@
       "nl_status_auto": "proved",
       "statement_sha256": "6ef7522291911d6be0426030851492ad1ed44aa33de2a58f4bda9c72973edcf6",
       "statement_sha256_current": "6ef7522291911d6be0426030851492ad1ed44aa33de2a58f4bda9c72973edcf6",
-      "lean_files": [],
-      "decls": [],
-      "lean_stated": "none",
+      "lean_files": [
+        "scaffold/GXScaffold/BTZ/CauchySpear.lean"
+      ],
+      "decls": [
+        "GX.BTZCauchySpear.cauchy_spear",
+        "GX.BTZCauchySpear.exists_cauchyMaximalExt",
+        "GX.BTZCauchySpear.bluntSpear_subset_M0",
+        "GX.BTZCauchySpear.spearInt_subset_range",
+        "GX.BTZCauchySpear.globallyHyperbolicOn_union",
+        "GX.BTZCauchySpear.exists_spearNbhd_of_subset",
+        "GX.BTZCauchySpear.causallyConvexIn_range",
+        "GX.BTZCauchySpear.spearIntY"
+      ],
+      "lean_stated": "scaffold",
       "lean_proved": "none",
       "bucket": "D",
-      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet.",
-      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet.",
-      "blocked_on": "T-btz-cauchy-spear, then T-btz-cauchy-conservation; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling)",
+      "scope_notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-cauchy-spear (atlas-team, 2026-11-28), audits AUDIT-1 major (a false finding, reworded in round 1), AUDIT-2 clean. Step 1 assembled (GX.BTZCauchySpear.cauchy_spear): every BTZ point of a maximal extension M₁ of M₀ has a spear neighbourhood on its line, with no RichardsInput; two tagged sorrys (bluntSpear_subset_M0, globallyHyperbolicOn_union). Step 2 is T-btz-cauchy-conservation.",
+      "notes": "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-cauchy-spear (atlas-team, 2026-11-28), audits AUDIT-1 major (a false finding, reworded in round 1), AUDIT-2 clean. Step 1 assembled (GX.BTZCauchySpear.cauchy_spear): every BTZ point of a maximal extension M₁ of M₀ has a spear neighbourhood on its line, with no RichardsInput; two tagged sorrys (bluntSpear_subset_M0, globallyHyperbolicOn_union). Step 2 is T-btz-cauchy-conservation.",
+      "blocked_on": "two tagged sorrys of GXScaffold.BTZ.CauchySpear (the regular part of a sub-spear lies in M₀; M₁ ∪ Int(S₁) globally hyperbolic); then Step 2, T-btz-cauchy-conservation; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-152",
+      "paper_findings": [
+        "BTZ_1.tex:1604 ('Notice M_1 u Int(S_1) is a globally hyperbolic BTZ-extension of M_1'): a missing justification, not an error. Global hyperbolicity is asserted without proof. An open subset of the globally hyperbolic M_2 is globally hyperbolic when it is causally convex, and causal convexity here needs the causal past of the BTZ points of Int(S_1) to stay on S_1's axis. Left as a tagged sorry.",
+        "BTZ_1.tex:1604 ('Therefore, every BTZ-line of M_1 admits a spear neighborhood'): Int(S_1) subset M_1 does not by itself give a spear of M_1, since the vertex p' of S_1 is on the boundary of Int(S_1). One shrinks to a spear of higher vertex and smaller radius inside Int(S_1), and checks it is around the same BTZ line of M_1 as p. That last point uses the causal convexity of M_1 in M_2, which the paper does not mention. Proved (exists_spearNbhd_of_subset, causallyConvexIn_range).",
+        "BTZ_1.tex:1601 (with OQ-143 (e), already recorded): lem:blunt_spear_neighborhood is applied to Sigma_0 in M_0 with the spear of M_2 from lem:tube before reg(S) subset M_0 is established (l.1604). Not formalized.",
+        "BTZ_1.tex:1600 vs l.1598, a harmless notational slip: the proof's 'Delta a BTZ-line of M_2' is a line of M_1 read in M_2. Every BTZ line of M_2 meets Sigma_1 (a Cauchy surface of M_1, hence of its Cauchy extension M_2), and M_1 is causally convex in M_2, so the BTZ lines of M_1 and M_2 correspond one to one."
+      ],
+      "extra_lean_files": [
+        "scaffold/GXScaffold/BTZ/CauchySpear.lean"
+      ],
       "in_lean_scope": true,
       "stale": false
     },
