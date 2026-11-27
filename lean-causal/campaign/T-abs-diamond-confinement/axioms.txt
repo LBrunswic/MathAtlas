@@ -1,0 +1,272 @@
+@CurveOn.exists_concat_mid : ∀ {M : Type u_1} [inst : TopologicalSpace M] {r : TopologicalSpace.Opens M → M → M → Prop}
+  {W : TopologicalSpace.Opens M} {c₁ c₂ : ℝ → M},
+  IsRelFamily r →
+    CurveOn r W c₁ 0 1 →
+      CurveOn r W c₂ 0 1 → c₁ 1 = c₂ 0 → ∃ c, CurveOn r W c 0 1 ∧ c 0 = c₁ 0 ∧ c 1 = c₂ 1 ∧ c (1 / 2) = c₁ 1
+@Causality.ChronalHomotopyOn.mapsTo_of_closure_subset : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W Ũ : TopologicalSpace.Opens M} {Γ : ℝ → ℝ → M} {γ₀ γ₁ : ℝ → M} {x y : M},
+  C.ChronalHomotopyOn W Γ γ₀ γ₁ →
+    γ₀ 0 = x →
+      γ₀ 1 = y →
+        Set.MapsTo γ₀ (Set.Icc 0 1) ↑Ũ →
+          closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ →
+            Set.MapsTo (Function.uncurry Γ) (Set.Icc 0 1 ×ˢ Set.Icc 0 1) ↑Ũ
+@Causality.ChronalHomotopyOn.inf_of_closure_subset : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W Ũ : TopologicalSpace.Opens M} {Γ : ℝ → ℝ → M} {γ₀ γ₁ : ℝ → M} {x y : M},
+  C.ChronalHomotopyOn W Γ γ₀ γ₁ →
+    γ₀ 0 = x →
+      γ₀ 1 = y →
+        Set.MapsTo γ₀ (Set.Icc 0 1) ↑Ũ →
+          closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ → C.ChronalHomotopyOn (W ⊓ Ũ) Γ γ₀ γ₁
+@Causality.ChronalHomotopyOn.mem_Iplus_inter_Iminus_of_closure_subset : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} {W Ũ : TopologicalSpace.Opens M} {Γ : ℝ → ℝ → M} {γ₀ γ₁ : ℝ → M} {x y : M},
+  C.ChronalHomotopyOn W Γ γ₀ γ₁ →
+    γ₀ 0 = x →
+      γ₀ 1 = y →
+        Set.MapsTo γ₀ (Set.Icc 0 1) ↑Ũ →
+          closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ →
+            ∀ {t s : ℝ}, t ∈ Set.Icc 0 1 → s ∈ Set.Ioo 0 1 → Γ t s ∈ C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}
+@Causality.closure_Iplus_inter_Iminus_subset_of_lt : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {Ũ : TopologicalSpace.Opens M} {x y y' : M},
+  C.lt Ũ y y' → closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ ↑Ũ → closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ
+@Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} {W Ũ : TopologicalSpace.Opens M} {Γ : ℝ → ℝ → M} {γ₀ γ₁ : ℝ → M} {x y y' : M},
+  C.ChronalHomotopyOn W Γ γ₀ γ₁ →
+    γ₀ 0 = x →
+      γ₀ 1 = y →
+        Set.MapsTo γ₀ (Set.Icc 0 1) ↑Ũ →
+          C.lt Ũ y y' →
+            closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ ↑Ũ →
+              Set.MapsTo (Function.uncurry Γ) (Set.Icc 0 1 ×ˢ Set.Icc 0 1) ↑Ũ
+@Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} {W Ũ : TopologicalSpace.Opens M} {γ σ : ℝ → M} {x y : M},
+  C.FutureOneConnectedOn W →
+    C.ChronalCurveOn W γ 0 1 →
+      γ 0 = x →
+        γ 1 = y →
+          Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+            closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ →
+              C.ChronalCurveOn W σ 0 1 → σ 0 = x → σ 1 = y → C.ChronalCurveOn (W ⊓ Ũ) σ 0 1
+@Causality.Iplus_inter_Iminus_subset_inf_of_futureOneConnectedOn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} {W Ũ : TopologicalSpace.Opens M} {γ : ℝ → M} {x y : M},
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      C.ChronalCurveOn W γ 0 1 →
+        γ 0 = x →
+          γ 1 = y →
+            Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+              closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ →
+                C.Iplus W {x} ∩ C.Iminus W {y} ⊆ C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}
+@Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} {W Ũ : TopologicalSpace.Opens M} {γ : ℝ → M} {x y : M},
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      C.ChronalCurveOn W γ 0 1 →
+        γ 0 = x →
+          γ 1 = y →
+            Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+              closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ →
+                C.Iplus W {x} ∩ C.Iminus W {y} = C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}
+@Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} {W Ũ : TopologicalSpace.Opens M} {γ : ℝ → M} {x y : M},
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      C.ChronalCurveOn W γ 0 1 →
+        γ 0 = x →
+          γ 1 = y →
+            Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+              closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ →
+                C.Iplus W {x} ∩ C.Iminus W {y} ⊆ C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}
+@Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} {W Ũ : TopologicalSpace.Opens M} {γ : ℝ → M} {x y y' : M},
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      C.ChronalCurveOn W γ 0 1 →
+        γ 0 = x →
+          γ 1 = y →
+            Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+              C.lt Ũ y y' →
+                closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ ↑Ũ →
+                  C.Iplus W {x} ∩ C.Iminus W {y} ⊆ C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}
+@Causality.Iplus_inter_Iminus_eq_of_futureOneConnected : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {Ũ : TopologicalSpace.Opens M} {γ : ℝ → M} {x y : M},
+  C.CausallyArcConnected →
+    C.FutureOneConnected →
+      C.ChronalCurveOn ⊤ γ 0 1 →
+        γ 0 = x →
+          γ 1 = y →
+            Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+              closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ →
+                C.Iplus ⊤ {x} ∩ C.Iminus ⊤ {y} = C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}
+@Causality.StronglyCausalOn : {M : Type u_1} →
+  [inst : TopologicalSpace M] → Causality M → TopologicalSpace.Opens M → Prop
+@Causality.LocallyStronglyCausal : {M : Type u_1} → [inst : TopologicalSpace M] → Causality M → Prop
+@Causality.stronglyCausalOn_top : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M},
+  C.StronglyCausalOn ⊤ ↔ C.StronglyCausal
+@Causality.StronglyCausalOn.mono : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W W' : TopologicalSpace.Opens M}, C.StronglyCausalOn W → W' ≤ W → C.StronglyCausalOn W'
+@Causality.dual_stronglyCausalOn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W : TopologicalSpace.Opens M}, C.dual.StronglyCausalOn W ↔ C.StronglyCausalOn W
+@Causality.dual_locallyStronglyCausal : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M},
+  C.dual.LocallyStronglyCausal ↔ C.LocallyStronglyCausal
+@Causality.StronglyCausal.locallyStronglyCausal : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M},
+  C.StronglyCausal → C.LocallyStronglyCausal
+@Causality.locallyStronglyCausal_iff_nhds : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M},
+  C.LocallyStronglyCausal ↔ ∀ (p : M), ∀ N ∈ nhds p, ∃ W, p ∈ W ∧ ↑W ⊆ N ∧ C.StronglyCausalOn W
+@Causality.diamond_subset_of_causallyConvexIn : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W Ũ : TopologicalSpace.Opens M} {x y : M} {V : Set M},
+  C.CausallyConvexIn V W →
+    Ũ ≤ W → x ∈ V → y ∈ V → C.diamond Ũ x y ⊆ V ∧ C.Iplus Ũ {x} ∩ C.Iminus Ũ {y} ⊆ C.diamond Ũ x y
+@Causality.StronglyCausalOn.exists_closure_subset : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W : TopologicalSpace.Opens M} [RegularSpace M],
+  C.StronglyCausalOn W →
+    ∀ {p : M},
+      p ∈ W →
+        ∀ {N : Set M},
+          N ∈ nhds p →
+            ∃ Ũ,
+              p ∈ Ũ ∧
+                Ũ ≤ W ∧
+                  ↑Ũ ⊆ N ∧
+                    ∃ V ∈ nhds p,
+                      ∀ x ∈ V,
+                        ∀ y ∈ V,
+                          C.diamond Ũ x y ⊆ V ∧
+                            closure (C.diamond Ũ x y) ⊆ ↑Ũ ∧ closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ
+@Causality.StronglyCausalOn.exists_isCompact_closure : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causality M}
+  {W : TopologicalSpace.Opens M} [LocallyCompactSpace M] [R1Space M],
+  C.StronglyCausalOn W →
+    ∀ {p : M},
+      p ∈ W →
+        ∀ {N : Set M},
+          N ∈ nhds p →
+            ∃ Ũ,
+              p ∈ Ũ ∧
+                Ũ ≤ W ∧
+                  ↑Ũ ⊆ N ∧
+                    ∃ V ∈ nhds p,
+                      ∀ x ∈ V,
+                        ∀ y ∈ V,
+                          C.diamond Ũ x y ⊆ V ∧
+                            IsCompact (closure (C.diamond Ũ x y)) ∧
+                              closure (C.diamond Ũ x y) ⊆ ↑Ũ ∧
+                                IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧
+                                  closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ
+@Causality.LocallyStronglyCausal.exists_isCompact_closure : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} [LocallyCompactSpace M] [R1Space M],
+  C.LocallyStronglyCausal →
+    ∀ (p : M) {N : Set M},
+      N ∈ nhds p →
+        ∃ Ũ,
+          p ∈ Ũ ∧
+            ↑Ũ ⊆ N ∧
+              C.StronglyCausalOn Ũ ∧
+                ∃ V ∈ nhds p,
+                  ∀ x ∈ V,
+                    ∀ y ∈ V,
+                      IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧
+                        closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ
+@Causality.LocallyStronglyCausal.exists_diamond_identification : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causality M} [LocallyCompactSpace M] [R1Space M],
+  C.LocallyStronglyCausal →
+    ∀ (p : M) {N : Set M},
+      N ∈ nhds p →
+        ∃ Ũ,
+          p ∈ Ũ ∧
+            ↑Ũ ⊆ N ∧
+              ∃ V ∈ nhds p,
+                ∀ x ∈ V,
+                  ∀ y ∈ V,
+                    IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧
+                      closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ ∧
+                        ∀ (W : TopologicalSpace.Opens M),
+                          C.CausallyArcConnectedOn W →
+                            C.FutureOneConnectedOn W →
+                              ∀ (γ : ℝ → M),
+                                C.ChronalCurveOn W γ 0 1 →
+                                  γ 0 = x →
+                                    γ 1 = y →
+                                      Set.MapsTo γ (Set.Icc 0 1) ↑Ũ →
+                                        C.Iplus W {x} ∩ C.Iminus W {y} = C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}
+timelikeLine_confinement : closure
+      (timelikeLine.Iplus { carrier := Set.Ioo (-1) 2, is_open' := ⋯ } {0} ∩
+        timelikeLine.Iminus { carrier := Set.Ioo (-1) 2, is_open' := ⋯ } {1}) ⊆
+    Set.Ioo (-1) 2 ∧
+  ∃ Γ,
+    (timelikeLine.ChronalHomotopyOn ⊤ Γ id fun s => s ^ 2) ∧
+      Set.MapsTo (Function.uncurry Γ) (Set.Icc 0 1 ×ˢ Set.Icc 0 1) (Set.Ioo (-1) 2)
+timelikeLine_diamond_identification : timelikeLine.Iplus ⊤ {0} ∩ timelikeLine.Iminus ⊤ {1} ⊆
+    timelikeLine.Iplus { carrier := Set.Ioo (-1) 2, is_open' := ⋯ } {0} ∩
+      timelikeLine.Iminus { carrier := Set.Ioo (-1) 2, is_open' := ⋯ } {1} ∧
+  1 / 2 ∈ timelikeLine.Iplus ⊤ {0} ∩ timelikeLine.Iminus ⊤ {1}
+timelikeLine_locallyStronglyCausal : timelikeLine.LocallyStronglyCausal
+timelikeLine_exists_isCompact_closure : ∃ Ũ,
+  0 ∈ Ũ ∧
+    timelikeLine.StronglyCausalOn Ũ ∧
+      ∃ V ∈ nhds 0,
+        ∀ x ∈ V,
+          ∀ y ∈ V,
+            IsCompact (closure (timelikeLine.Iplus Ũ {x} ∩ timelikeLine.Iminus Ũ {y})) ∧
+              closure (timelikeLine.Iplus Ũ {x} ∩ timelikeLine.Iminus Ũ {y}) ⊆ ↑Ũ
+exists_confining_not_locallyStronglyCausal : ∃ C,
+  (∀ (p : ℝ),
+      ∀ N ∈ nhds p,
+        ∃ Ũ,
+          p ∈ Ũ ∧
+            ↑Ũ ⊆ N ∧
+              ∃ V ∈ nhds p,
+                ∀ x ∈ V,
+                  ∀ y ∈ V,
+                    IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧
+                      closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ ↑Ũ) ∧
+    ¬C.LocallyStronglyCausal
+'Causal.CurveOn.exists_concat_mid' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ChronalHomotopyOn.inf_of_closure_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ChronalHomotopyOn.mem_Iplus_inter_Iminus_of_closure_subset' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.closure_Iplus_inter_Iminus_subset_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Iplus_inter_Iminus_subset_inf_of_futureOneConnectedOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.Iplus_inter_Iminus_eq_of_futureOneConnected' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.StronglyCausalOn' depends on axioms: [propext, Quot.sound]
+'Causal.Causality.LocallyStronglyCausal' depends on axioms: [propext, Quot.sound]
+'Causal.Causality.stronglyCausalOn_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.StronglyCausalOn.mono' depends on axioms: [propext, Quot.sound]
+'Causal.Causality.dual_stronglyCausalOn' depends on axioms: [propext, Quot.sound]
+'Causal.Causality.dual_locallyStronglyCausal' depends on axioms: [propext, Quot.sound]
+'Causal.Causality.StronglyCausal.locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.locallyStronglyCausal_iff_nhds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.diamond_subset_of_causallyConvexIn' depends on axioms: [propext, Quot.sound]
+'Causal.Causality.StronglyCausalOn.exists_closure_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.StronglyCausalOn.exists_isCompact_closure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.LocallyStronglyCausal.exists_diamond_identification' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_confinement' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_diamond_identification' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.timelikeLine_exists_isCompact_closure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.exists_confining_not_locallyStronglyCausal' depends on axioms: [propext, Classical.choice, Quot.sound]

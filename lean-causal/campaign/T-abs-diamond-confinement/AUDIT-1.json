@@ -1,0 +1,118 @@
+{
+  "target": "T-abs-diamond-confinement",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "(i) confinement: ChronalHomotopyOn.mapsTo_of_closure_subset (:166), .inf_of_closure_subset (:236), .mem_Iplus_inter_Iminus_of_closure_subset (:244), .mapsTo_of_closure_subset_of_lt (:269), closure_Iplus_inter_Iminus_subset_of_lt (:259)",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "This is the target's (i) exactly: any causality, any opens W and Ũ, a ChronalHomotopyOn W with γ₀ 0 = x, γ₀ 1 = y and γ₀ mapping [0,1] into Ũ, and closure (in M) of I⁺(x,Ũ) ∩ I⁻(y,Ũ) ⊆ Ũ, give Γ mapping [0,1]² into Ũ. There is no separation axiom and no ladder property. .inf_of_closure_subset ('a timelike curve in Ũ', as a homotopy of W ⊓ Ũ) is stronger than the target. The general form is exactly Thm 4.11's use at :1623–1625, where the diamond is between the homotopy's own endpoints γ̃(y₀⁻) and γ̃(s). The 'Step 3 as printed' form is the printed one: the homotopy runs from γ̃(−s₀) to γ̃(−s₁), the closure hypothesis is on I⁻(γ̃(0),Ũ) ∩ I⁺(γ̃(−s₀),Ũ) (:621), and the one added hypothesis y ≪_Ũ y' is the step the paper leaves implicit. That step follows from Step 1.1 (1) (:491), is disclosed (checklist :97, REPORT finding 2), and is needed: without it the y'-diamond can be empty. Under the reading timelike curve = chronal curve (binder schwdef:timelike_curve), a Sbierski timelike homotopy is a ChronalHomotopyOn, so the Lean statement is at least Step 3. The witness timelikeLine_confinement satisfies every hypothesis with two distinct curves (id and s², the homotopy from timelikeLine_futureOneConnected, as the docstring says). Its conclusion is easy on the line, but the hypotheses are exercised. Nothing is marked."
+    },
+    {
+      "label": "(ii) identification: FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset (:282), Iplus_inter_Iminus_subset_inf_of_futureOneConnectedOn (:296), _eq_inf_ (:318), Iplus_inter_Iminus_subset_of_futureOneConnectedOn (:332), _of_lt (:347), Iplus_inter_Iminus_eq_of_futureOneConnected (:357)",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": ":332 is the target's (ii) verbatim: CausallyArcConnectedOn W, FutureOneConnectedOn W, one chronal curve of W from x to y inside Ũ, and the closure hypothesis of (i) give I⁺(x,W) ∩ I⁻(y,W) ⊆ I⁺(x,Ũ) ∩ I⁻(y,Ũ). The W ⊓ Ũ forms (:296, :318) are stronger. Ũ ≤ W is not asked. The curve form :282 is Thm 4.11's 'ι∘σ maps into Õ' (:1623), after the affine change of parameter [y₀⁻,s] → [0,1], which the SCOPE discloses. It needs no arc-connectedness. The _of_lt form is (1.2)'s ⊇ as printed in §1 (:158), with the closure hypothesis at γ̃(0) and y = γ̃(s). The equality at W = ⊤ (:357) is (1.2) for W = M, and its docstring says so. The proof uses only the ≪_W half of CausallyArcConnectedOn W at U = W. The full ladder property is what the target and `uses` ask, and under the paper's Def 2.2 it holds by definition, so '✓ carried' stands. Note: '✓ carried' for FutureOneConnectedOn W (checklist :99) holds under the file's stated reading ('The reading', :72). Under C0 the ETT notion and Sbierski's are incomparable (Causal.TimelikeHomotopy SCOPE; the binder's Def 2.13 row). A layer-3 consumer holding only Sbierski's homotopy can still use ChronalHomotopyOn.inf_of_closure_subset directly. The witness timelikeLine_diamond_identification has a non-empty diamond (1/2) and satisfies every hypothesis."
+    },
+    {
+      "label": "(iii) localisation: StronglyCausalOn (:371), LocallyStronglyCausal (:378), StronglyCausal.locallyStronglyCausal (:404), LocallyStronglyCausal.exists_isCompact_closure (:471), with stronglyCausalOn_top, .mono, dual_*, locallyStronglyCausal_iff_nhds, StronglyCausalOn.exists_closure_subset / exists_isCompact_closure, exists_diamond_identification, exists_confining_not_locallyStronglyCausal",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "StronglyCausalOn W is Causal/Properties.lean:105's StronglyCausal with CausallyConvexIn V ⊤ replaced by CausallyConvexIn V W, and V any neighbourhood (DEC-7). Since W is open, M-neighbourhoods of p ∈ W are W-neighbourhoods, so this is exactly 'W strongly causal as a spacetime' (kb/0001). stronglyCausalOn_top proves the ⊤ case equal to StronglyCausal. LocallyStronglyCausal unfolds (by Iff.rfl, auditor's probe) to 'every p has an open W ∋ p with StronglyCausalOn W', the target's sentence. The edge has W = ⊤. exists_isCompact_closure assumes [LocallyCompactSpace] [R1Space], which is weaker than the target's locally compact Hausdorff (the auditor's probe derives the T2 form). Its conclusion has the right quantifier order: ∀ p, ∀ N ∈ 𝓝 p, ∃ Ũ ⊆ N, ∃ V ∈ 𝓝 p, ∀ x y ∈ V, closure compact and ⊆ Ũ. It also gives StronglyCausalOn Ũ. exists_confining_not_locallyStronglyCausal is non-vacuous and correct. The causality is ≤_U = U×U with ≪ empty, so its chronological diamonds are empty, and J_W(0,0) = W defeats every small convex V. Its docstring states what is proved. 'Not absolutely minimal' is true but not proved in Lean: cover ℝ by intervals of length < 1, take V = (0,1) ∪ (2,3); then 0.5 ≤_V 2.5 is no chain of cover-localised relations. The docstring rightly calls it a remark, not a ladder separation. Checklist row :101 uses a tag outside kb/0006 ('⚠ replaced'), which its text explains. Its '(3.3)' is finding 2."
+    },
+    {
+      "label": "schwthm:MinkInex (proposed ett: mapsTo_of_closure_subset_of_lt, mapsTo_of_closure_subset, inf_of_closure_subset, LocallyStronglyCausal.exists_isCompact_closure)",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Partial and unmarked, as required: the C0 layer 3 and the metric steps 1.1–1.3 and 2.x are missing. Each declaration is at least the layer-1 step it is proposed for (Step 3, :619–621). exists_isCompact_closure gives an Ũ inside any given neighbourhood rather than the chart itself, which is enough for Step 3. It replaces the placeholder 'T-abs-diamond-confinement' in the binder's ett."
+    },
+    {
+      "label": "schwthm:Exterior (proposed: mapsTo_of_closure_subset_of_lt, Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt)",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Partial and unmarked. :1078 says 'Step 3 is then virtually identical again', so the confinement is the right layer-1 step. The set inclusion is §1's (1.2) form rather than what Step 3 literally uses, which is acceptable as a partial consumer."
+    },
+    {
+      "label": "schwthm:Inex (proposed: chronalCurveOn_inf_of_closure_subset, Iplus_inter_Iminus_subset_of_futureOneConnectedOn, LocallyStronglyCausal.exists_isCompact_closure)",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Partial and unmarked. The curve form is :1623–1625's argument with the interval J. The inclusion is the ⊇ of (FuturePastPreserving) (:1614), with W = ι(M_int ∩ {r < r̃}) and Ũ = Õ. That this diamond equals M_int's is layer 3. The binder's other entries stay."
+    },
+    {
+      "label": "schwthm:MainThm and its twin schwthm:dimensional_maximal_analytic_schwarzschild (proposed: LocallyStronglyCausal.exists_diamond_identification)",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Partial and unmarked. This is the assembly of causal step (3). The full skeleton remains T-abs-c0-extension-skeleton's."
+    },
+    {
+      "label": "schwlem:NormalForm, schwprop:ExtFutCon, schwprop:IntFutCon, schwlem:BoundsOnReach, and the metric rows schwthm:DiamFinite, schwdef:spacelike_diameter, schwdef:DefRegFlowChart, schwthm:connected_globally_hyperbolic_lorentzian",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "All are partial and unmarked, as binder consumers (the binder's convention for rows with no layer-1 content). Each declaration named is a genuine consumer of the row's output: the precompact chart diamond, future one-connectedness of M_ext or M_int, and Prop 6.5's assumption. The REPORT leaves the metric rows to the planner, which is consistent with the binder's present placeholder."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "No lake build was run, per the dispatch. `cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/CausalScaffold/DiamondConfinement.lean` exits 0 with no output. The .olean (16:50:54) is newer than the source (16:50:51), which fits the closer's lake build. grep finds no sorry, admit, axiom, native_decide, implemented_by, extern, unsafe or opaque in the file. Probe.lean has 30 #check and 30 #print axioms, and axioms.txt matches it. The auditor's own probe (campaign/T-abs-diamond-confinement/AuditProbe1.lean, written and deleted) re-ran #print axioms on all 30 declarations. Each gives [propext, Classical.choice, Quot.sound] or [propext, Quot.sound], with no sorryAx. A second probe, also deleted, checked by elaboration that LocallyStronglyCausal unfolds to the target's sentence (Iff.rfl) and that the T2 form of (iii) follows from the R1 one."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-causal/campaign/T-abs-diamond-confinement/REPORT.json: findings[5] (the :1623 typo)",
+      "what": "The typo is real and already in the binder (binder.toml:121; schwthm:Inex findings). σ : [y₀⁻, s] → M_int is homotopic with fixed endpoints to γ|[y₀⁻,s], so it starts at γ(y₀⁻), and (FuturePastPreserving) (:1614) is about I⁺(γ(y₀⁻), M_int). But the REPORT's supporting sentence is false: 'x⁻ = (−3/4 ε, 0, …, 0) is a chart point (:1606), so x₀⁻ is not a parameter of γ'. By the paper's convention (y⁻ := (y₀⁻, 0, …, 0), :1607), x₀⁻ = −3/4 ε is the time coordinate of x⁻. It lies in (−ε, 0), where (φ̃∘γ̃)(s) = (s, 0, …, 0) (Thm 4.11 Step 1.1 (1), :1580). Step 1.5 uses γ(x₀⁻) as a point of γ five times (:1772, :1790, :1813, :1815, :1839). :1623 names the wrong point of γ, not a meaningless one. If recorded for the author as written, the sentence would be false.",
+      "fix": "Drop the justification. Record the finding as the binder does. If a reason is wanted: 'σ is over [y₀⁻, s] and homotopic with fixed endpoints to γ|[y₀⁻,s]; γ(x₀⁻), x₀⁻ = −3/4 ε < −ε/5 < y₀⁻, is the different point of γ that Step 1.5 uses.'"
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/DiamondConfinement.lean:64 and :101",
+      "what": "The block quote of :528 reads 'It now follows from (3.3)'. The paper's \\eqref{UpperBoundEstimatesOnPastAndFuture} is (3.2): theorems share the equation counter, Thm 3.1 is 3.1, and (3.3) is RemainsInCone. references/sbierski/text/sbierski2015c.txt has 'It now follows from (3.2)'. kb/0006 asks for verbatim quotes. Checklist row :101 says 'the cone sandwich (3.3)'. Thm 3.1 Step 1.2 proves only the upper inclusions (3.2). The two-sided sandwich is Thm 4.11's (EstimatesOnPastAndFuture, :1585). The binder's schwlem:NormalForm note has the same '(3.3)', which is probably where this came from.",
+      "fix": "Change (3.3) to (3.2) at :64. At :101 write 'the cone estimate (3.2)' (or 'the cone sandwich, (3.2) and Thm 4.11's (EstimatesOnPastAndFuture)'). The planner may fix the binder note at the next curation."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-causal/scaffold/CausalScaffold/DiamondConfinement.lean:62, :448; REPORT.json findings[3]",
+      "what": "Three line citations are off. The block quote ending at :62 is cited `InexSchwarzschild2.tex:1623`, but its second sentence ('the closedness follows since … precompact in Õ, i.e., in particular its closure in M̃ is contained in Õ') is at :1625. The docstring of StronglyCausalOn.exists_isCompact_closure (:446–448) cites ':1623' for that phrase. REPORT finding 4 says 'Thm 4.11 (:1623) writes precompact in Õ, i.e. …', which is also at :1625. The same docstring (:447) puts in quotation marks 'the closure of the chart diamond is compact' (:528), a paraphrase of the paper.",
+      "fix": "Cite `:1623–1625` for the block and `:1625` for the 'precompact in Õ' phrase. Drop the quotation marks around the :528 paraphrase, or quote the paper's words."
+    }
+  ],
+  "paper_findings_verified": [
+    {
+      "claim": "Step 3 (:621) needs γ̃(−s₁) ≪_Ũ γ̃(0), from Step 1.1 (1) (:491); §1 (:158) likewise with γ̃(s)",
+      "verdict": "correct, an implicit step (not a gap)",
+      "notes": "The closedness of I needs every curve of the homotopy inside I⁻(γ̃(0),Ũ) ∩ I⁺(γ̃(−s₀),Ũ). Its interior points lie in I⁻(γ̃(−s₁),Ũ) ∩ I⁺(γ̃(−s₀),Ũ), and I⁻(γ̃(−s₁),Ũ) ⊆ I⁻(γ̃(0),Ũ) needs γ̃(−s₁) ≪_Ũ γ̃(0). That holds because by :491 γ̃ maps (−ε,0] into Ũ as the x⁰-axis, a timelike curve of Ũ, and −s₁ ∈ (−ε,0). The paper does not say it."
+    },
+    {
+      "claim": "§1's 'cannot escape I⁺(γ̃(s₀),Ũ) ∩ I⁻(γ̃(0),Ũ)' (:158) fails at the initial point; harmless",
+      "verdict": "correct, a harmless literal imprecision in the sketch",
+      "notes": "Every slice passes through γ̃(s₀), and γ̃(s₀) ∉ I⁺(γ̃(s₀),Ũ) because the near-Minkowskian Ũ is chronological ((3.2): I⁺(x) ⊆ x + C⁺_{5/8}, and 0 ∉ C⁺_{5/8}). The final point γ̃(s) and the interior points are in the diamond, so the image is the diamond ∪ {γ̃(s₀)}, as the REPORT says. Under the reading 'cannot leave through the boundary' nothing is wrong."
+    },
+    {
+      "claim": "Hausdorffness (:228) is used to pass from :528 (closure compact in the chart) to :621 and :1625 (closure in M̃ inside Ũ)",
+      "verdict": "correct, an implicit use of a standing convention",
+      "notes": "φ̃⁻¹ of the compact chart closure is compact in Ũ. Only in a Hausdorff (indeed R1) M̃ is the closure in M̃ contained in it: the line with two origins shows the failure. :228 states that all manifolds are Hausdorff. The phrase at Thm 4.11 is at :1625, not :1623 (finding 3)."
+    },
+    {
+      "claim": "The openness of I (:621) needs the tube lemma",
+      "verdict": "correct, an implicit standard step",
+      "notes": "Openness of Ũ alone does not give it. One needs compactness of [0,1] and joint continuity of Γ (Def 2.13 at :383), and the 'timelike in Ũ' part of I's definition is automatic. The same applies to 'The openness follows from the openness of Õ' at :1625."
+    },
+    {
+      "claim": ":1623 writes γ(x₀⁻) where γ(y₀⁻) is meant",
+      "verdict": "correct (a real typo), but the REPORT's justification is wrong (finding 1)",
+      "notes": "x₀⁻ = −3/4 ε is a parameter of γ, and γ(x₀⁻) is Step 1.5's point."
+    }
+  ],
+  "checks": {
+    "layer1": "The only import is Causal.TimelikeHomotopy (grep). tools/ladder.py, run in memory from the hub root (lean_index, with the module's import list added), gives model_path(CausalScaffold.DiamondConfinement) = None and import_chain to Causal.Ladder.Rules = None, so the edge StronglyCausal.locallyStronglyCausal can become a rule without a cycle. No statement has a metric, length or geodesic. Metric.isOpen_iff appears once, inside the proof of the ℝ counterexample. Every hypothesis is a ladder property (CausallyArcConnectedOn/CausallyArcConnected, StronglyCausal), a declared localisation hypothesis (FutureOneConnectedOn, the closure hypothesis, StronglyCausalOn/LocallyStronglyCausal) or a topological instance (RegularSpace, LocallyCompactSpace, R1Space).",
+    "faithfulness": "(i), (ii) and (iii) are stated as the title asks, or stronger: W ⊓ Ũ forms, R1 instead of T2, no Ũ ≤ W. TeX read at :140–160, :475–624, :1559–1630, plus :228, :248, :383, :1078, :1606–1607 and :1772–1839. The 'as printed' forms match :621 and :158, with the one implicit hypothesis y ≪_Ũ y' disclosed. StronglyCausalOn was checked against Causal/Properties.lean:99–106 and DEC-7. LocallyStronglyCausal matches the target's sentence (Iff.rfl).",
+    "paper_findings": "Each was checked against the TeX; see paper_findings_verified. Four are correct as stated. The fifth (the :1623 typo) is correct, but its justification is false.",
+    "witnesses": "timelikeLine_confinement, timelikeLine_diamond_identification, timelikeLine_locallyStronglyCausal and timelikeLine_exists_isCompact_closure satisfy their theorems' hypotheses non-vacuously: distinct curves id and s², a non-empty diamond. exists_confining_not_locallyStronglyCausal is correct, and its docstring says what it proves. The 'not absolutely minimal, so not a ladder separation' remark is true (the auditor's argument is in the (iii) notes).",
+    "anchors": "Every proposed Schwarzschild row is partial and unmarked in the REPORT, as the missing C0 layer 3 requires. Each declaration is a genuine layer-1 step or consumer of its row (binder.toml checked row by row).",
+    "scope": "git status --short shows only the dispatched DiamondConfinement.lean and its campaign directory as this closer's work. The other untracked files are the expected StrongCausalityLifts.lean, Ers464WithoutArc.lean and their campaign dirs, plus papers/*/certificate restate churn and programme/roadmap.toml status flips, whose mtimes (09:36–12:55, 16:27) predate the closer's file (16:50). Nothing in lean-causal outside the dispatch was modified. scaffold/CausalScaffold.lean is untouched.",
+    "name_clash": "grep of Causal/ and scaffold/ for declarations of all 30 names finds none outside this file. The last-component name sets of DiamondConfinement, StrongCausalityLifts and Ers464WithoutArc do not intersect. ladder.lean_index has none of the full names.",
+    "docstring_contract": "Title, the (unmarked) rows, verbatim quotes, the hypothesis checklist, the SCOPE and the provenance are all present. No ``**`label`**`` mark appears, which is correct since there is no certified label. The SCOPE claims check out: Causal.GHWithoutTarentin reaches Causal.Ladder.Rules directly, Causal.Model.FlatTimeCylinder is a model, and the four target ids exist in programme/roadmap.toml. Quote and line nits are findings 2 and 3."
+  }
+}

@@ -1,0 +1,541 @@
+{
+ "target": "T-abs-diamond-confinement",
+ "package": "lean-causal",
+ "files": [
+  "scaffold/CausalScaffold/DiamondConfinement.lean"
+ ],
+ "campaign_files": [
+  "campaign/T-abs-diamond-confinement/REPORT.json",
+  "campaign/T-abs-diamond-confinement/Probe.lean",
+  "campaign/T-abs-diamond-confinement/axioms.txt"
+ ],
+ "builds": true,
+ "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 0-11 lake build CausalScaffold.DiamondConfinement",
+ "build_result": "Built CausalScaffold.DiamondConfinement (1.3 s), 3101 jobs, no warning. The --no-build dry run (kb/0228) listed only this module as out of date ([3101/3101]), so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file exits 0 with no output. campaign/.../Probe.lean imports the module and runs #check and #print axioms on all 30 declarations (axioms.txt): each depends on [propext, Classical.choice, Quot.sound] or [propext, Quot.sound], with no sorryAx.",
+ "sorry_count": 0,
+ "layer": "ETT layer (layer 1). One direct import: Causal.TimelikeHomotopy. tools/ladder.py model_path is None for it, checked in memory (kb/0247), and import_chain to Causal.Ladder.Rules is None, so the edge StronglyCausal.locallyStronglyCausal can become a causal_ladder rule without a cycle (kb/0221). No metric, curve length or geodesic in any statement; Metric.isOpen_iff is used inside one proof only, for a ball of ℝ (exists_confining_not_locallyStronglyCausal). No ladder step was needed: the two ladder properties of `uses` enter as hypotheses (CausallyArcConnectedOn W) or as the source of the new edge (StronglyCausal), so causal_ladder was not called.",
+ "labels": [],
+ "parts": [
+  {
+   "part": "(i) confinement",
+   "status": "done",
+   "decls": [
+    "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset",
+    "Causal.Causality.ChronalHomotopyOn.inf_of_closure_subset",
+    "Causal.Causality.ChronalHomotopyOn.mem_Iplus_inter_Iminus_of_closure_subset",
+    "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt",
+    "Causal.Causality.closure_Iplus_inter_Iminus_subset_of_lt"
+   ],
+   "note": "The target's statement, for any causality, any open W (the homotopy) and Ũ; no ladder property and no separation axiom. Proof: clamp Γ by max 0 (min 1 ·) to a continuous map on ℝ²; S = {t | Γ (clamp t) maps [0, 1] into Ũ} is open (tube lemma, IsCompact.eventually_forall_of_forall_eventually), contains 0, and closure S ∩ [0, 1] ⊆ S (a limit curve has its interior points in the closure of the diamond, the endpoints are fixed); [0, 1] is preconnected (IsPreconnected.subset_of_closure_inter_subset). Witness: timelikeLine_confinement."
+  },
+  {
+   "part": "(ii) identification",
+   "status": "done",
+   "decls": [
+    "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset",
+    "Causal.Causality.Iplus_inter_Iminus_subset_inf_of_futureOneConnectedOn",
+    "Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn",
+    "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn",
+    "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt",
+    "Causal.Causality.Iplus_inter_Iminus_eq_of_futureOneConnected"
+   ],
+   "note": "The target's inclusion (…_subset_of_futureOneConnectedOn), and stronger: the diamond of W equals that of W ⊓ Ũ. W is CausallyArcConnectedOn W and FutureOneConnectedOn W (the On forms, weaker than the global ladder properties); the curve form needs only future one-connectedness. Witness: timelikeLine_diamond_identification (W = ℝ, Ũ = (−1, 2), x = 0, y = 1, γ = id; the diamond contains 1/2)."
+  },
+  {
+   "part": "(iii) localisation",
+   "status": "done",
+   "decls": [
+    "Causal.Causality.StronglyCausalOn",
+    "Causal.Causality.LocallyStronglyCausal",
+    "Causal.Causality.StronglyCausal.locallyStronglyCausal",
+    "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure",
+    "Causal.Causality.StronglyCausalOn.exists_closure_subset",
+    "Causal.Causality.StronglyCausalOn.exists_isCompact_closure"
+   ],
+   "note": "LocallyStronglyCausal as the target defines it (no clash: grep -w of Causal/ and scaffold/); StronglyCausal ⇒ LocallyStronglyCausal; on a locally compact R₁ (hence every locally compact Hausdorff) M, the closure hypothesis of (i), with compact closures, for all x, y in a neighbourhood V of every point, Ũ inside any given neighbourhood. The evidence's construction is followed, simplified: Ũ = W ∩ interior N, K' a compact neighbourhood of p in Ũ, V ⊆ K' causally convex in W; then J_Ũ(x, y) ⊆ J_W(x, y) ⊆ V ⊆ K', and in an R₁ space closure K' ⊆ Ũ (IsCompact.closure_subset_of_isOpen), so the first compact K of the evidence is not needed. With [RegularSpace M] alone the closures lie in Ũ (closed neighbourhoods). Witnesses: timelikeLine_locallyStronglyCausal, timelikeLine_exists_isCompact_closure; exists_confining_not_locallyStronglyCausal shows the property is sufficient, not necessary."
+  }
+ ],
+ "declarations": [
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:166",
+   "statement": "(h : C.ChronalHomotopyOn W Γ γ₀ γ₁) (hx : γ₀ 0 = x) (hy : γ₀ 1 = y) (h₀ : MapsTo γ₀ (Icc 0 1) Ũ) (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ) : MapsTo (uncurry Γ) (Icc 0 1 ×ˢ Icc 0 1) Ũ",
+   "standing": "any causality C on any topological space M, any opens W, Ũ; no ladder property, no separation axiom",
+   "part": "(i), the target's statement",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.inf_of_closure_subset",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:236",
+   "statement": "same hypotheses : C.ChronalHomotopyOn (W ⊓ Ũ) Γ γ₀ γ₁",
+   "standing": "none",
+   "part": "(i): every curve of the homotopy is a chronal curve of W ⊓ Ũ ('a timelike curve in Ũ', :621)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.mem_Iplus_inter_Iminus_of_closure_subset",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:244",
+   "statement": "same hypotheses, t ∈ Icc 0 1, s ∈ Ioo 0 1 : Γ t s ∈ C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}",
+   "standing": "none",
+   "part": "(i): §1's 'cannot escape the diamond' (:158)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.closure_Iplus_inter_Iminus_subset_of_lt",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:259",
+   "statement": "(hyy' : C.lt Ũ y y') (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ Ũ) : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ",
+   "standing": "none",
+   "part": "(i)/(ii): Sbierski's closure hypothesis (vertex y' = γ̃(0)) gives the one at y = γ̃(s)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:269",
+   "statement": "(h : C.ChronalHomotopyOn W Γ γ₀ γ₁) (hx) (hy) (h₀) (hyy' : C.lt Ũ y y') (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ Ũ) : MapsTo (uncurry Γ) (Icc 0 1 ×ˢ Icc 0 1) Ũ",
+   "standing": "none",
+   "part": "(i): Thm 3.1 Step 3 as printed (:621)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:282",
+   "statement": "(hfoc : C.FutureOneConnectedOn W) (hγ : C.ChronalCurveOn W γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y) (hγŨ : MapsTo γ (Icc 0 1) Ũ) (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ) (hσ : C.ChronalCurveOn W σ 0 1) (hσx : σ 0 = x) (hσy : σ 1 = y) : C.ChronalCurveOn (W ⊓ Ũ) σ 0 1",
+   "standing": "future one-connectedness of W only; no arc-connectedness",
+   "part": "(ii), curve form: Thm 4.11 at :1623 ('ι ∘ σ maps into Õ')",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Iplus_inter_Iminus_subset_inf_of_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:296",
+   "statement": "(hcac : C.CausallyArcConnectedOn W) (hfoc : C.FutureOneConnectedOn W) (hγ : C.ChronalCurveOn W γ 0 1) (hx : γ 0 = x) (hy : γ 1 = y) (hγŨ : MapsTo γ (Icc 0 1) Ũ) (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ) : C.Iplus W {x} ∩ C.Iminus W {y} ⊆ C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}",
+   "standing": "causally_arc_connected and future one-connectedness, both On W",
+   "part": "(ii), stronger than the target's (W ⊓ Ũ in place of Ũ)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:318",
+   "statement": "same hypotheses : C.Iplus W {x} ∩ C.Iminus W {y} = C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}",
+   "standing": "as above",
+   "part": "(ii), with equality",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:332",
+   "statement": "same hypotheses : C.Iplus W {x} ∩ C.Iminus W {y} ⊆ C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}",
+   "standing": "as above",
+   "part": "(ii), the target's statement",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:347",
+   "statement": "hcac, hfoc, hγ, hx, hy, hγŨ, (hyy' : C.lt Ũ y y') (hcl : closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y'}) ⊆ Ũ) : C.Iplus W {x} ∩ C.Iminus W {y} ⊆ C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}",
+   "standing": "as above",
+   "part": "(ii): (1.2)'s ⊇ as printed (:153–158, closure hypothesis at γ̃(0))",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Iplus_inter_Iminus_eq_of_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:357",
+   "statement": "(hcac : C.CausallyArcConnected) (hfoc : C.FutureOneConnected) (hγ : C.ChronalCurveOn ⊤ γ 0 1) (hx) (hy) (hγŨ) (hcl) : C.Iplus ⊤ {x} ∩ C.Iminus ⊤ {y} = C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}",
+   "standing": "the ladder properties causally_arc_connected and future_one_connected of C itself",
+   "part": "(ii), W = M: the consequence at [future_one_connected, causally_arc_connected]",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.StronglyCausalOn",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:371",
+   "statement": "def (W : Opens M) : Prop := ∀ p ∈ W, ∀ U ∈ 𝓝 p, ∃ V ∈ 𝓝 p, V ⊆ U ∧ C.CausallyConvexIn V W",
+   "standing": "definition",
+   "part": "(iii)",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.LocallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:378",
+   "statement": "def : Prop := ∀ p : M, ∃ W : Opens M, p ∈ W ∧ C.StronglyCausalOn W",
+   "standing": "definition (new; no clash in Causal/ or scaffold/)",
+   "part": "(iii)",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.stronglyCausalOn_top",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:380",
+   "statement": "C.StronglyCausalOn ⊤ ↔ C.StronglyCausal",
+   "standing": "none",
+   "part": "(iii)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.StronglyCausalOn.mono",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:385",
+   "statement": "(h : C.StronglyCausalOn W) (hW : W' ≤ W) : C.StronglyCausalOn W'",
+   "standing": "none (V ∩ W' is causally convex in W')",
+   "part": "(iii)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.dual_stronglyCausalOn",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:396",
+   "statement": "C.dual.StronglyCausalOn W ↔ C.StronglyCausalOn W",
+   "standing": "none",
+   "part": "(iii)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.dual_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:400",
+   "statement": "C.dual.LocallyStronglyCausal ↔ C.LocallyStronglyCausal",
+   "standing": "none",
+   "part": "(iii)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.StronglyCausal.locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:404",
+   "statement": "(h : C.StronglyCausal) : C.LocallyStronglyCausal",
+   "standing": "none (W = ⊤)",
+   "part": "(iii), the edge",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.locallyStronglyCausal_iff_nhds",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:408",
+   "statement": "C.LocallyStronglyCausal ↔ ∀ p, ∀ N ∈ 𝓝 p, ∃ W : Opens M, p ∈ W ∧ (W : Set M) ⊆ N ∧ C.StronglyCausalOn W",
+   "standing": "none (heredity)",
+   "part": "(iii)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.diamond_subset_of_causallyConvexIn",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:419",
+   "statement": "(hVc : C.CausallyConvexIn V W) (hŨW : Ũ ≤ W) (hx : x ∈ V) (hy : y ∈ V) : C.diamond Ũ x y ⊆ V ∧ C.Iplus Ũ {x} ∩ C.Iminus Ũ {y} ⊆ C.diamond Ũ x y",
+   "standing": "none (le_mono, le_of_lt)",
+   "part": "(iii), the evidence's ≪_Ũ ⊆ ≤_Ũ ⊆ ≤_W step",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.StronglyCausalOn.exists_closure_subset",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:432",
+   "statement": "[RegularSpace M] (h : C.StronglyCausalOn W) (hp : p ∈ W) (hN : N ∈ 𝓝 p) : ∃ Ũ : Opens M, p ∈ Ũ ∧ Ũ ≤ W ∧ ↑Ũ ⊆ N ∧ ∃ V ∈ 𝓝 p, ∀ x ∈ V, ∀ y ∈ V, C.diamond Ũ x y ⊆ V ∧ closure (C.diamond Ũ x y) ⊆ Ũ ∧ closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ",
+   "standing": "[RegularSpace M] (weaker than locally compact T2 for this conclusion)",
+   "part": "(iii), closure hypothesis only",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.StronglyCausalOn.exists_isCompact_closure",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:449",
+   "statement": "[LocallyCompactSpace M] [R1Space M] (h : C.StronglyCausalOn W) (hp : p ∈ W) (hN : N ∈ 𝓝 p) : ∃ Ũ, p ∈ Ũ ∧ Ũ ≤ W ∧ ↑Ũ ⊆ N ∧ ∃ V ∈ 𝓝 p, ∀ x ∈ V, ∀ y ∈ V, C.diamond Ũ x y ⊆ V ∧ IsCompact (closure (C.diamond Ũ x y)) ∧ closure (C.diamond Ũ x y) ⊆ Ũ ∧ IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧ closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ",
+   "standing": "[LocallyCompactSpace M] [R1Space M]; T2Space gives R1Space (mathlib instance)",
+   "part": "(iii)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:471",
+   "statement": "[LocallyCompactSpace M] [R1Space M] (h : C.LocallyStronglyCausal) (p : M) (hN : N ∈ 𝓝 p) : ∃ Ũ : Opens M, p ∈ Ũ ∧ ↑Ũ ⊆ N ∧ C.StronglyCausalOn Ũ ∧ ∃ V ∈ 𝓝 p, ∀ x ∈ V, ∀ y ∈ V, IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧ closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y}) ⊆ Ũ",
+   "standing": "[LocallyCompactSpace M] [R1Space M] (every locally compact Hausdorff M)",
+   "part": "(iii), the target's statement",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.LocallyStronglyCausal.exists_diamond_identification",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:487",
+   "statement": "[LocallyCompactSpace M] [R1Space M] (h : C.LocallyStronglyCausal) (p : M) (hN : N ∈ 𝓝 p) : ∃ Ũ, p ∈ Ũ ∧ ↑Ũ ⊆ N ∧ ∃ V ∈ 𝓝 p, ∀ x ∈ V, ∀ y ∈ V, IsCompact (closure (I⁺(x,Ũ) ∩ I⁻(y,Ũ))) ∧ closure (…) ⊆ Ũ ∧ ∀ W, C.CausallyArcConnectedOn W → C.FutureOneConnectedOn W → ∀ γ, C.ChronalCurveOn W γ 0 1 → γ 0 = x → γ 1 = y → MapsTo γ (Icc 0 1) Ũ → C.Iplus W {x} ∩ C.Iminus W {y} = C.Iplus (W ⊓ Ũ) {x} ∩ C.Iminus (W ⊓ Ũ) {y}",
+   "standing": "[LocallyCompactSpace M] [R1Space M]; W's properties inside",
+   "part": "assembly of (i)–(iii)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_confinement",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:508",
+   "statement": "closure (timelikeLine.Iplus (−1, 2) {0} ∩ timelikeLine.Iminus (−1, 2) {1}) ⊆ Ioo (−1) 2 ∧ ∃ Γ, timelikeLine.ChronalHomotopyOn ⊤ Γ id (fun s => s ^ 2) ∧ MapsTo (uncurry Γ) (Icc 0 1 ×ˢ Icc 0 1) (Ioo (−1) 2)",
+   "standing": "ℝ",
+   "part": "(i) witness (kb/0011): the hypotheses hold, through mapsTo_of_closure_subset, between two distinct curves",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_diamond_identification",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:527",
+   "statement": "timelikeLine.Iplus ⊤ {0} ∩ timelikeLine.Iminus ⊤ {1} ⊆ timelikeLine.Iplus (−1, 2) {0} ∩ timelikeLine.Iminus (−1, 2) {1} ∧ (1/2) ∈ timelikeLine.Iplus ⊤ {0} ∩ timelikeLine.Iminus ⊤ {1}",
+   "standing": "ℝ",
+   "part": "(ii) witness: through Iplus_inter_Iminus_subset_of_futureOneConnectedOn with timelikeLine_causallyArcConnected and timelikeLine_futureOneConnectedOn ⊤, Ũ an interval; the diamond is non-empty",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:544",
+   "statement": "timelikeLine.LocallyStronglyCausal",
+   "standing": "ℝ",
+   "part": "(iii) witness, the node's fact",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_exists_isCompact_closure",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:549",
+   "statement": "∃ Ũ : Opens ℝ, 0 ∈ Ũ ∧ timelikeLine.StronglyCausalOn Ũ ∧ ∃ V ∈ 𝓝 0, ∀ x ∈ V, ∀ y ∈ V, IsCompact (closure (…)) ∧ closure (…) ⊆ Ũ",
+   "standing": "ℝ",
+   "part": "(iii) witness, through LocallyStronglyCausal.exists_isCompact_closure",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.exists_confining_not_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:566",
+   "statement": "∃ C : Causality ℝ, (∀ p, ∀ N ∈ 𝓝 p, ∃ Ũ : Opens ℝ, p ∈ Ũ ∧ ↑Ũ ⊆ N ∧ ∃ V ∈ 𝓝 p, ∀ x ∈ V, ∀ y ∈ V, IsCompact (closure (C.Iplus Ũ {x} ∩ C.Iminus Ũ {y})) ∧ closure (…) ⊆ Ũ) ∧ ¬ C.LocallyStronglyCausal",
+   "standing": "ℝ; the causality (≤_U = U × U, ≪ empty) is built inside the proof, no new global definition; not absolutely minimal",
+   "part": "(iii) remark: LocallyStronglyCausal is sufficient, not necessary, for (i)'s hypothesis",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.CurveOn.exists_concat_mid",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:141",
+   "statement": "(hr : IsRelFamily r) (h₁ : CurveOn r W c₁ 0 1) (h₂ : CurveOn r W c₂ 0 1) (h : c₁ 1 = c₂ 0) : ∃ c, CurveOn r W c 0 1 ∧ c 0 = c₁ 0 ∧ c 1 = c₂ 1 ∧ c (1 / 2) = c₁ 1",
+   "standing": "none",
+   "part": "helper for (ii): CurveOn.exists_concat with the midpoint; belongs in Causal.ArcConnected (strict upstream)",
+   "status": "proved"
+  }
+ ],
+ "paper_rows": [
+  {
+   "label": "schwthm:MinkInex",
+   "tex_lines": [
+    475,
+    624
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt",
+    "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset",
+    "Causal.Causality.ChronalHomotopyOn.inf_of_closure_subset",
+    "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure"
+   ],
+   "note": "Step 3 (:619–621) is mapsTo_of_closure_subset_of_lt as printed (homotopy from γ̃(−s₀) to γ̃(−s₁), closure hypothesis at γ̃(0)); Step 1.2's precompact chart diamond (:528–532) is LocallyStronglyCausal.exists_isCompact_closure once the chart is strongly causal as a spacetime (C0 layer 3). In the binder's `ett`, these replace the placeholder 'T-abs-diamond-confinement'; open_localisation keeps future_one_connected and locally_strongly_causal until the nodes exist. Still partial and unmarked: Steps 1.1–1.3 (cone sandwich, timelike diameter) and 2.x are metric, and the C0 layer 3 is not built."
+  },
+  {
+   "label": "schwthm:Exterior",
+   "tex_lines": [
+    785,
+    788
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt",
+    "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt"
+   ],
+   "note": "Thm 4.10's proof is 'analogous to Thm 3.1' (:1077–1079): Step 3 is the same confinement, and (1.2)'s ⊇ for M_ext (future one-connected by Prop 4.12) is Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt. Partial: the metric obstruction (Prop 4.14) and the C0 chart."
+  },
+  {
+   "label": "schwthm:Inex",
+   "tex_lines": [
+    790,
+    793
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset",
+    "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn",
+    "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure"
+   ],
+   "note": "The ⊇ of (FuturePastPreserving) (:1623): every future timelike σ of M_int from γ(y₀⁻) to γ(s) maps into Õ, by the interval J. That is FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset after the affine change of parameter [y₀⁻, s] → [0, 1]; the set inclusion is Iplus_inter_Iminus_subset_of_futureOneConnectedOn. The binder's other entries (schw_prop_2_7, ChronallySeparatedOn…) stay."
+  },
+  {
+   "label": "schwthm:MainThm",
+   "tex_lines": [
+    778,
+    781
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.LocallyStronglyCausal.exists_diamond_identification"
+   ],
+   "note": "Thm 4.9 follows from Thms 4.10, 4.11; its causal step (3) is the assembly LocallyStronglyCausal.exists_diamond_identification; the full skeleton is T-abs-c0-extension-skeleton's. Same for its twin schwthm:dimensional_maximal_analytic_schwarzschild."
+  },
+  {
+   "label": "schwthm:dimensional_maximal_analytic_schwarzschild",
+   "tex_lines": [
+    96,
+    98
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.LocallyStronglyCausal.exists_diamond_identification"
+   ],
+   "note": "Twin of schwthm:MainThm; as above."
+  },
+  {
+   "label": "schwlem:NormalForm",
+   "tex_lines": [
+    258,
+    288
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure"
+   ],
+   "note": "Lemma 2.4 supplies locally_strongly_causal of M̃ (its chart strongly causal as a spacetime, the cone sandwich, C0 layer 3); the layer-1 consumer is LocallyStronglyCausal.exists_isCompact_closure. The [[proposed]] block locally_strongly_causal can now set lean = \"Causal.Causality.LocallyStronglyCausal\" (CausalScaffold.DiamondConfinement until graduation)."
+  },
+  {
+   "label": "schwprop:ExtFutCon",
+   "tex_lines": [
+    830,
+    997
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.Iplus_inter_Iminus_subset_of_futureOneConnectedOn_of_lt"
+   ],
+   "note": "Prop 4.12 is layer 3 (future_one_connected of M_ext); its layer-1 consumer is the identification (1.2)'s ⊇."
+  },
+  {
+   "label": "schwprop:IntFutCon",
+   "tex_lines": [
+    1500,
+    1555
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset"
+   ],
+   "note": "Prop 6.5 is layer 3 (future_one_connected of M_int ∩ {r < r̃}); its consumer is Thm 4.11's confinement at :1623, the curve form (no arc-connectedness needed there)."
+  },
+  {
+   "label": "schwlem:BoundsOnReach",
+   "tex_lines": [
+    1457,
+    1496
+   ],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset"
+   ],
+   "note": "Lemma 6.2 is metric; it enters through Prop 6.5's assumption (:1517), whose consumer is the curve form above. Its other role (Def 2.14, Step 1.5) is unchanged."
+  },
+  {
+   "label": "schwthm:DiamFinite, schwdef:spacelike_diameter, schwdef:DefRegFlowChart, schwthm:connected_globally_hyperbolic_lorentzian",
+   "tex_lines": [],
+   "status": "partial",
+   "marked": false,
+   "proposed_ett": [
+    "Causal.Causality.FutureOneConnectedOn.chronalCurveOn_inf_of_closure_subset"
+   ],
+   "note": "Metric rows whose binder `ett` names this target as the consumer of the interior obstruction (Thm 4.11's causal steps). The planner may point them at Thm 4.11's confinement (the curve form) or keep T-abs-c0-extension-skeleton as the consumer. No layer-1 content of their own."
+  }
+ ],
+ "lemmas_for_the_keeper": [
+  {
+   "name": "Causal.Causality.LocallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:378",
+   "role": "the node's `lean` field (definition): every point has an open neighbourhood strongly causal as a spacetime",
+   "standing": "none",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.StronglyCausalOn",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:371",
+   "role": "the On form (W strongly causal as a spacetime, DEC-7 neighbourhoods, convexity in W); stronglyCausalOn_top (:380) identifies the ⊤ case with strongly_causal",
+   "standing": "none",
+   "status": "defined"
+  },
+  {
+   "name": "Causal.Causality.StronglyCausal.locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:404",
+   "role": "the edge strongly_causal ⇒ locally_strongly_causal (empty `under`, no standing: a causal_ladder rule candidate; the module imports only Causal.TimelikeHomotopy and does not reach Causal.Ladder.Rules, so no cycle, kb/0221)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.dual_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:400",
+   "role": "time reversal: an iff, so a two-sided node (a `dual` key); with dual_stronglyCausalOn (:396)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.locallyStronglyCausal_iff_nhds",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:408",
+   "role": "arbitrarily small strongly causal opens (heredity, StronglyCausalOn.mono :385)",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.LocallyStronglyCausal.exists_isCompact_closure",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:471",
+   "role": "consequence at [locally_strongly_causal]: precompact chronological diamonds in small opens Ũ, near every point",
+   "standing": "[LocallyCompactSpace M] [R1Space M] (T2 suffices); with [RegularSpace M] alone, closure ⊆ Ũ without compactness: StronglyCausalOn.exists_closure_subset (:432)",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.Iplus_inter_Iminus_eq_of_futureOneConnected",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:357",
+   "role": "consequence at [future_one_connected, causally_arc_connected] (W = M), with the closure hypothesis and a chronal curve in Ũ as side hypotheses; the On forms at :296, :318, :332, :347",
+   "standing": "none",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.Causality.LocallyStronglyCausal.exists_diamond_identification",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:487",
+   "role": "the assembly of (i)–(iii), the form T-abs-c0-extension-skeleton consumes",
+   "standing": "[LocallyCompactSpace M] [R1Space M]",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.timelikeLine_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:544",
+   "role": "a [[fact]]: the timelike line has the property",
+   "standing": "ℝ",
+   "status": "proved"
+  },
+  {
+   "name": "Causal.exists_confining_not_locallyStronglyCausal",
+   "file_line": "scaffold/CausalScaffold/DiamondConfinement.lean:566",
+   "role": "not a ladder separation (the closure property is not a node, and the witness is not absolutely minimal): the property used by (i) is strictly weaker than locally_strongly_causal",
+   "standing": "ℝ",
+   "status": "proved"
+  },
+  {
+   "name": "separation locally_strongly_causal ⇏ strongly_causal (not in Lean)",
+   "file_line": "none",
+   "role": "candidates for the keeper, argued only. (1) The loop fan, Causal.loopFan (Causal/GHWithoutTarentin.lean:753): not strongly causal (loopFan_not_stronglyCausal, :877), absolutely minimal on every open set (loopFan_absolutelyMinimalOn, :804), T2 and second countable. Argued locally strongly causal: at a = (0, 0) take W = {height < 1/2}; an arc piece inside W stays on one leg of a tent (the peak is at height 1 + ε_n), along which both coordinates are monotone, so every box ∩ W is causally convex in W; at p ≠ a, a small box meets one tent only and is causally convex in M. Would refute locally_strongly_causal → strongly_causal in either reading of defi:causalite. It must go in a module other than CausalScaffold.DiamondConfinement, since Causal.GHWithoutTarentin imports Causal.Ladder.Rules (kb/0221). (2) The flat time cylinder (Causal.Model.FlatTimeCylinder, a model): ≪_M total, not strongly causal, small opens flat; argued locally strongly causal, would also give locally_strongly_causal ⇏ is_causal.",
+   "standing": "",
+   "status": "open (argued)"
+  }
+ ],
+ "extra_decls": [
+  "Causal.CurveOn.exists_concat_mid",
+  "Causal.Causality.diamond_subset_of_causallyConvexIn",
+  "Causal.Causality.closure_Iplus_inter_Iminus_subset_of_lt"
+ ],
+ "findings": [
+  "No defect in the argument of (i)–(iii) as printed (Thm 3.1 Step 3, InexSchwarzschild2.tex:619–621; §1, :153–158; Thm 4.11, :1623): each was checked against the TeX and is proved in Lean in a form at least as strong.",
+  "Thm 3.1 Step 3 (:621) and §1 (:158): the closure hypothesis is on the diamond up to γ̃(0), whereas the homotopy ends at γ̃(−s₁) (§1: at γ̃(s), s < 0). The closedness of I then needs the curves of the homotopy in the larger diamond, i.e. γ̃(−s₁) ≪_Ũ γ̃(0) and transitivity of ≪_Ũ. That holds, since γ̃ is a timelike curve in Ũ on (−ε, 0] (Step 1.1 (1), :491), but it is not said. The Lean form is ChronalHomotopyOn.mapsTo_of_closure_subset_of_lt, through closure_Iplus_inter_Iminus_subset_of_lt.",
+  "§1 (:158), 'a homotopy as above cannot escape I⁺(γ̃(s₀), Ũ) ∩ I⁻(γ̃(0), Ũ)': this is literally false at the common initial point γ̃(s₀). That point is not in I⁺(γ̃(s₀), Ũ) when Ũ is chronological, which the near-Minkowskian chart is. The image of the homotopy lies in that diamond ∪ {γ̃(s₀)}. Harmless. ETT form: ChronalHomotopyOn.mem_Iplus_inter_Iminus_of_closure_subset (s ∈ (0, 1)).",
+  "Step 1.2 (:528–532) gives compactness of the closure in the chart (−ε, ε)^{d+1}. Step 3 (:621) uses 'the closure in M̃ is contained in Ũ', and Thm 4.11 (:1625) writes 'precompact in Õ, i.e., in particular its closure in M̃ is contained in Õ'. Passing from one to the other uses that M̃ is Hausdorff (a compact subset of Ũ is closed in M̃), which the standing convention gives (:228, 'All manifolds considered in this paper are Hausdorff'). Correct. ETT needs only R₁ (IsCompact.closure_subset_of_isOpen), or regularity if only closure ⊆ Ũ is wanted.",
+  "Step 3 (:621), 'the openness of Ũ implies the openness of I': the step also uses the compactness of [0, 1] and the joint continuity of Γ (the tube lemma), unstated. Correct (Def 2.13 asks Γ continuous on [0, 1]², :383).",
+  "Confirmed, already in the binder (journal 2026-11-23 06:01): Thm 4.11 at :1623 writes 'from γ(x₀⁻) to γ(s)' where γ(y₀⁻) is meant. The curve σ is over [y₀⁻, s] and the homotopy is with γ|[y₀⁻,s]."
+ ],
+ "questions": [
+  "The form of the node locally_strongly_causal. Reading taken: the target's and binder's definition, LocallyStronglyCausal (every point has an open neighbourhood W strongly causal as a spacetime, CausallyConvexIn _ W). What (i)–(ii) actually use is weaker: near every point, opens Ũ (inside any neighbourhood) whose chronological diamonds between points of a neighbourhood V have closure in Ũ, compact. LocallyStronglyCausal gives it on locally compact R₁ spaces (LocallyStronglyCausal.exists_isCompact_closure), and it is strictly weaker (exists_confining_not_locallyStronglyCausal, on a non-absolutely-minimal causality on ℝ). Whether the node should be the weaker closure property is the keeper's choice (T-lad-c0-extension-nodes), or the author's. Sbierski proves neither: his chart gives the closure property directly, through the cone sandwich (:528).",
+  "'Strongly causal as a spacetime' for an open W. Reading taken: def:strongly_causal_spacetime with W's relations and the DEC-7 reading (the convex neighbourhood need not be open): StronglyCausalOn W. An open-neighbourhood variant (as StronglyCausalOpen) is not defined. The closure results do not need it.",
+  "(iii)'s 'the closure hypothesis of (i) for all x, y near every point'. Reading taken, the strongest natural one: for every point p and every neighbourhood N of p, there are an open Ũ ∋ p inside N and a neighbourhood V of p such that the hypothesis holds for all x, y ∈ V, with compact closures."
+ ],
+ "kb_proposals": [
+  "Sbierski's homotopy confinement (1507.00601 Thm 3.1 Step 3, Thm 4.11 at :1623) is Causality.ChronalHomotopyOn.mapsTo_of_closure_subset (CausalScaffold.DiamondConfinement, T-abs-diamond-confinement). The open–closed argument: clamp Γ by max 0 (min 1 ·) to get a continuous map on ℝ² (ContinuousOn.comp_continuous); openness by IsCompact.eventually_forall_of_forall_eventually; closedness by closure_minimal on the preimage of the closed closure; then IsPreconnected.subset_of_closure_inter_subset on [0, 1]. No separation axiom.",
+  "The diamond identification: I⁺(x, W) ∩ I⁻(y, W) = I⁺(x, W ⊓ Ũ) ∩ I⁻(y, W ⊓ Ũ) for W causally arc-connected and future one-connected (Iplus_inter_Iminus_eq_inf_of_futureOneConnectedOn). To put a point of a diamond on a curve, use CurveOn.exists_concat_mid (exists_concat, with c (1/2) the junction).",
+  "LocallyStronglyCausal (every point has an open W with StronglyCausalOn W, CausallyConvexIn _ W) is hereditary (StronglyCausalOn.mono). On a locally compact R₁ space it gives compact chronological diamond closures in small opens (LocallyStronglyCausal.exists_isCompact_closure). R₁ suffices, not T2: IsCompact.closure_subset_of_isOpen and IsCompact.closure_of_subset.",
+  "A module that proves a candidate ladder edge (here StronglyCausal.locallyStronglyCausal) must not import a module reaching Causal.Ladder.Rules, such as Causal.GHWithoutTarentin (the loop fan): put a separation witness in a module of its own (kb/0221).",
+  "A throwaway causality for one counterexample can be built inside the proof, `let C : Causality ℝ := { le := …, lt := fun _ _ _ => False, … }`, with no new global name (exists_confining_not_locallyStronglyCausal)."
+ ],
+ "notes": "One new file, 606 lines, 0 sorry. No ETT label; the docstring marks nothing with **, and the Sbierski rows are cited unmarked. Graduation (kb/0015, kb/0025): the master adds `import CausalScaffold.DiamondConfinement` to scaffold/CausalScaffold.lean, which I did not edit. At graduation the file moves to Causal/ (its only import, Causal.TimelikeHomotopy, is strict). Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the 30 names outside this file. CurveOn.exists_concat_mid belongs beside CurveOn.exists_concat in Causal.ArcConnected; it is here because that module is strict upstream (SCOPE). The binder's [[proposed]] block locally_strongly_causal can now name Causal.Causality.LocallyStronglyCausal. I edited no existing file. I ran no git command, no `make check`, no `lake build` without a module, and no `tools/ladder.py emit-lean`; tools/ladder.py was only imported in memory (lean_index, model_path, import_chain). The scratch file used while proving was in /tmp and has been deleted.",
+ "corrected_after_audit": "AUDIT-1 (minor), applied by the master: findings[5]'s reason for the :1623 typo dropped (x₀⁻ = −3/4 ε is the time coordinate of x⁻, :1606–1607, and γ(x₀⁻) is a point of γ at :1772, :1790, :1813, :1815, :1839; the typo stands: σ starts at γ(y₀⁻)); the equation is (3.2), UpperBoundEstimatesOnPastAndFuture, not (3.3) (RemainsInCone), and Step 1.2 proves only the upper cone estimate, the two-sided sandwich being Thm 4.11's (:1585); 'precompact in Õ' is at :1625, not :1623; the :528 paraphrase is no longer quoted. The binder's schwlem:NormalForm note has the same '(3.3)' (the planner's)."
+}

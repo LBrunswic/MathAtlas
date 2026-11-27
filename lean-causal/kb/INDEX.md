@@ -296,4 +296,5 @@ rediscover. One fact per entry.
 | [0288](entries/0288-the-shift-lemma-for-push-up-in-a-lipschi.md) | pattern | The shift lemma for push-up in a Lipschitz metric |
 | [0289](entries/0289-prop-k-calcul-goes-through-plainness-eve.md) | pattern | prop:K_calcul goes through plainness, every blocker ruled |
 | [0290](entries/0290-a-curve-causality-as-refltransgen-of-sin.md) | pattern | A curve causality as ReflTransGen of single paths |
+| [0291](entries/0291-diamond-confinement.md) | pattern | Sbierski's homotopy confinement and diamond identification, and LocallyStronglyCausal |
 | [0292](entries/0292-ers-no-arc.md) | pattern | ERS 4.64–4.73 need no causal arc-connectedness; a generic ℝ witness package |
