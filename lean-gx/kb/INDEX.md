@@ -155,3 +155,10 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0145](entries/0145-at-p-in-ds-2-p-perp-span.md) | pattern | At p ∈ dS², p^⊥ = span(dsE0 p, jVec p) |
 | [0146](entries/0146-any-property-of-the-developed-image-of-o.md) | pattern | Properties of one lifted pair's developed image are pair-independent |
 | [0147](entries/0147-a-continuous-locally-injective-f.md) | pattern | A continuous locally injective f : ℝ → ℝ is monotone up to a sign |
+| [0148](entries/0148-btz-embeddings-are-gx-isbtzembedding-on.md) | pattern | BTZ-embeddings are GX.IsBTZEmbedding on the bundled GX.E0Mfd |
+| [0149](entries/0149-liouville-for-e-morphisms-of-manifolds-i.md) | pattern | Liouville for E₀-morphisms of manifolds in one line |
+| [0150](entries/0150-ise0mor-is-an-abbrev-that-blocks-rw.md) | pitfall | IsE0Mor is an abbrev that blocks rw |
+| [0151](entries/0151-the-inverse-of-a-bijective-e-morphism-is.md) | pattern | The inverse of a bijective E₀-morphism is an E₀-morphism |
+| [0152](entries/0152-e0pushout-forgets-that-is-an-e-morphism.md) | pitfall | E0Pushout forgets that ι₂ is an E₀-morphism |
+| [0153](entries/0153-cauchy-maximality-of-reg-m-needs-no-surg.md) | pattern | Cauchy-maximality of Reg M needs no surgery |
+| [0154](entries/0154-the-image-of-a-flat-cauchy-embedding-is.md) | pattern | The image of a flat Cauchy embedding is causally convex |

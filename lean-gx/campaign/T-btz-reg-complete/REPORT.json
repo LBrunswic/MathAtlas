@@ -1,0 +1,66 @@
+{
+  "package": "T-btz-reg-complete",
+  "target": "T-btz-reg-complete",
+  "files": ["scaffold/GXScaffold/BTZ/RegComplete.lean", "scaffold/GXScaffold.lean (one import line)"],
+  "builds": true,
+  "sorry_count": 1,
+  "axioms": {
+    "GX.E0RegComplete.gh_mgh_regM": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.E0RegComplete.prop_reg_complete": ["propext", "sorryAx", "Classical.choice", "Quot.sound"],
+    "file": "campaign/T-btz-reg-complete/axioms.out"
+  },
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "tex_lines": [1566, 1576],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.E0RegComplete.prop_reg_complete",
+        "GX.E0RegComplete.prop_reg_complete'",
+        "GX.E0RegComplete.gh_mgh_regM",
+        "GX.E0RegComplete.gh_regM",
+        "GX.E0RegComplete.mgh_regM",
+        "GX.E0RegComplete.regM_isCauchyComplete_of_complete",
+        "GX.E0RegComplete.IsE0C1CompleteCauchy",
+        "GX.E0RegComplete.E0C1CauchyComplete"
+      ],
+      "hypotheses": [
+        {"paper": "E_{>=0}-manifold", "here": "narrowed", "note": "E0-manifolds only (T-btz-scope, needs-ruling; DEC-116 (b), DEC-125 (a)(e)); T2, connected, second countable as in every lean-gx E0 row (DEC-66). For E0, Reg_{>0} M = Reg M = E0LM.e0RegM M."},
+        {"paper": "globally hyperbolic", "here": "as printed", "note": "(CE M).GloballyHyperbolic"},
+        {"paper": "Cauchy-complete (l.227: a smooth spacelike Cauchy surface which is metrically complete)", "here": "read", "note": "IsE0C1CompleteCauchy: the data of DEC-31/119's GX.IsE0CauchyComplete on S (implied: IsE0C1CompleteCauchy.isE0CauchyComplete) plus 'smooth' read as DEC-107 reads it for Cauchy-compact (the C1 rim field of E0Surgery.IsE0C1SpacelikeCauchy, verbatim). Used only by the Cauchy-completeness conclusion, which is the open sorry."},
+        {"paper": "Cauchy-maximal", "here": "as printed", "note": "E0Spear.IsE0CauchyMaximal (DEC-77 (c))"},
+        {"paper": "conclusion: Reg M Cauchy-maximal", "here": "read", "note": "Causal.Flat.MGH (e0RegMFlat M): every flat Cauchy embedding of Reg M (into a FlatSpacetime.{0} 2) is onto"}
+      ],
+      "sorries": [
+        {
+          "decl": "GX.E0RegComplete.regM_isCauchyComplete_of_complete",
+          "obstruction": "The non-compact surgery. E0Surgery.SurgeryData has finitely many spears (field finite, from compactness: l.1091 'Since M is Cauchy-compact, it admits finitely many BTZ-lines'), and exists_surgeryData, SurgeryData.isCauchySurface_sigmaStar, completeSpace_sigmaStar all take a compact IsE0C1SpacelikeCauchy surface, so none applies to a complete S, which may carry countably many BTZ points (discrete and closed in S, kb/0217). Owed: (1) a countable, locally finite family of pairwise disjoint closed spears around S ∩ sing0 M, each with S's trace a C1 circle in its shaft (Lemmas tube, add_BTZ_param); (2) Sigma* Cauchy in Reg M with infinitely many spears (cor:intersect in each spear, plus local finiteness for an inextensible curve meeting infinitely many spears); (3) Sigma* complete for its induced length: Lemma 2.8's log r estimate inside each spear and a comparison across infinitely many spears (perhaps uniform, perhaps avoidable, AUDIT-1), with the DEC-31 length of S outside them. The paper prints none of this ('applies as is')."
+        }
+      ],
+      "findings": [
+        "l.1571 ('the proof of Cauchy-completeness of Proposition prop:abs_max applies as is'): it does not apply as is. That proof (l.1091) uses that a Cauchy-compact M has finitely many BTZ lines, so finitely many disjoint spears and one surgery each. A Cauchy-complete M may have countably many BTZ lines, and then the completeness of Sigma* with infinitely many spears is not addressed by the paper (a uniform estimate is one route; with locally finite spears a Hopf–Rinow-type argument may avoid it — AUDIT-1). This is a gap in the proof, not a counterexample: I found no counterexample and expect the statement to hold.",
+        "l.1571–1575 (Cauchy-maximality): the paper's route goes through the surgered Sigma* (lem:curve_extension (ii), cor:intersect, l.1574–1575), and it is not needed. Proved here (GX.E0RegComplete.gh_mgh_regM, standard axioms): for EVERY globally hyperbolic Cauchy-maximal E0-manifold M with a Cauchy surface, Reg M is globally hyperbolic and Cauchy-maximal. Cauchy-completeness and smoothness are not used. Route: the push-out M̄ of lem:extension_hausdorff is globally hyperbolic (the proof of prop:abs_max does not use compactness: E0MixedDiamond.globallyHyperbolic_pushout); ι₁(M) is causally convex in M̄; the image of ANY Cauchy surface of M is then a Cauchy surface of M̄, by Sbierski's union argument (Causal.CBG.isCauchySurfaceOn_sup_of_slice).",
+        "l.1573 ('We are left to show M → M̄ is a Cauchy-extension'): the argument printed at l.1574–1575 never shows that Σ stays acausal in M̄, and the Cauchy property needs it. Here it comes from the causal convexity of ι₁(M) in M̄ (causallyConvexIn_range_ι₁), which has three ingredients: the past of a BTZ point is BTZ; an earlier point of a BTZ line is chronologically below every regular point of the later point's future (DEC-64's Iplus_of_lt); and the image of a flat Cauchy embedding is causally convex (causallyConvexIn_range_of_isFlatCauchyEmbedding)."
+      ],
+      "questions": [
+        "Cauchy-complete for an E0-manifold (l.227: 'a smooth spacelike Cauchy-surface … metrically complete'). Reading taken: DEC-31/119's GX.IsE0CauchyComplete (spacelike Lipschitz in Reg M's flat charts, complete for the induced length extended across the BTZ lines), with 'smooth' read as DEC-107 reads it for Cauchy-compact, i.e. the C1 rim condition of IsE0C1SpacelikeCauchy. The rim condition goes beyond DEC-31/119, so this needs an OQ row: is the C1 rim reading of 'smooth' accepted for Cauchy-complete as it was for Cauchy-compact? It is consumed only by the open Cauchy-completeness clause.",
+        "Cauchy-maximal for Reg M (l.1568). Reading taken: Causal.Flat.MGH, i.e. Cauchy-maximal among flat spacetimes. The paper's 'Cauchy-extension N of M*' (l.1572) is an E_{>=0}-manifold, but a Cauchy extension of a spacetime with no singular line has none: each singular line is inextensible and would cross the image of a Cauchy surface. So the two readings agree, though that equivalence is not formalized here. An E0-target form (IsE0CauchyMaximal of Reg M) is not stated.",
+        "Scope: E0 only, as for every btz row anchored in lean-gx (T-btz-scope, needs-ruling). For E0-manifolds Reg_{>0} M = Reg M."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.E0RegComplete.exists_e0Pushout_mor",
+    "GX.E0RegComplete.causallyConvexIn_range_of_isFlatCauchyEmbedding",
+    "GX.E0RegComplete.causallyConvexIn_range_ι₁",
+    "GX.E0RegComplete.isCauchySurface_pushout",
+    "GX.E0RegComplete.IsE0C1CompleteCauchy.isE0CauchyComplete"
+  ],
+  "kb_proposals": [
+    "E0Pushout forgets that ι₂ : FlatE0 N → M̄ is an E0-morphism, and the curve-level transport needs it (only le_ι₂ on range ι₂ survives). Use GX.E0RegComplete.exists_e0Pushout_mor, which is exists_e0Pushout's construction returning that property as well.",
+    "Cauchy-maximality of Reg M needs no surgery: push-out GH + causal convexity of ι₁(M) + Causal.CBG.isCauchySurfaceOn_sup_of_slice (GX.E0RegComplete.mgh_regM). Do not rebuild Sigma* to prove maximality.",
+    "The image of a flat Cauchy embedding is causally convex: Causal.Causality.causallyConvexIn_of_isCauchySurfaceOn with flatCausality_causallyArcConnected 2 N and Causal.CBG.flat_curvesExtend (GX.E0RegComplete.causallyConvexIn_range_of_isFlatCauchyEmbedding)."
+  ],
+  "notes": "One tagged sorry (regM_isCauchyComplete_of_complete); prop_reg_complete and prop_reg_complete' rest on it. gh_mgh_regM, mgh_regM, isCauchySurface_pushout and causallyConvexIn_range_ι₁ are sorry-free on standard axioms. exists_e0Pushout_mor copies the 110-line proof of E0AbsMax.exists_e0Pushout verbatim and adds the ι₂ property. At graduation, prefer adding that field to E0Pushout (or exporting hι) over keeping the copy. The import line sits directly after T-btz-embeddings' line in GXScaffold.lean. Imports only GX.* (no Causal.* import, kb/0030)."
+}

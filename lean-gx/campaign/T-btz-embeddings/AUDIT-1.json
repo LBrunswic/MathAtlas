@@ -1,0 +1,84 @@
+{
+ "target": "T-btz-embeddings",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "btzdef:btz_extension_btz_embedding",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "GX.IsBTZEmbedding = IsEmbedding ∧ IsE0Mor ι univ ∧ (range ι)ᶜ ⊆ S0 N carries the three printed conditions of l.325-327: embedding, a.e. morphism, complement of the image of type 𝔼₀. Nothing is silently dropped. The source M only needs ChartedSpace E0Y, which is more general than the paper. Two narrowings are disclosed and keep the row partial and unmarked: (a) 𝔼₀ instead of 𝔼_{≥0} (DEC-116 (b)/DEC-125), and (b) « a.e. 𝔼-morphism » read as IsE0Mor, a local structomorphism at every point, BTZ points included. That is stronger than l.359's definition (continuous, a (G,X)-morphism on dense locally connected opens of the regular parts), so IsBTZEmbedding is a narrower predicate than the printed one. The checklist marks it '⚠ read'. BTZExtension: N : E0Mfd (T2, second countable, E0Y-atlas in e0Groupoid; not connected, as at l.261). isBTZEmbedding_iff_injective is proved and true under the IsE0Mor reading. Module docstring: the six labels appear unmarked within the first 4000 characters (lines 10-19), and the module docstring carries no ``**`label`**``. Five declaration docstrings do use that form; see the findings."
+  },
+  {
+   "label": "btzdef:common_sub_btz_extension",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "CommonSubBTZ i j has X : E0Mfd, a : M₀ → X, b : X → M₁, c : X → M₂, all three BTZ-embeddings, with b ∘ a = i and c ∘ a = j. That is the printed diagram (l.1305-1313). The paper's hypothesis that i and j are BTZ-extensions is dropped from the parameters. For a definition this is a disclosed generalisation (checklist '⚠ weakened'): when i and j are BTZ the structure is the paper's, and b ∘ a = i makes i BTZ anyway. CommonSubBTZ.base shows the type is inhabited."
+  },
+  {
+   "label": "btzdef:morphism_common_sub_extension",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "IsMorphism = IsE0Mor φ univ ∧ Y.b ∘ φ = X.b ∧ Y.c ∘ φ = X.c, which is the printed diagram over M₁ and M₂ only. Equivalent = there is a bijective morphism (l.1330). The 𝔼≥0-morphism is read as IsE0Mor, the same reading as label 1, and is disclosed. The derived facts are all proved: injectivity, being a BTZ-embedding, commuting with a, uniqueness, and the inverse of a bijective morphism being a morphism, so Equivalent is an equivalence relation."
+  },
+  {
+   "label": "btzdef:maximal_common_sub_btz_extension",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "IsMaximal X = ∀ Y, ∃ φ, Y.IsMorphism X φ ∧ Injective φ, which is l.1336 literally, injectivity included. The redundancy claim holds and is proved by isMaximal_iff through IsMorphism.injective (X.b ∘ φ = Y.b with Y.b injective). It needs nothing beyond the definition, so it also holds for the printed paper notion. IsMaximal.equivalent (two maximal ones are equivalent) is correct. The quantification is over carriers in Type: disclosed in the REPORT and harmless."
+  },
+  {
+   "label": "btzdef:common_over_btz_extension",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "CommonOverBTZ i j has X : E0Mfd and BTZ-embeddings a : M₁ → X, b : M₂ → X with a ∘ i = b ∘ j, which is the printed diagram (l.1383-1393). i and j are generalised to arbitrary maps, as in label 2."
+  },
+  {
+   "label": "btzdef:morphism_common_over_btz_extension",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "IsMorphism = IsE0Mor φ univ ∧ φ ∘ X.a = Y.a ∧ φ ∘ X.b = Y.b, and Equivalent = bijective morphism, as at l.1401 and l.1411. Injectivity is not required, as printed; the REPORT raises this as an open question, not as a defect. IsMorphism.unique (via density of range a) and the equivalence-relation facts are proved."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/Embeddings.lean` (cwd lean-gx): rc 0, no output. 0 `sorry` in code. Axiom probe (a copy of the file plus #print axioms for all 61 declarations, written under campaign/T-btz-embeddings/ and deleted afterwards): every declaration depends on [propext, Classical.choice, Quot.sound]. This agrees with axioms.out (61 lines)."
+ },
+ "scope": {
+  "ok": true,
+  "notes": "`git status --short`, lean-gx part: ` M lean-gx/scaffold/GXScaffold.lean` (diff: exactly one added line, `import GXScaffold.BTZ.Embeddings`), `?? lean-gx/campaign/T-btz-embeddings/` (REPORT.json, axioms.out) and `?? lean-gx/scaffold/GXScaffold/BTZ/` (Embeddings.lean, plus RegComplete.lean, which belongs to the concurrent T-btz-reg-complete and is out of scope). No stray file remains. The other entries (lean-yamabe, papers/*/certificate, roadmap.toml) belong to other loops."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/Embeddings.lean:319,337,347,500,515",
+   "what": "Five declaration docstrings carry the exact mark form ``**`btzdef:…`**`` on rows that are partial: common_sub_btz_extension, morphism_common_sub_extension, maximal_common_sub_btz_extension, common_over_btz_extension, morphism_common_over_btz_extension. These marks are not in the module docstring and sit at characters 15983-23222, past the ledger's 4000-character window, so tools/ledger.py lean_index does not read them today. They are still the house certification mark on uncertified rows, and they disagree with the module docstring and with the REPORT ('marked': false). At l.90 and l.297 the bold wraps more text (**`label`, the …**), so those two do not match the mark regex.",
+   "fix": "In those five declaration docstrings, write the label as `` `btzdef:…` `` without the surrounding ** (or move the bold off the label)."
+  },
+  {
+   "severity": "minor",
+   "where": "Embeddings.lean:27,54,117; REPORT.json labels[0].hypotheses/findings",
+   "what": "Several paper line citations are off. « since any 𝔼≥0-manifold is a 3-manifold, an a.e. 𝔼-morphism is an embedding iff it is injective » is at BTZ_1.tex:1264, not l.1288. l.1288 is a diagram line. Smaller drifts: the l.1306 sentence is at l.1309, l.1322 at l.1320, the l.1354 uniqueness sentence at l.1352, l.1356 at l.1354, l.1385 at l.1384. The quoted text is correct; only the line numbers are wrong.",
+   "fix": "Correct the citations (1288→1264, 1306→1309, 1322→1320, 1354→1352, 1356→1354, 1385→1384) in the docstrings and the REPORT."
+  },
+  {
+   "severity": "minor",
+   "where": "Embeddings.lean:107 vs lean-gx/GX/BTZ/AbsMax.lean:1932",
+   "what": "GX.continuous_of_isE0Mor' duplicates GX.E0AbsMax.continuous_of_isE0Mor. The primed version is strictly more general: it needs no HasGroupoid N, and M is free of the section's T2/Connected/SecondCountable variables. There is no clash today, because the names (prime) and namespaces (GX vs GX.E0AbsMax) differ. At graduation into GX/BTZ/ it is a redundancy, not a collision. It would become ambiguous only if a later file opened E0AbsMax and someone dropped the prime.",
+   "fix": "At graduation, keep one lemma under a non-primed name, e.g. GX.IsE0Mor.continuous or the primed lemma renamed into GX.E0Spear, and make AbsMax's version an alias of it or delete it."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/docs/CAMPAIGN.md:51 (not the closer's file; noted for the loop)",
+   "what": "CAMPAIGN.md cites the docstring contract as `kb/entries/0006`, but lean-gx/kb/entries/0006 is 'spherical models'. The contract is lean-causal/kb/entries/0006-docstring-contract.md. Against that contract the file is compliant: title, labels in the first 4000 characters, quote block, hypothesis checklist, SCOPE, provenance. The SCOPE claims check out against the code.",
+   "fix": "Point CAMPAIGN.md at lean-causal/kb/entries/0006 (outside this target's scope; for the curator)."
+  }
+ ],
+ "checked_claims": {
+  "injective_redundancy_l1336": "true: CommonSubBTZ.IsMorphism.injective follows from Y.b ∘ φ = X.b and X.b injective. Valid for the printed definition as well.",
+  "wording_findings_l1306_l1385": "true: l.1309 lacks the article and l.1384 has a stray « BTZ ». Wording only.",
+  "l1288_remark": "a reading remark, explicitly 'not a defect'. It is accurate: l.263 states only that a local-homeomorphic a.e. morphism maps reg into reg, and the converse is not formalized. It is not sent to the author as an error."
+ }
+}

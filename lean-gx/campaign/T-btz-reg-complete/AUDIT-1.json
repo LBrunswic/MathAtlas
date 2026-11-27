@@ -1,0 +1,45 @@
+{
+  "target": "T-btz-reg-complete",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzprop:reg_complete",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Row is partial and unmarked (module docstring l.10 writes `btzprop:reg_complete` with no bold), which is right: there is one tagged sorry, and the scope is E0 only (T-btz-scope), as disclosed. Hypotheses: GH as (CE M).GloballyHyperbolic plus a Cauchy surface S. That matches the paper's definition of GH (l.221: there is a Cauchy surface), and in prop_reg_complete S comes from hS.cauchy. Cauchy-maximal of M is E0Spear.IsE0CauchyMaximal (DEC-77). Cauchy-complete (l.227) is IsE0C1CompleteCauchy: DEC-31/119's IsE0CauchyComplete data plus DEC-107's C1 rim reading of 'smooth'. The rim field goes beyond DEC-31/119. It is disclosed as an open question and is consumed only by the sorry'd clause. Conclusions: GH is Causal.Flat.GH. Cauchy-maximal is Causal.Flat.MGH (e0RegMFlat M): every flat Cauchy embedding into any T2 connected FlatSpacetime.{0} 2 (no second countability required) is surjective. For E0 the paper's E_{A*} with A* empty is exactly flat targets (cf. prop:abs_max l.1088, 'E_{A*}-maximal'), so this is the paper's notion and not narrower. Cauchy-complete is Causal.Flat.IsCauchyComplete 2: a spacelike-Lipschitz Cauchy surface complete for its induced length. That is the library's established DEC-31/35 reading, as in prop_abs_max_C1, not the literal 'smooth'. It is acceptable under those precedents, but the checklist could say so. mgh_regM and gh_mgh_regM are stronger than the paper: no completeness or smoothness is assumed."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 1,
+    "axioms": "standard for gh_regM, mgh_regM, gh_mgh_regM, isCauchySurface_pushout, causallyConvexIn_range_ι₁, causallyConvexIn_range_of_isFlatCauchyEmbedding, exists_e0Pushout_mor, IsE0C1CompleteCauchy.isE0CauchyComplete; sorryAx only in regM_isCauchyComplete_of_complete, prop_reg_complete, prop_reg_complete' (as claimed)"
+  },
+  "checks": {
+    "build_command": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/RegComplete.lean: one warning, 'declaration uses sorry' at l.371; the olean (16:00:17) is newer than the source (15:59:24)",
+    "sorry_tag": "l.374 `sorry -- SORRY(btzprop:reg_complete): the non-compact surgery ...` follows the docs/CAMPAIGN.md form and names a specific obstruction",
+    "axioms_probe": "written under campaign/T-btz-reg-complete/, run, and deleted; the results match REPORT.json and axioms.out",
+    "scope": "under lean-gx, git status shows only scaffold/GXScaffold.lean (+2 import lines; the Embeddings line belongs to T-btz-embeddings), scaffold/GXScaffold/BTZ/{Embeddings,RegComplete}.lean and the campaign dirs. Other dirty paths (lean-yamabe, papers/*/certificate restate files, roadmap.toml) belong to other loops and targets",
+    "findings_verified": "(1) l.1091 does read 'Since M is Cauchy-compact, it admits finitely many BTZ-lines and one can take the spear neighborhoods S_Δ disjoint', so the completeness proof does rest on finiteness, and 'applies as is' (l.1571) is a gap, correctly not reported as a falsity. (2) l.1574–1575 go from 'Σ* Cauchy surface of N' to 'Σ is a Cauchy surface of M̄' without arguing that an inextendible causal curve of M̄ meets Σ at most once. That is a genuine omission, given the paper's own definition of Cauchy surface (l.221, 'exactly once')"
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/RegComplete.lean:108-221",
+      "what": "exists_e0Pushout_mor duplicates about 110 lines of the strict GX.E0AbsMax.exists_e0Pushout proof. There is no name clash: it lives in namespace GX.E0RegComplete, and the original returns Nonempty (E0Pushout ...). But the two constructions can drift apart, and graduating to the strict lib would carry a second copy. The REPORT discloses this.",
+      "fix": "At graduation, add the ι₂ E0-morphism property as a field of E0Pushout (or export hι from exists_e0Pushout) and delete the copy. Do not graduate the duplicate."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-btz-reg-complete/REPORT.json findings[0]; RegComplete.lean:54-56",
+      "what": "The finding that 'applies as is' fails is right: l.1091 uses finiteness. But it adds that completeness of Σ* 'needs an estimate, uniform across the spears'. That is the closer's expectation, not established. With locally finite spears and S a complete length surface, a bounded set may meet only finitely many spears (Hopf–Rinow-type argument), so uniformity may not be needed. Sent to the author as fact, it overstates the gap.",
+      "fix": "Phrase it as: the printed proof uses finitely many BTZ lines (l.1091); the case of infinitely many (discrete) BTZ points of S is not addressed. Leave out the claim that a uniform estimate is required."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/RegComplete.lean:46",
+      "what": "The checklist marks the Cauchy-complete conclusion ✓, but Causal.Flat.IsCauchyComplete asks for a spacelike-Lipschitz surface, not the 'smooth' one of l.227. That follows the DEC-31/35 reading, so it is not a weakening against the rulings, but the row does not say so. (The hypothesis side, where the C1 rim reading is added, is disclosed.)",
+      "fix": "Annotate the row as read (DEC-31/35: piecewise-smooth or Lipschitz spacelike, complete for the induced length) instead of ✓."
+    }
+  ]
+}

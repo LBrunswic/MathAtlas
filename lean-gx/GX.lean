@@ -43,6 +43,7 @@ import GX.BTZ.FutureRay
 import GX.BTZ.AbsMax
 import GX.BTZ.Uniformization
 import GX.BTZ.TildeStructure
+import GX.BTZ.Embeddings
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface

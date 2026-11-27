@@ -1,0 +1,289 @@
+{
+ "package": "T-btz-embeddings",
+ "target": "T-btz-embeddings",
+ "files": [
+  "scaffold/GXScaffold/BTZ/Embeddings.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "standard only (propext, Classical.choice, Quot.sound) for all 61 declarations; campaign/T-btz-embeddings/axioms.out",
+ "labels": [
+  {
+   "label": "btzdef:btz_extension_btz_embedding",
+   "tex_lines": [
+    323,
+    328
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.IsBTZEmbedding",
+    "GX.BTZExtension",
+    "GX.isBTZEmbedding_iff_injective",
+    "GX.IsBTZEmbedding.isOpenEmbedding",
+    "GX.IsBTZEmbedding.dense_range",
+    "GX.IsBTZEmbedding.comp",
+    "GX.isBTZEmbedding_id",
+    "GX.IsBTZEmbedding.ext",
+    "GX.isBTZEmbedding_subtypeVal_iff",
+    "GX.IsBTZEmbedding.rangeOpens",
+    "GX.IsBTZEmbedding.isE0Mor_invFunOn",
+    "GX.IsBTZEmbedding.mem_S0_iff",
+    "GX.btzMor",
+    "GX.E0Mfd"
+   ],
+   "hypotheses": [
+    {
+     "paper": "𝔼_{≥0}-manifolds",
+     "here": "strengthened (scope)",
+     "note": "𝔼₀ only (DEC-116 (b), DEC-125 (a)(e)): every row stays partial and unmarked until T-btz-scope rules on 𝔼_{≥0} as printed"
+    },
+    {
+     "paper": "a singular manifold is second countable Hausdorff (l.261)",
+     "here": "carried",
+     "note": "GX.E0Mfd: T2Space, SecondCountableTopology, ChartedSpace E0Y, HasGroupoid e0Groupoid; not required connected (l.261 does not ask it)"
+    },
+    {
+     "paper": "« embedding » (l.325)",
+     "here": "carried",
+     "note": "IsEmbedding literally; equivalent to Injective (isBTZEmbedding_iff_injective, the l.1288 sentence) and to IsOpenEmbedding, with no invariance of domain since an IsE0Mor is a local homeomorphism by definition"
+    },
+    {
+     "paper": "« ι an a.e 𝔼-morphism » (l.325; defined l.263, l.359)",
+     "here": "read",
+     "note": "E0Spear.IsE0Mor ι univ (DEC-62's local form: LiftPropOn of e0Groupoid, the a.e.-isomorphisms of Y)"
+    },
+    {
+     "paper": "complement of the image only contains singular points of type 𝔼₀",
+     "here": "carried",
+     "note": "(range ι)ᶜ ⊆ E0CBG.S0 N"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1288 justifies « an a.e. 𝔼-morphism is an embedding iff it is injective » by « any 𝔼≥0-manifold is a 3-manifold » (invariance of domain). Under the local-structomorphism reading of an a.e. morphism the equivalence is elementary (an IsE0Mor is a local homeomorphism, so an injective one is an open embedding: GX.isBTZEmbedding_iff_injective, GX.IsBTZEmbedding.isOpenEmbedding). Under the l.263 definition (continuous, a (G,X)-morphism on dense locally connected opens of the regular parts) invariance of domain gives an open embedding but not, by itself, that BTZ points are not sent to regular points; the paper's l.263 « if such a φ is a local homeomorphism, then φ(reg M) ⊆ reg N » is the forward half only. Not a defect of the definition; a remark on which reading l.1288 needs."
+   ],
+   "questions": [
+    "« a.e. 𝔼-morphism » (l.325) is read as E0Spear.IsE0Mor ι univ (DEC-62), which requires the type of points to be preserved both ways (GX.mem_S0_iff_of_isE0Mor). The l.263/l.359 form only asks for a (G,X)-morphism on dense locally connected opens of the regular parts; for embeddings the two agree through the invariance of the type of a point (a BTZ point is not sent to a regular point, a holonomy argument), which is not formalized here. Reading taken: IsE0Mor.",
+    "Are the carriers of BTZ-extensions connected? l.261 says only « second countable Hausdorff »; DEC-66 adds connectedness for the E₀-manifolds of Props 2.16–2.17. Reading taken: not required (GX.E0Mfd has no ConnectedSpace). It matters for T-btz-maximal-extension: Liouville (GX.eq_of_isE0Mor_of_eqOn) needs a connected source, the density form of uniqueness (GX.IsBTZEmbedding.ext) does not."
+   ]
+  },
+  {
+   "label": "btzdef:common_sub_btz_extension",
+   "tex_lines": [
+    1302,
+    1315
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.CommonSubBTZ",
+    "GX.CommonSubBTZ.base"
+   ],
+   "hypotheses": [
+    {
+     "paper": "𝔼_{≥0}-manifolds",
+     "here": "strengthened (scope)",
+     "note": "𝔼₀ only (DEC-116 (b), DEC-125 (a)(e)): every row stays partial and unmarked until T-btz-scope rules on 𝔼_{≥0} as printed"
+    },
+    {
+     "paper": "a singular manifold is second countable Hausdorff (l.261)",
+     "here": "carried",
+     "note": "GX.E0Mfd: T2Space, SecondCountableTopology, ChartedSpace E0Y, HasGroupoid e0Groupoid; not required connected (l.261 does not ask it)"
+    },
+    {
+     "paper": "i, j are BTZ-extensions of M₀",
+     "here": "weakened",
+     "note": "i, j arbitrary maps; b ∘ a = i makes i a BTZ-embedding (IsBTZEmbedding.comp)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1306 reads « A common sub-BTZ-extension to M₁ and M₂ is BTZ-extension M₀ → M » (a missing article); l.1385 reads « A common over-BTZ-extension BTZ to M₁ and M₂ » (a stray « BTZ »). Wording only."
+   ],
+   "questions": []
+  },
+  {
+   "label": "btzdef:morphism_common_sub_extension",
+   "tex_lines": [
+    1317,
+    1331
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.CommonSubBTZ.IsMorphism",
+    "GX.CommonSubBTZ.Equivalent",
+    "GX.CommonSubBTZ.isMorphism_id",
+    "GX.CommonSubBTZ.IsMorphism.comp",
+    "GX.CommonSubBTZ.IsMorphism.injective",
+    "GX.CommonSubBTZ.IsMorphism.comp_a",
+    "GX.CommonSubBTZ.IsMorphism.isBTZEmbedding",
+    "GX.CommonSubBTZ.IsMorphism.unique",
+    "GX.CommonSubBTZ.IsMorphism.inv",
+    "GX.CommonSubBTZ.Equivalent.refl",
+    "GX.CommonSubBTZ.Equivalent.symm",
+    "GX.CommonSubBTZ.Equivalent.trans"
+   ],
+   "hypotheses": [
+    {
+     "paper": "𝔼_{≥0}-manifolds",
+     "here": "strengthened (scope)",
+     "note": "𝔼₀ only (DEC-116 (b), DEC-125 (a)(e)): every row stays partial and unmarked until T-btz-scope rules on 𝔼_{≥0} as printed"
+    },
+    {
+     "paper": "a singular manifold is second countable Hausdorff (l.261)",
+     "here": "carried",
+     "note": "GX.E0Mfd: T2Space, SecondCountableTopology, ChartedSpace E0Y, HasGroupoid e0Groupoid; not required connected (l.261 does not ask it)"
+    },
+    {
+     "paper": "« a 𝔼≥0-morphism φ » (l.1322)",
+     "here": "read",
+     "note": "IsE0Mor φ univ, the same class as the « a.e. 𝔼-morphism » of l.325"
+    },
+    {
+     "paper": "the diagram (l.1322–1328) involves M₁, M₂ only",
+     "here": "carried",
+     "note": "commutation with M₀ is not required, and follows (IsMorphism.comp_a)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The definition can be sharpened, and nothing in it is wrong. A morphism of common sub-BTZ-extensions is automatically injective, a BTZ-embedding, compatible with the extensions of M₀, and unique (GX.CommonSubBTZ.IsMorphism.injective, .isBTZEmbedding, .comp_a, .unique). « Equivalent » (l.1330, a bijective morphism) is an equivalence relation, because the inverse of a bijective 𝔼₀-morphism is an 𝔼₀-morphism (GX.isE0Mor_inv_of_bijective). This differs from lean-causal's abstract ETT reading, where it is directional (kb/0040)."
+   ],
+   "questions": [
+    "« 𝔼≥0-morphism » (l.1322) and « a.e. 𝔼-morphism » (l.325) are read as the same class (IsE0Mor). Reading taken: same class."
+   ]
+  },
+  {
+   "label": "btzdef:maximal_common_sub_btz_extension",
+   "tex_lines": [
+    1332,
+    1337
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.CommonSubBTZ.IsMaximal",
+    "GX.CommonSubBTZ.isMaximal_iff",
+    "GX.CommonSubBTZ.IsMaximal.equivalent",
+    "GX.CommonSubBTZ.base_isMaximal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "𝔼_{≥0}-manifolds",
+     "here": "strengthened (scope)",
+     "note": "𝔼₀ only (DEC-116 (b), DEC-125 (a)(e)): every row stays partial and unmarked until T-btz-scope rules on 𝔼_{≥0} as printed"
+    },
+    {
+     "paper": "a singular manifold is second countable Hausdorff (l.261)",
+     "here": "carried",
+     "note": "GX.E0Mfd: T2Space, SecondCountableTopology, ChartedSpace E0Y, HasGroupoid e0Groupoid; not required connected (l.261 does not ask it)"
+    },
+    {
+     "paper": "for all common sub-BTZ-extensions M′",
+     "here": "carried",
+     "note": "quantified over carriers in Type (harmless: a sub-extension injects into M₁)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "« injective » in l.1336 is redundant: every morphism of common sub-extensions is injective (GX.CommonSubBTZ.isMaximal_iff). Since morphisms are unique, a maximal common sub-extension is a terminal object, and two of them are equivalent (GX.CommonSubBTZ.IsMaximal.equivalent). That is the uniqueness half the paper leaves implicit before btzprop:pgcd."
+   ],
+   "questions": []
+  },
+  {
+   "label": "btzdef:common_over_btz_extension",
+   "tex_lines": [
+    1381,
+    1395
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.CommonOverBTZ"
+   ],
+   "hypotheses": [
+    {
+     "paper": "𝔼_{≥0}-manifolds",
+     "here": "strengthened (scope)",
+     "note": "𝔼₀ only (DEC-116 (b), DEC-125 (a)(e)): every row stays partial and unmarked until T-btz-scope rules on 𝔼_{≥0} as printed"
+    },
+    {
+     "paper": "a singular manifold is second countable Hausdorff (l.261)",
+     "here": "carried",
+     "note": "GX.E0Mfd: T2Space, SecondCountableTopology, ChartedSpace E0Y, HasGroupoid e0Groupoid; not required connected (l.261 does not ask it)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": []
+  },
+  {
+   "label": "btzdef:morphism_common_over_btz_extension",
+   "tex_lines": [
+    1397,
+    1412
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.CommonOverBTZ.IsMorphism",
+    "GX.CommonOverBTZ.Equivalent",
+    "GX.CommonOverBTZ.isMorphism_id",
+    "GX.CommonOverBTZ.IsMorphism.comp",
+    "GX.CommonOverBTZ.IsMorphism.unique",
+    "GX.CommonOverBTZ.Equivalent.refl",
+    "GX.CommonOverBTZ.Equivalent.symm",
+    "GX.CommonOverBTZ.Equivalent.trans"
+   ],
+   "hypotheses": [
+    {
+     "paper": "𝔼_{≥0}-manifolds",
+     "here": "strengthened (scope)",
+     "note": "𝔼₀ only (DEC-116 (b), DEC-125 (a)(e)): every row stays partial and unmarked until T-btz-scope rules on 𝔼_{≥0} as printed"
+    },
+    {
+     "paper": "a singular manifold is second countable Hausdorff (l.261)",
+     "here": "carried",
+     "note": "GX.E0Mfd: T2Space, SecondCountableTopology, ChartedSpace E0Y, HasGroupoid e0Groupoid; not required connected (l.261 does not ask it)"
+    },
+    {
+     "paper": "« a 𝔼≥0-morphism φ » (l.1401)",
+     "here": "read",
+     "note": "IsE0Mor φ univ; not required injective, as printed"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Morphisms of common over-BTZ-extensions are unique (GX.CommonOverBTZ.IsMorphism.unique): they are fixed on the dense image of M₁. « Equivalent » is an equivalence relation."
+   ],
+   "questions": [
+    "Should a morphism of common over-BTZ-extensions be injective, or even a BTZ-embedding? As printed it is only an 𝔼≥0-morphism, and nothing here proves that it is injective off the images of M₁ and M₂. Reading taken: as printed, injectivity not required. This affects how btzprop:ppcm's « minimal » is stated."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.isOpenMap_of_isE0Mor",
+  "GX.continuous_of_isE0Mor'",
+  "GX.mem_S0_iff_of_isE0Mor",
+  "GX.isE0Mor_inv_of_bijective",
+  "GX.eq_of_isE0Mor_of_eqOn",
+  "GX.isBTZEmbedding_of_bijective",
+  "GX.isBTZEmbedding_regM",
+  "GX.E0Mfd.of",
+  "GX.E0Mfd.model",
+  "GX.btzMor_id",
+  "GX.btzMor_comp",
+  "GX.BTZExtension.refl",
+  "GX.IsBTZEmbedding.coe_rangeOpens",
+  "GX.IsBTZEmbedding.compl_rangeOpens_subset"
+ ],
+ "kb_proposals": [
+  "BTZ-embeddings are GX.IsBTZEmbedding (IsEmbedding ∧ IsE0Mor ι univ ∧ (range ι)ᶜ ⊆ S0 N) on the bundled GX.E0Mfd (T2, second countable, not connected); GX.btzMor is the AbstractDev-shaped morphism class; open-set form ↔ GX.isBTZEmbedding_subtypeVal_iff (GXScaffold.BTZ.Embeddings).",
+  "Liouville for 𝔼₀-morphisms of manifolds is one line: Causal.CBG.eqOn_of_liftPropOn GX.e0_rigid isOpen_univ isPreconnected_univ (GX.eq_of_isE0Mor_of_eqOn); the density form of uniqueness is Continuous.ext_on with GX.IsBTZEmbedding.dense_range.",
+  "IsE0Mor is an abbrev that blocks rw: to use StructureGroupoid.liftPropOn_univ, first `show ChartedSpace.LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt f univ`; the inclusion of an Opens is (StructureGroupoid.isLocalStructomorphWithinAt_localInvariantProp e0Groupoid).liftProp_subtype_val.",
+  "The inverse of a bijective 𝔼₀-morphism is GX.isE0Mor_inv_of_bijective (surjInv, empty case included), so equivalences of BTZ (sub/over-)extensions are symmetric; contrast lean-causal kb/0040."
+ ],
+ "notes": "0 sorry, 61 declarations, standard axioms; `lake build GXScaffold.BTZ.Embeddings` succeeded (no GX.* or mathlib rebuild). The only existing file touched is scaffold/GXScaffold.lean: one import line after GXScaffold.Interaction.FunnelGTilde. No lean-causal change. GX.continuous_of_isE0Mor' duplicates GX.E0AbsMax.continuous_of_isE0Mor (which carries HasGroupoid on both sides) with no instance hypothesis; rename or merge at graduation. The module docstring lists the six labels unmarked (E₀ scope); its hypothesis-checklist table rows exceed 100 characters, as in GX/BTZ/AbsMax.lean. The AbstractDev instance (T-btz-maximal-extension) can take D := GX.E0Mfd, carrier := E0Mfd.carrier, mor := GX.btzMor; MorphismsCompose is btzMor_id/btzMor_comp; UniqueMorphisms holds only relative to a fixed base (IsBTZEmbedding.ext), not between arbitrary E0Mfd."
+}
