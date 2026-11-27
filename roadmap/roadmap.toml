@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-gx at 789fe25 (gx, bbs, btz's first edges; f1f3b04), lean-yamabe (df63ad2), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-yamabe and lean-causal when idle (lean-causal is /ett-programme's while it runs); lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -3684,12 +3684,13 @@ stream = "gx"
 kind = "tooling"
 package = "lean-gx"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "master"
 priority = 6
-evidence = "(a) T-btz-reg-complete AUDIT-1 finding 1: « exists_e0Pushout_mor duplicates about 110 lines of the strict GX.E0AbsMax.exists_e0Pushout proof ... At graduation, add the ι₂ E0-morphism property as a field of E0Pushout (or export hι from exists_e0Pushout) and delete the copy. Do not graduate the duplicate »; the copy is lean-gx/scaffold/GXScaffold/BTZ/RegComplete.lean:108, the structure strict GX/BTZ/AbsMax.lean:2496, exists_e0Pushout :2970. (b) T-btz-embeddings AUDIT-1 finding 3: « GX.continuous_of_isE0Mor' duplicates GX.E0AbsMax.continuous_of_isE0Mor. The primed version is strictly more general ... keep one lemma under a non-primed name ... and make AbsMax's version an alias of it or delete it »; both are strict now. (c) T-bbs-link-remarks AUDIT-2 finding 2: « these are still duplicates of HSCausal's dsHat/DSLe, and no lemma connects them ... replace them with GX.DSLe or add the Iff.rfl bridge » (HSLinkRemarks.lean:136, :143; HSCausal.lean:144, :148, both scaffold). Exclusive: (a) changes a strict structure that AbsMax, MixedDiamond and RegComplete use, and RegComplete.lean is also T-btz-spear-family's file. The precedent is T-gx-mtheta-dedupe (master). The CAMPAIGN.md kb pointer both audits mention is already fixed (lean-gx/docs/CAMPAIGN.md:51). (d) T-btz-spear-family AUDIT-1 finding 1: « exists_spearSurgeryDatum, exists_spearSurgeryDatum_cover and exists_shrink are near-verbatim copies of the strict GX.E0Surgery.exists_spearSurgeryDatum (Surgery.lean:2901), exists_spearSurgeryDatum_cover (:3178) and SpearSurgeryDatum.exists_shrink (:2920). The only change is the hypothesis »; fix: « generalise the strict lemmas to take (hS : IsCauchySurface S) (hrim : RimC1 M S), with RimC1 moved into GX.BTZ.Surgery. Re-derive the IsE0C1SpacelikeCauchy forms from them in one line and delete the copies here » (copies at SpearFamily.lean:102–172). Priority 6 (2026-11-27 planner): it goes before the lean-gx closers of p7, because three of them build on what it changes — T-btz-reg-complete-cauchy on SpearFamily.lean and RegComplete.lean ((a), (d)), T-btz-ppcm on E0Pushout ((a)), T-bbs-cheminsing on the cut-and-glue links ((c)) — and every wave they run first multiplies the copies to remove. Pgcd's open sorry (globallyHyperbolicOn_dom) is mathematics, not clean-up: T-btz-pgcd-dom-gh"
+evidence = "E0Pushout.isE0Mor_ι₂, one continuity lemma, surgery lemmas on Cauchy + RimC1, CutGlue bridged; −197 scaffold lines; AUDIT-1 minor"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
+commit = "8dc8637"
 
 [[target]]
 id = "T-perf-capacity-remarks"

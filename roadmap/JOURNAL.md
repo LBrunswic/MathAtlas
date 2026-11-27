@@ -953,3 +953,11 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - Rulings that block the most rows: T-btz-scope (55 btz rows), T-bbs-q8 (34 bbs), ETT OQ-34/35/18/82 (30–37 each), T-gfn-appendix-scope (23), OQ-93 (21 yamabe/perforated), T-perf-scope (8), OQ-142 (7).
 - gates: roadmap ✓, atlas ✓
 - next: T-gx-btz-cleanup (exclusive in lean-gx) first, then the lean-gx closers (ppcm-hausdorff, reg-complete-cauchy, infall-ray, cheminsing, isom-e0, positive-mass).
+
+## 2026-11-27 20:40 · wave of 2 · T-gx-btz-cleanup, T-atlas-overlay-refresh
+- T-gx-btz-cleanup (master, exclusive, executed by a closer): E0Pushout records its ι₂ E₀-morphism; one continuity lemma for E₀-morphisms; the strict spear-surgery lemmas take IsCauchySurface + RimC1 and their scaffold copies are gone; CutGlue bridged to DSLe by Iff.rfl (merging the definitions is left to graduation, since HSLinkRemarks must not import HSCausal's sorry). −197 scaffold lines, behaviour-preserving. Audit minor (kb/0152, updated).
+- T-atlas-overlay-refresh (builder): lean-yamabe's overlay after Yamabe.CapacityRemarks; the perforated hub entry corrected. lean-gx's overlay is due again after the clean-up.
+- The closer left a self-matching `pgrep "lake build GX"` wait loop running in lean-gx until its 50-minute timeout; the master's kill was refused by the permission classifier. Harmless, but `pgrep` build checks in lean-gx read busy until it expires.
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, papers-check green, hub: make -k check rc 0, no new red
+- commits: be9a077 8dc8637 b25dd0d [+ roadmap/atlas/journal]
+- next: the lean-gx closers (T-btz-ppcm-hausdorff, T-btz-reg-complete-cauchy, T-btz-blunt-infall-ray, T-bbs-cheminsing, T-btz-isom-e0, T-bbs-positive-mass; three per wave).
