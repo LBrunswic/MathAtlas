@@ -1,0 +1,34 @@
+{
+  "target": "T-yamabe-gap-corollaries",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "cor:gap-nonneg",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (backticks only), REPORT row partial: correct. (a) gapNonneg_core / cor_gap_nonneg_a: hypothesis `(∃ c ≤ 0, R = c a.e.) ∨ EH g = Y g` is the paper's « constant R ≤ 0, or more generally a Yamabe metric ». Conjuncts 1-4 (δ ≥ 0; δ = 0 iff EH = Y ∧ Y = σ; iff EH = σ; δ = 0 ∧ R ≡ c ≤ 0 ⇒ σ ≤ 0) are proved from strict csc_yamabe_a and Y_le_sigma and do not depend on Einstein/ConstCurv at all: the paper's own inequality chain is genuinely proved. Conjunct 5 (Einstein, then constant curvature at N = 3) is exactly the application of the carried ExtremalA and EinsteinConstCurv3, which is the paper's own step (it cites thm:extremal (a) and asserts the 3-d fact). ExtremalA matches thm:extremal (a) l.209 in its σ ≤ 0 branch (Yamabe metric, Y = σ, σ ≤ 0 ⇒ Einstein). Predicate-argument design is disclosed in SCOPE with the kb/0095 triviality remark; it does not overclaim. Extra hypotheses: hb (Aubin's bound, a true cited fact), hC₀ (only Y(rep C₀) = Y g, weaker than membership), IsFiniteMeasure, hD; the σ-over-a-family reading is OQ-132 (b). (b) accel_gap reproduces eq:accel-gap from the carried AccelLaw exactly (k and δ as eq:gap-def). cor_gap_nonneg_b: thm:extremal (b) carried as hB at g0 with R ≡ R0 (σ arbitrary, so more general than σ(Σ)); proves the rescaled leaf g0' has R ≡ k and volume V_i, the FLRW family a² g0' has volume a^N V_i, ⟨R⟩ = k/a² (so −k/a² is −⟨R⟩, the curvature term of eq:accel-yamabe) and EH = σ, and δ/(V_i^{2/N} a²) = ⟨R⟩_FLRW − ⟨R_{g_t}⟩. homothety: R ↦ R/l and H ↦ H/√l are data because R is free data of CurvedMetric; these are the correct classical scaling laws, the paper does not prove them either (it uses them silently at l.244), volume scaling (vol_homothety) and EH invariance (closedEH_homothety, l.174) are derived, not defined. No hidden missing proof of the paper's. « constant curvature » of g0' read via constant scalar curvature: disclosed. Finding on l.244 (k = R of the rescaled metric, not of g0) is correct: k = R0 (V0/Vi)^{2/N} = R_{g0'}; notational."
+    },
+    {
+      "label": "cor:volume",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, REPORT row partial: correct. cor_volume: R_g ≡ R_hyp ≡ c < 0 pointwise, N = 3, closed model; conclusion Vol(g_hyp) ≤ Vol(g) and (equal volumes ↔ Isometric g g_hyp). The inequality is proved from csc_yamabe_a, Y_le_sigma and the carried hB (thm:extremal (b) at g_hyp), independently of Einstein/ConstCurv/Isometric. The equality ⇒ isometric direction chains the carried ExtremalA, EinsteinConstCurv3, ConstCurv g_hyp and MostowAt exactly as the paper's proof (l.255-256); the converse is the carried hIsoVol (not argued in the paper, trivially true; disclosed). Hypotheses are jointly satisfiable (e.g. g = g_hyp with a one-class family; the witness checks the hB value on the toy model). « hyperbolic » read as supplied ConstCurv with R ≡ c < 0, R_hyp not normalised: disclosed, more general. EinsteinConstCurv3 is a fourth carried input beyond the dispatch's three named ones; it is disclosed in the docstring checklist, SCOPE and REPORT, it is a named Prop hypothesis (not an axiom, DEC-184), and the model has no curvature tensor, so it is acceptable. The REPORT's finding that the proof writes σ < 0 but only uses σ ≤ 0 is a correct remark, not a claimed error."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "how": "taskset -c 0-11 lake env lean scaffold/YamabeScaffold/GapCorollaries.lean: exit 0, no output. A copy with #print axioms appended, compiled with -DwarningAsError=true under the campaign directory (deleted afterwards): homothety, vol_homothety, avgR_homothety, closedEH_homothety, gapNonneg_core, cor_gap_nonneg_a, accel_gap, cor_gap_nonneg_b, cor_volume, toyClosed_gap_nonneg_witness all depend on [propext, Classical.choice, Quot.sound] only. The one textual `sorry` hit is the docstring phrase « no `sorry` »; no `axiom` declaration."
+  },
+  "scope": "git status --short: within the target only scaffold/YamabeScaffold/GapCorollaries.lean (new), the import line in scaffold/YamabeScaffold.lean and the campaign directory. The YamabeScaffold.lean diff also adds `import YamabeScaffold.ConformalGap` (the concurrent T-yamabe-conformal-gap's line) and the other modified paths (lean-gx, papers/*/certificate restatements, roadmap.toml) belong to other loops; none is attributable to this closer.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-yamabe/scaffold/YamabeScaffold/GapCorollaries.lean:79",
+      "what": "The hypothesis checklist omits hD (`∀ u, AEStronglyMeasurable (M.val u) vol_g`), a hypothesis of gapNonneg_core, cor_gap_nonneg_a and cor_volume that the paper does not state (it is recorded in REPORT.json, not in the docstring). The added non-paper hypotheses hb, hC₀ and hIsoVol are tagged « ⚠ carried » / « reading » rather than the contract's « ⚠ strengthened » vocabulary (lean-causal/kb/entries/0006); all are disclosed, so this is cosmetic.",
+      "fix": "Add an hD row to the checklist (as the strict library's measurability of the competitor space), and optionally tag hb/hC₀/hIsoVol as ⚠ strengthened (carried cited fact)."
+    }
+  ]
+}

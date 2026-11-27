@@ -1,0 +1,97 @@
+{
+  "package": "T-yamabe-gap-corollaries",
+  "target": "T-yamabe-gap-corollaries",
+  "files": ["scaffold/YamabeScaffold/GapCorollaries.lean"],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "cor:gap-nonneg",
+      "tex_lines": [234, 244],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.gapNonneg_core",
+        "Yamabe.MeasuredModel.cor_gap_nonneg_a",
+        "Yamabe.MeasuredModel.gapNonneg_k",
+        "Yamabe.MeasuredModel.accel_gap",
+        "Yamabe.MeasuredModel.cor_gap_nonneg_b",
+        "Yamabe.MeasuredModel.ExtremalA",
+        "Yamabe.MeasuredModel.EinsteinConstCurv3",
+        "Yamabe.CurvedMetric.homothety",
+        "Yamabe.CurvedMetric.homothety_R",
+        "Yamabe.MeasuredModel.vol_homothety",
+        "Yamabe.MeasuredModel.volReal_homothety",
+        "Yamabe.MeasuredModel.integral_R_homothety",
+        "Yamabe.MeasuredModel.avgR_homothety",
+        "Yamabe.MeasuredModel.closedEH_homothety",
+        "Yamabe.toyClosed_gapCor_finite",
+        "Yamabe.toyClosed_gapCor_sigma",
+        "Yamabe.toyClosed_gap_nonneg_witness"
+      ],
+      "hypotheses": [
+        {"paper": "the leaf (Σ_t, g_t) is closed, N ≥ 3", "here": "carried", "note": "measured model with n = 0 (DEC-186, kb/0088); 3 ≤ N; compact as IsFiniteMeasure vol_g; hD (D measurable) as the strict library"},
+        {"paper": "constant R_{g_t} ≤ 0, or more generally g_t a Yamabe metric", "here": "carried", "note": "(∃ c ≤ 0, R = c vol_g-a.e.) ∨ EH(g) = Y(g); the first branch reduces to the second by prop:csc-yamabe (a) (strict csc_yamabe_a)"},
+        {"paper": "σ(Σ) = sup over all conformal classes", "here": "reading", "note": "OQ-132 (b): over a supplied family rep of class representatives (yamabeClasses), bounded above (hb: Aubin's bound, thm:yamabe (a), not formalized); the class of g in the family (hC₀ : Y(rep C₀) = Y(g)). gapNonneg_core needs only Y(g) ≤ σ"},
+        {"paper": "thm:extremal (a) (Schoen1989, MR867684, Anderson2005)", "here": "carried", "note": "ExtremalA σ Einstein g, at g, the σ ≤ 0 branch only; Einstein a supplied predicate (no Ricci tensor on the model)"},
+        {"paper": "« in dimension three Einstein metrics have constant sectional curvature » (l.243)", "here": "carried", "note": "EinsteinConstCurv3 Einstein ConstCurv g; not named in the dispatch, but the model has no curvature tensor, so it cannot be proved"},
+        {"paper": "thm:extremal (b): σ = R_{g0} Vol(g0)^{2/N} when Σ is hyperbolic 3-dim, flat, S^N or RP^3", "here": "carried", "note": "hB at a metric g0 of constant scalar curvature R0; the diffeomorphism type has no counterpart in the model"},
+        {"paper": "eq:accel (Buchert_2007, brunswic2020gaussbonnetchern), for eq:accel-gap", "here": "carried", "note": "AccelLaw at t, as Yamabe.BoundaryGap"},
+        {"paper": "Σ connected", "here": "not assumed", "note": "OQ-132 (a): no step needs it"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.244: « rescaling g_0 to volume V_i gives k = R_{g_0} »: the identity holds for the rescaled metric g_0' = (V_i/Vol(g_0))^{2/N} g_0, which the proof keeps calling g_0; for g_0 itself k = R_{g_0} (Vol(g_0)/V_i)^{2/N}. Notational, no correction of substance (cor_gap_nonneg_b states it for g_0')."
+      ],
+      "questions": [
+        "« g_t attains the Yamabe invariant » (l.236) is read as « g_t is a Yamabe metric and Y(Σ,[g_t]) = σ(Σ) » (thm:extremal (a)'s phrasing, l.209); under the corollary's hypothesis it is equivalent to EH(Σ_t, g_t) = σ(Σ), and both equivalences with δ = 0 are proved.",
+        "(b) « the FLRW model whose leaf at time t_i has constant curvature and volume V_i » is read as the family a² g_0' with g_0' the rescaling of thm:extremal (b)'s g_0 to volume V_i; « constant curvature » of g_0' is read through its constant scalar curvature, and « curvature term » as −⟨R⟩ of that leaf in eq:accel. The homothety's scaling laws R ↦ R/l, H ↦ H/√l are the definition of CurvedMetric.homothety (the model cannot derive them).",
+        "The readings of OQ-132 are taken (σ over a supplied family; Σ not assumed connected)."
+      ]
+    },
+    {
+      "label": "cor:volume",
+      "tex_lines": [246, 257],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.cor_volume",
+        "Yamabe.MeasuredModel.MostowAt",
+        "Yamabe.MeasuredModel.ExtremalA",
+        "Yamabe.MeasuredModel.EinsteinConstCurv3"
+      ],
+      "hypotheses": [
+        {"paper": "Σ a closed hyperbolic 3-manifold, g_hyp its hyperbolic metric", "here": "carried", "note": "measured model with N = 3, n = 0; « hyperbolic » as the supplied ConstCurv g_hyp with R_{g_hyp} ≡ c"},
+        {"paper": "R_g = R_{g_hyp} < 0 constant", "here": "carried", "note": "∀ x, g.R x = c, ∀ x, g_hyp.R x = c, c < 0"},
+        {"paper": "σ(Σ)", "here": "reading", "note": "OQ-132 (b), as for cor:gap-nonneg (family, hb, hC₀)"},
+        {"paper": "thm:extremal (b) at g_hyp", "here": "carried", "note": "hB : σ = c Vol(g_hyp)^{2/3}"},
+        {"paper": "thm:extremal (a) and « Einstein, i.e. hyperbolic » (l.255–256)", "here": "carried", "note": "ExtremalA and EinsteinConstCurv3 at g"},
+        {"paper": "Mostow rigidity (l.256)", "here": "carried", "note": "MostowAt ConstCurv Isometric g g_hyp; Isometric a supplied relation"},
+        {"paper": "isometric ⇒ equal volume (the « if » half of the equality case, not argued in the paper)", "here": "carried", "note": "hIsoVol"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.255: the proof writes « attain σ(Σ) < 0 »; only σ(Σ) ≤ 0 is used (for thm:extremal (a)). The « if » half of « equality if and only if isometric » (isometric metrics have equal volume) is not argued; trivial on manifolds, carried here."
+      ],
+      "questions": [
+        "R_{g_hyp} is any negative constant (the statement does not normalise the hyperbolic metric to sectional curvature −1); read so, ghyp any metric with ConstCurv and R ≡ c < 0.",
+        "Connectedness (OQ-132 (a)) is not assumed: the inequality and the carried Mostow input hold componentwise."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.CurvedMetric.homothety",
+    "Yamabe.CurvedMetric.homothety_R",
+    "Yamabe.MeasuredModel.vol_homothety",
+    "Yamabe.MeasuredModel.volReal_homothety",
+    "Yamabe.MeasuredModel.integral_R_homothety",
+    "Yamabe.MeasuredModel.avgR_homothety",
+    "Yamabe.MeasuredModel.closedEH_homothety",
+    "Yamabe.MeasuredModel.accel_gap"
+  ],
+  "kb_proposals": [
+    "A homothety on the measured model: CurvedMetric.homothety l hl g (G ↦ l•G, R ↦ R/l, H ↦ H/√l as data); vol_{lg} = ofReal(l^{N/2}) • vol_g by sqrt_det_smul and withDensity_smul' (no measurability needed); closed EH is then homothety-invariant (Yamabe scaffold GapCorollaries).",
+    "A cited theorem about a notion the model lacks (Einstein, constant sectional curvature, isometry): supply the notion as a predicate argument and carry the cited implication at the metric where the paper invokes it (ExtremalA, EinsteinConstCurv3, MostowAt); disclose that with the predicate True the conclusion is trivial (kb/0095)."
+  ],
+  "notes": "Sorry-free, standard axioms (#print axioms checked on cor_gap_nonneg_a, cor_gap_nonneg_b, accel_gap, cor_volume, closedEH_homothety, toyClosed_gap_nonneg_witness). `lake build YamabeScaffold.GapCorollaries` succeeded without rebuilding Yamabe.*; a /tmp copy compiled against `import Yamabe` with -DwarningAsError=true is clean, so the file can graduate as is. The import line `import YamabeScaffold.GapCorollaries` was appended to scaffold/YamabeScaffold.lean after ConformalGap's. Both rows stay partial and unmarked: OQ-132's readings, OQ-93's model readings, and the carried cited inputs (thm:extremal (a)/(b), the 3-dimensional Einstein fact, Mostow rigidity, isometric ⇒ equal volume). The 3-dimensional Einstein ⇒ constant curvature fact (l.243) is carried as a third input beyond the two the dispatch names: the model has no curvature tensor. δ is the strict MeasuredModel.gapBdry σ g at n = 0."
+}

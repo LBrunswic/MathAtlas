@@ -101,3 +101,7 @@ older entries (the docstring contract is its `0006`; weakest hypotheses `0007`; 
 | [0093](entries/0093-a-normal-field-is-orthogonal-to-the-tang.md) | pattern | A normal field is orthogonal to the tangent cone of a level set |
 | [0094](entries/0094-never-use-the-hausdorff-measure-as-a-sur.md) | pitfall | Never use the Hausdorff measure as a surface area |
 | [0095](entries/0095-test-a-cited-theorem-s-data-structure-fo.md) | pattern | Test a cited theorem's data structure for trivial inhabitation |
+| [0096](entries/0096-a-homothety-on-the-measured-model.md) | pattern | A homothety on the measured model |
+| [0097](entries/0097-a-cited-theorem-about-a-notion-the-model.md) | pattern | A cited theorem about a notion the model lacks: a predicate argument |
+| [0098](entries/0098-y-g-for-a-non-minimal-boundary-via-the-i.md) | pattern | Y_[g] > −∞ for a non-minimal boundary via the interpolation trace inequality |
+| [0099](entries/0099-a-final-nlinarith-timing-out-under-many.md) | pitfall | A final nlinarith timing out under many set abbreviations |

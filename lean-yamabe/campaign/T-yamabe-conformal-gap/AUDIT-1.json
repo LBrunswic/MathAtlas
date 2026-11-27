@@ -1,0 +1,39 @@
+{
+  "target": "T-yamabe-conformal-gap",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "rem:conformal-gap",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Partial, not marked: correct. First sentence, inequality: paper 'EH(Sigma,g) >= Y_[g](Sigma) by eq:relative-yamabe, so delta <= delta_conf' for any g. In MeasuredModel.rem_conformal_gap_le the model carries BddBelow of the conformal energies, because the model's Y is a Real.sInf (junk 0 when unbounded below). In the paper an infimum of -infinity would make the inequality trivially true, so this hypothesis is an artefact of the model, and it is disclosed (docstring SCOPE, REPORT hypotheses row). It is discharged where the REPORT says: Mfd.Reads.conformalGap_bddBelow proves it for every CurvedMetric on a model reading a compact manifold with boundary. R_bdd and H_bdd are structure fields of CurvedMetric, not extra hypotheses. The proof goes through Mfd.trace_interp and hoelder_interior. Mfd.Reads.rem_conformal_gap clause (1) uses it with no minimality hypothesis. rem_conformal_gap_le_of_minimal is the hypothesis-free form on a minimal boundary. First sentence, equality: rem_conformal_gap_eq and clause (2) carry constant R_g = c (a.e. on the model, pointwise on the manifold layer), MinimalBoundary and c <= 0, exactly fact (iii)'s hypotheses. hD is a model reading, discharged by Reads.hD. sigma^bdry is read as the EReal sup over a parameter set C (OQ-133 (b), OPEN), and the real form holds for every sigma_b. Both are disclosed and are why the row is partial. Second sentence: clause (3) reads it in Sec. torus's Setting (l.467: constant scalar curvature, minimal boundary) and carries prop:nonpositive's first sentence Y_[g] <= 0 (that proposition's own row). From it, R_g <= 0 and EH = Y follow via Reads.prop_nonpositive_csc (lem:kobayashi (b)). This is the contextual reading, and it is disclosed. No vacuity: the hypotheses of the equality hold on toyModel/toyCurved (toy_prop_gap_bdry_nonneg, rem_conformal_gap_toy_eq). See the minor findings on how the second-sentence finding is framed."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`taskset -c 0-11 lake env lean scaffold/YamabeScaffold/ConformalGap.lean`: exit 0, no warnings or errors, about 9 s. The one textual 'sorry' match is the docstring phrase 'no `sorry`' (l.38). #print axioms on all 11 REPORT decls gives [propext, Classical.choice, Quot.sound]. The probe was written under the campaign dir and deleted. No package build (as dispatched)."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[0].findings[0]; ConformalGap.lean:384-395 (rem_conformal_gap_toy_strict docstring)",
+      "what": "The finding on l.423's second sentence is accurate as a note on wording, but it is not a paper error. In context the sentence is true. The antecedent of 'for which' is the class Sec. torus treats: the Setting at l.467 assumes constant scalar curvature and minimal boundary, and prop:nonpositive (same section) gives R_g <= 0 and EH = Y_[g] for exactly these metrics. Theorem thm:lower-bound's proof (l.724) uses exactly this chain. The REPORT itself concedes this ('it holds in Sec. torus because its Setting ... adds ...'). The dispatch's phrase 'false read literally' overstates it. The literal reading 'minimality alone gives delta = delta_conf' is a strawman of an informal cross-reference. The mathematical point (minimal boundary plus constant R > 0 does not force EH = Y) is correct, also on genuine manifolds, e.g. a long cylinder [0,L] x S^2 with product metric. However, the Lean witness is the two-point MeasuredModel toyModel. It does not read a manifold and is not in Sec. torus's setting (no enlargeable closed-up manifold, so prop:nonpositive's Y <= 0 fails there). It certifies the remark's first-sentence hypothesis R_g <= 0 as necessary on the abstract model, not a failure of the torus sentence.",
+      "fix": "Record it as an imprecision (wording), not as 'false'. Suggested text: 'l.423, second sentence: true in Sec. torus's setting (constant scalar curvature, minimal boundary) through prop:nonpositive. The bare phrase \"minimal boundaries, for which delta = delta_conf\" omits the constant-scalar-curvature and R_g <= 0 conditions of the first sentence. Witness that minimality with constant R > 0 is insufficient: rem_conformal_gap_toy_strict (abstract two-point model).' Keep the proposed rewording as an optional clarification for the author. Do not seed it as a strong restate candidate ('FALSE' / 'false as printed')."
+    },
+    {
+      "severity": "minor",
+      "where": "ConformalGap.lean:456-460 (rem_conformal_gap_toy_eq)",
+      "what": "The non-vacuity witness states only the conclusion (delta = delta_conf = 0). It does not state that toyCurved satisfies the equality's hypotheses. They hold by definition (toyCurved has R = -1 and H = 0, and toy_prop_gap_bdry_nonneg records the rest), so nothing is vacuous. The statement just does not exhibit them, unlike rem_conformal_gap_toy_strict, which does.",
+      "fix": "Optional: add the conjuncts toyModel.MinimalBoundary toyCurved and (forall x, toyCurved.R x = -1) to the statement, or derive the equality from rem_conformal_gap_eq instantiated on toyModel."
+    },
+    {
+      "severity": "minor",
+      "where": "git status (scope)",
+      "what": "No out-of-scope edit is attributable to this closer. ConformalGap.lean and the campaign directory are new. scaffold/YamabeScaffold.lean gains `import YamabeScaffold.ConformalGap` (this target) and `import YamabeScaffold.GapCorollaries` (T-yamabe-gap-corollaries, audited separately). The other dirty paths belong to other loops and targets: lean-gx BTZ, roadmap.toml, the restatements registers and their RESTATED.md. Informational only.",
+      "fix": "None. Commit with `git commit --only` on this target's paths."
+    }
+  ]
+}

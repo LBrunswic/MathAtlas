@@ -27,3 +27,5 @@ import Yamabe.Perforated.CorYamabe
 import Yamabe.BoundaryGap
 import Yamabe.ClosedLeaves
 import Yamabe.BrownYork
+import Yamabe.ConformalGap
+import Yamabe.GapCorollaries

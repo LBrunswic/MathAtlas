@@ -1,0 +1,89 @@
+{
+  "package": "T-yamabe-conformal-gap",
+  "target": "T-yamabe-conformal-gap",
+  "files": [
+    "scaffold/YamabeScaffold/ConformalGap.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "labels": [
+    {
+      "label": "rem:conformal-gap",
+      "tex_lines": [
+        421,
+        424
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Yamabe.MeasuredModel.deltaConfE",
+        "Yamabe.MeasuredModel.deltaConf",
+        "Yamabe.MeasuredModel.conformalGap_Y_le_EH",
+        "Yamabe.MeasuredModel.conformalGap_Y_le_EH_of_minimal",
+        "Yamabe.MeasuredModel.rem_conformal_gap_le",
+        "Yamabe.MeasuredModel.rem_conformal_gap_le_of_minimal",
+        "Yamabe.MeasuredModel.rem_conformal_gap_eq",
+        "Yamabe.Mfd.Reads.conformalGap_bddBelow",
+        "Yamabe.Mfd.Reads.rem_conformal_gap",
+        "Yamabe.rem_conformal_gap_toy_strict",
+        "Yamabe.rem_conformal_gap_toy_eq"
+      ],
+      "hypotheses": [
+        {
+          "paper": "(Σ, g) compact with boundary, N ≥ 3",
+          "here": "read",
+          "note": "measured model (OQ-44), compactness as IsFiniteMeasure (vol_g); assembly Mfd.Reads.rem_conformal_gap on a model reading a compact manifold with boundary (OQ-93 (a)/(b)); N ≥ 3 carried"
+        },
+        {
+          "paper": "EH(Σ, g) ≥ Y_[g](Σ) by eq:relative-yamabe, for any g (any boundary)",
+          "here": "carried on the model, discharged on the manifold layer",
+          "note": "model: BddBelow of the conformal energies (Y_[g] > −∞; the model's Y is a Real.sInf, junk 0 when unbounded below); on a minimal boundary unconditional (lem:kobayashi (a)); on a model reading a compact manifold proved for every bounded H_g (conformalGap_bddBelow, from Mfd.trace_interp + hoelder_interior)"
+        },
+        {
+          "paper": "σ^∂(Σ) = sup_[g] Y_[g](Σ)",
+          "here": "read",
+          "note": "OQ-133 (b): EReal sup over a parameter set C (sigmaBdry); real form for every value σb"
+        },
+        {
+          "paper": "equality: g of constant scalar curvature",
+          "here": "carried",
+          "note": "model: R_g = c vol_g-a.e.; manifold: R_g x = c for all x"
+        },
+        {
+          "paper": "equality: minimal boundary",
+          "here": "carried",
+          "note": "MinimalBoundary (bvol-a.e.)"
+        },
+        {
+          "paper": "equality: R_g ≤ 0",
+          "here": "carried",
+          "note": "c ≤ 0; in the torus clause as Y_[g] ≤ 0 (fact (iii)'s equivalence, through Mfd.Reads.prop_nonpositive_csc = lem:kobayashi (b))"
+        },
+        {
+          "paper": "u ∈ W^{1,2}(Σ)",
+          "here": "read",
+          "note": "C¹(M) on the manifold layer (OQ-93 (b)); measurable values hD on the model"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Imprecise wording, not an error (AUDIT-1 minor): in context the sentence is true, « for which » referring to Sec. torus's metrics (constant scalar curvature, minimal boundary, and R_g ≤ 0 by prop:nonpositive; clause (3) of Mfd.Reads.rem_conformal_gap proves that reading). Read alone: l.423, second sentence « Sec. torus treats minimal boundaries, for which δ = δ_conf »: minimality alone does not give δ = δ_conf, even with constant scalar curvature. On the two-point toy model with one boundary component, toyConst 100 (R_g ≡ 100, H_g ≡ 0) has Y_[g] < EH, hence δ < δ_conf (rem_conformal_gap_toy_strict). The equality needs the sign R_g ≤ 0 (first sentence, fact (iii)); it holds in Sec. torus because its Setting (l.467) adds constant scalar curvature and prop:nonpositive gives Y_[g] ≤ 0, hence R_g ≤ 0. Proved in that form: Mfd.Reads.rem_conformal_gap (3). A wording correction: « Sec. torus treats constant-scalar-curvature metrics with minimal boundary, for which (Proposition prop:nonpositive) δ = δ_conf »."
+      ],
+      "questions": [
+        "The inequality's scope: the remark sits in § 3 for arbitrary g (not necessarily minimal boundary). Reading taken: any g; the model carries Y_[g] > −∞ (BddBelow), which the manifold layer discharges for every bounded mean curvature. If the author intends minimal boundaries only, rem_conformal_gap_le_of_minimal is the hypothesis-free model form.",
+        "« Sec. torus treats minimal boundaries » is read as Sec. torus's Setting (constant scalar curvature and minimal boundary, l.467) together with prop:nonpositive's first sentence Y_[g] ≤ 0, carried (its own row); not as minimality alone, which is false (finding)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "Yamabe.MeasuredModel.conformalGap_EH_Y_of_vol_eq_zero",
+    "Yamabe.MeasuredModel.conformalGap_le_of_Y_le_EH",
+    "Yamabe.Mfd.Reads.conformalGap_bddBelow"
+  ],
+  "kb_proposals": [
+    "Y_[g] > −∞ for a non-minimal boundary on a model reading a compact manifold: Mfd.trace_interp (δ chosen as a_N/(a_N + 4(N−1)·sup|H|·Σ C_j²)) absorbs the boundary term, then hoelder_interior; Mfd.Reads.conformalGap_bddBelow is the reusable form.",
+    "In a long proof with many `set` abbreviations, a final nlinarith can time out at whnf on the whole declaration: replace it by an explicit `ring` identity plus linarith."
+  ],
+  "notes": "One file, sorry-free, built alone with `lake build YamabeScaffold.ConformalGap` (no upstream rebuild); #print axioms of every assembly decl: propext, Classical.choice, Quot.sound. Import line `import YamabeScaffold.ConformalGap` appended to scaffold/YamabeScaffold.lean. Imports Yamabe.ClosedLeaves and Yamabe.TraceInterp only (strict). The row stays partial on the readings OQ-133 (a)/(b) and OQ-93, as T-yamabe-boundary-gap's; no label is marked.",
+  "audit": "AUDIT-1 minor: the l.423 finding recorded as imprecise wording, true in Sec. torus's setting (master, at integration)."
+}
