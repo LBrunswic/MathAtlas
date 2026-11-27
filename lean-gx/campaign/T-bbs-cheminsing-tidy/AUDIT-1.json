@@ -1,0 +1,41 @@
+{
+ "target": "T-bbs-cheminsing-tidy",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bbsrem:masspositive",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Nothing changed for this label except the rename GX.exists_mass_neg -> GX.HSCheminsing.exists_mass_neg. The statement and proof are unchanged: the diff only adds `namespace HSCheminsing` / `end HSCheminsing` around it. The module docstring follows the rename. The faithfulness reading of T-bbs-cheminsing AUDIT-1 stands: m = 1 - θ/2π is GammaLinkCircle.mass, θ = coneAngle (OQ-113 (a)/(b), disclosed), mass_neg_iff, and exists_mass_neg shows it is non-vacuous. The label is unmarked and the row is partial, both correctly (colI_v1.tex:1164-1173)."
+  },
+  {
+   "label": "bbsrem:cheminsing",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Behaviour-preserving, checked against `git diff HEAD`. bbsrem_cheminsing_reading, the IsWedgeLink API, everything in GX.Cheminsing up to dirOf_arc_ne, and arc_wedge are unchanged. arc_wedge has the same hypotheses (hx0, hBs, hx, hdir) and the same conclusion; only its proof changed, and it now goes through the new arc_wedge_ends, which takes the shortness bound hshort as a hypothesis. The two not_ instances are strictly stronger. Each new conclusion contains every conjunct of the old one, and adds ∃ hx : x ∈ region (qPt (π/2)) (qPt π), B(x,q) ≠ 0 on arcP, b < a + 2, and the ends condition hends with h = (wedgeIsom … hx)⁻¹ or wedgeIsom … hx (the paper's γ_x^{±1}). The light-like instance keeps qPt 0 ∈ ∂ℍ²₊ and qPt 0 ∉ arcP; the space-like one keeps defPath (qPt 0) (1/2) ∈ dS². Each now states all the hypotheses of bbsrem_cheminsing_reading at q₁ = qPt (π/2), q₂ = qPt π, P = arcP (P ⊆ ∂ℍ²₊ is arcP_subset, a named lemma), so its family membership can be read from the statement. That answers T-bbs-cheminsing AUDIT-1 finding 1. The old wording of the light-like docstring ('glued back by γ^{±1}', with no hends in the statement) is now true of the statement. Time-like branch: arc_wedge_timelike (every x ∈ ℍ²₊) produces θ, a < b < a + 2, hW over arcP and hends at the region proof hypPlus_subset_region … hxt. It then feeds them to bbsrem_cheminsing_reading and takes the elliptic clause (via hxt.2 : Q(x) < 0): cone angle < 2π, mass > 0, positive, not regular. So the elliptic branch of the assembly is inhabited by a genuine member: the hypotheses are discharged, not assumed. cheminsing_timelike_pole specializes this to HS.pole 2 = [(1,0,0)] and exports ∃ hx, x ∈ ℍ²₊ and B ≠ 0 on arcP. That answers AUDIT-1 finding 2. In the time-like case the bound b < a + 2 comes from a proof by contradiction. If b ≥ a + 2, then [a, b] contains a lift of dir_x(qPt 0). eq_of_dirOf_eq (dir_x is injective on ∂ℍ²₊ where B(x,·) has one sign; at x ∈ ℍ²₊ it is negative everywhere, by minkB_neg_of_hypPlus) then forces qPt 0 ∈ arcP, which contradicts qPt_zero_not_mem_arcP. The argument is sound, and the kernel checks it. The docstring checklist row x ∈ ℍ²₊ and the label summary name the new declarations. The label stays unmarked and partial (OQ-144, OQ-151), which is correct. Line 956 has '**`bbsrem:cheminsing`, the assembly.**' in a theorem docstring, not as a module-docstring mark. It is unchanged from the audited version."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSCheminsing.lean exits 0 with no output (6.6 s wall). The only 'sorry' strings are prose in the docstring (lines 7-8). There is no sorry, admit, axiom, native_decide, implemented_by or extern in the code. The built olean (22:24:11) is newer than the source (22:23:43). A one-shot probe campaign/T-bbs-cheminsing-tidy/AxProbe.lean gave [propext, Classical.choice, Quot.sound] for each of not_cheminsing_lightlike_positive, not_cheminsing_spacelike_positive, Cheminsing.cheminsing_timelike_pole, Cheminsing.arc_wedge_timelike, Cheminsing.arc_wedge_ends, Cheminsing.arc_wedge, Cheminsing.eq_of_dirOf_eq, bbsrem_cheminsing_reading, HSCheminsing.exists_mass_neg, HSCheminsing.exists_isWedgeLink, GammaLinkCircle.isPositive_iff_mass_pos and GammaLinkCircle.mass_neg_iff. The probe was deleted afterwards. lake build was not run, per the dispatch."
+ },
+ "rename_map": "Complete and exact. The two `namespace HSCheminsing` blocks (l.133-167, l.232-363) contain exactly the seven helpers of the REPORT's map and nothing else. Comparing the declaration lists of HEAD and the working tree, no other declaration was renamed or removed. The additions are qPt_zero_not_mem_arcP, minkB_neg_of_hypPlus, eq_of_dirOf_eq, arc_wedge_ends, arc_wedge_timelike and cheminsing_timelike_pole, all in GX.Cheminsing and all listed in the REPORT. No .lean file in lean-gx outside HSCheminsing.lean uses the old names. HSPositiveMass needed no edit, as the closer says.",
+ "scope": "git status --short shows HSCheminsing.lean modified and campaign/T-bbs-cheminsing-tidy/ untracked. Every other modified or untracked path (restatements and RESTATED.md of eight papers, the restate CHECK files, programme/roadmap.toml, roadmap/roadmap.toml, roadmap/JOURNAL.md, reports/blueprint/index.html) was already in the session's starting snapshot and belongs to other loops. HSPositiveMass.lean and GXScaffold.lean are untouched. The concurrent T-btz-admissible files are not present yet.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/kb/entries/0200-*.md, lean-gx/kb/entries/0201-*.md",
+   "what": "These entries still name GX.exists_isWedgeLink, GX.wedge_short, GX.wedge_factor and GX.wedge_bounds_of_timelike, which are now GX.HSCheminsing.*. The REPORT discloses this as a kb_proposal, and correctly left the files alone because they are outside the dispatch.",
+   "fix": "At curation, update the four names in kb 0200/0201 to the GX.HSCheminsing.* forms. When papers/bbs/certificate/curation.toml lists decls for these two labels, use the new names."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSCheminsing.lean:5,16",
+   "what": "Cosmetic. The module docstring's line 16 runs past 100 columns after the rename. The header still says 'Target `T-bbs-cheminsing`' and does not mention the tidy target that last changed the file.",
+   "fix": "Optional: rewrap line 16 and add 'tidied by T-bbs-cheminsing-tidy' to the header line at the next touch."
+  }
+ ]
+}

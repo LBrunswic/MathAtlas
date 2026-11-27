@@ -3,7 +3,8 @@ import GXScaffold.BBS.HSLinkRemarks
 /-!
 # BBS § 3, two link remarks: the mass of an elliptic singularity (`bbsrem:masspositive`) and the wedge deformation from elliptic through light-like to space-like singularities (`bbsrem:cheminsing`)
 
-Target `T-bbs-cheminsing` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx, DEC-192).
+Targets `T-bbs-cheminsing` and its tidy-up `T-bbs-cheminsing-tidy` (`roadmap/roadmap.toml`; BBS
+layer L2 in lean-gx, DEC-192).
 `papers/bbs/legacy/labeled/colI_v1.tex`. 0 `sorry`. Imports `GXScaffold.BBS.HSLinkRemarks` (and
 through it the sorry-free scaffold `HSSingularities`, `HSPositive`, `HSDegree`, `HSAntipodal`,
 `HSClassification`, `HSRemarkReadings`).
@@ -13,19 +14,22 @@ through it the sorry-free scaffold `HSSingularities`, `HSPositive`, `HSDegree`, 
   sentences are informal): the mass `GX.GammaLinkCircle.mass` (`m = 1 − θ/2π`), negative iff
   `θ > 2π` `GX.GammaLinkCircle.mass_neg_iff`, positive iff `θ < 2π` `…mass_pos_iff`, a non-regular
   time-like singularity is positive iff its mass is `GX.GammaLinkCircle.isPositive_iff_mass_pos`,
-  a negative mass `GX.exists_mass_neg` (`θ = 3π`), regular points have mass `0`.
+  a negative mass `GX.HSCheminsing.exists_mass_neg` (`θ = 3π`), regular points have mass `0`.
 * `bbsrem:cheminsing` — `colI_v1.tex:1493` — partial (unmarked: the light-like and space-like
   clauses are **false in the library's holonomy convention and true in the gluing-map
   convention**, OQ-144; « positive mass » of a space-like singularity and « continuous
   deformation » are readings; the surgery is read on its link): the wedge link
-  `GX.GammaLinkCircle.IsWedgeLink`, `GX.exists_isWedgeLink`; time-like: cone angle `< 2π`, mass in
+  `GX.GammaLinkCircle.IsWedgeLink`, `GX.HSCheminsing.exists_isWedgeLink`; time-like: cone angle `< 2π`, mass in
   `]0, 1[`, positive `…IsWedgeLink.timelike`; light-like: negative, positive in the gluing-map
   convention `…IsWedgeLink.lightlike`; space-like: negative, positive in the gluing-map convention
   `…IsWedgeLink.spacelike`; the isometry `GX.Cheminsing.wedgeIsom` (unique, `…wedgeIsom_unique`),
   continuous in `x` `GX.Cheminsing.continuousOn_wedgeLin`, the deformation through `x_∞`
-  `GX.Cheminsing.exists_deformation`; the assembly `GX.bbsrem_cheminsing_reading`; explicit
-  members refuting the printed signs in the library's convention
-  `GX.not_cheminsing_lightlike_positive`, `GX.not_cheminsing_spacelike_positive`.
+  `GX.Cheminsing.exists_deformation`; the assembly `GX.bbsrem_cheminsing_reading`; an explicit
+  elliptic member at the pole `[(1, 0, 0)]` (the time-like branch is not vacuous)
+  `GX.Cheminsing.cheminsing_timelike_pole`, every `x ∈ ℍ²₊` `GX.Cheminsing.arc_wedge_timelike`;
+  explicit members refuting the printed signs in the library's convention
+  `GX.not_cheminsing_lightlike_positive`, `GX.not_cheminsing_spacelike_positive` (each states the
+  family's membership: ends, `h = γ_x^{±1}`, `b < a + 2`, `x` in the region).
 
 > [...] where they are called wordlines, or cosmic strings, describing a massive particle in
 > motion, with mass $m := 1 - \theta/2\pi$. Hence $\theta > 2\pi$ corresponds to particles with
@@ -48,7 +52,7 @@ through it the sorry-free scaffold `HSSingularities`, `HSPositive`, `HSDegree`, 
 | `[p₁, p₂]` an oriented arc of `∂ℍ²₊` | ⚠ read: `q₁, q₂ ∈ ∂ℍ²₊`, a set `P ⊆ ∂ℍ²₊` with `B(x, q) ≠ 0` on `P` (`x` off the arc); the orientation is immaterial (both labelings, `hends`) |
 | the wedge of rays from `x` with extremity in `[p₁, p₂]` | ⚠ read on the link: an interval `[a, b]` of `ℝP̃¹` all of whose directions point to `P` (`hW`), ends the directions of `q₁, q₂` |
 | « glueing back by an elliptic isometry » | ✓ the unique `γ_x ∈ Γ_x` with `γ_x q₁ ∈ ℝ₊ q₂` (`wedgeIsom`, `wedgeIsom_unique`); `γ` and `γ⁻¹` give the same gluing |
-| `x ∈ ℍ²₊` | ✓ (`hypPlus_subset_region`); every time-like `x` of the region is covered |
+| `x ∈ ℍ²₊` | ✓ (`hypPlus_subset_region`); every time-like `x` of the region is covered; over the arc `arcP`, every `x ∈ ℍ²₊` is a member (`arc_wedge_timelike`), e.g. the pole (`cheminsing_timelike_pole`) |
 | `x_∞ ∈ ∂ℍ² ∖ [p₁, p₂]` | ✓ read in `∂ℍ²₊` (`bdPlus_mem_region`) |
 | « continuous deformation [...] continued further into `dS²` » | ⚠ read: `x ↦ γ_x` continuous on the open region, the path `[x_∞ − s e_t]` (SCOPE (b)) |
 | « elliptic singularity (with positive mass) » | ✓ cone angle `< 2π`, `0 < m < 1`, positive (`IsWedgeLink.timelike`) |
@@ -127,6 +131,8 @@ theorem GammaLinkCircle.isPositive_iff_mass_pos (hp : Causal.Flat.minkQ (C.pt : 
     (hreg : ¬ C.IsRegular) : C.IsPositive ↔ 0 < C.mass := by
   rw [GammaLinkCircle.isPositive_iff_of_timelike hp hreg, GammaLinkCircle.mass_pos_iff]
 
+namespace HSCheminsing
+
 /-- **Negative masses occur** (l.1158–1159, a domain wrapping around `c`): at every time-like `p`,
 the circle `ℝ/⟨δ³⟩` (lifted holonomy `δ³`, a lift of the half-turn) has cone angle `3π`, negative
 mass, and is not positive. -/
@@ -158,6 +164,8 @@ theorem exists_mass_neg {p : HS 2} (hp : Causal.Flat.minkQ (p : 𝕄) < 0) :
   refine ⟨L, inferInstance, GammaLinkCircle.mk p cs hcs hL, rfl, hca, ?_, hreg, ?_⟩
   · rw [GammaLinkCircle.mass_neg_iff, hca]; nlinarith [Real.pi_pos]
   · rw [GammaLinkCircle.isPositive_iff_of_timelike hp hreg, hca]; nlinarith [Real.pi_pos]
+
+end HSCheminsing
 
 end Mass
 
@@ -221,6 +229,8 @@ theorem GammaLinkCircle.isSpacelikePositiveGlue_iff :
     exact ⟨hp, θ, hθ, E, D, f, k, g, hD, hk, hfix, hh, hfg, fun s hs => (key g _).1 (hle s hs)⟩
   · rintro ⟨hp, θ, hθ, E, D, f, k, g, hD, hk, hfix, hh, hfg, hle⟩
     exact ⟨hp, θ, hθ, E, D, f, k, g, hD, hk, hfix, hh, hfg, fun s hs => (key g _).2 (hle s hs)⟩
+
+namespace HSCheminsing
 
 /-- A lift of `A ∈ Γ_p` through `linkCover` with a prescribed value. -/
 theorem exists_linkLift_through (p : HS 2) (θ : TpHS p ≃ₗ[ℝ] ℂ) (A : GammaP p) {s t : ℝ}
@@ -351,6 +361,10 @@ theorem exists_isWedgeLink (p : HS 2) {θ : TpHS p ≃ₗ[ℝ] ℂ} (hθ : IsOri
       (isCoveringMap_linkCover p θ).isLocalHomeomorph hlt hf
   exact ⟨L, inferInstance, cs, hcs, hL, hθ, E, ψ, f, ⟨hE, hψc, hψm, hdev, hψf⟩, hf, hfb⟩
 
+end HSCheminsing
+
+open HSCheminsing
+
 /-- **The elliptic members** (l.1495, « the elliptic singularity (with positive mass) »): at a
 time-like `p` the wedge link has cone angle `< 2π`, is not regular, is positive, and its mass is
 in `]0, 1[`. Convention-free. -/
@@ -426,6 +440,8 @@ theorem GammaLinkCircle.IsWedgeLink.spacelike {θ : TpHS C.pt ≃ₗ[ℝ] ℂ} {
     fun hr => hneg.not_isPositive hr.isPositive⟩
 
 end Wedge
+
+open HSCheminsing
 
 open Causal.Flat (minkB_comm minkQ_eq_minkB minkB_sub_left minkB_add_left minkB_smul_left)
 
@@ -1059,6 +1075,115 @@ theorem dirOf_arc_ne {x : HS 2} (hx2 : (x : 𝕄).2 1 = 0)
   rw [coe_qPt, Real.sin_pi_div_two] at hn₁
   exact hn₁ h3
 
+/-- `qPt 0 = (1, 1, 0)` is off the arc `arcP`. -/
+theorem qPt_zero_not_mem_arcP : qPt 0 ∉ arcP := by
+  rintro ⟨s, hs, he⟩
+  have h := minkB_qPt 0 s
+  rw [he, ← minkQ_eq_minkB, bdPlus_null (qPt_mem 0), zero_sub, Real.cos_neg] at h
+  have := Real.cos_nonpos_of_pi_div_two_le_of_le hs.1 (by linarith [hs.2, Real.pi_pos])
+  linarith
+
+/-- At `x ∈ ℍ²₊`, every point of `∂ℍ²₊` pairs negatively with `x`. -/
+theorem minkB_neg_of_hypPlus {x q : HS 2} (hx : x ∈ HS.piece 2 .hypPlus)
+    (hq : q ∈ HS.piece 2 .bdPlus) : 𝐁 (x : 𝕄) q < 0 := by
+  rw [minkB_comm]
+  exact Causal.Flat.minkB_neg_of_future (bdPlus_future hq) (raySphere_ne_zero q) hx
+
+/-- **Two points of `∂ℍ²₊` pairing with `x` with the same sign are seen from `x` in different
+directions, unless they coincide.** -/
+theorem eq_of_dirOf_eq {x q q' : HS 2} (hq : q ∈ HS.piece 2 .bdPlus)
+    (hq' : q' ∈ HS.piece 2 .bdPlus) (hB : 0 < 𝐁 (x : 𝕄) q * 𝐁 (x : 𝕄) q')
+    (he : dirOf x q = dirOf x q') : q = q' := by
+  by_contra hne
+  have hqq' := minkB_neg_of_bdPlus hq hq' hne
+  have hB1 : 𝐁 (x : 𝕄) q ≠ 0 := fun h0 => by rw [h0, zero_mul] at hB; exact lt_irrefl _ hB
+  have hB2 : 𝐁 (x : 𝕄) q' ≠ 0 := fun h0 => by rw [h0, mul_zero] at hB; exact lt_irrefl _ hB
+  have hn₁ := tpMk_ne_zero_of_null (bdPlus_null hq) hB1
+  have hn₂ := tpMk_ne_zero_of_null (bdPlus_null hq') hB2
+  have hc₁ : 0 < ‖tpMk x (q : 𝕄)‖⁻¹ := inv_pos.2 (norm_pos_iff.2 hn₁)
+  have hc₂ : 0 < ‖tpMk x (q' : 𝕄)‖⁻¹ := inv_pos.2 (norm_pos_iff.2 hn₂)
+  have key : tpMk x (‖tpMk x (q : 𝕄)‖⁻¹ • (q : 𝕄) - ‖tpMk x (q' : 𝕄)‖⁻¹ • (q' : 𝕄)) = 0 := by
+    have h := congrArg (fun σ : Link x => (σ : TpHS x)) he
+    rw [coe_dirOf x hn₁, coe_dirOf x hn₂] at h
+    rw [tpMk, Submodule.Quotient.mk_sub, Submodule.Quotient.mk_smul,
+      Submodule.Quotient.mk_smul, sub_eq_zero]
+    exact h
+  generalize ‖tpMk x (q : 𝕄)‖⁻¹ = c₁ at key hc₁
+  generalize ‖tpMk x (q' : 𝕄)‖⁻¹ = c₂ at key hc₂
+  obtain ⟨k, hk⟩ := (tpMk_eq_zero_iff x).1 key
+  have e1 := congrArg (fun v : 𝕄 => 𝐁 v q) hk
+  have e2 := congrArg (fun v : 𝕄 => 𝐁 v q') hk
+  simp only [minkB_sub_left, minkB_smul_left] at e1 e2
+  rw [← minkQ_eq_minkB, bdPlus_null hq, minkB_comm (q' : 𝕄) q] at e1
+  rw [← minkQ_eq_minkB (q' : 𝕄), bdPlus_null hq'] at e2
+  have hprod : (k * 𝐁 (x : 𝕄) q) * (k * 𝐁 (x : 𝕄) q') =
+      -(c₁ * c₂ * (𝐁 (q : 𝕄) q' * 𝐁 (q : 𝕄) q')) := by
+    rw [← e1, ← e2]; ring
+  have h1 : 0 ≤ (k * 𝐁 (x : 𝕄) q) * (k * 𝐁 (x : 𝕄) q') := by
+    have := mul_nonneg (sq_nonneg k) hB.le
+    linarith [show (k * 𝐁 (x : 𝕄) q) * (k * 𝐁 (x : 𝕄) q') =
+      k ^ 2 * (𝐁 (x : 𝕄) q * 𝐁 (x : 𝕄) q') by ring]
+  have h2 : 0 < c₁ * c₂ * (𝐁 (q : 𝕄) q' * 𝐁 (q : 𝕄) q') :=
+    mul_pos (mul_pos hc₁ hc₂) (mul_pos_of_neg_of_neg hqq' hqq')
+  linarith
+
+/-- **The lifted wedge over the arc `arcP`**, given that a wedge of `ℓ(x)` pointing to `arcP` and
+glued by an element sending its right end to its left one is shorter than a turn (`hshort`): an
+interval `[a, b]` of `ℝP̃¹`, `a < b < a + 2`, all of whose directions point to `arcP`, with ends
+the directions of `p₁ = (1, 0, 1)` and `p₂ = (1, −1, 0)` and `h = γ_x^{±1}` (the hypotheses `hW`
+and `hends` of `GX.bbsrem_cheminsing_reading`). -/
+theorem arc_wedge_ends {x : HS 2}
+    (hBs : ∀ s ∈ Icc (π / 2) π, 𝐁 (x : 𝕄) (qPt s) ≠ 0)
+    (hx : x ∈ region (qPt (π / 2)) (qPt π))
+    (hdir : dirOf x (qPt (π / 2)) ≠ dirOf x (qPt π))
+    (hshort : ∀ (θ : TpHS x ≃ₗ[ℝ] ℂ) {a b : ℝ} {h : GammaP x},
+      (∀ t ∈ Icc a b, ∃ q ∈ arcP, linkCover x θ t = dirOf x q) →
+      h • linkCover x θ b = linkCover x θ a → linkCover x θ a ≠ linkCover x θ b → b < a + 2) :
+    ∃ (θ : TpHS x ≃ₗ[ℝ] ℂ) (a b : ℝ) (h : GammaP x), IsOrientedTangent x θ ∧ a < b ∧
+      b < a + 2 ∧ (∀ t ∈ Icc a b, ∃ q ∈ arcP, linkCover x θ t = dirOf x q) ∧
+      ((linkCover x θ a = dirOf x (qPt (π / 2)) ∧ linkCover x θ b = dirOf x (qPt π) ∧
+          h = (wedgeIsom (qPt_mem _) (qPt_mem _) hx)⁻¹) ∨
+        (linkCover x θ a = dirOf x (qPt π) ∧ linkCover x θ b = dirOf x (qPt (π / 2)) ∧
+          h = wedgeIsom (qPt_mem _) (qPt_mem _) hx)) := by
+  have hle : π / 2 ≤ π := by linarith [Real.pi_pos]
+  obtain ⟨θ, hθ⟩ := exists_isOrientedTangent x
+  -- the directions of the arc, lifted to `ℝP̃¹`
+  set c : ℝ → Link x := fun s => dirOf x (qPt (projIcc (π / 2) π hle s) : 𝕄) with hcdef
+  have hcc : Continuous c := by
+    refine (continuousOn_dirOf x).comp_continuous
+      (continuous_subtype_val.comp (continuous_qPt.comp
+        (continuous_subtype_val.comp continuous_projIcc))) fun s => ?_
+    exact tpMk_ne_zero_of_null (bdPlus_null (qPt_mem _)) (hBs _ (projIcc (π / 2) π hle s).2)
+  obtain ⟨e₀, he₀⟩ := linkCover_surjective x θ (c 0)
+  obtain ⟨F, ⟨-, hF⟩, -⟩ :=
+    (isCoveringMap_linkCover x θ).existsUnique_continuousMap_lifts ⟨c, hcc⟩ 0 e₀ he₀
+  have hFc : ∀ s, linkCover x θ (F s) = c s := fun s => congrFun hF s
+  have hF₁ : linkCover x θ (F (π / 2)) = dirOf x (qPt (π / 2)) := by
+    rw [hFc, hcdef]; simp only; rw [projIcc_left]
+  have hF₂ : linkCover x θ (F π) = dirOf x (qPt π) := by
+    rw [hFc, hcdef]; simp only; rw [projIcc_right]
+  have hne : F (π / 2) ≠ F π := fun he => hdir (by rw [← hF₁, ← hF₂, he])
+  have hγ := wedgeIsom_smul_dirOf (qPt_mem (π / 2)) (qPt_mem π) hx
+  have hIVT : ∀ t ∈ uIcc (F (π / 2)) (F π), ∃ q ∈ arcP, linkCover x θ t = dirOf x q := by
+    intro t ht
+    obtain ⟨s, hs, hst⟩ := intermediate_value_uIcc (F.continuous.continuousOn) ht
+    rw [uIcc_of_le hle] at hs
+    refine ⟨qPt s, ⟨s, hs, rfl⟩, ?_⟩
+    rw [← hst, hFc, hcdef]; simp only; rw [projIcc_of_mem hle hs]
+  rcases lt_or_gt_of_ne hne with hlt | hgt
+  · have hW : ∀ t ∈ Icc (F (π / 2)) (F π), ∃ q ∈ arcP, linkCover x θ t = dirOf x q :=
+      fun t ht => hIVT t (by rw [uIcc_of_le hlt.le]; exact ht)
+    have hh : (wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx)⁻¹ • linkCover x θ (F π) =
+        linkCover x θ (F (π / 2)) := by rw [hF₁, hF₂, inv_smul_eq_iff, hγ]
+    have hba := hshort θ hW hh (by rw [hF₁, hF₂]; exact hdir)
+    exact ⟨θ, _, _, _, hθ, hlt, hba, hW, Or.inl ⟨hF₁, hF₂, rfl⟩⟩
+  · have hW : ∀ t ∈ Icc (F π) (F (π / 2)), ∃ q ∈ arcP, linkCover x θ t = dirOf x q :=
+      fun t ht => hIVT t (by rw [uIcc_of_ge hgt.le]; exact ht)
+    have hh : wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx • linkCover x θ (F (π / 2)) =
+        linkCover x θ (F π) := by rw [hF₁, hF₂, hγ]
+    have hba := hshort θ hW hh (by rw [hF₁, hF₂]; exact Ne.symm hdir)
+    exact ⟨θ, _, _, _, hθ, hgt, hba, hW, Or.inr ⟨hF₂, hF₁, rfl⟩⟩
+
 /-- **The wedge over the arc `arcP`, at a non-time-like `x` off the arc**: every hypothesis of
 `GX.bbsrem_cheminsing_reading` holds (the wedge `[a, b]` is the lift of the directions of the
 arc, by lifting the path `s ↦ dir_x (1, cos s, sin s)` through `linkCover` and the intermediate
@@ -1084,88 +1209,131 @@ theorem arc_wedge {x : HS 2} (hx0 : 0 ≤ 𝐐 (x : 𝕄))
           (GammaLinkCircle.mk x cs hcs hL).IsSpacelikeNegative ∧
           (GammaLinkCircle.mk x cs hcs hL).IsSpacelikePositiveGlue ∧
           ¬ (GammaLinkCircle.mk x cs hcs hL).IsPositive) := by
-  have hle : π / 2 ≤ π := by linarith [Real.pi_pos]
   have hP := arcP_subset
   have hPx : ∀ q ∈ arcP, 𝐁 (x : 𝕄) q ≠ 0 := by
     rintro _ ⟨s, hs, rfl⟩; exact hBs s hs
-  obtain ⟨θ, hθ⟩ := exists_isOrientedTangent x
-  -- the directions of the arc, lifted to `ℝP̃¹`
-  set c : ℝ → Link x := fun s => dirOf x (qPt (projIcc (π / 2) π hle s) : 𝕄) with hcdef
-  have hcc : Continuous c := by
-    refine (continuousOn_dirOf x).comp_continuous
-      (continuous_subtype_val.comp (continuous_qPt.comp
-        (continuous_subtype_val.comp continuous_projIcc))) fun s => ?_
-    exact tpMk_ne_zero_of_null (bdPlus_null (qPt_mem _)) (hBs _ (projIcc (π / 2) π hle s).2)
-  obtain ⟨e₀, he₀⟩ := linkCover_surjective x θ (c 0)
-  obtain ⟨F, ⟨-, hF⟩, -⟩ :=
-    (isCoveringMap_linkCover x θ).existsUnique_continuousMap_lifts ⟨c, hcc⟩ 0 e₀ he₀
-  have hFc : ∀ s, linkCover x θ (F s) = c s := fun s => congrFun hF s
-  have hF₁ : linkCover x θ (F (π / 2)) = dirOf x (qPt (π / 2)) := by
-    rw [hFc, hcdef]; simp only; rw [projIcc_left]
-  have hF₂ : linkCover x θ (F π) = dirOf x (qPt π) := by
-    rw [hFc, hcdef]; simp only; rw [projIcc_right]
-  have hne : F (π / 2) ≠ F π := fun he => hdir (by rw [← hF₁, ← hF₂, he])
-  have hγ := wedgeIsom_smul_dirOf (qPt_mem (π / 2)) (qPt_mem π) hx
-  have hIVT : ∀ t ∈ uIcc (F (π / 2)) (F π), ∃ q ∈ arcP, linkCover x θ t = dirOf x q := by
-    intro t ht
-    obtain ⟨s, hs, hst⟩ := intermediate_value_uIcc (F.continuous.continuousOn) ht
-    rw [uIcc_of_le hle] at hs
-    refine ⟨qPt s, ⟨s, hs, rfl⟩, ?_⟩
-    rw [← hst, hFc, hcdef]; simp only; rw [projIcc_of_mem hle hs]
-  have key : ∀ {a b : ℝ} {h : GammaP x}, (∀ t ∈ Icc a b, ∃ q ∈ arcP,
-      linkCover x θ t = dirOf x q) → h • linkCover x θ b = linkCover x θ a →
-      linkCover x θ a ≠ linkCover x θ b → b < a + 2 := fun {a b h} hW hh hab' => by
-    have hh1 : h ≠ 1 := by rintro rfl; rw [one_smul] at hh; exact hab' hh.symm
-    have hnf : ∀ t ∈ Icc a b, h • linkCover x θ t ≠ linkCover x θ t := fun t ht => by
-      obtain ⟨q, hq, hqt⟩ := hW t ht
-      rw [hqt]
-      exact smul_dirOf_ne hx0 (bdPlus_null (hP hq)) (hPx q hq) hh1
-    have := wedge_short hx0 hnf
-    linarith
-  rcases lt_or_gt_of_ne hne with hlt | hgt
-  · have hW : ∀ t ∈ Icc (F (π / 2)) (F π), ∃ q ∈ arcP, linkCover x θ t = dirOf x q :=
-      fun t ht => hIVT t (by rw [uIcc_of_le hlt.le]; exact ht)
-    have hh : (wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx)⁻¹ • linkCover x θ (F π) =
-        linkCover x θ (F (π / 2)) := by rw [hF₁, hF₂, inv_smul_eq_iff, hγ]
-    have hba := key hW hh (by rw [hF₁, hF₂]; exact hdir)
-    have hends := Or.inl (b := linkCover x θ (F (π / 2)) = dirOf x (qPt π) ∧
-      linkCover x θ (F π) = dirOf x (qPt (π / 2)) ∧
-      (wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx)⁻¹ = wedgeIsom (qPt_mem _) (qPt_mem _) hx)
-      (⟨hF₁, hF₂, rfl⟩ : linkCover x θ (F (π / 2)) = dirOf x (qPt (π / 2)) ∧
-        linkCover x θ (F π) = dirOf x (qPt π) ∧ (wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx)⁻¹ =
-          (wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx)⁻¹)
-    obtain ⟨⟨L, _, cs, hcs, hL, hC⟩, hall⟩ := bbsrem_cheminsing_reading (qPt_mem (π / 2))
-      (qPt_mem π) hP hx hPx hθ hlt hba hW hends
-    obtain ⟨-, hnull, hds⟩ := hall cs hcs hL hC
-    exact ⟨θ, _, _, _, hθ, hlt, hba, hW, hends, L, inferInstance, cs, hcs, hL, hC, hnull, hds⟩
-  · have hW : ∀ t ∈ Icc (F π) (F (π / 2)), ∃ q ∈ arcP, linkCover x θ t = dirOf x q :=
-      fun t ht => hIVT t (by rw [uIcc_of_ge hgt.le]; exact ht)
-    have hh : wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx • linkCover x θ (F (π / 2)) =
-        linkCover x θ (F π) := by rw [hF₁, hF₂, hγ]
-    have hba := key hW hh (by rw [hF₁, hF₂]; exact Ne.symm hdir)
-    have hends := Or.inr (a := linkCover x θ (F π) = dirOf x (qPt (π / 2)) ∧
-      linkCover x θ (F (π / 2)) = dirOf x (qPt π) ∧
-      wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx = (wedgeIsom (qPt_mem _) (qPt_mem _) hx)⁻¹)
-      (⟨hF₂, hF₁, rfl⟩ : linkCover x θ (F π) = dirOf x (qPt π) ∧
-        linkCover x θ (F (π / 2)) = dirOf x (qPt (π / 2)) ∧
-          wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx = wedgeIsom (qPt_mem (π / 2)) (qPt_mem π) hx)
-    obtain ⟨⟨L, _, cs, hcs, hL, hC⟩, hall⟩ := bbsrem_cheminsing_reading (qPt_mem (π / 2))
-      (qPt_mem π) hP hx hPx hθ hgt hba hW hends
-    obtain ⟨-, hnull, hds⟩ := hall cs hcs hL hC
-    exact ⟨θ, _, _, _, hθ, hgt, hba, hW, hends, L, inferInstance, cs, hcs, hL, hC, hnull, hds⟩
+  obtain ⟨θ, a, b, h, hθ, hab, hba, hW, hends⟩ := arc_wedge_ends hBs hx hdir
+    fun θ {a b h} hW hh hab' => by
+      have hh1 : h ≠ 1 := by rintro rfl; rw [one_smul] at hh; exact hab' hh.symm
+      have hnf : ∀ t ∈ Icc a b, h • linkCover x θ t ≠ linkCover x θ t := fun t ht => by
+        obtain ⟨q, hq, hqt⟩ := hW t ht
+        rw [hqt]
+        exact smul_dirOf_ne hx0 (bdPlus_null (hP hq)) (hPx q hq) hh1
+      have := wedge_short hx0 hnf
+      linarith
+  obtain ⟨⟨L, _, cs, hcs, hL, hC⟩, hall⟩ := bbsrem_cheminsing_reading (qPt_mem (π / 2))
+    (qPt_mem π) hP hx hPx hθ hab hba hW hends
+  obtain ⟨-, hnull, hds⟩ := hall cs hcs hL hC
+  exact ⟨θ, a, b, h, hθ, hab, hba, hW, hends, L, inferInstance, cs, hcs, hL, hC, hnull, hds⟩
+
+/-- **The wedge over the arc `arcP`, at a time-like `x ∈ ℍ²₊`** (the elliptic branch): every
+hypothesis of `GX.bbsrem_cheminsing_reading` holds, and the wedge link is an elliptic singularity
+of positive mass. The wedge is shorter than a turn because `q ↦ dir_x q` is injective on `∂ℍ²₊`
+(`eq_of_dirOf_eq`) and `qPt 0 ∉ arcP`. -/
+theorem arc_wedge_timelike {x : HS 2} (hxt : x ∈ HS.piece 2 .hypPlus) :
+    ∃ (θ : TpHS x ≃ₗ[ℝ] ℂ) (a b : ℝ) (h : GammaP x), IsOrientedTangent x θ ∧ a < b ∧
+      b < a + 2 ∧ (∀ t ∈ Icc a b, ∃ q ∈ arcP, linkCover x θ t = dirOf x q) ∧
+      ((linkCover x θ a = dirOf x (qPt (π / 2)) ∧ linkCover x θ b = dirOf x (qPt π) ∧
+          h = (wedgeIsom (qPt_mem (π / 2)) (qPt_mem π)
+            (hypPlus_subset_region (qPt_mem (π / 2)) (qPt_mem π) hxt))⁻¹) ∨
+        (linkCover x θ a = dirOf x (qPt π) ∧ linkCover x θ b = dirOf x (qPt (π / 2)) ∧
+          h = wedgeIsom (qPt_mem (π / 2)) (qPt_mem π)
+            (hypPlus_subset_region (qPt_mem (π / 2)) (qPt_mem π) hxt))) ∧
+      ∃ (L : Type) (_ : TopologicalSpace L) (cs : ChartedSpace (Link x) L)
+        (hcs : HasGroupoid L (gxGroupoid (GammaP x) (Link x))) (hL : IsCircle L),
+        (GammaLinkCircle.mk x cs hcs hL).IsWedgeLink θ a b h ∧
+        (GammaLinkCircle.mk x cs hcs hL).coneAngle < 2 * π ∧
+        0 < (GammaLinkCircle.mk x cs hcs hL).mass ∧
+        (GammaLinkCircle.mk x cs hcs hL).IsPositive ∧
+        ¬ (GammaLinkCircle.mk x cs hcs hL).IsRegular := by
+  have hP := arcP_subset
+  have hx := hypPlus_subset_region (qPt_mem (π / 2)) (qPt_mem π) hxt
+  have hneg : ∀ q ∈ HS.piece 2 .bdPlus, 𝐁 (x : 𝕄) q < 0 := fun q hq =>
+    minkB_neg_of_hypPlus hxt hq
+  have hPx : ∀ q ∈ arcP, 𝐁 (x : 𝕄) q ≠ 0 := fun q hq => (hneg q (hP hq)).ne
+  have hBs : ∀ s ∈ Icc (π / 2) π, 𝐁 (x : 𝕄) (qPt s) ≠ 0 := fun s _ => (hneg _ (qPt_mem s)).ne
+  have hdir : dirOf x (qPt (π / 2)) ≠ dirOf x (qPt π) := fun he => by
+    have e := eq_of_dirOf_eq (qPt_mem _) (qPt_mem _)
+      (mul_pos_of_neg_of_neg (hneg _ (qPt_mem _)) (hneg _ (qPt_mem _))) he
+    have h := minkB_qPt (π / 2) π
+    rw [e, ← minkQ_eq_minkB, bdPlus_null (qPt_mem _),
+      show π / 2 - π = -(π / 2) by ring, Real.cos_neg, Real.cos_pi_div_two] at h
+    norm_num at h
+  obtain ⟨θ, a, b, h, hθ, hab, hba, hW, hends⟩ := arc_wedge_ends hBs hx hdir
+    fun θ {a b h} hW _ _ => by
+      by_contra hcon
+      push Not at hcon
+      obtain ⟨t₀, ht₀⟩ := linkCover_surjective x θ (dirOf x (qPt 0))
+      have h1 : a ≤ t₀ + 2 * (⌈(a - t₀) / 2⌉ : ℤ) := by
+        have := Int.le_ceil ((a - t₀) / 2); linarith
+      have h2 : t₀ + 2 * (⌈(a - t₀) / 2⌉ : ℤ) < a + 2 := by
+        have := Int.ceil_lt_add_one ((a - t₀) / 2); linarith
+      obtain ⟨q, hq, hqt⟩ := hW _ ⟨h1, by linarith⟩
+      rw [linkCover_add_two_mul, ht₀] at hqt
+      have e := eq_of_dirOf_eq (qPt_mem 0) (hP hq)
+        (mul_pos_of_neg_of_neg (hneg _ (qPt_mem 0)) (hneg _ (hP hq))) hqt
+      exact qPt_zero_not_mem_arcP (by rw [e]; exact hq)
+  obtain ⟨⟨L, _, cs, hcs, hL, hC⟩, hall⟩ := bbsrem_cheminsing_reading (qPt_mem (π / 2))
+    (qPt_mem π) hP hx hPx hθ hab hba hW hends
+  obtain ⟨hell, -, -⟩ := hall cs hcs hL hC
+  obtain ⟨h1, h2, h3, h4⟩ := hell hxt.2
+  exact ⟨θ, a, b, h, hθ, hab, hba, hW, hends, L, inferInstance, cs, hcs, hL, hC, h1, h2, h3, h4⟩
+
+/-- **The elliptic clause of `bbsrem:cheminsing` on an explicit instance**: at the pole
+`x = [(1, 0, 0)] ∈ ℍ²₊`, the wedge over the arc `arcP` from `p₁ = (1, 0, 1)` to `p₂ = (1, −1, 0)`,
+glued back by `γ_x^{±1}`, satisfies every hypothesis of `GX.bbsrem_cheminsing_reading`, and its
+link is an elliptic singularity (cone angle `< 2π`) of positive mass, positive and not regular:
+the elliptic branch of the assembly is not vacuous. -/
+theorem cheminsing_timelike_pole :
+    ∃ (hx : HS.pole 2 ∈ region (qPt (π / 2)) (qPt π)) (θ : TpHS (HS.pole 2) ≃ₗ[ℝ] ℂ) (a b : ℝ)
+      (h : GammaP (HS.pole 2)),
+      HS.pole 2 ∈ HS.piece 2 .hypPlus ∧ (∀ q ∈ arcP, 𝐁 (HS.pole 2 : 𝕄) q ≠ 0) ∧
+      IsOrientedTangent (HS.pole 2) θ ∧ a < b ∧ b < a + 2 ∧
+      (∀ t ∈ Icc a b, ∃ q ∈ arcP, linkCover (HS.pole 2) θ t = dirOf (HS.pole 2) q) ∧
+      ((linkCover (HS.pole 2) θ a = dirOf (HS.pole 2) (qPt (π / 2)) ∧
+          linkCover (HS.pole 2) θ b = dirOf (HS.pole 2) (qPt π) ∧
+          h = (wedgeIsom (qPt_mem _) (qPt_mem _) hx)⁻¹) ∨
+        (linkCover (HS.pole 2) θ a = dirOf (HS.pole 2) (qPt π) ∧
+          linkCover (HS.pole 2) θ b = dirOf (HS.pole 2) (qPt (π / 2)) ∧
+          h = wedgeIsom (qPt_mem _) (qPt_mem _) hx)) ∧
+      ∃ (L : Type) (_ : TopologicalSpace L) (cs : ChartedSpace (Link (HS.pole 2)) L)
+        (hcs : HasGroupoid L (gxGroupoid (GammaP (HS.pole 2)) (Link (HS.pole 2))))
+        (hL : IsCircle L),
+        (GammaLinkCircle.mk (HS.pole 2) cs hcs hL).IsWedgeLink θ a b h ∧
+        (GammaLinkCircle.mk (HS.pole 2) cs hcs hL).coneAngle < 2 * π ∧
+        0 < (GammaLinkCircle.mk (HS.pole 2) cs hcs hL).mass ∧
+        (GammaLinkCircle.mk (HS.pole 2) cs hcs hL).IsPositive ∧
+        ¬ (GammaLinkCircle.mk (HS.pole 2) cs hcs hL).IsRegular := by
+  have hxt := HS.pole_mem_hypPlus (d := 2)
+  obtain ⟨θ, a, b, h, hθ, hab, hba, hW, hends, L, _, cs, hcs, hL, hC, h1, h2, h3, h4⟩ :=
+    arc_wedge_timelike hxt
+  exact ⟨hypPlus_subset_region (qPt_mem _) (qPt_mem _) hxt, θ, a, b, h, hxt,
+    fun q hq => (minkB_neg_of_hypPlus hxt (arcP_subset hq)).ne, hθ, hab, hba, hW, hends, L,
+    inferInstance, cs, hcs, hL, hC, h1, h2, h3, h4⟩
 
 end Cheminsing
 
 open Cheminsing in
 /-- **The light-like clause of `bbsrem:cheminsing` fails in the library's holonomy convention**,
 on an explicit instance: `x_∞ = (1, 1, 0) ∈ ∂ℍ²₊`, off the arc `arcP` from `p₁ = (1, 0, 1)` to
-`p₂ = (1, −1, 0)`; the wedge at `x_∞` over the arc, glued back by `γ_{x_∞}^{±1}`, is a light-like
-singularity which is **negative** (`IsLightlikeNegative`), not positive (`IsPositive`), and
-positive in the gluing-map convention (`IsLightlikePositiveGlue`). -/
+`p₂ = (1, −1, 0)`, in the region of `γ_{x_∞}`; the wedge `[a, b]` (`a < b < a + 2`) at `x_∞`, all
+of whose directions point to the arc, with ends the directions of `p₁, p₂`, glued back by the
+paper's `γ_{x_∞}^{±1}` (`wedgeIsom`, `hends`) — a member of the family of
+`GX.bbsrem_cheminsing_reading` — is a light-like singularity which is **negative**
+(`IsLightlikeNegative`), not positive (`IsPositive`), and positive in the gluing-map convention
+(`IsLightlikePositiveGlue`). -/
 theorem not_cheminsing_lightlike_positive :
-    ∃ (θ : TpHS (qPt 0) ≃ₗ[ℝ] ℂ) (a b : ℝ) (h : GammaP (qPt 0)),
-      qPt 0 ∈ HS.piece 2 .bdPlus ∧ qPt 0 ∉ arcP ∧ IsOrientedTangent (qPt 0) θ ∧ a < b ∧
+    ∃ (hx : qPt 0 ∈ region (qPt (π / 2)) (qPt π)) (θ : TpHS (qPt 0) ≃ₗ[ℝ] ℂ) (a b : ℝ)
+      (h : GammaP (qPt 0)),
+      qPt 0 ∈ HS.piece 2 .bdPlus ∧ qPt 0 ∉ arcP ∧ (∀ q ∈ arcP, 𝐁 (qPt 0 : 𝕄) q ≠ 0) ∧
+      IsOrientedTangent (qPt 0) θ ∧ a < b ∧ b < a + 2 ∧
       (∀ t ∈ Icc a b, ∃ q ∈ arcP, linkCover (qPt 0) θ t = dirOf (qPt 0) q) ∧
+      ((linkCover (qPt 0) θ a = dirOf (qPt 0) (qPt (π / 2)) ∧
+          linkCover (qPt 0) θ b = dirOf (qPt 0) (qPt π) ∧
+          h = (wedgeIsom (qPt_mem _) (qPt_mem _) hx)⁻¹) ∨
+        (linkCover (qPt 0) θ a = dirOf (qPt 0) (qPt π) ∧
+          linkCover (qPt 0) θ b = dirOf (qPt 0) (qPt (π / 2)) ∧
+          h = wedgeIsom (qPt_mem _) (qPt_mem _) hx)) ∧
       ∃ (L : Type) (_ : TopologicalSpace L) (cs : ChartedSpace (Link (qPt 0)) L)
         (hcs : HasGroupoid L (gxGroupoid (GammaP (qPt 0)) (Link (qPt 0)))) (hL : IsCircle L),
         (GammaLinkCircle.mk (qPt 0) cs hcs hL).IsWedgeLink θ a b h ∧
@@ -1185,25 +1353,38 @@ theorem not_cheminsing_lightlike_positive :
     bdPlus_mem_region (qPt_mem _) (qPt_mem _) (qPt_mem 0) (hxq _ hm₁) (hxq _ hm₂)
   have hnull : 𝐐 (qPt 0 : 𝕄) = 0 := bdPlus_null (qPt_mem 0)
   have hx2 : (qPt 0 : 𝕄).2 1 = 0 := by rw [coe_qPt, mink3_snd_one, Real.sin_zero]
-  obtain ⟨θ, a, b, h, hθ, hab, -, hW, -, L, _, cs, hcs, hL, hC, hN, -⟩ :=
+  obtain ⟨θ, a, b, h, hθ, hab, hba, hW, hends, L, _, cs, hcs, hL, hC, hN, -⟩ :=
     arc_wedge hnull.ge hBs hx (dirOf_arc_ne hx2 (hBs _ hm₁) (hBs _ hm₂))
   obtain ⟨h1, h2, h3⟩ := hN hnull
-  exact ⟨θ, a, b, h, qPt_mem 0, by rintro ⟨s, hs, he⟩; exact hxq s hs he.symm, hθ, hab, hW, L,
+  exact ⟨hx, θ, a, b, h, qPt_mem 0, qPt_zero_not_mem_arcP,
+    by rintro _ ⟨s, hs, rfl⟩; exact hBs s hs, hθ, hab, hba, hW, hends, L,
     inferInstance, cs, hcs, hL, hC, h1, h2, h3⟩
 
 open Cheminsing in
 /-- **The space-like clause of `bbsrem:cheminsing` (« positive mass », read as positive in the
 sense of l.906–915) fails in the library's holonomy convention**, on an explicit instance:
-`x = [x_∞ − e_t/2] = [(1/2, 1, 0)] ∈ dS²`, a point of the deformation `defPath` past `x_∞`; the
-wedge at `x` over `arcP` is a space-like singularity which is **negative**
-(`IsSpacelikeNegative`), not positive, and positive in the gluing-map convention
-(`IsSpacelikePositiveGlue`). -/
+`x = [x_∞ − e_t/2] = [(1/2, 1, 0)] ∈ dS²`, a point of the deformation `defPath` past `x_∞`, in
+the region of `γ_x`; the wedge `[a, b]` (`a < b < a + 2`) at `x`, all of whose directions point
+to the arc `arcP`, with ends the directions of `p₁, p₂`, glued back by the paper's `γ_x^{±1}`
+(`wedgeIsom`, `hends`) — a member of the family of `GX.bbsrem_cheminsing_reading` — is a
+space-like singularity which is **negative** (`IsSpacelikeNegative`), not positive, and positive
+in the gluing-map convention (`IsSpacelikePositiveGlue`). -/
 theorem not_cheminsing_spacelike_positive :
-    ∃ (θ : TpHS (defPath (qPt 0) (1 / 2)) ≃ₗ[ℝ] ℂ) (a b : ℝ) (h : GammaP (defPath (qPt 0) (1 / 2))),
+    ∃ (hx : defPath (qPt 0) (1 / 2) ∈ region (qPt (π / 2)) (qPt π))
+      (θ : TpHS (defPath (qPt 0) (1 / 2)) ≃ₗ[ℝ] ℂ) (a b : ℝ)
+      (h : GammaP (defPath (qPt 0) (1 / 2))),
       defPath (qPt 0) (1 / 2) ∈ HS.piece 2 .deSitter ∧
-      IsOrientedTangent (defPath (qPt 0) (1 / 2)) θ ∧ a < b ∧
+      (∀ q ∈ arcP, 𝐁 (defPath (qPt 0) (1 / 2) : 𝕄) q ≠ 0) ∧
+      IsOrientedTangent (defPath (qPt 0) (1 / 2)) θ ∧ a < b ∧ b < a + 2 ∧
       (∀ t ∈ Icc a b, ∃ q ∈ arcP, linkCover (defPath (qPt 0) (1 / 2)) θ t =
         dirOf (defPath (qPt 0) (1 / 2)) q) ∧
+      ((linkCover (defPath (qPt 0) (1 / 2)) θ a = dirOf (defPath (qPt 0) (1 / 2)) (qPt (π / 2)) ∧
+          linkCover (defPath (qPt 0) (1 / 2)) θ b = dirOf (defPath (qPt 0) (1 / 2)) (qPt π) ∧
+          h = (wedgeIsom (qPt_mem _) (qPt_mem _) hx)⁻¹) ∨
+        (linkCover (defPath (qPt 0) (1 / 2)) θ a = dirOf (defPath (qPt 0) (1 / 2)) (qPt π) ∧
+          linkCover (defPath (qPt 0) (1 / 2)) θ b =
+            dirOf (defPath (qPt 0) (1 / 2)) (qPt (π / 2)) ∧
+          h = wedgeIsom (qPt_mem _) (qPt_mem _) hx)) ∧
       ∃ (L : Type) (_ : TopologicalSpace L) (cs : ChartedSpace (Link (defPath (qPt 0) (1 / 2))) L)
         (hcs : HasGroupoid L (gxGroupoid (GammaP (defPath (qPt 0) (1 / 2)))
           (Link (defPath (qPt 0) (1 / 2))))) (hL : IsCircle L),
@@ -1245,9 +1426,10 @@ theorem not_cheminsing_spacelike_positive :
     rw [hcoe, hv]
     simp only [Prod.smul_snd, Prod.snd_sub, PiLp.smul_apply, coe_qPt, mink3_snd_one,
       Real.sin_zero, Causal.Flat.timeUnit, smul_zero, sub_zero, smul_eq_mul, mul_zero]
-  obtain ⟨θ, a, b, h, hθ, hab, -, hW, -, L, _, cs, hcs, hL, hC, -, hS⟩ :=
+  obtain ⟨θ, a, b, h, hθ, hab, hba, hW, hends, L, _, cs, hcs, hL, hC, -, hS⟩ :=
     arc_wedge (le_of_lt hds) hBs hx (dirOf_arc_ne hx2 (hBs _ hm₁) (hBs _ hm₂))
   obtain ⟨h1, h2, h3⟩ := hS hds
-  exact ⟨θ, a, b, h, hds, hθ, hab, hW, L, inferInstance, cs, hcs, hL, hC, h1, h2, h3⟩
+  exact ⟨hx, θ, a, b, h, hds, by rintro _ ⟨s, hs, rfl⟩; exact hBs s hs, hθ, hab, hba, hW, hends,
+    L, inferInstance, cs, hcs, hL, hC, h1, h2, h3⟩
 
 end GX
