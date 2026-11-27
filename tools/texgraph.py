@@ -496,7 +496,9 @@ def first_words(s, n=9):
     return ' '.join(w[:n]) + ('…' if len(w) > n else '')
 
 
-PROOF_OF = re.compile(r'Proof of\s+(?:[A-Za-z.\\ ~]*)\\ref\{([^}]*)\}')
+# « Proofs of Lemmas \ref{x} and \ref{y} » (a joint proof, btz l.719) proves its first statement; the
+# others are curated (nl_status_override).
+PROOF_OF = re.compile(r'Proofs? of\s+(?:[A-Za-z.\\ ~]*)\\ref\{([^}]*)\}')
 # Titles PROOF_OF misses (T-texgraph-proof-titles): « of Proposition \ref{x} », and a title whose
 # only \ref names a statement (« First variation at u = 1 (Remark~\ref{x}) »).
 OF_REF = re.compile(r'^\s*of\s+(?:[A-Za-z.\\ ~]*)\\ref\{([^}]*)\}')

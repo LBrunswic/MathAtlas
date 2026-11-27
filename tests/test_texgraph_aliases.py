@@ -100,6 +100,38 @@ class ProofTitlesThroughAliases(unittest.TestCase):
         self.assertIsNone(g.nodes["mghddef:d"]["proved_by"])
 
 
+JOINT = r"""\documentclass{article}
+\begin{document}
+\begin{lemma}\label{btzlem:a}\label{lem:a}
+First.
+\end{lemma}
+\begin{lemma}\label{btzlem:b}\label{lem:b}
+Second.
+\end{lemma}
+\begin{theorem}\label{btzthm:c}
+Stated after both.
+\end{theorem}
+\begin{proof}[Proofs of Lemmas  \ref{lem:a} and \ref{lem:b}]
+Both at once.
+\end{proof}
+\end{document}
+"""
+
+
+class JointProofTitle(unittest.TestCase):
+    """`\\begin{proof}[Proofs of Lemmas \\ref{a} and \\ref{b}]` (btz l.719) proves its first statement,
+    not the most recent unproved one; the second is curated."""
+
+    def test_plural_title_resolves_to_first_ref(self):
+        d = tempfile.mkdtemp()
+        with open(os.path.join(d, "paper.tex"), "w") as f:
+            f.write(JOINT)
+        pg.configure(main="paper.tex", notation=())
+        g = pg.parse_document(d)
+        self.assertIsNotNone(g.nodes["btzlem:a"]["proved_by"])
+        self.assertIsNone(g.nodes["btzthm:c"]["proved_by"])
+        self.assertEqual(g.unresolved_proof_titles, [])
+
 DIGITS = r"""\documentclass{article}
 \begin{document}
 \begin{def1}\label{mghddef:first}
