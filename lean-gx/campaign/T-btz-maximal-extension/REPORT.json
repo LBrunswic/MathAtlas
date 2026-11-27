@@ -1,0 +1,224 @@
+{
+ "package": "T-btz-maximal-extension",
+ "target": "T-btz-maximal-extension",
+ "files": [
+  "scaffold/GXScaffold/BTZ/MaxExtension.lean",
+  "scaffold/GXScaffold.lean (one import line added: import GXScaffold.BTZ.MaxExtension)"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": {
+  "GX.BTZMax.btz_ext": "propext, Classical.choice, Quot.sound",
+  "GX.BTZMax.chainsInherit": "propext, Classical.choice, Quot.sound",
+  "GX.BTZMax.equivalent_of_isMaximal": "propext, Classical.choice, Quot.sound",
+  "GX.BTZMax.isUniversal_of_isMaximal": "propext, Classical.choice, Quot.sound"
+ },
+ "labels": [
+  {
+   "label": "btzthm:BTZ_ext",
+   "tex_lines": [
+    1528,
+    1555
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.BTZMax.btz_ext",
+    "GX.BTZMax.GHExt",
+    "GX.BTZMax.extMor",
+    "GX.BTZMax.Equivalent",
+    "GX.BTZMax.RichardsInput",
+    "GX.BTZMax.morphismsCompose",
+    "GX.BTZMax.uniqueMorphisms",
+    "GX.BTZMax.chainsInherit",
+    "GX.BTZMax.unionExt",
+    "GX.BTZMax.unionMfd",
+    "GX.BTZMax.globallyHyperbolic_of_iCover",
+    "GX.BTZMax.secondCountable_carrier",
+    "GX.BTZMax.isInextensible_of_isMaximal",
+    "GX.BTZMax.isUniversal_of_isMaximal",
+    "GX.BTZMax.equivalent_of_isMaximal"
+   ],
+   "hypotheses": [
+    {
+     "paper": "E_{>=0}-manifolds",
+     "here": "strengthened",
+     "note": "E0 only (T-btz-scope, DEC-116 (b)/DEC-125 (e))"
+    },
+    {
+     "paper": "M globally hyperbolic",
+     "here": "carried",
+     "note": "hG; used only to make M itself a development (base)"
+    },
+    {
+     "paper": "M Hausdorff, second countable (l.261)",
+     "here": "carried",
+     "note": ""
+    },
+    {
+     "paper": "(none)",
+     "here": "strengthened",
+     "note": "M connected: E0AbsMax.e0_sfa_of_globalBTZ on the union (global hyperbolicity) and GX.Ppcm.btz_ppcm (universality, uniqueness) need it; the same added hypothesis as btzprop:ppcm"
+    },
+    {
+     "paper": "Richards' theorem MR143186 + second countability of a BTZ line (l.1544-1546)",
+     "here": "named cited input",
+     "note": "GX.BTZMax.RichardsInput M, a Prop-valued def taken as hypothesis of btz_ext (never an axiom): in a Hausdorff connected E0-manifold C with a BTZ-embedding of M, any two points of which lie in an open, second countable, globally hyperbolic BTZ-extension of M, S0 C is Lindelof. It is what the proof draws from Richards (countably many BTZ lines) together with each line second countable"
+    },
+    {
+     "paper": "« maximal among such extensions »",
+     "here": "carried, conclusion strengthened",
+     "note": "Causal.AbstractDev.IsMaximal, plus IsInextensible (every morphism out is an isomorphism) and universal (every GH BTZ-extension of M maps into E)"
+    },
+    {
+     "paper": "« unique up to equivalence »",
+     "here": "carried",
+     "note": "every IsMaximal GH BTZ-extension is equivalent (bijective BTZ-embedding over M) to E; unconditional given maximality (equivalent_of_isMaximal does not use RichardsInput)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1541 (first bullet): the claim needs less than the proof says. The union is globally hyperbolic as soon as it is covered by images of BTZ-embeddings of globally hyperbolic manifolds; no member need contain both p and q, since the image of such an embedding is a future set (GX.Ppcm.mem_range_of_le). Proved as GX.BTZMax.globallyHyperbolic_of_iCover.",
+    "l.1536: « the BTZ-extensions of M all have the same cardinality » is not needed. A point of an extension is determined by its germ comap ι (𝓝 x), a filter on M: the extension is Hausdorff and ι(M) is dense. So every union is built inside Filter M, in Type 0.",
+    "l.1536: the paper takes an inductive limit over all BTZ-extensions, right filtered by prop:ppcm. Here, Zorn on chains (exists_isMaximal_of_uniqueMorphisms) gives the existence. Prop:ppcm then gives the universality of the maximal extension, and from it the uniqueness (isUniversal_of_isMaximal). The conclusion is the same: it is the colimit.",
+    "l.1544-1546 (second bullet) is not formalized: Richards' classification is not in mathlib, and neither is the second countability of a BTZ line through its (R,R)-structure. Its consequence is carried as RichardsInput. Given that input, the step from it to the union being second countable is proved (secondCountable_carrier): countably many members cover S0, and one member covers the rest.",
+    "l.1529-1532 vs l.1269-1271: btzthm:maximal_btz_extension says « unique up to isomorphism » where btzthm:BTZ_ext says « up to equivalence ». The Lean proves the stronger one, equivalence over M, which implies the other."
+   ],
+   "questions": [
+    "« maximal among such extensions » is not defined. I read it as Causal.AbstractDev.IsMaximal (every extension of E maps back into E). btz_ext also proves the two stronger readings, inextensible and universal, so existence does not depend on the choice. Uniqueness is proved for every E' maximal in the weakest sense.",
+    "The paper's E_{>=0}-manifolds are not required to be connected (l.261). M connected is added, as for btzprop:ppcm. Is the theorem meant for connected M, or componentwise?"
+   ]
+  },
+  {
+   "label": "btzthm:maximal_btz_extension",
+   "tex_lines": [
+    1269,
+    1271
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.BTZMax.btz_ext"
+   ],
+   "hypotheses": [
+    {
+     "paper": "E_{>=0}-manifolds",
+     "here": "strengthened",
+     "note": "E0 only (T-btz-scope, DEC-116 (b)/DEC-125 (e))"
+    },
+    {
+     "paper": "M globally hyperbolic",
+     "here": "carried",
+     "note": "hG; used only to make M itself a development (base)"
+    },
+    {
+     "paper": "M Hausdorff, second countable (l.261)",
+     "here": "carried",
+     "note": ""
+    },
+    {
+     "paper": "(none)",
+     "here": "strengthened",
+     "note": "M connected: E0AbsMax.e0_sfa_of_globalBTZ on the union (global hyperbolicity) and GX.Ppcm.btz_ppcm (universality, uniqueness) need it; the same added hypothesis as btzprop:ppcm"
+    },
+    {
+     "paper": "Richards' theorem MR143186 + second countability of a BTZ line (l.1544-1546)",
+     "here": "named cited input",
+     "note": "GX.BTZMax.RichardsInput M, a Prop-valued def taken as hypothesis of btz_ext (never an axiom): in a Hausdorff connected E0-manifold C with a BTZ-embedding of M, any two points of which lie in an open, second countable, globally hyperbolic BTZ-extension of M, S0 C is Lindelof. It is what the proof draws from Richards (countably many BTZ lines) together with each line second countable"
+    },
+    {
+     "paper": "« maximal among such extensions »",
+     "here": "carried, conclusion strengthened",
+     "note": "Causal.AbstractDev.IsMaximal, plus IsInextensible (every morphism out is an isomorphism) and universal (every GH BTZ-extension of M maps into E)"
+    },
+    {
+     "paper": "« unique up to equivalence »",
+     "here": "carried",
+     "note": "every IsMaximal GH BTZ-extension is equivalent (bijective BTZ-embedding over M) to E; unconditional given maximality (equivalent_of_isMaximal does not use RichardsInput)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "« unique up to isomorphism » (l.1270) is read as equivalence over M, the reading of btzthm:BTZ_ext (l.1530). It is the stronger of the two."
+   ]
+  },
+  {
+   "label": "btzthm:globally_hyperbolic_manifolds_exists",
+   "tex_lines": [
+    331,
+    334
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.BTZMax.btz_ext"
+   ],
+   "hypotheses": [
+    {
+     "paper": "E_{>=0}-manifolds",
+     "here": "strengthened",
+     "note": "E0 only (T-btz-scope, DEC-116 (b)/DEC-125 (e))"
+    },
+    {
+     "paper": "M globally hyperbolic",
+     "here": "carried",
+     "note": "hG; used only to make M itself a development (base)"
+    },
+    {
+     "paper": "M Hausdorff, second countable (l.261)",
+     "here": "carried",
+     "note": ""
+    },
+    {
+     "paper": "(none)",
+     "here": "strengthened",
+     "note": "M connected: E0AbsMax.e0_sfa_of_globalBTZ on the union (global hyperbolicity) and GX.Ppcm.btz_ppcm (universality, uniqueness) need it; the same added hypothesis as btzprop:ppcm"
+    },
+    {
+     "paper": "Richards' theorem MR143186 + second countability of a BTZ line (l.1544-1546)",
+     "here": "named cited input",
+     "note": "GX.BTZMax.RichardsInput M, a Prop-valued def taken as hypothesis of btz_ext (never an axiom): in a Hausdorff connected E0-manifold C with a BTZ-embedding of M, any two points of which lie in an open, second countable, globally hyperbolic BTZ-extension of M, S0 C is Lindelof. It is what the proof draws from Richards (countably many BTZ lines) together with each line second countable"
+    },
+    {
+     "paper": "« maximal among such extensions »",
+     "here": "carried, conclusion strengthened",
+     "note": "Causal.AbstractDev.IsMaximal, plus IsInextensible (every morphism out is an isomorphism) and universal (every GH BTZ-extension of M maps into E)"
+    },
+    {
+     "paper": "« unique up to equivalence »",
+     "here": "carried",
+     "note": "every IsMaximal GH BTZ-extension is equivalent (bijective BTZ-embedding over M) to E; unconditional given maximality (equivalent_of_isMaximal does not use RichardsInput)"
+    }
+   ],
+   "sorries": [],
+   "findings": [],
+   "questions": [
+    "The introduction's statement repeats l.1529-1532 word for word; it is anchored on the same GX.BTZMax.btz_ext."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.BTZMax.globallyHyperbolic_of_iCover",
+  "GX.BTZMax.germ",
+  "GX.BTZMax.germ_injective",
+  "GX.BTZMax.germ_map",
+  "GX.BTZMax.Carrier",
+  "GX.BTZMax.inj",
+  "GX.BTZMax.isOpenEmbedding_inj",
+  "GX.BTZMax.t2Space_carrier",
+  "GX.BTZMax.unionCS",
+  "GX.BTZMax.unionCS_hasGroupoid",
+  "GX.BTZMax.isBTZ_inj",
+  "GX.BTZMax.connectedSpace_carrier",
+  "GX.BTZMax.connectedSpace_N",
+  "GX.BTZMax.base"
+ ],
+ "kb_proposals": [
+  "The union of a chain of BTZ-extensions of M lives in Type 0 as a set of germs comap ι (𝓝 x) : Filter M (GX.BTZMax.Carrier). It is injective because the extension is Hausdorff and ι(M) is dense, and it is preserved by embeddings over M, so no cardinality bound and no Shrink are needed.",
+  "GX.BTZMax.globallyHyperbolic_of_iCover: an E0-manifold covered by the images of any family of BTZ-embeddings of globally hyperbolic manifolds is globally hyperbolic. No directedness is needed. It generalizes GX.Ppcm.globallyHyperbolic_of_cover.",
+  "A union of a chain of open embeddings with the final topology, plus Causal.CBG.gluedChartedSpace over the members, is an E0-manifold (GX.BTZMax.unionCS, trans_inj). Reuse it for any colimit of BTZ-extensions.",
+  "With Zorn, a maximal GH BTZ-extension is universal through GX.Ppcm.btz_ppcm and inextensibility (GX.BTZMax.isUniversal_of_isMaximal). The paper's « right filtered » step is that one line."
+ ],
+ "notes": "The module has no sorry and no warning. Standard axioms only. lake build GXScaffold.BTZ.MaxExtension succeeded and rebuilt nothing upstream. DEC-33 gate ok: the module is under scaffold/GXScaffold/BTZ/ and imports Causal.AbstractDev, which is allowed there. It imports only GX.BTZ.Ppcm and Causal.AbstractDev, so it can graduate to GX/BTZ/ by git mv. All three rows are partial and unmarked for three reasons: E0 scope (T-btz-scope), M connected added, and the named cited input RichardsInput (no axiom, no sorry; it is a hypothesis of btz_ext only). Universality and uniqueness of a maximal extension (isUniversal_of_isMaximal, equivalent_of_isMaximal) do not use RichardsInput; only existence (chainsInherit) does. The import line was inserted after import GXScaffold.BTZ.RegCompleteLength."
+}

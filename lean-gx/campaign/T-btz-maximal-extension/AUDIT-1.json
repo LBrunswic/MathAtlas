@@ -1,0 +1,51 @@
+{
+ "target": "T-btz-maximal-extension",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "btzthm:BTZ_ext",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "BTZ_1.tex l.1528-1532 against GX.BTZMax.btz_ext. GHExt M = E0Mfd N (T2, second countable, HasGroupoid e0Groupoid by structure), BTZ-embedding (IsEmbedding, IsE0Mor univ, complement in S0: the l.325 definition), GH. The conclusion gives AbstractDev.IsMaximal (every extension of E maps back), and also IsInextensible, universality over every GHExt M, and Equivalent (a bijective extMor over M) to every IsMaximal E'. That is at least the paper's 'maximal among such extensions, unique up to equivalence'. The added hypotheses are disclosed and the row is partial and unmarked: E0 only (T-btz-scope), M connected, and RichardsInput M. Hypotheses are carried: [T2Space M] [SecondCountableTopology M] [HasGroupoid M e0Groupoid] and hG. The Type 0 restriction loses nothing, because every extension embeds into Filter M through germs (germ_injective). RichardsInput M (printed): for every Type C that is T2, connected, E0-charted with HasGroupoid, and every BTZ-embedding iota : M -> C such that any p, q lie in an open U with range iota in U, U second countable and GloballyHyperbolicOn U, the set S0 C is Lindelof. It does not contain the conclusion. It says nothing about maximal extensions, and it gives no second countability of C itself, only Lindelof of the BTZ locus. Getting from it to second countability of the union is proved (secondCountable_carrier). The input is also satisfiable and non-vacuous. If M is already maximal among GH BTZ-extensions (for example Cauchy-compact Cauchy-maximal, by prop:cauchy_abs_max), each such U equals iota(M), so C = iota(M) and S0 C is homeomorphic to S0 M, which is Lindelof because M is second countable. In general it is exactly the claim of the paper's second bullet (l.1544-1546), applied to any pair-covered union. For distinct lines the line-to-puncture map is injective because two points share a common U. Richards then gives countably many isolated planar ends, and each line is second countable. chainsInherit is genuine. Its carrier is the set of germs with the final topology. The members are open embeddings (isOpenEmbedding_inj, using totality of the chain). T2 holds because two points share a member. The atlas is gluedChartedSpace with transitions checked both ways (trans_inj, HasGroupoid). Second countability comes from RichardsInput: a countable subcover of S0 plus member i0. Each member is a BTZ-embedding (isBTZ_inj), and the cocone commutes with the chain and with iota. GH comes from globallyHyperbolic_of_iCover."
+  },
+  {
+   "label": "btzthm:maximal_btz_extension",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "BTZ_1.tex l.1269-1270, the same statement with 'unique up to isomorphism'. Equivalence over M (a bijective BTZ-embedding, hence a homeomorphic E0-isomorphism commuting with iota) implies isomorphism, so btz_ext covers it. Partial and unmarked, with the same three disclosed hypotheses."
+  },
+  {
+   "label": "btzthm:globally_hyperbolic_manifolds_exists",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "BTZ_1.tex l.331, word for word the statement at l.1528. Anchored on the same btz_ext. Partial and unmarked."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "details": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/MaxExtension.lean` gives exit 0 with no output, and `lake build GXScaffold.BTZ.MaxExtension` succeeds. grep -c sorry gives 0. #print axioms reports [propext, Classical.choice, Quot.sound] for btz_ext, chainsInherit, equivalent_of_isMaximal, isUniversal_of_isMaximal, globallyHyperbolic_of_iCover and secondCountable_carrier. RichardsInput is a def of type Prop, taken as a hypothesis, not an axiom. The probe was written under the campaign directory and deleted. scripts/causal_import_gate.py prints 'causal_import_gate: ok (DEC-33)': scaffold/GXScaffold/BTZ/ is on its ALLOWED list. Scope: the GXScaffold.lean diff is the one import line. The other entries in git status (restate registers, roadmap.toml, BTZ/IsomE0.lean) were already present at the start of the session and belong to other loops."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/MaxExtension.lean:66",
+   "what": "SCOPE cites `globallyHyperbolic_of_directedCover`, which does not exist. The declaration is `globallyHyperbolic_of_iCover`, and it needs no directedness, as the REPORT's own finding says.",
+   "fix": "Rename the reference to GX.BTZMax.globallyHyperbolic_of_iCover and drop the directedness wording."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/MaxExtension.lean:52",
+   "what": "The checklist describes RichardsInput's premise as 'a directed union of open second countable globally hyperbolic BTZ-extensions of M'. The def says instead that any two points lie in one open, second countable, GloballyHyperbolicOn U containing range iota. There is no union structure and no directedness. The docstring at l.183-188 has it right.",
+   "fix": "Copy the l.186-187 wording into the checklist row."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/MaxExtension.lean:189",
+   "what": "RichardsInput carries more than Richards' theorem (MR143186). It also packs two steps of the paper that cite nothing: that each BTZ line of the union corresponds to a distinct puncture of a Cauchy surface Sigma of M, and that each line is second countable through its (R,R)-structure. The REPORT and SCOPE disclose the second step, but the first only implicitly ('countably many BTZ lines'). The rows are partial and unmarked, so this is not a faithfulness defect, but a reader may take 'Richards carried as a named input' to cover less than it does.",
+   "fix": "In SCOPE, list the three ingredients the input packs: line-to-puncture injectivity, Richards (countably many isolated planar ends), and second countability of each line. Optionally split the input so that only the cited theorem stays unproved."
+  }
+ ]
+}

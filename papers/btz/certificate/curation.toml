@@ -191,10 +191,11 @@ notes = "T-btz-curation-existing (atlas-team, 2026-11-27): anchored on lean-gx L
 label = "btzprop:isom"
 bucket = "D"
 lean_proved_override = "partial"
-blocked_on = "T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); the global statement has no Lean"
-extra_lean_files = ["GX/BTZ/AbsMax.lean"]
-decls = ["GX.E0AbsMax.e0Loop_localForm"]
-notes = "T-btz-curation-existing (atlas-team, 2026-11-27): anchored on lean-gx Lean written for gx under gx's names (cited there as B21 results, unmarked), E₀ only, and only near the axis: the local form of an E₀-loop (GX.E0AbsMax.e0Loop_localForm); the global description of the isometry groups is not formalized. Partial: Lean narrower than the paper is never its anchor."
+blocked_on = "T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-150"
+extra_lean_files = ["GX/BTZ/AbsMax.lean", "GX/BTZ/IsomE0.lean"]
+decls = ["GX.E0AbsMax.e0Loop_localForm", "GX.BTZIsom.btzprop_isom_e0", "GX.BTZIsom.isomE0", "GX.BTZIsom.e0Lift_isomE0_mem"]
+notes = "T-btz-curation-existing (atlas-team, 2026-11-27): anchored on lean-gx Lean written for gx under gx's names (cited there as B21 results, unmarked), E₀ only, and only near the axis: the local form of an E₀-loop (GX.E0AbsMax.e0Loop_localForm); the global description of the isometry groups is not formalized. Partial: Lean narrower than the paper is never its anchor. T-btz-isom-e0 (atlas-team, 2026-11-28), audit AUDIT-1 minor (both findings reworded at integration: an imprecise wording, a terse mutatis mutandis). Strict, sorry-free (GX/BTZ/IsomE0.lean), at α = β = 0; e0Groupoid excludes the reflection θ ↦ −θ (determinant 1), so the global form is exactly isom(E₀)."
+paper_findings = ["A terse « mutatis mutandis » (AUDIT-1 minor): the proof of prop:isom at l.459 says « Δ is timelike, so g is elliptic », which fails at α = 0 where Δ = R(1,1,0) is lightlike; the paper supplies the α = 0 pieces itself (the h_ℓ in isom(E₀∞), l.437, non-injective for ℓ ≠ 1, l.369–370), and orientation reversal is excluded for g in Isom₀. The formal proof adds λ = 1 from one turn of the holonomy (GX.E0AbsMax.e0Loop_lam_eq_one). The statement is true at α = β = 0."]
 
 [[row]]
 label = "btzprop:isom_strong"
@@ -253,21 +254,31 @@ paper_findings = ["BTZ_1.tex l.1430: « the maximality of M1∧M2 will then impl
 
 [[row]]
 label = "btzthm:BTZ_ext"
-bucket = "D"
-blocked_on = "T-btz-maximal-extension; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling)"
-notes = "T-btz-curation-existing (2026-11-27): no Lean yet."
+lean_proved_override = "partial"
+bucket = "C"
+blocked_on = "the named cited input GX.BTZMax.RichardsInput (Richards MR143186; l.1544–1546); T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-150"
+notes = "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-maximal-extension (atlas-team, 2026-11-28), audit AUDIT-1 minor (docstring points, fixed). E₀ only, scaffold (GXScaffold.BTZ.MaxExtension, an instance of Causal.AbstractDev, DEC-208), sorry-free: GX.BTZMax.btz_ext — a globally hyperbolic E₀-manifold M has a globally hyperbolic BTZ-extension that is maximal, inextensible, universal and unique up to equivalence over M, given the named cited input RichardsInput M (Richards MR143186 and two uncited steps of l.1544–1546). M connected added."
+extra_lean_files = ["scaffold/GXScaffold/BTZ/MaxExtension.lean"]
+decls = ["GX.BTZMax.btz_ext", "GX.BTZMax.GHExt", "GX.BTZMax.extMor", "GX.BTZMax.Equivalent", "GX.BTZMax.RichardsInput", "GX.BTZMax.morphismsCompose", "GX.BTZMax.uniqueMorphisms", "GX.BTZMax.chainsInherit", "GX.BTZMax.unionExt", "GX.BTZMax.unionMfd", "GX.BTZMax.globallyHyperbolic_of_iCover", "GX.BTZMax.secondCountable_carrier", "GX.BTZMax.isInextensible_of_isMaximal", "GX.BTZMax.isUniversal_of_isMaximal", "GX.BTZMax.equivalent_of_isMaximal"]
+paper_findings = ["l.1541 (first bullet): the claim needs less than the proof says. The union is globally hyperbolic as soon as it is covered by images of BTZ-embeddings of globally hyperbolic manifolds; no member need contain both p and q, since the image of such an embedding is a future set (GX.Ppcm.mem_range_of_le). Proved as GX.BTZMax.globallyHyperbolic_of_iCover.", "l.1536: « the BTZ-extensions of M all have the same cardinality » is not needed. A point of an extension is determined by its germ comap ι (𝓝 x), a filter on M: the extension is Hausdorff and ι(M) is dense. So every union is built inside Filter M, in Type 0.", "l.1536: the paper takes an inductive limit over all BTZ-extensions, right filtered by prop:ppcm. Here, Zorn on chains (exists_isMaximal_of_uniqueMorphisms) gives the existence. Prop:ppcm then gives the universality of the maximal extension, and from it the uniqueness (isUniversal_of_isMaximal). The conclusion is the same: it is the colimit.", "l.1544-1546 (second bullet) is not formalized: Richards' classification is not in mathlib, and neither is the second countability of a BTZ line through its (R,R)-structure. Its consequence is carried as RichardsInput. Given that input, the step from it to the union being second countable is proved (secondCountable_carrier): countably many members cover S0, and one member covers the rest.", "l.1529-1532 vs l.1269-1271: btzthm:maximal_btz_extension says « unique up to isomorphism » where btzthm:BTZ_ext says « up to equivalence ». The Lean proves the stronger one, equivalence over M, which implies the other."]
 
 [[row]]
 label = "btzthm:maximal_btz_extension"
-bucket = "D"
-blocked_on = "T-btz-maximal-extension; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling)"
-notes = "T-btz-curation-existing (2026-11-27): no Lean yet."
+lean_proved_override = "partial"
+bucket = "C"
+blocked_on = "the named cited input GX.BTZMax.RichardsInput (Richards MR143186; l.1544–1546); T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-150"
+notes = "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-maximal-extension (atlas-team, 2026-11-28), audit AUDIT-1 minor (docstring points, fixed). E₀ only, scaffold (GXScaffold.BTZ.MaxExtension, an instance of Causal.AbstractDev, DEC-208), sorry-free: GX.BTZMax.btz_ext — a globally hyperbolic E₀-manifold M has a globally hyperbolic BTZ-extension that is maximal, inextensible, universal and unique up to equivalence over M, given the named cited input RichardsInput M (Richards MR143186 and two uncited steps of l.1544–1546). M connected added."
+extra_lean_files = ["scaffold/GXScaffold/BTZ/MaxExtension.lean"]
+decls = ["GX.BTZMax.btz_ext"]
 
 [[row]]
 label = "btzthm:globally_hyperbolic_manifolds_exists"
-bucket = "D"
-blocked_on = "T-btz-maximal-extension; T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling)"
-notes = "T-btz-curation-existing (2026-11-27): no Lean yet."
+lean_proved_override = "partial"
+bucket = "C"
+blocked_on = "the named cited input GX.BTZMax.RichardsInput (Richards MR143186; l.1544–1546); T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-150"
+notes = "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-maximal-extension (atlas-team, 2026-11-28), audit AUDIT-1 minor (docstring points, fixed). E₀ only, scaffold (GXScaffold.BTZ.MaxExtension, an instance of Causal.AbstractDev, DEC-208), sorry-free: GX.BTZMax.btz_ext — a globally hyperbolic E₀-manifold M has a globally hyperbolic BTZ-extension that is maximal, inextensible, universal and unique up to equivalence over M, given the named cited input RichardsInput M (Richards MR143186 and two uncited steps of l.1544–1546). M connected added."
+extra_lean_files = ["scaffold/GXScaffold/BTZ/MaxExtension.lean"]
+decls = ["GX.BTZMax.btz_ext"]
 
 [[row]]
 label = "btzcor:common_reg"
@@ -346,9 +357,13 @@ decls = ["GX.E0BluntSpear.IsBluntSpearNbhd", "GX.E0BluntSpear.bspear", "GX.E0Blu
 
 [[row]]
 label = "btzcor:indeed_group_isometries"
+lean_proved_override = "partial"
 bucket = "D"
-blocked_on = "no target yet (a corollary of btzprop:isom, whose global form has no Lean); T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling)"
-notes = "T-btz-curation-existing (2026-11-27): no Lean yet."
+blocked_on = "T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-150"
+notes = "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-isom-e0 (atlas-team, 2026-11-28), audit AUDIT-1 minor (both findings reworded at integration: an imprecise wording, a terse mutatis mutandis). Strict, sorry-free (GX/BTZ/IsomE0.lean), at α = β = 0; e0Groupoid excludes the reflection θ ↦ −θ (determinant 1), so the global form is exactly isom(E₀)."
+extra_lean_files = ["GX/BTZ/IsomE0.lean"]
+decls = ["GX.BTZIsom.btzcor_indeed_group_isometries_e0", "GX.BTZIsom.isomE0_trans", "GX.BTZIsom.isomE0_symm", "GX.BTZIsom.isomE0_zero", "GX.BTZIsom.isAEMorphism_isomE0", "GX.BTZIsom.reflE0", "GX.BTZIsom.btzPaperDev_refl", "GX.BTZIsom.reflE0_ne_isomE0"]
+paper_findings = ["Imprecise wording, not an error (AUDIT-1 minor): « isometries of E_α » (l.385–386) is meant, in the paper's frame (l.203 Isom₀; l.266–270 oriented and time-oriented; l.375), as orientation- and time-orientation-preserving isometries, for which the corollary holds (btzcor_indeed_group_isometries_e0). Read as isometries of the metric ds₀² it would include the reflection (τ, r, θ) ↦ (τ, r, −θ), which preserves ds₀² (btzPaperDev_refl) and is not in isom(E₀) (reflE0_ne_isomE0); a wording such as « orientation- and time-orientation-preserving isometries » would be exact."]
 
 [[row]]
 label = "btzcor:manifold_exists_exactly_one"
@@ -358,9 +373,12 @@ notes = "T-btz-curation-existing (2026-11-27): no Lean yet."
 
 [[row]]
 label = "btzcor:morphism_two_manifolds_local"
+lean_proved_override = "partial"
 bucket = "D"
-blocked_on = "no target yet (a corollary of btzprop:isom); T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling)"
-notes = "T-btz-curation-existing (2026-11-27): no Lean yet."
+blocked_on = "T-btz-scope (E_{≥0} as printed, or E₀ only; needs-ruling); OQ-150"
+notes = "T-btz-curation-existing (2026-11-27): no Lean yet. T-btz-isom-e0 (atlas-team, 2026-11-28), audit AUDIT-1 minor (both findings reworded at integration: an imprecise wording, a terse mutatis mutandis). Strict, sorry-free (GX/BTZ/IsomE0.lean), at α = β = 0; e0Groupoid excludes the reflection θ ↦ −θ (determinant 1), so the global form is exactly isom(E₀)."
+extra_lean_files = ["GX/BTZ/IsomE0.lean"]
+decls = ["GX.BTZIsom.btzcor_morphism_two_manifolds_local_e0", "GX.BTZIsom.isRegularOn_reg_of_isLocalHomeomorph"]
 
 [[row]]
 label = "btzcor:manifold_smooth_manifold_singular"

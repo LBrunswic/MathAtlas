@@ -198,3 +198,20 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0188](entries/0188-the-strict-surgerydata-isspacelikelipsch.md) | pattern | The strict SurgeryData.isSpacelikeLipschitzAt_cusp_interior/_rim and the logRad stack (abs |
 | [0189](entries/0189-on-the-rim-r-r-of-a-spear-the-printed-e0.md) | pattern | On the rim r = R of a spear the printed E0 metric -2dtau dr + dr^2 + r^2 dtheta^2 is R^2 d |
 | [0190](entries/0190-completeness-of-sigma-reduces-to-cauchy.md) | pattern | Completeness of Sigma* reduces to « Cauchy tail in a compact of M » (LFSurgeryData.tendsto |
+| [0191](entries/0191-the-union-of-a-chain-of-btz-extensions-o.md) | pattern | The union of a chain of BTZ-extensions of M lives in Type 0 as a set of germs comap ι (𝓝 x |
+| [0192](entries/0192-gx-btzmax-globallyhyperbolic-of-icover.md) | pattern | A cover by images of GH BTZ-embeddings is GH (globallyHyperbolic_of_iCover) |
+| [0193](entries/0193-a-union-of-a-chain-of-open-embeddings-wi.md) | pattern | A union of a chain of open embeddings with the final topology, plus Causal.CBG.gluedCharte |
+| [0194](entries/0194-with-zorn-a-maximal-gh-btz-extension-is.md) | pattern | With Zorn, a maximal GH BTZ-extension is universal through GX.Ppcm.btz_ppcm and inextensib |
+| [0195](entries/0195-e0groupoid-contains-no-reflection.md) | pattern | e0Groupoid contains no reflection |
+| [0196](entries/0196-isom-e0-as-a-e.md) | pattern | isom(E₀) as a.e. morphisms and as an e0Groupoid element |
+| [0197](entries/0197-from-the-singulargx-framework-to-e0group.md) | pattern | From the SingularGX framework to e0Groupoid |
+| [0198](entries/0198-gx-btzisom-mem-e0groupoid-of-charts.md) | pattern | GX.BTZIsom.mem_e0Groupoid_of_charts |
+| [0199](entries/0199-gx-btzisom-isregularon-reg-of-islocalhom.md) | pattern | GX.BTZIsom.isRegularOn_reg_of_isLocalHomeomorph |
+| [0200](entries/0200-the-link-of-a-wedge-a-b-of-p-removed-and.md) | pattern | The link of a wedge [a, b] of ℓ(p) removed and glued back by h ∈ Γ_p is GX.GammaLinkCircle |
+| [0201](entries/0201-at-a-non-time-like-p-a-wedge-with-no-dir.md) | pattern | At a non-time-like p, a wedge with no direction fixed by h is shorter than half a turn (GX |
+| [0202](entries/0202-positivity-read-in-the-gluing-map-conven.md) | pattern | Positivity read in the gluing-map convention (OQ-144) |
+| [0203](entries/0203-the-element-of-x-sending-a-null-q-into-q.md) | pattern | The element of Γ_x sending a null q₁ into ℝ₊ q₂ (B(x,q₁)B(x,q₂) > 0) |
+| [0204](entries/0204-cramer-s-identity-in-1-2-vol3-a-b-c-z-b.md) | pattern | Cramer's identity in ℝ^{1,2}: vol3 a b c • z = B(z,a) • b ×ₗ c + B(z,b) • c ×ₗ a + B(z,c) |
+| [0205](entries/0205-inside-namespace-gx-a-bare-minkq-resolve.md) | pitfall | inside namespace GX a bare minkQ resolves to GX.minkQ (on ℝ × ℂ), not Causal.Flat.minkQ; w |
+| [0206](entries/0206-gammalinkcircle-coneangle-eq-h-hd-on-a-c.md) | pitfall | GammaLinkCircle.coneAngle_eq hθ hD on a circle GammaLinkCircle.mk p cs hcs hL times out at |
+| [0207](entries/0207-the-causal-pin-of-lean-gx-is-51cbb00-202.md) | pattern | The Causal pin of lean-gx is 51cbb00 (2026-11-27) |

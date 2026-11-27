@@ -1,0 +1,206 @@
+{
+ "package": "T-bbs-cheminsing",
+ "target": "T-bbs-cheminsing",
+ "files": [
+  "scaffold/GXScaffold/BBS/HSCheminsing.lean"
+ ],
+ "module": "GXScaffold.BBS.HSCheminsing",
+ "imports": [
+  "GXScaffold.BBS.HSLinkRemarks"
+ ],
+ "root_edit": "one line added to scaffold/GXScaffold.lean: import GXScaffold.BBS.HSCheminsing (right after import GXScaffold.BBS.HSLinkRemarks); the file already carried the uncommitted MaxExtension/IsomE0 lines of the other closers, untouched",
+ "builds": true,
+ "build_note": "taskset -c 0-11 lake build GXScaffold.BBS.HSCheminsing: only this module rebuilt (8643 jobs, the rest up to date, 9 s); no other lake build was running. 0 errors, 0 warnings under lake env lean.",
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "axioms_note": "#print axioms on GX.bbsrem_cheminsing_reading, GX.not_cheminsing_lightlike_positive, GX.not_cheminsing_spacelike_positive, GX.exists_mass_neg, GX.GammaLinkCircle.isPositive_iff_mass_pos, GX.Cheminsing.wedgeIsom_unique, GX.Cheminsing.exists_deformation",
+ "labels": [
+  {
+   "label": "bbsrem:masspositive",
+   "tex_lines": [
+    1166,
+    1174
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.GammaLinkCircle.mass",
+    "GX.GammaLinkCircle.mass_neg_iff",
+    "GX.GammaLinkCircle.mass_pos_iff",
+    "GX.GammaLinkCircle.mass_eq_zero_iff",
+    "GX.GammaLinkCircle.IsRegular.mass_eq_zero",
+    "GX.GammaLinkCircle.mass_lt_one_of_timelike",
+    "GX.GammaLinkCircle.isPositive_iff_mass_pos",
+    "GX.exists_mass_neg"
+   ],
+   "hypotheses": [
+    {
+     "paper": "a time-like singular line of angle θ in the AdS background (l.1147-1159)",
+     "here": "read",
+     "note": "through its HS link, the elliptic (Γ_p, ℓ(p))-circle (T-bbs-q8: no AdS background); θ = GX.GammaLinkCircle.coneAngle, half the real angle of the lifted holonomy (OQ-113 (a)/(b)), 2π at a regular point"
+    },
+    {
+     "paper": "mass m := 1 − θ/2π (l.1170)",
+     "here": "carried",
+     "note": "GX.GammaLinkCircle.mass, defined for every circle; meaningful for time-like ones (mass < 1 there, mass_lt_one_of_timelike)"
+    },
+    {
+     "paper": "θ > 2π corresponds to negative mass (l.1170-1171)",
+     "here": "carried",
+     "note": "mass_neg_iff; non-vacuous: exists_mass_neg (ℝ/⟨δ³⟩ at every time-like p, θ = 3π, not positive)"
+    },
+    {
+     "paper": "physics sentences (cosmic strings, Carlip, Gott, causal pathologies)",
+     "here": "not stated",
+     "note": "informal"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "The remark's mass ties to the paper's later positivity (bbsdef:hs_surface_interaction_singular_line, l.1510-1511): a non-regular time-like singularity is positive iff its mass is positive (GX.GammaLinkCircle.isPositive_iff_mass_pos); a regular point has mass 0 and is positive. So 'positive' at l.1508 for time-like singularities is exactly 'positive mass' of l.1170, convention-free."
+   ],
+   "questions": [
+    "Reading taken: the AdS singular line of angle θ is read through its HS link and θ is the cone angle of GX.GammaLinkCircle.coneAngle (OQ-113 (a)/(b)). The row is partial only for that reading and the informal physics sentences; nothing of the formula is in doubt."
+   ]
+  },
+  {
+   "label": "bbsrem:cheminsing",
+   "tex_lines": [
+    1493,
+    1500
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.bbsrem_cheminsing_reading",
+    "GX.not_cheminsing_lightlike_positive",
+    "GX.not_cheminsing_spacelike_positive",
+    "GX.GammaLinkCircle.IsWedgeLink",
+    "GX.exists_isWedgeLink",
+    "GX.GammaLinkCircle.IsWedgeLink.timelike",
+    "GX.GammaLinkCircle.IsWedgeLink.lightlike",
+    "GX.GammaLinkCircle.IsWedgeLink.spacelike",
+    "GX.GammaLinkCircle.IsLightlikePositiveGlue",
+    "GX.GammaLinkCircle.IsSpacelikePositiveGlue",
+    "GX.GammaLinkCircle.isLightlikePositiveGlue_iff",
+    "GX.GammaLinkCircle.isSpacelikePositiveGlue_iff",
+    "GX.Cheminsing.wedgeIsom",
+    "GX.Cheminsing.wedgeIsom_smul_dirOf",
+    "GX.Cheminsing.wedgeIsom_unique",
+    "GX.Cheminsing.region",
+    "GX.Cheminsing.continuousOn_wedgeLin",
+    "GX.Cheminsing.isOpen_region",
+    "GX.Cheminsing.hypPlus_subset_region",
+    "GX.Cheminsing.bdPlus_mem_region",
+    "GX.Cheminsing.defPath",
+    "GX.Cheminsing.exists_deformation",
+    "GX.Cheminsing.arc_wedge",
+    "GX.Cheminsing.arcP"
+   ],
+   "hypotheses": [
+    {
+     "paper": "[p₁, p₂] an oriented arc of ∂ℍ²₊",
+     "here": "read",
+     "note": "q₁, q₂ ∈ ∂ℍ²₊ and a set P ⊆ ∂ℍ²₊ with B(x, q) ≠ 0 on P (x off the arc); the orientation is immaterial, both labelings of the wedge ends are covered (hypothesis hends)"
+    },
+    {
+     "paper": "the wedge of geodesic rays from x with extremity in [p₁, p₂]",
+     "here": "read",
+     "note": "on the link: an interval [a, b] of ℝP̃¹ (a < b < a + 2) every direction of which is dirOf x q for some q ∈ P (hW), ends the directions of q₁, q₂; the instances build it by lifting s ↦ dir_x(1, cos s, sin s) through linkCover and the intermediate value theorem (arc_wedge)"
+    },
+    {
+     "paper": "removing the wedge and glueing back by an elliptic isometry",
+     "here": "carried",
+     "note": "GX.GammaLinkCircle.IsWedgeLink θ a b h: the kept arc [b, a+2] glued by h, lifted holonomy f with f b = a + 2; h = γ_x^{±1}, γ_x = GX.Cheminsing.wedgeIsom the unique element of Γ_x with γ_x q₁ ∈ ℝ q₂ (wedgeIsom_unique), sending dir q₁ to dir q₂ (wedgeIsom_smul_dirOf); convention-free (γ and γ⁻¹ define the same gluing). The surgered surface is read on its link (as T-bbs-link-remarks), its identification with a neighbourhood of the apex of 𝔢(L) argued, not formalized"
+    },
+    {
+     "paper": "x ∈ ℍ²₊",
+     "here": "weakened",
+     "note": "every x of the open region B(x,q₁)B(x,q₂) > 0, which contains ℍ²₊ (hypPlus_subset_region); the time-like clause is proved for every time-like x of it (ℍ²₋ too)"
+    },
+    {
+     "paper": "x_∞ ∈ ∂ℍ² ∖ [p₁, p₂]",
+     "here": "read",
+     "note": "x_∞ ∈ ∂ℍ²₊ ∖ {q₁, q₂} is in the region (bdPlus_mem_region); the hypothesis B(x_∞, q) ≠ 0 on P is x_∞ off the arc"
+    },
+    {
+     "paper": "a continuous deformation [...] continued further into dS²",
+     "here": "read",
+     "note": "x ↦ γ_x continuous on the open region (matrix coefficients, continuousOn_wedgeLin); the path s ↦ [x_∞ − s e_t] lies in ℍ²₊ for s < 0, at x_∞ for s = 0, in dS² for 0 < s < 2, and in the region for |s| < ε (exists_deformation)"
+    },
+    {
+     "paper": "elliptic singularity (with positive mass)",
+     "here": "carried",
+     "note": "IsWedgeLink.timelike: cone angle < 2π, not regular, positive, 0 < mass < 1; convention-free"
+    },
+    {
+     "paper": "the light-like singularities are positive",
+     "here": "read",
+     "note": "false in the library's holonomy convention (negative: IsWedgeLink.lightlike, explicit instance not_cheminsing_lightlike_positive); true in the gluing-map convention (IsLightlikePositiveGlue); OQ-144"
+    },
+    {
+     "paper": "the space-like singularities have positive mass",
+     "here": "read",
+     "note": "« positive mass » undefined for space-like singularities, read as positive in the sense of l.906-915; false in the library's convention (negative: IsWedgeLink.spacelike, explicit instance not_cheminsing_spacelike_positive), true in the gluing-map convention (IsSpacelikePositiveGlue)"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "l.1499, the light-like clause « positive »: the wedge construction is convention-free (it removes [a, b] from ℓ(x) and its lifted holonomy satisfies f b = a + 2 < b + 2), and at a light-like x with the wedge off the tangent directions f = δ² g with g the fixed-point lift and g b = a < b, so g ≤ id everywhere. In the library's reading of l.917-922 (IsLiftedDev, D(s+1) = f(D s), positive = g x ≥ x) every light-like member of the family is NEGATIVE and not positive (GX.GammaLinkCircle.IsWedgeLink.lightlike); explicit instance at x_∞ = (1,1,0) over the arc {(1, cos s, sin s) : π/2 ≤ s ≤ π} (GX.not_cheminsing_lightlike_positive). Read with the gluing-map holonomy g⁻¹ (the convention of the paper's worked examples, OQ-144) it is positive (GX.GammaLinkCircle.IsLightlikePositiveGlue, equivalent to IsLightlikeNegative).",
+    "l.1499-1500, the space-like clause « have positive mass »: at x ∈ dS² with a wedge of time-like directions (every direction from x ∈ dS² to a null q with B(x,q) ≠ 0 is time-like, GX.Cheminsing.dirOf_timelike), g < id on the time-like directions, so every space-like member is NEGATIVE in the library's l.915 form (GX.GammaLinkCircle.IsWedgeLink.spacelike), positive with g⁻¹ (IsSpacelikePositiveGlue); explicit instance at x = [(1/2, 1, 0)] ∈ dS², a point of the deformation past x_∞ (GX.not_cheminsing_spacelike_positive).",
+    "Bearing on OQ-144 and on bbsdef:hs_surface_interaction_singular_line (HSPositive): along this deformation, in the library's convention the time-like clause of GX.GammaLinkCircle.IsPositive (cone angle < 2π, i.e. f < δ²) and its light-like clause (g ≥ id, i.e. f ≥ δ²) point opposite ways, so IsPositive jumps from true (elliptic members) to false (light-like and space-like members). In the gluing-map convention positivity is the single condition f ≤ δ² throughout, and the remark holds as printed. The remark is therefore evidence that the paper's l.906-922 are written in the gluing-map convention, consistent with T-bbs-link-remarks' 'every sign flips'. Not a ruling; not to be filed as a restatement before OQ-144 is ruled.",
+    "l.1495 « glueing back by an elliptic isometry »: the isometry γ_x ∈ Γ_x with γ_x p₁ ∈ ℝ₊ p₂ exists and is unique wherever B(x,p₁)B(x,p₂) > 0 (GX.Cheminsing.wedgeIsom, wedgeIsom_unique, explicit in the frame (x, p₁, x ×ₗ p₁)); it is elliptic only at time-like x — at x_∞ and in dS² the same construction glues by a parabolic, resp. hyperbolic, element (the link types follow: degree-2 parabolic / hyperbolic). l.1497 writes ∂ℍ² for ∂ℍ²₊."
+   ],
+   "questions": [
+    "OQ-144 (extended): which holonomy convention is of record for l.906-922? This file proves the remark's last sentence false under the library's (IsLiftedDev) and true under the gluing-map one, and gives the sign incoherence of IsPositive along the deformation as evidence for the latter. Reading taken: both proved, neither chosen.",
+    "« Continuous deformation » (l.1497-1498): read as continuity of x ↦ γ_x ∈ SO₀(1,2) on the open region (coefficients), along the path s ↦ [x_∞ − s e_t] through x_∞. Continuity of the lifted holonomy in G̃, or of the circles themselves, is neither defined by the paper nor formalized. Is the coefficient reading enough?",
+    "« The space-like singularities [...] have positive mass » (l.1499-1500): the paper defines a mass only for elliptic singularities (l.1170; the tachyon mass of l.1328 is commented out). Read as positive in the sense of l.906-915, as l.1291 uses « positive mass » for a tachyon. Is that the intended content?",
+    "The arc [p₁, p₂] and the wedge are read through a set P ⊆ ∂ℍ²₊ off x and an interval of ℝP̃¹ pointing to P (the explicit instances use a genuine arc); the surgery is read on its link (as for bbsrem:cuttachyon2). Accept the link-level reading?"
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.exists_linkLift_through",
+  "GX.linkLift_eq_add",
+  "GX.wedge_bounds_of_timelike",
+  "GX.wedge_short",
+  "GX.wedge_factor",
+  "GX.Cheminsing.cramer",
+  "GX.Cheminsing.eq_zero_of_perp",
+  "GX.Cheminsing.minkQ_comb",
+  "GX.Cheminsing.lcrossL",
+  "GX.Cheminsing.continuous_lcross_left",
+  "GX.Cheminsing.continuous_minkB_left",
+  "GX.Cheminsing.continuous_minkQ",
+  "GX.Cheminsing.wedgeLin",
+  "GX.Cheminsing.decomp",
+  "GX.Cheminsing.minkQ_wedgeLin",
+  "GX.Cheminsing.wedgeLin_injective",
+  "GX.Cheminsing.det_wedgeLin",
+  "GX.Cheminsing.wedgeEquiv",
+  "GX.Cheminsing.lcross_smul_right",
+  "GX.Cheminsing.lcross_lorentz",
+  "GX.Cheminsing.minkB_neg_of_bdPlus",
+  "GX.Cheminsing.tpMk_ne_zero_of_null",
+  "GX.Cheminsing.minkQ_perpLin_null",
+  "GX.Cheminsing.dirOf_timelike",
+  "GX.Cheminsing.smul_dirOf_ne",
+  "GX.Cheminsing.qPt",
+  "GX.Cheminsing.minkB_qPt",
+  "GX.Cheminsing.dirOf_arc_ne"
+ ],
+ "kb_proposals": [
+  "The link of a wedge [a, b] of ℓ(p) removed and glued back by h ∈ Γ_p is GX.GammaLinkCircle.IsWedgeLink θ a b h (lifted holonomy f with f b = a + 2); existence GX.exists_isWedgeLink; signs IsWedgeLink.timelike (cone angle < 2π, convention-free), .lightlike and .spacelike (negative in the library's convention, positive in the gluing-map one) (BBS/HSCheminsing).",
+  "At a non-time-like p, a wedge with no direction fixed by h is shorter than half a turn (GX.wedge_short) and is glued by the fixed-point lift: f = δ² g, g b = a (GX.wedge_factor); at a time-like p, t < f t < t + 2 everywhere (GX.wedge_bounds_of_timelike).",
+  "Positivity read in the gluing-map convention (OQ-144): GX.GammaLinkCircle.IsLightlikePositiveGlue / IsSpacelikePositiveGlue, equivalent to the library's IsLightlikeNegative / IsSpacelikeNegative.",
+  "The element of Γ_x sending a null q₁ into ℝ₊ q₂ (B(x,q₁)B(x,q₂) > 0): GX.Cheminsing.wedgeIsom, explicit on the frame (x, q₁, x ×ₗ q₁) (wedgeLin), unique (wedgeIsom_unique), continuous in x (continuousOn_wedgeLin); building an element of SO₀(1,2) from a formula: Q-preservation by the decomposition GX.Cheminsing.decomp, det by vol3_map, then Causal.Flat.mem_lorentz_of_future.",
+  "Cramer's identity in ℝ^{1,2}: vol3 a b c • z = B(z,a) • b ×ₗ c + B(z,b) • c ×ₗ a + B(z,c) • a ×ₗ b (GX.Cheminsing.cramer, by mink3_ext and ring); hence a vector B-orthogonal to a basis is 0 (eq_zero_of_perp); Lorentz maps commute with lcross (GX.Cheminsing.lcross_lorentz).",
+  "Pitfall: inside namespace GX a bare minkQ resolves to GX.minkQ (on ℝ × ℂ), not Causal.Flat.minkQ; write it qualified, or open Causal.Flat selectively (open Causal.Flat (minkB_comm ...)). λ cannot be part of an identifier (hλ fails to parse).",
+  "Pitfall: GammaLinkCircle.coneAngle_eq hθ hD on a circle GammaLinkCircle.mk p cs hcs hL times out at isDefEq unless (C := GammaLinkCircle.mk p cs hcs hL) is given."
+ ],
+ "notes": "Sorry-free, standard axioms, no warnings. Writes nothing outside the dispatch: the new file, one import line in scaffold/GXScaffold.lean, this report. Imports only GXScaffold.BBS.HSLinkRemarks (sorry-free; it graduates with the HS layer). Both rows stay partial and unmarked: masspositive on the HS-link / cone-angle reading (OQ-113) only; cheminsing because its last sentence holds only in the gluing-map convention (OQ-144) and on the readings of the questions. Suggested ledger decls: masspositive — GX.GammaLinkCircle.mass, mass_neg_iff, isPositive_iff_mass_pos, GX.exists_mass_neg; cheminsing — GX.bbsrem_cheminsing_reading, GX.not_cheminsing_lightlike_positive, GX.not_cheminsing_spacelike_positive, GX.GammaLinkCircle.IsWedgeLink, GX.Cheminsing.wedgeIsom, GX.Cheminsing.exists_deformation. Restatement candidates (restate.py) will see 'not_' declarations: they should be blocked on OQ-144, as T-bbs-link-remarks asked for cuttachyon2."
+}

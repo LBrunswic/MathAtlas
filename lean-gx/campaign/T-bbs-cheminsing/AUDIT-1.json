@@ -1,0 +1,46 @@
+{
+ "target": "T-bbs-cheminsing",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "bbsrem:masspositive",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "l.1168-1171: m := 1 - θ/2π is GX.GammaLinkCircle.mass, with θ read as GX.GammaLinkCircle.coneAngle. That reading is OQ-113 (a)/(b), disclosed. « θ > 2π is negative mass » is exactly mass_neg_iff. The negative case is shown non-vacuous by exists_mass_neg (ℝ/⟨δ³⟩ at any time-like p, θ = 3π, not regular, not positive). isPositive_iff_mass_pos links the mass to the l.1510 positivity at non-regular time-like points, through isPositive_iff_of_timelike. It adds the hypothesis ¬IsRegular, and that is harmless: a regular point has mass 0 and is positive (IsRegular.mass_eq_zero). The physics sentences are informal and the row is partial. The label is unmarked in the docstring and the row is partial in the REPORT, which is correct."
+  },
+  {
+   "label": "bbsrem:cheminsing",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "The wedge is not a strawman. IsWedgeLink keeps the arc [b, a+2] of ℓ(x), glues its ends by h ∈ Γ_x sending dir b to dir a, and asks for a lifted developing pair with f b = a + 2. That pair is a fundamental domain under the library's D(s+1) = f(D s). The circle itself does not depend on the convention: h and h⁻¹ give the same identification. The gluing isometry is the genuine γ_x. wedgeIsom is the explicit element of Γ_x on the frame (x, q₁, x ×ₗ q₁). It is in SO₀(1,2), fixes x, sends dir q₁ to dir q₂ (wedgeIsom_smul_dirOf), is the unique such element (wedgeIsom_unique), and is continuous in x on the open region B(x,q₁)B(x,q₂) > 0. That region contains ℍ²₊ (hypPlus_subset_region, a widening that is fine) and ∂ℍ²₊ ∖ {q₁,q₂}. exists_deformation is the path [x_∞ − s e_t]: it lies in ℍ²₊ for s < 0, at x_∞ for s = 0, in dS² for 0 < s < 2, and in the region near 0. The assembly bbsrem_cheminsing_reading is proved under the paper's hypotheses as read: the ends are the directions of q₁ and q₂, h = γ_x^{±1}, and the wedge points to P ⊆ ∂ℍ²₊ off x. Its conclusions are: time-like gives cone angle < 2π, mass > 0, positive and not regular, independent of the convention. Light-like gives IsLightlikeNegative ∧ IsLightlikePositiveGlue ∧ ¬IsPositive. dS² gives IsSpacelikeNegative ∧ IsSpacelikePositiveGlue ∧ ¬IsPositive. Every 'false' in the docstring, the checklist, the theorem docstrings and the REPORT says 'in the library's holonomy convention' and pairs it with 'true in the gluing-map convention' (OQ-144). Nowhere does it say 'false as printed', so the AUDIT-1 major of T-bbs-link-remarks does not recur. The gluing-map predicates are the library's l.915/l.919 inequalities applied to g⁻¹, and isLightlikePositiveGlue_iff and isSpacelikePositiveGlue_iff prove them equivalent to the library's Negative predicates. The coherence argument checks out: time-like positivity is f < δ², and light-like positivity is g ≥ id, i.e. f ≥ δ², in the library's convention against f ≤ δ² in the gluing-map one. That is offered as evidence for OQ-144, not as a ruling. « Positive mass » of a tachyon (read as positive in the l.906-915 sense) and « continuous deformation » (read as coefficient continuity of x ↦ γ_x) are disclosed readings. The row is partial and unmarked, which is correct. The explicit instances arise through arc_wedge, which exports every hypothesis of the assembly: hends with h = γ_x^{±1}, a < b < a+2, hW over the genuine arc {(1, cos s, sin s) : π/2 ≤ s ≤ π}, and the region. x_∞ = (1,1,0) is off the arc. [(1/2,1,0)] is in dS² and lies on defPath at s = 1/2."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "taskset -c 0-11 lake env lean scaffold/GXScaffold/BBS/HSCheminsing.lean: 0 errors, 0 warnings, 7.8 s. The two occurrences of 'sorry' in the file are prose in the docstring (lines 7-8); there is no sorry, admit, axiom, native_decide or extern in the code. #print axioms gives [propext, Classical.choice, Quot.sound] for bbsrem_cheminsing_reading, not_cheminsing_lightlike_positive, not_cheminsing_spacelike_positive, exists_mass_neg, isPositive_iff_mass_pos, mass_neg_iff, wedgeIsom_unique, exists_deformation, continuousOn_wedgeLin, exists_isWedgeLink, IsWedgeLink.lightlike, IsWedgeLink.spacelike and arc_wedge. The probe was written under the campaign directory and deleted."
+ },
+ "scope": "git status: the closer's footprint is the new HSCheminsing.lean, the one import line in scaffold/GXScaffold.lean and campaign/T-bbs-cheminsing/. The diff of GXScaffold.lean also contains the MaxExtension and IsomE0 imports; those belong to the other closers, as the REPORT discloses. The other modified files (restatements, RESTATED.md, roadmaps, blueprint) were already in the session's starting snapshot and do not belong to this target.",
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSCheminsing.lean:1165-1173 and :1201-1212 (the statements of not_cheminsing_lightlike_positive and not_cheminsing_spacelike_positive)",
+   "what": "The exported statements of the two explicit instances leave out what makes them members of the paper's family: the ends condition hends (the ends are the directions of p₁ and p₂, and h = γ_x^{±1}), b < a + 2, and membership of the region. As stated, the instances only say that some sub-wedge [a,b] of the arc's directions, glued by some h, is negative. The proof does build a genuine member through arc_wedge, which states all of these. But a reader of the refutation's statement alone cannot see that the gluing map is the paper's isometry.",
+   "fix": "Add hends (h = (wedgeIsom ..)⁻¹ or wedgeIsom with the matching ends) and b < a + 2 to both statements. They are already available from arc_wedge. Alternatively, have the docstrings cite arc_wedge as the membership certificate."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BBS/HSCheminsing.lean:947 (bbsrem_cheminsing_reading, time-like branch)",
+   "what": "Only the light-like and dS² branches have explicit instances of the assembly's hypotheses (arc_wedge requires 0 ≤ Q(x)). No Lean term shows that the hypotheses hW and hends hold at a time-like x ∈ ℍ²₊. The elliptic members are geometrically evident, and exists_isWedgeLink supplies the link, but nothing proves the time-like branch non-vacuous.",
+   "fix": "Optional: give a time-like instance of arc_wedge, for example x = [(1,0,0)] over arcP, or record its absence in SCOPE (c)."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/campaign/T-bbs-cheminsing/REPORT.json notes; papers/bbs/certificate/restatements.toml (at curation)",
+   "what": "Question (5) of the dispatch. restate.py's NEG_PART will make bbsrem:cheminsing a strong candidate because of the two not_ declarations, and the gate requires a register entry. The REPORT asks that they be blocked on OQ-144. restate.py supports exactly that: status 'blocked' with oq = 'OQ-144', which is OPEN in registers/DECISIONS.md. The docstrings are already hedged as relative to the convention, so no rewording is needed. Without the blocked entry, however, a 'found' entry could be drafted as a paper error. Note also that OQ-144's row names bbsrem:cuttachyon2 but not this label.",
+   "fix": "At curation, run restate.py seed bbs and set the bbsrem:cheminsing entry to status = 'blocked', oq = 'OQ-144', before committing. Extend the OQ-144 row (or a follow-on row) to cite bbsrem:cheminsing and this file's coherence evidence. Do not file a restatement until OQ-144 is ruled."
+  }
+ ]
+}

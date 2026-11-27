@@ -1,0 +1,166 @@
+{
+  "package": "T-btz-isom-e0",
+  "target": "T-btz-isom-e0",
+  "files": [
+    "scaffold/GXScaffold/BTZ/IsomE0.lean",
+    "scaffold/GXScaffold.lean (one import line)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "btzprop:isom",
+      "tex_lines": [
+        378,
+        383
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZIsom.btzprop_isom_e0",
+        "GX.BTZIsom.isomE0",
+        "GX.BTZIsom.not_conj_localForm",
+        "GX.BTZIsom.e0Lift_isomE0_mem"
+      ],
+      "hypotheses": [
+        {
+          "paper": "alpha, beta in R_+, alpha != 2pi",
+          "here": "strengthened",
+          "note": "alpha = beta = 0 only (E0 = GX.BTZE0); alpha = beta is then vacuous. Rows wait on T-btz-scope."
+        },
+        {
+          "paper": "U open connected containing a singular point",
+          "here": "carried",
+          "note": "U : Opens BTZE0, IsConnected U, exists x in U, x not in Reg"
+        },
+        {
+          "paper": "phi an a.e. E-morphism (l.359)",
+          "here": "carried",
+          "note": "IsAEMorphism (Isom(M3)) M3 phi, U with its induced structure GX.opensSingularGXStructure"
+        },
+        {
+          "paper": "phi a local homeomorphism",
+          "here": "carried",
+          "note": "IsLocalHomeomorph phi"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "A terse « mutatis mutandis » (AUDIT-1 minor): the proof of prop:isom at l.459 says « Δ is timelike, so g is elliptic », which fails at α = 0 where Δ = R(1,1,0) is lightlike; the paper supplies the α = 0 pieces itself (the h_ℓ in isom(E₀∞), l.437, non-injective for ℓ ≠ 1, l.369–370), and orientation reversal is excluded for g in Isom₀. The formal proof adds λ = 1 from one turn of the holonomy (GX.E0AbsMax.e0Loop_lam_eq_one). The statement is true at α = β = 0."
+      ],
+      "questions": [
+        "'a.e. E-morphism phi : U -> E_beta' for an open U of E_alpha (l.378-381) needs a singular structure on U. Reading taken: the induced structure, i.e. the pullback along the inclusion (GX.opensSingularGXStructure, the unique maximal a.e. atlas making the inclusion an a.e. morphism)."
+      ]
+    },
+    {
+      "label": "btzcor:indeed_group_isometries",
+      "tex_lines": [
+        385,
+        386
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZIsom.btzcor_indeed_group_isometries_e0",
+        "GX.BTZIsom.isomE0_trans",
+        "GX.BTZIsom.isomE0_symm",
+        "GX.BTZIsom.isomE0_zero",
+        "GX.BTZIsom.isAEMorphism_isomE0",
+        "GX.BTZIsom.reflE0",
+        "GX.BTZIsom.btzPaperDev_refl",
+        "GX.BTZIsom.reflE0_ne_isomE0",
+        "GX.BTZIsom.not_isAEMorphism_reflE0"
+      ],
+      "hypotheses": [
+        {
+          "paper": "alpha in R_+",
+          "here": "strengthened",
+          "note": "alpha = 0 only"
+        },
+        {
+          "paper": "'the group of isometries of E_alpha'",
+          "here": "read",
+          "note": "the homeomorphisms Psi of E0 such that Psi and Psi^-1 are a.e. (Isom_0(M3), M3)-morphisms"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Imprecise wording, not an error (AUDIT-1 minor): « isometries of E_α » (l.385–386) is meant, in the paper's frame (l.203 Isom₀; l.266–270 oriented and time-oriented; l.375), as orientation- and time-orientation-preserving isometries, for which the corollary holds (btzcor_indeed_group_isometries_e0). Read as isometries of the metric ds₀² it would include the reflection (τ, r, θ) ↦ (τ, r, −θ), which preserves ds₀² (btzPaperDev_refl) and is not in isom(E₀) (reflE0_ne_isomE0); a wording such as « orientation- and time-orientation-preserving isometries » would be exact."
+      ],
+      "questions": [
+        "'group of isometries of E_alpha': the reading taken is the automorphism group of the singular Isom_0-structure. The metric reading is refuted at alpha = 0 (see findings); the author decides which one the corollary means."
+      ]
+    },
+    {
+      "label": "btzcor:morphism_two_manifolds_local",
+      "tex_lines": [
+        391,
+        393
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.BTZIsom.btzcor_morphism_two_manifolds_local_e0",
+        "GX.BTZIsom.isRegularOn_reg_of_isLocalHomeomorph"
+      ],
+      "hypotheses": [
+        {
+          "paper": "M, N two E_{>=0}-manifolds",
+          "here": "weakened",
+          "note": "M, N are any singular (Isom(M3), M3)-manifolds. At singular points the conclusion is stated in E_0-charts, so singular points of type alpha > 0 are not covered."
+        },
+        {
+          "paper": "phi an a.e. E-morphism",
+          "here": "carried",
+          "note": "IsAEMorphism"
+        },
+        {
+          "paper": "phi a local homeomorphism",
+          "here": "carried",
+          "note": "IsLocalHomeomorph"
+        },
+        {
+          "paper": "'local diffeomorphism'",
+          "here": "read",
+          "note": "a local isomorphism of the E_0-atlases. On Reg M, phi is an M3-morphism into Reg N; phi^-1(Sing N) = Sing M; in any two E_0-charts at a singular x and at phi x (homeomorphisms kappa : U ~ V, V open in E_0, which are a.e. morphisms, cf. l.271), phi is near x the restriction of an element of isom(E_0)."
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "'local diffeomorphism' (l.393): the paper builds no smooth structure here; its smoothness is btzcor:manifold_smooth_manifold_singular, which is not in scope. Reading taken, as the roadmap evidence (ii) suggests: phi reads, in the E_0-atlas, as elements of the model groupoid, i.e. Isom(M3) near regular points and isom(E_0) near singular points. The E_0-charts at a singular point are taken as a.e.-morphism homeomorphisms onto open subsets of E_0, reading 'a neighbourhood which embeds by an a.e. E-morphism into E_alpha' (l.271)."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.BTZIsom.mem_e0Groupoid_of_charts",
+    "GX.BTZIsom.exists_mem_e0Groupoid_liftY",
+    "GX.BTZIsom.liftY",
+    "GX.BTZIsom.isRegularOn_reg_of_isLocalHomeomorph",
+    "GX.BTZIsom.no_isom_reflect",
+    "GX.BTZIsom.not_conj_localForm",
+    "GX.BTZIsom.btzPaperDev_shift_angle",
+    "GX.BTZIsom.chartMap_paperIsom",
+    "GX.BTZIsom.sectorChartBTZ_isomE0",
+    "GX.BTZIsom.e0Lift_isomE0_mem",
+    "GX.BTZIsom.isAEMorphism_isomE0",
+    "GX.BTZIsom.paperIsom",
+    "GX.BTZIsom.paperRefl",
+    "GX.BTZIsom.coords3",
+    "GX.BTZIsom.arg_exp_mul_I_of_mem"
+  ],
+  "kb_proposals": [
+    "e0Groupoid contains no reflection: GX.BTZIsom.not_conj_localForm. An element of G that reads near an axis point as (tau, z) -> (tau + a, w conj z) is impossible, by the determinant of Isom(M3) = SO_0(1,2) x| R^3. So the R of GX.E0AbsMax.e0Loop_localForm is always a rotation (use linear_isometry_complex, then not_conj_localForm). Rigid.lean:73's 'k = -1 not excluded' concerns the winding in that proof, not G.",
+    "isom(E0) as a.e. morphisms and in G: GX.BTZIsom.isomE0 tau0 theta0 (through toPaper), isAEMorphism_isomE0, e0Lift_isomE0_mem. In sector charts: chartMap (Psi y) (Psi w) = gShift tau0 c . chartMap y w on all of E0 (chartMap_paperIsom), with gShift = translation(2 tau0 u) * btzHol 0 (-c).",
+    "From the SingularGX framework to e0Groupoid: for phi : U -> BTZE0 (U : Opens BTZE0, induced structure) an a.e. morphism and a local homeomorphism, GX.BTZIsom.exists_mem_e0Groupoid_liftY gives, at each regular point of U, an e in e0Groupoid with EqOn (liftY U phi) e e.source. That is what e0_localUnique_sing's hf needs.",
+    "GX.BTZIsom.mem_e0Groupoid_of_charts: an OpenPartialHomeomorph of E0Y that is a local Isom(M3)-translation between e0Atlas charts at each point of its source is in e0Groupoid. The symm half and regularity come for free.",
+    "GX.BTZIsom.isRegularOn_reg_of_isLocalHomeomorph: an a.e. morphism that is a local homeomorphism is IsRegularOn on all of Reg M (lem:GX_sing_homeo_reg plus isRegularOn_regLocusOf), in one line."
+  ],
+  "notes": "0 sorry, no warnings, standard axioms only (checked with #print axioms on a temporary copy). Built with `lake build GXScaffold.BTZ.IsomE0`: only this module was rebuilt (8749 jobs, the rest up to date). One import line was added to scaffold/GXScaffold.lean, after GXScaffold.BTZ.MaxExtension. Imports: GX.BTZ.AbsMax, GX.BTZ.SectorAtlas, GX.SingularII.Tame, GX.SingularII.Models; all Causal.* imports are transitive, under the scaffold BTZ/ directory (DEC-33 ok). The file is warning-free and could graduate to GX/BTZ/ as is. Every row stays unmarked and partial: E_0 only, waiting on T-btz-scope, plus the readings of 'isometries' and 'local diffeomorphism'. Roadmap evidence item (i): e0Groupoid does not contain the reflection, so the global form is exactly the paper's isom(E_0), with no added hypothesis. Item (ii): taken as stated, see the btzcor:morphism_two_manifolds_local question.",
+  "audit": "AUDIT-1 minor: both findings reworded (an imprecise wording; a terse mutatis mutandis); not_conj_localForm and no_isom_reflect are proof helpers, not refutations of the paper (master, at integration)."
+}

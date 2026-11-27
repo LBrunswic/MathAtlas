@@ -50,6 +50,7 @@ import GX.BTZ.ExtChart
 import GX.BTZ.Pgcd
 import GX.BTZ.PpcmHausdorff
 import GX.BTZ.Ppcm
+import GX.BTZ.IsomE0
 import GX.Topology.SLSCCompact
 import GX.Spherical.S3Model
 import GX.Spherical.ConeSurface
