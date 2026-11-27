@@ -217,6 +217,17 @@
 # strongly_causal_open and causally_open in `from` (Causal.isolatedLine_scOpen_without_tarentin). No
 # pair moves and no other counterexample's derived properties change; the [[open]] strongly_causal →
 # strongly_causal_open narrows: a counterexample is not causally open, even at M.
+# After T-lad-record-direct-witnesses (2026-11-27) still 354 of 354, the same 37, 309 and 8 (the
+# matrix compared line by line before and after: no pair changes). It re-points 16 [[fails]]
+# witnesses to direct, conjoined statements, each entry's `from` and the negation of its `to` as
+# conjuncts, `from` and `to` unchanged: the line cut at 1's (le_nested ⇏ inextensible_nested), the
+# notched plane's two and its time reversal's one, the global line's three, the half-plane's nine. It
+# adds four consequences at inextensible_nested (reflexive, transitive, invariant under time reversal,
+# monotone in the open set under a condition in words) and a note that the bare monotonicity is
+# refuted off the ambient (no entry: it joins no two ids), and refreshes stale comments (curves_extend's
+# [[fact]] rule, which Rules.lean carries since T-tac-curves-fact-rule; the half-plane's static
+# lemmas; dependenceDomainOn after DEC-198; E₀ in has_chronal_neighbour's layer 3). No [[implies]] or
+# [[fact]] entry changes.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -256,12 +267,15 @@
 # * `inextensible_nested` (T-lad-nested-inextensible, 2026-11-22; DEC-161 (b), OQ-41 (b)'s reading
 #   taken: "the nesting" of ERS Lemma 4.70 and of item 2 of T-abs-nested-causalities) is
 #   Causal.Causality.InextensibleNestedOn C C' W, read at the open W its entry names (W = M when none
-#   is named). Unlike curve nesting it is not known to pass to an open V ⊆ W (no Lean lemma: an
-#   inextensible causal curve of V is in general not one of W), so at W = M it is not read "on every
-#   open". Neither le_nested nor curve_nested implies it (the line cut at 1, the [[fails]] below:
-#   ETT's inextensibility is by extension, and the point 1, with no causal past but itself, ends a
-#   narrower-inextensible curve that the timelike line extends, kb/0045). It implies curve_nested at
-#   the same W on a T1, second countable M (the [[implies]] with that standing,
+#   is named). Unlike curve nesting it does not pass to an open V ⊆ W in general (an inextensible
+#   causal curve of V need not be one of W): refuted in Lean on a space that is not T1
+#   (Causal.not_inextensibleNestedOn_mono; the note beside its consequences), it passes when every
+#   narrower-inextensible curve of V is narrower-inextensible in W
+#   (Causal.Causality.InextensibleNestedOn.mono_of_inextensible, a consequence), so at W = M it is
+#   not read "on every open". Neither le_nested nor curve_nested implies it (the line cut at 1, the
+#   [[fails]] below: ETT's inextensibility is by extension, and the point 1, with no causal past but
+#   itself, ends a narrower-inextensible curve that the timelike line extends, kb/0045). It implies
+#   curve_nested at the same W on a T1, second countable M (the [[implies]] with that standing,
 #   T-lad-record-curves-corollaries); whether it implies le_nested is open (an [[open]] entry, end of
 #   file). Curve nesting at M gives it at M when the narrower C
 #   is causally arc-connected, causal, strongly causal, with closed J^± of points and no causal
@@ -470,7 +484,21 @@
 # witnesses state has_chronal_neighbour through one or two named lemmas, not as a conjunct (the
 # global line's through NonemptyChronalCones.hasChronalNeighbourEverywhere, the notched plane's
 # through notchedCausality_chronalPastNeighbours and ChronalPastNeighbours.Iminus_nonempty), split as
-# the gated line's global hyperbolicity is; the terms are in their comments, not compiled.
+# the gated line's global hyperbolicity is; the terms are in their comments, not compiled. Since
+# T-lad-record-direct-witnesses both are conjoined statements (next paragraph).
+# Those of T-lad-record-direct-witnesses (2026-11-27: the re-pointed [[fails]] witnesses
+# Causal.cutLine_separates_inextensibleNested, Causal.notchedCausality_separates_hasChronalNeighbour,
+# Causal.notchedCausality_dual_separates_hasChronalNeighbour, Causal.globalLine_separates_hasChronalNeighbour
+# and Causal.halfPlane_separates, from Causal.CutLineInextensible, Causal.ChronalNeighbourConjoined and
+# Causal.Model.HalfPlaneLadder; the four new consequences' witnesses InextensibleNestedOn.refl, .trans,
+# dual_inextensibleNestedOn_iff and InextensibleNestedOn.mono_of_inextensible, from
+# Causal.InextensibleNestedBasics; and every Lean name the new and refreshed comments cite, E₀'s
+# from Causal.Model.E0ChronalNeighbour) were read from the sources, with no build, each statement
+# quoted or listed conjunct by conjunct in its comment and each declaration name resolved by
+# tools/ladder.py's index (the field Causal.Causality.SingularFlatAxioms.mem_Zplus, which the index
+# does not hold, read at Causal/SingularFlat.lean:190; module names read as files). None takes an instance
+# argument: no `space`, no standing. Each re-pointed witness has every id of its entry's `from` and
+# the negation of its `to` as conjuncts.
 
 [[property]]
 id = "is_causal"
@@ -617,8 +645,9 @@ what = "every causal curve of M over a segment [a, b] lies on an inextensible ca
 
 # Premise-free on every T1, second countable space (T-abs-curves-extend-second-countable, 7923138;
 # recorded by T-lad-record-curves-fact, 2026-11-21). Causal.Causality.curvesExtend_of_t1_secondCountable
-# (Causal/CurvesExtendSecondCountable.lean, ETT layer: it imports Causal.MaximalZorn,
-# Causal.OmegaOneConstant, Causal.CBG.CausalConvex, no model), read by `#check` on 2026-11-21:
+# (Causal/CurvesExtendSecondCountable.lean, ETT layer: it imports Causal.AbstractDev,
+# Causal.OmegaOneConstant, Causal.CBG.CausalConvex, no model; Causal.MaximalZorn in place of the first
+# until T-tac-curves-fact-rule), read by `#check` on 2026-11-21:
 # ∀ {M} [TopologicalSpace M] [T1Space M] [SecondCountableTopology M] (C : Causality M), C.CurvesExtend;
 # `#print axioms` propext, Classical.choice, Quot.sound. No other hypothesis: no T2, no causality, no
 # time function, no causal arc-connectedness. Its two instance binders are the standing, both ambient
@@ -631,13 +660,23 @@ what = "every causal curve of M over a segment [a, b] lies on an inextensible ca
 # Causal.Causality.curvesExtendOn_of_t1_secondCountable (CurvesExtendOn W for every open W), the
 # general one Causal.Causality.exists_inextensible_of_t1_secondCountable (a causal curve of W over any
 # interval, not only a segment, lies on an inextensible one). The edge time_function ⇒ curves_extend
-# stays: it asks no standing (it holds on every space with a time function), and it is the one
-# CausalLadder rule for curves_extend that Causal.Ladder.Rules carries. Since T-tac-ladder-integration
+# stays: it asks no standing (it holds on every space with a time function, T1 and second countable
+# or not), and Causal.Ladder.Rules carries it as a safe forward rule. Since T-tac-ladder-integration
 # (1735598) emit-lean also makes rules of checked causality-sort facts (`safe apply`, with the
-# standing synthesised), but this fact's rule is skipped there as an import cycle: its witness's
-# module imports Rules (Causal.CurvesExtendSecondCountable → Causal.MaximalZorn → Causal.ErsMughd →
-# Causal.Ladder.Rules), so Rules.lean has a `-- skipped fact` line for it and Causal.Ladder.Test
-# registers the rule locally, in its last section, and tests it there. Sharpness is not
+# standing synthesised), and since T-tac-curves-fact-rule (7a62073) Rules carries this fact's: a
+# safe apply rule, Causal.Causality.curvesExtend_of_t1_secondCountable under the standing T1,
+# second_countable, by which causal_ladder closes C.CurvesExtend (and C.dual.CurvesExtend) for any
+# causality on a [T1Space M] [SecondCountableTopology M] space, with no hypothesis on C (Rules.lean's
+# `-- fact: curves_extend` line; checked 2026-11-27 by reading the file). Until then emit-lean skipped
+# it as an import cycle, the witness's module reaching Rules (Causal.CurvesExtendSecondCountable →
+# Causal.MaximalZorn → Causal.ErsMughd → Causal.Ladder.Rules), with a `-- skipped fact` line in
+# Rules.lean and the rule registered locally in Causal.Ladder.Test's last section. The cycle was
+# broken by splitting the abstract Zorn theory (namespace Causal.AbstractDev, Mathlib imports only)
+# out of Causal/MaximalZorn.lean into Causal/AbstractDev.lean, which the witness's module imports
+# instead. kb/0221's constraint follows: Rules imports Causal.CurvesExtendSecondCountable, so no
+# module of its import closure (Causal.AbstractDev, Causal.OmegaOneConstant, Causal.CBG.CausalConvex
+# and the modules below them) may use causal_ladder or import Causal.Ladder.*, which would be an
+# import cycle that Lake refuses. Sharpness is not
 # formalised: off second countability the long ray (the property's comment); whether T1 weakens to
 # T0 is not examined (a finite space has curves_extend trivially, a curve of maximal image being
 # inextensible: argued in the witness's SCOPE; so the vee, space = ["T0"], the one counterexample to
@@ -744,10 +783,25 @@ what = "in every open V, every v ∈ V has p, p' ∈ V with p ≪_V v ≪_V p' (
 # and cosmic-string causalities, the flat time cylinders: Causal.timelikeLine_chronalNeighbours,
 # Causal.staticCausality.chronalNeighbours, Causal.massive_chronalNeighbours,
 # Causal.cosmicString_chronalNeighbours, Causal.Flat.timeCylinder_chronalNeighbours); Schwarzschild's
-# comes through T-loc-smooth-causal-ladder's chronal_neighbours. An E_{≥0}-manifold has it on the
-# future side, at its BTZ points too (rem:btz_pas_tarentin, the field
-# Causal.Causality.SingularFlatAxioms.mem_Zplus), which no ladder entry states. The binder of
-# papers/sbierski-schwarzschild binds Lemma 2.17 to it (T-bind-sbierski-schwarzschild).
+# comes through T-loc-smooth-causal-ladder's chronal_neighbours. E₀ has it without chronal_neighbours
+# (T-loc-e0-has-chronal-neighbour; recorded by T-lad-record-direct-witnesses, 2026-11-27):
+# Causal.E0.hasChronalNeighbourEverywhere (Causal/Model/E0ChronalNeighbour.lean:147), the future
+# disjunct I⁺(p) ≠ ∅ at every point, BTZ points included, the past one failing exactly on the axis
+# (Causal.E0.Iminus_nonempty_iff; defi:causal_E0's I⁻(p) = ∅); so E₀ has chronal future neighbours
+# and neither chronal past neighbours nor chronal neighbours (Causal.E0.chronalFutureNeighbours,
+# Causal.E0.not_chronalNeighbours). It is the instance at E₀ of
+# Causal.Causality.SingularFlatAxioms.hasChronalNeighbourEverywhere (:107: every causality with
+# SingularFlatAxioms, from the field Causal.Causality.SingularFlatAxioms.mem_Zplus read at U = M,
+# rem:btz_pas_tarentin; no instance argument). Every E_{≥0}-manifold has it too, for every causality
+# with an isomorphic chart at each point and no absolute minimality, separation or countability
+# (Causal.SFALocal.hasChronalNeighbourEverywhere; its natural causality,
+# Causal.SFALocal.hasChronalNeighbourEverywhere_of_isAtlasCausalityDEC25; E₀-manifolds,
+# Causal.SFALocalE0.hasChronalNeighbourEverywhere). Causal.E0.separates_chronalNeighbours bundles E₀'s
+# node with causal arc-connectedness, absolute minimality, causality, push-up, tarentin, plainness,
+# global hyperbolicity, strong causality in both forms and curves_extend, and ¬ ChronalNeighbours: a
+# model, beside the model-free closed half-line, that separates the node from chronal_neighbours.
+# Not entered as a [[fails]]: every pair X → chronal_neighbours is refuted already, so it would move
+# none. The binder of papers/sbierski-schwarzschild binds Lemma 2.17 to it (T-bind-sbierski-schwarzschild).
 [[property]]
 id = "has_chronal_neighbour"
 lean = "Causal.Causality.HasChronalNeighbourEverywhere"
@@ -846,12 +900,16 @@ what = "C is curve-nested in C' on an open W: every future causal curve of W for
 # 4.79, 4.80). Implied by neither le_nested nor curve_nested ([[fails]] below). It implies
 # curve_nested at the same open W on a T1, second countable M (edge below:
 # Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable); whether it implies
-# le_nested is open (end of file).
+# le_nested is open (end of file). Since T-lad-record-direct-witnesses (2026-11-27,
+# T-abs-inextensible-nested-basics) it is reflexive, transitive and invariant under time reversal with
+# no hypothesis, and passes to a smaller open V ⊆ W under a condition in words (consequences below,
+# Causal/InextensibleNestedBasics.lean); not in general: Causal.not_inextensibleNestedOn_mono refutes
+# the bare monotonicity on a space that is not T1 (the note beside the consequences).
 [[property]]
 id = "inextensible_nested"
 lean = "Causal.Causality.InextensibleNestedOn"
 sort = "pair"
-what = "C is inextensibly nested in C' on an open W: every inextensible causal curve of W for C is an inextensible causal curve of W for C' (W = M unless an entry names W; not known to pass to a smaller open)"
+what = "C is inextensibly nested in C' on an open W: every inextensible causal curve of W for C is an inextensible causal curve of W for C' (W = M unless an entry names W; it does not pass to a smaller open in general, Causal.not_inextensibleNestedOn_mono)"
 
 # ------------------------------------------------------------------ implications
 
@@ -1325,75 +1383,92 @@ status = "checked"
 
 # The half-plane ℝ × ]0, ∞[ (Causal.staticCausality (Ioi 0), Causal/ChainsCurves.lean: the static
 # spacetime over the half-line, an open subset of 1+1 Minkowski with its causality of curves;
-# Hausdorff and second countable). One witness conjoins Tarentin, IsCausal, CausallyArcConnected,
-# StronglyCausal, AbsolutelyMinimal and ¬ CausallyCompact (T-lad-gh-causal). Through the closure each
+# Hausdorff and second countable). Causal.halfPlane_hypotheses (Causal/ChainsCurves.lean:823)
+# conjoins Tarentin, IsCausal, CausallyArcConnected, StronglyCausal, AbsolutelyMinimal and
+# ¬ CausallyCompact (T-lad-gh-causal). Through the closure each
 # entry also refutes `from` ⇒ globally_hyperbolic (which implies causally_compact), and the
 # causally_arc_connected entry absolutely_minimal ⇒ causally_compact, globally_hyperbolic. The
 # is_causal entry is implied by the strongly_causal one through strongly_causal ⇒ is_causal; it is
 # recorded so that the pair does not rest on that edge's T1 `under`. A second, non-local witness of
 # is_causal ⇏ causally_compact: the fan (ℕ discrete, 0 below and 1 above every event; Causal.fan_isCausal,
 # Causal.fan_not_causallyCompact, conjoined in Causal.not_causallyComplete_imp_causallyCompact).
+# Since T-lad-record-direct-witnesses (2026-11-27) these four entries and the five below point at
+# one statement, Causal.halfPlane_separates (Causal/Model/HalfPlaneLadder.lean:63, T-loc-ealpha-tidy),
+# read from the source with no build: (T2Space ∧ SecondCountableTopology ∧ ConnectedSpace of
+# ℝ × Ioi 0) ∧ Tarentin ∧ IsCausal ∧ CausallyArcConnected ∧ StronglyCausal ∧ AbsolutelyMinimal ∧
+# PushUp ∧ ChronalNeighbours ∧ CausallyOpen ∧ StronglyCausalOpen ∧ HasTimeFunction ∧ CurvesExtend ∧
+# CausallyPlain ∧ ¬ CausallyCompact, all of Causal.staticCausality (Ioi 0) (no instance argument):
+# the six conjuncts of Causal.halfPlane_hypotheses, the nine entries' witness until then, with the
+# static lemmas below and plainness (the edge push_up ∧ chronal_neighbours ⇒ causally_plain,
+# Causal.Causality.PushUp.causallyPlain_of_chronalNeighbours). Each entry's `from` and the negation of
+# its `to` are conjuncts. The same pairs.
 [[fails]]
 from = "strongly_causal"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 [[fails]]
 from = "tarentin"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 [[fails]]
 from = "causally_arc_connected"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 [[fails]]
 from = "is_causal"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 # The half-plane again, five more of its properties, each the generic static lemma at X = ]0, ∞[
 # (`#check`ed at Causal.staticCausality (Ioi 0), 2026-11-21): Causal.staticCausality.pushUp
 # (Causal/Static.lean), .chronalNeighbours, .causallyOpen, .stronglyCausalOpen, .hasTimeFunction
-# (Causal/Model/EAlphaCauchy.lean), the last also giving curves_extend (Causal.staticCausality.curvesExtend,
-# Causal/Model/CurvesExtendModels.lean since T-abs-hoist-time-function).
-# As for the gated line, the witness is the other half, ¬ CausallyCompact (the last conjunct of
-# Causal.halfPlane_hypotheses); no one Lean statement conjoins the two halves. Through the closure:
-# locally_push_up; causally_open_future and the two local forms; strongly_causal; curves_extend
-# (through time_function ⇒ curves_extend) ⇏ causally_compact, and each ⇏ globally_hyperbolic.
+# (Causal/Model/StaticCauchy.lean: moved there verbatim from Causal/Model/EAlphaCauchy.lean by
+# T-loc-ealpha-tidy, the full names unchanged), and Causal.staticCausality.curvesExtend
+# (Causal/Model/CurvesExtendModels.lean since T-abs-hoist-time-function). Until
+# T-lad-record-direct-witnesses (2026-11-27) these entries were split as the gated line's are, the
+# witness Causal.halfPlane_hypotheses stating the other half, ¬ CausallyCompact, only; since then
+# Causal.halfPlane_separates (above) conjoins the two halves, each static lemma a conjunct. Through
+# the closure: locally_push_up; causally_open_future and the two local forms; strongly_causal;
+# curves_extend (through time_function ⇒ curves_extend, and the [[fact]]) ⇏ causally_compact, and
+# each ⇏ globally_hyperbolic. The witness also states CausallyPlain and CurvesExtend; no entry is
+# added for them, as causally_plain ⇏ causally_compact is refuted already by the flat time cylinder
+# (Causal.Flat.timeCylinder_separates) and curves_extend ⇏ causally_compact by every entry here (the
+# [[fact]] gives each counterexample curves_extend).
 [[fails]]
 from = "push_up"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 [[fails]]
 from = "causally_open"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 [[fails]]
 from = "chronal_neighbours"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 [[fails]]
 from = "strongly_causal_open"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 [[fails]]
 from = "time_function"
 to = "causally_compact"
-witness = "Causal.halfPlane_hypotheses"
+witness = "Causal.halfPlane_separates"
 status = "checked"
 
 # T-lad-gh-causal: the lightlike line is not causally plain (Causal/Lines.lean: Int J⁺({0}) = ]0, ∞[
@@ -1881,25 +1956,37 @@ status = "checked"
 # T-lad-record-plain-chronal (Causal.rationalJumpPlane_separates: chronal neighbours, hence
 # tarentin, absolutely minimal on every open set; its section below), so that separation holds in
 # either reading.
+# Since T-lad-record-direct-witnesses (2026-11-27) this entry, the next and the third all point at
+# one declaration, Causal.globalLine_separates_hasChronalNeighbour
+# (Causal/ChronalNeighbourConjoined.lean:230, T-abs-chronal-neighbour-conjoined), read from the source
+# with no build: globalLine.HasChronalNeighbourEverywhere ∧ Tarentin ∧ NonemptyChronalCones ∧
+# PushUp ∧ CausallyOpen ∧ IsCausal ∧ ¬ ChronalPastNeighbours ∧ ¬ ChronalNeighbours ∧
+# ¬ AbsolutelyMinimal (no instance argument): every conjunct of
+# Causal.globalLine_separates_tarentin, this entry's and the next's witness until then, and of
+# Causal.globalLine_separates, the third's, with the node. The same pairs; its docstring says the
+# reading (no-gluing only).
 [[fails]]
 from = ["tarentin", "push_up", "causally_open", "is_causal"]
 to = "chronal_neighbours"
-witness = "Causal.globalLine_separates_tarentin"
+witness = "Causal.globalLine_separates_hasChronalNeighbour"
 status = "checked"
 
 # Reading: no-gluing only (not absolutely minimal; kb/0014, kb/0073, OQ-18, OQ-67 (b)).
 [[fails]]
 from = ["tarentin", "push_up", "causally_open", "is_causal"]
 to = "absolutely_minimal"
-witness = "Causal.globalLine_separates_tarentin"
+witness = "Causal.globalLine_separates_hasChronalNeighbour"
 status = "checked"
 
-# The global line a third time (T-lad-has-chronal-neighbour, 2026-11-23), on the witness the entries
-# above were first recorded on, Causal.globalLine_separates (quoted above). Its first conjunct,
-# globalLine.NonemptyChronalCones, gives has_chronal_neighbour by one application of
+# The global line a third time (T-lad-has-chronal-neighbour, 2026-11-23), first on the witness the
+# entries above were first recorded on, Causal.globalLine_separates (quoted above). Its first
+# conjunct, globalLine.NonemptyChronalCones, gives has_chronal_neighbour by one application of
 # Causal.Causality.NonemptyChronalCones.hasChronalNeighbourEverywhere
-# (Causal.globalLine_nonemptyChronalCones.hasChronalNeighbourEverywhere): split as the gated line's
-# global hyperbolicity is, no one Lean statement conjoining the two halves. It settles
+# (Causal.globalLine_nonemptyChronalCones.hasChronalNeighbourEverywhere), split then as the gated
+# line's global hyperbolicity is. Re-pointed by T-lad-record-direct-witnesses (2026-11-27) to
+# Causal.globalLine_separates_hasChronalNeighbour (quoted above), which states the node as a conjunct
+# (Causal.globalLine_hasChronalNeighbourEverywhere, the same application): every id of `from` and
+# ¬ AbsolutelyMinimal in one statement. It settles
 # has_chronal_neighbour → absolutely_minimal, the one pair from the node that the models with chronal
 # neighbours leave (chronal_neighbours → absolutely_minimal is [[open]]: no Lean model with chronal
 # neighbours is non-minimal), in the no-gluing reading only. Under DEC-167 every causality is
@@ -1910,7 +1997,7 @@ status = "checked"
 [[fails]]
 from = ["has_chronal_neighbour", "push_up", "causally_open", "is_causal"]
 to = "absolutely_minimal"
-witness = "Causal.globalLine_separates"
+witness = "Causal.globalLine_separates_hasChronalNeighbour"
 status = "checked"
 
 # ---- T-lad-record-minimal (2026-11-21): the wave's absolutely minimal witnesses. Each space is
@@ -2332,14 +2419,15 @@ status = "checked"
 # audit found to move the four alone, through the backward reading), causally_open,
 # locally_causally_open, chronal_neighbours; the rational-jump plane's to = push_up, causally_plain.
 # Left out, as moving no pair and refuting no conjunction alone: the rational-jump plane's to =
-# causally_compact, globally_hyperbolic (the half-plane, Causal.halfPlane_hypotheses, has every id the
+# causally_compact, globally_hyperbolic (the half-plane, Causal.halfPlane_separates, has every id the
 # plane has and lacks causal compactness). Left out, though no entry gives it: the notched plane's
-# and its reversal's ¬ Tarentin. It moves no pair (the isolated line refutes causally_plain →
-# tarentin, Causal.tarentin_and_plain_needed); the conjunctions it alone refutes in Lean,
-# causally_plain ∧ globally_hyperbolic ⇒ tarentin and its like (with causally_compact, is_causal,
-# time_function, strong causality), the isolated line refutes too, argued: it is causal, a time
-# function is the identity, and its diamonds are compact, empty across 0 (0 is related to itself
-# only, Causal.isolatedLine), none of which is in Lean.
+# and its reversal's ¬ Tarentin (the plane's is an entry since T-lad-has-chronal-neighbour, to =
+# tarentin with has_chronal_neighbour in `from`, below; its reversal's still none). It moves no
+# pair (the isolated line refutes causally_plain → tarentin, Causal.tarentin_and_plain_needed); the
+# conjunctions it alone refutes in Lean, causally_plain ∧ globally_hyperbolic ⇒ tarentin and its
+# like (with causally_compact, is_causal, time_function, strong causality), the isolated line
+# refutes too, argued: it is causal, a time function is the identity, and its diamonds are compact,
+# empty across 0 (0 is related to itself only, Causal.isolatedLine), none of which is in Lean.
 
 # The notched plane (Causal.notchedCausality on Causal.notchedPlane, Causal/NotchedPlane.lean,
 # T-abs-plain-not-open: in null coordinates (u, v) on ℝ^{1+1}, M = {u ≤ 0 ∨ v ≤ 0}, Minkowski's plane
@@ -2369,10 +2457,14 @@ status = "checked"
 # (Causal.notchedCausality_not_chronalNeighbours).
 # Reading: either (absolutely minimal on every open set for every cover,
 # Causal.notchedCausality_absolutelyMinimalOn; OQ-18 does not touch it).
+# Re-pointed by T-lad-record-direct-witnesses (2026-11-27) from Causal.notchedCausality_separates to
+# Causal.notchedCausality_separates_hasChronalNeighbour (its has_chronal_neighbour entry below), which
+# has every conjunct of the former and states the reading besides (∀ W, AbsolutelyMinimalOn W): one
+# witness for the plane's two entries. `from` unchanged: the node it adds moves no pair.
 [[fails]]
 from = ["absolutely_minimal", "causally_arc_connected", "causally_plain", "push_up", "locally_push_up", "causally_open_future", "locally_causally_open_future", "is_causal", "causally_compact", "globally_hyperbolic", "strongly_causal_open", "strongly_causal", "time_function", "curves_extend"]
 to = "locally_causally_open"
-witness = "Causal.notchedCausality_separates"
+witness = "Causal.notchedCausality_separates_hasChronalNeighbour"
 status = "checked"
 
 # Its time reversal (notchedCausality.dual). Causal.notchedCausality_dual_separates : T2Space
@@ -2394,10 +2486,16 @@ status = "checked"
 # chronal_neighbours ⇒ causally_open that cannot be dropped, even for the local form in the future.
 # Reading: either (absolutely minimal on every open set for every cover,
 # Causal.notchedCausality_dual_absolutelyMinimalOn; OQ-18 does not touch it).
+# Re-pointed by T-lad-record-direct-witnesses (2026-11-27) to
+# Causal.notchedCausality_dual_separates_hasChronalNeighbour (Causal/ChronalNeighbourConjoined.lean:191,
+# read from the source with no build): every conjunct of Causal.notchedCausality_dual_separates, the
+# witness until then, with HasChronalNeighbourEverywhere (through the future form,
+# Causal.Causality.ChronalFutureNeighbours.hasChronalNeighbourEverywhere), ∀ W, AbsolutelyMinimalOn W,
+# ChronalFutureNeighbours and ¬ ChronalPastNeighbours (no instance argument). `from` unchanged.
 [[fails]]
 from = ["absolutely_minimal", "causally_arc_connected", "causally_plain", "push_up", "locally_push_up", "is_causal", "causally_compact", "globally_hyperbolic", "strongly_causal_open", "strongly_causal", "time_function", "curves_extend"]
 to = "locally_causally_open_future"
-witness = "Causal.notchedCausality_dual_separates"
+witness = "Causal.notchedCausality_dual_separates_hasChronalNeighbour"
 status = "checked"
 
 # The rational-jump plane (Causal.rationalJumpPlane, Causal/RationalJumpPlane.lean,
@@ -2534,18 +2632,25 @@ status = "checked"
 # has_chronal_neighbour → tarentin: a chronal neighbour at every point, one-sided, does not give
 # the tarentin property, even with absolute minimality on every open set, causal plainness, push-up,
 # causal openness in the future and global hyperbolicity; so the edge chronal_neighbours ⇒ tarentin
-# needs both sides in every open set, not one side in M. A conjoined Lean statement (the witness with
-# HasChronalNeighbourEverywhere, or a lemma ChronalPastNeighbours.hasChronalNeighbourEverywhere) is
-# the keeper's proposal. Lacking tarentin, it lacks chronal_neighbours (chronal_neighbours ⇒
-# tarentin, read backwards; its witness states it), so it is a second witness of
-# has_chronal_neighbour → chronal_neighbours beside the closed half-line. Its time reversal has the
-# node too, through Causal.Causality.dual_hasChronalNeighbourEverywhere, and refutes nothing more.
+# needs both sides in every open set, not one side in M (bare form
+# Causal.not_tarentin_of_hasChronalNeighbourEverywhere_bare). The conjoined statement the keeper
+# proposed is the witness since T-lad-record-direct-witnesses (2026-11-27), read from the source
+# (Causal/ChronalNeighbourConjoined.lean:152, T-abs-chronal-neighbour-conjoined), with no build:
+# Causal.notchedCausality_separates_hasChronalNeighbour, every conjunct of
+# Causal.notchedCausality_separates (the witness until then) with HasChronalNeighbourEverywhere
+# (through Causal.Causality.ChronalPastNeighbours.hasChronalNeighbourEverywhere), ∀ W,
+# AbsolutelyMinimalOn W, ChronalPastNeighbours and ¬ ChronalFutureNeighbours (no instance argument):
+# every id of `from` and ¬ Tarentin in one statement. Lacking tarentin, it lacks chronal_neighbours
+# (chronal_neighbours ⇒ tarentin, read backwards; its witness states it), so it is a second witness
+# of has_chronal_neighbour → chronal_neighbours beside the closed half-line. Its time reversal has
+# the node too, through Causal.Causality.dual_hasChronalNeighbourEverywhere, and refutes nothing
+# more.
 # Reading: either (absolutely minimal on every open set for every cover,
 # Causal.notchedCausality_absolutelyMinimalOn; OQ-18 does not touch it).
 [[fails]]
 from = ["has_chronal_neighbour", "absolutely_minimal", "causally_arc_connected", "causally_plain", "push_up", "locally_push_up", "causally_open_future", "locally_causally_open_future", "is_causal", "causally_compact", "globally_hyperbolic", "strongly_causal_open", "strongly_causal", "time_function", "curves_extend"]
 to = "tarentin"
-witness = "Causal.notchedCausality_separates"
+witness = "Causal.notchedCausality_separates_hasChronalNeighbour"
 status = "checked"
 
 # ---- off the ambient (T-lad-record-dual-vee, 2026-11-21): counterexamples whose space is not one of
@@ -2617,25 +2722,34 @@ status = "checked"
 # open, and not inextensibly nested in it at M: the identity over [1, ∞) is inextensible for the cut
 # line (Causal.cutLine_inextensible_Ici: it starts at 1, whose causal past is {1}) and misses the
 # timelike line's Cauchy surface {0} (Causal.timelikeLine_isCauchySurface_zero), so it is not
-# inextensible there. The witness states the refutation through the Cauchy transfer:
-# Causal.not_isCauchySurface_of_nested_bare : ¬ ∀ (C C' : Causality ℝ) S, C.LeNested C' →
-# C'.IsCauchySurface S → C.IsCauchySurface S, with which the consequence
-# Causal.Causality.IsCauchySurfaceOn.of_nested (at inextensible_nested below) gives
-# ¬ ∀ C C' : Causality ℝ, C.LeNested C' → C.InextensibleNestedOn C' ⊤ in one line (checked
-# 2026-11-22 with `lake env lean` on a file outside the tree: fun h =>
-# not_isCauchySurface_of_nested_bare fun C C' _ hle hS => IsCauchySurfaceOn.of_nested (h C C' hle) hS).
-# Its companion Causal.not_dependenceDomain_nested_bare refutes it the same way through
-# Causal.Causality.dependenceDomainOn_subset_of_nested. A direct conjoined statement
-# (cutLine 1 ≤-nested in timelikeLine ∧ ¬ InextensibleNestedOn (cutLine 1) timelikeLine ⊤) is
-# proposed (the keeper's report). On ℝ: Hausdorff, second countable, no `space`. Through the closure
+# inextensible there (Causal.cutLine_not_inextensibleNestedOn_top). The witness, direct since
+# T-lad-record-direct-witnesses (2026-11-27; T-abs-cutline-inextensible-direct), read from the source
+# (Causal/CutLineInextensible.lean:96), with no build: Causal.cutLine_separates_inextensibleNested :
+# (cutLine 1).LeNested timelikeLine ∧ ¬ (cutLine 1).InextensibleNestedOn timelikeLine ⊤ ∧
+# (cutLine 1).IsCausal ∧ (cutLine 1).AbsolutelyMinimal ∧ (∀ W, (cutLine 1).AbsolutelyMinimalOn W) ∧
+# timelikeLine.AbsolutelyMinimal ∧ ∀ W, timelikeLine.AbsolutelyMinimalOn W (a closed statement, no
+# instance argument): the `from` and the negation of the `to` at W = M as conjuncts, with the timelike
+# line's gluing and the cut line's, in both forms, so that it stands under DEC-167 whichever form OQ-95
+# rules. Until then the witness was Causal.not_isCauchySurface_of_nested_bare : ¬ ∀ (C C' : Causality
+# ℝ) S, C.LeNested C' → C'.IsCauchySurface S → C.IsCauchySurface S, which states the refutation through
+# the Cauchy transfer (the consequence Causal.Causality.IsCauchySurfaceOn.of_nested, at
+# inextensible_nested below, gives ¬ ∀ C C' : Causality ℝ, C.LeNested C' → C.InextensibleNestedOn C' ⊤
+# in one line, checked 2026-11-22 with `lake env lean` on a file outside the tree: fun h =>
+# not_isCauchySurface_of_nested_bare fun C C' _ hle hS => IsCauchySurfaceOn.of_nested (h C C' hle) hS);
+# it and its companion Causal.not_dependenceDomain_nested_bare (the same through
+# Causal.Causality.dependenceDomainOn_subset_of_nested) stay cited as what they state: the Cauchy
+# transfer and nested domains of dependence, consequences at inextensible_nested, fail at le_nested.
+# On ℝ: Hausdorff, second countable, no `space`. Through the closure
 # (le_nested ⇒ curve_nested) it also refutes curve_nested → inextensible_nested. The narrower cut line
 # is causal and not globally hyperbolic (Causal.cutLine_isCausal, cutLine_not_globallyHyperbolic) and
-# has a causal endpoint at 1; the wider timelike line has every hypothesis of the consequence at
-# curve_nested that gives the nesting: those must be asked of the narrower causality.
+# has a causal endpoint at 1 (Causal.cutLine_inextensibleNested_missing states both, with the timelike
+# line globally hyperbolic with Cauchy surface {0}); the wider timelike line has every hypothesis of
+# the consequence at curve_nested that gives the nesting: those must be asked of the narrower
+# causality.
 [[fails]]
 from = "le_nested"
 to = "inextensible_nested"
-witness = "Causal.not_isCauchySurface_of_nested_bare"
+witness = "Causal.cutLine_separates_inextensibleNested"
 status = "checked"
 
 # ------------------------------------------------------------------ consequences
@@ -3669,7 +3783,8 @@ status = "checked"
 
 # T-abs-nested-causalities/2-dod at M: the previous entry composed with the Cauchy transfer at
 # inextensible_nested (Causal.Causality.IsCauchySurfaceOn.of_nested, below). Bare form refuted by
-# Causal.not_isCauchySurface_of_nested_bare (the [[fails]] le_nested ⇏ inextensible_nested).
+# Causal.not_isCauchySurface_of_nested_bare (the line cut at 1, the model of the [[fails]]
+# le_nested ⇏ inextensible_nested, whose witness is Causal.cutLine_separates_inextensibleNested).
 [[consequence]]
 at = "curve_nested"
 statement = "every Cauchy surface of the wider C' is a Cauchy surface of the narrower C"
@@ -3678,7 +3793,11 @@ under = "curve nesting at M; globally_hyperbolic, tarentin and causally_arc_conn
 status = "checked"
 
 # Its domain-of-dependence form, cited since the hoist of dependenceDomain (T-abs-hoist-model-free,
-# 02b43b6; dependenceDomainOn is an abbrev of Causal.Flat.dependenceDomain): the GH entry above
+# 02b43b6). Causal.Causality.dependenceDomainOn (Causal/NestedCausalities.lean:306) is an abbrev of
+# Causal.Causality.dependenceDomain (Causal/DependenceDomain.lean) since DEC-198
+# (T-abs-dependence-domain-home, bc2d546), the former name Causal.Flat.dependenceDomain a deprecated
+# wrapper of it; whether dependenceDomainOn is deprecated in turn, and these witnesses re-pointed, is
+# OQ-127 (open). The GH entry above
 # composed with nested domains of dependence at inextensible_nested
 # (Causal.Causality.dependenceDomainOn_subset_of_nested, below). Read 2026-11-22: [T2Space M]
 # (hT : C.Tarentin) (hG : C.GloballyHyperbolic) (hC : C.CausallyArcConnected)
@@ -3754,14 +3873,85 @@ status = "checked"
 # carries a causality-sort property along InextensibleNestedOn alone (what it carries is a set S's
 # Cauchy property and domain of dependence, which are no ladder nodes).
 
+# The structure of the nesting (T-abs-inextensible-nested-basics, Causal/InextensibleNestedBasics.lean,
+# layer 1, no model imported; recorded by T-lad-record-direct-witnesses, 2026-11-27), read from the
+# source with no build. No instance argument and no hypothesis beyond the nestings:
+# Causal.Causality.InextensibleNestedOn.refl (C : Causality M) (W : Opens M) : InextensibleNestedOn C C W
+# (:100); .trans (h : InextensibleNestedOn C C' W) (h' : InextensibleNestedOn C' C'' W) :
+# InextensibleNestedOn C C'' W (:105), nothing asked of the middle causality, since Inextensible is
+# CausalCurveIn ∧ ¬ Extensible and so includes being one of its causal curves;
+# Causal.Causality.dual_inextensibleNestedOn_iff : InextensibleNestedOn C.dual C'.dual W ↔
+# InextensibleNestedOn C C' W (:130), whose forward half is Causal.Causality.InextensibleNestedOn.dual
+# (:125, through Causal.Causality.dual_inextensible_iff: a curve is inextensible iff, run backwards, it
+# is for the reversed causality). So at one open W the nesting is a preorder on the causalities of M,
+# as ≤-nesting and curve nesting are, and its past forms come from the future ones. The hypotheses of
+# trans and dual are met: Causal.timelikeLine_inextensibleNested_basics (the timelike line in itself,
+# in allRelated at M, and the reversed pair). The iff is recorded, as for the other two nestings, and
+# not its forward half beside it.
+[[consequence]]
+at = "inextensible_nested"
+statement = "inextensible nesting on an open W is reflexive: every causality is inextensibly nested in itself on every open W"
+witness = "Causal.Causality.InextensibleNestedOn.refl"
+under = "nothing (no instance, no hypothesis)"
+status = "checked"
+
+[[consequence]]
+at = "inextensible_nested"
+statement = "inextensible nesting on an open W is transitive: C inextensibly nested in C' and C' in C'' on W give C inextensibly nested in C'' on W, nothing asked of the middle C'"
+witness = "Causal.Causality.InextensibleNestedOn.trans"
+under = "inextensible nesting of C in C' and of C' in C'' on the same open W; nothing else (no instance)"
+status = "checked"
+
+[[consequence]]
+at = "inextensible_nested"
+statement = "inextensible nesting is invariant under time reversal: C.dual is inextensibly nested in C'.dual on W iff C is inextensibly nested in C' on W"
+witness = "Causal.Causality.dual_inextensibleNestedOn_iff"
+under = "nothing else (no instance)"
+status = "checked"
+
+# Change of open set (:148): (h : InextensibleNestedOn C C' W) (hVW : V ≤ W)
+# (hV : ∀ ⦃I c⦄, C.Inextensible V I c → C.Inextensible W I c) : InextensibleNestedOn C C' V, no
+# instance, through Causal.Causality.Inextensible.restrict (:138: an inextensible curve of W with image
+# in V is one of V). The condition hV is of the narrower C alone and no ladder node, hence in words.
+#
+# Not monotone in the open set: a note, and no entry. "Nested on W and V ≤ W give nested on V" joins
+# inextensible_nested to itself at two opens, no pair of ladder ids, so it fits neither a [[fails]]
+# nor an [[open]] entry (both ask two ids), and no pair of the matrix depends on it.
+# * Refuted in Lean, off the ambient: Causal.not_inextensibleNestedOn_mono (:523) : ¬ ∀ (M : Type)
+#   [TopologicalSpace M] (C C' : Causality M) (V W : Opens M), V ≤ W → C.InextensibleNestedOn C' W →
+#   C.InextensibleNestedOn C' V, on the coarse space Causal.CoarsePoint (two near points forming an
+#   open set and a far point for each set of reals; its open sets are ∅, the near points and
+#   everything). It is not T1, nor T0 (two far points have the same neighbourhoods), so it is no ETT
+#   spacetime; it is second countable (three open sets), which is not in Lean. LineDevelopment.allRelated
+#   is inextensibly nested in Causal.CoarsePoint.diag (each point related to itself only) on the whole
+#   space, vacuously (no causal curve of allRelated is inextensible there: its image misses a far
+#   point, by Cantor), and not on the near points (the step from one near point to the other is
+#   allRelated-inextensible there and no causal curve of diag). Bundled in
+#   Causal.CoarsePoint.separates_inextensibleNestedOn_mono (:509), with both causalities absolutely
+#   minimal on every open set (either form of DEC-167's gluing) and diag causal; allRelated is not.
+# * Argued false, not in Lean, on a Hausdorff, second countable space with one causality not causal
+#   (the witness file's SCOPE): on the circle ℝ/3ℤ, C' clockwise motion and C clockwise motion that
+#   never passes a point p (C causal, C' not), V the circle minus a point q ≠ p. A C-inextensible
+#   curve of the circle starts at p and comes back to it, so it is C'-inextensible; in V the arc from
+#   p clockwise to q is C-inextensible, and C' extends it at p from the other side.
+# * Open with both causalities causal on a T2, second countable space (ETT's spacetimes). The
+#   closer's follow-up is T-abs-inextensible-nested-mono (planned).
+[[consequence]]
+at = "inextensible_nested"
+statement = "inextensible nesting on W passes to an open V ⊆ W when every inextensible causal curve of V for the narrower C is inextensible in W for C (it does not in general: Causal.not_inextensibleNestedOn_mono, off the ambient)"
+witness = "Causal.Causality.InextensibleNestedOn.mono_of_inextensible"
+under = "inextensible nesting on W; V ≤ W; every C-inextensible causal curve of V is C-inextensible in W (hV, of the narrower C alone, no node); nothing of C' (no instance)"
+status = "checked"
+
 # T-abs-nested-causalities/2-dod, the Cauchy transfer. Read 2026-11-22 by `#check`:
 # {C C' : Causality M} {W : Opens M} {S : Set M}, C.InextensibleNestedOn C' W →
 # C'.IsCauchySurfaceOn W S → C.IsCauchySurfaceOn W S, no instance (a one-line proof: a C-inextensible
 # curve of W is C'-inextensible, so it meets S exactly once). Not at le_nested nor curve_nested: the
-# line cut at 1 (Causal.not_isCauchySurface_of_nested_bare, the [[fails]] le_nested ⇏
-# inextensible_nested). At M it is what Causal.Causality.GloballyHyperbolic.isCauchySurface_of_nested
-# (consequence at curve_nested) composes with the curve-nested form of the nesting; at the domain of
-# every solution it is ERS Thm 4.79's non-emptiness (next entry but one).
+# line cut at 1 (Causal.not_isCauchySurface_of_nested_bare, the transfer's bare form; the [[fails]]
+# le_nested ⇏ inextensible_nested, Causal.cutLine_separates_inextensibleNested). At M it is what
+# Causal.Causality.GloballyHyperbolic.isCauchySurface_of_nested (consequence at curve_nested)
+# composes with the curve-nested form of the nesting; at the domain of every solution it is ERS Thm
+# 4.79's non-emptiness (next entry but one).
 [[consequence]]
 at = "inextensible_nested"
 statement = "the Cauchy transfer: on the open W of the nesting, every Cauchy surface of W for the wider C' is a Cauchy surface of W for the narrower C"
@@ -3770,7 +3960,8 @@ under = "inextensible nesting on W; nothing else (no instance)"
 status = "checked"
 
 # T-abs-nested-causalities/2-dod, nested domains of dependence (two-sided, as the library's:
-# dependenceDomainOn is an abbrev of Causal.Flat.dependenceDomain, Causal/DependenceDomain.lean). Read
+# dependenceDomainOn is an abbrev of Causal.Causality.dependenceDomain, Causal/DependenceDomain.lean,
+# since DEC-198; Causal.Flat.dependenceDomain is its deprecated former name; OQ-127). Read
 # 2026-11-22: C.InextensibleNestedOn C' W → ∀ S, C'.dependenceDomainOn W S ⊆ C.dependenceDomainOn W S,
 # no instance. Bare form refuted by Causal.not_dependenceDomain_nested_bare (the line cut at 1: 1 lies
 # in D({0}) for the timelike line and not for the cut line).
@@ -4189,7 +4380,7 @@ note = "False, argued: the pointed line in the spacelike line (Causal.pointedLin
 [[open]]
 from = "chronal_neighbours"
 to = "absolutely_minimal"
-note = "False, argued, in the no-gluing reading only: Galileo's spacetime Causal.galileo n, n ≥ 1, has chronal neighbours and is not absolutely minimal (on a U-shaped open, x ≪_U y across the bend is generated by no chain of small steps); wants Causal.galileoOn_chronalNeighbours, Causal.galileo_not_absolutelyMinimal; or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18, OQ-39) has chronal neighbours and is not absolutely minimal; wants Causal.timelikeLineTop_chronalNeighbours. In the gluing reading of defi:causalite every causality is absolutely minimal (OQ-18), so there the pair holds and no witness can refute it. The ladder's Lean models with chronal neighbours are all absolutely minimal: the half-plane, the flat time cylinder and the timelike circle, the chronal membrane and its time reversal, and the rational-jump plane, which is not causally arc-connected (Causal.halfPlane_hypotheses, Causal.Flat.timeCylinder_separates, Causal.Flat.timeCylinder_zero_separates, Causal.chronalMembrane_separates, Causal.chronalMembrane_dual_separates, Causal.rationalJumpPlane_separates)"
+note = "False, argued, in the no-gluing reading only: Galileo's spacetime Causal.galileo n, n ≥ 1, has chronal neighbours and is not absolutely minimal (on a U-shaped open, x ≪_U y across the bend is generated by no chain of small steps); wants Causal.galileoOn_chronalNeighbours, Causal.galileo_not_absolutelyMinimal; or Causal.timelikeLineTop (≤_ℝ total; a causality without gluing only, OQ-18, OQ-39) has chronal neighbours and is not absolutely minimal; wants Causal.timelikeLineTop_chronalNeighbours. In the gluing reading of defi:causalite every causality is absolutely minimal (OQ-18), so there the pair holds and no witness can refute it. The ladder's Lean models with chronal neighbours are all absolutely minimal: the half-plane, the flat time cylinder and the timelike circle, the chronal membrane and its time reversal, and the rational-jump plane, which is not causally arc-connected (Causal.halfPlane_separates, Causal.Flat.timeCylinder_separates, Causal.Flat.timeCylinder_zero_separates, Causal.chronalMembrane_separates, Causal.chronalMembrane_dual_separates, Causal.rationalJumpPlane_separates)"
 
 
 # → curves_extend: none since T-lad-record-curves-fact (2026-11-21). The 15 entries that stood here
