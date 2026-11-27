@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Due 2026-11-28 (planner): lean-gx, not refreshed since the 2026-11-27 20:40 wave; since then e49f488, c1e4234, c1d9a45 (Causal pin 51cbb00) and dc54daa moved ExtChart → Pgcd → PpcmHausdorff → Ppcm and IsomE0 to strict and added MaxExtension, RegCompleteLength, CompleteCauchy and HSCheminsing to the scaffold"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -3068,8 +3068,8 @@ labels = ["theo:globally_hyperbolic_cauchy_complete_cauchy_maximal"]
 status = "planned"
 owner = "closer"
 priority = 8
-depends = ["T-btz-ledger", "T-gx-causal-pin-bump", "T-btz-maximal-extension", "T-btz-reg-complete"]
-evidence = "DEC-208: « T-gx-uniformization-via-btz (gx's BTZ uniformization rewritten as Barbot's Theorem A on Reg M followed by the maximal BTZ-extension, replacing the hand-added singular rays) ». The row is bucket A, closed, by GX.btz_uniformization (GX/BTZ/Uniformization.lean, DEC-28/DEC-129), with the BTZ half-line developed by hand (GX/BTZ/FutureRay.lean, GX.futureRay_null_supset). This target also waits on T-btz-maximal-extension, which the planner writes when T-btz-ledger lands (a close target needs papers/btz's labels); add it to depends then. Refined 2026-11-27 by the planner, after T-btz-ledger (b3d3b7c): T-btz-maximal-extension and T-btz-reg-complete are added to depends. The gx proof starts « From Theorem 3 of brunswic2021cauchy, the regular part of M is globally hyperbolic, Cauchy-maximal and Cauchy-complete » (RamcovGX.tex l.2378), which is btzprop:reg_complete in the E₀ case. Barbot (GX.e0RegM_holonomy, GX/BTZ/Holonomy.lean) then describes Reg M. M is recovered as BTZext(Reg M), M being BTZ-maximal by prop:cauchy_abs_max as in btzcor:common_reg's proof (BTZ_1.tex l.1277–1280)"
+depends = ["T-btz-ledger", "T-gx-causal-pin-bump", "T-btz-maximal-extension", "T-btz-reg-complete", "T-btz-reg-complete-tail"]
+evidence = "DEC-208: « T-gx-uniformization-via-btz (gx's BTZ uniformization rewritten as Barbot's Theorem A on Reg M followed by the maximal BTZ-extension, replacing the hand-added singular rays) ». The row is bucket A, closed, by GX.btz_uniformization (GX/BTZ/Uniformization.lean, DEC-28/DEC-129), with the BTZ half-line developed by hand (GX/BTZ/FutureRay.lean, GX.futureRay_null_supset). This target also waits on T-btz-maximal-extension, which the planner writes when T-btz-ledger lands (a close target needs papers/btz's labels); add it to depends then. Refined 2026-11-27 by the planner, after T-btz-ledger (b3d3b7c): T-btz-maximal-extension and T-btz-reg-complete are added to depends. The gx proof starts « From Theorem 3 of brunswic2021cauchy, the regular part of M is globally hyperbolic, Cauchy-maximal and Cauchy-complete » (RamcovGX.tex l.2378), which is btzprop:reg_complete in the E₀ case. Barbot (GX.e0RegM_holonomy, GX/BTZ/Holonomy.lean) then describes Reg M. M is recovered as BTZext(Reg M), M being BTZ-maximal by prop:cauchy_abs_max as in btzcor:common_reg's proof (BTZ_1.tex l.1277–1280). Refined 2026-11-28 (planner): its four dependencies are done, but gx's theorem is for Cauchy-complete M (RamcovGX.tex l.2363), and btzprop:reg_complete's Cauchy-completeness of Reg M, which GX.e0RegM_holonomy consumes, still rests on RegCompleteLength's tagged sorry: T-btz-reg-complete-tail is added. M is recovered as a maximal globally hyperbolic BTZ-extension of Reg M, which needs no RichardsInput (GX.BTZMax.equivalent_of_isMaximal), as in T-btz-common-reg"
 added = "2026-11-25"
 proposed_by = "roadmap-planner"
 
@@ -3361,11 +3361,11 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzcor:common_reg"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 8
 depends = ["T-btz-maximal-extension"]
-evidence = "BTZ_1.tex l.1274–1281, a four-line proof: « by Proposition prop:cauchy_abs_max, they are 𝔼≥0-maximal. In particular, M and N are BTZ-maximal. Furthermore, by Remark rem:reg_GH, reg(M) and reg(N) are globally hyperbolic ». Built: GX.E0AbsMax.prop_cauchy_abs_max_e0 (DEC-125 (e): maximality among connected targets, a finding of the gx campaign that the curation carries over) and GX.E0AbsMax.globallyHyperbolicOn_reg (AbsMax.lean:917). This is the injectivity of Reg in the headline's proof (btzthm:princ, l.1650–1655). E₀ is the paper's own case here, but the row's inputs are partial (T-btz-scope), so it stays partial until they close"
+evidence = "BTZ_1.tex l.1274–1281, a four-line proof: « by Proposition prop:cauchy_abs_max, they are 𝔼≥0-maximal. In particular, M and N are BTZ-maximal. Furthermore, by Remark rem:reg_GH, reg(M) and reg(N) are globally hyperbolic ». Built: GX.E0AbsMax.prop_cauchy_abs_max_e0 (DEC-125 (e): maximality among connected targets, a finding of the gx campaign that the curation carries over) and GX.E0AbsMax.globallyHyperbolicOn_reg (AbsMax.lean:917). This is the injectivity of Reg in the headline's proof (btzthm:princ, l.1650–1655). E₀ is the paper's own case here, but the row's inputs are partial (T-btz-scope), so it stays partial until they close. Promoted 2026-11-28 (planner): T-btz-maximal-extension is done (dc54daa). The corollary needs no RichardsInput: M and N are each a maximal globally hyperbolic BTZ-extension of Reg M ≅ Reg N (prop_cauchy_abs_max_e0 gives their BTZ-maximality, to be bridged to Causal.AbstractDev.IsMaximal over GX.BTZMax.GHExt), and GX.BTZMax.equivalent_of_isMaximal (scaffold MaxExtension.lean:503) makes them equivalent; the T-btz-maximal-extension REPORT notes: « Universality and uniqueness of a maximal extension (isUniversal_of_isMaximal, equivalent_of_isMaximal) do not use RichardsInput; only existence (chainsInherit) does ». Reg M connected, which the uniqueness needs: E0LM.isPreconnected_e0RegM (GX/BTZ/LocalModel.lean:2873). It imports MaxExtension, so it is a scaffold module"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3406,11 +3406,11 @@ stream = "gx"
 kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_Cauchy-completness"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 8
 depends = ["T-btz-maximal-extension", "T-btz-blunt-spear", "T-btz-reg-complete"]
-evidence = "BTZ_1.tex l.1596–1606, Step 1: « by Lemma lem:tube there exists S → 𝔼₀ a spear neighborhood of vertex p »; « By Cauchy-maximality of M₀, we deduce that N ⊂ M₀ »; « Notice M₁ ∪ Int(S₁) is a globally hyperbolic BTZ-extension of M₁, by BTZ-maximality of M₁, we deduce that Int(S₁) ⊂ M₁ ». Built: GX.E0Spear.lem_tube_e0, the E₀ forms of add_BTZ_param, surface_complete and intersect_number_complete (papers/btz curation), and the Cauchy-maximal extension of an E₀-manifold through gx's CBG geometry GX.E0CBG.e0Geometry with e0_cbg (GX/BTZ/CBG.lean). Split from the theorem: Step 1 builds the spears and Step 2 (T-btz-cauchy-conservation) uses them. E₀-scoped; partial"
+evidence = "BTZ_1.tex l.1596–1606, Step 1: « by Lemma lem:tube there exists S → 𝔼₀ a spear neighborhood of vertex p »; « By Cauchy-maximality of M₀, we deduce that N ⊂ M₀ »; « Notice M₁ ∪ Int(S₁) is a globally hyperbolic BTZ-extension of M₁, by BTZ-maximality of M₁, we deduce that Int(S₁) ⊂ M₁ ». Built: GX.E0Spear.lem_tube_e0, the E₀ forms of add_BTZ_param, surface_complete and intersect_number_complete (papers/btz curation), and the Cauchy-maximal extension of an E₀-manifold through gx's CBG geometry GX.E0CBG.e0Geometry with e0_cbg (GX/BTZ/CBG.lean). Split from the theorem: Step 1 builds the spears and Step 2 (T-btz-cauchy-conservation) uses them. E₀-scoped; partial. Promoted 2026-11-28 (planner): its three dependencies are done. M₁ is « the maximal BTZ-extension of M₀ » (l.1594), and Step 1 uses only its BTZ-maximality (« by BTZ-maximality of M₁, we deduce that Int(S₁) ⊂ M₁ », l.1606), so it is stated for any Causal.AbstractDev.IsMaximal GX.BTZMax.GHExt of M₀, with no RichardsInput; btz_ext supplies one under RichardsInput. Located: lem_tube_e0 (GX/BTZ/Spear.lean:4975, needs IsE0CauchyMaximal, applied in M₂), e0_cbg (GX/BTZ/CBG.lean:3495), the strict blunt spear (GX.BTZ.BluntSpear)"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3424,23 +3424,23 @@ labels = ["btzthm:BTZ_Cauchy-completness", "btzthm:BTZ_Cauchy-completness_intro"
 status = "planned"
 owner = "closer"
 priority = 8
-depends = ["T-btz-cauchy-spear", "T-btz-reg-complete", "T-btz-reg-complete-length"]
-evidence = "DEC-208: « T-btz-cauchy-conservation (Cauchy-completeness and Cauchy-maximality conserved by BTZ-extension, its three-way equivalence) ». BTZ_1.tex l.1582–1645: « (iii) ⇒ (ii) is trivial and (ii) ⇒ (i) is a consequence of Proposition prop:reg_complete »; Step 2: « Lemmas lem:add_BTZ_param, lem:blunt_spear_neighborhood and lem:curve_extension allow to construct a Cauchy-surface Σ₁ of M₁ by replacing pieces of a complete Cauchy-surface of M₀ inside each spear neighborhood by a compact piece cutting the BTZ line ... Since M₀ is Cauchy-maximal, then M₂* = M₀ ». Built: lem:curve_extension and cor:intersect (E₀, lean-gx, partial). E₀-scoped (for E₀, (i)'s Reg_{>0} is Reg); partial until T-btz-scope rules. Refined 2026-11-27 (planner): (ii) ⇒ (i) consumes btzprop:reg_complete, whose Cauchy-completeness is a tagged sorry (RegComplete.lean (regM_isCauchyComplete_of_complete)) until T-btz-reg-complete-length, now a dependency; and Step 2's surgery « inside each spear neighborhood » of a complete Cauchy surface needs the locally finite spear family of T-btz-spear-family, since the strict E0Surgery.SurgeryData is finite"
+depends = ["T-btz-cauchy-spear", "T-btz-reg-complete", "T-btz-reg-complete-length", "T-btz-reg-complete-tail", "T-btz-length-compare"]
+evidence = "DEC-208: « T-btz-cauchy-conservation (Cauchy-completeness and Cauchy-maximality conserved by BTZ-extension, its three-way equivalence) ». BTZ_1.tex l.1582–1645: « (iii) ⇒ (ii) is trivial and (ii) ⇒ (i) is a consequence of Proposition prop:reg_complete »; Step 2: « Lemmas lem:add_BTZ_param, lem:blunt_spear_neighborhood and lem:curve_extension allow to construct a Cauchy-surface Σ₁ of M₁ by replacing pieces of a complete Cauchy-surface of M₀ inside each spear neighborhood by a compact piece cutting the BTZ line ... Since M₀ is Cauchy-maximal, then M₂* = M₀ ». Built: lem:curve_extension and cor:intersect (E₀, lean-gx, partial). E₀-scoped (for E₀, (i)'s Reg_{>0} is Reg); partial until T-btz-scope rules. Refined 2026-11-27 (planner): (ii) ⇒ (i) consumes btzprop:reg_complete, whose Cauchy-completeness is a tagged sorry (RegComplete.lean (regM_isCauchyComplete_of_complete)) until T-btz-reg-complete-length, now a dependency; and Step 2's surgery « inside each spear neighborhood » of a complete Cauchy surface needs the locally finite spear family of T-btz-spear-family, since the strict E0Surgery.SurgeryData is finite. Refined 2026-11-28 (planner): T-btz-reg-complete-length closed with one tagged sorry left (RegCompleteLength.lean:1258, exists_isCompact_of_cauchySeq), so (ii) ⇒ (i) waits on T-btz-reg-complete-tail, now a dependency. Step 2's « This operation preserve metric completeness » (l.1625) needs the comparison of induced lengths of T-btz-length-compare in the other direction (Σ₁ ⊂ M₁ built from Σ₀ ⊂ M₀). (iii) names BTZext(M), whose existence rests on RichardsInput (or the narrowed input of T-btz-richards-split), carried as a hypothesis"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
 [[target]]
 id = "T-btz-headline"
-title = "btz's headline btzthm:princ (and its introduction twin): the deformation space of globally hyperbolic Cauchy-maximal E₀-manifolds homeomorphic to Σ × ℝ with s marked singular lines is the tangent bundle of the Teichmüller space of Σ*. Through § 4: admissible representations, the holonomy map (btzprop:holonomy_globally_hyperbolic_cauchy_compact, btzprop:hol_map), its surjectivity by polyhedron gluing (btzprop:surjective), and its injectivity (btzcor:common_reg with Barbot). A campaign, to be scoped and split before any dispatch"
+title = "btz's headline btzthm:princ (and its introduction twin), assembled: Hol ∘ Reg : M_{g,s}(E₀) → T T_{g,s} is a bijection, injective by btzcor:common_reg (Reg injective) and Barbot's Remark 4.19 (Hol injective on M_{g,s}(E), a named cited input), surjective by btzprop:surjective, with btzprop:mr_mr as the named cited identification of T T_{g,s}"
 stream = "gx"
 kind = "close"
 paper = "btz"
-labels = ["btzthm:princ", "btzthm:princ_intro", "btzdef:tangent_translation_part", "btzdef:admissible_representation", "btzprop:holonomy_globally_hyperbolic_cauchy_compact", "btzprop:mr_mr", "btzprop:hol_map", "btzprop:surjective"]
+labels = ["btzthm:princ", "btzthm:princ_intro", "btzprop:mr_mr"]
 status = "planned"
 owner = "closer"
 priority = 9
-depends = ["T-btz-common-reg"]
-evidence = "DEC-208: « the paper's headline (the deformation space of Cauchy-maximal E₀-manifolds with s singular lines ≅ the tangent bundle of the Teichmüller space of Σ*) as a later target ». BTZ_1.tex l.1648–1655: injective by « Corollary cor:common_reg » and « Remark 4.19 of [barbot_globally_2004] », surjective by « Proposition prop:surjective ». Built: Barbot's step for Reg M, GX.e0RegM_holonomy (GX/BTZ/Holonomy.lean: faithful, discrete, torsion-free, a loxodromic element), and the bridge GX.E0Bridge (GX/BTZ/HeadlineBridge.lean). Not built: Teichmüller space and its tangent bundle (not in mathlib); btzprop:mr_mr is a cited identification (Goldman MR762512, Troyanov–Hulin MR1166122); deformation spaces; the polyhedron construction of l.1205–1248. Its scoping will need a ruling on how T T_{g,s} and the deformation space are represented (for instance through admissible representations up to conjugacy, with btzprop:mr_mr as a named cited input). That question is asked when the scoping pass writes it out"
+depends = ["T-btz-common-reg", "T-btz-hol-map", "T-btz-surjective", "T-btz-headline-repr"]
+evidence = "DEC-208: « the paper's headline (the deformation space of Cauchy-maximal E₀-manifolds with s singular lines ≅ the tangent bundle of the Teichmüller space of Σ*) as a later target ». BTZ_1.tex l.1648–1655: injective by « Corollary cor:common_reg » and « Remark 4.19 of [barbot_globally_2004] », surjective by « Proposition prop:surjective ». Built: Barbot's step for Reg M, GX.e0RegM_holonomy (GX/BTZ/Holonomy.lean: faithful, discrete, torsion-free, a loxodromic element), and the bridge GX.E0Bridge (GX/BTZ/HeadlineBridge.lean). Not built: Teichmüller space and its tangent bundle (not in mathlib); btzprop:mr_mr is a cited identification (Goldman MR762512, Troyanov–Hulin MR1166122); deformation spaces; the polyhedron construction of l.1205–1248. Its scoping will need a ruling on how T T_{g,s} and the deformation space are represented (for instance through admissible representations up to conjugacy, with btzprop:mr_mr as a named cited input). That question is asked when the scoping pass writes it out. Split 2026-11-28 (planner), the scoping pass: the definitions and the local holonomy (T-btz-admissible, ready), the representation of M_{g,s}(E₀) and T T_{g,s} (T-btz-headline-repr, the author's question), the holonomy map (T-btz-hol-map), and btzprop:surjective's polyhedron construction in three parts (T-btz-surj-develop, T-btz-surj-spear, T-btz-surjective). This target keeps the assembly of l.1650–1655: « By Corollary cor:common_reg, the map M_{g,s}(E₀) → M_{g,s}(E) is injective and, as a direct consequence of Remark 4.19 of [barbot_globally_2004], the holonomy map M_{g,s}(E) → T T_{g,s} is injective ... By Proposition prop:surjective, it is also surjective »"
 added = "2026-11-27"
 proposed_by = "roadmap-planner"
 
@@ -3801,4 +3801,208 @@ owner = "master"
 priority = 9
 evidence = "papers/bbs ledger: the four rows are bucket D with blocked_on « no target yet (a § 3 link row, layer L2, in lean-gx by DEC-192); wave W2 not built », although W2 is built. Their text: l.1324–1328 « As far as we know, this kind of singular lines is not considered in physics litterature. However, it is a very natural extension of the notion of massive particles. It sounds to us natural to call these singularities, representing particles faster than light, tachyons »; l.1458–1460 « light-like singularities of degree 2 appear very frequently in physics, where they are called wordlines, or cosmic strings, of massless particles, or even sometimes \"photons\" »; l.1486–1488 « From now on, we allow ourselves to qualify HS-singularities according to the nature of the associated AdS-singular lines: an elliptic HS-singularity is a (massive) particle, a space-like singularity is a tachyon, positive or negative, etc... ». bbsrem:positive_negative2 (« one observes that positive photons attract lightrays, whereas negative photons have a repelling behavior ») is mathematics, but its ledger deps are [bbsrem:positive_negative], which is blocked on T-bbs-q8 (the AdS construction); it is re-pointed, not made terminal. Precedent for bucket T on informal remarks: T-yamabe-perf-triage (48cf838: rem:old-reference, rem:positive-mass, rem:mv). Package none: it writes papers/bbs/certificate/curation.toml and rebuilds the bbs ledger only, so it waits for /restate to release papers/bbs (as T-restate-held-curation does); none of the four is a restatement candidate"
 added = "2026-11-27"
+proposed_by = "roadmap-planner"
+
+
+# ------------------------------------------------------------------ btz after the 2026-11-28 wave: reg_complete's last sorry, RichardsInput narrowed, the headline split; lean-gx clean-ups; BBS § 5's externals (planner, 2026-11-28)
+
+[[target]]
+id = "T-btz-length-compare"
+title = "btz § 5.4, btzprop:reg_complete, the tool RegCompleteLength's one sorry owes: along a path lying in Σ* ∩ S (inside Reg M), the induced length of Σ* (Causal.Flat.chartSys of Reg M) equals the DEC-31 length of S (GX.e0SliceSys S); and an arc of a spear's rim circle {r = R} on S has S-length ≤ π R"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:reg_complete"]
+status = "ready"
+owner = "closer"
+priority = 7
+evidence = "lean-gx/scaffold/GXScaffold/BTZ/RegCompleteLength.lean:1258, the comment of the tagged sorry of LFSurgeryData.exists_isCompact_of_cauchySeq: « Owed: the comparison, along a path of Σ* ∩ S, of the induced length of Σ* (chart system of Reg M) with the DEC-31 length of S (e0SliceSys S); neither library has it ». The T-btz-reg-complete-length REPORT (kb_proposals): « the missing tool is the comparison of chartSys lengths on Reg M with e0SliceSys lengths on S along common paths » and « On the rim r = R of a spear the printed E0 metric -2dtau dr + dr^2 + r^2 dtheta^2 is R^2 dtheta^2, whatever the surface: rim arcs have length <= pi R ». Both systems read a regular point in the flat chart of Reg M at a regular point (GX.e0SliceSys_of_mem, GX/BTZ/Uniformization.lean:4016; Causal.Flat.chartSys, lean-causal Causal/Flat/CauchyComplete.lean:511), so the comparison is a congruence of local densities along the path, proved in lean-gx: lean-causal is held by /ett-programme and is not edited. A new scaffold module below RegCompleteLength (it needs SpearFamily's LFSurgeryData and e0SliceSys), so that T-btz-reg-complete-tail imports it. Step 2 of btzthm:BTZ_Cauchy-completness (« This operation preserve metric completeness », l.1625) uses the same comparison. E₀ only; partial (T-btz-scope)"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-reg-complete-tail"
+title = "btz § 5.4, btzprop:reg_complete's last tagged sorry, LFSurgeryData.exists_isCompact_of_cauchySeq: a Cauchy sequence of Σ* (spear radii summable) has a tail in a compact set of M; so Σ* is complete, Reg M is Cauchy-complete, and prop_reg_complete is sorry-free for E₀-manifolds"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:reg_complete"]
+status = "planned"
+owner = "closer"
+priority = 7
+depends = ["T-btz-length-compare"]
+evidence = "RegCompleteLength.lean:1258–1271, the argument written beside the sorry: « pass to edist (u n) (u (n+1)) < 2⁻ⁿ, concatenate paths into a path Γ of Σ* of finite length. (a) If some spear j is met by Γ at arbitrarily late times, the log r estimate of spear j (ofReal_abs_logRad_sub_le_edist) keeps those points in a compact annulus graph of the cusp j ... (b) Otherwise replace, spear by spear in order of first entry, the piece of Γ from its first entry into spear i to its last exit by an arc of the rim circle of i, of S-length ≤ π Rᵢ ... an S-path of length ≤ ℓ(Γ) + π Σᵢ Rᵢ < ∞ (hsum), which converges in S (hS.complete) and in M (hS.continuous) ». The rest is built and sorry-free: completeSpace_sigmaStar consumes this lemma through tendsto_of_cauchySeq_of_isCompact, and LFSurgeryData.exists_summable thins the family to summable radii. T-btz-reg-complete-length (c1e4234), AUDIT-1 minor. Closing it makes btzprop:reg_complete sorry-free for E₀ (still partial: T-btz-scope, OQ-142) and opens T-btz-cauchy-conservation's (ii) ⇒ (i) and T-gx-uniformization-via-btz"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-reg-complete-graduate"
+title = "lean-gx clean-up after btzprop:reg_complete closes: state Surgery.lean's cusp lemmas (isSpacelikeLipschitzAt_cusp_interior/_rim) and the logRad stack once, over LFSurgeryData, in the strict library, derive the finite SurgeryData case from them, delete the ~950 lines RegCompleteLength copies, give isClosed_of_isCauchySurface a general strict home, and graduate the sorry-free chain CompleteCauchy → SpearFamily → RegComplete → RegCompleteCauchy → RegCompleteLength"
+stream = "gx"
+kind = "tooling"
+status = "planned"
+owner = "master"
+priority = 9
+depends = ["T-btz-reg-complete-tail"]
+package = "lean-gx"
+exclusive = true
+evidence = "T-btz-reg-complete-length AUDIT-1 (minor), finding 1: « About 950 lines are verbatim copies of strict GX/BTZ/Surgery.lean (from l.5293 on: isSpacelikeLipschitzAt_cusp_interior/_rim and the logRad stack), retyped from SurgeryData to LFSurgeryData ... Cleanup item for graduation ... state the cusp G4 lemmas and the logRad stack once over LFSurgeryData in the strict library and derive the finite SurgeryData case from them »; finding 2: « GX.E0SpearFamily.isClosed_of_isCauchySurface is a general fact (a Cauchy surface of a GH E0-manifold is closed) placed in a target-specific namespace ... move it to the strict causal/E0 library under a general name, after checking it is not already there ». The REPORT's kb_proposal: « copied verbatim over LFSurgeryData they compile with one change ... sigmaStar_toSurgeryData is rfl ». It waits for the chain to be sorry-free, so that the move is a graduation and not a second copy. Behaviour-preserving (every exported name and type kept, or the ledger's decls updated with it). Master, executed by a closer, as T-gx-btz-cleanup was; exclusive because it edits the strict Surgery.lean (7,548 lines) that most of GX/BTZ imports"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-line-structure"
+title = "btz § 2 and § 5.3, the BTZ lines of an E₀-manifold C, with no second countability assumed: sing₀ C is closed, each connected component Δ is a topological 1-manifold whose E₀-charts induce an (ℝ, ℝ)-translation structure (isom(E₀) acts on the axis by τ ↦ τ + τ₀), and Δ is second countable (l.1546: « Δ admits a Riemannian metric and is thus second countable »)"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzthm:BTZ_ext", "btzcor:manifold_smooth_manifold_singular"]
+status = "ready"
+owner = "closer"
+priority = 8
+evidence = "BTZ_1.tex l.1545–1546: « The E≥0-structure of M̄ induces a (G, sing(E₀))-structure on Δ with G the image of isom(E₀) in the group of homeomorphisms of sing₀(E₀). Since the isometries of E₀ act by translation on sing₀(E₀), the singular line Δ is actually endowed with a (ℝ,ℝ)-structure (ℝ acting by translation on itself). Finally, Δ admits a Riemannian metric and is thus second countable. » This is one of the three ingredients that GX.BTZMax.RichardsInput packs (T-btz-maximal-extension AUDIT-1, finding 3: « list the three ingredients the input packs: line-to-puncture injectivity, Richards (countably many isolated planar ends), and second countability of each line ... Optionally split the input so that only the cited theorem stays unproved »). Built: btzprop:isom's global form GX.BTZIsom.btzprop_isom_e0 and btzcor_morphism_two_manifolds_local_e0 (strict GX/BTZ/IsomE0.lean:625, 835; T-btz-isom-e0), GX.E0Surgery.isClosed_S0 (Surgery.lean:3144). [r] The manifold structure alone does not give second countability: the long line is a connected Hausdorff 1-manifold any two points of which lie in a second countable open interval, so RichardsInput's own premise does not either; the translation structure is what is used. The route is the closer's: the translation length metric (the paper's), btzrem:other_ways_prove_btz's (l.1560: « every possibly non metrizable 1-manifolds are type I [MR3244277] ... every type I separable manifolds are metrizable »), or [r] a strictly increasing volume function along Δ from a finite measure of full support on the second countable ι(M). If none closes in the dispatch, the line's second countability becomes a second named input, recorded, and T-btz-richards-split carries it. btzcor:manifold_smooth_manifold_singular (l.395–396; ledger « no target yet ») gets the topological half of its second sentence at E₀ (sing = sing₀ there); its smooth 3-manifold structure is not attempted, so the row stays partial. E₀ only (T-btz-scope). A new scaffold module, imported by T-btz-richards-split"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-richards-split"
+title = "btz § 5.3, RichardsInput narrowed to what is cited: btz_ext rests on « the BTZ lines (connected components of sing₀) of the union are countable » (Richards MR143186 with l.1544's line-to-puncture association), and the Lindelöf form that secondCountable_carrier uses is proved from it and T-btz-line-structure; MaxExtension's SCOPE and checklist corrected as AUDIT-1 asks"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzthm:BTZ_ext", "btzthm:maximal_btz_extension", "btzthm:globally_hyperbolic_manifolds_exists"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-btz-line-structure"]
+evidence = "BTZ_1.tex l.1544: « Let Σ be a Cauchy surface of M. Each BTZ line of M̄∖M is associated to a puncture of Σ ie an end which admits a disc neighborhood. By Richards Theorem [MR143186], a surface can only have countably many such ends. Therefore, sing₀(M̄) has at most countably many connected components. » GX.BTZMax.RichardsInput (scaffold MaxExtension.lean:189) concludes IsLindelof (S0 C). [r] With each component of sing₀ C open in sing₀ C (a 1-manifold is locally connected) and second countable (T-btz-line-structure), countably many components give a countable union of Lindelöf sets, hence Lindelöf: the input shrinks to the countability of the lines. The line-to-puncture association is not proved: mathlib has neither ends of a non-compact surface nor Richards' classification (its only ends are SimpleGraph's, Mathlib/Combinatorics/SimpleGraph/Ends), so it stays inside the cited input, now stated as the countability the proof uses. Universality and uniqueness do not use the input (REPORT notes), so only existence changes hypotheses; the curation updates the three rows' blocked_on. AUDIT-1's two docstring findings go with it: SCOPE (l.66) cites `globallyHyperbolic_of_directedCover`, which does not exist (it is globallyHyperbolic_of_iCover, with no directedness), and the checklist row (l.52) misdescribes the premise. E₀ only; the rows stay partial (T-btz-scope; OQ-150 (c) asks how a row on a named cited input is reported)"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-admissible"
+title = "btz § 4.1, admissible representations and the local half of btzprop:holonomy_globally_hyperbolic_cauchy_compact: btzdef:tangent_translation_part (the translation part of an affine parabolic isometry is tangent when Minkowski-orthogonal to the fixed line of its linear part, a condition independent of the origin) and btzdef:admissible_representation over the marked surface group Γ (mathlib's PresentedGroup of ∏[aᵢ,bᵢ]∏cⱼ); then the holonomy of Reg M around a BTZ line is parabolic with tangent translation part, and its linear part is discrete and faithful (GX.e0RegM_holonomy)"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzdef:tangent_translation_part", "btzdef:admissible_representation", "btzprop:holonomy_globally_hyperbolic_cauchy_compact"]
+status = "ready"
+owner = "closer"
+priority = 9
+evidence = "BTZ_1.tex l.1135–1151: « Let φ be an affine parabolic isometry of E, we note φ_L its linear part and τ_φ its translation part. We say τ_φ is tangent if τ_φ is normal to the direction of line of fixed points of φ_L »; « A marked representation ρ : Γ → isom(E^{1,2}) is admissible if its linear part ρ_L is discrete and faithful; ρ_L(c_i) is parabolic for all i; its translation part τ_ρ(c_i) is tangent for every i ». The proof of the proposition (l.1149–1152): « Since M admits exactly s BTZ lines, the holonomy of the peripheral generators is given by the holonomy around the BTZ lines which is parabolic. Furthermore, Barbot also shows (see [barbot_globally_2004] section 7.3) that if the holonomy of some loop is parabolic, then the translation part is tangent. » [r] Around a BTZ line the holonomy is explicit, conjugate to E₀'s btzHol (T-btz-isom-e0 REPORT: chartMap_paperIsom, « gShift = translation(2 tau0 u) * btzHol 0 (-c) »), so tangency is computed there and Barbot § 7.3 is not needed for it; and [r] tangency is invariant under a change of origin, since B((φ_L − 1)v, u) = 0 for u fixed by the isometry φ_L. Built: GX.e0RegM_holonomy (strict GX/BTZ/Holonomy.lean: faithful, discrete, torsion-free, with π₁(Reg M) not metabelian carried, gx SCOPE (a)); Reg M globally hyperbolic, Cauchy-complete and Cauchy-maximal for Cauchy-compact M (a compact C¹ spacelike Cauchy surface, DEC-107) from GX.E0AbsMax.cor_abs_max_C1 (strict GX/BTZ/AbsMax.lean:4128), sorry-free. The marked statement, with cᵢ the peripheral generators of a marking Γ ≅ π₁(Reg M), depends on how the marking is represented (T-btz-headline-repr) and is T-btz-hol-map's; this target states the holonomy of a loop around a line, so the row stays partial. Ledger rows bucket D, blocked_on « T-btz-headline; T-btz-scope ». E₀ only"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-headline-repr"
+title = "btz's headline btzthm:princ: how are the deformation space M_{g,s}(E₀) and the tangent bundle T T_{g,s} of Teichmüller space represented in Lean?"
+stream = "gx"
+kind = "author"
+status = "needs-ruling"
+owner = "author"
+priority = 8
+question = "For btzthm:princ, btzprop:hol_map and btzprop:surjective: is T T_{g,s} taken to be the set of conjugacy classes of admissible representations of the marked surface group Γ = ⟨a₁, b₁, …, a_g, b_g, c₁, …, c_s | ∏[aᵢ,bᵢ]∏cⱼ = 1⟩ (so btzprop:mr_mr, Goldman MR762512 with Troyanov–Hulin MR1166122, is a named cited input and Teichmüller space is not built), and M_{g,s}(E₀) the isomorphism classes of globally hyperbolic Cauchy-maximal Cauchy-compact E₀-manifolds with exactly s BTZ lines, each with a marking given as data (an isomorphism Γ ≅ π₁(Reg M) sending each cⱼ to a loop around the j-th line), the existence of a marking from M ≅ Σ × ℝ not formalized? Yes or no."
+evidence = "BTZ_1.tex l.1648–1649: « The deformation space of globally hyperbolic Cauchy-maximal E₀-manifolds homeomorphic to Σ × ℝ with exactly s marked singular lines can be identified to the tangent bundle of the Teichmüller space of Σ* »; l.1166–1169, btzprop:mr_mr [MR762512, MR1166122]: « The tangent bundle of the Teichmüller space of Σ* identifies with the set of equivalence classes of admissible representations of π₁(Σ*) into isom(E) »; l.1172–1176, btzprop:hol_map: « the map M_{g,s}(E₀) → T T_{g,s} (Hol ∘ Reg) is well defined ». Neither Teichmüller space, its tangent bundle, nor π₁ of a punctured surface with its standard presentation is in mathlib (T-btz-headline's evidence); mathlib has PresentedGroup. A yes makes T-btz-hol-map, T-btz-surjective and T-btz-headline closer targets with btzprop:mr_mr and Barbot's Remark 4.19 as named cited inputs (the RichardsInput precedent); a no needs a Teichmüller layer, a new package-sized campaign. Asked by the scoping pass that split T-btz-headline, as its evidence foresaw: « Its scoping will need a ruling on how T T_{g,s} and the deformation space are represented (for instance through admissible representations up to conjugacy, with btzprop:mr_mr as a named cited input) »"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-hol-map"
+title = "btz § 4.1, btzprop:hol_map and the marked form of btzprop:holonomy_globally_hyperbolic_cauchy_compact, in the representation T-btz-headline-repr rules: the holonomy of a marked M is an admissible representation of Γ, and its conjugacy class depends only on the isomorphism class of the marked M, so Hol ∘ Reg : M_{g,s}(E₀) → T T_{g,s} is well defined"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:hol_map", "btzprop:holonomy_globally_hyperbolic_cauchy_compact"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-btz-admissible", "T-btz-headline-repr"]
+evidence = "BTZ_1.tex l.1172–1176: « The holonomy of a globally hyperbolic Cauchy-compact E₀-manifold is admissible and the map M_{g,s}(E₀) → T T_{g,s} (Hol ∘ Reg) is well defined. » The admissibility is T-btz-admissible's local holonomy read on the peripheral generators of the marking; well-definedness is the conjugacy of the holonomies of isomorphic marked manifolds (a change of developing pair, GX/BTZ/HeadlineBridge.lean's developing data). It waits on the representation (T-btz-headline-repr). E₀ is the paper's own case here; partial while its inputs are (T-btz-scope)"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-surj-develop"
+title = "btz § 4.2, btzprop:surjective's construction, part 1: from an admissible ρ of Γ (s > 0) and a ρ_L-invariant ideal triangulation of 𝕂 (its existence a named cited input), the twisted map D̂(t, α) = P(t, φ(α), α) on ℝ₊* × S̃ is ρ-equivariant and, for κ large, a local homeomorphism off the 1-facets whose leaves t = cte are spacelike; the quotient is a flat spacetime of holonomy ρ with t a time function"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:surjective"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-btz-admissible"]
+evidence = "BTZ_1.tex l.1188–1219: « Let 𝒯 := (T_i) be an ideal triangulation of ρ_L∖𝕂, and denote by 𝒯̃ a lift of 𝒯 to an ideal triangulation of 𝕂 »; P(t, α, β) := ρ(γ)[t(α₁u_{i₁} + α₂u_{i₂} + α₃u_{i₃}) + κ(β₁u_{i₁} + …) + β₁p_{i₁} + …]; φ : T → T with (i)–(iv) (l.1207–1212); « The third and fourth items garantee that the restriction of D̂ to any of its smooth subdivision is an orientation preserving embedding, hence that D̂ is a local homeomorphism on the complement of the 1-facets ... As before, for κ big enough, the leaves t = cte are spacelike and the t coordinate is a time function. » The ideal triangulation of a finite-area cusped hyperbolic surface is not in mathlib [r]; carried as data (a ρ_L-invariant ideal triangulation of 𝕂 with finitely many orbits). Planned: it waits on T-btz-admissible's vocabulary, and is to be checked for one-dispatch size when that lands"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-surj-spear"
+title = "btz § 4.2, btzprop:surjective's construction, part 2: each singular line ℝ₊* × c of the quotient has a spear neighbourhood (the prisms adjacent to Δ between the half-planes Πₙ, θₙ₊ᵣ − θₙ = 2π, and the horocycles q + τ₀u_c + ε stab(u_c)v), so the quotient is an E₀-manifold; t is a Cauchy time function, so it is globally hyperbolic and Cauchy-compact"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:surjective"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-btz-surj-develop"]
+evidence = "BTZ_1.tex l.1221–1248: « We now focus on proving the singular lines are locally modeled on E₀ »; « the image of D̂ restricted to ℝ₊ × Uₙ is the prism adjacent to Δ bounded by the half-planes Πₙ, Πₙ₊₁ ... θₙ₊ᵣ − θₙ = 2π. We deduce that lim θₙ = ±∞ »; « The quotient by ρ(c) of the domain covered by these horocycles is a spear neighborhood in J⁺(Δ)/ρ(c) ≃ E₀ »; « Finally, the line ℝ₊* × c ⊂ M admits a spear neighborhood and is thus locally modeled on E₀. We can conclude following the same arguments as before to show the t coordinate is a Cauchy time function and that M is globally hyperbolic. » Built: spear neighbourhoods and E₀'s parametrisation D₀ (GX/BTZ/Spear.lean, GX/BTZ/Model.lean), the BTZ holonomy btzHol"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-surjective"
+title = "btz § 4.2, btzprop:surjective assembled, in the representation T-btz-headline-repr rules: the Cauchy-maximal extension of the constructed manifold (GX.E0CBG.e0_cbg) keeps its marking, its holonomy and its s lines, so every class of admissible representations is Hol ∘ Reg of a point of M_{g,s}(E₀)"
+stream = "gx"
+kind = "close"
+paper = "btz"
+labels = ["btzprop:surjective"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-btz-surj-spear", "T-btz-hol-map", "T-btz-headline-repr"]
+evidence = "BTZ_1.tex l.1250–1253: « The holonomy map M_{g,s}(E₀) → T T_{g,s} (Reg ∘ Hol) is surjective. » [r] The proof (l.1247–1248) ends with M globally hyperbolic, while M_{g,s}(E₀) consists of Cauchy-maximal manifolds; the passage through the Cauchy-maximal extension is not written, and the closer records it as a finding if it needs more than e0_cbg (GX/BTZ/CBG.lean:3495) and a Cauchy surface shared by M and its extension. Waits on the representation (T-btz-headline-repr) and on the map (T-btz-hol-map)"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-btz-gluing-dedupe"
+title = "lean-gx clean-up: one lemma for gluing E₀-manifolds along an open embedding whose transitions extend to E₀-morphisms, from which both GX.Ppcm.trans_emb (GX/BTZ/Ppcm.lean:235) and the four-case htrans of GX.E0AbsMax.exists_e0Pushout (GX/BTZ/AbsMax.lean:2977–3050) follow"
+stream = "gx"
+kind = "tooling"
+status = "ready"
+owner = "master"
+priority = 10
+package = "lean-gx"
+exclusive = true
+evidence = "T-btz-ppcm AUDIT-1 (minor), finding 2: « trans_emb repeats the four-case transition proof of E0AbsMax.exists_e0Pushout's htrans (GX/BTZ/AbsMax.lean:2977): cases id, φ, φ⁻¹, id through liftPropOn_congr_of_eqOn and an E0 extension ... When GX graduates, consider stating a generic 'gluing along an open embedding whose transitions extend to E0-morphisms' lemma once and deriving both glueMfd and E0Pushout from it. » The REPORT notes: « there is a second instance of the four-case transition proof (GX.Ppcm.trans_emb mirrors exists_e0Pushout's htrans) ... trans_emb was left as is (its duplication with exists_e0Pushout is noted for graduation) ». Both are strict now (Ppcm graduated in c1e4234), and T-btz-maximal-extension's union of a chain reuses the same machinery (REPORT kb: « Reuse it for any colimit of BTZ-extensions »), so a third copy is the risk. Behaviour-preserving: every exported name and type kept. Master, executed by a closer, as T-gx-btz-cleanup was; exclusive because it edits two strict files that the btz chain imports. Priority after the btz closers, so it does not hold lean-gx while they run"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-cheminsing-tidy"
+title = "BBS bbsrem:cheminsing, the audit's tidy-up of HSCheminsing.lean: the refutation instances not_cheminsing_lightlike_positive and not_cheminsing_spacelike_positive state the membership their proofs build (the ends condition, h the paper's γ_x^{±1} through wedgeIsom, b < a + 2, x in the region), a time-like instance of arc_wedge shows the elliptic branch of bbsrem_cheminsing_reading non-vacuous, and the top-level GX helpers (wedge_short, wedge_factor, wedge_bounds_of_timelike, exists_isWedgeLink, exists_linkLift_through, linkLift_eq_add, exists_mass_neg) move into a namespace"
+stream = "bbs"
+kind = "close"
+paper = "bbs"
+labels = ["bbsrem:cheminsing", "bbsrem:masspositive"]
+status = "ready"
+owner = "closer"
+priority = 9
+evidence = "T-bbs-cheminsing AUDIT-1 (minor), finding 1 (HSCheminsing.lean:1165–1173, 1201–1212): « The exported statements of the two explicit instances leave out what makes them members of the paper's family: the ends condition hends ..., b < a + 2, and membership of the region ... a reader of the refutation's statement alone cannot see that the gluing map is the paper's isometry. Fix: Add hends ... and b < a + 2 to both statements. They are already available from arc_wedge »; finding 2 (l.947): « No Lean term shows that the hypotheses hW and hends hold at a time-like x ∈ ℍ²₊ ... Optional: give a time-like instance of arc_wedge, for example x = [(1,0,0)] over arcP ». The helpers sit directly in namespace GX (HSCheminsing.lean:133, 226, 239, 247, 279, 294, 331), with names generic enough to clash when the HS layer graduates (T-bbs-hs-graduate). The not_ names are kept: restate.py reads them, and the restatement is registered blocked on OQ-144 by the curation, which waits for /restate to release papers/bbs (AUDIT-1 finding 3). Scaffold only; nothing else imports HSCheminsing"
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bbs-w4-externals"
+title = "BBS § 5, the classification of positive causal HS-surfaces: is its 2D topology (Poincaré–Hopf, Poincaré–Bendixson, the classification of compact surfaces) carried as named cited inputs?"
+stream = "bbs"
+kind = "author"
+status = "needs-ruling"
+owner = "author"
+priority = 8
+question = "For BBS § 5 (bbsprop:hypdegree0, bbscor:de_sitter_region_homeomorphic, bbscor:Lclosed, bbsprop:hyphyp, bbsthm:thierry; REVIEW §A rows 39–43): are Poincaré–Hopf (for the two isotropic line fields of a de Sitter region), Poincaré–Bendixson (for their leaves) and the classification of compact surfaces with boundary carried as named cited inputs, none of them built in lean-gx? Yes or no."
+evidence = "papers/bbs/REVIEW.md l.401, wave W4: « codim 3: the spherical junction (Troyanov stays external) and the HS² interaction classification (§5, Thm 5.6), with Poincaré–Hopf and Poincaré–Bendixson either built or named external | W2, W3 | 10k+, or externals »; l.302: « interactions, Theorem 5.6 (rows 38–43) | L2 + 2D | — | Poincaré–Hopf and Poincaré–Bendixson are not in mathlib | new, heavy »; rows 40–41 (l.107–108): « dS region is an annulus, disc or sphere, with ≤ 2 BTZ (Poincaré–Hopf) », « limit sets of isotropic leaves (Poincaré–Bendixson) ». colI_v1.tex l.2042–2046: « By assumption, T contains no CCC. Hence, according to Poincaré-Bendixson Theorem » (bbscor:Lclosed). Mathlib v4.31.0 has neither theorem (grep: only Cantor–Bendixson) and no classification of surfaces. The ledger rows are bucket D, blocked_on « wave W4 not built »; W2 and W3 are built (T-bbs-hcausal, T-bbs-positive-hs-surface) and T-bbs-positive-mass (ready) gives § 4.1's positive mass, which § 5 assumes. A yes lets the planner write § 5 as closer targets over those inputs; a no makes W4 a 2D-topology campaign of its own"
+added = "2026-11-28"
 proposed_by = "roadmap-planner"

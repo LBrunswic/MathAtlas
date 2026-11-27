@@ -999,3 +999,17 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - New questions for the author: OQ-150 (btz § 5.3 and § 2 readings: connected M; how to report a row on a named cited input; « isometries »), OQ-151 (bbs: the cheminsing evidence for OQ-144).
 - btz now: every row anchored in Lean through § 5 (pgcd, ppcm, the maximal extension), all partial until T-btz-scope.
 - next: T-bbs-positive-mass (lean-gx); a planning run for the btz Cauchy-conservation chain and the remaining queues.
+
+## 2026-11-28 02:20 · plan · roadmap-planner (rule 2)
+- 14 targets added, 2 promoted, 4 refined (roadmap check: 259 targets).
+  - Promoted: T-btz-common-reg, T-btz-cauchy-spear (neither needs RichardsInput).
+  - RegCompleteLength's last sorry: T-btz-length-compare (ready) → T-btz-reg-complete-tail (planned).
+  - RichardsInput: T-btz-line-structure (ready; sing₀ closed, each line an (ℝ,ℝ)-translation structure, second countable) → T-btz-richards-split (planned; the input shrinks to « countably many lines »).
+  - Headline split: T-btz-admissible (ready), T-btz-hol-map, T-btz-surj-develop, T-btz-surj-spear, T-btz-surjective (planned); T-btz-headline keeps the assembly.
+  - Clean-ups: T-btz-reg-complete-graduate (planned), T-btz-gluing-dedupe (ready, p10), T-bbs-cheminsing-tidy (ready).
+  - Questions as needs-ruling targets: T-btz-headline-repr, T-bbs-w4-externals.
+- Outside btz, lean-gx is nearly exhausted for /atlas-team: everything else waits on T-bbs-q8, OQ-139, OQ-144/151 or T-bbs-w4-externals.
+- Rulings that block the most rows: T-btz-scope (55 btz), OQ-34 (37 ett), OQ-35 (35), T-bbs-q8 (34 bbs), OQ-18 (31), OQ-82 (30), OQ-93 (21), T-perf-scope (8), OQ-142 (7), OQ-150 (6).
+- New questions for the author: T-btz-headline-repr (the Teichmüller and moduli readings of btzthm:princ, with Goldman–Troyanov–Hulin a named cited input), T-bbs-w4-externals (Poincaré–Hopf, Poincaré–Bendixson and the classification of compact surfaces with boundary as named cited inputs for BBS § 5).
+- gates: roadmap ✓, atlas ✓
+- next: T-btz-length-compare, T-btz-common-reg, T-btz-cauchy-spear (lean-gx), with the builder for lean-gx after the wave.
