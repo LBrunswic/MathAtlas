@@ -1,0 +1,47 @@
+{
+  "target": "T-bz-c3-facette-duale",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzprop:c3s4p4_orthogonalite_facettes",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop4_orthogonalite: IsConvexPart W (= KS, K(S(n)), Projective/Convex.lean:521; the target block's 'CS' is a planner slip, and CS would only be stronger), AlphaK W m m', AlphaK (D W) p p', OrthPts m p => OrthPts m' p'. Exactly the paper. The proof goes through alphaW_iff_extend on kPrime W and the dual-cone inequality: no half-line, no prop1_coneAppui, no coneAppui. OQ-162 (a) / OQ-164 (a) do not touch it. The symmetric half needs only m' in W (AlphaK.mem_right), not the bidual; the finding is correct."
+    },
+    {
+      "label": "bzdef:c3s4d4_orthogonalite_facettes",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "OrthFacettes F F' := for all m in F, m' in F', OrthPts m m'. This is the paper's definition, stated for every pair of parts, so it is more general. The remark l.1028-1029 (orthFacettes_of_exists) carries IsFacetteK W F and IsFacetteK (D W) F' and goes through Prop. 4 via FK = facetteK membership. Instance def4_instance (quarter arc, {a} and {b}) is real: a0=(1,0), b1=(0,1)."
+    },
+    {
+      "label": "bzprop:c3s4p5_orthogonalite_alpha",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop5_orthogonalite: four IsFacetteK, FacetteKLE W F1 F2, FacetteKLE (D W) F1' F2', OrthFacettes F1 F1' => OrthFacettes F2 F2'. Faithful. It uses the library's facette alpha (FacetteKLE) and facetteKLE_iff_forall, then Prop. 4. Convention-free."
+    },
+    {
+      "label": "bzprop:c3s4p6_facette_duale",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked and partial, disclosed in the docstring, SCOPE and REPORT. prop6_facetteDuale proves: D(W_a) = D(W_b) on F; for each a in F, exists unique G with IsFacetteKExt (D W) G and closure G = D(W_a); and facetteDuale W F is that G. IsFacetteKExt = IsFacetteK or (G = emptyset and noyau empty) (isFacetteKExt_iff), the convention of l.289-290, which I checked in the transcription. The refutation of the genuine-facette reading is real. W = closed quarter arc of S(1), c = s(1,1), facette of c = the open arc. W_c is the least convex part containing W and -c, and the cone on (1,0),(0,1),(-1,-1) is all of R^2, so W_c = S(1). Then D(W_c) = {m in D(W) = W : m0 + m1 = 0} = emptyset (D_coneAppui_c1), and no nonempty facette has empty closure. The printed proof's 'point interieur a'' also presupposes D(W_a) nonempty. prop6_facetteDuale_of_nonempty gives the genuine-facette form exactly when D(W_a) is nonempty. Convention check: coneAppui is Def. 1 (the least convex part, ConeAppui.lean:122), not the half-line Def. 1'. The proofs use prop3_coneAppui and prop2_coneAppui through mk_mem_D_coneAppui_iff / F_coneAppui_union_zero, which are half-line-free. The a in W that Prop. 3 needs (OQ-164 (b)) is supplied by hF.subset ha. No use of prop1_coneAppui (OQ-164 (a)) or of Def. 1' (OQ-162 (a)). Instances: facetteDuale_a0 (D({a}) = {b}) and facetteDuale_vertex0 (simplex of S(n+1); for n=1 the triangle of S(2): D(vertex) = the opposite open edge, a genuine facette, orthogonal). Both are non-vacuous."
+    },
+    {
+      "label": "bzprop:c3s4p7_facette_duale_minimale",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "prop7_facetteDuale: IsConvexPart W, IsFacetteK W F, IsFacetteK (D W) F', OrthFacettes F F' => FacetteKLE (D W) (facetteDuale W F) F'. The claim 'holds under either reading of Prop. 6' is correct. F' is nonempty and contained in D(W_a) (mem_D_coneAppui_of_orthFacettes, via Prop. 3 with a in W supplied), so D(W_a) is nonempty. facetteDuale is then the genuine facette of the alpha-least point a' (facetteDuale_eq_facetteK, uniqueness among extended facettes), and a' alpha(D W) p for p in F'. So the conclusion is the same object under both readings. The commentary l.1063-1066 is proved: orthFacettes_facetteDuale and subset_closure_facetteDuale. One remaining case is not covered (see the minor finding): F' itself taken as the extended facette emptyset. Convention-free as for Prop. 6."
+    }
+  ],
+  "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+  "build_notes": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/FacetteDuale.lean: exit 0, no output. The olean (07:36:51) is newer than the source (07:36:18). grep finds one 'sorry' token, in the SCOPE prose (l.108), and none in code. A one-shot probe (#print axioms on 27 declarations, every one the REPORT names under the labels and instances) gave [propext, Classical.choice, Quot.sound] for each; the probe is deleted. Scope: the closer's footprint is FacetteDuale.lean, one import line in scaffold/BenzecriScaffold.lean (the other two import lines in that diff belong to the BooleAffine / ProprietesIII targets), and this campaign directory. The other dirty paths in git status predate this target and belong to other loops. The docstring contract (CAMPAIGN.md 'What you write') is met: labels with tex lines in the first 4000 characters, French quote block, Hypothesis checklist, SCOPE, provenance line. Each checklist row is true.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/FacetteDuale.lean:119-120 (SCOPE, Prop. 7)",
+      "what": "SCOPE says Prop. 7 'holds under every reading of « facette » in Prop. 6'. That is true for the reading of D(F). But if the extended reading (facette emptyset of dimension -1) is also applied to F' in Prop. 7, the case F' = emptyset (possible when the noyau of D(W) is empty) is not covered. There, <F, emptyset> = 0 holds vacuously, and FacetteKLE (D W) _ emptyset is false as defined on points. In the lifted sense on kPrime it would hold, since every B alpha-precedes O in a cone. The statement takes F' as a genuine facette (IsFacetteK), which is the natural reading of 'une facette de D(W)' in Prop. 7, so this is not Lean < paper. The disclosure just does not say it.",
+      "fix": "Add one SCOPE sentence: Prop. 7 is stated for genuine facettes F' (IsFacetteK); with F' = the extended facette emptyset, the relation D(F) alpha emptyset is meaningful only in the lifted sense on F(D(W)) u {O}, where it holds trivially. No change to the statement is needed."
+    }
+  ]
+}

@@ -63,3 +63,6 @@ import Benzecri.Chapter3.ProprieteIAppui
 import Benzecri.Chapter3.AppuiSphere
 import Benzecri.Chapter3.Conjugues
 import Benzecri.Chapter3.HyperplanSeparant
+import Benzecri.Chapter3.BooleAffine
+import Benzecri.Chapter3.FacetteDuale
+import Benzecri.Chapter3.ProprietesIII

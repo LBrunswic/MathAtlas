@@ -1,0 +1,112 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-facette-duale",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/FacetteDuale.lean"],
+  "import_line_added": "scaffold/BenzecriScaffold.lean: import BenzecriScaffold.Chapter3.FacetteDuale",
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bzprop:c3s4p4_orthogonalite_facettes",
+      "tex_lines": [998, 1012],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.prop4_orthogonalite", "Benzecri.Sphere.orthPts_of_alphaK_left", "Benzecri.Sphere.orthPts_of_alphaK_right"],
+      "hypotheses": [
+        {"paper": "W (§ 4 standing, W ∈ K(S(n)))", "here": "carried", "note": "IsConvexPart W; no closedness used"},
+        {"paper": "m α(W) m'; p α(D(W)) p'; ⟨m, p⟩ = 0", "here": "carried", "note": "AlphaK W, AlphaK (D (dotPairing n) W), OrthPts"}
+      ],
+      "sorries": [],
+      "findings": ["The « par raison de symétrie » of the proof (l.1009) needs no bidual D'(D(W)) = W̄: both halves are the same duality inequality (orthPts_of_alphaK_left, orthPts_of_alphaK_right), so Prop. 4 holds for every convex W, closed or not."],
+      "questions": []
+    },
+    {
+      "label": "bzdef:c3s4d4_orthogonalite_facettes",
+      "tex_lines": [1020, 1029],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.OrthFacettes", "Benzecri.Sphere.orthFacettes_of_exists"],
+      "hypotheses": [
+        {"paper": "F une facette de W, F' une facette de D(W)", "here": "carried", "note": "the definition is stated for all parts; the remark l.1028–1029 carries IsFacetteK W F and IsFacetteK (D W) F'"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s4p5_orthogonalite_alpha",
+      "tex_lines": [1032, 1044],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.prop5_orthogonalite"],
+      "hypotheses": [
+        {"paper": "F₁ α(W) F₂; F′₁ α(D(W)) F′₂; ⟨F₁, F′₁⟩ = 0", "here": "carried", "note": "FacetteKLE (§ 1 Déf. 4 on S(E)) and OrthFacettes"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s4p6_facette_duale",
+      "tex_lines": [1046, 1054],
+      "status": "partial",
+      "marked": false,
+      "decls": ["Benzecri.Sphere.prop6_facetteDuale", "Benzecri.Sphere.facetteDuale", "Benzecri.Sphere.facetteDuale_spec", "Benzecri.Sphere.prop6_facetteDuale_of_nonempty", "Benzecri.Sphere.facetteDuale_eq_facetteK", "Benzecri.Sphere.existsUnique_facetteKExt_closure", "Benzecri.Sphere.exists_facetteK_closure_eq_D_coneAppui", "Benzecri.Sphere.D_coneAppui_eq_of_fk", "Benzecri.FacetteDualeInstance.prop6_needs_extended_facette"],
+      "hypotheses": [
+        {"paper": "W ∈ K(S(n))", "here": "carried", "note": "IsConvexPart W (no closedness)"},
+        {"paper": "F une facette de W, a ∈ F", "here": "carried", "note": "IsFacetteK W F, ∀ a ∈ F"},
+        {"paper": "une facette de D(W)", "here": "reading", "note": "extended sense of § 1 l.289–290 (IsFacetteKExt: ∅ is the facette of dimension −1 when the noyau is empty); genuine facettes exactly when D(W_a) ≠ ∅"},
+        {"paper": "qui ne dépend pas du choix de a", "here": "carried", "note": "D(W_a) = D(W_b) for a, b ∈ F, one G for all a ∈ F, and G unique (∃!)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 6 (l.1046–1049) is imprecise for the facettes of § 1 Déf. 4, which are nonempty: D(W_a) is empty whenever W_a = S(n), e.g. W = S(n), or W the closed quarter arc of S(1) and a its midpoint (F the open arc, D(W) = W ≠ ∅, D(W_a) = ∅): no facette of D(W) has closure ∅ (FacetteDualeInstance.prop6_needs_extended_facette). It holds in full when « facette » includes the facette ∅ of dimension −1 that l.289–290 introduces when the noyau is empty: D(W_a) = ∅ forces the noyau of D(W) to be empty (noyau_D_subset_D_coneAppui), and then 𝒟(F) = ∅ (prop6_facetteDuale). With genuine facettes it holds exactly when D(W_a) ≠ ∅ (prop6_facetteDuale_of_nonempty).",
+        "The proof's point a′ « intérieur au convexe D(W_a) muni de la topologie induite par celle de son support » exists only when D(W_a) ≠ ∅; it is formalized as an α(D(W_a))-least point (exists_alphaK_least) and 𝒟(F) is its facette (facetteDuale_eq_facetteK), as printed."
+      ],
+      "questions": [
+        "Does « une facette de D(W) » in Prop. 6 include the facette ∅ of dimension −1 of l.289–290 (the dual facette of an « interior » facette F, e.g. the open facette of a convex body)? Reading taken: yes (IsFacetteKExt), which makes Prop. 6 true for every facette F; Prop. 8 (𝒟∘𝒟∘𝒟 = 𝒟, applied to every facette) seems to need it. Left unmarked pending the author's ruling."
+      ]
+    },
+    {
+      "label": "bzprop:c3s4p7_facette_duale_minimale",
+      "tex_lines": [1056, 1066],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.Sphere.prop7_facetteDuale", "Benzecri.Sphere.orthFacettes_facetteDuale", "Benzecri.Sphere.subset_closure_facetteDuale"],
+      "hypotheses": [
+        {"paper": "F une facette de W, F′ une facette de D(W), ⟨F, F′⟩ = 0", "here": "carried", "note": "IsFacetteK W F, IsFacetteK (D W) F′, OrthFacettes F F′; W convex"}
+      ],
+      "sorries": [],
+      "findings": ["No proof is printed (l.1062); proved: F′ ⊆ D(W_a), so D(W_a) ≠ ∅ and 𝒟(F) is the facette of an α-least point a′ of D(W_a), with a′ α(D(W)) p′ for every p′ ∈ F′. The hypothesis forces the nonempty case of Prop. 6, so Prop. 7 holds under either reading of « facette » there. The commentary l.1063–1066 is proved too: ⟨F, 𝒟(F)⟩ = 0 (orthFacettes_facetteDuale) and closure 𝒟(F) ⊇ F′ (subset_closure_facetteDuale)."],
+      "questions": []
+    }
+  ],
+  "instances": [
+    "S(1), the closed quarter arc W = [a, b] (self-dual, D_arcS1): def4_instance (⟨{a}, {b}⟩ = 0, {a} a facette of W, {b} one of D(W)); facetteDuale_a0 (𝒟({a}) = {b}); prop6_needs_extended_facette (the open arc F: D(W_c) = ∅, 𝒟(F) = ∅).",
+    "S(2), the closed triangle T (simplexS (n+1) for every n; n = 1 is the triangle): D_simplexS (D(T) = T), facetteK_vertex0 / isFacetteK_vertex0 (a vertex is a facette), mk_mem_facetteK_oppVec (the opposite open edge {s(v) | v₀ = 0, vᵢ > 0} is a facette), facetteDuale_vertex0 (𝒟({s(e₀)}) = the opposite open edge, a facette of D(T), and ⟨{s(e₀)}, 𝒟({s(e₀)})⟩ = 0)."
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.alphaW_mono",
+    "Benzecri.Sphere.kPrime_mono",
+    "Benzecri.Sphere.alphaK_mono",
+    "Benzecri.Sphere.isClosed_linearSubvariety_S",
+    "Benzecri.Sphere.alphaK_of_mem_closure",
+    "Benzecri.Sphere.exists_alphaK_least",
+    "Benzecri.Sphere.subset_closure_facetteK",
+    "Benzecri.Sphere.isClosed_D_dot",
+    "Benzecri.Sphere.noyau_D_subset_D_coneAppui",
+    "Benzecri.Sphere.dot_nonneg_of_mem_kPrime_D",
+    "Benzecri.Sphere.dot_nonneg_of_mem_kPrime_D'",
+    "Benzecri.Sphere.mem_D_coneAppui_of_orthFacettes",
+    "Benzecri.FacetteDualeInstance.alphaW_orthant_iff",
+    "Benzecri.FacetteDualeInstance.alphaK_simplexS_iff"
+  ],
+  "kb_proposals": [
+    "Chapter3/FacetteDuale: a nonempty convex part C of S(n) has an α(C)-least point (exists_alphaK_least, from the strict exists_facette_support_eq on kPrime C; replace a least 0 by any nonzero point, which is α-below 0); its facette in any convex K ⊇ C has closure ⊇ C (subset_closure_facetteK, the path s((1−t)A′ + tB), t → 1⁻).",
+    "Points of f̄ ∩ K are α-below a facette f of K on S(n) (alphaK_of_mem_closure): the support supportK f is closed (isClosed_linearSubvariety_S) and the strict alphaK_iff_mem_supportK does the rest; this gives uniqueness of a facette with a given closure.",
+    "§ 4 Props. 4–7 on S(n) need only the duality inequality (prop2-style), never D′∘D = closure; and α of the positive orthant is « every coordinate vanishing at A vanishes at B » (alphaW_orthant_iff), a cheap source of facette computations on simplices.",
+    "Benzécri's 𝒟(F) needs the facette ∅ of dimension −1 (IsFacetteKExt, l.289–290) whenever D(W_a) = ∅; the dual of the interior facette of the quarter arc is ∅."
+  ],
+  "notes": "Only the new file and one import line in scaffold/BenzecriScaffold.lean were written. lake build BenzecriScaffold.Chapter3.FacetteDuale rebuilt only this module. Imports: strict Benzecri.Chapter3.ConeAppuiAlpha and Benzecri.Chapter3.AppuiSphere (for IsFacetteKExt). W is IsConvexPart throughout (K(S(n))); closedness of W is never used. Prop. 6 is left unmarked on the reading of « facette » (question above); Props. 4, 5, 7 and Déf. 4 are marked."
+}
