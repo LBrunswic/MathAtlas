@@ -49,3 +49,5 @@ import Benzecri.Applications.ResultB
 import Benzecri.Chapter3.Facettes
 import Benzecri.Chapter3.Sommes
 import Benzecri.Chapter3.Dualite
+import Benzecri.Chapter3.ConeAppui
+import Benzecri.Chapter3.ProprieteI

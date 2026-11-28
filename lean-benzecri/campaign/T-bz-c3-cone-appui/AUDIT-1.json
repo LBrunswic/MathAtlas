@@ -1,0 +1,53 @@
+{
+  "target": "T-bz-c3-cone-appui",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzdef:c3s4d1_cone_appui",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "coneAppui W a := ⋂₀ {k | IsConvexPart k ∧ W ⊆ k ∧ -a ∈ k}; isLeast_coneAppui proves it is the least convex part containing W and a′, for every W and a (a generalisation of W ∈ K(S(E)), a ∈ W; K(S(E)) = all convex parts, ch1 l.271–272). IsConvexPart is the library's Déf. 8 under DEC-120. Lean ≥ paper."
+    },
+    {
+      "label": "bzdef:c3s4d1primeprime_cone_appui_vecteurs",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "F_coneAppui_union_zero: for IsConvexPart W, a ∈ W, IsRep A a (A ≠ 0, s(A) = a, so A ∈ F(W)), F(W_a) ∪ {0} = {M | ∃ λ, ∃ P ∈ F W, M = λA + P}. These are exactly the paper's hypotheses and conclusion, for any such A. Proved from Déf. 1 through coneAppui_eq_ofCone."
+    },
+    {
+      "label": "bzdef:c3s4d1prime_cone_appui_demi_droites",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked, partial: honest. Formalization of the union (IsDemiDroiteJoignant, demiDroitesW, demiDroitesFermeesW, with the condition ∃ b ∈ h, b ∈ W, b ≠ a, b ≠ a′) is faithful in both readings. The true forms (coneAppui_diff_eq_demiDroitesW, coneAppui_eq_insert_demiDroitesW: W_a = {a, a′} ∪ open half-lines, always; coneAppui_eq_demiDroitesFermeesW_iff: closed reading holds iff W ⊄ {a, a′}) are correct and the right characterisation. The closed reading is the one the paper's own wording requires: « rencontrent W en un point distinct des extrémités a et a′ » speaks of the half-lines' extremities and excludes them as meeting points, which is redundant unless the half-lines contain them. Ch. 1 Déf. 4 Exemples (ch1 l.195–196, « Deux points diamétralement opposés divisent une droite en deux demi-droites ») does not say whether the half-lines contain their ends; « open, not containing them » is the library's halfLine convention (Subvariety.lean:667), not something Chapter 1 states. So the 'false for every W' result is an artefact of the open reading; the genuine failure is the degenerate one, W ⊆ {a, a′} (W = {a} and W = {a, a′} are both in K(S(E)): F ∪ {O} is a closed ray resp. a line, convex), and the dimension-1 case. not_def1prime_closed is a justified (degenerate) refutation; not_def1prime_open is a true Lean theorem but not a refutation of the paper. See findings."
+    },
+    {
+      "label": "bzdef:c3s4d2_contingent",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "contingent W a := closure (coneAppui W a) in the quotient topology of S(E), defined for every W, a (paper: W closed convex, a ∈ W): Lean ≥ paper. Extras isClosed_contingent, isConvexPart_contingent (under IsTopologicalAddGroup, ContinuousSMul, T1Space), isLeast_contingent are correct statements."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "lake env lean scaffold/BenzecriScaffold/Chapter3/ConeAppui.lean (from lean-benzecri/, taskset -c 0-11): no output, exit 0. grep -c sorry = 0. #print axioms on a source copy under the campaign dir (deleted afterwards) for 32 declarations, every one the REPORT names plus the instance ones: [propext, Classical.choice, Quot.sound] for all. Instance on S(1) checked: arcS1 = closedSeg s(e0) s(e1) is a genuine quarter arc, convex (isConvexPart_closedSeg), a0 ∈ arcS1; coneAppui_arcS1 / contingent_arcS1 = closedHemisphere {x₁ ≥ 0} (mathematically right: s({αe0 + βe1, β ≥ 0} − {O})); arcS1_ne_coneAppui and def1prime_closed_arcS1 show non-degeneracy and the closed reading holding there. Real proofs, non-vacuous."
+  },
+  "scope": "git status: the dispatched files are ConeAppui.lean (untracked under Chapter3/) and the import line in BenzecriScaffold.lean; that file also carries the import of Chapter3.ProprieteI, which is the other closer's line, not this target's. The other modified paths (papers/*/certificate/restatements.toml, RESTATED.md, restate/CHECK-*.json, roadmap/roadmap.toml) belong to other loops (/restate, the master session) and are not attributable to this closer. No out-of-scope edit by this closer found.",
+  "docstring_contract": "Title, the three marked labels and the unmarked one each with benzecri1960_ch3.tex:LINE (881, 894, 889, 901, all correct) within the first 4000 characters, French quote block matching the transcription, Hypothesis checklist, SCOPE (disclosed), provenance line: present. Content true, except the framing of Déf. 1′ noted in the finding.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/ConeAppui.lean:22-31, 82-85, 371-373, 435-443; REPORT.json labels[2].findings[0]",
+      "what": "The Déf. 1′ finding is overstated and attributes a convention to Chapter 1 that Chapter 1 does not state. The docstring says Déf. 1′ is « false as printed » and takes the open half-line reading as « Chapter 1's (Déf. 4, Exemples: open, … not containing them) », so W_a ≠ the union « for EVERY W and a » (coneAppui_ne_demiDroitesW, not_def1prime_open). Ch. 1 l.195–196 only says two antipodal points divide a line into two half-lines, and Ch. 3 l.890–891's « distinct des extrémités a et a′ » only makes sense if the half-lines contain their ends. In the closed reading, which the text requires, Déf. 1′ holds for every convex W ∋ a except the degenerate W ⊆ {a, a′} (coneAppui_eq_demiDroitesFermeesW_iff). The 'every W' failure comes from choosing the open reading, not from an error in the paper. The headline claim (Déf. 1′ is not valid for all W ∈ K(S(E)), a ∈ W) is still true, through not_def1prime_closed, so this is not a false finding. But /restate keys on the not_ prefix and on 'false as printed', so it would pass the author a refutation that says more than the paper's error is.",
+      "fix": "Change the wording to « imprecise: with closed half-lines (the reading forced by « distinct des extrémités »), Déf. 1′ holds iff W ⊄ {a, a′}; it fails only in the degenerate cases W = {a}, W = {a, a′} (and dim E = 1) ». Drop the claim that Chapter 1 fixes open half-lines (say it is the library's halfLine convention). Rename not_def1prime_open to a non-refutation name (e.g. coneAppui_ne_openHalfLines_union, or remove it, since coneAppui_ne_demiDroitesW already says the same) so /restate records only not_def1prime_closed, described as a degenerate-case refutation. Keep the unmarked/partial status and the corrected form W_a = {a, a′} ∪ ⋃ open half-lines."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-benzecri/scaffold/BenzecriScaffold/Chapter3/ConeAppui.lean:435-436",
+      "what": "The docstring of not_def1prime_open says « there is a convex W ∋ a with W_a not the union », which understates what coneAppui_ne_demiDroitesW proves (every W) while still presenting it as a refutation of the printed form. It is internally inconsistent with the module docstring.",
+      "fix": "Handled by the rename or removal above."
+    }
+  ]
+}

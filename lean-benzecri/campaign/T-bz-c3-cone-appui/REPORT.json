@@ -1,0 +1,182 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-cone-appui",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/ConeAppui.lean"
+  ],
+  "import_lines_added": [
+    "scaffold/BenzecriScaffold.lean: import BenzecriScaffold.Chapter3.ConeAppui"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "every listed decl: [propext, Classical.choice, Quot.sound]; no axiom added",
+  "labels": [
+    {
+      "label": "bzdef:c3s4d1_cone_appui",
+      "tex_lines": [
+        881,
+        885
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.coneAppui",
+        "Benzecri.Sphere.isLeast_coneAppui",
+        "Benzecri.Sphere.isConvexPart_sInter"
+      ],
+      "hypotheses": [
+        {
+          "paper": "E un espace vectoriel",
+          "here": "carried",
+          "note": "real, any dimension, no topology"
+        },
+        {
+          "paper": "W ∈ K(S(E)), a ∈ W",
+          "here": "generalised",
+          "note": "W_a is defined and is the least convex part containing W and a′ for every W, a; convexity of W and a ∈ W are used only by Déf. 1′ and 1″"
+        },
+        {
+          "paper": "le plus petit convexe de S(E)",
+          "here": "carried",
+          "note": "IsLeast among IsConvexPart (Déf. 8, DEC-120 ∪ reading) parts containing W and -a"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzdef:c3s4d1primeprime_cone_appui_vecteurs",
+      "tex_lines": [
+        894,
+        899
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.F_coneAppui_union_zero",
+        "Benzecri.Sphere.coneAppui_eq_ofCone",
+        "Benzecri.Sphere.coneAppuiVec"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W ∈ K(S(E)), a ∈ W (from Déf. 1)",
+          "here": "carried",
+          "note": "IsConvexPart W, a ∈ W"
+        },
+        {
+          "paper": "A un point de F(W) se projetant sur W suivant a",
+          "here": "carried",
+          "note": "IsRep A a (A ≠ 0, s(A) = a) with a ∈ W, any such A"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzdef:c3s4d1prime_cone_appui_demi_droites",
+      "tex_lines": [
+        889,
+        892
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.IsDemiDroiteJoignant",
+        "Benzecri.Sphere.demiDroitesW",
+        "Benzecri.Sphere.demiDroitesFermeesW",
+        "Benzecri.Sphere.coneAppui_diff_eq_demiDroitesW",
+        "Benzecri.Sphere.coneAppui_eq_insert_demiDroitesW",
+        "Benzecri.Sphere.coneAppui_ne_demiDroitesW",
+        "Benzecri.Sphere.coneAppui_eq_demiDroitesFermeesW_iff",
+        "Benzecri.Sphere.coneAppui_singleton",
+        "Benzecri.Sphere.demiDroitesW_singleton",
+        "Benzecri.Sphere.demiDroitesFermeesW_singleton",
+        "Benzecri.Sphere.not_def1prime_closed",
+        "Benzecri.Sphere.IsDemiDroiteJoignant.notMem"
+      ],
+      "hypotheses": [
+        {
+          "paper": "demi-droites de S(E) qui joignent a à a′",
+          "here": "carried",
+          "note": "Chapter 1 Déf. 4 Exemples (ch1 l.195–196) only says two antipodal points divide a line into two half-lines; taken: closed half-lines (ends a, a′ included, demiDroitesFermeesW), the reading « distinct des extrémités a et a′ » implies; the library's open halfLine convention (demiDroitesW) also treated"
+        },
+        {
+          "paper": "rencontrent W en un point distinct des extrémités a et a′",
+          "here": "carried",
+          "note": "∃ b ∈ h, b ∈ W ∧ b ≠ a ∧ b ≠ -a"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Déf. 1′ (benzecri1960_ch3.tex:889–892) is imprecise. With closed half-lines (the reading forced by « en un point distinct des extrémités a et a′ », l.890–891), W_a is the union iff W ⊄ {a, a′} (coneAppui_eq_demiDroitesFermeesW_iff): it fails only in the degenerate cases W = {a} and W = {a, a′} (both in K(S(E)); e.g. always when dim E = 1). For W = {a}, Déf. 1 gives W_a = {a, a′} (coneAppui_singleton) while the union is empty (demiDroitesFermeesW_singleton); degenerate-case refutation not_def1prime_closed, every nonzero E.",
+        "Corrected form, valid with no exception (W convex, a ∈ W): W_a = {a, a′} ∪ ⋃ open half-lines (coneAppui_eq_insert_demiDroitesW; coneAppui_diff_eq_demiDroitesW). With the library's open halfLine convention the union alone never contains a′ (coneAppui_ne_demiDroitesW), a fact about that convention, not an error of the paper."
+      ],
+      "questions": [
+        "« demi-droite » in Déf. 1′: Chapter 1 does not say whether a half-line contains its ends. Reading taken: closed (ends included), as « distinct des extrémités » implies; under it Déf. 1′ holds iff W ⊄ {a, a′}. The open reading is formalized too."
+      ]
+    },
+    {
+      "label": "bzdef:c3s4d2_contingent",
+      "tex_lines": [
+        901,
+        904
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.Sphere.contingent",
+        "Benzecri.Sphere.isClosed_contingent",
+        "Benzecri.Sphere.coneAppui_subset_contingent",
+        "Benzecri.Sphere.isConvexPart_contingent",
+        "Benzecri.Sphere.isLeast_contingent",
+        "Benzecri.Sphere.IsConvexPart.closure"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un convexe fermé W, un de ses points a",
+          "here": "generalised",
+          "note": "contingent W a := closure (coneAppui W a) for every W, a; closedness of W never used"
+        },
+        {
+          "paper": "la fermeture",
+          "here": "carried",
+          "note": "closure in the quotient topology of S(E) (lean-benzecri's Sphere topology); its convexity under [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [T1Space E]"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    }
+  ],
+  "instances": [
+    "Benzecri.ConeAppuiInstance.coneAppui_arcS1: on S(1) = S(ℝ²), W = arcS1 = closedSeg (s e₀) (s e₁) (a closed quarter arc, a convex part: isConvexPart_arcS1), a = s e₀ an endpoint (a0_mem_arcS1): W_a = closedHemisphere {x₁ ≥ 0}",
+    "Benzecri.ConeAppuiInstance.contingent_arcS1: its contingent is the same closed hemisphere",
+    "Benzecri.ConeAppuiInstance.arcS1_ne_coneAppui: W ≠ W_a (non-degenerate: a′ ∉ W)",
+    "Benzecri.ConeAppuiInstance.def1prime_closed_arcS1: Déf. 1′ (closed half-lines) holds there",
+    "Benzecri.Sphere.coneAppui_closedSeg: in general, for A, B independent, W_a of the arc [s A, s B] at s A is s({αA + βB | β ≥ 0} − {O})",
+    "Degenerate: Benzecri.Sphere.coneAppui_singleton (W = {a}: W_a = {a, a′})"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.isConvexPart_sInter",
+    "Benzecri.Sphere.isConvexPart_closedSeg",
+    "Benzecri.Sphere.posHull",
+    "Benzecri.Sphere.isConvexPart_singleton_pt",
+    "Benzecri.Sphere.IsConvexPart.closure",
+    "Benzecri.Sphere.mk_smul_eq_or",
+    "Benzecri.Sphere.linearIndependent_of_mem_F",
+    "Benzecri.Sphere.isPosCone_coneAppuiVec",
+    "Benzecri.Sphere.self_mem_coneAppuiVec",
+    "Benzecri.Sphere.convex_coneAppuiVec",
+    "Benzecri.Sphere.coneAppui_closedSeg"
+  ],
+  "kb_proposals": [
+    "Chapter3/ConeAppui: W_a is ofCone {λA + P | P ∈ F W} (coneAppui_eq_ofCone); prove facts about W_a through it, and Déf. 1′ through coneAppui_eq_insert_demiDroitesW (W_a = {a, a′} ∪ open half-lines), not the printed Déf. 1′, which is false at the ends. Prop. 1 of § 4 (b′ ∈ W_a, W_b ⊆ W_a) should import this module.",
+    "Convex parts of S(E) are stable under ⋂₀ in one line through isConvexPart_iff_isSegConvex (isConvexPart_sInter); a closed segment, antipodal ends included, is a convex part (isConvexPart_closedSeg); the closure of a convex part is one (IsConvexPart.closure, via F_closure and closure_singleton).",
+    "Inside `theorem IsConvexPart.closure`, the bare name `closure` resolves to the theorem itself in the proof: write `_root_.closure`."
+  ],
+  "notes": "Imports Benzecri.Projective.Convex, Benzecri.Chapter2.CrossRatio (IsRep, linearIndependent_of_ne), Benzecri.Chapter2.Poches (F_closure); not Chapter3.Dualite. isConvexPart_singleton_pt duplicates Dualite's isConvexPart_singleton (different statement shape, no name clash). Déf. 1′ is unmarked (partial, finding); Déf. 1, 1″, 2 are marked. Independent of OQ-160 (the transcription of p. 272 was checked against the scan, PDF p. 45: it matches). lake build BenzecriScaffold.Chapter3.ConeAppui green, rebuilt only this module.",
+  "fix_round": 1,
+  "fix_notes": "AUDIT-1 (minor) applied: Déf. 1′ finding reworded « imprecise »; claim that Chapter 1 fixes open half-lines dropped (docstring module header, checklist, SCOPE, IsDemiDroiteJoignant); not_def1prime_open deleted (coneAppui_ne_demiDroitesW already states the open-convention fact, its docstring no longer calls it a refutation); not_def1prime_closed kept, docstring « there is a convex W ∋ a ». Déf. 1′ stays partial, unmarked. lake env lean clean, lake build BenzecriScaffold.Chapter3.ConeAppui green, 0 sorry."
+}
