@@ -1,0 +1,39 @@
+{
+ "target": "T-btz-trace-development",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "btzthm:BTZ_Cauchy-completness",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Unmarked (docstring l.9 names the label without **), and the REPORT row is partial. That is right: this is one step of the proof (the input to lem:surface_complete at BTZ_1.tex:1601), not the theorem. I read the statements against the paper and against the strict GX.E0BluntSpear.lem_blunt_spear (GX/BTZ/BluntSpear.lean:1049). (1) trace_spacelikeDevelopment carries the target's setting as printed. Two hypotheses are unused, InjOn psi W and Sig Cauchy; both are disclosed as weakened, and both are carried only where lem_blunt_spear needs them. One hypothesis is added, hpos : v + |z|/2 < tauS z. It is necessary: hgraph is an iff on bspear v R = {v <= fcoord}, so without hpos the point (tauS z, z) need not lie in the spear, and tauS need not be the trace there. It is also justified: lem_blunt_spear returns v + R'/2 < tauS z, which implies hpos for |z| <= R', and lem_blunt_spear_trace (l.654) derives it that way. It is disclosed in the checklist and in REPORT.hypotheses. The conclusion is a conjunction: periodicity, an embedding of the closed strip, local spacelike-Lipschitz charts at every r < R, and SpacelikeDevelopment (openGraphDev ...). Nothing in it is vacuous. (2) trace_spacelikeDevelopment_openStrip states SpacelikeDevelopment (graphDevOn (traceFun tauS) (openStrip R)). That is exactly hF of the scaffold lem_surface_complete_two_lipOn (C1SpacelikeDevLip.lean:452) with Omega = openStrip R. (3) trace_tendsto_atTop applies that lemma for 0 < R'' < R, with stripSet R'' a subset of openStrip R. Completeness of the pulled length over (0,R''] stays a hypothesis; this is disclosed, and it is T-btz-trace-complete. Shrinking R'' < R once more is within l.1601's « one can reduce the size of S ». (4) lem_blunt_spear_trace chains lem_blunt_spear correctly: its R' and tauS are re-exported with lem_blunt_spear's own v + R'/2 bound, and the result is non-vacuous because its hypotheses are lem_blunt_spear's. (5) flatE0_regChart is faithful to its docstring, as the FlatE0 N analogue of eventually_regChart: on an open U inside W and the slit sector of y, the chart of N at psi x composed with psi is g • sectorChartY y. (6) not_spacelikeDevelopment_graphDev is true for every g when R > 0, and the kernel checks it. It duplicates one direction of the other target's E0Surgery.spacelikeDevelopment_graphDev_iff (C1SpacelikeDev.lean:184). As a not_ declaration it refutes the roadmap target's planned conclusion and the hypothesis hF of the strict lem_surface_complete_two_lip; it refutes no printed paper statement, so it should stay out of the curated decls for this label. The REPORT lists it in labels[0].decls, and the loop should drop it at curation. The finding that GX.E0Surgery.lem_surface_complete_two_lip (GX/BTZ/SurfaceCompleteLip.lean:365) is vacuous is correct: its hF is exactly SpacelikeDevelopment (graphDev g R) with 0 < R."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "notes": "`taskset -c 0-11 lake env lean scaffold/GXScaffold/BTZ/TraceDev.lean` exited 0 with empty output. The file contains 0 `sorry` tokens; the only match of the word is the docstring line 74, « 0 `sorry` ». I ran a one-shot #print axioms probe (campaign/T-btz-trace-development/Probe.lean, deleted afterwards) on trace_spacelikeDevelopment, trace_spacelikeDevelopment_openStrip, trace_tendsto_atTop, lem_blunt_spear_trace, traceDev_locally, spacelikeDevelopment_openGraphDev, not_spacelikeDevelopment_graphDev, flatE0_regChart, traceFun_periodic and isEmbedding_graphDev. Every one reports [propext, Classical.choice, Quot.sound]. Scope: this target's files are the new scaffold/GXScaffold/BTZ/TraceDev.lean, its import line in scaffold/GXScaffold.lean and the campaign directory. The other modified and untracked lean-gx paths (C1SpacelikeDev*, AxisNoLimit, SurfaceCompleteLip.lean, README.md, kb/INDEX.md, kb/entries/0255-0259) belong to the other closers or the loop, as the dispatch says; none of them mentions TraceDev."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/TraceDev.lean:9-17; REPORT.json labels[0].tex_lines",
+   "what": "The quoted sentence (« By Lemma lem:blunt_spear_neighborhood, one can reduce the size of S ... lim tau_0 = +infinity ») is on BTZ_1.tex:1601 in papers/btz/legacy/labeled. Line 1602 is blank. The docstring (« the first half of l.1602 », « (l.1602) ») and REPORT tex_lines [1602, 1602] are one line off.",
+   "fix": "Cite BTZ_1.tex:1601 in the docstring and set tex_lines to [1601, 1601]."
+  },
+  {
+   "severity": "minor",
+   "where": "lean-gx/scaffold/GXScaffold/BTZ/TraceDev.lean:53",
+   "what": "The checklist marks the extra hypothesis v + |z|/2 < tauS z as « ⚠ added ». The docstring contract (lean-causal/kb/entries/0006) names an assumption of more « ⚠ strengthened ». The disclosure itself is complete and correct.",
+   "fix": "Write « ⚠ strengthened (added) »."
+  },
+  {
+   "severity": "minor",
+   "where": "REPORT.json labels[0].decls",
+   "what": "GX.E0TraceDev.not_spacelikeDevelopment_graphDev is listed among the label's decls. It refutes the roadmap target's planned conclusion and the hypothesis of the strict lem_surface_complete_two_lip, not a printed paper statement. It also duplicates the (->) direction of E0Surgery.spacelikeDevelopment_graphDev_iff from T-btz-c1-spacelike-development.",
+   "fix": "Keep it out of the curated decls for btzthm:BTZ_Cauchy-completness. Optionally prove it as a corollary of spacelikeDevelopment_graphDev_iff when the files graduate together."
+  }
+ ]
+}

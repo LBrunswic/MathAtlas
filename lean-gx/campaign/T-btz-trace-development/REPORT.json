@@ -1,0 +1,93 @@
+{
+ "target": "T-btz-trace-development",
+ "package": "lean-gx",
+ "files": [
+  "scaffold/GXScaffold/BTZ/TraceDev.lean",
+  "scaffold/GXScaffold.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": [
+  "propext",
+  "Classical.choice",
+  "Quot.sound"
+ ],
+ "labels": [
+  {
+   "label": "btzthm:BTZ_Cauchy-completness",
+   "tex_lines": [
+    1602,
+    1602
+   ],
+   "status": "partial",
+   "marked": false,
+   "decls": [
+    "GX.E0TraceDev.trace_spacelikeDevelopment",
+    "GX.E0TraceDev.trace_spacelikeDevelopment_openStrip",
+    "GX.E0TraceDev.trace_tendsto_atTop",
+    "GX.E0TraceDev.lem_blunt_spear_trace",
+    "GX.E0TraceDev.traceDev_locally",
+    "GX.E0TraceDev.spacelikeDevelopment_openGraphDev",
+    "GX.E0TraceDev.not_spacelikeDevelopment_graphDev",
+    "GX.E0TraceDev.flatE0_regChart",
+    "GX.E0TraceDev.traceFun",
+    "GX.E0TraceDev.traceFun_periodic",
+    "GX.E0TraceDev.openGraphDev"
+   ],
+   "hypotheses": [
+    {
+     "paper": "InjOn psi W (target setting)",
+     "here": "weakened",
+     "note": "not used; carried only by lem_blunt_spear_trace, because lem_blunt_spear needs it"
+    },
+    {
+     "paper": "Sig Cauchy (setting of lem_blunt_spear)",
+     "here": "weakened",
+     "note": "not used by the trace theorems; carried by lem_blunt_spear_trace"
+    },
+    {
+     "paper": "graph of tau_S lies in the spear (not printed in the target)",
+     "here": "added",
+     "note": "v + |z|/2 < tau_S z. Without it hgraph says nothing at the points (tau_S z, z) outside bspear v R. lem_blunt_spear supplies the stronger v + R'/2 < tau_S z"
+    },
+    {
+     "paper": "conclusion SpacelikeDevelopment (graphDev g R)",
+     "here": "corrected",
+     "note": "false for R > 0. Proved instead: over the open strip, i.e. graphDevOn g (openStrip R), the hypothesis of the corrected lem_surface_complete_two_lipOn for every R'' < R; graphDev g R an embedding; locally spacelike Lipschitz at every r < R"
+    }
+   ],
+   "sorries": [],
+   "findings": [
+    "Roadmap target T-btz-trace-development: its printed conclusion 'graphDev g R is a Causal.Flat.SpacelikeDevelopment' cannot hold for R > 0, for any g (GX.E0TraceDev.not_spacelikeDevelopment_graphDev). The closed strip (0,R]xR includes the rim r = R, and IsSpacelikeLipschitzIn needs a full Lipschitz graph over an open set around every point of the image. Proof: l(q) = q0 - q1 reads r off the development, so l <= R on the image and l = R at the rim. In the local graph frame the kernel of l contains a null vector, so l increases strictly along some direction of the graph. The concurrent T-btz-c1-spacelike-development found the same fact independently (E0Surgery.spacelikeDevelopment_graphDev_iff).",
+    "Consequence for the strict library: GX.E0Surgery.lem_surface_complete_two_lip (GX/BTZ/SurfaceCompleteLip.lean:361) is vacuous, because its hypothesis hF is unsatisfiable for R > 0. The corrected form is the scaffold E0Surgery.lem_surface_complete_two_lipOn.",
+    "BTZ_1.tex l.1602 ('one can reduce the size of S'): the trace meets lem_surface_complete_two_lipOn only after a second shrinking R'' < R' of lem_blunt_spear's radius, with Omega = openStrip R'. Outside bspear v R the hypotheses do not describe Sig as the graph of tau_S, so nothing is known about Sig past the rim. The paper's own reduction step allows the shrinking."
+   ],
+   "questions": [
+    "Goal changed mid-task, on the master's correction of 2026-11-28: from SpacelikeDevelopment (graphDev g R) to the hypotheses of lem_surface_complete_two_lipOn (Omega = openStrip R, any R'' < R). Reading taken: shrinking the radius once more is within the paper's 'reduce the size of S' (l.1602).",
+    "The target as printed omits that the graph (tau_S z, z) lies in bspear v R. Reading taken: it is part of 'the setting of lem_blunt_spear', which returns v + R'/2 < tau_S z, and the weaker v + |z|/2 < tau_S z is assumed."
+   ]
+  }
+ ],
+ "extra_decls": [
+  "GX.E0TraceDev.isSpacelikeLipschitzIn_inter",
+  "GX.E0TraceDev.isEmbedding_graphDev",
+  "GX.E0TraceDev.graphDev_eq_shift_sectorChartY",
+  "GX.E0TraceDev.continuous_traceFun",
+  "GX.E0TraceDev.continuous_graphDev",
+  "GX.E0TraceDev.radL",
+  "GX.E0TraceDev.btzPaperDev_rad",
+  "GX.E0TraceDev.graphDev_rad",
+  "GX.E0TraceDev.norm_polar",
+  "GX.E0TraceDev.arg_div_polar",
+  "GX.E0TraceDev.polar_arg_div",
+  "GX.E0TraceDev.openStripIncl",
+  "GX.E0TraceDev.isEmbedding_stripIncl"
+ ],
+ "kb_proposals": [
+  "A SpacelikeDevelopment over a domain with boundary (such as the closed strip (0,R]xR) is impossible. Ask for it over an open set, e.g. graphDevOn g (openStrip R), and keep completeness on the closed strip (lem_surface_complete_two_lipOn).",
+  "FlatE0 N chart lemma: GX.E0TraceDev.flatE0_regChart. Near an off-axis point of a sector, chartAt N (psi x) composed with psi equals g • sectorChartY on an open neighbourhood. The pattern is flat_vertical_noLimit's connectedComponentIn plus exists_eqOn_sectorSmulInl.",
+  "The development btzPaperDev is globally injective on r > 0: r = q0 - q1 and theta = -q2 / r. So graphDev of any continuous g is an embedding (GX.E0TraceDev.isEmbedding_graphDev), and no sector bookkeeping is needed for the embedding field.",
+  "Restricting IsSpacelikeLipschitzIn to a smaller open set: GX.E0TraceDev.isSpacelikeLipschitzIn_inter. For the Isom invariance, pass fun g => Causal.Flat.isom_strongMorphism g as hG."
+ ],
+ "notes": "The file imports the scaffold GXScaffold.BTZ.C1SpacelikeDevLip (T-btz-c1-spacelike-development), so it graduates with or after that module; E0Surgery.openStrip and graphDevOn come from there. Strip is the strict E0Surgery.Strip (no local copy), and the open-strip inclusion is named openStripIncl so it does not clash with E0Surgery.stripIncl. The end-of-task lake build GXScaffold.BTZ.TraceDev also rebuilt GX.BTZ.SurfaceCompleteLip (4.4 s, apparently left stale by the recent graduation), then the two C1SpacelikeDev modules and this file. Nothing else upstream moved, and a second build was fully cached. The import line was inserted after GXScaffold.BTZ.AxisNoLimit."
+}
