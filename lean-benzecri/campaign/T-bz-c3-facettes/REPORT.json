@@ -1,0 +1,254 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-facettes",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/Facettes.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added: import BenzecriScaffold.Chapter3.Facettes)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on every principal decl)",
+  "labels": [
+    {
+      "label": "bzdef:c3s1d1_preordre_alpha",
+      "tex_lines": [
+        91,
+        123
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.AlphaW",
+        "Benzecri.alphaW_iff_openSegment",
+        "Benzecri.alphaW_refl",
+        "Benzecri.alphaW_trans",
+        "Benzecri.alphaPreorder",
+        "Benzecri.alphaW_iff_extend",
+        "Benzecri.AlphaW.mem_left",
+        "Benzecri.AlphaW.mem_right"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un ensemble convexe W, dans un espace vectoriel",
+          "here": "carried",
+          "note": "[AddCommGroup E] [Module ℝ E], any dimension, no topology on E; Convex ℝ W where used (the relations are defined for every W)"
+        },
+        {
+          "paper": "un segment (A', B) ⊂ W tel que A ∈ )A', B(, ou si A = B",
+          "here": "carried",
+          "note": "segment ℝ A' B ⊆ W ∧ A ∈ openSegment ℝ A' B, or A = B ∧ A ∈ W; the printed simplification )A,A( = {A} (l.97-106) is alphaW_iff_openSegment (Mathlib's openSegment_same)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzdef:c3s1d2_facette",
+      "tex_lines": [
+        125,
+        132
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.FW",
+        "Benzecri.fwSetoid",
+        "Benzecri.facetteOf",
+        "Benzecri.IsFacette",
+        "Benzecri.isFacette_iff_quotient",
+        "Benzecri.FacetteLE",
+        "Benzecri.facetteLE_iff_forall",
+        "Benzecri.facetteLE_facetteOf_iff",
+        "Benzecri.FacetteLE.antisymm",
+        "Benzecri.Facette",
+        "Benzecri.facettePartialOrder",
+        "Benzecri.isFacette_Icc_iff",
+        "Benzecri.segment01_order"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un ensemble convexe W, dans un espace vectoriel",
+          "here": "carried",
+          "note": "[AddCommGroup E] [Module ℝ E], any dimension, no topology on E; Convex ℝ W where used (the relations are defined for every W)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzrem:c3s1r1_facette_points_interieurs",
+      "tex_lines": [
+        134,
+        138
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.fw_iff_interieur_moduleTopology",
+        "Benzecri.fw_of_interieur",
+        "Benzecri.interieur_of_fw",
+        "Benzecri.fw_iff_interieur",
+        "Benzecri.pairwise_fw_iff_exists_facette"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un ensemble convexe W, dans un espace vectoriel",
+          "here": "carried",
+          "note": "[AddCommGroup E] [Module ℝ E], any dimension, no topology on E; Convex ℝ W where used (the relations are defined for every W)"
+        },
+        {
+          "paper": "pour la topologie de la variété linéaire L support de {A_1, ..., A_n}",
+          "here": "carried",
+          "note": "bare E: the canonical topology (moduleTopology) on the finite-dimensional direction of L = affineSpan (range A), interior of L∩W at A_i read as {v | A_i + v ∈ W} ∈ 𝓝 0 (fw_iff_interieur_moduleTopology). Cross-check: for any Hausdorff vector topology on E, W ∈ 𝓝[L] (A i) (fw_iff_interieur); the printed « si » (fw_of_interieur) needs no Hausdorff hypothesis"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "The Remark (l.134-138) prints « si » (interior points ⇒ one facette), but Prop. 1's proof (l.146-149, « Or, cela résulte de la remarque ci-dessus ») uses the converse (A ∈ F ⇒ A interior to l ∩ F). The converse is true (interieur_of_fw, fw_iff_interieur_moduleTopology), so the Remark holds as « si et seulement si », as its wording « On peut donner de la définition de F_W(A,B) l'énoncé suivant » intends; nothing is wrong, the « si » is a definitional « si »."
+      ],
+      "questions": [
+        "« n points ... appartiennent à une même facette » is read as F_W pairwise (∀ i j, F_W(A_i, A_j)); for n ≥ 1 this is equivalent to membership in one facette (pairwise_fw_iff_exists_facette); for n = 0 the pairwise form is vacuous while « une même facette » would require W ≠ ∅."
+      ]
+    },
+    {
+      "label": "bzprop:c3s1p2_alpha_support",
+      "tex_lines": [
+        152,
+        162
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.alphaW_iff_mem_support",
+        "Benzecri.IsDirW",
+        "Benzecri.dirW",
+        "Benzecri.isDirW_sub_of_alphaW",
+        "Benzecri.alphaW_of_isDirW"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un ensemble convexe W, dans un espace vectoriel",
+          "here": "carried",
+          "note": "[AddCommGroup E] [Module ℝ E], any dimension, no topology on E; Convex ℝ W where used (the relations are defined for every W)"
+        },
+        {
+          "paper": "F une facette de W, L son support, A ∈ F, B ∈ W",
+          "here": "carried",
+          "note": "IsFacette W F, L = affineSpan ℝ F, A ∈ F, B ∈ W"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s1p3_ordre_supports",
+      "tex_lines": [
+        164,
+        167
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.facetteLE_iff_support_le",
+        "Benzecri.support_eq_iff"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un ensemble convexe W, dans un espace vectoriel",
+          "here": "carried",
+          "note": "[AddCommGroup E] [Module ℝ E], any dimension, no topology on E; Convex ℝ W where used (the relations are defined for every W)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "No proof is printed for Prop. 3 (l.164-167); it follows from Prop. 2 and transitivity (first part) and antisymmetry of the facette order (second part), as formalized."
+      ],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s1p4_facettes_filtrant",
+      "tex_lines": [
+        170,
+        178
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.facettes_filtrant",
+        "Benzecri.facettes_isDirected",
+        "Benzecri.alphaW_midpoint"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un ensemble convexe W, dans un espace vectoriel",
+          "here": "carried",
+          "note": "[AddCommGroup E] [Module ℝ E], any dimension, no topology on E; Convex ℝ W where used (the relations are defined for every W)"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« filtrant à gauche » is read as every pair of facettes has a common minorant (DirectedOn for the reversed order; IsDirected (Facette W) (· ≥ ·)), without a nonemptiness clause: for W = ∅ there is no facette and the statement holds vacuously."
+      ]
+    },
+    {
+      "label": "bzcor:c3s1p4c_supports_filtrant",
+      "tex_lines": [
+        180,
+        183
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.supports_filtrant",
+        "Benzecri.supportsFacettes"
+      ],
+      "hypotheses": [
+        {
+          "paper": "un ensemble convexe W, dans un espace vectoriel",
+          "here": "carried",
+          "note": "[AddCommGroup E] [Module ℝ E], any dimension, no topology on E; Convex ℝ W where used (the relations are defined for every W)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "No proof is printed for the Corollary (l.180-183); it is Prop. 4 read through Prop. 3 (F'' α F ⟺ L ⊆ L''), as formalized."
+      ],
+      "questions": [
+        "« filtrant à droite » read as every pair of supports has a common majorant for ⊆ (DirectedOn (· ≤ ·) on AffineSubspace ℝ E), no nonemptiness clause (as for Prop. 4)."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.isFacette_Icc_iff: the facettes of [0,1] ⊂ ℝ are exactly {0}, {1}, ]0,1[ (with Benzecri.facetteOf_Icc_zero, facetteOf_Icc_one, facetteOf_Icc_of_mem_Ioo, alphaW_Icc_iff)",
+    "Benzecri.segment01_order: ]0,1[ α {0} and not {0} α ]0,1[",
+    "Benzecri.affineSpan_Ioo01: the support of ]0,1[ is the whole line"
+  ],
+  "extra_decls": [
+    "Benzecri.isDirW_of",
+    "Benzecri.mem_dirW",
+    "Benzecri.exists_uniform_isDirW",
+    "Benzecri.fw_refl",
+    "Benzecri.FW.symm",
+    "Benzecri.FW.trans",
+    "Benzecri.mem_facetteOf_self",
+    "Benzecri.isFacette_facetteOf",
+    "Benzecri.facetteOf_eq_of_fw",
+    "Benzecri.IsFacette.eq_facetteOf",
+    "Benzecri.IsFacette.subset",
+    "Benzecri.IsFacette.nonempty",
+    "Benzecri.alphaW_Icc_iff",
+    "Benzecri.facetteOf_Icc_zero",
+    "Benzecri.facetteOf_Icc_one",
+    "Benzecri.facetteOf_Icc_of_mem_Ioo"
+  ],
+  "kb_proposals": [
+    "Chapter3/Facettes: work with α(W) through alphaW_iff_extend (A + ε(A − B) ∈ W, ε > 0) and the submodule dirW of two-sided directions at a point; exists_uniform_isDirW gives a common bound for finitely many directions. Later Ch. 3 targets (variétés d'appui, Prop. 1) should import this module, not redefine facettes.",
+    "A topology-free 'interior in the finite-dimensional linear variety L' over a bare vector space: put moduleTopology ℝ on the direction (haveI : IsModuleTopology ℝ V := ⟨rfl⟩) and use IsModuleTopology.isOpenMap_of_surjective from (Fin n → ℝ); no T2 or topology on E is needed (fw_iff_interieur_moduleTopology).",
+    "Mathlib's openSegment_same (openSegment x x = {x}) is exactly Benzécri's convention )A, A( = {A} of Ch. 3 § 1."
+  ],
+  "notes": "Single new file, sorry-free and warning-free (builds under lake build BenzecriScaffold.Chapter3.Facettes; no linter warning, so it should pass warningAsError on graduation). Imports Mathlib only. The transcription of pp. 259-260 was checked against the scan (PDF pp. 32-33): no discrepancy. No statement of the target was found false. Two @[reducible] defs carry hW as an argument (alphaPreorder, facettePartialOrder) rather than instances, since convexity is a hypothesis."
+}

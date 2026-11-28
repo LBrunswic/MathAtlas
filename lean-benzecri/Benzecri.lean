@@ -46,3 +46,6 @@ import Benzecri.Chapter2.PocheNonConstante
 import Benzecri.Chapter2.Proprietes
 import Benzecri.Applications.TheoremB
 import Benzecri.Applications.ResultB
+import Benzecri.Chapter3.Facettes
+import Benzecri.Chapter3.Sommes
+import Benzecri.Chapter3.Dualite
