@@ -1,4 +1,4 @@
-import GXScaffold.BBS.HSSingularities
+import GX.BBS.HSSingularities
 import GX.BBS.HSSuspension
 import GX.Branched.Universality
 import GX.Spherical.TroyanovTriangle
@@ -7,7 +7,7 @@ import GX.Spherical.TroyanovTriangle
 # BBS § 3.5: a space-like or light-like singularity of degree `2k` is the `k`-fold branched cover of one of degree `2` (the link and HS halves)
 
 Target `T-bbs-degk` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx, DEC-192).
-`papers/bbs/legacy/labeled/colI_v1.tex`. 0 `sorry`. Imports `GXScaffold.BBS.HSSingularities`
+`papers/bbs/legacy/labeled/colI_v1.tex`. 0 `sorry`. Imports `GX.BBS.HSSingularities`
 (sorry-free: lifted developing pairs, positive/negative), `GX.BBS.HSSuspension` (`𝔢(L)`),
 `GX.Branched.Universality` (gx's branched coverings) and `GX.Spherical.TroyanovTriangle` (portly
 complements in `𝕊²`).

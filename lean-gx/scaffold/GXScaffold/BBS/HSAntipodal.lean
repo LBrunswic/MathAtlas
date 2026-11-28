@@ -1,13 +1,13 @@
 import GX.BBS.HSSuspension
 import GX.BBS.PhotonCircles
-import GXScaffold.BBS.HSSingularities
+import GX.BBS.HSSingularities
 
 /-!
 # BBS § 3.3: the two apices of `𝔢(L)` (`bbsrem:p_p`): the link at `−p̄`, its type, and the space-like sentence, false for Misner singularities and true for every other link
 
 Target `T-bbs-p-p` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx). `papers/bbs/legacy/labeled/colI_v1.tex`.
 Imports the strict `GX.BBS.HSSuspension` (`𝔢(L)`) and `GX.BBS.PhotonCircles` (`vol3`), and
-`GXScaffold.BBS.HSSingularities` (the lifted developing pairs and the types of the links).
+`GX.BBS.HSSingularities` (the lifted developing pairs and the types of the links).
 
 * `bbsrem:p_p` — `colI_v1.tex:934` — partial (unmarked: the space-like sentence, l.936–937, is
   false as printed for Misner singularities, in the reading of « isomorphic » taken here, OQ-120 (a),

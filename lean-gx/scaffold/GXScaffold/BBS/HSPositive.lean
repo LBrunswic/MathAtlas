@@ -1,12 +1,12 @@
 import GX.BBS.HSSuspension
-import GXScaffold.BBS.HSSingularities
+import GX.BBS.HSSingularities
 
 /-!
 # BBS § 3.8: positive HS-singularities, singular HS-surfaces, singular lines and interactions
 
 Target `T-bbs-positive-hs-surface` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx, DEC-192).
 `papers/bbs/legacy/labeled/colI_v1.tex`. 0 `sorry`. Imports the strict `GX.BBS.HSSuspension`
-(`𝔢(L)`, singular HS-structures) and `GXScaffold.BBS.HSSingularities` (sorry-free: lifted
+(`𝔢(L)`, singular HS-structures) and `GX.BBS.HSSingularities` (sorry-free: lifted
 developing pairs, the positive/negative space-like and light-like circles).
 
 * `bbsdef:hs_surface_interaction_singular_line` — `colI_v1.tex:1508` — partial (unmarked: the mark

@@ -5,7 +5,7 @@ import GXScaffold.BBS.HSPositive
 # BBS § 3.3: `bbsrem:previous_section_observed_only` under both readings of OQ-120 (a) and (c)
 
 Target `T-bbs-remark-readings` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx).
-`papers/bbs/legacy/labeled/colI_v1.tex`. Imports `GXScaffold.BBS.HSSingularities` (through the two
+`papers/bbs/legacy/labeled/colI_v1.tex`. Imports `GX.BBS.HSSingularities` (through the two
 files below; the remark in the readings « same `p` » and « l.915 »), `GXScaffold.BBS.HSAntipodal`
 (moved-`p` isomorphisms `GX.GammaLinkCircle.IsIsoVia`, `GX.linkMove`) and
 `GXScaffold.BBS.HSPositive` (the trivial-holonomy circle of degree `4`).

@@ -8,7 +8,7 @@ import GXScaffold.BBS.HSDegree
 Target `T-bbs-classising-types` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx).
 `papers/bbs/legacy/labeled/colI_v1.tex`. 0 `sorry`. Imports `GXScaffold.BBS.HSAntipodal` (the
 apex `−p̄`), `GXScaffold.BBS.HSPositive` (the cone angle) and `GXScaffold.BBS.HSDegree`
-(examples of every degree), all sorry-free scaffold modules over `GXScaffold.BBS.HSSingularities`.
+(examples of every degree), all sorry-free scaffold modules over `GX.BBS.HSSingularities`.
 
 * `bbsprop:classising` — `colI_v1.tex:531` — partial (unmarked: the causal clauses of the
   proposition are not stated here, and the list of l.855–922 is not exhaustive as printed; the

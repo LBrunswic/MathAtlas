@@ -7,7 +7,7 @@ import GX.Singular.Quotient
 Target `T-bbs-quotient-circle` (`roadmap/roadmap.toml`; kind `research`, BBS layer L2 in lean-gx,
 DEC-192). `papers/bbs/legacy/labeled/colI_v1.tex`, the unlabeled prose of § 3.3.1 (l.688–722) and
 the quotients that § 3.3.2's remark `bbsrem:previous_section_observed_only` (l.926–932) needs. No
-label of its own. 0 `sorry`. For `GXScaffold.BBS.HSSingularities`: `GX.exists_rp1Circle_quotient`
+label of its own. 0 `sorry`. For `GX.BBS.HSSingularities`: `GX.exists_rp1Circle_quotient`
 is the statement of `GX.exists_rp1Circle_of_ne_one`; `GX.exists_gammaLinkCircle_quotient_of_forall_lt`
 builds the `(Γ_p, ℓ(p))`-circles `ℝ/⟨δ² g̃^{±1}⟩` of `GX.exists_positive_negative`.
 
@@ -80,7 +80,7 @@ builds the `(Γ_p, ℓ(p))`-circles `ℝ/⟨δ² g̃^{±1}⟩` of `GX.exists_pos
   structure pulled back along `D`, and the structure is the unique one up to maximal atlas.
 * **(c) "as translations"** (l.691) is read topologically: conjugate to `s ↦ s ± 1` by an
   increasing homeomorphism of `ℝ`, not by an element of `G̃`.
-* **(d) l.721** is read for the oriented lifted holonomies, as in `GXScaffold.BBS.HSSingularities`
+* **(d) l.721** is read for the oriented lifted holonomies, as in `GX.BBS.HSSingularities`
   SCOPE (a): `H ≤ G̃` is the holonomy group of `L` when `H = ⟨f⟩` for a lifted holonomy `f` of `L`
   (`GX.HasLiftedHolonomy`, defined up to conjugacy). The orientation of l.709–710 (`g` or `g⁻¹`
   on `]x₀, x₁[`) is that of `GX.exists_rp1Circle_quotient`.
@@ -659,7 +659,7 @@ theorem exists_hasLiftedHolonomy_of_forall_lt {f : GTilde} (hf : ∀ x, x < f x)
 
 /-- **l.721, corrected**: every non-trivial cyclic subgroup `⟨f⟩` of `G̃` is the holonomy group of
 an `ℝP¹`-circle (of lifted holonomy `f` or `f⁻¹`). The statement of
-`GX.exists_rp1Circle_of_ne_one` (`GXScaffold.BBS.HSSingularities`), proved here. -/
+`GX.exists_rp1Circle_of_ne_one` (`GX.BBS.HSSingularities`), proved here. -/
 theorem exists_rp1Circle_quotient {f : GTilde} (hf : f ≠ 1) :
     ∃ (L : Type) (_ : TopologicalSpace L) (_ : ChartedSpace RP1 L),
       HasGroupoid L (gxGroupoid PSL(2, ℝ) RP1) ∧ IsCircle L ∧
@@ -761,7 +761,7 @@ theorem exists_gammaLinkCircle_quotient_of_lt_apply (p : HS 2) {D : ℝ → Link
 `f ∈ G̃` with `x < f x` everywhere (e.g. `f = δᵏ g`, `k ≥ 1`, `g` with a fixed point) and a local
 homeomorphism `D : ℝ → ℓ(p)` with `D ∘ f = ρ • D`, the quotient `ℝ/⟨f⟩` is a
 `(Γ_p, ℓ(p))`-circle. With `D = GX.linkCover p θ` the conclusion is
-`(GammaLinkCircle.mk p cs hcs hL).IsLiftedDev θ E ψ f` (`GXScaffold.BBS.HSSingularities`). -/
+`(GammaLinkCircle.mk p cs hcs hL).IsLiftedDev θ E ψ f` (`GX.BBS.HSSingularities`). -/
 theorem exists_gammaLinkCircle_quotient_of_forall_lt (p : HS 2) {D : ℝ → Link p}
     (hD : IsLocalHomeomorph D) {f : GTilde} (hlt : ∀ x, x < f x) {ρ : GammaP p}
     (hDf : ∀ x, D (f x) = ρ • D x) :

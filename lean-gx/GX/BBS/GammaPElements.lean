@@ -7,7 +7,7 @@ Target `T-bbs-gammap-elements` (`roadmap/roadmap.toml`; kind research, split (3)
 `T-bbs-hs-singularities`). `papers/bbs/legacy/labeled/colI_v1.tex`, the time-like and the
 light-like items of the list of l.785–800, which carry no `\label`: no ledger row is certified here.
 The statements are about `Γ_p`, its tangent action, `GX.gammaToSL` and the trace classes of
-`PSL(2,ℝ)` only; they are the single-element steps that `GXScaffold.BBS.HSSingularities` needs for
+`PSL(2,ℝ)` only; they are the single-element steps that `GX.BBS.HSSingularities` needs for
 the time-like and light-like types of a `(Γ_p, ℓ(p))`-circle. 0 `sorry`.
 
 > \item \textit{time-like singularities:} they correspond to the case where $p$ lies
@@ -62,7 +62,7 @@ the time-like and light-like types of a `(Γ_p, ℓ(p))`-circle. 0 `sorry`.
   one-parameter group of null rotations, `≅ ℝ` and not cyclic, argued, not formalized), and the
   statements about the circle `L`, are not formalized here; the circle statements are
   `GX.GammaLinkCircle.IsLiftedDev.isElliptic_of_timelike` and `…isParabolic_of_null` of
-  `GXScaffold.BBS.HSSingularities`, which these lemmas close.
+  `GX.BBS.HSSingularities`, which these lemmas close.
 * **(b)** OQ-113 (b)/(d). The `ℝP¹`-structure of `ℓ(p)` is the double cover `gammaToSL` reads
   (OQ-113 (b)). In it the half-turn about a time-like `p`, a non-trivial element of `Γ_p`, maps to
   `1 ∈ PSL(2,ℝ)` (its tangent action is `−id`): « elliptic or `1` » is exact, and « elliptic »

@@ -1,8 +1,8 @@
 import GX.BBS.IPm
 import GX.BBS.GammaPElements
 import GX.BBS.QuotientCircle
-import GXScaffold.Interaction.FunnelGTilde
-import GXScaffold.BBS.PSL2NormalForms
+import GX.BBS.GTilde
+import GX.BBS.PSL2NormalForms
 
 /-!
 # BBS § 3.3: the classification of `ℝP¹`-circles and of HS-singularities, and the remark that positive and negative hyperbolic links are not isomorphic
@@ -10,9 +10,10 @@ import GXScaffold.BBS.PSL2NormalForms
 Targets `T-bbs-hs-singularities`, `T-bbs-hs-remark-existence` and `T-bbs-hs-link-types`
 (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx, DEC-192). `papers/bbs/legacy/labeled/colI_v1.tex`.
 0 `sorry`. Imports `GX.BBS.QuotientCircle` (the quotient circles `J/⟨f⟩`), `GX.BBS.GammaPElements`
-(the elements of `Γ_p` by the position of `p`), `GXScaffold.BBS.PSL2NormalForms` (sorry-free: the
-normal forms of `PSL(2,ℝ)` and `G̃`) and `GXScaffold.Interaction.FunnelGTilde` (sorry-free:
-parabolic fixed points, `apply_lt_delta_of_fixed`, `le_conj_apply`).
+(the elements of `Γ_p` by the position of `p`), `GX.BBS.PSL2NormalForms` (sorry-free: the
+normal forms of `PSL(2,ℝ)` and `G̃`) and `GX.BBS.GTilde` (parabolic fixed points,
+`apply_lt_delta_of_fixed`, `le_conj_apply`; hoisted from `Interaction.FunnelGTilde` by
+T-bbs-hs-graduate).
 
 * `bbsrem:previous_section_observed_only` — `colI_v1.tex:926` — partial (unmarked: every assertion
   is proved, no `sorry` beneath, in the readings OQ-120 (a)–(c), OQ-124 and OQ-116 (a); the mark
@@ -48,7 +49,7 @@ The unlabeled prose of § 3.3 (l.688–760, l.785–802, l.855–922), stated in
   negative parabolic (`GX.GTilde.IsParabolic.le_or_ge`); degree-`0` parabolic is positive
   (`GX.HasLiftedHolonomy.le_apply_of_parabolic`); `x₀` repelling, `x₁` attracting
   (`GX.IsLiftedDevPair.repelling_attracting`); through the normal forms of
-  `GXScaffold.BBS.PSL2NormalForms`, `GX.PSL2.IsHyperbolic.isConj_iff`,
+  `GX.BBS.PSL2NormalForms`, `GX.PSL2.IsHyperbolic.isConj_iff`,
   `GX.PSL2.IsParabolic.isConj_iff`, `GX.rp1Iso_of_angle_eq`; every non-trivial cyclic subgroup is a
   lifted holonomy group (`GX.exists_rp1Circle_of_ne_one`, by `GX.exists_rp1Circle_quotient`;
   l.721 corrected, SCOPE (g)).

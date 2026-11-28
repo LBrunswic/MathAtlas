@@ -1,13 +1,14 @@
 import GX.BBS.RP1Circles
-import GXScaffold.Interaction.FunnelGTilde
+import GX.BBS.GTilde
 
 /-!
 # BBS § 3.3.1: the normal forms of `SL(2,ℝ)`, `PSL(2,ℝ)` and `G̃` behind the classification of `ℝP¹`-circles
 
 Research target `T-bbs-psl2-normal-forms` (`roadmap/roadmap.toml`; BBS layer L2 in lean-gx,
 DEC-192). `papers/bbs/legacy/labeled/colI_v1.tex`, the unlabeled prose of l.740–760. No ledger
-label, hence no `**` mark. Imports `GXScaffold.Interaction.FunnelGTilde` (sorry-free) for the
-rotation lifts `GX.GTilde.rot`, `GX.GTilde.IsRotLift` and `GX.slRot`.
+label, hence no `**` mark. Imports `GX.BBS.GTilde` for the rotation lifts `GX.GTilde.rot`,
+`GX.GTilde.IsRotLift` and `GX.slRot` (hoisted from the 3+1 module `Interaction.FunnelGTilde` by
+T-bbs-hs-graduate).
 
 > **The elliptic case:** Elliptic $\R\PP^1$-circles (\textit{i.e.} with elliptic holonomy) are
 > uniquely parametrized by a positive real number (the angle).
@@ -21,7 +22,7 @@ rotation lifts `GX.GTilde.rot`, `GX.GTilde.IsRotLift` and `GX.slRot`.
 > elements $g$ such that $gx \leq x$ for every $x$ in $\widetilde{\R\PP}^1$ (l.742–750)
 
 The circle-level statements (iso ⇔ conjugate lifted holonomies) are `GX.rp1Iso_iff_conj` in
-`GXScaffold.BBS.HSSingularities`, which imports this file; this file supplies the group theory
+`GX.BBS.HSSingularities`, which imports this file; this file supplies the group theory
 its three tagged `sorry`s wait on.
 
 ## Main declarations
@@ -55,7 +56,7 @@ its three tagged `sorry`s wait on.
 * **Lifting conjugacies to `G̃`.** `GX.GTilde.exists_conj_of_toPSL_conj` (lifts with a fixed
   point of conjugate elements are conjugate in `G̃`), `GX.GTilde.forall_le_iff_of_conj`.
 
-## For `GXScaffold.BBS.HSSingularities` (target `T-bbs-hs-remark-existence`)
+## For `GX.BBS.HSSingularities` (target `T-bbs-hs-remark-existence`)
 
 * `GX.PSL2.IsHyperbolic.isConj_iff`, the `sorry` of `⇐`: `exact
   PSL2.IsHyperbolic.exists_conj_of_trSq_eq hg hg' htr`.

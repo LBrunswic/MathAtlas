@@ -1,0 +1,82 @@
+{
+  "package": "lean-gx",
+  "target": "T-bbs-hs-graduate",
+  "files": [
+    "scaffold/GXScaffold/BBS/GTilde.lean (new)",
+    "scaffold/GXScaffold/Interaction/FunnelGTilde.lean (declarations removed, import added, one provenance sentence added to the docstring)",
+    "scaffold/GXScaffold/BBS/PSL2NormalForms.lean (import line 2 only)",
+    "scaffold/GXScaffold/BBS/HSSingularities.lean (import line 4 only)",
+    "scaffold/GXScaffold.lean (import line 2 added)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "moved_decls": [
+    "GX.slRot",
+    "GX.slLin_slRot",
+    "GX.isSLLift_slRot",
+    "GX.GTilde.rot",
+    "GX.GTilde.rot_apply",
+    "GX.GTilde.toPSL_rot",
+    "GX.GTilde.rot_zero",
+    "GX.GTilde.rot_add",
+    "GX.GTilde.rot_two_pi",
+    "GX.GTilde.continuous_rot",
+    "GX.GTilde.eq_conj_rot_of_lift",
+    "GX.GTilde.tau",
+    "GX.GTilde.angle_eq_two_pi_mul_tau",
+    "GX.GTilde.tau_conj",
+    "GX.GTilde.tau_rot",
+    "GX.GTilde.angle_rot",
+    "GX.GTilde.IsRotLift",
+    "GX.GTilde.isRotLift_rot",
+    "GX.GTilde.IsRotLift.tau_eq",
+    "GX.GTilde.IsRotLift.angle_eq",
+    "GX.GTilde.apply_lt_delta_of_fixed",
+    "GX.GTilde.sub_one_lt_apply_of_fixed",
+    "GX.PSL2.trSq_one",
+    "GX.PSL2.slLin_eq_of_smul_eq",
+    "GX.PSL2.IsParabolic.eq_of_smul_eq",
+    "GX.GTilde.IsParabolic.eq_add_int_of_fixed",
+    "GX.GTilde.IsParabolic.le_apply",
+    "GX.GTilde.le_conj_apply",
+    "GX.GTilde.tau_eq_zero_of_fixed",
+    "GX.GTilde.not_isElliptic_of_toPSL_eq_one",
+    "GX.GTilde.IsHyperbolic.not_isElliptic",
+    "GX.GTilde.IsHyperbolic.toPSL_ne_one",
+    "GX.GTilde.IsParabolic.not_isElliptic"
+  ],
+  "moved_note": "Moved verbatim by line range: FunnelGTilde l.103-246 (R~, tau, IsRotLift API), l.291-313 (apply_lt_delta_of_fixed, sub_one_lt_apply_of_fixed), l.460-682 (PSL2.trSq_one, PSL2.slLin_eq_of_smul_eq, PSL2.IsParabolic.eq_of_smul_eq, and the GTilde parabolic/hyperbolic block incl. le_conj_apply). A diff of the removed lines against GTilde's body is empty modulo namespace lines: names, namespaces, statements and proofs unchanged. Kept in FunnelGTilde: lt_conj_apply, conj_apply_lt_delta, rot_S, rot_S_iff, IsRotLift.S, SingKind, RelationN, list_prod_apply_le/lt, funnel_F1*, HasDegree and its API, funnel_deg_zero, funnel_F2-F4*, relationN_one, relationN_two_rot, funnel_F1_needs_positivity.",
+  "final_imports": {
+    "GXScaffold.BBS.GTilde": [
+      "GX.BBS.RP1Circles"
+    ],
+    "GXScaffold.BBS.PSL2NormalForms": [
+      "GX.BBS.RP1Circles",
+      "GXScaffold.BBS.GTilde"
+    ],
+    "GXScaffold.BBS.HSSingularities": [
+      "GX.BBS.IPm",
+      "GX.BBS.GammaPElements",
+      "GX.BBS.QuotientCircle",
+      "GXScaffold.BBS.GTilde",
+      "GXScaffold.BBS.PSL2NormalForms"
+    ]
+  },
+  "strict_only": "confirmed: the three modules import only strict GX.BBS.* modules (all present in GX/BBS/) and each other; none imports a GXScaffold.Interaction module. FunnelGTilde now imports GX.BBS.RP1Circles and GXScaffold.BBS.GTilde.",
+  "sorry_counts": {
+    "GXScaffold.BBS.GTilde": 0,
+    "GXScaffold.BBS.PSL2NormalForms": 0,
+    "GXScaffold.BBS.HSSingularities": 0,
+    "GXScaffold.Interaction.FunnelGTilde": 0
+  },
+  "warningAsError": "taskset -c 0-11 lake env lean -DwarningAsError=true passes (exit 0, no output) on GTilde.lean, PSL2NormalForms.lean, HSSingularities.lean",
+  "axioms": "#print axioms on all 33 moved declarations (probe in campaign/, deleted): each depends on exactly [propext, Classical.choice, Quot.sound]. grep finds no sorry/admit/axiom/native_decide in code in the four files (the word 'sorry' occurs only in docstrings).",
+  "builds_detail": "pgrep: no other lake build in lean-gx. lake build GXScaffold.BBS.GTilde GXScaffold.Interaction.FunnelGTilde GXScaffold.BBS.PSL2NormalForms GXScaffold.BBS.HSSingularities plus every downstream scaffold module (HSPositive, HSPositiveMass, HSDegree, HSAntipodal, HSClassification, HSRemarkReadings, HSCausal, HSLinkRemarks, HSCheminsing): Build completed successfully (8646 jobs); the only warning is HSCausal's pre-existing tagged sorry (l.1922). lake env lean scaffold/GXScaffold.lean: exit 0. scripts/causal_import_gate.py: ok (DEC-33). No GX.* or mathlib module was rebuilt.",
+  "users_of_FunnelGTilde": "after the change: scaffold/GXScaffold.lean and BBS/HSPositiveMass.lean (which uses HasDegree.unique and IsRotLift.S, both staying in FunnelGTilde; its import is unchanged). HSPositive imports HSSingularities only and compiles without FunnelGTilde.",
+  "labels": [],
+  "extra_decls": [],
+  "kb_proposals": [
+    "kb/0068 is stale after T-bbs-hs-graduate: R~ (rot), tau, IsRotLift, apply_lt_delta_of_fixed, sub_one_lt_apply_of_fixed, le_conj_apply and the parabolic fixed-point lemmas are in GXScaffold.BBS.GTilde (to graduate as GX.BBS.GTilde); (S) IsRotLift.S, lt_conj_apply, conj_apply_lt_delta, HasDegree and (F1)-(F4) remain in GXScaffold.Interaction.FunnelGTilde."
+  ],
+  "notes": "Docstrings outside my writable lines still name FunnelGTilde as the source of the lemmas: PSL2NormalForms.lean l.9-10 ('Imports GXScaffold.Interaction.FunnelGTilde (sorry-free) for the rotation lifts ...') and HSSingularities.lean l.14 ('and GXScaffold.Interaction.FunnelGTilde (sorry-free: ...'); the scaffold root's docstring (l.22) says PSL2NormalForms 'imports the research module Interaction.FunnelGTilde and graduates with it'. The master should update these when it graduates. At graduation, git mv BBS/GTilde.lean to GX/BBS/GTilde.lean and rename the import GXScaffold.BBS.GTilde -> GX.BBS.GTilde in GTilde's users: PSL2NormalForms, HSSingularities, FunnelGTilde (and the scaffold root line 2 moves to GX.lean)."
+}
