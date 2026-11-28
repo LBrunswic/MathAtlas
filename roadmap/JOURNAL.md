@@ -1175,3 +1175,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 8144a277 fdb2f0ef (+ statuses)
 - wall time: 03:57–07:10; agents: 1 transcriber
 - next: plan (Chapter 3's rows are new targets for lean-benzecri; result C also needs Ch. 4)
+
+## 2026-11-28 07:40 · plan · roadmap-planner (rule 2)
+- Chapter 3 cut into 27 lean-benzecri closer targets covering its 90 rows exactly once (5 ready: T-bz-c3-facettes, -sommes, -dualite, -cone-appui, -propriete-i; 22 planned, by section along the DAG), each with verbatim quotes, the Ch. 1–2 Lean it builds on and an instance of every new definition's hypotheses; Bourbaki results from mathlib (Hahn–Banach, ProperCone duality, Krein–Milman). § 3 Prop. 8 proceeds under the stronger reading of OQ-160 (a), disclosed. Result C needs Chapters 4 and 5: T-bz-chapter4, T-bz-chapter5 added (planned, master transcriptions). No new question.
+- gates: roadmap ✓ (312 targets), atlas ✓
+- next: a lean-benzecri wave of three (T-bz-c3-facettes, -sommes, -dualite)
