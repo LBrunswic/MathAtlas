@@ -1,0 +1,36 @@
+{
+ "package": "lean-gx",
+ "target": "T-btz-trans-inj-dedupe",
+ "files": [
+  "GX/BTZ/MaxExtension.lean"
+ ],
+ "builds": true,
+ "sorry_count": 0,
+ "lines": {
+  "GX/BTZ/MaxExtension.lean": {
+   "before": 542,
+   "after": 532
+  },
+  "trans_inj proof": {
+   "before": "31 lines (have he, local hsymm, hW, two cases with the congruence and the hR ext proof)",
+   "after": "15 lines"
+  }
+ },
+ "rename_map": {},
+ "change": "GX.BTZMax.trans_inj: both cases now one application of GX.GluingTrans.liftPropOn_glueTransition_of_ext with e := inj X. Case r i j: F := phi h (the member morphism restricted from univ by Causal.CBG.liftPropOn_mono_of_le), e j (F x) = e i x is inj_map. Case r j i: F := the extension G of Pgcd.exists_ext on range (phi h); hR (inj X i ⁻¹' range (inj X j) = range (phi h)) is now a one-line rewrite by the existing preimage_image_of_le instead of an ext proof. The local hsymm, hW and the direct liftPropOn_congr_of_eqOn calls are gone. Docstring of trans_inj extended by one line naming the lemma; statement unchanged.",
+ "behaviour_preservation": "Fingerprint probe (Lean main run by `taskset -c 0-11 lake env lean --run Probe.lean GX GX.BTZ.MaxExtension`, reading only lean-gx/.lake oleans, nothing under /tmp): for every constant of module GX.BTZ.MaxExtension, its name, kind, hash of its type and, for non-theorems, hash of its value. before.txt: run at HEAD source after `lake build GX.BTZ.MaxExtension` (a no-op, oleans current). after.txt: run after the edit and a rebuild. 63 constants each (37 thm, 23 def, 1 induct, 1 ctor, 1 rec); `diff before.txt after.txt` empty. Theorem values excluded on purpose (trans_inj's proof changed). #print axioms GX.BTZMax.trans_inj: [propext, Classical.choice, Quot.sound]. Probe source kept here (probe_source); Probe.lean and the axioms file deleted from the repo.",
+ "probe_source": "import Lean\nopen Lean\n\n/-- Dump, for every constant of the module(s) (root `pre`), its name, kind, a hash of its\ntype and, for a non-theorem, of its value; module path `pre.BTZ.` normalised to `M.` -/\ndef dump (pre : String) (imp : Name) : IO Unit := do\n  initSearchPath (← findSysroot)\n  let env ← importModules #[{module := imp}] {} \n  let mods := [\"MaxExtension\"]\n  let norm (s : String) : String := s.replace (pre ++ \".BTZ.\") \"M.\"\n  let mut lines : Array String := #[]\n  for idx in [0:env.header.moduleNames.size] do\n    let m := env.header.moduleNames[idx]!\n    unless mods.any (fun x => m == (pre ++ \".BTZ.\" ++ x).toName) do continue\n    for n in env.header.moduleData[idx]!.constNames do\n      let some ci := env.find? n | continue\n      let ty := hash (norm (toString ci.type))\n      let (k, v) := match ci with\n        | .thmInfo _ => (\"thm\", \"-\")\n        | .defnInfo d => (\"def\", toString (hash (norm (toString d.value))))\n        | .opaqueInfo d => (\"opaque\", toString (hash (norm (toString d.value))))\n        | .axiomInfo _ => (\"AXIOM\", \"-\")\n        | .inductInfo _ => (\"induct\", \"-\")\n        | .ctorInfo _ => (\"ctor\", \"-\")\n        | .recInfo _ => (\"rec\", \"-\")\n        | .quotInfo _ => (\"quot\", \"-\")\n      lines := lines.push s!\"{norm (toString n)} {k} {ty} {v} {norm (toString m)}\"\n  lines := lines.qsort (· < ·)\n  for l in lines do IO.println l\n\ndef main (args : List String) : IO Unit :=\n  match args with\n  | [pre, imp] => dump pre imp.toName\n  | _ => throw (IO.userError \"usage: pre importModule\")\n",
+ "make_check": "green: `taskset -c 0-11 make -C lean-gx check` exit 0, 'lean-gx: all gates green'; strict sorry 0 in 92 files, scaffold 5 in 19 files (unchanged); axiom sweep: every strict GX declaration within propext/Classical.choice/Quot.sound, 13 scaffold declarations on a sorry (pre-existing). Log: campaign/T-btz-trans-inj-dedupe/check.log. git status after the gate: only GX/BTZ/MaxExtension.lean modified in lean-gx (no regenerated tracked file).",
+ "labels": [],
+ "extra_decls": [],
+ "findings": [
+  "GX/BTZ/GluingTransitions.lean's SCOPE (l.41-44) still says GX.BTZMax.trans_inj « could be rewritten on liftPropOn_glueTransition_of_ext; it was outside this target's files ». It is now rewritten; the sentence is stale, but that file was outside this dispatch, so it was left as is. The loop may want to update it at integration.",
+  "No mathematical finding: a behaviour-preserving refactor with no paper label."
+ ],
+ "questions": [],
+ "kb_proposals": [
+  "For an indexed glued atlas (Causal.CBG.gluedChartedSpace over a chain/family), prove each transition with GX.GluingTrans.liftPropOn_glueTransition_of_ext (e := the embeddings): forward by the member morphism restricted from univ (Causal.CBG.liftPropOn_mono_of_le), backward by a Pgcd.exists_ext extension transported along the glued-part equation (hR ▸ hG, then rw [hR] in the compatibility goal). No local glueEmb_symm computation is needed.",
+  "A per-module behaviour-preservation probe is the T-btz-trace-graduate probe_source with mods := [the module]; run it before any edit after a no-op lake build of the module."
+ ],
+ "notes": "Only GX/BTZ/MaxExtension.lean changed (11 insertions, 21 deletions). Campaign directory holds before.txt, after.txt, check.log and this report; no .lean file left in it."
+}

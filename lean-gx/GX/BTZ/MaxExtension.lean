@@ -310,37 +310,27 @@ variable [Nonempty M]
 @[reducible] noncomputable def unionCS (hc : Chain r X φ) : ChartedSpace E0Y (Carrier X) :=
   Causal.CBG.gluedChartedSpace E0Y (isOpenEmbedding_inj hc) (inj_cover X)
 
-/-- The transitions of the glued atlas: `φ` forwards, `φ⁻¹` on its image backwards. -/
+/-- The transitions of the glued atlas: `φ` forwards, `φ⁻¹` on its image backwards (an
+extension of it by `GX.Pgcd.exists_ext`); both by `GX.GluingTrans.liftPropOn_glueTransition_of_ext`. -/
 theorem trans_inj (hc : Chain r X φ) (i j : ι) :
     ChartedSpace.LiftPropOn e0Groupoid.IsLocalStructomorphWithinAt
       (Causal.CBG.glueTransition (isOpenEmbedding_inj hc) i j)
       (inj X i ⁻¹' range (inj X j)) := by
   have he := isOpenEmbedding_inj hc
-  have hsymm : ∀ k (x : (X k).N), (Causal.CBG.glueEmb he k).symm (inj X k x) = x :=
-    fun k x => Causal.CBG.glueEmb_symm_apply he k x
-  have hW : IsOpen (inj X i ⁻¹' range (inj X j)) :=
-    (he j).isOpen_range.preimage (he i).continuous
   rcases hc.total i j with h | h
-  · refine Causal.CBG.liftPropOn_congr_of_eqOn hW (Causal.CBG.liftPropOn_mono_of_le isOpen_univ hW
-      (hc.isMor h).1.isE0Mor (subset_univ _)) fun x _ => ?_
-    show φ h x = (Causal.CBG.glueEmb he j).symm (inj X i x)
-    rw [← inj_map hc h x, hsymm]
+  · exact GluingTrans.liftPropOn_glueTransition_of_ext he
+      (Causal.CBG.liftPropOn_mono_of_le isOpen_univ
+        ((he j).isOpen_range.preimage (he i).continuous) (hc.isMor h).1.isE0Mor (subset_univ _))
+      fun x _ => inj_map hc h x
   · have hR : inj X i ⁻¹' range (inj X j) = range (φ h) := by
-      ext x
-      constructor
-      · rintro ⟨y, hy⟩
-        exact ⟨y, inj_injective X i ((inj_map hc h y).trans hy)⟩
-      · rintro ⟨y, rfl⟩
-        exact ⟨y, (inj_map hc h y).symm⟩
-    show ChartedSpace.LiftPropOn _ _ (inj X i ⁻¹' range (inj X j))
-    rw [hR]
+      rw [← image_univ, preimage_image_of_le hc h, image_univ]
     obtain ⟨G, hG, hGφ⟩ := Pgcd.exists_ext (hc.isMor h).1
       (Causal.CBG.liftPropOn_id (G := e0Groupoid) (M := (X j).N) isOpen_univ)
-    refine Causal.CBG.liftPropOn_congr_of_eqOn (hc.isMor h).1.isOpen_range hG ?_
+    refine GluingTrans.liftPropOn_glueTransition_of_ext he (hR ▸ hG) ?_
+    rw [hR]
     rintro _ ⟨y, rfl⟩
-    show G (φ h y) = (Causal.CBG.glueEmb he j).symm (inj X i (φ h y))
-    rw [inj_map hc h y, hsymm, hGφ]
-    rfl
+    rw [hGφ y]
+    exact (inj_map hc h y).symm
 
 theorem unionCS_hasGroupoid (hc : Chain r X φ) :
     @HasGroupoid E0Y _ (Carrier X) _ (unionCS hc) e0Groupoid :=

@@ -281,3 +281,5 @@ gx-specific. One fact per entry; propose one when you finish.
 | [0271](entries/0271-to-give-a-two-piece-glued-atlas-causal-c.md) | pattern | To give a two-piece glued atlas (Causal.CBG.gluedChartedSpace over Bool) its groupoid, use |
 | [0272](entries/0272-when-a-piece-family-s-types-are-only-def.md) | pattern | When a piece family's types are only definitionally the Gluing's (pushPiece M N false = Fl |
 | [0273](entries/0273-a-graduation-s-preservation-check-needs.md) | pattern | A graduation's preservation check needs no saved old oleans |
+| [0274](entries/0274-for-an-indexed-glued-atlas-causal-cbg-gl.md) | pattern | For an indexed glued atlas (Causal.CBG.gluedChartedSpace over a chain/family), prove each  |
+| [0275](entries/0275-a-per-module-behaviour-preservation-prob.md) | pattern | A per-module behaviour-preservation probe is the T-btz-trace-graduate probe_source with mo |

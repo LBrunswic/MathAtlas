@@ -1,0 +1,19 @@
+{"target": "T-btz-trans-inj-dedupe", "auditor_round": 1, "verdict": "minor",
+ "labels": [],
+ "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+ "checks": {
+  "diff_scope": "git diff HEAD -- lean-gx at audit start: only GX/BTZ/MaxExtension.lean (11+/21-) plus the untracked campaign dir. The audit-start git snapshot shows no other lean-gx change.",
+  "statement_unchanged": "Full diff read: the only changes are the proof body of GX.BTZMax.trans_inj and one added docstring line. Its statement (binders, LiftPropOn conclusion, domain inj X i ⁻¹' range (inj X j)) is byte-identical. A grep of every theorem/def/instance/attribute header line at HEAD against the new file finds no difference.",
+  "uses_lemma": "Both rcases branches close by GluingTrans.liftPropOn_glueTransition_of_ext he ... (MaxExtension.lean:321, :329). The local hsymm, hW, the direct liftPropOn_congr_of_eqOn calls and the glueEmb_symm rewriting are gone, so no copy of the argument remains. In the r j i branch, hR is now proved with the file's existing preimage_image_of_le (l.251).",
+  "fingerprints": "diff before.txt after.txt is empty; 63 lines each.",
+  "build_axioms": "taskset -c 0-11 lake build GX.BTZ.MaxExtension succeeded. #print axioms GX.BTZMax.trans_inj and GX.BTZMax.unionCS_hasGroupoid both give [propext, Classical.choice, Quot.sound]. The one-shot probe campaign/T-btz-trans-inj-dedupe/AxProbe.lean was deleted. 0 sorry in MaxExtension.lean. check.log ends 'lean-gx: all gates green'. make check was not rerun.",
+  "no_probe_left": "The campaign dir holds only REPORT.json, before.txt, after.txt, check.log and this AUDIT. No probe .lean is untracked anywhere in git status."
+ },
+ "findings": [
+  {"severity": "minor", "where": "lean-gx/GX/BTZ/GluingTransitions.lean:41-45",
+   "what": "During this audit (mtime 03:27:46 UTC, after REPORT.json at 03:27:18 and absent from the audit-start git snapshot), a docstring-only edit appeared in GluingTransitions.lean's SCOPE. It replaces the stale 'could be rewritten ... outside this target's files' sentence with a list of the lemma's uses: Ppcm.trans_emb, E0AbsMax.exists_e0Pushout, BTZMax.trans_inj, plus CBG's remaining inline copy. That list is accurate: grep confirms those uses. The file is outside the dispatched files, but the closer's REPORT and the timing indicate it was not the closer's edit. It looks like the integration step the REPORT's first finding suggested.",
+   "fix": "If the loop made this edit, commit it with this target and record it in the journal as an integration edit. If not, find who made it before committing. Proof content is unaffected."},
+  {"severity": "minor", "where": "lean-gx/campaign/T-btz-trans-inj-dedupe/REPORT.json (findings[0])",
+   "what": "The stale-SCOPE finding is already addressed by the edit above, so the REPORT no longer matches the tree on that point.",
+   "fix": "None required. Note it in the journal at integration."}
+ ]}

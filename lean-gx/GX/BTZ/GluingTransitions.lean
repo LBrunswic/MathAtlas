@@ -39,9 +39,10 @@ gluing (`FlatE0 N` for `N` in `GX.E0AbsMax.pushPiece`) instantiate it without a 
 ## SCOPE (disclosed)
 
 Nothing is left unproved; 0 `sorry`. The lemma is stated for an arbitrary structure groupoid `G`;
-its two uses in this library take `G = e0Groupoid`. `GX.BTZMax.trans_inj` (`GX.BTZ.MaxExtension`,
-the union of a chain) is the indexed form of the same argument and could be rewritten on
-`liftPropOn_glueTransition_of_ext`; it was outside this target's files.
+its uses in this library take `G = e0Groupoid`: `GX.Ppcm.trans_emb`, `GX.E0AbsMax.exists_e0Pushout`,
+and (indexed form, `liftPropOn_glueTransition_of_ext`) `GX.BTZMax.trans_inj` (`GX.BTZ.MaxExtension`,
+the union of a chain; T-btz-trans-inj-dedupe). `GX.BTZ.CBG`'s inline copy remains: it precedes this
+file in the import order (the lemma would have to move to lean-causal).
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.
 -/
