@@ -979,3 +979,18 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: a2ddd264
 - next: T-lad-record-curve-nested-rational (keeper), T-abs-ers-etale-gluing, T-abs-past-inextensible-meets-cauchy (closers, lean-causal); then the exclusive T-tac-dual-future-one-connected and T-abs-sc-open-hoist
+
+## 2026-11-28 02:26 · wave of 3 · T-lad-record-curve-nested-rational, T-abs-past-inextensible-meets-cauchy, T-abs-ers-etale-gluing
+- T-lad-record-curve-nested-rational (keeper): curve_nested ⇏ le_nested cites Causal.rationalLine_separates_curveNested (either reading of DEC-167; the pointed line kept as its first, no-gluing witness); CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq a consequence at curve_nested. Matrix unchanged; 122 → 123 consequences. Checked by its tool.
+- T-abs-past-inextensible-meets-cauchy (abstract, layer 1): Causal.PastInextensibleMeetsCauchy: Sbierski 2312.07443's (2.4), PastInextensible.exists_mem_of_mem_Jplus (T1, second countable; S Cauchy in a causally arc-connected W, ≤_W antisymmetric), with no tail-freeness (the trimming PastInextensible.of_retraction and one-sided end pieces); the time reversal, the I⁺ forms, the forms at M. The extension is the strict library's exists_subArc_of_tailFree. Audit clean.
+- T-abs-ers-etale-gluing (abstract, layer 1): Causal.ErsEtaleGluing: U₁ ⊔_A U₂, the projection étale, injective iff U₁ ∩ U₂ ⊆ A, Hausdorff iff A is closed in U₁ ∩ U₂ (M Hausdorff), glued functions descending iff they agree on the overlap; Thm 3.45 and Cor 4.68 read on the gluing; witnesses on ℝ. The six ERS rows stay unmarked. Audit minor, recorded (two precisions on a finding).
+- For the planner:
+  - T-abs-past-inextensible-meets-cauchy's two [[consequence]] entries at [is_causal, causally_arc_connected] (standing T1, second countable; …_of_isCausal witnesses; simulated clean, matrix unchanged): a keeper target;
+  - T-abs-flrw-type depended on this Cauchy lemma: check whether it can become ready;
+  - T-abs-ers-etale-mghd's title conflates injectivity with agreement. Restate it: π injective ⇔ U₁ ∩ U₂ ⊆ A (given :850, the overlap connected); the glued function descends ⇔ u₁ = u₂ on the overlap. Injectivity gives agreement; "agreement ⇒ injective" is an open causal question (the counterexample punctured_witness is topological only);
+  - a refactor candidate: Extensible.of_top_tail as a corollary of the one-sided end-piece lemmas (FutureExtensible.of_top_tail repeats its construction).
+- ladder: 27 properties, 28 implications, 108 counterexamples, 123 consequences, 5 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 22, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
+- commits: de791f23 770e92f7 5dbd01bf d816e202 (ledgers, the Lean sha only; restate detect 0)
+- next: a PLANNING RUN (rule 2: one ready abstract target, T-abs-sc-open-hoist, exclusive). If it adds no two non-exclusive ready targets, the exclusive T-tac-dual-future-one-connected and T-abs-sc-open-hoist run next, one per wave
