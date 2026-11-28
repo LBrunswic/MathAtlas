@@ -1353,3 +1353,10 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 9d95478e fa02fbde ffc51a35
 - wall time: 11:08–11:35; agents in parallel: 2
 - next: no closer ready → planner (T-bz-c3-balayable-somme-cor is unblocked); master targets T-bz-c3-dedupe-simplexe, T-btz-seg-unif-dedupe, T-hub-paper-attr-export wait
+
+## 2026-11-28 11:45 · plan · roadmap-planner (rule 2)
+- T-bz-c3-balayable-somme-cor → ready (evidence refreshed on SimplesSomme, BalayableSommeProp5, BalayableSomme)
+- no other closer work without a ruling in benzecri, lean-gx or lean/: after -cor, Chapter 3 is exhausted but for rulings (OQ-160–173), Chapter 4/5 wait on T-bz-chapter4 (needs-ruling)
+- then: the master targets T-bz-c3-dedupe-simplexe, T-btz-seg-unif-dedupe (exclusive), T-hub-paper-attr-export; then idle on rulings
+- gates: roadmap ✓
+- next: T-bz-c3-balayable-somme-cor, with T-btz-seg-unif-dedupe (lean-gx, master) beside it
