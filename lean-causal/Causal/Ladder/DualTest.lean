@@ -4,9 +4,11 @@ import Causal.ArcConnected
 import Causal.CauchyExtension
 import Causal.ChronalNeighbourBridge
 import Causal.CurvesExtend
+import Causal.DiamondConfinement
 import Causal.Generated
 import Causal.LadderLocal
 import Causal.Properties
+import Causal.TimelikeHomotopy
 
 /-!
 # Tests of `causal_ladder` across time reversal (`Causal.Ladder.Dual`)
@@ -22,14 +24,14 @@ For `C` a causality on a topological space, `causal_ladder` with the rules of
 * Written by `campaign/T-tac-ladder-dual/dual_closure.py` from the edge rules of
   `Causal.Ladder.Rules` and the properties and counterexamples of `programme/ladder.toml` (not by
   `tools/ladder.py emit-lean`; the script is rerun after it): every single-property
-  pair `P(C) ⊢ Q(C.dual)` and `P(C.dual) ⊢ Q(C)` of the closure (60 examples, `Derived`), each
+  pair `P(C) ⊢ Q(C.dual)` and `P(C.dual) ⊢ Q(C)` of the closure (68 examples, `Derived`), each
   conjunctive rule used on `C.dual` with its two-sided premises given on `C` (7 examples),
   and the pairs across time reversal that a counterexample of the ladder, or its time reversal,
-  refutes (376 examples, `Not derived`: every `P(C) ⇏ Q(C.dual)`, and every
+  refutes (459 examples, `Not derived`: every `P(C) ⇏ Q(C.dual)`, and every
   `P(C.dual) ⇏ Q(C)` with a one-sided end). A refuted pair stays underived however the ladder
   grows, so these negatives cannot go stale; a derived one can, if an edge is withdrawn.
 
-The script's exhaustive form (all 722 cross pairs, the 44 unknown ones included) was
+The script's exhaustive form (all 882 cross pairs, the 46 unknown ones included) was
 checked against Lean in the campaign directory: the tactic derives exactly the closure the
 script computes. The first command fails if a model module is imported, directly or
 transitively, as in `Causal.Ladder.Test`.
@@ -161,16 +163,24 @@ example (_h0 : Causal.Causality.IsCausal C) : Causal.Causality.IsCausal C.dual :
 example (_h0 : Causal.Causality.IsCausal C.dual) : Causal.Causality.IsCausal C := by causal_ladder
 -- strongly_causal(C) ⇒ strongly_causal(C.dual)
 example (_h0 : Causal.Causality.StronglyCausal C) : Causal.Causality.StronglyCausal C.dual := by causal_ladder
+-- strongly_causal(C) ⇒ locally_strongly_causal(C.dual)
+example (_h0 : Causal.Causality.StronglyCausal C) : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
 -- strongly_causal(C.dual) ⇒ strongly_causal(C)
 example (_h0 : Causal.Causality.StronglyCausal C.dual) : Causal.Causality.StronglyCausal C := by causal_ladder
+-- strongly_causal(C.dual) ⇒ locally_strongly_causal(C)
+example (_h0 : Causal.Causality.StronglyCausal C.dual) : Causal.Causality.LocallyStronglyCausal C := by causal_ladder
 -- strongly_causal_open(C) ⇒ strongly_causal(C.dual)
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : Causal.Causality.StronglyCausal C.dual := by causal_ladder
 -- strongly_causal_open(C) ⇒ strongly_causal_open(C.dual)
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
+-- strongly_causal_open(C) ⇒ locally_strongly_causal(C.dual)
+example (_h0 : Causal.Causality.StronglyCausalOpen C) : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
 -- strongly_causal_open(C.dual) ⇒ strongly_causal(C)
 example (_h0 : Causal.Causality.StronglyCausalOpen C.dual) : Causal.Causality.StronglyCausal C := by causal_ladder
 -- strongly_causal_open(C.dual) ⇒ strongly_causal_open(C)
 example (_h0 : Causal.Causality.StronglyCausalOpen C.dual) : Causal.Causality.StronglyCausalOpen C := by causal_ladder
+-- strongly_causal_open(C.dual) ⇒ locally_strongly_causal(C)
+example (_h0 : Causal.Causality.StronglyCausalOpen C.dual) : Causal.Causality.LocallyStronglyCausal C := by causal_ladder
 -- globally_hyperbolic(C) ⇒ is_causal(C.dual)
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : Causal.Causality.IsCausal C.dual := by causal_ladder
 -- globally_hyperbolic(C) ⇒ globally_hyperbolic(C.dual)
@@ -275,6 +285,14 @@ example (_h0 : Causal.Causality.ChronalNeighbours C.dual) : Causal.Causality.Has
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
 -- has_chronal_neighbour(C.dual) ⇒ has_chronal_neighbour(C)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C.dual) : Causal.Causality.HasChronalNeighbourEverywhere C := by causal_ladder
+-- future_one_connected(C) ⇒ future_one_connected(C.dual)
+example (_h0 : Causal.Causality.FutureOneConnected C) : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+-- future_one_connected(C.dual) ⇒ future_one_connected(C)
+example (_h0 : Causal.Causality.FutureOneConnected C.dual) : Causal.Causality.FutureOneConnected C := by causal_ladder
+-- locally_strongly_causal(C) ⇒ locally_strongly_causal(C.dual)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+-- locally_strongly_causal(C.dual) ⇒ locally_strongly_causal(C)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C.dual) : Causal.Causality.LocallyStronglyCausal C := by causal_ladder
 
 /-! ## Derived on `C.dual` through a conjunctive rule, two-sided premises on `C` -/
 
@@ -303,11 +321,11 @@ example (_h0 : Causal.Causality.IsCausal C) : True := by
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- is_causal(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- is_causal(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- is_causal(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- is_causal(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -359,9 +377,17 @@ example (_h0 : Causal.Causality.IsCausal C) : True := by
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- is_causal(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- is_causal(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.IsCausal C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- is_causal(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.IsCausal C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- is_causal(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.IsCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- is_causal(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Causality.IsCausal C.dual) : True := by
@@ -371,11 +397,11 @@ example (_h0 : Causal.Causality.IsCausal C.dual) : True := by
 example (_h0 : Causal.Causality.IsCausal C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- strongly_causal(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- strongly_causal(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- strongly_causal(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- strongly_causal(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -427,9 +453,13 @@ example (_h0 : Causal.Causality.StronglyCausal C) : True := by
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- strongly_causal(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- strongly_causal(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.StronglyCausal C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- strongly_causal(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.StronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
   trivial
 -- strongly_causal(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Causality.StronglyCausal C.dual) : True := by
@@ -439,11 +469,11 @@ example (_h0 : Causal.Causality.StronglyCausal C.dual) : True := by
 example (_h0 : Causal.Causality.StronglyCausal C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- strongly_causal_open(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- strongly_causal_open(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- strongly_causal_open(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- strongly_causal_open(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -495,9 +525,13 @@ example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- strongly_causal_open(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- strongly_causal_open(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- strongly_causal_open(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.StronglyCausalOpen C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
   trivial
 -- strongly_causal_open(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Causality.StronglyCausalOpen C.dual) : True := by
@@ -507,11 +541,11 @@ example (_h0 : Causal.Causality.StronglyCausalOpen C.dual) : True := by
 example (_h0 : Causal.Causality.StronglyCausalOpen C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- globally_hyperbolic(C) ⇏ strongly_causal(C.dual) (refuted: Causal.loopFan_separates)
+-- globally_hyperbolic(C) ⇏ strongly_causal(C.dual) (refuted: Causal.loopFan_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- globally_hyperbolic(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.loopFan_separates)
+-- globally_hyperbolic(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.loopFan_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
@@ -563,9 +597,17 @@ example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- globally_hyperbolic(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.lightlikeLine_separates_hasChronalNeighbour)
+-- globally_hyperbolic(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- globally_hyperbolic(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- globally_hyperbolic(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.scaledFan_separates)
+example (_h0 : Causal.Causality.GloballyHyperbolic C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- globally_hyperbolic(C.dual) ⇏ causally_open_future(C) (refuted: Causal.gateLine_separates_causallyOpen, time-reversed)
 example (_h0 : Causal.Causality.GloballyHyperbolic C.dual) : True := by
@@ -575,19 +617,19 @@ example (_h0 : Causal.Causality.GloballyHyperbolic C.dual) : True := by
 example (_h0 : Causal.Causality.GloballyHyperbolic C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- causally_compact(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates)
+-- causally_compact(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- causally_compact(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates)
+-- causally_compact(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- causally_compact(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates)
+-- causally_compact(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- causally_compact(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates)
+-- causally_compact(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
@@ -619,7 +661,7 @@ example (_h0 : Causal.Causality.CausallyCompact C) : True := by
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- causally_compact(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates)
+-- causally_compact(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_zero_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -639,9 +681,17 @@ example (_h0 : Causal.Causality.CausallyCompact C) : True := by
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- causally_compact(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.lightlikeLine_separates_hasChronalNeighbour)
+-- causally_compact(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyCompact C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- causally_compact(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.CausallyCompact C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- causally_compact(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.scaledFan_separates)
+example (_h0 : Causal.Causality.CausallyCompact C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- causally_compact(C.dual) ⇏ causally_open_future(C) (refuted: Causal.gateLine_separates_causallyOpen, time-reversed)
 example (_h0 : Causal.Causality.CausallyCompact C.dual) : True := by
@@ -651,23 +701,23 @@ example (_h0 : Causal.Causality.CausallyCompact C.dual) : True := by
 example (_h0 : Causal.Causality.CausallyCompact C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- push_up(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- push_up(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- push_up(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- push_up(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- push_up(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- push_up(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- push_up(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- push_up(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- push_up(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- push_up(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -695,7 +745,7 @@ example (_h0 : Causal.Causality.PushUp C) : True := by
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- push_up(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- push_up(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -711,9 +761,17 @@ example (_h0 : Causal.Causality.PushUp C) : True := by
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- push_up(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- push_up(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.PushUp C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- push_up(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.PushUp C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- push_up(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.PushUp C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- push_up(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Causality.PushUp C.dual) : True := by
@@ -723,23 +781,23 @@ example (_h0 : Causal.Causality.PushUp C.dual) : True := by
 example (_h0 : Causal.Causality.PushUp C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- causally_open(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- causally_open(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- causally_open(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- causally_open(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- causally_open(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- causally_open(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- causally_open(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -747,11 +805,11 @@ example (_h0 : Causal.Causality.CausallyOpen C) : True := by
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.PushUp C.dual := by causal_ladder
   trivial
--- causally_open(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.globalLine_separates_tarentin)
+-- causally_open(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.globalLine_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality := by causal_ladder
   trivial
--- causally_open(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.globalLine_separates_tarentin)
+-- causally_open(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.globalLine_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.CausallyArcConnected C.dual := by causal_ladder
   trivial
@@ -763,7 +821,7 @@ example (_h0 : Causal.Causality.CausallyOpen C) : True := by
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- causally_open(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -775,27 +833,35 @@ example (_h0 : Causal.Causality.CausallyOpen C) : True := by
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- causally_open(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- causally_open(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
   trivial
--- causally_open_future(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.CausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- causally_open(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.CausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
+-- causally_open_future(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- causally_open_future(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- causally_open_future(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- causally_open_future(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- causally_open_future(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- causally_open_future(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- causally_open_future(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -827,7 +893,7 @@ example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- causally_open_future(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -847,27 +913,35 @@ example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- causally_open_future(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- causally_open_future(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
   trivial
--- causally_open_future(C.dual) ⇏ is_causal(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- causally_open_future(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.CausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
+-- causally_open_future(C.dual) ⇏ is_causal(C) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
   trivial
--- causally_open_future(C.dual) ⇏ strongly_causal(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C.dual) ⇏ strongly_causal(C) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C := by causal_ladder
   trivial
--- causally_open_future(C.dual) ⇏ strongly_causal_open(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C.dual) ⇏ strongly_causal_open(C) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
   trivial
--- causally_open_future(C.dual) ⇏ globally_hyperbolic(C) (refuted: Causal.halfPlane_hypotheses)
+-- causally_open_future(C.dual) ⇏ globally_hyperbolic(C) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
   trivial
--- causally_open_future(C.dual) ⇏ causally_compact(C) (refuted: Causal.halfPlane_hypotheses)
+-- causally_open_future(C.dual) ⇏ causally_compact(C) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C := by causal_ladder
   trivial
@@ -899,7 +973,7 @@ example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.Tarentin C := by causal_ladder
   trivial
--- causally_open_future(C.dual) ⇏ time_function(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C.dual) ⇏ time_function(C) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
@@ -919,27 +993,35 @@ example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
   trivial
--- causally_open_future(C.dual) ⇏ has_chronal_neighbour(C) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- causally_open_future(C.dual) ⇏ has_chronal_neighbour(C) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C := by causal_ladder
   trivial
--- absolutely_minimal(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_open_future(C.dual) ⇏ future_one_connected(C) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C := by causal_ladder
+  trivial
+-- causally_open_future(C.dual) ⇏ locally_strongly_causal(C) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.CausallyOpenFuture C.dual) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C := by causal_ladder
+  trivial
+-- absolutely_minimal(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- absolutely_minimal(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- absolutely_minimal(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- absolutely_minimal(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- absolutely_minimal(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- absolutely_minimal(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- absolutely_minimal(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- absolutely_minimal(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- absolutely_minimal(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -967,7 +1049,7 @@ example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True :=
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- absolutely_minimal(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- absolutely_minimal(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -987,9 +1069,17 @@ example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True :=
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- absolutely_minimal(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- absolutely_minimal(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- absolutely_minimal(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- absolutely_minimal(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Precausality.AbsolutelyMinimal C.toPrecausality) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- absolutely_minimal(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality) : True := by
@@ -999,23 +1089,23 @@ example (_h0 : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality) : Tr
 example (_h0 : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_arc_connected(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_arc_connected(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_arc_connected(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- causally_arc_connected(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- causally_arc_connected(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1035,11 +1125,11 @@ example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.CausallyPlain C.dual := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ tarentin(C.dual) (refuted: Causal.tarentin_and_plain_needed)
+-- causally_arc_connected(C) ⇏ tarentin(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_arc_connected(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1059,9 +1149,17 @@ example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- causally_arc_connected(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- causally_arc_connected(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- causally_arc_connected(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- causally_arc_connected(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.CausallyArcConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- causally_arc_connected(C.dual) ⇏ causally_open_future(C) (refuted: Causal.halfLightLine_separates_causallyOpen, time-reversed)
 example (_h0 : Causal.Causality.CausallyArcConnected C.dual) : True := by
@@ -1071,23 +1169,23 @@ example (_h0 : Causal.Causality.CausallyArcConnected C.dual) : True := by
 example (_h0 : Causal.Causality.CausallyArcConnected C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- causally_plain(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_plain(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_plain(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_plain(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_plain(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ causally_compact(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_plain(C) ⇏ causally_compact(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1095,11 +1193,11 @@ example (_h0 : Causal.Causality.CausallyPlain C) : True := by
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.PushUp C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ causally_open(C.dual) (refuted: Causal.notchedCausality_separates)
+-- causally_plain(C) ⇏ causally_open(C.dual) (refuted: Causal.notchedCausality_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpen C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ causally_open_future(C.dual) (refuted: Causal.notchedCausality_separates)
+-- causally_plain(C) ⇏ causally_open_future(C.dual) (refuted: Causal.notchedCausality_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C.dual := by causal_ladder
   trivial
@@ -1111,55 +1209,63 @@ example (_h0 : Causal.Causality.CausallyPlain C) : True := by
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.CausallyArcConnected C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ tarentin(C.dual) (refuted: Causal.tarentin_and_plain_needed)
+-- causally_plain(C) ⇏ tarentin(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- causally_plain(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ locally_causally_open_future(C.dual) (refuted: Causal.notchedCausality_separates)
+-- causally_plain(C) ⇏ locally_causally_open_future(C.dual) (refuted: Causal.notchedCausality_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ locally_causally_open(C.dual) (refuted: Causal.notchedCausality_separates)
+-- causally_plain(C) ⇏ locally_causally_open(C.dual) (refuted: Causal.notchedCausality_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpen C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ chronal_neighbours(C.dual) (refuted: Causal.tarentin_and_plain_needed)
+-- causally_plain(C) ⇏ chronal_neighbours(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- causally_plain(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- causally_plain(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CausallyPlain C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
   trivial
--- causally_plain(C.dual) ⇏ causally_open_future(C) (refuted: Causal.notchedCausality_separates, time-reversed)
+-- causally_plain(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.CausallyPlain C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- causally_plain(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.CausallyPlain C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
+-- causally_plain(C.dual) ⇏ causally_open_future(C) (refuted: Causal.notchedCausality_separates_hasChronalNeighbour, time-reversed)
 example (_h0 : Causal.Causality.CausallyPlain C.dual) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
   trivial
--- causally_plain(C.dual) ⇏ locally_causally_open_future(C) (refuted: Causal.notchedCausality_separates, time-reversed)
+-- causally_plain(C.dual) ⇏ locally_causally_open_future(C) (refuted: Causal.notchedCausality_separates_hasChronalNeighbour, time-reversed)
 example (_h0 : Causal.Causality.CausallyPlain C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- tarentin(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- tarentin(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- tarentin(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- tarentin(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- tarentin(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- tarentin(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- tarentin(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- tarentin(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- tarentin(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- tarentin(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1175,11 +1281,11 @@ example (_h0 : Causal.Causality.Tarentin C) : True := by
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C.dual := by causal_ladder
   trivial
--- tarentin(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.globalLine_separates_tarentin)
+-- tarentin(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.globalLine_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality := by causal_ladder
   trivial
--- tarentin(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.globalLine_separates_tarentin)
+-- tarentin(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.globalLine_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.CausallyArcConnected C.dual := by causal_ladder
   trivial
@@ -1187,7 +1293,7 @@ example (_h0 : Causal.Causality.Tarentin C) : True := by
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.CausallyPlain C.dual := by causal_ladder
   trivial
--- tarentin(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- tarentin(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1211,6 +1317,14 @@ example (_h0 : Causal.Causality.Tarentin C) : True := by
 example (_h0 : Causal.Causality.Tarentin C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
   trivial
+-- tarentin(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- tarentin(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.Tarentin C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
 -- tarentin(C.dual) ⇏ causally_open_future(C) (refuted: Causal.oneWayMembrane_separates, time-reversed)
 example (_h0 : Causal.Causality.Tarentin C.dual) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
@@ -1219,19 +1333,19 @@ example (_h0 : Causal.Causality.Tarentin C.dual) : True := by
 example (_h0 : Causal.Causality.Tarentin C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- time_function(C) ⇏ strongly_causal(C.dual) (refuted: Causal.loopFan_separates)
+-- time_function(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- time_function(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.loopFan_separates)
+-- time_function(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- time_function(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- time_function(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- time_function(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- time_function(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1279,9 +1393,17 @@ example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
 example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- time_function(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.lightlikeLine_separates_hasChronalNeighbour)
+-- time_function(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- time_function(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- time_function(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.HasTimeFunction C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- time_function(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Causality.HasTimeFunction C.dual) : True := by
@@ -1291,7 +1413,7 @@ example (_h0 : Causal.Causality.HasTimeFunction C.dual) : True := by
 example (_h0 : Causal.Causality.HasTimeFunction C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- curves_extend(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- curves_extend(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
@@ -1303,11 +1425,11 @@ example (_h0 : Causal.Causality.CurvesExtend C) : True := by
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- curves_extend(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- curves_extend(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- curves_extend(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- curves_extend(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1339,7 +1461,7 @@ example (_h0 : Causal.Causality.CurvesExtend C) : True := by
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- curves_extend(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- curves_extend(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1359,9 +1481,17 @@ example (_h0 : Causal.Causality.CurvesExtend C) : True := by
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- curves_extend(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- curves_extend(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.CurvesExtend C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- curves_extend(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.CurvesExtend C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- curves_extend(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.CurvesExtend C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- curves_extend(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Causality.CurvesExtend C.dual) : True := by
@@ -1371,23 +1501,23 @@ example (_h0 : Causal.Causality.CurvesExtend C.dual) : True := by
 example (_h0 : Causal.Causality.CurvesExtend C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- locally_push_up(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_push_up(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- locally_push_up(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_push_up(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- locally_push_up(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_push_up(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- locally_push_up(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- locally_push_up(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- locally_push_up(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- locally_push_up(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1419,7 +1549,7 @@ example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- locally_push_up(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_push_up(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1435,9 +1565,17 @@ example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- locally_push_up(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- locally_push_up(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- locally_push_up(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- locally_push_up(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.LocallyPushUp C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- locally_push_up(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
 example (_h0 : Causal.Causality.LocallyPushUp C.dual) : True := by
@@ -1447,23 +1585,23 @@ example (_h0 : Causal.Causality.LocallyPushUp C.dual) : True := by
 example (_h0 : Causal.Causality.LocallyPushUp C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- locally_causally_open_future(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- locally_causally_open_future(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- locally_causally_open_future(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- locally_causally_open_future(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- locally_causally_open_future(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- locally_causally_open_future(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- locally_causally_open_future(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1495,7 +1633,7 @@ example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- locally_causally_open_future(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1515,27 +1653,35 @@ example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- locally_causally_open_future(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- locally_causally_open_future(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
   trivial
--- locally_causally_open_future(C.dual) ⇏ is_causal(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- locally_causally_open_future(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
+-- locally_causally_open_future(C.dual) ⇏ is_causal(C) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.IsCausal C := by causal_ladder
   trivial
--- locally_causally_open_future(C.dual) ⇏ strongly_causal(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C.dual) ⇏ strongly_causal(C) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C := by causal_ladder
   trivial
--- locally_causally_open_future(C.dual) ⇏ strongly_causal_open(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C.dual) ⇏ strongly_causal_open(C) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C := by causal_ladder
   trivial
--- locally_causally_open_future(C.dual) ⇏ globally_hyperbolic(C) (refuted: Causal.halfPlane_hypotheses)
+-- locally_causally_open_future(C.dual) ⇏ globally_hyperbolic(C) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C := by causal_ladder
   trivial
--- locally_causally_open_future(C.dual) ⇏ causally_compact(C) (refuted: Causal.halfPlane_hypotheses)
+-- locally_causally_open_future(C.dual) ⇏ causally_compact(C) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C := by causal_ladder
   trivial
@@ -1567,7 +1713,7 @@ example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.Tarentin C := by causal_ladder
   trivial
--- locally_causally_open_future(C.dual) ⇏ time_function(C) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C.dual) ⇏ time_function(C) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C := by causal_ladder
   trivial
@@ -1587,27 +1733,35 @@ example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C := by causal_ladder
   trivial
--- locally_causally_open_future(C.dual) ⇏ has_chronal_neighbour(C) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- locally_causally_open_future(C.dual) ⇏ has_chronal_neighbour(C) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C := by causal_ladder
   trivial
--- locally_causally_open(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open_future(C.dual) ⇏ future_one_connected(C) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C := by causal_ladder
+  trivial
+-- locally_causally_open_future(C.dual) ⇏ locally_strongly_causal(C) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.LocallyCausallyOpenFuture C.dual) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C := by causal_ladder
+  trivial
+-- locally_causally_open(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- locally_causally_open(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- locally_causally_open(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- locally_causally_open(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- locally_causally_open(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- locally_causally_open(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- locally_causally_open(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1639,7 +1793,7 @@ example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- locally_causally_open(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- locally_causally_open(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1651,31 +1805,39 @@ example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
--- locally_causally_open(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates_chronalNeighbours)
+-- locally_causally_open(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
   fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- locally_causally_open(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- locally_causally_open(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.LocallyCausallyOpen C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
   trivial
 -- locally_causally_open(C.dual) ⇏ causally_open_future(C) (refuted: Causal.gateLine_separates_causallyOpen, time-reversed)
 example (_h0 : Causal.Causality.LocallyCausallyOpen C.dual) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
   trivial
--- chronal_neighbours(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- chronal_neighbours(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- chronal_neighbours(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- chronal_neighbours(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- chronal_neighbours(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- chronal_neighbours(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- chronal_neighbours(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- chronal_neighbours(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- chronal_neighbours(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- chronal_neighbours(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1691,6 +1853,10 @@ example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C.dual := by causal_ladder
   trivial
+-- chronal_neighbours(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.densCausality_separates)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality := by causal_ladder
+  trivial
 -- chronal_neighbours(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.rationalJumpPlane_separates)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.CausallyArcConnected C.dual := by causal_ladder
@@ -1699,7 +1865,7 @@ example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.CausallyPlain C.dual := by causal_ladder
   trivial
--- chronal_neighbours(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- chronal_neighbours(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1715,6 +1881,14 @@ example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
 example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpen C.dual := by causal_ladder
   trivial
+-- chronal_neighbours(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- chronal_neighbours(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.ChronalNeighbours C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
 -- chronal_neighbours(C.dual) ⇏ causally_open_future(C) (refuted: Causal.chronalMembrane_separates, time-reversed)
 example (_h0 : Causal.Causality.ChronalNeighbours C.dual) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
@@ -1723,23 +1897,23 @@ example (_h0 : Causal.Causality.ChronalNeighbours C.dual) : True := by
 example (_h0 : Causal.Causality.ChronalNeighbours C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- has_chronal_neighbour(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- has_chronal_neighbour(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- has_chronal_neighbour(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- has_chronal_neighbour(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_hypotheses)
+-- has_chronal_neighbour(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
   trivial
@@ -1755,11 +1929,11 @@ example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C.dual := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.globalLine_separates)
+-- has_chronal_neighbour(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.globalLine_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.globalLine_separates)
+-- has_chronal_neighbour(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.globalLine_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.CausallyArcConnected C.dual := by causal_ladder
   trivial
@@ -1767,11 +1941,11 @@ example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.CausallyPlain C.dual := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ tarentin(C.dual) (refuted: Causal.notchedCausality_separates)
+-- has_chronal_neighbour(C) ⇏ tarentin(C.dual) (refuted: Causal.notchedCausality_separates_hasChronalNeighbour)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
   trivial
--- has_chronal_neighbour(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates)
+-- has_chronal_neighbour(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
   trivial
@@ -1791,12 +1965,188 @@ example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
   fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
   trivial
+-- has_chronal_neighbour(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- has_chronal_neighbour(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
 -- has_chronal_neighbour(C.dual) ⇏ causally_open_future(C) (refuted: Causal.chronalMembrane_separates, time-reversed)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C.dual) : True := by
   fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
   trivial
 -- has_chronal_neighbour(C.dual) ⇏ locally_causally_open_future(C) (refuted: Causal.chronalMembrane_separates, time-reversed)
 example (_h0 : Causal.Causality.HasChronalNeighbourEverywhere C.dual) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ is_causal(C.dual) (refuted: Causal.symmRationalLine_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ causally_compact(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ push_up(C.dual) (refuted: Causal.halfChronoLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.PushUp C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ causally_open(C.dual) (refuted: Causal.rationalLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpen C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ causally_open_future(C.dual) (refuted: Causal.rationalLine_separates_futureOneConnected, time-reversed)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.jumpLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.rationalLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.CausallyArcConnected C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ causally_plain(C.dual) (refuted: Causal.rationalLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.CausallyPlain C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ tarentin(C.dual) (refuted: Causal.loopFan_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ time_function(C.dual) (refuted: Causal.symmRationalLine_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ locally_push_up(C.dual) (refuted: Causal.halfChronoLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ locally_causally_open_future(C.dual) (refuted: Causal.rationalLine_separates_futureOneConnected, time-reversed)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ locally_causally_open(C.dual) (refuted: Causal.rationalLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ chronal_neighbours(C.dual) (refuted: Causal.loopFan_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.lightlikeLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C) ⇏ locally_strongly_causal(C.dual) (refuted: Causal.galileoCurve_separates)
+example (_h0 : Causal.Causality.FutureOneConnected C) : True := by
+  fail_if_success have : Causal.Causality.LocallyStronglyCausal C.dual := by causal_ladder
+  trivial
+-- future_one_connected(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C.dual) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+  trivial
+-- future_one_connected(C.dual) ⇏ locally_causally_open_future(C) (refuted: Causal.rationalLine_separates_futureOneConnected)
+example (_h0 : Causal.Causality.FutureOneConnected C.dual) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ is_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.IsCausal C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ strongly_causal(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausal C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ strongly_causal_open(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.StronglyCausalOpen C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ globally_hyperbolic(C.dual) (refuted: Causal.halfPlane_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.GloballyHyperbolic C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ causally_compact(C.dual) (refuted: Causal.halfPlane_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.CausallyCompact C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ push_up(C.dual) (refuted: Causal.gateLine_separates_pushUp)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.PushUp C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ causally_open(C.dual) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpen C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ causally_open_future(C.dual) (refuted: Causal.rationalLine_separates, time-reversed)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ absolutely_minimal(C.dual) (refuted: Causal.gateLine_separates_causallyOpen)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Precausality.AbsolutelyMinimal C.dual.toPrecausality := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ causally_arc_connected(C.dual) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.CausallyArcConnected C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ causally_plain(C.dual) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.CausallyPlain C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ tarentin(C.dual) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.Tarentin C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ time_function(C.dual) (refuted: Causal.Flat.timeCylinder_separates_locallyStronglyCausal)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.HasTimeFunction C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ locally_push_up(C.dual) (refuted: Causal.halfChronoLine_separates_pushUp)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyPushUp C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ locally_causally_open_future(C.dual) (refuted: Causal.rationalLine_separates, time-reversed)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ locally_causally_open(C.dual) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.LocallyCausallyOpen C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ chronal_neighbours(C.dual) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.ChronalNeighbours C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ has_chronal_neighbour(C.dual) (refuted: Causal.isolatedLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.HasChronalNeighbourEverywhere C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C) ⇏ future_one_connected(C.dual) (refuted: Causal.Flat.spaceCylinder_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C) : True := by
+  fail_if_success have : Causal.Causality.FutureOneConnected C.dual := by causal_ladder
+  trivial
+-- locally_strongly_causal(C.dual) ⇏ causally_open_future(C) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C.dual) : True := by
+  fail_if_success have : Causal.Causality.CausallyOpenFuture C := by causal_ladder
+  trivial
+-- locally_strongly_causal(C.dual) ⇏ locally_causally_open_future(C) (refuted: Causal.rationalLine_separates)
+example (_h0 : Causal.Causality.LocallyStronglyCausal C.dual) : True := by
   fail_if_success have : Causal.Causality.LocallyCausallyOpenFuture C := by causal_ladder
   trivial
 
