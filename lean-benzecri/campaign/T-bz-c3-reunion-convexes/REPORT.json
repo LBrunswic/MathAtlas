@@ -1,0 +1,100 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-reunion-convexes",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/ReunionConvexes.lean",
+    "scaffold/BenzecriScaffold.lean (one import line)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "labels": [
+    {
+      "label": "bzthm:c3s5t1_reunion_convexes_affine",
+      "tex_lines": [
+        1378,
+        1392
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.reunion_convexes_affine",
+        "Benzecri.reunion_convexes_affine_of_ne",
+        "Benzecri.proprieteIII_of_proprieteI",
+        "Benzecri.proprieteI_of_proprieteIIIlarge",
+        "Benzecri.proprieteI_of_proprieteIII",
+        "Benzecri.proprieteI_iff_proprieteIII",
+        "Benzecri.ProprieteIII",
+        "Benzecri.DemiEspaceFermeDe",
+        "Benzecri.ProprieteIIIlarge",
+        "Benzecri.DemiEspaceDe",
+        "Benzecri.reunion_convexes_dimZero",
+        "Benzecri.sommet_carre_sans_demiEspace",
+        "Benzecri.demiEspaceFermeDe_demiPlan",
+        "Benzecri.demiDisqueEuclide_proprietes",
+        "Benzecri.demiEspaceDe_demiPlan",
+        "Benzecri.demiDisqueEuclide_proprieteIIIlarge"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W un convexe compact",
+          "here": "carried",
+          "note": "IsCompact W, Convex ℝ W; I <-> III uses convexity of W only"
+        },
+        {
+          "paper": "un espace vectoriel de dimension finie",
+          "here": "carried",
+          "note": "[FiniteDimensional ℝ E], real Hausdorff TVS; local convexity derived (locallyConvexSpace_of_finiteDimensional); I <-> III holds in every dimension"
+        },
+        {
+          "paper": "V une partie non vide compacte convexe de W",
+          "here": "carried",
+          "note": "I => III uses only V closed and non-empty"
+        },
+        {
+          "paper": "(unprinted) E ≠ 0",
+          "here": "strengthened",
+          "note": "[Nontrivial E] in reunion_convexes_affine, needed only for the implications into II; not needed when V ≠ W (reunion_convexes_affine_of_ne); necessary by reunion_convexes_dimZero"
+        },
+        {
+          "paper": "un demi-espace H de L (éventuellement H ∩ W = L ∩ W)",
+          "here": "reading",
+          "note": "closed half-space L ∩ {f ≤ c}, f linear non-constant on L, OR H = L (ProprieteIII); III => I proved under the widest reading (open or closed, degenerate admitted: ProprieteIIIlarge)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Theorem 1 (l.1381-1392) is imprecise in the zero space E = 0: V = W = {0} satisfies every printed hypothesis, I(V,W) and III(V,W), but not II(V,W), since there is no open half-space (Benzecri.reunion_convexes_dimZero). The same degenerate case as Prop. 8 (l.1323, OQ-165 (d)); Theorem 1 holds in full for E ≠ 0, and in every E when V ≠ W.",
+        "III (l.1389-1391) needs « demi-espace H de L » to admit H = L: when V is a point (e.g. the vertex (0,0) of the square, which has I by sommet_carre_proprietes), its support L is a point and has no proper half-space (Benzecri.sommet_carre_sans_demiEspace), so I => III fails under the strict reading. The printed parenthesis « H ∩ W peut être égal à L ∩ W » covers it only if H = L is admitted; for dim L ≥ 1 a proper closed half-space containing the compact L ∩ W exists, so the reading matters only for dim L = 0.",
+        "Not a defect, a strengthening: I <-> III needs neither compactness of W nor finite dimension. I => III holds for W convex and V closed non-empty in any real topological vector space (Prop. 7's strong form exists_separe_fort applied in L ∩ W; Benzecri.proprieteIII_of_proprieteI), and III => I needs no topology (Benzecri.proprieteI_of_proprieteIIIlarge)."
+      ],
+      "questions": [
+        "« un demi-espace H de L » (l.1390): I read it as « a closed half-space of L, or L itself » (the parenthesis « éventuellement, H ∩ W peut être égal à L ∩ W » read as admitting the degenerate half-space H = L). Under the strict reading (proper half-spaces only) the theorem fails for V a point. Open versus closed is NOT immaterial: with open half-spaces only, I => III fails (W = [0,1], V = [0,1/2]: V is compact and I holds, but V is the trace of no open half-line); it is the closed reading, or the wide one (ProprieteIIIlarge, open or closed, degenerate admitted), that makes I => III hold. III => I holds under every reading.",
+        "E ≠ 0 (OQ-165 (d), carried over from Prop. 8): read as implicit; formalized with [Nontrivial E], with the E = 0 witness beside it."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.demiDisqueEuclide_proprietes: W the closed unit disc of EuclideanSpace ℝ (Fin 2), V = W ∩ {x 0 ≤ 0}: I, II and III all hold (instance of ProprieteIII)",
+    "Benzecri.demiEspaceFermeDe_demiPlan: {x | x 0 ≤ 0} is a DemiEspaceFermeDe of ⊤ in the plane",
+    "Benzecri.demiEspaceDe_demiPlan: {x | x 0 ≤ 0} is a DemiEspaceDe of ⊤ in the plane",
+    "Benzecri.demiDisqueEuclide_proprieteIIIlarge: the closed half disc has ProprieteIIIlarge relative to the closed disc"
+  ],
+  "extra_decls": [
+    "Benzecri.locallyConvexSpace_of_finiteDimensional",
+    "Benzecri.DemiEspaceFermeDe.demiEspaceDe",
+    "Benzecri.ProprieteIII.large",
+    "Benzecri.disqueEuclide",
+    "Benzecri.demiDisqueEuclide"
+  ],
+  "kb_proposals": [
+    "A finite-dimensional real Hausdorff TVS is LocallyConvexSpace, but Mathlib infers no instance at the pin: transport through (Module.finBasis ℝ E).equivFun.toContinuousLinearEquiv with LocallyConvexSpace.induced and e.toHomeomorph.isInducing.eq_induced (Benzecri.locallyConvexSpace_of_finiteDimensional).",
+    "Benzecri.disque already exists (Chapter3/Sommes.lean, a Set (ℝ × ℝ)); a Euclidean disc needs another name (disqueEuclide).",
+    "§ 5 Theorem 1, I => III, follows in every dimension from exists_separe_fort applied to W' = affineSpan V ∩ W (its support is affineSpan V), with H = affineSpan V when V = W'."
+  ],
+  "notes": "One file, 0 sorry, standard axioms, builds alone without rebuilding Benzecri.* or mathlib. Imports Benzecri.Chapter3.ProprietesIII and Benzecri.Chapter3.HyperplanSeparant only. The label is left unmarked (partial) on the two degenerate cases above (E = 0, OQ-165 (d); dim L = 0, the reading of « demi-espace de L »). Theorem 1′ (sphere) is not in this target (T-bz-c3-reunion-convexes-sphere)."
+}

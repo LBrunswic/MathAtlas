@@ -1,0 +1,35 @@
+{
+  "target": "T-bz-c3-reunion-convexes",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzthm:c3s5t1_reunion_convexes_affine",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Unmarked (partial), and that is right. reunion_convexes_affine carries every printed hypothesis (IsCompact W, Convex W, IsCompact V, Convex V, V.Nonempty, V ⊆ W, [FiniteDimensional ℝ E] over a Hausdorff real TVS, so the topology is the canonical one) and adds [Nontrivial E]. That addition is disclosed as ⚠ strengthened in the checklist, in SCOPE and in REPORT, it is dropped in reunion_convexes_affine_of_ne (V ≠ W), and it is necessary: reunion_convexes_dimZero is a genuine witness. In Fin 0 → ℝ, univ = {0}, and V = W = univ meets every printed hypothesis, I and III hold, and II fails because DemiEspaceOuvert needs f ≠ 0 (proprieteII_subsingleton_false). III is formalized in a disclosed reading (closed half-space L ∩ {f ≤ c} with f non-constant on L, or H = L), and support = affineSpan ℝ V. The H = L finding is true. In sommet_carre_sans_demiEspace the support of a point is a point, which has no DemiEspaceFermeDe, while I holds by sommet_carre_proprietes. The SCOPE remark is also correct: under the strict reading, the theorem fails only when dim L = 0, because when dim L ≥ 1 and V = L ∩ W some c ≥ max f on the compact L ∩ W gives a proper H. III ⇒ I holds under the widest reading (ProprieteIIIlarge, no topology). I ⇒ III and I ⇔ III hold in every real TVS with W convex, V closed and non-empty, as claimed. Instances exist for all four new definitions. DemiEspaceFermeDe: demiEspaceFermeDe_demiPlan. ProprieteIII: demiDisqueEuclide_proprietes.2.2. DemiEspaceDe and ProprieteIIIlarge: I checked demiEspaceFermeDe_demiPlan.demiEspaceDe and demiDisqueEuclide_proprietes.2.2.large as Lean terms in a probe (since deleted). None of the definitions is vacuous."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "how": "taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/ReunionConvexes.lean: exit 0, no output, no warnings. #print axioms on all 13 named declarations: [propext, Classical.choice, Quot.sound]. grep -c sorry: 0. No full lake build was run, as the dispatch asked."
+  },
+  "scope": "git status: the closer's changes are the new scaffold/BenzecriScaffold/Chapter3/ReunionConvexes.lean (the only file in Chapter3/; no BooleProjectif*/FacetteExposee* touched), one added import line in scaffold/BenzecriScaffold.lean (diff checked), and the campaign directory. The other modified files (lean-causal/*, roadmap/roadmap.toml, programme/roadmap.toml, papers/*/certificate/restat*) were already modified in the session's starting snapshot and belong to other loops.",
+  "docstring_contract": "Title, label with tex line within the first 4000 characters and without the ** mark, a verbatim > quote, a hypothesis checklist (⚠ strengthened for E ≠ 0), SCOPE (disclosed) and the Provenance line are all present and true. The only ** in the file is on a declaration docstring (`III(V, W)`, l.94), not a label mark.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "campaign/T-bz-c3-reunion-convexes/REPORT.json: labels[0].questions[0]",
+      "what": "« Open or closed is immaterial » overstates. Only III ⇒ I is reading-independent. Under an open-half-space-only reading (H = L ∩ {f < c} with f non-constant, or H = L), I ⇒ III fails. Take W = [0,1] ⊂ ℝ and V = [0,1/2]: I holds and L = ℝ, but no set of the form W ∩ {f < c} equals the closed V ≠ L ∩ W. The Lean and SCOPE are right, since the reading is named closed-or-L, but the sentence going to the author is wrong.",
+      "fix": "Reword: « III ⇒ I holds for every reading. I ⇒ III needs a closed half-space (or L): with open half-spaces only it fails, e.g. V = [0,1/2] in W = [0,1]. Since V is compact, the closed reading is the natural one. »"
+    },
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/ReunionConvexes.lean:22-25, 284-313",
+      "what": "No named declaration holds the instances of DemiEspaceDe and ProprieteIIIlarge. They are only reachable through DemiEspaceFermeDe.demiEspaceDe and ProprieteIII.large. They do hold (I checked both terms in a probe), but no anchor in the file shows them.",
+      "fix": "Optional: add `theorem demiEspaceDe_demiPlan := demiEspaceFermeDe_demiPlan.demiEspaceDe` and `theorem demiDisqueEuclide_proprieteIIIlarge := demiDisqueEuclide_proprietes.2.2.large`."
+    }
+  ]
+}
