@@ -1,0 +1,70 @@
+{
+ "target": "T-abs-flrw-future-a-witness",
+ "package": "lean-causal",
+ "auditor_round": 1,
+ "verdict": "clean",
+ "labels": [],
+ "labels_note": "This is a ladder-witness target. No paper label is involved: Sbierski 2312.07443 is not ledgered and has no binder. `grep -n '\\*\\*`[a-z]*:' Causal/FlrwTypeClosedAmbient.lean` finds no mark, so the module docstring's 'no label is marked' still holds. The per-declaration checks are below, in place of label rows.",
+ "declarations": [
+  {
+   "name": "Causal.Causality.iUnion_Iminus_eq_of_dual_pastInextensible",
+   "part": "(a)",
+   "where": "lean-causal/Causal/FlrwTypeClosedAmbient.lean:360",
+   "faithful": true,
+   "notes": "This is the exact converse of dual_iUnion_Iplus_eq_of_futureInextensible (:330), checked mechanically. A stdin metaprogram opens the twin's four implicit binders [M, inst, C, W] and instantiates (a)'s type at the same fvars. It finds (a).hyp == twin.concl: true and (a).concl == twin.hyp: true, as syntactic Expr equality. So the same W and the same curve classes appear: C.FutureInextensible W / C.dual.PastInextensible W, each with the same 'chronal on its segments' conjunct ∀ a ∈ I, ∀ b ∈ I, ChronalCurveOn W γ a b, and the same ⋃ t ∈ I, Iminus/Iplus W {γ t} = ↑W. There is no extra hypothesis and no separation axiom. Probe.lean's iff example ⟨twin, (a)⟩ typechecks. Its direct constants are dual_pastInextensible_iff, CurveOn.neg and the simp lemmas, as the target says. Non-vacuity: where it is used (in (b)'s proof) the hypothesis is proved by transport from ℝ. Probe.lean also shows the curve class is inhabited: t ↦ exp(−t) over univ is timelikeLine.dual.PastInextensible posHalfLine, and its I⁺_dual union is (0, ∞)."
+  },
+  {
+   "name": "Causal.timelikeLine_posHalfLine_iUnion_Iminus_eq",
+   "part": "(b)",
+   "where": "lean-causal/Causal/FlrwTypeClosedAmbient.lean:596",
+   "faithful": true,
+   "notes": "Its type equals, syntactically (Expr ==), the domain of the hA binder of GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA. That binder was instantiated at the exact arguments (c) passes: ℝ, PseudoMetricSpace.toUniformSpace.toTopologicalSpace, timelikeLine, posHalfLine, t2Space_of_metrizableSpace, timelikeLine_tarentin, timelikeLine_globallyHyperbolic. The proof follows the target's route. Its direct constants include dual_iUnion_Iplus_eq_of_futureInextensible, timelikeLine_iUnion_Iminus_eq_univ, IsSpacetimeExtension.dual, exp_isSpacetimeExtension, IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible, exp_rangeOpens_eq and (a). It is not circular, since (a)'s hypothesis is built by transport and not from (b). Non-vacuity: Probe.lean, recompiled by me with -DwarningAsError=true, proves that Real.exp over univ is timelikeLine.FutureInextensible posHalfLine. It uses LineDevelopment.futureInextensible_of_not_tendsto_atTop, whose CausalCurveIn requires I nonempty, ordConnected and causal on segments. It also proves exp chronal on every segment (timelikeLine_chronalCurveOn_iff: strictly monotone, continuous, positive). It then instantiates (b) to get ⋃ t, I⁻(exp t, (0, ∞)) = (0, ∞). So the curve class of (A⁻) on (0, ∞) is inhabited by a genuine future-inextensible chronal curve. The only hypotheses are the (A⁻) curve-class membership. No metric, curve length or geodesic appears; the ℝ topology instance is the standard one, as in the existing witnesses."
+  },
+  {
+   "name": "Causal.timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeA",
+   "part": "(c)",
+   "where": "lean-causal/Causal/FlrwTypeClosedAmbient.lean:621",
+   "faithful": true,
+   "notes": "It has no hypotheses of its own: ∀ (Ũ : Opens ℝ) (p : ℝ), ¬ timelikeLine.FutureBoundaryChart posHalfLine Ũ p. Its value, read off the olean, is fun Ũ p => GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA timelikeLine_tarentin timelikeLine_globallyHyperbolic timelikeLine_posHalfLine_iUnion_Iminus_eq Ũ p. The head is that theorem, with 10 arguments, and the hA argument is (b) itself. The transitive value closure of (c) does not reach timelikeLine_not_futureBoundaryChart or timelikeLine_not_pastBoundaryChart, so there is no shortcut. It does reach the GH theorem, (b), (a), timelikeLine_iUnion_Iminus_eq_univ, the transport and the twin. The REPORT discloses that, like the other timelike-line witnesses, this shows the hypotheses jointly satisfiable, not FutureBoundaryChart inhabited. The docstrings say it agrees with timelikeLine_not_futureBoundaryChart, which is true. The statement shape matches its twins at :550 and :572."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "commands": [
+   {"cmd": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true Causal/FlrwTypeClosedAmbient.lean", "result": "rc 0, no output (1.3 s)"},
+   {"cmd": "cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true campaign/T-abs-flrw-future-a-witness/Probe.lean", "result": "rc 0, no error and no warning; output byte-identical to the closer's axioms.txt (diff empty); 26 '#print axioms' entries, each [propext, Classical.choice, Quot.sound]"},
+   {"cmd": "the module source piped to `taskset -c 0-11 lake env lean --stdin` with appended #print axioms for the 3 new declarations (elaborated from source, not the olean; nothing written)", "result": "all three: [propext, Classical.choice, Quot.sound]"},
+   {"cmd": "stdin metaprogram on the source: (a) vs its twin, binder-instantiated Expr equality", "result": "(a).concl == twin.hyp: true; (a).hyp == twin.concl: true"},
+   {"cmd": "stdin metaprogram on `import Causal.FlrwTypeClosedAmbient` (olean 12:11:31, newer than source 12:11:20): (c)'s value, its arguments, hA domain vs (b)'s type, transitive closure, module imports", "result": "head GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA; hA domain == (b)'s type: true; hA argument is (b): true; closure reaches timelikeLine_not_futureBoundaryChart: false; imports of the module: [Init, Causal.FlrwType]"},
+   {"cmd": "stdin metaprogram: Causal.* modules in the transitive import closure matching Minkowski|Static|Causal.Flat|Causal.Model|Causal.Port|SingularFlat|Ladder", "result": "50 Causal modules; only match is Causal.LadderLocal (an ETT-layer node module, not Causal.Ladder.Rules/Dual, pre-existing); no model, Minkowski, Static, Flat, Port or SingularFlat module"},
+   {"cmd": "cd lean-causal && taskset -c 0-11 lake env lean campaign/T-abs-flrw-future-a-witness/DumpTypes.lean | diff -q - campaign/T-abs-flrw-future-a-witness/types_after.txt", "result": "identical: types_after.txt is the current olean's dump"},
+   {"cmd": "python3 -I parse of types_before.txt / types_after.txt (read-only)", "result": "before 74, after 77, removed [], changed (hash or printed type) [], added exactly the 3 new names; agrees with types_diff.json"},
+   {"cmd": "grep -nwE 'sorry|admit|axiom|native_decide|ofReduceBool' Causal/FlrwTypeClosedAmbient.lean", "result": "1 hit, line 18, the docstring heading '(no `sorry`)'; identical at HEAD; sorry count 0"},
+   {"cmd": "cd lean-causal && python3 -I scripts/sorry_count.py", "result": "strict Causal/: 0 (scaffold: 7 in 9 files, pre-existing, not this target's)"},
+   {"cmd": "git diff --numstat / -U0 on the module", "result": "+74/−2; the two removed lines are module-docstring lines of items 4 and 7, each kept and extended; no declaration line, declaration docstring, import, set_option or attribute removed or changed"},
+   {"cmd": "git diff -U0 | grep '^+' | grep -iE 'FALSE|false as printed|Cex'", "result": "none"},
+   {"cmd": "git diff -U0 | grep '^+' | grep -iE 'metric|length|geodesic|dist|norm'", "result": "none"},
+   {"cmd": "grep -rnw <name> Causal scaffold --include='*.lean' for each of the 3 new names", "result": "each declared once, only in Causal/FlrwTypeClosedAmbient.lean; no clash"},
+   {"cmd": "grep -rnoE 'FlrwTypeClosedAmbient\\.lean:[0-9]+' programme lean-causal/{Causal,scaffold,README.md,kb} papers/*/certificate", "result": "only programme/roadmap.toml (planner prose: :75, :137, :321, :368, :370×2, :493); nothing in ladder.toml, the library, the README, the kb or the binders"},
+   {"cmd": "git status --short; python3 -I tools/lease.py show", "result": "see scope note"}
+  ]
+ },
+ "checks": {
+  "faithfulness": "All three statements say what the target says (see declarations). (a) is the true converse, (b) is exactly hA at (timelikeLine, posHalfLine), and (c) applies the GH theorem.",
+  "non_vacuity": "(c) has no hypotheses. (b)'s curve class is inhabited by Real.exp (future-inextensible in (0, ∞), chronal on every segment), and (b) is instantiated on it. (a)'s hypothesis is a proved fact where used, and its curve class is inhabited by t ↦ exp(−t) for timelikeLine.dual. These are all in Probe.lean, recompiled with -DwarningAsError=true.",
+  "layer_1": "The import header is unchanged (`import Causal.FlrwType` only, the same at HEAD). No model, Minkowski, Static, Flat, Port or SingularFlat module is in the transitive closure. The new statements contain no metric, curve length or geodesic. The hypotheses are the (A)/(A⁻) localisation hypotheses only. The theorem applied in (c) takes globally_hyperbolic, tarentin and T2, discharged by timelikeLine_globallyHyperbolic, timelikeLine_tarentin and the instance.",
+  "existing_statements_unchanged": "types_diff.json is confirmed. I re-ran the dump against the current olean (identical to types_after.txt) and recomputed the comparison from the two text dumps: 74 → 77, 0 removed, 0 changed. The textual diff is additions only, apart from the two docstring lines.",
+  "docstring_edits": "Item 4 is accurate. It says (A⁻) for C becomes (A) for C.dual by dual_iUnion_Iplus_eq_of_futureInextensible, the converse iUnion_Iminus_eq_of_dual_pastInextensible reads it back, the GH form has a witness (item 7), and (B)'s time reversals are still in item 5. Item 7 is accurate. It names both new theorems, the route ((A⁻) on ℝ = (A) for the reversed line, carried by exp_isSpacetimeExtension.dual, read back by item 4's converse) and agreement with timelikeLine_not_futureBoundaryChart. The pre-existing Minkowski non-vacuity sentence is kept. None of the restate-gate words occur in added text. The new declaration docstrings cite names only, never lines. dual_Iplus exists (Causal/Causality.lean:124) and is rfl, as (a)'s docstring says.",
+  "docstring_contract_kb0006": "All parts are present and still true: title, the 'no label is marked' statement (no marks), the quote block, the hypothesis checklist (it concerns the target theorem and is unaffected), SCOPE ('causal_ladder is not used: no statement concludes a ladder property' is still true) and the Provenance line.",
+  "names": "No clash. The names follow the twins: iUnion_Iminus_eq_of_dual_pastInextensible mirrors dual_iUnion_Iplus_eq_of_futureInextensible; timelikeLine_posHalfLine_iUnion_Iminus_eq mirrors timelikeLine_iUnion_Iminus_eq_univ with the posHalfLine prefix of the witnesses; timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeA mirrors …_of_flrwTypeB and …_not_pastBoundaryChart_of_flrwTypeA. (a) sits directly after its twin; (b) and (c) follow the (B⁻) witness.",
+  "scope": "The closer touched only lean-causal/Causal/FlrwTypeClosedAmbient.lean and lean-causal/campaign/T-abs-flrw-future-a-witness/; its scratch scripts write only stdout or REPORT.json. Everything else in `git status` belongs to other loops by lease. The atlas lease holds roadmap/**, reports/atlas/**, lean/scripts/lean_facts.lean and lean/campaign/T-hub-paper-attr-export (both committed by atlas during this audit). The restate lease holds papers/*/certificate/restat* and the restate/CHECK-*.json files. The programme lease holds programme/** and ladder.toml. lean-causal/README.md, lean-causal/kb/INDEX.md and the untracked kb/entries/0338-*, 0339-* appeared during this audit (mtime 12:15:02). That is after the closer's REPORT.json (12:13:49), and they were absent from the git status at audit start. They are in the programme (master's) lease and carry the closer's kb_proposals, so they are the master's integration, not the closer's."
+ },
+ "findings": [],
+ "observations_non_blocking": [
+  "Cosmetic: the re-wrap of module docstring item 7 leaves a one-word line, 'vacuous:' (FlrwTypeClosedAmbient.lean:68), before the Minkowski sentence. It could be re-flowed onto the previous line at graduation; content is unaffected.",
+  "programme/roadmap.toml's planner prose cites FlrwTypeClosedAmbient.lean:370 (twice), :368, :321, :493, :137 and :75. These lines have shifted (e.g. the GH theorem is now :406). The REPORT discloses this; it is the planner's file, and no gate reads those lines.",
+  "REPORT findings[3]'s 'every closed-ambient globally hyperbolic form … (A), (B), (B⁻) and now (A⁻)' is correct for the four enumerated non-chart theorems. The two contrapositive instance checks (GloballyHyperbolic.not_flrwType{A,B}_of_pastBoundaryChart) cannot have a timelike-line witness, since no chart exists there. Their hypotheses are witnessed on Minkowski in a layer-3 probe, so the enumeration is the precise reading."
+ ]
+}

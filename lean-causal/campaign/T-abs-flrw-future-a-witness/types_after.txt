@@ -1,0 +1,646 @@
+Causal.Causality.ChronalCurveOn.pastInextensible_Ioc_of_start_notMem #1071215084 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M]
+  {c : ℝ → M},
+  C.ChronalCurveOn Ũ c 0 1 →
+    ∀ {s : ℝ},
+      s ∈ Set.Ioc 0 1 →
+        (∀ t ∈ Set.Ioc 0 s, c t ∈ W) →
+          c 0 ∉ W →
+            C.PastInextensible W (Set.Ioc 0 s) c ∧ ∀ a ∈ Set.Ioc 0 s, ∀ b ∈ Set.Ioc 0 s, C.ChronalCurveOn W c a b
+Causal.Causality.FutureBoundaryChart #4147970592 : {M : Type u} →
+  [inst : TopologicalSpace M] → Causal.Causality M → TopologicalSpace.Opens M → TopologicalSpace.Opens M → M → Prop
+Causal.Causality.PastBoundaryChart #4147970592 : {M : Type u} →
+  [inst : TopologicalSpace M] → Causal.Causality M → TopologicalSpace.Opens M → TopologicalSpace.Opens M → M → Prop
+Causal.Causality.PastBoundaryChartData #986926215 : {M : Type u} →
+  [inst : TopologicalSpace M] → Causal.Causality M → TopologicalSpace.Opens M → TopologicalSpace.Opens M → M → Type u
+Causal.Causality.PastBoundaryChartData.Iminus_eq_diamond #4183735711 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} [T2Space M]
+  (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        C.Iminus W {d.curve d.s₀} = C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+Causal.Causality.PastBoundaryChartData.Iplus_inter_Iminus_subset #1823358793 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      ∀ {s : ℝ},
+        s ∈ Set.Ioo 0 d.s₀ →
+          C.Iplus W {d.curve s} ∩ C.Iminus W {d.curve d.s₀} ⊆ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+Causal.Causality.PastBoundaryChartData.avoid #2503844203 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p) (K : Set M),
+  IsCompact K →
+    K ⊆ ↑Ũ →
+      ∃ σ,
+        C.ChronalCurveOn Ũ σ 0 1 ∧
+          σ 0 ∉ W ∧ (∀ t ∈ Set.Ioc 0 1, σ t ∈ self.inside ∧ σ t ∉ K) ∧ C.lt Ũ (self.curve 1) (σ 1)
+Causal.Causality.PastBoundaryChartData.biUnion_Iplus_inter_Iminus_eq #484004270 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      ⋃ s ∈ Set.Ioo 0 d.s₀, C.Iplus W {d.curve s} ∩ C.Iminus W {d.curve d.s₀} =
+        C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+Causal.Causality.PastBoundaryChartData.casesOn #1820213148 : {M : Type u} →
+  [inst : TopologicalSpace M] →
+    {C : Causal.Causality M} →
+      {W Ũ : TopologicalSpace.Opens M} →
+        {p : M} →
+          {motive : C.PastBoundaryChartData W Ũ p → Sort u_1} →
+            (t : C.PastBoundaryChartData W Ũ p) →
+              ((mem : p ∈ Ũ) →
+                  (not_mem : p ∉ W) →
+                    (inside : TopologicalSpace.Opens M) →
+                      (inside_le : inside ≤ W ⊓ Ũ) →
+                        (futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}) →
+                          (curve : ℝ → M) →
+                            (chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1) →
+                              (curve_zero : curve 0 = p) →
+                                (curve_mem : ∀ t ∈ Set.Ioc 0 1, curve t ∈ inside) →
+                                  (s₀ : ℝ) →
+                                    (s₀_mem : s₀ ∈ Set.Ioo 0 1) →
+                                      (isCompact_closure :
+                                          IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}))) →
+                                        (closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ) →
+                                          (avoid :
+                                              ∀ (K : Set M),
+                                                IsCompact K →
+                                                  K ⊆ ↑Ũ →
+                                                    ∃ σ,
+                                                      C.ChronalCurveOn Ũ σ 0 1 ∧
+                                                        σ 0 ∉ W ∧
+                                                          (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧
+                                                            C.lt Ũ (curve 1) (σ 1)) →
+                                            motive
+                                              { mem := mem, not_mem := not_mem, inside := inside,
+                                                inside_le := inside_le, futureClosed := futureClosed, curve := curve,
+                                                chronalCurveOn := chronalCurveOn, curve_zero := curve_zero,
+                                                curve_mem := curve_mem, s₀ := s₀, s₀_mem := s₀_mem,
+                                                isCompact_closure := isCompact_closure,
+                                                closure_subset := closure_subset, avoid := avoid }) →
+                motive t
+Causal.Causality.PastBoundaryChartData.chronalCurveOn #966233976 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), C.ChronalCurveOn Ũ self.curve 0 1
+Causal.Causality.PastBoundaryChartData.closure_subset #656308008 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {self.curve self.s₀}) ⊆ ↑Ũ
+Causal.Causality.PastBoundaryChartData.ctorIdx #3787887583 : {M : Type u} →
+  {inst : TopologicalSpace M} →
+    {C : Causal.Causality M} → {W Ũ : TopologicalSpace.Opens M} → {p : M} → C.PastBoundaryChartData W Ũ p → ℕ
+Causal.Causality.PastBoundaryChartData.curve #2384733866 : {M : Type u} →
+  [inst : TopologicalSpace M] →
+    {C : Causal.Causality M} → {W Ũ : TopologicalSpace.Opens M} → {p : M} → C.PastBoundaryChartData W Ũ p → ℝ → M
+Causal.Causality.PastBoundaryChartData.curve_mem #1174892678 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), ∀ t ∈ Set.Ioc 0 1, self.curve t ∈ self.inside
+Causal.Causality.PastBoundaryChartData.curve_zero #1815879022 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), self.curve 0 = p
+Causal.Causality.PastBoundaryChartData.futureClosed #3236249114 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), ∀ x ∈ self.inside, C.Iplus Ũ {x} ⊆ C.Iplus self.inside {x}
+Causal.Causality.PastBoundaryChartData.inside #1011917942 : {M : Type u} →
+  [inst : TopologicalSpace M] →
+    {C : Causal.Causality M} →
+      {W Ũ : TopologicalSpace.Opens M} → {p : M} → C.PastBoundaryChartData W Ũ p → TopologicalSpace.Opens M
+Causal.Causality.PastBoundaryChartData.inside_le #1750192684 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), self.inside ≤ W ⊓ Ũ
+Causal.Causality.PastBoundaryChartData.isCompact_closure #814666887 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {self.curve self.s₀}))
+Causal.Causality.PastBoundaryChartData.mem #3512859773 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), p ∈ Ũ
+Causal.Causality.PastBoundaryChartData.mk #1331404821 : {M : Type u} →
+  [inst : TopologicalSpace M] →
+    {C : Causal.Causality M} →
+      {W Ũ : TopologicalSpace.Opens M} →
+        {p : M} →
+          p ∈ Ũ →
+            p ∉ W →
+              (inside : TopologicalSpace.Opens M) →
+                inside ≤ W ⊓ Ũ →
+                  (∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}) →
+                    (curve : ℝ → M) →
+                      C.ChronalCurveOn Ũ curve 0 1 →
+                        curve 0 = p →
+                          (∀ t ∈ Set.Ioc 0 1, curve t ∈ inside) →
+                            (s₀ : ℝ) →
+                              s₀ ∈ Set.Ioo 0 1 →
+                                IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀})) →
+                                  closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ →
+                                    (∀ (K : Set M),
+                                        IsCompact K →
+                                          K ⊆ ↑Ũ →
+                                            ∃ σ,
+                                              C.ChronalCurveOn Ũ σ 0 1 ∧
+                                                σ 0 ∉ W ∧
+                                                  (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧
+                                                    C.lt Ũ (curve 1) (σ 1)) →
+                                      C.PastBoundaryChartData W Ũ p
+Causal.Causality.PastBoundaryChartData.mk.inj #744246901 : ∀ {M : Type u} {inst : TopologicalSpace M} {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  {mem : p ∈ Ũ} {not_mem : p ∉ W} {inside : TopologicalSpace.Opens M} {inside_le : inside ≤ W ⊓ Ũ}
+  {futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}} {curve : ℝ → M}
+  {chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1} {curve_zero : curve 0 = p}
+  {curve_mem : ∀ t ∈ Set.Ioc 0 1, curve t ∈ inside} {s₀ : ℝ} {s₀_mem : s₀ ∈ Set.Ioo 0 1}
+  {isCompact_closure : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}))}
+  {closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ}
+  {avoid :
+    ∀ (K : Set M),
+      IsCompact K →
+        K ⊆ ↑Ũ →
+          ∃ σ,
+            C.ChronalCurveOn Ũ σ 0 1 ∧ σ 0 ∉ W ∧ (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧ C.lt Ũ (curve 1) (σ 1)}
+  {mem_1 : p ∈ Ũ} {not_mem_1 : p ∉ W} {inside_1 : TopologicalSpace.Opens M} {inside_le_1 : inside_1 ≤ W ⊓ Ũ}
+  {futureClosed_1 : ∀ x ∈ inside_1, C.Iplus Ũ {x} ⊆ C.Iplus inside_1 {x}} {curve_1 : ℝ → M}
+  {chronalCurveOn_1 : C.ChronalCurveOn Ũ curve_1 0 1} {curve_zero_1 : curve_1 0 = p}
+  {curve_mem_1 : ∀ t ∈ Set.Ioc 0 1, curve_1 t ∈ inside_1} {s₀_1 : ℝ} {s₀_mem_1 : s₀_1 ∈ Set.Ioo 0 1}
+  {isCompact_closure_1 : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve_1 s₀_1}))}
+  {closure_subset_1 : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve_1 s₀_1}) ⊆ ↑Ũ}
+  {avoid_1 :
+    ∀ (K : Set M),
+      IsCompact K →
+        K ⊆ ↑Ũ →
+          ∃ σ,
+            C.ChronalCurveOn Ũ σ 0 1 ∧
+              σ 0 ∉ W ∧ (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside_1 ∧ σ t ∉ K) ∧ C.lt Ũ (curve_1 1) (σ 1)},
+  { mem := mem, not_mem := not_mem, inside := inside, inside_le := inside_le, futureClosed := futureClosed,
+        curve := curve, chronalCurveOn := chronalCurveOn, curve_zero := curve_zero, curve_mem := curve_mem, s₀ := s₀,
+        s₀_mem := s₀_mem, isCompact_closure := isCompact_closure, closure_subset := closure_subset, avoid := avoid } =
+      { mem := mem_1, not_mem := not_mem_1, inside := inside_1, inside_le := inside_le_1,
+        futureClosed := futureClosed_1, curve := curve_1, chronalCurveOn := chronalCurveOn_1,
+        curve_zero := curve_zero_1, curve_mem := curve_mem_1, s₀ := s₀_1, s₀_mem := s₀_mem_1,
+        isCompact_closure := isCompact_closure_1, closure_subset := closure_subset_1, avoid := avoid_1 } →
+    inside = inside_1 ∧ curve = curve_1 ∧ s₀ = s₀_1
+Causal.Causality.PastBoundaryChartData.mk.injEq #1855555647 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (mem : p ∈ Ũ) (not_mem : p ∉ W) (inside : TopologicalSpace.Opens M) (inside_le : inside ≤ W ⊓ Ũ)
+  (futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}) (curve : ℝ → M)
+  (chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1) (curve_zero : curve 0 = p)
+  (curve_mem : ∀ t ∈ Set.Ioc 0 1, curve t ∈ inside) (s₀ : ℝ) (s₀_mem : s₀ ∈ Set.Ioo 0 1)
+  (isCompact_closure : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀})))
+  (closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ)
+  (avoid :
+    ∀ (K : Set M),
+      IsCompact K →
+        K ⊆ ↑Ũ →
+          ∃ σ,
+            C.ChronalCurveOn Ũ σ 0 1 ∧ σ 0 ∉ W ∧ (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧ C.lt Ũ (curve 1) (σ 1))
+  (mem_1 : p ∈ Ũ) (not_mem_1 : p ∉ W) (inside_1 : TopologicalSpace.Opens M) (inside_le_1 : inside_1 ≤ W ⊓ Ũ)
+  (futureClosed_1 : ∀ x ∈ inside_1, C.Iplus Ũ {x} ⊆ C.Iplus inside_1 {x}) (curve_1 : ℝ → M)
+  (chronalCurveOn_1 : C.ChronalCurveOn Ũ curve_1 0 1) (curve_zero_1 : curve_1 0 = p)
+  (curve_mem_1 : ∀ t ∈ Set.Ioc 0 1, curve_1 t ∈ inside_1) (s₀_1 : ℝ) (s₀_mem_1 : s₀_1 ∈ Set.Ioo 0 1)
+  (isCompact_closure_1 : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve_1 s₀_1})))
+  (closure_subset_1 : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve_1 s₀_1}) ⊆ ↑Ũ)
+  (avoid_1 :
+    ∀ (K : Set M),
+      IsCompact K →
+        K ⊆ ↑Ũ →
+          ∃ σ,
+            C.ChronalCurveOn Ũ σ 0 1 ∧
+              σ 0 ∉ W ∧ (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside_1 ∧ σ t ∉ K) ∧ C.lt Ũ (curve_1 1) (σ 1)),
+  ({ mem := mem, not_mem := not_mem, inside := inside, inside_le := inside_le, futureClosed := futureClosed,
+        curve := curve, chronalCurveOn := chronalCurveOn, curve_zero := curve_zero, curve_mem := curve_mem, s₀ := s₀,
+        s₀_mem := s₀_mem, isCompact_closure := isCompact_closure, closure_subset := closure_subset, avoid := avoid } =
+      { mem := mem_1, not_mem := not_mem_1, inside := inside_1, inside_le := inside_le_1,
+        futureClosed := futureClosed_1, curve := curve_1, chronalCurveOn := chronalCurveOn_1,
+        curve_zero := curve_zero_1, curve_mem := curve_mem_1, s₀ := s₀_1, s₀_mem := s₀_mem_1,
+        isCompact_closure := isCompact_closure_1, closure_subset := closure_subset_1, avoid := avoid_1 }) =
+    (inside = inside_1 ∧ curve = curve_1 ∧ s₀ = s₀_1)
+Causal.Causality.PastBoundaryChartData.mk.noConfusion #4118775109 : {M : Type u} →
+  {inst : TopologicalSpace M} →
+    {C : Causal.Causality M} →
+      {W Ũ : TopologicalSpace.Opens M} →
+        {p : M} →
+          {P : Sort u_1} →
+            {mem : p ∈ Ũ} →
+              {not_mem : p ∉ W} →
+                {inside : TopologicalSpace.Opens M} →
+                  {inside_le : inside ≤ W ⊓ Ũ} →
+                    {futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}} →
+                      {curve : ℝ → M} →
+                        {chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1} →
+                          {curve_zero : curve 0 = p} →
+                            {curve_mem : ∀ t ∈ Set.Ioc 0 1, curve t ∈ inside} →
+                              {s₀ : ℝ} →
+                                {s₀_mem : s₀ ∈ Set.Ioo 0 1} →
+                                  {isCompact_closure : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}))} →
+                                    {closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ} →
+                                      {avoid :
+                                          ∀ (K : Set M),
+                                            IsCompact K →
+                                              K ⊆ ↑Ũ →
+                                                ∃ σ,
+                                                  C.ChronalCurveOn Ũ σ 0 1 ∧
+                                                    σ 0 ∉ W ∧
+                                                      (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧
+                                                        C.lt Ũ (curve 1) (σ 1)} →
+                                        {mem' : p ∈ Ũ} →
+                                          {not_mem' : p ∉ W} →
+                                            {inside' : TopologicalSpace.Opens M} →
+                                              {inside_le' : inside' ≤ W ⊓ Ũ} →
+                                                {futureClosed' : ∀ x ∈ inside', C.Iplus Ũ {x} ⊆ C.Iplus inside' {x}} →
+                                                  {curve' : ℝ → M} →
+                                                    {chronalCurveOn' : C.ChronalCurveOn Ũ curve' 0 1} →
+                                                      {curve_zero' : curve' 0 = p} →
+                                                        {curve_mem' : ∀ t ∈ Set.Ioc 0 1, curve' t ∈ inside'} →
+                                                          {s₀' : ℝ} →
+                                                            {s₀_mem' : s₀' ∈ Set.Ioo 0 1} →
+                                                              {isCompact_closure' :
+                                                                  IsCompact
+                                                                    (closure
+                                                                      (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve' s₀'}))} →
+                                                                {closure_subset' :
+                                                                    closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve' s₀'}) ⊆
+                                                                      ↑Ũ} →
+                                                                  {avoid' :
+                                                                      ∀ (K : Set M),
+                                                                        IsCompact K →
+                                                                          K ⊆ ↑Ũ →
+                                                                            ∃ σ,
+                                                                              C.ChronalCurveOn Ũ σ 0 1 ∧
+                                                                                σ 0 ∉ W ∧
+                                                                                  (∀ t ∈ Set.Ioc 0 1,
+                                                                                      σ t ∈ inside' ∧ σ t ∉ K) ∧
+                                                                                    C.lt Ũ (curve' 1) (σ 1)} →
+                                                                    { mem := mem, not_mem := not_mem, inside := inside,
+                                                                          inside_le := inside_le,
+                                                                          futureClosed := futureClosed, curve := curve,
+                                                                          chronalCurveOn := chronalCurveOn,
+                                                                          curve_zero := curve_zero,
+                                                                          curve_mem := curve_mem, s₀ := s₀,
+                                                                          s₀_mem := s₀_mem,
+                                                                          isCompact_closure := isCompact_closure,
+                                                                          closure_subset := closure_subset,
+                                                                          avoid := avoid } =
+                                                                        { mem := mem', not_mem := not_mem',
+                                                                          inside := inside', inside_le := inside_le',
+                                                                          futureClosed := futureClosed',
+                                                                          curve := curve',
+                                                                          chronalCurveOn := chronalCurveOn',
+                                                                          curve_zero := curve_zero',
+                                                                          curve_mem := curve_mem', s₀ := s₀',
+                                                                          s₀_mem := s₀_mem',
+                                                                          isCompact_closure := isCompact_closure',
+                                                                          closure_subset := closure_subset',
+                                                                          avoid := avoid' } →
+                                                                      (inside ≍ inside' →
+                                                                          curve ≍ curve' → s₀ = s₀' → P) →
+                                                                        P
+Causal.Causality.PastBoundaryChartData.mk.sizeOf_spec #843666033 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  [inst_1 : SizeOf M] (mem : p ∈ Ũ) (not_mem : p ∉ W) (inside : TopologicalSpace.Opens M) (inside_le : inside ≤ W ⊓ Ũ)
+  (futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}) (curve : ℝ → M)
+  (chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1) (curve_zero : curve 0 = p)
+  (curve_mem : ∀ t ∈ Set.Ioc 0 1, curve t ∈ inside) (s₀ : ℝ) (s₀_mem : s₀ ∈ Set.Ioo 0 1)
+  (isCompact_closure : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀})))
+  (closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ)
+  (avoid :
+    ∀ (K : Set M),
+      IsCompact K →
+        K ⊆ ↑Ũ →
+          ∃ σ,
+            C.ChronalCurveOn Ũ σ 0 1 ∧ σ 0 ∉ W ∧ (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧ C.lt Ũ (curve 1) (σ 1)),
+  SizeOf.sizeOf
+      { mem := mem, not_mem := not_mem, inside := inside, inside_le := inside_le, futureClosed := futureClosed,
+        curve := curve, chronalCurveOn := chronalCurveOn, curve_zero := curve_zero, curve_mem := curve_mem, s₀ := s₀,
+        s₀_mem := s₀_mem, isCompact_closure := isCompact_closure, closure_subset := closure_subset, avoid := avoid } =
+    1 + SizeOf.sizeOf mem + SizeOf.sizeOf inside + SizeOf.sizeOf chronalCurveOn + SizeOf.sizeOf curve_zero +
+        SizeOf.sizeOf s₀ +
+      SizeOf.sizeOf s₀_mem
+Causal.Causality.PastBoundaryChartData.noConfusion #1965243729 : {P : Sort u_1} →
+  {M : Type u} →
+    {inst : TopologicalSpace M} →
+      {C : Causal.Causality M} →
+        {W Ũ : TopologicalSpace.Opens M} →
+          {p : M} →
+            {t : C.PastBoundaryChartData W Ũ p} →
+              {M' : Type u} →
+                {inst' : TopologicalSpace M'} →
+                  {C' : Causal.Causality M'} →
+                    {W' Ũ' : TopologicalSpace.Opens M'} →
+                      {p' : M'} →
+                        {t' : C'.PastBoundaryChartData W' Ũ' p'} →
+                          M = M' →
+                            inst ≍ inst' →
+                              C ≍ C' →
+                                W ≍ W' →
+                                  Ũ ≍ Ũ' →
+                                    p ≍ p' → t ≍ t' → Causal.Causality.PastBoundaryChartData.noConfusionType P t t'
+Causal.Causality.PastBoundaryChartData.noConfusionType #2749345123 : Sort u_1 →
+  {M : Type u} →
+    [inst : TopologicalSpace M] →
+      {C : Causal.Causality M} →
+        {W Ũ : TopologicalSpace.Opens M} →
+          {p : M} →
+            C.PastBoundaryChartData W Ũ p →
+              {M' : Type u} →
+                [inst' : TopologicalSpace M'] →
+                  {C' : Causal.Causality M'} →
+                    {W' Ũ' : TopologicalSpace.Opens M'} → {p' : M'} → C'.PastBoundaryChartData W' Ũ' p' → Sort u_1
+Causal.Causality.PastBoundaryChartData.not_mem #3459894219 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), p ∉ W
+Causal.Causality.PastBoundaryChartData.rec #1987502694 : {M : Type u} →
+  [inst : TopologicalSpace M] →
+    {C : Causal.Causality M} →
+      {W Ũ : TopologicalSpace.Opens M} →
+        {p : M} →
+          {motive : C.PastBoundaryChartData W Ũ p → Sort u_1} →
+            ((mem : p ∈ Ũ) →
+                (not_mem : p ∉ W) →
+                  (inside : TopologicalSpace.Opens M) →
+                    (inside_le : inside ≤ W ⊓ Ũ) →
+                      (futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}) →
+                        (curve : ℝ → M) →
+                          (chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1) →
+                            (curve_zero : curve 0 = p) →
+                              (curve_mem : ∀ t ∈ Set.Ioc 0 1, curve t ∈ inside) →
+                                (s₀ : ℝ) →
+                                  (s₀_mem : s₀ ∈ Set.Ioo 0 1) →
+                                    (isCompact_closure : IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}))) →
+                                      (closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ) →
+                                        (avoid :
+                                            ∀ (K : Set M),
+                                              IsCompact K →
+                                                K ⊆ ↑Ũ →
+                                                  ∃ σ,
+                                                    C.ChronalCurveOn Ũ σ 0 1 ∧
+                                                      σ 0 ∉ W ∧
+                                                        (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧
+                                                          C.lt Ũ (curve 1) (σ 1)) →
+                                          motive
+                                            { mem := mem, not_mem := not_mem, inside := inside, inside_le := inside_le,
+                                              futureClosed := futureClosed, curve := curve,
+                                              chronalCurveOn := chronalCurveOn, curve_zero := curve_zero,
+                                              curve_mem := curve_mem, s₀ := s₀, s₀_mem := s₀_mem,
+                                              isCompact_closure := isCompact_closure, closure_subset := closure_subset,
+                                              avoid := avoid }) →
+              (t : C.PastBoundaryChartData W Ũ p) → motive t
+Causal.Causality.PastBoundaryChartData.recOn #1820213148 : {M : Type u} →
+  [inst : TopologicalSpace M] →
+    {C : Causal.Causality M} →
+      {W Ũ : TopologicalSpace.Opens M} →
+        {p : M} →
+          {motive : C.PastBoundaryChartData W Ũ p → Sort u_1} →
+            (t : C.PastBoundaryChartData W Ũ p) →
+              ((mem : p ∈ Ũ) →
+                  (not_mem : p ∉ W) →
+                    (inside : TopologicalSpace.Opens M) →
+                      (inside_le : inside ≤ W ⊓ Ũ) →
+                        (futureClosed : ∀ x ∈ inside, C.Iplus Ũ {x} ⊆ C.Iplus inside {x}) →
+                          (curve : ℝ → M) →
+                            (chronalCurveOn : C.ChronalCurveOn Ũ curve 0 1) →
+                              (curve_zero : curve 0 = p) →
+                                (curve_mem : ∀ t ∈ Set.Ioc 0 1, curve t ∈ inside) →
+                                  (s₀ : ℝ) →
+                                    (s₀_mem : s₀ ∈ Set.Ioo 0 1) →
+                                      (isCompact_closure :
+                                          IsCompact (closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}))) →
+                                        (closure_subset : closure (C.Iplus Ũ {p} ∩ C.Iminus Ũ {curve s₀}) ⊆ ↑Ũ) →
+                                          (avoid :
+                                              ∀ (K : Set M),
+                                                IsCompact K →
+                                                  K ⊆ ↑Ũ →
+                                                    ∃ σ,
+                                                      C.ChronalCurveOn Ũ σ 0 1 ∧
+                                                        σ 0 ∉ W ∧
+                                                          (∀ t ∈ Set.Ioc 0 1, σ t ∈ inside ∧ σ t ∉ K) ∧
+                                                            C.lt Ũ (curve 1) (σ 1)) →
+                                            motive
+                                              { mem := mem, not_mem := not_mem, inside := inside,
+                                                inside_le := inside_le, futureClosed := futureClosed, curve := curve,
+                                                chronalCurveOn := chronalCurveOn, curve_zero := curve_zero,
+                                                curve_mem := curve_mem, s₀ := s₀, s₀_mem := s₀_mem,
+                                                isCompact_closure := isCompact_closure,
+                                                closure_subset := closure_subset, avoid := avoid }) →
+                motive t
+Causal.Causality.PastBoundaryChartData.subset_diamond #1013427057 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} [T2Space M]
+  (d : C.PastBoundaryChartData W Ũ p),
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        ∀ {S : Set M}, S ⊆ C.Iminus W {d.curve d.s₀} → S ⊆ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}
+Causal.Causality.PastBoundaryChartData.s₀ #730023994 : {M : Type u} →
+  [inst : TopologicalSpace M] →
+    {C : Causal.Causality M} → {W Ũ : TopologicalSpace.Opens M} → {p : M} → C.PastBoundaryChartData W Ũ p → ℝ
+Causal.Causality.PastBoundaryChartData.s₀_mem #3786822553 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (self : C.PastBoundaryChartData W Ũ p), self.s₀ ∈ Set.Ioo 0 1
+Causal.Causality.not_futureBoundaryChart_of_flrwType #1970309236 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M],
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        (∀ (I : Set ℝ) (γ : ℝ → M),
+            C.FutureInextensible W I γ →
+              (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+          (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.Causality.not_pastBoundaryChart_of_flrwType #1150693704 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M],
+  C.CausallyArcConnectedOn W →
+    C.FutureOneConnectedOn W →
+      (∀ ⦃x y : M⦄, C.le W x y → C.le W y x → x = y) →
+        (∀ (I : Set ℝ) (γ : ℝ → M),
+            C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+          (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+Causal.IsSpacetimeExtension.exists_isCauchySurfaceOn_subset_Iminus #3351560699 : ∀ {M : Type u} [inst : TopologicalSpace M] {N : Type v} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N]
+  {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M} (hι : Causal.IsSpacetimeExtension CN C ι),
+  (∀ (x : N), ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iminus ⊤ {x}) →
+    ∀ x ∈ hι.rangeOpens, ∃ S, C.IsCauchySurfaceOn hι.rangeOpens S ∧ S ⊆ C.Iminus hι.rangeOpens {x}
+Causal.IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible #2095258425 : ∀ {M : Type u} [inst : TopologicalSpace M] {N : Type v} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N]
+  {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M} (hι : Causal.IsSpacetimeExtension CN C ι),
+  (∀ (I : Set ℝ) (δ : ℝ → N),
+      CN.PastInextensible ⊤ I δ →
+        (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iplus ⊤ {δ t} = Set.univ) →
+    ∀ (I : Set ℝ) (γ : ℝ → M),
+      C.PastInextensible hι.rangeOpens I γ →
+        (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn hι.rangeOpens γ a b) → ⋃ t ∈ I, C.Iplus hι.rangeOpens {γ t} = ↑hι.rangeOpens
+Causal.IsSpacetimeExtension.isCauchySurfaceOn_image #3464538328 : ∀ {M : Type u} [inst : TopologicalSpace M] {N : Type v} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N]
+  {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M} (hι : Causal.IsSpacetimeExtension CN C ι) {S : Set N},
+  CN.IsCauchySurface S → C.IsCauchySurfaceOn hι.rangeOpens (ι '' S)
+Causal.IsSpacetimeExtension.le_antisymm_rangeOpens #2925301043 : ∀ {M : Type u} [inst : TopologicalSpace M] {N : Type v} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N]
+  {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M} (hι : Causal.IsSpacetimeExtension CN C ι),
+  CN.IsCausal → ∀ ⦃x y : M⦄, C.le hι.rangeOpens x y → C.le hι.rangeOpens y x → x = y
+Causal.IsSpacetimeExtension.not_futureBoundaryChart_of_flrwType #3408041910 : ∀ {M : Type u} [inst : TopologicalSpace M] {N : Type v} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N]
+  {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M} [T2Space M] [SecondCountableTopology M]
+  (hι : Causal.IsSpacetimeExtension CN C ι),
+  CN.CausallyArcConnected →
+    CN.FutureOneConnected →
+      CN.IsCausal →
+        (∀ (I : Set ℝ) (δ : ℝ → N),
+            CN.FutureInextensible ⊤ I δ →
+              (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iminus ⊤ {δ t} = Set.univ) →
+          (∀ (x : N), ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iplus ⊤ {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart hι.rangeOpens Ũ p
+Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType #3648892411 : ∀ {M : Type u} [inst : TopologicalSpace M] {N : Type v} [inst_1 : TopologicalSpace N] [inst_2 : Nonempty N]
+  {CN : Causal.Causality N} {C : Causal.Causality M} {ι : N → M} [T2Space M] [SecondCountableTopology M]
+  (hι : Causal.IsSpacetimeExtension CN C ι),
+  CN.CausallyArcConnected →
+    CN.FutureOneConnected →
+      CN.IsCausal →
+        (∀ (I : Set ℝ) (δ : ℝ → N),
+            CN.PastInextensible ⊤ I δ →
+              (∀ a ∈ I, ∀ b ∈ I, CN.ChronalCurveOn ⊤ δ a b) → ⋃ t ∈ I, CN.Iplus ⊤ {δ t} = Set.univ) →
+          (∀ (x : N), ∃ S, CN.IsCauchySurface S ∧ S ⊆ CN.Iminus ⊤ {x}) →
+            ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart hι.rangeOpens Ũ p
+Causal.exp_rangeOpens_eq #771759004 : Causal.exp_isSpacetimeExtension.rangeOpens = Causal.posHalfLine
+Causal.posHalfLine #923415763 : TopologicalSpace.Opens ℝ
+Causal.timelikeLine_exists_cauchy_Iminus #1959592497 : ∀ (x : ℝ), ∃ S, Causal.timelikeLine.IsCauchySurface S ∧ S ⊆ Causal.timelikeLine.Iminus ⊤ {x}
+Causal.timelikeLine_exists_cauchy_Iplus #1355709184 : ∀ (x : ℝ), ∃ S, Causal.timelikeLine.IsCauchySurface S ∧ S ⊆ Causal.timelikeLine.Iplus ⊤ {x}
+Causal.timelikeLine_exp_not_futureBoundaryChart #3544703651 : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.FutureBoundaryChart Causal.exp_isSpacetimeExtension.rangeOpens Ũ p
+Causal.timelikeLine_exp_not_pastBoundaryChart #828653978 : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.PastBoundaryChart Causal.exp_isSpacetimeExtension.rangeOpens Ũ p
+Causal.timelikeLine_flrwType_hypotheses_posHalfLine #2375612418 : Causal.timelikeLine.CausallyArcConnectedOn Causal.posHalfLine ∧
+  Causal.timelikeLine.FutureOneConnectedOn Causal.posHalfLine ∧
+    (∀ ⦃x y : ℝ⦄,
+        Causal.timelikeLine.le Causal.posHalfLine x y → Causal.timelikeLine.le Causal.posHalfLine y x → x = y) ∧
+      (∀ (I : Set ℝ) (γ : ℝ → ℝ),
+          Causal.timelikeLine.PastInextensible Causal.posHalfLine I γ →
+            (∀ a ∈ I, ∀ b ∈ I, Causal.timelikeLine.ChronalCurveOn Causal.posHalfLine γ a b) →
+              ⋃ t ∈ I, Causal.timelikeLine.Iplus Causal.posHalfLine {γ t} = ↑Causal.posHalfLine) ∧
+        ∀ x ∈ Causal.posHalfLine,
+          ∃ S,
+            Causal.timelikeLine.IsCauchySurfaceOn Causal.posHalfLine S ∧
+              S ⊆ Causal.timelikeLine.Iminus Causal.posHalfLine {x}
+Causal.timelikeLine_iUnion_Iminus_eq_univ #693664126 : ∀ (I : Set ℝ) (δ : ℝ → ℝ),
+  Causal.timelikeLine.FutureInextensible ⊤ I δ → ⋃ t ∈ I, Causal.timelikeLine.Iminus ⊤ {δ t} = Set.univ
+Causal.timelikeLine_iUnion_Iplus_eq_univ #2622466019 : ∀ (I : Set ℝ) (δ : ℝ → ℝ),
+  Causal.timelikeLine.PastInextensible ⊤ I δ → ⋃ t ∈ I, Causal.timelikeLine.Iplus ⊤ {δ t} = Set.univ
+Causal.timelikeLine_not_futureBoundaryChart #3351159161 : ∀ (W Ũ : TopologicalSpace.Opens ℝ) (p : ℝ), ¬Causal.timelikeLine.FutureBoundaryChart W Ũ p
+Causal.timelikeLine_not_pastBoundaryChart #2104522424 : ∀ (W Ũ : TopologicalSpace.Opens ℝ) (p : ℝ), ¬Causal.timelikeLine.PastBoundaryChart W Ũ p
+Causal.timelikeLine_posHalfLine_not_pastBoundaryChart #1869228802 : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  0 ∉ Causal.posHalfLine ∧ ¬Causal.timelikeLine.PastBoundaryChart Causal.posHalfLine Ũ p
+Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart #2201286648 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  [T2Space M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.PastBoundaryChart W Ũ p →
+        ¬∀ (I : Set ℝ) (γ : ℝ → M),
+            C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W
+Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart #4271579686 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} [T2Space M]
+  [SecondCountableTopology M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.CausallyArcConnectedOn W →
+        C.PastBoundaryChart W Ũ p → ¬∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}
+Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA #4179109691 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeB #1399668188 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA #3491701672 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB #473666133 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+Causal.Causality.PastBoundaryChartData.false_of_squeeze #227100780 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M}
+  (d : C.PastBoundaryChartData W Ũ p) {U : TopologicalSpace.Opens M},
+  Ũ ≤ U →
+    closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+      (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+        ∀ {σ : ℝ → M},
+          C.ChronalCurveOn Ũ σ 0 1 →
+            (∀ t ∈ Set.Ioc 0 1, σ t ∈ W) →
+              (∀ t ∈ Set.Ioc 0 1, σ t ∉ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}) →
+                (∀ t ∈ Set.Ioc 0 1, C.le U p (σ t)) →
+                  (∀ s ∈ Set.Ioc 0 1, ∃ t ∈ Set.Ioc 0 1, C.le U (σ t) (d.curve s)) → False
+Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible #2483709371 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M},
+  (∀ (I : Set ℝ) (γ : ℝ → M),
+      C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+    ∀ (I : Set ℝ) (γ : ℝ → M),
+      C.dual.PastInextensible W I γ →
+        (∀ a ∈ I, ∀ b ∈ I, C.dual.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.dual.Iplus W {γ t} = ↑W
+Causal.Causality.iUnion_Iminus_eq_of_dual_pastInextensible #2471715741 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M},
+  (∀ (I : Set ℝ) (γ : ℝ → M),
+      C.dual.PastInextensible W I γ →
+        (∀ a ∈ I, ∀ b ∈ I, C.dual.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.dual.Iplus W {γ t} = ↑W) →
+    ∀ (I : Set ℝ) (γ : ℝ → M),
+      C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W
+Causal.Causality.isClosed_inter_preimage_setOf_le #3761318373 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {X : Type u_1} [inst_1 : TopologicalSpace X]
+  {U : TopologicalSpace.Opens M},
+  closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+    ∀ {B : Set X},
+      IsClosed B →
+        ∀ {F : X → M × M}, ContinuousOn F B → Set.MapsTo F B (↑U ×ˢ ↑U) → IsClosed (B ∩ F ⁻¹' {z | C.le U z.1 z.2})
+Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_closedIn #2995920002 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M]
+  {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          (∀ (I : Set ℝ) (γ : ℝ → M),
+              C.FutureInextensible W I γ →
+                (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+            ∀ (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le #1351460503 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn #2153264938 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M] {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          C.CausallyArcConnectedOn W →
+            (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) → ∀ (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn.match_1_1 #4016652122 : ∀ {M : Type u_1} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} (x : M)
+  (motive : (∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) → Prop)
+  (x_1 : ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}),
+  (∀ (S : Set M) (hS : C.IsCauchySurfaceOn W S) (hSx : S ⊆ C.Iplus W {x}), motive ⋯) → motive x_1
+Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le #546816537 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn #3645558928 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M]
+  {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          (∀ (I : Set ℝ) (γ : ℝ → M),
+              C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+            ∀ (p : M), ¬C.PastBoundaryChart W Ũ p
+Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le #4032249631 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn #2837944928 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M] {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          C.CausallyArcConnectedOn W →
+            (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) → ∀ (p : M), ¬C.PastBoundaryChart W Ũ p
+Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le #1339825441 : ∀ {M : Type u} [inst : TopologicalSpace M] {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M]
+  [SecondCountableTopology M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+Causal.timelikeLine_posHalfLine_iUnion_Iminus_eq #2128817192 : ∀ (I : Set ℝ) (γ : ℝ → ℝ),
+  Causal.timelikeLine.FutureInextensible Causal.posHalfLine I γ →
+    (∀ a ∈ I, ∀ b ∈ I, Causal.timelikeLine.ChronalCurveOn Causal.posHalfLine γ a b) →
+      ⋃ t ∈ I, Causal.timelikeLine.Iminus Causal.posHalfLine {γ t} = ↑Causal.posHalfLine
+Causal.timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeA #1924028666 : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ), ¬Causal.timelikeLine.FutureBoundaryChart Causal.posHalfLine Ũ p
+Causal.timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB #1924028666 : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ), ¬Causal.timelikeLine.FutureBoundaryChart Causal.posHalfLine Ũ p
+Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA #3590426086 : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ), ¬Causal.timelikeLine.PastBoundaryChart Causal.posHalfLine Ũ p
+Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeB #3590426086 : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ), ¬Causal.timelikeLine.PastBoundaryChart Causal.posHalfLine Ũ p

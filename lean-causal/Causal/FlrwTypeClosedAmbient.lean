@@ -35,7 +35,11 @@ J. Sbierski, *The C⁰-inextendibility of a class of FLRW spacetimes*,
    here and not imported.
 4. **The time reversal** `not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le`, its local form
    and its globally hyperbolic form `GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA`, all
-   through `C.dual`. (B)'s time reversals are in item 5.
+   through `C.dual`. (A⁻) for `C` becomes (A) for `C.dual` by
+   `dual_iUnion_Iplus_eq_of_futureInextensible`; its converse
+   `iUnion_Iminus_eq_of_dual_pastInextensible` reads (A) for `C.dual` back as (A⁻) for `C`. The
+   globally hyperbolic form has a witness on the timelike line (item 7). (B)'s time reversals are
+   in item 5.
 5. **(B) alone** `not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le`, the optional report,
    proved. Take `M` T2, second countable, with `≤_M` closed and antisymmetric, and `W` causally
    arc-connected with (B). Then `W` has a past boundary chart at no point. It needs no (A) and no
@@ -56,7 +60,12 @@ J. Sbierski, *The C⁰-inextendibility of a class of FLRW spacetimes*,
    with `timelikeLine_not_pastBoundaryChart`. (B)'s time reversal applies there too
    (`timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB`), with (B) for `S ⊆ I⁺(x, W)`
    carried from `ℝ` by the extension `exp_isSpacetimeExtension.dual`; it agrees with
-   `timelikeLine_not_futureBoundaryChart`. The time reversals of items 4 and 5 are not vacuous:
+   `timelikeLine_not_futureBoundaryChart`. (A)'s time reversal applies there as well
+   (`timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeA`), with (A⁻) on `W`
+   (`timelikeLine_posHalfLine_iUnion_Iminus_eq`): (A⁻) on `ℝ` is (A) for the reversed line, which
+   `exp_isSpacetimeExtension.dual` carries to `W` and the converse of item 4 reads back. It too
+   agrees with `timelikeLine_not_futureBoundaryChart`. The time reversals of items 4 and 5 are not
+   vacuous:
    `Causal.minkowski_pastBoundaryChart` (item 3), read at `(minkowski n).dual` through
    `Causality.dual_dual` (`rfl`), inhabits `FutureBoundaryChart` at `0` for the half-space `{t > 0}`.
 
@@ -339,6 +348,33 @@ theorem dual_iUnion_Iplus_eq_of_futureInextensible
   · rintro ⟨t, ht, hx⟩
     exact ⟨-t, ht, hx⟩
 
+/-- **The converse: (A) for the reversed causality is (A) for future-inextensible curves**: if every
+past-inextensible chronal curve of `W` for `C.dual` has chronological future `W` for `C.dual`, then
+every future-inextensible chronal curve of `W` has chronological past `W`. It is
+`dual_iUnion_Iplus_eq_of_futureInextensible` run the other way: a future-inextensible chronal curve
+of `W`, run backwards, is a past-inextensible chronal curve of `W` for `C.dual`
+(`dual_pastInextensible_iff`, `CurveOn.neg`), and `C.dual.Iplus` is `C.Iminus` (`dual_Iplus`,
+`rfl`). With it, the (A) that an extension carries for `C.dual`
+(`IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible` for `IsSpacetimeExtension.dual`) reads
+back as (A⁻) for `C`. -/
+theorem iUnion_Iminus_eq_of_dual_pastInextensible
+    (hA : ∀ (I : Set ℝ) (γ : ℝ → M), C.dual.PastInextensible W I γ →
+      (∀ a ∈ I, ∀ b ∈ I, C.dual.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.dual.Iplus W {γ t} = W) :
+    ∀ (I : Set ℝ) (γ : ℝ → M), C.FutureInextensible W I γ →
+      (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = W := by
+  intro I γ hγ hchr
+  have h1 : C.dual.PastInextensible W (-I) (fun t => γ (-t)) := dual_pastInextensible_iff.2 hγ
+  have h2 : ∀ a ∈ -I, ∀ b ∈ -I, C.dual.ChronalCurveOn W (fun t => γ (-t)) a b := fun a ha b hb =>
+    CurveOn.neg (hchr (-b) hb (-a) ha)
+  rw [← hA (-I) _ h1 h2]
+  ext x
+  simp only [mem_iUnion, exists_prop, Set.mem_neg]
+  constructor
+  · rintro ⟨t, ht, hx⟩
+    exact ⟨-t, by rwa [neg_neg], by rw [neg_neg]; exact hx⟩
+  · rintro ⟨t, ht, hx⟩
+    exact ⟨-t, ht, hx⟩
+
 /-- **The time reversal, local form**: no future boundary chart, under (A) for future-inextensible
 curves and their chronological pasts, when `≤_U` is closed in `U × U` and antisymmetric for an
 open `U ≥ W ⊔ Ũ`. It is the past form for `C.dual`: `≤` reversed is closed and antisymmetric. -/
@@ -550,5 +586,41 @@ theorem timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeB (Ũ : Open
     exact ⟨S, dual_isCauchySurfaceOn.1 hS, hSx⟩
   exact timelikeLine_globallyHyperbolic.not_futureBoundaryChart_of_flrwTypeB timelikeLine_tarentin
     timelikeLine_flrwType_hypotheses_posHalfLine.1 hB Ũ p
+
+/-- **(A⁻) on `W = (0, ∞)` of the timelike line**: every future-inextensible chronal curve of `W`
+has chronological past `W`. (A⁻) on `ℝ` (`timelikeLine_iUnion_Iminus_eq_univ`) is (A) for the
+reversed line at `⊤` (`dual_iUnion_Iplus_eq_of_futureInextensible`). The extension
+`exp_isSpacetimeExtension.dual` of the reversed lines carries it to `exp`'s image `(0, ∞)`
+(`IsSpacetimeExtension.iUnion_Iplus_eq_of_pastInextensible`, `exp_rangeOpens_eq`), and the
+converse `iUnion_Iminus_eq_of_dual_pastInextensible` reads it back for the timelike line. -/
+theorem timelikeLine_posHalfLine_iUnion_Iminus_eq (I : Set ℝ) (γ : ℝ → ℝ)
+    (hγ : timelikeLine.FutureInextensible posHalfLine I γ)
+    (hchr : ∀ a ∈ I, ∀ b ∈ I, timelikeLine.ChronalCurveOn posHalfLine γ a b) :
+    ⋃ t ∈ I, timelikeLine.Iminus posHalfLine {γ t} = posHalfLine := by
+  -- (A) for the reversed line on `ℝ`, from (A⁻) on `ℝ`
+  have hAdual : ∀ (J : Set ℝ) (δ : ℝ → ℝ), timelikeLine.dual.PastInextensible ⊤ J δ →
+      (∀ a ∈ J, ∀ b ∈ J, timelikeLine.dual.ChronalCurveOn ⊤ δ a b) →
+      ⋃ t ∈ J, timelikeLine.dual.Iplus ⊤ {δ t} = univ := fun J δ hδ hδc =>
+    (dual_iUnion_Iplus_eq_of_futureInextensible (fun J' δ' hδ' _ =>
+      (timelikeLine_iUnion_Iminus_eq_univ J' δ' hδ').trans Opens.coe_top.symm) J δ hδ hδc).trans
+      Opens.coe_top
+  -- carried to `(0, ∞)` by `exp_isSpacetimeExtension.dual`
+  have hA : ∀ (J : Set ℝ) (δ : ℝ → ℝ), timelikeLine.dual.PastInextensible posHalfLine J δ →
+      (∀ a ∈ J, ∀ b ∈ J, timelikeLine.dual.ChronalCurveOn posHalfLine δ a b) →
+      ⋃ t ∈ J, timelikeLine.dual.Iplus posHalfLine {δ t} = posHalfLine := by
+    rw [← exp_rangeOpens_eq]
+    exact exp_isSpacetimeExtension.dual.iUnion_Iplus_eq_of_pastInextensible hAdual
+  -- read back for the timelike line
+  exact iUnion_Iminus_eq_of_dual_pastInextensible hA I γ hγ hchr
+
+/-- **The time-reversed (A)-theorem applies on the timelike line.** `W = (0, ∞)` satisfies (A⁻)
+(`timelikeLine_posHalfLine_iUnion_Iminus_eq`), and the timelike line is globally hyperbolic and
+tarentin, so `W` has no future boundary chart, by
+`GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA`. This agrees with
+`timelikeLine_not_futureBoundaryChart`. -/
+theorem timelikeLine_posHalfLine_not_futureBoundaryChart_of_flrwTypeA (Ũ : Opens ℝ) (p : ℝ) :
+    ¬ timelikeLine.FutureBoundaryChart posHalfLine Ũ p :=
+  timelikeLine_globallyHyperbolic.not_futureBoundaryChart_of_flrwTypeA timelikeLine_tarentin
+    timelikeLine_posHalfLine_iUnion_Iminus_eq Ũ p
 
 end Causal
