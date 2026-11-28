@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Breakages of a copy of programme/ladder.toml: one per rule `tools/ladder.py check` gained with
-T-tool-ladder-py. Each must make the check fail, with the violation named here.
+T-tool-ladder-py (and its successors: the `dual` key's, T-tac-ladder-dual-key). Each must make the
+check fail, with the violation named here.
 
     python3 breakages.py --list                 the breakage names, one per line
     python3 breakages.py LADDER NAME OUT        write LADDER broken by NAME to OUT
@@ -9,6 +10,7 @@ A breakage APPENDS entries to the ladder (TOML lets an array of tables continue 
 from the ids and witnesses the ladder already has, so that the keeper's edits do not stale it.
 tests/test_programme.py imports BREAKAGES and checks each in-process; run.sh drives the CLI.
 """
+import os
 import sys
 import tomllib
 
@@ -40,7 +42,8 @@ def picks(data):
     other = next(q["id"] for q in props if srt[q["id"]] == srt[fact["property"]] and q["id"] != fact["property"])
     assert len(cau) >= 2 and pair, "the ladder needs two causality-sort properties and one pair-sort one"
     return {"c1": cau[0], "c2": cau[1], "pair": pair[0], "edge": edge, "conj": conj, "cons": cons,
-            "fail": fail, "bare": bare, "fact": fact, "fact_other": other, "lean": props[0]["lean"]}
+            "fail": fail, "bare": bare, "fact": fact, "fact_other": other, "lean": props[0]["lean"],
+            "props": props, "pair_lean": next(q["lean"] for q in props if q.get("sort") == "pair")}
 
 
 def _implies(e, extra=""):
@@ -135,6 +138,100 @@ BREAKAGES = {
                    "\n[[transfer]]\npair = %s\nproperty = %s\ncounterexample = %s\nstatus = \"checked\"\n") % (
             _q(p["pair"]), _q(p["c1"]), _q(p["edge"]["witness"]), _q(p["pair"]), _q(p["c1"]), _q(p["fail"]["witness"]))),
 }
+
+
+# T-tac-ladder-dual-key: the `dual` key. A breakage cannot add a key to a node of the ladder (TOML
+# closes a table once the next one starts), so it appends fixture nodes `zz_*` carrying the keys.
+# The library lemmas they name are those of the hand-written Causal/Ladder/Dual.lean (DUAL_LIB);
+# the lemmas a key may not name are found in the Lean index (lean_index), so that a move in the
+# library does not stale them.
+DUAL_LIB = {"two": "Causal.Causality.CausallyOpen", "one": "Causal.Causality.CausallyOpenFuture",
+            "two_key": "Causal.Causality.dual_causallyOpen", "intro": "Causal.Causality.causallyOpen_iff",
+            "edge": "Causal.Causality.CausallyOpen.future"}
+
+
+def _ladder_module():
+    try:
+        import ladder
+    except ImportError:
+        sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")))
+        import ladder
+    return ladder
+
+
+def _index_pick(kind):
+    """A theorem of lean-causal stated as a time-reversal iff whose module imports a model
+    (kind 'model') or Causal.Ladder.Rules (kind 'rules'); any theorem there if none is an iff."""
+    ld = _ladder_module()
+    ix = ld.lean_index()
+
+    def bad(n):
+        m = ix["decls"][n]
+        if kind == "model":
+            return ld.model_path(m, ix["imports"]) is not None
+        chain = ld.import_chain(m, ix["imports"], ld.RULES_MODULE)
+        return chain is not None and len(chain) > 1 and ld.model_path(m, ix["imports"]) is None
+    names = sorted(n for n in ix["tsigs"] if bad(n))
+    assert names, "no theorem of lean-causal in a module importing %s" % kind
+    iffs = [n for n in names if not ix["tsigs"][n][0] and "dual" in (ix["tsigs"][n][1] or "") and "↔" in ix["tsigs"][n][1]]
+    return (iffs or names)[0]
+
+
+def _node(i, lean, dual, sort=None):
+    key = _q(dual) if isinstance(dual, str) else "{ %s }" % ", ".join("%s = %s" % (k, _q(v)) for k, v in dual.items())
+    return "\n[[property]]\nid = %s\nlean = %s\nwhat = \"fixture\"\n%sdual = %s\n" % (
+        _q(i), _q(lean), "sort = %s\n" % _q(sort) if sort else "", key)
+
+
+def _geo(p):
+    return next(q["lean"] for q in p["props"] if q.get("sort") == "geometry")
+
+
+DUAL_BREAKAGES = {
+    # the four of the target's acceptance
+    "dual-not-found": ("dual: lemma 'Causal.Causality.no_such_dual' not found in lean-causal (a full name)",
+                       lambda p: _node("zz_fixture", DUAL_LIB["two"], "Causal.Causality.no_such_dual")),
+    "dual-geometry": ("dual: a geometry node has no time reversal",
+                      lambda p: _node("zz_fixture", _geo(p), DUAL_LIB["two_key"], sort="geometry")),
+    "dual-introduces-one-sided": (
+        "dual: introduces zz_one, a one-sided node (its own key is an introduction)",
+        lambda p: (_node("zz_two", DUAL_LIB["two"], DUAL_LIB["two_key"])
+                   + _node("zz_one", DUAL_LIB["one"], {"introduces": "zz_two", "lemma": DUAL_LIB["intro"]})
+                   + _node("zz_bad", DUAL_LIB["one"], {"introduces": "zz_one", "lemma": DUAL_LIB["intro"]}))),
+    "dual-imports-rules": ("which imports Causal.Ladder.Rules",
+                           lambda p: _node("zz_fixture", DUAL_LIB["two"], _index_pick("rules"))),
+    # the other checks of the key
+    "dual-model-layer": ("which imports a model", lambda p: _node("zz_fixture", DUAL_LIB["two"], _index_pick("model"))),
+    "dual-shape": ("is neither `C.dual.P ↔ C.P` nor `C.P → C.dual.P`",
+                   lambda p: _node("zz_fixture", DUAL_LIB["two"], DUAL_LIB["edge"])),
+    "dual-introduces-keyless": (
+        "dual: introduces zz_two, which carries no two-sided dual key",
+        lambda p: ("\n[[property]]\nid = \"zz_two\"\nlean = %s\nwhat = \"fixture\"\n" % _q(DUAL_LIB["two"])
+                   + _node("zz_one", DUAL_LIB["one"], {"introduces": "zz_two", "lemma": DUAL_LIB["intro"]}))),
+    "dual-pair-introduction": ("dual: an introduction is the key of a one-sided node of sort causality",
+                               lambda p: _node("zz_fixture", p["pair_lean"],
+                                               {"introduces": p["c1"], "lemma": DUAL_LIB["intro"]}, sort="pair")),
+    "dual-introduction-shape": (
+        "is none of `C.Q ↔ C.P ∧ C.dual.P` and",
+        lambda p: (_node("zz_two", DUAL_LIB["two"], DUAL_LIB["two_key"])
+                   + _node("zz_one", DUAL_LIB["one"], {"introduces": "zz_two", "lemma": DUAL_LIB["two_key"]}))),
+    # another node's lemma whose name the node's only starts (the audit of T-tac-ladder-dual-key):
+    # strongly_causal keyed with the lemma of strongly_causal_open
+    "dual-prefix-name": ("is `C.dual.P ↔ C.P` for a P other than Causal.Causality.StronglyCausal",
+                         lambda p: _node("zz_fixture", "Causal.Causality.StronglyCausal",
+                                         "Causal.Causality.dual_stronglyCausalOpen")),
+    # a two-sided r, r ⇒ p, p one-sided introducing a two-sided q: a counterexample with r and
+    # without q is no contradiction on C alone, and is one across time reversal
+    "dual-contradiction": (
+        "contradiction across time reversal: counterexample",
+        lambda p: (_node("zz_r", DUAL_LIB["two"], DUAL_LIB["two_key"])
+                   + _node("zz_p", DUAL_LIB["one"], {"introduces": "zz_q", "lemma": DUAL_LIB["intro"]})
+                   + _node("zz_q", DUAL_LIB["two"], DUAL_LIB["two_key"])
+                   + _implies({"from": ["zz_r"], "to": "zz_p", "witness": DUAL_LIB["edge"]})
+                   + "\n[[fails]]\nfrom = \"zz_r\"\nto = \"zz_q\"\nwitness = %s\nstatus = \"checked\"\n" % _q(
+                       p["fail"]["witness"]))),
+}
+BREAKAGES.update(DUAL_BREAKAGES)
 
 
 def broken(text, name):

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # `tools/ladder.py check` must fail on each breakage of breakages.py (one per rule T-tool-ladder-py
 # added: standing words, unknown keys and tables, namespace-exact names, conjunctive `at`, labels
-# against papers/ett's ledger, sorts, `fails` with a list `from`, [[transfer]]), each applied to a
+# against papers/ett's ledger, sorts, `fails` with a list `from`, [[transfer]]; the `dual` key since
+# T-tac-ladder-dual-key), each applied to a
 # copy of programme/ladder.toml in a temporary directory, never in the tree. The unbroken copy must
 # pass first (else the fixture proves nothing: exit 0). Exit non-zero only if every breakage fails.
 set -u

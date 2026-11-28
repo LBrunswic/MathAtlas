@@ -341,3 +341,5 @@ rediscover. One fact per entry.
 | [0333](entries/0333-extensible-of-graph.md) | pattern | Extending a causal curve with no causality hypothesis: extensible_of_eq_comp_monotoneOn |
 | [0334](entries/0334-strong-causality-hull.md) | convention | Rules imports the light Causal.StrongCausalityHull, not SCOpenWithoutTarentin |
 | [0335](entries/0335-hoist-binder-order.md) | pitfall | A hoist into a module whose variable line orders binders differently changes the statement |
+| [0336](entries/0336-ladder-dual-key.md) | convention | The ladder's dual key, and how Dual.lean switches to generated |
+| [0337](entries/0337-dual-key-orientation-rfl.md) | pitfall | Lean does not catch a reversed dual iff: the shape check does |

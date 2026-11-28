@@ -943,6 +943,310 @@ class LadderFixture(unittest.TestCase):
         self.assertIn("every breakage fails the check", r.stdout)
 
 
+def dindex():
+    """findex() with time-reversal lemmas of every shape (Causal.Rev), two pair relations (R on an
+    open set, L), a geometry def, and lemmas a dual key may not name (in Causal.Down, which imports
+    Causal.Ladder.Rules; in Causal.UsesModel; in Causal.Ladder.Dual itself)."""
+    ix = findex()
+    rev = {"dual_A": ([], "C.dual.A ↔ C.A"), "B.dual": (["h : C.B"], "C.dual.B"),
+           "dual_C": ([], "C.dual.C ↔ C.C"), "c_iff": ([], "C.C ↔ C.D ∧ C.dual.D"),
+           "mkC": (["hf : C.E", "hp : C.dual.E"], "C.C"),
+           "dual_R": ([], "R C.dual C'.dual W ↔ R C C' W"), "dual_L": ([], "L C.dual C'.dual ↔ L C C'"),
+           "a_imp_b": (["h : C.A"], "C.B"), "dual_A'": ([], "C.A ↔ C.dual.A")}
+    for n, sig in rev.items():
+        ix["decls"][CC + n] = "Causal.Rev"
+        ix["tsigs"][CC + n] = sig
+    for n, mod in (("dual_down", "Causal.Down"), ("dual_far", "Causal.UsesModel"), ("dual_in", "Causal.Ladder.Dual")):
+        ix["decls"][CC + n] = mod
+        ix["tsigs"][CC + n] = ([], "C.dual.A ↔ C.A")
+    ix["decls"].update({CC + "R": "Causal.Base", CC + "L": "Causal.Base", "Causal.CBG.G": "Causal.Base"})
+    ix["sigs"].update({CC + "R": (["C C' : Causality M", "W : Opens M"], "Prop"),
+                       CC + "L": (["C C' : Causality M"], "Prop"), "Causal.CBG.G": ([], "Prop")})
+    ix["imports"]["Causal.Rev"] = ["Causal.Base"]
+    return ix
+
+
+def dladder(**keys):
+    """ladder5 with the pair nodes r, l and the geometry node g, the `dual` keys given by id."""
+    d = ladder5([edge(["a"], "b", "w_ab"), edge(["c", "d"], "e", "w_conj")])
+    d["property"] += [cprop("r", sort="pair"), cprop("l", sort="pair"), cprop("g", "Causal.CBG.G", sort="geometry")]
+    for p in d["property"]:
+        if p["id"] in keys:
+            p["dual"] = keys[p["id"]]
+    return d
+
+
+GOOD = {"a": CC + "dual_A", "b": CC + "B.dual", "c": CC + "dual_C",
+        "d": {"introduces": "c", "lemma": CC + "c_iff"}, "e": {"introduces": "c", "lemma": CC + "mkC"},
+        "r": CC + "dual_R", "l": CC + "dual_L"}
+PAT = "attribute [aesop safe forward (pattern := Causal.Causality.dual C) (rule_sets := [CausalLadder])] "
+
+
+def dchk(d, ix=None):
+    ix = dindex() if ix is None else ix
+    return ld.check(d, set(ix["decls"]), LABELS, ix)
+
+
+class LadderDualKeys(unittest.TestCase):
+    """T-tac-ladder-dual-key: the `dual` key of a [[property]] (a two-sided node's time-reversal lemma,
+    a one-sided node's introduction), its checks, and the rules and tests emit-lean writes from it."""
+
+    def test_no_key_no_dual_emission(self):
+        d = dladder()
+        self.assertFalse(ld.has_dual_keys(d))
+        self.assertIsNone(ld.emit_dual(d, dindex()))
+        self.assertIsNone(ld.emit_dual_test(d, dindex()))
+        self.assertEqual(dchk(d), [])
+
+    def test_good_keys_pass(self):
+        self.assertEqual(dchk(dladder(**GOOD)), [])
+        rev, intro, faults = ld.dual_keys(dladder(**GOOD), dindex())
+        self.assertEqual(faults, [])
+        self.assertEqual({r["id"]: r["shape"] for r in rev}, {"a": "iff", "b": "imp", "c": "iff", "r": "iff", "l": "iff"})
+        self.assertEqual({i["id"]: (i["target"], i["shape"]) for i in intro}, {"d": ("c", "iff"), "e": ("c", "builder")})
+
+    def test_keys_leave_rules_and_test_unchanged_while_dual_is_hand_written(self):
+        ix = dindex()                    # Causal.Ladder.Dual is in the tree and not generated
+        bare, keyed = dladder(), dladder(**GOOD)
+        self.assertFalse(ld.dual_generated(keyed, ix))
+        self.assertEqual(ld.emit_lean(keyed, ix), ld.emit_lean(bare, ix))
+        self.assertEqual(ld.emit_test(keyed, ix), ld.emit_test(bare, ix))
+        self.assertIn("the hand-written time-reversal rules", ld.emit_lean(keyed, ix))
+
+    def test_a_generated_or_absent_dual_is_written_and_imported(self):
+        keyed = dladder(**GOOD)
+        ix = dindex()
+        ix["generated"] = {ld.DUAL_MODULE}
+        self.assertTrue(ld.dual_generated(keyed, ix))
+        out = ld.emit_lean(keyed, ix)
+        self.assertIn("\nimport Causal.Ladder.Dual\n", out)
+        self.assertIn("generated\nwith it from the ladder's `dual` keys", out)
+        del ix["imports"][ld.DUAL_MODULE]          # removed for the switch: still imported
+        self.assertTrue(ld.dual_generated(keyed, ix))
+        self.assertIn("\nimport Causal.Ladder.Dual\n", ld.emit_lean(keyed, ix))
+        self.assertNotIn("import Causal.Ladder.Dual", ld.emit_lean(dladder(), ix))   # no key, no module
+
+    def test_emit_dual_rules(self):
+        out = ld.emit_dual(dladder(**GOOD), dindex())
+        self.assertTrue(out.startswith(ld.GENERATED + "\nimport Causal.Ladder.Basic\nimport Causal.Base\n"
+                                       "import Causal.Rev\n"))
+        self.assertIn("\nnamespace Causal.LadderDual\n", out)
+        self.assertTrue(out.endswith("\nend Causal.LadderDual\n"))
+        A, B, Cc, D, E = ("Causal.Causality.%s" % x for x in "ABCDE")
+        for block in (
+                # an iff
+                "theorem a_of_dual (h : %s C.dual) : %s C :=\n  %sdual_A.1 h\n"
+                "theorem a_dual (h : %s C) : %s C.dual :=\n  %sdual_A.2 h\n%sa_of_dual\n%sa_dual\n" % (
+                    A, A, CC, A, A, CC, FWD, PAT),
+                # an implication, read at C.dual by the type ascription
+                "theorem b_of_dual (h : %s C.dual) : %s C :=\n  (%sB.dual h :)\n"
+                "theorem b_dual (h : %s C) : %s C.dual :=\n  %sB.dual h\n" % (B, B, CC, B, B, CC),
+                # the introductions: an iff, and a builder (the second one of c gets its own name)
+                "theorem c_of_future_of_past (hf : %s C) (hp : %s C.dual) : %s C :=\n  %sc_iff.2 ⟨hf, hp⟩\n"
+                "%sc_of_future_of_past\n" % (D, D, Cc, CC, FWD),
+                "theorem c_of_e_of_past (hf : %s C) (hp : %s C.dual) : %s C :=\n  %smkC hf hp\n" % (E, E, Cc, CC),
+                # pair nodes, with and without an open set
+                "theorem r_of_dual (h : %sR C.dual C'.dual W) : %sR C C' W :=\n  %sdual_R.1 h\n" % (CC, CC, CC),
+                "theorem l_dual (h : %sL C C') : %sL C.dual C'.dual :=\n  %sdual_L.2 h\n%sl_of_dual\n%sl_dual\n" % (
+                    CC, CC, CC, FWD, PAT)):
+            self.assertIn(block, out)
+        self.assertEqual(out.count("\ntheorem "), 12)
+        self.assertNotIn("-- skipped", out)
+
+    def test_emit_dual_definition_introduction(self):
+        d = dladder(c=CC + "dual_C", d={"introduces": "c", "lemma": CC + "C"})
+        out = ld.emit_dual(d, dindex())
+        self.assertIn("theorem c_of_future_of_past (hf : %sD C) (hp : %sD C.dual) : %sC C :=\n  ⟨hf, hp⟩\n" % (
+            CC, CC, CC), out)
+        self.assertIn("(the definition of the two-sided node)", out)
+
+    def test_faults(self):
+        cases = [
+            ({"a": CC + "nowhere"}, "a", "lemma 'Causal.Causality.nowhere' not found in lean-causal (a full name)"),
+            ({"g": CC + "dual_A"}, "g", "a geometry node has no time reversal"),
+            ({"a": CC + "dual_far"}, "a", "lives in Causal.UsesModel, which imports a model (Causal.UsesModel → "
+                                          "Causal.Mid → Causal.Flat.Form)"),
+            ({"a": CC + "dual_down"}, "a", "lives in Causal.Down, which imports Causal.Ladder.Rules (Causal.Down → "
+                                           "Causal.Mid2 → Causal.Ladder.Rules)"),
+            ({"a": CC + "dual_in"}, "a", "lives in Causal.Ladder.Dual, which is Causal.Ladder.Dual"),
+            ({"a": CC + "a_imp_b"}, "a", "is neither `C.dual.P ↔ C.P` nor `C.P → C.dual.P`"),
+            ({"a": CC + "dual_A'"}, "a", "is neither"),                 # the iff the wrong way round
+            ({"b": CC + "dual_A"}, "b", "for a P other than Causal.Causality.B"),   # another node's lemma
+            ({"a": "w_none"}, "a", "is neither"),
+            ({"a": "w_ab"}, "a", "is neither"),
+            ({"a": CC + "A"}, "a", "lemma Causal.Causality.A is not a theorem"),
+            ({"c": CC + "dual_C", "d": {"introduces": "c", "lemma": CC + "c_iff"},
+              "e": {"introduces": "d", "lemma": CC + "mkC"}}, "e",
+             "introduces d, a one-sided node (its own key is an introduction)"),
+            ({"d": {"introduces": "c", "lemma": CC + "c_iff"}}, "d", "introduces c, which carries no two-sided dual key"),
+            ({"d": {"introduces": "zz", "lemma": CC + "c_iff"}}, "d", "introduces 'zz', which is not a property"),
+            ({"d": {"introduces": "d", "lemma": CC + "c_iff"}}, "d", "introduces itself"),
+            ({"r": CC + "dual_R", "d": {"introduces": "r", "lemma": CC + "c_iff"}}, "d", "introduces r, of sort pair"),
+            ({"r": {"introduces": "c", "lemma": CC + "c_iff"}, "c": CC + "dual_C"}, "r",
+             "an introduction is the key of a one-sided node of sort causality"),
+            ({"c": CC + "dual_C", "d": {"introduces": "c"}}, "d", "an introduction is a table {introduces"),
+            ({"a": 3}, "a", "must be the full name of a time-reversal lemma"),
+            ({"c": CC + "dual_C", "d": {"introduces": "c", "lemma": CC + "dual_A"}}, "d", "is none of"),
+            ({"c": CC + "dual_C", "d": {"introduces": "c", "lemma": CC + "B"}}, "d", "is neither a theorem"),
+        ]
+        for keys, pid, want in cases:
+            d = dladder(**keys)
+            errs = dchk(d)
+            self.assertTrue(has(errs, "property %s: dual: " % pid) and has(errs, want), (keys, want, errs))
+            self.assertIn("-- skipped dual key of %s: " % pid, ld.emit_dual(d, dindex()))
+        d = dladder(a=CC + "dual_A")
+        d["property"][0]["lean"] = CC + "Far"                         # the node's own def outside the layer
+        self.assertTrue(has(dchk(d), "property a: dual: no Lean form: Causal.Causality.Far lives in"))
+
+    def test_the_node_name_ends_where_it_matches(self):
+        """T-tac-ladder-dual-key's audit: the lemma of a node whose name the node's only starts is
+        another node's (StronglyCausalOpen for StronglyCausal); the form on an open set, `On`, at ⊤
+        is the node's own (CausallyArcConnectedOn for CausallyArcConnected)."""
+        ix = dindex()
+        for n, sig in (("dual_AOpen", ([], "C.dual.AOpen ↔ C.AOpen")), ("dual_AOn", ([], "C.dual.AOn W ↔ C.AOn W")),
+                       ("AOpen.dual", (["h : C.AOpen"], "C.dual.AOpen")),
+                       ("aOpen_iff", ([], "C.AOpen ↔ C.D ∧ C.dual.D"))):
+            ix["decls"][CC + n] = "Causal.Rev"
+            ix["tsigs"][CC + n] = sig
+        for key, want in ((CC + "dual_AOpen", "is `C.dual.P ↔ C.P` for a P other than Causal.Causality.A"),
+                          (CC + "AOpen.dual", "is `C.P → C.dual.P` for a P other than Causal.Causality.A")):
+            errs = dchk(dladder(a=key), ix)
+            self.assertEqual(len(errs), 1, errs)
+            self.assertIn("property a: dual: lemma %s: " % key, errs[0])
+            self.assertIn(want, errs[0])
+        self.assertEqual(dchk(dladder(a=CC + "dual_AOn"), ix), [])
+        # (a one-letter synthetic name C would match the causality variable C: the target is A)
+        errs = dchk(dladder(a=CC + "dual_A", d={"introduces": "a", "lemma": CC + "aOpen_iff"}), ix)
+        self.assertEqual(len(errs), 1, errs)
+        self.assertIn("is `C.Q ↔ C.P ∧ C.dual.P` for a P other than Causal.Causality.D or a Q other than "
+                      "Causal.Causality.A", errs[0])
+        for typ, lean, shape in (("C.dual.StronglyCausalOpen ↔ C.StronglyCausalOpen", "StronglyCausal", None),
+                                 ("C.dual.IsCausalChain S ↔ C.IsCausalChain S", "IsCausal", None),
+                                 ("C.dual.CausallyArcConnectedOn W ↔ C.CausallyArcConnectedOn W",
+                                  "CausallyArcConnected", "iff"),
+                                 ("C.dual.StronglyCausalOpen ↔ C.StronglyCausalOpen", "StronglyCausalOpen", "iff"),
+                                 ("C.dual.AbsolutelyMinimal ↔ C.AbsolutelyMinimal", "AbsolutelyMinimal", "iff")):
+            self.assertEqual(ld.reversal_shape(([], typ), CC + lean)[0], shape, (typ, lean))
+
+    def test_a_key_is_checked_against_the_counterexamples(self):
+        # c two-sided and d one-sided introducing it: a counterexample with c ∧ ... lacking nothing is
+        # fine; one that has a two-sided b, b ⇒ d on both sides, and lacks c is a contradiction
+        d = dladder(**GOOD)
+        d["implies"].append(edge(["b"], "d", "w_bc"))
+        self.assertEqual(dchk(d), [])
+        d["fails"] = [{"from": "b", "to": "c", "witness": "cex_a_not_c", "status": "checked"}]
+        ix = dindex()
+        ix["decls"]["cex_a_not_c"] = "Causal.Base"
+        errs = ld.check(d, set(ix["decls"]), LABELS, ix)
+        self.assertTrue(has(errs, "contradiction across time reversal: counterexample cex_a_not_c has b, hence by "
+                                  "the dual keys c of C"), errs)
+        self.assertEqual(ld.check(dladder(), set(ix["decls"]), LABELS, ix), [])   # no key: no reading
+        d2 = dladder()
+        d2["implies"].append(edge(["b"], "d", "w_bc"))
+        d2["fails"] = d["fails"]
+        self.assertEqual(ld.check(d2, set(ix["decls"]), LABELS, ix), [])
+
+    def test_emit_dual_test(self):
+        d = dladder(**GOOD)
+        d["fails"] = [{"from": "a", "to": "c", "witness": "cex_a_not_c", "status": "checked"},
+                      {"from": "d", "to": "c", "witness": "cex_d", "status": "checked"}]
+        text = ld.emit_dual_test(d, dindex())
+        A, B, Cc, D, E = ("Causal.Causality.%s" % x for x in "ABCDE")
+        self.assertTrue(text.startswith(ld.GENERATED + "\nimport Causal.Ladder.Rules\nimport Causal.Ladder.Dual\n"
+                                        "import Causal.Base\n"))
+        for line in (
+                "-- a(C) ⇒ b(C.dual)\nexample (_h0 : %s C) : %s C.dual := by causal_ladder" % (A, B),
+                "-- a(C.dual) ⇒ a(C)\nexample (_h0 : %s C.dual) : %s C := by causal_ladder" % (A, A),
+                # the conjunctive edge on C.dual, its two-sided premise c given on C
+                "-- c(C) ∧ d(C.dual) ⇒ e(C.dual) (w_conj on C.dual)\nexample (_h0 : %s C) (_h1 : %s C.dual) : "
+                "%s C.dual := by causal_ladder" % (Cc, D, E),
+                "-- d(C) ∧ d(C.dual) ⇒ c(C.dual) (c_of_future_of_past)\nexample (_h0 : %s C) (_h1 : %s C.dual) : "
+                "%s C.dual := by causal_ladder" % (D, D, Cc),
+                "-- r(C, C') ⇒ r(C.dual, C'.dual)\nexample (W : TopologicalSpace.Opens M) (_h0 : %sR C C' W) : "
+                "%sR C.dual C'.dual W := by causal_ladder" % (CC, CC),
+                "-- l(C.dual, C'.dual) ⇒ l(C, C')\nexample (_h0 : %sL C.dual C'.dual) : %sL C C' := by causal_ladder" % (
+                    CC, CC),
+                # refuted: the counterexample has a (hence b, on both sides) and lacks c (on both sides)
+                "-- a(C) ⇏ c(C.dual) (refuted: cex_a_not_c)\nexample (_h0 : %s C) : True := by\n"
+                "  fail_if_success have : %s C.dual := by causal_ladder" % (A, Cc),
+                # one-sided d: lacking c, the counterexample lacks d of C.dual (the one-way membrane)
+                "-- d(C) ⇏ d(C.dual) (refuted: cex_d)\nexample (_h0 : %s C) : True := by\n"
+                "  fail_if_success have : %s C.dual := by causal_ladder" % (D, D),
+                "-- d(C.dual) ⇏ d(C) (refuted: cex_d, time-reversed)"):
+            self.assertIn(line, text)
+        # d is one-sided: d(C) does not give d(C.dual), and is not written as derived
+        self.assertNotIn("-- d(C) ⇒ d(C.dual)", text)
+        self.assertNotIn("-- a(C.dual) ⇏ c(C)", text)            # two-sided ends: the mirror is not repeated
+
+    def test_dual_close(self):
+        two, one = ["a", "c"], {"d": "c"}
+        edges = [edge(["a"], "b", "w"), {"from": [], "to": "e"}]
+        got = ld.dual_close({("a", 0)}, edges, two, one)
+        self.assertEqual(got, {("a", 0), ("a", 1), ("b", 0), ("b", 1), ("e", 0), ("e", 1)})
+        self.assertIn(("c", 1), ld.dual_close({("d", 0), ("d", 1)}, [], two, one))
+        self.assertNotIn(("d", 1), ld.dual_close({("d", 0)}, [], two, one))
+
+    def test_shapes(self):
+        self.assertEqual(ld.reversal_shape(([], "C.dual.CausallyArcConnectedOn W ↔ C.CausallyArcConnectedOn W"),
+                                           CC + "CausallyArcConnected")[0], "iff")
+        self.assertEqual(ld.reversal_shape((["h : C.CurvesExtend"], "C.dual.CurvesExtend"), CC + "CurvesExtend")[0], "imp")
+        self.assertIsNone(ld.reversal_shape((["h : C.CurvesExtend"], "C.dual.CurvesExtend ↔ C.CurvesExtend"),
+                                            CC + "CurvesExtend")[0])
+        self.assertEqual(ld.intro_shape(CC + "causallyOpen_iff",
+                                        ([], "C.CausallyOpen ↔ C.CausallyOpenFuture ∧ C.dual.CausallyOpenFuture"),
+                                        CC + "CausallyOpenFuture", CC + "CausallyOpen")[0], "iff")
+        self.assertEqual(ld._top_split("(a ↔ b) ↔ c ∧ (d ∧ e)", "↔"), ["(a ↔ b)", "c ∧ (d ∧ e)"])
+
+    def test_dry_run_with_a_key_keeps_the_hand_written_dual(self):
+        """With a key on the shipped ladder and the hand-written Dual.lean in the tree, emit-lean
+        --dry-run says Rules.lean and Test.lean are unchanged and keeps Dual.lean and DualTest.lean."""
+        import contextlib
+        import io
+        if ld.DUAL_MODULE in ld.lean_index().get("generated", ()):
+            self.skipTest("Causal/Ladder/Dual.lean is generated: the switch is done")
+        with open(ld.FILE, encoding="utf-8") as fh:
+            text = fh.read()
+        if "\ndual = " in text:
+            self.skipTest("the shipped ladder carries dual keys")
+        keyed = text.replace('\nid = "is_causal"\n', '\nid = "is_causal"\ndual = "Causal.Causality.dual_isCausal"\n', 1)
+        self.assertNotEqual(keyed, text)
+        paths = (ld.RULES, ld.TEST, ld.DUAL, ld.DUAL_TEST)
+        before = [os.stat(p).st_mtime_ns for p in paths]
+        with tempfile.TemporaryDirectory() as tmp:
+            f = os.path.join(tmp, "ladder.toml")
+            with open(f, "w", encoding="utf-8") as fh:
+                fh.write(keyed)
+            self.assertEqual(ld.check(ld.load(f)), [])
+            out, saved = io.StringIO(), ld.FILE
+            try:
+                ld.FILE = f
+                with contextlib.redirect_stdout(out):
+                    ld.main(["emit-lean", "--dry-run"])
+            finally:
+                ld.FILE = saved
+        lines = out.getvalue().splitlines()
+        self.assertEqual(lines[:2], ["ladder: lean-causal/Causal/Ladder/Rules.lean unchanged",
+                                     "ladder: lean-causal/Causal/Ladder/Test.lean unchanged"])
+        self.assertEqual(lines[2:], ["ladder: lean-causal/Causal/Ladder/%s.lean is hand-written: kept (emit-lean "
+                                     "writes it from the dual keys once it is removed)" % x for x in ("Dual", "DualTest")])
+        self.assertEqual([os.stat(p).st_mtime_ns for p in paths], before)
+
+    def test_shipped_dual_modules(self):
+        """Causal/Ladder/Dual.lean and DualTest.lean are hand-written (T-tac-ladder-dual) until
+        T-tac-dual-generated, and emit-lean's output from then on."""
+        ix, d = ld.lean_index(), ld.load()
+        for mod, path, emit in ((ld.DUAL_MODULE, ld.DUAL, ld.emit_dual), (ld.DUAL_TEST_MODULE, ld.DUAL_TEST,
+                                                                          ld.emit_dual_test)):
+            with open(path, encoding="utf-8") as fh:
+                cur = fh.read()
+            if mod in ix["generated"]:
+                self.assertEqual(cur, emit(d, ix), "%s is stale: run python3 tools/ladder.py emit-lean" % path)
+            else:
+                self.assertFalse(cur.startswith(ld.GENERATED))
+        if not ld.has_dual_keys(d):
+            self.assertIsNone(ld.emit_dual(d, ix))
+
+
 class Binder(unittest.TestCase):
     def setUp(self):
         self.lp = os.path.join(ROOT, "papers", "zz-binder-test", "ledger")

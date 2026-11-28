@@ -5,7 +5,9 @@
     python3 tools/ladder.py matrix [--file F]  every ordered pair of properties, classified (below)
     python3 tools/ladder.py emit-lean [--dry-run]  write lean-causal/Causal/Ladder/Rules.lean from the
                                                checked edges and facts (and its tests,
-                                               Causal/Ladder/Test.lean)
+                                               Causal/Ladder/Test.lean); when a property carries
+                                               a `dual` key, also Causal/Ladder/Dual.lean and
+                                               DualTest.lean, unless they are hand-written
     python3 tools/ladder.py dot                the implication DAG in Graphviz
     -h, --help anywhere                        this text; nothing is read or written. Any other
                                                argument a subcommand does not take: exit 2.
@@ -19,7 +21,7 @@ be dropped silently, and its edge chained as unconditional).
                      the standing hypotheses of ETT's topological spacetimes, T2 and
                      second_countable (def:category_topological_spacetimes, ETT.tex:255).
     [[property]]     id, lean, what; label (a label of papers/ett/ledger/ledger.json); sort
-                     (causality | geometry | pair; absent means causality)
+                     (causality | geometry | pair; absent means causality); dual (optional, below)
     [[implies]]      from (an id or a list, read as a conjunction), to, witness, status; under (side
                      conditions in words); standing (list of words)
     [[fails]]        from (an id or a list: the counterexample has every one), to, witness, status;
@@ -49,6 +51,33 @@ status is seed | checked. Lean names (property `lean`, every witness and counter
 NAMESPACE-EXACTLY: a name is found when it is the full name of a declaration of
 lean-causal/Causal (namespace and section blocks read, comments blanked: lean_index); a dotted
 suffix is not enough. tools/binder.py inherits this.
+
+The `dual` key (T-tac-ladder-dual-key). Time reversal C ↦ C.dual, on a [[property]] of sort causality
+or pair (never geometry: those have none). It is either
+
+    dual = "<full name>"   a two-sided node: its time-reversal lemma. An iff `C.dual.P ↔ C.P` (for a
+                           pair node `R C.dual C'.dual ↔ R C C'`, both causalities reversed, an open
+                           W kept), or the implication `C.P → C.dual.P` with one explicit hypothesis,
+                           which is enough since `C.dual.dual` is `C` by `rfl`;
+    dual = { introduces = "<id>", lemma = "<full name>" }
+                           a one-sided node P of sort causality (P of C.dual is its past form, not a
+                           node): the two-sided node Q it introduces, `C.P ∧ C.dual.P → C.Q`, with
+                           the library lemma that builds it. That is an iff `C.Q ↔ C.P ∧ C.dual.P`,
+                           a theorem `(hf : C.P) (hp : C.dual.P) : C.Q`, or Q's own definition
+                           (its `lean`) when `C.Q` is `C.P ∧ C.dual.P` by definition.
+
+check refuses: a key on a geometry node; a lemma that names no declaration; a lemma (and, for the
+node's own definition, its module) outside the ETT layer, or in a module that is or imports
+Causal.Ladder.Rules or Causal.Ladder.Dual (Dual.lean is where the rules are written, and Rules
+imports it); a lemma whose statement, read off the source, has neither shape, or has one for
+another definition (the node's name, the last component of its `lean`, must occur as a whole word
+or followed by `On` only, its form on an open set: dual_stronglyCausalOpen is not strongly_causal's
+lemma, dual_causallyArcConnectedOn is causally_arc_connected's); an introduction on a pair node, of an unknown id, of the node itself, of a node of
+another sort, or of a node that is not two-sided (its own key is an introduction, or it has no
+key); and a contradiction across time reversal: a counterexample that has, by the edges and facts
+valid on its space applied to C and to C.dual, the reversals and the introductions, a property
+of C or of C.dual it lacks (a key the ladder's counterexamples call one-sided). emit-lean turns the
+keys into rules (above `emit_dual`); with no key it writes what it wrote before the key existed.
 
 Standing hypotheses. `standing` lists hypotheses on the topological space M that are not ladder
 nodes; each word is a Mathlib class on M, which the witness takes as an instance argument:
@@ -166,7 +195,7 @@ AMBIENT_LABEL = "def:category_topological_spacetimes"
 
 KEYS = {
     "ambient": {"standing", "label", "note"},
-    "property": {"id", "lean", "what", "label", "sort"},
+    "property": {"id", "lean", "what", "label", "sort", "dual"},
     "implies": {"from", "to", "witness", "status", "under", "standing"},
     "fails": {"from", "to", "witness", "status", "space"},
     "consequence": {"at", "statement", "witness", "status", "under", "standing"},
@@ -392,7 +421,10 @@ def _transfer_sides(t):
     return (wid, nar) if t.get("direction", "to_narrower") == "to_narrower" else (nar, wid)
 
 
-def check(data, names=None, labels=None):
+def check(data, names=None, labels=None, index=None):
+    """The violations of the ladder `data` (a list of strings). `names` (the full names of the
+    declarations), `labels` (the ETT labels) and `index` (lean_index's, read only when a property
+    carries a `dual` key) default to the repository's."""
     errs = []
     names = lean_names() if names is None else names
     labels = ett_labels() if labels is None else labels
@@ -455,6 +487,10 @@ def check(data, names=None, labels=None):
             errs.append("%s: reads must be words (a string)" % tag)
         if e.get("label"):
             _label(tag, e["label"], labels, errs)
+    if has_dual_keys(data):
+        index = lean_index() if index is None else index
+        for pid, why in dual_keys(data, index)[2]:
+            errs.append("property %s: dual: %s" % (pid, why))
 
     def lean_ref(tag, key, e, required=True):
         if not e.get(key):
@@ -549,6 +585,8 @@ def check(data, names=None, labels=None):
             errs.append("%s: asks %s of the causality it concludes it for (vacuous)" % (tag, t.get("property")))
     if not errs:
         errs += _contradictions(data)
+    if not errs and has_dual_keys(data):
+        errs += dual_contradictions(data, index)
     return errs
 
 
@@ -812,12 +850,17 @@ def _lean_index(root=LEAN_ROOT):
     `decls`   fully qualified name -> module, for every declaration (namespaces tracked);
     `imports` module -> the Causal modules its header imports;
     `sigs`    fully qualified name -> (explicit binders, type), for every `def` and `abbrev`;
-    `tsigs`   the same for every `theorem` and `lemma` (what a [[fact]]'s witness is stated for)."""
-    decls, imports, sigs, tsigs = {}, {}, {}, {}
+    `tsigs`   the same for every `theorem` and `lemma` (what a [[fact]]'s witness is stated for);
+    `generated` the modules whose first line is emit-lean's GENERATED line (T-tac-ladder-dual-key: a
+              hand-written Causal/Ladder/Dual.lean is never overwritten)."""
+    decls, imports, sigs, tsigs, generated = {}, {}, {}, {}, set()
     for f in sorted(glob.glob(os.path.join(root, "Causal", "**", "*.lean"), recursive=True)):
         mod = os.path.relpath(f, root)[:-len(".lean")].replace(os.sep, ".")
         with open(f, encoding="utf-8") as fh:
-            code = _code(fh.read())
+            raw = fh.read()
+        if raw.split("\n", 1)[0] == GENERATED:
+            generated.add(mod)
+        code = _code(raw)
         imports[mod] = []
         stack = []          # one entry per namespace component or section: (kind, component)
         header = True
@@ -870,7 +913,7 @@ def _lean_index(root=LEAN_ROOT):
             if m.group(1) in ("def", "abbrev", "theorem", "lemma"):
                 at = here + (len(line) - len(line.lstrip())) + (len(line.strip()) - len(s)) + m.end()
                 (sigs if m.group(1) in ("def", "abbrev") else tsigs).setdefault(full, _signature(code, at))
-    return {"decls": decls, "imports": imports, "sigs": sigs, "tsigs": tsigs}
+    return {"decls": decls, "imports": imports, "sigs": sigs, "tsigs": tsigs, "generated": generated}
 
 
 def is_model(mod):
@@ -1102,7 +1145,8 @@ def emit_lean(data, index=None):
     index = lean_index() if index is None else index
     rules, skipped = emitted(data, index)
     facts, local, fskipped = emitted_facts(data, index, rules)
-    dual, dual_why = dual_import(index)
+    gen = dual_generated(data, index)
+    dual, dual_why = (True, None) if gen else dual_import(index)
     mods = sorted({m for _, m in rules} | {x[1] for x in facts})
     lines = ([GENERATED, "import Causal.Ladder.Basic"] + (["import " + DUAL_MODULE] if dual else []) +
              ["import %s" % m for m in mods if m != DUAL_MODULE] + [
@@ -1127,10 +1171,13 @@ def emit_lean(data, index=None):
         "rule with the rule pattern of its causality (it holds of every causality term in sight, so the",
         "implications can use it). A fact whose witness's module imports this module cannot be a rule",
         "here (an import cycle): `Causal.Ladder.Test` registers it locally, to test the rule.",
-        ""] if facts or local else []) + ([
+        ""] if facts or local else []) + (([
+        "This module imports `Causal.Ladder.Dual`, the time-reversal rules of the same rule set, generated",
+        "with it from the ladder's `dual` keys, so every user of `causal_ladder` reasons across `C.dual`.",
+        ] if gen else [
         "This module imports `Causal.Ladder.Dual`, the hand-written time-reversal rules of the same rule",
         "set, so every user of `causal_ladder` reasons across `C.dual` (T-tac-ladder-dual).",
-        ] if dual else []) + [
+        ]) if dual else []) + [
         "Every other checked implication or fact is a `-- skipped` line below, with its reason.",
         "Regenerate with `python3 tools/ladder.py emit-lean`; `Causal.Ladder.Test` is generated with it.",
         "",
@@ -1361,6 +1408,666 @@ def emit_test(data, index=None):
     return "\n".join(lines) + "\n"
 
 
+# ------------------------------------------------------------------ dual keys (T-tac-ladder-dual-key)
+#
+# The `dual` key of a [[property]] (schema in the module docstring) makes emit-lean write two more
+# generated modules, and only when at least one property carries a key:
+#   Causal/Ladder/Dual.lean      per two-sided node P, `p_of_dual : P C.dual → P C` (plain forward)
+#                                and `p_dual : P C → P C.dual` (forward with the rule pattern
+#                                `Causal.Causality.dual C`: it fires only where `C.dual` is in sight,
+#                                kb/0224); per one-sided node P introducing Q,
+#                                `q_of_future_of_past : P C → P C.dual → Q C` (plain forward); per
+#                                pair node R, the same two rules as a two-sided node, both causalities
+#                                reversed, the pattern on the first. The stem p is the last component
+#                                of the node's `lean` with its first letter lowered
+#                                (Causal.Causality.IsCausal: isCausal): the names and the namespace
+#                                Causal.LadderDual of the hand-written module of T-tac-ladder-dual;
+#   Causal/Ladder/DualTest.lean  examples, from the closure over literals (property, side) of
+#                                dual_lits / dual_close (the port of
+#                                campaign/T-tac-ladder-dual/dual_closure.py, which read the edges off
+#                                Rules.lean; these are read off `emitted`): every single-property pair
+#                                across time reversal derived on a bare space, each conjunctive edge
+#                                on C.dual with its two-sided premises on C, each introduction, each
+#                                pair node both ways; and, not derived, every cross pair a
+#                                counterexample of the ladder, or its time reversal, refutes.
+# A module on disk whose first line is not GENERATED is never overwritten (_written): the hand-written
+# Dual.lean and DualTest.lean of T-tac-ladder-dual stay until T-tac-dual-generated removes them, and
+# Rules.lean calls Dual hand-written until then (dual_generated). With no key, emit-lean writes
+# exactly what it wrote before the key existed.
+
+DUAL = os.path.join(LEAN_ROOT, "Causal", "Ladder", "Dual.lean")
+DUAL_TEST = os.path.join(LEAN_ROOT, "Causal", "Ladder", "DualTest.lean")
+DUAL_TEST_MODULE = "Causal.Ladder.DualTest"
+DUAL_NAMESPACE = "Causal.LadderDual"
+INTRO_KEYS = ("introduces", "lemma")
+FORWARD = "attribute [aesop safe forward (rule_sets := [CausalLadder])] "
+PATTERN = "attribute [aesop safe forward (pattern := Causal.Causality.dual C) (rule_sets := [CausalLadder])] "
+SHAPES = {"iff": "an iff", "imp": "an implication, read at C and at C.dual",
+          "builder": "a theorem taking both forms", "def": "the definition of the two-sided node"}
+_BRACKETS = {"(": ")", "[": "]", "{": "}", "⦃": "⦄", "⟨": "⟩"}
+
+
+def has_dual_keys(data):
+    """Does a [[property]] of `data` carry a `dual` key?"""
+    props = data.get("property")
+    return isinstance(props, list) and any(isinstance(p, dict) and "dual" in p for p in props)
+
+
+def _written(module, index):
+    """May emit-lean write `module`: is it absent from the tree, or already generated?"""
+    return module not in index["imports"] or module in index.get("generated", ())
+
+
+def dual_generated(data, index):
+    """Does emit-lean write Causal/Ladder/Dual.lean? Only when a `dual` key is present and the module is
+    absent or already generated: a hand-written Dual.lean is kept, and Rules.lean calls it so."""
+    return has_dual_keys(data) and _written(DUAL_MODULE, index)
+
+
+def _top_split(text, sep):
+    """`text` split at each `sep` outside brackets, the parts stripped."""
+    parts, stack, start, i = [], [], 0, 0
+    while i < len(text):
+        c = text[i]
+        if c in _BRACKETS:
+            stack.append(_BRACKETS[c])
+        elif stack and c == stack[-1]:
+            stack.pop()
+        elif not stack and text.startswith(sep, i):
+            parts.append(text[start:i].strip())
+            i += len(sep)
+            start = i
+            continue
+        i += 1
+    parts.append(text[start:].strip())
+    return parts
+
+
+def _mentions(text, lean):
+    """Does `text` name the definition `lean`: its last component as a whole word, or followed by `On`
+    only (its form on an open set, of which the node is the one at ⊤: causally_arc_connected's key
+    is dual_causallyArcConnectedOn)? A name the last component merely starts (StronglyCausalOpen for
+    StronglyCausal, IsCausalChain for IsCausal) is another definition (T-tac-ladder-dual-key's audit)."""
+    return re.search(r"(?<![\w'])%s(?:On)?(?![\w'])" % re.escape(lean.rsplit(".", 1)[-1]), text or "") is not None
+
+
+def _hyp(binder):
+    """The type of the explicit binder `h : T`."""
+    return binder.split(":", 1)[1].strip() if ":" in binder else binder
+
+
+def reversal_shape(sig, lean):
+    """('iff' | 'imp', None) for the statement `sig` (explicit binders, type, as lean_index reads them)
+    of a time-reversal lemma of the definition `lean`, or (None, why). 'iff': no explicit binder and
+    `L ↔ R`, L with a `dual`, R without, both naming `lean`; 'imp': one explicit hypothesis without
+    a `dual` and a conclusion with one, both naming `lean` (_mentions). A statement of one of these
+    shapes about another definition is refused with its own reason. Lean checks the rest when the
+    rules are compiled."""
+    explicit, typ = sig[0], sig[1] or ""
+    sides = _top_split(typ, "↔")
+    shown = "(explicit binders %s; type %s)" % (explicit or "none", typ or "not read")
+    if not explicit and len(sides) == 2:
+        lhs, rhs = sides
+        if "dual" in lhs and "dual" not in rhs:
+            if _mentions(lhs, lean) and _mentions(rhs, lean):
+                return "iff", None
+            return None, ("its statement %s is `C.dual.P ↔ C.P` for a P other than %s (another node's "
+                          "lemma?)" % (shown, lean))
+    if len(explicit) == 1 and len(sides) == 1:
+        hyp = _hyp(explicit[0])
+        if "dual" not in hyp and "dual" in typ:
+            if _mentions(hyp, lean) and _mentions(typ, lean):
+                return "imp", None
+            return None, ("its statement %s is `C.P → C.dual.P` for a P other than %s (another node's "
+                          "lemma?)" % (shown, lean))
+    return None, ("its statement %s is neither `C.dual.P ↔ C.P` nor `C.P → C.dual.P` for P = %s" % (shown, lean))
+
+
+def intro_shape(lemma, sig, one, two):
+    """('iff' | 'builder' | 'def', None) for the lemma `lemma` (statement `sig`, or None) building the
+    two-sided definition `two` from the one-sided `one` and its past form, or (None, why). 'iff':
+    `C.Q ↔ C.P ∧ C.dual.P`; 'builder': `(hf : C.P) (hp : C.dual.P) : C.Q`; 'def': `lemma` is Q's
+    own definition, `C.P ∧ C.dual.P` by definition (Lean checks the unfolding)."""
+    if lemma == two:
+        return "def", None
+    if sig is None:
+        return None, "%s is neither a theorem of lean-causal/Causal nor %s's definition" % (lemma, two)
+    explicit, typ = sig[0], sig[1] or ""
+    sides = _top_split(typ, "↔")
+    shown = "(explicit binders %s; type %s)" % (explicit or "none", typ or "not read")
+    other = ("its statement %s is `%%s` for a P other than %s or a Q other than %s (another node's "
+             "lemma?)" % (shown, one, two))
+    if not explicit and len(sides) == 2:
+        conj = _top_split(sides[1], "∧")
+        if "dual" not in sides[0] and len(conj) == 2 and "dual" not in conj[0] and "dual" in conj[1]:
+            if _mentions(sides[0], two) and _mentions(conj[0], one) and _mentions(conj[1], one):
+                return "iff", None
+            return None, other % "C.Q ↔ C.P ∧ C.dual.P"
+    if len(explicit) == 2 and len(sides) == 1:
+        a, b = _hyp(explicit[0]), _hyp(explicit[1])
+        if "dual" not in a and "dual" in b and "dual" not in typ:
+            if _mentions(a, one) and _mentions(b, one) and _mentions(typ, two):
+                return "builder", None
+            return None, other % "C.P → C.dual.P → C.Q"
+    return None, ("its statement %s is none of `C.Q ↔ C.P ∧ C.dual.P` and `C.P → C.dual.P → C.Q` for "
+                  "P = %s, Q = %s, nor Q's definition" % (shown, one, two))
+
+
+def pair_form(prop, index):
+    """(f, None): f(c, c2) is `R c c2` (`R c c2 W` when R takes an open set last) for `prop` a
+    Prop-valued def of the ETT layer on two causalities; or (None, why)."""
+    name = prop.get("lean", "")
+    mod = index["decls"].get(name)
+    if mod is None or name not in index["sigs"]:
+        return None, "no def or abbrev %s in lean-causal/Causal" % name
+    if model_path(mod, index["imports"]):
+        return None, "%s lives in %s, which imports a model" % (name, mod)
+    explicit, typ = index["sigs"][name]
+    if typ != "Prop":
+        return None, "%s is not a Prop-valued def (type %s)" % (name, typ)
+    cs, opens = [], []
+    for b in explicit:
+        m = re.match(r"([^:]+):\s*(?:Causal\.)?Causality\s+\S+$", b)
+        o = re.match(r"(\S+)\s*:\s*(?:TopologicalSpace\.)?Opens\s+\S+$", b)
+        if m and not opens:
+            cs += m.group(1).split()
+        elif o and not opens:
+            opens.append(o.group(1))
+        else:
+            cs = None
+            break
+    if cs is None or len(cs) != 2:
+        return None, ("%s is not a relation between two causalities, perhaps on an open set "
+                      "(explicit binders %s)" % (name, explicit))
+    w = " W" if opens else ""
+    return (lambda c, c2: "%s %s %s%s" % (name, c, c2, w)), None
+
+
+def _dual_forms(prop, index):
+    """((the property of C, of C.dual), None) for a causality- or pair-sort property (a pair: of
+    (C, C') and of (C.dual, C'.dual)), or (None, why)."""
+    if prop.get("sort", DEFAULT_SORT) == "pair":
+        f, why = pair_form(prop, index)
+        return ((f("C", "C'"), f("C.dual", "C'.dual")), None) if f else (None, why)
+    f0, why = lean_form(prop, index)
+    if not f0:
+        return None, why
+    return (f0, lean_form(prop, index, "C.dual")[0]), None
+
+
+def _dual_home(name, index, what="lemma"):
+    """None when the generated Causal/Ladder/Dual.lean may import the module of `name` (found; ETT
+    layer; the module neither is nor imports Causal.Ladder.Rules or Causal.Ladder.Dual), else why."""
+    mod = index["decls"].get(name) if isinstance(name, str) else None
+    if mod is None:
+        return "%s %r not found in lean-causal (a full name)" % (what, name)
+    chain = model_path(mod, index["imports"])
+    if chain:
+        return "%s %s lives in %s, which imports a model (%s)" % (what, name, mod, " → ".join(chain))
+    for target in (RULES_MODULE, DUAL_MODULE):
+        chain = import_chain(mod, index["imports"], target)
+        if chain:
+            return "%s %s lives in %s, which %s %s%s: the dual rules cannot import it" % (
+                what, name, mod, "is" if len(chain) == 1 else "imports", target,
+                "" if len(chain) == 1 else " (%s)" % " → ".join(chain))
+    return None
+
+
+def _stem(lean):
+    last = (lean or "").rsplit(".", 1)[-1]
+    return last[:1].lower() + last[1:]
+
+
+def dual_keys(data, index=None):
+    """The `dual` keys read against the Lean index: (reversals, introductions, faults).
+
+    reversals      a dict per two-sided node (sort causality or pair): id, sort, lemma, shape ('iff'
+                   or 'imp'), mods (the modules to import), forms (the property of C, of C.dual),
+                   name (the stem of its two rules);
+    introductions  a dict per one-sided node: id, target (the two-sided id), lemma, shape ('iff',
+                   'builder' or 'def'), mods, forms (the one-sided property of C, of C.dual),
+                   tform (the two-sided property of C), name (the rule's name);
+    faults         (id, why) for each key `check` refuses (the module docstring); none is a rule."""
+    index = lean_index() if index is None else index
+    plist = [p for p in (data.get("property") or []) if isinstance(p, dict)]
+    props = {p.get("id"): p for p in plist}
+    rev, intro, faults, names = [], [], [], set()
+
+    def name(stem, fallback):
+        out = stem if stem and stem not in names else fallback
+        k = 2
+        while out in names:
+            out, k = "%s%d" % (fallback, k), k + 1
+        names.add(out)
+        return out
+    for p in plist:
+        if "dual" not in p:
+            continue
+        pid, key, srt = p.get("id"), p["dual"], p.get("sort", DEFAULT_SORT)
+
+        def fault(why):
+            faults.append((pid, why))
+        if srt == "geometry":
+            fault("a geometry node has no time reversal: it takes no dual key")
+            continue
+        if srt not in ("causality", "pair"):
+            fault("a node of sort %r takes no dual key" % (srt,))
+            continue
+        if isinstance(key, dict):
+            if sorted(key) != sorted(INTRO_KEYS) or not all(isinstance(v, str) and v for v in key.values()):
+                fault("an introduction is a table {introduces = <id>, lemma = <full name>} (got %r)" % (key,))
+                continue
+            if srt != DEFAULT_SORT:
+                fault("an introduction is the key of a one-sided node of sort causality; a pair node's key "
+                      "names its time-reversal lemma")
+                continue
+            lemma, target = key["lemma"], key["introduces"]
+        elif isinstance(key, str) and key:
+            lemma, target = key, None
+        else:
+            fault("must be the full name of a time-reversal lemma, or a table {introduces, lemma} (got %r)" % (key,))
+            continue
+        forms, why = _dual_forms(p, index)
+        if forms is None:
+            fault("no Lean form: %s" % why)
+            continue
+        home = _dual_home(p.get("lean"), index, "definition")
+        if home:
+            fault(home)
+            continue
+        mods = {index["decls"][p["lean"]]}
+        q = None
+        if target is not None:
+            q = props.get(target)
+            if q is None:
+                fault("introduces %r, which is not a property" % (target,))
+                continue
+            if target == pid:
+                fault("introduces itself: an introduction concludes another node, a two-sided one")
+                continue
+            if q.get("sort", DEFAULT_SORT) != DEFAULT_SORT:
+                fault("introduces %s, of sort %s, not causality" % (target, q.get("sort")))
+                continue
+            qkey = q.get("dual")
+            if isinstance(qkey, dict):
+                fault("introduces %s, a one-sided node (its own key is an introduction): the node an "
+                      "introduction concludes is two-sided" % target)
+                continue
+            if not isinstance(qkey, str) or not qkey:
+                fault("introduces %s, which carries no two-sided dual key: the node an introduction concludes "
+                      "is two-sided, its key naming its time-reversal lemma" % target)
+                continue
+            tforms, why = _dual_forms(q, index)
+            if tforms is None:
+                fault("introduces %s, which has no Lean form: %s" % (target, why))
+                continue
+            home = _dual_home(q.get("lean"), index, "definition")
+            if home:
+                fault("introduces %s: %s" % (target, home))
+                continue
+            mods.add(index["decls"][q["lean"]])
+        home = _dual_home(lemma, index)
+        if home:
+            fault(home)
+            continue
+        mods.add(index["decls"][lemma])
+        sig = index.get("tsigs", {}).get(lemma)
+        if target is None:
+            if sig is None:
+                fault("lemma %s is not a theorem of lean-causal/Causal" % lemma)
+                continue
+            shape, why = reversal_shape(sig, p["lean"])
+            if not shape:
+                fault("lemma %s: %s" % (lemma, why))
+                continue
+            rev.append({"id": pid, "sort": srt, "lemma": lemma, "shape": shape, "mods": mods, "forms": forms,
+                        "name": name(_stem(p["lean"]), re.sub(r"_(\w)", lambda m: m.group(1).upper(), str(pid)))})
+        else:
+            shape, why = intro_shape(lemma, sig, p["lean"], q["lean"])
+            if not shape:
+                fault("lemma %s: %s" % (lemma, why))
+                continue
+            intro.append({"id": pid, "target": target, "lemma": lemma, "shape": shape, "mods": mods,
+                          "forms": forms, "tform": tforms[0],
+                          "name": name("%s_of_future_of_past" % _stem(q["lean"]),
+                                       "%s_of_%s_of_past" % (_stem(q["lean"]), _stem(p["lean"])))})
+    return rev, intro, faults
+
+
+def dual_close(start, edges, two, one):
+    """The closure of the literals `start` ((id, side): side 0 a property of C, side 1 of C.dual) under
+    `edges` on each side (a premise-free edge, a fact, holds on both), the reversal of every id of
+    `two` and the introductions `one` (one-sided id -> two-sided id: both sides of the first give
+    the second of C)."""
+    have = set(start)
+    changed = True
+    while changed:
+        changed = False
+        new = set()
+        for e in edges:
+            frm = ids_of(e.get("from")) or []
+            for s in (0, 1):
+                if all((x, s) in have for x in frm):
+                    new.add((e.get("to"), s))
+        for x in two:
+            if (x, 0) in have or (x, 1) in have:
+                new |= {(x, 0), (x, 1)}
+        for x, t in one.items():
+            if (x, 0) in have and (x, 1) in have:
+                new.add((t, 0))
+        if not new <= have:
+            have |= new
+            changed = True
+    return have
+
+
+def dual_contradictions(data, index=None):
+    """The counterexamples the `dual` keys contradict: from what it has (of C), the edges and the
+    causality-sort facts valid on its space, read on C and on C.dual, the reversals and the
+    introductions reach a property it lacks (of C; of C.dual when the property is two-sided)."""
+    index = lean_index() if index is None else index
+    rev, intro, _ = dual_keys(data, index)
+    two, one = [r["id"] for r in rev], {i["id"]: i["target"] for i in intro}
+    if not two and not one:
+        return []
+    errs, cache, sort = [], {}, sort_of(data)
+    for f in data.get("fails", []):
+        on = space(f, data)
+        has, lacks = counterexample(data, f, cache)
+        edges = edges_on(data, on) + [{"from": [], "to": x} for x in facts_on(data, on).get(DEFAULT_SORT, ())]
+        lits = dual_close({(x, 0) for x in has}, edges, two, one)
+        bad = sorted({"%s of %s" % (x, "C.dual" if s else "C") for x, s in lits
+                      if x in lacks and (s == 0 or x in two) and sort.get(x) is not None})
+        if bad:
+            errs.append("contradiction across time reversal: counterexample %s has %s, hence by the dual keys %s, "
+                        "which it lacks (a key it shows one-sided?)" % (
+                            f.get("witness"), " ∧ ".join(ids_of(f.get("from")) or []), ", ".join(bad)))
+    return errs
+
+
+def _module_doc(lines):
+    return ["/-!"] + lines + ["", "Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`.", "-/"]
+
+
+def emit_dual(data, index=None):
+    """The text of Causal/Ladder/Dual.lean generated from the `dual` keys (dual_keys), or None when no
+    property carries one (the hand-written module of T-tac-ladder-dual is then the one)."""
+    index = lean_index() if index is None else index
+    if not has_dual_keys(data):
+        return None
+    rev, intro, faults = dual_keys(data, index)
+    mods = sorted(set().union(*(x["mods"] for x in rev + intro)) if rev or intro else ())
+    one_c = [r for r in rev if r["sort"] == DEFAULT_SORT]
+    pairs = [r for r in rev if r["sort"] == "pair"]
+    table = ["| node | key | rules |", "|---|---|---|"]
+    for r in one_c + pairs:
+        table.append("| `%s`%s | `%s` (%s) | `%s_of_dual`, `%s_dual` |" % (
+            r["id"], " (pair)" if r["sort"] == "pair" else "", r["lemma"], SHAPES[r["shape"]], r["name"], r["name"]))
+    for i in intro:
+        table.append("| `%s` (one-sided) | introduces `%s`: `%s` (%s) | `%s` |" % (
+            i["id"], i["target"], i["lemma"], SHAPES[i["shape"]], i["name"]))
+    nrules = 2 * len(rev) + len(intro)
+    doc = [
+        "# `causal_ladder` across time reversal: the rules of the ladder's `dual` keys",
+        "",
+        "The rules of `Causal.Ladder.Rules` apply to any causality term, so `causal_ladder` reasons about",
+        "`C.dual` from hypotheses about `C.dual`; the rules here cross from `C` to `C.dual`, in the same",
+        "rule set `CausalLadder`. They are generated by `python3 tools/ladder.py emit-lean` from the `dual`",
+        "keys of `programme/ladder.toml`, never edited by hand (%d rules from %d keys):" % (
+            nrules, len(rev) + len(intro)),
+        "",
+        "* a **two-sided** node `P`, whose key is its time-reversal lemma (`C.dual.P ↔ C.P`, or",
+        "  `C.P → C.dual.P`, read at `C.dual` too since `C.dual.dual` is `C` by `rfl`), gives",
+        "  `p_of_dual : P C.dual → P C`, a plain forward rule that shrinks the term, and",
+        "  `p_dual : P C → P C.dual`, a forward rule with the aesop **rule pattern** `Causality.dual C`:",
+        "  its `C` is read off a subterm `C.dual` of the goal or of a hypothesis, so it fires only for a",
+        "  `C` whose time reversal is already in sight. Without the pattern it would loop",
+        "  (`C.dual.dual.…`): aesop compares hypotheses up to reducible transparency, and",
+        "  `Causality.dual` is not reducible (kb/0224);",
+        "* a **one-sided** node `P`, whose key is the two-sided node `Q` it introduces and the lemma",
+        "  building it, gives `q_of_future_of_past : P C → P C.dual → Q C`, a plain forward rule. A",
+        "  one-sided fact is never transported: `P C` does not give `P C.dual`;",
+        "* a **pair** node `R` (a relation between two causalities, perhaps on an open `W`) gives the",
+        "  two rules of a two-sided node, both causalities reversed, the pattern on the first.",
+        "",
+        "**Termination.** The rules on one causality create no new subterm `t.dual`: `p_dual` writes",
+        "`t.dual` only for a `t.dual` already present, `p_of_dual` and the edge rules write terms already",
+        "present, and an introduction concludes about `C` from facts about `C` and `C.dual`."] + ([
+        "A pair rule `r_dual` does create one: its pattern binds the first causality only, so from",
+        "`R C C'` with `C.dual` in sight it writes `C'.dual`. Such a reversal appears only beside an",
+        "existing one of the same depth along a relation already in the context, so the reversal depths",
+        "in sight stay bounded by those of the goal and the hypotheses, and over the finitely many",
+        "causalities named there the saturated facts are finite (T-tac-ladder-dual's audit)."] if pairs else []) + [
+        "",
+        "Every rule is a theorem here, a restatement of the key's lemma: an aesop rule is a",
+        "declaration, and an iff gives a forward rule nothing to match. The keys, node by node:",
+        ""] + table + [
+        "",
+        "`Causal.Ladder.Rules` imports this module, so every user of `causal_ladder` has these rules;",
+        "`Causal.Ladder.DualTest`, generated with it, shows what they derive and what they do not.",
+        "",
+        "## SCOPE (disclosed)",
+        "",
+        "* Time reversal is entered only where a `C.dual` occurs in the goal or a hypothesis (the",
+        "  pattern): a goal about `C` from hypotheses about `C` is never sent through `C.dual`.",
+        "* A goal about `C.dual.dual` is closed through the hypotheses of its terms or the builtin",
+        "  `assumption`, which sees `C.dual.dual` as `C` up to definitional equality; nothing rewrites",
+        "  `C.dual.dual` to `C`.",
+        "* Like the edge rules, these are forward: a hypothesis under a binder is not used, and no",
+        "  hypothesis is destructed through a definition (an introduction only builds its node).",
+        "* Transport doubles the facts of a saturation, and every forward step counts towards aesop's",
+        "  `maxRuleApplicationDepth`, which `causal_ladder` sets to 60 (kb/0225): close a long",
+        "  conjunction one conjunct at a time.",
+        "* A node without a `dual` key has no rule here%s." % (
+            "; a key `check` refuses is a `-- skipped` line below" if faults else "")]
+    lines = [GENERATED, "import Causal.Ladder.Basic"] + ["import %s" % m for m in mods] + [""] + _module_doc(doc) + [
+        "", "namespace %s" % DUAL_NAMESPACE, "", "universe u", "",
+        "variable {M : Type u} [TopologicalSpace M] {C C' : Causal.Causality M} {W : TopologicalSpace.Opens M}", ""]
+
+    def pair_rules(r):
+        f0, f1 = r["forms"]
+        of, du = r["name"] + "_of_dual", r["name"] + "_dual"
+        if r["shape"] == "iff":
+            p_of, p_du = "%s.1 h" % r["lemma"], "%s.2 h" % r["lemma"]
+        else:
+            p_of, p_du = "(%s h :)" % r["lemma"], "%s h" % r["lemma"]
+        return ["-- %s: %s (%s)" % (r["id"], r["lemma"], SHAPES[r["shape"]]),
+                "theorem %s (h : %s) : %s :=" % (of, f1, f0), "  " + p_of,
+                "theorem %s (h : %s) : %s :=" % (du, f0, f1), "  " + p_du,
+                FORWARD + of, PATTERN + du, ""]
+    if one_c:
+        lines += ["/-! ## Two-sided nodes: `P C.dual → P C` and `P C → P C.dual` -/", ""]
+        for r in one_c:
+            lines += pair_rules(r)
+    if intro:
+        lines += ["/-! ## One-sided nodes: the two-sided node from the future and the past forms -/", ""]
+        for i in intro:
+            proof = {"iff": "%s.2 ⟨hf, hp⟩" % i["lemma"], "builder": "%s hf hp" % i["lemma"],
+                     "def": "⟨hf, hp⟩"}[i["shape"]]
+            lines += ["-- %s introduces %s: %s (%s)" % (i["id"], i["target"], i["lemma"], SHAPES[i["shape"]]),
+                      "theorem %s (hf : %s) (hp : %s) : %s :=" % (i["name"], i["forms"][0], i["forms"][1], i["tform"]),
+                      "  " + proof, FORWARD + i["name"], ""]
+    if pairs:
+        lines += ["/-! ## Pair nodes: both causalities reversed, the pattern on the first -/", ""]
+        for r in pairs:
+            lines += pair_rules(r)
+    for pid, why in faults:
+        lines.append("-- skipped dual key of %s: %s" % (pid, why))
+    if faults:
+        lines.append("")
+    lines.append("end %s" % DUAL_NAMESPACE)
+    return "\n".join(lines) + "\n"
+
+
+def dual_lits(data, index):
+    """What Causal/Ladder/DualTest.lean reads, on a bare space: (forms: id -> (the property of C, of
+    C.dual), for the causality-sort properties with a Lean form; ids, in the ladder's order; two,
+    the ids with reversal rules; one, one-sided id -> the two-sided id it introduces; edges, the
+    emitted edges and facts without standing)."""
+    rules, _ = emitted(data, index)
+    facts, _, _ = emitted_facts(data, index, rules)
+    edges = [e for e, _ in rules if not standing(e)] + [_fact_edge(f) for f, *_ in facts if not standing(f)]
+    rev, intro, _ = dual_keys(data, index)
+    forms = {}
+    for p in data.get("property", []):
+        if p.get("sort", DEFAULT_SORT) == DEFAULT_SORT:
+            f0 = lean_form(p, index)[0]
+            if f0:
+                forms[p["id"]] = (f0, lean_form(p, index, "C.dual")[0])
+    ids = [p["id"] for p in data.get("property", []) if p.get("id") in forms]
+    two = [r["id"] for r in rev if r["id"] in forms]
+    one = {i["id"]: i["target"] for i in intro if i["id"] in forms and i["target"] in forms}
+    return forms, ids, two, one, edges
+
+
+def dual_refutations(data, lits):
+    """(has, lacks, why) literal sets, one per counterexample of the ladder and one per its time
+    reversal: what it has, closed by dual_close, and what it lacks, read backwards to a fixpoint (a
+    literal whose closure with what it has meets what it lacks is lacked). A counterexample whose
+    sets meet is a contradiction (check's dual_contradictions) and refutes nothing here."""
+    forms, ids, two, one, edges = lits
+    out, cache = [], {}
+    for f in data.get("fails", []):
+        has, lacks = counterexample(data, f, cache)
+        hl = dual_close({(x, 0) for x in has if x in forms}, edges, two, one)
+        ll = {(x, 0) for x in lacks if x in forms} | {(x, 1) for x in lacks if x in two}
+        changed = True
+        while changed:
+            changed = False
+            for x in ids:
+                for s in (0, 1):
+                    if (x, s) not in hl and (x, s) not in ll and dual_close(hl | {(x, s)}, edges, two, one) & ll:
+                        ll.add((x, s))
+                        changed = True
+        if hl & ll:
+            continue
+        out.append((hl, ll, f.get("witness")))
+        out.append(({(x, 1 - s) for x, s in hl}, {(x, 1 - s) for x, s in ll}, "%s, time-reversed" % f.get("witness")))
+    return out
+
+
+def dual_pairs(data, lits):
+    """The single-literal pairs across time reversal: (derived, refuted, unknown); a refuted pair
+    carries the counterexample's witness."""
+    forms, ids, two, one, edges = lits
+    refs = dual_refutations(data, lits)
+    der, ref, unk = [], [], []
+    for a in ids:
+        for s in (0, 1):
+            clo = dual_close({(a, s)}, edges, two, one)
+            for b in ids:
+                goal = (b, 1 - s)
+                if goal in clo:
+                    der.append(((a, s), goal))
+                    continue
+                w = next((w for hl, ll, w in refs if (a, s) in hl and goal in ll), None)
+                (ref if w else unk).append(((a, s), goal, w))
+    return der, ref, unk
+
+
+def emit_dual_test(data, index=None):
+    """The text of Causal/Ladder/DualTest.lean generated from the `dual` keys, or None when no property
+    carries one. Derived: every single-property pair across time reversal of the closure on a bare
+    space, each conjunctive edge on C.dual with its two-sided premises on C, each introduction (of C
+    and of C.dual), each pair node both ways. Not derived: every P(C) ⇏ Q(C.dual), and every
+    P(C.dual) ⇏ Q(C) with a one-sided end, that a counterexample or its time reversal refutes."""
+    index = lean_index() if index is None else index
+    if not has_dual_keys(data):
+        return None
+    lits = dual_lits(data, index)
+    forms, ids, two, one, edges = lits
+    rev, intro, _ = dual_keys(data, index)
+    der, ref, _ = dual_pairs(data, lits)
+    ref = [r for r in ref if r[0][1] == 0 or r[0][0] in one or r[1][0] in one]
+    mix = []
+    for e in edges:
+        frm = ids_of(e["from"]) or []
+        if len(frm) > 1 and any(x in two for x in frm) and all(x in forms for x in frm) and e["to"] in forms:
+            mix.append(([(x, 0) if x in two else (x, 1) for x in frm], (e["to"], 1), e["witness"]))
+    intros = [i for i in intro if i["id"] in one]
+    pairs = [r for r in rev if r["sort"] == "pair"]
+    props = {p.get("id"): p for p in data.get("property", [])}
+    mods = sorted({index["decls"][props[x]["lean"]] for x in forms} |
+                  {index["decls"][props[r["id"]]["lean"]] for r in pairs})
+
+    def lit(l):
+        return forms[l[0]][l[1]]
+
+    def name(l):
+        return "%s(%s)" % (l[0], "C.dual" if l[1] else "C")
+
+    def pos(src, goal, comment, pre=""):
+        hyps = " ".join([pre] * bool(pre) + ["(_h%d : %s)" % (k, x) for k, x in enumerate(src)])
+        return ["-- %s" % comment, "example %s : %s := by causal_ladder" % (hyps, goal)]
+
+    def neg(src, goal, comment):
+        hyps = " ".join("(_h%d : %s)" % (k, x) for k, x in enumerate(src))
+        return ["-- %s" % comment, "example %s : True := by" % hyps,
+                "  fail_if_success have : %s := by causal_ladder" % goal, "  trivial"]
+    nint, npair = 2 * len(intros), 2 * len(pairs)
+    doc = [
+        "# Tests of `causal_ladder` across time reversal, generated from the ladder's `dual` keys",
+        "",
+        "For `C` a causality on a topological space, `causal_ladder` with the rules of",
+        "`Causal.Ladder.Rules` and of `Causal.Ladder.Dual` (generated with this file from the `dual` keys",
+        "of `programme/ladder.toml` by `python3 tools/ladder.py emit-lean`) closes a goal about `C.dual`",
+        "from hypotheses about `C`, and conversely. `Derived`: every single-property pair",
+        "`P(C) ⊢ Q(C.dual)` and `P(C.dual) ⊢ Q(C)` of the closure of the rules on a bare space (%d" % len(der),
+        "examples), each conjunctive rule used on `C.dual` with its two-sided premises given on `C` (%d)," % len(mix),
+        "each introduction of a two-sided node from a one-sided one and its past form, of `C` and of",
+        "`C.dual` (%d), and each pair node both ways (%d). `Not derived`: the pairs across time reversal" % (nint, npair),
+        "that a counterexample of the ladder, or its time reversal, refutes (%d examples: every" % len(ref),
+        "`P(C) ⇏ Q(C.dual)`, and every `P(C.dual) ⇏ Q(C)` with a one-sided end). A refuted pair stays",
+        "underived however the ladder grows; a derived one goes with a withdrawn rule, and emit-lean",
+        "writes this file again. The first command fails if a model module is imported, directly or",
+        "transitively, as in `Causal.Ladder.Test`.",
+        "",
+        "## SCOPE (disclosed)",
+        "",
+        "* The examples are on a bare topological space: a rule with `standing` instances is not",
+        "  exercised here (`Causal.Ladder.Test` exercises it on `C`).",
+        "* No example has more than one time reversal: `C.dual.dual` is `C` by `rfl`, so the builtin",
+        "  `assumption` closes such a goal without the rules (kb/0264).",
+        "* A pair node is tested both ways; no pair is refuted across one reversal here."]
+    lines = [GENERATED, "import Causal.Ladder.Rules", "import %s" % DUAL_MODULE] + [
+        "import %s" % m for m in mods if m != DUAL_MODULE] + [""] + _module_doc(doc) + [
+        "",
+        "open Lean in",
+        "run_cmd do",
+        "  let models : List Name := [%s]" % ", ".join("`" + m for m in MODEL_LAYER),
+        "  for m in (← getEnv).header.moduleNames do",
+        "    if models.any (·.isPrefixOf m) then",
+        "      throwError \"the ladder's Lean imports the model module {m}\"",
+        "", "section", "", "universe u", "",
+        "variable {M : Type u} [TopologicalSpace M] (C C' : Causal.Causality M)", "",
+        "/-! ## Derived across time reversal, from one property -/", ""]
+    for a, b in der:
+        lines += pos([lit(a)], lit(b), "%s ⇒ %s" % (name(a), name(b)))
+    lines += ["", "/-! ## Derived on `C.dual` through a conjunctive rule, two-sided premises on `C` -/", ""]
+    for src, goal, w in mix:
+        lines += pos([lit(x) for x in src], lit(goal), "%s ⇒ %s (%s on C.dual)" % (
+            " ∧ ".join(name(x) for x in src), name(goal), w))
+    if intros:
+        lines += ["", "/-! ## Introductions: the two-sided node from a one-sided node and its past form -/", ""]
+        for i in intros:
+            src = [lit((i["id"], 0)), lit((i["id"], 1))]
+            for s in (0, 1):
+                lines += pos(src, lit((i["target"], s)), "%s ∧ %s ⇒ %s (%s)" % (
+                    name((i["id"], 0)), name((i["id"], 1)), name((i["target"], s)), i["name"]))
+    if pairs:
+        lines += ["", "/-! ## Pair nodes, both causalities reversed -/", ""]
+        for r in pairs:
+            f0, f1 = r["forms"]
+            pre = "(W : TopologicalSpace.Opens M)" if f0.endswith(" W") else ""
+            lines += pos([f0], f1, "%s(C, C') ⇒ %s(C.dual, C'.dual)" % (r["id"], r["id"]), pre)
+            lines += pos([f1], f0, "%s(C.dual, C'.dual) ⇒ %s(C, C')" % (r["id"], r["id"]), pre)
+    lines += ["", "/-! ## Not derived across time reversal: refuted pairs -/", ""]
+    for a, b, w in ref:
+        lines += neg([lit(a)], lit(b), "%s ⇏ %s (refuted: %s)" % (name(a), name(b), w))
+    lines += ["", "end"]
+    return "\n".join(lines) + "\n"
+
+
 #: The options each subcommand takes (name -> number of values). Anything else is refused with exit
 #: status 2 before the ladder is read or a file written, so that a misspelt flag never runs a
 #: subcommand with its defaults (T-tool-ladder-emit-args: `emit-lean --help` used to rewrite the
@@ -1421,8 +2128,18 @@ def main(argv):
         rules, skipped = emitted(data, index)
         facts, local, fskipped = emitted_facts(data, index, rules)
         text, test = emit_lean(data, index), emit_test(data, index)
+        outs, kept = [(RULES, text), (TEST, test)], []
+        if has_dual_keys(data):          # T-tac-ladder-dual-key: never over a hand-written module
+            if dual_generated(data, index):
+                outs.append((DUAL, emit_dual(data, index)))
+                if _written(DUAL_TEST_MODULE, index):
+                    outs.append((DUAL_TEST, emit_dual_test(data, index)))
+                else:
+                    kept.append(DUAL_TEST)
+            else:
+                kept += [DUAL, DUAL_TEST]
         if opts.get("--dry-run"):
-            for p, body in ((RULES, text), (TEST, test)):
+            for p, body in outs:
                 try:
                     with open(p, encoding="utf-8") as fh:
                         cur = fh.read()
@@ -1430,9 +2147,12 @@ def main(argv):
                     cur = None
                 print("ladder: %s %s" % (os.path.relpath(p, ROOT), "unchanged" if cur == body else
                                          "absent" if cur is None else "would change"))
+            for p in kept:
+                print("ladder: %s is hand-written: kept (emit-lean writes it from the dual keys once it is "
+                      "removed)" % os.path.relpath(p, ROOT))
             return
         os.makedirs(os.path.dirname(RULES), exist_ok=True)
-        for p, body in ((RULES, text), (TEST, test)):
+        for p, body in outs:
             with open(p, "w", encoding="utf-8") as fh:
                 fh.write(body)
         print("ladder: wrote %s (%d rules from edges, %d checked edges skipped; %d fact rules, %d facts "
@@ -1441,6 +2161,11 @@ def main(argv):
                   len(fskipped), os.path.relpath(TEST, ROOT),
                   sum(1 for x in test.splitlines() if x.startswith("example") and x.endswith("by causal_ladder")),
                   test.count("fail_if_success")))
+        for p, body in outs[2:]:
+            print("ladder: wrote %s (%d theorems, %d examples)" % (
+                os.path.relpath(p, ROOT), body.count("\ntheorem "), body.count("\nexample ")))
+        for p in kept:
+            print("ladder: %s is hand-written: kept" % os.path.relpath(p, ROOT))
         return
     if cmd == "dot":
         print("digraph ladder { rankdir=BT; node [shape=box];")

@@ -1,0 +1,467 @@
+{
+ "package": "T-tac-ladder-dual-key",
+ "target": "T-tac-ladder-dual-key (wave 58, tactician)",
+ "files": [
+  "campaign/T-tac-ladder-dual-key/DualKeyed.lean",
+  "campaign/T-tac-ladder-dual-key/DualKeyedTest.lean",
+  "campaign/T-tac-ladder-dual-key/DualKeyedExact.lean",
+  "campaign/T-tac-ladder-dual-key/DualKeyedVariants.lean",
+  "campaign/T-tac-ladder-dual-key/DualKeyedDualTest.lean"
+ ],
+ "tool_files": {
+  "tools/ladder.py": [
+   "Schema docstring (:20-:75): the `dual` key, both forms, and every check of it. KEYS['property'] gains 'dual' (:197). The usage line of emit-lean says Dual.lean and DualTest.lean are written when a key is present, unless hand-written.",
+   "check(data, names, labels, index=None) (:422): when a property carries a key, every fault of dual_keys is an error `property <id>: dual: <why>`; after the existing contradictions, dual_contradictions. With no key, check reads nothing new and says exactly what it said before.",
+   "_lean_index (:846): records `generated`, the modules whose first line is emit-lean's GENERATED line, so that a hand-written Dual.lean or DualTest.lean is never overwritten.",
+   "emit_lean (:1141): when dual_generated holds, Rules.lean imports Causal.Ladder.Dual even if the module is absent (removed for the switch), and its docstring calls the rules generated (two lines). Otherwise it emits exactly the text it emitted before.",
+   "New section `dual keys` (:1409-:2088): has_dual_keys, _written, dual_generated, _top_split, reversal_shape ('iff' C.dual.P ↔ C.P, or 'imp' C.P → C.dual.P), intro_shape ('iff' C.Q ↔ C.P ∧ C.dual.P, 'builder' (hf) (hp) : C.Q, 'def' Q's own definition), pair_form (R C C' [W]), _dual_home (found; ETT layer; module neither is nor imports Causal.Ladder.Rules or Causal.Ladder.Dual), dual_keys (reversals, introductions, faults), dual_close (closure over literals (id, side), the port of campaign/T-tac-ladder-dual/dual_closure.py), dual_contradictions, emit_dual (the text of Causal/Ladder/Dual.lean), dual_lits, dual_refutations, dual_pairs, emit_dual_test (the text of Causal/Ladder/DualTest.lean).",
+   "main emit-lean (from :2111): when a key is present, also Dual.lean and DualTest.lean, but only where the file is absent or generated. A hand-written file is reported `is hand-written: kept` and never written. With no key the output and the files written are the same as before."
+  ],
+  "tools/fixtures/ladder/breakages.py": "10 new breakages (DUAL_BREAKAGES, :190), each appending fixture nodes zz_* (a TOML table cannot gain a key once closed). The four of the acceptance: dual-not-found, dual-geometry, dual-introduces-one-sided, dual-imports-rules. Six more, one per further check: dual-model-layer, dual-shape, dual-introduces-keyless, dual-pair-introduction, dual-introduction-shape, dual-contradiction. The lemmas a key must not name (in a module importing Rules, in a model module) are picked from lean_index at run time, so they cannot go stale. The valid lemmas are those of the hand-written Dual.lean (DUAL_LIB). picks() also returns the properties and a pair node's lean.",
+  "tools/fixtures/ladder/run.sh": "Header comment only (the dual key is listed).",
+  "tests/test_programme.py": "dindex() (a synthetic index with reversal lemmas of every shape), dladder(), dchk(). New class LadderDualKeys (:990, 13 tests): no key means no emission; the good keys pass; Rules and Test are unchanged while Dual is hand-written; a generated or absent Dual is written and imported; the exact emitted text for iff, imp, intro-iff, builder and pairs with and without W; the def introduction; 21 fault cases plus the node-definition fault, each also a `-- skipped dual key` line of emit_dual; the cross-reversal contradiction; the emitted DualTest (derived, conjunctive on C.dual, introductions, pairs, refuted, a one-sided refutation); dual_close; the shapes; a dry run with a key on a temporary copy of the shipped ladder (Rules and Test unchanged, Dual and DualTest kept, no mtime moves); the shipped Dual and DualTest are hand-written or equal to the emitter's output."
+ },
+ "builds": true,
+ "sorry_count": 0,
+ "axioms": "None declared and no sorry. The scratch theorems are proved by the library's dual lemmas.",
+ "labels": [],
+ "acceptance": {
+  "keyed_copy": "In memory: programme/ladder.toml as on disk (27 properties, 108 counterexamples), with the 23 keys of Dual.lean's table (:71-:94) and inextensible_nested's (Causal.Causality.dual_inextensibleNestedOn_iff). Script: campaign/T-tac-ladder-dual-key/keyed.py (`python3 -I keyed.py <tools dir> report|write|variants`; output keyed_report.json, variants_report.json). check on the keyed copy passes with 0 faults and the same summary line as the real ladder.",
+  "emitted_rules": "46 CausalLadder rules. 44 are Dual.lean's, with the same names and the same kinds (23 plain forward, 21 forward with pattern Causal.Causality.dual C), none missing. The other 2 are inextensibleNestedOn_of_dual (forward) and inextensibleNestedOn_dual (pattern). There are 46 theorems in namespace Causal.LadderDual. Dual.lean's two iffs hasTimeFunction_dual_iff and curvesExtend_dual_iff are not emitted: they are not rules, and grep finds no user outside Dual.lean.",
+  "scratch_module": {
+   "path": "lean-causal/campaign/T-tac-ladder-dual-key/DualKeyed.lean (297 lines, exactly emit_dual's text for the keyed copy)",
+   "command": "cd lean-causal && taskset -c 0-11 lake env lean [-DwarningAsError=true] campaign/T-tac-ladder-dual-key/DualKeyed.lean",
+   "exit_code": 0,
+   "warnings": 0,
+   "errors": 0,
+   "seconds": 1.2,
+   "mutant": "Replacing curvesExtend_of_dual's `(CurvesExtend.dual h :)` by `CurvesExtend.dual (C := C) h` makes it fail (application type mismatch), so the file really elaborates. Replacing isCausal_of_dual's `.1 h` by `.2 h` still compiles: C.dual.dual is C by rfl, so either direction proves the stated theorem."
+  },
+  "further_scratch": [
+   {
+    "path": "DualKeyedTest.lean",
+    "what": "One file importing neither Causal.Ladder.Rules nor the hand-written Causal.Ladder.Dual (asserted through the index). It holds Rules.lean's edge and fact rules, the generated dual rules and emit_dual_test's 544 examples, followed by the 27 hand-written examples of DualTest.lean. A #check of Causal.LadderDual.hasTimeFunction_dual_iff there gives `Unknown identifier`, so the hand-written module is absent.",
+    "exit_code": 0,
+    "warnings": 0,
+    "seconds": 13.1,
+    "rule_really_used": "Erasing the attribute line of hasTimeFunction_dual makes examples fail (2 error lines; kb/0264)."
+   },
+   {
+    "path": "DualKeyedExact.lean",
+    "what": "The same rules, with every single-literal pair across time reversal (882 pairs): 68 derived, 768 refuted not derived, 46 unknown not derived, and 0 same-side pairs only the dual rules derive. The generated rules derive exactly the closure the emitter computes.",
+    "exit_code": 0,
+    "warnings": 0,
+    "seconds": 19.4
+   },
+   {
+    "path": "DualKeyedVariants.lean",
+    "what": "The other shapes the library offers: curve_nested by Causal.Causality.CurveNestedOn.dual and inextensible_nested by InextensibleNestedOn.dual (shape imp on a pair node), and causally_open_future introducing causally_open by its definition Causal.Causality.CausallyOpen (shape def; causallyOpen_iff is Iff.rfl). The file holds the rules and their 544 generated examples.",
+    "check": "passes",
+    "exit_code": 0,
+    "warnings": 0,
+    "seconds": 11.3
+   },
+   {
+    "path": "DualKeyedDualTest.lean",
+    "what": "emit_dual_test's text as emit-lean would write Causal/Ladder/DualTest.lean. It is not compiled alone, because it imports the real Causal.Ladder.Dual, still the hand-written module. Its body is compiled inside DualKeyedTest.lean."
+   }
+  ],
+  "dual_test_against_hand_written": {
+   "Derived across time reversal, from one property": "68 generated, 68 hand-written, line-identical",
+   "Derived on C.dual through a conjunctive rule": "7, 7, line-identical",
+   "Not derived across time reversal: refuted pairs": "459, 459, line-identical",
+   "new in the generated file": "4 introduction examples and 6 pair-node examples (3 pairs × 2 directions); 544 examples in all",
+   "not in the generated file": "the 27 hand-written examples of DualTest.lean (double reversals, standing instances, conjunctions, term arguments, negations)"
+  },
+  "closure_pairs_derived": "The generated tests derive 85 positives (68 single-property cross pairs, 7 conjunctive rules on C.dual, 4 introductions, 6 pair directions) and refute 459 cross pairs. The exhaustive scratch confirms all 882 cross pairs.",
+  "fixtures": {
+   "added": [
+    "dual-not-found",
+    "dual-geometry",
+    "dual-introduces-one-sided",
+    "dual-imports-rules",
+    "dual-model-layer",
+    "dual-shape",
+    "dual-introduces-keyless",
+    "dual-pair-introduction",
+    "dual-introduction-shape",
+    "dual-contradiction"
+   ],
+   "each_fails_check": "Yes, with exactly one violation each (in-process count). run.sh reports `every breakage fails the check` over all 36 breakages. The violations: `property zz_fixture: dual: lemma 'Causal.Causality.no_such_dual' not found in lean-causal (a full name)`; `... a geometry node has no time reversal: it takes no dual key`; `property zz_bad: dual: introduces zz_one, a one-sided node (its own key is an introduction) ...`; `... lemma Causal.chronalMembrane_causallyOpenPastOn_iff lives in Causal.OneWayMembraneChronal, which imports Causal.Ladder.Rules (...)`; `... Causal.Causality.dual_ambientDedekindComplete lives in Causal.ChainsCurves, which imports a model (Causal.ChainsCurves → Causal.Minkowski)`; `... is neither C.dual.P ↔ C.P nor C.P → C.dual.P`; `... introduces zz_two, which carries no two-sided dual key`; `... an introduction is the key of a one-sided node of sort causality`; `... is none of C.Q ↔ C.P ∧ C.dual.P and ...`; `contradiction across time reversal: counterexample ... has zz_r, hence by the dual keys zz_q of C, zz_q of C.dual, which it lacks`."
+  },
+  "tests": "python3 -m unittest tests.test_programme tests.test_roadmap: Ran 120 tests, OK. The ResourceWarnings printed come from the existing Binder tests and tools/roadmap.py, not from this change.",
+  "dry_run": "python3 tools/ladder.py emit-lean --dry-run (real ladder, no key) prints `ladder: lean-causal/Causal/Ladder/Rules.lean unchanged` and `ladder: lean-causal/Causal/Ladder/Test.lean unchanged`, exits 0, and prints nothing else.",
+  "git_diff_exit_code": "git diff --exit-code -- lean-causal/Causal/Ladder/{Rules,Test,Dual,DualTest}.lean: exit 0. Their sha256 equal those taken at the start, and Basic.lean is untouched too.",
+  "check_real_ladder": "python3 tools/ladder.py check: exit 0, summary line unchanged (27 properties, 432 of 432 pairs classified). The keeper's concurrent edit of programme/ladder.toml (+47 −2 against HEAD) is theirs: this target never wrote the ladder.",
+  "concurrency": "Developed in campaign/T-tac-ladder-dual-key/: a copy of tools/ladder.py, tested from a shadow tree in /tmp whose data directories were symlinks. Installed in one step after checking that tools/ladder.py, the tests and the fixtures had not changed since the start. The dev copies were removed after installation (cmp-identical)."
+ },
+ "mapping": [
+  {
+   "node": "is_causal",
+   "key": "Causal.Causality.dual_isCausal",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.isCausal_of_dual (forward)",
+    "Causal.LadderDual.isCausal_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "isCausal_of_dual (plain block, :304)",
+    "isCausal_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "strongly_causal",
+   "key": "Causal.Causality.dual_stronglyCausal",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.stronglyCausal_of_dual (forward)",
+    "Causal.LadderDual.stronglyCausal_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "stronglyCausal_of_dual (plain block, :304)",
+    "stronglyCausal_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "strongly_causal_open",
+   "key": "Causal.Causality.dual_stronglyCausalOpen",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.stronglyCausalOpen_of_dual (forward)",
+    "Causal.LadderDual.stronglyCausalOpen_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "stronglyCausalOpen_of_dual (plain block, :304)",
+    "stronglyCausalOpen_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "globally_hyperbolic",
+   "key": "Causal.Causality.dual_globallyHyperbolic",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.globallyHyperbolic_of_dual (forward)",
+    "Causal.LadderDual.globallyHyperbolic_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "globallyHyperbolic_of_dual (plain block, :304)",
+    "globallyHyperbolic_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "causally_compact",
+   "key": "Causal.Causality.dual_causallyCompact",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.causallyCompact_of_dual (forward)",
+    "Causal.LadderDual.causallyCompact_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "causallyCompact_of_dual (plain block, :304)",
+    "causallyCompact_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "push_up",
+   "key": "Causal.Causality.dual_pushUp",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.pushUp_of_dual (forward)",
+    "Causal.LadderDual.pushUp_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "pushUp_of_dual (plain block, :304)",
+    "pushUp_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "causally_open",
+   "key": "Causal.Causality.dual_causallyOpen",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.causallyOpen_of_dual (forward)",
+    "Causal.LadderDual.causallyOpen_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "causallyOpen_of_dual (plain block, :304)",
+    "causallyOpen_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "absolutely_minimal",
+   "key": "Causal.Causality.dual_absolutelyMinimal",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.absolutelyMinimal_of_dual (forward)",
+    "Causal.LadderDual.absolutelyMinimal_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "absolutelyMinimal_of_dual (plain block, :304)",
+    "absolutelyMinimal_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "causally_arc_connected",
+   "key": "Causal.Causality.dual_causallyArcConnectedOn",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.causallyArcConnected_of_dual (forward)",
+    "Causal.LadderDual.causallyArcConnected_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "causallyArcConnected_of_dual (plain block, :304)",
+    "causallyArcConnected_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "causally_plain",
+   "key": "Causal.Causality.dual_causallyPlain",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.causallyPlain_of_dual (forward)",
+    "Causal.LadderDual.causallyPlain_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "causallyPlain_of_dual (plain block, :304)",
+    "causallyPlain_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "tarentin",
+   "key": "Causal.Causality.dual_tarentin",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.tarentin_of_dual (forward)",
+    "Causal.LadderDual.tarentin_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "tarentin_of_dual (plain block, :304)",
+    "tarentin_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "time_function",
+   "key": "Causal.Causality.dual_hasTimeFunction",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.hasTimeFunction_of_dual (forward)",
+    "Causal.LadderDual.hasTimeFunction_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "hasTimeFunction_of_dual (plain block, :304)",
+    "hasTimeFunction_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "curves_extend",
+   "key": "Causal.Causality.CurvesExtend.dual",
+   "shape": "imp",
+   "emitted": [
+    "Causal.LadderDual.curvesExtend_of_dual (forward)",
+    "Causal.LadderDual.curvesExtend_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "curvesExtend_of_dual (plain block, :304)",
+    "curvesExtend_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "locally_push_up",
+   "key": "Causal.Causality.dual_locallyPushUp",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.locallyPushUp_of_dual (forward)",
+    "Causal.LadderDual.locallyPushUp_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "locallyPushUp_of_dual (plain block, :304)",
+    "locallyPushUp_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "locally_causally_open",
+   "key": "Causal.Causality.dual_locallyCausallyOpen",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.locallyCausallyOpen_of_dual (forward)",
+    "Causal.LadderDual.locallyCausallyOpen_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "locallyCausallyOpen_of_dual (plain block, :304)",
+    "locallyCausallyOpen_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "chronal_neighbours",
+   "key": "Causal.Causality.dual_chronalNeighbours",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.chronalNeighbours_of_dual (forward)",
+    "Causal.LadderDual.chronalNeighbours_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "chronalNeighbours_of_dual (plain block, :304)",
+    "chronalNeighbours_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "has_chronal_neighbour",
+   "key": "Causal.Causality.dual_hasChronalNeighbourEverywhere",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.hasChronalNeighbourEverywhere_of_dual (forward)",
+    "Causal.LadderDual.hasChronalNeighbourEverywhere_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "hasChronalNeighbourEverywhere_of_dual (plain block, :304)",
+    "hasChronalNeighbourEverywhere_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "future_one_connected",
+   "key": "Causal.Causality.dual_futureOneConnected",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.futureOneConnected_of_dual (forward)",
+    "Causal.LadderDual.futureOneConnected_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "futureOneConnected_of_dual (plain block, :304)",
+    "futureOneConnected_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "locally_strongly_causal",
+   "key": "Causal.Causality.dual_locallyStronglyCausal",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.locallyStronglyCausal_of_dual (forward)",
+    "Causal.LadderDual.locallyStronglyCausal_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "locallyStronglyCausal_of_dual (plain block, :304)",
+    "locallyStronglyCausal_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "le_nested",
+   "key": "Causal.Causality.dual_leNested_iff",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.leNested_of_dual (forward)",
+    "Causal.LadderDual.leNested_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "leNested_of_dual (plain block, :304)",
+    "leNested_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "curve_nested",
+   "key": "Causal.Causality.dual_curveNestedOn_iff",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.curveNestedOn_of_dual (forward)",
+    "Causal.LadderDual.curveNestedOn_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "curveNestedOn_of_dual (plain block, :304)",
+    "curveNestedOn_dual (pattern block, :313)"
+   ]
+  },
+  {
+   "node": "causally_open_future (one-sided)",
+   "key": {
+    "introduces": "causally_open",
+    "lemma": "Causal.Causality.causallyOpen_iff"
+   },
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.causallyOpen_of_future_of_past (forward)"
+   ],
+   "hand_written_Dual.lean": [
+    "causallyOpen_of_future_of_past (plain block, :304)"
+   ]
+  },
+  {
+   "node": "locally_causally_open_future (one-sided)",
+   "key": {
+    "introduces": "locally_causally_open",
+    "lemma": "Causal.Causality.LocallyCausallyOpen"
+   },
+   "shape": "def",
+   "emitted": [
+    "Causal.LadderDual.locallyCausallyOpen_of_future_of_past (forward)"
+   ],
+   "hand_written_Dual.lean": [
+    "locallyCausallyOpen_of_future_of_past (plain block, :304)"
+   ]
+  },
+  {
+   "node": "inextensible_nested (pair)",
+   "key": "Causal.Causality.dual_inextensibleNestedOn_iff",
+   "shape": "iff",
+   "emitted": [
+    "Causal.LadderDual.inextensibleNestedOn_of_dual (forward)",
+    "Causal.LadderDual.inextensibleNestedOn_dual (forward, pattern Causality.dual C)"
+   ],
+   "hand_written_Dual.lean": [
+    "none: this pair is new"
+   ]
+  }
+ ],
+ "patterns": [
+  "The pattern turned into generated code is the one Dual.lean wrote by hand 44 times: a time-reversal iff restated as two forward rules, one guarded by the rule pattern Causality.dual C. It is now one emitter (emit_dual) driven by one key per node. Files it shortens: Causal/Ladder/Dual.lean (321 hand-written lines become 297 generated ones, at the switch), and the 534 campaign-generated examples of DualTest.lean (dual_closure.py, which read Rules.lean's comment lines) become emit-lean's output. No Lean lemma or macro was added to Causal/Ladder or Causal/Tactic in this target."
+ ],
+ "aesop_limits": [
+  "The builder shape of an introduction (a theorem (hf : C.P) (hp : C.dual.P) : C.Q) is unit-tested in Python only: the library has no lemma of that shape, so it was not compiled.",
+  "Lean does not check the orientation of an iff key in the generated rules. `K.2 h` proves `P C` from `P C.dual` as well as `K.1 h` does, because C.dual.dual is C by rfl. The Python shape check refuses a reversed iff (L must mention dual, R must not) and a lemma about another definition: the node's name must occur as a whole word, or followed by `On` only (since fix round 1, which closed the audit's prefix-match finding). These are textual readings of lean_index's signatures, heuristic by design. The compile is the arbiter.",
+  "The def introduction `⟨hf, hp⟩` relies on the definition unfolding to `C.P ∧ C.dual.P`. Python cannot see the body, so only the compile checks it. It does hold for LocallyCausallyOpen and CausallyOpen.",
+  "The generated tests model at most one time reversal (literals of C and C.dual). Double reversals, standing instances and conjunctive goals stay in the 27 hand-written examples of DualTest.lean, which the emitter does not write.",
+  "dual_contradictions can fire only when the library proves a key's lemma and the ladder records a counterexample against it, that is when the ladder itself is wrong. Its fixture therefore appends a counterexample that is false on purpose."
+ ],
+ "extra_decls": [],
+ "kb_proposals": [
+  "programme/ladder.toml's `dual` key (T-tac-ladder-dual-key): a two-sided node names its time-reversal lemma (`dual = \"Causal.Causality.dual_isCausal\"`, an iff C.dual.P ↔ C.P or C.P → C.dual.P); a one-sided node names what it introduces (`dual = { introduces = \"causally_open\", lemma = \"Causal.Causality.causallyOpen_iff\" }`). emit-lean writes Causal/Ladder/Dual.lean and DualTest.lean from the keys, never over a hand-written file (first line not GENERATED): to switch, remove the hand-written file, then run emit-lean.",
+  "In a generated rule from an implication `K : C.P → C.dual.P`, `p_of_dual` is `(K h :)`: the empty ascription elaborates `K h` before unifying with `P C`, and C.dual.dual is C by rfl. The same rfl makes `K.2 h` prove `P C` from `P C.dual`, so Lean does not catch a reversed iff key; tools/ladder.py's shape check does.",
+  "kb/0264's last sentence (DualTest.lean is generated by campaign/T-tac-ladder-dual/dual_closure.py) goes stale at T-tac-dual-generated: emit-lean then writes DualTest.lean (emit_dual_test: the same 534 examples line for line, plus introductions and pairs)."
+ ],
+ "proposals": {
+  "T-lad-dual-keys": [
+   "The 24 keys to write are keyed.py's KEYS, all accepted by `check` on an in-memory copy. is_causal through locally_strongly_causal follow Dual.lean's table with full names (Causal.Causality.dual_isCausal, ..., Causal.Causality.CurvesExtend.dual for curves_extend). causally_open_future = { introduces = \"causally_open\", lemma = \"Causal.Causality.causallyOpen_iff\" }. locally_causally_open_future = { introduces = \"locally_causally_open\", lemma = \"Causal.Causality.LocallyCausallyOpen\" } (the definition: no library lemma builds it). le_nested, curve_nested and inextensible_nested take Causal.Causality.dual_leNested_iff, dual_curveNestedOn_iff and dual_inextensibleNestedOn_iff.",
+   "After the keys, `check` passes, and `emit-lean --dry-run` prints Rules.lean and Test.lean unchanged plus two lines, `... Dual.lean is hand-written: kept ...` and `... DualTest.lean is hand-written: kept ...`. The master's emit-lean in that wave changes no file. The switch does not happen in the keeper's wave, and no Lean rebuild is needed.",
+   "An introduction and the key of the node it introduces must be written together: an introduction of a keyless node is refused (`carries no two-sided dual key`).",
+   "Acceptance should compile the emitted module, as keyed.py did: emit_dual(load() with the keys) written as a scratch file under the keeper's campaign directory (not over Causal/Ladder/Dual.lean, which emit-lean keeps while it is hand-written), compiled with `cd lean-causal && taskset -c 0-11 lake env lean -DwarningAsError=true <scratch>`. Until the switch no Dual.lean is written from the keys, so a key that passes `check` but whose rules do not elaborate would otherwise surface only at T-tac-dual-generated. `python3 -I lean-causal/campaign/T-tac-ladder-dual-key/keyed.py tools write` does this for keyed.py's KEYS; for the keys as filled in the ladder, call ld.emit_dual(ld.load()) directly."
+  ],
+  "T-tac-dual-generated": [
+   "Move the 27 hand-written examples of DualTest.lean (from `/-! ## More than one time reversal -/` up to the generated sections) to a new hand-written file, e.g. Causal/Ladder/DualExamples.lean importing Causal.Ladder.Rules. The generated DualTest.lean will not carry them; DualKeyedTest.lean shows they all pass on the generated rules.",
+   "Then remove Causal/Ladder/Dual.lean and DualTest.lean and run `python3 tools/ladder.py emit-lean`. It writes both: the index's `generated` set then holds them, and every later emit-lean keeps them in sync. Rules.lean changes only in its two docstring lines (keyed.py's `rules_lean_after_switch_diff`). tests/test_programme.py's test_shipped_dual_modules then requires both to equal the emitter's output.",
+   "Cost: Rules.lean imports Dual, so every causal_ladder user rebuilds (exclusive, as planned). The generated Dual adds Causal.InextensibleNestedBasics to Rules' import closure (the hand-written one did not import it), and with it the inextensible_nested pair, the only new rules. That module is ETT-layer and does not import Rules (checked).",
+   "hasTimeFunction_dual_iff and curvesExtend_dual_iff vanish with the hand-written file. grep finds no user, but rerun `grep -rn LadderDual lean-causal/Causal` before the switch."
+  ]
+ },
+ "notes": "No Lean file of the strict library or the scaffold was written. The five .lean files are scratch in this directory, imported by nothing, compiled with `lake env lean` against the built library (one lake process at a time, cores 0-11). No lake build was run, because no module was added. programme/ladder.toml and the four Ladder files were never written. emit-lean was run only with --dry-run, and the scratch emission called emit_dual and emit_dual_test in memory (keyed.py). No git command that writes was used.",
+ "fix_round_1": {
+  "audit": "AUDIT-1.json, verdict minor, one finding. The shape check's node-name test (_mentions) was a prefix match, so another node's lemma passed `check`: strongly_causal keyed with dual_stronglyCausalOpen, or is_causal keyed with dual_isCausalChain, while the Dual.lean emitted from them fails to compile.",
+  "changes": {
+   "tools/ladder.py": [
+    "_mentions (:1486): the last component of the node's `lean` must occur as a whole word: a left boundary as before, and now no identifier character after it, except a trailing `On` only (the open-set form, of which the node is the one at ⊤: causally_arc_connected's key dual_causallyArcConnectedOn). Regex (?<![\\w'])NAME(?:On)?(?![\\w']).",
+    "reversal_shape (:1499) and intro_shape (:1526): a statement of the right shape about another definition now gets its own reason, `is `C.dual.P ↔ C.P` for a P other than <lean> (another node's lemma?)` (likewise for the implication, the introduction iff and the builder). A statement of neither shape keeps `is neither ...` / `is none of ...`.",
+    "Schema docstring (:72): the sentence `or does not mention the node` now reads that the node's name must occur as a whole word or followed by `On` only, with dual_stronglyCausalOpen (refused for strongly_causal) and dual_causallyArcConnectedOn (accepted for causally_arc_connected) as examples."
+   ],
+   "tools/fixtures/ladder/breakages.py": "New breakage dual-prefix-name (:220): zz_fixture with lean Causal.Causality.StronglyCausal keyed with Causal.Causality.dual_stronglyCausalOpen. It fails `check` with exactly one violation: `property zz_fixture: dual: lemma Causal.Causality.dual_stronglyCausalOpen: its statement (...) is `C.dual.P ↔ C.P` for a P other than Causal.Causality.StronglyCausal (another node's lemma?)`.",
+   "tests/test_programme.py": "New test LadderDualKeys.test_the_node_name_ends_where_it_matches (:1101). It covers a prefix-sharing iff (dual_AOpen on node A), a prefix-sharing implication (AOpen.dual) and a prefix-sharing introduction iff (C.AOpen ↔ C.D ∧ C.dual.D); each gives exactly one violation, with its own reason. The `On` form dual_AOn passes. It also checks reversal_shape on the real names: StronglyCausalOpen for StronglyCausal and IsCausalChain for IsCausal are refused; CausallyArcConnectedOn for CausallyArcConnected, and the exact names, are accepted. In test_faults, the `another node's lemma` case now expects the new reason."
+  },
+  "keys_and_rules": "All 24 KEYS of keyed.py still pass `check` on the keyed copy with 0 faults; the variant keys also pass. The keyed copy emits the same 46 rules (44 with Dual.lean's names and kinds, plus the inextensible_nested pair). keyed.py write and variants regenerated every scratch file byte-identical: sha256 of DualKeyed.lean, DualKeyedTest.lean, DualKeyedExact.lean, DualKeyedVariants.lean, DualKeyedDualTest.lean, keyed_report.json and variants_report.json all equal those taken before the fix. So no recompile was needed, and the earlier compile results (exit 0, no warnings) stand for the same text.",
+  "audit_cases": "On the real ladder with strongly_causal: dual = Causal.Causality.dual_stronglyCausalOpen and is_causal: dual = Causal.IsCausalIso.dual, check now gives two errors (`... for a P other than Causal.Causality.StronglyCausal` and `... is `C.P → C.dual.P` for a P other than Causal.Causality.IsCausal`). reversal_shape on dual_isCausalChain's statement (C.dual.IsCausalChain S ↔ C.IsCausalChain S) refuses it for IsCausal.",
+  "reruns": {
+   "run.sh": "bash tools/fixtures/ladder/run.sh: 37 breakages, every one fails the check, exit 1 (it bites). In-process, each of the 11 DUAL_BREAKAGES gives exactly one violation, containing its named reason.",
+   "unittest": "python3 -m unittest tests.test_programme tests.test_roadmap: Ran 121 tests, OK (LadderDualKeys: 14).",
+   "check": "python3 tools/ladder.py check: exit 0, summary line unchanged (27 properties, 28 implications, 108 counterexamples, 130 consequences; 432 of 432 ... 7 transfers).",
+   "dry_run": "python3 tools/ladder.py emit-lean --dry-run: `Rules.lean unchanged`, `Test.lean unchanged`, nothing else.",
+   "git_diff": "git diff --exit-code on lean-causal/Causal/Ladder/{Rules,Test,Dual,DualTest}.lean: exit 0."
+  },
+  "residual": "The test is still textual and still a heuristic, as disclosed. A one-letter last component would match a variable of that name: the synthetic test uses A, not C, for this reason. No real node has such a name. The `def` introduction is still accepted whenever the lemma is the introduced node's own `lean`; only the compile relates it to the one-sided node (disclosed). The compile remains the arbiter.",
+  "kb_note": "kb/0336 (written by the curator from kb_proposal 1) says a key is refused when its lemma is another node's: with this fix that holds for prefix-sharing names too, so the entry needs no change."
+ }
+}
