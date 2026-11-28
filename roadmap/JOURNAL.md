@@ -1215,3 +1215,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: ebf9a6e7 b12118ad 78ba3fab 951baafa (+ statuses)
 - wall time: 05:34–11:40; agents in parallel: 3 closers, 3 auditors
 - next: T-bz-c3-fibres, T-bz-c3-facette-ouverte, and the planned follow-ups these unblock
+
+## 2026-11-28 12:40 · wave of 2 · T-bz-c3-facette-ouverte, T-bz-c3-fibres (lean-benzecri)
+- T-bz-c3-facette-ouverte: § 1 Prop. 1 marked; the finest locally convex topology built (FinestLocallyConvex.lean, reusable by § 5 Prop. 7); proof-gap finding (the printed reduction needs the facette convex); audit clean.
+- T-bz-c3-fibres: § 2 Déf. 2–4, Remark 4, Prop. 3 — all marked; Déf. 4 as printed admits non-supplementary pairs: OQ-163 (new) asks which reading is of record before T-bz-c3-conjugues / -boole-affine use it; audit minor.
+- All three modules graduated to strict Benzecri/Chapter3/. Chapter 3: 30 rows closed, 5 partial (benzecri: 105 curated rows).
+- gates: lean-benzecri ✓ (0 sorry in 59 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: 295eb936 3e956ac0 63b3028d (+ statuses)
+- wall time: 05:59–12:40; agents in parallel: 2 closers, 2 auditors
+- next: plan (promote the Chapter 3 follow-ups unblocked by this wave)

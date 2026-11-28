@@ -1485,13 +1485,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s1p1_facette_ouverte"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-facettes"]
-evidence = "ledger row bzprop:c3s1p1_facette_ouverte (benzecri1960_ch3.tex:141, proved in print from the Remark): « Soit F une facette d'un convexe W, et soit L la variété linéaire support de F; F est un ouvert de L, supposé muni de sa topologie localement convexe la plus fine. » The finest locally convex topology is not at the pin: Mathlib has continuousSMul_sInf (Topology/Algebra/MulAction.lean:317) and topologicalGroup_sInf, but no sInf lemma for LocallyConvexSpace; the closer builds it (and that a convex set is open in it iff algebraically open, which is the printed proof's reduction to finite-dimensional l). Separate from T-bz-c3-facettes so that the topology does not hold up the algebraic §§ 1–2. Instance: in ℝ² (finite dimension, the finest l.c. topology is the usual one) the open square is a facette of the closed square and is open. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: the pin still has no LocallyConvexSpace lemma for sInf/iInf (grep of Mathlib/Analysis/LocallyConvex, 2026-11-28), so the topology is built here, in a module of its own (e.g. Benzecri/Chapter3/TopologieFine.lean) that T-bz-c3-hyperplan-separant and the S(E) transfer of Prop. 1 import. The Remark is already proved both ways for any TVS topology (Benzecri.fw_of_interieur, interieur_of_fw, fw_iff_interieur) and in finite dimension (fw_iff_interieur_moduleTopology), so the printed proof reduces to two facts about the new topology: it induces on each finite-dimensional affine subspace its module topology, and a convex set is open iff it is algebraically open (open in every finite-dimensional subspace through each of its points). Instance of the new definition's hypotheses: the topology is a TVS, locally convex topology on any real vector space (Lean instances), equal to the usual one on ℝ², where the open square is a facette of [0,1]² and open."
+evidence = "§ 1 Prop. 1 marked (facette_isOpen); finestLC built (FinestLocallyConvex.lean); audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "295eb936"
 
 [[target]]
 id = "T-bz-c3-facettes-sphere"
@@ -1563,13 +1564,14 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s2d2_fibre", "bzdef:c3s2d3_fibre_cylindriquement", "bzrem:c3s2r4_fibre_translate", "bzprop:c3s2p3_fibre_cylindriquement", "bzdef:c3s2d4_conjugues"]
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-sommes"]
-evidence = "ledger rows benzecri1960_ch3.tex:383–415 (Prop. 3 proved in print, its proof printed after Déf. 4 and tagged). Déf. 3 (l.389): « Soit W un convexe de E, engendrant E, et contenant l'origine; on dit qu'un sous-espace L de E fibre W cylindriquement … s'il existe un sous-espace L′ de E, supplémentaire de L, et tel que W = L ∩ W + L′ ∩ W. » Prop. 3, 1° (l.401): « Si W ne contient aucune demi-droite, tout sous-espace L qui fibre W le fibre cylindriquement ». Mathlib: IsCompl for « supplémentaire ». Instance: in the cube [−1,1]³ every coordinate subspace is distinguished, with conjugate the complementary coordinate subspace; in the closed ball no subspace other than 0 and E is. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Sommes (cc7390fc). Déf. 3's and Déf. 4's W = L ∩ W + L′ ∩ W is printed as a Minkowski sum; with IsCompl L L′ it is a sum in Déf. 1's sense (the map is injective on L × L′), and the bridge to IsSommeConvexes (via isSommeConvexes_iff_bijOn) is a lemma of this target, so that T-bz-c3-conjugues and T-bz-c3-boole-affine can use either. « engendrant E » is Submodule.span ℝ W = ⊤ (W contains O). « demi-droite » in Prop. 3 needs no reading: a convex set contains an open half-line iff it contains a closed one. No OQ-160 or OQ-162 reading. Instances: the cube [−1,1]³ (no half-line, every coordinate subspace distinguished, its conjugate the complementary one) and the closed ball (only 0 and E); also a strip ℝ × [0,1] (contains lines) for Prop. 3 2°'s hypothesis being used."
+evidence = "§ 2 Déf. 2–4, Remark 4, Prop. 3 marked; Déf. 4 reading OQ-163; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "3e956ac0"
 
 [[target]]
 id = "T-bz-c3-conjugues"
