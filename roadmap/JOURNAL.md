@@ -1150,3 +1150,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 6c0da216 b2d61ae8 7a405ad3 (+ statuses)
 - wall time: 03:02–05:00; agents: 1 closer, 1 auditor
 - next: T-btz-trans-inj-dedupe (exclusive), builder refresh; then idle on rulings (T-btz-scope, T-btz-cauchy-regularity, OQ-158, …)
+
+## 2026-11-28 05:40 · wave of 2 · T-btz-trans-inj-dedupe (exclusive), T-atlas-overlay-refresh
+- T-btz-trans-inj-dedupe: GX.BTZMax.trans_inj through the indexed gluing lemma; the third copy deleted; 63 constants unchanged; audit minor (the SCOPE edit of GluingTransitions.lean was the loop's own integration step, committed with it).
+- T-atlas-overlay-refresh (builder): lean-gx at 6c0da21, edges unchanged, 0 page errors (70265e2a).
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red
+- commits: 70265e2a f81c7758 0b175379 (+ statuses)
+- wall time: 03:15–05:40; agents: 1 closer + builder, 1 auditor
+- lean-gx's btz work is now blocked on rulings (T-btz-scope, T-btz-headline-repr, T-btz-cauchy-regularity, OQ-150, OQ-152, OQ-158) and on the unprinted « Σ₀ Cauchy in N » (l.1603). Remaining dispatchable masters: T-hub-paper-attribute (pilot in lean/), T-bz-chapter3 (transcription). Not dispatchable here: T-ett-apply-rulings (lean-causal held by /ett-programme), T-restate-held-curation (registers held by /restate), T-nonacyclic-source (Overleaf credentials on hyperlolipop).
+- next: T-hub-paper-attribute (package lean)

@@ -2690,7 +2690,7 @@ kind = "tooling"
 status = "ready"
 owner = "builder"
 priority = 3
-evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-28 at 0de1cec (btz 128 edges, both 22→23; bbs 42, gx 970 unchanged). Due: lean-gx after the next wave that changes it"
+evidence = "DEC-204; lean_edges.py facts never builds and refuses a busy package. Last runs 2026-11-27: lean-yamabe at 86be42e (be9a0772), lean-gx at 789fe25 (f1f3b04; btz's first edges), lean-causal, lean-benzecri, lean/ (f03ec37). Due: lean-gx after T-gx-btz-cleanup; lean-causal when /ett-programme releases it; lean-egf is /egf-programme's. The template's texHTML is T-atlas-tex-text-macros. Last lean-gx run 2026-11-28 at 6c0da21 (edges unchanged: btz 128, bbs 42, gx 970; environment 13,619 → 13,624). Due: lean-gx after the next wave that changes it"
 added = "2026-11-22"
 proposed_by = "author's rulings 2026-11-22 (applied by hand while /atlas-team was idle)"
 
@@ -4358,10 +4358,11 @@ kind = "tooling"
 paper = "btz"
 package = "lean-gx"
 exclusive = true
-status = "ready"
+status = "done"
 owner = "master"
 priority = 10
 depends = ["T-btz-gluing-dedupe"]
-evidence = "T-btz-gluing-dedupe REPORT (lean-gx/campaign/T-btz-gluing-dedupe/REPORT.json), findings: « GX.BTZMax.trans_inj (GX/BTZ/MaxExtension.lean:313-345, the union of a chain, T-btz-maximal-extension) is a third copy of the same argument in indexed form (hsymm, congruence of glueTransition with an extension, hR computation). It follows from GX.GluingTrans.liftPropOn_glueTransition_of_ext in a few lines, but MaxExtension.lean was not among the files this dispatch allowed, so it was left untouched. » GX/BTZ/GluingTransitions.lean's SCOPE says the same. Checked at HEAD (b7db446e): the lemma is in scope already, since MaxExtension imports GX.BTZ.Ppcm, which imports GX.BTZ.AbsMax, which imports GX.BTZ.GluingTransitions. [r] (planner) The two cases of trans_inj map onto liftPropOn_glueTransition_of_ext with e := inj X. If r i j, F := φ h (hc.isMor h).1.isE0Mor restricted from univ, with e j (F x) = e i x by inj_map. If r j i, F := the extension G from Pgcd.exists_ext on range (φ h), which is e i ⁻¹' range (e j) by the existing hR computation. A behaviour-preserving refactor, so it has no instance to exhibit. Its check is T-btz-gluing-dedupe's: a fingerprint probe (kind, name, type hash, value hash for definitions) of every constant of GX.BTZ.MaxExtension before and after must not differ, and make -C lean-gx check stays green. The second leftover of that REPORT, CBG.lean's inline core (GX/BTZ/CBG.lean:2076–2084), is not here: reusing the lemma there needs it in lean-causal's Causal.CBG.FromModel, which this loop does not write. Exclusive: it edits a strict module that CauchyEasy, CommonReg, LineStructure and the scaffold CauchySpear import. Not in the same wave as T-btz-trace-graduate"
+evidence = "trans_inj through liftPropOn_glueTransition_of_ext; 63 constants unchanged; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "f81c7758"
