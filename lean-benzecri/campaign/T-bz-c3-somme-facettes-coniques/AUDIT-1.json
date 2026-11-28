@@ -1,0 +1,54 @@
+{
+  "target": "T-bz-c3-somme-facettes-coniques",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzrem:c3s4r1_somme_facettes_coniques",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Read against benzecri1960_ch3.tex l.1142-1148 and l.795. remarque_somme_facettes_coniques (SommeFacettesConiques.lean:726) takes hL : DirectSum.IsInternal L (reading of « S(n) soit la somme des L_i », disclosed), hW : forall i, IsCorpsConvexeDans (L i) (W i) (strict convex part (IsConvexPart plus no antipodal pair, i.e. noyau vide, l.795), W i in l_i, closed, relInterior nonempty for the subspace topology of l_i: the paper's « corps convexe de L_i » with its parenthetical), and quantifies over every w with EstSommeS w W (§ 2 Déf. 5). The sum exists (estSommeS_sommeS), so that hypothesis is not vacuous. Conclusion: IsCorpsConvexeS n (closure w) (the strict lib's Déf. 11), and for every i, IsFacetteConique (closure w) (relInterior (L i) (W i)) (IsFacetteK plus noyau of the contingent = supportK, the strict Déf. 5), closure (relInterior) = W i, supportK = l_i. Under the three readings in the dispatch (E = ⊕ L_i, relative interior as the conical facette, corps convexe strict) Lean >= paper, for every p and every sum w, and the conclusion adds the closure and support facts. The relative-interior reading is forced: isFacetteK_iff_relInterior_eq proves W_i is literally a facette iff it equals its relative interior. The label is written without ** in the module docstring (l.10), and REPORT marks it partial with the readings stated: correct, because the conclusion is proved only in a reading."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "detail": "`lake env lean scaffold/BenzecriScaffold/Chapter3/SommeFacettesConiques.lean` exits 0 with no output, and also with -DwarningAsError=true. grep -c sorry = 0. I ran #print axioms on remarque_somme_facettes_coniques, isFacetteK_iff_relInterior_eq, estSommeS_sommeS, closure_eq_ofCone_coneSomme, exemple_arete_fermee, exemple_sans_stricte, exemple_arcs_S3, closure_somme_blockW, blockW_id, simplexS_closure_somme_vertices, isCorpsConvexeDans_blockW and isInternal_blockL: each gives [propext, Classical.choice, Quot.sound]. The probe was written under the campaign directory and then deleted. No lake build was run."
+  },
+  "instances": "IsCorpsConvexeDans has a concrete Lean instance, isCorpsConvexeDans_blockW for any surjective f : Fin (n+1) -> I. It is used at f = id (vertices, blockW_id), at fArete = ![0,0,1] (closed edge plus vertex in S(2)) and at fArcs = ![0,0,1,1] (quarter arcs in S(3)). Each W_j is a genuine closed simplex block with a relative interior point, and nothing in it is degenerate. isInternal_blockL instantiates DirectSum.IsInternal. closure_somme_blockW instantiates the whole Remark, giving closure = TriangleInstance.simplexS n. relInterior, IsCore, proj, coneSomme, coneAppuiSomme and sommeS are definitions with no hypotheses to instantiate, and they are used in the instances.",
+  "findings_checked": [
+    {
+      "decl": "SommeFacettesInstance.exemple_arete_fermee",
+      "true": true,
+      "notes": "Hypotheses are satisfied (blockW fArete satisfies IsCorpsConvexeDans; EstSommeS w is satisfiable). Proves the closed edge blockW fArete 0 is not an IsFacetteK of closure w, while its relative interior is a conical facette of closure blockW fArete 0. Genuine against the literal wording « les W_i sont des facettes coniques », and it fails generically: for every W_i that is not a point, not only in a degenerate case. So it is not « imprecise » under the dispatch's degenerate-case criterion. It is better described as an abuse of language (a closed face named by its relatively open facette) whose intended form is proved for all p and all W_i. Not naming it not_ is defensible because the intended reading is evident and proved. The REPORT finding already says « false read literally »."
+    },
+    {
+      "decl": "SommeFacettesInstance.exemple_sans_stricte",
+      "true": true,
+      "notes": "W = S(0) = univ, L = top, p = 1: it is IsConvexPart (insert 0 F = whole line, convex), closed, contained in l, with nonempty relative interior, so it satisfies the parenthetical alone. ofCone (kPrime univ) = univ is not IsCorpsConvexeS, and no w is an EstSommeS of it (F(univ) is not convex). This is a correct counterexample to the parenthetical-only reading. It is not a refutation of the Remark, because « corps convexe » (Déf. 11, l.795) includes noyau vide and the Lean carries it. « imprecise » (an incomplete parenthetical gloss) is the right word, and a non-not_ name is right."
+    }
+  ],
+  "scope": "git status --short in the Benzecri area shows: M lean-benzecri/scaffold/BenzecriScaffold.lean (the diff is exactly one appended line, `import BenzecriScaffold.Chapter3.SommeFacettesConiques`), ?? the new SommeFacettesConiques.lean, and ?? campaign/T-bz-c3-somme-facettes-coniques/. Chapter3/Raccordement.lean (untracked) belongs to T-bz-c3-raccordement, and the papers/benzecri/certificate/restate* changes belong to the /restate loop. Neither is attributable to this closer. The closer did not touch BalayableSommeProduit*.lean.",
+  "docstring_contract": "Title, label line with tex line (l.1142, within the first 4000 characters, unmarked), verbatim > quote of l.1142-1148, ## Hypothesis checklist, ## SCOPE (disclosed), Provenance line: all present and true. The proof sketch matches the decls.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "scaffold/BenzecriScaffold/Chapter3/SommeFacettesConiques.lean:77-78",
+      "what": "The file sets linter.unusedSectionVars false and linter.unnecessarySeqFocus false. No strict Benzecri/*.lean file sets any linter option (grep finds none). As written, the file still compiles under -DwarningAsError=true, because the options are file-local, so graduation would not break the build. With the two lines removed it fails with 24 errors under warningAsError: 22 unusedSectionVars (the [Fintype I] section variable on proj_mem, proj_of_mem, proj_of_mem_ne, nonempty_index, zero_mem_coneSomme, isPosCone_coneSomme, convex_coneSomme, isClosed_coneSomme, isPosCone_coneAppuiSomme, zero_mem_coneAppuiSomme, ...) and 2 unnecessarySeqFocus (first at l.158, `match_scalars <;> field_simp <;> ring`).",
+      "fix": "Before graduation, add `omit [Fintype I] in` (or move Fintype I into the sections that need it), replace the two `<;>` with `;`, and drop the two set_option lines, to match the strict library's convention."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json findings[0]; SommeFacettesConiques.lean:972-976 docstring of exemple_arete_fermee",
+      "what": "The literal-reading failure is called « imprecise rather than wrong ». It fails for every W_i that is not a point, not in a degenerate case only, so the dispatch's « imprecise » criterion (only a degenerate case fails) does not strictly apply. It is an abuse of language whose intended form is proved, and the finding text already says « false read literally ».",
+      "fix": "Word it as « false as printed (literal reading), an abuse of language whose evident intended form, relint W_i a conical facette of closure W_i, is proved », so that the /restate register (restate.py seed) picks it up and the author rules on it. No Lean change is needed."
+    },
+    {
+      "severity": "minor",
+      "where": "SommeFacettesConiques.lean:52-53 (Hypothesis checklist)",
+      "what": "The checklist rows use « reading (question) » and free text, not the kb-0006 markers. The parenthetical row records that strictness is assumed beyond the parenthetical without the ⚠ strengthened marker that the REPORT's « strengthened by the paper's own notion » corresponds to.",
+      "fix": "Mark the parenthetical row « ⚠ strengthened relative to the parenthetical, ✓ carried relative to « corps convexe » (l.795) », and the two reading rows « reading »."
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "target": "T-bz-c3-somme-facettes-coniques",
+  "package": "lean-benzecri",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/SommeFacettesConiques.lean",
+    "scaffold/BenzecriScaffold.lean (one import line added)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on remarque_somme_facettes_coniques, isFacetteK_iff_relInterior_eq, estSommeS_sommeS, exemple_arete_fermee, exemple_sans_stricte, exemple_arcs_S3, blockW_id, simplexS_closure_somme_vertices)",
+  "labels": [
+    {
+      "label": "bzrem:c3s4r1_somme_facettes_coniques",
+      "tex_lines": [
+        1142,
+        1148
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.SommeFacettes.remarque_somme_facettes_coniques",
+        "Benzecri.SommeFacettes.isFacetteK_iff_relInterior_eq",
+        "Benzecri.SommeFacettes.estSommeS_sommeS",
+        "Benzecri.SommeFacettes.closure_eq_ofCone_coneSomme",
+        "Benzecri.SommeFacettes.IsCorpsConvexeDans",
+        "Benzecri.SommeFacettes.relInterior",
+        "Benzecri.SommeFacettes.sommeS",
+        "Benzecri.SommeFacettes.coneSomme",
+        "Benzecri.SommeFacettesInstance.exemple_arete_fermee",
+        "Benzecri.SommeFacettesInstance.exemple_sans_stricte",
+        "Benzecri.SommeFacettesInstance.exemple_arcs_S3",
+        "Benzecri.SommeFacettesInstance.closure_somme_blockW",
+        "Benzecri.SommeFacettesInstance.simplexS_closure_somme_vertices"
+      ],
+      "hypotheses": [
+        {
+          "paper": "p sous-variétés linéaires L_i dont S(n) soit la somme",
+          "here": "reading",
+          "note": "DirectSum.IsInternal L (E = ⊕ L_i, equivalently iSupIndep L and ⨆ L_i = ⊤); for p = 2 this is Déf. 6's bracket (EstSommeLineaire ⇔ IsCompl)"
+        },
+        {
+          "paper": "W_i des corps convexes de L_i",
+          "here": "carried",
+          "note": "IsCorpsConvexeDans: strict convex part, contained in l_i, closed, nonempty interior for the topology induced on l_i ⊆ S(n)"
+        },
+        {
+          "paper": "(W_i convexe fermé d'intérieur non vide pour la topologie de L_i)",
+          "here": "strengthened",
+          "note": "strictness (noyau vide) is part of « corps convexe » (Déf. 11; l.795); the parenthetical alone is insufficient (exemple_sans_stricte)"
+        },
+        {
+          "paper": "la somme des W_i",
+          "here": "carried",
+          "note": "every w with EstSommeS w W (§ 2 Déf. 5); one exists (estSommeS_sommeS); its closure is s(Σ(F(W_i) ∪ {O}) − O) (closure_eq_ofCone_coneSomme)"
+        },
+        {
+          "paper": "dont les W_i sont des facettes coniques",
+          "here": "reading",
+          "note": "relInterior (L i) (W i) is a conical facette of closure w, of closure W i and support l_i"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "l.1146–1148: « les W_i sont des facettes coniques » is an abuse of language. Read literally it is false for every W_i that is not a point, so this is not a degenerate case: a facette (Déf. 4, an α-class) is relatively open, and W_i is a facette of the closed sum iff W_i equals its interior relative to l_i (isFacetteK_iff_relInterior_eq). A strict closed W_i with nonempty interior in l_i is relatively open only when it is a point. That general step (l_i connected when dim L_i ≥ 2; a strict part of S(0) is a point) is argued here, not formalized; the Lean witness is the iff above plus a concrete counterexample. Counterexample: the closed triangle of S(2) as the closed sum of the closed edge [s(e₀), s(e₁)] ⊆ l₀ = s(⟨e₀,e₁⟩ − O) and the vertex s(e₂): the closed edge is not a facette, and the open edge is a conical facette whose closure is the closed edge (exemple_arete_fermee). The intended form (the relative interior of W_i is a conical facette with closure W_i and support l_i) is proved for every p and every W_i.",
+        "l.1145–1146: the parenthetical « (W_i convexe fermé d'intérieur non vide pour la topologie de L_i) » omits « de noyau vide », which the paper's own characterization of corps convexes includes (l.795: « Les corps convexes ne sont autres que les convexes fermés d'intérieur non vide, et de noyau vide »). Read alone it does not suffice: W = S(0) = l (L = E, p = 1) is convex, closed, of nonempty interior, no w is a sum of it in the sense of § 2 Déf. 5 (F(W) = E − O is not convex), and s(F(W) ∪ {O} − O) = S(0) is not a convex body (exemple_sans_stricte). With « corps convexe » (strict) the Remark holds."
+      ],
+      "questions": [
+        "« S(n) soit la somme » of p linear subvarieties: read E = ⊕ L_i (DirectSum.IsInternal). § 2 Déf. 5 read literally for two linear subvarieties is degenerate (estSomme2_univ_linearSubvariety_iff, FacetteConique); Déf. 6's bracket gives IsCompl for p = 2, which is this reading at p = 2.",
+        "« les W_i sont des facettes coniques »: read « the interior of W_i for the topology of l_i is a conical facette of the closed sum, whose closure is W_i and whose support is l_i ». The alternative literal reading holds only when W_i is relatively open (isFacetteK_iff_relInterior_eq), e.g. a point.",
+        "« la somme des W_i » of closed W_i: read as § 2 Déf. 5 (EstSommeS: F(w) = Σ F(W_i), every summand nonzero); the closure is then s(Σ(F(W_i) ∪ {O}) − O) (reading (a) of the dispatch, proved, not assumed)."
+      ],
+      "instance": "For every surjective f : Fin (n+1) → I the coordinate blocks L_j = {v | v_c = 0 if f c ≠ j} and the block simplices W_j = s({v ∈ L_j | v ≥ 0} − O) satisfy every hypothesis (isInternal_blockL, isCorpsConvexeDans_blockW), the sum exists, and the closure of every sum is TriangleInstance.simplexS n (closure_somme_blockW). f = id: W_j = {vertex j} (blockW_id), the simplex as closed sum of its n+1 vertices (simplexS_closure_somme_vertices). f = ![0,0,1,1]: the S(3) quarter-arc example, closure simplexS 3, the open arcs conical facettes (exemple_arcs_S3). f = ![0,0,1]: the S(2) closed-edge example (exemple_arete_fermee)."
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.SommeFacettes.proj",
+    "Benzecri.SommeFacettes.sum_proj",
+    "Benzecri.SommeFacettes.proj_sum",
+    "Benzecri.SommeFacettes.proj_of_mem",
+    "Benzecri.SommeFacettes.proj_of_mem_ne",
+    "Benzecri.SommeFacettes.mem_iff_proj",
+    "Benzecri.SommeFacettes.eq_of_proj",
+    "Benzecri.SommeFacettes.continuous_proj",
+    "Benzecri.SommeFacettes.IsCore",
+    "Benzecri.SommeFacettes.IsCore.comb",
+    "Benzecri.SommeFacettes.IsCore.smul",
+    "Benzecri.SommeFacettes.IsCore.ne_zero",
+    "Benzecri.SommeFacettes.span_core",
+    "Benzecri.SommeFacettes.mem_relInterior_iff",
+    "Benzecri.SommeFacettes.isCore_of_open",
+    "Benzecri.SommeFacettes.facetteOf_coneSomme",
+    "Benzecri.SommeFacettes.relInterior_eq_ofCone_coreSet",
+    "Benzecri.SommeFacettes.relInterior_eq_facetteK",
+    "Benzecri.SommeFacettes.coneAppuiVec_coneSomme",
+    "Benzecri.SommeFacettes.noyau_ofCone_coneAppuiSomme",
+    "Benzecri.SommeFacettes.isCorpsConvexeS_ofCone_coneSomme",
+    "Benzecri.SommeFacettesInstance.isInternal_blockL",
+    "Benzecri.SommeFacettesInstance.proj_blockL"
+  ],
+  "kb_proposals": [
+    "For « S(n) somme de p sous-variétés Lᵢ » use DirectSum.IsInternal L with the endomorphisms proj hL i := (L i).subtype ∘ₗ component i ∘ₗ (LinearEquiv.ofBijective (coeLinearMap L) hL).symm (Chapter3/SommeFacettesConiques): sum_proj, proj_sum and mem_iff_proj reduce every cone computation on ⊕ Lᵢ to coordinates, and closedness of {v | ∀ i, pᵢ v ∈ Kᵢ} is free (continuous_of_finiteDimensional).",
+    "Interior « pour la topologie de l » (subspace topology on linearSubvariety L ⊆ S(n)): mem_relInterior_iff turns it into ∃ U open in S(n), x ∈ U, U ∩ l ⊆ W; the algebraic core (IsCore: ∀ v ∈ L, ∃ t > 0, B + t v ∈ K) is what the facette computations need, and a core point is back in the topological relative interior via the open map z ↦ λC + μz and isOpenMap_s on ofCone.",
+    "A facette (Déf. 4) is relatively open: a closed convex body Wᵢ of a summand is a facette of a closed sum only when Wᵢ is its own relative interior (isFacetteK_iff_relInterior_eq); read « Wᵢ facette » as « relint Wᵢ facette of closure Wᵢ ».",
+    "Coordinate-block instances: SommeFacettesInstance.blockL/blockW for a surjective f : Fin (n+1) → I give IsInternal, the hypotheses of the Remark, and closed sum = TriangleInstance.simplexS n in one line each."
+  ],
+  "notes": "Sorry-free. Passes `lake env lean -DwarningAsError=true` after audit round 1: the set_option linter lines are removed, unused section variables are handled with `omit [...] in`, the `<;>` focuses are replaced, and the checklist uses the kb-0006 markers. The label is unmarked only because the conclusion is proved in the relative-interior reading, with « somme » read as E = ⊕ L_i. The file imports only Benzecri.Chapter3.FacetteConique. One import line was appended to scaffold/BenzecriScaffold.lean."
+}
