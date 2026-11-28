@@ -393,6 +393,28 @@
 # restart-hypotheses bullet no longer say that Thm 4.82 never takes it (two forms over sol do, through
 # Thm 4.64's hypotheses for (U₁, A)), and the comment on T-lad-record-stale-refs' question is
 # refreshed. No [[implies]], [[fails]] or [[fact]] entry changes.
+# After T-lad-record-inextensible-not-le-nested (2026-11-28) still 432 of 432, simulated in memory
+# first (kb/0276) and the matrix compared line by line before and after: exactly one pair moved,
+# inextensible_nested → le_nested, open → fails, with no contradiction, and its [[open]] entry is
+# removed in the same edit. The witness is the conjoined statement
+# Causal.rationalLine_separates_inextensibleNested (T-abs-inextensible-not-le-nested,
+# Causal/InextensibleNotLeNested.lean): the rational line is inextensibly nested in the spacelike line
+# on every open set and not ≤-nested in it, and both causalities are absolutely minimal on M and on
+# every open set, so the entry holds in either reading of defi:causalite (DEC-167, OQ-18, whichever
+# form OQ-95 rules). The rational line replaces the [[open]] note's pointed line, which is not
+# absolutely minimal (Causal.GluingModels.pointedLine_not_minimal). T-lad-gluing-reading's item
+# "re-argue inextensible_nested → le_nested on an absolutely minimal pair" moved to this target
+# (planning run, 2026-11-28 00:36) and is settled by it. Through the closure (inextensible_nested ⇒
+# curve_nested, T1, second countable) the entry refutes curve_nested → le_nested besides, which the
+# pointed line's entry refuted alone, in the no-gluing reading only: that pair now has a witness in
+# either reading too, and it moves no pair. The pair sort is fully classified: of its 6 pairs, 2 are
+# implied (le_nested, inextensible_nested → curve_nested) and 4 refuted, none open. Two consequences
+# are added at inextensible_nested: the converse under causal arc-connectedness of the narrower C (T1,
+# second countable), and the nesting of two causalities whose causal curves of W are all constant. In
+# all: 41 implied (37 causality-sort), 385 refuted (381 causality-sort), 6 [[open]] (2 causality-sort,
+# 4 geometry-sort, none pair-sort). No [[implies]], [[fact]] or [[transfer]] entry changes, and no
+# causality-sort pair moves (emitted unchanged in memory), so neither Causal/Ladder/Rules.lean nor
+# Causal/Ladder/Test.lean would change: emit-lean reads no pair-sort pair and no consequence.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -441,8 +463,13 @@
 #   [[fails]] below: ETT's inextensibility is by extension, and the point 1, with no causal past but
 #   itself, ends a narrower-inextensible curve that the timelike line extends, kb/0045). It implies
 #   curve_nested at the same W on a T1, second countable M (the [[implies]] with that standing,
-#   T-lad-record-curves-corollaries); whether it implies le_nested is open (an [[open]] entry, end of
-#   file). Curve nesting at M gives it at M when the narrower C
+#   T-lad-record-curves-corollaries). It does not imply le_nested: the rational line is inextensibly
+#   nested in the spacelike line on every open and not ≤-nested in it, both absolutely minimal on
+#   every open (the [[fails]] below, Causal.rationalLine_separates_inextensibleNested, either reading;
+#   T-lad-record-inextensible-not-le-nested, 2026-11-28, where an [[open]] entry stood). It gives
+#   le_nested at M when the narrower C is causally arc-connected, on a T1, second countable M (a
+#   consequence at inextensible_nested). So the pair sort is fully classified, none open. Curve
+#   nesting at M gives it at M when the narrower C
 #   is causally arc-connected, causal, strongly causal, with closed J^± of points and no causal
 #   endpoint (or globally hyperbolic, tarentin, causally arc-connected, no causal endpoint, M
 #   Hausdorff): properties of C, so a consequence at curve_nested, not an [[implies]] (one with them
@@ -695,6 +722,17 @@
 # The [[fails]] witness takes no instance argument and is a statement on ℝ, so there is no `space`.
 # The consequences' instance binders are their standings: ["T2"], and ["T2", "second_countable"] for
 # the second countable form.
+# Those of T-lad-record-inextensible-not-le-nested (2026-11-28: the [[fails]] witness
+# Causal.rationalLine_separates_inextensibleNested and the two consequences' witnesses
+# Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected and
+# Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq, from Causal.InextensibleNotLeNested,
+# audited (AUDIT-1, minor) and not yet imported by Causal.lean; and every Lean name the new and
+# refreshed comments cite, Causal.GluingModels.pointedLine_not_minimal, rationalLine_absolutelyMinimalOn,
+# GluingModels.spacelikeLine_hereditary and rationalLine_not_causallyArcConnected among them) were read
+# from the sources, with no build, each statement listed conjunct by conjunct or binder by binder in
+# its comment, and each name resolved by tools/ladder.py's index. The [[fails]] witness takes no
+# instance argument and is a statement on ℝ, so there is no `space`; the first consequence takes
+# [T1Space M] [SecondCountableTopology M], its standing ["T1", "second_countable"], the second none.
 
 [[property]]
 id = "is_causal"
@@ -1224,8 +1262,10 @@ what = "C is ≤-nested in C': for every open U, x ≤_U y for C implies x ≤_U
 # Subluminality as ERS's Lemma 4.72 uses it (CurveNestedOn C₂ C_m U₂: the cone of g(u₂, du₂) inside
 # Minkowski's, on the development's domain U₂), and (4.87) of Lemma 4.86 (the slope-δ cone inside
 # g's). Implied by le_nested and, on a T1, second countable M, by inextensible_nested (edges below);
-# the converse le_nested fails (the pointed line, [[fails]] below) and holds when the narrower C is
-# causally arc-connected (a consequence below).
+# the converse le_nested fails (the pointed line, [[fails]] below; in either reading, through
+# inextensible_nested ⇒ curve_nested, the rational line in the spacelike line, the [[fails]]
+# inextensible_nested ⇏ le_nested) and holds when the narrower C is causally arc-connected (a
+# consequence below).
 [[property]]
 id = "curve_nested"
 lean = "Causal.Causality.CurveNestedOn"
@@ -1243,8 +1283,14 @@ what = "C is curve-nested in C' on an open W: every future causal curve of W for
 # binder (papers/ers-predictability/certificate/binder.toml) proposed the id (rows 4.70, 4.71, 4.77,
 # 4.79, 4.80). Implied by neither le_nested nor curve_nested ([[fails]] below). It implies
 # curve_nested at the same open W on a T1, second countable M (edge below:
-# Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable); whether it implies
-# le_nested is open (end of file). Since T-lad-record-direct-witnesses (2026-11-27,
+# Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable). It does not imply
+# le_nested: the rational line in the spacelike line, both absolutely minimal on every open, so in
+# either reading ([[fails]] below, Causal.rationalLine_separates_inextensibleNested;
+# T-lad-record-inextensible-not-le-nested, 2026-11-28, where an [[open]] entry stood, argued on the
+# pointed line); it gives le_nested at M when the narrower C is causally arc-connected, on a T1,
+# second countable M (consequence below,
+# Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected). Since
+# T-lad-record-direct-witnesses (2026-11-27,
 # T-abs-inextensible-nested-basics) it is reflexive, transitive and invariant under time reversal with
 # no hypothesis, and passes to a smaller open V ⊆ W under a condition in words (consequences below,
 # Causal/InextensibleNestedBasics.lean); not in general: Causal.not_inextensibleNestedOn_mono refutes
@@ -3595,7 +3641,11 @@ status = "checked"
 # (Causal/NestedConverse.lean:413: the rational line, absolutely minimal, causal, with push-up, is
 # curve-nested in the spacelike line on every open and not ≤-nested in it), which refutes the pair in
 # either reading. Not re-pointed yet: gluing is not yet in the library's definition of a causality,
-# and the re-pointing is T-lad-gluing-reading's.
+# and the re-pointing is T-lad-gluing-reading's. Since T-lad-record-inextensible-not-le-nested
+# (2026-11-28) the pair is refuted in either reading besides, through the closure: the [[fails]]
+# inextensible_nested ⇏ le_nested (the rational line in the spacelike line, absolutely minimal on
+# every open) has curve_nested by inextensible_nested ⇒ curve_nested (T1, second countable), so the
+# pair stays refuted whatever becomes of this entry.
 [[fails]]
 from = "curve_nested"
 to = "le_nested"
@@ -3636,6 +3686,52 @@ status = "checked"
 from = "le_nested"
 to = "inextensible_nested"
 witness = "Causal.cutLine_separates_inextensibleNested"
+status = "checked"
+
+# T-lad-record-inextensible-not-le-nested (2026-11-28; the witness T-abs-inextensible-not-le-nested's,
+# Causal/InextensibleNotLeNested.lean). The rational line (Causal.rationalLine,
+# Causal/NestedConverse.lean:250: x ≤_U y iff x = y ∈ U, or x < y are both rational with [x, y] ⊆ U;
+# no chronology) is inextensibly nested in the spacelike line (Causal.spacelikeLine, ≤_U equality) on
+# every open and not ≤-nested in it: 0 ≤ 1 in the first only
+# (Causal.rationalLine_not_leNested_spacelikeLine). The causal curves of both are constant
+# (Causal.rationalLine_causalCurveOn_eq, Causal.spacelikeLine_causalCurveOn_eq), and the model-free
+# lemma Causal.Causality.inextensible_iff_of_causalCurveOn_eq (any causality, no instance) says that
+# when every causal curve of W over a segment is constant, a curve of W over I is inextensible iff it is
+# a causal curve: a strict extension is constant and takes the old value on the reparametrised I, which
+# is non-empty, so its new point is not new. So two such causalities are inextensibly nested in each
+# other on W (Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq, a consequence at
+# inextensible_nested); the two lines have the same inextensible curves on every open
+# (Causal.rationalLine_inextensibleNestedOn_spacelikeLine, spacelikeLine_inextensibleNestedOn_rationalLine),
+# and the spacelike line is ≤-nested in the rational line (Causal.spacelikeLine_leNested_rationalLine),
+# so even inextensible nesting both ways and ≤-nesting one way do not give ≤-nesting the other way.
+# The witness, read from the source (Causal/InextensibleNotLeNested.lean:227), with no build:
+# Causal.rationalLine_separates_inextensibleNested : (∀ W : Opens ℝ, rationalLine.InextensibleNestedOn
+# spacelikeLine W) ∧ ¬ rationalLine.LeNested spacelikeLine ∧ rationalLine.IsCausal ∧
+# rationalLine.AbsolutelyMinimal ∧ (∀ W, rationalLine.AbsolutelyMinimalOn W) ∧ spacelikeLine.IsCausal
+# ∧ spacelikeLine.CausallyArcConnected ∧ spacelikeLine.AbsolutelyMinimal ∧ ∀ W,
+# spacelikeLine.AbsolutelyMinimalOn W (a closed statement on ℝ, no instance argument: no `space`). The
+# `from` is its first conjunct, at every open W (so at W = M, the ladder's reading), and the negation
+# of the `to` its second. Both causalities are absolutely minimal on M and on every open set, in both
+# Lean forms of DEC-167's gluing, so the entry holds in either reading of defi:causalite (DEC-167,
+# OQ-18), whichever form OQ-95 rules. The rational line replaces the [[open]] entry that stood for this
+# pair (end of file until this target), whose note argued it on the pointed line in the spacelike line:
+# the same mechanism, but the pointed line is not absolutely minimal
+# (Causal.GluingModels.pointedLine_not_minimal, Causal/GluingModels/NonMinimal.lean:139), so its
+# separation would hold in the no-gluing reading only; the name that note wanted,
+# Causal.pointedLine_separates_inextensibleNested, is not written. Through the closure
+# (inextensible_nested ⇒ curve_nested, T1, second countable, ambient; the rational line's curve nesting
+# is also Causal.rationalLine_curveNestedOn) the entry refutes curve_nested → le_nested besides, in
+# either reading. Sharp: inextensible nesting at M gives ≤-nesting when the narrower C is causally
+# arc-connected, on a T1, second countable M (consequence at inextensible_nested,
+# Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected), and the rational line is not
+# (Causal.rationalLine_not_causallyArcConnected), while the wider spacelike line is (the seventh
+# conjunct): causal arc-connectedness of C' does not do instead, nor absolute minimality of C on every
+# open. The bare refutation: Causal.not_leNested_of_inextensibleNestedOn_bare : ¬ ∀ C C' : Causality ℝ,
+# C.InextensibleNestedOn C' ⊤ → C.LeNested C'. With it the pair sort is fully classified.
+[[fails]]
+from = "inextensible_nested"
+to = "le_nested"
+witness = "Causal.rationalLine_separates_inextensibleNested"
 status = "checked"
 
 # ------------------------------------------------------------------ consequences
@@ -5494,6 +5590,50 @@ witness = "Causal.Causality.InextensibleNestedOn.mono_of_inextensible"
 under = "inextensible nesting on W; V ≤ W; every C-inextensible causal curve of V is C-inextensible in W (hV, of the narrower C alone, no node); nothing of C' (no instance)"
 status = "checked"
 
+# The converse of the [[fails]] inextensible_nested ⇏ le_nested under a causality-sort property of the
+# narrower C, hence a consequence, as at curve_nested (an [[implies]] with it in `under` would be
+# chained as unconditional, against that [[fails]]). T-abs-inextensible-not-le-nested
+# (Causal/InextensibleNotLeNested.lean:180; recorded by T-lad-record-inextensible-not-le-nested,
+# 2026-11-28), read from the source with no build: [T1Space M] [SecondCountableTopology M]
+# {C C' : Causality M} (h : InextensibleNestedOn C C' ⊤) (hC : C.CausallyArcConnected) :
+# LeNested C C'. It is the edge inextensible_nested ⇒ curve_nested
+# (Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable, whose instance binders
+# are its standing) followed by the converse at curve_nested
+# (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected). Open form, beside it (:171):
+# Causal.Causality.InextensibleNestedOn.le_of_causallyArcConnectedOn (the same instances;
+# InextensibleNestedOn C C' W, C.CausallyArcConnectedOn W, U ≤ W, C.le U x y : C'.le U x y), the
+# ≤-nesting on the opens of W. Sharp on both sides by the [[fails]]'s witness: the rational line is
+# absolutely minimal on every open and not causally arc-connected, the wider spacelike line causally
+# arc-connected.
+[[consequence]]
+at = "inextensible_nested"
+statement = "inextensible nesting at M gives ≤-nesting when the narrower C is causally arc-connected (inextensible_nested ⇒ curve_nested, then the converse at curve_nested)"
+witness = "Causal.Causality.InextensibleNestedOn.leNested_of_causallyArcConnected"
+under = "inextensible nesting at M (W = M); causally_arc_connected of C (ladder node); nothing of C'"
+standing = ["T1", "second_countable"]
+status = "checked"
+
+# Constant causal curves (Causal/InextensibleNotLeNested.lean:156, T-abs-inextensible-not-le-nested;
+# recorded by T-lad-record-inextensible-not-le-nested, 2026-11-28), read from the source with no
+# build, no instance argument: {C C' : Causality M} {W : Opens M} (hC : ∀ ⦃d a b⦄,
+# C.CausalCurveOn W d a b → ∀ s ∈ Icc a b, ∀ t ∈ Icc a b, d s = d t) (hC' : the same for C') :
+# InextensibleNestedOn C C' W. The hypotheses are symmetric, so C' is inextensibly nested in C too.
+# Behind it, the model-free lemma Causal.Causality.inextensible_iff_of_causalCurveOn_eq (one
+# causality: with all its causal curves of W constant, a curve of W over I is inextensible iff it is a
+# causal curve; its forward-only form inextensible_of_causalCurveOn_eq), which concerns inextensibility
+# of one causality, no node, hence a comment and no entry. The stronger form given curve nesting,
+# Causal.Causality.CurveNestedOn.inextensibleNestedOn_of_causalCurveOn_eq (:149: CurveNestedOn C C' W
+# and the wider C''s causal curves of W constant give InextensibleNestedOn C C' W), consumes
+# curve_nested, so it would sit at curve_nested; it is not recorded. The hypothesis is met by the
+# rational and spacelike lines (the [[fails]] inextensible_nested ⇏ le_nested) and by the pointed
+# line, and fails for the timelike line.
+[[consequence]]
+at = "inextensible_nested"
+statement = "two causalities whose causal curves of an open W are all constant are inextensibly nested on W (each causal curve of W is then inextensible for each, Causal.Causality.inextensible_iff_of_causalCurveOn_eq)"
+witness = "Causal.Causality.inextensibleNestedOn_of_causalCurveOn_eq"
+under = "every causal curve of W over a segment is constant, for C (hC) and for C' (hC'), in words, no node; nothing else (no instance)"
+status = "checked"
+
 # T-abs-nested-causalities/2-dod, the Cauchy transfer. Read 2026-11-22 by `#check`:
 # {C C' : Causality M} {W : Opens M} {S : Set M}, C.InextensibleNestedOn C' W →
 # C'.IsCauchySurfaceOn W S → C.IsCauchySurfaceOn W S, no instance (a one-line proof: a C-inextensible
@@ -5751,20 +5891,20 @@ from = "rigid"
 to = "cauchy_slice"
 note = "Geometry sort, Level B: every local model is rigid (Causal.CBG.eqOn_of_liftPropOn) and has SlicePast (Causal.CBG.LocalModel.slicePast), so this asks whether every local model has the BTZ residual SliceFutureBTZ, owed by gx for E₀"
 
-# The pair-sort entry (T-lad-nested-inextensible, 2026-11-22): a converse of the [[fails]]
-# le_nested ⇏ inextensible_nested, both nestings read at one open W. It is not refuted in Lean: the
-# library's inextensibly nested pairs are a causality in itself
-# (Causal.timelikeLine_inextensibleNestedOn_top) and those that the consequences at curve_nested
-# produce, which are curve-nested by hypothesis and ≤-nested too, their narrower causality being
-# causally arc-connected (Causal.Causality.CurveNestedOn.leNested_of_causallyArcConnected). The other
-# converse, inextensible_nested → curve_nested, open here until T-lad-record-curves-corollaries
-# (2026-11-22), is the [[implies]] with standing T1, second_countable
-# (Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable).
+# The pair sort: no [[open]] entry since T-lad-record-inextensible-not-le-nested (2026-11-28). The
+# entry that stood here (T-lad-nested-inextensible, 2026-11-22), inextensible_nested → le_nested, the
+# converse of the [[fails]] le_nested ⇏ inextensible_nested, was "False, argued: the pointed line in
+# the spacelike line", with the argument (the causal curves of both are constant, and a strict
+# extension of a causal curve, constant too, takes the old value, so its new point is not new) and two
+# wants: the constant-curve lemma, which is Causal.Causality.inextensible_iff_of_causalCurveOn_eq since
+# T-abs-inextensible-not-le-nested, and a conjoined separation. It is the [[fails]] inextensible_nested
+# ⇏ le_nested since (after the line cut at 1's entry), argued on the rational line in the spacelike line
+# instead (Causal.rationalLine_separates_inextensibleNested), the pointed line not being absolutely
+# minimal (Causal.GluingModels.pointedLine_not_minimal); both lines are absolutely minimal on every
+# open, so it holds in either reading of DEC-167. The other converse, inextensible_nested →
+# curve_nested, open here until T-lad-record-curves-corollaries (2026-11-22), is the [[implies]] with
+# standing T1, second_countable (Causal.Causality.InextensibleNestedOn.curveNestedOn_of_t1_secondCountable).
 
-[[open]]
-from = "inextensible_nested"
-to = "le_nested"
-note = "False, argued: the pointed line in the spacelike line (Causal.pointedLine, Causal.spacelikeLine). Both have the constant curves of W as their causal curves of W (Causal.pointedLine_causalCurveOn_eq; the spacelike line's ≤_U is equality; a constant curve is causal in either by reflexivity, Causal.Causality.causalCurveOn_of_forall_eq), and no causal curve of either is extensible: a strict extension is a causal curve, hence constant, and takes the old value, so its new point (StrictlyExtends.grows) is not new; so the two have the same inextensible curves of every W and the pair is inextensibly nested on every open, while it is not ≤-nested (Causal.pointedLine_not_leNested_spacelikeLine). Wants a lemma that a causality whose causal curves of W are constant has every causal curve of W inextensible, and Causal.pointedLine_separates_inextensibleNested (∀ W, InextensibleNestedOn pointedLine spacelikeLine W, ¬ LeNested pointedLine spacelikeLine). It refutes this pair only: the pointed line is curve-nested in every causality of ℝ (Causal.pointedLine_curveNestedOn)"
 
 # ---- T-lad-classify-core (2026-11-21): every causality-sort pair the closure and the counterexamples
 # above leave unknown, one [[open]] entry each, grouped by the conclusion `to`. A note is one of:
@@ -5949,7 +6089,11 @@ note = "False, argued: the pointed line in the spacelike line (Causal.pointedLin
 # causality-sort entries above, two stay: causally_plain → locally_push_up and strongly_causal →
 # strongly_causal_open. The 21 of locally_strongly_causal were in their own section below, so 23
 # causality-sort entries stayed in all; T-lad-record-lsc-separations (2026-11-27) removed those 21, so
-# the 2 here are the causality-sort entries left (7 with the 4 geometry-sort and the pair-sort one).
+# the 2 here are the causality-sort entries left (7 with the 4 geometry-sort and the pair-sort one
+# then). T-lad-record-inextensible-not-le-nested (2026-11-28) removed the pair-sort one,
+# inextensible_nested → le_nested (the rational line in the spacelike line, either reading; its
+# [[fails]] entry after the line cut at 1's): 6 [[open]] entries are left, the 2 causality-sort ones
+# here and the 4 geometry-sort ones above, and none of the pair sort.
 
 # → absolutely_minimal: none since T-lad-record-dens-prop-4-63 (2026-11-27); the one entry that stood
 # here, from chronal_neighbours, is refuted by the density causality's entry (no-gluing only).
