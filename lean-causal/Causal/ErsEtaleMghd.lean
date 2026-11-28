@@ -44,7 +44,10 @@ causality** `EtaleGluing.gluedCausality` is `Causal.Gluing.causality` of `C₁` 
   `EtaleGluing.isOpenEmbedding_proj_of_isCauchySurfaceOn_inf`,
   `Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup`, `ers_isPreconnected_inter_of_eqOn`
   and `ers_isOpenEmbedding_proj_of_eqOn` (agreement gives a connected overlap, hence injectivity,
-  in ERS's subluminal setting, `S` connected and `m`-acausal).
+  in ERS's subluminal setting, `S` connected and `m`-acausal); `ers_coe_eq_inter_of_eqOn`
+  (moved here from `Causal.ErsEtaleMghdWitnesses` by T-abs-ers-overlap-sharp), the sharp form of
+  `ers_isOpenEmbedding_proj_of_eqOn`, which is its corollary: there the common development is the
+  whole overlap, `A = U₁ ∩ U₂`.
 * `6-witness` — `EtaleGluing.timelikeLine_etale_witness`, `timelikeLine_isEtaleDevelopment`,
   `timelikeLine_ers_etale_witness`: the timelike line, `]-2, 1[ ⊔_{]-1, 1[} ]-1, 2[`, `S = {0}`;
   and `Causal.ErsEtaleMghdWitnesses` (T-abs-ers-etale-mghd-witnesses):
@@ -95,7 +98,11 @@ causality** `EtaleGluing.gluedCausality` is `Causal.Gluing.causality` of `C₁` 
   connected and Cauchy in `U₁ ∩ U₂`, or ERS's subluminal setting with `S` connected and
   `m`-acausal (`ers_isPreconnected_inter_of_eqOn`, the claim `Causal.ErsMughd`'s SCOPE argues,
   and `ers_isOpenEmbedding_proj_of_eqOn`, through Rem 4.78). Without them it is not decided here;
-  ERS's non-achronal `S` (`:930`) suggests it fails (not formalized: a model).
+  ERS's non-achronal `S` (`:930`) suggests it fails (not formalized: a model). Under the open
+  embedding's hypotheses the common development is the whole overlap, `A = U₁ ∩ U₂`
+  (`ers_coe_eq_inter_of_eqOn`, the sharp form, of which `ers_isOpenEmbedding_proj_of_eqOn` is the
+  corollary): the gluing there is the trivial one, and neither theorem says anything of gluing
+  along a proper common development.
 * **Witness.** On the timelike line every development of `{0}` is an interval (it is connected,
   `isPreconnected_of_isCauchySurfaceOn_of_t1_secondCountable`), so `U₁ ∩ U₂` is connected and `π`
   is injective (argued, not stated): the witness has a proper two-piece overlap but no doubled
@@ -717,14 +724,37 @@ theorem ers_isPreconnected_inter_of_eqOn [T2Space M] [SecondCountableTopology M]
   exact Causality.isPreconnected_inter_of_isCauchySurfaceOn_sup hanti hSc
     (fun z hz => ⟨hd₁.subset hz, hd₂.subset hz⟩) hc₁ hc₂ hdv.cauchy
 
+/-- **The hypotheses of `ers_isOpenEmbedding_proj_of_eqOn` force `A = U₁ ∩ U₂`**, on every
+background: the overlap is connected (`ers_isPreconnected_inter_of_eqOn`), and `A` is a non-empty
+open subset of it, closed in it (`hclosed`). So the gluing of that theorem is always the trivial
+one, along the whole overlap. -/
+theorem ers_coe_eq_inter_of_eqOn [T2Space M] [SecondCountableTopology M]
+    {Cm : Causality M} (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol)
+    (hfollow : CausalityFollows cau)
+    (hsub : ∀ U u, sol U u → Causality.CurveNestedOn (cau u) Cm U)
+    (harc : ∀ U u, sol U u → (cau u).CausallyArcConnectedOn U)
+    (hm : Cm.IsCausal) (hmacausal : Cm.IsAcausal S) (hSc : IsPreconnected S)
+    (hd₁ : IsDevelopment sol cau S U₁ u₁) (hd₂ : IsDevelopment sol cau S U₂ u₂)
+    (h₁ : (A : Set M) ⊆ U₁) (h₂ : (A : Set M) ⊆ U₂) (hSA : S ⊆ A)
+    (hclosed : (U₁ : Set M) ∩ U₂ ∩ closure A ⊆ A) (hagree : EqOn u₁ u₂ ((U₁ : Set M) ∩ U₂)) :
+    (A : Set M) = (U₁ : Set M) ∩ U₂ := by
+  have hconn := ers_isPreconnected_inter_of_eqOn hloc hglue hfollow hsub harc hm hmacausal hSc
+    hd₁ hd₂ hagree
+  haveI : T2Space (EtaleGluing h₁ h₂) := (EtaleGluing.t2Space_iff A.isOpen).2 hclosed
+  refine Subset.antisymm (subset_inter h₁ h₂) fun x hx => ?_
+  obtain ⟨I, c, hc, -⟩ := Causality.inextensibleThrough_of_t1_secondCountable (cau u₁) U₁ x hx.1
+  obtain ⟨s, ⟨-, hs⟩, -⟩ := hd₁.cauchy I c hc
+  rw [EtaleGluing.eq_inter_of_t2Space (h₁ := h₁) (h₂ := h₂) A.isOpen ⟨s, hSA hs⟩ hconn]
+  exact hx
+
 /-- **Agreement gives injectivity in ERS's subluminal setting** (reported for
 `T-abs-ers-etale-mghd`): under `ers_isPreconnected_inter_of_eqOn`'s hypotheses, two developments
 agreeing on all of `U₁ ∩ U₂` have a connected overlap, so the Hausdorff gluing along any open
-`A ⊇ S` closed in `U₁ ∩ U₂` is `U₁ ∪ U₂` (`eq_inter_of_t2Space`): `π` is an open embedding.
-Its hypotheses force `A = U₁ ∩ U₂` (`ers_coe_eq_inter_of_eqOn`, `Causal.ErsEtaleMghdWitnesses`),
-so "any open `A`" ranges over one set: it says nothing of gluing along a proper common
-development (ERS `:852`); beyond `ers_isPreconnected_inter_of_eqOn` its content is
-`eq_inter_of_t2Space`. -/
+`A ⊇ S` closed in `U₁ ∩ U₂` is `U₁ ∪ U₂`: `π` is an open embedding. It is the corollary of the
+sharp form just above, `ers_coe_eq_inter_of_eqOn`: its hypotheses force `A = U₁ ∩ U₂`, and
+`isOpenEmbedding_proj` applies. So "any open `A`" ranges over one set: it says nothing of gluing
+along a proper common development (ERS `:852`); beyond `ers_isPreconnected_inter_of_eqOn` its
+content is `eq_inter_of_t2Space`. -/
 theorem ers_isOpenEmbedding_proj_of_eqOn [T2Space M] [SecondCountableTopology M]
     {Cm : Causality M} (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol)
     (hfollow : CausalityFollows cau)
@@ -734,16 +764,9 @@ theorem ers_isOpenEmbedding_proj_of_eqOn [T2Space M] [SecondCountableTopology M]
     (hd₁ : IsDevelopment sol cau S U₁ u₁) (hd₂ : IsDevelopment sol cau S U₂ u₂)
     (h₁ : (A : Set M) ⊆ U₁) (h₂ : (A : Set M) ⊆ U₂) (hSA : S ⊆ A)
     (hclosed : (U₁ : Set M) ∩ U₂ ∩ closure A ⊆ A) (hagree : EqOn u₁ u₂ ((U₁ : Set M) ∩ U₂)) :
-    IsOpenEmbedding (proj h₁ h₂) := by
-  have hconn := ers_isPreconnected_inter_of_eqOn hloc hglue hfollow hsub harc hm hmacausal hSc
-    hd₁ hd₂ hagree
-  haveI : T2Space (EtaleGluing h₁ h₂) := (t2Space_iff A.isOpen).2 hclosed
-  refine isOpenEmbedding_proj U₁.isOpen U₂.isOpen A.isOpen fun x hx => ?_
-  obtain ⟨I, c, hc, -⟩ := Causality.inextensibleThrough_of_t1_secondCountable (cau u₁) U₁ x hx.1
-  obtain ⟨s, ⟨-, hs⟩, -⟩ := hd₁.cauchy I c hc
-  have he := eq_inter_of_t2Space (h₁ := h₁) (h₂ := h₂) A.isOpen ⟨s, hSA hs⟩ hconn
-  rw [he]
-  exact hx
+    IsOpenEmbedding (proj h₁ h₂) :=
+  isOpenEmbedding_proj U₁.isOpen U₂.isOpen A.isOpen (ers_coe_eq_inter_of_eqOn hloc hglue hfollow
+    hsub harc hm hmacausal hSc hd₁ hd₂ h₁ h₂ hSA hclosed hagree).superset
 
 end Developments
 

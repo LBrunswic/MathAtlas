@@ -1,0 +1,55 @@
+{
+ "target": "T-abs-ers-overlap-sharp",
+ "package": "lean-causal",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [],
+ "labels_note": "No label is dispatched, marked or served. This is a tidy (kind abstract, layer 1) and no paper statement is certified. Neither file has a ``**`label`**`` mark (the only `**`…`` openings are bold declaration names in two docstrings, :359 of the witness module and :652 of ErsEtaleMghd). Faithfulness is therefore read as 'statements unchanged', checked below.",
+ "declarations": [
+  {
+   "name": "Causal.ers_coe_eq_inter_of_eqOn",
+   "same_full_name": true,
+   "statement_unchanged": true,
+   "moved_byte_for_byte": true,
+   "notes": "The 22 lines at HEAD Causal/ErsEtaleMghdWitnesses.lean:117-138 (docstring and theorem) occur exactly once, verbatim, in the current Causal/ErsEtaleMghd.lean, starting at :726 (theorem :730), inside section Developments (:537-770), after ers_isPreconnected_inter_of_eqOn and before ers_isOpenEmbedding_proj_of_eqOn. The witness module no longer declares it. I rebuilt HEAD's two modules as oleans under /tmp (lean -o, HEAD text, the other Causal oleans symlinked read-only) and dumped every constant of both modules there and in the current oleans: module ErsEtaleMghdWitnesses -> ErsEtaleMghd; levels [u, v], type hash 2787989698, value hash 3326407128 and docstring hash identical. The pp.all #check output is identical once the hygienic instance-binder names (which encode the module, inst._@.Causal.ErsEtaleMghd[Witnesses]…) are normalised."
+  },
+  {
+   "name": "Causal.ers_isOpenEmbedding_proj_of_eqOn",
+   "same_full_name": true,
+   "statement_unchanged": true,
+   "notes": "The eleven statement lines are byte-identical to HEAD. Only `:= by` became `:=`. Levels [u, v], type hash 1652221829 and pp.all #check are identical to the HEAD-built olean. The value hash changes from 3562832028 to 2776930839 and the docstring hash changes, both by design. The new proof is `isOpenEmbedding_proj U₁.isOpen U₂.isOpen A.isOpen (ers_coe_eq_inter_of_eqOn … hagree).superset`, and the kernel accepts it. Its proof term cites 28 constants, none of them from Causal.ErsEtaleMghdWitnesses; the sharp form cites 54, also none from it. ErsEtaleMghd's nine imports are unchanged, so there is no cycle."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard",
+  "detail": "`taskset -c 0-11 lake env lean -DwarningAsError=true` exits 0 with no output on Causal/ErsEtaleMghd.lean and on Causal/ErsEtaleMghdWitnesses.lean. The oleans in .lake/build (06:31:40 and 06:31:42) are newer than both sources (06:31:03 and 06:31:19). No lake build was run. The closer's Probe.lean, rerun with -DwarningAsError=true, exits 0, and its output is byte-identical to axioms.txt. My own probe ran collectAxioms on all 80 constants of the two modules: none needs anything beyond propext, Classical.choice and Quot.sound. In the code of both files, with comments blanked, the counts of sorry, admit, axiom, native_decide and causal_ladder are all 0."
+ },
+ "checks": {
+  "1_same_names_and_statements": "Two dumps of name, kind, levels, type hash, value hash, docstring hash and module, over every constant of the two modules (80 at HEAD, 80 now). (a) Module-faithful: HEAD's two modules recompiled to oleans in /tmp, compared with the current oleans. The only differences are ers_coe_eq_inter_of_eqOn's module and ers_isOpenEmbedding_proj_of_eqOn's value and docstring. No constant was added or removed. (b) Cross-check: HEAD's and the current texts of both files, each concatenated into one file, give the same 79 constants with one difference, the corollary's value and docstring. (A comparison of the concatenation against the split oleans shows spurious value diffs in the witness module's twoA, twoU₁ and twoSol₂, because auxiliary _proof_ lemmas are shared inside one file. That is an artefact of the method, not a change, and (a) and (b) both exclude it.) The four hashes the closer recorded for the moved lemma and its neighbours reproduce on HEAD.",
+  "2_byte_for_byte_and_variable_line": "The move is verbatim (check 1). The `variable {β : Type v} {sol …} {cau …} {S …} {U₁ U₂ A …} {u₁ u₂ …}` line removed from the witness module's section Findings served only the moved lemma. The section now holds only real_eqOn_inter_of_isDevelopment, which binds its own β, sol, cau, S, U₁, U₂, A, u₁, u₂ on ℝ. Its levels [v], type 3511626714 and value 3851863617 are unchanged, and so is every other constant of the witness module, timelikeLine_ers_isOpenEmbedding_proj_of_eqOn (:433, which uses the moved lemma at :442) included.",
+  "3_reproof": "Correct (the kernel accepts it, with standard axioms). It goes through the sharp form alone and cites nothing from the witness module, whose only importer-side relation is that it imports ErsEtaleMghd. The probe's check that no other constant cites both inextensibleThrough_of_t1_secondCountable and eq_inter_of_t2Space passes: the repeated steps are written once.",
+  "4_layer": "tools/ladder.py lean_index, in memory: model_path is None for both modules. import_chain('Causal.Ladder.Rules', imports, m) is None for both, so neither is upstream of Causal.Ladder.Rules; both reach it downstream through ErsSecondCountable and ErsMughd, as before. The only importer of ErsEtaleMghd is ErsEtaleMghdWitnesses, which has no importer. lean_index maps both names to Causal.ErsEtaleMghd. Both import lines are byte-identical to HEAD.",
+  "5_build": "See build.",
+  "6_scope": "The closer's work touches only Causal/ErsEtaleMghd.lean, Causal/ErsEtaleMghdWitnesses.lean and campaign/T-abs-ers-overlap-sharp/; their sha256 match REPORT.json. lean-causal/README.md and kb/entries/0329 are also modified, at 06:37:15 (mtime). That is after the closer's REPORT.json (06:36:33), and they were absent from the git status taken when this audit started. REPORT.json says the closer did not edit them, and the dispatch lists them as stale. I read them as the master's curation, not the closer's scope; please confirm. Both edits are accurate (the ErsEtaleMghd row gains the sharp form; the witness row says it moved). The other dirty paths (papers/*/certificate, the roadmaps, lean-benzecri) were there before and belong to other loops. Outside the repository, no Lean file under lean/, lean-egf or lean-benzecri uses the name. The binder comment papers/ers-predictability/certificate/binder.toml:148 cites the full name without a module, so it resolves before and after.",
+  "6_docstrings": "kb/0006 holds in both files (title, Hypothesis checklist, SCOPE, Provenance; no marks; ErsEtaleMghd's 'Read for information' labels stay at :18-22). The new texts are accurate: ErsEtaleMghd item 5 (:43-49) and the SCOPE bullet 'Agreement and injectivity are kept apart' (:95-105); the corollary's docstring (:749-756); the witness module's Findings bullet (:25-29), its SCOPE bullet 'What no model can witness' (:91-96) and the § 1 header (:113-118, which correctly says § 5). The moved docstring's 'the gluing of that theorem' reads correctly before the corollary.",
+  "probes": "Written under campaign/T-abs-ers-overlap-sharp/ (AuditHead.lean, AuditNow.lean, AuditNowCat.lean, AuditHeadMod.lean, AuditPP.lean, AuditAxioms.lean) and deleted afterwards. Scratch files and the HEAD oleans were in /tmp/audit_ovs_* and were removed."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean-causal/Causal/ErsEtaleMghd.lean:43-49 (item 5-injectivity); header :14",
+   "what": "The receiving module never says that ers_coe_eq_inter_of_eqOn moved in, or by which target. 'T-abs-ers-overlap-sharp' occurs 0 times in Causal/ErsEtaleMghd.lean, while the module header names only `T-abs-ers-etale-mghd` and the lemma comes from T-abs-ers-etale-mghd-witnesses. The same docstring credits the later target in item 6 ('(T-abs-ers-etale-mghd-witnesses)'), and the precedent T-abs-end-pieces-one-sided (b5b0a37d) gave the receiving module a 'Moved here (T-abs-end-pieces-one-sided)' note. Item 5's added clause, '`ers_coe_eq_inter_of_eqOn`, the sharp form beside it, of which it is the corollary', also uses 'it' twice after a list of five names. The intended antecedent is ers_isOpenEmbedding_proj_of_eqOn (the SCOPE sentence :100-104 states it unambiguously). Wording and provenance only; no claim is false.",
+   "fix": "Rewrite item 5's clause as, for example: '; `ers_coe_eq_inter_of_eqOn` (moved here from `Causal.ErsEtaleMghdWitnesses` by T-abs-ers-overlap-sharp), the sharp form of `ers_isOpenEmbedding_proj_of_eqOn`, which is its corollary: there the common development is the whole overlap, `A = U₁ ∩ U₂`.' The moved lemma's own docstring stays byte-identical."
+  }
+ ],
+ "closer_claims": {
+  "move_at_730_byte_for_byte_same_levels_hashes": "confirmed",
+  "reproof_at_757_three_line_term_type_unchanged": "confirmed",
+  "constant_dump_one_module_change_plus_corollary_value_and_docstring": "confirmed on the two modules (80 constants). The full 4491-constant count was not re-derived; no other module imports these two, so nothing else can change.",
+  "docstrings_updated": "confirmed, accurate (one minor wording and provenance finding)",
+  "variable_line_removed": "confirmed harmless: no other declaration of the witness module changed",
+  "stale_README_kb0329": "the README rows :226-227 and kb/0329 have since been edited (06:37:15, not by the closer) and now read correctly"
+ }
+}

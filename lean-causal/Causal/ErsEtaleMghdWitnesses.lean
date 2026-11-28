@@ -22,9 +22,11 @@ kb/0011 witnesses for three theorems of `Causal.ErsEtaleMghd`, not certificates.
   `U₁ = ]-2, 1[`, `U₂ = ]-1, 2[`, `u₁ = u₂ = 0`).
 * `ers_isOpenEmbedding_proj_of_eqOn` —
   `ErsEtaleWitness.timelikeLine_ers_isOpenEmbedding_proj_of_eqOn` (the same, `A = ]-1, 1[`).
-* Findings: `ers_coe_eq_inter_of_eqOn` (the hypotheses of `ers_isOpenEmbedding_proj_of_eqOn`
-  force `A = U₁ ∩ U₂`, on every background), `real_eqOn_inter_of_isDevelopment` (on `ℝ`,
-  `ers_corollary_4_68_etale` with `U₂` a development of a preconnected `S` has no instance).
+* Findings: `real_eqOn_inter_of_isDevelopment` (on `ℝ`, `ers_corollary_4_68_etale` with `U₂` a
+  development of a preconnected `S` has no instance). The other finding of this module,
+  `ers_coe_eq_inter_of_eqOn` (the hypotheses of `ers_isOpenEmbedding_proj_of_eqOn` force
+  `A = U₁ ∩ U₂`, on every background), moved to `Causal.ErsEtaleMghd` under the same full name,
+  beside `ers_isOpenEmbedding_proj_of_eqOn`, which is its corollary (`T-abs-ers-overlap-sharp`).
 * Helpers of general use: `timelikeLine_isCauchySurfaceOn_Ioo_of_mem` (`{c}` is a Cauchy surface
   of every bounded `]a, b[ ∋ c` on the timelike line), `timelikeLine_isCauchySurfaceOn_union_Ioo`
   (`{s, t}` one of `]a, b[ ∪ ]c, d[` when `a < s < b ≤ c < t < d`).
@@ -88,7 +90,8 @@ the theorem is applied (not its conclusion proved directly); none is added or dr
   inside Minkowski's on the two needles, would give one.
 * **What no model can witness, for the open embedding.** Under the hypotheses of
   `ers_isOpenEmbedding_proj_of_eqOn` the common development is the whole overlap,
-  `A = U₁ ∩ U₂` (`ers_coe_eq_inter_of_eqOn`), on every background: the gluing is always the trivial
+  `A = U₁ ∩ U₂` (`ers_coe_eq_inter_of_eqOn`, which moved to `Causal.ErsEtaleMghd` beside the
+  theorem, `T-abs-ers-overlap-sharp`), on every background: the gluing is always the trivial
   one, and the theorem's content is the connectedness of the overlap. The witness has
   `A = ]-1, 1[ = U₁ ∩ U₂`, necessarily.
 * **Imports.** `Causal.ErsEtaleMghd` only (its closure has `Causal.ErsWitnesses`,
@@ -107,35 +110,14 @@ universe u v
 
 variable {M : Type u} [TopologicalSpace M]
 
-/-! ## 1. Findings about the statements -/
+/-! ## 1. Findings about the statements
+
+The first finding of this module, `ers_coe_eq_inter_of_eqOn` (the hypotheses of
+`ers_isOpenEmbedding_proj_of_eqOn` force `A = U₁ ∩ U₂`), is in `Causal.ErsEtaleMghd`, § 5, under
+the same full name, just before `ers_isOpenEmbedding_proj_of_eqOn`, which is now its corollary
+(`T-abs-ers-overlap-sharp`). -/
 
 section Findings
-
-variable {β : Type v} {sol : Opens M → (M → β) → Prop} {cau : (M → β) → Causality M}
-  {S : Set M} {U₁ U₂ A : Opens M} {u₁ u₂ : M → β}
-
-/-- **The hypotheses of `ers_isOpenEmbedding_proj_of_eqOn` force `A = U₁ ∩ U₂`**, on every
-background: the overlap is connected (`ers_isPreconnected_inter_of_eqOn`), and `A` is a non-empty
-open subset of it, closed in it (`hclosed`). So the gluing of that theorem is always the trivial
-one, along the whole overlap. -/
-theorem ers_coe_eq_inter_of_eqOn [T2Space M] [SecondCountableTopology M]
-    {Cm : Causality M} (hloc : SolutionLocal sol) (hglue : SolutionsGlue sol)
-    (hfollow : CausalityFollows cau)
-    (hsub : ∀ U u, sol U u → Causality.CurveNestedOn (cau u) Cm U)
-    (harc : ∀ U u, sol U u → (cau u).CausallyArcConnectedOn U)
-    (hm : Cm.IsCausal) (hmacausal : Cm.IsAcausal S) (hSc : IsPreconnected S)
-    (hd₁ : IsDevelopment sol cau S U₁ u₁) (hd₂ : IsDevelopment sol cau S U₂ u₂)
-    (h₁ : (A : Set M) ⊆ U₁) (h₂ : (A : Set M) ⊆ U₂) (hSA : S ⊆ A)
-    (hclosed : (U₁ : Set M) ∩ U₂ ∩ closure A ⊆ A) (hagree : EqOn u₁ u₂ ((U₁ : Set M) ∩ U₂)) :
-    (A : Set M) = (U₁ : Set M) ∩ U₂ := by
-  have hconn := ers_isPreconnected_inter_of_eqOn hloc hglue hfollow hsub harc hm hmacausal hSc
-    hd₁ hd₂ hagree
-  haveI : T2Space (EtaleGluing h₁ h₂) := (EtaleGluing.t2Space_iff A.isOpen).2 hclosed
-  refine Subset.antisymm (subset_inter h₁ h₂) fun x hx => ?_
-  obtain ⟨I, c, hc, -⟩ := Causality.inextensibleThrough_of_t1_secondCountable (cau u₁) U₁ x hx.1
-  obtain ⟨s, ⟨-, hs⟩, -⟩ := hd₁.cauchy I c hc
-  rw [EtaleGluing.eq_inter_of_t2Space (h₁ := h₁) (h₂ := h₂) A.isOpen ⟨s, hSA hs⟩ hconn]
-  exact hx
 
 /-- **On `ℝ`, the étale Cor 4.68 with `U₂` a development has no instance** (the paper's reading,
 `:921`: both GHDs, `S` connected): two developments of a preconnected `S`, for any causalities,

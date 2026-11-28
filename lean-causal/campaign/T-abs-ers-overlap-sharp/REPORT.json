@@ -1,0 +1,158 @@
+{
+  "target": "T-abs-ers-overlap-sharp",
+  "package": "lean-causal",
+  "status": "closed",
+  "files": {
+    "edited": [
+      "Causal/ErsEtaleMghd.lean",
+      "Causal/ErsEtaleMghdWitnesses.lean"
+    ],
+    "new": [],
+    "campaign": [
+      "campaign/T-abs-ers-overlap-sharp/REPORT.json",
+      "campaign/T-abs-ers-overlap-sharp/Probe.lean",
+      "campaign/T-abs-ers-overlap-sharp/axioms.txt"
+    ],
+    "sha256_after": {
+      "Causal/ErsEtaleMghd.lean": "85c77630c8311dbd307e6a8d480f01771051750d8e20c02f2285f3697e2b0504",
+      "Causal/ErsEtaleMghdWitnesses.lean": "5d6a478f43b22cf2cb0bab1cf9f77ffbf7b4b963e59ea15e83ee166acb4c17db",
+      "campaign/T-abs-ers-overlap-sharp/Probe.lean": "873e170a446c18ea048e420429627433e2326d3aa15f1816ff0cbbd622419fb2"
+    },
+    "sha256_before": {
+      "Causal/ErsEtaleMghd.lean": "176fa6e84942cca79fcc91cb88aff7bf9745ca7268d3651cc174e9e206e94a54",
+      "Causal/ErsEtaleMghdWitnesses.lean": "48c7deffb26b396c1c7a88d34b6f1231acf05d97c901ac173db3e6f11b1d0a6e"
+    }
+  },
+  "builds": {
+    "result": true,
+    "edited_modules": [
+      "Causal.ErsEtaleMghd",
+      "Causal.ErsEtaleMghdWitnesses"
+    ],
+    "downstream": [],
+    "how_the_downstream_was_found": "grep of Causal/, scaffold/ and Causal.lean for `import Causal.ErsEtaleMghd`, and the reverse of tools/ladder.py lean_index()['imports'] in memory: Causal.ErsEtaleMghd's only importer is Causal.ErsEtaleMghdWitnesses (built here), and Causal.ErsEtaleMghdWitnesses has none. Causal.lean imports both and was not built (dispatch).",
+    "what_lake_rebuilt": "Causal.ErsEtaleMghd (2.8 s), then Causal.ErsEtaleMghdWitnesses (2.3 s); 3286 jobs, every other job replayed. No other Causal.* module and no mathlib module was rebuilt. Afterwards `lake build --no-build Causal.ErsEtaleMghd Causal.ErsEtaleMghdWitnesses` reports 'All targets up-to-date (3286 jobs)'.",
+    "strict_typecheck": "`taskset -c 16-23 lake env lean -DwarningAsError=true` exits 0 with no output on Causal/ErsEtaleMghd.lean and on Causal/ErsEtaleMghdWitnesses.lean after the last edit. On campaign/T-abs-ers-overlap-sharp/Probe.lean it exits 0 and prints only its info line, the two #check and the five #print axioms (axioms.txt).",
+    "not_built": "the package, Causal and CausalScaffold; no file of the two concurrent closers (FlrwType, SubArc, PastInextensibleMeetsCauchy importers) was built or touched."
+  },
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 16-23 lake build Causal.ErsEtaleMghd Causal.ErsEtaleMghdWitnesses; then taskset -c 16-23 lake env lean -DwarningAsError=true on Causal/ErsEtaleMghd.lean, Causal/ErsEtaleMghdWitnesses.lean and campaign/T-abs-ers-overlap-sharp/Probe.lean",
+  "sorry_count": 0,
+  "sorry_detail": "0 sorry, 0 admit, 0 axiom, 0 native_decide in the code of both edited files and of the probe (tools/ladder.py's _code, which blanks comments).",
+  "axioms": "ers_coe_eq_inter_of_eqOn, ers_isOpenEmbedding_proj_of_eqOn, ers_isPreconnected_inter_of_eqOn, real_eqOn_inter_of_isDevelopment and ErsEtaleWitness.timelikeLine_ers_isOpenEmbedding_proj_of_eqOn each depend only on [propext, Classical.choice, Quot.sound] (axioms.txt).",
+  "layer": {
+    "layer": 1,
+    "uses": [
+      "curve_nested",
+      "causally_arc_connected",
+      "is_causal"
+    ],
+    "uses_note": "read as the two theorems state them: curve_nested (hsub, CurveNestedOn), causally_arc_connected (harc, CausallyArcConnectedOn), is_causal (hm). Unchanged by the move.",
+    "model_path": {
+      "Causal.ErsEtaleMghd": null,
+      "Causal.ErsEtaleMghdWitnesses": null
+    },
+    "ladder_rules": "import_chain('Causal.Ladder.Rules', imports, m) is None for both modules: neither is upstream of Causal.Ladder.Rules. (Both reach it downstream, through Causal.ErsSecondCountable -> Causal.ErsMughd, as before the move.) Neither file uses causal_ladder (count 0 in code), so kb/0221 holds. The imports of both files are unchanged: ErsEtaleMghd's nine, and the witness module's one (Causal.ErsEtaleMghd). Computed in memory with tools/ladder.py lean_index; emit-lean was not run (kb/0252).",
+    "lean_index": "lean_index()['decls'] maps both Causal.ers_coe_eq_inter_of_eqOn and Causal.ers_isOpenEmbedding_proj_of_eqOn to Causal.ErsEtaleMghd."
+  },
+  "labels": [],
+  "labels_note": "No label is marked or served. A tidy target (kind abstract, layer 1): no paper statement is certified by it. erscor:CorDisCon stays as before; its curation row lists Causal/ErsEtaleMghd.lean among its extra_lean_files, and nothing moved out of that file, so kb/0254 is not at stake.",
+  "declarations": [
+    {
+      "name": "Causal.ers_coe_eq_inter_of_eqOn",
+      "kind": "theorem",
+      "change": "moved, byte for byte (docstring and declaration: the 22 lines Causal/ErsEtaleMghdWitnesses.lean:117-138 at HEAD 2ac55d8c occur exactly once, verbatim, in the new Causal/ErsEtaleMghd.lean)",
+      "old_location": "Causal/ErsEtaleMghdWitnesses.lean:121 (docstring :117), section Findings (HEAD 2ac55d8c)",
+      "new_location": "Causal/ErsEtaleMghd.lean:730 (docstring :726), section Developments, right after ers_isPreconnected_inter_of_eqOn and before ers_isOpenEmbedding_proj_of_eqOn (:757)",
+      "type_check": {
+        "before": {
+          "module": "Causal.ErsEtaleMghdWitnesses",
+          "levels": [
+            "u",
+            "v"
+          ],
+          "type_hash": 2787989698,
+          "value_hash": 3326407128
+        },
+        "after": {
+          "module": "Causal.ErsEtaleMghd",
+          "levels": [
+            "u",
+            "v"
+          ],
+          "type_hash": 2787989698,
+          "value_hash": 3326407128
+        },
+        "normalised_type_sha256_16": "9a53534666876e82",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, universe parameters [u, v] (both modules declare `universe u v` and `variable {M : Type u}`, and section Developments binds `{β : Type v}` and the same sol, cau, S, U₁, U₂, A, u₁, u₂ in the same order, so kb/0255 does not bite), same Expr.hash of type and of value, same binder telescope and reducibility (dump). The elaborated type printed by toString differs only in the hygienic instance-binder name, inst._@.Causal.ErsEtaleMghdWitnesses.4255870934._hygCtx._hyg.3 -> inst._@.Causal.ErsEtaleMghd.4255870934._hygCtx._hyg.3, which encodes the module (kb/0063); normalised, the strings are equal. The #check @ output is byte-identical. Its qualified names EtaleGluing.t2Space_iff and EtaleGluing.eq_inter_of_t2Space resolve to the same constants under section Developments' `open EtaleGluing` (same value hash).",
+      "docstring": "moved with it, byte-identical (docstring hash unchanged in the dump)",
+      "name_once": "declared once: grep of lean-causal for `theorem ers_coe_eq_inter_of_eqOn` finds only Causal/ErsEtaleMghd.lean:730, and the witness module no longer declares it (kb/0082)."
+    },
+    {
+      "name": "Causal.ers_isOpenEmbedding_proj_of_eqOn",
+      "kind": "theorem",
+      "change": "proof rewritten as the corollary of ers_coe_eq_inter_of_eqOn, statement unchanged",
+      "old_location": "Causal/ErsEtaleMghd.lean:728 (docstring :720; proof :737-746, tactic mode, 9 lines) (HEAD 2ac55d8c)",
+      "new_location": "Causal/ErsEtaleMghd.lean:757 (docstring :749; proof :766-768, term mode, 3 lines)",
+      "type_check": {
+        "before": {
+          "module": "Causal.ErsEtaleMghd",
+          "levels": [
+            "u",
+            "v"
+          ],
+          "type_hash": 1652221829,
+          "value_hash": 3562832028
+        },
+        "after": {
+          "module": "Causal.ErsEtaleMghd",
+          "levels": [
+            "u",
+            "v"
+          ],
+          "type_hash": 1652221829,
+          "value_hash": 2776930839
+        },
+        "normalised_type_sha256_16": "a7e3eff1a5f8d0f2",
+        "identical": true
+      },
+      "statement": "unchanged: same full name, module, universe parameters [u, v], type hash 1652221829, telescope; the elaborated type printed by toString is byte-identical (raw, not only normalised), the #check @ output is byte-identical, and the eleven statement lines of the source are byte-identical. Only `:= by` became `:=`.",
+      "proof": "isOpenEmbedding_proj U₁.isOpen U₂.isOpen A.isOpen (ers_coe_eq_inter_of_eqOn … hagree).superset, all fifteen hypotheses passed verbatim. Term mode with no match, so no auxiliary constant (kb/0066; the dump shows none added). The old proof cited ers_isPreconnected_inter_of_eqOn, EtaleGluing.t2Space_iff, Causality.inextensibleThrough_of_t1_secondCountable, IsDevelopment.cauchy and EtaleGluing.eq_inter_of_t2Space (listed by re-elaborating the old text, which reproduces value hash 3562832028); the new one cites none of the five, and the sharp form cites all five. Over the whole environment the only constant whose proof term cites both inextensibleThrough_of_t1_secondCountable and eq_inter_of_t2Space is now ers_coe_eq_inter_of_eqOn (before: it and ers_isOpenEmbedding_proj_of_eqOn). The probe checks all of this.",
+      "docstring": "the bold first sentence and '(reported for `T-abs-ers-etale-mghd`)' are unchanged. The rest now cites the sharp form in the same module: 'It is the corollary of the sharp form just above, `ers_coe_eq_inter_of_eqOn`: its hypotheses force `A = U₁ ∩ U₂`, and `isOpenEmbedding_proj` applies.' The pointer to `Causal.ErsEtaleMghdWitnesses` is gone, and so is the parenthetical '(`eq_inter_of_t2Space`)' after 'is `U₁ ∪ U₂`', since the proof no longer calls it; the closing sentence still names eq_inter_of_t2Space as the content beyond ers_isPreconnected_inter_of_eqOn."
+    }
+  ],
+  "docstrings": {
+    "Causal/ErsEtaleMghd.lean": [
+      "item `5-injectivity` (:43-49) now ends: '; `ers_coe_eq_inter_of_eqOn`, the sharp form beside it, of which it is the corollary: there the common development is the whole overlap, `A = U₁ ∩ U₂`.'",
+      "SCOPE bullet 'Agreement and injectivity are kept apart' (:95-105) gains, after 'suggests it fails (not formalized: a model).': 'Under the open embedding's hypotheses the common development is the whole overlap, `A = U₁ ∩ U₂` (`ers_coe_eq_inter_of_eqOn`, the sharp form, of which `ers_isOpenEmbedding_proj_of_eqOn` is the corollary): the gluing there is the trivial one, and neither theorem says anything of gluing along a proper common development.'",
+      "No label line moved: the 'Read for information' labels stay at :18-22, inside the first 4000 characters (kb/0006)."
+    ],
+    "Causal/ErsEtaleMghdWitnesses.lean": [
+      "'Findings' bullet (:25-29): `real_eqOn_inter_of_isDevelopment` first, then 'The other finding of this module, `ers_coe_eq_inter_of_eqOn` (…), moved to `Causal.ErsEtaleMghd` under the same full name, beside `ers_isOpenEmbedding_proj_of_eqOn`, which is its corollary (`T-abs-ers-overlap-sharp`).'",
+      "SCOPE bullet 'What no model can witness, for the open embedding' (:91-96): '(`ers_coe_eq_inter_of_eqOn`, which moved to `Causal.ErsEtaleMghd` beside the theorem, `T-abs-ers-overlap-sharp`)'.",
+      "the § 1 header (:113-118) now says where the first finding went (section-level comment, no declaration)."
+    ]
+  },
+  "checks": {
+    "before_record": "Before any edit, lean-causal was clean in git at HEAD 2ac55d8c and `lake build --no-build` on both modules reported all up to date, so the before-record came from HEAD's oleans (kb/0063). Two records, outside the repository in /tmp/aeos: (1) a statement probe (Stmts.lean -> stmts-before.txt): name, module, levelParams, Expr.hash of type and value, toString of the type, and #check @ with pp.funBinderTypes, for the two names and three neighbours; (2) a full constant dump (Dump.lean, the dumper of T-abs-end-pieces-one-sided) of every constant of every Causal.* module in the closure of both modules: name, module, kind, universe parameters, type hash, binder telescope with macro scopes erased, value hash, reducibility, protected, noncomputable, internal, docstring hash. The hashes are also recorded in Probe.lean.",
+    "same_statements": "Re-run after the edit (stmts-after.txt; comparison stmts-cmp.txt): all five 'SAME' after normalising hygienic names; four raw-identical; ers_coe_eq_inter_of_eqOn differs raw only in the instance binder's module-encoding hygienic name. The 34 lines of #check @ output are byte-identical.",
+    "declaration_diff": "dump-before vs dump-after (/tmp/aeos/dump-diff.txt): constants 4491 4491; nothing removed, nothing added. One constant changed module, Causal.ErsEtaleMghdWitnesses -> Causal.ErsEtaleMghd: ers_coe_eq_inter_of_eqOn. In any other field two differences, both by design: ers_isOpenEmbedding_proj_of_eqOn's value hash (3562832028 -> 2776930839) and its docstring hash. No type, telescope, universe, reducibility or value of any other constant changed, including real_eqOn_inter_of_isDevelopment, after the section variable line of section Findings was removed. This is the change the target's evidence predicted (module of the moved lemma, value of the corollary), plus the requested docstring.",
+    "probe": "campaign/T-abs-ers-overlap-sharp/Probe.lean imports Causal.ErsEtaleMghd and Causal.ErsEtaleMghdWitnesses (it is not a copy) and fails (throwError) unless: ers_coe_eq_inter_of_eqOn is in Causal.ErsEtaleMghd with levels [u, v], type hash 2787989698, value hash 3326407128; the three neighbours keep module, levels, type and value; ers_isOpenEmbedding_proj_of_eqOn keeps module, levels [u, v] and type hash 1652221829, has a new value citing ers_coe_eq_inter_of_eqOn, EtaleGluing.isOpenEmbedding_proj and Eq.superset and none of the five old steps, which the sharp form all cites; and the only constant citing both inextensibleThrough_of_t1_secondCountable and eq_inter_of_t2Space is ers_coe_eq_inter_of_eqOn. Its last check would have failed on HEAD, whose ers_isOpenEmbedding_proj_of_eqOn cited both (re-elaboration of the old text). Output: axioms.txt."
+  },
+  "findings": [],
+  "findings_note": "None about a paper: the target is a tidy of two modules, and no statement changed.",
+  "questions": [
+    "Reading taken: the move also removes the `variable {β : Type v} {sol …} {cau …} {S …} {U₁ U₂ A …} {u₁ u₂ …}` line of the witness module's section Findings. It served only the moved lemma; real_eqOn_inter_of_isDevelopment binds all of them itself (on ℝ), and the dump shows its type, value and telescope unchanged. Keeping it would leave a dead variable line.",
+    "Reading taken on 'the witness module says where the lemma went': both bullets that named it say so (Findings, SCOPE 'What no model can witness'), and the § 1 header comment says so too, at the place it left. Its use in timelikeLine_ers_isOpenEmbedding_proj_of_eqOn (:442) and the mention in that theorem's docstring (:432) are unchanged: the name resolves through the import.",
+    "Reading taken on 'byte for byte': the moved lemma's docstring is kept verbatim, including 'the gluing of that theorem', which now refers forward to the next declaration in the same section. It reads correctly there, so it was not reworded."
+  ],
+  "extra_decls": [],
+  "kb_proposals": [
+    "kb/0329 update: since T-abs-ers-overlap-sharp, Causal.ers_coe_eq_inter_of_eqOn is in Causal.ErsEtaleMghd § 5, just before ers_isOpenEmbedding_proj_of_eqOn, which is its one-line corollary (isOpenEmbedding_proj … (ers_coe_eq_inter_of_eqOn …).superset); the witness module keeps real_eqOn_inter_of_isDevelopment.",
+    "README rows (lean-causal/README.md:226-227, not edited here): ers_coe_eq_inter_of_eqOn is listed in the Causal.ErsEtaleMghdWitnesses row and belongs to the Causal.ErsEtaleMghd row now.",
+    "pattern: a reproof 'so that the repeated steps go' is checked in the probe by the set of constants whose proof term cites two of the steps together (here inextensibleThrough_of_t1_secondCountable and eq_inter_of_t2Space): it must be the sharp form alone. Re-elaborating the old file text standalone (lake env lean on a /tmp copy) reproduces HEAD's value hash and lists the old proof's citations without a checkout."
+  ],
+  "notes": "Graduation-free: both edited files are in the strict library already (Causal/), as the dispatch asked. Binder papers/ers-predictability/certificate/binder.toml:148 cites Causal.ers_coe_eq_inter_of_eqOn by full name (with commit e7417c17); the name resolves before and after, and no row changes. No ledger or curation row lists Causal/ErsEtaleMghdWitnesses.lean; ers-predictability's erscor:CorDisCon lists Causal/ErsEtaleMghd.lean, which only gained a declaration. Not edited: Causal.lean, README, kb, the binder, programme/ladder.toml; tools/ladder.py emit-lean was not run. Unrelated and untouched: campaign/T-abs-ers-etale-mghd-witnesses/Probe.lean imports CausalScaffold.ErsEtaleMghdWitnesses, which no longer exists since that module graduated (stale before this target). Scratch files (before copies, dumps, comparisons) are in /tmp/aeos, outside the repository.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: ErsEtaleMghd's item 5-injectivity names the move's provenance (moved here from Causal.ErsEtaleMghdWitnesses by T-abs-ers-overlap-sharp) and says which theorem is the corollary of which. README's two rows and kb/0329 were refreshed by the master (the auditor's question: yes, the master's curation)."
+}
