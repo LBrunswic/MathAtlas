@@ -4118,12 +4118,13 @@ kind = "close"
 paper = "btz"
 labels = ["btzlem:surface_complete"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "BTZ_1.tex l.781–790: « (ii) If Σ is spacelike and complete then, lim_{(r,θ)→0} τ_Σ(r,θ) = +∞ ». The proof is l.825–846. It builds an inextendible curve γ with r_γ(s) = s through the points (r_n, θ_n) and |θ'_γ| ≤ 2π/r_n. Its length is « ℓ = ∫₀^R √(1 + r²θ'_γ² − 2τ'_γ) dr ≤ ∫₀^R √(5 − 2τ'_γ) dr », infinite « by completeness of Σ ». Hence ∫|τ'_γ| = +∞, and with τ'_γ ≤ 5/2, « lim τ_Σ(r_n,θ_n) = +∞ ». Why it is wanted: the tag of CauchySpear.lean:171 (T-btz-cauchy-spear-m0) says « surface_complete needs a C¹ graph, the Lipschitz completeness gives none ». Step 1 uses the lemma at l.1602 (« Since Σ₀ is complete, by Lemma lem:surface_complete lim τ₀ = +∞ ») on a Σ₀ whose completeness is the spacelike-Lipschitz one (Causal.Flat.IsCauchyComplete, OQ-152 (b)) and whose trace in a blunt spear is only a continuous graph (GX.E0BluntSpear.lem_blunt_spear; OQ-143 (c)). What is built: lem_surface_complete_two (GX/BTZ/Surgery.lean:1572, C¹), and SpacelikeDevelopment and PulledLength (lean-causal/Causal/Flat/CauchyComplete.lean:679–685). Lengths of Lipschitz paths are already computed in GX/BTZ/LengthCompare.lean (isLocLip_rim, localDensity_rim). The paper's graphs are piecewise smooth, so this statement is wider than the paper's (Lean ≥ paper); the row stays partial on T-btz-scope alone. [r] (planner, unchecked) A route. First, a spacelike-Lipschitz graph along the null direction ∂_τ is locally Lipschitz in (r, θ) for r > 0, because its tangent cones stay uniformly away from the null directions. Then the paper's curve is locally Lipschitz, its length is the integral of its density, and the rest is the paper's one-variable argument. If that first step proves long, the closer proves it alone and reports. Writes a new scaffold file importing GX.BTZ.Surgery; independent of CauchySpear, of T-btz-cauchy-easy and of T-btz-common-reg-iso"
+evidence = "lem_surface_complete_two_lip: (ii) for SpacelikeDevelopment graphs, no C¹; locallyLipschitzOn_of_spacelikeDevelopment; the C¹ ⇒ SpacelikeDevelopment bridge open; audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "899b4718"
 
 [[target]]
 id = "T-btz-cauchy-easy"
@@ -4133,12 +4134,13 @@ kind = "close"
 paper = "btz"
 labels = ["btzthm:BTZ_Cauchy-completness"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "BTZ_1.tex l.1593: « (iii) ⇒ (ii) is trivial and (ii) ⇒ (i) is a consequence of Proposition prop:reg_complete ». T-btz-cauchy-conservation, refined 2026-11-27: « (ii) ⇒ (i) is now unblocked: prop_reg_complete(') is sorry-free for E₀ ». What is built. GX.E0RegComplete.prop_reg_complete' (GX/BTZ/RegComplete.lean:259, strict) concludes GH, MGH and IsCauchyComplete for e0RegMFlat M'. A BTZ-embedding is an embedding and an E₀-morphism with (range ι)ᶜ ⊆ S0 (GX.IsBTZEmbedding, GX/BTZ/Embeddings.lean:93), so ι maps Reg M onto Reg M'. What is left, and is the work: the restriction of ι is a surjective Causal.Flat.IsIsometricEmbedding e0RegMFlat M → e0RegMFlat M'; and GH, MGH and IsCauchyComplete transfer along such a map. For MGH, Cauchy embeddings compose. For IsCauchyComplete, the image surface is spacelike-Lipschitz and its induced length is computed in any atlas chart (Causal.Flat.localDensity_chartSys_eq). [r] For E₀, Reg_{>0}(M) = Reg M. The readings are those of record (OQ-142 (e), (f); OQ-152 (b)), and either answer to T-btz-cauchy-regularity keeps these two implications as stated. Writes a new scaffold file importing GX.BTZ.RegComplete and GHExt's module; independent of CauchySpear and of the other two closers"
+evidence = "iii_imp_ii, ii_imp_i, iii_imp_i (GXScaffold.BTZ.CauchyEasy) with the flat isometry Reg M ≅ Reg N and flat transport of GH/MGH/IsCauchyComplete; (ii)'s extension taken GH (lemma not in library); audit AUDIT-1 minor"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "ad6bba85"
 
 [[target]]
 id = "T-btz-common-reg-iso"
@@ -4148,12 +4150,13 @@ kind = "close"
 paper = "btz"
 labels = ["btzcor:common_reg"]
 package = "lean-gx"
-status = "ready"
+status = "done"
 owner = "closer"
 priority = 8
-evidence = "OQ-152 (a) (registers/DECISIONS.md, OPEN): « reg(M) ≃ reg(N) (l.1275) read as a bijective E₀-morphism between the regular opens (not an isometry of the flat spacetimes e0RegMFlat; that bridge is not formalized) ». BTZ_1.tex l.1274–1276: « Let M, N be globally hyperbolic Cauchy-maximal Cauchy-compact E₀-manifolds: reg(M) ≃ reg(N) ⇒ M ≃ N ». What is built. common_reg (scaffold GXScaffold/BTZ/CommonReg.lean:148) takes φ : e0RegM M → e0RegM N with IsE0Mor φ univ and Bijective φ. GX.E0AbsMax.isE0Mor_regExt (GX/BTZ/AbsMax.lean:2785) and isE0Mor_regInv (l.2831) make an isometric embedding f : e0RegMFlat M → N and its inverse on range f E₀-morphisms into and out of FlatE0 N. What is left: identify the E₀-structure of FlatE0 (e0RegMFlat N) with that of the regular open e0RegM N ⊆ N. That gives the bridge, then the corollary in the isometry reading (common_reg_of_isometry, say). Precedent: T-bbs-remark-readings proved both readings, so the ruling needs no Lean change. Writes a new file beside CommonReg, importing it; independent of T-btz-surface-complete-lip and T-btz-cauchy-easy. T-btz-cauchy-easy needs the other direction of the bridge (E₀-morphism ⇒ isometry), so there is no overlap"
+evidence = "common_reg_of_isometry, common_reg_either (GXScaffold.BTZ.CommonRegIso): both readings of OQ-152 (a) covered; audit AUDIT-1 clean"
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
+commit = "d4036263"
 
 [[target]]
 id = "T-btz-s5-graduate"

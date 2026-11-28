@@ -1077,3 +1077,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - note: at the start of this iteration lean/docs/{COVERAGE,REPO-MAP}.md and repo-map.json were modified by /ett-programme's running hub gate (lib-check regenerates them; it restores them itself); not touched.
 - gates: roadmap ✓ (274 targets), atlas ✓
 - next: T-btz-surface-complete-lip, T-btz-cauchy-easy, T-btz-common-reg-iso (lean-gx)
+
+## 2026-11-28 01:55 · wave of 3 · T-btz-surface-complete-lip, T-btz-cauchy-easy, T-btz-common-reg-iso
+- T-btz-surface-complete-lip: btzlem:surface_complete (ii) for SpacelikeDevelopment graphs, no C¹ (such graphs are locally Lipschitz); the C¹ ⇒ SpacelikeDevelopment bridge open (kb 0251, wanted by T-btz-cauchy-spear-m0); row partial; audit minor (checklist, fixed).
+- T-btz-cauchy-easy: (iii) ⇒ (ii) ⇒ (i) of theo:BTZ_Cauchy-completness for E₀, via the flat isometry Reg M ≅ Reg N; open item: « a Cauchy surface gives ETT's GH for E₀-manifolds » (so (ii) need not assume GH); audit minor (checklist, fixed).
+- T-btz-common-reg-iso: btzcor:common_reg under both readings of OQ-152 (a); the mark waits only on rulings; audit clean.
+- gates: lean-gx ✓, roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: ad6bba85 899b4718 d4036263 63c093f4 (+ statuses)
+- wall time: 00:26–01:55; agents in parallel: 3 closers, 3 auditors
+- next: T-btz-s5-graduate / T-btz-g3-dedupe (exclusive masters, lean-gx), builder refresh due; few ready closers — plan soon
