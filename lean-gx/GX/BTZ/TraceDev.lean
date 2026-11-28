@@ -123,13 +123,13 @@ theorem radL_apply (q : Causal.Minkowski 2) : radL q = q.1 - q.2 0 := rfl
 /-- **The closed strip has no spacelike development** (`R > 0`, every `g`): at the rim point
 `(R, 0)` the image is a surface with boundary, never a full local Lipschitz graph. Refutes the
 target's printed conclusion, and makes the hypothesis `hF` of the strict
-`E0Surgery.lem_surface_complete_two_lip` unsatisfiable. A corollary of
-`E0Surgery.spacelikeDevelopment_graphDev_iff` (`GX.BTZ.C1SpacelikeDev`), which proves the same
-at the rim by `IsSpacelikeLipschitzIn.exists_lt_of_null` (T-btz-trace-graduate; it had its own
-proof, by the radial functional `radL` in the frame of the local graph). -/
+`E0Surgery.lem_surface_complete_two_lip` unsatisfiable. The same statement as
+`E0Surgery.lem_surface_complete_two_lip_hyp_false` (`GX.BTZ.C1SpacelikeDev`), which it restates
+(T-btz-seg-unif-dedupe; before T-btz-trace-graduate it had its own proof, by the radial
+functional `radL` in the frame of the local graph). -/
 theorem not_spacelikeDevelopment_graphDev {g : ℝ × ℝ → ℝ} {R : ℝ} (hR : 0 < R) :
-    ¬ Causal.Flat.SpacelikeDevelopment (graphDev g R) := by
-  rw [spacelikeDevelopment_graphDev_iff]; exact not_le.2 hR
+    ¬ Causal.Flat.SpacelikeDevelopment (graphDev g R) :=
+  lem_surface_complete_two_lip_hyp_false hR
 
 /-! ### §3 The chart lemma in `FlatE0 N` -/
 

@@ -73,8 +73,8 @@ conclusion holds there (`1/r → +∞`), as it must.
 
 Provenance: mathlib `fabf563a` (tag `v4.31.0`), pinned via `lakefile.toml`; imports
 `GX.BTZ.TraceDev` and `GX.BTZ.AxisNoLimit` (graduated with this file, T-btz-trace-graduate).
-`pathLength_seg_unif` repeats the proof of `E0Surgery.edist_le_seg_unif`
-(`GX/BTZ/C1SpacelikeDevLip.lean:144`). Written by T-btz-trace-complete (2026-11-28).
+`pathLength_seg_unif` is `E0Surgery.pathLength_le_seg_unif` (moved upstream by
+T-btz-seg-unif-dedupe). Written by T-btz-trace-complete (2026-11-28).
 -/
 
 namespace GX
@@ -207,9 +207,10 @@ theorem exists_traceSig {v R R' : ℝ} {W : Set E0Y} {ψ : E0Y → FlatE0 N}
   exact (Causal.Flat.pathLength_pulled_eq_of_local _ _ hΦc
     (fun q => trace_chart_local hW hsub hψ hc hpos hR'R q) γ).symm
 
-/-- **The length of a straight piece, as a path length** (`edist_le_seg_unif`, whose proof is
-repeated verbatim, stopped one step earlier): the straight segment of the strip from `x′` to `y′`,
-with `r_{y′} − r_{x′} ≥ r_{y′}/2` and `|θ_{y′} − θ_{x′}| ≤ π`, has pulled length at most
+/-- **The length of a straight piece, as a path length**
+(`E0Surgery.pathLength_le_seg_unif`, `GX.BTZ.C1SpacelikeDevLip`, of which `edist_le_seg_unif` is
+the corollary on distances): the straight segment of the strip from `x′` to `y′`, with
+`r_{y′} − r_{x′} ≥ r_{y′}/2` and `|θ_{y′} − θ_{x′}| ≤ π`, has pulled length at most
 `(1 + 2π²)(r_{y′} − r_{x′}) − (g(y′) − g(x′))`. The bound on the path, not only on the distance,
 is what bounds the distance to every point of the segment (`edist_le_pathLength`). -/
 theorem pathLength_seg_unif {g : ℝ × ℝ → ℝ} {R : ℝ} (hU : UnifSpacelike g R) (x' y' : Strip R)
@@ -218,138 +219,8 @@ theorem pathLength_seg_unif {g : ℝ × ℝ → ℝ} {R : ℝ} (hU : UnifSpaceli
     0 ≤ (1 + 2 * π ^ 2) * ((y' : ℝ × ℝ).1 - (x' : ℝ × ℝ).1) - (g y' - g x') ∧
     Causal.Flat.pathLength (fun (_ : Strip R) z => graphDev g R z) (stripSegment x' y') ≤
       ENNReal.ofReal ((1 + 2 * π ^ 2) * ((y' : ℝ × ℝ).1 - (x' : ℝ × ℝ).1) -
-        (g y' - g x')) := by
-  set V : ℝ × ℝ := (y' : ℝ × ℝ) - x' with hV
-  set pt : ℝ → ℝ × ℝ := fun s => (x' : ℝ × ℝ) + s • V with hpt
-  have hptm : ∀ s ∈ Icc (0 : ℝ) 1, pt s ∈ stripSet R := fun s hs =>
-    stripSegment_mem x' y' ⟨s, hs⟩
-  have hptd : ∀ s, HasDerivAt pt V s := fun s => by
-    have := ((hasDerivAt_id s).smul_const V).const_add (x' : ℝ × ℝ)
-    simp only [id, one_smul] at this
-    exact this
-  have hptL : LipschitzWith ‖V‖₊ pt := LipschitzWith.of_dist_le_mul fun s t => by
-    simp only [hpt]
-    rw [dist_add_left, dist_eq_norm, ← sub_smul, norm_smul, Real.norm_eq_abs, coe_nnnorm,
-      Real.dist_eq, mul_comm]
-  -- step (1) along the segment: `τ = g ∘ pt` is Lipschitz on `[0, 1]`
-  set τ : ℝ → ℝ := fun s => g (pt s) with hτ
-  have hτloc : LocallyLipschitzOn (Icc (0 : ℝ) 1) τ := by
-    intro t ht
-    obtain ⟨K, T, hT, hKT⟩ := locallyLipschitzOn_of_unif hU (hptm t ht)
-    have hcont : Tendsto pt (𝓝[Icc (0 : ℝ) 1] t) (𝓝[stripSet R] (pt t)) :=
-      hptL.continuous.continuousWithinAt.tendsto_nhdsWithin hptm
-    exact ⟨K * ‖V‖₊, Icc 0 1 ∩ pt ⁻¹' T, inter_mem self_mem_nhdsWithin (hcont hT),
-      hKT.comp hptL.lipschitzOnWith (fun s hs => hs.2)⟩
-  obtain ⟨Kτ, hKτ⟩ := hτloc.exists_lipschitzOnWith_of_compact isCompact_Icc
-  set q : ℝ → ℝ := fun s => (projIcc (0 : ℝ) 1 zero_le_one s : ℝ) with hq
-  have hqL : LipschitzWith 1 q := by
-    have := (LipschitzWith.subtype_val _).comp (LipschitzWith.projIcc (zero_le_one' ℝ))
-    rw [mul_one] at this
-    exact this
-  have hqI : ∀ s, q s ∈ Icc (0 : ℝ) 1 := fun s => (projIcc 0 1 zero_le_one s).2
-  have hqq : ∀ s, q (q s) = q s := fun s => by simp only [hq, projIcc_val]
-  set τe : ℝ → ℝ := fun s => τ (q s) with hτe
-  have hτeL : LipschitzWith Kτ τe := by
-    have := lipschitzOnWith_univ.1 (hKτ.comp hqL.lipschitzOnWith (fun s _ => hqI s))
-    rw [mul_one] at this
-    exact this
-  -- the developed segment is Lipschitz
-  set σ := stripSegment x' y' with hσ
-  set c3 : ℝ → ℝ × ℝ × ℝ := fun s => (τe s, (pt (q s)).1, (pt (q s)).2) with hc3
-  have hpqL : LipschitzWith (‖V‖₊ * 1) fun s => pt (q s) := hptL.comp hqL
-  have hc3L := hτeL.prodMk ((LipschitzWith.prod_fst.comp hpqL).prodMk
-    (LipschitzWith.prod_snd.comp hpqL))
-  have hc3m : ∀ s, c3 s ∈ c3 '' Icc 0 1 := fun s => ⟨q s, hqI s, by simp only [hc3, hτe, hqq]⟩
-  obtain ⟨KD, hKD⟩ := (contDiff_btzPaperDev.locallyLipschitz.locallyLipschitzOn
-    (s := c3 '' Icc 0 1)).exists_lipschitzOnWith_of_compact
-      (isCompact_Icc.image hc3L.continuous)
-  have hΓL : LipschitzWith _ fun s => graphDev g R (σ.extend s) :=
-    lipschitzOnWith_univ.1 (hKD.comp hc3L.lipschitzOnWith (fun s _ => hc3m s))
-  have hloc : Causal.Flat.IsLocLip (fun (_ : Strip R) z => graphDev g R z) σ.extend :=
-    (Causal.Flat.isLocLip_pulled_iff _ _).2 ⟨_, hΓL⟩
-  -- the pointwise bound, almost everywhere
-  have hu : 0 < V.1 := by
-    have := y'.2.1
-    simp only [hV, Prod.fst_sub]; linarith
-  have hab' : (y' : ℝ × ℝ).1 / 2 ≤ V.1 := by simpa [hV] using hab
-  have hθ' : |V.2| ≤ π := by simpa [hV] using hθ
-  set f : ℝ → ℝ := fun t => (1 + 2 * π ^ 2) * V.1 - deriv τe t with hf
-  have hae : ∀ᵐ t ∂(volume.restrict (Ioc (0 : ℝ) 1)),
-      Causal.Flat.localDensity (fun (_ : Strip R) z => graphDev g R z) σ.extend t ≤
-        ENNReal.ofReal (f t) ∧ 0 ≤ f t := by
-    have h1 : ∀ᵐ t ∂(volume.restrict (Ioc (0 : ℝ) 1)), t ∈ Ioo (0 : ℝ) 1 := by
-      rw [← MeasureTheory.Measure.restrict_congr_set MeasureTheory.Ioo_ae_eq_Ioc]
-      exact MeasureTheory.ae_restrict_mem measurableSet_Ioo
-    filter_upwards [h1, ae_restrict_of_ae hτeL.ae_differentiableAt_real] with t ht hdt
-    have hqt : ∀ᶠ s in 𝓝 t, q s = s := by
-      filter_upwards [Ioo_mem_nhds ht.1 ht.2] with s hs
-      simp only [hq, projIcc_of_mem _ ⟨hs.1.le, hs.2.le⟩]
-    have hpq : HasDerivAt (fun s => pt (q s)) V t :=
-      (hptd t).congr_of_eventuallyEq (by filter_upwards [hqt] with s hs; rw [hs])
-    set τ' := deriv τe t with hτ'
-    have hc3d : HasDerivAt c3 ((τ', V.1, V.2) : ℝ × ℝ × ℝ) t :=
-      hdt.hasDerivAt.prodMk
-        (((ContinuousLinearMap.fst ℝ ℝ ℝ).hasFDerivAt.comp_hasDerivAt t hpq).prodMk
-          ((ContinuousLinearMap.snd ℝ ℝ ℝ).hasFDerivAt.comp_hasDerivAt t hpq))
-    have hΓd : HasDerivAt (fun s => graphDev g R (σ.extend s))
-        (fderiv ℝ btzPaperDev (c3 t) (τ', V.1, V.2)) t :=
-      (differentiableAt_btzPaperDev (c3 t)).hasFDerivAt.comp_hasDerivAt t hc3d
-    have hqt' : q t = t := hqt.self_of_nhds
-    have hX : Causal.Flat.minkQ (fderiv ℝ btzPaperDev (c3 t) (τ', V.1, V.2)) =
-        -2 * τ' * V.1 + V.1 ^ 2 + (pt t).1 ^ 2 * V.2 ^ 2 := by
-      rw [btzPaperDev_pullback]; simp only [hc3, hqt']
-    have hX0 : 0 ≤ Causal.Flat.minkQ (fderiv ℝ btzPaperDev (c3 t) (τ', V.1, V.2)) := by
-      refine minkQ_nonneg_of_hasDerivAt hΓd ?_
-      obtain ⟨W, hW, κ, hκ, hWκ⟩ := hU (σ.extend t)
-      filter_upwards [σ.continuous_extend.continuousAt.eventually_mem hW] with s hs
-      exact le_trans (by positivity) (hWκ _ hs _ (mem_of_mem_nhds hW))
-    have hden : Causal.Flat.localDensity (fun (_ : Strip R) z => graphDev g R z) σ.extend t =
-        ENNReal.ofReal (Real.sqrt (-2 * τ' * V.1 + V.1 ^ 2 + (pt t).1 ^ 2 * V.2 ^ 2)) := by
-      unfold Causal.Flat.localDensity
-      rw [hΓd.deriv, hX]
-    have hm := hptm t (Ioo_subset_Icc_self ht)
-    have hrb : (pt t).1 ≤ (y' : ℝ × ℝ).1 := by
-      have e1 : (pt t).1 = (x' : ℝ × ℝ).1 + t * V.1 := by simp [hpt]
-      have e2 : V.1 = (y' : ℝ × ℝ).1 - (x' : ℝ × ℝ).1 := by simp [hV]
-      have : t * V.1 ≤ V.1 := by nlinarith [ht.2, hu]
-      rw [e1]; linarith
-    have hq : graphQuad (τ' / V.1) 0 (pt t).1 V.1 V.2 =
-        -2 * τ' * V.1 + V.1 ^ 2 + (pt t).1 ^ 2 * V.2 ^ 2 := by
-      unfold graphQuad; field_simp; ring
-    have key := sqrt_graphQuad_le_seg hu hab' hm.1 hrb hθ' (by rw [hq, ← hX]; exact hX0)
-    rw [hq] at key
-    have e : (1 + 2 * π ^ 2) * V.1 - (V.1 * (τ' / V.1) + V.2 * 0) = f t := by
-      simp only [hf, ← hτ']; field_simp; ring
-    rw [e] at key
-    refine ⟨?_, (Real.sqrt_nonneg _).trans key⟩
-    rw [hden]; exact ENNReal.ofReal_le_ofReal key
-  -- integrate `τ'`
-  have hac : AbsolutelyContinuousOnInterval τe 0 1 :=
-    (hτeL.lipschitzOnWith (s := uIcc 0 1)).absolutelyContinuousOnInterval
-  have hint : IntervalIntegrable (deriv τe) volume 0 1 := hac.intervalIntegrable_deriv
-  have hftc : ∫ t in (0 : ℝ)..1, deriv τe t = τe 1 - τe 0 := hac.integral_deriv_eq_sub
-  have hτe1 : τe 1 = g y' := by
-    simp only [hτe, hτ, hq, projIcc_right, hpt, hV, one_smul, add_sub_cancel]
-  have hτe0 : τe 0 = g x' := by
-    simp only [hτe, hτ, hq, projIcc_left, hpt, zero_smul, add_zero]
-  set T := (1 + 2 * π ^ 2) * V.1 - (g y' - g x') with hT
-  have hIi : IntegrableOn f (Ioc 0 1) :=
-    (integrableOn_const (by simp)).sub
-      ((intervalIntegrable_iff_integrableOn_Ioc_of_le zero_le_one).1 hint)
-  have hTi : ∫ t in Ioc (0 : ℝ) 1, f t = T := by
-    rw [← intervalIntegral.integral_of_le zero_le_one, intervalIntegral.integral_sub
-      intervalIntegrable_const hint, hftc, hτe1, hτe0]
-    simp [hT]
-  have hTe : (1 + 2 * π ^ 2) * ((y' : ℝ × ℝ).1 - (x' : ℝ × ℝ).1) - (g y' - g x') = T := by
-    simp [hT, hV]
-  rw [hTe]
-  refine ⟨?_, ?_⟩
-  · rw [← hTi]
-    exact MeasureTheory.integral_nonneg_of_ae (hae.mono fun t h => h.2)
-  rw [Causal.Flat.pathLength_of_isLocLip _ hloc, ← hTi,
-    ofReal_integral_eq_lintegral_ofReal hIi (hae.mono fun t h => h.2)]
-  unfold Causal.Flat.localLength
-  exact MeasureTheory.lintegral_mono_ae (hae.mono fun t h => h.1)
+        (g y' - g x')) :=
+  pathLength_le_seg_unif hU x' y' hab hθ
 
 /-! ### The broken line -/
 

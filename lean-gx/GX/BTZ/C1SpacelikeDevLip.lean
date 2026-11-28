@@ -137,28 +137,18 @@ theorem locallyLipschitzOn_of_unif (hU : UnifSpacelike g R) :
     _ = C * dab := by rw [hC]; ring
 
 
-/-- **The length of a straight piece, uniform form** (`edist_le_seg_lip` with `UnifSpacelike`;
-B21 l.842–848; the strict `edist_le_seg`
-without `C¹`): from `a` to `b` with `r_b − r_a ≥ r_b/2` and `|θ_b − θ_a| ≤ π`, the pulled distance
-is at most `(1 + 2π²)(r_b − r_a) − (τ(b) − τ(a))`, which is nonnegative. -/
-theorem edist_le_seg_unif (hU : UnifSpacelike g R)
-    (a b : Causal.Flat.PulledLength (graphDev g R))
-    (hab : (Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 / 2 ≤
-      (Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 -
-        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).1)
-    (hθ : |(Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).2 -
-        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).2| ≤ π) :
-    0 ≤ (1 + 2 * π ^ 2) * ((Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 -
-        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).1) -
-        (g (Causal.Flat.PulledLength.toSpace (graphDev g R) b) -
-          g (Causal.Flat.PulledLength.toSpace (graphDev g R) a)) ∧
-    edist a b ≤ ENNReal.ofReal ((1 + 2 * π ^ 2) *
-      ((Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 -
-        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).1) -
-        (g (Causal.Flat.PulledLength.toSpace (graphDev g R) b) -
-          g (Causal.Flat.PulledLength.toSpace (graphDev g R) a))) := by
-  set x' := Causal.Flat.PulledLength.toSpace (graphDev g R) a
-  set y' := Causal.Flat.PulledLength.toSpace (graphDev g R) b
+/-- **The length of a straight piece, as a path length, uniform form** (B21 l.842–848): the
+straight segment of the strip from `x′` to `y′`, with `r_{y′} − r_{x′} ≥ r_{y′}/2` and
+`|θ_{y′} − θ_{x′}| ≤ π`, has pulled length at most `(1 + 2π²)(r_{y′} − r_{x′}) − (g(y′) − g(x′))`,
+which is nonnegative. `edist_le_seg_unif` is its corollary on distances;
+`E0TraceComplete.pathLength_seg_unif` restates it. -/
+theorem pathLength_le_seg_unif (hU : UnifSpacelike g R) (x' y' : Strip R)
+    (hab : (y' : ℝ × ℝ).1 / 2 ≤ (y' : ℝ × ℝ).1 - (x' : ℝ × ℝ).1)
+    (hθ : |(y' : ℝ × ℝ).2 - (x' : ℝ × ℝ).2| ≤ π) :
+    0 ≤ (1 + 2 * π ^ 2) * ((y' : ℝ × ℝ).1 - (x' : ℝ × ℝ).1) - (g y' - g x') ∧
+    Causal.Flat.pathLength (fun (_ : Strip R) z => graphDev g R z) (stripSegment x' y') ≤
+      ENNReal.ofReal ((1 + 2 * π ^ 2) * ((y' : ℝ × ℝ).1 - (x' : ℝ × ℝ).1) -
+        (g y' - g x')) := by
   set V : ℝ × ℝ := (y' : ℝ × ℝ) - x' with hV
   set pt : ℝ → ℝ × ℝ := fun s => (x' : ℝ × ℝ) + s • V with hpt
   have hptm : ∀ s ∈ Icc (0 : ℝ) 1, pt s ∈ stripSet R := fun s hs =>
@@ -286,12 +276,38 @@ theorem edist_le_seg_unif (hU : UnifSpacelike g R)
   refine ⟨?_, ?_⟩
   · rw [← hTi]
     exact MeasureTheory.integral_nonneg_of_ae (hae.mono fun t h => h.2)
-  change ⨅ γ : Path x' y', Causal.Flat.pathLength _ γ ≤ _
-  refine (iInf_le _ σ).trans ?_
   rw [Causal.Flat.pathLength_of_isLocLip _ hloc, ← hTi,
     ofReal_integral_eq_lintegral_ofReal hIi (hae.mono fun t h => h.2)]
   unfold Causal.Flat.localLength
   exact MeasureTheory.lintegral_mono_ae (hae.mono fun t h => h.1)
+
+
+/-- **The length of a straight piece, uniform form** (`edist_le_seg_lip` with `UnifSpacelike`;
+B21 l.842–848; the strict `edist_le_seg`
+without `C¹`): from `a` to `b` with `r_b − r_a ≥ r_b/2` and `|θ_b − θ_a| ≤ π`, the pulled distance
+is at most `(1 + 2π²)(r_b − r_a) − (τ(b) − τ(a))`, which is nonnegative. -/
+theorem edist_le_seg_unif (hU : UnifSpacelike g R)
+    (a b : Causal.Flat.PulledLength (graphDev g R))
+    (hab : (Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 / 2 ≤
+      (Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 -
+        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).1)
+    (hθ : |(Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).2 -
+        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).2| ≤ π) :
+    0 ≤ (1 + 2 * π ^ 2) * ((Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 -
+        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).1) -
+        (g (Causal.Flat.PulledLength.toSpace (graphDev g R) b) -
+          g (Causal.Flat.PulledLength.toSpace (graphDev g R) a)) ∧
+    edist a b ≤ ENNReal.ofReal ((1 + 2 * π ^ 2) *
+      ((Causal.Flat.PulledLength.toSpace (graphDev g R) b : ℝ × ℝ).1 -
+        (Causal.Flat.PulledLength.toSpace (graphDev g R) a : ℝ × ℝ).1) -
+        (g (Causal.Flat.PulledLength.toSpace (graphDev g R) b) -
+          g (Causal.Flat.PulledLength.toSpace (graphDev g R) a))) := by
+  obtain ⟨h0, hL⟩ := pathLength_le_seg_unif hU (Causal.Flat.PulledLength.toSpace (graphDev g R) a)
+    (Causal.Flat.PulledLength.toSpace (graphDev g R) b) hab hθ
+  refine ⟨h0, ?_⟩
+  change ⨅ γ : Path (Causal.Flat.PulledLength.toSpace (graphDev g R) a)
+    (Causal.Flat.PulledLength.toSpace (graphDev g R) b), Causal.Flat.pathLength _ γ ≤ _
+  exact (iInf_le _ _).trans hL
 
 /-- **B21 Lemma 2.8(ii), uniform form** (`btzlem:surface_complete`, l.786–790, proof
 l.823–850): a `2π`-periodic `g` on the strip whose development is uniformly spacelike near each
