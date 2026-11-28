@@ -1274,3 +1274,30 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors), hub: all gates green, no new red
 - commits: 04e84c58 9354ba44 728ddd35 (ledgers: the recorded commit only; restate detect 0)
 - next: one ready abstract target (T-abs-lineref-docstrings-rest), so rule 2: a planning run, to promote the proposals above
+
+## 2026-11-28 13:00 · planning run · rule 2 after wave 59; 231 → 235 targets
+- Promoted to ready:
+  - T-lad-record-flrw-future-a (keeper): the fourth GH entry. Its evidence now cites FlrwTypeClosedAmbient's current lines and today's ladder lines for the stale "not in Lean" comments.
+  - T-tool-ladder-edge-consequences (tactician, new): a [[consequence]] may name [[edge_hypothesis]] ids, and check resolves their witnesses. Fixtures and tests are required; the matrix and emit-lean output must not change.
+- T-abs-lineref-docstrings-rest (ready, exclusive): now also covers the keeper's proposed T-abs-ladder-lineref-docstrings, as item (4). These are the six ladder line citations in InextensibleNestedBasics, NestedConverse, ChronalNeighbourConjoined and DensSeparates, each checked against its commit, so all 9 such citations in the Lean tree are covered.
+- Still planned, rescoped:
+  - T-lad-dual-keys (all 24 keys; checked in memory: check passes, 46 theorems) now depends on T-abs-lineref-docstrings-rest, because its scratch compile imports modules that closer rebuilds.
+  - T-tac-dual-generated is rescoped to the tactician's procedure and now depends on T-tool-ladder-edge-consequences, so the two tools/ladder.py jobs are ordered.
+- Added planned:
+  - T-lad-record-edge-consequences (keeper): moves past_boundary_chart's and corresponding_compact's prose consequences into the new form.
+  - T-tool-ladder-lineref-lint (tactician, optional; baseline: 3 dated path references).
+  - T-abs-cbg-corresponding-compact (layer 1, the keeper's T-loc-cbg-corresponding-compact, renamed by the layer rule). It waits on T-abs-hoist-cbg-geometry (blocked, OQ-97): CGHDData's causal convexity reads A2's fields. It is research: A3 read as topology does not give the property. The planner notes that a model-free core over IsCorrPair reads no Geometry field and could be split off.
+- Blocking, unchanged:
+  - OQ-95/96 (the gluing chain);
+  - OQ-97 (the CBG hoist, now also T-abs-cbg-corresponding-compact);
+  - OQ-100 (about 19 localisation targets);
+  - three needs-ruling targets with no OQ row (T-loc-c0-metric-causality, T-loc-lipschitz-plain, T-abs-scaffold-c-ext-connexe);
+  - OQ-145 with lean-gx;
+  - four research targets.
+- Hub gate: 3 new reds, all /atlas-team's in-flight work, not reverted:
+  - papers-check: papers/bbs, declarations "not found in its listed files": lean-gx's BBS files are moving from the scaffold, T-bbs-hs-graduate, lean-gx leased by atlas;
+  - gate-tests: test_no_model_in_gates runs the same gate and fails on a stale ledger.json of the same move.
+  - The lean-causal papers are green.
+- Unleased changes at the start: Makefile, tools/selftest.py and tools/import_tiers.toml were changed and held by no loop. They are /atlas-team's active T-arch-import-gate (the Makefile comment names it; atlas held import_gate.py and its fixture), not a human's, so the run went on without touching them. atlas has since leased tools/ledger.py and tools/doubledag.py, which it is editing; the next wave's ledger rebuilds use tools/ledger.py.
+- gates: roadmaps ✓, ladder ✓, binder ✓, tests ✓, blueprint ✓ (0 page errors), hub: 3 new reds on /atlas-team's paths (above)
+- next: wave 60, T-tool-ladder-edge-consequences (tactician), T-lad-record-flrw-future-a (keeper) and T-abs-lineref-docstrings-rest (closer, exclusive in lean-causal); then wave 61 (T-lad-dual-keys, T-tool-ladder-lineref-lint), wave 62 (T-tac-dual-generated, T-lad-record-edge-consequences), then only the blocking list
