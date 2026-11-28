@@ -1,0 +1,65 @@
+{
+  "target": "T-bz-c3-propriete-i",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "summary": "Checked: the transcription l.1150-1256 against the scan (PDF pp. 49-51, journal pp. 276-278; Def. 1, Props. 1, 5, 6, Def. 2 and the Prop. 7 proof agree word for word); each Lean statement against the paper, hypothesis by hypothesis; the build (`lake env lean`, also with -DwarningAsError=true, exit 0); sorry count 0; #print axioms on 16 principal declarations, all standard; git scope. 'False as printed' for Prop. 6 is justified. Def. 2 and Prop. 6 name only 'deux convexes' with U and V disjoint. Every § 5 statement spells out its own hypotheses (Prop. 1 states 'Si la reunion W ... est convexe' explicitly). The printed proof of Prop. 6 never uses convexity of U union V. The Prop. 7 proof (p. 278) restates 'dont la reunion est convexe' at the point where it needs it. So 'U union V convex' is not a standing hypothesis of § 5: the section title names the subject, not a convention. The REPORT already gives the true form under the title's setting (convex_ensembleContact_of_convex_union), and that should go to the author with the refutation.",
+  "labels": [
+    {
+      "label": "bzdef:c3s5d1_propriete_I",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ProprieteI V W := V ⊆ W ∧ Convex V ∧ Convex (W \\ V). This is the paper's definition. W convex is the ambient hypothesis, and each statement that uses I carries it. The instance proprieteI_segment_carre is a real Lean term."
+    },
+    {
+      "label": "bzprop:c3s5p1_reunion_convexe_supports",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Correctly unmarked (partial). prop1_supports proves the first sentence under Convex (U ∪ V) alone, which is Lean ≥ paper. AligneDeuxPoints reads « aligné avec deux points distincts » faithfully. not_prop1_precisPrinted refutes the literal precise form by U = V = {0}, which satisfies every printed hypothesis. prop1_precis shows this is the only exception. The proof-gap finding is right: with U = [0,1[, V = {1}, a = 0, the half-open segment ]a, b] is not contained in U. The exception is excluded by the disjointness in the § 5 title (see the findings)."
+    },
+    {
+      "label": "bzprop:c3s5p5_support_complementaire",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "The conclusion affineSpan (W \\ V) = affineSpan V is the paper's « le support de W − V est L » (hL). All printed hypotheses are carried. « V fermé » is replaced by FermeLineaire, which is what the proof uses (l.1230-1232). It is implied by IsClosed V for any topology in which t ↦ x + t v is continuous (fermeLineaire_of_isClosed), so every vector topology is covered, including the finest locally convex one that Prop. 7 names. Only topologies with discontinuous lines are excluded, such as the discrete one, under which the printed statement is false by prop5_sans_ferme. The mark is honest."
+    },
+    {
+      "label": "bzdef:c3s5d2_ensemble_contact",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "ensembleContact U V = {A | ∃ B C, Collinear {B, A, C} ∧ openSegment B A ⊆ U ∧ openSegment A C ⊆ V}. « alignés avec A » is read as Collinear, the broad reading. The paper's convention )A, A( = {A} is Mathlib's openSegment_same, so degenerate witnesses B = A and C = A are allowed, and the convention is printed precisely to allow them. U ∩ V = ∅ is carried by the statements. The second reading, Wbtw (« A entre B et C »), is also given. The instance ensembleContact_Ico_Icc is real."
+    },
+    {
+      "label": "bzprop:c3s5p6_contact_convexe",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Correctly unmarked (partial). Hand check of the counterexample. cexU = {z = 0, y < 0} ∪ {0} is convex: an open half-plane plus one boundary point. cexV = {y = 0, z > 0} ∪ {(2,0,0)} is convex for the same reason. The two are disjoint, since U ∩ {y = z = 0} = {0} and V ∩ {y = z = 0} = {(2,0,0)}. (0,0,0) is a contact point with B = A and C = (0,0,1). (2,0,0) is a contact point with B = (2,−1,0) and C = A. (1,0,0) is not: )B, A( ⊆ U forces a direction in z = 0, and )A, C( ⊆ V forces a direction in y = 0. All of this is proved in Lean (not_convex_ensembleContact and its lemmas), and the hypotheses are exactly the paper's: Convex U, Convex V, Disjoint U V. The refutation also holds under the 'entre' reading (not_convex_ensembleContactEntre). The diagnosis of the printed proof is correct: B'', A'', C'' need not be aligned (convex_contactSansAlignement). The true form convex_ensembleContact_of_convex_union carries the paper's hypotheses plus Convex (U ∪ V). 'False as printed' is justified (see summary)."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard (propext, Classical.choice, Quot.sound) on proprieteI_segment_carre, prop1_precis, prop1_supports, prop1_supports_printed, not_prop1_precisPrinted, prop5_support_complementaire, prop5_topologique, prop5_fort, fermeLineaire_of_isClosed', prop5_sans_ferme, ensembleContact_Ico_Icc, convex_contactSansAlignement, convex_ensembleContact_of_convex_union, convex_ensembleContactEntre_of_convex_union, not_convex_ensembleContact, not_convex_ensembleContactEntre. Probe written under the campaign directory and deleted. `lake env lean` exit 0, also with -DwarningAsError=true."
+  },
+  "scope": "git status shows, besides other loops' pre-existing edits (restatements, roadmaps), only the new scaffold/BenzecriScaffold/Chapter3/ProprieteI.lean, the import line in scaffold/BenzecriScaffold.lean (next to T-bz-c3-cone-appui's line), and the campaign directories. Clean.",
+  "docstring_contract": "Present and true: title; labels with tex lines in the first 4000 characters, marks on Def. 1, Prop. 5 and Def. 2 only; the French quote block, matching the scan; the hypothesis checklist; SCOPE; the provenance line.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[1].findings[0]; ProprieteI.lean:14-17, 83-84",
+      "what": "Prop. 1 'imprecise': the only exception, U = V = {p}, is two sets that are not disjoint. The section title « Sur les convexes, réunions de deux convexes disjoints » excludes it. The finding is still correct against the printed statement, since Prop. 1 itself does not say 'disjoints'. But the REPORT calls it 'the only exception' without saying that the title's setting removes it, so the author-facing message overstates the imprecision.",
+      "fix": "Add a one-line corollary prop1_precis_of_disjoint (Disjoint U V → Convex (U ∪ V) → Prop1PrecisPrinted U V), which follows from prop1_precis. State in SCOPE/findings that the precise form holds under § 5's disjointness. Whether the title is a standing hypothesis is the author's reading, so it goes to an OQ if marking under that reading is wanted."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[4].findings[0]; ProprieteI.lean:26-33",
+      "what": "The Prop. 6 refutation relies on degenerate witnesses: B = A for (2,0,0) and B = A for (0,0,0), with )A, A( = {A}. The paper's convention explicitly allows these, so the refutation stands. But under a reading that requires B ≠ A ≠ C, (0,0,0) would not be a contact point of these sets, and this dependence is not disclosed.",
+      "fix": "Disclose in SCOPE and the finding that the counterexample uses the printed )A, A( = {A} convention. Optionally, also refute the non-degenerate reading."
+    },
+    {
+      "severity": "minor",
+      "where": "REPORT.json labels[2].hypotheses[0].note, questions[0]",
+      "what": "'Every reading of « fermé »' is slightly broad. What is covered is every topology in which lines are continuous, which includes every vector topology. The docstring checklist states this exactly; the REPORT's summary phrase does not.",
+      "fix": "Say 'every topology with continuous lines (in particular every vector topology)' in the REPORT note."
+    }
+  ]
+}

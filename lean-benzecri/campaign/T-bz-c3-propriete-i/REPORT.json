@@ -1,0 +1,214 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-propriete-i",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/ProprieteI.lean",
+    "scaffold/BenzecriScaffold.lean"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms on every principal declaration); no axiom added; the file also typechecks with -DwarningAsError=true (strict-ready)",
+  "instances": [
+    "Benzecri.proprieteI_segment_carre: I([0,1]×{0}, [0,1]²) in ℝ×ℝ (Déf. 1, a Lean term)",
+    "Benzecri.ensembleContact_Ico_Icc: the contact set of [−1,0[ and [0,1] in ℝ is exactly {0} (Déf. 2, a Lean term)",
+    "Benzecri.prop5_sans_ferme: V = ]0,1] in W = [0,1] satisfies every hypothesis of Prop. 5 except « fermé », and its conclusion fails (the hypothesis is used)",
+    "Benzecri.not_prop1_precisPrinted: U = V = {0} in ℝ refutes the precise form of Prop. 1",
+    "Benzecri.not_convex_ensembleContact: U = {z=0, y<0} ∪ {0}, V = {y=0, z>0} ∪ {(2,0,0)} in ℝ³, disjoint convex, contact set contains (0,0,0) and (2,0,0) but not (1,0,0)"
+  ],
+  "labels": [
+    {
+      "label": "bzdef:c3s5d1_propriete_I",
+      "tex_lines": [
+        1162,
+        1166
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.ProprieteI",
+        "Benzecri.proprieteI_segment_carre"
+      ],
+      "hypotheses": [
+        {
+          "paper": "W un convexe dans un espace vectoriel",
+          "here": "carried",
+          "note": "any real vector space; Convex ℝ W is a hypothesis of each statement using I, not a field of the predicate"
+        },
+        {
+          "paper": "V ⊂ W",
+          "here": "carried",
+          "note": "a field of ProprieteI"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s5p1_reunion_convexe_supports",
+      "tex_lines": [
+        1169,
+        1181
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.prop1_supports",
+        "Benzecri.prop1_supports_printed",
+        "Benzecri.prop1_precis",
+        "Benzecri.Prop1PrecisPrinted",
+        "Benzecri.AligneDeuxPoints",
+        "Benzecri.affineSpan_le_of_aligneDeuxPoints",
+        "Benzecri.not_prop1_precisPrinted",
+        "Benzecri.prop1_precis_of_disjoint"
+      ],
+      "hypotheses": [
+        {
+          "paper": "deux convexes U et V",
+          "here": "weakened",
+          "note": "not used: only Convex ℝ (U ∪ V) is assumed (Lean ≥ paper); prop1_supports_printed carries them"
+        },
+        {
+          "paper": "variétés support",
+          "here": "carried",
+          "note": "affineSpan ℝ U, affineSpan ℝ V"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 1 (l.1169–1175) is imprecise: its first sentence (one support contains the other) is true without exception (prop1_supports), but the « façon plus précise » (l.1172–1174) fails when U = V = {p}: no point is aligned with two distinct points of a singleton (not_prop1_precisPrinted). This is the only exception (prop1_precis: the dichotomy holds or U = V = {p}). The exception consists of two NON-DISJOINT sets, which § 5's title (« Sur les convexes, réunions de deux convexes disjoints », l.1150) rules out: for disjoint U, V the precise form holds (prop1_precis_of_disjoint).",
+        "The printed proof (l.1177–1181) claims « le segment demi-ouvert ]a, b] soit contenu dans U »; the endpoint b need not be in U (U = [0,1[, V = {1}, a = 0); the open segment )a, b( ⊆ U suffices for the conclusion, and the case b = a (forcing V = {a}) is not treated. Neither the convexity of U nor of V is used."
+      ],
+      "questions": [
+        "« aligné avec deux points distincts de V » read as: ∃ b ≠ c in V with a on the line bc (a may be b or c). The exception U = V = {p} fails under every reading.",
+        "Is the disjointness of § 5's title a standing hypothesis of Prop. 1? Prop. 1 itself does not say « disjoints ». Reading taken: no, so the row stays partial (imprecise); under the title's reading the precise form is proved in full (prop1_precis_of_disjoint) and the row could be marked — the author's decision."
+      ]
+    },
+    {
+      "label": "bzprop:c3s5p5_support_complementaire",
+      "tex_lines": [
+        1224,
+        1235
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.prop5_support_complementaire",
+        "Benzecri.prop5_topologique",
+        "Benzecri.prop5_fort",
+        "Benzecri.FermeLineaire",
+        "Benzecri.fermeLineaire_of_isClosed",
+        "Benzecri.fermeLineaire_of_isClosed'",
+        "Benzecri.prop5_sans_ferme"
+      ],
+      "hypotheses": [
+        {
+          "paper": "V fermé (in a bare vector space)",
+          "here": "weakened",
+          "note": "FermeLineaire V: every line meets V in a closed set of parameters — what the proof uses (l.1230–1232). Implied by IsClosed V for ANY topology on E in which t ↦ x + t v is continuous (fermeLineaire_of_isClosed; prop5_topologique), so « fermé » is covered for every topology on E in which lines are continuous (any vector topology, the finest locally convex one named in Prop. 7, the finite-dimensional/core topology): Lean ≥ paper"
+        },
+        {
+          "paper": "V, W convexes de même support L; I(V, W)",
+          "here": "weakened",
+          "note": "carried in prop5_support_complementaire; prop5_fort shows only Convex ℝ W and V ⊆ W are used (then the support of W − V is the support of W)"
+        },
+        {
+          "paper": "V ⊂ W",
+          "here": "carried",
+          "note": ""
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« V fermé » in a bare vector space: no topology is named at Prop. 5 (Prop. 7 names the finest locally convex one). Covered for every topology with continuous lines, so no reading is chosen."
+      ]
+    },
+    {
+      "label": "bzdef:c3s5d2_ensemble_contact",
+      "tex_lines": [
+        1237,
+        1242
+      ],
+      "status": "closed",
+      "marked": true,
+      "decls": [
+        "Benzecri.ensembleContact",
+        "Benzecri.ensembleContact_Ico_Icc",
+        "Benzecri.ensembleContactEntre"
+      ],
+      "hypotheses": [
+        {
+          "paper": "U, V deux convexes tels que U ∩ V = ∅",
+          "here": "carried",
+          "note": "the set is defined for every U, V; the hypotheses are carried by the statements"
+        },
+        {
+          "paper": ")A, A( désigne {A}",
+          "here": "carried",
+          "note": "Mathlib's openSegment_same"
+        }
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": [
+        "« deux points B et C alignés avec A » read as Collinear ℝ {B, A, C} (ensembleContact); the reading « A entre B et C » (Wbtw ℝ B A C) is ensembleContactEntre, a subset; Prop. 6's results are proved for both."
+      ]
+    },
+    {
+      "label": "bzprop:c3s5p6_contact_convexe",
+      "tex_lines": [
+        1244,
+        1256
+      ],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.not_convex_ensembleContact",
+        "Benzecri.not_convex_ensembleContactEntre",
+        "Benzecri.convex_ensembleContact_of_convex_union",
+        "Benzecri.convex_ensembleContactEntre_of_convex_union",
+        "Benzecri.convex_contactSansAlignement",
+        "Benzecri.contactSansAlignement",
+        "Benzecri.mem_union_of_mem_ensembleContact",
+        "Benzecri.mem_ensembleContact_of_mem_union",
+        "Benzecri.cexU",
+        "Benzecri.cexV"
+      ],
+      "hypotheses": [
+        {
+          "paper": "deux convexes (U ∩ V = ∅, Déf. 2)",
+          "here": "strengthened",
+          "note": "the true form adds Convex ℝ (U ∪ V), the setting of § 5 (title l.1150) and of Prop. 7 (F = contact set of V and W − V, W convex)"
+        }
+      ],
+      "sorries": [],
+      "findings": [
+        "Prop. 6 (l.1244) is FALSE as printed, under both readings of « alignés » in Déf. 2: in ℝ³, U = {z = 0, y < 0} ∪ {(0,0,0)} and V = {y = 0, z > 0} ∪ {(2,0,0)} are disjoint convex sets whose contact set contains (0,0,0) (A ∈ U, C = (0,0,1)) and (2,0,0) (A ∈ V, B = (2,−1,0)) but not their midpoint (1,0,0): B − P must lie in the plane z = 0 and C − P in the plane y = 0, so collinearity forces both on the x-axis, where U and V have only (0,0,0) and (2,0,0) (not_convex_ensembleContact, not_convex_ensembleContactEntre). The counterexample uses degenerate witnesses (B = A for (0,0,0), C = A for (2,0,0)), which the printed convention )A, A( = {A} of Déf. 2 explicitly allows; under a reading demanding B ≠ A ≠ C, these two points would not be contact points of these sets.",
+        "The printed proof (l.1248–1256) is right except for alignment: B″ = (1−λ)B + λB′, C″ = (1−λ)C + λC′ satisfy )B″, A″( ⊆ U and )A″, C″( ⊆ V, but B″, A″, C″ need not be aligned. It proves that the contact set WITHOUT the alignment condition is convex, for any two convex sets (convex_contactSansAlignement).",
+        "Prop. 6 is true when U ∪ V is convex (convex_ensembleContact_of_convex_union, and for the « entre » reading): then every contact point lies in U ∪ V (using U ∩ V = ∅), and a point of U ∪ V in the alignment-free contact set is a contact point (take B = A or C = A). This covers § 5's use in Prop. 7 (l.1265), where F is the contact set of V and W − V, whose union W is convex."
+      ],
+      "questions": []
+    }
+  ],
+  "extra_decls": [
+    "Benzecri.mem_line_of_eq",
+    "Benzecri.affineSpan_le_of_aligneDeuxPoints",
+    "Benzecri.convex_cexU",
+    "Benzecri.convex_cexV",
+    "Benzecri.disjoint_cexU_cexV",
+    "Benzecri.zero_mem_ensembleContact_cex",
+    "Benzecri.two_mem_ensembleContact_cex",
+    "Benzecri.one_not_mem_ensembleContact_cex",
+    "Benzecri.ensembleContactEntre_subset",
+    "Benzecri.ensembleContact_subset_sansAlignement"
+  ],
+  "kb_proposals": [
+    "Chapter3/ProprieteI: « V fermé » in a bare vector space is best stated as FermeLineaire (every line meets V in a closed parameter set) plus fermeLineaire_of_isClosed for any topology with continuous lines — one theorem covers « fermé » for every topology in which lines are continuous.",
+    "Chapter3/ProprieteI: Benzécri's contact set F (Déf. 2) is NOT convex in general (ℝ³ counterexample); it is convex when U ∪ V is convex (§ 5's setting). Later § 5 targets (Prop. 7, Thms 1, 1′) should use convex_ensembleContact_of_convex_union.",
+    "Collinear {B, A, C} → coordinates: collinear_iff_of_mem (p₀ := A) gives B = r₁•v + A, C = r₂•v + A (vadd_eq_add); then split on r₁ = 0, r₂ = 0, sign of r₁r₂ — no need for B ≠ A.",
+    "Points of an open segment in coordinates: hB ⟨1/2, 1/2, by norm_num, by norm_num, by norm_num, rfl⟩ then simp only [Prod.smul_mk, Prod.mk_add_mk, smul_eq_mul] turns membership into linear facts in products r*v_i, which linarith treats as atoms."
+  ],
+  "notes": "The file imports Mathlib only (no § 1 notion is needed: )A, A( = {A} is openSegment_same). Marked: Déf. 1, Prop. 5, Déf. 2. Unmarked: Prop. 1 (imprecise, U = V = {p}) and Prop. 6 (false as printed; corrected form under U ∪ V convex). The one import line was appended to scaffold/BenzecriScaffold.lean after T-bz-c3-cone-appui's. lake build BenzecriScaffold.Chapter3.ProprieteI succeeded (no Benzecri.* or mathlib rebuild). Fix round 1 (AUDIT-1, minor): prop1_precis_of_disjoint added; Prop. 1 exception and Prop. 6 degenerate witnesses disclosed; « every reading of fermé » replaced by « every topology in which lines are continuous ».",
+  "fix_round": 1
+}
