@@ -1,0 +1,21 @@
+{"target": "T-bz-c3-propriete-i-appui", "auditor_round": 1, "verdict": "clean",
+ "labels": [
+  {"label": "bzprop:c3s5p2_support_appui", "faithful": true, "marked_correctly": true,
+   "notes": "isVarieteAppui_affineSpan_of_proprieteI: Convex W, V.Nonempty, ProprieteI V W (= V ⊆ W ∧ Convex V ∧ Convex (W \\ V), Déf. 1 verbatim) ⊢ IsVarieteAppui W (affineSpan ℝ V). Any real vector space, no finite dimension: matches l.1183-1186 exactly. 'variété linéaire engendrée' = affineSpan is the standard reading. The REPORT's observation that the proof's first step needs no topology is a remark on the proof, not a claimed error; it is correct (exists_extend_mem_of_mem_affineSpan is kernel-checked)."},
+  {"label": "bzprop:c3s5p3_complementaire_appui", "faithful": true, "marked_correctly": true,
+   "notes": "complementaire_appui gives both sentences: Convex (W ∩ Lᶜ) and, for every convex C ⊆ L ∩ W, Convex ((W ∩ Lᶜ) ∪ C). Convex W is carried as the setting: Déf. 3 (l.186-189) defines variétés d'appui of 'le convexe W' of § 1, and the α-reformulation used in the printed proof (l.191-192) already needs convexity. Disclosed in SCOPE and REPORT questions; legitimate. Instance carre_moins_lineY0_union_origine uses a nonempty C = {(0,0)} and the real variété d'appui lineY0 of the square: non-vacuous."},
+  {"label": "bzprop:c3s5p4_propriete_I_appui", "faithful": true, "marked_correctly": true,
+   "notes": "proprieteI_iff_isVarieteAppui: Convex W, Convex V, V ⊆ W, V.Nonempty ⊢ ProprieteI V W ↔ IsVarieteAppui W (affineSpan ℝ V) ∧ ProprieteI V (affineSpan ℝ V ∩ W). Exactly l.1217-1219 with « support L de V » = affineSpan ℝ V (disclosed; consistent with Facettes/Appui). Unused hypotheses _hV, _hVW are the printed ones, harmless. The ⇐ half proprieteI_of_isVarieteAppui is stronger (drops non-emptiness). Prop. 1's printed precise form (OQ-162) is not used: the module imports ProprieteI only for Déf. 1 and the square instance; no reference to the Prop. 1 statements. Instance bordCarre_appui_proprieteI is a real consequence on the square's edge."}
+ ],
+ "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+ "findings": [
+  {"severity": "minor", "where": "scaffold/BenzecriScaffold/Chapter3/ProprieteIAppui.lean:63",
+   "what": "Checklist row for Prop. 4 flags with a warning sign as 'weakened' what is in fact a strengthening (the ⇐ half needs fewer hypotheses). Wording only; the statement is correct and ≥ paper.",
+   "fix": "Optional: say 'the ⇐ half also holds without non-emptiness' instead of '⚠ weakened'."}
+ ],
+ "checks": {
+  "build_cmd": "taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter3/ProprieteIAppui.lean (rc 0, no warnings)",
+  "axiom_probe": "campaign/T-bz-c3-propriete-i-appui/Probe.lean, 11 declarations, all [propext, Classical.choice, Quot.sound]; deleted",
+  "scope": "this target touched only ProprieteIAppui.lean, the import line in scaffold/BenzecriScaffold.lean and its campaign directory; other dirty paths (lean-causal, roadmap/programme toml, restatements, DualiteSn/ConeAppuiAlpha) belong to other loops",
+  "docstring_contract": "marks list, quoted statements, Hypothesis checklist, SCOPE (disclosed), provenance line present and accurate (CAMPAIGN.md l.69)"
+ }}

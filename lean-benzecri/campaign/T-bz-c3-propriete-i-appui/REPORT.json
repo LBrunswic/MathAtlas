@@ -1,0 +1,62 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-propriete-i-appui",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/ProprieteIAppui.lean"],
+  "root_import_added": "import BenzecriScaffold.Chapter3.ProprieteIAppui (scaffold/BenzecriScaffold.lean)",
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bzprop:c3s5p2_support_appui",
+      "tex_lines": [1183, 1201],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.isVarieteAppui_affineSpan_of_proprieteI", "Benzecri.exists_alphaW_of_mem_affineSpan", "Benzecri.exists_extend_mem_of_mem_affineSpan"],
+      "hypotheses": [
+        {"paper": "W un convexe dans un espace vectoriel", "here": "carried", "note": "Convex ℝ W, any real vector space"},
+        {"paper": "V une partie convexe non vide de W, I(V, W)", "here": "carried", "note": "V.Nonempty and ProprieteI V W (which contains V ⊆ W and Convex ℝ V)"}
+      ],
+      "sorries": [],
+      "findings": ["The first step of the proof (l.1188-1192: for B ∈ L ∩ W some A ∈ V has A α B) needs no topology, no finite-dimensional hull and no property I: with A₀ ∈ V, B − A₀ = r(x − y) with x, y ∈ V, and A = (A₀ + x)/2, ε = 1/(2r+2) give A + ε(A − B) ∈ V. Not a defect of the paper."],
+      "questions": []
+    },
+    {
+      "label": "bzprop:c3s5p3_complementaire_appui",
+      "tex_lines": [1203, 1214],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.complementaire_appui", "Benzecri.convex_inter_compl_of_isVarieteAppui", "Benzecri.convex_inter_compl_union_of_isVarieteAppui"],
+      "hypotheses": [
+        {"paper": "L une variété d'appui de W", "here": "carried", "note": "IsVarieteAppui W L with Convex ℝ W (Déf. 3 and § 5 are about convex W)"},
+        {"paper": "C une partie convexe de L ∩ W", "here": "carried", "note": "C ⊆ L ∩ W, Convex ℝ C"}
+      ],
+      "sorries": [],
+      "findings": [],
+      "questions": ["Prop. 3 (l.1203) does not repeat that W is convex; it is read from the setting (Déf. 3 of § 1 defines variétés d'appui of a convex W, and § 5 works with convex W). Without convexity the statement fails (W = {−1, 0, 1}, L = {0}; not formalized). « ∁L ∩ W » and « W ∩ ∁L » are read as the same set."]
+    },
+    {
+      "label": "bzprop:c3s5p4_propriete_I_appui",
+      "tex_lines": [1217, 1221],
+      "status": "closed",
+      "marked": true,
+      "decls": ["Benzecri.proprieteI_iff_isVarieteAppui", "Benzecri.proprieteI_of_isVarieteAppui"],
+      "hypotheses": [
+        {"paper": "V une partie convexe non vide de W convexe", "here": "carried", "note": "all carried in the iff; the ⇐ half (proprieteI_of_isVarieteAppui) needs neither non-emptiness nor a separate V ⊆ W"}
+      ],
+      "sorries": [],
+      "findings": ["No proof is printed (l.1221). ⇒ is Prop. 2 plus (L ∩ W) − V = L ∩ (W − V); ⇐ is Prop. 3 with C = (L ∩ W) − V, since W − V = (W − L) ∪ ((L ∩ W) − V). Prop. 1's precise form (imprecise, OQ-162) is not used anywhere."],
+      "questions": ["« le support L de V » read as affineSpan ℝ V, as in Chapter3/Facettes and Appui."]
+    }
+  ],
+  "instances": [
+    "Benzecri.bordCarre_isVarieteAppui (Prop. 2: the support of the edge [0,1]×{0} is a variété d'appui of [0,1]², from proprieteI_segment_carre)",
+    "Benzecri.bordCarre_appui_proprieteI (Prop. 4: the right-hand side for the same edge)",
+    "Benzecri.carre_moins_lineY0_union_origine (Prop. 3: (square ∩ ∁lineY0) ∪ {(0,0)} is convex, from lineY0_isVarieteAppui)"
+  ],
+  "extra_decls": ["Benzecri.exists_extend_mem_of_mem_affineSpan", "Benzecri.exists_alphaW_of_mem_affineSpan", "Benzecri.proprieteI_of_isVarieteAppui"],
+  "kb_proposals": [
+    "Chapter3/ProprieteIAppui: a point B of the support of a convex V is reached from some A ∈ V extending beyond A inside V (exists_extend_mem_of_mem_affineSpan): no relative interior or finite dimension needed; use it wherever the paper takes « un point intérieur à l'enveloppe convexe de A₁…Aₙ »."
+  ],
+  "notes": "Imports Benzecri.Chapter3.Appui, .ProprieteI, .Fibres (for exists_smul_sub_of_mem_span); typechecks with no warning, so graduation under warningAsError should be a file move. Built with lake build BenzecriScaffold.Chapter3.ProprieteIAppui. Unused printed hypotheses of Prop. 4 are named _hV, _hVW."
+}
