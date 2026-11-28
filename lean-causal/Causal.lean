@@ -357,6 +357,7 @@ import Causal.InextensibleNotLeNested
 import Causal.Ers482RestartSeparation
 import Causal.PastInextensibleMeetsCauchy
 import Causal.ErsEtaleGluing
+import Causal.TwoPiece
 
 /-!
 # Causal — topological spacetimes

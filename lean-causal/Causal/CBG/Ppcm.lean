@@ -1,6 +1,7 @@
 import Causal.CBG.NoCorresponding
 import Causal.CBG.CausalConvex
 import Causal.CauchySeparation
+import Causal.TwoPiece
 
 /-!
 # Two developments embed in a common one: the gluing along the MCGHD (Sbierski Thm 2.7)
@@ -42,12 +43,15 @@ Cited, unmarked: `prop:ppcm_Cauchy` — `ETT.tex:1994`, `defi:ppcm` — `ETT.tex
   `Jplus_inter_Jminus_eq` (citing `IsAcausal.Jplus_inter_Jminus`, `Causal.CauchySeparation`,
   ETT-layer; T-abs-merge-stranded-duplicates); `CauchySide` (the facts of a GH piece the
   argument consumes);
-  **`TwoPiece`** — a spacetime covered by two open pieces with causally convex overlap and
-  agreeing relations, absolutely minimal: `le_top_iff` (`≤_P` is a one- or two-step chain),
-  `le_of_le_top`, `mem_of_le_top` (**each piece is causally convex in `P`: the exit/re-entry
-  argument**), `exists_mid`, `isCausal`, `isCauchySurface` (a common Cauchy surface of the
-  pieces is one of `P`); `PieceChart` and **`TwoPiece.globallyHyperbolic`** (compact diamonds:
-  inside a piece, and across, `isCompact_diamond_mixed`, by an explicit decomposition through `Σ̃`).
+  `PieceChart` and **`TwoPiece.globallyHyperbolic`** (compact diamonds: inside a piece, and
+  across, `isCompact_diamond_mixed`, by an explicit decomposition through `Σ̃`). **`TwoPiece`**
+  itself — a spacetime covered by two open pieces with causally convex overlap and agreeing
+  relations, absolutely minimal — with `twoPieceRel`, `le_top_iff` (`≤_P` is a one- or two-step
+  chain), `le_of_le_top`, `mem_of_le_top` (**each piece is causally convex in `P`: the
+  exit/re-entry argument**), `exists_mid`, `diamond_top_eq`, `isCausal`, `isCauchySurface` (a
+  common Cauchy surface of the pieces is one of `P`) and its witness `timelikeLine_twoPiece`, is in
+  `Causal.TwoPiece` (ETT-layer), which this module imports: the section `TwoPiece` moved there
+  byte for byte, with the same full names, by T-abs-two-piece-hoist.
 * **Level A** (namespace `Causal.CBG`): `Dev.cauchySide`, `pieceChart_of_isMor`; the gluing
   `PpcmSpace` along the MCGHD, its structure (`exists_ppcmStr`, `Geometry.glue`), `ppcm_twoPiece`,
   `ppcm_globallyHyperbolic` (**GH proved directly**: no `curvesExtend`, no `isCompact_*` on `ppcm`),
@@ -58,9 +62,9 @@ Cited, unmarked: `prop:ppcm_Cauchy` — `ETT.tex:1994`, `defi:ppcm` — `ETT.tex
   development `ppcm`), **`ppcmDev_unique`** (unique minimal up to equivalence), **`exists_ppcm`**
   (the principal theorem, no hypothesis beyond the geometry and `M₀` connected),
   `exists_common_extension`.
-* **Witnesses** (namespace `Causal.Causality`): `timelikeLine_twoPiece`, `timelikeLine_cauchySide`,
+* **Witnesses** (namespace `Causal.Causality`): `timelikeLine_cauchySide`,
   `timelikeLine_twoPiece_globallyHyperbolic` (all hypotheses of `TwoPiece.globallyHyperbolic`
-  jointly, with proper `PieceChart` images).
+  jointly, with proper `PieceChart` images); `timelikeLine_twoPiece` is in `Causal.TwoPiece`.
 
 ## Hypothesis checklist
 
@@ -103,16 +107,16 @@ Cited, unmarked: `prop:ppcm_Cauchy` — `ETT.tex:1994`, `defi:ppcm` — `ETT.tex
   lemma `CBG/Geometry`'s SCOPE and `glue` docstring assign to this package): the obligation is
   **discharged by replacement** — the two charts `ι₁`, `ι₂` (`pieceChart_of_isMor`: open embeddings
   matching the relations, from the morphisms and absolute minimality) carry all the causal
-  information the proof reads, and `TwoPiece` is the model-free form. The `Geometry` text is the
-  master's to update (reported, `REPORT.json`).
+  information the proof reads, and `TwoPiece` (`Causal.TwoPiece`) is the model-free form. The
+  `Geometry` text is the master's to update (reported, `REPORT.json`).
 * `ppcmStr` is a choice (`Classical.choose` of `Geometry.glue`); `ppcmDev_desc` and
   `ppcmDev_unique` make the result independent of it up to unique isomorphism of developments.
 * `ppcm_le_of_image` (private) is a third copy of `Flat.LocalIso.rel_of_image` (causal half;
   `CBG/Pgcd` has the second), kept private so that this module imports no Barbot-campaign module.
 * `TwoPiece` is for **two** pieces; package 10 (`Maximal`) glues a family: the same exit/re-entry
   argument applies chain-wise, but its family form is not proved here.
-* Witnesses: `timelikeLine_twoPiece` (a proper overlap `]0,1[`, local and absolutely minimal, with a
-  mixed pair `-1 ≤ 2`), `timelikeLine_cauchySide` (`{0}`) and
+* Witnesses: `timelikeLine_twoPiece` (`Causal.TwoPiece`; a proper overlap `]0,1[`, local and
+  absolutely minimal, with a mixed pair `-1 ≤ 2`), `timelikeLine_cauchySide` (`{0}`) and
   `timelikeLine_twoPiece_globallyHyperbolic` (charts `a ↦ 1 - e^{-a}/2`, `b ↦ e^{b}/2` with proper
   images, Cauchy sides `{0}` with common image `{1/2}`: every hypothesis of
   `TwoPiece.globallyHyperbolic` at once). `Geometry` has no inhabitant (its SCOPE), so the Level-A
@@ -211,194 +215,6 @@ structure CauchySide (C : Causality X) (S : Set X) : Prop where
   isCompact_past : ∀ x, IsCompact (C.Jminus ⊤ S ∩ C.Jplus ⊤ {x})
 
 end CauchySide
-
-/-! ### Two pieces: a spacetime covered by two open sets glued along a causally convex overlap -/
-
-section TwoPiece
-
-variable {P : Type u} [TopologicalSpace P] (D : Causality P) (A B : Opens P)
-
-/-- **A spacetime covered by two open pieces `A`, `B` along a causally convex overlap** — the
-abstract shape of the gluing of two developments along their MCGHD (Sbierski, proof of Thm 2.7):
-`D` absolutely minimal on `P` (so `≤_P` is generated by `≤_A` and `≤_B`), the overlap `A ∩ B`
-causally convex in each piece for that piece's relation, and the two relations agreeing between
-points of the overlap. -/
-structure TwoPiece : Prop where
-  cover : ∀ z, z ∈ A ∨ z ∈ B
-  absolutelyMinimalOn : D.AbsolutelyMinimalOn ⊤
-  convex_left : ∀ x y z, x ∈ B → z ∈ B → D.le A x y → D.le A y z → y ∈ B
-  convex_right : ∀ x y z, x ∈ A → z ∈ A → D.le B x y → D.le B y z → y ∈ A
-  agree : ∀ x y, x ∈ A → x ∈ B → y ∈ A → y ∈ B → (D.le A x y ↔ D.le B x y)
-
-/-- The relation the chains of `≤_A`, `≤_B` reduce to: one step in a piece, or a step in each
-piece through a point of the overlap. -/
-def twoPieceRel (x y : P) : Prop :=
-  D.le A x y ∨ D.le B x y ∨ (∃ u, u ∈ A ∧ u ∈ B ∧ D.le A x u ∧ D.le B u y) ∨
-    (∃ u, u ∈ A ∧ u ∈ B ∧ D.le B x u ∧ D.le A u y)
-
-variable {D A B}
-
-namespace TwoPiece
-
-/-- The hypotheses are symmetric in the two pieces. -/
-theorem symm (h : D.TwoPiece A B) : D.TwoPiece B A where
-  cover z := (h.cover z).symm
-  absolutelyMinimalOn := h.absolutelyMinimalOn
-  convex_left := h.convex_right
-  convex_right := h.convex_left
-  agree x y hxB hxA hyB hyA := (h.agree x y hxA hxB hyA hyB).symm
-
-/-- `twoPieceRel` is transitive (sixteen cases: convexity of the overlap and the agreement
-of the relations reduce every composite to one of the four forms). -/
-theorem rel_trans (h : D.TwoPiece A B) {x y z : P} (h₁ : twoPieceRel D A B x y)
-    (h₂ : twoPieceRel D A B y z) : twoPieceRel D A B x z := by
-  rcases h₁ with h₁ | h₁ | ⟨u, huA, huB, hxu, huy⟩ | ⟨u, huA, huB, hxu, huy⟩ <;>
-  rcases h₂ with h₂ | h₂ | ⟨v, hvA, hvB, hyv, hvz⟩ | ⟨v, hvA, hvB, hyv, hvz⟩
-  · exact Or.inl (D.le_trans h₁ h₂)
-  · exact Or.inr (Or.inr (Or.inl ⟨y, D.le_mem_right h₁, D.le_mem_left h₂, h₁, h₂⟩))
-  · exact Or.inr (Or.inr (Or.inl ⟨v, hvA, hvB, D.le_trans h₁ hyv, hvz⟩))
-  · have := (h.agree y v (D.le_mem_right h₁) (D.le_mem_left hyv) hvA hvB).2 hyv
-    exact Or.inl (D.le_trans h₁ (D.le_trans this hvz))
-  · exact Or.inr (Or.inr (Or.inr ⟨y, D.le_mem_left h₂, D.le_mem_right h₁, h₁, h₂⟩))
-  · exact Or.inr (Or.inl (D.le_trans h₁ h₂))
-  · have := (h.agree y v (D.le_mem_left hyv) (D.le_mem_right h₁) hvA hvB).1 hyv
-    exact Or.inr (Or.inl (D.le_trans h₁ (D.le_trans this hvz)))
-  · exact Or.inr (Or.inr (Or.inr ⟨v, hvA, hvB, D.le_trans h₁ hyv, hvz⟩))
-  · have := (h.agree u y huA huB (D.le_mem_left h₂) (D.le_mem_right huy)).2 huy
-    exact Or.inl (D.le_trans hxu (D.le_trans this h₂))
-  · exact Or.inr (Or.inr (Or.inl ⟨u, huA, huB, hxu, D.le_trans huy h₂⟩))
-  · have := (h.agree u y huA huB (D.le_mem_left hyv) (D.le_mem_right huy)).2 huy
-    exact Or.inr (Or.inr (Or.inl ⟨v, hvA, hvB, D.le_trans hxu (D.le_trans this hyv), hvz⟩))
-  · have hyA := h.convex_right u y v huA hvA huy hyv
-    have := (h.agree u v huA huB hvA hvB).2 (D.le_trans huy hyv)
-    exact Or.inl (D.le_trans hxu (D.le_trans this hvz))
-  · exact Or.inr (Or.inr (Or.inr ⟨u, huA, huB, hxu, D.le_trans huy h₂⟩))
-  · have := (h.agree u y huA huB (D.le_mem_right huy) (D.le_mem_left h₂)).1 huy
-    exact Or.inr (Or.inl (D.le_trans hxu (D.le_trans this h₂)))
-  · have hyB := h.convex_left u y v huB hvB huy hyv
-    have := (h.agree u v huA huB hvA hvB).1 (D.le_trans huy hyv)
-    exact Or.inr (Or.inl (D.le_trans hxu (D.le_trans this hvz)))
-  · have := (h.agree u y huA huB (D.le_mem_right huy) (D.le_mem_left hyv)).1 huy
-    exact Or.inr (Or.inr (Or.inr ⟨v, hvA, hvB, D.le_trans hxu (D.le_trans this hyv), hvz⟩))
-
-/-- **The causal relation of `P` is generated by the pieces**: `x ≤_P y` iff `twoPieceRel`
-(absolute minimality on the cover `{A, B}`, then `rel_trans`). -/
-theorem le_top_iff (h : D.TwoPiece A B) {x y : P} : D.le ⊤ x y ↔ twoPieceRel D A B x y := by
-  constructor
-  · intro hxy
-    have hS : ∀ z ∈ (⊤ : Opens P), ∃ O ∈ ({A, B} : Set (Opens P)), z ∈ O := fun z _ =>
-      (h.cover z).elim (fun hz => ⟨A, Or.inl rfl, hz⟩) (fun hz => ⟨B, Or.inr rfl, hz⟩)
-    have hc := (h.absolutelyMinimalOn _ hS ⊤ le_rfl x y).1 hxy
-    clear hxy
-    induction hc with
-    | single hl =>
-      obtain ⟨O, hO, hab⟩ := hl
-      rw [top_inf_eq] at hab
-      rcases hO with rfl | rfl
-      · exact Or.inl hab
-      · exact Or.inr (Or.inl hab)
-    | tail _ hl ih =>
-      obtain ⟨O, hO, hab⟩ := hl
-      rw [top_inf_eq] at hab
-      refine h.rel_trans ih ?_
-      rcases hO with rfl | rfl
-      · exact Or.inl hab
-      · exact Or.inr (Or.inl hab)
-  · rintro (h₁ | h₁ | ⟨u, -, -, hxu, huy⟩ | ⟨u, -, -, hxu, huy⟩)
-    · exact D.le_mono le_top h₁
-    · exact D.le_mono le_top h₁
-    · exact D.le_trans (D.le_mono le_top hxu) (D.le_mono le_top huy)
-    · exact D.le_trans (D.le_mono le_top hxu) (D.le_mono le_top huy)
-
-/-- **Between two points of a piece, the relation of `P` is the piece's.** -/
-theorem le_of_le_top (h : D.TwoPiece A B) {x y : P} (hx : x ∈ A) (hy : y ∈ A)
-    (hxy : D.le ⊤ x y) : D.le A x y := by
-  rcases h.le_top_iff.1 hxy with h₁ | h₁ | ⟨u, huA, huB, hxu, huy⟩ | ⟨u, huA, huB, hxu, huy⟩
-  · exact h₁
-  · exact (h.agree x y hx (D.le_mem_left h₁) hy (D.le_mem_right h₁)).2 h₁
-  · exact D.le_trans hxu ((h.agree u y huA huB hy (D.le_mem_right huy)).2 huy)
-  · exact D.le_trans ((h.agree x u hx (D.le_mem_left hxu) huA huB).2 hxu) huy
-
-/-- **Each piece is causally convex in `P`** (the exit/re-entry argument: a chain leaving `A` runs
-in `B` between two points of the overlap, which is causally convex in `B`). -/
-theorem mem_of_le_top (h : D.TwoPiece A B) {x y z : P} (hx : x ∈ A) (hz : z ∈ A)
-    (hxy : D.le ⊤ x y) (hyz : D.le ⊤ y z) : y ∈ A := by
-  by_contra hy
-  obtain ⟨u, huA, huy⟩ : ∃ u, u ∈ A ∧ D.le B u y := by
-    rcases h.le_top_iff.1 hxy with h₁ | h₁ | ⟨u, huA, -, -, huy⟩ | ⟨u, -, -, -, huy⟩
-    · exact absurd (D.le_mem_right h₁) hy
-    · exact ⟨x, hx, h₁⟩
-    · exact ⟨u, huA, huy⟩
-    · exact absurd (D.le_mem_right huy) hy
-  obtain ⟨v, hvA, hyv⟩ : ∃ v, v ∈ A ∧ D.le B y v := by
-    rcases h.le_top_iff.1 hyz with h₂ | h₂ | ⟨v, -, -, hyv, -⟩ | ⟨v, hvA, -, hyv, -⟩
-    · exact absurd (D.le_mem_left h₂) hy
-    · exact ⟨z, hz, h₂⟩
-    · exact absurd (D.le_mem_left hyv) hy
-    · exact ⟨v, hvA, hyv⟩
-  exact hy (h.convex_right u y v huA hvA huy hyv)
-
-/-- **A relation from `A` to `B` passes through the overlap**: `x ∈ A`, `y ∈ B`, `x ≤_P y` give
-`u ∈ A ∩ B` with `x ≤_A u ≤_B y`. -/
-theorem exists_mid (h : D.TwoPiece A B) {x y : P} (hx : x ∈ A) (hy : y ∈ B)
-    (hxy : D.le ⊤ x y) : ∃ u, u ∈ A ∧ u ∈ B ∧ D.le A x u ∧ D.le B u y := by
-  rcases h.le_top_iff.1 hxy with h₁ | h₁ | ⟨u, huA, huB, hxu, huy⟩ | ⟨u, huA, huB, hxu, huy⟩
-  · exact ⟨y, D.le_mem_right h₁, hy, h₁, D.le_refl hy⟩
-  · exact ⟨x, hx, D.le_mem_left h₁, D.le_refl hx, h₁⟩
-  · exact ⟨u, huA, huB, hxu, huy⟩
-  · have hyA := D.le_mem_right huy
-    have h' := (h.agree x u hx (D.le_mem_left hxu) huA huB).2 hxu
-    exact ⟨y, hyA, hy, D.le_trans h' huy, D.le_refl hy⟩
-
-/-- The diamonds of `P` between two points of a piece are the piece's. -/
-theorem diamond_top_eq (h : D.TwoPiece A B) {p q : P} (hp : p ∈ A) (hq : q ∈ A) :
-    D.diamond ⊤ p q = D.diamond A p q := by
-  ext z
-  rw [mem_diamond, mem_diamond]
-  constructor
-  · rintro ⟨h₁, h₂⟩
-    have hz := h.mem_of_le_top hp hq h₁ h₂
-    exact ⟨h.le_of_le_top hp hz h₁, h.le_of_le_top hz hq h₂⟩
-  · rintro ⟨h₁, h₂⟩
-    exact ⟨D.le_mono le_top h₁, D.le_mono le_top h₂⟩
-
-/-- **`P` is causal when both pieces are.** -/
-theorem isCausal (h : D.TwoPiece A B)
-    (hA : ∀ x y, D.le A x y → D.le A y x → x = y) (hB : ∀ x y, D.le B x y → D.le B y x → x = y) :
-    D.IsCausal := by
-  intro x y hxy hyx
-  rcases h.cover x with hx | hx
-  · have hy := h.mem_of_le_top hx hx hxy hyx
-    exact hA x y (h.le_of_le_top hx hy hxy) (h.le_of_le_top hy hx hyx)
-  · have hy := h.symm.mem_of_le_top hx hx hxy hyx
-    exact hB x y (h.symm.le_of_le_top hx hy hxy) (h.symm.le_of_le_top hy hx hyx)
-
-/-- **A common Cauchy surface of the two pieces is a Cauchy surface of `P`** (Sbierski, proof
-of Thm 2.7, step 4): existence through the component of the curve in one piece; uniqueness
-because two points of `S` on one curve are related in `P`, hence in `A` (`le_of_le_top`), where
-`S` is acausal. -/
-theorem isCauchySurface [T2Space P] (h : D.TwoPiece A B) (hcaus : D.IsCausal) {S : Set P}
-    (hSsub : S ⊆ A) (hSA : D.IsCauchySurfaceOn A S) (hSB : D.IsCauchySurfaceOn B S)
-    (hac : ∀ x ∈ S, ∀ y ∈ S, D.le A x y → x = y) : D.IsCauchySurface S := by
-  intro I c hc
-  obtain ⟨t₀, ht₀⟩ := hc.1.nonempty
-  have key : ∀ W : Opens P, D.IsCauchySurfaceOn W S → c t₀ ∈ W → ∃ x, x ∈ c '' I ∩ S :=
-    fun W hW hmem => by
-      obtain ⟨_, ⟨⟨τ, hτ, rfl⟩, hxS⟩, -⟩ := hW _ c
-        (inextensible_ordConnectedComponent_of_le (U := ⊤) (fun x y h₁ h₂ => hcaus h₁ h₂)
-          le_top hc ht₀ hmem)
-      exact ⟨c τ, ⟨τ, (ordConnectedComponent_subset hτ).1, rfl⟩, hxS⟩
-  obtain ⟨x, hx⟩ := (h.cover (c t₀)).elim (key A hSA) (key B hSB)
-  refine ⟨x, hx, ?_⟩
-  rintro _ ⟨⟨s, hs, rfl⟩, hyS⟩
-  obtain ⟨⟨t, ht, rfl⟩, hxS⟩ := hx
-  rcases le_total s t with hst | hts
-  · exact hac _ hyS _ hxS (h.le_of_le_top (hSsub hyS) (hSsub hxS) (hc.1.le_of_le hs ht hst))
-  · exact (hac _ hxS _ hyS (h.le_of_le_top (hSsub hxS) (hSsub hyS) (hc.1.le_of_le ht hs hts))).symm
-
-end TwoPiece
-
-end TwoPiece
 
 /-! ### Charts of the pieces, and the compactness of the diamonds of `P` -/
 
@@ -1302,30 +1118,6 @@ end CBG
 namespace Causality
 
 section Witness
-
-/-- **`TwoPiece` is satisfiable with a proper overlap**: the timelike line covered by `]-∞, 1[` and
-`]0, +∞[`, overlap `]0, 1[` (a local causality, absolutely minimal, kb/0014/0019). The mixed case
-of `isCompact_diamond_mixed` occurs (`-1 ≤ 2`, `-1 ∉ ]0,+∞[`, `2 ∉ ]-∞,1[`). -/
-theorem timelikeLine_twoPiece :
-    timelikeLine.TwoPiece ⟨Iio (1 : ℝ), isOpen_Iio⟩ ⟨Ioi (0 : ℝ), isOpen_Ioi⟩ ∧
-      timelikeLine.le ⊤ (-1) 2 ∧ (-1 : ℝ) ∉ Ioi (0 : ℝ) ∧ (2 : ℝ) ∉ Iio (1 : ℝ) := by
-  refine ⟨⟨fun z => ?_, timelikeLine_absolutelyMinimalOn ⊤, ?_, ?_, ?_⟩, ?_, by norm_num,
-    by norm_num⟩
-  · rcases lt_or_ge z 1 with h | h
-    · exact Or.inl h
-    · exact Or.inr (show (0 : ℝ) < z by linarith)
-  · rintro x y z (hx : (0 : ℝ) < x) - ⟨hxy, -⟩ -
-    exact show (0 : ℝ) < y by linarith
-  · rintro x y z - (hz : z < (1 : ℝ)) - ⟨hyz, -⟩
-    exact show y < (1 : ℝ) by linarith
-  · rintro x y (hx1 : x < (1 : ℝ)) (hx0 : (0 : ℝ) < x) (hy1 : y < (1 : ℝ)) (hy0 : (0 : ℝ) < y)
-    simp only [timelikeLine_le]
-    constructor
-    · rintro ⟨hxy, -⟩
-      exact ⟨hxy, fun w hw => show (0 : ℝ) < w by linarith [hw.1]⟩
-    · rintro ⟨hxy, -⟩
-      exact ⟨hxy, fun w hw => show w < (1 : ℝ) by linarith [hw.2]⟩
-  · exact ⟨by norm_num, fun _ _ => trivial⟩
 
 /-- **`CauchySide` is satisfiable**: the timelike line with the Cauchy surface `{0}`. -/
 theorem timelikeLine_cauchySide : CauchySide timelikeLine {(0 : ℝ)} := by
