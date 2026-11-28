@@ -1191,3 +1191,12 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: 9e3f854c cc7390fc 853a9dfa 943a6159 (+ statuses)
 - wall time: 04:33–09:00; agents in parallel: 3 closers, 4 auditors
 - next: T-bz-c3-cone-appui, T-bz-c3-propriete-i and the planned § 1–3 follow-ups now unblocked
+
+## 2026-11-28 10:20 · wave of 2 · T-bz-c3-cone-appui, T-bz-c3-propriete-i (lean-benzecri)
+- T-bz-c3-cone-appui: § 4, Déf. 1, 1″, 2 marked; Déf. 1′ imprecise (closed half-lines: holds iff W ⊄ {a, a′}); audit minor (« imprecise » wording, a misleading not_ name removed).
+- T-bz-c3-propriete-i: § 5, Déf. 1, 2, Prop. 5 marked; Prop. 1 imprecise (only exception U = V = {p}, non-disjoint); Prop. 6 refuted in Lean as printed (ℝ³, degenerate witnesses), true under U ∪ V convex; audit minor, « false as printed » upheld.
+- Both graduated to strict Benzecri/Chapter3/. Refutations kept out of the curated decls while /restate holds papers/benzecri (T-restate-held-curation). New OQ-162 (readings; OQ-161 had been taken by another loop; DECISIONS.md was held by /ett-programme for a few minutes).
+- gates: lean-benzecri ✓ (0 sorry in 53 strict files), roadmap ✓, atlas ✓, hub: no new red; restate: 0 new
+- commits: c3f76733 f9c51c00 484d0582 31bc63e7 (+ statuses)
+- wall time: 05:01–10:20; agents in parallel: 2 closers, 2 auditors
+- next: the planned Chapter 3 follow-ups whose dependencies are now done (planner to promote)
