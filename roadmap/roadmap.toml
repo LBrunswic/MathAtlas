@@ -1469,11 +1469,11 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s1d3_variete_appui", "bzprop:c3s1p5_appui_facette_dim_finie", "bzrem:c3s1r2_support_interieur_fermeture", "bzprop:c3s1p6_alpha_induit"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-facettes"]
-evidence = "ledger rows benzecri1960_ch3.tex:186–229. Déf. 3 (l.186): « Une variété linéaire S est dite variété d'appui de W si S ∩ W est non vide et saturé pour la relation d'équivalence F_W ». Prop. 5 (l.210): « Si W est un convexe dont le support E est de dimension finie, pour toute variété d'appui L à W il existe une facette F dont le support S est tel que S ∩ W = L ∩ W. » Prop. 6 (l.229) is printed « W′ = W ∩ L = ∅ », a certain [sic] for « ≠ ∅ » (NOTES.md table; not an OQ-160 reading). The Remark's 2° is printed « la fermeture compacte E de F » ([sic], read F̄). The commentary after Déf. 3 (the whole space and a facette's support are variétés d'appui) as lemmas. Builds on T-bz-c3-facettes. Instance: in the closed square [0,1]² the line y = 0 is a variété d'appui, the diagonal y = x is not."
+evidence = "ledger rows benzecri1960_ch3.tex:186–229. Déf. 3 (l.186): « Une variété linéaire S est dite variété d'appui de W si S ∩ W est non vide et saturé pour la relation d'équivalence F_W ». Prop. 5 (l.210): « Si W est un convexe dont le support E est de dimension finie, pour toute variété d'appui L à W il existe une facette F dont le support S est tel que S ∩ W = L ∩ W. » Prop. 6 (l.229) is printed « W′ = W ∩ L = ∅ », a certain [sic] for « ≠ ∅ » (NOTES.md table; not an OQ-160 reading). The Remark's 2° is printed « la fermeture compacte E de F » ([sic], read F̄). The commentary after Déf. 3 (the whole space and a facette's support are variétés d'appui) as lemmas. Builds on T-bz-c3-facettes. Instance: in the closed square [0,1]² the line y = 0 is a variété d'appui, the diagonal y = x is not. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Facettes (9e3f854c) and use its FW, facetteOf, IsFacette, alphaW_iff_mem_support, facetteLE_iff_support_le, support_eq_iff (« variété linéaire » = AffineSubspace ℝ E, « support » = affineSpan, as there). Prop. 6 is immediate from alphaW_iff_extend (A, B ∈ L force A + ε(A − B) ∈ L), so it needs only W ∩ L ≠ ∅ and convexity. Prop. 5's « point interne » in the finite-dimensional S is fw_iff_interieur_moduleTopology (Facettes' kb: moduleTopology on the direction, no topology on E). The Remark's 2° (W compact of finite dimension) needs a topology only on the finite-dimensional E: state it for a finite-dimensional real normed space (or moduleTopology). Nothing it needs is missing; it has no OQ-160 or OQ-162 reading. Unblocks T-bz-c3-propriete-i-appui and T-bz-c3-appui-sphere."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1484,26 +1484,41 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s1p1_facette_ouverte"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-facettes"]
-evidence = "ledger row bzprop:c3s1p1_facette_ouverte (benzecri1960_ch3.tex:141, proved in print from the Remark): « Soit F une facette d'un convexe W, et soit L la variété linéaire support de F; F est un ouvert de L, supposé muni de sa topologie localement convexe la plus fine. » The finest locally convex topology is not at the pin: Mathlib has continuousSMul_sInf (Topology/Algebra/MulAction.lean:317) and topologicalGroup_sInf, but no sInf lemma for LocallyConvexSpace; the closer builds it (and that a convex set is open in it iff algebraically open, which is the printed proof's reduction to finite-dimensional l). Separate from T-bz-c3-facettes so that the topology does not hold up the algebraic §§ 1–2. Instance: in ℝ² (finite dimension, the finest l.c. topology is the usual one) the open square is a facette of the closed square and is open."
+evidence = "ledger row bzprop:c3s1p1_facette_ouverte (benzecri1960_ch3.tex:141, proved in print from the Remark): « Soit F une facette d'un convexe W, et soit L la variété linéaire support de F; F est un ouvert de L, supposé muni de sa topologie localement convexe la plus fine. » The finest locally convex topology is not at the pin: Mathlib has continuousSMul_sInf (Topology/Algebra/MulAction.lean:317) and topologicalGroup_sInf, but no sInf lemma for LocallyConvexSpace; the closer builds it (and that a convex set is open in it iff algebraically open, which is the printed proof's reduction to finite-dimensional l). Separate from T-bz-c3-facettes so that the topology does not hold up the algebraic §§ 1–2. Instance: in ℝ² (finite dimension, the finest l.c. topology is the usual one) the open square is a facette of the closed square and is open. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: the pin still has no LocallyConvexSpace lemma for sInf/iInf (grep of Mathlib/Analysis/LocallyConvex, 2026-11-28), so the topology is built here, in a module of its own (e.g. Benzecri/Chapter3/TopologieFine.lean) that T-bz-c3-hyperplan-separant and the S(E) transfer of Prop. 1 import. The Remark is already proved both ways for any TVS topology (Benzecri.fw_of_interieur, interieur_of_fw, fw_iff_interieur) and in finite dimension (fw_iff_interieur_moduleTopology), so the printed proof reduces to two facts about the new topology: it induces on each finite-dimensional affine subspace its module topology, and a convex set is open iff it is algebraically open (open in every finite-dimensional subspace through each of its points). Instance of the new definition's hypotheses: the topology is a TVS, locally convex topology on any real vector space (Lean instances), equal to the usual one on ℝ², where the open square is a facette of [0,1]² and open."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
 [[target]]
 id = "T-bz-c3-facettes-sphere"
-title = "Chapter 3 § 1 (sphere): α(k) and k-facettes of a convex part k of S(E) (Déf. 4, with its direct form), the noyau (Déf. 5), supporting varieties of k (Déf. 6), and the p. 262 transfers of Props. 2–6 to S(E) as lemmas"
+title = "Chapter 3 § 1 (sphere): α(k) and k-facettes of a convex part k of S(E) (Déf. 4, with its direct form), the noyau (Déf. 5), and the p. 262 transfers of Props. 2–4 and the Corollary to S(E) as lemmas"
 stream = "benzecri"
 kind = "close"
 paper = "benzecri"
-labels = ["bzdef:c3s1d4_facettes_sphere", "bzdef:c3s1d5_noyau", "bzdef:c3s1d6_variete_appui_sphere"]
-status = "planned"
+labels = ["bzdef:c3s1d4_facettes_sphere", "bzdef:c3s1d5_noyau"]
+status = "ready"
 owner = "closer"
 priority = 7
-depends = ["T-bz-c3-facettes", "T-bz-c3-appui"]
-evidence = "ledger rows benzecri1960_ch3.tex:246–283. Déf. 4 (l.246): « Soit k une partie convexe de S(E); k′ = F(k) + {O} est un convexe de E; α(k′) … induit sur F(k) une relation de préordre compatible avec la projection sur k », and its direct form « a α(k) b s'il existe un segment (a′, b) ⊂ k tel que a ∈ )a′, b( ou si a et b sont identiques ou diamétralement opposés » (the two to be proved equivalent). Déf. 5 (l.264): the noyau, « ensemble de tous les points de S(E) qui appartiennent à k avec leur point diamétralement opposé », and « Un convexe strict est un convexe de noyau vide » (against Benzecri.Sphere.IsStrictConvexPart, Ch. 1 Déf. 9, the reading of « cf. § 1, déf. 9 » in OQ-160 (b)). Builds on Benzecri.Sphere.{F, ofCone, IsConvexPart, IsConvexPartMinkowski, linearSubvariety, closedSeg, openSeg} (Projective/Sphere, Subvariety, Convex). The transfers « Les propositions 2, 3, 4 et le corollaire sont valables pour les convexes de S(E) … Les propositions 5 et 6 sont également valables » (p. 262) have no row (OQ-160 (c)) and are proved as lemmas; Prop. 1's transfer waits on T-bz-c3-facette-ouverte. Instance: a closed arc of S(1) shorter than a half-circle has three facettes and empty noyau; a closed hemisphere of S(n) has noyau its boundary great sphere."
+depends = ["T-bz-c3-facettes"]
+evidence = "ledger rows benzecri1960_ch3.tex:246–283. Déf. 4 (l.246): « Soit k une partie convexe de S(E); k′ = F(k) + {O} est un convexe de E; α(k′) … induit sur F(k) une relation de préordre compatible avec la projection sur k », and its direct form « a α(k) b s'il existe un segment (a′, b) ⊂ k tel que a ∈ )a′, b( ou si a et b sont identiques ou diamétralement opposés » (the two to be proved equivalent). Déf. 5 (l.264): the noyau, « ensemble de tous les points de S(E) qui appartiennent à k avec leur point diamétralement opposé », and « Un convexe strict est un convexe de noyau vide » (against Benzecri.Sphere.IsStrictConvexPart, Ch. 1 Déf. 9, the reading of « cf. § 1, déf. 9 » in OQ-160 (b)). Builds on Benzecri.Sphere.{F, ofCone, IsConvexPart, IsConvexPartMinkowski, linearSubvariety, closedSeg, openSeg} (Projective/Sphere, Subvariety, Convex). The transfers « Les propositions 2, 3, 4 et le corollaire sont valables pour les convexes de S(E) … Les propositions 5 et 6 sont également valables » (p. 262) have no row (OQ-160 (c)); those of Props. 2–4 and the Corollary are proved here as lemmas, those of Props. 5–6 in T-bz-c3-appui-sphere; Prop. 1's transfer waits on T-bz-c3-facette-ouverte. Instance: a closed arc of S(1) shorter than a half-circle has three facettes and empty noyau; a closed hemisphere of S(n) has noyau its boundary great sphere. Split 2026-11-28 by the planner: Déf. 6 (variété d'appui for k, defined through Déf. 3) and the transfers of Props. 5, 6 moved to T-bz-c3-appui-sphere, so that Déf. 4–5, which use only § 1 Déf. 1–2, no longer wait on T-bz-c3-appui; every downstream use of this target (noyau in T-bz-c3-dualite-sn and -boole-projectif, α(k) in -cone-appui-alpha, k-facettes in -sature and -points-extremaux) is in Déf. 4–5. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Facettes (AlphaW, FW, facetteOf, the § 1 Props. 2–4 and Corollary, to be transferred through k′) and Benzecri.Projective.{Sphere, Convex, Subvariety}; k′ = F(k) + {O} is F k ∪ {0} (as in ConeAppui's F_coneAppui_union_zero). The instance can reuse Benzecri.ConeAppuiInstance.arcS1 and isConvexPart_arcS1 (strict Chapter3/ConeAppui: the closed quarter arc of S(1))."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bz-c3-appui-sphere"
+title = "Chapter 3 § 1 (sphere): supporting varieties of a convex part k of S(E) (Déf. 6), the noyau is one (a facette of dimension −1 when empty), and the p. 262 transfers of Props. 5 and 6 to S(E) as lemmas"
+stream = "benzecri"
+kind = "close"
+paper = "benzecri"
+labels = ["bzdef:c3s1d6_variete_appui_sphere"]
+status = "planned"
+owner = "closer"
+priority = 8
+depends = ["T-bz-c3-facettes-sphere", "T-bz-c3-appui"]
+evidence = "Split 2026-11-28 by the planner from T-bz-c3-facettes-sphere. Ledger row bzdef:c3s1d6_variete_appui_sphere (benzecri1960_ch3.tex:283): « Une variété linéaire l est dite variété d'appui pour k s'il existe un sous-espace vectoriel L de E, variété d'appui de F(k) + {O}, et l = F⁻¹(L − {O}). » followed by « En particulier, le noyau de k est une variété d'appui de k. Si ce noyau est vide, il constitue une variété d'appui, ou encore une facette, de k de dimension (−1). » and « Les propositions 5 et 6 sont également valables » (no row, OQ-160 (c): proved as lemmas). Needs § 1 Déf. 3 (T-bz-c3-appui) on k′ = F(k) ∪ {0} and the noyau (T-bz-c3-facettes-sphere). Instance: for the closed quarter arc of S(1) (Benzecri.ConeAppuiInstance.arcS1), the line ℝe₀ gives the variété d'appui {s e₀, s(−e₀)} (ℝe₀ ∩ k′ = {0} ∪ an open ray, a union of facettes of the quadrant cone) and the diagonal line does not. Theorem 1′ of § 5 (T-bz-c3-reunion-convexes-sphere) uses Déf. 6."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1530,11 +1545,11 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzprop:c3s2p2_alpha_somme"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-facettes", "T-bz-c3-sommes"]
-evidence = "ledger row bzprop:c3s2p2_alpha_somme (benzecri1960_ch3.tex:365, proved in print: « La démonstration est évidente à partir des définitions »): « on a x α(W) y (cf. déf. 1) si et seulement si l'on a pour tout i : x_i α(V_i) y_i. » « cf. déf. 1 » is read as § 1 Déf. 1 (OQ-160 (b)); the relation α is the only one the statement can mean, so the reading does not change the Lean. Instance: in [0,1]² = [0,1]×{0} + {0}×[0,1], the centre α a vertex, componentwise."
+evidence = "ledger row bzprop:c3s2p2_alpha_somme (benzecri1960_ch3.tex:365, proved in print: « La démonstration est évidente à partir des définitions »): « on a x α(W) y (cf. déf. 1) si et seulement si l'on a pour tout i : x_i α(V_i) y_i. » « cf. déf. 1 » is read as § 1 Déf. 1 (OQ-160 (b)); the relation α is the only one the statement can mean, so the reading does not change the Lean. Instance: in [0,1]² = [0,1]×{0} + {0}×[0,1], the centre α a vertex, componentwise. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Facettes (AlphaW, alphaW_iff_extend) and Benzecri.Chapter3.Sommes (cc7390fc: IsSommeConvexes over a Fintype index, composante, composante_spec, isSommeConvexes_iff_bijOn). The statement of record is Déf. 1's (finite I, IsSommeConvexes), which T-bz-c3-sommes marked; the arbitrary-I form under IsSommeInfinie is optional and rests on the reading of Remarque 2 taken there (row partial), so it must not be the anchor. The V_i are convex (α's transitivity uses it; a sum of convex sets is convex). Instance: Benzecri.exemple_carre_somme ([0,1]² = [0,1]×{0} + {0}×[0,1]) with the centre α a vertex, componentwise."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1545,11 +1560,11 @@ stream = "benzecri"
 kind = "close"
 paper = "benzecri"
 labels = ["bzdef:c3s2d2_fibre", "bzdef:c3s2d3_fibre_cylindriquement", "bzrem:c3s2r4_fibre_translate", "bzprop:c3s2p3_fibre_cylindriquement", "bzdef:c3s2d4_conjugues"]
-status = "planned"
+status = "ready"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-sommes"]
-evidence = "ledger rows benzecri1960_ch3.tex:383–415 (Prop. 3 proved in print, its proof printed after Déf. 4 and tagged). Déf. 3 (l.389): « Soit W un convexe de E, engendrant E, et contenant l'origine; on dit qu'un sous-espace L de E fibre W cylindriquement … s'il existe un sous-espace L′ de E, supplémentaire de L, et tel que W = L ∩ W + L′ ∩ W. » Prop. 3, 1° (l.401): « Si W ne contient aucune demi-droite, tout sous-espace L qui fibre W le fibre cylindriquement ». Mathlib: IsCompl for « supplémentaire ». Instance: in the cube [−1,1]³ every coordinate subspace is distinguished, with conjugate the complementary coordinate subspace; in the closed ball no subspace other than 0 and E is."
+evidence = "ledger rows benzecri1960_ch3.tex:383–415 (Prop. 3 proved in print, its proof printed after Déf. 4 and tagged). Déf. 3 (l.389): « Soit W un convexe de E, engendrant E, et contenant l'origine; on dit qu'un sous-espace L de E fibre W cylindriquement … s'il existe un sous-espace L′ de E, supplémentaire de L, et tel que W = L ∩ W + L′ ∩ W. » Prop. 3, 1° (l.401): « Si W ne contient aucune demi-droite, tout sous-espace L qui fibre W le fibre cylindriquement ». Mathlib: IsCompl for « supplémentaire ». Instance: in the cube [−1,1]³ every coordinate subspace is distinguished, with conjugate the complementary coordinate subspace; in the closed ball no subspace other than 0 and E is. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.Sommes (cc7390fc). Déf. 3's and Déf. 4's W = L ∩ W + L′ ∩ W is printed as a Minkowski sum; with IsCompl L L′ it is a sum in Déf. 1's sense (the map is injective on L × L′), and the bridge to IsSommeConvexes (via isSommeConvexes_iff_bijOn) is a lemma of this target, so that T-bz-c3-conjugues and T-bz-c3-boole-affine can use either. « engendrant E » is Submodule.span ℝ W = ⊤ (W contains O). « demi-droite » in Prop. 3 needs no reading: a convex set contains an open half-line iff it contains a closed one. No OQ-160 or OQ-162 reading. Instances: the cube [−1,1]³ (no half-line, every coordinate subspace distinguished, its conjugate the complementary one) and the closed ball (only 0 and E); also a strip ℝ × [0,1] (contains lines) for Prop. 3 2°'s hypothesis being used."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1640,7 +1655,7 @@ status = "planned"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-dualite", "T-bz-c3-facettes-sphere"]
-evidence = "ledger rows benzecri1960_ch3.tex:757–863, proved in print. Prop. 7 (l.768): « D transforme le noyau (resp. support) de W dans le support (resp. noyau) de D(W) et l'on a σ(W) + ν(D(W)) = n − 1, ν(W) + σ(D(W)) = n − 1. » Prop. 8 (l.783) is printed « Le dual d'un corps convexe de S(n) est un convexe. », flagged [sic?] because its proof gives « corps convexe » (OQ-160 (a), OPEN). Proceeds under the stronger reading, disclosed: prove D(W) is a corps convexe (Benzecri.IsCorpsConvexeS, Benzecri.isCorpsConvexeS_iff) and derive the printed « convexe » from it, so that either ruling marks with no Lean change (the T-bz-c2-prop2-literal precedent). Uses the noyau of T-bz-c3-facettes-sphere and Mathlib's Submodule.dualAnnihilator / finrank. Instance: dimension conventions at W = ∅ (σ = −1, D(∅) = S(n), ν = n) and at W a point."
+evidence = "ledger rows benzecri1960_ch3.tex:757–863, proved in print. Prop. 7 (l.768): « D transforme le noyau (resp. support) de W dans le support (resp. noyau) de D(W) et l'on a σ(W) + ν(D(W)) = n − 1, ν(W) + σ(D(W)) = n − 1. » Prop. 8 (l.783) is printed « Le dual d'un corps convexe de S(n) est un convexe. », flagged [sic?] because its proof gives « corps convexe » (OQ-160 (a), OPEN). Proceeds under the stronger reading, disclosed: prove D(W) is a corps convexe (Benzecri.IsCorpsConvexeS, Benzecri.isCorpsConvexeS_iff) and derive the printed « convexe » from it, so that either ruling marks with no Lean change (the T-bz-c2-prop2-literal precedent). Uses the noyau of T-bz-c3-facettes-sphere and Mathlib's Submodule.dualAnnihilator / finrank. Instance: dimension conventions at W = ∅ (σ = −1, D(∅) = S(n), ν = n) and at W a point. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: On S(n) the pairing is Benzecri.Sphere.dotPairing (strict Chapter3/Dualite, 853a9dfa), which meets (a)–(d) as a Lean term (hypD_dotPairing, identifiesDual_dotPairing) and gives D′ = D (D'_dotPairing) and D′∘D = closure (D'_D_eq_closure): these rows do not wait on OQ-160's reading of « mis en dualité » (Props. 1, 2 of § 3, partial), since every reading holds there; anchor on dotPairing, not on a general HypD B. Prop. 6 starts from Prop. 5 (D_linearSubvariety, orth). The noyau now comes from the narrowed T-bz-c3-facettes-sphere (Déf. 4–5 only)."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1655,7 +1670,7 @@ status = "planned"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-dualite-sn"]
-evidence = "ledger rows benzecri1960_ch3.tex:801–831 (Props. 9, 10 proved in print, the Corollary open). Prop. 10 (l.831): « A ⊂ B̊ entraîne D(B) ⊂ int D(A) et réciproquement. » Its printed proof has a [sic?] (p. 272, « D(B) ⊂ D({M}) » without the interior ring) and interchanges interior and an infinite intersection, which holds only with care for compact A (OQ-160 (a); NOTES.md): the statement is unaffected, the proof must not lean on that display. The Corollary uses Prop. 8 (hence T-bz-c3-dualite-sn). Mathlib: EuclideanGeometry angle / Metric balls on the unit sphere via Benzecri.Sphere.homeomorphUnitSphere. Instance: A a closed spherical cap of radius π/4 about M."
+evidence = "ledger rows benzecri1960_ch3.tex:801–831 (Props. 9, 10 proved in print, the Corollary open). Prop. 10 (l.831): « A ⊂ B̊ entraîne D(B) ⊂ int D(A) et réciproquement. » Its printed proof has a [sic?] (p. 272, « D(B) ⊂ D({M}) » without the interior ring) and interchanges interior and an infinite intersection, which holds only with care for compact A (OQ-160 (a); NOTES.md): the statement is unaffected, the proof must not lean on that display. The Corollary uses Prop. 8 (hence T-bz-c3-dualite-sn). Mathlib: EuclideanGeometry angle / Metric balls on the unit sphere via Benzecri.Sphere.homeomorphUnitSphere. Instance: A a closed spherical cap of radius π/4 about M. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: On S(n) the pairing is Benzecri.Sphere.dotPairing (strict Chapter3/Dualite, 853a9dfa), which meets (a)–(d) as a Lean term (hypD_dotPairing, identifiesDual_dotPairing) and gives D′ = D (D'_dotPairing) and D′∘D = closure (D'_D_eq_closure): these rows do not wait on OQ-160's reading of « mis en dualité » (Props. 1, 2 of § 3, partial), since every reading holds there; anchor on dotPairing, not on a general HypD B."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1701,7 +1716,7 @@ status = "planned"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-cone-appui", "T-bz-c3-facettes-sphere", "T-bz-c3-dualite"]
-evidence = "ledger rows benzecri1960_ch3.tex:907–986, the three propositions proved in print. Prop. 1's proof cites « la définition de α(W) (cf. § 2 déf. 3) », a misprinted reference kept on the printed target (OQ-160 (b)); the statement uses α of § 1 Déf. 4 whatever the ruling, so the ledger edge to c3s2d3, not the Lean, is what OQ-160 (b) moves. Prop. 3 (l.986): « Soit a un point de S(n); W ∈ K(S(n)); alors D(W_a) = {m | m ∈ D(W), ⟨m, a⟩ = 0}. » Instance: W the closed quarter-circle of S(1), a an endpoint."
+evidence = "ledger rows benzecri1960_ch3.tex:907–986, the three propositions proved in print. Prop. 1's proof cites « la définition de α(W) (cf. § 2 déf. 3) », a misprinted reference kept on the printed target (OQ-160 (b)); the statement uses α of § 1 Déf. 4 whatever the ruling, so the ledger edge to c3s2d3, not the Lean, is what OQ-160 (b) moves. Prop. 3 (l.986): « Soit a un point de S(n); W ∈ K(S(n)); alors D(W_a) = {m | m ∈ D(W), ⟨m, a⟩ = 0}. » Instance: W the closed quarter-circle of S(1), a an endpoint. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.ConeAppui (c3f76733) and Dualite. Prop. 1's (2)⇔(3) goes through Déf. 1′, which T-bz-c3-cone-appui found imprecise (closed half-lines: holds iff W ⊄ {a, a′}, OQ-162 (a)); in the case b ≠ a, a′ of (1)–(4), b ∈ W forces W ⊄ {a, a′}, so the closed-half-line form holds there (coneAppui_eq_demiDroitesFermeesW_iff) and Prop. 1 does not wait on OQ-162 (a); the exception-free form is coneAppui_eq_insert_demiDroitesW. (3)⇔(4) through Déf. 1 (isLeast_coneAppui, coneAppui_eq_ofCone). Prop. 2 assumes only hypothesis (a) of § 3 (a bilinear form, printed « cf. § 3, a) »): state it for any B with D B, no HypD. Prop. 3 and Déf. 3 on S(n) with dotPairing. α(k) of § 1 Déf. 4 comes from T-bz-c3-facettes-sphere."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1777,7 +1792,7 @@ status = "planned"
 owner = "closer"
 priority = 7
 depends = ["T-bz-c3-propriete-i", "T-bz-c3-appui"]
-evidence = "ledger rows benzecri1960_ch3.tex:1183–1217 (Props. 2, 3 proved in print, Prop. 4 open). Prop. 4 (l.1217): « il est équivalent de dire que V possède la propriété I relativement à W, ou de dire que le support L de V est une variété d'appui de W et que V possède la propriété I relativement à L ∩ W. » Uses Déf. 3 (variété d'appui) and α from T-bz-c3-facettes / T-bz-c3-appui. Instance: an edge of the closed square."
+evidence = "ledger rows benzecri1960_ch3.tex:1183–1217 (Props. 2, 3 proved in print, Prop. 4 open). Prop. 4 (l.1217): « il est équivalent de dire que V possède la propriété I relativement à W, ou de dire que le support L de V est une variété d'appui de W et que V possède la propriété I relativement à L ∩ W. » Uses Déf. 3 (variété d'appui) and α from T-bz-c3-facettes / T-bz-c3-appui. Instance: an edge of the closed square. Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: import Benzecri.Chapter3.ProprieteI (f9c51c00: ProprieteI, prop1_supports) and the Déf. 3 of T-bz-c3-appui. § 5 Prop. 1's precise form is imprecise as printed (OQ-162 (b)); if Props. 2–4 lean on it, use prop1_supports or prop1_precis_of_disjoint (V and W − V are disjoint), never the printed precise form. Instance: proprieteI_segment_carre (an edge of [0,1]²) is already a Lean term."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1792,7 +1807,7 @@ status = "planned"
 owner = "closer"
 priority = 8
 depends = ["T-bz-c3-propriete-i", "T-bz-c3-facette-ouverte"]
-evidence = "ledger row bzprop:c3s5p7_hyperplan_separant (benzecri1960_ch3.tex:1258, proved in print from Prop. 5 and the contact set, Déf. 2, Prop. 6): « Soient V, W deux convexes non vides de même support L, qu'on suppose muni de la topologie localement convexe la plus fine; supposons V fermé, V ≠ W, I(V, W). Il existe alors un hyperplan et un seul séparant V de W − V = U. » Needs the finest l.c. topology of T-bz-c3-facette-ouverte. Its proof's « C n'appartient donc pas » is read B ([sic?], OQ-160 (a)); the statement is unaffected. Instance: V = [0,1]×[0,1/2], W = [0,1]² (the line y = 1/2)."
+evidence = "ledger row bzprop:c3s5p7_hyperplan_separant (benzecri1960_ch3.tex:1258, proved in print from Prop. 5 and the contact set, Déf. 2, Prop. 6): « Soient V, W deux convexes non vides de même support L, qu'on suppose muni de la topologie localement convexe la plus fine; supposons V fermé, V ≠ W, I(V, W). Il existe alors un hyperplan et un seul séparant V de W − V = U. » Needs the finest l.c. topology of T-bz-c3-facette-ouverte. Its proof's « C n'appartient donc pas » is read B ([sic?], OQ-160 (a)); the statement is unaffected. Instance: V = [0,1]×[0,1/2], W = [0,1]² (the line y = 1/2). Re-checked 2026-11-28 (planner) against the strict Chapter3 modules built since the cut: the printed Prop. 6 is false (T-bz-c3-propriete-i, OQ-162 (c)), but Prop. 7's proof uses it only for V and W − V, « dont la réunion est convexe » (l.1281): use convex_ensembleContact_of_convex_union (or its « entre » twin), so Prop. 7 does not wait on OQ-162. Import Benzecri.Chapter3.ProprieteI (ProprieteI, ensembleContact, prop5_support_complementaire / prop5_topologique for Prop. 5, FermeLineaire and fermeLineaire_of_isClosed for « V fermé ») and the finest l.c. topology of T-bz-c3-facette-ouverte; the finite-dimensional step's interiors via fw_iff_interieur_moduleTopology (Facettes)."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 
@@ -1813,16 +1828,31 @@ proposed_by = "roadmap-planner"
 
 [[target]]
 id = "T-bz-c3-reunion-convexes"
-title = "Chapter 3 § 5, Theorems 1 and 1′: for V ⊂ W compact convex in finite dimension (resp. W a convex body of S(n)), I ⇔ II ⇔ III (III: supp V is a supporting variety L and V is the section of W by a half-space, resp. a hemisphere, of L)"
+title = "Chapter 3 § 5, Theorem 1: for V ⊂ W compact convex in finite dimension, I ⇔ II ⇔ III (III: supp V is a supporting variety L and V is the section of W by a half-space of L)"
 stream = "benzecri"
 kind = "close"
 paper = "benzecri"
-labels = ["bzthm:c3s5t1_reunion_convexes_affine", "bzthm:c3s5t1prime_reunion_convexes_sphere"]
+labels = ["bzthm:c3s5t1_reunion_convexes_affine"]
 status = "planned"
 owner = "closer"
 priority = 9
-depends = ["T-bz-c3-proprietes-i-ii", "T-bz-c3-hyperplan-separant", "T-bz-c3-facettes-sphere"]
-evidence = "ledger rows bzthm:c3s5t1_reunion_convexes_affine (l.1381, open: only the lead-in « Des propositions 7, 8 et 4 résulte le », OQ-160 (c)) and bzthm:c3s5t1prime_reunion_convexes_sphere (l.1399, proved in print as « un corollaire du théorème 1 »; printed « THÉORÈME 1 », labelled 1′, OQ-160 (d)). Theorem 1, III (l.1389): « le support de V est une variété d'appui L de W, et V est l'intersection de W avec un demi-espace H de L (éventuellement, H ∩ W peut être égal à L ∩ W). » Builds on Benzecri.IsCorpsConvexeS and Sphere.closedHemisphere for 1′. Instance: a closed half of the closed disc (I, II, III all hold)."
+depends = ["T-bz-c3-proprietes-i-ii", "T-bz-c3-hyperplan-separant"]
+evidence = "ledger rows bzthm:c3s5t1_reunion_convexes_affine (l.1381, open: only the lead-in « Des propositions 7, 8 et 4 résulte le », OQ-160 (c)) and bzthm:c3s5t1prime_reunion_convexes_sphere (l.1399, proved in print as « un corollaire du théorème 1 »; printed « THÉORÈME 1 », labelled 1′, OQ-160 (d)). Theorem 1, III (l.1389): « le support de V est une variété d'appui L de W, et V est l'intersection de W avec un demi-espace H de L (éventuellement, H ∩ W peut être égal à L ∩ W). » Builds on Benzecri.IsCorpsConvexeS and Sphere.closedHemisphere for 1′. Instance: a closed half of the closed disc (I, II, III all hold). Split 2026-11-28 by the planner: Theorem 1′ (S(n)) moved to T-bz-c3-reunion-convexes-sphere, whose proof also needs § 3's Corollary to Prop. 9 and § 1 Déf. 6; Theorem 1 is affine and needs neither. Prop. 7 enters through the U ∪ V-convex form of Prop. 6 (see T-bz-c3-hyperplan-separant), not the printed one."
+added = "2026-11-28"
+proposed_by = "roadmap-planner"
+
+[[target]]
+id = "T-bz-c3-reunion-convexes-sphere"
+title = "Chapter 3 § 5, Theorem 1′: for W a convex body of S(n) and V ⊂ W compact convex non-empty, I′ ⇔ II′ ⇔ III′ (hemispheres for half-spaces), as a corollary of Theorem 1 in an open hemisphere containing W"
+stream = "benzecri"
+kind = "close"
+paper = "benzecri"
+labels = ["bzthm:c3s5t1prime_reunion_convexes_sphere"]
+status = "planned"
+owner = "closer"
+priority = 9
+depends = ["T-bz-c3-reunion-convexes", "T-bz-c3-appui-sphere", "T-bz-c3-dualite-interieur"]
+evidence = "Split 2026-11-28 by the planner from T-bz-c3-reunion-convexes. Ledger row bzthm:c3s5t1prime_reunion_convexes_sphere (benzecri1960_ch3.tex:1399, printed « THÉORÈME 1 », labelled 1′, OQ-160 (d)); III′: « le support de V est une variété d'appui L de W, et V est l'intersection de W avec un hémisphère H de L » (§ 1 Déf. 6, T-bz-c3-appui-sphere). Its printed proof: « le corps convexe W appartient à un hémisphère ouvert de S(n) muni canoniquement d'une structure d'espace affine à n dimensions. Dans cet espace, le théorème 1′ est un corollaire du théorème 1 » — the first clause is § 3's Corollary to Prop. 9 (bzcor:c3s3p9c_corps_convexe_hemisphere, T-bz-c3-dualite-interieur), the affine chart is Benzecri.Sphere's open-hemisphere chart (Ch. 1–2 Lean). Builds on Benzecri.IsCorpsConvexeS and Sphere.closedHemisphere / openHemisphere. Instance: a closed half of a closed spherical cap of S(2) (I′, II′, III′ all hold) and a vertex of the closed triangle of S(2)."
 added = "2026-11-28"
 proposed_by = "roadmap-planner"
 

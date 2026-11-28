@@ -1200,3 +1200,8 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - commits: c3f76733 f9c51c00 484d0582 31bc63e7 (+ statuses)
 - wall time: 05:01–10:20; agents in parallel: 2 closers, 2 auditors
 - next: the planned Chapter 3 follow-ups whose dependencies are now done (planner to promote)
+
+## 2026-11-28 10:50 · plan · roadmap-planner (rule 2)
+- Chapter 3 follow-ups re-checked against the five strict modules: five promoted to ready (T-bz-c3-appui, -facettes-sphere (narrowed), -alpha-somme, -fibres, -facette-ouverte), two split (T-bz-c3-appui-sphere, T-bz-c3-reunion-convexes-sphere, planned), seven planned targets' evidence tightened (dualite-sn/-interieur anchor on dotPairing, so they need not wait on OQ-160; hyperplan-separant goes through the U ∪ V convex form, not the printed Prop. 6; propriete-i-appui must not use Prop. 1's printed precise form). Ch. 4–dependent targets unchanged. No new question.
+- gates: roadmap ✓ (314 targets), atlas ✓
+- next: T-bz-c3-appui, -facettes-sphere, -fibres (lean-benzecri)
