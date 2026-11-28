@@ -1,0 +1,86 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-reunion-convexes-sphere",
+  "files": [
+    "scaffold/BenzecriScaffold/Chapter3/ReunionConvexesSphere.lean",
+    "scaffold/BenzecriScaffold.lean (one import line appended)"
+  ],
+  "builds": true,
+  "sorry_count": 0,
+  "axioms": "propext, Classical.choice, Quot.sound only (#print axioms of reunion_convexes_sphere, reunion_convexes_sphere_of_isCompact, proprieteIIS_iff_systemeFondamental and every instance); the file compiles with no warning (strict-ready)",
+  "labels": [
+    {
+      "label": "bzthm:c3s5t1prime_reunion_convexes_sphere",
+      "tex_lines": [1399, 1418],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.reunion_convexes_sphere",
+        "Benzecri.reunion_convexes_sphere_of_isCompact",
+        "Benzecri.Sphere.ProprieteIS",
+        "Benzecri.Sphere.ProprieteIIS",
+        "Benzecri.Sphere.ProprieteIIIS",
+        "Benzecri.Sphere.DemiSphereFermeeDe",
+        "Benzecri.Sphere.DemiSphereDe",
+        "Benzecri.Sphere.ProprieteIIISlarge",
+        "Benzecri.Sphere.ProprieteIIISouvert",
+        "Benzecri.Sphere.proprieteIIIS_of_proprieteIS",
+        "Benzecri.Sphere.proprieteIS_of_proprieteIIISlarge",
+        "Benzecri.Sphere.proprieteIS_of_proprieteIIIS",
+        "Benzecri.Sphere.proprieteIS_iff_proprieteIIIS",
+        "Benzecri.Sphere.proprieteIIS_iff_systemeFondamental",
+        "Benzecri.Sphere.proprieteI_coneSection_iff",
+        "Benzecri.Sphere.proprieteII_coneSection_iff",
+        "Benzecri.Sphere.proprieteI_kPrime_iff",
+        "Benzecri.ReunionSphereInstance.demiTriangle_sans_hemisphereOuvert",
+        "Benzecri.ReunionSphereInstance.demiTriangle_proprietes",
+        "Benzecri.ReunionSphereInstance.vertex_proprietes"
+      ],
+      "hypotheses": [
+        {"paper": "W un corps convexe de S(n)", "here": "carried (IsCorpsConvexeS n W); weakened in reunion_convexes_sphere_of_isCompact", "note": "only IsStrictConvexPart W and IsCompact W are used; the nonempty interior is never used"},
+        {"paper": "V une partie compacte convexe non vide de W", "here": "carried", "note": "IsCompact V, IsConvexPart V, V.Nonempty, V ⊆ W"},
+        {"paper": "I'(V, W) : W − V est convexe", "here": "carried", "note": "ProprieteIS V W := V ⊆ W ∧ IsConvexPart V ∧ IsConvexPart (W \\ V), as the strict affine ProprieteI; the first two conjuncts are hypotheses of the theorem"},
+        {"paper": "II'(V, W) : hémisphères ouverts ... système fondamental de voisinages", "here": "carried", "note": "ProprieteIIS (every open O ⊇ V of S(E) has an open hemisphere H ⊇ V of a non-zero continuous form with H ∩ W ⊆ O), proved equivalent to the printed 'système fondamental' form: proprieteIIS_iff_systemeFondamental"},
+        {"paper": "III'(V, W) : le support de V est une variété d'appui L de W, V = W ∩ H, H un hémisphère de L", "here": "reading", "note": "support = supportK V, variété d'appui = IsVarieteAppuiK (Déf. 6), H = L ∩ closedHemisphere l with l not identically zero on F(L) (DemiSphereFermeeDe); no 'éventuellement H = L' case is needed"}
+      ],
+      "sorries": [],
+      "findings": [
+        "benzecri1960_ch3.tex:1399-1411 (Th. 1′): true as printed, in every dimension n ≥ 0, when « un hémisphère H de L » (l.1410) is a CLOSED hemisphere of L; the parenthesis « éventuellement H ∩ W = L ∩ W » that the affine III carries (l.1390-1391) is rightly absent: W ∩ L lies in the genuine closed hemisphere ℓ ≥ 0 of L (ℓ > 0 on F(W)), so V = W ∩ L is reached by a genuine hemisphere (the planner's conjecture (a) is proved). Under the reading OPEN hemisphere, I′ ⇒ III′ is false: the closed half x₁ ≤ x₀ of the closed triangle of S(2) has I′ but is W ∩ L ∩ H for no open hemisphere H (Benzecri.ReunionSphereInstance.demiTriangle_sans_hemisphereOuvert). III′ ⇒ I′ holds in every reading (Benzecri.Sphere.proprieteIS_of_proprieteIIISlarge).",
+        "benzecri1960_ch3.tex:1399: unlike the affine Theorem 1 (strict reunion_convexes_dimZero, false for E = 0), Theorem 1′ holds for n = 0 as well: the affine chart of the proof is used here as the section ℓ = 1 inside ℝⁿ⁺¹ ≠ 0, and S(0) has open hemispheres.",
+        "benzecri1960_ch3.tex:1399: « corps convexe » is more than the proof uses: Theorem 1′ holds for W any compact strict convex part of S(n) (Benzecri.reunion_convexes_sphere_of_isCompact), the nonempty interior being unused (also by the strict IsCorpsConvexeS.exists_forall_pos, whose proof is reused here).",
+        "benzecri1960_ch3.tex:1414-1418 (proof): the transfer « dans cet espace, le théorème 1′ est un corollaire du théorème 1 » is not immediate: convexity, compactness, set difference, open hemispheres ↔ open half-spaces and the variétés d'appui must each be transported through the chart; formalized here (isConvexPart_iff_convex_coneSection, coneSection_sdiff, isCompact_coneSection, proprieteII_coneSection_iff, affineSpan_kPrime, proprieteI_kPrime_iff). The III′ part is transported through the cone F(·) ∪ {O} rather than the chart.",
+        "The transcription of Th. 1′ (l.1399-1411) was compared with the page image (PDF p. 53, journal p. 280): it matches."
+      ],
+      "questions": [
+        "« un hémisphère H de L » (l.1410): open or closed? Reading taken: a closed hemisphere L ∩ closedHemisphere l, l not identically zero on F(L) (the planner's reading (a)). Under it the label is proved in full; under the open reading it is false (demiTriangle_sans_hemisphereOuvert). The label is left unmarked until the author rules; if the closed reading is ruled, the mark needs no code change.",
+        "II′ (l.1405-1407): read as the strict ProprieteII is (OQ-165 reading): for every open O ⊇ V an open hemisphere H ⊇ V with H ∩ W ⊆ O; proved equivalent to the printed 'système fondamental de voisinages' (proprieteIIS_iff_systemeFondamental), so this reading is not load-bearing.",
+        "« hémisphère ouvert » (l.1405): read as openHemisphere of a non-zero (continuous, automatic on S(n)) form, DEC-114."
+      ]
+    }
+  ],
+  "instances": [
+    "Benzecri.ReunionSphereInstance.demiTriangle_proprietes: the closed half x₁ ≤ x₀ of the closed triangle simplexS 2 of S(2) has I′, II′ and III′ (the roadmap asked for a half spherical cap; the half triangle plays the same role and reuses the strict isCorpsConvexeS_simplexS)",
+    "Benzecri.ReunionSphereInstance.vertex_proprietes: the vertex s(e₀) of the closed triangle has I′, II′ and III′",
+    "Benzecri.ReunionSphereInstance.demiSphereFermeeDe_univ (DemiSphereFermeeDe), demiSphereDe_univ (DemiSphereDe), demiTriangle_proprieteIIISlarge (ProprieteIIISlarge), simplexS_proprieteIIISouvert (ProprieteIIISouvert: V = W = the triangle, cut out by the open hemisphere ∑ xᵢ > 0), demiTriangle_proprieteIS (ProprieteIS)"
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.F_sdiff",
+    "Benzecri.Sphere.kPrime_sdiff_kPrime",
+    "Benzecri.Sphere.affineSpan_kPrime",
+    "Benzecri.Sphere.isClosed_kPrime",
+    "Benzecri.Sphere.coneSection_mono",
+    "Benzecri.Sphere.coneSection_sdiff",
+    "Benzecri.Sphere.exists_mem_coneSection",
+    "Benzecri.Sphere.isConvexPart_iff_convex_coneSection",
+    "Benzecri.Sphere.exists_forall_pos_of_isCompact",
+    "Benzecri.Sphere.exists_mul_norm_le_of_isCompact",
+    "Benzecri.Sphere.isCompact_coneSection",
+    "Benzecri.ReunionSphereInstance.isClosed_ofCone_of_isClosed"
+  ],
+  "kb_proposals": [
+    "Chapter3/ReunionConvexesSphere: to transfer an affine § 5 statement to S(n), use the section coneSection W ℓ (ℓ > 0 on F W) for anything topological (compactness, II) and the cone kPrime for anything about supports and variétés d'appui (affineSpan_kPrime: affineSpan (kPrime V) = (span F V).toAffineSubspace; proprieteI_kPrime_iff); isConvexPart_iff_convex_coneSection is the convexity bridge.",
+    "exists_forall_pos_of_isCompact / exists_mul_norm_le_of_isCompact: the strict IsCorpsConvexeS lemmas hold for any compact strict convex part (resp. nonempty compact part); the interior is never used.",
+    "A half-space L ∩ {f ≤ c} of a vector subspace meeting a convex cone in a cone is L ∩ {f ≤ 0}: closed half-spaces of the cone picture become closed hemispheres (proof of proprieteIIIS_of_proprieteIS)."
+  ],
+  "notes": "One new file plus one import line appended to scaffold/BenzecriScaffold.lean (after the FacetteConique line of the parallel closer). Imports the strict Chapter3/ReunionConvexes, AppuiSphere, PointsExtremaux, BooleProjectif; Mathlib only underneath. lake build BenzecriScaffold.Chapter3.ReunionConvexesSphere: success, rebuilt nothing upstream. The label is left unmarked only for the open/closed reading of « hémisphère H de L »; everything else is proved without sorry or added hypothesis."
+}

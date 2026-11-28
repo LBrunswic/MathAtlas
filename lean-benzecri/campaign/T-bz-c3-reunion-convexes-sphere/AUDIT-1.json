@@ -1,0 +1,33 @@
+{
+  "target": "T-bz-c3-reunion-convexes-sphere",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "bzthm:c3s5t1prime_reunion_convexes_sphere",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "reunion_convexes_sphere : IsCorpsConvexeS n W -> IsCompact V -> IsConvexPart V -> V.Nonempty -> V ⊆ W -> TFAE [I′, II′, III′], every n. These are exactly the paper's hypotheses (IsCorpsConvexeS = strict convex part, compact, nonempty interior; Projective/Convex.lean:542), and reunion_convexes_sphere_of_isCompact drops the interior, so Lean ≥ paper. I′ = ProprieteIS (V ⊆ W, V and W\\V convex parts; the first two are hypotheses anyway). II′ = ProprieteIIS (every open O ⊇ V has an open hemisphere H of a non-zero continuous form, V ⊆ H, H ∩ W ⊆ O). proprieteIIS_iff_systemeFondamental shows this is equivalent, for V ⊆ W, to the printed form: the traces on the subspace W of the open hemispheres containing V are neighbourhoods of V in W, and every neighbourhood of V in W contains one of them. That is the printed « système fondamental de voisinages de V considéré comme partie de W ». Restricting to StrongDual costs nothing on ℝⁿ⁺¹ (DEC-114). III′ = ProprieteIIIS: IsVarieteAppuiK W (supportK V) (support = projectivised span F(V), Déf. 6) and V = W ∩ (L ∩ closedHemisphere l) with l not identically zero on F(L). This is the strongest closed reading: it excludes H = L, and since III′ ⇒ I′ is proved for ProprieteIIISlarge (open or closed, l = 0 allowed), the TFAE also holds under the closed-or-L reading. Only the open-hemisphere reading fails, and demiTriangle_sans_hemisphereOuvert shows it does. Leaving the label unmarked is allowed (the docstring has it in backticks without **, and SCOPE discloses the reading). On question 2, my judgment is that the text forces the closed reading (see the minor finding), so the label could be marked with no code change."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "details": "`taskset -c 0-11 lake env lean scaffold/BenzecriScaffold/Chapter3/ReunionConvexesSphere.lean` (from lean-benzecri/): exit 0, no output, no warning. The olean (09:31:05) is newer than the source (09:30:48). The only `sorry` in the file is the word in the SCOPE prose (l.77). #print axioms gives [propext, Classical.choice, Quot.sound] for reunion_convexes_sphere, reunion_convexes_sphere_of_isCompact, proprieteIIS_iff_systemeFondamental, proprieteIIIS_of_proprieteIS, proprieteIS_of_proprieteIIISlarge, demiTriangle_sans_hemisphereOuvert, demiTriangle_proprietes, vertex_proprietes, demiSphereFermeeDe_univ, demiSphereDe_univ, demiTriangle_proprieteIIISlarge, simplexS_proprieteIIISouvert and demiTriangle_proprieteIS. The probe file was written under the campaign directory and deleted. No lake build was run, as the dispatch required."
+  },
+  "checks": {
+    "counterexample": "demiTriangle_sans_hemisphereOuvert is correct. W = simplexS 2 is a convex body (isCorpsConvexeS_simplexS). V = the half x₁ ≤ x₀ is compact, convex and non-empty, and V ⊆ W. It has I′ (W \\ V = {x ≥ 0, x₀ < x₁}, a convex cone). In the open reading, s(1,1,0) ∈ V gives l(1,1,0) > 0. Then s(1,1+t,0), for small t > 0, lies in W, in L = supportK V (it is (1+t)(1,1,0) − t(1,0,0)), and in the open hemisphere of l, but not in V. The hypotheses hold and the conclusion is the negation of the open-reading III′. The name is positive and the docstring says « under the reading », so no not_ name is claimed. That is right: the printed statement is not refuted.",
+    "instances": "Every new definition has a concrete Lean term. ProprieteIS: demiTriangle_proprieteIS, vertex_proprieteIS. ProprieteIIS and ProprieteIIIS: demiTriangle_proprietes, vertex_proprietes (II′ and III′ obtained through the theorem from a directly proved I′, which is legitimate). DemiSphereFermeeDe: demiSphereFermeeDe_univ (l = x₀ − x₁, non-zero at e₀). DemiSphereDe: demiSphereDe_univ. ProprieteIIISlarge: demiTriangle_proprieteIIISlarge. ProprieteIIISouvert: simplexS_proprieteIIISouvert (V = W = triangle, cut out by the open hemisphere ∑xᵢ > 0, with an explicit witness that l is non-zero on F(L)). None is vacuous: the vertex and the half-triangle are proper parts with V ≠ W.",
+    "scope": "In lean-benzecri the only changes are the untracked scaffold/BenzecriScaffold/Chapter3/ReunionConvexesSphere.lean, one import line appended to scaffold/BenzecriScaffold.lean (the FacetteConique line above it belongs to the parallel closer), and the campaign directory. BalayableSomme.lean and FacetteConique.lean are owned by other closers and this target does not touch them. The other modified paths in the tree (lean-causal/**, papers/*/certificate/restate*, roadmap/programme toml) belong to other loops, not to this target.",
+    "docstring": "The kb 0006 contract is met. The title, the label line with tex line 1399 within the first 4000 characters, the verbatim > quote (checked against tex l.1399-1418), the Hypothesis checklist (✓ carried, ⚠ weakened for _of_isCompact), SCOPE and Provenance are all present. The checklist and SCOPE match the code."
+  },
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "ReunionConvexesSphere.lean:77-83; REPORT.json questions[0]; benzecri1960_ch3.tex:1409",
+      "what": "The open/closed question for « un hémisphère H de L » is disclosed correctly, but in my reading the text does not leave the open reading live. (i) V is compact, and III′ says V = W ∩ H. With H open in L, V would be open in W ∩ L, which is connected (convex in an open hemisphere). So III′ would force V = W ∩ L, and I′ ⇒ III′ would fail for every proper V, including the vertex (vertex_proprietes), which is the case § 5 is built for. The open reading would make the theorem false almost everywhere, not just at the edge. (ii) Where the paper writes an unqualified « hémisphère » in the duality context (ch3 l.876, after Prop. 3 l.715-719 identifies points of S(E′) with closed hemispheres), it means closed. (iii) The affine twin (l.1390-1391) qualifies its half-space with « éventuellement H ∩ W = L ∩ W », which only makes sense for closed half-spaces. The unmarked label is not an error: the dispatch requires marking only what holds under every live reading. But no OQ row records this question yet; it is only in the REPORT.",
+      "fix": "Either mark ``**`bzthm:c3s5t1prime_reunion_convexes_sphere`**`` (no code change: the closed reading is proved, and the closed-or-L reading follows from proprieteIS_of_proprieteIIISlarge), or record the question as an OQ row next to OQ-166 (a), which asks the same thing of the affine III, so the target does not wait on a question nobody is asked."
+    }
+  ]
+}
