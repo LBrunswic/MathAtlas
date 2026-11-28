@@ -1298,3 +1298,14 @@ One entry per iteration, appended by the loop (`.claude/skills/atlas-team/SKILL.
 - no other benzecri label without Lean is targetable: the rest wait on Chapter 4/5 or on rulings
 - gates: roadmap ✓
 - next: three of the four ready (lean-benzecri)
+
+## 2026-11-28 09:46 · wave of 3 · T-bz-c3-facette-conique, T-bz-c3-reunion-convexes-sphere, T-bz-c3-balayable-somme
+- T-bz-c3-facette-conique: § 4 Déf. 5 closed and marked; Prop. 10 proved for support ≠ S(n) (imprecise at the interior facette), Déf. 6 on its printed bracket (the cross-reference to § 2's sum holds only for degenerate splittings), both unmarked on OQ-169; audit minor (round 1 fixed)
+- T-bz-c3-reunion-convexes-sphere: § 5 Th. 1′ proved in full under the closed hemisphere, every n; false under the open reading; unmarked on OQ-170 (the audit argues closed is forced, so the author can mark without code); audit minor
+- T-bz-c3-balayable-somme: § 2 Prop. 4 refuted as printed (the open quarter, OQ-168's defect); corrected form proved in w's coordinates; the Chapter 1 form prop4_produit split into scaffold BalayableSommeProduit.lean on one tagged sorry; unmarked on OQ-171; audit minor (round 1 fixed)
+- refutation not_prop4_simplesS_finite kept out of the curated decls, waiting on T-restate-held-curation like the four of the previous wave
+- 5 labels curated (1 marked, 4 partial); OQ-169, OQ-170, OQ-171; kb 0141–0150
+- gates: lean-benzecri ✓ (77 strict files, 0 sorry; scaffold 1 tagged), roadmap ✓, atlas ✓, hub: no new red
+- commits: fe859ba7 7bab2d58 6f6d0590 71977869
+- wall time: 09:16–09:50; agents in parallel: 3
+- next: T-bz-c3-raccordement alone ready → the planner (T-bz-c3-balayable-somme-prop5 and -somme-facettes-coniques now have their dependencies done)
