@@ -1158,3 +1158,21 @@ One entry per iteration, appended by the loop (`.claude/skills/ett-programme/SKI
 - gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: its in-flight lean-benzecri scaffold makes papers/benzecri's ledger stale, as at 07:07. Not this loop's; not reverted.
 - commits: 4a78ce34 b4d1d683 2780b0ed (ledgers, the Lean sha only; restate detect 0)
 - next: T-abs-sc-open-hoist (closer, exclusive; wave 55)
+
+## 2026-11-28 09:00 · wave of 1 · T-abs-sc-open-hoist
+- T-abs-sc-open-hoist (abstract, layer 1, exclusive): five parts, every full name and moved statement kept.
+  - (a) SCOpenWithoutTarentin's model-free half moved to the new Causal.StrongCausalityHull, which imports GlobalHyperbolicity only. emit-lean switched Rules' import to it, so Rules' closure went 55 → 52, without SCOpenWithoutTarentin, NestedTransfer or OneWayMembrane; Test.lean and DualTest unchanged.
+  - (b) IsEMorphismOn.chronalCurveOn_comp moved to CauchyExtension and ChronalHomotopyOn.homotopicRel to TimelikeHomotopy (+ one Mathlib import).
+  - (c) Two docstrings cite names, not lines.
+  - (d) pastInextensible_invComp moved to CauchyExtension, kept in its old scope because the namespace's binder order would change the statement (kb/0335); IsSpacetimeExtension.isEMorphismOn to C0ExtensionSkeleton.
+  - (e) The Cauchy split moved to CurvesExtendSecondCountable; splitBy_of_t1_secondCountable and cover_of_t1_secondCountable are re-proved from it.
+
+  Constant dump: 18 module-only changes, 2 re-proofs, nothing else. Audit minor (two lists of shifted line references).
+- For the planner:
+  - a follow-up tidy for the shifted line references: 29 in programme/ladder.toml comments (ladder.toml:5363, and the bare (:N) references at :474, :481, :485, :1494–:1503, :5108, :5115, :5167–:5197, :5545) and docstrings in FlrwTypeClosedAmbient, CurvesExtendSecondCountable, CurvesExtend, ChainsCurves, LevinUtility, Flat/CauchyComplete, SubArc, IsolatedLineConjoined, Model/MinkowskiFutureOneConnected, and the notes of papers/ett/certificate/curation.toml:1106. AUDIT-1.json lists each with its old and new line; citing names instead of lines makes them stable. A keeper pass for the ladder, a closer or the master for the docstrings;
+  - T-abs-flrw-future-extension's dependency is done: promote; with T-abs-extensible-comp-hoist it makes wave 56.
+- ladder: 27 properties, 28 implications, 108 counterexamples, 128 consequences, 6 edge hypotheses; 432/432 within a sort: 41 implied, 385 fails, 6 open
+- binders: ers-predictability 28 rows bound, layer 1 in Lean 27, layer 3 in Lean 0; sbierski-mghd 19 rows bound, layer 1 in Lean 16, layer 3 in Lean 0; sbierski-schwarzschild 30 rows bound, layer 1 in Lean 30, layer 3 in Lean 0
+- gates: lean-causal ✓, ladder ✓, binder ✓, both roadmaps ✓, tests ✓, blueprint ✓ (0 page errors). Hub: 3 new red, all on /atlas-team's paths: its in-flight lean-benzecri makes papers/benzecri's ledger stale, as at 07:07 and 07:58. Not this loop's; not reverted.
+- commits: 0f0e423e 85822c4c (ledgers, the Lean sha only; restate detect 0)
+- next: a planning run (rule 2), to promote T-abs-flrw-future-extension and plan the line-reference tidy; then wave 56 (T-abs-flrw-future-extension and T-abs-extensible-comp-hoist)
