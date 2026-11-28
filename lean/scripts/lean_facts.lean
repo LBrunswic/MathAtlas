@@ -16,6 +16,16 @@ Dependencies from the *type* and from the *value* are kept apart. A theorem's ty
 statement, so its constants are vocabulary; its value is the proof, so its constants are the
 argument.
 
+The paper links (`docs/design/PAPER-ATTRIBUTE.md` §5 of LeanLink, `tools/leanlink` in the hub):
+a declaration carrying `@[paper "<label>"]` gets a `paper` field, the array of its labels, and
+only then; a placed theorem of an assembly module (`GFNBounds.Paper.Appendix*`,
+`GFNBounds.Paper.Body`) also gets `conjuncts`, from `GFNBounds.Paper.conjunctsOf`. The export
+throws when one label is placed on two declarations (the cross-module duplicate the attribute's
+`add` cannot see), when a placed declaration is not one the walk emits, and when `conjunctsOf`
+refuses an assembly. Every throw comes before the first `IO.FS.writeFile`, so a failing export
+leaves the committed `docs/lean-facts.json` untouched. With no placement, the output is
+byte-identical to what it was before these fields existed.
+
 Run by `make appendix`, through `lake env lean scripts/lean_facts.lean`.
 -/
 
@@ -79,11 +89,37 @@ def valueOf : ConstantInfo → Option Expr
   | .opaqueInfo v => some v.value
   | _ => none
 
+/-- An assembly module (§6 of the spec): where an assembly theorem lives, and the only modules
+whose placed theorems get a `conjuncts` field. -/
+def isAssemblyModule (m : Name) : Bool :=
+  m == `GFNBounds.Paper.Body || "GFNBounds.Paper.Appendix".isPrefixOf m.toString
+
+/-- The placements, label by declaration, built once from `GFNBounds.Paper.labels`.
+
+Identical `(label, declaration)` pairs are deduplicated first: the same placement made in two
+modules that do not import each other is one link. A label on two different declarations is
+then a throw naming the label and both declarations: the attribute's `add` refuses it within one
+environment, but two modules that do not import each other each see only their own. -/
+def labelsOf (env : Environment) : MetaM (NameMap (Array String)) := do
+  let mut pairs : Array (String × Name) := #[]
+  for p in GFNBounds.Paper.labels env do
+    unless pairs.contains p do pairs := pairs.push p
+  let mut declOf : Std.HashMap String Name := {}
+  let mut out : NameMap (Array String) := {}
+  for (l, d) in pairs do
+    if let some d' := declOf[l]? then
+      throwError "lean_facts: label '{l}' is placed on two declarations: {d'} and {d}"
+    declOf := declOf.insert l d
+    out := out.insert d ((out.getD d #[]).push l)
+  return out
+
 end LeanFacts
 
 open LeanFacts in
 #eval show MetaM Unit from do
   let env ← getEnv
+  let placed ← labelsOf env
+  let mut emitted : NameSet := {}
   let std : List Name := [``propext, ``Classical.choice, ``Quot.sound]
   let mut entries : Array (String × Json) := #[]
   let mut externs : Array (String × Json) := #[]
@@ -110,7 +146,16 @@ open LeanFacts in
       let extCount := match valueOf ci with
         | some v => externCount v
         | none => 0
-      entries := entries.push (n.toString, Json.mkObj [
+      let mut paperFields : List (String × Json) := []
+      if let some ls := placed.find? n then
+        unless ls.isEmpty do
+          paperFields := [("paper", Json.arr (ls.map Json.str))]
+          if kindOf ci == "theorem" && isAssemblyModule modName then
+            let cs ← GFNBounds.Paper.conjunctsOf n
+            paperFields := paperFields ++
+              [("conjuncts", Json.arr (cs.map fun c => Json.str c.toString))]
+      emitted := emitted.insert n
+      entries := entries.push (n.toString, Json.mkObj <| paperFields ++ [
         ("kind", Json.str (kindOf ci)),
         ("module", Json.str modName.toString),
         ("line", Json.num line),
@@ -123,6 +168,15 @@ open LeanFacts in
         ("nonstandard_axioms", Json.arr ((extra.map (·.toString)).map Json.str))])
       externs := externs.push (n.toString,
         Json.arr ((externUses ci.type).map Json.str))
+  -- A placed declaration the walk did not emit: the attribute's namespace test and the walk's
+  -- module selection disagree. Before the first write, like every throw.
+  for (d, ls) in placed do
+    unless emitted.contains d do
+      let m := match env.getModuleIdxFor? d with
+        | some i => env.header.moduleNames[i.toNat]!.toString
+        | none => "the main module"
+      throwError "lean_facts: label '{ls[0]!}' is placed on {d}, which the walk did not emit \
+        (declared in {m})"
   let out := Json.mkObj [
     ("declarations", Json.mkObj entries.toList)]
   IO.FS.writeFile "docs/lean-facts.json" (out.pretty ++ "\n")

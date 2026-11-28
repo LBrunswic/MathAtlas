@@ -1,0 +1,73 @@
+{
+ "target": "T-hub-paper-attr-export",
+ "package": "lean",
+ "files": [
+  "lean/scripts/lean_facts.lean",
+  "lean/campaign/T-hub-paper-attr-export/fixtures/run.sh",
+  "lean/campaign/T-hub-paper-attr-export/fixtures/check_positive.py",
+  "lean/campaign/T-hub-paper-attr-export/fixtures/AppendixFixA.lean",
+  "lean/campaign/T-hub-paper-attr-export/fixtures/FixB.lean",
+  "lean/campaign/T-hub-paper-attr-export/fixtures/FixC.lean",
+  "lean/campaign/T-hub-paper-attr-export/fixtures/AppendixFixD.lean",
+  "lean/campaign/T-hub-paper-attr-export/fixtures/NotWalked.prelude.lean",
+  "lean/campaign/T-hub-paper-attr-export/REPORT.json"
+ ],
+ "files_not_touched": "lean/GFNBounds/Paper/* (not needed: labels and conjunctsOf were used as they are), lean/Makefile, the hub Makefile, tools/selftest.py.",
+ "spec": "tools/leanlink/docs/design/PAPER-ATTRIBUTE.md section 5",
+ "implemented": {
+  "labelsOf": "LeanFacts.labelsOf (env) : MetaM (NameMap (Array String)), built once from GFNBounds.Paper.labels env; identical (label, declaration) pairs deduplicated first, keeping first-seen order; a declaration's labels in placement/import order.",
+  "throw: one label on two declarations": "in labelsOf, before the walk: \"lean_facts: label '<l>' is placed on two declarations: <first decl> and <second decl>\" (fully qualified names).",
+  "throw: placed declaration not emitted": "after the walk, before the first IO.FS.writeFile: every placed declaration must be in the NameSet of names the walk emitted; else \"lean_facts: label '<first label>' is placed on <decl>, which the walk did not emit (declared in <module | the main module>)\".",
+  "paper field": "(\"paper\", Json.arr labels) added to the per-declaration object only when the declaration has placements and the array is non-empty.",
+  "conjuncts field": "(\"conjuncts\", Json.arr names) from GFNBounds.Paper.conjunctsOf, only on a declaration of kind theorem that carries paper and whose module is GFNBounds.Paper.Body or has the string prefix GFNBounds.Paper.Appendix (LeanFacts.isAssemblyModule). A placed def in such a module, and any placed declaration elsewhere, gets none. conjunctsOf's own throw (glue, non-constant leaf) propagates and fails the export.",
+  "throws before writes": "labelsOf runs before the walk, conjunctsOf inside it, the not-emitted check after it; both writeFile calls (lean-facts.json, lean-externals.json) come after all three. Confirmed by the fixture (a sentinel docs/lean-facts.json survives each throw) and by an accidental compile error during development, after which the tree's lean-facts.json was unchanged.",
+  "module docstring": "the exporter's docstring describes the paper/conjuncts fields and the throws."
+ },
+ "not_implemented": {
+  "section 5 'Consequences' (WP-1.14/WP-1.16 counting and certificate checks)": "not this target's: they are verification steps of later work packages (first placement, certificate's second commit).",
+  "sharing isProject/isNoise": "lean_facts.lean keeps its own LeanFacts.isProject/isNoise; it does not call the verbatim copies GFNBounds.Paper.isProject/isNoise (spec: the script is edited for the export only). Proposed below.",
+  "not-emitted message": "names the declaration's first label only when it carries several (all labels are on the same declaration; the first suffices to find it)."
+ },
+ "fixture": {
+  "path": "lean/campaign/T-hub-paper-attr-export/fixtures/run.sh (from the hub root, on node1, with lean/ built)",
+  "how": "Four fixture modules are compiled with `lean -o` into a mktemp directory as GFNBounds.Paper.AppendixFixA, FixB, FixC, AppendixFixD (all import only GFNBounds.Paper.Attribute, none imports another). Because Lean resolves a module under the first search-path entry holding its root directory, the temp olean dir mirrors the package's built GFNBounds/ as symlinks plus the fixtures. Each scenario is a temporary copy of the exporter whose import line is extended (and, for one, a prelude spliced in), run with the temp directory as cwd, so the relative docs/ writes land there. Nothing is compiled into lean/.lake, no placement reaches any package .olean, and the sha256 of lean/docs/lean-facts.json is checked unchanged at the end. Exit 0 iff every scenario is as expected; LEAN_FACTS_SCRIPT overrides the exporter under test.",
+  "scenarios": {
+   "pos (A + C)": "export succeeds; check_positive.py: every baseline object byte-identical except validLabel and labels, which differ only by an added paper key; validLabel paper = [lem:paperattr_test_export_same, lem:paperattr_test_export_c] (the identical pair from A and C deduplicated); FixA.asm paper + conjuncts [GFNBounds.Paper.FixA.zero_eq, GFNBounds.Paper.FixA.one_eq]; FixA.d (placed def in an Appendix module) paper, no conjuncts; FixC.single (placed theorem outside assembly modules) paper, no conjuncts; no other paper or conjuncts key; new keys only from the two fixture modules.",
+   "dup (A + B + C)": "cross-module duplicate: A places lem:paperattr_test_export_dup on labels, B on validLabel.",
+   "unwalked (A + C + prelude)": "a GFNBounds theorem declared in the exporter's main module carries a placement; the walk emits imported modules only.",
+   "glue (A + C + D)": "a placed assembly theorem in GFNBounds.Paper.AppendixFixD with Nat.le_of_lt around a conjunct."
+  },
+  "observed_messages": [
+   "lean_facts.lean:122:0: error: lean_facts: label 'lem:paperattr_test_export_dup' is placed on two declarations: GFNBounds.Paper.labels and GFNBounds.Paper.validLabel",
+   "lean_facts.lean:126:0: error: lean_facts: label 'lem:paperattr_test_export_unwalked' is placed on GFNBounds.Paper.FixNotWalked.t, which the walk did not emit (declared in the main module)",
+   "lean_facts.lean:122:0: error: paper: conjunctsOf GFNBounds.Paper.FixD.glued: the head Nat.le_of_lt of a leaf is not a project theorem"
+  ],
+  "result": "run.sh: ok (46 s): positive export as expected; the three throws fired, each before any write (sentinel docs/lean-facts.json intact in each scenario dir).",
+  "bites": "Run against the HEAD exporter (LEAN_FACTS_SCRIPT=git show HEAD:lean/scripts/lean_facts.lean), run.sh exits 1: check_positive reports six missing paper/conjuncts fields, and dup, unwalked and glue each report 'the export did not throw'.",
+  "labels": "all fixture labels are lem:paperattr_test_export_*, the spec's test-label form, in no paper source.",
+  "selftest_wiring": "Not wired into `make selftest`. The hub selftest (tools/selftest.py) runs only the run.sh of the gates listed in its GATES dict, each expected to exit NON-zero on a broken temp copy; adding an entry means editing tools/selftest.py, which is outside this dispatch, and the Makefile's selftest line only calls that script. The fixture also needs a compiled lean/ with Mathlib (about 45 s of Lean), whereas every current selftest fixture is stdlib Python on temp copies; and it is a multi-scenario test (exit 0 = all throws fired), not a single biting fixture. Proposal below."
+ },
+ "byte_identical_check": {
+  "result": "byte-identical to the unmodified exporter's output, both by `make -C lean facts` and after `make -C lean check` (cmp against /tmp/attrexp/baseline-unmodified-exporter.json, produced by the HEAD exporter on the same tree just before the edit; sha256 d92a66ab5b4bfcc2bde40c79fce547a49fe05f47e4ccae61d2d23fc025e0826a).",
+  "git_diff_stat": "`git diff --stat lean/docs/lean-facts.json` is NOT empty, with or without this edit: 460 insertions, all keys under GFNBounds.Paper (Entry*, paperExt, labels, validLabel, isProject, isNoise, conjunctsOf helpers, ...). The committed lean-facts.json predates T-hub-paper-attribute (commit 90bc76f added Attribute.lean but the gate's regenerated docs were restored, as the gate rule says), so the HEAD exporter already produces this diff. It is the WP-1.14 'new keys from Paper.Attribute only' diff, not a change made by this target; no object carries paper or conjuncts. Restored with git -C lean checkout -- docs paper-map.json."
+ },
+ "make_check": {
+  "command": "make -C lean check (once, at the end, no other lake build running)",
+  "exit": 0,
+  "duration": "2 min 17 s",
+  "summary": "build + scaffold green; sorry_audit, axiom_audit, root_closure, AxiomSweep, kernel_replay (166 modules), trace_check (98 statements, digests current), coverage (94 closed, 0 partial, 4 open), repo_map, kb lint/index pass; lean_facts 5746 declarations written; certificate 90bc76f DIRTY (dirty tree warning, expected uncommitted), 5739 declarations, 0 scaffold sorries.",
+  "restore": "git -C lean checkout -- docs paper-map.json done; git status of lean/ afterwards: M scripts/lean_facts.lean, ?? campaign/T-hub-paper-attr-export/."
+ },
+ "findings": [
+  "The committed lean/docs/lean-facts.json (and docs/certificate.json) are stale since T-hub-paper-attribute: the 460-line Paper.Attribute addition was never committed. Constraint 1's `git diff --stat` check therefore cannot read empty; the right test is identity with the unmodified exporter, which holds. Committing the regenerated lean-facts.json + certificate is the WP-1.14 step and should happen (in its own commit, with the section 5 'exact verification': new keys only, all module GFNBounds.Paper.Attribute) before or with this edit, so the first placement's diff shows only paper/conjuncts.",
+  "lean_facts prints '5746 declarations' but the JSON has 5739 keys: entries.size counts pushes and Json.mkObj collapses 7 repeated names. Pre-existing, unchanged by this edit; the certificate counts keys (5739). Not investigated further.",
+  "The exporter prints errors at the #eval position (line 122/126 of the driver copy, 119 in the real script); the message text is the stable part, so run.sh matches it with grep -F, not the position.",
+  "The cross-module duplicate check now runs in make facts, hence make check, so T-hub-paper-attr-curation is unblocked from the exporter side."
+ ],
+ "kb_proposals": [
+  "Fixture modules for a script that reads imported oleans: compile them with `lean -R <src> -o <dir>/GFNBounds/...olean` into a temp dir that mirrors the package's .lake/build/lib/lean/GFNBounds tree as symlinks (`cp -rs`), because Lean resolves a module under the first LEAN_PATH entry that holds its root directory; a second GFNBounds/ tree on LEAN_PATH hides the package's own modules ('object file ... does not exist').",
+  "To test an export's throws without touching the tree: run a temp copy of the script with the temp directory as cwd (the script writes relative paths) and a sentinel output file; a throw before the write leaves the sentinel.",
+  "Proposal (needs tools/selftest.py, outside this dispatch): move the fixture to tools/fixtures/lean-facts/ with a run.sh that exits non-zero iff the exporter bites (e.g. `! bash .../run-scenarios.sh` per throw), and add 'lean/scripts/lean_facts.lean': 'lean-facts' to GATES; or add a `facts-selftest` target to lean/Makefile that the hub's lib-check runs, since it needs a built lean/ anyway.",
+  "Proposal: make lean_facts.lean call GFNBounds.Paper.isProject/isNoise instead of its LeanFacts copies, so the attribute's namespace test and the walk cannot drift (the not-emitted throw then guards only the module-selection difference)."
+ ]
+}

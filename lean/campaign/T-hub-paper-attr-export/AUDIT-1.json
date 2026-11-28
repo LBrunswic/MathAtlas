@@ -1,0 +1,43 @@
+{
+ "target": "T-hub-paper-attr-export",
+ "auditor_round": 1,
+ "verdict": "minor",
+ "labels": [
+  {
+   "label": "(tooling target, no paper label)",
+   "faithful": true,
+   "marked_correctly": true,
+   "notes": "Checked against tools/leanlink/docs/design/PAPER-ATTRIBUTE.md section 5, item by item. labelsOf (lean_facts.lean:104-115) is built once from GFNBounds.Paper.labels env. Identical (label, decl) pairs are deduplicated in first-seen order. A label on two different declarations throws and names the label and both declarations. The not-emitted check (lean_facts.lean:171-179) runs after the walk and names the label and the declaration (the spec's 'naming both'), plus the declaring module. paper is added only when the label array is non-empty. conjuncts comes from GFNBounds.Paper.conjunctsOf, only for kind theorem + placed + isAssemblyModule. A placed def in an assembly module and a placed theorem elsewhere get none. conjunctsOf's own throws (glue, non-constant leaf) propagate. The three throws come before both IO.FS.writeFile calls. isAssemblyModule = (m == GFNBounds.Paper.Body) || string prefix 'GFNBounds.Paper.Appendix'. That is a faithful reading of the spec's 'GFNBounds.Paper.Appendix* or GFNBounds.Paper.Body': the glob is read as a string prefix, and Body as an exact module (sec. 6 names AppendixH.lean). Putting paperFields first in the list does not change the output, because Json.mkObj sorts keys (stated in sec. 5 and confirmed by the byte-identity check below). The module docstring describes the fields and the throws accurately."
+  }
+ ],
+ "build": {
+  "ok": true,
+  "sorry": 0,
+  "axioms": "standard (no declaration added to the library; the exporter is a script)",
+  "byte_identity": "Auditor rerun in a mktemp dir on node1. The HEAD exporter and the modified exporter, run on the same built tree with no placement, give cmp-identical docs/lean-facts.json (sha256 d92a66ab..., matching the REPORT) and identical lean-externals.json.",
+  "stale_committed_facts": "Confirmed. The committed lean/docs/lean-facts.json was last committed at 24f4c858, before 90bc76f6 added GFNBounds.Paper.Attribute, which GFNBounds.lean imports at line 163. It has 0 GFNBounds.Paper module keys. The current export differs from it by exactly 36 new keys, all with module GFNBounds.Paper.Attribute: 0 keys removed, 0 pre-existing objects changed, no paper or conjuncts key. This is the WP-1.14 diff, which predates this target.",
+  "fixture_run": "bash fixtures/run.sh ran once: exit 0 in 48 s. pos passed (5737 baseline objects unchanged, 2 gained paper, 5 new keys from AppendixFixA and FixC). dup, unwalked and glue each threw with the expected message and left their sentinel in place. With LEAN_FACTS_SCRIPT set to the HEAD exporter, run.sh exits 1: check_positive FAIL, and all three scenarios report 'the export did not throw'. The fixture can fail."
+ },
+ "findings": [
+  {
+   "severity": "minor",
+   "where": "lean/campaign/T-hub-paper-attr-export/fixtures/run.sh",
+   "what": "The fixture lives in the campaign directory and is not wired into make selftest or tools/fixtures/<gate>/, as the hub rule 'A gate must be able to fail' asks. The REPORT discloses this and explains it: tools/selftest.py is outside the dispatch, and the fixture needs a built lean/. As things stand, nothing re-runs the fixture once the target graduates.",
+    "fix": "A follow-up target should move it under tools/fixtures/lean-facts/ (or add a facts-selftest target to lean/Makefile that lib-check runs), as REPORT kb_proposals suggests."
+  },
+  {
+   "severity": "minor",
+   "where": "lean/campaign/T-hub-paper-attr-export/fixtures/check_positive.py:1-10,30-37",
+   "what": "The docstring says baseline objects must be 'byte-identical', but the script compares parsed JSON dicts. Key order and formatting are therefore not checked in the pos scenario. The no-placement byte identity is established separately: by cmp in the REPORT, and by this audit's own cmp.",
+   "fix": "Change the wording to 'equal as JSON objects', or compare each object's serialized text."
+  },
+  {
+   "severity": "minor",
+   "where": "lean/scripts/lean_facts.lean:94-95",
+   "what": "isAssemblyModule uses a string prefix, so it also matches GFNBounds.Paper.Appendix itself and submodules such as GFNBounds.Paper.AppendixH.Foo, and it accepts only the exact module GFNBounds.Paper.Body. That fits the spec's glob, but the spec does not settle the submodule case. No placement exists today, so nothing depends on it yet.",
+   "fix": "None needed now. Record the reading in the spec or the kb when the first Appendix module lands."
+  }
+ ],
+ "scope": "git status --short shows, under lean/, only M lean/scripts/lean_facts.lean and ?? lean/campaign/T-hub-paper-attr-export/. The other dirty paths belong to other loops (lean-causal/, papers/*/certificate/restat*, programme/, roadmap/, reports/atlas/) and are not touched by this target's REPORT. lean/docs and paper-map.json are clean (restored as the REPORT says). The run.sh run left nothing in the tree: it writes only in mktemp dirs, the package oleans are reached through symlinks, and the sha256 of lean/docs/lean-facts.json is unchanged.",
+ "docstring_contract": "Not applicable: this target adds no Lean theorem and no label mark. The exporter's module docstring was updated and is accurate."
+}
