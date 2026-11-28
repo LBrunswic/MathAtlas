@@ -1,0 +1,35 @@
+{
+  "target": "T-btz-surface-complete-lip",
+  "auditor_round": 1,
+  "verdict": "minor",
+  "labels": [
+    {
+      "label": "btzlem:surface_complete",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Item (ii) only, BTZ_1.tex l.781-790 / proof l.823-850. GX.E0Surgery.lem_surface_complete_two_lip (SurfaceCompleteLip.lean:361) has hypotheses 0 < R, 2pi-periodicity (the same field as IsSpacelikeGraph.periodic in the strict row), Causal.Flat.SpacelikeDevelopment (graphDev g R) and CompleteSpace (PulledLength (graphDev g R)); its conclusion Tendsto g (comap Prod.fst (nhdsWithin 0 (Ioi 0))) atTop is verbatim the strict GX.E0Surgery.lem_surface_complete_two (Surgery.lean:1572). The strict lemma's ContDiffOn 1 and IsSpacelikeGraph are replaced by SpacelikeDevelopment, which is a reading of « spacelike » for non-smooth graphs. That reading is disclosed in the docstring checklist and SCOPE and in REPORT questions, including that the bridge from the paper's piecewise-smooth delta > 0 notion to SpacelikeDevelopment is not proved. So Lean >= paper is not established in Lean, and the row is honestly partial (as well as on T-btz-scope, E0 only). The hypotheses are not vacuous: SpacelikeDevelopment is a structure with real content (continuity, local embedding, IsSpacelikeLipschitzIn with c < 1, achronality), and a C^1 spacelike graph satisfies it locally. The SCOPE states that no Lean witness is given. Continuity of g does follow from continuity of the development, since the first coordinate of btzPaperDev (graphMap g p) is g p + r theta^2 / 2. locallyLipschitzOn_of_spacelikeDevelopment (l.132) is genuinely proved: it uses the uniform spacelike bound from exists_uniform_spacelike and the chord identity minkQ_btzPaperDev_sub, has no sorry and uses standard axioms. The label is written unbolded in the docstring (l.7), which is correct for a partial row. The ledger row (curation.toml l.65) is already partial on T-btz-scope, and the new decls are not yet added to it; that is the loop's graduation step."
+    }
+  ],
+  "build": {"ok": true, "sorry": 0, "axioms": "standard"},
+  "build_notes": "`lake env lean scaffold/GXScaffold/BTZ/SurfaceCompleteLip.lean` gave no errors and no warnings. The olean (00:36:44) is newer than the source (00:36:26). The only `sorry` token is the docstring sentence at l.62. A one-shot probe under the campaign dir ran #print axioms on lem_surface_complete_two_lip, edist_le_seg_lip and locallyLipschitzOn_of_spacelikeDevelopment. Each gave [propext, Classical.choice, Quot.sound]. The probe was deleted. No lake build was run, per the dispatch. Scope: git status shows that this target touched only the new SurfaceCompleteLip.lean, the one import line `import GXScaffold.BTZ.SurfaceCompleteLip` in GXScaffold.lean, and this campaign directory. The CommonRegIso/CauchyEasy import lines and the other modified files belong to the concurrent targets and loops.",
+  "findings": [
+    {
+      "severity": "minor",
+      "where": "lean-gx/scaffold/GXScaffold/BTZ/SurfaceCompleteLip.lean:48",
+      "what": "The checklist row for « spacelike » asserts « for a C¹ graph it is the paper's (Lemma 2.7) » as a fact. The SCOPE (l.56-58) and the REPORT both say that the implication IsSpacelikeGraph => SpacelikeDevelopment is NOT proved. The checklist overstates what is established.",
+      "fix": "Reword to « for a C¹ graph it is expected to contain the paper's notion (Lemma 2.7); the bridge is unproved, see SCOPE »."
+    },
+    {
+      "severity": "minor",
+      "where": "lean-gx/campaign/T-btz-surface-complete-lip/REPORT.json findings[1]",
+      "what": "The l.835-838 finding is accurate: with |theta'| <= 2pi/r_n and r <= r_n, the bound is r^2 theta'^2 <= 4pi^2, so the printed 5 should be 1 + 4pi^2. It is harmless and is not a 'false as printed' claim. However, « here the same constant (1 + 2 pi^2) per unit dr is used » reads as if 1 + 2pi^2 were the corrected constant. In fact 1 + 2pi^2 - tau' comes from sqrt(1 + 4pi^2 - 2tau') <= (2 + 4pi^2 - 2tau')/2, the AM-GM bound in sqrt_graphQuad_le_seg.",
+      "fix": "Say that the Lean bounds the integrand linearly by (1 + 2pi^2) - tau' via sqrt(y) <= (1 + y)/2 applied to y = 1 + 4pi^2 - 2tau'."
+    },
+    {
+      "severity": "minor",
+      "where": "papers/btz/legacy/labeled/BTZ_1.tex:836,842",
+      "what": "Two small paper slips are not recorded. (a) The interval is printed as ]r_n, r_{n+1}[ although r_{n+1} < r_n. The closer silently reads it as ]r_{n+1}, r_n[. (b) « The integrand is well defined since 1 + r^2theta'^2 - 2tau' > 0 »: spacelikeness gives only >= 0 a.e. (Lemma 2.7 / minkQ_nonneg_of_hasDerivAt), and >= 0 is what the proof needs and what the Lean uses.",
+      "fix": "Optionally add both to the REPORT findings as typos/imprecisions (not refutations)."
+    }
+  ]
+}

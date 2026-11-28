@@ -1,0 +1,60 @@
+{
+  "package": "lean-gx",
+  "target": "T-btz-surface-complete-lip",
+  "files": [
+    "scaffold/GXScaffold/BTZ/SurfaceCompleteLip.lean (new; imports the strict GX.BTZ.Surgery only)",
+    "scaffold/GXScaffold.lean (one import line, GXScaffold.BTZ.SurfaceCompleteLip, after GXScaffold.BTZ.SurfaceGroupNonMetabelian)"
+  ],
+  "builds": true,
+  "build_command": "taskset -c 0-11 lake build GXScaffold.BTZ.SurfaceCompleteLip (8747 jobs, success; only the new module rebuilt)",
+  "sorry_count": 0,
+  "axioms": {
+    "GX.E0Surgery.lem_surface_complete_two_lip": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.E0Surgery.edist_le_seg_lip": ["propext", "Classical.choice", "Quot.sound"],
+    "GX.E0Surgery.locallyLipschitzOn_of_spacelikeDevelopment": ["propext", "Classical.choice", "Quot.sound"]
+  },
+  "labels": [
+    {
+      "label": "btzlem:surface_complete",
+      "tex_lines": [781, 850],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "GX.E0Surgery.lem_surface_complete_two_lip",
+        "GX.E0Surgery.edist_le_seg_lip",
+        "GX.E0Surgery.locallyLipschitzOn_of_spacelikeDevelopment"
+      ],
+      "hypotheses": [
+        {"paper": "tau_Sigma piecewise smooth on D_R^*", "here": "weakened", "note": "no regularity at all; not even continuity of g (it follows from continuity of the development). Only 2pi-periodicity in theta and 0 < R"},
+        {"paper": "Sigma spacelike", "here": "read", "note": "Causal.Flat.SpacelikeDevelopment (graphDev g R): locally an embedded spacelike Lipschitz hypersurface of M^3 (Barbot's notion, the one IsCauchyComplete uses, OQ-152 (b)). Strictly weaker than the strict row's IsSpacelikeGraph + ContDiffOn 1, but the implication C^1 spacelike graph => SpacelikeDevelopment is not proved here"},
+        {"paper": "Sigma complete", "here": "carried", "note": "CompleteSpace (Causal.Flat.PulledLength (graphDev g R)) over the strip (0,R] x R, the strict row's reading"},
+        {"paper": "E_{>=0}-manifolds", "here": "strengthened", "note": "E_0 only, as the whole btz row (T-btz-scope)"}
+      ],
+      "sorries": [],
+      "findings": [
+        "BTZ_1.tex l.842-846: the printed proof needs no smoothness of tau_Sigma beyond Lipschitz along the curve. The bound ell <= int sqrt(5 - 2 tau') and the step 'tau' <= 5/2' only use that the developed velocity is non-timelike a.e. (spacelike) and that tau is absolutely continuous along a straight piece. Both hold for any graph whose development is spacelike Lipschitz: such a graph is automatically locally Lipschitz in (r, theta), because D(tau, r, theta) = D(0, r, theta) + tau * d_tau D with d_tau D null, and a uniformly spacelike chord kappa |Delta F|^2 <= minkQ(Delta F) bounds |Delta tau| by the smooth Delta r, Delta(r theta), Delta(r theta^2) (locallyLipschitzOn_of_spacelikeDevelopment). So part (ii) holds for Lipschitz (in particular piecewise smooth, continuous) graphs, which is the form l.1602 uses on Sigma_0.",
+        "BTZ_1.tex l.835-838: with the stated slope |theta'_gamma| <= 2pi/r_n on ]r_{n+1}, r_n[ and r <= r_n, r^2 theta'^2 <= 4 pi^2, so the printed constant 5 should be 1 + 4pi^2 (the strict row's finding, already recorded at edist_le_seg; here the same constant (1 + 2 pi^2) per unit dr is used). Harmless: any constant works.",
+        "BTZ_1.tex l.846 ('By completeness of Sigma, the length ell of gamma is infinite'): the formal argument goes through the contrapositive as the strict proof does (a finite-length broken line gives a Cauchy sequence whose limit would be at positive radius). In the Lipschitz setting the last step uses that the pulled-length topology is finer than the strip's (Causal.Flat.SpacelikeDevelopment.continuous_toSpace) instead of the strict clamp estimate, which needed delta >= delta_0 > 0 on an annulus (a C^1 fact)."
+      ],
+      "questions": [
+        "Reading of 'spacelike' for a non-smooth graph (l.786): taken as Causal.Flat.SpacelikeDevelopment of graphDev g R (locally embedded, locally a c-Lipschitz graph with c < 1 in some Minkowski frame), the notion in which T-btz-cauchy-spear's Sigma_0 is complete (OQ-152 (b)). The paper only defines spacelike for piecewise smooth graphs (Lemma 2.7, delta > 0 on each smooth domain). That the paper's piecewise smooth spacelike graphs satisfy this reading is not proved (it is the bridge in kb_proposals); the row's partial status already rests on T-btz-scope."
+      ]
+    }
+  ],
+  "extra_decls": [
+    "GX.E0Surgery.minkQ_btzPaperDev_sub",
+    "GX.E0Surgery.fst_btzPaperDev_sub",
+    "GX.E0Surgery.abs_le_of_uniform",
+    "GX.E0Surgery.SpacelikeDevelopment.exists_uniform_nhds",
+    "GX.E0Surgery.minkQ_nonneg_of_hasDerivAt",
+    "GX.E0Surgery.locallyLipschitzOn_of_spacelikeDevelopment",
+    "GX.E0Surgery.edist_le_seg_lip"
+  ],
+  "kb_proposals": [
+    "A graph whose development D(g(r,theta), r, theta) is a Causal.Flat.SpacelikeDevelopment is locally Lipschitz on the strip (GX.E0Surgery.locallyLipschitzOn_of_spacelikeDevelopment): D is affine in tau along the null d_tau D, and SpacelikeDevelopment.exists_uniform_nhds (kappa |Delta F|^2 <= minkQ Delta F on a neighbourhood) bounds |Delta tau|.",
+    "For a curve Gamma with eventually non-timelike chords, the velocity is non-timelike (GX.E0Surgery.minkQ_nonneg_of_hasDerivAt, via hasDerivAt_iff_tendsto_slope and continuous_minkQ); this is the a.e. 'integrand well defined' of length estimates on Lipschitz spacelike surfaces.",
+    "In a completeness-by-contradiction argument on Causal.Flat.PulledLength F, Causal.Flat.SpacelikeDevelopment.continuous_toSpace replaces any metric lower bound near the limit: the limit in the pulled length is a limit in X.",
+    "Open bridge, wanted by T-btz-cauchy-spear and to make lem_surface_complete_two a corollary of lem_surface_complete_two_lip: a C^1 IsSpacelikeGraph g R has graphDev g R a SpacelikeDevelopment (local embedding plus Causal.Flat.Cla.exists_isSpacelikeLipschitzIn_zeroSet on nullHeight, as in Surgery's (G4a))."
+  ],
+  "notes": "Closes the analytic need flagged at CauchySpear.lean:171 ('surface_complete needs a C^1 graph, the Lipschitz completeness gives none') as far as Lemma 2.8(ii) is concerned: the consumer must still produce SpacelikeDevelopment (graphDev tau_0 R) and CompleteSpace of its pulled length for Sigma_0's trace in a blunt spear. The route of the dispatch was followed: step 1 (local Lipschitz) is short, so both steps are proved. No existing file edited beyond the one import line; no axiom; no not_ names."
+}
