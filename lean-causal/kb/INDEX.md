@@ -335,3 +335,5 @@ rediscover. One fact per entry.
 | [0327](entries/0327-connected-overlap.md) | pattern | A connected Cauchy surface of U₁, U₂ and U₁ ⊔ U₂ makes the overlap connected |
 | [0328](entries/0328-timelike-cauchy-unions.md) | pattern | Cauchy surfaces of translated intervals and of two disjoint intervals on the timelike line |
 | [0329](entries/0329-etale-witnesses-limits.md) | pitfall | What the étale development can show on the line: a doubled point needs a disconnected S |
+| [0330](entries/0330-closed-ambient-a-or-b.md) | pattern | In a closed, antisymmetric ambient each of (A), (B) alone excludes a past boundary chart |
+| [0331](entries/0331-macron-identifier.md) | pitfall | A combining macron is not an identifier character |

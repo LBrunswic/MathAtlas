@@ -1,0 +1,226 @@
+{
+  "target": "T-abs-flrw-type-closed-ambient",
+  "package": "lean-causal",
+  "files": [
+    "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean"
+  ],
+  "campaign_files": [
+    "campaign/T-abs-flrw-type-closed-ambient/REPORT.json",
+    "campaign/T-abs-flrw-type-closed-ambient/Probe.lean",
+    "campaign/T-abs-flrw-type-closed-ambient/axioms.txt"
+  ],
+  "builds": true,
+  "build_command": "cd /home/maxbrain/Dropbox/LeanArticles/lean-causal && taskset -c 8-15 lake build CausalScaffold.FlrwTypeClosedAmbient",
+  "build_result": "Built CausalScaffold.FlrwTypeClosedAmbient (1.1 s, 3129 jobs), with no warning. Before each real build, the --no-build dry run (kb/0228) listed only CausalScaffold.FlrwTypeClosedAmbient as out of date, so nothing upstream was rebuilt. `lake env lean -DwarningAsError=true` on the file passes, as the strict library requires. Every typecheck and build ran under taskset -c 8-15. Probe.lean imports the module, and also Causal.Model.MinkowskiPastBoundaryChart for the layer-3 instance checks, from existing oleans. It runs #check and #print axioms on the 19 declarations and on 3 probe theorems. Its output is axioms.txt.",
+  "sorry_count": 0,
+  "axioms": "All 19 declarations of the module, and the 3 probe theorems, depend on [propext, Classical.choice, Quot.sound] only. This was checked by parsing axioms.txt with line-wrapped entries joined: 22 entries. There is no sorryAx, admit, axiom declaration, native_decide or ofReduceBool.",
+  "layer": "ETT layer (layer 1). The one direct import is Causal.FlrwType, whose tools/ladder.py model_path is None. The module was entered in memory into lean_index()['imports'] with that import (kb/0247): its model_path is None, its closure holds 49 Causal modules with none in MODEL_LAYER, and Causal.Ladder.Rules is not in the closure, so it is a leaf. Causal.GlobalHyperbolicity (isClosed_le) is in the closure, through C0ExtensionSkeleton → SchwCausalLemmas → Inextensible. Nothing from Causal.Minkowski, Static, Flat.*, Model.*, Port.* or SingularFlat is imported; Minkowski is cited in docstrings only. No statement mentions a metric. The hypotheses are the standing T2 (and second countability for the (B) forms); the ladder nodes is_causal (C.IsCausal), globally_hyperbolic and tarentin; the declared (A) or (B); '≤ closed' (IsClosed {z : M × M | C.le ⊤ z.1 z.2}); and, for (B), CausallyArcConnectedOn W, as in not_pastBoundaryChart_of_flrwType. The local forms state closedness and antisymmetry at an open U ≥ W ⊔ Ũ, in the shape of the scaffold's IsCausallyClosedOn U, written inline.",
+  "labels": [],
+  "declarations": [
+    {
+      "name": "Causal.Causality.isClosed_inter_preimage_setOf_le",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:118",
+      "statement": "hcl : closure {z : M × M | C.le U z.1 z.2} ∩ (U ×ˢ U) ⊆ {z | C.le U z.1 z.2} → IsClosed B → ContinuousOn F B → MapsTo F B (U ×ˢ U) → IsClosed (B ∩ F ⁻¹' {z | C.le U z.1 z.2})  (F : X → M × M, X any topological space)",
+      "standing": "General lemma. If ≤_U is closed in U × U, it pulls back to a closed set along any map continuous on a closed set with values in U × U. Proof by isClosed_of_closure_subset and ContinuousWithinAt.mem_closure_image. It serves both limits of the closing step.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:136",
+      "statement": "[T1Space M] [SecondCountableTopology M] → C.IsCauchySurfaceOn W S → q ∈ W → q ∈ C.Jplus W S ∪ C.Jminus W S",
+      "standing": "General lemma, the split by a Cauchy surface. The constant curve at q is extended by exists_inextensible_of_t1_secondCountable (Causal/CurvesExtendSecondCountable.lean:1376) to an inextensible curve of W, which meets S. It is a twin of splitBy_of_t1_secondCountable (Causal/ErsSecondCountable.lean:158), which lies outside Causal.FlrwType's import closure; that is why it is restated here.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.PastBoundaryChartData.false_of_squeeze",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:167",
+      "statement": "(d : C.PastBoundaryChartData W Ũ p) → Ũ ≤ U → hcl : closure {z : M × M | C.le U z.1 z.2} ∩ (U ×ˢ U) ⊆ {z | C.le U z.1 z.2} → hcaus : ∀ ⦃x y⦄, C.le U x y → C.le U y x → x = y → C.ChronalCurveOn Ũ σ 0 1 → (∀ t ∈ Ioc 0 1, σ t ∈ W) → (∀ t ∈ Ioc 0 1, σ t ∉ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}) → (∀ t ∈ Ioc 0 1, C.le U p (σ t)) → (∀ s ∈ Ioc 0 1, ∃ t ∈ Ioc 0 1, C.le U (σ t) (d.curve s)) → False",
+      "standing": "The closing step that both theorems share; it is the planner's steps (2)–(4) and the finish. (2) σ 0 ≠ p: I⁻(γ̃ s₀, Ũ) is open (Causality.isOpen_Iminus) and contains p, σ is continuous within Ioc 0 1 at 0 (CurveOn.continuousOn), and 𝓝[Ioc 0 1] 0 is NeBot, so some σ t, t ∈ (0, 1], lies in the diamond. (3) extends to t = 0 by isClosed_inter_preimage_setOf_le and closure_Ioc. (4): the set {(t, s) ∈ [0, 1]² | σ t ≤_U γ̃ s} is closed, hence compact. Its projection to s is closed and contains (0, 1], so it contains 0. This gives t̄ with σ t̄ ≤_U p, using no sequences and no countability of M. Antisymmetry gives σ t̄ = p, which contradicts (2) if t̄ = 0 and p ∉ W if t̄ > 0. Of the chart it uses only (i), (iv) and the vertex s₀ of (v).",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:246",
+      "statement": "[T2Space M] → W ≤ U → Ũ ≤ U → hcl : closure {z : M × M | C.le U z.1 z.2} ∩ (U ×ˢ U) ⊆ {z | C.le U z.1 z.2} → hcaus : ∀ ⦃x y⦄, C.le U x y → C.le U y x → x = y → (A): ∀ I γ, C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = W → ∀ p, ¬ C.PastBoundaryChart W Ũ p",
+      "standing": "The local form of the main theorem: the ambient hypotheses at one open U containing W and Ũ, U = W ⊔ Ũ being the smallest choice. (vi) is taken at K = closure of (v)'s diamond. Step (a) (pastInextensible_Ioc_of_start_notMem) is applied to γ̃ and σ over Ioc 0 1, and (A) to both. σ t ∈ W = ⋃ I⁺(γ̃ s, W) with p ≪_Ũ γ̃ s gives (3). γ̃ s ∈ W = ⋃ I⁺(σ t, W) gives (4). Then false_of_squeeze.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:289",
+      "statement": "[T2Space M] → IsClosed {z : M × M | C.le ⊤ z.1 z.2} → C.IsCausal → (A): ∀ I γ, C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = W → ∀ (Ũ : Opens M) (p : M), ¬ C.PastBoundaryChart W Ũ p",
+      "standing": "THE TARGET'S STATEMENT, exactly: T2, ≤_M closed, ≤_M antisymmetric, (A) in the shape of FlrwType.lean:318–319, and no chart at any point. There is no (B), no future one-connectedness, no causal arc-connectedness and no second countability. It is the local form at U = ⊤.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:303",
+      "statement": "[T2Space M] → C.Tarentin → C.GloballyHyperbolic → (A): ∀ I γ, C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = W → ∀ Ũ p, ¬ C.PastBoundaryChart W Ũ p",
+      "standing": "The corollary on every globally hyperbolic, tarentin T2 spacetime, through GloballyHyperbolic.isClosed_le (Causal/GlobalHyperbolicity.lean:116) and hG.1 (IsCausal). Minkowski space is cited in the docstring (Causal/Minkowski.lean:110, :121, :132) and not imported.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:317",
+      "statement": "[T2Space M] → C.Tarentin → C.GloballyHyperbolic → C.PastBoundaryChart W Ũ p → ¬ (A)",
+      "standing": "The instance check, as the contrapositive. At the Minkowski half-space (minkowski_pastBoundaryChart hn) it re-derives minkowski_posHalfSpace_not_flrwTypeA (Causal/Model/MinkowskiPastBoundaryChart.lean:380) by closedness and antisymmetry rather than the explicit point (1, e). Probe.lean checks that application (probe_minkowski_posHalfSpace_not_flrwTypeA) by importing the model beside the module. The module does not import it.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:329",
+      "statement": "(∀ I γ, C.FutureInextensible W I γ → (∀ a b, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = W) → (A) for C.dual",
+      "standing": "The conversion inside not_futureBoundaryChart_of_flrwType (Causal/FlrwType.lean:364–378), stated as a lemma.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_closedIn",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:353",
+      "statement": "[T2Space M] → W ≤ U → Ũ ≤ U → hcl : closure {z : M × M | C.le U z.1 z.2} ∩ (U ×ˢ U) ⊆ {z | C.le U z.1 z.2} → hcaus : ∀ ⦃x y⦄, C.le U x y → C.le U y x → x = y → (A) for future-inextensible curves and I⁻ → ∀ p, ¬ C.FutureBoundaryChart W Ũ p",
+      "standing": "The optional time reversal, local form. It is the past form for C.dual. The reversed relation is closed (Continuous.closure_preimage_subset along Prod.swap) and antisymmetric.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:369",
+      "statement": "[T2Space M] → IsClosed {z | C.le ⊤ z.1 z.2} → C.IsCausal → (A) reversed → ∀ Ũ p, ¬ C.FutureBoundaryChart W Ũ p",
+      "standing": "The optional time reversal at M.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:378",
+      "statement": "[T2Space M] → C.Tarentin → C.GloballyHyperbolic → (A) reversed → ∀ Ũ p, ¬ C.FutureBoundaryChart W Ũ p",
+      "standing": "The optional time reversal, globally hyperbolic form.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:397",
+      "statement": "[T2Space M] [SecondCountableTopology M] → W ≤ U → Ũ ≤ U → hcl : closure {z : M × M | C.le U z.1 z.2} ∩ (U ×ˢ U) ⊆ {z | C.le U z.1 z.2} → hcaus : ∀ ⦃x y⦄, C.le U x y → C.le U y x → x = y → C.CausallyArcConnectedOn W → (B): ∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x} → ∀ p, ¬ C.PastBoundaryChart W Ũ p",
+      "standing": "The optional (B) report, PROVED, in local form. For (3), (B) is taken at σ t, giving S ⊆ I⁻(σ t, W). By the split, γ̃ 1 lies in J⁺(S, W) or in J⁻(S, W). In the first case γ̃ meets S by (2.4) (PastInextensible.exists_mem_of_mem_Jplus, Causal/PastInextensibleMeetsCauchy.lean:147), so p ≪ γ̃ u ≪ σ t. In the second, p ≪ γ̃ 1 ≤ z ≪ σ t. (4) is the same argument at γ̃ s, with σ 1 split. Only ≤ is concluded, so no push-up is needed. ≤_W antisymmetric, which (2.4) asks, follows from ≤_U by le_mono.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:444",
+      "statement": "[T2Space M] [SecondCountableTopology M] → IsClosed {z | C.le ⊤ z.1 z.2} → C.IsCausal → C.CausallyArcConnectedOn W → (B): ∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x} → ∀ Ũ p, ¬ C.PastBoundaryChart W Ũ p",
+      "standing": "(B) alone at M. There is no (A) and no future one-connectedness. Second countability and causal arc-connectedness of W are kept because (2.4) and the split need them.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:454",
+      "statement": "[T2Space M] [SecondCountableTopology M] → C.Tarentin → C.GloballyHyperbolic → C.CausallyArcConnectedOn W → (B) → ∀ Ũ p, ¬ C.PastBoundaryChart W Ũ p",
+      "standing": "(B) alone, globally hyperbolic form.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:465",
+      "statement": "[T2Space M] [SecondCountableTopology M] → C.Tarentin → C.GloballyHyperbolic → C.CausallyArcConnectedOn W → C.PastBoundaryChart W Ũ p → ¬ (B)",
+      "standing": "At the Minkowski half-space, which is causally arc-connected (minkowski_posHalfSpace_flrwType_check, conjunct 4), it re-derives minkowski_posHalfSpace_not_flrwTypeB (:432). Probe.lean checks this as probe_minkowski_posHalfSpace_not_flrwTypeB.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:474",
+      "statement": "[T2Space M] [SecondCountableTopology M] → W ≤ U → Ũ ≤ U → hcl : closure {z : M × M | C.le U z.1 z.2} ∩ (U ×ˢ U) ⊆ {z | C.le U z.1 z.2} → hcaus : ∀ ⦃x y⦄, C.le U x y → C.le U y x → x = y → C.CausallyArcConnectedOn W → (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) → ∀ p, ¬ C.FutureBoundaryChart W Ũ p",
+      "standing": "(B) alone, time reversal, local form. It goes through C.dual, dual_causallyArcConnectedOn and dual_isCauchySurfaceOn.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:491",
+      "statement": "[T2Space M] [SecondCountableTopology M] → IsClosed {z | C.le ⊤ z.1 z.2} → C.IsCausal → C.CausallyArcConnectedOn W → (B) reversed → ∀ Ũ p, ¬ C.FutureBoundaryChart W Ũ p",
+      "standing": "(B) alone, time reversal at M.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:511",
+      "statement": "∀ (Ũ : Opens ℝ) (p : ℝ), ¬ timelikeLine.PastBoundaryChart posHalfLine Ũ p",
+      "standing": "The cheap kb/0011 witness the evidence asked for. It applies the (A) corollary on W = (0, ∞), with timelikeLine_globallyHyperbolic, timelikeLine_tarentin and (A) from timelikeLine_flrwType_hypotheses_posHalfLine. It agrees with timelikeLine_not_pastBoundaryChart (FlrwType.lean:544). It shows the theorem's hypotheses jointly consistent; it does not show a chart inhabited.",
+      "status": "proved"
+    },
+    {
+      "name": "Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeB",
+      "file_line": "scaffold/CausalScaffold/FlrwTypeClosedAmbient.lean:519",
+      "statement": "∀ (Ũ : Opens ℝ) (p : ℝ), ¬ timelikeLine.PastBoundaryChart posHalfLine Ũ p",
+      "standing": "The same witness for the (B)-theorem, with CausallyArcConnectedOn and (B) from timelikeLine_flrwType_hypotheses_posHalfLine.",
+      "status": "proved"
+    }
+  ],
+  "fields_used": "For (A) and (B) alike, the chart fields used are: (i) p ∈ Ũ (to place the limit points in U × U; (iv) implies it) and p ∉ W; (ii) inside and inside_le, only as V ≤ W; (iv) curve, chronalCurveOn, curve_zero and curve_mem; (v) s₀ and s₀_mem (step (2): p ≪_Ũ γ̃ s₀, so I⁻(γ̃ s₀, Ũ) is an open neighbourhood of p), together with isCompact_closure and closure_subset, which only feed (vi); (vi) avoid, at the one compact set K = closure (I⁺(p, Ũ) ∩ I⁻(γ̃ s₀, Ũ)), using only its first three conjuncts (σ chronal in Ũ, σ 0 ∉ W, σ t ∈ V ∖ K on (0, 1]). Neither field (iii) (futureClosed) nor the last conjunct of (vi) (γ̃ 1 ≪_Ũ σ 1) is used, by either theorem. This confirms the planner's (i), (ii), (iv), (v), (vi)-at-one-K, not (iii). The closing step false_of_squeeze alone uses only (i), (iv) and the vertex of (v).",
+  "b_report": "PROVED, not only argued: Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le (and its local, globally hyperbolic and time-reversed forms). Let M be T2 and second countable, with ≤_M closed and antisymmetric, and let W be causally arc-connected with (B). Then W has a past boundary chart at no point. There is no (A), no future one-connectedness, no field (iii) and no last conjunct of (vi). The planner's partial argument ('σ extended to the future meets the Cauchy surface of (B) at γ̃ s') is replaced by a two-case split: either σ 1 ∈ J⁺(S, W), so σ meets S by (2.4), or σ 1 ∈ J⁻(S, W), so σ 1 ≤_W z ≪_W γ̃ s with z ∈ S. Both give σ t ≤ γ̃ s for some t, and (3) is symmetric. Only ≤ is needed by the closing step, so push-up is not. Second countability and causal arc-connectedness of W enter only through (2.4) and the split. Whether (B) alone suffices without them is not decided.",
+  "lemmas_for_the_keeper": [
+    {
+      "ladder_entry": "programme/ladder.toml, a new [[consequence]] beside the past_boundary_chart entries (T-lad-programme-properties)",
+      "proposal": {
+        "at": [
+          "globally_hyperbolic",
+          "tarentin"
+        ],
+        "statement": "In a closed, antisymmetric ambient (A) alone excludes a past boundary chart: on a globally hyperbolic, tarentin spacetime M, an open W whose every past-inextensible chronal curve (chronal on its segments) has chronological future W in W has a past boundary chart at no point",
+        "witness": "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA",
+        "under": "(A) on the open W (hA, the shape of Causal.Causality.not_pastBoundaryChart_of_flrwType's); the conclusion refutes past_boundary_chart, the edge hypothesis, at W, for every Ũ and p; ≤ closed through Causal.Causality.GloballyHyperbolic.isClosed_le",
+        "standing": [
+          "T2"
+        ],
+        "status": "checked"
+      },
+      "simulation": "kb/0276, in memory: copy.deepcopy(ladder.load()) with both proposed entries appended, and lean_names() extended by the two witnesses as after graduation. ladder.check gives 0 errors before and after. ladder.matrix has 0 changed cells. ladder._contradictions gives 0 before and after. The count goes from 126 to 128 consequences. The witness resolves in Causal/ only after graduation."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, a second new [[consequence]] (the (B) report)",
+      "proposal": {
+        "at": [
+          "globally_hyperbolic",
+          "tarentin"
+        ],
+        "statement": "In a closed, antisymmetric ambient (B) alone excludes a past boundary chart: on a globally hyperbolic, tarentin spacetime M, a causally arc-connected open W every I⁻(x, W) of which contains a Cauchy surface of W has a past boundary chart at no point",
+        "witness": "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB",
+        "under": "W causally arc-connected (C.CausallyArcConnectedOn W); (B) on W (hB); the conclusion refutes past_boundary_chart at W, for every Ũ and p",
+        "standing": [
+          "T2",
+          "second_countable"
+        ],
+        "status": "checked"
+      },
+      "simulation": "Simulated together with the first entry; see there."
+    },
+    {
+      "ladder_entry": "programme/ladder.toml, past_boundary_chart's note (an edge hypothesis)",
+      "proposal": "Record the M-forms Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le and …_flrwTypeB_of_isClosed_le, and their local forms, in the block's comment, as the open-set forms of Thm 1.5 are. Their hypothesis '≤ closed' is not a node, so no entry is proposed for them."
+    }
+  ],
+  "extra_decls": [
+    "Causal.Causality.isClosed_inter_preimage_setOf_le",
+    "Causal.Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus",
+    "Causal.Causality.PastBoundaryChartData.false_of_squeeze",
+    "Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible"
+  ],
+  "findings": [
+    "No paper label is involved: 2312.07443 is not ledgered. These findings concern the programme's design and Sbierski's argument in ETT.",
+    "The planner's reading is a theorem. On a T2 space with ≤_M closed and antisymmetric, (A) alone excludes a past boundary chart (not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le). It needs no (B), no future one-connectedness, no causal arc-connectedness and no second countability.",
+    "(B) alone also excludes a chart in such an ambient, on a second countable space with W causally arc-connected (not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le). This decides the optional question. In a closed, antisymmetric ambient, neither (A) nor (B) can be shown needed. A witness separating them, in either direction, needs an ambient whose ≤ is not closed or not antisymmetric on every open U ⊇ W ∪ Ũ, by the local forms. For the (A)-needed direction it may alternatively violate second countability or causal arc-connectedness of W. Item 4 of the journal, and the keeper's proposal of an instance where exactly one of (A), (B) fails, cannot be served by any model whose ≤ is closed and antisymmetric (for the (A)-needed direction: on a second countable space with W causally arc-connected).",
+    "Neither theorem uses field (iii) or the last conjunct of (vi). In a closed antisymmetric ambient these fields are idle. They are what Sbierski's proof uses to carry σ 1 into I⁺(S, W) in a possibly non-closed C⁰ ambient. This bears on OQ-159 (are the six fields the notion of record?) and presupposes no answer.",
+    "This argument cannot take antisymmetry at W alone, as not_pastBoundaryChart_of_flrwType does. The argument concludes σ t̄ = p with p ∉ W, so antisymmetry must hold for a relation that sees p, here ≤_U with U ⊇ W ∪ Ũ. The same goes for closedness: both limits, (p, σ t) → (p, σ 0) and (σ t_s, γ̃ s) → (σ t̄, p), end at points of Ũ, possibly off W.",
+    "(A) and (B) are each used at very few instances. (A) is used for two curves only, γ̃ and σ over (0, 1]. (B) is used at the points σ t and γ̃ s only. The FlrwType theorem used (B) at γ̃ s₀ only.",
+    "The planner's step (4), 'a subsequence of the t_s converges', is realised without sequences. The set {(t, s) ∈ [0, 1]² | σ t ≤_U γ̃ s} is closed (isClosed_inter_preimage_setOf_le), hence compact. Its projection to s is closed and contains (0, 1], so it contains 0. No countability of M is used, as the planner expected."
+  ],
+  "questions": [
+    "'≤_M closed' is read as IsClosed {z : M × M | C.le ⊤ z.1 z.2}, the library's form (the conclusion of GloballyHyperbolic.isClosed_le). The local forms read '≤_U closed in U × U' as closure {z | C.le U z.1 z.2} ∩ U ×ˢ U ⊆ {z | C.le U z.1 z.2}, the shape of the scaffold's IsCausallyClosedOn U (CausalScaffold.GerochEquiv:108). That shape is written inline here because a strict-bound module cannot import the scaffold. At graduation the two could be folded together.",
+    "'(B) alone' is read as '(B) in place of (A), keeping the hypotheses of not_pastBoundaryChart_of_flrwType that (2.4) needs': second countability and causal arc-connectedness of W. Future one-connectedness is dropped. Whether (B) excludes a chart without second countability or without causal arc-connectedness is not decided here.",
+    "(A) and (B) keep the shapes of Causal/FlrwType.lean:318–320. Their readings against Sbierski's Prop 3.6 are T-abs-flrw-type's questions and are not reopened."
+  ],
+  "kb_proposals": [
+    "In a closed, antisymmetric ambient, each of (A), (B) alone excludes a past boundary chart. The names are Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le (T2 only) and …_flrwTypeB_of_isClosed_le (T2, second countable, W causally arc-connected), in CausalScaffold.FlrwTypeClosedAmbient, with local forms at any open U ⊇ W ∪ Ũ (…_of_closedIn). A witness separating (A) from (B) needs a ≤ that is not closed, or not antisymmetric, on every such U (T-abs-flrw-type-closed-ambient).",
+    "A compactness limit along a parameter, with no sequences: the set {(t, s) ∈ [0, 1]² | (F t s).1 ≤_U (F t s).2} is closed by Causal.Causality.isClosed_inter_preimage_setOf_le. Its projection to s (IsCompact.image continuous_snd, then .isClosed) contains 0 once it contains (0, 1] (closure_Ioc zero_ne_one).",
+    "A combining macron is not an identifier character. `obtain ⟨t̄, …⟩` fails with a bare 'expected token' at the binder; write tb.",
+    "Comparing two past-inextensible curves through a Cauchy surface S ⊆ I⁻(x, W): either the end point is in J⁺(S, W) and (2.4) makes the curve meet S, or it is in J⁻(S, W) (Causal.Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus, the split from exists_inextensible_of_t1_secondCountable). Either way the curve has a point ≤_W x, and push-up is not needed when only ≤ is concluded."
+  ],
+  "notes": "One new file, 525 lines, 0 sorry, 19 theorems. Graduation checklist (kb/0015, kb/0025): the master adds `import CausalScaffold.FlrwTypeClosedAmbient` to scaffold/CausalScaffold.lean, or the axiom sweep misses the module. At graduation the file moves to Causal/FlrwTypeClosedAmbient.lean and its import goes into Causal.lean. Its only import is Causal.FlrwType, it is ETT-layer, and it does not reach Causal.Ladder.Rules. Name clashes (kb/0082): grep -w over Causal/ and scaffold/ finds none of the 19 names outside this file. IsCauchySurfaceOn.mem_Jplus_union_Jminus is a twin of splitBy_of_t1_secondCountable (Causal/ErsSecondCountable.lean:158), restated only because that module is outside Causal.FlrwType's closure. A planner may replace it by importing Causal.ErsSecondCountable, which is ETT-layer (model_path None), or hoist it. isClosed_inter_preimage_setOf_le is general and could live beside IsCausallyClosedOn once that graduates. Probe.lean imports Causal.Model.MinkowskiPastBoundaryChart beside the module, to check the two layer-3 re-derivations and the corollary on every open set of 𝐌^{1+n}. That is a probe, not a library module; the module itself imports no model. No existing file was edited: not ladder.toml, Causal.lean, the scaffold root, the README or kb. I ran no git command that writes, no make check and no tools/ladder.py emit-lean; tools/ladder.py was only imported in memory. The concurrent closers' modules were neither built nor touched. Only CausalScaffold.FlrwTypeClosedAmbient was built.",
+  "what_remains": "(1) Graduation, after which the two proposed ladder consequences can resolve their witnesses. (2) A witness that (A) or (B) is needed, now known to require a non-closed or non-antisymmetric ≤ on every open U ⊇ W ∪ Ũ, or, for (A) needed, a failure of second countability or of causal arc-connectedness of W. No concrete model is known (a C⁰ extension in Sbierski's setting is layer 4). (3) Whether (B) excludes a chart without second countability or causal arc-connectedness of W, both of which enter only through (2.4) and the split. (4) The author's OQ-159: fields (iii) and the last conjunct of (vi) are idle in closed, antisymmetric ambients, which is evidence for the OQ, not an answer.",
+  "corrected_after_audit": "AUDIT-1 (minor), applied by the master: (1) the duplicate IsCauchySurfaceOn.mem_Jplus_union_Jminus stays: importing Causal.ErsSecondCountable would put Causal.Ladder.Rules in this leaf's closure (via ErsMughd) and add 15 modules, so the REPORT's 'importing that module would remove the copy' reads 'would, at the cost of reaching Rules'; the proper fix, hoisting the split into Causal.CurvesExtendSecondCountable and re-proving splitBy_of_t1_secondCountable from it, is left to the planner. (2) The checklist's T2 row names the T1 instance the (B) forms need. (3) findings[3]'s 'these fields are idle in a closed antisymmetric ambient' reads 'these two theorems do not use field (iii) or (vi)'s last conjunct' (timelikeLine_not_pastBoundaryChart uses (iii) in a closed causal ambient). (4) The SCOPE's (A)-needed caveat tightened: any witness of not_pastBoundaryChart_of_flrwType is second countable with W causally arc-connected, so the (B) local form excludes it outright."
+}

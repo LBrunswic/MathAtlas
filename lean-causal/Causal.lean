@@ -363,6 +363,7 @@ import Causal.FlrwType
 import Causal.Model.MinkowskiPastBoundaryChart
 import Causal.ErsEtaleMghd
 import Causal.ErsEtaleMghdWitnesses
+import Causal.FlrwTypeClosedAmbient
 
 /-!
 # Causal — topological spacetimes

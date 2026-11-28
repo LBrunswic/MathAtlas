@@ -1,0 +1,183 @@
+@Causal.Causality.isClosed_inter_preimage_setOf_le : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {X : Type u_2} [inst_1 : TopologicalSpace X] {U : TopologicalSpace.Opens M},
+  closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+    ∀ {B : Set X},
+      IsClosed B →
+        ∀ {F : X → M × M}, ContinuousOn F B → Set.MapsTo F B (↑U ×ˢ ↑U) → IsClosed (B ∩ F ⁻¹' {z | C.le U z.1 z.2})
+@Causal.Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T1Space M] [SecondCountableTopology M] {S : Set M},
+  C.IsCauchySurfaceOn W S → ∀ {q : M}, q ∈ W → q ∈ C.Jplus W S ∪ C.Jminus W S
+@Causal.Causality.PastBoundaryChartData.false_of_squeeze : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} (d : C.PastBoundaryChartData W Ũ p)
+  {U : TopologicalSpace.Opens M},
+  Ũ ≤ U →
+    closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+      (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+        ∀ {σ : ℝ → M},
+          C.ChronalCurveOn Ũ σ 0 1 →
+            (∀ t ∈ Set.Ioc 0 1, σ t ∈ W) →
+              (∀ t ∈ Set.Ioc 0 1, σ t ∉ C.Iplus Ũ {p} ∩ C.Iminus Ũ {d.curve d.s₀}) →
+                (∀ t ∈ Set.Ioc 0 1, C.le U p (σ t)) →
+                  (∀ s ∈ Set.Ioc 0 1, ∃ t ∈ Set.Ioc 0 1, C.le U (σ t) (d.curve s)) → False
+@Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M] {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          (∀ (I : Set ℝ) (γ : ℝ → M),
+              C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+            ∀ (p : M), ¬C.PastBoundaryChart W Ũ p
+@Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+@Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+@Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} [T2Space M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.PastBoundaryChart W Ũ p →
+        ¬∀ (I : Set ℝ) (γ : ℝ → M),
+            C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iplus W {γ t} = ↑W
+@Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M},
+  (∀ (I : Set ℝ) (γ : ℝ → M),
+      C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+    ∀ (I : Set ℝ) (γ : ℝ → M),
+      C.dual.PastInextensible W I γ →
+        (∀ a ∈ I, ∀ b ∈ I, C.dual.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.dual.Iplus W {γ t} = ↑W
+@Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_closedIn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M] {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          (∀ (I : Set ℝ) (γ : ℝ → M),
+              C.FutureInextensible W I γ →
+                (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+            ∀ (p : M), ¬C.FutureBoundaryChart W Ũ p
+@Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+@Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      (∀ (I : Set ℝ) (γ : ℝ → M),
+          C.FutureInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) → ⋃ t ∈ I, C.Iminus W {γ t} = ↑W) →
+        ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+@Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M]
+  {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          C.CausallyArcConnectedOn W →
+            (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) → ∀ (p : M), ¬C.PastBoundaryChart W Ũ p
+@Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+@Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.PastBoundaryChart W Ũ p
+@Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} {p : M} [T2Space M] [SecondCountableTopology M],
+  C.Tarentin →
+    C.GloballyHyperbolic →
+      C.CausallyArcConnectedOn W →
+        C.PastBoundaryChart W Ũ p → ¬∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}
+@Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M],
+  IsClosed {z | C.le ⊤ z.1 z.2} →
+    C.IsCausal →
+      C.CausallyArcConnectedOn W →
+        (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) →
+          ∀ (Ũ : TopologicalSpace.Opens M) (p : M), ¬C.FutureBoundaryChart W Ũ p
+@Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn : ∀ {M : Type u_1} [inst : TopologicalSpace M]
+  {C : Causal.Causality M} {W Ũ : TopologicalSpace.Opens M} [T2Space M] [SecondCountableTopology M]
+  {U : TopologicalSpace.Opens M},
+  W ≤ U →
+    Ũ ≤ U →
+      closure {z | C.le U z.1 z.2} ∩ ↑U ×ˢ ↑U ⊆ {z | C.le U z.1 z.2} →
+        (∀ ⦃x y : M⦄, C.le U x y → C.le U y x → x = y) →
+          C.CausallyArcConnectedOn W →
+            (∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iplus W {x}) → ∀ (p : M), ¬C.FutureBoundaryChart W Ũ p
+Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.PastBoundaryChart Causal.posHalfLine Ũ p
+Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeB : ∀ (Ũ : TopologicalSpace.Opens ℝ) (p : ℝ),
+  ¬Causal.timelikeLine.PastBoundaryChart Causal.posHalfLine Ũ p
+'Causal.Causality.isClosed_inter_preimage_setOf_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.PastBoundaryChartData.false_of_squeeze' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeB' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'Causal.probe_minkowski_posHalfSpace_not_flrwTypeA' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.probe_minkowski_posHalfSpace_not_flrwTypeB' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Causal.probe_minkowski_not_pastBoundaryChart_of_flrwTypeA' depends on axioms: [propext, Classical.choice, Quot.sound]
