@@ -1,0 +1,97 @@
+{
+  "package": "lean-benzecri",
+  "target": "T-bz-c3-boole-projectif-domaines",
+  "files": ["scaffold/BenzecriScaffold/Chapter3/BooleProjectifDomaines.lean", "scaffold/BenzecriScaffold.lean (one import line added)"],
+  "builds": true,
+  "warning_as_error": true,
+  "sorry_count": 0,
+  "axioms": ["propext", "Classical.choice", "Quot.sound"],
+  "labels": [
+    {
+      "label": "bzthm:c3s2t3_algebre_boole_projective",
+      "tex_lines": [570, 576],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.BooleProjectifDomainesInstance.not_theoreme3_ouvert",
+        "Benzecri.BooleProjectifDomainesInstance.not_distribLattice_quartS",
+        "Benzecri.BooleProjectifDomainesInstance.not_distrib_lines",
+        "Benzecri.Sphere.theoreme3_ferme",
+        "Benzecri.Sphere.algebreBooleS_ferme",
+        "Benzecri.Sphere.estConjugueS_iff_of_isClosed",
+        "Benzecri.Sphere.estDistingueS_iff_of_isClosed",
+        "Benzecri.Sphere.not_coneDec_of_isClosed"
+      ],
+      "hypotheses": [
+        {"paper": "w convexe, support S(E), noyau vide", "here": "kept (1): quartS satisfies all of them and is open; (2) noyau not used (dropped)", "note": "theoreme3_ferme needs IsConvexPart w, supportK w = univ"},
+        {"paper": "E any real vector space", "here": "strengthened (2)", "note": "E a real topological vector space (IsTopologicalAddGroup, ContinuousSMul), needed for « fermé »; no finite dimension"},
+        {"paper": "(none)", "here": "added (2)", "note": "IsClosed w: the alternative domain OQ-168 names"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.570–576, Théorème 3, is refuted as printed for an OPEN w: relative to the open quarter {y > 0, z > 0} of S(2) (convex, open, support S(2), noyau ∅) no distributive lattice, hence no Boolean algebra, on the distinguished subvarieties is ordered by inclusion. The three distinguished lines x = 0, x = y, x = 2y of the plane z = 0 break distributivity: x ⊓ y and x ⊓ z are ∅, while y ⊔ z contains the plane, so x ⊓ (y ⊔ z) = x (BooleProjectifDomainesInstance.not_theoreme3_ouvert, a genuine refutation named not_…, for the restatement register; also not_distribLattice_quartS). Together with not_theoreme3 (w₂: line-free, not open) this shows each of the two added hypotheses of theoreme3 (w open, F(w) line-free) is necessary: neither alone suffices.",
+        "For w CLOSED (OQ-168's alternative, « corps convexe » read as IsClosed), Théorème 3 holds but degenerately: the only conjugate pairs are (S(E), ∅) and (∅, S(E)) (estConjugueS_iff_of_isClosed), the distinguished subvarieties are exactly ∅ and S(E) (estDistingueS_iff_of_isClosed), and the Boolean algebra is {∅, S(E)} with complement the (unique) conjugate, inf ∩, sup the convex hull (theoreme3_ferme). Proved for every real topological vector space E, without the noyau hypothesis. The planner's [r] claim is confirmed.",
+        "Consequence for OQ-168: the closed domain makes Th. 3 true only because it has no nontrivial decomposition at all, so it cannot be the domain of Props. 4–5 (l.598–620), which decompose open w; the closed positive simplex of S(n) (closure of the open simplex, which has n + 1 simple ones) has exactly one simple distinguished subvariety (simplexS_simplesS, simplexS_contraste for n = 2: 3 against 1)."
+      ],
+      "questions": [
+        "« corps convexe » for OQ-168's alternative read only as IsClosed w (noyau and compactness not used; the result holds without them). Not resolved here: whether the author intends closed w at all; this file only evaluates that alternative."
+      ]
+    },
+    {
+      "label": "bzcor:c3s2t3c_algebre_parties_projective",
+      "tex_lines": [579, 590],
+      "status": "partial",
+      "marked": false,
+      "decls": [
+        "Benzecri.Sphere.corollaire_algebre_parties_projective_ferme",
+        "Benzecri.Sphere.simplesS_eq_of_isClosed",
+        "Benzecri.BooleProjectifDomainesInstance.simplexS_simplesS",
+        "Benzecri.BooleProjectifDomainesInstance.simplexS_contraste"
+      ],
+      "hypotheses": [
+        {"paper": "E de dimension finie n + 1", "here": "kept", "note": "Module.finrank ℝ E = n + 1"},
+        {"paper": "(none)", "here": "added", "note": "IsClosed w (OQ-168's alternative); noyau not used"}
+      ],
+      "sorries": [],
+      "findings": [
+        "l.579–590, the Corollary, holds for closed w with cardinal exactly 1: the simple distinguished subvarieties are {S(E)} (simplesS_eq_of_isClosed), the order isomorphism Set(simples) ≃o distinguished by T ↦ convex hull, and the unique representation, all proved (corollaire_algebre_parties_projective_ferme). The bracket « (n+1) au cas du n-simplexe ouvert » therefore lies outside the closed domain: the closed simplex gives 1 (simplexS_contraste)."
+      ],
+      "questions": []
+    }
+  ],
+  "instances": [
+    "(1) the open quarter BooleProjectifInstance.quartS of S(2): convex, open, support S(2), noyau ∅ (isConvexPart_quartS, isOpen_quartS, supportK_quartS, noyau_quartS, bundled in not_theoreme3_ouvert)",
+    "(2) the closed positive simplex FacetteDualeInstance.simplexS n of S(n), every n: convex, closed, support S(n), noyau ∅, F line-free (BooleProjectifDomainesInstance.simplexS_hyps), an instance of every hypothesis of theoreme3_ferme and corollaire_algebre_parties_projective_ferme"
+  ],
+  "refutations_not": [
+    {"decl": "Benzecri.BooleProjectifDomainesInstance.not_theoreme3_ouvert", "refutes": "bzthm:c3s2t3_algebre_boole_projective as printed (open case)", "route": "restatement register"},
+    {"decl": "Benzecri.BooleProjectifDomainesInstance.not_distribLattice_quartS", "refutes": "the same, the distributive-lattice form (stronger)", "route": "restatement register"}
+  ],
+  "extra_decls": [
+    "Benzecri.Sphere.not_coneDec_of_isClosed",
+    "Benzecri.Sphere.botTop_sup",
+    "Benzecri.Sphere.botTop_inf",
+    "Benzecri.Sphere.complFerme",
+    "Benzecri.Sphere.complFerme_bot",
+    "Benzecri.Sphere.complFerme_of_ne",
+    "Benzecri.Sphere.botTop_complFerme",
+    "Benzecri.Sphere.set_singleton_cases",
+    "Benzecri.Sphere.sSup_image_singleton_cases",
+    "Benzecri.BooleProjectifDomainesInstance.Bt_subset",
+    "Benzecri.BooleProjectifDomainesInstance.span_Bt_inf",
+    "Benzecri.BooleProjectifDomainesInstance.e2_mem_Bt0",
+    "Benzecri.BooleProjectifDomainesInstance.span_Bt0_ne_bot",
+    "Benzecri.BooleProjectifDomainesInstance.span_Bt0_le",
+    "Benzecri.BooleProjectifDomainesInstance.F_simplexS",
+    "Benzecri.BooleProjectifDomainesInstance.isClosed_simplexS",
+    "Benzecri.BooleProjectifDomainesInstance.supportK_simplexS",
+    "Benzecri.BooleProjectifDomainesInstance.noyau_simplexS",
+    "Benzecri.BooleProjectifDomainesInstance.not_contientDroite_simplexS",
+    "Benzecri.BooleProjectifDomainesInstance.simplexS_distingue_iff"
+  ],
+  "kb_proposals": [
+    "To refute « a lattice structure B on a subtype ordered by inclusion », state the lattice argument over an abstract [DistribLattice α] with f : α → Submodule and hle : x ≤ y ↔ f x ≤ f y, then apply it with @lemma _ B Subtype.val: inside a proof, letI := B does not override Subtype.instLE for `≤`, so `x ≤ y` silently elaborates to the subtype order.",
+    "For w closed in S(E), F(w) = A + A′ (ConeDec) is impossible: a ∈ A is a limit of a + t a′ ∈ F(w), so mem_F_of_forall_add_smul (Chapter3/Sature.lean) puts a in A + A′ and forces 0 ∈ A′ (Sphere.not_coneDec_of_isClosed); the distinguished subvarieties of a closed w are ∅ and S(E)."
+  ],
+  "notes": "One new file, 0 sorry, passes lake env lean -DwarningAsError=true, sets no linter option; lake build BenzecriScaffold.Chapter3.BooleProjectifDomaines succeeds. It imports Benzecri.Chapter3.BooleProjectif, .Sature, .FacetteDuale. The closed simplex used is FacetteDualeInstance.simplexS (T-bz-c3-dedupe-simplexe still ready, both copies present): if the dedupe keeps TriangleInstance.simplexS instead, rename the five references. No label marked (OQ-168 OPEN). The import line was appended to scaffold/BenzecriScaffold.lean after re-reading it (it held only BenzecriScaffold.Basic; Prop4Tore's closer had not yet added its line)."
+}

@@ -1,0 +1,34 @@
+{
+  "target": "T-bz-c3-boole-projectif-domaines",
+  "auditor_round": 1,
+  "verdict": "clean",
+  "labels": [
+    {
+      "label": "bzthm:c3s2t3_algebre_boole_projective",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Left unmarked (partial, OQ-168 OPEN). Both halves were read against l.570-576. (1) not_theoreme3_ouvert is a genuine refutation in the printed domain. quartS is convex, open, has support S(2) and an empty noyau (lemmas proved in the strict BooleProjectif.lean). The Lean conclusion denies any BooleanAlgebra on DistinguesS quartS whose order is inclusion. The printed theorem implies that order, because inf = intersection gives x <= y iff x ∩ y = x iff x ⊆ y. So the refutation is at least as strong as the printed claim. The counterexample is proved in full. Bt 0, Bt 1, Bt 2 are the rays x = 0, x = y, x = 2y of the plane z = 0, and each is distinguished, conjugate to the half-plane B' = {y = 0, z > 0} (quart_distingue_Bt via coneDec_Bt). span_Bt_inf (t ≠ r) proves that the spans meet only in 0: from v2 = 0 and v0 = t v1 = r v1 it gets v1 = 0 and then v0 = 0. not_distrib_lines applies this to the pairs (0,1) and (0,2). The sup is not taken to be any particular set. y ⊔ z is only bounded below through the order equivalence hle, so f(y ⊔ z) contains span Bt1 ⊔ span Bt2. span_Bt0_le then shows that this plane contains span Bt0, using (0,v1,0) = 2v1(1,1,0) - v1(2,1,0). Distributivity therefore forces x ≤ x ⊓ y, and span Bt0 = ⊥ follows, which is false (e2_mem_Bt0). Lattice instances are passed explicitly (B.le, @not_distrib_lines _ B), so the subtype-order pitfall in the kb proposal does not arise. (2) theoreme3_ferme has exactly the conclusion shape of the strict theoreme3. It adds IsClosed w (disclosed, the alternative OQ-168 names), drops the noyau hypothesis (stronger) and needs a topological vector space structure on E to state closedness (disclosed). The claim that only (S(E), ∅) and (∅, S(E)) are conjugate is correct under BooleProjectif's definitions. EstSomme2 has the two-sided convention (v1 = w, v2 = ∅) or (v1 = ∅, v2 = w), and estConjugueS_iff turns these into (span F(w), ⊥) and (⊥, span F(w)), with span F(w) = ⊤ from support univ. A nontrivial pair needs ConeDec (F w), and not_coneDec_of_isClosed excludes it for closed w. That argument is mathematically right: a in A is the limit of a + t a' in F(w) as t → 0+, so a is in F(w) = A + A'. Writing a = b + b' puts b' = a - b in L ∩ L' = 0, which contradicts 0 ∉ A'."
+    },
+    {
+      "label": "bzcor:c3s2t3c_algebre_parties_projective",
+      "faithful": true,
+      "marked_correctly": true,
+      "notes": "Left unmarked (partial). corollaire_algebre_parties_projective_ferme keeps finrank E = n + 1, adds IsClosed w (disclosed) and drops the noyau hypothesis. Its conclusion has the shape of the strict corollary: finite, 1 ≤ ncard ≤ n + 1, an order isomorphism Set(simplesS) ≃o DistinguesS given by convex hull, closure under sSup, and unique representation. simplesS_eq_of_isClosed (= {⊤}) is right, since ⊥ is excluded from simples and ⊤ is minimal among the nonzero distinguished subspaces {⊤}. The report's remark that the bracket « (n+1) au cas du n-simplexe ouvert » lies outside the closed domain is accurate: simplexS_contraste gives 3 against 1 in S(2), using the strict simplexO_simplesS_ncard."
+    }
+  ],
+  "build": {
+    "ok": true,
+    "sorry": 0,
+    "axioms": "standard",
+    "notes": "`taskset -c 0-11 lake env lean -DwarningAsError=true scaffold/BenzecriScaffold/Chapter3/BooleProjectifDomaines.lean` exits 0 with no output. grep finds no sorry, no set_option and no linter option. I appended #print axioms for 14 declarations to a copy of the file under the campaign directory, ran it, and deleted it. The 14 were the seven closed-case results (not_coneDec_of_isClosed through corollaire_algebre_parties_projective_ferme), the three refutations not_distrib_lines, not_distribLattice_quartS and not_theoreme3_ouvert, and the four simplex lemmas simplexS_hyps, simplexS_simplesS, simplexS_contraste and simplexS_distingue_iff. Every one reports [propext, Classical.choice, Quot.sound]. No lake build was run, as instructed."
+  },
+  "instances": {
+    "simplexS_hyps": "A real term. It bundles FacetteDualeInstance.isConvexPart_simplexS, isClosed_simplexS, supportK_simplexS, noyau_simplexS and not_contientDroite_simplexS for every n. simplexS n = ofCone {v | ∀ i, 0 ≤ v i}, the closed positive simplex. It is textually identical to TriangleInstance.simplexS in PointsExtremaux.lean, as the docstring says.",
+    "simplexS_simplesS": "A real term: simplesS = {⊤} and ncard = 1, obtained from simplesS_eq_of_isClosed with the hypotheses above.",
+    "simplexS_contraste": "A real term: (simplesS (simplexO 2)).ncard = 3 from the strict simplexO_simplesS_ncard, and (simplesS (simplexS 2)).ncard = 1.",
+    "open_case": "not_theoreme3_ouvert carries its own witness, quartS, with all four printed hypotheses and openness proved."
+  },
+  "scope": "`git status --short` shows these changes. (a) lean-benzecri/scaffold/BenzecriScaffold.lean: one import line added (dispatched). (b) The untracked lean-benzecri/scaffold/BenzecriScaffold/Chapter3/, which holds BooleProjectifDomaines.lean (dispatched) and Prop4Tore.lean (owned by T-bz-c3-prop4-tore, and also under the live atlas lease). (c) This campaign directory. Every other changed path (papers/*/certificate/RESTATED.md, restatements.toml and restate/CHECK-*, programme/*, roadmap/roadmap.toml) is under a live lease of the restate, programme or atlas loop (`tools/lease.py show`), so none can be attributed to this closer. No edit outside the dispatch was found.",
+  "docstring_contract": "The module docstring has the citation and transcription caveat, a per-label list with both labels explicitly NOT marked (no bold label marks anywhere), the verbatim quotation, the proofs formalized, a hypothesis checklist and a SCOPE. I checked the checklist and SCOPE against the code and found both true: noyau dropped, IsClosed added, topological vector space structure added, 'corps convexe' read as IsClosed only, the open-case refutation named not_.",
+  "findings": []
+}
