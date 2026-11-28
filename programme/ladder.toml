@@ -451,7 +451,8 @@
 #   point in J⁺(Σ) meets Σ (Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_isCausal).
 # * Its time reversal (Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus_of_isCausal).
 # Both signatures were read from the source (Causal/PastInextensibleMeetsCauchy.lean:513, :520), with
-# no build. Each `under` says what the witness asks besides the nodes: Σ a Cauchy surface of M (DEC-14)
+# no build (lines of that day; :191, :198 since b5b0a37d, refreshed by T-lad-meets-cauchy-refresh).
+# Each `under` says what the witness asks besides the nodes: Σ a Cauchy surface of M (DEC-14)
 # and the curve past- (future-) inextensible (DEC-13), not assumed tail-free. The open-set forms (any
 # W, causally arc-connected, ≤_W antisymmetric) and Sbierski's I± wording are named in the block's
 # comment and have no entry, since their hypotheses at an open W are not ladder nodes. Consequences go
@@ -490,6 +491,42 @@
 # targets T-loc-minkowski-past-boundary-chart and T-loc-c0-past-boundary-chart keep provides = []
 # (tools/roadmap.py's ladder_ids reads [[property]] ids only) and may cite the id in their evidence;
 # tools/binder.py accepts it.
+# After T-lad-meets-cauchy-refresh (2026-11-28) still 432 of 432, the same 41, 385 and 6. It was
+# simulated in memory first (kb/0276), on copy.deepcopy(ladder.load()) with the two entries appended:
+# check gave no error, the matrix was compared cell by cell (0 changed of 702), _contradictions was
+# empty before and after, and the rule selection (emitted, emitted_facts) was unchanged. The file
+# was then compared with the same baseline. It refreshes the (2.4) and Thm 1.5 blocks after wave 53.
+# * Stale line references. T-abs-end-pieces-one-sided (b5b0a37d) moved the one-sided end pieces out
+#   of Causal/PastInextensibleMeetsCauchy.lean, so its theorems moved up: the (2.4) block's comments
+#   now cite :147, :162, :174, :182, :108, :191 and :198 (each re-read today), and
+#   Causal.Causality.PastInextensible.of_retraction at its new home,
+#   Causal/CExtConnexeCauchy/SubArc.lean:568. The dated line of the paragraph of
+#   T-lad-record-past-inextensible-meets-cauchy above keeps :513, :520 as history, annotated.
+# * The antisymmetry witness. The (2.4) block's comment cites
+#   Causal.rayCircle_separates_pastInextensible_meets and its bare form
+#   Causal.not_pastInextensible_exists_mem_of_mem_Jplus_bare
+#   (Causal/MeetsCauchyAntisymmetrySharp.lean:890, :911; T-abs-meets-cauchy-antisymmetry-sharp,
+#   85a82c2c) in place of "argued by the closer, not formalised" and "Whether each of these is a
+#   causality of ETT was not checked in Lean": the ray glued to a circle is an arcCausality,
+#   absolutely minimal on every open set, so an ETT causality in either reading of DEC-167. It gets no [[fails]] entry: a consequence is not a pair, and
+#   causally_arc_connected ∧ absolutely_minimal ⇏ is_causal is refuted already. The two-lines model
+#   for causal arc-connectedness stays argued; the comment says why it was not taken (not absolutely
+#   minimal).
+# * Two consequences at [globally_hyperbolic, tarentin], from lemmas_for_the_keeper[0] and [1] of
+#   T-abs-flrw-type-closed-ambient (a2671ebc): (A) alone excludes a past boundary chart
+#   (Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA, standing T2), and so does
+#   (B) alone (…_of_flrwTypeB, standing T2 and second_countable, W causally arc-connected in `under`).
+#   Each `under` names the edge hypothesis past_boundary_chart, which the conclusion refutes at W.
+#   Their signatures were read from Causal/FlrwTypeClosedAmbient.lean (:304, :455), with no build.
+#   Consequences go from 126 to 128.
+# * Comments. The Thm 1.5 block names, with no entry, the module's M-forms (≤ closed is no node), its
+#   local forms, its time reversals, its instance checks and its closing step. past_boundary_chart's
+#   note gains the closed-ambient fact: in a closed, antisymmetric ambient each of (A), (B) alone
+#   excludes a chart, so no such model separates them. Neither proof uses field (iii) or (vi)'s last
+#   conjunct, which the note records as evidence for OQ-159 (OPEN), not an answer.
+# No [[property]], [[implies]], [[fails]], [[fact]], [[transfer]], [[open]] or [[edge_hypothesis]]
+# entry is added or removed (one edge hypothesis's note changes). A consequence chains nothing and
+# emit-lean reads none, so neither Causal/Ladder/Rules.lean nor Causal/Ladder/Test.lean would change.
 #
 # Three sorts of property (T-lad-cbg-geometry-nodes, T-lad-nested-nodes, 2026-11-20); `pair` is
 # described after `geometry`. A property of sort `causality` (the default: no `sort` field) has a Lean
@@ -1463,7 +1500,7 @@ id = "past_boundary_chart"
 lean = "Causal.Causality.PastBoundaryChart"
 reads = "a causality C, two opens W (Sbierski's ι(M)) and Ũ (the chart) of M, and a point p of M (the past boundary point)"
 what = "C.PastBoundaryChart W Ũ p is Nonempty (C.PastBoundaryChartData W Ũ p), data with six fields: (i) p ∈ Ũ and p ∉ W; (ii) an open inside V ≤ W ⊓ Ũ (Sbierski's Ũ_>); (iii) V future-closed in Ũ, ∀ x ∈ V, I⁺(x, Ũ) ⊆ I⁺(x, V) ((2.4) reversed, in relation form); (iv) a chronal curve γ̃ of Ũ over [0, 1] with γ̃ 0 = p and γ̃ t ∈ V for t ∈ (0, 1]; (v) s₀ ∈ (0, 1) with closure (I⁺(p, Ũ) ∩ I⁻(γ̃ s₀, Ũ)) compact and inside Ũ; (vi) for every compact K ⊆ Ũ, a chronal curve σ of Ũ over [0, 1] with σ 0 ∉ W, σ t ∈ V ∖ K for t ∈ (0, 1], and γ̃ 1 ≪_Ũ σ 1"
-note = "Sbierski 2312.07443 Prop 2.1 (1711.11380 Prop 2.2: a local boundary chart with sandwiched cones) read for the past boundary, with (4.1) and the two vertical curves of §4.1, read causally (kb/0001: Sbierski's M̃ is M, ι(M) the open W). The cone sandwich, the Lipschitz graph and (4.1) enter only through fields (iii)–(vi). Its time reversal is Causal.Causality.FutureBoundaryChart C W Ũ p (Causal/FlrwType.lean:163), defined as C.dual.PastBoundaryChart W Ũ p (Prop 2.1 as printed); it has no id of its own. No entry takes the chart as a hypothesis: the theorem that uses it refutes it. That theorem is Causal.Causality.not_pastBoundaryChart_of_flrwType (:315). On a T2, second countable M, take an open W, causally arc-connected and future one-connected as a spacetime, with ≤_W antisymmetric. Suppose (A) the chronological future in W of every past-inextensible chronal curve of W is W, and (B) every I⁻(x, W), x ∈ W, contains a Cauchy surface of W. Then W has a past boundary chart at no point: ¬ C.PastBoundaryChart W Ũ p for every Ũ and p. Its time reversal is Causal.Causality.not_futureBoundaryChart_of_flrwType (:355). Neither is an entry: their hypotheses at W are not nodes, and at W = M the theorem is empty, since no point lies off M. Their ladder form is the corollary for an extension, Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType (:523). It is the consequence at causally_arc_connected, future_one_connected and is_causal of the extension's source, and its `under` names this id. The predicate is inhabited: Causal.minkowski_pastBoundaryChart (Causal/Model/MinkowskiPastBoundaryChart.lean:301) gives a chart of the half-space W = {t > 0} of 𝐌^{1+n}, n ≥ 1 (Causal.minkowskiPosHalfSpace), with Ũ = (−1, 1) × B(0, 1/10) (Causal.minkowskiChartBox), at p = 0. It instantiates the definition as it stands, with no restatement. So the theorem is not vacuous, and the condition of T-abs-flrw-type's AUDIT-1 (finding 1), to record the chart only once an instance lands, is met. On that W every other hypothesis of the theorem holds, and (A) and (B) both fail (Causal.minkowski_posHalfSpace_flrwType_check, :447). The theorem applied without restatement, Causal.minkowski_posHalfSpace_not_flrwTypeA_and_B (:474), gives ¬((A) ∧ (B)). So the instance does not show that (A) or (B) is needed alone. There is no chart for n = 0 (Causal.minkowski_zero_not_pastBoundaryChart, :316), nor on the timelike line (Causal.timelikeLine_not_pastBoundaryChart, Causal/FlrwType.lean:544): one dimension leaves no room for field (vi). OQ-159 (registers/DECISIONS.md:387, OPEN, no target blocked) asks whether the six fields are the ETT notion of record, or whether they should be weakened as the proof allows: it uses (vi) at one compact set only, the closure of (v)'s diamond. This entry records the Lean definition as it stands and decides nothing; a ruling that changes the definition changes only `what`. The row says 'no instance is built yet'. That was true when it was written and has been stale since 6c1b6dba; the register is append-only, so the instance is recorded here. Layer 3: Minkowski space as above. For C⁰ metrics it is T-loc-c0-past-boundary-chart (planned, behind T-loc-c0-metric-causality), whose field (iii) goes through Causal.Causality.Iplus_subset_inside_of_boundaryChart (Causal/BoundaryChartCauchy.lean). tools/roadmap.py's ladder_ids reads [[property]] ids only, so the two localisation targets keep provides = [] and may cite this id in their evidence; tools/binder.py accepts it. ETT states no such chart, and 2312.07443 is not ledgered: no label."
+note = "Sbierski 2312.07443 Prop 2.1 (1711.11380 Prop 2.2: a local boundary chart with sandwiched cones) read for the past boundary, with (4.1) and the two vertical curves of §4.1, read causally (kb/0001: Sbierski's M̃ is M, ι(M) the open W). The cone sandwich, the Lipschitz graph and (4.1) enter only through fields (iii)–(vi). Its time reversal is Causal.Causality.FutureBoundaryChart C W Ũ p (Causal/FlrwType.lean:163), defined as C.dual.PastBoundaryChart W Ũ p (Prop 2.1 as printed); it has no id of its own. No entry takes the chart as a hypothesis: the theorem that uses it refutes it. That theorem is Causal.Causality.not_pastBoundaryChart_of_flrwType (:315). On a T2, second countable M, take an open W, causally arc-connected and future one-connected as a spacetime, with ≤_W antisymmetric. Suppose (A) the chronological future in W of every past-inextensible chronal curve of W is W, and (B) every I⁻(x, W), x ∈ W, contains a Cauchy surface of W. Then W has a past boundary chart at no point: ¬ C.PastBoundaryChart W Ũ p for every Ũ and p. Its time reversal is Causal.Causality.not_futureBoundaryChart_of_flrwType (:355). Neither is an entry: their hypotheses at W are not nodes, and at W = M the theorem is empty, since no point lies off M. Their ladder form is the corollary for an extension, Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType (:523). It is the consequence at causally_arc_connected, future_one_connected and is_causal of the extension's source, and its `under` names this id. The predicate is inhabited: Causal.minkowski_pastBoundaryChart (Causal/Model/MinkowskiPastBoundaryChart.lean:301) gives a chart of the half-space W = {t > 0} of 𝐌^{1+n}, n ≥ 1 (Causal.minkowskiPosHalfSpace), with Ũ = (−1, 1) × B(0, 1/10) (Causal.minkowskiChartBox), at p = 0. It instantiates the definition as it stands, with no restatement. So the theorem is not vacuous, and the condition of T-abs-flrw-type's AUDIT-1 (finding 1), to record the chart only once an instance lands, is met. On that W every other hypothesis of the theorem holds, and (A) and (B) both fail (Causal.minkowski_posHalfSpace_flrwType_check, :447). The theorem applied without restatement, Causal.minkowski_posHalfSpace_not_flrwTypeA_and_B (:474), gives ¬((A) ∧ (B)). So the instance does not show that (A) or (B) is needed alone, and no model whose ≤ is closed and antisymmetric can (Causal/FlrwTypeClosedAmbient.lean, T-abs-flrw-type-closed-ambient, a2671ebc). In such an ambient each of (A), (B) alone excludes a chart, with no future one-connectedness: (A) on a T2 space (Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le, :290), and (B) on a T2, second countable space with W causally arc-connected (Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le, :445). By their local forms (Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn, :247; Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn, :398) it is enough that ≤_U be closed in U × U and antisymmetric for one open U containing W and Ũ. So a model separating (A) from (B) among the theorem's other hypotheses (T2, second countable, W causally arc-connected), in either direction, needs an ambient whose ≤_U is not closed or not antisymmetric for every such U. On the half-space each of (A), (B) fails alone (Causal.minkowski_posHalfSpace_not_flrwTypeA, :380; Causal.minkowski_posHalfSpace_not_flrwTypeB, :432), which the instance checks Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart and Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart re-derive. Their globally hyperbolic forms, Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA (T2) and Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB (T2, second countable, W causally arc-connected), are two consequences at [globally_hyperbolic, tarentin] whose `under` names this id (T-lad-meets-cauchy-refresh). Neither proof uses field (iii) or the last conjunct of (vi), γ̃ 1 ≪_Ũ σ 1. That is evidence for OQ-159, not an answer: Causal.timelikeLine_not_pastBoundaryChart uses (iii) in a closed causal ambient. There is no chart for n = 0 (Causal.minkowski_zero_not_pastBoundaryChart, :316), nor on the timelike line (Causal.timelikeLine_not_pastBoundaryChart, Causal/FlrwType.lean:544): one dimension leaves no room for field (vi). OQ-159 (registers/DECISIONS.md:387, OPEN, no target blocked) asks whether the six fields are the ETT notion of record, or whether they should be weakened as the proof allows: it uses (vi) at one compact set only, the closure of (v)'s diamond. This entry records the Lean definition as it stands and decides nothing; a ruling that changes the definition changes only `what`. The row says 'no instance is built yet'. That was true when it was written and has been stale since 6c1b6dba; the register is append-only, so the instance is recorded here. Layer 3: Minkowski space as above. For C⁰ metrics it is T-loc-c0-past-boundary-chart (planned, behind T-loc-c0-metric-causality), whose field (iii) goes through Causal.Causality.Iplus_subset_inside_of_boundaryChart (Causal/BoundaryChartCauchy.lean). tools/roadmap.py's ladder_ids reads [[property]] ids only, so the two localisation targets keep provides = [] and may cite this id in their evidence; tools/binder.py accepts it. ETT states no such chart, and 2312.07443 is not ledgered: no label."
 
 # ------------------------------------------------------------------ implications
 
@@ -4974,41 +5011,67 @@ status = "checked"
 # Causal.CauchyDual, with no model. No statement of ETT.tex is behind it, so there is no label. It is
 # the last step of Sbierski's Thm 1.5 (references/sbierski/text/sbierski2023c.txt:356–358,
 # :1139–1144). Each signature was read from the source, with no build (closers hold lean-causal), and
-# each name below was resolved by tools/ladder.py's index.
+# each name below was resolved by tools/ladder.py's index. The line numbers of the source are those
+# after T-abs-end-pieces-one-sided (b5b0a37d), which moved the one-sided end pieces to
+# Causal/CExtConnexeCauchy/SubArc.lean and shifted the module's theorems up; they were re-read on
+# 2026-11-28 (T-lad-meets-cauchy-refresh).
 #
 # The forms on an open W are not entries. Their hypotheses at W (≤_W antisymmetric, W causally
 # arc-connected, S a Cauchy surface of W) are not ladder nodes; the two entries below are their case
 # W = ⊤.
-# * Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus (:469): [T1Space M]
+# * Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus (:147): [T1Space M]
 #   [SecondCountableTopology M] (hS : C.IsCauchySurfaceOn W S) (hC : C.CausallyArcConnectedOn W)
 #   (hcaus : ∀ ⦃x y⦄, C.le W x y → C.le W y x → x = y) (hσ : C.PastInextensible W I σ)
-#   (hJ : ∃ t ∈ I, σ t ∈ C.Jplus W S) ⊢ ∃ t ∈ I, σ t ∈ S.
-# * Its time reversal, Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus (:484). Every
+#   (hJ : ∃ t ∈ I, σ t ∈ C.Jplus W S) ⊢ ∃ t ∈ I, σ t ∈ S. The (B)-theorem of the closed ambient
+#   (Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn, the Thm 1.5 block below) applies
+#   it at W twice.
+# * Its time reversal, Causal.Causality.FutureInextensible.exists_mem_of_mem_Jminus (:162). Every
 #   hypothesis is stated for C itself, and the proof goes through Causal.Causality.dual_isCauchySurfaceOn,
 #   Causal.Causality.dual_causallyArcConnectedOn and Causal.Causality.dual_pastInextensible_iff.
 # * Sbierski's wording, a point in I⁺(Σ): Causal.Causality.PastInextensible.exists_mem_of_mem_Iplus
-#   (:496) and Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus (:504). They are corollaries
+#   (:174) and Causal.Causality.FutureInextensible.exists_mem_of_mem_Iminus (:182). They are corollaries
 #   through Causal.Causality.Iplus_subset_Jplus and Causal.Causality.Iminus_subset_Jminus.
-# * The tail-free case, Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree (:430,
+# * The tail-free case, Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus_of_tailFree (:108,
 #   T1, second countable, TailFree I σ besides). It goes through Causal.Causality.exists_subArc_of_tailFree.
 #   The trimming removes the hypothesis: Causal.exists_tailFree_retraction, with
-#   Causal.Causality.PastInextensible.of_retraction (:353, no separation axiom).
+#   Causal.Causality.PastInextensible.of_retraction (no separation axiom; since b5b0a37d in
+#   Causal/CExtConnexeCauchy/SubArc.lean:568, no longer in this module).
 #
 # At M the hypotheses are nodes. C.IsCausal is literally the antisymmetry of ≤_⊤
 # (Causal/Properties.lean:95), IsCauchySurface S is IsCauchySurfaceOn ⊤ S, and CausallyArcConnected is
 # CausallyArcConnectedOn ⊤; the audit's probe checked each by rfl. Lean ≥ Sbierski on two counts: the
 # given point is any point of the curve (his curve "starts in I⁺(Σ, M)"), and it may lie in J⁺ ⊇ I⁺.
-# Both nodes look necessary, but this is argued by the closer, not formalised (REPORT.json
-# findings[6]):
-# * without antisymmetry, a ray glued to a circle at q, with S = {y}, y ≠ q on the circle;
-# * without causal arc-connectedness, two timelike lines with the non-local relations (s, 0) ≤_M
-#   (r, 1) for s ≤ 0 ≤ r + 1, S = {0} × {0, 1}, and id over ]-∞, -1] on line 1.
-# Whether each of these is a causality of ETT was not checked in Lean, so neither is a [[fails]] entry
-# (a consequence is not a pair). The hypotheses are met on the timelike line with S = {0}
-# (Causal.timelikeLine_pastInextensible_meets_zero, Causal.timelikeLine_futureInextensible_meets_zero,
-# kb/0011).
+# Both nodes look necessary (the closer's REPORT.json findings[6]). Antisymmetry is needed, in Lean;
+# causal arc-connectedness is argued only:
+# * Without antisymmetry (T-abs-meets-cauchy-antisymmetry-sharp, 85a82c2c;
+#   Causal/MeetsCauchyAntisymmetrySharp.lean, ETT layer, no model, graduated). The space is the unit
+#   circle with the ray {(1 + r, 0) : r ≥ 0} glued at q = (1, 0), with the Causal.arcCausality of arcs
+#   running inward along the ray and counterclockwise round the circle (Causal.rayCircle), and
+#   S = {y}, y = (−1, 0). The conjoined witness Causal.rayCircle_separates_pastInextensible_meets
+#   (:890) states: T2 and second countable; ≪ empty; causally arc-connected; absolutely minimal, and
+#   absolutely minimal on every open set; ¬ IsCausal, with q ≤ y ≤ q and q ≠ y; {y} a Cauchy surface
+#   (Causal.rayCircle_isCauchySurface_Y, :829); and the ray Causal.rayCircleRay past-inextensible
+#   over ℝ (Causal.rayCircleRay_pastInextensible, :853), whose point at 0 is q ∈ J⁺({y}), missing y.
+#   So every hypothesis of the (2.4) entry below but is_causal holds (T2 for T1), and its conclusion
+#   fails.
+#   Its bare form, Causal.not_pastInextensible_exists_mem_of_mem_Jplus_bare (:911): over T2, second
+#   countable spaces, (2.4) without antisymmetry is false. The causality is absolutely minimal on
+#   every open set, so it is an ETT causality in either reading of defi:causalite (DEC-167, OQ-18),
+#   whichever form OQ-95 rules.
+# * Without causal arc-connectedness, two timelike lines with the non-local relations (s, 0) ≤_M
+#   (r, 1) for s ≤ 0 ≤ r + 1, S = {0} × {0, 1}, and id over ]-∞, -1] on line 1: argued by the closer,
+#   not formalised. T-abs-meets-cauchy-antisymmetry-sharp did not take it (that target's evidence):
+#   its cross relation joins two components of M, so the cover by the two lines does not generate it.
+#   The causality is not absolutely minimal, a no-gluing witness of the kind DEC-167 retires. An
+#   absolutely minimal witness that is not causally arc-connected is T-abs-minimal-not-arc-connected's
+#   question.
+# Neither is a [[fails]] entry: a consequence is not a pair. The pair the ray and circle would refute,
+# causally_arc_connected ∧ absolutely_minimal ⇏ is_causal, is refuted already in either reading
+# (Causal.Flat.timeCylinder_separates_locallyStronglyCausal), so no pair moves. The hypotheses are met
+# on the timelike line with S = {0} (Causal.timelikeLine_pastInextensible_meets_zero,
+# Causal.timelikeLine_futureInextensible_meets_zero, kb/0011).
 
-# (2.4) at M (Causal/PastInextensibleMeetsCauchy.lean:513): [T1Space M] [SecondCountableTopology M]
+# (2.4) at M (Causal/PastInextensibleMeetsCauchy.lean:191): [T1Space M] [SecondCountableTopology M]
 # (hS : C.IsCauchySurface S) (hC : C.CausallyArcConnected) (hcaus : C.IsCausal)
 # (hσ : C.PastInextensible ⊤ I σ) (hJ : ∃ t ∈ I, σ t ∈ C.Jplus ⊤ S) ⊢ ∃ t ∈ I, σ t ∈ S. There is no
 # TailFree hypothesis.
@@ -5020,7 +5083,7 @@ under = "Σ a Cauchy surface of M (DEC-14; Causal.Causality.IsCauchySurface); th
 standing = ["T1", "second_countable"]
 status = "checked"
 
-# Its time reversal (:520): the same binders, with (hσ : C.FutureInextensible ⊤ I σ)
+# Its time reversal (:198): the same binders, with (hσ : C.FutureInextensible ⊤ I σ)
 # (hJ : ∃ t ∈ I, σ t ∈ C.Jminus ⊤ S) ⊢ ∃ t ∈ I, σ t ∈ S. There is no TailFree hypothesis.
 [[consequence]]
 at = ["is_causal", "causally_arc_connected"]
@@ -5037,7 +5100,10 @@ status = "checked"
 # (closers hold lean-causal), and each name below was resolved by tools/ladder.py's index. The chart
 # is the edge hypothesis past_boundary_chart (its entry, before the implications), which the theorem
 # refutes. The closer proposed this entry (REPORT.json lemmas_for_the_keeper), with the standing's
-# words marked "of M"; the vocabulary has no such words, so `under` says whose standing it is.
+# words marked "of M"; the vocabulary has no such words, so `under` says whose standing it is. Since
+# T-lad-meets-cauchy-refresh (2026-11-28) the block also holds the closed ambient of
+# Causal/FlrwTypeClosedAmbient.lean (T-abs-flrw-type-closed-ambient, a2671ebc), after the extension
+# corollary: its forms are named there, and its two globally hyperbolic forms are entries.
 #
 # The open-set form is not an entry. Causal.Causality.not_pastBoundaryChart_of_flrwType (:315):
 # [T2Space M] [SecondCountableTopology M] (hcac : C.CausallyArcConnectedOn W)
@@ -5058,7 +5124,10 @@ status = "checked"
 #   (Causal.timelikeLine_flrwType_hypotheses_posHalfLine), where the theorem applies
 #   (Causal.timelikeLine_posHalfLine_not_pastBoundaryChart).
 # * The chart exists in Minkowski space, where (A) and (B) both fail (Causal.minkowski_pastBoundaryChart,
-#   Causal.minkowski_posHalfSpace_not_flrwTypeA_and_B; the edge hypothesis's note).
+#   Causal.minkowski_posHalfSpace_not_flrwTypeA_and_B; the edge hypothesis's note). Each fails alone
+#   too (Causal.minkowski_posHalfSpace_not_flrwTypeA, Causal.minkowski_posHalfSpace_not_flrwTypeB),
+#   and in that closed, antisymmetric ambient each alone excludes the chart (the closed ambient,
+#   below).
 
 # The corollary for an extension (:523; OQ-154's reading of an extension, recorded, not decided):
 # {N : Type v} [TopologicalSpace N] [Nonempty N] {CN : Causality N} {C : Causality M} {ι : N → M}
@@ -5083,6 +5152,84 @@ at = ["causally_arc_connected", "future_one_connected", "is_causal"]
 statement = "Sbierski 2312.07443 Thm 1.5, abstract, for an extension ι : N → M: if N (Sbierski's M) is causally arc-connected, future one-connected and causal, and (A) and (B) hold on N, then ι(N) has a past boundary chart at no point of M (¬ C.PastBoundaryChart ι(N) Ũ p for every open Ũ and every p)"
 witness = "Causal.IsSpacetimeExtension.not_pastBoundaryChart_of_flrwType"
 under = "the nodes of `at` are of CN on N, the source; N a non-empty topological space with a causality CN, and ι : N → M with Causal.IsSpacetimeExtension CN C ι (OQ-154's reading); (A) every past-inextensible chronal curve δ of N (CN.PastInextensible ⊤, chronal on its segments) has chronological future N, ⋃ t I⁺(δ t) = N (hA); (B) every I⁻(x), x ∈ N, contains a Cauchy surface of N (hB); the conclusion refutes past_boundary_chart, the edge hypothesis, at W = ι(N), for every Ũ and p; the standing is of M, the target"
+standing = ["T2", "second_countable"]
+status = "checked"
+
+# The closed ambient (T-lad-meets-cauchy-refresh, 2026-11-28). The source is
+# Causal/FlrwTypeClosedAmbient.lean (T-abs-flrw-type-closed-ambient, a2671ebc, graduated). It is ETT
+# layer: it imports Causal.FlrwType only, with no model. In an ambient whose ≤ is closed and
+# antisymmetric, each of (A), (B) alone excludes a past boundary chart, with no future
+# one-connectedness. Each signature was read from the source with no build, and each name below was
+# resolved by tools/ladder.py's index. Only the globally hyperbolic forms are entries: "≤ closed" is no
+# node, and Causal.Causality.GloballyHyperbolic.isClosed_le gives it at [globally_hyperbolic, tarentin]
+# on a T2 space, with antisymmetry the IsCausal conjunct of globally_hyperbolic. The closer proposed
+# both entries (REPORT.json lemmas_for_the_keeper[0], [1]) and simulated them in memory (kb/0276).
+# * The M-forms, no entry. Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_isClosed_le (:290):
+#   [T2Space M] (hle : IsClosed {z | C.le ⊤ z.1 z.2}) (hcaus : C.IsCausal) (hA) (Ũ) (p)
+#   ⊢ ¬ C.PastBoundaryChart W Ũ p, with no (B), no future one-connectedness, no causal
+#   arc-connectedness of W and no second countability.
+#   Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_isClosed_le (:445): [T2Space M]
+#   [SecondCountableTopology M] (hle) (hcaus) (hcac : C.CausallyArcConnectedOn W) (hB) (Ũ) (p), with no
+#   (A) and no future one-connectedness. hA and hB have the shapes of
+#   Causal.Causality.not_pastBoundaryChart_of_flrwType's.
+# * The local forms, no entry: Causal.Causality.not_pastBoundaryChart_of_flrwTypeA_of_closedIn (:247)
+#   and Causal.Causality.not_pastBoundaryChart_of_flrwTypeB_of_closedIn (:398). They take the two
+#   ambient hypotheses at one open U with W ≤ U and Ũ ≤ U, ≤_U closed in U × U and antisymmetric;
+#   U = ⊤ is the M-form. The argument cannot take them at W alone, since it concludes σ t̄ = p with
+#   p ∉ W (the closer's findings[4]).
+# * The time reversals, no entry, through C.dual, for the future boundary chart: for (A), with
+#   future-inextensible curves and their chronological pasts
+#   (Causal.Causality.dual_iUnion_Iplus_eq_of_futureInextensible, :330),
+#   Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_closedIn (:354),
+#   Causal.Causality.not_futureBoundaryChart_of_flrwTypeA_of_isClosed_le (:370) and
+#   Causal.Causality.GloballyHyperbolic.not_futureBoundaryChart_of_flrwTypeA (:379); for (B), with
+#   S ⊆ I⁺(x, W), Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_closedIn (:475) and
+#   Causal.Causality.not_futureBoundaryChart_of_flrwTypeB_of_isClosed_le (:492). (B)'s time reversal
+#   has no globally hyperbolic form in Lean.
+# * The instance checks, no entry, the contrapositives:
+#   Causal.Causality.GloballyHyperbolic.not_flrwTypeA_of_pastBoundaryChart (:318) and
+#   Causal.Causality.GloballyHyperbolic.not_flrwTypeB_of_pastBoundaryChart (:466; second countable, W
+#   causally arc-connected). On the half-space of 𝐌^{1+n}, n ≥ 1, they re-derive
+#   Causal.minkowski_posHalfSpace_not_flrwTypeA and Causal.minkowski_posHalfSpace_not_flrwTypeB
+#   (Causal/Model/MinkowskiPastBoundaryChart.lean:380, :432) through Causal.minkowski_isCausal,
+#   Causal.minkowski_tarentin and Causal.minkowski_globallyHyperbolic. The closer's campaign Probe.lean
+#   checks that application; the module does not import the layer-3 model.
+# * Both close through Causal.Causality.PastBoundaryChartData.false_of_squeeze (:168). (B) goes through
+#   (2.4) at W, twice (Causal.Causality.PastInextensible.exists_mem_of_mem_Jplus, the (2.4) block
+#   above), and the split Causal.Causality.IsCauchySurfaceOn.mem_Jplus_union_Jminus (:137).
+# * The chart fields used: (i), (ii) as V ≤ W, (iv), (v), and (vi) at one compact set, the closure of
+#   (v)'s diamond, in its first three conjuncts. Neither proof uses field (iii) nor the last conjunct
+#   of (vi), γ̃ 1 ≪_Ũ σ 1 (the closer's findings[3], as corrected after audit). That is evidence for
+#   OQ-159 (OPEN), not an answer: Causal.timelikeLine_not_pastBoundaryChart (Causal/FlrwType.lean:544)
+#   uses (iii) in a closed causal ambient.
+# * Witnesses (kb/0011): on W = (0, ∞) of the timelike line both entries apply
+#   (Causal.timelikeLine_posHalfLine_not_pastBoundaryChart_of_flrwTypeA, …_of_flrwTypeB).
+# * No pair moves: (A), (B) and "≤ closed" are no nodes, and a consequence chains nothing. That no
+#   closed, antisymmetric ambient separates (A) from (B) is recorded in past_boundary_chart's note.
+# The entries' `at` is of M, and W is any open set of M. In (B) the causal arc-connectedness is of W
+# (C.CausallyArcConnectedOn W), not the node causally_arc_connected of M, so it is in `under`.
+
+# (A) alone (:304): [T2Space M] (hT : C.Tarentin) (hG : C.GloballyHyperbolic)
+# (hA : ∀ I γ, C.PastInextensible W I γ → (∀ a ∈ I, ∀ b ∈ I, C.ChronalCurveOn W γ a b) →
+# ⋃ t ∈ I, C.Iplus W {γ t} = W) (Ũ : Opens M) (p : M) ⊢ ¬ C.PastBoundaryChart W Ũ p. It is the M-form
+# through (hG.isClosed_le hT) and hG.1.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "Sbierski 2312.07443 Thm 1.5, (A) alone in a closed ambient: on a globally hyperbolic, tarentin M, an open W every past-inextensible chronal curve of which has chronological future W in W has a past boundary chart at no point (¬ C.PastBoundaryChart W Ũ p for every open Ũ and every p)"
+witness = "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeA"
+under = "W any open set of M; (A) on W: every past-inextensible chronal curve γ of W (C.PastInextensible W, chronal on its segments) has ⋃ t I⁺(γ t, W) = W (hA, the shape of Causal.Causality.not_pastBoundaryChart_of_flrwType's); no (B), no future one-connectedness and no causal arc-connectedness of W is asked; ≤_M is closed through Causal.Causality.GloballyHyperbolic.isClosed_le and antisymmetric through globally_hyperbolic's IsCausal conjunct; the conclusion refutes past_boundary_chart, the edge hypothesis, at W, for every Ũ and p"
+standing = ["T2"]
+status = "checked"
+
+# (B) alone (:455): [T2Space M] [SecondCountableTopology M] (hT : C.Tarentin)
+# (hG : C.GloballyHyperbolic) (hcac : C.CausallyArcConnectedOn W)
+# (hB : ∀ x ∈ W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ C.Iminus W {x}) (Ũ : Opens M) (p : M)
+# ⊢ ¬ C.PastBoundaryChart W Ũ p. It is the M-form through (hG.isClosed_le hT) and hG.1.
+[[consequence]]
+at = ["globally_hyperbolic", "tarentin"]
+statement = "Sbierski 2312.07443 Thm 1.5, (B) alone in a closed ambient: on a globally hyperbolic, tarentin M, a causally arc-connected open W every I⁻(x, W), x ∈ W, of which contains a Cauchy surface of W has a past boundary chart at no point (¬ C.PastBoundaryChart W Ũ p for every open Ũ and every p)"
+witness = "Causal.Causality.GloballyHyperbolic.not_pastBoundaryChart_of_flrwTypeB"
+under = "W any open set of M, causally arc-connected (C.CausallyArcConnectedOn W, hcac; not the node causally_arc_connected, which is of M); (B) on W: every I⁻(x, W), x ∈ W, contains a Cauchy surface of W, ∃ S, C.IsCauchySurfaceOn W S ∧ S ⊆ I⁻(x, W) (hB, the shape of Causal.Causality.not_pastBoundaryChart_of_flrwType's); no (A) and no future one-connectedness is asked; ≤_M is closed through Causal.Causality.GloballyHyperbolic.isClosed_le and antisymmetric through globally_hyperbolic's IsCausal conjunct; the conclusion refutes past_boundary_chart, the edge hypothesis, at W, for every Ũ and p"
 standing = ["T2", "second_countable"]
 status = "checked"
 
